@@ -1,3 +1,126 @@
+2005-03-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/goffice.c (libgoffice_init): add GogAxisLine object.
+	* goffice/graph/Makefile.am: add gog-axis-line.[ch]
+	* goffice/graph/goffice-graph.h: add GogAxisLine object. Add new
+	object position GOG_POSITION_PADDING.
+	* goffice/graph/gog-axis-prefs.glade: Rework of axis property pages,
+	now called Scale and Layout.
+	* goffice/graph/gog-axis-line.[ch], gog-axis-line-implh.h: new. 
+	Contains an implementation of what is needed to actually draw an
+	axis on screen, which was previously provided by GogAxis, in 
+	GogAxisBase and GogAxisBaseView.
+	* goffice/graph/gog-axis.c: GogAxis is now derived from GogAxisBase.
+	Tick settings and position are now property of GogAxisBase.
+	(create_invalid_axis_ticks): allways generate tick labels.
+	(map_discrete_calc_ticks): ditto. 
+	(map_linear_calc_ticks): ditto.
+	(map_log_calc_ticks): ditto.
+	(role_label_post_add): removed.
+	(role_axis_line_post_add): new. Set axis line position to an unused
+	position.
+	(gog_axis_set_property): removed tick and position settings.
+	(gog_axis_get_property): ditto.
+	(cb_pos_changed): removed.
+	(gog_axis_editor): renamed to populate_editor. Use new GogEditor API.
+	Removed everything related to tick and position settings.
+	(gog_axis_class_init): Change position type of Label childs to
+	GOG_POSITION_SPECIAL. Add AxisLine as possible child. Removed tick and
+	position properties.
+	(gog_axis_init): removed tick and position settings.
+	(gog_axis_dataset_get_elem): cross location is a member of
+	GogAxisBase.
+	(gog_axis_get_pos): removed.
+	(gog_axis_is_center_on_ticks): new.
+	(gog_axis_view_padding_request): padding is now calculated in
+	GogAxisBaseView.
+	(gog_axis_view_size_request): removed.
+	(gog_axis_view_size_allocate): new. handle axis titles.
+	(draw_axis_from_a_to_b): removed.
+	(gog_axis_view_render_children): removed.
+	(gog_axis_view_render): rendering is now in GogAxisBaseView.
+	* goffice/graph/gog-chart.c (gog_chart_map_new),
+	(gog_chart_map_2D), (gog_chart_map_free): new.
+	(gog_chart_class_init): Axis position type is GOG_POSITION_PADDING
+	now.
+	(gog_chart_axis_set): renamed to gog_chart_get_axis_set.
+	(gog_chart_get_axis): renamed to gog_chart_get_axes.
+	(gog_chart_view_get_plot_area): no need to store plot_area. It's in
+	GogView::residual.
+	(child_request): removed.
+	(gog_chart_view_size_allocate): Do not handle axis padding request
+	here.
+	* goffice/graph/gog-grid-line.c (gog_grid_line_view_render): better
+	placement of radar plots.
+	* goffice/graph/gog-guru.c (cb_attr_tree_selection_change):
+	no need to handle editor type since gog_object_get_editor allways
+	returns a notebook now.
+	* goffice/graph/gog-label.c (gog_label_populate_editor): Use new
+	GogEditor API.	
+	* goffice/graph/gog-legend.c (gog_legend_populate_editor): ditto.
+	* goffice/graph/gog-series.c (gog_series_element_populate_editor):
+	ditto.
+	(gog_series_populate_editor): ditto.
+	* goffice/graph/gog-style.c (font_init): ditto.
+	(gog_style_populate_editor): ditto.
+	(style_editor): ditto.
+	(gog_style_editor): renamed to gog_style_get_editor.
+	(gog_styled_object_editor): removed.
+	(gog_style_handle_notebook): removed.
+	* goffice/graph/gog-object.c (gog_editor_new), (gog_editor_add_page),
+	(gog_editor_set_store_page), (gog_editor_get_notebook),
+	(gog_editor_free): new.
+	GogObject::id is an int now. This id is unique for a given object type
+	and on the same level in the object tree.
+	(gog_object_set_property): persist id now.
+	(gog_object_get_property): ditto.
+	(gog_object_class_init): ditto.
+	(gog_object_is_same_type): new.
+	(gog_object_generate_name): store auto_name and don't return anything.
+	(gog_object_get_id): new.
+	(gog_object_generate_id): new.
+	(gog_object_set_id): new.
+	(gog_object_get_name): return GogObject::auto_name.
+	(gog_object_position_cmp): GOG_POSITION_PADDING and
+	GOG_POSITION_SPECIAL are equivalent.
+	(gog_object_get_editor): use new GogEditor API.
+	(gog_object_set_parent): id is an int now.
+	* goffice/graph/gog-plot.c (cb_axis_changed): new.
+	(gog_plot_populate_editor): new.
+	(gog_plot_set_property): store axis reference now.
+	(gog_plot_get_property): ditto.
+	(gog_plot_class_init): ditto.
+	(gog_plot_set_axis_by_id): new.
+	(gog_plot_get_axis_id): new.
+	* goffice/graph/gog-styled-object.c (styled_object_populate_editor):
+	use new GogEditor API.
+	* goffice/graph/gog-theme.c (gog_themes_init): handle GogAxisLine
+	objects.
+	* goffice/graph/gog-view.c: GogView::padding_request : new.
+	(gog_view_padding_request_real): new.
+	(gog_view_padding_request): new.
+	* plugins/plot_barcol/gog-1_5d.c (gog_series1_5d_populate_editor):
+	use GogEditor API.
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_plot_populate_editor):
+	ditto.
+	* plugins/plot_boxes/gog-boxplot.c (gog_box_plot_populate_editor):
+	ditto.
+	(gog_box_plot_view_render): draw sharp rectangles.
+	* plugins/plot_pie/gog-pie-prefs.glade: layout fixes.
+	* plugins/plot_pie/gog-pie-series.glade: ditto.
+	* plugins/plot_pie/gog-pie.c (gog_pie_series_element_populate_editor):
+	use GogEditor API.
+	(gog_pie_plot_populate_editor): ditto.
+	(gog_ring_plot_populate_editor): ditto.
+	* plugins/plot_radar/gog-radar.c (gog_radar_plot_axis_get_bounds):
+	maxima is num_elements - 1.
+	(gog_radar_view_render): better radar plot placement.
+	* plugins/plot_surface/gog-surface.c
+	(gog_contour_plot_populate_editor): use GogEditor API.
+	* plugins/plot_xy/gog-xy.c (gog_bubble_plot_populate_editor): ditto.
+	(gog_xy_series_populate_editor): ditto.
+	
+		
 2005-03-13  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Link -Wl,-O1 if the linker supports it; see

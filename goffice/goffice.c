@@ -99,6 +99,7 @@ libgoffice_init (void)
 	(void) GOG_SERIES_ELEMENT_TYPE;
 	(void) GOG_LEGEND_TYPE;
 	(void) GOG_AXIS_TYPE;
+	(void) GOG_AXIS_LINE_TYPE;
 	(void) GOG_LABEL_TYPE;
 	(void) GOG_GRID_TYPE;
 	(void) GOG_GRID_LINE_TYPE;
