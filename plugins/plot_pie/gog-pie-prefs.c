@@ -101,7 +101,7 @@ gog_pie_plot_pref_signal_connect (GogPiePlot *pie, GladeXML *gui)
 		"value_changed",
 		G_CALLBACK (cb_default_separation_changed), pie);
 
-	w = glade_xml_get_widget (gui, "vary-style-by-element");
+	w = glade_xml_get_widget (gui, "vary_style_by_element");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), pie->base.vary_style_by_element);
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
@@ -204,7 +204,7 @@ gog_pie_series_pref (GogPieSeries *pie, GOCmdContext *cc)
 		"value_changed",
 		G_CALLBACK (cb_separation_changed), pie);
 
-	gtk_widget_hide (glade_xml_get_widget (gui, "vary-style-by-element"));
+	gtk_widget_hide (glade_xml_get_widget (gui, "vary_style_by_element"));
 
 	w = glade_xml_get_widget (gui, "gog_pie_prefs");
 	g_object_set_data_full (G_OBJECT (w),
