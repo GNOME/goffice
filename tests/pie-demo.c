@@ -25,6 +25,7 @@
 #include <goffice/data/go-data-simple.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-plot.h>
+#include <goffice/graph/gog-series.h>
 #include <goffice/gtk/go-graph-widget.h>
 
 static void
@@ -43,11 +44,12 @@ main (int argc, char *argv[])
 	GogSeries *series;
 	GOData *data;
 	GError *error;
-	ErrorInfo *errinfo;
 	double values[] = {10., 20., 30., 40.};
 
 	gtk_init (&argc, &argv);
+	/* Initialize libgoffice */
 	libgoffice_init ();
+	/* Initialize plugins manager */
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -63,11 +65,15 @@ main (int argc, char *argv[])
 	w = gtk_hseparator_new ();
 	gtk_box_pack_end (GTK_BOX (box), w, FALSE, FALSE, 2);
 
+	/* Create a graph widget and add it to the GtkVBox */
 	w = go_graph_widget_new ();
 	gtk_box_pack_end (GTK_BOX (box), w, TRUE, TRUE, 0);
+	/* Get the chart created by the widget initialization */
 	chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (w));
+	/* Create a pie plot and add it to the chart */
 	pie = (GogPlot *) gog_plot_new_by_name ("GogPiePlot");
 	gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (pie));
+	/* Create a series for the plot and populate it with some simple data */
 	series = gog_plot_new_series (pie);
 	data = go_data_vector_val_new (values, 4);
 	gog_series_set_dim (series, 1, data, &error);
@@ -80,5 +86,7 @@ main (int argc, char *argv[])
 
 	gtk_main ();
 
+	/* Clean libgoffice stuff */
 	libgoffice_shutdown ();
+	return 0;
 }

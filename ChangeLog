@@ -1,3 +1,7 @@
+2005-03-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* test/pie-demo.c: fix compilation warnings and add some comments.
+
 2005-03-15  Morten Welinder  <terra@gnome.org>
 
 	* goffice/cut-n-paste/pcre/pcre.c (pcre_exec): Backport another
