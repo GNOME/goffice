@@ -44,7 +44,6 @@ goffice/cut-n-paste/pcre/pcre.c
 goffice/cut-n-paste/pcre/pcre.h
 goffice/cut-n-paste/pcre/pcreposix.c
 goffice/cut-n-paste/pcre/pcreposix.h
-goffice/cut-n-paste/pcre/printint.c
 goffice/cut-n-paste/pcre/study.c
 goffice/data/go-data.c
 goffice/data/go-data.h
