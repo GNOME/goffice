@@ -23,6 +23,8 @@
 
 	* goffice/utils/regutf8.c: Import Gnumeric's non-gui search stuff.
 	Make it a gobject.
+	(go_search_replace_set_search_text,
+	go_search_replace_set_replace_text): Be paranoid.
 
 2005-03-29  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 

@@ -578,21 +578,19 @@ go_search_replace_get_property (GObject     *object,
 static void
 go_search_replace_set_search_text (GoSearchReplace *sr, const char *text)
 {
-	if (sr->search_text != text) {
-		g_free (sr->search_text);
-		sr->search_text = g_strdup (text);
-		kill_compiled (sr);
-	}
+	char *text_copy = g_strdup (text);
+	g_free (sr->search_text);
+	sr->search_text = text_copy;
+	kill_compiled (sr);
 }
 
 static void
 go_search_replace_set_replace_text (GoSearchReplace *sr, const char *text)
 {
-	if (sr->replace_text != text) {
-		g_free (sr->replace_text);
-		sr->replace_text = g_strdup (text);
-		kill_compiled (sr);
-	}
+	char *text_copy = g_strdup (text);
+	g_free (sr->replace_text);
+	sr->replace_text = text_copy;
+	kill_compiled (sr);
 }
 
 static void
