@@ -173,11 +173,11 @@ map_discrete (GogAxisMap *map, double value)
 }
 
 static double
-map_discrete_to_view (GogAxisMap *map, double value, gboolean inverted)
+map_discrete_to_view (GogAxisMap *map, double value)
 {
 	MapData *data = map->data;
 
-	return inverted ? 
+	return map->axis->inverted ? 
 		((map->axis->center_on_ticks)?
 			(data->min + data->max - 1 - value) * data->a + data->b :
 			(data->min + data->max - value) * data->a + data->b) :
@@ -185,11 +185,11 @@ map_discrete_to_view (GogAxisMap *map, double value, gboolean inverted)
 }
 
 static double
-map_discrete_from_view (GogAxisMap *map, double value, gboolean inverted)
+map_discrete_from_view (GogAxisMap *map, double value)
 {
 	MapData *data = map->data;
 
-	return inverted ? 
+	return map->axis->inverted ? 
 		((map->axis->center_on_ticks)?
 			data->min + data->max -1 - (value - data->b) / data->a :
 			data->min + data->max - (value - data->b) / data->a) :
@@ -311,23 +311,36 @@ map_linear (GogAxisMap *map, double value)
 }
 
 static double
-map_linear_to_view (GogAxisMap *map, double value, gboolean inverted)
+map_linear_to_view (GogAxisMap *map, double value)
 {
 	MapData *data = map->data;
 
-	return inverted ? 
+	return map->axis->inverted ? 
 		(data->min + data->max - value) * data->a + data->b :
 		value * data->a + data->b;
 }
 
 static double
-map_linear_from_view (GogAxisMap *map, double value, gboolean inverted)
+map_linear_from_view (GogAxisMap *map, double value)
 {
 	MapData *data = map->data;
 
-	return inverted ? 
+	return map->axis->inverted ? 
 		data->min + data->max - (value - data->b) / data->a :
 		(value - data->b) / data->a;
+}
+
+static double
+map_baseline (GogAxisMap *map)
+{
+	MapData *data = map->data;
+
+	if (0. < data->min)
+		return map_linear_to_view (map, data->min);
+	else if (0 > data->max)
+		return map_linear_to_view (map, data->max);
+
+	return map_linear_to_view (map, 0.);
 }
 
 static void
@@ -488,16 +501,16 @@ map_log (GogAxisMap *map, double value)
 }
 
 static double
-map_log_to_view (GogAxisMap *map, double value, gboolean inverted) 
+map_log_to_view (GogAxisMap *map, double value)
 {
 	MapLogData *data = map->data;
 	double result;
 	
 	if (value <= 0.) 
 		/* Make libart happy */
-		result = inverted ? -DBL_MAX : DBL_MAX;
+		result = map->axis->inverted ? -DBL_MAX : DBL_MAX;
 	else
-		result = inverted ? 
+		result = map->axis->inverted ? 
 			log (value) * data->a_inv + data->b_inv :
 			log (value) * data->a + data->b;
 
@@ -505,13 +518,29 @@ map_log_to_view (GogAxisMap *map, double value, gboolean inverted)
 }
 
 static double
-map_log_from_view (GogAxisMap *map, double value, gboolean inverted) 
+map_log_from_view (GogAxisMap *map, double value)
 {
 	MapLogData *data = map->data;
 	
-	return  inverted ? 
+	return  map->axis->inverted ? 
 		exp ((value - data->b_inv) / data->a_inv) :
 		exp ((value - data->b) / data->a);
+}
+
+static gboolean 
+map_log_finite (double value)
+{
+	return go_finite (value) && value > 0.;
+}
+
+static double
+map_log_baseline (GogAxisMap *map)
+{
+	MapLogData *data = map->data;
+
+	return map->axis->inverted ?
+		data->max * data->a_inv + data->b_inv :
+		data->min * data->a + data->b;
 }
 
 static void
@@ -607,7 +636,8 @@ map_log_calc_ticks (GogAxis *axis)
 static const GogAxisMapDesc map_desc_discrete = 
 {
 	map_discrete,			map_discrete_to_view,
-	map_discrete_from_view,
+	map_discrete_from_view,		go_finite,
+	map_baseline,
 	map_discrete_init,		NULL,
 	map_discrete_auto_bound,	map_discrete_calc_ticks,
 	N_("Discrete"),			N_("Discrete mapping")
@@ -617,14 +647,16 @@ static const GogAxisMapDesc map_descs[] =
 {
 	{
 		map_linear,		map_linear_to_view,
-		map_linear_from_view,
+		map_linear_from_view,   go_finite,
+		map_baseline,
 		map_linear_init, 	NULL,	
 		map_linear_auto_bound, 	map_linear_calc_ticks,	
 		N_("Linear"),		N_("Linear mapping")
 	},
 	{
 		map_log,		map_log_to_view,
-		map_log_from_view,
+		map_log_from_view,	map_log_finite,
+		map_log_baseline,
 		map_log_init,		NULL,	
 		map_log_auto_bound, 	map_log_calc_ticks,	
 		N_("Log"),		N_("Logarithm mapping")
@@ -750,7 +782,7 @@ double
 gog_axis_map_from_view (GogAxisMap *map,
 			double value)
 {
-	return map->desc->map_from_view (map, value, map->axis->inverted);
+	return map->desc->map_from_view (map, value);
 }
 
 /**
@@ -766,7 +798,36 @@ double
 gog_axis_map_to_view (GogAxisMap *map,
 			double value)
 {
-	return map->desc->map_to_view (map, value, map->axis->inverted);
+	return map->desc->map_to_view (map, value);
+}
+
+/**
+ * gog_axis_map_finite :
+ * @map : #GogAxisMap
+ * @value : value to test
+ *
+ * Returns TRUE if value means something in this map
+ **/
+
+gboolean 
+gog_axis_map_finite (GogAxisMap *map, double value)
+{
+	return map->desc->map_finite (value);
+}
+
+/**
+ * gog_axis_map_get_baseline :
+ * @map : #GogAxisMap
+ *
+ * Returns the baseline for the given map, in view coordinates,
+ * clipped to offset and offset+length, where offset and length
+ * are the parameters of gog_axis_map_new.
+ **/
+
+double
+gog_axis_map_get_baseline (GogAxisMap *map)
+{
+	return map->desc->map_baseline (map);
 }
 
 /**

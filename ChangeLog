@@ -1,3 +1,32 @@
+2005-03-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-axis.c (map_discrete): inverted is in
+	GogAxisMap::axis->inverted.
+	(map_discrete_to_view): ditto.
+	(map_discrete_from_view): ditto.
+	(map_linear_from_view) :ditto.
+	(map_linear_to_view): ditto.
+	(map_log_to_view): ditto.
+	(map_log_from_view): ditto.
+	(gog_axis_map_from_view): ditto.
+	(gog_axis_map_to_view): ditto.
+	(map_baseline): new.
+	(map_log_finite): new.
+	(map_log_baseline): new.
+	(gog_axis_map_finite): new. Returns TRUE if value means something in
+	this map.
+	(gog_axis_map_get_baseline): new. Returns the baseline for the given
+	map, in view coordinates, clipped to offset and offset+length, where
+	offset and length are the parameters of gog_axis_map_new.
+ 	* goffice/graph/gog-error-bar.c (gog_error_bar_render): do not try to
+	render error bar if a part of it is not at a valid coordinate.
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render): replace
+	go_finite tests by gog_axis_map_finite.
+	* plugins/plot_radar/gog-radar.c (gog_radar_view_render): ditto.
+	* plugins/plot_xy/gog-xy.c: ditto.
+	* plugins/plot_barcol/gog-line.c (gog_line_view_render): ditto. Use
+	gog_axis_map_get_baseline for y_zero.
+
 2005-03-17  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* plugins/plot_barcol/gog-line.c (gog_line_view_render): Don't free

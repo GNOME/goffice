@@ -689,8 +689,12 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			double *x_splines = g_new (double, n), *y_splines = g_new (double, n);
 			for (i = 0; i < n; i++) {
 				x = x_vals ? x_vals[i] : i + 1;
-				x_splines[i] = gog_axis_map_to_view (x_map, x);
-				y_splines[i] = gog_axis_map_to_view (y_map, y_vals[i]);
+				x_splines[i] = gog_axis_map_finite (x_map, x) ?
+					gog_axis_map_to_view (x_map, x):
+					go_nan;
+				y_splines[i] = gog_axis_map_finite (y_map, y_vals[i]) ?
+					gog_axis_map_to_view (y_map, y_vals[i]):
+					go_nan;
 			}
 			if (GOG_XY_PLOT (view->model)->use_splines) {
 				ArtBpath *path;
@@ -725,9 +729,9 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			/* We are checking with go_finite here because isinf
 			   if not available everywhere.  Note, that NANs
 			   have been ruled out.  */
-			if (!go_finite (y))
+			if (!gog_axis_map_finite (y_map, y))
 				y = 0; /* excel is just sooooo consistent */
-			if (!go_finite (x))
+			if (!gog_axis_map_finite (x_map, x))
 				x = i;
 			x_canvas = gog_axis_map_to_view (x_map, x);
 			y_canvas = gog_axis_map_to_view (y_map, y);

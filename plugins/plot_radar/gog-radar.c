@@ -363,7 +363,7 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 		for (count = 0; count < series->base.num_elements; count++) {
 			double rho, theta, x, y;
 
-			if (!go_finite (vals [count])) {
+			if (!gog_axis_map_finite (map, vals [count])) {
 				closed_shape = FALSE;
 				continue;
 			}
@@ -383,7 +383,7 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 
 		if (series->base.num_elements == model->num_elements
-		    && go_finite(vals[count-1])) {
+		    && gog_axis_map_finite (map, vals[count-1])) {
 			path[count].code = ART_LINETO; 
 			path[count].x = path[0].x;
 			path[count].y = path[0].y;

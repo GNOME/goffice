@@ -279,7 +279,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 	}
 	
-	y_zero = gog_axis_map_to_view (y_map, .0);
+	y_zero = gog_axis_map_get_baseline (y_map);
 
 	vals    = g_alloca (num_series * sizeof (double *));
 	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
@@ -321,7 +321,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		sum = abs_sum = 0.0;
 		if (type == GOG_1_5D_AS_PERCENTAGE) {
 			for (i = 0; i < num_series; i++)
-				if (go_finite (vals[i][j-1]))
+				if (gog_axis_map_finite (y_map, vals[i][j-1]))
 					abs_sum += fabs (vals[i][j-1]);
 			is_null = (go_sub_epsilon (abs_sum) <= 0.);
 		} else
@@ -331,7 +331,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (j > lengths[i])
 				continue;
 
-			if (vals[i] && go_finite (vals[i][j-1])) {
+			if (vals[i] && gog_axis_map_finite (y_map, vals[i][j-1])) {
 				value = vals[i][j-1];
 				if (gog_error_bar_is_visible (errors[i])) {
 					gog_error_bar_get_bounds (errors[i], j - 1, &minus, &plus);
@@ -348,16 +348,20 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				path[i][k].code = ART_LINETO;
 
 				if (type == GOG_1_5D_STACKED)
-					path[i][k].y = gog_axis_map_to_view (y_map, sum);
+					path[i][k].y = gog_axis_map_finite (y_map, sum) ?
+						gog_axis_map_to_view (y_map, sum):
+						y_zero;
 				else
 					path[i][k].y = is_null ? 
 						y_zero :
-						gog_axis_map_to_view (y_map, sum / abs_sum);
+						(gog_axis_map_finite (y_map, sum) ?
+						 gog_axis_map_to_view (y_map, sum / abs_sum) :
+						 y_zero);
 			}
 
 			path[i][j].x = gog_axis_map_to_view (x_map, j - 1);
 			if (type == GOG_1_5D_NORMAL && !is_area_plot) 
-				if (go_finite (vals[i][j-1])) 
+				if (gog_axis_map_finite (y_map, vals[i][j-1])) 
 					if (j > 1 && path[i][j-1].code == ART_MOVETO_OPEN)
 						path[i][j].code = ART_MOVETO;
 					else
@@ -374,7 +378,9 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 
 			switch (type) {
 				case GOG_1_5D_NORMAL :
-					path[i][j].y = gog_axis_map_to_view (y_map, value);
+					path[i][j].y = gog_axis_map_finite (y_map, value) ?
+						gog_axis_map_to_view (y_map, value) :
+						y_zero;
 					if (gog_error_bar_is_visible (errors[i])) {
 						error_data[i][j - 1].y = value;
 						error_data[i][j - 1].minus = minus;
@@ -383,7 +389,9 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 					break;
 
 				case GOG_1_5D_STACKED :
-					path[i][j].y = gog_axis_map_to_view (y_map, sum);
+					path[i][j].y = gog_axis_map_finite (y_map, sum) ?
+						gog_axis_map_to_view (y_map, sum) :
+						y_zero;
 					if (gog_error_bar_is_visible (errors[i])) {
 						error_data[i][j - 1].y = sum;
 						error_data[i][j - 1].minus = minus;
@@ -394,7 +402,9 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				case GOG_1_5D_AS_PERCENTAGE :
 					path[i][j].y = is_null ? 
 						y_zero :
-						gog_axis_map_to_view (y_map, sum  / abs_sum);
+						(gog_axis_map_finite (y_map, sum) ?
+						 gog_axis_map_to_view (y_map, sum  / abs_sum) :
+						 y_zero);
 					if (gog_error_bar_is_visible (errors[i])) {
 						error_data[i][j - 1].y = is_null ? 0. : sum / abs_sum;
 						error_data[i][j - 1].minus = is_null ? -1. : minus / abs_sum;

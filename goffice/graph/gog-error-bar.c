@@ -651,6 +651,12 @@ void gog_error_bar_render (const GogErrorBar *bar,
 	if (!start && !end) return;
 
 	if (horizontal) {
+		if (!gog_axis_map_finite (x_map, x) ||
+		    !gog_axis_map_finite (y_map, y) ||
+		    (start && !gog_axis_map_finite (x_map, x + plus)) ||
+		    (end   && !gog_axis_map_finite (x_map, x - minus)))
+			return;
+			
 		x_start = start ? 
 			gog_axis_map_to_view (x_map, x + plus) : 
 			gog_axis_map_to_view (x_map, x);
@@ -659,6 +665,12 @@ void gog_error_bar_render (const GogErrorBar *bar,
 			gog_axis_map_to_view (x_map , x);
 		y_start = y_end = gog_axis_map_to_view (y_map, y);
 	} else {
+		if (!gog_axis_map_finite (x_map, x) ||
+		    !gog_axis_map_finite (y_map, y) ||
+		    (start && !gog_axis_map_finite (y_map, y + plus)) ||
+		    (end   && !gog_axis_map_finite (y_map, y - minus)))
+			return;
+
 		x_start = x_end = gog_axis_map_to_view (x_map ,x);
 		y_start = start ? 
 			gog_axis_map_to_view (y_map, y + plus) :

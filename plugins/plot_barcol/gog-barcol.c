@@ -300,7 +300,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogSeries1_5d const *series;
 	GogViewAllocation work;
 	GogRenderer *rend = view->renderer;
-	GogAxisMap *x_map, *y_map;
+	GogAxisMap *x_map, *y_map, *map;
 	gboolean is_vertical = ! (model->horizontal);
 	double **vals, sum, neg_base, pos_base, tmp;
 	double x;
@@ -330,6 +330,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_axis_map_free (y_map);
 		return;
 	}
+	map = is_vertical ? y_map : x_map;
 
 	vals = g_alloca (num_series * sizeof (double *));
 	lengths = g_alloca (num_series * sizeof (unsigned));
@@ -370,7 +371,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 				if (i >= lengths[j])
 					continue;
 				tmp = vals[j][i];
-				if (!go_finite (tmp))
+				if (!gog_axis_map_finite (map, tmp))
 					continue;
 				if (tmp > 0.)
 					sum += tmp;
@@ -389,7 +390,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (i >= lengths[j])
 				continue;
 			tmp = vals[j][i];
-			if (!go_finite (tmp))
+			if (!gog_axis_map_finite (map, tmp))
 				continue;
 			if (gog_error_bar_is_visible (errors[j])) {
 				gog_error_bar_get_bounds (errors[j], i, &minus, &plus);
