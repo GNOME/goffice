@@ -1,3 +1,11 @@
+2005-03-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-graph-widget.c: (go_graph_widget_size_allocate),
+	(go_graph_widget_set_property), (go_graph_widget_get_property),
+	(go_graph_widget_class_init), (go_graph_widget_init): add abd use
+	aspect-ratio property.
+	* test/pie-demo.c: (main): add a title and a lengend.
+
 2005-03-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-axis.c (map_discrete): inverted is in

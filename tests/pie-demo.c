@@ -23,9 +23,12 @@
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-loader-module.h>
 #include <goffice/data/go-data-simple.h>
+#include <goffice/graph/gog-data-set.h>
+#include <goffice/graph/gog-label.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-series.h>
+#include <goffice/graph/gog-style.h>
 #include <goffice/gtk/go-graph-widget.h>
 
 static void
@@ -40,10 +43,16 @@ main (int argc, char *argv[])
 {
 	GtkWidget *window, *box, *w;
 	GogChart *chart;
+	GogGraph *graph;
+	GogLabel *label;
 	GogPlot *pie;
 	GogSeries *series;
+	GogStyle *style;
 	GOData *data;
 	GError *error;
+	PangoFontDescription *desc;
+	char const *title = "Some statistics";
+	char const *legends[] = {"first","second", "third", "fourth"};
 	double values[] = {10., 20., 30., 40.};
 
 	gtk_init (&argc, &argv);
@@ -68,6 +77,17 @@ main (int argc, char *argv[])
 	/* Create a graph widget and add it to the GtkVBox */
 	w = go_graph_widget_new ();
 	gtk_box_pack_end (GTK_BOX (box), w, TRUE, TRUE, 0);
+	/* Get the embedded graph */
+	graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (w));
+	/* Add a title */
+	label = (GogLabel *) g_object_new (GOG_LABEL_TYPE, NULL);
+	data = go_data_scalar_str_new (title, FALSE);
+	gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
+	gog_object_add_by_name (GOG_OBJECT (graph), "Title", GOG_OBJECT (label));
+	/* Change the title font */
+	style = gog_styled_object_get_style (GOG_STYLED_OBJECT (label));
+	desc = pango_font_description_from_string ("Sans bold 16");
+	gog_style_set_font_desc (style, desc);
 	/* Get the chart created by the widget initialization */
 	chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (w));
 	/* Create a pie plot and add it to the chart */
@@ -75,8 +95,14 @@ main (int argc, char *argv[])
 	gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (pie));
 	/* Create a series for the plot and populate it with some simple data */
 	series = gog_plot_new_series (pie);
+	data = go_data_vector_str_new (legends, 4);
+	gog_series_set_dim (series, 0, data, &error);
 	data = go_data_vector_val_new (values, 4);
 	gog_series_set_dim (series, 1, data, &error);
+	/* Add a legend to the chart */
+	gog_object_add_by_name (GOG_OBJECT (chart), "Legend", NULL);
+	/* Ensure that the chart cardinality is updated */
+	gog_chart_get_cardinality (chart, NULL, NULL);
 
 	gtk_container_add (GTK_CONTAINER (window), box);
 	gtk_widget_show_all (GTK_WIDGET (window));

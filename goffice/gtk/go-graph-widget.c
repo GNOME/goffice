@@ -27,14 +27,17 @@
 
 #include <gsf/gsf-impl-utils.h>
 
+enum {
+	GRAPH_WIDGET_PROP_0,
+	GRAPH_WIDGET_PROP_ASPECT_RATIO,
+};
 
 struct  _GOGraphWidget{
 	GtkDrawingArea	base;
 
 	GogRendererPixbuf *renderer;
 	GogGraph *graph;
-	GogChart *chart; /* first chart crated on init */
-	gboolean aspect_ratio_set;
+	GogChart *chart; /* first chart created on init */
 	double aspect_ratio, width, height, xoffset, yoffset;
 
 	/* Idle handler ID */
@@ -52,19 +55,16 @@ go_graph_widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	GOGraphWidget *w = GO_GRAPH_WIDGET (widget);
 	w->width = allocation->width;
 	w->height = allocation->height;
-	if (!w->aspect_ratio_set) {
-		w->aspect_ratio = w->height / w->width;
-		if (!isnan (w->aspect_ratio) && go_finite (w->aspect_ratio))
-			w->aspect_ratio_set = TRUE;
-	}
-	if (w->height > w->width * w->aspect_ratio) {
-		w->yoffset = (w->height - w->width * w->aspect_ratio) / 2.;
-		w->height = w->width * w->aspect_ratio;
-		w->xoffset = 0;
-	} else {
-		w->xoffset = (w->width - w->height / w->aspect_ratio) / 2.;
-		w->width = w->height / w->aspect_ratio;
-		w->yoffset = 0;
+	if (w->aspect_ratio > 0.) {
+		if (w->height > w->width * w->aspect_ratio) {
+			w->yoffset = (w->height - w->width * w->aspect_ratio) / 2.;
+			w->height = w->width * w->aspect_ratio;
+			w->xoffset = 0;
+		} else {
+			w->xoffset = (w->width - w->height / w->aspect_ratio) / 2.;
+			w->width = w->height / w->aspect_ratio;
+			w->yoffset = 0;
+		}
 	}
 	gog_renderer_pixbuf_update (w->renderer, w->width, w->height, 1.0);
 	graph_parent_klass->size_allocate (widget, allocation);
@@ -113,6 +113,40 @@ go_graph_widget_finalize (GObject *object)
 }
 
 static void
+go_graph_widget_set_property (GObject *obj, guint param_id,
+			     GValue const *value, GParamSpec *pspec)
+{
+	GOGraphWidget *w = GO_GRAPH_WIDGET (obj);
+
+	switch (param_id) {
+	case GRAPH_WIDGET_PROP_ASPECT_RATIO :
+		w->aspect_ratio = g_value_get_double (value);
+		w->xoffset = w->yoffset = 0.;
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+	gtk_widget_queue_resize (GTK_WIDGET (obj));
+}
+
+static void
+go_graph_widget_get_property (GObject *obj, guint param_id,
+			     GValue *value, GParamSpec *pspec)
+{
+	GOGraphWidget *w = GO_GRAPH_WIDGET (obj);
+
+	switch (param_id) {
+	case GRAPH_WIDGET_PROP_ASPECT_RATIO :
+		g_value_set_double (value, w->aspect_ratio);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
 go_graph_widget_class_init (GOGraphWidgetClass *klass)
 {
 	GObjectClass *object_class = (GObjectClass *) klass;
@@ -121,8 +155,15 @@ go_graph_widget_class_init (GOGraphWidgetClass *klass)
 	graph_parent_klass = (GtkWidgetClass *) g_type_class_peek_parent (klass);
 
 	object_class->finalize = go_graph_widget_finalize;
+	object_class->get_property = go_graph_widget_get_property;
+	object_class->set_property = go_graph_widget_set_property;
 	widget_class->size_allocate = go_graph_widget_size_allocate;
 	widget_class->expose_event = go_graph_widget_expose_event;
+	g_object_class_install_property (object_class,
+		GRAPH_WIDGET_PROP_ASPECT_RATIO,
+		g_param_spec_double ("aspect-ratio", "aspect-ratio",
+			"Aspect ratio for rendering the graph, used only if greater than 0.",
+			-G_MAXDOUBLE, G_MAXDOUBLE, -1., G_PARAM_READWRITE));
 }
 
 static gint
@@ -161,10 +202,16 @@ go_graph_widget_init (GOGraphWidget *w)
 	/* by default, create one chart and add it to the graph */
 	w->chart = (GogChart *) 
 			gog_object_add_by_name (GOG_OBJECT (w->graph), "Chart", NULL);
-	w->aspect_ratio_set = FALSE;
 	w->idle_id = 0;
 }
 
+/**
+ * go_graph_widget_new :
+ * 
+ * Creates a new #GOGraphWidget with an embedded #GogGraph. Also add a #GogChart inside
+ * graph.
+ * Returns the newly created #GOGraphWidget.
+ **/
 GtkWidget *
 go_graph_widget_new (void)
 {
@@ -175,6 +222,12 @@ GSF_CLASS (GOGraphWidget, go_graph_widget,
 	   go_graph_widget_class_init, go_graph_widget_init,
 	   gtk_drawing_area_get_type ())
 
+/**
+ * go_graph_widget_get_graph :
+ * @widget : #GOGraphWidget
+ * 
+ * Returns the #GogGraph embedded in the widget.
+ **/
 GogGraph *
 go_graph_widget_get_graph (GOGraphWidget *widget)
 {
@@ -182,6 +235,12 @@ go_graph_widget_get_graph (GOGraphWidget *widget)
 	return widget->graph;
 }
 
+/**
+ * go_graph_widget_get_chart :
+ * @widget : #GOGraphWidget
+ * 
+ * Returns the #GogChart created by go_graph_widget_new().
+ **/
 GogChart *
 go_graph_widget_get_chart (GOGraphWidget *widget)
 {
