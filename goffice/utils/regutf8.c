@@ -7,9 +7,10 @@
 
 #include <goffice/goffice-config.h>
 #include "regutf8.h"
-#include <glib/gi18n.h>
 #include "go-glib-extras.h"
 #include <gsf/gsf-impl-utils.h>
+#include <glib/gi18n.h>
+#include <string.h>
 
 static GObjectClass *parent_class;
 

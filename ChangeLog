@@ -1,3 +1,8 @@
+2005-04-01  Jody Goldberg <jody@gnome.org>
+
+	* goffice/utils/regutf8.c : include string.h to suppress warning about
+	  implicit decl of strlen
+
 2005-04-01  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-glib-extras.c (go_guess_encoding): Try exotic

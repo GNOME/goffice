@@ -201,6 +201,15 @@ go_action_combo_text_get_entry (GOActionComboText const *a)
 	return a->entry_val;
 }
 
+/**
+ * go_action_combo_text_set_entry :
+ * @taction :
+ * @text :
+ * @dir :
+ *
+ * Set the entry of any toolbar proxies of @taction to @text.  Does not
+ * generate an 'activate' signal.
+ **/
 void
 go_action_combo_text_set_entry (GOActionComboText *taction, char const *text,
 				GOActionComboTextSearchDir dir)
