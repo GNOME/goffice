@@ -14,7 +14,7 @@ libgoffice_1_la_LIBADD = 			\
 
 libgoffice_1_la_LDFLAGS = -version-info $(GOFFICE_LIB_VERSON)
 if PLATFORM_WIN32
-libgoffice_1_la_LDFLAGS += $(no_undefined)
+libgoffice_1_la_LDFLAGS += -no-undefined
 endif
 
 BUILT_SOURCES =	goffice-paths.h
