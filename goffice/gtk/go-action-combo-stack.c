@@ -41,7 +41,7 @@
 #include <glib/gi18n.h>
 #include <stdio.h>
 
-////////////////////////////////////////////////////////////////////////////
+/**************************************************************************/
 
 typedef struct {
 	GOComboBox base;
@@ -230,7 +230,7 @@ GSF_CLASS (GOComboStack, go_combo_stack,
 	   go_combo_stack_class_init, go_combo_stack_init,
 	   GO_COMBO_BOX_TYPE)
 
-////////////////////////////////////////////////////////////////////////////
+/**************************************************************************/
 
 typedef struct {
 	GtkToolItem	 base;

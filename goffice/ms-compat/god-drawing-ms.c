@@ -139,18 +139,18 @@ typedef guint32 Spid;
 
 typedef struct {
 	Spid id;
-	guint is_group : 1;      // This shape is a group shape
-	guint is_child : 1;      // Not a top-level shape
-	guint is_patriarch : 1;  // This is the topmost group shape.
-	guint is_deleted : 1;    // The shape has been deleted
-	guint is_ole_shape : 1;  // The shape is an OLE object
-	guint have_master : 1;   // Shape has a hspMaster property
-	guint is_flip_h : 1;     // Shape is flipped horizontally
-	guint is_flip_v : 1;     // Shape is flipped vertically
-	guint is_connector : 1;  // Connector type of shape
-	guint have_anchor : 1;   // Shape has an anchor of some kind
-	guint is_background : 1; // Background shape
-	guint have_spt : 1;      // Shape has a shape type property
+	guint is_group : 1;      /* This shape is a group shape */
+	guint is_child : 1;      /* Not a top-level shape */
+	guint is_patriarch : 1;  /* This is the topmost group shape. */
+	guint is_deleted : 1;    /* The shape has been deleted */
+	guint is_ole_shape : 1;  /* The shape is an OLE object */
+	guint have_master : 1;   /* Shape has a hspMaster property */
+	guint is_flip_h : 1;     /* Shape is flipped horizontally */
+	guint is_flip_v : 1;     /* Shape is flipped vertically */
+	guint is_connector : 1;  /* Connector type of shape */
+	guint have_anchor : 1;   /* Shape has an anchor of some kind */
+	guint is_background : 1; /* Background shape */
+	guint have_spt : 1;      /* Shape has a shape type property */
 } ShapeDetails;
 
 typedef struct {
