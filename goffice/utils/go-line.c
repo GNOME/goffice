@@ -432,7 +432,7 @@ go_line_build_vpath (double const *x, double const *y, int n)
 				start++;
 			}
 			nb = 0;
-		} else if (!nb || ((path[j].x != x[i]) && (path[j].y != y[i]))) {
+		} else if (!nb || ((path[j].x != x[i]) || (path[j].y != y[i]))) {
 			j++;
 			path[j].x = x[i];
 			path[j].y = y[i];
