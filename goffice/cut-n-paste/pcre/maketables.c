@@ -44,6 +44,7 @@ it is also included in the compilation of dftables.c, in which case the macro
 DFTABLES is defined. */
 
 #ifndef DFTABLES
+#include <goffice/goffice-config.h>
 #include "internal.h"
 #include <glib.h>
 #endif

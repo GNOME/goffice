@@ -22,6 +22,8 @@ die "$0: must specify pcre directory on command line.\n"
 
 my $force_utf8 = 1;
 
+my $configfile = "<goffice/goffice-config.h>";
+
 # -----------------------------------------------------------------------------
 
 my ($PCRE_MAJOR,$PCRE_MINOR,$PCRE_DATE);
@@ -71,6 +73,10 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
     my $backchar_fix = 0;
     my $backchar_indent = '';
 
+    if ($filename =~ /printint/) {
+	print DST "#include $configfile\n";
+    }
+
     while (<SRC>) {
 	s/\@PCRE_MAJOR\@/$PCRE_MAJOR/;
 	s/\@PCRE_MINOR\@/$PCRE_MINOR/;
@@ -84,9 +90,20 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
 	    }
 	}
 
-	s/"config\.h"/\<goffice\/goffice-config.h\>/;
+	if ($filename =~ /\.c$/) {
+	    if (/^\s*\#\s*include\s*.internal\.h/) {
+		$_ = "#include $configfile\n" . $_;
+	    }
+	}
+
+	next if /^\s*\#\s*include\s*"config\.h"/;
+
 	if (s{^(\s*\#\s*include\s*.ctype\.h.*)}{/* $1 */}) {
 	    print DST "/* Whatever the question is, ctype.h is not the answer.  */\n";
+	}
+
+	if (/^(\s*)REG_(\S+)(\s*)=(\s*)1,/) {
+	    $_ = "$1REG_OK$3=${4}0,\n$_";
 	}
 
 	if (s{^(\s*\#\s*include\s*.chartables\.c.*)}{/* $1 */}) {

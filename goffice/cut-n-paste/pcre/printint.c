@@ -3,6 +3,7 @@
 /* This file has been programatically changed.  */
 /* This makes the following file fall under GPL license, see below.  */
 
+#include <goffice/goffice-config.h>
 /*************************************************
 *      Perl-Compatible Regular Expressions       *
 *************************************************/

@@ -45,6 +45,7 @@ for these functions came from Scott Wimer <scottw@cgibuilder.com>. */
 /* Include the internals header, which itself includes Standard C headers plus
 the external pcre header. */
 
+#include <goffice/goffice-config.h>
 #include "internal.h"
 
 

@@ -41,6 +41,7 @@ restrictions:
 /* Include the internals header, which itself includes Standard C headers plus
 the external pcre header. */
 
+#include <goffice/goffice-config.h>
 #include "internal.h"
 
 

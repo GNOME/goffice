@@ -1,3 +1,4 @@
+#include <goffice/goffice-config.h>
 #include "htmlhelp-stub.h"
 
 HWND HtmlHelp_ (HWND    hwndCaller,

@@ -51,9 +51,10 @@ pre-processor statements. I suppose it's only been 10 years... */
 #define DPRINTF(p) /*nothing*/
 #endif
 
-/* Include the internals header, which itself includes <goffice/goffice-config.h>, the Standard
+/* Include the internals header, which itself includes "config.h", the Standard
 C headers, and the external pcre header. */
 
+#include <goffice/goffice-config.h>
 #include "internal.h"
 
 

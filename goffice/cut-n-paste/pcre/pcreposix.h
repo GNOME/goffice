@@ -42,6 +42,7 @@ to slot PCRE into existing programs that make POSIX calls. */
 /* Error values. Not all these are relevant or used by the wrapper. */
 
 enum {
+  REG_OK = 0,
   REG_ASSERT = 1,  /* internal error ? */
   REG_BADBR,       /* invalid repeat counts in {} */
   REG_BADPAT,      /* pattern error */

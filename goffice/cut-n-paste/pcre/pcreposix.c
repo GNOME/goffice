@@ -40,6 +40,7 @@ restrictions:
 -----------------------------------------------------------------------------
 */
 
+#include <goffice/goffice-config.h>
 #include "internal.h"
 #include "pcreposix.h"
 #include "stdlib.h"

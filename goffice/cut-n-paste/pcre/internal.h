@@ -42,7 +42,6 @@ modules, but which are not relevant to the outside. */
 
 /* Get the definitions provided by running "configure" */
 
-#include <goffice/goffice-config.h>
 
 /* Standard C headers plus the external interface definition. The only time
 setjmp and stdarg are used is when NO_RECURSE is set. */
