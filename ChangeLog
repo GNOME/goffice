@@ -1,3 +1,18 @@
+2005-03-27  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-combo-box.c (go_combo_box_init): Use canonical
+	property names.
+	(go_combo_popup_tear_off): Ditto.
+
+	* goffice/gtk/go-action-combo-text.c
+	(go_action_combo_create_tool_item): Ditto.
+
+	* goffice/gtk/go-action-combo-stack.c
+	(go_action_combo_stack_create_tool_item): Ditto.
+
+	* goffice/gtk/go-action-combo-color.c (go_action_combo_color_new):
+	Ditto.
+
 2005-03-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/error-info.h: add missing G_BEGIN_DECLS and G_END_DECLS.

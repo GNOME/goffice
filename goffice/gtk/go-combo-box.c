@@ -305,8 +305,8 @@ go_combo_popup_tear_off (GOComboBox *combo, gboolean set_position)
 		if (title)
 			gdk_window_set_title (tearoff->window, title);
 		g_object_set (G_OBJECT (tearoff),
-			"allow_shrink",	FALSE,
-			"allow_grow",	TRUE,
+			"allow-shrink",	FALSE,
+			"allow-grow",	TRUE,
 			NULL);
 		gtk_window_set_transient_for
 			(GTK_WINDOW (tearoff),
@@ -522,8 +522,8 @@ go_combo_box_init (GOComboBox *combo_box)
 	gtk_widget_ref (combo_box->priv->toplevel);
 	gtk_object_sink (GTK_OBJECT (combo_box->priv->toplevel));
 	g_object_set (G_OBJECT (combo_box->priv->toplevel),
-		"allow_shrink",	FALSE,
-		"allow_grow",	TRUE,
+		"allow-shrink",	FALSE,
+		"allow-grow",	TRUE,
 		NULL);
 
 	combo_box->priv->popup = gtk_event_box_new ();

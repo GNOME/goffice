@@ -313,7 +313,7 @@ go_action_combo_stack_create_tool_item (GtkAction *a)
 			"text", 0,
 			NULL));
 
-	g_object_get (G_OBJECT (a), "stock_id", &stock_id, NULL);
+	g_object_get (G_OBJECT (a), "stock-id", &stock_id, NULL);
 	image = gtk_image_new_from_stock (
 		stock_id, GTK_ICON_SIZE_LARGE_TOOLBAR);
 	g_free (stock_id);

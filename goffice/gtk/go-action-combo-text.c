@@ -145,7 +145,7 @@ go_action_combo_create_tool_item (GtkAction *act)
 		_(gtk_action_get_name (act)));
 	gtk_widget_set_size_request (
 		go_combo_text_get_entry (tool->combo), w, -1);
-	g_object_set (G_OBJECT (tool), "visible_vertical", FALSE, NULL);
+	g_object_set (G_OBJECT (tool), "visible-vertical", FALSE, NULL);
 
 	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
 	go_combo_box_set_tearable (GO_COMBO_BOX (tool->combo), TRUE);

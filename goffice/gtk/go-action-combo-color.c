@@ -228,7 +228,7 @@ go_action_combo_color_new (char const  *action_name,
 {
 	GOActionComboColor *res = g_object_new (go_action_combo_color_get_type (),
 					   "name", action_name,
-					   "stock_id", stock_id,
+					   "stock-id", stock_id,
 					   NULL);
 	res->icon = gtk_icon_theme_load_icon (
 		gtk_icon_theme_get_default (),
