@@ -146,16 +146,22 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
 	die "$0: Cannot create $tmpfilename: $!\n";
     print STDERR "Creating $dstfilename...";
 
-    print DST "INCLUDES = \\\n";
-    print DST "\t\$(GNUMERIC_CFLAGS) -I\$(top_srcdir) \\\n";
-    print DST "\t -DSUPPORT_UTF8 \\\n";
-    print DST "\t -DNEWLINE=10 \\\n";
-    print DST "\t -DPOSIX_MALLOC_THRESHOLD=100 \\\n";
-    print DST "\t -DLINK_SIZE=2 \\\n";
-    print DST "\t -DMATCH_LIMIT=10000000\n\n";
+    print DST "noinst_LTLIBRARIES = libpcre.la\n";
+    print DST "libpcre_la_SOURCES = ", join (' ', @SRC_C), "\n\n";
 
-    print DST "noinst_LIBRARIES = libpcre.a\n";
-    print DST "libpcre_a_SOURCES = ", join (' ', @SRC_C), "\n";
+    print DST "libpcre_a_ladir = \$(includedir)/libgoffice-1/goffice/cut-n-paste/pcre\n\n";
+
+    print DST "libpcre_a_la_HEADERS = ", join (' ', @SRC_H), "\n\n";
+
+    print DST "INCLUDES = \\\n";
+    print DST "\t\$(GOFFICE_CFLAGS) \\\n";
+    print DST "\t-I\$(top_builddir) \\\n";
+    print DST "\t-DSUPPORT_UTF8 \\\n";
+    print DST "\t-DNEWLINE=10 \\\n";
+    print DST "\t-DPOSIX_MALLOC_THRESHOLD=100 \\\n";
+    print DST "\t-DLINK_SIZE=2 \\\n";
+    print DST "\t-DMATCH_LIMIT=10000000\n\n";
+
     print DST "noinst_HEADERS = ", join (' ', @SRC_H), "\n";
     close (*DST);
 
