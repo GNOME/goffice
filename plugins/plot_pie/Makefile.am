@@ -1,5 +1,3 @@
-LDFLAGS = $(LDFLAGSALLOWUNDEF)
-
 goffice_graph_piedir = $(goffice_plugindir)/plot_pie
 xmldir	 = $(goffice_graph_piedir)
 gladedir = $(goffice_graph_piedir)

@@ -1,5 +1,3 @@
-LDFLAGS = $(LDFLAGSALLOWUNDEF)
-
 goffice_graph_barcoldir = $(goffice_plugindir)/plot_barcol
 xmldir	 = $(goffice_graph_barcoldir)
 gladedir = $(goffice_graph_barcoldir)

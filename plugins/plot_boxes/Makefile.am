@@ -1,5 +1,3 @@
-LDFLAGS = $(LDFLAGSALLOWUNDEF)
-
 goffice_graph_boxplotdir = $(goffice_plugindir)/plot_boxes
 xmldir	 = $(goffice_graph_boxplotdir)
 gladedir = $(goffice_graph_boxplotdir)

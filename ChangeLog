@@ -1,3 +1,11 @@
+2005-03-15  Stepan Kasal  <kasal@ucw.cz>
+
+	Also undo the changes connected with the changes in configure.in, ...
+
+	* plugins/plot_barcol/Makefile.am, plugins/plot_boxes/Makefile.am,
+	plugins/plot_pie/Makefile.am, plugins/plot_radar/Makefile.am,
+	plugins/plot_surface/Makefile.am, plugins/plot_xy/Makefile.am: ...here.
+
 2005-03-14  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Undo last change.  Test links with gcc, not $LD.

@@ -1,5 +1,3 @@
-LDFLAGS = $(LDFLAGSALLOWUNDEF)
-
 goffice_graph_xydir = $(goffice_plugindir)/plot_xy
 xmldir	 = $(goffice_graph_xydir)
 gladedir = $(goffice_graph_xydir)
