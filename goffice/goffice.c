@@ -74,13 +74,13 @@ libgoffice_init (void)
 {
 	char *dir = g_win32_get_package_installation_directory (NULL, NULL);
 	libgoffice_data_dir = g_build_filename (dir,
-		"share", "goffice", LIBGOFFICE_VERSION, NULL);
+		"share", "goffice", GOFFICE_VERSION, NULL);
 	libgoffice_icon_dir = g_build_filename (dir,
 		"share", "pixmaps", "goffice", NULL);
 	libgoffice_locale_dir = g_build_filename (dir,
 		"share", "locale", NULL);
-	libgoffice_lib_dir = g_build_filename (dir,
-		"lib", "goffice", LIBGOFFICE_VERSION, NULL);
+/*	libgoffice_lib_dir = g_build_filename (dir,
+		"lib", "goffice", GOFFICE_VERSION, NULL); */
 }
 #endif
 

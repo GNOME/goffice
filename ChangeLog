@@ -1,3 +1,15 @@
+2005-03-24  Stepan Kasal  <kasal@ucw.cz>
+
+	* goffice/Makefile.am (goffice-paths.h): Rewrite the rule,
+	  goffice-paths.sh* is no longer used.
+	  (EXTRA_DIST, noinst_HEADERS): No longer needed.
+	* goffice/goffice-paths.sh.in: Removed.
+	* configure.in: Don't generate goffice-paths.sh, rearrange the
+	  goffice-* AC_SUBSTs.
+	* goffice/goffice.c (LIBGOFFICE_VERSION): Renamed to GOFFICE_VERSION.
+	(libgoffice_lib_dir): Comment out in the WIN32 block, since the
+	  declaration is already commented out.
+
 2005-03-23  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in: Generate goffice-features.h as a header file, subset

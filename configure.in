@@ -414,24 +414,21 @@ dnl ******************
 dnl * Config defaults
 dnl ******************
 dnl
-AC_SUBST(goffice_version, "${VERSION}")
-AC_SUBST(goffice_prefix, '${prefix}')
-AC_SUBST(goffice_exec_prefix, '${exec_prefix}')
-dnl
-dnl These are changed in libgnumeric.c for WIN32 packages
-AC_SUBST(goffice_datadir, '${datadir}/goffice/${goffice_version}')
-AC_SUBST(goffice_libdir, '${libdir}/goffice/${goffice_version}')
-AC_SUBST(goffice_plugindir, '${goffice_libdir}/plugins')
-AC_SUBST(goffice_gladedir, '${goffice_datadir}/glade')
+dnl These are changed in goffice.c for WIN32 packages
+AC_SUBST(goffice_datadir, '${datadir}/goffice/${VERSION}')
+AC_SUBST(goffice_libdir, '${libdir}/goffice/${VERSION}')
 AC_SUBST(goffice_icondir, '${datadir}/pixmaps/goffice')
 AC_SUBST(goffice_localedir, '${prefix}/${DATADIRNAME}/locale')
+dnl
+AC_SUBST(goffice_plugindir, '${goffice_libdir}/plugins')
+AC_SUBST(goffice_gladedir, '${goffice_datadir}/glade')
 dnl
 dnl Version info for libraries = CURRENT:REVISION:AGE
 GOFFICE_LIB_VERSION_EPOCH_PLUS_MAJOR=`expr goffice_version_epoch + goffice_version_major`
 GOFFICE_LIB_VERSON=$GOFFICE_LIB_VERSION_EPOCH_PLUS_MAJOR:goffice_version_minor:goffice_version_major
 AC_SUBST(GOFFICE_LIB_VERSON)
 
-dnl Export to goffice-config.h
+dnl Export to goffice-config.h and goffice-features.h
 AC_DEFINE(GOFFICE_VERSION, "goffice_full_version",
 	[The version number of this release, possibly with additional suffix])
 AC_DEFINE(GO_VERSION_EPOCH, goffice_version_epoch,
@@ -456,7 +453,6 @@ goffice/ms-compat/Makefile
 goffice/cut-n-paste/Makefile
 goffice/cut-n-paste/foocanvas/Makefile
 goffice/cut-n-paste/pcre/Makefile
-goffice/goffice-paths.sh
 goffice/libgoffice-1.pc
 plugins/Makefile
 plugins/plot_barcol/Makefile

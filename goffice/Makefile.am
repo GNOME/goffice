@@ -20,28 +20,35 @@ libgoffice_1_la_LDFLAGS += -no-undefined
 endif
 
 BUILT_SOURCES =	goffice-paths.h
+CLEANFILES = $(BUILT_SOURCES)
+
 libgoffice_1_la_SOURCES = 	\
 	$(BUILT_SOURCES)	\
 	goffice.c		\
 	goffice-priv.h
+
 libgoffice_1_ladir = $(goffice_include_dir)
 libgoffice_1_la_HEADERS = 	\
 	goffice-features.h	\
 	goffice.h
-noinst_HEADERS=goffice-config.h
 
-goffice-paths.h: goffice-paths.sh
-	@sh $< > $@.tmp ;					\
-	if cmp -s $@.tmp $@; then				\
-	    rm $@.tmp;						\
-	else							\
-	    mv $@.tmp $@ ; echo updated goffice-paths.h ;	\
-	fi
+goffice-paths.h:
+	@echo 'creating $@'
+	@( \
+	echo '/* This file has been automatically generated.  Do not edit. */'; \
+	echo ''; \
+	echo '#ifndef GOFFICE_PATHS_H'; \
+	echo '#define GOFFICE_PATHS_H'; \
+	echo ''; \
+	echo '#define GOFFICE_DATADIR "$(goffice_datadir)"'; \
+	echo '#define GOFFICE_LIBDIR "$(goffice_libdir)"'; \
+	echo '#define GOFFICE_ICONDIR "$(goffice_icondir)"'; \
+	echo '#define GOFFICE_LOCALEDIR "$(goffice_localedir)"'; \
+	echo ''; \
+	echo '#endif /* GOFFICE_PATHS_H */'; \
+	) >$@
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA= libgoffice-1.pc
-
-EXTRA_DIST = libgoffice-1.pc.in goffice-paths.sh.in
-CLEANFILES = $(BUILT_SOURCES)
 
 include $(top_srcdir)/goffice.mk
