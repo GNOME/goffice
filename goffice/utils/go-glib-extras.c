@@ -10,7 +10,6 @@
 #include <goffice-config.h>
 #include <goffice/goffice-config.h>
 #include "go-glib-extras.h"
-#include <goffice/utils/numbers.h>
 
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
@@ -413,18 +412,17 @@ go_mem_chunk_new (char const *name, size_t user_atom_size, size_t chunk_size)
 	size_t user_alignment, alignment, atom_size;
 	size_t maxalign = 1 + ((sizeof (void *) - 1) |
 			       (sizeof (long) - 1) |
-			       (sizeof (double) - 1) |
-			       (sizeof (gnm_float) - 1));
+			       (sizeof (double) - 1));
 
 	/*
 	 * The alignment that the caller can expect is 2^(lowest_bit_in_size).
 	 * The fancy bit math computes this.  Think it over.
 	 *
 	 * We don't go lower than pointer-size, so this always comes out as
-	 * 4 or 8.  (Or 16, if gnm_float is long double.)  Sometimes, when
-	 * user_atom_size is a multiple of 8, this alignment is bigger than
-	 * really needed, but we don't know if the structure has elements
-	 * with 8-byte alignment.  In those cases we waste memory.
+	 * 4 or 8.  Sometimes, when user_atom_size is a multiple of 8, this
+	 * alignment is bigger than really needed, but we don't know if the
+	 * structure has elements with 8-byte alignment.  In those cases we
+	 * waste memory.
 	 */
 	user_alignment = ((user_atom_size ^ (user_atom_size - 1)) + 1) / 2;
 	alignment = MIN (MAX (user_alignment, sizeof (go_mem_chunk_block *)), maxalign);

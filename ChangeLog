@@ -1,3 +1,8 @@
+2005-03-04  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_mem_chunk_new): Drop
+	references to gnm_float.
+
 2005-03-04  Stepan Kasal  <kasal@ucw.cz>
 
 	* tools/import-foocanvas: Apply Jody's rtl patch to foo-canvas.c;
