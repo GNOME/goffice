@@ -98,29 +98,27 @@ sub copy_subsystem {
 	    print DST "#include <glib/gi18n.h>\n";
 	}
 
-      LINE:
 	while (<SRC>) {
 	    chomp;
+	    s/\s+$//;
+	    next if (/^\s*\* \$[I][d]: .* [E][x][p] \$$/);
+	    next if (/^\s*\#\s*include\s*[<\"]config\.h[>\"]/);
 	    if (m{^\s*\#\s*include\s*[<\"]libfoocanvas/(.*)[>\"]}) {
 		print DST "#include \<goffice/cut-n-paste/foocanvas/$1\>\n";
-		next LINE;
+		next;
 	    }
-
-	    s/\s+$//;
-
-	    next if (/^\s*\* \$[I][d]: .* [E][x][p] \$\s*$/);
-	    next if (/^\s*\#\s*include\s*[<\"]config\.h[>\"]/);
-
 	    # Turn C++ comments into C comments.
 	    if (m|^\s*//|) {
 		s|//|/*|;
 		s|$|*/|;
 	    }
-
 	    print DST "$_\n";
 	}
 	close (*SRC);
 	close (*DST);
+
+	# Jody has a patch for foo-canvas.c:
+	&patch_file("$dstdir/$file.new") if $file eq "foo-canvas.c";
 
 	&update_file ("$dstdir/$file");
     }
@@ -150,3 +148,93 @@ sub update_file {
 }
 
 # -----------------------------------------------------------------------------
+
+sub patch_file {
+    my ($file) = @_;
+    local (*PATCH);
+
+    open (PATCH, "| patch --silent $file");
+    print PATCH <<'EOF';
+--- foo-canvas.c	27 Dec 2004 21:58:03 -0000
++++ foo-canvas.c	21 Jan 2005 03:08:31 -0000
+@@ -2289,7 +2289,7 @@
+  * keep as much as possible of the canvas scrolling region in view.
+  */
+ static void
+-scroll_to (FooCanvas *canvas, int cx, int cy)
++scroll_to (FooCanvas *canvas, int cx, int cy, gboolean redraw)
+ {
+ 	int scroll_width, scroll_height;
+ 	int right_limit, bottom_limit;
+@@ -2320,9 +2320,6 @@
+ 	} else if (cx < 0) {
+ 		cx = 0;
+ 		canvas->zoom_xofs = 0;
+-	} else if (cx > right_limit) {
+-		cx = right_limit;
+-		canvas->zoom_xofs = 0;
+ 	} else
+ 		canvas->zoom_xofs = 0;
+ 
+@@ -2369,11 +2366,13 @@
+ 	}
+ 
+ 	/* Signal GtkLayout that it should do a redraw. */
++	if (redraw) {
+ 	if (changed_x)
+ 		g_signal_emit_by_name (GTK_OBJECT (canvas->layout.hadjustment), "value_changed");
+ 	if (changed_y)
+ 		g_signal_emit_by_name (GTK_OBJECT (canvas->layout.vadjustment), "value_changed");
+ }
++}
+ 
+ /* Size allocation handler for the canvas */
+ static void
+@@ -2399,7 +2398,7 @@
+ 
+ 	scroll_to (canvas,
+ 		   canvas->layout.hadjustment->value,
+-		   canvas->layout.vadjustment->value);
++		   canvas->layout.vadjustment->value, TRUE);
+ 
+ 	g_signal_emit_by_name (GTK_OBJECT (canvas->layout.hadjustment), "changed");
+ 	g_signal_emit_by_name (GTK_OBJECT (canvas->layout.vadjustment), "changed");
+@@ -3044,7 +3043,7 @@
+ 
+ 	foo_canvas_w2c (canvas, wxofs, wyofs, &xofs, &yofs);
+ 
+-	scroll_to (canvas, xofs, yofs);
++	scroll_to (canvas, xofs, yofs, TRUE);
+ 
+ 	canvas->need_repick = TRUE;
+ 
+@@ -3093,7 +3092,7 @@
+ 
+ 	scroll_to (canvas,
+ 		   canvas->layout.hadjustment->value,
+-		   canvas->layout.vadjustment->value);
++		   canvas->layout.vadjustment->value, TRUE);
+ }
+ 
+ 
+@@ -3164,7 +3163,7 @@
+ 		gdk_window_show (window);
+ 	}
+ 
+-	scroll_to (canvas, x1, y1);
++	scroll_to (canvas, x1, y1, FALSE);
+ 
+ 	/* If we created a an overlapping background None window, remove it how.
+ 	 *
+@@ -3198,7 +3197,7 @@
+ {
+ 	g_return_if_fail (FOO_IS_CANVAS (canvas));
+ 
+-	scroll_to (canvas, cx, cy);
++	scroll_to (canvas, cx, cy, TRUE);
+ }
+ 
+ /**
+EOF
+    close (PATCH);
+}

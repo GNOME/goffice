@@ -1,3 +1,8 @@
+2005-03-04  Stepan Kasal  <kasal@ucw.cz>
+
+	* tools/import-foocanvas: Apply Jody's rtl patch to foo-canvas.c;
+	* goffice/cut-n-paste/foocanvas/foo-canvas.c: Refresh.
+
 2005-03-02  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* goffice/gtk/goffice-gtk.c: Use gsf_input_textline_utf8_gets()

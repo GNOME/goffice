@@ -2286,7 +2286,7 @@ foo_canvas_unrealize (GtkWidget *widget)
  * keep as much as possible of the canvas scrolling region in view.
  */
 static void
-scroll_to (FooCanvas *canvas, int cx, int cy)
+scroll_to (FooCanvas *canvas, int cx, int cy, gboolean redraw)
 {
 	int scroll_width, scroll_height;
 	int right_limit, bottom_limit;
@@ -2316,9 +2316,6 @@ scroll_to (FooCanvas *canvas, int cx, int cy)
 		}
 	} else if (cx < 0) {
 		cx = 0;
-		canvas->zoom_xofs = 0;
-	} else if (cx > right_limit) {
-		cx = right_limit;
 		canvas->zoom_xofs = 0;
 	} else
 		canvas->zoom_xofs = 0;
@@ -2366,10 +2363,12 @@ scroll_to (FooCanvas *canvas, int cx, int cy)
 	}
 
 	/* Signal GtkLayout that it should do a redraw. */
+	if (redraw) {
 	if (changed_x)
 		g_signal_emit_by_name (GTK_OBJECT (canvas->layout.hadjustment), "value_changed");
 	if (changed_y)
 		g_signal_emit_by_name (GTK_OBJECT (canvas->layout.vadjustment), "value_changed");
+}
 }
 
 /* Size allocation handler for the canvas */
@@ -2396,7 +2395,7 @@ foo_canvas_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 
 	scroll_to (canvas,
 		   canvas->layout.hadjustment->value,
-		   canvas->layout.vadjustment->value);
+		   canvas->layout.vadjustment->value, TRUE);
 
 	g_signal_emit_by_name (GTK_OBJECT (canvas->layout.hadjustment), "changed");
 	g_signal_emit_by_name (GTK_OBJECT (canvas->layout.vadjustment), "changed");
@@ -3041,7 +3040,7 @@ foo_canvas_set_scroll_region (FooCanvas *canvas, double x1, double y1, double x2
 
 	foo_canvas_w2c (canvas, wxofs, wyofs, &xofs, &yofs);
 
-	scroll_to (canvas, xofs, yofs);
+	scroll_to (canvas, xofs, yofs, TRUE);
 
 	canvas->need_repick = TRUE;
 
@@ -3090,7 +3089,7 @@ foo_canvas_set_center_scroll_region (FooCanvas *canvas,
 
 	scroll_to (canvas,
 		   canvas->layout.hadjustment->value,
-		   canvas->layout.vadjustment->value);
+		   canvas->layout.vadjustment->value, TRUE);
 }
 
 
@@ -3161,7 +3160,7 @@ foo_canvas_set_pixels_per_unit (FooCanvas *canvas, double n)
 		gdk_window_show (window);
 	}
 
-	scroll_to (canvas, x1, y1);
+	scroll_to (canvas, x1, y1, FALSE);
 
 	/* If we created a an overlapping background None window, remove it how.
 	 *
@@ -3195,7 +3194,7 @@ foo_canvas_scroll_to (FooCanvas *canvas, int cx, int cy)
 {
 	g_return_if_fail (FOO_IS_CANVAS (canvas));
 
-	scroll_to (canvas, cx, cy);
+	scroll_to (canvas, cx, cy, TRUE);
 }
 
 /**
