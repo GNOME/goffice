@@ -160,6 +160,9 @@ gog_axis_base_get_property (GObject *obj, guint param_id,
 				case GOG_AXIS_AT_HIGH:
 					g_value_set_static_string (value, "high");
 					break;
+				default:
+					g_warning ("[GogAxisBase::set_property] invalid axis position");
+				break;
 			}
 			break;
 		case AXIS_BASE_PROP_CROSS_AXIS_ID:
@@ -268,51 +271,52 @@ gog_axis_base_get_crossed_axis (GogAxisBase *axis_base)
 }	
 
 void
-gog_axis_base_set_position_auto (GogAxisBase *axis_base) 
+gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position) 
 {
 	GogAxis *axis;
 	GogChart *chart;
-	GogAxisPosition position;
 	GSList *lines, *axes = NULL, *lptr, *aptr;
 	gboolean can_at_low = TRUE, can_at_high = TRUE;
 
 	g_return_if_fail (GOG_AXIS_BASE (axis_base) != NULL);
 
-	if (IS_GOG_AXIS (axis_base))
-		axis = GOG_AXIS (axis_base);
-	else 
-		axis = GOG_AXIS (gog_object_get_parent (GOG_OBJECT (axis_base)));
+	if (position == GOG_AXIS_AUTO) {
+		if (IS_GOG_AXIS (axis_base))
+			axis = GOG_AXIS (axis_base);
+		else 
+			axis = GOG_AXIS (gog_object_get_parent (GOG_OBJECT (axis_base)));
 
-	chart = GOG_CHART (gog_object_get_parent (GOG_OBJECT (axis)));
-	if (chart != NULL) 
-		axes = gog_chart_get_axes (chart, gog_axis_get_atype (axis));
-	else 
-		axes = g_slist_prepend (axes, axis); 
+		chart = GOG_CHART (gog_object_get_parent (GOG_OBJECT (axis)));
+		if (chart != NULL) 
+			axes = gog_chart_get_axes (chart, gog_axis_get_atype (axis));
+		else 
+			axes = g_slist_prepend (axes, axis); 
 
-	for (aptr = axes; aptr != NULL; aptr = aptr->next) {
-		lines = gog_object_get_children (GOG_OBJECT (aptr->data), NULL);
-		lines = g_slist_prepend (lines, aptr->data);
-		for (lptr = lines; lptr != NULL; lptr = lptr->next) {
-			if (lptr->data == axis_base || !IS_GOG_AXIS_BASE (lptr->data))
-				continue;
-			position = gog_axis_base_get_position (GOG_AXIS_BASE (lptr->data));
-			if (position == GOG_AXIS_AT_HIGH )
-				can_at_high = FALSE;
-			else if (position == GOG_AXIS_AT_LOW)
-				can_at_low = FALSE;
+		for (aptr = axes; aptr != NULL; aptr = aptr->next) {
+			lines = gog_object_get_children (GOG_OBJECT (aptr->data), NULL);
+			lines = g_slist_prepend (lines, aptr->data);
+			for (lptr = lines; lptr != NULL; lptr = lptr->next) {
+				if (lptr->data == axis_base || !IS_GOG_AXIS_BASE (lptr->data))
+					continue;
+				position = gog_axis_base_get_position (GOG_AXIS_BASE (lptr->data));
+				if (position == GOG_AXIS_AT_HIGH )
+					can_at_high = FALSE;
+				else if (position == GOG_AXIS_AT_LOW)
+					can_at_low = FALSE;
+			}
+			g_slist_free (lines);
 		}
-		g_slist_free (lines);
+		g_slist_free (axes);
+
+		if (can_at_low)
+			position = GOG_AXIS_AT_LOW;
+		else if (can_at_high)
+			position = GOG_AXIS_AT_HIGH;
+		else
+			position = GOG_AXIS_CROSS;
 	}
-	g_slist_free (axes);
 
-	if (can_at_low)
-		position = GOG_AXIS_AT_LOW;
-	else if (can_at_high)
-		position = GOG_AXIS_AT_HIGH;
-	else
-		position = GOG_AXIS_CROSS;
-
-	gog_axis_base_set_position (axis_base, position);
+	axis_base->position = position;
 }	
 
 typedef struct {
@@ -627,14 +631,6 @@ gog_axis_base_get_position (GogAxisBase *axis_base)
 	g_return_val_if_fail (GOG_AXIS_BASE (axis_base) != NULL, GOG_AXIS_AT_LOW);
 
 	return axis_base->position;
-}
-
-void
-gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position)
-{
-	g_return_if_fail (GOG_AXIS_BASE (axis_base) != NULL);
-
-	axis_base->position = position;
 }
 
 GSF_CLASS_ABSTRACT (GogAxisBase, gog_axis_base,
@@ -1118,6 +1114,9 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 			}
 		case GOG_AXIS_AT_HIGH:
 			position = 1.0;
+			break;
+		default:
+			g_warning ("[GogAxisBase::xy_process] invalid axis position");
 			break;
 	}
 

@@ -1,5 +1,14 @@
 2005-03-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* goffice/graph/gog-axis-line.c (gog_axis_base_get_property): handle
+	GOG_AXIS_AUTO.
+	(gog_axis_base_set_position_auto): removed.
+	(gog_axis_base_set_position): handle GOG_AXIS_AUTO.
+	(xy_process): ditto.
+	* goffice/graph/gog-axis-line.h: add GOG_AXIS_AUTO to GogAxisPosition.
+
+2005-03-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	Add support for axis selection.
 
 	* goffice/graph/gog-axis-line.c (get_point_to_segment_distance): new.

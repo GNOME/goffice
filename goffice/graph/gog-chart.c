@@ -218,7 +218,7 @@ axis_post_add (GogObject *axis, GogAxisType t)
 	g_object_set (G_OBJECT (axis), "type", (int)t, NULL);
 	chart->axes = g_slist_prepend (chart->axes, axis);
 
-	gog_axis_base_set_position_auto (GOG_AXIS_BASE (axis));
+	gog_axis_base_set_position (GOG_AXIS_BASE (axis), GOG_AXIS_AUTO);
 }
 
 static void

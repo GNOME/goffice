@@ -29,7 +29,8 @@ G_BEGIN_DECLS
 typedef enum {
 	GOG_AXIS_AT_LOW,
 	GOG_AXIS_CROSS,
-	GOG_AXIS_AT_HIGH
+	GOG_AXIS_AT_HIGH,
+	GOG_AXIS_AUTO
 } GogAxisPosition;
 
 typedef enum {

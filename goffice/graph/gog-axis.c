@@ -988,7 +988,7 @@ role_axis_line_can_add (GogObject const *parent)
 static void
 role_axis_line_post_add (GogObject *parent, GogObject *child)
 {
-	gog_axis_base_set_position_auto (GOG_AXIS_BASE (child));
+	gog_axis_base_set_position (GOG_AXIS_BASE (child), GOG_AXIS_AUTO);
 }
 
 /**
