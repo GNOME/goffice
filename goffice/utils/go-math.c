@@ -13,6 +13,11 @@
 #include <locale.h>
 #include <signal.h>
 #include <errno.h>
+#ifdef HAVE_LONG_DOUBLE
+#ifdef HAVE_SUNMATH_H
+#include <sunmath.h>
+#endif
+#endif
 
 #if defined (HAVE_IEEEFP_H) || defined (HAVE_IEEE754_H)
 /* Make sure we have this symbol defined, since the existance of either
@@ -113,6 +118,12 @@ go_math_init (void)
 	abort ();
 
  have_nan:
+#ifdef HAVE_LONG_DOUBLE
+	go_nanl = go_nan;
+	go_pinfl = go_pinf;
+	go_ninfl = go_ninf;
+#endif
+
 #ifdef SIGFPE
 	signal (SIGFPE, signal_handler);
 #endif
@@ -167,6 +178,13 @@ go_fake_ceil (double x)
 }
 
 double
+go_fake_round (double x)
+{
+	double y = go_fake_floor (fabs (x) + 0.5);
+	return (x < 0) ? -y : y;
+}
+
+double
 go_fake_trunc (double x)
 {
 	return (x >= 0)
@@ -218,6 +236,10 @@ go_pow10 (int n)
 
 #ifdef HAVE_LONG_DOUBLE
 
+long double go_nanl;
+long double go_pinlf;
+long double go_ninfl;
+
 long double
 go_pow2l (int n)
 {
@@ -246,108 +268,245 @@ go_pow10l (int n)
 	return powl (10.0L, n);
 }
 
-#endif
-
-/* ------------------------------------------------------------------------- */
-
-
-/****************************************************************/
-
 /*
  * In preparation for truncation, make the value a tiny bit larger (seen
  * absolutely).  This makes ROUND (etc.) behave a little closer to what
  * people want, even if it is a bit bogus.
  */
-gnm_float
-gnm_add_epsilon (gnm_float x)
+long double
+go_add_epsilonl (long double x)
 {
-	if (!gnm_finite (x) || x == 0)
+	if (!go_finitel (x) || x == 0)
 		return x;
 	else {
 		int exp;
-		gnm_float mant = gnm_frexp (gnm_abs (x), &exp);
-		gnm_float absres = gnm_ldexp (mant + GNM_EPSILON, exp);
+		long double mant = frexpl (fabsl (x), &exp);
+		long double absres = ldexpl (mant + LDBL_EPSILON, exp);
 		return (x < 0) ? -absres : absres;
 	}
 }
 
-gnm_float
-gnm_sub_epsilon (gnm_float x)
+long double
+go_sub_epsilonl (long double x)
 {
-	if (!gnm_finite (x) || x == 0)
+	if (!go_finitel (x) || x == 0)
 		return x;
 	else {
 		int exp;
-		gnm_float mant = gnm_frexp (gnm_abs (x), &exp);
-		gnm_float absres = gnm_ldexp (mant - GNM_EPSILON, exp);
+		long double mant = frexpl (fabsl (x), &exp);
+		long double absres = ldexpl (mant - LDBL_EPSILON, exp);
 		return (x < 0) ? -absres : absres;
 	}
 }
 
-/*
- *  2.000...0000001   -> 2
- *  2.000...0000000   -> 2
- *  1.999...9999999   -> 2
- * -0.999...9999999   -> -1
- * -1.000...0000000   -> -1
- * -1.000...0000001   -> -1
- */
-gnm_float
-gnm_fake_floor (gnm_float x)
+long double
+go_fake_floorl (long double x)
 {
-	static const gnm_float cutoff = 0.5 / GNM_EPSILON;
-
-	if (gnm_abs (x) < cutoff)
-		x = (x >= 0)
-			? gnm_add_epsilon (x)
-			: gnm_sub_epsilon (x);
-
-	return gnm_floor (x);
+	return (x >= 0)
+		? floorl (go_add_epsilonl (x))
+		: floorl (go_sub_epsilonl (x));
 }
 
-/*
- *  2.000...0000001   -> 2
- *  2.000...0000000   -> 2
- *  1.999...9999999   -> 2
- * -0.999...9999999   -> -1
- * -1.000...0000000   -> -1
- * -1.000...0000001   -> -1
- */
-gnm_float
-gnm_fake_ceil (gnm_float x)
+long double
+go_fake_ceill (long double x)
 {
-	static const gnm_float cutoff = 0.5 / GNM_EPSILON;
-
-	if (gnm_abs (x) < cutoff)
-		x = (x >= 0)
-			? gnm_sub_epsilon (x)
-			: gnm_add_epsilon (x);
-
-	return gnm_ceil (x);
+	return (x >= 0)
+		? ceill (go_sub_epsilonl (x))
+		: ceill (go_add_epsilonl (x));
 }
 
-gnm_float
-gnm_fake_round (gnm_float x)
+long double
+go_fake_roundl (long double x)
 {
-	gnm_float y = gnm_fake_floor (gnm_abs (x) + 0.5);
+	long double y = go_fake_floorl (fabsl (x) + 0.5L);
 	return (x < 0) ? -y : y;
 }
 
-gnm_float
-gnm_fake_trunc (gnm_float x)
+long double
+go_fake_truncl (long double x)
 {
-	gnm_float y = gnm_fake_floor (gnm_abs (x));
-	return (x < 0) ? -y : y;
+	return (x >= 0)
+		? floorl (go_add_epsilonl (x))
+		: -floorl (go_add_epsilonl (-x));
 }
+
+#ifndef HAVE_LDEXPL
+long double
+ldexpl (long double x, int exp)
+{
+	if (!finitel (x) || x == 0)
+		return x;
+	else {
+		long double res = x * go_pow2l (exp);
+		if (finitel (res))
+			return res;
+		else {
+			errno = ERANGE;
+			return (x > 0) ? go_pinfl : go_ninfl;
+		}
+	}
+}
+#endif
+
+#ifndef HAVE_FREXPL
+long double
+frexpl (long double x, int *exp)
+{
+	long double l2x;
+
+	if (!finitel (x) || x == 0) {
+		*exp = 0;
+		return x;
+	}
+
+	l2x = logl (fabsl (x)) / logl (2);
+	*exp = (int)floorl (l2x);
+
+	/*
+	 * Now correct the result and adjust things that might have gotten
+	 * off-by-one due to rounding.
+	 */
+	x /= go_pow2l (*exp);
+	if (fabsl (x) >= 1.0)
+		x /= 2, (*exp)++;
+	else if (fabsl (x) < 0.5)
+		x *= 2, (*exp)--;
+
+	return x;
+}
+#endif
+
+#ifndef HAVE_STRTOLD
+long double
+strtold (char const *str, char **end)
+{
+#if defined(HAVE_STRING_TO_DECIMAL) && defined(HAVE_DECIMAL_TO_QUADRUPLE)
+	long double res;
+	decimal_record dr;
+	enum decimal_string_form form;
+	decimal_mode dm;
+	fp_exception_field_type excp;
+	char *echar;
+
+	string_to_decimal ((char **)&str, INT_MAX, 0,
+			   &dr, &form, &echar);
+	if (end) *end = (char *)str;
+
+	if (form == invalid_form) {
+		errno = EINVAL;
+		return 0.0L;
+	}
+
+	dm.rd = fp_nearest;
+	decimal_to_quadruple (&res, &dm, &dr, &excp);
+        if (excp & ((1 << fp_overflow) | (1 << fp_underflow)))
+                errno = ERANGE;
+	return res;
+#else
+	char *myend;
+	long double res;
+	int count;
+
+	if (end == 0) end = &myend;
+	(void) strtod (str, end);
+	if (str == *end)
+		return 0.0L;
+
+	errno = 0;
+	count = sscanf (str, "%Lf", &res);
+	if (count == 1)
+		return res;
+
+	/* Now what?  */
+	*end = (char *)str;
+	errno = ERANGE;
+	return 0.0;
+#endif
+}
+#endif
+
+#ifndef HAVE_EXPM1L
+long double
+expm1l (long double x)
+{
+	long double y, a = fabsl (x);
+
+	if (a > 1e-8) {
+		y = expl (x) - 1;
+		if (a > 0.697)
+			return y;  /* negligible cancellation */
+	} else {
+		if (a < LDBL_EPSILON)
+			return x;
+		/* Taylor expansion, more accurate in this range */
+		y = (x / 2 + 1) * x;
+	}
+
+	/* Newton step for solving   log(1 + y) = x   for y : */
+	y -= (1 + y) * (log1pl (y) - x);
+	return y;
+}
+#endif
+
+#ifndef HAVE_ASINHL
+long double
+asinhl (long double x)
+{
+  long double y = fabsl (x);
+  long double r = log1pl (y * y / (hypotl (y, 1.0) + 1.0) + y);
+  return (x >= 0) ? r : -r;
+}
+#endif
+
+#ifndef HAVE_ACOSHL
+long double
+acoshl (long double x)
+{
+  long double xm1 = x - 1;
+  return log1pl (xm1 + sqrtl (xm1) * sqrtl (x + 1.0));
+}
+#endif
+
+#ifndef HAVE_ATANHL
+long double
+atanhl (long double x)
+{
+  long double y = fabsl (x);
+  long double r = -0.5 * log1pl (-(y + y) / (1.0 + y));
+  return (x >= 0) ? r : -r;
+}
+#endif
+
+#ifndef HAVE_MODFL
+long double
+modfl (long double x, long double *iptr)
+{
+	if (isnanl (x))
+		return *iptr = x;
+	else if (finitel (x)) {
+		if (x >= 0)
+			return x - (*iptr = floorl (x));
+		else
+			return x - (*iptr = -floorl (-x));			
+	} else {
+		*iptr = x;
+		return 0;
+	}
+}
+#endif
+
+#endif
+
+/* ------------------------------------------------------------------------- */
 
 void
-gnm_continued_fraction (gnm_float val, int max_denom, int *res_num, int *res_denom)
+gnm_continued_fraction (double val, int max_denom, int *res_num, int *res_denom)
 {
 	int n1, n2, d1, d2;
-	gnm_float x, y;
+	double x, y;
 
 	if (val < 0) {
-		gnm_continued_fraction (gnm_abs (val), max_denom, res_num, res_denom);
+		gnm_continued_fraction (-val, max_denom, res_num, res_denom);
 		*res_num = -*res_num;
 		return;
 	}
@@ -360,7 +519,7 @@ gnm_continued_fraction (gnm_float val, int max_denom, int *res_num, int *res_den
 
 	do {
 		int a = (int) (x / y);
-		gnm_float newy = x - a * y;
+		double newy = x - a * y;
 		int n3, d3;
 
 		if ((n2 && a > (INT_MAX - n1) / n2) ||
@@ -410,7 +569,7 @@ go_stern_brocot (double val, int max_denom, int *res_num, int *res_denom)
 			return;
 		}
 	}
-	if (bd > max_denom || gnm_abs (val * ad - an) < gnm_abs (val * bd - bn)) {
+	if (bd > max_denom || fabs (val * ad - an) < fabs (val * bd - bn)) {
 		*res_num = an;
 		*res_denom = ad;
 	} else {
