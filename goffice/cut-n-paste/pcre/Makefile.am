@@ -3,7 +3,8 @@ libpcre_la_SOURCES = maketables.c get.c study.c pcre.c pcreposix.c
 EXTRA_DIST = printint.c
 
 libpcre_a_ladir = $(includedir)/libgoffice-1/goffice/cut-n-paste/pcre
-libpcre_a_la_HEADERS = internal.h pcreposix.h pcre.h
+libpcre_a_la_HEADERS = pcreposix.h
+noinst_HEADERS = internal.h pcre.h
 
 INCLUDES = \
 	$(GOFFICE_CFLAGS) \
@@ -14,5 +15,3 @@ INCLUDES = \
 	-DLINK_SIZE=2 \
 	-DMATCH_LIMIT=10000000
 
-## FIXME: In fact, we don't want to install them.
-## noinst_HEADERS = internal.h pcreposix.h pcre.h

@@ -42,11 +42,12 @@ my ($PCRE_MAJOR,$PCRE_MINOR,$PCRE_DATE);
 
 my @SRC_C = ('maketables.c', 'get.c', 'study.c', 'pcre.c', 'pcreposix.c');
 my @EXTRA_C = ('printint.c');
-my @SRC_H = ('internal.h', 'pcreposix.h', 'pcre.h');
+my @SRC_H = ('pcreposix.h');
+my @noinst_H = ('internal.h', 'pcre.h');
 
 my %namehack = ('pcre.h' => 'pcre.in');
 
-for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
+for my $filename (@SRC_C, @EXTRA_C, @SRC_H, @noinst_H) {
     my $srcfilename = "$srcdir/" . ($namehack{$filename} || $filename);
     my $dstfilename = "$dst/$filename";
     my $tmpfilename = "$dstfilename.new";
@@ -169,7 +170,8 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
 
     print DST "libpcre_a_ladir = \$(includedir)/libgoffice-1/goffice/cut-n-paste/pcre\n";
 
-    print DST "libpcre_a_la_HEADERS = ", join (' ', @SRC_H), "\n\n";
+    print DST "libpcre_a_la_HEADERS = ", join (' ', @SRC_H), "\n";
+    print DST "noinst_HEADERS = ", join (' ', @noinst_H), "\n\n";
 
     print DST "INCLUDES = \\\n";
     print DST "\t\$(GOFFICE_CFLAGS) \\\n";
@@ -180,8 +182,6 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
     print DST "\t-DLINK_SIZE=2 \\\n";
     print DST "\t-DMATCH_LIMIT=10000000\n\n";
 
-    print DST "## FIXME: In fact, we don't want to install them.\n";
-    print DST "## noinst_HEADERS = ", join (' ', @SRC_H), "\n";
     close (*DST);
 
     &update_file ($dstfilename);
