@@ -1,7 +1,9 @@
 2005-03-11  Stepan Kasal  <kasal@ucw.cz>
 
-	* configure.in (goffice_reqs): Require pango 1.8.1; it is not good
-	  if we _slightly_ differ from gnumeric.
+	* configure.in: Propagate ACLOCAL_FLAGS, so that it's available
+	  in the Makefile for the aclocal.m4 rule.
+	(goffice_reqs): Require pango 1.8.1; it is not good if we
+	  _slightly_ differ from gnumeric.
 
 2005-03-09  Morten Welinder  <terra@gnome.org>
 

@@ -1,3 +1,5 @@
+# Makefile.am for goffice
+
 SUBDIRS = goffice test pixmaps plugins po
 
 EXTRA_DIST = goffice.mk \

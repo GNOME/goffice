@@ -36,7 +36,8 @@ AM_PROG_LIBTOOL
 AC_STDC_HEADERS
 AC_SYS_LARGEFILE
 
-AC_SUBST(ACLOCAL_FLAGS)
+dnl Propagate Gnome-specific variable ACLOCAL_FLAGS to Makefile.
+AC_SUBST(ACLOCAL_AMFLAGS, $ACLOCAL_FLAGS)
 
 dnl *****************************
 goffice_reqs="
