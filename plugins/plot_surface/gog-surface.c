@@ -22,7 +22,7 @@
 #include <goffice/goffice-config.h>
 #include "gog-surface.h"
 
-#include <goffice/graph/go-data.h>
+#include <goffice/data/go-data.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-theme.h>

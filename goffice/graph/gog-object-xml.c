@@ -24,7 +24,7 @@
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/go-data.h>
+#include <goffice/data/go-data.h>
 #include <goffice/utils/go-color.h>
 
 #include <glade/glade-build.h>	/* for the xml utils */

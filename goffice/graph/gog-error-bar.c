@@ -27,8 +27,8 @@
 #include "gog-data-allocator.h"
 #include "gog-style.h"
 #include "gog-renderer.h"
-#include "go-data-impl.h"
-#include "go-data.h"
+#include <goffice/data/go-data-impl.h>
+#include <goffice/data/go-data.h>
 #include <goffice/gui-utils/go-color-palette.h>
 #include <goffice/gui-utils/go-combo-color.h>
 #include <goffice/gui-utils/go-combo-pixmaps.h>

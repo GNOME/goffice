@@ -29,7 +29,7 @@
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object-xml.h>
-#include <goffice/graph/go-data.h>
+#include <goffice/data/go-data.h>
 #include <goffice/utils/go-math.h>
 #include <glib/gi18n.h>
 

@@ -57,15 +57,8 @@ typedef GSList 			GogSeriesElementStyleList;
 /* Data */
 typedef struct _GogDataAllocator GogDataAllocator;
 typedef struct _GogDataset	 GogDataset;
-typedef struct _GOData		 GOData;
-typedef struct _GODataScalar	 GODataScalar;
-typedef struct _GODataVector	 GODataVector;
-typedef struct {
-	int rows;	/* negative if dirty, includes missing values */
-	int columns;	/* negative if dirty, includes missing values */
-} GOMatrixSize;
-typedef struct _GODataMatrix	 GODataMatrix;
 
+/* Rendering */
 typedef struct _GogRenderer	 GogRenderer;
 
 typedef struct {

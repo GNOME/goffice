@@ -25,8 +25,8 @@
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-style.h>
-#include <goffice/graph/go-data.h>
 #include <goffice/graph/gog-error-bar.h>
+#include <goffice/data/go-data.h>
 #include <goffice/gui-utils/go-gui-utils.h>
 
 #include <gsf/gsf-impl-utils.h>

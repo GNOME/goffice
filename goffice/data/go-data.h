@@ -21,7 +21,7 @@
 #ifndef GO_DATA_H
 #define GO_DATA_H
 
-#include <goffice/graph/goffice-graph.h>
+#include <goffice/data/goffice-graph.h>
 #include <goffice/utils/goffice-utils.h>
 #include <glib-object.h>
 

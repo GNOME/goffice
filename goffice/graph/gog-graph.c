@@ -26,7 +26,7 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
-#include <goffice/graph/go-data.h>
+#include <goffice/data/go-data.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>

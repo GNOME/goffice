@@ -23,7 +23,7 @@
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-graph-impl.h> /* for gog_graph_request_update */
 #include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/go-data.h>
+#include <goffice/data/go-data.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>

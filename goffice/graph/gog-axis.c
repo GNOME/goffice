@@ -33,7 +33,7 @@
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/go-data.h>
+#include <goffice/data/go-data.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/format.h>
 #include <goffice/utils/go-math.h>

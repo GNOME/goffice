@@ -26,8 +26,8 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-axis.h>
-#include <goffice/graph/go-data.h>
 #include <goffice/graph/gog-error-bar.h>
+#include <goffice/data/go-data.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-format.h>

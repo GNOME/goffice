@@ -28,7 +28,7 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-data-allocator.h>
-#include <goffice/graph/go-data.h>
+#include <goffice/data/go-data.h>
 
 #include <glib/gi18n.h>
 

@@ -23,7 +23,7 @@
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-graph.h>
-#include <goffice/graph/go-data.h>
+#include <goffice/data/go-data.h>
 
 GType
 gog_data_allocator_get_type (void)

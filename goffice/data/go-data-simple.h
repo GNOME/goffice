@@ -21,8 +21,8 @@
 #ifndef GO_DATA_SIMPLE_H
 #define GO_DATA_SIMPLE_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/go-data.h>
+#include <goffice/data/goffice-data.h>
+#include <goffice/data/go-data.h>
 
 #define GO_DATA_SCALAR_VAL_TYPE  (go_data_scalar_val_get_type ())
 #define GO_DATA_SCALAR_VAL(o)	 (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_DATA_SCALAR_VAL_TYPE, GODataScalarVal))
