@@ -1,3 +1,8 @@
+2005-02-28  Christopher James Lahey  <clahey@clahey.net>
+
+	* configure.in, goffice-plugins.mk: Changed gnumeric to goffice
+	here.
+
 2005-02-27  Christopher James Lahey  <clahey@clahey.net>
 
 	* Makefile.am (pkgconfigdir), configure.in (AC_OUTPUT): Create and

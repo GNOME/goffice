@@ -12,7 +12,7 @@ dnl Emphasize some of the checks.
 m4_define([BIG_CHECKING], [AC_MSG_CHECKING([
 ======== $1])])
 
-AC_INIT([gnumeric], [goffice_full_version],
+AC_INIT([goffice], [goffice_full_version],
 	[http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric])
 
 AC_CONFIG_SRCDIR(goffice/goffice.h)
