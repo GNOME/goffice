@@ -1,3 +1,8 @@
+2005-03-29  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* pixmaps/chart_polar_1_1.[png,svg]: new.
+	* pixmaps/polar.[png,svg]: new.
+
 2005-03-28  Morten Welinder  <terra@gnome.org>
 
 	* .../*.c: Use canonical property names.
