@@ -1,3 +1,8 @@
+2005-03-04  Jody Goldberg <jody@gnome.org>
+
+	* goffice/app/module-plugin-defs.h : remove the ugly go_get_current_plugin
+	  and the PLUGIN & PLUGIN_CLASS macras.
+
 2005-03-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-math.c (go_finite): Make this a function and

@@ -10,7 +10,7 @@ $myself =~ s|^.*/||;
 
 die "$0: must run from top-level goffice directory.\n"
     unless -r "goffice/goffice-config.h.in";
-my $dst = "goffice/cut-n-paste";
+my $dst = "plugins/gnome_extensions";
 
 my $eggdir = $ARGV[0];
 $eggdir = "../libegg" unless defined $eggdir;
@@ -20,17 +20,14 @@ die "$0: must specify libegg directory on command line.\n"
 -d $dst or mkdir $dst or
     die "$0: cannot mkdir $dst: $!\n";
 
-# &copy_subsystem ("menu");
-# &copy_subsystem ("toolbar");
-&copy_subsystem ("recent-files");
+&copy_subsystem ();
 
 # -----------------------------------------------------------------------------
 
 sub copy_subsystem {
-    my ($sys) = @_;
 
-    my $srcdir = "$eggdir/libegg/$sys";
-    my $dstdir = "$dst/egg-$sys";
+    my $srcdir = "$eggdir/libegg/recent-files";
+    my $dstdir = "$dst";
 
     -d $dstdir or mkdir "$dstdir" or
 	die "$0: cannot mkdir $dstdir: $!\n";
@@ -50,7 +47,7 @@ sub copy_subsystem {
 
 	s/\b[a-z0-9.-]*bonobo[a-z0-9.-]*\b//;
 
-	s|\$\(EGG_RECENT_CFLAGS\)|\$\(GNUMERIC_CFLAGS\) -I\$\(top_srcdir\)/src -DUSE_STABLE_LIBGNOMEUI|;
+	s|\$\(EGG_RECENT_CFLAGS\)|\$\(GOFFICE_CFLAGS\)|;
 	s/\$\(EGG_EXEC_CFLAGS\)/ /;
 	s/\$\(EGG_VFS_MODULE_CFLAGS\)/ /;
 

@@ -1,5 +1,5 @@
 INCLUDES = \
-	$(GNUMERIC_CFLAGS) -I$(top_srcdir)/src -DUSE_STABLE_LIBGNOMEUI		\
+	$(GOFFICE_CFLAGS)		\
 	 		\
 	 	\
 	-DEGG_COMPILATION

@@ -1,8 +1,8 @@
-/* File import from libegg to gnumeric by import-egg.  Do not edit.  */
+/* File import from libegg to libgoffice by import-egg.  Do not edit.  */
 
 #include <goffice/goffice-config.h>
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/**
+/*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the

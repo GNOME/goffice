@@ -1,4 +1,4 @@
-/* File import from libegg to gnumeric by import-egg.  Do not edit.  */
+/* File import from libegg to libgoffice by import-egg.  Do not edit.  */
 
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef __EGG_RECENT_MODEL_H__

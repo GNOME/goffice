@@ -1,4 +1,4 @@
-/* File import from libegg to gnumeric by import-egg.  Do not edit.  */
+/* File import from libegg to libgoffice by import-egg.  Do not edit.  */
 
 #include "egg-recent-item.h"
 #include "egg-recent-model.h"
