@@ -41,6 +41,7 @@ GError	*go_url_show		(gchar const *url);
 gboolean go_url_check_extension (gchar const *uri,
 				 gchar const *std_ext,
 				 gchar **new_uri);
+gchar   *go_get_mime_type       (gchar const *uri);
 
 G_END_DECLS
 

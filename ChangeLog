@@ -1,3 +1,7 @@
+2005-03-06  Jon K Hellan  <hellan@acm.org>
+
+	* goffice/utils/go-file.c (go_get_mime_type): New.
+
 2005-03-06  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/app/go-plugin.c (go_plugins_init): append goffice plugin

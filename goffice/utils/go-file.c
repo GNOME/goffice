@@ -523,3 +523,13 @@ go_url_check_extension (gchar const *uri,
 	return res;
 }
 
+gchar *
+go_get_mime_type (gchar const *uri)
+{
+#ifdef GOFFICE_WITH_GNOME
+	return gnome_vfs_get_mime_type (uri);
+#else
+	return "application/octet-string";
+#endif
+}
+
