@@ -1,4 +1,4 @@
-SUBDIRS = goffice test pixmaps plugins
+SUBDIRS = goffice test pixmaps plugins po
 
 EXTRA_DIST = goffice.mk goffice-plugins.mk
 

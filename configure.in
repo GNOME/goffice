@@ -575,6 +575,7 @@ plugins/plot_surface/Makefile
 plugins/plot_boxes/Makefile
 pixmaps/Makefile
 test/Makefile
+po/Makefile.in
 stamp.h
 ])
 
