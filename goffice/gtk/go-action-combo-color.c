@@ -27,6 +27,7 @@
 
 #include <gtk/gtkaction.h>
 #include <gtk/gtktoolitem.h>
+#include <gtk/gtkicontheme.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkimage.h>
 #include <gsf/gsf-impl-utils.h>
@@ -229,7 +230,9 @@ go_action_combo_color_new (char const  *action_name,
 					   "name", action_name,
 					   "stock_id", stock_id,
 					   NULL);
-	res->icon = gnm_app_get_pixbuf (stock_id);
+	res->icon = gtk_icon_theme_load_icon (
+		gtk_icon_theme_get_default (),
+		stock_id, 24, 0, NULL);
 	res->color_group = go_color_group_fetch (action_name, group_key);
 	res->default_val_label = g_strdup (default_color_label);
 	res->current_color = res->default_val = default_color;

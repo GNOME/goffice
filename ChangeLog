@@ -1,3 +1,11 @@
+2005-03-08  Jody Goldberg <jody@gnome.org>
+
+	The last of the code dependencies on gnumeric.  Now I just need to
+	move the icons.
+	* goffice/gtk/go-action-combo-color.c (go_action_combo_color_new) :
+	  use gtk_icon_theme_load_icon in place of gnm_app_get_pixbuf.
+	* goffice/gtk/goffice-gtk.c (update_preview_cb) : ditto.
+
 2005-03-08  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (AC_OUTPUT, AC_CONFIG_FILES): Use AC_CONFIG_FILES and
