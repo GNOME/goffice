@@ -322,23 +322,30 @@ static void
 gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogRadarPlot const *model = GOG_RADAR_PLOT (view->model);
+	GogAxis *r_axis, *c_axis;
+	GogAxisMap *r_map, *c_map;
+	GogViewAllocation const *area;
 	GSList   *ptr;
 	ArtVpath *path;
-	gboolean const is_area = GOG_IS_PLOT_RADAR_AREA (model);
-	GogAxisMap *map;
-	GogViewAllocation const *area;
 	double center_x, center_y, radius;
+	double circular_min, circular_max;
 	unsigned edge_nbr;
+	gboolean const is_area = GOG_IS_PLOT_RADAR_AREA (model);
 
-	area = gog_chart_view_get_plot_area (view->parent);
-	edge_nbr = model->num_elements;
-	calc_polygon_parameters (area, edge_nbr, &center_x, &center_y, &radius);
-
-	map = gog_axis_map_new (GOG_PLOT (model)->axis[GOG_AXIS_RADIAL], 
-				0., radius);
+	r_axis = GOG_PLOT (model)->axis[GOG_AXIS_RADIAL];
+	c_axis = GOG_PLOT (model)->axis[GOG_AXIS_CIRCULAR];
+	g_return_if_fail (r_axis != NULL && c_axis != NULL);
 	
-	if (!gog_axis_map_is_valid (map)) {
-		gog_axis_map_free (map);
+	gog_axis_get_bounds (c_axis, &circular_min, &circular_max);
+	edge_nbr = rint (circular_max + 1); 
+	area = gog_chart_view_get_plot_area (view->parent);
+	calc_polygon_parameters (area, edge_nbr, &center_x, &center_y, &radius);
+	
+	r_map = gog_axis_map_new (r_axis, 0., radius);
+	c_map = gog_axis_map_new (c_axis, -M_PI/2.0, 2.0 * M_PI * circular_max / (circular_max + 1.0));
+	if (!gog_axis_map_is_valid (r_map) || !gog_axis_map_is_valid (c_map)) {
+		gog_axis_map_free (r_map);
+		gog_axis_map_free (c_map);
 		return;
 	}
 
@@ -363,16 +370,16 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 		for (count = 0; count < series->base.num_elements; count++) {
 			double rho, theta, x, y;
 
-			if (!gog_axis_map_finite (map, vals [count])) {
+			if (!gog_axis_map_finite (r_map, vals [count])) {
 				closed_shape = FALSE;
 				continue;
 			}
 
-			theta = count * 2.0 * M_PI / model->num_elements;
-			rho = gog_axis_map_to_view (map, vals[count]);
+			theta = gog_axis_map_to_view (c_map, count);
+			rho = gog_axis_map_to_view (r_map, vals[count]);
 
-			x = center_x + rho * sin (theta);
-			y = center_y - rho * cos (theta);
+			x = center_x + rho * cos (theta);
+			y = center_y + rho * sin (theta);
 
 			path[count].code = ((count != 0 && !isnan (vals[count-1])) 
 					    ? ART_LINETO : ART_MOVETO);
@@ -383,7 +390,7 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 
 		if (series->base.num_elements == model->num_elements
-		    && gog_axis_map_finite (map, vals[count-1])) {
+		    && gog_axis_map_finite (r_map, vals[count-1])) {
 			path[count].code = ART_LINETO; 
 			path[count].x = path[0].x;
 			path[count].y = path[0].y;
@@ -398,8 +405,8 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		gog_renderer_pop_style (view->renderer);
 	}
-
-	gog_axis_map_free (map);
+	gog_axis_map_free (r_map);
+	gog_axis_map_free (c_map);
 }
 
 static gboolean

@@ -1,3 +1,8 @@
+2005-03-23  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* plugins/plot_radar/gog-radar.c (gog_radar_view_render): handle
+	inverted circular axis.
+
 2005-03-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-axis-line.c (radar_process): fix padding request
