@@ -1,4 +1,4 @@
-SUBDIRS = app graph utils gui-utils drawing ms-compat libpresent test pixmaps cut-n-paste . plugins
+SUBDIRS = app graph utils gui-utils drawing ms-compat test pixmaps cut-n-paste . plugins
 
 noinst_LTLIBRARIES = libgoffice.la
 
@@ -8,8 +8,7 @@ libgoffice_la_LIBADD = 				\
 	gui-utils/libgoffice-gui-utils.la	\
 	graph/libgoffice-graph.la		\
 	drawing/libgoffice-drawing.la		\
-	ms-compat/libgoffice-ms-compat.la	\
-	libpresent/libgoffice-libpresent.la
+	ms-compat/libgoffice-ms-compat.la
 
 libgoffice_la_SOURCES = 	\
 	goffice.c		\
