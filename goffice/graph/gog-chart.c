@@ -35,6 +35,46 @@
 #include <string.h>
 #include <math.h>
 
+GogChartMap *gog_chart_map_new (GogChart *chart, GogViewAllocation const *area)
+{
+	GogChartMap *map = g_new0 (GogChartMap, 1);
+	
+	map->axis_set = gog_chart_get_axis_set (chart);
+	
+	switch (map->axis_set) {
+		case GOG_AXIS_SET_XY:
+			map->a[0][0] = area->w;
+			map->a[1][1] = -area->h;
+			map->b[0] = area->x;
+			map->b[1] = area->y + area->h;
+			break;
+		default:
+			g_warning ("Not implemented");
+			break;
+	}
+	return map;
+}
+
+void
+gog_chart_map_2D (GogChartMap *map, double x, double y, double *xx, double *yy)
+{
+	switch (map->axis_set) {
+		case GOG_AXIS_SET_XY:
+			*xx = map->a[0][0] * x + map->b[0];
+			*yy = map->a[1][1] * y + map->b[1];
+			break;
+		default:
+			g_warning ("Not implemented");
+			break;
+	}
+}
+
+void
+gog_chart_map_free (GogChartMap *map)
+{
+	g_free (map);
+}
+
 enum {
 	CHART_PROP_0,
 	CHART_PROP_CARDINALITY_VALID
@@ -204,23 +244,23 @@ static GogObjectRole const roles[] = {
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  role_grid_can_add, NULL, NULL, role_grid_post_add, role_grid_pre_remove, NULL, { -1 } },
 	{ N_("X-Axis"), "GogAxis",	1,
-	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
 	  x_axis_can_add, axis_can_remove, NULL, x_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_X } },
 	{ N_("Y-Axis"), "GogAxis",	2,
-	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
 	  y_axis_can_add, axis_can_remove, NULL, y_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_Y } },
 	{ N_("Z-Axis"), "GogAxis",	3,
-	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
 	  z_axis_can_add, axis_can_remove, NULL, z_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_Z } },
 	{ N_("Circular-Axis"), "GogAxis", 1,
-	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
 	  circular_axis_can_add, axis_can_remove, NULL, circular_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_CIRCULAR } },
 	{ N_("Radial-Axis"), "GogAxis",	2,
-	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
 	  radial_axis_can_add, axis_can_remove, NULL, radial_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_RADIAL } },
 	{ N_("Plot"), "GogPlot",	4,	/* keep the axis before the plots */
@@ -376,7 +416,7 @@ gog_chart_get_plots (GogChart const *chart)
 }
 
 GogAxisSet
-gog_chart_axis_set (GogChart const *chart)
+gog_chart_get_axis_set (GogChart const *chart)
 {
 	g_return_val_if_fail (GOG_CHART (chart) != NULL, GOG_AXIS_SET_UNKNOWN);
 	return chart->axis_set;
@@ -432,7 +472,7 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 	/* Add at least 1 instance of any required axis */
 	for (type = 0 ; type < GOG_AXIS_TYPES ; type++)
 		if ((axis_set & (1 << type))) {
-			GSList *tmp = gog_chart_get_axis (chart, type);
+			GSList *tmp = gog_chart_get_axes (chart, type);
 			if (tmp == NULL)
 				gog_chart_add_axis (chart, type);
 			else
@@ -467,7 +507,7 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 }
 
 /**
- * gog_chart_get_axis :
+ * gog_chart_get_axes :
  * @chart : #GogChart
  * @target  : #GogAxisType
  *
@@ -475,7 +515,7 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
  * associated with @chart.
  **/
 GSList *
-gog_chart_get_axis (GogChart const *chart, GogAxisType target)
+gog_chart_get_axes (GogChart const *chart, GogAxisType target)
 {
 	GSList *ptr, *res = NULL;
 	GogAxis *axis;
@@ -534,159 +574,38 @@ gog_chart_view_get_plot_area (GogView const *view)
 {
 	g_return_val_if_fail ((GOG_CHART_VIEW (view) != NULL), NULL);
 
-	return & (GOG_CHART_VIEW(view)->plot_area);
+	return & (view->residual);
 }
 
 static void
-child_request (GogView *view, GogViewAllocation *res, 
-	       GogViewAllocation const *plot_area,
-	       gboolean allocate)
+gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 {
 	GSList *ptr;
 	GogView *child;
-	GogAxis const *axis;
-	GogViewRequisition req;
-	GogViewAllocation allocation;
+	GogViewAllocation tmp;
+	GogViewPadding padding;
 
-	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
-		child = ptr->data;
-		if (child->model->position != GOG_POSITION_SPECIAL ||
-		    !IS_GOG_AXIS (child->model))
-			continue;
+	(cview_parent_klass->size_allocate) (view, bbox);
 
-		axis = GOG_AXIS (child->model);
-		req.w = req.h = 0.;
-		gog_view_size_request (child, &req);
-		allocation = *plot_area;
-		switch (gog_axis_get_atype (axis)) {
-			case GOG_AXIS_X:
-				if (req.h > 0) {
-					res->h -= req.h;
-					allocation.h = req.h;
-					if (gog_axis_get_pos (axis) == GOG_AXIS_AT_HIGH) {
-						allocation.y = res->y;
-						res->y += req.h;
-					} else
-						allocation.y = res->y + res->h;	
-				}
-				
-				
-				break;
-			case GOG_AXIS_Y:
-				if (req.w > 0) {
-					res->w -= req.w;
-					allocation.w = req.w;
-					if (gog_axis_get_pos (axis) == GOG_AXIS_AT_LOW) {
-						allocation.x = res->x;
-						res->x += req.w;
-					} else
-						allocation.x = res->x + res->w;
-				}
-				break;
-			default:
-				break;
-		}
-		if (allocate)
-			gog_view_size_allocate (child, &allocation);
-	}
-}
-
-static void
-gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
-{
-	GSList *ptr;
-	GogView *child;
-	GogChart *chart = GOG_CHART (view->model);
-	GogViewAllocation res = *allocation;
-	GogViewAllocation tmp, axis_alloc;
-
-	(cview_parent_klass->size_allocate) (view, &res);
-
-	res = view->residual; 
-	switch (chart->axis_set) {
-
-		case GOG_AXIS_SET_X:
-		case GOG_AXIS_SET_XY:
-		{
-			GogViewPadding axis_padding, padding = {0., 0., 0., 0.};
-
-			tmp = res;
-			child_request (view, &res, &res, FALSE);
-			
-			/* FIXME: we need to iterate until convergence */ 
+	tmp = view->residual;
+	gog_view_padding_request (view, &view->residual, &padding);
+	view->residual.x += padding.wl;
+	view->residual.w -= padding.wl + padding.wr;
+	view->residual.y += padding.ht;
+	view->residual.h -= padding.ht + padding.hb;
 			for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 				child = ptr->data;
-				if (child->model->position != GOG_POSITION_SPECIAL ||
-				    !IS_GOG_AXIS (child->model))
-					continue;
-				
-				gog_axis_view_padding_request (child, &axis_padding, &res);
-				padding.wr = MAX (padding.wr, axis_padding.wr);
-				padding.wl = MAX (padding.wl, axis_padding.wl);
-				padding.hb = MAX (padding.hb, axis_padding.hb);
-				padding.ht = MAX (padding.ht, axis_padding.ht);
-			}
-			res.x += padding.wl;
-			res.w -= padding.wl + padding.wr;
-			res.y += padding.ht;
-			res.h -= padding.ht + padding.hb;
-
-			for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
-				child = ptr->data;
-				if (child->model->position != GOG_POSITION_SPECIAL ||
-				    !IS_GOG_AXIS (child->model))
-					continue;
-
-				switch (gog_axis_get_atype (GOG_AXIS (child->model))) 
-				{
-					case GOG_AXIS_X:
-						axis_alloc = tmp;
-						axis_alloc.x = res.x;
-						axis_alloc.w = res.w;
-						gog_view_size_allocate (child, &axis_alloc);
-						break;
-
-					case GOG_AXIS_Y:
-						axis_alloc = tmp;
-						axis_alloc.y = res.y;
-						axis_alloc.h = res.h;
-						gog_view_size_allocate (child, &axis_alloc);
-						break;
-
-					default:
-						break;
-				}	
-			}
-		}		      
-		break;
-
-	case GOG_AXIS_SET_RADAR:
-		/* Give the axes the whole residual area. */
-		for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
-			child = ptr->data;
-			if (IS_GOG_AXIS (child->model))
-				gog_view_size_allocate (child, &res);
+		if (child->model->position == GOG_POSITION_PADDING) {
+			gog_view_size_allocate (child, &tmp);
 		}
-		break;
-	case GOG_AXIS_SET_NONE:
-		break;
-
-	case GOG_AXIS_SET_UNKNOWN:
-		return;
-	default:
-		g_warning ("only have layout engine for xy, radar, and none currently");
-		return;
 	}
 
-	/* overlay all the plots in the residual */
+	/* by default, overlay all GOG_POSITION_SPECIAL children in residual */
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
-		if (child->model->position == GOG_POSITION_SPECIAL &&
-		    (IS_GOG_PLOT (child->model) || child->model == chart->grid))
-			gog_view_size_allocate (child, &res);
+		if (child->model->position == GOG_POSITION_SPECIAL)
+			gog_view_size_allocate (child, &view->residual);
 	}
-	
-	GOG_CHART_VIEW(view)->plot_area = res;
 }
 
 static void
@@ -744,6 +663,7 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 		gog_view_render	(ptr->data, bbox);
 	}
+
 }
 
 static void

@@ -72,6 +72,15 @@ gog_box_plot_pref (GogObject *obj,
 	return w;
 }
 
+static void
+gog_box_plot_populate_editor (GogObject *item,
+			      GogEditor *editor,
+			      G_GNUC_UNUSED GogDataAllocator *dalloc,
+			      GOCmdContext *cc)
+{
+	gog_editor_add_page (editor, gog_box_plot_pref (item, dalloc, cc), _("Properties"));
+}
+
 enum {
 	BOX_PLOT_PROP_0,
 	BOX_PLOT_PROP_GAP_PERCENTAGE,
@@ -222,7 +231,7 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 	gog_object_klass->type_name	= gog_box_plot_type_name;
 	gog_object_klass->view_type	= gog_box_plot_view_get_type ();
 	gog_object_klass->update	= gog_box_plot_update;
-	gog_object_klass->editor	= gog_box_plot_pref;
+	gog_object_klass->populate_editor = gog_box_plot_populate_editor;
 
 	{
 		static GogSeriesDimDesc dimensions[] = {
@@ -309,30 +318,30 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			rect.w = qu3 - qu1;
 			rect.y = y - hrect;
 			rect.h = 2* hrect;
-			gog_renderer_draw_rectangle (view->renderer, &rect, NULL);
+			gog_renderer_draw_sharp_rectangle (view->renderer, &rect, NULL);
 			path[2].code = ART_END;
 			path[0].y = y + hbar;
 			path[1].y = y - hbar;
 			path[0].x = path[1].x = min;
-			gog_renderer_draw_path (view->renderer, path, NULL);
+			gog_renderer_draw_sharp_path (view->renderer, path, NULL);
 			path[0].x = path[1].x = max;
-			gog_renderer_draw_path (view->renderer, path, NULL);
+			gog_renderer_draw_sharp_path (view->renderer, path, NULL);
 			path[0].y = path[1].y = y;
 			path[0].x = qu3;
-			gog_renderer_draw_path (view->renderer, path, NULL);
+			gog_renderer_draw_sharp_path (view->renderer, path, NULL);
 			path[0].x = min;
 			path[1].x = qu1;
-			gog_renderer_draw_path (view->renderer, path, NULL);
+			gog_renderer_draw_sharp_path (view->renderer, path, NULL);
 			path[0].x = path[1].x = med;
 			path[0].y = y + hrect;
 			path[1].y = y - hrect;
-			gog_renderer_draw_path (view->renderer, path, NULL);
+			gog_renderer_draw_sharp_path (view->renderer, path, NULL);
 			path[2].code = ART_LINETO;
 			path[0].x = path[3].x = path[4].x = qu1;
 			path[1].x = path[2].x = qu3;
 			path[0].y = path[1].y = path[4].y = y - hrect;
 			path[2].y = path[3].y = y + hrect;
-			gog_renderer_draw_path (view->renderer, path, NULL);
+			gog_renderer_draw_sharp_path (view->renderer, path, NULL);
 		} else {
 			GogViewAllocation pos;
 			pos.x = view->allocation.x + view->allocation.w / 2;

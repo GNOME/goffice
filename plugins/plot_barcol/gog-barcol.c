@@ -98,12 +98,15 @@ gog_barcol_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 }
 
 extern gpointer gog_barcol_plot_pref (GogBarColPlot *barcol, GOCmdContext *cc);
-static gpointer
-gog_barcol_plot_editor (GogObject *item,
+static void
+gog_barcol_plot_populate_editor (GogObject *item,
+				 GogEditor *editor,
 			G_GNUC_UNUSED GogDataAllocator *dalloc,
 			GOCmdContext *cc)
 {
-	return gog_barcol_plot_pref (GOG_BARCOL_PLOT (item), cc);
+	gog_editor_add_page (editor,
+			     gog_barcol_plot_pref (GOG_BARCOL_PLOT (item), cc),
+			     _("Properties"));
 }
 
 static gboolean
@@ -206,7 +209,7 @@ gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_barcol_plot_type_name;
-	gog_object_klass->editor	= gog_barcol_plot_editor;
+	gog_object_klass->populate_editor	= gog_barcol_plot_populate_editor;
 	gog_object_klass->view_type	= gog_barcol_view_get_type ();
 
 	plot_klass->desc.series.style_fields	= GOG_STYLE_OUTLINE | GOG_STYLE_FILL;

@@ -153,15 +153,16 @@ gog_legend_update (GogObject *obj)
 	gog_object_emit_changed	(obj, TRUE);
 }
 
-static gpointer
-gog_legend_editor (GogObject *gobj, GogDataAllocator *dalloc, GOCmdContext *cc)
+static void
+gog_legend_populate_editor (GogObject *gobj, 
+			    GogEditor *editor, 
+			    GogDataAllocator *dalloc, 
+			    GOCmdContext *cc)
 {
 	static guint legend_pref_page = 0;
-	GtkWidget *notebook = gtk_notebook_new ();
 
-	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
-	gog_style_handle_notebook (notebook, &legend_pref_page);
-	return notebook;
+	(GOG_OBJECT_CLASS(parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
+	gog_editor_set_store_page (editor, &legend_pref_page);
 }
 
 static void
@@ -186,14 +187,15 @@ gog_legend_class_init (GogLegendClass *klass)
 	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
 
 	parent_klass = g_type_class_peek_parent (klass);
+	
 	gobject_klass->set_property = gog_legend_set_property;
 	gobject_klass->get_property = gog_legend_get_property;
-
 	gog_klass->parent_changed = gog_legend_parent_changed;
 	gog_klass->update	  = gog_legend_update;
-	gog_klass->editor	  = gog_legend_editor;
+	gog_klass->populate_editor	= gog_legend_populate_editor;
 	gog_klass->view_type	  = gog_legend_view_get_type ();
 	style_klass->init_style	  = gog_legend_init_style;
+	
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 	g_object_class_install_property (gobject_klass, LEGEND_SWATCH_SIZE_PTS,

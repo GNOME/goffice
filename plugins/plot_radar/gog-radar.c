@@ -22,6 +22,7 @@
 #include <goffice/goffice-config.h>
 #include "gog-radar.h"
 #include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-theme.h>
@@ -176,7 +177,7 @@ gog_radar_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	switch (axis) {
 	case GOG_AXIS_CIRCULAR:
 		bounds->val.minima = 0.;
-		bounds->val.maxima = radar->num_elements;
+		bounds->val.maxima = radar->num_elements - 1;
 		bounds->logical.minima = 0.;
 		bounds->logical.maxima = go_nan;
 		bounds->is_discrete    = TRUE;
@@ -301,27 +302,45 @@ fmin (double a, double b)
 }
 
 static void
+calc_polygon_parameters (GogViewAllocation const *area, unsigned edge_nbr,
+			 double *x, double *y, double *radius)
+{
+	double width, height;
+
+	width = 2.0 * sin (2.0 * M_PI * rint (edge_nbr / 4.0) / edge_nbr);
+	height = 1.0 - cos (2.0 * M_PI * rint (edge_nbr / 2.0) / edge_nbr);
+
+	*radius = (area->w / width) > (area->h / height) ?
+		area->h / height :
+		area->w / width;
+
+	*x = area->x + area->w / 2.0;
+	*y = area->y + *radius + (area->h - *radius * height) / 2.0;
+}
+
+static void
 gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogRadarPlot const *model = GOG_RADAR_PLOT (view->model);
-	unsigned  center_x, center_y;
 	GSList   *ptr;
 	ArtVpath *path;
 	gboolean const is_area = GOG_IS_PLOT_RADAR_AREA (model);
 	GogAxisMap *map;
+	GogViewAllocation const *area;
+	double center_x, center_y, radius;
+	unsigned edge_nbr;
+
+	area = gog_chart_view_get_plot_area (view->parent);
+	edge_nbr = model->num_elements;
+	calc_polygon_parameters (area, edge_nbr, &center_x, &center_y, &radius);
 
 	map = gog_axis_map_new (GOG_PLOT (model)->axis[GOG_AXIS_RADIAL], 
-				0.,
-				fmin (view->allocation.h, view->allocation.w) / 2.0);
+				0., radius);
 	
 	if (!gog_axis_map_is_valid (map)) {
 		gog_axis_map_free (map);
 		return;
 	}
-
-	/* center things */
-	center_x = view->allocation.x + view->allocation.w/2.0;
-	center_y = view->allocation.y + view->allocation.h/2.0;
 
 	path = g_alloca ((model->num_elements + 2) * sizeof (ArtVpath));
 	for (ptr = model->base.series; ptr != NULL; ptr = ptr->next) {

@@ -33,17 +33,29 @@
 #include <goffice/utils/go-math.h>
 #include <glib/gi18n.h>
 
+#include <gtk/gtktable.h>
+#include <gtk/gtkcombobox.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkliststore.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkcelllayout.h>
+
 #include <gsf/gsf-impl-utils.h>
 
 #define GOG_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_PLOT_TYPE, GogPlotClass))
 
 enum {
 	PLOT_PROP_0,
-	PLOT_PROP_VARY_STYLE_BY_ELEMENT
+	PLOT_PROP_VARY_STYLE_BY_ELEMENT,
+	PLOT_PROP_AXIS_X,
+	PLOT_PROP_AXIS_Y,
 };
 
 static GObjectClass *plot_parent_klass;
 
+static gboolean gog_plot_set_axis_by_id (GogPlot *plot, GogAxisType type, unsigned id);
+static unsigned gog_plot_get_axis_id (GogPlot const *plot, GogAxisType type);
+	
 static void
 gog_plot_finalize (GObject *obj)
 {
@@ -121,6 +133,109 @@ role_series_pre_remove (GogObject *parent, GogObject *series)
 	gog_plot_request_cardinality_update (plot);
 }
 
+typedef struct {
+	GogPlot		*plot;
+	GogAxisType	type;
+} PlotPrefState;
+
+static void
+cb_axis_changed (GtkComboBox *combo, PlotPrefState *state)
+{
+	GtkTreeIter iter;
+	GValue value;
+	GtkTreeModel *model = gtk_combo_box_get_model (combo);
+
+	gtk_combo_box_get_active_iter (combo, &iter);
+	gtk_tree_model_get_value (model, &iter, 1, &value);
+	gog_plot_set_axis_by_id (state->plot, state->type, g_value_get_uint (&value));
+}
+
+static void
+gog_plot_populate_editor (GogObject *obj,
+			  GogEditor *editor,
+			  G_GNUC_UNUSED GogDataAllocator *dalloc,
+			  GOCmdContext *cc)
+{
+	static const char *axis_labels[7] = { 
+		N_("X axis:"), 
+		N_("Y axis:"), 
+		N_("Z axis:"), 
+		N_("Circular axis:"), 
+		N_("Radial axis:"), 
+		N_("Type axis:"), 
+		N_("Pseudo 3D axis:")
+	};
+	
+	GtkWidget *table, *combo;
+	GogAxisType type;
+	GogPlot *plot = GOG_PLOT (obj);
+	unsigned count = 0, axis_count;
+	GSList *axes, *ptr;
+	GogChart *chart = GOG_CHART (gog_object_get_parent (obj));
+	GogAxis *axis;
+	GtkListStore *store;
+	GtkTreeIter iter;
+	GtkCellRenderer *cell;
+	PlotPrefState *state;
+
+	g_return_if_fail (chart != NULL);
+
+	table = gtk_table_new (0, 1, FALSE);
+	for (type = 0 ; type < GOG_AXIS_TYPES ; type++) {
+		if (plot->axis[type] != NULL) {
+			count++;
+			gtk_table_resize (GTK_TABLE (table), count, 1);
+			gtk_table_attach (GTK_TABLE (table), gtk_label_new (_(axis_labels[type])),
+					  0, 1, count - 1, count, 0, 0, 0, 0);
+
+			store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_UINT);
+			combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
+
+			cell = gtk_cell_renderer_text_new ();
+			gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
+			gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell,
+							"text", 0,
+							NULL);
+			
+			axes = gog_chart_get_axes (chart, type);
+			axis_count = 0;
+			for (ptr = axes; ptr != NULL; ptr = ptr->next) {
+				axis = GOG_AXIS (ptr->data);
+				gtk_list_store_prepend (store, &iter);
+				gtk_list_store_set (store, &iter, 
+					0, gog_object_get_name (GOG_OBJECT (axis)), 
+					1, gog_object_get_id (GOG_OBJECT (axis)),
+					-1);
+				if (axis == plot->axis[type])
+					gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter); 
+				axis_count++;
+			}
+			if (axis_count < 2)
+				gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
+			g_slist_free (axes);
+			gtk_table_attach (GTK_TABLE (table), combo,
+					  1, 2, count - 1, count, 0, 0, 0, 0);
+			state = g_new (PlotPrefState, 1);
+			state->plot = plot;
+			state->type = type;
+			g_signal_connect (G_OBJECT (combo), "changed",
+					  G_CALLBACK (cb_axis_changed), state);
+			g_object_set_data_full (G_OBJECT (combo),
+						"state", state, (GDestroyNotify) g_free);
+		}
+	}
+
+	if (count > 0) {
+		gtk_table_set_col_spacings (GTK_TABLE (table), 12);
+		gtk_table_set_row_spacings (GTK_TABLE (table), 6);
+		gtk_container_set_border_width (GTK_CONTAINER (table), 12);
+		gtk_widget_show_all (table);
+		gog_editor_add_page (editor, table, _("Axes"));
+	}
+	else
+		g_object_unref (G_OBJECT (table));
+}
+
 static void
 gog_plot_set_property (GObject *obj, guint param_id,
 		       GValue const *value, GParamSpec *pspec)
@@ -136,6 +251,12 @@ gog_plot_set_property (GObject *obj, guint param_id,
 			plot->vary_style_by_element = b_tmp;
 			gog_plot_request_cardinality_update (plot);
 		}
+		break;
+	case PLOT_PROP_AXIS_X:
+		gog_plot_set_axis_by_id (plot, GOG_AXIS_X, g_value_get_uint (value));
+		break;
+	case PLOT_PROP_AXIS_Y:
+		gog_plot_set_axis_by_id (plot, GOG_AXIS_Y, g_value_get_uint (value));
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -153,6 +274,12 @@ gog_plot_get_property (GObject *obj, guint param_id,
 		g_value_set_boolean (value,
 			plot->vary_style_by_element &&
 			gog_plot_supports_vary_style_by_element (plot));
+		break;
+	case PLOT_PROP_AXIS_X:
+		g_value_set_uint (value, gog_plot_get_axis_id (plot, GOG_AXIS_X));
+		break;
+	case PLOT_PROP_AXIS_Y:
+		g_value_set_uint (value, gog_plot_get_axis_id (plot, GOG_AXIS_Y));
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -191,11 +318,21 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 	gobject_klass->finalize		= gog_plot_finalize;
 	gobject_klass->set_property	= gog_plot_set_property;
 	gobject_klass->get_property	= gog_plot_get_property;
+	gog_klass->populate_editor	= gog_plot_populate_editor;
+
 	g_object_class_install_property (gobject_klass, PLOT_PROP_VARY_STYLE_BY_ELEMENT,
 		g_param_spec_boolean ("vary_style_by_element", "vary_style_by_element",
 			"Use a different style for each segments",
 			FALSE,
 			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT|GOG_PARAM_FORCE_SAVE));
+	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_X,
+		g_param_spec_uint ("x_axis", "x_axis", "Reference to X axis",
+			0, G_MAXINT, 0,
+			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_Y,
+		g_param_spec_uint ("y_axis", "y_axis", "Reference to Y axis",
+			0, G_MAXINT, 0,
+			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 
 	gog_klass->children_reordered = gog_plot_children_reordered;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
@@ -478,6 +615,37 @@ gog_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
 	return type == GOG_AXIS_SET_NONE;
 }
 
+static gboolean
+gog_plot_set_axis_by_id (GogPlot *plot, GogAxisType type, unsigned id)
+{
+	GogChart const *chart;
+	GogAxis *axis;
+	GSList *axes, *ptr;
+	gboolean found = FALSE;
+
+	g_return_val_if_fail (GOG_PLOT (plot) != NULL, FALSE);
+	g_return_val_if_fail (GOG_OBJECT (plot)->parent != NULL, FALSE);
+
+	chart = gog_plot_get_chart (plot);
+	g_return_val_if_fail (GOG_CHART (chart) != NULL, FALSE);
+
+	axes = gog_chart_get_axes (chart, type);
+	g_return_val_if_fail (axes != NULL, FALSE);
+
+	for (ptr = axes; ptr != NULL && !found; ptr = ptr->next) {
+		axis = GOG_AXIS (ptr->data);
+		if (gog_object_get_id (GOG_OBJECT (axis)) == id) {
+			if (plot->axis[type] != NULL)
+				gog_axis_del_contributor (plot->axis[type], GOG_OBJECT (plot));
+			plot->axis[type] = axis;
+			gog_axis_add_contributor (axis, GOG_OBJECT (plot));
+			found = TRUE;
+		}
+	}		
+	g_slist_free (axes);
+	return found;
+}
+
 gboolean
 gog_plot_axis_set_assign (GogPlot *plot, GogAxisSet axis_set)
 {
@@ -495,7 +663,7 @@ gog_plot_axis_set_assign (GogPlot *plot, GogAxisSet axis_set)
 				plot->axis[type] = NULL;
 			}
 		} else if (axis_set & (1 << type)) {
-			GSList *axes = gog_chart_get_axis (chart, type);
+			GSList *axes = gog_chart_get_axes (chart, type);
 			if (axes != NULL) {
 				gog_axis_add_contributor (axes->data, GOG_OBJECT (plot));
 				plot->axis[type] = axes->data;
@@ -529,6 +697,14 @@ gog_plot_axis_clear (GogPlot *plot, GogAxisSet filter)
 			gog_axis_del_contributor (plot->axis[type], GOG_OBJECT (plot));
 			plot->axis[type] = NULL;
 		}
+}
+
+static unsigned
+gog_plot_get_axis_id (GogPlot const *plot, GogAxisType type)
+{
+	GogAxis *axis = gog_plot_get_axis (plot, type);
+	
+	return axis != NULL ? gog_object_get_id (GOG_OBJECT (axis)) : 0;
 }
 
 GogAxis	*

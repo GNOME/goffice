@@ -28,6 +28,22 @@
 
 G_BEGIN_DECLS
 
+typedef struct {
+	char const	*label;		/* label for notebook page */
+	gpointer 	 widget;	/* GtkWidget* */	
+} GogEditorPage;
+
+typedef struct {
+	unsigned	*store_page;	/* pointer to a place for storing last edited page */
+	GSList		*pages;		/* GogEditorPage */
+} GogEditor;
+
+GogEditor	*gog_editor_new 		 (void);
+void		 gog_editor_add_page 		 (GogEditor *editor, gpointer widget, char const *label);
+void 		 gog_editor_set_store_page  	 (GogEditor *editor, unsigned *store_page);
+gpointer 	 gog_editor_get_notebook 	 (GogEditor *editor);
+void 		 gog_editor_free 		 (GogEditor *editor);
+
 typedef enum {
 	GOG_OBJECT_NAME_BY_ROLE	 = 1,
 	GOG_OBJECT_NAME_BY_TYPE  = 2,
@@ -60,8 +76,10 @@ struct _GogObjectRole {
 struct _GogObject {
 	GObject		 base;
 
-	char		*user_name;	/* user assigned, NULL will fall back to id */
-	char		*id;	/* system generated */
+	unsigned	 id;
+	char		*user_name;	/* user assigned, NULL will fall back to system generated */
+	char		*auto_name;	/* system generated, in current locale */
+	
 	GogObjectRole const *role;
 
 	GogObject	*parent;
@@ -87,8 +105,10 @@ typedef struct {
 	void	     (*update)		(GogObject *obj);
 	void	     (*parent_changed)	(GogObject *obj, gboolean was_set);
 	char const  *(*type_name)	(GogObject const *obj);
-	gpointer     (*editor)		(GogObject *obj,
-					 GogDataAllocator *dalloc, GOCmdContext *cc);
+	void	     (*populate_editor)	(GogObject *obj, 
+					 GogEditor *editor,
+					 GogDataAllocator *dalloc, 
+					 GOCmdContext *cc);
 
 	/* signals */
 	void (*changed)		(GogObject *obj, gboolean size);
@@ -117,7 +137,7 @@ GogObject   *gog_object_get_parent	 (GogObject const *obj);
 GogObject   *gog_object_get_parent_typed (GogObject const *obj, GType t);
 GogGraph    *gog_object_get_graph	 (GogObject const *obj);
 GogTheme    *gog_object_get_theme	 (GogObject const *obj);
-char const  *gog_object_get_id		 (GogObject const *obj);
+unsigned     gog_object_get_id		 (GogObject const *obj);
 char const  *gog_object_get_name	 (GogObject const *obj);
 void	     gog_object_set_name	 (GogObject *obj, char *name, GError **err);
 GSList      *gog_object_get_children	 (GogObject const *obj, GogObjectRole const *filter);
@@ -147,7 +167,7 @@ gboolean gog_object_request_update	(GogObject *obj);
 void 	 gog_object_emit_changed	(GogObject *obj, gboolean size);
 gboolean gog_object_clear_parent	(GogObject *obj);
 gboolean gog_object_set_parent	 	(GogObject *child, GogObject *parent,
-					 GogObjectRole const *role, char *name);
+					 GogObjectRole const *role, unsigned id);
 void 	 gog_object_register_roles	(GogObjectClass *klass,
 					 GogObjectRole const *roles, unsigned n_roles);
 

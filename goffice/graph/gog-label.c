@@ -95,11 +95,13 @@ gog_label_finalize (GObject *obj)
 	(*label_parent_klass->finalize) (obj);
 }
 
-static gpointer
-gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, GOCmdContext *cc)
+static void
+gog_label_populate_editor (GogObject *gobj, 
+			   GogEditor *editor, 
+			   GogDataAllocator *dalloc, 
+			   GOCmdContext *cc)
 {
 	static guint label_pref_page = 0;
-	GtkWidget *notebook = gtk_notebook_new ();
 	GtkWidget *hbox = gtk_hbox_new (FALSE, 12);
 	GtkWidget *alignment = gtk_alignment_new (0, 0, 1, 0);
 
@@ -111,11 +113,10 @@ gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, GOCmdContext *cc)
 		TRUE, TRUE, 0);
 	gtk_container_add (GTK_CONTAINER (alignment), hbox);
 	gtk_widget_show_all (alignment);
-	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), alignment,
-		gtk_label_new (_("Data")));
-	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
-	gog_style_handle_notebook (notebook, &label_pref_page);
-	return notebook;
+
+	gog_editor_add_page (editor, alignment, _("Data"));
+	(GOG_OBJECT_CLASS(label_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
+	gog_editor_set_store_page (editor, &label_pref_page);
 }
 
 static void
@@ -142,7 +143,7 @@ gog_label_class_init (GogLabelClass *klass)
 			"Support basic html-ish markup",
 			TRUE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 
-	gog_klass->editor	= gog_label_editor;
+	gog_klass->populate_editor	= gog_label_populate_editor;
 	gog_klass->view_type	= gog_label_view_get_type ();
 	style_klass->init_style = gog_label_init_style;
 }

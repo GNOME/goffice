@@ -103,12 +103,15 @@ gog_contour_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 }
 
 extern gpointer gog_contour_plot_pref (GogContourPlot *plot, GOCmdContext *cc);
-static gpointer
-gog_contour_plot_editor (GogObject *item,
+static void
+gog_contour_plot_populate_editor (GogObject *item,
+				  GogEditor *editor,
 		    G_GNUC_UNUSED GogDataAllocator *dalloc,
 		    GOCmdContext *cc)
 {
-	return gog_contour_plot_pref (GOG_CONTOUR_PLOT (item), cc);
+	gog_editor_add_page (editor,
+			     gog_contour_plot_pref (GOG_CONTOUR_PLOT (item), cc),
+			     _("Properties"));
 }
 static void
 gog_contour_plot_clear_formats (GogContourPlot *plot)
@@ -355,7 +358,7 @@ gog_contour_plot_class_init (GogPlotClass *gog_plot_klass)
 	gog_object_klass->update	= gog_contour_plot_update;
 	gog_object_klass->type_name	= gog_contour_plot_type_name;
 	gog_object_klass->view_type	= gog_contour_view_get_type ();
-	gog_object_klass->editor	= gog_contour_plot_editor;
+	gog_object_klass->populate_editor	= gog_contour_plot_populate_editor;
 
 	g_object_class_install_property (gobject_klass, GOG_CONTOUR_PROP_LEVELS,
 		g_param_spec_uint  ("levels", "levels",

@@ -123,46 +123,44 @@ cb_index_changed (GtkSpinButton *spin_button, GogSeriesElement *element)
 	g_object_set (element, "index", (int) index, NULL);
 }
 
-static gpointer
-gog_series_element_editor (GogObject *gobj,
+static void
+gog_series_element_populate_editor (GogObject *gobj,
+				    GogEditor *editor,
 			   GogDataAllocator *dalloc,
 			   GOCmdContext *cc)
 {
 	static guint series_element_pref_page = 1;
-	GtkWidget *w, *vbox, *spin_button = NULL;
-	gpointer gse_editor = NULL;
+	GtkWidget *w, *gse_vbox = NULL, *spin_button = NULL, *vbox;
 	GogSeriesElementClass *klass = GOG_SERIES_ELEMENT_GET_CLASS (gobj);
 
-	if (klass->gse_editor)
-		gse_editor = (*klass->gse_editor) (gobj, cc);
+	if (klass->gse_populate_editor)
+		gse_vbox = (*klass->gse_populate_editor) (gobj, editor, cc);
 
-	if (gse_editor == NULL)
-		return gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, NULL);
+	(GOG_OBJECT_CLASS(gse_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
-	vbox = gtk_vbox_new (FALSE, 6);
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
 	w = gtk_hbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (w), gtk_label_new (_("Index:")),
 			    FALSE, FALSE, 0);
 	spin_button = gtk_spin_button_new_with_range (0, G_MAXINT, 1);
-
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button),
 				   GOG_SERIES_ELEMENT(gobj)->index);
 	g_signal_connect (G_OBJECT (spin_button),
 			  "value_changed",
 			  G_CALLBACK (cb_index_changed), gobj);
-
 	gtk_box_pack_start(GTK_BOX (w), spin_button, FALSE, FALSE, 0);
+	if (gse_vbox == NULL) {
+		vbox = gtk_vbox_new (FALSE, 6);
+		gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+	} else 
+		vbox = gse_vbox;
 	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (gse_editor), FALSE, FALSE, 0);
+	gtk_box_reorder_child (GTK_BOX (vbox), w, 0);
 	gtk_widget_show_all (vbox);
-	w = gtk_notebook_new ();
-	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, w);
-	gtk_notebook_append_page (GTK_NOTEBOOK (w), vbox,
-				  gtk_label_new (_("Settings")));
-	gog_style_handle_notebook (w, &series_element_pref_page);
 
-	return w;
+	if (gse_vbox == NULL)
+		gog_editor_add_page (editor, vbox, _("Settings"));
+
+	gog_editor_set_store_page (editor, &series_element_pref_page);
 }
 
 static void
@@ -190,7 +188,7 @@ gog_series_element_class_init (GogSeriesElementClass *klass)
 	gobject_klass->set_property = gog_series_element_set_property;
 	gobject_klass->get_property = gog_series_element_get_property;
 
-	gog_klass->editor 		= gog_series_element_editor;
+	gog_klass->populate_editor 	= gog_series_element_populate_editor;
 	style_klass->init_style	    	= gog_series_element_init_style;
 
 	gog_klass->use_parent_as_proxy  = TRUE;
@@ -342,8 +340,9 @@ cb_show_in_legend (GtkToggleButton *b, GObject *series)
 		NULL);
 }
 
-static gpointer
-gog_series_editor (GogObject *gobj,
+static void
+gog_series_populate_editor (GogObject *gobj,
+			    GogEditor *editor,
 		   GogDataAllocator *dalloc,
 		   GOCmdContext *cc)
 {
@@ -355,10 +354,9 @@ gog_series_editor (GogObject *gobj,
 	GogSeries *series = GOG_SERIES (gobj);
 	GogDataset *set = GOG_DATASET (gobj);
 	GogSeriesDesc const *desc;
-	GogSeriesClass	*klass = GOG_SERIES_GET_CLASS (gobj);
 	GogDataType data_type;
 
-	g_return_val_if_fail (series->plot != NULL, NULL);
+	g_return_if_fail (series->plot != NULL);
 
 	/* Are there any shared dimensions */
 	desc = &series->plot->desc.series;
@@ -417,16 +415,11 @@ gog_series_editor (GogObject *gobj,
 		0, 2, row, row+1, GTK_FILL, 0, 0, 0);
 	gtk_widget_show_all (GTK_WIDGET (table));
 
-	w = gtk_notebook_new ();
+	gog_editor_add_page (editor, GTK_WIDGET (table), _("Data"));
 
-	if (klass->populate_editor != NULL)
-		(klass->populate_editor) (GOG_SERIES (set), GTK_NOTEBOOK (w), dalloc, cc);
+	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
-	gtk_notebook_prepend_page (GTK_NOTEBOOK (w), GTK_WIDGET (table),
-		gtk_label_new (_("Data")));
-	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, w);
-	gog_style_handle_notebook (w, &series_pref_page);
-	return w;
+	gog_editor_set_store_page (editor, &series_pref_page);
 }
 
 static void
@@ -465,7 +458,7 @@ gog_series_class_init (GogSeriesClass *klass)
 	gobject_klass->set_property	= gog_series_set_property;
 	gobject_klass->get_property	= gog_series_get_property;
 
-	gog_klass->editor		= gog_series_editor;
+	gog_klass->populate_editor	= gog_series_populate_editor;
 	gog_klass->update		= gog_series_update;
 	style_klass->init_style 	= gog_series_init_style;
 	/* series do not have views, so just forward signals from the plot */

@@ -96,11 +96,20 @@ gog_styled_object_finalize (GObject *obj)
 	(*parent_klass->finalize) (obj);
 }
 
-static gpointer
-styled_object_editor (GogObject *gobj, GogDataAllocator *dalloc,
+static void
+styled_object_populate_editor (GogObject *gobj, 
+			       GogEditor *editor,
+			       GogDataAllocator *dalloc,
 		      GOCmdContext *cc)
 {
-	return gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, NULL);
+	GogStyledObject *gso = GOG_STYLED_OBJECT (gobj);
+	GogStyle *style = gog_style_dup (gog_styled_object_get_style (gso));
+	GogStyle *default_style = gog_styled_object_get_auto_style (gso);
+
+	gog_style_populate_editor (style, editor, default_style, cc, G_OBJECT (gso), TRUE);
+
+	g_object_unref (style);
+	g_object_unref (default_style);
 }
 
 static void
@@ -140,10 +149,11 @@ gog_styled_object_class_init (GogObjectClass *gog_klass)
 		1, G_TYPE_OBJECT);
 
 	parent_klass = g_type_class_peek_parent (gog_klass);
+
 	gobject_klass->set_property = gog_styled_object_set_property;
 	gobject_klass->get_property = gog_styled_object_get_property;
 	gobject_klass->finalize	    = gog_styled_object_finalize;
-	gog_klass->editor    	    = styled_object_editor;
+	gog_klass->populate_editor  = styled_object_populate_editor;
 	gog_klass->parent_changed   = gog_styled_object_parent_changed;
 	style_klass->init_style	    = gog_styled_object_init_style;
 

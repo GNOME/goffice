@@ -27,6 +27,16 @@
 
 G_BEGIN_DECLS
 
+typedef struct {
+	double		 a[3][3];
+	double		 b[3];
+	GogAxisSet	 axis_set;
+} GogChartMap;
+
+GogChartMap 	*gog_chart_map_new (GogChart *chart, GogViewAllocation const *area);
+void 		 gog_chart_map_2D (GogChartMap *map, double x, double y, double *xx, double *yy);
+void		 gog_chart_map_free (GogChartMap *map);
+	
 #define GOG_CHART_TYPE	(gog_chart_get_type ())
 #define GOG_CHART(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_CHART_TYPE, GogChart))
 #define IS_GOG_CHART(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_CHART_TYPE))
@@ -45,10 +55,10 @@ void	 gog_chart_foreach_elem	   (GogChart *chart, gboolean only_visible,
 				    GogEnumFunc handler, gpointer data);
 GSList	*gog_chart_get_plots	   (GogChart const *chart);
 
-GogAxisSet gog_chart_axis_set	     (GogChart const *chart);
+GogAxisSet gog_chart_get_axis_set    (GogChart const *chart);
 gboolean gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type);
 gboolean gog_chart_axis_set_assign   (GogChart *chart, GogAxisSet type);
-GSList	*gog_chart_get_axis	     (GogChart const *chart, GogAxisType type);
+GSList	*gog_chart_get_axes	     (GogChart const *chart, GogAxisType type);
 
 GogGrid *gog_chart_get_grid	     (GogChart const *chart);
 

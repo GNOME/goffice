@@ -449,19 +449,23 @@ gog_series1_5d_get_property (GObject *obj, guint param_id,
 }
 
 static void 
-gog_series1_5d_populate_editor (GogSeries *series,
-				GtkNotebook *book,
+gog_series1_5d_populate_editor (GogObject *obj,
+				GogEditor *editor,
 				GogDataAllocator *dalloc,
 				GOCmdContext *cc)
 {
+	GogSeries *series = GOG_SERIES (obj);
 	GtkWidget * error_page;
 	gboolean horizontal;
+
+	(GOG_OBJECT_CLASS (gog_series1_5d_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
+
 	if (g_object_class_find_property (G_OBJECT_GET_CLASS (series->plot), "horizontal") == NULL)
 		horizontal = FALSE;
 	else
 		g_object_get (G_OBJECT (series->plot), "horizontal", &horizontal, NULL);
 	error_page = gog_error_bar_prefs (series, "errors", horizontal, dalloc, cc);
-	gtk_notebook_prepend_page (book, error_page, gtk_label_new (_("Error bars")));
+	gog_editor_add_page (editor, error_page, _("Error bars"));
 }
 
 static void
@@ -471,10 +475,11 @@ gog_series1_5d_class_init (GogObjectClass *obj_klass)
 	GogSeriesClass *gog_series_klass = (GogSeriesClass*) obj_klass;
 
 	gog_series1_5d_parent_klass = g_type_class_peek_parent (obj_klass);
-	obj_klass->update = gog_series1_5d_update;
+
 	gobject_klass->set_property = gog_series1_5d_set_property;
 	gobject_klass->get_property = gog_series1_5d_get_property;
-	gog_series_klass->populate_editor = gog_series1_5d_populate_editor;
+	obj_klass->update 	      = gog_series1_5d_update;
+	obj_klass->populate_editor    = gog_series1_5d_populate_editor;
 	gog_series_klass->dim_changed = gog_series1_5d_dim_changed;
 
 	g_object_class_install_property (gobject_klass, SERIES_PROP_ERRORS,

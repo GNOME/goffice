@@ -846,7 +846,7 @@ cb_font_changed (GOFontSel *fs, G_GNUC_UNUSED gpointer mstyle,
 }
 
 static void
-font_init (StylePrefState *state, guint32 enable, gpointer optional_notebook)
+font_init (StylePrefState *state, guint32 enable, GogEditor *editor)
 {
 	GogStyle *style = state->style;
 	GtkWidget *w, *box;
@@ -855,7 +855,6 @@ font_init (StylePrefState *state, guint32 enable, gpointer optional_notebook)
 		return;
 
 	g_return_if_fail (style->font.font != NULL);
-	g_return_if_fail (GTK_NOTEBOOK (optional_notebook) != NULL);
 
 	box = gtk_vbox_new (FALSE, 5);
 	gtk_container_set_border_width (GTK_CONTAINER (box), 12);
@@ -874,9 +873,7 @@ font_init (StylePrefState *state, guint32 enable, gpointer optional_notebook)
 	gtk_box_pack_end (GTK_BOX (box), w, TRUE, TRUE, 0);
 	gtk_widget_show (w);
 
-	gtk_notebook_prepend_page (GTK_NOTEBOOK (optional_notebook), box,
-		gtk_label_new (_("Font")));
-	gtk_widget_show (GTK_WIDGET (optional_notebook));
+	gog_editor_add_page (editor, box, _("Font"));
 }
 
 /************************************************************************/
@@ -909,11 +906,11 @@ gog_style_pref_state_free (StylePrefState *state)
 	g_free (state);
 }
 
-static gpointer
-style_editor (GogStyle *style,
+void
+gog_style_populate_editor (GogStyle *style,
+			   GogEditor *editor,
 	      GogStyle *default_style,
 	      GOCmdContext *cc,
-	      gpointer	 optional_notebook,
 	      GObject	*object_with_style,
 	      gboolean   watch_for_external_change)
 {
@@ -922,14 +919,14 @@ style_editor (GogStyle *style,
 	GladeXML *gui;
 	StylePrefState *state;
 
-	g_return_val_if_fail (style != NULL, NULL);
-	g_return_val_if_fail (default_style != NULL, NULL);
+	g_return_if_fail (style != NULL);
+	g_return_if_fail (default_style != NULL);
 
 	enable = style->interesting_fields;
 
 	gui = go_libglade_new ("gog-style-prefs.glade", "gog_style_prefs", NULL, cc);
 	if (gui == NULL)
-		return NULL;
+		return;
 
 	g_object_ref (style);
 	g_object_ref (default_style);
@@ -941,11 +938,16 @@ style_editor (GogStyle *style,
 	state->object_with_style = object_with_style;
 	state->enable_edit = FALSE;
 
+ 	w = glade_xml_get_widget (gui, "gog_style_prefs");
+	g_object_set_data_full (G_OBJECT (w),
+		"state", state, (GDestroyNotify) gog_style_pref_state_free);
+	gog_editor_add_page (editor, w, _("Style"));
+	
 	outline_init (state, enable & GOG_STYLE_OUTLINE);
 	line_init    (state, enable & GOG_STYLE_LINE);
 	fill_init    (state, enable & GOG_STYLE_FILL);
 	marker_init  (state, enable & GOG_STYLE_MARKER);
-	font_init    (state, enable & GOG_STYLE_FONT, optional_notebook);
+	font_init    (state, enable & GOG_STYLE_FONT, editor);
 
 	state->enable_edit = TRUE;
 
@@ -956,41 +958,24 @@ style_editor (GogStyle *style,
 		g_object_weak_ref (G_OBJECT (object_with_style),
 			(GWeakNotify) cb_parent_is_gone, state);
 	}
-
- 	w = glade_xml_get_widget (gui, "gog_style_prefs");
-	g_object_set_data_full (G_OBJECT (w),
-		"state", state, (GDestroyNotify) gog_style_pref_state_free);
-
-	if (optional_notebook != NULL) {
-		gtk_notebook_prepend_page (GTK_NOTEBOOK (optional_notebook), w,
-					   gtk_label_new (_("Style")));
-		return GTK_WIDGET (optional_notebook);
-	}
-	return w;
 }
 
 gpointer
-gog_style_editor (GogStyle *style,
+gog_style_get_editor (GogStyle *style,
 		  GogStyle *default_style,
 		  GOCmdContext *cc,
-		  gpointer optional_notebook,
 		  GObject *object_with_style)
 {
-	return style_editor (style, default_style, cc, optional_notebook,
-		object_with_style, FALSE);
-}
+	GtkWidget *notebook;
+	GogEditor *editor = gog_editor_new ();
 
-gpointer
-gog_styled_object_editor (GogStyledObject *gso, GOCmdContext *cc, gpointer optional_notebook)
-{
-	GogStyle *style = gog_style_dup (gog_styled_object_get_style (gso));
-	GogStyle *default_style = gog_styled_object_get_auto_style (gso);
-	gpointer editor = style_editor (style, default_style, cc,
-		optional_notebook, G_OBJECT (gso), TRUE);
-	g_object_unref (style);
-	g_object_unref (default_style);
+	gog_style_populate_editor (style, editor, default_style, cc, 
+				   object_with_style, FALSE);
 
-	return editor;
+	notebook = gog_editor_get_notebook (editor);
+	gog_editor_free (editor);
+	gtk_widget_show (notebook);
+	return notebook;
 }
 
 /*****************************************************************************/
@@ -1823,23 +1808,4 @@ gog_style_set_fill_image_filename (GogStyle *style, char *filename)
 
 	style->fill.image.filename = filename;
 	style->fill.image.image = gdk_pixbuf_new_from_file (filename, NULL);
-}
-
-static void
-cb_switch_page (G_GNUC_UNUSED GtkNotebook *n, G_GNUC_UNUSED GtkNotebookPage *p,
-		guint page_num, guint *store_page)
-{
-		*store_page = page_num;
-}
-
-void
-gog_style_handle_notebook (gpointer notebook, guint *page)
-{
-	g_return_if_fail (GTK_NOTEBOOK (notebook) != NULL);
-	g_return_if_fail (page != NULL);
-
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), *page);
-	g_signal_connect (G_OBJECT (notebook),
-		"switch_page",
-		G_CALLBACK (cb_switch_page), page);
 }

@@ -529,14 +529,14 @@ gog_graph_view_set_property (GObject *gobject, guint param_id,
 }
 
 static void
-gog_graph_view_size_allocate (GogView *view, GogViewAllocation const *a)
+gog_graph_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 {
 	GSList *ptr;
 	double h, w;
 	unsigned x, y, rows, cols;
 	GogView *child;
 	GogGraph *graph = GOG_GRAPH (view->model);
-	GogViewAllocation tmp, res = *a;
+	GogViewAllocation tmp, res = *bbox;
 
 	(gview_parent_klass->size_allocate) (view, &res);
 

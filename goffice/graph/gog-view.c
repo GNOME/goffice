@@ -190,6 +190,25 @@ gog_view_finalize (GObject *obj)
 }
 
 static void
+gog_view_padding_request_real (GogView *view, GogViewAllocation const *bbox, GogViewPadding *padding)
+{
+	GSList *ptr;
+	GogView *child;
+	GogViewPadding child_padding;
+
+	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+		child = ptr->data;
+		if (child->model->position == GOG_POSITION_PADDING) {
+			gog_view_padding_request (child, bbox, &child_padding);
+			padding->wr = MAX (padding->wr, child_padding.wr);
+			padding->wl = MAX (padding->wl, child_padding.wl);
+			padding->hb = MAX (padding->hb, child_padding.hb);
+			padding->ht = MAX (padding->ht, child_padding.ht);
+		}
+	}
+}
+
+static void
 gog_view_size_request_real (GogView *view, GogViewRequisition *req)
 {
 	req->w = req->h = 1.;
@@ -291,10 +310,11 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 				}
 
 			gog_view_size_allocate (child, &tmp);
-		} else if (pos != GOG_POSITION_SPECIAL)
+		} else if (pos != GOG_POSITION_SPECIAL && pos != GOG_POSITION_PADDING)
 			g_warning ("unexpected position %x for child %p of %p",
 				   pos, child, view);
 	}
+
 	view->residual = res;
 }
 
@@ -315,6 +335,7 @@ gog_view_class_init (GogViewClass *view_klass)
 	parent_klass = g_type_class_peek_parent (view_klass);
 	gobject_klass->set_property = gog_view_set_property;
 	gobject_klass->finalize	    = gog_view_finalize;
+	view_klass->padding_request	  = gog_view_padding_request_real;
 	view_klass->size_request    = gog_view_size_request_real;
 	view_klass->size_allocate   = gog_view_size_allocate_real;
 	view_klass->render	    = gog_view_render_real;
@@ -395,6 +416,22 @@ gog_view_queue_resize (GogView *view)
 	while (NULL != (view = view->parent) && view->allocation_valid);
 #endif
 }
+
+void
+gog_view_padding_request (GogView *view, GogViewAllocation const *bbox, GogViewPadding *padding)
+{
+	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
+	
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (padding != NULL);
+	g_return_if_fail (bbox != NULL);
+
+	padding->wl = padding->wr = padding->ht = padding->hb = 0.;
+
+	if (klass->padding_request != NULL)
+		(klass->padding_request) (view, bbox, padding);
+}
+
 
 /**
  * gog_view_size_request :

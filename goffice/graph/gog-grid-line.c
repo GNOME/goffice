@@ -20,15 +20,22 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-styled-object.h>
-#include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-grid-line.h>
-#include <goffice/graph/gog-styled-object.h>
-#include <goffice/graph/gog-style.h>
-#include <goffice/graph/gog-view.h>
-#include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-styled-object.h>
+#include <goffice/graph/gog-theme.h>
+#include <goffice/graph/gog-view.h>
+#include <goffice/data/go-data.h>
+
+#include <goffice/utils/go-format.h>
+#include <goffice/utils/go-math.h>
+
+#include <goffice/gtk/goffice-gtk.h>
+
 
 #include <glib/gi18n.h>
 
@@ -130,8 +137,25 @@ typedef GogView		GogGridLineView;
 typedef GogViewClass	GogGridLineViewClass;
 
 #define GOG_GRID_LINE_VIEW_TYPE		(gog_grid_line_view_get_type ())
-#define GOG_GRID_LINE8VIEW(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRID_LINE_VIEW_TYPE, GogGridLineView))
+#define GOG_GRID_LINE_VIEW(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRID_LINE_VIEW_TYPE, GogGridLineView))
 #define IS_GOG_GRID_LINE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRID_LINE_VIEW_TYPE))
+
+static void
+calc_polygon_parameters (GogViewAllocation const *area, unsigned edge_nbr,
+			 double *x, double *y, double *radius)
+{
+	double width, height;
+
+	width = 2.0 * sin (2.0 * M_PI * rint (edge_nbr / 4.0) / edge_nbr);
+	height = 1.0 - cos (2.0 * M_PI * rint (edge_nbr / 2.0) / edge_nbr);
+
+	*radius = (area->w / width) > (area->h / height) ?
+		area->h / height :
+		area->w / width;
+
+	*x = area->x + area->w / 2.0;
+	*y = area->y + *radius + (area->h - *radius * height) / 2.0;
+}
 
 static void
 gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
@@ -225,26 +249,22 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				break;
 
 			case GOG_AXIS_RADIAL:
-				center_x = plot_area->x + (plot_area->w/2);
-				center_y = plot_area->y + (plot_area->h/2);
-				radius = plot_area->h > plot_area->w 
-					? plot_area->w / 2.0 
-					: plot_area->h / 2.0;
-				map = gog_axis_map_new (axis, 0., radius);
-				
-				axis_list = gog_chart_get_axis (chart, GOG_AXIS_CIRCULAR);
+				axis_list = gog_chart_get_axes (chart, GOG_AXIS_CIRCULAR);
 				if (axis_list == NULL)
 					break;
 				circular_axis = GOG_AXIS (axis_list->data);
 				g_slist_free (axis_list);
 				gog_axis_get_bounds (circular_axis, &circular_min, &circular_max);
-				num_radii = rint (circular_max);
+				num_radii = rint (circular_max) + 1;
 				if (num_radii < 3) {
-					gog_axis_map_free (map);
 					break;
 				}
 				c_path = g_new (ArtVpath, num_radii + 2);
 				c_path[num_radii + 1].code = ART_END;
+
+				calc_polygon_parameters (plot_area, num_radii, 
+							 &center_x, &center_y, &radius);
+				map = gog_axis_map_new (axis, 0., radius);
 
 				for (i = 0; i < tick_nbr; i++) {
 					if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||

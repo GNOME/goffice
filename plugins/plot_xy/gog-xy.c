@@ -392,11 +392,15 @@ gog_bubble_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 }
 
 extern gpointer gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc);
-static gpointer
-gog_bubble_plot_editor (GogObject *item, G_GNUC_UNUSED GogDataAllocator *dalloc,
+static void
+gog_bubble_plot_populate_editor (GogObject *item, 
+				 GogEditor *editor,
+				 G_GNUC_UNUSED GogDataAllocator *dalloc,
 			GOCmdContext *cc)
 {
-	return gog_bubble_plot_pref (GOG_BUBBLE_PLOT (item), cc);
+	gog_editor_add_page (editor,
+			     gog_bubble_plot_pref (GOG_BUBBLE_PLOT (item), cc),
+			     _("Properties"));
 }
 
 enum {
@@ -468,13 +472,14 @@ gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 	Gog2DPlotClass *gog_2d_plot_klass = (Gog2DPlotClass*) plot_klass;
 
 	bubble_parent_klass = g_type_class_peek_parent (plot_klass);
+
 	gobject_klass->set_property = gog_bubble_plot_set_property;
 	gobject_klass->get_property = gog_bubble_plot_get_property;
 
-	gog_2d_plot_klass->adjust_bounds = gog_bubble_plot_adjust_bounds;
 	gog_klass->type_name	= gog_bubble_plot_type_name;
+	gog_klass->populate_editor	= gog_bubble_plot_populate_editor;
 
-	gog_klass->editor	= gog_bubble_plot_editor;
+	gog_2d_plot_klass->adjust_bounds = gog_bubble_plot_adjust_bounds;
 
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_AS_AREA,
 		g_param_spec_boolean ("size_as_area", "size_as_area",
@@ -987,16 +992,19 @@ gog_xy_series_get_property (GObject *obj, guint param_id,
 }
 
 static void 
-gog_xy_series_populate_editor (GogSeries *series,
-				GtkNotebook *book,
+gog_xy_series_populate_editor (GogObject *obj,
+			       GogEditor *editor,
 				GogDataAllocator *dalloc,
 				GOCmdContext *cc)
 {
 	GtkWidget *error_page;
-	error_page = gog_error_bar_prefs (series, "y-errors", FALSE, dalloc, cc);
-	gtk_notebook_prepend_page (book, error_page, gtk_label_new (_("Y Error bars")));
-	error_page = gog_error_bar_prefs (series,"x-errors", TRUE, dalloc, cc);
-	gtk_notebook_prepend_page (book, error_page, gtk_label_new (_("X Error bars")));
+
+	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
+	
+	error_page = gog_error_bar_prefs (GOG_SERIES (obj), "x-errors", TRUE, dalloc, cc);
+	gog_editor_add_page (editor, error_page, _("X error bars"));
+	error_page = gog_error_bar_prefs (GOG_SERIES (obj), "y-errors", FALSE, dalloc, cc);
+	gog_editor_add_page (editor, error_page, _("Y error bars"));
 }
 
 static void
@@ -1004,15 +1012,15 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 {
 	GogObjectClass *gog_klass = (GogObjectClass *)gso_klass;
 	GObjectClass *gobject_klass = (GObjectClass *) gso_klass;
-	GogSeriesClass *gog_series_klass = (GogSeriesClass*) gso_klass;
 
 	series_parent_klass = g_type_class_peek_parent (gso_klass);
-	gog_klass->update	= gog_xy_series_update;
-	gso_klass->init_style	= gog_xy_series_init_style;
+
 	gobject_klass->finalize		= gog_xy_series_finalize;
 	gobject_klass->set_property = gog_xy_series_set_property;
 	gobject_klass->get_property = gog_xy_series_get_property;
-	gog_series_klass->populate_editor = gog_xy_series_populate_editor;
+	gog_klass->update		= gog_xy_series_update;
+	gog_klass->populate_editor	= gog_xy_series_populate_editor;
+	gso_klass->init_style		= gog_xy_series_init_style;
 
 	g_object_class_install_property (gobject_klass, SERIES_PROP_XERRORS,
 		g_param_spec_object ("x-errors", "x-errors",

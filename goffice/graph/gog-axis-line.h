@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-grid-line.h
+ * gog-axis-line.h :
  *
- * Copyright (C) 2004 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
+ * Copyright (C) 2005 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -19,22 +19,32 @@
  * USA
  */
 
-#ifndef GOG_GRID_LINE_H
-#define GOG_GRID_LINE_H
+#ifndef GOG_AXIS_BASE_H
+#define GOG_AXIS_BASE_H
 
-#include <goffice/graph/goffice-graph.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
 
-#define GOG_GRID_LINE_TYPE	(gog_grid_line_get_type ())
-#define GOG_GRID_LINE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRID_LINE_TYPE, GogGridLine))
-#define IS_GOG_GRID_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRID_LINE_TYPE))
+typedef enum {
+	GOG_AXIS_AT_LOW,
+	GOG_AXIS_CROSS,
+	GOG_AXIS_AT_HIGH
+} GogAxisPosition;
 
-GType gog_grid_line_get_type (void);
+typedef enum {
+	GOG_AXIS_TICK_NONE,
+	GOG_AXIS_TICK_MAJOR,
+	GOG_AXIS_TICK_MINOR
+} GogAxisTickTypes;
 
-gboolean gog_grid_line_is_minor (GogGridLine *ggl);
+#define GOG_AXIS_LINE_TYPE	(gog_axis_line_get_type ())
+#define GOG_AXIS_LINE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_AXIS_LINE_TYPE, GogAxisLine))
+#define IS_GOG_AXIS_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_AXIS_LINE_TYPE))
+
+GType gog_axis_line_get_type (void);
 
 G_END_DECLS
 
-#endif /* GOG_GRID_LINE_H */
+#endif /*GOG_AXIS_BASE_H*/
+

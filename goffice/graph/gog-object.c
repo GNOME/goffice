@@ -30,6 +30,102 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <gtk/gtknotebook.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkwidget.h>
+
+GogEditor *
+gog_editor_new (void)
+{
+	GogEditor *editor = g_new (GogEditor, 1);
+
+	editor->store_page = NULL;
+	editor->pages = NULL;
+
+	return editor;
+}
+		
+void
+gog_editor_add_page (GogEditor *editor, gpointer widget, char const *label)
+{
+	GogEditorPage *page;
+	
+	g_return_if_fail (editor != NULL);
+	page = g_new (GogEditorPage, 1);
+
+	page->widget = widget;
+	page->label = label;
+
+	editor->pages = g_slist_prepend (editor->pages, page);
+}
+
+void
+gog_editor_set_store_page (GogEditor *editor, unsigned *store_page)
+{
+	g_return_if_fail (editor != NULL);
+
+	editor->store_page = store_page;
+}
+
+static void
+cb_switch_page (G_GNUC_UNUSED GtkNotebook *n, G_GNUC_UNUSED GtkNotebookPage *p,
+		guint page_num, guint *store_page)
+{
+		*store_page = page_num;
+}
+
+gpointer
+gog_editor_get_notebook (GogEditor *editor)
+{
+	GtkWidget *notebook;
+	GogEditorPage *page;
+	GSList *ptr;
+	unsigned page_count = 0;
+	
+	notebook = gtk_notebook_new ();
+	if (editor->pages != NULL) {
+		for (ptr = editor->pages; ptr != NULL; ptr = ptr->next) {
+			page = (GogEditorPage *) ptr->data;
+			gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), 
+						   GTK_WIDGET (page->widget), 
+						   gtk_label_new (page->label));
+			gtk_widget_show (page->widget);
+			page_count ++;
+		}
+	} else {
+		/* Display a blank page */
+		GtkWidget *label =  gtk_label_new (NULL);
+		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), 
+					   label, NULL);
+		gtk_widget_show (label);
+		page_count = 1;
+	}
+
+	if (page_count == 1)
+		gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
+
+	if (editor->store_page != NULL) {
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), *editor->store_page);
+		g_signal_connect (G_OBJECT (notebook),
+				  "switch_page",
+				  G_CALLBACK (cb_switch_page), editor->store_page);
+	}
+
+	return notebook;
+}
+
+void
+gog_editor_free (GogEditor *editor)
+{
+	g_slist_foreach (editor->pages, (GFunc) g_free, NULL);
+	g_slist_free (editor->pages);
+}
+	
+enum {
+	OBJECT_PROP_0,
+	OBJECT_PROP_ID
+};
+
 enum {
 	CHILD_ADDED,
 	CHILD_REMOVED,
@@ -42,13 +138,16 @@ enum {
 static gulong gog_object_signals [LAST_SIGNAL] = { 0, };
 
 static GObjectClass *parent_klass;
+
+static void gog_object_set_id (GogObject *obj, unsigned id);
+
 static void
 gog_object_finalize (GObject *gobj)
 {
 	GogObject *obj = GOG_OBJECT (gobj);
 
 	g_free (obj->user_name); obj->user_name = NULL;
-	g_free (obj->id); obj->id = NULL;
+	g_free (obj->auto_name); obj->auto_name = NULL;
 
 	g_slist_foreach (obj->children, (GFunc) g_object_unref, NULL);
 	g_slist_free (obj->children);
@@ -71,12 +170,52 @@ gog_object_parent_changed (GogObject *child, gboolean was_set)
 }
 
 static void
+gog_object_set_property (GObject *obj, guint param_id,
+			 GValue const *value, GParamSpec *pspec)
+{
+	unsigned id;
+	
+	switch (param_id) {
+	case OBJECT_PROP_ID:
+		id = g_value_get_uint (value);
+		gog_object_set_id (GOG_OBJECT (obj), id);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+}
+
+static void
+gog_object_get_property (GObject *obj, guint param_id,
+		       GValue *value, GParamSpec *pspec)
+{
+	switch (param_id) {
+	case OBJECT_PROP_ID:
+		g_value_set_uint (value, GOG_OBJECT (obj)->id);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
 gog_object_class_init (GObjectClass *klass)
 {
 	GogObjectClass *gog_klass = (GogObjectClass *)klass;
 	parent_klass = g_type_class_peek_parent (klass);
+	
 	klass->finalize = gog_object_finalize;
+	klass->set_property	= gog_object_set_property;
+	klass->get_property	= gog_object_get_property;
+
 	gog_klass->parent_changed = gog_object_parent_changed;
+
+	g_object_class_install_property (klass, OBJECT_PROP_ID,
+		g_param_spec_uint ("id", "id", "Object ID",
+			0, G_MAXINT, 0,
+			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 
 	gog_object_signals [CHILD_ADDED] = g_signal_new ("child-added",
 		G_TYPE_FROM_CLASS (klass),
@@ -127,7 +266,8 @@ gog_object_init (GogObject *obj)
 {
 	obj->children = NULL;
 	obj->user_name = NULL;
-	obj->id = NULL;
+	obj->auto_name = NULL;
+	obj->id = 0;
 	obj->needs_update = FALSE;
 	obj->being_updated = FALSE;
 }
@@ -136,17 +276,29 @@ GSF_CLASS (GogObject, gog_object,
 	   gog_object_class_init, gog_object_init,
 	   G_TYPE_OBJECT)
 
-static char *
+static gboolean
+gog_object_is_same_type (GogObject *obj_a, GogObject *obj_b)
+{
+	g_return_val_if_fail (obj_a->role != NULL, FALSE);
+	g_return_val_if_fail (obj_b->role != NULL, FALSE);
+
+	if (obj_a->role->naming_conv != obj_b->role->naming_conv)
+		return FALSE;
+
+	if (obj_a->role->naming_conv == GOG_OBJECT_NAME_BY_ROLE)
+		return (obj_a->role == obj_b->role);
+
+	return (G_OBJECT_TYPE (obj_a) == G_OBJECT_TYPE (obj_b));
+}
+	
+static void 
 gog_object_generate_name (GogObject *obj)
 {
 	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (obj);
-	GogObject *tmp;
 	char const *type_name;
-	unsigned name_len, i, max_index = 0;
-	GSList *ptr;
 
-	g_return_val_if_fail (klass != NULL, NULL);
-	g_return_val_if_fail (obj->role != NULL, NULL);
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (obj->role != NULL);
 
 	switch (obj->role->naming_conv) {
 	default :
@@ -155,29 +307,86 @@ gog_object_generate_name (GogObject *obj)
 			   obj->role->id);
 
 	case GOG_OBJECT_NAME_BY_ROLE :
-		g_return_val_if_fail (obj->role != NULL, NULL);
+		g_return_if_fail (obj->role != NULL);
 		type_name = _(obj->role->id);
 		break;
 
 	case GOG_OBJECT_NAME_BY_TYPE :
-		g_return_val_if_fail (klass->type_name != NULL, NULL);
+		g_return_if_fail (klass->type_name != NULL);
 		type_name = _((*klass->type_name) (obj));
 		break;
 	}
 
-	g_return_val_if_fail (type_name != NULL, NULL);
-	name_len = strlen (type_name);
+	if (type_name == NULL) 
+		type_name =  "BROKEN";
+
+	g_free (obj->auto_name);
+	obj->auto_name =  g_strdup_printf ("%s%d", type_name, obj->id);
+}
+
+unsigned 
+gog_object_get_id (GogObject const *obj)
+{
+	g_return_val_if_fail (GOG_OBJECT (obj) != NULL, 0);
+	g_return_val_if_fail (obj != 0, 0);
+
+	return obj->id;
+}
+
+static void
+gog_object_generate_id (GogObject *obj)
+{
+	GSList *ptr;
+	unsigned id_max = 0;
+	GogObject *child;
+
+	obj->id = 0;
+
+	if (obj->parent == NULL)
+		return;
 
 	for (ptr = obj->parent->children; ptr != NULL ; ptr = ptr->next) {
-		tmp = GOG_OBJECT (ptr->data);
-		if (tmp->id != NULL &&
-		    0 == strncmp (type_name, tmp->id, name_len)) {
-			i = strtol (tmp->id + name_len, NULL, 10);
-			if (max_index < i)
-				max_index = i;
-		}
+		child = GOG_OBJECT (ptr->data);
+		if (gog_object_is_same_type (obj, child))
+		    id_max = MAX (child->id, id_max);
 	}
-	return g_strdup_printf ("%s%d", type_name, max_index + 1);
+	obj->id = id_max + 1;
+	
+	gog_object_generate_name (obj);
+}
+
+static void
+gog_object_set_id (GogObject *obj, unsigned id)
+{
+	gboolean found = FALSE;
+	GSList *ptr;
+	GogObject *child;
+	
+	g_return_if_fail (GOG_OBJECT (obj) != NULL);
+
+	if (id == 0) 
+		return gog_object_generate_id (obj);
+
+	g_return_if_fail (GOG_OBJECT (obj)->parent != NULL);
+		
+	for (ptr = obj->parent->children; ptr != NULL && !found; ptr = ptr->next) {
+		child = GOG_OBJECT (ptr->data);
+		found = child->id == id &&
+			gog_object_is_same_type (obj, child) &&
+			ptr->data != obj;
+		}
+	
+	if (found) {
+		g_warning ("id %u already exists", id);
+		gog_object_generate_id (obj);
+		return;
+	}
+
+	if (id == obj->id)
+		return;
+	
+	obj->id = id;
+	gog_object_generate_name (obj);
 }
 
 /**
@@ -305,7 +514,7 @@ char const *
 gog_object_get_name (GogObject const *obj)
 {
 	g_return_val_if_fail (GOG_OBJECT (obj) != NULL, NULL);
-	return (obj->user_name != NULL && *obj->user_name != '\0') ? obj->user_name : obj->id;
+	return (obj->user_name != NULL && *obj->user_name != '\0') ? obj->user_name : obj->auto_name;
 }
 
 /**
@@ -417,7 +626,7 @@ gog_object_position_cmp (GogObjectPosition pos)
 {
 	if (pos & GOG_POSITION_COMPASS)
 		return 0;
-	if (pos == GOG_POSITION_SPECIAL)
+	if (pos == GOG_POSITION_PADDING || pos == GOG_POSITION_SPECIAL)
 		return 2;
 	return 1; /* GOG_POSITION_MANUAL */
 }
@@ -586,19 +795,30 @@ gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
  * @cc     : #GOCmdContext
  *
  **/
+
 gpointer
 gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
 		       GOCmdContext *cc)
 {
+	GtkWidget *notebook;
+	GogEditor *editor;
 	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (obj);
+	
 	g_return_val_if_fail (klass != NULL, NULL);
-	if (klass->editor) {
+
+	editor = gog_editor_new ();
+	if (klass->populate_editor) {
 		/* If there are pending updates do them before creating the editor
 		 * to avoid expensive widget changes later */
 		gog_graph_force_update (gog_object_get_graph (obj));
-		return (*klass->editor) (obj, dalloc, cc);
+		(*klass->populate_editor) (obj, editor, dalloc, cc);
 	}
-	return NULL;
+
+	notebook = gog_editor_get_notebook (editor);
+
+	gog_editor_free (editor);
+
+	return notebook;
 }
 
 /**
@@ -735,7 +955,7 @@ gog_object_clear_parent (GogObject *obj)
  **/
 gboolean
 gog_object_set_parent (GogObject *child, GogObject *parent,
-		       GogObjectRole const *role, char *id)
+		       GogObjectRole const *role, unsigned id)
 {
 	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (child);
 	GSList **step;
@@ -755,10 +975,10 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
 		step = &((*step)->next);
 	*step = g_slist_prepend (*step, child);
 
-	g_free (child->id);
-	g_free (child->user_name);
-	child->id = (id != NULL) ? id : gog_object_generate_name (child);
-	if (child->id == NULL) child->id = g_strdup ("BROKEN");
+	if (id != 0)
+		gog_object_set_id (child, id);
+	else
+		gog_object_generate_id (child);
 
 	if (role->post_add != NULL)
 		(role->post_add) (parent, child);
@@ -790,7 +1010,7 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
 
 	g_return_val_if_fail (G_TYPE_CHECK_INSTANCE_TYPE (child, is_a), NULL);
 	child->explicitly_typed_role = explicitly_typed_role;
-	if (gog_object_set_parent (child, parent, role, NULL))
+	if (gog_object_set_parent (child, parent, role, 0))
 		return child;
 	g_object_unref (child);
 	return NULL;

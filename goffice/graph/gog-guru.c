@@ -687,7 +687,7 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 	gboolean dec_ok = FALSE;
 	GtkTreeModel *model;
 	GogObject  *obj = NULL;
-	GtkWidget *w, *editor, *notebook;
+	GtkWidget *w, *notebook;
 	GtkTreePath *path;
 
 	if (gtk_tree_selection_get_selected (s->prop_selection, &model, &s->prop_iter))
@@ -776,19 +776,9 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 		gog_object_can_reorder (obj, &inc_ok, &dec_ok);
 
 		/* create a prefs page for the graph obj */
-		editor = gog_object_get_editor (obj, s->dalloc, s->cc);
-		if (GTK_IS_NOTEBOOK (editor)) {
-			notebook = editor;
-		} else {
-			notebook = gtk_notebook_new ();
-			gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
-			if (editor == NULL) 
-				editor = gtk_label_new (NULL); /* dummy widget for empty page */ 
-			gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), editor, NULL);
-			gtk_widget_show (editor);
-		}
-		gtk_container_add (s->prop_container, notebook);
+		notebook = gog_object_get_editor (obj, s->dalloc, s->cc);
 		gtk_widget_show (notebook);
+		gtk_container_add (s->prop_container, notebook);
 	}
 
 	gtk_widget_set_sensitive (s->delete_button, delete_ok);

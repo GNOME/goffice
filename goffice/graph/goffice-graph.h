@@ -45,6 +45,7 @@ typedef struct _GogLegend	GogLegend;
 typedef struct _GogLabel	GogLabel;
 typedef struct _GogStyledObject	GogStyledObject;
 typedef struct _GogAxis		GogAxis;
+typedef struct _GogAxisLine	GogAxisLine;
 typedef struct _GogGrid		GogGrid;
 typedef struct _GogGridLine	GogGridLine;
 typedef struct _GogErrorBar	GogErrorBar;
@@ -151,7 +152,9 @@ typedef enum {
 	GOG_POSITION_MANUAL_Y_ABS = 1 << 9,
 	GOG_POSITION_MANUAL_X_END = 1 << 10, /* pos relative to start or end */
 	GOG_POSITION_MANUAL_Y_END = 1 << 11,
-	GOG_POSITION_ANY_MANUAL   = 0xf80
+	GOG_POSITION_ANY_MANUAL   = 0xf80,
+
+	GOG_POSITION_PADDING	  = 1 << 12
 } GogObjectPosition;
 
 /* #define NO_DEBUG_CHARTS */

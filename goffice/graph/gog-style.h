@@ -21,6 +21,7 @@
 #ifndef GO_GRAPH_STYLE_H
 #define GO_GRAPH_STYLE_H
 
+#include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/utils/goffice-utils.h>
@@ -128,17 +129,16 @@ gboolean   gog_style_is_line_visible	(GogStyle const *style);
 gboolean   gog_style_is_outline_visible	(GogStyle const *style);
 void	   gog_style_force_auto		(GogStyle *style);
 
-gpointer   gog_style_editor		(GogStyle *style,
+void 	   gog_style_populate_editor 	(GogStyle *style,
+					 GogEditor *editor,
 					 GogStyle *default_style,
 					 GOCmdContext *cc,
-					 gpointer optional_notebook,
-					 GObject *object_with_style);
-gpointer   gog_styled_object_editor	(GogStyledObject *gso,
+					 GObject *object_with_style,
+					 gboolean watch_for_external_change);
+gpointer   gog_style_get_editor	     	(GogStyle *style,
+					 GogStyle *default_style,
 					 GOCmdContext *cc,
-					 gpointer optional_notebook);
-
-/* move this to the widget utils dir when we get one */
-void	   gog_style_handle_notebook	(gpointer notebook, guint *page);
+					 GObject *object_with_style);
 
 G_END_DECLS
 
