@@ -19,7 +19,18 @@ AC_INIT([goffice], [goffice_full_version],
 
 AC_CONFIG_SRCDIR(goffice/goffice.h)
 AM_INIT_AUTOMAKE([dist-bzip2])
-AM_CONFIG_HEADER(goffice/goffice-config.h)
+
+dnl This one is created by autoheader, ...
+AC_CONFIG_HEADERS(goffice/goffice-config.h)
+
+dnl ... and this one is a small subset, maintained manually,
+dnl which will be installed.
+AC_CONFIG_HEADERS(goffice/goffice-features.h)
+dnl
+dnl Make sure these two won't clash.  Put the following to goffice-config.h:
+AH_BOTTOM([
+/* Don't include goffice-features.h, it's a subset of goffice-config.h. */
+#define GOFFICE_FEATURES_H])
 
 AM_MAINTAINER_MODE
 
@@ -309,21 +320,21 @@ if test $ac_cv_func_log = no; then
          LIBS="$LIBS -lm"])
 fi
 
-
-AC_CHECK_FUNC(expm1,[needit=0],[needit=1])
-AC_SUBST(GOFFICE_SUPPLIED_EXPM1,$needit)
-AC_CHECK_FUNC(asinh,[needit=0],[needit=1])
-AC_SUBST(GOFFICE_SUPPLIED_ASINH,$needit)
-AC_CHECK_FUNC(acosh,[needit=0],[needit=1])
-AC_SUBST(GOFFICE_SUPPLIED_ACOSH,$needit)
-AC_CHECK_FUNC(atanh,[needit=0],[needit=1])
-AC_SUBST(GOFFICE_SUPPLIED_ATANH,$needit)
-unset needit
+AC_DEFUN([GOFFICE_CHECK_FUNC],
+[AC_CHECK_FUNC([$1],
+	[],
+	[AC_DEFINE([GOFFICE_SUPPLIED_]AS_TR_CPP([$1]),
+		1,
+		[Define if G Office supplies $1.])])dnl
+])
+GOFFICE_CHECK_FUNC(expm1)
+GOFFICE_CHECK_FUNC(asinh)
+GOFFICE_CHECK_FUNC(acosh)
+GOFFICE_CHECK_FUNC(atanh)
 
 float_msg=no
-float_feature=0
 AC_C_LONG_DOUBLE
-if test "x$ac_cv_c_long_double" = "xyes"; then
+if test $ac_cv_c_long_double = yes; then
     have_mandatory_funcs=yes
     need_sunmath=0
     sunmathlinkstuff='-L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath'
@@ -335,17 +346,17 @@ if test "x$ac_cv_c_long_double" = "xyes"; then
 		      ,
 		      [AC_CHECK_LIB(sunmath,
 			  $ldfunc,
-			  [ if test "x$need_sunmath" = "x0"; then
+			  [ if test $need_sunmath = 0; then
 				# FIXME: better idea?
 				LDFLAGS="$LDFLAGS $sunmathlinkstuff"
-				sunmathinclude=`ls -d /opt/SUNWspro/*/include/cc | tail -1`
+				sunmathinclude=`ls -d /opt/SUNWspro/*/include/cc | sed '$!d'`
 				CPPFLAGS="$CPPFLAGS -I$sunmathinclude"
 			    fi
 			    need_sunmath=1 ],
 			  [have_mandatory_funcs=no],
 			  [-L/opt/SUNWspro/lib $GOFFICE_LIBS])])])
     done
-    if test "x$need_sunmath" = "x1"; then
+    if test $need_sunmath = 1; then
 	AC_SUBST(EXTRA_LIBS, "$EXTRA_LIBS $sunmathlinkstuff")
 	AC_SUBST(EXTRA_INCLUDES, "$EXTRA_INCLUDES -I$sunmathinclude")
 	AC_CHECK_HEADERS([sunmath.h floatingpoint.h],
@@ -357,53 +368,47 @@ if test "x$ac_cv_c_long_double" = "xyes"; then
     unset sunmathlinkstuff
     unset sunmathinclude
 
-    AC_CHECK_FUNCS(modfl frexpl ldexpl strtold string_to_decimal decimal_to_quadruple)
+    GOFFICE_CHECK_FUNC(modfl)
+    GOFFICE_CHECK_FUNC(ldexpl)
+    GOFFICE_CHECK_FUNC(frexpl)
 
-    must_prototype_strtold=0
-    if test "x$ac_cv_func_strtold" = "xyes"; then
-	    AC_MSG_CHECKING([if we must prototype strtold ourselves])
-	    AC_TRY_RUN([
-		    #include <stdlib.h>
-		    int main ()
-		    {
-			    const char *s = "+3.1415e+0";
-			    char *theend;
-			    long double res = strtold (s, &theend);
-			    return !(*theend == 0 && finitel (res) &&
-				     res >= 3.14 && res <= 3.15);
-		    }],
-		    [AC_MSG_RESULT(no)],
-		    [AC_MSG_RESULT(yes)
-		     must_prototype_strtold=1
-		     AC_DEFINE(MUST_PROTOTYPE_STRTOLD, 1,
-			    [Define if we need to provide a prototype for strtold()]
-		     )],
-		    [AC_MSG_RESULT(assuming not)])
-    elif test "x$ac_cv_func_string_to_decimal" != "xyes" || \
-	 test "x$ac_cv_func_decimal_to_quadruple" != "xyes" || \
-	 test "x$ac_cv_header_floatingpoint_h" != "xyes"; then
-	    AC_MSG_WARN([You lack the strtold function -- precision will be impaired])
+    AC_CHECK_FUNCS(strtold)
+    if test "$ac_cv_func_strtold" = yes; then
+	AC_MSG_CHECKING([if we must prototype strtold ourselves])
+	AC_TRY_RUN([#include <stdlib.h>
+		int main ()
+		{
+			const char *s = "+3.1415e+0";
+			char *theend;
+			long double res = strtold (s, &theend);
+			return !(*theend == 0 && finitel (res) &&
+				 res >= 3.14 && res <= 3.15);
+		}],
+		[AC_MSG_RESULT(no)],
+		[AC_MSG_RESULT(yes)
+		 AC_DEFINE([GOFFICE_SUPPLIED_STRTOLD], 1,
+			   [Define if G Office supplies strtold.])
+		],
+		[AC_MSG_RESULT(assuming not)])
+    else 
+	AC_DEFINE([GOFFICE_SUPPLIED_STRTOLD], 1,
+		  [Define if G Office supplies strtold.])
+	AC_CHECK_FUNCS(string_to_decimal decimal_to_quadruple)
+	if test "x$ac_cv_func_string_to_decimal" != "xyes" || \
+	   test "x$ac_cv_func_decimal_to_quadruple" != "xyes" || \
+	   test "x$ac_cv_header_floatingpoint_h" != "xyes"; then
+		AC_MSG_WARN([You lack the strtold function -- precision will be impaired])
+	fi
     fi
-
     if test "$have_mandatory_funcs" = yes; then
 	float_msg=yes
-        float_feature=1
+	AC_DEFINE([GOFFICE_WITH_LONG_DOUBLE], 1,
+		  [Define if G Office supports long double.])
     else
 	AC_MSG_WARN([Long double support disabled because of library problems])
     fi
     unset have_mandatory_funcs
-
-    if test "x$ac_cv_func_modfl" = "xyes"; then needit=0; else needit=1; fi
-    AC_SUBST(GOFFICE_SUPPLIED_MODFL,$needit)
-    if test "x$ac_cv_func_ldexpl" = "xyes"; then needit=0; else needit=1; fi
-    AC_SUBST(GOFFICE_SUPPLIED_LDEXPL,$needit)
-    if test "x$ac_cv_func_frexpl" = "xyes"; then needit=0; else needit=1; fi
-    AC_SUBST(GOFFICE_SUPPLIED_FREXPL,$needit)
-    if test "x$ac_cv_func_strtold" = "xyes" -a $must_prototype_strtold -eq 0 ; then needit=0; else needit=1; fi
-    AC_SUBST(GOFFICE_SUPPLIED_STRTOLD,$needit)
 fi
-AC_SUBST(GOFFICE_WITH_LONG_DOUBLE,$float_feature)
-unset float_feature
 
 dnl ******************
 dnl * Config defaults
@@ -451,7 +456,6 @@ goffice/ms-compat/Makefile
 goffice/cut-n-paste/Makefile
 goffice/cut-n-paste/foocanvas/Makefile
 goffice/cut-n-paste/pcre/Makefile
-goffice/goffice-features.h
 goffice/goffice-paths.sh
 goffice/libgoffice-1.pc
 plugins/Makefile

@@ -104,7 +104,7 @@ typedef struct {
 } format_info_t;
 
 void go_render_number (GString *result, double number, format_info_t const *info);
-#if GOFFICE_WITH_LONG_DOUBLE
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 void go_render_numberl (GString *result, long double number, format_info_t const *info);
 #endif
 

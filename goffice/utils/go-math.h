@@ -30,22 +30,22 @@ double go_pow10 (int n);
 /*
  * We provide working versions of these functions for doubles.
  */ 
-#if GOFFICE_SUPPLIED_ASINH
+#ifdef GOFFICE_SUPPLIED_ASINH
 double asinh (double x);
 #endif
-#if GOFFICE_SUPPLIED_ACOSH
+#ifdef GOFFICE_SUPPLIED_ACOSH
 double acosh (double x);
 #endif
-#if GOFFICE_SUPPLIED_ATANH
+#ifdef GOFFICE_SUPPLIED_ATANH
 double atanh (double x);
 #endif
-#if GOFFICE_SUPPLIED_EXPM1
+#ifdef GOFFICE_SUPPLIED_EXPM1
 double expm1 (double x);
 #endif
 
 /* ------------------------------------------------------------------------- */
 
-#if GOFFICE_WITH_LONG_DOUBLE
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 
 extern long double go_nanl;
 extern long double go_pinfl;
@@ -65,16 +65,16 @@ long double go_pow10l (int n);
 /*
  * We provide working versions of these functions for long doubles.
  */ 
-#if GOFFICE_SUPPLIED_LDEXPL
+#ifdef GOFFICE_SUPPLIED_LDEXPL
 long double ldexpl (long double x, int exp);
 #endif
-#if GOFFICE_SUPPLIED_FREXPL
+#ifdef GOFFICE_SUPPLIED_FREXPL
 long double frexpl (long double x, int *exp);
 #endif
-#if GOFFICE_SUPPLIED_STRTOLD
+#ifdef GOFFICE_SUPPLIED_STRTOLD
 long double strtold (const char *, char **);
 #endif
-#if GOFFICE_SUPPLIED_MODFL
+#ifdef GOFFICE_SUPPLIED_MODFL
 long double modfl (long double x, long double *iptr);
 #endif
 

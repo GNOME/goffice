@@ -118,7 +118,7 @@ go_math_init (void)
 
  have_nan:
 
-#if GOFFICE_WITH_LONG_DOUBLE
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 	go_nanl = go_nan;
 	go_pinfl = go_pinf;
 	go_ninfl = go_ninf;
@@ -239,7 +239,7 @@ go_pow10 (int n)
 	return pow (10.0, n);
 }
 
-#if GOFFICE_SUPPLIED_EXPM1
+#ifdef GOFFICE_SUPPLIED_EXPM1
 double
 expm1 (double x)
 {
@@ -262,7 +262,7 @@ expm1 (double x)
 }
 #endif
 
-#if GOFFICE_SUPPLIED_ASINH
+#ifdef GOFFICE_SUPPLIED_ASINH
 double
 asinh (double x)
 {
@@ -272,7 +272,7 @@ asinh (double x)
 }
 #endif
 
-#if GOFFICE_SUPPLIED_ACOSH
+#ifdef GOFFICE_SUPPLIED_ACOSH
 double
 acosh (double x)
 {
@@ -281,7 +281,7 @@ acosh (double x)
 }
 #endif
 
-#if GOFFICE_SUPPLIED_ATANH
+#ifdef GOFFICE_SUPPLIED_ATANH
 double
 atanh (double x)
 {
@@ -293,7 +293,7 @@ atanh (double x)
 
 /* ------------------------------------------------------------------------- */
 
-#if GOFFICE_WITH_LONG_DOUBLE
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 
 long double go_nanl;
 long double go_pinfl;
@@ -302,7 +302,7 @@ long double go_ninfl;
 long double
 go_pow2l (int n)
 {
-#if GOFFICE_SUPPLIED_LDEXPL
+#ifdef GOFFICE_SUPPLIED_LDEXPL
 	return powl (2.0L, n);
 #else
 	g_assert (FLT_RADIX == 2);
@@ -389,7 +389,7 @@ go_fake_truncl (long double x)
 		: -floorl (go_add_epsilonl (-x));
 }
 
-#if GOFFICE_SUPPLIED_LDEXPL
+#ifdef GOFFICE_SUPPLIED_LDEXPL
 long double
 ldexpl (long double x, int exp)
 {
@@ -407,7 +407,7 @@ ldexpl (long double x, int exp)
 }
 #endif
 
-#if GOFFICE_SUPPLIED_FREXPL
+#ifdef GOFFICE_SUPPLIED_FREXPL
 long double
 frexpl (long double x, int *exp)
 {
@@ -435,7 +435,7 @@ frexpl (long double x, int *exp)
 }
 #endif
 
-#if GOFFICE_SUPPLIED_STRTOLD && !defined(MUST_PROTOTYPE_STRTOLD)
+#ifndef HAVE_STRTOLD
 long double
 strtold (char const *str, char **end)
 {
@@ -484,7 +484,7 @@ strtold (char const *str, char **end)
 }
 #endif
 
-#if GOFFICE_SUPPLIED_MODFL
+#ifdef GOFFICE_SUPPLIED_MODFL
 long double
 modfl (long double x, long double *iptr)
 {

@@ -9,6 +9,7 @@
 	* stamp.h.in: Nuke.
 	* .cvsignore: Remove stamp*.
 	* goffice/.cvsignore: Remove depcomp.
+	* po/POTFILES.in: Remove goffice/cut-n-paste/pcre/printint.c.
 
 2005-03-23  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 

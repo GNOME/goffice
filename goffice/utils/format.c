@@ -58,7 +58,7 @@
 #define FORMAT_G "G"
 #define STRTO strtod
 
-#if GOFFICE_WITH_LONG_DOUBLE
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 #include "format.c"
 #undef DEFINE_COMMON
 #undef DOUBLE
@@ -855,7 +855,7 @@ lookup_color (gchar const *str, gchar const *end)
 #endif
 
 static double beyond_precision;
-#if GOFFICE_WITH_LONG_DOUBLE
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 static long double beyond_precisionl;
 #endif
 
@@ -2091,7 +2091,7 @@ number_format_init (void)
 	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
 	beyond_precision = go_pow10 (DBL_DIG) + 1;
-#if GOFFICE_WITH_LONG_DOUBLE
+#ifdef GOFFICE_WITH_LONG_DOUBLE
 	beyond_precisionl = go_pow10l (LDBL_DIG) + 1;
 #endif
 
