@@ -1,5 +1,8 @@
 2005-03-11  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/Makefile.am (.list.c): Add include of
+	goffice/goffice-config.h when building this.
+
 	* goffice/utils/go-libxml-extras.c (xml_node_set_gocolor): Don't
 	go via GdkColor which we may not have.
 
