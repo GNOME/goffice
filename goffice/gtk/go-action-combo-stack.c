@@ -21,7 +21,7 @@
 #include <goffice/goffice-config.h>
 #include "go-action-combo-stack.h"
 #include "go-combo-box.h"
-#include "go-gui-utils.h"
+#include "goffice-gtk.h"
 
 #include <gtk/gtkaction.h>
 #include <gtk/gtktoolitem.h>

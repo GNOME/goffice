@@ -16,8 +16,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
-#ifndef GO_GUI_UTILS_H
-#define GO_GUI_UTILS_H
+#ifndef _GOFFICE_GTK_H_
+#define _GOFFICE_GTK_H_
 
 #include <gtk/gtkmessagedialog.h>
 #include <glade/glade-xml.h>
@@ -72,4 +72,4 @@ void	   go_atk_setup_label	 	(GtkWidget *label, GtkWidget *target);
 
 G_END_DECLS
 
-#endif /* GO_GUI_UTILS_H */
+#endif /* _GOFFICE_GTK_H_ */

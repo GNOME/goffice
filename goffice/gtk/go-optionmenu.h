@@ -30,18 +30,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#ifndef __GNUMERIC_OPTION_MENU_H__
-#define __GNUMERIC_OPTION_MENU_H__
+#ifndef _GO_OPTIONMENU_H_
+#define _GO_OPTIONMENU_H_
 
 
 #include <gdk/gdk.h>
 #include <gtk/gtkbutton.h>
 
-
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
+G_BEGIN_DECLS
 
 #define GNUMERIC_TYPE_OPTION_MENU              (gnumeric_option_menu_get_type ())
 #define GNUMERIC_OPTION_MENU(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNUMERIC_TYPE_OPTION_MENU, GnumericOptionMenu))
@@ -49,7 +45,6 @@ extern "C" {
 #define GNUMERIC_IS_OPTION_MENU(obj)           (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNUMERIC_TYPE_OPTION_MENU))
 #define GNUMERIC_IS_OPTION_MENU_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), GNUMERIC_TYPE_OPTION_MENU))
 #define GNUMERIC_OPTION_MENU_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), GNUMERIC_TYPE_OPTION_MENU, GnumericOptionMenuClass))
-
 
 typedef struct _GnumericOptionMenu       GnumericOptionMenu;
 typedef struct _GnumericOptionMenuClass  GnumericOptionMenuClass;
@@ -96,10 +91,6 @@ void       gnumeric_option_menu_set_history (GnumericOptionMenu *option_menu,
 					     GSList *selection);
 GtkWidget *gnumeric_option_menu_get_history (GnumericOptionMenu *option_menu);
 
+G_END_DECLS
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
-
-#endif /* __GNUMERIC _OPTION_MENU_H__ */
+#endif /* _GO_OPTIONMENU_H_ */

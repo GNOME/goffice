@@ -21,8 +21,8 @@
  * 02111-1307, USA.
  */
 
-#ifndef GO_COMBO_PIXMAPS_H
-#define GO_COMBO_PIXMAPS_H
+#ifndef _GO_COMBO_PIXMAPS_H_
+#define _GO_COMBO_PIXMAPS_H_
 
 #include <gtk/gtktooltips.h>
 
@@ -51,4 +51,4 @@ void       go_menu_pixmaps_add_element   (GOMenuPixmaps *menu,
 
 G_END_DECLS
 
-#endif /* GO_COMBO_PIXMAPS_H */
+#endif /* _GO_COMBO_PIXMAPS_H_ */

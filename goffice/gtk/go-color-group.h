@@ -27,8 +27,8 @@
  * 02111-1307, USA.
  */
 
-#ifndef GO_COLOR_GROUP_H
-#define GO_COLOR_GROUP_H
+#ifndef _GO_COLOR_GROUP_H_
+#define _GO_COLOR_GROUP_H_
 
 #include <glib-object.h>
 #include <goffice/utils/go-color.h>
@@ -57,4 +57,4 @@ void          go_color_group_add_color (GOColorGroup *cg, GOColor c);
 
 G_END_DECLS
 
-#endif /* GO_COLOR_GROUP_H */
+#endif /* _GO_COLOR_GROUP_H_ */

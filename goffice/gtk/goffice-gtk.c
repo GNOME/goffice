@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-gui-utils.c: Misc gtk utilities
+ * goffice-gtk.c: Misc gtk utilities
  *
  * Copyright (C) 2004 Jody Goldberg (jody@gnome.org)
  *
@@ -19,7 +19,7 @@
  * USA
  */
 #include <goffice/goffice-config.h>
-#include "go-gui-utils.h"
+#include "goffice-gtk.h"
 
 #include <goffice/app/go-cmd-context.h>
 #include <goffice/utils/go-file.h>

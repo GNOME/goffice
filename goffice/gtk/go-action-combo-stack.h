@@ -19,8 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  **/
 
-#ifndef __GO_ACTION_COMBO_STACK_H__
-#define __GO_ACTION_COMBO_STACK_H__
+#ifndef _GO_ACTION_COMBO_STACK_H_
+#define _GO_ACTION_COMBO_STACK_H_
 
 #include <glib-object.h>
 
@@ -41,4 +41,4 @@ gpointer go_action_combo_stack_selection (GOActionComboStack const *a);
 
 G_END_DECLS
 
-#endif  /* __GO_ACTION_COMBO_STACK_H__ */
+#endif  /* _GO_ACTION_COMBO_STACK_H_ */

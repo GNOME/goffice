@@ -2,7 +2,7 @@
 /*
  * A charmap selector widget.
  *
- *  Copyright (C) 2003 Andreas J. Guelzow
+ *  Copyright (C) 2003-2005 Andreas J. Guelzow
  *
  *  based on code by:
  *  Copyright (C) 2000 Marco Pesenti Gritti
@@ -23,23 +23,22 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include <gnumeric-config.h>
-#include <glib/gi18n.h>
-#include <gnumeric.h>
-#include <gutils.h>
-#include "widget-charmap-selector.h"
-#include "gnumeric-optionmenu.h"
-#include <gsf/gsf-impl-utils.h>
+#include <goffice/goffice-config.h>
+#include "go-charmap-sel.h"
+#include "go-optionmenu.h"
+#include <goffice/utils/go-glib-extras.h>
+#include <gtk/gtkcheckmenuitem.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkmenuitem.h>
-#include <gtk/gtkcheckmenuitem.h>
 #include <gtk/gtkseparatormenuitem.h>
-
+#include <glib/gi18n.h>
+#include <gsf/gsf-impl-utils.h>
 #include <string.h>
 #include <stdlib.h>
 
-#define CS(x) CHARMAP_SELECTOR (x)
+#define CS(x) GO_CHARMAP_SEL (x)
 
 #define CHARMAP_NAME_KEY "Name of Character Encoding"
 
@@ -226,22 +225,22 @@ charset_order (const void *_a, const void *_b)
 /* name -> CharsetInfo* mapping */
 static GHashTable *encoding_hash;
 
-struct _CharmapSelector {
+struct _GOCharmapSel {
 	GtkHBox box;
 	GnumericOptionMenu *encodings;
 	GtkMenu *encodings_menu;
-	CharmapSelectorTestDirection test;
+	GOCharmapSelTestDirection test;
 };
 
 typedef struct {
 	GtkHBoxClass parent_class;
 
-	gboolean (* charmap_changed) (CharmapSelector *cs, char const *new_charmap);
-} CharmapSelectorClass;
+	gboolean (* charmap_changed) (GOCharmapSel *cs, char const *new_charmap);
+} GOCharmapSelClass;
 
 
-typedef CharmapSelector Cs;
-typedef CharmapSelectorClass CsClass;
+typedef GOCharmapSel Cs;
+typedef GOCharmapSelClass CsClass;
 
 /* Signals we emit */
 enum {
@@ -281,7 +280,7 @@ iconv_supported (const char *to, const char *from)
 }
 
 const char *
-charmap_selector_get_encoding_name (G_GNUC_UNUSED CharmapSelector *cs,
+go_charmap_sel_get_encoding_name (G_GNUC_UNUSED GOCharmapSel *cs,
 				    const char *encoding)
 {
 	CharsetInfo const *ci;
@@ -293,34 +292,34 @@ charmap_selector_get_encoding_name (G_GNUC_UNUSED CharmapSelector *cs,
 }
 
 static char const *
-get_locale_encoding_name (CharmapSelector *cs)
+get_locale_encoding_name (GOCharmapSel *cs)
 {
 	char const *locale_encoding;
 	char const *name;
 
 	g_get_charset (&locale_encoding);
-	name = charmap_selector_get_encoding_name (cs, locale_encoding);
+	name = go_charmap_sel_get_encoding_name (cs, locale_encoding);
 	return name ? name : locale_encoding;
 }
 
 static void
-encodings_changed_cb (GnumericOptionMenu *optionmenu, CharmapSelector *cs)
+encodings_changed_cb (GnumericOptionMenu *optionmenu, GOCharmapSel *cs)
 {
-	g_return_if_fail (IS_CHARMAP_SELECTOR (cs));
+	g_return_if_fail (IS_GO_CHARMAP_SEL (cs));
 	g_return_if_fail (optionmenu == cs->encodings);
 
 	g_signal_emit (G_OBJECT (cs),
 		       cs_signals[CHARMAP_CHANGED],
 		       0,
-		       charmap_selector_get_encoding (cs));
+		       go_charmap_sel_get_encoding (cs));
 }
 
 static void
-set_menu_to_default (CharmapSelector *cs, gint item)
+set_menu_to_default (GOCharmapSel *cs, gint item)
 {
 	GSList sel = { GINT_TO_POINTER (item - 1), NULL};
 
-	g_return_if_fail (cs != NULL && IS_CHARMAP_SELECTOR (cs));
+	g_return_if_fail (cs != NULL && IS_GO_CHARMAP_SEL (cs));
 
 	gnumeric_option_menu_set_history (cs->encodings, &sel);
 }
@@ -328,7 +327,7 @@ set_menu_to_default (CharmapSelector *cs, gint item)
 static gboolean
 cs_mnemonic_activate (GtkWidget *w, gboolean group_cycling)
 {
-	CharmapSelector *cs = CHARMAP_SELECTOR (w);
+	GOCharmapSel *cs = GO_CHARMAP_SEL (w);
 	gtk_widget_grab_focus (GTK_WIDGET (cs->encodings));
 	return TRUE;
 }
@@ -345,9 +344,9 @@ cs_emphasize_label (GtkLabel *label)
 }
 
 static void
-cs_init (CharmapSelector *cs)
+cs_init (GOCharmapSel *cs)
 {
-	cs->test = CHARMAP_SELECTOR_TO_UTF8;
+	cs->test = GO_CHARMAP_SEL_TO_UTF8;
 
 	cs->encodings = GNUMERIC_OPTION_MENU(gnumeric_option_menu_new());
 
@@ -359,7 +358,7 @@ cs_init (CharmapSelector *cs)
 
 
 static void
-cs_build_menu (CharmapSelector *cs)
+cs_build_menu (GOCharmapSel *cs)
 {
         GtkWidget *item;
 	GtkMenu *menu;
@@ -381,7 +380,7 @@ cs_build_menu (CharmapSelector *cs)
 		while (charset_trans->lgroup != LG_LAST) {
 			GtkWidget *subitem;
 			if (charset_trans->lgroup == lgroup->lgroup) {
-				const char *name = (cs->test == CHARMAP_SELECTOR_TO_UTF8)
+				const char *name = (cs->test == GO_CHARMAP_SEL_TO_UTF8)
 					? charset_trans->to_utf8_iconv_name
 					: charset_trans->from_utf8_iconv_name;
 				if (name) {
@@ -445,9 +444,9 @@ cs_class_init (GtkWidgetClass *widget_klass)
 
 	cs_signals[CHARMAP_CHANGED] =
 		g_signal_new ("charmap_changed",
-			      CHARMAP_SELECTOR_TYPE,
+			      GO_CHARMAP_SEL_TYPE,
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (CharmapSelectorClass, charmap_changed),
+			      G_STRUCT_OFFSET (GOCharmapSelClass, charmap_changed),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
@@ -457,9 +456,9 @@ cs_class_init (GtkWidgetClass *widget_klass)
 					 g_param_spec_uint ("TestDirection",
 							    _("Conversion Direction"),
 							    _("This value determines which iconv test to perform."),
-							    (guint)CHARMAP_SELECTOR_TO_UTF8,
-							    (guint)CHARMAP_SELECTOR_FROM_UTF8,
-							    (guint)CHARMAP_SELECTOR_TO_UTF8,
+							    (guint)GO_CHARMAP_SEL_TO_UTF8,
+							    (guint)GO_CHARMAP_SEL_FROM_UTF8,
+							    (guint)GO_CHARMAP_SEL_TO_UTF8,
 							    G_PARAM_READWRITE));
 
 	qsort (lgroups, G_N_ELEMENTS (lgroups) - 2, sizeof (lgroups[0]),
@@ -521,17 +520,17 @@ cs_class_init (GtkWidgetClass *widget_klass)
 	}
 }
 
-GSF_CLASS (CharmapSelector, charmap_selector,
+GSF_CLASS (GOCharmapSel, go_charmap_sel,
 	   cs_class_init, cs_init, GTK_TYPE_HBOX)
 
 GtkWidget *
-charmap_selector_new (CharmapSelectorTestDirection test)
+go_charmap_sel_new (GOCharmapSelTestDirection test)
 {
-	return g_object_new (CHARMAP_SELECTOR_TYPE, "TestDirection", test, NULL);
+	return g_object_new (GO_CHARMAP_SEL_TYPE, "TestDirection", test, NULL);
 }
 
 gchar const *
-charmap_selector_get_encoding (CharmapSelector *cs)
+go_charmap_sel_get_encoding (GOCharmapSel *cs)
 {
 	GtkMenuItem *selection;
 	char const *locale_encoding;
@@ -539,7 +538,7 @@ charmap_selector_get_encoding (CharmapSelector *cs)
 
 	g_get_charset (&locale_encoding);
 
- 	g_return_val_if_fail (IS_CHARMAP_SELECTOR (cs), locale_encoding);
+ 	g_return_val_if_fail (IS_GO_CHARMAP_SEL (cs), locale_encoding);
 
  	selection = GTK_MENU_ITEM (gnumeric_option_menu_get_history (cs->encodings));
 	encoding = (char const *) g_object_get_data (G_OBJECT (selection),
@@ -588,12 +587,12 @@ cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
 }
 
 gboolean
-charmap_selector_set_encoding (CharmapSelector *cs, const char *enc)
+go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc)
 {
 	struct cb_find_entry cl;
 	CharsetInfo const *ci;
 
-	g_return_val_if_fail (IS_CHARMAP_SELECTOR (cs), FALSE);
+	g_return_val_if_fail (IS_GO_CHARMAP_SEL (cs), FALSE);
 	g_return_val_if_fail (enc != NULL, FALSE);
 
 	ci = g_hash_table_lookup (encoding_hash, enc);
@@ -627,11 +626,9 @@ cs_set_property (GObject      *object,
 		 const GValue *value,
 		 GParamSpec   *pspec)
 {
-	CharmapSelector *cs;
-	cs = CHARMAP_SELECTOR (object);
+	GOCharmapSel *cs = GO_CHARMAP_SEL (object);
 
-	switch (prop_id)
-	{
+	switch (prop_id) {
 	case PROP_TEST_DIRECTION:
 		cs->test = g_value_get_uint (value);
 		cs_build_menu (cs);
@@ -649,12 +646,9 @@ cs_get_property (GObject     *object,
 		 GValue      *value,
 		 GParamSpec  *pspec)
 {
-	CharmapSelector *cs;
+	GOCharmapSel *cs = GO_CHARMAP_SEL (object);
 
-	cs = CHARMAP_SELECTOR (object);
-
-	switch (prop_id)
-	{
+	switch (prop_id) {
 	case PROP_TEST_DIRECTION:
 		g_value_set_uint (value, (guint)cs->test);
 		break;

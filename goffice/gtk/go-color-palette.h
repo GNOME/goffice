@@ -27,8 +27,8 @@
  * 02111-1307, USA.
  */
 
-#ifndef GO_GO_COLOR_PALETTE_H
-#define GO_GO_COLOR_PALETTE_H
+#ifndef _GO_COLOR_PALETTE_H_
+#define _GO_COLOR_PALETTE_H_
 
 #include <goffice/gtk/go-color-group.h>
 #include <gtk/gtkwidget.h>
@@ -63,4 +63,4 @@ void	go_color_palette_set_allow_alpha	(GOColorPalette *p, gboolean allow_alpha);
 
 G_END_DECLS
 
-#endif /* GO_PALETTE_H */
+#endif /* __GO_COLOR_PALETTE_H__ */

@@ -21,7 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-xy.h"
-#include <goffice/gtk/go-gui-utils.h>
+#include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
 
 #include <gtk/gtkradiobutton.h>

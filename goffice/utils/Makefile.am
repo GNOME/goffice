@@ -3,45 +3,48 @@ noinst_LTLIBRARIES = libgoffice-utils.la
 libgoffice_utils_la_SOURCES =	\
 	go-marshalers.list	\
 	\
-	goffice-utils.h		\
 	go-color.c		\
-	go-color.h		\
 	go-file.c		\
-	go-file.h		\
 	go-font.c		\
-	go-font.h		\
 	\
 	go-gradient.c		\
-	go-gradient.h		\
 	go-line.c		\
-	go-line.h		\
 	go-marker.c		\
-	go-marker.h		\
 	go-pattern.c		\
-	go-pattern.h		\
 	go-locale.c		\
-	go-locale.h		\
-	go-units.h		\
 	go-math.c		\
-	go-math.h		\
-	numbers.h		\
 	datetime.c		\
-	datetime.h		\
 	format.c		\
-	format.h		\
-	format-impl.h		\
 	formats.c		\
 	go-format.c		\
-	go-format.h		\
 	go-format-match.c	\
 	regutf8.c 		\
-	regutf8.h 		\
 	\
 	go-glib-extras.c	\
-	go-glib-extras.h	\
-	go-libxml-extras.c	\
-	go-libxml-extras.h
+	go-libxml-extras.c
 
+libgoffice_utils_ladir = $(goffice_include_dir)/utils
+libgoffice_utils_la_HEADERS = 	\
+	goffice-utils.h		\
+	go-color.h		\
+	go-file.h		\
+	go-font.h		\
+	go-gradient.h		\
+	go-line.h		\
+	go-marker.h		\
+	go-pattern.h		\
+	go-locale.h		\
+	go-units.h		\
+	go-math.h		\
+	numbers.h		\
+	datetime.h		\
+	format.h		\
+	format-impl.h		\
+	go-format.h		\
+	go-format-match.h	\
+	regutf8.h 		\
+	go-glib-extras.h	\
+	go-libxml-extras.h
 CLEANFILES =			\
 	go-marshalers.h		\
 	go-marshalers.c

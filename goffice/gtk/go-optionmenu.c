@@ -30,15 +30,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <gnumeric-config.h>
-#include "gnumeric-optionmenu.h"
+#include <goffice/goffice-config.h>
+#include "go-optionmenu.h"
+
+#include <gtk/gtkmenu.h>
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkcheckmenuitem.h>
+#include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
-
-#include "gtk/gtkmenu.h"
-#include "gtk/gtkmenuitem.h"
-#include "gtk/gtkcheckmenuitem.h"
-#include "gdk/gdkkeysyms.h"
-
 
 #define CHILD_LEFT_SPACING        4
 #define CHILD_RIGHT_SPACING       1

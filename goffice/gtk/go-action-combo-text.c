@@ -22,7 +22,7 @@
 #include "go-action-combo-text.h"
 #include "go-combo-box.h"
 #include "go-combo-text.h"
-#include "go-gui-utils.h"
+#include "goffice-gtk.h"
 
 #include <gtk/gtkaction.h>
 #include <gtk/gtktoolitem.h>

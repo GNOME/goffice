@@ -5,12 +5,6 @@
 #include <goffice/app/goffice-app.h>
 #include <gmodule.h>
 
-/*
- * Every plugin should put somewhere a line with:
- * GOFFICE_MODULE_PLUGIN_INFO_DECL;
- */
-#define GOFFICE_MODULE_PLUGIN_INFO_DECL     ModulePluginFileStruct plugin_file_struct = GOFFICE_MODULE_PLUGIN_FILE_STRUCT_INITIALIZER
-
 void go_plugin_init	(GOPlugin *p, GOCmdContext *cc); /* optional, called after dlopen */
 void go_plugin_shutdown	(GOPlugin *p, GOCmdContext *cc); /* optional, called before close */
 
@@ -60,6 +54,13 @@ typedef struct {
 } ModulePluginFileStruct;
 
 #define GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER             0x476e756d
-#define GOFFICE_MODULE_PLUGIN_FILE_STRUCT_INITIALIZER  {GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, GOFFICE_VERSION}
+
+/*
+ * Every plugin should put somewhere a line with:
+ * GOFFICE_MODULE_PLUGIN_INFO_DECL;
+ */
+#define GOFFICE_MODULE_PLUGIN_INFO_DECL(ver)	\
+ModulePluginFileStruct plugin_file_struct = 	\
+    { GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, ver }
 
 #endif /* GOFFICE_MODULE_PLUGIN_DEFS_H */

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GO_COMBO_TEXT_H
-#define GO_COMBO_TEXT_H
+#ifndef _GO_COMBO_TEXT_H_
+#define _GO_COMBO_TEXT_H_
 
 #include <gtk/gtkwidget.h>
 
@@ -29,4 +29,4 @@ void	   go_combo_text_add_item	 (GoComboText *ct, const gchar *label);
 
 G_END_DECLS
 
-#endif /* GO_COMBO_TEXT_H */
+#endif /* _GO_COMBO_TEXT_H_ */

@@ -23,7 +23,7 @@
 #include "go-combo-color.h"
 #include "go-combo-box.h"
 #include "go-color-palette.h"
-#include "go-gui-utils.h"
+#include "goffice-gtk.h"
 
 #include <gtk/gtkaction.h>
 #include <gtk/gtktoolitem.h>

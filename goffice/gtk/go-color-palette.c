@@ -29,7 +29,7 @@
 
 #include <goffice/goffice-config.h>
 #include "go-color-palette.h"
-#include "go-gui-utils.h"
+#include "goffice-gtk.h"
 #include <goffice/utils/go-marshalers.h>
 
 #include <goffice/utils/go-color.h>

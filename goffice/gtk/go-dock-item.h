@@ -28,8 +28,8 @@
   @NOTATION@
 */
 
-#ifndef _GO_DOCK_ITEM_H
-#define _GO_DOCK_ITEM_H
+#ifndef _GO_DOCK_ITEM_H_
+#define _GO_DOCK_ITEM_H_
 
 #include <gtk/gtk.h>
 
@@ -161,4 +161,4 @@ GtkWidget     *go_dock_item_get_grip       (GoDockItem *item);
 
 G_END_DECLS
 
-#endif /* _GO_DOCK_ITEM_H */
+#endif /* _GO_DOCK_ITEM_H_ */

@@ -37,7 +37,7 @@
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/format.h>
 #include <goffice/utils/go-math.h>
-#include <goffice/gtk/go-gui-utils.h>
+#include <goffice/gtk/goffice-gtk.h>
 #include <goffice/gtk/go-format-sel.h>
 
 #include <gsf/gsf-impl-utils.h>

@@ -2,7 +2,7 @@
 /**
  * go-action-combo.h: A custom GOActionCombo to handle undo/redo menus/toolbars
  *
- * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  **/
 
-#ifndef __GO_ACTION_COMBO_TEXT_H__
-#define __GO_ACTION_COMBO_TEXT_H__
+#ifndef _GO_ACTION_COMBO_TEXT_H_
+#define _GO_ACTION_COMBO_TEXT_H_
 
 #include <glib-object.h>
 
@@ -49,4 +49,4 @@ void	    go_action_combo_text_set_entry (GOActionComboText       *a,
 
 G_END_DECLS
 
-#endif  /* __GO_ACTION_COMBO_TEXT_H__ */
+#endif  /* _GO_ACTION_COMBO_TEXT_H_ */

@@ -23,23 +23,22 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include <gnumeric-config.h>
-#include <glib/gi18n.h>
-#include <gnumeric.h>
-#include <gutils.h>
-#include "widget-locale-selector.h"
-#include "gnumeric-optionmenu.h"
-#include <gsf/gsf-impl-utils.h>
+#include <goffice/goffice-config.h>
+#include "go-locale-sel.h"
+#include "go-optionmenu.h"
+#include <goffice/utils/go-glib-extras.h>
+#include <gtk/gtkcheckmenuitem.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkmenuitem.h>
-#include <gtk/gtkcheckmenuitem.h>
 #include <gtk/gtkseparatormenuitem.h>
-
+#include <glib/gi18n.h>
+#include <gsf/gsf-impl-utils.h>
 #include <string.h>
 #include <stdlib.h>
 #include <locale.h>
 
-#define LS(x) LOCALE_SELECTOR (x)
+#define LS(x) GO_LOCALE_SEL (x)
 
 #define LOCALE_NAME_KEY "Name of Locale"
 
@@ -273,7 +272,7 @@ locale_order (const void *_a, const void *_b)
 /* name -> LocaleInfo* mapping */
 static GHashTable *locale_hash;
 
-struct _LocaleSelector {
+struct _GOLocaleSel {
 	GtkHBox box;
 	GnumericOptionMenu *locales;
 	GtkMenu *locales_menu;
@@ -282,12 +281,12 @@ struct _LocaleSelector {
 typedef struct {
 	GtkHBoxClass parent_class;
 
-	gboolean (* locale_changed) (LocaleSelector *ls, char const *new_locale);
-} LocaleSelectorClass;
+	gboolean (* locale_changed) (GOLocaleSel *ls, char const *new_locale);
+} GOLocaleSelClass;
 
 
-typedef LocaleSelector Ls;
-typedef LocaleSelectorClass LsClass;
+typedef GOLocaleSel Ls;
+typedef GOLocaleSelClass LsClass;
 
 /* Signals we emit */
 enum {
@@ -315,7 +314,7 @@ static void ls_get_property      (GObject          *object,
 				  GParamSpec       *pspec);
 
 const char *
-locale_selector_get_locale_name (G_GNUC_UNUSED LocaleSelector *ls,
+go_locale_sel_get_locale_name (G_GNUC_UNUSED GOLocaleSel *ls,
 				 const char *locale)
 {
 	LocaleInfo const *ci;
@@ -327,7 +326,7 @@ locale_selector_get_locale_name (G_GNUC_UNUSED LocaleSelector *ls,
 }
 
 static char*
-get_locale_name (LocaleSelector *ls)
+get_locale_name (GOLocaleSel *ls)
 {
 	char const *cur_locale, *name;
 	char *locale, *p;
@@ -350,7 +349,7 @@ get_locale_name (LocaleSelector *ls)
 	if (p)
 		*p = 0;
 
-	name = locale_selector_get_locale_name (ls, locale);
+	name = go_locale_sel_get_locale_name (ls, locale);
 	if (name) {
 		g_free (locale);
 		return g_strdup (name);
@@ -365,14 +364,14 @@ get_locale_name (LocaleSelector *ls)
 }
 
 static void
-locales_changed_cb (GnumericOptionMenu *optionmenu, LocaleSelector *ls)
+locales_changed_cb (GnumericOptionMenu *optionmenu, GOLocaleSel *ls)
 {
 	char * locale;
 
-	g_return_if_fail (IS_LOCALE_SELECTOR (ls));
+	g_return_if_fail (IS_GO_LOCALE_SEL (ls));
 	g_return_if_fail (optionmenu == ls->locales);
 
-	locale = locale_selector_get_locale (ls);
+	locale = go_locale_sel_get_locale (ls);
 
 	g_signal_emit (G_OBJECT (ls),
 		       ls_signals[LOCALE_CHANGED],
@@ -381,11 +380,11 @@ locales_changed_cb (GnumericOptionMenu *optionmenu, LocaleSelector *ls)
 }
 
 static void
-set_menu_to_default (LocaleSelector *ls, gint item)
+set_menu_to_default (GOLocaleSel *ls, gint item)
 {
 	GSList sel = { GINT_TO_POINTER (item - 1), NULL};
 
-	g_return_if_fail (ls != NULL && IS_LOCALE_SELECTOR (ls));
+	g_return_if_fail (ls != NULL && IS_GO_LOCALE_SEL (ls));
 
 	gnumeric_option_menu_set_history (ls->locales, &sel);
 }
@@ -393,14 +392,14 @@ set_menu_to_default (LocaleSelector *ls, gint item)
 static gboolean
 ls_mnemonic_activate (GtkWidget *w, gboolean group_cycling)
 {
-	LocaleSelector *ls = LOCALE_SELECTOR (w);
+	GOLocaleSel *ls = GO_LOCALE_SEL (w);
 	gtk_widget_grab_focus (GTK_WIDGET (ls->locales));
 	return TRUE;
 }
 
 
 static void
-ls_build_menu (LocaleSelector *ls)
+ls_build_menu (GOLocaleSel *ls)
 {
         GtkWidget *item;
 	GtkMenu *menu;
@@ -465,7 +464,7 @@ ls_build_menu (LocaleSelector *ls)
 }
 
 static void
-ls_init (LocaleSelector *ls)
+ls_init (GOLocaleSel *ls)
 {
 	ls->locales = GNUMERIC_OPTION_MENU(gnumeric_option_menu_new());
 	ls_build_menu (ls);
@@ -490,9 +489,9 @@ ls_class_init (GtkWidgetClass *widget_klass)
 
 	ls_signals[LOCALE_CHANGED] =
 		g_signal_new ("locale_changed",
-			      LOCALE_SELECTOR_TYPE,
+			      GO_LOCALE_SEL_TYPE,
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (LocaleSelectorClass, locale_changed),
+			      G_STRUCT_OFFSET (GOLocaleSelClass, locale_changed),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
@@ -525,17 +524,17 @@ ls_class_init (GtkWidgetClass *widget_klass)
 	g_free (oldlocale);
 }
 
-GSF_CLASS (LocaleSelector, locale_selector,
+GSF_CLASS (GOLocaleSel, go_locale_sel,
 	   ls_class_init, ls_init, GTK_TYPE_HBOX)
 
 GtkWidget *
-locale_selector_new (void)
+go_locale_sel_new (void)
 {
-	return g_object_new (LOCALE_SELECTOR_TYPE, NULL);
+	return g_object_new (GO_LOCALE_SEL_TYPE, NULL);
 }
 
 gchar *
-locale_selector_get_locale (LocaleSelector *ls)
+go_locale_sel_get_locale (GOLocaleSel *ls)
 {
 	GtkMenuItem *selection;
 	char const *cur_locale;
@@ -551,7 +550,7 @@ locale_selector_get_locale (LocaleSelector *ls)
 		g_strfreev (parts);
 	}
 
- 	g_return_val_if_fail (IS_LOCALE_SELECTOR (ls), cur_locale_cp);
+ 	g_return_val_if_fail (IS_GO_LOCALE_SEL (ls), cur_locale_cp);
 
  	selection = GTK_MENU_ITEM (gnumeric_option_menu_get_history (ls->locales));
 	locale = (char const *) g_object_get_data (G_OBJECT (selection),
@@ -600,12 +599,12 @@ cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
 }
 
 gboolean
-locale_selector_set_locale (LocaleSelector *ls, const char *locale)
+go_locale_sel_set_locale (GOLocaleSel *ls, const char *locale)
 {
 	struct cb_find_entry cl;
 	LocaleInfo const *ci;
 
-	g_return_val_if_fail (IS_LOCALE_SELECTOR (ls), FALSE);
+	g_return_val_if_fail (IS_GO_LOCALE_SEL (ls), FALSE);
 	g_return_val_if_fail (locale != NULL, FALSE);
 
 	ci = g_hash_table_lookup (locale_hash, locale);
@@ -635,9 +634,9 @@ locale_selector_set_locale (LocaleSelector *ls, const char *locale)
 
 
 void
-locale_selector_set_sensitive (LocaleSelector *ls, gboolean sensitive)
+go_locale_sel_set_sensitive (GOLocaleSel *ls, gboolean sensitive)
 {
-	g_return_if_fail (IS_LOCALE_SELECTOR (ls));
+	g_return_if_fail (IS_GO_LOCALE_SEL (ls));
 
 	gtk_widget_set_sensitive (GTK_WIDGET (ls->locales), sensitive);
 }
@@ -648,8 +647,8 @@ ls_set_property (GObject      *object,
 		 const GValue *value,
 		 GParamSpec   *pspec)
 {
-	LocaleSelector *ls;
-	ls = LOCALE_SELECTOR (object);
+	GOLocaleSel *ls;
+	ls = GO_LOCALE_SEL (object);
 
 	switch (prop_id)
 	{
@@ -666,9 +665,9 @@ ls_get_property (GObject     *object,
 		 GValue      *value,
 		 GParamSpec  *pspec)
 {
-	LocaleSelector *ls;
+	GOLocaleSel *ls;
 
-	ls = LOCALE_SELECTOR (object);
+	ls = GO_LOCALE_SEL (object);
 
 	switch (prop_id)
 	{

@@ -27,8 +27,8 @@
   @NOTATION@
 */
 
-#ifndef _GO_DOCK_LAYOUT_H
-#define _GO_DOCK_LAYOUT_H
+#ifndef _GO_DOCK_LAYOUT_H_
+#define _GO_DOCK_LAYOUT_H_
 
 
 
@@ -132,4 +132,4 @@ gboolean             go_dock_layout_add_to_dock
 
 G_END_DECLS
 
-#endif
+#endif /* _GO_DOCK_LAYOUT_H_ */

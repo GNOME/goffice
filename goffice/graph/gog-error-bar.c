@@ -32,7 +32,7 @@
 #include <goffice/gtk/go-color-palette.h>
 #include <goffice/gtk/go-combo-color.h>
 #include <goffice/gtk/go-combo-pixmaps.h>
-#include <goffice/gtk/go-gui-utils.h>
+#include <goffice/gtk/goffice-gtk.h>
 #include <goffice/utils/go-math.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkspinbutton.h>

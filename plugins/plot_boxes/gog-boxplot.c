@@ -27,7 +27,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/data/go-data.h>
-#include <goffice/gtk/go-gui-utils.h>
+#include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n.h>
@@ -36,7 +36,7 @@
 #include <gtk/gtkenums.h>
 #include <gsf/gsf-impl-utils.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GOFFICE_VERSION);
 
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *boxplot)

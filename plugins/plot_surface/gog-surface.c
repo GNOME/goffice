@@ -41,7 +41,7 @@ typedef struct {
 	GogPlotClass	base;
 } GogContourPlotClass;
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GOFFICE_VERSION);
 
 static GogObjectClass *plot_contour_parent_klass;
 

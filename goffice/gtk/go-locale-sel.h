@@ -20,30 +20,29 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef GNUMERIC_WIDGET_LOCALE_SELECTOR_H
-#define GNUMERIC_WIDGET_LOCALE_SELECTOR_H
+#ifndef _GO_LOCALE_SEL_H_
+#define _GO_LOCALE_SEL_H_
+
+#include <gtk/gtkwidget.h>
 
 G_BEGIN_DECLS
 
-#include <gui-gnumeric.h>
-#include <gtk/gtkhbox.h>
+#define GO_LOCALE_SEL_TYPE        (go_locale_sel_get_type ())
+#define GO_LOCALE_SEL(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), GO_LOCALE_SEL_TYPE, GOLocaleSel))
+#define IS_GO_LOCALE_SEL(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_LOCALE_SEL_TYPE))
 
-#define LOCALE_SELECTOR_TYPE        (locale_selector_get_type ())
-#define LOCALE_SELECTOR(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), LOCALE_SELECTOR_TYPE, LocaleSelector))
-#define IS_LOCALE_SELECTOR(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), LOCALE_SELECTOR_TYPE))
+typedef struct _GOLocaleSel GOLocaleSel;
 
-typedef struct _LocaleSelector LocaleSelector;
+GType        go_locale_sel_get_type (void);
+GtkWidget *  go_locale_sel_new (void);
 
-GType        locale_selector_get_type (void);
-GtkWidget *  locale_selector_new (void);
+gchar       *go_locale_sel_get_locale (GOLocaleSel *cs);
+gboolean     go_locale_sel_set_locale (GOLocaleSel *cs, const char *loc);
 
-gchar       *locale_selector_get_locale (LocaleSelector *cs);
-gboolean     locale_selector_set_locale (LocaleSelector *cs, const char *loc);
+void         go_locale_sel_set_sensitive (GOLocaleSel *cs, gboolean sensitive);
 
-void         locale_selector_set_sensitive (LocaleSelector *cs, gboolean sensitive);
-
-const char  *locale_selector_get_locale_name (LocaleSelector *cs, const char *loc);
+const char  *go_locale_sel_get_locale_name (GOLocaleSel *cs, const char *loc);
 
 G_END_DECLS
 
-#endif /* GNUMERIC_WIDGET_LOCALE_SELECTOR_H */
+#endif /* _GO_LOCALE_SEL_H_ */

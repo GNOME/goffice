@@ -1,77 +1,78 @@
 noinst_LTLIBRARIES = libgoffice-graph.la
 
 libgoffice_graph_la_SOURCES = \
-	goffice-graph.h			\
 	gog-object.c			\
-	gog-object.h			\
 	gog-object-xml.c		\
-	gog-object-xml.h		\
 	gog-styled-object.c		\
-	gog-styled-object.h		\
 	gog-outlined-object.c		\
-	gog-outlined-object.h		\
 	gog-view.c			\
-	gog-view.h			\
 	\
 	gog-graph.c			\
-	gog-graph.h			\
-	gog-graph-impl.h		\
 	gog-chart.c			\
-	gog-chart.h			\
-	gog-chart-impl.h		\
 	\
 	gog-axis.c			\
-	gog-axis.h			\
 	gog-legend.c			\
-	gog-legend.h			\
 	gog-label.c			\
-	gog-label.h			\
 	gog-grid.c			\
-	gog-grid.h			\
 	gog-grid-line.c			\
-	gog-grid-line.h			\
 	\
 	gog-style.c			\
-	gog-style.h			\
 	gog-theme.c			\
-	gog-theme.h			\
 	\
 	gog-plot.c			\
+	gog-plot-engine.c		\
+	gog-series.c			\
+	gog-error-bar.c			\
+	gog-data-allocator.c		\
+	gog-data-set.c			\
+	\
+	gog-guru.c			\
+	gog-renderer.c			\
+	gog-renderer-pixbuf.c		\
+	gog-control-foocanvas.c		\
+	gog-renderer-gnome-print.c	\
+	gog-renderer-svg.c
+
+libgoffice_graph_ladir = $(goffice_include_dir)/graph
+libgoffice_graph_la_HEADERS = 	\
+	goffice-graph.h			\
+	gog-object.h			\
+	gog-object-xml.h		\
+	gog-styled-object.h		\
+	gog-outlined-object.h		\
+	gog-view.h			\
+	gog-graph.h			\
+	gog-graph-impl.h		\
+	gog-chart.h			\
+	gog-chart-impl.h		\
+	gog-axis.h			\
+	gog-legend.h			\
+	gog-label.h			\
+	gog-grid.h			\
+	gog-grid-line.h			\
+	gog-style.h			\
+	gog-theme.h			\
 	gog-plot.h			\
 	gog-plot-impl.h			\
 	gog-plot-engine.h		\
-	gog-plot-engine.c		\
-	gog-series.c			\
 	gog-series.h			\
 	gog-series-impl.h		\
-	gog-error-bar.c			\
 	gog-error-bar.h			\
-	gog-data-allocator.c		\
 	gog-data-allocator.h		\
-	gog-data-set.c			\
 	gog-data-set.h			\
-	\
-	gog-guru.c			\
 	gog-guru.h			\
-	gog-renderer.c			\
 	gog-renderer.h			\
 	gog-renderer-impl.h		\
-	gog-renderer-pixbuf.c		\
 	gog-renderer-pixbuf.h		\
-	gog-control-foocanvas.c		\
 	gog-control-foocanvas.h		\
-	gog-renderer-gnome-print.c	\
 	gog-renderer-gnome-print.h	\
-	gog-renderer-svg.c		\
 	gog-renderer-svg.h
 
-goffice_glade_DATA = 			\
+goffice_glade_DATA = \
 	gog-guru.glade			\
 	gog-guru-type-selector.glade	\
 	gog-style-prefs.glade		\
 	gog-axis-prefs.glade		\
 	gog-error-bar-prefs.glade
-
-EXTRA_DIST = $(goffice_glade_DATA)
 
 include $(top_srcdir)/goffice.mk

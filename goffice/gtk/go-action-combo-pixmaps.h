@@ -19,8 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  **/
 
-#ifndef __GO_ACTION_COMBO_PIXMAPS_H__
-#define __GO_ACTION_COMBO_PIXMAPS_H__
+#ifndef _GO_ACTION_COMBO_PIXMAPS_H_
+#define _GO_ACTION_COMBO_PIXMAPS_H_
 
 #include <glib-object.h>
 #include <goffice/gtk/go-combo-pixmaps.h>
@@ -48,4 +48,4 @@ gboolean go_action_combo_pixmaps_select_id    (GOActionComboPixmaps *action, int
 
 G_END_DECLS
 
-#endif  /* __GO_ACTION_COMBO_PIXMAPS_H__ */
+#endif  /* _GO_ACTION_COMBO_PIXMAPS_H_ */

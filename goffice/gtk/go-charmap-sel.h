@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2003 Andreas J. Guelzow
  *
@@ -20,33 +21,33 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef GNUMERIC_WIDGET_CHARMAP_SELECTOR_H
-#define GNUMERIC_WIDGET_CHARMAP_SELECTOR_H
+#ifndef _GO_CHARMAP_SEL_H_
+#define _GO_CHARMAP_SEL_H_
+
+#include <glib-object.h>
+#include <gtk/gtkwidget.h>
 
 G_BEGIN_DECLS
 
-#include <gui-gnumeric.h>
-#include <gtk/gtkhbox.h>
+#define GO_CHARMAP_SEL_TYPE        (go_charmap_sel_get_type ())
+#define GO_CHARMAP_SEL(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), GO_CHARMAP_SEL_TYPE, GOCharmapSel))
+#define IS_GO_CHARMAP_SEL(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_CHARMAP_SEL_TYPE))
 
-#define CHARMAP_SELECTOR_TYPE        (charmap_selector_get_type ())
-#define CHARMAP_SELECTOR(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), CHARMAP_SELECTOR_TYPE, CharmapSelector))
-#define IS_CHARMAP_SELECTOR(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), CHARMAP_SELECTOR_TYPE))
-
-typedef struct _CharmapSelector CharmapSelector;
+typedef struct _GOCharmapSel GOCharmapSel;
 
 typedef enum {
-     CHARMAP_SELECTOR_TO_UTF8 = 0,
-     CHARMAP_SELECTOR_FROM_UTF8
-} CharmapSelectorTestDirection;
+	GO_CHARMAP_SEL_TO_UTF8 = 0,
+	GO_CHARMAP_SEL_FROM_UTF8
+} GOCharmapSelTestDirection;
 
-GType        charmap_selector_get_type (void);
-GtkWidget *  charmap_selector_new (CharmapSelectorTestDirection test);
+GType        go_charmap_sel_get_type (void);
+GtkWidget *  go_charmap_sel_new (GOCharmapSelTestDirection test);
 
-gchar const *charmap_selector_get_encoding (CharmapSelector *cs);
-gboolean     charmap_selector_set_encoding (CharmapSelector *cs, const char *enc);
+gchar const *go_charmap_sel_get_encoding (GOCharmapSel *cs);
+gboolean     go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc);
 
-const char  *charmap_selector_get_encoding_name (CharmapSelector *cs, const char *enc);
+const char  *go_charmap_sel_get_encoding_name (GOCharmapSel *cs, const char *enc);
 
 G_END_DECLS
 
-#endif /* GNUMERIC_WIDGET_CHARMAP_SELECTOR_H */
+#endif /* _GO_CHARMAP_SEL_H_ */

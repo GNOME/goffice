@@ -19,8 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  **/
 
-#ifndef __GO_ACTION_COMBO_COLOR_H__
-#define __GO_ACTION_COMBO_COLOR_H__
+#ifndef _GO_ACTION_COMBO_COLOR_H_
+#define _GO_ACTION_COMBO_COLOR_H_
 
 #include <glib-object.h>
 #include <goffice/utils/go-color.h>
@@ -46,4 +46,4 @@ void    go_action_combo_color_set_color (GOActionComboColor *a, GOColor color);
 
 G_END_DECLS
 
-#endif  /* __GO_ACTION_COMBO_COLOR_H__ */
+#endif  /* _GO_ACTION_COMBO_COLOR_H_ */

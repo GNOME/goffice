@@ -4,3 +4,4 @@ INCLUDES = -I$(top_builddir)			\
 	    $(GOFFICE_CFLAGS)
 
 GOFFICE_PLUGIN_FLAGS = $(GOFFICE_PLUGIN_LDFLAGS)
+goffice_include_dir = $(includedir)/libgoffice-1/goffice

@@ -21,6 +21,7 @@
 #ifndef GO_DATA_H
 #define GO_DATA_H
 
+#include <goffice/data/goffice-data.h>
 #include <goffice/utils/goffice-utils.h>
 #include <glib-object.h>
 

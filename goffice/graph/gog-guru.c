@@ -33,7 +33,7 @@
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-control-foocanvas.h>
-#include <goffice/gtk/go-gui-utils.h>
+#include <goffice/gtk/goffice-gtk.h>
 
 #include <glib/gi18n.h>
 

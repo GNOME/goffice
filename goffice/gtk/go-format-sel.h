@@ -16,11 +16,11 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  **/
 
-#ifndef GO_FORMAT_SEL_H
-#define GO_FORMAT_SEL_H
+#ifndef _GO_FORMAT_SEL_H_
+#define _GO_FORMAT_SEL_H_
 
-#include <goffice/utils/goffice-utils.h>
 #include <gtk/gtkwindow.h>
+#include <goffice/utils/goffice-utils.h>
 
 G_BEGIN_DECLS
 
@@ -55,4 +55,4 @@ char const *go_format_sel_format_classification (GOFormat const *style_format);
 
 G_END_DECLS
 
-#endif /* GO_FORMAT_SEL_H */
+#endif /* _GO_FORMAT_SEL_H_ */

@@ -27,8 +27,8 @@
   @NOTATION@
 */
 
-#ifndef _GO_DOCK_H
-#define _GO_DOCK_H
+#ifndef _GO_DOCK_H_
+#define _GO_DOCK_H_
 
 #include <glib-object.h>
 
@@ -137,4 +137,4 @@ gint _bonobo_dock_handle_key_nav (GoDock     *dock,
 
 G_END_DECLS
 
-#endif
+#endif /* _GO_DOCK_H_ */

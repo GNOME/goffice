@@ -27,8 +27,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
-#ifndef GO_COMBO_COLOR_H
-#define GO_COMBO_COLOR_H
+#ifndef _GO_COMBO_COLOR_H_
+#define _GO_COMBO_COLOR_H_
 
 #include <glib-object.h>
 #include <goffice/gtk/go-color-group.h>
@@ -61,4 +61,4 @@ void go_combo_color_set_instant_apply  (GOComboColor *cc, gboolean active);
 
 G_END_DECLS
 
-#endif /* GO_COMBO_COLOR_H */
+#endif /* _GO_COMBO_COLOR_H_ */

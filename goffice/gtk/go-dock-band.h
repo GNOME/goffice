@@ -26,8 +26,8 @@
   @NOTATION@
 */
 
-#ifndef _GO_DOCK_BAND_H
-#define _GO_DOCK_BAND_H
+#ifndef _GO_DOCK_BAND_H_
+#define _GO_DOCK_BAND_H_
 
 #include <glib-object.h>
 
@@ -158,4 +158,4 @@ gint _bonobo_dock_band_handle_key_nav (GoDockBand *band,
 
 G_END_DECLS
 
-#endif
+#endif /* _GO_DOCK_BAND_H_ */
