@@ -91,7 +91,9 @@ sub copy_subsystem {
 	print DST "/* File import from foocanvas to libgoffice by $myself.  Do not edit.  */\n\n";
 
 	if ($file =~ /\.c$/) {
-	    print DST "#undef GTK_DISABLE_DEPRECATED\n";
+	    print DST "#undef GTK_DISABLE_DEPRECATED\n"
+		unless $file =~ /^(foo-canvas-rect-ellipse|foo-canvas-util|foo-canvas)\.c$/;
+
 	    print DST "#include <goffice-config.h>\n";
 	    print DST "#include <glib/gi18n.h>\n";
 	}

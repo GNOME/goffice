@@ -1,6 +1,5 @@
 /* File import from foocanvas to libgoffice by import-foocanvas.  Do not edit.  */
 
-#undef GTK_DISABLE_DEPRECATED
 #include <goffice-config.h>
 #include <glib/gi18n.h>
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: 8; c-basic-offset: 8 -*- */
