@@ -220,8 +220,6 @@ goffice/utils/go-libxml-extras.c
 goffice/utils/go-libxml-extras.h
 goffice/utils/go-line.c
 goffice/utils/go-line.h
-goffice/utils/go-locale.c
-goffice/utils/go-locale.h
 goffice/utils/go-marker.c
 goffice/utils/go-marker.h
 goffice/utils/go-math.c
