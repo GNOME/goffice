@@ -1617,13 +1617,13 @@ go_plugins_rescan (ErrorInfo **ret_error, GSList **ret_new_plugins)
 		GString *s;
 
 		s = g_string_new (still_active_ids->data);
-		GO_SLIST_FOREACH (still_active_ids->next, char, id,
+		GO_SLIST_FOREACH (still_active_ids->next, const char, id,
 			g_string_append (s, ", ");
 			g_string_append (s, id);
 		);
 		GO_SLIST_PREPEND (error_list, error_info_new_printf (
 			_("The following plugins are no longer on disk but are still active:\n"
-			  "%s.\nYou should restart Gnumeric now."), s->str));
+			  "%s.\nYou should restart this program now."), s->str));
 		g_string_free (s, TRUE);
 		go_slist_free_custom (still_active_ids, g_free);
 	}
