@@ -1191,7 +1191,7 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	GogViewAllocation tmp = *area;
 	GogViewAllocation axis_circle_bbox;
 	GSList   *axis_list;
-	double    center_x, center_y, radius, height;
+	double    center_x, center_y, radius, height, width;
 	unsigned  i, num_radii;
 	double    circular_min, circular_max;
 
@@ -1246,11 +1246,12 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 						    axis_base->major_tick_labeled);
 				break;
 			case GOG_AXIS_BASE_PADDING_REQUEST:
+				width = 2.0 * sin (2.0 * M_PI * rint (num_radii / 4.0) / num_radii);
 				height = 1.0 - cos (2.0 * M_PI * rint (num_radii / 2.0) / num_radii);
 				axis_circle_bbox = axis_circle_get_bbox (GOG_AXIS_BASE (view->model),
 					view->renderer, 
 					area->x + (area->w / 2.0), area->y + (area->h / height),
-					area->w / 2.0, area->h / height, 
+					area->w / width, area->h / height, 
 					axis_base->major_tick_labeled);
 				padding->wl = MAX (0., tmp.x - axis_circle_bbox.x);
 				padding->ht = MAX (0., tmp.y - axis_circle_bbox.y);

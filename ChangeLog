@@ -1,5 +1,10 @@
 2005-03-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* goffice/graph/gog-axis-line.c (radar_process): fix padding request
+	for circular axis.
+
+2005-03-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* goffice/graph/gog-axis-line.c (gog_axis_base_get_property): handle
 	GOG_AXIS_AUTO.
 	(gog_axis_base_set_position_auto): removed.
