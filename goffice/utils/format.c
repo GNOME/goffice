@@ -54,6 +54,7 @@
 #define SUFFIX(_n) _n
 #define PREFIX(_n) DBL_ ## _n
 #define FORMAT_e "e"
+#define FORMAT_f "f"
 #define FORMAT_E "E"
 #define FORMAT_G "G"
 #define STRTO strtod
@@ -65,6 +66,7 @@
 #undef SUFFIX
 #undef PREFIX
 #undef FORMAT_e
+#undef FORMAT_f
 #undef FORMAT_E
 #undef FORMAT_G
 #undef STRTO
@@ -76,6 +78,7 @@
 #define SUFFIX(_n) _n ## l
 #define PREFIX(_n) LDBL_ ## _n
 #define FORMAT_e "Le"
+#define FORMAT_f "Lf"
 #define FORMAT_E "LE"
 #define FORMAT_G "LG"
 #define STRTO strtold
@@ -1898,6 +1901,24 @@ SUFFIX(go_format_number) (GString *result,
 				if (need_time_split)
 					need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
 				append_second (result, n, &tm);
+
+				if (format[1] == '.') {
+					/* HACK for fractional seconds.  */
+					DOUBLE days, secs;
+					int decs = 0;
+					int old_len = result->len;
+					format++;
+					while (format[1] == '0')
+						decs++, format++;
+
+					secs = SUFFIX(modf) (SUFFIX(fabs) (number), &days);
+					secs = SUFFIX(modf) (secs * (24 * 60 * 60), &days);
+
+					if (decs > 0)
+						g_string_append_printf (result, "%.*" FORMAT_f, decs, secs);
+					/* Remove the "0" or "1" before the dot.  */
+					g_string_erase (result, old_len, 1);
+				}
 			}
 			break;
 		}
