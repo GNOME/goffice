@@ -1,5 +1,7 @@
 2005-03-07  Morten Welinder  <terra@gnome.org>
 
+	* configure.in: Use largefile apis.
+
 	* goffice/utils/go-libxml-extras.c (go_xml_parse_file):
 	New replacement for xmlParseFile.  All users changed.
 
