@@ -1,3 +1,21 @@
+2005-03-21  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-axis-line.c (gog_axis_base_set_position_auto):
+	convenience function that places an axis line in the first free
+	position.
+	(cb_position_toggled): search all the axes with the same type, not
+	just parent one.
+	(axis_line_get_bbox): correct placement of axis labels.
+	(axis_line_render): ditto.
+	(axis_circle_get_bbox): ditto.
+	(axis_circle_render): ditto.
+	* goffice/graph/gog-axis.c (role_axis_line_post_add): use
+	gog_axis_base_set_position_auto.
+	(gog_axis_view_padding_request): restore padding hack.
+	(gog_axis_view_size_allocate): ditto.
+	* goffice/graph/gog-chart.c (axis_post_add): place axis in the first
+	free position.
+
 2005-03-21  Stepan Kasal  <kasal@ucw.cz>
 
 	* MAINTAINERS: New file, two beings selected as victims -- one human

@@ -58,6 +58,7 @@ GType gog_axis_base_get_type (void);
 
 GogAxisPosition 	gog_axis_base_get_position (GogAxisBase *axis_base);
 void		    	gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position);
+void 			gog_axis_base_set_position_auto (GogAxisBase *axis_base);
 
 typedef GogView		GogAxisBaseView;
 typedef GogViewClass	GogAxisBaseViewClass;

@@ -56,6 +56,9 @@
 
 #include <string.h>
 
+/* this should be per model */
+#define PAD_HACK	4	/* pts */
+
 struct _GogAxis {
 	GogAxisBase	 base;
 
@@ -985,32 +988,7 @@ role_axis_line_can_add (GogObject const *parent)
 static void
 role_axis_line_post_add (GogObject *parent, GogObject *child)
 {
-	GogAxis *axis = GOG_AXIS (parent);
-	gboolean can_at_low = TRUE, can_at_high = TRUE;
-	GogAxisPosition position;
-	GSList *lines, *ptr;
-
-	lines = gog_object_get_children (GOG_OBJECT (axis), NULL);
-	lines = g_slist_prepend (lines, parent);
-	for (ptr = lines; ptr != NULL; ptr = ptr->next) {
-		if (ptr->data == child || !IS_GOG_AXIS_BASE (ptr->data))
-			continue;
-		position = gog_axis_base_get_position (GOG_AXIS_BASE (ptr->data));
-		if (position == GOG_AXIS_AT_HIGH )
-			can_at_high = FALSE;
-		else if (position == GOG_AXIS_AT_LOW)
-			can_at_low = FALSE;
-	}
-	g_slist_free (lines);
-
-	if (can_at_low)
-		position = GOG_AXIS_AT_LOW;
-	else if (can_at_high)
-		position = GOG_AXIS_AT_HIGH;
-	else
-		position = GOG_AXIS_CROSS;
-
-	gog_axis_base_set_position (GOG_AXIS_BASE (child), position);
+	gog_axis_base_set_position_auto (GOG_AXIS_BASE (child));
 }
 
 /**
@@ -1804,6 +1782,8 @@ gog_axis_view_padding_request (GogView *view,
 	GogViewRequisition req;
 	GogViewPadding label_padding, child_padding;
 	GSList *ptr;
+	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
+	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
 
 	label_padding.wr = label_padding.wl = label_padding.ht = label_padding.hb = 0;
 
@@ -1813,9 +1793,9 @@ gog_axis_view_padding_request (GogView *view,
 		if (IS_GOG_LABEL (child->model) && (pos & GOG_POSITION_SPECIAL)) {
 			gog_view_size_request (child, &req);
 			if (type == GOG_AXIS_X) 
-				label_padding.hb += req.h;
+				label_padding.hb += req.h + pad_h;
 			else  
-				label_padding.wl += req.w;
+				label_padding.wl += req.w + pad_w;
 	}
 		}
 		
@@ -1855,6 +1835,8 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	GogViewAllocation child_bbox;
 	GogViewRequisition req;
 	GogObjectPosition pos;
+	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
+	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
 
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
@@ -1867,14 +1849,14 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 					child_bbox.w = plot_area->w;
 					child_bbox.y = tmp.y + tmp.h - req.h;
 					child_bbox.h = req.h;
-					tmp.h -= req.h;
+					tmp.h -= req.h + pad_h;
 		} else {
 					child_bbox.x = tmp.x;
 					child_bbox.w = req.w;
 					child_bbox.y = plot_area->y + (plot_area->h - req.h) / 2.0;
 					child_bbox.h = plot_area->h;
-					tmp.x += req.w;
-					tmp.w -= req.w;
+					tmp.x += req.w + pad_w;
+					tmp.w -= req.w + pad_w;
 			}
 				gog_view_size_allocate (child, &child_bbox);
 			} else 

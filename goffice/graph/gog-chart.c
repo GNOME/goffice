@@ -26,6 +26,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-axis-line-impl.h>
 #include <goffice/graph/gog-grid.h>
 #include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-renderer.h>
@@ -216,6 +217,8 @@ axis_post_add (GogObject *axis, GogAxisType t)
 	GogChart *chart = GOG_CHART (axis->parent);
 	g_object_set (G_OBJECT (axis), "type", (int)t, NULL);
 	chart->axes = g_slist_prepend (chart->axes, axis);
+
+	gog_axis_base_set_position_auto (GOG_AXIS_BASE (axis));
 }
 
 static void
