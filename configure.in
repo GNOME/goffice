@@ -298,26 +298,26 @@ fi
 dnl check for complete locale implementation
 AC_CHECK_HEADERS(langinfo.h)
 
-dnl We supply our own lgamma_r (using lgamma) when missing.
-dnl We supply our own expm1 (using log1p) when missing.
-AC_CHECK_FUNCS(lgamma)
-if test $ac_cv_func_lgamma = no; then
-  AC_CHECK_LIB(m, lgamma,
-        [AC_DEFINE(HAVE_LGAMMA, 1,
-		[Define if the lgamma function is available]
+dnl Handle systems that have stuff in -lm.
+AC_CHECK_FUNCS(log)
+if test $ac_cv_func_log = no; then
+  AC_CHECK_LIB(m, log,
+        [AC_DEFINE(HAVE_LOG, 1,
+		[Define if the log function is available]
 	 )
          LIBS="$LIBS -lm"])
 fi
-AC_CHECK_FUNCS(lgamma_r expm1 log1p asinh acosh atanh)
 
+dnl We supply our own versions of these if needed.
+AC_CHECK_FUNCS(expm1 asinh acosh atanh)
+
+float_msg=no
 AC_C_LONG_DOUBLE
 if test "x$ac_cv_c_long_double" = "xyes"; then
+    have_mandatory_funcs=yes
     need_sunmath=no
     sunmathlinkstuff='-L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath'
-    for ldfunc in fabsl sqrtl expl expm1l logl log10l log1pl ceill floorl powl hypotl \
-		    sinl cosl tanl asinl acosl atanl atan2l fmodl lgammal lgammal_r \
-		    sinhl coshl tanhl asinhl acoshl atanhl \
-		    isnanl finitel; do
+    for ldfunc in fabsl logl log10l ceill floorl powl isnanl finitel; do
 	    AC_CHECK_FUNC($ldfunc,
 		  ,
 		  [AC_CHECK_LIB(m,
@@ -332,7 +332,7 @@ if test "x$ac_cv_c_long_double" = "xyes"; then
 				CPPFLAGS="$CPPFLAGS -I$sunmathinclude"
 			    fi
 			    need_sunmath=yes ],
-			  [AC_MSG_ERROR([Long doubles require the $ldfunc function.])],
+			  [have_mandatory_funcs=no],
 			  [-L/opt/SUNWspro/lib $GOFFICE_LIBS])])])
     done
     if test "x$need_sunmath" = "xyes"; then
@@ -340,8 +340,12 @@ if test "x$ac_cv_c_long_double" = "xyes"; then
 	AC_SUBST(EXTRA_INCLUDES, "$EXTRA_INCLUDES -I$sunmathinclude")
 	AC_CHECK_HEADERS([sunmath.h floatingpoint.h],
 			 ,
-			 [AC_MSG_ERROR([Long doubles require the $ac_header header.])])
+			 [AC_MSG_WARN([Long doubles require the $ac_header header.])
+			  have_mandatory_funcs=no])
     fi
+    unset need_sunmath
+    unset sunmathlinkstuff
+    unset sunmathinclude
 
     AC_CHECK_FUNCS(modfl frexpl ldexpl strtold string_to_decimal decimal_to_quadruple)
     if test "x$ac_cv_func_strtold" = "xyes"; then
@@ -372,53 +376,14 @@ if test "x$ac_cv_c_long_double" = "xyes"; then
 	    AC_MSG_WARN([You lack the modfl function -- precision will be impaired])
     fi
 
-    AC_MSG_CHECKING([checking for working ynl])
-    AC_TRY_RUN([
-	    #include <math.h>
-	    #ifdef HAVE_SUNMATH_H
-	    #include <sunmath.h>
-	    #endif
-	    int main ()
-	    {
-		    long double l = ynl (2, 4.0L);
-		    return !(l >= 0.21 && l <= 0.22);
-	    }],
-	    [AC_DEFINE(HAVE_YNL)
-	     AC_MSG_RESULT(yes)],
-	    [AC_MSG_RESULT(no)],
-	    [AC_CHECK_FUNCS(ynl)])
-
-    AC_MSG_CHECKING([checking for working erfl and erfcl])
-    AC_TRY_RUN([
-	    #include <math.h>
-	    #ifdef HAVE_SUNMATH_H
-	    #include <sunmath.h>
-	    #endif
-	    int main ()
-	    {
-		    long double l1 = erfl (1.2L);
-		    long double l2 = erfcl (1.2L);
-		    return !(l1 >= 0.91 && l1 <= 0.92 &&
-			     l2 >= 0.08 && l2 <= 0.09);
-	    }],
-	    [AC_DEFINE(HAVE_ERFL)
-	     AC_DEFINE(HAVE_ERFCL)
-	     AC_MSG_RESULT(yes)],
-	    [AC_MSG_RESULT(no)],
-	    [AC_CHECK_FUNCS(erfl erfcl)])
-fi
-
-float_msg=double
-AC_ARG_WITH(long-double,
-       [--{with,without}-long-double           Use long double for floating point])
-if test "x$with_long_double" = xyes; then
-       if test "x$ac_cv_c_long_double" != "xyes"; then
-               AC_MSG_ERROR([Long double type is not available.])
-       fi
-       float_msg="long double (EXPERIMENTAL)"
-       AC_MSG_WARN([Long double support is experimental -- expect problems])
-       AC_DEFINE(WITH_LONG_DOUBLE, 1,
-               [Define if the long double type is to be used])
+    if test "$have_mandatory_funcs" = yes; then
+ 	AC_DEFINE(WITH_LONG_DOUBLE, 1,
+			[Define if this library should support long double variants])
+	float_msg=yes
+    else
+	AC_MSG_WARN([Long double support disabled because of library problems])
+    fi
+    unset have_mandatory_funcs
 fi
 
 dnl ******************
@@ -489,7 +454,7 @@ Configuration:
 	Source code location:	${srcdir}
 	Compiler:		${CC}
 	Compiler flags:		${CFLAGS}
-	Floating point type:	${float_msg}
+	Long double support:	${float_msg}
 
 	UI:			${ui_msg}
 "

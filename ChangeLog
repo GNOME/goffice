@@ -1,3 +1,8 @@
+2005-03-07  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: Pare down long double support checks to what is
+	needed.
+
 2005-03-07  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in: Don't default to --without-gtk if gtk libs are not

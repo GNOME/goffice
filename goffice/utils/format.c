@@ -27,7 +27,7 @@
 
 #define DEFINE_COMMON
 
-#ifdef HAVE_LONG_DOUBLE
+#ifdef WITH_LONG_DOUBLE
 #define DOUBLE long double
 #define SUFFIX(_n) _n ## l
 #define PREFIX(_n) LDBL_ ## _n
@@ -849,7 +849,7 @@ lookup_color (gchar const *str, gchar const *end)
 #endif
 
 static double beyond_precision;
-#ifdef HAVE_LONG_DOUBLE
+#ifdef WITH_LONG_DOUBLE
 static long double beyond_precisionl;
 #endif
 
@@ -2078,7 +2078,7 @@ number_format_init (void)
 	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
 	beyond_precision = go_pow10 (DBL_DIG) + 1;
-#ifdef HAVE_LONG_DOUBLE
+#ifdef WITH_LONG_DOUBLE
 	beyond_precisionl = go_pow10l (LDBL_DIG) + 1;
 #endif
 

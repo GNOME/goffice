@@ -13,11 +13,6 @@
 #include <locale.h>
 #include <signal.h>
 #include <errno.h>
-#ifdef HAVE_LONG_DOUBLE
-#ifdef HAVE_SUNMATH_H
-#include <sunmath.h>
-#endif
-#endif
 
 #if defined (HAVE_IEEEFP_H) || defined (HAVE_IEEE754_H)
 /* Make sure we have this symbol defined, since the existance of either
@@ -119,7 +114,7 @@ go_math_init (void)
 
  have_nan:
 
-#ifdef HAVE_LONG_DOUBLE
+#ifdef WITH_LONG_DOUBLE
 	go_nanl = go_nan;
 	go_pinfl = go_pinf;
 	go_ninfl = go_ninf;
@@ -240,9 +235,61 @@ go_pow10 (int n)
 	return pow (10.0, n);
 }
 
+#ifndef HAVE_EXPM1
+double
+expm1 (double x)
+{
+	double y, a = fabs (x);
+
+	if (a > 1e-8) {
+		y = exp (x) - 1;
+		if (a > 0.697)
+			return y;  /* negligible cancellation */
+	} else {
+		if (a < DBL_EPSILON)
+			return x;
+		/* Taylor expansion, more accurate in this range */
+		y = (x / 2 + 1) * x;
+	}
+
+	/* Newton step for solving   log(1 + y) = x   for y : */
+	y -= (1 + y) * (log1p (y) - x);
+	return y;
+}
+#endif
+
+#ifndef HAVE_ASINH
+double
+asinh (double x)
+{
+  double y = fabs (x);
+  double r = log1p (y * y / (hypot (y, 1.0) + 1.0) + y);
+  return (x >= 0) ? r : -r;
+}
+#endif
+
+#ifndef HAVE_ACOSH
+double
+acosh (double x)
+{
+  double xm1 = x - 1;
+  return log1p (xm1 + sqrt (xm1) * sqrt (x + 1.0));
+}
+#endif
+
+#ifndef HAVE_ATANH
+double
+atanh (double x)
+{
+  double y = fabs (x);
+  double r = -0.5 * log1p (-(y + y) / (1.0 + y));
+  return (x >= 0) ? r : -r;
+}
+#endif
+
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAVE_LONG_DOUBLE
+#ifdef WITH_LONG_DOUBLE
 
 long double go_nanl;
 long double go_pinfl;
@@ -430,58 +477,6 @@ strtold (char const *str, char **end)
 	errno = ERANGE;
 	return 0.0;
 #endif
-}
-#endif
-
-#ifndef HAVE_EXPM1L
-long double
-expm1l (long double x)
-{
-	long double y, a = fabsl (x);
-
-	if (a > 1e-8) {
-		y = expl (x) - 1;
-		if (a > 0.697)
-			return y;  /* negligible cancellation */
-	} else {
-		if (a < LDBL_EPSILON)
-			return x;
-		/* Taylor expansion, more accurate in this range */
-		y = (x / 2 + 1) * x;
-	}
-
-	/* Newton step for solving   log(1 + y) = x   for y : */
-	y -= (1 + y) * (log1pl (y) - x);
-	return y;
-}
-#endif
-
-#ifndef HAVE_ASINHL
-long double
-asinhl (long double x)
-{
-  long double y = fabsl (x);
-  long double r = log1pl (y * y / (hypotl (y, 1.0) + 1.0) + y);
-  return (x >= 0) ? r : -r;
-}
-#endif
-
-#ifndef HAVE_ACOSHL
-long double
-acoshl (long double x)
-{
-  long double xm1 = x - 1;
-  return log1pl (xm1 + sqrtl (xm1) * sqrtl (x + 1.0));
-}
-#endif
-
-#ifndef HAVE_ATANHL
-long double
-atanhl (long double x)
-{
-  long double y = fabsl (x);
-  long double r = -0.5 * log1pl (-(y + y) / (1.0 + y));
-  return (x >= 0) ? r : -r;
 }
 #endif
 

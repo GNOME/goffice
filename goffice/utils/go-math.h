@@ -2,14 +2,10 @@
 #define __GO_MATH_H
 
 #include <math.h>
-#ifdef HAVE_LONG_DOUBLE
-#ifdef HAVE_SUNMATH_H
-#include <sunmath.h>
-#endif
-#endif
 
 /* ------------------------------------------------------------------------- */
 
+void go_math_init (void);
 void gnm_continued_fraction (double val, int max_denom, int *res_num, int *res_denom);
 void go_stern_brocot (double val, int max_denom, int *res_num, int *res_denom);
 
@@ -30,9 +26,29 @@ int go_finite (double x);
 double go_pow2 (int n);
 double go_pow10 (int n);
 
+/*
+ * We provide working versions of these functions for doubles.
+ */ 
+#ifndef HAVE_ASINH
+double asinh (double x);
+#endif
+#ifndef HAVE_ACOSH
+double acosh (double x);
+#endif
+#ifndef HAVE_ATANH
+double atanh (double x);
+#endif
+#ifndef HAVE_EXPM1
+double expm1 (double x);
+#endif
+
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAVE_LONG_DOUBLE
+#ifdef WITH_LONG_DOUBLE
+
+#ifdef HAVE_SUNMATH_H
+#include <sunmath.h>
+#endif
 
 extern long double go_nanl;
 extern long double go_pinfl;
@@ -61,27 +77,11 @@ long double frexpl (long double x, int *exp);
 #if defined(MUST_PROTOTYPE_STRTOLD) || !defined(HAVE_STRTOLD)
 long double strtold (const char *, char **);
 #endif
-#ifndef HAVE_EXPM1L
-long double expm1l (long double x);
-#endif
-#ifndef HAVE_ASINHL
-long double asinhl (long double x);
-#endif
-#ifndef HAVE_ACOSHL
-long double acoshl (long double x);
-#endif
-#ifndef HAVE_ATANHL
-long double atanhl (long double x);
-#endif
 #ifndef HAVE_MODFL
 long double modfl (long double x, long double *iptr);
 #endif
 
 #endif
-
-/* ------------------------------------------------------------------------- */
-
-void go_math_init (void);
 
 /* ------------------------------------------------------------------------- */
 
