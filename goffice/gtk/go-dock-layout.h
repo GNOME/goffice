@@ -1,4 +1,4 @@
-/* File import from bonoboui to gnumeric by import-bonobo.  Do not edit.  */
+/* File import from bonoboui to libgoffice by import-bonobo.  Do not edit.  */
 
 /* go-dock-layout.c
 
@@ -27,8 +27,8 @@
   @NOTATION@
 */
 
-#ifndef _GO_DOCK_LAYOUT_H_
-#define _GO_DOCK_LAYOUT_H_
+#ifndef _GO_DOCK_LAYOUT_H
+#define _GO_DOCK_LAYOUT_H
 
 
 
@@ -132,4 +132,4 @@ gboolean             go_dock_layout_add_to_dock
 
 G_END_DECLS
 
-#endif /* _GO_DOCK_LAYOUT_H_ */
+#endif

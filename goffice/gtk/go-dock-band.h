@@ -1,4 +1,4 @@
-/* File import from bonoboui to gnumeric by import-bonobo.  Do not edit.  */
+/* File import from bonoboui to libgoffice by import-bonobo.  Do not edit.  */
 
 /* go-dock-band.h
 
@@ -26,8 +26,8 @@
   @NOTATION@
 */
 
-#ifndef _GO_DOCK_BAND_H_
-#define _GO_DOCK_BAND_H_
+#ifndef _GO_DOCK_BAND_H
+#define _GO_DOCK_BAND_H
 
 #include <glib-object.h>
 
@@ -158,4 +158,4 @@ gint _bonobo_dock_band_handle_key_nav (GoDockBand *band,
 
 G_END_DECLS
 
-#endif /* _GO_DOCK_BAND_H_ */
+#endif

@@ -1,4 +1,4 @@
-/* File import from bonoboui to gnumeric by import-bonobo.  Do not edit.  */
+/* File import from bonoboui to libgoffice by import-bonobo.  Do not edit.  */
 
 /* WARNING ____ IMMATURE API ____ liable to change */
 
@@ -28,8 +28,8 @@
   @NOTATION@
 */
 
-#ifndef _GO_DOCK_ITEM_H_
-#define _GO_DOCK_ITEM_H_
+#ifndef _GO_DOCK_ITEM_H
+#define _GO_DOCK_ITEM_H
 
 #include <gtk/gtk.h>
 
@@ -161,4 +161,4 @@ GtkWidget     *go_dock_item_get_grip       (GoDockItem *item);
 
 G_END_DECLS
 
-#endif /* _GO_DOCK_ITEM_H_ */
+#endif /* _GO_DOCK_ITEM_H */

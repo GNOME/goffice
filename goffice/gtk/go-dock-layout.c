@@ -1,4 +1,4 @@
-/* File import from bonoboui to gnumeric by import-bonobo.  Do not edit.  */
+/* File import from bonoboui to libgoffice by import-bonobo.  Do not edit.  */
 
 /* go-dock-layout.c
 
@@ -27,7 +27,7 @@
   @NOTATION@
 */
 
-#include <gnumeric-config.h>
+#include <goffice-config.h>
 #include <glib/gi18n.h>
 #include <string.h>
 #include <gtk/gtk.h>

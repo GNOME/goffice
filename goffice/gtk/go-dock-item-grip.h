@@ -1,4 +1,4 @@
-/* File import from bonoboui to gnumeric by import-bonobo.  Do not edit.  */
+/* File import from bonoboui to libgoffice by import-bonobo.  Do not edit.  */
 
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /**

@@ -1,4 +1,4 @@
-/* File import from bonoboui to gnumeric by import-bonobo.  Do not edit.  */
+/* File import from bonoboui to libgoffice by import-bonobo.  Do not edit.  */
 
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /**
@@ -10,7 +10,7 @@
  * Copyright (C) 2002 Sun Microsystems, Inc.
  */
 
-#include "gnumeric-config.h"
+#include "goffice-config.h"
 #include <glib/gi18n.h>
 #include "go-a11y.h"
 #include "go-dock-band.h"
@@ -52,7 +52,8 @@ go_dock_item_grip_expose (GtkWidget      *widget,
 			  shadow,
 			  clip, widget, "dockitem",
 			  rect->x, rect->y, rect->width, rect->height,
-			  grip->item->orientation);
+			  (grip->item->orientation == GTK_ORIENTATION_HORIZONTAL)
+			    ? GTK_ORIENTATION_VERTICAL : GTK_ORIENTATION_HORIZONTAL);
 
 	if (GTK_WIDGET_HAS_FOCUS (widget)) {
 		gint focus_width;
@@ -258,7 +259,7 @@ go_dock_item_grip_get_accessible (GtkWidget *widget)
 		go_a11y_add_actions_interface (
 			a11y_type, &action_if,
 			ACTION_DOCK,   "dock",   _("Dock the toolbar"),    "<Enter>",
-			ACTION_UNDOCK, "undock", _("Un dock the toolbar"), "<Enter>",
+			ACTION_UNDOCK, "undock", _("Undock the toolbar"), "<Enter>",
 			-1);
 	}
 

@@ -1,4 +1,4 @@
-/* File import from bonoboui to gnumeric by import-bonobo.  Do not edit.  */
+/* File import from bonoboui to libgoffice by import-bonobo.  Do not edit.  */
 
 /* go-dock.h
 
@@ -27,8 +27,8 @@
   @NOTATION@
 */
 
-#ifndef _GO_DOCK_H_
-#define _GO_DOCK_H_
+#ifndef _GO_DOCK_H
+#define _GO_DOCK_H
 
 #include <glib-object.h>
 
@@ -137,4 +137,4 @@ gint _bonobo_dock_handle_key_nav (GoDock     *dock,
 
 G_END_DECLS
 
-#endif /* _GO_DOCK_H_ */
+#endif
