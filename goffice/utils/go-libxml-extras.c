@@ -11,7 +11,6 @@
 #include <goffice/goffice-config.h>
 #include "go-libxml-extras.h"
 #include "go-color.h"
-#include "go-locale.h"
 
 #include <string.h>
 #include <errno.h>
@@ -229,7 +228,7 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent, const gchar *name)
 {
 	xmlNodePtr   best_node = NULL, node;
 	gint         best_lang_score = INT_MAX;
-	GList const *lang_list = go_locale_languages ();
+	const char * const *langs = g_get_language_names ();
 
 	g_return_val_if_fail (parent != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
@@ -242,13 +241,12 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent, const gchar *name)
 
 		lang = xmlGetProp (node, "xml:lang");
 		if (lang != NULL) {
-			const GList *l;
 			gint i;
 
-			for (l = lang_list, i = 0;
-			     l != NULL && i < best_lang_score;
-			     l = l->next, i++) {
-				if (strcmp ((gchar *) l->data, lang) == 0) {
+			for (i = 0;
+			     langs[i] != NULL && i < best_lang_score;
+			     i++) {
+				if (strcmp (langs[i], lang) == 0) {
 					best_node = node;
 					best_lang_score = i;
 				}
@@ -263,4 +261,3 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent, const gchar *name)
 
 	return best_node;
 }
-
