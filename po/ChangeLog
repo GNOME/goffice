@@ -1,0 +1,4 @@
+2005-03-04  Stepan Kasal  <kasal@ucw.cz>
+
+	* POTFILES.in: Move goffice/app/go-app.h ...
+	* POTFILES.skip: ... here.

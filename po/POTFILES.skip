@@ -1,0 +1,4 @@
+# List of source files to be ignored by intltool.
+#
+# This one is not distributed:
+goffice/app/go-app.h

@@ -7,7 +7,6 @@ goffice/app/error-info.h
 goffice/app/file.c
 goffice/app/file.h
 goffice/app/file-priv.h
-goffice/app/go-app.h
 goffice/app/go-cmd-context.c
 goffice/app/go-cmd-context.h
 goffice/app/go-cmd-context-impl.h
