@@ -52,6 +52,7 @@ GOPlugin *go_plugins_get_plugin_by_id (const gchar *plugin_id);
 GSList	 *go_plugins_get_available_plugins (void);
 GSList	 *go_plugins_get_active_plugins (void);
 void	  go_plugins_rescan (ErrorInfo **ret_error, GSList **ret_new_plugins);
+char 	 *go_plugins_get_plugin_dir (void);
 
 void	  go_plugin_db_mark_plugin_for_deactivation (GOPlugin *pinfo, gboolean mark);
 gboolean  go_plugin_db_is_plugin_marked_for_deactivation (GOPlugin *pinfo);
