@@ -25,8 +25,9 @@
 
 G_BEGIN_DECLS
 
-char const *go_sys_data_dir (void);
-char const *go_sys_icon_dir (void);
+gchar const *go_sys_data_dir (void);
+gchar const *go_sys_icon_dir (void);
+gchar const *go_sys_lib_dir (void);
 
 G_END_DECLS
 

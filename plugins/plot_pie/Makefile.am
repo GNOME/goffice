@@ -4,6 +4,8 @@ gladedir = $(goffice_graph_piedir)
 
 goffice_graph_pie_LTLIBRARIES = pie.la
 pie_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
+pie_la_LIBADD = $(GOFFICE_PLUGIN_LIBADD)
+
 pie_la_SOURCES = \
 	gog-pie.c		\
 	gog-pie.h		\

@@ -1,3 +1,20 @@
+2005-03-30  Ivan, Wong Yat Cheung <email@ivanwong.info>
+
+	* configure.in:
+	* plugins/plot_*/Makefile.am: modify GOFFICE_PLUGIN_LDFLAGS and
+	  add add GOFFICE_PLUGIN_LIBADD. They help when
+	  host_os == win32.
+
+	* goffice/Makefile.am: -export-all-symbols is not the
+	  final solution. Will remove it when we have GO_API or
+	  any other solution.
+
+	* goffice/goffice-priv.h:
+	* goffice/goffice.c:
+	* goffice/app/go-plugin.c: use go_sys_lib_dir ()
+
+	* goffice/gtk/Makefile.am: libgoffice-html-help-stub.la
+
 2005-03-30  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-object.c (gog_editor_free): free editor.

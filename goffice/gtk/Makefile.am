@@ -1,10 +1,10 @@
 noinst_LTLIBRARIES = libgoffice-gtk.la
 if WITH_WIN32
-    noinst_LTLIBRARIES += libhtmlhelp-stub.la
+    lib_LTLIBRARIES = libgoffice-html-help-stub.la
 
-    libhtmlhelp_stub_la_SOURCES = htmlhelp-stub.c htmlhelp-stub.h
-    libhtmlhelp_stub_la_LIBADD = -luuid -lhtmlhelp
-    libhtmlhelp_stub_la_LDFLAGS = -no-undefined -Wl,libhtmlhelp-stub.def
+    libgoffice_html_help_stub_la_SOURCES = htmlhelp-stub.c htmlhelp-stub.h
+    libgoffice_html_help_stub_la_LIBADD = -luuid -lhtmlhelp
+    libgoffice_html_help_stub_la_LDFLAGS = -no-undefined -Wl,libhtmlhelp-stub.def
 endif
 
 libgoffice_gtk_la_SOURCES =		\

@@ -4,6 +4,8 @@ gladedir = $(goffice_graph_radardir)
 
 goffice_graph_radar_LTLIBRARIES = radar.la
 radar_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
+radar_la_LIBADD = $(GOFFICE_PLUGIN_LIBADD)
+
 radar_la_SOURCES = \
 	gog-radar.c		\
 	gog-radar.h		

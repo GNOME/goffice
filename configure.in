@@ -151,6 +151,8 @@ AC_MSG_CHECKING([for Win32 platform in general])
 case "$host" in
   *-*-mingw*|*-*-cygwin*)
     platform_win32=yes
+    GOFFICE_PLUGIN_LDFLAGS="-no-undefined -Wl,--enable-runtime-pseudo-relo,--export-all-symbols $GOFFICE_PLUGIN_LDFLAGS"
+    GOFFICE_PLUGIN_LIBADD="\$(top_builddir)/goffice/libgoffice-1.la $GOFFICE_LIBS $GOFFICE_PLUGIN_LIBADD"
     ;;
   *)
     platform_win32=no
@@ -165,6 +167,7 @@ dnl	   If we use the initial value of a variable, we have to make it precious.
 dnl
 GOFFICE_PLUGIN_LDFLAGS="-avoid-version $GOFFICE_PLUGIN_LDFLAGS"
 AC_SUBST(GOFFICE_PLUGIN_LDFLAGS)
+AC_SUBST(GOFFICE_PLUGIN_LIBADD)
 
 dnl disable for in stable release, re-enable for development series
 CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED"

@@ -4,6 +4,8 @@ gladedir = $(goffice_graph_barcoldir)
 
 goffice_graph_barcol_LTLIBRARIES = barcol.la
 barcol_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
+barcol_la_LIBADD = $(GOFFICE_PLUGIN_LIBADD)
+
 barcol_la_SOURCES = gog-1.5d.c 		\
 		    gog-1.5d.h		\
 		    gog-line.c		\

@@ -4,6 +4,8 @@ gladedir = $(goffice_graph_boxplotdir)
 
 goffice_graph_boxplot_LTLIBRARIES = boxplot.la
 boxplot_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
+boxplot_la_LIBADD = $(GOFFICE_PLUGIN_LIBADD)
+
 boxplot_la_SOURCES = gog-boxplot.c	\
 		    gog-boxplot.h
 

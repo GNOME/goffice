@@ -4,6 +4,8 @@ gladedir = $(goffice_graph_xydir)
 
 goffice_graph_xy_LTLIBRARIES = xy.la
 xy_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
+xy_la_LIBADD = $(GOFFICE_PLUGIN_LIBADD)
+
 xy_la_SOURCES = \
 	gog-xy.c		\
 	gog-xy.h		\

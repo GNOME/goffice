@@ -49,17 +49,24 @@ int goffice_graph_debug_level = 0;
 static char const *libgoffice_data_dir   = GOFFICE_DATADIR;
 static char const *libgoffice_icon_dir   = GOFFICE_ICONDIR;
 static char const *libgoffice_locale_dir = GOFFICE_LOCALEDIR;
-/* static char const *libgoffice_lib_dir    = GOFFICE_LIBDIR; */
+static char const *libgoffice_lib_dir    = GOFFICE_LIBDIR;
 
-char const *
+gchar const *
 go_sys_data_dir ()
 {
 	return libgoffice_data_dir;
 }
-char const *
+
+gchar const *
 go_sys_icon_dir ()
 {
 	return libgoffice_icon_dir;
+}
+
+gchar const *
+go_sys_lib_dir ()
+{
+	return libgoffice_lib_dir;
 }
 
 void
@@ -72,15 +79,16 @@ libgoffice_init (void)
 
 #ifdef G_OS_WIN32
 {
-	char *dir = g_win32_get_package_installation_directory (NULL, NULL);
+	gchar *dir = g_win32_get_package_installation_directory (NULL, "libgoffice-1-0.dll");
 	libgoffice_data_dir = g_build_filename (dir,
 		"share", "goffice", GOFFICE_VERSION, NULL);
 	libgoffice_icon_dir = g_build_filename (dir,
 		"share", "pixmaps", "goffice", NULL);
 	libgoffice_locale_dir = g_build_filename (dir,
 		"share", "locale", NULL);
-/*	libgoffice_lib_dir = g_build_filename (dir,
-		"lib", "goffice", GOFFICE_VERSION, NULL); */
+	libgoffice_lib_dir = g_build_filename (dir,
+		"lib", "goffice", GOFFICE_VERSION, NULL);
+	g_free (dir);
 }
 #endif
 
@@ -115,4 +123,10 @@ libgoffice_shutdown (void)
 	gog_themes_shutdown ();
 	go_fonts_shutdown ();
 	gog_plugin_services_shutdown ();
+#ifdef G_OS_WIN32
+	g_free (libgoffice_data_dir);
+	g_free (libgoffice_icon_dir);
+	g_free (libgoffice_locale_dir);
+	g_free (libgoffice_lib_dir);
+#endif
 }

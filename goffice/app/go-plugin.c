@@ -11,6 +11,7 @@
  */
 
 #include <goffice/goffice-config.h>
+#include <goffice/goffice-priv.h>
 #include <goffice/goffice-paths.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-service.h>
@@ -1834,5 +1835,5 @@ go_plugins_shutdown (void)
 char *
 go_plugins_get_plugin_dir (void)
 {
-	return g_build_filename (GOFFICE_LIBDIR, "plugins", NULL);
+	return g_build_filename (go_sys_lib_dir (), "plugins", NULL);
 }
