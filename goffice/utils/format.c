@@ -951,13 +951,14 @@ SUFFIX(go_render_number) (GString *result,
 		digit = (gint)frac_part;
 		frac_part -= digit;
 
-		if (digit == 0) {
+		if (sigdig++ > PREFIX(DIG)) digit = 0;
+
+		if (digit != 0) {
 			right_spaces -= zero_count + 1;
 			zero_count = 0;
 		} else
 			zero_count ++;
 
-		if (sigdig++ > PREFIX(DIG)) digit = 0;
 		g_string_append_c (result, digit + '0');
 	}
 

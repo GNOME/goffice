@@ -1,5 +1,8 @@
 2005-03-11  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/format.c (go_render_number): Fix two
+	trailing-zeros bugs.
+
 	* goffice/utils/Makefile.am (.list.c): Add include of
 	goffice/goffice-config.h when building this.
 
