@@ -50,7 +50,7 @@ sub copy_subsystem {
 
 	next if /^pkgconfig/;
 
-	s|\$\(LIBFOOCANVAS_CFLAGS\)|\$\(GOFFICE_CFLAGS\) \)/src|;
+	s|\$\(LIBFOOCANVAS_CFLAGS\)|\$\(GOFFICE_CFLAGS\) |;
 	if (s/\s*\$\(LIBFOOCANVAS_LIBS\)/	/) {
 	    s/^\s*$/	\$(NULL)\n/;
 	}
