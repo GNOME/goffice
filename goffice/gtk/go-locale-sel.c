@@ -274,7 +274,7 @@ static GHashTable *locale_hash;
 
 struct _GOLocaleSel {
 	GtkHBox box;
-	GnumericOptionMenu *locales;
+	GOOptionMenu *locales;
 	GtkMenu *locales_menu;
 };
 
@@ -364,7 +364,7 @@ get_locale_name (GOLocaleSel *ls)
 }
 
 static void
-locales_changed_cb (GnumericOptionMenu *optionmenu, GOLocaleSel *ls)
+locales_changed_cb (GOOptionMenu *optionmenu, GOLocaleSel *ls)
 {
 	char * locale;
 
@@ -386,7 +386,7 @@ set_menu_to_default (GOLocaleSel *ls, gint item)
 
 	g_return_if_fail (ls != NULL && IS_GO_LOCALE_SEL (ls));
 
-	gnumeric_option_menu_set_history (ls->locales, &sel);
+	go_option_menu_set_history (ls->locales, &sel);
 }
 
 static gboolean
@@ -432,7 +432,7 @@ ls_build_menu (GOLocaleSel *ls)
 			locale_trans++;
 		}
 		if (cnt > 0) {
-			gtk_menu_item_set_submenu (GTK_MENU_ITEM(item), GTK_WIDGET (submenu));
+			gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (submenu));
 			gtk_widget_show (item);
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 			lg_cnt++;
@@ -458,7 +458,7 @@ ls_build_menu (GOLocaleSel *ls)
 		lg_cnt++;
 	}
 
-	gnumeric_option_menu_set_menu (ls->locales, GTK_WIDGET (menu));
+	go_option_menu_set_menu (ls->locales, GTK_WIDGET (menu));
 	ls->locales_menu = menu;
 	set_menu_to_default (ls, lg_cnt);
 }
@@ -466,12 +466,12 @@ ls_build_menu (GOLocaleSel *ls)
 static void
 ls_init (GOLocaleSel *ls)
 {
-	ls->locales = GNUMERIC_OPTION_MENU(gnumeric_option_menu_new());
+	ls->locales = GO_OPTION_MENU (go_option_menu_new ());
 	ls_build_menu (ls);
 
 	g_signal_connect (G_OBJECT (ls->locales), "changed",
                           G_CALLBACK (locales_changed_cb), ls);
-        gtk_box_pack_start (GTK_BOX(ls), GTK_WIDGET (ls->locales),
+        gtk_box_pack_start (GTK_BOX (ls), GTK_WIDGET (ls->locales),
                             TRUE, TRUE, 0);
 }
 
@@ -552,7 +552,7 @@ go_locale_sel_get_locale (GOLocaleSel *ls)
 
  	g_return_val_if_fail (IS_GO_LOCALE_SEL (ls), cur_locale_cp);
 
- 	selection = GTK_MENU_ITEM (gnumeric_option_menu_get_history (ls->locales));
+ 	selection = GTK_MENU_ITEM (go_option_menu_get_history (ls->locales));
 	locale = (char const *) g_object_get_data (G_OBJECT (selection),
 						     LOCALE_NAME_KEY);
 	return locale ? g_strdup (locale) : cur_locale_cp;
@@ -626,7 +626,7 @@ go_locale_sel_set_locale (GOLocaleSel *ls, const char *locale)
 	if (!cl.found)
 		return FALSE;
 
-	gnumeric_option_menu_set_history (ls->locales, cl.path);
+	go_option_menu_set_history (ls->locales, cl.path);
 	g_slist_free (cl.path);
 
 	return TRUE;

@@ -1,7 +1,7 @@
 /* 
  * go-optionmenu.h
  *
- * Copyright (C) 2002 Andreas J. Guelzow <aguelzow@taliesin.ca>
+ * Copyright (C) 2002-2005 Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * based extensively on:
  *
@@ -39,17 +39,17 @@
 
 G_BEGIN_DECLS
 
-#define GNUMERIC_TYPE_OPTION_MENU              (gnumeric_option_menu_get_type ())
-#define GNUMERIC_OPTION_MENU(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNUMERIC_TYPE_OPTION_MENU, GnumericOptionMenu))
-#define GNUMERIC_OPTION_MENU_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), GNUMERIC_TYPE_OPTION_MENU, GnumericOptionMenuClass))
-#define GNUMERIC_IS_OPTION_MENU(obj)           (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNUMERIC_TYPE_OPTION_MENU))
-#define GNUMERIC_IS_OPTION_MENU_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), GNUMERIC_TYPE_OPTION_MENU))
-#define GNUMERIC_OPTION_MENU_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), GNUMERIC_TYPE_OPTION_MENU, GnumericOptionMenuClass))
+#define GO_TYPE_OPTION_MENU              (go_option_menu_get_type ())
+#define GO_OPTION_MENU(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GO_TYPE_OPTION_MENU, GOOptionMenu))
+#define GO_OPTION_MENU_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_OPTION_MENU, GOOptionMenuClass))
+#define GO_IS_OPTION_MENU(obj)           (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GO_TYPE_OPTION_MENU))
+#define GO_IS_OPTION_MENU_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), GO_TYPE_OPTION_MENU))
+#define GO_OPTION_MENU_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), GO_TYPE_OPTION_MENU, GOOptionMenuClass))
 
-typedef struct _GnumericOptionMenu       GnumericOptionMenu;
-typedef struct _GnumericOptionMenuClass  GnumericOptionMenuClass;
+typedef struct _GOOptionMenu       GOOptionMenu;
+typedef struct _GOOptionMenuClass  GOOptionMenuClass;
 
-struct _GnumericOptionMenu
+struct _GOOptionMenu
 {
 	GtkButton button;
 	
@@ -67,11 +67,11 @@ struct _GnumericOptionMenu
 	guint16 height;
 };
 
-struct _GnumericOptionMenuClass
+struct _GOOptionMenuClass
 {
   GtkButtonClass parent_class;
 
-  void (*changed) (GnumericOptionMenu *option_menu);
+  void (*changed) (GOOptionMenu *option_menu);
 
   /* Padding for future expansion */
   void (*_gtk_reserved1) (void);
@@ -81,15 +81,15 @@ struct _GnumericOptionMenuClass
 };
 
 
-GType      gnumeric_option_menu_get_type    (void) G_GNUC_CONST;
-GtkWidget* gnumeric_option_menu_new         (void);
-GtkWidget* gnumeric_option_menu_get_menu    (GnumericOptionMenu *option_menu);
-void       gnumeric_option_menu_set_menu    (GnumericOptionMenu *option_menu,
-					     GtkWidget *menu);
-void       gnumeric_option_menu_remove_menu (GnumericOptionMenu *option_menu);
-void       gnumeric_option_menu_set_history (GnumericOptionMenu *option_menu,
-					     GSList *selection);
-GtkWidget *gnumeric_option_menu_get_history (GnumericOptionMenu *option_menu);
+GType      go_option_menu_get_type    (void) G_GNUC_CONST;
+GtkWidget* go_option_menu_new         (void);
+GtkWidget* go_option_menu_get_menu    (GOOptionMenu *option_menu);
+void       go_option_menu_set_menu    (GOOptionMenu *option_menu,
+				       GtkWidget *menu);
+void       go_option_menu_remove_menu (GOOptionMenu *option_menu);
+void       go_option_menu_set_history (GOOptionMenu *option_menu,
+				       GSList *selection);
+GtkWidget *go_option_menu_get_history (GOOptionMenu *option_menu);
 
 G_END_DECLS
 

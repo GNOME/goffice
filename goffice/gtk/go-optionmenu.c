@@ -44,9 +44,9 @@
 #define CHILD_TOP_SPACING         1
 #define CHILD_BOTTOM_SPACING      1
 
-typedef struct _GnumericOptionMenuProps GnumericOptionMenuProps;
+typedef struct _GOOptionMenuProps GOOptionMenuProps;
 
-struct _GnumericOptionMenuProps
+struct _GOOptionMenuProps
 {
   gboolean interior_focus;
   GtkRequisition indicator_size;
@@ -55,7 +55,7 @@ struct _GnumericOptionMenuProps
   gint focus_pad;
 };
 
-static const GnumericOptionMenuProps default_props = {
+static const GOOptionMenuProps default_props = {
   TRUE,
   { 7, 13 },
   { 7, 5, 2, 2 },		/* Left, right, top, bottom */
@@ -63,45 +63,45 @@ static const GnumericOptionMenuProps default_props = {
   0
 };
 
-static void gnumeric_option_menu_class_init      (GnumericOptionMenuClass *klass);
-static void gnumeric_option_menu_init            (GnumericOptionMenu      *option_menu);
-static void gnumeric_option_menu_destroy         (GtkObject          *object);
-static void gnumeric_option_menu_set_property    (GObject            *object,
+static void go_option_menu_class_init      (GOOptionMenuClass *klass);
+static void go_option_menu_init            (GOOptionMenu      *option_menu);
+static void go_option_menu_destroy         (GtkObject          *object);
+static void go_option_menu_set_property    (GObject            *object,
 						  guint               prop_id,
 						  const GValue       *value,
 						  GParamSpec         *pspec);
-static void gnumeric_option_menu_get_property    (GObject            *object,
+static void go_option_menu_get_property    (GObject            *object,
 						  guint               prop_id,
 						  GValue             *value,
 						  GParamSpec         *pspec);
-static void gnumeric_option_menu_size_request    (GtkWidget          *widget,
+static void go_option_menu_size_request    (GtkWidget          *widget,
 						  GtkRequisition     *requisition);
-static void gnumeric_option_menu_size_allocate   (GtkWidget          *widget,
+static void go_option_menu_size_allocate   (GtkWidget          *widget,
 						  GtkAllocation      *allocation);
-static void gnumeric_option_menu_paint           (GtkWidget          *widget,
+static void go_option_menu_paint           (GtkWidget          *widget,
 						  GdkRectangle       *area);
-static gint gnumeric_option_menu_expose          (GtkWidget          *widget,
+static gint go_option_menu_expose          (GtkWidget          *widget,
 						  GdkEventExpose     *event);
-static gint gnumeric_option_menu_button_press    (GtkWidget          *widget,
+static gint go_option_menu_button_press    (GtkWidget          *widget,
 						  GdkEventButton     *event);
-static gint gnumeric_option_menu_key_press       (GtkWidget          *widget,
+static gint go_option_menu_key_press       (GtkWidget          *widget,
 						  GdkEventKey        *event);
-static void gnumeric_option_menu_selection_done  (GtkMenu            *menu,
-						  GnumericOptionMenu *option_menu);
-static void gnumeric_option_menu_update_contents (GnumericOptionMenu *option_menu, GtkMenu *menu);
-static void gnumeric_option_menu_remove_contents (GnumericOptionMenu *option_menu);
-static void gnumeric_option_menu_calc_size       (GnumericOptionMenu *option_menu);
-static void gnumeric_option_menu_position        (GtkMenu            *menu,
+static void go_option_menu_selection_done  (GtkMenu            *menu,
+						  GOOptionMenu *option_menu);
+static void go_option_menu_update_contents (GOOptionMenu *option_menu, GtkMenu *menu);
+static void go_option_menu_remove_contents (GOOptionMenu *option_menu);
+static void go_option_menu_calc_size       (GOOptionMenu *option_menu);
+static void go_option_menu_position        (GtkMenu            *menu,
 						  gint               *x,
 						  gint               *y,
 						  gint               *scroll_offet,
 						  gpointer            user_data);
-static void gnumeric_option_menu_show_all        (GtkWidget          *widget);
-static void gnumeric_option_menu_hide_all        (GtkWidget          *widget);
-static gboolean gnumeric_option_menu_mnemonic_activate (GtkWidget    *widget,
+static void go_option_menu_show_all        (GtkWidget          *widget);
+static void go_option_menu_hide_all        (GtkWidget          *widget);
+static gboolean go_option_menu_mnemonic_activate (GtkWidget    *widget,
 							gboolean      group_cycling);
-static GType gnumeric_option_menu_child_type   (GtkContainer       *container);
-static gint gnumeric_option_menu_scroll_event    (GtkWidget          *widget,
+static GType go_option_menu_child_type   (GtkContainer       *container);
+static gint go_option_menu_scroll_event    (GtkWidget          *widget,
 						  GdkEventScroll     *event);
 
 enum
@@ -122,7 +122,7 @@ static guint           signals[LAST_SIGNAL] = { 0 };
 
 
 GType
-gnumeric_option_menu_get_type (void)
+go_option_menu_get_type (void)
 {
   static GType option_menu_type = 0;
 
@@ -130,19 +130,19 @@ gnumeric_option_menu_get_type (void)
     {
       static const GTypeInfo option_menu_info =
       {
-	sizeof (GnumericOptionMenuClass),
+	sizeof (GOOptionMenuClass),
 	NULL,		/* base_init */
 	NULL,		/* base_finalize */
-	(GClassInitFunc) gnumeric_option_menu_class_init,
+	(GClassInitFunc) go_option_menu_class_init,
 	NULL,		/* class_finalize */
 	NULL,		/* class_data */
-	sizeof (GnumericOptionMenu),
+	sizeof (GOOptionMenu),
 	0,		/* n_preallocs */
-	(GInstanceInitFunc) gnumeric_option_menu_init,
+	(GInstanceInitFunc) go_option_menu_init,
       };
 
       option_menu_type =
-	g_type_register_static (GTK_TYPE_BUTTON, "GnumericOptionMenu",
+	g_type_register_static (GTK_TYPE_BUTTON, "GOOptionMenu",
 				&option_menu_info, 0);
     }
 
@@ -150,7 +150,7 @@ gnumeric_option_menu_get_type (void)
 }
 
 static void
-gnumeric_option_menu_class_init (GnumericOptionMenuClass *class)
+go_option_menu_class_init (GOOptionMenuClass *class)
 {
   GObjectClass *gobject_class;
   GtkObjectClass *object_class;
@@ -170,26 +170,26 @@ gnumeric_option_menu_class_init (GnumericOptionMenuClass *class)
     g_signal_new ("changed",
                   G_OBJECT_CLASS_TYPE (class),
                   G_SIGNAL_RUN_LAST,
-                  G_STRUCT_OFFSET (GnumericOptionMenuClass, changed),
+                  G_STRUCT_OFFSET (GOOptionMenuClass, changed),
                   NULL, NULL,
                   g_cclosure_marshal_VOID__VOID,
                   G_TYPE_NONE, 0);
 
-  gobject_class->set_property = gnumeric_option_menu_set_property;
-  gobject_class->get_property = gnumeric_option_menu_get_property;
-  object_class->destroy = gnumeric_option_menu_destroy;
+  gobject_class->set_property = go_option_menu_set_property;
+  gobject_class->get_property = go_option_menu_get_property;
+  object_class->destroy = go_option_menu_destroy;
   
-  widget_class->size_request = gnumeric_option_menu_size_request;
-  widget_class->size_allocate = gnumeric_option_menu_size_allocate;
-  widget_class->expose_event = gnumeric_option_menu_expose;
-  widget_class->button_press_event = gnumeric_option_menu_button_press;
-  widget_class->key_press_event = gnumeric_option_menu_key_press;
-  widget_class->scroll_event = gnumeric_option_menu_scroll_event;
-  widget_class->show_all = gnumeric_option_menu_show_all;
-  widget_class->hide_all = gnumeric_option_menu_hide_all;
-  widget_class->mnemonic_activate = gnumeric_option_menu_mnemonic_activate;
+  widget_class->size_request = go_option_menu_size_request;
+  widget_class->size_allocate = go_option_menu_size_allocate;
+  widget_class->expose_event = go_option_menu_expose;
+  widget_class->button_press_event = go_option_menu_button_press;
+  widget_class->key_press_event = go_option_menu_key_press;
+  widget_class->scroll_event = go_option_menu_scroll_event;
+  widget_class->show_all = go_option_menu_show_all;
+  widget_class->hide_all = go_option_menu_hide_all;
+  widget_class->mnemonic_activate = go_option_menu_mnemonic_activate;
 
-  container_class->child_type = gnumeric_option_menu_child_type;
+  container_class->child_type = go_option_menu_child_type;
 
   g_object_class_install_property (gobject_class,
                                    PROP_MENU,
@@ -214,13 +214,13 @@ gnumeric_option_menu_class_init (GnumericOptionMenuClass *class)
 }
 
 static GType
-gnumeric_option_menu_child_type (GtkContainer       *container)
+go_option_menu_child_type (GtkContainer       *container)
 {
   return G_TYPE_NONE;
 }
 
 static void
-gnumeric_option_menu_init (GnumericOptionMenu *option_menu)
+go_option_menu_init (GOOptionMenu *option_menu)
 {
   GTK_WIDGET_SET_FLAGS (option_menu, GTK_CAN_FOCUS);
   GTK_WIDGET_UNSET_FLAGS (option_menu, GTK_CAN_DEFAULT | GTK_RECEIVES_DEFAULT);
@@ -237,36 +237,36 @@ gnumeric_option_menu_init (GnumericOptionMenu *option_menu)
 }
 
 GtkWidget*
-gnumeric_option_menu_new (void)
+go_option_menu_new (void)
 {
-  return g_object_new (GNUMERIC_TYPE_OPTION_MENU, NULL);
+  return g_object_new (GO_TYPE_OPTION_MENU, NULL);
 }
 
 GtkWidget*
-gnumeric_option_menu_get_menu (GnumericOptionMenu *option_menu)
+go_option_menu_get_menu (GOOptionMenu *option_menu)
 {
-  g_return_val_if_fail (GNUMERIC_IS_OPTION_MENU (option_menu), NULL);
+  g_return_val_if_fail (GO_IS_OPTION_MENU (option_menu), NULL);
 
   return option_menu->menu;
 }
 
 static void
-gnumeric_option_menu_detacher (GtkWidget     *widget,
+go_option_menu_detacher (GtkWidget     *widget,
 			  GtkMenu	*menu)
 {
-  GnumericOptionMenu *option_menu;
+  GOOptionMenu *option_menu;
 
-  g_return_if_fail (GNUMERIC_IS_OPTION_MENU (widget));
+  g_return_if_fail (GO_IS_OPTION_MENU (widget));
 
-  option_menu = GNUMERIC_OPTION_MENU (widget);
+  option_menu = GO_OPTION_MENU (widget);
   g_return_if_fail (option_menu->menu == (GtkWidget*) menu);
 
-  gnumeric_option_menu_remove_contents (option_menu);
+  go_option_menu_remove_contents (option_menu);
   g_signal_handlers_disconnect_by_func (option_menu->menu,
-					gnumeric_option_menu_selection_done,
+					go_option_menu_selection_done,
 					option_menu);
   g_signal_handlers_disconnect_by_func (option_menu->menu,
-					gnumeric_option_menu_calc_size,
+					go_option_menu_calc_size,
 					option_menu);
   
   option_menu->menu = NULL;
@@ -291,7 +291,7 @@ connect_menu_signals (GtkMenu *menu, gpointer data)
 	GList *children;
 	
 	g_signal_connect_after (menu, "selection_done",
-				G_CALLBACK (gnumeric_option_menu_selection_done),
+				G_CALLBACK (go_option_menu_selection_done),
 				data);
 	children = gtk_container_get_children (GTK_CONTAINER(menu));
 	g_list_foreach (children, (GFunc)connect_menu_signals_to_submenu, data);
@@ -300,42 +300,42 @@ connect_menu_signals (GtkMenu *menu, gpointer data)
 
 
 void
-gnumeric_option_menu_set_menu (GnumericOptionMenu *option_menu,
+go_option_menu_set_menu (GOOptionMenu *option_menu,
 			       GtkWidget *menu)
 {
-  g_return_if_fail (GNUMERIC_IS_OPTION_MENU (option_menu));
+  g_return_if_fail (GO_IS_OPTION_MENU (option_menu));
   g_return_if_fail (GTK_IS_MENU (menu));
 
   if (option_menu->menu != menu)
     {
-      gnumeric_option_menu_remove_menu (option_menu);
+      go_option_menu_remove_menu (option_menu);
 
       option_menu->menu = menu;
       gtk_menu_attach_to_widget (GTK_MENU (menu),
 				 GTK_WIDGET (option_menu),
-				 gnumeric_option_menu_detacher);
+				 go_option_menu_detacher);
 
-      gnumeric_option_menu_calc_size (option_menu);
+      go_option_menu_calc_size (option_menu);
 
       connect_menu_signals (GTK_MENU(option_menu->menu), option_menu);
       
       g_signal_connect_swapped (option_menu->menu, "size_request",
-				G_CALLBACK (gnumeric_option_menu_calc_size),
+				G_CALLBACK (go_option_menu_calc_size),
 				option_menu);
 
       if (GTK_WIDGET (option_menu)->parent)
 	gtk_widget_queue_resize (GTK_WIDGET (option_menu));
 
-      gnumeric_option_menu_update_contents (option_menu, NULL);
+      go_option_menu_update_contents (option_menu, NULL);
       
       g_object_notify (G_OBJECT (option_menu), "menu");
     }
 }
 
 void
-gnumeric_option_menu_remove_menu (GnumericOptionMenu *option_menu)
+go_option_menu_remove_menu (GOOptionMenu *option_menu)
 {
-  g_return_if_fail (GNUMERIC_IS_OPTION_MENU (option_menu));
+  g_return_if_fail (GO_IS_OPTION_MENU (option_menu));
 
   if (option_menu->menu)
     {
@@ -347,12 +347,12 @@ gnumeric_option_menu_remove_menu (GnumericOptionMenu *option_menu)
 }
 
 void
-gnumeric_option_menu_set_history (GnumericOptionMenu *option_menu, GSList *selection)
+go_option_menu_set_history (GOOptionMenu *option_menu, GSList *selection)
 {
   GtkWidget *item;
   
   g_return_if_fail (selection != NULL);
-  g_return_if_fail (GNUMERIC_IS_OPTION_MENU (option_menu));
+  g_return_if_fail (GO_IS_OPTION_MENU (option_menu));
 
   if (option_menu->menu)
     {
@@ -370,15 +370,15 @@ gnumeric_option_menu_set_history (GnumericOptionMenu *option_menu, GSList *selec
 	    gtk_menu_set_active (menu,  GPOINTER_TO_INT (selection->data));
 	    item = gtk_menu_get_active (menu);
 	    if (item != option_menu->menu_item)
-		    gnumeric_option_menu_update_contents (option_menu, menu);
+		    go_option_menu_update_contents (option_menu, menu);
 	    g_slist_free (option_menu->selection);
 	    option_menu->selection = g_slist_copy (selection);
     }
 }
 
 /**
- * gnumeric_option_menu_get_history:
- * @option_menu: a #GnumericOptionMenu
+ * go_option_menu_get_history:
+ * @option_menu: a #GOOptionMenu
  * 
  * Retrieves the currently selected menu item. The menu
  * items are numbered from top to bottom, starting with 0. 
@@ -387,7 +387,7 @@ gnumeric_option_menu_set_history (GnumericOptionMenu *option_menu, GSList *selec
  **/
 
 GtkWidget *
-gnumeric_option_menu_get_history (GnumericOptionMenu *option_menu)
+go_option_menu_get_history (GOOptionMenu *option_menu)
 {
      return GTK_WIDGET(option_menu->menu_item);
 }
@@ -396,17 +396,17 @@ gnumeric_option_menu_get_history (GnumericOptionMenu *option_menu)
 
 
 static void
-gnumeric_option_menu_set_property (GObject            *object,
+go_option_menu_set_property (GObject            *object,
 			      guint               prop_id,
 			      const GValue       *value,
 			      GParamSpec         *pspec)
 {
-  GnumericOptionMenu *option_menu = GNUMERIC_OPTION_MENU (object);
+  GOOptionMenu *option_menu = GO_OPTION_MENU (object);
 
   switch (prop_id)
     {
     case PROP_MENU:
-      gnumeric_option_menu_set_menu (option_menu, g_value_get_object (value));
+      go_option_menu_set_menu (option_menu, g_value_get_object (value));
       break;
       
     default:
@@ -416,12 +416,12 @@ gnumeric_option_menu_set_property (GObject            *object,
 }
 
 static void
-gnumeric_option_menu_get_property (GObject            *object,
+go_option_menu_get_property (GObject            *object,
 				   guint               prop_id,
 				   GValue             *value,
 				   GParamSpec         *pspec)
 {
-  GnumericOptionMenu *option_menu = GNUMERIC_OPTION_MENU (object);
+  GOOptionMenu *option_menu = GO_OPTION_MENU (object);
 
   switch (prop_id)
     {
@@ -436,13 +436,13 @@ gnumeric_option_menu_get_property (GObject            *object,
 }
 
 static void
-gnumeric_option_menu_destroy (GtkObject *object)
+go_option_menu_destroy (GtkObject *object)
 {
-  GnumericOptionMenu *option_menu;
+  GOOptionMenu *option_menu;
 
-  g_return_if_fail (GNUMERIC_IS_OPTION_MENU (object));
+  g_return_if_fail (GO_IS_OPTION_MENU (object));
 
-  option_menu = GNUMERIC_OPTION_MENU (object);
+  option_menu = GO_OPTION_MENU (object);
 
   if (option_menu->selection) {
 	  g_slist_free (option_menu->selection);
@@ -457,8 +457,8 @@ gnumeric_option_menu_destroy (GtkObject *object)
 }
 
 static void
-gnumeric_option_menu_get_props (GnumericOptionMenu       *option_menu,
-			   GnumericOptionMenuProps  *props)
+go_option_menu_get_props (GOOptionMenu       *option_menu,
+			   GOOptionMenuProps  *props)
 {
   GtkRequisition *indicator_size;
   GtkBorder *indicator_spacing;
@@ -486,15 +486,15 @@ gnumeric_option_menu_get_props (GnumericOptionMenu       *option_menu,
 }
 
 static void
-gnumeric_option_menu_size_request (GtkWidget      *widget,
+go_option_menu_size_request (GtkWidget      *widget,
 				   GtkRequisition *requisition)
 {
-  GnumericOptionMenu *option_menu = GNUMERIC_OPTION_MENU (widget);
-  GnumericOptionMenuProps props;
+  GOOptionMenu *option_menu = GO_OPTION_MENU (widget);
+  GOOptionMenuProps props;
   gint tmp;
   GtkRequisition child_requisition = { 0, 0 };
       
-  gnumeric_option_menu_get_props (option_menu, &props);
+  go_option_menu_get_props (option_menu, &props);
  
   if (GTK_BIN (option_menu)->child && GTK_WIDGET_VISIBLE (GTK_BIN (option_menu)->child))
     {
@@ -521,16 +521,16 @@ gnumeric_option_menu_size_request (GtkWidget      *widget,
 }
 
 static void
-gnumeric_option_menu_size_allocate (GtkWidget     *widget,
+go_option_menu_size_allocate (GtkWidget     *widget,
 				    GtkAllocation *allocation)
 {
   GtkWidget *child;
   GtkButton *button = GTK_BUTTON (widget);
   GtkAllocation child_allocation;
-  GnumericOptionMenuProps props;
+  GOOptionMenuProps props;
   gint border_width;
     
-  gnumeric_option_menu_get_props (GNUMERIC_OPTION_MENU (widget), &props);
+  go_option_menu_get_props (GO_OPTION_MENU (widget), &props);
   border_width = GTK_CONTAINER (widget)->border_width;
 
   widget->allocation = *allocation;
@@ -561,21 +561,21 @@ gnumeric_option_menu_size_allocate (GtkWidget     *widget,
 }
 
 static void
-gnumeric_option_menu_paint (GtkWidget    *widget,
+go_option_menu_paint (GtkWidget    *widget,
 		       GdkRectangle *area)
 {
   GdkRectangle button_area;
-  GnumericOptionMenuProps props;
+  GOOptionMenuProps props;
   gint border_width;
   gint tab_x;
 
-  g_return_if_fail (GNUMERIC_IS_OPTION_MENU (widget));
+  g_return_if_fail (GO_IS_OPTION_MENU (widget));
   g_return_if_fail (area != NULL);
 
   if (GTK_WIDGET_DRAWABLE (widget))
     {
       border_width = GTK_CONTAINER (widget)->border_width;
-      gnumeric_option_menu_get_props (GNUMERIC_OPTION_MENU (widget), &props);
+      go_option_menu_get_props (GO_OPTION_MENU (widget), &props);
 
       button_area.x = widget->allocation.x + border_width;
       button_area.y = widget->allocation.y + border_width;
@@ -646,15 +646,15 @@ gnumeric_option_menu_paint (GtkWidget    *widget,
 }
 
 static gint
-gnumeric_option_menu_expose (GtkWidget      *widget,
+go_option_menu_expose (GtkWidget      *widget,
 			GdkEventExpose *event)
 {
-  g_return_val_if_fail (GNUMERIC_IS_OPTION_MENU (widget), FALSE);
+  g_return_val_if_fail (GO_IS_OPTION_MENU (widget), FALSE);
   g_return_val_if_fail (event != NULL, FALSE);
 
   if (GTK_WIDGET_DRAWABLE (widget))
     {
-      gnumeric_option_menu_paint (widget, &event->area);
+      go_option_menu_paint (widget, &event->area);
 
       if (GTK_BIN (widget)->child)
 	gtk_container_propagate_expose (GTK_CONTAINER (widget),
@@ -666,25 +666,25 @@ gnumeric_option_menu_expose (GtkWidget      *widget,
 }
 
 static gint
-gnumeric_option_menu_button_press (GtkWidget      *widget,
+go_option_menu_button_press (GtkWidget      *widget,
 			      GdkEventButton *event)
 {
-  GnumericOptionMenu *option_menu;
+  GOOptionMenu *option_menu;
   GtkWidget *menu_item;
 
-  g_return_val_if_fail (GNUMERIC_IS_OPTION_MENU (widget), FALSE);
+  g_return_val_if_fail (GO_IS_OPTION_MENU (widget), FALSE);
   g_return_val_if_fail (event != NULL, FALSE);
 
-  option_menu = GNUMERIC_OPTION_MENU (widget);
+  option_menu = GO_OPTION_MENU (widget);
 
   if ((event->type == GDK_BUTTON_PRESS) &&
       (event->button == 1))
     {
 	    option_menu->new_selection = TRUE;
 	    option_menu->old_menu_item = option_menu->menu_item;
-	    gnumeric_option_menu_remove_contents (option_menu);
+	    go_option_menu_remove_contents (option_menu);
 	    gtk_menu_popup (GTK_MENU (option_menu->menu), NULL, NULL,
-			    gnumeric_option_menu_position, option_menu,
+			    go_option_menu_position, option_menu,
 			    event->button, event->time);
 	    menu_item = gtk_menu_get_active (GTK_MENU (option_menu->menu));
 	    if (menu_item)
@@ -700,16 +700,16 @@ gnumeric_option_menu_button_press (GtkWidget      *widget,
 }
 
 static gint
-gnumeric_option_menu_key_press (GtkWidget   *widget,
+go_option_menu_key_press (GtkWidget   *widget,
 			   GdkEventKey *event)
 {
-  GnumericOptionMenu *option_menu;
+  GOOptionMenu *option_menu;
   GtkWidget *menu_item;
 
-  g_return_val_if_fail (GNUMERIC_IS_OPTION_MENU (widget), FALSE);
+  g_return_val_if_fail (GO_IS_OPTION_MENU (widget), FALSE);
   g_return_val_if_fail (event != NULL, FALSE);
 
-  option_menu = GNUMERIC_OPTION_MENU (widget);
+  option_menu = GO_OPTION_MENU (widget);
 
   switch (event->keyval)
     {
@@ -717,9 +717,9 @@ gnumeric_option_menu_key_press (GtkWidget   *widget,
     case GDK_space:
 	    option_menu->new_selection= TRUE;
 	    option_menu->old_menu_item = option_menu->menu_item;
-	    gnumeric_option_menu_remove_contents (option_menu);
+	    go_option_menu_remove_contents (option_menu);
 	    gtk_menu_popup (GTK_MENU (option_menu->menu), NULL, NULL,
-			    gnumeric_option_menu_position, option_menu,
+			    go_option_menu_position, option_menu,
 			    0, event->time);
 	    menu_item = gtk_menu_get_active (GTK_MENU (option_menu->menu));
 	    if (menu_item)
@@ -734,19 +734,19 @@ gnumeric_option_menu_key_press (GtkWidget   *widget,
 }
 
 static void
-gnumeric_option_menu_selection_done (GtkMenu  *menu,
-				GnumericOptionMenu *option_menu)
+go_option_menu_selection_done (GtkMenu  *menu,
+				GOOptionMenu *option_menu)
 {
   g_return_if_fail (menu != NULL);
-  g_return_if_fail (GNUMERIC_IS_OPTION_MENU (option_menu));
+  g_return_if_fail (GO_IS_OPTION_MENU (option_menu));
 
-  gnumeric_option_menu_update_contents (option_menu, menu);
+  go_option_menu_update_contents (option_menu, menu);
 }
 
 static void
-gnumeric_option_menu_changed (GnumericOptionMenu *option_menu)
+go_option_menu_changed (GOOptionMenu *option_menu)
 {
-  g_return_if_fail (GNUMERIC_IS_OPTION_MENU (option_menu));
+  g_return_if_fail (GO_IS_OPTION_MENU (option_menu));
 
   if (option_menu->last_signaled_menu_item && GTK_IS_CHECK_MENU_ITEM(option_menu->last_signaled_menu_item))
 	  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(option_menu->last_signaled_menu_item),
@@ -762,14 +762,14 @@ gnumeric_option_menu_changed (GnumericOptionMenu *option_menu)
 }
 
 static void
-gnumeric_option_menu_select_first_sensitive (GnumericOptionMenu *option_menu)
+go_option_menu_select_first_sensitive (GOOptionMenu *option_menu)
 {
 }
 
 static void
-gnumeric_option_menu_item_state_changed_cb (GtkWidget      *widget,
+go_option_menu_item_state_changed_cb (GtkWidget      *widget,
 				       GtkStateType    previous_state,
-				       GnumericOptionMenu  *option_menu)
+				       GOOptionMenu  *option_menu)
 {
   GtkWidget *child = GTK_BIN (option_menu)->child;
 
@@ -778,24 +778,24 @@ gnumeric_option_menu_item_state_changed_cb (GtkWidget      *widget,
 }
 
 static void
-gnumeric_option_menu_item_destroy_cb (GtkWidget     *widget,
-				 GnumericOptionMenu *option_menu)
+go_option_menu_item_destroy_cb (GtkWidget     *widget,
+				 GOOptionMenu *option_menu)
 {
   GtkWidget *child = GTK_BIN (option_menu)->child;
 
   if (child)
     {
       g_object_ref (child);
-      gnumeric_option_menu_remove_contents (option_menu);
+      go_option_menu_remove_contents (option_menu);
       gtk_widget_destroy (child);
       g_object_unref (child);
 
-      gnumeric_option_menu_select_first_sensitive (option_menu);
+      go_option_menu_select_first_sensitive (option_menu);
     }
 }
 
 static void
-gnumeric_option_menu_update_contents_real (GnumericOptionMenu *option_menu, 
+go_option_menu_update_contents_real (GOOptionMenu *option_menu, 
 					   GtkMenu *menu, GtkMenuItem *menu_item)
 {
 	GtkWidget *child;
@@ -805,7 +805,7 @@ gnumeric_option_menu_update_contents_real (GnumericOptionMenu *option_menu,
 	g_return_if_fail (menu_item != NULL);
 	g_return_if_fail (menu != NULL);
 	
-	gnumeric_option_menu_remove_contents (option_menu);
+	go_option_menu_remove_contents (option_menu);
 	option_menu->menu_item = GTK_WIDGET(menu_item);
 	option_menu->old_menu_item = NULL;
 	option_menu->select_menu = GTK_WIDGET(menu);
@@ -819,9 +819,9 @@ gnumeric_option_menu_update_contents_real (GnumericOptionMenu *option_menu,
 	}
 	
 	g_signal_connect (option_menu->menu_item, "state_changed",
-			  G_CALLBACK (gnumeric_option_menu_item_state_changed_cb), option_menu);
+			  G_CALLBACK (go_option_menu_item_state_changed_cb), option_menu);
 	g_signal_connect (option_menu->menu_item, "destroy",
-			  G_CALLBACK (gnumeric_option_menu_item_destroy_cb), option_menu);
+			  G_CALLBACK (go_option_menu_item_destroy_cb), option_menu);
 	
 	gtk_widget_size_request (child, &child_requisition);
 	gtk_widget_size_allocate (GTK_WIDGET (option_menu),
@@ -834,9 +834,9 @@ gnumeric_option_menu_update_contents_real (GnumericOptionMenu *option_menu,
 
 
 static void
-gnumeric_option_menu_update_contents (GnumericOptionMenu *option_menu, GtkMenu *menu)
+go_option_menu_update_contents (GOOptionMenu *option_menu, GtkMenu *menu)
 {
-  g_return_if_fail (GNUMERIC_IS_OPTION_MENU (option_menu));
+  g_return_if_fail (GO_IS_OPTION_MENU (option_menu));
 
   if (option_menu->menu)
   {
@@ -850,12 +850,12 @@ gnumeric_option_menu_update_contents (GnumericOptionMenu *option_menu, GtkMenu *
 		  g_slist_free (option_menu->selection);
 		  option_menu->selection = NULL;
 		  
-		  gnumeric_option_menu_update_contents_real (option_menu, 
+		  go_option_menu_update_contents_real (option_menu, 
 							     menu ? menu : GTK_MENU(option_menu->menu), 
 							     GTK_MENU_ITEM(new_item));
 	  } else {
 		  if (option_menu->old_menu_item)
-			  gnumeric_option_menu_update_contents_real (option_menu, 
+			  go_option_menu_update_contents_real (option_menu, 
 								     GTK_MENU(option_menu->select_menu), 
 								     GTK_MENU_ITEM(option_menu->old_menu_item));
 	  }
@@ -869,16 +869,16 @@ gnumeric_option_menu_update_contents (GnumericOptionMenu *option_menu, GtkMenu *
 	  }
 	  
 	  if (old_item != option_menu->menu_item)
-		  gnumeric_option_menu_changed (option_menu);
+		  go_option_menu_changed (option_menu);
   }
 }
 
 static void
-gnumeric_option_menu_remove_contents (GnumericOptionMenu *option_menu)
+go_option_menu_remove_contents (GOOptionMenu *option_menu)
 {
   GtkWidget *child;
   
-  g_return_if_fail (GNUMERIC_IS_OPTION_MENU (option_menu));
+  g_return_if_fail (GO_IS_OPTION_MENU (option_menu));
 
   if (option_menu->menu_item)
     {
@@ -891,10 +891,10 @@ gnumeric_option_menu_remove_contents (GnumericOptionMenu *option_menu)
 	}
 
       g_signal_handlers_disconnect_by_func (option_menu->menu_item,
-					    gnumeric_option_menu_item_state_changed_cb,
+					    go_option_menu_item_state_changed_cb,
 					    option_menu);				     
       g_signal_handlers_disconnect_by_func (option_menu->menu_item,
-					    gnumeric_option_menu_item_destroy_cb,
+					    go_option_menu_item_destroy_cb,
 					    option_menu);
       g_object_unref (option_menu->menu_item);
       option_menu->menu_item = NULL;
@@ -902,7 +902,7 @@ gnumeric_option_menu_remove_contents (GnumericOptionMenu *option_menu)
 }
 
 static void
-gnumeric_option_menu_calc_size (GnumericOptionMenu *option_menu)
+go_option_menu_calc_size (GOOptionMenu *option_menu)
 {
   GtkWidget *child;
   GList *children;
@@ -910,7 +910,7 @@ gnumeric_option_menu_calc_size (GnumericOptionMenu *option_menu)
   gint old_width = option_menu->width;
   gint old_height = option_menu->height;
 
-  g_return_if_fail (GNUMERIC_IS_OPTION_MENU (option_menu));
+  g_return_if_fail (GO_IS_OPTION_MENU (option_menu));
 
   option_menu->width = 0;
   option_menu->height = 0;
@@ -943,13 +943,13 @@ gnumeric_option_menu_calc_size (GnumericOptionMenu *option_menu)
 }
 
 static void
-gnumeric_option_menu_position (GtkMenu  *menu,
+go_option_menu_position (GtkMenu  *menu,
 			  gint     *x,
 			  gint     *y,
 			  gboolean *push_in,
 			  gpointer  user_data)
 {
-  GnumericOptionMenu *option_menu;
+  GOOptionMenu *option_menu;
   GtkWidget *active;
   GtkWidget *child;
   GtkWidget *widget;
@@ -960,9 +960,9 @@ gnumeric_option_menu_position (GtkMenu  *menu,
   gint menu_ypos;
   gint menu_width;
 
-  g_return_if_fail (GNUMERIC_IS_OPTION_MENU (user_data));
+  g_return_if_fail (GO_IS_OPTION_MENU (user_data));
 
-  option_menu = GNUMERIC_OPTION_MENU (user_data);
+  option_menu = GO_OPTION_MENU (user_data);
   widget = GTK_WIDGET (option_menu);
 
   gtk_widget_get_child_requisition (GTK_WIDGET (menu), &requisition);
@@ -1011,14 +1011,14 @@ gnumeric_option_menu_position (GtkMenu  *menu,
 
 
 static void
-gnumeric_option_menu_show_all (GtkWidget *widget)
+go_option_menu_show_all (GtkWidget *widget)
 {
   GtkContainer *container;
-  GnumericOptionMenu *option_menu;
+  GOOptionMenu *option_menu;
   
-  g_return_if_fail (GNUMERIC_IS_OPTION_MENU (widget));
+  g_return_if_fail (GO_IS_OPTION_MENU (widget));
   container = GTK_CONTAINER (widget);
-  option_menu = GNUMERIC_OPTION_MENU (widget);
+  option_menu = GO_OPTION_MENU (widget);
 
   gtk_widget_show (widget);
   gtk_container_foreach (container, (GtkCallback) gtk_widget_show_all, NULL);
@@ -1034,11 +1034,11 @@ gnumeric_option_menu_show_all (GtkWidget *widget)
 
 
 static void
-gnumeric_option_menu_hide_all (GtkWidget *widget)
+go_option_menu_hide_all (GtkWidget *widget)
 {
   GtkContainer *container;
 
-  g_return_if_fail (GNUMERIC_IS_OPTION_MENU (widget));
+  g_return_if_fail (GO_IS_OPTION_MENU (widget));
   container = GTK_CONTAINER (widget);
 
   gtk_widget_hide (widget);
@@ -1046,7 +1046,7 @@ gnumeric_option_menu_hide_all (GtkWidget *widget)
 }
 
 static gboolean
-gnumeric_option_menu_mnemonic_activate (GtkWidget *widget,
+go_option_menu_mnemonic_activate (GtkWidget *widget,
 				   gboolean   group_cycling)
 {
   gtk_widget_grab_focus (widget);
@@ -1054,7 +1054,7 @@ gnumeric_option_menu_mnemonic_activate (GtkWidget *widget,
 }
 
 static gint
-gnumeric_option_menu_scroll_event (GtkWidget          *widget,
+go_option_menu_scroll_event (GtkWidget          *widget,
 			      GdkEventScroll     *event)
 {
   return TRUE;

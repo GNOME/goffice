@@ -227,7 +227,7 @@ static GHashTable *encoding_hash;
 
 struct _GOCharmapSel {
 	GtkHBox box;
-	GnumericOptionMenu *encodings;
+	GOOptionMenu *encodings;
 	GtkMenu *encodings_menu;
 	GOCharmapSelTestDirection test;
 };
@@ -303,7 +303,7 @@ get_locale_encoding_name (GOCharmapSel *cs)
 }
 
 static void
-encodings_changed_cb (GnumericOptionMenu *optionmenu, GOCharmapSel *cs)
+encodings_changed_cb (GOOptionMenu *optionmenu, GOCharmapSel *cs)
 {
 	g_return_if_fail (IS_GO_CHARMAP_SEL (cs));
 	g_return_if_fail (optionmenu == cs->encodings);
@@ -321,7 +321,7 @@ set_menu_to_default (GOCharmapSel *cs, gint item)
 
 	g_return_if_fail (cs != NULL && IS_GO_CHARMAP_SEL (cs));
 
-	gnumeric_option_menu_set_history (cs->encodings, &sel);
+	go_option_menu_set_history (cs->encodings, &sel);
 }
 
 static gboolean
@@ -348,11 +348,11 @@ cs_init (GOCharmapSel *cs)
 {
 	cs->test = GO_CHARMAP_SEL_TO_UTF8;
 
-	cs->encodings = GNUMERIC_OPTION_MENU(gnumeric_option_menu_new());
+	cs->encodings = GO_OPTION_MENU (go_option_menu_new ());
 
 	g_signal_connect (G_OBJECT (cs->encodings), "changed",
                           G_CALLBACK (encodings_changed_cb), cs);
-        gtk_box_pack_start (GTK_BOX(cs), GTK_WIDGET (cs->encodings),
+        gtk_box_pack_start (GTK_BOX (cs), GTK_WIDGET (cs->encodings),
                             TRUE, TRUE, 0);
 }
 
@@ -389,7 +389,7 @@ cs_build_menu (GOCharmapSel *cs)
 					gtk_widget_show (subitem);
 					gtk_menu_shell_append (GTK_MENU_SHELL (submenu),  subitem);
 					if (charset_trans->imp == CI_MAJOR)
-						cs_emphasize_label (GTK_LABEL(gtk_bin_get_child (GTK_BIN(subitem))));
+						cs_emphasize_label (GTK_LABEL (gtk_bin_get_child (GTK_BIN (subitem))));
 					g_object_set_data (G_OBJECT (subitem), CHARMAP_NAME_KEY,
 							   (gpointer)name);
 					cnt++;
@@ -400,7 +400,7 @@ cs_build_menu (GOCharmapSel *cs)
 			charset_trans++;
 		}
 		if (cnt > 0) {
-			gtk_menu_item_set_submenu (GTK_MENU_ITEM(item), GTK_WIDGET (submenu));
+			gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (submenu));
 			gtk_widget_show (item);
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 			lg_cnt++;
@@ -423,10 +423,10 @@ cs_build_menu (GOCharmapSel *cs)
 		gtk_widget_show (item);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 		lg_cnt++;
-		cs_emphasize_label (GTK_LABEL(gtk_bin_get_child (GTK_BIN(item))));
+		cs_emphasize_label (GTK_LABEL (gtk_bin_get_child (GTK_BIN (item))));
 	}
 
-	gnumeric_option_menu_set_menu (cs->encodings, GTK_WIDGET (menu));
+	go_option_menu_set_menu (cs->encodings, GTK_WIDGET (menu));
 	cs->encodings_menu = menu;
 	set_menu_to_default (cs, lg_cnt);
 }
@@ -540,7 +540,7 @@ go_charmap_sel_get_encoding (GOCharmapSel *cs)
 
  	g_return_val_if_fail (IS_GO_CHARMAP_SEL (cs), locale_encoding);
 
- 	selection = GTK_MENU_ITEM (gnumeric_option_menu_get_history (cs->encodings));
+ 	selection = GTK_MENU_ITEM (go_option_menu_get_history (cs->encodings));
 	encoding = (char const *) g_object_get_data (G_OBJECT (selection),
 						     CHARMAP_NAME_KEY);
 	return encoding ? encoding : locale_encoding;
@@ -614,7 +614,7 @@ go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc)
 	if (!cl.found)
 		return FALSE;
 
-	gnumeric_option_menu_set_history (cs->encodings, cl.path);
+	go_option_menu_set_history (cs->encodings, cl.path);
 	g_slist_free (cl.path);
 
 	return TRUE;
