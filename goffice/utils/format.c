@@ -22,6 +22,40 @@
  */
 
 #include <goffice/goffice-config.h>
+
+#ifndef DOUBLE
+
+#define DEFINE_COMMON
+
+#ifdef HAVE_LONG_DOUBLE
+#define DOUBLE long double
+#define SUFFIX(_n) _n ## l
+#define PREFIX(_n) LDBL_ ## _n
+#define FORMAT_e "Le"
+#define FORMAT_E "LE"
+#define FORMAT_G "LG"
+#define STRTO strtold
+#include "format.c"
+#undef DEFINE_COMMON
+#undef DOUBLE
+#undef SUFFIX
+#undef PREFIX
+#undef FORMAT_e
+#undef FORMAT_E
+#undef FORMAT_G
+#undef STRTO
+#endif
+
+#define DOUBLE double
+#define SUFFIX(_n) _n
+#define PREFIX(_n) DBL_ ## _n
+#define FORMAT_e "e"
+#define FORMAT_E "E"
+#define FORMAT_G "G"
+#define STRTO strtod
+#endif
+
+
 #include "format.h"
 #include "format-impl.h"
 #include "go-format-match.h"
@@ -49,6 +83,7 @@
 
 /***************************************************************************/
 
+#ifdef DEFINE_COMMON
 static GOFormat *default_percentage_fmt;
 static GOFormat *default_money_fmt;
 static GOFormat *default_date_fmt;
@@ -456,21 +491,22 @@ append_hour (GString *string, int n, struct tm const *time_split,
 				? ((hour + 11) % 12) + 1
 				: hour);
 }
+#endif
 
 static void
-append_hour_elapsed (GString *string, struct tm *tm, gnm_float number)
+SUFFIX(append_hour_elapsed) (GString *string, struct tm *tm, DOUBLE number)
 {
-	gnm_float whole_days, frac_days;
+	DOUBLE whole_days, frac_days;
 	gboolean is_neg;
 	int cs;  /* Centi seconds.  */
 	const int secs_per_day = 24 * 60 * 60;
 
 	is_neg = (number < 0);
-	frac_days = gnm_modf (number, &whole_days);
+	frac_days = SUFFIX(modf) (number, &whole_days);
 
 	/* ick.  round assuming no more than 100th of a second, we really need
 	 * to know the precision earlier */
-	cs = (int)gnm_fake_round (gnm_abs (frac_days) * secs_per_day * 100);
+	cs = (int)SUFFIX(go_fake_round) (SUFFIX(fabs) (frac_days) * secs_per_day * 100);
 
 	/* FIXME: Why limit hours to int? */
 	cs /= 100;
@@ -483,36 +519,41 @@ append_hour_elapsed (GString *string, struct tm *tm, gnm_float number)
 	g_string_append_printf (string, "%d", tm->tm_hour);
 }
 
+#ifdef DEFINE_COMMON
 static void
 append_minute (GString *string, int n, struct tm const *time_split)
 {
 	g_string_append_printf (string, "%0*d", n, time_split->tm_min);
 }
+#endif
 
 static void
-append_minute_elapsed (GString *string, struct tm *tm, gnm_float number)
+SUFFIX(append_minute_elapsed) (GString *string, struct tm *tm, DOUBLE number)
 {
-	double res, int_part;
+	DOUBLE res, int_part;
 
-	res = modf (gnm_fake_round (number * 24. * 60.), &int_part);
+	res = SUFFIX(modf) (SUFFIX(go_fake_round) (number * 24. * 60.), &int_part);
 	tm->tm_min = int_part;
 	tm->tm_sec = res * ((res < 0.) ? -60. : 60.);
 	g_string_append_printf (string, "%d", tm->tm_min);
 }
 
+#ifdef DEFINE_COMMON
 static void
 append_second (GString *string, int n, struct tm const *time_split)
 {
 	g_string_append_printf (string, "%0*d", n, time_split->tm_sec);
 }
+#endif
 
 static void
-append_second_elapsed (GString *string, gnm_float number)
+SUFFIX(append_second_elapsed) (GString *string, DOUBLE number)
 {
 	g_string_append_printf (string, "%d",
-				(int) gnm_fake_round (number * 24. * 3600.));
+				(int) SUFFIX(go_fake_round) (number * 24. * 3600.));
 }
 
+#ifdef DEFINE_COMMON
 static StyleFormatEntry *
 format_entry_ctor (void)
 {
@@ -527,7 +568,9 @@ format_entry_ctor (void)
 	entry->go_color = 0;
 	return entry;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 /* WARNING : do not call this for temporary formats generated for 'General' */
 static void
 format_entry_dtor (gpointer data, gpointer user_data)
@@ -536,7 +579,9 @@ format_entry_dtor (gpointer data, gpointer user_data)
 	g_free ((char *)entry->format);
 	g_free (entry);
 }
+#endif
 
+#ifdef DEFINE_COMMON
 static void
 format_entry_set_fmt (StyleFormatEntry *entry,
 		      gchar const *begin,
@@ -548,7 +593,9 @@ format_entry_set_fmt (StyleFormatEntry *entry,
 		: g_strdup ((entry->go_color || entry->restriction_type != '*')
 			    ? "General" : "");
 }
+#endif
 
+#ifdef DEFINE_COMMON
 /*
  * Since the Excel formating codes contain a number of ambiguities, this
  * routine does some analysis on the format first.  This routine should always
@@ -622,7 +669,7 @@ format_compile (GOFormat *format)
 
 			/* fall back on 0 for errors */
 			errno = 0;
-			entry->restriction_value = gnm_strto (begin, (char **)&end);
+			entry->restriction_value = STRTO (begin, (char **)&end);
 			if (errno == ERANGE || begin == end)
 				entry->restriction_value = 0.;
 
@@ -716,7 +763,9 @@ format_compile (GOFormat *format)
 		}
 	}
 }
+#endif
 
+#ifdef DEFINE_COMMON
 /*
  * This routine is invoked when the last user of the
  * format is gone (ie, refcount has reached zero) just
@@ -736,7 +785,9 @@ format_destroy (GOFormat *format)
 	}
 	format_match_release (format);
 }
+#endif
 
+#ifdef DEFINE_COMMON
 /* used to generate formats when delocalizing so keep the leadings caps */
 typedef struct {
 	char const * const name;
@@ -752,17 +803,23 @@ static FormatColor const format_colors [] = {
 	{ N_("White"),	 RGBA_WHITE },
 	{ N_("Yellow"),	 RGBA_YELLOW }
 };
+#endif
 
+#ifdef DEFINE_COMMON
 void
 format_color_init (void)
 {
 }
+#endif
 
+#ifdef DEFINE_COMMON
 void
 format_color_shutdown (void)
 {
 }
+#endif
 
+#ifdef DEFINE_COMMON
 static FormatColor const *
 lookup_color_by_name (gchar const *str, gchar const *end,
 		      gboolean translate)
@@ -780,24 +837,27 @@ lookup_color_by_name (gchar const *str, gchar const *end,
 	}
 	return NULL;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 static GOColor
 lookup_color (gchar const *str, gchar const *end)
 {
 	FormatColor const *color = lookup_color_by_name (str, end, FALSE);
 	return (color != NULL) ? color->go_color : 0;
 }
+#endif
 
-static gnm_float beyond_precision;
+static DOUBLE SUFFIX(beyond_precision);
 void
-render_number (GString *result,
-	       gnm_float number,
-	       format_info_t const *info)
+SUFFIX(go_render_number) (GString *result,
+			  DOUBLE number,
+			  format_info_t const *info)
 {
 	const GString *thousands_sep = format_get_thousand ();
-	char num_buf[(GNM_MANT_DIG + GNM_MAX_EXP) * 2 + 1];
+	char num_buf[(PREFIX(MANT_DIG) + PREFIX(MAX_EXP)) * 2 + 1];
 	gchar *num = num_buf + sizeof (num_buf) - 1;
-	gnm_float frac_part, int_part;
+	DOUBLE frac_part, int_part;
 	int group, zero_count, digit_count = 0;
 	int left_req = info->left_req;
 	int right_req = info->right_req;
@@ -809,14 +869,14 @@ render_number (GString *result,
 	if (right_allowed >= 0 && !info->has_fraction) {
 		/* Change "rounding" into "truncating".   */
 		/* Note, that we assume number >= 0 here. */
-		gnm_float delta = 5 * gnm_pow10 (-right_allowed - 1);
+		DOUBLE delta = 5 * SUFFIX(go_pow10) (-right_allowed - 1);
 		number += delta;
 	}
-	frac_part = gnm_modf (gnm_add_epsilon (number), &int_part);
+	frac_part = SUFFIX(modf) (SUFFIX(go_add_epsilon) (number), &int_part);
 
 	*num = '\0';
 	group = (info->group_thousands) ? 3 : -1;
-	for (; int_part > beyond_precision ; int_part /= 10., digit_count++) {
+	for (; int_part > SUFFIX(beyond_precision) ; int_part /= 10., digit_count++) {
 		if (group-- == 0) {
 			int i;
 			group = 2;
@@ -828,8 +888,8 @@ render_number (GString *result,
 	}
 
 	for (; int_part >= 1. ; int_part /= 10., digit_count++) {
-		gnm_float r = gnm_floor (int_part);
-		int digit = r - gnm_floor (r / 10) * 10;
+		DOUBLE r = SUFFIX(floor) (int_part);
+		int digit = r - SUFFIX(floor) (r / 10) * 10;
 
 		if (group-- == 0) {
 			int i;
@@ -870,7 +930,7 @@ render_number (GString *result,
 		frac_part *= 10.0;
 		digit = (gint)frac_part;
 		frac_part -= digit;
-		if (sigdig++ > GNM_DIG) digit = 0;
+		if (sigdig++ > PREFIX(DIG)) digit = 0;
 		g_string_append_c (result, digit + '0');
 	}
 
@@ -888,7 +948,7 @@ render_number (GString *result,
 		} else
 			zero_count ++;
 
-		if (sigdig++ > GNM_DIG) digit = 0;
+		if (sigdig++ > PREFIX(DIG)) digit = 0;
 		g_string_append_c (result, digit + '0');
 	}
 
@@ -899,7 +959,7 @@ render_number (GString *result,
 }
 
 static void
-do_render_number (gnm_float number, format_info_t *info, GString *result)
+SUFFIX(do_render_number) (DOUBLE number, format_info_t *info, GString *result)
 {
 	info->rendered = TRUE;
 
@@ -922,7 +982,7 @@ do_render_number (gnm_float number, format_info_t *info, GString *result)
 		decimal_point);
 #endif
 
-	render_number (result, info->scale * number, info);
+	SUFFIX(go_render_number) (result, info->scale * number, info);
 }
 
 /*
@@ -942,7 +1002,7 @@ do_render_number (gnm_float number, format_info_t *info, GString *result)
  * > If no one noticed anything wrong, it must be that no one did it that way.
  */
 static gboolean
-split_time (struct tm *tm, gnm_float number, GODateConventions const *date_conv)
+SUFFIX(split_time) (struct tm *tm, DOUBLE number, GODateConventions const *date_conv)
 {
 	guint secs;
 	GDate date;
@@ -961,10 +1021,13 @@ split_time (struct tm *tm, gnm_float number, GODateConventions const *date_conv)
 	return FALSE;
 }
 
+#ifdef DEFINE_COMMON
 #define NUM_ZEROS 30
 static const char zeros[NUM_ZEROS + 1]  = "000000000000000000000000000000";
 static const char qmarks[NUM_ZEROS + 1] = "??????????????????????????????";
+#endif
 
+#ifdef DEFINE_COMMON
 /**
  * style_format_number :
  * @fmt : #FormatCharacteristics
@@ -1035,7 +1098,9 @@ style_format_number (FormatCharacteristics const *fmt)
 	g_string_free (str, TRUE);
 	return sf;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 static GOFormat *
 style_format_fraction (FormatCharacteristics const *fmt)
 {
@@ -1058,7 +1123,9 @@ style_format_fraction (FormatCharacteristics const *fmt)
 	g_string_free (str, TRUE);
 	return sf;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 static GOFormat *
 style_format_percent (FormatCharacteristics const *fmt)
 {
@@ -1080,7 +1147,9 @@ style_format_percent (FormatCharacteristics const *fmt)
 	g_string_free (str, TRUE);
 	return sf;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 static GOFormat *
 style_format_science (FormatCharacteristics const *fmt)
 {
@@ -1102,7 +1171,9 @@ style_format_science (FormatCharacteristics const *fmt)
 	g_string_free (str, TRUE);
 	return sf;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 static GOFormat *
 style_format_account (FormatCharacteristics const *fmt)
 {
@@ -1165,8 +1236,9 @@ style_format_account (FormatCharacteristics const *fmt)
 	g_string_free (str, TRUE);
 	return sf;
 }
+#endif
 
-
+#ifdef DEFINE_COMMON
 /*
  * Finds the decimal char in @str doing the proper parsing of a
  * format string
@@ -1220,7 +1292,9 @@ find_decimal_char (char const *str)
 	}
 	return NULL;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 /* An helper function which modify the number of decimals displayed
  * and recreate the format string by calling the good function */
 static GOFormat *
@@ -1238,7 +1312,9 @@ reformat_decimals (const FormatCharacteristics *fc,
 
 	return (*format_function) (&fc_copy);
 }
+#endif
 
+#ifdef DEFINE_COMMON
 /*
  * This routine scans the format_string for a decimal dot,
  * and if it finds it, it removes the first zero after it to
@@ -1334,7 +1410,9 @@ format_remove_decimal (GOFormat const *fmt)
 	g_free (ret);
 	return sf;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 /*
  * This routine scans format_string for the decimal
  * character and when it finds it, it adds a zero after
@@ -1443,7 +1521,9 @@ format_add_decimal (GOFormat const *fmt)
 	g_free (res);
 	return sf;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 GOFormat *
 format_toggle_thousands (GOFormat const *fmt)
 {
@@ -1473,13 +1553,14 @@ format_toggle_thousands (GOFormat const *fmt)
 
 	return NULL;
 }
+#endif
 
 /*********************************************************************/
 
 void
-format_number (GString *result,
-	       gnm_float number, int col_width, StyleFormatEntry const *entry,
-	       GODateConventions const *date_conv)
+SUFFIX(go_format_number) (GString *result,
+			  DOUBLE number, int col_width, StyleFormatEntry const *entry,
+			  GODateConventions const *date_conv)
 {
 	guchar const *format = (guchar *)(entry->format);
 	format_info_t info;
@@ -1493,7 +1574,7 @@ format_number (GString *result,
 
 	gboolean need_time_split = TRUE;
 	struct tm tm;
-	gnm_float signed_number;
+	DOUBLE signed_number;
 
 	memset (&info, 0, sizeof (info));
 	signed_number = number;
@@ -1571,7 +1652,7 @@ format_number (GString *result,
 					;
 				if (*tmp == '\0' || *tmp == '.' || *tmp == ';')
 					/* NOTE : format-tmp is NEGATIVE */
-					info.scale = gnm_pow10 (3*(format-tmp));
+					info.scale = SUFFIX(go_pow10) (3*(format-tmp));
 				info.group_thousands = TRUE;
 				format = tmp;
 				continue;
@@ -1600,7 +1681,7 @@ format_number (GString *result,
 				format++;
 
 			g_string_append_printf (result,
-						is_lower ? "%.*" GNM_FORMAT_e : "%.*" GNM_FORMAT_E,
+						is_lower ? "%.*" FORMAT_e : "%.*" FORMAT_E,
 						prec, number);
 			return;
 		}
@@ -1608,7 +1689,7 @@ format_number (GString *result,
 		case '\\':
 			if (format[1] != '\0') {
 				if (can_render_number && !info.rendered)
-					do_render_number (number, &info, result);
+					SUFFIX(do_render_number) (number, &info, result);
 
 				format++;
 				g_string_append_len (result, format,
@@ -1619,7 +1700,7 @@ format_number (GString *result,
 		case '"': {
 			guchar const *tmp = ++format;
 			if (can_render_number && !info.rendered)
-				do_render_number (number, &info, result);
+				SUFFIX(do_render_number) (number, &info, result);
 
 			for (; *tmp && *tmp != '"'; tmp++)
 				;
@@ -1699,7 +1780,7 @@ format_number (GString *result,
 		case 0x20AC : /* Euro */
 		case ')':
 			if (can_render_number && !info.rendered)
-				do_render_number (number, &info, result);
+				SUFFIX(do_render_number) (number, &info, result);
 			g_string_append_unichar (result, c);
 			break;
 
@@ -1708,7 +1789,7 @@ format_number (GString *result,
 			if (!info.rendered) {
 				number *= 100;
 				if (can_render_number)
-					do_render_number (number, &info, result);
+					SUFFIX(do_render_number) (number, &info, result);
 				else
 					can_render_number = TRUE;
 			}
@@ -1717,7 +1798,7 @@ format_number (GString *result,
 
 		case '_':
 			if (can_render_number && !info.rendered)
-				do_render_number (number, &info, result);
+				SUFFIX(do_render_number) (number, &info, result);
 			if (format[1])
 				format++;
 			g_string_append_c (result, ' ');
@@ -1733,7 +1814,7 @@ format_number (GString *result,
 			 */
 			if (format[1]) {
 				if (can_render_number && !info.rendered)
-					do_render_number (number, &info, result);
+					SUFFIX(do_render_number) (number, &info, result);
 				++format;
 				fill_char = g_utf8_get_char (format);
 				fill_start = result->len;
@@ -1755,12 +1836,12 @@ format_number (GString *result,
 			if (time_display_elapsed) {
 				need_time_split = time_display_elapsed = FALSE;
 				ignore_further_elapsed = TRUE;
-				append_minute_elapsed (result, &tm, number);
+				SUFFIX(append_minute_elapsed) (result, &tm, number);
 				break;
 			}
 
 			if (need_time_split)
-				need_time_split = split_time (&tm, signed_number, date_conv);
+				need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
 			if (hour_seen ||
 			    (format[1] == ':' &&
 			     (format[2] == 's' || format[2] == 'S'))) {
@@ -1773,14 +1854,14 @@ format_number (GString *result,
 		case 'D':
 		case 'd':
 			if (need_time_split)
-				need_time_split = split_time (&tm, signed_number, date_conv);
+				need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
 			format += append_day (result, format, &tm) - 1;
 			break;
 
 		case 'Y':
 		case 'y':
 			if (need_time_split)
-				need_time_split = split_time (&tm, signed_number, date_conv);
+				need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
 			format += append_year (result, format, &tm) - 1;
 			break;
 
@@ -1795,10 +1876,10 @@ format_number (GString *result,
 			if (time_display_elapsed) {
 				need_time_split = time_display_elapsed = FALSE;
 				ignore_further_elapsed = TRUE;
-				append_second_elapsed (result, number);
+				SUFFIX(append_second_elapsed) (result, number);
 			} else {
 				if (need_time_split)
-					need_time_split = split_time (&tm, signed_number, date_conv);
+					need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
 				append_second (result, n, &tm);
 			}
 			break;
@@ -1815,7 +1896,7 @@ format_number (GString *result,
 			if (time_display_elapsed) {
 				need_time_split = time_display_elapsed = FALSE;
 				ignore_further_elapsed = TRUE;
-				append_hour_elapsed (result, &tm, number);
+				SUFFIX(append_hour_elapsed) (result, &tm, number);
 			} else {
 				/* h == hour optionally in 24 hour mode
 				 * h followed by am/pm puts it in 12 hour mode
@@ -1824,7 +1905,7 @@ format_number (GString *result,
 				 * NOTE : This is a non-XL extension
 				 */
 				if (need_time_split)
-					need_time_split = split_time (&tm, signed_number, date_conv);
+					need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
 
 				append_hour (result, n, &tm, entry->want_am_pm);
 			}
@@ -1835,7 +1916,7 @@ format_number (GString *result,
 		case 'A':
 		case 'a':
 			if (need_time_split)
-				need_time_split = split_time (&tm, signed_number, date_conv);
+				need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
 			if (tm.tm_hour < 12){
 				g_string_append_c (result, *format);
 				format++;
@@ -1854,7 +1935,7 @@ format_number (GString *result,
 
 		case 'P': case 'p':
 			if (need_time_split)
-				need_time_split = split_time (&tm, signed_number, date_conv);
+				need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
 			if (tm.tm_hour >= 12){
 				g_string_append_c (result, *format);
 				if (*(format + 1) == 'm' || *(format + 1) == 'M'){
@@ -1877,7 +1958,7 @@ format_number (GString *result,
 	}
 
 	if (!info.rendered && can_render_number)
-		do_render_number (number, &info, result);
+		SUFFIX(do_render_number) (number, &info, result);
 
 	/* This is kinda ugly.  It does not handle variable width fonts */
 	if (fill_char != '\0') {
@@ -1888,19 +1969,19 @@ format_number (GString *result,
 }
 
 /**
- * fmt_general_float:
+ * go_fmt_general_float:
  *
  * @val : the integer value being formated.
  * @col_width : the approximate width in characters.
  **/
 void
-fmt_general_float (GString *result, gnm_float val, double col_width)
+SUFFIX(go_fmt_general_float) (GString *result, DOUBLE val, double col_width)
 {
-	gnm_float tmp;
+	DOUBLE tmp;
 	int log_val, prec;
 
 	if (col_width < 0.) {
-		g_string_append_printf (result, "%.*" GNM_FORMAT_G, GNM_DIG, val);
+		g_string_append_printf (result, "%.*" FORMAT_G, PREFIX(DIG), val);
 		return;
 	}
 
@@ -1908,9 +1989,9 @@ fmt_general_float (GString *result, gnm_float val, double col_width)
 		/* leave space for minus sign */
 		/* FIXME : idealy we would use the width of a minus sign */
 		col_width -= 1.;
-		tmp = gnm_log10 (-val);
+		tmp = SUFFIX(log10) (-val);
 	} else
-		tmp = (val > 0.) ? gnm_log10 (val) : 0;
+		tmp = (val > 0.) ? SUFFIX(log10) (val) : 0;
 
 	/* leave space for the decimal */
 	/* FIXME : idealy we would use the width of a decimal point */
@@ -1919,14 +2000,14 @@ fmt_general_float (GString *result, gnm_float val, double col_width)
 		prec = 0;
 
 	if (tmp > 0.) {
-		log_val = gnm_ceil (tmp);
+		log_val = SUFFIX(ceil) (tmp);
 
 		/* Decrease precision to leave space for the E+00 */
 		if (log_val > prec)
 			for (prec -= 4; log_val >= 100 ; log_val /= 10)
 				prec--;
 	} else {
-		log_val = gnm_floor (tmp);
+		log_val = SUFFIX(floor) (tmp);
 
 		/* Display 0 for cols that are too narrow for scientific
 		 * notation with abs (value) < 1 */
@@ -1946,20 +2027,21 @@ fmt_general_float (GString *result, gnm_float val, double col_width)
 
 	if (prec < 1)
 		prec = 1;
-	else if (prec > GNM_DIG)
-		prec = GNM_DIG;
+	else if (prec > PREFIX(DIG))
+		prec = PREFIX(DIG);
 
-	g_string_append_printf (result, "%.*" GNM_FORMAT_G, prec, val);
+	g_string_append_printf (result, "%.*" FORMAT_G, prec, val);
 }
 
+#ifdef DEFINE_COMMON
 /**
- * fmt_general_int :
+ * go_fmt_general_int :
  *
  * @val : the integer value being formated.
  * @col_width : the approximate width in characters.
  */
 void
-fmt_general_int (GString *result, int val, int col_width)
+go_fmt_general_int (GString *result, int val, int col_width)
 {
 	if (col_width > 0) {
 		int log_val;
@@ -1982,19 +2064,24 @@ fmt_general_int (GString *result, int val, int col_width)
 	/* FIXME: we can do better than this.  */
 	g_string_append_printf (result, "%d", val);
 }
+#endif
 
 
+#ifdef DEFINE_COMMON
 void
 number_format_init (void)
 {
 	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	beyond_precision = gnm_pow10 (GNM_DIG + 1);
+	SUFFIX(beyond_precision) = SUFFIX(go_pow10) (PREFIX(DIG) + 1);
+#warning FIXME
 
 	lc_decimal = g_string_new (NULL);
 	lc_thousand = g_string_new (NULL);
 	lc_currency = g_string_new (NULL);
 }
+#endif
 
+#ifdef DEFINE_COMMON
 static void
 cb_format_leak (gpointer key, gpointer value, gpointer user_data)
 {
@@ -2003,7 +2090,9 @@ cb_format_leak (gpointer key, gpointer value, gpointer user_data)
 	fprintf (stderr, "Leaking gnm-format at %p [%s].\n",
 		 format, format->format);
 }
+#endif
 
+#ifdef DEFINE_COMMON
 void
 number_format_shutdown (void)
 {
@@ -2050,9 +2139,11 @@ number_format_shutdown (void)
 	g_hash_table_destroy (style_format_hash);
 	style_format_hash = NULL;
 }
+#endif
 
 /****************************************************************************/
 
+#ifdef DEFINE_COMMON
 static char *
 translate_format_color (GString *res, char const *ptr, gboolean translate_to_en)
 {
@@ -2082,7 +2173,9 @@ translate_format_color (GString *res, char const *ptr, gboolean translate_to_en)
 	}
 	return NULL;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 char *
 style_format_delocalize (char const *descriptor_string)
 {
@@ -2129,7 +2222,9 @@ style_format_delocalize (char const *descriptor_string)
 	} else
 		return g_strdup ("General");
 }
+#endif
 
+#ifdef DEFINE_COMMON
 static gboolean
 cb_attrs_as_string (PangoAttribute *a, GString *accum)
 {
@@ -2186,7 +2281,9 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 	g_string_append_printf (accum, ":%u:%u]", a->start_index, a->end_index);
 	return FALSE;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 static PangoAttrList *
 gnm_format_parse_markup (char *str)
 {
@@ -2269,7 +2366,9 @@ gnm_format_parse_markup (char *str)
 
 	return attrs;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 /**
  * style_format_new_XL :
  *
@@ -2319,7 +2418,9 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 	g_free (desc_copy);
 	return format;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 /**
  * style_format_new_markup :
  * @markup : #PangoAttrList
@@ -2356,8 +2457,10 @@ style_format_new_markup (PangoAttrList *markup, gboolean add_ref)
 
 	return format;
 }
+#endif
 
 
+#ifdef DEFINE_COMMON
 GOFormat *
 style_format_build (FormatFamily family, const FormatCharacteristics *info)
 {
@@ -2391,8 +2494,10 @@ style_format_build (FormatFamily family, const FormatCharacteristics *info)
 		return NULL;
 	};
 }
+#endif
 
 
+#ifdef DEFINE_COMMON
 /**
  * style_format_str_as_XL
  *
@@ -2472,7 +2577,9 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
 
 	return g_string_free (res, FALSE);
 }
+#endif
 
+#ifdef DEFINE_COMMON
 /**
  * style_format_as_XL :
  * @sf :
@@ -2488,7 +2595,9 @@ style_format_as_XL (GOFormat const *fmt, gboolean localized)
 
 	return style_format_str_as_XL (fmt->format, localized);
 }
+#endif
 
+#ifdef DEFINE_COMMON
 gboolean
 style_format_equal (GOFormat const *a, GOFormat const *b)
 {
@@ -2501,7 +2610,9 @@ style_format_equal (GOFormat const *a, GOFormat const *b)
 	 */
 	return (a == b);
 }
+#endif
 
+#ifdef DEFINE_COMMON
 /**
  * style_format_ref :
  * @sf :
@@ -2519,7 +2630,9 @@ style_format_ref (GOFormat *sf)
 		   sf, sf->format, sf->ref_count);
 #endif
 }
+#endif
 
+#ifdef DEFINE_COMMON
 /**
  * style_format_unref :
  * @sf :
@@ -2548,7 +2661,9 @@ style_format_unref (GOFormat *sf)
 	g_free (sf->format);
 	g_free (sf);
 }
+#endif
 
+#ifdef DEFINE_COMMON
 GOFormat *
 style_format_general (void)
 {
@@ -2558,7 +2673,9 @@ style_format_general (void)
 
 	return default_general_fmt;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 GOFormat *
 style_format_default_date (void)
 {
@@ -2568,7 +2685,9 @@ style_format_default_date (void)
 
 	return default_date_fmt;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 GOFormat *
 style_format_default_time (void)
 {
@@ -2578,7 +2697,9 @@ style_format_default_time (void)
 
 	return default_time_fmt;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 GOFormat *
 style_format_default_date_time (void)
 {
@@ -2588,7 +2709,9 @@ style_format_default_date_time (void)
 
 	return default_date_time_fmt;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 GOFormat *
 style_format_default_percentage	(void)
 {
@@ -2598,7 +2721,9 @@ style_format_default_percentage	(void)
 
 	return default_percentage_fmt;
 }
+#endif
 
+#ifdef DEFINE_COMMON
 GOFormat *
 style_format_default_money (void)
 {
@@ -2608,3 +2733,4 @@ style_format_default_money (void)
 
 	return default_money_fmt;
 }
+#endif

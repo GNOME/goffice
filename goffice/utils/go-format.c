@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include "go-format.h"
+#include "go-math.h"
 #include "format.h"
 #include "datetime.h"
 #include "format-impl.h"
@@ -57,13 +58,13 @@ go_format_value (GOFormat const *fmt, double val)
 	GString *res;
 #warning FIXME FIXME FIXME : restore conditional support
 
-	if (!gnm_finite (val))
+	if (!go_finite (val))
 		return g_strdup ("#VALUE!");
 	res = g_string_sized_new (20);
-	if (INT_MAX >= val && val >= INT_MIN && val == gnm_floor (val))
-		fmt_general_int (res, (int)val, -1);
+	if (INT_MAX >= val && val >= INT_MIN && val == floor (val))
+		go_fmt_general_int (res, (int)val, -1);
 	else
-		fmt_general_float (res, val, -1);
+		go_fmt_general_float (res, val, -1);
 	return g_string_free (res, FALSE);
 }
 
