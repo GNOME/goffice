@@ -1,3 +1,8 @@
+2005-03-31  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-plugin-service.c (go_plugin_file_saver_save): If
+	we failed to load the plugin, set an error on the output.
+
 2005-03-30  Ivan, Wong Yat Cheung <email@ivanwong.info>
 
 	* configure.in:

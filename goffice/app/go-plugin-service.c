@@ -764,7 +764,9 @@ go_plugin_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 	if (error != NULL) {
 		gnumeric_io_error_info_set (io_context, error);
 		gnumeric_io_error_push (io_context, error_info_new_str (
-		                        _("Error while saving file.")));
+		                        _("Error while loading plugin for saving.")));
+		if (!gsf_output_error (output))
+			gsf_output_set_error (output, 0, _("Failed to load plugin for saving"));
 		return;
 	}
 
