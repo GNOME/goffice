@@ -242,7 +242,7 @@ map_discrete_calc_ticks (GogAxis *axis)
 	tick_nbr = rint (maximum -minimum) + 1;
 	if (axis->center_on_ticks)
 		tick_nbr--;
-	if (tick_nbr < 1) {
+	if (tick_nbr < 1 || tick_nbr > GOG_AXIS_MAX_TICK_NBR) {
 		gog_axis_set_ticks (axis, 0, NULL);
 		return;
 	}

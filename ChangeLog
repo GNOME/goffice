@@ -1,3 +1,8 @@
+2005-03-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c: (map_discrete_calc_ticks): limit ticks number
+	to GOG_AXIS_MAX_TICK_NBR (fix a crash when importing xl log axis).
+
 2005-03-15  Stepan Kasal  <kasal@ucw.cz>
 
 	Also undo the changes connected with the changes in configure.in, ...
