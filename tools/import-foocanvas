@@ -60,7 +60,7 @@ sub copy_subsystem {
 	next if /^(libfoocanvas_a_LIBADD|EXTRA_DIST)\s*=/ ... !/\\\s*$/;
 	next if /^\s*\\$/;
 
-	if (/echo.*\#include\s*"\$*.h"/) {
+	if (/echo.*\#include\s*"\$\*.h"/) {
 	    my $config = $_;
 	    $config =~ s|".*"|<goffice/goffice-config.h>|;
 	    $_ = $config . $_;

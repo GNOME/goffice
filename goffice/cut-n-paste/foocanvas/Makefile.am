@@ -53,6 +53,7 @@ SUFFIXES = .list
 
 .list.c: $(GLIB_GENMARSHAL)
 	(echo '/* This file has been automatically generated.  Do not edit. */' && \
+	echo '#include <goffice/goffice-config.h>' && \
 	echo '#include "$*.h"' && \
 	$(GENMARSHAL_COMMAND) --body $< ) >$@
 
