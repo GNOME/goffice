@@ -30,8 +30,6 @@
 #include <goffice/utils/go-math.h>
 #include <goffice/app/module-plugin-defs.h>
 
-#include <goffice/utils/numbers.h>
-
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
