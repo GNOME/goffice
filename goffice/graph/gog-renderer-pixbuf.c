@@ -73,8 +73,6 @@ gog_renderer_pixbuf_finalize (GObject *obj)
 	}
 
 	if (prend->pango_context != NULL) {
-		/* See http://bugzilla.gnome.org/show_bug.cgi?id=143542 */
-		go_pango_fc_font_map_cache_clear (PANGO_FC_FONT_MAP (pango_context_get_font_map (prend->pango_context)));
 		g_object_unref (prend->pango_context);
 		prend->pango_context = NULL;
 	}
@@ -535,7 +533,17 @@ gog_renderer_pixbuf_get_pango_context (GogRendererPixbuf *prend)
 	font_map = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
 	pango_ft2_font_map_set_resolution (font_map,
 		prend->dpi_x, prend->dpi_y);
-	prend->pango_context = pango_ft2_font_map_create_context  (font_map);
+	prend->pango_context = pango_ft2_font_map_create_context (font_map);
+	/*  Workaround for bug #143542 (PangoFT2Fontmap leak),
+	 *  see also bug #148997 (Text layer rendering leaks font file descriptor):
+	 *
+	 *  Calling pango_ft2_font_map_substitute_changed() causes the
+	 *  font_map cache to be flushed, thereby removing the circular
+	 *  reference that causes the leak.
+	 */
+	g_object_weak_ref (G_OBJECT (prend->pango_context),
+			   (GWeakNotify) pango_ft2_font_map_substitute_changed,
+			   font_map);
 	g_object_unref (font_map);
 
 	return prend->pango_context;

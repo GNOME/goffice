@@ -46,6 +46,9 @@ GOFont const *go_font_ref	   (GOFont const *font);
 void	      go_font_unref	   (GOFont const *font);
 gboolean      go_font_eq	   (GOFont const *a, GOFont const *b);
 
+GSList       *go_fonts_list_families (PangoContext *context);
+GSList       *go_fonts_list_sizes    (void);
+
 /* cache notification */
 void go_font_cache_register   (GClosure *callback);
 void go_font_cache_unregister (GClosure *callback);
@@ -53,13 +56,6 @@ void go_font_cache_unregister (GClosure *callback);
 /* private */
 void go_fonts_init     (void);
 void go_fonts_shutdown (void);
-
-extern GSList	 *go_fonts_family_names;
-extern GSList	 *go_fonts_size_names;
-extern int const  go_fonts_size_pts [];
-
-/* See http://bugzilla.gnome.org/show_bug.cgi?id=143542 */
-void go_pango_fc_font_map_cache_clear (PangoFcFontMap *font_map);
 
 G_END_DECLS
 

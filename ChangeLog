@@ -1,5 +1,18 @@
 2005-03-04  Morten Welinder  <terra@gnome.org>
 
+	* goffice/graph/gog-renderer-pixbuf.c
+	(gog_renderer_pixbuf_finalize): No need to call
+	go_pango_fc_font_map_cache_clear.
+	(gog_renderer_pixbuf_get_pango_context): Use Gimp's leak
+	work-around instead.
+
+	* goffice/utils/go-font.c (go_fonts_list_families,
+	go_fonts_list_sizes): New function.  Rework all references to
+	go_fonts_family_names, go_fonts_font_size_names,
+	go_fonts_font_size_pts to use these.  (This gets rid of one more
+	direct -- and wrong -- reference to the ft2 pango backend.)
+	(go_pango_fc_font_map_cache_clear): Remove.
+
 	* goffice/utils/go-math.c (go_stern_brocot): Use double, not
 	float.
 
