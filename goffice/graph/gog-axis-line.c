@@ -678,7 +678,6 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 
 	is_line_visible = gog_style_is_line_visible (axis_base->base.style);
 	line_width = gog_renderer_line_size (renderer, axis_base->base.style->line.width) / 2;
-	map = gog_axis_map_new (axis_base->axis, 0., axis_length);
 	
 	minor_tick_len = gog_renderer_pt2r_x (renderer, axis_base->minor.size_pts);
 	major_tick_len = gog_renderer_pt2r_x (renderer, axis_base->major.size_pts);
@@ -1125,6 +1124,7 @@ gog_axis_base_view_padding_request (GogView *view, GogViewAllocation const *bbox
 	gog_renderer_push_style (view->renderer, style);
 
 	switch (axis_set) {
+		case GOG_AXIS_SET_X:
 		case GOG_AXIS_SET_XY:
 			xy_process (view, padding, bbox);
 			break;
@@ -1132,7 +1132,8 @@ gog_axis_base_view_padding_request (GogView *view, GogViewAllocation const *bbox
 			radar_process (view, padding, bbox);
 			break;
 		default:
-			g_warning ("Not implemented yet");
+			g_warning ("[AxisBaseView::padding_request] not implemented for this axis set (%i)",
+				   axis_set);
 			break;
 	}
 
@@ -1157,6 +1158,7 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_renderer_push_style (view->renderer, style);
 
 	switch (axis_set) {
+		case GOG_AXIS_SET_X:
 		case GOG_AXIS_SET_XY:
 			xy_process (view, NULL, plot_area);
 			break;
@@ -1164,7 +1166,8 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 			radar_process (view, NULL, plot_area);
 			break;
 		default:
-			g_warning ("Not implemented yet");
+			g_warning ("[AxisBaseView::render] not implemented for this axis set (%i)",
+				   axis_set);
 			break;
 	}
 

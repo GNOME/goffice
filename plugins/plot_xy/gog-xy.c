@@ -393,14 +393,16 @@ gog_bubble_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 
 extern gpointer gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc);
 static void
-gog_bubble_plot_populate_editor (GogObject *item, 
+gog_bubble_plot_populate_editor (GogObject *obj, 
 				 GogEditor *editor,
 				 G_GNUC_UNUSED GogDataAllocator *dalloc,
 			GOCmdContext *cc)
 {
 	gog_editor_add_page (editor,
-			     gog_bubble_plot_pref (GOG_BUBBLE_PLOT (item), cc),
+			     gog_bubble_plot_pref (GOG_BUBBLE_PLOT (obj), cc),
 			     _("Properties"));
+
+	(GOG_OBJECT_CLASS(bubble_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }
 
 enum {

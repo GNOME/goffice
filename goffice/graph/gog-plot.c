@@ -180,6 +180,9 @@ gog_plot_populate_editor (GogObject *obj,
 
 	g_return_if_fail (chart != NULL);
 
+	if (gog_chart_get_axis_set (chart) != GOG_AXIS_SET_XY)
+		return;
+
 	table = gtk_table_new (0, 1, FALSE);
 	for (type = 0 ; type < GOG_AXIS_TYPES ; type++) {
 		if (plot->axis[type] != NULL) {
@@ -622,6 +625,9 @@ gog_plot_set_axis_by_id (GogPlot *plot, GogAxisType type, unsigned id)
 	GogAxis *axis;
 	GSList *axes, *ptr;
 	gboolean found = FALSE;
+
+	if (id == 0)
+		return FALSE;
 
 	g_return_val_if_fail (GOG_PLOT (plot) != NULL, FALSE);
 	g_return_val_if_fail (GOG_OBJECT (plot)->parent != NULL, FALSE);

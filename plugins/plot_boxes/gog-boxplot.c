@@ -38,6 +38,10 @@
 
 GOFFICE_PLUGIN_MODULE_HEADER;
 
+static GogObjectClass *gog_box_plot_parent_klass;
+
+static GType gog_box_plot_view_get_type (void);
+
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *boxplot)
 {
@@ -79,6 +83,8 @@ gog_box_plot_populate_editor (GogObject *item,
 			      GOCmdContext *cc)
 {
 	gog_editor_add_page (editor, gog_box_plot_pref (item, dalloc, cc), _("Properties"));
+	
+	(GOG_OBJECT_CLASS(gog_box_plot_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
 
 enum {
@@ -98,10 +104,6 @@ typedef GogSeriesClass GogBoxPlotSeriesClass;
 #define IS_GOG_BOX_PLOT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_BOX_PLOT_SERIES_TYPE))
 
 GType gog_box_plot_series_get_type (void);
-
-static GogObjectClass *gog_box_plot_parent_klass;
-
-static GType gog_box_plot_view_get_type (void);
 
 static char const *
 gog_box_plot_type_name (G_GNUC_UNUSED GogObject const *item)
@@ -353,6 +355,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_renderer_pop_style (view->renderer);
 		y -= hser;
 	}
+	gog_axis_map_free (x_map);
 }
 
 static void

@@ -42,6 +42,7 @@ GogChartMap *gog_chart_map_new (GogChart *chart, GogViewAllocation const *area)
 	map->axis_set = gog_chart_get_axis_set (chart);
 	
 	switch (map->axis_set) {
+		case GOG_AXIS_SET_X:
 		case GOG_AXIS_SET_XY:
 			map->a[0][0] = area->w;
 			map->a[1][1] = -area->h;
@@ -49,7 +50,8 @@ GogChartMap *gog_chart_map_new (GogChart *chart, GogViewAllocation const *area)
 			map->b[1] = area->y + area->h;
 			break;
 		default:
-			g_warning ("Not implemented");
+			g_warning ("[Chart::map_new] not implemented for this axis set (%i)",
+				   map->axis_set);
 			break;
 	}
 	return map;
@@ -59,12 +61,14 @@ void
 gog_chart_map_2D (GogChartMap *map, double x, double y, double *xx, double *yy)
 {
 	switch (map->axis_set) {
+		case GOG_AXIS_SET_X:
 		case GOG_AXIS_SET_XY:
 			*xx = map->a[0][0] * x + map->b[0];
 			*yy = map->a[1][1] * y + map->b[1];
 			break;
 		default:
-			g_warning ("Not implemented");
+			g_warning ("[Chart::map_2D] not implemented for this axis set (%i)",
+				   map->axis_set);
 			break;
 	}
 }

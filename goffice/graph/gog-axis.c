@@ -911,6 +911,17 @@ role_grid_line_minor_post_add (GogObject *parent, GogObject *child)
 	g_object_set (G_OBJECT (child), "is_minor", (gboolean)TRUE, NULL);
 }
 
+static gboolean
+role_axis_line_can_add (GogObject const *parent)
+{
+	GogChart *chart = GOG_AXIS_BASE (parent)->chart;
+	
+	if (gog_chart_get_axis_set (chart) == GOG_AXIS_SET_XY)
+		return TRUE;
+
+	return FALSE;
+}
+
 static void
 role_axis_line_post_add (GogObject *parent, GogObject *child)
 {
@@ -1431,7 +1442,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 		  role_grid_line_major_can_add, NULL, NULL, role_grid_line_major_post_add, NULL, NULL, { -1 } },
 		{ N_("AxisLine"), "GogAxisLine", 0,
 		  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
-		  NULL, NULL, NULL, role_axis_line_post_add, NULL, NULL, { -1 } }
+		  role_axis_line_can_add, NULL, NULL, role_axis_line_post_add, NULL, NULL, { -1 } }
 	};
 
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;

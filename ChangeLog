@@ -1,3 +1,25 @@
+2005-03-15  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-axis-line.c (axis_line_get_bbox): remove extra
+	gog_axis_map_new.
+	(gog_axis_base_view_padding_request): handle GOG_AXIS_SET_X like
+	GOG_AXIS_SET_XY.
+	(gog_axis_base_view_render): ditto.
+	* goffice/graph/gog-chart.c (gog_chart_map_new): ditto.
+	(gog_chart_map_2D): ditto.
+	* goffice/graph/gog-axis.c (role_axis_line_can_add): adding an axis
+	line is only relevant for GOG_AXIS_SET_XY for now.
+	(gog_axis_class_init): add role_axis_line_can_add.
+	* goffice/graph/gog-plot.c (gog_plot_populate_editor): axis selection
+	is only relevant for GOG_AXIS_SET_XY.
+	(gog_plot_set_axis_by_id): don't try to find an axis if id = 0,
+	GogObject::id starts at 1.
+	* plugins/plot_boxes/gog-xy.c (gog_bubble_plot_populate_editor):
+	call parent::populate_editor.
+	* plugins/plot_boxes/gog-boxplot.c (gog_box_plot_populate_editor):
+	ditto.
+	(gog_box_plot_view_render): free x_map.
+	
 2005-03-15  Stepan Kasal  <kasal@ucw.cz>
 
 	* goffice/graph/Makefile.am: Distribute gog-axis-line-impl.h.
