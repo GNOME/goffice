@@ -1,5 +1,24 @@
 2005-03-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	Add support for axis selection.
+
+	* goffice/graph/gog-axis-line.c (get_point_to_segment_distance): new.
+	(axis_line_point): new.
+	(axis_circle_point): new.
+	(axis_cirlce_render): render as polygon if num_radii > 0.0
+	cos (x - pi/2) = sin (x) 
+	sin (x - pi/2) = -cos (x)
+	(xy_process): handle point routine now.
+	(radar_process) : ditto.
+	(gog_axis_base_view_info_at_point): new.
+	(gog_axis_base_view_padding_request): pass action parameter to process
+	functions.
+	(gog_axis_base_view_render): ditto.
+	* goffice/graph/gog-grid-line.c (gog_grid_line_info_at_point): new.
+	Just return FALSE for now.
+
+2005-03-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* goffice/graph/gog-graph.c (gog_graph_force_update): replace if
 	statement by a while loop, since an object update may trigger a
 	update request for an other object.
