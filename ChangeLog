@@ -1,3 +1,7 @@
+2005-03-09  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/format.c: Fix long double compilation.
+
 2005-03-08  Jody Goldberg <jody@gnome.org>
 
 	The last of the code dependencies on gnumeric.  Now I just need to

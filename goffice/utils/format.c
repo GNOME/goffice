@@ -22,12 +22,39 @@
  */
 
 #include <goffice/goffice-config.h>
+#include "format.h"
+#include "format-impl.h"
+#include "go-format-match.h"
+#include "go-color.h"
+#include "datetime.h"
+#include "go-glib-extras.h"
+#include "go-math.h"
+#include <glib/gi18n.h>
+
+#include <time.h>
+#include <math.h>
+#include <locale.h>
+#include <string.h>
+#include <stdio.h>
+#include <errno.h>
+#include <stdlib.h>
+#ifdef HAVE_LANGINFO_H
+#  include <langinfo.h>
+#endif
+#ifdef G_OS_WIN32
+#  include <windows.h>
+#endif
+
+/* ------------------------------------------------------------------------- */
 
 #ifndef DOUBLE
 
 #define DEFINE_COMMON
 
-#ifdef WITH_LONG_DOUBLE
+#if GOFFICE_WITH_LONG_DOUBLE
+#ifdef HAVE_SUNMATH_H
+#include <sunmath.h>
+#endif
 #define DOUBLE long double
 #define SUFFIX(_n) _n ## l
 #define PREFIX(_n) LDBL_ ## _n
@@ -55,29 +82,7 @@
 #define STRTO strtod
 #endif
 
-
-#include "format.h"
-#include "format-impl.h"
-#include "go-format-match.h"
-#include "go-color.h"
-#include "datetime.h"
-#include "go-glib-extras.h"
-#include "go-math.h"
-#include <glib/gi18n.h>
-
-#include <time.h>
-#include <math.h>
-#include <locale.h>
-#include <string.h>
-#include <stdio.h>
-#include <errno.h>
-#include <stdlib.h>
-#ifdef HAVE_LANGINFO_H
-#  include <langinfo.h>
-#endif
-#ifdef G_OS_WIN32
-#  include <windows.h>
-#endif
+/* ------------------------------------------------------------------------- */
 
 #undef DEBUG_REF_COUNT
 
@@ -849,7 +854,7 @@ lookup_color (gchar const *str, gchar const *end)
 #endif
 
 static double beyond_precision;
-#ifdef WITH_LONG_DOUBLE
+#if GOFFICE_WITH_LONG_DOUBLE
 static long double beyond_precisionl;
 #endif
 
