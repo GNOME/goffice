@@ -8261,7 +8261,8 @@ do
     start_match++;
 #ifdef SUPPORT_UTF8
     if (match_block.utf8)
-      while((*start_match & 0xc0) == 0x80) start_match++;
+      while(start_match < end_subject && (*start_match & 0xc0) == 0x80)
+	start_match++;
 #endif
     continue;
     }

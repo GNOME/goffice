@@ -1,3 +1,8 @@
+2005-03-15  Morten Welinder  <terra@gnome.org>
+
+	* goffice/cut-n-paste/pcre/pcre.c (pcre_exec): Backport another
+	UMR fix.
+
 2005-03-15  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-axis-line.c (axis_line_get_bbox): remove extra
