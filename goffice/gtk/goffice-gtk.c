@@ -36,6 +36,7 @@
 #include <gtk/gtkbbox.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtkfilechooserdialog.h>
+#include <gtk/gtkicontheme.h>
 #include <gdk/gdkkeysyms.h>
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>
