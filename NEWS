@@ -7,4 +7,7 @@ Ivan Wong:
         * Become more robust when reading .hhmap files and finding help
         topics on Win32.
 
+Morten:
+	* Fix various old number rendering bugs.  [#170000]
+
 --------------------------------------------------------------------------
