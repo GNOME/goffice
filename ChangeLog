@@ -1,3 +1,8 @@
+2005-03-11  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (goffice_reqs): Require pango 1.8.1; it is not good
+	  if we _slightly_ differ from gnumeric.
+
 2005-03-09  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/datetime.h (WEEKNUM_METHOD_SUNDAY): Define using
