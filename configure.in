@@ -39,46 +39,6 @@ AC_SYS_LARGEFILE
 AC_SUBST(ACLOCAL_FLAGS)
 
 dnl *****************************
-# Check for zlib.
-_cppflags="${CPPFLAGS}"
-_ldflags="${LDFLAGS}"
-
-AC_ARG_WITH(zlib,
-	[[  --with-zlib=DIR       use libz in DIR]],
-	[case $withval in
-	 yes|no) ;;
-	 *)	Z_DIR=$withval
-		CPPFLAGS="${CPPFLAGS} -I$withval/include"
-		LDFLAGS="${LDFLAGS} -L$withval/lib"
-		;;
-	 esac])
-
-if test "x$with_zlib" != xno; then
-	with_zlib=no
-	AC_CHECK_HEADER(zlib.h, [AC_CHECK_LIB(z, gzread, [with_zlib=yes])])
-fi
-
-if test "$with_zlib" = no; then
-	AC_MSG_ERROR([*** zlib is required])
-fi
-
-if test "x${Z_DIR}" != "x"; then
-	Z_CPPFLAGS="-I${Z_DIR}/include"
-	case ${host} in
-	*-*-solaris*)	Z_LIBS="-L${Z_DIR}/lib -R${Z_DIR}/lib -lz" ;;
-	*)		Z_LIBS="-L${Z_DIR}/lib -lz" ;;
-	esac
-else
-	Z_LIBS="-lz"
-fi
-AC_DEFINE([HAVE_LIBZ], [], [Have compression library])
-AC_SUBST(Z_CPPFLAGS)
-AC_SUBST(Z_LIBS)
-
-CPPFLAGS=${_cppflags}
-LDFLAGS=${_ldflags}
-
-dnl *****************************
 goffice_reqs="
 	glib-2.0		>= 2.6.0
 	gobject-2.0		>= 2.6.0

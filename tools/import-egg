@@ -9,7 +9,7 @@ my $myself = $0;
 $myself =~ s|^.*/||;
 
 die "$0: must run from top-level goffice directory.\n"
-    unless -r "goffice/goffice-config.h.in";
+    unless -r "goffice/goffice.h";
 my $dst = "plugins/gnome_extensions";
 
 my $eggdir = $ARGV[0];

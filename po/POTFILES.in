@@ -7,6 +7,7 @@ goffice/app/error-info.h
 goffice/app/file.c
 goffice/app/file.h
 goffice/app/file-priv.h
+goffice/app/go-app.h
 goffice/app/go-cmd-context.c
 goffice/app/go-cmd-context.h
 goffice/app/go-cmd-context-impl.h
@@ -36,17 +37,6 @@ goffice/app/io-context.c
 goffice/app/io-context.h
 goffice/app/io-context-priv.h
 goffice/app/module-plugin-defs.h
-goffice/cut-n-paste/egg-recent-files/egg-recent.h
-goffice/cut-n-paste/egg-recent-files/egg-recent-item.c
-goffice/cut-n-paste/egg-recent-files/egg-recent-item.h
-goffice/cut-n-paste/egg-recent-files/egg-recent-model.c
-goffice/cut-n-paste/egg-recent-files/egg-recent-model.h
-goffice/cut-n-paste/egg-recent-files/egg-recent-util.c
-goffice/cut-n-paste/egg-recent-files/egg-recent-util.h
-goffice/cut-n-paste/egg-recent-files/egg-recent-view.c
-goffice/cut-n-paste/egg-recent-files/egg-recent-view-gtk.c
-goffice/cut-n-paste/egg-recent-files/egg-recent-view-gtk.h
-goffice/cut-n-paste/egg-recent-files/egg-recent-view.h
 goffice/cut-n-paste/pcre/get.c
 goffice/cut-n-paste/pcre/internal.h
 goffice/cut-n-paste/pcre/maketables.c

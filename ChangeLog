@@ -1,3 +1,14 @@
+2005-03-07  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Don't default to --without-gtk if gtk libs are not
+	  found; remove checks for gconf, Corba and GNU make, as they are
+	  not used in goffice; improve quoting and make use of AC_SUBST/2.
+	* goffice/app/Makefile.am (UNUSED): List the unused files lingering
+	  in the CVS, ...
+	(EXTRA_DIST): ... and distribute them.
+	* goffice/gtk/Makefile.am (UNUSED, EXTRA_DIST): Likewise.
+	* goffice/cut-n-paste/pcre/Makefile.am: Refresh.
+
 2005-03-07  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Use largefile apis.
@@ -70,7 +81,6 @@
 
 2005-03-04  Stepan Kasal  <kasal@ucw.cz>
 
-	* tools/import-foocanvas: Apply Jody's rtl patch to foo-canvas.c;
 	* goffice/cut-n-paste/foocanvas/foo-canvas.c: Refresh.
 
 2005-03-02  Ivan, Wong Yat Cheung  <email@ivanwong.info>
@@ -85,8 +95,7 @@
 
 	* configure.in: Add check for Xrender.
 	* goffice-plugins.mk (INCLUDES): Fix.
-	* tools/import-foocanvas: Update for the new situation, and use it
-	  to update the imported code.
+	* goffice/cut-n-paste/foocanvas/*: Refresh.
 
 2005-02-28  Jean Brefort  <jean.brefort@normalesup.org>
 

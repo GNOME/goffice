@@ -54,6 +54,20 @@ goffice_glade_DATA = \
 	go-font-sel.glade 	\
 	go-format-sel.glade 
 
-EXTRA_DIST = htmlhelp-stub.c htmlhelp-stub.h $(goffice_glade_DATA)
+# This list should be empty when we reach a stable phase.
+UNUSED = \
+	go-dock.c \
+	go-dock.h \
+	go-dock-band.c \
+	go-dock-band.h \
+	go-dock-item.c \
+	go-dock-item.h \
+	go-dock-item-grip.c \
+	go-dock-item-grip.h \
+	go-dock-layout.c \
+	go-dock-layout.h
+
+EXTRA_DIST = htmlhelp-stub.c htmlhelp-stub.h $(goffice_glade_DATA) \
+	$(UNUSED)
 
 include $(top_srcdir)/goffice.mk

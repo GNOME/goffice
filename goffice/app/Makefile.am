@@ -39,4 +39,16 @@ libgoffice_app_la_HEADERS = 	\
 	go-cmd-context.h		\
 	go-cmd-context-impl.h
 
+# This list should be empty when we reach a stable phase.
+UNUSED = \
+	go-app.h \
+	go-error-stack.h \
+	go-object.c \
+	go-object.h \
+	go-service.c \
+	go-service.h \
+	go-service-impl.h
+
+EXTRA_DIST = $(UNUSED)
+
 include $(top_srcdir)/goffice.mk

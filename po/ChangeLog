@@ -1,3 +1,9 @@
+2005-03-07  Stepan Kasal  <kasal@ucw.cz>
+
+	* POTFILES.skip: Deleted.
+	* POTFILES.in: Delete goffice/cut-n-paste/egg-recent-files/*
+	  add goffice/app/go-app.h again.
+
 2005-03-04  Stepan Kasal  <kasal@ucw.cz>
 
 	* POTFILES.in: Move goffice/app/go-app.h ...

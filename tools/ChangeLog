@@ -1,3 +1,16 @@
+2005-03-07  Stepan Kasal  <kasal@ucw.cz>
+
+	* import-bonobo, import-egg, import-pcre, import-foocanvas: Don't
+	  look for goffice-config.h.in which is not in CVS, look for
+	  goffice.h instead.
+	* import-pcre: In the generated Makefile.am, add EXTRA_DIST and
+	  temporarily comment out noinst_HEADERS.
+
+2005-03-04  Stepan Kasal  <kasal@ucw.cz>
+
+	* import-foocanvas: Update for the new situation, and use it to
+	  update the imported code.  Add Jody's rtl patch to foo-canvas.c.
+
 2005-03-02  Morten Welinder  <terra@gnome.org>
 
 	* import-pcre: Update for goffice.
