@@ -1,7 +1,7 @@
 /* File import from foocanvas to libgoffice by import-foocanvas.  Do not edit.  */
 
 #undef GTK_DISABLE_DEPRECATED
-#include <goffice-config.h>
+#include <goffice/goffice-config.h>
 #include <glib/gi18n.h>
 /* GNOME libraries - GdkPixbuf item for the GNOME canvas
  *
