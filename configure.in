@@ -1,5 +1,7 @@
 -*- mode: m4 -*-
-AC_PREREQ(2.52)
+dnl We require Automake 1.7.2, which requires Autoconf 2.54.
+dnl (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
+AC_PREREQ(2.54)
 
 m4_define([goffice_version_epoch], [0])
 m4_define([goffice_version_major], [0])
@@ -69,12 +71,11 @@ AC_ARG_WITH(gtk, [--without-gtk    Build without UI])
 if test "x$with_gtk" = xno; then
 	ui_msg="None (Gtk disabled by request)"
 	goffice_with_gtk=false
-fi
-
-if test "x$goffice_with_gtk" = "xtrue" ; then
+else
 	dnl We shouldn't silently default to --without-gtk.
 	dnl If the requirements are not met, fail.
-	PKG_CHECK_MODULES(GTK, [$goffice_gtk_reqs], [ui_msg="Gtk"])
+	ui_msg="Gtk"
+	PKG_CHECK_MODULES(GTK, [$goffice_gtk_reqs])
 fi 
 
 goffice_with_gnome=$goffice_with_gtk
@@ -463,7 +464,6 @@ plugins/plot_boxes/Makefile
 pixmaps/Makefile
 tests/Makefile
 po/Makefile.in
-stamp.h
 ])
 AC_OUTPUT
 

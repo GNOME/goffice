@@ -13,10 +13,7 @@ ltmain.sh
 libtool
 goffice-config.h.in
 goffice-config.h
-stamp-h*
 Makefile
-stamp.h
-stamp-h.in
 xlibtool
 xltmain.sh
 depcomp

@@ -1,3 +1,15 @@
+2005-03-22  Stepan Kasal  <kasal@ucw.cz>
+
+	* autogen.sh: REQUIRED_AUTOCONF_VERSION=2.54  We already required
+	  that indirectly, by asking for Automake >= 1.7.2.
+	* configure.in: AC_PREREQ(2.54)
+	  - don't default to --without-gtk even if the reqs are not met;
+	  - don't generate stamp.h; the issue is solved by Automake 1.7.2;
+	    see info '(autoconf)Automatic Remaking' for details.
+	* stamp.h.in: Nuke.
+	* .cvsignore: Remove stamp*.
+	* goffice/.cvsignore: Remove depcomp.
+
 2005-03-23  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* plugins/plot_radar/gog-radar.c (gog_radar_view_render): handle
