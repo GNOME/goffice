@@ -265,6 +265,16 @@ AC_TRY_LINK(,[ return 0; ],
 )
 AC_MSG_RESULT(${LDOPTFLAGS:-not found})
 
+AC_MSG_CHECKING([if the linker can disallow undefined symbols])
+LDFLAGSALLOWUNDEF="$LDFLAGS"
+LDFLAGS="$LDFLAGS -Wl,-z,defs"
+AC_TRY_LINK(,[ return 0; ],
+	[LDDEFSFLAGS="-Wl,-O1"],
+	[LDDEFSFLAGS=""; LDFLAGS="$LDFLAGSALLOWUNDEF"]
+)
+AC_MSG_RESULT(${LDDEFSFLAGS:-not found})
+AC_SUBST(LDFLAGSALLOWUNDEF)
+
 dnl **************************************************
 AC_SUBST(ALL_LINGUAS,
 "am az bg ca cs da de el en_CA en_GB es et fi fr ga gl he hr hu it ja ko lv ml mr ms nb nl nn no pl pt pt_BR ro ru sk sr sr@Latn sv tr uk vi zh_CN zh_TW")
@@ -485,6 +495,7 @@ Configuration:
 	Compiler:		${CC}
 	Compiler flags:		${CFLAGS}
 	Linking:		${LDFLAGS}
+	Linking (allow undef):	${LDFLAGSALLOWUNDEF}
 	Long double support:	${float_msg}
 
 	UI:			${ui_msg}

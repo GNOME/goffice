@@ -2,6 +2,11 @@
 
 	* configure.in: Link -Wl,-O1 if the linker supports it; see
 	http://people.redhat.com/drepper/dsohowto.pdf for background.
+	* configure.in: Link -Wl,-z,defs if the linker supports it
+	* plugins/plot_barcol/Makefile.am, plugins/plot_boxes/Makefile.am,
+	plugins/plot_pie/Makefile.am, plugins/plot_radar/Makefile.am,
+	plugins/plot_surface/Makefile.am, plugins/plot_xy/Makefile.am: except
+	for the plugins.
 
 2005-03-13  Jean Brefort  <jean.brefort@normalesup.org>
 

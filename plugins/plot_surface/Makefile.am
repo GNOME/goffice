@@ -1,3 +1,5 @@
+LDFLAGS = $(LDFLAGSALLOWUNDEF)
+
 goffice_graph_surfacedir = $(goffice_plugindir)/plot_surface
 xmldir	 = $(goffice_graph_surfacedir)
 gladedir = $(goffice_graph_surfacedir)

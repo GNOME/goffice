@@ -1,3 +1,5 @@
+LDFLAGS = $(LDFLAGSALLOWUNDEF)
+
 goffice_graph_radardir = $(goffice_plugindir)/plot_radar
 xmldir	 = $(goffice_graph_radardir)
 gladedir = $(goffice_graph_radardir)
