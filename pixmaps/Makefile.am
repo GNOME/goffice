@@ -1,4 +1,4 @@
-icondir = $(gnumeric_icondir)
+icondir = $(goffice_icondir)
 icon_DATA = \
  	chart_area_1_1.png	chart_area_1_2.png	chart_area_1_3.png	\
 	chart_bar_1_1.png	chart_bar_1_2.png	chart_bar_1_3.png	\
