@@ -1,3 +1,8 @@
+2005-03-21  Christopher James Lahey  <clahey@ximian.com
+
+	* goffice/drawing/Makefile.am, goffice/ms-compat/Makefile.am:
+	Export header files.
+
 2005-03-21  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-axis-line.c (gog_axis_base_set_position_auto):
