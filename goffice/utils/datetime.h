@@ -23,9 +23,11 @@ struct _GODateConventions {
 /* 1:   Week starts on Sunday. Days before first Sunday are in week 0. */
 /* 2:   Week starts on Monday. Days before first Monday are in week 0. */
 /* 150: ISO 8601 week number. */
-#define WEEKNUM_METHOD_SUNDAY 1
-#define WEEKNUM_METHOD_MONDAY 2
-#define WEEKNUM_METHOD_ISO    150
+enum {
+	WEEKNUM_METHOD_SUNDAY = 1,
+	WEEKNUM_METHOD_MONDAY = 2,
+	WEEKNUM_METHOD_ISO = 150
+};
 
 /* These do not round and produces fractional values, i.e., includes time.  */
 double	datetime_timet_to_serial_raw  (time_t t, GODateConventions const *conv);

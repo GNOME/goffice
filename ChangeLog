@@ -1,5 +1,12 @@
 2005-03-09  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/datetime.h (WEEKNUM_METHOD_SUNDAY): Define using
+	enum.
+
+	* goffice/utils/datetime.c (datetime_weeknum,
+	datetime_g_days_between, datetime_g_months_between,
+	datetime_g_years_between): Use g_return_val_if_fail, not g_assert.
+
 	* goffice/utils/format.c: Fix long double compilation.
 
 2005-03-08  Jody Goldberg <jody@gnome.org>

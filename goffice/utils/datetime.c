@@ -150,8 +150,8 @@ datetime_timet_to_seconds (time_t t)
 int
 datetime_g_days_between (GDate const* date1, GDate const *date2)
 {
-	g_assert (g_date_valid (date1));
-	g_assert (g_date_valid (date2));
+	g_return_val_if_fail (g_date_valid (date1), 0);
+	g_return_val_if_fail (g_date_valid (date2), 0);
 
 	return (int) (g_date_get_julian (date2) - g_date_get_julian (date1));
 }
@@ -161,8 +161,8 @@ datetime_g_days_between (GDate const* date1, GDate const *date2)
 int
 datetime_g_months_between (GDate const *date1, GDate const *date2)
 {
-	g_assert (g_date_valid (date1));
-	g_assert (g_date_valid (date2));
+	g_return_val_if_fail (g_date_valid (date1), 0);
+	g_return_val_if_fail (g_date_valid (date2), 0);
 
 	/* find the difference according to the month and year ordinals,
 	   but discount the last month if there are not enough days. */
@@ -178,8 +178,8 @@ datetime_g_years_between (GDate const *date1, GDate const *date2)
 {
 	int months;
 
-	g_assert (g_date_valid (date1));
-	g_assert (g_date_valid (date2));
+	g_return_val_if_fail (g_date_valid (date1), 0);
+	g_return_val_if_fail (g_date_valid (date2), 0);
 
 	months = datetime_g_months_between (date1, date2);
 	return months > 0 ? months / 12 : -(-months / 12);
@@ -248,10 +248,11 @@ datetime_weeknum (GDate const *date, int method)
 {
 	int res;
 
-	g_assert (g_date_valid (date));
-	g_assert (method == WEEKNUM_METHOD_SUNDAY ||
-		  method == WEEKNUM_METHOD_MONDAY ||
-		  method == WEEKNUM_METHOD_ISO);
+	g_return_val_if_fail (g_date_valid (date), -1);
+	g_return_val_if_fail (method == WEEKNUM_METHOD_SUNDAY ||
+			      method == WEEKNUM_METHOD_MONDAY ||
+			      method == WEEKNUM_METHOD_ISO,
+			      -1);
 
 	switch (method) {
 	case WEEKNUM_METHOD_SUNDAY:
