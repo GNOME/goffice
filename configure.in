@@ -308,14 +308,23 @@ if test $ac_cv_func_log = no; then
          LIBS="$LIBS -lm"])
 fi
 
-dnl We supply our own versions of these if needed.
-AC_CHECK_FUNCS(expm1 asinh acosh atanh)
+
+AC_CHECK_FUNC(expm1,[needit=0],[needit=1])
+AC_SUBST(GOFFICE_SUPPLIED_EXPM1,$needit)
+AC_CHECK_FUNC(asinh,[needit=0],[needit=1])
+AC_SUBST(GOFFICE_SUPPLIED_ASINH,$needit)
+AC_CHECK_FUNC(acosh,[needit=0],[needit=1])
+AC_SUBST(GOFFICE_SUPPLIED_ACOSH,$needit)
+AC_CHECK_FUNC(atanh,[needit=0],[needit=1])
+AC_SUBST(GOFFICE_SUPPLIED_ATANH,$needit)
+unset needit
 
 float_msg=no
+float_feature=0
 AC_C_LONG_DOUBLE
 if test "x$ac_cv_c_long_double" = "xyes"; then
     have_mandatory_funcs=yes
-    need_sunmath=no
+    need_sunmath=0
     sunmathlinkstuff='-L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath'
     for ldfunc in fabsl logl log10l ceill floorl powl isnanl finitel; do
 	    AC_CHECK_FUNC($ldfunc,
@@ -325,17 +334,17 @@ if test "x$ac_cv_c_long_double" = "xyes"; then
 		      ,
 		      [AC_CHECK_LIB(sunmath,
 			  $ldfunc,
-			  [ if test "x$need_sunmath" = "xno"; then
+			  [ if test "x$need_sunmath" = "x0"; then
 				# FIXME: better idea?
 				LDFLAGS="$LDFLAGS $sunmathlinkstuff"
 				sunmathinclude=`ls -d /opt/SUNWspro/*/include/cc | tail -1`
 				CPPFLAGS="$CPPFLAGS -I$sunmathinclude"
 			    fi
-			    need_sunmath=yes ],
+			    need_sunmath=1 ],
 			  [have_mandatory_funcs=no],
 			  [-L/opt/SUNWspro/lib $GOFFICE_LIBS])])])
     done
-    if test "x$need_sunmath" = "xyes"; then
+    if test "x$need_sunmath" = "x1"; then
 	AC_SUBST(EXTRA_LIBS, "$EXTRA_LIBS $sunmathlinkstuff")
 	AC_SUBST(EXTRA_INCLUDES, "$EXTRA_INCLUDES -I$sunmathinclude")
 	AC_CHECK_HEADERS([sunmath.h floatingpoint.h],
@@ -348,6 +357,8 @@ if test "x$ac_cv_c_long_double" = "xyes"; then
     unset sunmathinclude
 
     AC_CHECK_FUNCS(modfl frexpl ldexpl strtold string_to_decimal decimal_to_quadruple)
+
+    must_prototype_strtold=0
     if test "x$ac_cv_func_strtold" = "xyes"; then
 	    AC_MSG_CHECKING([if we must prototype strtold ourselves])
 	    AC_TRY_RUN([
@@ -362,6 +373,7 @@ if test "x$ac_cv_c_long_double" = "xyes"; then
 		    }],
 		    [AC_MSG_RESULT(no)],
 		    [AC_MSG_RESULT(yes)
+		     must_prototype_strtold=1
 		     AC_DEFINE(MUST_PROTOTYPE_STRTOLD, 1,
 			    [Define if we need to provide a prototype for strtold()]
 		     )],
@@ -372,19 +384,25 @@ if test "x$ac_cv_c_long_double" = "xyes"; then
 	    AC_MSG_WARN([You lack the strtold function -- precision will be impaired])
     fi
 
-    if test "x$ac_cv_func_modfl" != "xyes"; then
-	    AC_MSG_WARN([You lack the modfl function -- precision will be impaired])
-    fi
-
     if test "$have_mandatory_funcs" = yes; then
- 	AC_DEFINE(WITH_LONG_DOUBLE, 1,
-			[Define if this library should support long double variants])
 	float_msg=yes
+        float_feature=1
     else
 	AC_MSG_WARN([Long double support disabled because of library problems])
     fi
     unset have_mandatory_funcs
+
+    if test "x$ac_cv_func_modfl" = "xyes"; then needit=0; else needit=1; fi
+    AC_SUBST(GOFFICE_SUPPLIED_MODFL,$needit)
+    if test "x$ac_cv_func_ldexpl" = "xyes"; then needit=0; else needit=1; fi
+    AC_SUBST(GOFFICE_SUPPLIED_LDEXPL,$needit)
+    if test "x$ac_cv_func_frexpl" = "xyes"; then needit=0; else needit=1; fi
+    AC_SUBST(GOFFICE_SUPPLIED_FREXPL,$needit)
+    if test "x$ac_cv_func_strtold" = "xyes" -a $must_prototype_strtold -eq 0 ; then needit=0; else needit=1; fi
+    AC_SUBST(GOFFICE_SUPPLIED_STRTOLD,$needit)
 fi
+AC_SUBST(GOFFICE_WITH_LONG_DOUBLE,$float_feature)
+unset float_feature
 
 dnl ******************
 dnl * Config defaults
@@ -432,6 +450,7 @@ goffice/ms-compat/Makefile
 goffice/cut-n-paste/Makefile
 goffice/cut-n-paste/foocanvas/Makefile
 goffice/cut-n-paste/pcre/Makefile
+goffice/goffice-features.h
 goffice/goffice-paths.sh
 goffice/libgoffice-1.pc
 plugins/Makefile

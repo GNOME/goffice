@@ -1,6 +1,7 @@
 #ifndef GOFFICE_FORMAT_H
 #define GOFFICE_FORMAT_H
 
+#include <goffice/goffice-features.h>
 #include <goffice/utils/goffice-utils.h>
 #include <pango/pango-attributes.h>
 #include <goffice/cut-n-paste/pcre/pcreposix.h>
@@ -103,7 +104,7 @@ typedef struct {
 } format_info_t;
 
 void go_render_number (GString *result, double number, format_info_t const *info);
-#ifdef WITH_LONG_DOUBLE
+#if GOFFICE_WITH_LONG_DOUBLE
 void go_render_numberl (GString *result, long double number, format_info_t const *info);
 #endif
 

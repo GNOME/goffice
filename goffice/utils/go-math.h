@@ -2,6 +2,7 @@
 #define __GO_MATH_H
 
 #include <math.h>
+#include <goffice/goffice-features.h>
 
 /* ------------------------------------------------------------------------- */
 
@@ -29,26 +30,22 @@ double go_pow10 (int n);
 /*
  * We provide working versions of these functions for doubles.
  */ 
-#ifndef HAVE_ASINH
+#if GOFFICE_SUPPLIED_ASINH
 double asinh (double x);
 #endif
-#ifndef HAVE_ACOSH
+#if GOFFICE_SUPPLIED_ACOSH
 double acosh (double x);
 #endif
-#ifndef HAVE_ATANH
+#if GOFFICE_SUPPLIED_ATANH
 double atanh (double x);
 #endif
-#ifndef HAVE_EXPM1
+#if GOFFICE_SUPPLIED_EXPM1
 double expm1 (double x);
 #endif
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef WITH_LONG_DOUBLE
-
-#ifdef HAVE_SUNMATH_H
-#include <sunmath.h>
-#endif
+#if GOFFICE_WITH_LONG_DOUBLE
 
 extern long double go_nanl;
 extern long double go_pinfl;
@@ -68,16 +65,16 @@ long double go_pow10l (int n);
 /*
  * We provide working versions of these functions for long doubles.
  */ 
-#ifndef HAVE_LDEXPL
+#if GOFFICE_SUPPLIED_LDEXPL
 long double ldexpl (long double x, int exp);
 #endif
-#ifndef HAVE_FREXPL
+#if GOFFICE_SUPPLIED_FREXPL
 long double frexpl (long double x, int *exp);
 #endif
-#if defined(MUST_PROTOTYPE_STRTOLD) || !defined(HAVE_STRTOLD)
+#if GOFFICE_SUPPLIED_STRTOLD
 long double strtold (const char *, char **);
 #endif
-#ifndef HAVE_MODFL
+#if GOFFICE_SUPPLIED_MODFL
 long double modfl (long double x, long double *iptr);
 #endif
 

@@ -22,7 +22,7 @@ void go_fmt_general_float  (GString *result, double val, double col_width);
 void go_format_number      (GString *result,
 			    double number, int col_width, StyleFormatEntry const *entry,
 			    GODateConventions const *date_conv);
-#ifdef WITH_LONG_DOUBLE
+#if GOFFICE_WITH_LONG_DOUBLE
 void go_fmt_general_floatl (GString *result, long double val, double col_width);
 void go_format_numberl     (GString *result,
 			    long double number, int col_width, StyleFormatEntry const *entry,

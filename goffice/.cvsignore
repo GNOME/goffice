@@ -1,6 +1,7 @@
 depcomp
 goffice-config.h
 goffice-config.h.in
+goffice-features.h
 goffice-paths.h
 goffice-paths.sh
 install-sh

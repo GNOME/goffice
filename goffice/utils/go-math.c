@@ -22,6 +22,10 @@
 #endif
 #endif
 
+#ifdef HAVE_SUNMATH_H
+#include <sunmath.h>
+#endif
+
 #ifdef HAVE_IEEEFP_H
 #include <ieeefp.h>
 #endif
@@ -114,7 +118,7 @@ go_math_init (void)
 
  have_nan:
 
-#ifdef WITH_LONG_DOUBLE
+#if GOFFICE_WITH_LONG_DOUBLE
 	go_nanl = go_nan;
 	go_pinfl = go_pinf;
 	go_ninfl = go_ninf;
@@ -235,7 +239,7 @@ go_pow10 (int n)
 	return pow (10.0, n);
 }
 
-#ifndef HAVE_EXPM1
+#if GOFFICE_SUPPLIED_EXPM1
 double
 expm1 (double x)
 {
@@ -258,7 +262,7 @@ expm1 (double x)
 }
 #endif
 
-#ifndef HAVE_ASINH
+#if GOFFICE_SUPPLIED_ASINH
 double
 asinh (double x)
 {
@@ -268,7 +272,7 @@ asinh (double x)
 }
 #endif
 
-#ifndef HAVE_ACOSH
+#if GOFFICE_SUPPLIED_ACOSH
 double
 acosh (double x)
 {
@@ -277,7 +281,7 @@ acosh (double x)
 }
 #endif
 
-#ifndef HAVE_ATANH
+#if GOFFICE_SUPPLIED_ATANH
 double
 atanh (double x)
 {
@@ -289,7 +293,7 @@ atanh (double x)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef WITH_LONG_DOUBLE
+#if GOFFICE_WITH_LONG_DOUBLE
 
 long double go_nanl;
 long double go_pinfl;
@@ -298,11 +302,11 @@ long double go_ninfl;
 long double
 go_pow2l (int n)
 {
-#ifdef HAVE_LDEXPL
+#if GOFFICE_SUPPLIED_LDEXPL
+	return powl (2.0L, n);
+#else
 	g_assert (FLT_RADIX == 2);
 	return ldexpl (1.0L, n);
-#else
-	return powl (2.0L, n);
 #endif
 }
 
@@ -385,7 +389,7 @@ go_fake_truncl (long double x)
 		: -floorl (go_add_epsilonl (-x));
 }
 
-#ifndef HAVE_LDEXPL
+#if GOFFICE_SUPPLIED_LDEXPL
 long double
 ldexpl (long double x, int exp)
 {
@@ -403,7 +407,7 @@ ldexpl (long double x, int exp)
 }
 #endif
 
-#ifndef HAVE_FREXPL
+#if GOFFICE_SUPPLIED_FREXPL
 long double
 frexpl (long double x, int *exp)
 {
@@ -431,7 +435,7 @@ frexpl (long double x, int *exp)
 }
 #endif
 
-#ifndef HAVE_STRTOLD
+#if GOFFICE_SUPPLIED_STRTOLD && !defined(MUST_PROTOTYPE_STRTOLD)
 long double
 strtold (char const *str, char **end)
 {
@@ -480,7 +484,7 @@ strtold (char const *str, char **end)
 }
 #endif
 
-#ifndef HAVE_MODFL
+#if GOFFICE_SUPPLIED_MODFL
 long double
 modfl (long double x, long double *iptr)
 {

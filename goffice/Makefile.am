@@ -26,8 +26,9 @@ libgoffice_1_la_SOURCES = 	\
 	goffice-priv.h
 libgoffice_1_ladir = $(goffice_include_dir)
 libgoffice_1_la_HEADERS = 	\
-	goffice-config.h	\
+	goffice-features.h	\
 	goffice.h
+noinst_HEADERS=goffice-config.h
 
 goffice-paths.h: goffice-paths.sh
 	@sh $< > $@.tmp ;					\
