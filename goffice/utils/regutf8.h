@@ -13,4 +13,4 @@ void go_regexp_quote (GString *target, const char *s);
 
 G_END_DECLS
 
-#endif /* GNUMERIC_REGUTF8_H */
+#endif /* GO_REGUTF8_H */
