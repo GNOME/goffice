@@ -256,6 +256,15 @@ if test $works_without_bsd_source = no ; then
 	fi
 fi
 
+AC_MSG_CHECKING([for linker optimisation flags])
+SAVED_LDFLAGS="$LDFLAGS"
+LDFLAGS="$LDFLAGS -Wl,-O1"
+AC_TRY_LINK(,[ return 0; ],
+	[LDOPTFLAGS="-Wl,-O1"],
+	[LDOPTFLAGS=""; LDFLAGS="$SAVED_LDFLAGS"]
+)
+AC_MSG_RESULT(${LDOPTFLAGS:-not found})
+
 dnl **************************************************
 AC_SUBST(ALL_LINGUAS,
 "am az bg ca cs da de el en_CA en_GB es et fi fr ga gl he hr hu it ja ko lv ml mr ms nb nl nn no pl pt pt_BR ro ru sk sr sr@Latn sv tr uk vi zh_CN zh_TW")
@@ -475,6 +484,7 @@ Configuration:
 	Source code location:	${srcdir}
 	Compiler:		${CC}
 	Compiler flags:		${CFLAGS}
+	Linking:		${LDFLAGS}
 	Long double support:	${float_msg}
 
 	UI:			${ui_msg}

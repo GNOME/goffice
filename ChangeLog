@@ -1,3 +1,8 @@
+2005-03-13  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Link -Wl,-O1 if the linker supports it; see
+	http://people.redhat.com/drepper/dsohowto.pdf for background.
+
 2005-03-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/Makefile.am: add go-graph-widget.*.
