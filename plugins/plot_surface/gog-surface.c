@@ -41,7 +41,7 @@ typedef struct {
 	GogPlotClass	base;
 } GogContourPlotClass;
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL;
 
 static GogObjectClass *plot_contour_parent_klass;
 
@@ -1250,7 +1250,7 @@ static void
 gog_surface_series_update (GogObject *obj)
 {
 	GogSurfaceSeries *series = GOG_SURFACE_SERIES (obj);
-	GOMatrixSize size, old_size;
+	GODataMatrixSize size, old_size;
 	GogContourPlot *plot = GOG_CONTOUR_PLOT (series->base.plot);
 	GODataMatrix *mat;
 	GODataVector *vec;

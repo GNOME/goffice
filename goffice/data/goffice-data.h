@@ -34,8 +34,7 @@ typedef struct _GODataMatrix	 GODataMatrix;
 typedef struct {
 	int rows;	/* negative if dirty, includes missing values */
 	int columns;	/* negative if dirty, includes missing values */
-} GOMatrixSize;
-#warning Should this be GODataMatrixSize ?
+} GODataMatrixSize;
 
 G_END_DECLS
 

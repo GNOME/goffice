@@ -83,7 +83,7 @@ typedef struct {
 struct _GODataMatrix {
 	GOData base;
 
-	GOMatrixSize size;	/* negative if dirty, includes missing values */
+	GODataMatrixSize size;	/* negative if dirty, includes missing values */
 	double *values;	/* NULL = uninitialized/unsupported, nan = missing */
 	double minimum, maximum;
 };

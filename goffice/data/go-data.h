@@ -72,7 +72,7 @@ void	 go_data_vector_get_minmax (GODataVector *vec, double *min, double *max);
 
 GType go_data_matrix_get_type (void);
 
-GOMatrixSize	 go_data_matrix_get_size    (GODataMatrix *mat);
+GODataMatrixSize	 go_data_matrix_get_size    (GODataMatrix *mat);
 double	*go_data_matrix_get_values (GODataMatrix *mat);
 double	 go_data_matrix_get_value  (GODataMatrix *mat, unsigned i, unsigned j);
 char	*go_data_matrix_get_str    (GODataMatrix *mat, unsigned i, unsigned j);

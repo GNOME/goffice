@@ -1,0 +1,8 @@
+depcomp
+goffice-config.h
+goffice-config.h.in
+install-sh
+libgoffice-1.pc
+Makefile
+Makefile.in
+stamp-h*

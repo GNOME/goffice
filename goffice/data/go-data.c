@@ -352,12 +352,12 @@ GSF_CLASS_ABSTRACT (GODataMatrix, go_data_matrix,
 		    go_data_matrix_class_init, NULL,
 		    GO_DATA_TYPE)
 
-GOMatrixSize
+GODataMatrixSize
 go_data_matrix_get_size (GODataMatrix *mat)
 {
 	if (! (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED)) {
 		GODataMatrixClass const *klass = GO_DATA_MATRIX_GET_CLASS (mat);
-		static GOMatrixSize null_size = {0, 0};
+		static GODataMatrixSize null_size = {0, 0};
 
 		g_return_val_if_fail (klass != NULL, null_size);
 
