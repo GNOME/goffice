@@ -1,3 +1,11 @@
+2005-03-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* goffice/Makefile.am: Fixed inter-library dependencies; fix towards
+	  -Wl,-z,defs buildability.
+	* goffice/graph/gog-grid-line.h, goffice/gtk/go-action-combo-stack.c,
+	  goffice/ms-compat/god-drawing-ms.c: Switch to traditional C comments,
+	  to be buildable by gcc -ansi.
+
 2005-03-07  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Pare down long double support checks to what is
