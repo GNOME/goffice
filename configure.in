@@ -28,8 +28,7 @@ dnl which will be installed.
 AC_CONFIG_HEADERS(goffice/goffice-features.h)
 dnl
 dnl Make sure these two won't clash.  Put the following to goffice-config.h:
-AH_BOTTOM([
-/* Don't include goffice-features.h, it's a subset of goffice-config.h. */
+AH_BOTTOM([/* Don't include goffice-features.h, it's a subset of goffice-config.h. */
 #define GOFFICE_FEATURES_H])
 
 AM_MAINTAINER_MODE

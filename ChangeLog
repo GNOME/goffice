@@ -1,5 +1,10 @@
 2005-03-24  Stepan Kasal  <kasal@ucw.cz>
 
+	* goffice/app/module-plugin-defs.h (GOFFICE_MODULE_PLUGIN_INFO_DECL):
+	  Removed, it's not used.
+
+2005-03-24  Stepan Kasal  <kasal@ucw.cz>
+
 	* goffice/Makefile.am (goffice-paths.h): Rewrite the rule,
 	  goffice-paths.sh* is no longer used.
 	  (EXTRA_DIST, noinst_HEADERS): No longer needed.
