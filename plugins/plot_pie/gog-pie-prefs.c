@@ -39,8 +39,8 @@ GtkWidget *
 gog_pie_series_element_pref (GogPieSeriesElement *element, GOCmdContext *cc)
 {
 	GtkWidget  *w;
-	char const *dir = gnm_plugin_get_dir_name (
-		plugins_get_plugin_by_id ("GOffice_plot_pie"));
+	char const *dir = go_plugin_get_dir_name (
+		go_plugins_get_plugin_by_id ("GOffice_plot_pie"));
 	char	 *path = g_build_filename (dir, "gog-pie-series.glade", NULL);
 	GladeXML *gui = go_libglade_new (path, "gog_pie_series_element_prefs", NULL, cc);
 
@@ -112,8 +112,8 @@ GtkWidget *
 gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc)
 {
 	GtkWidget  *w;
-	char const *dir = gnm_plugin_get_dir_name (
-		plugins_get_plugin_by_id ("GOffice_plot_pie"));
+	char const *dir = go_plugin_get_dir_name (
+		go_plugins_get_plugin_by_id ("GOffice_plot_pie"));
 	char	 *path = g_build_filename (dir, "gog-pie-prefs.glade", NULL);
 	GladeXML *gui = go_libglade_new (path, "gog_pie_prefs", NULL, cc);
 
@@ -145,8 +145,8 @@ GtkWidget *
 gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc)
 {
 	GtkWidget  *w;
-	char const *dir = gnm_plugin_get_dir_name (
-		plugins_get_plugin_by_id ("GOffice_plot_pie"));
+	char const *dir = go_plugin_get_dir_name (
+		go_plugins_get_plugin_by_id ("GOffice_plot_pie"));
 	char	 *path = g_build_filename (dir, "gog-ring-prefs.glade", NULL);
 	GladeXML *gui = go_libglade_new (path, "gog_ring_prefs", NULL, cc);
 
@@ -183,8 +183,8 @@ GtkWidget *
 gog_pie_series_pref (GogPieSeries *pie, GOCmdContext *cc)
 {
 	GtkWidget  *w;
-	char const *dir = gnm_plugin_get_dir_name (
-		plugins_get_plugin_by_id ("GOffice_plot_pie"));
+	char const *dir = go_plugin_get_dir_name (
+		go_plugins_get_plugin_by_id ("GOffice_plot_pie"));
 	char	 *path = g_build_filename (dir, "gog-pie-prefs.glade", NULL);
 	GladeXML *gui = go_libglade_new (path, "gog_pie_prefs", NULL, cc);
 

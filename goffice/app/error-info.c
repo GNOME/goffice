@@ -13,7 +13,7 @@
 
 struct _ErrorInfo {
 	gchar *msg;
-	GnmSeverity severity;
+	GOSeverity severity;
 	GSList *details;          /* list of ErrorInfo */
 };
 
@@ -22,19 +22,19 @@ error_info_new_str (char const *msg)
 {
 	ErrorInfo *error = g_new (ErrorInfo, 1);
 	error->msg = g_strdup (msg);
-	error->severity = GNM_ERROR;
+	error->severity = GO_ERROR;
 	error->details  = NULL;
 	return error;
 }
 
 ErrorInfo *
-error_info_new_vprintf (GnmSeverity severity, char const *msg_format,
+error_info_new_vprintf (GOSeverity severity, char const *msg_format,
 			va_list args)
 {
 	ErrorInfo *error;
 
-	g_return_val_if_fail (severity >= GNM_WARNING, NULL);
-	g_return_val_if_fail (severity <= GNM_ERROR, NULL);
+	g_return_val_if_fail (severity >= GO_WARNING, NULL);
+	g_return_val_if_fail (severity <= GO_ERROR, NULL);
 
 	error = g_new (ErrorInfo, 1);
 	error->msg = g_strdup_vprintf (msg_format, args);
@@ -51,7 +51,7 @@ error_info_new_printf (char const *msg_format, ...)
 	va_list args;
 
 	va_start (args, msg_format);
-	error = error_info_new_vprintf (GNM_ERROR, msg_format, args);
+	error = error_info_new_vprintf (GO_ERROR, msg_format, args);
 	va_end (args);
 
 	return error;
@@ -160,7 +160,7 @@ error_info_print_with_offset (ErrorInfo *error, gint offset)
 	if (error->msg != NULL) {
 		char c = 'E';
 
-		if (error->severity == GNM_WARNING)
+		if (error->severity == GO_WARNING)
 			c = 'W';
 		fprintf (stderr, "%*s%c %s\n", offset, "", c, error->msg);
 		offset += 2;
@@ -193,10 +193,10 @@ error_info_peek_details (ErrorInfo *error)
 	return error->details;
 }
 
-GnmSeverity
+GOSeverity
 error_info_peek_severity (ErrorInfo *error)
 {
-	g_return_val_if_fail (error != NULL, GNM_ERROR);
+	g_return_val_if_fail (error != NULL, GO_ERROR);
 
 	return error->severity;
 }

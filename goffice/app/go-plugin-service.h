@@ -8,15 +8,15 @@
 #include <libxml/tree.h>
 #include <gsf/gsf.h>
 
-#define GNM_PLUGIN_SERVICE_TYPE         (plugin_service_get_type ())
-#define GNM_PLUGIN_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_TYPE, GOPluginService))
-#define IS_GNM_PLUGIN_SERVICE(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_TYPE))
+#define GO_PLUGIN_SERVICE_TYPE         (plugin_service_get_type ())
+#define GO_PLUGIN_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_PLUGIN_SERVICE_TYPE, GOPluginService))
+#define IS_GO_PLUGIN_SERVICE(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_PLUGIN_SERVICE_TYPE))
 
 GType plugin_service_get_type (void);
 
-#define GNM_PLUGIN_SERVICE_GENERAL_TYPE  (plugin_service_general_get_type ())
-#define GNM_PLUGIN_SERVICE_GENERAL(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_GENERAL_TYPE, PluginServiceGeneral))
-#define IS_GNM_PLUGIN_SERVICE_GENERAL(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_GENERAL_TYPE))
+#define GO_PLUGIN_SERVICE_GENERAL_TYPE  (plugin_service_general_get_type ())
+#define GO_PLUGIN_SERVICE_GENERAL(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_PLUGIN_SERVICE_GENERAL_TYPE, PluginServiceGeneral))
+#define IS_GO_PLUGIN_SERVICE_GENERAL(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_PLUGIN_SERVICE_GENERAL_TYPE))
 
 GType plugin_service_general_get_type (void);
 typedef struct _PluginServiceGeneral PluginServiceGeneral;
@@ -25,40 +25,40 @@ typedef struct {
 	void (*plugin_func_cleanup) (GOPluginService *service, ErrorInfo **ret_error);
 } PluginServiceGeneralCallbacks;
 
-#define GNM_PLUGIN_SERVICE_FILE_OPENER_TYPE  (plugin_service_file_opener_get_type ())
-#define GNM_PLUGIN_SERVICE_FILE_OPENER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FILE_OPENER_TYPE, PluginServiceFileOpener))
-#define IS_GNM_PLUGIN_SERVICE_FILE_OPENER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FILE_OPENER_TYPE))
+#define GO_PLUGIN_SERVICE_FILE_OPENER_TYPE  (plugin_service_file_opener_get_type ())
+#define GO_PLUGIN_SERVICE_FILE_OPENER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_PLUGIN_SERVICE_FILE_OPENER_TYPE, PluginServiceFileOpener))
+#define IS_GO_PLUGIN_SERVICE_FILE_OPENER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_PLUGIN_SERVICE_FILE_OPENER_TYPE))
 
 GType plugin_service_file_opener_get_type (void);
 typedef struct _PluginServiceFileOpener PluginServiceFileOpener;
 typedef struct {
 	/* plugin_func_file_probe may be NULL */
 	gboolean (*plugin_func_file_probe) (
-	         GnmFileOpener const *fo, GOPluginService *service,
+	         GOFileOpener const *fo, GOPluginService *service,
 	         GsfInput *input, FileProbeLevel pl);
 	void     (*plugin_func_file_open) (
-	         GnmFileOpener const *fo, GOPluginService *service,
+	         GOFileOpener const *fo, GOPluginService *service,
 	         IOContext *io_context, gpointer fixme_workbook_view,
 		 GsfInput *input);
 } PluginServiceFileOpenerCallbacks;
 
 
-#define GNM_PLUGIN_SERVICE_FILE_SAVER_TYPE  (plugin_service_file_saver_get_type ())
-#define GNM_PLUGIN_SERVICE_FILE_SAVER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FILE_SAVER_TYPE, PluginServiceFileSaver))
-#define IS_GNM_PLUGIN_SERVICE_FILE_SAVER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FILE_SAVER_TYPE))
+#define GO_PLUGIN_SERVICE_FILE_SAVER_TYPE  (plugin_service_file_saver_get_type ())
+#define GO_PLUGIN_SERVICE_FILE_SAVER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_PLUGIN_SERVICE_FILE_SAVER_TYPE, PluginServiceFileSaver))
+#define IS_GO_PLUGIN_SERVICE_FILE_SAVER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_PLUGIN_SERVICE_FILE_SAVER_TYPE))
 
 GType plugin_service_file_saver_get_type (void);
 typedef struct _PluginServiceFileSaver PluginServiceFileSaver;
 typedef struct {
 	void  (*plugin_func_file_save) (
-	      GnmFileSaver const *fs, GOPluginService *service,
+	      GOFileSaver const *fs, GOPluginService *service,
 	      IOContext *io_context, gconstpointer fixme_workbook_view,
 	      GsfOutput *output);
 } PluginServiceFileSaverCallbacks;
 
-#define GNM_PLUGIN_SERVICE_PLUGIN_LOADER_TYPE  (plugin_service_plugin_loader_get_type ())
-#define GNM_PLUGIN_SERVICE_PLUGIN_LOADER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_PLUGIN_LOADER_TYPE, PluginServicePluginLoader))
-#define IS_GNM_PLUGIN_SERVICE_PLUGIN_LOADER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_PLUGIN_LOADER_TYPE))
+#define GO_PLUGIN_SERVICE_PLUGIN_LOADER_TYPE  (plugin_service_plugin_loader_get_type ())
+#define GO_PLUGIN_SERVICE_PLUGIN_LOADER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_PLUGIN_SERVICE_PLUGIN_LOADER_TYPE, PluginServicePluginLoader))
+#define IS_GO_PLUGIN_SERVICE_PLUGIN_LOADER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_PLUGIN_SERVICE_PLUGIN_LOADER_TYPE))
 
 GType plugin_service_plugin_loader_get_type (void);
 typedef struct _PluginServicePluginLoader PluginServicePluginLoader;
@@ -72,17 +72,17 @@ GType plugin_service_plugin_loader_generate_type (GOPluginService *service,
 
 /****************************************************************************/
 
-#define GNM_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE  (plugin_service_gobject_loader_get_type ())
-#define GNM_PLUGIN_SERVICE_GOBJECT_LOADER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE, PluginServiceGObjectLoader))
-#define IS_GNM_PLUGIN_SERVICE_GOBJECT_LOADER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE))
+#define GO_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE  (plugin_service_gobject_loader_get_type ())
+#define GO_PLUGIN_SERVICE_GOBJECT_LOADER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE, PluginServiceGObjectLoader))
+#define IS_GO_PLUGIN_SERVICE_GOBJECT_LOADER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE))
 
 GType plugin_service_gobject_loader_get_type (void);
 typedef struct _PluginServiceGObjectLoader PluginServiceGObjectLoader;
 
 /****************************************************************************/
-#define GNM_PLUGIN_SERVICE_SIMPLE_TYPE  (plugin_service_simple_get_type ())
-#define GNM_PLUGIN_SERVICE_SIMPLE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_SIMPLE_TYPE, PluginServiceSimple))
-#define IS_GNM_PLUGIN_SERVICE_SIMPLE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_SIMPLE_TYPE))
+#define GO_PLUGIN_SERVICE_SIMPLE_TYPE  (plugin_service_simple_get_type ())
+#define GO_PLUGIN_SERVICE_SIMPLE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_PLUGIN_SERVICE_SIMPLE_TYPE, PluginServiceSimple))
+#define IS_GO_PLUGIN_SERVICE_SIMPLE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_PLUGIN_SERVICE_SIMPLE_TYPE))
 
 GType plugin_service_simple_get_type (void);
 typedef struct _PluginServiceSimple PluginServiceSimple;

@@ -870,7 +870,7 @@ render_number (GString *result,
 	     number < 1.0 &&
 	     info->right_allowed == 0 &&
 	     info->right_optional > 0))
-		gnm_string_append_gstring (result, format_get_decimal ());
+		go_string_append_gstring (result, format_get_decimal ());
 
 	/* TODO : clip this a DBL_DIG */
 	/* TODO : What if is a fraction ? */
@@ -1587,7 +1587,7 @@ format_number (GString *result,
 				format = tmp;
 				continue;
 			} else
-				gnm_string_append_gstring (result, format_get_thousand ());
+				go_string_append_gstring (result, format_get_thousand ());
 			break;
 
 		/* FIXME: this is a gross hack */
@@ -2445,10 +2445,10 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
 	for ( ; *ptr ; ++ptr)
 		switch (*ptr) {
 		case '.':
-			gnm_string_append_gstring (res, decimal);
+			go_string_append_gstring (res, decimal);
 			break;
 		case ',':
-			gnm_string_append_gstring (res, thousands_sep);
+			go_string_append_gstring (res, thousands_sep);
 			break;
 
 		case '\"':

@@ -26,7 +26,7 @@
 #include <libart_lgpl/libart.h>
 #include <libart_lgpl/art_render_gradient.h>
 
-#ifdef GOFFICE_WITH_GTK
+#ifndef GOFFICE_WITHOUT_GTK
 #include <gtk/gtkwidget.h>
 #endif
 
@@ -58,7 +58,7 @@ void go_gradient_setup (ArtGradientLinear *gradient,
 			double x0, double y0, double x1, double y1,
 			ArtGradientStop *stops);
 
-#ifdef GOFFICE_WITH_GTK
+#ifndef GOFFICE_WITHOUT_GTK
 GtkWidget *go_gradient_selector (GOColor fore, GOColor back);
 #endif
 

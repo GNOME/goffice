@@ -34,7 +34,7 @@ cb_hash_collect_keys (gpointer key, gpointer value, GSList **accum)
 }
 
 /**
- * gnm_hash_keys :
+ * go_hash_keys :
  * @hash : #GHashTable
  *
  * Collects an unordered list of the keys in @hash.
@@ -43,7 +43,7 @@ cb_hash_collect_keys (gpointer key, gpointer value, GSList **accum)
  * 	The content has not additional references added
  **/
 GSList *
-gnm_hash_keys (GHashTable *hash)
+go_hash_keys (GHashTable *hash)
 {
 	GSList *accum = NULL;
 	g_hash_table_foreach (hash,
@@ -58,7 +58,7 @@ cb_hash_collect_values (gpointer key, gpointer value, GSList **accum)
 }
 
 /**
- * gnm_hash_values :
+ * go_hash_values :
  * @hash : #GHashTable
  *
  * Collects an unordered list of the values in @hash.
@@ -67,7 +67,7 @@ cb_hash_collect_values (gpointer key, gpointer value, GSList **accum)
  * 	The content has not additional references added
  **/
 GSList *
-gnm_hash_values (GHashTable *hash)
+go_hash_values (GHashTable *hash)
 {
 	GSList *accum = NULL;
 	g_hash_table_foreach (hash,
@@ -77,7 +77,7 @@ gnm_hash_values (GHashTable *hash)
 
 /***************************************************************************/
 void
-gnm_ptr_array_insert (GPtrArray *array, gpointer value, int index)
+go_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 {
 	if (index < (int)array->len) {
 		int i = array->len - 1;
@@ -94,7 +94,7 @@ gnm_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 }
 
 /**
- * gnm_slist_create:
+ * go_slist_create:
  * @item1: First item.
  *
  * Creates a GList from NULL-terminated list of arguments.
@@ -102,7 +102,7 @@ gnm_ptr_array_insert (GPtrArray *array, gpointer value, int index)
  * Return value: created list.
  **/
 GSList *
-gnm_slist_create (gpointer item1, ...)
+go_slist_create (gpointer item1, ...)
 {
 	va_list args;
 	GSList *list = NULL;
@@ -118,32 +118,32 @@ gnm_slist_create (gpointer item1, ...)
 }
 
 /**
- * gnm_slist_map:
+ * go_slist_map:
  * @list        : list of some items
  * @map_func    : mapping function
  *
  **/
 GSList *
-gnm_slist_map (GSList const *list, GnmMapFunc map_func)
+go_slist_map (GSList const *list, GOMapFunc map_func)
 {
 	GSList *list_copy = NULL;
 
-	GNM_SLIST_FOREACH (list, void, value,
-		GNM_SLIST_PREPEND (list_copy, map_func (value))
+	GO_SLIST_FOREACH (list, void, value,
+		GO_SLIST_PREPEND (list_copy, map_func (value))
 	);
 
 	return g_slist_reverse (list_copy);
 }
 
 /**
- * gnm_slist_free_custom:
+ * go_slist_free_custom:
  * @list: list of some items
  * @free_func: function freeing list item
  *
  * Clears a list, calling @free_func for each list item.
  **/
 void
-gnm_slist_free_custom (GSList *list, GFreeFunc free_func)
+go_slist_free_custom (GSList *list, GFreeFunc free_func)
 {
 	GSList *l;
 
@@ -154,7 +154,7 @@ gnm_slist_free_custom (GSList *list, GFreeFunc free_func)
 }
 
 gint
-gnm_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
+go_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
 {
 	GList *l;
 	gint i;
@@ -169,7 +169,7 @@ gnm_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
 }
 
 /**
- * gnm_list_free_custom:
+ * go_list_free_custom:
  * @list: list of some items
  * @free_func: function freeing list item
  *
@@ -177,7 +177,7 @@ gnm_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
  *
  */
 void
-gnm_list_free_custom (GList *list, GFreeFunc free_func)
+go_list_free_custom (GList *list, GFreeFunc free_func)
 {
 	GList *l;
 
@@ -188,7 +188,7 @@ gnm_list_free_custom (GList *list, GFreeFunc free_func)
 }
 
 /**
- * gnm_strsplit_to_slist:
+ * go_strsplit_to_slist:
  * @string: String to split
  * @delimiter: Token delimiter
  *
@@ -198,7 +198,7 @@ gnm_list_free_custom (GList *list, GFreeFunc free_func)
  * e_free_string_list().
  **/
 GSList *
-gnm_strsplit_to_slist (gchar const *string, gchar delimiter)
+go_strsplit_to_slist (gchar const *string, gchar delimiter)
 {
 	gchar **token_v;
 	GSList *string_list = NULL;
@@ -219,7 +219,7 @@ gnm_strsplit_to_slist (gchar const *string, gchar delimiter)
 }
 
 gint
-gnm_utf8_collate_casefold (const char *a, const char *b)
+go_utf8_collate_casefold (const char *a, const char *b)
 {
 	char *a2 = g_utf8_casefold (a, -1);
 	char *b2 = g_utf8_casefold (b, -1);
@@ -230,14 +230,14 @@ gnm_utf8_collate_casefold (const char *a, const char *b)
 }
 
 gint
-gnm_ascii_strcase_equal (gconstpointer v1, gconstpointer v2)
+go_ascii_strcase_equal (gconstpointer v1, gconstpointer v2)
 {
 	return g_ascii_strcasecmp ((char const *) v1, (char const *)v2) == 0;
 }
 
 /* a char* hash function from ASU */
 guint
-gnm_ascii_strcase_hash (gconstpointer v)
+go_ascii_strcase_hash (gconstpointer v)
 {
 	unsigned const char *s = (unsigned const char *)v;
 	unsigned const char *p;
@@ -263,7 +263,7 @@ gnm_ascii_strcase_hash (gconstpointer v)
  * Also adds quotes around the result.
  */
 void
-gnm_strescape (GString *target, char const *string)
+go_strescape (GString *target, char const *string)
 {
 	g_string_append_c (target, '"');
 	/* This loop should be UTF-8 safe.  */
@@ -280,14 +280,14 @@ gnm_strescape (GString *target, char const *string)
 }
 
 /*
- * The reverse operation of gnm_strescape.  Returns a pointer to the
+ * The reverse operation of go_strescape.  Returns a pointer to the
  * first char after the string on success or NULL on failure.
  *
  * First character of the string should be an ASCII character used
  * for quoting.
  */
 const char *
-gnm_strunescape (GString *target, const char *string)
+go_strunescape (GString *target, const char *string)
 {
 	char quote = *string++;
 	size_t oldlen = target->len;
@@ -314,7 +314,7 @@ gnm_strunescape (GString *target, const char *string)
 }
 
 void
-gnm_string_append_gstring (GString *target, const GString *source)
+go_string_append_gstring (GString *target, const GString *source)
 {
 	g_string_append_len (target, source->str, source->len);
 }
@@ -322,7 +322,7 @@ gnm_string_append_gstring (GString *target, const GString *source)
 /* ------------------------------------------------------------------------- */
 
 /**
- * gnm_utf8_strcapital:
+ * go_utf8_strcapital:
  * @p: pointer to UTF-8 string
  * @len: length in bytes, or -1.
  *
@@ -332,7 +332,7 @@ gnm_string_append_gstring (GString *target, const GString *source)
  * Return value: newly allocated string.
  **/
 char *
-gnm_utf8_strcapital (const char *p, ssize_t len)
+go_utf8_strcapital (const char *p, ssize_t len)
 {
 	const char *pend = (len < 0 ? NULL : p + len);
 	GString *res = g_string_sized_new (len < 0 ? 1 : len + 1);
@@ -634,7 +634,7 @@ go_mem_chunk_foreach_leak (GOMemChunk *chunk, GFunc cb, gpointer user)
 }
 
 int
-gnm_str_compare (void const *x, void const *y)
+go_str_compare (void const *x, void const *y)
 {
 	if (x == NULL || y == NULL) {
 		if (x == y)
@@ -648,7 +648,7 @@ gnm_str_compare (void const *x, void const *y)
 
 
 const char *
-gnm_guess_encoding (const char *raw, size_t len, const char *user_guess,
+go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 		    char **utf8_str)
 {
 	int try;
@@ -687,34 +687,34 @@ gnm_guess_encoding (const char *raw, size_t len, const char *user_guess,
 }
 
 /**
- * gnm_get_real_name :
+ * go_get_real_name :
  *
  * Return a utf8 encoded string with the current user name.
  * Caller should _NOT_ free the result.
  **/
 char const *
-gnm_get_real_name (void)
+go_get_real_name (void)
 {
 	/* We will leak this.  */
-	static char *gnm_real_name = NULL;
+	static char *go_real_name = NULL;
 
-	if (gnm_real_name == NULL) {
+	if (go_real_name == NULL) {
 		char const *name = getenv ("NAME");
 		if (name == NULL)
 			name = g_get_real_name ();
 		if (name == NULL)
 			name = g_get_user_name ();
 		if (name != NULL)
-			(void) gnm_guess_encoding (name, strlen (name),
-				NULL, &gnm_real_name);
+			(void) go_guess_encoding (name, strlen (name),
+				NULL, &go_real_name);
 		else
-			gnm_real_name = (char *)"unknown";
+			go_real_name = (char *)"unknown";
 	}
-	return gnm_real_name;
+	return go_real_name;
 }
 
 /**
- * gnm_destroy_password :
+ * go_destroy_password :
  *
  * Overwrite a string holding a password.  This is a separate routine to
  * ensure that the compiler does not try to outsmart us.
@@ -722,7 +722,7 @@ gnm_get_real_name (void)
  * Note: this does not free the memory.
  **/
 void
-gnm_destroy_password (char *passwd)
+go_destroy_password (char *passwd)
 {
 	memset (passwd, 0, strlen (passwd));
 }

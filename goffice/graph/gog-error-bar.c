@@ -49,7 +49,7 @@
 typedef GObjectClass GogErrorBarClass;
 static GObjectClass *error_bar_parent_klass;
 
-#ifdef GOFFICE_WITH_GTK
+#ifndef GOFFICE_WITHOUT_GTK
 typedef struct {
 	GogSeries *series;
 	GogErrorBar *bar;

@@ -62,7 +62,7 @@ foreach my $file (@files) {
 	    $_ = "/* $_ */" if m|bonobo/bonobo-a11y\.h|;
 	    $_ = "/* $_ */" if m|bonobo/bonobo-ui-private\.h|;
 
-	    s|bonobo/bonobo-ui-marshal\.h|gnm-marshalers.h|;
+	    s|bonobo/bonobo-ui-marshal\.h|go-marshalers.h|;
 	    s|bonobo/|goffice/gui-utils/|;
 
 	    if (s|config.h|gnumeric-config.h|) {
@@ -79,7 +79,7 @@ foreach my $file (@files) {
 	s/\bBonobo/Go/g;
 	s/\b_Bonobo/_Go/g;
 
-	s/go_ui_marshal_/gnm__/g;
+	s/go_ui_marshal_/go__/g;
 
 	if (/^go_dock_item_grip_get_accessible\b/ ... /^\}/) {
 	    $_ = "$_\n#if 0" if /^\{/;

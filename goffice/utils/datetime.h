@@ -1,7 +1,6 @@
-#ifndef GNUMERIC_DATETIME_H
-#define GNUMERIC_DATETIME_H
+#ifndef _GO_DATETIME_H_
+#define _GO_DATETIME_H_
 
-#include <goffice/utils/numbers.h>
 #include <goffice/utils/goffice-utils.h>
 #include <glib.h>
 #include <time.h>
@@ -29,19 +28,19 @@ struct _GODateConventions {
 #define WEEKNUM_METHOD_ISO    150
 
 /* These do not round and produces fractional values, i.e., includes time.  */
-gnm_float datetime_timet_to_serial_raw (time_t t,	GODateConventions const *conv);
+double	datetime_timet_to_serial_raw  (time_t t, GODateConventions const *conv);
 
 /* These are date-only, no time.  */
-int      datetime_timet_to_serial	(time_t t,		GODateConventions const *conv);
-int      datetime_g_to_serial		(GDate const *date,	 GODateConventions const *conv);
-void     datetime_serial_to_g		(GDate *res, int serial, GODateConventions const *conv);
-time_t   datetime_serial_to_timet	(int serial,		 GODateConventions const *conv);
-int      datetime_serial_raw_to_serial	(gnm_float raw);
+int	datetime_timet_to_serial      (time_t t, GODateConventions const *conv);
+int	datetime_g_to_serial	      (GDate const *date, GODateConventions const *conv);
+void	datetime_serial_to_g	      (GDate *res, int serial, GODateConventions const *conv);
+time_t	datetime_serial_to_timet      (int serial, GODateConventions const *conv);
+int	datetime_serial_raw_to_serial (double raw);
 
 /* These are time-only assuming a 24h day.  It probably loses completely on */
 /* days with summer time ("daylight savings") changes.  */
 int datetime_timet_to_seconds (time_t t);
-int datetime_serial_raw_to_seconds (gnm_float raw);
+int datetime_serial_raw_to_seconds (double raw);
 
 int datetime_g_days_between (GDate const *date1, GDate const *date2);
 
@@ -80,13 +79,13 @@ typedef struct {
 
 void	  coup_cd    (GDate *res, GDate const *settle, GDate const *mat,
 		      int freq, gboolean eom, gboolean next);
-gnm_float coupdays   (GDate const *settle, GDate const *mat,
+double coupdays   (GDate const *settle, GDate const *mat,
 		      GnmCouponConvention const *conv);
-gnm_float coupdaybs  (GDate const *settle, GDate const *mat,
+double coupdaybs  (GDate const *settle, GDate const *mat,
 		      GnmCouponConvention const *conv);
-gnm_float coupdaysnc (GDate const *settle, GDate const *mat,
+double coupdaysnc (GDate const *settle, GDate const *mat,
 		      GnmCouponConvention const *conv);
 
 int gnm_date_convention_base (GODateConventions const *conv);
 
-#endif /* GNUMERIC_DATETIME_H */
+#endif /* _GO_DATETIME_H_ */

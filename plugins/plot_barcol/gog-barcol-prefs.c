@@ -44,8 +44,8 @@ GtkWidget *
 gog_barcol_plot_pref (GogBarColPlot *barcol, GOCmdContext *cc)
 {
 	GtkWidget  *w;
-	char const *dir = gnm_plugin_get_dir_name (
-		plugins_get_plugin_by_id ("GOffice_plot_barcol"));
+	char const *dir = go_plugin_get_dir_name (
+		go_plugins_get_plugin_by_id ("GOffice_plot_barcol"));
 	char	 *path = g_build_filename (dir, "gog-barcol-prefs.glade", NULL);
 	GladeXML *gui = go_libglade_new (path, "gog_barcol_prefs", NULL, cc);
 

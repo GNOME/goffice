@@ -40,7 +40,7 @@ go_plugin_loader_set_attributes (GOPluginLoader *loader, GHashTable *attrs,
 {
 	g_return_if_fail (IS_GO_PLUGIN_LOADER (loader));
 
-	GNM_INIT_RET_ERROR_INFO (err);
+	GO_INIT_RET_ERROR_INFO (err);
 	if (PL_GET_CLASS (loader)->set_attributes)
 		PL_GET_CLASS (loader)->set_attributes (loader, attrs, err);
 	else
@@ -86,22 +86,22 @@ go_plugin_loader_load_service (GOPluginLoader *l, GOPluginService *s, ErrorInfo 
 	void (*load_service_method) (GOPluginLoader *, GOPluginService *, ErrorInfo **) = NULL;
 
 	g_return_if_fail (IS_GO_PLUGIN_LOADER (l));
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE (s));
+	g_return_if_fail (IS_GO_PLUGIN_SERVICE (s));
 	g_return_if_fail (go_plugin_loader_is_base_loaded (l));
 
-	GNM_INIT_RET_ERROR_INFO (err);
+	GO_INIT_RET_ERROR_INFO (err);
 
 	klass = PL_GET_CLASS (l);
 	if (klass->service_load && (klass->service_load) (l, s, err))
 		return;
 
-	if (IS_GNM_PLUGIN_SERVICE_FILE_OPENER (s)) {
+	if (IS_GO_PLUGIN_SERVICE_FILE_OPENER (s)) {
 		load_service_method = klass->load_service_file_opener;
-	} else if (IS_GNM_PLUGIN_SERVICE_FILE_SAVER (s)) {
+	} else if (IS_GO_PLUGIN_SERVICE_FILE_SAVER (s)) {
 		load_service_method = klass->load_service_file_saver;
-	} else if (IS_GNM_PLUGIN_SERVICE_PLUGIN_LOADER (s)) {
+	} else if (IS_GO_PLUGIN_SERVICE_PLUGIN_LOADER (s)) {
 		load_service_method = klass->load_service_plugin_loader;
-	} else if (IS_GNM_PLUGIN_SERVICE_SIMPLE (s)) {
+	} else if (IS_GO_PLUGIN_SERVICE_SIMPLE (s)) {
 		load_service_method = NULL;
 	} else {
 		*err = error_info_new_printf (_("Service '%s' not supported by l."),
@@ -125,21 +125,21 @@ go_plugin_loader_unload_service (GOPluginLoader *l, GOPluginService *s, ErrorInf
 	ErrorInfo *error = NULL;
 
 	g_return_if_fail (IS_GO_PLUGIN_LOADER (l));
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE (s));
+	g_return_if_fail (IS_GO_PLUGIN_SERVICE (s));
 
-	GNM_INIT_RET_ERROR_INFO (err);
+	GO_INIT_RET_ERROR_INFO (err);
 
 	klass = PL_GET_CLASS (l);
 	if (klass->service_unload && (klass->service_unload) (l, s, err))
 		return;
 
-	if (IS_GNM_PLUGIN_SERVICE_FILE_OPENER (s)) {
+	if (IS_GO_PLUGIN_SERVICE_FILE_OPENER (s)) {
 		unload_service_method = klass->unload_service_file_opener;
-	} else if (IS_GNM_PLUGIN_SERVICE_FILE_SAVER (s)) {
+	} else if (IS_GO_PLUGIN_SERVICE_FILE_SAVER (s)) {
 		unload_service_method = klass->unload_service_file_saver;
-	} else if (IS_GNM_PLUGIN_SERVICE_PLUGIN_LOADER (s)) {
+	} else if (IS_GO_PLUGIN_SERVICE_PLUGIN_LOADER (s)) {
 		unload_service_method = klass->unload_service_plugin_loader;
-	} else if (IS_GNM_PLUGIN_SERVICE_SIMPLE (s)) {
+	} else if (IS_GO_PLUGIN_SERVICE_SIMPLE (s)) {
 		unload_service_method = NULL;
 	} else
 		*err = error_info_new_printf (_("Service '%s' not supported by l."),

@@ -9,14 +9,14 @@
 #define IS_IO_CONTEXT_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_IO_CONTEXT))
 
 typedef enum {
-	GNM_PROGRESS_HELPER_NONE,
-	GNM_PROGRESS_HELPER_COUNT,
-	GNM_PROGRESS_HELPER_VALUE,
-	GNM_PROGRESS_HELPER_LAST
-} GnmProgressHelperType;
+	GO_PROGRESS_HELPER_NONE,
+	GO_PROGRESS_HELPER_COUNT,
+	GO_PROGRESS_HELPER_VALUE,
+	GO_PROGRESS_HELPER_LAST
+} GOProgressHelperType;
 
 typedef struct {
-	GnmProgressHelperType helper_type;
+	GOProgressHelperType helper_type;
 	union {
 		struct {
 			gchar *start;
@@ -35,7 +35,7 @@ typedef struct {
 			gint step;
 		} workbook;
 	} v;
-} GnmProgressHelper;
+} GOProgressHelper;
 
 typedef struct {
 	gfloat min, max;
@@ -53,7 +53,7 @@ struct _IOContext {
 	gfloat	 progress_min, progress_max;
 	gdouble  last_progress;
 	gdouble  last_time;
-	GnmProgressHelper helper;
+	GOProgressHelper helper;
 };
 
 struct _IOContextClass {

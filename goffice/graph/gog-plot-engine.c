@@ -67,7 +67,7 @@ gog_plot_engine_service_class_init (PluginServiceGObjectLoaderClass *gobj_loader
 
 GSF_CLASS (GogPlotEngineService, gog_plot_engine_service,
            gog_plot_engine_service_class_init, NULL,
-           GNM_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE)
+           GO_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE)
 
 GogPlot *
 gog_plot_new_by_name (char const *id)
@@ -103,7 +103,7 @@ gog_plot_new_by_name (char const *id)
 		plugin = plugin_service_get_plugin (service);
 		refd_plugins = g_slist_prepend (refd_plugins, plugin);
 		g_object_ref (plugin);
-		gnm_plugin_use_ref (plugin);
+		go_plugin_use_ref (plugin);
 	}
 
 	return g_object_new (type, NULL);
@@ -226,7 +226,7 @@ gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorIn
 		if (0 == xmlStrcmp (ptr->name, "file") &&
 		    NULL != (path = xmlNodeGetContent (ptr))) {
 			if (!g_path_is_absolute (path)) {
-				char const *dir = gnm_plugin_get_dir_name (
+				char const *dir = go_plugin_get_dir_name (
 					plugin_service_get_plugin (service));
 				char *tmp = g_build_filename (dir, path, NULL);
 				g_free (path);
@@ -287,7 +287,7 @@ gog_plot_type_service_class_init (GObjectClass *gobject_klass)
 
 GSF_CLASS (GogPlotTypeService, gog_plot_type_service,
            gog_plot_type_service_class_init, gog_plot_type_service_init,
-           GNM_PLUGIN_SERVICE_SIMPLE_TYPE)
+           GO_PLUGIN_SERVICE_SIMPLE_TYPE)
 
 /***************************************************************************/
 /* Use a plugin service to define themes */
@@ -311,7 +311,7 @@ gog_theme_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo *
 		if (0 == xmlStrcmp (ptr->name, "file") &&
 		    NULL != (path = xmlNodeGetContent (ptr))) {
 			if (!g_path_is_absolute (path)) {
-				char const *dir = gnm_plugin_get_dir_name (
+				char const *dir = go_plugin_get_dir_name (
 					plugin_service_get_plugin (service));
 				char *tmp = g_build_filename (dir, path, NULL);
 				g_free (path);
@@ -337,7 +337,7 @@ gog_theme_service_class_init (GOPluginServiceClass *ps_class)
 
 GSF_CLASS (GogThemeService, gog_theme_service,
            gog_theme_service_class_init, NULL,
-           GNM_PLUGIN_SERVICE_SIMPLE_TYPE)
+           GO_PLUGIN_SERVICE_SIMPLE_TYPE)
 
 /***************************************************************************/
 
@@ -352,7 +352,7 @@ gog_plugin_services_init (void)
 void
 gog_plugin_services_shutdown (void)
 {
-	g_slist_foreach (refd_plugins, (GFunc)gnm_plugin_use_unref, NULL);
+	g_slist_foreach (refd_plugins, (GFunc)go_plugin_use_unref, NULL);
 	g_slist_foreach (refd_plugins, (GFunc)g_object_unref, NULL);
 	g_slist_free (refd_plugins);
 }

@@ -97,14 +97,14 @@ go_plugin_loader_module_load_base (GOPluginLoader *loader, ErrorInfo **err)
 	GOPluginModuleHeader const *go_plugin_header = NULL;
 	GOPluginModuleDepend const *go_plugin_depends = NULL;
 
-	GNM_INIT_RET_ERROR_INFO (err);
+	GO_INIT_RET_ERROR_INFO (err);
 	if (!g_module_supported ()) {
 		*err = error_info_new_str (
 			_("Dynamic module loading is not supported in this system."));
 		return;
 	}
 
-	full_module_file_name = g_build_filename (gnm_plugin_get_dir_name (
+	full_module_file_name = g_build_filename (go_plugin_get_dir_name (
 		go_plugin_loader_get_plugin (loader)),
 		loader_module->module_file_name, NULL);
 	handle = g_module_open (full_module_file_name, 0);
@@ -143,7 +143,7 @@ go_plugin_loader_module_unload_base (GOPluginLoader *loader, ErrorInfo **ret_err
 {
 	GOPluginLoaderModule *loader_module = GO_PLUGIN_LOADER_MODULE (loader);
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	if (loader_module->plugin_shutdown != NULL) {
 		loader_module->plugin_shutdown (go_plugin_loader_get_plugin (loader), NULL);
 	}
@@ -204,20 +204,20 @@ GSF_CLASS_FULL (GOPluginLoaderModule, go_plugin_loader_module,
  */
 
 typedef struct {
-	gboolean (*module_func_file_probe) (GnmFileOpener const *fo, GsfInput *input,
+	gboolean (*module_func_file_probe) (GOFileOpener const *fo, GsfInput *input,
 					    FileProbeLevel pl);
-	void (*module_func_file_open) (GnmFileOpener const *fo, IOContext *io_context,
+	void (*module_func_file_open) (GOFileOpener const *fo, IOContext *io_context,
 				       gpointer FIXME_FIXME_workbook_view,
 				       GsfInput *input);
 } ServiceLoaderDataFileOpener;
 
 static gboolean
-go_plugin_loader_module_func_file_probe (GnmFileOpener const *fo, GOPluginService *service,
+go_plugin_loader_module_func_file_probe (GOFileOpener const *fo, GOPluginService *service,
 					  GsfInput *input, FileProbeLevel pl)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 
-	g_return_val_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_OPENER (service), FALSE);
+	g_return_val_if_fail (IS_GO_PLUGIN_SERVICE_FILE_OPENER (service), FALSE);
 	g_return_val_if_fail (input != NULL, FALSE);
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -225,14 +225,14 @@ go_plugin_loader_module_func_file_probe (GnmFileOpener const *fo, GOPluginServic
 }
 
 static void
-go_plugin_loader_module_func_file_open (GnmFileOpener const *fo, GOPluginService *service,
+go_plugin_loader_module_func_file_open (GOFileOpener const *fo, GOPluginService *service,
 					 IOContext *io_context,
 					 gpointer   FIXME_FIXME_workbook_view,
 					 GsfInput  *input)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_OPENER (service));
+	g_return_if_fail (IS_GO_PLUGIN_SERVICE_FILE_OPENER (service));
 	g_return_if_fail (input != NULL);
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -249,9 +249,9 @@ go_plugin_loader_module_load_service_file_opener (GOPluginLoader *loader,
 	gchar *func_name_file_probe, *func_name_file_open;
 	gpointer module_func_file_probe = NULL, module_func_file_open = NULL;
 
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_OPENER (service));
+	g_return_if_fail (IS_GO_PLUGIN_SERVICE_FILE_OPENER (service));
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	func_name_file_probe = g_strconcat (
 		plugin_service_get_id (service), "_file_probe", NULL);
 	g_module_symbol (loader_module->handle, func_name_file_probe, &module_func_file_probe);
@@ -287,20 +287,20 @@ go_plugin_loader_module_load_service_file_opener (GOPluginLoader *loader,
  */
 
 typedef struct {
-	void (*module_func_file_save) (GnmFileSaver const *fs, IOContext *io_context,
+	void (*module_func_file_save) (GOFileSaver const *fs, IOContext *io_context,
 				       gconstpointer FIXME_FIXME_workbook_view,
 				       GsfOutput *output);
 } ServiceLoaderDataFileSaver;
 
 static void
-go_plugin_loader_module_func_file_save (GnmFileSaver const *fs, GOPluginService *service,
+go_plugin_loader_module_func_file_save (GOFileSaver const *fs, GOPluginService *service,
 					 IOContext *io_context,
 					 gconstpointer FIXME_FIXME_workbook_view,
 					 GsfOutput *output)
 {
 	ServiceLoaderDataFileSaver *loader_data;
 
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_SAVER (service));
+	g_return_if_fail (IS_GO_PLUGIN_SERVICE_FILE_SAVER (service));
 	g_return_if_fail (GSF_IS_OUTPUT (output));
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -317,9 +317,9 @@ go_plugin_loader_module_load_service_file_saver (GOPluginLoader *loader,
 	gchar *func_name_file_save;
 	gpointer module_func_file_save = NULL;
 
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FILE_SAVER (service));
+	g_return_if_fail (IS_GO_PLUGIN_SERVICE_FILE_SAVER (service));
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	func_name_file_save = g_strconcat (
 					   plugin_service_get_id (service), "_file_save", NULL);
 	g_module_symbol (loader_module->handle, func_name_file_save, &module_func_file_save);
@@ -361,9 +361,9 @@ go_plugin_loader_module_func_get_loader_type (GOPluginService *service,
 	ErrorInfo *error = NULL;
 	GType loader_type;
 
-	g_return_val_if_fail (IS_GNM_PLUGIN_SERVICE_PLUGIN_LOADER (service), 0);
+	g_return_val_if_fail (IS_GO_PLUGIN_SERVICE_PLUGIN_LOADER (service), 0);
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	loader_type = loader_data->module_func_get_loader_type (&error);
 	if (error == NULL) {
@@ -383,9 +383,9 @@ go_plugin_loader_module_load_service_plugin_loader (GOPluginLoader *loader,
 	gchar *func_name_get_loader_type;
 	gpointer module_func_get_loader_type = NULL;
 
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_PLUGIN_LOADER (service));
+	g_return_if_fail (IS_GO_PLUGIN_SERVICE_PLUGIN_LOADER (service));
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	func_name_get_loader_type = g_strconcat (
 		plugin_service_get_id (service), "_get_loader_type", NULL);
 	g_module_symbol (loader_module->handle, func_name_get_loader_type,

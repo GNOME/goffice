@@ -515,7 +515,7 @@ go_url_check_extension (gchar const *uri,
 		*new_uri = g_strconcat (uri, ".", std_ext, NULL);
 	else {
 		if (user_ext != NULL && std_ext != NULL)
-			res = !gnm_utf8_collate_casefold (user_ext + 1, std_ext);
+			res = !go_utf8_collate_casefold (user_ext + 1, std_ext);
 		*new_uri = g_strdup (uri);
 	}
 	g_free (base);

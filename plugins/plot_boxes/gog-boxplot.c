@@ -50,8 +50,8 @@ gog_box_plot_pref (GogObject *obj,
 {
 	GtkWidget  *w;
 	GogBoxPlot *boxplot = GOG_BOX_PLOT (obj);
-	char const *dir = gnm_plugin_get_dir_name (
-		plugins_get_plugin_by_id ("GOffice_plot_boxes"));
+	char const *dir = go_plugin_get_dir_name (
+		go_plugins_get_plugin_by_id ("GOffice_plot_boxes"));
 	char	 *path = g_build_filename (dir, "gog-boxplot-prefs.glade", NULL);
 	GladeXML *gui = go_libglade_new (path, "gog_box_plot_prefs", NULL, cc);
 

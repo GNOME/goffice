@@ -1,7 +1,6 @@
 #ifndef GOFFICE_MODULE_PLUGIN_DEFS_H
 #define GOFFICE_MODULE_PLUGIN_DEFS_H
 
-#include <goffice/goffice-config.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/goffice-app.h>
 #include <gmodule.h>
@@ -11,13 +10,13 @@ void go_plugin_shutdown	(GOPlugin *p, GOCmdContext *cc); /* optional, called bef
 
 #ifdef PLUGIN_ID
 
-static GOPlugin *gnm_get_current_plugin (void)
+static GOPlugin *go_get_current_plugin (void)
 {
 	static GOPlugin *plugin = NULL;
-	if (plugin == NULL) plugin = plugins_get_plugin_by_id (PLUGIN_ID);
+	if (plugin == NULL) plugin = go_plugins_get_plugin_by_id (PLUGIN_ID);
 	return plugin;
 }
-#define PLUGIN (gnm_get_current_plugin ())
+#define PLUGIN (go_get_current_plugin ())
 
 /* Use this macro for defining types inside plugins */
 #define	PLUGIN_CLASS(name, prefix, class_init, instance_init, parent_type) \
@@ -39,7 +38,7 @@ prefix ## _get_type (void) \
 			NULL \
 		}; \
 		type = g_type_module_register_type ( \
-			G_TYPE_MODULE (gnm_get_current_plugin ()), parent_type, #name, \
+			G_TYPE_MODULE (go_get_current_plugin ()), parent_type, #name, \
 			&object_info, 0); \
 	} \
 	return type; \
@@ -57,6 +56,11 @@ typedef struct {
 	guint32 const num_depends;
 } GOPluginModuleHeader;
 
+/* CHeesy api versioning
+ * bump this when external api changes.  eventually we will just push this out
+ * into the module's link dependencies */
+#define GOFFICE_API_VERSION		"0.0"
+
 #define GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER             0x476e756d
 #define GOFFICE_MODULE_PLUGIN_INFO_DECL(ver)				\
 G_MODULE_EXPORT GOPluginModuleDepend const go_plugin_depends [] = ver;	\
@@ -66,7 +70,7 @@ G_MODULE_EXPORT GOPluginModuleHeader const go_plugin_header =  		\
 /* convenience header for goffice plugins */
 #define GOFFICE_PLUGIN_MODULE_HEADER 					\
 G_MODULE_EXPORT GOPluginModuleDepend const go_plugin_depends [] = {	\
-    { "goffice", GOFFICE_VERSION }					\
+    { "goffice", GOFFICE_API_VERSION }					\
 };	\
 G_MODULE_EXPORT GOPluginModuleHeader const go_plugin_header =  		\
 	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) }

@@ -37,8 +37,8 @@ typedef struct _GOPluginLoader	GOPluginLoader;
 
 /* temporary */
 typedef struct _ErrorInfo		ErrorInfo;
-typedef struct _GnmFileSaver 		GnmFileSaver;
-typedef struct _GnmFileOpener		GnmFileOpener;
+typedef struct _GOFileSaver 		GOFileSaver;
+typedef struct _GOFileOpener		GOFileOpener;
 typedef struct _IOContext		IOContext;
 
 /*

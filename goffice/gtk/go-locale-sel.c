@@ -502,8 +502,8 @@ ls_class_init (GtkWidgetClass *widget_klass)
 	       sizeof (locale_trans_array[0]), locale_order);
 
 	locale_hash =
-		g_hash_table_new_full (gnm_ascii_strcase_hash,
-				       gnm_ascii_strcase_equal,
+		g_hash_table_new_full (go_ascii_strcase_hash,
+				       go_ascii_strcase_equal,
 				       (GDestroyNotify)g_free,
 				       NULL);
 

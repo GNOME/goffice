@@ -37,7 +37,7 @@ io_context_init (IOContext *ioc)
 	ioc->progress_max = 1.0;
 	ioc->last_progress = -1.0;
 	ioc->last_time = 0.0;
-	ioc->helper.helper_type = GNM_PROGRESS_HELPER_NONE;
+	ioc->helper.helper_type = GO_PROGRESS_HELPER_NONE;
 }
 
 static void
@@ -308,7 +308,7 @@ value_io_progress_set (IOContext *ioc, gint total, gint step)
 	g_return_if_fail (IS_IO_CONTEXT (ioc));
 	g_return_if_fail (total >= 0);
 
-	ioc->helper.helper_type = GNM_PROGRESS_HELPER_VALUE;
+	ioc->helper.helper_type = GO_PROGRESS_HELPER_VALUE;
 	ioc->helper.v.value.total = MAX (total, 1);
 	ioc->helper.v.value.last = -step;
 	ioc->helper.v.value.step = step;
@@ -321,7 +321,7 @@ value_io_progress_update (IOContext *ioc, gint value)
 	gint step, total;
 
 	g_return_if_fail (IS_IO_CONTEXT (ioc));
-	g_return_if_fail (ioc->helper.helper_type == GNM_PROGRESS_HELPER_VALUE);
+	g_return_if_fail (ioc->helper.helper_type == GO_PROGRESS_HELPER_VALUE);
 
 	total = ioc->helper.v.value.total;
 	step = ioc->helper.v.value.step;
@@ -342,7 +342,7 @@ count_io_progress_set (IOContext *ioc, gint total, gint step)
 	g_return_if_fail (IS_IO_CONTEXT (ioc));
 	g_return_if_fail (total >= 0);
 
-	ioc->helper.helper_type = GNM_PROGRESS_HELPER_COUNT;
+	ioc->helper.helper_type = GO_PROGRESS_HELPER_COUNT;
 	ioc->helper.v.count.total = MAX (total, 1);
 	ioc->helper.v.count.last = -step;
 	ioc->helper.v.count.current = 0;
@@ -356,7 +356,7 @@ count_io_progress_update (IOContext *ioc, gint inc)
 	gint current, step, total;
 
 	g_return_if_fail (IS_IO_CONTEXT (ioc));
-	g_return_if_fail (ioc->helper.helper_type == GNM_PROGRESS_HELPER_COUNT);
+	g_return_if_fail (ioc->helper.helper_type == GO_PROGRESS_HELPER_COUNT);
 
 	current = (ioc->helper.v.count.current += inc);
 	step = ioc->helper.v.count.step;
@@ -376,7 +376,7 @@ io_progress_unset (IOContext *ioc)
 {
 	g_return_if_fail (IS_IO_CONTEXT (ioc));
 
-	ioc->helper.helper_type = GNM_PROGRESS_HELPER_NONE;
+	ioc->helper.helper_type = GO_PROGRESS_HELPER_NONE;
 }
 
 void
@@ -411,7 +411,7 @@ gnm_io_warning (G_GNUC_UNUSED IOContext *context,
 void
 gnm_io_warning_varargs (IOContext *context, char const *fmt, va_list args)
 {
-	context->info = error_info_new_vprintf (GNM_WARNING, fmt, args);
+	context->info = error_info_new_vprintf (GO_WARNING, fmt, args);
 	context->warning_occurred = TRUE;
 }
 

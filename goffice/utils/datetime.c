@@ -80,7 +80,7 @@ datetime_serial_to_g (GDate *res, int serial, GODateConventions const *conv)
 
 /* ------------------------------------------------------------------------- */
 
-gnm_float
+double
 datetime_timet_to_serial_raw (time_t t, GODateConventions const *conv)
 {
 	struct tm *tm = localtime (&t);
@@ -91,15 +91,15 @@ datetime_timet_to_serial_raw (time_t t, GODateConventions const *conv)
 	g_date_set_time (&date, t);
 	secs = tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec;
 	return datetime_g_to_serial (&date, conv) +
-		secs / (gnm_float)SECS_PER_DAY;
+		secs / (double)SECS_PER_DAY;
 }
 
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_serial_raw_to_serial (gnm_float raw)
+datetime_serial_raw_to_serial (double raw)
 {
-	return (int) gnm_floor (raw + HALF_SEC);
+	return (int) floor (raw + HALF_SEC);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -129,10 +129,10 @@ datetime_serial_to_timet (int serial, GODateConventions const *conv)
 /* days with summer time ("daylight savings") changes.  */
 
 int
-datetime_serial_raw_to_seconds (gnm_float raw)
+datetime_serial_raw_to_seconds (double raw)
 {
 	raw += HALF_SEC;
-	return (raw - gnm_floor (raw)) * SECS_PER_DAY;
+	return (raw - floor (raw)) * SECS_PER_DAY;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -465,7 +465,7 @@ coup_cd (GDate *result, GDate const *settlement, GDate const *maturity,
  * Returns the number of days in the coupon period of the settlement date.
  * Currently, returns negative numbers if the branch is not implemented.
  */
-gnm_float
+double
 coupdays (GDate const *settlement, GDate const *maturity,
 	  GnmCouponConvention const *conv)
 {
@@ -494,7 +494,7 @@ coupdays (GDate const *settlement, GDate const *maturity,
  * Returns the number of days from the beginning of the coupon period to
  * the settlement date.
  */
-gnm_float
+double
 coupdaybs (GDate const *settlement, GDate const *maturity,
 	   GnmCouponConvention const *conv)
 {
@@ -514,7 +514,7 @@ coupdaybs (GDate const *settlement, GDate const *maturity,
  * Returns the number of days from the settlement date to the next
  * coupon date.
  **/
-gnm_float
+double
 coupdaysnc (GDate const *settlement, GDate const *maturity,
 	    GnmCouponConvention const *conv)
 {

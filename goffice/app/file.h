@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_FILE_H
-#define GNUMERIC_FILE_H
+#ifndef _GOFFICE_FILE_H_
+#define _GOFFICE_FILE_H_
 
 #include <glib-object.h>
 #include <gsf/gsf.h>
@@ -33,112 +33,112 @@ typedef enum {
 } FileSaveScope;
 
 /*
- * GnmFileOpener
+ * GOFileOpener
  */
 
-typedef struct _GnmFileOpenerClass GnmFileOpenerClass;
+typedef struct _GOFileOpenerClass GOFileOpenerClass;
 
-#define TYPE_GNM_FILE_OPENER             (gnm_file_opener_get_type ())
-#define GNM_FILE_OPENER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GNM_FILE_OPENER, GnmFileOpener))
-#define IS_GNM_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNM_FILE_OPENER))
+#define TYPE_GO_FILE_OPENER             (go_file_opener_get_type ())
+#define GO_FILE_OPENER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GO_FILE_OPENER, GOFileOpener))
+#define IS_GO_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GO_FILE_OPENER))
 
-typedef gboolean (*GnmFileOpenerProbeFunc) (GnmFileOpener const *fo,
+typedef gboolean (*GOFileOpenerProbeFunc) (GOFileOpener const *fo,
 					    GsfInput *input,
 					    FileProbeLevel pl);
-typedef void     (*GnmFileOpenerOpenFunc) (GnmFileOpener const *fo,
+typedef void     (*GOFileOpenerOpenFunc) (GOFileOpener const *fo,
 					   IOContext *io_context,
 					   gpointer FIXME_FIXME_workbook_view,
 					   GsfInput *input);
-typedef void     (*GnmFileOpenerOpenFuncWithEnc) (GnmFileOpener const *fo,
+typedef void     (*GOFileOpenerOpenFuncWithEnc) (GOFileOpener const *fo,
 						  gchar const *enc,
 						  IOContext *io_context,
 						  gpointer FIXME_FIXME_workbook_view,
 						  GsfInput *input);
 
-GType gnm_file_opener_get_type (void);
+GType go_file_opener_get_type (void);
 
-GnmFileOpener *gnm_file_opener_new (char const *id,
+GOFileOpener *go_file_opener_new (char const *id,
 				    char const *description,
 				    GSList *suffixes,
 				    GSList *mimes,
-				    GnmFileOpenerProbeFunc probe_func,
-				    GnmFileOpenerOpenFunc open_func);
-GnmFileOpener *gnm_file_opener_new_with_enc (char const *id,
+				    GOFileOpenerProbeFunc probe_func,
+				    GOFileOpenerOpenFunc open_func);
+GOFileOpener *go_file_opener_new_with_enc (char const *id,
 					     char const *description,
 					     GSList *suffixes,
 					     GSList *mimes,
-					     GnmFileOpenerProbeFunc probe_func,
-					     GnmFileOpenerOpenFuncWithEnc open_func);
+					     GOFileOpenerProbeFunc probe_func,
+					     GOFileOpenerOpenFuncWithEnc open_func);
 
 
-gboolean     gnm_file_opener_probe (GnmFileOpener const *fo, GsfInput *input,
+gboolean     go_file_opener_probe (GOFileOpener const *fo, GsfInput *input,
 				    FileProbeLevel pl);
-void         gnm_file_opener_open (GnmFileOpener const *fo, gchar const *opt_enc,
+void         go_file_opener_open (GOFileOpener const *fo, gchar const *opt_enc,
 				   IOContext *io_context,
 				   gpointer  FIXME_FIXME_workbook_view,
 				   GsfInput *input);
 
-char const *gnm_file_opener_get_id		  (GnmFileOpener const *fo);
-char const *gnm_file_opener_get_description	  (GnmFileOpener const *fo);
-gboolean    gnm_file_opener_is_encoding_dependent (GnmFileOpener const *fo);
-gboolean    gnm_file_opener_can_probe		  (GnmFileOpener const *fo,
+char const *go_file_opener_get_id		  (GOFileOpener const *fo);
+char const *go_file_opener_get_description	  (GOFileOpener const *fo);
+gboolean    go_file_opener_is_encoding_dependent (GOFileOpener const *fo);
+gboolean    go_file_opener_can_probe		  (GOFileOpener const *fo,
 						   FileProbeLevel pl);
-GSList const *gnm_file_opener_get_suffixes	  (GnmFileOpener const *fo);
-GSList const *gnm_file_opener_get_mimes	  	  (GnmFileOpener const *fo);
+GSList const *go_file_opener_get_suffixes	  (GOFileOpener const *fo);
+GSList const *go_file_opener_get_mimes	  	  (GOFileOpener const *fo);
 
 /*
- * GnmFileSaver
+ * GOFileSaver
  */
 
-typedef struct _GnmFileSaverClass GnmFileSaverClass;
+typedef struct _GOFileSaverClass GOFileSaverClass;
 
-#define TYPE_GNM_FILE_SAVER             (gnm_file_saver_get_type ())
-#define GNM_FILE_SAVER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GNM_FILE_SAVER, GnmFileSaver))
-#define IS_GNM_FILE_SAVER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNM_FILE_SAVER))
+#define TYPE_GO_FILE_SAVER             (go_file_saver_get_type ())
+#define GO_FILE_SAVER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GO_FILE_SAVER, GOFileSaver))
+#define IS_GO_FILE_SAVER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GO_FILE_SAVER))
 
-typedef void (*GnmFileSaverSaveFunc) (GnmFileSaver const *fs,
+typedef void (*GOFileSaverSaveFunc) (GOFileSaver const *fs,
 				      IOContext *io_context,
 				      gconstpointer FIXME_FIXME_workbook_view,
 				      GsfOutput *output);
-GType gnm_file_saver_get_type (void);
+GType go_file_saver_get_type (void);
 
-GnmFileSaver *gnm_file_saver_new (char const *id,
+GOFileSaver *go_file_saver_new (char const *id,
 				  char const *extension,
 				  char const *description,
 				  FileFormatLevel level,
-				  GnmFileSaverSaveFunc save_func);
+				  GOFileSaverSaveFunc save_func);
 
-void          gnm_file_saver_set_save_scope (GnmFileSaver *fs, FileSaveScope scope);
-FileSaveScope gnm_file_saver_get_save_scope (GnmFileSaver const *fs);
+void          go_file_saver_set_save_scope (GOFileSaver *fs, FileSaveScope scope);
+FileSaveScope go_file_saver_get_save_scope (GOFileSaver const *fs);
 
-void         gnm_file_saver_save (GnmFileSaver const *fs, IOContext *io_context,
+void         go_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 				  gconstpointer FIXME_FIXME_workbook_view,
 				  GsfOutput *output);
-void         gnm_file_saver_set_overwrite_files	(GnmFileSaver *fs,
+void         go_file_saver_set_overwrite_files	(GOFileSaver *fs,
 						 gboolean overwrite);
-char const *gnm_file_saver_get_id	  	(GnmFileSaver const *fs);
-char const *gnm_file_saver_get_extension	(GnmFileSaver const *fs);
-char const *gnm_file_saver_get_mime_type	(GnmFileSaver const *fs);
-char const *gnm_file_saver_get_description	(GnmFileSaver const *fs);
-FileFormatLevel gnm_file_saver_get_format_level	(GnmFileSaver const *fs);
+char const *go_file_saver_get_id	  	(GOFileSaver const *fs);
+char const *go_file_saver_get_extension	(GOFileSaver const *fs);
+char const *go_file_saver_get_mime_type	(GOFileSaver const *fs);
+char const *go_file_saver_get_description	(GOFileSaver const *fs);
+FileFormatLevel go_file_saver_get_format_level	(GOFileSaver const *fs);
 
 /*
  *
  */
 
 GList *get_file_openers (void);
-void		 gnm_file_opener_unregister (GnmFileOpener *fo);
-void		 gnm_file_opener_register   (GnmFileOpener *fo, gint priority);
-GnmFileOpener	*gnm_file_opener_for_id	    (char const *id);
+void		 go_file_opener_unregister (GOFileOpener *fo);
+void		 go_file_opener_register   (GOFileOpener *fo, gint priority);
+GOFileOpener	*go_file_opener_for_id	    (char const *id);
 
 GList *get_file_savers (void);
-void gnm_file_saver_unregister	(GnmFileSaver *fs);
-void gnm_file_saver_register	(GnmFileSaver *fs);
-void gnm_file_saver_register_as_default (GnmFileSaver *fs, gint priority);
+void go_file_saver_unregister	(GOFileSaver *fs);
+void go_file_saver_register	(GOFileSaver *fs);
+void go_file_saver_register_as_default (GOFileSaver *fs, gint priority);
 
-GnmFileSaver	*gnm_file_saver_get_default (void);
-GnmFileSaver	*gnm_file_saver_for_mime_type	(char const *mime_type);
-GnmFileSaver	*gnm_file_saver_for_file_name	(char const *file_name);
-GnmFileSaver	*gnm_file_saver_for_id		(char const *id);
+GOFileSaver	*go_file_saver_get_default (void);
+GOFileSaver	*go_file_saver_for_mime_type	(char const *mime_type);
+GOFileSaver	*go_file_saver_for_file_name	(char const *file_name);
+GOFileSaver	*go_file_saver_for_id		(char const *id);
 
-#endif /* GNUMERIC_FILE_H */
+#endif /* _GOFFICE_FILE_H_ */
