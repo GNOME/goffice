@@ -386,7 +386,7 @@ go_line_build_bpath (double const *x, double const *y, int n)
 				cur++;
 			}
 			nb = 0;
-		} else if (!nb || ((path[j].x3 != x[i]) && (path[j].y3 != y[i]))) {
+		} else if (!nb || ((path[j].x3 != x[i]) || (path[j].y3 != y[i]))) {
 			j++;
 			path[j].x3 = x[i];
 			path[j].y3 = y[i];
@@ -423,7 +423,7 @@ go_line_build_vpath (double const *x, double const *y, int n)
 			case 1: /* isolated point: don't draw anything */
 				j--;
 				break;
-			default: /* draw a bezier spline */
+			default: 
 				path[start].code = ART_MOVETO_OPEN;
 				while (start < j) {
 					start++ ;

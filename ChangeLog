@@ -1,6 +1,7 @@
 2005-03-16  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
-	* goffice/utils/go-line.c (go_line_build_vpath): fix new point test.
+	* goffice/utils/go-line.c (go_line_build_vpath),
+	(go_line_build_bpath): fix new point test.
 
 2005-03-16  Jean Brefort  <jean.brefort@normalesup.org>
 
