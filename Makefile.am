@@ -2,7 +2,8 @@
 
 SUBDIRS = goffice test pixmaps plugins po
 
-EXTRA_DIST = goffice.mk \
+EXTRA_DIST = README NEWS BUGS MAINTAINERS AUTHORS \
+	goffice.mk \
 	goffice-plugins.mk \
 	intltool-extract.in	\
 	intltool-update.in	\

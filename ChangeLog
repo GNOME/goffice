@@ -1,3 +1,13 @@
+2005-03-21  Stepan Kasal  <kasal@ucw.cz>
+
+	* MAINTAINERS: New file, two beings selected as victims -- one human
+	  and one demi-god.
+	* Makefile.am (EXTRA_DIST): Add README NEWS BUGS MAINTAINERS AUTHORS.
+	* README: In the requirements, state that we require pango 1.8.1, and
+	  fix the Debian name of the pango package; delete intltool, it's
+	  distributed with the package.
+	* configure.in: Delete the requirement for libgnomeprintui.
+
 2005-03-20  Jody Goldberg <jody@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (fmt_dialog_enable_widgets) : make sure

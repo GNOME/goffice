@@ -18,14 +18,13 @@ Requirements
 You need:				Debian package name
 	glib		>= 2.6.0	libglib2.0-dev
 	gtk+		>= 2.6.0	libgtk2.0-dev
-	pango		>= 1.8.0	pango-dev
+	pango		>= 1.8.1	libpango1.0-dev
 	libgnomeprint	>= 2.8.2	libgnomeprint2.2-dev
 	libgsf		>= 1.11.1	libgsf-1-dev
 	libglade	>= 2.3.6	libglade2-dev
-	intltool	>= 0.27.2	intltool
 	gnome-xml   	>= 2.4.12	libxml2-dev
 	libart   	>= 2.3.11	libart-2.0-dev
-	NOTE : gnome-xml is also known as libxml
+	NOTE: gnome-xml is also known as libxml
 
 Mailing lists
 -------------

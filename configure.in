@@ -53,7 +53,6 @@ goffice_gtk_reqs="
 	gtk+-2.0		>= 2.6.0
 	libglade-2.0		>= 2.3.6
 	libgnomeprint-2.2	>= 2.8.2
-	libgnomeprintui-2.2	>= 2.8.2
 	libart-2.0		>= 2.3.11
 "
 goffice_gnome_reqs="
