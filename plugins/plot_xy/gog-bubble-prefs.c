@@ -92,7 +92,7 @@ gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc)
 		"toggled",
 		G_CALLBACK (cb_type_changed), bubble);
 
-	w = glade_xml_get_widget (gui, "vary-style-by-element");
+	w = glade_xml_get_widget (gui, "vary_style_by_element");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), bubble->base.base.vary_style_by_element);
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
