@@ -1,3 +1,8 @@
+2005-04-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/goffice.c: (libgoffice_init), (libgoffice_shutdown): call
+	number_format_init/shutdown.
+
 2005-04-01  Jody Goldberg <jody@gnome.org>
 
 	* goffice/utils/regutf8.c : include string.h to suppress warning about

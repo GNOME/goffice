@@ -35,6 +35,7 @@
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-error-bar.h>
 #include <goffice/data/go-data-simple.h>
+#include <goffice/utils/format.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-math.h>
 #include <goffice/app/go-plugin-service.h>
@@ -115,6 +116,7 @@ libgoffice_init (void)
 	(void) GO_DATA_SCALAR_VAL_TYPE;
 	(void) GO_DATA_SCALAR_STR_TYPE;
 	gog_themes_init	();
+	number_format_init ();
 }
 
 void
@@ -123,6 +125,7 @@ libgoffice_shutdown (void)
 	gog_themes_shutdown ();
 	go_fonts_shutdown ();
 	gog_plugin_services_shutdown ();
+	number_format_shutdown ();
 #ifdef G_OS_WIN32
 	g_free (libgoffice_data_dir);
 	g_free (libgoffice_icon_dir);
