@@ -437,7 +437,7 @@ AC_DEFINE(GO_VERSION_MINOR, goffice_version_minor,
 AC_DEFINE(GO_VERSION_EXTRA, "goffice_version_extra",
 	[Extra, possibly empty tag for this release])
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 Makefile
 goffice/Makefile
 goffice/app/Makefile
@@ -465,6 +465,7 @@ test/Makefile
 po/Makefile.in
 stamp.h
 ])
+AC_OUTPUT
 
 echo "
 

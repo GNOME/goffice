@@ -1,3 +1,9 @@
+2005-03-08  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (AC_OUTPUT, AC_CONFIG_FILES): Use AC_CONFIG_FILES and
+	  call AC_OUTPUT with no parameters; this was already available in
+	  autoconf 2.52.
+
 2005-03-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* goffice/Makefile.am: Fixed inter-library dependencies; fix towards
@@ -10,6 +16,8 @@
 
 	* configure.in: Pare down long double support checks to what is
 	needed.
+	* goffice/goffice-config.h: Don't install this, ...
+	* goffice/goffice-features.h: ... install this one instead.
 
 2005-03-07  Stepan Kasal  <kasal@ucw.cz>
 
