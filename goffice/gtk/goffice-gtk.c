@@ -484,16 +484,23 @@ gui_image_chooser_new (gboolean is_save)
 char *
 go_gtk_select_image (GtkWindow *toplevel, const char *initial)
 {
+	const char *key = "go_gtk_select_image";
 	char *uri = NULL;
 	GtkFileChooser *fsel = gui_image_chooser_new (FALSE);
 
+	if (!initial)
+		initial = g_object_get_data (G_OBJECT (toplevel), key);
 	if (initial)
 		gtk_file_chooser_set_uri (fsel, initial);
 	g_object_set (G_OBJECT (fsel), "title", _("Select an Image"), NULL);
 
 	/* Show file selector */
-	if (go_gtk_file_sel_dialog (toplevel, GTK_WIDGET (fsel)))
+	if (go_gtk_file_sel_dialog (toplevel, GTK_WIDGET (fsel))) {
 		uri = gtk_file_chooser_get_uri (fsel);
+		g_object_set_data_full (G_OBJECT (toplevel),
+					key, g_strdup (uri),
+					g_free);
+	}
 	gtk_widget_destroy (GTK_WIDGET (fsel));
 	return uri;
 }

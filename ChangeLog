@@ -1,3 +1,8 @@
+2005-04-01  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_select_image): Moderately
+	cheesy way of saving where we were last time.
+
 2005-04-01  Stepan Kasal  <kasal@ucw.cz>
 
 	s/INCLUDES/AM_CPPFLAGS/  "automake -Wall" has told me this.
