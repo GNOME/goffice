@@ -1,3 +1,8 @@
+2005-03-17  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* plugins/plot_barcol/gog-line.c (gog_line_view_render): Don't free
+	memory with invalid pointers.
+
 2005-03-16  Stepan Kasal  <kasal@ucw.cz>
 
 	* autogen.sh: Require intltool >= 0.27.2 and explain why;
