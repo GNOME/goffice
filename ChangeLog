@@ -1,3 +1,10 @@
+2005-03-20  Jody Goldberg <jody@gnome.org>
+
+	* goffice/gtk/go-format-sel.c (fmt_dialog_enable_widgets) : make sure
+	  the current selection is visible.
+
+	* goffice/goffice.c (libgoffice_init) : look in the right place.
+
 2005-03-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-graph-widget.c: (go_graph_widget_size_allocate),

@@ -528,77 +528,78 @@ stays:
 
 		switch (tmp) {
 		case F_LIST: {
-				     int start = 0, end = -1;
-				     GtkTreeIter select;
+			int start = 0, end = -1;
+			GtkTreeIter select;
 
-				     switch (page) {
-				     case FMT_DATE:
-				     case FMT_TIME:
-				     case FMT_FRACTION:
-				     start = end = page;
-				     break;
+			switch (page) {
+			default :
+				;
+			case FMT_DATE:
+			case FMT_TIME:
+			case FMT_FRACTION:
+				start = end = page;
+				break;
 
-				     case FMT_CUSTOM:
-				     start = 0; end = 8;
-				     break;
+			case FMT_CUSTOM:
+				start = 0; end = 8;
+				break;
+			}
 
-				     default :
-				     g_assert_not_reached ();
-				     };
+			select.stamp = 0;
+			gtk_list_store_clear (gfs->format.formats.model);
+			for (; start <= end ; ++start)
+				fmt_dialog_init_fmt_list (gfs,
+					cell_formats[start], &select);
 
-				     select.stamp = 0;
-				     gtk_list_store_clear (gfs->format.formats.model);
-				     for (; start <= end ; ++start)
-					     fmt_dialog_init_fmt_list (gfs,
-								       cell_formats[start], &select);
+			/* If this is the custom page and the format has
+			* not been found append it */
+			/* TODO We should add the list of other custom formats created.
+			*      It should be easy.  All that is needed is a way to differentiate
+			*      the std formats and the custom formats in the GOFormat hash.
+			*/
+			if  (page == FMT_CUSTOM && select.stamp == 0) {
+				char *tmp = style_format_as_XL (gfs->format.spec, TRUE);
+				format_entry_set_text (gfs, tmp);
+				g_free (tmp);
+			} else if (select.stamp == 0)
+				gtk_tree_model_get_iter_first (
+					GTK_TREE_MODEL (gfs->format.formats.model),
+					&select);
 
-				     /* If this is the custom page and the format has
-				      * not been found append it */
-				     /* TODO We should add the list of other custom formats created.
-				      *      It should be easy.  All that is needed is a way to differentiate
-				      *      the std formats and the custom formats in the GOFormat hash.
-				      */
-				     if  (page == FMT_CUSTOM && select.stamp == 0) {
-					     char *tmp = style_format_as_XL (gfs->format.spec, TRUE);
-					     format_entry_set_text (gfs, tmp);
-					     g_free (tmp);
-				     } else if (select.stamp == 0)
-					     gtk_tree_model_get_iter_first (
-									    GTK_TREE_MODEL (gfs->format.formats.model),
-									    &select);
-
-				     if (select.stamp != 0)
-					     gtk_tree_selection_select_iter (
-									     gfs->format.formats.selection, &select);
-
-				     break;
-			     }
+			if (select.stamp != 0) {
+				GtkTreePath *path = gtk_tree_model_get_path (
+					GTK_TREE_MODEL (gfs->format.formats.model),
+					&select);
+				gtk_tree_selection_select_iter (
+					gfs->format.formats.selection,
+					&select);
+				gtk_tree_view_scroll_to_cell (gfs->format.formats.view,
+					path, NULL, FALSE, 0., 0.);
+				gtk_tree_path_free (path);
+			}
+			break;
+		}
 
 		case F_NEGATIVE:
-			     fillin_negative_samples (gfs);
-			     break;
+			fillin_negative_samples (gfs);
+			break;
 
 		case F_DECIMAL_SPIN:
-			     gtk_spin_button_set_value (GTK_SPIN_BUTTON (gfs->format.widget[F_DECIMAL_SPIN]),
-							gfs->format.num_decimals);
-			     break;
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (gfs->format.widget[F_DECIMAL_SPIN]),
+						   gfs->format.num_decimals);
+			break;
 
 		case F_SEPARATOR:
-			     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gfs->format.widget[F_SEPARATOR]),
-							   gfs->format.use_separator);
-			     break;
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gfs->format.widget[F_SEPARATOR]),
+						      gfs->format.use_separator);
+			break;
 
 		default:
-			     ; /* Nothing */
+			; /* Nothing */
 		}
 
 		gtk_widget_show (w);
 	}
-
-#if 0
-	if ((cl = GTK_CLIST (gfs->format.widget[F_LIST])) != NULL)
-		gnumeric_clist_make_selection_visible (cl);
-#endif
 
 	draw_format_preview (gfs, TRUE);
 

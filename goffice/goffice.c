@@ -76,7 +76,7 @@ libgoffice_init (void)
 	libgoffice_data_dir = g_build_filename (dir,
 		"share", "goffice", LIBGOFFICE_VERSION, NULL);
 	libgoffice_icon_dir = g_build_filename (dir,
-		"share", "pixmaps", "gnumeric", NULL);
+		"share", "pixmaps", "goffice", NULL);
 	libgoffice_locale_dir = g_build_filename (dir,
 		"share", "locale", NULL);
 	libgoffice_lib_dir = g_build_filename (dir,
