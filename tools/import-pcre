@@ -41,9 +41,10 @@ my ($PCRE_MAJOR,$PCRE_MINOR,$PCRE_DATE);
 }
 
 my @SRC_C = ('maketables.c', 'get.c', 'study.c', 'pcre.c', 'pcreposix.c');
-my @EXTRA_C = ('printint.c');
+my @EXTRA_C = ();
 my @SRC_H = ('pcreposix.h');
 my @noinst_H = ('internal.h', 'pcre.h');
+my @EXTRA_FILES = ('COPYING');
 
 my %namehack = ('pcre.h' => 'pcre.in');
 
@@ -85,10 +86,45 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H, @noinst_H) {
 
 	s/\b(to(lower|upper)|is(lower|upper|digit|xdigit|space|print|cntrl|alpha|alnum|graph|punct))\b/g_unichar_$1/g;
 
-	if ($filename =~ /maketables/i) {
+	if (/^static\s+int\s*$/) {
+	    $_ .= <SRC>;
+	}
+
+	# Skip the definition of ord2utf8 and use g_unichar_to_utf8 instead.
+	if (/^static\s+int\s+ord2utf8\b/ ... /^\}\s*$/) {
+	    next;
+	}
+	s/ord2utf8/g_unichar_to_utf8/g;
+
+	if (/\bfor\b.*\bsizeof\s*\(\s*utf8_table1\s*\)/ .. /;\s*$/) {
+	    next unless s/\bfor\b.*$/i = g_unichar_to_utf8 (c, NULL);/;
+	}
+
+	next if /^static\b.*\butf8_table[123]\b/ .. /;\s*$/;
+
+	if (/^\s*\#\s*define\s+GETCHAR\b.*\\$/ .. /\}$/) {
+	    next unless /GETCHAR/;
+	    s/\\/do { (c) = g_utf8_get_char (eptr); } while (0)/;
+	}
+
+	if (/^\s*\#\s*define\s+GETCHARINC(TEST)?\b.*\\$/ .. /\}$/) {
+	    next unless /GETCHARINC/;
+	    s/\\/do { GETCHAR(c,eptr); (eptr) = g_utf8_next_char (eptr); } while (0)/;
+	}
+
+	if (/^\s*\#\s*define\s+GETCHARLEN\b.*\\$/ .. /\}$/) {
+	    next unless /GETCHARLEN/;
+	    s/\\/do { GETCHAR(c,eptr); (len) += g_utf8_skip[(uschar)(*eptr)] - 1; } while (0)/;
+	}
+
+	if ($filename =~ /(maketables|pcre)\.c/i) {
 	    if (/^\s*\#\s*include\s*.internal\.h/) {
 		$_ .= "#include <glib.h>\n";
 	    }
+	}
+
+	if ($filename =~ /pcre\.c/i) {
+	    s/^\s*int\s+runlength;\s*$//;
 	}
 
 	if ($filename =~ /\.c$/) {
@@ -102,6 +138,8 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H, @noinst_H) {
 	if (s{^(\s*\#\s*include\s*.ctype\.h.*)}{/* $1 */}) {
 	    print DST "/* Whatever the question is, ctype.h is not the answer.  */\n";
 	}
+
+	s|^\s*(\#\s*include\s*.printint\.c.)\s*$|/* $1 */|;
 
 	if (/^(\s*)REG_(\S+)(\s*)=(\s*)1,/) {
 	    $_ = "$1REG_OK$3=${4}0,\n$_";
@@ -147,10 +185,31 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H, @noinst_H) {
     close (*SRC);
     close (*DST);
 
-    if (0) {
+    if (1) {
 	system ("indent", "-kr", "-fc1", "-psl", "-pcs", $tmpfilename);
 	unlink "$tmpfilename~";
     }
+    &update_file ($dstfilename);
+}
+
+foreach my $filename (@EXTRA_FILES) {
+    my $srcfilename = "$srcdir/" . ($namehack{$filename} || $filename);
+    my $dstfilename = "$dst/$filename";
+    my $tmpfilename = "$dstfilename.new";
+
+    local (*SRC, *DST);
+    open (SRC, "<$srcfilename") or
+	die "$0: Cannot read $srcfilename: $!\n";
+    open (DST, ">$tmpfilename") or
+	die "$0: Cannot create $tmpfilename: $!\n";
+    print STDERR "Creating $dstfilename...";
+
+    while (<SRC>) {
+	print DST;
+    }
+
+    close (*SRC);
+    close (*DST);
     &update_file ($dstfilename);
 }
 
@@ -166,7 +225,7 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H, @noinst_H) {
 
     print DST "noinst_LTLIBRARIES = libpcre.la\n";
     print DST "libpcre_la_SOURCES = ", join (' ', @SRC_C), "\n";
-    print DST "EXTRA_DIST = ", join (' ', @EXTRA_C), "\n\n";
+    print DST "EXTRA_DIST = ", join (' ', @EXTRA_C, @EXTRA_FILES), "\n\n";
 
     print DST "libpcre_a_ladir = \$(includedir)/libgoffice-1/goffice/cut-n-paste/pcre\n";
 

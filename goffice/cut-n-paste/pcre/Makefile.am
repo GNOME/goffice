@@ -1,6 +1,6 @@
 noinst_LTLIBRARIES = libpcre.la
 libpcre_la_SOURCES = maketables.c get.c study.c pcre.c pcreposix.c
-EXTRA_DIST = printint.c
+EXTRA_DIST = COPYING
 
 libpcre_a_ladir = $(includedir)/libgoffice-1/goffice/cut-n-paste/pcre
 libpcre_a_la_HEADERS = pcreposix.h
