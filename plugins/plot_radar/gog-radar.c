@@ -350,7 +350,7 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 
 			theta = count * 2.0 * M_PI / model->num_elements;
-			rho = gog_axis_map_to_canvas (map, vals[count]);
+			rho = gog_axis_map_to_view (map, vals[count]);
 
 			x = center_x + rho * sin (theta);
 			y = center_y - rho * cos (theta);

@@ -1,3 +1,21 @@
+2005-03-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c: (map_discrete_to_view),
+	(map_discrete_from_view), (map_linear_to_view),
+	(map_linear_from_view), (map_log_to_view), (map_log_from_view),
+	(gog_axis_map_from_view), (gog_axis_map_to_view),
+	(draw_axis_from_a_to_b), (gog_axis_view_render): changed map_to_canvas to
+	map_to_view and added gog_axis_map_from_canvas and support.
+	* goffice/graph/gog-axis.h: ditto.
+	* goffice/graph/gog-error-bar.c: (gog_error_bar_render): ditto.
+	* goffice/graph/gog-grid-line.c: (gog_grid_line_view_render): ditto.
+	* plugins/plot_barcol/gog-barcol.c: (barcol_draw_rect): ditto.
+	* plugins/plot_barcol/gog-line.c: (gog_line_view_render): ditto.
+	* plugins/plot_boxes/gog-boxplot.c: (gog_box_plot_view_render): ditto.
+	* plugins/plot_radar/gog-radar.c: (gog_radar_view_render): ditto.
+	* plugins/plot_surface/gog-surface.c: (gog_contour_view_render): ditto.
+	* plugins/plot_xy/gog-xy.c: (gog_xy_view_render): ditto.
+
 2005-03-06  Jon K Hellan  <hellan@acm.org>
 
 	* goffice/utils/go-file.c (go_get_mime_type): New.

@@ -255,15 +255,15 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 	double x0, x1, y0, y1;
 
 	if (flip) {
-		x0 = gog_axis_map_to_canvas (x_map, rect->y);
-		x1 = gog_axis_map_to_canvas (x_map, rect->y + rect->h);
-		y0 = gog_axis_map_to_canvas (y_map, rect->x);
-		y1 = gog_axis_map_to_canvas (y_map, rect->x + rect->w);
+		x0 = gog_axis_map_to_view (x_map, rect->y);
+		x1 = gog_axis_map_to_view (x_map, rect->y + rect->h);
+		y0 = gog_axis_map_to_view (y_map, rect->x);
+		y1 = gog_axis_map_to_view (y_map, rect->x + rect->w);
 	} else {
-		x0 = gog_axis_map_to_canvas (x_map, rect->x);
-		x1 = gog_axis_map_to_canvas (x_map, rect->x + rect->w);
-		y0 = gog_axis_map_to_canvas (y_map, rect->y);
-		y1 = gog_axis_map_to_canvas (y_map, rect->y + rect->h);
+		x0 = gog_axis_map_to_view (x_map, rect->x);
+		x1 = gog_axis_map_to_view (x_map, rect->x + rect->w);
+		y0 = gog_axis_map_to_view (y_map, rect->y);
+		y1 = gog_axis_map_to_view (y_map, rect->y + rect->h);
 	}
 
 	path[0].x = path[3].x = path[4].x = x0;

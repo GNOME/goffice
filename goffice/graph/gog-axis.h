@@ -22,7 +22,7 @@
 #define GOG_AXIS_H
 
 #include <goffice/graph/goffice-graph.h>
-#include <goffice/data/goffice-data.h>
+#include <goffice/data/go-data.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
@@ -91,7 +91,8 @@ typedef struct {
 
 struct _GogAxisMapDesc {
 	double 		(*map) 		 (GogAxisMap *map, double value);
-	double 		(*map_to_canvas) (GogAxisMap *map, double value, gboolean inverted);
+	double 		(*map_to_view) (GogAxisMap *map, double value, gboolean inverted);
+	double 		(*map_from_view) (GogAxisMap *map, double value, gboolean inverted);
 	gboolean 	(*init) 	 (GogAxisMap *map, double offset, double length);
 	void		(*destroy) 	 (GogAxisMap *map);
 	void		(*auto_bound) 	 (GogAxis *axis, 
@@ -105,7 +106,8 @@ struct _GogAxisMapDesc {
 
 GogAxisMap*   gog_axis_map_new	 	  (GogAxis *axis, double offset, double length);
 double	      gog_axis_map 		  (GogAxisMap *map, double x);
-double	      gog_axis_map_to_canvas	  (GogAxisMap *map, double x);
+double	      gog_axis_map_to_view	  (GogAxisMap *map, double x);
+double	      gog_axis_map_from_view	  (GogAxisMap *map, double x);
 void 	      gog_axis_map_free		  (GogAxisMap *map);
 gboolean      gog_axis_map_is_valid 	  (GogAxisMap *map);
 

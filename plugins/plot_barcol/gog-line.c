@@ -279,7 +279,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 	}
 	
-	y_zero = gog_axis_map_to_canvas (y_map, .0);
+	y_zero = gog_axis_map_to_view (y_map, .0);
 
 	vals    = g_alloca (num_series * sizeof (double *));
 	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
@@ -343,18 +343,18 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			k = 2 * lengths[i] - j + 1;
 
 			if (is_area_plot && (type != GOG_1_5D_NORMAL)) {
-				path[i][k].x = gog_axis_map_to_canvas (x_map, j - 1);
+				path[i][k].x = gog_axis_map_to_view (x_map, j - 1);
 				path[i][k].code = ART_LINETO;
 
 				if (type == GOG_1_5D_STACKED)
-					path[i][k].y = gog_axis_map_to_canvas (y_map, sum);
+					path[i][k].y = gog_axis_map_to_view (y_map, sum);
 				else
 					path[i][k].y = is_null ? 
 						y_zero :
-						gog_axis_map_to_canvas (y_map, sum / abs_sum);
+						gog_axis_map_to_view (y_map, sum / abs_sum);
 			}
 
-			path[i][j].x = gog_axis_map_to_canvas (x_map, j - 1);
+			path[i][j].x = gog_axis_map_to_view (x_map, j - 1);
 			if (type == GOG_1_5D_NORMAL && !is_area_plot) 
 				if (go_finite (vals[i][j-1])) 
 					if (j > 1 && path[i][j-1].code == ART_MOVETO_OPEN)
@@ -373,7 +373,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 
 			switch (type) {
 				case GOG_1_5D_NORMAL :
-					path[i][j].y = gog_axis_map_to_canvas (y_map, value);
+					path[i][j].y = gog_axis_map_to_view (y_map, value);
 					if (gog_error_bar_is_visible (errors[i])) {
 						error_data[i][j - 1].y = value;
 						error_data[i][j - 1].minus = minus;
@@ -382,7 +382,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 					break;
 
 				case GOG_1_5D_STACKED :
-					path[i][j].y = gog_axis_map_to_canvas (y_map, sum);
+					path[i][j].y = gog_axis_map_to_view (y_map, sum);
 					if (gog_error_bar_is_visible (errors[i])) {
 						error_data[i][j - 1].y = sum;
 						error_data[i][j - 1].minus = minus;
@@ -393,7 +393,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				case GOG_1_5D_AS_PERCENTAGE :
 					path[i][j].y = is_null ? 
 						y_zero :
-						gog_axis_map_to_canvas (y_map, sum  / abs_sum);
+						gog_axis_map_to_view (y_map, sum  / abs_sum);
 					if (gog_error_bar_is_visible (errors[i])) {
 						error_data[i][j - 1].y = is_null ? 0. : sum / abs_sum;
 						error_data[i][j - 1].minus = is_null ? -1. : minus / abs_sum;

@@ -652,23 +652,23 @@ void gog_error_bar_render (const GogErrorBar *bar,
 
 	if (horizontal) {
 		x_start = start ? 
-			gog_axis_map_to_canvas (x_map, x + plus) : 
-			gog_axis_map_to_canvas (x_map, x);
+			gog_axis_map_to_view (x_map, x + plus) : 
+			gog_axis_map_to_view (x_map, x);
 		x_end =  end ? 
-			gog_axis_map_to_canvas (x_map , x - minus) :
-			gog_axis_map_to_canvas (x_map , x);
-		y_start = y_end = gog_axis_map_to_canvas (y_map, y);
+			gog_axis_map_to_view (x_map , x - minus) :
+			gog_axis_map_to_view (x_map , x);
+		y_start = y_end = gog_axis_map_to_view (y_map, y);
 	} else {
-		x_start = x_end = gog_axis_map_to_canvas (x_map ,x);
+		x_start = x_end = gog_axis_map_to_view (x_map ,x);
 		y_start = start ? 
-			gog_axis_map_to_canvas (y_map, y + plus) :
-			gog_axis_map_to_canvas (y_map, y);
+			gog_axis_map_to_view (y_map, y + plus) :
+			gog_axis_map_to_view (y_map, y);
 		y_end =  end ? 
-			gog_axis_map_to_canvas (y_map, y - minus) :
-			gog_axis_map_to_canvas (y_map, y);
+			gog_axis_map_to_view (y_map, y - minus) :
+			gog_axis_map_to_view (y_map, y);
 	}
-	x = gog_axis_map_to_canvas (x_map, x);
-	y = gog_axis_map_to_canvas (y_map, y);
+	x = gog_axis_map_to_view (x_map, x);
+	y = gog_axis_map_to_view (y_map, y);
 
 	path[0].code = ART_MOVETO;
 	path[1].code = ART_LINETO;

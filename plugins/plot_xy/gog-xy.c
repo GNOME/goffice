@@ -682,8 +682,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			double *x_splines = g_new (double, n), *y_splines = g_new (double, n);
 			for (i = 0; i < n; i++) {
 				x = x_vals ? x_vals[i] : i + 1;
-				x_splines[i] = gog_axis_map_to_canvas (x_map, x);
-				y_splines[i] = gog_axis_map_to_canvas (y_map, y_vals[i]);
+				x_splines[i] = gog_axis_map_to_view (x_map, x);
+				y_splines[i] = gog_axis_map_to_view (y_map, y_vals[i]);
 			}
 			if (GOG_XY_PLOT (view->model)->use_splines) {
 				ArtBpath *path;
@@ -722,8 +722,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				y = 0; /* excel is just sooooo consistent */
 			if (!go_finite (x))
 				x = i;
-			x_canvas = gog_axis_map_to_canvas (x_map, x);
-			y_canvas = gog_axis_map_to_canvas (y_map, y);
+			x_canvas = gog_axis_map_to_view (x_map, x);
+			y_canvas = gog_axis_map_to_view (y_map, y);
 			if (GOG_IS_BUBBLE_PLOT(model)) {
 				z = *z_vals++;
 				if (!go_finite (z)) continue;

@@ -444,20 +444,20 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	/* Set cw to ensure that polygons will allways be drawn clockwise */
 	if (gog_axis_is_discrete (plot->base.axis[0])) {
-		x0 = gog_axis_map_to_canvas(x_map, 0.);
-		x1 = gog_axis_map_to_canvas(x_map, 1.);
+		x0 = gog_axis_map_to_view(x_map, 0.);
+		x1 = gog_axis_map_to_view(x_map, 1.);
 	}else {
 		x_vec = GO_DATA_VECTOR (series->base.values[0].data);
-		x0 = gog_axis_map_to_canvas(x_map, go_data_vector_get_value (x_vec, 0));
-		x1 = gog_axis_map_to_canvas(x_map, go_data_vector_get_value (x_vec, 1));
+		x0 = gog_axis_map_to_view(x_map, go_data_vector_get_value (x_vec, 0));
+		x1 = gog_axis_map_to_view(x_map, go_data_vector_get_value (x_vec, 1));
 	}
 	if (gog_axis_is_discrete (plot->base.axis[1])) {
-		y0 = gog_axis_map_to_canvas(y_map, 0.);
-		y1 = gog_axis_map_to_canvas(y_map, 1.);
+		y0 = gog_axis_map_to_view(y_map, 0.);
+		y1 = gog_axis_map_to_view(y_map, 1.);
 	}else {
 		y_vec = GO_DATA_VECTOR (series->base.values[1].data);
-		y0 = gog_axis_map_to_canvas(y_map, go_data_vector_get_value (y_vec, 0));
-		y1 = gog_axis_map_to_canvas(y_map, go_data_vector_get_value (y_vec, 1));
+		y0 = gog_axis_map_to_view(y_map, go_data_vector_get_value (y_vec, 0));
+		y1 = gog_axis_map_to_view(y_map, go_data_vector_get_value (y_vec, 1));
 	}
 	cw = (x1 > x0) == (y1 > y0);
 
@@ -487,20 +487,20 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	for (j = 1; j < series->columns; j++) {
 		if (gog_axis_is_discrete (plot->base.axis[0])) {
-			x0 = gog_axis_map_to_canvas(x_map, j - 1);
-			x1 = gog_axis_map_to_canvas(x_map, j);
+			x0 = gog_axis_map_to_view(x_map, j - 1);
+			x1 = gog_axis_map_to_view(x_map, j);
 		}else {
-			x0 = gog_axis_map_to_canvas(x_map, go_data_vector_get_value (x_vec, j - 1));
-			x1 = gog_axis_map_to_canvas(x_map, go_data_vector_get_value (x_vec, j));
+			x0 = gog_axis_map_to_view(x_map, go_data_vector_get_value (x_vec, j - 1));
+			x1 = gog_axis_map_to_view(x_map, go_data_vector_get_value (x_vec, j));
 		}
 		
 		for (i = 1; i < series->rows; i++) {
 			if (gog_axis_is_discrete (plot->base.axis[1])) {
-				y0 = gog_axis_map_to_canvas(y_map, i - 1);
-				y1 = gog_axis_map_to_canvas(y_map, i);
+				y0 = gog_axis_map_to_view(y_map, i - 1);
+				y1 = gog_axis_map_to_view(y_map, i);
 			}else {
-				y0 = gog_axis_map_to_canvas(y_map, go_data_vector_get_value (y_vec, i - 1));
-				y1 = gog_axis_map_to_canvas(y_map, go_data_vector_get_value (y_vec, i));
+				y0 = gog_axis_map_to_view(y_map, go_data_vector_get_value (y_vec, i - 1));
+				y1 = gog_axis_map_to_view(y_map, go_data_vector_get_value (y_vec, i));
 			}
 			nans = 0;
 			nan = 4;

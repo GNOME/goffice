@@ -201,7 +201,7 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 								path[0].y = plot_area->y;
 								path[1].y = plot_area->y + plot_area->h;
 								path[0].x = 
-								path[1].x = gog_axis_map_to_canvas (map, ticks[i].position);
+								path[1].x = gog_axis_map_to_view (map, ticks[i].position);
 								gog_renderer_draw_sharp_path (view->renderer, path, NULL);
 							}
 						}
@@ -213,7 +213,7 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 								path[0].x = plot_area->x;
 								path[1].x = plot_area->x + plot_area->w;
 								path[0].y = 
-								path[1].y = gog_axis_map_to_canvas (map, ticks[i].position);
+								path[1].y = gog_axis_map_to_view (map, ticks[i].position);
 								gog_renderer_draw_sharp_path (view->renderer, path, NULL);
 							}
 						}
@@ -249,7 +249,7 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				for (i = 0; i < tick_nbr; i++) {
 					if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
 					    (ticks[i].type == GOG_AXIS_TICK_MINOR && grid_line->is_minor)) {
-						position = gog_axis_map_to_canvas (map, ticks[i].position);
+						position = gog_axis_map_to_view (map, ticks[i].position);
 						c_path[0].x = center_x;
 						c_path[0].y = center_y - position;
 						c_path[0].code = ART_MOVETO;

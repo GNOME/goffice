@@ -33,7 +33,6 @@
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/data/go-data.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/format.h>
 #include <goffice/utils/go-math.h>
@@ -194,7 +193,7 @@ map_discrete (GogAxisMap *map, double value)
 }
 
 static double
-map_discrete_to_canvas (GogAxisMap *map, double value, gboolean inverted)
+map_discrete_to_view (GogAxisMap *map, double value, gboolean inverted)
 {
 	MapData *data = map->data;
 
@@ -203,6 +202,18 @@ map_discrete_to_canvas (GogAxisMap *map, double value, gboolean inverted)
 			(data->min + data->max - 1 - value) * data->a + data->b :
 			(data->min + data->max - value) * data->a + data->b) :
 		value * data->a + data->b;
+}
+
+static double
+map_discrete_from_view (GogAxisMap *map, double value, gboolean inverted)
+{
+	MapData *data = map->data;
+
+	return inverted ? 
+		((map->axis->center_on_ticks)?
+			data->min + data->max -1 - (value - data->b) / data->a :
+			data->min + data->max - (value - data->b) / data->a) :
+		(value - data->b) / data->a;
 }
 
 static void
@@ -324,13 +335,23 @@ map_linear (GogAxisMap *map, double value)
 }
 
 static double
-map_linear_to_canvas (GogAxisMap *map, double value, gboolean inverted)
+map_linear_to_view (GogAxisMap *map, double value, gboolean inverted)
 {
 	MapData *data = map->data;
 
 	return inverted ? 
 		(data->min + data->max - value) * data->a + data->b :
 		value * data->a + data->b;
+}
+
+static double
+map_linear_from_view (GogAxisMap *map, double value, gboolean inverted)
+{
+	MapData *data = map->data;
+
+	return inverted ? 
+		data->min + data->max - (value - data->b) / data->a :
+		(value - data->b) / data->a;
 }
 
 static void
@@ -496,20 +517,30 @@ map_log (GogAxisMap *map, double value)
 }
 
 static double
-map_log_to_canvas (GogAxisMap *map, double value, gboolean inverted) 
+map_log_to_view (GogAxisMap *map, double value, gboolean inverted) 
 {
 	MapLogData *data = map->data;
 	double result;
 	
 	if (value <= 0.) 
 		/* Make libart happy */
-		result = inverted ? -DBL_MAX : DBL_MAX; 
+		result = inverted ? -DBL_MAX : DBL_MAX;
 	else
 		result = inverted ? 
 			log (value) * data->a_inv + data->b_inv :
 			log (value) * data->a + data->b;
 
 	return result;
+}
+
+static double
+map_log_from_view (GogAxisMap *map, double value, gboolean inverted) 
+{
+	MapLogData *data = map->data;
+	
+	return  inverted ? 
+		exp ((value - data->b_inv) / data->a_inv) :
+		exp ((value - data->b) / data->a);
 }
 
 static void
@@ -605,7 +636,8 @@ map_log_calc_ticks (GogAxis *axis,
 
 static const GogAxisMapDesc map_desc_discrete = 
 {
-	map_discrete,			map_discrete_to_canvas,
+	map_discrete,			map_discrete_to_view,
+	map_discrete_from_view,
 	map_discrete_init,		NULL,
 	map_discrete_auto_bound,	map_discrete_calc_ticks,
 	N_("Discrete"),			N_("Discrete mapping")
@@ -614,13 +646,15 @@ static const GogAxisMapDesc map_desc_discrete =
 static const GogAxisMapDesc map_descs[] = 
 {
 	{
-		map_linear,		map_linear_to_canvas,
+		map_linear,		map_linear_to_view,
+		map_linear_from_view,
 		map_linear_init, 	NULL,	
 		map_linear_auto_bound, 	map_linear_calc_ticks,	
 		N_("Linear"),		N_("Linear mapping")
 	},
 	{
-		map_log,		map_log_to_canvas,
+		map_log,		map_log_to_view,
+		map_log_from_view,
 		map_log_init,		NULL,	
 		map_log_auto_bound, 	map_log_calc_ticks,	
 		N_("Log"),		N_("Logarithm mapping")
@@ -693,7 +727,7 @@ gog_axis_map_is_valid (GogAxisMap *map)
  *
  * Return a new GogAxisMap for data mapping to plot window.
  * offset and length are optional parameters to be used with 
- * gog_axis_map_to_canvas in order to translates data coordinates 
+ * gog_axis_map_to_view in order to translates data coordinates 
  * into canvas space.
  **/
 
@@ -737,7 +771,20 @@ gog_axis_map (GogAxisMap *map,
 }
 
 /**
- * gog_axis_map_to_canvas :
+ * gog_axis_map_from_view :
+ * @map : #GogAxisMap
+ * @value : value to unmap from canvas space.
+ **/
+
+double 
+gog_axis_map_from_view (GogAxisMap *map,
+			double value)
+{
+	return map->desc->map_from_view (map, value, map->axis->inverted);
+}
+
+/**
+ * gog_axis_map_to_view :
  * @map : #GogAxisMap
  * @value : value to map to canvas space.
  *
@@ -746,10 +793,10 @@ gog_axis_map (GogAxisMap *map,
  **/
 
 double 
-gog_axis_map_to_canvas (GogAxisMap *map,
+gog_axis_map_to_view (GogAxisMap *map,
 			double value)
 {
-	return map->desc->map_to_canvas (map, value, map->axis->inverted);
+	return map->desc->map_to_view (map, value, map->axis->inverted);
 }
 
 /**
@@ -2096,7 +2143,7 @@ draw_axis_from_a_to_b (GogView *v, GogAxis *axis, double ax, double ay, double b
 		axis->major.tick_in ? tick_len : 0.;
 
 	for (i = 0; i < axis->tick_nbr; i++) {
-		pos = gog_axis_map_to_canvas (map, axis->ticks[i].position);
+		pos = gog_axis_map_to_view (map, axis->ticks[i].position);
 		pos_x = ax + pos * cos (axis_angle);
 		pos_y = ay + pos * sin (axis_angle);
 
@@ -2247,7 +2294,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 			for (i = 0; i < axis->tick_nbr; i++) {
 
 				if (is_line_visible) {
-					pos = gog_axis_map_to_canvas (map, axis->ticks[i].position + offset);
+					pos = gog_axis_map_to_view (map, axis->ticks[i].position + offset);
 					switch (axis->ticks[i].type) {
 						case GOG_AXIS_TICK_MAJOR:
 							if (draw_major) {
@@ -2274,7 +2321,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 					}
 				}
 				if (axis->ticks[i].label != NULL) {
-					label_pos.x = gog_axis_map_to_canvas (map, axis->ticks[i].position);
+					label_pos.x = gog_axis_map_to_view (map, axis->ticks[i].position);
 					if (fabs (last_label_pos - label_pos.x) > last_label_size + label_spacing) {
 						gog_renderer_measure_text (v->renderer, axis->ticks[i].label, &txt_size);
 						txt_size.w /= 2.0;
@@ -2336,7 +2383,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 			for (i = 0; i < axis->tick_nbr; i++) {
 				
 				if (is_line_visible) {
-					pos = gog_axis_map_to_canvas (map, axis->ticks[i].position + offset);
+					pos = gog_axis_map_to_view (map, axis->ticks[i].position + offset);
 					switch (axis->ticks[i].type) {
 						case GOG_AXIS_TICK_MAJOR:
 							if (draw_major) {
@@ -2364,7 +2411,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 				}
 
 				if (axis->ticks[i].label != NULL) {
-					label_pos.y = gog_axis_map_to_canvas (map, axis->ticks[i].position);
+					label_pos.y = gog_axis_map_to_view (map, axis->ticks[i].position);
 					if (fabs (last_label_pos - label_pos.y) > last_label_size) {
 						gog_renderer_measure_text (v->renderer, axis->ticks[i].label, &txt_size);
 						txt_size.h /= 2.0;

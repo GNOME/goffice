@@ -300,11 +300,11 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (series->is_valid) {
 			vals = go_data_vector_get_values (
 				GO_DATA_VECTOR (series->base.values[0].data));
-			min = gog_axis_map_to_canvas (x_map, vals[0]);
-			qu1 = gog_axis_map_to_canvas (x_map, vals[1]);
-			med = gog_axis_map_to_canvas (x_map, vals[2]);
-			qu3 = gog_axis_map_to_canvas (x_map, vals[3]);
-			max = gog_axis_map_to_canvas (x_map, vals[4]);
+			min = gog_axis_map_to_view (x_map, vals[0]);
+			qu1 = gog_axis_map_to_view (x_map, vals[1]);
+			med = gog_axis_map_to_view (x_map, vals[2]);
+			qu3 = gog_axis_map_to_view (x_map, vals[3]);
+			max = gog_axis_map_to_view (x_map, vals[4]);
 			rect.x = qu1;
 			rect.w = qu3 - qu1;
 			rect.y = y - hrect;
