@@ -39,6 +39,7 @@ goffice-paths.h: goffice-paths.sh
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA= libgoffice-1.pc
 
-EXTRA_DIST = libgoffice-1.pc.in
+EXTRA_DIST = libgoffice-1.pc.in goffice-paths.sh.in
+CLEANFILES = $(BUILT_SOURCES)
 
 include $(top_srcdir)/goffice.mk

@@ -48,11 +48,11 @@ int	   go_pango_measure_string	(PangoContext *context,
 
 gint       go_gtk_dialog_run		(GtkDialog *dialog, GtkWindow *parent);
 void       go_gtk_notice_dialog		(GtkWindow *parent, GtkMessageType type, 
-					 char const *str);
+					 const gchar *format, ...);
 void       go_gtk_notice_nonmodal_dialog (GtkWindow *parent, GtkWidget **ref,
-					  GtkMessageType type, char const *str);
-gboolean   go_gtk_query_yes_no		(GtkWindow *toplevel, char const *message,
-					 gboolean default_answer);
+					  GtkMessageType type, const gchar *format, ...);
+gboolean   go_gtk_query_yes_no		(GtkWindow *toplevel, gboolean default_answer,
+					 const gchar *format, ...);
 
 GtkWidget *go_gtk_button_new_with_stock (char const *text,
 					 char const *stock_id);

@@ -1,3 +1,11 @@
+2005-03-02  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* goffice/gtk/goffice-gtk.c: Use gsf_input_textline_utf8_gets()
+	to read .hhmap file which stores topic_string-context_id pairs.
+	Become more verbose when topic is not found.
+	go_gtk_notice_(nonmodal_)dialog/go_gtk_query_yes_no now
+	accept va_arg.
+
 2005-03-02  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in: Add check for Xrender.

@@ -5,5 +5,6 @@ EXTRA_DIST = goffice.mk \
 	intltool-extract.in	\
 	intltool-update.in	\
 	intltool-merge.in
+DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
 include $(top_srcdir)/goffice.mk

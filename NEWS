@@ -3,4 +3,8 @@ goffice 0.0.1
 Jody:
 	* Split from gnumeric
 
+Ivan Wong:
+        * Become more robust when reading .hhmap files and finding help
+        topics on Win32.
+
 --------------------------------------------------------------------------

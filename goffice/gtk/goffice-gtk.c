@@ -40,6 +40,8 @@
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>
 #include <glib/gi18n.h>
+#include <gsf/gsf-input-stdio.h>
+#include <gsf/gsf-input-textline.h>
 
 #include <string.h>
 #include <unistd.h>
@@ -545,10 +547,10 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *formats,
 		sel_format = g_slist_nth_data (
 			formats, gtk_combo_box_get_active (format_combo));
 		if (!go_url_check_extension (uri, sel_format->ext, &new_uri) &&
-		    !go_gtk_query_yes_no (GTK_WINDOW (fsel),
+		    !go_gtk_query_yes_no (GTK_WINDOW (fsel), TRUE,
 		     _("The given file extension does not match the"
 		       " chosen file type. Do you want to use this name"
-		       " anyway?"), TRUE)) {
+		       " anyway?"))) {
 			g_free (new_uri);
 			g_free (uri);
 			uri = NULL;
@@ -614,40 +616,60 @@ go_help_display (CBHelpPaths const *paths)
 	gnome_help_display (paths->app, paths->link, NULL);
 #elif defined(G_OS_WIN32)
 	static GHashTable* context_help_map = NULL;
-
 	guint id;
-	gchar *chm_file;
 
 	if (!context_help_map) {
-		FILE *f;
+		GsfInput *input;
+		GsfInputTextline *textline;
+		GError *err = NULL;
 		gchar *mapfile = g_strconcat (paths->app, ".hhmap", NULL);
 		gchar *path = g_build_filename (paths->data_dir, "doc", "C", mapfile, NULL);
 
 		g_free (mapfile);
 
-		if (NULL != (f = g_fopen (path, "r"))) {
-			gchar sect[1024];
-			guint id;
+		if (!(input = gsf_input_stdio_new (path, &err)) ||
+		    !(textline = (GsfInputTextline *) gsf_input_textline_new (input)))
+			go_gtk_notice_dialog (NULL, GTK_MESSAGE_ERROR, "Cannot open '%s': %s",
+					      path, err ? err->message :
+							  "failed to create gsf-input-textline");
+		else {
+			gchar *line, *topic;
+			gulong id, i = 1;
 			context_help_map = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
-#warning THIS IS VILE get a sample .hhmap file and replace with something more robust
-			while (!feof (f))
-				if (fscanf (fh, "%s %d", sect, &id) == 2)
-					g_hash_table_insert (context_help_map, g_strdup (sect),
-						(gpointer)id);
-			fclose (f);
-		} else
-			g_warning ("Cannot open '%s'", path);
+			while ((line = gsf_input_textline_utf8_gets (textline)) != NULL) {
+				if (!(id = strtoul (line, &topic, 10))) {
+					go_gtk_notice_dialog (NULL, GTK_MESSAGE_ERROR,
+							      "Invalid topic id at line %lu in %s: '%s'",
+							      i, path, line);
+					continue;
+				}
+				for (; *topic == ' '; ++topic);
+				g_hash_table_insert (context_help_map, g_strdup (topic),
+					(gpointer)id);
+			}
+			g_object_unref (G_OBJECT (textline));
+		}
+		if (input)
+			g_object_unref (G_OBJECT (input));
 		g_free (path);
 	}
 
-	if (0 != (id = (guint) g_hash_table_lookup (context_help_map, paths->link))) {
-		chm_file = gnm_sys_data_dir ("doc/C/gnumeric.chm");
-		HtmlHelp_ (GetDesktopWindow (), chm_file, HH_HELP_CONTEXT, id);
-		g_free (chm_file);
+	if (!(id = (guint) g_hash_table_lookup (context_help_map, paths->link)))
+		go_gtk_notice_dialog (NULL, GTK_MESSAGE_ERROR, "Topic '%s' not found.",
+				      paths->link);
+	else {
+		gchar *chmfile = g_strconcat (paths->app, ".chm", NULL);
+		gchar *path = g_build_filename (paths->data_dir, "doc", "C", chmfile, NULL);
+
+		g_free (chmfile);
+		if (!HtmlHelp_ (GetDesktopWindow (), path, HH_HELP_CONTEXT, id))
+			go_gtk_notice_dialog (NULL, GTK_MESSAGE_ERROR, "Failed to spawn HtmlHelp");
+		g_free (path);
 	}
 #else
-	g_warning ("TODO : launch help browser for %s", paths->link);
+	go_gtk_notice_dialog (NULL, GTK_MESSAGE_ERROR,
+			      "TODO : launch help browser for %s", paths->link);
 #endif
 }
 
@@ -708,16 +730,13 @@ go_gtk_url_is_writeable (GtkWindow *parent, char const *uri,
 #endif
 	if (G_IS_DIR_SEPARATOR (filename [strlen (filename) - 1]) ||
 	    g_file_test (filename, G_FILE_TEST_IS_DIR)) {
-		char *msg = g_strdup_printf (_("%s\nis a directory name"), uri);
-		go_gtk_notice_dialog (parent, GTK_MESSAGE_ERROR, msg);
-		g_free (msg);
+		go_gtk_notice_dialog (parent, GTK_MESSAGE_ERROR,
+				      _("%s\nis a directory name"), uri);
 		result = FALSE;
 	} else if (access (filename, W_OK) != 0 && errno != ENOENT) {
-		char *msg = g_strdup_printf (
-		      _("You do not have permission to save to\n%s"),
-		      uri);
-		go_gtk_notice_dialog (parent, GTK_MESSAGE_ERROR, msg);
-		g_free (msg);
+		go_gtk_notice_dialog (parent, GTK_MESSAGE_ERROR,
+				      _("You do not have permission to save to\n%s"),
+				      uri);
 		result = FALSE;
 	} else if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
 		char *dirname = go_dirname_from_uri (uri, TRUE);
@@ -783,29 +802,47 @@ go_gtk_dialog_run (GtkDialog *dialog, GtkWindow *parent)
 	return result;
 }
 
+#define _VPRINTF_MESSAGE(format,args,msg) va_start (args, format); \
+					  msg = g_strdup_vprintf (format, args); \
+					  va_end (args);
+#define VPRINTF_MESSAGE(format,args,msg) _VPRINTF_MESSAGE (format, args, msg); \
+					 g_return_if_fail (msg != NULL);
+
 /*
  * TODO:
  * Get rid of trailing newlines /whitespace.
  */
 void
-go_gtk_notice_dialog (GtkWindow *parent, GtkMessageType type, char const *str)
+go_gtk_notice_dialog (GtkWindow *parent, GtkMessageType type,
+		      const gchar *format, ...)
 {
-	GtkWidget *dialog = gtk_message_dialog_new (parent,
-		GTK_DIALOG_DESTROY_WITH_PARENT, type, GTK_BUTTONS_OK, str);
+	va_list args;
+	gchar *msg;
+	GtkWidget *dialog;
+
+	VPRINTF_MESSAGE (format, args, msg);
+	dialog = gtk_message_dialog_new (parent,
+		GTK_DIALOG_DESTROY_WITH_PARENT, type, GTK_BUTTONS_OK, "%s", msg);
+	g_free (msg);
 	gtk_label_set_use_markup (GTK_LABEL (GTK_MESSAGE_DIALOG (dialog)->label), TRUE);
 	go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
 }
 
 void
-go_gtk_notice_nonmodal_dialog (GtkWindow *parent, GtkWidget **ref, GtkMessageType type, char const *str)
+go_gtk_notice_nonmodal_dialog (GtkWindow *parent, GtkWidget **ref,
+			       GtkMessageType type, const gchar *format, ...)
 {
+	va_list args;
+	gchar *msg;
 	GtkWidget *dialog;
 
 	if (*ref != NULL)
 		gtk_widget_destroy (*ref);
 
+	VPRINTF_MESSAGE (format, args, msg);
 	*ref = dialog = gtk_message_dialog_new (parent, GTK_DIALOG_DESTROY_WITH_PARENT, type,
-					 GTK_BUTTONS_OK, str);
+					 GTK_BUTTONS_OK, "%s", msg);
+	g_free (msg);
 
 	g_signal_connect_object (G_OBJECT (dialog),
 		"response",
@@ -820,14 +857,21 @@ go_gtk_notice_nonmodal_dialog (GtkWindow *parent, GtkWidget **ref, GtkMessageTyp
 }
 
 gboolean
-go_gtk_query_yes_no (GtkWindow *parent, gchar const *message,
-		     gboolean default_answer)
+go_gtk_query_yes_no (GtkWindow *parent, gboolean default_answer,
+		     const gchar *format, ...)
 {
-	GtkWidget *dialog = gtk_message_dialog_new (parent,
+	va_list args;
+	gchar *msg;
+	GtkWidget *dialog;
+
+	_VPRINTF_MESSAGE (format, args, msg);
+	g_return_val_if_fail (msg != NULL, default_answer);
+	dialog = gtk_message_dialog_new (parent,
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_MESSAGE_QUESTION,
 		GTK_BUTTONS_YES_NO,
-		message);
+		"%s", msg);
+        g_free (msg);
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog),
 		default_answer ? GTK_RESPONSE_YES : GTK_RESPONSE_NO);
 	return GTK_RESPONSE_YES ==
