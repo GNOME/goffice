@@ -24,7 +24,7 @@
 #include "go-color.h"
 #include <goffice/utils/go-math.h>
 
-#ifndef GOFFICE_WITHOUT_GTK
+#ifdef WITH_GTK
 #include <goffice/gtk/go-combo-color.h>
 #include <goffice/gtk/go-combo-pixmaps.h>
 #include <libart_lgpl/art_render_gradient.h>
@@ -257,7 +257,7 @@ static struct {
 
 static GObjectClass *marker_parent_klass;
 
-#ifndef GOFFICE_WITHOUT_GTK
+#ifdef WITH_GTK
 static GdkPixbuf *
 new_blank_pixbuf (GOMarker *marker, guint size)
 {
@@ -346,7 +346,7 @@ marker_update_pixbuf (GOMarker * marker)
 
 	marker->pixbuf = marker_create_pixbuf_with_size (marker, marker->size);
 }
-#endif /* GOFFICE_WITHOUT_GTK */
+#endif /* WITH_GTK */
 
 static void
 go_marker_finalize (GObject *obj)
@@ -408,7 +408,7 @@ go_marker_get_paths (GOMarker * marker,
 	*fill_path = marker_shapes[marker->shape].fill_path;
 }
 
-#ifndef GOFFICE_WITHOUT_GTK
+#ifdef WITH_GTK
 GdkPixbuf const *
 go_marker_get_pixbuf (GOMarker * marker, double scale)
 {
@@ -429,7 +429,7 @@ go_marker_get_pixbuf_with_size (GOMarker *marker, guint size)
 
 	return marker_create_pixbuf_with_size (marker, size);
 }
-#endif /* GOFFICE_WITHOUT_GTK */
+#endif /* WITH_GTK */
 
 GOMarkerShape 
 go_marker_get_shape (GOMarker * marker)
@@ -560,7 +560,7 @@ GSF_CLASS (GOMarker, go_marker,
 
 /*---------------------------------------------------------------------------*/
 
-#ifndef GOFFICE_WITHOUT_GTK
+#ifdef WITH_GTK
 #define SELECTOR_PIXBUF_SIZE 20
 #define SELECTOR_MARKER_SIZE 15
 
@@ -612,4 +612,4 @@ go_marker_selector (GOColor outline_color, GOColor fill_color,
 
 	return GTK_WIDGET (w);
 }
-#endif /* GOFFICE_WITHOUT_GTK */
+#endif /* WITH_GTK */

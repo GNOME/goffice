@@ -23,7 +23,7 @@
 #include "go-gradient.h"
 #include "go-color.h"
 
-#ifndef GOFFICE_WITHOUT_GTK
+#ifdef WITH_GTK
 #include <goffice/gtk/go-combo-pixmaps.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 #endif
@@ -84,7 +84,7 @@ go_gradient_dir_as_str (GOGradientDirection dir)
 	return ret;
 }
 
-#ifndef GOFFICE_WITHOUT_GTK
+#ifdef WITH_GTK
 GtkWidget *
 go_gradient_selector (GOColor start, GOColor end)
 {
@@ -116,7 +116,7 @@ go_gradient_selector (GOColor start, GOColor end)
 
 	return GTK_WIDGET (w);
 }
-#endif /* GOFFICE_WITHOUT_GTK */
+#endif /* WITH_GTK */
 
 void
 go_gradient_setup (ArtGradientLinear *gradient,

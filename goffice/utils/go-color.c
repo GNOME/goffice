@@ -368,7 +368,7 @@ go_color_to_pango (GOColor color, gboolean is_fore)
 		return pango_attr_background_new (r, g, b);
 }
 
-#ifndef GOFFICE_WITHOUT_GTK
+#ifdef WITH_GTK
 #include <gdk/gdkcolor.h>
 
 GdkColor *
@@ -383,4 +383,4 @@ go_color_to_gdk	(GOColor color, GdkColor *res)
 
 	return res;
 }
-#endif /* GOFFICE_WITHOUT_GTK */
+#endif /* WITH_GTK */

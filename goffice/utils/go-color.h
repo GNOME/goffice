@@ -32,7 +32,7 @@
 #include <libart_lgpl/art_svp.h>
 #include <pango/pango.h>
 
-#ifndef GOFFICE_WITHOUT_GTK
+#ifdef WITH_GTK
 #include <gdk/gdktypes.h>
 #endif
 
@@ -116,7 +116,7 @@ void go_color_render_svp (GOColor color, ArtSVP const *svp,
 GOColor   go_color_from_str (char const *string);
 gchar    *go_color_as_str   (GOColor color);
 PangoAttribute *go_color_to_pango (GOColor color, gboolean is_fore);
-#ifndef GOFFICE_WITHOUT_GTK
+#ifdef WITH_GTK
 GdkColor *go_color_to_gdk   (GOColor color, GdkColor *res);
 #endif
 
