@@ -337,8 +337,8 @@ canvas_size_changed (G_GNUC_UNUSED GtkWidget *widget,
 	int height = allocation->height - 1;
 
 	foo_canvas_item_set (gfs->font_preview_text,
-		"x1", 0., "width", (double)width,
-		"y1", 0., "height", (double)height,
+		"x", (double)width/2.,
+		"y", (double)height/2.,
 		NULL);
 
 	foo_canvas_set_scroll_region (gfs->font_preview_canvas, 0, 0,

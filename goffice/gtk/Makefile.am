@@ -26,7 +26,10 @@ libgoffice_gtk_la_SOURCES =		\
 	go-action-combo-color.c 	\
 	go-action-combo-pixmaps.c 	\
 	go-action-combo-stack.c 	\
-	go-action-combo-text.c
+	go-action-combo-text.c	\
+	\
+	go-graph-widget.c
+
 
 libgoffice_app_ladir = $(goffice_include_dir)/gtk
 libgoffice_app_la_HEADERS = 		\
@@ -48,7 +51,9 @@ libgoffice_app_la_HEADERS = 		\
 	go-action-combo-color.h 	\
 	go-action-combo-pixmaps.h 	\
 	go-action-combo-stack.h 	\
-	go-action-combo-text.h
+	go-action-combo-text.h	\
+	\
+	go-graph-widget.h
 
 goffice_glade_DATA = \
 	go-font-sel.glade 	\

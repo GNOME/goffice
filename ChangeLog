@@ -1,3 +1,13 @@
+2005-03-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/Makefile.am: add go-graph-widget.*.
+	* goffice/gtk/go-font-sel.c: (canvas_size_changed): display sample
+	text centered in the canvas.
+	* goffice/gtk/go-graph-widget.c: new GOGraphWidget class.
+	* goffice/gtk/go-graph-widget.h: ditto.
+	* test/Makefile.am: add pie-demo sample program.
+	* test/pie-demo.c: simple sample program.
+
 2005-03-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/format.c (go_render_number): Add epsilon early and
