@@ -91,6 +91,7 @@ gog_plot1_5d_set_property (GObject *obj, guint param_id,
 		if ((gog_1_5d->in_3d != 0) == (tmp != 0))
 			return;
 		gog_1_5d->in_3d = tmp;
+		break;
 	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);

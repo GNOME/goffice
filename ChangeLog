@@ -1,4 +1,7 @@
-2005-04-06  Morten Welinder  <welinder@rentec.com>
+2005-04-06  Morten Welinder  <terra@gnome.org>
+
+	* plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_set_property): Add
+	missing "break;"
 
 	* goffice/utils/datetime.c (datetime_isoweeknum): Replace by
 	g_date_get_iso8601_week_of_year.
