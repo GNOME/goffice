@@ -65,7 +65,7 @@ foreach my $file (@files) {
 	    s|bonobo/bonobo-ui-marshal\.h|go-marshalers.h|;
 	    s|bonobo/|goffice/gui-utils/|;
 
-	    if (s|config.h|goffice-config.h|) {
+	    if (s|[<"]config.h[">]|<goffice/goffice-config.h>|) {
 		$_ .= "\n#include <glib/gi18n.h>";
 	    }
 	}

@@ -10,7 +10,7 @@
  * Copyright (C) 2002 Sun Microsystems, Inc.
  */
 
-#include "goffice-config.h"
+#include <goffice/goffice-config.h>
 #include <glib/gi18n.h>
 #include "go-a11y.h"
 #include "go-dock-band.h"

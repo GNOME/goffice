@@ -33,7 +33,7 @@
  * bin-compat.
  */
 
-#include <goffice-config.h>
+#include <goffice/goffice-config.h>
 #include <glib/gi18n.h>
 #include "go-dock-item.h"
 #include "go-dock-band.h"
