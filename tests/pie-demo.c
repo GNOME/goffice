@@ -101,8 +101,6 @@ main (int argc, char *argv[])
 	gog_series_set_dim (series, 1, data, &error);
 	/* Add a legend to the chart */
 	gog_object_add_by_name (GOG_OBJECT (chart), "Legend", NULL);
-	/* Ensure that the chart cardinality is updated */
-	gog_chart_get_cardinality (chart, NULL, NULL);
 
 	gtk_container_add (GTK_CONTAINER (window), box);
 	gtk_widget_show_all (GTK_WIDGET (window));

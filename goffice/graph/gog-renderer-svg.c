@@ -20,6 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
+#include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-renderer-svg.h>
 #include <goffice/graph/gog-renderer-impl.h>
 #include <goffice/graph/gog-style.h>
@@ -687,6 +688,8 @@ gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
 	char *buf;
 	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
+
+	gog_graph_force_update (graph);
 
 	prend = g_object_new (GOG_RENDERER_SVG_TYPE,
 			      "model", graph,

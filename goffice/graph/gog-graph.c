@@ -490,7 +490,7 @@ void
 gog_graph_force_update (GogGraph *graph)
 {
 	/* people may try to queue an update during destruction */
-	if (G_OBJECT (graph)->ref_count > 0 && graph->idle_handler != 0) {
+	while (G_OBJECT (graph)->ref_count > 0 && graph->idle_handler != 0) {
 		g_source_remove (graph->idle_handler);
 		graph->idle_handler = 0;
 		gog_object_update (GOG_OBJECT (graph));

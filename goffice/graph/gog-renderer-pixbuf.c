@@ -20,6 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
+#include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-renderer-pixbuf.h>
 #include <goffice/graph/gog-renderer-impl.h>
 #include <goffice/graph/gog-style.h>
@@ -867,6 +868,7 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 	g_return_val_if_fail (prend->base.view != NULL, FALSE);
 
 	view = prend->base.view;
+	gog_graph_force_update (GOG_GRAPH (view->model));
 	allocation.x = allocation.y = 0.;
 	allocation.w = w;
 	allocation.h = h;

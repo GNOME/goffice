@@ -242,7 +242,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogPlot1_5d const *model = GOG_PLOT1_5D (view->model);
 	GogPlot1_5dType const type = model->type;
 	GogSeries1_5d const *series;
-	unsigned i, j, k, num_valid_series;
+	unsigned i, j, k;
 	unsigned num_elements = model->num_elements;
 	unsigned num_series = model->num_series;
 	GSList *ptr;
@@ -315,7 +315,6 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			error_data[i] = NULL;
 		i++;
 	}
-	num_valid_series = i;
 
 	for (j = 1; j <= num_elements; j++) {
 		sum = abs_sum = 0.0;
@@ -507,7 +506,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 	}
 
-	for (i = 0; i < num_valid_series; i++) {
+	for (i = 0; i < num_series; i++) {
 		g_free (path[i]);
 		g_free (error_data[i]);
 	}

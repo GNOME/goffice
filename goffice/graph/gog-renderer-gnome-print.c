@@ -20,6 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
+#include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-renderer-gnome-print.h>
 #include <goffice/graph/gog-renderer-impl.h>
 #include <goffice/graph/gog-style.h>
@@ -642,6 +643,9 @@ gog_graph_print_to_gnome_print (GogGraph *graph,
 			      "model", graph,
 			      "zoom", 1.,
 			      NULL);
+
+	gog_graph_force_update (graph);
+
 	prend->gp_context = g_object_ref (gp_context);
 	prend->layout = gnome_print_pango_create_layout (prend->gp_context);
 	allocation.x = 0.;
