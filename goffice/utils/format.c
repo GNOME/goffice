@@ -2083,7 +2083,7 @@ number_format_init (void)
 	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
 	beyond_precision = go_pow10 (DBL_DIG) + 1;
-#ifdef WITH_LONG_DOUBLE
+#if GOFFICE_WITH_LONG_DOUBLE
 	beyond_precisionl = go_pow10l (LDBL_DIG) + 1;
 #endif
 
