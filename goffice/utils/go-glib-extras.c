@@ -6,6 +6,7 @@
  *    Miguel de Icaza (miguel@gnu.org)
  *    Jukka-Pekka Iivonen (iivonen@iki.fi)
  *    Zbigniew Chyla (cyba@gnome.pl)
+ *    Morten Welinder (terra@gnome.org)
  */
 #include <goffice-config.h>
 #include <goffice/goffice-config.h>
@@ -13,6 +14,7 @@
 
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
+#include <libxml/encoding.h>
 
 #include <stdlib.h>
 #include <math.h>
@@ -23,9 +25,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
-#ifdef HAVE_FLOATINGPOINT_H
-#include <floatingpoint.h>
-#endif
 
 static void
 cb_hash_collect_keys (gpointer key, gpointer value, GSList **accum)
@@ -649,9 +648,10 @@ go_str_compare (void const *x, void const *y)
 
 const char *
 go_guess_encoding (const char *raw, size_t len, const char *user_guess,
-		    char **utf8_str)
+		   char **utf8_str)
 {
 	int try;
+	gboolean debug = FALSE;
 
 	g_return_val_if_fail (raw != NULL, NULL);
 
@@ -663,18 +663,32 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 		switch (try) {
 		case 1: guess = user_guess; break;
 		case 2: g_get_charset (&guess); break;
-		case 3: guess = "ASCII"; break;
-		case 4: guess = "ISO-8859-1"; break;
-		case 5: guess = "UTF-8"; break;
+		case 3: {
+			xmlCharEncoding enc =
+				xmlDetectCharEncoding ((const unsigned char*)raw, len);
+			if (enc == XML_CHAR_ENCODING_NONE)
+				guess = NULL;
+			else
+				guess = xmlGetCharEncodingName (enc);
+			break;
+		}
+		case 4: guess = "ASCII"; break;
+		case 5: guess = "ISO-8859-1"; break;
+		case 6: guess = "UTF-8"; break;
 		default: return NULL;
 		}
 
 		if (!guess)
 			continue;
 
+		if (debug)
+			g_print ("Trying %s as encoding.\n", guess);
+
 		utf8_data = g_convert (raw, len, "UTF-8", guess,
 				       NULL, NULL, &error);
 		if (!error) {
+			if (debug)
+				g_print ("Guessed %s as encoding.\n", guess);
 			if (utf8_str)
 				*utf8_str = utf8_data;
 			else
