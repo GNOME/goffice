@@ -101,8 +101,6 @@ goffice_gnome_reqs="
 	libgsf-gnome-1		>= 1.11.1
 "
 
-ui_msg=
-
 dnl *******************
 dnl Should we use gtk ?
 dnl *******************
@@ -114,9 +112,9 @@ if test "x$with_gtk" = xno; then
 fi
 
 if test "x$goffice_with_gtk" = "xtrue" ; then
-	PKG_CHECK_MODULES(GTK, [$goffice_gtk_reqs],
-		[ui_msg="Gtk"],
-		[ui_msg="None (missing gtk dependencies)" ; goffice_with_gtk=false ])
+	dnl We shouldn't silently default to --without-gtk.
+	dnl If the requirements are not met, fail.
+	PKG_CHECK_MODULES(GTK, [$goffice_gtk_reqs], [ui_msg="Gtk"])
 fi 
 
 goffice_with_gnome=$goffice_with_gtk
@@ -130,10 +128,10 @@ if test "x$goffice_with_gtk" = "xtrue" ; then
 	goffice_with_gnome=true
 	AC_ARG_WITH(gnome,
 		[--{with,without}-gnome    Use GNOME extensions],
-		if test "x$withval" = xno; then
+		[if test "x$withval" = xno; then
 			goffice_with_gnome=false
 			ui_msg="Gtk+ (Gnome disabled by request)"
-		fi
+		fi]
 	)
 	if test "x$goffice_with_gnome" = "xtrue"; then
 		PKG_CHECK_MODULES(GNOME, [$goffice_gnome_reqs],
@@ -159,8 +157,6 @@ dnl ****************************
 
 PKG_CHECK_MODULES(GOFFICE, $goffice_reqs)
 GOFFICE_CFLAGS="$GOFFICE_CFLAGS -I\$(top_srcdir)/src/cut-n-paste-code"
-AC_SUBST(GOFFICE_LIBS)
-AC_SUBST(GOFFICE_CFLAGS)
 
 dnl  Checks for Xft/XRender
 AC_CHECK_LIB(Xrender, XRenderFindFormat, 
@@ -226,43 +222,6 @@ case $host_os in
     ;;
 esac
 AM_CONDITIONAL(WITH_WIN32, test x"$win32" = "xyes")
-
-dnl ==============================================
-dnl GNOME Specific extensions
-with_corba=false
-if test "x${goffice_with_gnome}" = "xtrue"; then
-
-	dnl ==============================================
-	dnl Special GConf section  (stolen from libgnome)
-	dnl ==============================================
-
-	dnl Don't publish the GCONFTOOL variable, AM_GCONF_SOURCE_2 has ``gconftool-2'' hardwired.
-	GCONFTOOL=""
-	AC_CHECK_PROG(GCONFTOOL, gconftool-2, gconftool-2)
-	if test x"$GCONFTOOL" = x; then
-		AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
-	fi
-	AM_GCONF_SOURCE_2
-
-	dnl *************
-	dnl Corba support
-	dnl *************
-	PKG_CHECK_MODULES(CORBA_LIBS,
-		[ORBit-2.0 >= 2.4.2
-		libbonobo-2.0 >= 2.0.0
-		bonobo-activation-2.0 >= 1.0.2],
-		[with_corba=true],
-		[with_corba=false])
-	if test "x$with_corba" = "xtrue" ; then
-		ORBIT="`$PKG_CONFIG --variable=orbit_idl ORBit-2.0`"
-		BONOBO_IDL_DIR="`$PKG_CONFIG --variable=idldir libbonobo-2.0`"
-		BONOBO_ACTIVATION_IDL_DIR="`$PKG_CONFIG --variable=idldir bonobo-activation-2.0`"
-		ORBIT_IDL="${ORBIT} -I${BONOBO_IDL_DIR} -I${BONOBO_ACTIVATION_IDL_DIR}"
-		AC_SUBST(ORBIT_IDL)
-	fi
-fi
-AM_CONDITIONAL(GCONF_SCHEMAS_INSTALL, $goffice_with_gnome)
-AM_CONDITIONAL(WITH_CORBA, $with_corba)
 
 dnl ****************************
 dnl prep the pixmap generator
@@ -337,22 +296,6 @@ if test $works_without_bsd_source = no ; then
 fi
 
 dnl **************************************************
-dnl stolen from gtk+
-AC_MSG_CHECKING(whether make is GNU Make)
-STRIP_BEGIN=
-STRIP_END=
-if $ac_make --version 2>/dev/null | grep '^GNU Make ' >/dev/null ; then
-	STRIP_BEGIN='$(strip $(STRIP_DUMMY)'
-	STRIP_END=')'
-	AC_MSG_RESULT(yes)
-else
-	AC_MSG_RESULT(no)
-fi
-STRIP_DUMMY=
-AC_SUBST(STRIP_DUMMY)
-AC_SUBST(STRIP_BEGIN)
-AC_SUBST(STRIP_END)
-
 AC_SUBST(ALL_LINGUAS,
 "am az bg ca cs da de el en_CA en_GB es et fi fr ga gl he hr hu it ja ko lv ml mr ms nb nl nn no pl pt pt_BR ro ru sk sr sr@Latn sv tr uk vi zh_CN zh_TW")
 
@@ -407,11 +350,6 @@ if test $ac_cv_func_lgamma = no; then
 fi
 AC_CHECK_FUNCS(lgamma_r expm1 log1p asinh acosh atanh)
 
-EXTRA_LIBS=""
-EXTRA_INCLUDES=""
-AC_SUBST(EXTRA_LIBS)
-AC_SUBST(EXTRA_INCLUDES)
-
 AC_C_LONG_DOUBLE
 if test "x$ac_cv_c_long_double" = "xyes"; then
     need_sunmath=no
@@ -422,10 +360,10 @@ if test "x$ac_cv_c_long_double" = "xyes"; then
 		    isnanl finitel; do
 	    AC_CHECK_FUNC($ldfunc,
 		  ,
-		  AC_CHECK_LIB(m,
+		  [AC_CHECK_LIB(m,
 		      $ldfunc,
 		      ,
-		      AC_CHECK_LIB(sunmath,
+		      [AC_CHECK_LIB(sunmath,
 			  $ldfunc,
 			  [ if test "x$need_sunmath" = "xno"; then
 				# FIXME: better idea?
@@ -434,15 +372,15 @@ if test "x$ac_cv_c_long_double" = "xyes"; then
 				CPPFLAGS="$CPPFLAGS -I$sunmathinclude"
 			    fi
 			    need_sunmath=yes ],
-			  AC_MSG_ERROR([Long doubles require the $ldfunc function.]),
-			  -L/opt/SUNWspro/lib $GOFFICE_LIBS)))
+			  [AC_MSG_ERROR([Long doubles require the $ldfunc function.])],
+			  [-L/opt/SUNWspro/lib $GOFFICE_LIBS])])])
     done
     if test "x$need_sunmath" = "xyes"; then
-	EXTRA_LIBS="$EXTRA_LIBS $sunmathlinkstuff"
-	EXTRA_INCLUDES="$EXTRA_INCLUDES -I$sunmathinclude"
+	AC_SUBST(EXTRA_LIBS, "$EXTRA_LIBS $sunmathlinkstuff")
+	AC_SUBST(EXTRA_INCLUDES, "$EXTRA_INCLUDES -I$sunmathinclude")
 	AC_CHECK_HEADERS([sunmath.h floatingpoint.h],
 			 ,
-			 AC_MSG_ERROR([Long doubles require the sunmath.h header.]))
+			 [AC_MSG_ERROR([Long doubles require the $ac_header header.])])
     fi
 
     AC_CHECK_FUNCS(modfl frexpl ldexpl strtold string_to_decimal decimal_to_quadruple)
@@ -458,12 +396,12 @@ if test "x$ac_cv_c_long_double" = "xyes"; then
 			    return !(*theend == 0 && finitel (res) &&
 				     res >= 3.14 && res <= 3.15);
 		    }],
-		    AC_MSG_RESULT(no),
+		    [AC_MSG_RESULT(no)],
 		    [AC_MSG_RESULT(yes)
 		     AC_DEFINE(MUST_PROTOTYPE_STRTOLD, 1,
 			    [Define if we need to provide a prototype for strtold()]
 		     )],
-		    AC_MSG_RESULT(assuming not))
+		    [AC_MSG_RESULT(assuming not)])
     elif test "x$ac_cv_func_string_to_decimal" != "xyes" || \
 	 test "x$ac_cv_func_decimal_to_quadruple" != "xyes" || \
 	 test "x$ac_cv_header_floatingpoint_h" != "xyes"; then
@@ -486,8 +424,8 @@ if test "x$ac_cv_c_long_double" = "xyes"; then
 		    return !(l >= 0.21 && l <= 0.22);
 	    }],
 	    [AC_DEFINE(HAVE_YNL)
-	    AC_MSG_RESULT(yes)],
-	    AC_MSG_RESULT(no),
+	     AC_MSG_RESULT(yes)],
+	    [AC_MSG_RESULT(no)],
 	    [AC_CHECK_FUNCS(ynl)])
 
     AC_MSG_CHECKING([checking for working erfl and erfcl])
@@ -505,73 +443,56 @@ if test "x$ac_cv_c_long_double" = "xyes"; then
 	    }],
 	    [AC_DEFINE(HAVE_ERFL)
 	     AC_DEFINE(HAVE_ERFCL)
-	    AC_MSG_RESULT(yes)],
-	    AC_MSG_RESULT(no),
+	     AC_MSG_RESULT(yes)],
+	    [AC_MSG_RESULT(no)],
 	    [AC_CHECK_FUNCS(erfl erfcl)])
 fi
 
 float_msg=double
-have_ld=no
-AC_ARG_WITH(long_double,
-	[--{with,without}-long-double		Use long double for floating point],
-	[if test "x$withval" = xyes; then
-		if test "x$ac_cv_c_long_double" != "xyes"; then
-			AC_MSG_ERROR([Long double type is not available.])
-		fi
+AC_ARG_WITH(long-double,
+       [--{with,without}-long-double           Use long double for floating point])
+if test "x$with_long_double" = xyes; then
+       if test "x$ac_cv_c_long_double" != "xyes"; then
+               AC_MSG_ERROR([Long double type is not available.])
+       fi
+       float_msg="long double (EXPERIMENTAL)"
+       AC_MSG_WARN([Long double support is experimental -- expect problems])
+       AC_DEFINE(WITH_LONG_DOUBLE, 1,
+               [Define if the long double type is to be used])
+fi
 
-		float_msg="long double (EXPERIMENTAL)"
-		AC_MSG_WARN([Long double support is experimental -- expect problems])
-		AC_DEFINE(WITH_LONG_DOUBLE, 1,
-			[Define if the long double type is to be used]
-		)
-	fi]
-)
-
-dnl **************************************************
-dnl * Config defaults (Must be after bonobo)
-dnl **************************************************
-goffice_version="${VERSION}"
-goffice_prefix='${prefix}'
-goffice_exec_prefix='${exec_prefix}'
+dnl ******************
+dnl * Config defaults
+dnl ******************
+dnl
+AC_SUBST(goffice_version, "${VERSION}")
+AC_SUBST(goffice_prefix, '${prefix}')
+AC_SUBST(goffice_exec_prefix, '${exec_prefix}')
+dnl
 dnl These are changed in libgnumeric.c for WIN32 packages
-goffice_datadir='${datadir}/goffice/${goffice_version}'
-goffice_libdir='${libdir}/goffice/${goffice_version}'
-goffice_plugindir='${goffice_libdir}/plugins'
-goffice_gladedir='${goffice_datadir}/glade'
-goffice_icondir='${datadir}/pixmaps/goffice'
-goffice_localedir='${prefix}/${DATADIRNAME}/locale'
+AC_SUBST(goffice_datadir, '${datadir}/goffice/${goffice_version}')
+AC_SUBST(goffice_libdir, '${libdir}/goffice/${goffice_version}')
+AC_SUBST(goffice_plugindir, '${goffice_libdir}/plugins')
+AC_SUBST(goffice_gladedir, '${goffice_datadir}/glade')
+AC_SUBST(goffice_icondir, '${datadir}/pixmaps/goffice')
+AC_SUBST(goffice_localedir, '${prefix}/${DATADIRNAME}/locale')
+dnl
 dnl Version info for libraries = CURRENT:REVISION:AGE
 GOFFICE_LIB_VERSION_EPOCH_PLUS_MAJOR=`expr goffice_version_epoch + goffice_version_major`
 GOFFICE_LIB_VERSON=$GOFFICE_LIB_VERSION_EPOCH_PLUS_MAJOR:goffice_version_minor:goffice_version_major
+AC_SUBST(GOFFICE_LIB_VERSON)
 
 dnl Export to goffice-config.h
-AC_DEFINE_UNQUOTED(GOFFICE_VERSION, "goffice_full_version",
-	[The version number of this release, possibly with additional suffix]
-)
-AC_DEFINE_UNQUOTED(GO_VERSION_EPOCH, goffice_version_epoch,
-	[The Epoch of this release]
-)
-AC_DEFINE_UNQUOTED(GO_VERSION_MAJOR, goffice_version_major,
-	[The Major version number of this release]
-)
-AC_DEFINE_UNQUOTED(GO_VERSION_MINOR, goffice_version_minor,
-	[The Minor version number of this release]
-)
-AC_DEFINE_UNQUOTED(GO_VERSION_EXTRA, "goffice_version_extra",
-	[Extra, possibly empty tag for this release]
-)
-AC_SUBST(goffice_version)
-AC_SUBST(goffice_prefix)
-AC_SUBST(goffice_exec_prefix)
-AC_SUBST(goffice_datadir)
-AC_SUBST(goffice_libdir)
-AC_SUBST(goffice_plugindir)
-AC_SUBST(goffice_gladedir)
-AC_SUBST(goffice_icondir)
-AC_SUBST(goffice_localedir)
-AC_SUBST(goffice_autoformatdir)
-AC_SUBST(goffice_with_gnome)
-AC_SUBST(GOFFICE_LIB_VERSON)
+AC_DEFINE(GOFFICE_VERSION, "goffice_full_version",
+	[The version number of this release, possibly with additional suffix])
+AC_DEFINE(GO_VERSION_EPOCH, goffice_version_epoch,
+	[The Epoch of this release])
+AC_DEFINE(GO_VERSION_MAJOR, goffice_version_major,
+	[The Major version number of this release])
+AC_DEFINE(GO_VERSION_MINOR, goffice_version_minor,
+	[The Minor version number of this release])
+AC_DEFINE(GO_VERSION_EXTRA, "goffice_version_extra",
+	[Extra, possibly empty tag for this release])
 
 AC_OUTPUT([
 Makefile
@@ -610,5 +531,5 @@ Configuration:
 	Compiler flags:		${CFLAGS}
 	Floating point type:	${float_msg}
 
-	UI :			${ui_msg}
+	UI:			${ui_msg}
 "
