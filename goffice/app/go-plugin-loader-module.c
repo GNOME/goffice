@@ -180,7 +180,7 @@ static void
 go_plugin_loader_module_class_init (GObjectClass *gobject_class)
 {
 	gobject_class->finalize = go_plugin_loader_module_finalize;
-	go_plugin_loader_module_register_version ("goffice", GOFFICE_VERSION);
+	go_plugin_loader_module_register_version ("goffice", GOFFICE_API_VERSION);
 }
 
 static void

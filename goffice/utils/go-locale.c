@@ -256,6 +256,7 @@ guess_category_value (void)
  * Return value: the list of languages, this list should not be freed
  * owned by gnome-i18n.
  **/
+#warning Use g_get_language_names
 GList const *
 go_locale_languages (void)
 {
@@ -314,6 +315,7 @@ GList const *
 go_locale_languages (void)
 {
 	return gnome_i18n_get_language_list ("LC_MESSAGES");
+	g_get_language_names
 }
 
 #endif

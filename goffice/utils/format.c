@@ -136,6 +136,8 @@ char const * const month_long [] = {
 	NULL
 };
 
+static GOColor lookup_color (char const *str, char const *end);
+
 char const *
 gnm_setlocale (int category, char const *val)
 {
@@ -498,18 +500,12 @@ append_minute_elapsed (GString *string, struct tm *tm, gnm_float number)
 	g_string_append_printf (string, "%d", tm->tm_min);
 }
 
-/*
- * Renders the second field.
- */
 static void
 append_second (GString *string, int n, struct tm const *time_split)
 {
 	g_string_append_printf (string, "%0*d", n, time_split->tm_sec);
 }
 
-/*
- * Renders the second field in elapsed
- */
 static void
 append_second_elapsed (GString *string, gnm_float number)
 {
@@ -532,12 +528,7 @@ format_entry_ctor (void)
 	return entry;
 }
 
-/**
- * format_entry_dtor :
- *
- * WARNING : do not call this for temporary formats generated for
- * 'General'.
- */
+/* WARNING : do not call this for temporary formats generated for 'General' */
 static void
 format_entry_dtor (gpointer data, gpointer user_data)
 {
@@ -557,8 +548,6 @@ format_entry_set_fmt (StyleFormatEntry *entry,
 		: g_strdup ((entry->go_color || entry->restriction_type != '*')
 			    ? "General" : "");
 }
-
-static GOColor lookup_color (char const *str, char const *end);
 
 /*
  * Since the Excel formating codes contain a number of ambiguities, this
