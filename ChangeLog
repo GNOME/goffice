@@ -1,3 +1,7 @@
+2005-03-21  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* configure.in: change test/Makefile to tests/Makefile
+
 2005-03-21  Christopher James Lahey  <clahey@ximian.com
 
 	* goffice/drawing/Makefile.am, goffice/ms-compat/Makefile.am:
