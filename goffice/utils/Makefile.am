@@ -36,7 +36,6 @@ libgoffice_utils_la_HEADERS = 	\
 	go-locale.h		\
 	go-units.h		\
 	go-math.h		\
-	numbers.h		\
 	datetime.h		\
 	format.h		\
 	format-impl.h		\
