@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_IO_CONTEXT_PRIV_H
-#define GNUMERIC_IO_CONTEXT_PRIV_H
+#ifndef GO_IO_CONTEXT_PRIV_H
+#define GO_IO_CONTEXT_PRIV_H
 
 #include <goffice/app/io-context.h>
 #include <goffice/app/error-info.h>
@@ -62,4 +62,4 @@ struct _IOContextClass {
 	void  (*processing_file) (IOContext *ioc, char const *name);
 };
 
-#endif /* GNUMERIC_IO_CONTEXT_PRIV_H */
+#endif /* GO_IO_CONTEXT_PRIV_H */

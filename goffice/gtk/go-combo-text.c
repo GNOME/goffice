@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gnumeric-combo-text: A combo box for selecting from a list.
+ * go-combo-text: A combo box for selecting from a list.
  */
 
 #include <goffice/goffice-config.h>

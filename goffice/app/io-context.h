@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_IO_CONTEXT_H
-#define GNUMERIC_IO_CONTEXT_H
+#ifndef GO_IO_CONTEXT_H
+#define GO_IO_CONTEXT_H
 
 #include <goffice/app/goffice-app.h>
 #include <glib-object.h>
@@ -46,4 +46,4 @@ void gnm_io_warning_unknown_font	(IOContext *ioc, char const *font_name);
 void gnm_io_warning_unknown_function	(IOContext *ioc, char const *funct_name);
 void gnm_io_warning_unsupported_feature	(IOContext *ioc, char const *feature);
 
-#endif /* GNUMERIC_IO_CONTEXT_H */
+#endif /* GO_IO_CONTEXT_H */

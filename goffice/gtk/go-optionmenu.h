@@ -1,5 +1,5 @@
 /* 
- * gnumeric-optionmenu.h
+ * go-optionmenu.h
  *
  * Copyright (C) 2002 Andreas J. Guelzow <aguelzow@taliesin.ca>
  *

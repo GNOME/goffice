@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_FILE_PRIV_H
-#define GNUMERIC_FILE_PRIV_H
+#ifndef GO_FILE_PRIV_H
+#define GO_FILE_PRIV_H
 
 #include <goffice/app/goffice-app.h>
 /*
@@ -87,4 +87,4 @@ void go_file_saver_setup (GOFileSaver *fs,
                             FileFormatLevel level,
                             GOFileSaverSaveFunc save_func);
 
-#endif /* GNUMERIC_FILE_PRIV_H */
+#endif /* GO_FILE_PRIV_H */
