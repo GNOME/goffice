@@ -1,9 +1,6 @@
 #ifndef __GO_MATH_H
 #define __GO_MATH_H
 
-#include <math.h>
-#include <goffice/utils/numbers.h>
-
 /* ------------------------------------------------------------------------- */
 
 extern double go_nan;
@@ -26,6 +23,8 @@ int go_finite (double x);
 void go_math_init (void);
 
 /* ------------------------------------------------------------------------- */
+
+#include <goffice/utils/numbers.h>
 
 gnm_float gnm_add_epsilon (gnm_float x);
 gnm_float gnm_sub_epsilon (gnm_float x);
