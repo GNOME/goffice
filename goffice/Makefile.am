@@ -18,9 +18,6 @@ libgoffice_la_SOURCES = 	\
 	goffice-priv.h		\
 	goffice-config.h
 
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA= libgoffice-1.pc
-
 goffice-paths.h: goffice-paths.sh
 	@sh $< > $@.tmp ;					\
 	if cmp -s $@.tmp $@; then				\
@@ -28,5 +25,10 @@ goffice-paths.h: goffice-paths.sh
 	else							\
 	    mv $@.tmp $@ ; echo updated goffice-paths.h ;	\
 	fi
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA= libgoffice-1.pc
+
+EXTRA_DIST = libgoffice-1.pc.in
 
 include $(top_srcdir)/goffice.mk
