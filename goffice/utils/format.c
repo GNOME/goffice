@@ -848,7 +848,11 @@ lookup_color (gchar const *str, gchar const *end)
 }
 #endif
 
-static DOUBLE SUFFIX(beyond_precision);
+static double beyond_precision;
+#ifdef HAVE_LONG_DOUBLE
+static long double beyond_precisionl;
+#endif
+
 void
 SUFFIX(go_render_number) (GString *result,
 			  DOUBLE number,
@@ -2072,8 +2076,11 @@ void
 number_format_init (void)
 {
 	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	SUFFIX(beyond_precision) = SUFFIX(go_pow10) (PREFIX(DIG) + 1);
-#warning FIXME
+
+	beyond_precision = go_pow10 (DBL_DIG) + 1;
+#ifdef HAVE_LONG_DOUBLE
+	beyond_precisionl = go_pow10l (LDBL_DIG) + 1;
+#endif
 
 	lc_decimal = g_string_new (NULL);
 	lc_thousand = g_string_new (NULL);

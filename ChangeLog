@@ -1,3 +1,11 @@
+2005-03-07  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-math.c (go_math_init): Verify properties of
+	go_nanl, go_pinfl, and go_ninfl.
+
+	* goffice/utils/format.c (number_format_init): Fix initialization
+	of beyond_precision and beyond_precisionl.
+
 2005-03-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c: (map_discrete_to_view),

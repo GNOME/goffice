@@ -118,10 +118,18 @@ go_math_init (void)
 	abort ();
 
  have_nan:
+
 #ifdef HAVE_LONG_DOUBLE
 	go_nanl = go_nan;
 	go_pinfl = go_pinf;
 	go_ninfl = go_ninf;
+	if (!(isnanl (go_nanl) &&
+	      go_pinfl > 0 && !finitel (go_pinfl) &&
+	      go_ninfl < 0 && !finitel (go_ninfl))) {
+		g_error ("Failed to generate long double NaN/+Inf/-Inf.  Please report at %s",
+			 bug_url);
+		abort ();
+	}
 #endif
 
 #ifdef SIGFPE
