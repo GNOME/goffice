@@ -315,7 +315,6 @@ GList const *
 go_locale_languages (void)
 {
 	return gnome_i18n_get_language_list ("LC_MESSAGES");
-	g_get_language_names
 }
 
 #endif
