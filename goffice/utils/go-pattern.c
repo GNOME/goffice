@@ -23,7 +23,7 @@
 #include "go-pattern.h"
 #include "go-color.h"
 #ifdef WITH_GTK
-#include <goffice/gui-utils/go-combo-pixmaps.h>
+#include <goffice/gtk/go-combo-pixmaps.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 #endif
 

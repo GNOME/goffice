@@ -1,3 +1,22 @@
+2005-02-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-glib-extras.c: replaced gnumeric-config.h by
+	goffice-config.h
+	* goffice/gtk/go-action-combo-pixmaps.h: updated gui-utils to gtk
+	for includes paths.
+	* goffice/gtk/go-font-sel.c: ditto.
+	* goffice/gtk/go-format-sel.c: ditto.
+	* goffice/utils/go-glib-extras.c: ditto.
+	* goffice/utils/go-gradient.c: ditto.
+	* goffice/utils/go-line.c: ditto.
+	* goffice/utils/go-marker.c: ditto.
+	* goffice/utils/go-pattern.c: ditto.
+	* plugins/plot_barcol/gog-barcol-prefs.c: ditto.
+	* plugins/plot_boxes/gog-boxplot.c: ditto.
+	* plugins/plot_pie/gog-pie-prefs.c: ditto.
+	* plugins/plot_surface/gog-contour-prefs.c: ditto.
+	* plugins/plot_xy/gog-bubble-prefs.c: ditto.
+
 2005-02-28  Christopher James Lahey  <clahey@clahey.net>
 
 	* configure.in, goffice-plugins.mk: Changed gnumeric to goffice

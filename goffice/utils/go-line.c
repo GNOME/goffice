@@ -26,7 +26,7 @@
 #include "go-math.h"
 
 #ifdef WITH_GTK
-#include <goffice/gui-utils/go-combo-pixmaps.h>
+#include <goffice/gtk/go-combo-pixmaps.h>
 #endif
 
 #include <string.h>

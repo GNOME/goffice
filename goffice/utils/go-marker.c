@@ -25,8 +25,8 @@
 #include <goffice/utils/go-math.h>
 
 #ifdef WITH_GTK
-#include <goffice/gui-utils/go-combo-color.h>
-#include <goffice/gui-utils/go-combo-pixmaps.h>
+#include <goffice/gtk/go-combo-color.h>
+#include <goffice/gtk/go-combo-pixmaps.h>
 #include <libart_lgpl/art_render_gradient.h>
 #include <libart_lgpl/art_render_svp.h>
 #include <libart_lgpl/art_render_mask.h>

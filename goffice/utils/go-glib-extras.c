@@ -7,7 +7,7 @@
  *    Jukka-Pekka Iivonen (iivonen@iki.fi)
  *    Zbigniew Chyla (cyba@gnome.pl)
  */
-#include <gnumeric-config.h>
+#include <goffice-config.h>
 #include <goffice/goffice-config.h>
 #include "go-glib-extras.h"
 #include <goffice/utils/numbers.h>

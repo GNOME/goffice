@@ -20,8 +20,8 @@
 #include <goffice/goffice-config.h>
 #include "go-format-sel.h"
 
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/gui-utils/go-combo-text.h>
+#include <goffice/gtk/go-gui-utils.h>
+#include <goffice/gtk/go-combo-text.h>
 #include <goffice/utils/format-impl.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marshalers.h>
