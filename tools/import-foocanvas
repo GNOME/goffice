@@ -92,7 +92,7 @@ sub copy_subsystem {
 
 	if ($file =~ /\.c$/) {
 	    print DST "#undef GTK_DISABLE_DEPRECATED\n"
-		unless $file =~ /^(foo-canvas-rect-ellipse|foo-canvas-util|foo-canvas)\.c$/;
+		unless $file =~ /^(foo-canvas-rect-ellipse|foo-canvas-util|foo-canvas|libfoocanvastypes)\.c$/;
 
 	    print DST "#include <goffice-config.h>\n";
 	    print DST "#include <glib/gi18n.h>\n";
