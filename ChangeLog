@@ -1,3 +1,8 @@
+2005-03-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/format.c (go_render_number): Add epsilon early and
+	permanently.  Fix significant digit check.
+
 2005-03-11  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/format.c (go_render_number): Fix two

@@ -875,13 +875,15 @@ SUFFIX(go_render_number) (GString *result,
 	int right_allowed = info->right_allowed + info->right_optional;
 	int sigdig = 0;
 
+	number = SUFFIX(go_add_epsilon) (number);
+
 	if (right_allowed >= 0 && !info->has_fraction) {
 		/* Change "rounding" into "truncating".   */
 		/* Note, that we assume number >= 0 here. */
 		DOUBLE delta = 5 * SUFFIX(go_pow10) (-right_allowed - 1);
 		number += delta;
 	}
-	frac_part = SUFFIX(modf) (SUFFIX(go_add_epsilon) (number), &int_part);
+	frac_part = SUFFIX(modf) (number, &int_part);
 
 	*num = '\0';
 	group = (info->group_thousands) ? 3 : -1;
@@ -939,7 +941,7 @@ SUFFIX(go_render_number) (GString *result,
 		frac_part *= 10.0;
 		digit = (gint)frac_part;
 		frac_part -= digit;
-		if (sigdig++ > PREFIX(DIG)) digit = 0;
+		if (++sigdig > PREFIX(DIG)) digit = 0;
 		g_string_append_c (result, digit + '0');
 	}
 
@@ -951,7 +953,7 @@ SUFFIX(go_render_number) (GString *result,
 		digit = (gint)frac_part;
 		frac_part -= digit;
 
-		if (sigdig++ > PREFIX(DIG)) digit = 0;
+		if (++sigdig > PREFIX(DIG)) digit = 0;
 
 		if (digit != 0) {
 			right_spaces -= zero_count + 1;
