@@ -1,3 +1,7 @@
+2005-03-15  Stepan Kasal  <kasal@ucw.cz>
+
+	* goffice/graph/Makefile.am: Distribute gog-axis-line-impl.h.
+
 2005-03-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c: (map_discrete_calc_ticks): limit ticks number
@@ -33,7 +37,7 @@
 	object position GOG_POSITION_PADDING.
 	* goffice/graph/gog-axis-prefs.glade: Rework of axis property pages,
 	now called Scale and Layout.
-	* goffice/graph/gog-axis-line.[ch], gog-axis-line-implh.h: new. 
+	* goffice/graph/gog-axis-line.[ch], gog-axis-line-impl.h: new. 
 	Contains an implementation of what is needed to actually draw an
 	axis on screen, which was previously provided by GogAxis, in 
 	GogAxisBase and GogAxisBaseView.

@@ -48,6 +48,7 @@ libgoffice_graph_la_HEADERS = 	\
 	gog-chart-impl.h		\
 	gog-axis.h			\
 	gog-axis-line.h			\
+	gog-axis-line-impl.h		\
 	gog-legend.h			\
 	gog-label.h			\
 	gog-grid.h			\
