@@ -1,5 +1,8 @@
 2005-03-07  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-libxml-extras.c (go_xml_parse_file):
+	New replacement for xmlParseFile.  All users changed.
+
 	* goffice/utils/go-math.c (go_math_init): Verify properties of
 	go_nanl, go_pinfl, and go_ninfl.
 

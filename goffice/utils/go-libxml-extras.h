@@ -27,6 +27,8 @@
 
 G_BEGIN_DECLS
 
+xmlDocPtr  go_xml_parse_file    (const char *filename);
+
 xmlChar   *xml_node_get_cstr	(xmlNodePtr node, char const *name);
 void	   xml_node_set_cstr	(xmlNodePtr node, char const *name, char const *val);
 gboolean   xml_node_get_bool	(xmlNodePtr node, char const *name, gboolean *result);

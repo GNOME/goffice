@@ -137,7 +137,7 @@ cb_pending_plot_types_load (char const *path,
 			    G_GNUC_UNUSED gpointer ignored)
 {
 	xmlNode *ptr, *prop;
-	xmlDoc *doc = xmlParseFile (path);
+	xmlDoc *doc = go_xml_parse_file (path);
 	GogPlotFamily *family = NULL;
 	GogPlotType *type;
 	int col, row;

@@ -21,6 +21,29 @@
 #define CC2XML(s)	((const xmlChar *)(s))
 #define CXML2C(s)	((const char *)(s))
 
+
+/*
+ * Like xmlParseFile, but faster.  Does not accept compressed files.
+ * See http://bugzilla.gnome.org/show_bug.cgi?id=168414
+ *
+ * Note: this reads the entire file into memory and should therefore
+ * not be used for user-supplied files.
+ */
+xmlDocPtr
+go_xml_parse_file (const char *filename)
+{
+	xmlDocPtr result = NULL;
+	gchar *contents;
+	gsize length;
+
+	if (g_file_get_contents (filename, &contents, &length, NULL)) {
+		result = xmlParseMemory (contents, length);
+		g_free (contents);
+	}
+
+	return result;
+}
+
 /* Get an xmlChar * value for a node carried as an attibute
  * result must be xmlFree
  */
