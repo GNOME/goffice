@@ -49,13 +49,16 @@ CLEANFILES =			\
 # A hint is needed to build the header first:
 BUILT_SOURCES = go-marshalers.h
 
+# Another hint, see bugs #172211 and #172212:
+non-intermediate: go-marshalers.c
+
 GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=go_
 SUFFIXES = .list
 
-.list.h: $(GLIB_GENMARSHAL)
+.list.h:
 	$(GENMARSHAL_COMMAND) --header $< >$@
 
-.list.c: $(GLIB_GENMARSHAL)
+.list.c:
 	(echo '/* This file has been automatically generated.  Do not edit. */' && \
 	echo '#include <goffice/goffice-config.h>' && \
 	echo '#include "$*.h"' && \

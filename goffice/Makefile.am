@@ -49,7 +49,4 @@ goffice-paths.h:
 	echo '#endif /* GOFFICE_PATHS_H */'; \
 	) >$@
 
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA= libgoffice-1.pc
-
 include $(top_srcdir)/goffice.mk

@@ -10,4 +10,7 @@ EXTRA_DIST = README NEWS BUGS MAINTAINERS AUTHORS \
 	intltool-merge.in
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libgoffice-1.pc
+
 include $(top_srcdir)/goffice.mk

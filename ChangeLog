@@ -1,3 +1,18 @@
+2005-04-01  Stepan Kasal  <kasal@ucw.cz>
+
+	s/INCLUDES/AM_CPPFLAGS/  "automake -Wall" has told me this.
+
+	* goffice/libgoffice-1.pc.in: Move ...
+	* libgoffice-1.pc.in: ... here.
+	* Makefile.am, goffice/Makefile.am, configure.in: Adapt to the move.
+	* goffice/utils/Makefile.am (non-intermediate): New dummy rule; see
+		http://bugzilla.gnome.org/show_bug.cgi?id=172211 and
+		http://bugzilla.gnome.org/show_bug.cgi?id=172212
+	(.list.c, .list.h): Remove $(GLIB_GENMARSHAL); it didn't work
+	  anyway, the prerequisities of an implicit rule are ignored.
+	* configure.in (GLIB_GENMARSHAL): Full path is not needed.
+	(GOFFICE_CFLAGS): No need to amend this.
+
 2005-03-31  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-plugin-service.c (go_plugin_file_saver_save): If

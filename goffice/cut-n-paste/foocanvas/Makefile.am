@@ -1,4 +1,4 @@
-INCLUDES = \
+AM_CPPFLAGS = \
 	-I$(top_srcdir) 				\
 	-I$(top_builddir)				\
 	$(WARN_CFLAGS) 					\
@@ -48,10 +48,10 @@ libfoocanvas_la_SOURCES =			\
 GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=foo_canvas_marshal
 SUFFIXES = .list
 
-.list.h: $(GLIB_GENMARSHAL)
+.list.h:
 	$(GENMARSHAL_COMMAND) --header $< >$@
 
-.list.c: $(GLIB_GENMARSHAL)
+.list.c:
 	(echo '/* This file has been automatically generated.  Do not edit. */' && \
 	echo '#include <goffice/goffice-config.h>' && \
 	echo '#include "$*.h"' && \
@@ -59,6 +59,9 @@ SUFFIXES = .list
 
 # A hint is needed to build the header first:
 BUILT_SOURCES = foo-canvas-marshal.h
+
+# Another hint, see bugs #172211 and #172212:
+non-intermediate: foo-canvas-marshal.c
 
 CLEANFILES = foo-canvas-marshal.h foo-canvas-marshal.c
 

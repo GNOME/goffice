@@ -6,7 +6,7 @@ libpcre_a_ladir = $(includedir)/libgoffice-1/goffice/cut-n-paste/pcre
 libpcre_a_la_HEADERS = pcreposix.h
 noinst_HEADERS = internal.h pcre.h
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	$(GOFFICE_CFLAGS) \
 	-I$(top_builddir) \
 	-DSUPPORT_UTF8 \

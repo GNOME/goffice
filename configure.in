@@ -125,7 +125,6 @@ dnl shot so that we can have a nice neat compile/link line
 dnl ****************************
 
 PKG_CHECK_MODULES(GOFFICE, $goffice_reqs)
-GOFFICE_CFLAGS="$GOFFICE_CFLAGS -I\$(top_srcdir)/src/cut-n-paste-code"
 
 dnl  Checks for Xft/XRender
 AC_CHECK_LIB(Xrender, XRenderFindFormat, 
@@ -199,10 +198,8 @@ dnl ****************************
 dnl prep the pixmap generator
 dnl ****************************
 
-dnl We need the full pathname here, since some targets depend on $(GLIB_GENMARSHAL).
-dnl
-AC_ARG_VAR(GLIB_GENMARSHAL, [Absolute path of the glib-genmarshal executable.])
-AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
+AC_ARG_VAR(GLIB_GENMARSHAL, [The glib-genmarshal executable.])
+AC_CHECK_PROG(GLIB_GENMARSHAL, glib-genmarshal, glib-genmarshal)
 
 AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [The gdk-pixbuf-csource executable.])
 AC_CHECK_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource, gdk-pixbuf-csource)
@@ -273,8 +270,7 @@ AC_SUBST(ALL_LINGUAS,
 
 AC_SUBST(GETTEXT_PACKAGE, goffice)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
-	[The package name, for gettext]
-)
+	[The package name, for gettext])
 AM_GLIB_GNU_GETTEXT
 
 dnl
@@ -333,6 +329,7 @@ GOFFICE_CHECK_FUNC(acosh)
 GOFFICE_CHECK_FUNC(atanh)
 
 float_msg=no
+EXTRA_LIBS= EXTRA_INCLUDES=
 AC_C_LONG_DOUBLE
 if test $ac_cv_c_long_double = yes; then
     have_mandatory_funcs=yes
@@ -357,8 +354,8 @@ if test $ac_cv_c_long_double = yes; then
 			  [-L/opt/SUNWspro/lib $GOFFICE_LIBS])])])
     done
     if test $need_sunmath = 1; then
-	AC_SUBST(EXTRA_LIBS, "$EXTRA_LIBS $sunmathlinkstuff")
-	AC_SUBST(EXTRA_INCLUDES, "$EXTRA_INCLUDES -I$sunmathinclude")
+	EXTRA_LIBS="$EXTRA_LIBS $sunmathlinkstuff"
+	EXTRA_INCLUDES="$EXTRA_INCLUDES -I$sunmathinclude"
 	AC_CHECK_HEADERS([sunmath.h floatingpoint.h],
 			 ,
 			 [AC_MSG_WARN([Long doubles require the $ac_header header.])
@@ -409,6 +406,8 @@ if test $ac_cv_c_long_double = yes; then
     fi
     unset have_mandatory_funcs
 fi
+AC_SUBST(EXTRA_LIBS)
+AC_SUBST(EXTRA_INCLUDES)
 
 dnl ******************
 dnl * Config defaults
@@ -442,6 +441,7 @@ AC_DEFINE(GO_VERSION_EXTRA, "goffice_version_extra",
 
 AC_CONFIG_FILES([
 Makefile
+libgoffice-1.pc
 goffice/Makefile
 goffice/app/Makefile
 goffice/utils/Makefile
@@ -453,7 +453,6 @@ goffice/ms-compat/Makefile
 goffice/cut-n-paste/Makefile
 goffice/cut-n-paste/foocanvas/Makefile
 goffice/cut-n-paste/pcre/Makefile
-goffice/libgoffice-1.pc
 plugins/Makefile
 plugins/plot_barcol/Makefile
 plugins/plot_pie/Makefile
@@ -462,8 +461,8 @@ plugins/plot_xy/Makefile
 plugins/plot_surface/Makefile
 plugins/plot_boxes/Makefile
 pixmaps/Makefile
-tests/Makefile
 po/Makefile.in
+tests/Makefile
 ])
 AC_OUTPUT
 

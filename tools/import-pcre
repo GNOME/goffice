@@ -232,7 +232,7 @@ foreach my $filename (@EXTRA_FILES) {
     print DST "libpcre_a_la_HEADERS = ", join (' ', @SRC_H), "\n";
     print DST "noinst_HEADERS = ", join (' ', @noinst_H), "\n\n";
 
-    print DST "INCLUDES = \\\n";
+    print DST "AM_CPPFLAGS = \\\n";
     print DST "\t\$(GOFFICE_CFLAGS) \\\n";
     print DST "\t-I\$(top_builddir) \\\n";
     print DST "\t-DSUPPORT_UTF8 \\\n";
