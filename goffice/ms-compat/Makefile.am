@@ -10,4 +10,4 @@ libgoffice_ms_compat_la_SOURCES =	\
 	go-ms-parser.c			\
 	go-ms-parser.h
 
-include $(srcdir)/../goffice.mk
+include $(top_srcdir)/goffice.mk

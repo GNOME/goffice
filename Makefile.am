@@ -1,24 +1,8 @@
-SUBDIRS = app graph utils gtk drawing ms-compat test pixmaps cut-n-paste . plugins
-
-noinst_LTLIBRARIES = libgoffice.la
-
-libgoffice_la_LIBADD = 				\
-	utils/libgoffice-utils.la		\
-	app/libgoffice-app.la			\
-	gtk/libgoffice-gtk.la			\
-	graph/libgoffice-graph.la		\
-	drawing/libgoffice-drawing.la		\
-	ms-compat/libgoffice-ms-compat.la
-
-libgoffice_la_SOURCES = 	\
-	goffice.c		\
-	goffice.h		\
-	goffice-priv.h		\
-	goffice-config.h
+SUBDIRS = goffice test pixmaps plugins
 
 EXTRA_DIST = goffice.mk goffice-plugins.mk
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA= libgoffice-1.pc
 
-include $(srcdir)/goffice.mk
+include $(top_srcdir)/goffice.mk

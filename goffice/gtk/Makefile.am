@@ -37,11 +37,11 @@ libgoffice_gtk_la_SOURCES =	\
 	go-action-combo-text.c 		\
 	go-action-combo-text.h
 
-include $(srcdir)/../goffice.mk
-
 gladedir   = $(goffice_gladedir)
 glade_DATA = \
 	go-font-sel.glade 	\
 	go-format-sel.glade 
 
 EXTRA_DIST = htmlhelp-stub.c htmlhelp-stub.h
+
+include $(top_srcdir)/goffice.mk

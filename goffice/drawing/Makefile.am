@@ -26,4 +26,4 @@ libgoffice_drawing_la_SOURCES = 	\
 	god-text-model.c		\
 	god-text-model.h
 
-include $(srcdir)/../goffice.mk
+include $(top_srcdir)/goffice.mk

@@ -29,10 +29,10 @@
 #include "gog-renderer.h"
 #include <goffice/data/go-data-impl.h>
 #include <goffice/data/go-data.h>
-#include <goffice/gui-utils/go-color-palette.h>
-#include <goffice/gui-utils/go-combo-color.h>
-#include <goffice/gui-utils/go-combo-pixmaps.h>
-#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/gtk/go-color-palette.h>
+#include <goffice/gtk/go-combo-color.h>
+#include <goffice/gtk/go-combo-pixmaps.h>
+#include <goffice/gtk/go-gui-utils.h>
 #include <goffice/utils/go-math.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkspinbutton.h>

@@ -7,8 +7,9 @@ test -z "$srcdir" && srcdir=.
 PKG_NAME="goffice"
 REQUIRED_LIBTOOL_VERSION=1.4.3
 
-(test -f $srcdir/configure.in \
-  && test -f $srcdir/goffice.h) || {
+(test -f $srcdir/configure.in	\
+  && test -d $srcdir/goffice	\
+  && test -f $srcdir/goffice/goffice.h) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
     echo " top-level goffice directory"
     exit 1

@@ -21,4 +21,4 @@ plot-types.xml : plot-types.xml.in
 EXTRA_DIST = $(xml_in_files)
 DISTCLEANFILES = $(xml_in_files:.xml.in=.xml)
 
-include $(srcdir)/../../goffice-plugins.mk
+include $(top_srcdir)/goffice-plugins.mk

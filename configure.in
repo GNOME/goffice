@@ -15,9 +15,9 @@ m4_define([BIG_CHECKING], [AC_MSG_CHECKING([
 AC_INIT([gnumeric], [goffice_full_version],
 	[http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric])
 
-AC_CONFIG_SRCDIR(goffice.h)
+AC_CONFIG_SRCDIR(goffice/goffice.h)
 AM_INIT_AUTOMAKE([dist-bzip2])
-AM_CONFIG_HEADER(goffice-config.h)
+AM_CONFIG_HEADER(goffice/goffice-config.h)
 
 AM_MAINTAINER_MODE
 
@@ -97,9 +97,6 @@ goffice_gtk_reqs="
 "
 goffice_gnome_reqs="
 	gconf-2.0
-	libbonobo-2.0		>= 2.2.0
-	libbonoboui-2.0		>= 2.2.0
-	libgnome-2.0		>= 2.0.0
 	libgnomeui-2.0		>= 2.0.0
 	libgsf-gnome-1		>= 1.11.1
 "
@@ -158,23 +155,23 @@ dnl now that we have selected out libraries the whole collection in one
 dnl shot so that we can have a nice neat compile/link line
 dnl ****************************
 
-PKG_CHECK_MODULES(GNUMERIC, $goffice_reqs)
-GNUMERIC_CFLAGS="$GNUMERIC_CFLAGS -I\$(top_srcdir)/src/cut-n-paste-code"
-AC_SUBST(GNUMERIC_LIBS)
-AC_SUBST(GNUMERIC_CFLAGS)
+PKG_CHECK_MODULES(GOFFICE, $goffice_reqs)
+GOFFICE_CFLAGS="$GOFFICE_CFLAGS -I\$(top_srcdir)/src/cut-n-paste-code"
+AC_SUBST(GOFFICE_LIBS)
+AC_SUBST(GOFFICE_CFLAGS)
 
 win32=no
 case $host_os in
 *mingw* | pw32* | cygwin*)
     win32=yes
-    GNUMERIC_PLUGIN_LDFLAGS="-no-undefined $GNUMERIC_LIBS -Wl,--enable-runtime-pseudo-relo,\$(top_builddir)/src/goffice.exe.a -s"
+    GOFFICE_PLUGIN_LDFLAGS="-no-undefined $GOFFICE_LIBS -Wl,--enable-runtime-pseudo-relo,\$(top_builddir)/src/goffice.exe.a -s"
     AC_CHECK_TOOL(WINDRES, windres, :)
     ;;
 esac
 AM_CONDITIONAL(WITH_WIN32, test x"$win32" = "xyes")
 
-GNUMERIC_PLUGIN_LDFLAGS="-avoid-version $GNUMERIC_PLUGIN_LDFLAGS"
-AC_SUBST(GNUMERIC_PLUGIN_LDFLAGS)
+GOFFICE_PLUGIN_LDFLAGS="-avoid-version $GOFFICE_PLUGIN_LDFLAGS"
+AC_SUBST(GOFFICE_PLUGIN_LDFLAGS)
 
 dnl disable for in stable release, re-enable for development series
 CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED"
@@ -402,7 +399,7 @@ AC_ARG_WITH(long_double,
 				        fi
 					need_sunmath=yes ],
 				      AC_MSG_ERROR([Long doubles require the $ldfunc function.]),
-				      -L/opt/SUNWspro/lib $GNUMERIC_LIBS)))
+				      -L/opt/SUNWspro/lib $GOFFICE_LIBS)))
 		done
 		if test "x$need_sunmath" = "xyes"; then
 			AC_CHECK_HEADERS([sunmath.h floatingpoint.h],
@@ -497,8 +494,8 @@ goffice_icondir='${datadir}/pixmaps/goffice'
 goffice_localedir='${prefix}/${DATADIRNAME}/locale'
 
 dnl Export to goffice-config.h
-AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "goffice_full_version",
-	[The version number of this release, possibly suffixed for bonobo]
+AC_DEFINE_UNQUOTED(GOFFICE_VERSION, "goffice_full_version",
+	[The version number of this release, possibly with additional suffix]
 )
 AC_DEFINE_UNQUOTED(GNM_VERSION_EPOCH, goffice_version_epoch,
 	[The Epoch of this release]
@@ -526,13 +523,14 @@ AC_SUBST(goffice_with_gnome)
 
 AC_OUTPUT([
 Makefile
-app/Makefile
-pixmaps/Makefile
-utils/Makefile
-gtk/Makefile
-graph/Makefile
-drawing/Makefile
-ms-compat/Makefile
+goffice/Makefile
+goffice/app/Makefile
+goffice/utils/Makefile
+goffice/gtk/Makefile
+goffice/graph/Makefile
+goffice/drawing/Makefile
+goffice/ms-compat/Makefile
+goffice/libgoffice-1.pc
 plugins/Makefile
 plugins/plot_barcol/Makefile
 plugins/plot_pie/Makefile
@@ -540,8 +538,8 @@ plugins/plot_radar/Makefile
 plugins/plot_xy/Makefile
 plugins/plot_surface/Makefile
 plugins/plot_boxes/Makefile
+pixmaps/Makefile
 test/Makefile
-libgoffice-1.pc
 stamp.h
 ])
 

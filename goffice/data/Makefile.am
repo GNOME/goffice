@@ -10,4 +10,4 @@ libgoffice_data_la_SOURCES =	\
 	go-data-simple.c 	\
 	go-data-simple.h 
 
-include $(srcdir)/../goffice.mk
+include $(top_srcdir)/goffice.mk

@@ -30,7 +30,7 @@
 #ifndef GO_GO_COLOR_PALETTE_H
 #define GO_GO_COLOR_PALETTE_H
 
-#include <goffice/gui-utils/go-color-group.h>
+#include <goffice/gtk/go-color-group.h>
 #include <gtk/gtkwidget.h>
 
 G_BEGIN_DECLS

@@ -28,11 +28,11 @@
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-marker.h>
 
-#include <goffice/gui-utils/go-color-palette.h>
-#include <goffice/gui-utils/go-combo-color.h>
-#include <goffice/gui-utils/go-combo-pixmaps.h>
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/gui-utils/go-font-sel.h>
+#include <goffice/gtk/go-color-palette.h>
+#include <goffice/gtk/go-combo-color.h>
+#include <goffice/gtk/go-combo-pixmaps.h>
+#include <goffice/gtk/go-gui-utils.h>
+#include <goffice/gtk/go-font-sel.h>
 
 #include <glade/glade-xml.h>
 #include <gtk/gtkcheckbutton.h>

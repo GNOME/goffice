@@ -30,4 +30,4 @@ libgoffice_app_la_SOURCES = \
 	go-cmd-context.c		\
 	go-cmd-context.h
 
-include $(srcdir)/../goffice.mk
+include $(top_srcdir)/goffice.mk

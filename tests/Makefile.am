@@ -20,4 +20,4 @@ dump_ppt_records_LDADD			= $(ldadd)
 dump_ppt_records_SOURCES =	\
 	dump-ppt-records.c
 
-include $(srcdir)/../goffice.mk
+include $(top_srcdir)/goffice.mk

@@ -66,8 +66,8 @@ go_plugin_loader_module_load_base (GOPluginLoader *loader, ErrorInfo **err)
 			g_module_symbol (handle, "go_plugin_shutdown", &plugin_shutdown_func);
 		}
 		if (handle != NULL && plugin_file_struct != NULL &&
-		    plugin_file_struct->magic_number == GNUMERIC_MODULE_PLUGIN_MAGIC_NUMBER &&
-		    strcmp (plugin_file_struct->version, GNUMERIC_VERSION) == 0) {
+		    plugin_file_struct->magic_number == GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER &&
+		    strcmp (plugin_file_struct->version, GOFFICE_VERSION) == 0) {
 			loader_module->handle = handle;
 			loader_module->plugin_init = plugin_init_func;
 			loader_module->plugin_shutdown = plugin_shutdown_func;
@@ -87,13 +87,13 @@ go_plugin_loader_module_load_base (GOPluginLoader *loader, ErrorInfo **err)
 				if (plugin_file_struct == NULL) {
 					error_info_add_details (*err, error_info_new_str (
 						_("File doesn't contain (\"plugin_file_struct\" symbol).")));
-				} else if (plugin_file_struct->magic_number != GNUMERIC_MODULE_PLUGIN_MAGIC_NUMBER) {
+				} else if (plugin_file_struct->magic_number != GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER) {
 					error_info_add_details (*err, error_info_new_str (
 						_("File has a bad magic number.")));
-				} else if (strcmp (plugin_file_struct->version, GNUMERIC_VERSION) == 0) {
+				} else if (strcmp (plugin_file_struct->version, GOFFICE_VERSION) == 0) {
 					error_info_add_details (*err, error_info_new_printf (
 						_("Plugin version \"%s\" is different from application \"%s\"."),
-						plugin_file_struct->version, GNUMERIC_VERSION));
+						plugin_file_struct->version, GOFFICE_VERSION));
 				}
 				g_module_close (handle);
 			}

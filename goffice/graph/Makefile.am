@@ -51,12 +51,6 @@ libgoffice_graph_la_SOURCES = \
 	gog-data-set.c			\
 	gog-data-set.h			\
 	\
-	go-data.c			\
-	go-data.h			\
-	go-data-impl.h			\
-	go-data-simple.c		\
-	go-data-simple.h		\
-	\
 	gog-guru.c			\
 	gog-guru.h			\
 	gog-renderer.c			\
@@ -80,4 +74,4 @@ goffice_glade_DATA = 			\
 
 EXTRA_DIST = $(goffice_glade_DATA)
 
-include $(srcdir)/../goffice.mk
+include $(top_srcdir)/goffice.mk

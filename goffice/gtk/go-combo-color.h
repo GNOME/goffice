@@ -31,7 +31,7 @@
 #define GO_COMBO_COLOR_H
 
 #include <glib-object.h>
-#include <goffice/gui-utils/go-color-group.h>
+#include <goffice/gtk/go-color-group.h>
 #include <goffice/utils/go-color.h>
 #include <gtk/gtkwidget.h>
 

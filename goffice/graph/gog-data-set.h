@@ -23,6 +23,7 @@
 #define GOG_DATA_SET_H
 
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/data/goffice-data.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS

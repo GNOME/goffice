@@ -60,4 +60,4 @@ SUFFIXES = .list
 	echo '#include "$*.h"' && \
 	$(GENMARSHAL_COMMAND) --body $< ) >$@
 
-include $(srcdir)/../goffice.mk
+include $(top_srcdir)/goffice.mk

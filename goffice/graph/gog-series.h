@@ -22,6 +22,7 @@
 #define GOG_SERIES_H
 
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/data/goffice-data.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-styled-object.h>
 
