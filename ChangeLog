@@ -53,7 +53,7 @@
 	  fix IFS handling; cosmetic changes.
 	* configure.in: Cosmetics.
 	* goffice/libgoffice-1.pc.in: Change the "Name:" to libGOffice,
-	  and put a commant with a hint for anon cvs.
+	  and put a command with a hint for anon cvs.
 
 2005-03-16  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
