@@ -3,22 +3,6 @@
 
 #include <math.h>
 #include <goffice/utils/numbers.h>
-#ifdef HAVE_IEEEFP_H
-#include <ieeefp.h>
-#endif
-#ifdef HAVE_IEEE754_H
-#include <ieee754.h>
-#endif
-
-/* What a circus!  */
-#ifdef HAVE_FINITE
-#define go_finite finite
-#elif defined(HAVE_ISFINITE)
-#define go_finite isfinite
-#elif defined(FINITE)
-#define go_finite FINITE
-#error "I don't know an equivalent of finite for your system; you lose"
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -34,6 +18,8 @@ double go_sub_epsilon (double x);
 double go_fake_floor (double x);
 double go_fake_ceil (double x);
 double go_fake_trunc (double x);
+
+int go_finite (double x);
 
 /* ------------------------------------------------------------------------- */
 

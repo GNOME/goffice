@@ -22,6 +22,13 @@
 #endif
 #endif
 
+#ifdef HAVE_IEEEFP_H
+#include <ieeefp.h>
+#endif
+#ifdef HAVE_IEEE754_H
+#include <ieee754.h>
+#endif
+
 #define ML_UNDERFLOW (GO_EPSILON * GO_EPSILON)
 
 double go_nan;
@@ -165,6 +172,22 @@ go_fake_trunc (double x)
 	return (x >= 0)
 		? floor (go_add_epsilon (x))
 		: -floor (go_add_epsilon (-x));
+}
+
+int
+go_finite (double x)
+{
+	/* What a circus!  */
+#ifdef HAVE_FINITE
+	return finite (x);
+#elif defined(HAVE_ISFINITE)
+	return isfinite (x);
+#elif defined(FINITE)
+	return FINITE (x);
+#else
+	x = fabs (x);
+	return x < HUGE_VAL;
+#endif
 }
 
 /****************************************************************/

@@ -1,5 +1,8 @@
 2005-03-04  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-math.c (go_finite): Make this a function and
+	add a fallback definition.
+
 	* goffice/graph/gog-renderer-pixbuf.c
 	(gog_renderer_pixbuf_finalize): No need to call
 	go_pango_fc_font_map_cache_clear.
