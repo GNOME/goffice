@@ -11,6 +11,7 @@
  */
 
 #include <goffice/goffice-config.h>
+#include <goffice/goffice-paths.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/app/go-plugin-loader.h>
@@ -1694,6 +1695,8 @@ go_plugins_init (GOCmdContext *context,
 	ErrorInfo *error;
 	GSList *plugin_list;
 
+	plugin_dirs = g_slist_append (plugin_dirs, go_plugins_get_plugin_dir ());
+
 	go_default_loader_type = default_loader_type;
 	go_plugins_set_dirs (plugin_dirs);
 
@@ -1828,3 +1831,8 @@ go_plugins_shutdown (void)
 	return used_plugin_state_strings;
 }
 
+char *
+go_plugins_get_plugin_dir (void)
+{
+	return g_build_filename (GOFFICE_LIBDIR, "plugins", NULL);
+}

@@ -1,3 +1,9 @@
+2005-03-06  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/app/go-plugin.c (go_plugins_init): append goffice plugin
+	directory to plugin_dirs list.
+	(go_plugins_get_plugin_dir): new.
+
 2005-03-04  Jody Goldberg <jody@gnome.org>
 
 	* goffice/app/module-plugin-defs.h : remove the ugly go_get_current_plugin
