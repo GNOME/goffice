@@ -1,0 +1,557 @@
+-*- mode: m4 -*-
+AC_PREREQ(2.52)
+
+m4_define([goffice_version_epoch], [0])
+m4_define([goffice_version_major], [0])
+m4_define([goffice_version_minor], [1])
+m4_define([goffice_version_extra], [])
+m4_define([goffice_full_version],
+    [goffice_version_epoch.goffice_version_major.goffice_version_minor()goffice_version_extra])
+
+dnl Emphasize some of the checks.
+m4_define([BIG_CHECKING], [AC_MSG_CHECKING([
+======== $1])])
+
+AC_INIT([gnumeric], [goffice_full_version],
+	[http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric])
+
+AC_CONFIG_SRCDIR(goffice.h)
+AM_INIT_AUTOMAKE([dist-bzip2])
+AM_CONFIG_HEADER(goffice-config.h)
+
+AM_MAINTAINER_MODE
+
+# Make --disable-static the default
+AC_DISABLE_STATIC
+
+# We need intltool >= 0.27.2 to extract the UTF-8 chars from source code
+AC_PROG_INTLTOOL([0.27.2])
+
+AC_ISC_POSIX
+AC_PROG_CC
+AC_PROG_YACC
+AM_PROG_LEX
+AC_PROG_LN_S
+AM_PROG_LIBTOOL
+AC_STDC_HEADERS
+
+AC_SUBST(ACLOCAL_FLAGS)
+
+dnl *****************************
+# Check for zlib.
+_cppflags="${CPPFLAGS}"
+_ldflags="${LDFLAGS}"
+
+AC_ARG_WITH(zlib,
+	[[  --with-zlib=DIR       use libz in DIR]],
+	[case $withval in
+	 yes|no) ;;
+	 *)	Z_DIR=$withval
+		CPPFLAGS="${CPPFLAGS} -I$withval/include"
+		LDFLAGS="${LDFLAGS} -L$withval/lib"
+		;;
+	 esac])
+
+if test "x$with_zlib" != xno; then
+	with_zlib=no
+	AC_CHECK_HEADER(zlib.h, [AC_CHECK_LIB(z, gzread, [with_zlib=yes])])
+fi
+
+if test "$with_zlib" = no; then
+	AC_MSG_ERROR([*** zlib is required])
+fi
+
+if test "x${Z_DIR}" != "x"; then
+	Z_CPPFLAGS="-I${Z_DIR}/include"
+	case ${host} in
+	*-*-solaris*)	Z_LIBS="-L${Z_DIR}/lib -R${Z_DIR}/lib -lz" ;;
+	*)		Z_LIBS="-L${Z_DIR}/lib -lz" ;;
+	esac
+else
+	Z_LIBS="-lz"
+fi
+AC_DEFINE([HAVE_LIBZ], [], [Have compression library])
+AC_SUBST(Z_CPPFLAGS)
+AC_SUBST(Z_LIBS)
+
+CPPFLAGS=${_cppflags}
+LDFLAGS=${_ldflags}
+
+dnl *****************************
+goffice_reqs="
+	glib-2.0		>= 2.6.0
+	gobject-2.0		>= 2.6.0
+	gmodule-2.0		>= 2.6.0
+	libgsf-1		>= 1.11.1
+	libxml-2.0		>= 2.4.12
+	pango			>= 1.8.0
+	pangoft2		>= 1.8.0
+"
+goffice_gtk_reqs="
+	gtk+-2.0		>= 2.6.0
+	libglade-2.0		>= 2.3.6
+	libgnomecanvas-2.0	>= 2.0.0
+	libgnomeprint-2.2	>= 2.8.2
+	libgnomeprintui-2.2	>= 2.8.2
+	libart-2.0		>= 2.3.11
+"
+goffice_gnome_reqs="
+	gconf-2.0
+	libbonobo-2.0		>= 2.2.0
+	libbonoboui-2.0		>= 2.2.0
+	libgnome-2.0		>= 2.0.0
+	libgnomeui-2.0		>= 2.0.0
+	libgsf-gnome-1		>= 1.11.1
+"
+
+ui_msg=
+
+dnl *******************
+dnl Should we use gtk ?
+dnl *******************
+goffice_with_gtk=true
+AC_ARG_WITH(gtk, [--without-gtk    Build without UI])
+if test "x$with_gtk" = xno; then
+	ui_msg="None (Gtk disabled by request)"
+	goffice_with_gtk=false
+fi
+
+if test "x$goffice_with_gtk" = "xtrue" ; then
+	PKG_CHECK_MODULES(GTK, [$goffice_gtk_reqs],
+		[ui_msg="Gtk"],
+		[ui_msg="None (missing gtk dependencies)" ; goffice_with_gtk=false ])
+fi 
+
+goffice_with_gnome=$goffice_with_gtk
+if test "x$goffice_with_gtk" = "xtrue" ; then
+	AC_DEFINE(WITH_GTK, 1, [Define if UI is built])
+	goffice_reqs="$goffice_reqs $goffice_gtk_reqs"
+
+	dnl ************************************
+	dnl Are the GNOME extensions available ?
+	dnl ************************************
+
+	goffice_with_gnome=true
+	AC_ARG_WITH(gnome,
+		[--{with,without}-gnome    Use GNOME extensions],
+		if test "x$withval" = xno; then
+			goffice_with_gnome=false
+			ui_msg="Gtk+ (Gnome disabled by request)"
+		fi
+	)
+	if test "x$goffice_with_gnome" = "xtrue"; then
+		PKG_CHECK_MODULES(GNOME, [$goffice_gnome_reqs],
+			[ui_msg="Gnome"],
+			[ui_msg="Gtk (missing gnome dependencies)" ; goffice_with_gnome=false])
+	fi
+
+	if test "x$goffice_with_gnome" = "xtrue"; then
+		AC_DEFINE(WITH_GNOME, 1, [Define if GNOME extensions are available])
+		goffice_reqs="$goffice_reqs $goffice_gnome_reqs"
+	fi
+fi
+AM_CONDITIONAL(WITH_GTK,   $goffice_with_gtk)
+AM_CONDITIONAL(WITH_GNOME, $goffice_with_gnome)
+
+dnl ****************************
+dnl now that we have selected out libraries the whole collection in one
+dnl shot so that we can have a nice neat compile/link line
+dnl ****************************
+
+PKG_CHECK_MODULES(GNUMERIC, $goffice_reqs)
+GNUMERIC_CFLAGS="$GNUMERIC_CFLAGS -I\$(top_srcdir)/src/cut-n-paste-code"
+AC_SUBST(GNUMERIC_LIBS)
+AC_SUBST(GNUMERIC_CFLAGS)
+
+win32=no
+case $host_os in
+*mingw* | pw32* | cygwin*)
+    win32=yes
+    GNUMERIC_PLUGIN_LDFLAGS="-no-undefined $GNUMERIC_LIBS -Wl,--enable-runtime-pseudo-relo,\$(top_builddir)/src/goffice.exe.a -s"
+    AC_CHECK_TOOL(WINDRES, windres, :)
+    ;;
+esac
+AM_CONDITIONAL(WITH_WIN32, test x"$win32" = "xyes")
+
+GNUMERIC_PLUGIN_LDFLAGS="-avoid-version $GNUMERIC_PLUGIN_LDFLAGS"
+AC_SUBST(GNUMERIC_PLUGIN_LDFLAGS)
+
+dnl disable for in stable release, re-enable for development series
+CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED"
+CFLAGS="$CFLAGS -DPANGO_DISABLE_DEPRECATED"
+if test "x$goffice_with_gtk" = "xtrue"; then
+	CFLAGS="$CFLAGS -DGDK_PIXBUF_DISABLE_DEPRECATED"
+	CFLAGS="$CFLAGS -DGDK_DISABLE_DEPRECATED"
+	CFLAGS="$CFLAGS -DGDK_MULTIHEAD_SAFE"
+	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED"
+	CFLAGS="$CFLAGS -DLIBGLADE_DISABLE_DEPRECATED"
+fi
+if test "x$goffice_with_gnome" = "xtrue"; then
+	CFLAGS="$CFLAGS -DGNOME_DISABLE_DEPRECATED"
+	CFLAGS="$CFLAGS -DBONOBO_DISABLE_DEPRECATED"
+	CFLAGS="$CFLAGS -DBONOBO_UI_DISABLE_DEPRECATED"
+fi
+
+dnl ==============================================
+dnl GNOME Specific extensions
+with_corba=false
+if test "x${goffice_with_gnome}" = "xtrue"; then
+
+	dnl ==============================================
+	dnl Special GConf section  (stolen from libgnome)
+	dnl ==============================================
+
+	dnl Don't publish the GCONFTOOL variable, AM_GCONF_SOURCE_2 has ``gconftool-2'' hardwired.
+	GCONFTOOL=""
+	AC_CHECK_PROG(GCONFTOOL, gconftool-2, gconftool-2)
+	if test x"$GCONFTOOL" = x; then
+		AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
+	fi
+	AM_GCONF_SOURCE_2
+
+	dnl *************
+	dnl Corba support
+	dnl *************
+	PKG_CHECK_MODULES(CORBA_LIBS,
+		[ORBit-2.0 >= 2.4.2
+		libbonobo-2.0 >= 2.0.0
+		bonobo-activation-2.0 >= 1.0.2],
+		[with_corba=true],
+		[with_corba=false])
+	if test "x$with_corba" = "xtrue" ; then
+		ORBIT="`$PKG_CONFIG --variable=orbit_idl ORBit-2.0`"
+		BONOBO_IDL_DIR="`$PKG_CONFIG --variable=idldir libbonobo-2.0`"
+		BONOBO_ACTIVATION_IDL_DIR="`$PKG_CONFIG --variable=idldir bonobo-activation-2.0`"
+		ORBIT_IDL="${ORBIT} -I${BONOBO_IDL_DIR} -I${BONOBO_ACTIVATION_IDL_DIR}"
+		AC_SUBST(ORBIT_IDL)
+	fi
+fi
+AM_CONDITIONAL(GCONF_SCHEMAS_INSTALL, $goffice_with_gnome)
+AM_CONDITIONAL(WITH_CORBA, $with_corba)
+
+dnl ****************************
+dnl prep the pixmap generator
+dnl ****************************
+
+dnl We need the full pathname here, since some targets depend on $(GLIB_GENMARSHAL).
+dnl
+AC_ARG_VAR(GLIB_GENMARSHAL, [Absolute path of the glib-genmarshal executable.])
+AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
+
+AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [The gdk-pixbuf-csource executable.])
+AC_CHECK_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource, gdk-pixbuf-csource)
+
+## this should come after `AC_PROG_CC'
+ifdef([GNOME_COMPILE_WARNINGS],
+	[GNOME_COMPILE_WARNINGS] CFLAGS="$CFLAGS $WARN_CFLAGS",
+	[]
+)
+set_more_warnings=yes
+if test "$GCC" = "yes" -a "x$set_more_warnings" != "xno"; then
+	for option in -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings; do
+		SAVE_CFLAGS="$CFLAGS"
+		CFLAGS="$CFLAGS $option"
+		AC_MSG_CHECKING([whether gcc understands $option])
+		AC_TRY_COMPILE([], [],
+			has_option=yes,
+			has_option=no,)
+		if test $has_option = no; then
+		  CFLAGS="$SAVE_CFLAGS"
+		fi
+		AC_MSG_RESULT($has_option)
+		unset has_option
+		unset SAVE_CFLAGS
+	done
+	unset option
+fi
+AC_SUBST(WARN_CFLAGS)
+
+# Unfortunately, -D_POSIX_SOURCE turns off struct timeval on Solaris
+AC_MSG_CHECKING([whether struct timeval is available])
+AC_TRY_COMPILE([#include <sys/time.h>], [struct timeval tv;], struct_timeval_works=yes, struct_timeval_works=no)
+AC_MSG_RESULT($struct_timeval_works)
+
+if test $struct_timeval_works = no ; then
+	CFLAGS="$CFLAGS -D__EXTENSIONS__"
+	AC_MSG_CHECKING([whether struct timeval is available with -D__EXTENSIONS__])
+	AC_TRY_COMPILE([#include <sys/time.h>], [struct timeval tv;], struct_timeval_works=yes, struct_timeval_works=no)
+	AC_MSG_RESULT($struct_timeval_works)
+	if test $struct_timeval_works = no ; then
+		AC_MSG_ERROR([struct timeval is not available])
+	fi
+fi
+
+AC_CHECK_FUNC(gettimeofday,
+	[AC_DEFINE(HAVE_GETTIMEOFDAY, 1,
+		[Define if the gettimeofday function is available]
+	)])
+
+dnl M_PI
+AC_MSG_CHECKING([whether M_PI is available])
+AC_TRY_COMPILE([#include <math.h>], [double f = M_PI], works_without_bsd_source=yes, works_without_bsd_source=no)
+AC_MSG_RESULT($works_without_bsd_source)
+
+if test $works_without_bsd_source = no ; then
+	CFLAGS="$CFLAGS -D_BSD_SOURCE"
+	AC_MSG_CHECKING([whether M_PI is available with -D_BSD_SOURCE])
+	AC_TRY_COMPILE([#include <math.h>], [double f = M_PI], m_pi_works=yes, m_pi_works=no)
+	AC_MSG_RESULT($m_pi_works)
+	if test $m_pi_works = no ; then
+		AC_MSG_ERROR([M_PI is not available])
+	fi
+fi
+
+dnl **************************************************
+dnl stolen from gtk+
+AC_MSG_CHECKING(whether make is GNU Make)
+STRIP_BEGIN=
+STRIP_END=
+if $ac_make --version 2>/dev/null | grep '^GNU Make ' >/dev/null ; then
+	STRIP_BEGIN='$(strip $(STRIP_DUMMY)'
+	STRIP_END=')'
+	AC_MSG_RESULT(yes)
+else
+	AC_MSG_RESULT(no)
+fi
+STRIP_DUMMY=
+AC_SUBST(STRIP_DUMMY)
+AC_SUBST(STRIP_BEGIN)
+AC_SUBST(STRIP_END)
+
+AC_SUBST(ALL_LINGUAS,
+"am az bg ca cs da de el en_CA en_GB es et fi fr ga gl he hr hu it ja ko lv ml mr ms nb nl nn no pl pt pt_BR ro ru sk sr sr@Latn sv tr uk vi zh_CN zh_TW")
+
+AC_SUBST(GETTEXT_PACKAGE, goffice)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
+	[The package name, for gettext]
+)
+AM_GLIB_GNU_GETTEXT
+
+dnl
+dnl On Solaris finite() needs ieeefp.h
+dnl Either of these seem to signal IEEE754 math, see mathfunc.c
+dnl
+AC_CHECK_HEADERS(ieeefp.h ieee754.h)
+
+dnl Check for some functions
+AC_CHECK_FUNCS(random drand48 finite memmove mkdtemp uname times sysconf)
+
+dnl FIXME: Does this really belong here?
+AC_CHECK_FUNC(bind_textdomain_codeset,,[AC_CHECK_LIB(intl,bind_textdomain_codeset)])
+
+dnl isfinite is a macro on HPUX
+AC_TRY_COMPILE([#include <math.h>], [int a = isfinite(0.0)],
+	[AC_DEFINE(HAVE_ISFINITE, 1,
+		[Define if the isfinite() macro is available]
+	 )
+	], [])
+
+dnl
+dnl On BSD, we seem to need -lm for finite
+dnl
+if test $ac_cv_func_finite = no; then
+  AC_CHECK_LIB(m, finite,
+        [AC_DEFINE(HAVE_FINITE, 1,
+		[Define if the finite function is available]
+	 )
+         LIBS="$LIBS -lm"])
+fi
+
+dnl check for complete locale implementation
+AC_CHECK_HEADERS(langinfo.h)
+
+dnl We supply our own lgamma_r (using lgamma) when missing.
+dnl We supply our own expm1 (using log1p) when missing.
+AC_CHECK_FUNCS(lgamma)
+if test $ac_cv_func_lgamma = no; then
+  AC_CHECK_LIB(m, lgamma,
+        [AC_DEFINE(HAVE_LGAMMA, 1,
+		[Define if the lgamma function is available]
+	 )
+         LIBS="$LIBS -lm"])
+fi
+AC_CHECK_FUNCS(lgamma_r expm1 log1p asinh acosh atanh)
+
+AC_C_LONG_DOUBLE
+float_msg=double
+have_ld=no
+AC_ARG_WITH(long_double,
+	[--{with,without}-long-double		Use long double for floating point],
+	[if test "x$withval" = xyes; then
+		if test "x$ac_cv_c_long_double" != "xyes"; then
+			AC_MSG_ERROR([Long double type is not available.])
+		fi
+
+		need_sunmath=no
+		for ldfunc in fabsl sqrtl expl expm1l logl log10l log1pl ceill floorl powl hypotl \
+				sinl cosl tanl asinl acosl atanl atan2l fmodl lgammal lgammal_r \
+				sinhl coshl tanhl asinhl acoshl atanhl \
+				isnanl finitel; do
+			AC_CHECK_FUNC($ldfunc,
+			      ,
+			      AC_CHECK_LIB(m,
+				  $ldfunc,
+				  ,
+				  AC_CHECK_LIB(sunmath,
+				      $ldfunc,
+				      [ if test "x$need_sunmath" = "xno"; then
+					    # FIXME: better idea?
+					    LDFLAGS="$LDFLAGS -L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath"
+					    sunmathinclude=`ls -d /opt/SUNWspro/*/include/cc | tail -1`
+					    CPPFLAGS="$CPPFLAGS -I$sunmathinclude"
+				        fi
+					need_sunmath=yes ],
+				      AC_MSG_ERROR([Long doubles require the $ldfunc function.]),
+				      -L/opt/SUNWspro/lib $GNUMERIC_LIBS)))
+		done
+		if test "x$need_sunmath" = "xyes"; then
+			AC_CHECK_HEADERS([sunmath.h floatingpoint.h],
+					 ,
+					 AC_MSG_ERROR([Long doubles require the sunmath.h header.]))
+		fi
+
+		AC_CHECK_FUNCS(modfl frexpl ldexpl strtold string_to_decimal decimal_to_quadruple)
+		if test "x$ac_cv_func_strtold" = "xyes"; then
+			AC_MSG_CHECKING([if we must prototype strtold ourselves])
+			AC_TRY_RUN([
+				#include <stdlib.h>
+				int main ()
+				{
+					const char *s = "+3.1415e+0";
+					char *theend;
+					long double res = strtold (s, &theend);
+					return !(*theend == 0 && finitel (res) &&
+						 res >= 3.14 && res <= 3.15);
+				}],
+				AC_MSG_RESULT(no),
+				[AC_MSG_RESULT(yes)
+				 AC_DEFINE(MUST_PROTOTYPE_STRTOLD, 1,
+					[Define if we need to provide a prototype for strtold()]
+				 )],
+				AC_MSG_RESULT(assuming not))
+		elif test "x$ac_cv_func_string_to_decimal" != "xyes" || \
+		     test "x$ac_cv_func_decimal_to_quadruple" != "xyes" || \
+		     test "x$ac_cv_header_floatingpoint_h" != "xyes"; then
+			AC_MSG_WARN([You lack the strtold function -- precision will be impaired])
+		fi
+
+		if test "x$ac_cv_func_modfl" != "xyes"; then
+			AC_MSG_WARN([You lack the modfl function -- precision will be impaired])
+		fi
+
+		AC_MSG_CHECKING([checking for working ynl])
+		AC_TRY_RUN([
+			#include <math.h>
+			#ifdef HAVE_SUNMATH_H
+			#include <sunmath.h>
+			#endif
+			int main ()
+			{
+				long double l = ynl (2, 4.0L);
+				return !(l >= 0.21 && l <= 0.22);
+			}],
+			[AC_DEFINE(HAVE_YNL)
+			AC_MSG_RESULT(yes)],
+			AC_MSG_RESULT(no),
+			[AC_CHECK_FUNCS(ynl)])
+
+		AC_MSG_CHECKING([checking for working erfl and erfcl])
+		AC_TRY_RUN([
+			#include <math.h>
+			#ifdef HAVE_SUNMATH_H
+			#include <sunmath.h>
+			#endif
+			int main ()
+			{
+				long double l1 = erfl (1.2L);
+				long double l2 = erfcl (1.2L);
+				return !(l1 >= 0.91 && l1 <= 0.92 &&
+					 l2 >= 0.08 && l2 <= 0.09);
+			}],
+			[AC_DEFINE(HAVE_ERFL)
+			 AC_DEFINE(HAVE_ERFCL)
+			AC_MSG_RESULT(yes)],
+			AC_MSG_RESULT(no),
+			[AC_CHECK_FUNCS(erfl erfcl)])
+
+		float_msg="long double (EXPERIMENTAL)"
+		AC_MSG_WARN([Long double support is experimental -- expect problems])
+		AC_DEFINE(WITH_LONG_DOUBLE, 1,
+			[Define if the long double type is to be used]
+		)
+	fi]
+)
+
+dnl **************************************************
+dnl * Config defaults (Must be after bonobo)
+dnl **************************************************
+goffice_version="${VERSION}"
+goffice_prefix='${prefix}'
+goffice_exec_prefix='${exec_prefix}'
+dnl These are changed in libgnumeric.c for WIN32 packages
+goffice_datadir='${datadir}/goffice/${goffice_version}'
+goffice_libdir='${libdir}/goffice/${goffice_version}'
+goffice_plugindir='${goffice_libdir}/plugins'
+goffice_gladedir='${goffice_datadir}/glade'
+goffice_icondir='${datadir}/pixmaps/goffice'
+goffice_localedir='${prefix}/${DATADIRNAME}/locale'
+
+dnl Export to goffice-config.h
+AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "goffice_full_version",
+	[The version number of this release, possibly suffixed for bonobo]
+)
+AC_DEFINE_UNQUOTED(GNM_VERSION_EPOCH, goffice_version_epoch,
+	[The Epoch of this release]
+)
+AC_DEFINE_UNQUOTED(GNM_VERSION_MAJOR, goffice_version_major,
+	[The Major version number of this release]
+)
+AC_DEFINE_UNQUOTED(GNM_VERSION_MINOR, goffice_version_minor,
+	[The Minor version number of this release]
+)
+AC_DEFINE_UNQUOTED(GNM_VERSION_EXTRA, "goffice_version_extra",
+	[Extra, possibly empty tag for this release]
+)
+AC_SUBST(goffice_version)
+AC_SUBST(goffice_prefix)
+AC_SUBST(goffice_exec_prefix)
+AC_SUBST(goffice_datadir)
+AC_SUBST(goffice_libdir)
+AC_SUBST(goffice_plugindir)
+AC_SUBST(goffice_gladedir)
+AC_SUBST(goffice_icondir)
+AC_SUBST(goffice_localedir)
+AC_SUBST(goffice_autoformatdir)
+AC_SUBST(goffice_with_gnome)
+
+AC_OUTPUT([
+Makefile
+app/Makefile
+pixmaps/Makefile
+utils/Makefile
+gtk/Makefile
+graph/Makefile
+drawing/Makefile
+ms-compat/Makefile
+plugins/Makefile
+plugins/plot_barcol/Makefile
+plugins/plot_pie/Makefile
+plugins/plot_radar/Makefile
+plugins/plot_xy/Makefile
+plugins/plot_surface/Makefile
+plugins/plot_boxes/Makefile
+test/Makefile
+stamp.h
+])
+
+echo "
+
+Configuration:
+
+	Source code location:	${srcdir}
+	Compiler:		${CC}
+	Compiler flags:		${CFLAGS}
+	Floating point type:	${float_msg}
+
+	UI :			${ui_msg}
+"

@@ -1,4 +1,4 @@
-noinst_LTLIBRARIES = libgoffice-gui-utils.la
+noinst_LTLIBRARIES = libgoffice-gtk.la
 if WITH_WIN32
     noinst_LTLIBRARIES += libhtmlhelp-stub.la
 
@@ -7,7 +7,7 @@ if WITH_WIN32
     libhtmlhelp_stub_la_LDFLAGS = -no-undefined -Wl,libhtmlhelp-stub.def
 endif
 
-libgoffice_gui_utils_la_SOURCES =	\
+libgoffice_gtk_la_SOURCES =	\
 	go-combo-box.c			\
 	go-combo-box.h			\
 	go-color-group.c		\
@@ -39,7 +39,7 @@ libgoffice_gui_utils_la_SOURCES =	\
 
 include $(srcdir)/../goffice.mk
 
-gladedir   = $(gnumeric_gladedir)
+gladedir   = $(goffice_gladedir)
 glade_DATA = \
 	go-font-sel.glade 	\
 	go-format-sel.glade 

@@ -1,11 +1,11 @@
-SUBDIRS = app graph utils gui-utils drawing ms-compat test pixmaps cut-n-paste . plugins
+SUBDIRS = app graph utils gtk drawing ms-compat test pixmaps cut-n-paste . plugins
 
 noinst_LTLIBRARIES = libgoffice.la
 
 libgoffice_la_LIBADD = 				\
 	utils/libgoffice-utils.la		\
 	app/libgoffice-app.la			\
-	gui-utils/libgoffice-gui-utils.la	\
+	gtk/libgoffice-gtk.la			\
 	graph/libgoffice-graph.la		\
 	drawing/libgoffice-drawing.la		\
 	ms-compat/libgoffice-ms-compat.la

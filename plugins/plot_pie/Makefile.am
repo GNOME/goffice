@@ -1,4 +1,4 @@
-goffice_graph_piedir = $(gnumeric_plugindir)/plot_pie
+goffice_graph_piedir = $(goffice_plugindir)/plot_pie
 xmldir	 = $(goffice_graph_piedir)
 gladedir = $(goffice_graph_piedir)
 
@@ -24,4 +24,4 @@ plot-types.xml : plot-types.xml.in
 EXTRA_DIST = $(xml_in_files) $(glade_DATA)
 DISTCLEANFILES = $(xml_in_files:.xml.in=.xml)
 
-include $(srcdir)/../../../goffice-plugins.mk
+include $(srcdir)/../../goffice-plugins.mk

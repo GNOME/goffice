@@ -1,4 +1,4 @@
-goffice_graph_barcoldir = $(gnumeric_plugindir)/plot_barcol
+goffice_graph_barcoldir = $(goffice_plugindir)/plot_barcol
 xmldir	 = $(goffice_graph_barcoldir)
 gladedir = $(goffice_graph_barcoldir)
 
@@ -27,4 +27,4 @@ plot-types.xml : plot-types.xml.in
 EXTRA_DIST = $(xml_in_files) $(glade_DATA)
 DISTCLEANFILES = $(xml_in_files:.xml.in=.xml)
 
-include $(srcdir)/../../../goffice-plugins.mk
+include $(srcdir)/../../goffice-plugins.mk

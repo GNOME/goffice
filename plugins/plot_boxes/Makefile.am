@@ -1,4 +1,4 @@
-goffice_graph_boxplotdir = $(gnumeric_plugindir)/plot_boxes
+goffice_graph_boxplotdir = $(goffice_plugindir)/plot_boxes
 xmldir	 = $(goffice_graph_boxplotdir)
 gladedir = $(goffice_graph_boxplotdir)
 
@@ -22,4 +22,4 @@ plot-types.xml : plot-types.xml.in
 EXTRA_DIST = $(xml_in_files) $(glade_DATA)
 DISTCLEANFILES = $(xml_in_files:.xml.in=.xml)
 
-include $(srcdir)/../../../goffice-plugins.mk
+include $(srcdir)/../../goffice-plugins.mk

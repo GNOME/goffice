@@ -1,3 +1,7 @@
+2005-02-27  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : Quick and dirty subset of gnumeric
+
 2005-02-26  Jody Goldberg <jody@gnome.org>
 
 	* graph/Makefile.am : move the plugins into the root dir

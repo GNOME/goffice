@@ -1,4 +1,4 @@
-goffice_graph_radardir = $(gnumeric_plugindir)/plot_radar
+goffice_graph_radardir = $(goffice_plugindir)/plot_radar
 xmldir	 = $(goffice_graph_radardir)
 gladedir = $(goffice_graph_radardir)
 
@@ -21,4 +21,4 @@ plot-types.xml : plot-types.xml.in
 EXTRA_DIST = $(xml_in_files)
 DISTCLEANFILES = $(xml_in_files:.xml.in=.xml)
 
-include $(srcdir)/../../../goffice-plugins.mk
+include $(srcdir)/../../goffice-plugins.mk

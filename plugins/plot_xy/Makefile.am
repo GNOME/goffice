@@ -1,4 +1,4 @@
-goffice_graph_xydir = $(gnumeric_plugindir)/plot_xy
+goffice_graph_xydir = $(goffice_plugindir)/plot_xy
 xmldir	 = $(goffice_graph_xydir)
 gladedir = $(goffice_graph_xydir)
 
@@ -24,4 +24,4 @@ plot-types.xml : plot-types.xml.in
 EXTRA_DIST	= $(xml_in_files) $(glade_DATA)
 DISTCLEANFILES	= $(xml_in_files:.xml.in=.xml)
 
-include $(srcdir)/../../../goffice-plugins.mk
+include $(srcdir)/../../goffice-plugins.mk
