@@ -8,6 +8,11 @@
 
 2005-03-16  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* goffice/graph/gog-axis.c (map_discrete_auto_bound): do not set auto
+	cross point.
+	
+2005-03-16  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* goffice/utils/go-line.c (go_line_build_vpath),
 	(go_line_build_bpath): fix new point test.
 

@@ -211,7 +211,6 @@ map_discrete_auto_bound (GogAxis *axis,
 		bound [GOG_AXIS_ELEM_MAJOR_TICK] = 
 		bound [GOG_AXIS_ELEM_MINOR_TICK] = 1.;
 
-	bound [GOG_AXIS_ELEM_CROSS_POINT] = 1.;
 	bound [GOG_AXIS_ELEM_MIN] = minimum;
 	bound [GOG_AXIS_ELEM_MAX] = maximum;
 }
