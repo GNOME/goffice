@@ -24,7 +24,7 @@
 #include <goffice/graph/go-data-impl.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <src/gnumeric-i18n.h>
 #include <string.h>
 #include <src/mathfunc.h>
 
@@ -303,7 +303,8 @@ go_data_vector_get_str (GODataVector *vec, unsigned i)
 	GODataVectorClass const *klass = GO_DATA_VECTOR_GET_CLASS (vec);
 	char *res;
 
-	g_return_val_if_fail (klass != NULL, NULL);
+	g_return_val_if_fail (klass != NULL, g_strdup (""));
+	g_return_val_if_fail ((int)i < vec->len, g_strdup (""));
 
 	res = (*klass->get_str) (vec, i);
 	if (res == NULL)
