@@ -1,3 +1,7 @@
+2005-03-30  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-object.c (gog_editor_free): free editor.
+
 2005-03-30  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/regutf8.c: Import Gnumeric's non-gui search stuff.

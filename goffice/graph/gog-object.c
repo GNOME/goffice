@@ -119,6 +119,8 @@ gog_editor_free (GogEditor *editor)
 {
 	g_slist_foreach (editor->pages, (GFunc) g_free, NULL);
 	g_slist_free (editor->pages);
+
+	g_free (editor);
 }
 	
 enum {
