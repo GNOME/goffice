@@ -1,3 +1,8 @@
+2005-02-26  Jody Goldberg <jody@gnome.org>
+
+	* graph/Makefile.am : move the plugins into the root dir
+	  so that the plugins can link against libgoffice
+
 2005-02-22  Morten Welinder  <terra@gnome.org>
 
 	* gui-utils/go-gui-utils.c (filter_images): If we have no

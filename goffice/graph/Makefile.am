@@ -1,9 +1,3 @@
-if !WITH_WIN32
-  SUBDIRS = plugins
-endif
-# SUBDIRS += tests
-## Don't put comment on an assignment line!  It can trigger an automake bug.
-
 noinst_LTLIBRARIES = libgoffice-graph.la
 
 libgoffice_graph_la_SOURCES = \
