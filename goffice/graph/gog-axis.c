@@ -1087,7 +1087,7 @@ gog_axis_get_entry (GogAxis const *axis, GogAxisElemType i, gboolean *user_defin
 		*user_defined = FALSE;
 
 	g_return_val_if_fail (GOG_AXIS (axis) != NULL, go_nan);
-	g_return_val_if_fail (i >= GOG_AXIS_ELEM_MIN && i < GOG_AXIS_ELEM_MAX, go_nan);
+	g_return_val_if_fail (i >= GOG_AXIS_ELEM_MIN && i < GOG_AXIS_ELEM_MAX_ENTRY, go_nan);
 
 	if (i != GOG_AXIS_ELEM_CROSS_POINT)
 		dat = axis->source [i].data;

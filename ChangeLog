@@ -1,3 +1,8 @@
+2005-03-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c: (gog_axis_get_entry): fixed test for
+	GogAxisElemType arg (GOG_AXIS_ELEM_MAX_ENTRY instead of GOG_AXIS_ELEM_MAX).
+
 2005-03-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/goffice.c (libgoffice_init): add GogAxisLine object.
