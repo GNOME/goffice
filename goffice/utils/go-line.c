@@ -25,7 +25,7 @@
 #include "go-line.h"
 #include "go-math.h"
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/go-combo-pixmaps.h>
 #endif
 
@@ -239,7 +239,7 @@ go_line_dash_vpath (ArtVpath const *path,
 	return dashed;
 }
 					 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 
 #define LINE_SAMPLE_HEIGHT	5
 #define LINE_SAMPLE_WIDTH	60
@@ -444,4 +444,4 @@ go_line_build_vpath (double const *x, double const *y, int n)
 	return path;
 }
 
-#endif /*WITH_GTK*/
+#endif /*GOFFICE_WITH_GTK*/

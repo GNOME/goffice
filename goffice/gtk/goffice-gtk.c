@@ -604,7 +604,7 @@ typedef struct {
 	char const *link;
 } CBHelpPaths;
 
-#ifdef WITH_GNOME
+#ifdef GOFFICE_WITH_GNOME
 #include <libgnome/gnome-help.h>
 #elif defined(G_OS_WIN32)
 #include "htmlhelp-stub.h"
@@ -612,7 +612,7 @@ typedef struct {
 static void
 go_help_display (CBHelpPaths const *paths)
 {
-#ifdef WITH_GNOME
+#ifdef GOFFICE_WITH_GNOME
 	gnome_help_display (paths->app, paths->link, NULL);
 #elif defined(G_OS_WIN32)
 	static GHashTable* context_help_map = NULL;

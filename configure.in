@@ -120,7 +120,7 @@ fi
 
 goffice_with_gnome=$goffice_with_gtk
 if test "x$goffice_with_gtk" = "xtrue" ; then
-	AC_DEFINE(WITH_GTK, 1, [Define if UI is built])
+	AC_DEFINE(GOFFICE_WITH_GTK, 1, [Define if UI is built])
 	goffice_reqs="$goffice_reqs $goffice_gtk_reqs"
 
 	dnl ************************************
@@ -142,12 +142,12 @@ if test "x$goffice_with_gtk" = "xtrue" ; then
 	fi
 
 	if test "x$goffice_with_gnome" = "xtrue"; then
-		AC_DEFINE(WITH_GNOME, 1, [Define if GNOME extensions are available])
+		AC_DEFINE(GOFFICE_WITH_GNOME, 1, [Define if GNOME extensions are available])
 		goffice_reqs="$goffice_reqs $goffice_gnome_reqs"
 	fi
 fi
-AM_CONDITIONAL(WITH_GTK,   $goffice_with_gtk)
-AM_CONDITIONAL(WITH_GNOME, $goffice_with_gnome)
+AM_CONDITIONAL(GOFFICE_WITH_GTK,   $goffice_with_gtk)
+AM_CONDITIONAL(GOFFICE_WITH_GNOME, $goffice_with_gnome)
 
 dnl ****************************
 dnl now that we have selected out libraries the whole collection in one
@@ -535,16 +535,16 @@ dnl Export to goffice-config.h
 AC_DEFINE_UNQUOTED(GOFFICE_VERSION, "goffice_full_version",
 	[The version number of this release, possibly with additional suffix]
 )
-AC_DEFINE_UNQUOTED(GNM_VERSION_EPOCH, goffice_version_epoch,
+AC_DEFINE_UNQUOTED(GO_VERSION_EPOCH, goffice_version_epoch,
 	[The Epoch of this release]
 )
-AC_DEFINE_UNQUOTED(GNM_VERSION_MAJOR, goffice_version_major,
+AC_DEFINE_UNQUOTED(GO_VERSION_MAJOR, goffice_version_major,
 	[The Major version number of this release]
 )
-AC_DEFINE_UNQUOTED(GNM_VERSION_MINOR, goffice_version_minor,
+AC_DEFINE_UNQUOTED(GO_VERSION_MINOR, goffice_version_minor,
 	[The Minor version number of this release]
 )
-AC_DEFINE_UNQUOTED(GNM_VERSION_EXTRA, "goffice_version_extra",
+AC_DEFINE_UNQUOTED(GO_VERSION_EXTRA, "goffice_version_extra",
 	[Extra, possibly empty tag for this release]
 )
 AC_SUBST(goffice_version)

@@ -22,7 +22,7 @@
 #include <goffice/goffice-config.h>
 #include "go-pattern.h"
 #include "go-color.h"
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/go-combo-pixmaps.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 #endif
@@ -188,7 +188,7 @@ go_pattern_set_solid (GOPattern *pat, GOColor fore)
 	pat->back = fore;
 }
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 gpointer
 go_pattern_selector (GOColor fore, GOColor back,
 		     GOPatternType default_pat)
@@ -251,7 +251,7 @@ go_pattern_selector (GOColor fore, GOColor back,
 	art_svp_free (svp);
 	return w;
 }
-#endif /* WITH_GTK */
+#endif /* GOFFICE_WITH_GTK */
 
 /*
  *  A slightly modified version of art_rgb_svp to render into rgba buffer

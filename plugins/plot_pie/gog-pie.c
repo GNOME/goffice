@@ -120,7 +120,7 @@ enum {
 	PLOT_PROP_IN_3D
 };
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GOFFICE_VERSION);
+GOFFICE_PLUGIN_MODULE_HEADER;
 
 static GObjectClass *pie_parent_klass;
 static GType gog_pie_view_get_type (void);

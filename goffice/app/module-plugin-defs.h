@@ -1,6 +1,7 @@
 #ifndef GOFFICE_MODULE_PLUGIN_DEFS_H
 #define GOFFICE_MODULE_PLUGIN_DEFS_H
 
+#include <goffice/goffice-config.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/goffice-app.h>
 #include <gmodule.h>
@@ -47,20 +48,27 @@ prefix ## _get_type (void) \
 #endif
 
 
-/* All fields in this structure are PRIVATE. */
 typedef struct {
-	guint32 magic_number;
-	gchar   version[64];
-} ModulePluginFileStruct;
+	char const * const key;		/* object being versioned */
+	char const * const version;	/* version id (strict equality is required) */
+} GOPluginModuleDepend;
+typedef struct {
+	guint32 const magic_number;
+	guint32 const num_depends;
+} GOPluginModuleHeader;
 
 #define GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER             0x476e756d
+#define GOFFICE_MODULE_PLUGIN_INFO_DECL(ver)				\
+G_MODULE_EXPORT GOPluginModuleDepend const go_plugin_depends [] = ver;	\
+G_MODULE_EXPORT GOPluginModuleHeader const go_plugin_header =  		\
+	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) };
 
-/*
- * Every plugin should put somewhere a line with:
- * GOFFICE_MODULE_PLUGIN_INFO_DECL;
- */
-#define GOFFICE_MODULE_PLUGIN_INFO_DECL(ver)	\
-ModulePluginFileStruct plugin_file_struct = 	\
-    { GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, ver }
+/* convenience header for goffice plugins */
+#define GOFFICE_PLUGIN_MODULE_HEADER 					\
+G_MODULE_EXPORT GOPluginModuleDepend const go_plugin_depends [] = {	\
+    { "goffice", GOFFICE_VERSION }					\
+};	\
+G_MODULE_EXPORT GOPluginModuleHeader const go_plugin_header =  		\
+	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) }
 
 #endif /* GOFFICE_MODULE_PLUGIN_DEFS_H */

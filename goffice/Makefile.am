@@ -22,10 +22,10 @@ BUILT_SOURCES =	goffice-paths.h
 libgoffice_1_la_SOURCES = 	\
 	$(BUILT_SOURCES)	\
 	goffice.c		\
-	goffice-priv.h		\
-	goffice-config.h
+	goffice-priv.h
 libgoffice_1_ladir = $(goffice_include_dir)
 libgoffice_1_la_HEADERS = 	\
+	goffice-config.h	\
 	goffice.h
 
 goffice-paths.h: goffice-paths.sh

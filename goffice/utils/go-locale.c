@@ -28,7 +28,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifndef WITH_GNOME
+#ifndef GOFFICE_WITH_GNOME
 static GHashTable *alias_table = NULL;
 
 /*read an alias file for the locales*/

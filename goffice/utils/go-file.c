@@ -27,7 +27,7 @@
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-output-stdio.h>
-#ifdef WITH_GNOME
+#ifdef GOFFICE_WITH_GNOME
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <gsf-gnome/gsf-input-gnomevfs.h>
 #include <gsf-gnome/gsf-output-gnomevfs.h>
@@ -47,7 +47,7 @@
 char *
 go_filename_from_uri (const char *uri)
 {
-#ifdef WITH_GNOME
+#ifdef GOFFICE_WITH_GNOME
 	return gnome_vfs_get_local_path_from_uri (uri);
 #else
 	return g_filename_from_uri (uri, NULL, NULL);
@@ -85,7 +85,7 @@ go_filename_to_uri (const char *filename)
 		*q = 0;
 
 		/* FIXME: Resolve ".." parts.  */
-#ifdef WITH_GNOME
+#ifdef GOFFICE_WITH_GNOME
 		uri = gnome_vfs_get_uri_from_local_path (simp);
 #else
 		uri = g_filename_to_uri (simp, NULL, NULL);
@@ -109,7 +109,7 @@ go_filename_to_uri (const char *filename)
 char *
 go_shell_arg_to_uri (const char *arg)
 {
-#ifdef WITH_GNOME
+#ifdef GOFFICE_WITH_GNOME
 	return gnome_vfs_make_uri_from_shell_arg (arg);
 #else
 	if (g_path_is_absolute (arg))
@@ -137,7 +137,7 @@ go_shell_arg_to_uri (const char *arg)
 char *
 go_basename_from_uri (const char *uri)
 {
-#ifdef WITH_GNOME
+#ifdef GOFFICE_WITH_GNOME
 	char *raw_uri = gnome_vfs_unescape_string (uri, G_DIR_SEPARATOR_S);
 	char *basename = raw_uri ? g_path_get_basename (raw_uri) : NULL;
 	g_free (raw_uri);
@@ -172,7 +172,7 @@ go_dirname_from_uri (const char *uri, gboolean brief)
 {
 	char *dirname_utf8, *dirname;
 
-#ifdef WITH_GNOME
+#ifdef GOFFICE_WITH_GNOME
 	char *raw_uri = gnome_vfs_unescape_string (uri, G_DIR_SEPARATOR_S);
 	dirname = raw_uri ? g_path_get_dirname (raw_uri) : NULL;
 	g_free (raw_uri);
@@ -238,7 +238,7 @@ go_file_open (char const *uri, GError **err)
 		return result;
 	}
 
-#ifdef WITH_GNOME
+#ifdef GOFFICE_WITH_GNOME
 	return gsf_input_gnomevfs_new (uri, err);
 #else
 	g_set_error (err, gsf_input_error (), 0,
@@ -261,7 +261,7 @@ go_file_create (char const *uri, GError **err)
 		return result;
 	}
 
-#ifdef WITH_GNOME
+#ifdef GOFFICE_WITH_GNOME
 	return gsf_output_gnomevfs_new (uri, err);
 #else
 	g_set_error (err, gsf_output_error_id (), 0,
@@ -386,7 +386,7 @@ go_url_encode (gchar const *text)
 	return g_string_free (result, FALSE);
 }
 
-#ifndef WITH_GNOME
+#ifndef GOFFICE_WITH_GNOME
 static char *
 check_program (char const *prog)
 {
@@ -410,7 +410,7 @@ go_url_show (gchar const *url)
 	return NULL;
 #else
 	GError *err = NULL;
-#ifdef WITH_GNOME
+#ifdef GOFFICE_WITH_GNOME
 	gnome_url_show (url, &err);
 	return err;
 #else

@@ -39,7 +39,7 @@
 #include <gtk/gtklabel.h>
 #include <gsf/gsf-impl-utils.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GOFFICE_VERSION);
+GOFFICE_PLUGIN_MODULE_HEADER;
 
 enum {
 	GOG_1_5D_PROP_0,

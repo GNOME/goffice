@@ -36,7 +36,7 @@
 #include <gtk/gtkenums.h>
 #include <gsf/gsf-impl-utils.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GOFFICE_VERSION);
+GOFFICE_PLUGIN_MODULE_HEADER;
 
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *boxplot)

@@ -50,7 +50,7 @@ typedef Gog2DPlotClass GogXYPlotClass;
 
 typedef Gog2DPlotClass GogBubblePlotClass;
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GOFFICE_VERSION);
+GOFFICE_PLUGIN_MODULE_HEADER;
 
 static GogObjectClass *plot2d_parent_klass;
 static void gog_2d_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max);

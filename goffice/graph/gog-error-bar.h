@@ -60,7 +60,7 @@ GType gog_error_bar_get_type (void);
 
 GogErrorBar  	*gog_error_bar_dup		(GogErrorBar const *bar);
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 gpointer 	 gog_error_bar_prefs (GogSeries *series, char const* property, 
 				      gboolean horizontal, GogDataAllocator *dalloc, 
 				      GOCmdContext *cc);
