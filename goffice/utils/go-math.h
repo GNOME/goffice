@@ -2,6 +2,11 @@
 #define __GO_MATH_H
 
 #include <math.h>
+#ifdef HAVE_LONG_DOUBLE
+#ifdef HAVE_SUNMATH_H
+#include <sunmath.h>
+#endif
+#endif
 
 /* ------------------------------------------------------------------------- */
 
