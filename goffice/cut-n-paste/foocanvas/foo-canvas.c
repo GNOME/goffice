@@ -2,6 +2,7 @@
 
 #include <goffice/goffice-config.h>
 #include <glib/gi18n.h>
+#include <gsf/gsf-impl-utils.h>
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: 8; c-basic-offset: 8 -*- */
 /*
  * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation
@@ -1229,14 +1230,14 @@ foo_canvas_group_class_init (FooCanvasGroupClass *class)
 				      _("X"),
 				      _("X"),
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
 	g_object_class_install_property
 		(gobject_class, GROUP_PROP_Y,
 		 g_param_spec_double ("y",
 				      _("Y"),
 				      _("Y"),
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
 
 	object_class->destroy = foo_canvas_group_destroy;
 
@@ -3961,13 +3962,13 @@ foo_canvas_item_class_init (FooCanvasItemClass *class)
 		(gobject_class, ITEM_PROP_PARENT,
 		 g_param_spec_object ("parent", NULL, NULL,
 				      FOO_TYPE_CANVAS_ITEM,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
 
 	g_object_class_install_property
 		(gobject_class, ITEM_PROP_VISIBLE,
 		 g_param_spec_boolean ("visible", NULL, NULL,
 				      TRUE,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
 
 	item_signals[ITEM_EVENT] =
 		g_signal_new ("event",

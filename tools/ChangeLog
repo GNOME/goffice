@@ -1,3 +1,7 @@
+2005-03-29  Morten Welinder  <terra@gnome.org>
+
+	* import-foocanvas (copy_subsystem): Make property names static.
+
 2005-03-07  Stepan Kasal  <kasal@ucw.cz>
 
 	* import-bonobo, import-egg, import-pcre, import-foocanvas: Don't

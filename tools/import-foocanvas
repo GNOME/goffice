@@ -102,6 +102,7 @@ sub copy_subsystem {
 
 	    print DST "#include <goffice/goffice-config.h>\n";
 	    print DST "#include <glib/gi18n.h>\n";
+	    print DST "#include <gsf/gsf-impl-utils.h>\n";
 	}
 
 	while (<SRC>) {
@@ -118,6 +119,12 @@ sub copy_subsystem {
 		s|//|/*|;
 		s|$|*/|;
 	    }
+
+	    if (/g_object_class_install_property/ ... /;/) {
+		s/G_PARAM_READABLE \| G_PARAM_WRITABLE/G_PARAM_READWRITE/;
+		s/(G_PARAM_READ)/GSF_PARAM_STATIC | $1/;
+	    }
+
 	    print DST "$_\n";
 	}
 	close (*SRC);

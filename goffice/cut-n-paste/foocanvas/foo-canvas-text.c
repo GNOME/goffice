@@ -3,6 +3,7 @@
 #undef GTK_DISABLE_DEPRECATED
 #include <goffice/goffice-config.h>
 #include <glib/gi18n.h>
+#include <gsf/gsf-impl-utils.h>
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation
@@ -213,7 +214,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				      _("Text"),
 				      _("Text to render"),
                                       NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
 
         g_object_class_install_property
                 (gobject_class,
@@ -230,14 +231,14 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
                  PROP_X,
                  g_param_spec_double ("x", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
 
         g_object_class_install_property
                 (gobject_class,
                  PROP_Y,
                  g_param_spec_double ("y", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
 
 
 	/* Font */
@@ -248,7 +249,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				      _("Font"),
 				      _("Font description as a string"),
                                       NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
 
         g_object_class_install_property
 		(gobject_class,
@@ -257,7 +258,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				     _("Font description"),
 				     _("Font description as a PangoFontDescription struct"),
 				     PANGO_TYPE_FONT_DESCRIPTION,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
 
 	g_object_class_install_property
 		(gobject_class,
@@ -266,7 +267,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				      _("Font family"),
 				      _("Name of the font family, e.g. Sans, Helvetica, Times, Monospace"),
 				      NULL,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
 
 	/* Style */
         g_object_class_install_property
@@ -274,7 +275,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
                  PROP_ATTRIBUTES,
                  g_param_spec_boxed ("attributes", NULL, NULL,
 				     PANGO_TYPE_ATTR_LIST,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
 
 	g_object_class_install_property
 		(gobject_class,
@@ -284,7 +285,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				    _("Font style"),
 				    PANGO_TYPE_STYLE,
 				    PANGO_STYLE_NORMAL,
-				    G_PARAM_READABLE | G_PARAM_WRITABLE));
+				    GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class,
@@ -294,7 +295,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				    _("Font variant"),
 				    PANGO_TYPE_VARIANT,
 				    PANGO_VARIANT_NORMAL,
-				    G_PARAM_READABLE | G_PARAM_WRITABLE));
+				    GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class,
@@ -305,7 +306,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				   0,
 				   G_MAXINT,
 				   PANGO_WEIGHT_NORMAL,
-				   G_PARAM_READABLE | G_PARAM_WRITABLE));
+				   GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 
 	g_object_class_install_property
@@ -316,7 +317,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				    _("Font stretch"),
 				    PANGO_TYPE_STRETCH,
 				    PANGO_STRETCH_NORMAL,
-				    G_PARAM_READABLE | G_PARAM_WRITABLE));
+				    GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class,
@@ -327,7 +328,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				   0,
 				   G_MAXINT,
 				   0,
-				   G_PARAM_READABLE | G_PARAM_WRITABLE));
+				   GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class,
@@ -338,7 +339,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				     0.0,
 				     G_MAXDOUBLE,
 				     0.0,
-				     G_PARAM_READABLE | G_PARAM_WRITABLE));
+				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class,
@@ -349,7 +350,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				   -G_MAXINT,
 				   G_MAXINT,
 				   0,
-				   G_PARAM_READABLE | G_PARAM_WRITABLE));
+				   GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class,
@@ -358,7 +359,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				       _("Strikethrough"),
 				       _("Whether to strike through the text"),
 				       FALSE,
-				       G_PARAM_READABLE | G_PARAM_WRITABLE));
+				       GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class,
@@ -368,7 +369,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				    _("Style of underline for this text"),
 				    PANGO_TYPE_UNDERLINE,
 				    PANGO_UNDERLINE_NONE,
-				    G_PARAM_READABLE | G_PARAM_WRITABLE));
+				    GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	g_object_class_install_property
 		(gobject_class,
@@ -379,7 +380,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				      0.0,
 				      G_MAXDOUBLE,
 				      1.0,
-				      G_PARAM_READABLE | G_PARAM_WRITABLE));
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
         g_object_class_install_property
 		(gobject_class,
@@ -387,50 +388,50 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
                  g_param_spec_enum ("anchor", NULL, NULL,
                                     GTK_TYPE_ANCHOR_TYPE,
                                     GTK_ANCHOR_CENTER,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                    (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_JUSTIFICATION,
                  g_param_spec_enum ("justification", NULL, NULL,
                                     GTK_TYPE_JUSTIFICATION,
                                     GTK_JUSTIFY_LEFT,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                    (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_CLIP_WIDTH,
                  g_param_spec_double ("clip_width", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_CLIP_HEIGHT,
                  g_param_spec_double ("clip_height", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_CLIP,
                  g_param_spec_boolean ("clip", NULL, NULL,
 				       FALSE,
-				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				       (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WRAP_WIDTH,
                  g_param_spec_double ("wrap_width", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_X_OFFSET,
                  g_param_spec_double ("x_offset", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_Y_OFFSET,
                  g_param_spec_double ("y_offset", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR,
@@ -438,7 +439,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				      _("Color"),
 				      _("Text color, as string"),
                                       NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_GDK,
@@ -446,7 +447,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				     _("Color"),
 				     _("Text color, as a GdkColor"),
 				     GDK_TYPE_COLOR,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_RGBA,
@@ -454,13 +455,13 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				    _("Color"),
 				    _("Text color, as an R/G/B/A combined integer"),
 				    0, G_MAXUINT, 0,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				    (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_STIPPLE,
                  g_param_spec_object ("fill_stipple", NULL, NULL,
                                       GDK_TYPE_DRAWABLE,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_TEXT_WIDTH,
@@ -468,7 +469,7 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				      _("Text width"),
 				      _("Width of the rendered text"),
 				      0.0, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_TEXT_HEIGHT,
@@ -476,10 +477,10 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
 				      _("Text height"),
 				      _("Height of the rendered text"),
 				      0.0, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
 
 	/* Style props are set (explicitly applied) or not */
-#define ADD_SET_PROP(propname, propval, nick, blurb) g_object_class_install_property (gobject_class, propval, g_param_spec_boolean (propname, nick, blurb, FALSE, G_PARAM_READABLE | G_PARAM_WRITABLE))
+#define ADD_SET_PROP(propname, propval, nick, blurb) g_object_class_install_property (gobject_class, propval, g_param_spec_boolean (propname, nick, blurb, FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE))
 
 	ADD_SET_PROP ("family_set", PROP_FAMILY_SET,
 		      _("Font family set"),

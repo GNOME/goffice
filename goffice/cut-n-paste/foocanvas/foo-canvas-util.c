@@ -2,6 +2,7 @@
 
 #include <goffice/goffice-config.h>
 #include <glib/gi18n.h>
+#include <gsf/gsf-impl-utils.h>
 /*
  * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation
  * All rights reserved.

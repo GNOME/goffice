@@ -2,6 +2,7 @@
 
 #include <goffice/goffice-config.h>
 #include <glib/gi18n.h>
+#include <gsf/gsf-impl-utils.h>
 /*
  * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation
  * All rights reserved.
@@ -149,85 +150,85 @@ foo_canvas_re_class_init (FooCanvasREClass *class)
                  PROP_X1,
                  g_param_spec_double ("x1", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_Y1,
                  g_param_spec_double ("y1", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_X2,
                  g_param_spec_double ("x2", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_Y2,
                  g_param_spec_double ("y2", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR,
                  g_param_spec_string ("fill_color", NULL, NULL,
                                       NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_GDK,
                  g_param_spec_boxed ("fill_color_gdk", NULL, NULL,
 				     GDK_TYPE_COLOR,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_RGBA,
                  g_param_spec_uint ("fill_color_rgba", NULL, NULL,
 				    0, G_MAXUINT, 0,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				    (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_STIPPLE,
                  g_param_spec_object ("fill_stipple", NULL, NULL,
                                       GDK_TYPE_DRAWABLE,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_OUTLINE_COLOR,
                  g_param_spec_string ("outline_color", NULL, NULL,
                                       NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_OUTLINE_COLOR_GDK,
                  g_param_spec_boxed ("outline_color_gdk", NULL, NULL,
 				     GDK_TYPE_COLOR,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_OUTLINE_COLOR_RGBA,
                  g_param_spec_uint ("outline_color_rgba", NULL, NULL,
 				    0, G_MAXUINT, 0,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				    (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_OUTLINE_STIPPLE,
                  g_param_spec_object ("outline_stipple", NULL, NULL,
                                       GDK_TYPE_DRAWABLE,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WIDTH_PIXELS,
                  g_param_spec_uint ("width_pixels", NULL, NULL,
 				    0, G_MAXUINT, 0,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				    (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WIDTH_UNITS,
                  g_param_spec_double ("width_units", NULL, NULL,
 				      0.0, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
 
 	object_class->destroy = foo_canvas_re_destroy;
 

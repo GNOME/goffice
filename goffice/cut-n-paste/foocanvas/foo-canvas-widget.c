@@ -3,6 +3,7 @@
 #undef GTK_DISABLE_DEPRECATED
 #include <goffice/goffice-config.h>
 #include <glib/gi18n.h>
+#include <gsf/gsf-impl-utils.h>
 /*
  * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation
  * All rights reserved.
@@ -122,44 +123,44 @@ foo_canvas_widget_class_init (FooCanvasWidgetClass *class)
                  PROP_WIDGET,
                  g_param_spec_object ("widget", NULL, NULL,
                                       GTK_TYPE_WIDGET,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_X,
                  g_param_spec_double ("x", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_Y,
                  g_param_spec_double ("y", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WIDTH,
                  g_param_spec_double ("width", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_HEIGHT,
                  g_param_spec_double ("height", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_ANCHOR,
                  g_param_spec_enum ("anchor", NULL, NULL,
                                     GTK_TYPE_ANCHOR_TYPE,
                                     GTK_ANCHOR_NW,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                    (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_SIZE_PIXELS,
                  g_param_spec_boolean ("size_pixels", NULL, NULL,
 				       FALSE,
-				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				       (GSF_PARAM_STATIC | G_PARAM_READWRITE)));
 
 	object_class->destroy = foo_canvas_widget_destroy;
 
