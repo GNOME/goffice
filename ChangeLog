@@ -1,3 +1,9 @@
+2005-03-23  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Generate goffice-features.h as a header file, subset
+	  of goffice-config.h.
+	* goffice/goffice-config.h.in: Adjust the template.
+
 2005-03-22  Stepan Kasal  <kasal@ucw.cz>
 
 	* autogen.sh: REQUIRED_AUTOCONF_VERSION=2.54  We already required
