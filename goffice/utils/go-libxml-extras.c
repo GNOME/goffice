@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * xml-io.c: save/read gnumeric workbooks using gnumeric-1.0 style xml.
+ * go-libxml-extras.c: stuff that should have been in libxml2.
  *
  * Authors:
  *   Daniel Veillard <Daniel.Veillard@w3.org>
@@ -170,16 +170,17 @@ xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *res)
 	return FALSE;
 }
 
-#include <gdk/gdkcolor.h>
 void
 xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor val)
 {
+	unsigned r, g, b;
 	char str[4 * sizeof (val)];
-	GdkColor tmp;
-	go_color_to_gdk (val, &tmp);
-	sprintf (str, "%X:%X:%X", tmp.red, tmp.green, tmp.blue);
+
+	UINT_TO_RGB (val, &r, &g, &b);
+	sprintf (str, "%X:%X:%X", r, g, b);
 	xml_node_set_cstr (node, name, str);
 }
+
 /*************************************************************************/
 
 xmlNode *
