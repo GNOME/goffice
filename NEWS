@@ -1,5 +1,9 @@
 goffice 0.0.1
 
+Emmanuel Pacaud
+	* Fix crash in print preview with log plots. [#170547]
+	* Add multiple axes support for xy, line, barcol, bubble plots.
+
 Jody:
 	* Split from gnumeric
 
