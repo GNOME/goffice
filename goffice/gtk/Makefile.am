@@ -54,6 +54,6 @@ goffice_glade_DATA = \
 	go-font-sel.glade 	\
 	go-format-sel.glade 
 
-EXTRA_DIST = htmlhelp-stub.c htmlhelp-stub.h
+EXTRA_DIST = htmlhelp-stub.c htmlhelp-stub.h $(goffice_glade_DATA)
 
 include $(top_srcdir)/goffice.mk

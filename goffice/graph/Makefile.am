@@ -75,4 +75,6 @@ goffice_glade_DATA = \
 	gog-axis-prefs.glade		\
 	gog-error-bar-prefs.glade
 
+EXTRA_DIST = $(goffice_glade_DATA)
+
 include $(top_srcdir)/goffice.mk
