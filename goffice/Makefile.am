@@ -11,7 +11,8 @@ libgoffice_1_la_LIBADD = 			\
 	cut-n-paste/foocanvas/libfoocanvas.la		\
 	graph/libgoffice-graph.la		\
 	drawing/libgoffice-drawing.la		\
-	ms-compat/libgoffice-ms-compat.la
+	ms-compat/libgoffice-ms-compat.la	\
+	$(GOFFICE_LIBS)
 
 libgoffice_1_la_LDFLAGS = -version-info $(GOFFICE_LIB_VERSON)
 if PLATFORM_WIN32
