@@ -1,3 +1,8 @@
+2005-03-30  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/regutf8.c: Import Gnumeric's non-gui search stuff.
+	Make it a gobject.
+
 2005-03-29  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* pixmaps/chart_polar_1_1.[png,svg]: new.
