@@ -190,6 +190,67 @@ go_finite (double x)
 #endif
 }
 
+double
+go_pow2 (int n)
+{
+	g_assert (FLT_RADIX == 2);
+	return ldexp (1.0, n);
+}
+
+double
+go_pow10 (int n)
+{
+	static const double fast[] = {
+		1e-20, 1e-19, 1e-18, 1e-17, 1e-16, 1e-15, 1e-14, 1e-13, 1e-12, 1e-11,
+		1e-10, 1e-09, 1e-08, 1e-07, 1e-06, 1e-05, 1e-04, 1e-03, 1e-02, 1e-01,
+		1e+0,
+		1e+01, 1e+02, 1e+03, 1e+04, 1e+05, 1e+06, 1e+07, 1e+08, 1e+09, 1e+10,
+		1e+11, 1e+12, 1e+13, 1e+14, 1e+15, 1e+16, 1e+17, 1e+18, 1e+19, 1e+20
+	};
+
+	if (n >= -20 && n <= 20)
+		return (fast + 20)[n];
+
+	return pow (10.0, n);
+}
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef HAVE_LONG_DOUBLE
+
+long double
+go_pow2l (int n)
+{
+#ifdef HAVE_LDEXPL
+	g_assert (FLT_RADIX == 2);
+	return ldexpl (1.0L, n);
+#else
+	return powl (2.0L, n);
+#endif
+}
+
+long double
+go_pow10l (int n)
+{
+	static const long double fast[] = {
+		1e-20L, 1e-19L, 1e-18L, 1e-17L, 1e-16L, 1e-15L, 1e-14L, 1e-13L, 1e-12L, 1e-11L,
+		1e-10L, 1e-09L, 1e-08L, 1e-07L, 1e-06L, 1e-05L, 1e-04L, 1e-03L, 1e-02L, 1e-01L,
+		1e+0L,
+		1e+01L, 1e+02L, 1e+03L, 1e+04L, 1e+05L, 1e+06L, 1e+07L, 1e+08L, 1e+09L, 1e+10L,
+		1e+11L, 1e+12L, 1e+13L, 1e+14L, 1e+15L, 1e+16L, 1e+17L, 1e+18L, 1e+19L, 1e+20L
+	};
+
+	if (n >= -20 && n <= 20)
+		return (fast + 20)[n];
+
+	return powl (10.0L, n);
+}
+
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+
 /****************************************************************/
 
 /*
@@ -277,109 +338,6 @@ gnm_fake_trunc (gnm_float x)
 {
 	gnm_float y = gnm_fake_floor (gnm_abs (x));
 	return (x < 0) ? -y : y;
-}
-
-/*
- * Generate 10^n being careful not to overflow
- */
-gnm_float
-gnm_pow10 (int n)
-{
-	gnm_float res = 1.0;
-	gnm_float p;
-	const int maxn = GNM_MAX_EXP;
-
-	static const gnm_float fast[] = {
-		GNM_const (1e-20),
-		GNM_const (1e-19),
-		GNM_const (1e-18),
-		GNM_const (1e-17),
-		GNM_const (1e-16),
-		GNM_const (1e-15),
-		GNM_const (1e-14),
-		GNM_const (1e-13),
-		GNM_const (1e-12),
-		GNM_const (1e-11),
-		GNM_const (1e-10),
-		GNM_const (1e-9),
-		GNM_const (1e-8),
-		GNM_const (1e-7),
-		GNM_const (1e-6),
-		GNM_const (1e-5),
-		GNM_const (1e-4),
-		GNM_const (1e-3),
-		GNM_const (1e-2),
-		GNM_const (1e-1),
-		GNM_const (1e0),
-		GNM_const (1e1),
-		GNM_const (1e2),
-		GNM_const (1e3),
-		GNM_const (1e4),
-		GNM_const (1e5),
-		GNM_const (1e6),
-		GNM_const (1e7),
-		GNM_const (1e8),
-		GNM_const (1e9),
-		GNM_const (1e10),
-		GNM_const (1e11),
-		GNM_const (1e12),
-		GNM_const (1e13),
-		GNM_const (1e14),
-		GNM_const (1e15),
-		GNM_const (1e16),
-		GNM_const (1e17),
-		GNM_const (1e18),
-		GNM_const (1e19),
-		GNM_const (1e20)
-	};
-
-	if (n >= -20 && n <= 20)
-		return (fast + 20)[n];
-
-	if (n >= 0) {
-		p = 10.0;
-		n = (n > maxn) ? maxn : n;
-	} else {
-		p = GNM_const (0.1);
-		/* Note carefully that we avoid overflow.  */
-		n = (n < -maxn) ? maxn : -n;
-	}
-	while (n > 0) {
-		if (n & 1) res *= p;
-		p *= p;
-		n >>= 1;
-	}
-	return res;
-}
-
-/*
- * Generate 2^n being careful not to overflow
- */
-gnm_float
-gnm_pow2 (int n)
-{
-#ifdef NEED_FAKE_LDEXPGNUM
-	g_assert (FLT_RADIX == 2);
-
-	/* gnm_pow2 is used in our implementation of gnm_ldexp.  */
-	if (n >= DBL_MIN_EXP && n <= DBL_MAX_EXP)
-		return (gnm_float) ldexp (1.0, n);
-	else if (n >= GNM_MIN_EXP && n <= GNM_MAX_EXP) {
-		gnm_float res = 1.0;
-		gnm_float p = (n >= 0) ? GNM_const (2) : GNM_const (0.5);
-
-		n = abs (n);
-		while (n > 0) {
-			if (n & 1) res *= p;
-			p *= p;
-			n >>= 1;
-		}
-		return res;
-	} else
-		return (n > 0) ? gnm_pinf : ML_UNDERFLOW;
-#else
-	return gnm_ldexp (1.0, n);
-#endif
 }
 
 void

@@ -7,8 +7,6 @@ extern double go_nan;
 extern double go_pinf;
 extern double go_ninf;
 
-/* ------------------------------------------------------------------------- */
-
 double go_add_epsilon (double x);
 double go_sub_epsilon (double x);
 
@@ -17,6 +15,18 @@ double go_fake_ceil (double x);
 double go_fake_trunc (double x);
 
 int go_finite (double x);
+double go_pow2 (int n);
+double go_pow10 (int n);
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef HAVE_LONG_DOUBLE
+
+#define go_finitel finitel
+long double go_pow2l (int n);
+long double go_pow10l (int n);
+
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -33,9 +43,6 @@ gnm_float gnm_fake_floor  (gnm_float x);
 gnm_float gnm_fake_ceil   (gnm_float x);
 gnm_float gnm_fake_round  (gnm_float x);
 gnm_float gnm_fake_trunc  (gnm_float x);
-
-gnm_float gnm_pow10 (int n);
-gnm_float gnm_pow2  (int n);
 
 /* ------------------------------------------------------------------------- */
 
