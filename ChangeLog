@@ -1,5 +1,7 @@
 2005-03-28  Morten Welinder  <terra@gnome.org>
 
+	* .../*.c: Use canonical property names.
+
 	* goffice/utils/go-libxml-extras.c
 	(e_xml_get_child_by_name_by_lang): Use g_get_language_names.
 

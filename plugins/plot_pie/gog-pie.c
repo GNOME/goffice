@@ -215,17 +215,17 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 	gog_klass->view_type	= gog_pie_view_get_type ();
 
 	g_object_class_install_property (gobject_klass, PLOT_PROP_INITIAL_ANGLE,
-		g_param_spec_float ("initial_angle", "initial_angle",
+		g_param_spec_float ("initial-angle", "initial-angle",
 			"Degrees clockwise from 12 O'Clock.",
 			0, G_MAXFLOAT, 0.,
 			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_DEFAULT_SEPARATION,
-		g_param_spec_float ("default_separation", "default_separation",
+		g_param_spec_float ("default-separation", "default-separation",
 			"Default amount a slice is extended as a percentage of the radius",
 			0, G_MAXFLOAT, 0.,
 			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_IN_3D,
-		g_param_spec_boolean ("in_3d", "in_3d",
+		g_param_spec_boolean ("in-3d", "in-3d",
 			"Draw 3d wedges",
 			FALSE,
 			G_PARAM_READWRITE));
@@ -334,7 +334,7 @@ gog_ring_plot_class_init (GogPiePlotClass *pie_plot_klass)
 	gog_klass->populate_editor = gog_ring_plot_populate_editor;
 
 	g_object_class_install_property (gobject_klass, RING_PLOT_PROP_CENTER_SIZE,
-		g_param_spec_float ("center_size", "center_size",
+		g_param_spec_float ("center-size", "center-size",
 			"Size of the center hole as a percentage of the radius",
 			0, 100., 0.,
 			G_PARAM_READWRITE));
@@ -707,7 +707,7 @@ gog_pie_series_class_init (GObjectClass *gobject_klass)
 	gobject_klass->get_property = gog_pie_series_get_property;
 
 	g_object_class_install_property (gobject_klass, SERIES_PROP_INITIAL_ANGLE,
-		g_param_spec_float ("initial_angle", "initial_angle",
+		g_param_spec_float ("initial-angle", "initial-angle",
 			"Degrees clockwise from 12 O'Clock.",
 			0, G_MAXFLOAT, 0.,
 			G_PARAM_READWRITE));

@@ -484,22 +484,22 @@ gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 	gog_2d_plot_klass->adjust_bounds = gog_bubble_plot_adjust_bounds;
 
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_AS_AREA,
-		g_param_spec_boolean ("size_as_area", "size_as_area",
+		g_param_spec_boolean ("size-as-area", "size-as-area",
 			"Display size as area instead of diameter",
 			TRUE,
 			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_SHOW_NEGATIVES,
-		g_param_spec_boolean ("show_negatives", "show_negatives",
+		g_param_spec_boolean ("show-negatives", "show-negatives",
 			"Draw bubbles for negative values",
 			FALSE,
 			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_IN_3D,
-		g_param_spec_boolean ("in_3d", "in_3d",
+		g_param_spec_boolean ("in-3d", "in-3d",
 			"Draw 3d bubbles",
 			FALSE,
 			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_SCALE,
-		g_param_spec_float ("bubble_scale", "bubble_scale",
+		g_param_spec_float ("bubble-scale", "bubble-scale",
 			"Fraction of default radius used for display.",
 			0., 2., 1.,
 			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));

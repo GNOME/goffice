@@ -36,35 +36,35 @@ static void
 cb_type_changed (GtkToggleButton* button, GObject *bubble)
 {
 	if (gtk_toggle_button_get_active (button))
-		g_object_set (bubble, "size_as_area",
+		g_object_set (bubble, "size-as-area",
 			strcmp (gtk_widget_get_name ((GtkWidget*) button), "area")? FALSE: TRUE, NULL);
 }
 
 static void
 cb_style_changed (GtkToggleButton* button, GObject *bubble)
 {
-	g_object_set (bubble, "vary_style_by_element",
+	g_object_set (bubble, "vary-style-by-element",
 		gtk_toggle_button_get_active (button), NULL);
 }
 
 static void
 cb_3d_changed (GtkToggleButton* button, GObject *bubble)
 {
-	g_object_set (bubble, "in_3d",
+	g_object_set (bubble, "in-3d",
 		gtk_toggle_button_get_active (button), NULL);
 }
 
 static void
 cb_negatives_changed (GtkToggleButton* button, GObject *bubble)
 {
-	g_object_set (bubble, "show_negatives",
+	g_object_set (bubble, "show-negatives",
 		gtk_toggle_button_get_active (button), NULL);
 }
 
 static void
 cb_scale_changed (GtkAdjustment *adj, GObject *bubble)
 {
-	g_object_set (bubble, "bubble_scale", adj->value / 100., NULL);
+	g_object_set (bubble, "bubble-scale", adj->value / 100., NULL);
 }
 
 GtkWidget *
@@ -92,7 +92,7 @@ gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc)
 		"toggled",
 		G_CALLBACK (cb_type_changed), bubble);
 
-	w = glade_xml_get_widget (gui, "vary_style_by_element");
+	w = glade_xml_get_widget (gui, "vary-style-by-element");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), bubble->base.base.vary_style_by_element);
 	g_signal_connect (G_OBJECT (w),
 		"toggled",

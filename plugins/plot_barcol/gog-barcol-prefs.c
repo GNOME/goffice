@@ -31,13 +31,13 @@ GtkWidget *gog_barcol_plot_pref (GogBarColPlot *plot, GOCmdContext *cc);
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *barcal)
 {
-	g_object_set (barcal, "gap_percentage", (int)adj->value, NULL);
+	g_object_set (barcal, "gap-percentage", (int)adj->value, NULL);
 }
 
 static void
 cb_overlap_changed (GtkAdjustment *adj, GObject *barcol)
 {
-	g_object_set (barcol, "overlap_percentage", (int)adj->value, NULL);
+	g_object_set (barcol, "overlap-percentage", (int)adj->value, NULL);
 }
 
 GtkWidget *

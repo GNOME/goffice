@@ -324,7 +324,7 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 	gog_klass->populate_editor	= gog_plot_populate_editor;
 
 	g_object_class_install_property (gobject_klass, PLOT_PROP_VARY_STYLE_BY_ELEMENT,
-		g_param_spec_boolean ("vary_style_by_element", "vary_style_by_element",
+		g_param_spec_boolean ("vary-style-by-element", "vary-style-by-element",
 			"Use a different style for each segments",
 			FALSE,
 			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT|GOG_PARAM_FORCE_SAVE));

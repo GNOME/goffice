@@ -45,7 +45,7 @@ static GType gog_box_plot_view_get_type (void);
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *boxplot)
 {
-	g_object_set (boxplot, "gap_percentage", (int)adj->value, NULL);
+	g_object_set (boxplot, "gap-percentage", (int)adj->value, NULL);
 }
 
 static gpointer
@@ -226,7 +226,7 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 	gobject_klass->set_property = gog_box_plot_set_property;
 	gobject_klass->get_property = gog_box_plot_get_property;
 	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_GAP_PERCENTAGE,
-		g_param_spec_int ("gap_percentage", "gap percentage",
+		g_param_spec_int ("gap-percentage", "gap percentage",
 			"The padding around each group as a percentage of their width",
 			0, 500, 150, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 

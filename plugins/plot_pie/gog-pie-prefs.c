@@ -67,20 +67,20 @@ GtkWidget *gog_pie_plot_pref   (GogPiePlot *plot, GOCmdContext *cc);
 static void
 cb_default_separation_changed (GtkAdjustment *adj, GObject *pie)
 {
-	g_object_set (pie, "default_separation", adj->value / 100., NULL);
+	g_object_set (pie, "default-separation", adj->value / 100., NULL);
 }
 
 static void
 cb_rotation_changed (GtkAdjustment *adj, GObject *pie)
 {
-	g_object_set (pie, "initial_angle", adj->value, NULL);
+	g_object_set (pie, "initial-angle", adj->value, NULL);
 }
 
 
 static void
 cb_use_style_toggled (GtkToggleButton *button, GObject *series)
 {
-	g_object_set (series, "vary_style_by_element",
+	g_object_set (series, "vary-style-by-element",
 		gtk_toggle_button_get_active (button), NULL);
 }
 
@@ -101,7 +101,7 @@ gog_pie_plot_pref_signal_connect (GogPiePlot *pie, GladeXML *gui)
 		"value_changed",
 		G_CALLBACK (cb_default_separation_changed), pie);
 
-	w = glade_xml_get_widget (gui, "vary_style_by_element");
+	w = glade_xml_get_widget (gui, "vary-style-by-element");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), pie->base.vary_style_by_element);
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
@@ -137,7 +137,7 @@ GtkWidget *gog_ring_plot_pref   (GogRingPlot *ring, GOCmdContext *cc);
 static void
 cb_center_size_changed (GtkAdjustment *adj, GObject *ring)
 {
-	g_object_set (ring, "center_size", adj->value/100., NULL);
+	g_object_set (ring, "center-size", adj->value/100., NULL);
 }
 
 
@@ -204,7 +204,7 @@ gog_pie_series_pref (GogPieSeries *pie, GOCmdContext *cc)
 		"value_changed",
 		G_CALLBACK (cb_separation_changed), pie);
 
-	gtk_widget_hide (glade_xml_get_widget (gui, "vary_style_by_element"));
+	gtk_widget_hide (glade_xml_get_widget (gui, "vary-style-by-element"));
 
 	w = glade_xml_get_widget (gui, "gog_pie_prefs");
 	g_object_set_data_full (G_OBJECT (w),

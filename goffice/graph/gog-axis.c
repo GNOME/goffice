@@ -965,13 +965,13 @@ role_grid_line_minor_can_add (GogObject const *parent)
 static void 
 role_grid_line_major_post_add (GogObject *parent, GogObject *child)  
 {
-	g_object_set (G_OBJECT (child), "is_minor", (gboolean)FALSE, NULL);
+	g_object_set (G_OBJECT (child), "is-minor", (gboolean)FALSE, NULL);
 }
 
 static void 
 role_grid_line_minor_post_add (GogObject *parent, GogObject *child)  
 { 
-	g_object_set (G_OBJECT (child), "is_minor", (gboolean)TRUE, NULL);
+	g_object_set (G_OBJECT (child), "is-minor", (gboolean)TRUE, NULL);
 }
 
 static gboolean
