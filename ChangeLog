@@ -1,3 +1,9 @@
+2005-04-06  Morten Welinder  <welinder@rentec.com>
+
+	* goffice/utils/datetime.c (datetime_isoweeknum): Replace by
+	g_date_get_iso8601_week_of_year.
+	* configure.in: Require glib 2.6.4.
+
 2005-04-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/format.c (go_format_number): Do at least a small

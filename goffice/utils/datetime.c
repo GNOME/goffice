@@ -188,52 +188,6 @@ datetime_g_years_between (GDate const *date1, GDate const *date2)
 /* ------------------------------------------------------------------------- */
 
 /**
- * datetime_isoweeknum (GDate *date)
- * @date date
- *
- * Returns the ISO 8601 week number.
- */
-static int
-datetime_isoweeknum (GDate const *date)
-{
-	int year;
-	int week;
-	int wday, jan1wday, nextjan1wday;
-	GDate jan1date, nextjan1date;
-
-	g_assert (g_date_valid (date));
-
-	year = g_date_get_year (date);
-	wday  = g_date_get_weekday (date);
-	g_date_set_dmy (&jan1date, 1, 1, year);
-	jan1wday = g_date_get_weekday (&jan1date);
-
-	week = g_date_get_monday_week_of_year (date);
-
-	/* Does date belong to last week of previous year? */
-	if ((week == 0) && (jan1wday > G_DATE_THURSDAY)) {
-		GDate tmpdate;
-		g_date_set_dmy (&tmpdate, 31, 12, year - 1);
-		return datetime_isoweeknum (&tmpdate);
-	}
-
-	if ((jan1wday <= G_DATE_THURSDAY) &&
-	    (jan1wday > G_DATE_MONDAY))
-		week++;
-
-	if (week == 53) {
-		g_date_set_dmy (&nextjan1date, 1, 1, year + 1);
-		nextjan1wday = g_date_get_weekday (&nextjan1date);
-		if (nextjan1wday <= G_DATE_THURSDAY)
-			week = 1;
-	}
-
-	return week;
-}
-
-/* ------------------------------------------------------------------------- */
-
-/**
  * datetime_weeknum (GDate *date, int method)
  * @date      date
  * @method    week numbering method
@@ -260,7 +214,7 @@ datetime_weeknum (GDate const *date, int method)
 	case WEEKNUM_METHOD_MONDAY:
 		res = g_date_get_monday_week_of_year (date); break;
 	case WEEKNUM_METHOD_ISO:
-		res = datetime_isoweeknum (date); break;
+		res = g_date_get_iso8601_week_of_year (date); break;
 	default: res = -1;
 	}
 

@@ -53,9 +53,9 @@ AC_SUBST(ACLOCAL_AMFLAGS, $ACLOCAL_FLAGS)
 
 dnl *****************************
 goffice_reqs="
-	glib-2.0		>= 2.6.0
-	gobject-2.0		>= 2.6.0
-	gmodule-2.0		>= 2.6.0
+	glib-2.0		>= 2.6.4
+	gobject-2.0		>= 2.6.4
+	gmodule-2.0		>= 2.6.4
 	libgsf-1		>= 1.11.2
 	libxml-2.0		>= 2.4.12
 	pango			>= 1.8.1
