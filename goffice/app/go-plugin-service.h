@@ -8,6 +8,8 @@
 #include <libxml/tree.h>
 #include <gsf/gsf.h>
 
+G_BEGIN_DECLS
+
 #define GO_PLUGIN_SERVICE_TYPE         (plugin_service_get_type ())
 #define GO_PLUGIN_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_PLUGIN_SERVICE_TYPE, GOPluginService))
 #define IS_GO_PLUGIN_SERVICE(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_PLUGIN_SERVICE_TYPE))
@@ -104,5 +106,7 @@ void plugin_services_init     (void);
 void plugin_services_shutdown (void);
 void plugin_service_define    (char const *type_str,
 			       GOPluginServiceCreate ctor);
+
+G_END_DECLS
 
 #endif /* PLUGIN_SERVICE_H */

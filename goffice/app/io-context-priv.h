@@ -5,6 +5,8 @@
 #include <goffice/app/error-info.h>
 #include <goffice/app/go-cmd-context-impl.h>
 
+G_BEGIN_DECLS
+
 #define IO_CONTEXT_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_IO_CONTEXT, IOContextClass))
 #define IS_IO_CONTEXT_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_IO_CONTEXT))
 
@@ -61,5 +63,7 @@ struct _IOContextClass {
 	void  (*set_num_files)   (IOContext *ioc, guint count);
 	void  (*processing_file) (IOContext *ioc, char const *name);
 };
+
+G_END_DECLS
 
 #endif /* GO_IO_CONTEXT_PRIV_H */

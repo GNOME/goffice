@@ -5,6 +5,8 @@
 #include <glib.h>
 #include <time.h>
 
+G_BEGIN_DECLS
+
 struct _GODateConventions {
 	gboolean use_1904;	/* Use MacOffice 1904 based date convention,
 				 * Rather than the Win32 style 1900 */
@@ -89,5 +91,7 @@ double coupdaysnc (GDate const *settle, GDate const *mat,
 		      GnmCouponConvention const *conv);
 
 int gnm_date_convention_base (GODateConventions const *conv);
+
+G_END_DECLS
 
 #endif /* _GO_DATETIME_H_ */

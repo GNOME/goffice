@@ -18,6 +18,8 @@
 #include <goffice/ms-compat/god-drawing-ms-client-handler.h>
 #include <gsf/gsf.h>
 
+G_BEGIN_DECLS
+
 GodDrawing      *god_drawing_read_ms             (GsfInput                   *input,
 						  gsf_off_t                   length,
 						  GodDrawingMsClientHandler  *handler,
@@ -35,5 +37,7 @@ void             god_drawing_group_parse_images  (GodDrawingGroup            *dr
 int              god_drawing_write_ms            (GodDrawing                 *drawing,
 						  GsfOutput                  *output);
 #endif
+
+G_END_DECLS
 
 #endif /* GO_DRAWING_MS_H */

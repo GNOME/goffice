@@ -5,6 +5,8 @@
 #include <glib-object.h>
 #include <gmodule.h>
 
+G_BEGIN_DECLS
+
 #define GO_PLUGIN_LOADER_MODULE_TYPE		(go_plugin_loader_module_get_type ())
 #define GO_PLUGIN_LOADER_MODULE(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_PLUGIN_LOADER_MODULE_TYPE, GOPluginLoaderModule))
 #define IS_GO_PLUGIN_LOADER_MODULE(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_PLUGIN_LOADER_MODULE_TYPE))
@@ -25,5 +27,7 @@ typedef GObjectClass GOPluginLoaderModuleClass;
 GType go_plugin_loader_module_get_type (void);
 
 void go_plugin_loader_module_register_version (char const *id, char const *ver);
+
+G_END_DECLS
 
 #endif /* GO_PLUGIN_LOADER_MODULE_H */

@@ -5,6 +5,8 @@
 #include <goffice/app/goffice-app.h>
 #include <gmodule.h>
 
+G_BEGIN_DECLS
+
 void go_plugin_init	(GOPlugin *p, GOCmdContext *cc); /* optional, called after dlopen */
 void go_plugin_shutdown	(GOPlugin *p, GOCmdContext *cc); /* optional, called before close */
 
@@ -31,5 +33,7 @@ G_MODULE_EXPORT GOPluginModuleDepend const go_plugin_depends [] = {	\
 };	\
 G_MODULE_EXPORT GOPluginModuleHeader const go_plugin_header =  		\
 	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) }
+
+G_END_DECLS
 
 #endif /* GOFFICE_MODULE_PLUGIN_DEFS_H */

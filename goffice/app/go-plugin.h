@@ -4,6 +4,8 @@
 #include <goffice/app/goffice-app.h>
 #include <glib-object.h>
 
+G_BEGIN_DECLS
+
 /*
  * Use "#define PLUGIN_DEBUG x" to enable some plugin related debugging
  * messages.
@@ -58,5 +60,7 @@ void	  go_plugin_db_mark_plugin_for_deactivation (GOPlugin *pinfo, gboolean mark
 gboolean  go_plugin_db_is_plugin_marked_for_deactivation (GOPlugin *pinfo);
 void	  go_plugin_db_activate_plugin_list   (GSList *plugins, ErrorInfo **ret_error);
 void	  go_plugin_db_deactivate_plugin_list (GSList *plugins, ErrorInfo **ret_error);
+
+G_END_DECLS
 
 #endif /* GO_PLUGIN_H */

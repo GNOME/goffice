@@ -15,6 +15,8 @@
 
 #include <gsf/gsf.h>
 
+G_BEGIN_DECLS
+
 #define GO_MS_PARSER_STACK_TOP(stack) ((stack) ? (GOMSParserRecord *) (stack)->data : NULL)
 #define GO_MS_PARSER_STACK_SECOND(stack) ((stack) && (stack)->next ? (GOMSParserRecord *) (stack)->next->data : NULL)
 
@@ -60,5 +62,7 @@ void go_ms_parser_read        (GsfInput   *input,
 int             go_ms_parser_write       (GODrawing  *drawing,
 					  GsfOutput  *output);
 #endif
+
+G_END_DECLS
 
 #endif /* GO_MS_PARSER_H */

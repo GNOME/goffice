@@ -24,10 +24,14 @@
 #include <glib-object.h>
 #include <goffice/app/goffice-app.h>
 
+G_BEGIN_DECLS
+
 GOErrorStack *go_error_stack_new (GOErrorStack *parent,
 				   char const *fmt, ...) G_GNUC_PRINTF (2, 3);
 void go_error_stack_add_child	  (GOErrorStack *estack, GOErrorStack *child);
 void go_error_stack_dump	  (GOErrorStack *estack);
 void go_error_stack_free	  (GOErrorStack *estack);
+
+G_END_DECLS
 
 #endif /* GO_ERROR_STACK_H */

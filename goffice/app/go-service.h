@@ -24,6 +24,8 @@
 #include <goffice/app/goffice-app.h>
 #include <glib-object.h>
 
+G_BEGIN_DECLS
+
 #define GO_SERVICE_TYPE         (go_service_get_type ())
 #define GO_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_SERVICE_TYPE, GOService))
 #define IS_GO_SERVICE(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_SERVICE_TYPE))
@@ -36,5 +38,7 @@ GOPlugin *go_service_get_plugin (GOService const *service);
 #define IS_GO_SERVICE_SIMPLE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_SERVICE_SIMPLE_TYPE))
 typedef struct _GOServiceSimple GOServiceSimple;
 GType go_service_simple_get_type (void);
+
+G_END_DECLS
 
 #endif /* GO_SERVICE_H */

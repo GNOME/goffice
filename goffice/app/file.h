@@ -5,6 +5,8 @@
 #include <gsf/gsf.h>
 #include <goffice/app/goffice-app.h>
 
+G_BEGIN_DECLS
+
 /*
  * File format levels. They are ordered. When we save a file, we
  * remember the name, but not if we already have a name at a higher level.
@@ -140,5 +142,7 @@ GOFileSaver	*go_file_saver_get_default (void);
 GOFileSaver	*go_file_saver_for_mime_type	(char const *mime_type);
 GOFileSaver	*go_file_saver_for_file_name	(char const *file_name);
 GOFileSaver	*go_file_saver_for_id		(char const *id);
+
+G_END_DECLS
 
 #endif /* _GOFFICE_FILE_H_ */

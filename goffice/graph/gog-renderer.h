@@ -26,6 +26,8 @@
 #include <libart_lgpl/libart.h>
 #include <gdk/gdk.h>
 
+G_BEGIN_DECLS
+
 #define GOG_RENDERER_TYPE	  (gog_renderer_get_type ())
 #define GOG_RENDERER(o)           (G_TYPE_CHECK_INSTANCE_CAST((o), GOG_RENDERER_TYPE, GogRenderer))
 #define IS_GOG_RENDERER(o)        (G_TYPE_CHECK_INSTANCE_TYPE((o), GOG_RENDERER_TYPE))
@@ -69,5 +71,7 @@ double gog_renderer_line_size	  	(GogRenderer const *r, double width);
 double gog_renderer_pt2r_x   	  	(GogRenderer const *r, double d);
 double gog_renderer_pt2r_y   	  	(GogRenderer const *r, double d);
 double gog_renderer_pt2r   	  	(GogRenderer const *r, double d);
+
+G_END_DECLS
 
 #endif /* GOG_RENDERER_H */

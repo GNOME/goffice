@@ -3,6 +3,8 @@
 
 #include <goffice/app/go-cmd-context.h>
 
+G_BEGIN_DECLS
+
 typedef struct {
 	GTypeInterface base;
 
@@ -25,5 +27,7 @@ typedef struct {
 /* protected, these do not really belong here, they are associated with io-context */
 void  go_cmd_context_progress_set	  (GOCmdContext *gcc, float f);
 void  go_cmd_context_progress_message_set (GOCmdContext *gcc, char const *msg);
+
+G_END_DECLS
 
 #endif /* GO_CMD_CONTEXT_IMPL_H */

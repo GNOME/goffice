@@ -4,6 +4,8 @@
 #include <goffice/app/goffice-app.h>
 #include <glib.h>
 
+G_BEGIN_DECLS
+
 typedef enum {
 	GO_WARNING = 1,
 	GO_ERROR
@@ -31,5 +33,7 @@ G_STMT_START { \
 	g_assert (ret_error != NULL); \
 	*ret_error = NULL; \
 } G_STMT_END
+
+G_END_DECLS
 
 #endif /* GO_ERROR_INFO_H */

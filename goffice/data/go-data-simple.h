@@ -24,6 +24,8 @@
 #include <goffice/data/goffice-data.h>
 #include <goffice/data/go-data.h>
 
+G_BEGIN_DECLS
+
 #define GO_DATA_SCALAR_VAL_TYPE  (go_data_scalar_val_get_type ())
 #define GO_DATA_SCALAR_VAL(o)	 (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_DATA_SCALAR_VAL_TYPE, GODataScalarVal))
 #define IS_GO_DATA_SCALAR_VAL(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_DATA_SCALAR_VAL_TYPE))
@@ -63,5 +65,7 @@ void    go_data_vector_str_set_translate_func (GODataVectorStr *vector,
 					       GDestroyNotify   notify);
 void go_data_vector_str_set_translation_domain (GODataVectorStr *vec,
 						char const      *domain);
+
+G_END_DECLS
 
 #endif /* GO_DATA_SIMPLE_H */

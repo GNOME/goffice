@@ -24,6 +24,8 @@
 #include <goffice/app/goffice-app.h>
 #include <glib-object.h>
 
+G_BEGIN_DECLS
+
 #define GO_CMD_CONTEXT_TYPE        (go_cmd_context_get_type ())
 #define GO_CMD_CONTEXT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_CMD_CONTEXT_TYPE, GOCmdContext))
 #define IS_GO_CMD_CONTEXT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_CMD_CONTEXT_TYPE))
@@ -47,5 +49,7 @@ GQuark go_error_system  (void);
 GQuark go_error_import  (void);
 GQuark go_error_export  (void);
 GQuark go_error_invalid (void);
+
+G_END_DECLS
 
 #endif /* GO_CMD_CONTEXT_H */

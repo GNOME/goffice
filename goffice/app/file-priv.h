@@ -2,6 +2,9 @@
 #define GO_FILE_PRIV_H
 
 #include <goffice/app/goffice-app.h>
+
+G_BEGIN_DECLS
+
 /*
  * GOFileOpener
  */
@@ -86,5 +89,7 @@ void go_file_saver_setup (GOFileSaver *fs,
                             const gchar *description,
                             FileFormatLevel level,
                             GOFileSaverSaveFunc save_func);
+
+G_END_DECLS
 
 #endif /* GO_FILE_PRIV_H */

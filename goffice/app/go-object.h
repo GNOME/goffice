@@ -23,6 +23,8 @@
 
 #include <glib-object.h>
 
+G_BEGIN_DECLS
+
 gpointer go_object_new        (char const *type, char const *first_prop, ...);
 gpointer go_object_new_valist (char const *type, char const *first_prop,
 			       va_list vargs);
@@ -37,5 +39,7 @@ GType go_service_object_get_type (void);
 
 char const   *go_service_object_primary_type (GOServiceObject const *service);
 GSList const *go_service_object_interfaces   (GOServiceObject const *service);
+
+G_END_DECLS
 
 #endif /* GO_OBJECT_H */

@@ -3,6 +3,9 @@
 
 #include <math.h>
 #include <goffice/goffice-features.h>
+#include <glib/gmacros.h>
+
+G_BEGIN_DECLS
 
 /* ------------------------------------------------------------------------- */
 
@@ -81,5 +84,7 @@ long double modfl (long double x, long double *iptr);
 #endif
 
 /* ------------------------------------------------------------------------- */
+
+G_END_DECLS
 
 #endif	/* __GO_MATH_H */

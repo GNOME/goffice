@@ -27,6 +27,8 @@
 #include "gog-data-set.h"
 #include "gog-axis.h"
 
+G_BEGIN_DECLS
+
 typedef enum {
 	GOG_ERROR_BAR_TYPE_NONE,
 	GOG_ERROR_BAR_TYPE_ABSOLUTE,
@@ -77,5 +79,7 @@ void 		 gog_error_bar_render (const GogErrorBar *bar, GogRenderer *rend,
 				       double plus,
 				       gboolean horizontal);
 gboolean 	 gog_error_bar_is_visible (GogErrorBar *bar);
+
+G_END_DECLS
 
 #endif

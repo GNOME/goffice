@@ -1,3 +1,28 @@
+2005-03-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/error-info.h: add missing G_BEGIN_DECLS and G_END_DECLS.
+	* goffice/app/file-priv.h: ditto.
+	* goffice/app/file.h: ditto.
+	* goffice/app/go-cmd-context-impl.h: ditto.
+	* goffice/app/go-cmd-context.h: ditto.
+	* goffice/app/go-error-stack.h: ditto.
+	* goffice/app/go-object.h: ditto.
+	* goffice/app/go-plugin-loader-module.h: ditto.
+	* goffice/app/go-plugin-loader.h: ditto.
+	* goffice/app/go-plugin-service.h: ditto.
+	* goffice/app/go-plugin.h: ditto.
+	* goffice/app/go-service.h: ditto.
+	* goffice/app/io-context-priv.h: ditto.
+	* goffice/app/io-context.h: ditto.
+	* goffice/app/module-plugin-defs.h: ditto.
+	* goffice/data/go-data-simple.h: ditto.
+	* goffice/graph/gog-error-bar.h: ditto.
+	* goffice/graph/gog-renderer.h: ditto.
+	* goffice/ms-compat/go-ms-parser.h: ditto.
+	* goffice/ms-compat/god-drawing-ms.h: ditto.
+	* goffice/utils/datetime.h: ditto.
+	* goffice/utils/go-math.h: ditto.
+
 2005-03-25  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (GOFFICE_WITHOUT_GTK, GOFFICE_WITH_GNOME): Rename

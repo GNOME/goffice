@@ -5,6 +5,8 @@
 #include <glib-object.h>
 #include <stdarg.h>
 
+G_BEGIN_DECLS
+
 typedef struct _IOContextClass IOContextClass;
 
 #define TYPE_IO_CONTEXT    (io_context_get_type ())
@@ -45,5 +47,7 @@ void gnm_io_warning_varargs		(IOContext *ioc, char const *fmt, va_list args);
 void gnm_io_warning_unknown_font	(IOContext *ioc, char const *font_name);
 void gnm_io_warning_unknown_function	(IOContext *ioc, char const *funct_name);
 void gnm_io_warning_unsupported_feature	(IOContext *ioc, char const *feature);
+
+G_END_DECLS
 
 #endif /* GO_IO_CONTEXT_H */
