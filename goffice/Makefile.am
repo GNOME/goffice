@@ -8,6 +8,7 @@ libgoffice_1_la_LIBADD = 			\
 	app/libgoffice-app.la			\
 	data/libgoffice-data.la			\
 	gtk/libgoffice-gtk.la			\
+	foocanvas/libfoocanvas.la		\
 	graph/libgoffice-graph.la		\
 	drawing/libgoffice-drawing.la		\
 	ms-compat/libgoffice-ms-compat.la

@@ -8,9 +8,9 @@ $| = 1;
 my $myself = $0;
 $myself =~ s|^.*/||;
 
-die "$0: must run from top-level gnumeric directory.\n"
-    unless -r "gnumeric-config.h.in";
-my $dst = "src/cut-n-paste-code/goffice/cut-n-paste";
+die "$0: must run from top-level goffice directory.\n"
+    unless -r "goffice/goffice-config.h.in";
+my $dst = "goffice/cut-n-paste";
 
 my $eggdir = $ARGV[0];
 $eggdir = "../libegg" unless defined $eggdir;
@@ -92,12 +92,11 @@ sub copy_subsystem {
 
 	print STDERR "Creating $dstdir/$file...";
 
-	print DST "/* File import from libegg to gnumeric by $myself.  Do not edit.  */\n\n";
+	print DST "/* File import from libegg to libgoffice by $myself.  Do not edit.  */\n\n";
 
 	if ($file =~ /\.c$/) {
 	    print DST "#include <goffice/goffice-config.h>\n";
 	    # print DST "#include <glib/gi18n.h>\n";
-	    # print DST "#include <gnumeric.h>\n\n";
 	}
 
       LINE:

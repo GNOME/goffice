@@ -38,9 +38,9 @@
 #include <glib/gi18n.h>
 
 #include <libxml/parser.h>
-#include <libfoocanvas/foo-canvas.h>
-#include <libfoocanvas/foo-canvas-pixbuf.h>
-#include <libfoocanvas/foo-canvas-rect-ellipse.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtklabel.h>

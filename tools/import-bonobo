@@ -8,9 +8,9 @@ $| = 1;
 my $myself = $0;
 $myself =~ s|^.*/||;
 
-die "$0: must run from top-level gnumeric directory.\n"
-    unless -r "gnumeric-config.h.in";
-my $dstdir = "src/cut-n-paste-code/goffice/gui-utils";
+die "$0: must run from top-level goffice directory.\n"
+    unless -r "goffice/goffice-config.h.in";
+my $dst = "goffice/gtk";
 
 my $bonobouidir = $ARGV[0];
 $bonobouidir = "../libbonoboui" unless defined $bonobouidir;
@@ -47,7 +47,7 @@ foreach my $file (@files) {
 
     my $def = '';
 
-    print DST "/* File import from bonoboui to gnumeric by $myself.  Do not edit.  */\n\n";
+    print DST "/* File import from bonoboui to libgoffice by $myself.  Do not edit.  */\n\n";
 
     if (0 && $file =~ /^(gtk-combo-stack\.c)/) {
 	print DST "#undef GTK_DISABLE_DEPRECATED\n";

@@ -22,7 +22,7 @@
 #define GOG_CONTROL_FOOCANVAS_H
 
 #include <goffice/graph/goffice-graph.h>
-#include <libfoocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/graph/gog-renderer-pixbuf.h>
 
 G_BEGIN_DECLS

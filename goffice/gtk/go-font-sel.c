@@ -22,8 +22,8 @@
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkentry.h>
 
-#include <libfoocanvas/foo-canvas.h>
-#include <libfoocanvas/foo-canvas-text.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>

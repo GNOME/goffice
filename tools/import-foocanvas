@@ -8,9 +8,9 @@ $| = 1;
 my $myself = $0;
 $myself =~ s|^.*/||;
 
-die "$0: must run from top-level gnumeric directory.\n"
-    unless -r "gnumeric-config.h.in";
-my $dst = "src/cut-n-paste-code/foocanvas";
+die "$0: must run from top-level goffice directory.\n"
+    unless -r "goffice/goffice-config.h.in";
+my $dst = "goffice/cut-n-paste/foocanvas";
 
 my $foodir = $ARGV[0];
 $foodir = "../foocanvas" unless defined $foodir;
@@ -28,7 +28,7 @@ sub copy_subsystem {
     my ($sys) = @_;
 
     my $srcdir = "$foodir/$sys";
-    my $dstdir = "$dst/$sys";
+    my $dstdir = "$dst";
 
     -d $dstdir or mkdir "$dstdir" or
 	die "$0: cannot mkdir $dstdir: $!\n";
@@ -50,7 +50,7 @@ sub copy_subsystem {
 
 	next if /^pkgconfig/;
 
-	s|\$\(LIBFOOCANVAS_CFLAGS\)|\$\(GNUMERIC_CFLAGS\) -I\$\(top_srcdir\)/src|;
+	s|\$\(LIBFOOCANVAS_CFLAGS\)|\$\(GOFFICE_CFLAGS\) \)/src|;
 	if (s/\s*\$\(LIBFOOCANVAS_LIBS\)/	/) {
 	    s/^\s*$/	\$(NULL)\n/;
 	}
@@ -67,9 +67,7 @@ sub copy_subsystem {
 	    push @sources, split (' ', $line) if $line ne '';
 	}
 
-	s/lib_LTLIBRARIES/noinst_LIBRARIES/;
-	s/_la_/_a_/;
-	s/\.la/\.a/;
+	s/lib_LTLIBRARIES/noinst_LTLIBRARIES/;
 
 	next if /^\s*\\$/;
 	next if /^libfoocanvasinclude_HEADERS\s*=/ ... !/\\\s*$/;
@@ -122,20 +120,19 @@ sub copy_subsystem {
 
 	print STDERR "Creating $dstdir/$file...";
 
-	print DST "/* File import from foocanvas to gnumeric by $myself.  Do not edit.  */\n\n";
+	print DST "/* File import from foocanvas to libgoffice by $myself.  Do not edit.  */\n\n";
 
 	if ($file =~ /\.c$/) {
 	    print DST "#undef GTK_DISABLE_DEPRECATED\n";
-	    print DST "#include <gnumeric-config.h>\n";
+	    print DST "#include <goffice-config.h>\n";
 	    print DST "#include <glib/gi18n.h>\n";
-	    print DST "#include <gnumeric.h>\n\n";
 	}
 
       LINE:
 	while (<SRC>) {
 	    chomp;
 	    if (m{^\s*\#\s*include\s*[<\"]libfoocanvas/(.*)[>\"]}) {
-		print DST "#include \"cut-n-paste-code/foocanvas/libfoocanvas/$1\"\n";
+		print DST "#include \<goffice/cut-n-paste/foocanvas/$1\>\n";
 		next LINE;
 	    }
 

@@ -23,7 +23,7 @@
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object.h>
-#include <libfoocanvas/foo-canvas-util.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>

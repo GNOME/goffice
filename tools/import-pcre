@@ -8,9 +8,9 @@ $| = 1;
 my $myself = $0;
 $myself =~ s|^.*/||;
 
-die "$0: must run from top-level gnumeric directory.\n"
-    unless -r "gnumeric-config.h.in";
-my $dst = "src/cut-n-paste-code/goffice/cut-n-paste/pcre";
+die "$0: must run from top-level goffice directory.\n"
+    unless -r "goffice/goffice-config.h.in";
+my $dst = "goffice/cut-n-paste/pcre";
 
 my $srcdir = $ARGV[0];
 $srcdir = "../pcre" unless defined $srcdir;
