@@ -55,7 +55,7 @@ gnm_float gnm_pow2  (int n);
 /* ------------------------------------------------------------------------- */
 
 void gnm_continued_fraction (gnm_float val, int max_denom, int *res_num, int *res_denom);
-void go_stern_brocot (float val, int max_denom, int *res_num, int *res_denom);
+void go_stern_brocot (double val, int max_denom, int *res_num, int *res_denom);
 
 /* ------------------------------------------------------------------------- */
 

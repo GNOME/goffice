@@ -406,12 +406,12 @@ gnm_continued_fraction (gnm_float val, int max_denom, int *res_num, int *res_den
 
 
 void
-go_stern_brocot (float val, int max_denom, int *res_num, int *res_denom)
+go_stern_brocot (double val, int max_denom, int *res_num, int *res_denom)
 {
 	int an = 0, ad = 1;
 	int bn = 1, bd = 1;
 	int n, d;
-	float sp, delta;
+	double sp, delta;
 
 	while ((d = ad + bd) <= max_denom) {
 		sp = 1e-5 * d;/* Quick and dirty,  do adaptive later */

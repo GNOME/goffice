@@ -1,5 +1,8 @@
 2005-03-04  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-math.c (go_stern_brocot): Use double, not
+	float.
+
 	* goffice/utils/go-glib-extras.c (go_mem_chunk_new): Drop
 	references to gnm_float.
 
