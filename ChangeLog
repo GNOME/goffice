@@ -1,5 +1,10 @@
 2005-02-27  Christopher James Lahey  <clahey@clahey.net>
 
+	* Makefile.am (pkgconfigdir), configure.in (AC_OUTPUT): Create and
+	install libgoffice-1.pc.
+
+2005-02-27  Christopher James Lahey  <clahey@clahey.net>
+
 	* libgoffice-1.pc.in: New file.
 
 2005-02-27  Jody Goldberg <jody@gnome.org>

@@ -541,6 +541,7 @@ plugins/plot_xy/Makefile
 plugins/plot_surface/Makefile
 plugins/plot_boxes/Makefile
 test/Makefile
+libgoffice-1.pc
 stamp.h
 ])
 

@@ -18,4 +18,7 @@ libgoffice_la_SOURCES = 	\
 
 EXTRA_DIST = goffice.mk goffice-plugins.mk
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA= libgoffice-1.pc
+
 include $(srcdir)/goffice.mk
