@@ -156,7 +156,7 @@ do_focus_change (GtkWidget *widget, gboolean in)
 
 	gtk_widget_event (widget, (GdkEvent *)&fevent);
 
-	g_object_notify (G_OBJECT (widget), "has_focus");
+	g_object_notify (G_OBJECT (widget), "has-focus");
 
 	g_object_unref (widget);
 }
