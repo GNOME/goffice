@@ -1,6 +1,8 @@
 depcomp
 goffice-config.h
 goffice-config.h.in
+goffice-paths.h
+goffice-paths.sh
 install-sh
 libgoffice-1.pc
 Makefile

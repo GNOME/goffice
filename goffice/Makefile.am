@@ -10,7 +10,9 @@ libgoffice_la_LIBADD = 				\
 	drawing/libgoffice-drawing.la		\
 	ms-compat/libgoffice-ms-compat.la
 
+BUILT_SOURCES =	goffice-paths.h
 libgoffice_la_SOURCES = 	\
+	$(BUILT_SOURCES)	\
 	goffice.c		\
 	goffice.h		\
 	goffice-priv.h		\
@@ -18,5 +20,13 @@ libgoffice_la_SOURCES = 	\
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA= libgoffice-1.pc
+
+goffice-paths.h: goffice-paths.sh
+	@sh $< > $@.tmp ;					\
+	if cmp -s $@.tmp $@; then				\
+	    rm $@.tmp;						\
+	else							\
+	    mv $@.tmp $@ ; echo updated goffice-paths.h ;	\
+	fi
 
 include $(top_srcdir)/goffice.mk

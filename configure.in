@@ -530,6 +530,7 @@ goffice/gtk/Makefile
 goffice/graph/Makefile
 goffice/drawing/Makefile
 goffice/ms-compat/Makefile
+goffice/goffice-paths.sh
 goffice/libgoffice-1.pc
 plugins/Makefile
 plugins/plot_barcol/Makefile

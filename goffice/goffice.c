@@ -40,17 +40,16 @@
 #include <goffice/app/go-plugin-service.h>
 #include <gsf/gsf-utils.h>
 
-#warning remove when we get a configure.in
-#include <src/gnumeric-paths.h>
+#include "goffice-paths.h"
 
 #include <libintl.h>
 
 int goffice_graph_debug_level = 0;
 
-static char const *libgoffice_data_dir   = GNUMERIC_DATADIR;
-static char const *libgoffice_icon_dir   = GNUMERIC_ICONDIR;
-static char const *libgoffice_locale_dir = GNUMERIC_LOCALEDIR;
-/* static char const *libgoffice_lib_dir    = GNUMERIC_LIBDIR; */
+static char const *libgoffice_data_dir   = GOFFICE_DATADIR;
+static char const *libgoffice_icon_dir   = GOFFICE_ICONDIR;
+static char const *libgoffice_locale_dir = GOFFICE_LOCALEDIR;
+/* static char const *libgoffice_lib_dir    = GOFFICE_LIBDIR; */
 
 char const *
 go_sys_data_dir ()
