@@ -237,7 +237,7 @@ go_pow10 (int n)
 #ifdef HAVE_LONG_DOUBLE
 
 long double go_nanl;
-long double go_pinlf;
+long double go_pinfl;
 long double go_ninfl;
 
 long double
