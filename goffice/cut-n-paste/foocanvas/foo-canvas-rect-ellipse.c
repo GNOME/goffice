@@ -840,17 +840,17 @@ foo_canvas_rect_realize  (FooCanvasItem *item)
 #ifdef HAVE_RENDER
 	FooCanvasRectPrivate *priv;
 	int event_base, error_base;
+	Display *dpy;
 
 	priv = FOO_CANVAS_RECT (item)->priv;
 
-	priv->use_render = XRenderQueryExtension (gdk_display, &event_base, &error_base);
+	dpy = gdk_x11_drawable_get_xdisplay (GTK_WIDGET (item->canvas)->window);
+	priv->use_render = XRenderQueryExtension (dpy, &event_base, &error_base);
 
 	if (priv->use_render) {
-		Display *dpy;
 		GdkVisual *gdk_visual;
 		Visual *visual;
 
-		dpy = gdk_x11_drawable_get_xdisplay (GTK_WIDGET (item->canvas)->window);
 		gdk_visual = gtk_widget_get_visual (GTK_WIDGET (item->canvas));
 		visual = gdk_x11_visual_get_xvisual (gdk_visual);
 

@@ -2,12 +2,12 @@ INCLUDES = \
 	-I$(top_srcdir) 				\
 	-I$(top_builddir)				\
 	$(WARN_CFLAGS) 					\
-	$(GOFFICE_CFLAGS) 			\
+	$(GOFFICE_CFLAGS)				\
         -DFOOCANVASLIBDIR=\""$(libdir)"\" 		\
         -DFOOCANVASDATADIR=\""$(datadir)"\" 		\
         -DFOOCANVASPIXMAPDIR=\""$(datadir)/pixmaps"\"	\
         -DFOOCANVASBINDIR=\""$(bindir)"\" 		\
-        -DFOOCANVASLOCALSTATEDIR=\""$(localstatedir)"\" 	\
+        -DFOOCANVASLOCALSTATEDIR=\""$(localstatedir)"\"	\
         -DFOOCANVASLOCALEDIR=\""$(gnomelocaledir)"\" 	\
 	-DG_LOG_DOMAIN=\"Foocanvas\"			\
 	-DVERSION=\"$(VERSION)\"
@@ -16,17 +16,24 @@ noinst_LTLIBRARIES = libfoocanvas.la
 
 libfoocanvas_la_LIBADD = \
 	$(RENDER_LIBS)				\
-	$(NULL)
+	$(LIBFOOCANVAS_LIBS)
 
-libfoocanvasincludedir = $(includedir)/libfoocanvas-1.0/libfoocanvas
+libfoocanvasincludedir = $(includedir)/libgoffice-1/goffice/cut-n-paste/foocanvas/
 
-
-BUILT_SOURCES =					\
-	foo-canvas-marshal.c			\
-	foo-canvas-marshal.h
+libfoocanvasinclude_HEADERS =			\
+	foo-canvas-line.h			\
+	foo-canvas-pixbuf.h			\
+	foo-canvas-polygon.h			\
+	foo-canvas-rect-ellipse.h		\
+	foo-canvas-text.h			\
+	foo-canvas-util.h			\
+	foo-canvas-widget.h			\
+	foo-canvas.h				\
+	libfoocanvas.h
 
 libfoocanvas_la_SOURCES =			\
-	$(BUILT_SOURCES)			\
+	$(libfoocanvasinclude_HEADERS)		\
+	foo-canvas-marshal.list			\
 	foo-canvas-i18n.h			\
 	foo-canvas-line.c			\
 	foo-canvas-pixbuf.c			\
@@ -38,38 +45,19 @@ libfoocanvas_la_SOURCES =			\
 	foo-canvas.c				\
 	libfoocanvastypes.c
 
-foo-canvas-marshal.h: foo-canvas-marshal.list $(GLIB_GENMARSHAL)
-	$(GLIB_GENMARSHAL) $< --header --prefix=foo_canvas_marshal > $@
-foo-canvas-marshal.c: foo-canvas-marshal.list $(GLIB_GENMARSHAL) foo-canvas-marshal.h
-	$(GLIB_GENMARSHAL) $< --body --prefix=foo_canvas_marshal > $@.tmp
-	echo '/* This file has been automatically generated.  Do not edit.  */' >$@
-	echo '#include "'$*.h'"' >>$@
-	cat $@.tmp >>$@
-	rm -f $@.tmp
+GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=foo_canvas_marshal
+SUFFIXES = .list
 
-EXTRA_DIST = \
-	foo-canvas-marshal.list	\
-	libfoocanvas.pc.in
+.list.h: $(GLIB_GENMARSHAL)
+	$(GENMARSHAL_COMMAND) --header $< >$@
 
+.list.c: $(GLIB_GENMARSHAL)
+	(echo '/* This file has been automatically generated.  Do not edit. */' && \
+	echo '#include "$*.h"' && \
+	$(GENMARSHAL_COMMAND) --body $< ) >$@
+
+# A hint is needed to build the header first:
+BUILT_SOURCES = foo-canvas-marshal.h
 
 CLEANFILES = foo-canvas-marshal.h foo-canvas-marshal.c
 
-DONT_DIST_SOURCE = $(BUILT_SOURCES)
-
-dist-hook:
-	for file in $(DONT_DIST_SOURCE) ; do \
-	    rm -f $(distdir)/$$file ; \
-	done
-
-noinst_HEADERS = \
-	foo-canvas-marshal.h \
-	foo-canvas-i18n.h \
-	foo-canvas-line.h \
-	foo-canvas-pixbuf.h \
-	foo-canvas-polygon.h \
-	foo-canvas-rect-ellipse.h \
-	foo-canvas-text.h \
-	foo-canvas-util.h \
-	foo-canvas-widget.h \
-	foo-canvas.h \
-	libfoocanvas.h

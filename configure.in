@@ -160,6 +160,13 @@ GOFFICE_CFLAGS="$GOFFICE_CFLAGS -I\$(top_srcdir)/src/cut-n-paste-code"
 AC_SUBST(GOFFICE_LIBS)
 AC_SUBST(GOFFICE_CFLAGS)
 
+dnl  Checks for Xft/XRender
+AC_CHECK_LIB(Xrender, XRenderFindFormat, 
+	[AC_SUBST(RENDER_LIBS, "-lXrender -lXext")
+	 AC_DEFINE(HAVE_RENDER, 1, [Define if libXrender is available.])],
+	[AC_SUBST(RENDER_LIBS, "")],
+	[-lXext])
+
 dnl *****************************
 AC_MSG_CHECKING([for native Win32])
 case "$host" in
@@ -186,7 +193,9 @@ AC_MSG_RESULT($platform_win32)
 AM_CONDITIONAL(PLATFORM_WIN32, test "$platform_win32" = yes)
 
 dnl *****************************
-
+dnl FIXME: perhaps declare with AC_ARG_VAR?
+dnl	   If we use the initial value of a variable, we have to make it precious.
+dnl
 GOFFICE_PLUGIN_LDFLAGS="-avoid-version $GOFFICE_PLUGIN_LDFLAGS"
 AC_SUBST(GOFFICE_PLUGIN_LDFLAGS)
 

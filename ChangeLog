@@ -1,3 +1,10 @@
+2005-03-02  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Add check for Xrender.
+	* goffice-plugins.mk (INCLUDES): Fix.
+	* tools/import-foocanvas: Update for the new situation, and use it
+	  to update the imported code.
+
 2005-02-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-glib-extras.c: replaced gnumeric-config.h by

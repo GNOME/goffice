@@ -9,7 +9,7 @@ my $myself = $0;
 $myself =~ s|^.*/||;
 
 die "$0: must run from top-level goffice directory.\n"
-    unless -r "goffice/goffice-config.h.in";
+    unless -r "goffice/goffice.h";
 my $dst = "goffice/cut-n-paste/foocanvas";
 
 my $foodir = $ARGV[0];
@@ -45,54 +45,22 @@ sub copy_subsystem {
 	die "$0: Cannot write $dstdir/Makefile.am.new: $!\n";
     print STDERR "Creating $dstdir/Makefile.am...";
     while (<SRC>) {
-	next if /^test_/ ... !/\\\s*$/;
-	next if /^noinst_PROGRAMS/;
+	next if /^pkgconfig/ ... !/\\\s*$/;
 
-	next if /^pkgconfig/;
+	s|/libfoocanvas-1.0/libfoocanvas|/libgoffice-1/goffice/cut-n-paste/foocanvas/|;
+	s|\$\(LIBFOOCANVAS_CFLAGS\)|\$\(GOFFICE_CFLAGS\)|;
+	s/lib_LTLIBRARIES/noinst_LTLIBRARIES/;
 
-	s|\$\(LIBFOOCANVAS_CFLAGS\)|\$\(GOFFICE_CFLAGS\) |;
-	if (s/\s*\$\(LIBFOOCANVAS_LIBS\)/	/) {
-	    s/^\s*$/	\$(NULL)\n/;
-	}
-
-	s/\$\(libfoocanvasinclude_HEADERS\)//;
-
-	if (/^([a-zA-Z0-9_]+_(HEADERS|la_SOURCES)|EXTRA_DIST)\s*=/ ... !/\\\s*$/) {
+	if (/^[a-zA-Z0-9_]+_(HEADERS|la_SOURCES)\s*=/ ... !/\\\s*$/) {
 	    my $line = $_;
-	    $line =~ s/^.*=//;
-	    $line =~ s/\s*\\//;
-	    $line =~ s/^\s+//;
-	    $line =~ s/\s+$//;
-	    $line =~ s/\$\(BUILT_SOURCES\)//;
+	    $line =~ s/^.*=|^\s+|\s*\\|\s+$|\$\(libfoocanvasinclude_HEADERS\)//g;
 	    push @sources, split (' ', $line) if $line ne '';
 	}
 
-	s/lib_LTLIBRARIES/noinst_LTLIBRARIES/;
-
+	next if /^(libfoocanvas_a_LIBADD|EXTRA_DIST)\s*=/ ... !/\\\s*$/;
 	next if /^\s*\\$/;
-	next if /^libfoocanvasinclude_HEADERS\s*=/ ... !/\\\s*$/;
-
-	if (/^libfoocanvas_a_LIBADD\s*=/) {
-	    print DST "RENDER_LIBS=\n";
-	    print DST "NULL=\n";
-	}
 
 	print DST;
-    }
-
-    {
-	my @headers = ('foo-canvas-marshal.h');
-	my %seen = ();
-	foreach (@headers, @sources) { $seen{$_} = 1; }
-
-	foreach (<$srcdir/*.h>) {
-	    next if $seen{$_};
-	    push @headers, substr ($_, length ($srcdir) + 1);
-	}
-
-	if (@headers) {
-	    print DST "\nnoinst_HEADERS = \\\n\t", join (" \\\n\t", @headers), "\n";
-	}
     }
 
     close (*SRC);
