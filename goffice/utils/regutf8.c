@@ -36,7 +36,7 @@ gnumeric_regcomp_XL (go_regex_t *preg, char const *pattern, int cflags)
 			break;
 
 		default:
-			pattern = gnumeric_regexp_quote1 (res, pattern);
+			pattern = go_regexp_quote1 (res, pattern);
 		}
 	}
 
@@ -50,7 +50,7 @@ gnumeric_regcomp_XL (go_regex_t *preg, char const *pattern, int cflags)
  * location of the next character in s.
  */
 const char *
-gnumeric_regexp_quote1 (GString *target, const char *s)
+go_regexp_quote1 (GString *target, const char *s)
 {
 	g_return_val_if_fail (target != NULL, NULL);
 	g_return_val_if_fail (s != NULL, NULL);
@@ -81,11 +81,11 @@ gnumeric_regexp_quote1 (GString *target, const char *s)
  * Regexp quote a UTF-8 string.
  */
 void
-gnumeric_regexp_quote (GString *target, const char *s)
+go_regexp_quote (GString *target, const char *s)
 {
 	g_return_if_fail (target != NULL);
 	g_return_if_fail (s != NULL);
 
 	while (*s)
-		s = gnumeric_regexp_quote1 (target, s);
+		s = go_regexp_quote1 (target, s);
 }

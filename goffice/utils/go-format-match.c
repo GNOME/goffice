@@ -181,7 +181,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 		case '\\': {
 			if (format[1] != '\0')
 				format++;
-			gnumeric_regexp_quote1 (regexp, format);
+			go_regexp_quote1 (regexp, format);
 			break;
 		}
 
@@ -247,7 +247,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 				 * as a result $1000 would not be recognized.
 				 */
 				g_string_append (regexp, "([-+]?[0-9]+(");
-				gnumeric_regexp_quote (regexp, format_get_thousand ()->str);
+				go_regexp_quote (regexp, format_get_thousand ()->str);
 				g_string_append (regexp, "[0-9]{3})*)");
 				append_type (MATCH_SKIP);
 			} else {
@@ -256,7 +256,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 
 			if (include_decimal) {
 				g_string_append (regexp, "?(");
-				gnumeric_regexp_quote (regexp, format_get_decimal ()->str);
+				go_regexp_quote (regexp, format_get_decimal ()->str);
 				g_string_append (regexp, "[0-9]+([Ee][-+]?[0-9]+)?)");
 				append_type (MATCH_NUMBER_DECIMALS);
 			}
@@ -419,7 +419,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 			while (*format != '"') {
 				if (*format == 0)
 					goto error;
-				format = gnumeric_regexp_quote1 (regexp, format);
+				format = go_regexp_quote1 (regexp, format);
 			}
 			break;
 
@@ -474,7 +474,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 
 #endif
 		default :
-			gnumeric_regexp_quote1 (regexp, format);
+			go_regexp_quote1 (regexp, format);
 		}
 	}
 

@@ -1,3 +1,8 @@
+2005-03-11  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/regutf8.c (go_regexp_quote): Renamed from
+	gnumeric_regexp_quote.
+
 2005-03-11  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in: Propagate ACLOCAL_FLAGS, so that it's available
