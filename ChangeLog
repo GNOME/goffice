@@ -1,5 +1,8 @@
 2005-04-01  Morten Welinder  <terra@gnome.org>
 
+	* goffice/drawing/god-property-table.h: Use canonical property
+	names.
+
 	* goffice/gtk/goffice-gtk.c (go_gtk_select_image): Moderately
 	cheesy way of saving where we were last time.
 
