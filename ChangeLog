@@ -1,3 +1,11 @@
+2005-03-16  Stepan Kasal  <kasal@ucw.cz>
+
+	* autogen.sh: Require intltool >= 0.27.2 and explain why;
+	  fix IFS handling; cosmetic changes.
+	* configure.in: Cosmetics.
+	* goffice/libgoffice-1.pc.in: Change the "Name:" to libGOffice,
+	  and put a commant with a hint for anon cvs.
+
 2005-03-16  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/utils/go-line.c (go_line_build_vpath),

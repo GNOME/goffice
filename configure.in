@@ -6,7 +6,7 @@ m4_define([goffice_version_major], [0])
 m4_define([goffice_version_minor], [1])
 m4_define([goffice_version_extra], [])
 m4_define([goffice_full_version],
-    [goffice_version_epoch.goffice_version_major.goffice_version_minor()goffice_version_extra])
+    [goffice_version_epoch.goffice_version_major.goffice_version_minor[]goffice_version_extra])
 
 dnl Emphasize some of the checks.
 m4_define([BIG_CHECKING], [AC_MSG_CHECKING([
