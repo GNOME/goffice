@@ -50,8 +50,25 @@
 #ifndef DOUBLE
 
 #define DEFINE_COMMON
+#define DOUBLE double
+#define SUFFIX(_n) _n
+#define PREFIX(_n) DBL_ ## _n
+#define FORMAT_e "e"
+#define FORMAT_E "E"
+#define FORMAT_G "G"
+#define STRTO strtod
 
 #if GOFFICE_WITH_LONG_DOUBLE
+#include "format.c"
+#undef DEFINE_COMMON
+#undef DOUBLE
+#undef SUFFIX
+#undef PREFIX
+#undef FORMAT_e
+#undef FORMAT_E
+#undef FORMAT_G
+#undef STRTO
+
 #ifdef HAVE_SUNMATH_H
 #include <sunmath.h>
 #endif
@@ -62,24 +79,8 @@
 #define FORMAT_E "LE"
 #define FORMAT_G "LG"
 #define STRTO strtold
-#include "format.c"
-#undef DEFINE_COMMON
-#undef DOUBLE
-#undef SUFFIX
-#undef PREFIX
-#undef FORMAT_e
-#undef FORMAT_E
-#undef FORMAT_G
-#undef STRTO
 #endif
 
-#define DOUBLE double
-#define SUFFIX(_n) _n
-#define PREFIX(_n) DBL_ ## _n
-#define FORMAT_e "e"
-#define FORMAT_E "E"
-#define FORMAT_G "G"
-#define STRTO strtod
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -1650,7 +1651,11 @@ SUFFIX(go_format_number) (GString *result,
 			int c = *(format + 1);
 
 			can_render_number = TRUE;
-			if (c && (c != '0' && c != '#' && c != '?'))
+			if (0 && c && (c != '0' && c != '#' && c != '?'))
+				/*
+				 * Before reinstating this, look at format
+				 * "#,##0.\\-" with value 255.
+				 */
 				number /= 1000;
 			else
 				info.decimal_separator_seen = TRUE;

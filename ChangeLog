@@ -1,3 +1,12 @@
+2005-03-14  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: Undo last change.  Test links with gcc, not $LD.
+
+	* goffice/utils/format.c: Compile plain double version first as
+	gdb sets breakpoints only for first copy.
+	(go_format_number): Disable strange number scaling for ".".
+	[#167274]
+
 2005-03-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c: (gog_axis_get_entry): fixed test for
