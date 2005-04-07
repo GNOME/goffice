@@ -140,16 +140,16 @@ draw_path (GogRendererSvg *prend, ArtVpath const *path, GString *string)
 		switch (path->code) {
 		case ART_MOVETO_OPEN :
 		case ART_MOVETO :
-			g_string_append_printf (string, "M%s", 
-				g_ascii_dtostr (buffer, sizeof (buffer), path->x));
-			g_string_append_printf (string, " %s", 
-				g_ascii_dtostr (buffer, sizeof (buffer), path->y));
+			g_string_append_c (string, 'M');
+			g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), path->x));
+			g_string_append_c (string, ' ');
+			g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), path->y));
 			break;
 		case ART_LINETO :
-			g_string_append_printf (string, "L%s", 
-				g_ascii_dtostr (buffer, sizeof (buffer), path->x));
-			g_string_append_printf (string, " %s",
-				g_ascii_dtostr (buffer, sizeof (buffer), path->y));
+			g_string_append_c (string, 'L');
+			g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), path->x));
+			g_string_append_c (string, ' ');
+			g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), path->y));
 			break;
 		default :
 			break;
@@ -167,9 +167,10 @@ stroke_dasharray (xmlNodePtr node, ArtVpathDash *dash)
 		return;
 
 	string = g_string_new ("");
-	for (i = 0; i < dash->n_dash; i++) 
-		g_string_append_printf (string, i == 0 ? "%s" : " %s", 
-			g_ascii_dtostr (buffer, sizeof (buffer), dash->dash[i]));
+	for (i = 0; i < dash->n_dash; i++) {
+	       if (i != 0) g_string_append_c (string, ' ');
+	       g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), dash->dash[i]));
+	}
 	xmlNewProp (node, CC2XML ("stroke-dasharray"), CC2XML (string->str));
 	g_string_free (string, TRUE);
 }
@@ -227,7 +228,7 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 		node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
 		xmlAddChild (prend->current_node, node);
 		draw_path (prend, path, string);
-		g_string_append (string, "z");
+		g_string_append_c (string, 'z');
 		xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
 		g_string_free (string, TRUE);
 	} else
@@ -383,30 +384,30 @@ gog_renderer_svg_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
 		switch (path->code) {
 		case ART_MOVETO_OPEN :
 		case ART_MOVETO :
-			g_string_append_printf (string, "M%s", 
-				g_ascii_dtostr (buffer, sizeof (buffer), path->x3));
-			g_string_append_printf (string, " %s",
-			       	g_ascii_dtostr (buffer, sizeof (buffer), path->y3));
+			g_string_append_c (string, 'M');
+			g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), path->x3));
+			g_string_append_c (string, ' ');
+			g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), path->y3));
 			break;
 		case ART_LINETO :
-			g_string_append_printf (string, "L%s", 
-				g_ascii_dtostr (buffer, sizeof (buffer), path->x3));
-			g_string_append_printf (string, " %s",
-				g_ascii_dtostr (buffer, sizeof (buffer), path->y3));
+			g_string_append_c (string, 'L');
+			g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), path->x3));
+			g_string_append_c (string, ' ');
+			g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), path->y3));
 			break;
 		case ART_CURVETO :
-			g_string_append_printf (string, "C%s",
-				g_ascii_dtostr (buffer, sizeof (buffer), path->x1));
-			g_string_append_printf (string, " %s",
-			       	g_ascii_dtostr (buffer, sizeof (buffer), path->y1));
-			g_string_append_printf (string, " %s",
-				g_ascii_dtostr (buffer, sizeof (buffer), path->x2));
-			g_string_append_printf (string, " %s",
-			       	g_ascii_dtostr (buffer, sizeof (buffer), path->y2));
-			g_string_append_printf (string, " %s",
-				g_ascii_dtostr (buffer, sizeof (buffer), path->x3));
-			g_string_append_printf (string, " %s",
-			       	g_ascii_dtostr (buffer, sizeof (buffer), path->y3));
+			g_string_append_c (string, 'C');
+			g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), path->x1));
+			g_string_append_c (string, ' ');
+			g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), path->y1));
+			g_string_append_c (string, ' ');
+			g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), path->x2));
+			g_string_append_c (string, ' ');
+			g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), path->y2));
+			g_string_append_c (string, ' ');
+			g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), path->x3));
+			g_string_append_c (string, ' ');
+			g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), path->y3));
 			break;
 		default :
 			break;
@@ -459,7 +460,7 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 	xmlAddChild (prend->current_node, node);
 	string = g_string_new ("");
 	draw_path (prend, fill_path, string);
-	g_string_append (string, "z");
+	g_string_append_c (string, 'z');
 	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
 	g_string_free (string, TRUE);
 	buf = g_strdup_printf ("#%06x", marker->fill_color >> 8);
@@ -474,7 +475,7 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 	xmlAddChild (prend->current_node, node);
 	string = g_string_new ("");
 	draw_path (prend, outline_path, string);
-	g_string_append (string, "z");
+	g_string_append_c (string, 'z');
 	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
 	g_string_free (string, TRUE);
 	xmlNewProp (node, CC2XML ("fill"), CC2XML ("none"));
