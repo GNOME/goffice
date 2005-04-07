@@ -53,6 +53,53 @@
 
 /* ------------------------------------------------------------------------- */
 
+#ifndef W_OK
+#define W_OK 2
+#endif
+
+/* g_access would be nice here.  */
+static gboolean
+go_access (const char *filename, int what)
+{
+#ifdef G_OS_WIN32
+	int retval;
+	int save_errno;
+	if (G_WIN32_HAVE_WIDECHAR_API ()) {
+		wchar_t *wfilename = g_utf8_to_utf16 (filename, -1, NULL, NULL, NULL);
+		if (wfilename == NULL) {
+			errno = EINVAL;
+			return -1;
+		}
+
+		retval = _waccess (wfilename, what);
+		save_errno = errno;
+
+		g_free (wfilename);
+      
+		errno = save_errno;
+	} else {
+		gchar *cp_filename = g_locale_from_utf8 (filename, -1, NULL, NULL, NULL);
+		if (cp_filename == NULL) {
+			errno = EINVAL;
+			return -1;
+		}
+
+		retval = _access (cp_filename, what);
+		save_errno = errno;
+
+		g_free (cp_filename);
+
+		errno = save_errno;
+	}
+	return retval;
+#else
+	return access (filename, what);
+#endif
+}
+
+/* ------------------------------------------------------------------------- */
+
+
 /**
  * go_gtk_button_new_with_stock
  *
@@ -733,16 +780,12 @@ go_gtk_url_is_writeable (GtkWindow *parent, char const *uri,
 	if (!filename)
 		return TRUE;  /* Just assume writable.  */
 
-#ifndef G_IS_DIR_SEPARATOR
-/* Recent glib 2.6 addition.  */
-#define G_IS_DIR_SEPARATOR(c) ((c) == G_DIR_SEPARATOR || (c) == '/')
-#endif
 	if (G_IS_DIR_SEPARATOR (filename [strlen (filename) - 1]) ||
 	    g_file_test (filename, G_FILE_TEST_IS_DIR)) {
 		go_gtk_notice_dialog (parent, GTK_MESSAGE_ERROR,
 				      _("%s\nis a directory name"), uri);
 		result = FALSE;
-	} else if (access (filename, W_OK) != 0 && errno != ENOENT) {
+	} else if (go_access (filename, W_OK) != 0 && errno != ENOENT) {
 		go_gtk_notice_dialog (parent, GTK_MESSAGE_ERROR,
 				      _("You do not have permission to save to\n%s"),
 				      uri);
