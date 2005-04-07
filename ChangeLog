@@ -1,3 +1,8 @@
+2005-04-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-guru.c: (cb_attr_tree_selection_change): don't
+	scroll to selection if nothing is selected.
+
 2005-04-06  Morten Welinder  <terra@gnome.org>
 
 	* plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_set_property): Add

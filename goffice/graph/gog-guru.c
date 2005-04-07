@@ -698,9 +698,11 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 	if (s->prop_object == obj)
 		return;
 
-	path = gtk_tree_model_get_path (GTK_TREE_MODEL (s->prop_model), &s->prop_iter);
-	gtk_tree_view_scroll_to_cell (s->prop_view, path, NULL, FALSE, 0, 0);
-	gtk_tree_path_free (path);
+	if (obj) {
+		path = gtk_tree_model_get_path (GTK_TREE_MODEL (s->prop_model), &s->prop_iter);
+		gtk_tree_view_scroll_to_cell (s->prop_view, path, NULL, FALSE, 0, 0);
+		gtk_tree_path_free (path);
+	}
 
 	/* remove the old prop page */
 	s->prop_object = obj;
