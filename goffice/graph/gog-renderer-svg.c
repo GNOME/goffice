@@ -66,6 +66,15 @@ static GObjectClass *parent_klass;
 
 static GType gog_renderer_svg_get_type (void);
 
+static void 
+set_double_prop (xmlNodePtr node, const char *name, double value)
+{
+	char buffer[G_ASCII_DTOSTR_BUF_SIZE];
+
+	g_ascii_dtostr (buffer, sizeof (buffer), value);
+	xmlNewProp (node, CC2XML(name), CC2XML(buffer));
+}
+
 static void
 gog_renderer_svg_finalize (GObject *obj)
 {
@@ -86,38 +95,30 @@ gog_renderer_svg_clip_push (GogRenderer *rend, GogRendererClip *clip)
 	char *buf;
 	xmlNodePtr child;
 	xmlNodePtr node;
-	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 
 	prend->clip_counter++;
 	
-	setlocale (LC_NUMERIC, "C");
 	node = xmlNewDocNode (prend->doc, NULL, CC2XML("clipPath"), NULL);
 	xmlAddChild (prend->defs, node);
+
 	buf = g_strdup_printf ("clip%i", prend->clip_counter);
 	xmlNewProp (node, CC2XML("id"), CC2XML(buf));
 	g_free (buf);
+	
 	child = xmlNewDocNode (prend->doc, NULL, CC2XML("rect"), NULL);
 	xmlAddChild (node, child);
-	buf = g_strdup_printf ("%g", clip->area.x);
-	xmlNewProp (child, CC2XML("x"), CC2XML(buf));
-	g_free (buf);
-	buf = g_strdup_printf ("%g", clip->area.y);
-	xmlNewProp (child, CC2XML("y"), CC2XML(buf));
-	g_free (buf);
-	buf = g_strdup_printf ("%g", clip->area.w);
-	xmlNewProp (child, CC2XML("width"), CC2XML(buf));
-	g_free (buf);
-	buf = g_strdup_printf ("%g", clip->area.h);
-	xmlNewProp (child, CC2XML("height"), CC2XML(buf));
-	g_free (buf);
+	
+	set_double_prop (child, "x", clip->area.x);
+	set_double_prop (child, "y", clip->area.y);
+	set_double_prop (child, "width", clip->area.w);
+	set_double_prop (child, "height", clip->area.h);
 	
 	node = xmlNewDocNode (prend->doc, NULL, CC2XML("g"), NULL);
 	xmlAddChild (prend->current_node, node);
+	
 	buf = g_strdup_printf ("url(#clip%i)", prend->clip_counter);
 	xmlNewProp (node, CC2XML ("clip-path"), CC2XML (buf));
 	g_free (buf);
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
 
 	prend->current_node = node;
 }
@@ -133,14 +134,22 @@ gog_renderer_svg_clip_pop (GogRenderer *rend, GogRendererClip *clip)
 static void
 draw_path (GogRendererSvg *prend, ArtVpath const *path, GString *string)
 {
+	char buffer[G_ASCII_DTOSTR_BUF_SIZE];
+	
 	for ( ; path->code != ART_END ; path++)
 		switch (path->code) {
 		case ART_MOVETO_OPEN :
 		case ART_MOVETO :
-			g_string_append_printf (string, "M%g %g", path->x, path->y);
+			g_string_append_printf (string, "M%s", 
+				g_ascii_dtostr (buffer, sizeof (buffer), path->x));
+			g_string_append_printf (string, " %s", 
+				g_ascii_dtostr (buffer, sizeof (buffer), path->y));
 			break;
 		case ART_LINETO :
-			g_string_append_printf (string, "L%g %g", path->x, path->y);
+			g_string_append_printf (string, "L%s", 
+				g_ascii_dtostr (buffer, sizeof (buffer), path->x));
+			g_string_append_printf (string, " %s",
+				g_ascii_dtostr (buffer, sizeof (buffer), path->y));
 			break;
 		default :
 			break;
@@ -151,6 +160,7 @@ static void
 stroke_dasharray (xmlNodePtr node, ArtVpathDash *dash)
 {
 	GString *string;
+	char buffer[G_ASCII_DTOSTR_BUF_SIZE];
 	int i;
 
 	if (dash == NULL || dash->n_dash < 1)
@@ -158,7 +168,8 @@ stroke_dasharray (xmlNodePtr node, ArtVpathDash *dash)
 
 	string = g_string_new ("");
 	for (i = 0; i < dash->n_dash; i++) 
-		g_string_append_printf (string, i == 0 ? "%g" : " %g", dash->dash[i]);
+		g_string_append_printf (string, i == 0 ? "%s" : " %s", 
+			g_ascii_dtostr (buffer, sizeof (buffer), dash->dash[i]));
 	xmlNewProp (node, CC2XML ("stroke-dasharray"), CC2XML (string->str));
 	g_string_free (string, TRUE);
 }
@@ -173,37 +184,31 @@ gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path,
 	GString *string;
 	char *buf;
 	int opacity;
-	char *old_num_locale;
 
 	if (style->line.dash_type == GO_LINE_NONE)
 		return;
 	
 	node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 
-	setlocale (LC_NUMERIC, "C");
 	xmlAddChild (prend->current_node, node);
+	
 	string = g_string_new ("");
 	draw_path (prend, path, string);
 	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
 	g_string_free (string, TRUE);
+	
 	xmlNewProp (node, CC2XML ("fill"), CC2XML ("none"));
-	buf = g_strdup_printf ("%g", gog_renderer_line_size (renderer, style->line.width));
-	xmlNewProp (node, CC2XML ("stroke-width"), CC2XML (buf));
-	g_free (buf);
-	/* TODO: clip dashed lines to prevent possible rsvg crash */
+
+	set_double_prop (node, "stroke-width", gog_renderer_line_size (renderer, style->line.width));
 	stroke_dasharray (node, renderer->line_dash);
+	
 	buf = g_strdup_printf ("#%06x", style->line.color >> 8);
 	xmlNewProp (node, CC2XML ("stroke"), CC2XML (buf));
 	g_free (buf);
+	
 	opacity = style->line.color & 0xff;
-	if (opacity != 255) {
-		buf = g_strdup_printf ("%g", (double) opacity / 255.);
-		xmlNewProp (node, CC2XML ("stroke-opacity"), CC2XML (buf));
-		g_free (buf);
-	}
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
+	if (opacity != 255) 
+		set_double_prop (node, "stroke-opacity", (double) opacity / 255.0);
 }
 
 static void
@@ -216,9 +221,7 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 	xmlNodePtr node;
 	char *buf, *name, *id;
 	int opacity;
-	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 
-	setlocale (LC_NUMERIC, "C");
 	if (style->fill.type != GOG_FILL_STYLE_NONE || with_outline) {
 		GString *string = g_string_new ("");
 		node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
@@ -240,11 +243,8 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 				xmlNewProp (node, CC2XML ("fill"), CC2XML (buf));
 				g_free (buf);
 				opacity = color & 0xff;
-				if (opacity != 255) {
-					buf = g_strdup_printf ("%g", (double) opacity / 255.);
-					xmlNewProp (node, CC2XML ("fill-opacity"), CC2XML (buf));
-					g_free (buf);
-				}
+				if (opacity != 255) 
+					set_double_prop (node, "fill-opacity", (double) opacity / 255.0);
 			}
 			break;
 		}
@@ -303,18 +303,11 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 					break;
 				}
 				xmlNewProp (child, CC2XML ("spreadMethod"), CC2XML (buf));
-				buf = g_strdup_printf ("%g", x1);
-				xmlNewProp (child, CC2XML ("x1"), CC2XML (buf));
-				g_free (buf);
-				buf = g_strdup_printf ("%g", y1);
-				xmlNewProp (child, CC2XML ("y1"), CC2XML (buf));
-				g_free (buf);
-				buf = g_strdup_printf ("%g", x2);
-				xmlNewProp (child, CC2XML ("x2"), CC2XML (buf));
-				g_free (buf);
-				buf = g_strdup_printf ("%g", y2);
-				xmlNewProp (child, CC2XML ("y2"), CC2XML (buf));
-				g_free (buf);
+				set_double_prop (child, "x1", x1);
+				set_double_prop (child, "y1", y1);
+				set_double_prop (child, "x2", x2);
+				set_double_prop (child, "y2", y2);
+				
 				stop = xmlNewDocNode (prend->doc, NULL, CC2XML ("stop"), NULL);
 				xmlAddChild (child, stop);
 				xmlNewProp (stop, CC2XML ("offset"), CC2XML ("0"));
@@ -322,11 +315,9 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 				xmlNewProp (stop, CC2XML ("stop-color"), CC2XML (buf));
 				g_free (buf);
 				opacity = start & 0xff;
-				if (opacity != 255) {
-					buf = g_strdup_printf ("%g", (double) opacity / 255.);
-					xmlNewProp (stop, CC2XML ("stop-opacity"), CC2XML (buf));
-					g_free (buf);
-				}
+				if (opacity != 255) 
+					set_double_prop (stop, "stop-opacity", (double) opacity / 255.0);
+				
 				stop = xmlNewDocNode (prend->doc, NULL, CC2XML ("stop"), NULL);
 				xmlAddChild (child, stop);
 				xmlNewProp (stop, CC2XML ("offset"), CC2XML ("1"));
@@ -334,11 +325,8 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 				xmlNewProp (stop, CC2XML ("stop-color"), CC2XML (buf));
 				g_free (buf);
 				opacity = end & 0xff;
-				if (opacity != 255) {
-					buf = g_strdup_printf ("%g", (double) opacity / 255.);
-					xmlNewProp (stop, CC2XML ("stop-opacity"), CC2XML (buf));
-					g_free (buf);
-				}
+				if (opacity != 255) 
+					set_double_prop (stop, "stop-opacity", (double) opacity / 255.0);
 				buf = g_strdup_printf ("url(#%s)", name);
 			} else {
 				buf = g_strdup_printf ("url(#%s)", name);
@@ -361,22 +349,15 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 	if (with_outline) {
 		/* TODO: clip dashed lines to prevent possible rsvg crash */
 		stroke_dasharray (node, renderer->outline_dash);
-		buf = g_strdup_printf ("%g",  gog_renderer_line_size (renderer, style->outline.width));
-		xmlNewProp (node, CC2XML ("stroke-width"), CC2XML (buf));
-		g_free (buf);
+		set_double_prop (node, "stroke-width", gog_renderer_line_size (renderer, style->outline.width));
 		buf = g_strdup_printf ("#%06x", style->outline.color >> 8);
 		xmlNewProp (node, CC2XML ("stroke"), CC2XML (buf));
 		g_free (buf);
 		opacity = style->outline.color & 0xff;
-		if (opacity != 255) {
-			buf = g_strdup_printf ("%g", (double) opacity / 255.);
-			xmlNewProp (node, CC2XML ("stroke-opacity"), CC2XML (buf));
-			g_free (buf);
-		}
+		if (opacity != 255) 
+			set_double_prop (node, "stroke-opacity", (double) opacity / 255.0);
 	} else
 		xmlNewProp (node, CC2XML ("stroke"), CC2XML ("none"));
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
 }
 
 static void
@@ -388,32 +369,44 @@ gog_renderer_svg_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
 	xmlNodePtr node;
 	GString *string;
 	char *buf;
+	char buffer[G_ASCII_DTOSTR_BUF_SIZE];
 	int opacity;
-	char *old_num_locale;
 
 	if (style->line.dash_type == GO_LINE_NONE)
 		return;
 	
 	node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 
-	setlocale (LC_NUMERIC, "C");
 	xmlAddChild (prend->current_node, node);
 	string = g_string_new ("");
 	for ( ; path->code != ART_END ; path++)
 		switch (path->code) {
 		case ART_MOVETO_OPEN :
 		case ART_MOVETO :
-			g_string_append_printf (string, "M%g %g", path->x3, path->y3);
+			g_string_append_printf (string, "M%s", 
+				g_ascii_dtostr (buffer, sizeof (buffer), path->x3));
+			g_string_append_printf (string, " %s",
+			       	g_ascii_dtostr (buffer, sizeof (buffer), path->y3));
 			break;
 		case ART_LINETO :
-			g_string_append_printf (string, "L%g %g", path->x3, path->y3);
+			g_string_append_printf (string, "L%s", 
+				g_ascii_dtostr (buffer, sizeof (buffer), path->x3));
+			g_string_append_printf (string, " %s",
+				g_ascii_dtostr (buffer, sizeof (buffer), path->y3));
 			break;
 		case ART_CURVETO :
-			g_string_append_printf (string, "C%g %g %g %g %g %g",
-									path->x1, path->y1,
-									path->x2, path->y2,
-									path->x3, path->y3);
+			g_string_append_printf (string, "C%s",
+				g_ascii_dtostr (buffer, sizeof (buffer), path->x1));
+			g_string_append_printf (string, " %s",
+			       	g_ascii_dtostr (buffer, sizeof (buffer), path->y1));
+			g_string_append_printf (string, " %s",
+				g_ascii_dtostr (buffer, sizeof (buffer), path->x2));
+			g_string_append_printf (string, " %s",
+			       	g_ascii_dtostr (buffer, sizeof (buffer), path->y2));
+			g_string_append_printf (string, " %s",
+				g_ascii_dtostr (buffer, sizeof (buffer), path->x3));
+			g_string_append_printf (string, " %s",
+			       	g_ascii_dtostr (buffer, sizeof (buffer), path->y3));
 			break;
 		default :
 			break;
@@ -422,21 +415,14 @@ gog_renderer_svg_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
 	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
 	g_string_free (string, TRUE);
 	xmlNewProp (node, CC2XML ("fill"), CC2XML ("none"));
-	buf = g_strdup_printf ("%g", gog_renderer_line_size (rend, style->line.width));
-	xmlNewProp (node, CC2XML ("stroke-width"), CC2XML (buf));
-	g_free (buf);
+	set_double_prop (node, "stroke-width", gog_renderer_line_size (rend, style->line.width));
 	stroke_dasharray (node, rend->line_dash);
 	buf = g_strdup_printf ("#%06x", style->line.color >> 8);
 	xmlNewProp (node, CC2XML ("stroke"), CC2XML (buf));
 	g_free (buf);
 	opacity = style->line.color & 0xff;
-	if (opacity != 255) {
-		buf = g_strdup_printf ("%g", (double) opacity / 255.);
-		xmlNewProp (node, CC2XML ("stroke-opacity"), CC2XML (buf));
-		g_free (buf);
-	}
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
+	if (opacity != 255) 
+		set_double_prop (node, "stroke-opacity", (double) opacity / 255.0);
 }
 
 static void
@@ -452,9 +438,7 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 	GString *string;
 	char *buf;
 	int opacity;
-	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 
-	setlocale (LC_NUMERIC, "C");
 	g_return_if_fail (marker != NULL);
 
 	go_marker_get_paths (marker, &outline_path_raw, &fill_path_raw);
@@ -483,11 +467,8 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 	g_free (buf);
 	xmlNewProp (node, CC2XML ("stroke"), CC2XML ("none"));
 	opacity = marker->fill_color & 0xff;
-	if (opacity != 255) {
-		buf = g_strdup_printf ("%g", (double) opacity / 255.);
-		xmlNewProp (node, CC2XML ("fill-opacity"), CC2XML (buf));
-		g_free (buf);
-	}
+	if (opacity != 255) 
+		set_double_prop (node, "fill-opacity", (double) opacity / 255.0);
 
 	node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
 	xmlAddChild (prend->current_node, node);
@@ -498,23 +479,17 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 	g_string_free (string, TRUE);
 	xmlNewProp (node, CC2XML ("fill"), CC2XML ("none"));
 	xmlNewProp (node, CC2XML ("stroke-linecap"), CC2XML ("round"));
-	buf = g_strdup_printf ("%g",  gog_renderer_line_size (rend, go_marker_get_outline_width (marker)));
-	xmlNewProp (node, CC2XML ("stroke-width"), CC2XML (buf));
-	g_free (buf);
+	set_double_prop (node, "stroke-width", 
+		gog_renderer_line_size (rend, go_marker_get_outline_width (marker)));
 	buf = g_strdup_printf ("#%06x", marker->outline_color >> 8);
 	xmlNewProp (node, CC2XML ("stroke"), CC2XML (buf));
 	g_free (buf);
 	opacity = marker->outline_color & 0xff;
-	if (opacity != 255) {
-		buf = g_strdup_printf ("%g", (double) opacity / 255.);
-		xmlNewProp (node, CC2XML ("stroke-opacity"), CC2XML (buf));
-		g_free (buf);
-	}
+	if (opacity != 255) 
+		set_double_prop (node, "stroke-opacity", (double) opacity / 255.0);
 
 	g_free (outline_path);
 	g_free (fill_path);
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
 }
 
 static PangoLayout *
@@ -571,11 +546,11 @@ gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
 	char *buf;
 	double x, y;
 	int baseline;
-	char *old_num_locale;
 	PangoRectangle  rect;
 	PangoLayout* layout = make_layout (rend, "lp");
 	PangoFontDescription const *fd = rend->cur_style->font.font->desc;
 	PangoLayoutIter* iter =pango_layout_get_iter(layout);
+
 	pango_layout_get_pixel_extents (layout, NULL, &rect);
 	x = pos->x;
 	/* adjust to the base line */
@@ -599,15 +574,9 @@ gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
 
 	node = xmlNewDocNode (prend->doc, NULL, "text", NULL);
 	xmlNodeSetContent (node, CC2XML (text));
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
 	xmlAddChild (prend->current_node, node);
-	buf = g_strdup_printf ("%g", x);
-	xmlNewProp (node, CC2XML ("x"), CC2XML (buf));
-	g_free (buf);
-	buf = g_strdup_printf ("%g", y);
-	xmlNewProp (node, CC2XML ("y"), CC2XML (buf));
-	g_free (buf);
+	set_double_prop (node, "x", x);
+	set_double_prop (node, "y", y);
 	switch (anchor) {
 	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_N : case GTK_ANCHOR_S :
 		xmlNewProp (node, CC2XML ("text-anchor"), CC2XML ("middle"));
@@ -641,8 +610,6 @@ gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
 		break;
 	default: break;
 	}
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
 }
 
 static void
@@ -656,7 +623,7 @@ gog_renderer_svg_class_init (GogRendererClass *rend_klass)
 	rend_klass->clip_pop	 	= gog_renderer_svg_clip_pop;
 	rend_klass->draw_path	  	= gog_renderer_svg_draw_path;
 	rend_klass->draw_polygon  	= gog_renderer_svg_draw_polygon;
-	rend_klass->draw_bezier_path = gog_renderer_svg_draw_bezier_path;
+	rend_klass->draw_bezier_path 	= gog_renderer_svg_draw_bezier_path;
 	rend_klass->draw_text	  	= gog_renderer_svg_draw_text;
 	rend_klass->draw_marker	  	= gog_renderer_svg_draw_marker;
 	rend_klass->measure_text  	= gog_renderer_svg_measure_text;
@@ -685,9 +652,6 @@ gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
 	GogRendererSvg *prend;
 	xmlNsPtr namespace;
 	gboolean success = TRUE;
-	char *buf;
-	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
 
 	gog_graph_force_update (graph);
 
@@ -713,14 +677,8 @@ gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
 
 	namespace = xmlNewNs (prend->doc->children, CC2XML ("http://www.w3.org/1999/xlink"), CC2XML ("xlink"));
 
-	buf = g_strdup_printf ("%g", width);
-	xmlNewProp (prend->doc->children, CC2XML ("width"), CC2XML (buf));
-	g_free (buf);
-	buf = g_strdup_printf ("%g", height);
-	xmlNewProp (prend->doc->children, CC2XML ("height"), CC2XML (buf));
-	g_free (buf);
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
+	set_double_prop (prend->doc->children, "width", width);
+	set_double_prop (prend->doc->children, "height", height);
 
 	prend->clip_counter = 0;
 	allocation.x = 0.;
