@@ -4,7 +4,7 @@ if WITH_WIN32
 
     libgoffice_html_help_stub_la_SOURCES = htmlhelp-stub.c htmlhelp-stub.h
     libgoffice_html_help_stub_la_LIBADD = -luuid -lhtmlhelp
-    libgoffice_html_help_stub_la_LDFLAGS = -no-undefined -Wl,libhtmlhelp-stub.def
+    libgoffice_html_help_stub_la_LDFLAGS = -no-undefined -export-symbols $(srcdir)/libhtmlhelp-stub.def
 endif
 
 libgoffice_gtk_la_SOURCES =		\

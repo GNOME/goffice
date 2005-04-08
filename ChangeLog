@@ -1,3 +1,8 @@
+2005-04-08  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* goffice/gtk/Makefile.am: use -export-symbols to link with
+	libhtmlhelp-stub.def
+
 2005-04-07  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-renderer-svg.c: avoid use of
