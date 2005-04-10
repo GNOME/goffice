@@ -906,6 +906,14 @@ gog_axis_calc_ticks (GogAxis *axis)
 	else
 		if (axis->map_desc->calc_ticks)
 			axis->map_desc->calc_ticks (axis);
+
+	if (axis->type == GOG_AXIS_PSEUDO_3D || axis->type == GOG_AXIS_Z) {
+		GSList *l = axis->contributors;
+		while (l) {
+			gog_plot_update_3d (GOG_PLOT (l->data));
+			l = l->next;
+		}
+	}
 }
 
 /************************************************************************/

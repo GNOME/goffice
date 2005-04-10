@@ -24,16 +24,16 @@
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
 
-#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktogglebutton.h>
 
 #include <string.h>
 
 GtkWidget *gog_contour_plot_pref   (GogContourPlot *plot, GOCmdContext *cc);
 
 static void
-cb_levels_changed (GtkSpinButton *btn, GObject *plot)
+cb_transpose (GtkToggleButton *btn, GObject *plot)
 {
-	g_object_set (plot, "levels", gtk_spin_button_get_value_as_int (btn), NULL);
+	g_object_set (plot, "transposed", gtk_toggle_button_get_active (btn), NULL);
 }
 
 GtkWidget *
@@ -50,11 +50,11 @@ gog_contour_plot_pref (GogContourPlot *plot, GOCmdContext *cc)
                 return NULL;
 
 
-	w = glade_xml_get_widget (gui, "levels");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), plot->levels);
+	w = glade_xml_get_widget (gui, "transpose");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), plot->transposed);
 	g_signal_connect (G_OBJECT (w),
-		"value_changed",
-		G_CALLBACK (cb_levels_changed), plot);
+		"toggled",
+		G_CALLBACK (cb_transpose), plot);
 
 	w = glade_xml_get_widget (gui, "gog_contour_prefs");
 	g_object_set_data_full (G_OBJECT (w),

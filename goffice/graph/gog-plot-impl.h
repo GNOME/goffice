@@ -72,6 +72,8 @@ typedef struct {
 
 	void       (*foreach_elem)    (GogPlot *plot, gboolean only_visible,
 				    GogEnumFunc handler, gpointer data);
+
+	void       (*update_3d)		   (GogPlot *plot);
 } GogPlotClass;
 
 #define GOG_PLOT_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOG_PLOT_TYPE, GogPlotClass))

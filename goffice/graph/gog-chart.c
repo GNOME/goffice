@@ -45,6 +45,7 @@ GogChartMap *gog_chart_map_new (GogChart *chart, GogViewAllocation const *area)
 	switch (map->axis_set) {
 		case GOG_AXIS_SET_X:
 		case GOG_AXIS_SET_XY:
+		case GOG_AXIS_SET_XY_pseudo_3d:
 			map->a[0][0] = area->w;
 			map->a[1][1] = -area->h;
 			map->b[0] = area->x;
@@ -64,6 +65,7 @@ gog_chart_map_2D (GogChartMap *map, double x, double y, double *xx, double *yy)
 	switch (map->axis_set) {
 		case GOG_AXIS_SET_X:
 		case GOG_AXIS_SET_XY:
+		case GOG_AXIS_SET_XY_pseudo_3d:
 			*xx = map->a[0][0] * x + map->b[0];
 			*yy = map->a[1][1] * y + map->b[1];
 			break;
@@ -178,7 +180,9 @@ role_grid_can_add (GogObject const *parent)
 {
 	GogChart const *chart = GOG_CHART (parent);
 	return chart->grid == NULL &&
-		(chart->axis_set == GOG_AXIS_SET_XY || chart->axis_set == GOG_AXIS_SET_X);
+		(chart->axis_set == GOG_AXIS_SET_XY ||
+			chart->axis_set == GOG_AXIS_SET_X ||
+			chart->axis_set == GOG_AXIS_SET_XY_pseudo_3d);
 }
 
 static void
@@ -239,6 +243,8 @@ static gboolean circular_axis_can_add (GogObject const *parent) { return axis_ca
 static void circular_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_CIRCULAR); }
 static gboolean radial_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_RADIAL); }
 static void radial_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_RADIAL); }
+static gboolean pseudo_3d_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_PSEUDO_3D); }
+static void pseudo_3d_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_PSEUDO_3D); }
 
 static GogObjectRole const roles[] = {
 	{ N_("Legend"), "GogLegend",	0,
@@ -270,6 +276,10 @@ static GogObjectRole const roles[] = {
 	  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
 	  radial_axis_can_add, axis_can_remove, NULL, radial_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_RADIAL } },
+	{ N_("Pseudo-3D-Axis"), "GogAxis", 3,
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  pseudo_3d_axis_can_add, axis_can_remove, NULL, pseudo_3d_axis_post_add, axis_pre_remove, NULL,
+	  { GOG_AXIS_PSEUDO_3D } },
 	{ N_("Plot"), "GogPlot",	4,	/* keep the axis before the plots */
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
 	  NULL, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } }
@@ -468,12 +478,14 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 	chart->axis_set = axis_set;
 
 	if (chart->grid != NULL && axis_set != GOG_AXIS_SET_XY &&
-				axis_set != GOG_AXIS_SET_X) {
+				axis_set != GOG_AXIS_SET_X &&
+				axis_set != GOG_AXIS_SET_XY_pseudo_3d) {
 		GogObject *grid = chart->grid; /* clear_parent clears ::grid */
 		gog_object_clear_parent (GOG_OBJECT (grid));
 		g_object_unref (grid);
 	} else if (chart->grid == NULL && 
-		(axis_set == GOG_AXIS_SET_XY || axis_set == GOG_AXIS_SET_X))
+		(axis_set == GOG_AXIS_SET_XY || axis_set == GOG_AXIS_SET_X
+			|| axis_set == GOG_AXIS_SET_XY_pseudo_3d))
 		gog_object_add_by_name (GOG_OBJECT (chart), "Grid", NULL);
 
 	/* Add at least 1 instance of any required axis */

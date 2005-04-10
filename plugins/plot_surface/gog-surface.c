@@ -2,7 +2,7 @@
 /*
  * gog-surface.c
  *
- * Copyright (C) 2004 Jean Brefort (jean.brefort@normalesup.org)
+ * Copyright (C) 2004-2005 Jean Brefort (jean.brefort@normalesup.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -21,9 +21,11 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-surface.h"
+#include "xl-surface.h"
 
 #include <goffice/data/go-data.h>
 #include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/utils/go-format.h>
@@ -37,11 +39,12 @@
 #include <locale.h>
 #include <string.h>
 
-typedef struct {
-	GogPlotClass	base;
-} GogContourPlotClass;
-
 GOFFICE_PLUGIN_MODULE_HEADER;
+
+enum {
+	CONTOUR_PROP_0,
+	CONTOUR_PROP_TRANSPOSED
+};
 
 static GogObjectClass *plot_contour_parent_klass;
 
@@ -94,6 +97,92 @@ vary_uniformly (GODataVector *vec)
  *
  *-----------------------------------------------------------------------------
  */
+
+/**
+ * gog_contour_plot_build_matrix :
+ * @plot :
+ *
+ * builds a table of normalized values: first slice = 0-1 second = 1-2,...
+ **/
+
+static double *
+gog_contour_plot_build_matrix (GogContourPlot const *plot, gboolean *cardinality_changed)
+{
+	GogContourPlotClass *klass = GOG_CONTOUR_PLOT_GET_CLASS (plot);
+	return klass->build_matrix (plot, cardinality_changed);
+}
+
+static double *
+gog_contour_plot_real_build_matrix (GogContourPlot const *plot, gboolean *cardinality_changed)
+{
+	unsigned i, j;
+	GogAxisMap *map;
+	GogAxisTick *zticks;
+	GogAxis *axis = plot->base.axis[GOG_AXIS_PSEUDO_3D];
+	unsigned nticks;
+	double x[2], val;
+	GogSeries *series = GOG_SERIES (plot->base.series->data);
+	GODataMatrix *mat = GO_DATA_MATRIX (series->values[2].data);
+	unsigned n = plot->rows * plot->columns;
+	double *data, minimum, maximum;
+	unsigned max;
+
+	if (!gog_axis_get_bounds (axis, &minimum, &maximum))
+		return NULL;
+	data = g_new (double, n);
+	nticks = gog_axis_get_ticks (axis, &zticks);
+	map = gog_axis_map_new (axis, 0, 1);
+	for (i = j = 0; i < nticks; i++)
+		if (zticks[i].type == GOG_AXIS_TICK_MAJOR) {
+			x[j++] = gog_axis_map_to_view (map, zticks[i].position);
+			if (j > 1)
+				break;
+		}
+	x[1] -= x[0];
+
+	for (i = 0; i < plot->rows; i++)
+		for (j = 0; j < plot->columns; j++) {
+			val = gog_axis_map_to_view (map,
+					go_data_matrix_get_value (mat, i, j));
+			if (fabs (val) == DBL_MAX)
+				val = go_nan;
+			else {
+				val = val/ x[1] - x[0];
+				if (val < 0)
+					val = go_nan;
+			}
+			if (plot->transposed)
+				data[j * plot->rows + i] = val;
+			else
+				data[i * plot->columns + j] = val;
+		}
+	max = (unsigned) ceil (1 / x[1]);
+	if (series->num_elements != max) {
+		series->num_elements = max;
+		*cardinality_changed = TRUE;
+	}
+	gog_axis_map_free (map);
+	return data;
+}
+
+static void
+gog_contour_plot_update_3d (GogPlot *plot)
+{
+	GogContourPlot *contour = GOG_CONTOUR_PLOT (plot);
+	gboolean cardinality_changed = FALSE;
+
+	contour->plotted_data = gog_contour_plot_build_matrix (contour, &cardinality_changed);
+	if (cardinality_changed) {
+		/*	gog_plot_request_cardinality_update can't be called from here
+		 *  since the plot might be updating.
+		 */
+		GogChart *chart = GOG_CHART (GOG_OBJECT (plot)->parent);
+		plot->cardinality_valid = FALSE;
+		if (chart != NULL)
+			gog_chart_request_cardinality_update (chart);
+	}
+}
+
 static char const *
 gog_contour_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 {
@@ -124,26 +213,25 @@ gog_contour_plot_clear_formats (GogContourPlot *plot)
 		go_format_unref (plot->y.fmt);
 		plot->y.fmt = NULL;
 	}
+	if (plot->z.fmt != NULL) {
+		go_format_unref (plot->z.fmt);
+		plot->z.fmt = NULL;
+	}
 }
 
 static void
 gog_contour_plot_update (GogObject *obj)
 {
-	unsigned i;
 	GogContourPlot * model = GOG_CONTOUR_PLOT(obj);
 	GogSurfaceSeries * series = GOG_SURFACE_SERIES (model->base.series->data);
 	GODataVector *vec;
+	GODataMatrix *mat;
 	double tmp_min, tmp_max;
 
 	if (model->x.fmt == NULL)
 		model->x.fmt = go_data_preferred_fmt (series->base.values[0].data);
 	if (model->y.fmt == NULL)
 		model->y.fmt = go_data_preferred_fmt (series->base.values[1].data);
-
-	if (series->base.num_elements != model->levels) {
-		series->base.num_elements = model->levels;
-		gog_plot_request_cardinality_update (&(model->base));
-	}
 
 	vec = GO_DATA_VECTOR (series->base.values[0].data);
 	if (vary_uniformly (vec))
@@ -156,7 +244,8 @@ gog_contour_plot_update (GogObject *obj)
 		model->columns = series->columns;
 		model->x.minima = tmp_min;
 		model->x.maxima = tmp_max;
-		gog_axis_bound_changed (model->base.axis[0], GOG_OBJECT (model));
+		gog_axis_bound_changed (model->base.axis[(model->transposed)? GOG_AXIS_Y: GOG_AXIS_X],
+				GOG_OBJECT (model));
 	}
 	
 	vec = GO_DATA_VECTOR (series->base.values[1].data);
@@ -170,14 +259,22 @@ gog_contour_plot_update (GogObject *obj)
 		model->rows = series->rows;
 		model->y.minima = tmp_min;
 		model->y.maxima = tmp_max;
-		gog_axis_bound_changed (model->base.axis[1], GOG_OBJECT (model));
+		gog_axis_bound_changed (model->base.axis[(model->transposed)? GOG_AXIS_X: GOG_AXIS_Y],
+				GOG_OBJECT (model));
 	}
-	model->step = (model->zmax - model->zmin) / ((model->levels > 0)? model->levels: 1);
-	if (isnan (model->step) || model->step == 0.)
-		model->step = 1.;
-	for (i = 0; i <= model->levels; i++)
-		model->limits[i] =  model->zmin + i * model->step;
 
+	g_free (model->plotted_data);
+	model->plotted_data = NULL;
+	mat = GO_DATA_MATRIX (series->base.values[2].data);
+	go_data_matrix_get_minmax (mat, &tmp_min, &tmp_max);
+	if ((tmp_min != model->z.minima)
+			|| (tmp_max != model->z.maxima)) {
+		model->z.minima = tmp_min;
+		model->z.maxima = tmp_max;
+		gog_axis_bound_changed (model->base.axis[GOG_AXIS_PSEUDO_3D], GOG_OBJECT (model));
+	} else
+		gog_contour_plot_update_3d (GOG_PLOT (model));
+	
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 	if (plot_contour_parent_klass->update)
 		plot_contour_parent_klass->update (obj);
@@ -186,19 +283,19 @@ gog_contour_plot_update (GogObject *obj)
 static GogAxisSet
 gog_contour_plot_axis_set_pref (GogPlot const *plot)
 {
-	return GOG_AXIS_SET_XY;
+	return GOG_AXIS_SET_XY_pseudo_3d;
 }
 
 static gboolean
 gog_contour_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
 {
-	return type == GOG_AXIS_SET_XY;
+	return type == GOG_AXIS_SET_XY_pseudo_3d;
 }
 
 static gboolean
 gog_contour_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
 {
-	return type == GOG_AXIS_SET_XY;
+	return type == GOG_AXIS_SET_XY_pseudo_3d;
 }
 
 static GOData *
@@ -207,19 +304,26 @@ gog_contour_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 {
 	GogSurfaceSeries *series = GOG_SURFACE_SERIES (plot->series->data);
 	GogContourPlot *contour = GOG_CONTOUR_PLOT (plot);
-	GODataVector *vec;
+	GODataVector *vec = NULL;
 	double min, max;
 	GOFormat *fmt;
-	if (axis == GOG_AXIS_X) {
+	if ((axis == GOG_AXIS_Y && contour->transposed) ||
+		(axis == GOG_AXIS_X && !contour->transposed)) {
 		vec = GO_DATA_VECTOR (series->base.values[0].data);
 		fmt = contour->x.fmt;
 		min = contour->x.minima;
 		max = contour->x.maxima;
-	} else {
+	} else if (axis == GOG_AXIS_X || axis == GOG_AXIS_Y) {
 		vec = GO_DATA_VECTOR (series->base.values[1].data);
 		fmt = contour->y.fmt;
 		min = contour->y.minima;
 		max = contour->y.maxima;
+	} else {
+		if (bounds->fmt == NULL && contour->z.fmt != NULL)
+			bounds->fmt = go_format_ref (contour->z.fmt);
+		bounds->val.minima = contour->z.minima;
+		bounds->val.maxima = contour->z.maxima;
+		return NULL;
 	}
 	if (bounds->fmt == NULL && fmt != NULL)
 		bounds->fmt = go_format_ref (fmt);
@@ -242,41 +346,55 @@ static void
 gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 				    GogEnumFunc func, gpointer data)
 {
-	unsigned i;
+	unsigned i, j, nticks;
 	char *label;
 	static char separator = 0;
 	GogStyle *style = gog_style_new ();
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
-	GogContourPlot *contour = GOG_CONTOUR_PLOT (plot);
+	GogAxis *axis = plot->axis[GOG_AXIS_PSEUDO_3D];
 	GOColor *color;
+	GogAxisTick *zticks;
+	double *limits;
+	double minimum, maximum;
+
+	gog_axis_get_bounds (axis, &minimum, &maximum);
 	
 	if (separator == 0) {
 		struct lconv *lc = localeconv ();
 		separator = (strcmp (lc->decimal_point, ","))? ',': ';';
 	}
+	nticks = gog_axis_get_ticks (axis, &zticks);
+	limits = g_new (double, nticks + 1);
+	for (i = j = 0; i < nticks; i++)
+		if (zticks[i].type == GOG_AXIS_TICK_MAJOR)
+			limits[j++] = zticks[i].position;
+	j--;
+	if (maximum > limits[j])
+		limits[++j] = maximum;
 	/* build the colors table */
-	color = g_new0 (GOColor, (contour->levels > 0)? contour->levels: 1);
-	if (contour->levels < 2)
+	color = g_new0 (GOColor, (j > 0)? j: 1);
+	if (j < 2)
 		color[0] = RGBA_WHITE;
-	else for (i = 0; i < contour->levels; i++) {
+	else for (i = 0; i < j; i++) {
 		gog_theme_fillin_style (theme, style, GOG_OBJECT (plot->series->data), i, FALSE);
 		color[i] = style->fill.pattern.back;
 	}
 	g_object_unref (style);
 
-	style = gog_style_new ();/*dup (GOG_STYLED_OBJECT (plot->series->data)->style);*/
+	style = gog_style_new ();
 	style->interesting_fields = GOG_STYLE_FILL;
 	style->disable_theming = GOG_STYLE_ALL;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
 	style->fill.pattern.pattern = GO_PATTERN_SOLID;
 
-	for (i = 0; i < contour->levels; i++) {
+	for (i = 0; i < j; i++) {
 		style->fill.pattern.back = color[i];
-		label = g_strdup_printf ("[%g%c %g%c", contour->limits[i], separator,
-					contour->limits[i + 1], (i == contour->levels - 1)? ']':'[');
+		label = g_strdup_printf ("[%g%c %g%c", limits[i], separator,
+					limits[i + 1], (i == j - 1)? ']':'[');
 		(func) (i, style, label, data);
 		g_free (label);
 	}
+	g_free (limits);
 	g_object_unref (style);
 	g_free (color);
 }
@@ -286,85 +404,70 @@ gog_contour_plot_finalize (GObject *obj)
 {
 	GogContourPlot *plot = GOG_CONTOUR_PLOT (obj);
 	gog_contour_plot_clear_formats (plot);
-	if (plot->limits != NULL)
-		g_free (plot->limits);
+	if (plot->plotted_data)
+		g_free (plot->plotted_data);
 	G_OBJECT_CLASS (plot_contour_parent_klass)->finalize (obj);
 }
 
-enum {
-	GOG_CONTOUR_PROP_0,
-	GOG_CONTOUR_PROP_LEVELS
-};
-
 static void
 gog_contour_plot_set_property (GObject *obj, guint param_id,
-			      GValue const *value, GParamSpec *pspec)
+			     GValue const *value, GParamSpec *pspec)
 {
 	GogContourPlot *plot = GOG_CONTOUR_PLOT (obj);
 
 	switch (param_id) {
-	case GOG_CONTOUR_PROP_LEVELS : {
-		unsigned levels = g_value_get_uint (value);
-		if (plot->levels != levels) {
-			unsigned i;
-			g_free (plot->limits);
-			plot->limits = g_new (double, levels + 1);
-			plot->levels = levels;
-			plot->step = (plot->zmax - plot->zmin) / levels;
-			if (isnan (plot->step) || plot->step == 0.)
-				plot->step = 1.;
-			for (i = 0; i < plot->levels; i++)
-				plot->limits[i] =  plot->zmin + i * plot->step;
-			gog_plot_request_cardinality_update (GOG_PLOT (plot));
-		}
+	case CONTOUR_PROP_TRANSPOSED :
+		plot->transposed = g_value_get_boolean (value);
+		gog_axis_bound_changed (plot->base.axis[GOG_AXIS_X], GOG_OBJECT (plot));
+		gog_axis_bound_changed (plot->base.axis[GOG_AXIS_Y], GOG_OBJECT (plot));
+		g_free (plot->plotted_data);
+		plot->plotted_data = NULL;
 		break;
-	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
-
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 }
 
 static void
 gog_contour_plot_get_property (GObject *obj, guint param_id,
-			  GValue *value, GParamSpec *pspec)
+			     GValue *value, GParamSpec *pspec)
 {
 	GogContourPlot *plot = GOG_CONTOUR_PLOT (obj);
 
 	switch (param_id) {
-	case GOG_CONTOUR_PROP_LEVELS :
-		g_value_set_uint (value, plot->levels);
+	case CONTOUR_PROP_TRANSPOSED :
+		g_value_set_boolean (value, plot->transposed);
 		break;
+
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
 }
 
 static void
-gog_contour_plot_class_init (GogPlotClass *gog_plot_klass)
+gog_contour_plot_class_init (GogContourPlotClass *klass)
 {
-	GObjectClass   *gobject_klass = (GObjectClass *) gog_plot_klass;
-	GogObjectClass *gog_object_klass = (GogObjectClass *) gog_plot_klass;
+	GogPlotClass *gog_plot_klass = (GogPlotClass*) klass;
+	GObjectClass   *gobject_klass = (GObjectClass *) klass;
+	GogObjectClass *gog_object_klass = (GogObjectClass *) klass;
 
-	plot_contour_parent_klass = g_type_class_peek_parent (gog_plot_klass);
+	plot_contour_parent_klass = g_type_class_peek_parent (klass);
 
+	gobject_klass->finalize     = gog_contour_plot_finalize;
 	gobject_klass->set_property = gog_contour_plot_set_property;
 	gobject_klass->get_property = gog_contour_plot_get_property;
-	gobject_klass->finalize     = gog_contour_plot_finalize;
+	g_object_class_install_property (gobject_klass, CONTOUR_PROP_TRANSPOSED,
+		g_param_spec_boolean ("transposed", "transposed",
+			"Transpose the plot",
+			FALSE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 
 	/* Fill in GOGObject superclass values */
 	gog_object_klass->update	= gog_contour_plot_update;
 	gog_object_klass->type_name	= gog_contour_plot_type_name;
 	gog_object_klass->view_type	= gog_contour_view_get_type ();
 	gog_object_klass->populate_editor	= gog_contour_plot_populate_editor;
-
-	g_object_class_install_property (gobject_klass, GOG_CONTOUR_PROP_LEVELS,
-		g_param_spec_uint  ("levels", "levels",
-			"Number of slices.",
-			1, 256, 6, /* max as 256 is not more stupid than another value */
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	{
 		static GogSeriesDimDesc dimensions[] = {
@@ -389,17 +492,21 @@ gog_contour_plot_class_init (GogPlotClass *gog_plot_klass)
 	gog_plot_klass->axis_set_assign = gog_contour_plot_axis_set_assign;
 	gog_plot_klass->axis_get_bounds	= gog_contour_plot_axis_get_bounds;
 	gog_plot_klass->foreach_elem = gog_contour_plot_foreach_elem;
+	gog_plot_klass->update_3d = gog_contour_plot_update_3d;
+
+	klass->build_matrix = gog_contour_plot_real_build_matrix;
 }
 
 static void
 gog_contour_plot_init (GogContourPlot *contour)
 {
-	contour->levels = 6;
 	contour->rows = contour->columns = 0;
-	contour->limits = g_new (double, 7);
+	contour->transposed = FALSE;
 	contour->base.vary_style_by_element = TRUE;
-	contour->x.minima = contour->x.maxima = contour->y.minima = contour->y.maxima =	go_nan;
-	contour->x.fmt = contour->y.fmt = NULL;
+	contour->x.minima = contour->x.maxima = contour->y.minima
+		= contour->y.maxima = contour->z.minima = contour->z.maxima = go_nan;
+	contour->x.fmt = contour->y.fmt = contour->z.fmt = NULL;
+	contour->plotted_data = NULL;
 }
 
 GSF_CLASS (GogContourPlot, gog_contour_plot,
@@ -415,15 +522,15 @@ static void
 gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogContourPlot const *plot = GOG_CONTOUR_PLOT (view->model);
-	GogSurfaceSeries const *series = GOG_SURFACE_SERIES (plot->base.series->data);
-	GODataMatrix *mat = GO_DATA_MATRIX (series->base.values[2].data);
+	GogSeries const *series = GOG_SERIES (plot->base.series->data);
 	GODataVector *x_vec = 0, *y_vec = 0;
 	GogAxisMap *x_map, *y_map;
-	double zval0, zval1, zval2, zval3, t;
+	double zval0, zval1, zval2 = 0., zval3, t;
 	double x[4], y[4], zval[4];
-	unsigned z[4];
-	unsigned z0 = 0, z1 = 0, z2 = 0, z3 = 0, zmin, zmax, nans, nan = 0;
-	unsigned i, j, k, kmax, l, lmax, p, r = 0, s, h;
+	int z[4];
+	int z0 = 0, z1 = 0, z2 = 0, z3 = 0, zmin, zmax, nans, nan = 0;
+	int k, kmax, r = 0, s, h;
+	unsigned i, imax, j, jmax, l, lmax, p;
 	GogRenderer *rend = view->renderer;
 	GogStyle *style;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
@@ -431,6 +538,8 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	ArtVpath *path, *lines;
 	GOColor *color;
 	gboolean cw;
+	double *data;
+	int max = series->num_elements;
 
 	x_map = gog_axis_map_new (plot->base.axis[0], 
 				  view->residual.x , view->residual.w);
@@ -445,32 +554,44 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 	}
 
+	if (plot->transposed) {
+		imax = plot->columns;
+		jmax = plot->rows;
+	} else {
+		imax = plot->rows;
+		jmax = plot->columns;
+	}
+	if (plot->plotted_data)
+		data = plot->plotted_data;
+	else
+		data = gog_contour_plot_build_matrix (plot, &cw);
+
 	/* Set cw to ensure that polygons will allways be drawn clockwise */
 	if (gog_axis_is_discrete (plot->base.axis[0])) {
-		x0 = gog_axis_map_to_view(x_map, 0.);
-		x1 = gog_axis_map_to_view(x_map, 1.);
+		x0 = gog_axis_map_to_view (x_map, 0.);
+		x1 = gog_axis_map_to_view (x_map, 1.);
 	}else {
-		x_vec = GO_DATA_VECTOR (series->base.values[0].data);
-		x0 = gog_axis_map_to_view(x_map, go_data_vector_get_value (x_vec, 0));
-		x1 = gog_axis_map_to_view(x_map, go_data_vector_get_value (x_vec, 1));
+		x_vec = GO_DATA_VECTOR (series->values[(plot->transposed)? 1: 0].data);
+		x0 = gog_axis_map_to_view (x_map, go_data_vector_get_value (x_vec, 0));
+		x1 = gog_axis_map_to_view (x_map, go_data_vector_get_value (x_vec, 1));
 	}
 	if (gog_axis_is_discrete (plot->base.axis[1])) {
-		y0 = gog_axis_map_to_view(y_map, 0.);
-		y1 = gog_axis_map_to_view(y_map, 1.);
+		y0 = gog_axis_map_to_view (y_map, 0.);
+		y1 = gog_axis_map_to_view (y_map, 1.);
 	}else {
-		y_vec = GO_DATA_VECTOR (series->base.values[1].data);
-		y0 = gog_axis_map_to_view(y_map, go_data_vector_get_value (y_vec, 0));
-		y1 = gog_axis_map_to_view(y_map, go_data_vector_get_value (y_vec, 1));
+		y_vec = GO_DATA_VECTOR (series->values[(plot->transposed)? 0: 1].data);
+		y0 = gog_axis_map_to_view (y_map, go_data_vector_get_value (y_vec, 0));
+		y1 = gog_axis_map_to_view (y_map, go_data_vector_get_value (y_vec, 1));
 	}
 	cw = (x1 > x0) == (y1 > y0);
 
 	style = gog_style_new ();
 	path = art_new (ArtVpath, 10);
 	/* build the colors table */
-	color = g_new0 (GOColor, (plot->levels > 0)? plot->levels: 1);
-	if (plot->levels < 2)
+	color = g_new0 (GOColor, max);
+	if (max < 2)
 		color[0] = RGBA_WHITE;
-	else for (i = 0; i < plot->levels; i++) {
+	else for (i = 0; i < (unsigned) max; i++) {
 		gog_theme_fillin_style (theme, style, GOG_OBJECT (series), i, FALSE);
 		color[i] = style->fill.pattern.back;
 	}
@@ -488,32 +609,30 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	lines = art_new (ArtVpath, lmax = 64);
 	l = 0;
 
-	for (j = 1; j < series->columns; j++) {
+	for (j = 1; j < jmax; j++) {
 		if (gog_axis_is_discrete (plot->base.axis[0])) {
-			x0 = gog_axis_map_to_view(x_map, j - 1);
-			x1 = gog_axis_map_to_view(x_map, j);
+			x0 = gog_axis_map_to_view (x_map, j - 1);
+			x1 = gog_axis_map_to_view (x_map, j);
 		}else {
-			x0 = gog_axis_map_to_view(x_map, go_data_vector_get_value (x_vec, j - 1));
-			x1 = gog_axis_map_to_view(x_map, go_data_vector_get_value (x_vec, j));
+			x0 = gog_axis_map_to_view (x_map, go_data_vector_get_value (x_vec, j - 1));
+			x1 = gog_axis_map_to_view (x_map, go_data_vector_get_value (x_vec, j));
 		}
 		
-		for (i = 1; i < series->rows; i++) {
+		for (i = 1; i < imax; i++) {
 			if (gog_axis_is_discrete (plot->base.axis[1])) {
-				y0 = gog_axis_map_to_view(y_map, i - 1);
-				y1 = gog_axis_map_to_view(y_map, i);
+				y0 = gog_axis_map_to_view (y_map, i - 1);
+				y1 = gog_axis_map_to_view (y_map, i);
 			}else {
-				y0 = gog_axis_map_to_view(y_map, go_data_vector_get_value (y_vec, i - 1));
-				y1 = gog_axis_map_to_view(y_map, go_data_vector_get_value (y_vec, i));
+				y0 = gog_axis_map_to_view (y_map, go_data_vector_get_value (y_vec, i - 1));
+				y1 = gog_axis_map_to_view (y_map, go_data_vector_get_value (y_vec, i));
 			}
 			nans = 0;
 			nan = 4;
-			zmin = plot->levels;
+			zmin = max;
 			zmax = 0;
-			zval0 = go_data_matrix_get_value (mat, i - 1, j - 1);
+			zval0 = data[(i - 1) * jmax + j - 1];
 			if (!isnan (zval0)) {
-				z0 = floor ((zval0 - plot->zmin) / plot->step);
-				if (z0 == plot->levels && z0 > 0)
-					z0--;
+				z0 = floor (zval0);
 				if (z0 > zmax)
 					zmax = z0;
 				if (z0 < zmin) {
@@ -524,11 +643,9 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 				nans++;
 				nan = 0;
 			}
-			zval1 = go_data_matrix_get_value (mat, i - 1, j);
+			zval1 = data[(i - 1) * jmax + j];
 			if (!isnan (zval1)) {
-				z1 = floor ((zval1 - plot->zmin) / plot->step);
-				if (z1 == plot->levels && z1 > 0)
-					z1--;
+				z1 = floor (zval1);
 				if (z1 > zmax)
 					zmax = z1;
 				if (z1 < zmin) {
@@ -539,11 +656,9 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 				nans++;
 				nan = 1;
 			}
-			zval2 = go_data_matrix_get_value (mat, i, j);
+			zval2 = data[i * jmax + j];
 			if (!isnan (zval2)) {
-				z2 = floor ((zval2 - plot->zmin) / plot->step);
-				if (z2 == plot->levels && z2 > 0)
-					z2--;
+				z2 = floor (zval2);
 				if (z2 > zmax)
 					zmax = z2;
 				if (z2 < zmin) {
@@ -554,11 +669,9 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 				nans++;
 				nan = 2;
 			}
-			zval3 = go_data_matrix_get_value (mat, i, j - 1);
+			zval3 = data[i * jmax + j - 1];
 			if (!isnan (zval3)) {
-				z3 = floor ((zval3 - plot->zmin) / plot->step);
-				if (z3 == plot->levels && z3 > 0)
-					z3--;
+				z3 = floor (zval3);
 				if (z3 > zmax)
 					zmax = z3;
 				if (z3 < zmin) {
@@ -634,28 +747,28 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 					((z0 > z1) && (z1 < z2) && (z2 > z3) && (z3 < z0)))) {
 					/* we have a saddle point */
 					/* first find the most probable altitude of the saddle point */
-					unsigned zn, zx;
+					int zn, zx;
 					gboolean crossing = FALSE, up = FALSE, odd;
 					double xl[8], yl[8];
 					/* crossing is TRUE if the saddle point occurs at a slices border */
 					zn = MAX (z[0], z[2]);
 					if (zval[1] > zval[3])
-						zx = (zval[3] == plot->limits[z[3]])? z[3] - 1: z[3];
+						zx = (zval[3] == z[3])? z[3] - 1: z[3];
 					else
-						zx =  (zval[1] == plot->limits[z[1]])? z[1] - 1: z[1];
+						zx =  (zval[1] == z[1])? z[1] - 1: z[1];
 					odd = (zx - zn) % 2;
 					if (odd) {
 						if ((zx - zn) == 1) {
 							double sum = 0.;
-							sum += (z[0] == zn)? zval[0]: plot->limits[zn];
-							sum += (z[1] == zx)? zval[1]: plot->limits[zx + 1];
-							sum += (z[2] == zn)? zval[2]: plot->limits[zn];
-							sum += (z[3] == zx)? zval[3]: plot->limits[zx + 1];
+							sum += (z[0] == zn)? zval[0]: zn;
+							sum += (z[1] == zx)? zval[1]: zx + 1;
+							sum += (z[2] == zn)? zval[2]: zn;
+							sum += (z[3] == zx)? zval[3]: zx + 1;
 							sum /= 4.;
-							if (fabs ((sum - plot->limits[zx]) / plot->step) < DBL_EPSILON)
+							if (fabs ((sum - zx)) < DBL_EPSILON)
 								crossing = TRUE;
 							else
-								up = (sum - plot->limits[zx]) < 0;
+								up = (sum - zx) < 0;
 						} else
 							crossing = TRUE;
 						zn = (zn + zx) / 2;
@@ -677,11 +790,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						if ((l + 3) >= lmax)
 							lines = art_renew (lines, ArtVpath, lmax += 64);
 						lines[l].code = ART_MOVETO_OPEN;
-						t = (plot->limits[k] - zval[0]) / (zval[3] - zval[0]);
+						t = (k - zval[0]) / (zval[3] - zval[0]);
 						xl[7] = lines[l].x = path[1].x = x[0] + t * (x[3] - x[0]);
 						yl[7] = lines[l++].y = path[1].y = y[0] + t * (y[3] - y[0]);
 						lines[l].code = ART_LINETO;
-						t = (plot->limits[k] - zval[0]) / (zval[1] - zval[0]);
+						t = (k - zval[0]) / (zval[1] - zval[0]);
 						xl[0] = lines[l].x = path[2].x = x[0] + t * (x[1] - x[0]);
 						yl[0] = lines[l++].y = path[2].y = y[0] + t * (y[1] - y[0]);
 						gog_renderer_push_style (rend, style);
@@ -699,11 +812,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							if ((l + 3) >= lmax)
 								lines = art_renew (lines, ArtVpath, lmax += 64);
 							lines[l].code = ART_MOVETO_OPEN;
-							t = (plot->limits[k] - zval[0]) / (zval[3] - zval[0]);
+							t = (k - zval[0]) / (zval[3] - zval[0]);
 							xl[7] = lines[l].x = path[1].x = x[0] + t * (x[3] - x[0]);
 							yl[7] = lines[l++].y = path[1].y = y[0] + t * (y[3] - y[0]);
 							lines[l].code = ART_LINETO;
-							t = (plot->limits[k] - zval[0]) / (zval[1] - zval[0]);
+							t = (k - zval[0]) / (zval[1] - zval[0]);
 							xl[0] = lines[l].x = path[2].x = x[0] + t * (x[1] - x[0]);
 							yl[0] = lines[l++].y = path[2].y = y[0] + t * (y[1] - y[0]);
 							gog_renderer_push_style (rend, style);
@@ -726,11 +839,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						if ((l + 3) >= lmax)
 							lines = art_renew (lines, ArtVpath, lmax += 64);
 						lines[l].code = ART_MOVETO_OPEN;
-						t = (plot->limits[k] - zval[2]) / (zval[1] - zval[2]);
+						t = (k - zval[2]) / (zval[1] - zval[2]);
 						xl[3] = lines[l].x = path[1].x = x[2] + t * (x[1] - x[2]);
 						yl[3] = lines[l++].y = path[1].y = y[2] + t * (y[1] - y[2]);
 						lines[l].code = ART_LINETO;
-						t = (plot->limits[k] - zval[2]) / (zval[3] - zval[2]);
+						t = (k - zval[2]) / (zval[3] - zval[2]);
 						xl[4] = lines[l].x = path[2].x = x[2] + t * (x[3] - x[2]);
 						yl[4] = lines[l++].y = path[2].y = y[2] + t * (y[3] - y[2]);
 						gog_renderer_push_style (rend, style);
@@ -748,11 +861,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							if ((l + 3) >= lmax)
 								lines = art_renew (lines, ArtVpath, lmax += 64);
 							lines[l].code = ART_MOVETO_OPEN;
-							t = (plot->limits[k] - zval[2]) / (zval[1] - zval[2]);
+							t = (k - zval[2]) / (zval[1] - zval[2]);
 							xl[3] = lines[l].x = path[1].x = x[2] + t * (x[1] - x[2]);
 							yl[3] = lines[l++].y = path[1].y = y[2] + t * (y[1] - y[2]);
 							lines[l].code = ART_LINETO;
-							t = (plot->limits[k] - zval[2]) / (zval[3] - zval[2]);
+							t = (k - zval[2]) / (zval[3] - zval[2]);
 							xl[4] = lines[l].x = path[2].x = x[2] + t * (x[3] - x[2]);
 							yl[4] = lines[l++].y = path[2].y = y[2] + t * (y[3] - y[2]);
 							gog_renderer_push_style (rend, style);
@@ -763,7 +876,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						xl[3] = xl[4] = -1.;
 					/* high values slices */
 					k = z[1];
-					if (zval[1] == plot->limits[k])
+					if (zval[1] == k)
 						k--;
 					if (k > zx) {
 						path[0].code = ART_MOVETO;
@@ -776,11 +889,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						if ((l + 3) >= lmax)
 							lines = art_renew (lines, ArtVpath, lmax += 64);
 						lines[l].code = ART_MOVETO_OPEN;
-						t = (plot->limits[k] - zval[1]) / (zval[0] - zval[1]);
+						t = (k - zval[1]) / (zval[0] - zval[1]);
 						xl[1] = lines[l].x = path[1].x = x[1] + t * (x[0] - x[1]);
 						yl[1] = lines[l++].y = path[1].y = y[1] + t * (y[0] - y[1]);
 						lines[l].code = ART_LINETO;
-						t = (plot->limits[k] - zval[1]) / (zval[2] - zval[1]);
+						t = (k - zval[1]) / (zval[2] - zval[1]);
 						xl[2] = lines[l].x = path[2].x = x[1] + t * (x[2] - x[1]);
 						yl[2] = lines[l++].y = path[2].y = y[1] + t * (y[2] - y[1]);
 						style->fill.pattern.back = color[k];
@@ -798,11 +911,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							if ((l + 3) >= lmax)
 								lines = art_renew (lines, ArtVpath, lmax += 64);
 							lines[l].code = ART_MOVETO_OPEN;
-							t = (plot->limits[k] - zval[1]) / (zval[0] - zval[1]);
+							t = (k - zval[1]) / (zval[0] - zval[1]);
 							xl[1] = lines[l].x = path[1].x = x[1] + t * (x[0] - x[1]);
 							yl[1] = lines[l++].y = path[1].y = y[1] + t * (y[0] - y[1]);
 							lines[l].code = ART_LINETO;
-							t = (plot->limits[k] - zval[1]) / (zval[2] - zval[1]);
+							t = (k - zval[1]) / (zval[2] - zval[1]);
 							xl[2] = lines[l].x = path[2].x = x[1] + t * (x[2] - x[1]);
 							yl[2] = lines[l++].y = path[2].y = y[1] + t * (y[2] - y[1]);
 							style->fill.pattern.back = color[k];
@@ -814,7 +927,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 					} else
 						xl[1] = xl[2] = -1.;
 					k = z[3];
-					if (zval[3] == plot->limits[k])
+					if (zval[3] == k)
 						k--;
 					if (k > zx) {
 						path[0].code = ART_MOVETO;
@@ -827,11 +940,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						if ((l + 3) >= lmax)
 							lines = art_renew (lines, ArtVpath, lmax += 64);
 						lines[l].code = ART_MOVETO_OPEN;
-						t = (plot->limits[k] - zval[3]) / (zval[2] - zval[3]);
+						t = (k - zval[3]) / (zval[2] - zval[3]);
 						xl[5] = lines[l].x = path[1].x = x[3] + t * (x[2] - x[3]);
 						yl[5] = lines[l++].y = path[1].y = y[3] + t * (y[2] - y[3]);
 						lines[l].code = ART_LINETO;
-						t = (plot->limits[k] - zval[3]) / (zval[0] - zval[3]);
+						t = (k - zval[3]) / (zval[0] - zval[3]);
 						xl[6] = lines[l].x = path[2].x = x[3] + t * (x[0] - x[3]);
 						yl[6] = lines[l++].y = path[2].y = y[3] + t * (y[0] - y[3]);
 						style->fill.pattern.back = color[k];
@@ -849,11 +962,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							if ((l + 3) >= lmax)
 								lines = art_renew (lines, ArtVpath, lmax += 64);
 							lines[l].code = ART_MOVETO_OPEN;
-							t = (plot->limits[k] - zval[3]) / (zval[2] - zval[3]);
+							t = (k - zval[3]) / (zval[2] - zval[3]);
 							xl[5] = lines[l].x = path[1].x = x[3] + t * (x[2] - x[3]);
 							yl[5] = lines[l++].y = path[1].y = y[3] + t * (y[2] - y[3]);
 							lines[l].code = ART_LINETO;
-							t = (plot->limits[k] - zval[3]) / (zval[0] - zval[3]);
+							t = (k - zval[3]) / (zval[0] - zval[3]);
 							xl[6] = lines[l].x = path[2].x = x[3] + t * (x[0] - x[3]);
 							yl[6] = lines[l++].y = path[2].y = y[3] + t * (y[0] - y[3]);
 							style->fill.pattern.back = color[k];
@@ -870,7 +983,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							double xb[4], yb[4], xc, yc;
 							for (k = 0; k < 4; k++) {
 								s = (k + 1) % 4;
-								t =  (plot->limits[zx] - zval[s]) / (zval[k] - zval[s]);
+								t =  (zx - zval[s]) / (zval[k] - zval[s]);
 								xb[k] = x[s] + t * (x[k] - x[s]);
 								yb[k] = y[s] + t * (y[k] - y[s]);
 							}
@@ -1000,11 +1113,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 								if ((l + 5) >= lmax)
 									lines = art_renew (lines, ArtVpath, lmax += 64);
 								lines[l].code = ART_MOVETO_OPEN;
-								t = (plot->limits[zx] - zval[1]) / (zval[0] - zval[1]);
+								t = (zx - zval[1]) / (zval[0] - zval[1]);
 								xl[1] = lines[l].x = path[1].x = x[1] + t * (x[0] - x[1]);
 								yl[1] = lines[l++].y = path[1].y = y[1] + t * (y[0] - y[1]);
 								lines[l].code = ART_LINETO;
-								t = (plot->limits[zx] - zval[1]) / (zval[2] - zval[1]);
+								t = (zx - zval[1]) / (zval[2] - zval[1]);
 								xl[2] = lines[l].x = path[2].x = x[1] + t * (x[2] - x[1]);
 								yl[2] = lines[l++].y = path[2].y = y[1] + t * (y[2] - y[1]);
 								style->fill.pattern.back = color[zx];
@@ -1025,11 +1138,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 								if ((l + 5) >= lmax)
 									lines = art_renew (lines, ArtVpath, lmax += 64);
 								lines[l].code = ART_MOVETO_OPEN;
-								t = (plot->limits[zx] - zval[3]) / (zval[2] - zval[3]);
+								t = (zx - zval[3]) / (zval[2] - zval[3]);
 								xl[5] = lines[l].x = path[1].x = x[3] + t * (x[2] - x[3]);
 								yl[5] = lines[l++].y = path[1].y = y[3] + t * (y[2] - y[3]);
 								lines[l].code = ART_LINETO;
-								t = (plot->limits[zx] - zval[3]) / (zval[0] - zval[3]);
+								t = (zx - zval[3]) / (zval[0] - zval[3]);
 								xl[6] = lines[l].x = path[2].x = x[3] + t * (x[0] - x[3]);
 								yl[6] = lines[l++].y = path[2].y = y[3] + t * (y[0] - y[3]);
 								gog_renderer_draw_polygon (rend, path, TRUE, NULL);
@@ -1055,11 +1168,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 								if ((l + 5) >= lmax)
 									lines = art_renew (lines, ArtVpath, lmax += 64);
 								lines[l].code = ART_MOVETO_OPEN;
-								t = (plot->limits[k] - zval[0]) / (zval[3] - zval[0]);
+								t = (k - zval[0]) / (zval[3] - zval[0]);
 								xl[7] = lines[l].x = path[1].x = x[0] + t * (x[3] - x[0]);
 								yl[7] = lines[l++].y = path[1].y = y[0] + t * (y[3] - y[0]);
 								lines[l].code = ART_LINETO;
-								t = (plot->limits[k] - zval[0]) / (zval[1] - zval[0]);
+								t = (k - zval[0]) / (zval[1] - zval[0]);
 								xl[0] = lines[l].x = path[2].x = x[0] + t * (x[1] - x[0]);
 								yl[0] = lines[l++].y = path[2].y = y[0] + t * (y[1] - y[0]);
 								style->fill.pattern.back = color[zn];
@@ -1078,11 +1191,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 									path[3].y = yl[4];
 								}
 								lines[l].code = ART_MOVETO_OPEN;
-								t = (plot->limits[k] - zval[2]) / (zval[1] - zval[2]);
+								t = (k - zval[2]) / (zval[1] - zval[2]);
 								xl[3] = lines[l].x = path[1].x = x[2] + t * (x[1] - x[2]);
 								yl[3] = lines[l++].y = path[1].y = y[2] + t * (y[1] - y[2]);
 								lines[l].code = ART_LINETO;
-								t = (plot->limits[k] - zval[2]) / (zval[3] - zval[2]);
+								t = (k - zval[2]) / (zval[3] - zval[2]);
 								xl[4] = lines[l].x = path[2].x = x[2] + t * (x[3] - x[2]);
 								yl[4] = lines[l++].y = path[2].y = y[2] + t * (y[3] - y[2]);
 								gog_renderer_draw_polygon (rend, path, TRUE, NULL);
@@ -1164,7 +1277,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							r--;
 						
 						zmin++;
-						t = (plot->limits[zmin] - zval[k - 1]) / (zval[k] - zval[k - 1]);
+						t = (zmin - zval[k - 1]) / (zval[k] - zval[k - 1]);
 						path[p].code = ART_LINETO;
 						lines[l].code = ART_MOVETO_OPEN;
 						lines[l].x = path[p].x = x[k - 1] + t * (x[k] - x[k - 1]);
@@ -1172,11 +1285,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						path[p].code = ART_LINETO;
 						lines[l].code = ART_LINETO;
 						if (r < kmax) {
-							t = (plot->limits[zmin] - zval[r]) / (zval[r + 1] - zval[r]);
+							t = (zmin - zval[r]) / (zval[r + 1] - zval[r]);
 							lines[l].x = path[p].x = x[r] + t * (x[r + 1] - x[r]);
 							lines[l++].y = path[p++].y = y[r] + t * (y[r + 1] - y[r]);
 						} else {
-							t = (plot->limits[zmin] - zval[r]) / (zval[0] - zval[r]);
+							t = (zmin - zval[r]) / (zval[0] - zval[r]);
 							lines[l].x = path[p].x = x[r] + t * (x[0] - x[r]);
 							lines[l++].y = path[p++].y = y[r] + t * (y[0] - y[r]);
 						}
@@ -1254,7 +1367,6 @@ gog_surface_series_update (GogObject *obj)
 {
 	GogSurfaceSeries *series = GOG_SURFACE_SERIES (obj);
 	GODataMatrixSize size, old_size;
-	GogContourPlot *plot = GOG_CONTOUR_PLOT (series->base.plot);
 	GODataMatrix *mat;
 	GODataVector *vec;
 	int length;
@@ -1266,7 +1378,6 @@ gog_surface_series_update (GogObject *obj)
 		mat = GO_DATA_MATRIX (series->base.values[2].data);
 		go_data_matrix_get_values (mat);
 		size = go_data_matrix_get_size (mat);
-		go_data_matrix_get_minmax (mat, &plot->zmin, &plot->zmax);
 	}
 	if (series->base.values[0].data != NULL) {
 		vec = GO_DATA_VECTOR (series->base.values[0].data);
@@ -1284,11 +1395,10 @@ gog_surface_series_update (GogObject *obj)
 	}
 	series->rows = size.rows;
 	series->columns = size.columns;
-	series->base.num_elements = plot->levels;
 
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
-	gog_plot_request_cardinality_update (series->base.plot);
+/*	gog_plot_request_cardinality_update (series->base.plot);*/
 
 	if (series_parent_klass->base.update)
 		series_parent_klass->base.update (obj);
@@ -1319,6 +1429,7 @@ G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	gog_contour_plot_get_type ();
+	xl_contour_plot_get_type ();
 }
 
 G_MODULE_EXPORT void

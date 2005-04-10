@@ -1323,6 +1323,10 @@ gog_axis_base_view_padding_request (GogView *view, GogViewAllocation const *bbox
 		case GOG_AXIS_SET_XY:
 			xy_process (GOG_AXIS_BASE_PADDING_REQUEST, view, padding, bbox, 0., 0.);
 			break;
+		case GOG_AXIS_SET_XY_pseudo_3d:
+			if (gog_axis_get_atype (axis_base->axis) != GOG_AXIS_PSEUDO_3D)
+				xy_process (GOG_AXIS_BASE_PADDING_REQUEST, view, padding, bbox, 0., 0.);
+			break;
 		case GOG_AXIS_SET_RADAR:
 			radar_process (GOG_AXIS_BASE_PADDING_REQUEST, view, padding, bbox, 0., 0.);
 			break;
@@ -1356,6 +1360,10 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 		case GOG_AXIS_SET_X:
 		case GOG_AXIS_SET_XY:
 			xy_process (GOG_AXIS_BASE_RENDER, view, NULL, plot_area, 0., 0.);
+			break;
+		case GOG_AXIS_SET_XY_pseudo_3d:
+			if (gog_axis_get_atype (axis_base->axis) != GOG_AXIS_PSEUDO_3D)
+				xy_process (GOG_AXIS_BASE_RENDER, view, NULL, plot_area, 0., 0.);
 			break;
 		case GOG_AXIS_SET_RADAR:
 			radar_process (GOG_AXIS_BASE_RENDER, view, NULL, plot_area, 0., 0.);

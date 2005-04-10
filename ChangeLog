@@ -1,3 +1,26 @@
+2005-04-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/goffice-graph.h: allow use of GOG_AXIS_PSEUDO_3D.
+	* goffice/graph/gog-axis-line.c: add pseudo 3d axis support.
+	(gog_axis_base_view_padding_request), (gog_axis_base_view_render):
+	* goffice/graph/gog-axis.c: (gog_axis_calc_ticks): ditto.
+	* goffice/graph/gog-chart.c: (gog_chart_map_new),
+	(gog_chart_map_2D), (role_grid_can_add), (pseudo_3d_axis_can_add),
+	(pseudo_3d_axis_post_add), (gog_chart_axis_set_assign): ditto.
+	* goffice/graph/gog-plot-impl.h: ditto.
+	* goffice/graph/gog-plot.c: (gog_plot_class_init),
+	(gog_plot_foreach_elem), (gog_plot_get_axis), (gog_plot_update_3d): ditto.
+	* goffice/graph/gog-plot.h: ditto.
+	* plugins/plot_surface/Makefile.am: ass xl-surface.*.
+	* plugins/plot_surface/gog-contour-prefs.c: removed deprecated code and
+	added "transposed" property managing.
+	* plugins/plot_surface/gog-contour-prefs.glade: ditto.
+	* plugins/plot_surface/gog-surface.c: rewrote to use pseudo 3d axis.
+	* plugins/plot_surface/gog-surface.h: ditto.
+	* plugins/plot_surface/plugin.xml.in: added xl compatibility contours plots
+	* plugins/plot_surface/xl-surface.c: ditto.
+	* plugins/plot_surface/xl-surface.h: ditto.
+
 2005-04-08  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* goffice/gtk/Makefile.am: use -export-symbols to link with

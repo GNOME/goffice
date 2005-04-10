@@ -9,6 +9,8 @@ surface_la_LIBADD = $(GOFFICE_PLUGIN_LIBADD)
 surface_la_SOURCES = \
 	gog-surface.c		\
 	gog-surface.h		\
+	xl-surface.c		\
+	xl-surface.h		\
 	gog-contour-prefs.c
 
 xml_in_files = plugin.xml.in plot-types.xml.in

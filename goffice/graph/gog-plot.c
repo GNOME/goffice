@@ -339,6 +339,7 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 
 	gog_klass->children_reordered = gog_plot_children_reordered;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
+	GOG_PLOT_CLASS (gog_klass)->update_3d = NULL;
 }
 
 static void
@@ -484,7 +485,8 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 	GList *overrides;
 
 	g_return_if_fail (GOG_PLOT (plot) != NULL);
-	g_return_if_fail (plot->cardinality_valid);
+	if (!plot->cardinality_valid)
+		gog_plot_get_cardinality (plot, NULL, NULL);
 
 	if (klass->foreach_elem) {
 		klass->foreach_elem (plot, only_visible, func, data);
@@ -720,6 +722,15 @@ gog_plot_get_axis (GogPlot const *plot, GogAxisType type)
 	g_return_val_if_fail (type < GOG_AXIS_TYPES, NULL);
 	g_return_val_if_fail (GOG_AXIS_UNKNOWN < type, NULL);
 	return plot->axis[type];
+}
+
+void gog_plot_update_3d (GogPlot *plot)
+{
+	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+	g_return_val_if_fail (GOG_PLOT (plot) != NULL, NULL);
+
+	if (klass->update_3d)
+		klass->update_3d (plot);
 }
 
 /****************************************************************************/

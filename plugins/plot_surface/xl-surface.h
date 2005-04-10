@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-surface.h
+ * xl-contour.h
  *
- * Copyright (C) 2004-2005 Jean Brefort (jean.brefort@normalesup.org)
+ * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -19,46 +19,31 @@
  * USA
  */
 
-#ifndef GOG_SURFACE_H
-#define GOG_SURFACE_H
+#ifndef XL_CONTOUR_H
+#define XL_CONTOUR_H
 
-#include <goffice/graph/gog-plot-impl.h>
+#include "gog-surface.h"
 
 G_BEGIN_DECLS
 
 /*-----------------------------------------------------------------------------
  *
- * GogContourPlot
+ * XLContourPlot
  *
  *-----------------------------------------------------------------------------
  */
 
 typedef struct {
-	GogPlot	base;
-	
-	unsigned rows, columns;
-	gboolean transposed;
-	struct {
-		double minima, maxima;
-		GOFormat *fmt;
-	} x, y, z;
-	double *plotted_data;
-} GogContourPlot;
+	 GogContourPlot base;
+	char const **y_labels;
+} XLContourPlot;
 
-#define GOG_CONTOUR_PLOT_TYPE	(gog_contour_plot_get_type ())
-#define GOG_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_CONTOUR_PLOT_TYPE, GogContourPlot))
-#define GOG_IS_PLOT_CONTOUR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_CONTOUR_PLOT_TYPE))
+#define XL_CONTOUR_PLOT_TYPE	(xl_contour_plot_get_type ())
+#define XL_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), XL_CONTOUR_PLOT_TYPE, XLContourPlot))
+#define XL_PLOT_CONTOUR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), XL_CONTOUR_PLOT_TYPE))
 
-GType gog_contour_plot_get_type (void);
-
-typedef struct {
-	GogPlotClass	base;
-
-	double * (*build_matrix) (GogContourPlot const *plot, gboolean *cardinality_changed);
-} GogContourPlotClass;
-
-#define GOG_CONTOUR_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_CONTOUR_PLOT_TYPE, GogContourPlotClass))
+GType xl_contour_plot_get_type (void);
 
 G_END_DECLS
 
-#endif /* GOG_SURFACE_H */
+#endif /* XL_CONTOUR_H */
