@@ -1,3 +1,10 @@
+2005-04-12  Stepan Kasal  <kasal@ucw.cz>
+
+	* goffice/utils/go-file.c: #include libgnomevfs/gnome-vfs-mime-utils.h;
+	  this file comes via gsf-input-gnomevfs.h and gnome-vfs.h in current
+	  version, but not in my gnome-vfs 2.4.2.
+	* goffice/graph/gog-plot.c (gog_plot_update_3d): Cosmetic fix.
+
 2005-04-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/goffice-graph.h: allow use of GOG_AXIS_PSEUDO_3D.

@@ -29,6 +29,7 @@
 #include <gsf/gsf-output-stdio.h>
 #ifdef WITH_GNOME
 #include <libgnomevfs/gnome-vfs-utils.h>
+#include <libgnomevfs/gnome-vfs-mime-utils.h>
 #include <gsf-gnome/gsf-input-gnomevfs.h>
 #include <gsf-gnome/gsf-output-gnomevfs.h>
 #include <libgnome/gnome-url.h>

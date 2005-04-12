@@ -724,10 +724,11 @@ gog_plot_get_axis (GogPlot const *plot, GogAxisType type)
 	return plot->axis[type];
 }
 
-void gog_plot_update_3d (GogPlot *plot)
+void
+gog_plot_update_3d (GogPlot *plot)
 {
 	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
-	g_return_val_if_fail (GOG_PLOT (plot) != NULL, NULL);
+	g_return_if_fail (GOG_PLOT (plot) != NULL);
 
 	if (klass->update_3d)
 		klass->update_3d (plot);
