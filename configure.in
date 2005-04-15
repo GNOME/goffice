@@ -77,7 +77,7 @@ dnl *******************
 dnl Should we use gtk ?
 dnl *******************
 goffice_with_gtk=true
-AC_ARG_WITH(gtk, [--without-gtk    Build without UI])
+AC_ARG_WITH(gtk, [  --without-gtk           Build without UI])
 if test "x$with_gtk" = xno; then
 	ui_msg="None (Gtk disabled by request)"
 	goffice_with_gtk=false
@@ -99,7 +99,7 @@ if test "x$goffice_with_gtk" = "xtrue" ; then
 
 	goffice_with_gnome=true
 	AC_ARG_WITH(gnome,
-		[--{with,without}-gnome    Use GNOME extensions],
+		[  --{with,without}-gnome  Use GNOME extensions],
 		[if test "x$withval" = xno; then
 			goffice_with_gnome=false
 			ui_msg="Gtk+ (Gnome disabled by request)"
