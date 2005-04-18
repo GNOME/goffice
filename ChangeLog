@@ -1,3 +1,7 @@
+2005-04-18  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Call PKG_PROG_PKG_CONFIG explicitly.
+
 2005-04-15  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in: Fix the appearance of help strings.

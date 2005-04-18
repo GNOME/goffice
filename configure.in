@@ -51,6 +51,11 @@ AC_SYS_LARGEFILE
 dnl Propagate Gnome-specific variable ACLOCAL_FLAGS to Makefile.
 AC_SUBST(ACLOCAL_AMFLAGS, $ACLOCAL_FLAGS)
 
+dnl The first call to PKG_CHECK_MODULES is inside an `if.'
+dnl Otherwise ot would get expanded just before the first occurence of
+dnl PKG_CHECK_MODULES and might escape execution.
+PKG_PROG_PKG_CONFIG
+
 dnl *****************************
 goffice_reqs="
 	glib-2.0		>= 2.6.4
