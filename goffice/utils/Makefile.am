@@ -53,7 +53,6 @@ BUILT_SOURCES = go-marshalers.h
 non-intermediate: go-marshalers.c
 
 GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=go_
-SUFFIXES = .list
 
 .list.h:
 	$(GENMARSHAL_COMMAND) --header $< >$@
