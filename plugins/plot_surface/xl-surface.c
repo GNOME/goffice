@@ -54,12 +54,12 @@ xl_contour_plot_build_matrix (GogContourPlot const *plot,
 	GogAxis *axis = plot->base.axis[GOG_AXIS_PSEUDO_3D];
 	unsigned nticks;
 	double x[2], val;
-	GogSeries *series;
+	GogSeries *series = NULL;
 	GODataVector *vec;
 	unsigned n = plot->rows * plot->columns;
 	double *data, minimum, maximum;
 	unsigned max;
-	GSList *ptr = plot->base.series;
+	GSList *ptr;
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum))
 		return NULL;
@@ -93,6 +93,7 @@ xl_contour_plot_build_matrix (GogContourPlot const *plot,
 		}
 		i++;
 	}
+	g_return_val_if_fail (series != NULL, NULL);
 	max = (unsigned) ceil (1 / x[1]);
 	if (series->num_elements != max) {
 		series->num_elements = max;
