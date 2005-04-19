@@ -48,7 +48,8 @@ typedef enum {
 	GO_GRADIENT_NE_TO_SW,
 	GO_GRADIENT_SW_TO_NE,
 	GO_GRADIENT_SW_TO_NE_MIRRORED,
-	GO_GRADIENT_NE_TO_SW_MIRRORED	
+	GO_GRADIENT_NE_TO_SW_MIRRORED,
+	GO_GRADIENT_MAX
 } GOGradientDirection;
 
 GOGradientDirection go_gradient_dir_from_str (const gchar *name);

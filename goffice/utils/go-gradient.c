@@ -32,56 +32,40 @@
 #include <string.h>
 
 
-static const struct {
-	GOGradientDirection dir;
-	char const *name;
-} grad_dir_names[] = {
-	{ GO_GRADIENT_N_TO_S,            "n-s" },
-	{ GO_GRADIENT_S_TO_N,            "s-n" },
-	{ GO_GRADIENT_N_TO_S_MIRRORED,   "n-s-mirrored" },
-	{ GO_GRADIENT_S_TO_N_MIRRORED,   "s-n-mirrored" },
-	{ GO_GRADIENT_W_TO_E,            "w-e" },
-	{ GO_GRADIENT_E_TO_W,            "e-w" },
-	{ GO_GRADIENT_W_TO_E_MIRRORED,   "w-e-mirrored" },
-	{ GO_GRADIENT_E_TO_W_MIRRORED,   "e-w-mirrored" },
-	{ GO_GRADIENT_NW_TO_SE,          "nw-se" },
-	{ GO_GRADIENT_SE_TO_NW,          "se-nw" },
-	{ GO_GRADIENT_NW_TO_SE_MIRRORED, "nw-se-mirrored" },
-	{ GO_GRADIENT_SE_TO_NW_MIRRORED, "se-nw-mirrored" },
-	{ GO_GRADIENT_NE_TO_SW,          "ne-sw" },
-	{ GO_GRADIENT_SW_TO_NE,          "sw-ne" },
-	{ GO_GRADIENT_SW_TO_NE_MIRRORED, "sw-ne-mirrored" },
-	{ GO_GRADIENT_NE_TO_SW_MIRRORED, "ne-sw-mirrored" },
+char const *grad_dir_names[] = {
+	"n-s",
+	"s-n",
+	"n-s-mirrored",
+	"s-n-mirrored",
+	"w-e",
+	"e-w",
+	"w-e-mirrored",
+	"e-w-mirrored",
+	"nw-se",
+	"se-nw",
+	"nw-se-mirrored",
+	"se-nw-mirrored",
+	"ne-sw",
+	"sw-ne",
+	"sw-ne-mirrored",
+	"ne-sw-mirrored"
 };
 
 GOGradientDirection
 go_gradient_dir_from_str (char const *name)
 {
 	unsigned i;
-	GOGradientDirection ret = GO_GRADIENT_N_TO_S;
-
-	for (i = 0; i < G_N_ELEMENTS (grad_dir_names); i++) {
-		if (strcmp (grad_dir_names[i].name, name) == 0) {
-			ret = grad_dir_names[i].dir;
-			break;
-		}
-	}
-	return ret;
+	for (i = 0; i < GO_GRADIENT_MAX; i++)
+		if (strcmp (grad_dir_names[i], name) == 0)
+			return i;
+	return GO_GRADIENT_N_TO_S;
 }
 
 char const *
 go_gradient_dir_as_str (GOGradientDirection dir)
 {
-	unsigned i;
-	char const *ret = "pattern";
-
-	for (i = 0; i < G_N_ELEMENTS (grad_dir_names); i++) {
-		if (grad_dir_names[i].dir == dir) {
-			ret = grad_dir_names[i].name;
-			break;
-		}
-	}
-	return ret;
+	return (dir < 0 || dir >= GO_GRADIENT_MAX) ? "gradient"
+		: grad_dir_names[dir];
 }
 
 #ifdef WITH_GTK
@@ -97,8 +81,8 @@ go_gradient_selector (GOColor start, GOColor end)
 	ArtGradientStop	  stops[2];
 
 	w = go_combo_pixmaps_new (4);
-	for (i = 0; i < G_N_ELEMENTS (grad_dir_names); i++) {
-		GOGradientDirection dir = grad_dir_names[i].dir;
+	for (i = 0; i < GO_GRADIENT_MAX; i++) {
+		GOGradientDirection dir = (GOGradientDirection)i;
 		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
 		gdk_pixbuf_fill (pixbuf, 0); /* in case the fill colours have alpha = 0 */
 		render = art_render_new (0, 0, W, H,

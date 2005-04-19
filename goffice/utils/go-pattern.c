@@ -22,6 +22,7 @@
 #include <goffice/goffice-config.h>
 #include "go-pattern.h"
 #include "go-color.h"
+
 #ifdef WITH_GTK
 #include <goffice/gtk/go-combo-pixmaps.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
@@ -32,120 +33,56 @@
 #include <string.h>
 
 typedef struct {
-	int const x, y;
+	char const *name;
+	char const *str;
 	char const pattern[8];
 } GOPatternSpec;
 
 static GOPatternSpec const go_patterns [] = {
-	{ 8, 8, /* Solid */
-		{ 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff } },
-	{ 8, 8, /* 75% */
-		{ 0xbb, 0xee, 0xbb, 0xee, 0xbb, 0xee, 0xbb, 0xee } },
-	{ 8, 8, /* 50% */
-		{ 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55 } },
-	{ 8, 8, /* 25% */
-		{ 0x22, 0x88, 0x22, 0x88, 0x22, 0x88, 0x22, 0x88 } },
-	{ 8, 8, /* 12.5% */
-		{ 0x88, 0x00, 0x22, 0x00, 0x88, 0x00, 0x22, 0x00 } },
-	{ 8, 8, /* 6.25% */
-		{ 0x20, 0x00, 0x02, 0x00, 0x20, 0x00, 0x02, 0x00 } },
-	{ 8, 8, /* Horizontal Stripe */
-		{ 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0xff, 0xff } },
-	{ 8, 8, /* Vertical Stripe */
-		{ 0x33, 0x33, 0x33, 0x33, 0x33, 0x33, 0x33, 0x33 } },
-	{ 8, 8, /* Reverse Diagonal Stripe */
-		{ 0x33, 0x66, 0xcc, 0x99, 0x33, 0x66, 0xcc, 0x99 } },
-	{ 8, 8, /* Diagonal Stripe */
-		{ 0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99 } },
-	{ 8, 8, /* Diagonal Crosshatch */
-		{ 0x99, 0x66, 0x66, 0x99, 0x99, 0x66, 0x66, 0x99 } },
-	{ 8, 8, /* Thick Diagonal Crosshatch */
-		{ 0xff, 0x66, 0xff, 0x99, 0xff, 0x66, 0xff, 0x99 } },
-	{ 8, 8, /* Thin Horizontal Stripe */
-		{ 0x00, 0x00, 0xff, 0x00, 0x00, 0x00, 0xff, 0x00 } },
-	{ 8, 8, /* Thin Vertical Stripe */
-		{ 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 } },
-	{ 8, 8, /* Thin Reverse Diagonal Stripe */
-		{ 0x11, 0x22, 0x44, 0x88, 0x11, 0x22, 0x44, 0x88 } },
-	{ 8, 8, /* Thin Diagonal Stripe */
-		{ 0x88, 0x44, 0x22, 0x11, 0x88, 0x44, 0x22, 0x11 } },
-	{ 8, 8, /* Thin Crosshatch */
-		{ 0x22, 0x22, 0xff, 0x22, 0x22, 0x22, 0xff, 0x22 } },
-	{ 8, 8, /* Thin Diagonal Crosshatch */
-		{ 0x88, 0x55, 0x22, 0x55, 0x88, 0x55, 0x22, 0x55 } },
-	{ 8, 8, /* 100% */
-		{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 } },
-	{ 8, 8, /* Applix small circle */
-		{ 0x99, 0x55, 0x33, 0xff, 0x99, 0x55, 0x33, 0xff } },
-	{ 8, 8, /* Applix semicircle */
-		{ 0x10, 0x10, 0x28, 0xc7, 0x01, 0x01, 0x82, 0x7c } },
-	{ 8, 8, /* Applix small thatch */
-		{ 0x22, 0x74, 0xf8, 0x71, 0x22, 0x17, 0x8f, 0x47 } },
-	{ 8, 8, /* Applix round thatch */
-		{ 0xc1, 0x80, 0x1c, 0x3e, 0x3e, 0x3e, 0x1c, 0x80 } },
-	{ 8, 8, /* Applix Brick */
-		{ 0x20, 0x20, 0x20, 0xff, 0x02, 0x02, 0x02, 0xff } }
-};
-
-static struct {
-	GOPatternType pattern;
-	char const *label;
-	char const *name;
-} pattern_names[] = {
-	{ GO_PATTERN_SOLID,            N_("Solid"),			"solid" },
-	{ GO_PATTERN_GREY75,           N_("75% Grey"),			"grey75" },
-	{ GO_PATTERN_GREY50,           N_("50% Grey"),			"grey50" },
-	{ GO_PATTERN_GREY25,           N_("25% Grey"),			"grey25" },
-	{ GO_PATTERN_GREY125,          N_("12.5% Grey"),		"grey12.5" },
-	{ GO_PATTERN_GREY625,          N_("6.25% Grey"),		"grey6.25" },
-	{ GO_PATTERN_HORIZ,            N_("Horizontal Stripe"),		"horiz" },
-	{ GO_PATTERN_VERT,             N_("Vertical Stripe"),		"vert" },
-	{ GO_PATTERN_REV_DIAG,         N_("Reverse Diagonal Stripe"),	"rev-diag" },
-	{ GO_PATTERN_DIAG,             N_("Diagonal Stripe"),		"diag" },
-	{ GO_PATTERN_DIAG_CROSS,       N_("Diagonal Crosshatch"),	"diag-cross" },
-	{ GO_PATTERN_THICK_DIAG_CROSS, N_("Thick Diagonal Crosshatch"),	"thick-diag-cross" },
-	{ GO_PATTERN_THIN_HORIZ,       N_("Thin Horizontal Stripe"),	"thin-horiz" },
-	{ GO_PATTERN_THIN_VERT,        N_("Thin Vertical Stripe"),	"thin-vert" },
-	{ GO_PATTERN_THIN_REV_DIAG,    N_("Thin Reverse Diagonal Stripe"), "rev-diag" },
-	{ GO_PATTERN_THIN_DIAG,        N_("Thin Diagonal Stripe"),	"thin-diag" },
-	{ GO_PATTERN_THIN_HORIZ_CROSS, N_("Thin Horizontal Crosshatch"),"thin-horiz-cross" },
-	{ GO_PATTERN_THIN_DIAG_CROSS,  N_("Thin Diagonal Crosshatch"),	"thin-diag-cross" },
-	{ GO_PATTERN_FOREGROUND_SOLID, N_("Foreground Solid"),		"foreground-solid" },
-	{ GO_PATTERN_SMALL_CIRCLES,    N_("Small Circles"),		"small-circles" },
-	{ GO_PATTERN_SEMI_CIRCLES,     N_("Semi Circles"),		"semi-circles" },
-	{ GO_PATTERN_THATCH,           N_("Thatch"),			"thatch" },
-	{ GO_PATTERN_LARGE_CIRCLES,    N_("Large Circles"),		"large-circles" },
-	{ GO_PATTERN_BRICKS,           N_("Bricks"),			"bricks"  }
+  { N_("Solid"),                     "solid",           { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff } },
+  { N_("75% Grey"),                  "grey75",          { 0xbb, 0xee, 0xbb, 0xee, 0xbb, 0xee, 0xbb, 0xee } },
+  { N_("50% Grey"),                  "grey50",          { 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55 } },
+  { N_("25% Grey"),                  "grey25",          { 0x22, 0x88, 0x22, 0x88, 0x22, 0x88, 0x22, 0x88 } },
+  { N_("12.5% Grey"),                "grey12.5",        { 0x88, 0x00, 0x22, 0x00, 0x88, 0x00, 0x22, 0x00 } },
+  { N_("6.25% Grey"),                "grey6.25",        { 0x20, 0x00, 0x02, 0x00, 0x20, 0x00, 0x02, 0x00 } },
+  { N_("Horizontal Stripe"),         "horiz",           { 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0xff, 0xff } },
+  { N_("Vertical Stripe"),           "vert",            { 0x33, 0x33, 0x33, 0x33, 0x33, 0x33, 0x33, 0x33 } },
+  { N_("Reverse Diagonal Stripe"),   "rev-diag",        { 0x33, 0x66, 0xcc, 0x99, 0x33, 0x66, 0xcc, 0x99 } },
+  { N_("Diagonal Stripe"),           "diag",            { 0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99 } },
+  { N_("Diagonal Crosshatch"),       "diag-cross",      { 0x99, 0x66, 0x66, 0x99, 0x99, 0x66, 0x66, 0x99 } },
+  { N_("Thick Diagonal Crosshatch"), "thick-diag-cross",{ 0xff, 0x66, 0xff, 0x99, 0xff, 0x66, 0xff, 0x99 } },
+  { N_("Thin Horizontal Stripe"),    "thin-horiz",      { 0x00, 0x00, 0xff, 0x00, 0x00, 0x00, 0xff, 0x00 } },
+  { N_("Thin Vertical Stripe"),      "thin-vert",       { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 } },
+  { N_("Thin Reverse Diagonal Stripe"),"rev-diag",      { 0x11, 0x22, 0x44, 0x88, 0x11, 0x22, 0x44, 0x88 } },
+  { N_("Thin Diagonal Stripe"),      "thin-diag",       { 0x88, 0x44, 0x22, 0x11, 0x88, 0x44, 0x22, 0x11 } },
+  { N_("Thin Horizontal Crosshatch"),"thin-horiz-cross",{ 0x22, 0x22, 0xff, 0x22, 0x22, 0x22, 0xff, 0x22 } },
+  { N_("Thin Diagonal Crosshatch"),  "thin-diag-cross", { 0x88, 0x55, 0x22, 0x55, 0x88, 0x55, 0x22, 0x55 } },
+  { N_("Foreground Solid"),          "foreground-solid",{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 } },
+  { N_("Small Circles")/* Applix */, "small-circles",   { 0x99, 0x55, 0x33, 0xff, 0x99, 0x55, 0x33, 0xff } },
+  { N_("Semi Circles") /* Applix */, "semi-circles",    { 0x10, 0x10, 0x28, 0xc7, 0x01, 0x01, 0x82, 0x7c } },
+  { N_("Thatch") /* Applix small thatch */, "thatch",   { 0x22, 0x74, 0xf8, 0x71, 0x22, 0x17, 0x8f, 0x47 } },
+  { N_("Large Circles")/*Applix round thatch*/,
+				     "large-circles",   { 0xc1, 0x80, 0x1c, 0x3e, 0x3e, 0x3e, 0x1c, 0x80 } },
+  { N_("Bricks") /* Applix Brick */, "bricks",          { 0x20, 0x20, 0x20, 0xff, 0x02, 0x02, 0x02, 0xff } }
 };
 
 
 GOPatternType
-go_pattern_from_str (char const *name)
+go_pattern_from_str (char const *str)
 {
 	unsigned i;
-	GOPatternType ret = GO_PATTERN_SOLID;
 
-	for (i = 0; i < sizeof pattern_names / sizeof pattern_names[0]; i++) {
-		if (strcmp (pattern_names[i].name, name) == 0) {
-			ret = pattern_names[i].pattern;
-			break;
-		}
-	}
-	return ret;
+	for (i = 0; i < GO_PATTERN_MAX; i++)
+		if (strcmp (go_patterns[i].str, str) == 0)
+			return i;
+
+	return GO_PATTERN_SOLID;
 }
 char const *
 go_pattern_as_str (GOPatternType pattern)
 {
-	unsigned i;
-	char const *ret = "none";
-
-	for (i = 0; i < sizeof pattern_names / sizeof pattern_names[0]; i++) {
-		if (pattern_names[i].pattern == pattern) {
-			ret = pattern_names[i].name;
-			break;
-		}
-	}
-	return ret;
+	return (pattern < 0 || pattern >= GO_PATTERN_MAX) ?  "none"
+		: go_patterns[pattern].str;
 }
 
 /**
@@ -240,13 +177,13 @@ go_pattern_selector (GOColor fore, GOColor back,
 		if (is_auto) {
 			/* xgettext : this will appear as 'Automatic (patternname)' */
 			char *name = g_strdup_printf (_("Automatic (%s)"),
-				_(pattern_names [default_pat].label));
+				_(go_patterns [default_pat].name));
 			go_combo_pixmaps_add_element (w, pixbuf,
 				-default_pat, name);
 			g_free (name);
 		} else
 			go_combo_pixmaps_add_element (w, pixbuf, pat.pattern,
-				_(pattern_names[pat.pattern].label));
+				_(go_patterns[pat.pattern].name));
 	}
 	art_svp_free (svp);
 	return w;

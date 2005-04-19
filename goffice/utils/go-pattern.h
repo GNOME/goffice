@@ -69,8 +69,10 @@ void		 go_pattern_set_solid  (GOPattern *pat, GOColor fore);
 void		 go_pattern_render_svp (GOPattern const *pat, ArtSVP const *svp,
 					int x0, int y0, int x1, int y1,
 					art_u8 *buf, int rowstride);
+#ifdef WITH_GTK
 gpointer	 go_pattern_selector   (GOColor fore, GOColor back,
 					GOPatternType default_pat);
+#endif
 
 G_END_DECLS
 

@@ -66,7 +66,7 @@ struct _GOMarker {
 #ifdef WITH_GTK
 	GdkPixbuf	*pixbuf;
 #else
-	gpointer	 pixbuf;
+	gpointer	 pixbuf_placeholder;
 #endif
 };
 

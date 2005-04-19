@@ -27,6 +27,10 @@
 #ifdef WITH_GTK
 #include <goffice/gtk/go-combo-color.h>
 #include <goffice/gtk/go-combo-pixmaps.h>
+#include <gdk-pixbuf/gdk-pixdata.h>
+#include <glade/glade-xml.h>
+#endif
+
 #include <libart_lgpl/art_render_gradient.h>
 #include <libart_lgpl/art_render_svp.h>
 #include <libart_lgpl/art_render_mask.h>
@@ -34,9 +38,6 @@
 #include <libart_lgpl/art_svp_vpath.h>
 #include <libart_lgpl/art_affine.h>
 #include <libart_lgpl/art_rgb_svp.h>
-#include <glade/glade-xml.h>
-#include <gdk-pixbuf/gdk-pixdata.h>
-#endif
 
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
@@ -212,47 +213,30 @@ static ArtVpath const hourglass_path[] = {
 typedef struct
 {
 	char const *name;
+	char const *str;
 	ArtVpath const *outline_path;
 	ArtVpath const *fill_path;
 } MarkerShape;
-	
-static MarkerShape const marker_shapes[GO_MARKER_MAX] = {
-	{ N_("none"),		NULL, NULL},
-	{ N_("square"),		square_path, square_path},
-	{ N_("diamond"),	diamond_path, diamond_path},
-	{ N_("triangle down"),	triangle_down_path, triangle_down_path},
-	{ N_("triangle up"),	triangle_up_path, triangle_up_path},
-	{ N_("triangle right"),	triangle_right_path, triangle_right_path},
-	{ N_("triangle left"),	triangle_left_path, triangle_left_path},
-	{ N_("circle"),		circle_path, circle_path},
-	{ N_("x"),		x_path, square_path},
-	{ N_("cross"),		cross_path, square_path},
-	{ N_("asterisk"),	asterisk_path, square_path},
-	{ N_("bar"), 		bar_path, bar_path},
-	{ N_("half bar"),	half_bar_path, half_bar_path},
-	{ N_("butterfly"),	butterfly_path, butterfly_path},
-	{ N_("hourglass"),	hourglass_path, hourglass_path}
-};
 
-static struct {
-	GOMarkerShape shape;
-	char const *name;
-} marker_shape_names[] = {
-	{ GO_MARKER_NONE,           "none" },
-	{ GO_MARKER_SQUARE,         "square" },
-	{ GO_MARKER_DIAMOND,        "diamond" },
-	{ GO_MARKER_TRIANGLE_DOWN,  "triangle-down" },
-	{ GO_MARKER_TRIANGLE_UP,    "triangle-up" },
-	{ GO_MARKER_TRIANGLE_RIGHT, "triangle-right" },
-	{ GO_MARKER_TRIANGLE_LEFT,  "triangle-left" },
-	{ GO_MARKER_CIRCLE,         "circle" },
-	{ GO_MARKER_X,              "x" },
-	{ GO_MARKER_CROSS,          "cross" },
-	{ GO_MARKER_ASTERISK,       "asterisk" },
-	{ GO_MARKER_BAR,            "bar" },
-	{ GO_MARKER_HALF_BAR,       "half-bar" },
-	{ GO_MARKER_BUTTERFLY,      "butterfly" },
-	{ GO_MARKER_HOURGLASS,      "hourglass" }
+#define MAKE_MARKER_SHAPE(name, str, path)	{name, str, path, path}
+#define MAKE_MARKER_SQUARED(name, str, path)	{name, str, path, square_path}
+
+static MarkerShape const marker_shapes[GO_MARKER_MAX] = {
+    MAKE_MARKER_SHAPE   ( N_("none"),		"none",           NULL),
+    MAKE_MARKER_SHAPE   ( N_("square"),		"square",         square_path),
+    MAKE_MARKER_SHAPE   ( N_("diamond"),	"diamond",        diamond_path),
+    MAKE_MARKER_SHAPE   ( N_("triangle down"),	"triangle-down",  triangle_down_path),
+    MAKE_MARKER_SHAPE   ( N_("triangle up"),	"triangle-up",    triangle_up_path),
+    MAKE_MARKER_SHAPE   ( N_("triangle right"),	"triangle-right", triangle_right_path),
+    MAKE_MARKER_SHAPE   ( N_("triangle left"),	"triangle-left",  triangle_left_path),
+    MAKE_MARKER_SHAPE   ( N_("circle"),		"circle",         circle_path),
+    MAKE_MARKER_SQUARED ( N_("x"),		"x",              x_path),
+    MAKE_MARKER_SQUARED ( N_("cross"),		"cross",          cross_path),
+    MAKE_MARKER_SQUARED ( N_("asterisk"),	"asterisk",       asterisk_path),
+    MAKE_MARKER_SHAPE   ( N_("bar"), 		"bar",            bar_path),
+    MAKE_MARKER_SHAPE   ( N_("half bar"),	"half-bar",       half_bar_path),
+    MAKE_MARKER_SHAPE   ( N_("butterfly"),	"butterfly",      butterfly_path),
+    MAKE_MARKER_SHAPE   ( N_("hourglass"),	"hourglass",      hourglass_path)
 };
 
 static GObjectClass *marker_parent_klass;
@@ -337,26 +321,27 @@ marker_create_pixbuf_with_size (GOMarker *marker, guint size)
 }
 	
 static void
-marker_update_pixbuf (GOMarker * marker)
+marker_free_pixbuf (GOMarker * marker)
 {
 	if (marker->pixbuf != NULL) {
-		g_object_unref (G_OBJECT (marker->pixbuf));
+		g_object_unref (marker->pixbuf);
 		marker->pixbuf = NULL;
 	}
+}
 
+static void
+marker_update_pixbuf (GOMarker * marker)
+{
 	marker->pixbuf = marker_create_pixbuf_with_size (marker, marker->size);
 }
+#else
+# define marker_free_pixbuf(marker) do {} while(0)
 #endif /* WITH_GTK */
 
 static void
 go_marker_finalize (GObject *obj)
 {
-	GOMarker * marker = GO_MARKER (obj);
-
-	if (marker->pixbuf != NULL) {
-		g_object_unref (G_OBJECT (marker->pixbuf));
-		marker->pixbuf = NULL;
-	}
+	marker_free_pixbuf(GO_MARKER (obj));
 	
 	marker_parent_klass->finalize (obj);
 }
@@ -368,7 +353,9 @@ go_marker_init (GOMarker * marker)
 	marker->outline_color	= RGBA_BLACK;
 	marker->fill_color	= RGBA_WHITE;
 	marker->size		= MARKER_DEFAULT_SIZE;
+#ifdef WITH_GTK
 	marker->pixbuf 		= NULL;
+#endif
 	marker->scale		= 1.;
 }
 
@@ -380,23 +367,20 @@ go_marker_class_init (GObjectClass *gobject_klass)
 }
 
 GOMarkerShape
-go_marker_shape_from_str (char const *name)
+go_marker_shape_from_str (char const *str)
 {
-	unsigned i = G_N_ELEMENTS (marker_shape_names);
-	while (i-- > 0)
-		if (g_ascii_strcasecmp (marker_shape_names[i].name, name) == 0)
-			return marker_shape_names[i].shape;
+	unsigned i;
+	for (i = 0; i < GO_MARKER_MAX; i++)
+		if (g_ascii_strcasecmp (marker_shapes[i].str, str) == 0)
+			return (GOMarkerShape)i;
 	return GO_MARKER_NONE;
 }
 
 char const *
 go_marker_shape_as_str (GOMarkerShape shape)
 {
-	unsigned i = G_N_ELEMENTS (marker_shape_names);
-	while (i-- > 0)
-		if (marker_shape_names[i].shape == shape)
-			return marker_shape_names[i].name;
-	return "pattern";
+	return (shape < 0 || shape >= GO_MARKER_MAX) ? "pattern"
+		: marker_shapes[shape].str;
 }
 
 void
@@ -441,15 +425,10 @@ void
 go_marker_set_shape (GOMarker *marker, GOMarkerShape shape)
 {
 	g_return_if_fail (IS_GO_MARKER (marker));	    
-
 	if (marker->shape == shape)
 		return;
-
 	marker->shape = shape;
-	if (marker->pixbuf != NULL) {
-		g_object_unref (marker->pixbuf);
-		marker->pixbuf = NULL;
-	}
+	marker_free_pixbuf(marker);
 }
 	
 GOColor
@@ -464,12 +443,8 @@ go_marker_set_outline_color (GOMarker *marker, GOColor color)
 	g_return_if_fail (IS_GO_MARKER (marker));
 	if (marker->outline_color == color)
 		return;
-
 	marker->outline_color = color;
-	if (marker->pixbuf != NULL) {
-		g_object_unref (marker->pixbuf);
-		marker->pixbuf = NULL;
-	}
+	marker_free_pixbuf(marker);
 }
 	
 GOColor
@@ -482,14 +457,10 @@ void
 go_marker_set_fill_color (GOMarker *marker, GOColor color)
 {
 	g_return_if_fail (IS_GO_MARKER (marker));
-	
 	if (marker->fill_color == color)
 		return;
 	marker->fill_color = color;
-	if (marker->pixbuf != NULL) {
-		g_object_unref (marker->pixbuf);
-		marker->pixbuf = NULL;
-	}
+	marker_free_pixbuf(marker);
 }
 	
 int
@@ -509,14 +480,10 @@ go_marker_set_size (GOMarker *marker, int size)
 {
 	g_return_if_fail (IS_GO_MARKER (marker));
 	g_return_if_fail (size >= 0);
-	
 	if (marker->size == size)
 		return;
 	marker->size = size;
-	if (marker->pixbuf != NULL) {
-		g_object_unref (marker->pixbuf);
-		marker->pixbuf = NULL;
-	}
+	marker_free_pixbuf(marker);
 }
 
 void
@@ -533,11 +500,13 @@ go_marker_assign (GOMarker *dst, GOMarker const *src)
 	dst->outline_color	= src->outline_color;
 	dst->fill_color		= src->fill_color;
 
+#ifdef WITH_GTK
 	if (dst->pixbuf != NULL)
-		g_object_unref (G_OBJECT (src->pixbuf));
+		g_object_unref (src->pixbuf);
 	dst->pixbuf = src->pixbuf;
 	if (dst->pixbuf != NULL)
 		g_object_ref (dst->pixbuf);
+#endif
 }	
 	
 GOMarker *
@@ -561,9 +530,6 @@ GSF_CLASS (GOMarker, go_marker,
 /*---------------------------------------------------------------------------*/
 
 #ifdef WITH_GTK
-#define SELECTOR_PIXBUF_SIZE 20
-#define SELECTOR_MARKER_SIZE 15
-
 gpointer
 go_marker_selector (GOColor outline_color, GOColor fill_color,
 		    GOMarkerShape default_shape)
@@ -597,7 +563,7 @@ go_marker_selector (GOColor outline_color, GOColor fill_color,
 		if (pixbuf == NULL) /* handle none */
 			pixbuf = new_blank_pixbuf (marker, marker->size);
 		else	/* add_element absorbs ref */
-			g_object_ref (G_OBJECT (pixbuf));
+			g_object_ref ((GdkPixbuf *) pixbuf);
 		if (is_auto) {
 			/* xgettext : this will appear as 'Automatic (shapename)' */
 			char *name = g_strdup_printf (_("Automatic (%s)"),
