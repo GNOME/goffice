@@ -1,3 +1,33 @@
+2005-04-19  Stepan Kasal  <kasal@ucw.cz>
+
+	* goffice/utils/Makefile.am (SUFFIXES): Remove, Automake deduces it
+	  (at least Automake >= 1.7).
+
+2005-04-18  Stepan Kasal  <kasal@ucw.cz>
+
+	* plugins/plot_surface/xl-surface.c (xl_contour_plot_build_matrix):
+	Don't initialize `ptr' twice; do initialize `series'.
+
+2005-04-18  Stepan Kasal  <kasal@ucw.cz>
+
+	* goffice/utils/go-gradient.h (GOGradientDirection): Properly terminate
+	  with GO_GRADIENT_MAX.
+	* goffice/utils/go-gradient.c (grad_dir_names): No need to include the
+	  enum number in the structure; code adapted.
+	* goffice/utils/go-marker.c: Don't omit libart includes when !WITH_GTK;
+	(marker_shape_names): Merge into marker_shapes; adapt code.
+	(marker_shapes): Use macros to shorten the definition.
+	(marker_update_pixbuf, go_marker_finalize, go_marker_set_shape):
+	(go_marker_set_outline_color, go_marker_set_fill_color):
+	(go_marker_set_size): Factor out common code ...
+	(marker_free_pixbuf): ... to a new static function.
+	(SELECTOR_PIXBUF_SIZE, SELECTOR_MARKER_SIZE): Remove unused defines.
+	* goffice/utils/go-marker.h (pixbuf): If !WITH_GTK, rename this to ...
+	(pixbuf_placeholder): ..., so that noone can actually use it.
+	* goffice/utils/go-pattern.c (pattern_names): Merge into go_patterns;
+	  adapt code.
+	* goffice/utils/go-pattern.h (go_pattern_selector): Omit if !WITH_GTK.
+
 2005-04-18  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in: Call PKG_PROG_PKG_CONFIG explicitly.
