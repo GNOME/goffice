@@ -1,3 +1,8 @@
+2005-04-20  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* goffice/gtk/go-action-combo-text.c: Add a new property
+	"case-sensitive".
+
 2005-04-19  Stepan Kasal  <kasal@ucw.cz>
 
 	* goffice/utils/Makefile.am (SUFFIXES): Remove, Automake deduces it
