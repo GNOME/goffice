@@ -71,6 +71,7 @@ libgoffice_graph_la_HEADERS = 	\
 	gog-renderer-gnome-print.h	\
 	gog-renderer-svg.h
 
+goffice_gladedir = $(goffice_datadir)/glade
 goffice_glade_DATA = \
 	gog-guru.glade			\
 	gog-guru-type-selector.glade	\

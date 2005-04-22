@@ -12,7 +12,7 @@ xy_la_SOURCES = \
 	gog-bubble-prefs.c
 
 xml_in_files = plugin.xml.in plot-types.xml.in
-xml_DATA = $(xml_in_files:.xml.in=.xml) gog-bubble-prefs.glade
+xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 

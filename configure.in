@@ -20,6 +20,14 @@ AC_INIT([goffice], [goffice_full_version],
 AC_CONFIG_SRCDIR(goffice/goffice.h)
 AM_INIT_AUTOMAKE([dist-bzip2])
 
+dnl Version info for libraries = CURRENT:REVISION:AGE
+dnl
+dnl FIXME: This formula is wrong.  --kasal
+dnl
+AC_SUBST(GOFFICE_LIB_VERSION,
+m4_eval(goffice_version_epoch + goffice_version_major)[]dnl
+:goffice_version_minor:goffice_version_major)
+
 dnl This one is created by autoheader, ...
 AC_CONFIG_HEADERS(goffice/goffice-config.h)
 
@@ -426,11 +434,6 @@ AC_SUBST(goffice_localedir, '${prefix}/${DATADIRNAME}/locale')
 dnl
 AC_SUBST(goffice_plugindir, '${goffice_libdir}/plugins')
 AC_SUBST(goffice_gladedir, '${goffice_datadir}/glade')
-dnl
-dnl Version info for libraries = CURRENT:REVISION:AGE
-GOFFICE_LIB_VERSION_EPOCH_PLUS_MAJOR=`expr goffice_version_epoch + goffice_version_major`
-GOFFICE_LIB_VERSON=$GOFFICE_LIB_VERSION_EPOCH_PLUS_MAJOR:goffice_version_minor:goffice_version_major
-AC_SUBST(GOFFICE_LIB_VERSON)
 
 dnl Export to goffice-config.h and goffice-features.h
 AC_DEFINE(GOFFICE_VERSION, "goffice_full_version",

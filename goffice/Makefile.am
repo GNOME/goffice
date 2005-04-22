@@ -14,7 +14,7 @@ libgoffice_1_la_LIBADD = 			\
 	ms-compat/libgoffice-ms-compat.la	\
 	$(GOFFICE_LIBS)
 
-libgoffice_1_la_LDFLAGS = -version-info $(GOFFICE_LIB_VERSON)
+libgoffice_1_la_LDFLAGS = -version-info $(GOFFICE_LIB_VERSION)
 if PLATFORM_WIN32
 libgoffice_1_la_LDFLAGS += -no-undefined -Wl,-export-all-symbols
 libgoffice_1_la_LIBADD += gtk/libgoffice-html-help-stub.la
@@ -33,7 +33,8 @@ libgoffice_1_la_HEADERS = 	\
 	goffice-features.h	\
 	goffice.h
 
-goffice-paths.h:
+# Depends on this Makefile, because it uses make variables.
+goffice-paths.h: Makefile
 	@echo 'creating $@'
 	@( \
 	echo '/* This file has been automatically generated.  Do not edit. */'; \

@@ -55,6 +55,7 @@ libgoffice_app_la_HEADERS = 		\
 	\
 	go-graph-widget.h
 
+goffice_gladedir = $(goffice_datadir)/glade
 goffice_glade_DATA = \
 	go-font-sel.glade 	\
 	go-format-sel.glade 

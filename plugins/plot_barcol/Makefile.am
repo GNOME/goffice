@@ -15,7 +15,7 @@ barcol_la_SOURCES = gog-1.5d.c 		\
 		    gog-barcol-prefs.c
 
 xml_in_files = plugin.xml.in plot-types.xml.in
-xml_DATA = $(xml_in_files:.xml.in=.xml) gog-barcol-prefs.glade
+xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 

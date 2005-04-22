@@ -1,3 +1,11 @@
+2005-04-21  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (GOFFICE_LIB_VERSON): Rename to ...
+	(GOFFICE_LIB_VERSION): ... and compute statically, by m4_eval.
+	* goffice/Makefile.am (goffice-paths.h): Also depends on Makefile.
+	* plugins/plot_barcol/Makefile.am, plugins/plot_pie/Makefile.am:
+	* plugins/plot_xy/Makefile.am: Don't list glade files in xml_DATA.
+
 2005-04-20  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* goffice/gtk/go-action-combo-text.c: Add a new property
@@ -251,10 +259,10 @@
 
 	* goffice/Makefile.am (goffice-paths.h): Rewrite the rule,
 	  goffice-paths.sh* is no longer used.
-	  (EXTRA_DIST, noinst_HEADERS): No longer needed.
+	(EXTRA_DIST, noinst_HEADERS): No longer needed.
 	* goffice/goffice-paths.sh.in: Removed.
 	* configure.in: Don't generate goffice-paths.sh, rearrange the
-	  goffice-* AC_SUBSTs.
+	  goffice_* AC_SUBSTs.
 	* goffice/goffice.c (LIBGOFFICE_VERSION): Renamed to GOFFICE_VERSION.
 	(libgoffice_lib_dir): Comment out in the WIN32 block, since the
 	  declaration is already commented out.
