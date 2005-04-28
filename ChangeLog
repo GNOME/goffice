@@ -1,8 +1,7 @@
 2005-04-28  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (WITH_WIN32): Fix the case command for $host_os,
-	add the "pw32*" pattern; remove the unused check for WINDRES and
-	other cosmetic changes.
+	add the "pw32*" pattern.
 
 2005-04-28  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 

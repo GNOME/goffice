@@ -153,7 +153,8 @@ case $host_os in
   mingw* | pw32* | cygwin*)
     with_win32=yes
     GOFFICE_PLUGIN_LDFLAGS="-no-undefined -Wl,--enable-runtime-pseudo-relo,--export-all-symbols $GOFFICE_PLUGIN_LDFLAGS"
-    GOFFICE_PLUGIN_LIBADD="\${top_builddir}/goffice/libgoffice-1.la $GOFFICE_LIBS $GOFFICE_PLUGIN_LIBADD"
+    GOFFICE_PLUGIN_LIBADD="\$(top_builddir)/goffice/libgoffice-1.la $GOFFICE_LIBS $GOFFICE_PLUGIN_LIBADD"
+    AC_CHECK_TOOL(WINDRES, windres, :)
     ;;
 esac
 AC_MSG_RESULT($with_win32)
