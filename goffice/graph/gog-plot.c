@@ -145,6 +145,7 @@ cb_axis_changed (GtkComboBox *combo, PlotPrefState *state)
 	GValue value;
 	GtkTreeModel *model = gtk_combo_box_get_model (combo);
 
+	memset (&value, 0, sizeof (GValue));
 	gtk_combo_box_get_active_iter (combo, &iter);
 	gtk_tree_model_get_value (model, &iter, 1, &value);
 	gog_plot_set_axis_by_id (state->plot, state->type, g_value_get_uint (&value));

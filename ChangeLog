@@ -1,3 +1,7 @@
+2005-04-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-plot.c: (cb_axis_changed): initialize value.
+
 2005-04-21  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (GOFFICE_LIB_VERSON): Rename to ...
