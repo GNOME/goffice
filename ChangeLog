@@ -1,3 +1,10 @@
+2005-04-28  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* configure.in: Remove OS_WIN32 and combine PLATFORM_WIN32
+	and WITH_WIN32.
+
+	* goffice/Makefile.am: Use WITH_WIN32
+
 2005-04-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-plot.c: (cb_axis_changed): initialize value.

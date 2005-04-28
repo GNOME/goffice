@@ -15,7 +15,7 @@ libgoffice_1_la_LIBADD = 			\
 	$(GOFFICE_LIBS)
 
 libgoffice_1_la_LDFLAGS = -version-info $(GOFFICE_LIB_VERSION)
-if PLATFORM_WIN32
+if WITH_WIN32
 libgoffice_1_la_LDFLAGS += -no-undefined -Wl,-export-all-symbols
 libgoffice_1_la_LIBADD += gtk/libgoffice-html-help-stub.la
 endif

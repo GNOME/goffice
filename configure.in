@@ -147,31 +147,18 @@ AC_CHECK_LIB(Xrender, XRenderFindFormat,
 	[-lXext])
 
 dnl *****************************
-AC_MSG_CHECKING([for native Win32])
-case "$host" in
-  *-*-mingw*)
-    native_win32=yes
-    ;;
-  *)
-    native_win32=no
-    ;;
-esac
-AC_MSG_RESULT([$native_win32])
-AM_CONDITIONAL(OS_WIN32, test "$native_win32" = yes)
-
-AC_MSG_CHECKING([for Win32 platform in general])
-case "$host" in
+AC_MSG_CHECKING([for Win32 platform])
+with_win32=no
+case $host_os in
   *-*-mingw*|*-*-cygwin*)
-    platform_win32=yes
+    with_win32=yes
     GOFFICE_PLUGIN_LDFLAGS="-no-undefined -Wl,--enable-runtime-pseudo-relo,--export-all-symbols $GOFFICE_PLUGIN_LDFLAGS"
     GOFFICE_PLUGIN_LIBADD="\$(top_builddir)/goffice/libgoffice-1.la $GOFFICE_LIBS $GOFFICE_PLUGIN_LIBADD"
-    ;;
-  *)
-    platform_win32=no
+    AC_CHECK_TOOL(WINDRES, windres, :)
     ;;
 esac
-AC_MSG_RESULT($platform_win32)
-AM_CONDITIONAL(PLATFORM_WIN32, test "$platform_win32" = yes)
+AC_MSG_RESULT($with_win32)
+AM_CONDITIONAL(WITH_WIN32, test x"$with_win32" = "xyes")
 
 dnl *****************************
 dnl FIXME: perhaps declare with AC_ARG_VAR?
@@ -196,16 +183,6 @@ if test "x$goffice_with_gnome" = "xtrue"; then
 	CFLAGS="$CFLAGS -DBONOBO_DISABLE_DEPRECATED"
 	CFLAGS="$CFLAGS -DBONOBO_UI_DISABLE_DEPRECATED"
 fi
-
-win32=no
-case $host_os in
-*mingw* | pw32* | cygwin*)
-    win32=yes
-    GNUMERIC_PLUGIN_LDFLAGS="-no-undefined $GNUMERIC_LIBS -Wl,--enable-runtime-pseudo-relo,\$(top_builddir)/src/gnumeric.exe.a -s"
-    AC_CHECK_TOOL(WINDRES, windres, :)
-    ;;
-esac
-AM_CONDITIONAL(WITH_WIN32, test x"$win32" = "xyes")
 
 dnl ****************************
 dnl prep the pixmap generator
