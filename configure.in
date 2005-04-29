@@ -44,8 +44,11 @@ AM_MAINTAINER_MODE
 # Make --disable-static the default
 AC_DISABLE_STATIC
 
-# We need intltool >= 0.27.2 to extract the UTF-8 chars from source code
+dnl We need intltool >= 0.27.2 to extract the UTF-8 chars from source code
 AC_PROG_INTLTOOL([0.27.2])
+
+dnl We use $host_os:
+AC_CANONICAL_HOST
 
 AC_ISC_POSIX
 AC_PROG_CC
@@ -154,6 +157,7 @@ case $host_os in
     with_win32=yes
     GOFFICE_PLUGIN_LDFLAGS="-no-undefined -Wl,--enable-runtime-pseudo-relo,--export-all-symbols $GOFFICE_PLUGIN_LDFLAGS"
     GOFFICE_PLUGIN_LIBADD="\$(top_builddir)/goffice/libgoffice-1.la $GOFFICE_LIBS $GOFFICE_PLUGIN_LIBADD"
+    AC_ARG_VAR(WINDRES, [The windres executable (used by win32 builds only).])
     AC_CHECK_TOOL(WINDRES, windres, :)
     ;;
 esac

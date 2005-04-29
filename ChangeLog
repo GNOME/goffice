@@ -2,6 +2,8 @@
 
 	* configure.in (WITH_WIN32): Fix the case command for $host_os,
 	add the "pw32*" pattern.
+	(AC_CANONICAL_HOST): Call explicitly, we use $host_os.
+	(WINDRES): Add an AC_ARG_VAR declaration.
 
 2005-04-28  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
