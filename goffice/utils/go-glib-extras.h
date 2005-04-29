@@ -89,6 +89,9 @@ gpointer     go_mem_chunk_alloc0	(GOMemChunk *);
 void         go_mem_chunk_free		(GOMemChunk *, gpointer);
 void         go_mem_chunk_foreach_leak	(GOMemChunk *, GFunc, gpointer);
 
+void	     go_object_toggle           (gpointer object,
+					 const gchar *property_name);
+
 G_END_DECLS
 
 #endif /* GO_GLIB_EXTRAS_H */

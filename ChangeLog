@@ -1,3 +1,7 @@
+2005-04-29  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_object_toggle): New function.
+
 2005-04-28  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (WITH_WIN32): Fix the case command for $host_os,

@@ -740,3 +740,34 @@ go_destroy_password (char *passwd)
 {
 	memset (passwd, 0, strlen (passwd));
 }
+
+
+/**
+ * go_object_toggle: toggle a boolean object property.
+ *
+ **/
+void
+go_object_toggle (gpointer object, const gchar *property_name)
+{
+	gboolean value = FALSE;
+	GParamSpec *pspec;
+
+	g_return_if_fail (G_IS_OBJECT (object));
+	g_return_if_fail (property_name != NULL);
+
+	pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (object), property_name);
+	if (!pspec ||
+	    !G_IS_PARAM_SPEC_BOOLEAN (pspec) ||
+	    ((pspec->flags & (G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY)) !=
+	     G_PARAM_READWRITE)) {
+		g_warning ("%s: object class `%s' has no boolean property named `%s' that can be both read and written.",
+			   G_STRFUNC,
+			   G_OBJECT_TYPE_NAME (object),
+			   property_name);
+		return;
+	}
+
+	/* And now, the actual action.  */
+	g_object_get (object, property_name, &value, NULL);
+	g_object_set (object, property_name, !value, NULL);
+}
