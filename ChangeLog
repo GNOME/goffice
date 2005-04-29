@@ -1,3 +1,7 @@
+2005-04-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-plot.c: added missing header.
+
 2005-04-29  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-glib-extras.c (go_object_toggle): New function.

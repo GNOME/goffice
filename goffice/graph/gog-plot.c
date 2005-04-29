@@ -41,6 +41,7 @@
 #include <gtk/gtkcelllayout.h>
 
 #include <gsf/gsf-impl-utils.h>
+#include <string.h>
 
 #define GOG_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_PLOT_TYPE, GogPlotClass))
 
