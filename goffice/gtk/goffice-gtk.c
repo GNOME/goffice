@@ -627,6 +627,70 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *formats,
 	return uri;
 }
 
+char *
+go_mime_to_image_format (char const *mime_type)
+{
+ 	guint i;
+	const char *suffix;
+	const char* exceptions[] = {
+		"svg+xml", "svg",
+		"x-wmf", "wmf",
+		"x-emf", "emf",
+	};
+
+	if (strncmp (mime_type, "image/", 6) != 0)
+		return NULL;
+	suffix = mime_type + 6;
+	for (i = 0; i < G_N_ELEMENTS (exceptions); i +=2)
+		if (strcmp (suffix, exceptions[i]) == 0)
+			return g_strdup (exceptions[i+1]);
+
+	return g_strdup (suffix);
+}
+
+char *
+go_image_format_to_mime (char const *format)
+{
+ 	guint i;
+	GSList *ptr, *pixbuf_fmts;
+	GdkPixbufFormat *pfmt;
+	gchar *name;
+	char *ret = NULL;
+	int cmp;
+	gchar **mimes;
+
+	const char* formats[] = {
+		"svg", "image/svg,image/svg+xml",
+		"wmf", "x-wmf",
+		"emf", "x-emf",
+	};
+	
+	if (format == NULL)
+		return NULL;
+
+	for (i = 0; i < G_N_ELEMENTS (formats); i +=2)
+		if (strcmp (format, formats[i]) == 0)
+			return g_strdup (formats[i+1]);
+
+	/* Not a format we have special knowledge about - ask gdk-pixbuf */
+	pixbuf_fmts = gdk_pixbuf_get_formats ();
+	for (ptr = pixbuf_fmts; ptr != NULL; ptr = ptr->next) {
+		pfmt = (GdkPixbufFormat *)ptr->data;
+		name = gdk_pixbuf_format_get_name (pfmt);
+		cmp = strcmp (format, name);
+		g_free (name);
+		if (cmp == 0) {
+			mimes = gdk_pixbuf_format_get_mime_types (pfmt);
+			ret = g_strjoinv (",", mimes);
+			g_strfreev (mimes);
+			break;
+		}
+	}
+	g_slist_free (pixbuf_fmts);
+
+	return ret;
+}
+
 static void
 add_atk_relation (GtkWidget *w0, GtkWidget *w1, AtkRelationType type)
 {

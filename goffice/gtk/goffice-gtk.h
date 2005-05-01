@@ -65,6 +65,8 @@ gboolean   go_gtk_file_sel_dialog	(GtkWindow *toplevel, GtkWidget *w);
 char	  *go_gtk_select_image		(GtkWindow *toplevel, const char *initial);
 char	  *gui_get_image_save_info	(GtkWindow *toplevel, GSList *formats, 
 					 GOImageType const **ret_format);
+char *go_mime_to_image_format     (char const *mime_type);
+char *go_image_format_to_mime     (char const *format);
 gboolean   go_gtk_url_is_writeable	(GtkWindow *parent, char const *url,
 					 gboolean overwrite_by_default);
 

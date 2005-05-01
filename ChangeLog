@@ -1,3 +1,9 @@
+2005-05-01  Jon K Hellan  <hellan@acm.org>
+
+	* goffice/gtk/goffice-gtk.[ch] (go_mime_to_image_format): New. Get
+	image format for mime type.
+	(go_image_format_to_mime): New. Get mime types for image format.
+
 2005-04-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-plot.c: added missing header.
