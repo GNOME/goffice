@@ -128,7 +128,6 @@ go_action_combo_pixmaps_create_tool_item (GtkAction *a)
 	go_combo_pixmaps_select_id (tool->combo, paction->selected_id);
 
 	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
-	go_combo_box_set_tearable (GO_COMBO_BOX (tool->combo), TRUE);
 	go_gtk_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));

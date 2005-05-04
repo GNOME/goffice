@@ -142,7 +142,6 @@ go_action_combo_color_create_tool_item (GtkAction *a)
 
 	go_combo_color_set_instant_apply (GO_COMBO_COLOR (tool->combo), TRUE);
 	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
-	go_combo_box_set_tearable (GO_COMBO_BOX (tool->combo), TRUE);
 	title = get_title (a);
 	go_combo_box_set_title (GO_COMBO_BOX (tool->combo), title);
 	g_free (title);

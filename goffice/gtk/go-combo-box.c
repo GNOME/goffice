@@ -37,6 +37,7 @@
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkframe.h>
 #include <gdk/gdkkeysyms.h>
+#include <glib/gi18n.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -233,6 +234,17 @@ go_combo_box_mnemonic_activate (GtkWidget *w, gboolean group_cycling)
 }
 
 static void
+go_combo_box_style_set (GtkWidget *widget,
+			G_GNUC_UNUSED GtkStyle *prev_style)
+{
+	gboolean add_tearoffs;
+	gtk_widget_style_get (widget,
+			      "add-tearoffs", &add_tearoffs,
+			      NULL);
+	go_combo_box_set_tearable (GO_COMBO_BOX (widget), add_tearoffs);
+}
+
+static void
 go_combo_box_class_init (GObjectClass *object_class)
 {
 	GtkWidgetClass *widget_class = (GtkWidgetClass *)object_class;
@@ -241,6 +253,16 @@ go_combo_box_class_init (GObjectClass *object_class)
 	object_class->finalize = go_combo_box_finalize;
 	widget_class->mnemonic_activate = go_combo_box_mnemonic_activate;
 	((GtkObjectClass *)object_class)->destroy = go_combo_box_destroy;
+
+	gtk_widget_class_install_style_property
+		(widget_class,
+		 g_param_spec_boolean ("add-tearoffs",
+				       _("Add tearoffs to menus"),
+				       _("Whether dropdowns should have a tearoff menu item"),
+				       FALSE,
+				       GSF_PARAM_STATIC | 
+				       G_PARAM_READABLE));
+	widget_class->style_set = go_combo_box_style_set;
 
 	go_combo_box_signals [POP_DOWN_DONE] = g_signal_new (
 		"pop_down_done",
@@ -289,7 +311,7 @@ go_combo_popup_tear_off (GOComboBox *combo, gboolean set_position)
 
 	if (!combo->priv->tearoff_window) {
 		GtkWidget *tearoff;
-		gchar *title;
+		const gchar *title;
 
 		/* FIXME: made this a toplevel, not a dialog ! */
 		tearoff = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -301,7 +323,7 @@ go_combo_popup_tear_off (GOComboBox *combo, gboolean set_position)
 				  G_CALLBACK (cb_combo_keypress),
 				  combo);
 		gtk_widget_realize (tearoff);
-		title = g_object_get_data (G_OBJECT (combo), "gnm-combo-title");
+		title = go_combo_box_get_title (combo);
 		if (title)
 			gdk_window_set_title (tearoff->window, title);
 		g_object_set (G_OBJECT (tearoff),
@@ -682,7 +704,10 @@ go_combo_box_construct (GOComboBox *combo,
 	gtk_box_pack_start (GTK_BOX (vbox), tearable, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), popdown_container, TRUE, TRUE, 0);
 	combo->priv->tearable = tearable;
+	g_object_set (tearable, "no-show-all", TRUE, NULL);
+
 	go_combo_box_set_tearable (combo, FALSE);
+
 	go_combo_box_set_relief (combo, GTK_RELIEF_NORMAL);
 
 	go_combo_box_set_display (combo, display_widget);
@@ -703,6 +728,8 @@ go_combo_box_construct (GOComboBox *combo,
  * I guess the tearoff window could attach a listener to title change or
  * something. But I don't think we need the functionality, so I didn't bother
  * to investigate.
+ *
+ * MW: Just make it a property.
  */
 void
 go_combo_box_set_title (GOComboBox *combo, char const *title)
@@ -712,7 +739,7 @@ go_combo_box_set_title (GOComboBox *combo, char const *title)
 
 	g_return_if_fail (klass != NULL);
 
-	g_object_set_data_full (G_OBJECT (combo), "gnm-combo-title",
+	g_object_set_data_full (G_OBJECT (combo), "go-combo-title",
 		g_strdup (title), (GDestroyNotify) g_free);
 
 	if (klass->set_title)
@@ -722,7 +749,7 @@ go_combo_box_set_title (GOComboBox *combo, char const *title)
 char const *
 go_combo_box_get_title (GOComboBox *combo)
 {
-	return g_object_get_data (G_OBJECT (combo), "gnm-combo-title");
+	return g_object_get_data (G_OBJECT (combo), "go-combo-title");
 }
 
 /**

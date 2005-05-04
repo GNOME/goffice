@@ -161,7 +161,6 @@ go_action_combo_create_tool_item (GtkAction *act)
 	g_object_set (G_OBJECT (tool), "visible-vertical", FALSE, NULL);
 
 	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
-	go_combo_box_set_tearable (GO_COMBO_BOX (tool->combo), TRUE);
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool));

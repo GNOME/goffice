@@ -37,7 +37,6 @@
 #include <gtk/gtktreeview.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
-#include <glib/gi18n.h>
 
 #include <string.h>
 #include <locale.h>
