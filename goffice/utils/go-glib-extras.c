@@ -771,3 +771,69 @@ go_object_toggle (gpointer object, const gchar *property_name)
 	g_object_get (object, property_name, &value, NULL);
 	g_object_set (object, property_name, !value, NULL);
 }
+
+/*
+ * Collect all rw properties and their values.
+ */
+GSList *
+go_object_properties_collect (GObject *obj)
+{
+	GSList *res = NULL;
+	guint n;
+	GParamSpec **pspecs =
+		g_object_class_list_properties (G_OBJECT_GET_CLASS (obj),
+						&n);
+
+	while (n--) {
+		GParamSpec *pspec = pspecs[n];
+		if ((pspec->flags & (G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY)) ==
+		    G_PARAM_READWRITE) {
+			GValue *value = g_new0 (GValue, 1);
+			g_value_init (value, G_PARAM_SPEC_VALUE_TYPE (pspec));
+			g_object_get_property (obj, pspec->name, value);
+			res = g_slist_prepend (res, value);
+			res = g_slist_prepend (res, pspec);
+		}
+	}
+
+	g_free (pspecs);
+	return res;
+}
+
+void
+go_object_properties_apply (GObject *obj, GSList *props, gboolean changed_only)
+{
+	GValue current = { 0, };
+
+	for (; props; props = props->next->next) {
+		GParamSpec *pspec = props->data;
+		const GValue *value = props->next->data;
+		gboolean doit;
+
+		if (changed_only) {
+			g_value_init (&current,
+				      G_PARAM_SPEC_VALUE_TYPE (pspec));
+			g_object_get_property (obj, pspec->name, &current);
+			doit = !g_param_values_cmp (pspec, &current, value);
+			g_value_unset (&current);
+		} else
+			doit = TRUE;
+
+		if (doit)
+			g_object_set_property (obj, pspec->name, value);
+	}
+}
+
+void
+go_object_properties_free (GSList *props)
+{
+	GSList *l;
+
+	for (l = props; l; l = l->next->next) {
+		GValue *value = l->next->data;
+		g_value_unset (value);
+		g_free (value);
+	}
+
+	g_slist_free (props);
+}

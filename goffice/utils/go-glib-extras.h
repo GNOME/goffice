@@ -4,6 +4,7 @@
 #include <goffice/utils/goffice-utils.h>
 #include <glib.h>
 #include <sys/types.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
@@ -89,8 +90,13 @@ gpointer     go_mem_chunk_alloc0	(GOMemChunk *);
 void         go_mem_chunk_free		(GOMemChunk *, gpointer);
 void         go_mem_chunk_foreach_leak	(GOMemChunk *, GFunc, gpointer);
 
-void	     go_object_toggle           (gpointer object,
-					 const gchar *property_name);
+void	go_object_toggle             (gpointer object,
+				      const gchar *property_name);
+GSList *go_object_properties_collect (GObject *obj);
+void    go_object_properties_apply   (GObject *obj,
+				      GSList *props,
+				      gboolean changed_only);
+void    go_object_properties_free    (GSList *props);
 
 G_END_DECLS
 
