@@ -814,7 +814,13 @@ go_object_properties_apply (GObject *obj, GSList *props, gboolean changed_only)
 			g_value_init (&current,
 				      G_PARAM_SPEC_VALUE_TYPE (pspec));
 			g_object_get_property (obj, pspec->name, &current);
-			doit = !g_param_values_cmp (pspec, &current, value);
+			doit = g_param_values_cmp (pspec, &current, value);
+#if 0
+			g_print ("%2d:  old: [%s]   new: [%s]\n",
+				 g_param_values_cmp (pspec, &current, value),
+				 g_strdup_value_contents (value),
+				 g_strdup_value_contents (&current));
+#endif
 			g_value_unset (&current);
 		} else
 			doit = TRUE;
