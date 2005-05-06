@@ -665,6 +665,21 @@ grid_line_render (GSList *start_ptr, GogViewAllocation const *bbox)
 }
 
 static void
+plot_render (GogView *view, GogViewAllocation const *bbox) 
+{
+	GSList *ptr;
+	GogView *child_view;
+
+	/* Render some plots before axes */
+	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
+		child_view = ptr->data;
+		if (IS_GOG_PLOT (child_view->model) && 
+		    GOG_PLOT (child_view->model)->render_before_axes)
+			gog_view_render	(ptr->data, bbox);
+	}
+}
+
+static void
 gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GSList *ptr;
@@ -678,9 +693,14 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 		child_view = ptr->data;
 		if (!grid_line_rendered && IS_GOG_AXIS (child_view->model)) {
 			grid_line_render (ptr, bbox);
+			plot_render (view, bbox);
 			grid_line_rendered = TRUE;
 		}
-		gog_view_render	(ptr->data, bbox);
+		if (IS_GOG_PLOT (child_view->model)) {
+		    if (!GOG_PLOT (child_view->model)->render_before_axes)
+			gog_view_render	(ptr->data, bbox);
+		} else
+			gog_view_render	(ptr->data, bbox);
 	}
 
 }

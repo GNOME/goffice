@@ -210,6 +210,7 @@ gog_area_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	 */
 	return N_("PlotArea");
 }
+
 static void
 gog_area_plot_class_init (GogObjectClass *gog_klass)
 {
@@ -220,8 +221,15 @@ gog_area_plot_class_init (GogObjectClass *gog_klass)
 
 	gog_klass->type_name	= gog_area_plot_type_name;
 }
+
+static void
+gog_area_plot_init (GogPlot *plot)
+{
+	plot->render_before_axes = TRUE;
+}
+
 GSF_CLASS (GogAreaPlot, gog_area_plot,
-	   gog_area_plot_class_init, NULL,
+	   gog_area_plot_class_init, gog_area_plot_init,
 	   GOG_LINE_PLOT_TYPE)
 
 /*****************************************************************************/

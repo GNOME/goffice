@@ -286,8 +286,15 @@ gog_radar_area_plot_class_init (GogObjectClass *gog_klass)
 
 	gog_klass->type_name	= gog_radar_area_plot_type_name;
 }
+
+static void
+gog_radar_area_plot_init (GogPlot *plot) 
+{
+	plot->render_before_axes = TRUE;
+}
+	
 GSF_CLASS (GogRadarAreaPlot, gog_radar_area_plot,
-	   gog_radar_area_plot_class_init, NULL,
+	   gog_radar_area_plot_class_init, gog_radar_area_plot_init,
 	   GOG_RADAR_PLOT_TYPE)
 
 /*****************************************************************************/

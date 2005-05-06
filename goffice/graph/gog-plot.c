@@ -351,6 +351,7 @@ gog_plot_init (GogPlot *plot, GogPlotClass const *derived_plot_klass)
 	plot->desc = derived_plot_klass->desc;
 	/* start as true so that we can queue an update when it changes */
 	plot->cardinality_valid = TRUE;
+	plot->render_before_axes = FALSE;
 }
 
 GSF_CLASS_ABSTRACT (GogPlot, gog_plot,

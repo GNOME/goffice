@@ -500,6 +500,8 @@ gog_contour_plot_class_init (GogContourPlotClass *klass)
 static void
 gog_contour_plot_init (GogContourPlot *contour)
 {
+	GogPlot *plot = GOG_PLOT (contour);
+
 	contour->rows = contour->columns = 0;
 	contour->transposed = FALSE;
 	contour->base.vary_style_by_element = TRUE;
@@ -507,6 +509,8 @@ gog_contour_plot_init (GogContourPlot *contour)
 		= contour->y.maxima = contour->z.minima = contour->z.maxima = go_nan;
 	contour->x.fmt = contour->y.fmt = contour->z.fmt = NULL;
 	contour->plotted_data = NULL;
+
+	plot->render_before_axes = TRUE;
 }
 
 GSF_CLASS (GogContourPlot, gog_contour_plot,

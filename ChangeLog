@@ -1,3 +1,15 @@
+2005-05-06  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-chart.c (plot_render): new.
+	(gog_chart_view_render): render plot marked with render_before_axes
+	before axes, but after grid and background.
+	* goffice/graph/gog-plot.c (gog_plot_init): default render_before_axes
+	to FALSE.
+	* plugings/plot_barcol/gog-line.c (gog_area_plot_init):
+	render_before_axes = TRUE.
+	* plugins/plot_radar/gog-radar.c (gog_radar_area_plot_init): ditto.
+	* plugins/plot_surface/gog-surface.c (gog_contour_plot_init): ditto.
+
 2005-05-05  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-glib-extras.c (go_object_properties_free,
