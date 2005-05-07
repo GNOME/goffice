@@ -178,6 +178,8 @@ create_color_sel (GObject *action_proxy, GOColor c, GCallback handler, gboolean 
 	gtk_color_selection_set_current_color (colorsel,
 		go_color_to_gdk (c, &gdk));
 	gtk_color_selection_set_has_opacity_control (colorsel, allow_alpha);
+	if (allow_alpha)
+		gtk_color_selection_set_current_alpha (colorsel, UINT_RGBA_A(c) * 257);
 
 	g_signal_connect_object (dialog,
 		"response", handler, action_proxy, 0);

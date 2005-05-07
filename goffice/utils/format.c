@@ -183,7 +183,7 @@ char const * const month_long [] = {
 static GOColor lookup_color (char const *str, char const *end);
 
 char const *
-gnm_setlocale (int category, char const *val)
+go_setlocale (int category, char const *val)
 {
 	locale_info_cached = FALSE;
 	date_order_cached = FALSE;
@@ -368,13 +368,13 @@ format_boolean (gboolean b)
 }
 
 /**
- * gnm_set_untranslated_bools :
+ * go_set_untranslated_bools :
  * 
  * Short circuit the current locale so that we can import files
  * and still produce error messages in the current LC_MESSAGE
  **/
 void
-gnm_set_untranslated_bools (void)
+go_set_untranslated_bools (void)
 {
 	lc_TRUE = "TRUE";
 	lc_FALSE = "FALSE";

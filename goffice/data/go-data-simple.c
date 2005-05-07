@@ -21,6 +21,7 @@
 #include <goffice/goffice-config.h>
 #include "go-data-simple.h"
 #include "go-data-impl.h"
+#include <goffice/utils/format.h>
 #include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -269,7 +270,8 @@ go_data_scalar_str_set_str (GODataScalarStr *str,
 struct _GODataVectorVal {
 	GODataVector	 base;
 	unsigned	 n;
-	double const	*val;
+	double *val;
+	GDestroyNotify notify;
 };
 typedef GODataVectorClass GODataVectorValClass;
 
@@ -278,7 +280,9 @@ static GObjectClass *vector_val_parent_klass;
 static void
 go_data_vector_val_finalize (GObject *obj)
 {
-	/* GODataVectorVal *val = (GODataVectorVal *)obj; */
+	GODataVectorVal *vec = (GODataVectorVal *)obj;
+	if (vec->notify && vec->val)
+		(*vec->notify) (vec->val);
 
 	(*vector_val_parent_klass->finalize) (obj);
 }
@@ -288,7 +292,12 @@ go_data_vector_val_dup (GOData const *src)
 {
 	GODataVectorVal *dst = g_object_new (G_OBJECT_TYPE (src), NULL);
 	GODataVectorVal const *src_val = (GODataVectorVal const *)src;
-	dst->val = src_val->val;
+	if (src_val->notify) {
+		dst->val = g_new (double, src_val->n);
+		memcpy (dst->val, src_val->val, src_val->n * sizeof (double));
+		dst->notify = g_free;
+	} else
+		dst->val = src_val->val;
 	dst->n = src_val->n;
 	return GO_DATA (dst);
 }
@@ -340,6 +349,63 @@ go_data_vector_val_get_str (GODataVector *vec, unsigned i)
 	return g_strdup_printf ("%g", vec->values[i]);
 }
 
+static char *
+go_data_vector_val_as_str (GOData const *dat)
+{
+	GODataVectorVal *vec = GO_DATA_VECTOR_VAL (dat);
+	GString *str;
+	char sep, sz[G_ASCII_DTOSTR_BUF_SIZE];
+	unsigned i;
+	if (vec->n ==0)
+		return g_strdup ("");
+	sep = format_get_arg_sep ();
+	g_ascii_dtostr (sz, sizeof (sz), vec->val[0]);
+	str = g_string_new (sz);
+	for (i = 1; i < vec->n; i++) {
+		g_string_append_c (str, sep);
+		g_ascii_dtostr (sz, sizeof (sz), vec->val[i]);
+		g_string_append (str, sz);
+	}
+	return g_string_free (str, FALSE);
+}
+
+static gboolean
+go_data_vector_val_from_str (GOData *dat, char const *str)
+{
+	GODataVectorVal *vec = GO_DATA_VECTOR_VAL (dat);
+	char sep, *end = (char*) str;
+	double val;
+	GArray *values;
+	g_return_val_if_fail (str != NULL, TRUE);
+	values = g_array_sized_new (FALSE, FALSE, sizeof(double), 16);
+	sep = format_get_arg_sep ();
+	if (vec->notify && vec->val)
+		(*vec->notify) (vec->val);
+	vec->val = NULL;
+	vec->n = 0;
+	vec->notify = (GDestroyNotify) g_free;
+	while (1) {
+		val = g_ascii_strtod (end, &end);
+		g_array_append_val (values, val);
+		if (*end) {
+			if (*end != sep) {
+				g_array_free (values, TRUE);
+				return FALSE;
+			}
+			end++;
+		} else
+			break;
+	}
+	if (values->len == 0) {
+		g_array_free (values, TRUE);
+		return TRUE;
+	}
+	vec->n = values->len;
+	vec->val = (double*) values->data;
+	g_array_free (values, FALSE);
+	return TRUE;
+}
+
 static void
 go_data_vector_val_class_init (GObjectClass *gobject_klass)
 {
@@ -350,8 +416,8 @@ go_data_vector_val_class_init (GObjectClass *gobject_klass)
 	gobject_klass->finalize = go_data_vector_val_finalize;
 	godata_klass->dup	= go_data_vector_val_dup;
 	godata_klass->eq	= go_data_vector_val_eq;
-	godata_klass->as_str	= NULL;
-	godata_klass->from_str	= NULL;
+	godata_klass->as_str	= go_data_vector_val_as_str;
+	godata_klass->from_str	= go_data_vector_val_from_str;
 	vector_klass->load_len    = go_data_vector_val_load_len;
 	vector_klass->load_values = go_data_vector_val_load_values;
 	vector_klass->get_value   = go_data_vector_val_get_value;
@@ -363,11 +429,12 @@ GSF_CLASS (GODataVectorVal, go_data_vector_val,
 	   GO_DATA_VECTOR_TYPE)
 
 GOData *
-go_data_vector_val_new (double const *val, unsigned n)
+go_data_vector_val_new (double *val, unsigned n, GDestroyNotify notify)
 {
 	GODataVectorVal *res = g_object_new (GO_DATA_VECTOR_VAL_TYPE, NULL);
 	res->val = val;
 	res->n = n;
+	res->notify = notify;
 	return GO_DATA (res);
 }
 
@@ -375,8 +442,9 @@ go_data_vector_val_new (double const *val, unsigned n)
 
 struct _GODataVectorStr {
 	GODataVector	 base;
-	char const * const *str;
+	char **str;
 	unsigned n;
+	GDestroyNotify notify;   
 
 	GOTranslateFunc translate_func;
 	gpointer        translate_data;
@@ -387,9 +455,24 @@ typedef GODataVectorClass GODataVectorStrClass;
 static GObjectClass *vector_str_parent_klass;
 
 static void
+cb_strings_destroy_notify (gpointer data)
+{
+	char **str = (char **) data;
+	unsigned i = 0;
+	while (str[i] != NULL)
+		g_free (str[i++]);
+	g_free (str);
+}
+
+static void
 go_data_vector_str_finalize (GObject *obj)
 {
-	/* GODataVectorStr *str = (GODataVectorStr *)obj; */
+	GODataVectorStr *str = (GODataVectorStr *)obj;
+	if (str->notify && str->str != NULL)
+		(*str->notify) (str->str);
+
+	if (str->translate_notify != NULL)
+		(*str->translate_notify) (str->translate_data);
 
 	(*vector_str_parent_klass->finalize) (obj);
 }
@@ -400,7 +483,15 @@ go_data_vector_str_dup (GOData const *src)
 	GODataVectorStr *dst = g_object_new (G_OBJECT_TYPE (src), NULL);
 	GODataVectorStr const *src_val = (GODataVectorStr const *)src;
 	dst->n = src_val->n;
-	dst->str = src_val->str;
+	if (src_val->notify) {
+		unsigned i;
+		dst->str = g_new (char*, src_val->n + 1);
+		for (i = 0; i < src_val->n; i++)
+			dst->str[i] = g_strdup (src_val->str[i]);
+		dst->str[src_val->n] = NULL;
+		dst->notify = cb_strings_destroy_notify;
+	} else
+		dst->str = src_val->str;
 	return GO_DATA (dst);
 }
 
@@ -410,6 +501,95 @@ go_data_vector_str_eq (GOData const *a, GOData const *b)
 	GODataVectorStr const *str_a = (GODataVectorStr const *)a;
 	GODataVectorStr const *str_b = (GODataVectorStr const *)b;
 	return str_a->str == str_b->str && str_a->n == str_b->n;
+}
+
+static char *
+go_data_vector_str_as_str (GOData const *dat)
+{
+	GODataVectorStr *vec = GO_DATA_VECTOR_STR (dat);
+	GString *str;
+	char sep;
+	unsigned i;
+	sep = format_get_arg_sep ();
+	if (vec->n ==0)
+		return g_strdup ("");
+	str = g_string_new ("");
+	g_string_append_c (str, '\"');
+	g_string_append (str, vec->str[0]);
+	g_string_append_c (str, '\"');
+	for (i = 1; i < vec->n; i++) {
+		g_string_append_c (str, sep);
+		g_string_append_c (str, '\"');
+		g_string_append (str, vec->str[i]);
+		g_string_append_c (str, '\"');
+	}
+	return g_string_free (str, FALSE);
+}
+
+static gboolean
+go_data_vector_str_from_str (GOData *dat, char const *str)
+{
+	GODataVectorStr *vec = GO_DATA_VECTOR_STR (dat);
+	char sep, *cur = (char*) str, *end, *val;
+	GArray *values;
+	g_return_val_if_fail (str != NULL, TRUE);
+	values = g_array_sized_new (FALSE, FALSE, sizeof(char*), 16);
+	/* A dirty workaround to know what should be the separator in the current locale */
+	sep = format_get_arg_sep ();
+	if (vec->notify && vec->str)
+		(*vec->notify) (vec->str);
+	vec->str = NULL;
+	vec->n = 0;
+	vec->notify = cb_strings_destroy_notify;
+	while (*cur) {
+		if (*cur == '\"') {
+			cur++;
+			end = strchr (cur, '\"');
+			if (end == NULL) {
+				g_array_free (values, TRUE);
+				return FALSE;
+			}
+			val = g_strndup (cur, end - cur);
+			g_array_append_val (values, val);
+			if (end[1] == 0)
+				break;
+			if (end[1] != sep) {
+				g_array_free (values, TRUE);
+				return FALSE;
+			}
+			cur = end + 2;
+		} else {
+			/* the string is not quotes delimited */
+			end = strchr (cur, sep);
+			if (end == NULL) {
+				if (strchr (cur, '\"')) {
+					/* string containg quotes are not allowed */
+					g_array_free (values, TRUE);
+					return FALSE;
+				}
+				val = g_strdup (cur);
+				g_array_append_val (values, val);
+				break;
+			}
+			val = g_strndup (cur, end - cur);
+			g_array_append_val (values, val);
+			if (strchr (val, '\"')) {
+				/* string containg quotes are not allowed */
+				g_array_free (values, TRUE);
+				return FALSE;
+			}					
+		}
+	}
+	if (values->len == 0) {
+		g_array_free (values, TRUE);
+		return TRUE;
+	}
+	val = NULL;
+	g_array_append_val (values, val);
+	vec->n = values->len;
+	vec->str = (char**) values->data;
+	g_array_free (values, FALSE);
+	return TRUE;
 }
 
 static void
@@ -447,8 +627,8 @@ go_data_vector_str_class_init (GObjectClass *gobject_klass)
 	gobject_klass->finalize	= go_data_vector_str_finalize;
 	godata_klass->dup	= go_data_vector_str_dup;
 	godata_klass->eq	= go_data_vector_str_eq;
-	godata_klass->as_str	= NULL;
-	godata_klass->from_str	= NULL;
+	godata_klass->as_str	= go_data_vector_str_as_str;
+	godata_klass->from_str	= go_data_vector_str_from_str;
 	vector_klass->load_len    = go_data_vector_str_load_len;
 	vector_klass->load_values = go_data_vector_str_load_values;
 	vector_klass->get_value   = go_data_vector_str_get_value;
@@ -461,6 +641,7 @@ go_data_vector_str_init (GObject *obj)
 	GODataVectorStr *str = (GODataVectorStr *)obj;
 	str->str = NULL;
 	str->n = 0;
+	str->notify = NULL;
 	str->translate_func = NULL;
 	str->translate_data = NULL;
 	str->translate_notify = NULL;
@@ -471,11 +652,12 @@ GSF_CLASS (GODataVectorStr, go_data_vector_str,
 	   GO_DATA_VECTOR_TYPE)
 
 GOData *
-go_data_vector_str_new (char const * const *str, unsigned n)
+go_data_vector_str_new (char **str, unsigned n, GDestroyNotify   notify)
 {
 	GODataVectorStr *res = g_object_new (GO_DATA_VECTOR_STR_TYPE, NULL);
 	res->str = str;
 	res->n	 = n;
+	res->notify = notify;
 	return GO_DATA (res);
 }
 
@@ -534,4 +716,213 @@ go_data_vector_str_set_translation_domain (GODataVectorStr *vec,
 
 	go_data_vector_str_set_translate_func (vec, 
 		(GOTranslateFunc)dgettext_swapped, g_strdup (domain), g_free);
+}
+/*****************************************************************************/
+
+struct _GODataMatrixVal {
+	GODataMatrix	 base;
+	GODataMatrixSize size;
+	double *val;
+	GDestroyNotify notify;
+};
+
+typedef GODataMatrixClass GODataMatrixValClass;
+
+static GObjectClass *matrix_val_parent_klass;
+
+static void
+go_data_matrix_val_finalize (GObject *obj)
+{
+	GODataMatrixVal *mat = (GODataMatrixVal *)obj;
+	if (mat->notify && mat->val)
+		(*mat->notify) (mat->val);
+
+	(*matrix_val_parent_klass->finalize) (obj);
+}
+
+static GOData *
+go_data_matrix_val_dup (GOData const *src)
+{
+	GODataMatrixVal *dst = g_object_new (G_OBJECT_TYPE (src), NULL);
+	GODataMatrixVal const *src_val = (GODataMatrixVal const *)src;
+	if (src_val->notify) {
+		dst->val = g_new (double, src_val->size.rows * src_val->size.columns);
+		memcpy (dst->val, src_val->val, src_val->size.rows * src_val->size.columns * sizeof (double));
+		dst->notify = g_free;
+	} else
+		dst->val = src_val->val;
+	dst->size = src_val->size;
+	return GO_DATA (dst);
+}
+
+static gboolean
+go_data_matrix_val_eq (GOData const *a, GOData const *b)
+{
+	GODataMatrixVal const *val_a = (GODataMatrixVal const *)a;
+	GODataMatrixVal const *val_b = (GODataMatrixVal const *)b;
+
+	/* GOData::eq is used for identity, not arithmetic */
+	return val_a->val == val_b->val &&
+			val_a->size.rows == val_b->size.rows &&
+			val_a->size.columns == val_b->size.columns;
+}
+
+static void
+go_data_matrix_val_load_size (GODataMatrix *mat)
+{
+	mat->base.flags |= GO_DATA_MATRIX_SIZE_CACHED;
+	mat->size = ((GODataMatrixVal *)mat)->size;
+}
+
+static void
+go_data_matrix_val_load_values (GODataMatrix *mat)
+{
+	GODataMatrixVal const *val = (GODataMatrixVal const *)mat;
+	double minimum = DBL_MAX, maximum = -DBL_MAX;
+	int i = val->size.rows * val->size.columns;
+
+	mat->values = (double *)val->val;
+
+	while (i-- > 0) {
+		if (minimum > val->val[i])
+			minimum = val->val[i];
+		if (maximum < val->val[i])
+			maximum = val->val[i];
+	}
+	mat->minimum = minimum;
+	mat->maximum = maximum;
+	mat->base.flags |= GO_DATA_CACHE_IS_VALID;
+}
+
+static double
+go_data_matrix_val_get_value (GODataMatrix *mat, unsigned i, unsigned j)
+{
+	return mat->values[i * mat->size.columns + j];
+}
+
+static char *
+go_data_matrix_val_get_str (GODataMatrix *mat, unsigned i, unsigned j)
+{
+	return g_strdup_printf ("%g", mat->values[i * mat->size.columns + j]);
+}
+
+static char *
+go_data_matrix_val_as_str (GOData const *dat)
+{
+	GODataMatrixVal *mat = GO_DATA_MATRIX_VAL (dat);
+	GString *str;
+	char sep, col_sep, sz[G_ASCII_DTOSTR_BUF_SIZE];
+	int i, j;
+	if (mat->size.rows ==0 || mat->size.columns)
+		return g_strdup ("");
+	sep = format_get_arg_sep ();
+	col_sep = format_get_col_sep ();
+	g_ascii_dtostr (sz, sizeof (sz), mat->val[0]);
+	str = g_string_new (sz);
+	for (j = 1; j < mat->size.columns; j++) {
+		g_string_append_c (str, col_sep);
+		g_ascii_dtostr (sz, sizeof (sz), mat->val[j]);
+		g_string_append (str, sz);
+	}
+	for (i = 1; i < mat->size.rows; i++) {
+		g_string_append_c (str, sep);
+		g_ascii_dtostr (sz, sizeof (sz), mat->val[i * mat->size.columns]);
+		for (j = 1; j < mat->size.columns; j++) {
+			g_string_append_c (str, col_sep);
+			g_ascii_dtostr (sz, sizeof (sz), mat->val[i * mat->size.columns + j]);
+			g_string_append (str, sz);
+		}
+	}
+	return g_string_free (str, FALSE);
+}
+
+static gboolean
+go_data_matrix_val_from_str (GOData *dat, char const *str)
+{
+	GODataMatrixVal *mat = GO_DATA_MATRIX_VAL (dat);
+	char sep, col_sep, *end = (char*) str;
+	int i, j, columns;
+	double val;
+	GArray *values;
+	g_return_val_if_fail (str != NULL, TRUE);
+	values = g_array_sized_new (FALSE, FALSE, sizeof(double), 16);
+	sep = format_get_arg_sep ();
+	col_sep = format_get_col_sep ();
+	i = j = columns = 0;
+	if (mat->notify && mat->val)
+		(*mat->notify) (mat->val);
+	mat->val = NULL;
+	mat->size.rows = 0;
+	mat->size.columns = 0;
+	mat->notify = g_free;
+	while (1) {
+		val = g_ascii_strtod (end, &end);
+		g_array_append_val (values, val);
+		if (*end) {
+			if (*end == col_sep)
+				j++;
+			else if (*end == sep) {
+				if (columns > 0) {
+					if (j == columns) {
+						i++;
+						j = 0;
+					} else {
+						g_array_free (values, TRUE);
+						return FALSE;
+					}
+				}
+			} else {
+				g_array_free (values, TRUE);
+				return FALSE;
+			}
+			end++;
+		} else
+			break;
+	}
+	if (j != columns) {
+		g_array_free (values, TRUE);
+		return FALSE;
+	}
+	if (columns == 0) {
+		g_array_free (values, TRUE);
+		return TRUE;
+	}
+	mat->size.columns = columns;
+	mat->size.rows = i + 1;
+	mat->val = (double*) values->data;
+	g_array_free (values, FALSE);
+	return TRUE;
+}
+
+static void
+go_data_matrix_val_class_init (GObjectClass *gobject_klass)
+{
+	GODataClass *godata_klass = (GODataClass *) gobject_klass;
+	GODataMatrixClass *matrix_klass = (GODataMatrixClass *) gobject_klass;
+
+	matrix_val_parent_klass = g_type_class_peek_parent (gobject_klass);
+	gobject_klass->finalize = go_data_matrix_val_finalize;
+	godata_klass->dup	= go_data_matrix_val_dup;
+	godata_klass->eq	= go_data_matrix_val_eq;
+	godata_klass->as_str	= go_data_matrix_val_as_str;
+	godata_klass->from_str	= go_data_matrix_val_from_str;
+	matrix_klass->load_size    = go_data_matrix_val_load_size;
+	matrix_klass->load_values = go_data_matrix_val_load_values;
+	matrix_klass->get_value   = go_data_matrix_val_get_value;
+	matrix_klass->get_str     = go_data_matrix_val_get_str;
+}
+
+GSF_CLASS (GODataMatrixVal, go_data_matrix_val,
+	   go_data_matrix_val_class_init, NULL,
+	   GO_DATA_MATRIX_TYPE)
+
+GOData *
+go_data_matrix_val_new (double *val, unsigned rows, unsigned columns, GDestroyNotify   notify)
+{
+	GODataMatrixVal *res = g_object_new (GO_DATA_MATRIX_VAL_TYPE, NULL);
+	res->val = val;
+	res->size.rows = rows;
+	res->size.columns = columns;
+	res->notify = notify;
+	return GO_DATA (res);
 }

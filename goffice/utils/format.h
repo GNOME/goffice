@@ -109,8 +109,8 @@ void go_render_numberl (GString *result, long double number, format_info_t const
 #endif
 
 /* Locale support routines */
-void	       gnm_set_untranslated_bools (void);
-char const *   gnm_setlocale           (int category, char const *val);
+void	       go_set_untranslated_bools (void);
+char const *   go_setlocale           (int category, char const *val);
 GString const *format_get_currency     (gboolean *precedes, gboolean *space_sep);
 gboolean       format_month_before_day (void);
 char           format_get_arg_sep      (void);

@@ -388,13 +388,13 @@ go_data_matrix_get_values (GODataMatrix *mat)
 double
 go_data_matrix_get_value (GODataMatrix *mat, unsigned i, unsigned j)
 {
+	g_return_val_if_fail (((int)i < mat->size.rows) && ((int)j < mat->size.columns), go_nan);
 	if (! (mat->base.flags & GO_DATA_CACHE_IS_VALID)) {
 		GODataMatrixClass const *klass = GO_DATA_MATRIX_GET_CLASS (mat);
 		g_return_val_if_fail (klass != NULL, go_nan);
 		return (*klass->get_value) (mat, i, j);
 	}
 
-	g_return_val_if_fail (((int)i < mat->size.rows) && ((int)j < mat->size.columns), go_nan);
 	return mat->values[i * mat->size.columns + j];
 }
 
@@ -405,6 +405,7 @@ go_data_matrix_get_str (GODataMatrix *mat, unsigned i, unsigned j)
 	char *res;
 
 	g_return_val_if_fail (klass != NULL, NULL);
+	g_return_val_if_fail (((int)i < mat->size.rows) && ((int)j < mat->size.columns), g_strdup (""));
 
 	res = (*klass->get_str) (mat, i, j);
 	if (res == NULL)
