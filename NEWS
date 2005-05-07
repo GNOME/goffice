@@ -17,5 +17,6 @@ Morten:
 	* Fix various old number rendering bugs.  [#170000]
 	* Update to PCRE 5.0
 	* Give GOComboBox a themable add-tearoffs style.
+	* Fix icon sizes in color action combos.  [#302880]
 
 --------------------------------------------------------------------------

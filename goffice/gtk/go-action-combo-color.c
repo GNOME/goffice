@@ -28,8 +28,10 @@
 #include <gtk/gtkaction.h>
 #include <gtk/gtktoolitem.h>
 #include <gtk/gtkicontheme.h>
+#include <gtk/gtkiconfactory.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkimage.h>
+#include <gtk/gtktoolbar.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n.h>
@@ -61,6 +63,33 @@ go_tool_combo_color_class_init (GtkToolItemClass *tool_item_class)
 	tool_item_class->set_tooltip = go_tool_combo_color_set_tooltip;
 }
 
+static GdkPixbuf *
+make_icon (GtkAction *a, GtkWidget *tool)
+{
+	GtkIconSize size;
+	gint pixels = 8;
+	char *stock_id;
+	GdkPixbuf *icon;
+	GtkSettings *settings = gtk_widget_get_settings (tool);
+
+	if (tool->parent)
+		size = gtk_toolbar_get_icon_size (GTK_TOOLBAR (tool->parent));
+	else
+		g_object_get (settings,
+			      "gtk-toolbar-icon-size", &size,
+			      NULL);
+	gtk_icon_size_lookup_for_settings (settings, size,
+					   &pixels, NULL);
+	g_object_get (a, "stock-id", &stock_id, NULL);
+	icon = gtk_icon_theme_load_icon (
+		gtk_icon_theme_get_default (),
+		stock_id, pixels, 0, NULL);
+	g_free (stock_id);
+
+	return icon;
+}
+
+
 static GSF_CLASS (GOToolComboColor, go_tool_combo_color,
 	   go_tool_combo_color_class_init, NULL,
 	   GTK_TYPE_TOOL_ITEM)
@@ -69,7 +98,6 @@ static GSF_CLASS (GOToolComboColor, go_tool_combo_color,
 
 struct _GOActionComboColor {
 	GtkAction	 base;
-	GdkPixbuf	*icon;
 	GOColorGroup 	*color_group;
 	char const 	*default_val_label;
 	GOColor		 default_val, current_color;
@@ -93,8 +121,10 @@ go_action_combo_color_connect_proxy (GtkAction *a, GtkWidget *proxy)
 	GTK_ACTION_CLASS (combo_color_parent)->connect_proxy (a, proxy);
 
 	if (GTK_IS_IMAGE_MENU_ITEM (proxy)) { /* set the icon */
-		GOActionComboColor *caction = (GOActionComboColor *)a;
-		GtkWidget *image = gtk_image_new_from_pixbuf (caction->icon);
+		GdkPixbuf *icon = make_icon (a, proxy);
+		GtkWidget *image = gtk_image_new_from_pixbuf (icon);
+		g_object_unref (icon);
+
 		gtk_widget_show (image);
 		gtk_image_menu_item_set_image (
 			GTK_IMAGE_MENU_ITEM (proxy), image);
@@ -136,7 +166,11 @@ go_action_combo_color_create_tool_item (GtkAction *a)
 	GOToolComboColor *tool = g_object_new (GO_TOOL_COMBO_COLOR_TYPE, NULL);
 	char *title;
 
-	tool->combo = (GOComboColor *)go_combo_color_new (caction->icon,
+	/* FIXME: We probably should re-do this when tool changes screen or
+	   parent.  */
+	GdkPixbuf *icon = make_icon (a, GTK_WIDGET (tool));
+
+	tool->combo = (GOComboColor *)go_combo_color_new (icon,
 		caction->default_val_label, caction->default_val,
 		caction->color_group);
 
@@ -184,8 +218,6 @@ static void
 go_action_combo_color_finalize (GObject *obj)
 {
 	GOActionComboColor *color = (GOActionComboColor *)obj;
-	if (color->icon != NULL)
-		g_object_unref (color->icon);
 	if (color->color_group != NULL)
 		g_object_unref (color->color_group);
 
@@ -229,9 +261,6 @@ go_action_combo_color_new (char const  *action_name,
 					   "name", action_name,
 					   "stock-id", stock_id,
 					   NULL);
-	res->icon = gtk_icon_theme_load_icon (
-		gtk_icon_theme_get_default (),
-		stock_id, 24, 0, NULL);
 	res->color_group = go_color_group_fetch (action_name, group_key);
 	res->default_val_label = g_strdup (default_color_label);
 	res->current_color = res->default_val = default_color;

@@ -335,8 +335,8 @@ go_combo_color_set_color_to_default (GOComboColor *cc)
  */
 GtkWidget *
 go_combo_color_new (GdkPixbuf *icon, char const *no_color_label,
-		 GOColor default_color,
-		 GOColorGroup *color_group)
+		    GOColor default_color,
+		    GOColorGroup *color_group)
 {
 	GOColor     color;
 	gboolean    is_default;
