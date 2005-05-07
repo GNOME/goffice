@@ -140,9 +140,9 @@ xml_node_set_double (xmlNodePtr node, char const *name, double val,
 		precision = DBL_DIG;
 
 	if (fabs (val) < 1e9 && fabs (val) > 1e-5)
-		snprintf (str, 100 + DBL_DIG, "%.*g", precision, val);
+		g_snprintf (str, 100 + DBL_DIG, "%.*g", precision, val);
 	else
-		snprintf (str, 100 + DBL_DIG, "%f", val);
+		g_snprintf (str, 100 + DBL_DIG, "%f", val);
 
 	xml_node_set_cstr (node, name, str);
 }

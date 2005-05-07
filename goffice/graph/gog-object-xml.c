@@ -368,7 +368,7 @@ gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output)
 			continue;
 
 		gsf_xml_out_start_element (output, "dimension");
-		snprintf (buffer, sizeof buffer, "%d", i);
+		g_snprintf (buffer, sizeof buffer, "%d", i);
 		gsf_xml_out_add_cstr (output, "id", buffer);
 		gsf_xml_out_add_cstr (output, "type", 
 			G_OBJECT_TYPE_NAME (dat));
@@ -400,7 +400,7 @@ gog_dataset_dom_save (GogDataset *set, xmlNode *parent)
 			(xmlChar const *) ("dimension"), tmp);
 		g_free (tmp);
 
-		snprintf (buffer, sizeof buffer, "%d", i);
+		g_snprintf (buffer, sizeof buffer, "%d", i);
 		xmlSetProp (child, (xmlChar const *) "id", buffer);
 		xmlSetProp (child, (xmlChar const *) "type",
 			G_OBJECT_TYPE_NAME (dat));

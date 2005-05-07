@@ -1,3 +1,10 @@
+2005-05-07  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-object-xml.c (gog_dataset_sax_save) : use
+	  g_snprintf it is more portable.
+	(gog_dataset_dom_save) : ditto.
+	* goffice/utils/go-libxml-extras.c (xml_node_set_double) : ditto.
+
 2005-05-06  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-chart.c (plot_render): new.
@@ -22,6 +29,10 @@
 	function.
 	(go_combo_box_class_init): Hook up go_combo_box_style_set and
 	define add-tearoffs widget style property.
+
+2005-05-04  Jody Goldberg <jody@gnome.org>
+
+	* goffice/app/go-plugin-service.c (plugin_service_new) : minor leak.
 
 2005-05-01  Jon K Hellan  <hellan@acm.org>
 
