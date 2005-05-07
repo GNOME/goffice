@@ -837,11 +837,19 @@ marker_init (StylePrefState *state, gboolean enable)
 /************************************************************************/
 
 static void
-cb_font_changed (GOFontSel *fs, G_GNUC_UNUSED gpointer mstyle,
+cb_font_changed (GOFontSel *fs, PangoAttrList *list,
 		 StylePrefState *state)
 {
-	gog_style_set_font (state->style,
-		go_font_sel_get_font (fs));
+	PangoAttrIterator *iter = pango_attr_list_get_iterator (list);
+	PangoFontDescription *desc = pango_font_description_new ();
+	GSList *extra_attrs;
+	pango_attr_iterator_get_font (iter, desc, NULL, &extra_attrs);
+	GOFont *font = go_font_new_by_desc (desc);
+#warning "we should do something for extra attributes"
+	g_slist_foreach (extra_attrs, pango_attribute_destroy, NULL);
+	g_slist_free (extra_attrs);
+	pango_attr_iterator_destroy (iter);
+	gog_style_set_font (state->style, font);
 	set_style (state);
 }
 

@@ -201,9 +201,9 @@ style_selected (GtkTreeSelection *selection,
 		gtk_tree_path_free (path);
 		gtk_entry_set_text (GTK_ENTRY (gfs->font_style_entry), _(styles[row]));
 		go_font_sel_add_attr (gfs,
-			pango_attr_weight_new ((row == 0 || row == 3)
+			pango_attr_weight_new ((row == 1 || row == 2)
 				?  PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL),
-			pango_attr_style_new ((row == 1 || row == 3)
+			pango_attr_style_new ((row == 2 || row == 3)
 				? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
 		go_font_sel_emit_changed (gfs);
 	}
@@ -514,6 +514,7 @@ go_font_sel_set_style (GOFontSel *gfs, gboolean is_bold, gboolean is_italic)
 	go_font_sel_add_attr (gfs, 
 		pango_attr_weight_new (is_bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL),
 		pango_attr_style_new (is_italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
+#warning "Do we really need the following line?"
 	go_font_sel_emit_changed (gfs);
 }
 

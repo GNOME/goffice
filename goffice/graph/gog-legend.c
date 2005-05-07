@@ -307,6 +307,8 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	GogView  const   *v = dat->view;
 	GogStyle *style = NULL;
 	GogViewAllocation pos;
+	GogStyledObject *obj = GOG_STYLED_OBJECT (dat->view->model);
+	GogStyle *legend_style = obj->style;
 	
 	swatch.y += i * dat->step;
 	/* Allow for floating point inaccuracy */
@@ -332,6 +334,8 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	pos.x = swatch.x + dat->label_offset;
 	pos.y = swatch.y;
 	pos.h = pos.w = -1;
+	gog_renderer_pop_style (v->renderer);
+	gog_renderer_push_style (v->renderer, legend_style);
 	gog_renderer_draw_text (v->renderer, name, &pos, GTK_ANCHOR_NW, NULL);
 
 	gog_renderer_pop_style (v->renderer);
