@@ -1,3 +1,34 @@
+2005-05-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data-simple.c: (go_data_vector_val_finalize),
+	(go_data_vector_val_dup), (go_data_vector_val_as_str),
+	(go_data_vector_val_from_str), (go_data_vector_val_class_init),
+	(go_data_vector_val_new), (cb_strings_destroy_notify),
+	(go_data_vector_str_finalize), (go_data_vector_str_dup),
+	(go_data_vector_str_as_str), (go_data_vector_str_from_str),
+	(go_data_vector_str_class_init), (go_data_vector_str_init),
+	(go_data_vector_str_new),
+	(go_data_vector_str_set_translation_domain),
+	(go_data_matrix_val_finalize), (go_data_matrix_val_dup),
+	(go_data_matrix_val_eq), (go_data_matrix_val_load_size),
+	(go_data_matrix_val_load_values), (go_data_matrix_val_get_value),
+	(go_data_matrix_val_get_str), (go_data_matrix_val_as_str),
+	(go_data_matrix_val_from_str), (go_data_matrix_val_class_init),
+	(go_data_matrix_val_new): add GODataMatrixVal class and add
+	serialization to GODataVectorVal and GODataVectorStr.
+	* goffice/data/go-data-simple.h: add GODataMatrixVal class and
+	enhanced vectors.
+	* goffice/data/go-data.c: (go_data_matrix_get_value),
+	(go_data_matrix_get_str): check if row and column are valid.
+	* goffice/gtk/go-color-palette.c: (create_color_sel): set opacity (see
+	#302387).
+	* goffice/gtk/go-format-sel.c: use go_setlocale instead of gnm_setlocale.
+	* goffice/utils/format.c: (go_setlocale),
+	(go_set_untranslated_bools): renamed two gnm functions.
+	* goffice/utils/format.h: ditto.
+	* plugins/plot_surface/xl-surface.c: updated args to go_data_vector_str_new
+	(xl_contour_plot_axis_get_bounds): updated args to go_data_vector_str_new.
+
 2005-05-07  Jody Goldberg <jody@gnome.org>
 
 	* goffice/graph/gog-object-xml.c (gog_dataset_sax_save) : use
