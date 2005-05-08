@@ -171,6 +171,9 @@ gog_contour_plot_update_3d (GogPlot *plot)
 	GogContourPlot *contour = GOG_CONTOUR_PLOT (plot);
 	gboolean cardinality_changed = FALSE;
 
+	if (plot->series == NULL)
+		return;
+
 	contour->plotted_data = gog_contour_plot_build_matrix (contour, &cardinality_changed);
 	if (cardinality_changed) {
 		/*	gog_plot_request_cardinality_update can't be called from here
@@ -223,11 +226,17 @@ static void
 gog_contour_plot_update (GogObject *obj)
 {
 	GogContourPlot * model = GOG_CONTOUR_PLOT(obj);
-	GogSurfaceSeries * series = GOG_SURFACE_SERIES (model->base.series->data);
+	GogSurfaceSeries * series;
 	GODataVector *vec;
 	GODataMatrix *mat;
 	double tmp_min, tmp_max;
 
+	if (model->base.series == NULL)
+		return;
+
+	series = GOG_SURFACE_SERIES (model->base.series->data);
+	if (!gog_series_is_valid (series))
+		return;
 	if (model->x.fmt == NULL)
 		model->x.fmt = go_data_preferred_fmt (series->base.values[0].data);
 	if (model->y.fmt == NULL)
@@ -302,11 +311,14 @@ static GOData *
 gog_contour_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis, 
 				GogPlotBoundInfo * bounds)
 {
-	GogSurfaceSeries *series = GOG_SURFACE_SERIES (plot->series->data);
+	GogSurfaceSeries *series;
 	GogContourPlot *contour = GOG_CONTOUR_PLOT (plot);
 	GODataVector *vec = NULL;
 	double min, max;
 	GOFormat *fmt;
+	if (!plot->series)
+		return NULL;
+	series = GOG_SURFACE_SERIES (plot->series->data);
 	if ((axis == GOG_AXIS_Y && contour->transposed) ||
 		(axis == GOG_AXIS_X && !contour->transposed)) {
 		vec = GO_DATA_VECTOR (series->base.values[0].data);
