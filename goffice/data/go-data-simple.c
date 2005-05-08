@@ -578,6 +578,7 @@ go_data_vector_str_from_str (GOData *dat, char const *str)
 				g_array_free (values, TRUE);
 				return FALSE;
 			}					
+			cur = end + 1;
 		}
 	}
 	if (values->len == 0) {

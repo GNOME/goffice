@@ -1,3 +1,8 @@
+2005-05-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data-simple.c: (go_data_vector_str_from_str):
+	fix an infinite loop condition.
+
 2005-05-07  Jean Brefort  <jean.brefort@normalesup.org>
 	* goffice/graph/gog-legend.c: (cb_render_elements): use style
 	for legend font.
