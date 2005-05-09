@@ -1,6 +1,11 @@
+2005-05-09  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-style.c (cb_font_changed): C99, const, and
+	type fixes.
+
 2005-05-09  Jean Brefort  <jean.brefort@normalesup.org>
 
-* goffice/data/go-data-simple.c: (go_data_matrix_val_as_str),
+	* goffice/data/go-data-simple.c: (go_data_matrix_val_as_str),
 	(go_data_matrix_val_from_str): made things work.
 	* plugins/plot_surface/gog-surface.c: (gog_contour_plot_update),
 	(gog_contour_view_render): avoid crashes and weird displays
