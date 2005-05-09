@@ -235,18 +235,21 @@ gog_contour_plot_update (GogObject *obj)
 		return;
 
 	series = GOG_SURFACE_SERIES (model->base.series->data);
-	if (!gog_series_is_valid (series))
+	if (!gog_series_is_valid (GOG_SERIES (series)))
 		return;
-	if (model->x.fmt == NULL)
-		model->x.fmt = go_data_preferred_fmt (series->base.values[0].data);
-	if (model->y.fmt == NULL)
-		model->y.fmt = go_data_preferred_fmt (series->base.values[1].data);
 
-	vec = GO_DATA_VECTOR (series->base.values[0].data);
-	if (vary_uniformly (vec))
-		go_data_vector_get_minmax (vec, &tmp_min, &tmp_max);
-	else
-		tmp_min = tmp_max = go_nan;
+	if ((vec = GO_DATA_VECTOR (series->base.values[0].data)) != NULL) {
+		if (model->x.fmt == NULL)
+			model->x.fmt = go_data_preferred_fmt (series->base.values[0].data);
+		if (vary_uniformly (vec))
+			go_data_vector_get_minmax (vec, &tmp_min, &tmp_max);
+		else
+			tmp_min = tmp_max = go_nan;
+	} else {
+		tmp_min = 0;
+		tmp_max = series->columns - 1;
+	}
+
 	if ((model->columns != series->columns)
 			|| (tmp_min != model->x.minima)
 			|| (tmp_max != model->x.maxima)) {
@@ -256,12 +259,19 @@ gog_contour_plot_update (GogObject *obj)
 		gog_axis_bound_changed (model->base.axis[(model->transposed)? GOG_AXIS_Y: GOG_AXIS_X],
 				GOG_OBJECT (model));
 	}
-	
-	vec = GO_DATA_VECTOR (series->base.values[1].data);
-	if (vary_uniformly (vec))
-		go_data_vector_get_minmax (vec, &tmp_min, &tmp_max);
-	else
-		tmp_min = tmp_max = go_nan;
+
+	if ((vec = GO_DATA_VECTOR (series->base.values[1].data)) != NULL) {
+		if (model->y.fmt == NULL)
+			model->y.fmt = go_data_preferred_fmt (series->base.values[1].data);
+		if (vary_uniformly (vec))
+			go_data_vector_get_minmax (vec, &tmp_min, &tmp_max);
+		else
+			tmp_min = tmp_max = go_nan;
+	} else {
+		tmp_min = 0;
+		tmp_max = series->rows - 1;
+	}
+
 	if ((model->rows != series->rows)
 			|| (tmp_min != model->y.minima)
 			|| (tmp_max != model->y.maxima)) {
@@ -556,6 +566,17 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	gboolean cw;
 	double *data;
 	int max = series->num_elements;
+	gboolean xdiscrete, ydiscrete;
+
+	if (plot->transposed) {
+		imax = plot->columns;
+		jmax = plot->rows;
+	} else {
+		imax = plot->rows;
+		jmax = plot->columns;
+	}
+	if (imax ==0 || jmax == 0)
+		return;
 
 	x_map = gog_axis_map_new (plot->base.axis[0], 
 				  view->residual.x , view->residual.w);
@@ -570,20 +591,15 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 	}
 
-	if (plot->transposed) {
-		imax = plot->columns;
-		jmax = plot->rows;
-	} else {
-		imax = plot->rows;
-		jmax = plot->columns;
-	}
 	if (plot->plotted_data)
 		data = plot->plotted_data;
 	else
 		data = gog_contour_plot_build_matrix (plot, &cw);
 
 	/* Set cw to ensure that polygons will allways be drawn clockwise */
-	if (gog_axis_is_discrete (plot->base.axis[0])) {
+	xdiscrete = gog_axis_is_discrete (plot->base.axis[0]) ||
+			series->values[(plot->transposed)? 1: 0].data == NULL;
+	if (xdiscrete) {
 		x0 = gog_axis_map_to_view (x_map, 0.);
 		x1 = gog_axis_map_to_view (x_map, 1.);
 	}else {
@@ -591,7 +607,9 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 		x0 = gog_axis_map_to_view (x_map, go_data_vector_get_value (x_vec, 0));
 		x1 = gog_axis_map_to_view (x_map, go_data_vector_get_value (x_vec, 1));
 	}
-	if (gog_axis_is_discrete (plot->base.axis[1])) {
+	ydiscrete = gog_axis_is_discrete (plot->base.axis[1]) ||
+			series->values[(plot->transposed)? 0: 1].data == NULL;
+	if (ydiscrete) {
 		y0 = gog_axis_map_to_view (y_map, 0.);
 		y1 = gog_axis_map_to_view (y_map, 1.);
 	}else {
@@ -626,7 +644,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	l = 0;
 
 	for (j = 1; j < jmax; j++) {
-		if (gog_axis_is_discrete (plot->base.axis[0])) {
+		if (xdiscrete) {
 			x0 = gog_axis_map_to_view (x_map, j - 1);
 			x1 = gog_axis_map_to_view (x_map, j);
 		}else {
@@ -635,7 +653,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 		
 		for (i = 1; i < imax; i++) {
-			if (gog_axis_is_discrete (plot->base.axis[1])) {
+			if (ydiscrete) {
 				y0 = gog_axis_map_to_view (y_map, i - 1);
 				y1 = gog_axis_map_to_view (y_map, i);
 			}else {

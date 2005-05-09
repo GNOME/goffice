@@ -814,7 +814,7 @@ go_data_matrix_val_as_str (GOData const *dat)
 	GString *str;
 	char sep, col_sep, sz[G_ASCII_DTOSTR_BUF_SIZE];
 	int i, j;
-	if (mat->size.rows ==0 || mat->size.columns)
+	if (mat->size.rows == 0 || mat->size.columns == 0)
 		return g_strdup ("");
 	sep = format_get_arg_sep ();
 	col_sep = format_get_col_sep ();
@@ -828,6 +828,7 @@ go_data_matrix_val_as_str (GOData const *dat)
 	for (i = 1; i < mat->size.rows; i++) {
 		g_string_append_c (str, sep);
 		g_ascii_dtostr (sz, sizeof (sz), mat->val[i * mat->size.columns]);
+		g_string_append (str, sz);
 		for (j = 1; j < mat->size.columns; j++) {
 			g_string_append_c (str, col_sep);
 			g_ascii_dtostr (sz, sizeof (sz), mat->val[i * mat->size.columns + j]);
@@ -864,13 +865,17 @@ go_data_matrix_val_from_str (GOData *dat, char const *str)
 				j++;
 			else if (*end == sep) {
 				if (columns > 0) {
-					if (j == columns) {
+					if (j == columns - 1) {
 						i++;
 						j = 0;
 					} else {
 						g_array_free (values, TRUE);
 						return FALSE;
 					}
+				} else {
+					columns = j + 1;
+					i++;
+					j = 0;
 				}
 			} else {
 				g_array_free (values, TRUE);
@@ -880,7 +885,7 @@ go_data_matrix_val_from_str (GOData *dat, char const *str)
 		} else
 			break;
 	}
-	if (j != columns) {
+	if (j != columns - 1) {
 		g_array_free (values, TRUE);
 		return FALSE;
 	}
