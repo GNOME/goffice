@@ -6,6 +6,9 @@ Emmanuel Pacaud
 	* Fix crash in print preview with log plots. [#170547]
 	* Fix crahs when deleting a serie. [#166403]
 
+Jean Bréfort
+	* Fixed opacity problem in color selector (#135434)
+
 Jody:
 	* Split from gnumeric
 
