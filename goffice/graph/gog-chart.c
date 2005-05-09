@@ -36,49 +36,259 @@
 #include <string.h>
 #include <math.h>
 
-GogChartMap *gog_chart_map_new (GogChart *chart, GogViewAllocation const *area)
+static void
+calc_polygon_parameters (GogViewAllocation const *area, GogChartMapPolarData *data, gboolean fill_area)
 {
-	GogChartMap *map = g_new0 (GogChartMap, 1);
+	double width = 2.0 * sin (2.0 * M_PI * rint (data->th1 / 4.0) / data->th1);
+	double height = 1.0 - cos (2.0 * M_PI * rint (data->th1 / 2.0) / data->th1);
+
+	data->rx = area->w / width;
+	data->ry = area->h / height;
+
+	if (!fill_area) {
+		data->rx = MIN (data->rx, data->ry);
+		data->ry = data->rx;
+	}
+
+	data->cx = area->x + area->w / 2.0;
+	data->cy = area->y + data->ry + (area->h - data->ry * height) / 2.0;
+}
+
+static void
+calc_circle_parameters (GogViewAllocation const *area, GogChartMapPolarData *data, gboolean fill_area)
+{
+	double x_min, x_max, y_min, y_max;
 	
-	map->axis_set = gog_chart_get_axis_set (chart);
+	if (data->th0 >= data->th1) {
+		x_min = y_min = -1.0;
+		x_max = y_max = 1.0;
+	} else {
+		double x;
+		if (data->th0 > 2.0 * M_PI) {
+			x = data->th0 - fmod (data->th0, 2.0 * M_PI);
+			data->th0 -= x;
+			data->th1 -= x;
+		} else if (data->th1 < - 2.0 * M_PI) {
+			x = data->th1 - fmod (data->th1, 2.0 * M_PI);
+			data->th0 -= x;
+			data->th1 -= x;
+		}
+		if (data->th1 - data->th0 > 2 * M_PI) 
+			data->th1 = data->th0 + 
+				fmod (data->th1 - data->th0, 2.0 * M_PI);
+
+		x_min = x_max = y_min = y_max = 0;
+		x = cos (-data->th0);
+		x_min = MIN (x_min, x); x_max = MAX (x_max, x);
+		x = sin (-data->th0);
+		y_min = MIN (y_min, x); y_max = MAX (y_max, x);
+		x = cos (-data->th1);
+		x_min = MIN (x_min, x); x_max = MAX (x_max, x);
+		x = sin (-data->th1);
+		y_min = MIN (y_min, x); y_max = MAX (y_max, x);
+
+		if (0 > data->th0 && 0 < data->th1)
+			x_max = 1.0;
+		if (M_PI / 2.0 > data->th0 && M_PI / 2.0 < data->th1)
+			y_min = -1.0;
+		if (M_PI > data->th0 && M_PI < data->th1)
+			x_min = -1.0;
+		if (3.0 * M_PI / 2.0 > data->th0 && 3.0 * M_PI / 2.0 < data->th1)
+			y_max = 1.0;
+	}
+	data->rx = area->w / (x_max - x_min);
+	data->ry = area->h / (y_max - y_min);
+	if (!fill_area) {
+		data->rx = MIN (data->rx, data->ry);
+		data->ry = data->rx;
+	}	
+	data->cx = -x_min * data->rx + area->x + (area->w - data->rx * (x_max - x_min)) / 2.0;
+	data->cy = -y_min * data->ry + area->y + (area->h - data->ry * (y_max - y_min)) / 2.0;
+}
+
+static void 
+null_map_2D (GogChartMap *map, double x, double y, double *u, double *v)
+{
+	g_warning ("[GogChartMap::map_2D] not implemented");
+}
+
+typedef struct {
+	double a, b;
+} XMapData;
+
+static void 
+x_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v)
+{
+	XMapData *data = map->data;
+
+	*u = gog_axis_map_to_view (map->axis_map[0], x);
+	*v = data->a * y + data->b;
+}
+
+typedef struct {
+	double		a[2][2];
+	double		b[2];
+} XYMapData;
+
+static void
+xy_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v)
+{
+	*u = gog_axis_map_to_view (map->axis_map[0], x);
+	*v = gog_axis_map_to_view (map->axis_map[1], y);
+}
+
+static void
+polar_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v)
+{
+	GogChartMapPolarData *data = (GogChartMapPolarData *) map->data;
+	double r = gog_axis_map_to_view (map->axis_map[1], y);
+	double t = gog_axis_map_to_view (map->axis_map[0], x);
 	
-	switch (map->axis_set) {
+	*u = data->cx + r * data->rx * cos (t);
+	*v = data->cy + r * data->ry * sin (t);		
+}
+
+GogChartMapPolarData *
+gog_chart_map_get_polar_parms (GogChartMap *map)
+{
+	return (GogChartMapPolarData *) map->data;
+}	
+
+GogChartMap *
+gog_chart_map_new (GogChart *chart, GogViewAllocation const *area, 
+		   GogAxis *axis0, GogAxis *axis1, GogAxis *axis2,
+		   gboolean fill_area)
+{
+	GogChartMap *map;
+	GogAxisSet axis_set;
+
+	g_return_val_if_fail (GOG_CHART (chart) != NULL, NULL);
+
+	map = g_new (GogChartMap, 1);
+
+	g_object_ref (chart);
+	map->chart = chart;
+	map->area = *area;
+	map->data = NULL;
+	map->is_valid = FALSE;
+
+	axis_set = gog_chart_get_axis_set (chart);
+	switch (axis_set) {
 		case GOG_AXIS_SET_X:
+			{
+				XMapData *data = g_new (XMapData, 1);
+
+				map->axis_map[0] = gog_axis_map_new (axis0, map->area.x, map->area.w);
+				map->axis_map[1] = map->axis_map[2] = NULL;
+
+				data->b = area->y + area->h;
+				data->a = - area->h;
+
+				map->map_2D_to_view = x_map_2D_to_view;
+				map->data = data;
+
+				map->is_valid = gog_axis_map_is_valid (map->axis_map [0]);
+				break;
+			}
 		case GOG_AXIS_SET_XY:
 		case GOG_AXIS_SET_XY_pseudo_3d:
-			map->a[0][0] = area->w;
-			map->a[1][1] = -area->h;
-			map->b[0] = area->x;
-			map->b[1] = area->y + area->h;
-			break;
-		default:
+			{
+				map->axis_map[0] = gog_axis_map_new (axis0, map->area.x, map->area.w);
+				map->axis_map[1] = gog_axis_map_new (axis1, map->area.y + map->area.h, 
+								     -map->area.h);
+				map->axis_map[2] = NULL;
+
+				map->data = NULL;
+				map->map_2D_to_view = xy_map_2D_to_view;
+
+				map->is_valid = gog_axis_map_is_valid (map->axis_map[0]) &&
+					gog_axis_map_is_valid (map->axis_map[1]);
+				break;
+			}
+		case GOG_AXIS_SET_RADAR:
+			{
+				double minimum, maximum;
+				GogChartMapPolarData *data = g_new (GogChartMapPolarData, 1);
+				
+				map->axis_map[0] = gog_axis_map_new (axis0, 0.0, 1.0);
+				gog_axis_map_get_bounds (map->axis_map[0], &minimum, &maximum);
+				if (gog_axis_is_discrete (axis0)) {
+					maximum += 1.0;
+					data->th0 = minimum;
+					data->th1 = maximum;
+					calc_polygon_parameters (area, data, fill_area);
+					gog_axis_map_free (map->axis_map[0]);
+					map->axis_map[0] = gog_axis_map_new (axis0, 
+						- M_PI / 2.0,
+						2.0 * M_PI * (maximum - 1.0) / maximum);
+				} else {
+					minimum *= 2.0 * M_PI / 360.0;
+					maximum *= 2.0 * M_PI / 360.0;
+					data->th0 = minimum;
+					data->th1 = maximum;
+					calc_circle_parameters (area, data, fill_area);
+					gog_axis_map_free (map->axis_map[0]);
+					map->axis_map[0] = gog_axis_map_new (axis0, -minimum,
+									     minimum - maximum);
+				}
+				map->axis_map[1] = gog_axis_map_new (axis1, 0.0, 1.0);
+				map->axis_map[2] = NULL;
+
+				map->data = data;
+				map->map_2D_to_view = polar_map_2D_to_view;
+
+				map->is_valid = gog_axis_map_is_valid (map->axis_map[0]) &&
+					gog_axis_map_is_valid (map->axis_map[1]);
+				break;
+			}
+		case GOG_AXIS_SET_XYZ:
+		case GOG_AXIS_SET_ALL:
+		case GOG_AXIS_SET_NONE:
+		case GOG_AXIS_SET_UNKNOWN:
 			g_warning ("[Chart::map_new] not implemented for this axis set (%i)",
-				   map->axis_set);
+				   axis_set);
+			map->map_2D_to_view = null_map_2D;
 			break;
 	}
+
 	return map;
 }
 
 void
-gog_chart_map_2D (GogChartMap *map, double x, double y, double *xx, double *yy)
+gog_chart_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v)
 {
-	switch (map->axis_set) {
-		case GOG_AXIS_SET_X:
-		case GOG_AXIS_SET_XY:
-		case GOG_AXIS_SET_XY_pseudo_3d:
-			*xx = map->a[0][0] * x + map->b[0];
-			*yy = map->a[1][1] * y + map->b[1];
-			break;
-		default:
-			g_warning ("[Chart::map_2D] not implemented for this axis set (%i)",
-				   map->axis_set);
-			break;
-	}
+	return (map->map_2D_to_view) (map, x, y, u, v);
+}
+
+GogAxisMap *
+gog_chart_map_get_axis_map (GogChartMap *map, unsigned i)
+{
+	g_return_val_if_fail (map != NULL, NULL);
+	g_return_val_if_fail (i < 3, NULL);
+
+	return map->axis_map[i];
+}
+
+gboolean
+gog_chart_map_is_valid (GogChartMap *map)
+{
+	g_return_val_if_fail (map != NULL, FALSE);
+
+	return map->is_valid;
 }
 
 void
 gog_chart_map_free (GogChartMap *map)
 {
+	int i;
+
+	g_return_if_fail (map != NULL);
+
+	for (i = 0; i < 3; i++)
+		if (map->axis_map[i] != NULL)
+			gog_axis_map_free (map->axis_map[i]);
+
+	g_free (map->data);
 	g_free (map);
 }
 
@@ -478,14 +688,15 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 	chart->axis_set = axis_set;
 
 	if (chart->grid != NULL && axis_set != GOG_AXIS_SET_XY &&
-				axis_set != GOG_AXIS_SET_X &&
-				axis_set != GOG_AXIS_SET_XY_pseudo_3d) {
+	    			axis_set != GOG_AXIS_SET_X && 
+				axis_set != GOG_AXIS_SET_XY_pseudo_3d &&
+				axis_set != GOG_AXIS_SET_RADAR) {
 		GogObject *grid = chart->grid; /* clear_parent clears ::grid */
 		gog_object_clear_parent (GOG_OBJECT (grid));
 		g_object_unref (grid);
 	} else if (chart->grid == NULL && 
-		(axis_set == GOG_AXIS_SET_XY || axis_set == GOG_AXIS_SET_X
-			|| axis_set == GOG_AXIS_SET_XY_pseudo_3d))
+		(axis_set == GOG_AXIS_SET_XY || axis_set == GOG_AXIS_SET_X ||
+		 axis_set == GOG_AXIS_SET_RADAR || axis_set == GOG_AXIS_SET_XY_pseudo_3d))
 		gog_object_add_by_name (GOG_OBJECT (chart), "Grid", NULL);
 
 	/* Add at least 1 instance of any required axis */

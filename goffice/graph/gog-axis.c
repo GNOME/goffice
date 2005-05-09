@@ -347,10 +347,27 @@ map_baseline (GogAxisMap *map)
 }
 
 static void
+map_bounds (GogAxisMap *map, double *minimum, double *maximum)
+{
+	MapData *data = map->data;
+
+	*minimum = data->min;
+	*maximum = data->max;	
+}
+
+static void
 map_linear_auto_bound (GogAxis *axis, double minimum, double maximum, double *bound)
 {
 	double step, range, mant;
 	int expon;
+
+	if (gog_axis_get_atype (axis) == GOG_AXIS_CIRCULAR) {
+		bound[GOG_AXIS_ELEM_MIN] = 0.0;
+		bound[GOG_AXIS_ELEM_MAX] = 360.0;
+		bound[GOG_AXIS_ELEM_MAJOR_TICK] = 30.0;
+		bound[GOG_AXIS_ELEM_MINOR_TICK] = 10.0;
+		return;
+	}	
 
 	range = fabs (maximum - minimum);
 
@@ -404,25 +421,28 @@ static void
 map_linear_calc_ticks (GogAxis *axis) 
 {
 	GogAxisTick *ticks;
-	double maximum, minimum;
+	double maximum, minimum, start;
 	double tick_step;
-	double major_tick, minor_tick;
-	int tick_nbr, ratio, i;
+	double major_tick, minor_tick, ratio;
+	int tick_nbr, i;
 
-	major_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
-	minor_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL);
-	if (minor_tick < major_tick)
-		tick_step = minor_tick;
-	else
-		tick_step = major_tick;
-	ratio = rint (major_tick / tick_step);
-	
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum)) {
 		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0));
 		return;
 	}
 
-	tick_nbr = floor (go_add_epsilon ((maximum - minimum) / tick_step + 1.0));
+	major_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
+	minor_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL);
+	if (major_tick <= 0.) major_tick = maximum - minimum;
+	if (minor_tick <= 0.) minor_tick = maximum - minimum;
+	if (minor_tick < major_tick) {
+		minor_tick = major_tick / rint (major_tick / minor_tick);
+		tick_step = minor_tick;
+	} else
+		tick_step = major_tick;
+	
+	start = ceil (minimum / tick_step) * tick_step;
+	tick_nbr = floor (go_add_epsilon ((maximum - start) / tick_step + 1.0));
 	if (tick_nbr < 1 || tick_nbr > GOG_AXIS_MAX_TICK_NBR) {
 		gog_axis_set_ticks (axis, 0, NULL);
 		return;
@@ -430,10 +450,11 @@ map_linear_calc_ticks (GogAxis *axis)
 	ticks = g_new0 (GogAxisTick, tick_nbr);
 
 	for (i = 0; i < tick_nbr; i++) {
-		ticks[i].position = minimum + (double) i * tick_step;
+		ticks[i].position = start + (double) i * tick_step;
 		if (fabs (ticks[i].position) < tick_step / 1E10)
 			ticks[i].position = 0.0;
-		if (rint (fmod (i, ratio)) == 0) {
+		ratio = ticks[i].position / major_tick;
+		if (fabs (ratio - rint (ratio)) < 1E-3) {
 			ticks[i].type = GOG_AXIS_TICK_MAJOR;
 				if (axis->assigned_format == NULL || 
 				    style_format_is_general (axis->assigned_format))
@@ -547,6 +568,15 @@ map_log_baseline (GogAxisMap *map)
 }
 
 static void
+map_log_bounds (GogAxisMap *map, double *minimum, double *maximum)
+{
+	MapLogData *data = map->data;
+
+	*minimum = exp (data->min);
+	*maximum = exp (data->max);	
+}
+
+static void
 map_log_auto_bound (GogAxis *axis, double minimum, double maximum, double *bound)
 {
 	double step;
@@ -640,7 +670,7 @@ static const GogAxisMapDesc map_desc_discrete =
 {
 	map_discrete,			map_discrete_to_view,
 	map_discrete_from_view,		go_finite,
-	map_baseline,
+	map_baseline,			map_bounds,
 	map_discrete_init,		NULL,
 	map_discrete_auto_bound,	map_discrete_calc_ticks,
 	N_("Discrete"),			N_("Discrete mapping")
@@ -651,7 +681,7 @@ static const GogAxisMapDesc map_descs[] =
 	{
 		map_linear,		map_linear_to_view,
 		map_linear_from_view,   go_finite,
-		map_baseline,
+		map_baseline,		map_bounds,
 		map_linear_init, 	NULL,	
 		map_linear_auto_bound, 	map_linear_calc_ticks,	
 		N_("Linear"),		N_("Linear mapping")
@@ -659,7 +689,7 @@ static const GogAxisMapDesc map_descs[] =
 	{
 		map_log,		map_log_to_view,
 		map_log_from_view,	map_log_finite,
-		map_log_baseline,
+		map_log_baseline,	map_log_bounds,
 		map_log_init,		NULL,	
 		map_log_auto_bound, 	map_log_calc_ticks,	
 		N_("Log"),		N_("Logarithm mapping")
@@ -834,6 +864,43 @@ gog_axis_map_get_baseline (GogAxisMap *map)
 }
 
 /**
+ * gog_axis_map_get_extents:
+ * @map : #GogAxisMap
+ * @start : start for this axis
+ * @stop : stop for this axis
+ *
+ * Returns start and stop for the given axis map in data coordinates. If
+ * axis is not inverted, start = minimum and stop = maximum. If axis is invalid, 
+ * it'll return arbitrary bounds. For example, an non inverted invalid X axis 
+ * will have start set to 0.0 and stop set to 1.0.
+ * */
+
+void
+gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
+{
+	if (map->axis->inverted)
+		return map->desc->map_bounds (map, stop, start);
+	else
+		return map->desc->map_bounds (map, start, stop);
+}
+
+/**
+ * gog_axis_map_get_bounds:
+ * @map : #GogAxisMap
+ * @minimum : minimum for this axis
+ * @maximum : maximum for this axis
+ *
+ * Returns bounds for the given axis map in data coordinates. If axis is invalid, 
+ * it'll return arbitrary bounds. For example, for an invalid x axis, minimum = 0.0
+ * and maximum = 1.0.
+ * */
+
+void
+gog_axis_map_get_bounds (GogAxisMap *map, double *minimum, double *maximum)
+{
+	return map->desc->map_bounds (map, minimum, maximum);
+}
+/**
  * gog_axis_map_free :
  * @map : #GogAxisMap
  *
@@ -955,7 +1022,8 @@ role_grid_line_major_can_add (GogObject const *parent)
 	GogAxis *axis = GOG_AXIS (parent);
 	GogAxisType type = gog_axis_get_atype (axis);
 	
-	return ((type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_RADIAL) &&
+	return ((type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_RADIAL || 
+		 (type == GOG_AXIS_CIRCULAR && !gog_axis_is_discrete (axis))) &&
 		role_grid_line_can_add (parent, "MajorGrid"));
 }
 
@@ -966,7 +1034,8 @@ role_grid_line_minor_can_add (GogObject const *parent)
 	GogAxisType type = gog_axis_get_atype (axis);
 	
 	return (!gog_axis_is_discrete (GOG_AXIS (parent)) &&
-		(type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_RADIAL) &&
+		(type == GOG_AXIS_X || type == GOG_AXIS_Y || 
+		 type == GOG_AXIS_RADIAL || type == GOG_AXIS_CIRCULAR) &&
 		role_grid_line_can_add (parent, "MinorGrid"));
 }
 
@@ -986,8 +1055,11 @@ static gboolean
 role_axis_line_can_add (GogObject const *parent)
 {
 	GogChart *chart = GOG_AXIS_BASE (parent)->chart;
+	GogAxisSet axis_set = gog_chart_get_axis_set (chart);
 	
-	if (gog_chart_get_axis_set (chart) == GOG_AXIS_SET_XY)
+	if (axis_set == GOG_AXIS_SET_XY ||
+	    (axis_set == GOG_AXIS_SET_RADAR && 
+	     gog_axis_get_atype (GOG_AXIS (parent)) == GOG_AXIS_RADIAL))  
 		return TRUE;
 
 	return FALSE;
@@ -1040,7 +1112,7 @@ gog_axis_set_property (GObject *obj, guint param_id,
 		break;
 	case AXIS_PROP_INVERT:
 		axis->inverted = g_value_get_boolean (value);
-		calc_ticks = TRUE;
+		resized = calc_ticks = TRUE;
 		break;
 	case AXIS_PROP_MAP :
 		gog_axis_map_set (axis, g_value_get_string (value));
@@ -1399,7 +1471,7 @@ gog_axis_populate_editor (GogObject *gobj,
 	gtk_widget_show_all (GTK_WIDGET (table));
 
 	/* Details page */
-	if (!axis->is_discrete) {
+	if (!axis->is_discrete && gog_axis_get_atype (axis) != GOG_AXIS_CIRCULAR) {
 		GtkWidget *w = glade_xml_get_widget (gui, "map_type_combo");
 		gog_axis_map_populate_combo (axis, GTK_COMBO_BOX (w));
 		g_signal_connect_object (G_OBJECT (w),
@@ -1620,6 +1692,19 @@ gog_axis_is_discrete (GogAxis const *axis)
 {
 	g_return_val_if_fail (GOG_AXIS (axis) != NULL, FALSE);
 	return axis->is_discrete;
+}
+
+/**
+ * gog_axis_is_inverted :
+ * @axis : #GogAxis
+ * 
+ * Returns TRUE if @axis is inverted.
+ **/ 
+gboolean
+gog_axis_is_inverted (GogAxis const *axis)
+{
+	g_return_val_if_fail (GOG_AXIS (axis) != NULL, FALSE);
+	return axis->inverted;
 }
 
 /**

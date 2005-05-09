@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
 	<Family _name="Radar"	sample_image_file="radar.xpm"/>
+	<Family _name="Polar"	sample_image_file="polar.png"/>
 
 	<Type _name="Radar" row="1" col="1"
 		engine="GogRadarPlot" family="Radar"
@@ -18,5 +19,11 @@
 		_description="Area radar plot."
 		sample_image_file="chart_radar_1_3.png">
 		<property name="default-style-fills-area">True</property>
+	</Type>
+	
+	<Type _name="Polar" row="1" col="1"
+		engine="GogPolarPlot" family="Polar"
+		_description="Polar plot."
+		sample_image_file="chart_polar_1_1.png">
 	</Type>
 </Types>

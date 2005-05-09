@@ -27,6 +27,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/data/go-data.h>
+#include <goffice/utils/go-math.h>
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/module-plugin-defs.h>
 

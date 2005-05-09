@@ -80,4 +80,4 @@ typedef struct {
 
 G_END_DECLS
 
-#endif /* GOG_XY_SERIES_H */
+#endif /* GOG_XY_PLOT_H */

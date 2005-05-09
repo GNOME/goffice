@@ -132,7 +132,7 @@ gog_renderer_svg_clip_pop (GogRenderer *rend, GogRendererClip *clip)
 }
 
 static void
-draw_path (GogRendererSvg *prend, ArtVpath const *path, GString *string)
+draw_path (ArtVpath const *path, GString *string)
 {
 	char buffer[G_ASCII_DTOSTR_BUF_SIZE];
 	
@@ -176,63 +176,13 @@ stroke_dasharray (xmlNodePtr node, ArtVpathDash *dash)
 }
 
 static void
-gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path,
-			    GogViewAllocation const *bound)
-{
-	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
-	GogStyle const *style = renderer->cur_style;
-	xmlNodePtr node;
-	GString *string;
-	char *buf;
-	int opacity;
-
-	if (style->line.dash_type == GO_LINE_NONE)
-		return;
-	
-	node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
-
-	xmlAddChild (prend->current_node, node);
-	
-	string = g_string_new ("");
-	draw_path (prend, path, string);
-	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
-	g_string_free (string, TRUE);
-	
-	xmlNewProp (node, CC2XML ("fill"), CC2XML ("none"));
-
-	set_double_prop (node, "stroke-width", gog_renderer_line_size (renderer, style->line.width));
-	stroke_dasharray (node, renderer->line_dash);
-	
-	buf = g_strdup_printf ("#%06x", style->line.color >> 8);
-	xmlNewProp (node, CC2XML ("stroke"), CC2XML (buf));
-	g_free (buf);
-	
-	opacity = style->line.color & 0xff;
-	if (opacity != 255) 
-		set_double_prop (node, "stroke-opacity", (double) opacity / 255.0);
-}
-
-static void
-gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path, 
-			       gboolean narrow, GogViewAllocation const *bound)
+fill_properties (GogRenderer *renderer, xmlNodePtr node, gboolean narrow)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
 	GogStyle const *style = renderer->cur_style;
 	gboolean with_outline = (!narrow && style->outline.dash_type != GO_LINE_NONE);
-	xmlNodePtr node;
 	char *buf, *name, *id;
 	int opacity;
-
-	if (style->fill.type != GOG_FILL_STYLE_NONE || with_outline) {
-		GString *string = g_string_new ("");
-		node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
-		xmlAddChild (prend->current_node, node);
-		draw_path (prend, path, string);
-		g_string_append_c (string, 'z');
-		xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
-		g_string_free (string, TRUE);
-	} else
-		return;
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE) {
 
@@ -362,15 +312,14 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 }
 
 static void
-gog_renderer_svg_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
-			       GogViewAllocation const *bound)
+gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path,
+			    GogViewAllocation const *bound)
 {
-	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
-	GogStyle const *style = rend->cur_style;
+	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
+	GogStyle const *style = renderer->cur_style;
 	xmlNodePtr node;
 	GString *string;
 	char *buf;
-	char buffer[G_ASCII_DTOSTR_BUF_SIZE];
 	int opacity;
 
 	if (style->line.dash_type == GO_LINE_NONE)
@@ -379,7 +328,54 @@ gog_renderer_svg_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
 	node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
 
 	xmlAddChild (prend->current_node, node);
+	
 	string = g_string_new ("");
+	draw_path (path, string);
+	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
+	g_string_free (string, TRUE);
+	
+	xmlNewProp (node, CC2XML ("fill"), CC2XML ("none"));
+
+	set_double_prop (node, "stroke-width", gog_renderer_line_size (renderer, style->line.width));
+	stroke_dasharray (node, renderer->line_dash);
+	
+	buf = g_strdup_printf ("#%06x", style->line.color >> 8);
+	xmlNewProp (node, CC2XML ("stroke"), CC2XML (buf));
+	g_free (buf);
+	
+	opacity = style->line.color & 0xff;
+	if (opacity != 255) 
+		set_double_prop (node, "stroke-opacity", (double) opacity / 255.0);
+}
+
+static void
+gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path, 
+			       gboolean narrow, GogViewAllocation const *bound)
+{
+	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
+	GogStyle const *style = renderer->cur_style;
+	gboolean with_outline = (!narrow && style->outline.dash_type != GO_LINE_NONE);
+	xmlNodePtr node;
+
+	if (style->fill.type != GOG_FILL_STYLE_NONE || with_outline) {
+		GString *string = g_string_new ("");
+		node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
+		xmlAddChild (prend->current_node, node);
+		draw_path (path, string);
+		g_string_append_c (string, 'z');
+		xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
+		g_string_free (string, TRUE);
+	} else
+		return;
+
+	fill_properties (renderer, node, narrow);
+}
+
+static void
+draw_bezier_path (ArtBpath const *path, GString *string)
+{
+	char buffer[G_ASCII_DTOSTR_BUF_SIZE];
+	
 	for ( ; path->code != ART_END ; path++)
 		switch (path->code) {
 		case ART_MOVETO_OPEN :
@@ -412,6 +408,27 @@ gog_renderer_svg_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
 		default :
 			break;
 		}
+}
+
+static void
+gog_renderer_svg_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
+			       GogViewAllocation const *bound)
+{
+	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
+	GogStyle const *style = rend->cur_style;
+	xmlNodePtr node;
+	GString *string;
+	char *buf;
+	int opacity;
+
+	if (style->line.dash_type == GO_LINE_NONE)
+		return;
+	
+	node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
+
+	xmlAddChild (prend->current_node, node);
+	string = g_string_new ("");
+	draw_bezier_path (path, string);
 
 	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
 	g_string_free (string, TRUE);
@@ -424,6 +441,29 @@ gog_renderer_svg_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
 	opacity = style->line.color & 0xff;
 	if (opacity != 255) 
 		set_double_prop (node, "stroke-opacity", (double) opacity / 255.0);
+}
+
+static void
+gog_renderer_svg_draw_bezier_polygon (GogRenderer *renderer, ArtBpath const *path, 
+				      gboolean narrow, GogViewAllocation const *bound)
+{
+	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
+	GogStyle const *style = renderer->cur_style;
+	gboolean with_outline = (!narrow && style->outline.dash_type != GO_LINE_NONE);
+	xmlNodePtr node;
+
+	if (style->fill.type != GOG_FILL_STYLE_NONE || with_outline) {
+		GString *string = g_string_new ("");
+		node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
+		xmlAddChild (prend->current_node, node);
+		draw_bezier_path (path, string);
+		g_string_append_c (string, 'z');
+		xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
+		g_string_free (string, TRUE);
+	} else
+		return;
+
+	fill_properties (renderer, node, narrow);
 }
 
 static void
@@ -459,7 +499,7 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 	node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
 	xmlAddChild (prend->current_node, node);
 	string = g_string_new ("");
-	draw_path (prend, fill_path, string);
+	draw_path (fill_path, string);
 	g_string_append_c (string, 'z');
 	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
 	g_string_free (string, TRUE);
@@ -474,7 +514,7 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 	node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
 	xmlAddChild (prend->current_node, node);
 	string = g_string_new ("");
-	draw_path (prend, outline_path, string);
+	draw_path (outline_path, string);
 	g_string_append_c (string, 'z');
 	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
 	g_string_free (string, TRUE);
@@ -625,6 +665,7 @@ gog_renderer_svg_class_init (GogRendererClass *rend_klass)
 	rend_klass->draw_path	  	= gog_renderer_svg_draw_path;
 	rend_klass->draw_polygon  	= gog_renderer_svg_draw_polygon;
 	rend_klass->draw_bezier_path 	= gog_renderer_svg_draw_bezier_path;
+	rend_klass->draw_bezier_polygon = gog_renderer_svg_draw_bezier_polygon;
 	rend_klass->draw_text	  	= gog_renderer_svg_draw_text;
 	rend_klass->draw_marker	  	= gog_renderer_svg_draw_marker;
 	rend_klass->measure_text  	= gog_renderer_svg_measure_text;

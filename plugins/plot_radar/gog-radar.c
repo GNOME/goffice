@@ -38,7 +38,7 @@
 
 typedef struct {
 	GogPlotClass	base;
-} GogRadarPlotClass;
+} GogRTPlotClass;
 
 enum {
 	PLOT_PROP_0,
@@ -49,37 +49,37 @@ GOFFICE_PLUGIN_MODULE_HEADER;
 
 typedef struct {
 	GogSeries base;
-} GogRadarSeries;
-typedef GogSeriesClass GogRadarSeriesClass;
+} GogRTSeries;
+typedef GogSeriesClass GogRTSeriesClass;
 
-#define GOG_RADAR_SERIES_TYPE	(gog_radar_series_get_type ())
-#define GOG_RADAR_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RADAR_SERIES_TYPE, GogRadarSeries))
-#define GOG_IS_RADAR_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RADAR_SERIES_TYPE))
+#define GOG_RT_SERIES_TYPE	(gog_rt_series_get_type ())
+#define GOG_RT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RT_SERIES_TYPE, GogRTSeries))
+#define GOG_IS_RT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RT_SERIES_TYPE))
 
-static GType gog_radar_series_get_type (void);
-static GType gog_radar_view_get_type (void);
+static GType gog_rt_series_get_type (void);
+static GType gog_rt_view_get_type (void);
 
 /*-----------------------------------------------------------------------------
  *
- *  GogRadarPlot
+ *  GogRTPlot
  *
  *-----------------------------------------------------------------------------
  */
 
 /*
- *  Accessor for setting GOGRadarPlot member variables.
+ *  Accessor for setting GOGRTPlot member variables.
  *
- *  \param obj The radar plot as a GObject.  Must not be NULL.
+ *  \param obj The rt plot as a GObject.  Must not be NULL.
  */
 static void
-gog_radar_plot_set_property (GObject *obj, guint param_id,
+gog_rt_plot_set_property (GObject *obj, guint param_id,
 			      GValue const *value, GParamSpec *pspec)
 {
-	GogRadarPlot *radar = GOG_RADAR_PLOT (obj);
+	GogRTPlot *rt = GOG_RT_PLOT (obj);
 
 	switch (param_id) {
 	case PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS:
-		radar->default_style_has_markers = g_value_get_boolean (value);
+		rt->default_style_has_markers = g_value_get_boolean (value);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -88,37 +88,46 @@ gog_radar_plot_set_property (GObject *obj, guint param_id,
 }
 
 /*
- *  Accessor for getting GOGRadarPlot member variables.
+ *  Accessor for getting GOGRTPlot member variables.
  */
 static void
-gog_radar_plot_get_property (GObject *obj, guint param_id,
+gog_rt_plot_get_property (GObject *obj, guint param_id,
 			      GValue *value, GParamSpec *pspec)
 {
-	GogRadarPlot *radar = GOG_RADAR_PLOT (obj);
+	GogRTPlot *rt = GOG_RT_PLOT (obj);
 
 	switch (param_id) {
 	case PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS:
-		g_value_set_boolean (value, radar->default_style_has_markers);
+		g_value_set_boolean (value, rt->default_style_has_markers);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
 }
 
-static char const *
-gog_radar_plot_type_name (G_GNUC_UNUSED GogObject const *item)
+static GogAxisSet
+gog_rt_plot_axis_set_pref (GogPlot const *plot)
 {
-	/* xgettext : the base for how to name radar plot objects
-	 * eg The 2nd radar plot in a chart will be called
-	 * 	PlotRadar2 */
-	return N_("PlotRadar");
+	return GOG_AXIS_SET_RADAR;
+}
+
+static gboolean
+gog_rt_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
+{
+	return type == GOG_AXIS_SET_RADAR;
+}
+
+static gboolean
+gog_rt_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
+{
+	return type == GOG_AXIS_SET_RADAR;
 }
 
 static void
-gog_radar_plot_update (GogObject *obj)
+gog_rt_plot_update (GogObject *obj)
 {
-	GogRadarPlot * model = GOG_RADAR_PLOT(obj);
-	GogRadarSeries const *series;
+	GogRTPlot * model = GOG_RT_PLOT(obj);
+	GogRTSeries const *series;
 	unsigned num_elements = 0;
 	double val_min, val_max, tmp_min, tmp_max;
 	GSList *ptr;
@@ -137,34 +146,73 @@ gog_radar_plot_update (GogObject *obj)
 		if (val_min > tmp_min) val_min = tmp_min;
 		if (val_max < tmp_max) val_max = tmp_max;
 	}
-
 	model->num_elements = num_elements;
 
-	if (model->minima != val_min || model->maxima != val_max) {
-		model->minima = val_min;
-		model->maxima = val_max;
+	if (model->r.minima != val_min || model->r.maxima != val_max) {
+		model->r.minima = val_min;
+		model->r.maxima = val_max;
 		gog_axis_bound_changed (model->base.axis [GOG_AXIS_RADIAL], GOG_OBJECT (model));
 	}
+
+	model->t.minima = 0;
+	model->t.maxima = num_elements - 1;
 
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 }
 
-static GogAxisSet
-gog_radar_plot_axis_set_pref (GogPlot const *plot)
+static void
+gog_rt_plot_class_init (GogPlotClass *gog_plot_klass)
 {
-	return GOG_AXIS_SET_RADAR;
+	GObjectClass   *gobject_klass = (GObjectClass *) gog_plot_klass;
+	GogObjectClass *gog_object_klass = (GogObjectClass *) gog_plot_klass;
+
+	/* Override methods of GObject */
+	gobject_klass->set_property = gog_rt_plot_set_property;
+	gobject_klass->get_property = gog_rt_plot_get_property;
+
+	/* Fill in GOGObject superclass values */
+	gog_object_klass->update	= gog_rt_plot_update;
+	gog_object_klass->view_type	= gog_rt_view_get_type ();
+
+	g_object_class_install_property (gobject_klass, 
+					 PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS,
+		g_param_spec_boolean ("default-style-has-markers", NULL,
+			"Should the default style of a series include markers",
+			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+
+	/* Fill in GogPlotClass methods */
+	gog_plot_klass->desc.num_series_min = 1;
+	gog_plot_klass->desc.num_series_max = G_MAXINT;
+	gog_plot_klass->series_type = gog_rt_series_get_type();
+
+	gog_plot_klass->axis_set_pref = gog_rt_plot_axis_set_pref;
+	gog_plot_klass->axis_set_is_valid = gog_rt_plot_axis_set_is_valid;
+	gog_plot_klass->axis_set_assign = gog_rt_plot_axis_set_assign;
 }
 
-static gboolean
-gog_radar_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
+static void
+gog_rt_plot_init (GogRTPlot *rt)
 {
-	return type == GOG_AXIS_SET_RADAR;
+	rt->base.vary_style_by_element = FALSE;
+	rt->default_style_has_markers = FALSE;
+	rt->num_elements = 0;
 }
 
-static gboolean
-gog_radar_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
+GSF_CLASS (GogRTPlot, gog_rt_plot,
+	   gog_rt_plot_class_init, gog_rt_plot_init,
+	   GOG_PLOT_TYPE)
+
+/*****************************************************************************/
+
+typedef GogRTPlotClass GogRadarPlotClass;
+
+static char const *
+gog_radar_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 {
-	return type == GOG_AXIS_SET_RADAR;
+	/* xgettext : the base for how to name rt plot objects
+	 * eg The 2nd rt plot in a chart will be called
+	 * 	PlotRT2 */
+	return N_("PlotRadar");
 }
 
 static GOData *
@@ -172,12 +220,12 @@ gog_radar_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 				GogPlotBoundInfo * bounds)
 {
 	GSList *ptr;
-	GogRadarPlot *radar = GOG_RADAR_PLOT (plot);
+	GogRTPlot *rt = GOG_RT_PLOT (plot);
 
 	switch (axis) {
 	case GOG_AXIS_CIRCULAR:
-		bounds->val.minima = 0.;
-		bounds->val.maxima = radar->num_elements - 1;
+		bounds->val.minima = rt->t.minima;
+		bounds->val.maxima = rt->t.maxima;
 		bounds->logical.minima = 0.;
 		bounds->logical.maxima = go_nan;
 		bounds->is_discrete    = TRUE;
@@ -187,13 +235,13 @@ gog_radar_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 				return GOG_SERIES (ptr->data)->values[0].data;
 		break;
 	case GOG_AXIS_RADIAL:
-		/* clip at the outer bound, but allow inner to round nicely */
-		bounds->val.minima = radar->minima;
-		bounds->val.maxima = bounds->logical.maxima = radar->maxima;
+		bounds->val.minima = rt->r.minima;
+		bounds->val.maxima = rt->r.maxima;
+		bounds->logical.maxima = bounds->logical.minima = go_nan;
 		bounds->is_discrete = FALSE;
 		break;
 	default:
-		g_warning("gog_radar_plot_axis_bounds: bad axis");
+		g_warning("[GogRadarPlot::axis_set_bounds] bad axis (%i)", axis);
 		break;
 	} 
 	
@@ -203,23 +251,10 @@ gog_radar_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 static void
 gog_radar_plot_class_init (GogPlotClass *gog_plot_klass)
 {
-	GObjectClass   *gobject_klass = (GObjectClass *) gog_plot_klass;
 	GogObjectClass *gog_object_klass = (GogObjectClass *) gog_plot_klass;
 
-	/* Override methods of GObject */
-	gobject_klass->set_property = gog_radar_plot_set_property;
-	gobject_klass->get_property = gog_radar_plot_get_property;
-
 	/* Fill in GOGObject superclass values */
-	gog_object_klass->update	= gog_radar_plot_update;
 	gog_object_klass->type_name	= gog_radar_plot_type_name;
-	gog_object_klass->view_type	= gog_radar_view_get_type ();
-
-	g_object_class_install_property (gobject_klass, 
-					 PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS,
-		g_param_spec_boolean ("default-style-has-markers", NULL,
-			"Should the default style of a series include markers",
-			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	{
 		static GogSeriesDimDesc dimensions[] = {
@@ -230,37 +265,21 @@ gog_radar_plot_class_init (GogPlotClass *gog_plot_klass)
 		};
 		gog_plot_klass->desc.series.dim = dimensions;
 		gog_plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		gog_plot_klass->desc.series.style_fields = (GOG_STYLE_LINE 
-							    | GOG_STYLE_MARKER);
+		gog_plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER;
 	}
 
-	/* Fill in GogPlotClass methods */
-	gog_plot_klass->desc.num_series_min = 1;
-	gog_plot_klass->desc.num_series_max = G_MAXINT;
-	gog_plot_klass->series_type = gog_radar_series_get_type();
-	gog_plot_klass->axis_set_pref = gog_radar_plot_axis_set_pref;
-	gog_plot_klass->axis_set_is_valid = gog_radar_plot_axis_set_is_valid;
-	gog_plot_klass->axis_set_assign = gog_radar_plot_axis_set_assign;
 	gog_plot_klass->axis_get_bounds	= gog_radar_plot_axis_get_bounds;
 }
 
-static void
-gog_radar_plot_init (GogRadarPlot *radar)
-{
-	radar->base.vary_style_by_element = FALSE;
-	radar->default_style_has_markers = FALSE;
-	radar->num_elements = 0;
-}
-
 GSF_CLASS (GogRadarPlot, gog_radar_plot,
-	   gog_radar_plot_class_init, gog_radar_plot_init,
-	   GOG_PLOT_TYPE)
+	   gog_radar_plot_class_init, NULL,
+	   GOG_RT_PLOT_TYPE)
 
 /*****************************************************************************/
 
-#define GOG_RADAR_AREA_PLOT_TYPE	(gog_radar_area_plot_get_type ())
-#define GOG_RADAR_AREA_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RADAR_AREA_PLOT_TYPE, GogRadarAreaPlot))
-#define GOG_IS_PLOT_RADAR_AREA(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RADAR_AREA_PLOT_TYPE))
+#define GOG_RADAR_AREA_PLOT_TYPE  (gog_radar_area_plot_get_type ())
+#define GOG_RADAR_AREA_PLOT(o)	  (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RADAR_AREA_PLOT_TYPE, GogRadarAreaPlot))
+#define GOG_IS_PLOT_RADAR_AREA(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RADAR_AREA_PLOT_TYPE))
 
 typedef GogRadarPlot		GogRadarAreaPlot;
 typedef GogRadarPlotClass	GogRadarAreaPlotClass;
@@ -282,7 +301,6 @@ gog_radar_area_plot_class_init (GogObjectClass *gog_klass)
 	GogPlotClass *plot_klass = (GogPlotClass *) gog_klass;
 
 	plot_klass->desc.series.style_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
-	plot_klass->series_type = gog_radar_series_get_type();
 
 	gog_klass->type_name	= gog_radar_area_plot_type_name;
 }
@@ -299,8 +317,74 @@ GSF_CLASS (GogRadarAreaPlot, gog_radar_area_plot,
 
 /*****************************************************************************/
 
-typedef GogPlotView		GogRadarView;
-typedef GogPlotViewClass	GogRadarViewClass;
+typedef GogRTPlotClass GogPolarPlotClass;
+
+static char const *
+gog_polar_plot_type_name (G_GNUC_UNUSED GogObject const *item)
+{
+	/* xgettext : the base for how to name rt plot objects
+	 * eg The 2nd rt plot in a chart will be called
+	 * 	PlotPolar2 */
+	return N_("PlotPolar");
+}
+
+static GOData *
+gog_polar_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis, 
+				GogPlotBoundInfo * bounds)
+{
+	GogRTPlot *rt = GOG_RT_PLOT (plot);
+
+	switch (axis) {
+	case GOG_AXIS_CIRCULAR:
+		bounds->val.minima = bounds->logical.minima= 0.;
+		bounds->val.maxima = bounds->logical.maxima= 360.0;
+		bounds->is_discrete    = FALSE;
+		break;
+	case GOG_AXIS_RADIAL:
+		bounds->val.minima = bounds->logical.minima = 0.;
+		bounds->val.maxima = rt->r.maxima;
+		bounds->logical.maxima = go_nan;
+		bounds->is_discrete = FALSE;
+		break;
+	default:
+		g_warning("[GogPolarPlot::axis_set_bounds] bad axis (%i)", axis);
+		break;
+	} 
+	
+	return NULL;
+}
+
+static void
+gog_polar_plot_class_init (GogPlotClass *gog_plot_klass)
+{
+	GogObjectClass *gog_object_klass = (GogObjectClass *) gog_plot_klass;
+
+	/* Fill in GOGObject superclass values */
+	gog_object_klass->type_name	= gog_polar_plot_type_name;
+
+	{
+		static GogSeriesDimDesc dimensions[] = {
+			{ N_("Angle"), GOG_SERIES_SUGGESTED, FALSE,
+			  GOG_DIM_INDEX, GOG_MS_DIM_CATEGORIES },
+			{ N_("Magnitude"), GOG_SERIES_REQUIRED, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES }
+		};
+		gog_plot_klass->desc.series.dim = dimensions;
+		gog_plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
+		gog_plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER;
+	}
+
+	gog_plot_klass->axis_get_bounds	= gog_polar_plot_axis_get_bounds;
+}
+
+GSF_CLASS (GogPolarPlot, gog_polar_plot,
+	   gog_polar_plot_class_init, NULL,
+	   GOG_RT_PLOT_TYPE)
+
+/*****************************************************************************/
+
+typedef GogPlotView		GogRTView;
+typedef GogPlotViewClass	GogRTViewClass;
 
 static double
 fmin (double a, double b)
@@ -309,61 +393,48 @@ fmin (double a, double b)
 }
 
 static void
-calc_polygon_parameters (GogViewAllocation const *area, unsigned edge_nbr,
-			 double *x, double *y, double *radius)
+gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 {
-	double width, height;
-
-	width = 2.0 * sin (2.0 * M_PI * rint (edge_nbr / 4.0) / edge_nbr);
-	height = 1.0 - cos (2.0 * M_PI * rint (edge_nbr / 2.0) / edge_nbr);
-
-	*radius = (area->w / width) > (area->h / height) ?
-		area->h / height :
-		area->w / width;
-
-	*x = area->x + area->w / 2.0;
-	*y = area->y + *radius + (area->h - *radius * height) / 2.0;
-}
-
-static void
-gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
-{
-	GogRadarPlot const *model = GOG_RADAR_PLOT (view->model);
+	GogRTPlot const *model = GOG_RT_PLOT (view->model);
 	GogAxis *r_axis, *c_axis;
+	GogChart *chart = GOG_CHART (view->model->parent);
 	GogAxisMap *r_map, *c_map;
+	GogChartMap *chart_map;
+	GogChartMapPolarData *parms;
 	GogViewAllocation const *area;
 	GSList   *ptr;
-	ArtVpath *path;
-	double center_x, center_y, radius;
-	double circular_min, circular_max;
-	unsigned edge_nbr;
+	ArtVpath *path, *clip_path;
+	ArtBpath *bpath;
 	gboolean const is_area = GOG_IS_PLOT_RADAR_AREA (model);
+	gboolean const is_polar = GOG_IS_PLOT_POLAR (model);
 
 	r_axis = GOG_PLOT (model)->axis[GOG_AXIS_RADIAL];
 	c_axis = GOG_PLOT (model)->axis[GOG_AXIS_CIRCULAR];
 	g_return_if_fail (r_axis != NULL && c_axis != NULL);
 	
-	gog_axis_get_bounds (c_axis, &circular_min, &circular_max);
-	edge_nbr = rint (circular_max + 1); 
 	area = gog_chart_view_get_plot_area (view->parent);
-	calc_polygon_parameters (area, edge_nbr, &center_x, &center_y, &radius);
-	
-	r_map = gog_axis_map_new (r_axis, 0., radius);
-	c_map = gog_axis_map_new (c_axis, -M_PI/2.0, 2.0 * M_PI * circular_max / (circular_max + 1.0));
-	if (!gog_axis_map_is_valid (r_map) || !gog_axis_map_is_valid (c_map)) {
-		gog_axis_map_free (r_map);
-		gog_axis_map_free (c_map);
+	chart_map = gog_chart_map_new (chart, area, c_axis, r_axis, NULL, FALSE);
+	if (!gog_chart_map_is_valid (chart_map)) {
+		gog_chart_map_free (chart_map);
 		return;
 	}
+	c_map = gog_chart_map_get_axis_map (chart_map, 0);
+	r_map = gog_chart_map_get_axis_map (chart_map, 1);
+	parms = gog_chart_map_get_polar_parms (chart_map);
 
+	bpath = gog_renderer_get_ring_wedge_bpath (parms->cx, parms->cy, parms->rx, parms->ry,
+						   0.0, 0.0, -parms->th0, -parms->th1);
+	clip_path = art_bez_path_to_vec (bpath, .1);
+	g_free (bpath);
+	
 	path = g_alloca ((model->num_elements + 2) * sizeof (ArtVpath));
 	for (ptr = model->base.series; ptr != NULL; ptr = ptr->next) {
 
-		GogRadarSeries *series = GOG_RADAR_SERIES (ptr->data);
+		GogRTSeries *series = GOG_RT_SERIES (ptr->data);
 		GogStyle *style;
 		gboolean closed_shape;
 		unsigned count;
-		double   *vals;
+		double   *r_vals, *c_vals;
 
 		if (!gog_series_is_valid (GOG_SERIES (series))) 
 			continue;
@@ -373,31 +444,28 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_renderer_push_style (view->renderer, style);
 
 		closed_shape = (series->base.num_elements == model->num_elements);
-		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
+		r_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
+		if (is_polar)
+			c_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data));
 		for (count = 0; count < series->base.num_elements; count++) {
-			double rho, theta, x, y;
 
-			if (!gog_axis_map_finite (r_map, vals [count])) {
+			if (!gog_axis_map_finite (r_map, r_vals [count])) {
 				closed_shape = FALSE;
 				continue;
 			}
 
-			theta = gog_axis_map_to_view (c_map, count);
-			rho = gog_axis_map_to_view (r_map, vals[count]);
-
-			x = center_x + rho * cos (theta);
-			y = center_y + rho * sin (theta);
-
-			path[count].code = ((count != 0 && !isnan (vals[count-1])) 
+			path[count].code = ((count != 0 && !isnan (r_vals[count-1])) 
 					    ? ART_LINETO : ART_MOVETO);
-			path[count].x = x;
-			path[count].y = y;
+			gog_chart_map_2D_to_view (chart_map, 
+						  is_polar ? c_vals[count] : count,
+						  r_vals[count], 
+						  &path[count].x, &path[count].y);
 
-			gog_renderer_draw_marker(view->renderer, x, y);
+			gog_renderer_draw_marker (view->renderer, path[count].x, path[count].y);
 		}
 
-		if (series->base.num_elements == model->num_elements
-		    && gog_axis_map_finite (r_map, vals[count-1])) {
+		if (!is_polar && series->base.num_elements == model->num_elements
+		    && gog_axis_map_finite (r_map, r_vals[count-1])) {
 			path[count].code = ART_LINETO; 
 			path[count].x = path[0].x;
 			path[count].y = path[0].y;
@@ -412,12 +480,12 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		gog_renderer_pop_style (view->renderer);
 	}
-	gog_axis_map_free (r_map);
-	gog_axis_map_free (c_map);
+	g_free (clip_path);
+	gog_chart_map_free (chart_map);
 }
 
 static gboolean
-gog_radar_view_info_at_point (GogView *view, double x, double y,
+gog_rt_view_info_at_point (GogView *view, double x, double y,
 			      GogObject const *cur_selection,
 			      GogObject **obj, char **name)
 {
@@ -432,15 +500,15 @@ gog_radar_view_info_at_point (GogView *view, double x, double y,
 }
 
 static void
-gog_radar_view_class_init (GogViewClass *view_klass)
+gog_rt_view_class_init (GogViewClass *view_klass)
 {
-	view_klass->render	  = gog_radar_view_render;
-	view_klass->info_at_point = gog_radar_view_info_at_point;
+	view_klass->render	  = gog_rt_view_render;
+	view_klass->info_at_point = gog_rt_view_info_at_point;
 	view_klass->clip	  = TRUE;
 }
 
-static GSF_CLASS (GogRadarView, gog_radar_view,
-		  gog_radar_view_class_init, NULL,
+static GSF_CLASS (GogRTView, gog_rt_view,
+		  gog_rt_view_class_init, NULL,
 		  GOG_PLOT_VIEW_TYPE)
 
 
@@ -449,9 +517,9 @@ static GSF_CLASS (GogRadarView, gog_radar_view,
 static GogStyledObjectClass *series_parent_klass;
 
 static void
-gog_radar_series_update (GogObject *obj)
+gog_rt_series_update (GogObject *obj)
 {
-	GogRadarSeries *series = GOG_RADAR_SERIES (obj);
+	GogRTSeries *series = GOG_RT_SERIES (obj);
 	unsigned old_num = series->base.num_elements;
 	double *vals;
 	unsigned len = 0;
@@ -476,16 +544,16 @@ gog_radar_series_update (GogObject *obj)
 }
 
 static void
-gog_radar_series_init_style (GogStyledObject *gso, GogStyle *style)
+gog_rt_series_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	GogSeries *series = GOG_SERIES (gso);
-	GogRadarPlot const *plot;
+	GogRTPlot const *plot;
 
 	series_parent_klass->init_style (gso, style);
 	if (series->plot == NULL)
 		return;
 
-	plot = GOG_RADAR_PLOT (series->plot);
+	plot = GOG_RT_PLOT (series->plot);
 	if (!plot->default_style_has_markers) {
 		style->disable_theming |= GOG_STYLE_MARKER;
 		if (style->marker.auto_shape) {
@@ -497,24 +565,26 @@ gog_radar_series_init_style (GogStyledObject *gso, GogStyle *style)
 }
 
 static void
-gog_radar_series_class_init (GogStyledObjectClass *gso_klass)
+gog_rt_series_class_init (GogStyledObjectClass *gso_klass)
 {
 	GogObjectClass * obj_klass = (GogObjectClass *) gso_klass;
 
 	series_parent_klass = g_type_class_peek_parent (gso_klass);
-	gso_klass->init_style = gog_radar_series_init_style;
-	obj_klass->update = gog_radar_series_update;
+	gso_klass->init_style = gog_rt_series_init_style;
+	obj_klass->update = gog_rt_series_update;
 }
 
-GSF_CLASS (GogRadarSeries, gog_radar_series,
-	   gog_radar_series_class_init, NULL,
+GSF_CLASS (GogRTSeries, gog_rt_series,
+	   gog_rt_series_class_init, NULL,
 	   GOG_SERIES_TYPE)
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
+	gog_rt_plot_get_type ();
 	gog_radar_plot_get_type ();
 	gog_radar_area_plot_get_type ();
+	gog_polar_plot_get_type ();
 }
 
 G_MODULE_EXPORT void

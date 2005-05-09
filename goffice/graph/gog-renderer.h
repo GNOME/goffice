@@ -43,6 +43,11 @@ void  gog_renderer_pop_style      (GogRenderer *r);
 void  gog_renderer_clip_push 	  (GogRenderer *r, GogViewAllocation const *region);
 void  gog_renderer_clip_pop       (GogRenderer *r);
 
+ArtBpath * gog_renderer_get_ring_wedge_bpath	(double cx, double cy, 
+						 double rx_out, double ry_out,
+						 double rx_in, double ry_in,
+						 double th0, double th1);
+
 void  gog_renderer_draw_sharp_path	(GogRenderer *r, ArtVpath *path,
 					 GogViewAllocation const *bound);
 void  gog_renderer_draw_sharp_polygon   (GogRenderer *r, ArtVpath *path,
@@ -50,14 +55,19 @@ void  gog_renderer_draw_sharp_polygon   (GogRenderer *r, ArtVpath *path,
 void  gog_renderer_draw_sharp_rectangle (GogRenderer *r, GogViewAllocation const *rect,
 					 GogViewAllocation const *bound);
 
-void  gog_renderer_draw_path      (GogRenderer *r, ArtVpath const *path,
-				   GogViewAllocation const *bound);
-void  gog_renderer_draw_polygon   (GogRenderer *r, ArtVpath const *path,
-				   gboolean narrow, GogViewAllocation const *bound);
-void  gog_renderer_draw_rectangle (GogRenderer *r, GogViewAllocation const *rect,
-				   GogViewAllocation const *bound);
-void  gog_renderer_draw_bezier_path      (GogRenderer *r, ArtBpath const *path,
-				   GogViewAllocation const *bound);
+void  gog_renderer_draw_ring_wedge  	(GogRenderer *r, double cx, double cy, 
+					 double rx_out, double ry_out,
+					 double rx_in, double ry_in,
+					 double th0, double th1, gboolean narrow,
+					 GogViewAllocation const *bound);
+void  gog_renderer_draw_path      	(GogRenderer *r, ArtVpath const *path,
+					 GogViewAllocation const *bound);
+void  gog_renderer_draw_polygon   	(GogRenderer *r, ArtVpath const *path,
+					 gboolean narrow, GogViewAllocation const *bound);
+void  gog_renderer_draw_rectangle 	(GogRenderer *r, GogViewAllocation const *rect,
+					 GogViewAllocation const *bound);
+void  gog_renderer_draw_bezier_path     (GogRenderer *r, ArtBpath const *path,
+					 GogViewAllocation const *bound);
 
 void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
 				   GogViewAllocation const *pos, GtkAnchorType anchor,
@@ -65,6 +75,11 @@ void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
 void  gog_renderer_draw_marker	  (GogRenderer *rend, double x, double y);
 void  gog_renderer_measure_text	  (GogRenderer *rend,
 				   char const *text, GogViewRequisition *size);
+
+#define gog_renderer_draw_arc(r,cx,cy,rx,ry,th0,th1,bound) \
+	gog_renderer_draw_ring_wedge (r,cx,cy,rx,ry,-1.,-1.,th0,th1,FALSE,bound)
+#define gog_renderer_draw_pie_wedge(r,cx,cy,rx,ry,th0,th1,narrow,bound) \
+	gog_renderer_draw_ring_wedge (r,cx,cy,rx,ry,0.,0.,th0,th1,narrow,bound)
 
 /* measurement */
 double gog_renderer_line_size	  	(GogRenderer const *r, double width);

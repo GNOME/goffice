@@ -1,3 +1,78 @@
+2005-05-09  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-axis-line.c (gog_axis_base_get_crossed_axis_type):
+	handle GOG_AXIS_SET_XY_pseudo_3d case.
+	(axis_line_get_bbox): fix label offset.
+	(axis_line_render): ditto.
+	(axis_circle_get_bbox): take ticks into account. Use GogChartMap.
+	(axis_circle_render): if axis is polar, use bezier paths by calling
+	gog_renderer_draw_arc. Draw ticks. Use GogChartMap.
+	(x_process): new.
+	(xy_process): use GogChartMap. 
+	(calc_polygon_parameters): removed.
+	(radar_process): implement padding_request for radial axes. 
+	(gog_axis_base_view_info_at_point): handle GOG_AXIS_SET_X.
+	(gog_axis_base_view_padding_request): ditto.
+	(gog_axis_base_view_render): ditto.
+	* goffice/graph/gog-axis.c (map_bounds): new.
+	(map_linear_auto_bound): handle auto bounds for non discrete circular
+	axis.
+	(map_linear_calc_ticks): place major ticks to a multiple of major
+	step.
+	(map_log_bounds): new.
+	(gog_axis_map_get_extents): new.
+	(gog_axis_map_get_bounds): new.
+	(role_grid_line_major_can_add): can be TRUE for non discrete 
+	GOG_AXIS_CIRCULAR.
+	(role_grid_line_minor_post_add): ditto.
+	(role_axis_line_can_add): can be TRUE for GOG_AXIS_RADIAL.
+	(gog_axis_set_property): changing invert flag invalidates layout.
+	(gog_axis_populate_editor): don't show map type selector for
+	GOG_AXIS_CIRCULAR.
+	(gog_axis_is_inverted): new.
+	* goffice/graph/gog-chart.c (calc_polygon_parameters): new.
+	(calc_circle_parameters): new.
+	(null_map_2D): new.
+	(x_map_2D_to_view): new.
+	(xy_map_2D_to_view): new.
+	(polar_map_2D_to_view): new.
+	(gog_chart_map_get_polar_parms): new.
+	(gog_chart_map_new): needs pointers to axes of the axis set now.
+	handle GOG_AXIS_SET_X, GOG_AXIS_SET_RADAR and
+	GOG_AXIS_SET_XY_pseudo_3d.
+	(gog_chart_map_2D): removed.
+	(gog_chart_map_2D_to_view): new.
+	(gog_chart_map_get_axis_map): new.
+	(gog_chart_map_is_valid): new.
+	(gog_chart_axis_set_assign): handle GOG_AXIS_SET_RADAR.
+	* goffice/graph/gog-grid-line.c (calc_polygon_parameters): removed.
+	(gog_grid_line_view_render): handle polar plots.
+	* goffice/graph/gog-grid.c (gog_grid_view_render): handle polar and
+	radar plots.
+	* goffice/graph/gog-renderer-gnome-print.c
+	(draw_bezier_path): new.
+	(gog_renderer_gnome_print_draw_bezier_path): use draw_bezier_path.
+	(gog_renderer_gnome_print_draw_bezier_polygon): new.
+	* goffice/graph/gog-renderer-pixbuf.c
+	(gog_renderer_pixbuf_draw_polygon): fix transparency rendering. Idea
+	stolen from gnome-print.
+	(gog_renderer_pixbuf_draw_bezier_polygon): new.
+	* goffice/graph/gog-renderer-svg.c (fill_properties): new.
+	(gog_renderer_svg_draw_bezier_polygon): new.
+	* goffice/graph/gog-renderer.c 
+	(gog_renderer_get_ring_wedge_vpath): new.
+	(gog_renderer_draw_ring_wedge): new.
+	(gog_renderer_draw_pie_wedge): new.
+	(gog_renderer_draw_arc): new.
+	* plugins/plot_radar/gog-radar.c: renamed GogRadarPlot to GogRTPlot,
+	as base of GogRadarPlot and GogPolarPlot.
+	New GogRadarPlot and GogPolarPlot classes.
+	Renamed GogRadarView class to GogRTView class.
+	(gog_rt_view_render): handle radar and polar plots.
+	Renamed GogRadarSeries class to GogRTSeries.
+	* plugins/plot_radar/plot-types.xml.in: add polar plots.
+	* plugins/plot_radar/plugin.xml.in: ditto.
+	
 2005-05-09  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-style.c (cb_font_changed): C99, const, and

@@ -59,6 +59,7 @@ struct _GogAxisMapDesc {
 	double 		(*map_from_view) (GogAxisMap *map, double value);
 	gboolean	(*map_finite)    (double value);
 	double		(*map_baseline)  (GogAxisMap *map);
+	void		(*map_bounds)	 (GogAxisMap *map, double *minimum, double *maximum);
 	gboolean 	(*init) 	 (GogAxisMap *map, double offset, double length);
 	void		(*destroy) 	 (GogAxisMap *map);
 	void		(*auto_bound) 	 (GogAxis *axis, 
@@ -75,6 +76,8 @@ double	      gog_axis_map_to_view	  (GogAxisMap *map, double x);
 double	      gog_axis_map_from_view	  (GogAxisMap *map, double x);
 gboolean      gog_axis_map_finite	  (GogAxisMap *map, double value);
 double	      gog_axis_map_get_baseline	  (GogAxisMap *map);
+void 	      gog_axis_map_get_extents 	  (GogAxisMap *map, double *start, double *stop);
+void	      gog_axis_map_get_bounds 	  (GogAxisMap *map, double *minimum, double *maximum);
 void 	      gog_axis_map_free		  (GogAxisMap *map);
 gboolean      gog_axis_map_is_valid 	  (GogAxisMap *map);
 
@@ -89,6 +92,7 @@ GType gog_axis_get_type (void);
 GogAxisType   gog_axis_get_atype 	  (GogAxis const *axis);
 gboolean      gog_axis_is_center_on_ticks (GogAxis const *axis);
 gboolean      gog_axis_is_discrete        (GogAxis const *axis);
+gboolean      gog_axis_is_inverted	  (GogAxis const *axis);
 gboolean      gog_axis_get_bounds 	  (GogAxis const *axis,
 					   double *minima, double *maxima);
 unsigned      gog_axis_get_ticks 	  (GogAxis *axis, GogAxisTick **ticks);

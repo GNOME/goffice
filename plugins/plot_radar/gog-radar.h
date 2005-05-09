@@ -37,14 +37,32 @@ typedef struct {
 	GogPlot	base;
 	gboolean default_style_has_markers;
 	unsigned num_elements;
-	double minima, maxima;
-} GogRadarPlot;
+	struct {
+		double minima, maxima;
+	} r, t;
+} GogRTPlot;
+
+typedef GogRTPlot GogRadarPlot;
+
+typedef GogRTPlot GogPolarPlot;
+	
+#define GOG_RT_PLOT_TYPE	(gog_rt_plot_get_type ())
+#define GOG_RT_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RT_PLOT_TYPE, GogRTPlot))
+#define GOG_IS_PLOT_RT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RT_PLOT_TYPE))
+
+GType gog_rt_plot_get_type (void);
 
 #define GOG_RADAR_PLOT_TYPE	(gog_radar_plot_get_type ())
 #define GOG_RADAR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RADAR_PLOT_TYPE, GogRadarPlot))
 #define GOG_IS_PLOT_RADAR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RADAR_PLOT_TYPE))
 
 GType gog_radar_plot_get_type (void);
+
+#define GOG_POLAR_PLOT_TYPE	(gog_polar_plot_get_type ())
+#define GOG_POLAR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_POLAR_PLOT_TYPE, GogPolarPlot))
+#define GOG_IS_PLOT_POLAR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_POLAR_PLOT_TYPE))
+
+GType gog_polar_plot_get_type (void);
 
 G_END_DECLS
 

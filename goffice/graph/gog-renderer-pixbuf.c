@@ -312,7 +312,7 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path,
   
 static void
 gog_renderer_pixbuf_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
-			       GogViewAllocation const *bound)
+				      GogViewAllocation const *bound)
 {
 	ArtVpath *vpath = art_bez_path_to_vec (path, .1);
 	gog_renderer_pixbuf_draw_path (rend, vpath, bound);
@@ -339,7 +339,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 	GogStyle const *style = rend->cur_style;
 	ArtVpath *dashed_path;
 	ArtRender *render;
-	ArtSVP *fill, *outline = NULL;
+	ArtSVP *outline = NULL;
 	ArtDRect bbox;
 	ArtGradientLinear gradient;
 	ArtGradientStop stops[2];
@@ -378,7 +378,15 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 	}
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE) {
-		fill = art_svp_from_vpath ((ArtVpath *)path);
+		ArtSVP *svp1, *svp2, *fill;
+		ArtVpath *path1;
+		path1 = art_vpath_perturb ((ArtVpath *)path);
+		svp1 = art_svp_from_vpath (path1);
+		art_free (path1);
+		svp2 = art_svp_uncross (svp1);
+		fill = art_svp_rewind_uncrossed (svp2, ART_WIND_RULE_NONZERO);
+		art_svp_free (svp1);
+		art_svp_free (svp2);
 		if (bound != NULL) {
 			ArtSVP *orig = fill;
 			ArtSVP *clip = clip_path (bound);
@@ -523,6 +531,15 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 	}
 }
 
+static void
+gog_renderer_pixbuf_draw_bezier_polygon (GogRenderer *rend, ArtBpath const *path,
+					 gboolean narrow, GogViewAllocation const *bound)
+{
+	ArtVpath *vpath = art_bez_path_to_vec (path, .1);
+	gog_renderer_pixbuf_draw_polygon (rend, vpath, narrow, bound);
+	art_free (vpath);
+}
+
 static PangoContext *
 gog_renderer_pixbuf_get_pango_context (GogRendererPixbuf *prend)
 {
@@ -616,9 +633,6 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 	}
 	x = (x > 0) ? (x + PANGO_SCALE / 2) / PANGO_SCALE : 0;
 	w = (rect.width + PANGO_SCALE / 2) / PANGO_SCALE;
-/*	Makes rendering inconsitent with gnome-print and svg renderer */
-/*	if (w > pos->w && pos->w >= 0)*/
-/*		w = pos->w;*/
 	if ((x + w) > prend->w)
 		w = prend->w - x;
 
@@ -633,9 +647,6 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 	}
 	y = (y > 0) ? (y + PANGO_SCALE / 2) / PANGO_SCALE : 0;
 	h = (rect.height + PANGO_SCALE / 2) / PANGO_SCALE;
-/*	Makes rendering inconsitent with gnome-print and svg renderer */
-/*	if (h > pos->h && pos->h >= 0)*/
-/*		h = pos->h;*/
 	if ((y + h) > prend->h)
 		h = prend->h - y;
 
@@ -771,7 +782,8 @@ gog_renderer_pixbuf_class_init (GogRendererClass *rend_klass)
 	rend_klass->sharp_path		= gog_renderer_pixbuf_sharp_path;
 	rend_klass->draw_path	  	= gog_renderer_pixbuf_draw_path;
 	rend_klass->draw_polygon  	= gog_renderer_pixbuf_draw_polygon;
-	rend_klass->draw_bezier_path = gog_renderer_pixbuf_draw_bezier_path;
+	rend_klass->draw_bezier_path 	= gog_renderer_pixbuf_draw_bezier_path;
+	rend_klass->draw_bezier_polygon = gog_renderer_pixbuf_draw_bezier_polygon;
 	rend_klass->draw_text	  	= gog_renderer_pixbuf_draw_text;
 	rend_klass->draw_marker	  	= gog_renderer_pixbuf_draw_marker;
 	rend_klass->measure_text  	= gog_renderer_pixbuf_measure_text;

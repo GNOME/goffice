@@ -285,6 +285,138 @@ gog_renderer_clip_pop (GogRenderer *rend)
 }
 
 /**
+ * gog_renderer_get_ring_wedge_vpath :
+ * @cx : center x coordinate
+ * @cy : center y coordinate
+ * @rx : x radius
+ * @ry : y radius
+ * @th0 : start arc angle
+ * @th1 : stop arc angle
+ *
+ * a utility routine to build a ring wedge path.
+ **/
+ArtBpath * gog_renderer_get_ring_wedge_bpath	(double cx, double cy, 
+						 double rx_out, double ry_out,
+						 double rx_in, double ry_in,
+						 double th0, double th1)
+{
+	ArtBpath *path;
+	double th_arc, th_out, th_in, th_delta, t;
+	int i, n_segs;
+	gboolean fill = rx_in >= 0.0 && ry_in >= 0.0;
+	gboolean draw_in, ellipse = FALSE;
+
+ 	if (rx_out <= 0.0 || ry_out <= 0.0 || rx_out < rx_in || ry_out < ry_in)
+		return NULL;
+
+	draw_in = fill && (rx_in > rx_out / 1E6) && (ry_in > ry_out / 1E6);
+
+	if (th1 < th0) { t = th1; th1 = th0; th0 = t; }
+	if (go_add_epsilon (th1 - th0) >= 2 * M_PI) {
+		ellipse = TRUE;
+		th1 = th0 + 2 * M_PI;
+	}
+
+	th_arc = th1 - th0;
+	n_segs = ceil (fabs (th_arc / (M_PI * 0.5 + 0.001)));
+
+	path = g_new (ArtBpath, (1 + n_segs) * (draw_in ? 2 : 1) + (fill ? (draw_in ? 2 : 3) : 1));
+
+	path[0].x3 = cx + rx_out * cos (th1);
+	path[0].y3 = cy + ry_out * sin (th1);
+	path[0].code = ART_MOVETO;
+
+	if (fill && !ellipse) {
+		path[n_segs + 1].x3 = cx + rx_in * cos (th0);
+		path[n_segs + 1].y3 = cy + ry_in * sin (th0);
+		path[n_segs + 1].code = ART_LINETO;
+		if (draw_in) {
+			/* Ring wedge */
+			path[2 * n_segs + 2].x3 = path[0].x3;
+			path[2 * n_segs + 2].y3 = path[0].y3;
+			path[2 * n_segs + 2].code = ART_LINETO;
+			path[2 * n_segs + 3].code = ART_END;
+		} else {
+			/* Pie wedge */
+			path[n_segs + 1].x3 = cx;
+			path[n_segs + 1].y3 = cy;
+			path[n_segs + 1].code = ART_LINETO;
+			path[n_segs + 2].x3 = path[0].x3;
+			path[n_segs + 2].y3 = path[0].y3;
+			path[n_segs + 2].code = ART_LINETO;
+			path[n_segs + 3].code = ART_END;
+		}
+	} else 
+		/* Arc */
+		path[n_segs + 1].code = ART_END;
+
+	th_delta = th_arc / n_segs;
+	t = - (8.0 / 3.0) * sin (th_delta * 0.25) * sin (th_delta * 0.25) / sin (th_delta * 0.5);
+	th_out = th1;
+	th_in = th0;
+	for (i = 1; i <= n_segs; i++) {	
+		path[i].x1 = cx + rx_out * (cos (th_out) - t * sin (th_out));
+		path[i].y1 = cy + ry_out * (sin (th_out) + t * cos (th_out));
+		path[i].x3 = cx + rx_out * cos (th_out - th_delta);
+		path[i].y3 = cy + ry_out * sin (th_out - th_delta);
+		path[i].x2 = path[i].x3 + rx_out * t * sin (th_out - th_delta);
+		path[i].y2 = path[i].y3 - ry_out * t * cos (th_out - th_delta);
+		path[i].code = ART_CURVETO;
+		th_out -= th_delta;
+		if (draw_in) {
+			path[i+n_segs+1].x1 = cx + rx_in * (cos (th_in) - t * sin (th_in));
+			path[i+n_segs+1].y1 = cy + ry_in * (sin (th_in) + t * cos (th_in));
+			path[i+n_segs+1].x3 = cx + rx_in * cos (th_in + th_delta);
+			path[i+n_segs+1].y3 = cy + ry_in * sin (th_in + th_delta);
+			path[i+n_segs+1].x2 = path[i+n_segs+1].x3 + rx_in * t * sin (th_in + th_delta);
+			path[i+n_segs+1].y2 = path[i+n_segs+1].y3 - ry_in * t * cos (th_in + th_delta);
+			path[i+n_segs+1].code = ART_CURVETO;
+			th_in += th_delta;
+		}
+	}
+	return path;
+}
+
+/**
+ * gog_renderer_draw_ring_wedge :
+ * @renderer : #GogRenderer
+ * @cx : center x coordinate
+ * @cy : center y coordinate
+ * @rx : x radius
+ * @ry : y radius
+ * @th0 : start arc angle
+ * @th1 : stop arc angle
+ *
+ * a utility routine to draw an arc.
+ **/
+
+void
+gog_renderer_draw_ring_wedge (GogRenderer *rend, double cx, double cy,
+			      double rx_out, double ry_out, 
+			      double rx_in, double ry_in,
+			      double th0, double th1,
+			      gboolean narrow,
+			      GogViewAllocation const *bound)
+{
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
+	ArtBpath *path;
+
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (rend->cur_style != NULL);
+
+	path = gog_renderer_get_ring_wedge_bpath (cx, cy, rx_out, ry_out, rx_in, ry_in, th0, th1);
+	if (path == NULL)
+		return;
+
+	if (rx_in >= 0.0 && ry_in >= 0.0)
+		(klass->draw_bezier_polygon) (rend, path, narrow, bound);
+	else
+		(klass->draw_bezier_path) (rend, path, bound);
+
+	g_free (path);
+}
+
+/**
  * gog_renderer_draw_sharp_path :
  * @rend : #GogRenderer
  * @path  : #ArtVpath

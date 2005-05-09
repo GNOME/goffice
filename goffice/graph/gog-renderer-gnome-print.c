@@ -434,23 +434,8 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 }
 
 static void
-gog_renderer_gnome_print_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
-			       GogViewAllocation const *bound)
+draw_bezier_path (GogRendererGnomePrint *prend, ArtBpath const *path)
 {
-	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
-	GogStyle const *style = rend->cur_style;
-
-	if (style->line.dash_type == GO_LINE_NONE)
-		return;
-
-	set_color (prend, style->line.color);
-	set_dash (prend, rend->line_dash);
-	gnome_print_setlinewidth (prend->gp_context,
-		gog_renderer_line_size (rend, style->line.width));
-
-	if (bound != NULL)
-		setup_clip (prend, bound);
-	
 	gnome_print_newpath (prend->gp_context);
 	for ( ; path->code != ART_END ; path++)
 		switch (path->code) {
@@ -472,6 +457,27 @@ gog_renderer_gnome_print_draw_bezier_path (GogRenderer *rend, ArtBpath const *pa
 		default :
 			break;
 		}
+}
+
+static void
+gog_renderer_gnome_print_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
+			       GogViewAllocation const *bound)
+{
+	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
+	GogStyle const *style = rend->cur_style;
+
+	if (style->line.dash_type == GO_LINE_NONE)
+		return;
+
+	set_color (prend, style->line.color);
+	set_dash (prend, rend->line_dash);
+	gnome_print_setlinewidth (prend->gp_context,
+		gog_renderer_line_size (rend, style->line.width));
+
+	if (bound != NULL)
+		setup_clip (prend, bound);
+	
+	draw_bezier_path (prend, path);
 /*	if (style->line.dash_type != GO_LINE_SOLID && renderer->cur_clip != NULL) {
 		ArtVpath *clipped = go_line_clip_vpath (path, &renderer->cur_clip->area);
 		draw_path (prend, clipped);
@@ -483,6 +489,15 @@ gog_renderer_gnome_print_draw_bezier_path (GogRenderer *rend, ArtBpath const *pa
 	
 	if (bound != NULL)
 		gnome_print_grestore (prend->gp_context);
+}
+
+static void
+gog_renderer_gnome_print_draw_bezier_polygon (GogRenderer *rend, ArtBpath const *path,
+					      gboolean narrow, GogViewAllocation const *bound)
+{
+	ArtVpath *vpath = art_bez_path_to_vec (path, .1);
+	gog_renderer_gnome_print_draw_polygon (rend, vpath, narrow, bound);
+	art_free (vpath);
 }
 
 static void
@@ -615,7 +630,8 @@ gog_renderer_gnome_print_class_init (GogRendererClass *rend_klass)
 	rend_klass->clip_pop		= gog_renderer_gnome_print_clip_pop;
 	rend_klass->draw_path	  	= gog_renderer_gnome_print_draw_path;
 	rend_klass->draw_polygon  	= gog_renderer_gnome_print_draw_polygon;
-	rend_klass->draw_bezier_path = gog_renderer_gnome_print_draw_bezier_path;
+	rend_klass->draw_bezier_path 	= gog_renderer_gnome_print_draw_bezier_path;
+	rend_klass->draw_bezier_polygon = gog_renderer_gnome_print_draw_bezier_polygon;
 	rend_klass->draw_text	  	= gog_renderer_gnome_print_draw_text;
 	rend_klass->draw_marker	  	= gog_renderer_gnome_print_draw_marker;
 	rend_klass->measure_text  	= gog_renderer_gnome_print_measure_text;

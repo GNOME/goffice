@@ -1,10 +1,14 @@
 goffice 0.0.1
 
-Emmanuel Pacaud
+Emmanuel Pacaud:
+	* Add support for polar plots.
 	* Add multiple axes support for xy, line, barcol, bubble plots.
+	* Fix axis rendering order for contour, area and radar plots.
+	* avoid use of setlocale in svg renderer. [#172726]
 	* Add radar axis labels [#152695]
 	* Fix crash in print preview with log plots. [#170547]
 	* Fix crahs when deleting a serie. [#166403]
+	* Fix transparency in pixbuf renderer. [159368]
 
 Jean Bréfort
 	* Fixed opacity problem in color selector (#135434)

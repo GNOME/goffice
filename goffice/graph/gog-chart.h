@@ -23,19 +23,38 @@
 #define GOG_CHART_H
 
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/graph/gog-axis.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
 
 typedef struct {
-	double		 a[3][3];
-	double		 b[3];
-	GogAxisSet	 axis_set;
-} GogChartMap;
+	double cx, cy;
+	double rx, ry;
+	double th0, th1;
+} GogChartMapPolarData;
 
-GogChartMap 	*gog_chart_map_new (GogChart *chart, GogViewAllocation const *area);
-void 		 gog_chart_map_2D (GogChartMap *map, double x, double y, double *xx, double *yy);
-void		 gog_chart_map_free (GogChartMap *map);
+typedef struct _GogChartMap GogChartMap;
+
+struct _GogChartMap {
+	GogChart 		*chart;
+	GogViewAllocation	 area;
+	gpointer	 	 data;
+	GogAxisMap		*axis_map[3];
+	gboolean		 is_valid;
+
+	void (*map_2D_to_view)	(GogChartMap *map, double x, double y, double *u, double *v);
+};
+
+GogChartMap 	*gog_chart_map_new 		(GogChart *chart, GogViewAllocation const *area,
+						 GogAxis *axis0, GogAxis *axis1, GogAxis *axis2,
+						 gboolean fill_area);
+void 		 gog_chart_map_2D_to_view	(GogChartMap *map, double x, double y, double *u, double *v);
+GogAxisMap	*gog_chart_map_get_axis_map 	(GogChartMap *map, unsigned i);
+gboolean	 gog_chart_map_is_valid 	(GogChartMap *map);
+void		 gog_chart_map_free 		(GogChartMap *map);
+
+GogChartMapPolarData *gog_chart_map_get_polar_parms (GogChartMap *map);
 	
 #define GOG_CHART_TYPE	(gog_chart_get_type ())
 #define GOG_CHART(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_CHART_TYPE, GogChart))
