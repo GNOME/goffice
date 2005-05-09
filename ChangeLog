@@ -5,6 +5,8 @@
 	* plugins/plot_surface/gog-surface.c: (gog_contour_plot_update),
 	(gog_contour_view_render): avoid crashes and weird displays
 	when there are no data for the axis.
+	* plugins/plot_surface/xl-surface.c (xl_contour_plot_build_matrix):
+	fix a vector length problem and replace nan by 0. to be xl compatible.
 
 2005-05-08  Jean Brefort  <jean.brefort@normalesup.org>
 

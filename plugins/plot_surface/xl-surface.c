@@ -48,7 +48,7 @@ static double *
 xl_contour_plot_build_matrix (GogContourPlot const *plot,
 			gboolean *cardinality_changed)
 {
-	unsigned i, j;
+	unsigned i, j, length;
 	GogAxisMap *map;
 	GogAxisTick *zticks;
 	GogAxis *axis = plot->base.axis[GOG_AXIS_PSEUDO_3D];
@@ -79,15 +79,21 @@ xl_contour_plot_build_matrix (GogContourPlot const *plot,
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 		vec = GO_DATA_VECTOR (series->values[1].data);
+		length = go_data_vector_get_len (vec);
 		for (j = 0; j < plot->columns; j++) {
-			val = gog_axis_map_to_view (map,
-					go_data_vector_get_value (vec, j));
+			/* The vector might be too short, excel is so ugly ;-) */
+			val = (j < length)? gog_axis_map_to_view (map,
+					go_data_vector_get_value (vec, j)): 0.;
+			/* This is an excel compatible plot, so let's be compatible */
+			if (val == go_nan || !go_finite (val))
+				val = 0.;
 			if (fabs (val) == DBL_MAX)
 				val = go_nan;
 			else {
 				val = val/ x[1] - x[0];
-				if (val < 0)
+				if (val < 0) {
 					val = go_nan;
+				}
 			}
 			data[i * plot->columns + j] = val;
 		}
