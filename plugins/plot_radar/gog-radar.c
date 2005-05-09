@@ -434,7 +434,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 		GogStyle *style;
 		gboolean closed_shape;
 		unsigned count;
-		double   *r_vals, *c_vals;
+		double   *r_vals, *c_vals = NULL;
 
 		if (!gog_series_is_valid (GOG_SERIES (series))) 
 			continue;

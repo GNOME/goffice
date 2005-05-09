@@ -1,5 +1,9 @@
 2005-05-09  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* plugins/plot_radar/gog-radar.c (gog_rt_view_render): warning fix.
+
+2005-05-09  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* goffice/graph/gog-axis-line.c (gog_axis_base_get_crossed_axis_type):
 	handle GOG_AXIS_SET_XY_pseudo_3d case.
 	(axis_line_get_bbox): fix label offset.
