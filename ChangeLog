@@ -1,3 +1,7 @@
+2005-05-10  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-chart.c (gog_chart_map_free): unref map::chart.
+
 2005-05-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: add linear regressions in scatter plots.

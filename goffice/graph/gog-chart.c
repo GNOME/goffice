@@ -289,6 +289,7 @@ gog_chart_map_free (GogChartMap *map)
 			gog_axis_map_free (map->axis_map[i]);
 
 	g_free (map->data);
+	g_object_unref (map->chart);
 	g_free (map);
 }
 
