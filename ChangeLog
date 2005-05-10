@@ -1,3 +1,11 @@
+2005-05-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.0.1
+
+2005-05-09  Jody Goldberg <jody@gnome.org>
+
+	* tests/pie-demo.c (main) : update
+
 2005-05-09  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* plugins/plot_radar/gog-radar.c (gog_rt_view_render): warning fix.

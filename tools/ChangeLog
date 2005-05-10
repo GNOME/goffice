@@ -1,3 +1,7 @@
+2005-05-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.0.1
+
 2005-03-29  Morten Welinder  <terra@gnome.org>
 
 	* import-foocanvas (copy_subsystem): Make property names static.

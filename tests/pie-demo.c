@@ -95,9 +95,9 @@ main (int argc, char *argv[])
 	gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (pie));
 	/* Create a series for the plot and populate it with some simple data */
 	series = gog_plot_new_series (pie);
-	data = go_data_vector_str_new (legends, 4);
+	data = go_data_vector_str_new ((char **)legends, 4, NULL);
 	gog_series_set_dim (series, 0, data, &error);
-	data = go_data_vector_val_new (values, 4);
+	data = go_data_vector_val_new (values, 4, NULL);
 	gog_series_set_dim (series, 1, data, &error);
 	/* Add a legend to the chart */
 	gog_object_add_by_name (GOG_OBJECT (chart), "Legend", NULL);
