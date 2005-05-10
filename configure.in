@@ -449,6 +449,7 @@ plugins/plot_radar/Makefile
 plugins/plot_xy/Makefile
 plugins/plot_surface/Makefile
 plugins/plot_boxes/Makefile
+plugins/reg_linear/Makefile
 pixmaps/Makefile
 po/Makefile.in
 tests/Makefile

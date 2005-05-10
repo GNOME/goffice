@@ -29,6 +29,7 @@
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-plot.h>
+#include <goffice/graph/gog-reg-curve.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-data-allocator.h>
@@ -146,6 +147,7 @@ enum {
 #define BORDER	5
 
 #define PLOT_TYPE_KEY		"plot_type"
+#define REG_CURVE_TYPE_KEY	"reg_curve_type"
 #define FIRST_MINOR_TYPE	"first_minor_type"
 #define ROLE_KEY		"role"
 #define STATE_KEY		"plot_type"
@@ -679,6 +681,47 @@ plot_type_menu_create (GraphGuruState *s)
 }
 
 static void
+cb_graph_guru_add_reg_curve (GtkWidget *w, GraphGuruState *s)
+{
+	GogRegCurveType *type = g_object_get_data (G_OBJECT (w), REG_CURVE_TYPE_KEY);
+	GogRegCurve *curve = gog_reg_curve_new_by_type (type);
+	gog_object_add_by_name (GOG_OBJECT (s->prop_object),
+		"Regression curve", GOG_OBJECT (curve));
+}
+
+static void
+cb_reg_curve_type_menu_create (char const *id, GogRegCurveType *type,
+			    struct type_menu_create *closure)
+{
+	GtkWidget *menu;
+
+	menu = gtk_menu_item_new_with_label (_(type->name));
+	g_object_set_data (G_OBJECT (menu), REG_CURVE_TYPE_KEY, type);
+	g_signal_connect (G_OBJECT (menu),
+		"activate",
+		G_CALLBACK (cb_graph_guru_add_reg_curve), closure->state);
+	gtk_menu_shell_append (GTK_MENU_SHELL (closure->menu), menu);
+	closure->non_blank = TRUE;
+}
+
+static GtkWidget *
+reg_curve_type_menu_create (GraphGuruState *s)
+{
+	struct type_menu_create closure;
+	closure.state = s;
+	closure.menu = gtk_menu_new ();
+	closure.non_blank = FALSE;
+
+	g_hash_table_foreach ((GHashTable *)gog_reg_curve_types (),
+		(GHFunc) cb_reg_curve_type_menu_create, &closure);
+
+	if (closure.non_blank)
+		return closure.menu;
+	gtk_object_destroy (GTK_OBJECT (closure.menu));
+	return NULL;
+}
+
+static void
 cb_attr_tree_selection_change (GraphGuruState *s)
 {
 	gboolean add_ok = FALSE;
@@ -723,7 +766,14 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 				role = ptr->data;
 				/* somewhat hackish, but I do not see a need
 				 * for anything more general yet */
-				if (strcmp (role->id, "Plot")) {
+				if (!strcmp (role->id, "Regression curve")) {
+					GtkWidget *submenu = reg_curve_type_menu_create (s);
+					if (submenu != NULL) {
+						tmp = gtk_menu_item_new_with_label (_(role->id));
+						gtk_menu_item_set_submenu (GTK_MENU_ITEM (tmp), submenu);
+					} else 
+						continue;
+				} else if (strcmp (role->id, "Plot")) {
 					tmp = gtk_menu_item_new_with_label (_(role->id));
 					g_object_set_data (G_OBJECT (tmp), ROLE_KEY,
 						(gpointer)role);

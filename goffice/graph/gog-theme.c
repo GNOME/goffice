@@ -536,6 +536,32 @@ gog_themes_init	(void)
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogLabel", NULL);
 
+	/* regression curves */
+	style = gog_style_new ();
+	style->line.dash_type = GO_LINE_SOLID;
+	style->line.width = 1;
+	style->line.color = RGBA_BLACK;
+	gog_theme_add_element (theme, style,
+		NULL, "GogRegCurve", NULL);
+
+	/* regression curves */
+	style = gog_style_new ();
+	style->line.dash_type = GO_LINE_SOLID;
+	style->line.width = 1;
+	style->line.color = RGBA_BLACK;
+	gog_theme_add_element (theme, style,
+		NULL, "GogRegCurve", NULL);
+
+	/* regression equations */
+	style = gog_style_new ();
+	style->outline.dash_type = GO_LINE_SOLID;
+	style->outline.width = 0; /* hairline */
+	style->outline.color = RGBA_BLACK;
+	style->fill.type = GOG_FILL_STYLE_PATTERN;
+	go_pattern_set_solid (&style->fill.pattern, 0);
+	gog_theme_add_element (theme, style,
+		NULL, "GogRegEqn", NULL);
+
 /* Guppi */
 	theme = gog_theme_new (N_("Guppi"));
 	gog_theme_register (theme, FALSE);
@@ -623,6 +649,24 @@ gog_themes_init	(void)
 	style->fill.type = GOG_FILL_STYLE_NONE;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogLabel", NULL);
+
+	/* regression curves */
+	style = gog_style_new ();
+	style->line.dash_type = GO_LINE_SOLID;
+	style->line.width = 1;
+	style->line.color = RGBA_BLACK;
+	gog_theme_add_element (theme, style,
+		NULL, "GogRegCurve", NULL);
+
+	/* regression equations */
+	style = gog_style_new ();
+	style->outline.dash_type = GO_LINE_SOLID;
+	style->outline.width = 0; /* hairline */
+	style->outline.color = RGBA_BLACK;
+	style->fill.type = GOG_FILL_STYLE_PATTERN;
+	go_pattern_set_solid (&style->fill.pattern, 0);
+	gog_theme_add_element (theme, style,
+		NULL, "GogRegEqn", NULL);
 }
 
 void
@@ -635,4 +679,3 @@ gog_themes_shutdown (void)
 	for (ptr = themes; ptr != NULL ; ptr = ptr->next)
 		g_object_unref (ptr->data);
 }
-

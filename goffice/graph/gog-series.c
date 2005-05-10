@@ -204,6 +204,25 @@ GSF_CLASS (GogSeriesElement, gog_series_element,
 	   gog_series_element_class_init, NULL /*gog_series_element_init*/,
 	   GOG_STYLED_OBJECT_TYPE)
 
+/*****************************************************************************/
+
+static gboolean
+regression_curve_can_add (GogObject const *parent)
+{
+	GogSeries *series = GOG_SERIES (parent);
+	return (series->acceptable_children && GOG_SERIES_ACCEPT_REGRESSION_CURVE) != 0;
+}
+
+static void
+regression_curve_post_add (GogObject *parent, GogObject *child)
+{
+	gog_object_request_update (child);
+}
+
+static void
+regression_curve_pre_remove (GogObject *parent, GogObject *child)
+{
+}
 
 /*****************************************************************************/
 
@@ -448,6 +467,14 @@ gog_series_class_init (GogSeriesClass *klass)
 		  role_series_element_allocate,
 		  role_series_element_post_add,
 		  role_series_element_pre_remove, NULL },
+		{ N_("Regression curve"), "GogRegCurve",	1,
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
+		  regression_curve_can_add,
+		  NULL,
+		  NULL,
+		  regression_curve_post_add,
+		  regression_curve_pre_remove,
+		  NULL },
 	};
 	GObjectClass *gobject_klass = (GObjectClass *) klass;
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
@@ -481,6 +508,7 @@ gog_series_init (GogSeries *series)
 	series->plot = NULL;
 	series->values = NULL;
 	series->index = -1;
+	series->acceptable_children = 0;
 }
 
 static void

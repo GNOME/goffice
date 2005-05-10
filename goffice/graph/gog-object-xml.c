@@ -23,6 +23,7 @@
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-plot.h>
+#include <goffice/graph/gog-reg-curve.h>
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-color.h>
@@ -492,7 +493,12 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 		GType type = g_type_from_name (type_name);
 		if (type == 0) {
 			GogPlot *plot = gog_plot_new_by_name (type_name);
-			res = GOG_OBJECT (plot);
+			if (plot)
+				res = GOG_OBJECT (plot);
+			else {
+				GogRegCurve *curve = gog_reg_curve_new_by_name (type_name);
+				res = GOG_OBJECT (curve);
+			}
 		} else
 			res = g_object_new (type, NULL);
 		xmlFree (type_name);

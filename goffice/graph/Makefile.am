@@ -24,6 +24,8 @@ libgoffice_graph_la_SOURCES = \
 	gog-plot-engine.c		\
 	gog-series.c			\
 	gog-error-bar.c			\
+	gog-reg-curve.c			\
+	gog-reg-eqn.c			\
 	gog-data-allocator.c		\
 	gog-data-set.c			\
 	\
@@ -61,6 +63,8 @@ libgoffice_graph_la_HEADERS = 	\
 	gog-series.h			\
 	gog-series-impl.h		\
 	gog-error-bar.h			\
+	gog-reg-curve.h			\
+	gog-reg-eqn.h			\
 	gog-data-allocator.h		\
 	gog-data-set.h			\
 	gog-guru.h			\
@@ -77,7 +81,9 @@ goffice_glade_DATA = \
 	gog-guru-type-selector.glade	\
 	gog-style-prefs.glade		\
 	gog-axis-prefs.glade		\
-	gog-error-bar-prefs.glade
+	gog-error-bar-prefs.glade	\
+	gog-reg-curve-prefs.glade	\
+	gog-reg-eqn-prefs.glade
 
 EXTRA_DIST = $(goffice_glade_DATA)
 

@@ -56,6 +56,8 @@ typedef enum {
 	GOG_SERIES_ERRORS
 } GogSeriesPriority;
 
+#define GOG_SERIES_ACCEPT_REGRESSION_CURVE	1
+
 struct _GogSeriesDimDesc {
 	char const *name;
 	GogSeriesPriority	priority;
@@ -77,6 +79,7 @@ struct _GogSeries {
 	unsigned manual_index : 1;
 	unsigned is_valid     : 1;
 	unsigned needs_recalc : 1;
+	unsigned acceptable_children : 1;
 
 	GogPlot	  	  *plot;
 	GogDatasetElement *values;

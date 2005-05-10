@@ -51,6 +51,17 @@ GogPlotType   *gog_plot_type_register   (GogPlotFamily *famlily, int col, int ro
 					 char const *name, char const *sample_image_file,
 					 char const *description, char const *engine);
 
+struct _GogRegCurveType {
+	char *engine;
+
+	char *name;
+	char *description; /* untranslated */
+
+	GHashTable *properties;
+};
+
+GHashTable const *gog_reg_curve_types (void);
+
 void gog_plugin_services_init (void);
 void gog_plugin_services_shutdown (void);
 

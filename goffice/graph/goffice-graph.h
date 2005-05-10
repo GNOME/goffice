@@ -49,6 +49,9 @@ typedef struct _GogAxisLine	GogAxisLine;
 typedef struct _GogGrid		GogGrid;
 typedef struct _GogGridLine	GogGridLine;
 typedef struct _GogErrorBar	GogErrorBar;
+typedef struct _GogRegCurve	GogRegCurve;
+typedef struct _GogRegEqn	GogRegEqn;
+typedef struct _GogRegCurveType	GogRegCurveType;
 
 /* formating */
 typedef struct _GogTheme	GogTheme;

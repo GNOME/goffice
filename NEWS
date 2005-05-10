@@ -1,3 +1,8 @@
+goffice 0.0.2
+
+Jean Brefort
+	* Add linear regressions in scatter plots.
+
 goffice 0.0.1
 
 Emmanuel Pacaud:
@@ -10,7 +15,7 @@ Emmanuel Pacaud:
 	* Fix crahs when deleting a serie. [#166403]
 	* Fix transparency in pixbuf renderer. [159368]
 
-Jean Bréfort
+Jean Brefort
 	* Fixed opacity problem in color selector (#135434)
 
 Jody:

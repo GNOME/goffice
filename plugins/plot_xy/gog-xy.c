@@ -810,6 +810,12 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				}
 			}
 
+	/* Now render children, may be should come before markers? */
+	gog_renderer_clip_push (view->renderer, &view->residual);
+	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
+		gog_view_render	(ptr->data, bbox);
+	gog_renderer_clip_pop (view->renderer);
+
 	gog_axis_map_free (x_map);
 	gog_axis_map_free (y_map);
 }
@@ -822,10 +828,23 @@ gog_xy_view_info_at_point (GogView *view, double x, double y,
 	return FALSE;
 }
 
+static GogViewClass *xy_view_parent_klass;
+
+static void
+gog_xy_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
+{
+	GSList *ptr;
+	for (ptr = view->children; ptr != NULL; ptr = ptr->next)
+		gog_view_size_allocate (GOG_VIEW (ptr->data), allocation);
+	(xy_view_parent_klass->size_allocate) (view, allocation);
+}
+
 static void
 gog_xy_view_class_init (GogViewClass *view_klass)
 {
+	xy_view_parent_klass = (GogViewClass*) g_type_class_peek_parent (view_klass);
 	view_klass->render	  = gog_xy_view_render;
+	view_klass->size_allocate = gog_xy_view_size_allocate;
 	view_klass->info_at_point = gog_xy_view_info_at_point;
 	view_klass->clip	  = FALSE;
 }
@@ -835,6 +854,44 @@ static GSF_CLASS (GogXYView, gog_xy_view,
 		  GOG_PLOT_VIEW_TYPE)
 
 /*****************************************************************************/
+
+typedef GogView		GogXYSeriesView;
+typedef GogViewClass	GogXYSeriesViewClass;
+
+#define GOG_XY_SERIES_VIEW_TYPE	(gog_xy_series_view_get_type ())
+#define GOG_XY_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XY_SERIES_VIEW_TYPE, GogXYSeriesView))
+#define IS_GOG_XY_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XY_SERIES_VIEW_TYPE))
+
+static void
+gog_xy_series_view_render (GogView *view, GogViewAllocation const *bbox)
+{
+	GSList *ptr;
+	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
+		gog_view_render	(ptr->data, bbox);
+}
+
+static void
+gog_xy_series_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
+{
+	GSList *ptr;
+
+	for (ptr = view->children; ptr != NULL; ptr = ptr->next)
+		gog_view_size_allocate (GOG_VIEW (ptr->data), allocation);
+}
+
+static void
+gog_xy_series_view_class_init (GogXYSeriesViewClass *gview_klass)
+{
+	GogViewClass *view_klass = GOG_VIEW_CLASS (gview_klass);
+	view_klass->render = gog_xy_series_view_render;
+	view_klass->size_allocate = gog_xy_series_view_size_allocate;
+}
+
+static GSF_CLASS (GogXYSeriesView, gog_xy_series_view,
+		  gog_xy_series_view_class_init, NULL,
+		  GOG_VIEW_TYPE)
+
+/****************************************************************************/
 
 typedef GogSeriesClass GogXYSeriesClass;
 
@@ -853,6 +910,7 @@ gog_xy_series_update (GogObject *obj)
 	int x_len = 0, y_len = 0;
 	GogXYSeries *series = GOG_XY_SERIES (obj);
 	unsigned old_num = series->base.num_elements;
+	GSList *ptr;
 
 	if (series->base.values[1].data != NULL) {
 		y_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
@@ -877,6 +935,10 @@ gog_xy_series_update (GogObject *obj)
 		x_len = y_len;
 	series->base.num_elements = MIN (x_len, y_len);
 
+	/* update children */
+	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
+		gog_object_request_update (GOG_OBJECT (ptr->data));
+
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
 	if (old_num != series->base.num_elements)
@@ -892,6 +954,8 @@ gog_xy_series_init (GObject *obj)
 	GogXYSeries *series = GOG_XY_SERIES (obj);
 
 	series->x_errors = series->y_errors = NULL;
+	(GOG_SERIES (series))->acceptable_children =
+				GOG_SERIES_ACCEPT_REGRESSION_CURVE;
 }
 
 static void
@@ -1020,6 +1084,9 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 	GObjectClass *gobject_klass = (GObjectClass *) gso_klass;
 
 	series_parent_klass = g_type_class_peek_parent (gso_klass);
+	gog_klass->update	= gog_xy_series_update;
+	gog_klass->view_type	= gog_xy_series_view_get_type ();
+	gso_klass->init_style	= gog_xy_series_init_style;
 
 	gobject_klass->finalize		= gog_xy_series_finalize;
 	gobject_klass->set_property = gog_xy_series_set_property;

@@ -172,7 +172,7 @@ xl_contour_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 			contour->y_labels[i] = go_data_scalar_get_str (GO_DATA_SCALAR (
 					series->values[-1].data));
 		}
-		vec = GO_DATA_VECTOR (go_data_vector_str_new (contour->y_labels, i, NULL));
+		vec = GO_DATA_VECTOR (go_data_vector_str_new ((char**) contour->y_labels, i, NULL));
 	} else {
 		if (bounds->fmt == NULL && contour->base.z.fmt != NULL)
 			bounds->fmt = go_format_ref (contour->base.z.fmt);

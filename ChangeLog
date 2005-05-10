@@ -1,3 +1,68 @@
+2005-05-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: add linear regressions in scatter plots.
+	* goffice/goffice.c: (libgoffice_init): ditto.
+	* goffice/graph/Makefile.am: ditto.
+	* goffice/graph/goffice-graph.h: ditto.
+	* goffice/graph/gog-guru.c: (cb_graph_guru_add_reg_curve),
+	(cb_reg_curve_type_menu_create), (reg_curve_type_menu_create),
+	(cb_attr_tree_selection_change): ditto.
+	* goffice/graph/gog-object-xml.c: (gog_object_new_from_xml): ditto.
+	* goffice/graph/gog-plot-engine.c: ditto.
+	(gog_reg_curve_engine_service_get_description),
+	(gog_reg_curve_engine_service_class_init),
+	(gog_reg_curve_new_by_name), (cb_pending_reg_curve_types_load),
+	(pending_reg_curves_types_load), (gog_reg_curve_service_read_xml),
+	(gog_reg_curve_service_get_description),
+	(gog_reg_curve_service_init), (gog_reg_curve_service_class_init),
+	(gog_plugin_services_init), (gog_reg_curve_type_free),
+	(create_reg_curve_types), (gog_reg_curve_types): ditto.
+	* goffice/graph/gog-plot-engine.h: ditto.
+	* goffice/graph/gog-reg-curve-prefs.glade: ditto.
+	* goffice/graph/gog-reg-curve.c: (gog_reg_curve_init_style),
+	(gog_reg_curve_populate_editor), (gog_reg_curve_finalize),
+	(gog_reg_curve_type_name), (gog_reg_curve_class_init),
+	(gog_reg_curve_init), (gog_reg_curve_dataset_dims),
+	(gog_reg_curve_dataset_get_elem),
+	(gog_reg_curve_dataset_dim_changed), (gog_reg_curve_dataset_init),
+	(gog_reg_curve_new_by_type), (gog_reg_curve_get_value_at),
+	(gog_reg_curve_get_equation), (gog_reg_curve_get_R2),
+	(gog_reg_curve_get_bounds), (gog_reg_curve_view_render),
+	(gog_reg_curve_view_size_allocate),
+	(gog_reg_curve_view_class_init): ditto.
+	* goffice/graph/gog-reg-curve.h: ditto.
+	* goffice/graph/gog-reg-eqn-prefs.glade: ditto.
+	* goffice/graph/gog-reg-eqn.c: (cb_text_pos_changed),
+	(cb_text_visibility_changed), (gog_reg_eqn_set_property),
+	(gog_reg_eqn_get_property), (gog_reg_eqn_init_style),
+	(gog_reg_eqn_populate_editor), (gog_reg_eqn_type_name),
+	(gog_reg_eqn_class_init), (gog_reg_eqn_init),
+	(gog_reg_eqn_view_render), (gog_reg_eqn_view_class_init): ditto.
+	* goffice/graph/gog-reg-eqn.h: ditto.
+	* goffice/graph/gog-series-impl.h: ditto.
+	* goffice/graph/gog-series.c: (regression_curve_can_add),
+	(regression_curve_post_add), (regression_curve_pre_remove),
+	(gog_series_class_init), (gog_series_init): ditto.
+	* goffice/graph/gog-theme.c: (gog_themes_init): ditto.
+	* plugins/Makefile.am: ditto.
+	* plugins/plot_xy/gog-xy.c: (gog_xy_view_render),
+	(gog_xy_view_size_allocate), (gog_xy_view_class_init),
+	(gog_xy_series_view_render), (gog_xy_series_view_size_allocate),
+	(gog_xy_series_view_class_init), (gog_xy_series_update),
+	(gog_xy_series_init), (gog_xy_series_class_init): ditto.
+	* plugins/reg_linear/Makefile.am: ditto.
+	* plugins/reg_linear/gog-lin-reg.c: (gog_lin_reg_curve_update),
+	(gog_lin_reg_curve_get_value_at), (gog_lin_reg_curve_get_equation),
+	(gog_lin_reg_curve_get_R2), (gog_lin_reg_curve_finalize),
+	(gog_lin_reg_curve_class_init), (gog_lin_reg_curve_init),
+	(go_plugin_init), (go_plugin_shutdown): ditto.
+	* plugins/reg_linear/gog-lin-reg.h: ditto.
+	* plugins/reg_linear/plugin.xml.in: ditto.
+	* plugins/reg_linear/reg-types.xml.in: ditto.
+	* po/POTFILES.in: ditto.
+	* plugins/plot_surface/xl-surface.c:
+	(xl_contour_plot_axis_get_bounds): fixed a compilation warning.
+
 2005-05-10  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release version bump
