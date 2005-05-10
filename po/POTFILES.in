@@ -120,6 +120,8 @@ goffice/graph/gog-plot-engine.c
 goffice/graph/gog-plot-engine.h
 goffice/graph/gog-plot.h
 goffice/graph/gog-plot-impl.h
+goffice/graph/gog-reg-curve-prefs.glade
+goffice/graph/gog-reg-eqn-prefs.glade
 goffice/graph/gog-renderer.c
 goffice/graph/gog-renderer-gnome-print.c
 goffice/graph/gog-renderer-gnome-print.h
@@ -268,3 +270,7 @@ plugins/plot_xy/gog-xy.c
 plugins/plot_xy/gog-xy.h
 plugins/plot_xy/plot-types.xml.in
 plugins/plot_xy/plugin.xml.in
+plugins/reg_linear/gog-lin-reg.c
+plugins/reg_linear/gog-lin-reg.h
+plugins/reg_linear/reg-types.xml.in
+plugins/reg_linear/plugin.xml.in
