@@ -14,6 +14,9 @@ Release Critical
     goffice/goffice/graph/gog-graph.c uses pointers as quarks.  That cannot
     work.
 
+	goffice/goffice/utils/go-format.c: go_format_value don't use the format
+	argument.
+
 Worries
 -------
 
@@ -266,7 +269,7 @@ TODO
 	1.33.1) Initial implementation				(DONE)
 	1.33.2) GOMatrix					(DONE)
 	1.33.3) Axis changes
-	1.33.4) XLS import
+	1.33.4) XLS import					(DONE)
 	1.33.4) XLS export
 
 Misc things to fix
