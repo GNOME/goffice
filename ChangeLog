@@ -1,5 +1,18 @@
 2005-05-11  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* pixmaps/chart_dropbar_1_1.png: New icon.
+	* pixmaps/chart_dropbar_1_1.svg: ditto.
+	* pixmaps/chart_dropbar_1_2.png: ditto.
+	* pixmaps/chart_dropbar_1_2.svg: ditto.
+	* pixmaps/chart_minmax_1_1.png: ditto.
+	* pixmaps/chart_minmax_1_1.svg: ditto.
+	* pixmaps/chart_minmax_1_2.png: ditto.
+	* pixmaps/chart_minmax_1_2.svg: ditto.
+	* pixmaps/dropbar.xpm: ditto.
+	* pixmaps/minmax.xpm: ditto.
+
+2005-05-11  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_surface/gog-surface.c:
 	(gog_contour_plot_class_init): limit series number to 1.
 
