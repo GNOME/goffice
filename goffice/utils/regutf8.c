@@ -84,7 +84,7 @@ go_search_replace_compile (GoSearchReplace *sr)
 
 	if (sr->ignore_case) flags |= REG_ICASE;
 
-	sr->comp_search = g_new0 (go_regex_t, 1);
+	sr->comp_search = g_new0 (GORegexp, 1);
 	res = go_regcomp (sr->comp_search, pattern, flags);
 
 	g_free (tmp);

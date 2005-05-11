@@ -98,7 +98,7 @@ extern "C" {
 	void *re_pcre;
 	size_t re_nsub;
 	size_t re_erroffset;
-    } go_regex_t;
+    } GORegexp;
 
     /* The structure in which a captured offset is returned. */
 
@@ -111,11 +111,11 @@ extern "C" {
 
     /* The functions */
 
-    extern int go_regcomp (go_regex_t *, const char *, int);
-    extern int go_regexec (const go_regex_t *, const char *, size_t,
+    extern int go_regcomp (GORegexp *, const char *, int);
+    extern int go_regexec (const GORegexp *, const char *, size_t,
 			   regmatch_t *, int);
-    extern size_t go_regerror (int, const go_regex_t *, char *, size_t);
-    extern void go_regfree (go_regex_t *);
+    extern size_t go_regerror (int, const GORegexp *, char *, size_t);
+    extern void go_regfree (GORegexp *);
 
 #ifdef __cplusplus
 }				/* extern "C" */

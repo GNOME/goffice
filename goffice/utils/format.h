@@ -51,7 +51,7 @@ struct _GOFormat {
         GSList               *entries;  /* Of type StyleFormatEntry. */
 	char                 *regexp_str;
 	GByteArray           *match_tags;
-	go_regex_t	      regexp;
+	GORegexp	      regexp;
 	FormatFamily          family;
 	FormatCharacteristics family_info;
 	gboolean	      is_var_width;

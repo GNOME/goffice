@@ -165,7 +165,7 @@ pcre_posix_error_code (const char *s)
 *************************************************/
 
 size_t
-go_regerror (int errcode, const go_regex_t * preg, char *errbuf,
+go_regerror (int errcode, const GORegexp * preg, char *errbuf,
 	     size_t errbuf_size)
 {
     const char *message, *addmessage;
@@ -200,7 +200,7 @@ go_regerror (int errcode, const go_regex_t * preg, char *errbuf,
 *************************************************/
 
 void
-go_regfree (go_regex_t * preg)
+go_regfree (GORegexp * preg)
 {
     (pcre_free) (preg->re_pcre);
 }
@@ -223,7 +223,7 @@ go_regfree (go_regex_t * preg)
  */
 
 int
-go_regcomp (go_regex_t * preg, const char *pattern, int cflags)
+go_regcomp (GORegexp * preg, const char *pattern, int cflags)
 {
     const char *errorptr;
     int erroffset;
@@ -261,7 +261,7 @@ go_regcomp (go_regex_t * preg, const char *pattern, int cflags)
    in a macro that can be changed at configure time. */
 
 int
-go_regexec (const go_regex_t * preg, const char *string, size_t nmatch,
+go_regexec (const GORegexp * preg, const char *string, size_t nmatch,
 	    regmatch_t pmatch[], int eflags)
 {
     int rc;
@@ -275,7 +275,7 @@ go_regexec (const go_regex_t * preg, const char *string, size_t nmatch,
     if ((eflags & REG_NOTEOL) != 0)
 	options |= PCRE_NOTEOL;
 
-    ((go_regex_t *) preg)->re_erroffset = (size_t) (-1);	/* Only has meaning after compile */
+    ((GORegexp *) preg)->re_erroffset = (size_t) (-1);	/* Only has meaning after compile */
 
     if (nmatch > 0) {
 	if (nmatch <= POSIX_MALLOC_THRESHOLD) {

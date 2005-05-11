@@ -20,7 +20,7 @@ typedef struct _GoSearchReplace {
 	char *search_text;
 	char *replace_text;
 
-	go_regex_t *comp_search;
+	GORegexp *comp_search;
 	gboolean is_regexp;	/* Search text is a regular expression.  */
 	gboolean ignore_case;	/* Consider "a" and "A" the same.  */
 	gboolean preserve_case;	/* Like Emacs' case-replace.  */

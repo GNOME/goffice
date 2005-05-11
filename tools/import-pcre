@@ -159,7 +159,7 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H, @noinst_H) {
 	s/pcre_default_tables/make_pcre_default_tables ()/;
 
 	if ($filename =~ /posix/i) {
-	    s/\bregex_t\b/go_regex_t/g;
+	    s/\bregex_t\b/GORegexp/g;
 	    s/\bregoff_t\b/go_regoff_t/g;
 	    # Not regmatch_t, for now.
 	    s/\bregcomp\b/go_regcomp/g;

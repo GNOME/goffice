@@ -499,7 +499,7 @@ format_match_create (GOFormat *fmt)
 {
 	GByteArray *match_tags;
 	char *regexp;
-	go_regex_t r;
+	GORegexp r;
 	int ret;
 
 	g_return_val_if_fail (fmt != NULL, FALSE);

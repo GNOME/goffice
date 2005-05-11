@@ -168,15 +168,15 @@ cell_formats [] = {
 };
 
 /* The compiled regexp for cell_format_classify */
-static go_regex_t re_simple_number;
-static go_regex_t re_red_number;
-static go_regex_t re_brackets_number;
-static go_regex_t re_percent_science;
-static go_regex_t re_account;
-static go_regex_t re_fraction;
+static GORegexp re_simple_number;
+static GORegexp re_red_number;
+static GORegexp re_brackets_number;
+static GORegexp re_percent_science;
+static GORegexp re_account;
+static GORegexp re_fraction;
 
 static const char *
-my_regerror (int err, const go_regex_t *preg)
+my_regerror (int err, const GORegexp *preg)
 {
 	static char buffer[1024];
 	go_regerror (err, preg, buffer, sizeof (buffer));
