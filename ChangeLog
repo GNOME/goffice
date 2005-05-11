@@ -1,3 +1,8 @@
+2005-05-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-surface.c:
+	(gog_contour_plot_class_init): limit series number to 1.
+
 2005-05-10  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-chart.c (gog_chart_map_free): unref map::chart.

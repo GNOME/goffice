@@ -507,7 +507,7 @@ gog_contour_plot_class_init (GogContourPlotClass *klass)
 
 	/* Fill in GogPlotClass methods */
 	gog_plot_klass->desc.num_series_min = 1;
-	gog_plot_klass->desc.num_series_max = G_MAXINT;
+	gog_plot_klass->desc.num_series_max = 1;
 	gog_plot_klass->series_type = gog_surface_series_get_type();
 	gog_plot_klass->axis_set_pref = gog_contour_plot_axis_set_pref;
 	gog_plot_klass->axis_set_is_valid = gog_contour_plot_axis_set_is_valid;
