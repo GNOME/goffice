@@ -1,5 +1,20 @@
 2005-05-11  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* pixmaps/chart_dropbar_1_1.png: update icon.
+	* pixmaps/chart_dropbar_1_1.svg: ditto.
+	* pixmaps/chart_dropbar_1_2.png: ditto.
+	* pixmaps/chart_dropbar_1_2.svg: ditto.
+	* pixmaps/chart_minmax_1_1.png: ditto.
+	* pixmaps/chart_minmax_1_1.svg: ditto.
+	* pixmaps/chart_minmax_1_2.png: ditto.
+	* pixmaps/chart_minmax_1_2.svg: ditto.
+	* pixmaps/chart_minmax_2_1.png: new icon.
+	* pixmaps/chart_minmax_2_1.svg: ditto.
+	* pixmaps/chart_minmax_2_2.png: ditto.
+	* pixmaps/chart_minmax_2_2.svg: ditto.
+
+2005-05-11  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* pixmaps/chart_dropbar_1_1.png: New icon.
 	* pixmaps/chart_dropbar_1_1.svg: ditto.
 	* pixmaps/chart_dropbar_1_2.png: ditto.

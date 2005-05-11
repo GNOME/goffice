@@ -6,7 +6,7 @@
    inkscape:export-ydpi="31.261541"
    inkscape:export-xdpi="31.261541"
    inkscape:export-filename="/home/jean/devel/projs/goffice_finance/pixmaps/chart_minmax_1_2.png"
-   sodipodi:docname="chart_minmax_1_2.svg"
+   sodipodi:docname="chart_minmax_2_2.svg"
    sodipodi:docbase="/home/jean/devel/projs/goffice_finance/pixmaps"
    height="60.000000mm"
    width="64.000000mm"
@@ -231,4 +231,60 @@
      style="fill:none;fill-opacity:0.75000000;fill-rule:evenodd;stroke:#0000c2;stroke-width:3.5541673;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
      d="M 72.648672,54.421950 L 182.48031,54.862120"
      id="path1101" />
+  <rect
+     style="fill:#000000;fill-opacity:1.0000000;stroke:#0000c2;stroke-width:3.5433071;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+     id="rect11297"
+     width="11.821243"
+     height="11.821243"
+     x="67.322838"
+     y="48.414970" />
+  <rect
+     style="fill:#000000;fill-opacity:1.0000000;stroke:#0000c2;stroke-width:3.5433071;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+     id="rect13270"
+     width="11.821243"
+     height="11.821243"
+     x="175.97403"
+     y="49.606293" />
+  <rect
+     style="fill:#000000;fill-opacity:1.0000000;stroke:#0000c2;stroke-width:3.5433071;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+     id="rect13271"
+     width="11.821243"
+     height="11.821243"
+     x="42.519684"
+     y="76.761429" />
+  <rect
+     style="fill:#000000;fill-opacity:1.0000000;stroke:#0000c2;stroke-width:3.5433071;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+     id="rect13272"
+     width="11.821243"
+     height="11.821243"
+     x="111.61417"
+     y="77.952751" />
+  <rect
+     style="fill:#000000;fill-opacity:1.0000000;stroke:#0000c2;stroke-width:3.5433071;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+     id="rect13273"
+     width="11.821243"
+     height="11.821243"
+     x="77.952759"
+     y="126.36773" />
+  <rect
+     style="fill:#000000;fill-opacity:1.0000000;stroke:#0000c2;stroke-width:3.5433071;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+     id="rect13274"
+     width="11.821243"
+     height="11.821243"
+     x="145.99388"
+     y="127.55905" />
+  <rect
+     style="fill:#000000;fill-opacity:1.0000000;stroke:#0000c2;stroke-width:3.5433071;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+     id="rect13275"
+     width="11.821243"
+     height="11.821243"
+     x="51.377953"
+     y="154.71419" />
+  <rect
+     style="fill:#000000;fill-opacity:1.0000000;stroke:#0000c2;stroke-width:3.5433071;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+     id="rect13276"
+     width="11.821243"
+     height="11.821243"
+     x="106.29921"
+     y="155.90550" />
 </svg>
