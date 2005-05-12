@@ -1,7 +1,10 @@
 goffice 0.0.2
 
-Jean Brefort
+Jean Brefort:
 	* Add linear regressions in scatter plots.
+
+Morten:
+	* Fix theme bug.  [#303707]
 
 --------------------------------------------------------------------------
 goffice 0.0.1

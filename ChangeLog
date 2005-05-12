@@ -1,3 +1,8 @@
+2005-05-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-action-combo-stack.c
+	(go_action_combo_stack_create_tool_item): Take theme into account.
+
 2005-05-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/data/go-data-simple.c: (go_data_matrix_val_as_str),
