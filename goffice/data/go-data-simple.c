@@ -816,7 +816,7 @@ go_data_matrix_val_as_str (GOData const *dat)
 	int i, j;
 	if (mat->size.rows == 0 || mat->size.columns == 0)
 		return g_strdup ("");
-	sep = format_get_arg_sep ();
+	sep = ';';
 	col_sep = format_get_col_sep ();
 	g_ascii_dtostr (sz, sizeof (sz), mat->val[0]);
 	str = g_string_new (sz);
@@ -848,7 +848,7 @@ go_data_matrix_val_from_str (GOData *dat, char const *str)
 	GArray *values;
 	g_return_val_if_fail (str != NULL, TRUE);
 	values = g_array_sized_new (FALSE, FALSE, sizeof(double), 16);
-	sep = format_get_arg_sep ();
+	sep = ';';
 	col_sep = format_get_col_sep ();
 	i = j = columns = 0;
 	if (mat->notify && mat->val)

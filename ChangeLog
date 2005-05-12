@@ -1,3 +1,9 @@
+2005-05-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data-simple.c: (go_data_matrix_val_as_str),
+	(go_data_matrix_val_from_str): always use a semicolon as row
+	separator.
+
 2005-05-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* pixmaps/chart_dropbar_1_1.png: update icon.
