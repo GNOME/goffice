@@ -442,9 +442,10 @@ update_preview_cb (GtkFileChooser *chooser)
 		if (buf) {
 			dummy = FALSE;
 		} else {
-			buf = gtk_icon_theme_load_icon (
-				gtk_icon_theme_get_default (),
-				"unknown_image", 100, 100, NULL);
+			GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (chooser));
+			buf = gtk_icon_theme_load_icon
+				(gtk_icon_theme_get_for_screen (screen),
+				 "unknown_image", 100, 100, NULL);
 			dummy = buf != NULL;
 		}
 

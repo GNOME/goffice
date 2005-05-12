@@ -210,7 +210,7 @@ cb_swatch_key_press (GtkWidget *button, GdkEventKey *event, GOComboPixmaps *comb
  **/
 void
 go_combo_pixmaps_add_element (GOComboPixmaps *combo,
-			      GdkPixbuf const *pixbuf, int id, char const *tooltip)
+			      GdkPixbuf *pixbuf, int id, char const *tooltip)
 {
 	GtkWidget *button, *box;
 	Element tmp;
@@ -221,9 +221,9 @@ go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 	/* Wrap inside a vbox with a border so that we can see the focus indicator */
 	box = gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (box),
-		gtk_image_new_from_pixbuf ((GdkPixbuf *)pixbuf),
-		TRUE, TRUE, 0);
-	g_object_unref ((GdkPixbuf *)pixbuf);
+			    gtk_image_new_from_pixbuf (pixbuf),
+			    TRUE, TRUE, 0);
+	g_object_unref (pixbuf);
 
 	button = gtk_button_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (box), 2);
@@ -238,7 +238,7 @@ go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 	row = col / combo->cols;
 	col = col % combo->cols;
 
-	tmp.pixbuf = (GdkPixbuf *)pixbuf;
+	tmp.pixbuf = pixbuf;
 	tmp.id = id;
 	g_array_append_val (combo->elements, tmp);
 	g_object_set_data (G_OBJECT (button), "ItemIndex",
@@ -356,7 +356,7 @@ cb_menu_item_activate (GtkWidget *button, GtkWidget *menu)
 
 void
 go_menu_pixmaps_add_element (GOMenuPixmaps *menu,
-			     GdkPixbuf const *pixbuf, int id)
+			     GdkPixbuf *pixbuf, int id)
 {
         GtkWidget *button;
 	int col, row;

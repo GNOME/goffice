@@ -1,5 +1,16 @@
 2005-05-12  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-marker.c (go_marker_selector): Plug leak.
+	Avoid const for non-const parameter.
+
+	* goffice/gtk/go-action-combo-pixmaps.c
+	(go_action_combo_pixmaps_create_tool_item): Take toolbar settings
+	into account.
+
+	* goffice/gtk/go-action-combo-color.c (make_icon): Multihead fix.
+
+	* goffice/gtk/goffice-gtk.c (update_preview_cb): Multihead fix.
+
 	* goffice/gtk/go-action-combo-stack.c
 	(go_action_combo_stack_create_tool_item): Take theme into account.
 

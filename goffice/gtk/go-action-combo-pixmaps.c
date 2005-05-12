@@ -26,6 +26,7 @@
 
 #include <gtk/gtkaction.h>
 #include <gtk/gtktoolitem.h>
+#include <gtk/gtktoolbar.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkwidget.h>
@@ -75,6 +76,23 @@ struct _GOActionComboPixmaps {
 };
 typedef GtkActionClass GOActionComboPixmapsClass;
 
+static GdkPixbuf *
+make_icon (GtkAction *a, const char *stock_id, GtkWidget *tool)
+{
+	GtkIconSize size;
+
+	if (tool->parent)
+		size = gtk_toolbar_get_icon_size (GTK_TOOLBAR (tool->parent));
+	else {
+		GtkSettings *settings = gtk_widget_get_settings (tool);
+		g_object_get (settings, "gtk-toolbar-icon-size", &size, NULL);
+	}
+
+	return gtk_widget_render_icon (tool, stock_id, size,
+				       "GOActionComboPixmaps");
+}
+
+
 static GObjectClass *combo_pixmaps_parent;
 static void
 go_action_combo_pixmaps_connect_proxy (GtkAction *a, GtkWidget *proxy)
@@ -83,11 +101,13 @@ go_action_combo_pixmaps_connect_proxy (GtkAction *a, GtkWidget *proxy)
 
 	if (GTK_IS_IMAGE_MENU_ITEM (proxy)) { /* set the icon */
 		GOActionComboPixmaps *paction = (GOActionComboPixmaps *)a;
-		GtkWidget *image = gtk_image_new_from_stock (
-			paction->elements[0].stock_id, GTK_ICON_SIZE_MENU);
+		const char *stock_id = paction->elements[0].stock_id;
+		GdkPixbuf *icon = make_icon (a, stock_id, proxy);
+		GtkWidget *image = gtk_image_new_from_pixbuf (icon);
+		g_object_unref (icon);
 		gtk_widget_show (image);
-		gtk_image_menu_item_set_image (
-			GTK_IMAGE_MENU_ITEM (proxy), image);
+		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (proxy),
+					       image);
 	}
 }
 
@@ -115,16 +135,16 @@ go_action_combo_pixmaps_create_tool_item (GtkAction *a)
 {
 	GOActionComboPixmaps *paction = (GOActionComboPixmaps *)a;
 	GOToolComboPixmaps *tool = g_object_new (GO_TOOL_COMBO_PIXMAPS_TYPE, NULL);
-	GOActionComboPixmapsElement const *el= paction->elements;
+	GOActionComboPixmapsElement const *el = paction->elements;
 
 	tool->combo = go_combo_pixmaps_new (paction->ncols);
-	for ( ; el->stock_id != NULL ; el++)
+	for ( ; el->stock_id != NULL ; el++) {
+		GdkPixbuf *icon = make_icon (a, el->stock_id, GTK_WIDGET (tool));
 		go_combo_pixmaps_add_element (tool->combo,
-			gtk_widget_render_icon (GTK_WIDGET (tool->combo),
-				el->stock_id,
-				GTK_ICON_SIZE_LARGE_TOOLBAR,
-				"GOActionComboPixmaps"),
-			el->id, _(el->untranslated_tooltip));
+					      icon,
+					      el->id,
+					      _(el->untranslated_tooltip));
+	}
 	go_combo_pixmaps_select_id (tool->combo, paction->selected_id);
 
 	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
@@ -199,8 +219,8 @@ go_action_combo_pixmaps_new (char const *name,
 	g_return_val_if_fail (elements != NULL, NULL);
 
 	paction = g_object_new (go_action_combo_pixmaps_get_type (),
-			    "name", name,
-			    NULL);
+				"name", name,
+				NULL);
 	paction->elements = elements;
 	paction->ncols = ncols;
 	paction->nrows = nrows;

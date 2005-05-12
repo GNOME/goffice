@@ -393,7 +393,7 @@ go_marker_get_paths (GOMarker * marker,
 }
 
 #ifdef WITH_GTK
-GdkPixbuf const *
+GdkPixbuf *
 go_marker_get_pixbuf (GOMarker * marker, double scale)
 {
 	g_return_val_if_fail (IS_GO_MARKER (marker), NULL);
@@ -406,7 +406,7 @@ go_marker_get_pixbuf (GOMarker * marker, double scale)
 	return marker->pixbuf;
 }
 
-GdkPixbuf const *
+GdkPixbuf *
 go_marker_get_pixbuf_with_size (GOMarker *marker, guint size)
 {
 	g_return_val_if_fail (IS_GO_MARKER (marker), NULL);
@@ -534,7 +534,7 @@ gpointer
 go_marker_selector (GOColor outline_color, GOColor fill_color,
 		    GOMarkerShape default_shape)
 {
-	static GOMarkerShape elements[] = {
+	static const GOMarkerShape elements[] = {
 		GO_MARKER_NONE,		GO_MARKER_TRIANGLE_UP,	GO_MARKER_BUTTERFLY,
 		GO_MARKER_TRIANGLE_LEFT, GO_MARKER_DIAMOND,	GO_MARKER_TRIANGLE_RIGHT,
 		GO_MARKER_BAR,		GO_MARKER_TRIANGLE_DOWN, GO_MARKER_HOURGLASS,
@@ -544,11 +544,8 @@ go_marker_selector (GOColor outline_color, GOColor fill_color,
 	};
 
 	unsigned	 i;
-	gboolean	 is_auto;
 	GOComboPixmaps	*w;
 	GOMarker	*marker = go_marker_new ();
-	GOMarkerShape	 shape;
-	GdkPixbuf const	*pixbuf;
 
 	go_marker_set_fill_color (marker, fill_color);
 	go_marker_set_outline_color (marker, outline_color);
@@ -556,20 +553,23 @@ go_marker_selector (GOColor outline_color, GOColor fill_color,
 
 	w = go_combo_pixmaps_new (4);
 	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
-		shape = elements[i];
-		is_auto = (shape == GO_MARKER_MAX);
+		GOMarkerShape shape = elements[i];
+		gboolean is_auto = (shape == GO_MARKER_MAX);
+		GdkPixbuf *pixbuf;
+
 		go_marker_set_shape (marker, is_auto ? default_shape : shape);
 		pixbuf = go_marker_get_pixbuf (marker, 1.0);
 		if (pixbuf == NULL) /* handle none */
 			pixbuf = new_blank_pixbuf (marker, marker->size);
 		else	/* add_element absorbs ref */
-			g_object_ref ((GdkPixbuf *) pixbuf);
+			g_object_ref (pixbuf);
 		if (is_auto) {
 			/* xgettext : this will appear as 'Automatic (shapename)' */
 			char *name = g_strdup_printf (_("Automatic (%s)"),
 				_(marker_shapes [default_shape].name));
 			go_combo_pixmaps_add_element (w, pixbuf,
 				-default_shape, name);
+			g_free (name);
 		} else
 			go_combo_pixmaps_add_element (w, pixbuf,
 				shape, _(marker_shapes [shape].name));
