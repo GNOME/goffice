@@ -58,7 +58,7 @@ GOData	*go_data_vector_val_new      (double *val, unsigned n, GDestroyNotify   n
 
 typedef struct _GODataVectorStr GODataVectorStr;
 GType	go_data_vector_str_get_type	      (void);
-GOData *go_data_vector_str_new		      (char **str, unsigned n, GDestroyNotify   notify);
+GOData *go_data_vector_str_new		      (char const * const *str, unsigned n, GDestroyNotify notify);
 void    go_data_vector_str_set_translate_func (GODataVectorStr *vector,
 					       GOTranslateFunc  func,
 					       gpointer         data,

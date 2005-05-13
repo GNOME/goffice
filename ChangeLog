@@ -1,3 +1,9 @@
+2005-05-12  Stepan Kasal  <kasal@ucw.cz>
+
+	* goffice/data/go-data-simple.h (go_data_vector_str_new): Change the
+	  type of the first parameter from (char**) back to (char const*const*)
+	* goffice/data/go-data-simple.c: Do the same and adapt the code.
+
 2005-05-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-marker.c (go_marker_selector): Plug leak.

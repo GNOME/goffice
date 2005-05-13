@@ -442,7 +442,7 @@ go_data_vector_val_new (double *val, unsigned n, GDestroyNotify notify)
 
 struct _GODataVectorStr {
 	GODataVector	 base;
-	char **str;
+	char const * const *str;
 	unsigned n;
 	GDestroyNotify notify;   
 
@@ -469,7 +469,7 @@ go_data_vector_str_finalize (GObject *obj)
 {
 	GODataVectorStr *str = (GODataVectorStr *)obj;
 	if (str->notify && str->str != NULL)
-		(*str->notify) (str->str);
+		(*str->notify) ((gpointer)str->str);
 
 	if (str->translate_notify != NULL)
 		(*str->translate_notify) (str->translate_data);
@@ -485,10 +485,11 @@ go_data_vector_str_dup (GOData const *src)
 	dst->n = src_val->n;
 	if (src_val->notify) {
 		unsigned i;
-		dst->str = g_new (char*, src_val->n + 1);
+		char const * *str = g_new (char const *, src_val->n + 1);
 		for (i = 0; i < src_val->n; i++)
-			dst->str[i] = g_strdup (src_val->str[i]);
-		dst->str[src_val->n] = NULL;
+			str[i] = g_strdup (src_val->str[i]);
+		str[src_val->n] = NULL;
+		dst->str = str;
 		dst->notify = cb_strings_destroy_notify;
 	} else
 		dst->str = src_val->str;
@@ -537,7 +538,7 @@ go_data_vector_str_from_str (GOData *dat, char const *str)
 	/* A dirty workaround to know what should be the separator in the current locale */
 	sep = format_get_arg_sep ();
 	if (vec->notify && vec->str)
-		(*vec->notify) (vec->str);
+		(*vec->notify) ((gpointer)vec->str);
 	vec->str = NULL;
 	vec->n = 0;
 	vec->notify = cb_strings_destroy_notify;
@@ -588,7 +589,7 @@ go_data_vector_str_from_str (GOData *dat, char const *str)
 	val = NULL;
 	g_array_append_val (values, val);
 	vec->n = values->len;
-	vec->str = (char**) values->data;
+	vec->str = (char const*const*) values->data;
 	g_array_free (values, FALSE);
 	return TRUE;
 }
@@ -653,7 +654,7 @@ GSF_CLASS (GODataVectorStr, go_data_vector_str,
 	   GO_DATA_VECTOR_TYPE)
 
 GOData *
-go_data_vector_str_new (char **str, unsigned n, GDestroyNotify   notify)
+go_data_vector_str_new (char const * const *str, unsigned n, GDestroyNotify notify)
 {
 	GODataVectorStr *res = g_object_new (GO_DATA_VECTOR_STR_TYPE, NULL);
 	res->str = str;
