@@ -3,6 +3,9 @@ goffice 0.0.2
 Jean Brefort:
 	* Add linear regressions in scatter plots.
 
+Jody:
+	* Fix foocanvas's show/hide item for widgets.
+
 Morten:
 	* Fix theme bug.  [#303707]
 

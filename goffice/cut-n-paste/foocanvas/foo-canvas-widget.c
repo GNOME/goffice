@@ -74,6 +74,8 @@ static void   foo_canvas_widget_bounds      (FooCanvasItem *item, double *x1, do
 static void foo_canvas_widget_draw (FooCanvasItem *item,
 				      GdkDrawable *drawable,
 				      GdkEventExpose   *event);
+static void foo_canvas_widget_map   (FooCanvasItem *item);
+static void foo_canvas_widget_unmap (FooCanvasItem *item);
 
 static FooCanvasItemClass *parent_class;
 
@@ -169,6 +171,8 @@ foo_canvas_widget_class_init (FooCanvasWidgetClass *class)
 	item_class->translate = foo_canvas_widget_translate;
 	item_class->bounds = foo_canvas_widget_bounds;
 	item_class->draw = foo_canvas_widget_draw;
+	item_class->map   = foo_canvas_widget_map;
+	item_class->unmap = foo_canvas_widget_unmap;
 }
 
 static void
@@ -483,6 +487,24 @@ foo_canvas_widget_draw (FooCanvasItem *item,
 	if (witem->widget)
 		gtk_widget_queue_draw (witem->widget);
 #endif
+}
+static void
+foo_canvas_widget_map (FooCanvasItem *item)
+{
+	FooCanvasWidget *witem = FOO_CANVAS_WIDGET (item);
+	if (parent_class->map)
+		(* parent_class->map) (item);
+	if (witem->widget && GTK_WIDGET_VISIBLE (witem->widget))
+		gtk_widget_map (witem->widget);
+}
+
+static void
+foo_canvas_widget_unmap (FooCanvasItem *item)
+{
+	FooCanvasWidget *witem = FOO_CANVAS_WIDGET (item);
+	if (parent_class->unmap)
+		(* parent_class->unmap) (item);
+	gtk_widget_unmap (witem->widget);
 }
 
 static double
