@@ -636,7 +636,7 @@ gog_view_size_child_request (GogView *view,
  * @container : #GogView
  * @target_model : #GogObject
  *
- * Find the GogView contained in @container that icorresponds to @model.
+ * Find the GogView contained in @container that corresponds to @model.
  * Returns NULL on error
  **/
 GogView *
