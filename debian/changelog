@@ -1,0 +1,7 @@
+goffice (0.0.1-1) unstable; urgency=low
+
+  * Initial upstream release as a separate library. Much of this code used
+    to be a part of gnumeric; it is now becoming a library of its own upon
+    which the development series of gnumeric now depends.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 14 May 2005 09:11:44 +0200
