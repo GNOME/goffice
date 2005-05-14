@@ -26,10 +26,10 @@ ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 	INSTALL_PROGRAM += -s
 endif
 
-# The GOffice plugins are not yet ready for this:
-## Ensure the build aborts when there are still references to undefined
-## symbols.
-#LDFLAGS += -Wl,-z,defs
+# GOffice takes care of this itself:
+# # Ensure the build aborts when there are still references to undefined
+# # symbols.
+# LDFLAGS += -Wl,-z,defs
 
 # Make the linker work a bit harder so dynamic loading can be done faster
 LDFLAGS += -Wl,-O1
