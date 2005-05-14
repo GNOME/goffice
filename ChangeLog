@@ -4,6 +4,8 @@
 	win32, in order to get complete dependency information in the plugins.
 	Use -no-undefined in GOFFICE_PLUGIN_LDFLAGS on all platforms to ensure
 	complete dependency information at link time.
+	Update the BUG-REPORT argument to AC_INIT now that bugzilla.gnome.org
+	has a "libgoffice" product.
 
 2005-05-12  Stepan Kasal  <kasal@ucw.cz>
 
