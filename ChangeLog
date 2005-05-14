@@ -6,6 +6,8 @@
 	complete dependency information at link time.
 	Update the BUG-REPORT argument to AC_INIT now that bugzilla.gnome.org
 	has a "libgoffice" product.
+	Enable a number of additional warnings (when available) for which the
+	current code base is already virtually clean.
 
 2005-05-12  Stepan Kasal  <kasal@ucw.cz>
 
