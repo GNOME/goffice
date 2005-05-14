@@ -1,3 +1,10 @@
+2005-05-14  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Supply GOFFICE_PLUGIN_LIBADD on all platforms, not just
+	win32, in order to get complete dependency information in the plugins.
+	Use -no-undefined in GOFFICE_PLUGIN_LDFLAGS on all platforms to ensure
+	complete dependency information at link time.
+
 2005-05-12  Stepan Kasal  <kasal@ucw.cz>
 
 	* goffice/data/go-data-simple.h (go_data_vector_str_new): Change the
