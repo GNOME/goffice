@@ -44,7 +44,6 @@
 static GObjectClass *reg_curve_parent_klass;
 
 static GType gog_reg_curve_view_get_type (void);
-static double gog_reg_curve_get_value_at (GogRegCurve *reg_curve, double x);
 
 static void
 gog_reg_curve_init_style (GogStyledObject *gso, GogStyle *style)
@@ -184,7 +183,7 @@ gog_reg_curve_new_by_type (GogRegCurveType const *type)
 	return res;
 }
 
-double
+static double
 gog_reg_curve_get_value_at (GogRegCurve *reg_curve, double x)
 {
 	return (GOG_REG_CURVE_GET_CLASS (reg_curve))->get_value_at (reg_curve, x);
