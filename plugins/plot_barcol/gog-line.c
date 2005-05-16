@@ -534,6 +534,7 @@ gog_line_view_info_at_point (GogView *view, double x, double y,
 		*name = g_strdup (gog_object_get_name (GOG_OBJECT (view->model)));
 	return TRUE;
 }
+
 static void
 gog_line_view_class_init (GogViewClass *view_klass)
 {

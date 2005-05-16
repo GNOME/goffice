@@ -205,6 +205,7 @@ gog_contour_plot_populate_editor (GogObject *item,
 			     gog_contour_plot_pref (GOG_CONTOUR_PLOT (item), cc),
 			     _("Properties"));
 }
+
 static void
 gog_contour_plot_clear_formats (GogContourPlot *plot)
 {
