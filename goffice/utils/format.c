@@ -118,6 +118,11 @@ static gboolean boolean_cached = FALSE;
 static char const *lc_TRUE = NULL;
 static char const *lc_FALSE = NULL;
 
+static double beyond_precision;
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+static long double beyond_precisionl;
+#endif
+
 /* FIXME : use nl_langinfo
  * DAY_{1-7} (LC_TIME)
  * ABDAY_{1-7} (LC_TIME)
@@ -855,11 +860,6 @@ lookup_color (gchar const *str, gchar const *end)
 	FormatColor const *color = lookup_color_by_name (str, end, FALSE);
 	return (color != NULL) ? color->go_color : 0;
 }
-#endif
-
-static double beyond_precision;
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-static long double beyond_precisionl;
 #endif
 
 void

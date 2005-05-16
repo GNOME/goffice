@@ -52,7 +52,7 @@ main (int argc, char *argv[])
 	GError *error;
 	PangoFontDescription *desc;
 	char const *title = "Some statistics";
-	char const *legends[] = {"first","second", "third", "fourth"};
+	char const * const legends[] = {"first", "second", "third", "fourth"};
 	double values[] = {10., 20., 30., 40.};
 
 	gtk_init (&argc, &argv);
@@ -95,7 +95,7 @@ main (int argc, char *argv[])
 	gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (pie));
 	/* Create a series for the plot and populate it with some simple data */
 	series = gog_plot_new_series (pie);
-	data = go_data_vector_str_new ((char **)legends, 4, NULL);
+	data = go_data_vector_str_new (legends, 4, NULL);
 	gog_series_set_dim (series, 0, data, &error);
 	data = go_data_vector_val_new (values, 4, NULL);
 	gog_series_set_dim (series, 1, data, &error);

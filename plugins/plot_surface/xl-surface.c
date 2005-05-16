@@ -145,34 +145,46 @@ xl_contour_plot_update (GogObject *obj)
 	gog_axis_bound_changed (model->base.axis[GOG_AXIS_Y], obj);
 }
 
+static GODataVector *
+get_y_vector (GogPlot *plot)
+{
+	XLContourPlot *contour = XL_CONTOUR_PLOT (plot);
+	GSList *ptr;
+	int i;
+
+	if (contour->y_labels)
+		g_free (contour->y_labels);
+	contour->y_labels = g_new0 (char const *, contour->base.rows);
+
+	for (ptr = plot->series, i = 0 ; ptr != NULL ; ptr = ptr->next, i++) {
+		XLSurfaceSeries *series = ptr->data;
+
+		if (!gog_series_is_valid (GOG_SERIES (series)))
+			continue;
+		contour->y_labels[i] = go_data_scalar_get_str (GO_DATA_SCALAR (
+				series->values[-1].data));
+	}
+
+	return GO_DATA_VECTOR (go_data_vector_str_new (contour->y_labels, i, NULL));
+}
+
 static GOData *
 xl_contour_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis, 
 				GogPlotBoundInfo * bounds)
 {
-	XLSurfaceSeries *series = XL_SURFACE_SERIES (plot->series->data);
 	XLContourPlot *contour = XL_CONTOUR_PLOT (plot);
 	GODataVector *vec = NULL;
 	GOFormat *fmt;
-	GSList *ptr;
-	int i;
+
 	if (axis == GOG_AXIS_X) {
+		XLSurfaceSeries *series = XL_SURFACE_SERIES (plot->series->data);
 		vec = GO_DATA_VECTOR (series->values[0].data);
 		fmt = contour->base.x.fmt;
 	} else if (axis == GOG_AXIS_Y) {
 		if (!contour->base.rows)
 			return NULL;
+		vec = get_y_vector (plot);
 		fmt = contour->base.y.fmt;
-		if (contour->y_labels)
-			g_free (contour->y_labels);
-		contour->y_labels = (char const **) g_new0 (char*, contour->base.rows);
-		for (ptr = plot->series, i = 0 ; ptr != NULL ; ptr = ptr->next, i++) {
-			series = ptr->data;
-			if (!gog_series_is_valid (GOG_SERIES (series)))
-				continue;
-			contour->y_labels[i] = go_data_scalar_get_str (GO_DATA_SCALAR (
-					series->values[-1].data));
-		}
-		vec = GO_DATA_VECTOR (go_data_vector_str_new ((char**) contour->y_labels, i, NULL));
 	} else {
 		if (bounds->fmt == NULL && contour->base.z.fmt != NULL)
 			bounds->fmt = go_format_ref (contour->base.z.fmt);

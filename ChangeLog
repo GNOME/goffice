@@ -7,6 +7,16 @@
 	  to `const gchar *'.
 	* goffice/utils/go-file.c: ditto.
 
+	* goffice/utils/format.c (beyond_precision, beyond_precisionl):
+	  Move the declarations to the top, into an #ifdef DEFINE_COMMON.
+
+	* plugins/plot_surface/xl-surface.c (xl_contour_plot_axis_get_bounds):
+	  Make this more readable by moving part of the body ...
+	(get_y_vector): ... to this new function.
+
+	* tests/pie-demo.c (main): Adapt to the changed type of arg 1 of
+	  go_data_vector_str_new.
+
 2005-05-14  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Supply GOFFICE_PLUGIN_LIBADD on all platforms, not just

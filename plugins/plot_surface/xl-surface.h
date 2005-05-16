@@ -34,7 +34,7 @@ G_BEGIN_DECLS
  */
 
 typedef struct {
-	 GogContourPlot base;
+	GogContourPlot base;
 	char const **y_labels;
 } XLContourPlot;
 
