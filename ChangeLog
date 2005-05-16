@@ -3,6 +3,10 @@
 	* goffice/graph/gog-reg-curve.c (gog_reg_curve_get_value_at): Make
 	  this function static, without any declaration at the top.
 
+	* goffice/utils/go-file.h (go_get_mime_type): Change the return type
+	  to `const gchar *'.
+	* goffice/utils/go-file.c: ditto.
+
 2005-05-14  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Supply GOFFICE_PLUGIN_LIBADD on all platforms, not just

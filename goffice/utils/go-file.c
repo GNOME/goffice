@@ -524,7 +524,7 @@ go_url_check_extension (gchar const *uri,
 	return res;
 }
 
-gchar *
+const gchar *
 go_get_mime_type (gchar const *uri)
 {
 #ifdef WITH_GNOME
