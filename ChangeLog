@@ -1,3 +1,8 @@
+2005-05-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data-simple.c: (go_data_vector_val_get_value),
+	(go_data_vector_val_get_str): check args to avoid a segfault.
+
 2005-05-16  Stepan Kasal  <kasal@ucw.cz>
 
 	* goffice/graph/gog-reg-curve.c (gog_reg_curve_get_value_at): Make

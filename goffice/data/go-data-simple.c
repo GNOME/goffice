@@ -338,15 +338,21 @@ go_data_vector_val_load_values (GODataVector *vec)
 	vec->maximum = maximum;
 	vec->base.flags |= GO_DATA_CACHE_IS_VALID;
 }
+
 static double
 go_data_vector_val_get_value (GODataVector *vec, unsigned i)
 {
-	return vec->values[i];
+	GODataVectorVal const *val = (GODataVectorVal const *)vec;
+	g_return_val_if_fail (val != NULL && val->val != NULL &&	i < val->n, go_nan);
+	return val->val[i];
 }
+
 static char *
 go_data_vector_val_get_str (GODataVector *vec, unsigned i)
 {
-	return g_strdup_printf ("%g", vec->values[i]);
+	GODataVectorVal const *val = (GODataVectorVal const *)vec;
+	g_return_val_if_fail (val != NULL && val->val != NULL &&	i < val->n, NULL);
+	return g_strdup_printf ("%g", val->val[i]);
 }
 
 static char *
