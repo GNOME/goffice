@@ -1,3 +1,19 @@
+2005-05-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-axis.c (map_discrete_init): scale doesn't depend
+	on center_on_ticks.
+	(map_discrete): ditto.
+	(map_discrete_to_view): ditto.
+	(map_discrete_from_view): ditto.
+	(map_discrete_calc_ticks): tick_nbr doesn't depend on center_on_ticks.
+	* goffice/graph/gog-axis-line.c (gog_axis_base_populate_editor): don't
+	show layout page for GOG_AXIS_PSEUDO_3D. Call inherited
+	populate_editor if gui==NULL.
+	* plugins/plot_surface/gog-surface.c
+	(gog_contour_plot_axis_get_bounds): maxima = num_elements - 1.0
+	* plugins/plot_surface/xl-surface.c 
+	(xl_contour_plot_axis_get_bounds): ditto.
+
 2005-05-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/data/go-data-simple.c: (go_data_vector_val_get_value),
