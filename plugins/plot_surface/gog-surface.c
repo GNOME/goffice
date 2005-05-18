@@ -320,7 +320,7 @@ gog_contour_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
 
 static GOData *
 gog_contour_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis, 
-				GogPlotBoundInfo * bounds)
+				  GogPlotBoundInfo * bounds)
 {
 	GogSurfaceSeries *series;
 	GogContourPlot *contour = GOG_CONTOUR_PLOT (plot);
@@ -360,7 +360,9 @@ gog_contour_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		bounds->logical.maxima = go_nan;
 		bounds->is_discrete    = TRUE;
 		bounds->center_on_ticks = TRUE;
-		bounds->val.maxima = (axis == GOG_AXIS_X)? series->columns: series->rows;
+		bounds->val.maxima = (axis == GOG_AXIS_X) ?
+			series->columns - 1.:
+			series->rows - 1.;
 	}
 	return (GOData*) vec;
 }

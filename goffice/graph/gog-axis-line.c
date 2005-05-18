@@ -447,9 +447,18 @@ gog_axis_base_populate_editor (GogObject *gobj,
 	axis_base = GOG_AXIS_BASE (gobj);
 	g_return_if_fail (GOG_AXIS_BASE (axis_base) != NULL);
 
-	gui = go_libglade_new ("gog-axis-prefs.glade", "axis_base_pref_box", NULL, cc);
-	if (gui == NULL)
+	gog_editor_set_store_page (editor, &axis_base_pref_page);
+	
+	if (gog_axis_get_atype (axis_base->axis) == GOG_AXIS_PSEUDO_3D) {
+		(GOG_OBJECT_CLASS(gab_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 		return;
+	}
+
+	gui = go_libglade_new ("gog-axis-prefs.glade", "axis_base_pref_box", NULL, cc);
+	if (gui == NULL) {
+		(GOG_OBJECT_CLASS(gab_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
+		return;
+	}
 
 	crossed_axis_type = gog_axis_base_get_crossed_axis_type (axis_base);
 	if (crossed_axis_type != GOG_AXIS_UNKNOWN) {
@@ -482,7 +491,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		g_slist_free (axes);
 
 		data_editor = gog_data_allocator_editor (dalloc, GOG_DATASET (axis_base),
-			GOG_AXIS_ELEM_CROSS_POINT, GOG_DATA_SCALAR);
+							 GOG_AXIS_ELEM_CROSS_POINT, GOG_DATA_SCALAR);
 		container = glade_xml_get_widget (gui, "cross_location_alignment");
 		gtk_container_add (GTK_CONTAINER (container), data_editor);
 		gtk_widget_show_all (container);
@@ -538,10 +547,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 			     glade_xml_get_widget (gui, "axis_base_pref_box"),
 			     _("Layout"));
 
-	/* Style page */
 	(GOG_OBJECT_CLASS(gab_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
-
-	gog_editor_set_store_page (editor, &axis_base_pref_page);
 }
 
 static void

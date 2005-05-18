@@ -199,7 +199,9 @@ xl_contour_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	bounds->logical.maxima = go_nan;
 	bounds->is_discrete    = TRUE;
 	bounds->center_on_ticks = TRUE;
-	bounds->val.maxima = (axis == GOG_AXIS_X)? contour->base.columns: contour->base.rows;
+	bounds->val.maxima = (axis == GOG_AXIS_X)? 
+		contour->base.columns - 1.: 
+		contour->base.rows - 1.;
 	return (GOData*) vec;
 }
 

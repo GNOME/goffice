@@ -152,9 +152,7 @@ map_discrete_init (GogAxisMap *map, double offset, double length)
 	data = map->data;
 
 	if (gog_axis_get_bounds (map->axis, &data->min, &data->max)) {
-		data->scale = (map->axis->center_on_ticks)?
-				1.0 / (data->max - data->min - 1):
-				1.0 / (data->max - data->min);
+		data->scale = 1.0 / (data->max - data->min);
 		data->a = data->scale * length;
 		data->b = offset - data->a * data->min;
 		return TRUE;
@@ -181,9 +179,7 @@ map_discrete_to_view (GogAxisMap *map, double value)
 	MapData *data = map->data;
 
 	return map->axis->inverted ? 
-		((map->axis->center_on_ticks)?
-			(data->min + data->max - 1 - value) * data->a + data->b :
-			(data->min + data->max - value) * data->a + data->b) :
+		(data->min + data->max - value) * data->a + data->b :
 		value * data->a + data->b;
 }
 
@@ -193,9 +189,7 @@ map_discrete_from_view (GogAxisMap *map, double value)
 	MapData *data = map->data;
 
 	return map->axis->inverted ? 
-		((map->axis->center_on_ticks)?
-			data->min + data->max -1 - (value - data->b) / data->a :
-			data->min + data->max - (value - data->b) / data->a) :
+		data->min + data->max - (value - data->b) / data->a :
 		(value - data->b) / data->a;
 }
 
@@ -242,8 +236,6 @@ map_discrete_calc_ticks (GogAxis *axis)
 	}
 		
 	tick_nbr = rint (maximum -minimum) + 1;
-	if (axis->center_on_ticks)
-		tick_nbr--;
 	if (tick_nbr < 1 || tick_nbr > GOG_AXIS_MAX_TICK_NBR) {
 		gog_axis_set_ticks (axis, 0, NULL);
 		return;
