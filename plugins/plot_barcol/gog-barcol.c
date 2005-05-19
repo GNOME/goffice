@@ -178,6 +178,7 @@ gog_barcol_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		bounds->val.minima -= .5;
 		bounds->val.maxima += .5;
 		bounds->logical.minima = -.5;
+		bounds->center_on_ticks = FALSE;
 	}
 
 	return data;

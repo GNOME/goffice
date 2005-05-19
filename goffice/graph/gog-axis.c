@@ -245,16 +245,12 @@ map_discrete_calc_ticks (GogAxis *axis)
 	for (i = 0; i < tick_nbr; i++) {
 		ticks[i].position = (double) (i);
 
-		/* Minimum >= .0 test is a trick to know if it's a barcol or an area/line plot */
-		if (i == 0 && minimum >=.0 && !axis->center_on_ticks)
-			ticks[i].type = GOG_AXIS_TICK_NONE;
-		else
-			ticks[i].type = i % major_tick == 0 ?
-				GOG_AXIS_TICK_MAJOR :
-				GOG_AXIS_TICK_MINOR;
+		ticks[i].type = i % major_tick == 0 ?
+			GOG_AXIS_TICK_MAJOR :
+			GOG_AXIS_TICK_MINOR;
 
 		if ((i % major_label == 0) && 
-		    (i < tick_nbr - 1 || minimum >= .0)) {
+		    (i < tick_nbr - 1 || axis->center_on_ticks)) {
 			if (axis->labels != NULL) {
 				if (i < go_data_vector_get_len (axis->labels))
 					ticks[i].label = go_data_vector_get_str (axis->labels, i);

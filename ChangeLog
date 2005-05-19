@@ -1,3 +1,12 @@
+2005-05-19  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-axis.c (map_discrete_calc_ticks): remove kludge by
+	using center_on_ticks.
+	* goffice/graph/gog-plot.c (gog_plot_get_axis_bounds): defaults
+	center_on_ticks to TRUE.
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_axis_get_bounds):
+	center_on_ticks = FALSE.
+	
 2005-05-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-axis.c (map_discrete_init): scale doesn't depend
