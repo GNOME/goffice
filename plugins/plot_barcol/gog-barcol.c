@@ -107,6 +107,7 @@ gog_barcol_plot_populate_editor (GogObject *item,
 	gog_editor_add_page (editor,
 			     gog_barcol_plot_pref (GOG_BARCOL_PLOT (item), cc),
 			     _("Properties"));
+	(GOG_OBJECT_CLASS(gog_barcol_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
 
 static gboolean

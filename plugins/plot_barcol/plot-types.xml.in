@@ -4,6 +4,8 @@
 	<Family _name="Area"	sample_image_file="area.xpm"/>
 	<Family _name="Bar"	sample_image_file="bar.xpm"/>
 	<Family _name="Column"	sample_image_file="column.xpm"/>
+	<Family _name="DropBar"	sample_image_file="dropbar.xpm"/>
+	<Family _name="MinMax"	sample_image_file="minmax.xpm"/>
 
 	<Type _name="Unmarked Lines" row="1" col="1"
 		engine="GogLinePlot" family="Line"
@@ -146,6 +148,60 @@
 		<property name="horizontal">False</property>
 		<property name="type">as_percentage</property>
 		<property name="overlap_percentage">100</property>
+	</Type>
+
+	<Type _name="Vertical Drop Bars" row="1" col="1"
+		engine="GogDropBarPlot" family="DropBar"
+		_description="Vertical drop bars."
+		sample_image_file="chart_dropbar_1_1.png">
+		<property name="horizontal">False</property>
+		<property name="type">normal</property>
+		<property name="overlap_percentage">100</property>
+	</Type>
+
+	<Type _name="Horizontal Drop Bars" row="1" col="2"
+		engine="GogDropBarPlot" family="DropBar"
+		_description="Horizontal drop bars."
+		sample_image_file="chart_dropbar_1_2.png">
+		<property name="horizontal">True</property>
+		<property name="type">normal</property>
+		<property name="overlap_percentage">100</property>
+	</Type>
+
+	<Type _name="Vertical Min Max Lines" row="1" col="1"
+		engine="GogMinMaxPlot" family="MinMax"
+		_description="Vertical min max lines."
+		sample_image_file="chart_minmax_1_1.png">
+		<property name="horizontal">False</property>
+		<property name="type">normal</property>
+		<property name="default-style-has-markers">False</property>
+	</Type>
+
+	<Type _name="Marked Vertical Min Max Lines" row="2" col="1"
+		engine="GogMinMaxPlot" family="MinMax"
+		_description="Vertical min max lines with markers."
+		sample_image_file="chart_minmax_2_1.png">
+		<property name="horizontal">False</property>
+		<property name="type">normal</property>
+		<property name="default-style-has-markers">True</property>
+	</Type>
+
+	<Type _name="Horizontal Min Max Lines" row="1" col="2"
+		engine="GogMinMaxPlot" family="MinMax"
+		_description="Horizontal min max lines."
+		sample_image_file="chart_minmax_1_2.png">
+		<property name="horizontal">True</property>
+		<property name="type">normal</property>
+		<property name="default-style-has-markers">False</property>
+	</Type>
+
+	<Type _name="Marked Horizontal Min Max Lines" row="2" col="2"
+		engine="GogMinMaxPlot" family="MinMax"
+		_description="Horizontal min max lines with markers."
+		sample_image_file="chart_minmax_2_2.png">
+		<property name="horizontal">True</property>
+		<property name="type">normal</property>
+		<property name="default-style-has-markers">True</property>
 	</Type>
 
 	<!-- No 3d yet

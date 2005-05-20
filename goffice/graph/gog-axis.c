@@ -1096,6 +1096,14 @@ gog_axis_set_property (GObject *obj, guint param_id,
 		if (axis->type != itmp) {
 			axis->type = itmp;
 			resized = TRUE;
+			if (axis->type == GOG_AXIS_PSEUDO_3D)
+				g_object_set (obj,
+						"major-tick-labeled", FALSE,
+						"major-tick-in", FALSE,
+						"major-tick-out", FALSE,
+						"minor-tick-in", FALSE,
+						"minor-tick-out", FALSE,
+						NULL);
 		}
 		break;
 	case AXIS_PROP_INVERT:

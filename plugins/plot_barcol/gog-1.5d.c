@@ -25,6 +25,8 @@
 #include "gog-1.5d.h"
 #include "gog-line.h"
 #include "gog-barcol.h"
+#include "gog-dropbar.h"
+#include "gog-minmax.h"
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-axis.h>
@@ -190,6 +192,15 @@ gog_plot1_5d_update (GogObject *obj)
 			else
 				go_data_vector_get_minmax (GO_DATA_VECTOR (
 					series->base.values[1].data), &minima, &maxima);
+			if (series->base.plot->desc.series.num_dim == 3) {
+				double tmp_min, tmp_max;
+				go_data_vector_get_minmax (GO_DATA_VECTOR (
+					series->base.values[2].data), &tmp_min, &tmp_max);
+				if (minima > tmp_min )
+					minima = tmp_min;
+				if (maxima < tmp_max)
+					maxima = tmp_max;
+			}
 			if (model->minima > minima)
 				model->minima = minima;
 			if (model->maxima < maxima)
@@ -233,7 +244,8 @@ gog_plot1_5d_update (GogObject *obj)
 				GO_DATA_VECTOR (series->base.values[1].data));
 		}
 
-		klass->update_stacked_and_percentage (model, vals, errors, lengths);
+		if (klass->update_stacked_and_percentage)
+			klass->update_stacked_and_percentage (model, vals, errors, lengths);
 	}
 
 	if (old_minima != model->minima || old_maxima != model->maxima)
@@ -398,6 +410,17 @@ gog_series1_5d_update (GogObject *obj)
 	}
 	series->base.num_elements = len;
 
+	if (series->base.plot->desc.series.num_dim == 3) {
+		int tmp = 0;
+		if (series->base.values[2].data != NULL) {
+			vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[2].data));
+			tmp = go_data_vector_get_len 
+				(GO_DATA_VECTOR (series->base.values[1].data));
+		}
+		if (tmp < len)
+			len = tmp;
+	}
+
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
 	if (old_num != series->base.num_elements)
@@ -461,6 +484,9 @@ gog_series1_5d_populate_editor (GogObject *obj,
 
 	(GOG_OBJECT_CLASS (gog_series1_5d_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 
+	if (series->plot->desc.series.num_dim == 3)
+		return;
+
 	if (g_object_class_find_property (G_OBJECT_GET_CLASS (series->plot), "horizontal") == NULL)
 		horizontal = FALSE;
 	else
@@ -511,6 +537,8 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_line_plot_get_type ();
 	gog_area_plot_get_type ();
 	gog_barcol_plot_get_type ();
+	gog_minmax_plot_get_type ();
+	gog_dropbar_plot_get_type ();
 }
 
 G_MODULE_EXPORT void

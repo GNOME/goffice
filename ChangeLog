@@ -1,3 +1,34 @@
+2005-05-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/goffice-graph.h: change GOG_MS_DIM_TYPES value and
+	add new ones.
+	* goffice/graph/gog-axis.c: (gog_axis_set_property): remove labels
+	and ticks for GOG_AXIS_PSEUDO_3D (enhance export to excel).
+	* pixmaps/Makefile.am: add icons for minmax and dropbar plots.
+	* plugins/plot_barcol/Makefile.am: add minmx and dropbar support.
+	* plugins/plot_barcol/gog-1.5d.c: (gog_plot1_5d_update),
+	(gog_series1_5d_update), (gog_series1_5d_populate_editor),
+	(go_plugin_init): ditto.
+	* plugins/plot_barcol/gog-barcol.c: ditto.
+	(gog_barcol_plot_populate_editor): ditto.
+	* plugins/plot_barcol/gog-dropbar.c: (gog_dropbar_plot_type_name),
+	(gog_dropbar_plot_class_init), (barcol_draw_rect),
+	(gog_dropbar_view_render), (gog_dropbar_view_info_at_point),
+	(gog_dropbar_view_class_init): ditto.
+	* plugins/plot_barcol/gog-dropbar.h: ditto.
+	* plugins/plot_barcol/gog-minmax-prefs.glade: ditto.
+	* plugins/plot_barcol/gog-minmax.c: (gog_minmax_series_init_style),
+	(gog_minmax_series_class_init), (gog_minmax_plot_set_property),
+	(gog_minmax_plot_get_property), (gog_minmax_plot_type_name),
+	(gog_minmax_axis_get_bounds), (cb_gap_changed),
+	(gog_minmax_plot_populate_editor), (gog_minmax_swap_x_and_y),
+	(gog_minmax_plot_class_init), (gog_minmax_plot_init),
+	(gog_minmax_view_render), (gog_minmax_view_info_at_point),
+	(gog_minmax_view_class_init): ditto.
+	* plugins/plot_barcol/gog-minmax.h: ditto.
+	* plugins/plot_barcol/plot-types.xml.in: ditto.
+	* plugins/plot_barcol/plugin.xml.in: ditto.
+
 2005-05-19  Jody Goldberg <jody@gnome.org>
 
 	* goffice/data/go-data-simple.c (go_data_vector_val_as_str) : use

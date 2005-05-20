@@ -12,14 +12,18 @@ barcol_la_SOURCES = gog-1.5d.c 		\
 		    gog-line.h		\
 		    gog-barcol.c 	\
 		    gog-barcol.h	\
-		    gog-barcol-prefs.c
+		    gog-barcol-prefs.c \
+			gog-dropbar.c	\
+			gog-dropbar.h	\
+			gog-minmax.c	\
+			gog-minmax.h
 
 xml_in_files = plugin.xml.in plot-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
-glade_DATA = gog-barcol-prefs.glade
+glade_DATA = gog-barcol-prefs.glade gog-minmax-prefs.glade
 
 # do not use the intl-tool stuff to merge the text back
 # its simpler to just use gettext directly

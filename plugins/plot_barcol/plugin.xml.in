@@ -23,6 +23,16 @@
 				<_description>Bar/Col plotting engine</_description>
 			</information>
 		</service>
+		<service type="plot_engine" id="GogDropBarPlot">
+			<information>
+				<_description>Drop Bar/Col plotting engine</_description>
+			</information>
+		</service>
+		<service type="plot_engine" id="GogMinMaxPlot">
+			<information>
+				<_description>Min Max plotting engine</_description>
+			</information>
+		</service>
 		<service type="plot_type" id="1.5d">
 			<file>plot-types.xml</file>
 			<information>

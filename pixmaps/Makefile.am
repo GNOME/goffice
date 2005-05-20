@@ -31,6 +31,9 @@ icon_DATA = \
 	chart_bubble_1_1.png \
 	chart_contour_1_1.png \
 	chart_boxplot_1_1.png \
+	chart_dropbar_1_1.png chart_dropbar_1_2.png \
+	chart_minmax_1_1.png chart_minmax_1_2.png \
+	chart_minmax_2_1.png chart_minmax_2_2.png \
 	\
 	area.xpm 	\
 	bar.xpm		\
@@ -38,7 +41,9 @@ icon_DATA = \
 	bubble.xpm	\
 	column.xpm	\
 	doughnut.xpm	\
+	dropbar.xpm	\
 	linegraph.xpm	\
+	minmax.xpm	\
 	pie.xpm		\
 	radar.xpm	\
 	polar.png	\
