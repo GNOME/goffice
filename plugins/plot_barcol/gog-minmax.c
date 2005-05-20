@@ -165,8 +165,8 @@ cb_gap_changed (GtkAdjustment *adj, GObject *minmax)
 static void
 gog_minmax_plot_populate_editor (GogObject *item,
 				 GogEditor *editor,
-			G_GNUC_UNUSED GogDataAllocator *dalloc,
-			GOCmdContext *cc)
+				 G_GNUC_UNUSED GogDataAllocator *dalloc,
+				 GOCmdContext *cc)
 {
 	GtkWidget  *w;
 	GogMinMaxPlot *minmax = GOG_MINMAX_PLOT (item);
@@ -176,8 +176,8 @@ gog_minmax_plot_populate_editor (GogObject *item,
 	GladeXML *gui = go_libglade_new (path, "gog_minmax_prefs", NULL, cc);
 
 	g_free (path);
-    if (gui == NULL)
-    	return;
+	if (gui == NULL)
+		return;
 
 	w = glade_xml_get_widget (gui, "gap_spinner");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), minmax->gap_percentage);
