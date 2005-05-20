@@ -58,7 +58,7 @@
 #endif
 
 /* g_access would be nice here.  */
-static gboolean
+static int
 go_access (const char *filename, int what)
 {
 #ifdef G_OS_WIN32
