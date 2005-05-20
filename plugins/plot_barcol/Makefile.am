@@ -12,11 +12,11 @@ barcol_la_SOURCES = gog-1.5d.c 		\
 		    gog-line.h		\
 		    gog-barcol.c 	\
 		    gog-barcol.h	\
-		    gog-barcol-prefs.c \
-			gog-dropbar.c	\
-			gog-dropbar.h	\
-			gog-minmax.c	\
-			gog-minmax.h
+		    gog-barcol-prefs.c	\
+		    gog-dropbar.c	\
+		    gog-dropbar.h	\
+		    gog-minmax.c	\
+		    gog-minmax.h
 
 xml_in_files = plugin.xml.in plot-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

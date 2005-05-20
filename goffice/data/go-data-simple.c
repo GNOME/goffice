@@ -343,7 +343,7 @@ static double
 go_data_vector_val_get_value (GODataVector *vec, unsigned i)
 {
 	GODataVectorVal const *val = (GODataVectorVal const *)vec;
-	g_return_val_if_fail (val != NULL && val->val != NULL &&	i < val->n, go_nan);
+	g_return_val_if_fail (val != NULL && val->val != NULL && i < val->n, go_nan);
 	return val->val[i];
 }
 
@@ -351,7 +351,7 @@ static char *
 go_data_vector_val_get_str (GODataVector *vec, unsigned i)
 {
 	GODataVectorVal const *val = (GODataVectorVal const *)vec;
-	g_return_val_if_fail (val != NULL && val->val != NULL &&	i < val->n, NULL);
+	g_return_val_if_fail (val != NULL && val->val != NULL && i < val->n, NULL);
 	return g_strdup_printf ("%g", val->val[i]);
 }
 
