@@ -361,6 +361,12 @@ format_get_col_sep (void)
 	return ',';
 }
 
+char
+format_get_row_sep (void)
+{
+	return ';';
+}
+
 char const *
 format_boolean (gboolean b)
 {

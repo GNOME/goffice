@@ -362,9 +362,11 @@ go_data_vector_val_as_str (GOData const *dat)
 	GString *str;
 	char sep, sz[G_ASCII_DTOSTR_BUF_SIZE];
 	unsigned i;
+
 	if (vec->n ==0)
 		return g_strdup ("");
-	sep = format_get_arg_sep ();
+
+	sep = format_get_col_sep ();
 	g_ascii_dtostr (sz, sizeof (sz), vec->val[0]);
 	str = g_string_new (sz);
 	for (i = 1; i < vec->n; i++) {
@@ -382,11 +384,14 @@ go_data_vector_val_from_str (GOData *dat, char const *str)
 	char sep, *end = (char*) str;
 	double val;
 	GArray *values;
+
 	g_return_val_if_fail (str != NULL, TRUE);
-	values = g_array_sized_new (FALSE, FALSE, sizeof(double), 16);
-	sep = format_get_arg_sep ();
+
 	if (vec->notify && vec->val)
 		(*vec->notify) (vec->val);
+
+	values = g_array_sized_new (FALSE, FALSE, sizeof(double), 16);
+	sep = format_get_col_sep ();
 	vec->val = NULL;
 	vec->n = 0;
 	vec->notify = (GDestroyNotify) g_free;
@@ -517,9 +522,11 @@ go_data_vector_str_as_str (GOData const *dat)
 	GString *str;
 	char sep;
 	unsigned i;
-	sep = format_get_arg_sep ();
+
+	sep = format_get_col_sep ();
 	if (vec->n ==0)
 		return g_strdup ("");
+
 	str = g_string_new ("");
 	g_string_append_c (str, '\"');
 	g_string_append (str, vec->str[0]);
@@ -539,12 +546,14 @@ go_data_vector_str_from_str (GOData *dat, char const *str)
 	GODataVectorStr *vec = GO_DATA_VECTOR_STR (dat);
 	char sep, *cur = (char*) str, *end, *val;
 	GArray *values;
+
 	g_return_val_if_fail (str != NULL, TRUE);
-	values = g_array_sized_new (FALSE, FALSE, sizeof(char*), 16);
-	/* A dirty workaround to know what should be the separator in the current locale */
-	sep = format_get_arg_sep ();
+
 	if (vec->notify && vec->str)
 		(*vec->notify) ((gpointer)vec->str);
+
+	values = g_array_sized_new (FALSE, FALSE, sizeof(char*), 16);
+	sep = format_get_col_sep ();
 	vec->str = NULL;
 	vec->n = 0;
 	vec->notify = cb_strings_destroy_notify;
@@ -819,12 +828,14 @@ go_data_matrix_val_as_str (GOData const *dat)
 {
 	GODataMatrixVal *mat = GO_DATA_MATRIX_VAL (dat);
 	GString *str;
-	char sep, col_sep, sz[G_ASCII_DTOSTR_BUF_SIZE];
+	char row_sep, col_sep, sz[G_ASCII_DTOSTR_BUF_SIZE];
 	int i, j;
+
 	if (mat->size.rows == 0 || mat->size.columns == 0)
 		return g_strdup ("");
-	sep = ';';
+
 	col_sep = format_get_col_sep ();
+	row_sep = format_get_row_sep ();
 	g_ascii_dtostr (sz, sizeof (sz), mat->val[0]);
 	str = g_string_new (sz);
 	for (j = 1; j < mat->size.columns; j++) {
@@ -833,7 +844,7 @@ go_data_matrix_val_as_str (GOData const *dat)
 		g_string_append (str, sz);
 	}
 	for (i = 1; i < mat->size.rows; i++) {
-		g_string_append_c (str, sep);
+		g_string_append_c (str, row_sep);
 		g_ascii_dtostr (sz, sizeof (sz), mat->val[i * mat->size.columns]);
 		g_string_append (str, sz);
 		for (j = 1; j < mat->size.columns; j++) {
@@ -849,14 +860,16 @@ static gboolean
 go_data_matrix_val_from_str (GOData *dat, char const *str)
 {
 	GODataMatrixVal *mat = GO_DATA_MATRIX_VAL (dat);
-	char sep, col_sep, *end = (char*) str;
+	char row_sep, col_sep, *end = (char*) str;
 	int i, j, columns;
 	double val;
 	GArray *values;
+
 	g_return_val_if_fail (str != NULL, TRUE);
+
 	values = g_array_sized_new (FALSE, FALSE, sizeof(double), 16);
-	sep = ';';
 	col_sep = format_get_col_sep ();
+	row_sep = format_get_row_sep ();
 	i = j = columns = 0;
 	if (mat->notify && mat->val)
 		(*mat->notify) (mat->val);
@@ -870,7 +883,7 @@ go_data_matrix_val_from_str (GOData *dat, char const *str)
 		if (*end) {
 			if (*end == col_sep)
 				j++;
-			else if (*end == sep) {
+			else if (*end == row_sep) {
 				if (columns > 0) {
 					if (j == columns - 1) {
 						i++;
