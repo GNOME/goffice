@@ -126,13 +126,13 @@ typedef enum {
 	GOG_MS_DIM_VALUES	= 1,
 	GOG_MS_DIM_CATEGORIES	= 2,
 	GOG_MS_DIM_BUBBLES	= 3, /* undocumented */
+	GOG_MS_DIM_TYPES,
 	GOG_MS_DIM_ERR_plus1,	/* we made it up */
 	GOG_MS_DIM_ERR_minus1,	/* we made it up */
 	GOG_MS_DIM_ERR_plus2,	/* we made it up */
 	GOG_MS_DIM_ERR_minus2,	/* we made it up */
 	GOG_MS_DIM_DROPBAR,	/* we made it up */
 	GOG_MS_DIM_MINMAX,	/* we made it up */
-	GOG_MS_DIM_TYPES
 } GogMSDimType;
 
 typedef enum {
