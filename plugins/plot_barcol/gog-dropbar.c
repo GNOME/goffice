@@ -135,17 +135,15 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogSeries1_5d const *series;
 	GogAxisMap *x_map, *y_map;
 	GogViewAllocation work;
-	gboolean is_vertical = ! (model->horizontal);
 	double *start_vals, *end_vals;
 	double x;
-	double step, offset, width;
+	double step, offset;
 	unsigned i;
 	unsigned num_elements = gog_1_5d_model->num_elements;
 	unsigned num_series = gog_1_5d_model->num_series;
 	GSList *ptr;
 	unsigned n, tmp;
 	GogStyle *neg_style;
-	GOColor color;
 
 	if (num_elements <= 0 || num_series <= 0)
 		return;
