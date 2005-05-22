@@ -415,7 +415,7 @@ gog_series1_5d_update (GogObject *obj)
 		if (series->base.values[2].data != NULL) {
 			vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[2].data));
 			tmp = go_data_vector_get_len 
-				(GO_DATA_VECTOR (series->base.values[1].data));
+				(GO_DATA_VECTOR (series->base.values[2].data));
 		}
 		if (tmp < len)
 			len = tmp;
