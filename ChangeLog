@@ -1,3 +1,11 @@
+2005-05-23  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_file_sel_dialog,
+	go_gtk_select_image): Insist on getting a toplevel.  (It
+	determines, for one thing, what screen to use.)
+	* goffice/graph/gog-style.c (cb_image_file_select): Provide a
+	toplevel.  Fixes #305009.
+
 2005-05-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-1.5d.c: (gog_series1_5d_update): Fix a trivial

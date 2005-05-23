@@ -355,12 +355,11 @@ go_gtk_file_sel_dialog (GtkWindow *toplevel, GtkWidget *w)
 	gboolean result = FALSE;
 	gulong delete_handler;
 
+	g_return_val_if_fail (GTK_IS_WINDOW (toplevel), FALSE);
 	g_return_val_if_fail (GTK_IS_FILE_CHOOSER (w), FALSE);
 
 	gtk_window_set_modal (GTK_WINDOW (w), TRUE);
-	/* Note: toplevel will be NULL if called (indirectly) from gog-style.c  */
-	if (NULL != toplevel)
-		go_gtk_window_set_transient (toplevel, GTK_WINDOW (w));
+	go_gtk_window_set_transient (toplevel, GTK_WINDOW (w));
 	g_signal_connect (w, "response",
 		G_CALLBACK (fsel_response_cb), &result);
 	delete_handler = g_signal_connect (w, "delete_event",
@@ -534,7 +533,11 @@ go_gtk_select_image (GtkWindow *toplevel, const char *initial)
 {
 	const char *key = "go_gtk_select_image";
 	char *uri = NULL;
-	GtkFileChooser *fsel = gui_image_chooser_new (FALSE);
+	GtkFileChooser *fsel;
+
+	g_return_val_if_fail (GTK_IS_WINDOW (toplevel), NULL);
+
+	fsel = gui_image_chooser_new (FALSE);
 
 	if (!initial)
 		initial = g_object_get_data (G_OBJECT (toplevel), key);
