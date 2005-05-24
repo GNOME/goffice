@@ -1347,11 +1347,9 @@ reformat_decimals (const FormatCharacteristics *fc,
 GOFormat *
 format_remove_decimal (GOFormat const *fmt)
 {
-	int offset = 1;
-	char *ret, *p;
-	char const *tmp;
+	int start;
+	char *ret;
 	char const *format_string = fmt->format;
-	GOFormat *sf;
 
 	switch (fmt->family) {
 	case FMT_NUMBER:
@@ -1398,7 +1396,7 @@ format_remove_decimal (GOFormat const *fmt)
 		; /* Nothing.  */
 	}
 
-	/* Use the old code for more special formats to try to add a
+	/* Use the old code for more special formats to try to remove a
 	   decimal */
 
 	/*
@@ -1410,27 +1408,37 @@ format_remove_decimal (GOFormat const *fmt)
 	if (style_format_is_general (fmt))
 		format_string = "0.########";
 
-	tmp = find_decimal_char (format_string);
-	if (!tmp)
-		return NULL;
-
+	start = 0;
 	ret = g_strdup (format_string);
-	p = ret + (tmp - format_string);
+	while (1) {
+		char *p = (char *)find_decimal_char (ret + start);
+		int offset;
 
-	/* If there is more than 1 thing after the decimal place
-	 * leave the decimal.
-	 * If there is only 1 thing after the decimal remove the decimal too.
-	 */
-	if ((p[1] == '0' || p[1] == '#') && (p[2] == '0' || p[2] == '#'))
-		++p;
-	else
-		offset = 2;
+		if (!p)
+			break;
 
-	strcpy (p, p + offset);
+		/* If there is more than 1 thing after the decimal place
+		 * leave the decimal.
+		 * If there is only 1 thing after the decimal remove the decimal too.
+		 */
+		if ((p[1] == '0' || p[1] == '#') && (p[2] == '0' || p[2] == '#'))
+			offset = 1, ++p;
+		else
+			offset = 2;
 
-	sf = style_format_new_XL (ret, FALSE);
-	g_free (ret);
-	return sf;
+		strcpy (p, p + offset);
+
+		start = (p + 1) - ret;
+	}
+
+	if (start) {
+		GOFormat *sf = style_format_new_XL (ret, FALSE);
+		g_free (ret);
+		return sf;
+	} else {
+		g_free (ret);
+		return NULL;
+	}
 }
 #endif
 
