@@ -1,3 +1,8 @@
+2005-05-24  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/formats.c (find_currency): Accept quotes around
+	the currency.  Fixes recognition of accounting formats.  [#305314]
+
 2005-05-23  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/goffice-gtk.c (go_gtk_file_sel_dialog,

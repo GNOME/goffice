@@ -568,6 +568,12 @@ find_currency (char const *ptr, int len)
 {
 	int i;
 
+	/* Accept quotes around the currency.  */
+	if (len >= 2 && ptr[0] == '"' && ptr [len - 1] == '"') {
+		ptr++;
+		len -= 2;
+	}
+
 	for (i = 0; currency_symbols[i].symbol; i++)
 		if (strncmp(currency_symbols[i].symbol, ptr, len) == 0)
 			return i;

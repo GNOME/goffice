@@ -1243,12 +1243,12 @@ style_format_account (FormatCharacteristics const *fmt)
 		g_string_append_printf (str, "_(%s%s_);_(%s(%s);_(%s\"-\"%s_);_(@_)",
 					sym->str, num->str,
 					sym->str, num->str,
-					sym->str, qmarks + NUM_ZEROS-fmt->num_decimals);
+					sym->str, (qmarks + NUM_ZEROS) - fmt->num_decimals);
 	} else {
 		g_string_append_printf (str, "_(%s%s_);_((%s)%s;_(\"-\"%s%s_);_(@_)",
 					num->str, sym->str,
 					num->str, sym->str,
-					qmarks + NUM_ZEROS-fmt->num_decimals, sym->str);
+					(qmarks + NUM_ZEROS) - fmt->num_decimals, sym->str);
 	}
 
 	g_string_free (num, TRUE);
