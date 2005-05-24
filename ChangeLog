@@ -2,9 +2,8 @@
 
 	* goffice/utils/format.c (format_remove_decimal): In the fallback
 	code, remove a decimals from all subformats.
-
-	* goffice/utils/formats.c (find_currency): Accept quotes around
-	the currency.  Fixes recognition of accounting formats.  [#305314]
+	(find_currency): Accept quotes around the currency.  Fixes
+	recognition of accounting formats.  [#305314]  [#305313]
 
 2005-05-23  Morten Welinder  <terra@gnome.org>
 
