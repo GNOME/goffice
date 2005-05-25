@@ -1,3 +1,7 @@
+2005-05-25  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (PKG_PROG_PKG_CONFIG): Rephrase the explanation.
+
 2005-05-24  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/format.c (format_remove_decimal): In the fallback

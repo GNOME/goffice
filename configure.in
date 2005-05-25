@@ -63,8 +63,9 @@ dnl Propagate Gnome-specific variable ACLOCAL_FLAGS to Makefile.
 AC_SUBST(ACLOCAL_AMFLAGS, $ACLOCAL_FLAGS)
 
 dnl The first call to PKG_CHECK_MODULES is inside an `if.'
-dnl Otherwise ot would get expanded just before the first occurence of
-dnl PKG_CHECK_MODULES and might escape execution.
+dnl We have to call PKG_PROG_PKG_CONFIG explicitly; otherwise it would
+dnl get expanded just before the first occurence of PKG_CHECK_MODULES
+dnl and might escape execution.
 PKG_PROG_PKG_CONFIG
 
 dnl *****************************
