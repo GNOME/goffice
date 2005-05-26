@@ -1,3 +1,10 @@
+2005-05-26  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	[#305010]
+	* goffice/graph/gog-error-bar-prefs.glade: remove gnome requirement. 
+	* plugins/plot_pie/gog-pie-series-prefs.glade: ditto.
+	* plugins/plot_pie/gog-ring-prefs.glade: ditto.
+	
 2005-05-26  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* goffice/utils/go-file.c (go_shell_arg_to_uri): Convert
