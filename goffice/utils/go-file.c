@@ -113,19 +113,28 @@ go_shell_arg_to_uri (const char *arg)
 #ifdef WITH_GNOME
 	return gnome_vfs_make_uri_from_shell_arg (arg);
 #else
-	if (g_path_is_absolute (arg))
-		return go_filename_to_uri (arg);
+	gchar *filename, *uri = NULL;
+
+# ifdef G_OS_WIN32
+	filename = g_locale_to_utf8 (arg, -1, NULL, NULL, NULL);
+# else
+	filename = g_strdup (arg);
+# endif
+	if (g_path_is_absolute (filename))
+		uri = go_filename_to_uri (filename);
 	else {
 		/* See if it's a file: uri.  */
-		char *tmp = go_filename_from_uri (arg);
+		gchar *tmp = go_filename_from_uri (filename);
 		if (tmp) {
 			g_free (tmp);
-			return g_strdup (arg);
+			uri = g_strdup (filename);
 		}
 	}
 
-	/* Just assume it's a filename.  */
-	return go_filename_to_uri (arg);
+	if (!uri)
+		uri = go_filename_to_uri (filename); /* Just assume it's a filename.  */
+	g_free (filename);
+	return uri;
 #endif
 }
 

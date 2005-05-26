@@ -1,3 +1,9 @@
+2005-05-26  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* goffice/utils/go-file.c (go_shell_arg_to_uri): Convert
+	file name from system codepage to utf8 (glib/win32 now uses
+	utf8). [#304874]
+
 2005-05-25  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (PKG_PROG_PKG_CONFIG): Rephrase the explanation.

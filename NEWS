@@ -1,5 +1,8 @@
 goffice 0.0.2
 
+Ivan, Y.C. Wong:
+	* Fix encoding bug when open file with non-ascii name  in shell.
+
 Jean Brefort:
 	* Add linear regressions in scatter plots.
 
