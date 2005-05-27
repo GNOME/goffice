@@ -134,7 +134,7 @@ go_shell_argv_to_glib_encoding (gint argc, gchar const **argv)
 
 	return args;
 #else
-	return argv;
+	return (gchar **) argv;
 #endif
 }
 
