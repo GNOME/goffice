@@ -1,3 +1,11 @@
+2005-05-27  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* goffice/utils/go-file.c (go_shell_arg_to_uri):
+	revert changes made by me in yesterday.
+	(go_shell_argv_to_glib_encoding): New. For Win32 we need to
+	get argv[] in utf-16 and convert them to utf-8 under NT
+	and use g_locale_to_utf() under Win9x.
+
 2005-05-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-dropbar.c: (gog_dropbar_view_render): fixed
