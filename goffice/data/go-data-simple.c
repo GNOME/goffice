@@ -367,11 +367,11 @@ go_data_vector_val_as_str (GOData const *dat)
 		return g_strdup ("");
 
 	sep = format_get_col_sep ();
-	g_ascii_dtostr (sz, sizeof (sz), vec->val[0]);
+	g_snprintf (sz, sizeof (sz), "%g", vec->val[0]);
 	str = g_string_new (sz);
 	for (i = 1; i < vec->n; i++) {
 		g_string_append_c (str, sep);
-		g_ascii_dtostr (sz, sizeof (sz), vec->val[i]);
+		g_snprintf (sz, sizeof (sz), "%g", vec->val[i]);
 		g_string_append (str, sz);
 	}
 	return g_string_free (str, FALSE);
@@ -391,14 +391,20 @@ go_data_vector_val_from_str (GOData *dat, char const *str)
 		(*vec->notify) (vec->val);
 
 	values = g_array_sized_new (FALSE, FALSE, sizeof(double), 16);
-	sep = format_get_col_sep ();
+	sep = 0;
 	vec->val = NULL;
 	vec->n = 0;
 	vec->notify = (GDestroyNotify) g_free;
 	while (1) {
-		val = g_ascii_strtod (end, &end);
+		val = g_strtod (end, &end);
 		g_array_append_val (values, val);
 		if (*end) {
+			if (!sep) {
+				/* allow the use of all possible seps */
+				if ((sep = format_get_arg_sep ()) != *end)
+					if ((sep = format_get_col_sep ()) != *end)
+						sep = format_get_row_sep ();
+			}
 			if (*end != sep) {
 				g_array_free (values, TRUE);
 				return FALSE;
@@ -414,6 +420,7 @@ go_data_vector_val_from_str (GOData *dat, char const *str)
 	vec->n = values->len;
 	vec->val = (double*) values->data;
 	g_array_free (values, FALSE);
+	go_data_emit_changed (GO_DATA (vec));
 	return TRUE;
 }
 
@@ -454,7 +461,7 @@ go_data_vector_val_new (double *val, unsigned n, GDestroyNotify notify)
 struct _GODataVectorStr {
 	GODataVector	 base;
 	char const * const *str;
-	unsigned n;
+	int n;
 	GDestroyNotify notify;   
 
 	GOTranslateFunc translate_func;
@@ -485,6 +492,10 @@ go_data_vector_str_finalize (GObject *obj)
 	if (str->translate_notify != NULL)
 		(*str->translate_notify) (str->translate_data);
 
+	if (str->base.values != NULL)
+		g_free (str->base.values);
+	str->base.values = NULL;
+
 	(*vector_str_parent_klass->finalize) (obj);
 }
 
@@ -495,7 +506,7 @@ go_data_vector_str_dup (GOData const *src)
 	GODataVectorStr const *src_val = (GODataVectorStr const *)src;
 	dst->n = src_val->n;
 	if (src_val->notify) {
-		unsigned i;
+		int i;
 		char const * *str = g_new (char const *, src_val->n + 1);
 		for (i = 0; i < src_val->n; i++)
 			str[i] = g_strdup (src_val->str[i]);
@@ -521,7 +532,7 @@ go_data_vector_str_as_str (GOData const *dat)
 	GODataVectorStr *vec = GO_DATA_VECTOR_STR (dat);
 	GString *str;
 	char sep;
-	unsigned i;
+	int i;
 
 	sep = format_get_col_sep ();
 	if (vec->n ==0)
@@ -553,7 +564,15 @@ go_data_vector_str_from_str (GOData *dat, char const *str)
 		(*vec->notify) ((gpointer)vec->str);
 
 	values = g_array_sized_new (FALSE, FALSE, sizeof(char*), 16);
+	/* search which separator has been used */
 	sep = format_get_col_sep ();
+	end = strchr (cur, sep);
+	if (end == NULL) {
+		sep = format_get_arg_sep ();
+		end = strchr (cur, sep);
+		if (end ==NULL)
+			sep = format_get_row_sep ();
+	}
 	vec->str = NULL;
 	vec->n = 0;
 	vec->notify = cb_strings_destroy_notify;
@@ -601,11 +620,12 @@ go_data_vector_str_from_str (GOData *dat, char const *str)
 		g_array_free (values, TRUE);
 		return TRUE;
 	}
+	vec->n = values->len;
 	val = NULL;
 	g_array_append_val (values, val);
-	vec->n = values->len;
 	vec->str = (char const*const*) values->data;
 	g_array_free (values, FALSE);
+	go_data_emit_changed (GO_DATA (vec));
 	return TRUE;
 }
 
@@ -613,17 +633,48 @@ static void
 go_data_vector_str_load_len (GODataVector *vec)
 {
 	vec->base.flags |= GO_DATA_VECTOR_LEN_CACHED;
+	if (vec->values && vec->len != ((GODataVectorStr *)vec)->n) {
+		g_free (vec->values);
+		vec->values = NULL;
+	}
 	vec->len = ((GODataVectorStr *)vec)->n;
 }
+
 static void
 go_data_vector_str_load_values (GODataVector *vec)
 {
+	char *end;
+	GODataVectorStr const *strs = (GODataVectorStr const *)vec;
+	double minimum = DBL_MAX, maximum = -DBL_MAX;
+	int i = strs->n;
+
+	if (vec->values == NULL)
+		vec->values = g_new (double, vec->len);
+	while (i-- > 0) {
+		vec->values[i] = g_strtod (strs->str[i], &end);
+		if (*end) {
+			vec->values[i] = go_nan;
+			continue;
+		}
+		if (minimum > vec->values[i])
+			minimum = vec->values[i];
+		if (maximum < vec->values[i])
+			maximum = vec->values[i];
+	}
+	vec->minimum = minimum;
+	vec->maximum = maximum;
+	vec->base.flags |= GO_DATA_CACHE_IS_VALID;
 }
+
 static double
 go_data_vector_str_get_value (GODataVector *vec, unsigned i)
 {
-	return go_nan;
+	char *end;
+	GODataVectorStr *strs = (GODataVectorStr *)vec;
+	double d = g_strtod (strs->str[i], &end);
+	return (*end)? go_nan: d;
 }
+
 static char *
 go_data_vector_str_get_str (GODataVector *vec, unsigned i)
 {
@@ -836,20 +887,20 @@ go_data_matrix_val_as_str (GOData const *dat)
 
 	col_sep = format_get_col_sep ();
 	row_sep = format_get_row_sep ();
-	g_ascii_dtostr (sz, sizeof (sz), mat->val[0]);
+	g_snprintf (sz, sizeof (sz), "%g", mat->val[0]);
 	str = g_string_new (sz);
 	for (j = 1; j < mat->size.columns; j++) {
 		g_string_append_c (str, col_sep);
-		g_ascii_dtostr (sz, sizeof (sz), mat->val[j]);
+		g_snprintf (sz, sizeof (sz), "%g", mat->val[j]);
 		g_string_append (str, sz);
 	}
 	for (i = 1; i < mat->size.rows; i++) {
 		g_string_append_c (str, row_sep);
-		g_ascii_dtostr (sz, sizeof (sz), mat->val[i * mat->size.columns]);
+		g_snprintf (sz, sizeof (sz), "%g", mat->val[i * mat->size.columns]);
 		g_string_append (str, sz);
 		for (j = 1; j < mat->size.columns; j++) {
 			g_string_append_c (str, col_sep);
-			g_ascii_dtostr (sz, sizeof (sz), mat->val[i * mat->size.columns + j]);
+			g_snprintf (sz, sizeof (sz), "%g", mat->val[i * mat->size.columns + j]);
 			g_string_append (str, sz);
 		}
 	}
@@ -878,7 +929,7 @@ go_data_matrix_val_from_str (GOData *dat, char const *str)
 	mat->size.columns = 0;
 	mat->notify = g_free;
 	while (1) {
-		val = g_ascii_strtod (end, &end);
+		val = g_strtod (end, &end);
 		g_array_append_val (values, val);
 		if (*end) {
 			if (*end == col_sep)
@@ -917,6 +968,7 @@ go_data_matrix_val_from_str (GOData *dat, char const *str)
 	mat->size.rows = i + 1;
 	mat->val = (double*) values->data;
 	g_array_free (values, FALSE);
+	go_data_emit_changed (GO_DATA (mat));
 	return TRUE;
 }
 
