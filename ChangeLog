@@ -1,5 +1,10 @@
 2005-05-27  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/gtk/go-format-sel.c: (nfs_init): make the shortcut for currency
+	symbol selection work (#305635).
+
+2005-05-27  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/data/go-data-simple.c: (go_data_vector_val_as_str),
 	(go_data_vector_val_from_str), (go_data_vector_str_finalize),
 	(go_data_vector_str_dup), (go_data_vector_str_as_str),

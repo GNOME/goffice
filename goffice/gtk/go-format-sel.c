@@ -28,6 +28,7 @@
 
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkhbox.h>
+#include <gtk/gtklabel.h>
 #include <gtk/gtkliststore.h>
 #include <gtk/gtksizegroup.h>
 #include <gtk/gtkspinbutton.h>
@@ -1004,6 +1005,8 @@ nfs_init (GOFormatSel *gfs)
 			GO_COMBO_TEXT_FROM_TOP);
 		g_signal_connect (G_OBJECT (combo), "entry_changed",
 			G_CALLBACK (cb_format_currency_select), gfs);
+		gtk_label_set_mnemonic_widget (
+			GTK_LABEL (glade_xml_get_widget (gfs->gui, "format_symbol_label")), combo);
 	}
 
 	/* Setup special handler for Custom */
