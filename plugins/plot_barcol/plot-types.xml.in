@@ -220,7 +220,6 @@
 		sample_image_file="chart_column_2_2.png">
 		<property name="horizontal">False</property>
 		<property name="type">stacked</property>
-		<property name="overlap_percentage">100</property>
 		<property name="in_3d"/>
 	</Type>
 
@@ -230,7 +229,6 @@
 		sample_image_file="chart_column_2_3.png">
 		<property name="horizontal">False</property>
 		<property name="type">as_percentage</property>
-		<property name="overlap_percentage">100</property>
 		<property name="in_3d"/>
 	</Type>
 	-->

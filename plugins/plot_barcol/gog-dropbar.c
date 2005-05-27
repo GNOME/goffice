@@ -137,7 +137,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogViewAllocation work;
 	double *start_vals, *end_vals;
 	double x;
-	double step, offset;
+	double step, offset, group_step;
 	unsigned i;
 	unsigned num_elements = gog_1_5d_model->num_elements;
 	unsigned num_series = gog_1_5d_model->num_series;
@@ -160,9 +160,11 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 	}
 
-	step = 1. / (num_series + model->gap_percentage / 100.);
-	work.w = step *  model->overlap_percentage / 100.;
-	offset = - (step * (num_series - 1) + work.w) / 2. ;
+	step = 1. - model->overlap_percentage / 100.;
+	group_step = model->gap_percentage / 100.;
+	work.w = 1.0 / (1. + ((num_series - 1.0) * step) + group_step);
+	step *= work.w;
+	offset = - (step * (num_series - 1.0) + work.w) / 2.0; 
 
 
 	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {

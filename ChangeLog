@@ -1,5 +1,11 @@
 2005-05-27  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/plot_barcol/gog-dropbar.c: (gog_dropbar_view_render): fixed
+	bars width and position.
+	* plugins/plot_barcol/plot-types.xml.in: ditto.
+
+2005-05-27  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/gtk/go-format-sel.c: (nfs_init): make the shortcut for currency
 	symbol selection work (#305635).
 
