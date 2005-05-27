@@ -156,7 +156,6 @@
 		sample_image_file="chart_dropbar_1_1.png">
 		<property name="horizontal">False</property>
 		<property name="type">normal</property>
-		<property name="overlap_percentage">100</property>
 	</Type>
 
 	<Type _name="Horizontal Drop Bars" row="1" col="2"
@@ -165,7 +164,6 @@
 		sample_image_file="chart_dropbar_1_2.png">
 		<property name="horizontal">True</property>
 		<property name="type">normal</property>
-		<property name="overlap_percentage">100</property>
 	</Type>
 
 	<Type _name="Vertical Min Max Lines" row="1" col="1"
@@ -220,6 +218,7 @@
 		sample_image_file="chart_column_2_2.png">
 		<property name="horizontal">False</property>
 		<property name="type">stacked</property>
+		<property name="overlap_percentage">100</property>
 		<property name="in_3d"/>
 	</Type>
 
@@ -229,6 +228,7 @@
 		sample_image_file="chart_column_2_3.png">
 		<property name="horizontal">False</property>
 		<property name="type">as_percentage</property>
+		<property name="overlap_percentage">100</property>
 		<property name="in_3d"/>
 	</Type>
 	-->
