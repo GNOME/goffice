@@ -1,5 +1,10 @@
 2005-05-28  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-object.h: added missing declaration
+	(gog_object_dup_with_values).
+
+2005-05-28  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-object.c: (gog_object_dup_with_values):
 	new function aimed at export charts. 
 
