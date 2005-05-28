@@ -24,6 +24,8 @@
 #include <goffice/graph/gog-graph-impl.h> /* for gog_graph_request_update */
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/data/go-data.h>
+#include <goffice/data/go-data-simple.h>
+#include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
@@ -444,6 +446,104 @@ gog_object_dup (GogObject const *src, GogObject *new_parent)
 		/* children added directly to new parent, no need to use the
 		 * function result */
 		gog_object_dup (ptr->data, dst);
+
+	return dst;
+}
+
+/**
+ * gog_object_dup_with_values :
+ * @src : #GogObject
+ * @new_parent : #GogObject the parent tree for the object (can be NULL)
+ *
+ * Create a deep copy of @obj using @new_parent as its parent, and replace
+ * data by their values.
+ **/
+GogObject *
+gog_object_dup_with_values (GogObject const *src, GogObject *new_parent)
+{
+	gint	     n, last;
+	GParamSpec **props;
+	GogObject   *dst = NULL;
+	GSList      *ptr;
+	GValue	     val = { 0 };
+
+	if (src == NULL)
+		return NULL;
+
+	g_return_val_if_fail (GOG_OBJECT (src) != NULL, NULL);
+
+	if (src->role == NULL || src->explicitly_typed_role)
+		dst = g_object_new (G_OBJECT_TYPE (src), NULL);
+	if (new_parent)
+		dst = gog_object_add_by_role (new_parent, src->role, dst);
+
+	dst->position = src->position;
+	/* properties */
+	props = g_object_class_list_properties (G_OBJECT_GET_CLASS (src), &n);
+	while (n-- > 0)
+		if (props[n]->flags & GOG_PARAM_PERSISTENT) {
+			g_value_init (&val, props[n]->value_type);
+			g_object_get_property (G_OBJECT (src), props[n]->name, &val);
+			g_object_set_property (G_OBJECT (dst), props[n]->name, &val);
+			g_value_unset (&val);
+		}
+	g_free (props);
+
+	if (IS_GOG_DATASET (src)) {	/* convenience to save data */
+		GOData *src_dat, *dst_dat;
+		GogDataset const *src_set = GOG_DATASET (src);
+		GogDataset *dst_set = GOG_DATASET (dst);
+
+		gog_dataset_dims (src_set, &n, &last);
+		for ( ; n <= last ; n++) {
+			src_dat = gog_dataset_get_dim (src_set, n);
+			if (src_dat == NULL)
+				continue;
+			dst_dat = NULL;
+			/* for scalar and vector data, try to transform to values first
+			if we find go_nan, use strings */
+			if (IS_GO_DATA_SCALAR (src_dat)) {
+				double d =  go_data_scalar_get_value (GO_DATA_SCALAR (src_dat));
+				dst_dat =(d != go_nan)? go_data_scalar_val_new (d):
+							go_data_scalar_str_new (
+								g_strdup (go_data_scalar_get_str (GO_DATA_SCALAR (src_dat))),
+								TRUE);
+			} else if (IS_GO_DATA_VECTOR (src_dat)) {
+				gboolean as_values = TRUE;
+				GODataVector *vec = GO_DATA_VECTOR (src_dat);
+				double *d = go_data_vector_get_values (vec);
+				int i, n = go_data_vector_get_len (vec);
+				for (i = 0; i < n; i++)
+					if (d[i] == go_nan) {
+						as_values = FALSE;
+						break;
+					}
+				if (as_values)
+					/* we don't need to duplicate, since this is used only for
+					short lived objects */
+					dst_dat = go_data_vector_val_new (d, n, NULL);
+				else {
+					char **str = g_new (char*, n + 1);
+					str[n] = NULL;
+					for (i = 0; i < n; i++)
+						str[i] = go_data_vector_get_str (vec, i);
+					dst_dat = go_data_vector_str_new ((char const* const*) str, n, g_free);
+				}
+			} else if (IS_GO_DATA_MATRIX (src_dat)) {
+				/* only values are supported so don't care */
+				GODataMatrix *mat = GO_DATA_MATRIX (src_dat);
+				GODataMatrixSize size = go_data_matrix_get_size (mat);
+				dst_dat = go_data_matrix_val_new (go_data_matrix_get_values (mat),
+										size.rows, size.columns, NULL);
+			}
+			gog_dataset_set_dim (dst_set, n, dst_dat, NULL);
+		}
+	}
+
+	for (ptr = src->children; ptr != NULL ; ptr = ptr->next)
+		/* children added directly to new parent, no need to use the
+		 * function result */
+		gog_object_dup_with_values (ptr->data, dst);
 
 	return dst;
 }

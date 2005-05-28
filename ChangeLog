@@ -1,3 +1,8 @@
+2005-05-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-object.c: (gog_object_dup_with_values):
+	new function aimed at export charts. 
+
 2005-05-27  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* goffice/utils/go-file.c (go_shell_arg_to_uri):
