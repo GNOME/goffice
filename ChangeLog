@@ -1,3 +1,8 @@
+2005-05-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-object.c: (gog_object_dup),
+	(gog_object_dup_with_values): rewrote to share identical code.
+
 2005-05-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-object.h: added missing declaration
