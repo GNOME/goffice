@@ -101,6 +101,7 @@ xl_contour_plot_build_matrix (GogContourPlot const *plot,
 	}
 	g_return_val_if_fail (series != NULL, NULL);
 	max = (unsigned) ceil (1 / x[1]);
+	series = plot->base.series->data;
 	if (series->num_elements != max) {
 		series->num_elements = max;
 		*cardinality_changed = TRUE;
