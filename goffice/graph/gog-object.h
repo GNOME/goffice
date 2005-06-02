@@ -156,8 +156,9 @@ void		  gog_object_can_reorder (GogObject const *obj,
 					  gboolean *inc_ok, gboolean *dec_ok);
 GogObject	 *gog_object_reorder	 (GogObject const *obj,
 					  gboolean inc, gboolean goto_max);
-GogObjectPosition gog_object_get_pos	 (GogObject const *obj);
-gboolean	  gog_object_set_pos	 (GogObject *obj, GogObjectPosition p);
+
+GogObjectPosition gog_object_get_position_flags	(GogObject const *obj, GogObjectPosition mask);
+gboolean	  gog_object_set_position_flags	(GogObject *obj, GogObjectPosition p, GogObjectPosition mask);
 
 GogObjectRole const *gog_object_find_role_by_name (GogObject const *obj,
 						   char const *role);

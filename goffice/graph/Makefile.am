@@ -79,6 +79,7 @@ goffice_gladedir = $(goffice_datadir)/glade
 goffice_glade_DATA = \
 	gog-guru.glade			\
 	gog-guru-type-selector.glade	\
+	gog-object-prefs.glade		\
 	gog-style-prefs.glade		\
 	gog-axis-prefs.glade		\
 	gog-error-bar-prefs.glade	\

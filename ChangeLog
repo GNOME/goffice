@@ -1,3 +1,29 @@
+2005-06-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/Makefile.am: add gog-object-prefs.glade
+	* goffice/graph/gog-graph.c (gog_graph_class_init): position of chart
+	and title can be manual.
+	* goffice/graph/gog-object-prefs.glade: new.
+	* goffice/graph/gog-object.c (gog_editor_get_notebook): first page
+	is the default page.
+	(gog_object_set_property): handle compass and alignment properties.
+	(gog_object_get_property): ditto.
+	(object_pref_state_free): new.
+	(cb_compass_changed): new.
+	(cb_alignment_changed): new.
+	(gog_object_populate_editor): new. It handles only compass and alignment
+	flags.
+	(gog_object_class_init): install compass and alignment properties.
+	(gog_object_get_pos): renamed to gog_object_get_position_flags. Add a
+	mask parameter in order to get only a subset of position flags.
+	(gog_object_set_pos): renamed to gog_object_set_position_flags. Add a
+	mask parameter.
+	* goffice/graph/gog-style-prefs.glade: move line widgets to the left.
+	It improves consistency of widget position when navigating through
+	object tree.
+	* goffice/graph/gog-styled-object.c (styled_object_populate_editor):
+	call parent method.
+	
 2005-05-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/xl-surface.c: (xl_contour_plot_build_matrix):
