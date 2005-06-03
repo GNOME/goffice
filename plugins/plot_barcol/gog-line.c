@@ -78,9 +78,11 @@ gog_line_series_class_init (GogStyledObjectClass *gso_klass)
 	series_parent_klass = g_type_class_peek_parent (gso_klass);
 	gso_klass->init_style = gog_line_series_init_style;
 }
-static GSF_CLASS (GogLineSeries, gog_line_series,
-	   gog_line_series_class_init, NULL,
-	   GOG_SERIES1_5D_TYPE)
+
+GType gog_line_series_get_type (void);
+GSF_DYNAMIC_CLASS (GogLineSeries, gog_line_series,
+	gog_line_series_class_init, NULL,
+	GOG_SERIES1_5D_TYPE)
 
 static char const *
 gog_line_plot_type_name (G_GNUC_UNUSED GogObject const *item)
@@ -195,9 +197,9 @@ gog_line_plot_init (GogLinePlot *plot)
 	plot->default_style_has_markers = TRUE;
 }
 
-GSF_CLASS (GogLinePlot, gog_line_plot,
-	   gog_line_plot_class_init, gog_line_plot_init,
-	   GOG_PLOT1_5D_TYPE)
+GSF_DYNAMIC_CLASS (GogLinePlot, gog_line_plot,
+	gog_line_plot_class_init, gog_line_plot_init,
+	GOG_PLOT1_5D_TYPE)
 
 /*****************************************************************************/
 
@@ -228,9 +230,9 @@ gog_area_plot_init (GogPlot *plot)
 	plot->render_before_axes = TRUE;
 }
 
-GSF_CLASS (GogAreaPlot, gog_area_plot,
-	   gog_area_plot_class_init, gog_area_plot_init,
-	   GOG_LINE_PLOT_TYPE)
+GSF_DYNAMIC_CLASS (GogAreaPlot, gog_area_plot,
+	gog_area_plot_class_init, gog_area_plot_init,
+	GOG_LINE_PLOT_TYPE)
 
 /*****************************************************************************/
 
@@ -542,6 +544,6 @@ gog_line_view_class_init (GogViewClass *view_klass)
 	view_klass->info_at_point = gog_line_view_info_at_point;
 }
 
-static GSF_CLASS (GogLineView, gog_line_view,
-		  gog_line_view_class_init, NULL,
-		  GOG_PLOT_VIEW_TYPE)
+GSF_DYNAMIC_CLASS (GogLineView, gog_line_view,
+	gog_line_view_class_init, NULL,
+	GOG_PLOT_VIEW_TYPE)

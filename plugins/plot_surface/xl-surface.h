@@ -43,6 +43,8 @@ typedef struct {
 #define XL_PLOT_CONTOUR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), XL_CONTOUR_PLOT_TYPE))
 
 GType xl_contour_plot_get_type (void);
+void  xl_contour_plot_register_type (GTypeModule *plugin);
+void  xl_surface_series_register_type (GTypeModule *plugin);
 
 G_END_DECLS
 

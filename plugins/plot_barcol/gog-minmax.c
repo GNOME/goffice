@@ -76,9 +76,9 @@ gog_minmax_series_class_init (GogStyledObjectClass *gso_klass)
 	gso_klass->init_style = gog_minmax_series_init_style;
 }
 
-static GSF_CLASS (GogMinMaxSeries, gog_minmax_series,
-	   gog_minmax_series_class_init, NULL,
-	   GOG_SERIES1_5D_TYPE)
+GSF_DYNAMIC_CLASS (GogMinMaxSeries, gog_minmax_series,
+	gog_minmax_series_class_init, NULL,
+	GOG_SERIES1_5D_TYPE)
 
 /*****************************************************************************/
 
@@ -255,9 +255,9 @@ gog_minmax_plot_init (GogMinMaxPlot *minmax)
 	minmax->gap_percentage = 150;
 }
 
-GSF_CLASS (GogMinMaxPlot, gog_minmax_plot,
-	   gog_minmax_plot_class_init, gog_minmax_plot_init,
-	   GOG_PLOT1_5D_TYPE)
+GSF_DYNAMIC_CLASS (GogMinMaxPlot, gog_minmax_plot,
+	gog_minmax_plot_class_init, gog_minmax_plot_init,
+	GOG_PLOT1_5D_TYPE)
 
 /*****************************************************************************/
 typedef GogPlotView		GogMinMaxView;
@@ -365,6 +365,6 @@ gog_minmax_view_class_init (GogViewClass *view_klass)
 	view_klass->clip	  = TRUE;
 }
 
-static GSF_CLASS (GogMinMaxView, gog_minmax_view,
-		  gog_minmax_view_class_init, NULL,
-		  GOG_PLOT_VIEW_TYPE)
+GSF_DYNAMIC_CLASS (GogMinMaxView, gog_minmax_view,
+	gog_minmax_view_class_init, NULL,
+	GOG_PLOT_VIEW_TYPE)

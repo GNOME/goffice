@@ -260,9 +260,9 @@ gog_box_plot_init (GogBoxPlot *model)
 	model->gap_percentage = 150;
 }
 
-GSF_CLASS (GogBoxPlot, gog_box_plot,
-	   gog_box_plot_class_init, gog_box_plot_init,
-	   GOG_PLOT_TYPE)
+GSF_DYNAMIC_CLASS (GogBoxPlot, gog_box_plot,
+	gog_box_plot_class_init, gog_box_plot_init,
+	GOG_PLOT_TYPE)
 
 /*****************************************************************************/
 typedef GogPlotView		GogBoxPlotView;
@@ -366,9 +366,9 @@ gog_box_plot_view_class_init (GogViewClass *view_klass)
 	view_klass->clip	  = TRUE;
 }
 
-static GSF_CLASS (GogBoxPlotView, gog_box_plot_view,
-		  gog_box_plot_view_class_init, NULL,
-		  GOG_PLOT_VIEW_TYPE)
+GSF_DYNAMIC_CLASS (GogBoxPlotView, gog_box_plot_view,
+	gog_box_plot_view_class_init, NULL,
+	GOG_PLOT_VIEW_TYPE)
 
 /*****************************************************************************/
 
@@ -418,16 +418,18 @@ gog_box_plot_series_class_init (GogObjectClass *obj_klass)
 	gso_klass->init_style = gog_box_plot_series_init_style;
 }
 
-GSF_CLASS (GogBoxPlotSeries, gog_box_plot_series,
-	   gog_box_plot_series_class_init, NULL,
-	   GOG_SERIES_TYPE)
+GSF_DYNAMIC_CLASS (GogBoxPlotSeries, gog_box_plot_series,
+	gog_box_plot_series_class_init, NULL,
+	GOG_SERIES_TYPE)
 
 /* Plugin initialization */
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_box_plot_get_type ();
+	gog_box_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_box_plot_view_register_type (G_TYPE_MODULE (plugin));
+	gog_box_plot_series_register_type (G_TYPE_MODULE (plugin));
 }
 
 G_MODULE_EXPORT void

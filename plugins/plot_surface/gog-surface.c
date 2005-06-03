@@ -538,9 +538,9 @@ gog_contour_plot_init (GogContourPlot *contour)
 	plot->render_before_axes = TRUE;
 }
 
-GSF_CLASS (GogContourPlot, gog_contour_plot,
-	   gog_contour_plot_class_init, gog_contour_plot_init,
-	   GOG_PLOT_TYPE)
+GSF_DYNAMIC_CLASS (GogContourPlot, gog_contour_plot,
+	gog_contour_plot_class_init, gog_contour_plot_init,
+	GOG_PLOT_TYPE)
 
 /*****************************************************************************/
 
@@ -1391,9 +1391,9 @@ gog_contour_view_class_init (GogViewClass *view_klass)
 	view_klass->render = gog_contour_view_render;
 }
 
-static GSF_CLASS (GogContourView, gog_contour_view,
-		  gog_contour_view_class_init, NULL,
-		  GOG_PLOT_VIEW_TYPE)
+GSF_DYNAMIC_CLASS (GogContourView, gog_contour_view,
+	gog_contour_view_class_init, NULL,
+	GOG_PLOT_VIEW_TYPE)
 
 /*****************************************************************************/
 
@@ -1458,15 +1458,18 @@ gog_surface_series_class_init (GogStyledObjectClass *gso_klass)
 }
 
 
-GSF_CLASS (GogSurfaceSeries, gog_surface_series,
-	   gog_surface_series_class_init, NULL,
-	   GOG_SERIES_TYPE)
+GSF_DYNAMIC_CLASS (GogSurfaceSeries, gog_surface_series,
+	gog_surface_series_class_init, NULL,
+	GOG_SERIES_TYPE)
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_contour_plot_get_type ();
-	xl_contour_plot_get_type ();
+	gog_contour_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_contour_view_register_type (G_TYPE_MODULE (plugin));
+	gog_surface_series_register_type (G_TYPE_MODULE (plugin));
+	xl_contour_plot_register_type (G_TYPE_MODULE (plugin));
+	xl_surface_series_register_type (G_TYPE_MODULE (plugin));
 }
 
 G_MODULE_EXPORT void

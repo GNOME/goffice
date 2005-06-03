@@ -142,16 +142,16 @@ gog_lin_reg_curve_init (GogLinRegCurve *model)
 	model->equation = NULL;
 }
 
-GSF_CLASS (GogLinRegCurve, gog_lin_reg_curve,
-	   gog_lin_reg_curve_class_init, gog_lin_reg_curve_init,
-	   GOG_REG_CURVE_TYPE)
+GSF_DYNAMIC_CLASS (GogLinRegCurve, gog_lin_reg_curve,
+	gog_lin_reg_curve_class_init, gog_lin_reg_curve_init,
+	GOG_REG_CURVE_TYPE)
 
 /* Plugin initialization */
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_lin_reg_curve_get_type ();
+	gog_lin_reg_curve_register_type (G_TYPE_MODULE (plugin));
 }
 
 G_MODULE_EXPORT void

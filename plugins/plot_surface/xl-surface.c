@@ -254,9 +254,9 @@ xl_contour_plot_init (XLContourPlot *contour)
 	contour->y_labels = NULL;
 }
 
-GSF_CLASS (XLContourPlot, xl_contour_plot,
-	   xl_contour_plot_class_init, xl_contour_plot_init,
-	   GOG_CONTOUR_PLOT_TYPE)
+GSF_DYNAMIC_CLASS (XLContourPlot, xl_contour_plot,
+	xl_contour_plot_class_init, xl_contour_plot_init,
+	GOG_CONTOUR_PLOT_TYPE)
 
 /*****************************************************************************/
 
@@ -305,6 +305,6 @@ xl_surface_series_class_init (GogStyledObjectClass *gso_klass)
 }
 
 
-GSF_CLASS (XLSurfaceSeries, xl_surface_series,
-	   xl_surface_series_class_init, NULL,
-	   GOG_SERIES_TYPE)
+GSF_DYNAMIC_CLASS (XLSurfaceSeries, xl_surface_series,
+	xl_surface_series_class_init, NULL,
+	GOG_SERIES_TYPE)

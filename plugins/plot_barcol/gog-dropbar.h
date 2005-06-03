@@ -36,6 +36,8 @@ typedef GogPlot1_5dClass GogDropBarPlotClass;
 #define GOG_IS_PLOT_DROPBAR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_DROPBAR_PLOT_TYPE))
 
 GType gog_dropbar_plot_get_type (void);
+void  gog_dropbar_plot_register_type (GTypeModule *module);
+void  gog_dropbar_view_register_type (GTypeModule *module);
 
 G_END_DECLS
 

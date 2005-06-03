@@ -104,9 +104,9 @@ gog_pie_series_element_class_init (GogPieSeriesElementClass *klass)
 			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
-GSF_CLASS (GogPieSeriesElement, gog_pie_series_element,
-	   gog_pie_series_element_class_init, NULL /*gog_pie_series_element_init*/,
-	   GOG_SERIES_ELEMENT_TYPE)
+GSF_DYNAMIC_CLASS (GogPieSeriesElement, gog_pie_series_element,
+	gog_pie_series_element_class_init, NULL /*gog_pie_series_element_init*/,
+	GOG_SERIES_ELEMENT_TYPE)
 
 /*****************************************************************************/
 
@@ -252,9 +252,9 @@ gog_pie_plot_init (GogPiePlot *pie)
 	pie->base.vary_style_by_element = TRUE;
 }
 
-GSF_CLASS (GogPiePlot, gog_pie_plot,
-	   gog_pie_plot_class_init, gog_pie_plot_init,
-	   GOG_PLOT_TYPE)
+GSF_DYNAMIC_CLASS (GogPiePlot, gog_pie_plot,
+	gog_pie_plot_class_init, gog_pie_plot_init,
+	GOG_PLOT_TYPE)
 
 /*****************************************************************************/
 
@@ -350,9 +350,9 @@ gog_ring_plot_init (GogRingPlot *ring)
 	ring->center_size = 0.5;
 }
 
-GSF_CLASS (GogRingPlot, gog_ring_plot,
-	   gog_ring_plot_class_init, gog_ring_plot_init,
-	   GOG_PIE_PLOT_TYPE)
+GSF_DYNAMIC_CLASS (GogRingPlot, gog_ring_plot,
+	gog_ring_plot_class_init, gog_ring_plot_init,
+	GOG_PIE_PLOT_TYPE)
 
 /*****************************************************************************/
 typedef GogPlotView		GogPieView;
@@ -611,9 +611,9 @@ gog_pie_view_class_init (GogViewClass *view_klass)
 	view_klass->info_at_point  = gog_pie_view_info_at_point;
 }
 
-static GSF_CLASS (GogPieView, gog_pie_view,
-		  gog_pie_view_class_init, NULL,
-		  GOG_PLOT_VIEW_TYPE)
+GSF_DYNAMIC_CLASS (GogPieView, gog_pie_view,
+	gog_pie_view_class_init, NULL,
+	GOG_PLOT_VIEW_TYPE)
 
 /*****************************************************************************/
 
@@ -718,16 +718,18 @@ gog_pie_series_class_init (GObjectClass *gobject_klass)
 			G_PARAM_READWRITE));
 }
 
-GSF_CLASS (GogPieSeries, gog_pie_series,
+GSF_DYNAMIC_CLASS (GogPieSeries, gog_pie_series,
 	   gog_pie_series_class_init, NULL,
 	   GOG_SERIES_TYPE)
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_pie_series_element_get_type ();
-	gog_pie_plot_get_type ();
-	gog_ring_plot_get_type ();
+	gog_pie_series_element_register_type (G_TYPE_MODULE (plugin));
+	gog_pie_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_pie_view_register_type (G_TYPE_MODULE (plugin));
+	gog_pie_series_register_type (G_TYPE_MODULE (plugin));
+	gog_ring_plot_register_type (G_TYPE_MODULE (plugin));
 }
 
 G_MODULE_EXPORT void

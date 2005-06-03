@@ -34,6 +34,7 @@ typedef GogPlot1_5dClass	GogLinePlotClass;
 #define GOG_IS_PLOT_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LINE_PLOT_TYPE))
 
 GType gog_line_plot_get_type (void);
+void  gog_line_plot_register_type (GTypeModule *module);
 
 /*************************************************************************/
 
@@ -45,6 +46,10 @@ typedef GogLinePlot		GogAreaPlot;
 typedef GogLinePlotClass	GogAreaPlotClass;
 
 GType gog_area_plot_get_type (void);
+void  gog_area_plot_register_type (GTypeModule *module);
+
+void  gog_line_series_register_type (GTypeModule *module);
+void  gog_line_view_register_type   (GTypeModule *module);
 
 G_END_DECLS
 

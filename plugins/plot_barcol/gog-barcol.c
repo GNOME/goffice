@@ -228,9 +228,9 @@ gog_barcol_plot_init (GogBarColPlot *model)
 	model->gap_percentage = 150;
 }
 
-GSF_CLASS (GogBarColPlot, gog_barcol_plot,
-	   gog_barcol_plot_class_init, gog_barcol_plot_init,
-	   GOG_PLOT1_5D_TYPE)
+GSF_DYNAMIC_CLASS (GogBarColPlot, gog_barcol_plot,
+	gog_barcol_plot_class_init, gog_barcol_plot_init,
+	GOG_PLOT1_5D_TYPE)
 
 /*****************************************************************************/
 typedef GogPlotView		GogBarColView;
@@ -464,6 +464,6 @@ gog_barcol_view_class_init (GogViewClass *view_klass)
 	view_klass->clip	  = TRUE;
 }
 
-static GSF_CLASS (GogBarColView, gog_barcol_view,
-		  gog_barcol_view_class_init, NULL,
-		  GOG_PLOT_VIEW_TYPE)
+GSF_DYNAMIC_CLASS (GogBarColView, gog_barcol_view,
+	gog_barcol_view_class_init, NULL,
+	GOG_PLOT_VIEW_TYPE)

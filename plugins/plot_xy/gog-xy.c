@@ -255,9 +255,9 @@ gog_2d_plot_init (Gog2DPlot *plot2d)
 	plot2d->x.fmt = plot2d->y.fmt = NULL;
 }
 
-GSF_CLASS (Gog2DPlot, gog_2d_plot,
-	   gog_2d_plot_class_init, gog_2d_plot_init,
-	   GOG_PLOT_TYPE)
+GSF_DYNAMIC_CLASS (Gog2DPlot, gog_2d_plot,
+	gog_2d_plot_class_init, gog_2d_plot_init,
+	GOG_PLOT_TYPE)
 
 enum {
 	GOG_XY_PROP_0,
@@ -373,9 +373,9 @@ gog_xy_plot_init (GogXYPlot *xy)
 	xy->default_style_has_lines = TRUE;
 }
 
-GSF_CLASS (GogXYPlot, gog_xy_plot,
-	   gog_xy_plot_class_init, gog_xy_plot_init,
-	   GOG_2D_PLOT_TYPE)
+GSF_DYNAMIC_CLASS (GogXYPlot, gog_xy_plot,
+	gog_xy_plot_class_init, gog_xy_plot_init,
+	GOG_2D_PLOT_TYPE)
 
 /*****************************************************************************/
 
@@ -551,9 +551,9 @@ gog_bubble_plot_init (GogBubblePlot *bubble)
 	bubble->bubble_scale = 1.0;
 }
 
-GSF_CLASS (GogBubblePlot, gog_bubble_plot,
-	   gog_bubble_plot_class_init, gog_bubble_plot_init,
-	   GOG_2D_PLOT_TYPE)
+GSF_DYNAMIC_CLASS (GogBubblePlot, gog_bubble_plot,
+	gog_bubble_plot_class_init, gog_bubble_plot_init,
+	GOG_2D_PLOT_TYPE)
 
 /*****************************************************************************/
 typedef GogPlotView		GogXYView;
@@ -849,9 +849,9 @@ gog_xy_view_class_init (GogViewClass *view_klass)
 	view_klass->clip	  = FALSE;
 }
 
-static GSF_CLASS (GogXYView, gog_xy_view,
-		  gog_xy_view_class_init, NULL,
-		  GOG_PLOT_VIEW_TYPE)
+GSF_DYNAMIC_CLASS (GogXYView, gog_xy_view,
+	gog_xy_view_class_init, NULL,
+	GOG_PLOT_VIEW_TYPE)
 
 /*****************************************************************************/
 
@@ -887,9 +887,9 @@ gog_xy_series_view_class_init (GogXYSeriesViewClass *gview_klass)
 	view_klass->size_allocate = gog_xy_series_view_size_allocate;
 }
 
-static GSF_CLASS (GogXYSeriesView, gog_xy_series_view,
-		  gog_xy_series_view_class_init, NULL,
-		  GOG_VIEW_TYPE)
+GSF_DYNAMIC_CLASS (GogXYSeriesView, gog_xy_series_view,
+	gog_xy_series_view_class_init, NULL,
+	GOG_VIEW_TYPE)
 
 /****************************************************************************/
 
@@ -1105,15 +1105,19 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 			GOG_ERROR_BAR_TYPE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 }
 
-static GSF_CLASS (GogXYSeries, gog_xy_series,
-	   gog_xy_series_class_init, gog_xy_series_init,
-	   GOG_SERIES_TYPE)
+GSF_DYNAMIC_CLASS (GogXYSeries, gog_xy_series,
+	gog_xy_series_class_init, gog_xy_series_init,
+	GOG_SERIES_TYPE)
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_xy_plot_get_type ();
-	gog_bubble_plot_get_type ();
+	gog_2d_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_xy_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_bubble_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_xy_view_register_type (G_TYPE_MODULE (plugin));
+	gog_xy_series_view_register_type (G_TYPE_MODULE (plugin));
+	gog_xy_series_register_type (G_TYPE_MODULE (plugin));
 }
 
 G_MODULE_EXPORT void

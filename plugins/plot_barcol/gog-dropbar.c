@@ -68,9 +68,9 @@ gog_dropbar_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	gog_plot_1_5d_klass->update_stacked_and_percentage = NULL;
 }
 
-GSF_CLASS (GogDropBarPlot, gog_dropbar_plot,
-	   gog_dropbar_plot_class_init, NULL,
-	   GOG_BARCOL_PLOT_TYPE)
+GSF_DYNAMIC_CLASS (GogDropBarPlot, gog_dropbar_plot,
+	gog_dropbar_plot_class_init, NULL,
+	GOG_BARCOL_PLOT_TYPE)
 
 /*****************************************************************************/
 typedef GogPlotView		GogDropBarView;
@@ -226,6 +226,6 @@ gog_dropbar_view_class_init (GogViewClass *view_klass)
 	view_klass->clip	  = TRUE;
 }
 
-static GSF_CLASS (GogDropBarView, gog_dropbar_view,
-		  gog_dropbar_view_class_init, NULL,
-		  GOG_PLOT_VIEW_TYPE)
+GSF_DYNAMIC_CLASS (GogDropBarView, gog_dropbar_view,
+	gog_dropbar_view_class_init, NULL,
+	GOG_PLOT_VIEW_TYPE)

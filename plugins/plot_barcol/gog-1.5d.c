@@ -375,9 +375,9 @@ gog_plot1_5d_init (GogPlot1_5d *plot)
 	plot->in_3d = FALSE;
 }
 
-GSF_CLASS_ABSTRACT (GogPlot1_5d, gog_plot1_5d,
-		    gog_plot1_5d_class_init, gog_plot1_5d_init,
-		    GOG_PLOT_TYPE)
+GSF_DYNAMIC_CLASS_ABSTRACT (GogPlot1_5d, gog_plot1_5d,
+	gog_plot1_5d_class_init, gog_plot1_5d_init,
+	GOG_PLOT_TYPE)
 
 /*****************************************************************************/
 
@@ -524,21 +524,28 @@ gog_series1_5d_init (GObject *obj)
 	series->index_changed = FALSE;
 }
 
-GSF_CLASS (GogSeries1_5d, gog_series1_5d,
-	   gog_series1_5d_class_init, gog_series1_5d_init,
-	   GOG_SERIES_TYPE)
+GSF_DYNAMIC_CLASS (GogSeries1_5d, gog_series1_5d,
+	gog_series1_5d_class_init, gog_series1_5d_init,
+	GOG_SERIES_TYPE)
 
 /* Plugin initialization */
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_plot1_5d_get_type ();
-	gog_line_plot_get_type ();
-	gog_area_plot_get_type ();
-	gog_barcol_plot_get_type ();
-	gog_minmax_plot_get_type ();
-	gog_dropbar_plot_get_type ();
+	gog_plot1_5d_register_type (G_TYPE_MODULE (plugin));
+	gog_series1_5d_register_type (G_TYPE_MODULE (plugin));
+	gog_barcol_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_barcol_view_register_type (G_TYPE_MODULE (plugin));
+	gog_dropbar_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_dropbar_view_register_type (G_TYPE_MODULE (plugin));
+	gog_line_series_register_type (G_TYPE_MODULE (plugin));
+	gog_line_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_area_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_line_view_register_type (G_TYPE_MODULE (plugin));
+	gog_minmax_series_register_type (G_TYPE_MODULE (plugin));
+	gog_minmax_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_minmax_view_register_type (G_TYPE_MODULE (plugin));
 }
 
 G_MODULE_EXPORT void

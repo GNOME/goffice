@@ -198,7 +198,7 @@ gog_rt_plot_init (GogRTPlot *rt)
 	rt->num_elements = 0;
 }
 
-GSF_CLASS (GogRTPlot, gog_rt_plot,
+GSF_DYNAMIC_CLASS (GogRTPlot, gog_rt_plot,
 	   gog_rt_plot_class_init, gog_rt_plot_init,
 	   GOG_PLOT_TYPE)
 
@@ -271,9 +271,9 @@ gog_radar_plot_class_init (GogPlotClass *gog_plot_klass)
 	gog_plot_klass->axis_get_bounds	= gog_radar_plot_axis_get_bounds;
 }
 
-GSF_CLASS (GogRadarPlot, gog_radar_plot,
-	   gog_radar_plot_class_init, NULL,
-	   GOG_RT_PLOT_TYPE)
+GSF_DYNAMIC_CLASS (GogRadarPlot, gog_radar_plot,
+	gog_radar_plot_class_init, NULL,
+	GOG_RT_PLOT_TYPE)
 
 /*****************************************************************************/
 
@@ -311,9 +311,9 @@ gog_radar_area_plot_init (GogPlot *plot)
 	plot->render_before_axes = TRUE;
 }
 	
-GSF_CLASS (GogRadarAreaPlot, gog_radar_area_plot,
-	   gog_radar_area_plot_class_init, gog_radar_area_plot_init,
-	   GOG_RADAR_PLOT_TYPE)
+GSF_DYNAMIC_CLASS (GogRadarAreaPlot, gog_radar_area_plot,
+	gog_radar_area_plot_class_init, gog_radar_area_plot_init,
+	GOG_RADAR_PLOT_TYPE)
 
 /*****************************************************************************/
 
@@ -377,9 +377,9 @@ gog_polar_plot_class_init (GogPlotClass *gog_plot_klass)
 	gog_plot_klass->axis_get_bounds	= gog_polar_plot_axis_get_bounds;
 }
 
-GSF_CLASS (GogPolarPlot, gog_polar_plot,
-	   gog_polar_plot_class_init, NULL,
-	   GOG_RT_PLOT_TYPE)
+GSF_DYNAMIC_CLASS (GogPolarPlot, gog_polar_plot,
+	gog_polar_plot_class_init, NULL,
+	GOG_RT_PLOT_TYPE)
 
 /*****************************************************************************/
 
@@ -507,10 +507,9 @@ gog_rt_view_class_init (GogViewClass *view_klass)
 	view_klass->clip	  = TRUE;
 }
 
-static GSF_CLASS (GogRTView, gog_rt_view,
-		  gog_rt_view_class_init, NULL,
-		  GOG_PLOT_VIEW_TYPE)
-
+GSF_DYNAMIC_CLASS (GogRTView, gog_rt_view,
+	gog_rt_view_class_init, NULL,
+	GOG_PLOT_VIEW_TYPE)
 
 /*****************************************************************************/
 
@@ -574,17 +573,19 @@ gog_rt_series_class_init (GogStyledObjectClass *gso_klass)
 	obj_klass->update = gog_rt_series_update;
 }
 
-GSF_CLASS (GogRTSeries, gog_rt_series,
-	   gog_rt_series_class_init, NULL,
-	   GOG_SERIES_TYPE)
+GSF_DYNAMIC_CLASS (GogRTSeries, gog_rt_series,
+	gog_rt_series_class_init, NULL,
+	GOG_SERIES_TYPE)
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_rt_plot_get_type ();
-	gog_radar_plot_get_type ();
-	gog_radar_area_plot_get_type ();
-	gog_polar_plot_get_type ();
+	gog_rt_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_radar_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_radar_area_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_polar_plot_register_type (G_TYPE_MODULE (plugin));
+	gog_rt_view_register_type (G_TYPE_MODULE (plugin));
+	gog_rt_series_register_type (G_TYPE_MODULE (plugin));
 }
 
 G_MODULE_EXPORT void

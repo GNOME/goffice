@@ -41,6 +41,8 @@ typedef GogPlot1_5dClass GogBarColPlotClass;
 #define GOG_IS_PLOT_BARCOL(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_BARCOL_PLOT_TYPE))
 
 GType gog_barcol_plot_get_type (void);
+void  gog_barcol_plot_register_type (GTypeModule *module);
+void  gog_barcol_view_register_type (GTypeModule *module);
 
 G_END_DECLS
 

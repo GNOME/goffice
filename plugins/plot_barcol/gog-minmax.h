@@ -43,6 +43,10 @@ typedef GogPlot1_5dClass	GogMinMaxPlotClass;
 #define GOG_IS_PLOT_MINMAX(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_MINMAX_PLOT_TYPE))
 
 GType gog_minmax_plot_get_type (void);
+void  gog_minmax_plot_register_type (GTypeModule *module);
+void  gog_minmax_view_register_type (GTypeModule *module);
+GType gog_minmax_series_get_type (void);
+void  gog_minmax_series_register_type (GTypeModule *module);
 
 G_END_DECLS
 
