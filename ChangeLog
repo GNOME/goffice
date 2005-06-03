@@ -1,3 +1,7 @@
+2005-06-03  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Require libgsf 1.12.1; GSF_DYNAMIC_CLASS has changed.
+
 2005-06-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/Makefile.am: add gog-object-prefs.glade
