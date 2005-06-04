@@ -204,8 +204,7 @@ generate_preview (GOFormatSel *gfs, GOColor *c)
 	char *res = NULL;
 	g_signal_emit (G_OBJECT (gfs),
 		       go_format_sel_signals [GENERATE_PREVIEW], 0,
-		       &res, c);
-	g_warning ("TESTING TESTING 123 res = '%s'", res ? res : "(null)");
+		       c, &res);
 	return res;
 }
 
@@ -1006,7 +1005,8 @@ nfs_init (GOFormatSel *gfs)
 		g_signal_connect (G_OBJECT (combo), "entry_changed",
 			G_CALLBACK (cb_format_currency_select), gfs);
 		gtk_label_set_mnemonic_widget (
-			GTK_LABEL (glade_xml_get_widget (gfs->gui, "format_symbol_label")), combo);
+			GTK_LABEL (glade_xml_get_widget (gfs->gui, "format_symbol_label")),
+			GTK_WIDGET (combo));
 	}
 
 	/* Setup special handler for Custom */
