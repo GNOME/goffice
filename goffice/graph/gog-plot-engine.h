@@ -39,6 +39,7 @@ struct _GogPlotType {
 
 struct _GogPlotFamily {
 	char *name, *sample_image_file;
+	int priority;
 
 	GHashTable *types;
 }; 
@@ -46,7 +47,8 @@ struct _GogPlotFamily {
 /* GogPlotFamily hashed by name */
 GHashTable const *gog_plot_families (void);
 GogPlotFamily *gog_plot_family_by_name  (char const *name);
-GogPlotFamily *gog_plot_family_register (char const *name, char const *sample_image_file);
+GogPlotFamily *gog_plot_family_register (char const *name, char const *sample_image_file,
+					 int priority);
 GogPlotType   *gog_plot_type_register   (GogPlotFamily *famlily, int col, int row,
 					 char const *name, char const *sample_image_file,
 					 char const *description, char const *engine);

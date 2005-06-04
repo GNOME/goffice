@@ -128,6 +128,8 @@ struct _GraphGuruTypeSelector {
 	GogPlotType	*current_type;
 	FooCanvasGroup const *current_family_item;
 	FooCanvasItem const  *current_minor_item;
+
+	int max_priority_so_far;
 };
 
 enum {
@@ -472,6 +474,12 @@ cb_plot_families_init (char const *id, GogPlotFamily *family,
 		PLOT_FAMILY_TYPE_NAME,		_(family->name),
 		PLOT_FAMILY_TYPE_CANVAS_GROUP,	group,
 		-1);
+
+	if (typesel->max_priority_so_far < family->priority) {
+		typesel->max_priority_so_far = family->priority;
+		gtk_tree_selection_select_iter (
+			gtk_tree_view_get_selection (typesel->list_view), &iter);
+	}
 
 	closure.typesel = typesel;
 	closure.group	= group;
@@ -1262,6 +1270,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	typesel->current_minor_item = NULL;
 	typesel->current_type = NULL;
 	typesel->sample_graph_item = NULL;
+	typesel->max_priority_so_far = -1;
 
 	selector = glade_xml_get_widget (gui, "type_selector");
 
@@ -1270,6 +1279,9 @@ graph_guru_type_selector_new (GraphGuruState *s)
 					     GDK_TYPE_PIXBUF,
 					     G_TYPE_STRING,
 					     G_TYPE_POINTER);
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (typesel->model),
+		PLOT_FAMILY_TYPE_NAME, GTK_SORT_ASCENDING);
+
 	typesel->list_view = GTK_TREE_VIEW (glade_xml_get_widget (gui, "type_treeview"));
 	gtk_tree_view_set_model (typesel->list_view, GTK_TREE_MODEL (typesel->model));
 	gtk_tree_view_append_column (typesel->list_view,
@@ -1282,11 +1294,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 			gtk_cell_renderer_text_new (),
 			"text", PLOT_FAMILY_TYPE_NAME,
 			NULL));
-	selection = gtk_tree_view_get_selection (typesel->list_view);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
-	g_signal_connect_swapped (selection,
-		"changed",
-		G_CALLBACK (cb_selection_changed), typesel);
+
 
 	/* Setup an canvas to display the sample image & the sample plot. */
 	typesel->canvas = foo_canvas_new ();
@@ -1314,6 +1322,12 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	/* Init the list and the canvas group for each family */
 	g_hash_table_foreach ((GHashTable *)gog_plot_families (),
 		(GHFunc) cb_plot_families_init, typesel);
+
+	selection = gtk_tree_view_get_selection (typesel->list_view);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+	g_signal_connect_swapped (selection,
+		"changed",
+		G_CALLBACK (cb_selection_changed), typesel);
 
 	/* The alpha blended selection box */
 	typesel->selector = foo_canvas_item_new (

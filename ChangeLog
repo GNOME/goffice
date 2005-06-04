@@ -5,6 +5,21 @@
 
 2005-06-04  Jody Goldberg <jody@gnome.org>
 
+	* plugins/plot_xy/plot-types.xml.in : XY priority 100
+	* plugins/plot_barcol/plot-types.xml.in : COL priority 90
+	  BAR priority 80
+
+	* goffice/graph/gog-guru.c (cb_plot_families_init) : select if the
+	  current item is a higher priority than anything we've seen.
+	(graph_guru_type_selector_new) : don't connect to the signal handler
+	  until after we select the default type.  Sort the list of families.
+	  We need to prune this list.
+
+	* goffice/graph/gog-plot-engine.c (cb_pending_plot_types_load) : load
+	  a priority for each family to allow for a reasonable default.
+
+2005-06-04  Jody Goldberg <jody@gnome.org>
+
 	* goffice/gtk/go-format-sel.c (nfs_init) : suppress warning.
 	(generate_preview) : put the args in the right order and remove the
 	  debug spew.

@@ -141,7 +141,7 @@ cb_pending_plot_types_load (char const *path,
 	xmlDoc *doc = go_xml_parse_file (path);
 	GogPlotFamily *family = NULL;
 	GogPlotType *type;
-	int col, row;
+	int col, row, priority;
 	xmlChar *name, *image_file, *description, *engine;
 
 	g_return_if_fail (doc != NULL && doc->xmlRootNode != NULL);
@@ -151,7 +151,9 @@ cb_pending_plot_types_load (char const *path,
 		if (!xmlIsBlankNode (ptr) && ptr->name && !strcmp (ptr->name, "Family")) {
 			name	    = xmlGetProp (ptr, "_name");
 			image_file  = xmlGetProp (ptr, "sample_image_file");
-			family = gog_plot_family_register (name, image_file);
+			if (!xml_node_get_int (ptr, "priority", &priority))
+				priority = 0;
+			family = gog_plot_family_register (name, image_file, priority);
 			if (family != NULL)
 				service->families = g_slist_prepend (service->families, family);
 			if (name != NULL) xmlFree (name);
@@ -606,7 +608,8 @@ gog_plot_family_by_name (char const *name)
 }
 
 GogPlotFamily *
-gog_plot_family_register (char const *name, char const *sample_image_file)
+gog_plot_family_register (char const *name, char const *sample_image_file,
+			  int priority)
 {
 	GogPlotFamily *res;
 
@@ -617,8 +620,9 @@ gog_plot_family_register (char const *name, char const *sample_image_file)
 	g_return_val_if_fail (g_hash_table_lookup (plot_families, name) == NULL, NULL);
 
 	res = g_new0 (GogPlotFamily, 1);
-	res->name	       = g_strdup (name);
-	res->sample_image_file = g_strdup (sample_image_file);
+	res->name		= g_strdup (name);
+	res->sample_image_file	= g_strdup (sample_image_file);
+	res->priority		= priority;
 	res->types = g_hash_table_new_full (g_str_hash, g_str_equal,
 		NULL, (GDestroyNotify) gog_plot_type_free);
 	g_hash_table_insert (plot_families, res->name, res);

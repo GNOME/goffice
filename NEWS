@@ -23,6 +23,7 @@ J.H.M. Dassen (Ray):
 Jody:
 	* Fix foocanvas's show/hide item for widgets.
 	* Fix the format selector preview.
+	* Improve selection of a default plot style.
 
 Morten:
 	* Fix theme bug.  [#303707]

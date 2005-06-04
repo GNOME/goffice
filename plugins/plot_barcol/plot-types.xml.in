@@ -2,8 +2,8 @@
 <Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
 	<Family _name="Line"	sample_image_file="linegraph.xpm"/>
 	<Family _name="Area"	sample_image_file="area.xpm"/>
-	<Family _name="Bar"	sample_image_file="bar.xpm"/>
-	<Family _name="Column"	sample_image_file="column.xpm"/>
+	<Family _name="Bar"	sample_image_file="bar.xpm" priority="80"/>
+	<Family _name="Column"	sample_image_file="column.xpm" priority="90"/>
 	<Family _name="DropBar"	sample_image_file="dropbar.xpm"/>
 	<Family _name="MinMax"	sample_image_file="minmax.xpm"/>
 

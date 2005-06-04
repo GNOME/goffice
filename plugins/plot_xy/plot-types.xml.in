@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
-    <Family _name="XY"		sample_image_file="scatter.xpm"/>
-    <Family _name="Bubble"		sample_image_file="bubble.xpm"/>
+    <Family _name="XY"		sample_image_file="scatter.xpm" priority="100"/>
+    <Family _name="Bubble"	sample_image_file="bubble.xpm"/>
 
     <Type _name="XY Points" row="1" col="1"
 	  engine="GogXYPlot" family="XY"
