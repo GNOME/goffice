@@ -546,6 +546,7 @@ GSF_DYNAMIC_CLASS (GogContourPlot, gog_contour_plot,
 
 typedef GogPlotView		GogContourView;
 typedef GogPlotViewClass	GogContourViewClass;
+#define CONTOUR_EPSILON 1e-10
 
 static void
 gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
@@ -638,10 +639,15 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_renderer_clip_push (rend, &(view->residual));
 
 	style = gog_style_new ();
-	style->interesting_fields = GOG_STYLE_FILL;
+	style->interesting_fields = GOG_STYLE_FILL | GOG_STYLE_OUTLINE;
 	style->disable_theming = GOG_STYLE_ALL;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
 	style->fill.pattern.pattern = GO_PATTERN_SOLID;
+	style->outline.dash_type = GO_LINE_SOLID;
+	style->outline.auto_dash = FALSE;
+	style->outline.auto_color = FALSE;
+	style->outline.width = 0.5;
+	style->outline.color = RGBA_BLACK;
 
 	lines = art_new (ArtVpath, lmax = 64);
 	l = 0;
@@ -764,6 +770,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 			} while (k != r);
 			if (zmin == zmax) {
 				/* paint everything with one color*/
+				style->outline.color = color[zmin];
 				style->fill.pattern.back = color[zmin];
 				gog_renderer_push_style (rend, style);
 				path[0].code = ART_MOVETO;
@@ -776,7 +783,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 				path[k].y = y[0];
 				path[k + 1].code = ART_END;
 				/* narrow parameter is TRUE below to avoid border effects */
-				gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+				gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 				gog_renderer_pop_style (rend);
 			} else {
 				kmax = 3 - nans;
@@ -815,6 +822,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 					/* low values slices */
 					if (z[0] < zn) {
 						k = z[0];
+						style->outline.color = color[k];
 						style->fill.pattern.back = color[k];
 						k++;
 						path[0].code = ART_MOVETO;
@@ -835,11 +843,12 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						xl[0] = lines[l].x = path[2].x = x[0] + t * (x[1] - x[0]);
 						yl[0] = lines[l++].y = path[2].y = y[0] + t * (y[1] - y[0]);
 						gog_renderer_push_style (rend, style);
-						gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+						gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 						gog_renderer_pop_style (rend);
 						path[4].code = ART_LINETO;
 						path[5].code = ART_END;
 						while (k < zn) {
+							style->outline.color = color[k];
 							style->fill.pattern.back = color[k];
 							k++;
 							path[0].x = path[4].x = xl[7];
@@ -857,13 +866,14 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							xl[0] = lines[l].x = path[2].x = x[0] + t * (x[1] - x[0]);
 							yl[0] = lines[l++].y = path[2].y = y[0] + t * (y[1] - y[0]);
 							gog_renderer_push_style (rend, style);
-							gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+							gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 							gog_renderer_pop_style (rend);
 						}
 					} else
 						xl[0] = xl[7] = -1.;
 					if (z[2] < zn) {
 						k = z[2];
+						style->outline.color = color[k];
 						style->fill.pattern.back = color[k];
 						k++;
 						path[0].code = ART_MOVETO;
@@ -884,11 +894,12 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						xl[4] = lines[l].x = path[2].x = x[2] + t * (x[3] - x[2]);
 						yl[4] = lines[l++].y = path[2].y = y[2] + t * (y[3] - y[2]);
 						gog_renderer_push_style (rend, style);
-						gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+						gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 						gog_renderer_pop_style (rend);
 						path[4].code = ART_LINETO;
 						path[5].code = ART_END;
 						while (k < zn) {
+							style->outline.color = color[k];
 							style->fill.pattern.back = color[k];
 							k++;
 							path[0].x = path[4].x = xl[3];
@@ -906,7 +917,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							xl[4] = lines[l].x = path[2].x = x[2] + t * (x[3] - x[2]);
 							yl[4] = lines[l++].y = path[2].y = y[2] + t * (y[3] - y[2]);
 							gog_renderer_push_style (rend, style);
-							gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+							gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 							gog_renderer_pop_style (rend);
 						}
 					} else
@@ -933,9 +944,10 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						t = (k - zval[1]) / (zval[2] - zval[1]);
 						xl[2] = lines[l].x = path[2].x = x[1] + t * (x[2] - x[1]);
 						yl[2] = lines[l++].y = path[2].y = y[1] + t * (y[2] - y[1]);
+						style->outline.color = color[k];
 						style->fill.pattern.back = color[k];
 						gog_renderer_push_style (rend, style);
-						gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+						gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 						gog_renderer_pop_style (rend);
 						path[4].code = ART_LINETO;
 						path[5].code = ART_END;
@@ -955,9 +967,10 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							t = (k - zval[1]) / (zval[2] - zval[1]);
 							xl[2] = lines[l].x = path[2].x = x[1] + t * (x[2] - x[1]);
 							yl[2] = lines[l++].y = path[2].y = y[1] + t * (y[2] - y[1]);
+							style->outline.color = color[k];
 							style->fill.pattern.back = color[k];
 							gog_renderer_push_style (rend, style);
-							gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+							gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 							gog_renderer_pop_style (rend);
 							k--;
 						}
@@ -984,9 +997,10 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						t = (k - zval[3]) / (zval[0] - zval[3]);
 						xl[6] = lines[l].x = path[2].x = x[3] + t * (x[0] - x[3]);
 						yl[6] = lines[l++].y = path[2].y = y[3] + t * (y[0] - y[3]);
+						style->outline.color = color[k];
 						style->fill.pattern.back = color[k];
 						gog_renderer_push_style (rend, style);
-						gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+						gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 						gog_renderer_pop_style (rend);
 						path[4].code = ART_LINETO;
 						path[5].code = ART_END;
@@ -1006,9 +1020,10 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							t = (k - zval[3]) / (zval[0] - zval[3]);
 							xl[6] = lines[l].x = path[2].x = x[3] + t * (x[0] - x[3]);
 							yl[6] = lines[l++].y = path[2].y = y[3] + t * (y[0] - y[3]);
+							style->outline.color = color[k];
 							style->fill.pattern.back = color[k];
 							gog_renderer_push_style (rend, style);
-							gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+							gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 							gog_renderer_pop_style (rend);
 							k--;
 						}
@@ -1069,9 +1084,10 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							path[2].y = yc;
 							path[3].x = xb[0];
 							path[3].y = yb[0];
+							style->outline.color = color[zn];
 							style->fill.pattern.back = color[zn];
 							gog_renderer_push_style (rend, style);
-							gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+							gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 							if (xl[2] < 0.) {
 								path[4].x = path[0].x = x[2];
 								path[4].y = path[0].y = y[2];
@@ -1088,7 +1104,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							path[1].y = yb[1];
 							path[3].x = xb[2];
 							path[3].y = yb[2];
-							gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+							gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 							gog_renderer_pop_style (rend);
 							if (xl[2] < 0.) {
 								path[4].x = path[0].x = x[1];
@@ -1106,9 +1122,10 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							path[1].y = yb[0];
 							path[3].x = xb[1];
 							path[3].y = yb[1];
+							style->outline.color = color[zx];
 							style->fill.pattern.back = color[zx];
 							gog_renderer_push_style (rend, style);
-							gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+							gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 							if (xl[6] < 0.) {
 								path[4].x = path[0].x = x[3];
 								path[4].y = path[0].y = y[3];
@@ -1125,7 +1142,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							path[1].y = yb[2];
 							path[3].x = xb[3];
 							path[3].y = yb[3];
-							gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+							gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 							gog_renderer_pop_style (rend);
 						} else {
 							if (up) {
@@ -1157,9 +1174,10 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 								t = (zx - zval[1]) / (zval[2] - zval[1]);
 								xl[2] = lines[l].x = path[2].x = x[1] + t * (x[2] - x[1]);
 								yl[2] = lines[l++].y = path[2].y = y[1] + t * (y[2] - y[1]);
+								style->outline.color = color[zx];
 								style->fill.pattern.back = color[zx];
 								gog_renderer_push_style (rend, style);
-								gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+								gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 								if (xl[5] < 0.) {
 									path[4].code = ART_END;
 									path[0].x = path[3].x = x[3];
@@ -1182,7 +1200,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 								t = (zx - zval[3]) / (zval[0] - zval[3]);
 								xl[6] = lines[l].x = path[2].x = x[3] + t * (x[0] - x[3]);
 								yl[6] = lines[l++].y = path[2].y = y[3] + t * (y[0] - y[3]);
-								gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+								gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 								gog_renderer_pop_style (rend);
 							} else {
 								/* saddle point is in the upper slice */
@@ -1212,10 +1230,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 								t = (k - zval[0]) / (zval[1] - zval[0]);
 								xl[0] = lines[l].x = path[2].x = x[0] + t * (x[1] - x[0]);
 								yl[0] = lines[l++].y = path[2].y = y[0] + t * (y[1] - y[0]);
+								style->outline.color = color[zn];
 								style->fill.pattern.back = color[zn];
 								gog_renderer_push_style (rend, style);
-								gog_renderer_draw_polygon (rend, path, TRUE, NULL);
-								if (xl[2] < 0.) {
+								gog_renderer_draw_polygon (rend, path, FALSE, NULL);
+								if (xl[4] < 0.) {
 									path[4].code = ART_END;
 									path[0].x = path[3].x = x[2];
 									path[0].y = path[3].y = y[2];
@@ -1235,7 +1254,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 								t = (k - zval[2]) / (zval[3] - zval[2]);
 								xl[4] = lines[l].x = path[2].x = x[2] + t * (x[3] - x[2]);
 								yl[4] = lines[l++].y = path[2].y = y[2] + t * (y[3] - y[2]);
-								gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+								gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 								gog_renderer_pop_style (rend);
 								zn = zx;
 							}
@@ -1260,9 +1279,10 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							path[k].x = path[0].x;
 							path[k++].y = path[0].y;
 							path[k].code = ART_END;
+							style->outline.color = color[zn];
 							style->fill.pattern.back = color[zn];
 							gog_renderer_push_style (rend, style);
-							gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+							gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 							gog_renderer_pop_style (rend);
 						}
 					} else {
@@ -1286,9 +1306,10 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						path[k].x = path[0].x;
 						path[k++].y = path[0].y;
 						path[k].code = ART_END;
+						style->outline.color = color[zx];
 						style->fill.pattern.back = color[zx];
 						gog_renderer_push_style (rend, style);
-						gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+						gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 						gog_renderer_pop_style (rend);
 					}
 				} else {
@@ -1303,59 +1324,87 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 					s = 0;
 					r = kmax;
 					while (zmin < zmax) {
+						style->outline.color = color[zmin];
 						style->fill.pattern.back = color[zmin];
 						gog_renderer_push_style (rend, style);
 						while (z[k] <= zmin && k < kmax) {
-							path[p].code = ART_LINETO;
-							path[p].x = x[k];
-							path[p++].y = y[k++];
+							if (fabs (path[p-1].x - x[k]) > CONTOUR_EPSILON ||
+								fabs (path[p-1].y - y[k]) > CONTOUR_EPSILON) {
+								path[p].code = ART_LINETO;
+								path[p].x = x[k];
+								path[p++].y = y[k++];
+							} else
+								k++;	
 						}
 						while (z[r] <= zmin && r > 0)
 							r--;
-						
 						zmin++;
 						t = (zmin - zval[k - 1]) / (zval[k] - zval[k - 1]);
 						path[p].code = ART_LINETO;
 						lines[l].code = ART_MOVETO_OPEN;
 						lines[l].x = path[p].x = x[k - 1] + t * (x[k] - x[k - 1]);
-						lines[l++].y = path[p++].y = y[k - 1] + t * (y[k] - y[k - 1]);
+						lines[l++].y = path[p].y = y[k - 1] + t * (y[k] - y[k - 1]);
+						if (fabs (path[p-1].x - path[p].x) > CONTOUR_EPSILON ||
+							fabs (path[p-1].y - path[p].y) > CONTOUR_EPSILON)
+							p++;
 						path[p].code = ART_LINETO;
 						lines[l].code = ART_LINETO;
 						if (r < kmax) {
 							t = (zmin - zval[r]) / (zval[r + 1] - zval[r]);
 							lines[l].x = path[p].x = x[r] + t * (x[r + 1] - x[r]);
-							lines[l++].y = path[p++].y = y[r] + t * (y[r + 1] - y[r]);
+							lines[l++].y = path[p].y = y[r] + t * (y[r + 1] - y[r]);
 						} else {
 							t = (zmin - zval[r]) / (zval[0] - zval[r]);
 							lines[l].x = path[p].x = x[r] + t * (x[0] - x[r]);
-							lines[l++].y = path[p++].y = y[r] + t * (y[0] - y[r]);
+							lines[l++].y = path[p].y = y[r] + t * (y[0] - y[r]);
 						}
+						if (fabs (path[p-1].x - path[p].x) > CONTOUR_EPSILON ||
+							fabs (path[p-1].y - path[p].y) > CONTOUR_EPSILON)
+							p++;
 						if (s == 0) {
 							for (h = r + 1; h <= kmax; h++) {
-								path[p].code = ART_LINETO;
-								path[p].x = x[h];
-								path[p++].y = y[h];
+								if (fabs (path[p-1].x - x[h]) > CONTOUR_EPSILON ||
+									fabs (path[p-1].y - y[h]) > CONTOUR_EPSILON) {
+									path[p].code = ART_LINETO;
+									path[p].x = x[h];
+									path[p++].y = y[h];
+								}
 							}
 						} else {
 							for (h = r + 1; h < s; h++) {
-								path[p].code = ART_LINETO;
-								path[p].x = x[h];
-								path[p++].y = y[h];
+								if (fabs (path[p-1].x - x[h]) > CONTOUR_EPSILON ||
+									fabs (path[p-1].y - y[h]) > CONTOUR_EPSILON) {
+									path[p].code = ART_LINETO;
+									path[p].x = x[h];
+									path[p++].y = y[h];
+								}
 							}
 						}
 						s = r + 1;
-						path[p].code = ART_LINETO;
-						path[p].x = path[0].x;
-						path[p++].y = path[0].y;
+						if (fabs (path[p-1].x - path[0].x) > CONTOUR_EPSILON ||
+							fabs (path[p-1].y -path[0].y) > CONTOUR_EPSILON) {
+							path[p].code = ART_LINETO;
+							path[p].x = path[0].x;
+							path[p++].y = path[0].y;
+						} else {
+							/* use the exact values so that the polygon is closed */
+							path[p-1].x = path[0].x;
+							path[p-1].y = path[0].y;
+						}
 						path[p].code = ART_END;
-						gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+						gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 						gog_renderer_pop_style (rend);
 						path[0].x = lines[l - 1].x;
 						path[0].y = lines[l - 1].y;
 						path[1].x = lines[l - 2].x;
 						path[1].y = lines[l - 2].y;
-						p = 2;
+						p = (fabs (path[0].x - path[1].x) > CONTOUR_EPSILON ||
+							fabs (path[0].y - path[1].y) > CONTOUR_EPSILON)?
+							2: 1;
 					}
+					if (fabs (path[0].x - path[1].x) < CONTOUR_EPSILON
+						&& fabs (path[0].y - path[1].y) < CONTOUR_EPSILON)
+						continue;
 					while (k < s) {
 						path[p].code = ART_LINETO;
 						path[p].x = x[k];
@@ -1365,9 +1414,10 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 					path[p].x = path[0].x;
 					path[p++].y = path[0].y;
 					path[p].code = ART_END;
+					style->outline.color = color[zmin];
 					style->fill.pattern.back = color[zmin];
 					gog_renderer_push_style (rend, style);
-					gog_renderer_draw_polygon (rend, path, TRUE, NULL);
+					gog_renderer_draw_polygon (rend, path, FALSE, NULL);
 					gog_renderer_pop_style (rend);
 				}
 			}
