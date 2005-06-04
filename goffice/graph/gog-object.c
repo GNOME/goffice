@@ -322,10 +322,9 @@ gog_object_populate_editor (GogObject *obj,
 	unsigned i;
 	GogObjectPosition allowable_positions, flags;
 	
-	if (obj->role == NULL) {
-		g_message ("Populate editor : %s", gog_object_get_name (obj));
+	if (obj->role == NULL) 
 		return;
-	}
+	
        	allowable_positions = obj->role->allowable_positions;
 	if (!(allowable_positions & (/*GOG_POSITION_MANUAL |*/ GOG_POSITION_COMPASS)))
 		return;	

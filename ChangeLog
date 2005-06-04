@@ -1,3 +1,8 @@
+2005-06-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+	
+	* goffice/graph/gog-object (gog_object_populate_editor): remove
+	g_message call.
+
 2005-06-04  Jody Goldberg <jody@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (nfs_init) : suppress warning.
