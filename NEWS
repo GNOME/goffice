@@ -1,5 +1,11 @@
 goffice 0.0.2
 
+Emmanuel Pacaud:
+	* Make compass position and alignment of graph object persistent and
+	add a GUI for these properties [#124322].
+	* Fix some libglade warnings [#305010].
+	* Fix contour plots axes.
+	
 Ivan, Y.C. Wong:
 	* Fix encoding bug when open file with non-ascii name  in shell.
 
@@ -21,7 +27,7 @@ Jody:
 Morten:
 	* Fix theme bug.  [#303707]
 	* Fix insert-image criticals.  [#305009]
-
+	
 --------------------------------------------------------------------------
 goffice 0.0.1
 
