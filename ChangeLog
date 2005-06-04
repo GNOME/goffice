@@ -33,6 +33,13 @@
 	* goffice/graph/gog-styled-object.c (styled_object_populate_editor):
 	call parent method.
 	
+2005-06-01  Jody Goldberg <jody@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_value_gstring) : pull over from
+	  gnumeric with a simplified structure to handle only ints and
+	  doubles.
+	(go_style_format_condition) : ditto.
+
 2005-05-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/xl-surface.c: (xl_contour_plot_build_matrix):

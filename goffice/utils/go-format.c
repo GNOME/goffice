@@ -25,6 +25,7 @@
 #include "format.h"
 #include "datetime.h"
 #include "format-impl.h"
+#include <string.h>
 
 GOFormat *
 go_format_new_from_XL (char const *descriptor_string, gboolean delocalize)
@@ -51,20 +52,99 @@ go_format_unref (GOFormat *fmt)
 	style_format_unref (fmt);
 }
 
+static gboolean
+go_style_format_condition (StyleFormatEntry const *entry, double val)
+{
+	if (entry->restriction_type == '*')
+		return TRUE;
+
+	switch (entry->restriction_type) {
+	case '<': return val < entry->restriction_value;
+	case '>': return val > entry->restriction_value;
+	case '=': return val == entry->restriction_value;
+	case ',': return val <= entry->restriction_value;
+	case '.': return val >= entry->restriction_value;
+	case '+': return val != entry->restriction_value;
+	default:
+		return FALSE;
+	}
+}
+
+void
+go_format_value_gstring (GOFormat const *format, GString *res, double val,
+			 int col_width, GODateConventions const *date_conv)
+{
+	StyleFormatEntry const *entry = NULL; /* default to General */
+	GSList const *list = NULL;
+	gboolean need_abs = FALSE;
+
+	if (format != NULL) {
+		for (list = format->entries; list; list = list->next)
+			if (go_style_format_condition (list->data, val))
+				break;
+		if (list == NULL)
+			list = format->entries;
+	}
+
+	/* If nothing matches treat it as General */
+	if (list != NULL) {
+		entry = list->data;
+
+		/* Empty formats should be ignored */
+		if (entry->format[0] == '\0')
+			return;
+
+#if 0
+		if (go_color && entry->go_color != 0)
+			*go_color = entry->go_color;
+#endif
+
+		if (strcmp (entry->format, "@") == 0) {
+			/* FIXME : Formatting a value as a text returns
+			 * the entered text.  We need access to the
+			 * parse format */
+			entry = NULL;
+
+		/* FIXME : Just containing General is enough to be
+		 * general for now.  We'll ignore prefixes and suffixes
+		 * for the time being */
+		} else if (strstr (entry->format, "General") != NULL)
+			entry = NULL;
+	}
+
+	/* More than one format? -- abs the value.  */
+	need_abs = entry && format->entries->next;
+
+	if (INT_MAX >= val && val >= INT_MIN && val == floor (val)) {
+		int i_val = (int)val;
+		if (need_abs)
+			i_val = ABS (i_val);
+
+		if (entry == NULL)
+			go_fmt_general_int (res, i_val, col_width);
+		else
+			go_format_number (res, i_val, col_width, entry, date_conv);
+	} else {
+		if (need_abs)
+			val = fabs (val);
+
+		if (entry == NULL)
+			go_fmt_general_float (res, val, col_width);
+		else
+			go_format_number (res, val, col_width, entry, date_conv);
+	}
+}
+
 char *
 go_format_value (GOFormat const *fmt, double val)
 {
-	/*static GnmDateConventions conv = { FALSE }; */
 	GString *res;
-#warning FIXME FIXME FIXME : restore conditional support
 
 	if (!go_finite (val))
 		return g_strdup ("#VALUE!");
+
 	res = g_string_sized_new (20);
-	if (INT_MAX >= val && val >= INT_MIN && val == floor (val))
-		go_fmt_general_int (res, (int)val, -1);
-	else
-		go_fmt_general_float (res, val, -1);
+	go_format_value_gstring (fmt, res, val, -1, NULL);
 	return g_string_free (res, FALSE);
 }
 

@@ -31,6 +31,8 @@ char   	   *go_format_as_XL		 (GOFormat const *fmt, gboolean localized);
 GOFormat   *go_format_ref		 (GOFormat *fmt);
 void        go_format_unref		 (GOFormat *fmt);
 char	   *go_format_value   		 (GOFormat const *fmt, double val);
+void	    go_format_value_gstring	 (GOFormat const *format, GString *res, double val,
+					  int col_width, GODateConventions const *date_conv);
 gboolean    go_format_eq		 (GOFormat const *a, GOFormat const *b);
 GOFormat   *go_format_general		 (void);
 GOFormat   *go_format_default_date	 (void);
