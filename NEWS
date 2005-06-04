@@ -6,6 +6,8 @@ Ivan, Y.C. Wong:
 Jean Brefort:
 	* Add linear regressions in scatter plots.
 	* Fix shotcut in format selector [#305635].
+	* Add MinMax and DropBar plots.
+	* Fixed various concerns in contour plots.
 
 J.H.M. Dassen (Ray):
 	* Ensure at link time that the shared objects, both the library and
