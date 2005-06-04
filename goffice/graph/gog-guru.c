@@ -472,12 +472,6 @@ cb_plot_families_init (char const *id, GogPlotFamily *family,
 		PLOT_FAMILY_TYPE_NAME,		_(family->name),
 		PLOT_FAMILY_TYPE_CANVAS_GROUP,	group,
 		-1);
-	if (!strcmp (family->name, "Column")) {
-		GtkTreeSelection *selection = gtk_tree_view_get_selection (typesel->list_view);
-		g_signal_handlers_block_by_func (selection, cb_selection_changed, typesel);
-		gtk_tree_selection_select_iter (selection, &iter);
-		g_signal_handlers_unblock_by_func (selection, cb_selection_changed, typesel);
-	}
 
 	closure.typesel = typesel;
 	closure.group	= group;

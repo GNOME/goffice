@@ -14,7 +14,6 @@ Jean Brefort:
 	* Fix shotcut in format selector [#305635].
 	* Add MinMax and DropBar plots.
 	* Fixed various concerns in contour plots.
-	* Set Columns as default plot family (#306061).
 
 J.H.M. Dassen (Ray):
 	* Ensure at link time that the shared objects, both the library and

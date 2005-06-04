@@ -1,8 +1,3 @@
-2005-06-04  Jean Brefort  <jean.brefort@normalesup.org>
-
-	* goffice/graph/gog-guru.c: (cb_plot_families_init): set Columns as
-	default family (#306061).
-
 2005-06-04  Jody Goldberg <jody@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (nfs_init) : suppress warning.
