@@ -10,6 +10,11 @@
 
 2005-06-05  Jody Goldberg <jody@gnome.org>
 
+	* goffice/app/go-plugin.c (go_plugin_get_type_module) : new in
+	  preparation of change to GOPlugin.
+
+2005-06-05  Jody Goldberg <jody@gnome.org>
+
 	* goffice/app/go-plugin.c (go_plugin_activate) : add a
 	  g_type_module_use
 	(go_plugin_deactivate) : and an unuse.  Things are still broken on

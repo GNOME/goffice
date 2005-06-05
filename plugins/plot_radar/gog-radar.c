@@ -580,12 +580,13 @@ GSF_DYNAMIC_CLASS (GogRTSeries, gog_rt_series,
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_rt_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_radar_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_radar_area_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_polar_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_rt_view_register_type (G_TYPE_MODULE (plugin));
-	gog_rt_series_register_type (G_TYPE_MODULE (plugin));
+	GTypeModule *module = go_plugin_get_type_module (plugin);
+	gog_rt_plot_register_type (module);
+	gog_radar_plot_register_type (module);
+	gog_radar_area_plot_register_type (module);
+	gog_polar_plot_register_type (module);
+	gog_rt_view_register_type (module);
+	gog_rt_series_register_type (module);
 }
 
 G_MODULE_EXPORT void

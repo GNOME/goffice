@@ -151,7 +151,7 @@ GSF_DYNAMIC_CLASS (GogLinRegCurve, gog_lin_reg_curve,
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_lin_reg_curve_register_type (G_TYPE_MODULE (plugin));
+	gog_lin_reg_curve_register_type (go_plugin_get_type_module (plugin));
 }
 
 G_MODULE_EXPORT void

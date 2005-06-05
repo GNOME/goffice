@@ -427,9 +427,10 @@ GSF_DYNAMIC_CLASS (GogBoxPlotSeries, gog_box_plot_series,
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_box_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_box_plot_view_register_type (G_TYPE_MODULE (plugin));
-	gog_box_plot_series_register_type (G_TYPE_MODULE (plugin));
+	GTypeModule *module = go_plugin_get_type_module (plugin);
+	gog_box_plot_register_type (module);
+	gog_box_plot_view_register_type (module);
+	gog_box_plot_series_register_type (module);
 }
 
 G_MODULE_EXPORT void

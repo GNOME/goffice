@@ -425,6 +425,19 @@ go_plugin_is_active (GOPlugin *plugin)
 }
 
 /**
+ * go_plugin_get_type_module :
+ * @plugin : #GOPlugin
+ *
+ * Return the GTypeModule associated with the plugin.
+ **/
+GTypeModule *
+go_plugin_get_type_module (GOPlugin *plugin)
+{
+ /* WARNING this will eventually return NULL when the plugin is inactive. */
+	return G_TYPE_MODULE (plugin);
+}
+
+/**
  * go_plugin_get_dir_name:
  * @plugin      : The plugin
  *

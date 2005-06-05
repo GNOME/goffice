@@ -533,19 +533,20 @@ GSF_DYNAMIC_CLASS (GogSeries1_5d, gog_series1_5d,
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_plot1_5d_register_type (G_TYPE_MODULE (plugin));
-	gog_series1_5d_register_type (G_TYPE_MODULE (plugin));
-	gog_barcol_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_barcol_view_register_type (G_TYPE_MODULE (plugin));
-	gog_dropbar_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_dropbar_view_register_type (G_TYPE_MODULE (plugin));
-	gog_line_series_register_type (G_TYPE_MODULE (plugin));
-	gog_line_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_area_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_line_view_register_type (G_TYPE_MODULE (plugin));
-	gog_minmax_series_register_type (G_TYPE_MODULE (plugin));
-	gog_minmax_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_minmax_view_register_type (G_TYPE_MODULE (plugin));
+	GTypeModule *module = go_plugin_get_type_module (plugin);
+	gog_plot1_5d_register_type (module);
+	gog_series1_5d_register_type (module);
+	gog_barcol_plot_register_type (module);
+	gog_barcol_view_register_type (module);
+	gog_dropbar_plot_register_type (module);
+	gog_dropbar_view_register_type (module);
+	gog_line_series_register_type (module);
+	gog_line_plot_register_type (module);
+	gog_area_plot_register_type (module);
+	gog_line_view_register_type (module);
+	gog_minmax_series_register_type (module);
+	gog_minmax_plot_register_type (module);
+	gog_minmax_view_register_type (module);
 }
 
 G_MODULE_EXPORT void

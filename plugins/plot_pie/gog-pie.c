@@ -725,11 +725,12 @@ GSF_DYNAMIC_CLASS (GogPieSeries, gog_pie_series,
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_pie_series_element_register_type (G_TYPE_MODULE (plugin));
-	gog_pie_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_pie_view_register_type (G_TYPE_MODULE (plugin));
-	gog_pie_series_register_type (G_TYPE_MODULE (plugin));
-	gog_ring_plot_register_type (G_TYPE_MODULE (plugin));
+	GTypeModule *module = go_plugin_get_type_module (plugin);
+	gog_pie_series_element_register_type (module);
+	gog_pie_plot_register_type (module);
+	gog_pie_view_register_type (module);
+	gog_pie_series_register_type (module);
+	gog_ring_plot_register_type (module);
 }
 
 G_MODULE_EXPORT void

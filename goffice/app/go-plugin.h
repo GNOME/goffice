@@ -19,23 +19,24 @@ G_BEGIN_DECLS
 
 GType	go_plugin_get_type (void);
 
-void         go_plugin_activate (GOPlugin *pinfo, ErrorInfo **ret_error);
-void         go_plugin_deactivate (GOPlugin *pinfo, ErrorInfo **ret_error);
-gboolean     go_plugin_is_active (GOPlugin *pinfo);
-gboolean     go_plugin_can_deactivate (GOPlugin *pinfo);
-void         go_plugin_load_service (GOPlugin *pinfo, GOPluginService *service, ErrorInfo **ret_error);
-void         go_plugin_unload_service (GOPlugin *pinfo, GOPluginService *service, ErrorInfo **ret_error);
-gboolean     go_plugin_is_loaded (GOPlugin *pinfo);
-void         go_plugin_use_ref (GOPlugin *pinfo);
-void         go_plugin_use_unref (GOPlugin *pinfo);
+void         go_plugin_activate (GOPlugin *plugin, ErrorInfo **ret_error);
+void         go_plugin_deactivate (GOPlugin *plugin, ErrorInfo **ret_error);
+gboolean     go_plugin_is_active (GOPlugin *plugin);
+gboolean     go_plugin_can_deactivate (GOPlugin *plugin);
+void         go_plugin_load_service (GOPlugin *plugin, GOPluginService *service, ErrorInfo **ret_error);
+void         go_plugin_unload_service (GOPlugin *plugin, GOPluginService *service, ErrorInfo **ret_error);
+gboolean     go_plugin_is_loaded (GOPlugin *plugin);
+void         go_plugin_use_ref (GOPlugin *plugin);
+void         go_plugin_use_unref (GOPlugin *plugin);
 
-char const  *go_plugin_get_dir_name (GOPlugin *pinfo);
-char const  *go_plugin_get_id (GOPlugin *pinfo);
-char const  *go_plugin_get_name (GOPlugin *pinfo);
-char const  *go_plugin_get_description (GOPlugin *pinfo);
-char const  *go_plugin_get_textdomain (GOPlugin *pinfo);
-GSList      *go_plugin_get_dependencies_ids (GOPlugin *pinfo);
-GSList      *go_plugin_get_services (GOPlugin *pinfo);
+GTypeModule *go_plugin_get_type_module	(GOPlugin *plugin);
+char const  *go_plugin_get_dir_name	(GOPlugin *plugin);
+char const  *go_plugin_get_id		(GOPlugin *plugin);
+char const  *go_plugin_get_name		(GOPlugin *plugin);
+char const  *go_plugin_get_description	(GOPlugin *plugin);
+char const  *go_plugin_get_textdomain	(GOPlugin *plugin);
+GSList      *go_plugin_get_services	(GOPlugin *plugin);
+GSList      *go_plugin_get_dependencies_ids (GOPlugin *plugin);
 
 /*
  *
@@ -56,8 +57,8 @@ GSList	 *go_plugins_get_active_plugins (void);
 void	  go_plugins_rescan (ErrorInfo **ret_error, GSList **ret_new_plugins);
 char 	 *go_plugins_get_plugin_dir (void);
 
-void	  go_plugin_db_mark_plugin_for_deactivation (GOPlugin *pinfo, gboolean mark);
-gboolean  go_plugin_db_is_plugin_marked_for_deactivation (GOPlugin *pinfo);
+void	  go_plugin_db_mark_plugin_for_deactivation (GOPlugin *plugin, gboolean mark);
+gboolean  go_plugin_db_is_plugin_marked_for_deactivation (GOPlugin *plugin);
 void	  go_plugin_db_activate_plugin_list   (GSList *plugins, ErrorInfo **ret_error);
 void	  go_plugin_db_deactivate_plugin_list (GSList *plugins, ErrorInfo **ret_error);
 

@@ -1515,11 +1515,12 @@ GSF_DYNAMIC_CLASS (GogSurfaceSeries, gog_surface_series,
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_contour_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_contour_view_register_type (G_TYPE_MODULE (plugin));
-	gog_surface_series_register_type (G_TYPE_MODULE (plugin));
-	xl_contour_plot_register_type (G_TYPE_MODULE (plugin));
-	xl_surface_series_register_type (G_TYPE_MODULE (plugin));
+	GTypeModule *module = go_plugin_get_type_module (plugin);
+	gog_contour_plot_register_type (module);
+	gog_contour_view_register_type (module);
+	gog_surface_series_register_type (module);
+	xl_contour_plot_register_type (module);
+	xl_surface_series_register_type (module);
 }
 
 G_MODULE_EXPORT void

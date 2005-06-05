@@ -1112,12 +1112,13 @@ GSF_DYNAMIC_CLASS (GogXYSeries, gog_xy_series,
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_2d_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_xy_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_bubble_plot_register_type (G_TYPE_MODULE (plugin));
-	gog_xy_view_register_type (G_TYPE_MODULE (plugin));
-	gog_xy_series_view_register_type (G_TYPE_MODULE (plugin));
-	gog_xy_series_register_type (G_TYPE_MODULE (plugin));
+	GTypeModule *module = go_plugin_get_type_module (plugin);
+	gog_2d_plot_register_type (module);
+	gog_xy_plot_register_type (module);
+	gog_bubble_plot_register_type (module);
+	gog_xy_view_register_type (module);
+	gog_xy_series_view_register_type (module);
+	gog_xy_series_register_type (module);
 }
 
 G_MODULE_EXPORT void
