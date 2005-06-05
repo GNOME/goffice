@@ -902,31 +902,31 @@ plugin_get_loader_if_needed (GOPlugin *pinfo, ErrorInfo **ret_error)
  * information will be returned using @ret_error.
  */
 void
-go_plugin_activate (GOPlugin *pinfo, ErrorInfo **ret_error)
+go_plugin_activate (GOPlugin *plugin, ErrorInfo **ret_error)
 {
 	GSList *error_list = NULL;
 	GSList *l;
 	gint i;
 	static GSList *activate_stack = NULL;
 
-	g_return_if_fail (IS_GO_PLUGIN (pinfo));
+	g_return_if_fail (IS_GO_PLUGIN (plugin));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	if (g_slist_find (activate_stack, pinfo) != NULL) {
+	if (g_slist_find (activate_stack, plugin) != NULL) {
 		*ret_error = error_info_new_str (
 				     _("Detected cyclic plugin dependencies."));
 		return;
 	}
-	if (!plugin_info_read_full_info_if_needed_error_info (pinfo, ret_error)) {
+	if (!plugin_info_read_full_info_if_needed_error_info (plugin, ret_error)) {
 		return;
 	}
-	if (pinfo->is_active) {
+	if (plugin->is_active) {
 		return;
 	}
 
 	/* Activate plugin dependencies */
-	GO_SLIST_PREPEND (activate_stack, pinfo);
-	GO_SLIST_FOREACH (pinfo->dependencies, PluginDependency, dep,
+	GO_SLIST_PREPEND (activate_stack, plugin);
+	GO_SLIST_FOREACH (plugin->dependencies, PluginDependency, dep,
 		GOPlugin *dep_plugin;
 
 		dep_plugin = plugin_dependency_get_plugin (dep);
@@ -947,7 +947,7 @@ go_plugin_activate (GOPlugin *pinfo, ErrorInfo **ret_error)
 				_("Couldn't find plugin with id=\"%s\"."), dep->plugin_id));
 		}
 	);
-	g_assert (activate_stack != NULL && activate_stack->data == pinfo);
+	g_assert (activate_stack != NULL && activate_stack->data == plugin);
 	activate_stack = g_slist_delete_link (activate_stack, activate_stack);
 	if (error_list != NULL) {
 		*ret_error = error_info_new_str (
@@ -956,7 +956,7 @@ go_plugin_activate (GOPlugin *pinfo, ErrorInfo **ret_error)
 		return;
 	}
 
-	for (l = pinfo->services, i = 0; l != NULL; l = l->next, i++) {
+	for (l = plugin->services, i = 0; l != NULL; l = l->next, i++) {
 		GOPluginService *service = l->data;
 		ErrorInfo *service_error;
 
@@ -975,11 +975,12 @@ go_plugin_activate (GOPlugin *pinfo, ErrorInfo **ret_error)
 		/* FIXME - deactivate activated services */
 		return;
 	}
-	GO_SLIST_FOREACH (pinfo->dependencies, PluginDependency, dep,
+	GO_SLIST_FOREACH (plugin->dependencies, PluginDependency, dep,
 		go_plugin_use_ref (plugin_dependency_get_plugin (dep));
 	);
-	pinfo->is_active = TRUE;
-	g_signal_emit (G_OBJECT (pinfo), go_plugin_signals[STATE_CHANGED], 0);
+	plugin->is_active = TRUE;
+	g_signal_emit (G_OBJECT (plugin), go_plugin_signals[STATE_CHANGED], 0);
+	g_type_module_use (G_TYPE_MODULE (plugin));
 }
 
 /**
@@ -993,23 +994,23 @@ go_plugin_activate (GOPlugin *pinfo, ErrorInfo **ret_error)
  * information will be returned using @ret_error.
  */
 void
-go_plugin_deactivate (GOPlugin *pinfo, ErrorInfo **ret_error)
+go_plugin_deactivate (GOPlugin *plugin, ErrorInfo **ret_error)
 {
 	GSList *error_list = NULL;
 	GSList *l;
 	gint i;
 
-	g_return_if_fail (IS_GO_PLUGIN (pinfo));
+	g_return_if_fail (IS_GO_PLUGIN (plugin));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	if (!pinfo->has_full_info || !pinfo->is_active) {
+	if (!plugin->has_full_info || !plugin->is_active) {
 		return;
 	}
-	if (pinfo->use_refcount > 0) {
+	if (plugin->use_refcount > 0) {
 		*ret_error = error_info_new_str ("Plugin is still in use.");
 		return;
 	}
-	for (l = pinfo->services, i = 0; l != NULL; l = l->next, i++) {
+	for (l = plugin->services, i = 0; l != NULL; l = l->next, i++) {
 		GOPluginService *service = l->data;
 		ErrorInfo *service_error;
 
@@ -1027,16 +1028,17 @@ go_plugin_deactivate (GOPlugin *pinfo, ErrorInfo **ret_error)
 		*ret_error = error_info_new_from_error_list (error_list);
 		/* FIXME - some services are still active (or broken) */
 	} else {
-		pinfo->is_active = FALSE;
-		GO_SLIST_FOREACH (pinfo->dependencies, PluginDependency, dep,
+		plugin->is_active = FALSE;
+		GO_SLIST_FOREACH (plugin->dependencies, PluginDependency, dep,
 			go_plugin_use_unref (plugin_dependency_get_plugin (dep));
 		);
-		if (pinfo->loader != NULL) {
-			g_object_unref (pinfo->loader);
-			pinfo->loader = NULL;
+		if (plugin->loader != NULL) {
+			g_object_unref (plugin->loader);
+			plugin->loader = NULL;
 		}
 	}
-	g_signal_emit (G_OBJECT (pinfo), go_plugin_signals[STATE_CHANGED], 0);
+	g_signal_emit (G_OBJECT (plugin), go_plugin_signals[STATE_CHANGED], 0);
+	g_type_module_unuse (G_TYPE_MODULE (plugin));
 }
 
 /**
