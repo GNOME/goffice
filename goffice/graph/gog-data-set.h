@@ -65,6 +65,8 @@ GogDatasetElement *gog_dataset_get_elem (GogDataset const *set, int dim_i);
 void gog_dataset_set_dim_internal (GogDataset *set, int dim_i,
 				   GOData *val, GogGraph *graph);
 
+void gog_dataset_dup_to_simple (GogDataset const *src, GogDataset *dst);
+
 G_END_DECLS
 
 #endif /* GOG_DATA_SET_H */

@@ -1,3 +1,13 @@
+2005-06-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-data-set.c: (gog_dataset_dup_to_simple): add a helper
+	function to convert data to simple data.
+	* goffice/graph/gog-data-set.h: ditto.
+	* goffice/graph/gog-object.c: (dataset_dup), (gog_object_dup): add an
+	optional data converter to gog_object_dup and define a default one.
+	* goffice/graph/gog-object.h: ditto.
+	* goffice/graph/gog-graph.c: use new gog_object_dup syntax.
+
 2005-06-05  Jody Goldberg <jody@gnome.org>
 
 	* goffice/app/go-plugin.c (go_plugin_activate) : add a

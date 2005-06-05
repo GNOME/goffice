@@ -322,7 +322,7 @@ gog_graph_num_rows (GogGraph const *graph)
 GogGraph *
 gog_graph_dup (GogGraph const *graph)
 {
-	GogObject *res = gog_object_dup (GOG_OBJECT (graph), NULL);
+	GogObject *res = gog_object_dup (GOG_OBJECT (graph), NULL, NULL);
 	return GOG_GRAPH (res);
 }
 
