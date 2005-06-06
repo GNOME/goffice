@@ -1,3 +1,7 @@
+2005-06-06  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-math.c (log1p): Define if needed.
+
 2005-06-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-data-set.c: (gog_dataset_dup_to_simple): add a helper

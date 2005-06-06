@@ -239,6 +239,29 @@ go_pow10 (int n)
 	return pow (10.0, n);
 }
 
+#ifdef GOFFICE_SUPPLIED_LOG1P
+double
+log1p (double x)
+{
+  double term, sum;
+  int i;
+
+  if (fabs (x) > 0.25)
+    return log (x + 1);
+
+  i = 0;
+  sum = 0;
+  term = -1;
+  while (fabs (term) > fabs (sum) * DBL_EPSILON) {
+    term *= -x;
+    i++;
+    sum += term / i;
+  }
+
+  return sum;
+}
+#endif
+
 #ifdef GOFFICE_SUPPLIED_EXPM1
 double
 expm1 (double x)

@@ -318,6 +318,7 @@ AC_DEFUN([GOFFICE_CHECK_FUNC],
 		1,
 		[Define if G Office supplies $1.])])dnl
 ])
+GOFFICE_CHECK_FUNC(log1p)
 GOFFICE_CHECK_FUNC(expm1)
 GOFFICE_CHECK_FUNC(asinh)
 GOFFICE_CHECK_FUNC(acosh)

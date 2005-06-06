@@ -42,6 +42,9 @@ double acosh (double x);
 #ifdef GOFFICE_SUPPLIED_ATANH
 double atanh (double x);
 #endif
+#ifdef GOFFICE_SUPPLIED_LOG1P
+double log1p (double x);
+#endif
 #ifdef GOFFICE_SUPPLIED_EXPM1
 double expm1 (double x);
 #endif
