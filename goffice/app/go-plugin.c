@@ -54,8 +54,8 @@ static GHashTable *available_plugins_id_hash = NULL;
 static GHashTable *loader_services = NULL;
 static GType	   go_default_loader_type;
 
-static void plugin_get_loader_if_needed (GOPlugin *pinfo, ErrorInfo **ret_error);
-static void plugin_info_read (GOPlugin *pinfo, const gchar *dir_name, ErrorInfo **ret_error);
+static void plugin_get_loader_if_needed (GOPlugin *plugin, ErrorInfo **ret_error);
+static void go_plugin_read (GOPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_error);
 static void go_plugin_load_base (GOPlugin *plugin, ErrorInfo **ret_error);
 
 /*
@@ -69,7 +69,7 @@ typedef struct {
 } PluginDependency;
 
 struct _GOPlugin {
-	GTypeModule parent_instance;
+	GObject base;
 
 	gboolean has_full_info;
 	gchar   *dir_name;
@@ -79,8 +79,10 @@ struct _GOPlugin {
 	gchar   *description;
 	gboolean require_explicit_enabling;
 
-	gboolean is_active;
-	gint use_refcount;
+	gboolean     is_active;
+	gint	     use_refcount;
+	GTypeModule *type_module;
+
 	GSList *dependencies;
 	gchar *loader_id;
 	GHashTable *loader_attrs;
@@ -140,6 +142,11 @@ go_plugin_finalize (GObject *obj)
 {
 	GOPlugin *plugin = GO_PLUGIN (obj);
 
+	if (plugin->type_module != NULL) {
+		g_type_module_unuse (plugin->type_module);
+		plugin->type_module = NULL;
+	}
+
 	g_free (plugin->id);
 	plugin->id = NULL;
 	g_free (plugin->dir_name);
@@ -164,45 +171,13 @@ go_plugin_finalize (GObject *obj)
 	parent_class->finalize (obj);
 }
 
-static gboolean
-go_plugin_type_module_load (GTypeModule *module)
-{
-	GOPlugin *plugin = GO_PLUGIN (module);
-	ErrorInfo *ignored_error;
-
-	g_return_val_if_fail (plugin->is_active, FALSE);
-
-	go_plugin_load_base (plugin, &ignored_error);
-	if (ignored_error != NULL) {
-		error_info_print (ignored_error);
-		error_info_free (ignored_error);
-		return FALSE;
-	}
-	go_plugin_use_ref (plugin);
-	return TRUE;
-}
-
-static void
-go_plugin_type_module_unload (GTypeModule *module)
-{
-	GOPlugin *plugin = GO_PLUGIN (module);
-
-	g_return_if_fail (plugin->is_active);
-
-	go_plugin_use_unref (plugin);
-}
 
 static void
 go_plugin_class_init (GObjectClass *gobject_class)
 {
-	GTypeModuleClass *type_module_class = G_TYPE_MODULE_CLASS (gobject_class);
-
 	parent_class = g_type_class_peek_parent (gobject_class);
 
 	gobject_class->finalize = go_plugin_finalize;
-
-	type_module_class->load = go_plugin_type_module_load;
-	type_module_class->unload = go_plugin_type_module_unload;
 
 	go_plugin_signals[STATE_CHANGED] = g_signal_new (
 		"state_changed",
@@ -223,17 +198,17 @@ go_plugin_class_init (GObjectClass *gobject_class)
 }
 
 GSF_CLASS (GOPlugin, go_plugin, go_plugin_class_init, go_plugin_init,
-           G_TYPE_TYPE_MODULE)
+           G_TYPE_OBJECT)
 
 static GOPlugin *
-plugin_info_new_from_xml (const gchar *dir_name, ErrorInfo **ret_error)
+go_plugin_new_from_xml (const gchar *dir_name, ErrorInfo **ret_error)
 {
 	GOPlugin *plugin;
 	ErrorInfo *error;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	plugin = g_object_new (GO_PLUGIN_TYPE, NULL);
-	plugin_info_read (plugin, dir_name, &error);
+	go_plugin_read (plugin, dir_name, &error);
 	if (error == NULL) {
 		plugin->has_full_info = TRUE;
 	} else {
@@ -246,16 +221,12 @@ plugin_info_new_from_xml (const gchar *dir_name, ErrorInfo **ret_error)
 }
 
 static GOPlugin *
-plugin_info_new_with_id_and_dir_name_only (const gchar *id, const gchar *dir_name)
+go_plugin_new_with_id_and_dir_name_only (const gchar *id, const gchar *dir_name)
 {
-	GOPlugin *plugin;
-
-	plugin = g_object_new (GO_PLUGIN_TYPE, NULL);
-	g_type_module_set_name (G_TYPE_MODULE (plugin), id);
+	GOPlugin *plugin = g_object_new (GO_PLUGIN_TYPE, NULL);
 	plugin->id = g_strdup (id);
 	plugin->dir_name = g_strdup (dir_name);
 	plugin->has_full_info = FALSE;
-
 	return plugin;
 }
 
@@ -332,32 +303,32 @@ plugin_file_state_free (gpointer data)
 /* --- */
 
 static gboolean
-plugin_info_read_full_info_if_needed_error_info (GOPlugin *pinfo, ErrorInfo **ret_error)
+go_plugin_read_full_info_if_needed_error_info (GOPlugin *plugin, ErrorInfo **ret_error)
 {
 	ErrorInfo *read_error;
 	gchar *old_id, *old_dir_name;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	if (pinfo->has_full_info) {
+	if (plugin->has_full_info) {
 		return TRUE;
 	}
 
-	old_id = pinfo->id;
-	old_dir_name = pinfo->dir_name;
-	plugin_info_read (pinfo, old_dir_name, &read_error);
-	if (read_error == NULL && strcmp (pinfo->id, old_id) == 0) {
+	old_id = plugin->id;
+	old_dir_name = plugin->dir_name;
+	go_plugin_read (plugin, old_dir_name, &read_error);
+	if (read_error == NULL && strcmp (plugin->id, old_id) == 0) {
 		/* id and dir_name pointers are guaranteed to be valid during plugin's lifetime */
-		g_free (pinfo->id);
-		g_free (pinfo->dir_name);
-		pinfo->id = old_id;
-		pinfo->dir_name = old_dir_name;
-		pinfo->has_full_info = TRUE;
+		g_free (plugin->id);
+		g_free (plugin->dir_name);
+		plugin->id = old_id;
+		plugin->dir_name = old_dir_name;
+		plugin->has_full_info = TRUE;
 	} else {
 		go_plugin_message (1, "Can't read plugin.xml file for %s.\n", old_id);
 		if (read_error == NULL) {
 			read_error = error_info_new_printf (
 			             _("File contains plugin info with invalid id (%s), expected %s."),
-			             pinfo->id, old_id);
+			             plugin->id, old_id);
 		}
 		*ret_error = error_info_new_str_with_details (
 		             _("Couldn't read plugin info from file."),
@@ -370,14 +341,14 @@ plugin_info_read_full_info_if_needed_error_info (GOPlugin *pinfo, ErrorInfo **re
 }
 
 static gboolean
-plugin_info_read_full_info_if_needed (GOPlugin *pinfo)
+go_plugin_read_full_info_if_needed (GOPlugin *plugin)
 {
 	ErrorInfo *error;
 
-	if (plugin_info_read_full_info_if_needed_error_info (pinfo, &error)) {
+	if (go_plugin_read_full_info_if_needed_error_info (plugin, &error)) {
 		return TRUE;
 	} else {
-		g_warning ("plugin_info_read_full_info_if_needed: couldn't read plugin info from file.");
+		g_warning ("go_plugin_read_full_info_if_needed: couldn't read plugin info from file.");
 		error_info_print (error);
 		error_info_free (error);
 		return FALSE;
@@ -409,7 +380,7 @@ go_plugin_get_textdomain (GOPlugin *plugin)
 
 /**
  * go_plugin_is_active:
- * @pinfo      : The plugin
+ * @plugin      : The plugin
  *
  * Returns : TRUE if @plugin is active and FALSE otherwise.
  */
@@ -424,17 +395,40 @@ go_plugin_is_active (GOPlugin *plugin)
 	return plugin->is_active;
 }
 
+/**********************************************************/
+typedef GTypeModule		GOPluginTypeModule;
+typedef GTypeModuleClass	GOPluginTypeModuleClass;
+static gboolean go_plugin_type_module_load   (GTypeModule *module) { return TRUE; }
+static void	go_plugin_type_module_unload (GTypeModule *module) { }
+static void
+go_plugin_type_module_class_init (GTypeModuleClass *gtm_class)
+{
+	gtm_class->load   = go_plugin_type_module_load;
+	gtm_class->unload = go_plugin_type_module_unload;
+}
+static GSF_CLASS (GOPluginTypeModule, go_plugin_type_module,
+	go_plugin_type_module_class_init, NULL,
+	G_TYPE_TYPE_MODULE)
+
+/**********************************************************/
+
 /**
  * go_plugin_get_type_module :
  * @plugin : #GOPlugin
  *
- * Return the GTypeModule associated with the plugin.
+ * Return the GTypeModule associated with the plugin creating it if necessary.
  **/
 GTypeModule *
 go_plugin_get_type_module (GOPlugin *plugin)
 {
- /* WARNING this will eventually return NULL when the plugin is inactive. */
-	return G_TYPE_MODULE (plugin);
+	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (plugin->is_active, NULL);
+
+	if (NULL == plugin->type_module) {
+		plugin->type_module = g_object_new (go_plugin_type_module_get_type (), NULL);
+		g_type_module_use (plugin->type_module);
+	}
+	return plugin->type_module;
 }
 
 /**
@@ -445,11 +439,11 @@ go_plugin_get_type_module (GOPlugin *plugin)
  * Returned string is != NULL and stays valid during @plugin's lifetime.
  */
 const gchar *
-go_plugin_get_dir_name (GOPlugin *pinfo)
+go_plugin_get_dir_name (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (pinfo), NULL);
+	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
 
-	return pinfo->dir_name;
+	return plugin->dir_name;
 }
 
 /**
@@ -461,11 +455,11 @@ go_plugin_get_dir_name (GOPlugin *pinfo)
  * Returned string is != NULL and stays valid during @plugin's lifetime.
  */
 const gchar *
-go_plugin_get_id (GOPlugin *pinfo)
+go_plugin_get_id (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (pinfo), NULL);
+	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
 
-	return pinfo->id;
+	return plugin->id;
 }
 
 /**
@@ -477,14 +471,14 @@ go_plugin_get_id (GOPlugin *pinfo)
  * Returned string is != NULL and stays valid during @plugin's lifetime.
  */
 const gchar *
-go_plugin_get_name (GOPlugin *pinfo)
+go_plugin_get_name (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (pinfo), NULL);
+	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
 
-	if (!plugin_info_read_full_info_if_needed (pinfo)) {
+	if (!go_plugin_read_full_info_if_needed (plugin)) {
 		return _("Unknown name");
 	}
-	return pinfo->name;
+	return plugin->name;
 }
 
 /**
@@ -496,29 +490,29 @@ go_plugin_get_name (GOPlugin *pinfo)
  * Returned string stays valid during @plugin's lifetime.
  */
 const gchar *
-go_plugin_get_description (GOPlugin *pinfo)
+go_plugin_get_description (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (pinfo), NULL);
+	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
 
-	if (!plugin_info_read_full_info_if_needed (pinfo)) {
+	if (!go_plugin_read_full_info_if_needed (plugin)) {
 		return NULL;
 	}
-	return pinfo->description;
+	return plugin->description;
 }
 
 /**
  * go_plugin_is_loaded:
- * @pinfo      : The plugin
+ * @plugin      : The plugin
  *
  * Returns : TRUE if @plugin is loaded and FALSE otherwise.
  */
 gboolean
-go_plugin_is_loaded (GOPlugin *pinfo)
+go_plugin_is_loaded (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (pinfo), FALSE);
-	return	pinfo->has_full_info &&
-		pinfo->loader != NULL &&
-		go_plugin_loader_is_base_loaded (pinfo->loader);
+	g_return_val_if_fail (IS_GO_PLUGIN (plugin), FALSE);
+	return	plugin->has_full_info &&
+		plugin->loader != NULL &&
+		go_plugin_loader_is_base_loaded (plugin->loader);
 }
 
 /* - */
@@ -604,7 +598,7 @@ plugin_dependency_get_plugin (PluginDependency *dep)
 }
 
 static GSList *
-plugin_info_read_dependency_list (xmlNode *tree)
+go_plugin_read_dependency_list (xmlNode *tree)
 {
 	GSList *dependency_list = NULL;
 	xmlNode *node;
@@ -634,7 +628,7 @@ plugin_info_read_dependency_list (xmlNode *tree)
 }
 
 static GSList *
-plugin_info_read_service_list (GOPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
+go_plugin_read_service_list (GOPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 {
 	GSList *service_list = NULL;
 	GSList *error_list = NULL;
@@ -679,7 +673,7 @@ plugin_info_read_service_list (GOPlugin *plugin, xmlNode *tree, ErrorInfo **ret_
 }
 
 static GHashTable *
-plugin_info_read_loader_attrs (xmlNode *tree)
+go_plugin_read_loader_attrs (xmlNode *tree)
 {
 	xmlNode *node;
 	GHashTable *hash;
@@ -720,7 +714,7 @@ plugin_dependency_free (gpointer data)
 }
 
 static void
-plugin_info_read (GOPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_error)
+go_plugin_read (GOPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_error)
 {
 	gchar *file_name;
 	xmlDocPtr doc;
@@ -781,7 +775,7 @@ plugin_info_read (GOPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_error
 	}
 	dependencies_node = e_xml_get_child_by_name (tree, (xmlChar *)"dependencies");
 	if (dependencies_node != NULL) {
-		dependency_list = plugin_info_read_dependency_list (dependencies_node);
+		dependency_list = go_plugin_read_dependency_list (dependencies_node);
 	} else {
 		dependency_list = NULL;
 	}
@@ -791,7 +785,7 @@ plugin_info_read (GOPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_error
 
 		loader_id = xmlGetProp (loader_node, (xmlChar *)"type");
 		if (loader_id != NULL && (p = strchr (loader_id, ':')) != NULL) {
-			loader_attrs = plugin_info_read_loader_attrs (loader_node);
+			loader_attrs = go_plugin_read_loader_attrs (loader_node);
 			if (strcmp (loader_id, BUILTIN_LOADER_MODULE_ID) != 0) {
 				PluginDependency *dep;
 
@@ -813,8 +807,6 @@ plugin_info_read (GOPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_error
 	if (id != NULL && name != NULL && loader_id != NULL &&
 	    id[strspn (id, PLUGIN_ID_VALID_CHARS)] == '\0') {
 		ErrorInfo *services_error = NULL;
-
-		g_type_module_set_name (G_TYPE_MODULE (plugin), id);
 		plugin->dir_name = g_strdup (dir_name);
 		plugin->id = id;
 		plugin->name = name;
@@ -822,11 +814,12 @@ plugin_info_read (GOPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_error
 		plugin->require_explicit_enabling = require_explicit_enabling;
 		plugin->is_active = FALSE;
 		plugin->use_refcount = 0;
+		plugin->type_module  = NULL;
 		plugin->dependencies = dependency_list;
 		plugin->loader_id = loader_id;
 		plugin->loader_attrs = loader_attrs;
 		plugin->loader = NULL;
-		plugin->services = plugin_info_read_service_list (plugin, tree, &services_error);
+		plugin->services = go_plugin_read_service_list (plugin, tree, &services_error);
 
 		if (services_error != NULL) {
 			*ret_error = error_info_new_printf (
@@ -870,34 +863,34 @@ plugin_info_read (GOPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_error
 }
 
 static void
-plugin_get_loader_if_needed (GOPlugin *pinfo, ErrorInfo **ret_error)
+plugin_get_loader_if_needed (GOPlugin *plugin, ErrorInfo **ret_error)
 {
 	GType loader_type;
 	ErrorInfo *error;
 
-	g_return_if_fail (IS_GO_PLUGIN (pinfo));
+	g_return_if_fail (IS_GO_PLUGIN (plugin));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	if (!plugin_info_read_full_info_if_needed_error_info (pinfo, ret_error)) {
+	if (!go_plugin_read_full_info_if_needed_error_info (plugin, ret_error)) {
 		return;
 	}
-	if (pinfo->loader != NULL) {
+	if (plugin->loader != NULL) {
 		return;
 	}
-	loader_type = get_loader_type_by_id (pinfo->loader_id, &error);
+	loader_type = get_loader_type_by_id (plugin->loader_id, &error);
 	if (error == NULL) {
 		ErrorInfo *error;
 		GOPluginLoader *loader = g_object_new (loader_type, NULL);
-		go_plugin_loader_set_attributes (loader, pinfo->loader_attrs, &error);
+		go_plugin_loader_set_attributes (loader, plugin->loader_attrs, &error);
 		if (error == NULL) {
-			pinfo->loader = loader;
-			go_plugin_loader_set_plugin (loader, pinfo);
+			plugin->loader = loader;
+			go_plugin_loader_set_plugin (loader, plugin);
 		} else {
 			g_object_unref (loader);
 			loader = NULL;
 			*ret_error = error_info_new_printf (
 			             _("Error initializing plugin loader (\"%s\")."),
-			             pinfo->loader_id);
+			             plugin->loader_id);
 			error_info_add_details (*ret_error, error);
 		}
 	} else {
@@ -930,7 +923,7 @@ go_plugin_activate (GOPlugin *plugin, ErrorInfo **ret_error)
 				     _("Detected cyclic plugin dependencies."));
 		return;
 	}
-	if (!plugin_info_read_full_info_if_needed_error_info (plugin, ret_error)) {
+	if (!go_plugin_read_full_info_if_needed_error_info (plugin, ret_error)) {
 		return;
 	}
 	if (plugin->is_active) {
@@ -993,7 +986,6 @@ go_plugin_activate (GOPlugin *plugin, ErrorInfo **ret_error)
 	);
 	plugin->is_active = TRUE;
 	g_signal_emit (G_OBJECT (plugin), go_plugin_signals[STATE_CHANGED], 0);
-	g_type_module_use (G_TYPE_MODULE (plugin));
 }
 
 /**
@@ -1051,29 +1043,28 @@ go_plugin_deactivate (GOPlugin *plugin, ErrorInfo **ret_error)
 		}
 	}
 	g_signal_emit (G_OBJECT (plugin), go_plugin_signals[STATE_CHANGED], 0);
-	g_type_module_unuse (G_TYPE_MODULE (plugin));
 }
 
 /**
  * go_plugin_can_deactivate:
- * @pinfo       : The plugin
+ * @plugin       : The plugin
  *
  * Tells if the plugin can be deactivated using go_plugin_deactivate.
  *
  * Returns : TRUE if @plugin can be deactivated and FALSE otherwise.
  */
 gboolean
-go_plugin_can_deactivate (GOPlugin *pinfo)
+go_plugin_can_deactivate (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (pinfo), FALSE);
+	g_return_val_if_fail (IS_GO_PLUGIN (plugin), FALSE);
 
-	if (!pinfo->is_active) {
+	if (!plugin->is_active) {
 		return FALSE;
 	}
-	if (!plugin_info_read_full_info_if_needed (pinfo)) {
+	if (!go_plugin_read_full_info_if_needed (plugin)) {
 		return FALSE;
 	}
-	return pinfo->use_refcount == 0;
+	return plugin->use_refcount == 0;
 }
 
 static void
@@ -1092,7 +1083,7 @@ go_plugin_load_base (GOPlugin *plugin, ErrorInfo **ret_error)
 	if (go_plugin_is_loaded (plugin)) {
 		return;
 	}
-	if (!plugin_info_read_full_info_if_needed_error_info (plugin, ret_error)) {
+	if (!go_plugin_read_full_info_if_needed_error_info (plugin, ret_error)) {
 		return;
 	}
 	plugin_get_loader_if_needed (plugin, &error);
@@ -1154,7 +1145,7 @@ go_plugin_load_base (GOPlugin *plugin, ErrorInfo **ret_error)
 
 /**
  * go_plugin_load_service:
- * @pinfo       : The plugin
+ * @plugin       : The plugin
  * @service     : Plugin service
  * @ret_error   : Pointer used to report errors
  *
@@ -1163,22 +1154,22 @@ go_plugin_load_base (GOPlugin *plugin, ErrorInfo **ret_error)
  * This function is intended for use by GOPluginService objects.
  */
 void
-go_plugin_load_service (GOPlugin *pinfo, GOPluginService *service, ErrorInfo **ret_error)
+go_plugin_load_service (GOPlugin *plugin, GOPluginService *service, ErrorInfo **ret_error)
 {
-	g_return_if_fail (IS_GO_PLUGIN (pinfo));
+	g_return_if_fail (IS_GO_PLUGIN (plugin));
 	g_return_if_fail (service != NULL);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	go_plugin_load_base (pinfo, ret_error);
+	go_plugin_load_base (plugin, ret_error);
 	if (*ret_error != NULL) {
 		return;
 	}
-	go_plugin_loader_load_service (pinfo->loader, service, ret_error);
+	go_plugin_loader_load_service (plugin->loader, service, ret_error);
 }
 
 /**
  * go_plugin_unload_service:
- * @pinfo       : The plugin
+ * @plugin       : The plugin
  * @service     : Plugin service
  * @ret_error   : Pointer used to report errors
  *
@@ -1186,17 +1177,17 @@ go_plugin_load_service (GOPlugin *pinfo, GOPluginService *service, ErrorInfo **r
  * This function is intended for use by GOPluginService objects.
  */
 void
-go_plugin_unload_service (GOPlugin *pinfo, GOPluginService *service, ErrorInfo **ret_error)
+go_plugin_unload_service (GOPlugin *plugin, GOPluginService *service, ErrorInfo **ret_error)
 {
-	g_return_if_fail (IS_GO_PLUGIN (pinfo));
-	g_return_if_fail (pinfo->loader != NULL);
+	g_return_if_fail (IS_GO_PLUGIN (plugin));
+	g_return_if_fail (plugin->loader != NULL);
 	g_return_if_fail (service != NULL);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	if (!plugin_info_read_full_info_if_needed_error_info (pinfo, ret_error)) {
+	if (!go_plugin_read_full_info_if_needed_error_info (plugin, ret_error)) {
 		return;
 	}
-	go_plugin_loader_unload_service (pinfo->loader, service, ret_error);
+	go_plugin_loader_unload_service (plugin->loader, service, ret_error);
 }
 
 /**
@@ -1271,9 +1262,9 @@ go_plugin_get_services (GOPlugin *plugin)
  * May return NULL without errors (is XML file doesn't exist)
  */
 static GOPlugin *
-plugin_info_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error)
+go_plugin_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error)
 {
-	GOPlugin *pinfo = NULL;
+	GOPlugin *plugin = NULL;
 	gchar *file_name;
 	gchar *file_state;
 	PluginFileState *state;
@@ -1290,19 +1281,19 @@ plugin_info_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error)
 	}
 	state = g_hash_table_lookup (plugin_file_state_dir_hash, dir_name);
 	if (state != NULL && strcmp (state->file_state, file_state) == 0) {
-		pinfo = plugin_info_new_with_id_and_dir_name_only (state->plugin_id, state->dir_name);
+		plugin = go_plugin_new_with_id_and_dir_name_only (state->plugin_id, state->dir_name);
 		state->age = PLUGIN_OLD_USED;
-	} else if ((pinfo = plugin_info_new_from_xml (dir_name, &plugin_error)) != NULL) {
+	} else if ((plugin = go_plugin_new_from_xml (dir_name, &plugin_error)) != NULL) {
 		g_assert (plugin_error == NULL);
 		if (state == NULL) {
 			state = g_new (PluginFileState, 1);
 			state->dir_name = g_strdup (dir_name);
 			state->file_state = g_strdup (file_state);
-			state->plugin_id = g_strdup (go_plugin_get_id (pinfo));
+			state->plugin_id = g_strdup (go_plugin_get_id (plugin));
 			state->age = PLUGIN_NEW;
 			g_hash_table_insert (plugin_file_state_dir_hash, state->dir_name, state);
 		} else {
-			if (strcmp (state->plugin_id, pinfo->id) == 0) {
+			if (strcmp (state->plugin_id, plugin->id) == 0) {
 				state->age = PLUGIN_OLD_USED;
 			} else {
 				state->age = PLUGIN_NEW;
@@ -1310,7 +1301,7 @@ plugin_info_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error)
 			g_free (state->file_state);
 			g_free (state->plugin_id);
 			state->file_state = g_strdup (file_state);
-			state->plugin_id = g_strdup (go_plugin_get_id (pinfo));
+			state->plugin_id = g_strdup (go_plugin_get_id (plugin));
 		}
 		plugin_file_state_hash_changed = TRUE;
 	} else {
@@ -1322,16 +1313,16 @@ plugin_info_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error)
 	g_free (file_name);
 	g_free (file_state);
 
-	return pinfo;
+	return plugin;
 }
 
 /*
  * May return partial list and some error info.
  */
 static GSList *
-plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret_error)
+go_plugin_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret_error)
 {
-	GSList *plugin_info_list = NULL;
+	GSList *plugins = NULL;
 	GDir *dir;
 	char const *d_name;
 	GSList *error_list = NULL;
@@ -1346,14 +1337,14 @@ plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret
 	while ((d_name = g_dir_read_name (dir)) != NULL) {
 		gchar *full_entry_name;
 		ErrorInfo *error;
-		GOPlugin *pinfo;
+		GOPlugin *plugin;
 
 		if (strcmp (d_name, ".") == 0 || strcmp (d_name, "..") == 0)
 			continue;
 		full_entry_name = g_build_filename (dir_name, d_name, NULL);
-		pinfo = plugin_info_read_for_dir (full_entry_name, &error);
-		if (pinfo != NULL) {
-			GO_SLIST_PREPEND (plugin_info_list, pinfo);
+		plugin = go_plugin_read_for_dir (full_entry_name, &error);
+		if (plugin != NULL) {
+			GO_SLIST_PREPEND (plugins, plugin);
 		}
 		if (error != NULL) {
 			GO_SLIST_PREPEND (error_list, error);
@@ -1366,16 +1357,16 @@ plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret
 	}
 	g_dir_close (dir);
 
-	return g_slist_reverse (plugin_info_list);
+	return g_slist_reverse (plugins);
 }
 
 /*
  * May return partial list and some error info.
  */
 static GSList *
-plugin_info_list_read_for_subdirs_of_dir_list (GSList *dir_list, ErrorInfo **ret_error)
+go_plugin_list_read_for_subdirs_of_dir_list (GSList *dir_list, ErrorInfo **ret_error)
 {
-	GSList *plugin_info_list = NULL;
+	GSList *plugins = NULL;
 	GSList *dir_iterator;
 	GSList *error_list = NULL;
 
@@ -1386,12 +1377,12 @@ plugin_info_list_read_for_subdirs_of_dir_list (GSList *dir_list, ErrorInfo **ret
 		GSList *dir_plugin_info_list;
 
 		dir_name = (gchar *) dir_iterator->data;
-		dir_plugin_info_list = plugin_info_list_read_for_subdirs_of_dir (dir_name, &error);
+		dir_plugin_info_list = go_plugin_list_read_for_subdirs_of_dir (dir_name, &error);
 		if (error != NULL) {
 			GO_SLIST_PREPEND (error_list, error);
 		}
 		if (dir_plugin_info_list != NULL) {
-			GO_SLIST_CONCAT (plugin_info_list, dir_plugin_info_list);
+			GO_SLIST_CONCAT (plugins, dir_plugin_info_list);
 		}
 	}
 	if (error_list != NULL) {
@@ -1399,16 +1390,16 @@ plugin_info_list_read_for_subdirs_of_dir_list (GSList *dir_list, ErrorInfo **ret
 		*ret_error = error_info_new_from_error_list (error_list);
 	}
 
-	return plugin_info_list;
+	return plugins;
 }
 
 /*
  * May return partial list and some error info.
  */
 static GSList *
-plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error)
+go_plugin_list_read_for_all_dirs (ErrorInfo **ret_error)
 {
-	return plugin_info_list_read_for_subdirs_of_dir_list (go_plugin_dirs, ret_error);
+	return go_plugin_list_read_for_subdirs_of_dir_list (go_plugin_dirs, ret_error);
 }
 
 /**
@@ -1426,16 +1417,16 @@ go_plugin_db_activate_plugin_list (GSList *plugins, ErrorInfo **ret_error)
 	GSList *error_list = NULL;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	GO_SLIST_FOREACH (plugins, GOPlugin, pinfo,
+	GO_SLIST_FOREACH (plugins, GOPlugin, plugin,
 		ErrorInfo *error;
 
-		go_plugin_activate (pinfo, &error);
+		go_plugin_activate (plugin, &error);
 		if (error != NULL) {
 			ErrorInfo *new_error;
 
 			new_error = error_info_new_printf (
 			            _("Couldn't activate plugin \"%s\" (ID: %s)."),
-			            pinfo->name, pinfo->id);
+			            plugin->name, plugin->id);
 			error_info_add_details (new_error, error);
 			GO_SLIST_PREPEND (error_list, new_error);
 		}
@@ -1461,16 +1452,16 @@ go_plugin_db_deactivate_plugin_list (GSList *plugins, ErrorInfo **ret_error)
 	GSList *error_list = NULL;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	GO_SLIST_FOREACH (plugins, GOPlugin, pinfo,
+	GO_SLIST_FOREACH (plugins, GOPlugin, plugin,
 		ErrorInfo *error;
 
-		go_plugin_deactivate (pinfo, &error);
+		go_plugin_deactivate (plugin, &error);
 		if (error != NULL) {
 			ErrorInfo *new_error;
 
 			new_error = error_info_new_printf (
 			            _("Couldn't deactivate plugin \"%s\" (ID: %s)."),
-			            pinfo->name, pinfo->id);
+			            plugin->name, plugin->id);
 			error_info_add_details (new_error, error);
 			GO_SLIST_PREPEND (error_list, new_error);
 		}
@@ -1535,18 +1526,18 @@ go_plugins_get_plugin_by_id (const gchar *plugin_id)
  * ...
  */
 void
-go_plugin_db_mark_plugin_for_deactivation (GOPlugin *pinfo, gboolean mark)
+go_plugin_db_mark_plugin_for_deactivation (GOPlugin *plugin, gboolean mark)
 {
-	g_return_if_fail (IS_GO_PLUGIN (pinfo));
+	g_return_if_fail (IS_GO_PLUGIN (plugin));
 
 	if (mark) {
 		if (plugins_marked_for_deactivation_hash == NULL) {
 			plugins_marked_for_deactivation_hash = g_hash_table_new (&g_str_hash, &g_str_equal);
 		}
-		g_hash_table_insert (plugins_marked_for_deactivation_hash, pinfo->id, pinfo);
+		g_hash_table_insert (plugins_marked_for_deactivation_hash, plugin->id, plugin);
 	} else {
 		if (plugins_marked_for_deactivation_hash != NULL) {
-			g_hash_table_remove (plugins_marked_for_deactivation_hash, pinfo->id);
+			g_hash_table_remove (plugins_marked_for_deactivation_hash, plugin->id);
 		}
 	}
 }
@@ -1556,10 +1547,10 @@ go_plugin_db_mark_plugin_for_deactivation (GOPlugin *pinfo, gboolean mark)
  * ...
  */
 gboolean
-go_plugin_db_is_plugin_marked_for_deactivation (GOPlugin *pinfo)
+go_plugin_db_is_plugin_marked_for_deactivation (GOPlugin *plugin)
 {
 	return plugins_marked_for_deactivation_hash != NULL &&
-	       g_hash_table_lookup (plugins_marked_for_deactivation_hash, pinfo->id) != NULL;
+	       g_hash_table_lookup (plugins_marked_for_deactivation_hash, plugin->id) != NULL;
 }
 
 static void
@@ -1590,7 +1581,7 @@ go_plugins_rescan (ErrorInfo **ret_error, GSList **ret_new_plugins)
 
 	/* re-read plugins list from disk */
 	g_hash_table_foreach (plugin_file_state_dir_hash, ghf_set_state_old_unused, NULL);
-	new_available_plugins = plugin_info_list_read_for_all_dirs (&error);
+	new_available_plugins = go_plugin_list_read_for_all_dirs (&error);
 	if (error != NULL) {
 		GO_SLIST_PREPEND (error_list, error_info_new_str_with_details (
 			_("Errors while reading info about available plugins."), error));
@@ -1730,7 +1721,7 @@ go_plugins_init (GOCmdContext *context,
 	plugin_file_state_hash_changed = FALSE;
 
 	/* collect information about the available plugins */
-	available_plugins = plugin_info_list_read_for_all_dirs (&error);
+	available_plugins = go_plugin_list_read_for_all_dirs (&error);
 	available_plugins_id_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	GO_SLIST_FOREACH (available_plugins, GOPlugin, plugin,
 		g_hash_table_insert (
@@ -1789,24 +1780,6 @@ ghf_collect_used_plugin_state_strings (gpointer key, gpointer value, gpointer us
 }
 
 /**
- * go_plugin_try_unref
- *
- * Unref plugin object if it is legal to destroy it. Destruction is
- * not legal if a type or interface has been registered for it. "Once
- * a GTypeModule is initialized, it must exist forever" - docs of
- * g_type_module_unuse().
- */
-static void
-go_plugin_try_unref (gpointer plugin)
-{
-	GTypeModule *module = G_TYPE_MODULE (plugin);
-
-	if (!module->type_infos && !module->interface_infos) {
-		g_object_unref (plugin);
-	}
-}
-
-/**
  * plugins_shutdown:
  *
  * Shuts down the plugin subsystem. Call this function only once before
@@ -1842,7 +1815,7 @@ go_plugins_shutdown (void)
 	g_hash_table_destroy (plugin_file_state_dir_hash);
 	g_hash_table_destroy (loader_services);
 	g_hash_table_destroy (available_plugins_id_hash);
-	go_slist_free_custom (available_plugins, go_plugin_try_unref);
+	go_slist_free_custom (available_plugins, g_object_unref);
 
 	return used_plugin_state_strings;
 }

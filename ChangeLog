@@ -1,3 +1,8 @@
+2005-06-06  Jody Goldberg <jody@gnome.org>
+
+	* goffice/app/go-plugin.c : Don't inherit from GTypeModule
+	  contain one and use it as long as we are active.
+
 2005-06-06  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-math.c (log1p): Define if needed.
