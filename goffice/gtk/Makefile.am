@@ -1,11 +1,4 @@
 noinst_LTLIBRARIES = libgoffice-gtk.la
-if WITH_WIN32
-    lib_LTLIBRARIES = libgoffice-html-help-stub.la
-
-    libgoffice_html_help_stub_la_SOURCES = htmlhelp-stub.c htmlhelp-stub.h
-    libgoffice_html_help_stub_la_LIBADD = -luuid -lhtmlhelp
-    libgoffice_html_help_stub_la_LDFLAGS = -no-undefined -export-symbols $(srcdir)/libhtmlhelp-stub.def
-endif
 
 libgoffice_gtk_la_SOURCES =		\
 	goffice-gtk.c			\
@@ -73,7 +66,7 @@ UNUSED = \
 	go-dock-layout.c \
 	go-dock-layout.h
 
-EXTRA_DIST = htmlhelp-stub.c htmlhelp-stub.h $(goffice_glade_DATA) \
+EXTRA_DIST = $(goffice_glade_DATA) \
 	$(UNUSED)
 
 include $(top_srcdir)/goffice.mk

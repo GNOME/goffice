@@ -731,7 +731,7 @@ typedef struct {
 #ifdef WITH_GNOME
 #include <libgnome/gnome-help.h>
 #elif defined(G_OS_WIN32)
-#include "htmlhelp-stub.h"
+#include <goffice/utils/win32-stub.h>
 #endif
 static void
 go_help_display (CBHelpPaths const *paths)

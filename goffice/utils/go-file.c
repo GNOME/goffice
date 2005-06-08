@@ -37,6 +37,7 @@
 #ifdef G_OS_WIN32
 #include <windows.h>
 #include <winreg.h>
+#include <goffice/utils/win32-stub.h>
 #endif
 #endif
 
@@ -555,11 +556,28 @@ go_url_check_extension (gchar const *uri,
 	return res;
 }
 
-const gchar *
+gchar *
 go_get_mime_type (gchar const *uri)
 {
 #ifdef WITH_GNOME
 	return gnome_vfs_get_mime_type (uri);
+#elif defined(G_OS_WIN32)
+	LPWSTR wuri, mime_type;
+
+	wuri = g_utf8_to_utf16 (uri, -1, NULL, NULL, NULL);
+	if (wuri &&
+	    FindMimeFromData_ (NULL, wuri, NULL, 0, NULL, 0, &mime_type, 0) == NOERROR)
+	{
+		g_free (wuri);
+		return g_utf16_to_utf8 (mime_type, -1, NULL, NULL, NULL);
+	}
+	
+	/* We try to determine mime using FindMimeFromData().
+	 * However, we are not sure whether the functions will know about
+	 * the necessary mime types. In the worst wase we fall back to
+	 * "text/plain"
+	 */
+	return g_strdup ("text/plain");
 #else
 	return "application/octet-string";
 #endif

@@ -7,7 +7,8 @@ Emmanuel Pacaud:
 	* Fix contour plots axes.
 	
 Ivan, Y.C. Wong:
-	* Fix encoding bug when open file with non-ascii name  in shell.
+	* Fix encoding bug when open file with non-ascii name in shell.
+	* Fix Mime Type detection on Win32 [#304074].
 
 Jean Brefort:
 	* Add linear regressions in scatter plots.

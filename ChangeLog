@@ -1,3 +1,16 @@
+2005-06-08  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* goffice/gtk/Makefile.am: Remove libgoffice-html-help-stub.la
+	  it no longer belongs here.
+
+	* goffice/gtk/goffice-gtk.c:
+	* goffice/utils/Makefile.am: Now stubs for Win32 are placed in
+	  libgoffice-win32-stub.la
+
+	* goffice/utils/go-file.c (go_get_mime_type): Use
+	  FindMimeFromData() on Win32. Fall back to "text/plain" if
+	  no mime type is matched. [#304074]
+
 2005-06-06  Jody Goldberg <jody@gnome.org>
 
 	* goffice/app/go-plugin.c : Don't inherit from GTypeModule
