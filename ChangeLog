@@ -1,13 +1,21 @@
 2005-06-08  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
+	* goffice/gtk/htmlhelp-stub.c:
+	* goffice/gtk/htmlhelp-stub.h:
+	* goffice/gtk/libhtmlhelp-stub.def: Remove
 	* goffice/gtk/Makefile.am: Remove libgoffice-html-help-stub.la
 	  it no longer belongs here.
 
+	* goffice/Makefile.am:
 	* goffice/gtk/goffice-gtk.c:
 	* goffice/utils/Makefile.am: Now stubs for Win32 are placed in
 	  libgoffice-win32-stub.la
 
-	* goffice/utils/go-file.c (go_get_mime_type): Use
+	* goffice/utils/goffice-win32-stub.def:
+	* goffice/utils/win32-stub.c:
+	* goffice/utils/win32-stub.h: New
+
+	* goffice/utils/go-file.[ch] (go_get_mime_type): Use
 	  FindMimeFromData() on Win32. Fall back to "text/plain" if
 	  no mime type is matched. [#304074]
 
