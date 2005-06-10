@@ -91,17 +91,19 @@ xml_node_get_int (xmlNodePtr node, char const *name, int *val)
 {
 	xmlChar *buf;
 	char *end;
+	gboolean ok;
+	long l;
 
 	buf = xml_node_get_cstr (node, name);
 	if (buf == NULL)
 		return FALSE;
 
 	errno = 0; /* strto(ld) sets errno, but does not clear it.  */
-	*val = strtol (CXML2C (buf), &end, 10);
+	*val = l = strtol (CXML2C (buf), &end, 10);
+	ok = (CXML2C (buf) != end) && *end == 0 && errno != ERANGE && (*val == l);
 	xmlFree (buf);
 
-	/* FIXME: it is, strictly speaking, not valid to use buf here.  */
-	return (CXML2C (buf) != end) && (errno != ERANGE);
+	return ok;
 }
 
 void
@@ -117,6 +119,7 @@ xml_node_get_double (xmlNodePtr node, char const *name, double *val)
 {
 	xmlChar *buf;
 	char *end;
+	gboolean ok;
 
 	buf = xml_node_get_cstr (node, name);
 	if (buf == NULL)
@@ -124,10 +127,10 @@ xml_node_get_double (xmlNodePtr node, char const *name, double *val)
 
 	errno = 0; /* strto(ld) sets errno, but does not clear it.  */
 	*val = strtod (CXML2C (buf), &end);
+	ok = (CXML2C (buf) != end) && *end == 0 && errno != ERANGE;
 	xmlFree (buf);
 
-	/* FIXME: it is, strictly speaking, now valid to use buf here.  */
-	return (CXML2C (buf) != end) && (errno != ERANGE);
+	return ok;
 }
 
 void
@@ -178,6 +181,42 @@ xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor val)
 	UINT_TO_RGB (val, &r, &g, &b);
 	sprintf (str, "%X:%X:%X", r, g, b);
 	xml_node_set_cstr (node, name, str);
+}
+
+gboolean
+xml_node_get_enum (xmlNodePtr node, char const *name, GType etype, gint *val)
+{
+	GEnumClass *eclass = G_ENUM_CLASS (g_type_class_peek (etype));
+	GEnumValue *ev;
+	xmlChar *s;
+	int i;
+
+	s = xmlGetProp (node, CC2XML (name));
+	if (s == NULL)
+		return FALSE;
+
+	ev = g_enum_get_value_by_name (eclass, CXML2C (s));
+	if (!ev) ev = g_enum_get_value_by_nick (eclass, CXML2C (s));
+	if (!ev && xml_node_get_int (node, name, &i))
+		/* Check that the value is valid.  */
+		ev = g_enum_get_value (eclass, i);
+	if (!ev) return FALSE;
+
+	*val = ev->value;
+	return TRUE;
+}
+
+void
+xml_node_set_enum (xmlNodePtr node, char const *name, GType etype, gint val)
+{
+	GEnumClass *eclass = G_ENUM_CLASS (g_type_class_peek (etype));
+	GEnumValue *ev = g_enum_get_value (eclass, val);
+
+	if (ev)
+		xml_node_set_cstr (node, name, ev->value_name);
+	else
+		g_warning ("Invalid value %d for type %s",
+			   val, g_type_name (etype));
 }
 
 /*************************************************************************/

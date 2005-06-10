@@ -22,6 +22,7 @@
 #define GO_LIBXML_EXTRAS_H
 
 #include <glib.h>
+#include <glib-object.h>
 #include <goffice/utils/goffice-utils.h>
 #include <libxml/tree.h>
 
@@ -39,6 +40,8 @@ gboolean   xml_node_get_double	(xmlNodePtr node, char const *name, double *resul
 void       xml_node_set_double	(xmlNodePtr node, char const *name, double  val, int precision);
 gboolean   xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *result);
 void	   xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor  val);
+gboolean   xml_node_get_enum    (xmlNodePtr node, char const *name, GType etype, gint *val);
+void       xml_node_set_enum    (xmlNodePtr node, char const *name, GType etype, gint val);
 
 xmlNode *e_xml_get_child_by_name	 (xmlNode const *tree, char const *name);
 xmlNode *e_xml_get_child_by_name_no_lang (xmlNode const *tree, char const *name);

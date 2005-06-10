@@ -1,3 +1,9 @@
+2005-06-09  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-libxml-extras.c (xml_node_get_enum,
+	xml_node_set_enum): New functions.
+	(xml_node_get_int, xml_node_get_double): Improve error handling.
+
 2005-06-08  Ivan, Wong Yat Cheung  <email@ivanwong.info>
 
 	* goffice/gtk/htmlhelp-stub.c:
