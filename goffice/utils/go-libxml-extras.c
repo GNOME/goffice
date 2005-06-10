@@ -200,6 +200,7 @@ xml_node_get_enum (xmlNodePtr node, char const *name, GType etype, gint *val)
 	if (!ev && xml_node_get_int (node, name, &i))
 		/* Check that the value is valid.  */
 		ev = g_enum_get_value (eclass, i);
+	xmlFree (s);
 	if (!ev) return FALSE;
 
 	*val = ev->value;
