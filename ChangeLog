@@ -1,3 +1,7 @@
+2005-06-11  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* goffice/gtk/Makefile.am: Fix typos.
+
 2005-06-09  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-libxml-extras.c (xml_node_get_enum,

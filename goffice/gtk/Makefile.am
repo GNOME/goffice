@@ -24,8 +24,8 @@ libgoffice_gtk_la_SOURCES =		\
 	go-graph-widget.c
 
 
-libgoffice_app_ladir = $(goffice_include_dir)/gtk
-libgoffice_app_la_HEADERS = 		\
+libgoffice_gtk_ladir = $(goffice_include_dir)/gtk
+libgoffice_gtk_la_HEADERS = 		\
 	goffice-gtk.h			\
 	\
 	go-font-sel.h			\
