@@ -22,6 +22,7 @@
 #define GOG_RENDERER_H
 
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/utils/go-geometry.h>
 #include <gtk/gtkenums.h>
 #include <libart_lgpl/libart.h>
 #include <gdk/gdk.h>
@@ -73,8 +74,9 @@ void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
 				   GogViewAllocation const *pos, GtkAnchorType anchor,
 				   GogViewAllocation *result);
 void  gog_renderer_draw_marker	  (GogRenderer *rend, double x, double y);
-void  gog_renderer_measure_text	  (GogRenderer *rend,
-				   char const *text, GogViewRequisition *size);
+
+void  gog_renderer_get_text_OBR   (GogRenderer *rend, char const *text, GOGeometryOBR *obr);
+void  gog_renderer_get_text_AABR  (GogRenderer *rend, char const *text, GOGeometryAABR *aabr);
 
 #define gog_renderer_draw_arc(r,cx,cy,rx,ry,th0,th1,bound) \
 	gog_renderer_draw_ring_wedge (r,cx,cy,rx,ry,-1.,-1.,th0,th1,FALSE,bound)

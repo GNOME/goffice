@@ -1,3 +1,52 @@
+2005-06-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	Support for rotated text and text color.
+
+	* goffice/graph/gog-axis-line.c (get_point_to_segment_distance):
+	moved to go-geometry.c.
+	(update_bbox): ditto.
+	(overlap): removed.
+	(compute_angles): removed.
+	(axis_line_point): use go_geometry_point_to_segment.
+	(axis_line_get_bbox): handle rotated text case. Use
+	go_geometry_cartesian_to_polar. side is an enum now.
+	(axis_line_render): ditto.
+	(axis_circle_get_bbox): ditto.
+	(axis_circle_render): ditto.
+	(xy_process): side is an enum.
+	(radar_process): ditto.
+	* goffice/graph/gog-label.c (gog_label_view_size_request): use
+	gog_renderer_get_text_AABR.
+	(gog_label_view_render): ditto.
+	* goffice/graph/gog-legend.c (cb_size_elements): ditto.
+	* goffice/graph/gog-reg-eqn.c
+	(gog_reg_eqn_view_render): ditto.
+	* goffice/graph/gog-renderer-gnome-print.c
+	(gog_renderer_gnome_print_draw_text): handle rotated text and color.
+	(gog_renderer_gnome_print_get_text_OBR): new. 
+	* goffice/graph/gog-renderer-pixbuf.c (get_rotated_layout_bounds):
+	new.
+	(gog_renderer_pixbuf_get_pango_layout): handle rotation angle.
+	(gog_renderer_pixbuf_draw_text): ditto. Handle special n * pi / 2
+	angles separately for performance.
+	(gog_renderer_pixbuf_get_text_OBR): new. 
+	* goffice/graph/gog-renderer-svg.c (gog_renderer_svg_get_text_OBR):
+	ditto.
+	(gog_renderer_svg_draw_text): handle rotation angle and color.
+	* goffice/graph/gog-renderer.c (gog_renderer_get_text_OBR): new. 
+	(gog_renderer_get_text_AABR): new. Replaces measure_text.
+	* goffice/graph/gog-style-prefs.glade: add widgets for text rotation
+	angle and text color.
+	* goffice/graph/gog-style.c (cb_rotation_angle_changed): new.
+	(cb_font_color_changed): new.
+	(font_init): load widgets for text rotation and color.
+	(gog_style_font_load): load rotation angle.
+	(gog_style_font_save): save rotation angle.
+	(gog_style_font_sax_save): ditto.
+	(gog_style_is_different_size): different angles means different sizes.
+	* goffice/utils/go-geometry.[ch]: new files. Collection of geometry
+	related functions.
+	
 2005-06-12  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

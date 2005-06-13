@@ -193,14 +193,17 @@ static void
 gog_label_view_size_request (GogView *v, GogViewRequisition *req)
 {
 	GogLabel *l = GOG_LABEL (v->model);
+	GOGeometryAABR aabr;
 
 	req->w = req->h = 0.;
 	if (l->text.data != NULL) {
 		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (l->text.data));
 		if (text != NULL) {
 			gog_renderer_push_style (v->renderer, l->base.base.style);
-			gog_renderer_measure_text (v->renderer, text, req);
+			gog_renderer_get_text_AABR (v->renderer, text, &aabr);
 			gog_renderer_pop_style (v->renderer);
+			req->w = aabr.w;
+			req->h = aabr.h;
 		}
 	}
 	lview_parent_klass->size_request (v, req);
@@ -220,15 +223,15 @@ gog_label_view_render (GogView *view, GogViewAllocation const *bbox)
 			double outline = gog_renderer_line_size (
 				view->renderer, goo->base.style->outline.width);
 			if (style->fill.type != GOG_FILL_STYLE_NONE || outline > 0.) {
-				GogViewRequisition req;
 				GogViewAllocation rect;
+				GOGeometryAABR aabr;
 				double pad_x = gog_renderer_pt2r_x (view->renderer, goo->padding_pts);
 				double pad_y = gog_renderer_pt2r_y (view->renderer, goo->padding_pts);
 				
-				gog_renderer_measure_text (view->renderer, text, &req);
+				gog_renderer_get_text_AABR (view->renderer, text, &aabr);
 				rect = view->allocation;
-				rect.w = req.w + 2. * outline + pad_x;
-				rect.h = req.h + 2. * outline + pad_y;
+				rect.w = aabr.w + 2. * outline + pad_x;
+				rect.h = aabr.h + 2. * outline + pad_y;
 				gog_renderer_draw_sharp_rectangle (view->renderer, &rect, NULL);
 			}
 			gog_renderer_draw_text (view->renderer, text,

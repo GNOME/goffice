@@ -660,131 +660,54 @@ GSF_CLASS_ABSTRACT (GogAxisBase, gog_axis_base,
 
 #define POINT_MIN_DISTANCE 	5 	/* distance minimum between point and axis for point = TRUE, in pixels */
 
-#define dist(x0, y0, x1, y1) sqrt(((x0) - (x1))*((x0) - (x1)) + ((y0) - (y1))*((y0) - (y1)))
-
 typedef enum {
 	GOG_AXIS_BASE_RENDER,
 	GOG_AXIS_BASE_POINT,
 	GOG_AXIS_BASE_PADDING_REQUEST
 } GogAxisBaseAction;
 
-static double
-get_point_to_segment_distance (double xp, double yp, double xs, double ys, double w, double h)
-{
-	double c1, c2, b;
-
-	c1 = w * (xp - xs) + h * (yp - ys);
-	if (c1 <= 0.0)
-		return dist (xp, yp, xs, ys);
-
-	c2 = w * w + h * h;
-	if (c2 <= c1)
-		return dist (xp, yp, xs + w, ys + h);
-
-	b = c1 / c2;
-	return dist (xp, yp, xs + b * w, ys + b * h);
-}
-
-static gboolean
-overlap (GogViewAllocation const *bbox1, GogViewAllocation const *bbox2) {
-	return (!((MAX (bbox2->x, bbox2->x + bbox2->w) < MIN (bbox1->x, bbox1->x + bbox1->w)) ||
-		  (MAX (bbox2->y, bbox2->y + bbox2->h) < MIN (bbox1->y, bbox1->y + bbox1->h)) ||
-		  (MIN (bbox2->x, bbox2->x + bbox2->w) > MAX (bbox1->x, bbox1->x + bbox1->w)) ||
-		  (MIN (bbox2->y, bbox2->y + bbox2->h) > MAX (bbox1->y, bbox1->y + bbox1->h))));
-}
-
-static void
-compute_angles (double x, double y, double w, double h,
-		double side,
-		double *axis_length,
-		double *axis_angle,
-		double *label_angle,
-		double *cos_alpha,
-		double *sin_alpha)
-{
-	*axis_length = sqrt (w * w + h * h);
-	if (w != 0.) {
-		*axis_angle = atan (h / w);
-		if (w < 0.) {
-			*axis_angle += M_PI;
-		}
-	} else {
-		if (h < 0.) {
-			*axis_angle = -M_PI/2.0;
-		} else {
-			*axis_angle = M_PI/2.0;
-		}
-	}
-	*label_angle = fmod (*axis_angle + 2.0 * M_PI, M_PI);
-	if (*label_angle > M_PI / 2.0)
-		*label_angle = M_PI - *label_angle;
-	*cos_alpha = cos (*axis_angle + side * M_PI / 2.0);
-	*sin_alpha = sin (*axis_angle + side * M_PI / 2.0);
-}
-
-static void
-update_bbox (GogViewAllocation *bbox, GogViewAllocation *area)
-{
-	double min, max;
-
-	if (area->w > 0.) {
-		min = MIN (bbox->x, area->x);
-		max = MAX (bbox->x + bbox->w, area->x + area->w);
-	} else {
-		min = MIN (bbox->x, area->x + area->w);
-		max = MAX (bbox->x + bbox->w, area->x);
-	}
-	bbox->x = min;
-	bbox->w = max - min;
-
-	if (area->h > 0.) {
-		min = MIN (bbox->y, area->y);
-		max = MAX (bbox->y + bbox->h, area->y + area->h);
-	} else {
-		min = MIN (bbox->y, area->y + area->h);
-		max = MAX (bbox->y + bbox->h, area->y);
-	}
-	bbox->y = min;
-	bbox->h = max - min;
-}
-
 static gboolean
 axis_line_point (double x, double y,
 		 double xa, double ya, double wa, double ha)
 {
-	return get_point_to_segment_distance (x, y, xa, ya, wa, ha) <= POINT_MIN_DISTANCE;
+	return go_geometry_point_to_segment (x, y, xa, ya, wa, ha) <= POINT_MIN_DISTANCE;
 }
 
 static GogViewAllocation
 axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 		    double x, double y, double w, double h,
-		    double tick_angle, double start_at, gboolean draw_labels)
+		    GOGeometrySide side, double start_at, gboolean draw_labels)
 {
 	GogAxisMap *map = NULL;
 	GogAxisTick *ticks;
-	GogViewRequisition txt_size;
-	GogViewAllocation total_bbox, bbox;
+	GOGeometryAABR total_bbox, bbox;
+	GogStyle *style = axis_base->base.style;
+	GOGeometryAABR txt_aabr;
+	GOGeometryOBR txt_obr;
 	double line_width;
-	double axis_length, axis_angle, label_angle;
+	double axis_length, axis_angle, label_padding;
 	double cos_alpha, sin_alpha;
-	double pos, offset, label_offset;
+	double pos;
 	unsigned i, tick_nbr;
 	gboolean is_line_visible;
 	double minor_tick_len, major_tick_len, tick_len;
 
-	compute_angles (x, y, w, h, tick_angle, &axis_length, &axis_angle, &label_angle, &cos_alpha, &sin_alpha);
+	go_geometry_cartesian_to_polar (w, h, &axis_length, &axis_angle);
+	cos_alpha = side == GO_SIDE_LEFT ? - sin (axis_angle) : + sin (axis_angle);
+	sin_alpha = side == GO_SIDE_LEFT ? + cos (axis_angle) : - cos (axis_angle);
 
-	is_line_visible = gog_style_is_line_visible (axis_base->base.style);
-	line_width = gog_renderer_line_size (renderer, axis_base->base.style->line.width) / 2;
+	is_line_visible = gog_style_is_line_visible (style);
+	line_width = gog_renderer_line_size (renderer, style->line.width) / 2;
 
 	minor_tick_len = gog_renderer_pt2r_x (renderer, axis_base->minor.size_pts);
 	major_tick_len = gog_renderer_pt2r_x (renderer, axis_base->major.size_pts);
 	tick_len = axis_base->major.tick_out ? major_tick_len :
 		(axis_base->minor.tick_out ? minor_tick_len : 0.);
-	gog_renderer_measure_text (renderer, "0", &txt_size);
-	label_offset = txt_size.w / 2.0 * fabs (cos_alpha) + tick_len;
+	gog_renderer_get_text_OBR (renderer, "0", &txt_obr);
+	label_padding = txt_obr.w;
 
-	total_bbox.x = x; total_bbox.y = y; total_bbox.w = w; total_bbox.h = h;
+	total_bbox.x = x; total_bbox.y = y; 
+	total_bbox.w = w; total_bbox.h = h;
 
 	if (is_line_visible) {
 		double out_len, in_len;
@@ -804,10 +727,10 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 		bbox.y = y - out_len * sin_alpha;
 		bbox.w = (out_len + in_len) * cos_alpha;
 		bbox.h = (out_len + in_len) * sin_alpha;
-		update_bbox (&total_bbox, &bbox);
+		go_geometry_AABR_add (&total_bbox, &bbox);
 		bbox.x += w;
 		bbox.y += h;
-		update_bbox (&total_bbox, &bbox);
+		go_geometry_AABR_add (&total_bbox, &bbox);
 	}
 
 	tick_nbr = gog_axis_get_ticks (axis_base->axis, &ticks);
@@ -820,13 +743,13 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	for (i = 0; i < tick_nbr; i++) {
 		if (ticks[i].label != NULL) {
 			pos = gog_axis_map_to_view (map, ticks[i].position);
-			gog_renderer_measure_text (renderer, ticks[i].label, &txt_size);
-			offset = (txt_size.h * cos (label_angle) + txt_size.w * sin (label_angle)) / 2.0 + label_offset;
-			bbox.x = x + pos * cos (axis_angle) - offset * cos_alpha - txt_size.w / 2.0;
-			bbox.y = y + pos * sin (axis_angle) - offset * sin_alpha - txt_size.h / 2.0;
-			bbox.w = txt_size.w;
-			bbox.h = txt_size.h;
-			update_bbox (&total_bbox, &bbox);
+			gog_renderer_get_text_OBR (renderer, ticks[i].label, &txt_obr);
+			txt_obr.w += label_padding;
+			go_geometry_calc_label_position (&txt_obr, axis_angle, tick_len, side);
+			txt_obr.x += x + pos * cos (axis_angle);
+			txt_obr.y += y + pos * sin (axis_angle);
+			go_geometry_OBR_to_AABR (&txt_obr, &txt_aabr);
+			go_geometry_AABR_add (&total_bbox, &txt_aabr);
 		}
 	}
 	gog_axis_map_free (map);
@@ -837,31 +760,34 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 static void
 axis_line_render (GogAxisBase *axis_base, GogRenderer *renderer,
 		  double x, double y, double w, double h,
-		  double tick_angle,
+		  GOGeometrySide side,
 		  double start_at,
 		  gboolean draw_labels,
 		  gboolean sharp)
 {
 	GogAxisMap *map = NULL;
 	GogAxisTick *ticks;
-	GogViewRequisition txt_size;
-	GogViewAllocation label_pos, label_result, label_old = {0., 0., 0., 0.};
+	GogViewAllocation label_pos;
+	GogStyle *style = axis_base->base.style;
+	GOGeometryOBR txt_obr, txt_obr_old = {0., 0., 0., 0., 0.};
 	ArtVpath path[3];
 	double line_width;
-	double axis_length, axis_angle, label_angle;
+	double axis_length, axis_angle, label_padding;
 	double major_tick_len, minor_tick_len, tick_len;
 	double major_out_x = 0., major_out_y= 0., major_in_x = 0., major_in_y = 0.;
 	double minor_out_x = 0., minor_out_y= 0., minor_in_x = 0., minor_in_y = 0.;
 	double cos_alpha, sin_alpha;
-	double pos, pos_x, pos_y, offset, label_offset, tick_offset;
+	double pos, pos_x, pos_y, tick_offset;
 	unsigned i, tick_nbr;
 	gboolean draw_major, draw_minor;
 	gboolean is_line_visible;
 
-	compute_angles (x, y, w, h, tick_angle, &axis_length, &axis_angle, &label_angle, &cos_alpha, &sin_alpha);
-
-	is_line_visible = gog_style_is_line_visible (axis_base->base.style);
-	line_width = gog_renderer_line_size (renderer, axis_base->base.style->line.width) / 2;
+	go_geometry_cartesian_to_polar (w, h, &axis_length, &axis_angle);
+	cos_alpha = side == GO_SIDE_LEFT ? - sin (axis_angle) : + sin (axis_angle);
+	sin_alpha = side == GO_SIDE_LEFT ? + cos (axis_angle) : - cos (axis_angle);
+	
+	is_line_visible = gog_style_is_line_visible (style);
+	line_width = gog_renderer_line_size (renderer, style->line.width) / 2;
 	if (is_line_visible)
 	{
 		path[0].code = ART_MOVETO;
@@ -897,8 +823,8 @@ axis_line_render (GogAxisBase *axis_base, GogRenderer *renderer,
 
 	tick_len = axis_base->major.tick_out ? major_tick_len :
 		(axis_base->minor.tick_out ? minor_tick_len : 0.);
-	gog_renderer_measure_text (renderer, "0", &txt_size);
-	label_offset = txt_size.w / 2.0 * fabs (cos_alpha) + tick_len;
+	gog_renderer_get_text_OBR (renderer, "0", &txt_obr);
+	label_padding = txt_obr.w;
 
 	tick_nbr = gog_axis_get_ticks (axis_base->axis, &ticks);
 	tick_offset = gog_axis_is_discrete (axis_base->axis) &&
@@ -948,16 +874,17 @@ axis_line_render (GogAxisBase *axis_base, GogRenderer *renderer,
 
 		if (ticks[i].label != NULL && draw_labels) {
 			pos = gog_axis_map_to_view (map, ticks[i].position);
-			gog_renderer_measure_text (renderer, ticks[i].label, &txt_size);
-			offset = (txt_size.h * cos (label_angle) + txt_size.w * sin (label_angle)) / 2.0 + label_offset;
-			label_pos.x = x + pos * cos (axis_angle) - offset * cos_alpha;
-			label_pos.y = y + pos * sin (axis_angle) - offset * sin_alpha;
-			label_pos.w = txt_size.w;
-			label_pos.h = txt_size.h;
-			if (!overlap (&label_pos, &label_old)) {
+			gog_renderer_get_text_OBR (renderer, ticks[i].label, &txt_obr);
+			txt_obr.w += label_padding;
+			go_geometry_calc_label_position (&txt_obr, axis_angle, tick_len, side);
+			txt_obr.x += x + pos * cos (axis_angle);
+			txt_obr.y += y + pos * sin (axis_angle);
+			if (!go_geometry_test_OBR_overlap (&txt_obr, &txt_obr_old)) {
+				label_pos.x = txt_obr.x;
+				label_pos.y = txt_obr.y;
 				gog_renderer_draw_text (renderer, ticks[i].label,
-							&label_pos, GTK_ANCHOR_CENTER, &label_result);
-				label_old = label_pos;
+							&label_pos, GTK_ANCHOR_CENTER, NULL);
+				txt_obr_old = txt_obr;
 			}
 		}
 	}
@@ -982,12 +909,12 @@ axis_circle_point (double x, double y, double center_x, double center_y, double 
 			angle_rad = 2.0 * M_PI * (double) i / (double) num_radii;
 			x0 = center_x + radius * sin (angle_rad);
 			y0 = center_y - radius * cos (angle_rad);
-			if (get_point_to_segment_distance (x, y, x0, y0, x1 - x0, y1 - y0) < POINT_MIN_DISTANCE)
+			if (go_geometry_point_to_segment (x, y, x0, y0, x1 - x0, y1 - y0) < POINT_MIN_DISTANCE)
 				return TRUE;
 		}
 	}
 
-	return (radius - dist (x, y, center_x, center_y)) < POINT_MIN_DISTANCE;
+	return (radius - sqrt ((x - center_x) * (x - center_x) + (y - center_y) * (y - center_y))) < POINT_MIN_DISTANCE;
 }
 
 static GogViewAllocation
@@ -996,10 +923,11 @@ axis_circle_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 {
 	GogAxisMap *map;
 	GogAxisTick *ticks;
-	GogViewAllocation total_bbox, bbox;
-	GogViewRequisition txt_size;
+	GogViewAllocation total_bbox;
 	GogChartMapPolarData *parms = gog_chart_map_get_polar_parms (c_map);
-	double angle, offset, label_offset, label_angle, position;
+	GOGeometryOBR txt_obr;
+	GOGeometryAABR txt_aabr;
+	double angle, offset, position, label_padding;
 	double major_tick_len, minor_tick_len, tick_len, x, y;
 	unsigned i, tick_nbr;
 	gboolean draw_ticks;
@@ -1010,8 +938,8 @@ axis_circle_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	major_tick_len = gog_renderer_pt2r_x (renderer, axis_base->major.size_pts);
 	tick_len = axis_base->major.tick_out ? major_tick_len :
 		(axis_base->minor.tick_out ? minor_tick_len : 0.);
-	gog_renderer_measure_text (renderer, "0", &txt_size);
-	label_offset = txt_size.w;
+	gog_renderer_get_text_OBR (renderer, "0", &txt_obr);
+	label_padding = txt_obr.w;
 
 	draw_ticks = gog_style_is_line_visible (axis_base->base.style) &&
 		(axis_base->major.tick_out || axis_base->minor.tick_out);
@@ -1025,23 +953,19 @@ axis_circle_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 		gog_chart_map_2D_to_view (c_map, ticks[i].position, position, &x, &y);
 
 		if (ticks[i].label != NULL && draw_labels) {
-			label_angle = fmod (angle + 2.0 * M_PI, M_PI);
-			if (label_angle > M_PI / 2.0)
-				label_angle = M_PI - label_angle;
-			gog_renderer_measure_text (renderer, ticks[i].label, &txt_size);
-			offset = ((label_offset + txt_size.w) * cos (label_angle) +
-				  txt_size.h * sin (label_angle)) / 2.0 + tick_len;
-			bbox.x = x + offset * cos (angle) - txt_size.w / 2.0;
-			bbox.y = y + offset * sin (angle) - txt_size.h / 2.0;
-			bbox.w = txt_size.w;
-			bbox.h = txt_size.h;
-			update_bbox (&total_bbox, &bbox);
+			gog_renderer_get_text_OBR (renderer, ticks[i].label, &txt_obr);
+			txt_obr.w += label_padding;
+			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len, GO_SIDE_LEFT);
+			txt_obr.x += x;
+			txt_obr.y += y;
+			go_geometry_OBR_to_AABR (&txt_obr, &txt_aabr);
+			go_geometry_AABR_add (&total_bbox, &txt_aabr);
 		} else
 			if (draw_ticks) {
-				bbox.x = x + cos (angle) * tick_len;
-				bbox.y = y + sin (angle) * tick_len;
-				bbox.w = bbox.h = 0.;
-				update_bbox (&total_bbox, &bbox);
+				txt_aabr.x = x + cos (angle) * tick_len;
+				txt_aabr.y = y + sin (angle) * tick_len;
+				txt_aabr.w = txt_aabr.h = 0.;
+				go_geometry_AABR_add (&total_bbox, &txt_aabr);
 			}
 	}
 
@@ -1054,11 +978,11 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 {
 	GogAxisMap *map;
 	GogAxisTick *ticks;
-	GogViewAllocation label_pos, label_result, label_old = {0., 0., 0., 0.};
-	GogViewRequisition txt_size;
+	GogViewAllocation label_pos;
 	GogChartMapPolarData *parms = gog_chart_map_get_polar_parms (c_map);
+	GOGeometryOBR txt_obr, txt_obr_old = {0., 0., 0., 0., 0.};
 	ArtVpath *cpath, path[3];
-	double angle, offset, label_offset, label_angle, position;
+	double angle, offset, position, label_padding;
 	double start, stop;
 	double major_tick_len, minor_tick_len, tick_len;
 	unsigned i, step_nbr, tick_nbr;
@@ -1100,8 +1024,8 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 	major_tick_len = gog_renderer_pt2r_x (renderer, axis_base->major.size_pts);
 	tick_len = axis_base->major.tick_out ? major_tick_len :
 		(axis_base->minor.tick_out ? minor_tick_len : 0.);
-	gog_renderer_measure_text (renderer, "0", &txt_size);
-	label_offset = txt_size.w;
+	gog_renderer_get_text_OBR (renderer, "0", &txt_obr);
+	label_padding = txt_obr.w;
 
 	tick_nbr = gog_axis_get_ticks (axis_base->axis, &ticks);
 	for (i = 0; i < tick_nbr; i++) {
@@ -1152,22 +1076,19 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 		}
 
 		if (ticks[i].label != NULL && draw_labels) {
-			label_angle = fmod (angle + 2.0 * M_PI, M_PI);
-			if (label_angle > M_PI / 2.0)
-				label_angle = M_PI - label_angle;
-			gog_renderer_measure_text (renderer, ticks[i].label, &txt_size);
-			offset = ((txt_size.w + label_offset)* cos (label_angle) +
-				  txt_size.h * sin (label_angle)) / 2.0 + tick_len;
 			gog_chart_map_2D_to_view (c_map, ticks[i].position, position,
 						  &label_pos.x, &label_pos.y);
-			label_pos.x += offset * cos (angle);
-			label_pos.y += offset * sin (angle);
-			label_pos.w = txt_size.w;
-			label_pos.h = txt_size.h;
-			if (!overlap (&label_pos, &label_old)) {
+			gog_renderer_get_text_OBR (renderer, ticks[i].label, &txt_obr);
+			txt_obr.w += label_padding;
+			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len, GO_SIDE_LEFT);
+			label_pos.x += txt_obr.x;
+			label_pos.y += txt_obr.y;
+			txt_obr.x = label_pos.x;
+			txt_obr.y = label_pos.y;
+			if (!go_geometry_test_OBR_overlap (&txt_obr, &txt_obr_old)) {
 				gog_renderer_draw_text (renderer, ticks[i].label,
-							&label_pos, GTK_ANCHOR_CENTER, &label_result);
-				label_old = label_pos;
+							&label_pos, GTK_ANCHOR_CENTER, NULL);
+				txt_obr_old = txt_obr;
 			}
 		}
 	}
@@ -1236,7 +1157,7 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	GogAxisType axis_type = gog_axis_get_atype (axis_base->axis);
 	double position;
 	double minimum, maximum, start, stop;
-	double side = 1.;
+	GOGeometrySide side;
 
 	g_return_val_if_fail (axis_type == GOG_AXIS_X ||
 			      axis_type == GOG_AXIS_Y, FALSE);
@@ -1261,7 +1182,7 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	} else
 		position = axis_base->position == GOG_AXIS_AT_LOW ?  start : stop;
 
-	side = axis_base->position == GOG_AXIS_AT_LOW ? -1.0 : 1.0;
+	side = axis_base->position == GOG_AXIS_AT_LOW ? GO_SIDE_RIGHT : GO_SIDE_LEFT;
 
 	if (axis_type == GOG_AXIS_X) {
 		a_map = gog_chart_map_get_axis_map (c_map, 0);
@@ -1273,7 +1194,7 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		gog_axis_map_get_extents (a_map, &start, &stop);
 		gog_chart_map_2D_to_view (c_map, position, start, &ax, &ay);
 		gog_chart_map_2D_to_view (c_map, position, stop, &bx, &by);
-		side = -side;
+		side = (side == GO_SIDE_LEFT) ? GO_SIDE_RIGHT : GO_SIDE_LEFT;
 	}
 	gog_chart_map_free (c_map);
 
@@ -1314,9 +1235,9 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	GogChartMapPolarData *parms;
 	GogViewAllocation tmp = *area;
 	GogViewAllocation bbox;
+	GOGeometrySide side;
 	double start, stop, minimum, maximum;
 	double bx, by, position;
-	double side;
 	unsigned i;
 	gboolean point = FALSE;
 
@@ -1340,7 +1261,7 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 			}
 		} else
 			position = axis_base->position == GOG_AXIS_AT_LOW ?  start : stop;
-		side = axis_base->position == GOG_AXIS_AT_LOW ? -1.0 : 1.0;
+		side = axis_base->position == GOG_AXIS_AT_LOW ? GO_SIDE_RIGHT : GO_SIDE_LEFT;
 
 		a_map = gog_chart_map_get_axis_map (c_map, 1);
 		gog_axis_map_get_extents (a_map, &start, &stop);

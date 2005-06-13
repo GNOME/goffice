@@ -69,6 +69,7 @@ static GObjectClass *parent_klass;
 
 typedef struct {
 	GladeXML  	*gui;
+	GladeXML  	*font_gui;
 	GogStyle  	*style;
 	GogStyle  	*default_style;
 	GObject		*object_with_style;
@@ -112,6 +113,7 @@ set_style (StylePrefState const *state)
 static GtkWidget *
 create_go_combo_color (StylePrefState *state,
 		       GOColor initial_val, GOColor default_val,
+		       GladeXML *gui,
 		       char const *group, char const *label_name,
 		       GCallback func)
 {
@@ -122,7 +124,7 @@ create_go_combo_color (StylePrefState *state,
 	go_combo_color_set_instant_apply (GO_COMBO_COLOR (w), FALSE);
 	go_combo_color_set_allow_alpha (GO_COMBO_COLOR (w), TRUE);
 	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (glade_xml_get_widget (state->gui, label_name)), w);
+		GTK_LABEL (glade_xml_get_widget (gui, label_name)), w);
 	go_combo_color_set_color (GO_COMBO_COLOR (w), initial_val);
 	g_signal_connect (G_OBJECT (w),
 		"color_changed",
@@ -231,6 +233,7 @@ outline_init (StylePrefState *state, gboolean enable)
 	/* Color */
 	w = create_go_combo_color (state,
 		style->outline.color, default_style->outline.color,
+		state->gui,
 		"outline_color", "outline_color_label",
 		G_CALLBACK (cb_outline_color_changed));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, 0, 0, 0, 0);
@@ -311,6 +314,7 @@ line_init (StylePrefState *state, gboolean enable)
 	/* Colour */
 	w = create_go_combo_color (state,
 		style->line.color, default_style->line.color,
+		state->gui,
 		"line_color", "line_color_label",
 		G_CALLBACK (cb_line_color_changed));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, 0, 0, 0, 0);
@@ -407,6 +411,7 @@ fill_pattern_init (StylePrefState *state)
 	state->fill.pattern.fore = w = create_go_combo_color (state,
 		style->fill.pattern.fore,
 		default_style->fill.pattern.fore,
+		state->gui,
 		"pattern_foreground", "fill_pattern_foreground_label",
 		G_CALLBACK (cb_fg_color_changed));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, 0, 0, 0, 0);
@@ -414,6 +419,7 @@ fill_pattern_init (StylePrefState *state)
 	state->fill.pattern.back = w = create_go_combo_color (state,
 		style->fill.pattern.back,
 		default_style->fill.pattern.back,
+		state->gui,
 		"pattern_background", "fill_pattern_background_label",
 		G_CALLBACK (cb_bg_color_changed));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
@@ -553,6 +559,7 @@ fill_gradient_init (StylePrefState *state)
 	state->fill.gradient.start = w = create_go_combo_color (state,
 		style->fill.pattern.back,
 		default_style->fill.pattern.back,
+		state->gui,
 		"gradient_start", "fill_gradient_start_label",
 		G_CALLBACK (cb_fill_gradient_start_color));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
@@ -561,6 +568,7 @@ fill_gradient_init (StylePrefState *state)
 	state->fill.gradient.end = w = create_go_combo_color (state,
 		style->fill.pattern.fore,
 		default_style->fill.pattern.fore,
+		state->gui,
 		"gradient_end", "fill_gradient_end_label",
 		G_CALLBACK (cb_fill_gradient_end_color));
 	gtk_table_attach (GTK_TABLE (table), w, 3, 4, 2, 3, 0, 0, 0, 0);
@@ -814,6 +822,7 @@ marker_init (StylePrefState *state, gboolean enable)
 	w = create_go_combo_color (state,
 		go_marker_get_fill_color (style->marker.mark),
 		go_marker_get_fill_color (default_style->marker.mark),
+		state->gui,
 		"pattern_foreground", "marker_fill_label",
 		G_CALLBACK (cb_marker_fill_color_changed));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, 0, 0, 0, 0);
@@ -821,6 +830,7 @@ marker_init (StylePrefState *state, gboolean enable)
 	w = create_go_combo_color (state,
 		go_marker_get_outline_color (style->marker.mark),
 		go_marker_get_outline_color (default_style->marker.mark),
+		state->gui,
 		"pattern_foreground", "marker_outline_label",
 		G_CALLBACK (cb_marker_outline_color_changed));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
@@ -855,33 +865,66 @@ cb_font_changed (GOFontSel *fs, PangoAttrList *list,
 }
 
 static void
-font_init (StylePrefState *state, guint32 enable, GogEditor *editor)
+cb_rotation_angle_changed (GtkSpinButton *spin_button, StylePrefState *state)
+{
+	state->style->font.rotation_angle = CLAMP (gtk_spin_button_get_value (spin_button), -180, 180);
+	set_style (state);
+}
+
+static void
+cb_font_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
+		       G_GNUC_UNUSED gboolean is_custom,
+		       G_GNUC_UNUSED gboolean by_user,
+		       gboolean is_auto, StylePrefState *state)
+{
+	GogStyle *style = state->style;
+
+	style->font.color = color;
+	set_style (state);
+}
+
+static void
+font_init (StylePrefState *state, guint32 enable, GogEditor *editor, GOCmdContext *cc)
 {
 	GogStyle *style = state->style;
 	GtkWidget *w, *box;
+	GladeXML *gui;
 
 	if (!enable)
 		return;
 
 	g_return_if_fail (style->font.font != NULL);
 
-	box = gtk_vbox_new (FALSE, 5);
-	gtk_container_set_border_width (GTK_CONTAINER (box), 12);
+	gui = go_libglade_new ("gog-style-prefs.glade", "gog_style_font_prefs", NULL, cc);
+	if (gui == NULL)
+		return;
 
-#if 0
-	w = gtk_check_button_new_with_label (_("Automatic"));
-	gtk_box_pack_start (GTK_BOX (box), w, FALSE, TRUE, 0);
-#endif
-	gtk_widget_show_all (box);
+	state->font_gui = gui;
+
+	w = create_go_combo_color (state,
+		style->font.color,
+		style->font.color,
+		gui,
+		"pattern_foreground", "font_color_label",
+		G_CALLBACK (cb_font_color_changed));
+	box = glade_xml_get_widget (gui, "color_box");
+	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
+	gtk_widget_show (w);
+				    
+	w = glade_xml_get_widget (gui, "rotation_angle_spin");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), style->font.rotation_angle);
+	g_signal_connect (w, "value-changed", G_CALLBACK (cb_rotation_angle_changed), state);
 
 	w = go_font_sel_new ();
 	go_font_sel_set_font (GO_FONT_SEL (w), style->font.font);
 	g_signal_connect (G_OBJECT (w),
 		"font_changed",
 		G_CALLBACK (cb_font_changed), state);
-	gtk_box_pack_end (GTK_BOX (box), w, TRUE, TRUE, 0);
 	gtk_widget_show (w);
 
+ 	box = glade_xml_get_widget (gui, "gog_style_font_prefs");
+	gtk_box_pack_end (GTK_BOX (box), w, TRUE, TRUE, 0);
+	
 	gog_editor_add_page (editor, box, _("Font"));
 }
 
@@ -906,6 +949,8 @@ gog_style_pref_state_free (StylePrefState *state)
 	g_object_unref (state->style);
 	g_object_unref (state->default_style);
 	g_object_unref (state->gui);
+	if (state->font_gui != NULL)
+		g_object_unref (state->font_gui);
 	if (state->fill.gradient.timer != 0) {
 		g_source_remove (state->fill.gradient.timer);
 		state->fill.gradient.timer = 0;
@@ -918,10 +963,10 @@ gog_style_pref_state_free (StylePrefState *state)
 void
 gog_style_populate_editor (GogStyle *style,
 			   GogEditor *editor,
-	      GogStyle *default_style,
-	      GOCmdContext *cc,
-	      GObject	*object_with_style,
-	      gboolean   watch_for_external_change)
+			   GogStyle *default_style,
+			   GOCmdContext *cc,
+			   GObject	*object_with_style,
+			   gboolean   watch_for_external_change)
 {
 	GogStyleFlag enable;
 	GtkWidget *w;
@@ -942,6 +987,7 @@ gog_style_populate_editor (GogStyle *style,
 
 	state = g_new0 (StylePrefState, 1);
 	state->gui = gui;
+	state->font_gui = NULL;
 	state->style = style;
 	state->default_style = default_style;
 	state->object_with_style = object_with_style;
@@ -956,7 +1002,7 @@ gog_style_populate_editor (GogStyle *style,
 	line_init    (state, enable & GOG_STYLE_LINE);
 	fill_init    (state, enable & GOG_STYLE_FILL);
 	marker_init  (state, enable & GOG_STYLE_MARKER);
-	font_init    (state, enable & GOG_STYLE_FONT, editor);
+	font_init    (state, enable & GOG_STYLE_FONT, editor, cc);
 
 	state->enable_edit = TRUE;
 
@@ -1146,6 +1192,7 @@ gog_style_init (GogStyle *style)
 	go_pattern_set_solid (&style->fill.pattern, RGBA_BLACK);
 	style->font.font = go_font_new_by_index (0);
 	style->font.color = RGBA_BLACK;
+	style->font.rotation_angle = 0.0;
 }
 
 static struct {
@@ -1573,6 +1620,11 @@ gog_style_font_load (xmlNode *node, GogStyle *style)
 	}
 	if (bool_prop (node, "auto-scale", &tmp))
 		style->font.auto_scale = tmp;
+	str = xmlGetProp (node, "rotation-angle");
+	if (str != NULL) {
+		style->font.rotation_angle = g_strtod (str, NULL);
+		xmlFree (str);
+	}
 }
 
 static void
@@ -1589,6 +1641,9 @@ gog_style_font_dom_save (xmlNode *parent, GogStyle const *style)
 	g_free (str);
 	xmlSetProp (node, (xmlChar const *) "auto-scale",
 		    style->font.auto_scale ? "true" : "false");
+	str = g_strdup_printf ("%g", style->font.rotation_angle);
+	xmlSetProp (node, (xmlChar const *) "rotation-angle", str);
+	g_free (str);
 
 	xmlAddChild (parent, node);
 }
@@ -1602,6 +1657,7 @@ gog_style_font_sax_save (GsfXMLOut *output, GogStyle const *style)
 	gsf_xml_out_add_cstr_unchecked (output, "font", str);
 	g_free (str);
 	gsf_xml_out_add_bool (output, "auto-scale", style->font.auto_scale);
+	gsf_xml_out_add_float (output, "rotation-angle", style->font.rotation_angle, 0);
 	gsf_xml_out_end_element (output);
 }
 
@@ -1691,6 +1747,7 @@ gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
 		a->outline.width != b->outline.width ||
 		a->line.width != b->line.width ||
 		a->fill.type != b->fill.type ||
+		a->font.rotation_angle != b->font.rotation_angle ||
 		!go_font_eq (a->font.font, b->font.font);
 }
 

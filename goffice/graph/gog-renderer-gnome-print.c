@@ -509,56 +509,69 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 	PangoFontDescription *pango_font = get_font (prend,  rend->cur_style->font.font);
 
 	if (text[0]) {
-		double x, y, w, h;
+		GOColor fore_color = rend->cur_style->font.color;
+		GOGeometryOBR obr;
+		GOGeometryAABR aabr;
 		int iw, ih;
 
 		pango_layout_set_font_description (prend->layout, pango_font);
 		pango_layout_set_text (prend->layout, text, -1);
 		pango_layout_get_size (prend->layout, &iw, &ih);
-		w = iw / (double)PANGO_SCALE;
-		h = ih / (double)PANGO_SCALE;
-		x = pos->x;
+		obr.w = iw / (double)PANGO_SCALE;
+		obr.h = ih / (double)PANGO_SCALE;
+		obr.alpha = rend->cur_style->font.rotation_angle * M_PI / 180.0;
+		obr.x = pos->x;
+		obr.y = pos->y;
+		go_geometry_OBR_to_AABR (&obr, &aabr);
+
 		switch (anchor) {
-		case GTK_ANCHOR_CENTER : case GTK_ANCHOR_N : case GTK_ANCHOR_S :
-			x -= w / 2.0;
-			break;
-		case GTK_ANCHOR_NE : case GTK_ANCHOR_SE : case GTK_ANCHOR_E :
-			x -= w;
-			break;
-		default : break;
+			case GTK_ANCHOR_NW: case GTK_ANCHOR_W: case GTK_ANCHOR_SW:
+				obr.x += aabr.w / 2.0;
+				break;
+			case GTK_ANCHOR_NE : case GTK_ANCHOR_SE : case GTK_ANCHOR_E :
+				obr.x -= aabr.w / 2.0;
+				break;
+			default : break;
 		}
-		if (x <= 0)
-			x = 0;
-	
-		y = pos->y;
+		if (obr.x <= 0)
+			obr.x = 0;
+
 		switch (anchor) {
-		case GTK_ANCHOR_CENTER : case GTK_ANCHOR_E : case GTK_ANCHOR_W :
-			y -= h / 2.0;
-			break;
-		case GTK_ANCHOR_SE : case GTK_ANCHOR_S : case GTK_ANCHOR_SW :
-			y -= h;
-			break;
-		default : break;
+			case GTK_ANCHOR_NW: case GTK_ANCHOR_N: case GTK_ANCHOR_NE:
+				obr.y += aabr.h / 2.0;
+				break;
+			case GTK_ANCHOR_SE : case GTK_ANCHOR_S : case GTK_ANCHOR_SW :
+				obr.y -= aabr.h / 2.0;
+				break;
+			default : break;
 		}
-		if (y <= 0)
-			y = 0;
-		
+		if (obr.y <= 0)
+			obr.y = 0;
+
 #warning "add clipping"
 
-		gnome_print_moveto (prend->gp_context,x, -y);
+		gnome_print_gsave (prend->gp_context);
+		gnome_print_setrgbcolor (prend->gp_context,
+			UINT_RGBA_R (fore_color) / 255.,
+			UINT_RGBA_G (fore_color) / 255.,
+			UINT_RGBA_B (fore_color) / 255.);
+		gnome_print_moveto (prend->gp_context, 
+				    obr.x - (obr.w / 2.0) * cos (obr.alpha) - (obr.h / 2.0) * sin (obr.alpha),
+				    -obr.y - (obr.w / 2.0) * sin (obr.alpha) + (obr.h / 2.0) * cos (obr.alpha));
+		gnome_print_rotate (prend->gp_context, rend->cur_style->font.rotation_angle);
 		gnome_print_pango_layout (prend->gp_context, prend->layout);
+		gnome_print_grestore (prend->gp_context);
 		if (result != NULL) {
-			result->x = x;
-			result->y = y;
-			result->w = w;
-			result->h = h;
+			result->x = aabr.x;
+			result->y = aabr.y;
+			result->w = aabr.w;
+			result->h = aabr.h;
 		}
 	}
 }
 
 static void
-gog_renderer_gnome_print_measure_text (GogRenderer *rend,
-				       char const *text, GogViewRequisition *size)
+gog_renderer_gnome_print_get_text_OBR (GogRenderer *rend, char const *text, GOGeometryOBR *obr)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
 	PangoFontDescription *pango_font = get_font (prend,  rend->cur_style->font.font);
@@ -567,8 +580,8 @@ gog_renderer_gnome_print_measure_text (GogRenderer *rend,
 	pango_layout_set_font_description (prend->layout, pango_font);
 	pango_layout_set_text (prend->layout, text, -1);
 	pango_layout_get_size (prend->layout, &iw, &ih);
-	size->w = iw / (double)PANGO_SCALE;
-	size->h = ih / (double)PANGO_SCALE;
+	obr->w = iw / (double)PANGO_SCALE;
+	obr->h = ih / (double)PANGO_SCALE;
 }
 
 static void
@@ -634,7 +647,7 @@ gog_renderer_gnome_print_class_init (GogRendererClass *rend_klass)
 	rend_klass->draw_bezier_polygon = gog_renderer_gnome_print_draw_bezier_polygon;
 	rend_klass->draw_text	  	= gog_renderer_gnome_print_draw_text;
 	rend_klass->draw_marker	  	= gog_renderer_gnome_print_draw_marker;
-	rend_klass->measure_text  	= gog_renderer_gnome_print_measure_text;
+	rend_klass->get_text_OBR	= gog_renderer_gnome_print_get_text_OBR;
 }
 
 static void

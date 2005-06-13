@@ -85,8 +85,7 @@ typedef struct {
 				 GogViewAllocation *result);
 	void (*draw_marker)    	(GogRenderer *rend, double x, double y);
 	
-	void (*measure_text)   	(GogRenderer *rend, 
-				 char const *text, GogViewRequisition *size);
+	void (*get_text_OBR)	(GogRenderer *rend, char const *text, GOGeometryOBR *obr);
 	
 	double (*line_size)		(GogRenderer const *rend, double width);
 

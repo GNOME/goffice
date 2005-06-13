@@ -263,7 +263,7 @@ TODO
     1.32) Radar plots
 	1.32.1) line						(DONE)
 	1.32.2) area						(DONE)
-	1.32.3) axis labels			{partial}
+	1.32.3) axis labels					(DONE)
 	1.32.4) fix xls import of marker vs no marker
     1.33) Contour plots				{Jean}
 	1.33.1) Initial implementation				(DONE)

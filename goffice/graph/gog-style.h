@@ -106,9 +106,10 @@ struct _GogStyle {
 	} fill;
 	GogStyleMark marker;
 	struct {
-		GOColor	color;
-		GOFont const *font;
-		gboolean auto_scale;
+		GOColor		 color;
+		GOFont const 	*font;
+		gboolean 	 auto_scale;
+		double		 rotation_angle;
 	} font;
 };
 

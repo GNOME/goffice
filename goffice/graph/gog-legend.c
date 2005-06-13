@@ -243,15 +243,16 @@ static void
 cb_size_elements (unsigned i, GogStyle const *style, char const *name,
 		  size_closure *dat)
 {
-	GogViewRequisition req;
+	GOGeometryAABR aabr;
+	
 	gog_renderer_push_style (dat->view->renderer, style);
-	gog_renderer_measure_text (dat->view->renderer, name, &req);
+	gog_renderer_get_text_AABR (dat->view->renderer, name, &aabr);
 	gog_renderer_pop_style (dat->view->renderer);
 
-	if (dat->maximum.w < req.w)
-		dat->maximum.w = req.w;
-	if (dat->maximum.h < req.h)
-		dat->maximum.h = req.h;
+	if (dat->maximum.w < aabr.w)
+		dat->maximum.w = aabr.w;
+	if (dat->maximum.h < aabr.h)
+		dat->maximum.h = aabr.h;
 	if (!dat->uses_lines && (style->interesting_fields & GOG_STYLE_LINE))
 		dat->uses_lines = TRUE;
 }

@@ -229,8 +229,8 @@ gog_reg_eqn_view_render (GogView *view, GogViewAllocation const *bbox)
 	double text_width, text_height;
 	char const *eq = NULL;
 	char *r2 = NULL;
-	GogViewRequisition eqreq, r2req;
 	GogViewAllocation alloc, result;
+	GOGeometryAABR eq_aabr, r2_aabr;
 	/* We should have a more intelligent padding */
 	double padding = 8.;
 	GogRegEqn *re = GOG_REG_EQN (view->model);
@@ -241,17 +241,17 @@ gog_reg_eqn_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_renderer_push_style (view->renderer, style);
 	if (re->show_eq) {
 		eq = gog_reg_curve_get_equation (rc);
-		gog_renderer_measure_text (view->renderer, eq, &eqreq);
-		text_width = eqreq.w;
-		text_height = eqreq.h;
+		gog_renderer_get_text_AABR (view->renderer, eq, &eq_aabr);
+		text_width = eq_aabr.w;
+		text_height = eq_aabr.h;
 	} else
 		text_width = text_height = 0;
 	if (re->show_r2) {
 		r2 = g_strdup_printf ("R² = %g", gog_reg_curve_get_R2 (rc));
-		gog_renderer_measure_text (view->renderer, r2, &r2req);
-		if (text_width < r2req.w)
-			text_width = r2req.w;
-		text_height += r2req.h;
+		gog_renderer_get_text_AABR (view->renderer, eq, &r2_aabr);
+		if (text_width < r2_aabr.w)
+			text_width = r2_aabr.w;
+		text_height += r2_aabr.h;
 	}
 	alloc.x = view->residual.x + (view->residual.w - text_width) * re->hpos / 100. - padding;
 	alloc.y = view->residual.y + (view->residual.h - text_height) * re->vpos / 100. - padding;
@@ -261,14 +261,14 @@ gog_reg_eqn_view_render (GogView *view, GogViewAllocation const *bbox)
 	alloc.x += padding;
 	alloc.y += padding;
 	if (re->show_eq) {
-		alloc.w = eqreq.w;
-		alloc.h = eqreq.h;
+		alloc.w = eq_aabr.w;
+		alloc.h = eq_aabr.h;
 		gog_renderer_draw_text (view->renderer, eq, &alloc, GTK_ANCHOR_NW, &result);
 		alloc.y += alloc.h;
 	}
 	if (re->show_r2) {
-		alloc.w = r2req.w;
-		alloc.h = r2req.h;
+		alloc.w = r2_aabr.w;
+		alloc.h = r2_aabr.h;
 		gog_renderer_draw_text (view->renderer, r2, &alloc, GTK_ANCHOR_NW, &result);
 		g_free (r2);
 	}

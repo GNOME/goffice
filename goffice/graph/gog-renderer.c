@@ -29,7 +29,6 @@
 #include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <math.h>
 
 /* We need to define an hair line width for the svg and gnome_print renderer. 
  * 0.24 pt is the dot size of a 300 dpi printer, if the plot is printed at scale 1:1 */
@@ -586,34 +585,52 @@ gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
 }
 
 /**
- * gog_renderer_measure_text :
+ * gog_renderer_get_text_OBR :
  * @rend : #GogRenderer
  * @text : the string to draw
- * @size : #GogViewRequisition to store the size of @text.
+ * @obr : #GOGeometryOBR to store the Object Bounding Rectangle of @text.
  **/
 void
-gog_renderer_measure_text (GogRenderer *rend,
-			   char const *text, GogViewRequisition *size)
+gog_renderer_get_text_OBR (GogRenderer *rend, char const *text, GOGeometryOBR *obr)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (rend->cur_style != NULL);
 	g_return_if_fail (text != NULL);
+	g_return_if_fail (obr != NULL);
 
+	obr->x = obr->y = 0;
 	if (*text == '\0') {
 		/* Make sure invisible things don't skew size */
-		size->w = size->h = 0;
+		obr->w = obr->h = 0;
 		return;
 	}
 
-	(klass->measure_text) (rend, text, size);
+	(klass->get_text_OBR) (rend, text, obr);
 
 	/* Make sure invisible things don't skew size */
-	if (size->w == 0)
-		size->h = 0;
-	else if (size->h == 0)
-		size->w = 0;
+	if (obr->w == 0)
+		obr->h = 0;
+	else if (obr->h == 0)
+		obr->w = 0;
+	
+	obr->alpha = rend->cur_style->font.rotation_angle * M_PI / 180.0;
+}
+
+/**
+ * gog_renderer_get_text_AABR :
+ * @rend : #GogRenderer
+ * @text : the string to draw
+ * @aabr : #GOGeometryAABR to store the Axis Aligned Bounding Rectangle of @text.
+ **/
+void
+gog_renderer_get_text_AABR (GogRenderer *rend, char const *text, GOGeometryAABR *aabr)
+{
+	GOGeometryOBR obr;
+
+	gog_renderer_get_text_OBR (rend, text, &obr);
+	go_geometry_OBR_to_AABR (&obr, aabr);
 }
 
 static void
@@ -744,7 +761,7 @@ gog_renderer_draw_sharp_rectangle (GogRenderer *rend, GogViewAllocation const *r
 
 void
 gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect,
-				   GogViewAllocation const *bound)
+			     GogViewAllocation const *bound)
 {
 	draw_rectangle (rend, rect, bound, FALSE);
 }

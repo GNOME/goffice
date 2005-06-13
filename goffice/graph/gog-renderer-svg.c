@@ -566,15 +566,15 @@ make_layout (GogRenderer *rend, char const *text)
 }
 
 static void
-gog_renderer_svg_measure_text (GogRenderer *rend,
-			       char const *text, GogViewRequisition *size)
+gog_renderer_svg_get_text_OBR (GogRenderer *rend, char const *text, GOGeometryOBR *obr)
 {
 	PangoRectangle  rect;
 	PangoLayout    *layout = make_layout (rend, text);
+	
 	pango_layout_get_pixel_extents (layout, NULL, &rect);
 	g_object_unref (layout);
-	size->w = gog_renderer_pt2r (rend, rect.width);
-	size->h = gog_renderer_pt2r (rend, rect.height);
+	obr->w = gog_renderer_pt2r (rend, rect.width);
+	obr->h = gog_renderer_pt2r (rend, rect.height);
 }
 
 static void
@@ -583,50 +583,71 @@ gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
 			    GogViewAllocation *result)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
-	xmlNodePtr node;
-	char *buf;
-	double x, y;
-	int baseline;
+	GogStyle const *style = rend->cur_style;
 	PangoRectangle  rect;
-	PangoLayout* layout = make_layout (rend, "lp");
-	PangoFontDescription const *fd = rend->cur_style->font.font->desc;
+	PangoLayout* layout = make_layout (rend, text);
+	PangoFontDescription const *fd = style->font.font->desc;
 	PangoLayoutIter* iter =pango_layout_get_iter(layout);
+	GOGeometryOBR obr;
+	GOGeometryAABR aabr;
+	GString *string;
+	xmlNodePtr node;
+	char buffer[G_ASCII_DTOSTR_BUF_SIZE];
+	char *buf;
+	double y_offset;
+	int baseline;
 
-	pango_layout_get_pixel_extents (layout, NULL, &rect);
-	x = pos->x;
-	/* adjust to the base line */
-	y = pos->y;
-	baseline = pango_layout_iter_get_baseline(iter);
-	pango_layout_iter_get_run_extents(iter, NULL, &rect);
-	y += gog_renderer_pt2r(rend, (baseline - rect.y) / PANGO_SCALE);
+	baseline = pango_layout_iter_get_baseline (iter);
+	pango_layout_iter_get_run_extents (iter, NULL, &rect);
 	pango_layout_iter_free(iter);
 	g_object_unref (layout);
+	obr.w = gog_renderer_pt2r (rend, rect.width / PANGO_SCALE);
+	obr.h = gog_renderer_pt2r (rend, rect.height / PANGO_SCALE);
+	obr.alpha = style->font.rotation_angle * M_PI / 180.0;
+	obr.x = pos->x;
+	obr.y = pos->y;
+	go_geometry_OBR_to_AABR (&obr, &aabr);
+	y_offset = gog_renderer_pt2r(rend, (baseline - rect.y) / PANGO_SCALE) - obr.h / 2.0;
 
 	switch (anchor) {
-	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_E : case GTK_ANCHOR_W :
-		y -= gog_renderer_pt2r(rend, (double) (rect.height / 2) / PANGO_SCALE);
-		break;
-	case GTK_ANCHOR_SE : case GTK_ANCHOR_S : case GTK_ANCHOR_SW :
-		y -= gog_renderer_pt2r(rend, (double)rect.height / PANGO_SCALE);
-		break;
-	default :
-		break;
+		case GTK_ANCHOR_NW: case GTK_ANCHOR_W: case GTK_ANCHOR_SW:
+			obr.x += aabr.w / 2.0;
+			break;
+		case GTK_ANCHOR_NE: case GTK_ANCHOR_E: case GTK_ANCHOR_SE:
+			obr.x -= aabr.w / 2.0;
+		default:
+			break;
 	}
-
+			
+	switch (anchor) {
+		case GTK_ANCHOR_NW: case GTK_ANCHOR_N: case GTK_ANCHOR_NE:
+			obr.y += aabr.h / 2.0;
+			break;
+		case GTK_ANCHOR_SW: case GTK_ANCHOR_S: case GTK_ANCHOR_SE:
+			obr.y -= aabr.h / 2.0;
+		default:
+			break;
+	}
+	
 	node = xmlNewDocNode (prend->doc, NULL, "text", NULL);
 	xmlNodeSetContent (node, CC2XML (text));
 	xmlAddChild (prend->current_node, node);
-	set_double_prop (node, "x", x);
-	set_double_prop (node, "y", y);
-	switch (anchor) {
-	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_N : case GTK_ANCHOR_S :
-		xmlNewProp (node, CC2XML ("text-anchor"), CC2XML ("middle"));
-		break;
-	case GTK_ANCHOR_NE : case GTK_ANCHOR_SE : case GTK_ANCHOR_E :
-		xmlNewProp (node, CC2XML ("text-anchor"), CC2XML ("end"));
-		break;
-	default : break;
-	}
+	set_double_prop (node, "x", obr.x);
+	set_double_prop (node, "y", obr.y + y_offset);
+	xmlNewProp (node, CC2XML ("text-anchor"), CC2XML ("middle"));
+	string = g_string_new ("rotate(");
+	g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), -style->font.rotation_angle));
+	g_string_append_c (string, ',');
+	g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), obr.x));
+	g_string_append_c (string, ',');
+	g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), obr.y));
+	g_string_append_c (string, ')');
+	xmlNewProp (node, CC2XML ("transform"), CC2XML (string->str));
+       	g_string_free (string, TRUE);	
+	
+	buf = g_strdup_printf ("#%06x", style->font.color >> 8);
+	xmlNewProp (node, CC2XML ("fill"), CC2XML (buf));
+	g_free (buf);
 	xmlNewProp (node, CC2XML ("font-family"), CC2XML (pango_font_description_get_family (fd)));
 	buf = g_strdup_printf ("%d", (int)(rint (gog_renderer_pt2r(rend, pango_font_description_get_size (fd) / PANGO_SCALE))));
 	xmlNewProp (node, CC2XML ("font-size"), CC2XML (buf));
@@ -668,7 +689,7 @@ gog_renderer_svg_class_init (GogRendererClass *rend_klass)
 	rend_klass->draw_bezier_polygon = gog_renderer_svg_draw_bezier_polygon;
 	rend_klass->draw_text	  	= gog_renderer_svg_draw_text;
 	rend_klass->draw_marker	  	= gog_renderer_svg_draw_marker;
-	rend_klass->measure_text  	= gog_renderer_svg_measure_text;
+	rend_klass->get_text_OBR	= gog_renderer_svg_get_text_OBR;
 }
 
 static GSF_CLASS (GogRendererSvg, gog_renderer_svg,
