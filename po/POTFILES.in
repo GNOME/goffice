@@ -187,8 +187,8 @@ goffice/gtk/go-locale-sel.c
 goffice/gtk/go-locale-sel.h
 goffice/gtk/go-optionmenu.c
 goffice/gtk/go-optionmenu.h
-goffice/gtk/htmlhelp-stub.c
-goffice/gtk/htmlhelp-stub.h
+goffice/utils/win32-stub.c
+goffice/utils/win32-stub.h
 goffice/ms-compat/god-drawing-ms.c
 goffice/ms-compat/god-drawing-ms-client-handler.c
 goffice/ms-compat/god-drawing-ms-client-handler.h
