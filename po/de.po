@@ -2712,7 +2712,7 @@ msgstr "Botsuanischer Pula"
 
 #: goffice/utils/formats.c:412
 msgid "Belarus, Rubles"
-msgstr "Belarussischer Rubel"
+msgstr "Weißrussischer Rubel"
 
 #: goffice/utils/formats.c:413
 msgid "Belize, Dollars"
