@@ -229,6 +229,7 @@ gog_radar_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		bounds->logical.minima = 0.;
 		bounds->logical.maxima = go_nan;
 		bounds->is_discrete    = TRUE;
+		bounds->center_on_ticks = TRUE;
 
 		for (ptr = plot->series; ptr != NULL ; ptr = ptr->next)
 			if (gog_series_is_valid (GOG_SERIES (ptr->data)))

@@ -218,8 +218,9 @@ map_discrete_calc_ticks (GogAxis *axis)
 	GogAxisTick *ticks;
 	gboolean valid;
 	double maximum, minimum;
-	int tick_nbr;
-	int i;
+	double tick_start, label_start;
+	int tick_nbr, label_nbr;
+	int i, j;
 	int major_tick, major_label;
 
 	major_tick = rint (gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL));
@@ -235,36 +236,39 @@ map_discrete_calc_ticks (GogAxis *axis)
 		return;
 	}
 		
-	tick_nbr = rint (maximum -minimum) + 1;
-	if (tick_nbr < 1 || tick_nbr > GOG_AXIS_MAX_TICK_NBR) {
-		gog_axis_set_ticks (axis, 0, NULL);
+	tick_start = axis->center_on_ticks ? 
+		ceil (minimum / (double) major_tick) * major_tick : 
+		ceil ((minimum - 0.5) / (double) major_tick) * major_tick + 0.5;
+	label_start = ceil (minimum / (double) major_label) * major_label;
+	tick_nbr = floor (go_add_epsilon (maximum - tick_start) / major_tick + 1.0);
+	label_nbr = floor (go_add_epsilon (maximum - label_start) / major_label + 1.0);
+	tick_nbr = CLAMP (tick_nbr, 0, GOG_AXIS_MAX_TICK_NBR);
+	label_nbr = CLAMP (label_nbr, 0, GOG_AXIS_MAX_TICK_NBR);
+	if (tick_nbr < 1  && label_nbr < 1) {
+		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0));
 		return;
 	}
-	ticks = g_new (GogAxisTick, tick_nbr);
+	ticks = g_new (GogAxisTick, tick_nbr + label_nbr);
 	
 	for (i = 0; i < tick_nbr; i++) {
-		ticks[i].position = (double) (i);
-
-		ticks[i].type = i % major_tick == 0 ?
-			GOG_AXIS_TICK_MAJOR :
-			GOG_AXIS_TICK_MINOR;
-
-		if ((i % major_label == 0) && 
-		    (i < tick_nbr - 1 || axis->center_on_ticks)) {
-			if (axis->labels != NULL) {
-				if (i < go_data_vector_get_len (axis->labels))
-					ticks[i].label = go_data_vector_get_str (axis->labels, i);
-				else
-					ticks[i].label = NULL;
-			}
-			else
-				ticks[i].label = g_strdup_printf ("%d", i + 1);
-		} else
-			    ticks[i].label = NULL;
-
+		ticks[i].position = tick_start + (double) (i) * major_tick;
+		ticks[i].type = GOG_AXIS_TICK_MAJOR;
+		ticks[i].label = NULL;
 	}
-	
-	gog_axis_set_ticks (axis, tick_nbr, ticks);
+	for (i = 0, j = tick_nbr; i < label_nbr; i++, j++) {
+		ticks[j].position = label_start + (double) (i) * major_label;
+		ticks[j].type = GOG_AXIS_TICK_NONE;
+		if (axis->labels != NULL) {
+			if (i * major_label < go_data_vector_get_len (axis->labels))
+				ticks[j].label = go_data_vector_get_str (axis->labels, i * major_label);
+			else
+				ticks[j].label = NULL;
+		}
+		else
+			ticks[j].label = g_strdup_printf ("%d", i * major_label + 1);
+	}
+
+	gog_axis_set_ticks (axis, tick_nbr + label_nbr, ticks);
 }
 
 /*
@@ -1274,8 +1278,8 @@ gog_axis_update (GogObject *obj)
 			g_object_ref (labels);
 			axis->labels = GO_DATA_VECTOR (labels);
 			axis->plot_that_supplied_labels = GOG_PLOT (ptr->data);
-			axis->center_on_ticks = bounds.center_on_ticks;
 		}
+		axis->center_on_ticks = bounds.center_on_ticks;
 
 		if (axis->min_val > bounds.val.minima) {
 			axis->min_val = bounds.val.minima;

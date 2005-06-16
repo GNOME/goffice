@@ -777,7 +777,7 @@ axis_line_render (GogAxisBase *axis_base, GogRenderer *renderer,
 	double major_out_x = 0., major_out_y= 0., major_in_x = 0., major_in_y = 0.;
 	double minor_out_x = 0., minor_out_y= 0., minor_in_x = 0., minor_in_y = 0.;
 	double cos_alpha, sin_alpha;
-	double pos, pos_x, pos_y, tick_offset;
+	double pos, pos_x, pos_y;
 	unsigned i, tick_nbr;
 	gboolean draw_major, draw_minor;
 	gboolean is_line_visible;
@@ -827,15 +827,12 @@ axis_line_render (GogAxisBase *axis_base, GogRenderer *renderer,
 	label_padding = txt_obr.w;
 
 	tick_nbr = gog_axis_get_ticks (axis_base->axis, &ticks);
-	tick_offset = gog_axis_is_discrete (axis_base->axis) &&
-		!gog_axis_is_center_on_ticks (axis_base->axis) ?
-		-0.5 : 0.0;
 
 	for (i = 0; i < tick_nbr; i++) {
 		if (gog_axis_map (map, ticks[i].position) < start_at)
 			continue;
 
-		pos = gog_axis_map_to_view (map, ticks[i].position + tick_offset);
+		pos = gog_axis_map_to_view (map, ticks[i].position);
 		pos_x = x + pos * cos (axis_angle);
 		pos_y = y + pos * sin (axis_angle);
 

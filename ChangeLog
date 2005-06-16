@@ -1,3 +1,14 @@
+2005-06-16  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-axis-line.c (axis_line_render): remove kludge for
+	ticks not centered on labels.
+	* goffice/graph/gog-axis.c (map_discrete_calc_ticks): separate
+	handling of ticks from handling of labels.
+	(gog_axis_update): allways set GogAxis::center_on_ticks from
+	GogBounds.
+	* plugins/plot_radar/gog-radar.c (gog_radar_plot_axis_get_bounds):
+	set center_on_ticks=TRUE explicitely.
+
 2005-06-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	Support for rotated text and text color.
