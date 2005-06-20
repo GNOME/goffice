@@ -220,7 +220,7 @@ currency_date_format_init (void)
 	 *  8. "$"
 	 */
 
-	char const *pattern_account = "^_\\((((.*)\\*  ?)?)(#,##0(\\.0{1,30})?)((\\*  ?}(.*))?)_\\);_\\(\\1\\(\\4\\)\\6;_\\(\\1\"-\"\\?{0,30}\\6_\\);_\\(@_\\)$";
+	char const *pattern_account = "^_\\((((.*)\\*  ?)?)(#,##0(\\.0{1,30})?)((\\*  ?(.*))?)_\\);_\\(\\1\\(\\4\\)\\6;_\\(\\1\"-\"\\?{0,30}\\6_\\);_\\(@_\\)$";
 
 
 	err = go_regcomp (&re_simple_number, simple_number_pattern, 0);
@@ -368,6 +368,8 @@ currency_date_format_shutdown (void)
 	go_regfree (&re_account);
 	go_regfree (&re_fraction);
 }
+
+#define EURO_FORM_1 4
 
 CurrencySymbol const currency_symbols[] =
 {
@@ -568,8 +570,11 @@ find_currency (char const *ptr, int len)
 {
 	int i;
 
-	/* Accept quotes around the currency.  */
-	if (len >= 2 && ptr[0] == '"' && ptr [len - 1] == '"') {
+	if (len == 5 && memcmp (ptr, "\"€\"", 5) == 0) {
+		/* Accept quoted Euro character -- arbitrarity pick form 1.  */
+		return EURO_FORM_1;
+	} else if (len >= 2 && ptr[0] == '"' && ptr [len - 1] == '"') {
+		/* Accept quotes around the currency.  */
 		ptr++;
 		len -= 2;
 	}

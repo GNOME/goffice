@@ -1,3 +1,9 @@
+2005-06-20  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/formats.c (find_currency): Special hack to accept
+	a quoted euro character.
+	(pattern_account): Remove stray "}".
+
 2005-06-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-guru.c: (cb_canvas_select_item): fixed one more leak.
