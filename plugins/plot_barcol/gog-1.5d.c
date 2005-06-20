@@ -240,6 +240,8 @@ gog_plot1_5d_update (GogObject *obj)
 			vals[i] = go_data_vector_get_values (
 				GO_DATA_VECTOR (series->base.values[1].data));
 			g_object_get (G_OBJECT (series), "errors", errors + i, NULL);
+			if (errors[i])
+				g_object_unref (errors[i]);
 			lengths[i] = go_data_vector_get_len (
 				GO_DATA_VECTOR (series->base.values[1].data));
 		}
@@ -496,6 +498,17 @@ gog_series1_5d_populate_editor (GogObject *obj,
 }
 
 static void
+gog_series1_5d_finalize (GObject *obj)
+{
+	GogSeries1_5d *series = GOG_SERIES1_5D (obj);
+	if (series->errors) {
+		g_object_unref (series->errors);
+		series->errors = NULL;
+	}
+	G_OBJECT_CLASS (gog_series1_5d_parent_klass)->finalize (obj);
+}
+
+static void
 gog_series1_5d_class_init (GogObjectClass *obj_klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) obj_klass;
@@ -505,6 +518,7 @@ gog_series1_5d_class_init (GogObjectClass *obj_klass)
 
 	gobject_klass->set_property = gog_series1_5d_set_property;
 	gobject_klass->get_property = gog_series1_5d_get_property;
+	gobject_klass->finalize 	      = gog_series1_5d_finalize;
 	obj_klass->update 	      = gog_series1_5d_update;
 	obj_klass->populate_editor    = gog_series1_5d_populate_editor;
 	gog_series_klass->dim_changed = gog_series1_5d_dim_changed;
