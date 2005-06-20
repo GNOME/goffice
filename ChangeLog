@@ -1,5 +1,9 @@
 2005-06-20  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-guru.c: (cb_canvas_select_item): fixed one more leak.
+
+2005-06-20  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-guru.c: (cb_canvas_select_item): add missing
 	g_object_unref call.
 	* goffice/graph/gog-series.c: (regression_curve_can_add): fixed the test.

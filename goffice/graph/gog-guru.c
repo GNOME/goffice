@@ -1030,6 +1030,7 @@ cb_canvas_select_item (FooCanvas *canvas, GdkEventButton *event,
 	gog_view_info_at_point (view,
 		x * canvas->pixels_per_unit,	y * canvas->pixels_per_unit,
 		s->prop_object, &s->search_target, NULL);
+	g_object_unref (G_OBJECT (view));
 	if (s->search_target == NULL)
 		return FALSE;
 
