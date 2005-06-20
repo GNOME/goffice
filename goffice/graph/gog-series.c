@@ -210,7 +210,7 @@ static gboolean
 regression_curve_can_add (GogObject const *parent)
 {
 	GogSeries *series = GOG_SERIES (parent);
-	return (series->acceptable_children && GOG_SERIES_ACCEPT_REGRESSION_CURVE) != 0;
+	return (series->acceptable_children & GOG_SERIES_ACCEPT_REGRESSION_CURVE) != 0;
 }
 
 static void

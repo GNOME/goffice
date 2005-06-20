@@ -148,6 +148,9 @@ gog_style_set_image_preview (GdkPixbuf *pix, StylePrefState *state)
 			g_object_ref (state->fill.image.image);
 	}
 
+	if (pix == NULL)
+		return;
+
 	w = glade_xml_get_widget (state->gui, "fill_image_sample");
 
 	scaled = go_pixbuf_intelligent_scale (pix, HSCALE, VSCALE);

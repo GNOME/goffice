@@ -1025,6 +1025,7 @@ cb_canvas_select_item (FooCanvas *canvas, GdkEventButton *event,
 
 	g_object_get (G_OBJECT (s->sample_graph_item), "renderer", &rend, NULL);
 	g_object_get (G_OBJECT (rend), "view", &view, NULL);
+	g_object_unref (G_OBJECT (rend));
 	foo_canvas_window_to_world (canvas, event->x, event->y, &x, &y);
 	gog_view_info_at_point (view,
 		x * canvas->pixels_per_unit,	y * canvas->pixels_per_unit,

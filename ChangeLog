@@ -1,3 +1,11 @@
+2005-06-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-guru.c: (cb_canvas_select_item): add missing
+	g_object_unref call.
+	* goffice/graph/gog-series.c: (regression_curve_can_add): fixed the test.
+	* goffice/graph/gog-style.c: (gog_style_set_image_preview): return if
+	pix == NULL (#308307).
+
 2005-06-16  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-axis-line.c (axis_line_render): remove kludge for
