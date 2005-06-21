@@ -1,5 +1,9 @@
 goffice 0.0.3
 
+Emmanuel Pacaud:
+	* Add rotated text support.
+	* Add optional cairo renderer.
+
 Morten:
 	* Fix problem with currency formats and problem with Euro [#305313].
 
