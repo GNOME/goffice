@@ -1,3 +1,10 @@
+2005-06-21  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-renderer-cairo.c (grc_invert_pixbuf_RB): new.
+	(grc_draw_polygon): implement repeated image texture.
+	(grc_get_marker_surface): use grc_invert_pixbuf_RB.
+	(gog_renderer_cairo_update): ditto.
+
 2005-06-21  Jon K Hellan  <hellan@acm.org>
 
 	* goffice/graph/gog-control-foocanvas.c

@@ -21,11 +21,11 @@
 
 /* TODO:
  *
- * 	- implement image texture
+ * 	- implement stretched image texture
+ * 	- fix alpha channel of source image for texture
  * 	- fix font size
  * 	- implement mutiline text
  * 	- cache font properties
- * 	- remove red/blue swap code duplication
  * 	- implement rendering of marker with cairo 
  * 	  (that will fix grayish outline bug)
  */
@@ -210,6 +210,24 @@ grc_path (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath)
 		}
 }
 
+/* Red and blue are inverted in a pixbuf compared to cairo */
+static void
+grc_invert_pixbuf_RB (unsigned char *pixels, int width, int height, int rowstride)
+{
+	int i,j;
+	unsigned char a;
+	
+	for (i = 0; i < height; i++) {
+		for (j = 0; j < width; j++) {
+			a = pixels[0];
+			pixels[0] = pixels[2];
+			pixels[2] = a;
+			pixels += 4;
+		}
+		pixels += rowstride - width * 4;
+	}
+}
+
 static void
 grc_draw_path (GogRenderer *rend, ArtVpath const *vpath, ArtBpath const*bpath)
 {
@@ -277,9 +295,9 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 	GOColor color;
 	double width = grc_line_size (rend, style->line.width);
 	double x[3], y[3];
-	int i, j;
+	int i, j, w, h, rowstride;
 	char const *pattern;
-	unsigned char *iter;
+	unsigned char *pixels, *iter;
 
 	g_return_if_fail (bpath != NULL || vpath != NULL);
 
@@ -341,7 +359,21 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 			break;
 
 		case GOG_FILL_STYLE_IMAGE: 
-			cairo_set_source_rgba (cr, 1, 1, 1, 1);
+			if (style->fill.image.image == NULL) {
+				cairo_set_source_rgba (cr, 1, 1, 1, 1); 
+				break;
+			}
+			pixbuf = gdk_pixbuf_add_alpha (style->fill.image.image, FALSE, 0, 0, 0);
+			pixels = gdk_pixbuf_get_pixels (pixbuf);
+			h = gdk_pixbuf_get_height (pixbuf);
+			w = gdk_pixbuf_get_width (pixbuf);
+			rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+			cr_surface = cairo_image_surface_create_for_data (pixels,
+				CAIRO_FORMAT_ARGB32, w, h, rowstride);
+			grc_invert_pixbuf_RB (pixels, w, h, rowstride);
+			cr_pattern = cairo_pattern_create_for_surface (cr_surface);
+			cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
+			cairo_set_source (cr, cr_pattern);
 			break;
 
 		case GOG_FILL_STYLE_NONE:
@@ -510,9 +542,8 @@ grc_get_marker_surface (GogRenderer *rend)
 	GogStyle const *style = rend->cur_style;
 	GdkPixbuf *pixbuf, *marker_pixbuf;
 	cairo_surface_t *surface;
-	unsigned char *iter, *pixels;
-	int height, width, rowstride, i, j;
-	char a;
+	unsigned char *pixels;
+	int height, width, rowstride;
 
 	if (crend->marker_surface != NULL)
 		return crend->marker_surface;
@@ -528,18 +559,7 @@ grc_get_marker_surface (GogRenderer *rend)
 	rowstride = gdk_pixbuf_get_rowstride (pixbuf);
 	surface = cairo_image_surface_create_for_data (pixels,
 		CAIRO_FORMAT_ARGB32, width, height, rowstride);
-
-	iter = pixels;
-	for (i = 0; i < height; i++) {
-		for (j = 0; j < width; j++) {
-			/* invert R and B */
-			a = iter[0];
-			iter[0] = iter[2];
-			iter[2] = a;
-			iter += 4;
-		}
-		iter += rowstride - width * 4;
-	}
+	grc_invert_pixbuf_RB (pixels, width, height, rowstride);
 
 	crend->marker_pixbuf = pixbuf;
 	crend->marker_surface = surface;
@@ -683,9 +703,6 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 	GogViewAllocation allocation;
 	gboolean redraw = TRUE;
 	gboolean size_changed;
-	int i, j, rowstride;
-	unsigned char *iter;
-	char a;
 
 	g_return_val_if_fail (crend != NULL, FALSE);
 	g_return_val_if_fail (crend->base.view != NULL, FALSE);
@@ -725,19 +742,11 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 		cairo_rectangle (crend->cairo, 0, 0, w, h);
 		cairo_set_source_rgba (crend->cairo, 1, 1, 1, 0);
 		cairo_fill (crend->cairo);
+		
 		gog_view_render	(view, NULL);
-		rowstride = gdk_pixbuf_get_rowstride (crend->pixbuf);
-		iter = gdk_pixbuf_get_pixels (crend->pixbuf);
-		for (i = 0; i < h; i++) {
-			for (j = 0; j < w; j++) {
-				/* invert R and B */
-				a = iter[0];
-				iter[0] = iter[2];
-				iter[2] = a;
-				iter += 4;
-			}
-			iter += rowstride - w * 4;
-		}
+		
+		grc_invert_pixbuf_RB (gdk_pixbuf_get_pixels (crend->pixbuf), w, h, 
+				      gdk_pixbuf_get_rowstride (crend->pixbuf));
 	}
 
 	return redraw;
