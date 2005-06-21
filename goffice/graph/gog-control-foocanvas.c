@@ -205,7 +205,7 @@ gog_control_foocanvas_update (FooCanvasItem *item,
 	redraw = gog_renderer_cairo_update (ctrl->renderer, x2-x1, y2-y1,
 		item->canvas->pixels_per_unit);
 #else
-	redraw = gog_renderer_pixbuf_cairo_update (ctrl->renderer, x2-x1, y2-y1,
+	redraw = gog_renderer_pixbuf_update (ctrl->renderer, x2-x1, y2-y1,
 		item->canvas->pixels_per_unit);
 #endif
 	if (item->x1 != x1 || item->y1 != y1 || item->x2 != x2 || item->y2 != y2)

@@ -1,3 +1,8 @@
+2005-06-21  Jon K Hellan  <hellan@acm.org>
+
+	* goffice/graph/gog-control-foocanvas.c
+	(gog_control_foocanvas_update):  Fix typo.
+
 2005-06-21  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	New cairo renderer. Option at compile time (--with-cairo).
