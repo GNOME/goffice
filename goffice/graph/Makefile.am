@@ -1,6 +1,12 @@
 noinst_LTLIBRARIES = libgoffice-graph.la
 
+if WITH_CAIRO
+cairo_sources =	gog-renderer-cairo.c	
+cairo_headers = gog-renderer-cairo.h
+endif
+
 libgoffice_graph_la_SOURCES = \
+	$(cairo_sources)		\
 	gog-object.c			\
 	gog-object-xml.c		\
 	gog-styled-object.c		\
@@ -38,6 +44,7 @@ libgoffice_graph_la_SOURCES = \
 
 libgoffice_graph_ladir = $(goffice_include_dir)/graph
 libgoffice_graph_la_HEADERS = 	\
+	$(cairo_headers)		\
 	goffice-graph.h			\
 	gog-object.h			\
 	gog-object-xml.h		\

@@ -125,6 +125,12 @@ go_pattern_set_solid (GOPattern *pat, GOColor fore)
 	pat->back = fore;
 }
 
+char const *
+go_pattern_get_pattern (GOPattern const *pat)
+{
+	return go_patterns [pat->pattern].pattern;
+}
+
 #ifdef WITH_GTK
 gpointer
 go_pattern_selector (GOColor fore, GOColor back,

@@ -1,3 +1,16 @@
+2005-06-21  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	New cairo renderer. Option at compile time (--with-cairo).
+	
+	* configure.in: add optional cairo dependency.
+	* goffice/graph/gog-control-foocanvas.c
+	(gog_control_foocanvas_set_property): use cairo renderer if enabled.
+	(gog_control_foocanvas_draw): ditto.
+	(gog_control_foocanvas_update): ditto.
+	(gog_control_foocanvas_class_init): ditto.
+	* goffice/graph/gog-renderer-cairo.[ch]: new files.
+	* goffice/utils/go-pattern.c (go_pattern_get_pattern): new.
+	
 2005-06-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-1.5d.c: (gog_plot1_5d_update),

@@ -78,6 +78,9 @@ goffice_reqs="
 	pango			>= 1.8.1
 	pangoft2		>= 1.8.1
 "
+goffice_cairo_reqs="
+	cairo			>= 0.5.0
+"
 goffice_gtk_reqs="
 	gtk+-2.0		>= 2.6.0
 	libglade-2.0		>= 2.3.6
@@ -89,6 +92,22 @@ goffice_gnome_reqs="
 	libgnomeui-2.0		>= 2.0.0
 	libgsf-gnome-1		>= 1.12.1
 "
+
+dnl *********************
+dnl Should we use cairo ?
+dnl *********************
+goffice_with_cairo=false
+AC_ARG_WITH(cairo, [  --{with,without}-cairo  Use cairo for graph rendering])
+if test "x$with_cairo" = xyes; then
+	cairo_msg="Enabled"
+	PKG_CHECK_MODULES(CAIRO, [$goffice_cairo_reqs])
+	AC_DEFINE(WITH_CAIRO, 1, [Define if goffice is build with cairo])
+	goffice_reqs="$goffice_reqs $goffice_cairo_reqs"
+	goffice_with_cairo=true
+else
+	cairo_msg="Disabled"
+	goffice_with_cairo=false
+fi 
 
 dnl *******************
 dnl Should we use gtk ?
@@ -133,6 +152,7 @@ if test "x$goffice_with_gtk" = "xtrue" ; then
 		goffice_reqs="$goffice_reqs $goffice_gnome_reqs"
 	fi
 fi
+AM_CONDITIONAL(WITH_CAIRO, $goffice_with_cairo)
 AM_CONDITIONAL(WITH_GTK,   $goffice_with_gtk)
 AM_CONDITIONAL(WITH_GNOME, $goffice_with_gnome)
 
@@ -467,5 +487,6 @@ Configuration:
 	Compiler flags:		${CFLAGS}
 	Long double support:	${float_msg}
 
+	Cairo support:		${cairo_msg}
 	UI:			${ui_msg}
 "
