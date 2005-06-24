@@ -237,6 +237,7 @@ typedef struct {
 	GogView const *view;
 	GogViewRequisition maximum;
 	gboolean	uses_lines;
+	GogStyle* legend_style;
 } size_closure;
 
 static void
@@ -245,7 +246,7 @@ cb_size_elements (unsigned i, GogStyle const *style, char const *name,
 {
 	GOGeometryAABR aabr;
 	
-	gog_renderer_push_style (dat->view->renderer, style);
+	gog_renderer_push_style (dat->view->renderer, dat->legend_style);
 	gog_renderer_get_text_AABR (dat->view->renderer, name, &aabr);
 	gog_renderer_pop_style (dat->view->renderer);
 
@@ -271,6 +272,7 @@ gog_legend_view_size_request (GogView *v, GogViewRequisition *avail)
 	dat.maximum.w = 0.;
 	dat.maximum.h = gog_renderer_pt2r_y (v->renderer, l->swatch_size_pts);
 	dat.uses_lines = FALSE;
+	dat.legend_style = GOG_STYLED_OBJECT (l)->style;
 	gog_chart_foreach_elem (chart, TRUE,
 		(GogEnumFunc) cb_size_elements, &dat);
 	((GogLegendView *)v)->line_height = dat.maximum.h;

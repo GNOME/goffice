@@ -1,3 +1,9 @@
+2005-06-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-legend.c: (cb_size_elements),
+	(gog_legend_view_size_request): use legned style to calculate elements
+	height.
+
 2005-06-21  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-renderer-cairo.c (grc_invert_pixbuf_RB): new.
