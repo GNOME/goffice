@@ -43,6 +43,9 @@ typedef struct {
 	unsigned  num_series, num_elements;
 	double    maxima, minima; /* meaning varies depending on type */
 	gboolean  implicit_index;
+	int support_series_lines:1;
+	int support_drop_lines:1;
+	int support_lines:1;
 	GOFormat *fmt;
 } GogPlot1_5d;
 typedef struct {
@@ -72,6 +75,9 @@ typedef struct {
 	GogSeries base;
 	GogErrorBar *errors;
 	gboolean	index_changed; 
+	int has_series_lines:1;
+	int has_drop_lines:1;
+	int has_lines:1;
 } GogSeries1_5d;
 typedef GogSeriesClass GogSeries1_5dClass;
 

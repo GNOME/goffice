@@ -1,3 +1,28 @@
+2005-06-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-theme.c: (gog_themes_init): add GogSeriesLines.
+	* plugins/plot_barcol/Makefile.am: add gog-series-lines.[c,h].
+	* plugins/plot_barcol/gog-1.5d.c: (gog_plot1_5d_init),
+	(series_lines_can_add), (series_lines_post_add),
+	(series_lines_pre_remove), (drop_lines_can_add),
+	(drop_lines_post_add), (drop_lines_pre_remove), (lines_can_add),
+	(lines_post_add), (lines_pre_remove), (gog_series1_5d_class_init),
+	(gog_series1_5d_init), (go_plugin_init): add support for various lines.
+	* plugins/plot_barcol/gog-1.5d.h: ditto.
+	* plugins/plot_barcol/gog-barcol.c: (gog_barcol_plot_init),
+	(gog_barcol_view_render): added series lines.
+	* plugins/plot_barcol/gog-dropbar.c: (gog_dropbar_plot_init),
+	(barcol_draw_rect), (gog_dropbar_view_render): added lines.
+	* plugins/plot_barcol/gog-line.c: (gog_line_plot_init),
+	(gog_area_plot_init), (gog_line_view_render): added drop lines.
+	* plugins/plot_barcol/gog-minmax.c: (gog_minmax_plot_init),
+	(gog_minmax_view_render): added lines.
+	* plugins/plot_barcol/gog-series-lines.c:
+	(gog_series_lines_init_style), (gog_series_lines_update),
+	(gog_series_lines_changed), (gog_series_lines_class_init),
+	(gog_series_lines_render): support for lines in various plots.
+	* plugins/plot_barcol/gog-series-lines.h: ditto.
+
 2005-06-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-legend.c: (cb_size_elements),

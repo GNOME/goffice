@@ -22,6 +22,7 @@
 #include <goffice/goffice-config.h>
 #include "gog-line.h"
 #include "gog-1.5d.h"
+#include "gog-series-lines.h"
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
@@ -195,6 +196,7 @@ static void
 gog_line_plot_init (GogLinePlot *plot)
 {
 	plot->default_style_has_markers = TRUE;
+	GOG_PLOT1_5D (plot)->support_drop_lines = TRUE;
 }
 
 GSF_DYNAMIC_CLASS (GogLinePlot, gog_line_plot,
@@ -228,6 +230,7 @@ static void
 gog_area_plot_init (GogPlot *plot)
 {
 	plot->render_before_axes = TRUE;
+	GOG_PLOT1_5D (plot)->support_drop_lines = TRUE;
 }
 
 GSF_DYNAMIC_CLASS (GogAreaPlot, gog_area_plot,
@@ -262,8 +265,10 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	ErrorBarData **error_data;
 	GogStyle **styles;
 	unsigned *lengths;
-	ArtVpath **path;
+	ArtVpath **path, **drop_paths;
 	GogErrorBar **errors;
+	GogObjectRole const *role = NULL;
+	GogSeriesLines **lines;
 
 	double y_zero;
 	double abs_sum, sum, value;
@@ -296,7 +301,9 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	lengths = g_alloca (num_series * sizeof (unsigned));
 	styles  = g_alloca (num_series * sizeof (GogStyle *));
 	path    = g_alloca (num_series * sizeof (ArtVpath *));
-	errors = g_alloca (num_series * sizeof (GogErrorBar *));
+	errors	= g_alloca (num_series * sizeof (GogErrorBar *));
+	lines	= g_alloca (num_series * sizeof (GogSeriesLines *));
+	drop_paths = g_alloca (num_series * sizeof (ArtVpath *));
 
 	i = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
@@ -323,6 +330,21 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			error_data[i] = g_malloc (sizeof (ErrorBarData) * lengths[i]);
 		else
 			error_data[i] = NULL;
+		if (series->has_drop_lines) {
+			if (!role)
+				role = gog_object_find_role_by_name (
+							GOG_OBJECT (series), "Drop lines");
+			lines[i] = GOG_SERIES_LINES (
+					gog_object_get_child_by_role (GOG_OBJECT (series), role));
+			drop_paths [i] = g_malloc (sizeof (ArtVpath) * (num_elements * 2 + 1));
+			for (j = 0; j < num_elements; j++) {
+				drop_paths[i][2 * j].code = ART_MOVETO;
+				drop_paths[i][2 * j + 1].code = ART_LINETO;
+				drop_paths[i][2 * j + 1].y = y_zero; 
+			}
+			drop_paths[i][2 * j].code = ART_END;
+		} else
+			lines[i] = NULL;
 		i++;
 	}
 
@@ -421,6 +443,11 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 					}
 					break;
 			}
+			if (lines[i]) {
+				drop_paths[i][2 * j - 2].x = drop_paths[i][2 * j - 1].x = path[i][j].x;
+				drop_paths[i][2 * j - 2].y = path[i][j].y;
+			}
+
 		}
 	}
 
@@ -475,6 +502,16 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		gog_renderer_pop_style (view->renderer);
 	}
+
+	/*Now draw drop lines */
+	for (i = 0; i < num_series; i++)
+		if (lines[i] != NULL) {
+			gog_renderer_push_style (view->renderer,
+				gog_styled_object_get_style (GOG_STYLED_OBJECT (lines[i])));
+			gog_series_lines_render (lines[i], view->renderer, bbox, drop_paths[i], FALSE);
+			gog_renderer_pop_style (view->renderer);
+			g_free (drop_paths[i]);
+		}
 
 	/*Now draw error bars */
 	for (i = 0; i < num_series; i++)

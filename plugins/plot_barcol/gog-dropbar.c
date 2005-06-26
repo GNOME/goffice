@@ -22,6 +22,7 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-dropbar.h"
+#include "gog-series-lines.h"
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/utils/go-math.h>
@@ -68,8 +69,15 @@ gog_dropbar_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	gog_plot_1_5d_klass->update_stacked_and_percentage = NULL;
 }
 
+static void
+gog_dropbar_plot_init (GogPlot1_5d *plot)
+{
+	plot->support_series_lines = FALSE;
+	plot->support_lines = TRUE;
+}
+
 GSF_DYNAMIC_CLASS (GogDropBarPlot, gog_dropbar_plot,
-	gog_dropbar_plot_class_init, NULL,
+	gog_dropbar_plot_class_init, gog_dropbar_plot_init,
 	GOG_BARCOL_PLOT_TYPE)
 
 /*****************************************************************************/
@@ -104,11 +112,19 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 		x1 = gog_axis_map_to_view (x_map, rect->y + rect->h);
 		y0 = gog_axis_map_to_view (y_map, rect->x);
 		y1 = gog_axis_map_to_view (y_map, rect->x + rect->w);
+		if (fabs (x1 - x0) < .5) {
+			x1 += .25;
+			x0 -= .25;
+		}
 	} else {
 		x0 = gog_axis_map_to_view (x_map, rect->x);
 		x1 = gog_axis_map_to_view (x_map, rect->x + rect->w);
 		y0 = gog_axis_map_to_view (y_map, rect->y);
 		y1 = gog_axis_map_to_view (y_map, rect->y + rect->h);
+		if (fabs (y1 - y0) < .5) {
+			y1 += .25;
+			y0 -= .25;
+		}
 	}
 
 	path[0].x = path[3].x = path[4].x = x0;
@@ -138,12 +154,15 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	double *start_vals, *end_vals;
 	double x;
 	double step, offset, group_step;
-	unsigned i;
+	unsigned i, j;
 	unsigned num_elements = gog_1_5d_model->num_elements;
 	unsigned num_series = gog_1_5d_model->num_series;
 	GSList *ptr;
 	unsigned n, tmp;
 	GogStyle *neg_style;
+	ArtVpath **path1, **path2;
+	GogObjectRole const *role = NULL;
+	GogSeriesLines **lines;
 
 	if (num_elements <= 0 || num_series <= 0)
 		return;
@@ -160,6 +179,12 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 	}
 
+	/* lines, if any will be rendered after the bars, so we build the paths
+	and render them at the end */
+	path1    = g_alloca (num_series * sizeof (ArtVpath *));
+	path2    = g_alloca (num_series * sizeof (ArtVpath *));
+	lines    = g_alloca (num_series * sizeof (GogSeriesLines *));
+	j = 0;
 	step = 1. - model->overlap_percentage / 100.;
 	group_step = model->gap_percentage / 100.;
 	work.w = 1.0 / (1. + ((num_series - 1.0) * step) + group_step);
@@ -187,11 +212,38 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (n > tmp)
 			n = tmp;
 
+		if (series->has_lines) {
+			if (!role)
+				role = gog_object_find_role_by_name (
+							GOG_OBJECT (series), "Lines");
+			lines[j] = GOG_SERIES_LINES (
+					gog_object_get_child_by_role (GOG_OBJECT (series), role));
+			path1[j] = g_new (ArtVpath, n + 1);
+			path2[j] = g_new (ArtVpath, n + 1);
+			path1[j][0].code = path2[j][0].code = ART_MOVETO;
+			for (i = 1; i < n; i++)
+				path1[j][i].code =path2[j][i].code = ART_LINETO;
+			path1[j][n].code = path2[j][n].code = ART_END;
+		} else
+			path1[j] = NULL;
 		for (i = 0; i < n; i++) {
 			work.x = x;
 			work.y = start_vals[i];
 			work.h = end_vals[i] - work.y;
-			gog_renderer_push_style (view->renderer, (start_vals[i] < end_vals[i])?
+			if (series->has_lines) {
+				if (model->horizontal) {
+					path1[j][i].y = path2[j][i].y =
+						gog_axis_map_to_view (y_map, work.x + work.w / 2.);
+					path1[j][i].x = gog_axis_map_to_view (x_map, start_vals[i]);
+					path2[j][i].x = gog_axis_map_to_view (x_map, end_vals[i]);
+				} else {
+					path1[j][i].x = path2[j][i].x =
+						gog_axis_map_to_view (x_map, work.x + work.w / 2.);
+					path1[j][i].y = gog_axis_map_to_view (y_map, start_vals[i]);
+					path2[j][i].y = gog_axis_map_to_view (y_map, end_vals[i]);
+				}
+			}
+			gog_renderer_push_style (view->renderer, (start_vals[i] <= end_vals[i])?
 						GOG_STYLED_OBJECT (series)->style: neg_style);
 					barcol_draw_rect (view->renderer, model->horizontal, x_map, y_map, &work);
 			barcol_draw_rect (view->renderer, model->horizontal, x_map, y_map, &work);
@@ -200,7 +252,18 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 		offset += step;
 		g_object_unref (neg_style);
+		j++;
 	}
+	for (j = 0; j < num_series; j++)
+		if (path1[j] != NULL) {
+			gog_renderer_push_style (view->renderer,
+				gog_styled_object_get_style (GOG_STYLED_OBJECT (lines[j])));
+			gog_series_lines_render (lines[j], view->renderer, bbox, path1[j], TRUE);
+			gog_series_lines_render (lines[j], view->renderer, bbox, path2[j], FALSE);
+			gog_renderer_pop_style (view->renderer);
+			g_free (path2[j]);
+			g_free (path1[j]);
+		}
 
 	gog_axis_map_free (x_map);
 	gog_axis_map_free (y_map);

@@ -22,6 +22,7 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-minmax.h"
+#include "gog-series-lines.h"
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/gtk/goffice-gtk.h>
@@ -253,6 +254,7 @@ gog_minmax_plot_init (GogMinMaxPlot *minmax)
 {
 	minmax->default_style_has_markers = FALSE;
 	minmax->gap_percentage = 150;
+	GOG_PLOT1_5D (minmax)->support_lines = TRUE;
 }
 
 GSF_DYNAMIC_CLASS (GogMinMaxPlot, gog_minmax_plot,
@@ -279,7 +281,9 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 	unsigned num_series = gog_1_5d_model->num_series;
 	GSList *ptr;
 	unsigned n, tmp;
-	ArtVpath path[3];
+	ArtVpath path[3], *Mpath, *mpath;
+	GogObjectRole const *role = NULL;
+	GogSeriesLines *lines;
 
 	if (num_elements <= 0 || num_series <= 0)
 		return;
@@ -317,27 +321,48 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 			GO_DATA_VECTOR (series->base.values[2].data));
 		if (n > tmp)
 			n = tmp;
+		Mpath = g_new (ArtVpath, n + 1);
+		mpath = g_new (ArtVpath, n + 1);
 		gog_renderer_push_style (view->renderer, GOG_STYLED_OBJECT (series)->style);
 
 		for (i = 0; i < n; i++) {
 
 			if (is_vertical) {
-				path[0].x = path[1].x = gog_axis_map_to_view (x_map, x);
-				path[0].y = gog_axis_map_to_view (y_map, min_vals[i]);
-				path[1].y = gog_axis_map_to_view (y_map, max_vals[i]);
+				mpath[i].x = Mpath[i].x = path[0].x = path[1].x = gog_axis_map_to_view (x_map, x);
+				mpath[i].y = path[0].y = gog_axis_map_to_view (y_map, min_vals[i]);
+				Mpath[i].y = path[1].y = gog_axis_map_to_view (y_map, max_vals[i]);
 			} else {
-				path[0].y = path[1].y =  gog_axis_map_to_view (y_map, x);
-				path[0].x = gog_axis_map_to_view (x_map, min_vals[i]);
-				path[1].x = gog_axis_map_to_view (x_map, max_vals[i]);
+				mpath[i].y = Mpath[i].y = path[0].y = path[1].y =  gog_axis_map_to_view (y_map, x);
+				mpath[i].x = path[0].x = gog_axis_map_to_view (x_map, min_vals[i]);
+				Mpath[i].x =path[1].x = gog_axis_map_to_view (x_map, max_vals[i]);
 			}
 			gog_renderer_draw_sharp_path (view->renderer, path, NULL);
-			if (model->default_style_has_markers) {
-				gog_renderer_draw_marker (view->renderer, path[0].x, path[0].y);
-				gog_renderer_draw_marker (view->renderer, path[1].x, path[1].y);
-			}
 			x += 1;
 		}
+		if (series->has_lines) {
+			if (!role)
+				role = gog_object_find_role_by_name (
+							GOG_OBJECT (series), "Lines");
+			lines = GOG_SERIES_LINES (
+					gog_object_get_child_by_role (GOG_OBJECT (series), role));
+			mpath[0].code = Mpath[0].code = ART_MOVETO;
+			for (i = 1; i < n; i++)
+				mpath[i].code = Mpath[i].code = ART_LINETO;
+			mpath[n].code = Mpath[n].code = ART_END;
+			gog_renderer_push_style (view->renderer,
+				gog_styled_object_get_style (GOG_STYLED_OBJECT (lines)));
+			gog_series_lines_render (lines, view->renderer, bbox, mpath, TRUE);
+			gog_series_lines_render (lines, view->renderer, bbox, Mpath, FALSE);
+			gog_renderer_pop_style (view->renderer);
+		}
+		if (model->default_style_has_markers)
+			for (i = 0; i < n; i++) {
+				gog_renderer_draw_marker (view->renderer, mpath[i].x, mpath[i].y);
+				gog_renderer_draw_marker (view->renderer, Mpath[i].x, Mpath[i].y);
+			}
 		gog_renderer_pop_style (view->renderer);
+		g_free (Mpath);
+		g_free (mpath);
 		offset += step;
 	}
 

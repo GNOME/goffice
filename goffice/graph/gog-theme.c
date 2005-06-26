@@ -562,6 +562,11 @@ gog_themes_init	(void)
 	gog_theme_add_element (theme, style,
 		NULL, "GogRegEqn", NULL);
 
+	/* series lines */
+	style = gog_style_new ();
+	gog_theme_add_element (theme, style,
+		map_area_series_solid_default, "GogSeriesLines", NULL);
+
 /* Guppi */
 	theme = gog_theme_new (N_("Guppi"));
 	gog_theme_register (theme, FALSE);
@@ -663,10 +668,13 @@ gog_themes_init	(void)
 	style->outline.dash_type = GO_LINE_SOLID;
 	style->outline.width = 0; /* hairline */
 	style->outline.color = RGBA_BLACK;
-	style->fill.type = GOG_FILL_STYLE_PATTERN;
-	go_pattern_set_solid (&style->fill.pattern, 0);
 	gog_theme_add_element (theme, style,
 		NULL, "GogRegEqn", NULL);
+
+	/* series lines */
+	style = gog_style_new ();
+	gog_theme_add_element (theme, style,
+		NULL, "GogSeriesLines", NULL);
 }
 
 void

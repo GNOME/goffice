@@ -27,6 +27,7 @@
 #include "gog-barcol.h"
 #include "gog-dropbar.h"
 #include "gog-minmax.h"
+#include "gog-series-lines.h"
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-axis.h>
@@ -375,11 +376,94 @@ gog_plot1_5d_init (GogPlot1_5d *plot)
 {
 	plot->fmt = NULL;
 	plot->in_3d = FALSE;
+	plot->support_series_lines = FALSE;
+	plot->support_drop_lines = FALSE;
+	plot->support_lines = FALSE;
 }
 
 GSF_DYNAMIC_CLASS_ABSTRACT (GogPlot1_5d, gog_plot1_5d,
 	gog_plot1_5d_class_init, gog_plot1_5d_init,
 	GOG_PLOT_TYPE)
+
+/*****************************************************************************/
+
+static gboolean
+series_lines_can_add (GogObject const *parent)
+{
+	GogSeries1_5d *series = GOG_SERIES1_5D (parent);
+	GogPlot1_5d *plot = GOG_PLOT1_5D (series->base.plot);
+	/* series lines are supported to implement excel series lines in barcol
+	plots and lines with dropbars and high-low lines */
+	if (GOG_IS_PLOT_BARCOL (plot) && plot->type == GOG_1_5D_NORMAL)
+		return FALSE;
+	return (plot->support_series_lines &&
+								!series->has_series_lines);
+}
+
+static void
+series_lines_post_add (GogObject *parent, GogObject *child)
+{
+	GogSeries1_5d *series = GOG_SERIES1_5D (parent);
+	series->has_series_lines = TRUE;
+	gog_object_request_update (child);
+}
+
+static void
+series_lines_pre_remove (GogObject *parent, GogObject *child)
+{
+	GogSeries1_5d *series = GOG_SERIES1_5D (parent);
+	series->has_series_lines = FALSE;
+}
+
+/*****************************************************************************/
+
+static gboolean
+drop_lines_can_add (GogObject const *parent)
+{
+	GogSeries1_5d *series = GOG_SERIES1_5D (parent);
+	return (GOG_PLOT1_5D (series->base.plot)->support_drop_lines &&
+								!series->has_drop_lines);
+}
+
+static void
+drop_lines_post_add (GogObject *parent, GogObject *child)
+{
+	GogSeries1_5d *series = GOG_SERIES1_5D (parent);
+	series->has_drop_lines = TRUE;
+	gog_object_request_update (child);
+}
+
+static void
+drop_lines_pre_remove (GogObject *parent, GogObject *child)
+{
+	GogSeries1_5d *series = GOG_SERIES1_5D (parent);
+	series->has_drop_lines = FALSE;
+}
+
+/*****************************************************************************/
+
+static gboolean
+lines_can_add (GogObject const *parent)
+{
+	GogSeries1_5d *series = GOG_SERIES1_5D (parent);
+	return (GOG_PLOT1_5D (series->base.plot)->support_lines &&
+								!series->has_lines);
+}
+
+static void
+lines_post_add (GogObject *parent, GogObject *child)
+{
+	GogSeries1_5d *series = GOG_SERIES1_5D (parent);
+	series->has_lines = TRUE;
+	gog_object_request_update (child);
+}
+
+static void
+lines_pre_remove (GogObject *parent, GogObject *child)
+{
+	GogSeries1_5d *series = GOG_SERIES1_5D (parent);
+	series->has_lines = FALSE;
+}
 
 /*****************************************************************************/
 
@@ -511,6 +595,32 @@ gog_series1_5d_finalize (GObject *obj)
 static void
 gog_series1_5d_class_init (GogObjectClass *obj_klass)
 {
+	static GogObjectRole const roles[] = {
+		{ N_("Series lines"), "GogSeriesLines",	0,
+			GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+			series_lines_can_add,
+			NULL,
+			NULL,
+			series_lines_post_add,
+			series_lines_pre_remove, NULL },
+		{ N_("Drop lines"), "GogSeriesLines",	1,
+			GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+			drop_lines_can_add,
+			NULL,
+			NULL,
+			drop_lines_post_add,
+			drop_lines_pre_remove,
+			NULL },
+		{ N_("Lines"), "GogSeriesLines",	1,
+			GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+			lines_can_add,
+			NULL,
+			NULL,
+			lines_post_add,
+			lines_pre_remove,
+			NULL },
+	};
+
 	GObjectClass *gobject_klass = (GObjectClass *) obj_klass;
 	GogSeriesClass *gog_series_klass = (GogSeriesClass*) obj_klass;
 
@@ -522,6 +632,8 @@ gog_series1_5d_class_init (GogObjectClass *obj_klass)
 	obj_klass->update 	      = gog_series1_5d_update;
 	obj_klass->populate_editor    = gog_series1_5d_populate_editor;
 	gog_series_klass->dim_changed = gog_series1_5d_dim_changed;
+
+	gog_object_register_roles (obj_klass, roles, G_N_ELEMENTS (roles));
 
 	g_object_class_install_property (gobject_klass, SERIES_PROP_ERRORS,
 		g_param_spec_object ("errors", "errors",
@@ -536,6 +648,9 @@ gog_series1_5d_init (GObject *obj)
 
 	series->errors = NULL;
 	series->index_changed = FALSE;
+	series->has_series_lines = FALSE;
+	series->has_drop_lines = FALSE;
+	series->has_lines = FALSE;
 }
 
 GSF_DYNAMIC_CLASS (GogSeries1_5d, gog_series1_5d,
@@ -561,6 +676,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_minmax_series_register_type (module);
 	gog_minmax_plot_register_type (module);
 	gog_minmax_view_register_type (module);
+	gog_series_lines_register_type (module);
 }
 
 G_MODULE_EXPORT void

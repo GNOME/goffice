@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-barcol.h"
+#include "gog-series-lines.h"
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
@@ -226,6 +227,7 @@ static void
 gog_barcol_plot_init (GogBarColPlot *model)
 {
 	model->gap_percentage = 150;
+	GOG_PLOT1_5D (model)->support_series_lines = TRUE;
 }
 
 GSF_DYNAMIC_CLASS (GogBarColPlot, gog_barcol_plot,
@@ -314,9 +316,13 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogStyle **styles;
 	ErrorBarData **error_data;
 	GogErrorBar **errors;
+	GogSeriesLines **lines;
+	ArtVpath **paths;
 	GSList *ptr;
 	unsigned *lengths;
 	double plus, minus;
+	GogObjectRole const *role = NULL;
+
 
 	if (num_elements <= 0 || num_series <= 0)
 		return;
@@ -339,6 +345,8 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	styles = g_alloca (num_series * sizeof (GogStyle *));
 	errors = g_alloca (num_series * sizeof (GogErrorBar *));
 	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
+	lines = g_alloca (num_series * sizeof (GogSeriesLines *));
+	paths = g_alloca (num_series * sizeof (ArtVpath *));
 	
 	i = 0;
 	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
@@ -355,6 +363,20 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			error_data[i] = g_malloc (sizeof (ErrorBarData) * lengths[i]);
 		else 
 			error_data[i] = NULL;
+		if (series->has_series_lines) {
+			if (!role)
+				role = gog_object_find_role_by_name (
+							GOG_OBJECT (series), "Series lines");
+			lines[i] = GOG_SERIES_LINES (
+					gog_object_get_child_by_role (GOG_OBJECT (series), role));
+			paths[i] = g_new (ArtVpath, lengths[i] * 2 - 1);
+			for (j = 0; j < lengths[i] - 1; j++) {
+				paths[i][j * 2].code = ART_MOVETO;
+				paths[i][j * 2 + 1].code = ART_LINETO;
+			}
+			paths[i][j * 2].code = ART_END;
+		} else
+			lines[i] = NULL;
 		i++;
 	}
 
@@ -417,13 +439,35 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (gog_error_bar_is_visible (errors[j])) {
 				x = tmp > 0 ? work.x + work.w: work.x;
 				error_data[j][i].plus = plus * data_scale;
-				error_data[j][i].minus =minus * data_scale;
+				error_data[j][i].minus = minus * data_scale;
 				if (is_vertical) {
 					error_data[j][i].x = work.y + work.h / 2.0;
 					error_data[j][i].y = x;
 				} else {
 					error_data[j][i].x = x;
 					error_data[j][i].y = work.y + work.h / 2.0;
+				}
+			}
+			if (lines[j] != NULL) {
+				x = tmp > 0 ? work.x + work.w: work.x;
+				if (is_vertical) {
+					if (i > 0) {
+						paths[j][i * 2 - 1].x = gog_axis_map_to_view (x_map,
+												work.y);
+						paths[j][i * 2 - 1].y = gog_axis_map_to_view (y_map, x);
+					}
+					paths[j][i * 2].x = gog_axis_map_to_view (x_map,
+											work.y + work.h);
+					paths[j][i * 2].y = gog_axis_map_to_view (y_map, x);
+				} else {
+					if (i > 0) {
+						paths[j][i * 2 - 1].x = gog_axis_map_to_view (x_map, x);
+						paths[j][i * 2 - 1].y = gog_axis_map_to_view (y_map,
+													work.y);
+					}
+					paths[j][i].x = gog_axis_map_to_view (x_map, x);
+					paths[j][i].x = gog_axis_map_to_view (y_map,
+											work.y + work.h);
 				}
 			}
 		}
@@ -438,6 +482,13 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 						      error_data[i][j].minus, error_data[i][j].plus,
 						      model->horizontal);
 			g_free (error_data[i]);
+		}
+
+	/* Draw series lines if any */
+	for (i = 0; i < num_series; i++)
+		if (lines[i] != NULL) {
+			gog_series_lines_render (lines[i], view->renderer, bbox, paths[i], FALSE);
+			g_free (paths[i]);
 		}
 
 	gog_axis_map_free (x_map);
