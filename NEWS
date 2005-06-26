@@ -4,6 +4,11 @@ Emmanuel Pacaud:
 	* Add rotated text support.
 	* Add optional cairo renderer.
 
+Jean Brefort:
+	* Add series lines in bars and columns plots.
+	* Add drop lines in lines plots.
+	* Add lines to min/max plots and dropbars.
+
 Morten:
 	* Fix problem with currency formats and problem with Euro [#305313].
 
