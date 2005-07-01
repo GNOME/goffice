@@ -152,6 +152,7 @@ gog_minmax_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		bounds->val.minima -= .5;
 		bounds->val.maxima += .5;
 		bounds->logical.minima = -.5;
+		bounds->center_on_ticks = FALSE;
 	}
 
 	return data;
@@ -234,9 +235,9 @@ gog_minmax_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 			{ N_("Labels"), GOG_SERIES_SUGGESTED, TRUE,
 			  GOG_DIM_LABEL, GOG_MS_DIM_CATEGORIES },
 			{ N_("Min"), GOG_SERIES_REQUIRED, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			  GOG_DIM_VALUE, GOG_MS_DIM_LOW },
 			{ N_("Max"), GOG_SERIES_REQUIRED, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_MINMAX },
+			  GOG_DIM_VALUE, GOG_MS_DIM_HIGH },
 		};
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);

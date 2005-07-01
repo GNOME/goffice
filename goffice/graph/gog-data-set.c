@@ -221,20 +221,20 @@ gog_dataset_dup_to_simple (GogDataset const *src, GogDataset *dst)
 			continue;
 		dst_dat = NULL;
 		/* for scalar and vector data, try to transform to values first
-		if we find go_nan, use strings */
+		if we find non finite, use strings */
 		if (IS_GO_DATA_SCALAR (src_dat)) {
-			double d =  go_data_scalar_get_value (GO_DATA_SCALAR (src_dat));
-			dst_dat =(d != go_nan)? go_data_scalar_val_new (d):
-						go_data_scalar_str_new (
-							g_strdup (go_data_scalar_get_str (GO_DATA_SCALAR (src_dat))),
-							TRUE);
+			char const *str = go_data_scalar_get_str (GO_DATA_SCALAR (src_dat));
+			char *end;
+			double d =  g_strtod (str, &end);
+			dst_dat =(*end == 0)? go_data_scalar_val_new (d):
+						go_data_scalar_str_new (g_strdup (str), TRUE);
 		} else if (IS_GO_DATA_VECTOR (src_dat)) {
 			gboolean as_values = TRUE;
 			GODataVector *vec = GO_DATA_VECTOR (src_dat);
 			double *d = go_data_vector_get_values (vec);
 			int i, n = go_data_vector_get_len (vec);
 			for (i = 0; i < n; i++)
-				if (d[i] == go_nan) {
+				if (go_finite (d[i])) {
 					as_values = FALSE;
 					break;
 				}

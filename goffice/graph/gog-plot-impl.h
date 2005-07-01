@@ -47,6 +47,7 @@ struct _GogPlot {
 	unsigned	 index_num;
 	gboolean	 vary_style_by_element;
 	gboolean	 render_before_axes;
+	gchar*		plot_group;
 
 	GogAxis		*axis[GOG_AXIS_TYPES];
 

@@ -50,6 +50,7 @@ enum {
 	PLOT_PROP_VARY_STYLE_BY_ELEMENT,
 	PLOT_PROP_AXIS_X,
 	PLOT_PROP_AXIS_Y,
+	PLOT_PROP_GROUP,
 };
 
 static GObjectClass *plot_parent_klass;
@@ -65,6 +66,8 @@ gog_plot_finalize (GObject *obj)
 	g_slist_free (plot->series); /* GogObject does the unref */
 
 	gog_plot_axis_clear (plot, GOG_AXIS_SET_ALL); /* just in case */
+	if (plot->plot_group)
+		g_free (plot->plot_group);
 
 	(*plot_parent_klass->finalize) (obj);
 }
@@ -263,6 +266,13 @@ gog_plot_set_property (GObject *obj, guint param_id,
 	case PLOT_PROP_AXIS_Y:
 		gog_plot_set_axis_by_id (plot, GOG_AXIS_Y, g_value_get_uint (value));
 		break;
+	case PLOT_PROP_GROUP: {
+		char const *group = g_value_get_string (value);
+		if (plot->plot_group)
+			g_free (plot->plot_group);
+		plot->plot_group = (group)? g_strdup (g_value_get_string (value)): NULL;
+		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -285,6 +295,9 @@ gog_plot_get_property (GObject *obj, guint param_id,
 		break;
 	case PLOT_PROP_AXIS_Y:
 		g_value_set_uint (value, gog_plot_get_axis_id (plot, GOG_AXIS_Y));
+		break;
+	case PLOT_PROP_GROUP:
+		g_value_set_string (value, plot->plot_group);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -338,6 +351,9 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 		g_param_spec_uint ("y_axis", "y_axis", "Reference to Y axis",
 			0, G_MAXINT, 0,
 			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, PLOT_PROP_GROUP,
+		g_param_spec_string ("plot-group", "plot-group", "name of plot group if any",
+			NULL, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 
 	gog_klass->children_reordered = gog_plot_children_reordered;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
@@ -352,6 +368,7 @@ gog_plot_init (GogPlot *plot, GogPlotClass const *derived_plot_klass)
 	/* start as true so that we can queue an update when it changes */
 	plot->cardinality_valid = TRUE;
 	plot->render_before_axes = FALSE;
+	plot->plot_group = NULL;
 }
 
 GSF_CLASS_ABSTRACT (GogPlot, gog_plot,

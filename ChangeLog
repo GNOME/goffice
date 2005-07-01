@@ -1,3 +1,24 @@
+2005-07-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data-simple.c: (go_data_vector_str_load_values): set
+	vec->len (fixes a crash when pasting charts in abiword).
+	* goffice/graph/goffice-graph.h: change GOG_MS_DIM_* enum.
+	* goffice/graph/gog-data-set.c: (gog_dataset_dup_to_simple): fix export of
+	scalar strings.
+	* goffice/graph/gog-plot.c: (gog_plot_finalize),
+	(gog_plot_set_property), (gog_plot_get_property),
+	(gog_plot_class_init), (gog_plot_init): add "plot_group" property.
+	* goffice/graph/gog-plot.h:
+	* pixmaps/chart_dropbar_1_1.svg:
+	* pixmaps/chart_minmax_2_2.svg:
+	* plugins/plot_barcol/Makefile.am:
+	* plugins/plot_barcol/gog-1.5d.c: (go_plugin_init):
+	* plugins/plot_barcol/gog-dropbar.c: (gog_dropbar_plot_class_init):
+	update GOG_MS_DIM_*.
+	* plugins/plot_barcol/gog-minmax.c: (gog_minmax_axis_get_bounds):
+	set center_on_ticks to FALSE,
+	(gog_minmax_plot_class_init): update  GOG_MS_DIM_*.
+
 2005-06-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-theme.c: (gog_themes_init): add GogSeriesLines.

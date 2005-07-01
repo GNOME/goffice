@@ -58,9 +58,9 @@ gog_dropbar_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 			{ N_("Labels"), GOG_SERIES_SUGGESTED, TRUE,
 			  GOG_DIM_LABEL, GOG_MS_DIM_CATEGORIES },
 			{ N_("Start"), GOG_SERIES_REQUIRED, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			  GOG_DIM_VALUE, GOG_MS_DIM_START },
 			{ N_("End"), GOG_SERIES_REQUIRED, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_DROPBAR },
+			  GOG_DIM_VALUE, GOG_MS_DIM_END },
 		};
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);

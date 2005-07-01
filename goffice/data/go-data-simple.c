@@ -646,10 +646,10 @@ go_data_vector_str_load_values (GODataVector *vec)
 	char *end;
 	GODataVectorStr const *strs = (GODataVectorStr const *)vec;
 	double minimum = DBL_MAX, maximum = -DBL_MAX;
-	int i = strs->n;
+	int i = vec->len = strs->n;
 
 	if (vec->values == NULL)
-		vec->values = g_new (double, vec->len);
+		vec->values = g_new (double, strs->n);
 	while (i-- > 0) {
 		vec->values[i] = g_strtod (strs->str[i], &end);
 		if (*end) {
