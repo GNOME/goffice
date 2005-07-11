@@ -1,4 +1,4 @@
-goffice 0.0.3
+goffice 0.0.3:
 
 Emmanuel Pacaud:
 	* Add rotated text support.
@@ -11,9 +11,10 @@ Jean Brefort:
 
 Morten:
 	* Fix problem with currency formats and problem with Euro [#305313].
+	* Support fd://1 syntax for go_file_create.
 
 --------------------------------------------------------------------------
-goffice 0.0.2
+goffice 0.0.2:
 
 Emmanuel Pacaud:
 	* Make compass position and alignment of graph object persistent and

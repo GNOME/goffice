@@ -232,6 +232,28 @@ go_dirname_from_uri (const char *uri, gboolean brief)
 
 /* ------------------------------------------------------------------------- */
 
+static gboolean
+is_fd_uri (const char *uri, int *fd)
+{
+	unsigned long ul;
+	char *end;
+
+	if (g_ascii_strncasecmp (uri, "fd://", 5))
+		return FALSE;
+	uri += 5;
+	if (!g_ascii_isdigit (*uri))
+		return FALSE;  /* Space, for example.  */
+
+	ul = strtoul (uri, &end, 10);
+	if (*end != 0 || ul > INT_MAX)
+		return FALSE;
+
+	*fd = (int)ul;
+	return TRUE;
+}
+
+/* ------------------------------------------------------------------------- */
+
 static GsfInput *
 open_plain_file (const char *path, GError **err)
 {
@@ -254,6 +276,7 @@ GsfInput *
 go_file_open (char const *uri, GError **err)
 {
 	char *filename;
+	int fd;
 
 	if (err != NULL)
 		*err = NULL;
@@ -271,6 +294,10 @@ go_file_open (char const *uri, GError **err)
 		return result;
 	}
 
+	if (is_fd_uri (uri, &fd)) {
+		/* Too bad we can't do this yet.  */
+	}
+
 #ifdef WITH_GNOME
 	return gsf_input_gnomevfs_new (uri, err);
 #else
@@ -284,6 +311,7 @@ GsfOutput *
 go_file_create (char const *uri, GError **err)
 {
 	char *filename;
+	int fd;
 
 	g_return_val_if_fail (uri != NULL, NULL);
 
@@ -291,6 +319,17 @@ go_file_create (char const *uri, GError **err)
 	if (filename) {
 		GsfOutput *result = gsf_output_stdio_new (filename, err);
 		g_free (filename);
+		return result;
+	}
+
+	if (is_fd_uri (uri, &fd)) {
+		int fd2 = dup (fd);
+		FILE *fil = fd2 != -1 ? fdopen (fd2, "wb") : NULL;
+		GsfOutput *result = fil ? gsf_output_stdio_new_FILE (uri, fil, FALSE) : NULL;
+
+		if (!result)
+			g_set_error (err, gsf_output_error_id (), 0,
+				     "Unable to write fo %s", uri);
 		return result;
 	}
 

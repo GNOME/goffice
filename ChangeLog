@@ -1,3 +1,10 @@
+2005-07-11  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (set_more_warnings): Check for fdopen.
+
+	* goffice/utils/go-file.c (is_fd_uri): New function.
+	(go_file_create): Support URIs like "fd://1".
+
 2005-07-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/data/go-data-simple.c: (go_data_vector_str_load_values): set
