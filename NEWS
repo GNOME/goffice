@@ -3,6 +3,7 @@ goffice 0.0.3:
 Emmanuel Pacaud:
 	* Add rotated text support.
 	* Add optional cairo renderer.
+	* Fix swatch position in legends.
 
 Jean Brefort:
 	* Add series lines in bars and columns plots.

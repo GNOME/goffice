@@ -309,7 +309,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	GogViewAllocation swatch = dat->swatch;
 	GogView  const   *v = dat->view;
 	GogStyle *style = NULL;
-	GogViewAllocation pos;
+	GogViewAllocation pos, rectangle;
 	GogStyledObject *obj = GOG_STYLED_OBJECT (dat->view->model);
 	GogStyle *legend_style = obj->style;
 	
@@ -321,7 +321,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	if (base_style->interesting_fields & GOG_STYLE_LINE) { /* line and marker */
 		style = (GogStyle *)base_style;
 		gog_renderer_push_style (v->renderer, style);
-		dat->line_path[0].y = dat->line_path[1].y =  swatch.y + swatch.h / 2.;
+		dat->line_path[0].y = dat->line_path[1].y =  swatch.y + dat->step / 2.;
 		gog_renderer_draw_sharp_path (v->renderer, dat->line_path, NULL);
 		gog_renderer_draw_marker (v->renderer,
 			(dat->line_path[0].x + dat->line_path[1].x) / 2.,
@@ -331,8 +331,11 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 		style->outline.width = 0; /* hairline */
 		style->outline.color = RGBA_BLACK;
 
+		rectangle = swatch;
+		rectangle.y += (dat->step - swatch.h) / 2.0;
+
 		gog_renderer_push_style (v->renderer, style);
-		gog_renderer_draw_sharp_rectangle (v->renderer, &swatch, NULL);
+		gog_renderer_draw_sharp_rectangle (v->renderer, &rectangle, NULL);
 	}
 	pos.x = swatch.x + dat->label_offset;
 	pos.y = swatch.y;
