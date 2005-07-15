@@ -124,7 +124,7 @@ go_shell_argv_to_glib_encoding (gint argc, gchar const **argv)
 		wargs = CommandLineToArgvW (GetCommandLineW (), &narg);
 		conv = g_iconv_open ("utf-8", "utf-16le");
 		for (i = 0; i < narg; ++i)
-			args[i] = g_convert_with_iconv ((const gchar *) wargs[i], wcslen (wargs[i]) << 1, conv, NULL, NULL, NULL);	
+			args[i] = g_convert_with_iconv ((const gchar *) wargs[i], wcslen (wargs[i]) << 1, conv, NULL, NULL, NULL);
 		g_iconv_close (conv);
 	}
 	else
@@ -303,7 +303,7 @@ go_file_open (char const *uri, GError **err)
 #else
 	g_set_error (err, gsf_input_error (), 0,
 		     "Invalid or non-supported URI");
-	return NULL; 
+	return NULL;
 #endif
 }
 
@@ -338,7 +338,7 @@ go_file_create (char const *uri, GError **err)
 #else
 	g_set_error (err, gsf_output_error_id (), 0,
 		     "Invalid or non-supported URI");
-	return NULL; 
+	return NULL;
 #endif
 }
 
@@ -477,7 +477,7 @@ GError *
 go_url_show (gchar const *url)
 {
 #ifdef G_OS_WIN32
-	ShellExecute (NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);  
+	ShellExecute (NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 
 	return NULL;
 #else
@@ -563,7 +563,7 @@ go_url_show (gchar const *url)
  * If no @std_ext is given or @uri already has some extension,
  * it just copies @uri.
  *
- * Value in new_uri:  newly allocated string which you should free after 
+ * Value in new_uri:  newly allocated string which you should free after
  *                    use, containing (optionally) modified uri.
  *
  * Return Value:  FALSE if the uri has an extension not matching @std_ext
@@ -610,7 +610,9 @@ go_get_mime_type (gchar const *uri)
 		g_free (wuri);
 		return g_utf16_to_utf8 (mime_type, -1, NULL, NULL, NULL);
 	}
-	
+
+	g_free (wuri);
+
 	/* We try to determine mime using FindMimeFromData().
 	 * However, we are not sure whether the functions will know about
 	 * the necessary mime types. In the worst wase we fall back to
@@ -618,7 +620,7 @@ go_get_mime_type (gchar const *uri)
 	 */
 	return g_strdup ("text/plain");
 #else
-	return "application/octet-string";
+	return g_strdup ("application/octet-stream");
 #endif
 }
 
