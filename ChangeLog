@@ -1,3 +1,15 @@
+2005-07-19  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/grah/gog-axis-line.c (gog_axis_base_get_crossed_axis_type):
+	don't complain when axis_set = GOG_AXIS_SET_X.
+	(axis_line_get_bbox): scale tick len with gog_renderer_pt2r instead of
+	gog_renderer_pt2r_x.
+	(axis_line_render): ditto.
+	(axis_circle_get_bbox): ditto.
+	(axis_circle_render): ditto.
+	(x_process): use correct enum for label/tick side, which fixes a
+	display bug.
+
 2005-07-15  Dom Lachowicz <cinamod@hotmail.com>
 
 	* goffice/utils/go-file.c (go_get_mime_type): Free 'wuri' if mime lookup failed;

@@ -248,11 +248,12 @@ gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base)
 				crossed_type = GOG_AXIS_RADIAL;
 			break;
 		case GOG_AXIS_SET_X:
+			break;
 		case GOG_AXIS_SET_XYZ:
 		case GOG_AXIS_SET_ALL:
 		case GOG_AXIS_SET_NONE:
 		case GOG_AXIS_SET_UNKNOWN:
-			g_message ("[GogAxisBase:get_crossed_axis_type] unimplemented for this axis set (%i)",
+			g_message ("[GogAxisBase::get_crossed_axis_type] unimplemented for this axis set (%i)",
 				   axis_set);
 			break;
 	}
@@ -699,8 +700,8 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	is_line_visible = gog_style_is_line_visible (style);
 	line_width = gog_renderer_line_size (renderer, style->line.width) / 2;
 
-	minor_tick_len = gog_renderer_pt2r_x (renderer, axis_base->minor.size_pts);
-	major_tick_len = gog_renderer_pt2r_x (renderer, axis_base->major.size_pts);
+	minor_tick_len = gog_renderer_pt2r (renderer, axis_base->minor.size_pts);
+	major_tick_len = gog_renderer_pt2r (renderer, axis_base->major.size_pts);
 	tick_len = axis_base->major.tick_out ? major_tick_len :
 		(axis_base->minor.tick_out ? minor_tick_len : 0.);
 	gog_renderer_get_text_OBR (renderer, "0", &txt_obr);
@@ -809,13 +810,13 @@ axis_line_render (GogAxisBase *axis_base, GogRenderer *renderer,
 	draw_major = axis_base->major.tick_in || axis_base->major.tick_out;
 	draw_minor = axis_base->minor.tick_in || axis_base->minor.tick_out;
 
-	minor_tick_len = gog_renderer_pt2r_x (renderer, axis_base->minor.size_pts) + line_width;
+	minor_tick_len = gog_renderer_pt2r (renderer, axis_base->minor.size_pts) + line_width;
 	minor_out_x = axis_base->minor.tick_out ? - minor_tick_len * cos_alpha : 0.;
 	minor_out_y = axis_base->minor.tick_out ? - minor_tick_len * sin_alpha : 0.;
 	minor_in_x = axis_base->minor.tick_in ? minor_tick_len * cos_alpha : 0.;
 	minor_in_y = axis_base->minor.tick_in ? minor_tick_len * sin_alpha : 0.;
 
-	major_tick_len = gog_renderer_pt2r_x (renderer, axis_base->major.size_pts) + line_width;
+	major_tick_len = gog_renderer_pt2r (renderer, axis_base->major.size_pts) + line_width;
 	major_out_x = axis_base->major.tick_out ? - major_tick_len * cos_alpha : 0.;
 	major_out_y = axis_base->major.tick_out ? - major_tick_len * sin_alpha : 0.;
 	major_in_x = axis_base->major.tick_in ? major_tick_len * cos_alpha : 0.;
@@ -931,8 +932,8 @@ axis_circle_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 
 	total_bbox.x = parms->cx; total_bbox.y = parms->cy; total_bbox.w = 0.; total_bbox.h = 0.;
 
-	minor_tick_len = gog_renderer_pt2r_x (renderer, axis_base->minor.size_pts);
-	major_tick_len = gog_renderer_pt2r_x (renderer, axis_base->major.size_pts);
+	minor_tick_len = gog_renderer_pt2r (renderer, axis_base->minor.size_pts);
+	major_tick_len = gog_renderer_pt2r (renderer, axis_base->major.size_pts);
 	tick_len = axis_base->major.tick_out ? major_tick_len :
 		(axis_base->minor.tick_out ? minor_tick_len : 0.);
 	gog_renderer_get_text_OBR (renderer, "0", &txt_obr);
@@ -1017,8 +1018,8 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 		path[2].code = ART_END;
 	}
 
-	minor_tick_len = gog_renderer_pt2r_x (renderer, axis_base->minor.size_pts);
-	major_tick_len = gog_renderer_pt2r_x (renderer, axis_base->major.size_pts);
+	minor_tick_len = gog_renderer_pt2r (renderer, axis_base->minor.size_pts);
+	major_tick_len = gog_renderer_pt2r (renderer, axis_base->major.size_pts);
 	tick_len = axis_base->major.tick_out ? major_tick_len :
 		(axis_base->minor.tick_out ? minor_tick_len : 0.);
 	gog_renderer_get_text_OBR (renderer, "0", &txt_obr);
@@ -1118,13 +1119,15 @@ x_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	switch (action) {
 		case GOG_AXIS_BASE_RENDER:
 			axis_line_render (GOG_AXIS_BASE (view->model),
-				view->renderer, ax, ay, bx - ax , by - ay, -1, -1.,
+				view->renderer, ax, ay, bx - ax , by - ay, 
+				GO_SIDE_RIGHT, -1.,
 				axis_base->major_tick_labeled, TRUE);
 			break;
 
 		case GOG_AXIS_BASE_PADDING_REQUEST:
 			axis_line_bbox = axis_line_get_bbox (GOG_AXIS_BASE (view->model),
-							     view->renderer, ax, ay, bx - ax, by - ay, -1, -1.,
+							     view->renderer, ax, ay, bx - ax, by - ay, 
+							     GO_SIDE_RIGHT, -1.,
 							     axis_base->major_tick_labeled);
 			padding->wl = MAX (0., tmp.x - axis_line_bbox.x);
 			padding->ht = MAX (0., tmp.y - axis_line_bbox.y);
