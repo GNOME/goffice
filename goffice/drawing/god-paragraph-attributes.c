@@ -41,6 +41,7 @@ struct GodParagraphAttributesPrivate_ {
 	double bullet_indent;
 	double bullet_size;
 	char *bullet_family;
+	gboolean bullet_on;
 };
 
 enum {
@@ -54,6 +55,7 @@ enum {
 	PROP_BULLET_INDENT,
 	PROP_BULLET_SIZE,
 	PROP_BULLET_FAMILY,
+	PROP_BULLET_ON,
 };
 
 GodParagraphAttributes *
@@ -79,6 +81,7 @@ god_paragraph_attributes_init (GObject *object)
 	paragraph->priv->bullet_indent    = 0;
 	paragraph->priv->bullet_size      = 1.0;
 	paragraph->priv->bullet_family    = NULL;
+	paragraph->priv->bullet_on        = FALSE;
 	paragraph->priv->flags            = 0;
 }
 
@@ -133,6 +136,10 @@ god_paragraph_attributes_set_property (GObject *object, guint prop_id, const GVa
 		paragraph->priv->bullet_family = g_value_dup_string (value);
 		paragraph->priv->flags |= GOD_PARAGRAPH_ATTRIBUTES_FLAGS_BULLET_FAMILY;
 		break;
+	case PROP_BULLET_ON:
+		paragraph->priv->bullet_on = g_value_get_boolean (value);
+		paragraph->priv->flags |= GOD_PARAGRAPH_ATTRIBUTES_FLAGS_BULLET_ON;
+		break;
 	}
 }
 
@@ -168,6 +175,9 @@ god_paragraph_attributes_get_property (GObject *object, guint prop_id, GValue *v
 		break;
 	case PROP_BULLET_FAMILY:
 		g_value_set_string (value, paragraph->priv->bullet_family);
+		break;
+	case PROP_BULLET_ON:
+		g_value_set_boolean (value, paragraph->priv->bullet_on);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -242,6 +252,12 @@ god_paragraph_attributes_class_init (GodParagraphAttributesClass *class)
 							      _( "Bullet Family" ),
 							      NULL,
 							      G_PARAM_READWRITE));
+	g_object_class_install_property (object_class, PROP_BULLET_ON,
+					 g_param_spec_boolean ("bullet_on",
+							       _( "Bullet On" ),
+							       _( "Bullet On" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
 }
 
 GSF_CLASS (GodParagraphAttributes, god_paragraph_attributes,

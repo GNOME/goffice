@@ -1,3 +1,10 @@
+2005-07-21  Chris Lahey  <clahey@site>
+
+	* goffice/drawing/god-drawing-renderer-gdk.c,
+	goffice/drawing/god-paragraph-attributes.c,
+	goffice/drawing/god-paragraph-attributes.h: Add support for
+	setting whether the bullet is drawn for a particular paragraph.
+
 2005-07-19  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/grah/gog-axis-line.c (gog_axis_base_get_crossed_axis_type):

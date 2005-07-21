@@ -178,7 +178,6 @@ typedef struct {
 	const GodDefaultAttributes *default_attributes;
 } DrawTextContext;
 
-#ifdef PANGO_HACK
 static gboolean
 make_absolute (PangoAttribute *attr, gpointer user_data)
 {
@@ -187,11 +186,11 @@ make_absolute (PangoAttribute *attr, gpointer user_data)
 	    ! ((PangoAttrSize *) attr)->absolute) {
 		PangoAttrSize *size_attr = (PangoAttrSize *) attr;
 		size_attr->size = GO_PT_TO_UN ((long long) size_attr->size) / draw_context->renderer->priv->y_units_per_pixel;
+		size_attr->size *= .7;
 		size_attr->absolute = TRUE;
 	}
 	return FALSE;
 }
-#endif
 
 static void
 draw_text (GodTextModel *text,
@@ -212,6 +211,7 @@ draw_text (GodTextModel *text,
 	double bullet_indent = 0;
 	double bullet_size = 1.0;
 	char *bullet_family = NULL;
+	gboolean bullet_on = FALSE;
 	PangoFontDescription *bullet_desc;
 	PangoAttrIterator *attr_iterator;
 
@@ -227,6 +227,7 @@ draw_text (GodTextModel *text,
 				      "bullet_indent", &bullet_indent,
 				      "bullet_size", &bullet_size,
 				      "bullet_family", &bullet_family,
+				      "bullet_on", &bullet_on,
 				      NULL);
 		}
 	}
@@ -270,6 +271,11 @@ draw_text (GodTextModel *text,
 				      "bullet_family", &bullet_family,
 				      NULL);
 		}
+		if (flags & GOD_PARAGRAPH_ATTRIBUTES_FLAGS_BULLET_ON) {
+			g_object_get (paragraph->para_attributes,
+				      "bullet_on", &bullet_on,
+				      NULL);
+		}
 	}
 	draw_context->y_ofs += space_before;
 
@@ -302,9 +308,7 @@ draw_text (GodTextModel *text,
 			pango_attr_list_insert_before (attributes, attr);
 		}
 	}
-#ifdef PANGO_HACK
 	pango_attr_list_filter (attributes, make_absolute, draw_context);
-#endif
 	pango_layout_set_attributes (layout, attributes);
 	attr_iterator = pango_attr_list_get_iterator (attributes);
 	bullet_desc = pango_font_description_new ();
@@ -325,7 +329,8 @@ draw_text (GodTextModel *text,
 	if (bullet_character != 0 &&
 	    bullet_character != 0xe011 &&
 	    bullet_size != 0 &&
-	    bullet_family != NULL) {
+	    bullet_family != NULL &&
+	    bullet_on) {
 		char utf8[7];
 		int length;
 		layout = pango_layout_new (gdk_pango_context_get_for_screen (gdk_screen_get_default()));
