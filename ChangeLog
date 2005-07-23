@@ -1,3 +1,8 @@
+2005-07-22  Chris Lahey  <clahey@our.domain.is.not.set>
+
+	* goffice/drawing/god-drawing-renderer-gdk.c: Remove * .7 hack
+	since it's been fixed in parsing code.
+
 2005-07-21  Chris Lahey  <clahey@site>
 
 	* goffice/drawing/god-drawing-renderer-gdk.c,

@@ -186,7 +186,6 @@ make_absolute (PangoAttribute *attr, gpointer user_data)
 	    ! ((PangoAttrSize *) attr)->absolute) {
 		PangoAttrSize *size_attr = (PangoAttrSize *) attr;
 		size_attr->size = GO_PT_TO_UN ((long long) size_attr->size) / draw_context->renderer->priv->y_units_per_pixel;
-		size_attr->size *= .7;
 		size_attr->absolute = TRUE;
 	}
 	return FALSE;
@@ -209,7 +208,7 @@ draw_text (GodTextModel *text,
 	const GodParagraphAttributes *default_para_attributes;
 	gunichar bullet_character = 0;
 	double bullet_indent = 0;
-	double bullet_size = 1.0;
+	double bullet_size = 0;
 	char *bullet_family = NULL;
 	gboolean bullet_on = FALSE;
 	PangoFontDescription *bullet_desc;
@@ -338,6 +337,11 @@ draw_text (GodTextModel *text,
 		length = g_unichar_to_utf8 (bullet_character, utf8);
 		pango_layout_set_text (layout, utf8, length);
 		pango_layout_set_auto_dir (layout, FALSE);
+#if 0
+		pango_font_description_set_absolute_size (bullet_desc, 
+							  GO_PT_TO_UN ((go_unit_t) bullet_size * PANGO_SCALE) /
+							  draw_context->renderer->priv->y_units_per_pixel);
+#endif
 		pango_font_description_set_size (bullet_desc, pango_font_description_get_size (bullet_desc) * sqrt (bullet_size));
 		pango_font_description_set_family (bullet_desc, bullet_family);
 		pango_layout_set_font_description (layout, bullet_desc);
@@ -354,14 +358,6 @@ draw_text (GodTextModel *text,
 
 	draw_context->y_ofs += height * draw_context->renderer->priv->y_units_per_pixel / PANGO_SCALE;
 	draw_context->y_ofs += space_after;
-
-#if 0
-	g_print ("space before: %f\n", space_before);
-	g_print ("space after: %f\n", space_after);
-	g_print ("indent: %f\n", indent);
-	g_print ("x_units: %lld\n", draw_context->renderer->priv->x_units_per_pixel);
-	g_print ("y_units: %lld\n", draw_context->renderer->priv->y_units_per_pixel);
-#endif
 }
 
 static void
