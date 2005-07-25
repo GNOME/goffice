@@ -39,8 +39,8 @@ struct _GogRenderer {
 
 	GogGraph *model;
 	GogView	 *view;
-//	double	  logical_width_pts;
-//	double	  logical_height_pts;
+/*	double	  logical_width_pts; */
+/*	double	  logical_height_pts; */
 	float	  scale, scale_x, scale_y;
 	float	  zoom;
 	
