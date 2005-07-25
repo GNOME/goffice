@@ -159,9 +159,22 @@ typedef enum {
 	GOG_POSITION_MANUAL_Y_ABS = 1 << 9,
 	GOG_POSITION_MANUAL_X_END = 1 << 10, /* pos relative to start or end */
 	GOG_POSITION_MANUAL_Y_END = 1 << 11,
-	GOG_POSITION_ANY_MANUAL   = 0xf80,
 
-	GOG_POSITION_PADDING	  = 1 << 12
+	/* modifiers for manual */
+	GOG_POSITION_ANCHOR_NW       = 0 << 12,
+	GOG_POSITION_ANCHOR_N	     = 1 << 12,
+	GOG_POSITION_ANCHOR_NE	     = 2 << 12,
+	GOG_POSITION_ANCHOR_E        = 3 << 12,
+	GOG_POSITION_ANCHOR_SE       = 4 << 12,
+	GOG_POSITION_ANCHOR_S        = 5 << 12,
+	GOG_POSITION_ANCHOR_SW       = 6 << 12,
+	GOG_POSITION_ANCHOR_W        = 7 << 12,
+	GOG_POSITION_ANCHOR_CENTER   = 8 << 12,
+	GOG_POSITION_ANCHOR          = 0xf000,
+	
+	GOG_POSITION_ANY_MANUAL      = 0xff80,
+       	
+	GOG_POSITION_PADDING	     = 1 << 16
 } GogObjectPosition;
 
 /* #define NO_DEBUG_CHARTS */

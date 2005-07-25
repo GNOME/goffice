@@ -37,6 +37,7 @@ struct _GogGraph {
 	GSList	 *data;
 
 	unsigned  num_cols, num_rows;
+	double	  width, height;
 
 	guint	  idle_handler;
 };

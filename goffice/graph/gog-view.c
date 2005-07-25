@@ -230,11 +230,10 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 
 		pos = child->model->position;
 		if (pos & GOG_POSITION_MANUAL) {
-			/* position relative to the entire region */
-			tmp = available;
-			/* add some flags to control interpretation of manual
-			 * eg abs/percentage from start/end */
-			g_warning ("manual is not supported yet");
+			gog_view_size_request (child, &req);
+			tmp = gog_object_get_manual_allocation (gog_view_get_model (child),
+								&available, &req);
+			gog_view_size_allocate (child, &tmp);
 		} else if (pos & GOG_POSITION_COMPASS) {
 			gboolean vertical = TRUE;
 

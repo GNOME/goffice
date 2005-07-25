@@ -30,11 +30,15 @@
 #include <goffice/graph/gog-grid.h>
 #include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/gtk/goffice-gtk.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 #include <string.h>
 #include <math.h>
+
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktogglebutton.h>
 
 static void
 calc_polygon_parameters (GogViewAllocation const *area, GogChartMapPolarData *data, gboolean fill_area)
@@ -295,7 +299,9 @@ gog_chart_map_free (GogChartMap *map)
 
 enum {
 	CHART_PROP_0,
-	CHART_PROP_CARDINALITY_VALID
+	CHART_PROP_CARDINALITY_VALID,
+	CHART_PROP_PLOT_AREA,
+	CHART_PROP_PLOT_AREA_IS_MANUAL
 };
 
 static GType gog_chart_view_get_type (void);
@@ -328,18 +334,187 @@ gog_chart_finalize (GObject *obj)
 }
 
 static void
+gog_chart_set_property (GObject *obj, guint param_id,
+			 GValue const *value, GParamSpec *pspec)
+{
+	GogChart *chart = GOG_CHART (obj);
+	char **str_doubles;
+	char const *str;
+
+	switch (param_id) {
+	case CHART_PROP_PLOT_AREA:
+		str = g_value_get_string (value);
+		str_doubles = g_strsplit (str, " ", 4);
+		if (g_strv_length (str_doubles) != 4) {
+			g_strfreev (str_doubles);
+			break;
+		}
+		chart->plot_area.x = g_ascii_strtod (str_doubles[0], NULL);
+		chart->plot_area.y = g_ascii_strtod (str_doubles[1], NULL);
+		chart->plot_area.w = g_ascii_strtod (str_doubles[2], NULL);
+		chart->plot_area.h = g_ascii_strtod (str_doubles[3], NULL);
+		g_strfreev (str_doubles);
+		break;
+	case CHART_PROP_PLOT_AREA_IS_MANUAL:
+		chart->is_plot_area_manual = g_value_get_boolean (value);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+}
+
+static void
 gog_chart_get_property (GObject *obj, guint param_id,
 			GValue *value, GParamSpec *pspec)
 {
 	GogChart *chart = GOG_CHART (obj);
+	GString *string;
+	char buffer[G_ASCII_DTOSTR_BUF_SIZE];
+
 	switch (param_id) {
 	case CHART_PROP_CARDINALITY_VALID:
 		g_value_set_boolean (value, chart->cardinality_valid);
+		break;
+	case CHART_PROP_PLOT_AREA:
+		string = g_string_new ("");
+		g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), chart->plot_area.x));
+		g_string_append_c (string, ' ');
+		g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), chart->plot_area.y));
+		g_string_append_c (string, ' ');
+		g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), chart->plot_area.w));
+		g_string_append_c (string, ' ');
+		g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), chart->plot_area.h));
+		g_value_set_string (value, string->str);
+		g_string_free (string, TRUE);
+		break;
+	case CHART_PROP_PLOT_AREA_IS_MANUAL:
+		g_value_set_boolean (value, chart->is_plot_area_manual);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
+}
+
+typedef struct {
+	GtkWidget	*x_spin, *y_spin, *w_spin, *h_spin;
+	gulong		x_spin_signal, y_spin_signal;
+	gulong		w_spin_signal, h_spin_signal;
+	GtkWidget	*manual_toggle;
+	GogChart 	*chart;
+	GladeXML	*gui;
+} ChartPrefState;
+
+static void
+chart_pref_state_free (ChartPrefState *state) 
+{
+	g_object_unref (state->chart);
+	g_object_unref (state->gui);
+}
+
+static void
+cb_plot_area_changed (GtkWidget *spin, ChartPrefState *state)
+{
+	GogViewAllocation pos;
+	double value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (spin)) / 100.0;
+	double max;
+
+       	gog_chart_get_plot_area (state->chart, &pos);
+	if (spin == state->x_spin) {
+		pos.x = value;
+		max = 1.0 - pos.x;
+		gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->w_spin), 0.0, max * 100);
+		if (pos.w > max) {
+			pos.w = max;
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), max * 100);
+		}
+	}
+	else if (spin == state->y_spin) {
+		pos.y = value;
+		max = 1.0 - pos.y;
+		gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->h_spin), 0.0, max * 100);
+		if (pos.h > max) {
+			pos.h = max;
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), max * 100);
+		}
+	}
+	else if (spin == state->w_spin) {
+		pos.w = value;
+	}
+	else if (spin == state->h_spin) {
+		pos.h = value;
+	}
+	gog_chart_set_plot_area (state->chart, &pos);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->manual_toggle), TRUE);
+}
+
+static void
+cb_manual_toggle_changed (GtkToggleButton *button, ChartPrefState *state)
+{
+	gog_chart_set_plot_area (state->chart, 
+		gtk_toggle_button_get_active (button) ?
+		&state->chart->plot_area : NULL);
+}
+
+static void
+gog_chart_populate_editor (GogObject *gobj, 
+			   GogEditor *editor, 
+			   G_GNUC_UNUSED GogDataAllocator *dalloc, 
+			   GOCmdContext *cc)
+{
+	GogChart *chart = GOG_CHART (gobj);
+	GtkWidget *w;
+	GladeXML *gui;
+	ChartPrefState *state;
+	static guint chart_pref_page = 0;
+	
+	gui = go_libglade_new ("gog-object-prefs.glade", "gog_chart_prefs", NULL, cc);
+	if (gui == NULL)
+		return;
+
+	state = g_new (ChartPrefState, 1);
+	state->chart = chart;
+	state->gui = gui;
+	g_object_ref (G_OBJECT (gobj));
+
+	state->x_spin = glade_xml_get_widget (gui, "x_spin");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->x_spin), 
+				   chart->plot_area.x * 100.0); 
+	state->x_spin_signal = g_signal_connect (G_OBJECT (state->x_spin), "value-changed", 
+						 G_CALLBACK (cb_plot_area_changed), state);
+
+	state->y_spin = glade_xml_get_widget (gui, "y_spin");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->y_spin), 
+				   chart->plot_area.y * 100.0); 
+	state->y_spin_signal = g_signal_connect (G_OBJECT (state->y_spin), "value-changed", 
+						 G_CALLBACK (cb_plot_area_changed), state);
+
+	state->w_spin = glade_xml_get_widget (gui, "w_spin");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), 
+				   chart->plot_area.w* 100.0); 
+	state->w_spin_signal = g_signal_connect (G_OBJECT (state->w_spin), "value-changed", 
+						 G_CALLBACK (cb_plot_area_changed), state);
+
+	state->h_spin = glade_xml_get_widget (gui, "h_spin");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), 
+				   chart->plot_area.h * 100.0); 
+	state->h_spin_signal = g_signal_connect (G_OBJECT (state->h_spin), "value-changed", 
+						 G_CALLBACK (cb_plot_area_changed), state);
+
+	state->manual_toggle = glade_xml_get_widget (gui, "manual_toggle");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->manual_toggle), 
+				      chart->is_plot_area_manual);
+	g_signal_connect (G_OBJECT (state->manual_toggle), "toggled", 
+			  G_CALLBACK (cb_manual_toggle_changed), state);
+
+	(GOG_OBJECT_CLASS(chart_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
+
+	w = glade_xml_get_widget (gui, "gog_chart_prefs");
+	g_object_set_data_full (G_OBJECT (w), "state", state, 
+				(GDestroyNotify) chart_pref_state_free);  
+	gog_editor_add_page (editor, w, _("Plot area"));
+	
+	gog_editor_set_store_page (editor, &chart_pref_page);
 }
 
 static void
@@ -458,12 +633,6 @@ static gboolean pseudo_3d_axis_can_add (GogObject const *parent) { return axis_c
 static void pseudo_3d_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_PSEUDO_3D); }
 
 static GogObjectRole const roles[] = {
-	{ N_("Legend"), "GogLegend",	0,
-	  GOG_POSITION_COMPASS, GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
-	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
-	{ N_("Title"), "GogLabel",	1,
-	  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
-	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
 	{ N_("Grid"), "GogGrid",	0,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  role_grid_can_add, NULL, NULL, role_grid_post_add, role_grid_pre_remove, NULL, { -1 } },
@@ -493,7 +662,17 @@ static GogObjectRole const roles[] = {
 	  { GOG_AXIS_PSEUDO_3D } },
 	{ N_("Plot"), "GogPlot",	4,	/* keep the axis before the plots */
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
-	  NULL, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } }
+	  NULL, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } },
+	{ N_("Title"), "GogLabel",	10,
+	  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL, 
+	  GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, 
+	  GOG_OBJECT_NAME_BY_ROLE,
+	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
+	{ N_("Legend"), "GogLegend",	11,
+	  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL, 
+	  GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER, 
+	  GOG_OBJECT_NAME_BY_ROLE,
+	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } }
 };
 
 static void
@@ -503,12 +682,25 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 
 	chart_parent_klass = g_type_class_peek_parent (gog_klass);
 	gobject_klass->finalize = gog_chart_finalize;
+	gobject_klass->set_property = gog_chart_set_property;
 	gobject_klass->get_property = gog_chart_get_property;
+
+	gog_klass->populate_editor = gog_chart_populate_editor;
+
+	gog_klass->can_manual_size = TRUE;
 
 	g_object_class_install_property (gobject_klass, CHART_PROP_CARDINALITY_VALID,
 		g_param_spec_boolean ("cardinality-valid", "cardinality-valid",
-			"Is the charts cardinality currently vaid",
-			FALSE, G_PARAM_READABLE));
+				      "Is the charts cardinality currently vaid",
+				      FALSE, G_PARAM_READABLE));
+	g_object_class_install_property (gobject_klass, CHART_PROP_PLOT_AREA,
+		g_param_spec_string ("plot-area", "Plot area",
+				     "Position and size of plot area, in percentage of chart size",
+				     "0 0 1 1", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, CHART_PROP_PLOT_AREA_IS_MANUAL,
+		g_param_spec_boolean ("is-plot-area-manual", "Is plot area manual", 
+				      "Is plot area manual",
+				      FALSE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 
 	gog_klass->view_type = gog_chart_view_get_type ();
 	gog_klass->update    = gog_chart_update;
@@ -527,6 +719,12 @@ gog_chart_init (GogChart *chart)
 	/* start as true so that we can queue an update when it changes */
 	chart->cardinality_valid = TRUE;
 	chart->axis_set = GOG_AXIS_SET_UNKNOWN;
+
+	chart->is_plot_area_manual = FALSE;
+	chart->plot_area.x =
+	chart->plot_area.y = 0.0;
+	chart->plot_area.w = 
+	chart->plot_area.h = 1.0;
 }
 
 GSF_CLASS (GogChart, gog_chart,
@@ -588,6 +786,45 @@ gog_chart_set_position (GogChart *chart,
 	gog_object_emit_changed (GOG_OBJECT (chart), TRUE);
 }
 
+/**
+ * gog_chart_get_plot_area :
+ * @chart : #GogChart
+ * @plot_area  : #GogViewAllocation
+ *
+ * Stores plot area in plot_area, in fraction of chart size, and returns
+ * TRUE if plot area position is manual.
+ **/
+gboolean
+gog_chart_get_plot_area (GogChart *chart, GogViewAllocation *plot_area)
+{
+	if (plot_area != NULL)
+		*plot_area = chart->plot_area;
+	
+	return chart->is_plot_area_manual;
+}
+
+/**
+ * gog_chart_set_plot_area :
+ * @chart : #GogChart
+ * @plot_area  : #GogViewAllocation
+ *
+ * If plot_area != NULL, sets plot area size and location, in fraction
+ * of chart size, and sets GogChart::is_plot_area_manual flag to TRUE.
+ * If plot_area == NULL, sets GogChart::is_plot_area_manual to FALSE.
+ **/
+void
+gog_chart_set_plot_area (GogChart *chart, GogViewAllocation const *plot_area)
+{
+	if (plot_area == NULL) {
+		chart->is_plot_area_manual = FALSE;
+	} else {
+		chart->plot_area = *plot_area;
+		chart->is_plot_area_manual = TRUE;
+	}
+	gog_object_emit_changed (GOG_OBJECT (chart), TRUE);
+}
+
+/* FIXME: function description here */
 void
 gog_chart_get_cardinality (GogChart *chart, unsigned *full, unsigned *visible)
 {
@@ -803,9 +1040,11 @@ static GogViewClass *cview_parent_klass;
 GogViewAllocation const *
 gog_chart_view_get_plot_area (GogView const *view)
 {
+	GogChartView *chart_view = GOG_CHART_VIEW (view);
+
 	g_return_val_if_fail ((GOG_CHART_VIEW (view) != NULL), NULL);
 
-	return & (view->residual);
+	return & (chart_view->plot_area);
 }
 
 static void
@@ -813,19 +1052,38 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 {
 	GSList *ptr;
 	GogView *child;
-	GogViewAllocation tmp;
+	GogChartView *chart_view = GOG_CHART_VIEW (view);
+	GogViewAllocation tmp, *plot_area = &chart_view->plot_area;
 	GogViewPadding padding;
+	GogChart *chart = GOG_CHART (gog_view_get_model (view));
 
 	(cview_parent_klass->size_allocate) (view, bbox);
 
-	tmp = view->residual;
-	gog_view_padding_request (view, &view->residual, &padding);
-	view->residual.x += padding.wl;
-	view->residual.w -= padding.wl + padding.wr;
-	view->residual.y += padding.ht;
-	view->residual.h -= padding.ht + padding.hb;
-			for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
-				child = ptr->data;
+	if (chart->is_plot_area_manual) {
+		plot_area->x = bbox->x + chart->plot_area.x * bbox->w;
+		plot_area->y = bbox->y + chart->plot_area.y * bbox->h;
+		plot_area->w = chart->plot_area.w * bbox->w;
+		plot_area->h = chart->plot_area.h * bbox->h;
+	} else
+		*plot_area = view->residual;
+
+	tmp = *plot_area;
+	gog_view_padding_request (view, plot_area, &padding);
+	
+	if (!chart->is_plot_area_manual) {
+		plot_area->x += padding.wl;
+		plot_area->w -= padding.wl + padding.wr;
+		plot_area->y += padding.ht;
+		plot_area->h -= padding.ht + padding.hb;
+	} else {
+		tmp.x -= padding.wl;
+		tmp.w += padding.wl + padding.wr;
+		tmp.y -= padding.ht;
+		tmp.h += padding.ht + padding.hb;
+	}
+
+	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+		child = ptr->data;
 		if (child->model->position == GOG_POSITION_PADDING) {
 			gog_view_size_allocate (child, &tmp);
 		}
@@ -835,7 +1093,7 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
 		if (child->model->position == GOG_POSITION_SPECIAL)
-			gog_view_size_allocate (child, &view->residual);
+			gog_view_size_allocate (child, plot_area);
 	}
 }
 
@@ -925,7 +1183,7 @@ gog_chart_view_class_init (GogChartViewClass *gview_klass)
 
 	cview_parent_klass = g_type_class_peek_parent (gview_klass);
 	view_klass->size_allocate   = gog_chart_view_size_allocate;
-	view_klass->clip = TRUE;
+	view_klass->clip = FALSE;
 	view_klass->render = gog_chart_view_render;
 	oview_klass->call_parent_render = FALSE;
 }

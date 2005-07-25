@@ -27,16 +27,22 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/data/go-data.h>
+#include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 #include <string.h>
 #include <stdlib.h>
 
+#define GOG_GRAPH_DEFAULT_WIDTH 	GO_CM_TO_PT (12.0)
+#define GOG_GRAPH_DEFAULT_HEIGHT 	GO_CM_TO_PT (8.0)
+
 enum {
 	GRAPH_PROP_0,
 	GRAPH_PROP_THEME,
-	GRAPH_PROP_THEME_NAME
+	GRAPH_PROP_THEME_NAME,
+	GRAPH_PROP_WIDTH,
+	GRAPH_PROP_HEIGHT
 };
 
 enum {
@@ -62,6 +68,14 @@ gog_graph_set_property (GObject *obj, guint param_id,
 		gog_graph_set_theme (graph,
 			gog_theme_lookup (g_value_get_string (value)));
 		break;
+	case GRAPH_PROP_WIDTH:
+		gog_graph_set_size (graph, g_value_get_double (value),
+				    graph->height);
+		break;
+	case GRAPH_PROP_HEIGHT:
+		gog_graph_set_size (graph, graph->width, 
+				    g_value_get_double (value));
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -80,6 +94,12 @@ gog_graph_get_property (GObject *obj, guint param_id,
 		break;
 	case GRAPH_PROP_THEME_NAME :
 		g_value_set_string (value, gog_theme_get_name (graph->theme));
+		break;
+	case GRAPH_PROP_WIDTH:
+		g_value_set_double (value, graph->width);
+		break;
+	case GRAPH_PROP_HEIGHT:
+		g_value_set_double (value, graph->height);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -152,12 +172,12 @@ gog_graph_class_init (GogGraphClass *klass)
 
 	static GogObjectRole const roles[] = {
 		{ N_("Chart"), "GogChart",	0,
-		  GOG_POSITION_SPECIAL|GOG_POSITION_MANUAL, 
+		  GOG_POSITION_SPECIAL|GOG_POSITION_ANY_MANUAL, 
 		  GOG_POSITION_SPECIAL, 
 		  GOG_OBJECT_NAME_BY_ROLE,
 		  NULL, NULL, NULL, role_chart_post_add, role_chart_pre_remove, NULL },
-		{ N_("Title"), "GogLabel",	0,
-		  GOG_POSITION_COMPASS|GOG_POSITION_MANUAL, 
+		{ N_("Title"), "GogLabel",	1,
+		  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL, 
 		  GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, 
 		  GOG_OBJECT_NAME_BY_ROLE,
 		  NULL, NULL, NULL, NULL, NULL, NULL },
@@ -193,12 +213,22 @@ gog_graph_class_init (GogGraphClass *klass)
 
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_THEME,
 		g_param_spec_object ("theme", "Theme",
-			"the theme for elements of the graph",
+			"The theme for elements of the graph",
 			GOG_THEME_TYPE, G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_THEME_NAME,
 		g_param_spec_string ("theme-name", "ThemeName",
-			"the name of the theme for elements of the graph",
+			"The name of the theme for elements of the graph",
 			"default", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, GRAPH_PROP_WIDTH,
+		g_param_spec_double ("width-pts", "Width",
+			"Logical graph width, in points",
+			0.0, G_MAXDOUBLE, GOG_GRAPH_DEFAULT_WIDTH,
+			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, GRAPH_PROP_HEIGHT,
+		g_param_spec_double ("height-pts", "Height",
+			"Logical graph heigth, in points",
+			0.0, G_MAXDOUBLE, GOG_GRAPH_DEFAULT_HEIGHT,
+			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 }
 
 static void
@@ -208,6 +238,8 @@ gog_graph_init (GogGraph *graph)
 
 	graph->data = NULL;
 	graph->num_cols = graph->num_rows = 0;
+	graph->width = GOG_GRAPH_DEFAULT_WIDTH;
+	graph->height = GOG_GRAPH_DEFAULT_HEIGHT;
 	graph->idle_handler = 0;
 	graph->theme = gog_theme_lookup (NULL); /* default */
 
@@ -498,6 +530,43 @@ gog_graph_force_update (GogGraph *graph)
 		g_source_remove (graph->idle_handler);
 		graph->idle_handler = 0;
 		gog_object_update (GOG_OBJECT (graph));
+	}
+}
+/**
+ * gog_graph_get_size:
+ * @graph: #GogGraph
+ * @width: logical width in pts
+ * @height: logical height in pts
+ *
+ * Returns the logical size of graph, in points.
+ **/
+void
+gog_graph_get_size (GogGraph *graph, double *width, double *height)
+{
+	g_return_if_fail (GOG_GRAPH (graph) != NULL);
+
+	if (width != NULL)
+		*width = graph->width;
+	if (height != NULL)
+		*height = graph->height;
+}
+/**
+ * gog_graph_set_size:
+ * @graph: #GogGraph
+ * @width: logical width in pts
+ * @height: logical height in pts
+ *
+ * Sets the logical size of graph, given in points.
+ **/
+void
+gog_graph_set_size (GogGraph *graph, double width, double height)
+{
+	g_return_if_fail (GOG_GRAPH (graph) != NULL);
+
+	if (width != graph->width || height != graph->height) {
+		graph->height = height;
+		graph->width = width;
+		gog_object_emit_changed (GOG_OBJECT (graph), TRUE);
 	}
 }
 

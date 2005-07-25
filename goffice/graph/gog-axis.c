@@ -1549,18 +1549,18 @@ static void
 gog_axis_class_init (GObjectClass *gobject_klass)
 {
 	static GogObjectRole const roles[] = { 
-		{ N_("Label"), "GogLabel", 0,
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
-		{ N_("MinorGrid"), "GogGridLine", 2,
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  role_grid_line_minor_can_add, NULL, NULL, role_grid_line_minor_post_add, NULL, NULL, { -1 } },
-		{ N_("MajorGrid"), "GogGridLine", 1,
+		{ N_("MajorGrid"), "GogGridLine", 0,
 		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 		  role_grid_line_major_can_add, NULL, NULL, role_grid_line_major_post_add, NULL, NULL, { -1 } },
-		{ N_("AxisLine"), "GogAxisLine", 0,
+		{ N_("MinorGrid"), "GogGridLine", 1,
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+		  role_grid_line_minor_can_add, NULL, NULL, role_grid_line_minor_post_add, NULL, NULL, { -1 } },
+		{ N_("AxisLine"), "GogAxisLine", 2,
 		  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
-		  role_axis_line_can_add, NULL, NULL, role_axis_line_post_add, NULL, NULL, { -1 } }
+		  role_axis_line_can_add, NULL, NULL, role_axis_line_post_add, NULL, NULL, { -1 } },
+		{ N_("Label"), "GogLabel", 3,
+		  GOG_POSITION_SPECIAL|GOG_POSITION_ANY_MANUAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+		  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } }
 	};
 
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;
@@ -1883,15 +1883,15 @@ gog_axis_view_padding_request (GogView *view,
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
 		pos = child->model->position;
-		if (IS_GOG_LABEL (child->model) && (pos & GOG_POSITION_SPECIAL)) {
+		if (IS_GOG_LABEL (child->model) && !(pos & GOG_POSITION_MANUAL)) {
 			gog_view_size_request (child, &req);
 			if (type == GOG_AXIS_X) 
 				label_padding.hb += req.h + pad_h;
 			else  
 				label_padding.wl += req.w + pad_w;
-	}
 		}
-		
+	}
+
 	tmp.x += label_padding.wl;
 	tmp.w -= label_padding.wl + label_padding.wr;
 	tmp.y += label_padding.hb;
@@ -1907,8 +1907,8 @@ gog_axis_view_padding_request (GogView *view,
 			padding->wl = MAX (padding->wl, child_padding.wl);
 			padding->hb = MAX (padding->hb, child_padding.hb);
 			padding->ht = MAX (padding->ht, child_padding.ht);
-}
-}
+		}
+	}
 
 	padding->wr += label_padding.wr;
 	padding->wl += label_padding.wl;
@@ -1934,26 +1934,34 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
 		pos = child->model->position;
-		if (pos & GOG_POSITION_SPECIAL) {
-			if (IS_GOG_LABEL (child->model)) {
-				gog_view_size_request (child, &req);
-				if (type == GOG_AXIS_X) {
-					child_bbox.x = plot_area->x + (plot_area->w - req.w) / 2.0;
-					child_bbox.w = plot_area->w;
-					child_bbox.y = tmp.y + tmp.h - req.h;
-					child_bbox.h = req.h;
-					tmp.h -= req.h + pad_h;
+		if (IS_GOG_LABEL (child->model) && (pos & GOG_POSITION_MANUAL)) {
+			gog_view_size_request (child, &req);
+			child_bbox = gog_object_get_manual_allocation (gog_view_get_model (child), 
+								       plot_area, &req);
+			gog_view_size_allocate (child, &child_bbox);
 		} else {
-					child_bbox.x = tmp.x;
-					child_bbox.w = req.w;
-					child_bbox.y = plot_area->y + (plot_area->h - req.h) / 2.0;
-					child_bbox.h = plot_area->h;
-					tmp.x += req.w + pad_w;
-					tmp.w -= req.w + pad_w;
+			if (pos & GOG_POSITION_SPECIAL) {
+				if (IS_GOG_LABEL (child->model)) {
+					gog_view_size_request (child, &req);
+					if (type == GOG_AXIS_X) {
+						child_bbox.x = plot_area->x + (plot_area->w - req.w) / 2.0;
+						child_bbox.w = plot_area->w;
+						child_bbox.y = tmp.y + tmp.h - req.h;
+						child_bbox.h = req.h;
+						tmp.h -= req.h + pad_h;
+					} else {
+						child_bbox.x = tmp.x;
+						child_bbox.w = req.w;
+						child_bbox.y = plot_area->y + (plot_area->h - req.h) / 2.0;
+						child_bbox.h = plot_area->h;
+						tmp.x += req.w + pad_w;
+						tmp.w -= req.w + pad_w;
+					}
+					gog_view_size_allocate (child, &child_bbox);
+				} else {
+					gog_view_size_allocate (child, plot_area);
+				}
 			}
-				gog_view_size_allocate (child, &child_bbox);
-			} else 
-				gog_view_size_allocate (child, plot_area);
 		}	
 	}
 }

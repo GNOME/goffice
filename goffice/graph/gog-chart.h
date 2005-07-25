@@ -66,6 +66,8 @@ gboolean  gog_chart_get_position  (GogChart const *chart, unsigned *x, unsigned 
 				   unsigned *cols, unsigned *rows);
 void	  gog_chart_set_position  (GogChart *chart, unsigned x, unsigned y,
 				   unsigned cols, unsigned rows);
+gboolean  gog_chart_get_plot_area (GogChart *chart, GogViewAllocation *plot_area);
+void 	  gog_chart_set_plot_area (GogChart *chart, GogViewAllocation const *plot_area);
 
 void	 gog_chart_request_cardinality_update (GogChart *chart);
 void	 gog_chart_get_cardinality (GogChart *chart,

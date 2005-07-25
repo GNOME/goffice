@@ -47,9 +47,12 @@ void	  gog_graph_set_theme	  (GogGraph *graph, GogTheme *theme);
 GSList   *gog_graph_get_data	  (GogGraph const *graph);
 
 /* internal routines for use by series */
-GOData *gog_graph_ref_data   (GogGraph *graph, GOData *dat);
-void    gog_graph_unref_data (GogGraph *graph, GOData *dat);
+GOData   *gog_graph_ref_data   	  (GogGraph *graph, GOData *dat);
+void      gog_graph_unref_data    (GogGraph *graph, GOData *dat);
 
+void	  gog_graph_get_size 	  (GogGraph *graph, double *width, double *height);
+void      gog_graph_set_size      (GogGraph *graph, double width, double height);
+	
 G_END_DECLS
 
 #endif /* GOG_GRAPH_H */

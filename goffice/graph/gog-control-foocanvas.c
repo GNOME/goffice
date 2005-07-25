@@ -34,9 +34,7 @@ enum {
 	CTRL_FOO_PROP_H,
 	CTRL_FOO_PROP_W,
 	CTRL_FOO_PROP_MODEL,
-	CTRL_FOO_PROP_RENDERER,
-	CTRL_FOO_PROP_LOGICAL_WIDTH_PTS,
-	CTRL_FOO_PROP_LOGICAL_HEIGHT_PTS
+	CTRL_FOO_PROP_RENDERER
 };
 
 static GObjectClass *parent_klass;
@@ -81,14 +79,6 @@ gog_control_foocanvas_set_property (GObject *gobject, guint param_id,
 		if (ctrl->renderer != NULL)
 			g_object_ref (ctrl->renderer);
 		break;
-	case CTRL_FOO_PROP_LOGICAL_WIDTH_PTS :
-		g_object_set_property (G_OBJECT (ctrl->renderer),
-				       "logical_width_pts", value);
-		break;
-	case CTRL_FOO_PROP_LOGICAL_HEIGHT_PTS :
-		g_object_set_property (G_OBJECT (ctrl->renderer),
-				       "logical_height_pts", value);
-		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
@@ -112,14 +102,6 @@ gog_control_foocanvas_get_property (GObject *gobject, guint param_id,
 	case CTRL_FOO_PROP_H: g_value_set_double (value, ctrl->new_h); break;
 	case CTRL_FOO_PROP_W: g_value_set_double (value, ctrl->new_w); break;
 	case CTRL_FOO_PROP_RENDERER  : g_value_set_object (value, ctrl->renderer); break;
-	case CTRL_FOO_PROP_LOGICAL_WIDTH_PTS :
-		g_object_get_property (G_OBJECT (ctrl->renderer),
-				       "logical_width_pts", value);
-		break;
-	case CTRL_FOO_PROP_LOGICAL_HEIGHT_PTS :
-		g_object_get_property (G_OBJECT (ctrl->renderer),
-				       "logical_height_pts", value);
-		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		break;
@@ -269,14 +251,6 @@ gog_control_foocanvas_class_init (GogControlFooCanvasClass *klass)
 			"the GogRendererPixbuf being displayed",
 			GOG_RENDERER_PIXBUF_TYPE, G_PARAM_READWRITE));
 #endif
-	g_object_class_install_property (gobject_klass, CTRL_FOO_PROP_LOGICAL_WIDTH_PTS,
-		g_param_spec_double ("logical_width_pts", "Logical Width Pts",
-			"Logical width of the drawing area in pts",
-			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE));
-	g_object_class_install_property (gobject_klass, CTRL_FOO_PROP_LOGICAL_HEIGHT_PTS,
-		g_param_spec_double ("logical_height_pts", "Logical Height Pts",
-			"Logical height of the drawing area in pts",
-			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE));
 }
 
 static void

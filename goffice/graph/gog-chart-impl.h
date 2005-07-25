@@ -42,6 +42,9 @@ struct _GogChart {
 	GogObject *grid;
 	GSList  *axes;
 	GogAxisSet axis_set;
+
+	GogViewAllocation plot_area;
+	gboolean	  is_plot_area_manual;
 };
 typedef GogOutlinedObjectClass GogChartClass;
 

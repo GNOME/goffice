@@ -31,10 +31,13 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <gtk/gtknotebook.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkwidget.h>
 #include <gtk/gtkcombobox.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtksizegroup.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkwidget.h>
 
 GogEditor *
 gog_editor_new (void)
@@ -150,15 +153,26 @@ static GogPositionFlagDesc const position_alignment[] = {
 	{N_("Center"), 	"center",	GOG_POSITION_ALIGN_CENTER}
 };
 
+static GogPositionFlagDesc const position_anchor[] = {
+	{N_("Top left"), 	"top-left",	GOG_POSITION_ANCHOR_NW},
+	{N_("Top"), 		"top",		GOG_POSITION_ANCHOR_N},
+	{N_("Top right"), 	"top-right",	GOG_POSITION_ANCHOR_NE},
+	{N_("Left"), 		"left",		GOG_POSITION_ANCHOR_W},
+	{N_("Center"), 		"center",	GOG_POSITION_ANCHOR_CENTER},
+	{N_("Right"), 		"right",	GOG_POSITION_ANCHOR_E},
+	{N_("Bottom left"), 	"bottom-left",	GOG_POSITION_ANCHOR_SW},
+	{N_("Bottom"), 		"bottom",	GOG_POSITION_ANCHOR_S},
+	{N_("Bottom right"),	"bottom-right",	GOG_POSITION_ANCHOR_SE}
+};
+
 enum {
 	OBJECT_PROP_0,
 	OBJECT_PROP_ID,
+	OBJECT_PROP_POSITION,
 	OBJECT_PROP_POSITION_COMPASS,
 	OBJECT_PROP_POSITION_ALIGNMENT,
-	OBJECT_PROP_X,
-	OBJECT_PROP_Y,
-	OBJECT_PROP_WIDTH,
-	OBJECT_PROP_HEIGHT
+	OBJECT_PROP_POSITION_IS_MANUAL,
+	OBJECT_PROP_POSITION_ANCHOR,
 };
 
 enum {
@@ -208,13 +222,28 @@ static void
 gog_object_set_property (GObject *obj, guint param_id,
 			 GValue const *value, GParamSpec *pspec)
 {
+	GogObject *gobj = GOG_OBJECT (obj);
 	char const *str;
+	char **str_doubles;
 	unsigned id;
 
 	switch (param_id) {
 	case OBJECT_PROP_ID:
 		id = g_value_get_uint (value);
-		gog_object_set_id (GOG_OBJECT (obj), id);
+		gog_object_set_id (gobj, id);
+		break;
+	case OBJECT_PROP_POSITION:
+		str = g_value_get_string (value);
+		str_doubles = g_strsplit (str, " ", 4);
+		if (g_strv_length (str_doubles) != 4) {
+			g_strfreev (str_doubles);
+			break;
+		}
+		gobj->manual_position.x = g_ascii_strtod (str_doubles[0], NULL);
+		gobj->manual_position.y = g_ascii_strtod (str_doubles[1], NULL);
+		gobj->manual_position.w = g_ascii_strtod (str_doubles[2], NULL);
+		gobj->manual_position.h = g_ascii_strtod (str_doubles[3], NULL);
+		g_strfreev (str_doubles);
 		break;
 	case OBJECT_PROP_POSITION_COMPASS:
 		str = g_value_get_string (value);
@@ -224,7 +253,7 @@ gog_object_set_property (GObject *obj, guint param_id,
 			if (strcmp (str, position_compass[id].value) == 0) 
 				break;
 		if (id < G_N_ELEMENTS (position_compass))
-			gog_object_set_position_flags (GOG_OBJECT (obj), 
+			gog_object_set_position_flags (gobj, 
 						       position_compass[id].flags, 
 						       GOG_POSITION_COMPASS);
 		break;
@@ -236,9 +265,26 @@ gog_object_set_property (GObject *obj, guint param_id,
 			if (strcmp (str, position_alignment[id].value) == 0) 
 				break;
 		if (id < G_N_ELEMENTS (position_alignment))
-			gog_object_set_position_flags (GOG_OBJECT (obj), 
+			gog_object_set_position_flags (gobj, 
 						       position_alignment[id].flags, 
 						       GOG_POSITION_ALIGNMENT);
+		break;
+	case OBJECT_PROP_POSITION_IS_MANUAL:
+		gog_object_set_position_flags (gobj,
+			g_value_get_boolean (value) ? GOG_POSITION_MANUAL : 0,
+			GOG_POSITION_MANUAL);
+		break;
+	case OBJECT_PROP_POSITION_ANCHOR:
+		str = g_value_get_string (value);
+		if (str == NULL) 
+			break;
+		for (id = 0; id < G_N_ELEMENTS (position_anchor); id++)
+			if (strcmp (str, position_anchor[id].value) == 0) 
+				break;
+		if (id < G_N_ELEMENTS (position_anchor))
+			gog_object_set_position_flags (gobj, 
+						       position_anchor[id].flags, 
+						       GOG_POSITION_ANCHOR);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -250,12 +296,27 @@ static void
 gog_object_get_property (GObject *obj, guint param_id,
 		       GValue *value, GParamSpec *pspec)
 {
-	unsigned i;
+	GogObject *gobj = GOG_OBJECT (obj);
 	GogObjectPosition flags;
+	GString *string;
+	char buffer[G_ASCII_DTOSTR_BUF_SIZE];
+	unsigned i;
 
 	switch (param_id) {
 	case OBJECT_PROP_ID:
 		g_value_set_uint (value, GOG_OBJECT (obj)->id);
+		break;
+	case OBJECT_PROP_POSITION:
+		string = g_string_new ("");
+		g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), gobj->manual_position.x));
+		g_string_append_c (string, ' ');
+		g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), gobj->manual_position.y));
+		g_string_append_c (string, ' ');
+		g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), gobj->manual_position.w));
+		g_string_append_c (string, ' ');
+		g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), gobj->manual_position.h));
+		g_value_set_string (value, string->str);
+		g_string_free (string, TRUE);
 		break;
 	case OBJECT_PROP_POSITION_COMPASS:
 		flags = gog_object_get_position_flags (GOG_OBJECT (obj), GOG_POSITION_COMPASS);
@@ -273,6 +334,17 @@ gog_object_get_property (GObject *obj, guint param_id,
 				break;
 			}
 		break;	
+	case OBJECT_PROP_POSITION_IS_MANUAL:
+		g_value_set_boolean (value, (gobj->position & GOG_POSITION_MANUAL) != 0);
+		break;
+	case OBJECT_PROP_POSITION_ANCHOR:
+		flags = gog_object_get_position_flags (GOG_OBJECT (obj), GOG_POSITION_ANCHOR);
+		for (i = 0; i < G_N_ELEMENTS (position_anchor); i++)
+			if (position_anchor[i].flags == flags) {
+				g_value_set_string (value, position_anchor[i].value);
+				break;
+			}
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -280,14 +352,16 @@ gog_object_get_property (GObject *obj, guint param_id,
 }
 
 typedef struct {
-	GogObject	*obj;
+	GtkWidget	*x_spin, *y_spin, *w_spin, *h_spin;
+	GtkWidget	*manual_toggle;
+	GogObject	*gobj;
 	GladeXML	*gui;
 } ObjectPrefState;
 
 static void
 object_pref_state_free (ObjectPrefState *state) 
 {
-	g_object_unref (state->obj);
+	g_object_unref (state->gobj);
 	g_object_unref (state->gui);
 }
 
@@ -297,7 +371,7 @@ cb_compass_changed (GtkComboBox *combo, ObjectPrefState *state)
 {
 	GogObjectPosition position = position_compass[gtk_combo_box_get_active (combo)].flags;
 
-	gog_object_set_position_flags (state->obj, position, GOG_POSITION_COMPASS);
+	gog_object_set_position_flags (state->gobj, position, GOG_POSITION_COMPASS);
 }
 
 static void
@@ -305,26 +379,66 @@ cb_alignment_changed (GtkComboBox *combo, ObjectPrefState *state)
 {
 	GogObjectPosition position = position_alignment[gtk_combo_box_get_active (combo)].flags;
 
-	gog_object_set_position_flags (state->obj, position, GOG_POSITION_ALIGNMENT);
+	gog_object_set_position_flags (state->gobj, position, GOG_POSITION_ALIGNMENT);
 }
 
 static void
-gog_object_populate_editor (GogObject *obj, 
+cb_position_changed (GtkWidget *spin, ObjectPrefState *state)
+{
+	GogViewAllocation pos;
+	double value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (spin)) / 100.0;
+
+       	gog_object_get_manual_position (state->gobj, &pos);
+	if (spin == state->x_spin)
+		pos.x = value;
+	else if (spin == state->y_spin)
+		pos.y = value;
+	else if (spin == state->w_spin)
+		pos.w = value;
+	else if (spin == state->h_spin)
+		pos.h = value;
+	gog_object_set_manual_position (state->gobj, &pos);
+	if (state->manual_toggle != NULL)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->manual_toggle), TRUE);
+}
+
+static void
+cb_manual_position_changed (GtkToggleButton *button, ObjectPrefState *state)
+{
+	gog_object_set_position_flags (state->gobj, 
+		gtk_toggle_button_get_active (button) ? GOG_POSITION_MANUAL : 0, 
+		GOG_POSITION_MANUAL);
+}
+
+static void
+cb_anchor_changed (GtkComboBox *combo, ObjectPrefState *state)
+{
+	GogObjectPosition position = position_anchor[gtk_combo_box_get_active (combo)].flags;
+
+	gog_object_set_position_flags (state->gobj, position, GOG_POSITION_ANCHOR);
+}
+
+static void
+gog_object_populate_editor (GogObject *gobj, 
 			    GogEditor *editor, 
 			    G_GNUC_UNUSED GogDataAllocator *dalloc, 
 			    GOCmdContext *cc)
 {
 	GtkWidget *w;
+	GtkSizeGroup *widget_size_group, *label_size_group;
 	GladeXML *gui;
+	GogObjectClass *gog_klass;
+	GogObjectPosition allowable_positions, flags;
 	ObjectPrefState *state;
 	unsigned i;
-	GogObjectPosition allowable_positions, flags;
 	
-	if (obj->role == NULL) 
+	if (gobj->role == NULL) 
 		return;
+
+	gog_klass = GOG_OBJECT_GET_CLASS (gobj);
 	
-       	allowable_positions = obj->role->allowable_positions;
-	if (!(allowable_positions & (/*GOG_POSITION_MANUAL |*/ GOG_POSITION_COMPASS)))
+       	allowable_positions = gobj->role->allowable_positions;
+	if (!(allowable_positions & (GOG_POSITION_MANUAL | GOG_POSITION_COMPASS)))
 		return;	
 
 	gui = go_libglade_new ("gog-object-prefs.glade", "gog_object_prefs", NULL, cc);
@@ -332,33 +446,129 @@ gog_object_populate_editor (GogObject *obj,
 		return;
 
 	state = g_new (ObjectPrefState, 1);
-	state->obj = obj;
+	state->gobj = gobj;
 	state->gui = gui;
-	g_object_ref (G_OBJECT (obj));
+	state->manual_toggle = NULL;
+	g_object_ref (G_OBJECT (gobj));
 
-	w = glade_xml_get_widget (gui, "position_combo");
+	widget_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+	label_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+
 	if (allowable_positions & GOG_POSITION_COMPASS) {
-		flags = gog_object_get_position_flags (obj, GOG_POSITION_COMPASS);
+		w = glade_xml_get_widget (gui, "position_combo");
+		gtk_size_group_add_widget (widget_size_group, w);
+		flags = gog_object_get_position_flags (gobj, GOG_POSITION_COMPASS);
 		for (i = 0; i < G_N_ELEMENTS (position_compass); i++) { 
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _(position_compass[i].label));
 			if (position_compass[i].flags == flags)
 				gtk_combo_box_set_active (GTK_COMBO_BOX (w), i);
 		}
 		g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_compass_changed), state);
-	} else
+		w = glade_xml_get_widget (gui, "position_label");
+		gtk_size_group_add_widget (label_size_group, w);
+	} else {
+		w = glade_xml_get_widget (gui, "compass_position");
 		gtk_widget_hide (w);
+	}
 
-	w = glade_xml_get_widget (gui, "alignment_combo");
+
 	if (allowable_positions & GOG_POSITION_COMPASS) {
-		flags = gog_object_get_position_flags (obj, GOG_POSITION_ALIGNMENT);
+		w = glade_xml_get_widget (gui, "alignment_combo");
+		gtk_size_group_add_widget (widget_size_group, w);
+		flags = gog_object_get_position_flags (gobj, GOG_POSITION_ALIGNMENT);
 		for (i = 0; i < G_N_ELEMENTS (position_alignment); i++) { 
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _(position_alignment[i].label));
 			if (position_alignment[i].flags == flags)
 				gtk_combo_box_set_active (GTK_COMBO_BOX (w), i);
 		}
 		g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_alignment_changed), state);
-	} else
+		w = glade_xml_get_widget (gui, "alignment_label");
+		gtk_size_group_add_widget (label_size_group, w);
+	} else {
+		w = glade_xml_get_widget (gui, "compass_alignment");
 		gtk_widget_hide (w);
+	}
+
+	if (!(allowable_positions & GOG_POSITION_COMPASS)) {
+		w =glade_xml_get_widget (gui, "automatic_position_box");
+		gtk_widget_hide (w);
+	}
+	
+	g_object_unref (G_OBJECT (widget_size_group));
+	g_object_unref (G_OBJECT (label_size_group));
+
+	widget_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+	label_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+	
+	if (allowable_positions & GOG_POSITION_MANUAL) {
+		w = glade_xml_get_widget (gui, "x_label");
+		gtk_size_group_add_widget (label_size_group, w);
+		w = glade_xml_get_widget (gui, "x_spin");
+		gtk_size_group_add_widget (widget_size_group, w);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.x * 100.0);
+		g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (cb_position_changed), state);
+		state->x_spin = w;
+		
+		w = glade_xml_get_widget (gui, "y_label");
+		gtk_size_group_add_widget (label_size_group, w);
+		w = glade_xml_get_widget (gui, "y_spin");
+		gtk_size_group_add_widget (widget_size_group, w);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.y * 100.0);
+		g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (cb_position_changed), state);
+		state->y_spin = w;
+
+		w = glade_xml_get_widget (gui, "anchor_label");
+		gtk_size_group_add_widget (label_size_group, w);
+		w =  glade_xml_get_widget (gui, "anchor_combo");
+		flags = gog_object_get_position_flags (gobj, GOG_POSITION_ANCHOR);
+		for (i = 0; i < G_N_ELEMENTS (position_anchor); i++) {
+			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _(position_anchor[i].label));
+			if (i == 0 || position_anchor[i].flags == flags)
+				gtk_combo_box_set_active (GTK_COMBO_BOX (w), i);
+		}
+		g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_anchor_changed), state);
+		gtk_combo_box_set_wrap_width (GTK_COMBO_BOX (w), 3);
+		
+		if (gog_klass->can_manual_size) {
+			w = glade_xml_get_widget (gui, "width_label");
+			gtk_size_group_add_widget (label_size_group, w);
+			w = glade_xml_get_widget (gui, "width_spin");
+			gtk_size_group_add_widget (widget_size_group, w);
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.w * 100.0);
+			g_signal_connect (G_OBJECT (w), "value-changed", 
+					  G_CALLBACK (cb_position_changed), state);
+			state->w_spin = w;
+
+			w = glade_xml_get_widget (gui, "height_label");
+			gtk_size_group_add_widget (label_size_group, w);
+			w = glade_xml_get_widget (gui, "height_spin");
+			gtk_size_group_add_widget (widget_size_group, w);
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.h * 100.0);
+			g_signal_connect (G_OBJECT (w), "value-changed", 
+					  G_CALLBACK (cb_position_changed), state);
+			state->h_spin = w;
+		} else {
+			w = glade_xml_get_widget (gui, "manual_sizes");
+			gtk_widget_hide (w);
+		}
+	} else {
+		state->manual_toggle = glade_xml_get_widget (gui, "manual_position_box");
+		gtk_widget_hide (state->manual_toggle);
+	}
+
+	g_object_unref (G_OBJECT (widget_size_group));
+	g_object_unref (G_OBJECT (label_size_group));
+
+	w = glade_xml_get_widget (gui, "manual_position_button");
+	if ((allowable_positions & GOG_POSITION_MANUAL) &&
+	    ((allowable_positions & (GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT)) ||
+	     (allowable_positions & GOG_POSITION_SPECIAL))) {
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
+				       gog_object_get_position_flags (gobj, GOG_POSITION_MANUAL) != 0);
+		g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (cb_manual_position_changed), state);
+	} else {
+		gtk_widget_hide (w);
+	}
 
 	w = glade_xml_get_widget (gui, "gog_object_prefs");
 	g_object_set_data_full (G_OBJECT (w), "state", state, 
@@ -379,18 +589,33 @@ gog_object_class_init (GObjectClass *klass)
 	gog_klass->parent_changed  = gog_object_parent_changed;
 	gog_klass->populate_editor = gog_object_populate_editor;
 
+	gog_klass->can_manual_size = FALSE;
+	gog_klass->use_parent_as_proxy = FALSE;
+
 	g_object_class_install_property (klass, OBJECT_PROP_ID,
 		g_param_spec_uint ("id", "id", "Object ID",
-			0, G_MAXINT, 0,
-			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+				   0, G_MAXINT, 0,
+				   G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (klass, OBJECT_PROP_POSITION,
+		g_param_spec_string ("position", "Position", 
+				     "Position and size of object, in percentage of parent size",
+				     "0 0 1 1", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_COMPASS,
 		g_param_spec_string ("compass", "Compass",
-			"Compass auto position",
-			"top", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+				     "Compass auto position flags",
+				     "top", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_ALIGNMENT,
 		g_param_spec_string ("alignment", "Alignment",
-			"Alignment flag",
-			"fill", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+				     "Alignment flag",
+				     "fill", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (klass, OBJECT_PROP_POSITION_IS_MANUAL,
+		g_param_spec_boolean ("is-position-manual", "Is position manual", 
+				      "Is position manual",
+				      FALSE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (klass, OBJECT_PROP_POSITION_ANCHOR,
+		g_param_spec_string ("anchor", "Anchor",
+				     "Anchor for manual position",
+				     "top-left", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 
 	gog_object_signals [CHILD_ADDED] = g_signal_new ("child-added",
 		G_TYPE_FROM_CLASS (klass),
@@ -445,6 +670,10 @@ gog_object_init (GogObject *obj)
 	obj->id = 0;
 	obj->needs_update = FALSE;
 	obj->being_updated = FALSE;
+	obj->manual_position.x =
+	obj->manual_position.y = 0.0;
+	obj->manual_position.w =
+	obj->manual_position.h = 1.0;
 }
 
 GSF_CLASS (GogObject, gog_object,
@@ -821,12 +1050,15 @@ gog_role_cmp (GogObjectRole const *a, GogObjectRole const *b)
 	int index_a = gog_object_position_cmp (a->allowable_positions);
 	int index_b = gog_object_position_cmp (b->allowable_positions);
 
+	if (b->priority != a->priority)
+		return b->priority - a->priority;
+
 	/* intentionally reverse to put SPECIAL at the top */
 	if (index_a < index_b)
 		return 1;
 	else if (index_a > index_b)
 		return -1;
-	return b->priority - a->priority;
+	return 0;
 }
 
 static int
@@ -1219,7 +1451,7 @@ gog_object_add_by_name (GogObject *parent,
 }
 
 /**
- * gog_object_set_position_flags :
+ * gog_object_get_position_flags :
  * @obj : #GogObject
  * @mask : #GogObjectPosition
  *
@@ -1253,11 +1485,113 @@ gog_object_set_position_flags (GogObject *obj, GogObjectPosition flags, GogObjec
 		return TRUE;
 
 	if ((flags & obj->role->allowable_positions) !=
-	    (flags & (GOG_POSITION_COMPASS | GOG_POSITION_ANY_MANUAL)))
+	    (flags & (GOG_POSITION_COMPASS | GOG_POSITION_ANY_MANUAL))) {
+		g_warning ("[GogObject::set_position_flags] Invalid flags (%s)",
+			   gog_object_get_name (obj));
 		return FALSE;
+	}
 	obj->position = (obj->position & ~mask) | (flags & mask);
 	gog_object_emit_changed (obj, TRUE);
 	return TRUE;
+}
+
+/**
+ * gog_object_get_manual_position:
+ * @obj : #GogObject
+ *
+ * returns manual position of this object, in points.
+ **/
+void
+gog_object_get_manual_position (GogObject *gobj, GogViewAllocation *pos)
+{
+	g_return_if_fail (GOG_OBJECT (gobj) != NULL);
+
+	if (pos != NULL)
+		*pos = gobj->manual_position;
+}
+
+/**
+ * gog_object_set_manual_position:
+ * @obj : #GogObject
+ * @pos : #GogViewAllocation
+ *
+ * set manual position of given object, in points. 
+ **/
+void
+gog_object_set_manual_position (GogObject *gobj, GogViewAllocation const *pos)
+{
+	g_return_if_fail (GOG_OBJECT (gobj) != NULL);
+
+	if (gobj->manual_position.x == pos->x &&
+	    gobj->manual_position.y == pos->y &&
+	    gobj->manual_position.w == pos->w &&
+	    gobj->manual_position.h == pos->h)
+		return;
+
+	gobj->manual_position = *pos;
+	gog_object_emit_changed (gobj, TRUE);
+}
+
+/**
+ * gog_object_get_manual_allocation:
+ * @gobj : #GogObject
+ * @parent_allocation : #GogViewAllocation
+ * @requisition : #GogViewRequisition
+ *
+ * Returns manual allocation of a GogObject given its parent allocation
+ * and its size request.
+ **/
+GogViewAllocation
+gog_object_get_manual_allocation (GogObject *gobj,
+				  GogViewAllocation const *parent_allocation,
+				  GogViewRequisition const *requisition)
+{
+	GogViewAllocation pos;
+	unsigned anchor;
+
+	pos.x = parent_allocation->x + gobj->manual_position.x * parent_allocation->w;
+	pos.y = parent_allocation->y + gobj->manual_position.y * parent_allocation->h;
+
+	if (GOG_OBJECT_GET_CLASS (gobj)->can_manual_size) {
+		pos.w = gobj->manual_position.w * parent_allocation->w;
+		pos.h = gobj->manual_position.h * parent_allocation->h;
+	} else {
+		pos.w = requisition->w;
+		pos.h = requisition->h;
+	}
+	
+	anchor = gog_object_get_position_flags (gobj, GOG_POSITION_ANCHOR);
+			   
+	switch (anchor) {
+		case GOG_POSITION_ANCHOR_N:
+		case GOG_POSITION_ANCHOR_CENTER:
+		case GOG_POSITION_ANCHOR_S:
+			pos.x -= pos.w / 2.0;
+			break;
+		case GOG_POSITION_ANCHOR_SE:
+		case GOG_POSITION_ANCHOR_E:
+		case GOG_POSITION_ANCHOR_NE:
+			pos.x -= pos.w;
+			break;
+		default:
+			break;
+	}
+	switch (anchor) {
+		case GOG_POSITION_ANCHOR_E:
+		case GOG_POSITION_ANCHOR_CENTER:
+		case GOG_POSITION_ANCHOR_W:
+			pos.y -= pos.h / 2.0;
+			break;
+		case GOG_POSITION_ANCHOR_SE:
+		case GOG_POSITION_ANCHOR_S:
+		case GOG_POSITION_ANCHOR_SW:
+			pos.y -= pos.h;
+			break;
+		default:
+			break;
+	}
+
+	return pos;
 }
 
 GogObjectRole const *

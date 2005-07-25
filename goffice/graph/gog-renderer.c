@@ -38,8 +38,6 @@ enum {
 	RENDERER_PROP_0,
 	RENDERER_PROP_MODEL,
 	RENDERER_PROP_VIEW,
-	RENDERER_PROP_LOGICAL_WIDTH_PTS,
-	RENDERER_PROP_LOGICAL_HEIGHT_PTS,
 	RENDERER_PROP_ZOOM
 };
 enum {
@@ -104,13 +102,6 @@ gog_renderer_set_property (GObject *obj, guint param_id,
 					   NULL);
 		gog_renderer_request_update (rend);
 		break;
-	case RENDERER_PROP_LOGICAL_WIDTH_PTS:
-		rend->logical_width_pts = g_value_get_double (value);
-		break;
-
-	case RENDERER_PROP_LOGICAL_HEIGHT_PTS:
-		rend->logical_height_pts = g_value_get_double (value);
-		break;
 
 	case RENDERER_PROP_ZOOM:
 		rend->zoom = g_value_get_double (value);
@@ -133,12 +124,6 @@ gog_renderer_get_property (GObject *obj, guint param_id,
 		break;
 	case RENDERER_PROP_VIEW:
 		g_value_set_object (value, rend->view);
-		break;
-	case RENDERER_PROP_LOGICAL_WIDTH_PTS:
-		g_value_set_double (value, rend->logical_width_pts);
-		break;
-	case RENDERER_PROP_LOGICAL_HEIGHT_PTS:
-		g_value_set_double (value, rend->logical_height_pts);
 		break;
 	case RENDERER_PROP_ZOOM:
 		g_value_set_double (value, rend->zoom);
@@ -668,14 +653,6 @@ gog_renderer_class_init (GogRendererClass *renderer_klass)
 		g_param_spec_object ("view", "view",
 			"the GogView this renderer is displaying",
 			GOG_VIEW_TYPE, G_PARAM_READABLE));
-	g_object_class_install_property (gobject_klass, RENDERER_PROP_LOGICAL_WIDTH_PTS,
-		g_param_spec_double ("logical_width_pts", "Logical Width Pts",
-			"Logical width of the drawing area in pts",
-			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE));
-	g_object_class_install_property (gobject_klass, RENDERER_PROP_LOGICAL_HEIGHT_PTS,
-		g_param_spec_double ("logical_height_pts", "Logical Height Pts",
-			"Logical height of the drawing area in pts",
-			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, RENDERER_PROP_ZOOM,
 		g_param_spec_double ("zoom", "zoom Height Pts",
 			"global scale factor",
@@ -703,8 +680,6 @@ gog_renderer_init (GogRenderer *rend)
 	rend->cur_style    = NULL;
 	rend->style_stack  = NULL;
 	rend->zoom = rend->scale = rend->scale_x = rend->scale_y = 1.;
-	rend->logical_width_pts    = GO_CM_TO_PT ((double)12);
-	rend->logical_height_pts   = GO_CM_TO_PT ((double)8);
 	rend->font_watcher = g_cclosure_new_swap (G_CALLBACK (cb_font_removed),
 		rend, NULL);
 	go_font_cache_register (rend->font_watcher);

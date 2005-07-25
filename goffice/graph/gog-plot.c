@@ -185,8 +185,10 @@ gog_plot_populate_editor (GogObject *obj,
 
 	g_return_if_fail (chart != NULL);
 
-	if (gog_chart_get_axis_set (chart) != GOG_AXIS_SET_XY)
+	if (gog_chart_get_axis_set (chart) != GOG_AXIS_SET_XY) {
+		(GOG_OBJECT_CLASS(plot_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 		return;
+	}
 
 	table = gtk_table_new (0, 1, FALSE);
 	for (type = 0 ; type < GOG_AXIS_TYPES ; type++) {
@@ -242,6 +244,8 @@ gog_plot_populate_editor (GogObject *obj,
 	}
 	else
 		g_object_unref (G_OBJECT (table));
+	
+	(GOG_OBJECT_CLASS(plot_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }
 
 static void

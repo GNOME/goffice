@@ -1,3 +1,79 @@
+2005-07-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	Implementation of manual position of graph objects.
+
+	* goffice/graph/goffice-graph.h: new modifier flags in
+	GogObjectPosition for manual position.
+	* goffice/graph/gog-axis.c (gog_axis_class_init): Label can be
+	positionned manually.
+	(gog_axis_view_padding_request): GOG_POSITION_MANUAL supersedes
+	GOG_POSITION_SPECIAL.
+	(gog_axis_view_size_allocate): handle GOG_POSITION_MANUAL case.
+	* goffice/graph/gog-chart-impl.h: plot_area stores plot area position
+	in fraction of chart size. new is_plot_area_manual flag.
+	* goffice/graph/gog-chart.c (gog_chart_set_property): new.
+	(gog_chart_get_property): handles plot-area and is-plot-area-manual
+	properties.
+	(chart_pref_state_free): new.
+	(cb_plot_area_changed): new.
+	(cb_manual_toggle_changed): new.
+	(gog_chart_populate_editor): new.
+	(gog_chart_class_init): reorder childs. Still need some work for a
+	nice display in object tree.  Install plot-area and 
+	is-plot_area-manual properties.
+	(gog_chart_get_plot_area): new.
+	(gog_chart_set_plot_area): new.
+	(gog_chart_view_get_plot_area): plot area extents are stored in
+	GogChartView::plot_area now.
+	(gog_chart_view_size_allocate): handle manual case.
+	(gog_chart_view_class_init): don't clip to chart area.
+	* graph/goffice/gog-control-foocanvas
+	(gog_control_foocanvas_set_property): remove logical_width_pts and
+	logical_height_pts properties. These are properties of GogGraph now.
+	(gog_control_foocanvas_get_property): ditto.
+	(gog_control_foocanvas_class_init): ditto.
+	* goffice/graph/gog-graph.c (gog_graph_set_property): handle new width-pts 
+	and height-pts properties.
+	(gog_graph_get_property): ditto.
+	(gog_graph_class_init): ditto. Chart and Title object can be
+	positionned manually.
+	(gog_graph_get_size): new.
+	(gog_graph_set_size): new.
+	* goffice/graph/gog-guru.c (cb_typesel_sample_plot_resize): don't
+	change graph logical size.
+	(cb_sample_pressed): don't change canvas scale.
+	(cb_canvas_select_item): center graph on canvas.
+	(cb_sample_plot_resize): calculate graph size to make it fit in canvas
+	area.
+	(graph_guru_init_format_page): don't change canvas scale.
+	* goffice/graph/gog-object.c (gog_object_set_property): handle new
+	position, position-is-manual and anchor properties.
+	(gog_object_get_property): ditto.
+	(gog_object_class_init): ditto.
+	(cb_position_changed): new.
+	(cb_manual_position_changed): new.
+	(cb_anchor_changed): new.
+	(gog_object_populate_editor): new UI for manual position setting.
+	(gog_role_cmp): test priority first, then compare allowable positions.
+	(gog_object_set_position_flags): emit a warning in case of wrong
+	flags.
+	(gog_object_get_manual_position): new.
+	(gog_object_set_manual_position): new.
+	(gog_object_get_manual_allocation): new.
+	* goffice/graph/gog-plot.c (gog_plot_populate_editor): allways call parent
+	populate_editor.
+	* goffice/graph/gog-renderer-pixbuf.c
+	(gog_renderer_pixbuf_get_text_OBR): use pango_layout_get_extents
+	instead of pango_layout_get_pixel_extents for more accuracy.
+	(gog_renderer_pixbuf_update): logical width and height of graph is a
+	property of GogGraph now.
+	* goffice/graph/gog-renderer.c (gog_renderer_set_property): remove
+	logical_width_pts and logical_height_pts properties.
+	(gog_renderer_get_property): ditto.
+	(gog_renderer_class_init): ditto.
+	* goffice/graph/gog-view.c (gog_view_size_allocate_real): handle
+	manual case.
+					    
 2005-07-22  Chris Lahey  <clahey@our.domain.is.not.set>
 
 	* goffice/drawing/god-drawing-renderer-gdk.c: Remove * .7 hack

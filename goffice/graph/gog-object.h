@@ -86,7 +86,7 @@ struct _GogObject {
 	GSList		*children;
 
 	GogObjectPosition  position;
-	GogViewAllocation *manual_position;
+	GogViewAllocation  manual_position;
 
 	unsigned needs_update : 1;
 	unsigned being_updated : 1;
@@ -100,6 +100,7 @@ typedef struct {
 	GType	    view_type;
 
 	unsigned use_parent_as_proxy : 1; /* when we change, pretend it was our parent */
+	unsigned can_manual_size : 1; 
 
 	/* Virtuals */
 	void	     (*update)		(GogObject *obj);
@@ -158,8 +159,14 @@ void		  gog_object_can_reorder (GogObject const *obj,
 GogObject	 *gog_object_reorder	 (GogObject const *obj,
 					  gboolean inc, gboolean goto_max);
 
-GogObjectPosition gog_object_get_position_flags	(GogObject const *obj, GogObjectPosition mask);
-gboolean	  gog_object_set_position_flags	(GogObject *obj, GogObjectPosition p, GogObjectPosition mask);
+GogObjectPosition gog_object_get_position_flags	   (GogObject const *obj, GogObjectPosition mask);
+gboolean	  gog_object_set_position_flags	   (GogObject *obj, GogObjectPosition p, GogObjectPosition mask);
+void	          gog_object_get_manual_position   (GogObject *obj, GogViewAllocation *pos);
+void 		  gog_object_set_manual_position   (GogObject *obj, GogViewAllocation const *pos);
+
+GogViewAllocation gog_object_get_manual_allocation (GogObject *gobj, 
+						    GogViewAllocation const *parent_allocation, 
+						    GogViewRequisition const *requisition);
 
 GogObjectRole const *gog_object_find_role_by_name (GogObject const *obj,
 						   char const *role);

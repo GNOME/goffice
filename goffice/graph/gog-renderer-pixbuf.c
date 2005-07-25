@@ -587,7 +587,6 @@ get_rotated_layout_bounds (PangoLayout  *layout,
 	rect->height = floor (y_max) - rect->y;
 }
 
-
 static PangoContext *
 gog_renderer_pixbuf_get_pango_context (GogRendererPixbuf *prend)
 {
@@ -597,8 +596,8 @@ gog_renderer_pixbuf_get_pango_context (GogRendererPixbuf *prend)
 		return prend->pango_context;
 
 	font_map = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
-	pango_ft2_font_map_set_resolution (font_map,
-		prend->dpi_x, prend->dpi_y);
+	pango_ft2_font_map_set_resolution (font_map, prend->dpi_x, prend->dpi_y);
+
 	prend->pango_context = pango_ft2_font_map_create_context (font_map);
 	/*  Workaround for bug #143542 (PangoFT2Fontmap leak),
 	 *  see also bug #148997 (Text layer rendering leaks font file descriptor):
@@ -847,10 +846,10 @@ gog_renderer_pixbuf_get_text_OBR (GogRenderer *rend,
 	
 	layout = gog_renderer_pixbuf_get_pango_layout ((GogRendererPixbuf *) rend);
 	pango_layout_set_text (layout, text, -1);
-	pango_layout_get_pixel_extents (layout, NULL, &logical);
+	pango_layout_get_extents (layout, NULL, &logical);
 
-	obr->w = logical.width;
-	obr->h = logical.height;
+	obr->w = ((double) logical.width + (double) PANGO_SCALE / 2.0) / (double) PANGO_SCALE;
+	obr->h = ((double) logical.height + (double) PANGO_SCALE / 2.0) /(double) PANGO_SCALE;
 }
 
 static void
@@ -1014,20 +1013,22 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 	gboolean redraw = TRUE;
 	GogView *view;
 	GogViewAllocation allocation;
+	GogGraph *graph;
 
 	g_return_val_if_fail (prend != NULL, FALSE);
 	g_return_val_if_fail (prend->base.view != NULL, FALSE);
 
 	view = prend->base.view;
-	gog_graph_force_update (GOG_GRAPH (view->model));
+	graph = GOG_GRAPH (view->model);
+	gog_graph_force_update (graph);
 	allocation.x = allocation.y = 0.;
 	allocation.w = w;
 	allocation.h = h;
 	if (prend->w != w || prend->h != h) {
 		prend->w = w;
 		prend->h = h;
-		prend->base.scale_x = w / prend->base.logical_width_pts;
-		prend->base.scale_y = h / prend->base.logical_height_pts;
+		prend->base.scale_x = w / graph->width;
+		prend->base.scale_y = h / graph->height;
 		prend->base.scale = MIN (prend->base.scale_x, prend->base.scale_y);
 		prend->base.zoom  = zoom;
 		prend->dpi_x = gog_renderer_pt2r_x (&prend->base, GO_IN_TO_PT ((double)1.))
