@@ -1,5 +1,14 @@
 2005-07-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* goffice/graph/gog-object-prefs.glade: remove chart preference
+	dialog and move it to gog-chart-prefs.glade.
+	* goffice/graph/gog-chart-prefs.glade: new.
+	* goffice/graph/gog-chart.c (cb_plot_area_changed): actually use
+	signal handlers.
+	(gog_chart_populate_editor): ditto.
+
+2005-07-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	Implementation of manual position of graph objects.
 
 	* goffice/graph/goffice-graph.h: new modifier flags in

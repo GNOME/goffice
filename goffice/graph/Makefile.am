@@ -87,6 +87,7 @@ goffice_glade_DATA = \
 	gog-guru.glade			\
 	gog-guru-type-selector.glade	\
 	gog-object-prefs.glade		\
+	gog-chart-prefs.glade		\
 	gog-style-prefs.glade		\
 	gog-axis-prefs.glade		\
 	gog-error-bar-prefs.glade	\

@@ -398,7 +398,6 @@ gog_chart_get_property (GObject *obj, guint param_id,
 
 typedef struct {
 	GtkWidget	*x_spin, *y_spin, *w_spin, *h_spin;
-	gulong		x_spin_signal, y_spin_signal;
 	gulong		w_spin_signal, h_spin_signal;
 	GtkWidget	*manual_toggle;
 	GogChart 	*chart;
@@ -416,27 +415,29 @@ static void
 cb_plot_area_changed (GtkWidget *spin, ChartPrefState *state)
 {
 	GogViewAllocation pos;
-	double value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (spin)) / 100.0;
+	double value;
 	double max;
+
+       	value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (spin)) / 100.0;
 
        	gog_chart_get_plot_area (state->chart, &pos);
 	if (spin == state->x_spin) {
 		pos.x = value;
 		max = 1.0 - pos.x;
-		gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->w_spin), 0.0, max * 100);
-		if (pos.w > max) {
-			pos.w = max;
-			gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), max * 100);
-		}
+		g_signal_handler_block (state->w_spin, state->w_spin_signal);
+		gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->w_spin), 0.0, max * 100.0);
+		if (pos.w > max) pos.w = max;
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), pos.w * 100.0);
+		g_signal_handler_unblock (state->w_spin, state->w_spin_signal);
 	}
 	else if (spin == state->y_spin) {
 		pos.y = value;
 		max = 1.0 - pos.y;
-		gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->h_spin), 0.0, max * 100);
-		if (pos.h > max) {
-			pos.h = max;
-			gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), max * 100);
-		}
+		g_signal_handler_block (state->h_spin, state->h_spin_signal);
+		gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->h_spin), 0.0, max * 100.0);
+		if (pos.h > max) pos.h = max;
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), pos.w * 100.0);
+		g_signal_handler_unblock (state->h_spin, state->h_spin_signal);
 	}
 	else if (spin == state->w_spin) {
 		pos.w = value;
@@ -468,7 +469,7 @@ gog_chart_populate_editor (GogObject *gobj,
 	ChartPrefState *state;
 	static guint chart_pref_page = 0;
 	
-	gui = go_libglade_new ("gog-object-prefs.glade", "gog_chart_prefs", NULL, cc);
+	gui = go_libglade_new ("gog-chart-prefs.glade", "gog_chart_prefs", NULL, cc);
 	if (gui == NULL)
 		return;
 
@@ -480,24 +481,28 @@ gog_chart_populate_editor (GogObject *gobj,
 	state->x_spin = glade_xml_get_widget (gui, "x_spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->x_spin), 
 				   chart->plot_area.x * 100.0); 
-	state->x_spin_signal = g_signal_connect (G_OBJECT (state->x_spin), "value-changed", 
-						 G_CALLBACK (cb_plot_area_changed), state);
+	g_signal_connect (G_OBJECT (state->x_spin), "value-changed", 
+			  G_CALLBACK (cb_plot_area_changed), state);
 
 	state->y_spin = glade_xml_get_widget (gui, "y_spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->y_spin), 
 				   chart->plot_area.y * 100.0); 
-	state->y_spin_signal = g_signal_connect (G_OBJECT (state->y_spin), "value-changed", 
-						 G_CALLBACK (cb_plot_area_changed), state);
+	g_signal_connect (G_OBJECT (state->y_spin), "value-changed", 
+			  G_CALLBACK (cb_plot_area_changed), state);
 
 	state->w_spin = glade_xml_get_widget (gui, "w_spin");
+	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->w_spin), 
+				   0.0, (1.0 - chart->plot_area.x) * 100.0);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), 
-				   chart->plot_area.w* 100.0); 
+				   100.0 * chart->plot_area.w); 
 	state->w_spin_signal = g_signal_connect (G_OBJECT (state->w_spin), "value-changed", 
 						 G_CALLBACK (cb_plot_area_changed), state);
 
 	state->h_spin = glade_xml_get_widget (gui, "h_spin");
+	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->h_spin), 
+				   0.0, (1.0 - chart->plot_area.y) * 100.0);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), 
-				   chart->plot_area.h * 100.0); 
+				   100.0 * chart->plot_area.h); 
 	state->h_spin_signal = g_signal_connect (G_OBJECT (state->h_spin), "value-changed", 
 						 G_CALLBACK (cb_plot_area_changed), state);
 

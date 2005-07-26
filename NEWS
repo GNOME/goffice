@@ -1,9 +1,12 @@
 goffice 0.0.3:
 
 Emmanuel Pacaud:
+	* Add support for manual position/size of graph objects.
 	* Add rotated text support.
 	* Add optional cairo renderer.
 	* Fix swatch position in legends.
+	* Sample graph in guru has the same aspect ratio than the edited graph
+	  [#150458].
 
 Jean Brefort:
 	* Add series lines in bars and columns plots.
