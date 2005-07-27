@@ -97,7 +97,7 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 			path[0].y = path[3].y = path[4].y = view->allocation.y; 
 			path[1].y = path[2].y = path[0].y + view->allocation.h; 
 
-			gog_renderer_draw_sharp_polygon (view->renderer, path, FALSE, NULL);
+			gog_renderer_draw_sharp_polygon (view->renderer, path, FALSE);
 			break;
 			}
 		case GOG_AXIS_SET_RADAR: {
@@ -142,13 +142,13 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 				path[step_nbr + 1].y = path[0].y;
 				path[step_nbr + 1].code = ART_LINETO;
 				path[step_nbr + 2].code = ART_END;
-				gog_renderer_draw_polygon (view->renderer, path, FALSE, NULL);
+				gog_renderer_draw_polygon (view->renderer, path, FALSE);
 				g_free (path);
 			} else {
 				double a = gog_axis_map (map, position); 
 				gog_renderer_draw_pie_wedge (view->renderer, parms->cx, parms->cy,
 							     parms->rx * a, parms->ry * a,
-							     -parms->th1, -parms->th0, FALSE, NULL);
+							     -parms->th1, -parms->th0, FALSE);
 			}
 			gog_chart_map_free (c_map);
 			break;

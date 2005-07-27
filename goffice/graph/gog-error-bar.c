@@ -735,7 +735,7 @@ void gog_error_bar_render (const GogErrorBar *bar,
 		path[2].code = ART_END;
 
 	gog_renderer_push_style (rend, bar->style);
-	gog_renderer_draw_sharp_path (rend, path, NULL);
+	gog_renderer_draw_sharp_path (rend, path);
 	gog_renderer_pop_style (rend);
 }
 

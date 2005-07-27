@@ -250,15 +250,13 @@ grc_draw_path (GogRenderer *rend, ArtVpath const *vpath, ArtBpath const*bpath)
 }
 
 static void
-gog_renderer_cairo_draw_path (GogRenderer *rend, ArtVpath const *path,
-			      GogViewAllocation const *bound)
+gog_renderer_cairo_draw_path (GogRenderer *rend, ArtVpath const *path)
 {
 	grc_draw_path (rend, path, NULL);
 }
   
 static void
-gog_renderer_cairo_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
-				     GogViewAllocation const *bound)
+gog_renderer_cairo_draw_bezier_path (GogRenderer *rend, ArtBpath const *path)
 {
 	grc_draw_path (rend, NULL, path);
 }
@@ -407,14 +405,14 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 
 static void
 gog_renderer_cairo_draw_polygon (GogRenderer *rend, ArtVpath const *path, 
-				 gboolean narrow, GogViewAllocation const *bound)
+				 gboolean narrow)
 {
 	grc_draw_polygon (rend, path, NULL, narrow);
 }
 
 static void
 gog_renderer_cairo_draw_bezier_polygon (GogRenderer *rend, ArtBpath const *path,
-					 gboolean narrow, GogViewAllocation const *bound)
+					 gboolean narrow)
 {
 	grc_draw_polygon (rend, NULL, path, narrow);
 }

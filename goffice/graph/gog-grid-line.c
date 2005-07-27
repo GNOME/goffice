@@ -205,7 +205,7 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 								path[1].y = plot_area->y + plot_area->h;
 								path[0].x = 
 								path[1].x = gog_axis_map_to_view (map, ticks[i].position);
-								gog_renderer_draw_sharp_path (view->renderer, path, NULL);
+								gog_renderer_draw_sharp_path (view->renderer, path);
 							}
 						}
 						break;
@@ -217,7 +217,7 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 								path[1].x = plot_area->x + plot_area->w;
 								path[0].y = 
 								path[1].y = gog_axis_map_to_view (map, ticks[i].position);
-								gog_renderer_draw_sharp_path (view->renderer, path, NULL);
+								gog_renderer_draw_sharp_path (view->renderer, path);
 							}
 						}
 						break;
@@ -261,7 +261,7 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 							}
 							c_path[0].code = ART_MOVETO;
 							c_path[step_nbr + 1].code = ART_END;
-							gog_renderer_draw_path (view->renderer, c_path, NULL);
+							gog_renderer_draw_path (view->renderer, c_path);
 						}
 					}
 					g_free (c_path);
@@ -276,8 +276,7 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 							gog_renderer_draw_arc (view->renderer, parms->cx, parms->cy,
 									       position * parms->rx, 
 									       position * parms->ry,
-									       -parms->th1, -parms->th0,
-									       NULL);
+									       -parms->th1, -parms->th0);
 						}
 					}
 				}
@@ -309,7 +308,7 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 					    (ticks[i].type == GOG_AXIS_TICK_MINOR && grid_line->is_minor)) {
 						gog_chart_map_2D_to_view (c_map, ticks[i].position, stop, 
 									  &path[1].x, &path[1].y);
-						gog_renderer_draw_path (view->renderer, path, NULL);
+						gog_renderer_draw_path (view->renderer, path);
 					}
 				}
 

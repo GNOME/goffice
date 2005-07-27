@@ -139,8 +139,7 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 	path[5].code = ART_END;
 	
 	gog_renderer_draw_sharp_polygon (rend, path, 
-					 fabs (x1 - x0) < 3. || fabs (y1 - y0) < 3.
-					 , NULL);
+					 fabs (x1 - x0) < 3. || fabs (y1 - y0) < 3.);
 }
 
 static void

@@ -312,8 +312,7 @@ fill_properties (GogRenderer *renderer, xmlNodePtr node, gboolean narrow)
 }
 
 static void
-gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path,
-			    GogViewAllocation const *bound)
+gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
 	GogStyle const *style = renderer->cur_style;
@@ -350,7 +349,7 @@ gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path,
 
 static void
 gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path, 
-			       gboolean narrow, GogViewAllocation const *bound)
+			       gboolean narrow)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
 	GogStyle const *style = renderer->cur_style;
@@ -411,8 +410,7 @@ draw_bezier_path (ArtBpath const *path, GString *string)
 }
 
 static void
-gog_renderer_svg_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
-			       GogViewAllocation const *bound)
+gog_renderer_svg_draw_bezier_path (GogRenderer *rend, ArtBpath const *path)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
 	GogStyle const *style = rend->cur_style;
@@ -445,7 +443,7 @@ gog_renderer_svg_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
 
 static void
 gog_renderer_svg_draw_bezier_polygon (GogRenderer *renderer, ArtBpath const *path, 
-				      gboolean narrow, GogViewAllocation const *bound)
+				      gboolean narrow)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
 	GogStyle const *style = renderer->cur_style;

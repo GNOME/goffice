@@ -257,7 +257,7 @@ gog_reg_eqn_view_render (GogView *view, GogViewAllocation const *bbox)
 	alloc.y = view->residual.y + (view->residual.h - text_height) * re->vpos / 100. - padding;
 	alloc.w = text_width + 2. * padding;
 	alloc.h = text_height + 2. * padding;
-	gog_renderer_draw_rectangle (view->renderer, &alloc, bbox);
+	gog_renderer_draw_rectangle (view->renderer, &alloc);
 	alloc.x += padding;
 	alloc.y += padding;
 	if (re->show_eq) {

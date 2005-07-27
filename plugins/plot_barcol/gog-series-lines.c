@@ -84,7 +84,7 @@ gog_series_lines_render (GogSeriesLines *lines, GogRenderer *rend, GogViewAlloca
 		style->marker.mark->fill_color ^= 0xffffff00;
 	}
 	gog_renderer_push_style (rend, style);
-	gog_renderer_draw_path (rend, path, bbox);
+	gog_renderer_draw_path (rend, path);
 	if ((style->interesting_fields & GOG_STYLE_MARKER) != 0)
 		while (path[i].code != ART_END) {
 			gog_renderer_draw_marker (rend, path[i].x, path[i].y);

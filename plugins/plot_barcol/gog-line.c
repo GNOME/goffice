@@ -467,8 +467,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (!is_area_plot) {
 			path[i][lengths[i] +1].code = ART_END;
 
-			gog_renderer_draw_path (view->renderer,
-				path[i], NULL);
+			gog_renderer_draw_path (view->renderer, path[i]);
 		} else {
 			switch (type) {
 				case GOG_1_5D_NORMAL :
@@ -496,8 +495,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				path[i][j+1].code = ART_END;
 				break;
 			}
-			gog_renderer_draw_polygon (view->renderer,
-							 path[i], FALSE, NULL);
+			gog_renderer_draw_polygon (view->renderer, path[i], FALSE);
 		}
 
 		gog_renderer_pop_style (view->renderer);

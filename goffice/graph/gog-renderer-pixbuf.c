@@ -151,23 +151,6 @@ gog_renderer_pixbuf_clip_pop (GogRenderer *rend, GogRendererClip *clip)
 	clip->data = NULL;
 }
 
-static ArtSVP *
-clip_path (GogViewAllocation const *bound)
-{
-	ArtVpath path[6];
-	path[0].code = ART_MOVETO;
-	path[1].code = ART_LINETO;
-	path[2].code = ART_LINETO;
-	path[3].code = ART_LINETO;
-	path[4].code = ART_LINETO;
-	path[5].code = ART_END;
-	path[0].x = path[1].x = path[4].x = bound->x;
-	path[2].x = path[3].x = path[0].x + bound->w;
-	path[0].y = path[3].y = path[4].y = bound->y;
-	path[1].y = path[2].y = path[0].y + bound->h;
-	return art_svp_from_vpath ((ArtVpath *)path);
-}
-
 static double
 line_size (GogRenderer const *rend, double width)
 {
@@ -212,8 +195,7 @@ gog_renderer_pixbuf_sharp_path (GogRenderer *rend, ArtVpath *path, double line_w
 }
 
 static void
-gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path,
-			       GogViewAllocation const *bound)
+gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path)
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	GogStyle const *style = rend->cur_style;
@@ -244,14 +226,6 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path,
 									ART_PATH_STROKE_JOIN_MITER, 
 									ART_PATH_STROKE_CAP_ROUND,
 									width, 4, 0.5);
-					if (bound != NULL) {
-						ArtSVP *orig = svp;
-						ArtSVP *clip = clip_path (bound);
-						svp = art_svp_intersect (clip, orig);
-						art_svp_free (clip);
-						art_svp_free (orig);
-					}
-				
 					go_color_render_svp (style->line.color, svp,
 								 prend->x_offset,
 								 prend->y_offset,
@@ -287,13 +261,6 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path,
 										ART_PATH_STROKE_CAP_ROUND,
 										width, 4, 0.5);
 						g_free (dashed_path);
-					if (bound != NULL) {
-						ArtSVP *orig = svp;
-						ArtSVP *clip = clip_path (bound);
-						svp = art_svp_intersect (clip, orig);
-						art_svp_free (clip);
-						art_svp_free (orig);
-					}
 				
 					go_color_render_svp (style->line.color, svp,
 								 prend->x_offset,
@@ -311,11 +278,10 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path,
 }
   
 static void
-gog_renderer_pixbuf_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
-				      GogViewAllocation const *bound)
+gog_renderer_pixbuf_draw_bezier_path (GogRenderer *rend, ArtBpath const *path)
 {
 	ArtVpath *vpath = art_bez_path_to_vec (path, .1);
-	gog_renderer_pixbuf_draw_path (rend, vpath, bound);
+	gog_renderer_pixbuf_draw_path (rend, vpath);
 	art_free (vpath);
 }
 
@@ -332,8 +298,7 @@ gog_art_renderer_new (GogRendererPixbuf *prend)
 }
 
 static void
-gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
-				  gboolean narrow, GogViewAllocation const *bound)
+gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path, gboolean narrow)
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	GogStyle const *style = rend->cur_style;
@@ -368,13 +333,6 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 					g_free (dashed_path);
 				}
 		}
-		if (bound != NULL && outline != NULL) {
-			ArtSVP *orig = outline;
-			ArtSVP *clip = clip_path (bound);
-			outline = art_svp_intersect (clip, orig);
-			art_svp_free (clip);
-			art_svp_free (orig);
-		}
 	}
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE) {
@@ -387,20 +345,6 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 		fill = art_svp_rewind_uncrossed (svp2, ART_WIND_RULE_NONZERO);
 		art_svp_free (svp1);
 		art_svp_free (svp2);
-		if (bound != NULL) {
-			ArtSVP *orig = fill;
-			ArtSVP *clip = clip_path (bound);
-			fill = art_svp_intersect (clip, orig);
-			art_svp_free (clip);
-			art_svp_free (orig);
-		}
-#if 0 /* art_svp_minus is not implemented */
-		if (outline != NULL) {
-			ArtSVP *tmp = art_svp_minus (fill, outline);
-			art_svp_free (fill);
-			fill = tmp;
-		}
-#endif
 
 		switch (style->fill.type) {
 		case GOG_FILL_STYLE_PATTERN:
@@ -533,10 +477,10 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 
 static void
 gog_renderer_pixbuf_draw_bezier_polygon (GogRenderer *rend, ArtBpath const *path,
-					 gboolean narrow, GogViewAllocation const *bound)
+					 gboolean narrow)
 {
 	ArtVpath *vpath = art_bez_path_to_vec (path, .1);
-	gog_renderer_pixbuf_draw_polygon (rend, vpath, narrow, bound);
+	gog_renderer_pixbuf_draw_polygon (rend, vpath, narrow);
 	art_free (vpath);
 }
 

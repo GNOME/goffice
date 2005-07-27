@@ -521,7 +521,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 
 			gog_renderer_draw_polygon (view->renderer, path,
-						   r * len < 5 /* drop outline for thin segments */, NULL);
+						   r * len < 5 /* drop outline for thin segments */);
 
 			if (gpse != NULL)
 				gog_renderer_pop_style (view->renderer);

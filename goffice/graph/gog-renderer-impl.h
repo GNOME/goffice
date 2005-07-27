@@ -70,15 +70,11 @@ typedef struct {
  	
 	void (*sharp_path)	(GogRenderer *renderer, ArtVpath *path, double line_width);
 
-	void (*draw_path)      	(GogRenderer *renderer, ArtVpath const *path,
-				 GogViewAllocation const *bound);
-	void (*draw_polygon)   	(GogRenderer *renderer, ArtVpath const *path, gboolean narrow,
-				 GogViewAllocation const *bound);
+	void (*draw_path)      	(GogRenderer *renderer, ArtVpath const *path);
+	void (*draw_polygon)   	(GogRenderer *renderer, ArtVpath const *path, gboolean narrow);
 	
-	void (*draw_bezier_path)	(GogRenderer *renderer, ArtBpath const *path,
-					 GogViewAllocation const *bound);
-	void (*draw_bezier_polygon)    	(GogRenderer *renderer, ArtBpath const *path,
-					 gboolean narrow, GogViewAllocation const *bound);
+	void (*draw_bezier_path)	(GogRenderer *renderer, ArtBpath const *path);
+	void (*draw_bezier_polygon)    	(GogRenderer *renderer, ArtBpath const *path, gboolean narrow);
 	
 	void (*draw_text)      	(GogRenderer *rend, char const *text,
 				 GogViewAllocation const *pos, GtkAnchorType anchor,

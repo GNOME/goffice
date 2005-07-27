@@ -383,8 +383,7 @@ gog_renderer_draw_ring_wedge (GogRenderer *rend, double cx, double cy,
 			      double rx_out, double ry_out, 
 			      double rx_in, double ry_in,
 			      double th0, double th1,
-			      gboolean narrow,
-			      GogViewAllocation const *bound)
+			      gboolean narrow)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 	ArtBpath *path;
@@ -397,9 +396,9 @@ gog_renderer_draw_ring_wedge (GogRenderer *rend, double cx, double cy,
 		return;
 
 	if (rx_in >= 0.0 && ry_in >= 0.0)
-		(klass->draw_bezier_polygon) (rend, path, narrow, bound);
+		(klass->draw_bezier_polygon) (rend, path, narrow);
 	else
-		(klass->draw_bezier_path) (rend, path, bound);
+		(klass->draw_bezier_path) (rend, path);
 
 	g_free (path);
 }
@@ -408,14 +407,12 @@ gog_renderer_draw_ring_wedge (GogRenderer *rend, double cx, double cy,
  * gog_renderer_draw_sharp_path :
  * @rend : #GogRenderer
  * @path  : #ArtVpath
- * @bound  : #GogViewAllocation optional clip
  *
  * Draws @path using the outline elements of the current style,
  * trying to make line with sharp edge.
  **/
 void
-gog_renderer_draw_sharp_path (GogRenderer *rend, ArtVpath *path,
-			      GogViewAllocation const *bound)
+gog_renderer_draw_sharp_path (GogRenderer *rend, ArtVpath *path)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
@@ -427,27 +424,25 @@ gog_renderer_draw_sharp_path (GogRenderer *rend, ArtVpath *path,
 			gog_renderer_line_size (rend, rend->cur_style->line.width));
 	}
 
-	(klass->draw_path) (rend, path, bound);
+	(klass->draw_path) (rend, path);
 }
 
 /**
  * gog_renderer_draw_path :
  * @rend : #GogRenderer
  * @path  : #ArtVpath
- * @bound  : #GogViewAllocation optional clip
  *
  * Draws @path using the outline elements of the current style.
  **/
 void
-gog_renderer_draw_path (GogRenderer *rend, ArtVpath const *path,
-			GogViewAllocation const *bound)
+gog_renderer_draw_path (GogRenderer *rend, ArtVpath const *path)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (rend->cur_style != NULL);
 
-	(klass->draw_path) (rend, path, bound);
+	(klass->draw_path) (rend, path);
 }
 
 /**
@@ -455,15 +450,13 @@ gog_renderer_draw_path (GogRenderer *rend, ArtVpath const *path,
  * @rend : #GogRenderer
  * @path  : #ArtVpath
  * @narrow : if TRUE skip any outline the current style specifies.
- * @bound  : #GogViewAllocation optional clip
  *
  * Draws @path and fills it with the fill elements of the current style,
  * trying to draw line with sharp edge.
  * If @narrow is false it alos outlines it using the outline elements.
  **/
 void
-gog_renderer_draw_sharp_polygon (GogRenderer *rend, ArtVpath *path, gboolean narrow,
-				 GogViewAllocation const *bound)
+gog_renderer_draw_sharp_polygon (GogRenderer *rend, ArtVpath *path, gboolean narrow)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
@@ -475,7 +468,7 @@ gog_renderer_draw_sharp_polygon (GogRenderer *rend, ArtVpath *path, gboolean nar
 			gog_renderer_line_size (rend, rend->cur_style->outline.width));
 	}
 
-	(klass->draw_polygon) (rend, path, narrow, bound);
+	(klass->draw_polygon) (rend, path, narrow);
 }
 
 /**
@@ -483,21 +476,19 @@ gog_renderer_draw_sharp_polygon (GogRenderer *rend, ArtVpath *path, gboolean nar
  * @rend : #GogRenderer
  * @path  : #ArtVpath
  * @narrow : if TRUE skip any outline the current style specifies.
- * @bound  : #GogViewAllocation optional clip
  *
  * Draws @path and fills it with the fill elements of the current style.
  * If @narrow is false it alos outlines it using the outline elements.
  **/
 void
-gog_renderer_draw_polygon (GogRenderer *rend, ArtVpath const *path, gboolean narrow,
-			   GogViewAllocation const *bound)
+gog_renderer_draw_polygon (GogRenderer *rend, ArtVpath const *path, gboolean narrow)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (rend->cur_style != NULL);
 
-	(klass->draw_polygon) (rend, path, narrow, bound);
+	(klass->draw_polygon) (rend, path, narrow);
 }
 
 
@@ -505,20 +496,18 @@ gog_renderer_draw_polygon (GogRenderer *rend, ArtVpath const *path, gboolean nar
  * gog_renderer_draw_bezier_path :
  * @rend : #GogRenderer
  * @path  : #ArtBpath
- * @bound  : #GogViewAllocation optional clip
  *
  * Draws @path using the outline elements of the current style.
  **/
 void
-gog_renderer_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
-				GogViewAllocation const *bound)
+gog_renderer_draw_bezier_path (GogRenderer *rend, ArtBpath const *path)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (rend->cur_style != NULL);
 
-	(klass->draw_bezier_path) (rend, path, bound);
+	(klass->draw_bezier_path) (rend, path);
 }
 
 /**
@@ -713,13 +702,11 @@ GSF_CLASS (GogRenderer, gog_renderer,
  * gog_renderer_draw_rectangle :
  * @renderer : #GogRenderer
  * @rect : #GogViewAllocation
- * @bound  : #GogViewAllocation optional clip
  *
  * A utility routine to build a vpath in @rect.
  **/
 static void
-draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect,
-		GogViewAllocation const *bound, gboolean sharp)
+draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean sharp)
 {
 	gboolean const narrow = (rect->w < 3.) || (rect->h < 3.);
 	double o, o_2;
@@ -742,23 +729,21 @@ draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect,
 	path[1].y = path[2].y = path[0].y + rect->h - o; 
 
 	if (sharp)
-		gog_renderer_draw_sharp_polygon (rend, path, narrow, bound);
+		gog_renderer_draw_sharp_polygon (rend, path, narrow);
 	else
-		gog_renderer_draw_polygon (rend, path, narrow, bound);
+		gog_renderer_draw_polygon (rend, path, narrow);
 }
 
 void
-gog_renderer_draw_sharp_rectangle (GogRenderer *rend, GogViewAllocation const *rect,
-				   GogViewAllocation const *bound)
+gog_renderer_draw_sharp_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
 {
-	draw_rectangle (rend, rect, bound, TRUE);
+	draw_rectangle (rend, rect, TRUE);
 }
 
 void
-gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect,
-			     GogViewAllocation const *bound)
+gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
 {
-	draw_rectangle (rend, rect, bound, FALSE);
+	draw_rectangle (rend, rect, FALSE);
 }
 
 double

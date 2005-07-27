@@ -475,9 +475,9 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 		path[count].code = ART_END;
 
 		if (closed_shape && is_area)
-			gog_renderer_draw_polygon (view->renderer, path, FALSE, bbox);
+			gog_renderer_draw_polygon (view->renderer, path, FALSE);
 		else
-			gog_renderer_draw_path (view->renderer, path, bbox);
+			gog_renderer_draw_path (view->renderer, path);
 
 		gog_renderer_pop_style (view->renderer);
 	}

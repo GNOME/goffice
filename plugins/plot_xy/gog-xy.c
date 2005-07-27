@@ -580,7 +580,7 @@ bubble_draw_circle (GogView *view, double x, double y, double radius)
 	}
 	path[MAX_ARC_SEGMENTS].code = ART_LINETO;
 	path[MAX_ARC_SEGMENTS + 1].code = ART_END;
-	gog_renderer_draw_polygon (view->renderer, path, FALSE, &view->residual);
+	gog_renderer_draw_polygon (view->renderer, path, FALSE);
 }
 
 typedef struct {
@@ -699,12 +699,12 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (GOG_XY_PLOT (view->model)->use_splines) {
 				ArtBpath *path;
 				path = go_line_build_bpath (x_splines, y_splines, n);
-				gog_renderer_draw_bezier_path (view->renderer, path, &view->residual);
+				gog_renderer_draw_bezier_path (view->renderer, path);
 				art_free (path);
 			} else {
 				ArtVpath *path;
 				path = go_line_build_vpath (x_splines, y_splines, n);
-				gog_renderer_draw_path (view->renderer, path, &view->residual);
+				gog_renderer_draw_path (view->renderer, path);
 				art_free (path);
 			}
 			g_free (x_splines);

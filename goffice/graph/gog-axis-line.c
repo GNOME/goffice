@@ -846,9 +846,9 @@ axis_line_render (GogAxisBase *axis_base, GogRenderer *renderer,
 		path[1].x = path[0].x + w;
 		path[1].y = path[0].y + h;
 		if (sharp)
-			gog_renderer_draw_sharp_path (renderer, path, NULL);
+			gog_renderer_draw_sharp_path (renderer, path);
 		else
-			gog_renderer_draw_path (renderer, path, NULL);
+			gog_renderer_draw_path (renderer, path);
 	}
 
 	map = gog_axis_map_new (axis_base->axis, 0., axis_length);
@@ -892,9 +892,9 @@ axis_line_render (GogAxisBase *axis_base, GogRenderer *renderer,
 						path[0].y = major_out_y + pos_y;
 						path[1].y = major_in_y + pos_y;
 						if (sharp)
-							gog_renderer_draw_sharp_path (renderer, path, NULL);
+							gog_renderer_draw_sharp_path (renderer, path);
 						else
-							gog_renderer_draw_path (renderer, path, NULL);
+							gog_renderer_draw_path (renderer, path);
 					}
 					break;
 
@@ -905,9 +905,9 @@ axis_line_render (GogAxisBase *axis_base, GogRenderer *renderer,
 						path[0].y = minor_out_y + pos_y;
 						path[1].y = minor_in_y + pos_y;
 						if (sharp)
-							gog_renderer_draw_sharp_path (renderer, path, NULL);
+							gog_renderer_draw_sharp_path (renderer, path);
 						else
-							gog_renderer_draw_path (renderer, path, NULL);
+							gog_renderer_draw_path (renderer, path);
 					}
 					break;
 
@@ -1047,11 +1047,11 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 		}
 		cpath[0].code = ART_MOVETO;
 		cpath[step_nbr + 1].code = ART_END;
-		gog_renderer_draw_path (renderer, cpath, NULL);
+		gog_renderer_draw_path (renderer, cpath);
 		g_free (cpath);
 	} else {
 		gog_renderer_draw_arc (renderer, parms->cx, parms->cy, parms->rx, parms->ry,
-				      -parms->th1, -parms->th0, NULL);
+				      -parms->th1, -parms->th0);
 	}
 
 	is_line_visible = gog_style_is_line_visible (axis_base->base.style);
@@ -1091,7 +1091,7 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 							path[0].x += major_tick_len * cos (angle);
 							path[0].y += major_tick_len * sin (angle);
 						}
-						gog_renderer_draw_path (renderer, path, NULL);
+						gog_renderer_draw_path (renderer, path);
 					}
 					break;
 
@@ -1110,7 +1110,7 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 							path[0].x += minor_tick_len * cos (angle);
 							path[0].y += minor_tick_len * sin (angle);
 						}
-						gog_renderer_draw_path (renderer, path, NULL);
+						gog_renderer_draw_path (renderer, path);
 					}
 					break;
 

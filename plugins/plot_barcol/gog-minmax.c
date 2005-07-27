@@ -337,7 +337,7 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 				mpath[i].x = path[0].x = gog_axis_map_to_view (x_map, min_vals[i]);
 				Mpath[i].x =path[1].x = gog_axis_map_to_view (x_map, max_vals[i]);
 			}
-			gog_renderer_draw_sharp_path (view->renderer, path, NULL);
+			gog_renderer_draw_sharp_path (view->renderer, path);
 			x += 1;
 		}
 		if (series->has_lines) {

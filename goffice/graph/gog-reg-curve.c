@@ -272,7 +272,7 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	path = go_line_build_bpath (x, y, rc->ninterp + 2);
 	style = GOG_STYLED_OBJECT (rc)->style;
 	gog_renderer_push_style (view->renderer, style);
-	gog_renderer_draw_bezier_path (view->renderer, path, &view->residual);
+	gog_renderer_draw_bezier_path (view->renderer, path);
 
 	gog_renderer_pop_style (view->renderer);
 	g_free (x);

@@ -322,7 +322,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 		style = (GogStyle *)base_style;
 		gog_renderer_push_style (v->renderer, style);
 		dat->line_path[0].y = dat->line_path[1].y =  swatch.y + dat->step / 2.;
-		gog_renderer_draw_sharp_path (v->renderer, dat->line_path, NULL);
+		gog_renderer_draw_sharp_path (v->renderer, dat->line_path);
 		gog_renderer_draw_marker (v->renderer,
 			(dat->line_path[0].x + dat->line_path[1].x) / 2.,
 			dat->line_path[0].y);
@@ -335,7 +335,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 		rectangle.y += (dat->step - swatch.h) / 2.0;
 
 		gog_renderer_push_style (v->renderer, style);
-		gog_renderer_draw_sharp_rectangle (v->renderer, &rectangle, NULL);
+		gog_renderer_draw_sharp_rectangle (v->renderer, &rectangle);
 	}
 	pos.x = swatch.x + dat->label_offset;
 	pos.y = swatch.y;

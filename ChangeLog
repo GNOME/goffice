@@ -1,5 +1,33 @@
 2005-07-27  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	Code cleanup. Remove bbox parameter of GogRenderer:draw functions.
+	It was a previous attempt to do clipping, which is handled by
+	gog_renderer_clip_push and gog_renderer_clip_pop for quite a long
+	time now.
+	
+	Modified Files:
+
+	ChangeLog goffice/graph/gog-axis-line.c 
+	goffice/graph/gog-error-bar.c goffice/graph/gog-grid-line.c 
+	goffice/graph/gog-grid.c goffice/graph/gog-label.c 
+	goffice/graph/gog-legend.c goffice/graph/gog-outlined-object.c 
+	goffice/graph/gog-reg-curve.c goffice/graph/gog-reg-eqn.c 
+	goffice/graph/gog-renderer-cairo.c 
+	goffice/graph/gog-renderer-gnome-print.c 
+	goffice/graph/gog-renderer-impl.h 
+	goffice/graph/gog-renderer-pixbuf.c 
+	goffice/graph/gog-renderer-svg.c goffice/graph/gog-renderer.c 
+	goffice/graph/gog-renderer.h plugins/plot_barcol/gog-barcol.c 
+	plugins/plot_barcol/gog-dropbar.c 
+	plugins/plot_barcol/gog-line.c 
+	plugins/plot_barcol/gog-minmax.c 
+	plugins/plot_barcol/gog-series-lines.c 
+	plugins/plot_boxes/gog-boxplot.c plugins/plot_pie/gog-pie.c 
+	plugins/plot_radar/gog-radar.c 
+	plugins/plot_surface/gog-surface.c plugins/plot_xy/gog-xy.c 
+
+2005-07-27  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	Text angle is not a font property.
 	Set default angle to 90° for y axes (#301582).
 	
