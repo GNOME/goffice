@@ -7,6 +7,7 @@ Emmanuel Pacaud:
 	* Fix swatch position in legends.
 	* Sample graph in guru has the same aspect ratio than the edited graph
 	  [#150458].
+	* Displays Y axis labels vertically by default [#301582].
 
 Jean Brefort:
 	* Add series lines in bars and columns plots.
