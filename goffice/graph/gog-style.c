@@ -868,13 +868,6 @@ cb_font_changed (GOFontSel *fs, PangoAttrList *list,
 }
 
 static void
-cb_rotation_angle_changed (GtkSpinButton *spin_button, StylePrefState *state)
-{
-	state->style->font.rotation_angle = CLAMP (gtk_spin_button_get_value (spin_button), -180, 180);
-	set_style (state);
-}
-
-static void
 cb_font_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
 		       G_GNUC_UNUSED gboolean is_custom,
 		       G_GNUC_UNUSED gboolean by_user,
@@ -914,10 +907,6 @@ font_init (StylePrefState *state, guint32 enable, GogEditor *editor, GOCmdContex
 	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
 	gtk_widget_show (w);
 				    
-	w = glade_xml_get_widget (gui, "rotation_angle_spin");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), style->font.rotation_angle);
-	g_signal_connect (w, "value-changed", G_CALLBACK (cb_rotation_angle_changed), state);
-
 	w = go_font_sel_new ();
 	go_font_sel_set_font (GO_FONT_SEL (w), style->font.font);
 	g_signal_connect (G_OBJECT (w),
@@ -1195,7 +1184,6 @@ gog_style_init (GogStyle *style)
 	go_pattern_set_solid (&style->fill.pattern, RGBA_BLACK);
 	style->font.font = go_font_new_by_index (0);
 	style->font.color = RGBA_BLACK;
-	style->font.rotation_angle = 0.0;
 }
 
 static struct {
@@ -1623,11 +1611,6 @@ gog_style_font_load (xmlNode *node, GogStyle *style)
 	}
 	if (bool_prop (node, "auto-scale", &tmp))
 		style->font.auto_scale = tmp;
-	str = xmlGetProp (node, "rotation-angle");
-	if (str != NULL) {
-		style->font.rotation_angle = g_strtod (str, NULL);
-		xmlFree (str);
-	}
 }
 
 static void
@@ -1644,9 +1627,6 @@ gog_style_font_dom_save (xmlNode *parent, GogStyle const *style)
 	g_free (str);
 	xmlSetProp (node, (xmlChar const *) "auto-scale",
 		    style->font.auto_scale ? "true" : "false");
-	str = g_strdup_printf ("%g", style->font.rotation_angle);
-	xmlSetProp (node, (xmlChar const *) "rotation-angle", str);
-	g_free (str);
 
 	xmlAddChild (parent, node);
 }
@@ -1660,7 +1640,6 @@ gog_style_font_sax_save (GsfXMLOut *output, GogStyle const *style)
 	gsf_xml_out_add_cstr_unchecked (output, "font", str);
 	g_free (str);
 	gsf_xml_out_add_bool (output, "auto-scale", style->font.auto_scale);
-	gsf_xml_out_add_float (output, "rotation-angle", style->font.rotation_angle, 0);
 	gsf_xml_out_end_element (output);
 }
 
@@ -1750,7 +1729,6 @@ gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
 		a->outline.width != b->outline.width ||
 		a->line.width != b->line.width ||
 		a->fill.type != b->fill.type ||
-		a->font.rotation_angle != b->font.rotation_angle ||
 		!go_font_eq (a->font.font, b->font.font);
 }
 

@@ -1,3 +1,51 @@
+2005-07-27  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	Text angle is not a font property.
+	Set default angle to 90° for y axes (#301582).
+	
+	* goffice/graph/gog-axis-line.c (gog_axis_base_class_init): install
+	label_angle property.
+	(gog_axis_base_set_property): handle label_angle property.
+	(gog_axis_base_get_property): ditto.
+	(gog_axis_base_set_label_angle): new.
+	(cb_label_angle_changed): new.
+	(gog_axis_base_populate_editor): init UI for label_angle.
+	(gog_axis_base_view_padding_request): set text angle.
+	(gog_axis_base_view_render): ditto.
+	* goffice/graph/gog-axis-prefs.glade: add UI for label angle.
+	* goffice/graph/gog-axis.c (role_label_post_add): new. Sets label
+	angle to 90° for y axis.
+	(gog_axis_class_init): add role_label_post_add.
+	* goffice/graph/gog-label-prefs.glade: new.
+	* goffice/graph/gog-label.c (gog_label_set_angle): new.
+	(gog_label_class_init): handle angle property.
+	(gog_label_set_property): ditto.
+	(gog_label_get_property): ditto.
+	(label_pref_state_free): new.
+	(cb_angle_changed): new.
+	(gog_label_populate_editor): add layout page for angle setting.
+	(gog_label_init): new.
+	(gog_label_view_size_request): set text angle.
+	(gog_label_view_render): ditto.
+	* goffice/graph/gog-renderer-gnome-print.c
+	(gog_renderer_gnome_print_draw_text): text_angle is a property of
+	renderer.
+	* goffice/graph/gog-renderer-pixbuf.c
+	(gog_renderer_pixbuf_get_pango_layout): ditto.
+	* goffice/graph/gog-renderer-svg.c (gog_renderer_svg_draw_text):
+	ditto.
+	* goffice/graph/gog-renderer.c (gog_renderer_push_style): reset text
+	angle.
+	(gog_renderer_pop_style): ditto.
+	(gog_renderer_set_text_angle): new.
+	(gog_renderer_get_text_OBR): text_angle is a property of renderer.
+	* goffice/graph/gog-style-prefs.glade: remove UI for angle.
+	* goffice/graph/gog-style.c (cb_rotation_angle_changed): removed.
+	(font_init): remove angle UI.
+	(gog_style_font_load): remove rotation_angle setting.
+	(gog_style_font_dom_save): ditto.
+	(gog_style_font_sax_save): ditto.							    
+
 2005-07-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-object-prefs.glade: remove chart preference

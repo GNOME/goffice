@@ -29,31 +29,52 @@
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/data/go-data.h>
-
-#include <glib/gi18n.h>
+#include <goffice/gtk/goffice-gtk.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkhbox.h>
+#include <glib/gi18n.h>
+
 #include <gtk/gtkalignment.h>
+#include <gtk/gtkhbox.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtkspinbutton.h>
 
 struct _GogLabel {
 	GogOutlinedObject	base;
 
 	GogDatasetElement text;
 	gboolean	  allow_markup;
+
+	double	angle;
 };
 typedef GogStyledObjectClass GogLabelClass;
 
 enum {
 	LABEL_PROP_0,
 	LABEL_PROP_ALLOW_MARKUP,
+	LABEL_PROP_ANGLE
 };
 
 static GType gog_label_view_get_type (void);
 static GObjectClass *label_parent_klass;
 static GogViewClass *lview_parent_klass;
+
+/**
+ * gog_label_set_angle:
+ * @label : #GogLabel
+ * @angle : label angle, in degrees
+ *
+ * Sets label angle in degrees. valid values are between -180° and 180°.
+ **/
+void
+gog_label_set_angle (GogLabel *label, double angle)
+{
+	g_return_if_fail (GOG_LABEL (label) != NULL);
+
+	label->angle = CLAMP (angle, -180.0, 180.0);
+	gog_object_emit_changed (GOG_OBJECT (label), TRUE);
+}
 
 static void
 gog_label_set_property (GObject *obj, guint param_id,
@@ -64,6 +85,9 @@ gog_label_set_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case LABEL_PROP_ALLOW_MARKUP :
 		label->allow_markup = g_value_get_boolean (value);
+		break;
+	case LABEL_PROP_ANGLE:
+		label->angle = g_value_get_double (value);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -82,6 +106,9 @@ gog_label_get_property (GObject *obj, guint param_id,
 	case LABEL_PROP_ALLOW_MARKUP :
 		g_value_set_boolean (value, label->allow_markup);
 		break;
+	case LABEL_PROP_ANGLE:
+		g_value_set_double (value, label->angle);
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -95,15 +122,47 @@ gog_label_finalize (GObject *obj)
 	(*label_parent_klass->finalize) (obj);
 }
 
+typedef struct {
+	GogLabel	*label;
+	GladeXML	*gui;
+} LabelPrefState;
+
+static void
+label_pref_state_free (LabelPrefState *state)
+{
+	g_object_unref (state->gui);
+	g_object_unref (state->label);
+}
+
+static void
+cb_angle_changed (GtkSpinButton *spin, LabelPrefState *state)
+{
+	gog_label_set_angle (state->label, 
+		gtk_spin_button_get_value (spin));
+}
+
 static void
 gog_label_populate_editor (GogObject *gobj, 
 			   GogEditor *editor, 
 			   GogDataAllocator *dalloc, 
 			   GOCmdContext *cc)
 {
+	GogLabel *label = GOG_LABEL (gobj);
 	static guint label_pref_page = 0;
 	GtkWidget *hbox = gtk_hbox_new (FALSE, 12);
 	GtkWidget *alignment = gtk_alignment_new (0, 0, 1, 0);
+	GtkWidget *w;
+	GladeXML *gui;
+	LabelPrefState *state;
+
+	gui = go_libglade_new ("gog-label-prefs.glade", "gog_label_prefs", NULL, cc);
+	if (gui == NULL)
+		return;
+
+	state = g_new (LabelPrefState, 1);
+	state->gui = gui;
+	state->label = label;
+	g_object_ref (G_OBJECT (label));
 
 	gtk_container_set_border_width (GTK_CONTAINER (alignment), 12);
 	gtk_box_pack_start (GTK_BOX (hbox), 
@@ -115,6 +174,18 @@ gog_label_populate_editor (GogObject *gobj,
 	gtk_widget_show_all (alignment);
 
 	gog_editor_add_page (editor, alignment, _("Data"));
+
+	w = glade_xml_get_widget (gui, "angle_spin");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), 
+				   label->angle); 
+	g_signal_connect (G_OBJECT (w), "value-changed",
+			  G_CALLBACK (cb_angle_changed), state);
+	
+	w = glade_xml_get_widget (gui, "gog_label_prefs");
+	g_object_set_data_full (G_OBJECT (w), "state", state, 
+				(GDestroyNotify) label_pref_state_free);  
+	gog_editor_add_page (editor, w, _("Layout"));
+	
 	(GOG_OBJECT_CLASS(label_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 	gog_editor_set_store_page (editor, &label_pref_page);
 }
@@ -128,6 +199,12 @@ gog_label_init_style (GogStyledObject *gso, GogStyle *style)
 }
 
 static void
+gog_label_init (GogLabel *label)
+{
+	label->angle = 0.0;
+}
+
+static void
 gog_label_class_init (GogLabelClass *klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) klass;
@@ -138,10 +215,16 @@ gog_label_class_init (GogLabelClass *klass)
 	gobject_klass->set_property = gog_label_set_property;
 	gobject_klass->get_property = gog_label_get_property;
 	gobject_klass->finalize	    = gog_label_finalize;
+
 	g_object_class_install_property (gobject_klass, LABEL_PROP_ALLOW_MARKUP,
-		g_param_spec_boolean ("allow-markup", "allow-markup",
+		g_param_spec_boolean ("allow-markup", "Allow markup",
 			"Support basic html-ish markup",
 			TRUE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, LABEL_PROP_ANGLE,
+		g_param_spec_double ("angle", _("Angle"),
+			_("Label angle in degrees"),
+			-180.0, 180.0, 0.0, 
+			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_klass->populate_editor	= gog_label_populate_editor;
 	gog_klass->view_type	= gog_label_view_get_type ();
@@ -176,7 +259,7 @@ gog_label_dataset_init (GogDatasetClass *iface)
 }
 
 GSF_CLASS_FULL (GogLabel, gog_label,
-		gog_label_class_init, NULL,
+		gog_label_class_init, gog_label_init,
 		GOG_OUTLINED_OBJECT_TYPE, 0,
 		GSF_INTERFACE (gog_label_dataset_init, GOG_DATASET_TYPE))
 
@@ -200,6 +283,7 @@ gog_label_view_size_request (GogView *v, GogViewRequisition *req)
 		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (l->text.data));
 		if (text != NULL) {
 			gog_renderer_push_style (v->renderer, l->base.base.style);
+			gog_renderer_set_text_angle (v->renderer, l->angle);
 			gog_renderer_get_text_AABR (v->renderer, text, &aabr);
 			gog_renderer_pop_style (v->renderer);
 			req->w = aabr.w;
@@ -217,6 +301,7 @@ gog_label_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogStyle *style = l->base.base.style;
 
 	gog_renderer_push_style (view->renderer, style);
+	gog_renderer_set_text_angle (view->renderer, l->angle);
 	if (l->text.data != NULL) {
 		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (l->text.data));
 		if (text != NULL) {

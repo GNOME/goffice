@@ -1063,6 +1063,17 @@ role_axis_line_post_add (GogObject *parent, GogObject *child)
 	gog_axis_base_set_position (GOG_AXIS_BASE (child), GOG_AXIS_AUTO);
 }
 
+static void 
+role_label_post_add (GogObject *parent, GogObject *child)
+{
+	GogLabel *label = GOG_LABEL (child);
+
+	if (gog_axis_get_atype (GOG_AXIS (parent)) == GOG_AXIS_Y)
+		gog_label_set_angle (label, 90.0);	
+	else
+		gog_label_set_angle (label, 0.0);	
+}
+
 /**
  * gog_axis_set_format :
  * @axis : #GogAxis
@@ -1560,7 +1571,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 		  role_axis_line_can_add, NULL, NULL, role_axis_line_post_add, NULL, NULL, { -1 } },
 		{ N_("Label"), "GogLabel", 3,
 		  GOG_POSITION_SPECIAL|GOG_POSITION_ANY_MANUAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } }
+		  NULL, NULL, NULL, role_label_post_add, NULL, NULL, { -1 } }
 	};
 
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;

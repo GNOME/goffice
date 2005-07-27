@@ -85,6 +85,7 @@ goffice/graph/gog-axis-prefs.glade
 goffice/graph/gog-chart.c
 goffice/graph/gog-chart.h
 goffice/graph/gog-chart-impl.h
+goffice/graph/gog-chart-prefs.glade
 goffice/graph/gog-control-foocanvas.c
 goffice/graph/gog-control-foocanvas.h
 goffice/graph/gog-data-allocator.c
@@ -107,12 +108,14 @@ goffice/graph/gog-guru.h
 goffice/graph/gog-guru-type-selector.glade
 goffice/graph/gog-label.c
 goffice/graph/gog-label.h
+goffice/graph/gog-label-prefs.glade
 goffice/graph/gog-legend.c
 goffice/graph/gog-legend.h
 goffice/graph/gog-object.c
 goffice/graph/gog-object.h
 goffice/graph/gog-object-xml.c
 goffice/graph/gog-object-xml.h
+goffice/graph/gog-object-prefs.glade
 goffice/graph/gog-outlined-object.c
 goffice/graph/gog-outlined-object.h
 goffice/graph/gog-plot.c

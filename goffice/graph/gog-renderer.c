@@ -188,6 +188,8 @@ gog_renderer_push_style (GogRenderer *rend, GogStyle const *style)
 	g_object_ref ((gpointer)style);
 	rend->cur_style = style;
 
+	rend->text_angle = 0.0;
+
 	if (klass->push_style)
 		klass->push_style (rend, style);
 
@@ -212,6 +214,8 @@ gog_renderer_pop_style (GogRenderer *rend)
 
 	if (klass->pop_style)
 		klass->pop_style (rend);
+
+	rend->text_angle = 0.0;
 
 	update_dash (rend);
 }
@@ -518,6 +522,20 @@ gog_renderer_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
 }
 
 /**
+ * gog_renderer_set_text_angle:
+ * @rend  : #GogRenderer
+ * @angle : text rotation angle in degrees
+ *
+ * Sets current text rotation angle. This angle is reset for each call
+ * to gog_renderer_push_style or gog_renderer_pop_style.
+ **/
+void
+gog_renderer_set_text_angle (GogRenderer *rend, double angle)
+{
+	rend->text_angle = angle;
+}
+
+/**
  * gog_renderer_draw_text :
  * @rend   : #GogRenderer
  * @text   : the string to draw
@@ -600,7 +618,7 @@ gog_renderer_get_text_OBR (GogRenderer *rend, char const *text, GOGeometryOBR *o
 	else if (obr->h == 0)
 		obr->w = 0;
 	
-	obr->alpha = rend->cur_style->font.rotation_angle * M_PI / 180.0;
+	obr->alpha = rend->text_angle * M_PI / 180.0;
 }
 
 /**
@@ -683,6 +701,8 @@ gog_renderer_init (GogRenderer *rend)
 	rend->font_watcher = g_cclosure_new_swap (G_CALLBACK (cb_font_removed),
 		rend, NULL);
 	go_font_cache_register (rend->font_watcher);
+
+	rend->text_angle = 0.0;
 }
 
 GSF_CLASS (GogRenderer, gog_renderer,

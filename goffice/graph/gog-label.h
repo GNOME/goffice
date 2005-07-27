@@ -32,6 +32,8 @@ G_BEGIN_DECLS
 
 GType gog_label_get_type (void);
 
+void gog_label_set_angle (GogLabel *label, double angle);
+
 G_END_DECLS
 
 #endif /* GOG_LABEL_H */

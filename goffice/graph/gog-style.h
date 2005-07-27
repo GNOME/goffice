@@ -109,7 +109,6 @@ struct _GogStyle {
 		GOColor		 color;
 		GOFont const 	*font;
 		gboolean 	 auto_scale;
-		double		 rotation_angle;
 	} font;
 };
 
