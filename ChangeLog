@@ -1,3 +1,54 @@
+2005-07-28  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	Who said text angle is not a style property ?
+
+	* goffice/graph/gog-axis-line.c (gog_axis_base_set_property): remove
+	label-angle property.
+	(gog_axis_base_get_property): ditto.
+	(gog_axis_base_class_init): ditto.
+	(gog_axis_base_set_label_angle): removed.
+	(cb_label_angle_changed): removed.
+	(gog_axis_base_populate_editor): remove UI for label angle.
+	* goffice/graph/gog-axis-prefs.glade: ditto.
+	* goffice/graph/gog-axis.c (role_label_post_add): removed.
+	(role_label_can_add): new.
+	(gog_axis_init_style): if axis is GOG_AXIS_PSEUDO_3D, no style.
+	* goffice/graph/gog-label.c (gog_label_set_angle): removed.
+	(gog_label_set_property): remove angle property.
+	(gog_label_get_property): ditto.
+	(gog_label_class_init): ditto.
+	(label_pref_state_free): removed.
+	(cb_angle_changed): removed.
+	(gog_label_populate_editor): remove UI for angle.
+	(gog_label_init_style): set text angle to 90 if parent is an Y axis.
+	* goffice/graph/gog-renderer-gnome-print.c
+	(gog_renderer_gnome_print_draw_text): text_angle is a style property.
+	* goffice/graph/gog-renderer-pixbuf.c
+	(gog_renderer_pixbuf_get_pango_layout): ditto.
+	* goffice/graph/gog-renderer-svg.c (gog_renderer_svg_draw_text):
+	ditto.
+	* goffice/graph/gog-renderer.c (gog_renderer_get_text_OBR): ditto.
+	(gog_renderer_push_style): no more
+	angle property in renderer.
+	(gog_renderer_pop_style): ditto.
+	(gog_renderer_set_text_angle): removed.
+	* goffice/graph/gog-style-prefs.glade: add a new UI for text layout
+	group.
+	* goffice/graph/gog-style (cb_angle_changed): new.
+	(text_layout_init): new.
+	(gog_style_assign): handle angle.
+	(gog_style_init): ditto.
+	(gog_style_text_layout_load): new.
+	(gog_style_text_layout_dom_save): new.
+	(gog_style_text_layout_sax_save): new.
+	(gog_style_persist_dom_load): handle angle.
+	(gog_style_persist_dom_save): ditto.
+	(gog_style_persist_sax_save): ditto.
+	(gog_style_is_different_size): ditto.
+	(gog_style_set_text_angle): new.
+	* goffice/graph/gog-styled-object.c (styled_object_populate_editor):
+	don't display style editor if there isn't any interresting fields.
+
 2005-07-27  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	Code cleanup. Remove bbox parameter of GogRenderer:draw functions.

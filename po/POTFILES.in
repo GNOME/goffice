@@ -108,7 +108,6 @@ goffice/graph/gog-guru.h
 goffice/graph/gog-guru-type-selector.glade
 goffice/graph/gog-label.c
 goffice/graph/gog-label.h
-goffice/graph/gog-label-prefs.glade
 goffice/graph/gog-legend.c
 goffice/graph/gog-legend.h
 goffice/graph/gog-object.c

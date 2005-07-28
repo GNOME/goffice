@@ -573,9 +573,9 @@ gog_renderer_pixbuf_get_pango_layout (GogRendererPixbuf *prend)
 		return prend->pango_layout;
 	
 	context = gog_renderer_pixbuf_get_pango_context (prend);
-	switch (go_geometry_get_rotation_type (rend->text_angle * M_PI / 180.0)) {
+	switch (go_geometry_get_rotation_type (rend->cur_style->text_layout.angle * M_PI / 180.0)) {
 		case GO_ROTATE_FREE:
-			pango_matrix_rotate (&matrix, rend->text_angle);
+			pango_matrix_rotate (&matrix, rend->cur_style->text_layout.angle);
 			pango_context_set_matrix (context, &matrix);
 			break;
 		default:
@@ -619,7 +619,7 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 	GogStyle const *style = rend->cur_style;
 	PangoMatrix matrix, old_matrix;
 
-	rotation_type  = go_geometry_get_rotation_type (rend->text_angle * M_PI / 180);
+	rotation_type  = go_geometry_get_rotation_type (rend->cur_style->text_layout.angle * M_PI / 180);
 
 	layout = gog_renderer_pixbuf_get_pango_layout ((GogRendererPixbuf *) rend);
 	pango_layout_set_text (layout, text, -1);
@@ -736,7 +736,7 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 	dst = prend->pixels;
 	src = ft_bitmap.buffer;
 
-	switch (go_geometry_get_rotation_type (rend->text_angle * M_PI / 180.0)) {
+	switch (go_geometry_get_rotation_type (rend->cur_style->text_layout.angle * M_PI / 180.0)) {
 		case GO_ROTATE_FREE:
 		case GO_ROTATE_NONE:
 			intercol = 4;

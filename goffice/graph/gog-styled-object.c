@@ -104,12 +104,13 @@ styled_object_populate_editor (GogObject *gobj,
 {
 	GogStyledObject *gso = GOG_STYLED_OBJECT (gobj);
 	GogStyle *style = gog_style_dup (gog_styled_object_get_style (gso));
-	GogStyle *default_style = gog_styled_object_get_auto_style (gso);
-	
-	gog_style_populate_editor (style, editor, default_style, cc, G_OBJECT (gso), TRUE);
 
+	if (style->interesting_fields != 0) {
+		GogStyle *default_style = gog_styled_object_get_auto_style (gso);
+		gog_style_populate_editor (style, editor, default_style, cc, G_OBJECT (gso), TRUE);
+		g_object_unref (default_style);
+	}
 	g_object_unref (style);
-	g_object_unref (default_style);
 	
 	(GOG_OBJECT_CLASS(parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 }

@@ -1063,15 +1063,13 @@ role_axis_line_post_add (GogObject *parent, GogObject *child)
 	gog_axis_base_set_position (GOG_AXIS_BASE (child), GOG_AXIS_AUTO);
 }
 
-static void 
-role_label_post_add (GogObject *parent, GogObject *child)
+static gboolean 
+role_label_can_add (GogObject const *parent)
 {
-	GogLabel *label = GOG_LABEL (child);
-
-	if (gog_axis_get_atype (GOG_AXIS (parent)) == GOG_AXIS_Y)
-		gog_label_set_angle (label, 90.0);	
-	else
-		gog_label_set_angle (label, 0.0);	
+	GogAxisType type = gog_axis_get_atype (GOG_AXIS (parent));
+	
+	return (type == GOG_AXIS_X ||
+		type == GOG_AXIS_Y);
 }
 
 /**
@@ -1513,7 +1511,7 @@ gog_axis_populate_editor (GogObject *gobj,
 	(GOG_OBJECT_CLASS(parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
 	/* Format page */
-	if (!axis->is_discrete) {
+	if (!axis->is_discrete && gog_axis_get_atype (axis) != GOG_AXIS_PSEUDO_3D) {
 		w = go_format_sel_new ();
 		if (axis->assigned_format != NULL && !style_format_is_general (axis->assigned_format))
 			go_format_sel_set_style_format (GO_FORMAT_SEL (w),
@@ -1551,9 +1549,13 @@ gog_axis_populate_editor (GogObject *gobj,
 static void
 gog_axis_init_style (GogStyledObject *gso, GogStyle *style)
 {
-	style->interesting_fields = GOG_STYLE_LINE | GOG_STYLE_FONT;
+	if (gog_axis_get_atype (GOG_AXIS (gso)) != GOG_AXIS_PSEUDO_3D)
+		style->interesting_fields = GOG_STYLE_LINE | GOG_STYLE_FONT |
+			GOG_STYLE_TEXT_LAYOUT;
+	else
+		style->interesting_fields = 0;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
-		style, GOG_OBJECT (gso), 0, FALSE);
+				style, GOG_OBJECT (gso), 0, FALSE);
 }
 
 static void
@@ -1571,7 +1573,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 		  role_axis_line_can_add, NULL, NULL, role_axis_line_post_add, NULL, NULL, { -1 } },
 		{ N_("Label"), "GogLabel", 3,
 		  GOG_POSITION_SPECIAL|GOG_POSITION_ANY_MANUAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  NULL, NULL, NULL, role_label_post_add, NULL, NULL, { -1 } }
+		  role_label_can_add, NULL, NULL, NULL, NULL, NULL, { -1 } }
 	};
 
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;

@@ -45,6 +45,7 @@ typedef enum {
 	GOG_STYLE_LINE		= 1 << 2,
 	GOG_STYLE_MARKER	= 1 << 3,
 	GOG_STYLE_FONT		= 1 << 4,
+	GOG_STYLE_TEXT_LAYOUT	= 1 << 5,
 	GOG_STYLE_ALL		= 0x1F
 } GogStyleFlag;
 
@@ -110,18 +111,23 @@ struct _GogStyle {
 		GOFont const 	*font;
 		gboolean 	 auto_scale;
 	} font;
+	struct {
+		double		  angle;
+	} text_layout;	
 };
 
 GogStyle  *gog_style_new		(void);
 GogStyle  *gog_style_dup		(GogStyle const *style);
 void	   gog_style_assign		(GogStyle *dst, GogStyle const *src);
 void	   gog_style_apply_theme	(GogStyle *dst, GogStyle const *src);
-void	   gog_style_set_marker		(GogStyle *style, GOMarker *marker);
-void	   gog_style_set_font_desc	(GogStyle *style,
-					 PangoFontDescription *desc);
-void	   gog_style_set_font		(GogStyle *style, GOFont const *font);
+
+void	   gog_style_set_marker			(GogStyle *style, GOMarker *marker);
+void	   gog_style_set_font_desc		(GogStyle *style,
+						 PangoFontDescription *desc);
+void	   gog_style_set_font			(GogStyle *style, GOFont const *font);
 void	   gog_style_set_fill_brightness	(GogStyle *style, float brightness);
 void	   gog_style_set_fill_image_filename	(GogStyle *style, char *filename);
+void	   gog_style_set_text_angle     	(GogStyle *style, double angle);
 
 gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
 gboolean   gog_style_is_marker_visible	(GogStyle const *style);

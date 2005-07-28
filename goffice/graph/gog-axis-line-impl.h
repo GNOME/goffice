@@ -45,8 +45,6 @@ typedef struct {
 		int size_pts;
 	} major, minor;
 	gboolean major_tick_labeled;
-
-	double label_angle;
 } GogAxisBase;
 
 typedef GogStyledObjectClass GogAxisBaseClass;

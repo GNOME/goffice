@@ -53,8 +53,6 @@ struct _GogRenderer {
 
 	ArtVpathDash *line_dash;
 	ArtVpathDash *outline_dash;
-
-	double text_angle;
 };
 
 typedef struct {

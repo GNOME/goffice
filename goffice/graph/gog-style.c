@@ -70,6 +70,7 @@ static GObjectClass *parent_klass;
 typedef struct {
 	GladeXML  	*gui;
 	GladeXML  	*font_gui;
+	GladeXML	*text_layout_gui;
 	GogStyle  	*style;
 	GogStyle  	*default_style;
 	GObject		*object_with_style;
@@ -923,6 +924,39 @@ font_init (StylePrefState *state, guint32 enable, GogEditor *editor, GOCmdContex
 /************************************************************************/
 
 static void
+cb_angle_changed (GtkSpinButton *spin, StylePrefState *state)
+{
+	gog_style_set_text_angle (state->style, gtk_spin_button_get_value (spin));
+	set_style (state);
+}
+
+static void
+text_layout_init (StylePrefState *state, guint32 enable, GogEditor *editor, GOCmdContext *cc)
+{
+	GogStyle *style = state->style;
+	GtkWidget *w;
+	GladeXML *gui;
+
+	if (!enable)
+		return;
+
+	gui = go_libglade_new ("gog-style-prefs.glade", "gog_style_text_layout_prefs", NULL, cc);
+	if (gui == NULL)
+		return;
+
+	state->text_layout_gui = gui;
+
+	w = glade_xml_get_widget (gui, "angle_spin");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), style->text_layout.angle);
+	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (cb_angle_changed), state);
+
+	w = glade_xml_get_widget (gui, "gog_style_text_layout_prefs");
+	gog_editor_add_page (editor, w, _("Text"));
+}
+
+/************************************************************************/
+
+static void
 cb_parent_is_gone (StylePrefState *state, GObject *where_the_object_was)
 {
 	state->style_changed_handler = 0;
@@ -990,11 +1024,12 @@ gog_style_populate_editor (GogStyle *style,
 		"state", state, (GDestroyNotify) gog_style_pref_state_free);
 	gog_editor_add_page (editor, w, _("Style"));
 	
-	outline_init (state, enable & GOG_STYLE_OUTLINE);
-	line_init    (state, enable & GOG_STYLE_LINE);
-	fill_init    (state, enable & GOG_STYLE_FILL);
-	marker_init  (state, enable & GOG_STYLE_MARKER);
-	font_init    (state, enable & GOG_STYLE_FONT, editor, cc);
+	outline_init 	 (state, enable & GOG_STYLE_OUTLINE);
+	line_init    	 (state, enable & GOG_STYLE_LINE);
+	fill_init    	 (state, enable & GOG_STYLE_FILL);
+	marker_init  	 (state, enable & GOG_STYLE_MARKER);
+	font_init    	 (state, enable & GOG_STYLE_FONT, editor, cc);
+	text_layout_init (state, enable & GOG_STYLE_TEXT_LAYOUT, editor, cc);
 
 	state->enable_edit = TRUE;
 
@@ -1085,6 +1120,8 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 
 	if (GOG_FILL_STYLE_IMAGE == dst->fill.type)
 		dst->fill.image.filename = g_strdup (dst->fill.image.filename);
+
+	dst->text_layout.angle = src->text_layout.angle;
 
 	dst->interesting_fields = src->interesting_fields;
 	dst->disable_theming = src->disable_theming;
@@ -1184,6 +1221,7 @@ gog_style_init (GogStyle *style)
 	go_pattern_set_solid (&style->fill.pattern, RGBA_BLACK);
 	style->font.font = go_font_new_by_index (0);
 	style->font.color = RGBA_BLACK;
+	style->text_layout.angle = 0.0;
 }
 
 static struct {
@@ -1643,6 +1681,39 @@ gog_style_font_sax_save (GsfXMLOut *output, GogStyle const *style)
 	gsf_xml_out_end_element (output);
 }
 
+static void
+gog_style_text_layout_load (xmlNode *node, GogStyle *style)
+{
+	char *str;
+
+	str = xmlGetProp (node, "angle");
+	if (str != NULL) {
+		gog_style_set_text_angle (style, g_strtod (str, NULL));
+		xmlFree (str);
+	}
+}
+
+static void
+gog_style_text_layout_dom_save (xmlNode *parent, GogStyle const *style)
+{
+	gchar *str;
+	xmlNode *node = xmlNewDocNode (parent->doc, NULL, "text_layout", NULL);
+
+	str = g_strdup_printf ("%g", style->text_layout.angle);
+	xmlSetProp (node, (xmlChar const *) "angle", str);
+	g_free (str);
+
+	xmlAddChild (parent, node);
+}
+
+static void
+gog_style_text_layout_sax_save (GsfXMLOut *output, GogStyle const *style)
+{
+	gsf_xml_out_start_element (output, "text_layout");
+	gsf_xml_out_add_float (output, "angle", style->text_layout.angle, 1);
+	gsf_xml_out_end_element (output);
+}
+
 static gboolean
 gog_style_persist_dom_load (GogPersist *gp, xmlNode *node)
 {
@@ -1663,6 +1734,8 @@ gog_style_persist_dom_load (GogPersist *gp, xmlNode *node)
 			gog_style_marker_load (ptr, style);
 		else if (strcmp (ptr->name, "font") == 0)
 			gog_style_font_load (ptr, style);
+		else if (strcmp (ptr->name, "text_layout") == 0)
+			gog_style_text_layout_load (ptr, style);
 	}
 	return TRUE;
 }
@@ -1685,6 +1758,8 @@ gog_style_persist_dom_save (GogPersist const *gp, xmlNode *parent)
 		gog_style_marker_dom_save (parent, style);
 	if (style->interesting_fields & GOG_STYLE_FONT)
 		gog_style_font_dom_save (parent, style);
+	if (style->interesting_fields & GOG_STYLE_TEXT_LAYOUT)
+		gog_style_text_layout_dom_save (parent, style);
 }
 
 static void
@@ -1705,6 +1780,8 @@ gog_style_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
 		gog_style_marker_sax_save (output, style);
 	if (style->interesting_fields & GOG_STYLE_FONT)
 		gog_style_font_sax_save (output, style);
+	if (style->interesting_fields & GOG_STYLE_TEXT_LAYOUT)
+		gog_style_text_layout_sax_save (output, style);
 }
 
 static void
@@ -1729,6 +1806,7 @@ gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
 		a->outline.width != b->outline.width ||
 		a->line.width != b->line.width ||
 		a->fill.type != b->fill.type ||
+		a->text_layout.angle != b->text_layout.angle ||
 		!go_font_eq (a->font.font, b->font.font);
 }
 
@@ -1855,4 +1933,20 @@ gog_style_set_fill_image_filename (GogStyle *style, char *filename)
 
 	style->fill.image.filename = filename;
 	style->fill.image.image = gdk_pixbuf_new_from_file (filename, NULL);
+}
+
+/**
+ * gog_style_set_text_angle:
+ * @style : #GogStyle
+ * @angle : text rotation in degrees
+ *
+ * Set text rotation angle in degrees. Valid values are in the range
+ * [-180.0° , 180.0°].
+ **/
+void
+gog_style_set_text_angle (GogStyle *style, double angle)
+{
+	g_return_if_fail (GOG_STYLE (style) != NULL);
+
+	style->text_layout.angle = CLAMP (angle, -180.0, 180.0);
 }

@@ -601,7 +601,7 @@ gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
 	g_object_unref (layout);
 	obr.w = gog_renderer_pt2r (rend, rect.width / PANGO_SCALE);
 	obr.h = gog_renderer_pt2r (rend, rect.height / PANGO_SCALE);
-	obr.alpha = rend->text_angle * M_PI / 180.0;
+	obr.alpha = rend->cur_style->text_layout.angle * M_PI / 180.0;
 	obr.x = pos->x;
 	obr.y = pos->y;
 	go_geometry_OBR_to_AABR (&obr, &aabr);
@@ -634,7 +634,7 @@ gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
 	set_double_prop (node, "y", obr.y + y_offset);
 	xmlNewProp (node, CC2XML ("text-anchor"), CC2XML ("middle"));
 	string = g_string_new ("rotate(");
-	g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), -rend->text_angle));
+	g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), -rend->cur_style->text_layout.angle));
 	g_string_append_c (string, ',');
 	g_string_append (string, g_ascii_dtostr (buffer, sizeof (buffer), obr.x));
 	g_string_append_c (string, ',');

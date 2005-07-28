@@ -58,8 +58,7 @@ enum {
 	AXIS_BASE_PROP_MINOR_TICK_OUT,
 	AXIS_BASE_PROP_MINOR_TICK_SIZE_PTS,
 	AXIS_BASE_PROP_CROSS_AXIS_ID,
-	AXIS_BASE_PROP_CROSS_LOCATION,
-	AXIS_BASE_PROP_LABEL_ANGLE
+	AXIS_BASE_PROP_CROSS_LOCATION
 };
 
 static double gog_axis_base_get_cross_location (GogAxisBase *axis_base);
@@ -137,10 +136,6 @@ gog_axis_base_set_property (GObject *obj, guint param_id,
 		}
 			break;
 
-		case AXIS_BASE_PROP_LABEL_ANGLE:
-			axis_base->label_angle = g_value_get_double (value);
-			break;
-
 		default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 			 return; /* NOTE : RETURN */
 	}
@@ -196,9 +191,6 @@ gog_axis_base_get_property (GObject *obj, guint param_id,
 			break;
 		case AXIS_BASE_PROP_MINOR_TICK_SIZE_PTS:
 			g_value_set_int (value, axis_base->minor.size_pts);
-			break;
-		case AXIS_BASE_PROP_LABEL_ANGLE:
-			g_value_set_double (value, axis_base->label_angle);
 			break;
 
 		default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -342,23 +334,6 @@ gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position)
 	axis_base->position = position;
 }
 
-/**
- * gog_axis_base_set_label_angle:
- * @axis_base : #GogAxisBase
- * @angle     : label angle in degrees
- *
- * Sets angle for tick labels, in degrees. Valid values are between
- * -180° to 180°.
- **/
-void
-gog_axis_base_set_label_angle (GogAxisBase *axis_base, double angle)
-{
-	g_return_if_fail (GOG_AXIS_BASE (axis_base) != NULL);
-
-	axis_base->label_angle = CLAMP (angle, -180, 180);
-	gog_object_emit_changed (GOG_OBJECT (axis_base), TRUE);
-}
-
 typedef struct {
 	GogAxisBase 	*axis_base;
 	GladeXML 	*gui;
@@ -441,13 +416,6 @@ cb_tick_toggle_changed (GtkToggleButton *toggle_button, GObject *axis_base)
 		gtk_widget_get_name (GTK_WIDGET (toggle_button)),
 		gtk_toggle_button_get_active (toggle_button),
 		NULL);
-}
-
-static void
-cb_label_angle_changed (GtkSpinButton *spin, GogAxisBase *axis_base)
-{
-	gog_axis_base_set_label_angle (axis_base, 
-		gtk_spin_button_get_value (spin));
 }
 
 static void
@@ -572,11 +540,6 @@ gog_axis_base_populate_editor (GogObject *gobj,
 					 G_CALLBACK (cb_tick_toggle_changed), axis_base, 0);
 	}
 
-	w = glade_xml_get_widget (gui, "angle_spin");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), axis_base->label_angle);
-	g_signal_connect (G_OBJECT (w), "value-changed", 
-			  G_CALLBACK (cb_label_angle_changed), axis_base);
-
 	if (gog_axis_is_discrete (axis_base->axis)) {
 		/* Hide minor tick properties */
 		GtkWidget *w = glade_xml_get_widget (gui, "minor_tick_box");
@@ -649,11 +612,6 @@ gog_axis_base_class_init (GObjectClass *gobject_klass)
 			"Which axis to cross",
 			0, G_MAXUINT, 0, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
-	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_LABEL_ANGLE,
-		g_param_spec_double ("label-angle", _("Label angle"),
-			_("Label angle in degrees"),
-			-180.0, 180.0, 0.0, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
-
 	gog_klass->populate_editor	= gog_axis_base_populate_editor;
 	gog_klass->view_type		= gog_axis_base_view_get_type ();
 	gso_klass->init_style 		= gog_axis_base_init_style;
@@ -673,8 +631,6 @@ gog_axis_base_init (GogAxisBase *gab)
 	gab->major_tick_labeled = TRUE;
 	gab->major.size_pts = 4;
 	gab->minor.size_pts = 2;
-
-	gab->label_angle = 0.0;
 }
 
 static double
@@ -1442,7 +1398,6 @@ gog_axis_base_view_padding_request (GogView *view, GogViewAllocation const *bbox
 	axis_set = gog_chart_get_axis_set (axis_base->chart);
 
 	gog_renderer_push_style (view->renderer, style);
-	gog_renderer_set_text_angle (view->renderer, axis_base->label_angle);
 
 	switch (axis_set) {
 		case GOG_AXIS_SET_X:
@@ -1483,7 +1438,6 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 		plot_area = gog_chart_view_get_plot_area (view->parent->parent);
 
 	gog_renderer_push_style (view->renderer, style);
-	gog_renderer_set_text_angle (view->renderer, axis_base->label_angle);
 
 	switch (axis_set) {
 		case GOG_AXIS_SET_X:

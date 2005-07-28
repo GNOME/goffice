@@ -92,8 +92,7 @@ goffice_glade_DATA = \
 	gog-axis-prefs.glade		\
 	gog-error-bar-prefs.glade	\
 	gog-reg-curve-prefs.glade	\
-	gog-reg-eqn-prefs.glade		\
-	gog-label-prefs.glade
+	gog-reg-eqn-prefs.glade
 
 EXTRA_DIST = $(goffice_glade_DATA)
 
