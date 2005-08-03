@@ -1,3 +1,12 @@
+2005-08-03  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	Cairo renderer build fixes.
+
+	* goffice/graph/gog-renderer-cairo.c (gog_renderer_cairo_draw_text):
+	fix size.
+	(gog_renderer_cairo_get_text_OBR): ditto.
+	(gog_renderer_cairo_update): graph size is a property of GogGraph now.
+
 2005-07-28  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	Who said text angle is not a style property ?

@@ -445,7 +445,7 @@ gog_renderer_cairo_draw_text (GogRenderer *rend, char const *text,
 	}
 /*	g_message ("family: %s, size: %g", family, size);*/
 	/* FIXME: calculate dpi */
-	size *= 96.0 * rend->zoom / 72.0;
+	size *= 96.0 * rend->scale * rend->zoom / 72.0;
 	cairo_select_font_face (cr, family, slant, 
 		weight > PANGO_WEIGHT_SEMIBOLD ?  CAIRO_FONT_WEIGHT_BOLD : CAIRO_FONT_WEIGHT_NORMAL);
 	cairo_set_font_size (cr, size);
@@ -454,7 +454,7 @@ gog_renderer_cairo_draw_text (GogRenderer *rend, char const *text,
 	
 	obr.w = text_extents.width;
 	obr.h = font_extents.ascent + font_extents.descent;
-	obr.alpha = rend->cur_style->font.rotation_angle * M_PI / 180.0;
+	obr.alpha = rend->cur_style->text_layout.angle * M_PI / 180.0;
 	obr.x = pos->x;
 	obr.y = pos->y;
 	go_geometry_OBR_to_AABR (&obr, &aabr);
@@ -516,7 +516,7 @@ gog_renderer_cairo_get_text_OBR (GogRenderer *rend,
 	
 	family = pango_font_description_get_family (fd);
 	/* FIXME: calculate dpi */
-	size = pango_font_description_get_size (fd) / PANGO_SCALE / 72.0 * 96.0 * rend->zoom;
+	size = pango_font_description_get_size (fd) / PANGO_SCALE / 72.0 * 96.0 * rend->scale * rend->zoom;
 	weight = pango_font_description_get_weight (fd);
 	switch (pango_font_description_get_style (fd)) {
 		case (PANGO_STYLE_NORMAL):  slant = CAIRO_FONT_SLANT_NORMAL; break;
@@ -697,6 +697,7 @@ grc_cairo_setup (GogRendererCairo *crend, int w, int h)
 gboolean
 gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 {
+	GogGraph *graph;
 	GogView *view;
 	GogViewAllocation allocation;
 	gboolean redraw = TRUE;
@@ -708,7 +709,8 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 	size_changed = crend->w != w || crend->h != h;
 
 	view = crend->base.view;
-	gog_graph_force_update (GOG_GRAPH (view->model));
+	graph = GOG_GRAPH (view->model);
+	gog_graph_force_update (graph);
 	allocation.x = allocation.y = 0.;
 	allocation.w = w;
 	allocation.h = h;
@@ -716,8 +718,8 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 		return redraw;
 
 	if (size_changed) {
-		crend->base.scale_x = w / crend->base.logical_width_pts;
-		crend->base.scale_y = h / crend->base.logical_height_pts;
+		crend->base.scale_x = w / graph->width;
+		crend->base.scale_y = h / graph->height;
 		crend->base.scale = MIN (crend->base.scale_x, crend->base.scale_y);
 		crend->base.zoom  = zoom;
 
