@@ -5,10 +5,10 @@ Makefile.in
 Makefile.in.in
 POTFILES
 cat-id-tbl.c
-gnumeric.pot
 stamp-cat-id
-gnumeric.pot
+goffice.pot
 messages
 missing
+notexist
 .intltool-cache*
 po2tbl.sed.in
