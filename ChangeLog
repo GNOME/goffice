@@ -1,5 +1,10 @@
 2005-08-03  Stepan Kasal  <kasal@ucw.cz>
 
+	* goffice/graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_text):
+	  Fix a typo; add an initialization to silence a warning.
+
+2005-08-03  Stepan Kasal  <kasal@ucw.cz>
+
 	In many Makefile.am's, use the "dist_" prefix instead of adding the
 	variable to EXTRA_DIST.
 	* goffice/graph/Makefile.am (cairo_sources, cairo_headers): Nuke;

@@ -648,7 +648,7 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 		case GO_ROTATE_CLOCKWISE:
 		case GO_ROTATE_COUNTERCLOCKWISE:
 			x = rect.x;
-			rect.x = y;
+			rect.x = rect.y;
 			rect.y = x;
 			w = rect.width;
 			rect.width = rect.height;
@@ -762,6 +762,8 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 			dst += (y + h - 1) * prend->rowstride;
 			dst += (x + w - 1)* 4;
 			break;
+		default:
+			intercol = interrow = 0;  /* never reached; silence gcc */
 	}
 
 	while (ft_h--) {
