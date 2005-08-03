@@ -49,7 +49,7 @@ libgoffice_gtk_la_HEADERS = 		\
 	go-graph-widget.h
 
 goffice_gladedir = $(goffice_datadir)/glade
-goffice_glade_DATA = \
+dist_goffice_glade_DATA = \
 	go-font-sel.glade 	\
 	go-format-sel.glade 
 
@@ -66,7 +66,6 @@ UNUSED = \
 	go-dock-layout.c \
 	go-dock-layout.h
 
-EXTRA_DIST = $(goffice_glade_DATA) \
-	$(UNUSED)
+EXTRA_DIST = $(UNUSED)
 
 include $(top_srcdir)/goffice.mk

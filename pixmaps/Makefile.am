@@ -1,5 +1,5 @@
 icondir = $(goffice_icondir)
-icon_DATA = \
+dist_icon_DATA = \
  	chart_area_1_1.png	chart_area_1_2.png	chart_area_1_3.png	\
 	chart_bar_1_1.png	chart_bar_1_2.png	chart_bar_1_3.png	\
 	chart_bar_2_1.png	chart_bar_2_2.png	chart_bar_2_3.png	\
@@ -58,5 +58,3 @@ icon_DATA = \
 	bar-hplus.png 	\
 	bar-hminus.png 	\
 	bar-hboth.png
-
-EXTRA_DIST = $(icon_DATA)

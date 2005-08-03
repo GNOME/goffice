@@ -1,4 +1,3 @@
-noinst_LTLIBRARIES = libgoffice-utils.la
 if WITH_WIN32
     lib_LTLIBRARIES = libgoffice-win32-stub.la
 
@@ -6,7 +5,9 @@ if WITH_WIN32
     libgoffice_win32_stub_la_LIBADD = -luuid -lhtmlhelp -lurlmon
     libgoffice_win32_stub_la_LDFLAGS = -no-undefined -export-symbols $(srcdir)/goffice-win32-stub.def
 endif
+EXTRA_DIST = goffice-win32-stub.def
 
+noinst_LTLIBRARIES = libgoffice-utils.la
 libgoffice_utils_la_SOURCES =	\
 	go-marshalers.list	\
 	\
@@ -71,7 +72,5 @@ GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=go_
 	echo '#include <goffice/goffice-config.h>' && \
 	echo '#include "$*.h"' && \
 	$(GENMARSHAL_COMMAND) --body $< ) >$@
-
-EXTRA_DIST = win32-stub.c win32-stub.h
 
 include $(top_srcdir)/goffice.mk

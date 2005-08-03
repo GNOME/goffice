@@ -1,12 +1,6 @@
 noinst_LTLIBRARIES = libgoffice-graph.la
 
-if WITH_CAIRO
-cairo_sources =	gog-renderer-cairo.c	
-cairo_headers = gog-renderer-cairo.h
-endif
-
 libgoffice_graph_la_SOURCES = \
-	$(cairo_sources)		\
 	gog-object.c			\
 	gog-object-xml.c		\
 	gog-styled-object.c		\
@@ -43,8 +37,7 @@ libgoffice_graph_la_SOURCES = \
 	gog-renderer-svg.c
 
 libgoffice_graph_ladir = $(goffice_include_dir)/graph
-libgoffice_graph_la_HEADERS = 	\
-	$(cairo_headers)		\
+libgoffice_graph_la_HEADERS = \
 	goffice-graph.h			\
 	gog-object.h			\
 	gog-object-xml.h		\
@@ -82,8 +75,13 @@ libgoffice_graph_la_HEADERS = 	\
 	gog-renderer-gnome-print.h	\
 	gog-renderer-svg.h
 
+if WITH_CAIRO
+  libgoffice_graph_la_SOURCES += gog-renderer-cairo.c	
+  libgoffice_graph_la_HEADERS += gog-renderer-cairo.h
+endif
+
 goffice_gladedir = $(goffice_datadir)/glade
-goffice_glade_DATA = \
+dist_goffice_glade_DATA = \
 	gog-guru.glade			\
 	gog-guru-type-selector.glade	\
 	gog-object-prefs.glade		\
@@ -93,7 +91,5 @@ goffice_glade_DATA = \
 	gog-error-bar-prefs.glade	\
 	gog-reg-curve-prefs.glade	\
 	gog-reg-eqn-prefs.glade
-
-EXTRA_DIST = $(goffice_glade_DATA)
 
 include $(top_srcdir)/goffice.mk
