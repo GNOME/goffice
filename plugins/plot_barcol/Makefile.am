@@ -17,8 +17,8 @@ barcol_la_SOURCES = gog-1.5d.c 		\
 		    gog-dropbar.h	\
 		    gog-minmax.c	\
 		    gog-minmax.h	\
-			gog-series-lines.c	\
-			gog-series-lines.h
+		    gog-series-lines.c	\
+		    gog-series-lines.h
 
 xml_in_files = plugin.xml.in plot-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
