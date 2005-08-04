@@ -1,4 +1,5 @@
 ABOUT-NLS
+Makefile
 Makefile.in
 aclocal.m4
 autom4te*.cache
@@ -11,9 +12,6 @@ config.guess
 ltconfig
 ltmain.sh
 libtool
-goffice-config.h.in
-goffice-config.h
-Makefile
 xlibtool
 xltmain.sh
 depcomp

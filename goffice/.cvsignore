@@ -2,9 +2,6 @@ goffice-config.h
 goffice-config.h.in
 goffice-features.h
 goffice-paths.h
-goffice-paths.sh
-install-sh
-libgoffice-1.pc
 Makefile
 Makefile.in
 stamp-h*
