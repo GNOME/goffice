@@ -73,7 +73,7 @@ goffice_reqs="
 	glib-2.0		>= 2.6.4
 	gobject-2.0		>= 2.6.4
 	gmodule-2.0		>= 2.6.4
-	libgsf-1		>= 1.12.1
+	libgsf-1		>= 1.12.2
 	libxml-2.0		>= 2.4.12
 	pango			>= 1.8.1
 	pangoft2		>= 1.8.1
@@ -90,7 +90,7 @@ goffice_gtk_reqs="
 goffice_gnome_reqs="
 	gconf-2.0
 	libgnomeui-2.0		>= 2.0.0
-	libgsf-gnome-1		>= 1.12.1
+	libgsf-gnome-1		>= 1.12.2
 "
 
 dnl *********************
