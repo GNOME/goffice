@@ -1121,7 +1121,7 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 	if (GOG_FILL_STYLE_IMAGE == dst->fill.type)
 		dst->fill.image.filename = g_strdup (dst->fill.image.filename);
 
-	dst->text_layout.angle = src->text_layout.angle;
+	dst->text_layout = src->text_layout;
 
 	dst->interesting_fields = src->interesting_fields;
 	dst->disable_theming = src->disable_theming;
@@ -1165,6 +1165,8 @@ gog_style_apply_theme (GogStyle *dst, GogStyle const *src)
 	if (dst->marker.auto_fill_color)
 		go_marker_set_fill_color (dst->marker.mark,
 			go_marker_get_fill_color (src->marker.mark));
+	if (dst->text_layout.auto_angle)
+		dst->text_layout.angle = src->text_layout.angle;
 
 #if 0
 	/* Fonts are not themed until we have some sort of auto mechanism
@@ -1850,7 +1852,8 @@ gog_style_force_auto (GogStyle *style)
 	style->line.auto_color =
 	style->fill.auto_fore =
 	style->fill.auto_back =
-	style->font.auto_scale = TRUE;
+	style->font.auto_scale =
+	style->text_layout.auto_angle = TRUE;
 }
 
 /**
@@ -1949,4 +1952,5 @@ gog_style_set_text_angle (GogStyle *style, double angle)
 	g_return_if_fail (GOG_STYLE (style) != NULL);
 
 	style->text_layout.angle = CLAMP (angle, -180.0, 180.0);
+	style->text_layout.auto_angle = FALSE;
 }

@@ -634,8 +634,15 @@ cb_plot_family_menu_create (char const *id, GogPlotFamily *family,
 	GtkWidget *w, *menu;
 	GSList *ptr, *types = NULL;
 	GogPlotType *type;
+	GogAxisSet axis_set;
 
 	if (g_hash_table_size (family->types) <= 0)
+		return;
+
+	axis_set = gog_chart_get_axis_set (GOG_CHART (closure->state->prop_object));
+
+	if (axis_set != GOG_AXIS_SET_UNKNOWN &&
+	    family->axis_set != axis_set)
 		return;
 
 	menu = gtk_image_menu_item_new_with_label (_(family->name));

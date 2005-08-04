@@ -28,6 +28,8 @@
 
 G_BEGIN_DECLS
 
+GogAxisSet gog_axis_set_from_str (char const *str);
+	
 typedef struct {
 	double cx, cy;
 	double rx, ry;

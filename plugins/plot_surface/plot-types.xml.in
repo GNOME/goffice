@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
-	<Family _name="Surface"	sample_image_file="surface.xpm"/>
+	<Family _name="Surface"	sample_image_file="surface.xpm" axis_set="pseudo-3d"/>
 
 	<Type _name="Contour" row="1" col="1"
 		engine="GogContourPlot" family="Surface"

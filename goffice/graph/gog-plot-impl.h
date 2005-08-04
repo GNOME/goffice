@@ -47,7 +47,7 @@ struct _GogPlot {
 	unsigned	 index_num;
 	gboolean	 vary_style_by_element;
 	gboolean	 render_before_axes;
-	gchar*		plot_group;
+	gchar*		 plot_group;
 
 	GogAxis		*axis[GOG_AXIS_TYPES];
 
@@ -62,11 +62,10 @@ typedef struct {
 	GogPlotDesc	desc;
 	GType		series_type;
 
+	GogAxisSet	axis_set;
+
 	/* Virtuals */
 
-	GogAxisSet (*axis_set_pref)     (GogPlot const *plot);
-	gboolean   (*axis_set_is_valid) (GogPlot const *plot, GogAxisSet type);
-	gboolean   (*axis_set_assign)   (GogPlot *plot, GogAxisSet type);
 	GOData	  *(*axis_get_bounds) 	(GogPlot *plot, GogAxisType axis,
 					 GogPlotBoundInfo *bounds);
 

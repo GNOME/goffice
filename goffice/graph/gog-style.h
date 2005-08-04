@@ -112,7 +112,8 @@ struct _GogStyle {
 		gboolean 	 auto_scale;
 	} font;
 	struct {
-		double		  angle;
+		double		 angle;
+		gboolean	 auto_angle; 
 	} text_layout;	
 };
 

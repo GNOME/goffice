@@ -163,24 +163,6 @@ gog_2d_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, doubl
 	klass->adjust_bounds (model, x_min, x_max, y_min, y_max);
 }
 
-static GogAxisSet
-gog_2d_plot_axis_set_pref (GogPlot const *plot)
-{
-	return GOG_AXIS_SET_XY;
-}
-
-static gboolean
-gog_2d_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
-{
-	return type == GOG_AXIS_SET_XY;
-}
-
-static gboolean
-gog_2d_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
-{
-	return type == GOG_AXIS_SET_XY;
-}
-
 static GOData *
 gog_2d_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 			     GogPlotBoundInfo *bounds)
@@ -242,9 +224,7 @@ gog_2d_plot_class_init (GogPlotClass *plot_klass)
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->series_type  = gog_xy_series_get_type ();
-	plot_klass->axis_set_pref     = gog_2d_plot_axis_set_pref;
-	plot_klass->axis_set_is_valid = gog_2d_plot_axis_set_is_valid;
-	plot_klass->axis_set_assign   = gog_2d_plot_axis_set_assign;
+	plot_klass->axis_set	      = GOG_AXIS_SET_XY;
 	plot_klass->axis_get_bounds   = gog_2d_plot_axis_get_bounds;
 }
 

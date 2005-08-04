@@ -50,7 +50,7 @@ enum {
 	PLOT_PROP_VARY_STYLE_BY_ELEMENT,
 	PLOT_PROP_AXIS_X,
 	PLOT_PROP_AXIS_Y,
-	PLOT_PROP_GROUP,
+	PLOT_PROP_GROUP
 };
 
 static GObjectClass *plot_parent_klass;
@@ -335,12 +335,14 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 		  role_series_post_add, role_series_pre_remove, NULL },
 	};
 	GObjectClass *gobject_klass = (GObjectClass *) gog_klass;
+	GogPlotClass *plot_klass = (GogPlotClass *) gog_klass;
 
 	plot_parent_klass = g_type_class_peek_parent (gog_klass);
 	gobject_klass->finalize		= gog_plot_finalize;
 	gobject_klass->set_property	= gog_plot_set_property;
 	gobject_klass->get_property	= gog_plot_get_property;
 	gog_klass->populate_editor	= gog_plot_populate_editor;
+	plot_klass->axis_set 		= GOG_AXIS_SET_NONE;
 
 	g_object_class_install_property (gobject_klass, PLOT_PROP_VARY_STYLE_BY_ELEMENT,
 		g_param_spec_boolean ("vary-style-by-element", "vary-style-by-element",
@@ -627,21 +629,17 @@ gog_plot_axis_set_pref (GogPlot const *plot)
 {
 	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
 
-	g_return_val_if_fail (klass != NULL, FALSE);
-	if (klass->axis_set_pref != NULL)
-		return (klass->axis_set_pref) (plot);
-	return GOG_AXIS_SET_NONE;
+	g_return_val_if_fail (klass != NULL, GOG_AXIS_SET_UNKNOWN);
+	return klass->axis_set;
 }
 
 gboolean
-gog_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
+gog_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet axis_set)
 {
 	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
 
 	g_return_val_if_fail (klass != NULL, FALSE);
-	if (klass->axis_set_is_valid != NULL)
-		return (klass->axis_set_is_valid) (plot, type);
-	return type == GOG_AXIS_SET_NONE;
+	return (axis_set == klass->axis_set);
 }
 
 static gboolean
@@ -704,10 +702,7 @@ gog_plot_axis_set_assign (GogPlot *plot, GogAxisSet axis_set)
 		}
 	}
 
-	if (klass->axis_set_assign == NULL)
-		return axis_set == GOG_AXIS_SET_NONE;
-
-	return (klass->axis_set_assign) (plot, axis_set);
+	return (axis_set == klass->axis_set);
 }
 
 /**

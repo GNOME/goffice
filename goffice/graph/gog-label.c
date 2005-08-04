@@ -127,15 +127,19 @@ static void
 gog_label_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	GogObject *parent;
-	
+
 	style->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL | 
 		GOG_STYLE_FONT | GOG_STYLE_TEXT_LAYOUT;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, FALSE);
-
+	
+	/* Kludge for default Y axis title orientation. This should have be done
+	 * in GogTheme, but it's not possible without breaking graph persistence
+	 * compatibility */
 	parent = gog_object_get_parent (GOG_OBJECT (gso));
 	if (IS_GOG_AXIS (parent) &&
-	    gog_axis_get_atype (GOG_AXIS (parent)) == GOG_AXIS_Y)
+	    gog_axis_get_atype (GOG_AXIS (parent)) == GOG_AXIS_Y &&
+	    style->text_layout.auto_angle) 
 		style->text_layout.angle = 90.0;
 }
 
@@ -157,8 +161,8 @@ gog_label_class_init (GogLabelClass *klass)
 			TRUE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 
 	gog_klass->populate_editor	= gog_label_populate_editor;
-	gog_klass->view_type	= gog_label_view_get_type ();
-	style_klass->init_style = gog_label_init_style;
+	gog_klass->view_type		= gog_label_view_get_type ();
+	style_klass->init_style 	= gog_label_init_style;
 }
 
 static void

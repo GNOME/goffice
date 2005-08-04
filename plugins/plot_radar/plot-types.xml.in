@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
-	<Family _name="Radar"	sample_image_file="radar.xpm"/>
-	<Family _name="Polar"	sample_image_file="polar.png"/>
+	<Family _name="Radar"	sample_image_file="radar.xpm" axis_set="radar"/>
+	<Family _name="Polar"	sample_image_file="polar.png" axis_set="radar"/>
 
 	<Type _name="Radar" row="1" col="1"
 		engine="GogRadarPlot" family="Radar"

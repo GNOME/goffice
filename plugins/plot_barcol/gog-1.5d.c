@@ -299,24 +299,6 @@ gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	return NULL;
 }
 
-static GogAxisSet
-gog_plot1_5d_axis_set_pref (GogPlot const *plot)
-{
-	return GOG_AXIS_SET_XY; /* do some magic later for 3d */
-}
-
-static gboolean
-gog_plot1_5d_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
-{
-	return type == GOG_AXIS_SET_XY; /* do some magic later for 3d */
-}
-
-static gboolean
-gog_plot1_5d_axis_set_assign (GogPlot *plot, GogAxisSet type)
-{
-	return type == GOG_AXIS_SET_XY; /* do some magic later for 3d */
-}
-
 static gboolean
 gog_1_5d_supports_vary_style_by_element (GogPlot const *plot)
 {
@@ -365,9 +347,7 @@ gog_plot1_5d_class_init (GogPlotClass *plot_klass)
 	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->series_type = gog_series1_5d_get_type ();
 	plot_klass->axis_get_bounds   = gog_plot1_5d_axis_get_bounds;
-	plot_klass->axis_set_pref     = gog_plot1_5d_axis_set_pref;
-	plot_klass->axis_set_is_valid = gog_plot1_5d_axis_set_is_valid;
-	plot_klass->axis_set_assign   = gog_plot1_5d_axis_set_assign;
+	plot_klass->axis_set	      = GOG_AXIS_SET_XY;
 	plot_klass->supports_vary_style_by_element = gog_1_5d_supports_vary_style_by_element;
 }
 

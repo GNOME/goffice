@@ -24,6 +24,7 @@
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-reg-curve.h>
+#include <goffice/graph/gog-chart.h>
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/app/go-plugin-service-impl.h>
 #include <goffice/app/error-info.h>
@@ -143,6 +144,8 @@ cb_pending_plot_types_load (char const *path,
 	GogPlotType *type;
 	int col, row, priority;
 	xmlChar *name, *image_file, *description, *engine;
+	xmlChar *axis_set_str;
+	GogAxisSet axis_set;
 
 	g_return_if_fail (doc != NULL && doc->xmlRootNode != NULL);
 
@@ -153,7 +156,13 @@ cb_pending_plot_types_load (char const *path,
 			image_file  = xmlGetProp (ptr, "sample_image_file");
 			if (!xml_node_get_int (ptr, "priority", &priority))
 				priority = 0;
-			family = gog_plot_family_register (name, image_file, priority);
+			axis_set_str = xmlGetProp (ptr, "axis_set");
+			axis_set = gog_axis_set_from_str (axis_set_str);
+			if (axis_set_str != NULL)
+				xmlFree (axis_set_str);
+			else
+				g_warning ("[GogPlotTypeService::plot_types_load] missing axis set type");
+			family = gog_plot_family_register (name, image_file, priority, axis_set);
 			if (family != NULL)
 				service->families = g_slist_prepend (service->families, family);
 			if (name != NULL) xmlFree (name);
@@ -191,8 +200,9 @@ cb_pending_plot_types_load (char const *path,
 							}
 
 							if (type->properties == NULL)
-								type->properties = g_hash_table_new_full (g_str_hash, g_str_equal,
-													  xmlFree, xmlFree);
+								type->properties = 
+									g_hash_table_new_full (g_str_hash, g_str_equal,
+											       xmlFree, xmlFree);
 							g_hash_table_replace (type->properties,
 								prop_name, xmlNodeGetContent (prop));
 						}
@@ -609,7 +619,7 @@ gog_plot_family_by_name (char const *name)
 
 GogPlotFamily *
 gog_plot_family_register (char const *name, char const *sample_image_file,
-			  int priority)
+			  int priority, GogAxisSet axis_set)
 {
 	GogPlotFamily *res;
 
@@ -623,8 +633,10 @@ gog_plot_family_register (char const *name, char const *sample_image_file,
 	res->name		= g_strdup (name);
 	res->sample_image_file	= g_strdup (sample_image_file);
 	res->priority		= priority;
+	res->axis_set = axis_set;
 	res->types = g_hash_table_new_full (g_str_hash, g_str_equal,
 		NULL, (GDestroyNotify) gog_plot_type_free);
+
 	g_hash_table_insert (plot_families, res->name, res);
 
 	return res;

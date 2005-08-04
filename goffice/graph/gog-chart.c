@@ -40,6 +40,39 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 
+const struct {
+	char const *name;
+	GogAxisSet const axis_set;
+} axis_set_desc[] = {
+	{ "none",	GOG_AXIS_SET_NONE},
+	{ "x",		GOG_AXIS_SET_X},
+	{ "xy", 	GOG_AXIS_SET_XY},
+	{ "xyz",	GOG_AXIS_SET_XYZ},
+	{ "radar",	GOG_AXIS_SET_RADAR},
+	{ "pseudo-3d",	GOG_AXIS_SET_XY_pseudo_3d}
+};
+	
+GogAxisSet
+gog_axis_set_from_str (char const *str)
+{
+	GogAxisSet axis_set = GOG_AXIS_SET_NONE;
+	unsigned i;
+	gboolean found = FALSE;
+
+	if (str == NULL)
+		return GOG_AXIS_SET_NONE;
+
+	for (i = 0; i < G_N_ELEMENTS (axis_set_desc); i++) 
+		if (strcmp (axis_set_desc[i].name, str) == 0) {
+			axis_set = axis_set_desc[i].axis_set;
+			found = TRUE;
+			break;
+		}
+	if (!found) 
+		g_warning ("[GogAxisSet::from_str] unknown axis set (%s)", str);
+	return axis_set;
+}
+
 static void
 calc_polygon_parameters (GogViewAllocation const *area, GogChartMapPolarData *data, gboolean fill_area)
 {
@@ -546,7 +579,7 @@ role_plot_post_add (GogObject *parent, GogObject *plot)
 	/* APPEND to keep order, there won't be that many */
 	chart->plots = g_slist_append (chart->plots, plot);
 	gog_chart_request_cardinality_update (chart);
-
+	
 	if (chart->plots->next == NULL)
 		ok = gog_chart_axis_set_assign (chart,
 			gog_plot_axis_set_pref (GOG_PLOT (plot)));

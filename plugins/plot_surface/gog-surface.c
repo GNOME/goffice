@@ -300,24 +300,6 @@ gog_contour_plot_update (GogObject *obj)
 		plot_contour_parent_klass->update (obj);
 }
 
-static GogAxisSet
-gog_contour_plot_axis_set_pref (GogPlot const *plot)
-{
-	return GOG_AXIS_SET_XY_pseudo_3d;
-}
-
-static gboolean
-gog_contour_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
-{
-	return type == GOG_AXIS_SET_XY_pseudo_3d;
-}
-
-static gboolean
-gog_contour_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
-{
-	return type == GOG_AXIS_SET_XY_pseudo_3d;
-}
-
 static GOData *
 gog_contour_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis, 
 				  GogPlotBoundInfo * bounds)
@@ -512,9 +494,7 @@ gog_contour_plot_class_init (GogContourPlotClass *klass)
 	gog_plot_klass->desc.num_series_min = 1;
 	gog_plot_klass->desc.num_series_max = 1;
 	gog_plot_klass->series_type = gog_surface_series_get_type();
-	gog_plot_klass->axis_set_pref = gog_contour_plot_axis_set_pref;
-	gog_plot_klass->axis_set_is_valid = gog_contour_plot_axis_set_is_valid;
-	gog_plot_klass->axis_set_assign = gog_contour_plot_axis_set_assign;
+	gog_plot_klass->axis_set = GOG_AXIS_SET_XY_pseudo_3d;
 	gog_plot_klass->axis_get_bounds	= gog_contour_plot_axis_get_bounds;
 	gog_plot_klass->foreach_elem = gog_contour_plot_foreach_elem;
 	gog_plot_klass->update_3d = gog_contour_plot_update_3d;

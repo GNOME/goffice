@@ -27,19 +27,21 @@
 G_BEGIN_DECLS
 
 struct _GogPlotType {
-	GogPlotFamily *family;
-	char *engine;
+	GogPlotFamily 	*family;
+	char 		*engine;
 
-	char *name, *sample_image_file;
-	char *description; /* untranslated */
-	int col, row;
+	char 		*name, *sample_image_file;
+	char 		*description; /* untranslated */
+	int 		 col, row;
 
-	GHashTable *properties;
+	GHashTable 	*properties;
 }; 
 
 struct _GogPlotFamily {
 	char *name, *sample_image_file;
 	int priority;
+
+	GogAxisSet	 axis_set;
 
 	GHashTable *types;
 }; 
@@ -48,7 +50,7 @@ struct _GogPlotFamily {
 GHashTable const *gog_plot_families (void);
 GogPlotFamily *gog_plot_family_by_name  (char const *name);
 GogPlotFamily *gog_plot_family_register (char const *name, char const *sample_image_file,
-					 int priority);
+					 int priority, GogAxisSet axis_set);
 GogPlotType   *gog_plot_type_register   (GogPlotFamily *famlily, int col, int row,
 					 char const *name, char const *sample_image_file,
 					 char const *description, char const *engine);

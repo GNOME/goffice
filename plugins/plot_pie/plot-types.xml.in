@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
-    <Family _name="Pie"		sample_image_file="pie.xpm"/>
-    <Family _name="Ring"	sample_image_file="doughnut.xpm"/>
+    <Family _name="Pie"	sample_image_file="pie.xpm" axis_set="none"/>
+    <Family _name="Ring" sample_image_file="doughnut.xpm" axis_set="none"/>
 
     <Type _name="Pie" row="1" col="1"
 	  engine="GogPiePlot" family="Pie"

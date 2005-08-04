@@ -197,24 +197,6 @@ gog_box_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	return NULL;
 }
 
-static GogAxisSet
-gog_box_plot_axis_set_pref (GogPlot const *plot)
-{
-	return GOG_AXIS_SET_X;
-}
-
-static gboolean
-gog_box_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
-{
-	return type == GOG_AXIS_SET_X;
-}
-
-static gboolean
-gog_box_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
-{
-	return type == GOG_AXIS_SET_X;
-}
-
 static void
 gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 {
@@ -247,9 +229,7 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->series_type = gog_box_plot_series_get_type ();
-	plot_klass->axis_set_pref     = gog_box_plot_axis_set_pref;
-	plot_klass->axis_set_is_valid = gog_box_plot_axis_set_is_valid;
-	plot_klass->axis_set_assign   = gog_box_plot_axis_set_assign;
+	plot_klass->axis_set = GOG_AXIS_SET_X;
 	plot_klass->desc.series.style_fields	= GOG_STYLE_LINE | GOG_STYLE_FILL;
 	plot_klass->axis_get_bounds   		= gog_box_plot_axis_get_bounds;
 }

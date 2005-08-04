@@ -1,3 +1,32 @@
+2005-09-03  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-axis-line.c (gog_axis_base_view_info_at_point):
+	handle GOG_AXIS_SET_XY_pseudo_3d.
+	* goffice/graph/gog-chart.c (gog_axis_set_from_str): new.
+	* goffice/graph/gog-guru.c (cb_plot_family_menu_create): show only
+	family with compatible axis set.
+	* goffice/graph/gog-label.c (gog_label_init_style): only change text
+	orientation if auto flag is TRUE.
+	* goffice/graph/gog-plot-engine.c (cb_pending_plot_types_load): load
+	axis_set from plot-types.xml.
+	(gog_plot_family_register): set axis_set.
+	* goffice/graph/gog-plot-impl.h: now store axis_set in GogPlotClass. No
+	need for GogPlot::axis_set_pref, GogPlot::axis_set_is_valid and
+	GogPlot::axis_set_assign.
+	* goffice/graph/gog-plot.c (gog_plot_axis_set_pref): use
+	GogPlot::axis_set.
+	(gog_plot_axis_set_is_valid): ditto.
+	(gog_plot_axis_set_assign): ditto.
+	* goffice/graph/gog-style.c (gog_style_assign): assign
+	GogStyle::text_layout.auto_angle too.
+	(gog_style_force_auto): init GogStyle::text_layout.auto_angle.
+	(gog_style_set_text_angle): force auto_angle to FALSE.
+	* goffice/gtk/goffice-gtk.c (go_gtk_button_new_with_stock): fix
+	compilation warning.
+	* plugins/plot_*/gog*.c: remove axis_set_pref, axis_set_is_valid,
+	axis_set_assign functions. Set GogPlotClass::axis_set value.
+	* plugins/plot_*/plot-types.xml.in: Add axis_set property.
+	
 2005-08-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* README, configure.in: Bumped libgsf requirements as

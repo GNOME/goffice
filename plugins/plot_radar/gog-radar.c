@@ -105,24 +105,6 @@ gog_rt_plot_get_property (GObject *obj, guint param_id,
 	}
 }
 
-static GogAxisSet
-gog_rt_plot_axis_set_pref (GogPlot const *plot)
-{
-	return GOG_AXIS_SET_RADAR;
-}
-
-static gboolean
-gog_rt_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
-{
-	return type == GOG_AXIS_SET_RADAR;
-}
-
-static gboolean
-gog_rt_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
-{
-	return type == GOG_AXIS_SET_RADAR;
-}
-
 static void
 gog_rt_plot_update (GogObject *obj)
 {
@@ -185,9 +167,7 @@ gog_rt_plot_class_init (GogPlotClass *gog_plot_klass)
 	gog_plot_klass->desc.num_series_max = G_MAXINT;
 	gog_plot_klass->series_type = gog_rt_series_get_type();
 
-	gog_plot_klass->axis_set_pref = gog_rt_plot_axis_set_pref;
-	gog_plot_klass->axis_set_is_valid = gog_rt_plot_axis_set_is_valid;
-	gog_plot_klass->axis_set_assign = gog_rt_plot_axis_set_assign;
+	gog_plot_klass->axis_set = GOG_AXIS_SET_RADAR;
 }
 
 static void
