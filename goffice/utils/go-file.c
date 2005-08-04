@@ -295,7 +295,14 @@ go_file_open (char const *uri, GError **err)
 	}
 
 	if (is_fd_uri (uri, &fd)) {
-		/* Too bad we can't do this yet.  */
+		int fd2 = dup (fd);
+		FILE *fil = fd2 != -1 ? fdopen (fd2, "rb") : NULL;
+		GsfInput *result = fil ? gsf_input_stdio_new_FILE (uri, fil, FALSE) : NULL;
+
+		if (!result)
+			g_set_error (err, gsf_output_error_id (), 0,
+				     "Unable to read from %s", uri);
+		return result;
 	}
 
 #ifdef WITH_GNOME
@@ -329,7 +336,7 @@ go_file_create (char const *uri, GError **err)
 
 		if (!result)
 			g_set_error (err, gsf_output_error_id (), 0,
-				     "Unable to write fo %s", uri);
+				     "Unable to write to %s", uri);
 		return result;
 	}
 

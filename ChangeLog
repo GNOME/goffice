@@ -1,3 +1,7 @@
+2005-08-03  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_file_open): Handle URIs like "fd://0".
+
 2005-08-03  Stepan Kasal  <kasal@ucw.cz>
 
 	* goffice/graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_text):
