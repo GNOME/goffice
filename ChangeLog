@@ -1,4 +1,4 @@
-2005-09-03  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+2005-08-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-axis-line.c (gog_axis_base_view_info_at_point):
 	handle GOG_AXIS_SET_XY_pseudo_3d.
