@@ -1,3 +1,9 @@
+2005-08-03  Jody Goldberg <jody@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_button_new_with_stock) : Use
+	  gtk_button_set_image to avoid the kludgery that broken settings.
+	(go_gtk_dialog_add_button) : merged from gnumeric.
+
 2005-08-03  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-file.c (go_file_open): Handle URIs like "fd://0".

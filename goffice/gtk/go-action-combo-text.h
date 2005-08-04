@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
- * go-action-combo.h: A custom GOActionCombo to handle undo/redo menus/toolbars
+ * go-action-combo-text.h: A custom GOActionCombo to handle lists of text
  *
  * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
  *

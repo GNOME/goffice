@@ -47,6 +47,8 @@ int	   go_pango_measure_string	(PangoContext *context,
 					 char const *str);
 
 gint       go_gtk_dialog_run		(GtkDialog *dialog, GtkWindow *parent);
+GtkWidget *go_gtk_dialog_add_button	(GtkDialog *dialog, char const *text, char const *stock_id,
+					 gint response_id);
 void       go_gtk_notice_dialog		(GtkWindow *parent, GtkMessageType type, 
 					 const gchar *format, ...);
 void       go_gtk_notice_nonmodal_dialog (GtkWindow *parent, GtkWidget **ref,

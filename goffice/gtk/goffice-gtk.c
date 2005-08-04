@@ -111,51 +111,48 @@ go_access (const char *filename, int what)
  * stock_id : id for stock icon
  *
  * return : newly created button
- *
  **/
 GtkWidget*
 go_gtk_button_new_with_stock (char const *text, char const* stock_id)
 {
-	GtkWidget *button;
 	GtkStockItem item;
-	GtkWidget *label;
-	GtkWidget *image;
-	GtkWidget *hbox;
-	GtkWidget *align;
+	GtkWidget *button = gtk_button_new_with_mnemonic (text);
+	if (gtk_stock_lookup (stock_id, &item))
+		gtk_button_set_image (button,
+			gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON));
+	return button;
+}
 
-	button = gtk_button_new ();
+/**
+ * go_gtk_dialog_add_button
+ * dialog : dialog you want to add a button
+ * text : button label
+ * stock_id : stock icon id
+ * response_id : respond id when button clicked
+ *
+ * Creates and adds a button with stock image to the action area of an existing dialog.
+ * Code from gedit
+ * 
+ * return : newly created button
+ **/
+GtkWidget*
+go_gtk_dialog_add_button (GtkDialog *dialog, const gchar* text, const gchar* stock_id,
+			  gint response_id)
+{
+	GtkWidget *button;
 
-	if (GTK_BIN (button)->child)
-		gtk_container_remove (GTK_CONTAINER (button),
-				      GTK_BIN (button)->child);
+	g_return_val_if_fail (GTK_IS_DIALOG (dialog), NULL);
+	g_return_val_if_fail (text != NULL, NULL);
+	g_return_val_if_fail (stock_id != NULL, NULL);
 
-	if (gtk_stock_lookup (stock_id, &item)) {
-		label = gtk_label_new_with_mnemonic (text);
+	button = go_gtk_button_new_with_stock (text, stock_id);
+	g_return_val_if_fail (button != NULL, NULL);
 
-		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (button));
+	GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
 
-		image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON);
-		hbox = gtk_hbox_new (FALSE, 2);
+	gtk_widget_show (button);
 
-		align = gtk_alignment_new (0.5, 0.5, 0.0, 0.0);
-
-		gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
-		gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-
-		gtk_container_add (GTK_CONTAINER (button), align);
-		gtk_container_add (GTK_CONTAINER (align), hbox);
-		gtk_widget_show_all (align);
-
-		return button;
-	}
-
-	label = gtk_label_new_with_mnemonic (text);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (button));
-
-	gtk_misc_set_alignment (GTK_MISC (label), 0.5, 0.5);
-
-	gtk_widget_show (label);
-	gtk_container_add (GTK_CONTAINER (button), label);
+	gtk_dialog_add_action_widget (dialog, button, response_id);	
 
 	return button;
 }
