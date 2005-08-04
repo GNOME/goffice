@@ -249,11 +249,11 @@ gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base)
 				crossed_type = GOG_AXIS_RADIAL;
 			break;
 		case GOG_AXIS_SET_X:
+		case GOG_AXIS_SET_UNKNOWN:
 			break;
 		case GOG_AXIS_SET_XYZ:
 		case GOG_AXIS_SET_ALL:
 		case GOG_AXIS_SET_NONE:
-		case GOG_AXIS_SET_UNKNOWN:
 			g_message ("[GogAxisBase::get_crossed_axis_type] unimplemented for this axis set (%i)",
 				   axis_set);
 			break;
@@ -1375,6 +1375,8 @@ gog_axis_base_view_info_at_point (GogView *view, double x, double y,
 		case GOG_AXIS_SET_RADAR:
 			pointed = radar_process (GOG_AXIS_BASE_POINT, view, NULL, plot_area, x, y);
 			break;
+		case GOG_AXIS_SET_UNKNOWN:
+			break;
 		default:
 			g_warning ("[AxisBaseView::info_at_point] not implemented for this axis set (%i)",
 				   axis_set);
@@ -1417,6 +1419,8 @@ gog_axis_base_view_padding_request (GogView *view, GogViewAllocation const *bbox
 		case GOG_AXIS_SET_RADAR:
 			radar_process (GOG_AXIS_BASE_PADDING_REQUEST, view, padding, bbox, 0., 0.);
 			break;
+		case GOG_AXIS_SET_UNKNOWN:
+			break;
 		default:
 			g_warning ("[AxisBaseView::padding_request] not implemented for this axis set (%i)",
 				   axis_set);
@@ -1456,6 +1460,8 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 			break;
 		case GOG_AXIS_SET_RADAR:
 			radar_process (GOG_AXIS_BASE_RENDER, view, NULL, plot_area, 0., 0.);
+			break;
+		case GOG_AXIS_SET_UNKNOWN:
 			break;
 		default:
 			g_warning ("[AxisBaseView::render] not implemented for this axis set (%i)",

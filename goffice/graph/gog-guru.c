@@ -537,12 +537,13 @@ cb_graph_guru_delete_item (GraphGuruState *s)
 		GtkTreeIter iter;
 		GogObject *obj = s->prop_object;
 
-		/* select the parent before we delete */
+		/* store parent iter */
 		gtk_tree_model_iter_parent (GTK_TREE_MODEL (s->prop_model),
 			&iter, &s->prop_iter);
-		gtk_tree_selection_select_iter (s->prop_selection, &iter);
 		gog_object_clear_parent (obj);
 		g_object_unref (obj);
+		/* then select the parent after we delete */
+		gtk_tree_selection_select_iter (s->prop_selection, &iter);
 	}
 }
 

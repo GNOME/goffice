@@ -1,5 +1,23 @@
 2005-08-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	Allow user to delete all plots of a chart and re-add new plots with
+	different axis set.
+
+	* goffice/graph/gog-axis-line.c (gog_axis_base_get_crossed_axis_type):
+	handle GOG_AXIS_SET_UNKNOW.
+	(gog_axis_base_view_info_at_point): ditto. Do nothing.
+	(gog_axis_base_view_padding_request): ditto.
+	(gog_axis_base_view_render): ditto.
+	* goffice/graph/gog-chart.c (role_plot_pre_remove): if there's no plot
+	left, reset axis_set to GOG_AXIS_SET_UNKNOW.
+	(gog_chart_axis_set_assign): don't touch axes if axis_set ==
+	GOG_AXIS_SET_UNKNOW.
+	* goffice/graph/gog-guru.c (cb_graph_guru_delete_item): select parent
+	row after item is deleted, because if we do this before, parent->add
+	submenu is sometimes incorrect.
+
+2005-08-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* goffice/graph/gog-axis-line.c (gog_axis_base_view_info_at_point):
 	handle GOG_AXIS_SET_XY_pseudo_3d.
 	* goffice/graph/gog-chart.c (gog_axis_set_from_str): new.

@@ -597,6 +597,9 @@ role_plot_pre_remove (GogObject *parent, GogObject *plot)
 	gog_plot_axis_clear (GOG_PLOT (plot), GOG_AXIS_SET_ALL);
 	chart->plots = g_slist_remove (chart->plots, plot);
 	gog_chart_request_cardinality_update (chart);
+
+	if (chart->plots == NULL)
+		gog_chart_axis_set_assign (chart, GOG_AXIS_SET_UNKNOWN);
 }
 
 static gboolean
@@ -633,6 +636,7 @@ axis_can_add (GogObject const *parent, GogAxisType t)
 		return FALSE;
 	return (chart->axis_set & (1 << t)) != 0;
 }
+
 static gboolean
 axis_can_remove (GogObject const *child)
 {
@@ -974,6 +978,9 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 		(axis_set == GOG_AXIS_SET_XY || axis_set == GOG_AXIS_SET_X ||
 		 axis_set == GOG_AXIS_SET_RADAR || axis_set == GOG_AXIS_SET_XY_pseudo_3d))
 		gog_object_add_by_name (GOG_OBJECT (chart), "Grid", NULL);
+
+	if (axis_set == GOG_AXIS_SET_UNKNOWN)
+		return TRUE;
 
 	/* Add at least 1 instance of any required axis */
 	for (type = 0 ; type < GOG_AXIS_TYPES ; type++)
