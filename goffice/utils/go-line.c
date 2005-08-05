@@ -332,7 +332,7 @@ go_line_build_bpath (double const *x, double const *y, int n)
 		if ((i == n) || isnan (x[i]) || !go_finite (x[i]) || (fabs (x[i]) == DBL_MAX) ||
 			isnan (y[i]) || !go_finite (y[i]) || (fabs (y[i]) == DBL_MAX)) {
 			/* invalid or infinite points interrupt the curve; DBL_MAX is also filtered
-			because this value is returned when mapping an negative value to a logarithmic
+			because this value is returned when mapping a negative value to a logarithmic
 			axis. */
 			switch (nb) {
 			case 0: /* invalid point: don't draw anything */
@@ -364,18 +364,25 @@ go_line_build_bpath (double const *x, double const *y, int n)
 					/ (lengths[cur] + lengths[cur + 1]);
 				t0 = (a0 * 3. - t) / 2.;
 				cur++;
+				path[cur].x1 = path[cur - 1].x3 + lengths[cur - 1] * cos (t0);
+				path[cur].y1 = path[cur - 1].y3 + lengths[cur - 1] * sin (t0);
+				path[cur].x2 = path[cur].x3 - lengths[cur - 1] * cos (t);
+				path[cur].y2 = path[cur].y3 - lengths[cur - 1] * sin (t);
+				cur++;
+				t0 = t;
+				a0 = a1;
 				while (cur < j) {
+					a1 = angles[cur];
+					if (fabs (a1 - a0) > M_PI)
+						a1 -= (a1 > a0)? 2. * M_PI: -2. * M_PI;
+					t = (a0 * lengths[cur] + a1 * lengths[cur - 1])
+						/ (lengths[cur] + lengths[cur - 1]);
 					path[cur].x1 = path[cur - 1].x3 + lengths[cur - 1] * cos (t0);
 					path[cur].y1 = path[cur - 1].y3 + lengths[cur - 1] * sin (t0);
 					path[cur].x2 = path[cur].x3 - lengths[cur - 1] * cos (t);
 					path[cur].y2 = path[cur].y3 - lengths[cur - 1] * sin (t);
 					t0 = t;
 					a0 = a1;
-					a1 = angles[cur + 1];
-					if (fabs (a1 - a0) > M_PI)
-						a1 -= (a1 > a0)? 2. * M_PI: -2. * M_PI;
-					t = (a0 * lengths[cur + 1] + a1 * lengths[cur])
-						/ (lengths[cur] + lengths[cur + 1]);
 					cur++;
 				}
 				path[cur].x1 = path[cur - 1].x3 + lengths[cur - 1] * cos (t0);
@@ -415,7 +422,7 @@ go_line_build_vpath (double const *x, double const *y, int n)
 		if ((i == n) || isnan (x[i]) || !go_finite (x[i]) || (fabs (x[i]) == DBL_MAX) ||
 			isnan (y[i]) || !go_finite (y[i]) || (fabs (y[i]) == DBL_MAX)) {
 			/* invalid or infinite points interrupt the path; DBL_MAX is also filtered
-			because this value is returned when mapping an negative value to a logarithmic
+			because this value is returned when mapping a negative value to a logarithmic
 			axis. */
 			switch (nb) {
 			case 0: /* invalid point: don't draw anything */

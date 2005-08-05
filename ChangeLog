@@ -1,3 +1,8 @@
+2005-08-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-file.c: (go_line_build_bpath) do not access data
+	outside of allocated arrays.
+
 2005-08-04  Stepan Kasal  <kasal@ucw.cz>
 
 	* goffice/utils/go-file.c: #include unistd.h, for dup().
