@@ -20,14 +20,16 @@
  */
 
 #include <goffice/goffice-config.h>
+#include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/graph/gog-series-impl.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/utils/go-marker.h>
-#include "gog-dropbar.h"
 #include "gog-series-lines.h"
 
 #include <gsf/gsf-impl-utils.h>
+#include <string.h>
 
 static void
 gog_series_lines_init_style (GogStyledObject *gso, GogStyle *style)
@@ -36,9 +38,10 @@ gog_series_lines_init_style (GogStyledObject *gso, GogStyle *style)
 			GOG_STYLED_OBJECT (gog_object_get_parent (GOG_OBJECT (gso))));
 	GogPlot *plot  = GOG_PLOT (GOG_SERIES (
 						gog_object_get_parent (GOG_OBJECT (gso)))->plot);
+	char const *plot_name = G_OBJECT_TYPE_NAME (plot);
 	style->interesting_fields =
 		(parent_style->interesting_fields & GOG_STYLE_MARKER ||
-		(GOG_IS_PLOT_BARCOL (plot) && !GOG_IS_PLOT_DROPBAR(plot)))?
+		(!strcmp (plot_name, "GogBarColPlot") && strcmp (plot_name, "GogDropBarPlot")))?
 			GOG_STYLE_LINE:
 			GOG_STYLE_LINE | GOG_STYLE_MARKER;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
@@ -67,7 +70,7 @@ gog_series_lines_class_init (GogObjectClass *klass)
 	style_klass->init_style = gog_series_lines_init_style;
 }
 
-GSF_DYNAMIC_CLASS (GogSeriesLines, gog_series_lines,
+GSF_CLASS (GogSeriesLines, gog_series_lines,
 	gog_series_lines_class_init, NULL,
 	GOG_STYLED_OBJECT_TYPE)
 

@@ -1,3 +1,24 @@
+2005-08-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/goffice.c: (libgoffice_init): add call to GOG_SERIES_LINES_TYPE.
+	* goffice/graph/Makefile.am: add gog-series-lines.[c,h].
+	* goffice/graph/gog-object.c: (gog_object_unregister_role): new function.
+	* goffice/graph/gog-object.h: ditto.
+	* goffice/graph/gog-series-lines.c: moved from plugins/plot_barcol.
+	* goffice/graph/gog-series-lines.h: ditto.
+	* plugins/plot_barcol/Makefile.am: remove gog-series-lines.[c,h].
+	* plugins/plot_barcol/gog-1.5d.c: (gog_series1_5d_class_finalize),
+	(gog_series1_5d_get_type), (gog_series1_5d_register_type),
+	(go_plugin_init): unregister roles when class is destroyed.
+	* plugins/plot_barcol/gog-barcol.c: update path to gog-series-lines.h.
+	* plugins/plot_barcol/gog-dropbar.c: ditto.
+	* plugins/plot_barcol/gog-line.c: ditto.
+	* plugins/plot_barcol/gog-minmax.c: ditto.
+	* plugins/plot_barcol/gog-series-lines.c: moved to goffice/graph/.
+	* plugins/plot_barcol/gog-series-lines.h: ditto.
+	* plugins/plot_xy/gog-xy.c: add horizontal and vertical droplines.
+	* plugins/plot_xy/gog-xy.h: ditto.
+
 2005-08-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-line.c (go_line_build_bpath): do not access data

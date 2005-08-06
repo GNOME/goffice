@@ -22,7 +22,7 @@
 #include <goffice/goffice-config.h>
 #include "gog-line.h"
 #include "gog-1.5d.h"
-#include "gog-series-lines.h"
+#include <goffice/graph/gog-series-lines.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>

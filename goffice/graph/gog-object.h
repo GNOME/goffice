@@ -180,6 +180,7 @@ gboolean gog_object_set_parent	 	(GogObject *child, GogObject *parent,
 					 GogObjectRole const *role, unsigned id);
 void 	 gog_object_register_roles	(GogObjectClass *klass,
 					 GogObjectRole const *roles, unsigned n_roles);
+void 	 gog_object_unregister_role	(GogObjectClass *klass, char const *id);
 
 G_END_DECLS
 

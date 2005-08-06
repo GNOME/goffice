@@ -27,6 +27,7 @@
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-error-bar.h>
+#include <goffice/graph/gog-series-lines.h>
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
@@ -580,7 +581,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList *ptr;
 	double const *y_vals, *x_vals = NULL, *z_vals = NULL;
 	double x = 0., y = 0., z, x_canvas = 0., y_canvas = 0.;
-	double zmax, rmax = 0.;
+	double zmax, rmax = 0., x_zero, y_zero;
 	double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
 	double xerrmin, xerrmax, yerrmin, yerrmax;
 	GogStyle *style = NULL;
@@ -602,6 +603,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 	}
 
+	x_zero = gog_axis_map_get_baseline (x_map);
+	y_zero = gog_axis_map_get_baseline (y_map);
 	gog_renderer_clip_push (view->renderer, &view->allocation);
 
 	for (num_series = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, num_series++);
@@ -631,6 +634,50 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		if (n <= 0)
 			continue;
+
+		/* plot drop lines if any */
+		if (series->hdroplines) {
+			ArtVpath droppath[3];
+			droppath[0].code = ART_MOVETO;
+			droppath[1].code = ART_LINETO;
+			droppath[2].code = ART_END;
+			droppath[0].x = x_zero;
+			gog_renderer_push_style (view->renderer,
+				gog_styled_object_get_style (GOG_STYLED_OBJECT (series->hdroplines)));
+			for (i = 0; i < n; i++) {
+				if (!gog_axis_map_finite (y_map, y_vals[i]))
+					continue;
+				x = x_vals ? x_vals[i] : i + 1;
+				if (!gog_axis_map_finite (x_map, x))
+					continue;
+				droppath[1].x = gog_axis_map_to_view (x_map, x);
+				droppath[0].y = droppath[1].y = gog_axis_map_to_view (y_map, y_vals[i]);
+				gog_series_lines_render (GOG_SERIES_LINES (series->hdroplines),
+								view->renderer, bbox, droppath, FALSE);
+			}
+			gog_renderer_pop_style (view->renderer);
+		}
+		if (series->vdroplines) {
+			ArtVpath droppath[3];
+			droppath[0].code = ART_MOVETO;
+			droppath[1].code = ART_LINETO;
+			droppath[2].code = ART_END;
+			droppath[0].y = y_zero;
+			gog_renderer_push_style (view->renderer,
+				gog_styled_object_get_style (GOG_STYLED_OBJECT (series->vdroplines)));
+			for (i = 0; i < n; i++) {
+				if (!gog_axis_map_finite (y_map, y_vals[i]))
+					continue;
+				x = x_vals ? x_vals[i] : i + 1;
+				if (!gog_axis_map_finite (x_map, x))
+					continue;
+				droppath[1].y = gog_axis_map_to_view (y_map, y_vals[i]);
+				droppath[0].x = droppath[1].x = gog_axis_map_to_view (x_map, x);
+				gog_series_lines_render (GOG_SERIES_LINES (series->vdroplines),
+								view->renderer, bbox, droppath, FALSE);
+			}
+			gog_renderer_pop_style (view->renderer);
+		}
 
 		show_marks = gog_style_is_marker_visible (style);
 		show_lines = gog_style_is_line_visible (style);
@@ -871,6 +918,54 @@ GSF_DYNAMIC_CLASS (GogXYSeriesView, gog_xy_series_view,
 	gog_xy_series_view_class_init, NULL,
 	GOG_VIEW_TYPE)
 
+/*****************************************************************************/
+
+static gboolean
+horiz_drop_lines_can_add (GogObject const *parent)
+{
+	GogXYSeries *series = GOG_XY_SERIES (parent);
+	return (series->hdroplines == NULL);
+}
+
+static void
+horiz_drop_lines_post_add (GogObject *parent, GogObject *child)
+{
+	GogXYSeries *series = GOG_XY_SERIES (parent);
+	series->hdroplines = child;
+	gog_object_request_update (child);
+}
+
+static void
+horiz_drop_lines_pre_remove (GogObject *parent, GogObject *child)
+{
+	GogXYSeries *series = GOG_XY_SERIES (parent);
+	series->hdroplines = NULL;
+}
+
+/*****************************************************************************/
+
+static gboolean
+vert_drop_lines_can_add (GogObject const *parent)
+{
+	GogXYSeries *series = GOG_XY_SERIES (parent);
+	return (series->vdroplines == NULL);
+}
+
+static void
+vert_drop_lines_post_add (GogObject *parent, GogObject *child)
+{
+	GogXYSeries *series = GOG_XY_SERIES (parent);
+	series->vdroplines = child;
+	gog_object_request_update (child);
+}
+
+static void
+vert_drop_lines_pre_remove (GogObject *parent, GogObject *child)
+{
+	GogXYSeries *series = GOG_XY_SERIES (parent);
+	series->vdroplines = NULL;
+}
+
 /****************************************************************************/
 
 typedef GogSeriesClass GogXYSeriesClass;
@@ -917,7 +1012,8 @@ gog_xy_series_update (GogObject *obj)
 
 	/* update children */
 	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
-		gog_object_request_update (GOG_OBJECT (ptr->data));
+		if (!IS_GOG_SERIES_LINES (ptr->data))
+			gog_object_request_update (GOG_OBJECT (ptr->data));
 
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
@@ -936,6 +1032,7 @@ gog_xy_series_init (GObject *obj)
 	series->x_errors = series->y_errors = NULL;
 	(GOG_SERIES (series))->acceptable_children =
 				GOG_SERIES_ACCEPT_REGRESSION_CURVE;
+	series->hdroplines = series->vdroplines = NULL;
 }
 
 static void
@@ -1060,6 +1157,24 @@ gog_xy_series_populate_editor (GogObject *obj,
 static void
 gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 {
+	static GogObjectRole const roles[] = {
+		{ N_("Horizontal drop lines"), "GogSeriesLines", 2,
+			GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+			horiz_drop_lines_can_add,
+			NULL,
+			NULL,
+			horiz_drop_lines_post_add,
+			horiz_drop_lines_pre_remove,
+			NULL },
+		{ N_("Vertical drop lines"), "GogSeriesLines",	3,
+			GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+			vert_drop_lines_can_add,
+			NULL,
+			NULL,
+			vert_drop_lines_post_add,
+			vert_drop_lines_pre_remove,
+			NULL },
+	};
 	GogObjectClass *gog_klass = (GogObjectClass *)gso_klass;
 	GObjectClass *gobject_klass = (GObjectClass *) gso_klass;
 
@@ -1075,6 +1190,8 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 	gog_klass->populate_editor	= gog_xy_series_populate_editor;
 	gso_klass->init_style		= gog_xy_series_init_style;
 
+	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
+
 	g_object_class_install_property (gobject_klass, SERIES_PROP_XERRORS,
 		g_param_spec_object ("x-errors", "x-errors",
 			"GogErrorBar *",
@@ -1085,10 +1202,53 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 			GOG_ERROR_BAR_TYPE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 }
 
+static void
+gog_xy_series_class_finalize (GObjectClass *klass)
+{
+	GogObjectClass *go_klass = GOG_OBJECT_CLASS (klass);
+	gog_object_unregister_role (go_klass, "Horizontal drop lines");
+	gog_object_unregister_role (go_klass, "Vertical drop lines");
+}
+
+static GType gog_xy_series_type;
+
+GType gog_xy_series_get_type (void);
+void  gog_xy_series_register_type (GTypeModule *module);	
+
+GType
+gog_xy_series_get_type ()
+{
+	g_return_val_if_fail (gog_xy_series_type != 0, 0);
+	return gog_xy_series_type;
+}
+
+void
+gog_xy_series_register_type (GTypeModule *module)
+{
+	static GTypeInfo const type_info = {
+		sizeof (GogXYSeriesClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) gog_xy_series_class_init,
+		(GClassFinalizeFunc) gog_xy_series_class_finalize,
+		NULL,	/* class_data */
+		sizeof (GogXYSeries),
+		0,	/* n_preallocs */
+		(GInstanceInitFunc) gog_xy_series_init,
+		NULL
+	};
+	GType type;
+
+	g_return_if_fail (gog_xy_series_type == 0);
+
+	type = gog_xy_series_type = g_type_module_register_type (module,
+		GOG_SERIES_TYPE, "GogXYSeries", &type_info, 0);
+}
+/*
 GSF_DYNAMIC_CLASS (GogXYSeries, gog_xy_series,
 	gog_xy_series_class_init, gog_xy_series_init,
 	GOG_SERIES_TYPE)
-
+*/
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {

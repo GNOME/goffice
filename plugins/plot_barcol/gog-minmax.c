@@ -22,7 +22,7 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-minmax.h"
-#include "gog-series-lines.h"
+#include <goffice/graph/gog-series-lines.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/gtk/goffice-gtk.h>

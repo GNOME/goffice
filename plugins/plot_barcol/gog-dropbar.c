@@ -22,7 +22,7 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-dropbar.h"
-#include "gog-series-lines.h"
+#include <goffice/graph/gog-series-lines.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/utils/go-math.h>

@@ -1619,3 +1619,14 @@ gog_object_register_roles (GogObjectClass *klass,
 			(gpointer )roles[i].id, (gpointer) (roles + i));
 	}
 }
+
+void
+gog_object_unregister_role (GogObjectClass *klass, char const *id)
+{
+	g_return_if_fail (klass->roles != NULL);
+	g_hash_table_remove (klass->roles, id);
+	if (g_hash_table_size (klass->roles) == 0) {
+		g_hash_table_destroy (klass->roles);
+		klass->roles = NULL;
+	}
+}
