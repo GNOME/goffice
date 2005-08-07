@@ -48,8 +48,8 @@ libgoffice_gtk_la_HEADERS = 		\
 	\
 	go-graph-widget.h
 
-goffice_gladedir = $(goffice_datadir)/glade
-dist_goffice_glade_DATA = \
+gladedir = $(goffice_datadir)/glade
+dist_glade_DATA = \
 	go-font-sel.glade 	\
 	go-format-sel.glade 
 

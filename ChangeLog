@@ -1,3 +1,9 @@
+2005-08-07  Stepan Kasal  <kasal@ucw.cz>
+
+	* goffice/graph/Makefile.am (goffice_gladedir): Rename to ...
+	(gladedir): ..., to prevent conflicts--goffice_gladedir is AC_SUBSTed.
+	* goffice/gtk/Makefile.am (goffice_gladedir, gladedir): Likewise.
+
 2005-08-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/goffice.c: (libgoffice_init): add call to GOG_SERIES_LINES_TYPE.

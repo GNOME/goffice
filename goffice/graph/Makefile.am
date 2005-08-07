@@ -82,8 +82,8 @@ if WITH_CAIRO
   libgoffice_graph_la_HEADERS += gog-renderer-cairo.h
 endif
 
-goffice_gladedir = $(goffice_datadir)/glade
-dist_goffice_glade_DATA = \
+gladedir = $(goffice_datadir)/glade
+dist_glade_DATA = \
 	gog-guru.glade			\
 	gog-guru-type-selector.glade	\
 	gog-object-prefs.glade		\
