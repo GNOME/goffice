@@ -1,3 +1,7 @@
+2005-08-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* *: Updated FSF's address.
+
 2005-08-07  Stepan Kasal  <kasal@ucw.cz>
 
 	* goffice/graph/Makefile.am (goffice_gladedir): Rename to ...
