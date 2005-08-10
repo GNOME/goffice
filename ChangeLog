@@ -1,3 +1,9 @@
+2005-08-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_barcol/gog-1.5d.c:
+	(gog_series1_5d_register_type): use base_finalize instead of
+	class_finalize since we have derived classes.
+
 2005-08-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* *: Updated FSF's address.

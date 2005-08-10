@@ -634,7 +634,7 @@ gog_series1_5d_init (GObject *obj)
 }
 
 static void
-gog_series1_5d_class_finalize (GObjectClass *klass)
+gog_series1_5d_base_class_finalize (GObjectClass *klass)
 {
 	GogObjectClass *go_klass = GOG_OBJECT_CLASS (klass);
 	gog_object_unregister_role (go_klass, "Series lines");
@@ -660,9 +660,9 @@ gog_series1_5d_register_type (GTypeModule *module)
 	static GTypeInfo const type_info = {
 		sizeof (GogSeries1_5dClass),
 		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
+		(GBaseFinalizeFunc) gog_series1_5d_base_class_finalize,
 		(GClassInitFunc) gog_series1_5d_class_init,
-		(GClassFinalizeFunc) gog_series1_5d_class_finalize,
+		(GClassFinalizeFunc) NULL,
 		NULL,	/* class_data */
 		sizeof (GogSeries1_5d),
 		0,	/* n_preallocs */
