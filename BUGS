@@ -121,7 +121,7 @@ TODO
 	1.12.1) Add simple implementation			(DONE)
 	1.12.2) Take marker sizes into account at bounds	(DONE)
 	1.12.3) Bounds on 1 axis explicitly clip the other
-	1.12.4) Splined interpolation
+	1.12.4) Splined interpolation				(DONE)
 	1.12.5) Bubbles 					(DONE)
     1.13) Decide on recalc strategy				(DONE)
 	1.13.1) Getting data from sheet -> graphs		(DONE)
@@ -142,8 +142,8 @@ TODO
 	1.14.10) Value formating (at least percentage and date)	(DONE)
 	1.14.11) Support index type axis			(DONE)
 	1.14.12) Use a map function (log, invert, date)		(DONE)
-	1.14.13) Allow a plot to select a different axis
-	1.14.14) Filter add plot in guru to matching types
+	1.14.13) Allow a plot to select a different axis	(DONE)
+	1.14.14) Filter add plot in guru to matching types	(DONE)
 	1.14.15) Editor for min/max/major/minor			(DONE)
 	1.14.16) Respect user supplied min/max/major/minor	(DONE)
 	1.14.17) Draw major ticks in				(DONE)
@@ -269,3 +269,7 @@ TODO
 
 Misc things to fix
 ------------------
+
+	: Open guru, click on forward, then back. Now navigating through plot
+	list is very slow. That's because at each object addition/removal in
+	object tree, an object editor is created.
