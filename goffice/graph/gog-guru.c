@@ -222,14 +222,17 @@ graph_typeselect_minor (GraphGuruTypeSelector *typesel, FooCanvasItem *item)
 
 	g_return_if_fail (plot != NULL);
 
-	if (s->plot != NULL) {
-		GogObject *obj = GOG_OBJECT (s->plot);
+	if (s->chart != NULL) {
+		GogObject *obj = GOG_OBJECT (s->chart);
 		gog_object_clear_parent (obj);
 		g_object_unref (obj);
+		s->chart = GOG_CHART (gog_object_add_by_name (
+				GOG_OBJECT (s->graph), "Chart", NULL));
 	}
 
 	gog_object_add_by_name (GOG_OBJECT (s->chart),
 		"Plot", GOG_OBJECT (s->plot = plot));
+	gog_plot_guru_helper (plot);
 #if 0
 	if (s->original_plot != NULL &&
 	    !gog_plot_make_similar (s->plot, s->original_plot))

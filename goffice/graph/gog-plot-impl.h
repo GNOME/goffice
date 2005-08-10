@@ -39,7 +39,6 @@ struct _GogPlotDesc {
 
 struct _GogPlot {
 	GogObject	 base;
-	GogChart	*chart;		/* potentially NULL */
 
 	GSList		*series;
 	unsigned	 full_cardinality, visible_cardinality;
@@ -47,7 +46,8 @@ struct _GogPlot {
 	unsigned	 index_num;
 	gboolean	 vary_style_by_element;
 	gboolean	 render_before_axes;
-	gchar*		 plot_group;
+	gchar		*plot_group;
+	char		*guru_hints;
 
 	GogAxis		*axis[GOG_AXIS_TYPES];
 
@@ -71,10 +71,11 @@ typedef struct {
 
 	gboolean   (*supports_vary_style_by_element) (GogPlot const *plot);
 
-	void       (*foreach_elem)    (GogPlot *plot, gboolean only_visible,
-				    GogEnumFunc handler, gpointer data);
+	void       (*foreach_elem)    	(GogPlot *plot, gboolean only_visible,
+					 GogEnumFunc handler, gpointer data);
 
-	void       (*update_3d)		   (GogPlot *plot);
+	void       (*update_3d)		(GogPlot *plot);
+	void	   (*guru_helper)	(GogPlot *plot, char const *hint);
 } GogPlotClass;
 
 #define GOG_PLOT_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOG_PLOT_TYPE, GogPlotClass))

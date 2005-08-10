@@ -108,6 +108,8 @@ GSList const *gog_axis_contributors	  (GogAxis *axis);
 void	      gog_axis_clear_contributors (GogAxis *axis);
 void	      gog_axis_bound_changed	  (GogAxis *axis, GogObject *contrib);
 
+GogGridLine  *gog_axis_get_grid_line 	  (GogAxis *axis, gboolean major);
+
 G_END_DECLS
 
 #endif /* GOG_AXIS_H */

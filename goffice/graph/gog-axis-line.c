@@ -981,6 +981,7 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 	GogViewAllocation label_pos;
 	GogChartMapPolarData *parms = gog_chart_map_get_polar_parms (c_map);
 	GOGeometryOBR txt_obr, txt_obr_old = {0., 0., 0., 0., 0.};
+	GOGeometryOBR txt_obr_first;
 	ArtVpath *cpath, path[3];
 	double angle, offset, position, label_padding;
 	double start, stop;
@@ -988,6 +989,7 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 	unsigned i, step_nbr, tick_nbr;
 	gboolean draw_major, draw_minor;
 	gboolean is_line_visible;
+	gboolean first_label_done = FALSE;
 
 	map = gog_chart_map_get_axis_map (c_map, 1);
 	gog_axis_map_get_extents (map, &offset , &position);
@@ -1085,10 +1087,16 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 			label_pos.y += txt_obr.y;
 			txt_obr.x = label_pos.x;
 			txt_obr.y = label_pos.y;
-			if (!go_geometry_test_OBR_overlap (&txt_obr, &txt_obr_old)) {
+			if (!first_label_done || 
+			    (!go_geometry_test_OBR_overlap (&txt_obr, &txt_obr_old) &&
+			     !go_geometry_test_OBR_overlap (&txt_obr, &txt_obr_first))) {
 				gog_renderer_draw_text (renderer, ticks[i].label,
 							&label_pos, GTK_ANCHOR_CENTER, NULL);
 				txt_obr_old = txt_obr;
+			}
+			if (!first_label_done) {
+				txt_obr_first = txt_obr;
+				first_label_done = TRUE;
 			}
 		}
 	}

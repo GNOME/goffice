@@ -1,3 +1,40 @@
+2005-08-10  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-axis-line.c (axis_circle_render): fix label
+	overlap of 0° and 360° ticks.
+
+	GogPlot::guru_helper implementation for automatic addition of objects
+	when creating graphs in guru.
+
+	* goffice/graph/gog-axis.c (role_grid_line_can_add): removed.
+	(role_grid_line_major_can_add): use new gog_axis_get_grid_line
+	function.
+	(role_grid_line_minor_post_add): ditto.
+	(gog_axis_get_grid_line): new.
+	* goffice/graph/gog-chart.c (role_plot_pre_remove): remove
+	GogChart::grid if new axis set is not compatible.
+	(role_grid_can_add): add GOG_AXIS_SET_RADAR in list of axis sets
+	compatible with GogGrid.
+	(gog_chart_axis_set_assign): don't handle GogGrid object here.
+	* goffice/graph/gog-guru.c (graph_typeselect_minor): remove current
+	chart, not only plot. Call GogPlot::guru_helper for additionnal
+	objects.
+	* goffice/graph/gog-plot.c (gog_plot_set_property): add new guru-hints
+	property, which is a semicolon separated list of hints for
+	GogPlot::guru_helper.
+	(gog_plot_get_property): ditto.
+	(gog_plot_class_init): ditto.
+	(gog_plot_guru_helper_add_grid_line): new.
+	(gog_plot_guru_helper): new.
+	* plugins/plot_barcol/plot_types.xml.in: add "backplane" hint for all
+	plots.
+	* plugins/plot_box_plot/plot_types.xml.in: ditto.
+	* plugins/plot_radar/gog-radar.c (gog_rt_plot_guru_helper): new.
+	Handle "circular-no-line" guru hint.
+	* plugins/plot_radar/plot-types.xml.in: add "circular-no-line" hint to
+	radar plots. add "major-grid" and "backplane" to polar plot.
+	* plugins/plot_xy/plot-types.xml.in: add "backplane" to all plots.
+	
 2005-08-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-1.5d.c:

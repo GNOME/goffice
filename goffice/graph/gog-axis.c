@@ -994,21 +994,6 @@ enum {
 /*****************************************************************************/
 
 static gboolean
-role_grid_line_can_add (GogObject const *parent, char const *type)
-{
-	GSList *children;
-
-	children = gog_object_get_children (parent, 
-		gog_object_find_role_by_name (GOG_OBJECT (parent), type));
-	if (children != NULL) {
-		g_slist_free (children);
-		return FALSE;
-	}
-
-	return TRUE;
-}
-
-static gboolean
 role_grid_line_major_can_add (GogObject const *parent)
 {
 	GogAxis *axis = GOG_AXIS (parent);
@@ -1016,7 +1001,7 @@ role_grid_line_major_can_add (GogObject const *parent)
 	
 	return ((type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_RADIAL || 
 		 (type == GOG_AXIS_CIRCULAR && !gog_axis_is_discrete (axis))) &&
-		role_grid_line_can_add (parent, "MajorGrid"));
+		gog_axis_get_grid_line (GOG_AXIS (parent), TRUE) == NULL);
 }
 
 static gboolean
@@ -1028,7 +1013,7 @@ role_grid_line_minor_can_add (GogObject const *parent)
 	return (!gog_axis_is_discrete (GOG_AXIS (parent)) &&
 		(type == GOG_AXIS_X || type == GOG_AXIS_Y || 
 		 type == GOG_AXIS_RADIAL || type == GOG_AXIS_CIRCULAR) &&
-		role_grid_line_can_add (parent, "MinorGrid"));
+		gog_axis_get_grid_line (GOG_AXIS (parent), FALSE) == NULL);
 }
 
 static void 
@@ -1862,6 +1847,30 @@ gog_axis_bound_changed (GogAxis *axis, GogObject *contrib)
 	g_return_if_fail (GOG_AXIS (axis) != NULL);
 
 	gog_object_request_update (GOG_OBJECT (axis));
+}
+
+/* gog_axis_get_grid_line:
+ * @axis: #GogAxis
+ * @major: wether to retrieve major or minor grid line.
+ *
+ * Returns a pointer to GridLine object associated to given axis, NULL
+ * if it doesn't exists.
+ **/
+GogGridLine *
+gog_axis_get_grid_line (GogAxis *axis, gboolean major)
+{
+	GogGridLine *grid_line;
+	GSList *children;
+
+	children = gog_object_get_children (GOG_OBJECT (axis), 
+		gog_object_find_role_by_name (GOG_OBJECT (axis), 
+			major ? "MajorGrid" : "MinorGrid"));
+	if (children != NULL) {
+		grid_line = GOG_GRID_LINE (children->data);
+		g_slist_free (children);
+		return grid_line;
+	}
+	return NULL;
 }
 
 /****************************************************************************/

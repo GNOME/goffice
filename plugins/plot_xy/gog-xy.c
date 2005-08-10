@@ -27,6 +27,7 @@
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-error-bar.h>
+#include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-color.h>
@@ -224,9 +225,9 @@ gog_2d_plot_class_init (GogPlotClass *plot_klass)
 
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
-	plot_klass->series_type  = gog_xy_series_get_type ();
-	plot_klass->axis_set	      = GOG_AXIS_SET_XY;
-	plot_klass->axis_get_bounds   = gog_2d_plot_axis_get_bounds;
+	plot_klass->series_type  	= gog_xy_series_get_type ();
+	plot_klass->axis_set	      	= GOG_AXIS_SET_XY;
+	plot_klass->axis_get_bounds   	= gog_2d_plot_axis_get_bounds;
 }
 
 static void

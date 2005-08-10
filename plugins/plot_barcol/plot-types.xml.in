@@ -13,6 +13,7 @@
 		sample_image_file="chart_line_1_1.png">
 		<property name="type">normal</property>
 		<property name="default-style-has-markers">FALSE</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 	<Type _name="Unmarked Stacked Lines" row="1" col="2"
 		engine="GogLinePlot" family="Line"
@@ -20,6 +21,7 @@
 		sample_image_file="chart_line_1_2.png">
 		<property name="type">stacked</property>
 		<property name="default-style-has-markers">FALSE</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 	<Type _name="Unmarked Percentage Lines" row="1" col="3"
 		engine="GogLinePlot" family="Line"
@@ -27,6 +29,7 @@
 		sample_image_file="chart_line_1_3.png">
 		<property name="type">as_percentage</property>
 		<property name="default-style-has-markers">FALSE</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<Type _name="Lines" row="2" col="1"
@@ -34,18 +37,21 @@
 		_description="Line plot."
 		sample_image_file="chart_line_2_1.png">
 		<property name="type">normal</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 	<Type _name="Stacked Lines" row="2" col="2"
 		engine="GogLinePlot" family="Line"
 		_description="Stacked line plot."
 		sample_image_file="chart_line_2_2.png">
 		<property name="type">stacked</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 	<Type _name="Percentage Lines" row="2" col="3"
 		engine="GogLinePlot" family="Line"
 		_description="Percentage line plot."
 		sample_image_file="chart_line_2_3.png">
 		<property name="type">as_percentage</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<Type _name="Areas" row="1" col="1"
@@ -53,12 +59,14 @@
 		_description="Area plot."
 		sample_image_file="chart_area_1_1.png">
 		<property name="type">normal</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 	<Type _name="Stacked Areas" row="1" col="2"
 		engine="GogAreaPlot" family="Area"
 		_description="Stacked area plot."
 		sample_image_file="chart_area_1_2.png">
 		<property name="type">stacked</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<Type _name="Percentage Areas" row="1" col="3"
@@ -66,6 +74,7 @@
 		_description="Percentage area plot."
 		sample_image_file="chart_area_1_3.png">
 		<property name="type">as_percentage</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 	<Type _name="Adjacent Bars" row="1" col="1"
 		engine="GogBarColPlot" family="Bar"
@@ -73,6 +82,7 @@
 		sample_image_file="chart_bar_1_1.png">
 		<property name="horizontal">True</property>
 		<property name="type">normal</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<Type _name="Stacked Bars" row="1" col="2"
@@ -82,6 +92,7 @@
 		<property name="horizontal">True</property>
 		<property name="type">stacked</property>
 		<property name="overlap_percentage">100</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<Type _name="Percentage Bars" row="1" col="3"
@@ -91,6 +102,7 @@
 		<property name="horizontal">True</property>
 		<property name="type">as_percentage</property>
 		<property name="overlap_percentage">100</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<!-- No 3d yet
@@ -130,6 +142,7 @@
 		sample_image_file="chart_column_1_1.png">
 		<property name="horizontal">False</property>
 		<property name="type">normal</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<Type _name="Stacked Columns" row="1" col="2"
@@ -139,6 +152,7 @@
 		<property name="horizontal">False</property>
 		<property name="type">stacked</property>
 		<property name="overlap_percentage">100</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<Type _name="Percentage Columns" row="1" col="3"
@@ -148,6 +162,7 @@
 		<property name="horizontal">False</property>
 		<property name="type">as_percentage</property>
 		<property name="overlap_percentage">100</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<Type _name="Vertical Drop Bars" row="1" col="1"
@@ -156,6 +171,7 @@
 		sample_image_file="chart_dropbar_1_1.png">
 		<property name="horizontal">False</property>
 		<property name="type">normal</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<Type _name="Horizontal Drop Bars" row="1" col="2"
@@ -164,6 +180,7 @@
 		sample_image_file="chart_dropbar_1_2.png">
 		<property name="horizontal">True</property>
 		<property name="type">normal</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<Type _name="Vertical Min Max Lines" row="1" col="1"
@@ -173,6 +190,7 @@
 		<property name="horizontal">False</property>
 		<property name="type">normal</property>
 		<property name="default-style-has-markers">False</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<Type _name="Marked Vertical Min Max Lines" row="2" col="1"
@@ -182,6 +200,7 @@
 		<property name="horizontal">False</property>
 		<property name="type">normal</property>
 		<property name="default-style-has-markers">True</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<Type _name="Horizontal Min Max Lines" row="1" col="2"
@@ -191,6 +210,7 @@
 		<property name="horizontal">True</property>
 		<property name="type">normal</property>
 		<property name="default-style-has-markers">False</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<Type _name="Marked Horizontal Min Max Lines" row="2" col="2"
@@ -200,6 +220,7 @@
 		<property name="horizontal">True</property>
 		<property name="type">normal</property>
 		<property name="default-style-has-markers">True</property>
+		<property name="guru-hints">backplane</property>
 	</Type>
 
 	<!-- No 3d yet

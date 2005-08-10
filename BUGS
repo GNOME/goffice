@@ -14,13 +14,8 @@ Release Critical
     goffice/goffice/graph/gog-graph.c uses pointers as quarks.  That cannot
     work.
 
-	goffice/goffice/utils/go-format.c: go_format_value don't use the format
-	argument.
-
-Worries
--------
-
-    : Delete grid then edit chart and see a new grid
+    goffice/goffice/utils/go-format.c: go_format_value don't use the format
+    argument.
 
 TODO
 ----

@@ -23,6 +23,7 @@
 #include "gog-radar.h"
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-theme.h>
@@ -35,6 +36,8 @@
 
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
+
+#include <string.h>
 
 typedef struct {
 	GogPlotClass	base;
@@ -143,6 +146,20 @@ gog_rt_plot_update (GogObject *obj)
 }
 
 static void
+gog_rt_plot_guru_helper (GogPlot *plot, char const *hint)
+{
+	if (strcmp (hint, "circular-no-line") == 0) {
+		GogAxis *axis = gog_plot_get_axis (plot, GOG_AXIS_CIRCULAR);
+		GogStyle *style;
+
+		g_return_if_fail (GOG_AXIS (axis) != NULL);
+
+		style = gog_styled_object_get_style (GOG_STYLED_OBJECT (axis));
+		style->line.dash_type = GO_LINE_NONE;
+	};
+}
+
+static void
 gog_rt_plot_class_init (GogPlotClass *gog_plot_klass)
 {
 	GObjectClass   *gobject_klass = (GObjectClass *) gog_plot_klass;
@@ -167,7 +184,8 @@ gog_rt_plot_class_init (GogPlotClass *gog_plot_klass)
 	gog_plot_klass->desc.num_series_max = G_MAXINT;
 	gog_plot_klass->series_type = gog_rt_series_get_type();
 
-	gog_plot_klass->axis_set = GOG_AXIS_SET_RADAR;
+	gog_plot_klass->axis_set    = GOG_AXIS_SET_RADAR;
+	gog_plot_klass->guru_helper = gog_rt_plot_guru_helper;
 }
 
 static void

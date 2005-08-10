@@ -50,7 +50,8 @@ enum {
 	PLOT_PROP_VARY_STYLE_BY_ELEMENT,
 	PLOT_PROP_AXIS_X,
 	PLOT_PROP_AXIS_Y,
-	PLOT_PROP_GROUP
+	PLOT_PROP_GROUP,
+	PLOT_PROP_GURU_HINTS
 };
 
 static GObjectClass *plot_parent_klass;
@@ -277,6 +278,11 @@ gog_plot_set_property (GObject *obj, guint param_id,
 		plot->plot_group = (group)? g_strdup (g_value_get_string (value)): NULL;
 		break;
 	}
+	case PLOT_PROP_GURU_HINTS:
+		if (plot->guru_hints != NULL)
+			g_free (plot->guru_hints);
+		plot->guru_hints = g_strdup (g_value_get_string (value));
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -302,6 +308,9 @@ gog_plot_get_property (GObject *obj, guint param_id,
 		break;
 	case PLOT_PROP_GROUP:
 		g_value_set_string (value, plot->plot_group);
+		break;
+	case PLOT_PROP_GURU_HINTS:
+		g_value_set_string (value, plot->guru_hints);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -343,6 +352,7 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 	gobject_klass->get_property	= gog_plot_get_property;
 	gog_klass->populate_editor	= gog_plot_populate_editor;
 	plot_klass->axis_set 		= GOG_AXIS_SET_NONE;
+	plot_klass->guru_helper		= NULL;
 
 	g_object_class_install_property (gobject_klass, PLOT_PROP_VARY_STYLE_BY_ELEMENT,
 		g_param_spec_boolean ("vary-style-by-element", "vary-style-by-element",
@@ -358,8 +368,14 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 			0, G_MAXINT, 0,
 			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_GROUP,
-		g_param_spec_string ("plot-group", "plot-group", "name of plot group if any",
+		g_param_spec_string ("plot-group", _("Plot group"), 
+			_("Name of plot group if any"),
 			NULL, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, PLOT_PROP_GURU_HINTS,
+		g_param_spec_string ("guru-hints", _("Guru hints"), 
+			_("Semicolon separated list of hints for automatic addition of objects in"
+			  "guru dialog"),
+			NULL, G_PARAM_READWRITE));
 
 	gog_klass->children_reordered = gog_plot_children_reordered;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
@@ -375,6 +391,7 @@ gog_plot_init (GogPlot *plot, GogPlotClass const *derived_plot_klass)
 	plot->cardinality_valid = TRUE;
 	plot->render_before_axes = FALSE;
 	plot->plot_group = NULL;
+	plot->guru_hints = NULL;
 }
 
 GSF_CLASS_ABSTRACT (GogPlot, gog_plot,
@@ -751,6 +768,58 @@ gog_plot_update_3d (GogPlot *plot)
 
 	if (klass->update_3d)
 		klass->update_3d (plot);
+}
+
+static void
+gog_plot_guru_helper_add_grid_line (GogPlot *plot, gboolean major) 
+{
+	GogAxisType type;
+
+	for (type = 0; type < GOG_AXIS_TYPES; type++) {
+		if (((type & (GOG_AXIS_X | 
+			    GOG_AXIS_Y | 
+			    GOG_AXIS_CIRCULAR | 
+			    GOG_AXIS_RADIAL)) != 0) &&
+		    plot->axis[type] != NULL &&
+		    gog_axis_get_grid_line (plot->axis[type], major) == NULL)
+		{
+			gog_object_add_by_name (GOG_OBJECT (plot->axis[type]), 
+						major ? "MajorGrid": "MinorGrid", NULL);
+		}
+	}
+}
+
+void
+gog_plot_guru_helper (GogPlot *plot)
+{
+	GogPlotClass *klass;
+	char **hints;
+	char *hint;
+	unsigned i;
+
+ 	g_return_if_fail (GOG_PLOT (plot) != NULL);	
+	klass = GOG_PLOT_GET_CLASS (plot);
+
+	if (plot->guru_hints == NULL)
+		return;
+
+	hints = g_strsplit (plot->guru_hints, ";", 0);
+	
+	for (i = 0; i < g_strv_length (hints); i++) {
+		hint = g_strstrip (hints[i]);
+		if (strcmp (hints[i], "backplane") == 0) {
+			GogChart *chart = GOG_CHART (gog_object_get_parent (GOG_OBJECT (plot)));
+			if (chart != NULL && gog_chart_get_grid (chart) == NULL)
+				gog_object_add_by_name (GOG_OBJECT (chart), "Grid", NULL);
+		} else if (strcmp (hints[i], "major-grid") == 0) {
+			gog_plot_guru_helper_add_grid_line (plot, TRUE);
+		} else if (strcmp (hints[i], "minor-grid") == 0) {
+			gog_plot_guru_helper_add_grid_line (plot, FALSE);
+		} else if (klass->guru_helper)
+			klass->guru_helper (plot, hint);
+	}
+
+	g_strfreev (hints);
 }
 
 /****************************************************************************/
