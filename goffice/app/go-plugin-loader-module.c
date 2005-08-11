@@ -195,8 +195,8 @@ go_plugin_loader_init (GOPluginLoaderClass *go_plugin_loader_class)
 }
 
 GSF_CLASS_FULL (GOPluginLoaderModule, go_plugin_loader_module,
-	   go_plugin_loader_module_class_init, go_plugin_loader_module_init,
-	   G_TYPE_OBJECT, 0,
+	   NULL, NULL, go_plugin_loader_module_class_init, NULL,
+	   go_plugin_loader_module_init, G_TYPE_OBJECT, 0,
 	   GSF_INTERFACE (go_plugin_loader_init, GO_PLUGIN_LOADER_TYPE))
 
 /*

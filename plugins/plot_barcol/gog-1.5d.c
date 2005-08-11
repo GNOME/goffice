@@ -642,45 +642,9 @@ gog_series1_5d_base_class_finalize (GObjectClass *klass)
 	gog_object_unregister_role (go_klass, "Lines");
 }
 
-static GType gog_series1_5d_type;
-
-GType gog_series1_5d_get_type (void);
-void  gog_series1_5d_register_type (GTypeModule *module);	
-
-GType
-gog_series1_5d_get_type ()
-{
-	g_return_val_if_fail (gog_series1_5d_type != 0, 0);
-	return gog_series1_5d_type;
-}
-
-void
-gog_series1_5d_register_type (GTypeModule *module)
-{
-	static GTypeInfo const type_info = {
-		sizeof (GogSeries1_5dClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) gog_series1_5d_base_class_finalize,
-		(GClassInitFunc) gog_series1_5d_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,	/* class_data */
-		sizeof (GogSeries1_5d),
-		0,	/* n_preallocs */
-		(GInstanceInitFunc) gog_series1_5d_init,
-		NULL
-	};
-	GType type;
-
-	g_return_if_fail (gog_series1_5d_type == 0);
-
-	type = gog_series1_5d_type = g_type_module_register_type (module,
-		GOG_SERIES_TYPE, "GogSeries1_5d", &type_info, 0);
-}
-/*
-GSF_DYNAMIC_CLASS (GogSeries1_5d, gog_series1_5d,
-	gog_series1_5d_class_init, gog_series1_5d_init,
-	GOG_SERIES_TYPE)
-*/
+GSF_DYNAMIC_CLASS_FULL (GogSeries1_5d, gog_series1_5d,
+	NULL, gog_series1_5d_base_class_finalize, gog_series1_5d_class_init, NULL,
+	gog_series1_5d_init, GOG_SERIES_TYPE, 0, {})
 
 /* Plugin initialization */
 

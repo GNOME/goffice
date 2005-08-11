@@ -165,8 +165,8 @@ gog_reg_curve_dataset_init (GogDatasetClass *iface)
 }
 
 GSF_CLASS_FULL (GogRegCurve, gog_reg_curve,
-	   gog_reg_curve_class_init, gog_reg_curve_init,
-	   GOG_STYLED_OBJECT_TYPE, G_TYPE_FLAG_ABSTRACT,
+	   NULL, NULL, gog_reg_curve_class_init, NULL,
+	   gog_reg_curve_init, GOG_STYLED_OBJECT_TYPE, G_TYPE_FLAG_ABSTRACT,
 		GSF_INTERFACE (gog_reg_curve_dataset_init, GOG_DATASET_TYPE))
 
 GogRegCurve *

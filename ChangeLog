@@ -1,3 +1,20 @@
+2005-08-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-plugin-loader-module.c: updated to new
+	GSF_CLASS_FULL signature.
+	* goffice/app/io-context.c: ditto.
+	* goffice/graph/gog-axis-line.c: ditto.
+	* goffice/graph/gog-axis.c: ditto.
+	* goffice/graph/gog-error-bar.c: ditto.
+	* goffice/graph/gog-label.c: ditto.
+	* goffice/graph/gog-reg-curve.c: ditto.
+	* goffice/graph/gog-series.c: ditto.
+	* goffice/graph/gog-style.c: ditto.
+	* plugins/plot_barcol/gog-1.5d.c: updated to new
+	GSF_DYNAMIC_CLASS_FULL signature.
+	* plugins/plot_xy/gog-xy.c: ditto and use base_finalize instead
+	of class_finalize.
+
 2005-08-10  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-axis-line.c (axis_circle_render): fix label

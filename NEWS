@@ -11,7 +11,7 @@ Emmanuel Pacaud:
 
 Jean Brefort:
 	* Add series lines in bars and columns plots.
-	* Add drop lines in lines plots.
+	* Add drop lines in lines and xy plots.
 	* Add lines to min/max plots and dropbars.
 
 Morten:

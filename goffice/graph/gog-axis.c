@@ -1653,8 +1653,8 @@ gog_axis_dataset_init (GogDatasetClass *iface)
 }
 
 GSF_CLASS_FULL (GogAxis, gog_axis,
-		gog_axis_class_init, gog_axis_init,
-		GOG_AXIS_BASE_TYPE, 0,
+		NULL, NULL, gog_axis_class_init, NULL,
+		gog_axis_init, GOG_AXIS_BASE_TYPE, 0,
 		GSF_INTERFACE (gog_axis_dataset_init, GOG_DATASET_TYPE))
 
 

@@ -1204,52 +1204,17 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 }
 
 static void
-gog_xy_series_class_finalize (GObjectClass *klass)
+gog_xy_series_base_finalize (GObjectClass *klass)
 {
 	GogObjectClass *go_klass = GOG_OBJECT_CLASS (klass);
 	gog_object_unregister_role (go_klass, "Horizontal drop lines");
 	gog_object_unregister_role (go_klass, "Vertical drop lines");
 }
 
-static GType gog_xy_series_type;
+GSF_DYNAMIC_CLASS_FULL (GogXYSeries, gog_xy_series,
+	NULL, gog_xy_series_base_finalize, gog_xy_series_class_init, NULL,
+	gog_xy_series_init, GOG_SERIES_TYPE, 0, {})
 
-GType gog_xy_series_get_type (void);
-void  gog_xy_series_register_type (GTypeModule *module);	
-
-GType
-gog_xy_series_get_type ()
-{
-	g_return_val_if_fail (gog_xy_series_type != 0, 0);
-	return gog_xy_series_type;
-}
-
-void
-gog_xy_series_register_type (GTypeModule *module)
-{
-	static GTypeInfo const type_info = {
-		sizeof (GogXYSeriesClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) gog_xy_series_class_init,
-		(GClassFinalizeFunc) gog_xy_series_class_finalize,
-		NULL,	/* class_data */
-		sizeof (GogXYSeries),
-		0,	/* n_preallocs */
-		(GInstanceInitFunc) gog_xy_series_init,
-		NULL
-	};
-	GType type;
-
-	g_return_if_fail (gog_xy_series_type == 0);
-
-	type = gog_xy_series_type = g_type_module_register_type (module,
-		GOG_SERIES_TYPE, "GogXYSeries", &type_info, 0);
-}
-/*
-GSF_DYNAMIC_CLASS (GogXYSeries, gog_xy_series,
-	gog_xy_series_class_init, gog_xy_series_init,
-	GOG_SERIES_TYPE)
-*/
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
