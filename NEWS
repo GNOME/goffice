@@ -17,6 +17,7 @@ Jean Brefort:
 Morten:
 	* Fix problem with currency formats and problem with Euro [#305313].
 	* Support fd://1 syntax for go_file_create.
+	* Fix ABR (or worse) for formats ending in "[$...]".
 
 --------------------------------------------------------------------------
 goffice 0.0.2:
