@@ -1334,13 +1334,14 @@ gog_object_emit_changed (GogObject *obj, gboolean resize)
 gboolean
 gog_object_clear_parent (GogObject *obj)
 {
-	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (obj);
+	GogObjectClass *klass;
 	GogObject *parent;
 
 	g_return_val_if_fail (GOG_OBJECT (obj), FALSE);
 	g_return_val_if_fail (obj->parent != NULL, FALSE);
 	g_return_val_if_fail (gog_object_is_deletable (obj), FALSE);
 
+	klass = GOG_OBJECT_GET_CLASS (obj);
 	parent = obj->parent;
 	g_signal_emit (G_OBJECT (parent),
 		gog_object_signals [CHILD_REMOVED], 0, obj);
@@ -1373,13 +1374,14 @@ gboolean
 gog_object_set_parent (GogObject *child, GogObject *parent,
 		       GogObjectRole const *role, unsigned id)
 {
-	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (child);
+	GogObjectClass *klass;
 	GSList **step;
 
 	g_return_val_if_fail (GOG_OBJECT (child), FALSE);
 	g_return_val_if_fail (child->parent == NULL, FALSE);
 	g_return_val_if_fail (role != NULL, FALSE);
 
+	klass = GOG_OBJECT_GET_CLASS (child);
 	child->parent	= parent;
 	child->role	= role;
 	child->position = role->default_position;

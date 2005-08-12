@@ -1,3 +1,8 @@
+2005-08-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-object.c: (gog_object_clear_parent),
+	(gog_object_set_parent): do not set class before checking object validity.
+
 2005-08-11  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format-match.c (format_create_regexp): Fix
