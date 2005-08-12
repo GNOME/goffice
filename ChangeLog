@@ -1,5 +1,11 @@
 2005-08-12  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-grid-line.c: (gog_grid_line_view_render):
+	fix a memory leak
+	* goffice/graph/gog-plot.c: (gog_plot_finalize): and one more.
+
+2005-08-12  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-object.c: (gog_object_clear_parent),
 	(gog_object_set_parent): do not set class before checking object validity.
 

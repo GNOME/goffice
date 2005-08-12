@@ -69,6 +69,8 @@ gog_plot_finalize (GObject *obj)
 	gog_plot_axis_clear (plot, GOG_AXIS_SET_ALL); /* just in case */
 	if (plot->plot_group)
 		g_free (plot->plot_group);
+	if (plot->guru_hints != NULL)
+		g_free (plot->guru_hints);
 
 	(*plot_parent_klass->finalize) (obj);
 }

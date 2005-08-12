@@ -310,6 +310,7 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 									  &path[1].x, &path[1].y);
 						gog_renderer_draw_path (view->renderer, path);
 					}
+				gog_chart_map_free (c_map);
 				}
 
 			default:
