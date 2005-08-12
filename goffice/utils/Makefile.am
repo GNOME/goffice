@@ -7,6 +7,9 @@ if WITH_WIN32
 endif
 EXTRA_DIST = goffice-win32-stub.def
 
+patternsdir = $(goffice_datadir)/patterns
+dist_patterns_DATA = svg-patterns.xml
+
 noinst_LTLIBRARIES = libgoffice-utils.la
 libgoffice_utils_la_SOURCES =	\
 	go-marshalers.list	\

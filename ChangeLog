@@ -1,3 +1,15 @@
+2005-08-12  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	Add pattern support for SVG renderer [#310320].
+
+	* goffice/graph/gog-renderer-svg.c (fill_properties): add support for
+	patterns.
+	* goffice/utils/Makefile.am: install svg-patterns.xml in
+	goffice_datadir/patterns.
+	* goffice/utils/go-pattern.c: fix thin-rev-diag str in go_patterns.
+	(go_pattern_get_svg_path): new.
+	* goffice//utils/svg-patterns.xml: new.
+	
 2005-08-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-grid-line.c: (gog_grid_line_view_render):

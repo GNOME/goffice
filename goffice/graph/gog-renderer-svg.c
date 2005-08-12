@@ -175,6 +175,8 @@ stroke_dasharray (xmlNodePtr node, ArtVpathDash *dash)
 	g_string_free (string, TRUE);
 }
 
+#define SVG_PATTERN_SCALE 2.0
+
 static void
 fill_properties (GogRenderer *renderer, xmlNodePtr node, gboolean narrow)
 {
@@ -196,9 +198,60 @@ fill_properties (GogRenderer *renderer, xmlNodePtr node, gboolean narrow)
 				opacity = color & 0xff;
 				if (opacity != 255) 
 					set_double_prop (node, "fill-opacity", (double) opacity / 255.0);
+			} else {
+				xmlNodePtr child, pat_node;
+
+				id = g_strdup (go_pattern_as_str (style->fill.pattern.pattern));
+				name = (char *) g_hash_table_lookup (prend->table, id);
+
+				if (!name) {
+					double height, width;
+					char *svg_path = go_pattern_get_svg_path (&style->fill.pattern, 
+										  &width, &height);
+					if (svg_path == NULL) {
+						g_free (id);
+						break;
+					}
+
+					name = g_strdup (id);
+					g_hash_table_insert (prend->table, id, name);
+					pat_node = xmlNewChild (prend->defs, NULL, CC2XML ("pattern"), NULL);
+					xmlSetProp (pat_node, CC2XML ("x"), CC2XML ("0"));
+					xmlSetProp (pat_node, CC2XML ("y"), CC2XML ("0"));
+					set_double_prop (pat_node, "width", width * SVG_PATTERN_SCALE);
+					set_double_prop (pat_node, "height", height * SVG_PATTERN_SCALE);
+					xmlSetProp (pat_node, CC2XML ("id"), CC2XML (name));
+					xmlSetProp (pat_node, CC2XML ("patternUnits"), CC2XML ("userSpaceOnUse"));
+					
+					child = xmlNewChild (pat_node, NULL, CC2XML ("rect"), NULL);
+					xmlSetProp (child, CC2XML ("x"), CC2XML ("-0.1"));
+					xmlSetProp (child, CC2XML ("y"), CC2XML ("-0.1"));
+					set_double_prop (child, "width", width * SVG_PATTERN_SCALE + 0.2);
+					set_double_prop (child, "height", height * SVG_PATTERN_SCALE + 0.2);
+					buf = g_strdup_printf ("stroke:none;fill:#%06x;",
+							       style->fill.pattern.back >> 8);
+					xmlSetProp (child, CC2XML ("style"), CC2XML (buf));
+					g_free (buf);
+
+					child = xmlNewChild (pat_node, NULL, CC2XML ("path"), NULL);
+					xmlSetProp (child, CC2XML ("d"), CC2XML (svg_path));
+					buf = g_strdup_printf ("stroke:none;fill:#%06x;", 
+							       style->fill.pattern.fore >> 8);
+					xmlSetProp (child, CC2XML ("style"), CC2XML (buf));
+					g_free (buf);
+					buf = g_strdup_printf ("scale(%g)", SVG_PATTERN_SCALE);
+					xmlSetProp (child, CC2XML ("transform"), CC2XML (buf)); 
+					g_free (buf);
+					g_free (svg_path);
+				} else {
+					g_free (id);
+				}
+				buf = g_strdup_printf ("url(#%s)", name);
+				xmlSetProp (node, CC2XML ("fill"), CC2XML (buf));
+				g_free (buf);
 			}
 			break;
-		}
+	        }
 
 		case GOG_FILL_STYLE_GRADIENT:
 			id = g_strdup_printf ("g_%x_%x_%x", style->fill.gradient.dir,

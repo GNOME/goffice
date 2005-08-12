@@ -20,6 +20,8 @@
  */
 
 #include <goffice/goffice-config.h>
+#include <goffice/goffice-priv.h>
+#include <goffice/utils/go-libxml-extras.h>
 #include "go-pattern.h"
 #include "go-color.h"
 
@@ -32,10 +34,12 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
+#define CC2XML(s) ((const xmlChar *)(s))
+
 typedef struct {
 	char const *name;
 	char const *str;
-	char const pattern[8];
+	char const  pattern[8];
 } GOPatternSpec;
 
 static GOPatternSpec const go_patterns [] = {
@@ -53,7 +57,7 @@ static GOPatternSpec const go_patterns [] = {
   { N_("Thick Diagonal Crosshatch"), "thick-diag-cross",{ 0xff, 0x66, 0xff, 0x99, 0xff, 0x66, 0xff, 0x99 } },
   { N_("Thin Horizontal Stripe"),    "thin-horiz",      { 0x00, 0x00, 0xff, 0x00, 0x00, 0x00, 0xff, 0x00 } },
   { N_("Thin Vertical Stripe"),      "thin-vert",       { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 } },
-  { N_("Thin Reverse Diagonal Stripe"),"rev-diag",      { 0x11, 0x22, 0x44, 0x88, 0x11, 0x22, 0x44, 0x88 } },
+  { N_("Thin Reverse Diagonal Stripe"),"thin-rev-diag", { 0x11, 0x22, 0x44, 0x88, 0x11, 0x22, 0x44, 0x88 } },
   { N_("Thin Diagonal Stripe"),      "thin-diag",       { 0x88, 0x44, 0x22, 0x11, 0x88, 0x44, 0x22, 0x11 } },
   { N_("Thin Horizontal Crosshatch"),"thin-horiz-cross",{ 0x22, 0x22, 0xff, 0x22, 0x22, 0x22, 0xff, 0x22 } },
   { N_("Thin Diagonal Crosshatch"),  "thin-diag-cross", { 0x88, 0x55, 0x22, 0x55, 0x88, 0x55, 0x22, 0x55 } },
@@ -129,6 +133,59 @@ char const *
 go_pattern_get_pattern (GOPattern const *pat)
 {
 	return go_patterns [pat->pattern].pattern;
+}
+
+/**
+ * go_pattern_get_svg_path:
+ * @pattern: #GOPattern
+ * @double:  pattern width
+ * @height:  pattern height
+ *
+ * Returns an SVG path as string, which represents pattern shape.
+ *
+ * If width != NULL, returns pattern width.
+ * If height != NULL, returns pattern height.
+ **/
+char *
+go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height)
+{
+	char *path;
+	char *d = NULL, *name, *svg_path;
+	xmlDocPtr doc;
+	xmlNodePtr ptr;
+
+	g_return_val_if_fail (pattern->pattern >= 0 || pattern->pattern < GO_PATTERN_MAX, NULL);
+
+	path = g_build_filename (go_sys_data_dir(), "patterns", "svg-patterns.xml", NULL);
+	doc = go_xml_parse_file (path);
+	g_free (path);
+
+	g_return_val_if_fail (doc != NULL, NULL);
+
+	for (ptr = doc->xmlRootNode->xmlChildrenNode; 
+	     ptr != NULL && d == NULL ; 
+	     ptr = ptr->next) 
+	{
+		if (!xmlIsBlankNode (ptr) && 
+		    ptr->name && 
+		    !strcmp (ptr->name, "pattern")) 
+		{
+			name = xmlGetProp (ptr, CC2XML ("name"));
+			if (name != NULL) {
+				if (strcmp (name, go_patterns [pattern->pattern].str) == 0) {
+					if (width != NULL)
+						xml_node_get_double (ptr, "width", width);
+					if (height != NULL)
+						xml_node_get_double (ptr, "height", height);
+					svg_path = xmlGetProp (ptr, CC2XML ("d"));
+					break;
+				}
+				xmlFree (name);
+			}
+		}
+	}
+	xmlFreeDoc (doc);
+	return svg_path;
 }
 
 #ifdef WITH_GTK

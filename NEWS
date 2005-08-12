@@ -8,6 +8,7 @@ Emmanuel Pacaud:
 	* Sample graph in guru has the same aspect ratio than the edited graph
 	  [#150458].
 	* Displays Y axis labels vertically by default [#301582].
+	* Add pattern support for SVG output [#310320].
 
 Jean Brefort:
 	* Add series lines in bars and columns plots.
