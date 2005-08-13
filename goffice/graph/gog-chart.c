@@ -31,6 +31,7 @@
 #include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/gtk/goffice-gtk.h>
+#include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
@@ -110,7 +111,7 @@ calc_circle_parameters (GogViewAllocation const *area, GogChartMapPolarData *dat
 			data->th0 -= x;
 			data->th1 -= x;
 		}
-		if (data->th1 - data->th0 > 2 * M_PI) 
+		if (data->th1 - data->th0 > go_add_epsilon (2 * M_PI)) 
 			data->th1 = data->th0 + 
 				fmod (data->th1 - data->th0, 2.0 * M_PI);
 

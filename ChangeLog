@@ -1,3 +1,8 @@
+2005-08-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-chart.c: (calc_circle_parameters): fix a dangerous
+	comparison and avoid resulting infinite loops.
+
 2005-08-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-view.c (gog_view_info_at_point): walk the list in
