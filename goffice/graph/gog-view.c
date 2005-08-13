@@ -548,7 +548,7 @@ gog_view_info_at_point (GogView *view, double x, double y,
 			GogObject const *cur_selection,
 			GogObject **obj, char **name)
 {
-	GSList *ptr;
+	GSList *ptr, *list;
 	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
 
 	g_return_val_if_fail (klass != NULL, FALSE);
@@ -561,9 +561,12 @@ gog_view_info_at_point (GogView *view, double x, double y,
 	    y >= (view->allocation.y + view->allocation.h))
 		return FALSE;
 
-	for (ptr = view->children; ptr != NULL ; ptr = ptr->next)
+	/* walk the list in reverse */
+	list = g_slist_reverse (g_slist_copy (view->children));
+	for (ptr = list; ptr != NULL ; ptr = ptr->next)
 		if (gog_view_info_at_point (ptr->data, x, y, cur_selection, obj, name))
 			return TRUE;
+	g_slist_free (list);
 
 	if (klass->info_at_point != NULL)
 		return (klass->info_at_point) (view, x, y, cur_selection, obj, name);

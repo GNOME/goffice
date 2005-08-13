@@ -1,3 +1,8 @@
+2005-08-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-view.c (gog_view_info_at_point): walk the list in
+	reverse order.
+
 2005-08-12  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	Add pattern support for SVG renderer [#310320].
