@@ -1,5 +1,8 @@
 goffice 0.0.4:
 
+Emmanuel Pacaud:
+	* Fix polar plot clipping.
+
 --------------------------------------------------------------------------
 goffice 0.0.3:
 
