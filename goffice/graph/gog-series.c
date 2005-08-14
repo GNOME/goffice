@@ -460,6 +460,31 @@ gog_series_init_style (GogStyledObject *gso, GogStyle *style)
 static void
 gog_series_class_init (GogSeriesClass *klass)
 {
+	GObjectClass *gobject_klass = (GObjectClass *) klass;
+	GogObjectClass *gog_klass = (GogObjectClass *) klass;
+	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
+
+	series_parent_klass = g_type_class_peek_parent (klass);
+	gobject_klass->finalize		= gog_series_finalize;
+	gobject_klass->set_property	= gog_series_set_property;
+	gobject_klass->get_property	= gog_series_get_property;
+
+	gog_klass->populate_editor	= gog_series_populate_editor;
+	gog_klass->update		= gog_series_update;
+	style_klass->init_style 	= gog_series_init_style;
+	/* series do not have views, so just forward signals from the plot */
+	gog_klass->use_parent_as_proxy  = TRUE;
+
+	g_object_class_install_property (gobject_klass, SERIES_HAS_LEGEND,
+		g_param_spec_boolean ("has-legend", "has-legend",
+			"Should the series show up in legends",
+			TRUE,
+			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+}
+
+static void
+gog_series_base_init (GogObjectClass *klass)
+{
 	static GogObjectRole const roles[] = {
 		{ N_("Point"), "GogSeriesElement",	0,
 		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
@@ -476,28 +501,9 @@ gog_series_class_init (GogSeriesClass *klass)
 		  regression_curve_pre_remove,
 		  NULL },
 	};
-	GObjectClass *gobject_klass = (GObjectClass *) klass;
-	GogObjectClass *gog_klass = (GogObjectClass *) klass;
-	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
 
-	series_parent_klass = g_type_class_peek_parent (klass);
-	gobject_klass->finalize		= gog_series_finalize;
-	gobject_klass->set_property	= gog_series_set_property;
-	gobject_klass->get_property	= gog_series_get_property;
-
-	gog_klass->populate_editor	= gog_series_populate_editor;
-	gog_klass->update		= gog_series_update;
-	style_klass->init_style 	= gog_series_init_style;
-	/* series do not have views, so just forward signals from the plot */
-	gog_klass->use_parent_as_proxy  = TRUE;
-
-	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
-
-	g_object_class_install_property (gobject_klass, SERIES_HAS_LEGEND,
-		g_param_spec_boolean ("has-legend", "has-legend",
-			"Should the series show up in legends",
-			TRUE,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	klass->roles = NULL;
+	gog_object_register_roles (klass, roles, G_N_ELEMENTS (roles));
 }
 
 static void
@@ -610,7 +616,7 @@ gog_series_dataset_init (GogDatasetClass *iface)
 }
 
 GSF_CLASS_FULL (GogSeries, gog_series,
-		NULL, NULL, gog_series_class_init, NULL,
+		gog_series_base_init, NULL, gog_series_class_init, NULL,
 		gog_series_init, GOG_STYLED_OBJECT_TYPE, 0,
 		GSF_INTERFACE (gog_series_dataset_init, GOG_DATASET_TYPE))
 

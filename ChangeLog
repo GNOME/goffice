@@ -1,3 +1,9 @@
+2005-08-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-series.c: (gog_series_class_init),
+	(gog_series_base_init): moved roles registering from class_init to
+	base_init.
+
 2005-08-13  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post release bump
