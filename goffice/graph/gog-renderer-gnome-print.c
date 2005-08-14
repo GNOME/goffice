@@ -52,6 +52,8 @@ struct _GogRendererGnomePrint {
 	GPtrArray *fonts;
 	GnomePrintContext *gp_context;
 	PangoLayout *layout;
+
+	GogViewAllocation bbox;
 };
 
 typedef GogRendererClass GogRendererGnomePrintClass;
@@ -90,32 +92,6 @@ gog_renderer_gnome_print_finalize (GObject *obj)
 	(*parent_klass->finalize) (obj);
 }
 
-/*
- * print_make_rectangle_path
- * @pc      print context
- * @left    left side x coordinate
- * @bottom  bottom side y coordinate
- * @right   right side x coordinate
- * @top     top side y coordinate
- *
- * Make a rectangular path.
- * */
-
-static void
-print_make_rectangle_path (GnomePrintContext *pc,
-                           double left, double bottom,
-                           double right, double top)
-{
-        g_return_if_fail (pc != NULL);
-
-        gnome_print_newpath   (pc);
-        gnome_print_moveto    (pc, left, bottom);
-        gnome_print_lineto    (pc, left, top);
-        gnome_print_lineto    (pc, right, top);
-        gnome_print_lineto    (pc, right, bottom);
-        gnome_print_closepath (pc);
-}
-
 static PangoFontDescription *
 get_font (GogRendererGnomePrint *prend, GOFont const *gf)
 {
@@ -150,27 +126,6 @@ set_color (GogRendererGnomePrint *prend, GOColor color)
 }
 
 static void
-gog_renderer_gnome_print_clip_push (GogRenderer *rend, GogRendererClip *clip)
-{
-	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
-
-	gnome_print_gsave (prend->gp_context);
-	print_make_rectangle_path (prend->gp_context,
-				   clip->area.x, -clip->area.y,
-				   clip->area.w + clip->area.x,
-				   -clip->area.h - clip->area.y);
-	gnome_print_clip (prend->gp_context);
-}
-
-static void
-gog_renderer_gnome_print_clip_pop (GogRenderer *rend, GogRendererClip *clip)
-{
-	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
-
-	gnome_print_grestore (prend->gp_context);
-}
-
-static void
 draw_path (GogRendererGnomePrint *prend, ArtVpath const *path)
 {
 	gnome_print_newpath (prend->gp_context);
@@ -188,6 +143,24 @@ draw_path (GogRendererGnomePrint *prend, ArtVpath const *path)
 		default :
 			break;
 		}
+}
+
+static void
+gog_renderer_gnome_print_push_clip (GogRenderer *rend, GogRendererClip *clip)
+{
+	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
+
+	gnome_print_gsave (prend->gp_context);
+	draw_path (prend, clip->path);
+	gnome_print_clip (prend->gp_context);
+}
+
+static void
+gog_renderer_gnome_print_pop_clip (GogRenderer *rend, GogRendererClip *clip)
+{
+	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
+
+	gnome_print_grestore (prend->gp_context);
 }
 
 static void
@@ -215,7 +188,7 @@ gog_renderer_gnome_print_draw_path (GogRenderer *renderer, ArtVpath const *path)
 		gog_renderer_line_size (renderer, style->line.width));
 
 	if (style->line.dash_type != GO_LINE_SOLID && renderer->cur_clip != NULL) {
-		ArtVpath *clipped = go_line_clip_vpath (path, &renderer->cur_clip->area);
+		ArtVpath *clipped = go_line_clip_vpath (path, &prend->bbox);
 		draw_path (prend, clipped);
 		g_free (clipped);
 	} else
@@ -255,9 +228,10 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE || with_outline) {
 		if (style->outline.dash_type != GO_LINE_SOLID && renderer->cur_clip != NULL) {
-			ArtVpath *clipped = go_line_clip_vpath (path, &renderer->cur_clip->area);
+			ArtVpath *clipped = go_line_clip_vpath (path, &prend->bbox);
 			draw_path (prend, clipped);
 			g_free (clipped);
+			draw_path (prend, path);
 		} else
 			draw_path (prend, path);
 		gnome_print_closepath (prend->gp_context);
@@ -601,8 +575,8 @@ gog_renderer_gnome_print_class_init (GogRendererClass *rend_klass)
 
 	parent_klass = g_type_class_peek_parent (rend_klass);
 	gobject_klass->finalize	  	= gog_renderer_gnome_print_finalize;
-	rend_klass->clip_push  		= gog_renderer_gnome_print_clip_push;
-	rend_klass->clip_pop		= gog_renderer_gnome_print_clip_pop;
+	rend_klass->push_clip  		= gog_renderer_gnome_print_push_clip;
+	rend_klass->pop_clip		= gog_renderer_gnome_print_pop_clip;
 	rend_klass->draw_path	  	= gog_renderer_gnome_print_draw_path;
 	rend_klass->draw_polygon  	= gog_renderer_gnome_print_draw_polygon;
 	rend_klass->draw_bezier_path 	= gog_renderer_gnome_print_draw_bezier_path;
@@ -617,6 +591,10 @@ gog_renderer_gnome_print_init (GogRendererGnomePrint *prend)
 {
 	prend->gp_context = NULL;
 	prend->fonts = g_ptr_array_new ();
+	prend->bbox.x =
+	prend->bbox.y = 0.0;
+	prend->bbox.w =
+	prend->bbox.h = 1.0;
 }
 
 static GSF_CLASS (GogRendererGnomePrint, gog_renderer_gnome_print,
@@ -644,6 +622,7 @@ gog_graph_print_to_gnome_print (GogGraph *graph,
 	allocation.w = width;
 	allocation.h = height;
 	gog_view_size_allocate (prend->base.view, &allocation);
+	prend->bbox = allocation;
 	
 	/* FIXME FIXME FIXME this is a workaround for a bug in libgnomeprint
 	 * where line with width == 1.0 don't scale properly before an other

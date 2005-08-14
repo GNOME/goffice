@@ -83,54 +83,78 @@ gog_renderer_pixbuf_finalize (GObject *obj)
 
 typedef struct
 {
-	GdkPixbuf	*buffer;
-	double		 x_offset;
-	double		 y_offset;
+	GdkPixbuf *buffer;
+	double	   x_offset;
+	double	   y_offset;
+	ArtSVP	  *svp;	
 } ClipData;
 
 static void
-gog_renderer_pixbuf_clip_push (GogRenderer *rend, GogRendererClip *clip)
+gog_renderer_pixbuf_push_clip (GogRenderer *rend, GogRendererClip *clip)
 {
-	ClipData *clip_data;
-	GdkRectangle graph_rect, clip_rect, res_rect;
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
+	ClipData *clip_data;
+	ArtVpath *path = clip->path;
+	int i;
+	gboolean is_rectangle;
+
+	for (i = 0; i < 6; i++)
+		if (path[i].code == ART_END)
+			break;
+	
+	is_rectangle = i == 5 &&
+		path[5].code == ART_END &&
+		path[0].x == path[3].x &&
+		path[0].x == path[4].x &&
+		path[1].x == path[2].x &&
+		path[0].y == path[1].y &&
+	       	path[0].y == path[4].y &&
+		path[2].y == path[3].y;
 
 	clip->data = g_new (ClipData, 1);
 	clip_data = (ClipData *) clip->data;
-
 	clip_data->x_offset = prend->x_offset;
 	clip_data->y_offset = prend->y_offset;
 	clip_data->buffer = NULL;
+	clip_data->svp = NULL;
 
-	graph_rect.x = graph_rect.y = 0;
-	graph_rect.width = gdk_pixbuf_get_width (prend->buffer);
-	graph_rect.height = gdk_pixbuf_get_height (prend->buffer);
+	if (is_rectangle) {
+		GdkRectangle graph_rect, clip_rect, res_rect;
 
-	clip_rect.x = floor (clip->area.x - prend->x_offset + 0.5);
-	clip_rect.y = floor (clip->area.y - prend->y_offset + 0.5);
-	clip_rect.width = floor (clip->area.x - prend->x_offset + clip->area.w + 0.5) - clip_rect.x;
-	clip_rect.height = floor (clip->area.y -prend->y_offset + clip->area.h + 0.5) - clip_rect.y;
+		graph_rect.x = graph_rect.y = 0;
+		graph_rect.width = gdk_pixbuf_get_width (prend->buffer);
+		graph_rect.height = gdk_pixbuf_get_height (prend->buffer);
 
-	if (gdk_rectangle_intersect (&graph_rect, &clip_rect, &res_rect)) {
-		clip_data->buffer = prend->buffer;
-		prend->buffer = gdk_pixbuf_new_subpixbuf (clip_data->buffer,
-							  res_rect.x, res_rect.y,
-							  res_rect.width, res_rect.height);
-		prend->x_offset += res_rect.x;
-		prend->y_offset += res_rect.y;
+		clip_rect.x = floor (path[0].x - prend->x_offset + 0.5);
+		clip_rect.y = floor (path[0].y - prend->y_offset + 0.5);
+		clip_rect.width = floor (path[1].x - prend->x_offset + 0.5) - clip_rect.x;
+		clip_rect.height = floor (path[2].y -prend->y_offset + 0.5) - clip_rect.y;
+
+		if (gdk_rectangle_intersect (&graph_rect, &clip_rect, &res_rect)) {
+			clip_data->buffer = prend->buffer;
+			prend->buffer = gdk_pixbuf_new_subpixbuf (clip_data->buffer,
+								  res_rect.x, res_rect.y,
+								  res_rect.width, res_rect.height);
+			prend->x_offset += res_rect.x;
+			prend->y_offset += res_rect.y;
+		}
+
+		if (prend->buffer == NULL)
+			g_warning ("Pixbuf renderer: invalid clipping region");
+
+		prend->pixels = gdk_pixbuf_get_pixels (prend->buffer);
+		prend->w = gdk_pixbuf_get_width (prend->buffer);
+		prend->h = gdk_pixbuf_get_height (prend->buffer);
+		prend->rowstride = gdk_pixbuf_get_rowstride (prend->buffer);
+	} else {
+		/* We cheat and assume new clip area is included
+		 * in previous one */
+		clip_data->svp = art_svp_from_vpath (path);
 	}
-
-	if (prend->buffer == NULL)
-		g_warning ("Pixbuf renderer: invalid clipping region");
-
-	prend->pixels = gdk_pixbuf_get_pixels (prend->buffer);
-	prend->w = gdk_pixbuf_get_width (prend->buffer);
-	prend->h = gdk_pixbuf_get_height (prend->buffer);
-	prend->rowstride = gdk_pixbuf_get_rowstride (prend->buffer);
 }
 
 static void
-gog_renderer_pixbuf_clip_pop (GogRenderer *rend, GogRendererClip *clip)
+gog_renderer_pixbuf_pop_clip (GogRenderer *rend, GogRendererClip *clip)
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	ClipData *clip_data = clip->data;
@@ -139,17 +163,41 @@ gog_renderer_pixbuf_clip_pop (GogRenderer *rend, GogRendererClip *clip)
 		if (prend->buffer != NULL)
 			g_object_unref (prend->buffer);
 		prend->buffer = clip_data->buffer;
+		prend->pixels = gdk_pixbuf_get_pixels (prend->buffer);
+		prend->w = gdk_pixbuf_get_width (prend->buffer);
+		prend->h = gdk_pixbuf_get_height (prend->buffer);
+		prend->rowstride = gdk_pixbuf_get_rowstride (prend->buffer);
+		prend->x_offset = clip_data->x_offset;
+		prend->y_offset = clip_data->y_offset;
 	}
-	prend->pixels = gdk_pixbuf_get_pixels (prend->buffer);
-	prend->w = gdk_pixbuf_get_width (prend->buffer);
-	prend->h = gdk_pixbuf_get_height (prend->buffer);
-	prend->rowstride = gdk_pixbuf_get_rowstride (prend->buffer);
-	prend->x_offset = clip_data->x_offset;
-	prend->y_offset = clip_data->y_offset;
+	if (clip_data->svp != NULL)
+		art_free (clip_data->svp);
 
 	g_free (clip->data);
 	clip->data = NULL;
 }
+
+static void
+gog_renderer_pixbuf_do_clip (GogRenderer *rend, ArtSVP **svp)
+{
+	ClipData *clip_data;
+	ArtSVP *svp1;
+
+	g_return_if_fail (*svp != NULL);
+	
+       	if (rend->cur_clip == NULL)
+		return;
+
+	clip_data = rend->cur_clip->data;
+
+	if (clip_data->svp == NULL)
+		return;
+
+	svp1 = art_svp_intersect (*svp, clip_data->svp);
+	art_free (*svp);
+	*svp = svp1;
+}
+
 
 static double
 line_size (GogRenderer const *rend, double width)
@@ -198,6 +246,7 @@ static void
 gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path)
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
+	GogViewAllocation area;
 	GogStyle const *style = rend->cur_style;
 	double width = line_size (rend, style->line.width);
 	ArtSVP *svp;
@@ -226,6 +275,7 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path)
 									ART_PATH_STROKE_JOIN_MITER, 
 									ART_PATH_STROKE_CAP_ROUND,
 									width, 4, 0.5);
+					gog_renderer_pixbuf_do_clip (rend, &svp);
 					go_color_render_svp (style->line.color, svp,
 								 prend->x_offset,
 								 prend->y_offset,
@@ -250,8 +300,11 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path)
 					short_path[1].y = path [i].y;
 					dx = short_path[1].x - short_path[0].x;
 					dy = short_path[1].y - short_path[0].y;
-					dashed_path = go_line_dash_vpath (short_path, rend->line_dash,  
-						rend->cur_clip != NULL ? &rend->cur_clip->area : NULL);
+					area.x = prend->x_offset;
+					area.y = prend->y_offset;
+					area.w = prend->w;
+					area.h = prend->h;
+					dashed_path = go_line_dash_vpath (short_path, rend->line_dash, &area);  
 					dx = sqrt (dx * dx + dy * dy);
 					n = floor (dx / dash_length);
 					rend->line_dash->offset += dx - n * dash_length;
@@ -261,14 +314,15 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path)
 										ART_PATH_STROKE_CAP_ROUND,
 										width, 4, 0.5);
 						g_free (dashed_path);
-				
-					go_color_render_svp (style->line.color, svp,
-								 prend->x_offset,
-								 prend->y_offset,
-								 prend->w + prend->x_offset,
-								 prend->h + prend->y_offset,
-								 prend->pixels, prend->rowstride);
-					art_svp_free (svp);
+						
+						gog_renderer_pixbuf_do_clip (rend, &svp);
+						go_color_render_svp (style->line.color, svp,
+								     prend->x_offset,
+								     prend->y_offset,
+								     prend->w + prend->x_offset,
+								     prend->h + prend->y_offset,
+								     prend->pixels, prend->rowstride);
+						art_svp_free (svp);
 					}
 				}
 				i++;
@@ -302,6 +356,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path, gbool
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	GogStyle const *style = rend->cur_style;
+	GogViewAllocation area;
 	ArtVpath *dashed_path;
 	ArtRender *render;
 	ArtSVP *outline = NULL;
@@ -323,8 +378,11 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path, gbool
 								width, 4, 0.5);
 				break;
 			default:
-				dashed_path = go_line_dash_vpath (path, rend->outline_dash,  
-					rend->cur_clip != NULL ? &rend->cur_clip->area : NULL);
+				area.x = prend->x_offset;
+				area.y = prend->y_offset;
+				area.w = prend->w;
+				area.h = prend->h;
+				dashed_path = go_line_dash_vpath (path, rend->outline_dash, &area);  
 				if (dashed_path != NULL) {
 					outline = art_svp_vpath_stroke (dashed_path,
 									ART_PATH_STROKE_JOIN_MITER, 
@@ -345,6 +403,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path, gbool
 		fill = art_svp_rewind_uncrossed (svp2, ART_WIND_RULE_NONZERO);
 		art_svp_free (svp1);
 		art_svp_free (svp2);
+		gog_renderer_pixbuf_do_clip (rend, &fill);
 
 		switch (style->fill.type) {
 		case GOG_FILL_STYLE_PATTERN:
@@ -438,13 +497,13 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path, gbool
 											     &dest_rect,
 											     &copy_rect))
 									gdk_pixbuf_copy_area (image,
-											      copy_rect.x - image_rect.x,
-											      copy_rect.y - image_rect.y,
-											      copy_rect.width,
-											      copy_rect.height,
-											      prend->buffer,
-											      copy_rect.x,
-											      copy_rect.y);
+										copy_rect.x - image_rect.x,
+										copy_rect.y - image_rect.y,
+										copy_rect.width,
+										copy_rect.height,
+										prend->buffer,
+										copy_rect.x,
+										copy_rect.y);
 								image_rect.y += image_rect.height;
 							}
 							image_rect.x +=image_rect.width;
@@ -465,6 +524,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path, gbool
 	}
 
 	if (outline != NULL) {
+		gog_renderer_pixbuf_do_clip (rend, &outline);
 		go_color_render_svp (style->outline.color, outline,
 				     prend->x_offset,
 				     prend->y_offset,
@@ -862,8 +922,8 @@ gog_renderer_pixbuf_class_init (GogRendererClass *rend_klass)
 	gobject_klass->finalize		= gog_renderer_pixbuf_finalize;
 	rend_klass->push_style		= gog_renderer_pixbuf_push_style;
 	rend_klass->pop_style		= gog_renderer_pixbuf_pop_style;
-	rend_klass->clip_push  		= gog_renderer_pixbuf_clip_push;
-	rend_klass->clip_pop     	= gog_renderer_pixbuf_clip_pop;
+	rend_klass->push_clip  		= gog_renderer_pixbuf_push_clip;
+	rend_klass->pop_clip    	= gog_renderer_pixbuf_pop_clip;
 	rend_klass->sharp_path		= gog_renderer_pixbuf_sharp_path;
 	rend_klass->draw_path	  	= gog_renderer_pixbuf_draw_path;
 	rend_klass->draw_polygon  	= gog_renderer_pixbuf_draw_polygon;

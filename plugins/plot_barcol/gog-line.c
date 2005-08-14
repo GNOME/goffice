@@ -450,8 +450,9 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		}
 	}
-
-	gog_renderer_clip_push (view->renderer, &view->allocation);
+	
+	gog_renderer_push_clip (view->renderer, 
+				gog_renderer_get_rectangle_vpath (&view->allocation));
 
 	for (i = 0; i < num_series; i++) {
 
@@ -520,7 +521,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 						      error_data[i][j].minus, error_data[i][j].plus, 
 						      FALSE);
 
-	gog_renderer_clip_pop (view->renderer);
+	gog_renderer_pop_clip (view->renderer);
 
 	/*Now draw markers*/
 	if (!is_area_plot) { 

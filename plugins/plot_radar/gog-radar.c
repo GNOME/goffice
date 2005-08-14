@@ -156,6 +156,7 @@ gog_rt_plot_guru_helper (GogPlot *plot, char const *hint)
 
 		style = gog_styled_object_get_style (GOG_STYLED_OBJECT (axis));
 		style->line.dash_type = GO_LINE_NONE;
+		style->line.auto_dash = FALSE;
 	};
 }
 
@@ -404,13 +405,15 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList   *ptr;
 	ArtVpath *path, *clip_path;
 	ArtBpath *bpath;
+	double theta_min, theta_max, theta;
+	double rho_min, rho_max, rho;
 	gboolean const is_area = GOG_IS_PLOT_RADAR_AREA (model);
 	gboolean const is_polar = GOG_IS_PLOT_POLAR (model);
 
 	r_axis = GOG_PLOT (model)->axis[GOG_AXIS_RADIAL];
 	c_axis = GOG_PLOT (model)->axis[GOG_AXIS_CIRCULAR];
 	g_return_if_fail (r_axis != NULL && c_axis != NULL);
-	
+
 	area = gog_chart_view_get_plot_area (view->parent);
 	chart_map = gog_chart_map_new (chart, area, c_axis, r_axis, NULL, FALSE);
 	if (!gog_chart_map_is_valid (chart_map)) {
@@ -420,12 +423,19 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	c_map = gog_chart_map_get_axis_map (chart_map, 0);
 	r_map = gog_chart_map_get_axis_map (chart_map, 1);
 	parms = gog_chart_map_get_polar_parms (chart_map);
-
-	bpath = gog_renderer_get_ring_wedge_bpath (parms->cx, parms->cy, parms->rx, parms->ry,
-						   0.0, 0.0, -parms->th0, -parms->th1);
-	clip_path = art_bez_path_to_vec (bpath, .1);
-	g_free (bpath);
 	
+	gog_axis_map_get_bounds (c_map, &theta_max, &theta_min);
+	gog_axis_map_get_bounds (r_map, &rho_min, &rho_max);
+	/* convert theta value to radians */
+	theta_min = gog_axis_map_to_view (c_map, theta_min);
+	theta_max = gog_axis_map_to_view (c_map, theta_max);
+	if (theta_min > theta_max) {
+		/* angles may be inverted */
+		theta = theta_min;
+		theta_min = theta_max;
+		theta_max = theta;
+	}
+
 	path = g_alloca ((model->num_elements + 2) * sizeof (ArtVpath));
 	for (ptr = model->base.series; ptr != NULL; ptr = ptr->next) {
 
@@ -452,15 +462,24 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 				closed_shape = FALSE;
 				continue;
 			}
-
+			
 			path[count].code = ((count != 0 && !isnan (r_vals[count-1])) 
 					    ? ART_LINETO : ART_MOVETO);
+
+			rho = (!is_polar || (go_add_epsilon (r_vals[count] - rho_min) >= 0.0)) ?
+				r_vals[count] : rho_min;
 			gog_chart_map_2D_to_view (chart_map, 
-						  is_polar ? c_vals[count] : count,
-						  r_vals[count], 
+						  is_polar ? c_vals[count] : count, rho,
 						  &path[count].x, &path[count].y);
 
-			gog_renderer_draw_marker (view->renderer, path[count].x, path[count].y);
+			if (is_polar) theta = gog_axis_map_to_view (c_map, c_vals[count]);
+
+			if ( !is_polar || 
+			     (go_add_epsilon (r_vals[count] - rho_min) >= 0.0 && 
+			      go_add_epsilon (rho_max - r_vals[count]) >= 0.0 &&
+			      go_add_epsilon ((theta_max - theta_min) - fmod (theta_max - theta, 2 * M_PI)) >= 0.0 &&
+			      go_add_epsilon ((theta_max - theta_min) - fmod (theta - theta_min, 2 * M_PI)) >= 0.0))
+				gog_renderer_draw_marker (view->renderer, path[count].x, path[count].y);
 		}
 
 		if (!is_polar && series->base.num_elements == model->num_elements
@@ -472,14 +491,24 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 		path[count].code = ART_END;
 
-		if (closed_shape && is_area)
+		if (is_polar) { 
+			bpath = gog_renderer_get_ring_wedge_bpath (parms->cx, parms->cy, parms->rx, parms->ry,
+								   0.0, 0.0, -parms->th0, -parms->th1);
+			clip_path = art_bez_path_to_vec (bpath, .1);
+			g_free (bpath);
+			gog_renderer_push_clip (view->renderer, clip_path);	
+		}
+
+		if (closed_shape && is_area) {
 			gog_renderer_draw_polygon (view->renderer, path, FALSE);
-		else
+		} else
 			gog_renderer_draw_path (view->renderer, path);
+
+		if (is_polar)
+			gog_renderer_pop_clip (view->renderer);
 
 		gog_renderer_pop_style (view->renderer);
 	}
-	g_free (clip_path);
 	gog_chart_map_free (chart_map);
 }
 
@@ -552,14 +581,10 @@ gog_rt_series_init_style (GogStyledObject *gso, GogStyle *style)
 		return;
 
 	plot = GOG_RT_PLOT (series->plot);
-	if (!plot->default_style_has_markers) {
-		style->disable_theming |= GOG_STYLE_MARKER;
-		if (style->marker.auto_shape) {
-			GOMarker *m = go_marker_new ();
-			go_marker_set_shape (m, GO_MARKER_NONE);
-			gog_style_set_marker (style, m);
-		}
-	}
+
+	if (!plot->default_style_has_markers &&
+	    style->marker.auto_shape) 
+		go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 }
 
 static void

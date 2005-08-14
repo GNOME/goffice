@@ -606,7 +606,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	x_zero = gog_axis_map_get_baseline (x_map);
 	y_zero = gog_axis_map_get_baseline (y_map);
-	gog_renderer_clip_push (view->renderer, &view->allocation);
+	gog_renderer_push_clip (view->renderer, 
+				gog_renderer_get_rectangle_vpath (&view->allocation));
 
 	for (num_series = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, num_series++);
 	markers = g_alloca (num_series * sizeof (MarkerData *));
@@ -821,7 +822,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			g_object_unref (neg_style);
 	}
 
-	gog_renderer_clip_pop (view->renderer);
+	gog_renderer_pop_clip (view->renderer);
 
 	if (!GOG_IS_BUBBLE_PLOT (model))
 		for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
@@ -839,10 +840,11 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 
 	/* Now render children, may be should come before markers? */
-	gog_renderer_clip_push (view->renderer, &view->residual);
+	gog_renderer_push_clip (view->renderer, 
+				gog_renderer_get_rectangle_vpath (&view->residual));
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
 		gog_view_render	(ptr->data, bbox);
-	gog_renderer_clip_pop (view->renderer);
+	gog_renderer_pop_clip (view->renderer);
 
 	gog_axis_map_free (x_map);
 	gog_axis_map_free (y_map);

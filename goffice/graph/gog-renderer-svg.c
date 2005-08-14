@@ -89,49 +89,6 @@ gog_renderer_svg_finalize (GObject *obj)
 }
 
 static void
-gog_renderer_svg_clip_push (GogRenderer *rend, GogRendererClip *clip)
-{
-	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
-	char *buf;
-	xmlNodePtr child;
-	xmlNodePtr node;
-
-	prend->clip_counter++;
-	
-	node = xmlNewDocNode (prend->doc, NULL, CC2XML("clipPath"), NULL);
-	xmlAddChild (prend->defs, node);
-
-	buf = g_strdup_printf ("clip%i", prend->clip_counter);
-	xmlNewProp (node, CC2XML("id"), CC2XML(buf));
-	g_free (buf);
-	
-	child = xmlNewDocNode (prend->doc, NULL, CC2XML("rect"), NULL);
-	xmlAddChild (node, child);
-	
-	set_double_prop (child, "x", clip->area.x);
-	set_double_prop (child, "y", clip->area.y);
-	set_double_prop (child, "width", clip->area.w);
-	set_double_prop (child, "height", clip->area.h);
-	
-	node = xmlNewDocNode (prend->doc, NULL, CC2XML("g"), NULL);
-	xmlAddChild (prend->current_node, node);
-	
-	buf = g_strdup_printf ("url(#clip%i)", prend->clip_counter);
-	xmlNewProp (node, CC2XML ("clip-path"), CC2XML (buf));
-	g_free (buf);
-
-	prend->current_node = node;
-}
-
-static void
-gog_renderer_svg_clip_pop (GogRenderer *rend, GogRendererClip *clip)
-{
-	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
-	
-	prend->current_node = prend->current_node->parent;
-}
-
-static void
 draw_path (ArtVpath const *path, GString *string)
 {
 	char buffer[G_ASCII_DTOSTR_BUF_SIZE];
@@ -154,6 +111,48 @@ draw_path (ArtVpath const *path, GString *string)
 		default :
 			break;
 		}
+}
+
+static void
+gog_renderer_svg_push_clip (GogRenderer *rend, GogRendererClip *clip)
+{
+	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
+	char *buf;
+	xmlNodePtr child;
+	xmlNodePtr node;
+	GString *string;
+
+	prend->clip_counter++;
+	
+	node = xmlNewDocNode (prend->doc, NULL, CC2XML("clipPath"), NULL);
+	xmlAddChild (prend->defs, node);
+
+	buf = g_strdup_printf ("clip%i", prend->clip_counter);
+	xmlNewProp (node, CC2XML("id"), CC2XML(buf));
+	g_free (buf);
+	
+	child = xmlNewChild (node, NULL, CC2XML ("path"), NULL);
+	string = g_string_new ("");
+	draw_path (clip->path, string);
+	xmlNewProp (child, CC2XML ("d"), CC2XML (string->str));
+	g_string_free (string, TRUE);
+	
+	node = xmlNewDocNode (prend->doc, NULL, CC2XML("g"), NULL);
+	xmlAddChild (prend->current_node, node);
+	
+	buf = g_strdup_printf ("url(#clip%i)", prend->clip_counter);
+	xmlNewProp (node, CC2XML ("clip-path"), CC2XML (buf));
+	g_free (buf);
+
+	prend->current_node = node;
+}
+
+static void
+gog_renderer_svg_pop_clip (GogRenderer *rend, GogRendererClip *clip)
+{
+	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
+	
+	prend->current_node = prend->current_node->parent;
 }
 
 static void
@@ -732,8 +731,8 @@ gog_renderer_svg_class_init (GogRendererClass *rend_klass)
 
 	parent_klass = g_type_class_peek_parent (rend_klass);
 	gobject_klass->finalize	  	= gog_renderer_svg_finalize;
-	rend_klass->clip_push		= gog_renderer_svg_clip_push;
-	rend_klass->clip_pop	 	= gog_renderer_svg_clip_pop;
+	rend_klass->push_clip		= gog_renderer_svg_push_clip;
+	rend_klass->pop_clip	 	= gog_renderer_svg_pop_clip;
 	rend_klass->draw_path	  	= gog_renderer_svg_draw_path;
 	rend_klass->draw_polygon  	= gog_renderer_svg_draw_polygon;
 	rend_klass->draw_bezier_path 	= gog_renderer_svg_draw_bezier_path;

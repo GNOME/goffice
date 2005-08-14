@@ -30,8 +30,8 @@
 G_BEGIN_DECLS
 
 typedef struct {
-	GogViewAllocation	area;
-	gpointer		data;
+	ArtVpath *path;
+	gpointer data;
 } GogRendererClip;
 
 struct _GogRenderer {
@@ -60,11 +60,12 @@ typedef struct {
 
 	/* Virtuals */
 	void (*font_removed)	(GogRenderer *renderer, GOFont const *font);
+
 	void (*push_style)     	(GogRenderer *renderer, GogStyle const *style);
 	void (*pop_style)      	(GogRenderer *renderer);
 
- 	void (*clip_push)	(GogRenderer *renderer, GogRendererClip *clip);
- 	void (*clip_pop) 	(GogRenderer *renderer, GogRendererClip *clip);
+ 	void (*push_clip)	(GogRenderer *renderer, GogRendererClip *clip);
+ 	void (*pop_clip) 	(GogRenderer *renderer, GogRendererClip *clip);
  	
 	void (*sharp_path)	(GogRenderer *renderer, ArtVpath *path, double line_width);
 

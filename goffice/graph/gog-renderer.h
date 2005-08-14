@@ -41,9 +41,10 @@ void  gog_renderer_request_update (GogRenderer *r);
 void  gog_renderer_push_style     (GogRenderer *r, GogStyle const *style);
 void  gog_renderer_pop_style      (GogRenderer *r);
 
-void  gog_renderer_clip_push 	  (GogRenderer *r, GogViewAllocation const *region);
-void  gog_renderer_clip_pop       (GogRenderer *r);
+void  gog_renderer_push_clip 	  (GogRenderer *r, ArtVpath *path);
+void  gog_renderer_pop_clip       (GogRenderer *r);
 
+ArtVpath * gog_renderer_get_rectangle_vpath 	(GogViewAllocation const *rect);
 ArtBpath * gog_renderer_get_ring_wedge_bpath	(double cx, double cy, 
 						 double rx_out, double ry_out,
 						 double rx_in, double ry_in,

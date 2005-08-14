@@ -1,3 +1,35 @@
+2005-08-14  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	Fix clipping of polar plots. Renamed all clip_push, clip_pop functions
+	to push_clip, pop_clip for consistency with push_style, pop_style.
+
+	* goffice/graph/gog-renderer-gnome-print.c 
+	(print_make_rectangle_path): removed.
+	(gog_renderer_gnome_print_push_clip): clipping region is a path now.
+	(gog_renderer_gnome_print_draw_path): clip dashed line to graph bbox.
+	(gog_renderer_gnome_print_draw_polygon): ditto.
+	(gog_graph_print_to_gnome_print): stire graph bbox.
+	* goffice/graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_push_clip):
+	handle clipping region as path, assuming nested region is included in
+	parent one.
+	(gog_renderer_pixbuf_pop_clip): free clip svp.
+	(gog_renderer_pixbuf_do_clip): new.
+	(gog_renderer_pixbuf_draw_path): call gog_renderer_pixbuf_do_clip.
+	clip dashed line to graph bbox.
+	(gog_renderer_pixbuf_draw_polygon): ditto.
+	* goffice/graph/gog-renderer-svg.c (gog_renderer_svg_push_clip): 
+	clipping region is a path now.
+	* goffice/graph/gog-renderer.c (gog_renderer_push_clip): ditto.
+	(gog_renderer_pop_clip): ditto. Free clip_path.
+	(gog_renderer_get_rectangle_vpath): new.
+	* goffice/graph/gog-view.c (gog_view_render): clipping region is a
+	path now.
+	* plugins/plot_barcol/gog-line.c (gog_line_view_render): ditto.
+	* plugins/plot_radar/gog-radar.c (gog_rt_plot_guru_helper): force
+	auto_dash to FALSE.
+	(gog_rt_view_render): add correct polar clipping.
+	(gog_rt_series_init_style): don't disable marker theming.
+	
 2005-08-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-series.c: (gog_series_class_init),

@@ -217,37 +217,38 @@ gog_renderer_pop_style (GogRenderer *rend)
 }
 
 /**
- * gog_renderer_clip_push :
- * @rend : #GogRenderer
- * @region: #GogViewAllocation
+ * gog_renderer_push_clip :
+ * @rend      : #GogRenderer
+ * @clip_path : #ArtVpath array
  *
- * region defines the current clipping region. 
+ * Defines the current clipping region. 
  **/
 void
-gog_renderer_clip_push (GogRenderer *rend, GogViewAllocation const *region)
+gog_renderer_push_clip (GogRenderer *rend, ArtVpath *clip_path)
 {
 	GogRendererClip *clip;
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
 	g_return_if_fail (klass != NULL);
+	g_return_if_fail (clip_path != NULL);
 
 	clip = g_new (GogRendererClip, 1);
-	clip->area = *region;
+	clip->path = clip_path;
 
 	rend->clip_stack = g_slist_prepend (rend->clip_stack, clip);
 	rend->cur_clip = clip;
 	
-	(klass->clip_push) (rend, clip);
+	(klass->push_clip) (rend, clip);
 }
 
 /**
- * gog_renderer_clip_pop :
+ * gog_renderer_pop_clip :
  * @rend : #GogRenderer
  *
  * End the current clipping.
  **/
 void
-gog_renderer_clip_pop (GogRenderer *rend)
+gog_renderer_pop_clip (GogRenderer *rend)
 {
 	GogRendererClip *clip;
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
@@ -257,8 +258,9 @@ gog_renderer_clip_pop (GogRenderer *rend)
 
 	clip = (GogRendererClip *) rend->clip_stack->data;
 
-	(klass->clip_pop) (rend, clip);
+	(klass->pop_clip) (rend, clip);
 
+	g_free (clip->path);
 	g_free (clip);
 	rend->clip_stack = g_slist_delete_link (rend->clip_stack, rend->clip_stack);
 
@@ -269,20 +271,48 @@ gog_renderer_clip_pop (GogRenderer *rend)
 }
 
 /**
+ * gog_renderer_get_rectangle_vpath :
+ * @x      : upper left corner
+ * @y      : upper left corner
+ * @width  : rectangle width
+ * @height : rectangle height
+ *
+ * a utility routine to build a rectangle path.
+ **/
+ArtVpath * 
+gog_renderer_get_rectangle_vpath (GogViewAllocation const *rect)
+{
+	ArtVpath *path;
+
+	path = g_new (ArtVpath, 6);
+
+	path[0].x = path[3].x = path[4].x = rect->x;
+	path[1].x = path[2].x = rect->x + rect->w;
+	path[0].y = path[1].y = path[4].y = rect->y;
+	path[2].y = path[3].y = rect->y + rect->h;
+	path[0].code = ART_MOVETO;
+	path[1].code = path[2].code = path[3].code = path[4].code = ART_LINETO;
+	path[5].code = ART_END;
+
+	return path;
+}
+
+/**
  * gog_renderer_get_ring_wedge_vpath :
- * @cx : center x coordinate
- * @cy : center y coordinate
- * @rx : x radius
- * @ry : y radius
+ * @x : center x coordinate
+ * @y : center y coordinate
+ * @width  : x radius
+ * @height : y radius
  * @th0 : start arc angle
  * @th1 : stop arc angle
  *
  * a utility routine to build a ring wedge path.
  **/
-ArtBpath * gog_renderer_get_ring_wedge_bpath	(double cx, double cy, 
-						 double rx_out, double ry_out,
-						 double rx_in, double ry_in,
-						 double th0, double th1)
+ArtBpath * 
+gog_renderer_get_ring_wedge_bpath (double cx, double cy, 
+				   double rx_out, double ry_out,
+				   double rx_in, double ry_in,
+				   double th0, double th1)
 {
 	ArtBpath *path;
 	double th_arc, th_out, th_in, th_delta, t;
