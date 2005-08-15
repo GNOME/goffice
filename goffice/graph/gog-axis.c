@@ -343,8 +343,8 @@ map_bounds (GogAxisMap *map, double *minimum, double *maximum)
 {
 	MapData *data = map->data;
 
-	*minimum = data->min;
-	*maximum = data->max;	
+	if (minimum != NULL) *minimum = data->min;
+	if (maximum != NULL) *maximum = data->max;	
 }
 
 static void
@@ -564,8 +564,8 @@ map_log_bounds (GogAxisMap *map, double *minimum, double *maximum)
 {
 	MapLogData *data = map->data;
 
-	*minimum = exp (data->min);
-	*maximum = exp (data->max);	
+	if (minimum != NULL) *minimum = exp (data->min);
+	if (maximum != NULL) *maximum = exp (data->max);	
 }
 
 static void
@@ -865,6 +865,8 @@ gog_axis_map_get_baseline (GogAxisMap *map)
  * axis is not inverted, start = minimum and stop = maximum. If axis is invalid, 
  * it'll return arbitrary bounds. For example, an non inverted invalid X axis 
  * will have start set to 0.0 and stop set to 1.0.
+ *
+ * minimum or maximum can be NULL.
  * */
 
 void
@@ -884,7 +886,9 @@ gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
  *
  * Returns bounds for the given axis map in data coordinates. If axis is invalid, 
  * it'll return arbitrary bounds. For example, for an invalid x axis, minimum = 0.0
- * and maximum = 1.0.
+ * and maximum = 1.0. 
+ *
+ * minimum or maximum can be NULL.
  * */
 
 void

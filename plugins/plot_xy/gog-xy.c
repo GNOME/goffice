@@ -604,8 +604,15 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 	}
 
-	x_zero = gog_axis_map_get_baseline (x_map);
-	y_zero = gog_axis_map_get_baseline (y_map);
+	/* Draw drop lines from point to axis start. To change this behaviour
+	 * and draw drop lines from point to zero, use gog_axis_map_get_baseline:
+	 * x_zero = gog_axis_map_get_baseline (x_map); */
+
+	gog_axis_map_get_extents (x_map, &x_zero, NULL); 
+	x_zero = gog_axis_map_to_view (x_map, x_zero);
+	gog_axis_map_get_extents (y_map, &y_zero, NULL); 
+	y_zero = gog_axis_map_to_view (y_map, y_zero);
+
 	gog_renderer_push_clip (view->renderer, 
 				gog_renderer_get_rectangle_vpath (&view->allocation));
 

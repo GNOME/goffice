@@ -1,5 +1,15 @@
 2005-08-15  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* goffice/graph/gog-axis.c (map_bounds): minimum or maximum may be
+	NULL.
+	(map_log_bounds): ditto.
+	* goffice/graph/gog-series-lines.c (gog_series_lines_render): draw
+	sharp lines.
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): draw drop lines from
+	point to axis start.
+
+2005-08-15  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* goffice/graph/goffice-graph.h: new GOG_POSITION_IS_SPECIAL and
 	GOG_POSITION_IS_PADDING macros for determining GogPosition type.
 	Simple == test doesn't work.
