@@ -1129,7 +1129,7 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
-		if (child->model->position == GOG_POSITION_PADDING) {
+		if (GOG_POSITION_IS_PADDING (child->model->position)) {
 			gog_view_size_allocate (child, &tmp);
 		}
 	}
@@ -1137,7 +1137,7 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	/* by default, overlay all GOG_POSITION_SPECIAL children in residual */
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
-		if (child->model->position == GOG_POSITION_SPECIAL)
+		if (GOG_POSITION_IS_SPECIAL (child->model->position))
 			gog_view_size_allocate (child, plot_area);
 	}
 }

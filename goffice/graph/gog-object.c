@@ -416,6 +416,8 @@ cb_anchor_changed (GtkComboBox *combo, ObjectPrefState *state)
 	GogObjectPosition position = position_anchor[gtk_combo_box_get_active (combo)].flags;
 
 	gog_object_set_position_flags (state->gobj, position, GOG_POSITION_ANCHOR);
+	if (state->manual_toggle != NULL)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->manual_toggle), TRUE);
 }
 
 static void
@@ -551,9 +553,6 @@ gog_object_populate_editor (GogObject *gobj,
 			w = glade_xml_get_widget (gui, "manual_sizes");
 			gtk_widget_hide (w);
 		}
-	} else {
-		state->manual_toggle = glade_xml_get_widget (gui, "manual_position_box");
-		gtk_widget_hide (state->manual_toggle);
 	}
 
 	g_object_unref (G_OBJECT (widget_size_group));
@@ -566,6 +565,7 @@ gog_object_populate_editor (GogObject *gobj,
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
 				       gog_object_get_position_flags (gobj, GOG_POSITION_MANUAL) != 0);
 		g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (cb_manual_position_changed), state);
+		state->manual_toggle = w;
 	} else {
 		gtk_widget_hide (w);
 	}
@@ -1039,7 +1039,8 @@ gog_object_position_cmp (GogObjectPosition pos)
 {
 	if (pos & GOG_POSITION_COMPASS)
 		return 0;
-	if (pos == GOG_POSITION_PADDING || pos == GOG_POSITION_SPECIAL)
+	if (GOG_POSITION_IS_SPECIAL (pos) ||
+	    GOG_POSITION_IS_PADDING (pos))
 		return 2;
 	return 1; /* GOG_POSITION_MANUAL */
 }

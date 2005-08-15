@@ -1923,7 +1923,7 @@ gog_axis_view_padding_request (GogView *view,
 
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
-		if (child->model->position == GOG_POSITION_PADDING) {
+		if (GOG_POSITION_IS_PADDING (child->model->position)) {
 			gog_view_padding_request (child, &tmp, &child_padding);
 			padding->wr = MAX (padding->wr, child_padding.wr);
 			padding->wl = MAX (padding->wl, child_padding.wl);
@@ -1962,7 +1962,7 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 								       plot_area, &req);
 			gog_view_size_allocate (child, &child_bbox);
 		} else {
-			if (pos & GOG_POSITION_SPECIAL) {
+			if (GOG_POSITION_IS_SPECIAL (pos)) {
 				if (IS_GOG_LABEL (child->model)) {
 					gog_view_size_request (child, &req);
 					if (type == GOG_AXIS_X) {

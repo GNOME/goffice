@@ -198,7 +198,7 @@ gog_view_padding_request_real (GogView *view, GogViewAllocation const *bbox, Gog
 
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
-		if (child->model->position == GOG_POSITION_PADDING) {
+		if (GOG_POSITION_IS_PADDING (child->model->position)) {
 			gog_view_padding_request (child, bbox, &child_padding);
 			padding->wr = MAX (padding->wr, child_padding.wr);
 			padding->wl = MAX (padding->wl, child_padding.wl);
@@ -309,8 +309,9 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 				}
 
 			gog_view_size_allocate (child, &tmp);
-		} else if (pos != GOG_POSITION_SPECIAL && pos != GOG_POSITION_PADDING)
-			g_warning ("unexpected position %x for child %p of %p",
+		} else if (!(GOG_POSITION_IS_SPECIAL (pos)) && 
+			   !(GOG_POSITION_IS_PADDING (pos)))
+			g_warning ("[GogView::size_allocate_real] unexpected position %x for child %p of %p",
 				   pos, child, view);
 	}
 
@@ -627,8 +628,8 @@ gog_view_size_child_request (GogView *view,
 			} else if (res->w < req.w)
 				res->w = req.w;
 
-		} else if (pos != GOG_POSITION_SPECIAL)
-			g_warning ("unexpected position %x for child %p of %p",
+		} else if (!(GOG_POSITION_IS_SPECIAL (pos)))
+			g_warning ("[GogView::size_child_request] unexpected position %x for child %p of %p",
 				   pos, child, view);
 	}
 	g_slist_free (list);

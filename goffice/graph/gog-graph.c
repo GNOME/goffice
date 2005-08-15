@@ -622,7 +622,7 @@ gog_graph_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	h = res.h / gog_graph_num_rows (graph);
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
-		if (child->model->position == GOG_POSITION_SPECIAL) {
+		if (GOG_POSITION_IS_SPECIAL (child->model->position)) {
 			gog_chart_get_position (GOG_CHART (child->model),
 				&x, &y, &cols, &rows);
 			tmp.x = x * w + res.x;
