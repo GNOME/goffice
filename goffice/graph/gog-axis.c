@@ -1855,7 +1855,7 @@ gog_axis_bound_changed (GogAxis *axis, GogObject *contrib)
 
 /* gog_axis_get_grid_line:
  * @axis: #GogAxis
- * @major: wether to retrieve major or minor grid line.
+ * @major: whether to retrieve major or minor grid line.
  *
  * Returns a pointer to GridLine object associated to given axis, NULL
  * if it doesn't exists.

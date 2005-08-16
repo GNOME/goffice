@@ -1,3 +1,8 @@
+2005-08-16  Stepan Kasal  <kasal@ucw.cz>
+
+	* goffice/graph/gog-axis.c (gog_axis_get_grid_line): Fix typo
+	  in the comment.
+
 2005-08-15  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post release bump
@@ -2997,7 +3002,7 @@
 2004-09-15  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=152499
-	* graph/gog-error-bar.c (gog_error_bar_get_minmax): check wether
+	* graph/gog-error-bar.c (gog_error_bar_get_minmax): check whether
 	associated GogSeries is valid.
 
 2004-09-15  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
