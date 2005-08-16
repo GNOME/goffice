@@ -24,6 +24,7 @@
 #include "gog-1.5d.h"
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/graph/gog-view.h>
+#include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-axis.h>
@@ -255,6 +256,9 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogPlot1_5d const *model = GOG_PLOT1_5D (view->model);
 	GogPlot1_5dType const type = model->type;
 	GogSeries1_5d const *series;
+	GogChart *chart = GOG_CHART (view->model->parent);
+	GogChartMap *chart_map;
+	GogViewAllocation const *area;
 	unsigned i, j, k;
 	unsigned num_elements = model->num_elements;
 	unsigned num_series = model->num_series;
@@ -270,7 +274,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogObjectRole const *role = NULL;
 	GogSeriesLines **lines;
 
-	double y_zero;
+	double y_zero, drop_lines_y_zero;
 	double abs_sum, sum, value;
 	gboolean is_null, is_area_plot;
 
@@ -281,20 +285,25 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (num_elements <= 0 || num_series <= 0)
 		return;
 
-	x_map = gog_axis_map_new (model->base.axis[0], 
-				  view->allocation.x, view->allocation.w);
-	y_map = gog_axis_map_new (model->base.axis[1], 
-				  view->allocation.y + view->allocation.h, 
-				  -view->allocation.h);
-	
-	if (!(gog_axis_map_is_valid (x_map) &&
-	      gog_axis_map_is_valid (y_map))) {
-		gog_axis_map_free (x_map);
-		gog_axis_map_free (y_map);
+	area = gog_chart_view_get_plot_area (view->parent);
+	chart_map = gog_chart_map_new (chart, area, 
+				       GOG_PLOT (model)->axis[GOG_AXIS_X], 
+				       GOG_PLOT (model)->axis[GOG_AXIS_Y],
+				       NULL, FALSE);
+	if (!gog_chart_map_is_valid (chart_map)) {
+		gog_chart_map_free (chart_map);
 		return;
 	}
 	
-	y_zero = gog_axis_map_get_baseline (y_map);
+	x_map = gog_chart_map_get_axis_map (chart_map, 0);
+	y_map = gog_chart_map_get_axis_map (chart_map, 1);
+	
+	/* Draw drop lines from point to axis start. See comment in
+	 * GogXYPlotView::render */
+
+	gog_axis_map_get_extents (y_map, &drop_lines_y_zero, NULL); 
+	drop_lines_y_zero = gog_axis_map_to_view (y_map, drop_lines_y_zero);
+	y_zero = gog_axis_map_get_baseline (y_map); 
 
 	vals    = g_alloca (num_series * sizeof (double *));
 	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
@@ -340,7 +349,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			for (j = 0; j < num_elements; j++) {
 				drop_paths[i][2 * j].code = ART_MOVETO;
 				drop_paths[i][2 * j + 1].code = ART_LINETO;
-				drop_paths[i][2 * j + 1].y = y_zero; 
+				drop_paths[i][2 * j + 1].y = drop_lines_y_zero; 
 			}
 			drop_paths[i][2 * j].code = ART_END;
 		} else
@@ -557,8 +566,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		g_free (error_data[i]);
 	}
 
-	gog_axis_map_free (x_map);
-	gog_axis_map_free (y_map);
+	gog_chart_map_free (chart_map);
 }
 
 static gboolean

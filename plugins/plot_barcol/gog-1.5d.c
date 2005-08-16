@@ -427,7 +427,7 @@ lines_can_add (GogObject const *parent)
 {
 	GogSeries1_5d *series = GOG_SERIES1_5D (parent);
 	return (GOG_PLOT1_5D (series->base.plot)->support_lines &&
-								!series->has_lines);
+		!series->has_lines);
 }
 
 static void

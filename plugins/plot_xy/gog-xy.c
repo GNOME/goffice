@@ -574,11 +574,14 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	Gog2DPlot const *model = GOG_2D_PLOT (view->model);
 	unsigned num_series;
+	GogChart const *chart = GOG_CHART (view->model->parent);
+	GogChartMap *chart_map;
 	GogAxisMap *x_map, *y_map;
 	GogXYSeries const *series = NULL;
 	unsigned i ,j ,k ,n, tmp;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
 	GogStyle *neg_style = NULL;
+	GogViewAllocation const *area;
 	GSList *ptr;
 	double const *y_vals, *x_vals = NULL, *z_vals = NULL;
 	double x = 0., y = 0., z, x_canvas = 0., y_canvas = 0.;
@@ -591,22 +594,25 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	MarkerData **markers;
 	unsigned *num_markers;
 
-	x_map = gog_axis_map_new (model->base.axis[0], 
-				  view->residual.x , view->residual.w);
-	y_map = gog_axis_map_new (model->base.axis[1], 
-				  view->residual.y + view->residual.h, 
-				  -view->residual.h);
-
-	if (!(gog_axis_map_is_valid (x_map) &&
-	      gog_axis_map_is_valid (y_map))) {
-		gog_axis_map_free (x_map);
-		gog_axis_map_free (y_map);
+	area = gog_chart_view_get_plot_area (view->parent);
+	chart_map = gog_chart_map_new (chart, area, 
+				       GOG_PLOT (model)->axis[GOG_AXIS_X], 
+				       GOG_PLOT (model)->axis[GOG_AXIS_Y],
+				       NULL, FALSE);
+	if (!gog_chart_map_is_valid (chart_map)) {
+		gog_chart_map_free (chart_map);
 		return;
 	}
 
+	x_map = gog_chart_map_get_axis_map (chart_map, 0);
+	y_map = gog_chart_map_get_axis_map (chart_map, 1);
+
 	/* Draw drop lines from point to axis start. To change this behaviour
-	 * and draw drop lines from point to zero, use gog_axis_map_get_baseline:
-	 * x_zero = gog_axis_map_get_baseline (x_map); */
+	 * and draw drop lines from point to zero, we can use gog_axis_map_get_baseline:
+	 * x_zero = gog_axis_map_get_baseline (x_map); 
+	 * What we really want is to draw drop lines from point to
+	 * a selected axis. But for this purpose, we need a GogAxisBase selector in
+	 * GogSeriesLine, which doesn't really know what it's supposed to do with it. */
 
 	gog_axis_map_get_extents (x_map, &x_zero, NULL); 
 	x_zero = gog_axis_map_to_view (x_map, x_zero);
@@ -853,8 +859,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_view_render	(ptr->data, bbox);
 	gog_renderer_pop_clip (view->renderer);
 
-	gog_axis_map_free (x_map);
-	gog_axis_map_free (y_map);
+	gog_chart_map_free (chart_map);
 }
 
 static gboolean
