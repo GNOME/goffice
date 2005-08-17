@@ -139,8 +139,8 @@ gog_rt_plot_update (GogObject *obj)
 		gog_axis_bound_changed (model->base.axis [GOG_AXIS_RADIAL], GOG_OBJECT (model));
 	}
 
-	model->t.minima = 0;
-	model->t.maxima = num_elements - 1;
+	model->t.minima = 1;
+	model->t.maxima = num_elements;
 
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 }
@@ -405,7 +405,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList   *ptr;
 	ArtVpath *path, *clip_path;
 	ArtBpath *bpath;
-	double theta_min, theta_max, theta;
+	double th0, theta_min, theta_max, theta;
 	double rho_min, rho_max, rho;
 	gboolean const is_area = GOG_IS_PLOT_RADAR_AREA (model);
 	gboolean const is_polar = GOG_IS_PLOT_POLAR (model);
@@ -424,7 +424,8 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	r_map = gog_chart_map_get_axis_map (chart_map, 1);
 	parms = gog_chart_map_get_polar_parms (chart_map);
 	
-	gog_axis_map_get_bounds (c_map, &theta_max, &theta_min);
+	gog_axis_map_get_bounds (c_map, &theta_min, &theta_max);
+	th0 = theta_min;
 	gog_axis_map_get_bounds (r_map, &rho_min, &rho_max);
 	/* convert theta value to radians */
 	theta_min = gog_axis_map_to_view (c_map, theta_min);
@@ -469,7 +470,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 			rho = (!is_polar || (go_add_epsilon (r_vals[count] - rho_min) >= 0.0)) ?
 				r_vals[count] : rho_min;
 			gog_chart_map_2D_to_view (chart_map, 
-						  is_polar ? c_vals[count] : count, rho,
+						  is_polar ? c_vals[count] : count + th0, rho,
 						  &path[count].x, &path[count].y);
 
 			if (is_polar) theta = gog_axis_map_to_view (c_map, c_vals[count]);

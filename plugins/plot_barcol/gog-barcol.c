@@ -21,11 +21,12 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-barcol.h"
-#include <goffice/graph/gog-series-lines.h>
-#include <goffice/graph/gog-view.h>
-#include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-renderer.h>
+#include <goffice/graph/gog-series-lines.h>
+#include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-view.h>
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-math.h>
@@ -301,7 +302,10 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogBarColPlot const *model = GOG_BARCOL_PLOT (view->model);
 	GogPlot1_5d const *gog_1_5d_model = GOG_PLOT1_5D (view->model);
 	GogSeries1_5d const *series;
+	GogChart *chart = GOG_CHART (view->model->parent);
+	GogChartMap *chart_map;
 	GogViewAllocation work;
+	GogViewAllocation const *area;
 	GogRenderer *rend = view->renderer;
 	GogAxisMap *x_map, *y_map, *map;
 	gboolean is_vertical = ! (model->horizontal);
@@ -326,17 +330,19 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (num_elements <= 0 || num_series <= 0)
 		return;
 
-	x_map = gog_axis_map_new (GOG_PLOT (model)->axis[0], 
-				  view->allocation.x, view->allocation.w);
-	y_map = gog_axis_map_new (GOG_PLOT (model)->axis[1], view->allocation.y + view->allocation.h, 
-				  -view->allocation.h);
-	
-	if (!(gog_axis_map_is_valid (x_map) &&
-	      gog_axis_map_is_valid (y_map))) {
-		gog_axis_map_free (x_map);
-		gog_axis_map_free (y_map);
+	area = gog_chart_view_get_plot_area (view->parent);
+	chart_map = gog_chart_map_new (chart, area, 
+				       GOG_PLOT (model)->axis[GOG_AXIS_X], 
+				       GOG_PLOT (model)->axis[GOG_AXIS_Y],
+				       NULL, FALSE);
+	if (!gog_chart_map_is_valid (chart_map)) {
+		gog_chart_map_free (chart_map);
 		return;
 	}
+	
+	x_map = gog_chart_map_get_axis_map (chart_map, 0);
+	y_map = gog_chart_map_get_axis_map (chart_map, 1);
+
 	map = is_vertical ? y_map : x_map;
 
 	vals = g_alloca (num_series * sizeof (double *));
@@ -408,7 +414,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		pos_base = neg_base = 0.0;
 		for (j = 0 ; j < num_series ; j++) {
 			
-			work.y = (double) j * col_step + (double) i - offset;
+			work.y = (double) j * col_step + (double) i - offset + 1.0;
 			
 			if (i >= lengths[j])
 				continue;
@@ -451,22 +457,18 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 				x = tmp > 0 ? work.x + work.w: work.x;
 				if (is_vertical) {
 					if (i > 0) {
-						paths[j][i * 2 - 1].x = gog_axis_map_to_view (x_map,
-												work.y);
+						paths[j][i * 2 - 1].x = gog_axis_map_to_view (x_map, work.y);
 						paths[j][i * 2 - 1].y = gog_axis_map_to_view (y_map, x);
 					}
-					paths[j][i * 2].x = gog_axis_map_to_view (x_map,
-											work.y + work.h);
+					paths[j][i * 2].x = gog_axis_map_to_view (x_map, work.y + work.h);
 					paths[j][i * 2].y = gog_axis_map_to_view (y_map, x);
 				} else {
 					if (i > 0) {
 						paths[j][i * 2 - 1].x = gog_axis_map_to_view (x_map, x);
-						paths[j][i * 2 - 1].y = gog_axis_map_to_view (y_map,
-													work.y);
+						paths[j][i * 2 - 1].y = gog_axis_map_to_view (y_map, work.y);
 					}
 					paths[j][i].x = gog_axis_map_to_view (x_map, x);
-					paths[j][i].x = gog_axis_map_to_view (y_map,
-											work.y + work.h);
+					paths[j][i].x = gog_axis_map_to_view (y_map, work.y + work.h);
 				}
 			}
 		}
@@ -490,8 +492,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			g_free (paths[i]);
 		}
 
-	gog_axis_map_free (x_map);
-	gog_axis_map_free (y_map);
+	gog_chart_map_free (chart_map);
 }
 
 static gboolean

@@ -131,17 +131,15 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (gog_axis_is_discrete (c_axis)) {
 				map = gog_chart_map_get_axis_map (c_map, 0);
 				gog_axis_map_get_extents (map, &start, &stop);
-				step_nbr = rint (parms->th1);
-				path = art_new (ArtVpath, step_nbr + 3);
+				step_nbr = go_rint (parms->th1 - parms->th0) + 1;
+				path = art_new (ArtVpath, step_nbr + 2);
 				for (i = 0; i <= step_nbr; i++) {
-					gog_chart_map_2D_to_view (c_map, i, position, &path[i].x, &path[i].y);
+					gog_chart_map_2D_to_view (c_map, i + parms->th0, 
+								  position, &path[i].x, &path[i].y);
 					path[i].code = ART_LINETO;
 				}
 				path[0].code = ART_MOVETO;
-				path[step_nbr + 1].x = path[0].x;
-				path[step_nbr + 1].y = path[0].y;
-				path[step_nbr + 1].code = ART_LINETO;
-				path[step_nbr + 2].code = ART_END;
+				path[step_nbr + 1].code = ART_END;
 				gog_renderer_draw_polygon (view->renderer, path, FALSE);
 				g_free (path);
 			} else {

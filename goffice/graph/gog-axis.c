@@ -220,11 +220,11 @@ map_discrete_calc_ticks (GogAxis *axis)
 	double maximum, minimum;
 	double tick_start, label_start;
 	int tick_nbr, label_nbr;
-	int i, j;
+	int i, j, index;
 	int major_tick, major_label;
 
-	major_tick = rint (gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL));
-	major_label = rint (gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL));
+	major_tick = go_rint (gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL));
+	major_label = go_rint (gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL));
 	if (major_tick < 1)
 		major_tick = 1;
 	if (major_label < 1)
@@ -256,16 +256,17 @@ map_discrete_calc_ticks (GogAxis *axis)
 		ticks[i].label = NULL;
 	}
 	for (i = 0, j = tick_nbr; i < label_nbr; i++, j++) {
-		ticks[j].position = label_start + (double) (i) * major_label;
+		ticks[j].position = go_rint (label_start + (double) (i) * major_label);
+		index = ticks[j].position - 1;
 		ticks[j].type = GOG_AXIS_TICK_NONE;
 		if (axis->labels != NULL) {
-			if (i * major_label < go_data_vector_get_len (axis->labels))
-				ticks[j].label = go_data_vector_get_str (axis->labels, i * major_label);
+			if (index < go_data_vector_get_len (axis->labels) && index >= 0)
+				ticks[j].label = go_data_vector_get_str (axis->labels, index);
 			else
 				ticks[j].label = NULL;
 		}
 		else
-			ticks[j].label = g_strdup_printf ("%d", i * major_label + 1);
+			ticks[j].label = g_strdup_printf ("%d", index + 1);
 	}
 
 	gog_axis_set_ticks (axis, tick_nbr + label_nbr, ticks);
@@ -1448,12 +1449,12 @@ gog_axis_populate_editor (GogObject *gobj,
 	table = GTK_TABLE (glade_xml_get_widget (gui, "bound_table"));
 	if (axis->is_discrete) {
 		static char const * const dim_names[] = {
-			NULL,
-			NULL,
+			N_("M_inimum"),
+			N_("M_aximum"),
 			N_("Categories between _ticks"),
 			N_("Categories between _labels")
 		};
-		for (i = GOG_AXIS_ELEM_MAJOR_TICK; i < GOG_AXIS_ELEM_CROSS_POINT ; i++)
+		for (i = GOG_AXIS_ELEM_MIN; i < GOG_AXIS_ELEM_CROSS_POINT ; i++)
 			make_dim_editor (set, table, i, dalloc, dim_names);
 	} else {
 		static char const * const dim_names[] = {

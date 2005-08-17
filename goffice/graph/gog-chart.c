@@ -77,8 +77,9 @@ gog_axis_set_from_str (char const *str)
 static void
 calc_polygon_parameters (GogViewAllocation const *area, GogChartMapPolarData *data, gboolean fill_area)
 {
-	double width = 2.0 * sin (2.0 * M_PI * rint (data->th1 / 4.0) / data->th1);
-	double height = 1.0 - cos (2.0 * M_PI * rint (data->th1 / 2.0) / data->th1);
+	double edges = data->th1 - data->th0 + 1.0;
+	double width = 2.0 * sin (2.0 * M_PI * go_rint (edges / 4.0) / edges);
+	double height = 1.0 - cos (2.0 * M_PI * go_rint (edges / 2.0) / edges);
 
 	data->rx = area->w / width;
 	data->ry = area->h / height;
@@ -251,14 +252,13 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 				map->axis_map[0] = gog_axis_map_new (axis0, 0.0, 1.0);
 				gog_axis_map_get_bounds (map->axis_map[0], &minimum, &maximum);
 				if (gog_axis_is_discrete (axis0)) {
-					maximum += 1.0;
-					data->th0 = minimum;
-					data->th1 = maximum;
+					data->th0 = go_rint (minimum);
+					data->th1 = go_rint (maximum);
 					calc_polygon_parameters (area, data, fill_area);
 					gog_axis_map_free (map->axis_map[0]);
 					map->axis_map[0] = gog_axis_map_new (axis0, 
 						- M_PI / 2.0,
-						2.0 * M_PI * (maximum - 1.0) / maximum);
+						2.0 * M_PI * (maximum - minimum) / (maximum - minimum + 1));
 				} else {
 					minimum *= 2.0 * M_PI / 360.0;
 					maximum *= 2.0 * M_PI / 360.0;

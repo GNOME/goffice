@@ -384,7 +384,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			k = 2 * lengths[i] - j + 1;
 
 			if (is_area_plot && (type != GOG_1_5D_NORMAL)) {
-				path[i][k].x = gog_axis_map_to_view (x_map, j - 1);
+				path[i][k].x = gog_axis_map_to_view (x_map, j);
 				path[i][k].code = ART_LINETO;
 
 				if (type == GOG_1_5D_STACKED)
@@ -399,7 +399,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 						 y_zero);
 			}
 
-			path[i][j].x = gog_axis_map_to_view (x_map, j - 1);
+			path[i][j].x = gog_axis_map_to_view (x_map, j);
 			if (type == GOG_1_5D_NORMAL && !is_area_plot) 
 				if (gog_axis_map_finite (y_map, vals[i][j-1])) 
 					if (j > 1 && path[i][j-1].code == ART_MOVETO_OPEN)
@@ -414,7 +414,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			sum += value;
 
 			if (gog_error_bar_is_visible (errors[i])) 
-				error_data[i][j-1].x = j - 1;
+				error_data[i][j-1].x = j;
 
 			switch (type) {
 				case GOG_1_5D_NORMAL :

@@ -248,13 +248,14 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 					
 					map = gog_chart_map_get_axis_map (c_map, 0);
 					gog_axis_map_get_extents (map, &start, &stop);
-					step_nbr = rint (parms->th1);
+					step_nbr = go_rint (parms->th1 - parms->th0) + 1;
 					c_path = art_new (ArtVpath, step_nbr + 2);
 					for (i = 0; i < tick_nbr; i++) {
 						if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
 						    (ticks[i].type == GOG_AXIS_TICK_MINOR && grid_line->is_minor)) {
 							for (j = 0; j <= step_nbr; j++) {
-								gog_chart_map_2D_to_view (c_map, j, 
+								gog_chart_map_2D_to_view (c_map, 
+									j + parms->th0 , 
 									ticks[i].position, 
 									&c_path[j].x, &c_path[j].y);
 								c_path[j].code = ART_LINETO;
@@ -284,15 +285,15 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				break;
 					      }
 			case GOG_AXIS_CIRCULAR: {
-							GogAxis *radial_axis;
-							GogChartMap *c_map;
-							double start, stop;
+				GogAxis *radial_axis;
+				GogChartMap *c_map;
+				double start, stop;
 
-							axis_list = gog_chart_get_axes (chart, GOG_AXIS_RADIAL);
-							if (axis_list == NULL)
-								break;
-							radial_axis = GOG_AXIS (axis_list->data);
-							g_slist_free (axis_list);
+				axis_list = gog_chart_get_axes (chart, GOG_AXIS_RADIAL);
+				if (axis_list == NULL)
+					break;
+				radial_axis = GOG_AXIS (axis_list->data);
+				g_slist_free (axis_list);
 
 				c_map = gog_chart_map_new (GOG_CHART (chart), plot_area, 
 							   axis, radial_axis, NULL, FALSE);

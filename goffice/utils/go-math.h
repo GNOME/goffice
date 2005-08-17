@@ -25,6 +25,7 @@ double go_fake_floor (double x);
 double go_fake_ceil (double x);
 double go_fake_round (double x);
 double go_fake_trunc (double x);
+double go_rint (double x);
 
 int go_finite (double x);
 double go_pow2 (int n);

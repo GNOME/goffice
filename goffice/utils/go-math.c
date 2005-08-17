@@ -199,6 +199,13 @@ go_fake_trunc (double x)
 		: -floor (go_add_epsilon (-x));
 }
 
+double
+go_rint (double x)
+{
+	double y = floor (fabs (x) + 0.5);
+	return (x < 0) ? -y : y;
+}
+
 int
 go_finite (double x)
 {

@@ -1,3 +1,29 @@
+2005-08-16  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	Fix position constistency between discrete and linear axes. Enable
+	user set bounds for discrete axes.
+
+	* goffice/graph/gog-chart.c (gog_chart_map_new): th1 = maximum now, 
+	not maximum + 1.
+	(calc_polygon_parameters): ditto. take start theta (th0) into 
+	account.
+	* goffice/graph/gog-axis-line.c (axis_circle_render): ditto.
+	(radar_process): ditto.
+	* goffice/graph/gog-grid-line.c (gog_grid_line_view_render): ditto.
+	* goffice/graph/gog-grid.c (gog_grid_view_render): ditto.
+	* goffice/utils/go-math.c (go_rint): new.
+	* goffice/graph/gog-axis.c (map_discrete_calc_ticks): fix label when
+	minimum != 1.
+	(gog_axis_populate_editor): enable minimum et maximum editor for
+	discrete axes.
+	* plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_axis_get_bounds):
+	minimum = 1.0 now.
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render): use GogChartMap
+	facilities. minimum = 1.0 now.
+	* plugins/plot_barcol/gog-line.c (gog_line_view_render): minimum = 1.0 now.
+	* plugins/plot_radar/gog-radar.c (gog_rt_plot_update): ditto.
+	(gog_rt_view_render): take start theta (th0) into account.
+	
 2005-08-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_boxes/gog-boxplot.c: (gog_box_plot_update),

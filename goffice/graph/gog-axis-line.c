@@ -997,10 +997,11 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 
 	if (is_discrete) {
 		gog_axis_map_get_extents (map, &start, &stop);
-		step_nbr = rint (parms->th1);
+		step_nbr = go_rint (parms->th1 - parms->th0) + 1;
 		cpath = art_new (ArtVpath, step_nbr + 2);
 		for (i = 0; i <= step_nbr; i++) {
-			gog_chart_map_2D_to_view (c_map, i, position, &cpath[i].x, &cpath[i].y);
+			gog_chart_map_2D_to_view (c_map, i + parms->th0, 
+						  position, &cpath[i].x, &cpath[i].y);
 			cpath[i].code = ART_LINETO;
 		}
 		cpath[0].code = ART_MOVETO;
@@ -1279,12 +1280,12 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		switch (action) {
 			case GOG_AXIS_BASE_RENDER:
 				if (gog_axis_is_discrete (cross_axis))
-					for (i = 0; i < parms->th1; i++) {
+					for (i = parms->th0; i <= parms->th1; i++) {
 					       	gog_chart_map_2D_to_view (c_map, i, stop, &bx, &by);
 						axis_line_render (axis_base, view->renderer,
 								  parms->cx, parms->cy,
 								  bx - parms->cx, by - parms->cy,
-								  side, 0.1, i == 0 && axis_base->major_tick_labeled,
+								  side, 0.1, i == parms->th0 && axis_base->major_tick_labeled,
 								  FALSE);
 					} else {
 					       	gog_chart_map_2D_to_view (c_map, position, stop, &bx, &by);
@@ -1310,7 +1311,7 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 				break;
 			case GOG_AXIS_BASE_POINT:
 				if (gog_axis_is_discrete (cross_axis))
-					for (i = 0; i < parms->th1; i++) {
+					for (i = parms->th0; i <= parms->th1; i++) {
 						gog_chart_map_2D_to_view (c_map, i, stop, &bx, &by);
 						point = axis_line_point (x, y, parms->cx, parms->cy,
 								     bx - parms->cx, by - parms->cy);

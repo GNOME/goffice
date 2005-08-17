@@ -283,9 +283,9 @@ gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	} else if (axis == gog_axis_get_atype (gog_plot1_5d_get_index_axis (model))) {
 		GSList *ptr;
 
-		bounds->val.minima = 0.;
-		bounds->val.maxima = model->num_elements - 1.;
-		bounds->logical.minima = 0.;
+		bounds->val.minima = 1.;
+		bounds->val.maxima = model->num_elements;
+		bounds->logical.minima = 1.;
 		bounds->logical.maxima = go_nan;
 		bounds->is_discrete    = TRUE;
 
