@@ -374,7 +374,6 @@ gog_box_plot_series_update (GogObject *obj)
 		qsort (svals, len, sizeof (double), (int (*) (const void *, const void *))&float_compare);
 		for (n = 0, x = 0.; n < 5; n++, x+= 0.25) { 
 			fpos = (len - 1) * x;
-printf ("fpos=%g   val=",fpos);
 			pos = (int) fpos;
 			residual = fpos - pos;
 
@@ -382,7 +381,6 @@ printf ("fpos=%g   val=",fpos);
 				series->vals[n] = svals[pos];
 			else
 				series->vals[n] = (1 - residual) * svals[pos] + residual * svals[pos + 1];
-printf("%g\n",series->vals[n]);
 		}
 		g_free (svals);
 	}
