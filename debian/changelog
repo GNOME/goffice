@@ -1,3 +1,20 @@
+goffice (0.0.3-1) unstable; urgency=low
+
+  * New upstream release; improvements include
+    * The German translation of "Belarus, Rubles" has been corrected.
+      (Closes: #313747)
+    * Pattern support for SVG output has been implemented. (Closes: #316456)
+  * [debian/libgoffice-1-dbg.links] Added.
+  * [debian/control] Bumped libgsf build dependency as per configure.in.
+  * [debian/rules] 
+    * Redone and simplified.
+    * As goffice currently has no API stability but the soname does not 
+      reflect that yet, generate shlibs that strictly depend on this upstream 
+      version. (Closes: #314579)
+  * [debian/copyright] Updated FSF's address.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 17 Aug 2005 09:06:12 +0200
+
 goffice (0.0.2-1) unstable; urgency=low
 
   * New upstream release.
