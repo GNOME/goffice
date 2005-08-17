@@ -36,6 +36,7 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkenums.h>
 #include <gsf/gsf-impl-utils.h>
+#include <string.h>
 
 GOFFICE_PLUGIN_MODULE_HEADER;
 
@@ -95,8 +96,8 @@ enum {
 
 typedef struct {
 	GogSeries base;
-	gboolean	is_valid;
 	int	 gap_percentage;
+	double vals[5];
 } GogBoxPlotSeries;
 typedef GogSeriesClass GogBoxPlotSeriesClass;
 
@@ -152,7 +153,6 @@ gog_box_plot_update (GogObject *obj)
 	GogBoxPlot *model = GOG_BOX_PLOT (obj);
 	GogBoxPlotSeries *series;
 	GSList *ptr;
-	double *vals;
 	double min, max;
 	unsigned num_series = 0;
 
@@ -160,16 +160,14 @@ gog_box_plot_update (GogObject *obj)
 	max = -DBL_MAX;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = GOG_BOX_PLOT_SERIES (ptr->data);
-		if (!gog_series_is_valid (GOG_SERIES (series)))
+		if (!gog_series_is_valid (GOG_SERIES (series)) ||
+			!go_data_vector_get_len (GO_DATA_VECTOR (series->base.values[0].data)))
 			continue;
 		num_series++;
-		if (!series->is_valid)
-			continue;
-		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data));
-		if (vals[0] < min)
-			min = vals[0];
-		if (vals[4] > max)
-			max = vals[4];
+		if (series->vals[0] < min)
+			min = series->vals[0];
+		if (series->vals[4] > max)
+			max = series->vals[4];
 	}
 	if (min == DBL_MAX)
 		min = 0.;
@@ -255,7 +253,6 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogAxisMap *x_map;
 	GogBoxPlotSeries const *series;
 	double hrect, hser, y, hbar;
-	double const *vals;
 	double min, qu1, med, qu3, max;
 	ArtVpath	path[6];
 	GogViewAllocation rect;
@@ -284,55 +281,45 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
-		if (!gog_series_is_valid (GOG_SERIES (series)))
+		if (!gog_series_is_valid (GOG_SERIES (series)) ||
+			!go_data_vector_get_len (GO_DATA_VECTOR (series->base.values[0].data)))
 			continue;
 		style = GOG_STYLED_OBJECT (series)->style;
 		line_width = style->line.width / 2.;
 		gog_renderer_push_style (view->renderer, style);
-		if (series->is_valid) {
-			vals = go_data_vector_get_values (
-				GO_DATA_VECTOR (series->base.values[0].data));
-			min = gog_axis_map_to_view (x_map, vals[0]);
-			qu1 = gog_axis_map_to_view (x_map, vals[1]);
-			med = gog_axis_map_to_view (x_map, vals[2]);
-			qu3 = gog_axis_map_to_view (x_map, vals[3]);
-			max = gog_axis_map_to_view (x_map, vals[4]);
-			rect.x = qu1;
-			rect.w = qu3 - qu1;
-			rect.y = y - hrect;
-			rect.h = 2* hrect;
-			gog_renderer_draw_sharp_rectangle (view->renderer, &rect);
-			path[2].code = ART_END;
-			path[0].y = y + hbar;
-			path[1].y = y - hbar;
-			path[0].x = path[1].x = min;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[0].x = path[1].x = max;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[0].y = path[1].y = y;
-			path[0].x = qu3;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[0].x = min;
-			path[1].x = qu1;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[0].x = path[1].x = med;
-			path[0].y = y + hrect;
-			path[1].y = y - hrect;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[2].code = ART_LINETO;
-			path[0].x = path[3].x = path[4].x = qu1;
-			path[1].x = path[2].x = qu3;
-			path[0].y = path[1].y = path[4].y = y - hrect;
-			path[2].y = path[3].y = y + hrect;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-		} else {
-			GogViewAllocation pos;
-			pos.x = view->allocation.x + view->allocation.w / 2;
-			pos.y = y;
-			gog_renderer_draw_text (view->renderer, _("Invalid data."), &pos,
-					GTK_ANCHOR_CENTER, NULL);
-			
-		}
+		min = gog_axis_map_to_view (x_map, series->vals[0]);
+		qu1 = gog_axis_map_to_view (x_map, series->vals[1]);
+		med = gog_axis_map_to_view (x_map, series->vals[2]);
+		qu3 = gog_axis_map_to_view (x_map, series->vals[3]);
+		max = gog_axis_map_to_view (x_map, series->vals[4]);
+		rect.x = qu1;
+		rect.w = qu3 - qu1;
+		rect.y = y - hrect;
+		rect.h = 2* hrect;
+		gog_renderer_draw_sharp_rectangle (view->renderer, &rect);
+		path[2].code = ART_END;
+		path[0].y = y + hbar;
+		path[1].y = y - hbar;
+		path[0].x = path[1].x = min;
+		gog_renderer_draw_sharp_path (view->renderer, path);
+		path[0].x = path[1].x = max;
+		gog_renderer_draw_sharp_path (view->renderer, path);
+		path[0].y = path[1].y = y;
+		path[0].x = qu3;
+		gog_renderer_draw_sharp_path (view->renderer, path);
+		path[0].x = min;
+		path[1].x = qu1;
+		gog_renderer_draw_sharp_path (view->renderer, path);
+		path[0].x = path[1].x = med;
+		path[0].y = y + hrect;
+		path[1].y = y - hrect;
+		gog_renderer_draw_sharp_path (view->renderer, path);
+		path[2].code = ART_LINETO;
+		path[0].x = path[3].x = path[4].x = qu1;
+		path[1].x = path[2].x = qu3;
+		path[0].y = path[1].y = path[4].y = y - hrect;
+		path[2].y = path[3].y = y + hrect;
+		gog_renderer_draw_sharp_path (view->renderer, path);
 		gog_renderer_pop_style (view->renderer);
 		y -= hser;
 	}
@@ -354,6 +341,17 @@ GSF_DYNAMIC_CLASS (GogBoxPlotView, gog_box_plot_view,
 
 static GogObjectClass *gog_box_plot_series_parent_klass;
 
+static gint
+float_compare (const double *a, const double *b)
+{
+        if (*a < *b)
+                return -1;
+	else if (*a == *b)
+	        return 0;
+	else
+	        return 1;
+}
+
 static void
 gog_box_plot_series_update (GogObject *obj)
 {
@@ -368,9 +366,26 @@ gog_box_plot_series_update (GogObject *obj)
 			(GO_DATA_VECTOR (series->base.values[0].data));
 	}
 	series->base.num_elements = len;
-	series->is_valid = (len == 5) && (vals[0] <= vals[1]) && (vals[1] <= vals[2])
-						 && (vals[2] <= vals[3]) && (vals[3] <= vals[4]);
 
+	if (len > 0) {
+		double *svals = g_new (double, len), x, fpos, residual;
+		int n, pos;
+		memcpy (svals, vals, len * sizeof (double));
+		qsort (svals, len, sizeof (double), (int (*) (const void *, const void *))&float_compare);
+		for (n = 0, x = 0.; n < 5; n++, x+= 0.25) { 
+			fpos = (len - 1) * x;
+printf ("fpos=%g   val=",fpos);
+			pos = (int) fpos;
+			residual = fpos - pos;
+
+			if (residual == 0.0 || pos + 1 >= len)
+				series->vals[n] = svals[pos];
+			else
+				series->vals[n] = (1 - residual) * svals[pos] + residual * svals[pos + 1];
+printf("%g\n",series->vals[n]);
+		}
+		g_free (svals);
+	}
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
 	if (old_num != series->base.num_elements)

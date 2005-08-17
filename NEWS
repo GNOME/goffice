@@ -3,6 +3,9 @@ goffice 0.0.4:
 Emmanuel Pacaud:
 	* Fix polar plot clipping.
 
+Jean Brefort:
+	* Box-plots use raw data [#308136].
+
 --------------------------------------------------------------------------
 goffice 0.0.3:
 
