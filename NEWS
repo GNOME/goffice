@@ -3,7 +3,7 @@ goffice 0.0.4:
 Emmanuel Pacaud:
 	* Fix polar plot clipping.
 	* Fix line/area/barcol data position.
-	* Let user change bounds for discrete axes.
+	* Let user change bounds for discrete axes [#309468].
 
 Jean Brefort:
 	* Box-plots use raw data [#308136].
