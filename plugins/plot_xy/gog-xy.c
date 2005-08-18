@@ -574,7 +574,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	Gog2DPlot const *model = GOG_2D_PLOT (view->model);
 	unsigned num_series;
-	GogChart const *chart = GOG_CHART (view->model->parent);
+	GogChart *chart = GOG_CHART (view->model->parent);
 	GogChartMap *chart_map;
 	GogAxisMap *x_map, *y_map;
 	GogXYSeries const *series = NULL;

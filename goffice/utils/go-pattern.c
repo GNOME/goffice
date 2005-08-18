@@ -150,7 +150,7 @@ char *
 go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height)
 {
 	char *path;
-	char *d = NULL, *name, *svg_path;
+	char *d = NULL, *name, *svg_path = NULL;
 	xmlDocPtr doc;
 	xmlNodePtr ptr;
 
@@ -185,6 +185,9 @@ go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height
 		}
 	}
 	xmlFreeDoc (doc);
+
+	g_return_val_if_fail (svg_path != NULL, NULL);
+
 	return svg_path;
 }
 
