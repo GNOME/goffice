@@ -34,7 +34,6 @@
 #include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-error-bar.h>
-#include <goffice/graph/gog-reg-eqn.h>
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/data/go-data-simple.h>
 #include <goffice/utils/format.h>

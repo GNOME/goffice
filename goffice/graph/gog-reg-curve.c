@@ -21,7 +21,6 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-reg-curve.h>
-#include <goffice/graph/gog-reg-eqn.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-style.h>
@@ -107,7 +106,7 @@ gog_reg_curve_class_init (GogObjectClass *gog_klass)
 {
 	static GogObjectRole const roles[] = {
 		{ N_("Equation"), "GogRegEqn",	0,
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+		  GOG_POSITION_ANY_MANUAL, GOG_POSITION_MANUAL, GOG_OBJECT_NAME_BY_ROLE,
 		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};
 	GObjectClass *gobject_klass = (GObjectClass *) gog_klass;

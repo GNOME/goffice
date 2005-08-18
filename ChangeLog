@@ -1,7 +1,26 @@
+2005-08-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	Make GogRegEqn and GogLabel a derived class of GogText.
+
+	* goffice/graph/gog-reg-eqn.[ch]: removed.
+	* goffice/graph/Makefile.am: remove references to gog-reg-eqn.[ch].
+	* goffice/graph/gog-label.c: rename GogLabel class to GogText.
+	Implement GogLabel as a derived class of GogText and a GogDataSet
+	interface.
+	(gog_text_get_str): new.
+	Implement GogRegEqn as a derived class of GogText.
+	(gog_reg_eqn_populate_editor): remove code related to position.
+	(gog_reg_eqn_class_init): remove position properties.
+	rename GogLabelView to GogTextView.
+	(gog_text_view_render): get content from gog_text_get_str.
+	* goffice/graph/gog-reg-eqn-prefs.glade: fix layout. Remove position
+	widgets.
+	* goffice/graph/gog-reg-curve-prefs.glade: fix layout.
+
 2005-08-16  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	Fix position constistency between discrete and linear axes. Enable
-	user set bounds for discrete axes.
+	user set bounds for discrete axes [#309468].
 
 	* goffice/graph/gog-chart.c (gog_chart_map_new): th1 = maximum now, 
 	not maximum + 1.

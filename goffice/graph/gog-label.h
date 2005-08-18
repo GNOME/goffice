@@ -3,6 +3,7 @@
  * gog-label.h : 
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2005      Jean Brefort (jean.brefort@normalesup.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -31,6 +32,12 @@ G_BEGIN_DECLS
 #define IS_GOG_LABEL(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LABEL_TYPE))
 
 GType gog_label_get_type (void);
+
+#define GOG_REG_EQN_TYPE		(gog_reg_eqn_get_type ())
+#define GOG_REG_EQN(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_REG_EQN_TYPE, GogRegEqn))
+#define IS_GOG_REG_EQN(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_REG_EQN_TYPE))
+
+GType gog_reg_eqn_get_type (void);
 
 G_END_DECLS
 

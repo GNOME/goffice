@@ -25,7 +25,6 @@ libgoffice_graph_la_SOURCES = \
 	gog-series.c			\
 	gog-error-bar.c			\
 	gog-reg-curve.c			\
-	gog-reg-eqn.c			\
 	gog-series-lines.c		\
 	gog-data-allocator.c		\
 	gog-data-set.c			\
@@ -65,7 +64,6 @@ libgoffice_graph_la_HEADERS = \
 	gog-series-impl.h		\
 	gog-error-bar.h			\
 	gog-reg-curve.h			\
-	gog-reg-eqn.h			\
 	gog-series-lines.h		\
 	gog-data-allocator.h		\
 	gog-data-set.h			\
