@@ -146,7 +146,7 @@ binary-arch: build install
 #	dh_link -plibgoffice-1-dbg /usr/share/doc/libgoffice-1/ /usr/share/doc/libgoffice-1-dbg
 
 	dh_installexamples
-	dh_install --sourcedir=debian/tmp --list-missing
+	dh_install --sourcedir=debian/tmp --fail-missing -X/usr/lib/debug
 #	dh_installmenu
 #	dh_installdebconf	
 #	dh_installlogrotate

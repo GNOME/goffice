@@ -1,3 +1,10 @@
+goffice (0.0.3-2) unstable; urgency=low
+
+  * [debian/libgoffice-1-common.install] Updated to include patterns.
+  * [debian/rules] Use dh_install --fail-missing rather than --list-missing.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 18 Aug 2005 17:49:08 +0200
+
 goffice (0.0.3-1) unstable; urgency=low
 
   * New upstream release; improvements include
