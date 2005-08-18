@@ -1,3 +1,10 @@
+2005-08-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-reg-curve.c (gog_reg_curve_view_render): clip to
+	residual area.
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): don't clip children,
+	we want to be able to show equation outside of plot area.
+
 2005-08-18  Stepan Kasal  <kasal@ucw.cz>
 
 	* goffice/utils/go-pattern.c (go_pattern_get_svg_path): Issue an

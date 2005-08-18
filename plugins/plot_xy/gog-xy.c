@@ -853,11 +853,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 
 	/* Now render children, may be should come before markers? */
-	gog_renderer_push_clip (view->renderer, 
-				gog_renderer_get_rectangle_vpath (&view->residual));
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
 		gog_view_render	(ptr->data, bbox);
-	gog_renderer_pop_clip (view->renderer);
 
 	gog_chart_map_free (chart_map);
 }

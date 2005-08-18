@@ -255,6 +255,10 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_axis_map_free (y_map);
 		return;
 	}
+	
+	gog_renderer_push_clip (view->renderer, 
+		gog_renderer_get_rectangle_vpath (&view->residual)); 
+	
 	x = g_new (double, rc->ninterp + 3);
 	y = g_new (double, rc->ninterp + 3);
 	gog_axis_get_bounds (plot->axis[0], x, x + rc->ninterp + 1);
@@ -279,6 +283,9 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	art_free (path);
 	gog_axis_map_free (x_map);
 	gog_axis_map_free (y_map);
+
+	gog_renderer_pop_clip (view->renderer);
+	
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
 		gog_view_render	(ptr->data, bbox);
 }
