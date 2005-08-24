@@ -42,7 +42,7 @@ double go_ninf;
 void
 go_math_init (void)
 {
-	const char *bug_url = "http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric";
+	const char *bug_url = "http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice";
 	char *old_locale;
 	double d;
 #ifdef SIGFPE

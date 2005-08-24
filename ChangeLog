@@ -1,3 +1,7 @@
+2005-08-24  Stepan Kasal  <kasal@ucw.cz>
+
+	* goffice/utils/go-math.c (go_math_init): Fix the bugzilla URL.
+
 2005-08-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-reg-curve.c (gog_reg_curve_view_render): clip to
