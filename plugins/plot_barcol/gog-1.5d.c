@@ -633,18 +633,9 @@ gog_series1_5d_init (GObject *obj)
 	series->has_lines = FALSE;
 }
 
-static void
-gog_series1_5d_base_class_finalize (GObjectClass *klass)
-{
-	GogObjectClass *go_klass = GOG_OBJECT_CLASS (klass);
-	gog_object_unregister_role (go_klass, "Series lines");
-	gog_object_unregister_role (go_klass, "Drop lines");
-	gog_object_unregister_role (go_klass, "Lines");
-}
-
-GSF_DYNAMIC_CLASS_FULL (GogSeries1_5d, gog_series1_5d,
-	NULL, gog_series1_5d_base_class_finalize, gog_series1_5d_class_init, NULL,
-	gog_series1_5d_init, GOG_SERIES_TYPE, 0, {})
+GSF_DYNAMIC_CLASS (GogSeries1_5d, gog_series1_5d,
+	gog_series1_5d_class_init, gog_series1_5d_init,
+	GOG_SERIES_TYPE)
 
 /* Plugin initialization */
 

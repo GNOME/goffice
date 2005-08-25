@@ -101,6 +101,7 @@ typedef struct {
 
 	unsigned use_parent_as_proxy : 1; /* when we change, pretend it was our parent */
 	unsigned can_manual_size : 1; 
+	unsigned roles_allocated : 1;
 
 	/* Virtuals */
 	void	     (*update)		(GogObject *obj);
@@ -180,7 +181,6 @@ gboolean gog_object_set_parent	 	(GogObject *child, GogObject *parent,
 					 GogObjectRole const *role, unsigned id);
 void 	 gog_object_register_roles	(GogObjectClass *klass,
 					 GogObjectRole const *roles, unsigned n_roles);
-void 	 gog_object_unregister_role	(GogObjectClass *klass, char const *id);
 
 G_END_DECLS
 

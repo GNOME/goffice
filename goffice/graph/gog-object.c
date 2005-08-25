@@ -577,6 +577,21 @@ gog_object_populate_editor (GogObject *gobj,
 }
 
 static void
+gog_object_base_init (GogObjectClass *klass)
+{
+	klass->roles_allocated = FALSE;
+	/* klass->roles might be non-NULL; in that case, it points to
+	   the roles hash of the superclass. */
+}
+
+static void
+gog_object_base_finalize (GogObjectClass *klass)
+{
+	if (klass->roles_allocated)
+		g_hash_table_destroy (klass->roles);
+}
+
+static void
 gog_object_class_init (GObjectClass *klass)
 {
 	GogObjectClass *gog_klass = (GogObjectClass *)klass;
@@ -676,9 +691,10 @@ gog_object_init (GogObject *obj)
 	obj->manual_position.h = 1.0;
 }
 
-GSF_CLASS (GogObject, gog_object,
-	   gog_object_class_init, gog_object_init,
-	   G_TYPE_OBJECT)
+GSF_CLASS_FULL (GogObject, gog_object,
+		gog_object_base_init, gog_object_base_finalize,
+		gog_object_class_init, NULL, gog_object_init,
+		G_TYPE_OBJECT, 0, {})
 
 static gboolean
 gog_object_is_same_type (GogObject *obj_a, GogObject *obj_b)
@@ -1607,29 +1623,37 @@ gog_object_find_role_by_name (GogObject const *obj, char const *role)
 	return g_hash_table_lookup (klass->roles, role);
 }
 
+static void
+cb_copy_hash_table (gpointer key, gpointer value, GHashTable *hash_table)
+{
+	g_hash_table_insert (hash_table, key, value);
+}
+
+static void
+gog_object_allocate_roles (GogObjectClass *klass)
+{
+	GHashTable *roles = g_hash_table_new (g_str_hash, g_str_equal);
+
+	if (klass->roles != NULL)
+		g_hash_table_foreach (klass->roles,
+			(GHFunc) cb_copy_hash_table, roles);
+	klass->roles = roles;
+	klass->roles_allocated = TRUE;
+}
+
 void
 gog_object_register_roles (GogObjectClass *klass,
 			   GogObjectRole const *roles, unsigned n_roles)
 {
 	unsigned i;
-	if (klass->roles == NULL)
-		klass->roles = g_hash_table_new (g_str_hash, g_str_equal);
+
+	if (!klass->roles_allocated)
+		gog_object_allocate_roles (klass);
 
 	for (i = 0 ; i < n_roles ; i++) {
 		g_return_if_fail (g_hash_table_lookup (klass->roles,
 			(gpointer )roles[i].id) == NULL);
 		g_hash_table_replace (klass->roles,
 			(gpointer )roles[i].id, (gpointer) (roles + i));
-	}
-}
-
-void
-gog_object_unregister_role (GogObjectClass *klass, char const *id)
-{
-	g_return_if_fail (klass->roles != NULL);
-	g_hash_table_remove (klass->roles, id);
-	if (g_hash_table_size (klass->roles) == 0) {
-		g_hash_table_destroy (klass->roles);
-		klass->roles = NULL;
 	}
 }

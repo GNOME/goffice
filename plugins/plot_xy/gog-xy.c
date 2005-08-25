@@ -1214,17 +1214,9 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 			GOG_ERROR_BAR_TYPE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 }
 
-static void
-gog_xy_series_base_finalize (GObjectClass *klass)
-{
-	GogObjectClass *go_klass = GOG_OBJECT_CLASS (klass);
-	gog_object_unregister_role (go_klass, "Horizontal drop lines");
-	gog_object_unregister_role (go_klass, "Vertical drop lines");
-}
-
-GSF_DYNAMIC_CLASS_FULL (GogXYSeries, gog_xy_series,
-	NULL, gog_xy_series_base_finalize, gog_xy_series_class_init, NULL,
-	gog_xy_series_init, GOG_SERIES_TYPE, 0, {})
+GSF_DYNAMIC_CLASS (GogXYSeries, gog_xy_series,
+	gog_xy_series_class_init, gog_xy_series_init,
+	GOG_SERIES_TYPE)
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)

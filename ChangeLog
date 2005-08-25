@@ -1,5 +1,27 @@
 2005-08-24  Stepan Kasal  <kasal@ucw.cz>
 
+	The roles hash is now inherited by subclasses, with copy-on-write.
+
+	* goffice/graph/gog-object.h (GogObject) <roles_allocated>: New flag,
+	indicates whether this function is resposible to free the hash.
+	(gog_object_unregister_role): Removed.
+	* goffice/graph/gog-object.c (gog_object_unregister_role): Removed.
+	(gog_object_base_finalize): Free the hash, if it's ours.
+	(gog_object_base_init): Set roles_allocated to FALSE, indicating that
+	the inherited hash is read-only.
+	(gog_object_register_roles): When first used for a class, call ...
+	(gog_object_allocate_roles): ... this new function, which creates
+	a new hash and fill is with inherited values, if any, using...
+	(cb_copy_hash_table): ... this new helper function.
+
+	* goffice/graph/gog-series.c (gog_series_base_init): Nuke, moving the
+	roles registration code ...
+	(gog_series_class_init): ... here.
+	* plugins/plot_barcol/gog-1.5d.c (gog_series1_5d_base_class_finalize): Nuke.
+	* plugins/plot_xy/gog-xy.c (gog_xy_series_base_finalize): Nuke.
+
+2005-08-24  Stepan Kasal  <kasal@ucw.cz>
+
 	* goffice/utils/go-math.c (go_math_init): Fix the bugzilla URL.
 
 2005-08-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
