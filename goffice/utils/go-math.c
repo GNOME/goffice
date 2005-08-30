@@ -537,13 +537,13 @@ modfl (long double x, long double *iptr)
 /* ------------------------------------------------------------------------- */
 
 void
-gnm_continued_fraction (double val, int max_denom, int *res_num, int *res_denom)
+go_continued_fraction (double val, int max_denom, int *res_num, int *res_denom)
 {
 	int n1, n2, d1, d2;
 	double x, y;
 
 	if (val < 0) {
-		gnm_continued_fraction (-val, max_denom, res_num, res_denom);
+		go_continued_fraction (-val, max_denom, res_num, res_denom);
 		*res_num = -*res_num;
 		return;
 	}

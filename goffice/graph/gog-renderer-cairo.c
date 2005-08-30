@@ -294,7 +294,7 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 	double width = grc_line_size (rend, style->line.width);
 	double x[3], y[3];
 	int i, j, w, h, rowstride;
-	char const *pattern;
+	guint8 const *pattern;
 	unsigned char *pixels, *iter;
 
 	g_return_if_fail (bpath != NULL || vpath != NULL);

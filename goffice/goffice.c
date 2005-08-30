@@ -36,7 +36,7 @@
 #include <goffice/graph/gog-error-bar.h>
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/data/go-data-simple.h>
-#include <goffice/utils/format.h>
+#include <goffice/utils/go-format.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-math.h>
 #include <goffice/app/go-plugin-service.h>

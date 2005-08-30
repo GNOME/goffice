@@ -9,19 +9,20 @@
  *    Miguel de Icaza (miguel@kernel.org)
  */
 #include <goffice/goffice-config.h>
-#include "format.h"
+#include "go-format.h"
+#include <goffice/cut-n-paste/pcre/pcreposix.h>
 #include <glib/gi18n.h>
 #include <string.h>
 
 /* The various formats */
 static char const * const
-cell_format_general [] = {
+fmts_general [] = {
 	"General",
 	NULL
 };
 
 static char const * const
-cell_format_numbers [] = {
+fmts_number [] = {
 	"0",
 	"0.00",
 	"#,##0",
@@ -36,7 +37,7 @@ cell_format_numbers [] = {
 
 /* Some are generated */
 static char const *
-cell_format_currency [] = {
+fmts_currency [] = {
 	NULL, /* "$#,##0", */
 	NULL, /* "$#,##0_);($#,##0)", */
 	NULL, /* "$#,##0_);[Red]($#,##0)", */
@@ -48,7 +49,7 @@ cell_format_currency [] = {
 
 /* Some are generated */
 static char const *
-cell_format_account [] = {
+fmts_accounting [] = {
 	NULL, /* "_($* #,##0_);_($* (#,##0);_($* \"-\"_);_(@_)", */
 	"_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)",
 	NULL, /* "_($* #,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)", */
@@ -61,7 +62,7 @@ cell_format_account [] = {
 /* WARNING WARNING WARNING : do not reorder these !! 		 */
 /* the generated versions and the excel plugin assume this order */
 static char const *
-cell_format_date [] = {
+fmts_date [] = {
 	"m/d/yy",		/* 0 */
 	"m/d/yyyy",		/* 1 */
 	"d-mmm-yy",		/* 2 */
@@ -103,7 +104,7 @@ cell_format_date [] = {
 
 /* Some are generated */
 static char const *
-cell_format_time [] = {
+fmts_time [] = {
 	"h:mm AM/PM",
 	"h:mm:ss AM/PM",
 	"h:mm",
@@ -119,14 +120,14 @@ cell_format_time [] = {
 };
 
 static char const * const
-cell_format_percent [] = {
+fmts_percentage [] = {
 	"0%",
 	"0.00%",
 	NULL,
 };
 
 static char const * const
-cell_format_fraction [] = {
+fmts_fraction [] = {
 	"# ?/?",
 	"# ?" "?/?" "?",  /* Don't accidentally use trigraph.  */
 	"# ?" "?" "?/?" "?" "?",
@@ -140,34 +141,34 @@ cell_format_fraction [] = {
 };
 
 static char const * const
-cell_format_science [] = {
+fmts_science [] = {
 	"0.00E+00",
 	"##0.0E+0",
 	NULL
 };
 
 static char const *
-cell_format_text [] = {
+fmts_text [] = {
 	"@",
 	NULL,
 };
 
 char const * const * const
-cell_formats [] = {
-	cell_format_general,
-	cell_format_numbers,
-	cell_format_currency,
-	cell_format_account,
-	cell_format_date,
-	cell_format_time,
-	cell_format_percent,
-	cell_format_fraction,
-	cell_format_science,
-	cell_format_text,
+go_format_builtins [] = {
+	fmts_general,
+	fmts_number,
+	fmts_currency,
+	fmts_accounting,
+	fmts_date,
+	fmts_time,
+	fmts_percentage,
+	fmts_fraction,
+	fmts_science,
+	fmts_text,
 	NULL
 };
 
-/* The compiled regexp for cell_format_classify */
+/* The compiled regexp for go_format_classify */
 static GORegexp re_simple_number;
 static GORegexp re_red_number;
 static GORegexp re_brackets_number;
@@ -202,12 +203,12 @@ currency_date_format_init (void)
 	/* This one is for matching formats like 0.00_);(0.00) */
 	char const * const brackets_number_pattern = "^(.*)_\\);(\\[[Rr][Ee][Dd]\\])?\\(\\1\\)$";
 
-	/* This one is for FMT_PERCENT and FMT_SCIENCE, extended regexp */
+	/* This one is for GO_FORMAT_PERCENTAGE and GO_FORMAT_SCIENTIFIC, extended regexp */
 	char const *pattern_percent_science = "^0(.0{1,30})?(%|E+00)$";
 
 	char const *pattern_fraction = "^#\\\\? (\\?+)/(\\?+|[1-9]\\d*)$";
 
-	/* This one is for FMT_ACCOUNT */
+	/* This one is for GO_FORMAT_ACCOUNTING */
 
 	/*
 	 *  1. "$*  "	Yes, it is needed (because we use match[])
@@ -265,31 +266,31 @@ currency_date_format_init (void)
 				    curr, "\"", NULL);
 	}
 
-	cell_format_currency [0] = g_strdup_printf (
+	fmts_currency [0] = g_strdup_printf (
 		"%s#,##0%s",
 		pre, post);
-	cell_format_currency [1] = g_strdup_printf (
+	fmts_currency [1] = g_strdup_printf (
 		"%s#,##0%s_);(%s#,##0%s)",
 		pre, post, pre, post);
-	cell_format_currency [2] = g_strdup_printf (
+	fmts_currency [2] = g_strdup_printf (
 		"%s#,##0%s_);[Red](%s#,##0%s)",
 		pre, post, pre, post);
-	cell_format_currency [3] = g_strdup_printf (
+	fmts_currency [3] = g_strdup_printf (
 		"%s#,##0.00%s",
 		pre, post);
-	cell_format_currency [4] = g_strdup_printf (
+	fmts_currency [4] = g_strdup_printf (
 		"%s#,##0.00%s_);(%s#,##0.00%s)",
 		pre, post, pre, post);
-	cell_format_currency [5] = g_strdup_printf (
+	fmts_currency [5] = g_strdup_printf (
 		"%s#,##0.00%s_);[Red](%s#,##0.00%s)",
 		pre, post, pre, post);
 
-	cell_format_account [0] = g_strdup_printf (
+	fmts_accounting [0] = g_strdup_printf (
 		"_(%s%s#,##0%s%s_);_(%s%s(#,##0)%s%s;_(%s%s\"-\"%s%s_);_(@_)",
 		pre, pre_rep, post_rep, post,
 		pre, pre_rep, post_rep, post,
 		pre, pre_rep, post_rep, post);
-	cell_format_account [2] = g_strdup_printf (
+	fmts_accounting [2] = g_strdup_printf (
 		"_(%s%s#,##0.00%s%s_);_(%s%s(#,##0.00)%s%s;_(%s%s\"-\"??%s%s_);_(@_)",
 		pre, pre_rep, post_rep, post,
 		pre, pre_rep, post_rep, post,
@@ -298,47 +299,47 @@ currency_date_format_init (void)
 	g_free (*pre ? pre : post);
 
 	if (!format_month_before_day ()) {
-		cell_format_date [0]  = "d/m/yy";
-		cell_format_date [1]  = "d/m/yyyy";
-		cell_format_date [2]  = "mmm-d-yy";
-		cell_format_date [3]  = "mmm-d-yyyy";
-		cell_format_date [4]  = "mmm-d";
-		cell_format_date [5]  = "mm-d";
-		cell_format_date [6]  = "d/mmm";
-		cell_format_date [7]  = "d/mm";
-		cell_format_date [8]  = "dd/mm/yy";
-		cell_format_date [9]  = "dd/mm/yyyy";
-		cell_format_date [10] = "dd/mmm/yy";
-		cell_format_date [11] = "dd/mmm/yyyy";
-		cell_format_date [12] = "ddd/mmm/yy";
-		cell_format_date [13] = "ddd/mmm/yyyy";
-		cell_format_date [14] = "ddd/mm/yy";
-		cell_format_date [15] = "ddd/mm/yyyy";
-		cell_format_date [20] = "d/m/yy h:mm";
-		cell_format_date [21] = "d/m/yyyy h:mm";
+		fmts_date [0]  = "d/m/yy";
+		fmts_date [1]  = "d/m/yyyy";
+		fmts_date [2]  = "mmm-d-yy";
+		fmts_date [3]  = "mmm-d-yyyy";
+		fmts_date [4]  = "mmm-d";
+		fmts_date [5]  = "mm-d";
+		fmts_date [6]  = "d/mmm";
+		fmts_date [7]  = "d/mm";
+		fmts_date [8]  = "dd/mm/yy";
+		fmts_date [9]  = "dd/mm/yyyy";
+		fmts_date [10] = "dd/mmm/yy";
+		fmts_date [11] = "dd/mmm/yyyy";
+		fmts_date [12] = "ddd/mmm/yy";
+		fmts_date [13] = "ddd/mmm/yyyy";
+		fmts_date [14] = "ddd/mm/yy";
+		fmts_date [15] = "ddd/mm/yyyy";
+		fmts_date [20] = "d/m/yy h:mm";
+		fmts_date [21] = "d/m/yyyy h:mm";
 
-		cell_format_time [4]  = "d/m/yy h:mm";
+		fmts_time [4]  = "d/m/yy h:mm";
 	} else {
-		cell_format_date [0]  = "m/d/yy";
-		cell_format_date [1]  = "m/d/yyyy";
-		cell_format_date [2]  = "d-mmm-yy";
-		cell_format_date [3]  = "d-mmm-yyyy";
-		cell_format_date [4]  = "d-mmm";
-		cell_format_date [5]  = "d-mm";
-		cell_format_date [6]  = "mmm/d";
-		cell_format_date [7]  = "mm/d";
-		cell_format_date [8]  = "mm/dd/yy";
-		cell_format_date [9]  = "mm/dd/yyyy";
-		cell_format_date [10] = "mmm/dd/yy";
-		cell_format_date [11] = "mmm/dd/yyyy";
-		cell_format_date [12] = "mmm/ddd/yy";
-		cell_format_date [13] = "mmm/ddd/yyyy";
-		cell_format_date [14] = "mm/ddd/yy";
-		cell_format_date [15] = "mm/ddd/yyyy";
-		cell_format_date [20] = "m/d/yy h:mm";
-		cell_format_date [21] = "m/d/yyyy h:mm";
+		fmts_date [0]  = "m/d/yy";
+		fmts_date [1]  = "m/d/yyyy";
+		fmts_date [2]  = "d-mmm-yy";
+		fmts_date [3]  = "d-mmm-yyyy";
+		fmts_date [4]  = "d-mmm";
+		fmts_date [5]  = "d-mm";
+		fmts_date [6]  = "mmm/d";
+		fmts_date [7]  = "mm/d";
+		fmts_date [8]  = "mm/dd/yy";
+		fmts_date [9]  = "mm/dd/yyyy";
+		fmts_date [10] = "mmm/dd/yy";
+		fmts_date [11] = "mmm/dd/yyyy";
+		fmts_date [12] = "mmm/ddd/yy";
+		fmts_date [13] = "mmm/ddd/yyyy";
+		fmts_date [14] = "mm/ddd/yy";
+		fmts_date [15] = "mm/ddd/yyyy";
+		fmts_date [20] = "m/d/yy h:mm";
+		fmts_date [21] = "m/d/yyyy h:mm";
 
-		cell_format_time [4]  = "m/d/yy h:mm";
+		fmts_time [4]  = "m/d/yy h:mm";
 	}
 }
 
@@ -353,13 +354,13 @@ currency_date_format_shutdown (void)
 	int i;
 
 	for (i = 0; i < 6; i++) {
-		g_free ((char *)(cell_format_currency [i]));
-		cell_format_currency [i] = NULL;
+		g_free ((char *)(fmts_currency [i]));
+		fmts_currency [i] = NULL;
 	}
-	g_free ((char *)(cell_format_account [0]));
-	cell_format_account [0] = NULL;
-	g_free ((char *)(cell_format_account [2]));
-	cell_format_account [3] = NULL;
+	g_free ((char *)(fmts_accounting [0]));
+	fmts_accounting [0] = NULL;
+	g_free ((char *)(fmts_accounting [2]));
+	fmts_accounting [3] = NULL;
 
 	go_regfree (&re_simple_number);
 	go_regfree (&re_red_number);
@@ -371,7 +372,7 @@ currency_date_format_shutdown (void)
 
 #define EURO_FORM_1 4
 
-CurrencySymbol const currency_symbols[] =
+GOFormatCurrency const go_format_currencies[] =
 {
  	{ "", "None", TRUE, FALSE },	/* These first six elements */
  	{ "$", "$", TRUE, FALSE },	/* Must stay in this order */
@@ -564,7 +565,7 @@ CurrencySymbol const currency_symbols[] =
 	{ NULL, NULL, FALSE, FALSE }
 };
 
-/* Returns the index in currency_symbols of the symbol in ptr */
+/* Returns the index in go_format_currencies of the symbol in ptr */
 static int
 find_currency (char const *ptr, int len)
 {
@@ -579,27 +580,27 @@ find_currency (char const *ptr, int len)
 		len -= 2;
 	}
 
-	for (i = 0; currency_symbols[i].symbol; i++)
-		if (strncmp(currency_symbols[i].symbol, ptr, len) == 0)
+	for (i = 0; go_format_currencies[i].symbol; i++)
+		if (strncmp (go_format_currencies[i].symbol, ptr, len) == 0)
 			return i;
 
 	return -1;
 }
 
-static FormatFamily
-cell_format_simple_number (char const * const fmt, FormatCharacteristics *info)
+static GOFormatFamily
+cell_format_simple_number (char const * const fmt, GOFormatDetails *info)
 {
-	FormatFamily result = FMT_NUMBER;
+	GOFormatFamily result = GO_FORMAT_NUMBER;
 	int cur = -1;
 	regmatch_t match[7];
 
 	if (go_regexec (&re_simple_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 
 		if (match[2].rm_eo == -1 && match[6].rm_eo == -1) {
-			result = FMT_NUMBER;
+			result = GO_FORMAT_NUMBER;
 			info->currency_symbol_index = 0;
 		} else {
-			result = FMT_CURRENCY;
+			result = GO_FORMAT_CURRENCY;
 			if (match[6].rm_eo == -1)
 				cur = find_currency (fmt + match[2].rm_so,
 						     match[2].rm_eo
@@ -609,7 +610,7 @@ cell_format_simple_number (char const * const fmt, FormatCharacteristics *info)
 						     match[6].rm_eo
 						     - match[6].rm_so);
 			if (cur == -1)
-				return FMT_UNKNOWN;
+				return GO_FORMAT_UNKNOWN;
 			info->currency_symbol_index = cur;
 		}
 
@@ -623,20 +624,20 @@ cell_format_simple_number (char const * const fmt, FormatCharacteristics *info)
 
 		return result;
 	} else {
-		return FMT_UNKNOWN;
+		return GO_FORMAT_UNKNOWN;
 	}
 }
 
-static FormatFamily
-cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
+static GOFormatFamily
+cell_format_is_number (char const * const fmt, GOFormatDetails *info)
 {
-	FormatFamily result = FMT_NUMBER;
+	GOFormatFamily result = GO_FORMAT_NUMBER;
 	char const *ptr = fmt;
 	int cur = -1;
 	regmatch_t match[9];
 
-	/* FMT_CURRENCY or FMT_NUMBER ? */
-	if ((result = cell_format_simple_number (fmt, info)) != FMT_UNKNOWN)
+	/* GO_FORMAT_CURRENCY or GO_FORMAT_NUMBER ? */
+	if ((result = cell_format_simple_number (fmt, info)) != GO_FORMAT_UNKNOWN)
 		return result;
 
 	if (go_regexec (&re_red_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
@@ -660,7 +661,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 		return result;
 	}
 
-	/* FMT_PERCENT or FMT_SCIENCE ? */
+	/* GO_FORMAT_PERCENTAGE or GO_FORMAT_SCIENTIFIC ? */
 	if (go_regexec (&re_percent_science, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 		info->num_decimals = 0;
 		if (match[1].rm_eo != -1)
@@ -668,12 +669,12 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 				match[1].rm_so - 1;
 
 		if (ptr[match[2].rm_so] == '%')
-			return FMT_PERCENT;
+			return GO_FORMAT_PERCENTAGE;
 		else
-			return FMT_SCIENCE;
+			return GO_FORMAT_SCIENTIFIC;
 	}
 
-	/* FMT_ACCOUNT */
+	/* GO_FORMAT_ACCOUNTING */
 	if (go_regexec (&re_account, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 		info->num_decimals = 0;
 		if (match[5].rm_eo != -1)
@@ -681,7 +682,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 				match[5].rm_so - 1;
 
 		if (match[1].rm_eo == -1 && match[6].rm_eo == -1)
-			return FMT_UNKNOWN;
+			return GO_FORMAT_UNKNOWN;
 		else {
 			if (match[8].rm_eo == -1)
 				cur = find_currency (ptr + match[3].rm_so,
@@ -692,23 +693,23 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 						    match[8].rm_eo
 						    - match[8].rm_so);
 			else
-				return FMT_UNKNOWN;
+				return GO_FORMAT_UNKNOWN;
 
 		}
 
 		if (cur == -1)
-			return FMT_UNKNOWN;
+			return GO_FORMAT_UNKNOWN;
 		info->currency_symbol_index = cur;
 
-		return FMT_ACCOUNT;
+		return GO_FORMAT_ACCOUNTING;
 	}
 
-	return FMT_UNKNOWN;
+	return GO_FORMAT_UNKNOWN;
 
 }
 
 static gboolean
-cell_format_is_fraction (char const *fmt, FormatCharacteristics *info)
+cell_format_is_fraction (char const *fmt, GOFormatDetails *info)
 {
 	regmatch_t match[3];
 	const char *denominator;
@@ -728,15 +729,15 @@ cell_format_is_fraction (char const *fmt, FormatCharacteristics *info)
 }
 
 
-FormatFamily
-cell_format_classify (GOFormat const *sf, FormatCharacteristics *info)
+GOFormatFamily
+go_format_classify (GOFormat const *gf, GOFormatDetails *info)
 {
-	char const *fmt = sf->format;
-	FormatFamily res;
+	char const *fmt = gf->format;
+	GOFormatFamily res;
 	int i;
 
-	g_return_val_if_fail (fmt != NULL, FMT_GENERAL);
-	g_return_val_if_fail (info != NULL, FMT_GENERAL);
+	g_return_val_if_fail (fmt != NULL, GO_FORMAT_GENERAL);
+	g_return_val_if_fail (info != NULL, GO_FORMAT_GENERAL);
 
 	/* Init the result to something sane */
 	info->thousands_sep = FALSE;
@@ -749,31 +750,31 @@ cell_format_classify (GOFormat const *sf, FormatCharacteristics *info)
 	info->fraction_denominator = 0;
 
 	if (*fmt == '\0')
-		return FMT_UNKNOWN;
+		return GO_FORMAT_UNKNOWN;
 
 	/* Note: ->family is not yet ready.  */
-	if (g_ascii_strcasecmp (sf->format, cell_format_general[0]) == 0)
-		return FMT_GENERAL;
+	if (g_ascii_strcasecmp (gf->format, fmts_general[0]) == 0)
+		return GO_FORMAT_GENERAL;
 
 	if (fmt[0] == '@' && fmt[1] == '[')
-		return FMT_MARKUP;
+		return GO_FORMAT_MARKUP;
 
 	/* Can we parse it ? */
-	if ((res = cell_format_is_number (fmt, info)) != FMT_UNKNOWN)
+	if ((res = cell_format_is_number (fmt, info)) != GO_FORMAT_UNKNOWN)
 		return res;
 
 	if (cell_format_is_fraction (fmt, info))
-		return FMT_FRACTION;
+		return GO_FORMAT_FRACTION;
 
 	/* Is it in the lists */
-	for (i = 0; cell_formats[i] != NULL ; ++i) {
+	for (i = 0; go_format_builtins[i] != NULL ; ++i) {
 		int j = 0;
-		char const * const * elem = cell_formats[i];
+		char const * const * elem = go_format_builtins[i];
 		for (; elem[j] ; ++j)
 			if (g_ascii_strcasecmp (_(elem[j]), fmt) == 0) {
 				info->list_element = j;
 				switch (i) {
-				case FMT_DATE:
+				case GO_FORMAT_DATE:
 					info->date_has_days = 
 						(NULL != g_utf8_strchr (elem[j],-1,'d'));
 					info->date_has_months = 
@@ -786,5 +787,5 @@ cell_format_classify (GOFormat const *sf, FormatCharacteristics *info)
 				return i;
 			}
 	}
-	return FMT_UNKNOWN;
+	return GO_FORMAT_UNKNOWN;
 }

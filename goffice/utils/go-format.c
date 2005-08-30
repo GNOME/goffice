@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-format.c :
+ * go-format.c :
  *
- * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -22,38 +22,12 @@
 #include <goffice/goffice-config.h>
 #include "go-format.h"
 #include "go-math.h"
-#include "format.h"
 #include "datetime.h"
 #include "format-impl.h"
 #include <string.h>
 
-GOFormat *
-go_format_new_from_XL (char const *descriptor_string, gboolean delocalize)
-{
-	return style_format_new_XL (descriptor_string, delocalize);
-}
-
-char *
-go_format_as_XL	(GOFormat const *fmt, gboolean localized)
-{
-	return style_format_as_XL (fmt, localized);
-}
-
-GOFormat *
-go_format_ref (GOFormat *fmt)
-{
-	style_format_ref (fmt);
-	return fmt;
-}
-
-void
-go_format_unref (GOFormat *fmt)
-{
-	style_format_unref (fmt);
-}
-
 static gboolean
-go_style_format_condition (StyleFormatEntry const *entry, double val)
+go_style_format_condition (GOFormatElement const *entry, double val)
 {
 	if (entry->restriction_type == '*')
 		return TRUE;
@@ -74,7 +48,7 @@ void
 go_format_value_gstring (GOFormat const *format, GString *res, double val,
 			 int col_width, GODateConventions const *date_conv)
 {
-	StyleFormatEntry const *entry = NULL; /* default to General */
+	GOFormatElement const *entry = NULL; /* default to General */
 	GSList const *list = NULL;
 	gboolean need_abs = FALSE;
 
@@ -146,69 +120,4 @@ go_format_value (GOFormat const *fmt, double val)
 	res = g_string_sized_new (20);
 	go_format_value_gstring (fmt, res, val, -1, NULL);
 	return g_string_free (res, FALSE);
-}
-
-gboolean
-go_format_eq (GOFormat const *a, GOFormat const *b)
-{
-	if (a == NULL)
-		return b == NULL;
-	if (b == NULL)
-		return FALSE;
-	return style_format_equal (a, b);
-}
-
-/**
- * go_format_general :
- * 
- * Returns the 'General' #GOFormat but does not add a reference
- **/
-GOFormat *
-go_format_general (void)
-{
-	return style_format_general ();
-}
-
-/**
- * go_format_default_date :
- * 
- * Returns the default date #GOFormat but does not add a reference
- **/
-GOFormat *
-go_format_default_date (void)
-{
-	return style_format_default_date ();
-}
-
-/**
- * go_format_default_time :
- * 
- * Returns the default time #GOFormat but does not add a reference
- **/
-GOFormat *
-go_format_default_time (void)
-{
-	return style_format_default_time ();
-}
-
-/**
- * go_format_default_percentage :
- * 
- * Returns the default percentage #GOFormat but does not add a reference
- **/
-GOFormat *
-go_format_default_percentage (void)
-{
-	return style_format_default_percentage ();
-}
-
-/**
- * go_format_default_money :
- * 
- * Returns the default money #GOFormat but does not add a reference
- **/
-GOFormat *
-go_format_default_money	(void)
-{
-	return style_format_default_money ();
 }

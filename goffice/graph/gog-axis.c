@@ -35,7 +35,6 @@
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/utils/go-format.h>
-#include <goffice/utils/format.h>
 #include <goffice/utils/go-math.h>
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/gtk/go-format-sel.h>
@@ -450,7 +449,7 @@ map_linear_calc_ticks (GogAxis *axis)
 		if (fabs (ratio - rint (ratio)) < 1E-3) {
 			ticks[i].type = GOG_AXIS_TICK_MAJOR;
 				if (axis->assigned_format == NULL || 
-				    style_format_is_general (axis->assigned_format))
+				    go_format_is_general (axis->assigned_format))
 					ticks[i].label = go_format_value (axis->format, ticks[i].position);
 				else
 					ticks[i].label = go_format_value (axis->assigned_format, ticks[i].position);
@@ -632,7 +631,7 @@ map_log_calc_ticks (GogAxis *axis)
 			if (i % major_label == 0) {
 				ticks[count].type = GOG_AXIS_TICK_MAJOR;
 				if (axis->assigned_format == NULL || 
-				    style_format_is_general (axis->assigned_format))
+				    go_format_is_general (axis->assigned_format))
 					ticks[count].label = go_format_value (axis->format, ticks[count].position);
 				else
 					ticks[count].label = go_format_value (axis->assigned_format, ticks[count].position);
@@ -1503,7 +1502,7 @@ gog_axis_populate_editor (GogObject *gobj,
 	/* Format page */
 	if (!axis->is_discrete && gog_axis_get_atype (axis) != GOG_AXIS_PSEUDO_3D) {
 		w = go_format_sel_new ();
-		if (axis->assigned_format != NULL && !style_format_is_general (axis->assigned_format))
+		if (axis->assigned_format != NULL && !go_format_is_general (axis->assigned_format))
 			go_format_sel_set_style_format (GO_FORMAT_SEL (w),
 				axis->assigned_format);
 		else if (axis->format != NULL)

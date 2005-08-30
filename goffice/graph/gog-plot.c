@@ -437,7 +437,11 @@ gog_plot_make_similar (GogPlot *dst, GogPlot const *src)
 GogSeries *
 gog_plot_new_series (GogPlot *plot)
 {
-	GogObject *res = gog_object_add_by_name (GOG_OBJECT (plot), "Series", NULL);
+	GogObject *res;
+
+	g_return_val_if_fail (GOG_PLOT (plot) != NULL, NULL);
+
+	res = gog_object_add_by_name (GOG_OBJECT (plot), "Series", NULL);
 	return res ? GOG_SERIES (res) : NULL;
 }
 GogPlotDesc const *

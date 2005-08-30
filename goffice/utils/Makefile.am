@@ -48,7 +48,6 @@ libgoffice_utils_la_HEADERS = 	\
 	go-geometry.h		\
 	go-math.h		\
 	datetime.h		\
-	format.h		\
 	format-impl.h		\
 	go-format.h		\
 	go-format-match.h	\

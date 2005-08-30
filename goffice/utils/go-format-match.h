@@ -22,7 +22,6 @@
 #define GO_FORMAT_MATCH_H
 
 #include <goffice/utils/goffice-utils.h>
-#include <glib-object.h>
 
 G_BEGIN_DECLS
 
@@ -50,8 +49,8 @@ typedef enum {
 	MATCH_DENOMINATOR         = 21
 } MatchType;
 
-gboolean format_match_create  (GOFormat *fmt);
-void	 format_match_release (GOFormat *fmt);
+gboolean format_match_create  (GOFormatElement *elem);
+void	 format_match_release (GOFormatElement *elem);
 
 G_END_DECLS
 

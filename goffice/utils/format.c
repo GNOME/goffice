@@ -22,7 +22,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "format.h"
+#include "go-format.h"
 #include "format-impl.h"
 #include "go-format-match.h"
 #include "go-color.h"
@@ -197,7 +197,7 @@ go_setlocale (int category, char const *val)
 }
 
 static void
-convert1 (GString *res, const char *lstr, const char *name, const char *def)
+convert1 (GString *res, char const *lstr, char const *name, char const *def)
 {
 	char *tmp;
 
@@ -421,7 +421,7 @@ static GHashTable *style_format_hash = NULL;
  * number of characters used.
  */
 static int
-append_year (GString *string, guchar const *format, struct tm const *time_split)
+append_year (GString *string, gchar const *format, struct tm const *time_split)
 {
 	int year = time_split->tm_year + 1900;
 
@@ -477,7 +477,7 @@ append_month (GString *string, int n, struct tm const *time_split)
  * number of characters used.
  */
 static int
-append_day (GString *string, guchar const *format, struct tm const *time_split)
+append_day (GString *string, gchar const *format, struct tm const *time_split)
 {
 	if (format[1] != 'd' && format[1] != 'D') {
 		g_string_append_printf (string, "%d", time_split->tm_mday);
@@ -519,7 +519,7 @@ SUFFIX(append_hour_elapsed) (GString *string, struct tm *tm, DOUBLE number)
 	DOUBLE whole_days, frac_days;
 	gboolean is_neg;
 	int cs;  /* Centi seconds.  */
-	const int secs_per_day = 24 * 60 * 60;
+	int const secs_per_day = 24 * 60 * 60;
 
 	is_neg = (number < 0);
 	frac_days = SUFFIX(modf) (number, &whole_days);
@@ -574,18 +574,25 @@ SUFFIX(append_second_elapsed) (GString *string, DOUBLE number)
 }
 
 #ifdef DEFINE_COMMON
-static StyleFormatEntry *
-format_entry_ctor (void)
+static GOFormatElement *
+format_entry_ctor (GOFormat *container)
 {
-	StyleFormatEntry *entry;
+	GOFormatElement *entry;
 
-	entry = g_new (StyleFormatEntry, 1);
+	entry = g_new (GOFormatElement, 1);
+	entry->container = container;
 	entry->restriction_type = '*';
 	entry->restriction_value = 0.;
 	entry->suppress_minus = FALSE;
 	entry->elapsed_time = FALSE;
 	entry->want_am_pm = entry->has_fraction = FALSE;
 	entry->go_color = 0;
+	entry->regexp_str = NULL;
+	entry->match_tags = NULL;
+
+	/* symbolic failure */
+	g_return_val_if_fail (container != NULL, entry);
+
 	return entry;
 }
 #endif
@@ -595,7 +602,8 @@ format_entry_ctor (void)
 static void
 format_entry_dtor (gpointer data, gpointer user_data)
 {
-	StyleFormatEntry *entry = data;
+	GOFormatElement *entry = data;
+	format_match_release (entry);
 	g_free ((char *)entry->format);
 	g_free (entry);
 }
@@ -603,7 +611,7 @@ format_entry_dtor (gpointer data, gpointer user_data)
 
 #ifdef DEFINE_COMMON
 static void
-format_entry_set_fmt (StyleFormatEntry *entry,
+format_entry_set_fmt (GOFormatElement *entry,
 		      gchar const *begin,
 		      gchar const *end)
 {
@@ -612,6 +620,7 @@ format_entry_set_fmt (StyleFormatEntry *entry,
 		? g_strndup (begin, end - begin)
 		: g_strdup ((entry->go_color || entry->restriction_type != '*')
 			    ? "General" : "");
+	format_match_create (entry);
 }
 #endif
 
@@ -626,11 +635,10 @@ static void
 format_compile (GOFormat *format)
 {
 	gchar const *fmt, *real_start = NULL;
-	StyleFormatEntry *entry = format_entry_ctor ();
+	GOFormatElement *entry = format_entry_ctor (format);
 	int num_entries = 1, counter = 0;
 	GSList *ptr;
 
-	format_match_create (format);
 	for (fmt = format->format; *fmt ; fmt++) {
 		if (NULL == real_start && '[' != *fmt)
 			real_start = fmt;
@@ -748,7 +756,7 @@ format_compile (GOFormat *format)
 			format->entries = g_slist_append (format->entries, entry);
 			num_entries++;
 
-			entry = format_entry_ctor ();
+			entry = format_entry_ctor (format);
 			real_start = NULL;
 			break;
 
@@ -766,7 +774,7 @@ format_compile (GOFormat *format)
 	format->entries = g_slist_append (format->entries, entry);
 
 	for (ptr = format->entries; ptr && counter++ < 4 ; ptr = ptr->next) {
-		StyleFormatEntry *entry = ptr->data;
+		GOFormatElement *entry = ptr->data;
 
 		/* apply the standard restrictions where things are unspecified */
 		if (entry->restriction_type == '*') {
@@ -803,14 +811,13 @@ format_destroy (GOFormat *format)
 		pango_attr_list_unref (format->markup);
 		format->markup = NULL;
 	}
-	format_match_release (format);
 }
 #endif
 
 #ifdef DEFINE_COMMON
 /* used to generate formats when delocalizing so keep the leadings caps */
 typedef struct {
-	char const * const name;
+	char const *name;
 	GOColor	 go_color;
 } FormatColor;
 static FormatColor const format_colors [] = {
@@ -823,20 +830,6 @@ static FormatColor const format_colors [] = {
 	{ N_("White"),	 RGBA_WHITE },
 	{ N_("Yellow"),	 RGBA_YELLOW }
 };
-#endif
-
-#ifdef DEFINE_COMMON
-void
-format_color_init (void)
-{
-}
-#endif
-
-#ifdef DEFINE_COMMON
-void
-format_color_shutdown (void)
-{
-}
 #endif
 
 #ifdef DEFINE_COMMON
@@ -871,9 +864,9 @@ lookup_color (gchar const *str, gchar const *end)
 void
 SUFFIX(go_render_number) (GString *result,
 			  DOUBLE number,
-			  format_info_t const *info)
+			  GONumberFormat const *info)
 {
-	const GString *thousands_sep = format_get_thousand ();
+	GString const *thousands_sep = format_get_thousand ();
 	char num_buf[(PREFIX(MANT_DIG) + PREFIX(MAX_EXP)) * 2 + 1];
 	gchar *num = num_buf + sizeof (num_buf) - 1;
 	DOUBLE frac_part, int_part;
@@ -981,7 +974,7 @@ SUFFIX(go_render_number) (GString *result,
 }
 
 static void
-SUFFIX(do_render_number) (DOUBLE number, format_info_t *info, GString *result)
+SUFFIX(do_render_number) (DOUBLE number, GONumberFormat *info, GString *result)
 {
 	info->rendered = TRUE;
 
@@ -1045,23 +1038,23 @@ SUFFIX(split_time) (struct tm *tm, DOUBLE number, GODateConventions const *date_
 
 #ifdef DEFINE_COMMON
 #define NUM_ZEROS 30
-static const char zeros[NUM_ZEROS + 1]  = "000000000000000000000000000000";
-static const char qmarks[NUM_ZEROS + 1] = "??????????????????????????????";
+static char const zeros[NUM_ZEROS + 1]  = "000000000000000000000000000000";
+static char const qmarks[NUM_ZEROS + 1] = "??????????????????????????????";
 #endif
 
 #ifdef DEFINE_COMMON
 /**
- * style_format_number :
- * @fmt : #FormatCharacteristics
+ * go_format_number :
+ * @fmt : #GOFormatDetails
  *
  * generate an unlocalized number format based on @fmt.
  **/
 static GOFormat *
-style_format_number (FormatCharacteristics const *fmt)
+go_format_number (GOFormatDetails const *fmt)
 {
 	int symbol = fmt->currency_symbol_index;
 	GString *str, *tmp;
-	GOFormat *sf;
+	GOFormat *gf;
 
 	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
 	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
@@ -1069,9 +1062,9 @@ style_format_number (FormatCharacteristics const *fmt)
 	str = g_string_new (NULL);
 
 	/* Currency */
-	if (symbol != 0 && currency_symbols[symbol].precedes) {
-		g_string_append (str, currency_symbols[symbol].symbol);
-		if (currency_symbols[symbol].has_space)
+	if (symbol != 0 && go_format_currencies[symbol].precedes) {
+		g_string_append (str, go_format_currencies[symbol].symbol);
+		if (go_format_currencies[symbol].has_space)
 			g_string_append_c (str, ' ');
 	}
 
@@ -1086,10 +1079,10 @@ style_format_number (FormatCharacteristics const *fmt)
 	}
 
 	/* Currency */
-	if (symbol != 0 && !currency_symbols[symbol].precedes) {
-		if (currency_symbols[symbol].has_space)
+	if (symbol != 0 && !go_format_currencies[symbol].precedes) {
+		if (go_format_currencies[symbol].has_space)
 			g_string_append_c (str, ' ');
-		g_string_append (str, currency_symbols[symbol].symbol);
+		g_string_append (str, go_format_currencies[symbol].symbol);
 	}
 
 	/* There are negatives */
@@ -1116,18 +1109,18 @@ style_format_number (FormatCharacteristics const *fmt)
 			g_string_append_c (str, ')');
 	}
 
-	sf = style_format_new_XL (str->str, FALSE);
+	gf = go_format_new_from_XL (str->str, FALSE);
 	g_string_free (str, TRUE);
-	return sf;
+	return gf;
 }
 #endif
 
 #ifdef DEFINE_COMMON
 static GOFormat *
-style_format_fraction (FormatCharacteristics const *fmt)
+style_format_fraction (GOFormatDetails const *fmt)
 {
 	GString *str = g_string_new (NULL);
-	GOFormat *sf;
+	GOFormat *gf;
 
 	if (fmt->fraction_denominator >= 2) {
 		g_string_printf (str, "# ?/%d", fmt->fraction_denominator);
@@ -1141,18 +1134,18 @@ style_format_fraction (FormatCharacteristics const *fmt)
 		g_string_append_len (str, qmarks, fmt->num_decimals);
 	}
 
-	sf = style_format_new_XL (str->str, FALSE);
+	gf = go_format_new_from_XL (str->str, FALSE);
 	g_string_free (str, TRUE);
-	return sf;
+	return gf;
 }
 #endif
 
 #ifdef DEFINE_COMMON
 static GOFormat *
-style_format_percent (FormatCharacteristics const *fmt)
+go_format_percent (GOFormatDetails const *fmt)
 {
 	GString *str;
-	GOFormat *sf;
+	GOFormat *gf;
 
 	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
 	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
@@ -1165,18 +1158,18 @@ style_format_percent (FormatCharacteristics const *fmt)
 	}
 	g_string_append_c (str, '%');
 
-	sf = style_format_new_XL (str->str, FALSE);
+	gf = go_format_new_from_XL (str->str, FALSE);
 	g_string_free (str, TRUE);
-	return sf;
+	return gf;
 }
 #endif
 
 #ifdef DEFINE_COMMON
 static GOFormat *
-style_format_science (FormatCharacteristics const *fmt)
+go_format_science (GOFormatDetails const *fmt)
 {
 	GString *str;
-	GOFormat *sf;
+	GOFormat *gf;
 
 	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
 	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
@@ -1189,18 +1182,18 @@ style_format_science (FormatCharacteristics const *fmt)
 	}
 	g_string_append (str, "E+00");
 
-	sf = style_format_new_XL (str->str, FALSE);
+	gf = go_format_new_from_XL (str->str, FALSE);
 	g_string_free (str, TRUE);
-	return sf;
+	return gf;
 }
 #endif
 
 #ifdef DEFINE_COMMON
 static GOFormat *
-style_format_account (FormatCharacteristics const *fmt)
+go_format_account (GOFormatDetails const *fmt)
 {
 	GString *str, *sym, *num;
-	GOFormat *sf;
+	GOFormat *gf;
 	int symbol = fmt->currency_symbol_index;
 	gboolean quote_currency;
 
@@ -1217,29 +1210,29 @@ style_format_account (FormatCharacteristics const *fmt)
 
 	/* The currency symbols with space after or before */
 	sym = g_string_new (NULL);
-	quote_currency = (currency_symbols[symbol].symbol[0] != '[');
-	if (currency_symbols[symbol].precedes) {
+	quote_currency = (go_format_currencies[symbol].symbol[0] != '[');
+	if (go_format_currencies[symbol].precedes) {
 		if (quote_currency)
 			g_string_append_c (sym, '\"');
-		g_string_append (sym, currency_symbols[symbol].symbol);
+		g_string_append (sym, go_format_currencies[symbol].symbol);
 		if (quote_currency)
 			g_string_append_c (sym, '\"');
 		g_string_append (sym, "* ");
-		if (currency_symbols[symbol].has_space)
+		if (go_format_currencies[symbol].has_space)
 			g_string_append_c (sym, ' ');
 	} else {
 		g_string_append (sym, "* ");
-		if (currency_symbols[symbol].has_space)
+		if (go_format_currencies[symbol].has_space)
 			g_string_append_c (sym, ' ');
 		if (quote_currency)
 			g_string_append_c (sym, '\"');
-		g_string_append (sym, currency_symbols[symbol].symbol);
+		g_string_append (sym, go_format_currencies[symbol].symbol);
 		if (quote_currency)
 			g_string_append_c (sym, '\"');
 	}
 
 	/* Finally build the correct string */
-	if (currency_symbols[symbol].precedes) {
+	if (go_format_currencies[symbol].precedes) {
 		g_string_append_printf (str, "_(%s%s_);_(%s(%s);_(%s\"-\"%s_);_(@_)",
 					sym->str, num->str,
 					sym->str, num->str,
@@ -1254,9 +1247,9 @@ style_format_account (FormatCharacteristics const *fmt)
 	g_string_free (num, TRUE);
 	g_string_free (sym, TRUE);
 
-	sf = style_format_new_XL (str->str, FALSE);
+	gf = go_format_new_from_XL (str->str, FALSE);
 	g_string_free (str, TRUE);
-	return sf;
+	return gf;
 }
 #endif
 
@@ -1320,11 +1313,11 @@ find_decimal_char (char const *str)
 /* An helper function which modify the number of decimals displayed
  * and recreate the format string by calling the good function */
 static GOFormat *
-reformat_decimals (const FormatCharacteristics *fc,
-		   GOFormat * (*format_function) (FormatCharacteristics const * fmt),
+reformat_decimals (GOFormatDetails const *fc,
+		   GOFormat * (*format_function) (GOFormatDetails const *fmt),
 		   int step)
 {
-	FormatCharacteristics fc_copy;
+	GOFormatDetails fc_copy;
 
 	/* Be sure that the number of decimals displayed will remain correct */
 	if ((fc->num_decimals+step > NUM_ZEROS) || (fc->num_decimals+step <0))
@@ -1345,24 +1338,24 @@ reformat_decimals (const FormatCharacteristics *fc,
  * Returns NULL if the new format would not change things
  */
 GOFormat *
-format_remove_decimal (GOFormat const *fmt)
+go_format_dec_precision (GOFormat const *fmt)
 {
 	int start;
 	char *ret;
 	char const *format_string = fmt->format;
 
 	switch (fmt->family) {
-	case FMT_NUMBER:
-	case FMT_CURRENCY:
-		return reformat_decimals (&fmt->family_info, &style_format_number, -1);
-	case FMT_ACCOUNT:
-		return reformat_decimals (&fmt->family_info, &style_format_account, -1);
-	case FMT_PERCENT:
-		return reformat_decimals (&fmt->family_info, &style_format_percent, -1);
-	case FMT_SCIENCE:
-		return reformat_decimals (&fmt->family_info, &style_format_science, -1);
-	case FMT_FRACTION: {
-		FormatCharacteristics fc = fmt->family_info;
+	case GO_FORMAT_NUMBER:
+	case GO_FORMAT_CURRENCY:
+		return reformat_decimals (&fmt->family_info, &go_format_number, -1);
+	case GO_FORMAT_ACCOUNTING:
+		return reformat_decimals (&fmt->family_info, &go_format_account, -1);
+	case GO_FORMAT_PERCENTAGE:
+		return reformat_decimals (&fmt->family_info, &go_format_percent, -1);
+	case GO_FORMAT_SCIENTIFIC:
+		return reformat_decimals (&fmt->family_info, &go_format_science, -1);
+	case GO_FORMAT_FRACTION: {
+		GOFormatDetails fc = fmt->family_info;
 
 		if (fc.fraction_denominator >= 2) {
 			if (fc.fraction_denominator > 2 &&
@@ -1383,16 +1376,16 @@ format_remove_decimal (GOFormat const *fmt)
 		return style_format_fraction (&fc);
 	}
 
-	case FMT_TIME:
+	case GO_FORMAT_TIME:
 		/* FIXME: we might have decimals on seconds part.  */
-	case FMT_DATE:
-	case FMT_TEXT:
-	case FMT_SPECIAL:
-	case FMT_MARKUP:
+	case GO_FORMAT_DATE:
+	case GO_FORMAT_TEXT:
+	case GO_FORMAT_SPECIAL:
+	case GO_FORMAT_MARKUP:
 		/* Nothing to remove for these formats ! */
 		return NULL;
-	case FMT_UNKNOWN:
-	case FMT_GENERAL:
+	case GO_FORMAT_UNKNOWN:
+	case GO_FORMAT_GENERAL:
 		; /* Nothing.  */
 	}
 
@@ -1405,7 +1398,7 @@ format_remove_decimal (GOFormat const *fmt)
 	 * We need to look at the number of decimals in the current value
 	 * and use that as a base.
 	 */
-	if (style_format_is_general (fmt))
+	if (go_format_is_general (fmt))
 		format_string = "0.########";
 
 	start = 0;
@@ -1432,9 +1425,9 @@ format_remove_decimal (GOFormat const *fmt)
 	}
 
 	if (start) {
-		GOFormat *sf = style_format_new_XL (ret, FALSE);
+		GOFormat *gf = go_format_new_from_XL (ret, FALSE);
 		g_free (ret);
-		return sf;
+		return gf;
 	} else {
 		g_free (ret);
 		return NULL;
@@ -1443,35 +1436,36 @@ format_remove_decimal (GOFormat const *fmt)
 #endif
 
 #ifdef DEFINE_COMMON
-/*
- * This routine scans format_string for the decimal
- * character and when it finds it, it adds a zero after
- * it to force the rendering of the number with one more digit
- * of decimal precision.
+/**
+ * go_format_inc_precision :
+ * @fmt : #GOFormat
+ * Scans @fmt for the decimal character and when it finds it, it adds a zero
+ * after it to force the rendering of the number with one more digit of decimal
+ * precision.
  *
  * Returns NULL if the new format would not change things
- */
+ **/
 GOFormat *
-format_add_decimal (GOFormat const *fmt)
+go_format_inc_precision (GOFormat const *fmt)
 {
 	char const *pre = NULL;
 	char const *post = NULL;
 	char *res;
 	char const *format_string = fmt->format;
-	GOFormat *sf;
+	GOFormat *gf;
 
 	switch (fmt->family) {
-	case FMT_NUMBER:
-	case FMT_CURRENCY:
-		return reformat_decimals (&fmt->family_info, &style_format_number, +1);
-	case FMT_ACCOUNT:
-		return reformat_decimals (&fmt->family_info, &style_format_account, +1);
-	case FMT_PERCENT:
-		return reformat_decimals (&fmt->family_info, &style_format_percent, +1);
-	case FMT_SCIENCE:
-		return reformat_decimals (&fmt->family_info, &style_format_science, +1);
-	case FMT_FRACTION: {
-		FormatCharacteristics fc = fmt->family_info;
+	case GO_FORMAT_NUMBER:
+	case GO_FORMAT_CURRENCY:
+		return reformat_decimals (&fmt->family_info, &go_format_number, +1);
+	case GO_FORMAT_ACCOUNTING:
+		return reformat_decimals (&fmt->family_info, &go_format_account, +1);
+	case GO_FORMAT_PERCENTAGE:
+		return reformat_decimals (&fmt->family_info, &go_format_percent, +1);
+	case GO_FORMAT_SCIENTIFIC:
+		return reformat_decimals (&fmt->family_info, &go_format_science, +1);
+	case GO_FORMAT_FRACTION: {
+		GOFormatDetails fc = fmt->family_info;
 		if (fc.fraction_denominator >= 2) {
 			if (fc.fraction_denominator <= INT_MAX / 2 &&
 			    ((fc.fraction_denominator & (fc.fraction_denominator - 1)) == 0))
@@ -1491,23 +1485,23 @@ format_add_decimal (GOFormat const *fmt)
 		return style_format_fraction (&fc);
 	}
 
-	case FMT_TIME:
+	case GO_FORMAT_TIME:
 		/* FIXME: we might have decimals on seconds part.  */
-	case FMT_DATE:
-	case FMT_TEXT:
-	case FMT_SPECIAL:
-	case FMT_MARKUP:
+	case GO_FORMAT_DATE:
+	case GO_FORMAT_TEXT:
+	case GO_FORMAT_SPECIAL:
+	case GO_FORMAT_MARKUP:
 		/* Nothing to add for these formats ! */
 		return NULL;
-	case FMT_UNKNOWN:
-	case FMT_GENERAL:
+	case GO_FORMAT_UNKNOWN:
+	case GO_FORMAT_GENERAL:
 		; /* Nothing.  */
 	}
 
 	/* Use the old code for more special formats to try to add a
 	   decimal */
 
-	if (style_format_is_general (fmt)) {
+	if (go_format_is_general (fmt)) {
 		format_string = "0";
 		pre = format_string + 1;
 		post = pre;
@@ -1547,35 +1541,35 @@ format_add_decimal (GOFormat const *fmt)
 	res[pre-format_string + 1] = '0';
 	strcpy (res + (pre - format_string) + 2, post);
 
-	sf = style_format_new_XL (res, FALSE);
+	gf = go_format_new_from_XL (res, FALSE);
 	g_free (res);
-	return sf;
+	return gf;
 }
 #endif
 
 #ifdef DEFINE_COMMON
 GOFormat *
-format_toggle_thousands (GOFormat const *fmt)
+go_format_toggle_1000sep (GOFormat const *fmt)
 {
-	FormatCharacteristics fc;
+	GOFormatDetails fc;
 
 	fc = fmt->family_info;
 	fc.thousands_sep = !fc.thousands_sep;
 
 	switch (fmt->family) {
-	case FMT_NUMBER:
-	case FMT_CURRENCY:
-		return style_format_number (&fc);
+	case GO_FORMAT_NUMBER:
+	case GO_FORMAT_CURRENCY:
+		return go_format_number (&fc);
 
-	case FMT_ACCOUNT:
+	case GO_FORMAT_ACCOUNTING:
 		/*
 		 * FIXME: this doesn't actually work as no 1000 seps
 		 * are used for accounting.
 		 */
-		return style_format_account (&fc);
-	case FMT_GENERAL:
+		return go_format_account (&fc);
+	case GO_FORMAT_GENERAL:
 		fc.currency_symbol_index = 0;
-		return style_format_number (&fc);
+		return go_format_number (&fc);
 
 	default:
 		break;
@@ -1589,11 +1583,11 @@ format_toggle_thousands (GOFormat const *fmt)
 
 void
 SUFFIX(go_format_number) (GString *result,
-			  DOUBLE number, int col_width, StyleFormatEntry const *entry,
+			  DOUBLE number, int col_width, GOFormatElement const *entry,
 			  GODateConventions const *date_conv)
 {
-	guchar const *format = (guchar *)(entry->format);
-	format_info_t info;
+	gchar const *format = entry->format;
+	GONumberFormat info;
 	gboolean can_render_number = FALSE;
 	gboolean hour_seen = FALSE;
 	gboolean time_display_elapsed = FALSE;
@@ -1618,7 +1612,7 @@ SUFFIX(go_format_number) (GString *result,
 
 	while (*format) {
 		/* This is just g_utf8_get_char, but we're in a hurry.  */
-		gunichar c = (*format & 0x80) ? g_utf8_get_char (format) : *format;
+		gunichar c = (*format & 0x80) ? g_utf8_get_char (format) : *(guchar *)format;
 
 		switch (c) {
 
@@ -1681,7 +1675,7 @@ SUFFIX(go_format_number) (GString *result,
 
 		case ',':
 			if (can_render_number) {
-				guchar const *tmp = format;
+				gchar const *tmp = format;
 				while (*++tmp == ',')
 					;
 				if (*tmp == '\0' || *tmp == '.' || *tmp == ';')
@@ -1727,12 +1721,12 @@ SUFFIX(go_format_number) (GString *result,
 
 				format++;
 				g_string_append_len (result, format,
-					g_utf8_skip[*(format)]);
+					g_utf8_skip[*(guchar *)format]);
 			}
 			break;
 
 		case '"': {
-			guchar const *tmp = ++format;
+			gchar const *tmp = ++format;
 			if (can_render_number && !info.rendered)
 				SUFFIX(do_render_number) (number, &info, result);
 
@@ -1759,9 +1753,9 @@ SUFFIX(go_format_number) (GString *result,
 
 					errno = 0;
 					denominator = strtol ((char *)format + 1, &end, 10);
-					if ((char *)format + 1 != end && errno != ERANGE) {
-						size = (const guchar *)end - (format + 1);
-						format = (guchar *)end;
+					if (format + 1 != end && errno != ERANGE) {
+						size = end - (format + 1);
+						format = end;
 						numerator = (int)((number - (int)number) * denominator + 0.5);
 					}
 				} else {
@@ -1773,7 +1767,7 @@ SUFFIX(go_format_number) (GString *result,
 					format += size + 1;
 					if (size > (int)G_N_ELEMENTS (powers))
 						size = G_N_ELEMENTS (powers);
-					gnm_continued_fraction (number - (int)number, powers[size - 1],
+					go_continued_fraction (number - (int)number, powers[size - 1],
 						&numerator, &denominator);
 				}
 
@@ -2142,7 +2136,7 @@ cb_format_leak (gpointer key, gpointer value, gpointer user_data)
 {
 	GOFormat *format = value;
 
-	fprintf (stderr, "Leaking gnm-format at %p [%s].\n",
+	fprintf (stderr, "Leaking GOFormat at %p [%s].\n",
 		 format, format->format);
 }
 #endif
@@ -2161,32 +2155,32 @@ number_format_shutdown (void)
 	lc_currency = NULL;
 
 	if (default_percentage_fmt) {
-		style_format_unref (default_percentage_fmt);
+		go_format_unref (default_percentage_fmt);
 		default_percentage_fmt = NULL;
 	}
 
 	if (default_money_fmt) {
-		style_format_unref (default_money_fmt);
+		go_format_unref (default_money_fmt);
 		default_money_fmt = NULL;
 	}
 
 	if (default_date_fmt) {
-		style_format_unref (default_date_fmt);
+		go_format_unref (default_date_fmt);
 		default_date_fmt = NULL;
 	}
 
 	if (default_time_fmt) {
-		style_format_unref (default_time_fmt);
+		go_format_unref (default_time_fmt);
 		default_time_fmt = NULL;
 	}
 
 	if (default_date_time_fmt) {
-		style_format_unref (default_date_time_fmt);
+		go_format_unref (default_date_time_fmt);
 		default_date_time_fmt = NULL;
 	}
 
 	if (default_general_fmt) {
-		style_format_unref (default_general_fmt);
+		go_format_unref (default_general_fmt);
 		default_general_fmt = NULL;
 	}
 
@@ -2232,7 +2226,7 @@ translate_format_color (GString *res, char const *ptr, gboolean translate_to_en)
 
 #ifdef DEFINE_COMMON
 char *
-style_format_delocalize (char const *descriptor_string)
+go_format_str_delocalize (char const *descriptor_string)
 {
 	g_return_val_if_fail (descriptor_string != NULL, NULL);
 
@@ -2340,7 +2334,7 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 
 #ifdef DEFINE_COMMON
 static PangoAttrList *
-gnm_format_parse_markup (char *str)
+go_format_parse_markup (char *str)
 {
 	PangoAttrList *attrs;
 	PangoAttribute *a;
@@ -2425,15 +2419,15 @@ gnm_format_parse_markup (char *str)
 
 #ifdef DEFINE_COMMON
 /**
- * style_format_new_XL :
+ * go_format_new_from_XL :
  *
  * Looks up and potentially creates a GOFormat from the supplied string in
  * XL format.
  *
  * @descriptor_string: XL descriptor in UTF-8 encoding.
- */
+ **/
 GOFormat *
-style_format_new_XL (char const *descriptor_string, gboolean delocalize)
+go_format_new_from_XL (char const *descriptor_string, gboolean delocalize)
 {
 	GOFormat *format;
 	char *desc_copy = NULL;
@@ -2443,7 +2437,7 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 		g_warning ("Invalid format descriptor string, using General");
 		descriptor_string = "General";
 	} else if (delocalize)
-		descriptor_string = desc_copy = style_format_delocalize (descriptor_string);
+		descriptor_string = desc_copy = go_format_str_delocalize (descriptor_string);
 
 	format = (GOFormat *) g_hash_table_lookup (style_format_hash, descriptor_string);
 
@@ -2451,13 +2445,11 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 		format = g_new0 (GOFormat, 1);
 		format->format = g_strdup (descriptor_string);
 		format->entries = NULL;
-		format->regexp_str = NULL;
-		format->match_tags = NULL;
-		format->family = cell_format_classify (format, &format->family_info);
+		format->family = go_format_classify (format, &format->family_info);
 		format->is_var_width = FALSE;
-		if (format->family == FMT_MARKUP)
-			format->markup = gnm_format_parse_markup (format->format);
-		else if (!style_format_is_general (format))
+		if (format->family == GO_FORMAT_MARKUP)
+			format->markup = go_format_parse_markup (format->format);
+		else if (!go_format_is_general (format))
 			format_compile (format);
 		else
 			format->is_var_width = TRUE;
@@ -2477,7 +2469,7 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 
 #ifdef DEFINE_COMMON
 /**
- * style_format_new_markup :
+ * go_format_new_markup :
  * @markup : #PangoAttrList
  * @add_ref :
  *
@@ -2485,7 +2477,7 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
  * @markup, otherwise add a reference.
  */
 GOFormat *
-style_format_new_markup (PangoAttrList *markup, gboolean add_ref)
+go_format_new_markup (PangoAttrList *markup, gboolean add_ref)
 {
 	GOFormat *format = g_new0 (GOFormat, 1);
 	GString *accum = g_string_new ("@");
@@ -2495,9 +2487,7 @@ style_format_new_markup (PangoAttrList *markup, gboolean add_ref)
 
 	format->format = g_string_free (accum, FALSE);
 	format->entries = NULL;
-	format->regexp_str = NULL;
-	format->match_tags = NULL;
-	format->family = FMT_MARKUP;
+	format->family = GO_FORMAT_MARKUP;
 	format->markup = markup;
 	if (add_ref)
 		pango_attr_list_ref (markup);
@@ -2517,35 +2507,35 @@ style_format_new_markup (PangoAttrList *markup, gboolean add_ref)
 
 #ifdef DEFINE_COMMON
 GOFormat *
-style_format_build (FormatFamily family, const FormatCharacteristics *info)
+go_format_new (GOFormatFamily family, GOFormatDetails const *info)
 {
 	switch (family) {
-	case FMT_GENERAL:
-	case FMT_TEXT:
-		return style_format_new_XL (cell_formats[family][0], FALSE);
+	case GO_FORMAT_GENERAL:
+	case GO_FORMAT_TEXT:
+		return go_format_new_from_XL (go_format_builtins[family][0], FALSE);
 
-	case FMT_NUMBER: {
+	case GO_FORMAT_NUMBER: {
 		/* Make sure no currency is selected */
-		FormatCharacteristics info_copy = *info;
+		GOFormatDetails info_copy = *info;
 		info_copy.currency_symbol_index = 0;
-		return style_format_number (&info_copy);
+		return go_format_number (&info_copy);
 	}
 
-	case FMT_CURRENCY:
-		return style_format_number (info);
+	case GO_FORMAT_CURRENCY:
+		return go_format_number (info);
 
-	case FMT_ACCOUNT:
-		return style_format_account (info);
+	case GO_FORMAT_ACCOUNTING:
+		return go_format_account (info);
 
-	case FMT_PERCENT:
-		return style_format_percent (info);
+	case GO_FORMAT_PERCENTAGE:
+		return go_format_percent (info);
 
-	case FMT_SCIENCE:
-		return style_format_science (info);
+	case GO_FORMAT_SCIENTIFIC:
+		return go_format_science (info);
 
 	default:
-	case FMT_DATE:
-	case FMT_TIME:
+	case GO_FORMAT_DATE:
+	case GO_FORMAT_TIME:
 		return NULL;
 	};
 }
@@ -2554,12 +2544,12 @@ style_format_build (FormatFamily family, const FormatCharacteristics *info)
 
 #ifdef DEFINE_COMMON
 /**
- * style_format_str_as_XL
+ * go_format_str_as_XL
  *
  * The caller is responsible for freeing the resulting string.
  */
 char *
-style_format_str_as_XL (char const *ptr, gboolean localized)
+go_format_str_as_XL (char const *ptr, gboolean localized)
 {
 	GString const *thousands_sep, *decimal;
 	GString *res;
@@ -2636,29 +2626,26 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
 
 #ifdef DEFINE_COMMON
 /**
- * style_format_as_XL :
- * @sf :
+ * go_format_as_XL :
+ * @gf :
  * @localized : should the string be in cannonical or locale specific form.
  *
  * Return a string which the caller is responsible for freeing.
  */
 char *
-style_format_as_XL (GOFormat const *fmt, gboolean localized)
+go_format_as_XL (GOFormat const *fmt, gboolean localized)
 {
 	g_return_val_if_fail (fmt != NULL,
 			      g_strdup (localized ? _("General") : "General"));
 
-	return style_format_str_as_XL (fmt->format, localized);
+	return go_format_str_as_XL (fmt->format, localized);
 }
 #endif
 
 #ifdef DEFINE_COMMON
 gboolean
-style_format_equal (GOFormat const *a, GOFormat const *b)
+go_format_eq (GOFormat const *a, GOFormat const *b)
 {
-	g_return_val_if_fail (a != NULL, FALSE);
-	g_return_val_if_fail (b != NULL, FALSE);
-
 	/*
 	 * The way we create GOFormat *s ensures that we don't need
 	 * to compare anything but pointers.
@@ -2669,123 +2656,119 @@ style_format_equal (GOFormat const *a, GOFormat const *b)
 
 #ifdef DEFINE_COMMON
 /**
- * style_format_ref :
- * @sf :
+ * go_format_ref :
+ * @gf :
  *
  * Add a reference to a GOFormat
- */
-void
-style_format_ref (GOFormat *sf)
+ **/
+GOFormat *
+go_format_ref (GOFormat *gf)
 {
-	g_return_if_fail (sf != NULL);
+	g_return_val_if_fail (gf != NULL, NULL);
 
-	sf->ref_count++;
+	gf->ref_count++;
 #ifdef DEBUG_REF_COUNT
 	g_message (__FUNCTION__ " format=%p '%s' ref_count=%d",
-		   sf, sf->format, sf->ref_count);
+		   gf, gf->format, gf->ref_count);
 #endif
+
+	return gf;
 }
 #endif
 
 #ifdef DEFINE_COMMON
 /**
- * style_format_unref :
- * @sf :
+ * go_format_unref :
+ * @gf :
  *
  * Remove a reference to a GOFormat, freeing when it goes to zero.
- */
+ **/
 void
-style_format_unref (GOFormat *sf)
+go_format_unref (GOFormat *gf)
 {
-	if (sf == NULL)
+	if (gf == NULL)
 		return;
 
-	g_return_if_fail (sf->ref_count > 0);
+	g_return_if_fail (gf->ref_count > 0);
 
-	sf->ref_count--;
+	gf->ref_count--;
 #ifdef DEBUG_REF_COUNT
 	g_message (__FUNCTION__ " format=%p '%s' ref_count=%d",
-		   sf, sf->format, sf->ref_count);
+		   gf, gf->format, gf->ref_count);
 #endif
-	if (sf->ref_count != 0)
+	if (gf->ref_count != 0)
 		return;
 
-	g_hash_table_remove (style_format_hash, sf->format);
+	g_hash_table_remove (style_format_hash, gf->format);
 
-	format_destroy (sf);
-	g_free (sf->format);
-	g_free (sf);
+	format_destroy (gf);
+	g_free (gf->format);
+	g_free (gf);
 }
 #endif
 
 #ifdef DEFINE_COMMON
 GOFormat *
-style_format_general (void)
+go_format_general (void)
 {
 	if (!default_general_fmt)
-		default_general_fmt =
-			style_format_new_XL (cell_formats[FMT_GENERAL][0], FALSE);
-
+		default_general_fmt = go_format_new_from_XL (
+			go_format_builtins[GO_FORMAT_GENERAL][0], FALSE);
 	return default_general_fmt;
 }
 #endif
 
 #ifdef DEFINE_COMMON
 GOFormat *
-style_format_default_date (void)
+go_format_default_date (void)
 {
 	if (!default_date_fmt)
-		default_date_fmt =
-			style_format_new_XL (cell_formats[FMT_DATE][0], FALSE);
-
+		default_date_fmt = go_format_new_from_XL (
+			go_format_builtins[GO_FORMAT_DATE][0], FALSE);
 	return default_date_fmt;
 }
 #endif
 
 #ifdef DEFINE_COMMON
 GOFormat *
-style_format_default_time (void)
+go_format_default_time (void)
 {
 	if (!default_time_fmt)
-		default_time_fmt =
-			style_format_new_XL (cell_formats[FMT_TIME][0], FALSE);
-
+		default_time_fmt = go_format_new_from_XL (
+			go_format_builtins[GO_FORMAT_TIME][0], FALSE);
 	return default_time_fmt;
 }
 #endif
 
 #ifdef DEFINE_COMMON
 GOFormat *
-style_format_default_date_time (void)
+go_format_default_date_time (void)
 {
 	if (!default_date_time_fmt)
-		default_date_time_fmt =
-			style_format_new_XL (cell_formats[FMT_TIME][4], FALSE);
-
+		default_date_time_fmt = go_format_new_from_XL (
+			go_format_builtins[GO_FORMAT_TIME][4], FALSE);
 	return default_date_time_fmt;
 }
 #endif
 
 #ifdef DEFINE_COMMON
 GOFormat *
-style_format_default_percentage	(void)
+go_format_default_percentage (void)
 {
 	if (!default_percentage_fmt)
-		default_percentage_fmt =
-			style_format_new_XL (cell_formats[FMT_PERCENT][1], FALSE);
-
+		default_percentage_fmt = go_format_new_from_XL (
+			go_format_builtins[GO_FORMAT_PERCENTAGE][1], FALSE);
 	return default_percentage_fmt;
 }
 #endif
 
 #ifdef DEFINE_COMMON
 GOFormat *
-style_format_default_money (void)
+go_format_default_money (void)
 {
 	if (!default_money_fmt)
-		default_money_fmt =
-			style_format_new_XL (cell_formats[FMT_CURRENCY][2], FALSE);
-
+		default_money_fmt = go_format_new_from_XL (
+			go_format_builtins[GO_FORMAT_CURRENCY][2], FALSE);
 	return default_money_fmt;
 }
 #endif

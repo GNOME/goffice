@@ -92,10 +92,16 @@ gog_dataset_get_dim (GogDataset const *set, int dim_i)
 void
 gog_dataset_set_dim (GogDataset *set, int dim_i, GOData *val, GError **err)
 {
-	GogDatasetClass *klass = GOG_DATASET_GET_CLASS (set);
+	GogDatasetClass *klass;
 
-	g_return_if_fail (klass != NULL);
 	g_return_if_fail (val == NULL || GO_DATA (val) != NULL);
+
+	if (set == NULL || !IS_GOG_DATASET (set)) {
+		g_warning ("gog_dataset_set_dim called with invalid GogDataset");
+		goto done;
+	}
+
+	klass = GOG_DATASET_GET_CLASS (set);
 
 	/* short circuit */
 	if (val != gog_dataset_get_dim (set, dim_i)) {
@@ -108,6 +114,7 @@ gog_dataset_set_dim (GogDataset *set, int dim_i, GOData *val, GError **err)
 			(klass->dim_changed) (set, dim_i);
 	}
 
+done :
 	/* absorb ref to orig, simplifies life cycle easier for new GODatas */
 	if (val != NULL)
 		g_object_unref (val);

@@ -10,8 +10,8 @@ G_BEGIN_DECLS
 /* ------------------------------------------------------------------------- */
 
 void go_math_init (void);
-void gnm_continued_fraction (double val, int max_denom, int *res_num, int *res_denom);
-void go_stern_brocot (double val, int max_denom, int *res_num, int *res_denom);
+void go_continued_fraction (double val, int max_denom, int *res_num, int *res_denom);
+void go_stern_brocot	   (double val, int max_denom, int *res_num, int *res_denom);
 
 /* ------------------------------------------------------------------------- */
 

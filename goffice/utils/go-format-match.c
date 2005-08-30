@@ -1,6 +1,7 @@
 #include <goffice/goffice-config.h>
 #include "go-format-match.h"
-#include "format.h"
+#include "go-format.h"
+#include "format-impl.h"
 #include "regutf8.h"
 
 #include <glib/gi18n.h>
@@ -142,7 +143,7 @@ create_option_list (char const *const *list)
 /* Create a regular expression for the given XL-style format.
  * NOTE: the format as well as the regexp are UTF-8 encoded. */
 static char *
-format_create_regexp (unsigned char const *format, GByteArray **dest)
+format_create_regexp (gchar const *format, GByteArray **dest)
 {
 	GString *regexp;
 	GByteArray *match_types;
@@ -495,7 +496,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 }
 
 gboolean
-format_match_create (GOFormat *fmt)
+format_match_create (GOFormatElement *fmt)
 {
 	GByteArray *match_tags;
 	char *regexp;
@@ -530,7 +531,7 @@ format_match_create (GOFormat *fmt)
 }
 
 void
-format_match_release (GOFormat *fmt)
+format_match_release (GOFormatElement *fmt)
 {
 	if (fmt->regexp_str != NULL) {
 		g_free (fmt->regexp_str);

@@ -1,3 +1,16 @@
+2005-08-29  Jody Goldberg <jody@gnome.org>
+
+	* goffice/utils/format-impl.h : s/StyleFormatEntry/GOFormatElement/
+	  Move the regexp into here from.
+	* goffice/utils/go-format.h : here.
+	  s/StyleFormat/GOFormat/
+
+2005-08-26  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-plot.c (gog_plot_new_series) : add some safety.
+	* goffice/graph/gog-data-set.c (gog_dataset_set_dim) : add some safety
+	  for invalid datasets, being careful to avoid leaking the new val.
+
 2005-08-24  Stepan Kasal  <kasal@ucw.cz>
 
 	The roles hash is now inherited by subclasses, with copy-on-write.

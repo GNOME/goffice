@@ -31,6 +31,7 @@ typedef struct _GOFont			GOFont;
 typedef struct _GOPattern		GOPattern;
 typedef struct _GOMarker		GOMarker;
 typedef struct _GOFormat		GOFormat;
+typedef struct _GOFormatElement		GOFormatElement;
 typedef struct _GODateConventions	GODateConventions;
 
 /* rename this */

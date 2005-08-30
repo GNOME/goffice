@@ -17,19 +17,19 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define CC2XML(s)	((const xmlChar *)(s))
-#define CXML2C(s)	((const char *)(s))
+#define CC2XML(s) ((xmlChar const *)(s))
+#define CXML2C(s) ((char const *)(s))
 
 
-/*
+/**
  * Like xmlParseFile, but faster.  Does not accept compressed files.
  * See http://bugzilla.gnome.org/show_bug.cgi?id=168414
  *
  * Note: this reads the entire file into memory and should therefore
  * not be used for user-supplied files.
- */
+ **/
 xmlDocPtr
-go_xml_parse_file (const char *filename)
+go_xml_parse_file (char const *filename)
 {
 	xmlDocPtr result = NULL;
 	gchar *contents;
@@ -74,8 +74,8 @@ xml_node_get_bool (xmlNodePtr node, char const *name, gboolean *val)
 	if (buf == NULL)
 		return FALSE;
 
-	*val = (!strcmp (buf, "1")
-		|| 0 == g_ascii_strcasecmp (buf, "true"));
+	*val = (!strcmp (CXML2C (buf), "1")
+		|| 0 == g_ascii_strcasecmp (CXML2C (buf), "true"));
 	g_free (buf);
 	return TRUE;
 }
@@ -231,7 +231,7 @@ e_xml_get_child_by_name (xmlNode const *parent, char const *child_name)
 	g_return_val_if_fail (child_name != NULL, NULL);
 
 	for (child = parent->xmlChildrenNode; child != NULL; child = child->next) {
-		if (xmlStrcmp (child->name, child_name) == 0) {
+		if (xmlStrcmp (child->name, CC2XML (child_name)) == 0) {
 			return child;
 		}
 	}
@@ -249,10 +249,10 @@ e_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *name)
 	for (node = parent->xmlChildrenNode; node != NULL; node = node->next) {
 		xmlChar *lang;
 
-		if (node->name == NULL || strcmp (node->name, name) != 0) {
+		if (node->name == NULL || strcmp (CXML2C (node->name), name) != 0) {
 			continue;
 		}
-		lang = xmlGetProp (node, "xml:lang");
+		lang = xmlGetProp (node, CC2XML ("xml:lang"));
 		if (lang == NULL) {
 			return node;
 		}
@@ -264,11 +264,11 @@ e_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *name)
 
 
 xmlNode *
-e_xml_get_child_by_name_by_lang (const xmlNode *parent, const gchar *name)
+e_xml_get_child_by_name_by_lang (xmlNode const *parent, gchar const *name)
 {
 	xmlNodePtr   best_node = NULL, node;
 	gint         best_lang_score = INT_MAX;
-	const char * const *langs = g_get_language_names ();
+	char const * const *langs = g_get_language_names ();
 
 	g_return_val_if_fail (parent != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
@@ -276,17 +276,15 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent, const gchar *name)
 	for (node = parent->xmlChildrenNode; node != NULL; node = node->next) {
 		xmlChar *lang;
 
-		if (node->name == NULL || strcmp (node->name, name) != 0)
+		if (node->name == NULL || strcmp (CXML2C (node->name), name) != 0)
 			continue;
 
-		lang = xmlGetProp (node, "xml:lang");
+		lang = xmlGetProp (node, CC2XML ("xml:lang"));
 		if (lang != NULL) {
 			gint i;
 
-			for (i = 0;
-			     langs[i] != NULL && i < best_lang_score;
-			     i++) {
-				if (strcmp (langs[i], lang) == 0) {
+			for (i = 0; langs[i] != NULL && i < best_lang_score; i++) {
+				if (strcmp (langs[i], CXML2C (lang)) == 0) {
 					best_node = node;
 					best_lang_score = i;
 				}

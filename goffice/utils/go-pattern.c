@@ -39,7 +39,7 @@
 typedef struct {
 	char const *name;
 	char const *str;
-	char const  pattern[8];
+	guint8 pattern[8];
 } GOPatternSpec;
 
 static GOPatternSpec const go_patterns [] = {
@@ -129,7 +129,7 @@ go_pattern_set_solid (GOPattern *pat, GOColor fore)
 	pat->back = fore;
 }
 
-char const *
+guint8 const *
 go_pattern_get_pattern (GOPattern const *pat)
 {
 	return go_patterns [pat->pattern].pattern;
@@ -142,16 +142,19 @@ go_pattern_get_pattern (GOPattern const *pat)
  * @height:  pattern height
  *
  * Returns an SVG path as string, which represents pattern shape.
+ * Caller is responsible for freeing the resulting string.
  *
  * If width != NULL, returns pattern width.
  * If height != NULL, returns pattern height.
  **/
+#warning This result is actually an xmlChar we could run into trouble with g_free vs xmlFree.  Can we change the interface ?
 char *
 go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height)
 {
 	char *path;
-	char *d = NULL, *name, *svg_path = NULL;
-	xmlDocPtr doc;
+	char *d = NULL;
+	xmlChar	  *name, *svg_path = NULL;
+	xmlDocPtr  doc;
 	xmlNodePtr ptr;
 
 	g_return_val_if_fail (pattern->pattern >= 0 || pattern->pattern < GO_PATTERN_MAX, NULL);
@@ -168,11 +171,11 @@ go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height
 	{
 		if (!xmlIsBlankNode (ptr) && 
 		    ptr->name && 
-		    !strcmp (ptr->name, "pattern")) 
+		    !strcmp ((char *)ptr->name, "pattern")) 
 		{
 			name = xmlGetProp (ptr, CC2XML ("name"));
 			if (name != NULL) {
-				if (strcmp (name, go_patterns [pattern->pattern].str) == 0) {
+				if (strcmp ((char *)name, go_patterns [pattern->pattern].str) == 0) {
 					if (width != NULL)
 						xml_node_get_double (ptr, "width", width);
 					if (height != NULL)
@@ -188,7 +191,7 @@ go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height
 
 	g_return_val_if_fail (svg_path != NULL, NULL);
 
-	return svg_path;
+	return (char *)svg_path;
 }
 
 #ifdef WITH_GTK
