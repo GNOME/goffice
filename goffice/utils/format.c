@@ -1044,13 +1044,13 @@ static char const qmarks[NUM_ZEROS + 1] = "??????????????????????????????";
 
 #ifdef DEFINE_COMMON
 /**
- * go_format_number :
+ * go_format_as_number :
  * @fmt : #GOFormatDetails
  *
  * generate an unlocalized number format based on @fmt.
  **/
 static GOFormat *
-go_format_number (GOFormatDetails const *fmt)
+go_format_as_number (GOFormatDetails const *fmt)
 {
 	int symbol = fmt->currency_symbol_index;
 	GString *str, *tmp;
@@ -1142,7 +1142,7 @@ style_format_fraction (GOFormatDetails const *fmt)
 
 #ifdef DEFINE_COMMON
 static GOFormat *
-go_format_percent (GOFormatDetails const *fmt)
+go_format_as_percentage (GOFormatDetails const *fmt)
 {
 	GString *str;
 	GOFormat *gf;
@@ -1166,7 +1166,7 @@ go_format_percent (GOFormatDetails const *fmt)
 
 #ifdef DEFINE_COMMON
 static GOFormat *
-go_format_science (GOFormatDetails const *fmt)
+go_format_as_scientific (GOFormatDetails const *fmt)
 {
 	GString *str;
 	GOFormat *gf;
@@ -1190,7 +1190,7 @@ go_format_science (GOFormatDetails const *fmt)
 
 #ifdef DEFINE_COMMON
 static GOFormat *
-go_format_account (GOFormatDetails const *fmt)
+go_format_as_account (GOFormatDetails const *fmt)
 {
 	GString *str, *sym, *num;
 	GOFormat *gf;
@@ -1347,13 +1347,13 @@ go_format_dec_precision (GOFormat const *fmt)
 	switch (fmt->family) {
 	case GO_FORMAT_NUMBER:
 	case GO_FORMAT_CURRENCY:
-		return reformat_decimals (&fmt->family_info, &go_format_number, -1);
+		return reformat_decimals (&fmt->family_info, &go_format_as_number, -1);
 	case GO_FORMAT_ACCOUNTING:
-		return reformat_decimals (&fmt->family_info, &go_format_account, -1);
+		return reformat_decimals (&fmt->family_info, &go_format_as_account, -1);
 	case GO_FORMAT_PERCENTAGE:
-		return reformat_decimals (&fmt->family_info, &go_format_percent, -1);
+		return reformat_decimals (&fmt->family_info, &go_format_as_percentage, -1);
 	case GO_FORMAT_SCIENTIFIC:
-		return reformat_decimals (&fmt->family_info, &go_format_science, -1);
+		return reformat_decimals (&fmt->family_info, &go_format_as_scientific, -1);
 	case GO_FORMAT_FRACTION: {
 		GOFormatDetails fc = fmt->family_info;
 
@@ -1457,15 +1457,16 @@ go_format_inc_precision (GOFormat const *fmt)
 	switch (fmt->family) {
 	case GO_FORMAT_NUMBER:
 	case GO_FORMAT_CURRENCY:
-		return reformat_decimals (&fmt->family_info, &go_format_number, +1);
+		return reformat_decimals (&fmt->family_info, &go_format_as_number, +1);
 	case GO_FORMAT_ACCOUNTING:
-		return reformat_decimals (&fmt->family_info, &go_format_account, +1);
+		return reformat_decimals (&fmt->family_info, &go_format_as_account, +1);
 	case GO_FORMAT_PERCENTAGE:
-		return reformat_decimals (&fmt->family_info, &go_format_percent, +1);
+		return reformat_decimals (&fmt->family_info, &go_format_as_percentage, +1);
 	case GO_FORMAT_SCIENTIFIC:
-		return reformat_decimals (&fmt->family_info, &go_format_science, +1);
+		return reformat_decimals (&fmt->family_info, &go_format_as_scientific, +1);
 	case GO_FORMAT_FRACTION: {
 		GOFormatDetails fc = fmt->family_info;
+
 		if (fc.fraction_denominator >= 2) {
 			if (fc.fraction_denominator <= INT_MAX / 2 &&
 			    ((fc.fraction_denominator & (fc.fraction_denominator - 1)) == 0))
@@ -1559,17 +1560,17 @@ go_format_toggle_1000sep (GOFormat const *fmt)
 	switch (fmt->family) {
 	case GO_FORMAT_NUMBER:
 	case GO_FORMAT_CURRENCY:
-		return go_format_number (&fc);
+		return go_format_as_number (&fc);
 
 	case GO_FORMAT_ACCOUNTING:
 		/*
 		 * FIXME: this doesn't actually work as no 1000 seps
 		 * are used for accounting.
 		 */
-		return go_format_account (&fc);
+		return go_format_as_account (&fc);
 	case GO_FORMAT_GENERAL:
 		fc.currency_symbol_index = 0;
-		return go_format_number (&fc);
+		return go_format_as_number (&fc);
 
 	default:
 		break;
@@ -2518,20 +2519,20 @@ go_format_new (GOFormatFamily family, GOFormatDetails const *info)
 		/* Make sure no currency is selected */
 		GOFormatDetails info_copy = *info;
 		info_copy.currency_symbol_index = 0;
-		return go_format_number (&info_copy);
+		return go_format_as_number (&info_copy);
 	}
 
 	case GO_FORMAT_CURRENCY:
-		return go_format_number (info);
+		return go_format_as_number (info);
 
 	case GO_FORMAT_ACCOUNTING:
-		return go_format_account (info);
+		return go_format_as_account (info);
 
 	case GO_FORMAT_PERCENTAGE:
-		return go_format_percent (info);
+		return go_format_as_percentage (info);
 
 	case GO_FORMAT_SCIENTIFIC:
-		return go_format_science (info);
+		return go_format_as_scientific (info);
 
 	default:
 	case GO_FORMAT_DATE:
