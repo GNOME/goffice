@@ -1,3 +1,12 @@
+2005-08-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/Makefile.am: add go-regression.* and go-rangefuncs.*
+	* goffice/utils/go-rangefunc.c: imported various functions from gnumeric
+	and build both double and long double versions is long double is available.
+	* goffice/utils/go-rangefunc.h: ditto.
+	* goffice/utils/go-regression.c: ditto.
+	* goffice/utils/go-regression.h: ditto.
+
 2005-08-29  Jody Goldberg <jody@gnome.org>
 
 	* goffice/utils/format-impl.h : s/StyleFormatEntry/GOFormatElement/
