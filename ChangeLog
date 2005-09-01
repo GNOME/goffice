@@ -2,7 +2,7 @@
 
 	* goffice/utils/Makefile.am: add go-regression.* and go-rangefuncs.*
 	* goffice/utils/go-rangefunc.c: imported various functions from gnumeric
-	and build both double and long double versions is long double is available.
+	and build both double and long double versions if long double is available.
 	* goffice/utils/go-rangefunc.h: ditto.
 	* goffice/utils/go-regression.c: ditto.
 	* goffice/utils/go-regression.h: ditto.
