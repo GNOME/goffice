@@ -584,6 +584,7 @@ format_entry_ctor (GOFormat *container)
 	entry->restriction_type = '*';
 	entry->restriction_value = 0.;
 	entry->suppress_minus = FALSE;
+	entry->forces_text = FALSE;
 	entry->elapsed_time = FALSE;
 	entry->want_am_pm = entry->has_fraction = FALSE;
 	entry->go_color = 0;
@@ -749,6 +750,10 @@ format_compile (GOFormat *format)
 		case 'H': case 'h':
 			if (!entry->suppress_minus && !entry->elapsed_time)
 				entry->suppress_minus = TRUE;
+			break;
+
+		case '@':
+			entry->forces_text = TRUE;
 			break;
 
 		case ';':

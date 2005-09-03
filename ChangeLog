@@ -1,3 +1,9 @@
+2005-09-02  Jody Goldberg <jody@gnome.org>
+
+	* goffice/utils/format.c : Add GOFormatElement::forces_text.
+	(format_entry_ctor) : initialize it to FALSE.
+	(format_compile) : '@' sets it to TRUE.
+
 2005-08-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/Makefile.am: add go-regression.* and go-rangefuncs.*

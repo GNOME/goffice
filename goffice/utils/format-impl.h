@@ -11,6 +11,9 @@ struct _GOFormatElement {
         double	    restriction_value;
 	GOColor     go_color;
 
+	/* fmt contains an '@' that stringifies things */
+	gboolean    forces_text;
+
 	gboolean    want_am_pm;
 	gboolean    has_fraction;
 	gboolean    suppress_minus;
