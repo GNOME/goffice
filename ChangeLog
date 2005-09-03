@@ -1,5 +1,10 @@
 2005-09-02  Jody Goldberg <jody@gnome.org>
 
+	* goffice/app/io-context.c (gnm_io_context_processing_file) : people
+	  do not want to see escaped uri's in the progress bar.
+
+2005-09-02  Jody Goldberg <jody@gnome.org>
+
 	* goffice/utils/format.c : Add GOFormatElement::forces_text.
 	(format_entry_ctor) : initialize it to FALSE.
 	(format_compile) : '@' sets it to TRUE.

@@ -9,12 +9,12 @@
  *	Jody Goldberg <jody@gnome.org>
  *	Zbigniew Chyla <cyba@gnome.pl>
  *
- * (C) 2000-2002 Jody Goldberg
+ * (C) 2000-2005 Jody Goldberg
  */
 #include <goffice/goffice-config.h>
 #include "io-context-priv.h"
 #include "go-cmd-context.h"
-
+#include <goffice/utils/go-file.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkmain.h>
 
@@ -388,13 +388,23 @@ gnm_io_context_set_num_files (IOContext *ioc, guint count)
 		klass->set_num_files (ioc, count);
 }
 
+/**
+ * gnm_io_context_processing_file :
+ * @ioc : #IOContext
+ * @uri : An escaped uri (eg foo%20bar)
+ **/
 void
-gnm_io_context_processing_file (IOContext *ioc, char const *name)
+gnm_io_context_processing_file (IOContext *ioc, char const *uri)
 {
+	char *basename;
 	IOContextClass *klass = IOC_CLASS(ioc);
+
 	g_return_if_fail (klass != NULL);
-	if (klass->processing_file != NULL)
-		klass->processing_file (ioc, name);
+
+	basename = go_basename_from_uri (uri); /* unescape the uri */
+	if (basename != NULL && klass->processing_file != NULL)
+		klass->processing_file (ioc, basename);
+	g_free (basename);
 }
 
 void

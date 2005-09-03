@@ -41,7 +41,7 @@ void       value_io_progress_update (IOContext *io_context, gint value);
 void       io_progress_unset      (IOContext *io_context);
 
 void gnm_io_context_set_num_files	(IOContext *ioc, guint count);
-void gnm_io_context_processing_file	(IOContext *ioc, char const *name);
+void gnm_io_context_processing_file	(IOContext *ioc, char const *uri);
 void gnm_io_warning			(IOContext *ioc, char const *fmt, ...) G_GNUC_PRINTF (2, 3);
 void gnm_io_warning_varargs		(IOContext *ioc, char const *fmt, va_list args);
 void gnm_io_warning_unknown_font	(IOContext *ioc, char const *font_name);
