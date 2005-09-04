@@ -199,7 +199,6 @@ fill_properties (GogRenderer *renderer, xmlNodePtr node, gboolean narrow)
 					set_double_prop (node, "fill-opacity", (double) opacity / 255.0);
 			} else {
 				xmlNodePtr child, pat_node;
-
 				id = g_strdup (go_pattern_as_str (style->fill.pattern.pattern));
 				name = (char *) g_hash_table_lookup (prend->table, id);
 
@@ -207,6 +206,8 @@ fill_properties (GogRenderer *renderer, xmlNodePtr node, gboolean narrow)
 					double height, width;
 					char *svg_path = go_pattern_get_svg_path (&style->fill.pattern, 
 										  &width, &height);
+					char buffer[G_ASCII_DTOSTR_BUF_SIZE];
+
 					if (svg_path == NULL) {
 						g_free (id);
 						break;
@@ -227,15 +228,19 @@ fill_properties (GogRenderer *renderer, xmlNodePtr node, gboolean narrow)
 					xmlSetProp (child, CC2XML ("y"), CC2XML ("-0.1"));
 					set_double_prop (child, "width", width * SVG_PATTERN_SCALE + 0.2);
 					set_double_prop (child, "height", height * SVG_PATTERN_SCALE + 0.2);
-					buf = g_strdup_printf ("stroke:none;fill:#%06x;",
-							       style->fill.pattern.back >> 8);
+					g_ascii_dtostr (buffer, sizeof (buffer), 
+							(double) (style->fill.pattern.back & 0xff) / 255.0);
+					buf = g_strdup_printf ("stroke:none;fill:#%06x;fill-opacity:%s;",
+							       style->fill.pattern.back >> 8, buffer);
 					xmlSetProp (child, CC2XML ("style"), CC2XML (buf));
 					g_free (buf);
 
 					child = xmlNewChild (pat_node, NULL, CC2XML ("path"), NULL);
 					xmlSetProp (child, CC2XML ("d"), CC2XML (svg_path));
-					buf = g_strdup_printf ("stroke:none;fill:#%06x;", 
-							       style->fill.pattern.fore >> 8);
+					g_ascii_dtostr (buffer, sizeof (buffer), 
+							(double) (style->fill.pattern.fore & 0xff) / 255.0);
+					buf = g_strdup_printf ("stroke:none;fill:#%06x;fill-opacity:%s;", 
+							       style->fill.pattern.fore >> 8, buffer);
 					xmlSetProp (child, CC2XML ("style"), CC2XML (buf));
 					g_free (buf);
 					buf = g_strdup_printf ("scale(%g)", SVG_PATTERN_SCALE);

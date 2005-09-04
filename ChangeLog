@@ -1,3 +1,8 @@
+2005-09-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-renderer-svg.c (fill_properties): set fill pattern
+	opacity.
+
 2005-09-02  Jody Goldberg <jody@gnome.org>
 
 	* goffice/app/io-context.c (gnm_io_context_processing_file) : people
