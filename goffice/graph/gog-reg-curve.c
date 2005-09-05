@@ -41,12 +41,6 @@
 
 #define GOG_REG_CURVE_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_REG_CURVE_TYPE, GogRegCurveClass))
 
-static void
-skip_invalid_toggled_cb (GtkToggleButton* btn, GObject *obj)
-{
-	g_object_set (obj, "skip-invalid", gtk_toggle_button_get_active (btn), NULL);
-}
-
 static GObjectClass *reg_curve_parent_klass;
 
 static GType gog_reg_curve_view_get_type (void);
@@ -62,6 +56,12 @@ gog_reg_curve_init_style (GogStyledObject *gso, GogStyle *style)
 	style->interesting_fields = GOG_STYLE_LINE;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, FALSE);
+}
+
+static void
+skip_invalid_toggled_cb (GtkToggleButton* btn, GObject *obj)
+{
+	g_object_set (obj, "skip-invalid", gtk_toggle_button_get_active (btn), NULL);
 }
 
 static void
@@ -102,7 +102,7 @@ gog_reg_curve_populate_editor (GogObject *gobj,
 
 static void
 gog_reg_curve_get_property (GObject *obj, guint param_id,
-		       GValue const *value, GParamSpec *pspec)
+		       GValue *value, GParamSpec *pspec)
 {
 	GogRegCurve *rc = GOG_REG_CURVE (obj);
 	switch (param_id) {
@@ -117,7 +117,7 @@ gog_reg_curve_get_property (GObject *obj, guint param_id,
 
 static void
 gog_reg_curve_set_property (GObject *obj, guint param_id,
-		       GValue *value, GParamSpec *pspec)
+		       GValue const *value, GParamSpec *pspec)
 {
 	GogRegCurve *rc = GOG_REG_CURVE (obj);
 	switch (param_id) {
