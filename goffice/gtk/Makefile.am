@@ -5,6 +5,7 @@ libgoffice_gtk_la_SOURCES =		\
 	\
 	go-font-sel.c			\
 	go-format-sel.c			\
+	go-rotation-sel.c	 	\
 	go-charmap-sel.c		\
 	go-locale-sel.c			\
 	\
@@ -30,6 +31,7 @@ libgoffice_gtk_la_HEADERS = 		\
 	\
 	go-font-sel.h			\
 	go-format-sel.h			\
+	go-rotation-sel.h	 	\
 	go-charmap-sel.h		\
 	go-locale-sel.h			\
 	\
@@ -50,6 +52,7 @@ libgoffice_gtk_la_HEADERS = 		\
 
 gladedir = $(goffice_datadir)/glade
 dist_glade_DATA = \
+	go-rotation-sel.glade 	\
 	go-font-sel.glade 	\
 	go-format-sel.glade 
 

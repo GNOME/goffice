@@ -8,6 +8,10 @@ Emmanuel Pacaud:
 Jean Brefort:
 	* Box-plots use raw data [#308136].
 
+Jody:
+	* GOFormat now matches against all tuples.
+	* Add GORotationSel from Gnumeric.
+
 --------------------------------------------------------------------------
 goffice 0.0.3:
 

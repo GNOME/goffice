@@ -185,6 +185,10 @@ goffice/gtk/go-font-sel.h
 goffice/gtk/go-format-sel.c
 goffice/gtk/go-format-sel.glade
 goffice/gtk/go-format-sel.h
+goffice/gtk/go-rotation-sel.c
+goffice/gtk/go-rotation-sel.glade
+goffice/gtk/go-rotation-sel.h
+goffice/gtk/go-locale-sel.c
 goffice/gtk/go-locale-sel.c
 goffice/gtk/go-locale-sel.h
 goffice/gtk/go-optionmenu.c
