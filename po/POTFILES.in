@@ -202,7 +202,6 @@ goffice/ms-compat/go-ms-parser.h
 goffice/utils/datetime.c
 goffice/utils/datetime.h
 goffice/utils/format.c
-goffice/utils/format.h
 goffice/utils/format-impl.h
 goffice/utils/formats.c
 goffice/utils/go-color.c
