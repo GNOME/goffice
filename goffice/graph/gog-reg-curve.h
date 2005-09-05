@@ -32,8 +32,7 @@ struct  _GogRegCurve {
 	gboolean  	   weighted;
 	GODataVector 	  *weights;
 	GogDatasetElement *bounds;
-	int 		   npoints, 
-			   used_points;
+	gboolean skip_invalid; /* do not take into account invalid data */
 	int ninterp; /* how many points to use for display the curve as a vpath */
 };
 

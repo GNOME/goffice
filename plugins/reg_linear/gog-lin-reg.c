@@ -25,6 +25,7 @@
 #include <goffice/data/go-data.h>
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/utils/go-math.h>
+#include <goffice/utils/go-regression.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -38,46 +39,58 @@ gog_lin_reg_curve_update (GogObject *obj)
 	GogLinRegCurve *rc = GOG_LIN_REG_CURVE (obj);
 	GogSeries *series = GOG_SERIES (obj->parent);
 	double const *y_vals, *x_vals = NULL;
-	double x2 = 0., y2 = 0., xy = 0., sx = 0., sy = 0., x, y;
+	double *vx, *vy;
+	double x, y;
 	double xmin, xmax;
-	int i, tmp;
+	int i, used, tmp, nb;
 
 	g_return_if_fail (gog_series_is_valid (GOG_SERIES (series)));
 
 	gog_reg_curve_get_bounds (&rc->base, &xmin, &xmax);
 	y_vals = go_data_vector_get_values (
 		GO_DATA_VECTOR (series->values[1].data));
-	rc->base.npoints = go_data_vector_get_len (
+	nb = go_data_vector_get_len (
 		GO_DATA_VECTOR (series->values[1].data));
 	if (series->values[0].data) {
 		x_vals = go_data_vector_get_values (
 			GO_DATA_VECTOR (series->values[0].data));
 		tmp = go_data_vector_get_len (
 			GO_DATA_VECTOR (series->values[0].data));
-		if (rc->base.npoints > tmp)
-			rc->base.npoints = tmp;
+		if (nb > tmp)
+			nb = tmp;
 	}
-	rc->base.used_points = 0;
-	for (i = 0; i < rc->base.npoints; i++) {
+	vx = g_new (double, nb);
+	vy = g_new (double, nb);
+	for (i = 0, used = 0; i < nb; i++) {
 		x = (x_vals)? x_vals[i]: i;
+		y = y_vals[i];
+		if (!go_finite (x) || !go_finite (y)) {
+			if (rc->base.skip_invalid)
+				continue;
+			used = 0;
+			break;
+		}
 		if (x < xmin || x > xmax)
 			continue;
-		sx += x;
-		x2 += x * x;
-		y = y_vals[i];
-		sy += y;
-		y2 += y * y;
-		xy += x * y;
-		rc->base.used_points++;
+		vx[used] = x;
+		vy[used] = y;
+		used++;
 	}
-	if (rc->base.used_points > 1) {
-		x = sx / rc->base.used_points;
-		y = sy / rc->base.used_points;
-		rc->a1 = (rc->base.used_points * xy  - sx * sy) / (rc->base.used_points * x2 - sx * sx);
-		rc->a0 = (sy - rc->a1 * sx) / rc->base.used_points;
-		rc->R2 = rc->a1 * rc->a1 * (rc->base.used_points * x2 - sx * sx) / (rc->base.used_points * y2 -sy * sy);
-	} else
-		rc->R2 = rc->a0 = rc->a1 = go_nan;
+	rc->R2 = rc->a0 = rc->a1 = go_nan;
+	if (used > 1) {
+		double a[2];
+		regression_stat_t *stats = go_regression_stat_new ();
+		RegressionResult res = go_linear_regression (&vx, 1, vy, used,
+								TRUE, a, stats);
+		if (res == REG_ok) {
+			rc->R2 = stats->sqr_r;
+			rc->a0 = a[0];
+			rc->a1 = a[1];
+		}
+		go_regression_stat_destroy (stats);
+	}
+	g_free (vx);
+	g_free (vy);
 	if (rc->equation) {
 		g_free (rc->equation);
 		rc->equation = NULL;

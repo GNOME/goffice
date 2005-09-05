@@ -37,12 +37,24 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 #include <gtk/gtktable.h>
+#include <gtk/gtktogglebutton.h>
 
 #define GOG_REG_CURVE_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_REG_CURVE_TYPE, GogRegCurveClass))
+
+static void
+skip_invalid_toggled_cb (GtkToggleButton* btn, GObject *obj)
+{
+	g_object_set (obj, "skip-invalid", gtk_toggle_button_get_active (btn), NULL);
+}
 
 static GObjectClass *reg_curve_parent_klass;
 
 static GType gog_reg_curve_view_get_type (void);
+
+enum {
+	REG_CURVE_PROP_0,
+	REG_CURVE_PROP_SKIP_INVALID,
+};
 
 static void
 gog_reg_curve_init_style (GogStyledObject *gso, GogStyle *style)
@@ -78,9 +90,45 @@ gog_reg_curve_populate_editor (GogObject *gobj,
 	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 1, GOG_DATA_SCALAR));
 	gtk_widget_show (w);
 	gtk_table_attach (table, w, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	w = glade_xml_get_widget (gui, "skip-invalid");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+					(GOG_REG_CURVE (gobj))->skip_invalid);
+	g_signal_connect (G_OBJECT (w), "toggled",
+		G_CALLBACK (skip_invalid_toggled_cb), gobj);
 
 
 	(GOG_OBJECT_CLASS(reg_curve_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
+}
+
+static void
+gog_reg_curve_get_property (GObject *obj, guint param_id,
+		       GValue const *value, GParamSpec *pspec)
+{
+	GogRegCurve *rc = GOG_REG_CURVE (obj);
+	switch (param_id) {
+	case REG_CURVE_PROP_SKIP_INVALID:
+		g_value_set_boolean (value, rc->skip_invalid);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
+gog_reg_curve_set_property (GObject *obj, guint param_id,
+		       GValue *value, GParamSpec *pspec)
+{
+	GogRegCurve *rc = GOG_REG_CURVE (obj);
+	switch (param_id) {
+	case REG_CURVE_PROP_SKIP_INVALID:
+		rc->skip_invalid = g_value_get_boolean (value);
+		gog_object_request_update (GOG_OBJECT (obj));
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
 }
 
 static void
@@ -114,6 +162,8 @@ gog_reg_curve_class_init (GogObjectClass *gog_klass)
 	GogRegCurveClass *reg_curve_klass = (GogRegCurveClass *) gog_klass;
 	reg_curve_parent_klass = g_type_class_peek_parent (gog_klass);
 
+	gobject_klass->get_property = gog_reg_curve_get_property;
+	gobject_klass->set_property = gog_reg_curve_set_property;
 	gobject_klass->finalize = gog_reg_curve_finalize;
 	gog_klass->populate_editor	= gog_reg_curve_populate_editor;
 	style_klass->init_style = gog_reg_curve_init_style;
@@ -124,6 +174,10 @@ gog_reg_curve_class_init (GogObjectClass *gog_klass)
 	reg_curve_klass->get_value_at = NULL;
 	reg_curve_klass->get_equation = NULL;
 	reg_curve_klass->get_R2 = NULL;
+
+	g_object_class_install_property (gobject_klass, REG_CURVE_PROP_SKIP_INVALID,
+		g_param_spec_boolean ("skip-invalid", "skip-invalid",
+			"Skip invalid data", FALSE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 }
 
 static void

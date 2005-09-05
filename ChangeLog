@@ -1,3 +1,15 @@
+2005-09-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-reg-curve-prefs.glade: add a check box to allow
+	invalid data skipping [#312788].
+	* goffice/graph/gog-reg-curve.c: (skip_invalid_toggled_cb),
+	(gog_reg_curve_populate_editor), (gog_reg_curve_get_property),
+	(gog_reg_curve_set_property), (gog_reg_curve_class_init): ditto.
+	* goffice/graph/gog-reg-curve.h: add skip_invalid to GogRegCurve and
+	remove obsolete members.
+	* plugins/reg_linear/gog-lin-reg.c: (gog_lin_reg_curve_update): use
+	GogRegCurve::skip_invalid [#312788] and use code in go-regression.c.
+
 2005-09-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-renderer-svg.c (fill_properties): set fill pattern
