@@ -189,7 +189,6 @@ goffice/gtk/go-rotation-sel.c
 goffice/gtk/go-rotation-sel.glade
 goffice/gtk/go-rotation-sel.h
 goffice/gtk/go-locale-sel.c
-goffice/gtk/go-locale-sel.c
 goffice/gtk/go-locale-sel.h
 goffice/gtk/go-optionmenu.c
 goffice/gtk/go-optionmenu.h
