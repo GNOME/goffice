@@ -11,6 +11,7 @@ Jean Brefort:
 Jody:
 	* GOFormat now matches against all tuples.
 	* Add GORotationSel from Gnumeric.
+	* fixed number of digits for denominator regexp [#144112]
 
 --------------------------------------------------------------------------
 goffice 0.0.3:

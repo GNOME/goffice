@@ -447,10 +447,13 @@ format_create_regexp (gchar const *format, GByteArray **dest)
 					/* FIXME: The final regexp won't match a plain digit sequence.  */
 				}
 
-				while (format[1] == '?' || g_ascii_isdigit (format[1]))
+				g_string_append_c (regexp, '(');
+				while (format[1] == '?' || g_ascii_isdigit (format[1])) {
 					format++;
+					g_string_append (regexp, "[0-9]");
+				}
 
-				g_string_append (regexp, "([0-9]+) *");
+				g_string_append (regexp, ") *");
 				append_type (MATCH_DENOMINATOR);
 			}
 			break;
