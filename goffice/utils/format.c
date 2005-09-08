@@ -1778,17 +1778,19 @@ SUFFIX(go_format_number) (GString *result,
 				}
 
 				if (denominator > 0) {
+					gboolean show_zero = TRUE;
 					/* improper fractions */
 					if (!info.rendered) {
 						info.rendered = TRUE;
 						numerator += ((int)number) * denominator;
-					}
+					} else
+						show_zero = (number == 0);
 
 					/*
 					 * FIXME: the space-aligning here doesn't come out
 					 * right except in mono-space fonts.
 					 */
-					if (numerator > 0) {
+					if (numerator > 0 || show_zero) {
 						g_string_append_printf (result,
 									"%*d/%-*d",
 									info.left_spaces, numerator,

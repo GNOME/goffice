@@ -1,5 +1,10 @@
 2005-09-05  Jody Goldberg <jody@gnome.org>
 
+	* goffice/utils/format.c (go_format_number) : Show 0/??? for fractions
+	  with no integer component. [#315018]
+
+2005-09-05  Jody Goldberg <jody@gnome.org>
+
 	* goffice/utils/go-format-match.c (format_create_regexp) : match
 	  correct number of digits in denominator.
 
