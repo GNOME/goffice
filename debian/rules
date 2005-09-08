@@ -53,7 +53,7 @@ confflags +=    --enable-iso-c \
                 --enable-compile-warnings=maximum
 
 # Features
-confflags +=    
+confflags +=    --without-cairo
 
 upstreamversion=$(shell dpkg-parsechangelog | grep Version | head -1 | sed -e 's/Version: //g' -e 's/-[A-Za-z0-9\.]*$$//g')
 versionh=$(shell echo $(upstreamversion) | sed -e 's/\.[^.]*$$//')
