@@ -1005,6 +1005,31 @@ SUFFIX(do_render_number) (DOUBLE number, GONumberFormat *info, GString *result)
 	SUFFIX(go_render_number) (result, info->scale * number, info);
 }
 
+static DOUBLE
+SUFFIX(guess_invprecision) (const gchar *format)
+{
+	/*
+	 * invprecision should be 1 for "mm:ss", 10 for "mm:ss.0", and
+	 * 100 for "mm:ss.00" etc.
+	 */
+
+	/*
+	 * This is _crude_.  One day we really will re-do the formats.
+	 */
+	format = strchr (format, '.');
+	if (!format)
+		return 1;
+	else {
+		DOUBLE res = 1;
+
+		while (*++format == '0')
+			res *= 10;
+
+		return res;
+	}
+}
+
+
 /*
  * Microsoft Excel has a bug in the handling of year 1900,
  * I quote from http://catless.ncl.ac.uk/Risks/19.64.html#subj9.1
@@ -1022,16 +1047,23 @@ SUFFIX(do_render_number) (DOUBLE number, GONumberFormat *info, GString *result)
  * > If no one noticed anything wrong, it must be that no one did it that way.
  */
 static gboolean
-SUFFIX(split_time) (struct tm *tm, DOUBLE number, GODateConventions const *date_conv)
+SUFFIX(split_time) (struct tm *tm,
+		    DOUBLE number,
+		    DOUBLE invprecision,
+		    GODateConventions const *date_conv)
 {
 	guint secs;
 	GDate date;
+	DOUBLE delta = 1 / (invprecision * (2 * 24 * 60 * 60));
+	DOUBLE fl_number;
 
-	datetime_serial_to_g (&date,
-		datetime_serial_raw_to_serial (number), date_conv);
+	number += delta;
+	fl_number = SUFFIX(floor) (number);
+
+	datetime_serial_to_g (&date, (int)fl_number, date_conv);
 	g_date_to_struct_tm (&date, tm);
 
-	secs = datetime_serial_raw_to_seconds (number);
+	secs = (int)((number - fl_number) * (24 * 60 * 60));
 	tm->tm_hour = secs / 3600;
 	secs -= tm->tm_hour * 3600;
 	tm->tm_min  = secs / 60;
@@ -1877,7 +1909,8 @@ SUFFIX(go_format_number) (GString *result,
 			}
 
 			if (need_time_split)
-				need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
+				need_time_split = SUFFIX(split_time)
+					(&tm, signed_number, SUFFIX(guess_invprecision) (format), date_conv);
 			if (hour_seen ||
 			    (format[1] == ':' &&
 			     (format[2] == 's' || format[2] == 'S'))) {
@@ -1890,14 +1923,16 @@ SUFFIX(go_format_number) (GString *result,
 		case 'D':
 		case 'd':
 			if (need_time_split)
-				need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
+				need_time_split = SUFFIX(split_time)
+					(&tm, signed_number, SUFFIX(guess_invprecision) (format), date_conv);
 			format += append_day (result, format, &tm) - 1;
 			break;
 
 		case 'Y':
 		case 'y':
 			if (need_time_split)
-				need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
+				need_time_split = SUFFIX(split_time)
+					(&tm, signed_number, SUFFIX(guess_invprecision) (format), date_conv);
 			format += append_year (result, format, &tm) - 1;
 			break;
 
@@ -1915,7 +1950,8 @@ SUFFIX(go_format_number) (GString *result,
 				SUFFIX(append_second_elapsed) (result, number);
 			} else {
 				if (need_time_split)
-					need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
+					need_time_split = SUFFIX(split_time)
+						(&tm, signed_number, SUFFIX(guess_invprecision) (format), date_conv);
 				append_second (result, n, &tm);
 
 				if (format[1] == '.') {
@@ -1959,7 +1995,8 @@ SUFFIX(go_format_number) (GString *result,
 				 * NOTE : This is a non-XL extension
 				 */
 				if (need_time_split)
-					need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
+					need_time_split = SUFFIX(split_time)
+						(&tm, signed_number, SUFFIX(guess_invprecision) (format), date_conv);
 
 				append_hour (result, n, &tm, entry->want_am_pm);
 			}
@@ -1970,7 +2007,8 @@ SUFFIX(go_format_number) (GString *result,
 		case 'A':
 		case 'a':
 			if (need_time_split)
-				need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
+				need_time_split = SUFFIX(split_time)
+					(&tm, signed_number, SUFFIX(guess_invprecision) (format), date_conv);
 			if (tm.tm_hour < 12){
 				g_string_append_c (result, *format);
 				format++;
@@ -1989,7 +2027,8 @@ SUFFIX(go_format_number) (GString *result,
 
 		case 'P': case 'p':
 			if (need_time_split)
-				need_time_split = SUFFIX(split_time) (&tm, signed_number, date_conv);
+				need_time_split = SUFFIX(split_time)
+					(&tm, signed_number, SUFFIX(guess_invprecision) (format), date_conv);
 			if (tm.tm_hour >= 12){
 				g_string_append_c (result, *format);
 				if (*(format + 1) == 'm' || *(format + 1) == 'M'){

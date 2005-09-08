@@ -1,3 +1,10 @@
+goffice 0.1.0:
+
+Morten:
+	* Fix rendering of numbers using formats with fractional
+	  seconds part.  [#315544]
+
+--------------------------------------------------------------------------
 goffice 0.0.4:
 
 Emmanuel Pacaud:
