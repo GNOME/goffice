@@ -5,6 +5,16 @@
 
 2005-09-08  Jody Goldberg <jody@gnome.org>
 
+	* goffice/utils/format.c (number_format_init) : add an unref when
+	  formats are removed from the cache.
+	(cb_format_leak) : ignore the ref from the cache.
+	(go_format_unref) : warn if final unref and format is still in cache.
+	(number_format_shutdown) : work around the warning in _unref.
+	(go_format_new_from_XL) : give a ref to the cache and the caller.
+	(go_format_new_markup) : ditto.
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : post release bump.  jump to 0.1.0 in preparation for
 	  release
 

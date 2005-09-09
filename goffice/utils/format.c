@@ -2164,7 +2164,8 @@ go_fmt_general_int (GString *result, int val, int col_width)
 void
 number_format_init (void)
 {
-	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	style_format_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
+		NULL, (GDestroyNotify) go_format_unref);
 
 	beyond_precision = go_pow10 (DBL_DIG) + 1;
 #ifdef GOFFICE_WITH_LONG_DOUBLE
@@ -2181,10 +2182,9 @@ number_format_init (void)
 static void
 cb_format_leak (gpointer key, gpointer value, gpointer user_data)
 {
-	GOFormat *format = value;
-
-	fprintf (stderr, "Leaking GOFormat at %p [%s].\n",
-		 format, format->format);
+	GOFormat const *gf = value;
+	if (gf->ref_count != 1)
+		fprintf (stderr, "Leaking GOFormat at %p [%s].\n", gf, gf->format);
 }
 #endif
 
@@ -2192,6 +2192,8 @@ cb_format_leak (gpointer key, gpointer value, gpointer user_data)
 void
 number_format_shutdown (void)
 {
+	GHashTable *tmp;
+
 	g_string_free (lc_decimal, TRUE);
 	lc_decimal = NULL;
 
@@ -2231,9 +2233,10 @@ number_format_shutdown (void)
 		default_general_fmt = NULL;
 	}
 
-	g_hash_table_foreach (style_format_hash, cb_format_leak, NULL);
-	g_hash_table_destroy (style_format_hash);
+	tmp = style_format_hash;
 	style_format_hash = NULL;
+	g_hash_table_foreach (tmp, cb_format_leak, NULL);
+	g_hash_table_destroy (tmp);
 }
 #endif
 
@@ -2488,7 +2491,7 @@ go_format_new_from_XL (char const *descriptor_string, gboolean delocalize)
 
 	format = (GOFormat *) g_hash_table_lookup (style_format_hash, descriptor_string);
 
-	if (!format) {
+	if (NULL == format) {
 		format = g_new0 (GOFormat, 1);
 		format->format = g_strdup (descriptor_string);
 		format->entries = NULL;
@@ -2501,16 +2504,16 @@ go_format_new_from_XL (char const *descriptor_string, gboolean delocalize)
 		else
 			format->is_var_width = TRUE;
 
+		format->ref_count = 1;
 		g_hash_table_insert (style_format_hash, format->format, format);
 	}
-	format->ref_count++;
 #ifdef DEBUG_REF_COUNT
 	g_message (__FUNCTION__ " format=%p '%s' ref_count=%d",
 		   format, format->format, format->ref_count);
 #endif
 
 	g_free (desc_copy);
-	return format;
+	return go_format_ref (format);
 }
 #endif
 
@@ -2539,15 +2542,15 @@ go_format_new_markup (PangoAttrList *markup, gboolean add_ref)
 	if (add_ref)
 		pango_attr_list_ref (markup);
 
+	format->ref_count = 1;
 	g_hash_table_insert (style_format_hash, format->format, format);
-	format->ref_count++;
 
 #ifdef DEBUG_REF_COUNT
 	g_message (__FUNCTION__ " format=%p '%s' ref_count=%d",
 		   format, format->format, format->ref_count);
 #endif
 
-	return format;
+	return go_format_ref (format);
 }
 #endif
 
@@ -2746,7 +2749,10 @@ go_format_unref (GOFormat *gf)
 	if (gf->ref_count != 0)
 		return;
 
-	g_hash_table_remove (style_format_hash, gf->format);
+	if (style_format_hash) {
+		g_warning ("Probable ref counting problem. fmt %p '%s' is being unrefed while still in the global cache",
+			   gf, gf->format);
+	}
 
 	format_destroy (gf);
 	g_free (gf->format);

@@ -1,5 +1,9 @@
 goffice 0.1.0:
 
+Jody:
+	* Adjust lifecycle of GOFormat to cache all formats once created.
+	  Huge performance win on [#314521]
+
 Morten:
 	* Fix rendering of numbers using formats with fractional
 	  seconds part.  [#315544]
