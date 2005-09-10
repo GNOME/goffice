@@ -108,37 +108,6 @@ go_filename_to_uri (const char *filename)
 	}
 }
 
-gchar **
-go_shell_argv_to_glib_encoding (gint argc, gchar const **argv)
-{
-#ifdef G_OS_WIN32
-	gchar **args;
-	gint i;
-
-	args = g_new (gchar *, argc);
-	if (G_WIN32_IS_NT_BASED ())
-	{
-		LPWSTR *wargs;
-		gint narg;
-		GIConv conv;
-
-		wargs = CommandLineToArgvW (GetCommandLineW (), &narg);
-		conv = g_iconv_open ("utf-8", "utf-16le");
-		for (i = 0; i < narg; ++i)
-			args[i] = g_convert_with_iconv ((const gchar *) wargs[i], wcslen (wargs[i]) << 1, conv, NULL, NULL, NULL);
-		g_iconv_close (conv);
-	}
-	else
-	{
-		for (i = 0; i < argc; ++i)
-			args[i] = g_locale_to_utf8 (argv[i], -1, NULL, NULL, NULL);
-	}
-
-	return args;
-#else
-	return (gchar **) argv;
-#endif
-}
 
 char *
 go_shell_arg_to_uri (const char *arg)
@@ -632,3 +601,58 @@ go_get_mime_type (gchar const *uri)
 #endif
 }
 
+/* ------------------------------------------------------------------------- */
+
+#ifdef G_OS_WIN32
+static gchar **saved_args;
+static int saved_argc;
+#endif
+
+gchar const **
+go_shell_argv_to_glib_encoding (gint argc, gchar const **argv)
+{
+#ifdef G_OS_WIN32
+	gchar **args;
+	gint i;
+
+	args = g_new (gchar *, argc);
+	if (G_WIN32_IS_NT_BASED ())
+	{
+		LPWSTR *wargs;
+		gint narg;
+		GIConv conv;
+
+		wargs = CommandLineToArgvW (GetCommandLineW (), &narg);
+		conv = g_iconv_open ("utf-8", "utf-16le");
+		for (i = 0; i < narg; ++i)
+			args[i] = g_convert_with_iconv ((const gchar *) wargs[i], wcslen (wargs[i]) << 1, conv, NULL, NULL, NULL);
+		g_iconv_close (conv);
+	}
+	else
+	{
+		for (i = 0; i < argc; ++i)
+			args[i] = g_locale_to_utf8 (argv[i], -1, NULL, NULL, NULL);
+	}
+
+	saved_args = args;
+	saved_argc = argc;
+
+	return (gchar const **) args;
+#else
+	return argv;
+#endif
+}
+
+void
+go_shell_argv_to_glib_encoding_free (void)
+{
+#ifdef G_OS_WIN32
+	if (saved_args) {
+		gint i;
+
+		for (i = 0; i < saved_argc; ++i)
+			g_free (saved_args[i]);
+		g_free (saved_args);
+	}
+#endif
+}

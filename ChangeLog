@@ -1,3 +1,16 @@
+2005-09-11  Stepan Kasal  <kasal@ucw.cz>
+
+	* goffice/utils/go-file.h (go_shell_argv_to_glib_encoding): Changed
+	  the return value to "gchar const **".
+	(go_shell_argv_to_glib_encoding_free): New function, frees the args
+	  array created by go_shell_argv_to_glib_encoding.
+	* goffice/utils/go-file.h (saved_args, saved_argc): New static
+	  variables.
+	(go_shell_argv_to_glib_encoding): Store args and argc to saved_args
+	  and saved_argc; adapted to the changed type of return value.
+	  Moved to the end of the file.
+	(go_shell_argv_to_glib_encoding_free): Implement.
+
 2005-09-08  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/format.c (split_time): Add precision argument.

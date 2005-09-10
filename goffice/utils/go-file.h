@@ -30,7 +30,8 @@ char *go_filename_to_uri (const char *filename);
 char *go_shell_arg_to_uri (const char *arg);
 char *go_basename_from_uri (const char *uri);
 char *go_dirname_from_uri (const char *uri, gboolean brief);
-gchar **go_shell_argv_to_glib_encoding (gint argc, gchar const **argv);
+gchar const **go_shell_argv_to_glib_encoding (gint argc, gchar const **argv);
+void go_shell_argv_to_glib_encoding_free (void);
 
 GsfInput  *go_file_open		(char const *uri, GError **err);
 GsfOutput *go_file_create	(char const *uri, GError **err);
