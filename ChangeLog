@@ -1,4 +1,4 @@
-2005-09-11  Stepan Kasal  <kasal@ucw.cz>
+2005-09-10  Stepan Kasal  <kasal@ucw.cz>
 
 	* goffice/utils/go-file.h (go_shell_argv_to_glib_encoding): Changed
 	  the return value to "gchar const **".
