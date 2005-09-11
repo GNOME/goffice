@@ -24,7 +24,6 @@
 #include <goffice/goffice-features.h>
 #include <goffice/utils/goffice-utils.h>
 #include <pango/pango-attributes.h>
-#include <goffice/cut-n-paste/pcre/pcreposix.h>
 #include <glib.h>
 
 #include <goffice/utils/goffice-utils.h>

@@ -1,10 +1,10 @@
 noinst_LTLIBRARIES = libpcre.la
-libpcre_la_SOURCES = maketables.c get.c study.c pcre.c pcreposix.c
+libpcre_la_SOURCES = pcre_exec.c pcre_compile.c pcre_tables.c pcre_chartables.c pcre_globals.c pcre_xclass.c pcre_info.c pcre_valid_utf8.c pcre_try_flipped.c pcre_ord2utf8.c
 EXTRA_DIST = COPYING
 
 libpcre_a_ladir = $(includedir)/libgoffice-1/goffice/cut-n-paste/pcre
-libpcre_a_la_HEADERS = pcreposix.h
-noinst_HEADERS = internal.h pcre.h
+libpcre_a_la_HEADERS = pcre.h
+noinst_HEADERS = pcre_internal.h ucp.h
 
 AM_CPPFLAGS = \
 	$(GOFFICE_CFLAGS) \

@@ -40,10 +40,13 @@ my ($PCRE_MAJOR,$PCRE_MINOR,$PCRE_DATE);
     close (*SRC);
 }
 
-my @SRC_C = ('maketables.c', 'get.c', 'study.c', 'pcre.c', 'pcreposix.c');
+my @SRC_C = ('pcre_exec.c', 'pcre_compile.c', 'pcre_tables.c',
+	     'pcre_chartables.c', 'pcre_globals.c', 'pcre_xclass.c',
+	     'pcre_info.c', 'pcre_valid_utf8.c', 'pcre_try_flipped.c',
+	     'pcre_ord2utf8.c');
 my @EXTRA_C = ();
-my @SRC_H = ('pcreposix.h');
-my @noinst_H = ('internal.h', 'pcre.h');
+my @SRC_H = ('pcre.h');
+my @noinst_H = ('pcre_internal.h', 'ucp.h');
 my @EXTRA_FILES = ('COPYING');
 
 my %namehack = ('pcre.h' => 'pcre.in');
@@ -70,7 +73,6 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H, @noinst_H) {
 
     print DST "/* File import from pcre to goffice by $myself.  Do not edit.  */\n\n";
     print DST "/* This file has been programatically changed.  */\n";
-    print DST "/* This makes the following file fall under GPL license, see $where.  */\n\n";
 
     my $backchar_fix = 0;
     my $backchar_indent = '';
@@ -86,98 +88,12 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H, @noinst_H) {
 
 	s/\b(to(lower|upper)|is(lower|upper|digit|xdigit|space|print|cntrl|alpha|alnum|graph|punct))\b/g_unichar_$1/g;
 
-	if (/^static\s+int\s*$/) {
-	    $_ .= <SRC>;
-	}
 
-	# Skip the definition of ord2utf8 and use g_unichar_to_utf8 instead.
-	if (/^static\s+int\s+ord2utf8\b/ ... /^\}\s*$/) {
-	    next;
-	}
-	s/ord2utf8/g_unichar_to_utf8/g;
-
-	if (/\bfor\b.*\bsizeof\s*\(\s*utf8_table1\s*\)/ .. /;\s*$/) {
-	    next unless s/\bfor\b.*$/i = g_unichar_to_utf8 (c, NULL);/;
-	}
-
-	next if /^static\b.*\butf8_table[123]\b/ .. /;\s*$/;
-
-	if (/^\s*\#\s*define\s+GETCHAR\b.*\\$/ .. /\}$/) {
-	    next unless /GETCHAR/;
-	    s/\\/do { (c) = g_utf8_get_char (eptr); } while (0)/;
-	}
-
-	if (/^\s*\#\s*define\s+GETCHARINC(TEST)?\b.*\\$/ .. /\}$/) {
-	    next unless /GETCHARINC/;
-	    s/\\/do { GETCHAR(c,eptr); (eptr) = g_utf8_next_char (eptr); } while (0)/;
-	}
-
-	if (/^\s*\#\s*define\s+GETCHARLEN\b.*\\$/ .. /\}$/) {
-	    next unless /GETCHARLEN/;
-	    s/\\/do { GETCHAR(c,eptr); (len) += g_utf8_skip[(uschar)(*eptr)] - 1; } while (0)/;
-	}
-
-	if ($filename =~ /(maketables|pcre)\.c/i) {
-	    if (/^\s*\#\s*include\s*.internal\.h/) {
-		$_ .= "#include <glib.h>\n";
-	    }
-	}
-
-	if ($filename =~ /pcre\.c/i) {
-	    s/^\s*int\s+runlength;\s*$//;
-	}
-
-	if ($filename =~ /\.c$/) {
-	    if (/^\s*\#\s*include\s*.internal\.h/) {
-		$_ = "#include $configfile\n" . $_;
-	    }
-	}
-
-	next if /^\s*\#\s*include\s*"config\.h"/;
-
-	if (s{^(\s*\#\s*include\s*.ctype\.h.*)}{/* $1 */}) {
-	    print DST "/* Whatever the question is, ctype.h is not the answer.  */\n";
-	}
-
-	s|^\s*(\#\s*include\s*.printint\.c.)\s*$|/* $1 */|;
-
-	if (/^(\s*)REG_(\S+)(\s*)=(\s*)1,/) {
-	    $_ = "$1REG_OK$3=${4}0,\n$_";
-	}
-
-	if (s{^(\s*\#\s*include\s*.chartables\.c.*)}{/* $1 */}) {
-	    print DST "static const unsigned char *\n";
-	    print DST "make_pcre_default_tables (void)\n";
-	    print DST "{\n";
-	    print DST "  static const unsigned char *res = NULL;\n";
-	    print DST "  if (res == NULL) {\n";
-	    print DST "    res = pcre_maketables ();\n";
-	    print DST "  }\n";
-	    print DST "  return res;\n";
-	    print DST "}\n\n";
-	}
-	s/pcre_default_tables/make_pcre_default_tables ()/;
-
-	if ($filename =~ /posix/i) {
-	    s/\bregex_t\b/GORegexp/g;
-	    s/\bregoff_t\b/go_regoff_t/g;
-	    # Not regmatch_t, for now.
-	    s/\bregcomp\b/go_regcomp/g;
-	    s/\bregexec\b/go_regexec/g;
-	    s/\bregerror\b/go_regerror/g;
-	    s/\bregfree\b/go_regfree/g;
-
-	    if ($force_utf8) {
-		s/options/options | PCRE_UTF8 | PCRE_NO_UTF8_CHECK/ if /pcre_compile/;
-	    }
+	if (/^\s*\#\s*include\s*"config\.h"/) {
+	    $_ = "#include <goffice/goffice-config.h>\n";
 	}
 
 	s/\bEXPORT\b\s*//;
-
-	if ($force_utf8) {
-	    s{(md->utf8)}{1 /* $1 */};
-	    s{\(utf8\)}{(1 /* utf8 */)};
-	}
 
 	print DST;
     }

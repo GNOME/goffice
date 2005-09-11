@@ -7,6 +7,9 @@ Jody:
 Morten:
 	* Fix rendering of numbers using formats with fractional
 	  seconds part.  [#315544]
+	* Update to PCRE version 6.3.
+	* Use native PCRE interface (i.e., write our own POSIX-like
+	  wrappers) in preparation for possibly using system PCRE.
 
 --------------------------------------------------------------------------
 goffice 0.0.4:

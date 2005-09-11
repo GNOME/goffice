@@ -10,9 +10,10 @@
  */
 #include <goffice/goffice-config.h>
 #include "go-format.h"
-#include <goffice/cut-n-paste/pcre/pcreposix.h>
+#include <goffice/utils/regutf8.h>
 #include <glib/gi18n.h>
 #include <string.h>
+#include <stdlib.h>
 
 /* The various formats */
 static char const * const
@@ -592,7 +593,7 @@ cell_format_simple_number (char const * const fmt, GOFormatDetails *info)
 {
 	GOFormatFamily result = GO_FORMAT_NUMBER;
 	int cur = -1;
-	regmatch_t match[7];
+	GORegmatch match[7];
 
 	if (go_regexec (&re_simple_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 
@@ -634,7 +635,7 @@ cell_format_is_number (char const * const fmt, GOFormatDetails *info)
 	GOFormatFamily result = GO_FORMAT_NUMBER;
 	char const *ptr = fmt;
 	int cur = -1;
-	regmatch_t match[9];
+	GORegmatch match[9];
 
 	/* GO_FORMAT_CURRENCY or GO_FORMAT_NUMBER ? */
 	if ((result = cell_format_simple_number (fmt, info)) != GO_FORMAT_UNKNOWN)
@@ -711,7 +712,7 @@ cell_format_is_number (char const * const fmt, GOFormatDetails *info)
 static gboolean
 cell_format_is_fraction (char const *fmt, GOFormatDetails *info)
 {
-	regmatch_t match[3];
+	GORegmatch match[3];
 	const char *denominator;
 
 	if (go_regexec (&re_fraction, fmt, G_N_ELEMENTS (match), match, 0) != 0)

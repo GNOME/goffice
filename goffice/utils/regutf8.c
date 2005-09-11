@@ -7,10 +7,190 @@
 
 #include <goffice/goffice-config.h>
 #include "regutf8.h"
+#include "cut-n-paste/pcre/pcre.h"
 #include "go-glib-extras.h"
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 #include <string.h>
+
+/* ------------------------------------------------------------------------- */
+
+void
+go_regfree (GORegexp *gor)
+{
+  if (gor->ppcre) {
+    pcre_free (gor->ppcre);
+    gor->ppcre = NULL;
+  }
+}
+
+size_t
+go_regerror (int errcode, const GORegexp *gor, char *dst, size_t dstsize)
+{
+  const char *err;
+  size_t errlen;
+
+  switch (errcode) {
+  case REG_NOERROR: err = "?"; break;
+  case REG_NOMATCH: err = _("Pattern not found."); break;
+  default:
+  case REG_BADPAT: err = _("Invalid pattern."); break;
+  case REG_ECOLLATE: err = _("Inalid collating element."); break;
+  case REG_ECTYPE: err = _("Invalid character class name."); break;
+  case REG_EESCAPE: err = _("Trailing backslash."); break;
+  case REG_ESUBREG: err = _("Invalid back reference."); break;
+  case REG_EBRACK: err = _("Unmatched left bracket."); break;
+  case REG_EPAREN: err = _("Parenthesis imbalance."); break;
+  case REG_EBRACE: err = _("Unmatched \\{."); break;
+  case REG_BADBR: err = _("Invalid contents of \\{\\}."); break;
+  case REG_ERANGE: err = _("Invalid range end."); break;
+  case REG_ESPACE: err = _("Out of memory."); break;
+  case REG_BADRPT: err = _("Invalid repetition operator."); break;
+  case REG_EEND: err = _("Premature end of pattern."); break;
+  case REG_ESIZE: err = _("Pattern is too big."); break;
+  case REG_ERPAREN: err = _("Unmatched ) or \\)"); break;
+  };
+
+  errlen = strlen (err);
+  if (dstsize > 0) {
+    size_t copylen = MIN (errlen, dstsize - 1);
+    memcpy (dst, err, copylen);
+    dst[copylen] = 0;
+  }
+
+  return errlen;
+}
+
+static int err_eescape;
+static int err_ebrack;
+static int err_eparen1, err_eparen2;
+static int err_esubreg;
+
+static int
+init_error_code (const char *pat)
+{
+  int coptions = PCRE_UTF8;
+  const char *errorptr;
+  int errorofs, errorcode;
+  pcre *r = pcre_compile2 (pat, coptions,
+			   &errorcode, &errorptr, &errorofs,
+			   NULL);
+  if (r) {
+    g_warning ("Unexpected success in compiling regexp [%s].", pat);
+    pcre_free (r);
+    return -1;
+  }
+
+  return errorcode;
+}
+
+/* The error codes are non-public so we have to trigger them!  */
+static void
+init_error_codes (void)
+{
+  err_eescape = init_error_code ("\\");
+  err_ebrack = init_error_code ("[a");
+  err_eparen1 = init_error_code ("(");
+  err_eparen2 = init_error_code (")");
+  err_esubreg = init_error_code ("\\1");
+}
+
+int
+go_regcomp (GORegexp *gor, const char *pat , int cflags)
+{
+  const char *errorptr;
+  int errorofs, errorcode;
+  pcre *r;
+  int coptions =
+    PCRE_UTF8 |
+    PCRE_NO_UTF8_CHECK |
+    ((cflags & REG_ICASE) ? PCRE_CASELESS : 0) |
+    ((cflags & REG_NEWLINE) ? PCRE_MULTILINE : 0);
+
+  gor->ppcre = r = pcre_compile2 (pat, coptions,
+				  &errorcode, &errorptr, &errorofs,
+				  NULL);
+  if (r == NULL) {
+    if (err_eescape == 0)
+      init_error_codes ();
+
+    if (errorcode == err_eescape) return REG_EESCAPE;
+    if (errorcode == err_ebrack) return REG_EBRACK;
+    if (errorcode == err_eparen1 ||
+	errorcode == err_eparen2) return REG_EPAREN;
+    if (errorcode == err_esubreg) return REG_ESUBREG;
+    return REG_BADPAT;
+  } else {
+    gor->re_nsub = pcre_info (r, NULL, NULL);
+    gor->nosub = (cflags & REG_NOSUB) != 0;
+    return 0;
+  }
+}
+
+int
+go_regexec (const GORegexp *gor, const char *txt,
+	    size_t nmatch, GORegmatch *pmatch, int eflags)
+{
+  size_t txtlen = strlen (txt);
+  int eoptions =
+    ((eflags & REG_NOTBOL) ? PCRE_NOTBOL : 0) |
+    ((eflags & REG_NOTEOL) ? PCRE_NOTEOL : 0);
+  int res;
+  int *offsets, *allocated;
+  int offsetcount;
+
+  /* We need to totally ignore nmatch and pmatch in this case.  */
+  if (gor->nosub)
+    nmatch = 0;
+
+  if (nmatch > 0) {
+    /* Paranoia.  */
+    if (nmatch >= G_MAXINT / sizeof (int) / 3)
+      return REG_ESPACE;
+
+    offsetcount = nmatch * 3;
+    /* FIXME: we really want g_try_new but that is recent.  */
+    offsets = allocated = g_new (int, offsetcount);
+    if (!offsets)
+      return REG_ESPACE;
+  } else {
+    offsets = allocated = NULL;
+    offsetcount = 0;
+  }
+
+  res = pcre_exec (gor->ppcre, NULL, txt, txtlen, 0, eoptions,
+		   offsets, offsetcount);
+  if (res >= 0) {
+    int i;
+
+    if (res == 0) res = nmatch;
+
+    for (i = 0; i < res; i++) {
+      pmatch[i].rm_so = offsets[i * 2];
+      pmatch[i].rm_eo = offsets[i * 2 + 1];
+    }
+    for (; i < (int)nmatch; i++) {
+      pmatch[i].rm_so = -1;
+      pmatch[i].rm_eo = -1;
+    }
+    g_free (allocated);
+    return REG_NOERROR;
+  }
+
+  g_free (allocated);
+  switch (res) {
+  case PCRE_ERROR_NOMATCH:
+    return REG_NOMATCH;
+  case PCRE_ERROR_BADUTF8:
+  case PCRE_ERROR_BADUTF8_OFFSET:
+    /* POSIX doesn't seem to foresee this kind of error.  */
+    return REG_BADPAT;
+  default:
+    return REG_ESPACE;
+  }
+}
+
+/* ------------------------------------------------------------------------- */
 
 static GObjectClass *parent_class;
 
@@ -58,7 +238,7 @@ go_search_replace_compile (GoSearchReplace *sr)
 	int flags = 0;
 	int res;
 
-	g_return_val_if_fail (sr && sr->search_text, REG_EMPTY);
+	g_return_val_if_fail (sr && sr->search_text, REG_EEND);
 
 	kill_compiled (sr);
 
@@ -232,7 +412,7 @@ go_regexp_quote (GString *target, const char *s)
 /* ------------------------------------------------------------------------- */
 
 static gboolean
-match_is_word (const char *src, const regmatch_t *pm, gboolean bolp)
+match_is_word (const char *src, const GORegmatch *pm, gboolean bolp)
 {
 	/* The empty string is not a word.  */
 	if (pm->rm_so == pm->rm_eo)
@@ -298,7 +478,7 @@ inspect_case (const char *p, const char *pend)
 
 
 static char *
-calculate_replacement (GoSearchReplace *sr, const char *src, const regmatch_t *pm)
+calculate_replacement (GoSearchReplace *sr, const char *src, const GORegmatch *pm)
 {
 	char *res;
 
@@ -394,7 +574,7 @@ go_search_match_string (GoSearchReplace *sr, const char *src)
 	}
 
 	while (1) {
-		regmatch_t match;
+		GORegmatch match;
 		int ret = go_regexec (sr->comp_search, src, 1, &match, flags);
 
 		switch (ret) {
@@ -432,7 +612,7 @@ char *
 go_search_replace_string (GoSearchReplace *sr, const char *src)
 {
 	int nmatch;
-	regmatch_t *pmatch;
+	GORegmatch *pmatch;
 	GString *res = NULL;
 	int ret;
 	int flags = 0;
@@ -446,7 +626,7 @@ go_search_replace_string (GoSearchReplace *sr, const char *src)
 	}
 
 	nmatch = 1 + sr->comp_search->re_nsub;
-	pmatch = g_new (regmatch_t, nmatch);
+	pmatch = g_new (GORegmatch, nmatch);
 
 	while ((ret = go_regexec (sr->comp_search, src, nmatch, pmatch, flags)) == 0) {
 		if (!res) {

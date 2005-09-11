@@ -1,3 +1,7 @@
+2005-09-10  Morten Welinder <terra@gnome.org>
+
+	* import-pcre: Update for PCRE version 6.3.
+
 2005-09-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.0.4

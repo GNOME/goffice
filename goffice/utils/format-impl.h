@@ -2,6 +2,7 @@
 #define GO_FORMAT_IMPL_H
 
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/regutf8.h>
 
 G_BEGIN_DECLS
 
