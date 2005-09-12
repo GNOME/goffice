@@ -111,12 +111,12 @@ gog_log_fit_curve_get_equation (GogRegCurve *curve)
 		if (curve->a[0] > 0.) {
 			if (curve->a[2] > 0.)
 				curve->equation = (curve->a[3] > 0.)?
-					g_strdup_printf ("y = %g + %g * ln (x + %g)", curve->a[1], curve->a[2], curve->a[3]):
-					g_strdup_printf ("y = %g + %g * ln (x - %g)", curve->a[1], curve->a[2], -curve->a[3]);
+					g_strdup_printf ("y = %g + %g * ln (x - %g)", curve->a[1], curve->a[2], curve->a[3]):
+					g_strdup_printf ("y = %g + %g * ln (x + %g)", curve->a[1], curve->a[2], -curve->a[3]);
 			else
 				curve->equation = (curve->a[3] > 0.)?
-					g_strdup_printf ("y = %g - %g * ln (x + %g)", curve->a[1], -curve->a[2], curve->a[3]):
-					g_strdup_printf ("y = %g - %g * ln (x - %g)", curve->a[1], -curve->a[2], -curve->a[3]);
+					g_strdup_printf ("y = %g - %g * ln (x - %g)", curve->a[1], -curve->a[2], curve->a[3]):
+					g_strdup_printf ("y = %g - %g * ln (x + %g)", curve->a[1], -curve->a[2], -curve->a[3]);
 		} else {
 			if (curve->a[2] > 0.)
 				curve->equation = g_strdup_printf ("y = %g + %g * ln (%g - x)", curve->a[1], curve->a[2], curve->a[3]);

@@ -1,5 +1,10 @@
 2005-09-12  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/reg_logfit/gog-logfit.c:
+	(gog_log_fit_curve_get_equation): fixed a sign in displayed equation.
+
+2005-09-12  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* configure.in: add plugins/reg_logfit/Makefile
 	* goffice/graph/gog-reg-curve.c: (gog_reg_curve_populate_editor),
 	(gog_reg_curve_finalize), (gog_reg_curve_class_init),
