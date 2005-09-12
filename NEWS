@@ -1,5 +1,9 @@
 goffice 0.1.0:
 
+Jean Brefort:
+	* Optionnaly skip invalid values in regression curves [#312788].
+	* New regression curves types [#312789].
+
 Jody:
 	* Adjust lifecycle of GOFormat to cache all formats once created.
 	  Huge performance win on [#314521]
