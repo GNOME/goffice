@@ -4,4 +4,16 @@
 		engine="GogLinRegCurve"
 		_description="Linear regression curve">
 	</Type>
+	<Type _name="Polynomial"
+		engine="GogPolynomRegCurve"
+		_description="Polynomial regression curve">
+	</Type>
+	<Type _name="Exponential"
+		engine="GogExpRegCurve"
+		_description="Exponential regression curve">
+	</Type>
+	<Type _name="Logarithmic"
+		engine="GogLogRegCurve"
+		_description="Logarithmic regression curve">
+	</Type>
 </Types>

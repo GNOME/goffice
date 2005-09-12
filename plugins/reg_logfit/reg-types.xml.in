@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
+	<Type _name="Log Fit (y=a+b*ln(sign*(x-c)))"
+		engine="GogLogFitCurve"
+		_description="Logarithmic fitting curve">
+	</Type>
+</Types>

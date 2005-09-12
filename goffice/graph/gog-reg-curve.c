@@ -36,7 +36,6 @@
 #include <goffice/gtk/goffice-gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
-#include <gtk/gtktable.h>
 #include <gtk/gtktogglebutton.h>
 
 #define GOG_REG_CURVE_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_REG_CURVE_TYPE, GogRegCurveClass))
@@ -95,9 +94,11 @@ gog_reg_curve_populate_editor (GogObject *gobj,
 					(GOG_REG_CURVE (gobj))->skip_invalid);
 	g_signal_connect (G_OBJECT (w), "toggled",
 		G_CALLBACK (skip_invalid_toggled_cb), gobj);
+	if ((GOG_REG_CURVE_GET_CLASS (gobj))->populate_editor != NULL)
+		(GOG_REG_CURVE_GET_CLASS (gobj))->populate_editor (GOG_REG_CURVE (gobj), table);
 
 
-	(GOG_OBJECT_CLASS(reg_curve_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
+	(GOG_OBJECT_CLASS (reg_curve_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 }
 
 static void
@@ -140,6 +141,14 @@ gog_reg_curve_finalize (GObject *obj)
 		g_free (rc->bounds);
 		rc->bounds = NULL;
 	}
+	if (rc->a != NULL) {
+		g_free (rc->a);
+		rc->a = NULL;
+	}
+	if (rc->equation != NULL) {
+		g_free (rc->equation);
+		rc->equation = NULL;
+	}
 	(*reg_curve_parent_klass->finalize) (obj);
 }
 
@@ -173,7 +182,7 @@ gog_reg_curve_class_init (GogObjectClass *gog_klass)
 
 	reg_curve_klass->get_value_at = NULL;
 	reg_curve_klass->get_equation = NULL;
-	reg_curve_klass->get_R2 = NULL;
+	reg_curve_klass->populate_editor = NULL;
 
 	g_object_class_install_property (gobject_klass, REG_CURVE_PROP_SKIP_INVALID,
 		g_param_spec_boolean ("skip-invalid", "skip-invalid",
@@ -251,7 +260,7 @@ gog_reg_curve_get_equation (GogRegCurve *reg_curve)
 double
 gog_reg_curve_get_R2 (GogRegCurve *reg_curve)
 {
-	return (GOG_REG_CURVE_GET_CLASS (reg_curve))->get_R2 (reg_curve);
+	return reg_curve->R2;
 }
 
 void

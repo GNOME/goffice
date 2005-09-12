@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-lin-reg.h :  
+ * gog-logfit.h :  
  *
  * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -19,40 +19,24 @@
  * USA
  */
 
-#ifndef GOG_LIN_REG_H
-#define GOG_LIN_REG_H
+#ifndef GOG_LOGFIT_H
+#define GOG_LOGFIT_H
 
 #include <goffice/graph/gog-reg-curve.h>
 #include <goffice/utils/go-regression.h>
 
 G_BEGIN_DECLS
 
-typedef  struct {
-	GogRegCurve base;
-	gboolean affine;
-	double **x_vals, *y_vals;
-	int dims;
-} GogLinRegCurve;
+typedef  GogRegCurve GogLogFitCurve;
 
-typedef struct {
-	GogRegCurveClass base;
+typedef GogRegCurveClass GogLogFitCurveClass;
 
-	RegressionResult (*lin_reg_func) (double **xss, int dim,
-				    const double *ys, int n,
-				    gboolean affine,
-				    double *res,
-				    regression_stat_t *stat);
-	int (*build_values) (GogLinRegCurve *rc, double const *x_vals,
-					double const *y_vals, int n);
-} GogLinRegCurveClass;
+#define GOG_LOG_FIT_CURVE_TYPE	(gog_log_fit_curve_get_type ())
+#define GOG_LOG_FIT_CURVE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LOG_FIT_CURVE_TYPE, GogLogFitCurve))
+#define GOG_IS_LOG_FIT_CURVE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LOG_FIT_CURVE_TYPE))
 
-#define GOG_LIN_REG_CURVE_TYPE	(gog_lin_reg_curve_get_type ())
-#define GOG_LIN_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LIN_REG_CURVE_TYPE, GogLinRegCurve))
-#define GOG_IS_LIN_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LIN_REG_CURVE_TYPE))
-
-GType gog_lin_reg_curve_get_type (void);
-void  gog_lin_reg_curve_register_type (GTypeModule *module);
+GType gog_log_fit_curve_get_type (void);
 
 G_END_DECLS
 
-#endif	/* GOG_LIN_REG_H */
+#endif	/* GOG_LOGFIT_H */

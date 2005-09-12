@@ -20,18 +20,38 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "gog-lin-reg.h"
 #include <goffice/app/module-plugin-defs.h>
+#include "gog-lin-reg.h"
+#include "gog-polynom-reg.h"
+#include "gog-log-reg.h"
+#include "gog-exp-reg.h"
 #include <goffice/data/go-data.h>
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/utils/go-math.h>
-#include <goffice/utils/go-regression.h>
+#include <glib/gi18n.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtkcheckbutton.h>
+#include <gtk/gtktogglebutton.h>
 
 #include <gsf/gsf-impl-utils.h>
 
 GOFFICE_PLUGIN_MODULE_HEADER;
 
+#define GOG_LIN_REG_CURVE_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_LIN_REG_CURVE_TYPE, GogLinRegCurveClass))
+
 static GogObjectClass *gog_lin_reg_curve_parent_klass;
+
+enum {
+	REG_LIN_REG_CURVE_PROP_0,
+	REG_LIN_REG_CURVE_PROP_AFFINE,
+	REG_LIN_REG_CURVE_PROP_DIMS,
+};
+
+static void
+affine_toggled_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "affine", gtk_toggle_button_get_active (btn), NULL);
+}
 
 static void
 gog_lin_reg_curve_update (GogObject *obj)
@@ -39,14 +59,10 @@ gog_lin_reg_curve_update (GogObject *obj)
 	GogLinRegCurve *rc = GOG_LIN_REG_CURVE (obj);
 	GogSeries *series = GOG_SERIES (obj->parent);
 	double const *y_vals, *x_vals = NULL;
-	double *vx, *vy;
-	double x, y;
-	double xmin, xmax;
-	int i, used, tmp, nb;
+	int used, tmp, nb;
 
 	g_return_if_fail (gog_series_is_valid (GOG_SERIES (series)));
 
-	gog_reg_curve_get_bounds (&rc->base, &xmin, &xmax);
 	y_vals = go_data_vector_get_values (
 		GO_DATA_VECTOR (series->values[1].data));
 	nb = go_data_vector_get_len (
@@ -59,9 +75,66 @@ gog_lin_reg_curve_update (GogObject *obj)
 		if (nb > tmp)
 			nb = tmp;
 	}
-	vx = g_new (double, nb);
-	vy = g_new (double, nb);
-	for (i = 0, used = 0; i < nb; i++) {
+	used = (GOG_LIN_REG_CURVE_GET_CLASS(rc))->build_values (rc, x_vals, y_vals, nb);
+	if (used > 1) {
+		regression_stat_t *stats = go_regression_stat_new ();
+		RegressionResult res =
+			(GOG_LIN_REG_CURVE_GET_CLASS(rc))->lin_reg_func (rc->x_vals, rc->dims,
+						rc->y_vals, used, rc->affine, rc->base.a, stats);
+		if (res == REG_ok) {
+			rc->base.R2 = stats->sqr_r;
+		} else for (nb = 0; nb <= rc->dims; nb++)
+			rc->base.a[nb] = go_nan;
+		go_regression_stat_destroy (stats);
+	} else {
+		rc->base.R2 = go_nan;
+		for (nb = 0; nb <= rc->dims; nb++)
+			rc->base.a[nb] = go_nan;
+	}
+	if (rc->base.equation) {
+		g_free (rc->base.equation);
+		rc->base.equation = NULL;
+	}
+	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+}
+
+static double
+gog_lin_reg_curve_get_value_at (GogRegCurve *curve, double x)
+{
+	return curve->a[0] + curve->a[1] * x;
+}
+
+static gchar const*
+gog_lin_reg_curve_get_equation (GogRegCurve *curve)
+{
+	if (!curve->equation) {
+		GogLinRegCurve *lin = GOG_LIN_REG_CURVE (curve);
+		if (lin->affine)
+			curve->equation = (curve->a[0] > 0.)?
+				g_strdup_printf ("y = %g x + %g", curve->a[1], curve->a[0]):
+				g_strdup_printf ("y = %g x - %g", curve->a[1], -curve->a[0]);
+		else
+			curve->equation = g_strdup_printf ("y = %g x ", curve->a[1]);
+	}
+	return curve->equation;
+}
+
+static int
+gog_lin_reg_curve_build_values (GogLinRegCurve *rc, double const *x_vals, double const *y_vals, int n)
+{
+	int i, used;
+	double x, y;
+	double xmin, xmax;
+	gog_reg_curve_get_bounds (&rc->base, &xmin, &xmax);
+	if (rc->x_vals == NULL)
+		rc->x_vals = g_new0 (double*, 1);
+	if (*rc->x_vals != NULL)
+		g_free (*rc->x_vals);
+	*rc->x_vals = g_new (double, n);
+	if (rc->y_vals != NULL)
+		g_free (rc->y_vals);
+	rc->y_vals = g_new (double, n);
+	for (i = 0, used = 0; i < n; i++) {
 		x = (x_vals)? x_vals[i]: i;
 		y = y_vals[i];
 		if (!go_finite (x) || !go_finite (y)) {
@@ -72,87 +145,143 @@ gog_lin_reg_curve_update (GogObject *obj)
 		}
 		if (x < xmin || x > xmax)
 			continue;
-		vx[used] = x;
-		vy[used] = y;
+		rc->x_vals[0][used] = x;
+		rc->y_vals[used] = y;
 		used++;
 	}
-	rc->R2 = rc->a0 = rc->a1 = go_nan;
-	if (used > 1) {
-		double a[2];
-		regression_stat_t *stats = go_regression_stat_new ();
-		RegressionResult res = go_linear_regression (&vx, 1, vy, used,
-								TRUE, a, stats);
-		if (res == REG_ok) {
-			rc->R2 = stats->sqr_r;
-			rc->a0 = a[0];
-			rc->a1 = a[1];
+	return used;
+}
+
+static void
+gog_lin_reg_curve_populate_editor (GogRegCurve *reg_curve, GtkTable *table)
+{
+	int rows, columns;
+	GtkWidget *w;
+	GogLinRegCurve *lin = GOG_LIN_REG_CURVE (reg_curve);
+
+	g_object_get (G_OBJECT (table), "n-rows", &rows, "n-columns", &columns, NULL);
+	gtk_table_resize (table, rows + 1, columns);
+	w = gtk_check_button_new_with_label (_("Affine"));
+	gtk_widget_show (w);
+	gtk_table_attach (table, w, 0, columns, rows, rows + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), lin->affine);
+	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (affine_toggled_cb), lin);
+}
+
+static char const *
+gog_lin_reg_curve_type_name (G_GNUC_UNUSED GogObject const *item)
+{
+	/* xgettext : the base for how to name scatter plot objects
+	 * eg The 2nd plot in a chart will be called
+	 * 	Linear regression2 */
+	return N_("Linear regression");
+}
+
+static void
+gog_lin_reg_curve_get_property (GObject *obj, guint param_id,
+		       GValue *value, GParamSpec *pspec)
+{
+	GogLinRegCurve *rc = GOG_LIN_REG_CURVE (obj);
+	switch (param_id) {
+	case REG_LIN_REG_CURVE_PROP_AFFINE:
+		g_value_set_boolean (value, rc->affine);
+		break;
+	case REG_LIN_REG_CURVE_PROP_DIMS:
+		g_value_set_uint (value, rc->dims);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
+gog_lin_reg_curve_set_property (GObject *obj, guint param_id,
+		       GValue const *value, GParamSpec *pspec)
+{
+	GogLinRegCurve *rc = GOG_LIN_REG_CURVE (obj);
+	switch (param_id) {
+	case REG_LIN_REG_CURVE_PROP_AFFINE:
+		rc->affine = g_value_get_boolean (value);
+		break;
+	case REG_LIN_REG_CURVE_PROP_DIMS:
+		if (rc->x_vals) {
+			int i;
+			for (i = 0; i < rc->dims; i++){
+				if (rc->x_vals[i])
+					g_free (rc->x_vals[i]);
+			}
+			g_free (rc->x_vals);
+			rc->x_vals = NULL;
 		}
-		go_regression_stat_destroy (stats);
+		rc->dims = g_value_get_uint (value);
+		g_free (rc->base.a);
+		rc->base.a = g_new (double, rc->dims + 1);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
 	}
-	g_free (vx);
-	g_free (vy);
-	if (rc->equation) {
-		g_free (rc->equation);
-		rc->equation = NULL;
-	}
-	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+	gog_object_request_update (GOG_OBJECT (obj));
 }
 
-static double
-gog_lin_reg_curve_get_value_at (GogRegCurve *curve, double x)
-{
-	GogLinRegCurve *lin = GOG_LIN_REG_CURVE (curve);
-	return lin->a0 + lin->a1 * x;
-}
-
-static gchar const*
-gog_lin_reg_curve_get_equation (GogRegCurve *curve)
-{
-	GogLinRegCurve *lin = GOG_LIN_REG_CURVE (curve);
-	if (!lin->equation)
-		lin->equation = (lin->a0 > 0.)?
-				g_strdup_printf ("y = %g x + %g", lin->a1, lin->a0):
-				g_strdup_printf ("y = %g x - %g", lin->a1, -lin->a0);
-	return lin->equation;
-}
-
-static double
-gog_lin_reg_curve_get_R2 (GogRegCurve *curve)
-{
-	return (GOG_LIN_REG_CURVE (curve))->R2;
-}
-	
 static void
 gog_lin_reg_curve_finalize (GObject *obj)
 {
-	GogLinRegCurve *model = GOG_LIN_REG_CURVE (obj);
-	if (model->equation)
-		g_free (model->equation);
+	GogLinRegCurve *rc = GOG_LIN_REG_CURVE (obj);
+	int i;
+	if (rc->x_vals) {
+		for (i = 0; i < rc->dims; i++) 
+			if (rc->x_vals[i] != NULL)
+				g_free (rc->x_vals[i]);
+		g_free (rc->x_vals);
+	}
+	if (rc->y_vals != NULL)
+		g_free (rc->y_vals);
 	(G_OBJECT_CLASS (gog_lin_reg_curve_parent_klass))->finalize (obj);
 }
 
 static void
 gog_lin_reg_curve_class_init (GogRegCurveClass *reg_curve_klass)
 {
-	GObjectClass *g_object_klass = (GObjectClass *) reg_curve_klass;
+	GObjectClass *gobject_klass = (GObjectClass *) reg_curve_klass;
 	GogObjectClass *gog_object_klass = (GogObjectClass *) reg_curve_klass;
+	GogLinRegCurveClass *lin_klass = (GogLinRegCurveClass *) reg_curve_klass;
 
 	gog_lin_reg_curve_parent_klass = g_type_class_peek_parent (reg_curve_klass);
 
-	g_object_klass->finalize = gog_lin_reg_curve_finalize;
+	gobject_klass->finalize = gog_lin_reg_curve_finalize;
+	gobject_klass->get_property = gog_lin_reg_curve_get_property;
+	gobject_klass->set_property = gog_lin_reg_curve_set_property;
 
 	gog_object_klass->update = gog_lin_reg_curve_update;
+	gog_object_klass->type_name	= gog_lin_reg_curve_type_name;
 
 	reg_curve_klass->get_value_at = gog_lin_reg_curve_get_value_at;
 	reg_curve_klass->get_equation = gog_lin_reg_curve_get_equation;
-	reg_curve_klass->get_R2 = gog_lin_reg_curve_get_R2;
+	reg_curve_klass->populate_editor = gog_lin_reg_curve_populate_editor;
+
+	lin_klass->lin_reg_func = go_linear_regression;
+	lin_klass->build_values = gog_lin_reg_curve_build_values;
+
+	g_object_class_install_property (gobject_klass, REG_LIN_REG_CURVE_PROP_AFFINE,
+		g_param_spec_boolean ("affine", "affine",
+			"If true, a non-zero constant is allowed",
+			TRUE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, REG_LIN_REG_CURVE_PROP_DIMS,
+		g_param_spec_uint ("dims", "dims",
+			"Number of x-vectors", 1, 10, 1, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 }
 
 static void
 gog_lin_reg_curve_init (GogLinRegCurve *model)
 {
-	model->a0 = model->a1 = model->R2 = go_nan;
-	model->equation = NULL;
+	model->base.a = g_new (double, 2);
+	model->base.a[0] = model->base.a[1] = model->base.R2 = go_nan;
+	model->affine = TRUE;
+	model->x_vals = NULL;
+	model->y_vals = NULL;
+	model->dims = 1;
 }
 
 GSF_DYNAMIC_CLASS (GogLinRegCurve, gog_lin_reg_curve,
@@ -164,7 +293,11 @@ GSF_DYNAMIC_CLASS (GogLinRegCurve, gog_lin_reg_curve,
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gog_lin_reg_curve_register_type (go_plugin_get_type_module (plugin));
+	GTypeModule *module = go_plugin_get_type_module (plugin);
+	gog_lin_reg_curve_register_type (module);
+	gog_polynom_reg_curve_register_type (module);
+	gog_log_reg_curve_register_type (module);
+	gog_exp_reg_curve_register_type (module);
 }
 
 G_MODULE_EXPORT void

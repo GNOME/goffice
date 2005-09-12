@@ -24,6 +24,7 @@
 
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-data-set.h>
+#include <gtk/gtktable.h>
 
 struct  _GogRegCurve {
 	GogStyledObject	base;
@@ -34,6 +35,9 @@ struct  _GogRegCurve {
 	GogDatasetElement *bounds;
 	gboolean skip_invalid; /* do not take into account invalid data */
 	int ninterp; /* how many points to use for display the curve as a vpath */
+	double *a; /* calculated coefficients, must be allocated by derived class */
+	double R2; /* squared regression coefficient */
+	char *equation;
 };
 
 typedef struct {
@@ -41,7 +45,7 @@ typedef struct {
 
 	double 		(*get_value_at) (GogRegCurve *reg_curve, double x);
 	gchar const* 	(*get_equation) (GogRegCurve *reg_curve);
-	double 		(*get_R2) 	(GogRegCurve *reg_curve);
+	void 	(*populate_editor) (GogRegCurve *reg_curve, GtkTable *table);
 } GogRegCurveClass;
 
 #define GOG_REG_CURVE_TYPE	(gog_reg_curve_get_type ())

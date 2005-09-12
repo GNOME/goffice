@@ -6,8 +6,15 @@ goffice_graph_linreg_LTLIBRARIES = linreg.la
 linreg_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
 linreg_la_LIBADD = $(GOFFICE_PLUGIN_LIBADD)
 
-linreg_la_SOURCES = gog-lin-reg.c	\
-		    gog-lin-reg.h
+linreg_la_SOURCES =	\
+			gog-lin-reg.c	\
+		    gog-lin-reg.h	\
+			gog-polynom-reg.c	\
+		    gog-polynom-reg.h	\
+			gog-log-reg.c	\
+		    gog-log-reg.h	\
+			gog-exp-reg.c	\
+		    gog-exp-reg.h
 
 xml_in_files = plugin.xml.in reg-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

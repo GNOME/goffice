@@ -1,3 +1,30 @@
+2005-09-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: add plugins/reg_logfit/Makefile
+	* goffice/graph/gog-reg-curve.c: (gog_reg_curve_populate_editor),
+	(gog_reg_curve_finalize), (gog_reg_curve_class_init),
+	(gog_reg_curve_get_R2): changed api to support more regressions types.
+	* goffice/graph/gog-reg-curve.h: ditto.
+	* plugins/Makefile.am: added reg_logfit subdir.
+	* plugins/reg_linear/Makefile.am: added exp, log and polynom regs.
+	* plugins/reg_linear/gog-exp-reg.c: implement exponential regressions.
+	* plugins/reg_linear/gog-exp-reg.h: ditto.
+	* plugins/reg_linear/gog-lin-reg.c: updated to support other linear
+	regression types: log, exp and polynom.
+	* plugins/reg_linear/gog-lin-reg.h: ditto.
+	* plugins/reg_linear/gog-log-reg.c: implement logarithmic regressions.
+	* plugins/reg_linear/gog-log-reg.h: ditto.
+	* plugins/reg_linear/gog-polynom-reg.c: implement polynomial regressions.
+	* plugins/reg_linear/gog-polynom-reg.h: ditto.
+	* plugins/reg_linear/plugin.xml.in: add the new types.
+	* plugins/reg_linear/reg-types.xml.in: ditto.
+	* plugins/reg_logfit/Makefile.am: new file. Implements log fits analog
+	to the gnumeric LOGFIT function.
+	* plugins/reg_logfit/gog-logfit.c: ditto.
+	* plugins/reg_logfit/gog-logfit.h: ditto.
+	* plugins/reg_logfit/plugin.xml.in: ditto.
+	* plugins/reg_logfit/reg-types.xml.in: ditto.
+
 2005-09-10  Stepan Kasal  <kasal@ucw.cz>
 
 	* goffice/utils/go-file.h (go_shell_argv_to_glib_encoding): Changed

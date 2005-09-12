@@ -13,6 +13,21 @@
 				<_description>Linear regression curve engine</_description>
 			</information>
 		</service>
+		<service type="regcurve_engine" id="GogExpRegCurve">
+			<information>
+				<_description>Exponential regression curve engine</_description>
+			</information>
+		</service>
+		<service type="regcurve_engine" id="GogLogRegCurve">
+			<information>
+				<_description>Logarithmic regression curve engine</_description>
+			</information>
+		</service>
+		<service type="regcurve_engine" id="GogPolynomRegCurve">
+			<information>
+				<_description>Polynomial regression curve engine</_description>
+			</information>
+		</service>
 		<service type="regcurve_type" id="linreg">
 			<file>reg-types.xml</file>
 			<information>
