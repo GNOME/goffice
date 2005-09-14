@@ -261,11 +261,28 @@ TODO
 	1.32.3) axis labels					(DONE)
 	1.32.4) fix xls import of marker vs no marker
     1.33) Contour plots				{Jean}
-	1.33.1) Initial implementation				(DONE)
+	1.33.1) Initial implementation		(DONE)
 	1.33.2) GOMatrix					(DONE)
-	1.33.3) Axis changes
+	1.33.3) Axis changes				(DONE)
 	1.33.4) XLS import					(DONE)
-	1.33.4) XLS export
+	1.33.4) XLS export					(DONE)
+	1.34) Error bars
+	1.34.1) Initial implementation		(DONE)
+	1.34.2) XLS import					(DONE)
+	1.34.3) XLS export
+	1.35) Regression curves
+	1.35.1) Initial implementation		(DONE)
+	1.35.2) XLS import					(DONE)
+	1.35.3) XLS export
+	1.36) Series lines, drop lines
+	1.36.1) Initial implementation		(DONE)
+	1.36.2) XLS import
+	1.36.3) XLS export
+    1.37) Surface plots
+	1.37.1) 3D axis and orientation
+	1.37.2) Implementation.
+	1.37.3) XLS import
+	1.37.4) XLS export
 
 Misc things to fix
 ------------------
