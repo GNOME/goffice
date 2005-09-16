@@ -61,40 +61,6 @@ go_regerror (int errcode, const GORegexp *gor, char *dst, size_t dstsize)
   return errlen;
 }
 
-static int err_eescape;
-static int err_ebrack;
-static int err_eparen1, err_eparen2;
-static int err_esubreg;
-
-static int
-init_error_code (const char *pat)
-{
-  int coptions = PCRE_UTF8;
-  const char *errorptr;
-  int errorofs, errorcode;
-  pcre *r = pcre_compile2 (pat, coptions,
-			   &errorcode, &errorptr, &errorofs,
-			   NULL);
-  if (r) {
-    g_warning ("Unexpected success in compiling regexp [%s].", pat);
-    pcre_free (r);
-    return -1;
-  }
-
-  return errorcode;
-}
-
-/* The error codes are non-public so we have to trigger them!  */
-static void
-init_error_codes (void)
-{
-  err_eescape = init_error_code ("\\");
-  err_ebrack = init_error_code ("[a");
-  err_eparen1 = init_error_code ("(");
-  err_eparen2 = init_error_code (")");
-  err_esubreg = init_error_code ("\\1");
-}
-
 int
 go_regcomp (GORegexp *gor, const char *pat , int cflags)
 {
@@ -111,15 +77,19 @@ go_regcomp (GORegexp *gor, const char *pat , int cflags)
 				  &errorcode, &errorptr, &errorofs,
 				  NULL);
   if (r == NULL) {
-    if (err_eescape == 0)
-      init_error_codes ();
-
-    if (errorcode == err_eescape) return REG_EESCAPE;
-    if (errorcode == err_ebrack) return REG_EBRACK;
-    if (errorcode == err_eparen1 ||
-	errorcode == err_eparen2) return REG_EPAREN;
-    if (errorcode == err_esubreg) return REG_ESUBREG;
-    return REG_BADPAT;
+    switch (errorcode) {
+    case 1: case 2: case 3: case 37: return REG_EESCAPE;
+    case 4: case 5: return REG_EBRACE;
+    case 6: return REG_EBRACK;
+    case 7: case 30: return REG_ECTYPE;
+    case 8: return REG_ERANGE;
+    case 9: case 10: return REG_BADRPT;
+    case 14: case 18: case 22: return REG_EPAREN;
+    case 15: return REG_ESUBREG;
+    case 19: case 20: return REG_ESIZE;
+    case 21: return REG_ESPACE;
+    default: return REG_BADPAT;
+    }
   } else {
     gor->re_nsub = pcre_info (r, NULL, NULL);
     gor->nosub = (cflags & REG_NOSUB) != 0;

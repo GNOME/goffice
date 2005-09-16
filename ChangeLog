@@ -1,3 +1,7 @@
+2005-09-15  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/regutf8.c (go_regcomp): Improve error handling.
+
 2005-09-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/reg_logfit/gog-logfit.c:
