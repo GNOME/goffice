@@ -1,3 +1,7 @@
+2005-09-14  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-style.c (text_layout_init) : use GORotationSel
+
 2005-09-15  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/regutf8.c (go_regcomp): Improve error handling.

@@ -33,6 +33,7 @@
 #include <goffice/gtk/go-combo-pixmaps.h>
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/gtk/go-font-sel.h>
+#include <goffice/gtk/go-rotation-sel.h>
 
 #include <glade/glade-xml.h>
 #include <gtk/gtkcheckbutton.h>
@@ -70,7 +71,6 @@ static GObjectClass *parent_klass;
 typedef struct {
 	GladeXML  	*gui;
 	GladeXML  	*font_gui;
-	GladeXML	*text_layout_gui;
 	GogStyle  	*style;
 	GogStyle  	*default_style;
 	GObject		*object_with_style;
@@ -924,9 +924,9 @@ font_init (StylePrefState *state, guint32 enable, GogEditor *editor, GOCmdContex
 /************************************************************************/
 
 static void
-cb_angle_changed (GtkSpinButton *spin, StylePrefState *state)
+cb_angle_changed (GORotationSel *grs, int angle, StylePrefState *state)
 {
-	gog_style_set_text_angle (state->style, gtk_spin_button_get_value (spin));
+	gog_style_set_text_angle (state->style, angle);
 	set_style (state);
 }
 
@@ -935,22 +935,15 @@ text_layout_init (StylePrefState *state, guint32 enable, GogEditor *editor, GOCm
 {
 	GogStyle *style = state->style;
 	GtkWidget *w;
-	GladeXML *gui;
 
 	if (!enable)
 		return;
 
-	gui = go_libglade_new ("gog-style-prefs.glade", "gog_style_text_layout_prefs", NULL, cc);
-	if (gui == NULL)
-		return;
-
-	state->text_layout_gui = gui;
-
-	w = glade_xml_get_widget (gui, "angle_spin");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), style->text_layout.angle);
-	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (cb_angle_changed), state);
-
-	w = glade_xml_get_widget (gui, "gog_style_text_layout_prefs");
+	w = go_rotation_sel_new ();
+	go_rotation_sel_set_rotation (GO_ROTATION_SEL (w),
+		style->text_layout.angle);
+	g_signal_connect (G_OBJECT (w), "rotation-changed",
+		G_CALLBACK (cb_angle_changed), state);
 	gog_editor_add_page (editor, w, _("Text"));
 }
 

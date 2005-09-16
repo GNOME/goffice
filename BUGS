@@ -8,17 +8,11 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    : src/cut-n-paste-code/goffice/gui-utils/go-format-sel.c:
-	g_warning ("TESTING TESTING 123 res = '%s'", res ? res : "(null)");
-
     goffice/goffice/graph/gog-graph.c uses pointers as quarks.  That cannot
     work.
 
-    goffice/goffice/utils/go-format.c: go_format_value don't use the format
-    argument.
-
-TODO
-----
+Plans
+-----
     0) Move gnome depends into a plugin
 	0.1) egg-recent-files
     1) Format and number match rewrite
@@ -28,13 +22,13 @@ TODO
 	: hour month and year format strings need to be internationalized.
 	    eg tt:ss instead of hh:ss for other locales.
 	: formats with AM/PM need to be internationalized.
-	: We do not format fractional seconds correctly.
+	: We do not format fractional seconds correctly.	(DONE)
 	: Parsing should handle embedded strings
 	: It incorrectly accepts mmm:ss as some sort of minute spec.
 	: When entering "ppp/qqq" into a cell with non-fractional format, do not
-	make it a fraction.
+	  make it a fraction.
 	: Consider adding "%" to entry text when typing a text with a percentage
-	format.  (I.e., user has "44%" in cell and presses "5" -- that causes
+	  format.  (I.e., user has "44%" in cell and presses "5" -- that causes
 	"5%" to be shown the the cursor between "5" and "%".)
 
     2) GOActionComboText
@@ -83,7 +77,7 @@ TODO
 	1.6.1) initial interface				(DONE)
 	1.6.2) generalize container to be a DataSet		(DONE)
 	1.6.3) editor to specify pref for vector or scalar	(DONE)
-    1.7) Single point formating
+    1.7) Single point formating					(DONE)
 	1.7.1) Basic						(DONE)
 	1.7.2) Improve selection of single points for pies	(DONE)
     1.8) data sources						(DONE)
@@ -120,13 +114,13 @@ TODO
     1.12) X/Y (Scatter) Plot
 	1.12.1) Add simple implementation			(DONE)
 	1.12.2) Take marker sizes into account at bounds	(DONE)
-	1.12.3) Bounds on 1 axis explicitly clip the other
+	1.12.3) Bounds on 1 axis implicitly clip the other
 	1.12.4) Splined interpolation				(DONE)
 	1.12.5) Bubbles 					(DONE)
     1.13) Decide on recalc strategy				(DONE)
 	1.13.1) Getting data from sheet -> graphs		(DONE)
 	1.13.2) linking unlinking				(DONE)
-    1.14) Axis management
+    1.14) Axis management					(DONE)
 	1.14.1) Charts/plots have axis layout type		(DONE)
 	1.14.2) Add any missing axis when chart type is set	(DONE)
 	1.14.3) Remove any existing axis that do not correspond	(DONE)
@@ -181,7 +175,7 @@ TODO
 	    1.20.1.4) advanced gradients via combo		(DONE)
 	    1.20.1.5) pixmaps fills				(DONE)
 	    1.20.1.6) patterns					(DONE)
-	1.20.2) outline line pattern
+	1.20.2) outline line pattern				(DONE)
 	1.20.3) font selector					(DONE)
 	1.20.4) Support 'auto' settings				(DONE)
 	    1.20.4.1) outline (colour)				(DONE)
@@ -204,7 +198,7 @@ TODO
 	1.22.1) Set up cardinality framework.			(DONE)
 	1.22.2) Get things to update when chart changes		(DONE)
 	1.22.2) smarter layout
-    1.23) Layout engine
+    1.23) Layout engine						(DONE)
 	1.23.1) In ChartView::size_allocate use the positions	(DONE)
 	1.23.2) For compass placement use the alignment flags	(DONE)
 	1.23.3) support NW, NE, SW, SE				(DONE)
@@ -213,7 +207,7 @@ TODO
 	1.23.6) Add some notion of padding			(DONE)
 	1.23.7) remove request_valid				(DONE)
 	1.23.8) pass in available space				(DONE)
-	1.23.9) How to support axis labels (siblings need
+	1.23.9) How to support axis labels (siblings need	(DONE)
 		common residual)
 	1.23.10) Create a common base for outlined objects	(DONE)
     1.24) Sizing units						(DONE)
@@ -243,9 +237,9 @@ TODO
 	1.30.3) Add or remove it depending on chart axis set	(DONE)
 	1.30.4) Render background				(DONE)
 	1.30.5) Support grid lines (added to axis)		(DONE)
-	1.30.6) XLS import of grid lines		(DONE)
-	1.30.7) XLS export of grid lines		(DONE)
-    1.31) SVG Render
+	1.30.6) XLS import of grid lines			(DONE)
+	1.30.7) XLS export of grid lines			(DONE)
+    1.31) SVG Render						(DONE)
 	1.31.1) Paths						(DONE)
 	1.31.2) Solid Fills					(DONE)
 	1.31.3) Gradient Fills					(DONE)
@@ -260,22 +254,22 @@ TODO
 	1.32.2) area						(DONE)
 	1.32.3) axis labels					(DONE)
 	1.32.4) fix xls import of marker vs no marker
-    1.33) Contour plots				{Jean}
-	1.33.1) Initial implementation		(DONE)
+    1.33) Contour plots						(DONE)
+	1.33.1) Initial implementation				(DONE)
 	1.33.2) GOMatrix					(DONE)
-	1.33.3) Axis changes				(DONE)
+	1.33.3) Axis changes					(DONE)
 	1.33.4) XLS import					(DONE)
 	1.33.4) XLS export					(DONE)
-	1.34) Error bars
-	1.34.1) Initial implementation		(DONE)
+    1.34) Error bars
+	1.34.1) Initial implementation				(DONE)
 	1.34.2) XLS import					(DONE)
 	1.34.3) XLS export
-	1.35) Regression curves
-	1.35.1) Initial implementation		(DONE)
+    1.35) Regression curves
+	1.35.1) Initial implementation				(DONE)
 	1.35.2) XLS import					(DONE)
 	1.35.3) XLS export
-	1.36) Series lines, drop lines
-	1.36.1) Initial implementation		(DONE)
+    1.36) Series lines, drop lines
+	1.36.1) Initial implementation				(DONE)
 	1.36.2) XLS import
 	1.36.3) XLS export
     1.37) Surface plots
