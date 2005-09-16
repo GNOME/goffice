@@ -1,3 +1,8 @@
+2005-09-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-renderer.c (gog_renderer_get_text_OBR): Always
+	set ->alpha.
+
 2005-09-14  Jody Goldberg <jody@gnome.org>
 
 	* goffice/graph/gog-style.c (text_layout_init) : use GORotationSel

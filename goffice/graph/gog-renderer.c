@@ -608,6 +608,7 @@ gog_renderer_get_text_OBR (GogRenderer *rend, char const *text, GOGeometryOBR *o
 	if (*text == '\0') {
 		/* Make sure invisible things don't skew size */
 		obr->w = obr->h = 0;
+		abr->alpha = 0;
 		return;
 	}
 
