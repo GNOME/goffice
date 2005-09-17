@@ -1,3 +1,7 @@
+2005-09-17  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/utils/go-geometry.c: use hypot and atan2 functions.
+
 2005-09-16  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-renderer.c (gog_renderer_get_text_OBR): Always

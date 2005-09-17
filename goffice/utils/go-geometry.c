@@ -19,11 +19,12 @@
  * USA
  */
 
-#include <goffice/utils/go-geometry.h>
 #include <goffice/goffice-config.h>
+
+#include <goffice/utils/go-geometry.h>
 #include <math.h>
 
-#define dist(x0, y0, x1, y1) sqrt(((x0) - (x1))*((x0) - (x1)) + ((y0) - (y1))*((y0) - (y1)))
+#define dist(x0, y0, x1, y1) hypot((x0) - (x1),(y0) - (y1))
 
 /**
  * go_geometry_cartesian_to_polar:
@@ -35,19 +36,8 @@
 void
 go_geometry_cartesian_to_polar (double x, double y, double *rho, double *theta)
 {
-	*rho = sqrt (x * x + y * y);
-	if (x != 0.) {
-		*theta = atan (y / x);
-		if (x < 0.) {
-			*theta += M_PI;
-		}
-	} else {
-		if (y < 0.) {
-			*theta = -M_PI/2.0;
-		} else {
-			*theta = M_PI/2.0;
-		}
-	}
+	*rho = hypot (x, y);
+	*theta = atan2 (y, x);
 }
 
 /**
