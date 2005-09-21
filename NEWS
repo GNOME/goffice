@@ -1,5 +1,9 @@
 goffice 0.1.0:
 
+Emmanuel Pacaud:
+
+	* Multicolumn/line and horizontal layout support for legends.
+
 Jean Brefort:
 	* Optionnaly skip invalid values in regression curves [#312788].
 	* New regression curves types [#312789].
