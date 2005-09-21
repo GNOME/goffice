@@ -437,7 +437,9 @@ typedef GogOutlinedViewClass	GogTextViewClass;
 static GogViewClass *text_view_parent_klass;
 
 static void
-gog_text_view_size_request (GogView *v, GogViewRequisition *req)
+gog_text_view_size_request (GogView *v, 
+			    GogViewRequisition const *available,
+			    GogViewRequisition *req)
 {
 	GogText *text = GOG_TEXT (v->model);
 	char *str = gog_text_get_str (text);
@@ -452,7 +454,7 @@ gog_text_view_size_request (GogView *v, GogViewRequisition *req)
 		req->h = aabr.h;
 		g_free (str);
 	}
-	text_view_parent_klass->size_request (v, req);
+	text_view_parent_klass->size_request (v, available, req);
 }
 
 static void

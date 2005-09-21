@@ -1898,7 +1898,7 @@ gog_axis_view_padding_request (GogView *view,
 	GogAxisType type = gog_axis_get_atype (axis);
 	GogObjectPosition pos;
 	GogViewAllocation tmp = *bbox;
-	GogViewRequisition req;
+	GogViewRequisition req, available;
 	GogViewPadding label_padding, child_padding;
 	GSList *ptr;
 	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
@@ -1910,7 +1910,9 @@ gog_axis_view_padding_request (GogView *view,
 		child = ptr->data;
 		pos = child->model->position;
 		if (IS_GOG_LABEL (child->model) && !(pos & GOG_POSITION_MANUAL)) {
-			gog_view_size_request (child, &req);
+			available.w = bbox->w;
+			available.h = bbox->h;
+			gog_view_size_request (child, &available, &req);
 			if (type == GOG_AXIS_X) 
 				label_padding.hb += req.h + pad_h;
 			else  
@@ -1952,23 +1954,26 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	GogViewAllocation tmp = *bbox;
 	GogViewAllocation const *plot_area = gog_chart_view_get_plot_area (view->parent);
 	GogViewAllocation child_bbox;
-	GogViewRequisition req;
+	GogViewRequisition req, available;
 	GogObjectPosition pos;
 	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
 	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
+
+	available.w = bbox->w;
+	available.h = bbox->h;
 
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
 		pos = child->model->position;
 		if (IS_GOG_LABEL (child->model) && (pos & GOG_POSITION_MANUAL)) {
-			gog_view_size_request (child, &req);
+			gog_view_size_request (child, &available, &req);
 			child_bbox = gog_object_get_manual_allocation (gog_view_get_model (child), 
 								       plot_area, &req);
 			gog_view_size_allocate (child, &child_bbox);
 		} else {
 			if (GOG_POSITION_IS_SPECIAL (pos)) {
 				if (IS_GOG_LABEL (child->model)) {
-					gog_view_size_request (child, &req);
+					gog_view_size_request (child, &available, &req);
 					if (type == GOG_AXIS_X) {
 						child_bbox.x = plot_area->x + (plot_area->w - req.w) / 2.0;
 						child_bbox.w = plot_area->w;

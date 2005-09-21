@@ -1,3 +1,23 @@
+2005-09-21  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-axis.c (gog_axis_view_padding_request): pass
+	available to gog_view_size_request.
+	(gog_axis_view_size_allocate): ditto.
+	* goffice/graph/gog-label.c (gog_text_view_size_request): ditto.
+	* goffice/graph/gog-legend.c (gog_legend_view_size_request):
+	multicolumn/line and horizontal layout support.
+	(cb_render_elements): ditto.
+	(gog_legend_view_render): ditto.
+	* goffice/graph/gog-view.c (gog_view_size_request_real): use different
+	parameters for different meanings.
+	(gog_view_size_request): ditto.
+	(gog_view_size_allocate_real):  pass available to 
+	gog_view_size_request.
+	(gog_view_render): don't render when allocation is invalid, not
+	residual.
+	(gog_view_size_child_request): return additionnal requisition and
+	minimum child requisition.
+
 2005-09-17  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/utils/go-geometry.c: use hypot and atan2 functions.

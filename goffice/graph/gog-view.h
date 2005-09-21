@@ -49,8 +49,10 @@ typedef struct {
 
 	/* Virtuals */
 	void	 (*state_init)    (GogView *);
-	void	 (*padding_request) 		(GogView *, GogViewAllocation const *bbox, GogViewPadding *padding);
-	void	 (*size_request)    		(GogView *, GogViewRequisition *req);
+	void	 (*padding_request) 		(GogView *view, GogViewAllocation const *bbox, 
+						 GogViewPadding *padding);
+	void	 (*size_request)    		(GogView *view, GogViewRequisition const *available, 
+						 GogViewRequisition *req);
 	void	 (*size_allocate)   		(GogView *, GogViewAllocation const *bbox);
 	void	 (*render)        (GogView *, GogViewAllocation const *bbox);
 	gboolean (*info_at_point) (GogView *, double x, double y,
@@ -72,7 +74,8 @@ void	   gog_view_render	     (GogView *v, GogViewAllocation const *bbox);
 void       gog_view_queue_redraw     (GogView *v);
 void       gog_view_queue_resize     (GogView *v);
 void	   gog_view_padding_request  (GogView *v, GogViewAllocation const *bbox, GogViewPadding *padding);
-void       gog_view_size_request     (GogView *v, GogViewRequisition *req);
+void       gog_view_size_request     (GogView *v, GogViewRequisition const *available, 
+				      GogViewRequisition *requisition);
 void       gog_view_size_allocate    (GogView *v, GogViewAllocation const *a);
 gboolean   gog_view_update_sizes     (GogView *v);
 gboolean   gog_view_info_at_point    (GogView *container, double x, double y,
@@ -84,7 +87,8 @@ GogView   *gog_view_find_child_view  (GogView const *container,
 /* protected */
 void gog_view_size_child_request (GogView *v,
 				  GogViewRequisition const *avail,
-				  GogViewRequisition *req);
+				  GogViewRequisition *req,
+				  GogViewRequisition *min_req);
 
 G_END_DECLS
 

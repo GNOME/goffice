@@ -209,7 +209,9 @@ gog_view_padding_request_real (GogView *view, GogViewAllocation const *bbox, Gog
 }
 
 static void
-gog_view_size_request_real (GogView *view, GogViewRequisition *req)
+gog_view_size_request_real (GogView *view, 
+			    GogViewRequisition const *available,
+			    GogViewRequisition *req)
 {
 	req->w = req->h = 1.;
 }
@@ -220,8 +222,8 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 	GSList *ptr;
 	GogView *child;
 	GogObjectPosition pos;
-	GogViewRequisition req;
-	GogViewAllocation tmp, available = *allocation, res = *allocation;
+	GogViewRequisition req, available;
+	GogViewAllocation tmp, res = *allocation;
 	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
 	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
 
@@ -230,15 +232,19 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 
 		pos = child->model->position;
 		if (pos & GOG_POSITION_MANUAL) {
-			gog_view_size_request (child, &req);
+			available.w = res.w;
+			available.h = res.h;
+			gog_view_size_request (child, &available, &req);
 			tmp = gog_object_get_manual_allocation (gog_view_get_model (child),
-								&available, &req);
+								allocation, &req);
 			gog_view_size_allocate (child, &tmp);
 		} else if (pos & GOG_POSITION_COMPASS) {
 			gboolean vertical = TRUE;
 
 			/* Dead simple */
-			gog_view_size_request (child, &req);
+			available.w = res.w;
+			available.h = res.h;
+			gog_view_size_request (child, &available, &req);
 			if (req.h > res.h)
 				req.h = res.h;
 			if (req.w > res.w)
@@ -438,24 +444,29 @@ gog_view_padding_request (GogView *view, GogViewAllocation const *bbox, GogViewP
 /**
  * gog_view_size_request :
  * @view : a #GogView
+ * @available : available space.
  * @requisition : a #GogViewRequisition.
  *
- * When called @requisition holds the available space and is populated with the
- * desired size based on that input and other elements of the view or its model's
- * state (eg the position).
+ * When called @available holds the available space and @requisition is populated
+ * with the desired size based on that input and other elements of the view or 
+ * its model's state (eg the position).
  *
  * Remember that the size request is not necessarily the size a view will
  * actually be allocated.
  **/
 void
-gog_view_size_request (GogView *view, GogViewRequisition *requisition)
+gog_view_size_request (GogView *view, 
+		       GogViewRequisition const *available, 
+		       GogViewRequisition *requisition)
 {
 	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
 
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (requisition != NULL);
+	g_return_if_fail (available != NULL);
+
 	if (klass->size_request)
-		(klass->size_request) (view, requisition);
+		(klass->size_request) (view, available, requisition);
 	else
 		requisition->w = requisition->h = 1.;
 }
@@ -519,12 +530,12 @@ gog_view_render	(GogView *view, GogViewAllocation const *bbox)
 
 	g_return_if_fail (view->renderer != NULL);
 
-	if (view->residual.w < 0 || view->residual.h < 0)
+	if (view->allocation.w < 0 || view->allocation.h < 0)
 		return;
 	
 	if (klass->clip) {
 		gog_renderer_push_clip (view->renderer, 
-					gog_renderer_get_rectangle_vpath (&view->allocation));
+			gog_renderer_get_rectangle_vpath (&view->allocation));
 		klass->render (view, bbox);
 		gog_renderer_pop_clip (view->renderer);
 	}
@@ -584,25 +595,28 @@ gog_view_info_at_point (GogView *view, double x, double y,
 /**
  * gog_view_size_child_request :
  * @view : #GogView
- * @avail : the amount of space available in total
- * @req : holds the amount of space for the parent, and is expanded with the
- * 	needs of the children.
+ * @available : the amount of space available in total
+ * @req : additionnal requisition
+ * @min_req : minimum size for displaying all children
  *
- * Takes the space requested in @req and expands it to hold all @view->model's
+ * Returns additionnal requision in @req which must be added to parent requisition,
+ * and minimum requisition in @min_req which is minimum space for displaying all
  * children.
- * Returns the necessary size in @req.
  **/
 void
 gog_view_size_child_request (GogView *view,
-			     GogViewRequisition const *avail,
-			     GogViewRequisition *res)
+			     GogViewRequisition const *available,
+			     GogViewRequisition *req,
+			     GogViewRequisition *min_req)
 {
 	GSList *ptr, *list;
 	GogView *child;
 	GogObjectPosition pos;
-	GogViewRequisition req;
+	GogViewRequisition child_req;
 	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
 	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
+
+	req->w = req->h = min_req->w = min_req->h = 0.;
 
 	/* walk the list in reverse */
 	list = g_slist_reverse (g_slist_copy (view->children));
@@ -614,19 +628,23 @@ gog_view_size_child_request (GogView *view,
 			g_warning ("manual is not supported yet");
 		} else if (pos & GOG_POSITION_COMPASS) {
 			/* Dead simple */
-			gog_view_size_request (child, &req);
+			gog_view_size_request (child, available, &child_req);
 
 			if (pos & (GOG_POSITION_N|GOG_POSITION_S)) {
-				if (req.h > 0)
-					res->h += req.h + pad_h;
-			} else if (res->h < req.h)
-				res->h = req.h;
+				if (child_req.h > 0) {
+					req->h += child_req.h + pad_h;
+					min_req->h += child_req.h + pad_h;
+				}
+			} else if (min_req->h < child_req.h)
+				min_req->h = child_req.h;
 
 			if (pos & (GOG_POSITION_E|GOG_POSITION_W)) {
-				if (req.w > 0)
-					res->w += req.w + pad_w;
-			} else if (res->w < req.w)
-				res->w = req.w;
+				if (child_req.w > 0) {
+					req->w += child_req.w + pad_w;
+					min_req->w += child_req.w + pad_w;
+				}
+			} else if (min_req->w < child_req.w)
+				min_req->w = child_req.w;
 
 		} else if (!(GOG_POSITION_IS_SPECIAL (pos)))
 			g_warning ("[GogView::size_child_request] unexpected position %x for child %p of %p",

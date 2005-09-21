@@ -103,7 +103,9 @@ gog_outlined_object_get_pad (GogOutlinedObject const *goo)
 static GogViewClass *oview_parent_klass;
 
 static void
-gog_outlined_view_size_request (GogView *v, GogViewRequisition *req)
+gog_outlined_view_size_request (GogView *v, 
+				GogViewRequisition const *available,
+				GogViewRequisition *req)
 {
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (v->model);
 	double outline = gog_renderer_line_size (v->renderer, 
