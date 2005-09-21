@@ -1,3 +1,8 @@
+2005-09-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_guess_encoding): Return
+	explicit endianness for UTF-16 encodings.
+
 2005-09-21  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-axis.c (gog_axis_view_padding_request): pass

@@ -666,10 +666,21 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 		case 3: {
 			xmlCharEncoding enc =
 				xmlDetectCharEncoding ((const unsigned char*)raw, len);
-			if (enc == XML_CHAR_ENCODING_NONE)
-				guess = NULL;
-			else
+			switch (enc) {
+			case XML_CHAR_ENCODING_ERROR:
+			case XML_CHAR_ENCODING_NONE:
+				break;
+			case XML_CHAR_ENCODING_UTF16LE:
+				/* Default would give "UTF-16".  */
+				guess = "UTF-16LE";
+				break;
+			case XML_CHAR_ENCODING_UTF16BE:
+				/* Default would give "UTF-16".  */
+				guess = "UTF-16BE";
+				break;
+			default:
 				guess = xmlGetCharEncodingName (enc);
+			}
 			break;
 		}
 		case 4: guess = "ASCII"; break;
