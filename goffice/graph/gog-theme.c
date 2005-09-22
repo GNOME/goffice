@@ -544,21 +544,13 @@ gog_themes_init	(void)
 	gog_theme_add_element (theme, style,
 		NULL, "GogRegCurve", NULL);
 
-	/* regression curves */
-	style = gog_style_new ();
-	style->line.dash_type = GO_LINE_SOLID;
-	style->line.width = 1;
-	style->line.color = RGBA_BLACK;
-	gog_theme_add_element (theme, style,
-		NULL, "GogRegCurve", NULL);
-
 	/* regression equations */
 	style = gog_style_new ();
 	style->outline.dash_type = GO_LINE_SOLID;
 	style->outline.width = 0; /* hairline */
 	style->outline.color = RGBA_BLACK;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
-	go_pattern_set_solid (&style->fill.pattern, 0);
+	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style,
 		NULL, "GogRegEqn", NULL);
 
@@ -668,6 +660,8 @@ gog_themes_init	(void)
 	style->outline.dash_type = GO_LINE_SOLID;
 	style->outline.width = 0; /* hairline */
 	style->outline.color = RGBA_BLACK;
+	style->fill.type = GOG_FILL_STYLE_PATTERN;
+	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style,
 		NULL, "GogRegEqn", NULL);
 

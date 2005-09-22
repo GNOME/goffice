@@ -1,3 +1,8 @@
+2005-09-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-theme.c (gog_themes_init): set regression equation
+	fill color to white.
+
 2005-09-21  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-glib-extras.c (go_guess_encoding): Return
