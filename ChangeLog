@@ -1,3 +1,9 @@
+2005-09-23  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-axis.c (gog_axis_view_padding_request): axis title
+	follows axis line now [#317009].
+	(gog_axis_view_size_allocate): ditto.
+
 2005-09-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-theme.c (gog_themes_init): set regression equation
