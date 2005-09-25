@@ -672,14 +672,17 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 	FT_Bitmap ft_bitmap;
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	PangoRectangle rect;
-	PangoLayout   *layout;
+	PangoLayout *layout;
+	double angle;
 	guint8 r, g, b, a, alpha, *dst, *src;
 	int h, w, i, x, y, interrow, intercol, rotation_type;
-	int ft_x, ft_y, ft_w, ft_h, offset;
+	int ft_x, ft_y, ft_w, ft_h, offset_x, offset_y;
+	int end_x = 0, end_y = 0;
 	GogStyle const *style = rend->cur_style;
 	PangoMatrix matrix, old_matrix;
 
-	rotation_type  = go_geometry_get_rotation_type (rend->cur_style->text_layout.angle * M_PI / 180);
+	angle = rend->cur_style->text_layout.angle * M_PI / 180.0;
+	rotation_type  = go_geometry_get_rotation_type (angle);
 
 	layout = gog_renderer_pixbuf_get_pango_layout ((GogRendererPixbuf *) rend);
 	pango_layout_set_text (layout, text, -1);
@@ -702,8 +705,6 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 			rect.y = PANGO_PIXELS (rect.y);
 	}
 
-	ft_x = rect.x;
-	ft_y = rect.y;
 	switch (rotation_type) {
 		case GO_ROTATE_CLOCKWISE:
 		case GO_ROTATE_COUNTERCLOCKWISE:
@@ -730,12 +731,16 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 			break;
 		default : break;
 	}
-	x = (x > 0) ? (x + PANGO_SCALE / 2) / PANGO_SCALE : 0;
+	x = (x + PANGO_SCALE / 2) / PANGO_SCALE;
 	w = (rect.width + PANGO_SCALE / 2) / PANGO_SCALE;
-	offset = rotation_type == GO_ROTATE_NONE ? rect.x : 0.0;
-	if ((x + w + offset) > prend->w)
-		w = prend->w - x - offset;
-
+	offset_x = -MIN (x, 0);
+	x = MAX (x, 0);
+	w -= offset_x;
+	if (w + x - offset_x > prend->w) {
+		end_x = w - (prend->w - x);
+		w = prend->w - x;	
+	}
+	
 	switch (anchor) {
 	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_E : case GTK_ANCHOR_W :
 		y -= rect.height / 2;
@@ -745,11 +750,15 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 		break;
 	default : break;
 	}
-	y = (y > 0) ? (y + PANGO_SCALE / 2) / PANGO_SCALE : 0;
+	y = (y + PANGO_SCALE / 2) / PANGO_SCALE;
 	h = (rect.height + PANGO_SCALE / 2) / PANGO_SCALE;
-	offset = rotation_type == GO_ROTATE_CLOCKWISE ? rect.y : 0.0;
-	if ((y + h + offset) > prend->h)
-		h = prend->h - y - offset;
+	offset_y = -MIN (y, 0);
+	y = MAX (y, 0);
+	h -= offset_y;
+	if (h + y > prend->h) {
+		end_y = h - (prend->h - y);
+		h = prend->h - y;
+	}
 
 	if (result != NULL) {
 		result->x = x;
@@ -766,13 +775,34 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 
 	switch (rotation_type) {
 		case GO_ROTATE_CLOCKWISE:
+			ft_h = w;
+			ft_w = h;
+			ft_x = offset_y;
+			ft_y = end_x;
+			break;
 		case GO_ROTATE_COUNTERCLOCKWISE:
 			ft_h = w;
 			ft_w = h;
+			ft_x = end_y;
+			ft_y = offset_x;
+			break;
+		case GO_ROTATE_UPSIDEDOWN:
+			ft_h = h;
+			ft_w = w;
+			ft_x = end_x;
+			ft_y = end_y;
+			break;
+		case GO_ROTATE_FREE:
+			ft_h = h;
+			ft_w = w;
+			ft_x = offset_x * cos (angle) + offset_y * sin (-angle);
+			ft_y = offset_x * sin (angle) + offset_y * cos (-angle);
 			break;
 		default:
 			ft_h = h;
 			ft_w = w;
+			ft_x = offset_x;
+			ft_y = offset_y;
 	}
 
 	ft_bitmap.rows         = ft_h;
@@ -802,7 +832,7 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 			intercol = 4;
 			interrow = prend->rowstride - w * 4;
 			dst += y * prend->rowstride;
-			dst += (x + ft_x) * 4;
+			dst += x * 4;
 			break;
 		case GO_ROTATE_COUNTERCLOCKWISE:
 			intercol = - prend->rowstride;
@@ -813,7 +843,7 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 		case GO_ROTATE_CLOCKWISE:
 			intercol = prend->rowstride;
 			interrow = - 4 - h * prend->rowstride; 
-			dst += (y + ft_x) * prend->rowstride;
+			dst += y * prend->rowstride;
 			dst += (x + w - 1)* 4;
 			break;
 		case GO_ROTATE_UPSIDEDOWN:
@@ -839,7 +869,7 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 		src += ft_bitmap.pitch - ft_w;
 	}
 	g_free (ft_bitmap.buffer);
-	
+
 	if (rotation_type == GO_ROTATE_FREE) 
 		pango_context_set_matrix (pango_layout_get_context (layout), &old_matrix);
 }

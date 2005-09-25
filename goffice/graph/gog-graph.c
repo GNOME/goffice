@@ -643,6 +643,7 @@ gog_graph_view_class_init (GogGraphViewClass *gview_klass)
 	gview_parent_klass = g_type_class_peek_parent (gview_klass);
 	gobject_klass->set_property = gog_graph_view_set_property;
 	view_klass->size_allocate   = gog_graph_view_size_allocate;
+	view_klass->clip	    = TRUE;
 
 	g_object_class_install_property (gobject_klass, GRAPH_VIEW_PROP_RENDERER,
 		g_param_spec_object ("renderer", "renderer",

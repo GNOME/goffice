@@ -1,3 +1,10 @@
+2005-09-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-graph.c (gog_graph_view_class_init): clip to graph
+	area.
+	* goffice/graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_text):
+	fix text clipping.
+
 2005-09-23  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-axis.c (gog_axis_view_padding_request): axis title
