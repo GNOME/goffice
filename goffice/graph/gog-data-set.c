@@ -241,7 +241,7 @@ gog_dataset_dup_to_simple (GogDataset const *src, GogDataset *dst)
 			double *d = go_data_vector_get_values (vec);
 			int i, n = go_data_vector_get_len (vec);
 			for (i = 0; i < n; i++)
-				if (go_finite (d[i])) {
+				if (!go_finite (d[i])) {
 					as_values = FALSE;
 					break;
 				}
