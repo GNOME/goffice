@@ -799,27 +799,6 @@ format_compile (GOFormat *format)
 #endif
 
 #ifdef DEFINE_COMMON
-/*
- * This routine is invoked when the last user of the
- * format is gone (ie, refcount has reached zero) just
- * before the GOFormat structure is actually released.
- *
- * resources allocated in format_compile should be disposed here
- */
-static void
-format_destroy (GOFormat *format)
-{
-	g_slist_foreach (format->entries, &format_entry_dtor, NULL);
-	g_slist_free (format->entries);
-	format->entries = NULL;
-	if (format->markup != NULL) {
-		pango_attr_list_unref (format->markup);
-		format->markup = NULL;
-	}
-}
-#endif
-
-#ifdef DEFINE_COMMON
 /* used to generate formats when delocalizing so keep the leadings caps */
 typedef struct {
 	char const *name;
@@ -2341,6 +2320,10 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 		g_string_append_printf (accum, "[size=%d",
 			((PangoAttrInt *)a)->value);
 		break;
+	case PANGO_ATTR_RISE:
+		g_string_append_printf (accum, "[rise=%d",
+			((PangoAttrInt *)a)->value);
+		break;
 	case PANGO_ATTR_STYLE :
 		g_string_append_printf (accum, "[italic=%d",
 			(((PangoAttrInt *)a)->value == PANGO_STYLE_ITALIC) ? 1 : 0);
@@ -2419,6 +2402,8 @@ go_format_parse_markup (char *str)
 				a = pango_attr_size_new (atoi (val));
 			else if (0 == strncmp (str, "bold", 4))
 				a = pango_attr_weight_new (atoi (val) ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
+			else if (0 == strncmp (str, "rise", 4))
+				a = pango_attr_rise_new (atoi (val));
 			break;
 
 		case 5:
@@ -2542,8 +2527,7 @@ go_format_new_markup (PangoAttrList *markup, gboolean add_ref)
 	if (add_ref)
 		pango_attr_list_ref (markup);
 
-	format->ref_count = 1;
-	g_hash_table_insert (style_format_hash, format->format, format);
+	format->ref_count = 0;
 
 #ifdef DEBUG_REF_COUNT
 	g_message (__FUNCTION__ " format=%p '%s' ref_count=%d",
@@ -2749,12 +2733,16 @@ go_format_unref (GOFormat *gf)
 	if (gf->ref_count != 0)
 		return;
 
-	if (style_format_hash) {
+	if (NULL != gf->markup) /* markup is not shared in the global cache */
+		pango_attr_list_unref (gf->markup);
+	else if (style_format_hash) {
 		g_warning ("Probable ref counting problem. fmt %p '%s' is being unrefed while still in the global cache",
 			   gf, gf->format);
 	}
 
-	format_destroy (gf);
+	/* resources allocated in format_compile should be disposed here */
+	g_slist_foreach (gf->entries, &format_entry_dtor, NULL);
+	g_slist_free (gf->entries);
 	g_free (gf->format);
 	g_free (gf);
 }

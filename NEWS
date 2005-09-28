@@ -11,6 +11,7 @@ Jean Brefort:
 Jody:
 	* Adjust lifecycle of GOFormat to cache all formats once created.
 	  Huge performance win on [#314521]
+	* Include super/sub scripts when persisting.
 
 Morten:
 	* Fix rendering of numbers using formats with fractional

@@ -1,3 +1,17 @@
+2005-09-26  Jody Goldberg <jody@gnome.org>
+
+	* goffice/utils/format.c (go_format_unref) : merge in format_destroy
+	  there was no utility in keeping them distinct.  Do not warn about
+	  the final unref of a markup style, they are not kept in the global
+	  cache.
+	(go_format_new_markup) : do not put markup formats in the global
+	  cache.  We do not really want to share them, and the old code would
+	  replace existing formats in the rare situation where some rich text
+	  formating happened to be used in the same way in two places
+	  eg C sub 1  vs C sub 2
+	(go_format_parse_markup) : support rise.
+	(cb_attrs_as_string) : ditto.
+
 2005-09-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-data-set.c: (gog_dataset_dup_to_simple): fixed an
