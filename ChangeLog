@@ -1,3 +1,8 @@
+2005-09-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-error-bar.c: (cb_destroy), (cb_type_changed): unref
+	the error bar when appropriate.
+
 2005-09-26  Jody Goldberg <jody@gnome.org>
 
 	* goffice/utils/format.c (go_format_unref) : merge in format_destroy

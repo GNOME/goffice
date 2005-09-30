@@ -62,6 +62,8 @@ typedef struct {
 static void
 cb_destroy (G_GNUC_UNUSED GtkWidget *w, GogErrorBarEditor *editor)
 {
+	if (editor->bar)
+		g_object_unref (editor->bar);
 	g_free (editor);
 }
 
@@ -122,6 +124,7 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 		gog_dataset_set_dim (set, editor->bar->error_i, NULL, NULL);
 		gog_dataset_set_dim (set, editor->bar->error_i + 1, NULL, NULL);
 		g_object_set (editor->series, editor->property, NULL, NULL);
+		g_object_unref (editor->bar);
 		editor->bar = NULL;
 		data = g_object_get_data (G_OBJECT (w), "plus");
 		if (GTK_IS_WIDGET (data))
