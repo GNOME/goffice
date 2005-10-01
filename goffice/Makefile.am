@@ -14,7 +14,7 @@ libgoffice_1_la_LIBADD = 			\
 	ms-compat/libgoffice-ms-compat.la	\
 	$(GOFFICE_LIBS)
 
-libgoffice_1_la_LDFLAGS = -version-info $(GOFFICE_LIB_VERSION)
+libgoffice_1_la_LDFLAGS = -version-info $(VERSION_INFO)
 if WITH_WIN32
 libgoffice_1_la_LDFLAGS += -no-undefined -Wl,-export-all-symbols
 libgoffice_1_la_LIBADD += utils/libgoffice-win32-stub.la

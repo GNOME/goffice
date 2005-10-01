@@ -1,3 +1,9 @@
+2005-10-01  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (GOFFICE_LIB_VERSION): Rename to ...
+	(VERSION_INFO): ... and fix it, adding an explanation.
+	* goffice/Makefile.am (GOFFICE_LIB_VERSION, VERSION_INFO): Likewise.
+
 2005-09-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-error-bar.c: (cb_destroy), (cb_type_changed): unref
