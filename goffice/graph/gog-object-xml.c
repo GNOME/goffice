@@ -94,49 +94,7 @@ gog_object_set_arg_full (char const *name, char const *val, GogObject *obj, xmlN
 	}
 
 	g_value_init (&res, prop_type);
-	switch (G_TYPE_FUNDAMENTAL (prop_type)) {
-	case G_TYPE_CHAR:
-		g_value_set_char (&res, val[0]);
-		break;
-	case G_TYPE_UCHAR:
-		g_value_set_uchar (&res, (guchar)val[0]);
-		break;
-	case G_TYPE_BOOLEAN:
-		g_value_set_boolean (&res, 
-			val == NULL ||
-			g_ascii_tolower (val[0]) == 't' ||
-			g_ascii_tolower (val[0]) == 'y' ||
-			strtol (val, NULL, 0));
-		break;
-	case G_TYPE_INT:
-		g_value_set_int (&res, strtol (val, NULL, 0));
-		break;
-	case G_TYPE_UINT:
-		g_value_set_uint (&res, strtoul (val, NULL, 0));
-		break;
-	case G_TYPE_LONG:
-		g_value_set_long (&res, strtol (val, NULL, 0));
-		break;
-	case G_TYPE_ULONG:
-		g_value_set_ulong (&res, strtoul (val, NULL, 0));
-		break; 
-	case G_TYPE_ENUM:
-		g_value_set_enum (&res, glade_enum_from_string (prop_type, val));
-		break;
-	case G_TYPE_FLAGS:
-		g_value_set_flags (&res, glade_flags_from_string (prop_type, val));
-		break;
-	case G_TYPE_FLOAT:
-		g_value_set_float (&res, g_strtod (val, NULL));
-		break;
-	case G_TYPE_DOUBLE:
-		g_value_set_double (&res, g_strtod (val, NULL));
-		break;
-	case G_TYPE_STRING:
-		g_value_set_string (&res, val);
-		break;
-
-	case G_TYPE_OBJECT:
+	if (G_TYPE_FUNDAMENTAL (prop_type) == G_TYPE_OBJECT) {
 		if (g_type_is_a (prop_type, G_TYPE_OBJECT)) {
 			xmlChar *type_name;
 			GType    type = 0;
@@ -159,11 +117,8 @@ gog_object_set_arg_full (char const *name, char const *val, GogObject *obj, xmlN
 				g_object_unref (val_obj);
 			}
 		}
-		break;
-
-	default:
+	} else if (!gsf_xml_gvalue_from_str (&res, G_TYPE_FUNDAMENTAL (prop_type), val))
 		success = FALSE;
-	}
 
 	if (!success) {
 		g_warning ("could not convert string to type `%s' for property `%s'",

@@ -1,3 +1,17 @@
+2005-10-02  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump libgsf req.
+
+	* goffice/graph/gog-object-xml.c (gog_object_set_arg_full) : the
+	  general stuff was split out and moved the libgsf.  Use the new
+	  gsf_xml_gvalue_from_str.
+
+2005-10-02  Jody Goldberg <jody@gnome.org>
+
+	* plugins/plot_surface/gog-surface.c (gog_contour_plot_set_property) : 
+	  Don't signal the axis if they are not set yet.  Don't do anything if
+	  things are not changing.
+
 2005-10-01  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (GOFFICE_LIB_VERSION): Rename to ...

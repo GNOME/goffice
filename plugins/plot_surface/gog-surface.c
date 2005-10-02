@@ -424,11 +424,14 @@ gog_contour_plot_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case CONTOUR_PROP_TRANSPOSED :
-		plot->transposed = g_value_get_boolean (value);
-		gog_axis_bound_changed (plot->base.axis[GOG_AXIS_X], GOG_OBJECT (plot));
-		gog_axis_bound_changed (plot->base.axis[GOG_AXIS_Y], GOG_OBJECT (plot));
-		g_free (plot->plotted_data);
-		plot->plotted_data = NULL;
+		if (!plot->transposed != !g_value_get_boolean (value)) {
+			plot->transposed = g_value_get_boolean (value);
+			if (NULL != plot->base.axis[GOG_AXIS_X])
+				gog_axis_bound_changed (plot->base.axis[GOG_AXIS_X], GOG_OBJECT (plot));
+			if (NULL != plot->base.axis[GOG_AXIS_Y])
+			g_free (plot->plotted_data);
+			plot->plotted_data = NULL;
+		}
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
