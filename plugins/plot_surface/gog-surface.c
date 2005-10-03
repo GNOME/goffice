@@ -337,14 +337,15 @@ gog_contour_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		bounds->logical.maxima = bounds->val.maxima = max;
 		bounds->is_discrete = FALSE;
 	} else {
-		bounds->val.minima = 0.;
-		bounds->logical.minima = 0.;
+		bounds->val.minima = 1.;
+		bounds->logical.minima = 1.;
 		bounds->logical.maxima = go_nan;
 		bounds->is_discrete    = TRUE;
 		bounds->center_on_ticks = TRUE;
-		bounds->val.maxima = (axis == GOG_AXIS_X) ?
-			series->columns - 1.:
-			series->rows - 1.;
+		bounds->val.maxima = ((axis == GOG_AXIS_Y && contour->transposed) ||
+		(axis == GOG_AXIS_X && !contour->transposed)) ?
+			series->columns:
+			series->rows;
 	}
 	return (GOData*) vec;
 }
@@ -429,6 +430,7 @@ gog_contour_plot_set_property (GObject *obj, guint param_id,
 			if (NULL != plot->base.axis[GOG_AXIS_X])
 				gog_axis_bound_changed (plot->base.axis[GOG_AXIS_X], GOG_OBJECT (plot));
 			if (NULL != plot->base.axis[GOG_AXIS_Y])
+				gog_axis_bound_changed (plot->base.axis[GOG_AXIS_Y], GOG_OBJECT (plot));
 			g_free (plot->plotted_data);
 			plot->plotted_data = NULL;
 		}
@@ -638,8 +640,8 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	for (j = 1; j < jmax; j++) {
 		if (xdiscrete) {
-			x0 = gog_axis_map_to_view (x_map, j - 1);
-			x1 = gog_axis_map_to_view (x_map, j);
+			x0 = gog_axis_map_to_view (x_map, j);
+			x1 = gog_axis_map_to_view (x_map, j + 1);
 		}else {
 			x0 = gog_axis_map_to_view (x_map, go_data_vector_get_value (x_vec, j - 1));
 			x1 = gog_axis_map_to_view (x_map, go_data_vector_get_value (x_vec, j));
@@ -647,8 +649,8 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 		
 		for (i = 1; i < imax; i++) {
 			if (ydiscrete) {
-				y0 = gog_axis_map_to_view (y_map, i - 1);
-				y1 = gog_axis_map_to_view (y_map, i);
+				y0 = gog_axis_map_to_view (y_map, i);
+				y1 = gog_axis_map_to_view (y_map, i + 1);
 			}else {
 				y0 = gog_axis_map_to_view (y_map, go_data_vector_get_value (y_vec, i - 1));
 				y1 = gog_axis_map_to_view (y_map, go_data_vector_get_value (y_vec, i));
