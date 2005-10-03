@@ -1,5 +1,10 @@
 2005-10-03  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-object-xml.c (gog_object_set_arg_full) : do
+	not call g_value_init before gsf_xml_gvalue_from_str.
+
+2005-10-03  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_surface/gog-surface.c:
 	(gog_contour_plot_axis_get_bounds),
 	(gog_contour_view_render): start discrete axis scale from 1.

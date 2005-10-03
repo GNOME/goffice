@@ -93,8 +93,8 @@ gog_object_set_arg_full (char const *name, char const *val, GogObject *obj, xmlN
 		return;
 	}
 
-	g_value_init (&res, prop_type);
 	if (G_TYPE_FUNDAMENTAL (prop_type) == G_TYPE_OBJECT) {
+		g_value_init (&res, prop_type);
 		if (g_type_is_a (prop_type, G_TYPE_OBJECT)) {
 			xmlChar *type_name;
 			GType    type = 0;
