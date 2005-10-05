@@ -1,5 +1,11 @@
 2005-10-05  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-plot.c: (gog_plot_class_init): fixed typo.
+	* goffice/graph/gog-style-prefs.glade: fixed a duplicate shortcut.
+	* goffice/utils/regutf8.c: (go_regerror): fixed typo.
+
+2005-10-05  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-guru-type-selector.glade: remove an unused
 	label text.
 

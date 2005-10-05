@@ -35,7 +35,7 @@ go_regerror (int errcode, const GORegexp *gor, char *dst, size_t dstsize)
   case REG_NOMATCH: err = _("Pattern not found."); break;
   default:
   case REG_BADPAT: err = _("Invalid pattern."); break;
-  case REG_ECOLLATE: err = _("Inalid collating element."); break;
+  case REG_ECOLLATE: err = _("Invalid collating element."); break;
   case REG_ECTYPE: err = _("Invalid character class name."); break;
   case REG_EESCAPE: err = _("Trailing backslash."); break;
   case REG_ESUBREG: err = _("Invalid back reference."); break;

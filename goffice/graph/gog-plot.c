@@ -375,7 +375,7 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 			NULL, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_GURU_HINTS,
 		g_param_spec_string ("guru-hints", _("Guru hints"), 
-			_("Semicolon separated list of hints for automatic addition of objects in"
+			_("Semicolon separated list of hints for automatic addition of objects in "
 			  "guru dialog"),
 			NULL, G_PARAM_READWRITE));
 
