@@ -40,7 +40,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
 

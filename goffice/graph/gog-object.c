@@ -27,7 +27,7 @@
 #include <goffice/gtk/goffice-gtk.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -443,7 +443,7 @@ gog_object_populate_editor (GogObject *gobj,
 	if (!(allowable_positions & (GOG_POSITION_MANUAL | GOG_POSITION_COMPASS)))
 		return;	
 
-	gui = go_libglade_new ("gog-object-prefs.glade", "gog_object_prefs", NULL, cc);
+	gui = go_libglade_new ("gog-object-prefs.glade", "gog_object_prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

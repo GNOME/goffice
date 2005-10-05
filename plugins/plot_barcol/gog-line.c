@@ -33,7 +33,7 @@
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-math.h>
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
 struct _GogLinePlot {

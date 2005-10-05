@@ -40,7 +40,7 @@
 #include <gtk/gtktable.h>
 #include <gtk/gtklabel.h>
 #include <glade/glade-xml.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 
@@ -203,7 +203,7 @@ gog_error_bar_prefs (GogSeries *series,
 	}
 	set = GOG_DATASET (series);
 
-	gui = go_libglade_new ("gog-error-bar-prefs.glade", "gog_error_bar_prefs", NULL, cc);
+	gui = go_libglade_new ("gog-error-bar-prefs.glade", "gog_error_bar_prefs", GETTEXT_PACKAGE, cc);
 
 	/* Style properties */
 

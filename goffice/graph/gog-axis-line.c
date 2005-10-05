@@ -42,7 +42,7 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 static GogViewClass *gab_view_parent_klass;
 static GObjectClass *gab_parent_klass;
@@ -456,7 +456,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		return;
 	}
 
-	gui = go_libglade_new ("gog-axis-prefs.glade", "axis_base_pref_box", NULL, cc);
+	gui = go_libglade_new ("gog-axis-prefs.glade", "axis_base_pref_box", GETTEXT_PACKAGE, cc);
 	if (gui == NULL) {
 		(GOG_OBJECT_CLASS(gab_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 		return;

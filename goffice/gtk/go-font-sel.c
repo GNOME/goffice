@@ -26,7 +26,7 @@
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <errno.h>
 #include <math.h>
 #include <stdlib.h>
@@ -350,7 +350,7 @@ gfs_init (GOFontSel *gfs)
 {
 	GtkWidget *w;
 
-	gfs->gui = go_libglade_new ("go-font-sel.glade", "toplevel-table", NULL, NULL);
+	gfs->gui = go_libglade_new ("go-font-sel.glade", "toplevel-table", GETTEXT_PACKAGE, NULL);
 	if (gfs->gui == NULL)
                 return;
 

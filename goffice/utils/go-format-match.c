@@ -4,7 +4,7 @@
 #include "format-impl.h"
 #include "regutf8.h"
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -542,4 +542,3 @@ format_match_release (GOFormatElement *fmt)
 		g_byte_array_free (fmt->match_tags, TRUE);
 	}
 }
-

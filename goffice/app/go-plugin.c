@@ -28,7 +28,7 @@
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib-object.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gmodule.h>
 
 #include <stdlib.h>

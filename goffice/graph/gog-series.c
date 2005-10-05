@@ -30,7 +30,7 @@
 #include <goffice/gtk/goffice-gtk.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkhseparator.h>

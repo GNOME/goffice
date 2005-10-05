@@ -74,7 +74,7 @@ gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc)
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
 	char	 *path = g_build_filename (dir, "gog-bubble-prefs.glade", NULL);
-	GladeXML *gui = go_libglade_new (path, "gog_bubble_prefs", NULL, cc);
+	GladeXML *gui = go_libglade_new (path, "gog_bubble_prefs", GETTEXT_PACKAGE, cc);
 
 	g_free (path);
         if (gui == NULL)

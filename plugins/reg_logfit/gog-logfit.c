@@ -26,7 +26,7 @@
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/utils/go-math.h>
 #include <goffice/utils/go-rangefunc.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <gsf/gsf-impl-utils.h>
 

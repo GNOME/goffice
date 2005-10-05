@@ -30,7 +30,7 @@
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtklabel.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <math.h>
 #include <string.h>
 
@@ -217,7 +217,7 @@ grs_init (GORotationSel *grs)
 {
 	GtkWidget *w;
 
-	grs->gui = go_libglade_new ("go-rotation-sel.glade", "toplevel", NULL, NULL);
+	grs->gui = go_libglade_new ("go-rotation-sel.glade", "toplevel", GETTEXT_PACKAGE, NULL);
 	if (grs->gui == NULL)
 		return;
 

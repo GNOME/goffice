@@ -21,7 +21,7 @@
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 static void
 go_file_opener_init (GOFileOpener *fo)

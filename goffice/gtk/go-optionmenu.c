@@ -37,7 +37,7 @@
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkcheckmenuitem.h>
 #include <gdk/gdkkeysyms.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #define CHILD_LEFT_SPACING        4
 #define CHILD_RIGHT_SPACING       1
@@ -1059,4 +1059,3 @@ go_option_menu_scroll_event (GtkWidget          *widget,
 {
   return TRUE;
 }
-

@@ -25,7 +25,7 @@
 #include <goffice/graph/gog-renderer.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 /* this should be per model */
 #define PAD_HACK	4	/* pts */

@@ -47,7 +47,7 @@ gog_barcol_plot_pref (GogBarColPlot *barcol, GOCmdContext *cc)
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_plot_barcol"));
 	char	 *path = g_build_filename (dir, "gog-barcol-prefs.glade", NULL);
-	GladeXML *gui = go_libglade_new (path, "gog_barcol_prefs", NULL, cc);
+	GladeXML *gui = go_libglade_new (path, "gog_barcol_prefs", GETTEXT_PACKAGE, cc);
 
 	g_free (path);
         if (gui == NULL)

@@ -35,7 +35,7 @@
 #include <goffice/gtk/goffice-gtk.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <gtk/gtkalignment.h>
 #include <gtk/gtkhbox.h>
@@ -345,7 +345,7 @@ gog_reg_eqn_populate_editor (GogObject *gobj,
 	GladeXML *gui;
 	GogRegEqn *reg_eqn = GOG_REG_EQN (gobj);
 
-	gui = go_libglade_new ("gog-reg-eqn-prefs.glade", "reg-eqn-prefs", NULL, cc);
+	gui = go_libglade_new ("gog-reg-eqn-prefs.glade", "reg-eqn-prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

@@ -35,7 +35,7 @@
 #include <goffice/utils/go-math.h>
 #include <goffice/gtk/goffice-gtk.h>
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gtk/gtktogglebutton.h>
 
 #define GOG_REG_CURVE_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_REG_CURVE_TYPE, GogRegCurveClass))
@@ -74,7 +74,7 @@ gog_reg_curve_populate_editor (GogObject *gobj,
 	GladeXML *gui;
 	GogDataset *set = GOG_DATASET (gobj);
 
-	gui = go_libglade_new ("gog-reg-curve-prefs.glade", "reg-curve-prefs", NULL, cc);
+	gui = go_libglade_new ("gog-reg-curve-prefs.glade", "reg-curve-prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

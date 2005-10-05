@@ -13,7 +13,7 @@
 #include <goffice/app/error-info.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #define PL_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_PLUGIN_LOADER_TYPE, GOPluginLoaderClass))
 
@@ -178,4 +178,3 @@ go_plugin_loader_get_type (void)
 
 	return go_plugin_loader_type;
 }
-

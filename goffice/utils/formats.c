@@ -11,7 +11,7 @@
 #include <goffice/goffice-config.h>
 #include "go-format.h"
 #include <goffice/utils/regutf8.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 #include <stdlib.h>
 

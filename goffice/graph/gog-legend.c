@@ -32,7 +32,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtknotebook.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <math.h>
 

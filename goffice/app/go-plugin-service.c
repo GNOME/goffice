@@ -23,7 +23,7 @@
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 

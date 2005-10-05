@@ -26,7 +26,7 @@
 #include <goffice/goffice-config.h>
 #include <goffice/drawing/god-paragraph-attributes.h>
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
 static GObjectClass *parent_class;

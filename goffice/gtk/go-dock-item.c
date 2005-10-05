@@ -34,7 +34,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include "go-dock-item.h"
 #include "go-dock-band.h"
 #include "go-dock-item-grip.h"
@@ -47,7 +47,6 @@
 #include <gtk/gtktoolbar.h>
 #include <gtk/gtkwindow.h>
 
-#include <glib/gi18n.h>
 #include <libgnome/gnome-macros.h>
 
 struct _GoDockItemPrivate
@@ -1809,4 +1808,3 @@ go_dock_item_get_grip (GoDockItem *item)
   else
     return item->_priv->grip;
 }
-

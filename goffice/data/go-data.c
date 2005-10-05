@@ -25,7 +25,7 @@
 #include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 
 #define GO_DATA_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GO_DATA_TYPE, GODataClass))

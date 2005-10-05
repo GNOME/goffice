@@ -10,7 +10,7 @@
 #include "go-cmd-context-impl.h"
 #include <goffice/app/goffice-app.h>
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #define GCC_CLASS(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_CMD_CONTEXT_TYPE, GOCmdContextClass))
 
@@ -152,4 +152,3 @@ go_cmd_context_get_type (void)
 
 	return go_cmd_context_type;
 }
-

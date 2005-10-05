@@ -32,7 +32,7 @@
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkseparatormenuitem.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 #include <stdlib.h>

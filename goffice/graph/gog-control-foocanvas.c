@@ -26,7 +26,7 @@
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <math.h>
 
 enum {
@@ -262,4 +262,3 @@ gog_control_foocanvas_init (GogControlFooCanvas *ctrl)
 GSF_CLASS (GogControlFooCanvas, gog_control_foocanvas,
 	   gog_control_foocanvas_class_init, gog_control_foocanvas_init,
 	   FOO_TYPE_CANVAS_GROUP)
-

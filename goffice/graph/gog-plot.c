@@ -31,7 +31,7 @@
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-math.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <gtk/gtktable.h>
 #include <gtk/gtkcombobox.h>

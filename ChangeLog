@@ -1,3 +1,92 @@
+2005-10-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/file.c: fixed localization issues [#317925].
+	* goffice/app/go-cmd-context.c: (go_cmd_context_get_type): ditto.
+	* goffice/app/go-object.c: ditto.
+	* goffice/app/go-plugin-loader-module.c: ditto.
+	* goffice/app/go-plugin-loader.c: (go_plugin_loader_get_type): ditto.
+	* goffice/app/go-plugin-service.c: ditto.
+	* goffice/app/go-plugin.c: ditto.
+	* goffice/data/go-data-simple.c: ditto.
+	* goffice/data/go-data.c: ditto.
+	* goffice/drawing/god-default-attributes.c: ditto.
+	* goffice/drawing/god-paragraph-attributes.c: ditto.
+	* goffice/goffice.c: (libgoffice_init): ditto.
+	* goffice/graph/gog-axis-line.c: (gog_axis_base_populate_editor): ditto.
+	* goffice/graph/gog-axis.c: (gog_axis_populate_editor): ditto.
+	* goffice/graph/gog-chart.c: (gog_chart_populate_editor): ditto.
+	* goffice/graph/gog-control-foocanvas.c: ditto.
+	* goffice/graph/gog-error-bar.c: (gog_error_bar_prefs): ditto.
+	* goffice/graph/gog-graph.c: ditto.
+	* goffice/graph/gog-grid-line.c: ditto.
+	* goffice/graph/gog-grid.c: ditto.
+	* goffice/graph/gog-guru.c: (graph_guru_type_selector_new),
+	(graph_guru_init): ditto.
+	* goffice/graph/gog-label.c: (gog_reg_eqn_populate_editor): ditto.
+	* goffice/graph/gog-legend.c: ditto.
+	* goffice/graph/gog-object.c: (gog_object_populate_editor): ditto.
+	* goffice/graph/gog-outlined-object.c: ditto.
+	* goffice/graph/gog-plot-engine.c: ditto.
+	* goffice/graph/gog-plot.c: ditto.
+	* goffice/graph/gog-reg-curve.c: (gog_reg_curve_populate_editor): ditto.
+	* goffice/graph/gog-series.c: ditto.
+	* goffice/graph/gog-style.c: (font_init),
+	(gog_style_populate_editor): ditto.
+	* goffice/graph/gog-styled-object.c: ditto.
+	* goffice/graph/gog-theme.c: ditto.
+	* goffice/graph/gog-view.c: ditto.
+	* goffice/gtk/go-action-combo-color.c: ditto.
+	* goffice/gtk/go-action-combo-pixmaps.c: ditto.
+	* goffice/gtk/go-action-combo-stack.c: ditto.
+	* goffice/gtk/go-action-combo-text.c: ditto.
+	* goffice/gtk/go-charmap-sel.c: ditto.
+	* goffice/gtk/go-color-palette.c: ditto.
+	* goffice/gtk/go-combo-box.c: ditto.
+	* goffice/gtk/go-combo-pixmaps.c: ditto.
+	* goffice/gtk/go-dock-band.c: ditto.
+	* goffice/gtk/go-dock-item-grip.c: ditto.
+	* goffice/gtk/go-dock-item.c: (go_dock_item_get_grip): ditto.
+	* goffice/gtk/go-dock-layout.c: ditto.
+	* goffice/gtk/go-dock.c: ditto.
+	* goffice/gtk/go-font-sel.c: (gfs_init): ditto.
+	* goffice/gtk/go-format-sel.c: (nfs_init): ditto.
+	* goffice/gtk/go-locale-sel.c: ditto.
+	* goffice/gtk/go-optionmenu.c: (go_option_menu_scroll_event): ditto.
+	* goffice/gtk/go-rotation-sel.c: (grs_init): ditto.
+	* goffice/gtk/goffice-gtk.c: ditto.
+	* goffice/utils/format.c: ditto.
+	* goffice/utils/formats.c: ditto.
+	* goffice/utils/go-format-match.c: (format_match_release): ditto.
+	* goffice/utils/go-glib-extras.c: ditto.
+	* goffice/utils/go-gradient.c: ditto.
+	* goffice/utils/go-line.c: ditto.
+	* goffice/utils/go-marker.c: ditto.
+	* goffice/utils/go-pattern.c: ditto.
+	* goffice/utils/regutf8.c: ditto.
+	* plugins/plot_barcol/gog-1.5d.c: ditto.
+	* plugins/plot_barcol/gog-barcol-prefs.c: (gog_barcol_plot_pref): ditto.
+	* plugins/plot_barcol/gog-barcol.c: ditto.
+	* plugins/plot_barcol/gog-dropbar.c: ditto.
+	* plugins/plot_barcol/gog-line.c: ditto.
+	* plugins/plot_barcol/gog-minmax.c: ditto.
+	(gog_minmax_plot_populate_editor): ditto.
+	* plugins/plot_boxes/gog-boxplot.c: (gog_box_plot_pref): ditto.
+	* plugins/plot_pie/gog-pie-prefs.c: (gog_pie_series_element_pref),
+	(gog_pie_plot_pref), (gog_ring_plot_pref), (gog_pie_series_pref): ditto.
+	* plugins/plot_pie/gog-pie.c: ditto.
+	* plugins/plot_radar/gog-radar.c: ditto.
+	* plugins/plot_surface/gog-contour-prefs.c: ditto.
+	(gog_contour_plot_pref): ditto.
+	* plugins/plot_surface/gog-surface.c: ditto.
+	* plugins/plot_surface/xl-surface.c: ditto.
+	* plugins/plot_xy/gog-bubble-prefs.c: (gog_bubble_plot_pref): ditto.
+	* plugins/plot_xy/gog-xy.c: ditto.
+	* plugins/reg_linear/gog-exp-reg.c: ditto.
+	* plugins/reg_linear/gog-lin-reg.c: ditto.
+	* plugins/reg_linear/gog-log-reg.c: ditto.
+	* plugins/reg_linear/gog-polynom-reg.c: ditto.
+	* plugins/reg_logfit/gog-logfit.c: ditto.
+
 2005-10-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-object-xml.c (gog_object_set_arg_full) : do

@@ -34,7 +34,7 @@
 #include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 #include <math.h>
 
@@ -503,7 +503,7 @@ gog_chart_populate_editor (GogObject *gobj,
 	ChartPrefState *state;
 	static guint chart_pref_page = 0;
 	
-	gui = go_libglade_new ("gog-chart-prefs.glade", "gog_chart_prefs", NULL, cc);
+	gui = go_libglade_new ("gog-chart-prefs.glade", "gog_chart_prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

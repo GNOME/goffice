@@ -29,7 +29,7 @@
 #include "datetime.h"
 #include "go-glib-extras.h"
 #include "go-math.h"
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <time.h>
 #include <math.h>

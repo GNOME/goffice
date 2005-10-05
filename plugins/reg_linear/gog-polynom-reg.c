@@ -24,7 +24,7 @@
 #include <goffice/graph/gog-reg-curve.h>
 #include <goffice/utils/go-math.h>
 #include <goffice/utils/go-regression.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkspinbutton.h>

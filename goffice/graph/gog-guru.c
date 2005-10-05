@@ -36,7 +36,7 @@
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/gtk/goffice-gtk.h>
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <libxml/parser.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
@@ -1289,7 +1289,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	GtkWidget *selector;
 	GladeXML *gui;
 
-	gui = go_libglade_new ("gog-guru-type-selector.glade", "type_selector", NULL, s->cc);
+	gui = go_libglade_new ("gog-guru-type-selector.glade", "type_selector", GETTEXT_PACKAGE, s->cc);
 
 	typesel = g_new0 (GraphGuruTypeSelector, 1);
 	typesel->state = s;
@@ -1388,7 +1388,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 static gboolean
 graph_guru_init (GraphGuruState *s)
 {
-	s->gui = go_libglade_new ("gog-guru.glade", NULL, NULL, s->cc);
+	s->gui = go_libglade_new ("gog-guru.glade", NULL, GETTEXT_PACKAGE, s->cc);
         if (s->gui == NULL)
                 return TRUE;
 

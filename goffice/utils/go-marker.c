@@ -39,7 +39,7 @@
 #include <libart_lgpl/art_affine.h>
 #include <libart_lgpl/art_rgb_svp.h>
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
 #define MARKER_DEFAULT_SIZE 5

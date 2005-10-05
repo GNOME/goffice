@@ -37,7 +37,7 @@
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtktreeview.h>
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <string.h>
 #include <locale.h>
@@ -873,7 +873,7 @@ nfs_init (GOFormatSel *gfs)
 	gfs->enable_edit = FALSE;
 	gfs->locale = NULL;
 
-	gfs->gui = go_libglade_new ("go-format-sel.glade", NULL, NULL, NULL);
+	gfs->gui = go_libglade_new ("go-format-sel.glade", NULL, GETTEXT_PACKAGE, NULL);
 	if (gfs->gui == NULL)
 		return;
 

@@ -20,7 +20,7 @@
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 
 static void go_plugin_loader_module_set_attributes (GOPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error);

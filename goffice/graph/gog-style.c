@@ -48,7 +48,7 @@
 #include <gdk-pixbuf/gdk-pixdata.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 #include <math.h>
 
@@ -892,7 +892,7 @@ font_init (StylePrefState *state, guint32 enable, GogEditor *editor, GOCmdContex
 
 	g_return_if_fail (style->font.font != NULL);
 
-	gui = go_libglade_new ("gog-style-prefs.glade", "gog_style_font_prefs", NULL, cc);
+	gui = go_libglade_new ("gog-style-prefs.glade", "gog_style_font_prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
@@ -997,7 +997,7 @@ gog_style_populate_editor (GogStyle *style,
 
 	enable = style->interesting_fields;
 
-	gui = go_libglade_new ("gog-style-prefs.glade", "gog_style_prefs", NULL, cc);
+	gui = go_libglade_new ("gog-style-prefs.glade", "gog_style_prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

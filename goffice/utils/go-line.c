@@ -30,7 +30,7 @@
 #endif
 
 #include <string.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 typedef struct {
 	int 		 n_dash;
