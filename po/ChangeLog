@@ -1,3 +1,9 @@
+2005-10-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* *.po: updated strings to translate because of some strings
+	changes in the sources and removed unwanted #, fuzzy occurences.	
+	* fr.po: updated french translation.
+
 2005-10-01  Stepan Kasal  <kasal@ucw.cz>
 
 	* POTFILES.in: Update.
