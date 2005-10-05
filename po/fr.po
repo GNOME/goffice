@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-05 17:00+0200\n"
+"POT-Creation-Date: 2005-10-05 18:44+0200\n"
 "PO-Revision-Date: 2005-10-05 17:10+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -3817,7 +3817,7 @@ msgstr "Trait point point"
 #. xgettext : this will appear as 'Automatic (shapename)'
 #. xgettext : this will appear as 'Automatic (patternname)'
 #: ../goffice/utils/go-line.c:306 ../goffice/utils/go-marker.c:568
-#: ../goffice/utils/go-pattern.c:248
+#: ../goffice/utils/go-pattern.c:253
 #, c-format
 msgid "Automatic (%s)"
 msgstr "Automatique (%s)"
@@ -3882,103 +3882,103 @@ msgstr "papillon"
 msgid "hourglass"
 msgstr "sablier"
 
-#: ../goffice/utils/go-pattern.c:47
-#, c-format
-msgid "75% Grey"
-msgstr "75% Gris"
-
 #: ../goffice/utils/go-pattern.c:48
-#, c-format
-msgid "50% Grey"
-msgstr "50% Gris"
-
-#: ../goffice/utils/go-pattern.c:49
-#, c-format
-msgid "25% Grey"
-msgstr "25% Gris"
+#, no-c-format
+msgid "75% Grey"
+msgstr "Gris 75%"
 
 #: ../goffice/utils/go-pattern.c:50
-#, c-format
-msgid "12.5% Grey"
-msgstr "12,5% Gris"
-
-#: ../goffice/utils/go-pattern.c:51
-#, c-format
-msgid "6.25% Grey"
-msgstr "3,25% Gris"
+#, no-c-format
+msgid "50% Grey"
+msgstr "Gris 50%"
 
 #: ../goffice/utils/go-pattern.c:52
+#, no-c-format
+msgid "25% Grey"
+msgstr "Gris 25%"
+
+#: ../goffice/utils/go-pattern.c:54
+#, no-c-format
+msgid "12.5% Grey"
+msgstr "Gris 12,5%"
+
+#: ../goffice/utils/go-pattern.c:56
+#, no-c-format
+msgid "6.25% Grey"
+msgstr "3,25%Gris 3,25%"
+
+#: ../goffice/utils/go-pattern.c:57
 msgid "Horizontal Stripe"
 msgstr "Rayures horizontales"
 
-#: ../goffice/utils/go-pattern.c:53
+#: ../goffice/utils/go-pattern.c:58
 msgid "Vertical Stripe"
 msgstr "Rayures verticales"
 
-#: ../goffice/utils/go-pattern.c:54
+#: ../goffice/utils/go-pattern.c:59
 msgid "Reverse Diagonal Stripe"
 msgstr "Rayures diagonales inversées"
 
-#: ../goffice/utils/go-pattern.c:55
+#: ../goffice/utils/go-pattern.c:60
 msgid "Diagonal Stripe"
 msgstr "Rayures diagonales"
 
-#: ../goffice/utils/go-pattern.c:56
+#: ../goffice/utils/go-pattern.c:61
 msgid "Diagonal Crosshatch"
 msgstr "Trame diagonale"
 
-#: ../goffice/utils/go-pattern.c:57
+#: ../goffice/utils/go-pattern.c:62
 msgid "Thick Diagonal Crosshatch"
 msgstr "Trame diagonale épaisse"
 
-#: ../goffice/utils/go-pattern.c:58
+#: ../goffice/utils/go-pattern.c:63
 msgid "Thin Horizontal Stripe"
 msgstr "Rayures horizontales fines"
 
-#: ../goffice/utils/go-pattern.c:59
+#: ../goffice/utils/go-pattern.c:64
 msgid "Thin Vertical Stripe"
 msgstr "Rayures verticales fines"
 
-#: ../goffice/utils/go-pattern.c:60
+#: ../goffice/utils/go-pattern.c:65
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Rayures diagonales fines inversées"
 
-#: ../goffice/utils/go-pattern.c:61
+#: ../goffice/utils/go-pattern.c:66
 msgid "Thin Diagonal Stripe"
 msgstr "Rayure diagonale fine"
 
-#: ../goffice/utils/go-pattern.c:62
+#: ../goffice/utils/go-pattern.c:67
 msgid "Thin Horizontal Crosshatch"
 msgstr "Trame horizontale fine"
 
-#: ../goffice/utils/go-pattern.c:63
+#: ../goffice/utils/go-pattern.c:68
 msgid "Thin Diagonal Crosshatch"
 msgstr "Trame diagonale fine"
 
-#: ../goffice/utils/go-pattern.c:64
+#: ../goffice/utils/go-pattern.c:69
 msgid "Foreground Solid"
 msgstr "Premier plan uni"
 
-#: ../goffice/utils/go-pattern.c:65
+#: ../goffice/utils/go-pattern.c:70
 msgid "Small Circles"
 msgstr "Petits cercles"
 
 #. Applix
-#: ../goffice/utils/go-pattern.c:66
+#: ../goffice/utils/go-pattern.c:71
 msgid "Semi Circles"
 msgstr "Demi cercles"
 
 #. Applix
-#: ../goffice/utils/go-pattern.c:67
+#: ../goffice/utils/go-pattern.c:72
 msgid "Thatch"
 msgstr "Maille"
 
 #. Applix small thatch
-#: ../goffice/utils/go-pattern.c:68
+#: ../goffice/utils/go-pattern.c:73
 msgid "Large Circles"
 msgstr "Grand cercles"
 
-#: ../goffice/utils/go-pattern.c:70
+#: ../goffice/utils/go-pattern.c:75
 msgid "Bricks"
 msgstr "Briques"
 
