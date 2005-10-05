@@ -1,5 +1,10 @@
 2005-10-05  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-guru-type-selector.glade: remove an unused
+	label text.
+
+2005-10-05  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/app/file.c: fixed localization issues [#317925].
 	* goffice/app/go-cmd-context.c: (go_cmd_context_get_type): ditto.
 	* goffice/app/go-object.c: ditto.
