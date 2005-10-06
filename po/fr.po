@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-05 18:44+0200\n"
+"POT-Creation-Date: 2005-10-06 11:56+0200\n"
 "PO-Revision-Date: 2005-10-05 17:10+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -116,7 +116,7 @@ msgstr "Le greffon n'a pas d'identifiant."
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr "Erreur d'initialisation du chargeur de greffon (\"%s\")."
 
-#: ../goffice/app/go-plugin.c:923 ../goffice/app/go-plugin.c:1080
+#: ../goffice/app/go-plugin.c:923 ../goffice/app/go-plugin.c:1081
 msgid "Detected cyclic plugin dependencies."
 msgstr "Un cycle a été détecté dans les dépendances des greffons."
 
@@ -125,7 +125,7 @@ msgstr "Un cycle a été détecté dans les dépendances des greffons."
 msgid "Couldn't activate plugin with id=\"%s\"."
 msgstr "Impossible d'activer le greffon \"%s\"."
 
-#: ../goffice/app/go-plugin.c:953 ../goffice/app/go-plugin.c:1126
+#: ../goffice/app/go-plugin.c:953 ../goffice/app/go-plugin.c:1127
 #, c-format
 msgid "Couldn't find plugin with id=\"%s\"."
 msgstr "Impossible de trouver le greffon d'identifiant \"%s\"."
@@ -134,53 +134,53 @@ msgstr "Impossible de trouver le greffon d'identifiant \"%s\"."
 msgid "Error while activating plugin dependencies."
 msgstr "Erreur lors de l'activation des dépendances du greffon."
 
-#: ../goffice/app/go-plugin.c:974
+#: ../goffice/app/go-plugin.c:975
 #, c-format
 msgid "Error while activating plugin service #%d."
 msgstr "Erreur lors de l'activation du service de greffon #%d."
 
-#: ../goffice/app/go-plugin.c:1027
+#: ../goffice/app/go-plugin.c:1028
 #, c-format
 msgid "Error while deactivating plugin service #%d."
 msgstr "Erreur lors de la désactivation du service de greffon #%d."
 
-#: ../goffice/app/go-plugin.c:1092 ../goffice/app/go-plugin.c:1113
+#: ../goffice/app/go-plugin.c:1093 ../goffice/app/go-plugin.c:1114
 msgid "Cannot load plugin loader."
 msgstr "Impossible de charger le chargeur de greffon."
 
-#: ../goffice/app/go-plugin.c:1120
+#: ../goffice/app/go-plugin.c:1121
 #, c-format
 msgid "Couldn't load plugin with id=\"%s\"."
 msgstr "Impossible de charger le greffon d'identifiant « %s »."
 
-#: ../goffice/app/go-plugin.c:1133
+#: ../goffice/app/go-plugin.c:1134
 msgid "Error while loading plugin dependencies."
 msgstr "Erreur lors du chargement des dépendances du greffon."
 
-#: ../goffice/app/go-plugin.c:1309
+#: ../goffice/app/go-plugin.c:1310
 #, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
 msgstr "Erreur lors de la lecture des infos de greffon dans le fichier « %s »."
 
-#: ../goffice/app/go-plugin.c:1428
+#: ../goffice/app/go-plugin.c:1429
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
 msgstr "Impossible d'activer le greffon « %s » (ID: %s)."
 
-#: ../goffice/app/go-plugin.c:1463
+#: ../goffice/app/go-plugin.c:1464
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr "Impossible de désactiver le greffon « %s » (ID: %s)."
 
-#: ../goffice/app/go-plugin.c:1587 ../goffice/app/go-plugin.c:1733
+#: ../goffice/app/go-plugin.c:1588 ../goffice/app/go-plugin.c:1734
 msgid "Errors while reading info about available plugins."
 msgstr "Erreurs lors de la lecture des infos sur les greffons disponibles."
 
-#: ../goffice/app/go-plugin.c:1611
+#: ../goffice/app/go-plugin.c:1612
 msgid "Errors while deactivating plugins that are no longer on disk."
 msgstr "Erreur lors de la désactivation des greffons supprimés du disque."
 
-#: ../goffice/app/go-plugin.c:1632
+#: ../goffice/app/go-plugin.c:1633
 #, c-format
 msgid ""
 "The following plugins are no longer on disk but are still active:\n"
@@ -192,11 +192,11 @@ msgstr ""
 "%s\n"
 "Vous devez redémarrer ce programme maintenant."
 
-#: ../goffice/app/go-plugin.c:1756
+#: ../goffice/app/go-plugin.c:1757
 msgid "Errors while activating plugins."
 msgstr "Erreurs lors de l'activation des greffons."
 
-#: ../goffice/app/go-plugin.c:1763
+#: ../goffice/app/go-plugin.c:1764
 msgid "Errors while initializing plugin system."
 msgstr "Erreurs lors de l'initialisation du système de greffons."
 
@@ -282,77 +282,77 @@ msgstr "Le fichier ne contient pas la fonction « %s »."
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Le fichier ne contient pas la fonction « %s »."
 
-#: ../goffice/app/go-plugin-service.c:156
-#: ../goffice/app/go-plugin-service.c:853
+#: ../goffice/app/go-plugin-service.c:157
+#: ../goffice/app/go-plugin-service.c:854
 msgid "Error while loading plugin service."
 msgstr "Erreur de chargement du service de greffon."
 
-#: ../goffice/app/go-plugin-service.c:164
+#: ../goffice/app/go-plugin-service.c:165
 msgid "Initializing function inside plugin returned error."
 msgstr "La fonction d'initialisation du greffon a renvoyé une erreur."
 
-#: ../goffice/app/go-plugin-service.c:182
+#: ../goffice/app/go-plugin-service.c:183
 msgid "Cleanup function inside plugin returned error."
 msgstr "La fonction de nettoyage du greffon a renvoyé une erreur."
 
-#: ../goffice/app/go-plugin-service.c:192 ../goffice/gtk/go-format-sel.c:74
+#: ../goffice/app/go-plugin-service.c:193 ../goffice/gtk/go-format-sel.c:74
 #: ../goffice/utils/format.c:2265 ../goffice/utils/format.c:2592
 #: ../goffice/utils/format.c:2598 ../goffice/utils/format.c:2673
 msgid "General"
 msgstr "Général"
 
-#: ../goffice/app/go-plugin-service.c:343
+#: ../goffice/app/go-plugin-service.c:344
 msgid "File opener has no description"
 msgstr "L'ouvreur de fichier n'a pas de description"
 
-#: ../goffice/app/go-plugin-service.c:375
+#: ../goffice/app/go-plugin-service.c:376
 #, c-format
 msgid "File opener - %s"
 msgstr "Ouvreur de fichier - %s"
 
-#: ../goffice/app/go-plugin-service.c:495
+#: ../goffice/app/go-plugin-service.c:496
 msgid "Error while reading file."
 msgstr "Erreur lors de la lecture du fichier."
 
-#: ../goffice/app/go-plugin-service.c:661
+#: ../goffice/app/go-plugin-service.c:662
 msgid "File saver has no description"
 msgstr "L'enregistreur de fichier n'a pas de description"
 
-#: ../goffice/app/go-plugin-service.c:707
+#: ../goffice/app/go-plugin-service.c:708
 #, c-format
 msgid "File saver - %s"
 msgstr "Enregistreur de fichier - %s"
 
-#: ../goffice/app/go-plugin-service.c:767
+#: ../goffice/app/go-plugin-service.c:768
 msgid "Error while loading plugin for saving."
 msgstr "Erreur de chargement du service de greffon pour la sauvegarde."
 
-#: ../goffice/app/go-plugin-service.c:769
+#: ../goffice/app/go-plugin-service.c:770
 msgid "Failed to load plugin for saving"
 msgstr "Échec du chargement du greffon pour la sauvegarde"
 
-#: ../goffice/app/go-plugin-service.c:888
+#: ../goffice/app/go-plugin-service.c:889
 msgid "Plugin loader"
 msgstr "Chargeur de greffon"
 
-#: ../goffice/app/go-plugin-service.c:912
+#: ../goffice/app/go-plugin-service.c:913
 msgid "GObject loader"
 msgstr "Changeur de GObject"
 
-#: ../goffice/app/go-plugin-service.c:1019
+#: ../goffice/app/go-plugin-service.c:1020
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "Pas d'attribut \"type\" pour l'élément \"service\"."
 
-#: ../goffice/app/go-plugin-service.c:1025
+#: ../goffice/app/go-plugin-service.c:1026
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Type de service inconnu : %s"
 
-#: ../goffice/app/go-plugin-service.c:1041
+#: ../goffice/app/go-plugin-service.c:1042
 msgid "Error reading service information."
 msgstr "Erreur lors de la lecture des infos de service."
 
-#: ../goffice/app/go-plugin-service.c:1103
+#: ../goffice/app/go-plugin-service.c:1107
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -4773,14 +4773,10 @@ msgid "Contour plotting engine"
 msgstr "Moteur de dessin de lignes de niveaux"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:3
-msgid "Excel compatibility contour plotting engine"
-msgstr "Moteur de dessin de ligne de niveaux compatible avec Excel"
-
-#: ../plugins/plot_surface/plugin.xml.in.h:4
 msgid "Surface Charts"
 msgstr "Tracés de surfaces"
 
-#: ../plugins/plot_surface/plugin.xml.in.h:5
+#: ../plugins/plot_surface/plugin.xml.in.h:4
 msgid "Surface charts"
 msgstr "Tracés de surfaces"
 
