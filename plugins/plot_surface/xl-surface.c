@@ -195,14 +195,14 @@ xl_contour_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	}
 	if (bounds->fmt == NULL && fmt != NULL)
 		bounds->fmt = go_format_ref (fmt);
-	bounds->val.minima = 0.;
-	bounds->logical.minima = 0.;
+	bounds->val.minima = 1.;
+	bounds->logical.minima = 1.;
 	bounds->logical.maxima = go_nan;
 	bounds->is_discrete    = TRUE;
 	bounds->center_on_ticks = TRUE;
 	bounds->val.maxima = (axis == GOG_AXIS_X)? 
-		contour->base.columns - 1.: 
-		contour->base.rows - 1.;
+		contour->base.columns: 
+		contour->base.rows;
 	return (GOData*) vec;
 }
 
