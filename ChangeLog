@@ -1,13 +1,13 @@
 2005-10-06  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* plugins/plot_surface/plugin.xml.in: add TM mention to Exccel name
+	* plugins/plot_surface/plugin.xml.in: add TM mention to Excel name
 	and remove the description from the translation strings as it
 	never appears in the UI.
 
 2005-10-06  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* plugins/plot_surface/xl-surface.c:
-	(xl_contour_plot_axis_get_bounds): fixe axis bounds.
+	* plugins/plot_surface/xl-surface.c (xl_contour_plot_axis_get_bounds):
+	fixed axis bounds.
 
 2005-10-05  Jean Brefort  <jean.brefort@normalesup.org>
 
