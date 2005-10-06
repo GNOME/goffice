@@ -15,7 +15,7 @@
 		</service>
 		<service type="plot_engine" id="XLContourPlot">
 			<information>
-				<_description>Excel compatibility contour plotting engine</_description>
+				<description>Excel (TM) compatibility contour plotting engine</description>
 			</information>
 		</service>
 		<service type="plot_type" id="surface">
