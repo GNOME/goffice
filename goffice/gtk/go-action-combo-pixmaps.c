@@ -140,10 +140,11 @@ go_action_combo_pixmaps_create_tool_item (GtkAction *a)
 	tool->combo = go_combo_pixmaps_new (paction->ncols);
 	for ( ; el->stock_id != NULL ; el++) {
 		GdkPixbuf *icon = make_icon (a, el->stock_id, GTK_WIDGET (tool));
+#warning we must find a better solution for translating strings not in goffice domain
 		go_combo_pixmaps_add_element (tool->combo,
 					      icon,
 					      el->id,
-					      _(el->untranslated_tooltip));
+					      gettext (el->untranslated_tooltip));
 	}
 	go_combo_pixmaps_select_id (tool->combo, paction->selected_id);
 

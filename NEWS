@@ -8,7 +8,8 @@ Emmanuel Pacaud:
 Jean Brefort:
 	* Optionnaly skip invalid values in regression curves [#312788].
 	* New regression curves types [#312789].
-	* Fixed localization issues [#317925].
+	* Fixed localization issues [#317925][#318042][#318043].
+	* Fixed various other issues.
 
 Jody:
 	* Adjust lifecycle of GOFormat to cache all formats once created.

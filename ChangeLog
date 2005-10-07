@@ -1,3 +1,10 @@
+2005-10-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-action-combo-pixmaps.c:
+	(go_action_combo_pixmaps_create_tool_item): translate non goffice strings
+	[#318042].	
+	* goffice/gtk/goffice-gtk.c: (gui_get_image_save_info): ditto [#318043].
+
 2005-10-07  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-renderer-svg.c (fill_properties): fix gradient

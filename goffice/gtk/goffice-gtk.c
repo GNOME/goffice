@@ -575,9 +575,10 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *formats,
 		if (*ret_format)
 			sel_format = *ret_format;
 		for (l = formats, i = 0; l != NULL; l = l->next, i++) {
+#warning we must find a better solution for translating strings not in goffice domain
 			gtk_combo_box_append_text
 				(format_combo,
-				 ((GOImageType *) (l->data))->desc);
+				 gettext (((GOImageType *) (l->data))->desc));
 			if (l->data == (void *)sel_format)
 				gtk_combo_box_set_active (format_combo, i);
 		}
