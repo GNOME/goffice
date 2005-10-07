@@ -287,25 +287,25 @@ fill_properties (GogRenderer *renderer, xmlNodePtr node, gboolean narrow)
 				switch (style->fill.gradient.dir % 4) {
 				case 0:
 					buf = (char*) "pad";
-					start = style->fill.pattern.fore;
-					end = style->fill.pattern.back;
-					break;
-				case 1:
-					buf = (char*) "pad";
 					start = style->fill.pattern.back;
 					end = style->fill.pattern.fore;
 					break;
-				case 2:
-					buf = (char*) "reflect";
+				case 1:
+					buf = (char*) "pad";
 					start = style->fill.pattern.fore;
 					end = style->fill.pattern.back;
+					break;
+				case 2:
+					buf = (char*) "reflect";
+					start = style->fill.pattern.back;
+					end = style->fill.pattern.fore;
 					x2 = x1 + (x2 - x1) / 2;
 					y2 = y1 + (y2 - y1) / 2;
 					break;
 				default:
 					buf = (char*) "reflect";
-					start = style->fill.pattern.back;
-					end = style->fill.pattern.fore;
+					start = style->fill.pattern.fore;
+					end = style->fill.pattern.back;
 					x2 = x1 + (x2 - x1) / 2;
 					y2 = y1 + (y2 - y1) / 2;
 					break;

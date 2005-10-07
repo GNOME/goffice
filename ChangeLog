@@ -1,3 +1,8 @@
+2005-10-07  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-renderer-svg.c (fill_properties): fix gradient
+	start / stop colors [#318191].
+	
 2005-10-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/xl-surface.c: (xl_contour_plot_update):
