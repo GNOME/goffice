@@ -3905,7 +3905,7 @@ msgstr "Gris 12,5%"
 #: ../goffice/utils/go-pattern.c:56
 #, no-c-format
 msgid "6.25% Grey"
-msgstr "3,25%Gris 3,25%"
+msgstr "Gris 3,25%"
 
 #: ../goffice/utils/go-pattern.c:57
 msgid "Horizontal Stripe"
