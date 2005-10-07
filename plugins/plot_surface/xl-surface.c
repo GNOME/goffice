@@ -120,7 +120,30 @@ xl_contour_plot_update (GogObject *obj)
 	model->rows = 0;
 	model->columns = 0;
 
-	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
+	ptr = model->base.series;
+	series = ptr->data;
+	while (!gog_series_is_valid (GOG_SERIES (series))) {
+		ptr = ptr->next;
+		if (!ptr)
+			return;
+		series = ptr->data;
+	}
+	/* for first series, num_elements is used for zaxis, so we
+	can't use it to evaluate model->columns */
+	if (series->values[1].data != NULL) {
+		model->columns = go_data_vector_get_len (
+			GO_DATA_VECTOR (series->values[1].data));
+		if (series->values[0].data != NULL)
+				model->rows = go_data_vector_get_len (
+				GO_DATA_VECTOR (series->values[0].data));
+		if (model->rows < model->columns)
+			model->columns = model->rows;
+	} else if (series->values[0].data != NULL)
+		model->columns = go_data_vector_get_len (
+			GO_DATA_VECTOR (series->values[0].data));
+	model->rows = 1;
+
+	for (ptr = ptr->next; ptr != NULL; ptr = ptr->next) {
 		series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;

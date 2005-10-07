@@ -1,3 +1,8 @@
+2005-10-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/xl-surface.c: (xl_contour_plot_update):
+	do not use num_elements for first series to caculate comlumns number.
+
 2005-10-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/plugin.xml.in: add TM mention to Excel name
