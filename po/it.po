@@ -1,13 +1,13 @@
 # Italian translation for GNUMERIC
 # Copyright (C) 1999-2004 Free Software Foundation, Inc.
-# Leandro Noferini <lnoferin@cybervalley.org> 2002, 2203
+# Leandro Noferini <lnoferin@cybervalley.org> 2002, 2003
 # Luca Ferretti <elle.uca@infinito.it>, 2003, 2004
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.3.9x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-05 17:00+0200\n"
-"PO-Revision-Date: 2004-12-14 22:30+0100\n"
+"POT-Creation-Date: 2005-10-09 18:10+0200\n"
+"PO-Revision-Date: 2005-10-09 18:10+0200\n"
 "Last-Translator: Luca Ferretti <elle.uca@infinito.it>\n"
 "Language-Team: Italian <tp@list.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #: ../goffice/app/file.c:500
 msgid "Not a valid UTF-8 filename."
-msgstr ""
+msgstr "Il nome di file non è valido in UTF-8."
 
 #: ../goffice/app/file.c:510
 msgid "Saving over old files of this type is disabled for safety."
@@ -31,14 +31,13 @@ msgstr ""
 "plugin.xml appropriato."
 
 #: ../goffice/app/go-object.c:51
-#, fuzzy
 msgid "Objects"
-msgstr "Oggettivo"
+msgstr "Oggetti"
 
 #: ../goffice/app/go-object.c:109
 #, c-format
 msgid "Loading plugin '%s' that contains the object '%s'"
-msgstr ""
+msgstr "Caricamento del plugin «%s» che contiene l'oggetto «%s»"
 
 #: ../goffice/app/go-plugin.c:330
 #, c-format
@@ -82,7 +81,7 @@ msgstr "Il file «%s» non è un file di informazioni plugin valido."
 #: ../goffice/app/go-plugin.c:826
 #, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
-msgstr "Errore durante la lettura dei servizi per il plugin con id=«%s»."
+msgstr "Errori durante la lettura dei servizi per il plugin con id=«%s»."
 
 #: ../goffice/app/go-plugin.c:837
 #, c-format
@@ -176,7 +175,7 @@ msgid "Errors while deactivating plugins that are no longer on disk."
 msgstr "Errore durante la disattivazione dei plugin che non sono più su disco."
 
 #: ../goffice/app/go-plugin.c:1632
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following plugins are no longer on disk but are still active:\n"
 "%s.\n"
@@ -184,7 +183,7 @@ msgid ""
 msgstr ""
 "I seguenti plugin non sono più su disco, ma sono ancora attivi:\n"
 "%s.\n"
-"Si dovrebbe riavviare Gnumeric adesso."
+"Si dovrebbe riavviare questo programma adesso."
 
 #: ../goffice/app/go-plugin.c:1756
 msgid "Errors while activating plugins."
@@ -203,9 +202,9 @@ msgid "Loader has no load_base method.\n"
 msgstr "Il caricatore non ha alcun metodo \"load_base\".\n"
 
 #: ../goffice/app/go-plugin-loader.c:107 ../goffice/app/go-plugin-loader.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "Service '%s' not supported by l."
-msgstr "Il servizio «%s» non è supportato dal caricatore."
+msgstr "Il servizio «%s» non è supportato da l."
 
 #: ../goffice/app/go-plugin-loader-module.c:56
 msgid "Module file name not given."
@@ -214,17 +213,17 @@ msgstr "Nome del file modulo non fornito."
 #: ../goffice/app/go-plugin-loader-module.c:67
 #, c-format
 msgid "Module \"%s\" has an inconsistent dependency list."
-msgstr ""
+msgstr "Il modulo «%s» presenta un elenco di dipendenze inconsistente."
 
 #: ../goffice/app/go-plugin-loader-module.c:75
 #, c-format
 msgid "Module \"%s\" depends on an invalid null dependency."
-msgstr ""
+msgstr "Il modulo «%s» dipende da una dipendenza nulla non valida."
 
 #: ../goffice/app/go-plugin-loader-module.c:80
 #, c-format
 msgid "Module \"%s\" depends on an unknown dependency '%s'."
-msgstr ""
+msgstr "Il modulo «%s» dipenda da una dipendenza «%s» sconosciuta."
 
 #: ../goffice/app/go-plugin-loader-module.c:85
 #, c-format
@@ -232,6 +231,8 @@ msgid ""
 "Module \"%s\" was built with version %s of %s, but this executable supplied "
 "version %s."
 msgstr ""
+"Il modulo «%s» è stato compilato con la versione %s di %s, ma questo "
+"eseguibile fornisce la versione %s."
 
 #: ../goffice/app/go-plugin-loader-module.c:103
 msgid "Dynamic module loading is not supported in this system."
@@ -243,14 +244,14 @@ msgid "Unable to open module file \"%s\"."
 msgstr "Impossibile aprire il file modulo «%s»."
 
 #: ../goffice/app/go-plugin-loader-module.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Module \"%s\" doesn't contain (\"go_plugin_header\" symbol)."
-msgstr "Il file non contiene il simbolo «plugin_file_struct»."
+msgstr "Il modulo «%s» non contiene (\"go_plugin_header\" simbolo)."
 
 #: ../goffice/app/go-plugin-loader-module.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Module \"%s\" has an invalid magic number."
-msgstr "Il file ha un magic number errato."
+msgstr "Il modulo «%s» ha un numero magico non valido."
 
 #: ../goffice/app/go-plugin-loader-module.c:152
 #, c-format
@@ -317,13 +318,12 @@ msgid "File saver - %s"
 msgstr "File saver - %s"
 
 #: ../goffice/app/go-plugin-service.c:767
-#, fuzzy
 msgid "Error while loading plugin for saving."
-msgstr "Errore durante il caricamento del servizio di plugin."
+msgstr "Errore durante il caricamento del plugin per il salvataggio."
 
 #: ../goffice/app/go-plugin-service.c:769
 msgid "Failed to load plugin for saving"
-msgstr ""
+msgstr "Caricamento del plugin per il salvataggio fallito"
 
 #: ../goffice/app/go-plugin-service.c:888
 msgid "Plugin loader"
@@ -365,8 +365,9 @@ msgid "Text to render"
 msgstr ""
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:223
+#, fuzzy
 msgid "Markup"
-msgstr ""
+msgstr "*Mar"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:224
 msgid "Marked up text to render"
@@ -384,7 +385,7 @@ msgstr ""
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:258
 #, fuzzy
 msgid "Font description"
-msgstr "Descrizione"
+msgstr "Test di descrizione"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:259
 msgid "Font description as a PangoFontDescription struct"
@@ -411,8 +412,9 @@ msgstr ""
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:304
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:305
+#, fuzzy
 msgid "Font weight"
-msgstr ""
+msgstr "Basso destro"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:316
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:317
@@ -427,8 +429,9 @@ msgid "Font size"
 msgstr "Stile del carattere:"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:337
+#, fuzzy
 msgid "Font points"
-msgstr ""
+msgstr "Punti XY"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:338
 msgid "Font size in points"
@@ -461,9 +464,8 @@ msgstr ""
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:378
 #: ../goffice/graph/gog-axis.c:1497
-#, fuzzy
 msgid "Scale"
-msgstr "Speciale"
+msgstr "Scala"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:379
 msgid "Size of font, relative to default size"
@@ -498,8 +500,9 @@ msgid "Width of the rendered text"
 msgstr ""
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:477
+#, fuzzy
 msgid "Text height"
-msgstr ""
+msgstr "Alto destro"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:478
 msgid "Height of the rendered text"
@@ -581,7 +584,7 @@ msgstr ""
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:522
 #, fuzzy
 msgid "Scale set"
-msgstr "Salva come"
+msgstr "Scala"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:523
 msgid "Whether this tag affects font scaling"
@@ -590,7 +593,7 @@ msgstr ""
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1230
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1231
 #: ../plugins/plot_surface/gog-surface.c:486
-#: ../plugins/plot_surface/xl-surface.c:235 ../plugins/plot_xy/gog-xy.c:331
+#: ../plugins/plot_surface/xl-surface.c:258 ../plugins/plot_xy/gog-xy.c:331
 #: ../plugins/plot_xy/gog-xy.c:490
 msgid "X"
 msgstr "X"
@@ -604,26 +607,23 @@ msgstr "Y"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:203
 #: ../goffice/drawing/god-paragraph-attributes.c:204
-#, fuzzy
 msgid "Flags"
-msgstr "pagine"
+msgstr "Opzioni"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:209
 #: ../goffice/drawing/god-paragraph-attributes.c:210
-#, fuzzy
 msgid "Indent"
-msgstr "R_ientro:"
+msgstr "Rientro"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:215
 #: ../goffice/drawing/god-paragraph-attributes.c:216
-#, fuzzy
 msgid "Space Before"
-msgstr "C_erca"
+msgstr "Spazio prima"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:221
 #: ../goffice/drawing/god-paragraph-attributes.c:222
 msgid "Space After"
-msgstr ""
+msgstr "Spazio dopo"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:227
 #: ../goffice/drawing/god-paragraph-attributes.c:228
@@ -633,29 +633,27 @@ msgstr "Allineamento"
 #: ../goffice/drawing/god-paragraph-attributes.c:233
 #: ../goffice/drawing/god-paragraph-attributes.c:234
 msgid "Bullet Character"
-msgstr ""
+msgstr "Carattere punto elenco"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:239
 #: ../goffice/drawing/god-paragraph-attributes.c:240
 msgid "Bullet Indent"
-msgstr ""
+msgstr "Rientro punto elenco"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:245
 #: ../goffice/drawing/god-paragraph-attributes.c:246
-#, fuzzy
 msgid "Bullet Size"
-msgstr "Dimensione problema"
+msgstr "Dimensione punto elenco"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:251
 #: ../goffice/drawing/god-paragraph-attributes.c:252
 msgid "Bullet Family"
-msgstr ""
+msgstr "Famiglia punto elenco"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:257
 #: ../goffice/drawing/god-paragraph-attributes.c:258
-#, fuzzy
 msgid "Bullet On"
-msgstr "Dimensione problema"
+msgstr "Punto elenco attivo"
 
 #: ../goffice/graph/gog-axis.c:668
 msgid "Discrete"
@@ -682,14 +680,12 @@ msgid "Logarithm mapping"
 msgstr "Mappatura logaritmica"
 
 #: ../goffice/graph/gog-axis.c:1451 ../goffice/graph/gog-axis.c:1460
-#, fuzzy
 msgid "M_inimum"
-msgstr "_Min"
+msgstr "M_inimo"
 
 #: ../goffice/graph/gog-axis.c:1452 ../goffice/graph/gog-axis.c:1461
-#, fuzzy
 msgid "M_aximum"
-msgstr "Ma_x"
+msgstr "M_assimo"
 
 #: ../goffice/graph/gog-axis.c:1453
 msgid "Categories between _ticks"
@@ -700,12 +696,10 @@ msgid "Categories between _labels"
 msgstr "Categorie tra le _etichette"
 
 #: ../goffice/graph/gog-axis.c:1462
-#, fuzzy
 msgid "Ma_jor ticks"
 msgstr "Tacche p_rincipali"
 
 #: ../goffice/graph/gog-axis.c:1463
-#, fuzzy
 msgid "Mi_nor ticks"
 msgstr "Tacche _secondarie"
 
@@ -726,9 +720,8 @@ msgid "MinorGrid"
 msgstr "GrigliaSecondaria"
 
 #: ../goffice/graph/gog-axis.c:1560
-#, fuzzy
 msgid "AxisLine"
-msgstr "Linea"
+msgstr "LineaAssi"
 
 #: ../goffice/graph/gog-axis.c:1563
 msgid "Label"
@@ -739,9 +732,8 @@ msgid "Layout"
 msgstr ""
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:1
-#, fuzzy
 msgid "<b>Bounds</b>"
-msgstr "<b>Valori</b>"
+msgstr "<b>Limiti</b>"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:2
 msgid "<b>Major ticks</b>"
@@ -807,14 +799,12 @@ msgid "_Type:"
 msgstr "_Tipo:"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:17
-#, fuzzy
 msgid "at"
-msgstr "Dati"
+msgstr ""
 
 #: ../goffice/graph/gog-chart.c:554
-#, fuzzy
 msgid "Plot area"
-msgstr "TracciatoArea"
+msgstr "Area tracciato"
 
 #: ../goffice/graph/gog-chart.c:690
 msgid "Grid"
@@ -822,27 +812,27 @@ msgstr "Griglia"
 
 #: ../goffice/graph/gog-chart.c:693
 msgid "X-Axis"
-msgstr "Asse x"
+msgstr "Asse-X"
 
 #: ../goffice/graph/gog-chart.c:697
 msgid "Y-Axis"
-msgstr "Asse y"
+msgstr "Asse-Y"
 
 #: ../goffice/graph/gog-chart.c:701
 msgid "Z-Axis"
-msgstr "Asse z"
+msgstr "Asse-Z"
 
 #: ../goffice/graph/gog-chart.c:705
 msgid "Circular-Axis"
-msgstr "Assi circolari"
+msgstr "Asse-circolare"
 
 #: ../goffice/graph/gog-chart.c:709
 msgid "Radial-Axis"
-msgstr "Assi radiali"
+msgstr "Asse-radiale"
 
 #: ../goffice/graph/gog-chart.c:713
 msgid "Pseudo-3D-Axis"
-msgstr ""
+msgstr "Asse-pseudo-3D"
 
 #: ../goffice/graph/gog-chart.c:717
 msgid "Plot"
@@ -870,9 +860,8 @@ msgid "%"
 msgstr "%"
 
 #: ../goffice/graph/gog-chart-prefs.glade.h:3
-#, fuzzy
 msgid "<b>Plot area position</b>"
-msgstr "<b>Posizione</b>"
+msgstr "<b>Posizione area tracciato</b>"
 
 #: ../goffice/graph/gog-chart-prefs.glade.h:4
 msgid "GogChartPrefs"
@@ -880,14 +869,13 @@ msgstr ""
 
 #: ../goffice/graph/gog-chart-prefs.glade.h:5
 #: ../goffice/graph/gog-object-prefs.glade.h:8
-#, fuzzy
 msgid "_Height:"
-msgstr "Altezza"
+msgstr "_Altezza:"
 
 #: ../goffice/graph/gog-chart-prefs.glade.h:6
 #: ../goffice/graph/gog-object-prefs.glade.h:10
 msgid "_Use manual positionning"
-msgstr ""
+msgstr "_Usare posizionamento manuale"
 
 #: ../goffice/graph/gog-chart-prefs.glade.h:7
 #: ../goffice/graph/gog-error-bar-prefs.glade.h:13
@@ -898,12 +886,12 @@ msgstr "Lar_ghezza:"
 #: ../goffice/graph/gog-chart-prefs.glade.h:8
 #: ../goffice/graph/gog-object-prefs.glade.h:12
 msgid "_X:"
-msgstr ""
+msgstr "_X:"
 
 #: ../goffice/graph/gog-chart-prefs.glade.h:9
 #: ../goffice/graph/gog-object-prefs.glade.h:13
 msgid "_Y:"
-msgstr ""
+msgstr "_Y:"
 
 #: ../goffice/graph/gog-control-foocanvas.c:234
 msgid "H"
@@ -1042,24 +1030,20 @@ msgid "_Order"
 msgstr "_Ordina"
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:1
-#, fuzzy
 msgid "<b>Description</b>"
-msgstr "<b>Definizione</b>"
+msgstr "<b>Descrizione</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:2
-#, fuzzy
 msgid "<b>_Plot type</b>"
-msgstr "<b>Motivo</b>"
+msgstr "<b>_Tipo tracciato</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:3
-#, fuzzy
 msgid "<b>_Subtype</b>"
-msgstr "<b>Stile</b>"
+msgstr "<b>_Sottotipo</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:4
-#, fuzzy
 msgid "Show sample"
-msgstr "Campione"
+msgstr "Mostra esempio"
 
 #: ../goffice/graph/gog-label.c:197
 msgid "_Text:"
@@ -1075,145 +1059,136 @@ msgstr "Dettagli"
 
 #: ../goffice/graph/gog-label.c:372
 msgid "Regression Equation"
-msgstr ""
+msgstr "Equazione di regressione"
 
+# potrebbe anche essere superiore
 #: ../goffice/graph/gog-object.c:139 ../goffice/graph/gog-object.c:158
+#, fuzzy
 msgid "Top"
-msgstr ""
+msgstr "Alto"
 
 #: ../goffice/graph/gog-object.c:140 ../goffice/graph/gog-object.c:159
+#, fuzzy
 msgid "Top right"
-msgstr ""
+msgstr "Alto destro"
 
 #: ../goffice/graph/gog-object.c:141 ../goffice/graph/gog-object.c:162
 #, fuzzy
 msgid "Right"
-msgstr "Altezza"
+msgstr "Destro"
 
 #: ../goffice/graph/gog-object.c:142 ../goffice/graph/gog-object.c:165
+#, fuzzy
 msgid "Bottom right"
-msgstr ""
+msgstr "Basso destro"
 
 #: ../goffice/graph/gog-object.c:143 ../goffice/graph/gog-object.c:164
+#, fuzzy
 msgid "Bottom"
-msgstr ""
+msgstr "Basso"
 
 #: ../goffice/graph/gog-object.c:144 ../goffice/graph/gog-object.c:163
+#, fuzzy
 msgid "Bottom left"
-msgstr ""
+msgstr "Basso sinistro"
 
 #: ../goffice/graph/gog-object.c:145 ../goffice/graph/gog-object.c:160
+#, fuzzy
 msgid "Left"
-msgstr ""
+msgstr "Sinistro"
 
 #: ../goffice/graph/gog-object.c:146 ../goffice/graph/gog-object.c:157
+#, fuzzy
 msgid "Top left"
-msgstr ""
+msgstr "Alto sinistro"
 
 #: ../goffice/graph/gog-object.c:150
 msgid "Fill"
-msgstr ""
+msgstr "Riempi"
 
 #: ../goffice/graph/gog-object.c:151 ../plugins/plot_barcol/gog-dropbar.c:60
-#, fuzzy
 msgid "Start"
-msgstr "Ini_zio:"
+msgstr "Inizio"
 
 #: ../goffice/graph/gog-object.c:152 ../plugins/plot_barcol/gog-dropbar.c:62
-#, fuzzy
 msgid "End"
-msgstr "Fi_ne:"
+msgstr "Fine"
 
 #: ../goffice/graph/gog-object.c:153 ../goffice/graph/gog-object.c:161
-#, fuzzy
 msgid "Center"
-msgstr "_Dimensione centro:"
+msgstr "Centra"
 
 #: ../goffice/graph/gog-object.c:576
-#, fuzzy
 msgid "Position"
-msgstr "<b>Posizione</b>"
+msgstr "Posizione"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:3
-#, fuzzy
 msgid "<b>Automatic position</b>"
-msgstr "<b>Posizione</b>"
+msgstr "<b>Posizione automatica</b>"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:4
-#, fuzzy
 msgid "<b>Manual position</b>"
-msgstr "<b>Posizione</b>"
+msgstr "<b>Posizione manuale</b>"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:5
 msgid "Anchor:"
-msgstr ""
+msgstr "Ancora:"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:6
-#, fuzzy
 msgid "GogObjectPrefs"
-msgstr "Oggettivo"
+msgstr "PrefOggetGob"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:7
-#, fuzzy
 msgid "_Alignment:"
-msgstr "Allineamento"
+msgstr "_Alliniamento:"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:9
-#, fuzzy
 msgid "_Position:"
-msgstr "Dire_zione:"
+msgstr "_Posizione:"
 
 #: ../goffice/graph/gog-plot.c:168
-#, fuzzy
 msgid "X axis:"
-msgstr "Asse x"
+msgstr "Asse x:"
 
 #: ../goffice/graph/gog-plot.c:169
-#, fuzzy
 msgid "Y axis:"
-msgstr "Asse y"
+msgstr "Asse y:"
 
 #: ../goffice/graph/gog-plot.c:170
-#, fuzzy
 msgid "Z axis:"
-msgstr "Asse z"
+msgstr "Asse z:"
 
 #: ../goffice/graph/gog-plot.c:171
-#, fuzzy
 msgid "Circular axis:"
-msgstr "Assi circolari"
+msgstr "Asse circolare:"
 
 #: ../goffice/graph/gog-plot.c:172
-#, fuzzy
 msgid "Radial axis:"
-msgstr "Assi radiali"
+msgstr "Asse radiale:"
 
 #: ../goffice/graph/gog-plot.c:173
-#, fuzzy
 msgid "Type axis:"
-msgstr "_Tipo:"
+msgstr "Tipo di asse:"
 
 #: ../goffice/graph/gog-plot.c:174
 msgid "Pseudo 3D axis:"
-msgstr ""
+msgstr "Asse pseudo-3D:"
 
 #: ../goffice/graph/gog-plot.c:246
-#, fuzzy
 msgid "Axes"
-msgstr "Aree"
+msgstr "Assi"
 
 #: ../goffice/graph/gog-plot.c:342
 msgid "Series"
 msgstr "Serie"
 
 #: ../goffice/graph/gog-plot.c:373
-#, fuzzy
 msgid "Plot group"
-msgstr "Tipo tracciato"
+msgstr "Gruppo di tracciati"
 
 #: ../goffice/graph/gog-plot.c:374
 msgid "Name of plot group if any"
-msgstr ""
+msgstr "Nome del gruppo di tracciati se presente"
 
 #: ../goffice/graph/gog-plot.c:377
 msgid "Guru hints"
@@ -1239,15 +1214,16 @@ msgstr "Tema diagramma"
 
 #: ../goffice/graph/gog-plot-engine.c:372
 msgid "Regression Curve Engine"
-msgstr ""
+msgstr "Motore curva di regressione"
 
 #: ../goffice/graph/gog-plot-engine.c:527
 msgid "Regression Curve Type"
-msgstr ""
+msgstr "Tipo di curva di regressione"
 
 #: ../goffice/graph/gog-reg-curve.c:158
+#, fuzzy
 msgid "Regression Curve"
-msgstr ""
+msgstr "Curva di regressione"
 
 #: ../goffice/graph/gog-reg-curve.c:165
 #, fuzzy
@@ -1255,26 +1231,24 @@ msgid "Equation"
 msgstr "Frazione"
 
 #: ../goffice/graph/gog-reg-curve-prefs.glade.h:1
-#, fuzzy
 msgid "High bound:"
-msgstr "marrone chiaro"
+msgstr "Limite superiore:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.glade.h:2
 msgid "Low bound:"
-msgstr ""
+msgstr "Limite superiore:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.glade.h:3
-#, fuzzy
 msgid "Skip invalid data"
-msgstr "Modello di ricerca non valido."
+msgstr "Omettere dati non validi"
 
 #: ../goffice/graph/gog-reg-eqn-prefs.glade.h:1
 msgid "Display _equation"
-msgstr ""
+msgstr "Mostrare l'_equazione"
 
 #: ../goffice/graph/gog-reg-eqn-prefs.glade.h:2
 msgid "Display _regression coefficient R²"
-msgstr ""
+msgstr "Mostrare il coefficiente di _regressione R²"
 
 #: ../goffice/graph/gog-series.c:142
 msgid "Index:"
@@ -1294,12 +1268,12 @@ msgstr "Punto"
 
 #: ../goffice/graph/gog-series.c:470
 msgid "Regression curve"
-msgstr ""
+msgstr "Curva di regressione"
 
 #: ../goffice/graph/gog-style.c:165 ../goffice/gtk/goffice-gtk.c:459
 #, c-format
 msgid "%d x %d"
-msgstr "%d x %d"
+msgstr "%d × %d"
 
 #: ../goffice/graph/gog-style.c:1018
 msgid "Style"
@@ -1363,6 +1337,7 @@ msgid "St_yle:"
 msgstr "S_tile:"
 
 #: ../goffice/graph/gog-style-prefs.glade.h:16
+#, fuzzy
 msgid "Ty_pe:"
 msgstr "_Tipo:"
 
@@ -1442,11 +1417,13 @@ msgstr "Guppi"
 
 #: ../goffice/gtk/go-action-combo-text.c:233
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Distinzione MAIUSCOLE/minuscole"
 
 #: ../goffice/gtk/go-action-combo-text.c:234
 msgid "Should the text comparasion be case sensitive"
 msgstr ""
+"Indica se il confronto tra testo è eseguito distinguendo le maiuscole dalle "
+"minuscole"
 
 #: ../goffice/gtk/go-charmap-sel.c:74
 msgid "Arabic"
@@ -2031,11 +2008,11 @@ msgstr "Colore personalizzato..."
 
 #: ../goffice/gtk/go-combo-box.c:260
 msgid "Add tearoffs to menus"
-msgstr ""
+msgstr "Aggiungi staccatori ai menù"
 
 #: ../goffice/gtk/go-combo-box.c:261
 msgid "Whether dropdowns should have a tearoff menu item"
-msgstr ""
+msgstr "Indica se i menù a comparsa presentino una voce di menù staccatore"
 
 #: ../goffice/gtk/go-dock-item.c:235 ../goffice/gtk/go-dock-item.c:236
 msgid "Shadow type"
@@ -2053,13 +2030,14 @@ msgstr "Larghezza preferita"
 msgid "Preferred height"
 msgstr "Altezza preferita"
 
+# dock->ancora come in libbonoboui
 #: ../goffice/gtk/go-dock-item-grip.c:260
 msgid "Dock the toolbar"
-msgstr ""
+msgstr "Ancora la barra strumenti"
 
 #: ../goffice/gtk/go-dock-item-grip.c:261
 msgid "Undock the toolbar"
-msgstr ""
+msgstr "Rimuovi ancoraggio della barra strumenti"
 
 #: ../goffice/gtk/goffice-gtk.c:183
 #, c-format
@@ -2082,11 +2060,11 @@ msgstr "Selezionare un'immagine"
 msgid "Save as"
 msgstr "Salva come"
 
-#: ../goffice/gtk/goffice-gtk.c:587
+#: ../goffice/gtk/goffice-gtk.c:588
 msgid "File _type:"
 msgstr "_Tipo di file:"
 
-#: ../goffice/gtk/goffice-gtk.c:608
+#: ../goffice/gtk/goffice-gtk.c:609
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -2094,7 +2072,7 @@ msgstr ""
 "L'estensione fornita per il file non corrisponde col tipo di file scelto. "
 "Usare comunque questo nome?"
 
-#: ../goffice/gtk/goffice-gtk.c:851
+#: ../goffice/gtk/goffice-gtk.c:852
 #, c-format
 msgid ""
 "%s\n"
@@ -2103,7 +2081,7 @@ msgstr ""
 "%s\n"
 "è un nome di directory"
 
-#: ../goffice/gtk/goffice-gtk.c:855
+#: ../goffice/gtk/goffice-gtk.c:856
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -2112,7 +2090,7 @@ msgstr ""
 "Permessi non sufficienti per salvare in\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:862
+#: ../goffice/gtk/goffice-gtk.c:863
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -2144,7 +2122,7 @@ msgstr "Corsivo"
 #. * characters specific to the target alphabet.
 #: ../goffice/gtk/go-font-sel.c:473
 msgid "AaBbCcDdEe12345"
-msgstr ""
+msgstr "AaBbCc 12345 àèìòù"
 
 #: ../goffice/gtk/go-font-sel.glade.h:1
 msgid "*"
@@ -2247,9 +2225,8 @@ msgid "Display times of day."
 msgstr "Mostra ore del giorno."
 
 #: ../goffice/gtk/go-format-sel.glade.h:9
-#, fuzzy
 msgid "Display values as closest fractional approximation."
-msgstr "Mostra valori come approssimazione frazionaria più vicina."
+msgstr "Sostra valori come approssimazione frazionaria più prossima."
 
 #: ../goffice/gtk/go-format-sel.glade.h:10
 msgid "Display values as percentages."
@@ -2293,16 +2270,15 @@ msgstr "_Usa il separatore per le migliaia"
 
 #: ../goffice/gtk/go-rotation-sel.glade.h:1
 msgid "    "
-msgstr ""
+msgstr "    "
 
 #: ../goffice/gtk/go-rotation-sel.glade.h:2
-#, fuzzy
 msgid "<b>Orientation</b>"
-msgstr "Orientamento"
+msgstr "<b>Orientamento</b>"
 
 #: ../goffice/gtk/go-rotation-sel.glade.h:3
 msgid "A_ngle:"
-msgstr ""
+msgstr "A_ngolo:"
 
 #: ../goffice/gtk/go-rotation-sel.glade.h:4
 #: ../plugins/plot_pie/gog-pie-prefs.glade.h:8
@@ -3392,7 +3368,6 @@ msgstr "Isole Falkland (Malvine), sterlina delle Falkland"
 
 # La UE dice che la moneta è "lira sterlina" .... ???
 #: ../goffice/utils/formats.c:440
-#, fuzzy
 msgid "United Kingdom, Pounds"
 msgstr "Regno Unito, sterlina"
 
@@ -3403,9 +3378,8 @@ msgstr "Georgia, lari"
 
 # Anche questo appare intradotto nel mio vocabolario...
 #: ../goffice/utils/formats.c:442
-#, fuzzy
 msgid "Guernsey, Pounds"
-msgstr "Sterlina sudanese"
+msgstr "Guernsey, sterlina"
 
 # UE
 #: ../goffice/utils/formats.c:443
@@ -3501,7 +3475,7 @@ msgstr "Islansa, corona islandese"
 # ma mi sa che non è quella...
 #: ../goffice/utils/formats.c:461
 msgid "Jersey, Pounds"
-msgstr ""
+msgstr "Jersey, sterlina"
 
 # UE
 #: ../goffice/utils/formats.c:462
@@ -3827,7 +3801,7 @@ msgstr "Somalia, scellino somalo"
 
 #: ../goffice/utils/formats.c:526
 msgid "Seborga, Luigini"
-msgstr ""
+msgstr "Seborga, luigino"
 
 # UE
 #: ../goffice/utils/formats.c:527
@@ -3838,7 +3812,6 @@ msgstr "Suriname, fiorino surinamese"
 #
 # Cambiare la &iacute; in &igrave;
 #: ../goffice/utils/formats.c:528
-#, fuzzy
 msgid "Sao Tome and Principe, Dobras"
 msgstr "São Tomé e  Prìncipe, dobra"
 
@@ -3953,7 +3926,7 @@ msgstr "Samoa, tala"
 
 #: ../goffice/utils/formats.c:551
 msgid "Communaute Financiere Africaine BEAC, Francs"
-msgstr ""
+msgstr "Communaute Financiere Africaine BEAC, franco"
 
 #: ../goffice/utils/formats.c:552
 msgid "Silver, Ounces"
@@ -3975,7 +3948,7 @@ msgstr ""
 
 #: ../goffice/utils/formats.c:556
 msgid "Communaute Financiere Africaine BCEAO, Francs"
-msgstr ""
+msgstr "Communaute Financiere Africaine BCEAO, franco"
 
 #: ../goffice/utils/formats.c:557
 msgid "Palladium, Ounces"
@@ -4041,7 +4014,7 @@ msgstr "Tratto punto punto"
 #. xgettext : this will appear as 'Automatic (shapename)'
 #. xgettext : this will appear as 'Automatic (patternname)'
 #: ../goffice/utils/go-line.c:306 ../goffice/utils/go-marker.c:568
-#: ../goffice/utils/go-pattern.c:248
+#: ../goffice/utils/go-pattern.c:253
 #, c-format
 msgid "Automatic (%s)"
 msgstr "Automatico (%s)"
@@ -4080,7 +4053,7 @@ msgstr "cerchio"
 
 #: ../goffice/utils/go-marker.c:233
 msgid "x"
-msgstr ""
+msgstr "×"
 
 #: ../goffice/utils/go-marker.c:234
 msgid "cross"
@@ -4106,122 +4079,122 @@ msgstr "farfalla"
 msgid "hourglass"
 msgstr "clessidra"
 
-#: ../goffice/utils/go-pattern.c:47
-#, fuzzy, c-format
+#: ../goffice/utils/go-pattern.c:48
+#, fuzzy, no-c-format
 msgid "75% Grey"
 msgstr "Grigio 75%"
 
-#: ../goffice/utils/go-pattern.c:48
-#, fuzzy, c-format
+#: ../goffice/utils/go-pattern.c:50
+#, fuzzy, no-c-format
 msgid "50% Grey"
 msgstr "Grigio 50%"
 
-#: ../goffice/utils/go-pattern.c:49
-#, fuzzy, c-format
+#: ../goffice/utils/go-pattern.c:52
+#, fuzzy, no-c-format
 msgid "25% Grey"
 msgstr "Grigio 25%"
 
-#: ../goffice/utils/go-pattern.c:50
-#, fuzzy, c-format
+#: ../goffice/utils/go-pattern.c:54
+#, fuzzy, no-c-format
 msgid "12.5% Grey"
 msgstr "Grigio 12,5%"
 
-#: ../goffice/utils/go-pattern.c:51
-#, fuzzy, c-format
+#: ../goffice/utils/go-pattern.c:56
+#, fuzzy, no-c-format
 msgid "6.25% Grey"
 msgstr "Grigio 6,25%"
 
-#: ../goffice/utils/go-pattern.c:52
+#: ../goffice/utils/go-pattern.c:57
 msgid "Horizontal Stripe"
 msgstr "Bande orizzontali"
 
-#: ../goffice/utils/go-pattern.c:53
+#: ../goffice/utils/go-pattern.c:58
 msgid "Vertical Stripe"
 msgstr "Bande verticali"
 
-#: ../goffice/utils/go-pattern.c:54
+#: ../goffice/utils/go-pattern.c:59
 msgid "Reverse Diagonal Stripe"
 msgstr "Bande diagonali inverse"
 
-#: ../goffice/utils/go-pattern.c:55
+#: ../goffice/utils/go-pattern.c:60
 msgid "Diagonal Stripe"
 msgstr "Bande diagonali"
 
-#: ../goffice/utils/go-pattern.c:56
+#: ../goffice/utils/go-pattern.c:61
 msgid "Diagonal Crosshatch"
 msgstr "Croci diagonali"
 
-#: ../goffice/utils/go-pattern.c:57
+#: ../goffice/utils/go-pattern.c:62
 msgid "Thick Diagonal Crosshatch"
 msgstr "Croci diagonali spesse"
 
-#: ../goffice/utils/go-pattern.c:58
+#: ../goffice/utils/go-pattern.c:63
 msgid "Thin Horizontal Stripe"
 msgstr "Bande orizzontali sottili"
 
-#: ../goffice/utils/go-pattern.c:59
+#: ../goffice/utils/go-pattern.c:64
 msgid "Thin Vertical Stripe"
 msgstr "Bande verticali sottili"
 
-#: ../goffice/utils/go-pattern.c:60
+#: ../goffice/utils/go-pattern.c:65
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Bande diagonali inverse sottili"
 
-#: ../goffice/utils/go-pattern.c:61
+#: ../goffice/utils/go-pattern.c:66
 msgid "Thin Diagonal Stripe"
 msgstr "Bande diagonali sottili"
 
-#: ../goffice/utils/go-pattern.c:62
+#: ../goffice/utils/go-pattern.c:67
 msgid "Thin Horizontal Crosshatch"
 msgstr "Croci orizzontali sottili"
 
-#: ../goffice/utils/go-pattern.c:63
+#: ../goffice/utils/go-pattern.c:68
 msgid "Thin Diagonal Crosshatch"
 msgstr "Croci diagonali sottili"
 
-#: ../goffice/utils/go-pattern.c:64
+#: ../goffice/utils/go-pattern.c:69
 msgid "Foreground Solid"
 msgstr "Primo piano pieno"
 
-#: ../goffice/utils/go-pattern.c:65
+#: ../goffice/utils/go-pattern.c:70
 msgid "Small Circles"
 msgstr "Cerchi piccoli"
 
 #. Applix
-#: ../goffice/utils/go-pattern.c:66
+#: ../goffice/utils/go-pattern.c:71
 msgid "Semi Circles"
 msgstr "Semicerchi"
 
 #. Applix
-#: ../goffice/utils/go-pattern.c:67
+#: ../goffice/utils/go-pattern.c:72
 msgid "Thatch"
 msgstr "Intrecciato"
 
 #. Applix small thatch
-#: ../goffice/utils/go-pattern.c:68
+#: ../goffice/utils/go-pattern.c:73
 msgid "Large Circles"
 msgstr "Cerchi grandi"
 
-#: ../goffice/utils/go-pattern.c:70
+#: ../goffice/utils/go-pattern.c:75
 msgid "Bricks"
 msgstr "Mattoncini"
 
 #: ../goffice/utils/regutf8.c:35
 msgid "Pattern not found."
-msgstr ""
+msgstr "Pattern non trovato."
 
 #: ../goffice/utils/regutf8.c:37
-#, fuzzy
 msgid "Invalid pattern."
-msgstr "Modello di ricerca non valido."
+msgstr "Pattern non valido."
 
 #: ../goffice/utils/regutf8.c:38
+#, fuzzy
 msgid "Invalid collating element."
-msgstr ""
+msgstr "Fine intervallo non valido."
 
 #: ../goffice/utils/regutf8.c:39
 msgid "Invalid character class name."
-msgstr ""
+msgstr "Nome di classe carattere non valido."
 
 #: ../goffice/utils/regutf8.c:40
 msgid "Trailing backslash."
@@ -4233,109 +4206,108 @@ msgstr ""
 
 #: ../goffice/utils/regutf8.c:42
 msgid "Unmatched left bracket."
-msgstr ""
+msgstr "Parentesi sinistra non corrispondente."
 
 #: ../goffice/utils/regutf8.c:43
 msgid "Parenthesis imbalance."
-msgstr ""
+msgstr "Parentesi sbilanciate."
 
 #: ../goffice/utils/regutf8.c:44
 msgid "Unmatched \\{."
-msgstr ""
+msgstr "\\{ senza corrispondenza."
 
 #: ../goffice/utils/regutf8.c:45
 msgid "Invalid contents of \\{\\}."
-msgstr ""
+msgstr "Contenuto di \\{\\} non valido."
 
 #: ../goffice/utils/regutf8.c:46
-#, fuzzy
 msgid "Invalid range end."
-msgstr "Modello di ricerca non valido."
+msgstr "Fine intervallo non valido."
 
 #: ../goffice/utils/regutf8.c:47
 msgid "Out of memory."
-msgstr ""
+msgstr "Memoria esaurita."
 
 #: ../goffice/utils/regutf8.c:48
 msgid "Invalid repetition operator."
-msgstr ""
+msgstr "Operatore di ripetizione non valido."
 
 #: ../goffice/utils/regutf8.c:49
 msgid "Premature end of pattern."
-msgstr ""
+msgstr "Termine del pattern premetura."
 
 #: ../goffice/utils/regutf8.c:50
 msgid "Pattern is too big."
-msgstr ""
+msgstr "Il pattern è troppo grande"
 
 #: ../goffice/utils/regutf8.c:51
 msgid "Unmatched ) or \\)"
-msgstr ""
+msgstr ") o \\) senza corrispondenza"
 
 #: ../goffice/utils/regutf8.c:267 ../goffice/utils/regutf8.c:276
 msgid "Search string must not be empty."
-msgstr ""
+msgstr "La stringa da cercare non puù essere vuota."
 
 #: ../goffice/utils/regutf8.c:288
 #, c-format
 msgid "Invalid search pattern (%s)"
-msgstr ""
+msgstr "Modello di ricerca non valido (%s)"
 
 #: ../goffice/utils/regutf8.c:312
 msgid "Invalid $-specification in replacement."
-msgstr ""
+msgstr "$-specification non valida nell sostituzione."
 
 #: ../goffice/utils/regutf8.c:322
 msgid "Invalid trailing backslash in replacement."
-msgstr ""
+msgstr "trailing backslash non valido nella sostituzione."
 
 #: ../goffice/utils/regutf8.c:799
 msgid "Search Text"
-msgstr ""
+msgstr "Testo ricerca"
 
 #: ../goffice/utils/regutf8.c:800
 msgid "The text to search for"
-msgstr ""
+msgstr "Il testo da cercare"
 
 #: ../goffice/utils/regutf8.c:809
 msgid "Replacement Text"
-msgstr ""
+msgstr "Testo sostituzione"
 
 #: ../goffice/utils/regutf8.c:810
 msgid "The text to replace with"
-msgstr ""
+msgstr "Il testo con cui sostuire"
 
 #: ../goffice/utils/regutf8.c:818
 msgid "Is Regular Expression"
-msgstr ""
+msgstr "È espressione regolare"
 
 #: ../goffice/utils/regutf8.c:819
 msgid "Is the search text a regular expression."
-msgstr ""
+msgstr "Il testo da cercare è una espressione regolare."
 
 #: ../goffice/utils/regutf8.c:827
 msgid "Ignore Case"
-msgstr ""
+msgstr "Ignora MAIUSCOLE/minuscole"
 
 #: ../goffice/utils/regutf8.c:828
 msgid "Ignore the case of letters."
-msgstr ""
+msgstr "Ignora la distinzione MAIUSCOLE/minuscole delle lettere."
 
 #: ../goffice/utils/regutf8.c:836
 msgid "Preserve Case"
-msgstr ""
+msgstr "Preserve MAIUSCOLE/minuscole"
 
 #: ../goffice/utils/regutf8.c:837
 msgid "Preserve the case of letters."
-msgstr ""
+msgstr "Preserva la distinzione tra maiuscole e minuscole nelle lettere."
 
 #: ../goffice/utils/regutf8.c:845
 msgid "Match Words"
-msgstr ""
+msgstr "Corrispondenza sulla parola"
 
 #: ../goffice/utils/regutf8.c:846
 msgid "Match whole words only."
-msgstr ""
+msgstr "Corrispondenza solo su parole intere."
 
 #: ../plugins/plot_barcol/gog-1.5d.c:333
 #: ../plugins/plot_barcol/gog-dropbar.c:58
@@ -4357,11 +4329,12 @@ msgstr "Barre d'errore"
 #: ../plugins/plot_barcol/gog-1.5d.c:579
 #, fuzzy
 msgid "Series lines"
-msgstr "Serie"
+msgstr "Linee in serie"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:586
+#, fuzzy
 msgid "Drop lines"
-msgstr ""
+msgstr "Linee in cascata"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:594
 #: ../plugins/plot_barcol/plot-types.xml.in.h:78
@@ -4380,9 +4353,8 @@ msgstr "TracciatoBarraColon"
 #: ../plugins/plot_boxes/gog-boxplot.c:87 ../plugins/plot_pie/gog-pie.c:193
 #: ../plugins/plot_pie/gog-pie.c:319 ../plugins/plot_surface/gog-surface.c:206
 #: ../plugins/plot_xy/gog-xy.c:385
-#, fuzzy
 msgid "Properties"
-msgstr "Serie"
+msgstr "Proprietà"
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:3
 msgid "How far the bars/cols overlap as a percentage of the width"
@@ -4413,7 +4385,7 @@ msgstr "_Gap:"
 #: ../plugins/plot_barcol/gog-dropbar.c:43
 #, fuzzy
 msgid "PlotDropBar"
-msgstr "TracciatoBarraColon"
+msgstr "BandaCascata"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -4437,17 +4409,17 @@ msgstr "TracciatoArea"
 #: ../plugins/plot_barcol/gog-minmax.c:138
 #, fuzzy
 msgid "PlotMinMax"
-msgstr "TracciatoLinea"
+msgstr "MinMax"
 
 #: ../plugins/plot_barcol/gog-minmax.c:237
 #, fuzzy
 msgid "Min"
-msgstr "_Min"
+msgstr "MinMax"
 
 #: ../plugins/plot_barcol/gog-minmax.c:239
 #, fuzzy
 msgid "Max"
-msgstr "Ma_x"
+msgstr "MinMax"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "Adjacent Bars"
@@ -4551,23 +4523,24 @@ msgid "Column"
 msgstr "Colonna"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:70
+#, fuzzy
 msgid "DropBar"
-msgstr ""
+msgstr "BandaCascata"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:71
 #, fuzzy
 msgid "Horizontal Drop Bars"
-msgstr "Bande orizzontali"
+msgstr "Bande in cascata orizzontali"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:72
 #, fuzzy
 msgid "Horizontal Min Max Lines"
-msgstr "Bande orizzontali"
+msgstr "Linee orizzontali min max"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:73
 #, fuzzy
 msgid "Horizontal drop bars."
-msgstr "Bande orizzontali"
+msgstr "Bande orizzontali in cascata."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:74
 msgid "Horizontal min max lines with markers."
@@ -4576,7 +4549,7 @@ msgstr ""
 #: ../plugins/plot_barcol/plot-types.xml.in.h:75
 #, fuzzy
 msgid "Horizontal min max lines."
-msgstr "Bande orizzontali"
+msgstr "Linee orizzontali min max."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:76
 msgid "Line"
@@ -4597,7 +4570,7 @@ msgstr "Linee percentuali senza indicatori"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:81
 msgid "MinMax"
-msgstr ""
+msgstr "MinMax"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:82
 msgid ""
@@ -4690,24 +4663,26 @@ msgstr "Linee in pila senza indicatori"
 #: ../plugins/plot_barcol/plot-types.xml.in.h:101
 #, fuzzy
 msgid "Vertical Drop Bars"
-msgstr "Bande verticali"
+msgstr "Bande verticali in cascata"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:102
+#, fuzzy
 msgid "Vertical Min Max Lines"
-msgstr ""
+msgstr "Linee verticali min max"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:103
 #, fuzzy
 msgid "Vertical drop bars."
-msgstr "Bande verticali"
+msgstr "Bande verticali in cascata."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:104
 msgid "Vertical min max lines with markers."
 msgstr ""
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:105
+#, fuzzy
 msgid "Vertical min max lines."
-msgstr ""
+msgstr "Linee verticali min max."
 
 # Tutto è un plugin. 
 #
@@ -4740,7 +4715,7 @@ msgstr "Tipi predefiniti di tracciati 1.5d"
 #: ../plugins/plot_barcol/plugin.xml.in.h:5
 #, fuzzy
 msgid "Drop Bar/Col plotting engine"
-msgstr "Motore tracciati barra/colonna"
+msgstr "Motore tracciati barra/colonna in cascata"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:6
 msgid "Line plotting engine"
@@ -4751,47 +4726,39 @@ msgid "Line, Area, Bar and Column plots"
 msgstr "Tracciati di tipo linea, area, barra e colonna"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:8
-#, fuzzy
 msgid "Min Max plotting engine"
-msgstr "Motore tracciati linea"
+msgstr "Motore tracciati minimo massimo"
 
 #. xgettext : the base for how to name box-plot objects
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
 #: ../plugins/plot_boxes/gog-boxplot.c:116
-#, fuzzy
 msgid "Box-Plot"
-msgstr "Tracciato"
+msgstr ""
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:1
-#, fuzzy
 msgid "Box-Plot."
-msgstr "Tracciato"
+msgstr ""
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:2
-#, fuzzy
 msgid "BoxPlot"
-msgstr "Tracciato"
+msgstr ""
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:3
-#, fuzzy
 msgid "BoxPlots"
-msgstr "Tracciato"
+msgstr ""
 
 #: ../plugins/plot_boxes/plugin.xml.in.h:1
-#, fuzzy
 msgid "Box-Plots"
-msgstr "Tracciato"
+msgstr ""
 
 #: ../plugins/plot_boxes/plugin.xml.in.h:2
-#, fuzzy
 msgid "Box-plot plotting engine"
-msgstr "Motore tracciati barra/colonna"
+msgstr ""
 
 #: ../plugins/plot_boxes/plugin.xml.in.h:3
-#, fuzzy
 msgid "Charting : Box-Plots"
-msgstr "Grafici: rete"
+msgstr ""
 
 #: ../plugins/plot_boxes/plugin.xml.in.h:4
 #: ../plugins/plot_surface/plugin.xml.in.h:2
@@ -4934,18 +4901,16 @@ msgstr "TracciatoReteArea"
 #. * eg The 2nd rt plot in a chart will be called
 #. * 	PlotPolar2
 #: ../plugins/plot_radar/gog-radar.c:328
-#, fuzzy
 msgid "PlotPolar"
-msgstr "TracciatoRete"
+msgstr "TracciatoPolare"
 
 #: ../plugins/plot_radar/gog-radar.c:367
 msgid "Angle"
-msgstr ""
+msgstr "Angolo"
 
 #: ../plugins/plot_radar/gog-radar.c:369
-#, fuzzy
 msgid "Magnitude"
-msgstr "Magenta"
+msgstr "Magnitudine"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:1
 msgid "Area Radar"
@@ -4961,12 +4926,11 @@ msgstr "Rete a punti"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:4
 msgid "Polar"
-msgstr ""
+msgstr "Polare"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:5
-#, fuzzy
 msgid "Polar plot."
-msgstr "Tracciato tipo rete."
+msgstr "Tracciato polare."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:6
 msgid "Radar"
@@ -4981,23 +4945,20 @@ msgid "Radar plot."
 msgstr "Tracciato tipo rete."
 
 #: ../plugins/plot_radar/plugin.xml.in.h:1
-#, fuzzy
 msgid "Charting : Polar/Radar"
-msgstr "Grafici: torta/anello"
+msgstr "Grafici: polare/rete"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:2
 msgid "Default radar plot types"
 msgstr "Tipi predefiniti grafici rete"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:3
-#, fuzzy
 msgid "Polar and Radar plots"
-msgstr "Tracciati a torta ed anello"
+msgstr "Tracciati polari e rete"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:4
-#, fuzzy
 msgid "Polar plotting engine"
-msgstr "Motore tracciati rete"
+msgstr "Motore tracciati polari"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:5
 msgid "Radar Area plotting engine"
@@ -5018,7 +4979,7 @@ msgid "PlotContour"
 msgstr "ContornoTracciato"
 
 #: ../plugins/plot_surface/gog-surface.c:490
-#: ../plugins/plot_surface/xl-surface.c:237
+#: ../plugins/plot_surface/xl-surface.c:260
 msgid "Z"
 msgstr "Z"
 
@@ -5039,15 +5000,10 @@ msgid "Contour plotting engine"
 msgstr "Motore tracciati contorno"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:3
-#, fuzzy
-msgid "Excel compatibility contour plotting engine"
-msgstr "Motore tracciati contorno"
-
-#: ../plugins/plot_surface/plugin.xml.in.h:4
 msgid "Surface Charts"
 msgstr "Grafici superficie"
 
-#: ../plugins/plot_surface/plugin.xml.in.h:5
+#: ../plugins/plot_surface/plugin.xml.in.h:4
 msgid "Surface charts"
 msgstr "Grafici superficie"
 
@@ -5100,24 +5056,22 @@ msgid "Bubble"
 msgstr "Bolla"
 
 #: ../plugins/plot_xy/gog-xy.c:1164
-#, fuzzy
 msgid "X error bars"
 msgstr "Barre errore X"
 
 #: ../plugins/plot_xy/gog-xy.c:1166
-#, fuzzy
 msgid "Y error bars"
 msgstr "Barre errore Y"
 
 #: ../plugins/plot_xy/gog-xy.c:1173
 #, fuzzy
 msgid "Horizontal drop lines"
-msgstr "Bande orizzontali"
+msgstr "Linee orizzontali in cascata"
 
 #: ../plugins/plot_xy/gog-xy.c:1181
 #, fuzzy
 msgid "Vertical drop lines"
-msgstr "Bande verticali"
+msgstr "Linee verticali in cascata"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
 #, fuzzy
@@ -5189,19 +5143,20 @@ msgstr "Tipi predefiniti tracciati scatter"
 #. * eg The 2nd plot in a chart will be called
 #. * 	Exponential regression2
 #: ../plugins/reg_linear/gog-exp-reg.c:61
+#, fuzzy
 msgid "Exponential regression"
-msgstr ""
+msgstr "Curva regressione esponenziale"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:164
 msgid "Affine"
-msgstr ""
+msgstr "Affine"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Linear regression2
 #: ../plugins/reg_linear/gog-lin-reg.c:177
 msgid "Linear regression"
-msgstr ""
+msgstr "Regressione lineare"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -5209,7 +5164,7 @@ msgstr ""
 #: ../plugins/reg_linear/gog-log-reg.c:90
 #, fuzzy
 msgid "Logarithmic regression"
-msgstr "Mappatura logaritmica"
+msgstr "Curva regressione logaritmica"
 
 #: ../plugins/reg_linear/gog-polynom-reg.c:134
 #, fuzzy
@@ -5220,89 +5175,93 @@ msgstr "_Ordina"
 #. * eg The 2nd plot in a chart will be called
 #. * 	Polynomial regression2
 #: ../plugins/reg_linear/gog-polynom-reg.c:152
+#, fuzzy
 msgid "Polynomial regression"
-msgstr ""
+msgstr "Curva regressione polinomiale"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:1
 msgid "Exponential"
-msgstr ""
+msgstr "Esponenziale"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:2
 msgid "Exponential regression curve"
-msgstr ""
+msgstr "Curva regressione esponenziale"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:4
 msgid "Linear regression curve"
-msgstr ""
+msgstr "Curva regressione lineare"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:5
-#, fuzzy
 msgid "Logarithmic"
-msgstr "Mappatura logaritmica"
+msgstr "Logaritmica"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:6
 msgid "Logarithmic regression curve"
-msgstr ""
+msgstr "Curva regressione logaritmica"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:7
 msgid "Polynomial"
-msgstr ""
+msgstr "Polinomiale"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:8
 msgid "Polynomial regression curve"
-msgstr ""
+msgstr "Curva regressione polinomiale"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:1
 msgid "Exponential regression curve engine"
-msgstr ""
+msgstr "Motore curva regressione esponenziale"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:2
 msgid "Linear regression curve engine"
-msgstr ""
+msgstr "Motore curva regressione lineare"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:3
 msgid "Linear regression curves"
-msgstr ""
+msgstr "Curve regressione lineare"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:4
 msgid "Linear regression curves types"
-msgstr ""
+msgstr "Tipi di curve regressione lineare"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:5
 msgid "Logarithmic regression curve engine"
-msgstr ""
+msgstr "Motore curva regressione logaritmica"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:6
 msgid "Polynomial regression curve engine"
-msgstr ""
+msgstr "Motore curva regressione polinomiale"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:7
 msgid "Regression curve : linear"
-msgstr ""
+msgstr "Curve di regressione: lineare"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Log fit2
 #: ../plugins/reg_logfit/gog-logfit.c:136
+#, fuzzy
 msgid "Log fit"
-msgstr ""
+msgstr "Logaritmico"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:1
+#, fuzzy
 msgid "Logarithmic fitting curve engine"
-msgstr ""
+msgstr "Motore curva regressione logaritmica"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:2
 #, fuzzy
 msgid "Logarithmic fitting curves"
-msgstr "Mappatura logaritmica"
+msgstr "Curva regressione logaritmica"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:3
+#, fuzzy
 msgid "Logarithmic fitting curves types"
-msgstr ""
+msgstr "Curva regressione logaritmica"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:4
+#, fuzzy
 msgid "Regression curve : logfit"
-msgstr ""
+msgstr "Curve di regressione: lineare"
 
 #: ../plugins/reg_logfit/reg-types.xml.in.h:1
 msgid "Log Fit (y=a+b*ln(sign*(x-c)))"
@@ -5311,127 +5270,14 @@ msgstr ""
 #: ../plugins/reg_logfit/reg-types.xml.in.h:2
 #, fuzzy
 msgid "Logarithmic fitting curve"
-msgstr "Mappatura logaritmica"
-
-#~ msgid "Plugin version \"%s\" is different from application \"%s\"."
-#~ msgstr "La versione del plugin «%s» differisce dall'applicazione «%s»."
-
-#~ msgid "Error while saving file."
-#~ msgstr "Errore durante il salvataggio del file."
-
-#~ msgid "Bounds"
-#~ msgstr "Estremi"
+msgstr "Curva regressione logaritmica"
 
 #~ msgid "T_ype:"
 #~ msgstr "_Tipo:"
 
-# Come gnumeric descrive i tracciati.
-#
-# Ogni file .xml di nome plot-types.xml definisce i tipi base/standard di
-# tracciati che si possono avere con gnumeric. In ognino di questi file vi è
-# definita:
-# 	* la o le famiglie di grafico fornito (Line, Area, Bar, Column
-# 	* i vari tipi di grafico identificati da
-# 		 - Nome "Unmarked Lines" "Adjacent Columns"
-# 		 - descrizioe "Line plot." "Adjacent vertical columns grouped by major and minor categories."
-#~ msgid "3D Adjacent Bars"
-#~ msgstr "Barre 3D adiacenti"
-
-#~ msgid "3D Adjacent Columns"
-#~ msgstr "Colonne 3D adiacenti"
-
-#~ msgid "3D Percentage Bars"
-#~ msgstr "Barre 3D percentuale"
-
-#~ msgid "3D Percentage Columns"
-#~ msgstr "Colonne 3D percentuale"
-
-#~ msgid "3D Stacked Bars"
-#~ msgstr "Barre 3D in pila"
-
-#~ msgid "3D Stacked Columns"
-#~ msgstr "Colonne 3D in pila"
-
-#~ msgid "Adjacent horizontal 3D bars grouped by major and minor categories."
-#~ msgstr ""
-#~ "Barre 3D orizzontali adiacenti raggruppate per categorie principali e "
-#~ "secondarie."
-
-#~ msgid "Adjacent vertical 3D columns grouped by major and minor categories."
-#~ msgstr ""
-#~ "Colonne 3D verticali adiacenti raggruppate per categorie principali e "
-#~ "secondarie."
-
-#~ msgid ""
-#~ "Minor categories stacked as percentages of the minor total, in 3D "
-#~ "horizontal bars, grouped by major category."
-#~ msgstr ""
-#~ "Categorie secondarie in pila come percentuali del totale delle "
-#~ "secondarie, su bare 3D orizzontali, raggruppate per categoria principale."
-
-#~ msgid ""
-#~ "Minor categories stacked as percentages of the minor total, in 3D "
-#~ "vertical bars, grouped by major category."
-#~ msgstr ""
-#~ "Categorie secondarie in pila come percentuale del totale delle "
-#~ "secondarie, su barre verticali, raggruppate per categora principale."
-
-#~ msgid ""
-#~ "Minor categories stacked in horizontal 3D bars, grouped by major category."
-#~ msgstr ""
-#~ "Categorie secondarie in pila su barre 3D orizzontali, raggruppate per "
-#~ "categoria principale."
-
-#~ msgid ""
-#~ "Minor categories stacked in vertical 3D columns, grouped by major "
-#~ "category."
-#~ msgstr ""
-#~ "Categoria secondaria in pila su colonne 3D verticali, raggruppate per "
-#~ "categoria principale."
-
-#~ msgid "3D Pie"
-#~ msgstr "Torta 3D"
-
-#~ msgid "3D Split Pie"
-#~ msgstr "Torta 3D a fette"
-
 #, fuzzy
-#~ msgid ""
-#~ "Major totals as percentages with each wedge subdivided into secondary "
-#~ "pies."
-#~ msgstr ""
-#~ "Totali principali come percentuale di ciascun cuneo suddiviso in torte "
-#~ "secondarie."
+#~ msgid "Excel compatibility contour plotting engine"
+#~ msgstr "Motore tracciati contorno"
 
-#, fuzzy
-#~ msgid ""
-#~ "Major totals as percentages with each wedge subdivided into secondary "
-#~ "stacked bars."
-#~ msgstr ""
-#~ "Totali principali come percentuale di ciascun cuneo suddiviso in barre in "
-#~ "pila."
-
-#~ msgid "Multi-Pie"
-#~ msgstr "Multi-torta"
-
-#~ msgid "Multi-pie-bars"
-#~ msgstr "Multi-torta-barre"
-
-#~ msgid "Percentage of each contributor in 3D pie."
-#~ msgstr "Percentuale di ogni contributore in una torta tridimensionale."
-
-#~ msgid "Percentage of each contributor with 3D wedges split apart."
-#~ msgstr ""
-#~ "Percentuale di ciascun contributore con cunei tridimensionali staccati."
-
-#~ msgid "Charting : Radial plots"
-#~ msgstr "Grafici: rete"
-
-#~ msgid "Radial/Radar plots"
-#~ msgstr "Tracciati rete/radiali"
-
-#~ msgid "_Slices number:"
-#~ msgstr "Numero di _fette:"
-
-#~ msgid "Plot X, Y and bubble size."
-#~ msgstr "Tracciato X, Y e dimensione bolla."
+#~ msgid "_Angle:"
+#~ msgstr "_Angolo:"
