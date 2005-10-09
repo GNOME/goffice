@@ -4,6 +4,7 @@ Emmanuel Pacaud:
 
 	* Multicolumn/line and horizontal layout support for legends.
 	* Fix SVG gradient export [#318191].
+	* Fix persistence of show/hide setting for equations [#318316].
 
 Jean Brefort:
 	* Optionnaly skip invalid values in regression curves [#312788].

@@ -407,11 +407,11 @@ gog_reg_eqn_class_init (GogObjectClass *gog_klass)
 	g_object_class_install_property (gobject_klass, REG_EQN_SHOW_EQ,
 		g_param_spec_boolean ("show-eq", NULL,
 			"Show the equation on the graph",
-			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, REG_EQN_SHOW_R2,
 		g_param_spec_boolean ("show-r2", NULL,
 			"Show the correlation coefficient on the graph",
-			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
 static void
