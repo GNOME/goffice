@@ -113,7 +113,7 @@ void go_color_render_svp (GOColor color, ArtSVP const *svp,
 			  int x0, int y0, int x1, int y1,
 			  art_u8 *buf, int rowstride);
 
-GOColor   go_color_from_str (char const *string);
+gboolean  go_color_from_str (char const *str, GOColor *res);
 gchar    *go_color_as_str   (GOColor color);
 PangoAttribute *go_color_to_pango (GOColor color, gboolean is_fore);
 #ifdef WITH_GTK

@@ -37,6 +37,7 @@ typedef struct {
 	gboolean (*dom_load) (GogPersist *gp, xmlNode *node);
 	void     (*dom_save) (GogPersist const *gp, xmlNode *parent);
 	void     (*sax_save) (GogPersist const *gp, GsfXMLOut *output);
+	GsfXMLInDoc  const *sax_doc;
 } GogPersistClass;
 
 #define GOG_PERSIST_TYPE	 (gog_persist_get_type ())

@@ -1,3 +1,17 @@
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.1.0
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-object-xml.h (GogPersistClass) : Add sax_doc as a
+	  hook to support GsfXMLIn sax based import.
+	* goffice/graph/gog-style.c (gog_style_persist_init) : whip up a quick
+	  dtd but do not implement. (Leak the doc)
+	* goffice/graph/gog-error-bar.c (gog_error_bar_persist_init) : whip up
+	  a dtd (leak the doc).
+	(geb_start) : implement it.
+
 2005-10-09  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-label.c (gog_reg_eqn_view_class_init): default for show-eq

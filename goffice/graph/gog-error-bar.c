@@ -380,7 +380,7 @@ gog_error_bar_persist_dom_load (GogPersist *gp, xmlNode *node)
 	}
 	str = xmlGetProp (node, CC2XML ("color"));
 	if (str != NULL) {
-		bar->style->line.color = go_color_from_str (str);
+		go_color_from_str (str, &bar->style->line.color);
 		xmlFree (str);
 	}
 
@@ -473,7 +473,6 @@ gog_error_bar_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
 	}
 	if (str != NULL)
 		gsf_xml_out_add_cstr_unchecked (output, "display", str);
-#warning Why 5.0 and why 1.0 ?
 	if (bar->width != 5.)
 		gsf_xml_out_add_float (output, "width", bar->width, 2);
 	if (bar->style->line.width != 1.)
@@ -483,11 +482,44 @@ gog_error_bar_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
 }
 
 static void
+geb_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GogErrorBar *bar = GOG_ERROR_BAR (xin->user_state);
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "error_type")) {
+			if (!strcmp (attrs[1], "absolute"))
+				bar->type = GOG_ERROR_BAR_TYPE_ABSOLUTE;
+			else if (!strcmp (attrs[1], "relative"))
+				bar->type = GOG_ERROR_BAR_TYPE_RELATIVE;
+			else if (!strcmp (attrs[1], "percent"))
+				bar->type = GOG_ERROR_BAR_TYPE_PERCENT;
+		} else if (0 == strcmp (attrs[0], "display")) {
+			if (!strcmp (attrs[1], "none"))
+				bar->display = GOG_ERROR_BAR_DISPLAY_NONE;
+			else if (!strcmp (attrs[1], "positive"))
+				bar->display = GOG_ERROR_BAR_DISPLAY_POSITIVE;
+			else if (!strcmp (attrs[1], "negative"))
+				bar->display = GOG_ERROR_BAR_DISPLAY_NEGATIVE;
+		} else if (0 == strcmp (attrs[0], "width"))
+			bar->width = g_strtod (attrs[1], NULL);
+		else if (0 == strcmp (attrs[0], "line_width"))
+			bar->style->line.width = g_strtod (attrs[1], NULL);
+		else if (0 == strcmp (attrs[0], "color"))
+			go_color_from_str (attrs[1], &bar->style->line.color);
+}
+
+static void
 gog_error_bar_persist_init (GogPersistClass *iface)
 {
+	static GsfXMLInNode const gog_error_bar_dtd[] = {
+	  GSF_XML_IN_NODE (ERRORBAR, ERRORBAR, -1, "GogObject", FALSE, &geb_start, NULL),
+	  GSF_XML_IN_NODE_END
+	};
 	iface->dom_load = gog_error_bar_persist_dom_load;
 	iface->dom_save = gog_error_bar_persist_dom_save;
 	iface->sax_save = gog_error_bar_persist_sax_save;
+#warning PLUG LEAK
+	iface->sax_doc  = gsf_xml_in_doc_new (gog_error_bar_dtd, NULL);
 }
 
 GSF_CLASS_FULL (GogErrorBar, gog_error_bar,

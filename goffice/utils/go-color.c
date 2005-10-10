@@ -331,15 +331,24 @@ go_color_render_svp (GOColor color, ArtSVP const *svp,
 	}
 }
 
-GOColor
-go_color_from_str (gchar const *string)
+/**
+ * go_color_from_str :
+ * @str :
+ * @res :
+ * 
+ * Returns TRUE if @str can be parsed as a color of the form R:G:B:A and the
+ * result is stored in @res.
+ **/
+gboolean
+go_color_from_str (gchar const *str, GOColor *res)
 {
 	unsigned r, g, b, a;
-	GOColor color = 0;
 
-	if (sscanf ((char const *) string, "%X:%X:%X:%X", &r, &g, &b, &a) == 4)
-		color = RGBA_TO_UINT (r, g, b, a);
-	return color;
+	if (sscanf (str, "%X:%X:%X:%X", &r, &g, &b, &a) == 4) {
+		*res = RGBA_TO_UINT (r, g, b, a);
+		return TRUE;
+	}
+	return FALSE;
 }
 
 gchar *
