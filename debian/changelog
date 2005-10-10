@@ -1,3 +1,20 @@
+goffice (0.1.0-1) experimental; urgency=low
+
+  * New upstream release; changes include:
+    * Update the embedded copy of PCRE to version 6.3 and prepare for a 
+      possible future switch to the external PCRE library. (Closes: #326628)
+    * Library versioning is now separate from the versioning of goffice as a
+      whole.
+  * [debian/*] Package renames, reorganisation to take advantage of proper
+    library versioning.
+  * [debian/rules] Fix -dbg package.
+  * [debian/control]
+    * Bumped Standards-Version.
+    * Bumped libgsf build dependency following configure.in.
+  * Upload to experimental due to dependency on libgsf in experimental.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 10 Oct 2005 19:30:20 +0200
+
 goffice (0.0.4-1) unstable; urgency=low
 
   * New upstream release.
