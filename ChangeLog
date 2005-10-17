@@ -1,7 +1,7 @@
 2005-10-17  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-object.c (gog_object_populate_editor): hide manual
-	settings when manul position is not allowed.
+	settings when manual position is not allowed.
 
 2005-10-10  Jody Goldberg <jody@gnome.org>
 
