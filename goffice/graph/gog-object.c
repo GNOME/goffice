@@ -553,6 +553,9 @@ gog_object_populate_editor (GogObject *gobj,
 			w = glade_xml_get_widget (gui, "manual_sizes");
 			gtk_widget_hide (w);
 		}
+	} else {
+		w = glade_xml_get_widget (gui, "manual_position_box");
+		gtk_widget_hide (w);
 	}
 
 	g_object_unref (G_OBJECT (widget_size_group));
