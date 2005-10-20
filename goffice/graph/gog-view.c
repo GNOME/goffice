@@ -530,9 +530,10 @@ gog_view_render	(GogView *view, GogViewAllocation const *bbox)
 
 	g_return_if_fail (view->renderer != NULL);
 
-	if (view->allocation.w < 0 || view->allocation.h < 0)
+	/* In particular this is true for NaNs.  */
+	if (!(view->allocation.w >= 0 && view->allocation.h >= 0))
 		return;
-	
+
 	if (klass->clip) {
 		gog_renderer_push_clip (view->renderer, 
 			gog_renderer_get_rectangle_vpath (&view->allocation));
