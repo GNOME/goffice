@@ -186,7 +186,7 @@
 	* configure.in : bump libgsf req.
 
 	* goffice/graph/gog-object-xml.c (gog_object_set_arg_full) : the
-	  general stuff was split out and moved the libgsf.  Use the new
+	  general stuff was split out and moved to the libgsf.  Use the new
 	  gsf_xml_gvalue_from_str.
 
 2005-10-02  Jody Goldberg <jody@gnome.org>
