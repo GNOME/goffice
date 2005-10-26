@@ -63,12 +63,12 @@ typedef enum {
 	LG_LAST
 } LanguageGroup;
 
-typedef struct
-{
+typedef struct {
         char const *group_name;
 	LanguageGroup const lgroup;
-}
-LGroupInfo;
+	/* Generated stuff follows.  */
+	char *collate_key;
+} LGroupInfo;
 
 static LGroupInfo lgroups[] = {
 	{N_("Arabic"), LG_ARABIC},
@@ -95,7 +95,7 @@ lgroups_order (const void *_a, const void *_b)
 	const LGroupInfo *a = (const LGroupInfo *)_a;
 	const LGroupInfo *b = (const LGroupInfo *)_b;
 
-	return g_utf8_collate (_(a->group_name), _(b->group_name));
+	return strcmp (a->collate_key, b->collate_key);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -111,6 +111,7 @@ typedef struct {
 	LanguageGroup const lgroup;
 	CharsetImportance const imp;
 	/* Generated stuff follows.  */
+	char *collate_key;
 	char *to_utf8_iconv_name, *from_utf8_iconv_name;
 } CharsetInfo;
 
@@ -212,12 +213,12 @@ charset_order (const void *_a, const void *_b)
 	const CharsetInfo *b = (const CharsetInfo *)_b;
 
 	if (a->lgroup != b->lgroup)
-		return b->lgroup - a->lgroup;
+		return (int)b->lgroup - (int)a->lgroup;
 
 	if (a->imp != b->imp)
-		return b->imp - a->imp;
+		return (int)b->imp - (int)a->imp;
 
-	return g_utf8_collate (_(a->charset_title), _(b->charset_title));
+	return strcmp (a->collate_key, b->collate_key);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -435,6 +436,7 @@ static void
 cs_class_init (GtkWidgetClass *widget_klass)
 {
 	CharsetInfo *ci;
+	size_t i;
 
 	GObjectClass *gobject_class = G_OBJECT_CLASS (widget_klass);
 	widget_klass->mnemonic_activate = cs_mnemonic_activate;
@@ -461,10 +463,47 @@ cs_class_init (GtkWidgetClass *widget_klass)
 							    (guint)GO_CHARMAP_SEL_TO_UTF8,
 							    G_PARAM_READWRITE));
 
+	/* ---------------------------------------- */
+	/* Sort the groups by translated name.  */
+
+	for (i = 0; i < G_N_ELEMENTS (lgroups) - 2; i++) {
+		const char *cgroup_name = lgroups[i].group_name;
+		const char *group_name = _(cgroup_name);
+		lgroups[i].collate_key = g_utf8_collate_key (group_name, -1);
+		if (!lgroups[i].collate_key) {
+			g_warning ("Failed to generate collation key for [%s] [%s]",
+				   cgroup_name, group_name);
+			lgroups[i].collate_key = g_strdup (group_name);
+		}
+	}
 	qsort (lgroups, G_N_ELEMENTS (lgroups) - 2, sizeof (lgroups[0]),
 	       lgroups_order);
+	for (i = 0; i < G_N_ELEMENTS (lgroups) - 2; i++) {
+		g_free (lgroups[i].collate_key);
+		lgroups[i].collate_key = NULL;
+	}
+
+	/* ---------------------------------------- */
+	/* Sort charsets by group/importance/title.  */
+
+	for (i = 0; i < G_N_ELEMENTS (charset_trans_array) - 1; i++) {
+		const char *ctitle = charset_trans_array[i].charset_title;
+		const char *title = _(ctitle);
+		charset_trans_array[i].collate_key = g_utf8_collate_key (title, -1);
+		if (!charset_trans_array[i].collate_key) {
+			g_warning ("Failed to generate collation key for [%s] [%s]",
+				   ctitle, title);
+			charset_trans_array[i].collate_key = g_strdup (title);
+		}
+	}
 	qsort (charset_trans_array, G_N_ELEMENTS (charset_trans_array) - 1,
 	       sizeof (charset_trans_array[0]), charset_order);
+	for (i = 0; i < G_N_ELEMENTS (charset_trans_array) - 1; i++) {
+		g_free (charset_trans_array[i].collate_key);
+		charset_trans_array[i].collate_key = NULL;
+	}
+
+	/* ---------------------------------------- */
 
 	encoding_hash =
 		g_hash_table_new_full (go_ascii_strcase_hash,

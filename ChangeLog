@@ -1,3 +1,9 @@
+2005-10-26  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-charmap-sel.c (charset_order, lgroups_order): Use
+	precomputed collate key.
+	(cs_class_init): Pre-compute collate keys before sorting.
+
 2005-10-26  Stepan Kasal  <kasal@ucw.cz>
 
 	* goffice/graph/gog-object-xml.c: Remove #include glade/glade-build.h
