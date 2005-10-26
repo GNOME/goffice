@@ -1,3 +1,8 @@
+2005-10-26  Stepan Kasal  <kasal@ucw.cz>
+
+	* goffice/graph/gog-object-xml.c: Remove #include glade/glade-build.h
+	the code no longer uses glade xml utils.
+
 2005-10-20  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-view.c (gog_view_render): Survive NaN

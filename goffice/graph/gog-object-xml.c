@@ -28,7 +28,6 @@
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-color.h>
 
-#include <glade/glade-build.h>	/* for the xml utils */
 #include <string.h>
 #include <stdlib.h>
 
