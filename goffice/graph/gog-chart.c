@@ -41,7 +41,7 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 
-const struct {
+static const struct {
 	char const *name;
 	GogAxisSet const axis_set;
 } axis_set_desc[] = {

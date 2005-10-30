@@ -46,7 +46,7 @@
 static GQuark domain;
 static gint code;
 
-GOMSParserRecordType unknown_type =
+static GOMSParserRecordType unknown_type =
 	{	0,			"Unknown",			FALSE,	FALSE,	-1,	-1	};
 
 

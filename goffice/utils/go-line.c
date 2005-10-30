@@ -42,7 +42,7 @@ static const GOLineDashDesc line_dot_desc = 		{2,	{ 3, 3 } };
 static const GOLineDashDesc line_dash_dot_desc =	{4, 	{ 9, 3, 6, 3 } };
 static const GOLineDashDesc line_dash_dot_dot_desc =  {6, 	{ 9, 3, 3, 3, 3, 3 } };	
 
-struct {
+static struct {
 	GOLineDashType type;
 	char const *label;
 	char const *name;
