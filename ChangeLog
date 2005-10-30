@@ -1,3 +1,8 @@
+2005-10-30  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-math.c (go_math_init): Save the right
+	old_locale.
+
 2005-10-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-charmap-sel.c (charset_order, lgroups_order): Use

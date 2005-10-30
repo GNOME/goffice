@@ -7,7 +7,7 @@
 
 #include <goffice/goffice-config.h>
 #include "go-math.h"
-#include <glib/gmessages.h>
+#include <glib.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <locale.h>
@@ -49,6 +49,8 @@ go_math_init (void)
 	void (*signal_handler)(int) = (void (*)(int))signal (SIGFPE, SIG_IGN);
 #endif
 
+	old_locale = g_strdup (setlocale (LC_ALL, NULL));
+
 	go_pinf = HUGE_VAL;
 	if (go_pinf > 0 && !go_finite (go_pinf))
 		goto have_pinf;
@@ -60,7 +62,7 @@ go_math_init (void)
 #endif
 
 	/* Try sscanf with fixed strings.  */
-	old_locale = setlocale (LC_ALL, "C");
+	setlocale (LC_ALL, "C");
 	if (sscanf ("Inf", "%lf", &d) != 1 &&
 	    sscanf ("+Inf", "%lf", &d) != 1)
 		d = 0;
@@ -97,7 +99,7 @@ go_math_init (void)
 		goto have_nan;
 
 	/* Try sscanf with fixed strings.  */
-	old_locale = setlocale (LC_ALL, "C");
+	setlocale (LC_ALL, "C");
 	if (sscanf ("NaN", "%lf", &d) != 1 &&
 	    sscanf ("NAN", "%lf", &d) != 1 &&
 	    sscanf ("+NaN", "%lf", &d) != 1 &&
@@ -131,6 +133,7 @@ go_math_init (void)
 	}
 #endif
 
+	g_free (old_locale);
 #ifdef SIGFPE
 	signal (SIGFPE, signal_handler);
 #endif
