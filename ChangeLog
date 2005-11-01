@@ -3,6 +3,10 @@
 	* goffice/utils/go-math.c (go_math_init): Save the right
 	old_locale.
 
+	* goffice/graph/gog-chart.c (axis_set_desc): Make static.
+	* goffice/ms-compat/go-ms-parser.c (unknown_type): Make static.
+	* goffice/utils/go-line.c (line_dashes): Make static.
+
 2005-10-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-charmap-sel.c (charset_order, lgroups_order): Use
