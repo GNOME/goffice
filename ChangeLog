@@ -1,3 +1,7 @@
+2005-11-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* README: Updated list archive URL. (Debian #336699)
+
 2005-10-30  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-math.c (go_math_init): Save the right
