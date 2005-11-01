@@ -107,7 +107,7 @@ go_plugin_loader_module_load_base (GOPluginLoader *loader, ErrorInfo **err)
 	full_module_file_name = g_build_filename (go_plugin_get_dir_name (
 		go_plugin_loader_get_plugin (loader)),
 		loader_module->module_file_name, NULL);
-	handle = g_module_open (full_module_file_name, 0);
+	handle = g_module_open (full_module_file_name, G_MODULE_BIND_LAZY);
 	if (handle == NULL) {
 		*err = error_info_new_printf (
 			_("Unable to open module file \"%s\"."),
