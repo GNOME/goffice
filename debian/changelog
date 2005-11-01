@@ -1,3 +1,17 @@
+goffice (0.1.0-3) unstable; urgency=low
+
+  * Upload to unstable.
+  * [README] Updated list archive URL. (Closes: #336699)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue,  1 Nov 2005 20:47:31 +0100
+
+goffice (0.1.0-2) experimental; urgency=low
+
+  * [debian/control] Added dependencies on relevant -dev packages to
+    libgoffice-1-dev. (Closes: #333576)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 13 Oct 2005 20:10:26 +0200
+
 goffice (0.1.0-1) experimental; urgency=low
 
   * New upstream release; changes include:
