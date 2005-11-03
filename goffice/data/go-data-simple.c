@@ -329,6 +329,8 @@ go_data_vector_val_load_values (GODataVector *vec)
 	vec->values = (double *)val->val;
 
 	while (i-- > 0) {
+		if (!go_finite (val->val[i]))
+			continue;
 		if (minimum > val->val[i])
 			minimum = val->val[i];
 		if (maximum < val->val[i])
