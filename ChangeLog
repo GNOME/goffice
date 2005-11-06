@@ -1,3 +1,52 @@
+2005-11-05  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-style.c
+	(gog_style_line_dom_save) : delete.
+	(gog_style_gradient_dom_save) : delete.
+	(gog_style_fill_dom_save) : delete.
+	(gog_style_marker_dom_save) : delete.
+	(gog_style_font_dom_save) : delete.
+	(gog_style_text_layout_dom_save) : delete.
+	(gog_style_persist_dom_save) : delete.
+
+	(gog_style_sax_load_line) : use the correct state.
+	(gog_style_sax_load_fill_pattern) : use the correct state.
+	(gog_style_sax_load_fill_gradient) : use the correct state.
+	(gog_style_sax_load_fill) : use the correct state.
+	(gog_style_sax_load_marker) : use the correct state.
+	(gog_style_sax_load_font) : use the correct state.
+	(gog_style_sax_load_text_layout) : use the correct state.
+
+	(gog_style_persist_prep_sax) : new.
+
+	* goffice/graph/gog-object-xml.c (gog_persist_dom_save) : delete
+	(gog_object_write_property) : delete.
+	(gog_dataset_dom_save) : delete.
+	(gog_object_write_xml) : delete.
+	(gog_persist_prep_sax) : new.
+	(gog_dataset_sax_save) : use gsf_xml_out_add_int instead of rolling
+	  our own.
+
+	First pass at a sax based importer.
+	(gog_xml_read_state_get_obj) : new.
+	(gogo_dim_start) : new.
+	(gogo_dim_end) : new.
+	(gogo_prop_start) : new.
+	(gogo_prop_end) : new.
+	(gogo_start) : new.
+	(gogo_end) : new.
+	(go_sax_parser_done) : new.
+	(gog_object_sax_push_parser) : new.
+
+	* goffice/graph/gog-error-bar.c (gog_error_bar_persist_prep_sax) : new.
+	(gog_error_bar_persist_dom_save) : delete.
+	(geb_start) : delete.
+	(gog_error_bar_persist_init) : adapt to new sax_prep interface.
+
+	* configure.in : bump gsf req to 1.13.3 to get the updated semantics
+	  for the sax extension api.
+	* README : ditto.
+
 2005-11-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/data/go-data-simple.c: (go_data_vector_val_load_values): do

@@ -2,7 +2,7 @@
 /*
  * gog-object-xml.h : 
  *
- * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -35,9 +35,8 @@ typedef struct {
 	GTypeInterface base;
 
 	gboolean (*dom_load) (GogPersist *gp, xmlNode *node);
-	void     (*dom_save) (GogPersist const *gp, xmlNode *parent);
+	void	 (*prep_sax) (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs);
 	void     (*sax_save) (GogPersist const *gp, GsfXMLOut *output);
-	GsfXMLInDoc  const *sax_doc;
 } GogPersistClass;
 
 #define GOG_PERSIST_TYPE	 (gog_persist_get_type ())
@@ -49,16 +48,24 @@ typedef struct {
 
 GType gog_persist_get_type (void);
 
-gboolean gog_persist_dom_load (GogPersist *gp, xmlNode *node);
 void     gog_persist_dom_save (GogPersist const *gp, xmlNode *parent);
+gboolean gog_persist_dom_load (GogPersist *gp, xmlNode *node);
 void     gog_persist_sax_save (GogPersist const *gp, GsfXMLOut *output);
+void	 gog_persist_prep_sax (GogPersist *gp, 
+			       GsfXMLIn *xin, xmlChar const **attrs);
 
 void	   gog_object_set_arg	   (char const *name, char const *val, GogObject *obj);
+void	   go_xml_out_add_color (GsfXMLOut *out, char const *id, GOColor c);
 void	   gog_object_write_xml_sax(GogObject const *obj, GsfXMLOut *output);
-xmlNode   *gog_object_write_xml	   (GogObject *obj, xmlDoc *doc);
+
+/* deprecated as soon as sax import works */
 GogObject *gog_object_new_from_xml (GogObject *parent, xmlNode *node);
 
-void	   go_xml_out_add_color (GsfXMLOut *out, char const *id, GOColor c);
+typedef void (*GogObjectSaxHandler)(GogObject *obj, gpointer user_data);
+void	   gog_object_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
+				       GogObjectSaxHandler	handler,
+				       gpointer			user_data);
+GogObject *gog_xml_read_state_get_obj (GsfXMLIn *xin);
 
 G_END_DECLS
 

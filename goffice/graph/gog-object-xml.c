@@ -2,7 +2,7 @@
 /*
  * gog-object-xml.c :
  *
- * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -58,16 +58,16 @@ gog_persist_dom_load (GogPersist *gp, xmlNode *node)
 }
 
 void
-gog_persist_dom_save (GogPersist const *gp, xmlNode *parent)
-{
-	g_return_if_fail (IS_GOG_PERSIST (gp));
-	GOG_PERSIST_GET_CLASS (gp)->dom_save (gp, parent);
-}
-void
 gog_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
 {
 	g_return_if_fail (IS_GOG_PERSIST (gp));
 	GOG_PERSIST_GET_CLASS (gp)->sax_save (gp, output);
+}
+void
+gog_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	g_return_if_fail (IS_GOG_PERSIST (gp));
+	GOG_PERSIST_GET_CLASS (gp)->prep_sax (gp, xin, attrs);
 }
 
 static void
@@ -202,79 +202,7 @@ gog_object_write_property_sax (GogObject const *obj, GParamSpec *pspec, GsfXMLOu
 }
 
 static void
-gog_object_write_property (GogObject *obj, GParamSpec *pspec, xmlNode *parent)
-{
-	GObject *val_obj;
-	GType    prop_type = G_PARAM_SPEC_VALUE_TYPE (pspec);
-	gboolean success = TRUE;
-	GValue	 value = { 0 };
-	xmlNode *node;
-
-	g_value_init (&value, prop_type);
-	g_object_get_property  (G_OBJECT (obj), pspec->name, &value);
-
-	/* No need to save default values */
-	if (!(pspec->flags & GOG_PARAM_FORCE_SAVE) &&
-	    g_param_value_defaults (pspec, &value)) {
-		g_value_unset (&value);
-		return;
-	}
-
-	node = xmlNewDocNode (parent->doc, NULL,
-			      (xmlChar const *)"property", NULL);
-
-	switch (G_TYPE_FUNDAMENTAL (prop_type)) {
-	case G_TYPE_CHAR:
-	case G_TYPE_UCHAR:
-	case G_TYPE_BOOLEAN:
-	case G_TYPE_INT:
-	case G_TYPE_UINT:
-	case G_TYPE_LONG:
-	case G_TYPE_ULONG:
-	case G_TYPE_FLOAT:
-	case G_TYPE_DOUBLE: {
-		GValue str = { 0 };
-		g_value_init (&str, G_TYPE_STRING);
-		g_value_transform (&value, &str);
-		xmlNodeSetContent (node, g_value_get_string (&str));
-		g_value_unset (&str);
-		break;
-	}
-
-	case G_TYPE_STRING: {
-		char const *str = g_value_get_string (&value);
-		if (str != NULL)
-			xmlNodeSetContent (node, str);
-		else
-			success = FALSE;
-		break;
-	}
-
-	case G_TYPE_OBJECT:
-		val_obj = g_value_get_object (&value);
-		if (val_obj != NULL) {
-			if (IS_GOG_PERSIST (val_obj)) {
-				gog_persist_dom_save (GOG_PERSIST (val_obj), node);
-			} else
-				g_warning ("How are we supposed to persist this ??");
-		} else
-			success = FALSE;
-		break;
-
-	default:
-		success = FALSE;
-	}
-	g_value_unset (&value);
-
-	if (success) {
-		xmlSetProp (node, (xmlChar const *) "name", pspec->name);
-		xmlAddChild (parent, node);
-	} else
-		xmlFreeNode (node);
-}
-
-static void
-gog_dataset_load (GogDataset *set, xmlNode *node)
+gog_dataset_dom_load (GogDataset *set, xmlNode *node)
 {
 	xmlNode *ptr;
 	xmlChar *id, *val, *type;
@@ -312,7 +240,7 @@ static void
 gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output)
 {
 	GOData  *dat;
-	char    *tmp, buffer[10];
+	char    *tmp;
 	int      i, last;
 
 	gsf_xml_out_start_element (output, "data");
@@ -323,8 +251,7 @@ gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output)
 			continue;
 
 		gsf_xml_out_start_element (output, "dimension");
-		g_snprintf (buffer, sizeof buffer, "%d", i);
-		gsf_xml_out_add_cstr (output, "id", buffer);
+		gsf_xml_out_add_int (output, "id", i);
 		gsf_xml_out_add_cstr (output, "type", 
 			G_OBJECT_TYPE_NAME (dat));
 		tmp = go_data_as_str (dat);
@@ -334,34 +261,6 @@ gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output)
 	}
 	gsf_xml_out_end_element (output); /* </data> */
 
-}
-static void
-gog_dataset_dom_save (GogDataset *set, xmlNode *parent)
-{
-	xmlNode *node, *child;
-	char    *tmp, buffer[10];
-	GOData  *dat;
-	int      i, last;
-
-	node = xmlNewDocNode (parent->doc, NULL, (xmlChar const *)"data", NULL);
-	gog_dataset_dims (set, &i, &last);
-	for ( ; i <= last ; i++) {
-		dat = gog_dataset_get_dim (set, i);
-		if (dat == NULL)
-			continue;
-
-		tmp = go_data_as_str (dat);
-		child = xmlNewChild (node, NULL,
-			(xmlChar const *) ("dimension"), tmp);
-		g_free (tmp);
-
-		g_snprintf (buffer, sizeof buffer, "%d", i);
-		xmlSetProp (child, (xmlChar const *) "id", buffer);
-		xmlSetProp (child, (xmlChar const *) "type",
-			G_OBJECT_TYPE_NAME (dat));
-	}
-
-	xmlAddChild (parent, node);
 }
 
 void
@@ -397,41 +296,6 @@ gog_object_write_xml_sax (GogObject const *obj, GsfXMLOut *output)
 		gog_object_write_xml_sax (ptr->data, output);
 
 	gsf_xml_out_end_element (output); /* </GogObject> */
-}
-
-xmlNode  *
-gog_object_write_xml (GogObject *obj, xmlDoc *doc)
-{
-	gint	     n;
-	GParamSpec **props;
-	GSList	    *ptr;
-	xmlNode	    *node = xmlNewDocNode (doc, NULL,
-		(xmlChar const *)"GogObject", NULL);
-
-	/* Primary details */
-	if (obj->role != NULL)
-		xmlSetProp (node, (xmlChar const *) "role", obj->role->id);
-	if (obj->explicitly_typed_role || obj->role == NULL)
-		xmlSetProp (node, (xmlChar const *) "type", G_OBJECT_TYPE_NAME (obj));
-
-	/* properties */
-	props = g_object_class_list_properties (G_OBJECT_GET_CLASS (obj), &n);
-	while (n-- > 0)
-		if (props[n]->flags & GOG_PARAM_PERSISTENT)
-			gog_object_write_property (obj, props[n], node);
-
-	g_free (props);
-
-	if (IS_GOG_PERSIST (obj))	/* anything special for this class */
-		gog_persist_dom_save (GOG_PERSIST (obj), node);
-	if (IS_GOG_DATASET (obj))	/* convenience to save data */
-		gog_dataset_dom_save (GOG_DATASET (obj), node);
-
-	/* the children */
-	for (ptr = obj->children; ptr != NULL ; ptr = ptr->next)
-		xmlAddChild (node, gog_object_write_xml (ptr->data, doc));
-
-	return node;
 }
 
 GogObject *
@@ -474,7 +338,7 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 	if (IS_GOG_PERSIST (res))
 		gog_persist_dom_load (GOG_PERSIST (res), node);
 	if (IS_GOG_DATASET (res))	/* convenience to save data */
-		gog_dataset_load (GOG_DATASET (res), node);
+		gog_dataset_dom_load (GOG_DATASET (res), node);
 
 	for (ptr = node->xmlChildrenNode ; ptr != NULL ; ptr = ptr->next) {
 		if (xmlIsBlankNode (ptr) || ptr->name == NULL)
@@ -493,6 +357,266 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 			gog_object_new_from_xml (res, ptr);
 	}
 	return res;
+}
+
+typedef struct {
+	GogObject	*obj;
+	GSList		*obj_stack;
+	GParamSpec	*prop_spec;
+	gboolean	 prop_pushed_obj;
+	GOData		*dimension;
+	unsigned	 dimension_id;
+
+	GogObjectSaxHandler	handler;
+	gpointer		user_data;
+} GogXMLReadState;
+
+GogObject *
+gog_xml_read_state_get_obj (GsfXMLIn *xin)
+{
+	return ((GogXMLReadState *)xin->user_state)->obj;
+}
+
+static void
+gogo_dim_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GogXMLReadState *state = (GogXMLReadState *)xin->user_state;
+	xmlChar const *dim_str = NULL, *type_str = NULL;
+	GType type;
+
+	g_return_if_fail (IS_GOG_DATASET (state->obj));
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "id"))
+			dim_str = attrs[1];
+		else if (0 == strcmp (attrs[0], "type"))
+			type_str = attrs[1];
+
+	if (NULL == dim_str) {
+		g_warning ("missing dimension id for class `%s'",
+			   G_OBJECT_TYPE_NAME (state->obj));
+		return;
+	}
+	state->dimension_id = strtoul (dim_str, NULL, 10);
+
+	if (NULL == type_str) {
+		g_warning ("missing type for dimension `%s' of class `%s'",
+			   dim_str, G_OBJECT_TYPE_NAME (state->obj));
+		return;
+	}
+
+	type = g_type_from_name (type_str);
+	if (0 == type) {
+		g_warning ("unknown type '%s' for dimension `%s' of class `%s'",
+			   type_str, dim_str, G_OBJECT_TYPE_NAME (state->obj));
+		return;
+	}
+	state->dimension = g_object_new (type, NULL);
+
+	g_return_if_fail (state->dimension != NULL);
+}
+
+static void
+gogo_dim_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
+{
+	GogXMLReadState *state = (GogXMLReadState *)xin->user_state;
+	g_return_if_fail (IS_GOG_DATASET (state->obj));
+
+	if (NULL != state->dimension) {
+		if (go_data_from_str (state->dimension, xin->content->str))
+			gog_dataset_set_dim (GOG_DATASET (state->obj),
+				state->dimension_id, state->dimension, NULL);
+		else
+			g_object_unref (state->dimension);
+		state->dimension = NULL;
+	}
+}
+
+static void
+gogo_prop_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GogXMLReadState *state = (GogXMLReadState *)xin->user_state;
+	xmlChar const *prop_str = NULL, *type_str = NULL;
+	GType prop_type;
+	int i;
+
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
+		if (0 == strcmp (attrs[i], "name"))
+			prop_str = attrs[i+1];
+		else if (0 == strcmp (attrs[i], "type"))
+			type_str = attrs[i+1];
+
+	if (prop_str == NULL) {
+		g_warning ("missing name for property of class `%s'",
+			   G_OBJECT_TYPE_NAME (state->obj));
+		return;
+	}
+	state->prop_spec = g_object_class_find_property (
+		G_OBJECT_GET_CLASS (state->obj), prop_str);
+	if (state->prop_spec == NULL) {
+		g_warning ("unknown property `%s' for class `%s'",
+			   prop_str, G_OBJECT_TYPE_NAME (state->obj));
+		return;
+	}
+
+	prop_type = G_PARAM_SPEC_VALUE_TYPE (state->prop_spec);
+	if (G_TYPE_FUNDAMENTAL (prop_type) == G_TYPE_OBJECT) {
+		GType type;
+		GogObject *obj;
+
+		if (NULL == type_str) {
+			g_warning ("missing type for property property `%s' of class `%s'",
+				   prop_str, G_OBJECT_TYPE_NAME (state->obj));
+			return;
+		}
+
+		type = g_type_from_name (type_str);
+		if (0 == type) {
+			g_warning ("unknown type '%s' for property property `%s' of class `%s'",
+				   type_str, prop_str, G_OBJECT_TYPE_NAME (state->obj));
+			return;
+		}
+		obj = g_object_new (type, NULL);
+
+		g_return_if_fail (obj != NULL);
+
+		state->obj_stack = g_slist_prepend (state->obj_stack, state->obj);
+		state->obj = obj;
+		state->prop_pushed_obj = TRUE;
+		if (IS_GOG_PERSIST (obj))
+			gog_persist_prep_sax (GOG_PERSIST (obj), xin, attrs);
+	}
+}
+
+static void
+gogo_prop_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
+{
+	GogXMLReadState *state = (GogXMLReadState *)xin->user_state;
+	char const *content = xin->content->str;
+	GType prop_type, prop_ftype;
+	GValue val = { 0 };
+
+	if (state->prop_spec == NULL)
+		return;
+
+	prop_type = G_PARAM_SPEC_VALUE_TYPE (state->prop_spec);
+	prop_ftype = G_TYPE_FUNDAMENTAL (prop_type);
+	if (prop_ftype == G_TYPE_OBJECT) {
+		GogObject *obj = state->obj;
+
+		if (!state->prop_pushed_obj)
+			return;
+
+		state->obj = state->obj_stack->data;
+		state->obj_stack = g_slist_remove (state->obj_stack, state->obj);
+		state->prop_pushed_obj = FALSE;
+
+		g_value_init (&val, prop_type);
+		g_value_set_object (&val, G_OBJECT (obj));
+		g_object_unref (obj);
+	} else {
+		if (content == NULL && prop_ftype != G_TYPE_BOOLEAN) {
+			g_warning ("could not convert NULL to type `%s' for property `%s'",
+				   g_type_name (prop_type), state->prop_spec->name);
+			return;
+		}
+
+		if (!gsf_xml_gvalue_from_str (&val, prop_ftype, content)) {
+			g_warning ("could not convert string to type `%s' for property `%s'",
+				   g_type_name (prop_type), state->prop_spec->name);
+			return;
+		}
+	}
+	g_object_set_property (G_OBJECT (state->obj),
+		state->prop_spec->name, &val);
+	g_value_unset (&val);
+}
+
+static void
+gogo_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GogXMLReadState *state = (GogXMLReadState *)xin->user_state;
+	xmlChar const *type = NULL, *role = NULL;
+	GogObject *res;
+	unsigned i;
+
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
+		if (0 == strcmp (attrs[i], "type"))
+			type = attrs[i+1];
+		else if (0 == strcmp (attrs[i], "role"))
+			role = attrs[i+1];
+
+	if (NULL != type) {
+		GType t = g_type_from_name (type);
+		if (t == 0) {
+			res = (GogObject *)gog_plot_new_by_name (type);
+			if (NULL == res)
+				res = (GogObject *)gog_reg_curve_new_by_name (type);
+		} else
+			res = g_object_new (t, NULL);
+
+		g_return_if_fail (res != NULL);
+	} else
+		res = NULL;
+
+	if (role != NULL) {
+		res = gog_object_add_by_name (state->obj, role, res);
+	} else {
+		g_return_if_fail (state->obj == NULL);
+	}
+
+	g_return_if_fail (res != NULL);
+
+	res->explicitly_typed_role = (type != NULL);
+	if (IS_GOG_PERSIST (res))
+		gog_persist_prep_sax (GOG_PERSIST (res), xin, attrs);
+
+	state->obj_stack = g_slist_prepend (state->obj_stack, state->obj);
+	state->obj = res;
+}
+
+static void
+gogo_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
+{
+	GogXMLReadState *state = (GogXMLReadState *)xin->user_state;
+
+	if (state->obj_stack->data != NULL) {
+		state->obj = state->obj_stack->data;
+		state->obj_stack = g_slist_remove (state->obj_stack, state->obj);
+	} else
+		g_slist_free (state->obj_stack);
+}
+
+static void
+go_sax_parser_done (GsfXMLIn *xin, GogXMLReadState *state)
+{
+	(*state->handler) (state->obj, state->user_data);
+	g_free (state);
+}
+
+void
+gog_object_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
+			    GogObjectSaxHandler	handler,
+			    gpointer		user_data)
+{
+	static GsfXMLInNode const dtd[] = {
+	  GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ, -1, "GogObject",	GSF_XML_NO_CONTENT, &gogo_start, &gogo_end),
+	    GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ_PROP, -1, "property", GSF_XML_CONTENT, &gogo_prop_start, &gogo_prop_end),
+	    GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ_DATA, -1, "data", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (GOG_OBJ_DATA, GOG_DATA_DIM, -1, "dimension", GSF_XML_CONTENT, &gogo_dim_start, &gogo_dim_end),
+	    GSF_XML_IN_NODE (GOG_OBJ, GOG_OBJ, -1, "GogObject",	GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE_END
+	};
+	static GsfXMLInDoc *doc = NULL;
+	GogXMLReadState *state;
+
+	if (NULL == doc)
+		doc = gsf_xml_in_doc_new (dtd, NULL);
+	state = g_new0 (GogXMLReadState, 1);
+	state->handler = handler;
+	state->user_data = user_data;
+	gsf_xml_in_push_state (xin, doc, state,
+		(GsfXMLInExtDtor) go_sax_parser_done, attrs);
 }
 
 void

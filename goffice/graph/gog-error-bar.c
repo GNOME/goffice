@@ -388,68 +388,6 @@ gog_error_bar_persist_dom_load (GogPersist *gp, xmlNode *node)
 }
 
 static void
-gog_error_bar_persist_dom_save (GogPersist const *gp, xmlNode *parent)
-{
-	GogErrorBar const *bar = GOG_ERROR_BAR (gp);
-
-	{
-		const char *str = NULL;
-		xmlSetProp (parent, CC2XML ("type"), CC2XML ("GogErrorBar"));
-		switch (bar->type) {
-		case GOG_ERROR_BAR_TYPE_ABSOLUTE:
-			str = "absolute";
-			break;
-		case GOG_ERROR_BAR_TYPE_RELATIVE:
-			str = "relative";
-			break;
-		case GOG_ERROR_BAR_TYPE_PERCENT:
-			str = "percent";
-			break;
-		default:
-			break;
-		}
-		if (str)
-			xmlSetProp (parent, CC2XML ("error_type"), CC2XML (str));
-	}
-
-	{
-		const char *str = NULL;
-		switch (bar->display) {
-		case GOG_ERROR_BAR_DISPLAY_NONE:
-			str = "none";
-			break;
-		case GOG_ERROR_BAR_DISPLAY_POSITIVE:
-			str = "positive";
-			break;
-		case GOG_ERROR_BAR_DISPLAY_NEGATIVE:
-			str = "negative";
-			break;
-		default:
-			break;
-		}
-		if (str)
-			xmlSetProp (parent, CC2XML ("display"), CC2XML (str));
-	}
-
-	if (bar->width != 5.) {
-		char *str = g_strdup_printf ("%f",  bar->width);
-		xmlSetProp (parent, CC2XML ("width"), CC2XML (str));
-		g_free (str);
-	}
-
-	if (bar->style->line.width != 1.) {
-		char *str = g_strdup_printf ("%f",  bar->style->line.width);
-		xmlSetProp (parent, CC2XML ("line_width"), CC2XML (str));
-		g_free (str);
-	}
-	if (bar->style->line.color != RGBA_BLACK) {
-		char *str = go_color_as_str (bar->style->line.color);
-		xmlSetProp (parent, CC2XML ("color"), CC2XML (str));
-		g_free (str);
-	}
-}
-
-static void
 gog_error_bar_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
 {
 	GogErrorBar *bar = GOG_ERROR_BAR (gp);
@@ -482,9 +420,10 @@ gog_error_bar_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
 }
 
 static void
-geb_start (GsfXMLIn *xin, xmlChar const **attrs)
+gog_error_bar_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogErrorBar *bar = GOG_ERROR_BAR (xin->user_state);
+	GogErrorBar *bar = GOG_ERROR_BAR (gog_xml_read_state_get_obj (xin));
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "error_type")) {
 			if (!strcmp (attrs[1], "absolute"))
@@ -506,20 +445,19 @@ geb_start (GsfXMLIn *xin, xmlChar const **attrs)
 			bar->style->line.width = g_strtod (attrs[1], NULL);
 		else if (0 == strcmp (attrs[0], "color"))
 			go_color_from_str (attrs[1], &bar->style->line.color);
+#if 0
+		else
+			/* ignore unknown attrs.  they are from the surrounding
+			 * layers of xml handler. */
+#endif
 }
 
 static void
 gog_error_bar_persist_init (GogPersistClass *iface)
 {
-	static GsfXMLInNode const gog_error_bar_dtd[] = {
-	  GSF_XML_IN_NODE (ERRORBAR, ERRORBAR, -1, "GogObject", FALSE, &geb_start, NULL),
-	  GSF_XML_IN_NODE_END
-	};
 	iface->dom_load = gog_error_bar_persist_dom_load;
-	iface->dom_save = gog_error_bar_persist_dom_save;
+	iface->prep_sax = gog_error_bar_persist_prep_sax;
 	iface->sax_save = gog_error_bar_persist_sax_save;
-#warning PLUG LEAK
-	iface->sax_doc  = gsf_xml_in_doc_new (gog_error_bar_dtd, NULL);
 }
 
 GSF_CLASS_FULL (GogErrorBar, gog_error_bar,

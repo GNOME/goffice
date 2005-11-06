@@ -1310,27 +1310,6 @@ gog_style_line_load (xmlNode *node, GogStyleLine *line)
 }
 
 static void
-gog_style_line_dom_save (xmlNode *parent, xmlChar const *name,
-			 GogStyleLine const *line)
-{
-	gchar *str;
-	xmlNode *node = xmlNewDocNode (parent->doc, NULL, name, NULL);
-
-	xmlSetProp (node, (xmlChar const *) "dash", 
-		    go_line_dash_as_str (line->dash_type));
-	xmlSetProp (node, (xmlChar const *) "auto-dash",
-		    line->auto_dash ? "true" : "false");
-	str = g_strdup_printf ("%f",  line->width);
-	xmlSetProp (node, (xmlChar const *) "width", str);
-	g_free (str);
-	str = go_color_as_str (line->color);
-	xmlSetProp (node, (xmlChar const *) "color", str);
-	g_free (str);
-	xmlSetProp (node, (xmlChar const *) "auto-color",
-		    line->auto_color ? "true" : "false");
-	xmlAddChild (parent, node);
-}
-static void
 gog_style_line_sax_save (GsfXMLOut *output, char const *name,
 			 GogStyleLine const *line)
 {
@@ -1425,30 +1404,6 @@ gog_style_gradient_load (xmlNode *node, GogStyle *style)
 }
 
 static void
-gog_style_gradient_dom_save (xmlNode *parent, GogStyle const *style)
-{
-	gchar *str;
-	xmlNode *node =  xmlNewDocNode (parent->doc, NULL, "gradient", NULL);
-
-	xmlSetProp (node, (xmlChar const *) "direction",
-		    go_gradient_dir_as_str (style->fill.gradient.dir));
-	str = go_color_as_str (style->fill.pattern.back);
-	xmlSetProp (node, (xmlChar const *) "start-color", str);
-	g_free (str);
-	if (style->fill.gradient.brightness >= 0.) {
-		str = g_strdup_printf ("%f",
-				       style->fill.gradient.brightness);
-		xmlSetProp (node, (xmlChar const *) "brightness", str);
-		g_free (str);
-	} else {
-		str = go_color_as_str (style->fill.pattern.fore);
-		xmlSetProp (node, (xmlChar const *) "end-color", str);
-		g_free (str);
-	}
-	xmlAddChild (parent, node);
-}
-
-static void
 gog_style_fill_load (xmlNode *node, GogStyle *style)
 {
 	xmlNode *ptr;
@@ -1509,45 +1464,6 @@ gog_style_fill_load (xmlNode *node, GogStyle *style)
 }
 
 static void
-gog_style_fill_dom_save (xmlNode *parent, GogStyle const *style)
-{
-	gchar *str;
-	xmlNode *node = xmlNewDocNode (parent->doc, NULL, "fill", NULL);
-	xmlNode *child;
-	xmlSetProp (node, (xmlChar const *) "type",
-		    fill_style_as_str (style->fill.type));
-	xmlSetProp (node, (xmlChar const *) "is-auto",
-		    style->fill.auto_back ? "true" : "false");
-	xmlSetProp (node, (xmlChar const *) "auto-fore",
-		    style->fill.auto_fore ? "true" : "false");
-	switch (style->fill.type) {
-	case GOG_FILL_STYLE_NONE:
-		break;
-	case GOG_FILL_STYLE_PATTERN:
-		child =  xmlNewDocNode (parent->doc, NULL, "pattern", NULL);
-		xmlSetProp (child, (xmlChar const *) "type",
-			    go_pattern_as_str (style->fill.pattern.pattern));
-		str = go_color_as_str (style->fill.pattern.fore);
-		xmlSetProp (child, (xmlChar const *) "fore", str);
-		g_free (str);
-		str = go_color_as_str (style->fill.pattern.back);
-		xmlSetProp (child, (xmlChar const *) "back", str);
-		g_free (str);
-		xmlAddChild (node, child);
-		break;
-	case GOG_FILL_STYLE_GRADIENT:
-		gog_style_gradient_dom_save (node, style);
-		break;
-	case GOG_FILL_STYLE_IMAGE:
-		/* FIXME: TODO */
-		break;
-	default:
-		break;
-	}
-	xmlAddChild (parent, node);
-}
-
-static void
 gog_style_marker_load (xmlNode *node, GogStyle *style)
 {
 	char *str;
@@ -1583,36 +1499,6 @@ gog_style_marker_load (xmlNode *node, GogStyle *style)
 		xmlFree (str);
 	}
 	gog_style_set_marker (style, marker);
-}
-
-static void
-gog_style_marker_dom_save (xmlNode *parent, GogStyle const *style)
-{
-	gchar *str;
-	xmlNode *node = xmlNewDocNode (parent->doc, NULL, "marker", NULL);
-
-	xmlSetProp (node, (xmlChar const *) "auto-shape",
-		style->marker.auto_shape ? "true" : "false");
-	xmlSetProp (node, (xmlChar const *) "shape",
-		go_marker_shape_as_str (go_marker_get_shape (style->marker.mark)));
-
-	xmlSetProp (node, (xmlChar const *) "auto-outline",
-		style->marker.auto_outline_color ? "true" : "false");
-	str = go_color_as_str (go_marker_get_outline_color (style->marker.mark));
-	xmlSetProp (node, (xmlChar const *) "outline-color", str);
-	g_free (str);
-
-	xmlSetProp (node, (xmlChar const *) "auto-fill",
-		style->marker.auto_fill_color ? "true" : "false");
-	str = go_color_as_str (go_marker_get_fill_color (style->marker.mark));
-	xmlSetProp (node, (xmlChar const *) "fill-color", str);
-	g_free (str);
-
-	str = g_strdup_printf ("%d", go_marker_get_size (style->marker.mark));
-	xmlSetProp (node, (xmlChar const *) "size", str);
-	g_free (str);
-
-	xmlAddChild (parent, node);
 }
 
 static void
@@ -1659,23 +1545,6 @@ gog_style_font_load (xmlNode *node, GogStyle *style)
 }
 
 static void
-gog_style_font_dom_save (xmlNode *parent, GogStyle const *style)
-{
-	gchar *str;
-	xmlNode *node = xmlNewDocNode (parent->doc, NULL, "font", NULL);
-
-	str = go_color_as_str (style->font.color);
-	xmlSetProp (node, (xmlChar const *) "color", str);
-	g_free (str);
-	str = go_font_as_str (style->font.font);
-	xmlSetProp (node, (xmlChar const *) "font", str);
-	g_free (str);
-	xmlSetProp (node, (xmlChar const *) "auto-scale",
-		    style->font.auto_scale ? "true" : "false");
-
-	xmlAddChild (parent, node);
-}
-static void
 gog_style_font_sax_save (GsfXMLOut *output, GogStyle const *style)
 {
 	char *str;
@@ -1698,19 +1567,6 @@ gog_style_text_layout_load (xmlNode *node, GogStyle *style)
 		gog_style_set_text_angle (style, g_strtod (str, NULL));
 		xmlFree (str);
 	}
-}
-
-static void
-gog_style_text_layout_dom_save (xmlNode *parent, GogStyle const *style)
-{
-	gchar *str;
-	xmlNode *node = xmlNewDocNode (parent->doc, NULL, "text_layout", NULL);
-
-	str = g_strdup_printf ("%g", style->text_layout.angle);
-	xmlSetProp (node, (xmlChar const *) "angle", str);
-	g_free (str);
-
-	xmlAddChild (parent, node);
 }
 
 static void
@@ -1748,32 +1604,9 @@ gog_style_persist_dom_load (GogPersist *gp, xmlNode *node)
 }
 
 static void
-gog_style_persist_dom_save (GogPersist const *gp, xmlNode *parent)
-{
-	GogStyle const *style = GOG_STYLE (gp);
-
-	xmlSetProp (parent, (xmlChar const *) "type",
-		G_OBJECT_TYPE_NAME (style));
-
-	if (style->interesting_fields & GOG_STYLE_OUTLINE)
-		gog_style_line_dom_save (parent, "outline", &style->outline);
-	if (style->interesting_fields & GOG_STYLE_LINE)
-		gog_style_line_dom_save (parent, "line", &style->line);
-	if (style->interesting_fields & GOG_STYLE_FILL)
-		gog_style_fill_dom_save (parent, style);
-	if (style->interesting_fields & GOG_STYLE_MARKER)
-		gog_style_marker_dom_save (parent, style);
-	if (style->interesting_fields & GOG_STYLE_FONT)
-		gog_style_font_dom_save (parent, style);
-	if (style->interesting_fields & GOG_STYLE_TEXT_LAYOUT)
-		gog_style_text_layout_dom_save (parent, style);
-}
-
-static void
 gog_style_sax_load_line (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (xin->user_state);
-#warning TODO TODO
+	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
 	GogStyleLine *line = 0 ? &style->outline : &style->line;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -1797,7 +1630,7 @@ gog_style_sax_load_line (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gog_style_sax_load_fill_pattern (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (xin->user_state);
+	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
 	g_return_if_fail (style->fill.type == GOG_FILL_STYLE_PATTERN);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "type"))
@@ -1811,7 +1644,7 @@ gog_style_sax_load_fill_pattern (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gog_style_sax_load_fill_gradient (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (xin->user_state);
+	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
 	g_return_if_fail (style->fill.type == GOG_FILL_STYLE_GRADIENT);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "direction"))
@@ -1827,7 +1660,7 @@ gog_style_sax_load_fill_gradient (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gog_style_sax_load_fill (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (xin->user_state);
+	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "type"))
 			style->fill.type = str_as_fill_style (attrs[1]);
@@ -1839,7 +1672,7 @@ gog_style_sax_load_fill (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gog_style_sax_load_marker (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (xin->user_state);
+	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
 	GOMarker *marker = go_marker_dup (style->marker.mark);
 	GOColor c;
 
@@ -1867,7 +1700,7 @@ gog_style_sax_load_marker (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gog_style_sax_load_font (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (xin->user_state);
+	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "color"))
 			go_color_from_str (attrs[1], &style->font.color);
@@ -1881,7 +1714,7 @@ gog_style_sax_load_font (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gog_style_sax_load_text_layout (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (xin->user_state);
+	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "angle"))
 			gog_style_set_text_angle (style, g_strtod (attrs[1], NULL));
@@ -1910,27 +1743,32 @@ gog_style_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
 }
 
 static void
-gog_style_persist_init (GogPersistClass *iface)
+gog_style_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 {
-	static GsfXMLInNode const gog_style_dtd[] = {
+	static GsfXMLInNode const dtd[] = {
 	  GSF_XML_IN_NODE (STYLE, STYLE, -1, "GogObject", FALSE, NULL, NULL),
 	    GSF_XML_IN_NODE (STYLE, STYLE_LINE,		-1, "outline", FALSE, &gog_style_sax_load_line, NULL),
 	    GSF_XML_IN_NODE (STYLE, STYLE_OUTLINE,	-1, "line", FALSE, &gog_style_sax_load_line, NULL),
 	    GSF_XML_IN_NODE (STYLE, STYLE_FILL,		-1, "fill", FALSE, &gog_style_sax_load_fill, NULL),
-	      GSF_XML_IN_NODE (STYLE_FILL, FILL_PATTERN,  -1, "pattern",
-			       FALSE, &gog_style_sax_load_fill_pattern, NULL),
-	      GSF_XML_IN_NODE (STYLE_FILL, FILL_GRADIENT, -1, "gradient",
-			       FALSE, &gog_style_sax_load_fill_gradient, NULL),
+	      GSF_XML_IN_NODE (STYLE_FILL, FILL_PATTERN,  -1, "pattern", FALSE, &gog_style_sax_load_fill_pattern, NULL),
+	      GSF_XML_IN_NODE (STYLE_FILL, FILL_GRADIENT, -1, "gradient", FALSE, &gog_style_sax_load_fill_gradient, NULL),
 	    GSF_XML_IN_NODE (STYLE, STYLE_MARKER,	-1, "marker", FALSE, &gog_style_sax_load_marker, NULL),
 	    GSF_XML_IN_NODE (STYLE, STYLE_FONT,		-1, "font", FALSE, &gog_style_sax_load_font, NULL),
 	    GSF_XML_IN_NODE (STYLE, STYLE_ALIGNMENT,	-1, "text_layout", FALSE, &gog_style_sax_load_text_layout, NULL),
 	  GSF_XML_IN_NODE_END
 	};
+	static GsfXMLInDoc *doc = NULL;
+	if (NULL == doc)
+		doc = gsf_xml_in_doc_new (dtd, NULL);
+	gsf_xml_in_push_state (xin, doc, NULL, NULL, attrs);
+}
+
+static void
+gog_style_persist_init (GogPersistClass *iface)
+{
 	iface->dom_load = gog_style_persist_dom_load;
-	iface->dom_save = gog_style_persist_dom_save;
+	iface->prep_sax = gog_style_persist_prep_sax;
 	iface->sax_save = gog_style_persist_sax_save;
-#warning PLUG LEAK
-	iface->sax_doc  = gsf_xml_in_doc_new (gog_style_dtd, NULL);
 }
 
 GSF_CLASS_FULL (GogStyle, gog_style,
