@@ -1,3 +1,8 @@
+2005-11-06  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-style.c (gog_style_persist_prep_sax) :
+	  differentiate between line and outline.
+
 2005-11-05  Jody Goldberg <jody@gnome.org>
 
 	* goffice/graph/gog-style.c
