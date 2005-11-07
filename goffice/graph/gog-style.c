@@ -1609,8 +1609,6 @@ gog_style_sax_load_line (GsfXMLIn *xin, xmlChar const **attrs)
 	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
 	GogStyleLine *line = xin->node->user_data.v_int ? &style->outline : &style->line;
 
-	g_return_if_fail (xin->node->user_data.v_int || strcmp (xin->node->name, "line"));
-
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "dash"))
 			line->dash_type = go_line_dash_from_str (attrs[1]);
@@ -1626,7 +1624,7 @@ gog_style_sax_load_line (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 		} else if (0 == strcmp (attrs[0], "color"))
 			go_color_from_str (attrs[1], &line->color);
-		else if (bool_sax_prop ("auto-dash", attrs[0], attrs[1], &line->auto_color))
+		else if (bool_sax_prop ("auto-color", attrs[0], attrs[1], &line->auto_color))
 			;
 }
 static void
@@ -1749,8 +1747,8 @@ gog_style_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs
 {
 	static GsfXMLInNode const dtd[] = {
 	  GSF_XML_IN_NODE (STYLE, STYLE, -1, "GogObject", FALSE, NULL, NULL),
-	    GSF_XML_IN_NODE_FULL (STYLE, STYLE_LINE,	-1, "outline", GSF_XML_NO_CONTENT, FALSE, FALSE, &gog_style_sax_load_line, NULL, 0),
-	    GSF_XML_IN_NODE_FULL (STYLE, STYLE_OUTLINE,	-1, "line", GSF_XML_NO_CONTENT, FALSE, FALSE, &gog_style_sax_load_line, NULL, 1),
+	    GSF_XML_IN_NODE_FULL (STYLE, STYLE_LINE,	-1, "line", GSF_XML_NO_CONTENT, FALSE, FALSE, &gog_style_sax_load_line, NULL, 0),
+	    GSF_XML_IN_NODE_FULL (STYLE, STYLE_OUTLINE,	-1, "outline", GSF_XML_NO_CONTENT, FALSE, FALSE, &gog_style_sax_load_line, NULL, 1),
 	    GSF_XML_IN_NODE (STYLE, STYLE_FILL,		-1, "fill", GSF_XML_NO_CONTENT, &gog_style_sax_load_fill, NULL),
 	      GSF_XML_IN_NODE (STYLE_FILL, FILL_PATTERN,  -1, "pattern", GSF_XML_NO_CONTENT, &gog_style_sax_load_fill_pattern, NULL),
 	      GSF_XML_IN_NODE (STYLE_FILL, FILL_GRADIENT, -1, "gradient", GSF_XML_NO_CONTENT, &gog_style_sax_load_fill_gradient, NULL),

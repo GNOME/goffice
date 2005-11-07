@@ -1,5 +1,8 @@
 goffice 0.1.1:
 
+Jody:
+	* Add xml sax importer.
+
 Morten:
 	* Fix hang in libart code.  [#319309]
 	* Fix locale problem in go_math_init.

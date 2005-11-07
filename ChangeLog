@@ -2,6 +2,7 @@
 
 	* goffice/graph/gog-style.c (gog_style_persist_prep_sax) :
 	  differentiate between line and outline.
+	(gog_style_sax_load_line) : typo s/auto-dash/auto-color/
 
 2005-11-05  Jody Goldberg <jody@gnome.org>
 
