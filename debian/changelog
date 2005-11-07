@@ -1,3 +1,12 @@
+goffice (0.1.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * [debian/watch] Updated.
+  * [debian/control] Bumped libgsf build and -dev dependencies as per
+    configure.in.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon,  7 Nov 2005 19:36:53 +0100
+
 goffice (0.1.0-3) unstable; urgency=low
 
   * Upload to unstable.
