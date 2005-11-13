@@ -95,6 +95,7 @@ libgoffice_init (void)
 #endif
 
 	bindtextdomain (GETTEXT_PACKAGE, libgoffice_locale_dir);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	go_fonts_init ();
 	go_math_init ();
 	gsf_init ();
