@@ -1,3 +1,10 @@
+goffice 0.1.2:
+
+Morten:
+	* Fix translation problems causing crashes in the character set
+	  selector for people not using UTF-8.
+
+--------------------------------------------------------------------------
 goffice 0.1.1:
 
 Jody:
