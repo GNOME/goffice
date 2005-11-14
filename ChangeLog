@@ -1,5 +1,10 @@
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : post release bump
+	  and disable the deprecated flags.
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
 	* Release 0.1.2
 
 2005-11-13  Morten Welinder  <terra@gnome.org>
