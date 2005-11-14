@@ -1,3 +1,9 @@
+goffice (0.1.2-1) unstable; urgency=medium
+
+  * New upstream bugfix release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 14 Nov 2005 18:47:20 +0100
+
 goffice (0.1.1-1) unstable; urgency=medium
 
   * New upstream release.
