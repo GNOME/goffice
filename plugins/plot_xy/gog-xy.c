@@ -859,14 +859,6 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_chart_map_free (chart_map);
 }
 
-static gboolean
-gog_xy_view_info_at_point (GogView *view, double x, double y,
-			   GogObject const *cur_selection,
-			   GogObject **obj, char **name)
-{
-	return FALSE;
-}
-
 static GogViewClass *xy_view_parent_klass;
 
 static void
@@ -884,7 +876,6 @@ gog_xy_view_class_init (GogViewClass *view_klass)
 	xy_view_parent_klass = (GogViewClass*) g_type_class_peek_parent (view_klass);
 	view_klass->render	  = gog_xy_view_render;
 	view_klass->size_allocate = gog_xy_view_size_allocate;
-	view_klass->info_at_point = gog_xy_view_info_at_point;
 	view_klass->clip	  = FALSE;
 }
 
@@ -924,6 +915,7 @@ gog_xy_series_view_class_init (GogXYSeriesViewClass *gview_klass)
 	GogViewClass *view_klass = GOG_VIEW_CLASS (gview_klass);
 	view_klass->render = gog_xy_series_view_render;
 	view_klass->size_allocate = gog_xy_series_view_size_allocate;
+	view_klass->build_toolkit = NULL;
 }
 
 GSF_DYNAMIC_CLASS (GogXYSeriesView, gog_xy_series_view,

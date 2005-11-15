@@ -386,12 +386,6 @@ GSF_DYNAMIC_CLASS (GogPolarPlot, gog_polar_plot,
 typedef GogPlotView		GogRTView;
 typedef GogPlotViewClass	GogRTViewClass;
 
-static double
-fmin (double a, double b)
-{
-	return (a < b) ? a : b;
-}
-
 static void
 gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 {
@@ -513,26 +507,10 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_chart_map_free (chart_map);
 }
 
-static gboolean
-gog_rt_view_info_at_point (GogView *view, double x, double y,
-			      GogObject const *cur_selection,
-			      GogObject **obj, char **name)
-{
-	double radius = fmin (view->allocation.h, view->allocation.w)/2.0;
-
-	x -= view->allocation.x + view->allocation.w/2.;
-	y -= view->allocation.y + view->allocation.h/2.;
-	if ((x*x + y*y) > (radius*radius))
-		return FALSE;
-	
-	return TRUE;
-}
-
 static void
 gog_rt_view_class_init (GogViewClass *view_klass)
 {
 	view_klass->render	  = gog_rt_view_render;
-	view_klass->info_at_point = gog_rt_view_info_at_point;
 	view_klass->clip	  = TRUE;
 }
 
