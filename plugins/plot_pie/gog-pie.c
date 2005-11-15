@@ -139,7 +139,7 @@ gog_pie_plot_set_property (GObject *obj, guint param_id,
 		break;
 	case PLOT_PROP_DEFAULT_SEPARATION :
 		f = g_value_get_float (value);
-		pie->default_separation = MIN (f, 5.);
+		pie->default_separation = CLAMP (f, 0., 5.);
 		break;
 	case PLOT_PROP_IN_3D :
 		pie->in_3d = g_value_get_boolean (value);
@@ -256,6 +256,15 @@ GSF_DYNAMIC_CLASS (GogPiePlot, gog_pie_plot,
 	gog_pie_plot_class_init, gog_pie_plot_init,
 	GOG_PLOT_TYPE)
 
+static void
+gog_pie_plot_set_default_separation (GogPiePlot *pie, double separation)
+{
+	g_return_if_fail (GOG_PIE_PLOT (pie) != NULL);
+
+	pie->default_separation = CLAMP (separation, 0.0, 5.0);
+	gog_object_emit_changed (GOG_OBJECT (pie), FALSE);
+}
+
 /*****************************************************************************/
 
 enum {
@@ -355,6 +364,159 @@ GSF_DYNAMIC_CLASS (GogRingPlot, gog_ring_plot,
 	GOG_PIE_PLOT_TYPE)
 
 /*****************************************************************************/
+
+typedef struct {
+	double x, y, r;
+	double start_pos;
+       	double start_distance;
+} MovePieData;
+
+static gboolean
+find_element (GogView *view, double cx, double cy, double x, double y, 
+	      unsigned int *index, GogPieSeries **series)
+{
+	GogPiePlot *pie = GOG_PIE_PLOT (view->model);
+	GSList *ptr;
+	double *vals, scale, len = 0, theta;
+
+	*series = NULL;
+	*index = 0;
+
+	for (ptr = pie->base.series ; ptr != NULL ; ptr = ptr->next)
+		if (gog_series_is_valid (GOG_SERIES (*series = ptr->data)))
+			break;
+	if (ptr == NULL)
+		return FALSE;
+
+	theta = (atan2 (y - cy, x - cx) 
+		 * 180 / M_PI - pie->initial_angle + 90.) / 360.;
+	if (theta < 0)
+		theta += 1.;
+
+	vals = go_data_vector_get_values (GO_DATA_VECTOR ((*series)->base.values[1].data));
+	scale = 1 / (*series)->total;
+	for (*index = 0 ; *index < (*series)->base.num_elements; (*index)++) {
+		len = fabs (vals[*index]) * scale;
+		if (go_finite (len) && len > 1e-3) {
+			theta -= len;
+			if (theta < 0)
+				break;
+		}
+	}
+	return TRUE;
+}
+
+static gboolean
+gog_tool_move_pie_point (GogView *view, double x, double y, GogObject **gobj)
+{
+	GogPieSeries *series;
+	double r = view->allocation.h, cx, cy;
+	unsigned int index;
+	
+	if (r > view->allocation.w)
+		r = view->allocation.w;
+	r /= 2.;
+	cx = view->allocation.x + view->allocation.w/2.;
+	cy = view->allocation.y + view->allocation.h/2.;
+
+	if (hypot (x - cx, y - cy) > fabs (r))
+		return FALSE;
+	
+	if (find_element (view, cx, cy, x, y, &index, &series)) 
+		*gobj = GOG_OBJECT (gog_series_get_element (GOG_SERIES (series), index));
+
+	return TRUE;
+}
+
+static void
+gog_tool_move_pie_render (GogView *view)
+{
+	GogViewAllocation rectangle;
+	ArtVpath *path;
+	double r = view->allocation.h;
+	
+	if (r > view->allocation.w)
+		r = view->allocation.w;
+
+	rectangle.x = view->allocation.x + (view->allocation.w - r) / 2.0;
+	rectangle.y = view->allocation.y + (view->allocation.h - r) / 2.0;
+	rectangle.w = r;
+	rectangle.h = r;
+
+	path = gog_renderer_get_rectangle_vpath (&rectangle);
+	gog_renderer_draw_sharp_path (view->renderer, path);
+	art_free (path);
+}
+
+static void
+gog_tool_move_pie_init (GogToolAction *action)
+{
+	GogPiePlot *pie = GOG_PIE_PLOT (action->view->model);
+	MovePieData *data = g_new0 (MovePieData, 1);
+	GogViewAllocation area = action->view->allocation;
+	
+	data->r = area.h;
+	if (data->r > area.w)
+		data->r = area.w;
+	data->r /= 2.;
+	data->start_pos = (data->r * (0.5 + pie->default_separation)) / (1 + pie->default_separation);
+	data->x = area.x + area.w / 2.;
+	data->y = area.y + area.h / 2.;
+	data->start_distance = hypot (action->start_x - data->x, action->start_y - data->y);
+
+	action->data = data;
+}
+
+static void
+gog_tool_move_pie_move (GogToolAction *action, double x, double y)
+{
+	GogPiePlot *pie = GOG_PIE_PLOT (action->view->model);
+	MovePieData *data = action->data;
+	double pos, separation;
+
+	pos = data->start_pos - 
+		((x - action->start_x) * (data->x - action->start_x) +
+		 (y - action->start_y) * (data->y - action->start_y)) / 
+		data->start_distance; 
+	separation = (pos - 0.5 * data->r) / (data->r - pos);
+					     
+	gog_pie_plot_set_default_separation (pie, separation);
+}
+
+static void
+gog_tool_move_pie_double_click (GogToolAction *action)
+{
+	MovePieData *data = action->data;
+	GogPieSeries *series;
+	GogObject *obj;
+	unsigned int index;
+
+	if (!find_element (action->view, data->x, data->y, 
+			   action->start_x, action->start_y,
+			   &index, &series))
+		return;
+	
+	obj = GOG_OBJECT (gog_series_get_element (GOG_SERIES (series), index));
+	if (obj == NULL) {
+		obj = g_object_new (gog_pie_series_element_get_type (),
+				    "index", index, NULL);
+		gog_object_add_by_name (GOG_OBJECT (series), "Point", obj);
+	}
+}
+
+static GogTool gog_tool_move_pie = {
+	N_("Move pie"),
+	GDK_FLEUR,
+	gog_tool_move_pie_point, 
+	gog_tool_move_pie_render,
+	gog_tool_move_pie_init, 
+	gog_tool_move_pie_move, 
+	gog_tool_move_pie_double_click,
+	NULL /*destroy*/
+};
+
+/*****************************************************************************/
+
 typedef GogPlotView		GogPieView;
 typedef GogPlotViewClass	GogPieViewClass;
 
@@ -535,80 +697,17 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 }
 
-static gboolean
-gog_pie_view_info_at_point (GogView *view, double x, double y,
-			    GogObject const *cur_selection,
-			    GogObject **obj, char **name)
+static void
+gog_pie_view_build_toolkit (GogView *view)
 {
-	GogPiePlot const *model = GOG_PIE_PLOT (view->model);
-	GogPieSeries const *series = NULL;
-	double *vals, scale, len = 0, theta, r = view->allocation.h;
-	GSList *ptr;
-	unsigned i;
-
-	if (r > view->allocation.w)
-		r = view->allocation.w;
-	r /= 2.;
-	x -= view->allocation.x + view->allocation.w/2.;
-	y -= view->allocation.y + view->allocation.h/2.;
-
-	if ((x*x + y*y) > (r*r))
-		return FALSE;
-
-	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next)
-		if (gog_series_is_valid (GOG_SERIES (series = ptr->data)))
-			break;
-	if (ptr == NULL)
-		return FALSE;
-	
-	/* TODO what follows does not work for ring plots, so exit here */
-	if (GOG_IS_RING_PLOT (view->model)) {
-		if (obj != NULL)
-			*obj = view->model;
-		if (name != NULL)
-			*name = NULL;
-		return TRUE;
-	}
-
-	theta = (atan2 (y, x) * 180 / M_PI - model->initial_angle + 90.) / 360.;
-	if (theta < 0)
-		theta += 1.;
-
-	vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
-	scale = 1 / series->total;
-	for (i = 0 ; i < series->base.num_elements; i++) {
-		len = fabs (vals[i]) * scale;
-		if (go_finite (len) && len > 1e-3) {
-			theta -= len;
-			if (theta < 0)
-				break;
-		}
-	}
-
-	if (obj != NULL) {
-		if (cur_selection == view->model) {
-			*obj = GOG_OBJECT (gog_series_get_element (GOG_SERIES (series), i));
-			if (*obj == NULL) {
-				*obj = g_object_new (gog_pie_series_element_get_type (),
-						     "index", i, NULL);
-				gog_object_add_by_name (GOG_OBJECT (series), "Point", *obj);
-			}
-		} else
-			*obj = view->model;
-	}
-	if (name != NULL)
-		*name = g_strdup_printf (_("%s point %d\nValue %g (%g)"),
-					 gog_object_get_name (GOG_OBJECT (series)),
-					 i+1, vals[i], len);
-
-	return TRUE;
+	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_move_pie);
 }
 
 static void
 gog_pie_view_class_init (GogViewClass *view_klass)
 {
-	view_klass->render = gog_pie_view_render;
-	view_klass->info_at_point  = gog_pie_view_info_at_point;
+	view_klass->render 		= gog_pie_view_render;
+	view_klass->build_toolkit 	= gog_pie_view_build_toolkit;
 }
 
 GSF_DYNAMIC_CLASS (GogPieView, gog_pie_view,

@@ -29,6 +29,8 @@
 
 G_BEGIN_DECLS
 
+#define GOG_RENDERER_GRIP_SIZE	4
+
 #define GOG_RENDERER_TYPE	  (gog_renderer_get_type ())
 #define GOG_RENDERER(o)           (G_TYPE_CHECK_INSTANCE_CAST((o), GOG_RENDERER_TYPE, GogRenderer))
 #define IS_GOG_RENDERER(o)        (G_TYPE_CHECK_INSTANCE_TYPE((o), GOG_RENDERER_TYPE))
@@ -38,8 +40,9 @@ GType gog_renderer_get_type            (void);
 
 void  gog_renderer_request_update (GogRenderer *r);
 
-void  gog_renderer_push_style     (GogRenderer *r, GogStyle const *style);
-void  gog_renderer_pop_style      (GogRenderer *r);
+void  gog_renderer_push_style     	(GogRenderer *r, GogStyle const *style);
+void  gog_renderer_push_selection_style (GogRenderer *r);
+void  gog_renderer_pop_style      	(GogRenderer *r);
 
 void  gog_renderer_push_clip 	  (GogRenderer *r, ArtVpath *path);
 void  gog_renderer_pop_clip       (GogRenderer *r);
@@ -67,6 +70,12 @@ void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
 				   GogViewAllocation const *pos, GtkAnchorType anchor,
 				   GogViewAllocation *result);
 void  gog_renderer_draw_marker	  (GogRenderer *rend, double x, double y);
+void  gog_renderer_draw_grip	  (GogRenderer *rend, double x, double y);
+
+#define gog_renderer_in_grip(x,y,grip_x,grip_y) ((x) >= ((grip_x) - (GOG_RENDERER_GRIP_SIZE)) && \
+						 (x) <= ((grip_x) + (GOG_RENDERER_GRIP_SIZE)) && \
+						 (y) >= ((grip_y) - (GOG_RENDERER_GRIP_SIZE)) && \
+						 (y) <= ((grip_y) + (GOG_RENDERER_GRIP_SIZE)))
 
 void  gog_renderer_get_text_OBR   (GogRenderer *rend, char const *text, GOGeometryOBR *obr);
 void  gog_renderer_get_text_AABR  (GogRenderer *rend, char const *text, GOGeometryAABR *aabr);

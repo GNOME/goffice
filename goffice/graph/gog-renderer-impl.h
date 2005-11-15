@@ -53,6 +53,8 @@ struct _GogRenderer {
 
 	ArtVpathDash *line_dash;
 	ArtVpathDash *outline_dash;
+
+	GogStyle *grip_style;
 };
 
 typedef struct {

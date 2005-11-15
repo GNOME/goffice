@@ -95,6 +95,9 @@ gboolean      gog_axis_is_discrete        (GogAxis const *axis);
 gboolean      gog_axis_is_inverted	  (GogAxis const *axis);
 gboolean      gog_axis_get_bounds 	  (GogAxis const *axis,
 					   double *minima, double *maxima);
+void	      gog_axis_set_bounds 	  (GogAxis *axis,
+					   double minimum, double maximum);
+void 	      gog_axis_set_extents 	  (GogAxis *axis, double start, double stop);
 unsigned      gog_axis_get_ticks 	  (GogAxis *axis, GogAxisTick **ticks);
 GOData	     *gog_axis_get_labels	  (GogAxis const *axis,
 					   GogPlot **plot_that_labeled_axis);

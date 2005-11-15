@@ -29,6 +29,7 @@ G_BEGIN_DECLS
 typedef struct _GogObject	 GogObject;
 typedef struct _GogObjectRole	 GogObjectRole;
 typedef struct _GogView		 GogView;	 /* view of an Object */
+typedef struct _GogGraphView	 GogGraphView;	 /* view of chart */
 
 typedef struct _GogGraph	 GogGraph;	/* collection of charts */
 typedef struct _GogChart	 GogChart;	/* collection of plots */

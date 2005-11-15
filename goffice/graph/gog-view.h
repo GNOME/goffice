@@ -22,9 +22,42 @@
 #define GOG_VIEW_H
 
 #include <goffice/graph/goffice-graph.h>
+#include <gdk/gdk.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
+
+/*****************************************************************************/
+
+typedef struct _GogToolAction GogToolAction;
+
+typedef struct {
+	char const 	*name;
+
+	GdkCursorType	 cursor_type;
+	
+	gboolean 	(*point) 	(GogView *view, double x, double y, GogObject **object);
+	void 		(*render)	(GogView *view);
+	void 		(*init)		(GogToolAction *action);
+	void 		(*move)		(GogToolAction *action, double x, double y);
+	void		(*double_click)	(GogToolAction *action);
+	void 		(*destroy)	(GogToolAction *action);
+} GogTool;
+
+struct _GogToolAction {
+	double 		 start_x, start_y;
+	GogView 	*view;
+	GogTool 	*tool;
+	gpointer	 data;
+};
+
+GogToolAction 	*gog_tool_action_new 		(GogView *view, GogTool *tool, double x, double y);
+void 		 gog_tool_action_move 		(GogToolAction *action, double x, double y);
+void 		 gog_tool_action_double_click 	(GogToolAction *action);
+GogObject	*gog_tool_action_get_object	(GogToolAction *action);
+void 		 gog_tool_action_free 		(GogToolAction *action);
+	
+/*****************************************************************************/
 
 struct _GogView {
 	GObject	 base;
@@ -40,12 +73,14 @@ struct _GogView {
 	unsigned allocation_valid : 1;  /* adjust our layout when child changes size */
 	unsigned child_allocations_valid : 1;  /* some children need to adjust their layout */
 	unsigned being_updated : 1;
+
+	GSList	*toolkit; 	/* List of GogTool */
 };
 
 typedef struct {
 	GObjectClass	base;
 
-	unsigned clip : 1; /* Automaticaly clip to object bounding box */
+	unsigned clip : 1; 	/* Automaticaly clip to object bounding box */
 
 	/* Virtuals */
 	void	 (*state_init)    (GogView *);
@@ -54,10 +89,10 @@ typedef struct {
 	void	 (*size_request)    		(GogView *view, GogViewRequisition const *available, 
 						 GogViewRequisition *req);
 	void	 (*size_allocate)   		(GogView *, GogViewAllocation const *bbox);
-	void	 (*render)        (GogView *, GogViewAllocation const *bbox);
-	gboolean (*info_at_point) (GogView *, double x, double y,
-				   GogObject const *cur_selection,
-				   GogObject **obj, char **name);
+	
+	void	 (*render)        		(GogView *view, GogViewAllocation const *bbox);
+
+	void	 (*build_toolkit)		(GogView *view);
 } GogViewClass;
 
 #define GOG_VIEW_TYPE		(gog_view_get_type ())
@@ -67,7 +102,7 @@ typedef struct {
 #define IS_GOG_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_VIEW_TYPE))
 #define GOG_VIEW_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_VIEW_TYPE, GogViewClass))
 
-GType gog_view_get_type (void);
+GType      gog_view_get_type (void);
 
 GogObject *gog_view_get_model	     (GogView const *view);
 void	   gog_view_render	     (GogView *v, GogViewAllocation const *bbox);
@@ -78,11 +113,15 @@ void       gog_view_size_request     (GogView *v, GogViewRequisition const *avai
 				      GogViewRequisition *requisition);
 void       gog_view_size_allocate    (GogView *v, GogViewAllocation const *a);
 gboolean   gog_view_update_sizes     (GogView *v);
-gboolean   gog_view_info_at_point    (GogView *container, double x, double y,
-				      GogObject const *cur_selection,
-				      GogObject **obj, char **name);
 GogView   *gog_view_find_child_view  (GogView const *container,
 				      GogObject const *target_model);
+
+GSList const	*gog_view_get_toolkit		(GogView *view);
+void 		 gog_view_render_toolkit 	(GogView *view);
+GogTool		*gog_view_get_tool_at_point 	(GogView *view, double x, double y, 
+						 GogObject **gobj);
+GogView 	*gog_view_get_view_at_point	(GogView *view, double x, double y, 
+						 GogObject **gobj, GogTool **tool);
 
 /* protected */
 void gog_view_size_child_request (GogView *v,

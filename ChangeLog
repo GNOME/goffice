@@ -1,3 +1,113 @@
+2005-11-15  Emmanuel Pacaud <emanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-axis-line.c (gog_tool_select_axis_point),
+	(gog_tool_select_axis_render), 
+	(gog_tool_bound_is_valid_axis),
+	(gog_tool_move_start_bound_point), 
+	(gog_tool_move_start_bound_render),
+	(gog_tool_move_stop_bound_point),
+	(gog_tool_move_stop_bound_render),
+	(gog_tool_move_bound_init),
+	(gog_tool_move_bound_destroy),
+	(gog_tool_move_start_bound_move),
+	(gog_tool_move_stop_bound_move): new.
+	(x_process): store axis position for use in tools.
+	(xy_process): ditto.
+	(gog_axis_base_view_info_at_point): renamed to
+	gog_axis_base_view_point, for use in tools.
+	(gog_axis_base_build_toolkit): new.
+	* goffice/graph/gog-axis.c (elem_toggle_data_free): new.
+	(cb_update_dim_editor): new.
+	(make_dim_editor): don't use closure, since they're not destroyed on
+	watched object finalization, just invalidated.
+	(cb_axis_fmt_assignment_toggled): removed.
+	(gog_axis_populate_editor): remove dead code.
+	(gog_axis_set_bounds): new.
+	(gog_axis_set_extents): new.
+	* goffice/graph/gog-graph.c: new selection-changed signal for
+	GogGraphView objects. This signal is emitted when visual selection
+	is changed after a mouse action.
+	(gog_graph_view_render): new.
+	(gog_graph_view_finalize): new.
+	(update_cursor), (update_action): new.
+	(gog_graph_view_handle_event): new.
+	(gog_graph_view_set_selection): new.
+	(gog_graph_view_get_selection): new.
+	* goffice/graph/gog-grid-line.c (gog_grid_line_info_at_point):
+	removed.
+	* goffice/graph/gog-guru.c: now also store graph view in guru state.
+	(graph_guru_state_destroy): unref graph view.
+	(cb_attr_tree_selection_change): update visual selection.
+	(cb_canvas_select_item): forward event to gog_graph_view_handle_event.
+	(cb_graph_selection_changed): new. Update object tree.
+	(graph_guru_init_format_page): store graph view in state.
+	* goffice/graph/gog-object.c: new update-editor signal, emitted when
+	an object editor needs to be refreshed.
+	(cb_update_editor): new.
+	(gog_object_populate_editor): connect to update-editor signal.
+	(gog_object_request_editor_update): new.
+	* goffice/graph/gog-plot.c (gog_tool_move_plot_area_point),
+	(gog_tool_move_plot_area_render),
+	(gog_tool_move_plot_area_init),
+	(gog_tool_move_plot_area_move),
+	(gog_tool_resize_plot_area_point),
+	(gog_tool_resize_plot_area_render),
+	(gog_tool_resize_plot_area_move),
+	(gog_plot_view_build_toolkit),
+	(gog_plot_view_class_init): new.
+	* goffice/graph/gog-renderer.c (gog_renderer_finalize): unref grip
+	style.
+	(gog_renderer_draw_grip),
+	(gog_renderer_push_selection_style): new.
+	* goffice/graph/gog-renderer.h (gog_renderer_in_grip): new.
+	* goffice/graph/gog-view.c (gog_tool_select_object_point),
+	(gog_tool_select_object_render),
+	(gog_tool_move_object_point),
+	(gog_tool_move_object_init),
+	(gog_tool_move_object_move),
+	(gog_tool_resize_object_point),
+	(gog_tool_resize_object_render),
+	(gog_tool_resize_object_move),
+	(gog_tool_action_new),
+	(gog_tool_action_move),
+	(gog_tool_action_double_click),
+	(gog_tool_action_free): new.
+	(gog_view_finalize): free toolkit.
+	(gog_view_build_toolkit): new.
+	(gog_view_queue_resize): purge dead code.
+	(gog_view_info_at_point): removed.
+	(gog_view_find_child_view): don't emit warning if child view is not
+	found, since all objects don't have an assciated view.
+	(gog_view_render_toolkit),
+	(gog_view_get_toolkit),
+	(gog_view_get_tool_at_point),
+	(gog_view_get_view_at_point): new.
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_view_info_at_point):
+	removed.
+	* plugins/plot_barcol/gog-dropbar.c (gog_dropbar_view_info_at_point):
+	removed.
+	* plugins/plot_barcol/gog-line.c (gog_line_view_info_at_point):
+	removed.
+	* plugins/plot_barcol/gog-minmax.c (gog_minmax_view_info_at_point):
+	removed.
+	* plugins/plot_pie/gog-pie-prefs.c (pie_pref_state_free): new.
+	(cb_update_editor): new.
+	(gog_pie_plot_pref): connect to update-editor signal.
+	(gog_ring_plot_pref): ditto.
+	* plugins/plot_pie/gog-pie.c (gog_pie_plot_set_default_separation):
+	new.
+	(find_element): new.
+	(gog_tool_move_pie_point),
+	(gog_tool_move_pie_render),
+	(gog_tool_move_pie_init),
+	(gog_tool_move_pie_move),
+	(gog_tool_move_pie_double_click),
+	(gog_pie_view_build_toolkit): new.
+	(gog_pie_view_info_at_point): removed.
+	* plugins/plot_radar/gog-radar.c (fmin): removed.
+	(gog_rt_view_info_at_point): removed.
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_info_at_point): ditto.
+								 
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post BRANCH bump

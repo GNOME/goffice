@@ -20,12 +20,222 @@
  */
 
 #include <goffice/goffice-config.h>
+
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/graph/gog-style.h>
+
+#include <goffice/utils/go-color.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
+
+/*****************************************************************************/
+
+static gboolean
+gog_tool_select_object_point (GogView *view, double x, double y, GogObject **gobj)
+{
+	return (x >= view->allocation.x &&
+		x <= (view->allocation.x + view->allocation.w) &&
+		y >= view->allocation.y &&
+		y <= (view->allocation.y + view->allocation.h));
+}
+
+static void
+gog_tool_select_object_render (GogView *view)
+{
+	ArtVpath *path;
+
+	path = gog_renderer_get_rectangle_vpath (&view->allocation);
+	gog_renderer_draw_sharp_path (view->renderer, path);
+	art_free (path);
+}
+
+static GogTool gog_tool_select_object = {
+	N_("Select object"),
+	GDK_LEFT_PTR,
+	gog_tool_select_object_point, 
+	gog_tool_select_object_render,
+	NULL /* init */,
+        NULL /* move */,	
+	NULL /* double-click */,
+	NULL /* destroy */
+};
+
+typedef struct {
+	GogViewAllocation 	parent_allocation;
+	GogViewAllocation	start_position;
+} MoveObjectData;
+
+static gboolean
+gog_tool_move_object_point (GogView *view, double x, double y, GogObject **gobj)
+{
+	if (view->model->role == NULL)
+		return FALSE;
+
+	if ((view->model->role->allowable_positions & 
+	    (GOG_POSITION_MANUAL)) == 0)
+		return FALSE;
+
+	return (x >= view->allocation.x &&
+		x <= (view->allocation.x + view->allocation.w) &&
+		y >= view->allocation.y &&
+		y <= (view->allocation.y + view->allocation.h));
+}
+
+static void
+gog_tool_move_object_init (GogToolAction *action)
+{
+	MoveObjectData *data = g_new0 (MoveObjectData, 1);
+	
+	action->data = data;
+	data->parent_allocation = action->view->parent->allocation;
+	gog_object_get_manual_position (action->view->model, &data->start_position);
+	
+	if ((gog_object_get_position_flags (action->view->model, GOG_POSITION_MANUAL) & 
+	     GOG_POSITION_MANUAL) == 0) {
+		data->start_position.x = action->view->allocation.x / data->parent_allocation.w;
+		data->start_position.y = action->view->allocation.y / data->parent_allocation.h;
+		data->start_position.w = action->view->allocation.w / data->parent_allocation.w;
+		data->start_position.h = action->view->allocation.h / data->parent_allocation.h;
+	}
+}
+
+static void
+gog_tool_move_object_move (GogToolAction *action, double x, double y)
+{	
+	GogViewAllocation position;
+	MoveObjectData *data = action->data;
+	
+	position.x = data->start_position.x + (x - action->start_x) / data->parent_allocation.w;
+	position.y = data->start_position.y + (y - action->start_y) / data->parent_allocation.h;
+	position.w = data->start_position.w;
+	position.h = data->start_position.h;
+	gog_object_set_manual_position (action->view->model, &position);
+	gog_object_set_position_flags (action->view->model, GOG_POSITION_MANUAL, GOG_POSITION_MANUAL);
+}
+
+static GogTool gog_tool_move_object = {
+	N_("Move"), 
+	GDK_FLEUR,
+	gog_tool_move_object_point, 
+	NULL /* render */,
+	gog_tool_move_object_init, 
+	gog_tool_move_object_move, 
+	NULL /* double-click */,
+	NULL /* destroy */
+};
+
+static gboolean
+gog_tool_resize_object_point (GogView *view, double x, double y, GogObject **gobj)
+{
+	GogObjectClass *gobj_klass = GOG_OBJECT_GET_CLASS (view->model);
+
+	if (!gobj_klass->can_manual_size)
+		return FALSE;
+
+	return gog_renderer_in_grip (x, y,
+				     view->allocation.x + view->allocation.w,
+				     view->allocation.y + view->allocation.h);
+}
+
+static void
+gog_tool_resize_object_render (GogView *view)
+{
+	GogObject *gobj = view->model;
+	GogObjectClass *gobj_klass = GOG_OBJECT_GET_CLASS (gobj);
+
+	if (!gobj_klass->can_manual_size)
+		return;
+
+	gog_renderer_draw_grip (view->renderer, 
+				view->allocation.x + view->allocation.w,
+				view->allocation.y + view->allocation.h);
+}
+
+static void
+gog_tool_resize_object_move (GogToolAction *action, double x, double y)
+{	
+	GogViewAllocation position;
+	MoveObjectData *data = action->data;
+	
+	position.x = data->start_position.x;
+	position.y = data->start_position.y;
+	position.w = data->start_position.w + (x - action->start_x) / data->parent_allocation.w;
+	position.h = data->start_position.h + (y - action->start_y) / data->parent_allocation.h;
+	gog_object_set_manual_position (action->view->model, &position);
+	gog_object_set_position_flags (action->view->model, GOG_POSITION_MANUAL, GOG_POSITION_MANUAL);
+}
+
+static GogTool gog_tool_resize_object = {
+	N_("Resize object"),
+	GDK_BOTTOM_RIGHT_CORNER,
+	gog_tool_resize_object_point, 
+	gog_tool_resize_object_render,
+	gog_tool_move_object_init, 
+	gog_tool_resize_object_move, 
+	NULL /* double-click */,
+	NULL /* destroy */
+};
+
+/*****************************************************************************/
+
+GogToolAction *
+gog_tool_action_new (GogView *view, GogTool *tool, double x, double y)
+{
+	GogToolAction *action;
+
+	g_return_val_if_fail (GOG_VIEW (view) != NULL, NULL);
+	g_return_val_if_fail (tool != NULL, NULL);
+
+	action = g_new0 (GogToolAction, 1);
+
+	g_object_ref (view);
+	action->tool = tool;
+	action->view = view;
+	action->data = NULL;
+	action->start_x = x;
+	action->start_y = y;
+
+	if (tool->init != NULL)
+		(tool->init) (action);
+
+	return action;
+}
+
+void
+gog_tool_action_move (GogToolAction *action, double x, double y)
+{
+	g_return_if_fail (action != NULL);
+
+	if (action->tool->move != NULL)
+		(action->tool->move) (action, x, y);
+}
+
+void
+gog_tool_action_double_click (GogToolAction *action)
+{
+	g_return_if_fail (action != NULL);
+	
+	if (action->tool->double_click != NULL)
+		(action->tool->double_click) (action);
+}
+
+void
+gog_tool_action_free (GogToolAction *action)
+{
+	g_return_if_fail (action != NULL);
+
+	if (action->tool->destroy != NULL)
+		(action->tool->destroy) (action);
+
+	g_object_unref (action->view);
+	g_free (action->data);
+	g_free (action);
+}
+
+/****/
 
 /* this should be per model */
 #define PAD_HACK	4	/* pts */
@@ -186,6 +396,9 @@ gog_view_finalize (GObject *obj)
 	g_slist_free (view->children);
 	view->children = NULL;
 
+	g_slist_free (view->toolkit);
+	view->toolkit = NULL;
+
 	(*parent_klass->finalize) (obj);
 }
 
@@ -334,18 +547,27 @@ gog_view_render_real (GogView *view, GogViewAllocation const *bbox)
 }
 
 static void
+gog_view_build_toolkit (GogView *view)
+{
+	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_select_object);
+	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_move_object);
+	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_resize_object);
+}
+
+static void
 gog_view_class_init (GogViewClass *view_klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) view_klass;
 
 	parent_klass = g_type_class_peek_parent (view_klass);
-	gobject_klass->set_property = gog_view_set_property;
-	gobject_klass->finalize	    = gog_view_finalize;
-	view_klass->padding_request	  = gog_view_padding_request_real;
-	view_klass->size_request    = gog_view_size_request_real;
-	view_klass->size_allocate   = gog_view_size_allocate_real;
-	view_klass->render	    = gog_view_render_real;
-	view_klass->clip	    = FALSE;
+	gobject_klass->set_property  = gog_view_set_property;
+	gobject_klass->finalize	     = gog_view_finalize;
+	view_klass->padding_request  = gog_view_padding_request_real;
+	view_klass->size_request     = gog_view_size_request_real;
+	view_klass->size_allocate    = gog_view_size_allocate_real;
+	view_klass->render	     = gog_view_render_real;
+	view_klass->build_toolkit    = gog_view_build_toolkit;
+	view_klass->clip	     = FALSE;
 
 	g_object_class_install_property (gobject_klass, GOG_VIEW_PROP_PARENT,
 		g_param_spec_object ("parent", "parent",
@@ -364,10 +586,11 @@ gog_view_init (GogView *view)
 {
 	view->allocation_valid  = FALSE;
 	view->child_allocations_valid = FALSE;
-	view->being_updated = FALSE;
-	view->model	   = NULL;
-	view->parent	   = NULL;
-	view->children	   = NULL;
+	view->being_updated  = FALSE;
+	view->model	     = NULL;
+	view->parent	     = NULL;
+	view->children	     = NULL;
+	view->toolkit	     = NULL;
 }
 
 GSF_CLASS_ABSTRACT (GogView, gog_view,
@@ -411,18 +634,9 @@ gog_view_queue_resize (GogView *view)
 
 	gog_renderer_request_update (view->renderer);
 
-#if 0 /* optimization that breaks when child contributes to size of parent */
-	view->allocation_valid = FALSE; /* in case there is no parent */
-	if (NULL == (view = view->parent))
-		return;
-	view->allocation_valid = FALSE;
-	while (NULL != (view = view->parent) && view->child_allocations_valid)
-		view->child_allocations_valid = FALSE;
-#else
 	do
 		view->allocation_valid = FALSE; /* in case there is no parent */
 	while (NULL != (view = view->parent) && view->allocation_valid);
-#endif
 }
 
 void
@@ -545,55 +759,6 @@ gog_view_render	(GogView *view, GogViewAllocation const *bbox)
 }
 
 /**
- * gog_view_info_at_point :
- * @view : a #GogView
- * @x : 
- * @y :
- * @cur_selection : If @cur_selection is the object @x,@y, and it could create
- *	 a child there, create it
- * @obj : If non-NULL store the object @x,@y
- * @name : store the name of the most derived object even if it does not yet exist
- *	caller is responsible for freeing the string (ignored in NULL)
- *
- * Returns TRUE if an object is found
- **/
-gboolean
-gog_view_info_at_point (GogView *view, double x, double y,
-			GogObject const *cur_selection,
-			GogObject **obj, char **name)
-{
-	GSList *ptr, *list;
-	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
-
-	g_return_val_if_fail (klass != NULL, FALSE);
-	g_return_val_if_fail (view->allocation_valid, FALSE);
-	g_return_val_if_fail (view->child_allocations_valid, FALSE);
-
-	if (x < view->allocation.x ||
-	    x >= (view->allocation.x + view->allocation.w) ||
-	    y < view->allocation.y ||
-	    y >= (view->allocation.y + view->allocation.h))
-		return FALSE;
-
-	/* walk the list in reverse */
-	list = g_slist_reverse (g_slist_copy (view->children));
-	for (ptr = list; ptr != NULL ; ptr = ptr->next)
-		if (gog_view_info_at_point (ptr->data, x, y, cur_selection, obj, name))
-			return TRUE;
-	g_slist_free (list);
-
-	if (klass->info_at_point != NULL)
-		return (klass->info_at_point) (view, x, y, cur_selection, obj, name);
-	
-	if (obj != NULL)
-		*obj = view->model;
-	if (name != NULL)
-		*name = g_strdup (gog_object_get_name (view->model));
-
-	return TRUE;
-}
-
-/**
  * gog_view_size_child_request :
  * @view : #GogView
  * @available : the amount of space available in total
@@ -660,7 +825,7 @@ gog_view_size_child_request (GogView *view,
  * @target_model : #GogObject
  *
  * Find the GogView contained in @container that corresponds to @model.
- * Returns NULL on error
+ * Returns NULL on error or if @target_model has no view.
  **/
 GogView *
 gog_view_find_child_view  (GogView const *container, GogObject const *target_model)
@@ -691,8 +856,120 @@ gog_view_find_child_view  (GogView const *container, GogObject const *target_mod
 			if (GOG_VIEW (ptr->data)->model == obj)
 				break;
 
-		g_return_val_if_fail (ptr != NULL, NULL);
+		/* target_model doesn't have view */
+		if (ptr == NULL)
+			return NULL;
 	}
 
 	return (GogView *)container;
+}
+
+/**
+ * gog_view_render_toolkit :
+ * @view : #GogView
+ *
+ * Render toolkit elements.
+ **/
+void
+gog_view_render_toolkit (GogView *view)
+{
+	GogTool *tool;
+	GSList const *ptr;
+	
+	g_return_if_fail (GOG_VIEW (view) != NULL);
+
+	for (ptr = gog_view_get_toolkit (view); ptr != NULL; ptr = ptr->next) {
+		tool = ptr->data;
+		if (tool->render != NULL)
+			(tool->render) (view);
+	}
+
+}
+
+/**
+ * gog_view_get_toolkit :
+ * @view : #GogView
+ *
+ * Returns toolkit associated with given view.
+ **/
+GSList const *
+gog_view_get_toolkit (GogView *view)
+{
+	g_return_val_if_fail (GOG_VIEW (view) != NULL, NULL);
+
+	if  (view->toolkit == NULL) {
+		GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
+		if (klass->build_toolkit != NULL)
+			(klass->build_toolkit) (view);
+	}
+
+	return view->toolkit;
+}
+
+/**
+ * gog_view_get_tool_at_point:
+ * @view : #GogView
+ * 
+ * Find tool under cursor for a given view.
+ **/
+GogTool *
+gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)
+{
+	GogObject *current_gobj = NULL;
+	GogTool *current_tool;
+	GSList const *ptr;
+
+	for (ptr = gog_view_get_toolkit (view); ptr != NULL; ptr = ptr->next) {
+		current_tool = ptr->data;
+		if (current_tool->point != NULL &&
+		    (current_tool->point) (view, x, y, &current_gobj)) {
+			if (gobj != NULL) 
+			       *gobj = current_gobj == NULL ? view->model : current_gobj;
+			return current_tool;
+		}
+	}
+
+	if (gobj != NULL)
+		*gobj = NULL;
+	return NULL;
+}
+
+/**
+ * gog_view_get_view_at_point:
+ * @view : #GogView
+ * @x : cursor x position
+ * @y : cursor y position
+ * @obj : pointed object
+ * @tool : pointed tool
+ *
+ * Returns view under cursor, searching recursively from @view. Corresponding
+ * is stored in @obj. This object may or may not be model of pointed view.
+ * This function also stores tool under cursor, for the pointed view.
+ **/
+GogView *
+gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, GogTool **tool)
+{
+	GogView *pointed_view;
+	GSList const *ptr;
+	GSList *list;
+	
+	g_return_val_if_fail (GOG_VIEW (view) != NULL, NULL);
+
+	/* walk the list in reverse */
+	list = g_slist_reverse (g_slist_copy (view->children));
+	for (ptr = list; ptr != NULL; ptr = ptr->next) {
+		pointed_view = gog_view_get_view_at_point (GOG_VIEW (ptr->data), x, y, obj, tool);
+		if (pointed_view != NULL) {
+			g_slist_free (list);
+			return pointed_view;
+		}
+	}
+	g_slist_free (list);
+
+	*tool = gog_view_get_tool_at_point (view, x, y, obj);
+	if (*tool != NULL) 
+		return view;
+
+	*obj = NULL;
+	return NULL;
 }

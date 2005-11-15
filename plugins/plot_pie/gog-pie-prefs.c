@@ -64,6 +64,22 @@ gog_pie_series_element_pref (GogPieSeriesElement *element, GOCmdContext *cc)
 /****************************************************************************/
 GtkWidget *gog_pie_plot_pref   (GogPiePlot *plot, GOCmdContext *cc);
 
+typedef struct {
+	GtkWidget	*separation_spinner;
+	GogObject	*gobj;
+	GladeXML	*gui;
+	gulong		 update_editor_handler;
+} PiePrefState;
+
+static void
+pie_pref_state_free (PiePrefState *state)
+{
+	g_signal_handler_disconnect (state->gobj, state->update_editor_handler);
+	g_object_unref (state->gobj);
+	g_object_unref (state->gui);
+	g_free (state);
+}
+
 static void
 cb_default_separation_changed (GtkAdjustment *adj, GObject *pie)
 {
@@ -108,25 +124,48 @@ gog_pie_plot_pref_signal_connect (GogPiePlot *pie, GladeXML *gui)
 		G_CALLBACK (cb_use_style_toggled), pie);
 }
 
+static void
+cb_update_editor (GogPiePlot *pie, PiePrefState *state)
+{
+	gfloat value;
+	
+	if (state->separation_spinner != NULL) {
+		g_object_get (G_OBJECT (pie), "default-separation", &value, NULL);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->separation_spinner), value * 100.0);
+	}
+}
+
+/****************************************************************************/
+
 GtkWidget *
 gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc)
 {
 	GtkWidget  *w;
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_plot_pie"));
+	char const *dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_pie"));
 	char	 *path = g_build_filename (dir, "gog-pie-prefs.glade", NULL);
 	GladeXML *gui = go_libglade_new (path, "gog_pie_prefs", GETTEXT_PACKAGE, cc);
+	PiePrefState *state;
 
 	g_free (path);
         if (gui == NULL)
                 return NULL;
 
+	state = g_new0 (PiePrefState, 1);
+	state->gui = gui;
+	state->gobj = GOG_OBJECT (pie);
+	state->separation_spinner = glade_xml_get_widget (gui, "separation_spinner");
+	g_object_ref (G_OBJECT (pie));
+
 	gog_pie_plot_pref_signal_connect (pie, gui);
 
+	state->update_editor_handler = g_signal_connect (G_OBJECT (pie), 
+							 "update-editor", 
+							 G_CALLBACK (cb_update_editor), state);
+	
 	w = glade_xml_get_widget (gui, "gog_pie_prefs");
 	g_object_set_data_full (G_OBJECT (w),
-		"state", gui, (GDestroyNotify)g_object_unref);
-
+		"state", state, (GDestroyNotify) pie_pref_state_free);
+	
 	return w;
 }
 
@@ -149,10 +188,17 @@ gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc)
 		go_plugins_get_plugin_by_id ("GOffice_plot_pie"));
 	char	 *path = g_build_filename (dir, "gog-ring-prefs.glade", NULL);
 	GladeXML *gui = go_libglade_new (path, "gog_ring_prefs", GETTEXT_PACKAGE, cc);
+	PiePrefState *state;
 
 	g_free (path);
         if (gui == NULL)
                 return NULL;
+	
+	state = g_new0 (PiePrefState, 1);
+	state->gui = gui;
+	state->gobj = GOG_OBJECT (ring);
+	state->separation_spinner = glade_xml_get_widget (gui, "separation_spinner");
+	g_object_ref (G_OBJECT (ring));
 
 	gog_pie_plot_pref_signal_connect (GOG_PIE_PLOT (ring), gui);
 
@@ -162,53 +208,13 @@ gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc)
 		"value_changed",
 		G_CALLBACK (cb_center_size_changed), ring);
 
+	state->update_editor_handler = g_signal_connect (G_OBJECT (ring), 
+							 "update-editor", 
+							 G_CALLBACK (cb_update_editor), state);
+	
 	w = glade_xml_get_widget (gui, "gog_ring_prefs");
 	g_object_set_data_full (G_OBJECT (w),
-		"state", gui, (GDestroyNotify)g_object_unref);
-
-	return w;
-}
-
-/****************************************************************************/
-
-GtkWidget *gog_pie_series_pref (GogPieSeries *series, GOCmdContext *cc);
-
-static void
-cb_separation_changed (GtkAdjustment *adj, GObject *pie)
-{
-	g_object_set (pie, "separation", adj->value, NULL);
-}
-
-GtkWidget *
-gog_pie_series_pref (GogPieSeries *pie, GOCmdContext *cc)
-{
-	GtkWidget  *w;
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_plot_pie"));
-	char	 *path = g_build_filename (dir, "gog-pie-prefs.glade", NULL);
-	GladeXML *gui = go_libglade_new (path, "gog_pie_prefs", GETTEXT_PACKAGE, cc);
-
-	g_free (path);
-        if (gui == NULL)
-                return NULL;
-
-	w = glade_xml_get_widget (gui, "rotation_spinner");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), pie->initial_angle);
-	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
-		"value_changed",
-		G_CALLBACK (cb_rotation_changed), pie);
-
-	w = glade_xml_get_widget (gui, "separation_spinner");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), pie->separation);
-	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
-		"value_changed",
-		G_CALLBACK (cb_separation_changed), pie);
-
-	gtk_widget_hide (glade_xml_get_widget (gui, "vary_style_by_element"));
-
-	w = glade_xml_get_widget (gui, "gog_pie_prefs");
-	g_object_set_data_full (G_OBJECT (w),
-		"state", gui, (GDestroyNotify)g_object_unref);
+		"state", state, (GDestroyNotify) pie_pref_state_free);
 
 	return w;
 }

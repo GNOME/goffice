@@ -58,6 +58,11 @@ gog_renderer_finalize (GObject *obj)
 	go_line_vpath_dash_free (rend->outline_dash);
 	rend->outline_dash = NULL;
 
+	if (rend->grip_style != NULL) {
+		g_object_unref (rend->grip_style);
+		rend->grip_style = NULL;
+	}
+
 	if (rend->clip_stack != NULL) 
 		g_warning ("Missing calls to gog_renderer_pop_clip");
 
@@ -703,6 +708,8 @@ gog_renderer_init (GogRenderer *rend)
 	rend->font_watcher = g_cclosure_new_swap (G_CALLBACK (cb_font_removed),
 		rend, NULL);
 	go_font_cache_register (rend->font_watcher);
+
+	rend->grip_style = NULL;
 }
 
 GSF_CLASS (GogRenderer, gog_renderer,
@@ -786,4 +793,48 @@ double
 gog_renderer_pt2r (GogRenderer const *rend, double d)
 {
 	return d * rend->scale;
+}
+
+/**
+ * gog_renderer_draw_grip:
+ * @renderer : #GogRenderer
+ * @x : x position of grip
+ * @y : y position of grip
+ *
+ * Draw a grip, used for moving/resizing of objects.
+ **/
+void
+gog_renderer_draw_grip (GogRenderer *renderer, double x, double y) 
+{
+	GogViewAllocation rectangle;
+
+	rectangle.x = x - GOG_RENDERER_GRIP_SIZE;
+	rectangle.y = y - GOG_RENDERER_GRIP_SIZE;
+	rectangle.w = rectangle.h = 2 * GOG_RENDERER_GRIP_SIZE;
+
+	gog_renderer_draw_sharp_rectangle (renderer, &rectangle);
+}
+
+/**
+ * gog_renderer_push_selection_style:
+ * @renderer : #GogRenderer
+ *
+ * Push a style used for selection and grip rendering.
+ **/
+void
+gog_renderer_push_selection_style (GogRenderer *renderer)
+{
+	if (renderer->grip_style == NULL) {
+		renderer->grip_style = gog_style_new ();
+		renderer->grip_style->outline.dash_type = GO_LINE_SOLID;
+		renderer->grip_style->outline.width = 0.0;
+		renderer->grip_style->outline.color = 
+		renderer->grip_style->fill.pattern.back = 0xff000080;
+		renderer->grip_style->line.dash_type = GO_LINE_DOT;
+		renderer->grip_style->line.width = 0.0;
+		renderer->grip_style->line.color = 0x0000ffB0;
+		renderer->grip_style->fill.pattern.pattern = GO_PATTERN_SOLID;
+		renderer->grip_style->fill.type = GOG_FILL_STYLE_PATTERN;
+	}
+	gog_renderer_push_style (renderer, renderer->grip_style);
 }

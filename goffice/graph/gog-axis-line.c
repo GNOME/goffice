@@ -660,6 +660,159 @@ GSF_CLASS_ABSTRACT (GogAxisBase, gog_axis_base,
 		    GOG_STYLED_OBJECT_TYPE);
 
 /************************************************************************/
+static gboolean gog_axis_base_view_point (GogView *view, double x, double y);
+
+static gboolean
+gog_tool_select_axis_point (GogView *view, double x, double y, GogObject **gobj)
+{
+	return gog_axis_base_view_point (view, x, y);
+}
+
+static void
+gog_tool_select_axis_render (GogView *view)
+{
+	ArtVpath *path;
+
+	path = gog_renderer_get_rectangle_vpath (&view->allocation);
+	gog_renderer_draw_sharp_path (view->renderer, path);
+	art_free (path);
+}
+
+static GogTool gog_axis_tool_select_axis = {
+	N_("Select axis"),
+	GDK_LEFT_PTR,
+	gog_tool_select_axis_point, 
+	gog_tool_select_axis_render,
+	NULL /* init */,
+        NULL /* move */,	
+	NULL /* double-click */,
+	NULL /* destroy */
+};
+
+
+typedef struct {
+	GogAxisMap *map;
+	double length;
+	double start, stop;
+} MoveBoundData;
+	
+static gboolean
+gog_tool_bound_is_valid_axis (GogView *view) 
+{
+	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
+	GogAxisType type = gog_axis_get_atype (axis_base->axis);
+
+	return (type == GOG_AXIS_X ||
+		type == GOG_AXIS_Y);
+
+}
+static gboolean
+gog_tool_move_start_bound_point (GogView *view, double x, double y, GogObject **gobj)
+{
+	return gog_tool_bound_is_valid_axis (view) &&
+		gog_renderer_in_grip (x, y, 
+				      GOG_AXIS_BASE_VIEW (view)->x_start, 
+				      GOG_AXIS_BASE_VIEW (view)->y_start);
+}
+
+static void
+gog_tool_move_start_bound_render (GogView *view)
+{
+	if (gog_tool_bound_is_valid_axis (view)) 
+		gog_renderer_draw_grip (view->renderer, 
+					GOG_AXIS_BASE_VIEW (view)->x_start, 
+					GOG_AXIS_BASE_VIEW (view)->y_start);
+}
+
+static gboolean
+gog_tool_move_stop_bound_point (GogView *view, double x, double y, GogObject **gobj)
+{
+	return gog_renderer_in_grip (x, y, 
+				     GOG_AXIS_BASE_VIEW (view)->x_stop, 
+				     GOG_AXIS_BASE_VIEW (view)->y_stop);
+}
+
+static void
+gog_tool_move_stop_bound_render (GogView *view)
+{
+	gog_renderer_draw_grip (view->renderer, 
+				GOG_AXIS_BASE_VIEW (view)->x_stop, 
+				GOG_AXIS_BASE_VIEW (view)->y_stop);
+}
+
+static void
+gog_tool_move_bound_init (GogToolAction *action)
+{
+	MoveBoundData *data = g_new0 (MoveBoundData, 1);
+	GogAxisBaseView *view = GOG_AXIS_BASE_VIEW (action->view);
+	GogAxisBase *axis_base = GOG_AXIS_BASE (action->view->model);
+
+	action->data = data;
+	data->map = gog_axis_map_new (axis_base->axis, 0.0, 1.0);
+	data->length = hypot (view->x_start - view->x_stop,
+			      view->y_start - view->y_stop);
+	gog_axis_map_get_extents (data->map, &data->start, &data->stop);
+}
+
+static void
+gog_tool_move_start_bound_move (GogToolAction *action, double x, double y)
+{	
+	GogAxisBaseView *view = GOG_AXIS_BASE_VIEW (action->view);
+	MoveBoundData *data = action->data;
+	double a = 1.0 - MIN (((x - view->x_start) * (view->x_stop - view->x_start) +
+			       (y - view->y_start) * (view->y_stop - view->y_start)) / 
+			      (data->length * data->length), 0.9);
+
+	gog_axis_set_extents (data->map->axis, 
+			      data->stop + ((data->start - data->stop) / a),
+			      go_nan);
+}
+
+static void
+gog_tool_move_stop_bound_move (GogToolAction *action, double x, double y)
+{	
+	GogAxisBaseView *view = GOG_AXIS_BASE_VIEW (action->view);
+	MoveBoundData *data = action->data;
+	double a = 1.0 - MIN (((x - view->x_stop) * (view->x_start - view->x_stop) +
+			       (y - view->y_stop) * (view->y_start - view->y_stop)) / 
+			      (data->length * data->length), 0.9);
+
+	gog_axis_set_extents (data->map->axis, 
+			      go_nan, 
+			      data->start + ((data->stop - data->start) / a));
+}
+
+static void
+gog_tool_move_bound_destroy (GogToolAction *action) 
+{
+	MoveBoundData *data = action->data;
+
+	gog_axis_map_free (data->map);
+}
+
+static GogTool gog_axis_tool_start_bound = {
+	N_("Set start bound"), 
+	GDK_CROSS,
+	gog_tool_move_start_bound_point, 
+	gog_tool_move_start_bound_render,
+	gog_tool_move_bound_init, 
+	gog_tool_move_start_bound_move, 
+	NULL /* double-click */,
+	gog_tool_move_bound_destroy
+};
+
+static GogTool gog_axis_tool_stop_bound = {
+	N_("Set stop bound"), 
+	GDK_CROSS,
+	gog_tool_move_stop_bound_point, 
+	gog_tool_move_stop_bound_render,
+	gog_tool_move_bound_init, 
+	gog_tool_move_stop_bound_move, 
+	NULL /* double-click */,
+	gog_tool_move_bound_destroy
+};
+
+/************************************************************************/
 
 #define POINT_MIN_DISTANCE 	5 	/* distance minimum between point and axis for point = TRUE, in pixels */
 
@@ -1108,6 +1261,7 @@ x_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	   GogViewAllocation const *plot_area, double x, double y)
 {
 	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
+	GogAxisBaseView *aview = GOG_AXIS_BASE_VIEW (view);
 	GogAxisType axis_type = gog_axis_get_atype (axis_base->axis);
 	GogChartMap *c_map;
 	GogAxisMap *a_map;
@@ -1126,6 +1280,11 @@ x_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	gog_chart_map_2D_to_view (c_map, stop, 0, &bx, &by);
 
 	gog_chart_map_free (c_map);
+
+	aview->x_start = ax;
+	aview->y_start = ay;
+	aview->x_stop = bx;
+	aview->y_stop = by;	
 
 	switch (action) {
 		case GOG_AXIS_BASE_RENDER:
@@ -1159,6 +1318,7 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	    GogViewAllocation const *plot_area, double x, double y)
 {
 	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
+	GogAxisBaseView *aview = GOG_AXIS_BASE_VIEW (view);
 	GogAxis *cross_axis;
 	GogChartMap *c_map;
 	GogAxisMap *a_map;
@@ -1208,6 +1368,11 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		side = (side == GO_SIDE_LEFT) ? GO_SIDE_RIGHT : GO_SIDE_LEFT;
 	}
 	gog_chart_map_free (c_map);
+
+	aview->x_start = ax;
+	aview->y_start = ay;
+	aview->x_stop = bx;
+	aview->y_stop = by;	
 
 	switch (action) {
 		case GOG_AXIS_BASE_RENDER:
@@ -1355,9 +1520,7 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 }
 
 static gboolean
-gog_axis_base_view_info_at_point (GogView *view, double x, double y,
-				  GogObject const *cur_selection,
-				  GogObject **obj, char **name)
+gog_axis_base_view_point (GogView *view, double x, double y)
 {
 	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
 	GogAxisSet axis_set = gog_chart_get_axis_set (axis_base->chart);
@@ -1387,20 +1550,12 @@ gog_axis_base_view_info_at_point (GogView *view, double x, double y,
 		case GOG_AXIS_SET_UNKNOWN:
 			break;
 		default:
-			g_warning ("[AxisBaseView::info_at_point] not implemented for this axis set (%i)",
+			g_warning ("[AxisBaseView::point] not implemented for this axis set (%i)",
 				   axis_set);
 			break;
 	}
 
-	if (pointed) {
-		if (obj != NULL)
-			*obj = view->model;
-		if (name != NULL)
-			*name = NULL;
-		return TRUE;
-	}
-
-	return FALSE;
+	return pointed;
 }
 
 static void
@@ -1482,15 +1637,23 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 }
 
 static void
+gog_axis_base_build_toolkit (GogView *view)
+{
+	view->toolkit = g_slist_prepend (view->toolkit, &gog_axis_tool_select_axis);
+	view->toolkit = g_slist_prepend (view->toolkit, &gog_axis_tool_start_bound);
+	view->toolkit = g_slist_prepend (view->toolkit, &gog_axis_tool_stop_bound);
+}
+
+static void
 gog_axis_base_view_class_init (GogAxisBaseViewClass *gview_klass)
 {
 	GogViewClass *view_klass = (GogViewClass *) gview_klass;
 
 	gab_view_parent_klass = g_type_class_peek_parent (gview_klass);
 
-	view_klass->info_at_point	= gog_axis_base_view_info_at_point;
 	view_klass->padding_request 	= gog_axis_base_view_padding_request;
 	view_klass->render 		= gog_axis_base_view_render;
+	view_klass->build_toolkit	= gog_axis_base_build_toolkit;
 }
 
 GSF_CLASS (GogAxisBaseView, gog_axis_base_view,

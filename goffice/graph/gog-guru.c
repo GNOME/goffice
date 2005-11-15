@@ -66,9 +66,10 @@ typedef struct _GraphGuruState		GraphGuruState;
 typedef struct _GraphGuruTypeSelector	GraphGuruTypeSelector;
 
 struct _GraphGuruState {
-	GogGraph    *graph;
-	GogChart    *chart;
-	GogPlot	    *plot;
+	GogGraph     *graph;
+	GogChart     *chart;
+	GogPlot	     *plot;
+	GogGraphView *graph_view;
 
 	GOCmdContext	 *cc;
 	GogDataAllocator *dalloc;
@@ -106,6 +107,8 @@ struct _GraphGuruState {
 
 	/* hackish reuse of State as a closure */
 	GogObject *search_target, *new_child;
+
+	gulong selection_changed_handler;
 };
 
 struct _GraphGuruTypeSelector {
@@ -356,8 +359,6 @@ static void
 cb_typesel_sample_plot_resize (FooCanvas *canvas,
 			       GtkAllocation *alloc, GraphGuruTypeSelector *typesel)
 {
-	/* Use 96dpi and 50% zoom. Hard code the zoom because it is not
-	 * active when sample button is not depressed */
 	if (typesel->sample_graph_item != NULL)
 		foo_canvas_item_set (typesel->sample_graph_item,
 			"w", (double)alloc->width,
@@ -502,6 +503,11 @@ static void
 graph_guru_state_destroy (GraphGuruState *state)
 {
 	g_return_if_fail (state != NULL);
+
+	if (state->graph_view) {
+		g_object_unref (state->graph_view);
+		state->graph_view = NULL;
+	}
 
 	if (state->graph != NULL) {
 		g_object_unref (state->graph);
@@ -847,6 +853,9 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 		notebook = gog_object_get_editor (obj, s->dalloc, s->cc);
 		gtk_widget_show (notebook);
 		gtk_container_add (s->prop_container, notebook);
+
+		/* set selection on graph view */
+		gog_graph_view_set_selection (GOG_GRAPH_VIEW (s->graph_view), obj);
 	}
 
 	gtk_widget_set_sensitive (s->delete_button, delete_ok);
@@ -1003,51 +1012,34 @@ populate_graph_item_list (GogObject *obj, GogObject *select, GraphGuruState *s,
 		gtk_tree_selection_select_iter (s->prop_selection, &iter);
 }
 
-static gboolean
-cb_find_item (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
-	      GraphGuruState *s)
-{
-	GogObject *obj;
-
-	gtk_tree_model_get (model, iter, PLOT_ATTR_OBJECT, &obj, -1);
-	if (obj == s->search_target) {
-		gtk_tree_selection_select_iter (s->prop_selection, iter);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
 static gint
-cb_canvas_select_item (FooCanvas *canvas, GdkEventButton *event,
+cb_canvas_select_item (FooCanvas *canvas, GdkEvent *event,
 		       GraphGuruState *s)
 {
-	GogView *view;
-	GogRenderer *rend;
-	double x, y, item_x, item_y;
+	double item_x, item_y;
 
-	g_return_val_if_fail (FOO_IS_CANVAS (canvas), FALSE);
+	switch (event->type) {
+		case GDK_BUTTON_PRESS:
+		case GDK_2BUTTON_PRESS:
+		case GDK_MOTION_NOTIFY:
+		case GDK_BUTTON_RELEASE:
 
-	if (canvas->current_item == NULL)
-		return FALSE;
+			g_return_val_if_fail (FOO_IS_CANVAS (canvas), FALSE);
 
-	g_object_get (G_OBJECT (s->sample_graph_item), "renderer", &rend, NULL);
-	g_object_get (G_OBJECT (rend), "view", &view, NULL);
-	g_object_unref (G_OBJECT (rend));
-	foo_canvas_window_to_world (canvas, event->x, event->y, &x, &y);
-	g_object_get (G_OBJECT(s->sample_graph_item), "x", &item_x, "y", &item_y, NULL);
-	gog_view_info_at_point (view,
-		(x - item_x) * canvas->pixels_per_unit,	
-		(y - item_y) * canvas->pixels_per_unit,
-		s->prop_object, &s->search_target, NULL);
-	g_object_unref (G_OBJECT (view));
-	if (s->search_target == NULL)
-		return FALSE;
+			if (canvas->current_item == NULL)
+				return FALSE;
 
-	gtk_tree_model_foreach (GTK_TREE_MODEL (s->prop_model),
-		(GtkTreeModelForeachFunc) cb_find_item, s);
-	s->search_target = NULL;
-	return TRUE;
+			g_object_get (G_OBJECT(s->sample_graph_item), "x", &item_x, "y", &item_y, NULL);
+			gog_graph_view_handle_event (s->graph_view, (GdkEvent *) event, 
+						     item_x * canvas->pixels_per_unit,
+						     item_y * canvas->pixels_per_unit);
+			return TRUE;
+			break;
+
+		default:
+			return FALSE;
+			break;
+	}
 }
 
 static void
@@ -1080,11 +1072,37 @@ cb_sample_plot_resize (FooCanvas *canvas,
 		NULL);
 }
 
+static gboolean
+cb_find_item (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
+	      GraphGuruState *s)
+{
+	GogObject *obj;
+
+	gtk_tree_model_get (model, iter, PLOT_ATTR_OBJECT, &obj, -1);
+	if (obj == s->search_target) {
+		s->search_target = NULL;
+		gtk_tree_selection_select_iter (s->prop_selection, iter);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void
+cb_graph_selection_changed (GogGraphView *view, GogObject *gobj,
+			    GraphGuruState *state)
+{
+	state->search_target = gobj;
+	gtk_tree_model_foreach (GTK_TREE_MODEL (state->prop_model),
+				(GtkTreeModelForeachFunc) cb_find_item, state);
+}
+
 static void
 graph_guru_init_format_page (GraphGuruState *s)
 {
 	GtkWidget *w;
 	GtkTreeViewColumn *column;
+	GogRenderer *rend;
 
 	if (s->fmt_page_initialized)
 		return;
@@ -1124,9 +1142,16 @@ graph_guru_init_format_page (GraphGuruState *s)
 		"size_allocate",
 		G_CALLBACK (cb_sample_plot_resize), s);
 	g_signal_connect_after (G_OBJECT (w),
-		"button_press_event",
+		"event",
 		G_CALLBACK (cb_canvas_select_item), s);
 	gtk_widget_show (w);
+	
+	/* Connect to selection-changed signal of graph view */
+	g_object_get (G_OBJECT (s->sample_graph_item), "renderer", &rend, NULL);
+	g_object_get (G_OBJECT (rend), "view", &(s->graph_view), NULL);
+	s->selection_changed_handler = g_signal_connect (G_OBJECT (s->graph_view), "selection-changed", 
+							 G_CALLBACK (cb_graph_selection_changed), s);
+	g_object_unref (G_OBJECT (rend));
 
 	w = glade_xml_get_widget (s->gui, "prop_alignment");
 	s->prop_container = GTK_CONTAINER (w);
@@ -1155,6 +1180,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 	w = glade_xml_get_widget (s->gui, "attr_window");
 	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (s->prop_view));
 	gtk_widget_show_all (w);
+	
 }
 
 static void
@@ -1434,6 +1460,7 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	state->dalloc   = dalloc;
 	state->current_page	= -1;
 	state->register_closure	= closure;
+	state->graph_view = NULL;
 	g_closure_ref (closure);
 
 	if (graph != NULL) {
@@ -1474,27 +1501,3 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 
 	return state->dialog;
 }
-
-#if 0
-gtk_tree_sortable_set_sort_func (store, column, compare_rows,
-				 GUINT_TO_POINTER (column), NULL);
-
-for each column of your database table.
-
-int
-compare_rows (GtkTreeModel *model,
-	      GtkTreeIter  *a,
-	      GtkTreeIter  *b,
-	      gpointer      user_data)
-{
-	int column = GPOINTER_TO_UINT (user_data);
-	MyRow *row_a, row_b;
-
-	gtk_tree_model_get (model, DATA_COLUMN, a, &row_a, -1);
-	gtk_tree_model_get (model, DATA_COLUMN, b, &row_b, -1);
-
-	return compare_cells (row_a->cells[column], row_b->cells[column]);
-}
-
-
-#endif

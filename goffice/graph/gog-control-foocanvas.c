@@ -86,7 +86,7 @@ gog_control_foocanvas_set_property (GObject *gobject, guint param_id,
 
 	if (setup_renderer && ctrl->renderer != NULL)
 		g_signal_connect_object (G_OBJECT (ctrl->renderer),
-			"request_update",
+			"request-update",
 			G_CALLBACK (foo_canvas_item_request_update),
 			ctrl, G_CONNECT_SWAPPED);
 	foo_canvas_item_request_update (FOO_CANVAS_ITEM (ctrl));

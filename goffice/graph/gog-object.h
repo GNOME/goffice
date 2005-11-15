@@ -120,6 +120,7 @@ typedef struct {
 	void (*child_removed)	   (GogObject *parent, GogObject *child);
 	void (*child_name_changed) (GogObject const *obj, GogObject const *child);
 	void (*children_reordered) (GogObject *obj);
+	void (*update_editor)	   (GogObject *obj);
 } GogObjectClass;
 
 #define GOG_OBJECT_TYPE		(gog_object_get_type ())
@@ -173,14 +174,15 @@ GogObjectRole const *gog_object_find_role_by_name (GogObject const *obj,
 						   char const *role);
 
 /* protected */
-void	 gog_object_update		(GogObject *obj);
-gboolean gog_object_request_update	(GogObject *obj);
-void 	 gog_object_emit_changed	(GogObject *obj, gboolean size);
-gboolean gog_object_clear_parent	(GogObject *obj);
-gboolean gog_object_set_parent	 	(GogObject *child, GogObject *parent,
-					 GogObjectRole const *role, unsigned id);
-void 	 gog_object_register_roles	(GogObjectClass *klass,
-					 GogObjectRole const *roles, unsigned n_roles);
+void	 gog_object_update		  (GogObject *obj);
+gboolean gog_object_request_update	  (GogObject *obj);
+void 	 gog_object_emit_changed	  (GogObject *obj, gboolean size);
+gboolean gog_object_clear_parent	  (GogObject *obj);
+gboolean gog_object_set_parent	 	  (GogObject *child, GogObject *parent,
+					   GogObjectRole const *role, unsigned id);
+void 	 gog_object_register_roles	  (GogObjectClass *klass,
+					   GogObjectRole const *roles, unsigned n_roles);
+void 	 gog_object_request_editor_update (GogObject *obj);
 
 G_END_DECLS
 

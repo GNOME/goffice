@@ -22,7 +22,10 @@
 #define GOG_GRAPH_H
 
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/graph/gog-view.h>
+
 #include <goffice/data/goffice-data.h>
+
 #include <glib-object.h>
 
 G_BEGIN_DECLS
@@ -32,7 +35,6 @@ G_BEGIN_DECLS
 #define IS_GOG_GRAPH(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRAPH_TYPE))
 
 GType gog_graph_get_type (void);
-GType gog_graph_view_get_type (void);
 
 gboolean  gog_graph_validate_chart_layout (GogGraph *graph);
 unsigned  gog_graph_num_cols	  (GogGraph const *graph);
@@ -52,7 +54,18 @@ void      gog_graph_unref_data    (GogGraph *graph, GOData *dat);
 
 void	  gog_graph_get_size 	  (GogGraph *graph, double *width, double *height);
 void      gog_graph_set_size      (GogGraph *graph, double width, double height);
-	
+
+#define GOG_GRAPH_VIEW_TYPE	(gog_graph_view_get_type ())
+#define GOG_GRAPH_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRAPH_VIEW_TYPE, GogGraphView))
+#define IS_GOG_GRAPH_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRAPH_VIEW_TYPE))
+
+GType gog_graph_view_get_type (void);
+
+void  	 gog_graph_view_handle_event 	(GogGraphView *view, GdkEvent *event, double x_offset, double y_offset);
+
+GogView *gog_graph_view_get_selection 	(GogGraphView *view);
+void 	 gog_graph_view_set_selection   (GogGraphView *gview, GogObject *gobj);
+
 G_END_DECLS
 
 #endif /* GOG_GRAPH_H */

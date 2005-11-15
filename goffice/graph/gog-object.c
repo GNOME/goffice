@@ -39,6 +39,8 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkwidget.h>
 
+/*****************************************************************************/
+
 GogEditor *
 gog_editor_new (void)
 {
@@ -182,6 +184,7 @@ enum {
 	CHILDREN_REORDERED,
 	NAME_CHANGED,
 	CHANGED,
+	UPDATE_EDITOR,
 	LAST_SIGNAL
 };
 static gulong gog_object_signals [LAST_SIGNAL] = { 0, };
@@ -356,15 +359,17 @@ typedef struct {
 	GtkWidget	*manual_toggle;
 	GogObject	*gobj;
 	GladeXML	*gui;
+	gulong		 update_editor_handler;
 } ObjectPrefState;
 
 static void
 object_pref_state_free (ObjectPrefState *state) 
 {
+	g_signal_handler_disconnect (state->gobj, state->update_editor_handler);
 	g_object_unref (state->gobj);
 	g_object_unref (state->gui);
+	g_free (state);
 }
-
 
 static void
 cb_compass_changed (GtkComboBox *combo, ObjectPrefState *state)
@@ -421,6 +426,22 @@ cb_anchor_changed (GtkComboBox *combo, ObjectPrefState *state)
 }
 
 static void
+cb_update_editor (GogObject *gobj, ObjectPrefState *state)
+{
+	if (state->x_spin != NULL)
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->x_spin), gobj->manual_position.x * 100.0);
+	if (state->y_spin != NULL)
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->y_spin), gobj->manual_position.y * 100.0);
+	if (state->w_spin != NULL)
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), gobj->manual_position.w * 100.0);
+	if (state->h_spin != NULL)
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), gobj->manual_position.h * 100.0);
+	if (state->manual_toggle != NULL)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->manual_toggle), 
+			gog_object_get_position_flags (state->gobj, GOG_POSITION_MANUAL) != 0);
+}
+
+static void
 gog_object_populate_editor (GogObject *gobj, 
 			    GogEditor *editor, 
 			    G_GNUC_UNUSED GogDataAllocator *dalloc, 
@@ -451,6 +472,10 @@ gog_object_populate_editor (GogObject *gobj,
 	state->gobj = gobj;
 	state->gui = gui;
 	state->manual_toggle = NULL;
+	state->x_spin = NULL;
+	state->y_spin = NULL;
+	state->w_spin = NULL;
+	state->h_spin = NULL;
 	g_object_ref (G_OBJECT (gobj));
 
 	widget_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
@@ -573,6 +598,10 @@ gog_object_populate_editor (GogObject *gobj,
 		gtk_widget_hide (w);
 	}
 
+	state->update_editor_handler = g_signal_connect (G_OBJECT (gobj), 
+							 "update-editor", 
+							 G_CALLBACK (cb_update_editor), state);
+
 	w = glade_xml_get_widget (gui, "gog_object_prefs");
 	g_object_set_data_full (G_OBJECT (w), "state", state, 
 				(GDestroyNotify) object_pref_state_free);  
@@ -677,6 +706,13 @@ gog_object_class_init (GObjectClass *klass)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__BOOLEAN,
 		G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
+	gog_object_signals [UPDATE_EDITOR] = g_signal_new ("update-editor",
+		G_TYPE_FROM_CLASS (klass),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GogObjectClass, update_editor),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
@@ -1340,6 +1376,20 @@ gog_object_emit_changed (GogObject *obj, gboolean resize)
 	}
 	g_signal_emit (G_OBJECT (obj),
 		gog_object_signals [CHANGED], 0, resize);
+}
+
+/**
+ * gog_object_request_editor_update :
+ * @gobj : #GogObject
+ *
+ * Emits a update-editor signal. This signal should be used by object editors
+ * in order to refresh their states.
+ **/
+void
+gog_object_request_editor_update (GogObject *obj)
+{
+	g_signal_emit (G_OBJECT (obj),
+		gog_object_signals [UPDATE_EDITOR], 0);
 }
 
 /******************************************************************************/

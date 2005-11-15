@@ -29,6 +29,7 @@
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object-xml.h>
+#include <goffice/graph/gog-renderer.h>
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-math.h>
 #include <glib/gi18n-lib.h>
@@ -828,8 +829,157 @@ gog_plot_guru_helper (GogPlot *plot)
 	g_strfreev (hints);
 }
 
-/****************************************************************************/
-/* a placeholder.  It seems likely that we will want this eventually        */
+/*****************************************************************************/
+
+typedef struct {
+	GogViewAllocation	 start_position;
+	GogViewAllocation	 chart_allocation;
+	GogChart		*chart;
+} MovePlotAreaData;
+
+static gboolean
+gog_tool_move_plot_area_point (GogView *view, double x, double y, GogObject **gobj)
+{
+	GogViewAllocation const *plot_area = gog_chart_view_get_plot_area (view->parent);
+	
+	return (x >= plot_area->x &&
+		x <= (plot_area->x + plot_area->w) &&
+		y >= plot_area->y &&
+		y <= (plot_area->y + plot_area->h));
+}
+
+static void
+gog_tool_move_plot_area_render (GogView *view)
+{
+	GogViewAllocation const *plot_area = gog_chart_view_get_plot_area (view->parent);
+	ArtVpath *path;
+
+	path = gog_renderer_get_rectangle_vpath (plot_area);
+	gog_renderer_draw_sharp_path (view->renderer, path);
+	art_free (path);
+}
+
+static void
+gog_tool_move_plot_area_init (GogToolAction *action)
+{
+	MovePlotAreaData *data = g_new0 (MovePlotAreaData, 1);
+
+	data->chart = GOG_CHART (action->view->parent->model);
+	data->chart_allocation = action->view->parent->allocation;
+	data->start_position = *gog_chart_view_get_plot_area (action->view->parent); 
+	data->start_position.x = (data->start_position.x - data->chart_allocation.x) / data->chart_allocation.w; 
+	data->start_position.w = data->start_position.w / data->chart_allocation.w; 
+	data->start_position.y = (data->start_position.y - data->chart_allocation.y) / data->chart_allocation.h; 
+	data->start_position.h = data->start_position.h / data->chart_allocation.h; 
+
+	action->data = data;
+}
+
+static void
+gog_tool_move_plot_area_move (GogToolAction *action, double x, double y)
+{	
+	GogViewAllocation plot_area;
+	MovePlotAreaData *data = action->data;
+	
+	plot_area.w = data->start_position.w;
+	plot_area.h = data->start_position.h;
+	plot_area.x = data->start_position.x + (x - action->start_x) / data->chart_allocation.w;
+	if (plot_area.x < 0.0)
+		plot_area.x = 0.0;
+	else if (plot_area.x + plot_area.w > 1.0)
+		plot_area.x = 1.0 - plot_area.w;
+	plot_area.y = data->start_position.y + (y - action->start_y) / data->chart_allocation.h;
+	if (plot_area.y < 0.0)
+		plot_area.y = 0.0;
+	else if (plot_area.y + plot_area.h > 1.0)
+		plot_area.y = 1.0 - plot_area.h;
+	gog_chart_set_plot_area (data->chart, &plot_area);
+}
+
+static GogTool gog_tool_move_plot_area = {
+	N_("Move plot area"), 
+	GDK_FLEUR,
+	gog_tool_move_plot_area_point, 
+	gog_tool_move_plot_area_render,
+	gog_tool_move_plot_area_init, 
+	gog_tool_move_plot_area_move, 
+	NULL /* double-click */,
+	NULL /*destroy*/
+};
+
+static gboolean
+gog_tool_resize_plot_area_point (GogView *view, double x, double y, GogObject **gobj)
+{
+	GogViewAllocation const *plot_area = gog_chart_view_get_plot_area (view->parent);
+
+	return gog_renderer_in_grip (x, y,
+				     plot_area->x + plot_area->w,
+				     plot_area->y + plot_area->h);
+}
+
+static void
+gog_tool_resize_plot_area_render (GogView *view)
+{
+	GogViewAllocation const *plot_area = gog_chart_view_get_plot_area (view->parent);
+
+	gog_renderer_draw_grip (view->renderer, 
+				plot_area->x + plot_area->w,
+				plot_area->y + plot_area->h);
+}
+
+static void
+gog_tool_resize_plot_area_move (GogToolAction *action, double x, double y)
+{	
+	GogViewAllocation plot_area;
+	MovePlotAreaData *data = action->data;
+	
+	plot_area.x = data->start_position.x;
+	plot_area.y = data->start_position.y;
+	plot_area.w = data->start_position.w + (x - action->start_x) / data->chart_allocation.w;
+	if (plot_area.w + plot_area.x > 1.0)
+		plot_area.w = 1.0 - plot_area.x;
+	else if (plot_area.w < 0.0)
+		plot_area.w = 0.0;
+	plot_area.h = data->start_position.h + (y - action->start_y) / data->chart_allocation.h;
+	if (plot_area.h + plot_area.y > 1.0)
+		plot_area.h = 1.0 - plot_area.y;
+	else if (plot_area.h < 0.0)
+		plot_area.h = 0.0;
+	gog_chart_set_plot_area (data->chart, &plot_area);
+}
+
+static GogTool gog_tool_resize_plot_area = {
+	N_("Resize plot area"),
+	GDK_BOTTOM_RIGHT_CORNER,
+	gog_tool_resize_plot_area_point, 
+	gog_tool_resize_plot_area_render,
+	gog_tool_move_plot_area_init, 
+	gog_tool_resize_plot_area_move, 
+	NULL /* double-click */,
+	NULL /*destroy*/
+};
+
+/*****************************************************************************/
+
+static GogViewClass *pview_parent_klass;
+
+static void
+gog_plot_view_build_toolkit (GogView *view)
+{
+	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_move_plot_area);
+	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_resize_plot_area);
+}
+
+static void
+gog_plot_view_class_init (GogPlotViewClass *pview_klass)
+{
+	GogViewClass *view_klass = (GogViewClass *) pview_klass;
+
+	pview_parent_klass = g_type_class_peek_parent (pview_klass);
+
+	view_klass->build_toolkit 	= gog_plot_view_build_toolkit;
+}
+
 GSF_CLASS_ABSTRACT (GogPlotView, gog_plot_view,
-		    NULL, NULL,
+		    gog_plot_view_class_init, NULL,
 		    GOG_VIEW_TYPE)

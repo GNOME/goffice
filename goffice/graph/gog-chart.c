@@ -1082,16 +1082,6 @@ typedef GogOutlinedViewClass	GogChartViewClass;
 
 static GogViewClass *cview_parent_klass;
 
-GogViewAllocation const *
-gog_chart_view_get_plot_area (GogView const *view)
-{
-	GogChartView *chart_view = GOG_CHART_VIEW (view);
-
-	g_return_val_if_fail ((GOG_CHART_VIEW (view) != NULL), NULL);
-
-	return & (chart_view->plot_area);
-}
-
 static void
 gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 {
@@ -1227,12 +1217,24 @@ gog_chart_view_class_init (GogChartViewClass *gview_klass)
 	GogOutlinedViewClass *oview_klass = (GogOutlinedViewClass *) gview_klass;
 
 	cview_parent_klass = g_type_class_peek_parent (gview_klass);
-	view_klass->size_allocate   = gog_chart_view_size_allocate;
-	view_klass->clip = FALSE;
-	view_klass->render = gog_chart_view_render;
+
+	view_klass->size_allocate   	= gog_chart_view_size_allocate;
+	view_klass->render 		= gog_chart_view_render;
+	view_klass->clip 		= FALSE;
 	oview_klass->call_parent_render = FALSE;
 }
 
 static GSF_CLASS (GogChartView, gog_chart_view,
 		  gog_chart_view_class_init, gog_chart_view_init,
 		  GOG_OUTLINED_VIEW_TYPE)
+
+GogViewAllocation const *
+gog_chart_view_get_plot_area (GogView const *view)
+{
+	GogChartView *chart_view = GOG_CHART_VIEW (view);
+
+	g_return_val_if_fail ((GOG_CHART_VIEW (view) != NULL), NULL);
+
+	return & (chart_view->plot_area);
+}
+

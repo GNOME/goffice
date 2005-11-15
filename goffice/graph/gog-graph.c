@@ -22,7 +22,6 @@
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-chart-impl.h>
-#include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
@@ -30,6 +29,9 @@
 #include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-impl-utils.h>
+
+#include <gdk/gdkcursor.h>
+
 #include <glib/gi18n-lib.h>
 #include <string.h>
 #include <stdlib.h>
@@ -50,6 +52,7 @@ enum {
 	GRAPH_REMOVE_DATA,
 	GRAPH_LAST_SIGNAL
 };
+
 static gulong gog_graph_signals [GRAPH_LAST_SIGNAL] = { 0, };
 static GObjectClass *graph_parent_klass;
 static GogViewClass *gview_parent_klass;
@@ -572,8 +575,28 @@ gog_graph_set_size (GogGraph *graph, double width, double height)
 
 /************************************************************************/
 
-typedef GogOutlinedView		GogGraphView;
-typedef GogOutlinedViewClass	GogGraphViewClass;
+enum {
+	GRAPH_VIEW_SELECTION_CHANGED,
+	GRAPH_VIEW_LAST_SIGNAL
+};
+
+static gulong gog_graph_view_signals [GRAPH_VIEW_LAST_SIGNAL] = { 0, };
+
+struct _GogGraphView {
+	GogOutlinedView		 base;
+
+	GogToolAction		*action;
+	GogObject		*selected_object;
+	GogView			*selected_view;
+	GdkCursorType		 cursor_type;
+};
+
+typedef struct {
+	GogOutlinedViewClass	base;
+
+	/* signals */
+	void (*selection_changed) (GogGraphView *view, GogObject *gobj);
+} GogGraphViewClass;
 
 #define GOG_GRAPH_VIEW_TYPE	(gog_graph_view_get_type ())
 #define GOG_GRAPH_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRAPH_VIEW_TYPE, GogGraphView))
@@ -635,6 +658,33 @@ gog_graph_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 }
 
 static void
+gog_graph_view_render  (GogView *view, GogViewAllocation const *bbox)
+{
+	GogGraphView *gview = GOG_GRAPH_VIEW (view);
+
+	gview_parent_klass->render (view, bbox);
+
+	if (gview->selected_view != NULL) {
+		gog_renderer_push_selection_style (view->renderer);
+		gog_view_render_toolkit (gview->selected_view);
+		gog_renderer_pop_style (view->renderer);
+	}
+}
+
+static void
+gog_graph_view_finalize (GObject *obj)
+{
+	GogGraphView *gview = GOG_GRAPH_VIEW (obj);
+
+	if (gview->action != NULL) {
+		gog_tool_action_free (gview->action);
+		gview->action = NULL;
+	}
+	
+	(G_OBJECT_CLASS (gview_parent_klass)->finalize) (obj);
+}
+
+static void
 gog_graph_view_class_init (GogGraphViewClass *gview_klass)
 {
 	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
@@ -642,6 +692,9 @@ gog_graph_view_class_init (GogGraphViewClass *gview_klass)
 
 	gview_parent_klass = g_type_class_peek_parent (gview_klass);
 	gobject_klass->set_property = gog_graph_view_set_property;
+	gobject_klass->finalize	    = gog_graph_view_finalize;
+	view_klass->build_toolkit   = NULL;
+	view_klass->render	    = gog_graph_view_render;
 	view_klass->size_allocate   = gog_graph_view_size_allocate;
 	view_klass->clip	    = TRUE;
 
@@ -649,8 +702,162 @@ gog_graph_view_class_init (GogGraphViewClass *gview_klass)
 		g_param_spec_object ("renderer", "renderer",
 			"the renderer for this view",
 			GOG_RENDERER_TYPE, G_PARAM_WRITABLE));
+	
+	gog_graph_view_signals [GRAPH_VIEW_SELECTION_CHANGED] = g_signal_new ("selection-changed",
+		G_TYPE_FROM_CLASS (gview_klass),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GogGraphViewClass, selection_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE,
+		1, G_TYPE_OBJECT);
+}
+
+static void
+gog_graph_view_init (GogGraphView *view)
+{
+	view->action = NULL;
+	view->selected_object = NULL;
+	view->selected_view = NULL;
+	view->cursor_type = GDK_LEFT_PTR;
 }
 
 GSF_CLASS (GogGraphView, gog_graph_view,
-	   gog_graph_view_class_init, NULL,
+	   gog_graph_view_class_init, gog_graph_view_init,
 	   GOG_OUTLINED_VIEW_TYPE)
+
+static void
+update_cursor (GogGraphView *view, GogTool *tool, GdkWindow *window)
+{
+	GdkCursor *cursor;
+	GdkCursorType cursor_type;
+	
+	cursor_type = tool != NULL ? tool->cursor_type : GDK_LEFT_PTR;
+	if (cursor_type != view->cursor_type) {
+		view->cursor_type = cursor_type;
+		/* FIXME: gdk_display_get_default is probably not a good idea */
+		cursor = gdk_cursor_new_for_display (gdk_display_get_default (), cursor_type);
+		gdk_window_set_cursor (window, cursor);
+		gdk_cursor_unref (cursor);
+	}
+}
+
+static void
+update_action (GogGraphView *view, GogTool *tool, double x, double y)
+{
+	if (view->action != NULL) { 
+		gog_tool_action_free (view->action);
+		view->action = NULL;
+	}
+	
+	if (tool != NULL)
+		view->action = gog_tool_action_new (view->selected_view, tool, x, y);
+}
+
+/**
+ * gog_graph_view_handle_event:
+ * @view : #GogGraphView
+ * @event : #GdkEvent
+ *
+ * Handle events.
+ */
+void
+gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event, 
+			     double x_offset, double y_offset)
+{
+	GogObject *old_object = view->selected_object;
+	GogTool *tool = NULL;
+	double x, y;
+	
+	x = event->button.x - x_offset;
+	y = event->button.y - y_offset;
+
+	switch (event->type) {
+		case GDK_2BUTTON_PRESS:
+			if (view->action != NULL)
+				gog_tool_action_double_click (view->action);
+			break;
+		case GDK_BUTTON_PRESS: 
+			if (view->selected_view != NULL)
+				tool = gog_view_get_tool_at_point (view->selected_view, x, y,
+								   &view->selected_object);
+			if (tool == NULL) 
+				view->selected_view = gog_view_get_view_at_point (GOG_VIEW (view), x, y, 
+										  &view->selected_object, 
+										  &tool);
+			if (old_object != view->selected_object) {
+				g_signal_emit (G_OBJECT (view), 
+					       gog_graph_view_signals [GRAPH_VIEW_SELECTION_CHANGED],
+					       0, view->selected_object);
+				gog_view_queue_redraw (GOG_VIEW (view));
+			}
+			update_action (view, tool, x, y);
+			update_cursor (view, tool, event->any.window);
+			break;
+		case GDK_MOTION_NOTIFY: 
+			if (view->action != NULL)
+				gog_tool_action_move (view->action, x, y);
+			else if (view->selected_view != NULL) {
+				tool = gog_view_get_tool_at_point (view->selected_view, x, y, NULL);
+				update_cursor (view, tool, event->any.window);
+			}
+			break;
+		case GDK_BUTTON_RELEASE:
+			update_action (view, NULL, 0, 0);
+			if (view->selected_view != NULL) {
+				tool = gog_view_get_tool_at_point (view->selected_view, x, y, NULL);
+				update_cursor (view, tool, event->any.window);
+				gog_object_request_editor_update (view->selected_view->model);
+			}
+			break;
+		default:
+			break;
+	}
+}
+
+/**
+ * gog_graph_view_get_selection
+ * @view : #GogGraphView
+ *
+ * Returns current selected view.
+ **/
+GogView *
+gog_graph_view_get_selection (GogGraphView *view)
+{
+	g_return_val_if_fail (GOG_GRAPH_VIEW (view) != NULL, NULL);
+	
+	return view->selected_view;
+}
+
+/**
+ * gog_graph_view_set_selection
+ * @view : #GogGraphView
+ * @gobj : new selected object
+ * 
+ * Sets @gobj as current selection. If @gobj is different from previously 
+ * selected object, a selection-changed signal is emitted.
+ **/
+void
+gog_graph_view_set_selection (GogGraphView *gview, GogObject *gobj)
+{
+	GogView *view;
+	
+	g_return_if_fail (GOG_GRAPH_VIEW (gview) != NULL);
+	g_return_if_fail (GOG_OBJECT (gobj) != NULL);
+
+	if (gview->selected_object == gobj)
+		return;
+
+	gview->selected_object = gobj;
+	view = gog_view_find_child_view (GOG_VIEW (gview), gobj);
+
+	if (gview->selected_view != view) {
+		gview->selected_view = view;
+		update_action (gview, NULL, 0, 0);
+	}
+
+	gog_view_queue_redraw (GOG_VIEW (gview));
+	g_signal_emit (G_OBJECT (gview), 
+		       gog_graph_view_signals [GRAPH_VIEW_SELECTION_CHANGED], 
+		       0, gobj);
+}

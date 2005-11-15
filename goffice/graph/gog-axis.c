@@ -38,6 +38,7 @@
 #include <goffice/utils/go-math.h>
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/gtk/go-format-sel.h>
+#include <goffice/data/go-data-simple.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -1329,7 +1330,17 @@ typedef struct {
 	GtkToggleButton *toggle;
 	GogDataset *set;
 	unsigned dim;
+	gulong update_editor_handler;
+	gulong changed_handler;
 } ElemToggleData;
+
+static void
+elem_toggle_data_free (ElemToggleData *data)
+{
+	g_signal_handler_disconnect (G_OBJECT (data->set), data->update_editor_handler);
+	g_signal_handler_disconnect (G_OBJECT (data->set), data->changed_handler);
+	g_free (data);
+}
 
 static void
 cb_enable_dim (GtkToggleButton *toggle_button, ElemToggleData *closure)
@@ -1365,11 +1376,17 @@ cb_axis_bound_changed (GogObject *axis, gboolean resize, ElemToggleData *closure
 }
 
 static void
+cb_update_dim_editor (GogObject *gobj, ElemToggleData *closure)
+{
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (closure->toggle),
+		gog_dataset_get_dim (closure->set, closure->dim) == NULL);
+}
+
+static void
 make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 		 GogDataAllocator *dalloc, char const * const *dim_name)
 {
 	ElemToggleData *info;
-	GClosure *closure;
 	GtkWidget *editor = gog_data_allocator_editor (dalloc, set, dim, GOG_DATA_SCALAR);
 	char *txt = g_strconcat (_(dim_name [dim]), ":", NULL);
 	GtkWidget *toggle = gtk_check_button_new_with_mnemonic (txt);
@@ -1380,23 +1397,26 @@ make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 	info->set = set;
 	info->dim = dim;
 	info->toggle = GTK_TOGGLE_BUTTON (toggle);
+	
 	g_signal_connect (G_OBJECT (toggle),
-		"toggled",
-		G_CALLBACK (cb_enable_dim), info);
+			  "toggled",
+			  G_CALLBACK (cb_enable_dim), info);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle),
-		gog_dataset_get_dim (set, dim) == NULL);
+				      gog_dataset_get_dim (set, dim) == NULL);
 
-	closure = g_cclosure_new (G_CALLBACK (cb_axis_bound_changed),
-				  info, (GClosureNotify)g_free);
-	g_object_watch_closure (G_OBJECT (toggle), closure);
-	g_signal_connect_closure (G_OBJECT (set),
-		"changed",
-		closure, FALSE);
+	info->update_editor_handler = g_signal_connect (G_OBJECT (set), 
+							"update-editor", 
+							G_CALLBACK (cb_update_dim_editor), info);
+	info->changed_handler = g_signal_connect (G_OBJECT (set),
+						  "changed",
+						  G_CALLBACK (cb_axis_bound_changed), info);
+	g_object_weak_ref (G_OBJECT (toggle), (GWeakNotify) elem_toggle_data_free, info);
 
 	gtk_table_attach (table, toggle,
 		0, 1, dim + 1, dim + 2, GTK_FILL, 0, 0, 0);
 	gtk_table_attach (table, editor,
 		1, 2, dim + 1, dim + 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	
 }
 
 static void
@@ -1413,15 +1433,6 @@ cb_map_combo_changed (GtkComboBox *combo,
 {
 	gog_axis_map_set_by_num (axis, gtk_combo_box_get_active (combo));
 }
-
-#if 0
-static void
-cb_axis_fmt_assignment_toggled (GtkToggleButton *toggle_button, GtkNotebook *notebook)
-{
-	/* any time the toggle changes assume the user wanted to select the page too */
-	gtk_notebook_set_current_page (notebook, 0); /* assume it is the first page */ 
-}
-#endif
 
 static void
 gog_axis_populate_editor (GogObject *gobj, 
@@ -1509,19 +1520,7 @@ gog_axis_populate_editor (GogObject *gobj,
 			go_format_sel_set_style_format (GO_FORMAT_SEL (w),
 				axis->format);
 
-#if 0
-		/* TOO CHEESY to go into production
-		 * We need a way to toggle auto vs user formats
-		 * but the selector is too tall already
-		 * disable for now */
-		cbox = gtk_check_button_new_with_label (_("Format"));
-		g_signal_connect (G_OBJECT (cbox),
-			"toggled",
-			G_CALLBACK (cb_axis_fmt_assignment_toggled), notebook);
-		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), w, cbox);
-#else
 		gog_editor_add_page (editor, w, _("Format"));
-#endif
 
 		gtk_widget_show (w);
 		g_signal_connect (G_OBJECT (w),
@@ -1729,6 +1728,51 @@ gog_axis_get_bounds (GogAxis const *axis, double *minima, double *maxima)
 
 	return go_finite (*minima) && go_finite (*maxima) && *minima < *maxima;
 }
+
+/**
+ * gog_axis_set_bounds :
+ * @axis : #GogAxis
+ * @minimum : axis low bound
+ * @maximum : axis high bound
+ *
+ * Sets axis bounds. If minimum or maximum are not finite values, corresponding
+ * bound remains unchanged.
+ **/
+void
+gog_axis_set_bounds (GogAxis *axis, double minimum, double maximum)
+{
+	g_return_if_fail (GOG_AXIS (axis) != NULL);
+
+	if (go_finite (minimum)) {
+		gog_dataset_set_dim (GOG_DATASET (axis), GOG_AXIS_ELEM_MIN, 
+				     go_data_scalar_val_new (minimum), NULL);
+	}
+	if (go_finite (maximum)) {
+		gog_dataset_set_dim (GOG_DATASET (axis), GOG_AXIS_ELEM_MAX,
+				     go_data_scalar_val_new (maximum), NULL);
+	}
+}
+
+/**
+ * gog_axis_set_extents :
+ * @axis : #GogAxis
+ * @start : axis start bound
+ * @stop : axis stop bound
+ *
+ * Set axis exents. It's a convenience function that sets axis bounds taking 
+ * into account invert flag.
+ **/
+void
+gog_axis_set_extents (GogAxis *axis, double start, double stop)
+{
+	g_return_if_fail (GOG_AXIS (axis) != NULL);
+
+	if (axis->inverted)
+		gog_axis_set_bounds (axis, stop, start);
+	else
+		gog_axis_set_bounds (axis, start, stop);
+}
+
 
 /**
  * gog_axis_get_ticks :

@@ -60,7 +60,13 @@ void		    	gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition p
 
 void			gog_axis_base_set_label_angle (GogAxisBase *axis_base, double angle);
 
-typedef GogView		GogAxisBaseView;
+typedef struct {
+	GogView		base;
+
+	double		x_start, y_start;
+	double		x_stop, y_stop;
+} GogAxisBaseView;
+
 typedef GogViewClass	GogAxisBaseViewClass;
 
 #define GOG_AXIS_BASE_VIEW_TYPE		(gog_axis_base_view_get_type ())

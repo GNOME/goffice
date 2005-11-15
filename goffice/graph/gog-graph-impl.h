@@ -41,6 +41,7 @@ struct _GogGraph {
 
 	guint	  idle_handler;
 };
+
 typedef struct {
 	GogOutlinedObjectClass base;
 
