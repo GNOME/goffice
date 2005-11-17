@@ -1,3 +1,9 @@
+2005-11-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-object.c (gog_object_add_by_name): Add
+	pre-condition.
+	(*): Fix preconditions.
+
 2005-11-15  Emmanuel Pacaud <emanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-axis-line.c (gog_tool_select_axis_point),
