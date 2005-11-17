@@ -1,3 +1,8 @@
+2005-11-17  Emmanuel Pacaud <emanuel.pacaud@univ-poitiers.fr>
+
+	* pixmap/chart_dropbar_1_[12].[svg,png]: fix rendering and bitmap.
+	[#321675]
+
 2005-11-16  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-object.c (gog_object_add_by_name): Add
