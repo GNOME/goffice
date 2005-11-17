@@ -142,7 +142,7 @@ gog_renderer_get_property (GObject *obj, guint param_id,
 void
 gog_renderer_request_update (GogRenderer *renderer)
 {
-	g_return_if_fail (GOG_RENDERER (renderer) != NULL);
+	g_return_if_fail (IS_GOG_RENDERER (renderer));
 
 	if (renderer->needs_update)
 		return;
@@ -154,7 +154,7 @@ gog_renderer_request_update (GogRenderer *renderer)
 void
 gog_renderer_invalidate_size_requests (GogRenderer *rend)
 {
-	g_return_if_fail (GOG_RENDERER (rend) != NULL);
+	g_return_if_fail (IS_GOG_RENDERER (rend));
 
 	if (rend->view)
 		gog_renderer_request_update (rend);
@@ -185,7 +185,7 @@ gog_renderer_push_style (GogRenderer *rend, GogStyle const *style)
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
 	g_return_if_fail (klass != NULL);
-	g_return_if_fail (GOG_STYLE (style) != NULL);
+	g_return_if_fail (IS_GOG_STYLE (style));
 
 	if (rend->cur_style != NULL)
 		rend->style_stack = g_slist_prepend (

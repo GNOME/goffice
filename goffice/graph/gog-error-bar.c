@@ -492,7 +492,7 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 		With a 0 value, it might be, because of rounding errors */
 	*min = *max = -1.; 
 
-	g_return_val_if_fail (GOG_ERROR_BAR (bar) != NULL, FALSE);
+	g_return_val_if_fail (IS_GOG_ERROR_BAR (bar), FALSE);
 	if (!gog_series_is_valid (bar->series))
 		return FALSE;
 	value = go_data_vector_get_value (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data), index);
@@ -546,7 +546,7 @@ gog_error_bar_get_minmax (const GogErrorBar *bar, double *min, double *max)
 	int i, imax;
 	double tmp_min, tmp_max, plus, minus;
 	
-	g_return_if_fail (GOG_ERROR_BAR (bar) != NULL);
+	g_return_if_fail (IS_GOG_ERROR_BAR (bar));
 
 	if (!gog_series_is_valid (bar->series)) {
 		*min = DBL_MAX;

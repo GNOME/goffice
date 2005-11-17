@@ -186,7 +186,7 @@ gog_tool_action_new (GogView *view, GogTool *tool, double x, double y)
 {
 	GogToolAction *action;
 
-	g_return_val_if_fail (GOG_VIEW (view) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_VIEW (view), NULL);
 	g_return_val_if_fail (tool != NULL, NULL);
 
 	action = g_new0 (GogToolAction, 1);
@@ -612,7 +612,7 @@ gog_view_get_model (GogView const *view)
 void
 gog_view_queue_redraw (GogView *view)
 {
-	g_return_if_fail (GOG_VIEW (view) != NULL);
+	g_return_if_fail (IS_GOG_VIEW (view));
 	g_return_if_fail (view->renderer != NULL);
 
 	gog_renderer_request_update (view->renderer);
@@ -629,7 +629,7 @@ gog_view_queue_redraw (GogView *view)
 void
 gog_view_queue_resize (GogView *view)
 {
-	g_return_if_fail (GOG_VIEW (view) != NULL);
+	g_return_if_fail (IS_GOG_VIEW (view));
 	g_return_if_fail (view->renderer != NULL);
 
 	gog_renderer_request_update (view->renderer);
@@ -718,7 +718,7 @@ gog_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
 gboolean
 gog_view_update_sizes (GogView *view)
 {
-	g_return_val_if_fail (GOG_VIEW (view) != NULL, TRUE);
+	g_return_val_if_fail (IS_GOG_VIEW (view), TRUE);
 	g_return_val_if_fail (!view->being_updated, TRUE);
 
 	if (!view->allocation_valid)
@@ -876,7 +876,7 @@ gog_view_render_toolkit (GogView *view)
 	GogTool *tool;
 	GSList const *ptr;
 	
-	g_return_if_fail (GOG_VIEW (view) != NULL);
+	g_return_if_fail (IS_GOG_VIEW (view));
 
 	for (ptr = gog_view_get_toolkit (view); ptr != NULL; ptr = ptr->next) {
 		tool = ptr->data;
@@ -895,7 +895,7 @@ gog_view_render_toolkit (GogView *view)
 GSList const *
 gog_view_get_toolkit (GogView *view)
 {
-	g_return_val_if_fail (GOG_VIEW (view) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_VIEW (view), NULL);
 
 	if  (view->toolkit == NULL) {
 		GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
@@ -953,7 +953,7 @@ gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, 
 	GSList const *ptr;
 	GSList *list;
 	
-	g_return_val_if_fail (GOG_VIEW (view) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_VIEW (view), NULL);
 
 	/* walk the list in reverse */
 	list = g_slist_reverse (g_slist_copy (view->children));

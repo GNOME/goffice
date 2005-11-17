@@ -94,7 +94,7 @@ GSF_CLASS (GogOutlinedObject, gog_outlined_object,
 double
 gog_outlined_object_get_pad (GogOutlinedObject const *goo)
 {
-	g_return_val_if_fail (GOG_OUTLINED_OBJECT (goo) != NULL, 0.);
+	g_return_val_if_fail (IS_GOG_OUTLINED_OBJECT (goo), 0.);
 	return goo->padding_pts;
 }
 

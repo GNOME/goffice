@@ -61,7 +61,7 @@ enum {
 gboolean
 gog_grid_line_is_minor (GogGridLine *ggl)
 {
-	g_return_val_if_fail (GOG_GRID_LINE (ggl) != NULL, FALSE);
+	g_return_val_if_fail (IS_GOG_GRID_LINE (ggl), FALSE);
 
 	return ggl->is_minor;
 }

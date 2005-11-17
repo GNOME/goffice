@@ -201,7 +201,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 	GogChartMap *map;
 	GogAxisSet axis_set;
 
-	g_return_val_if_fail (GOG_CHART (chart) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_CHART (chart), NULL);
 
 	map = g_new (GogChartMap, 1);
 
@@ -825,7 +825,7 @@ void
 gog_chart_set_position (GogChart *chart,
 			unsigned x, unsigned y, unsigned cols, unsigned rows)
 {
-	g_return_if_fail (GOG_CHART (chart) != NULL);
+	g_return_if_fail (IS_GOG_CHART (chart));
 
 	if (chart->x == x && chart->y == y &&
 	    chart->cols == cols && chart->rows == rows)
@@ -885,7 +885,7 @@ gog_chart_get_cardinality (GogChart *chart, unsigned *full, unsigned *visible)
 	GSList *ptr;
 	unsigned tmp_full, tmp_visible;
 
-	g_return_if_fail (GOG_CHART (chart) != NULL);
+	g_return_if_fail (IS_GOG_CHART (chart));
 
 	if (!chart->cardinality_valid) {
 		chart->cardinality_valid = TRUE;
@@ -906,7 +906,7 @@ gog_chart_get_cardinality (GogChart *chart, unsigned *full, unsigned *visible)
 void
 gog_chart_request_cardinality_update (GogChart *chart)
 {
-	g_return_if_fail (GOG_CHART (chart) != NULL);
+	g_return_if_fail (IS_GOG_CHART (chart));
 	
 	if (chart->cardinality_valid) {
 		chart->cardinality_valid = FALSE;
@@ -920,7 +920,7 @@ gog_chart_foreach_elem (GogChart *chart, gboolean only_visible,
 {
 	GSList *ptr;
 
-	g_return_if_fail (GOG_CHART (chart) != NULL);
+	g_return_if_fail (IS_GOG_CHART (chart));
 	g_return_if_fail (chart->cardinality_valid);
 
 	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
@@ -930,14 +930,14 @@ gog_chart_foreach_elem (GogChart *chart, gboolean only_visible,
 GSList *
 gog_chart_get_plots (GogChart const *chart)
 {
-	g_return_val_if_fail (GOG_CHART (chart) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_CHART (chart), NULL);
 	return chart->plots;
 }
 
 GogAxisSet
 gog_chart_get_axis_set (GogChart const *chart)
 {
-	g_return_val_if_fail (GOG_CHART (chart) != NULL, GOG_AXIS_SET_UNKNOWN);
+	g_return_val_if_fail (IS_GOG_CHART (chart), GOG_AXIS_SET_UNKNOWN);
 	return chart->axis_set;
 }
 
@@ -946,7 +946,7 @@ gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type)
 {
 	GSList *ptr;
 
-	g_return_val_if_fail (GOG_CHART (chart) != NULL, FALSE);
+	g_return_val_if_fail (IS_GOG_CHART (chart), FALSE);
 
 	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
 		if (!gog_plot_axis_set_is_valid (ptr->data, type))
@@ -973,7 +973,7 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 	GSList  *ptr;
 	GogAxisType type;
 
-	g_return_val_if_fail (GOG_CHART (chart) != NULL, FALSE);
+	g_return_val_if_fail (IS_GOG_CHART (chart), FALSE);
 
 	if (chart->axis_set == axis_set)
 		return TRUE;
@@ -1034,7 +1034,7 @@ gog_chart_get_axes (GogChart const *chart, GogAxisType target)
 	GogAxis *axis;
 	int type;
 
-	g_return_val_if_fail (GOG_CHART (chart) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_CHART (chart), NULL);
 
 	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ptr = ptr->next) {
 		axis = ptr->data;
@@ -1063,7 +1063,7 @@ gog_chart_get_axes (GogChart const *chart, GogAxisType target)
 GogGrid  *
 gog_chart_get_grid (GogChart const *chart)
 {
-	g_return_val_if_fail (GOG_CHART (chart) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_CHART (chart), NULL);
 	return GOG_GRID (chart->grid);
 }
 
@@ -1231,10 +1231,8 @@ static GSF_CLASS (GogChartView, gog_chart_view,
 GogViewAllocation const *
 gog_chart_view_get_plot_area (GogView const *view)
 {
-	GogChartView *chart_view = GOG_CHART_VIEW (view);
+	g_return_val_if_fail (IS_GOG_CHART_VIEW (view), NULL);
 
-	g_return_val_if_fail ((GOG_CHART_VIEW (view) != NULL), NULL);
-
-	return & (chart_view->plot_area);
+	return &(GOG_CHART_VIEW (view)->plot_area);
 }
 

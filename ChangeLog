@@ -2,7 +2,7 @@
 
 	* goffice/graph/gog-object.c (gog_object_add_by_name): Add
 	pre-condition.
-	(*): Fix preconditions.
+	* goffice/graph/*.c: Fix preconditions to use IS_ forms.
 
 2005-11-15  Emmanuel Pacaud <emanuel.pacaud@univ-poitiers.fr>
 

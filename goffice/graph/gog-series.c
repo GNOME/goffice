@@ -540,7 +540,7 @@ gog_series_dataset_set_dim (GogDataset *set, int dim_i,
 	GogSeries *series = GOG_SERIES (set);
 	GogGraph *graph = gog_object_get_graph (GOG_OBJECT (series));
 
-	g_return_if_fail (GOG_PLOT (series->plot) != NULL);
+	g_return_if_fail (IS_GOG_PLOT (series->plot));
 
 	if (dim_i < 0) {
 		char *name = NULL;
@@ -624,7 +624,7 @@ GSF_CLASS_FULL (GogSeries, gog_series,
 GogPlot *
 gog_series_get_plot (GogSeries const *series)
 {
-	g_return_val_if_fail (GOG_SERIES (series) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_SERIES (series), NULL);
 	return series->plot;
 }
 
@@ -637,7 +637,7 @@ gog_series_get_plot (GogSeries const *series)
 gboolean
 gog_series_is_valid (GogSeries const *series)
 {
-	g_return_val_if_fail (GOG_SERIES (series) != NULL, FALSE);
+	g_return_val_if_fail (IS_GOG_SERIES (series), FALSE);
 	return series->is_valid;
 }
 
@@ -655,8 +655,8 @@ gog_series_check_validity (GogSeries *series)
 	unsigned i;
 	GogSeriesDesc const *desc;
 
-	g_return_if_fail (GOG_SERIES (series) != NULL);
-	g_return_if_fail (GOG_PLOT (series->plot) != NULL);
+	g_return_if_fail (IS_GOG_SERIES (series));
+	g_return_if_fail (IS_GOG_PLOT (series->plot));
 
 	desc = &series->plot->desc.series;
 	for (i = series->plot->desc.series.num_dim; i-- > 0; )
@@ -677,7 +677,7 @@ gog_series_check_validity (GogSeries *series)
 gboolean
 gog_series_has_legend (GogSeries const *series)
 {
-	g_return_val_if_fail (GOG_SERIES (series) != NULL, FALSE);
+	g_return_val_if_fail (IS_GOG_SERIES (series), FALSE);
 	return series->has_legend;
 }
 
@@ -696,7 +696,7 @@ gog_series_has_legend (GogSeries const *series)
 void
 gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
 {
-	g_return_if_fail (GOG_SERIES (series) != NULL);
+	g_return_if_fail (IS_GOG_SERIES (series));
 
 	if (ind < 0) {
 		if (series->manual_index && series->plot != NULL)
@@ -726,7 +726,7 @@ gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
 GODataScalar *
 gog_series_get_name (GogSeries const *series)
 {
-	g_return_val_if_fail (GOG_SERIES (series) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_SERIES (series), NULL);
 	return GO_DATA_SCALAR (series->values[-1].data);
 }
 
@@ -784,7 +784,7 @@ gog_series_get_valid_element_index (GogSeries const *series, int old_index, int 
 	int index;
 	GList *ptr;
 
-	g_return_val_if_fail (GOG_SERIES (series) != NULL, -1);
+	g_return_val_if_fail (IS_GOG_SERIES (series), -1);
 
 	if ((desired_index >= (int) series->num_elements) ||
 	    (desired_index < 0))
@@ -820,7 +820,7 @@ gog_series_get_element (GogSeries const *series, int index)
 	GList *ptr;
 	GogSeriesElement *element;
 
-	g_return_val_if_fail (GOG_SERIES (series) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_SERIES (series), NULL);
 
 	for (ptr = series->overrides; ptr != NULL; ptr = ptr->next) {
 		element = GOG_SERIES_ELEMENT (ptr->data);

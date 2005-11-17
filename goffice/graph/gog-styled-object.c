@@ -182,7 +182,7 @@ gog_styled_object_set_style (GogStyledObject *gso,
 {
 	gboolean resize;
 
-	g_return_val_if_fail (GOG_STYLED_OBJECT (gso) != NULL, FALSE);
+	g_return_val_if_fail (IS_GOG_STYLED_OBJECT (gso), FALSE);
 
 	if (gso->style == style)
 		return FALSE;
@@ -208,7 +208,7 @@ gog_styled_object_set_style (GogStyledObject *gso,
 GogStyle *
 gog_styled_object_get_style (GogStyledObject *gso)
 {
-	g_return_val_if_fail (GOG_STYLED_OBJECT (gso) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_STYLED_OBJECT (gso), NULL);
 	return gso->style;
 }
 
