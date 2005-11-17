@@ -54,19 +54,19 @@ static char const *libgoffice_locale_dir = GOFFICE_LOCALEDIR;
 static char const *libgoffice_lib_dir    = GOFFICE_LIBDIR;
 
 gchar const *
-go_sys_data_dir ()
+go_sys_data_dir (void)
 {
 	return libgoffice_data_dir;
 }
 
 gchar const *
-go_sys_icon_dir ()
+go_sys_icon_dir (void)
 {
 	return libgoffice_icon_dir;
 }
 
 gchar const *
-go_sys_lib_dir ()
+go_sys_lib_dir (void)
 {
 	return libgoffice_lib_dir;
 }
