@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    inkscape:export-ydpi="25.400000"
    inkscape:export-xdpi="25.400000"
-   inkscape:export-filename="/home/jean/devel/projs/goffice_finance/pixmaps/chart_dropbar_1_2.png"
+   inkscape:export-filename="/home/manu/Desktop/chart_dropbar_1_2.png"
    sodipodi:docname="chart_dropbar_1_2.svg"
-   sodipodi:docbase="/home/jean/devel/projs/goffice_finance/pixmaps"
+   sodipodi:docbase="/home/gnome/head/goffice/pixmaps"
    height="60.000000mm"
    width="64.000000mm"
-   inkscape:version="0.40"
+   inkscape:version="0.42"
    sodipodi:version="0.32"
-   id="svg1"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:xlink="http://www.w3.org/1999/xlink">
+   id="svg1">
   <defs
      id="defs3">
     <linearGradient
@@ -157,16 +156,12 @@
   </sodipodi:namedview>
   <metadata
      id="metadata4">
-    <rdf:RDF
-       id="RDF5">
+    <rdf:RDF>
       <cc:Work
-         id="Work6"
          rdf:about="">
-        <dc:format
-           id="format7">image/svg+xml</dc:format>
+        <dc:format>image/svg+xml</dc:format>
         <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-           id="type9" />
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -226,11 +221,12 @@
   <rect
      style="fill:#d1940c;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:3.5433071;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
      id="rect6929"
-     width="21.259842"
-     height="68.168365"
-     x="-139.96062"
-     y="-148.81889"
-     transform="matrix(0.000000,-1.000000,-1.000000,0.000000,0.000000,0.000000)" />
+     width="21.293707"
+     height="67.298920"
+     x="-139.96065"
+     y="-147.02333"
+     transform="matrix(0.000000,-1.000000,-1.000000,0.000000,0.000000,0.000000)"
+     ry="0.0000000" />
   <rect
      style="fill:#7b5980;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:3.5433071;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
      id="rect6930"
@@ -240,11 +236,11 @@
      y="-111.76111"
      transform="matrix(0.000000,-1.000000,-1.000000,0.000000,0.000000,0.000000)" />
   <rect
-     style="fill:#d1940c;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:3.5433071;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+     style="fill:#d1940c;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:3.5433078;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
      id="rect6931"
      width="21.259842"
-     height="109.16044"
+     height="109.83167"
      x="-62.007870"
-     y="-178.93701"
+     y="-178.92618"
      transform="matrix(0.000000,-1.000000,-1.000000,0.000000,0.000000,0.000000)" />
 </svg>
