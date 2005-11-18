@@ -57,25 +57,13 @@ gog_control_foocanvas_set_property (GObject *gobject, guint param_id,
 	case CTRL_FOO_PROP_MODEL:
 		if (ctrl->renderer != NULL)
 			g_object_unref (ctrl->renderer);
-#ifdef WITH_CAIRO
-		ctrl->renderer = g_object_new (GOG_RENDERER_CAIRO_TYPE,
-					       "model", g_value_get_object (value),
-					       NULL);
-#else
-		ctrl->renderer = g_object_new (GOG_RENDERER_PIXBUF_TYPE,
-					       "model", g_value_get_object (value),
-					       NULL);
-#endif
+		ctrl->renderer = gog_renderer_new_for_pixbuf (g_value_get_object (value));
 		break;
 
 	case CTRL_FOO_PROP_RENDERER:
 		if (ctrl->renderer != NULL)
 			g_object_unref (ctrl->renderer);
-#ifdef WITH_CAIRO
-		ctrl->renderer = GOG_RENDERER_CAIRO (g_value_get_object (value));
-#else
-		ctrl->renderer = GOG_RENDERER_PIXBUF (g_value_get_object (value));
-#endif
+		ctrl->renderer = GOG_RENDERER (g_value_get_object (value));
 		if (ctrl->renderer != NULL)
 			g_object_ref (ctrl->renderer);
 		break;
@@ -129,11 +117,7 @@ gog_control_foocanvas_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			    GdkEventExpose *ev)
 {
 	GogControlFooCanvas *ctrl = GOG_CONTROL_FOOCANVAS (item);
-#ifdef WITH_CAIRO
-	GdkPixbuf *buffer = gog_renderer_cairo_get_pixbuf (ctrl->renderer);
-#else
-	GdkPixbuf *buffer = gog_renderer_pixbuf_get (ctrl->renderer);
-#endif
+	GdkPixbuf *buffer = gog_renderer_get_pixbuf (ctrl->renderer);
 	GdkRectangle display_rect, draw_rect;
 	GdkRegion *draw_region;
 
@@ -183,13 +167,7 @@ gog_control_foocanvas_update (FooCanvasItem *item,
 	foo_canvas_w2c (item->canvas, ctrl->base.xpos, ctrl->base.ypos, &x1, &y1);
 	foo_canvas_w2c (item->canvas, ctrl->base.xpos + ctrl->new_w, ctrl->base.ypos + ctrl->new_h, &x2, &y2);
 
-#ifdef WITH_CAIRO
-	redraw = gog_renderer_cairo_update (ctrl->renderer, x2-x1, y2-y1,
-		item->canvas->pixels_per_unit);
-#else
-	redraw = gog_renderer_pixbuf_update (ctrl->renderer, x2-x1, y2-y1,
-		item->canvas->pixels_per_unit);
-#endif
+	redraw = gog_renderer_update (ctrl->renderer, x2-x1, y2-y1, item->canvas->pixels_per_unit);
 	if (item->x1 != x1 || item->y1 != y1 || item->x2 != x2 || item->y2 != y2)
 		foo_canvas_update_bbox (FOO_CANVAS_ITEM (ctrl), x1, y1, x2, y2);
 	else if (redraw)
@@ -240,17 +218,10 @@ gog_control_foocanvas_class_init (GogControlFooCanvasClass *klass)
 		g_param_spec_object ("model", "model",
 			"the GogObject this object displays",
 			GOG_OBJECT_TYPE, G_PARAM_WRITABLE));
-#ifdef WITH_CAIRO
 	g_object_class_install_property (gobject_klass, CTRL_FOO_PROP_RENDERER,
 		g_param_spec_object ("renderer", "renderer",
-			"the GogRendererCairo being displayed",
-			GOG_RENDERER_CAIRO_TYPE, G_PARAM_READWRITE));
-#else
-	g_object_class_install_property (gobject_klass, CTRL_FOO_PROP_RENDERER,
-		g_param_spec_object ("renderer", "renderer",
-			"the GogRendererPixbuf being displayed",
-			GOG_RENDERER_PIXBUF_TYPE, G_PARAM_READWRITE));
-#endif
+			"the GogRenderer being displayed",
+			GOG_RENDERER_TYPE, G_PARAM_READWRITE));
 }
 
 static void

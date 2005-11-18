@@ -21,6 +21,8 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-renderer-impl.h>
+#include <goffice/graph/gog-renderer-pixbuf.h>
+#include <goffice/graph/gog-renderer-cairo.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-view.h>
@@ -837,4 +839,60 @@ gog_renderer_push_selection_style (GogRenderer *renderer)
 		renderer->grip_style->fill.type = GOG_FILL_STYLE_PATTERN;
 	}
 	gog_renderer_push_style (renderer, renderer->grip_style);
+}
+
+/**
+ * gog_renderer_new_for_pixbuf:
+ * @graph : graph model
+ *
+ * Creates a new renderer which can render into a pixbuf, and sets
+ * @graph as its model.
+ **/ 
+GogRenderer*
+gog_renderer_new_for_pixbuf (GogGraph *graph)
+{
+#ifdef WITH_CAIRO
+	return g_object_new (GOG_RENDERER_CAIRO_TYPE, "model", graph, NULL);
+#else
+	return g_object_new (GOG_RENDERER_PIXBUF_TYPE, "model", graph, NULL);
+#endif
+}
+
+/**
+ * gog_renderer_update:
+ * @renderer : #GogRenderer
+ * @w : requested width
+ * @h : requested height
+ * @zoom : requested zoom
+ *
+ * Request a renderer update, only useful for pixbuf based renderer.
+ **/
+gboolean
+gog_renderer_update (GogRenderer *renderer, double w, double h, double zoom)
+{
+#ifdef WITH_CAIRO
+	g_return_val_if_fail (IS_GOG_RENDERER_CAIRO (renderer), FALSE);
+	return gog_renderer_cairo_update (GOG_RENDERER_CAIRO (renderer), w, h, zoom);
+#else
+	g_return_val_if_fail (IS_GOG_RENDERER_PIXBUF (renderer), FALSE);
+	return gog_renderer_pixbuf_update (GOG_RENDERER_PIXBUF (renderer), w, h, zoom);
+#endif
+}
+
+/** 
+ * gog_renderer_get_pixbuf:
+ * @renderer : #GogRenderer
+ *
+ * Returns current pixbuf buffer from a renderer that can render into a pixbuf.
+ **/
+GdkPixbuf*
+gog_renderer_get_pixbuf (GogRenderer *renderer)
+{
+#ifdef WITH_CAIRO
+	g_return_val_if_fail (IS_GOG_RENDERER_CAIRO (renderer), NULL);
+     	return gog_renderer_cairo_get_pixbuf (GOG_RENDERER_CAIRO (renderer));
+#else
+	g_return_val_if_fail (IS_GOG_RENDERER_PIXBUF (renderer), NULL);
+	return gog_renderer_pixbuf_get (GOG_RENDERER_PIXBUF (renderer));
+#endif
 }

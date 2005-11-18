@@ -31,7 +31,6 @@ libgoffice_graph_la_SOURCES = \
 	\
 	gog-guru.c			\
 	gog-renderer.c			\
-	gog-renderer-pixbuf.c		\
 	gog-control-foocanvas.c		\
 	gog-renderer-gnome-print.c	\
 	gog-renderer-svg.c
@@ -70,7 +69,6 @@ libgoffice_graph_la_HEADERS = \
 	gog-guru.h			\
 	gog-renderer.h			\
 	gog-renderer-impl.h		\
-	gog-renderer-pixbuf.h		\
 	gog-control-foocanvas.h		\
 	gog-renderer-gnome-print.h	\
 	gog-renderer-svg.h
@@ -78,7 +76,11 @@ libgoffice_graph_la_HEADERS = \
 if WITH_CAIRO
   libgoffice_graph_la_SOURCES += gog-renderer-cairo.c	
   libgoffice_graph_la_HEADERS += gog-renderer-cairo.h
+else
+  libgoffice_graph_la_SOURCES += gog-renderer-pixbuf.c	
+  libgoffice_graph_la_HEADERS += gog-renderer-pixbuf.h
 endif
+
 
 gladedir = $(goffice_datadir)/glade
 dist_glade_DATA = \

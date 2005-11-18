@@ -22,7 +22,7 @@
 #include "go-graph-widget.h"
 #include <gtk/gtkdrawingarea.h>
 #include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-renderer-pixbuf.h>
+#include <goffice/graph/gog-renderer.h>
 #include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -35,7 +35,7 @@ enum {
 struct  _GOGraphWidget{
 	GtkDrawingArea	base;
 
-	GogRendererPixbuf *renderer;
+	GogRenderer *renderer;
 	GogGraph *graph;
 	GogChart *chart; /* first chart created on init */
 	double aspect_ratio, width, height, xoffset, yoffset;
@@ -66,7 +66,7 @@ go_graph_widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 			w->yoffset = 0;
 		}
 	}
-	gog_renderer_pixbuf_update (w->renderer, w->width, w->height, 1.0);
+	gog_renderer_update (w->renderer, w->width, w->height, 1.0);
 	graph_parent_klass->size_allocate (widget, allocation);
 }
 
@@ -80,7 +80,7 @@ go_graph_widget_expose_event (GtkWidget *widget, GdkEventExpose *event)
 
 	if (w->idle_id)
 		return TRUE;
-	pixbuf = gog_renderer_pixbuf_get (w->renderer);
+	pixbuf = gog_renderer_get_pixbuf (w->renderer);
 	display_rect.x = w->xoffset;
 	display_rect.y = w->yoffset;
 	display_rect.width  = w->width;
@@ -171,7 +171,7 @@ idle_handler (GOGraphWidget *w)
 {
 	GDK_THREADS_ENTER ();
 
-	gog_renderer_pixbuf_update (w->renderer, w->width, w->height, 1.0);
+	gog_renderer_update (w->renderer, w->width, w->height, 1.0);
 
 	/* Reset idle id */
 	w->idle_id = 0;
@@ -194,9 +194,7 @@ static void
 go_graph_widget_init (GOGraphWidget *w)
 {
 	w->graph = (GogGraph *) g_object_new (GOG_GRAPH_TYPE, NULL);
-	w->renderer = g_object_new (GOG_RENDERER_PIXBUF_TYPE,
-					  "model", w->graph,
-					  NULL);
+	w->renderer = gog_renderer_new_for_pixbuf (w->graph);
 	g_signal_connect_swapped (w->renderer, "request_update",
 		G_CALLBACK (go_graph_widget_request_update), w);
 	/* by default, create one chart and add it to the graph */

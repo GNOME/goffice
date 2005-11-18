@@ -23,11 +23,7 @@
 
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-#ifdef WITH_CAIRO
-#include <goffice/graph/gog-renderer-cairo.h>
-#else
-#include <goffice/graph/gog-renderer-pixbuf.h>
-#endif
+#include <goffice/graph/gog-renderer.h>
 
 G_BEGIN_DECLS
 
@@ -41,11 +37,7 @@ typedef struct {
 	double new_h, new_w;
 
 	GogGraph *model;
-#ifdef WITH_CAIRO
-	GogRendererCairo *renderer;
-#else
-	GogRendererPixbuf *renderer;
-#endif
+	GogRenderer *renderer;
 } GogControlFooCanvas;
 typedef FooCanvasGroupClass GogControlFooCanvasClass;
 

@@ -91,6 +91,11 @@ double gog_renderer_pt2r_x   	  	(GogRenderer const *r, double d);
 double gog_renderer_pt2r_y   	  	(GogRenderer const *r, double d);
 double gog_renderer_pt2r   	  	(GogRenderer const *r, double d);
 
+/* utilities for cairo/libart transition */
+GogRenderer 	*gog_renderer_new_for_pixbuf 	(GogGraph *graph);
+gboolean 	 gog_renderer_update 		(GogRenderer *renderer, double w, double h, double zoom);
+GdkPixbuf 	*gog_renderer_get_pixbuf 	(GogRenderer *renderer); 
+
 G_END_DECLS
 
 #endif /* GOG_RENDERER_H */

@@ -1,3 +1,27 @@
+2005-11-18  Emmanuel Pacaud <emanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/Makefile.am: don't build pixbuf renderer when cairo is
+	enabled.
+	* goffice/graph/gog-control-foocanvas.c
+	(gog_control_foocanvas_set_property): don't use conditionnal
+	compilation, but helper functions from gog-renderer.c.
+	(gog_control_foocanvas_draw): ditto.
+	(gog_control_foocanvas_update): ditto.
+	(gog_control_foocanvas_class_init): ditto.
+	* goffice/graph/gog-renderer-cairo.c (gog_renderer_cairo_clip_push):
+	set clip from arbitrary path instead of rectangle region.
+	(gog_renderer_cairo_draw_text): use 72 dpi for screen resolution.
+	(gog_renderer_cairo_get_text_OBR): ditto.
+	* goffice/graph/gog-renderer.c (gog_renderer_new_for_pixbuf): new.
+	(gog_renderer_update): new.
+	(gog_renderer_get_pixbuf): new.
+	* goffice/gtk/go-graph-widget.c (go_graph_widget_size_allocate): use 
+	new helper functions from gog-renderer instead of requesting 
+	explicitely a pixbuf renderer.
+	(go_graph_widget_expose_event): ditto.
+	(idle_handler): ditto.
+	(go_graph_widget_init): ditto.
+	
 2005-11-17  Emmanuel Pacaud <emanuel.pacaud@univ-poitiers.fr>
 
 	* pixmap/chart_dropbar_1_[12].[svg,png]: fix rendering and bitmap.
