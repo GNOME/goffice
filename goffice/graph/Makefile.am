@@ -33,6 +33,7 @@ libgoffice_graph_la_SOURCES = \
 	gog-renderer.c			\
 	gog-control-foocanvas.c		\
 	gog-renderer-gnome-print.c	\
+	gog-renderer-pixbuf.c		\
 	gog-renderer-svg.c
 
 libgoffice_graph_ladir = $(goffice_include_dir)/graph
@@ -71,14 +72,12 @@ libgoffice_graph_la_HEADERS = \
 	gog-renderer-impl.h		\
 	gog-control-foocanvas.h		\
 	gog-renderer-gnome-print.h	\
+	gog-renderer-pixbuf.h		\
 	gog-renderer-svg.h
 
 if WITH_CAIRO
   libgoffice_graph_la_SOURCES += gog-renderer-cairo.c	
   libgoffice_graph_la_HEADERS += gog-renderer-cairo.h
-else
-  libgoffice_graph_la_SOURCES += gog-renderer-pixbuf.c	
-  libgoffice_graph_la_HEADERS += gog-renderer-pixbuf.h
 endif
 
 
