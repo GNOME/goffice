@@ -767,6 +767,7 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 {
 	GogObject *old_object = view->selected_object;
 	GogTool *tool = NULL;
+	GdkWindow *window = event->any.window;
 	double x, y;
 	
 	x = event->button.x - x_offset;
@@ -792,21 +793,25 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 				gog_view_queue_redraw (GOG_VIEW (view));
 			}
 			update_action (view, tool, x, y);
-			update_cursor (view, tool, event->any.window);
+			update_cursor (view, tool, window);
+			gdk_window_get_pointer (window, NULL, NULL, NULL);
 			break;
 		case GDK_MOTION_NOTIFY: 
-			if (view->action != NULL)
+			if (view->action != NULL) {
 				gog_tool_action_move (view->action, x, y);
+				gdk_window_process_updates (window, TRUE);
+			}
 			else if (view->selected_view != NULL) {
 				tool = gog_view_get_tool_at_point (view->selected_view, x, y, NULL);
-				update_cursor (view, tool, event->any.window);
+				update_cursor (view, tool, window);
 			}
+			gdk_window_get_pointer (window, NULL, NULL, NULL);
 			break;
 		case GDK_BUTTON_RELEASE:
 			update_action (view, NULL, 0, 0);
 			if (view->selected_view != NULL) {
 				tool = gog_view_get_tool_at_point (view->selected_view, x, y, NULL);
-				update_cursor (view, tool, event->any.window);
+				update_cursor (view, tool, window);
 				gog_object_request_editor_update (view->selected_view->model);
 			}
 			break;

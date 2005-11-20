@@ -1,3 +1,13 @@
+2005-11-20  Emmanuel Pacaud <emanuel.pacaud@univ-poitiers.fr>
+
+	Fix smoothness of object movements in guru.
+	
+	* goffice/graph/gog-graph.c (gog_graph_view_handle_event): force
+	update processing, and call gdk_window_get_pointer in order to get
+	next motion event.
+	* goffice/graph/gog-guru.c (graph_guru_init_format_page): add
+	GDK_POINTER_MOTION_HINT_MASK to graph window event mask.
+
 2005-11-18  Emmanuel Pacaud <emanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/Makefile.am: don't build pixbuf renderer when cairo is

@@ -1137,6 +1137,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 		foo_canvas_root (FOO_CANVAS (w)), GOG_CONTROL_FOOCANVAS_TYPE,
 		"model", s->graph,
 		NULL);
+	gtk_widget_add_events (w, GDK_POINTER_MOTION_HINT_MASK);
 	cb_sample_plot_resize (FOO_CANVAS (w), &w->allocation, s);
 	g_signal_connect (G_OBJECT (w),
 		"size_allocate",
