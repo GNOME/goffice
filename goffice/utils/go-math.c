@@ -558,9 +558,9 @@ go_continued_fraction (double val, int max_denom, int *res_num, int *res_denom)
 	y = 1;
 
 	do {
-		int a = (int) (x / y);
+		double a = floor (x / y);
 		double newy = x - a * y;
-		int n3, d3;
+		int ia, n3, d3;
 
 		if ((n2 && a > (INT_MAX - n1) / n2) ||
 		    (d2 && a > (INT_MAX - d1) / d2) ||
@@ -570,6 +570,7 @@ go_continued_fraction (double val, int max_denom, int *res_num, int *res_denom)
 			return;
 		}
 
+		ia = (int)a;
 		n3 = a * n2 + n1;
 		d3 = a * d2 + d1;
 

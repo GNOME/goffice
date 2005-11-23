@@ -1,3 +1,12 @@
+2005-11-23  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/format.c (go_format_number): Handle the separation
+	of numbers into whole and fractional part such that numbers from
+	2^31 and up do not invoke undefined behaviour.
+
+	* goffice/utils/go-math.c (go_continued_fraction): Don't go to
+	int-space until we have checked the size.
+
 2005-11-20  Emmanuel Pacaud <emanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/Makefile.am: allways compile gog-renderer-pixbuf.c.

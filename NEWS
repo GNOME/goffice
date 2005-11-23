@@ -4,6 +4,8 @@ Morten:
 	* Fix translation problems causing crashes in the character set
 	  selector for people not using UTF-8.
 	* Add and fix gog-object preconditions.  [Part of #321678]
+	* Handle problem with fraction formats for very large values.
+          [Debian 340463]
 
 --------------------------------------------------------------------------
 goffice 0.1.1:
