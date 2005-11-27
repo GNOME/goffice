@@ -1,4 +1,4 @@
-SUBDIRS = utils data app graph gtk drawing ms-compat cut-n-paste
+SUBDIRS = utils data app graph gtk drawing ms-compat cut-n-paste component
 
 lib_LTLIBRARIES = libgoffice-1.la
 
@@ -12,6 +12,7 @@ libgoffice_1_la_LIBADD = 			\
 	graph/libgoffice-graph.la		\
 	drawing/libgoffice-drawing.la		\
 	ms-compat/libgoffice-ms-compat.la	\
+	component/libgoffice-component.la	\
 	$(GOFFICE_LIBS)
 
 libgoffice_1_la_LDFLAGS = -version-info $(VERSION_INFO)

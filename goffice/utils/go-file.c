@@ -601,6 +601,16 @@ go_get_mime_type (gchar const *uri)
 #endif
 }
 
+gchar
+*go_get_mime_type_for_data	(gconstpointer data, int data_size)
+{
+#ifdef WITH_GNOME
+	return g_strdup (gnome_vfs_get_mime_type_for_data (data, data_size));
+#else
+	return g_strdup ("application/octet-stream");
+#endif
+}
+
 /* ------------------------------------------------------------------------- */
 
 #ifdef G_OS_WIN32

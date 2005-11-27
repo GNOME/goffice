@@ -1,3 +1,19 @@
+2005-11-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: create goffice/component/Makefile.
+	* goffice/Makefile.am: add component subdir.
+	* goffice/component/Makefile.am: new component API.
+	* goffice/component/go-component-factory.c: ditto.
+	* goffice/component/go-component-factory.h: ditto.
+	* goffice/component/go-component.c: ditto.
+	* goffice/component/go-component.h: ditto.
+	* goffice/component/goffice-component.h: ditto.
+	* goffice/goffice.c: (libgoffice_init), (libgoffice_shutdown):
+	init/shutdown component sustem.
+	* goffice/utils/go-file.c: (go_get_mime_type_for_data): new function.
+	* goffice/utils/go-file.h: ditto.
+	* libgoffice-1.pc.in: add GOffice_plugins_dir variable.
+
 2005-11-23  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/format.c (go_format_number): Handle the separation

@@ -482,6 +482,7 @@ goffice/gtk/Makefile
 goffice/graph/Makefile
 goffice/drawing/Makefile
 goffice/ms-compat/Makefile
+goffice/component/Makefile
 goffice/cut-n-paste/Makefile
 goffice/cut-n-paste/foocanvas/Makefile
 goffice/cut-n-paste/pcre/Makefile

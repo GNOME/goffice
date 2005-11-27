@@ -40,6 +40,7 @@
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-math.h>
 #include <goffice/app/go-plugin-service.h>
+#include <goffice/component/go-component-factory.h>
 #include <gsf/gsf-utils.h>
 
 #include "goffice-paths.h"
@@ -103,6 +104,7 @@ libgoffice_init (void)
 	/* keep trigger happy linkers from leaving things out */
 	plugin_services_init ();
 	gog_plugin_services_init ();
+	goc_plugin_services_init ();
 	(void) GOG_GRAPH_TYPE;
 	(void) GOG_CHART_TYPE;
 	(void) GOG_PLOT_TYPE;
@@ -128,6 +130,7 @@ libgoffice_shutdown (void)
 {
 	gog_themes_shutdown ();
 	go_fonts_shutdown ();
+	goc_plugin_services_shutdown ();
 	gog_plugin_services_shutdown ();
 	number_format_shutdown ();
 #ifdef G_OS_WIN32
