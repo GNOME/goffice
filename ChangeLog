@@ -25,7 +25,7 @@
 
 2005-11-20  Emmanuel Pacaud <emanuel.pacaud@univ-poitiers.fr>
 
-	* goffice/graph/Makefile.am: allways compile gog-renderer-pixbuf.c.
+	* goffice/graph/Makefile.am: always compile gog-renderer-pixbuf.c.
 
 2005-11-20  Emmanuel Pacaud <emanuel.pacaud@univ-poitiers.fr>
 
@@ -1320,7 +1320,7 @@
 	(gog_object_get_manual_position): new.
 	(gog_object_set_manual_position): new.
 	(gog_object_get_manual_allocation): new.
-	* goffice/graph/gog-plot.c (gog_plot_populate_editor): allways call parent
+	* goffice/graph/gog-plot.c (gog_plot_populate_editor): always call parent
 	populate_editor.
 	* goffice/graph/gog-renderer-pixbuf.c
 	(gog_renderer_pixbuf_get_text_OBR): use pango_layout_get_extents
@@ -1483,7 +1483,7 @@
 	ticks not centered on labels.
 	* goffice/graph/gog-axis.c (map_discrete_calc_ticks): separate
 	handling of ticks from handling of labels.
-	(gog_axis_update): allways set GogAxis::center_on_ticks from
+	(gog_axis_update): always set GogAxis::center_on_ticks from
 	GogBounds.
 	* plugins/plot_radar/gog-radar.c (gog_radar_plot_axis_get_bounds):
 	set center_on_ticks=TRUE explicitely.
@@ -2745,7 +2745,7 @@
 	GogAxisBase and GogAxisBaseView.
 	* goffice/graph/gog-axis.c: GogAxis is now derived from GogAxisBase.
 	Tick settings and position are now property of GogAxisBase.
-	(create_invalid_axis_ticks): allways generate tick labels.
+	(create_invalid_axis_ticks): always generate tick labels.
 	(map_discrete_calc_ticks): ditto. 
 	(map_linear_calc_ticks): ditto.
 	(map_log_calc_ticks): ditto.
@@ -2786,7 +2786,7 @@
 	* goffice/graph/gog-grid-line.c (gog_grid_line_view_render): better
 	placement of radar plots.
 	* goffice/graph/gog-guru.c (cb_attr_tree_selection_change):
-	no need to handle editor type since gog_object_get_editor allways
+	no need to handle editor type since gog_object_get_editor always
 	returns a notebook now.
 	* goffice/graph/gog-label.c (gog_label_populate_editor): Use new
 	GogEditor API.	
@@ -3408,7 +3408,7 @@
 2004-10-26  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=152585
-	* grah/gog-axis.c (gog_axis_update): allways emit changed signal for
+	* grah/gog-axis.c (gog_axis_update): always emit changed signal for
 	discrete axis, since labels may have changed.
 	* plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_update): call
 	gog_axis_bound_changed if GogSeries1_5D->index_changed == TRUE.
@@ -3609,7 +3609,7 @@
 	* graph/gog-axis-prefs.glade: fix layout.
 	* graph/gog-axis.c (make_dim_editor): ditto.
 	(gog_axis_editor): ditto.
-	* graph/gog-guru.c (cb_attr_tree_selection_change): allways use a
+	* graph/gog-guru.c (cb_attr_tree_selection_change): always use a
 	notebook, but hide tabs when there's only one page.
 	(graph_guru_type_selector_new): load layout from glade file.
 	* graph/gog-guru-glade: remove scrollbar around property notebook.
@@ -3775,7 +3775,7 @@
 2004-09-20  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice.c: new GogGridLine type.
-	* graph/gog-axis.c (map_discrete_calc_ticks): allways calc major and
+	* graph/gog-axis.c (map_discrete_calc_ticks): always calc major and
 	minor ticks.
 	(map_linear_calc_ticks): ditto.
 	(map_log_calc_ticks): ditto.
@@ -4021,7 +4021,7 @@
 	* graph/gog-view.h: remove call_parent_render and add a clip flag.
 	* graph/gog-chart.c (gog_chart_view_render): removed.
 	(gog_chart_view_class_init): set clip to TRUE.
-	* graph/gog-outlined-object.c: allways call parent render.
+	* graph/gog-outlined-object.c: always call parent render.
 	* graph/gog-renderer-gnome-print.c: change start/stop_clipping to
 	clip_push/pop.
 	* graph/gog-renderer-svg.c: change start/stop_clipping to
