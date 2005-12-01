@@ -1,3 +1,7 @@
+2005-12-01  Jon K Hellan  <hellan@acm.org>
+
+	* goffice/graph/gog-renderer.h: Fix typo.
+
 2005-12-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* goffice/app/go-plugin.c, goffice/graph/gog-axis.c,

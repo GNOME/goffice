@@ -64,7 +64,7 @@ void  gog_renderer_draw_ring_wedge  	(GogRenderer *rend, double cx, double cy,
 			      gboolean narrow);
 void  gog_renderer_draw_path      	(GogRenderer *rend, ArtVpath const *path);
 void  gog_renderer_draw_polygon   	(GogRenderer *rend, ArtVpath const *path, gboolean narrow);
-void  gog_renderer_draw_rectangle 	(GogRenderer *rend, GogViewAllocation const *rect, gboolean sharp);
+void  gog_renderer_draw_rectangle 	(GogRenderer *rend, GogViewAllocation const *rect);
 void  gog_renderer_draw_bezier_path     (GogRenderer *rend, ArtBpath const *path);
 
 void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
