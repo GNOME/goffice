@@ -22,6 +22,9 @@
 
 
 /**
+ * go_xml_parse_file :
+ * @filename:
+ *
  * Like xmlParseFile, but faster.  Does not accept compressed files.
  * See http://bugzilla.gnome.org/show_bug.cgi?id=168414
  *

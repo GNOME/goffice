@@ -1522,8 +1522,9 @@ go_plugins_get_plugin_by_id (const gchar *plugin_id)
 }
 
 /**
- * plugin_db_mark_plugin_for_deactivation:
- * ...
+ * plugin_db_mark_plugin_for_deactivation :
+ * @plugin:
+ * @mark:
  */
 void
 go_plugin_db_mark_plugin_for_deactivation (GOPlugin *plugin, gboolean mark)
@@ -1543,8 +1544,8 @@ go_plugin_db_mark_plugin_for_deactivation (GOPlugin *plugin, gboolean mark)
 }
 
 /**
- * plugin_db_is_plugin_marked_for_deactivation:
- * ...
+ * plugin_db_is_plugin_marked_for_deactivation :
+ * @plugin: 
  */
 gboolean
 go_plugin_db_is_plugin_marked_for_deactivation (GOPlugin *plugin)

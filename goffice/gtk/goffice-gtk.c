@@ -124,11 +124,11 @@ go_gtk_button_new_with_stock (char const *text, char const* stock_id)
 }
 
 /**
- * go_gtk_dialog_add_button
- * dialog : dialog you want to add a button
- * text : button label
- * stock_id : stock icon id
- * response_id : respond id when button clicked
+ * go_gtk_dialog_add_button :
+ * @dialog: dialog you want to add a button
+ * @text: button label
+ * @stock_id: stock icon id
+ * @response_id: respond id when button clicked
  *
  * Creates and adds a button with stock image to the action area of an existing dialog.
  * Code from gedit

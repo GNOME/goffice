@@ -793,7 +793,7 @@ GSF_CLASS (GogChart, gog_chart,
  * @cols :
  * @rows :
  *
- * Returns TRUE if the chart has been positioned.
+ * Returns: TRUE if the chart has been positioned.
  **/
 gboolean
 gog_chart_get_position (GogChart const *chart,
@@ -814,11 +814,11 @@ gog_chart_get_position (GogChart const *chart,
 
 /**
  * gog_chart_set_position :
- * @chart : #GogChart
- * @x :
- * @y :
- * @cols :
- * @rows :
+ * @chart: #GogChart
+ * @x:
+ * @y:
+ * @cols:
+ * @rows:
  *
  **/
 void
@@ -1024,7 +1024,7 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
  * @chart : #GogChart
  * @target  : #GogAxisType
  *
- * Return a list which the caller must free of all axis of type @target
+ * Returns: a list which the caller must free of all axis of type @target
  * associated with @chart.
  **/
 GSList *
@@ -1055,9 +1055,9 @@ gog_chart_get_axes (GogChart const *chart, GogAxisType target)
 
 /**
  * gog_chart_get_grid :
- * @chart : #GogChart
+ * @chart: #GogChart
  *
- * Returns the grid associated with @chart if one exists
+ * Returns: the grid associated with @chart if one exists
  * otherwise NULL.
  **/
 GogGrid  *

@@ -378,9 +378,9 @@ gog_graph_set_theme (GogGraph *graph, GogTheme *theme)
 
 /**
  * gog_graph_get_data :
- * @graph : #GogGraph
+ * @graph: #GogGraph
  *
- * Returns a list of the GOData objects that are data to the graph.
+ * Returns: a list of the GOData objects that are data to the graph.
  * The caller should _not_ modify or free the list.
  **/
 GSList *
@@ -536,12 +536,12 @@ gog_graph_force_update (GogGraph *graph)
 	}
 }
 /**
- * gog_graph_get_size:
+ * gog_graph_get_size :
  * @graph: #GogGraph
  * @width: logical width in pts
  * @height: logical height in pts
  *
- * Returns the logical size of graph, in points.
+ * Returns: the logical size of graph, in points.
  **/
 void
 gog_graph_get_size (GogGraph *graph, double *width, double *height)
@@ -821,10 +821,10 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 }
 
 /**
- * gog_graph_view_get_selection
- * @view : #GogGraphView
+ * gog_graph_view_get_selection :
+ * @view: #GogGraphView
  *
- * Returns current selected view.
+ * Returns: current selected view.
  **/
 GogView *
 gog_graph_view_get_selection (GogGraphView *view)

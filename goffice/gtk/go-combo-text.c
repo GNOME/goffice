@@ -47,6 +47,8 @@ enum {
 static guint combo_text_signals [LAST_SIGNAL] = { 0 };
 
 /**
+ * go_signal_emit :
+ *
  * A utility wrapper around g_signal_emitv because it does not initialize the
  * result to FALSE if there is no handler.
  */

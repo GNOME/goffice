@@ -1,3 +1,10 @@
+2005-12-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* goffice/app/go-plugin.c, goffice/gtk/go-combo-color.c,
+	goffice/gtk/go-combo-text.c, goffice/gtk/goffice-gtk.c,
+	goffice/utils/datetime.c, goffice/utils/go-geometry.c,
+	goffice/utils/go-libxml-extras.c: Some gtk-doc syntax fixes.
+
 2005-12-01  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	Enable gtk-doc.

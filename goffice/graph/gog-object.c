@@ -861,11 +861,13 @@ dataset_dup (GogDataset const *src, GogDataset *dst)
 
 /**
  * gog_object_dup :
- * @src : #GogObject
- * @new_parent : #GogObject the parent tree for the object (can be NULL)
- * @datadup : a function to duplicate the data (a default one is used if NULL) 
+ * @src: #GogObject
+ * @new_parent: #GogObject the parent tree for the object (can be NULL)
+ * @datadup: a function to duplicate the data (a default one is used if NULL) 
  *
  * Create a deep copy of @obj using @new_parent as its parent.
+ *
+ * Returns: FIXME
  **/
 
 GogObject *
@@ -918,7 +920,7 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
  * gog_object_get_parent :
  * @obj : a #GogObject
  *
- * Returns @obj's parent, potentially NULL if it has not been added to a
+ * Returns: @obj's parent, potentially NULL if it has not been added to a
  * heirarchy yet.  does not change ref-count in any way.
  **/
 GogObject *
@@ -930,11 +932,11 @@ gog_object_get_parent (GogObject const *obj)
 
 /**
  * gog_object_get_parent_typed :
- * @obj : a #GogObject
- * @type : a #GType
+ * @obj: a #GogObject
+ * @t: a #GType
  *
- * Returns @obj's parent of type @type, potentially NULL if it has not been
- * added to a heirarchy yet or none of the parents are of type @type.
+ * Returns: @obj's parent of type @type, potentially NULL if it has not been
+ * added to a hierarchy yet or none of the parents are of type @type.
  **/
 GogObject *
 gog_object_get_parent_typed (GogObject const *obj, GType t)
@@ -951,7 +953,7 @@ gog_object_get_parent_typed (GogObject const *obj, GType t)
  * gog_object_get_graph :
  * @obj : const * #GogObject
  *
- * Returns the parent graph.
+ * Returns: the parent graph.
  **/
 GogGraph *
 gog_object_get_graph (GogObject const *obj)
@@ -1044,7 +1046,8 @@ gog_object_get_children (GogObject const *obj, GogObjectRole const *filter)
  * @role : a #GogObjectRole to use as a filter
  *
  * A convenience routine to handle a unique child
- * Returns NULL and spews an error if there is more than one.
+ *
+ * Returns: NULL and spews an error if there is more than one.
  **/
 GogObject *
 gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
@@ -1128,10 +1131,9 @@ gog_role_cmp_full (GogObjectRole const *a, GogObjectRole const *b)
 
 /**
  * gog_object_possible_additions :
- * @parent : a #GogObject
+ * @parent: a #GogObject
  *
- * returns a list of GogObjectRoles that could be added
- *
+ * Returns: a list of GogObjectRoles that could be added.
  * The resulting list needs to be freed
  **/
 GSList *
@@ -1208,7 +1210,7 @@ gog_object_can_reorder (GogObject const *obj, gboolean *inc_ok, gboolean *dec_ok
  * @inc :
  * @goto_max :
  *
- * Returns the object just before @obj in the new ordering.
+ * Returns: the object just before @obj in the new ordering.
  **/
 GogObject *
 gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
@@ -1295,8 +1297,8 @@ gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
 
 /**
  * gog_object_new_view :
- * @obj : a #GogObject
- * @data :
+ * @obj: a #GogObject
+ * @parent:
  **/
 GogView *
 gog_object_new_view (GogObject const *obj, GogView *parent)
@@ -1380,7 +1382,7 @@ gog_object_emit_changed (GogObject *obj, gboolean resize)
 
 /**
  * gog_object_request_editor_update :
- * @gobj : #GogObject
+ * @obj: #GogObject
  *
  * Emits a update-editor signal. This signal should be used by object editors
  * in order to refresh their states.
@@ -1433,10 +1435,10 @@ gog_object_clear_parent (GogObject *obj)
 
 /**
  * gog_object_set_parent :
- * @child  : #GogObject.
- * @parent : #GogObject.
- * @id : optionally %NULL.
- * @role : a static string that can be sent to @parent::add
+ * @child: #GogObject.
+ * @parent: #GogObject.
+ * @id: optionally %NULL.
+ * @role: a static string that can be sent to @parent::add
  *
  * Absorbs a ref to @child
  **/
@@ -1510,7 +1512,7 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
  * @role :
  * @child : optionally null #GogObject
  *
- * Returns a newly created child of @parent in @role.  If @child is provided,
+ * Returns: a newly created child of @parent in @role.  If @child is provided,
  * it is assumed to be an unaffiliated object that will be assigned in @role.
  * On failure return NULL.
  **/
@@ -1539,12 +1541,13 @@ gog_object_get_position_flags (GogObject const *obj, GogObjectPosition mask)
 
 /**
  * gog_object_set_position_flags :
- * @obj : #GogObject
- * @flags : #GogObjectPosition
- * @mask : #GogObjectPosition
+ * @obj: #GogObject
+ * @flags: #GogObjectPosition
+ * @mask: #GogObjectPosition
  *
  * Attempts to set the position flags of @obj to @flags.
- * Returns TRUE the new flags are permitted.
+ *
+ * Returns: TRUE the new flags are permitted.
  **/
 gboolean
 gog_object_set_position_flags (GogObject *obj, GogObjectPosition flags, GogObjectPosition mask)
@@ -1569,10 +1572,13 @@ gog_object_set_position_flags (GogObject *obj, GogObjectPosition flags, GogObjec
 }
 
 /**
- * gog_object_get_manual_position:
- * @obj : #GogObject
+ * gog_object_get_manual_position :
+ * @obj: #GogObject
+ * @pos: #GogViewAllocation
  *
- * returns manual position of this object, in points.
+ * FIXME
+ *
+ * Returns: manual position of this object, in points.
  **/
 void
 gog_object_get_manual_position (GogObject *gobj, GogViewAllocation *pos)
@@ -1611,8 +1617,8 @@ gog_object_set_manual_position (GogObject *gobj, GogViewAllocation const *pos)
  * @parent_allocation : #GogViewAllocation
  * @requisition : #GogViewRequisition
  *
- * Returns manual allocation of a GogObject given its parent allocation
- * and its size request.
+ * Returns: manual allocation of a GogObject given its parent allocation and
+ * its size request.
  **/
 GogViewAllocation
 gog_object_get_manual_allocation (GogObject *gobj,

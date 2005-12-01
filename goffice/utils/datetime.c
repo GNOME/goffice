@@ -188,9 +188,9 @@ datetime_g_years_between (GDate const *date1, GDate const *date2)
 /* ------------------------------------------------------------------------- */
 
 /**
- * datetime_weeknum (GDate *date, int method)
- * @date      date
- * @method    week numbering method
+ * datetime_weeknum:
+ * @date:      date
+ * @method:    week numbering method
  *
  * Returns week number according to the given method.
  * 1:   Week starts on Sunday. Days before first Sunday are in week 0.

@@ -250,9 +250,9 @@ go_combo_color_get_color (GOComboColor *cc, gboolean *is_default)
 }
 
 /**
- * go_combo_color_set_color_gdk
- * @cc     The combo
- * @color  The color
+ * go_combo_color_set_color_gdk :
+ * @cc:    The combo
+ * @color: The color
  *
  * Set the color of the combo to the given color. Causes the color_changed
  * signal to be emitted.
@@ -281,9 +281,9 @@ go_combo_color_set_color (GOComboColor *cc, GOColor c)
 }
 
 /**
- * go_combo_color_set_instant_apply
- * @cc     The combo
- * @active Whether instant apply should be active or not
+ * go_combo_color_set_instant_apply :
+ * @cc:     The combo
+ * @active: Whether instant apply should be active or not
  *
  * Turn instant apply behaviour on or off. Instant apply means that pressing
  * the button applies the current color. When off, pressing the button opens
@@ -311,8 +311,8 @@ go_combo_color_set_allow_alpha (GOComboColor *cc, gboolean allow_alpha)
 }
 
 /**
- * go_combo_color_set_color_to_default
- * @cc  The combo
+ * go_combo_color_set_color_to_default :
+ * @cc:  The combo
  *
  * Set the color of the combo to the default color. Causes the color_changed
  * signal to be emitted.
@@ -327,8 +327,8 @@ go_combo_color_set_color_to_default (GOComboColor *cc)
 
 /**
  * go_combo_color_new :
- * icon : optionally NULL.
- * no_color_label :
+ * @icon: optionally NULL.
+ * @no_color_label: FIXME
  *
  * Default constructor. Pass an optional icon and an optional label for the
  * no/auto color button.

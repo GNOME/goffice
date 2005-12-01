@@ -27,7 +27,7 @@
 #define dist(x0, y0, x1, y1) hypot((x0) - (x1),(y0) - (y1))
 
 /**
- * go_geometry_cartesian_to_polar:
+ * go_geometry_cartesian_to_polar :
  * @x, @y: cartesian coordinates.
  * @rho, @theta: polar coordinates.
  *
@@ -41,7 +41,7 @@ go_geometry_cartesian_to_polar (double x, double y, double *rho, double *theta)
 }
 
 /**
- * go_geometry_point_to_segment:
+ * go_geometry_point_to_segment :
  * @xp, @yp: point coordinates
  * @xs, ys: segment strt coordinates:
  * @w, @h: extent of segment.
