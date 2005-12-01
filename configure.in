@@ -471,6 +471,8 @@ AC_DEFINE(GO_VERSION_MINOR, goffice_version_minor,
 AC_DEFINE(GO_VERSION_EXTRA, "goffice_version_extra",
 	[Extra, possibly empty tag for this release])
 
+GTK_DOC_CHECK([1.4])
+
 AC_CONFIG_FILES([
 Makefile
 libgoffice-1.pc
@@ -498,6 +500,8 @@ plugins/reg_logfit/Makefile
 pixmaps/Makefile
 po/Makefile.in
 tests/Makefile
+docs/Makefile
+docs/reference/Makefile
 ])
 AC_OUTPUT
 

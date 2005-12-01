@@ -1,3 +1,19 @@
+2005-12-01  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	Enable gtk-doc.
+	
+	* Makefile.am: add docs to SUBDIRS.
+	* configure.in: add GTK_DOC_CHECK. Add docs Makefile to
+	AC_CONFIG_FILES.
+	* docs/Makefile.am: new.
+	* docs/reference/Makefile.am: new.
+	* docs/reference/goffice-sections.txt: new. Only include Goffice Graph
+	API for now.
+	* docs/reference/goffice-docs.sgml: ditto.
+	* docs/reference/TODO: new. Contains remaining API sections.
+	* goffice/graph/gog-error-bar.c (gog_error_bar_prefs): fix a gtk-doc
+	warning.
+
 2005-11-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: create goffice/component/Makefile.

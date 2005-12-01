@@ -171,10 +171,10 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 
 gpointer
 gog_error_bar_prefs (GogSeries *series,
-			char const* property,
-			gboolean horizontal,
-			GogDataAllocator *dalloc,
-			GOCmdContext *cc)
+		     char const *property,
+		     gboolean horizontal,
+		     GogDataAllocator *dalloc,
+		     GOCmdContext *cc)
 {
 	GladeXML *gui;
 	GtkWidget *w, *bar_prefs;
@@ -183,9 +183,9 @@ gog_error_bar_prefs (GogSeries *series,
 	GogDataset *set;
 	GdkPixbuf *pixbuf;
 	GogErrorBarEditor *editor;
-	
+
 	g_return_val_if_fail (IS_GOG_SERIES (series), NULL);
-	
+
 	editor = g_new0 (GogErrorBarEditor, 1);
 	editor->series = series;
 	editor->property = property;
