@@ -66,8 +66,8 @@ GType gog_chart_get_type (void);
 
 gboolean  gog_chart_get_position  (GogChart const *chart, unsigned *x, unsigned *y,
 				   unsigned *cols, unsigned *rows);
-void	  gog_chart_set_position  (GogChart *chart, unsigned x, unsigned y,
-				   unsigned cols, unsigned rows);
+void	  gog_chart_set_position  (GogChart *chart, unsigned int x, unsigned int y,
+				   unsigned int cols, unsigned int rows);
 gboolean  gog_chart_get_plot_area (GogChart *chart, GogViewAllocation *plot_area);
 void 	  gog_chart_set_plot_area (GogChart *chart, GogViewAllocation const *plot_area);
 

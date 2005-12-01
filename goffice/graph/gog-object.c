@@ -1299,6 +1299,8 @@ gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
  * gog_object_new_view :
  * @obj: a #GogObject
  * @parent:
+ *
+ * Returns:
  **/
 GogView *
 gog_object_new_view (GogObject const *obj, GogView *parent)
@@ -1444,7 +1446,7 @@ gog_object_clear_parent (GogObject *obj)
  **/
 gboolean
 gog_object_set_parent (GogObject *child, GogObject *parent,
-		       GogObjectRole const *role, unsigned id)
+		       GogObjectRole const *role, unsigned int id)
 {
 	GogObjectClass *klass;
 	GSList **step;
@@ -1577,8 +1579,6 @@ gog_object_set_position_flags (GogObject *obj, GogObjectPosition flags, GogObjec
  * @pos: #GogViewAllocation
  *
  * FIXME
- *
- * Returns: manual position of this object, in points.
  **/
 void
 gog_object_get_manual_position (GogObject *gobj, GogViewAllocation *pos)

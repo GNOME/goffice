@@ -213,11 +213,11 @@ gog_theme_find_element (GogTheme *theme, GogObject *obj)
 
 /**
  * gog_theme_fillin_style :
- * @theme : #GogTheme
- * @style : #GogStyle to initialize
- * @obj : #GogObject The object associated with @style
- * @ind : an optional index
- * @complete_overwrite : boolean
+ * @theme: #GogTheme
+ * @style: #GogStyle to initialize
+ * @obj: #GogObject The object associated with @style
+ * @ind: an optional index
+ * @complete_overwrite: boolean
  *
  * Fill in the auto aspects of @style based on @theme 's element for objects of
  * type/role similar to @obj with index @ind.  If @complete_overwrite is used,

@@ -683,11 +683,11 @@ gog_series_has_legend (GogSeries const *series)
 
 /**
  * gog_series_set_index :
- * @series : #GogSeries
- * @index :
- * @is_manual :
+ * @series: #GogSeries
+ * @ind:
+ * @is_manual:
  *
- * if @index >= 0 attempt to assign the new index.  Auto
+ * If @index >= 0 attempt to assign the new index.  Auto
  * indicies (@is_manual == FALSE) will not override the current
  * index if it is manual.  An @index < 0, will reset the index to
  * automatic and potentially queue a revaluation of the parent

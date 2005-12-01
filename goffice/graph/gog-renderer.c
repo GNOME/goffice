@@ -279,10 +279,7 @@ gog_renderer_pop_clip (GogRenderer *rend)
 
 /**
  * gog_renderer_get_rectangle_vpath :
- * @x      : upper left corner
- * @y      : upper left corner
- * @width  : rectangle width
- * @height : rectangle height
+ * @rect:
  *
  * a utility routine to build a rectangle path.
  **/
@@ -400,13 +397,13 @@ gog_renderer_get_ring_wedge_bpath (double cx, double cy,
 
 /**
  * gog_renderer_draw_ring_wedge :
- * @renderer : #GogRenderer
- * @cx : center x coordinate
- * @cy : center y coordinate
- * @rx : x radius
- * @ry : y radius
- * @th0 : start arc angle
- * @th1 : stop arc angle
+ * @rend: #GogRenderer
+ * @cx: center x coordinate
+ * @cy: center y coordinate
+ * @rx_out: x radius
+ * @ry_out: y radius
+ * @th0: start arc angle
+ * @th1: stop arc angle
  *
  * a utility routine to draw an arc.
  **/
@@ -462,8 +459,8 @@ gog_renderer_draw_sharp_path (GogRenderer *rend, ArtVpath *path)
 
 /**
  * gog_renderer_draw_path :
- * @rend : #GogRenderer
- * @path  : #ArtVpath
+ * @rend: #GogRenderer
+ * @path: #ArtVpath
  *
  * Draws @path using the outline elements of the current style.
  **/
@@ -582,7 +579,8 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
 /**
  * gog_renderer_draw_marker :
  * @rend : #GogRenderer
- * @pos  : #ArtPoint
+ * @x: X-coordinate
+ * @y: Y-coordinate
  **/
 void
 gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
@@ -720,8 +718,9 @@ GSF_CLASS (GogRenderer, gog_renderer,
 
 /**
  * gog_renderer_draw_rectangle :
- * @renderer : #GogRenderer
- * @rect : #GogViewAllocation
+ * @rend: #GogRenderer
+ * @rect: #GogViewAllocation
+ * @sharp:
  *
  * A utility routine to build a vpath in @rect.
  **/
@@ -860,10 +859,10 @@ gog_renderer_new_for_pixbuf (GogGraph *graph)
 
 /**
  * gog_renderer_update:
- * @renderer : #GogRenderer
- * @w : requested width
- * @h : requested height
- * @zoom : requested zoom
+ * @renderer: #GogRenderer
+ * @w: requested width
+ * @h: requested height
+ * @zoom: requested zoom
  *
  * Request a renderer update, only useful for pixbuf based renderer.
  **/

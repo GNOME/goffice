@@ -765,7 +765,7 @@ gog_view_render	(GogView *view, GogViewAllocation const *bbox)
  * @req : additionnal requisition
  * @min_req : minimum size for displaying all children
  *
- * Returns additionnal requision in @req which must be added to parent requisition,
+ * FIXME Returns additional requision in @req which must be added to parent requisition,
  * and minimum requisition in @min_req which is minimum space for displaying all
  * children.
  **/

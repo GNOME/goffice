@@ -40,12 +40,12 @@ GType gog_renderer_get_type            (void);
 
 void  gog_renderer_request_update (GogRenderer *r);
 
-void  gog_renderer_push_style     	(GogRenderer *r, GogStyle const *style);
-void  gog_renderer_push_selection_style (GogRenderer *r);
-void  gog_renderer_pop_style      	(GogRenderer *r);
+void  gog_renderer_push_style     	(GogRenderer *rend, GogStyle const *style);
+void  gog_renderer_push_selection_style (GogRenderer *renderer);
+void  gog_renderer_pop_style      	(GogRenderer *rend);
 
-void  gog_renderer_push_clip 	  (GogRenderer *r, ArtVpath *path);
-void  gog_renderer_pop_clip       (GogRenderer *r);
+void  gog_renderer_push_clip 	  (GogRenderer *rend, ArtVpath *clip_path);
+void  gog_renderer_pop_clip       (GogRenderer *rend);
 
 ArtVpath * gog_renderer_get_rectangle_vpath 	(GogViewAllocation const *rect);
 ArtBpath * gog_renderer_get_ring_wedge_bpath	(double cx, double cy, 
@@ -53,24 +53,25 @@ ArtBpath * gog_renderer_get_ring_wedge_bpath	(double cx, double cy,
 						 double rx_in, double ry_in,
 						 double th0, double th1);
 
-void  gog_renderer_draw_sharp_path	(GogRenderer *r, ArtVpath *path);
-void  gog_renderer_draw_sharp_polygon   (GogRenderer *r, ArtVpath *path, gboolean narrow);
+void  gog_renderer_draw_sharp_path	(GogRenderer *rend, ArtVpath *path);
+void  gog_renderer_draw_sharp_polygon   (GogRenderer *rend, ArtVpath *path, gboolean narrow);
 void  gog_renderer_draw_sharp_rectangle (GogRenderer *r, GogViewAllocation const *rect);
 
-void  gog_renderer_draw_ring_wedge  	(GogRenderer *r, double cx, double cy, 
-					 double rx_out, double ry_out,
-					 double rx_in, double ry_in,
-					 double th0, double th1, gboolean narrow);
-void  gog_renderer_draw_path      	(GogRenderer *r, ArtVpath const *path);
-void  gog_renderer_draw_polygon   	(GogRenderer *r, ArtVpath const *path, gboolean narrow);
-void  gog_renderer_draw_rectangle 	(GogRenderer *r, GogViewAllocation const *rect);
-void  gog_renderer_draw_bezier_path     (GogRenderer *r, ArtBpath const *path);
+void  gog_renderer_draw_ring_wedge  	(GogRenderer *rend, double cx, double cy,
+			      double rx_out, double ry_out, 
+			      double rx_in, double ry_in,
+			      double th0, double th1,
+			      gboolean narrow);
+void  gog_renderer_draw_path      	(GogRenderer *rend, ArtVpath const *path);
+void  gog_renderer_draw_polygon   	(GogRenderer *rend, ArtVpath const *path, gboolean narrow);
+void  gog_renderer_draw_rectangle 	(GogRenderer *rend, GogViewAllocation const *rect, gboolean sharp);
+void  gog_renderer_draw_bezier_path     (GogRenderer *rend, ArtBpath const *path);
 
 void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
 				   GogViewAllocation const *pos, GtkAnchorType anchor,
 				   GogViewAllocation *result);
 void  gog_renderer_draw_marker	  (GogRenderer *rend, double x, double y);
-void  gog_renderer_draw_grip	  (GogRenderer *rend, double x, double y);
+void  gog_renderer_draw_grip	  (GogRenderer *renderer, double x, double y);
 
 #define gog_renderer_in_grip(x,y,grip_x,grip_y) ((x) >= ((grip_x) - (GOG_RENDERER_GRIP_SIZE)) && \
 						 (x) <= ((grip_x) + (GOG_RENDERER_GRIP_SIZE)) && \
@@ -93,7 +94,7 @@ double gog_renderer_pt2r   	  	(GogRenderer const *r, double d);
 
 /* utilities for cairo/libart transition */
 GogRenderer 	*gog_renderer_new_for_pixbuf 	(GogGraph *graph);
-gboolean 	 gog_renderer_update 		(GogRenderer *renderer, double w, double h, double zoom);
+gboolean	 gog_renderer_update		(GogRenderer *renderer, double w, double h, double zoom);
 GdkPixbuf 	*gog_renderer_get_pixbuf 	(GogRenderer *renderer); 
 
 G_END_DECLS

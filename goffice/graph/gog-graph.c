@@ -541,7 +541,7 @@ gog_graph_force_update (GogGraph *graph)
  * @width: logical width in pts
  * @height: logical height in pts
  *
- * Returns: the logical size of graph, in points.
+ * FIXME Returns the logical size of graph, in points.
  **/
 void
 gog_graph_get_size (GogGraph *graph, double *width, double *height)

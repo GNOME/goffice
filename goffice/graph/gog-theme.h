@@ -33,7 +33,9 @@ G_BEGIN_DECLS
 GType gog_theme_get_type (void);
 
 void gog_theme_fillin_style    (GogTheme *theme, GogStyle *style,
-				GogObject *obj, int i, gboolean complete_overwrite);
+		                GogObject *obj, int ind,
+				gboolean complete_overwrite);
+;
 void gog_theme_register        (GogTheme *theme, gboolean is_default);
 void gog_theme_register_file   (char const *name, char const *file);
 GogTheme   *gog_theme_lookup   (char const *name);

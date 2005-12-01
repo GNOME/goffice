@@ -862,7 +862,7 @@ gog_axis_map_get_baseline (GogAxisMap *map)
  * @start : start for this axis
  * @stop : stop for this axis
  *
- * Returns: start and stop for the given axis map in data coordinates. If
+ * FIXME Returns: start and stop for the given axis map in data coordinates. If
  * axis is not inverted, start = minimum and stop = maximum. If axis is invalid, 
  * it'll return arbitrary bounds. For example, an non inverted invalid X axis 
  * will have start set to 0.0 and stop set to 1.0.

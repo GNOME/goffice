@@ -137,7 +137,7 @@ GType gog_object_get_type (void);
 
 typedef void (*GogDataDuplicator) (GogDataset const *src, GogDataset *dst);
 
-GogObject   *gog_object_dup		 (GogObject const *obj, GogObject *new_parent, GogDataDuplicator dup);
+GogObject   *gog_object_dup		 (GogObject const *src, GogObject *new_parent, GogDataDuplicator datadup);
 GogObject   *gog_object_get_parent	 (GogObject const *obj);
 GogObject   *gog_object_get_parent_typed (GogObject const *obj, GType t);
 GogGraph    *gog_object_get_graph	 (GogObject const *obj);
@@ -149,9 +149,9 @@ GSList      *gog_object_get_children	 (GogObject const *obj, GogObjectRole const
 GogObject   *gog_object_get_child_by_role(GogObject const *obj, GogObjectRole const *role);
 gpointer     gog_object_get_editor	 (GogObject *obj,
 					  GogDataAllocator *dalloc, GOCmdContext *cc);
-GogView	  *gog_object_new_view	 	 (GogObject const *obj, GogView *view);
+GogView	  *gog_object_new_view		 (GogObject const *obj, GogView *view);
 gboolean   gog_object_is_deletable	 (GogObject const *obj);
-GSList    *gog_object_possible_additions (GogObject const *obj);
+GSList    *gog_object_possible_additions (GogObject const *parent);
 GogObject *gog_object_add_by_role	 (GogObject *parent,
 					  GogObjectRole const *role, GogObject *child);
 GogObject   *gog_object_add_by_name	 (GogObject *parent,
@@ -162,7 +162,7 @@ GogObject	 *gog_object_reorder	 (GogObject const *obj,
 					  gboolean inc, gboolean goto_max);
 
 GogObjectPosition gog_object_get_position_flags	   (GogObject const *obj, GogObjectPosition mask);
-gboolean	  gog_object_set_position_flags	   (GogObject *obj, GogObjectPosition p, GogObjectPosition mask);
+gboolean          gog_object_set_position_flags    (GogObject *obj, GogObjectPosition flags, GogObjectPosition mask);
 void	          gog_object_get_manual_position   (GogObject *obj, GogViewAllocation *pos);
 void 		  gog_object_set_manual_position   (GogObject *obj, GogViewAllocation const *pos);
 
@@ -178,8 +178,8 @@ void	 gog_object_update		  (GogObject *obj);
 gboolean gog_object_request_update	  (GogObject *obj);
 void 	 gog_object_emit_changed	  (GogObject *obj, gboolean size);
 gboolean gog_object_clear_parent	  (GogObject *obj);
-gboolean gog_object_set_parent	 	  (GogObject *child, GogObject *parent,
-					   GogObjectRole const *role, unsigned id);
+gboolean gog_object_set_parent		  (GogObject *child, GogObject *parent,
+					  GogObjectRole const *role, unsigned int id);
 void 	 gog_object_register_roles	  (GogObjectClass *klass,
 					   GogObjectRole const *roles, unsigned n_roles);
 void 	 gog_object_request_editor_update (GogObject *obj);

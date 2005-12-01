@@ -823,7 +823,7 @@ gog_chart_get_position (GogChart const *chart,
  **/
 void
 gog_chart_set_position (GogChart *chart,
-			unsigned x, unsigned y, unsigned cols, unsigned rows)
+			unsigned int x, unsigned int y, unsigned int cols, unsigned int rows)
 {
 	g_return_if_fail (IS_GOG_CHART (chart));
 

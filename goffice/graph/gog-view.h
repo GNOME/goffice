@@ -106,8 +106,8 @@ GType      gog_view_get_type (void);
 
 GogObject *gog_view_get_model	     (GogView const *view);
 void	   gog_view_render	     (GogView *v, GogViewAllocation const *bbox);
-void       gog_view_queue_redraw     (GogView *v);
-void       gog_view_queue_resize     (GogView *v);
+void       gog_view_queue_redraw     (GogView *view);
+void       gog_view_queue_resize     (GogView *view);
 void	   gog_view_padding_request  (GogView *v, GogViewAllocation const *bbox, GogViewPadding *padding);
 void       gog_view_size_request     (GogView *v, GogViewRequisition const *available, 
 				      GogViewRequisition *requisition);
