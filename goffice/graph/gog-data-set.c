@@ -52,7 +52,7 @@ gog_dataset_get_type (void)
  * @first : inclusive
  * @last : _inclusive_
  *
- * Returns the first and last valid indicises to get/set dim.
+ * FIXME: Returns the first and last valid indicises to get/set dim.
  **/
 void
 gog_dataset_dims (GogDataset const *set, int *first, int *last)

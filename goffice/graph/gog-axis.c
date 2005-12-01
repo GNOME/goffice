@@ -736,7 +736,7 @@ gog_axis_map_set (GogAxis *axis, char const *name)
  * gog_axis_map_is_valid
  * @axis : #GogAxis
  *
- * Return TRUE if map is valid, ie bounds are valid.
+ * Returns: TRUE if map is valid, ie bounds are valid.
  **/
 
 gboolean
@@ -749,11 +749,11 @@ gog_axis_map_is_valid (GogAxisMap *map)
 
 /**
  * gog_axis_map_new :
- * @axis : #GogAxis
- * @offset : start of plot area.
- * @length : length of plot area.
+ * @axis: #GogAxis
+ * @offset: start of plot area.
+ * @length: length of plot area.
  *
- * Return a new GogAxisMap for data mapping to plot window.
+ * Returns: a new GogAxisMap for data mapping to plot window.
  * offset and length are optional parameters to be used with 
  * gog_axis_map_to_view in order to translates data coordinates 
  * into canvas space.
@@ -785,7 +785,7 @@ gog_axis_map_new (GogAxis *axis, double offset, double length)
  * @map : #GogAxisMap
  * value : value to map to plot space.
  *
- * Return a value where [0,1.0] means a data within plot
+ * Returns: a value where [0,1.0] means a data within plot
  * bounds.
  * */
 
@@ -816,7 +816,7 @@ gog_axis_map_from_view (GogAxisMap *map,
  * @map : #GogAxisMap
  * @value : value to map to canvas space.
  *
- * Return a value in canvas coordinates, where
+ * Returns: a value in canvas coordinates, where
  * [offset,offset+length] means a data within plot bounds.
  **/
 
@@ -832,7 +832,7 @@ gog_axis_map_to_view (GogAxisMap *map,
  * @map : #GogAxisMap
  * @value : value to test
  *
- * Returns TRUE if value means something in this map
+ * Returns: TRUE if value means something in this map
  **/
 
 gboolean 
@@ -845,7 +845,7 @@ gog_axis_map_finite (GogAxisMap *map, double value)
  * gog_axis_map_get_baseline :
  * @map : #GogAxisMap
  *
- * Returns the baseline for the given map, in view coordinates,
+ * Returns: the baseline for the given map, in view coordinates,
  * clipped to offset and offset+length, where offset and length
  * are the parameters of gog_axis_map_new.
  **/
@@ -862,7 +862,7 @@ gog_axis_map_get_baseline (GogAxisMap *map)
  * @start : start for this axis
  * @stop : stop for this axis
  *
- * Returns start and stop for the given axis map in data coordinates. If
+ * Returns: start and stop for the given axis map in data coordinates. If
  * axis is not inverted, start = minimum and stop = maximum. If axis is invalid, 
  * it'll return arbitrary bounds. For example, an non inverted invalid X axis 
  * will have start set to 0.0 and stop set to 1.0.
@@ -885,7 +885,7 @@ gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
  * @minimum : minimum for this axis
  * @maximum : maximum for this axis
  *
- * Returns bounds for the given axis map in data coordinates. If axis is invalid, 
+ * Returns: bounds for the given axis map in data coordinates. If axis is invalid, 
  * it'll return arbitrary bounds. For example, for an invalid x axis, minimum = 0.0
  * and maximum = 1.0. 
  *
@@ -1203,7 +1203,7 @@ gog_axis_finalize (GObject *obj)
  * @i :
  * @user_defined : an optionally NULL pointr to gboolean
  *
- * Returns the value of axis element @i and sets @user_defined or
+ * Returns: the value of axis element @i and sets @user_defined or
  * 	NaN on error
  **/
 double
@@ -1672,7 +1672,7 @@ gog_axis_get_atype (GogAxis const *axis)
  * gog_axis_is_center_on_ticks :
  * @axis : #GogAxis
  * 
- * Returns TRUE if labels are centered on ticks when @axis is discrete
+ * Returns: TRUE if labels are centered on ticks when @axis is discrete
  **/ 
 gboolean
 gog_axis_is_center_on_ticks (GogAxis const *axis)
@@ -1685,7 +1685,7 @@ gog_axis_is_center_on_ticks (GogAxis const *axis)
  * gog_axis_is_discrete :
  * @axis : #GogAxis
  * 
- * Returns TRUE if @axis enumerates a set of discrete items, rather than a
+ * Returns: TRUE if @axis enumerates a set of discrete items, rather than a
  * continuous value
  **/ 
 gboolean
@@ -1699,7 +1699,7 @@ gog_axis_is_discrete (GogAxis const *axis)
  * gog_axis_is_inverted :
  * @axis : #GogAxis
  * 
- * Returns TRUE if @axis is inverted.
+ * Returns: TRUE if @axis is inverted.
  **/ 
 gboolean
 gog_axis_is_inverted (GogAxis const *axis)
@@ -1796,7 +1796,7 @@ gog_axis_get_ticks (GogAxis *axis, GogAxisTick **ticks)
  * @axi : #GogAxis
  * @plot_that_labeled_axis : #GogPlot
  *
- * Return the possibly NULL #GOData used as a label for this axis
+ * Returns: the possibly NULL #GOData used as a label for this axis
  * along with the plot that it was associated with
  **/
 GOData *
@@ -1901,7 +1901,7 @@ gog_axis_bound_changed (GogAxis *axis, GogObject *contrib)
  * @axis: #GogAxis
  * @major: whether to retrieve major or minor grid line.
  *
- * Returns a pointer to GridLine object associated to given axis, NULL
+ * Returns: a pointer to GridLine object associated to given axis, NULL
  * if it doesn't exists.
  **/
 GogGridLine *
