@@ -3,8 +3,8 @@ libpcre_la_SOURCES = pcre_exec.c pcre_compile.c pcre_tables.c pcre_chartables.c 
 EXTRA_DIST = COPYING
 
 libpcre_a_ladir = $(includedir)/libgoffice-1/goffice/cut-n-paste/pcre
-libpcre_a_la_HEADERS = pcre.h
-noinst_HEADERS = pcre_internal.h ucp.h
+libpcre_a_la_HEADERS = 
+noinst_HEADERS = pcre.h pcre_internal.h ucp.h
 
 AM_CPPFLAGS = \
 	$(GOFFICE_CFLAGS) \

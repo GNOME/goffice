@@ -68,16 +68,16 @@ go_filename_to_uri (const char *filename)
 
 		for (p = q = simp; *p;) {
 			if (p != simp &&
-			    p[0] == G_DIR_SEPARATOR &&
-			    p[1] == G_DIR_SEPARATOR) {
+			    G_IS_DIR_SEPARATOR (p[0]) &&
+			    G_IS_DIR_SEPARATOR (p[1])) {
 				/* "//" --> "/", except initially.  */
 				p++;
 				continue;
 			}
 
-			if (p[0] == G_DIR_SEPARATOR &&
+			if (G_IS_DIR_SEPARATOR (p[0]) &&
 			    p[1] == '.' &&
-			    p[2] == G_DIR_SEPARATOR) {
+			    G_IS_DIR_SEPARATOR (p[2])) {
 				/* "/./" -> "/".  */
 				p += 2;
 				continue;

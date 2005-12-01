@@ -1,3 +1,8 @@
+2005-11-30  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_filename_to_uri): Improve slighly
+	for systems with more than one directory separator.
+
 2005-12-01  Jon K Hellan  <hellan@acm.org>
 
 	* goffice/graph/gog-renderer.h: Fix typo.

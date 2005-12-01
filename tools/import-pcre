@@ -40,13 +40,14 @@ my ($PCRE_MAJOR,$PCRE_MINOR,$PCRE_DATE);
     close (*SRC);
 }
 
+# Note: pcre_chartables.c is a generated file.
 my @SRC_C = ('pcre_exec.c', 'pcre_compile.c', 'pcre_tables.c',
 	     'pcre_chartables.c', 'pcre_globals.c', 'pcre_xclass.c',
 	     'pcre_info.c', 'pcre_valid_utf8.c', 'pcre_try_flipped.c',
 	     'pcre_ord2utf8.c');
 my @EXTRA_C = ();
-my @SRC_H = ('pcre.h');
-my @noinst_H = ('pcre_internal.h', 'ucp.h');
+my @SRC_H = ();
+my @noinst_H = ('pcre.h', 'pcre_internal.h', 'ucp.h');
 my @EXTRA_FILES = ('COPYING');
 
 my %namehack = ('pcre.h' => 'pcre.in');
