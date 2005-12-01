@@ -63,6 +63,7 @@ content_files=
 expand_content_files=
 
 INCLUDES = -I$(top_srcdir) $(GOFFICE_CFLAGS)
+GTKDOC_CFLAGS = -I$(top_srcdir) $(GOFFICE_CFLAGS)
 GTKDOC_LIBS = $(top_builddir)/goffice/libgoffice-1.la $(GOFFICE_LIBS)
 
 include $(top_srcdir)/gtk-doc.make
