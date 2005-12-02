@@ -1,3 +1,7 @@
+2005-12-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* configure.in: build docs/reference/version.xml
+
 2005-12-02  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-file.c (go_shell_arg_to_uri): Be more careful

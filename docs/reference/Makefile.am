@@ -68,4 +68,4 @@ GTKDOC_LIBS = $(top_builddir)/goffice/libgoffice-1.la $(GOFFICE_LIBS)
 
 include $(top_srcdir)/gtk-doc.make
 
-EXTRA_DIST += 
+EXTRA_DIST += version.xml.in

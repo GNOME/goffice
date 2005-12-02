@@ -2,8 +2,7 @@
 GogPlot
 
 <!-- ##### SECTION Short_Description ##### -->
-Base object for plot implentations
-
+Base object for plot implementations
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -16,4 +15,213 @@ Base object for plot implentations
 </para>
 
 <!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogPlotBoundInfo ##### -->
+<para>
+
+</para>
+
+@is_discrete: 
+@center_on_ticks: 
+@fmt: 
+
+<!-- ##### MACRO GOG_PLOT_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_PLOT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_PLOT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_plot_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_new_by_type ##### -->
+<para>
+
+</para>
+
+@type: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_new_by_name ##### -->
+<para>
+
+</para>
+
+@id: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_make_similar ##### -->
+<para>
+
+</para>
+
+@dst: 
+@src: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_request_cardinality_update ##### -->
+<para>
+
+</para>
+
+@plot: 
+
+
+<!-- ##### FUNCTION gog_plot_get_cardinality ##### -->
+<para>
+
+</para>
+
+@plot: 
+@full: 
+@visible: 
+
+
+<!-- ##### FUNCTION gog_plot_foreach_elem ##### -->
+<para>
+
+</para>
+
+@plot: 
+@only_visible: 
+@handler: 
+@data: 
+
+
+<!-- ##### FUNCTION gog_plot_get_series ##### -->
+<para>
+
+</para>
+
+@plot: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_get_axis_bounds ##### -->
+<para>
+
+</para>
+
+@plot: 
+@axis: 
+@bounds: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_supports_vary_style_by_element ##### -->
+<para>
+
+</para>
+
+@plot: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_new_series ##### -->
+<para>
+
+</para>
+
+@plot: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_description ##### -->
+<para>
+
+</para>
+
+@plot: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_axis_set_pref ##### -->
+<para>
+
+</para>
+
+@plot: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_axis_set_is_valid ##### -->
+<para>
+
+</para>
+
+@plot: 
+@type: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_axis_set_assign ##### -->
+<para>
+
+</para>
+
+@plot: 
+@type: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_axis_clear ##### -->
+<para>
+
+</para>
+
+@plot: 
+@filter: 
+
+
+<!-- ##### FUNCTION gog_plot_get_axis ##### -->
+<para>
+
+</para>
+
+@plot: 
+@type: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_update_3d ##### -->
+<para>
+
+</para>
+
+@plot: 
+
+
+<!-- ##### FUNCTION gog_plot_guru_helper ##### -->
+<para>
+
+</para>
+
+@plot: 
+
 

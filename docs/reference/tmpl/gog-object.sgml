@@ -4,7 +4,6 @@ GogObject
 <!-- ##### SECTION Short_Description ##### -->
 Base object for all objects of graph model
 
-
 <!-- ##### SECTION Long_Description ##### -->
 <para>
 
@@ -16,4 +15,435 @@ Base object for all objects of graph model
 </para>
 
 <!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### ENUM GogObjectNamingConv ##### -->
+<para>
+
+</para>
+
+@GOG_OBJECT_NAME_BY_ROLE: 
+@GOG_OBJECT_NAME_BY_TYPE: 
+@GOG_OBJECT_NAME_MANUALLY: 
+
+<!-- ##### STRUCT GogObjectRole ##### -->
+<para>
+
+</para>
+
+@id: 
+@is_a_typename: 
+@allowable_positions: 
+@default_position: 
+@naming_conv: 
+@can_add: 
+@can_remove: 
+@allocate: 
+@post_add: 
+@pre_remove: 
+@post_remove: 
+
+<!-- ##### STRUCT GogObject ##### -->
+<para>
+
+</para>
+
+@base: 
+@user_name: 
+@auto_name: 
+@role: 
+@parent: 
+@children: 
+@position: 
+@manual_position: 
+
+<!-- ##### MACRO GOG_OBJECT_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_OBJECT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_OBJECT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO GOG_OBJECT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+
+<!-- ##### MACRO IS_GOG_OBJECT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+
+<!-- ##### MACRO GOG_OBJECT_GET_CLASS ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO GOG_PARAM_PERSISTENT ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_PARAM_FORCE_SAVE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION gog_object_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION GogDataDuplicator ##### -->
+<para>
+
+</para>
+
+@src: 
+@dst: 
+
+
+<!-- ##### FUNCTION gog_object_dup ##### -->
+<para>
+
+</para>
+
+@src: 
+@new_parent: 
+@datadup: 
+@Returns: 
+<!-- # Unused Parameters # -->
+@obj: 
+@dup: 
+
+
+<!-- ##### FUNCTION gog_object_get_parent ##### -->
+<para>
+
+</para>
+
+@obj: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_get_parent_typed ##### -->
+<para>
+
+</para>
+
+@obj: 
+@t: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_get_graph ##### -->
+<para>
+
+</para>
+
+@obj: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_get_theme ##### -->
+<para>
+
+</para>
+
+@obj: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_get_id ##### -->
+<para>
+
+</para>
+
+@obj: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_get_name ##### -->
+<para>
+
+</para>
+
+@obj: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_set_name ##### -->
+<para>
+
+</para>
+
+@obj: 
+@name: 
+@err: 
+
+
+<!-- ##### FUNCTION gog_object_get_children ##### -->
+<para>
+
+</para>
+
+@obj: 
+@filter: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_get_child_by_role ##### -->
+<para>
+
+</para>
+
+@obj: 
+@role: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_get_editor ##### -->
+<para>
+
+</para>
+
+@obj: 
+@dalloc: 
+@cc: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_new_view ##### -->
+<para>
+
+</para>
+
+@obj: 
+@view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_is_deletable ##### -->
+<para>
+
+</para>
+
+@obj: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_possible_additions ##### -->
+<para>
+
+</para>
+
+@parent: 
+@Returns: 
+<!-- # Unused Parameters # -->
+@obj: 
+
+
+<!-- ##### FUNCTION gog_object_add_by_role ##### -->
+<para>
+
+</para>
+
+@parent: 
+@role: 
+@child: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_add_by_name ##### -->
+<para>
+
+</para>
+
+@parent: 
+@role: 
+@child: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_can_reorder ##### -->
+<para>
+
+</para>
+
+@obj: 
+@inc_ok: 
+@dec_ok: 
+
+
+<!-- ##### FUNCTION gog_object_reorder ##### -->
+<para>
+
+</para>
+
+@obj: 
+@inc: 
+@goto_max: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_get_position_flags ##### -->
+<para>
+
+</para>
+
+@obj: 
+@mask: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_set_position_flags ##### -->
+<para>
+
+</para>
+
+@obj: 
+@flags: 
+@mask: 
+@Returns: 
+<!-- # Unused Parameters # -->
+@p: 
+
+
+<!-- ##### FUNCTION gog_object_get_manual_position ##### -->
+<para>
+
+</para>
+
+@obj: 
+@pos: 
+
+
+<!-- ##### FUNCTION gog_object_set_manual_position ##### -->
+<para>
+
+</para>
+
+@obj: 
+@pos: 
+
+
+<!-- ##### FUNCTION gog_object_get_manual_allocation ##### -->
+<para>
+
+</para>
+
+@gobj: 
+@parent_allocation: 
+@requisition: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_find_role_by_name ##### -->
+<para>
+
+</para>
+
+@obj: 
+@role: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_update ##### -->
+<para>
+
+</para>
+
+@obj: 
+
+
+<!-- ##### FUNCTION gog_object_request_update ##### -->
+<para>
+
+</para>
+
+@obj: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_emit_changed ##### -->
+<para>
+
+</para>
+
+@obj: 
+@size: 
+
+
+<!-- ##### FUNCTION gog_object_clear_parent ##### -->
+<para>
+
+</para>
+
+@obj: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_set_parent ##### -->
+<para>
+
+</para>
+
+@child: 
+@parent: 
+@role: 
+@id: 
+@Returns: 
+<!-- # Unused Parameters # -->
+@Param4: 
+
+
+<!-- ##### FUNCTION gog_object_register_roles ##### -->
+<para>
+
+</para>
+
+@klass: 
+@roles: 
+@Param3: 
+
+
+<!-- ##### FUNCTION gog_object_request_editor_update ##### -->
+<para>
+
+</para>
+
+@obj: 
+
 

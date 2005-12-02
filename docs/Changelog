@@ -1,3 +1,12 @@
+2005-12-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* reference/.cvsignore: more files to ignore.
+	* reference/Makefile.am: distribute version.xml.in
+	* reference/goffice-docs.sgml: add Widgets and Utilities parts.
+	* reference/goffice-sections: and add corresponding xml files.
+
+2005-12-01  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+	
 2005-12-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* reference/Makefile.am: Make out-of-source-directory build
