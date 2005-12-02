@@ -1,4 +1,4 @@
-goffice 0.1.2:
+goffice 0.2.0:
 
 Morten:
 	* Fix translation problems causing crashes in the character set
@@ -6,6 +6,7 @@ Morten:
 	* Add and fix gog-object preconditions.  [Part of #321678]
 	* Handle problem with fraction formats for very large values.
           [Debian 340463]
+	* Fix problem with colons in filenames.  [#322799]
 
 --------------------------------------------------------------------------
 goffice 0.1.1:
