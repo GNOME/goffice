@@ -1,3 +1,8 @@
+2005-12-02  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_shell_arg_to_uri): Be more careful
+	with filenames that contain colons.  Fixed #322799.
+
 2005-11-30  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-file.c (go_filename_to_uri): Improve slighly

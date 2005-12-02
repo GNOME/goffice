@@ -112,23 +112,33 @@ go_filename_to_uri (const char *filename)
 char *
 go_shell_arg_to_uri (const char *arg)
 {
-#ifdef WITH_GNOME
-	return gnome_vfs_make_uri_from_shell_arg (arg);
-#else
-	if (g_path_is_absolute (arg))
+	gchar *tmp;
+
+	if (g_path_is_absolute (arg) || strchr (arg, ':') == NULL)
 		return go_filename_to_uri (arg);
-	else {
-		/* See if it's a file: uri.  */
-		gchar *tmp = go_filename_from_uri (arg);
-		if (tmp) {
-			g_free (tmp);
+
+	tmp = go_filename_from_uri (arg);
+	if (tmp) {
+		g_free (tmp);
+		return g_strdup (arg);
+	}
+
+#ifdef WITH_GNOME
+	{
+		/*
+		 * oink://     --> NULL
+		 * http://     --> "http" URI
+		 */
+		GnomeVFSURI *uri = gnome_vfs_uri_new (arg);
+		if (uri) {
+			gnome_vfs_uri_unref (uri);
 			return g_strdup (arg);
 		}
 	}
+#endif
 
 	/* Just assume it's a filename.  */
 	return go_filename_to_uri (arg);
-#endif
 }
 
 /**
