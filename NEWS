@@ -7,6 +7,8 @@ Morten:
 	* Handle problem with fraction formats for very large values.
           [Debian 340463]
 	* Fix problem with colons in filenames.  [#322799]
+	* Use system libpcre when available, sufficiently recent, and
+	  properly compiled with UTF-8 support.
 
 --------------------------------------------------------------------------
 goffice 0.1.1:

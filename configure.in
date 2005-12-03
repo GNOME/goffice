@@ -163,6 +163,9 @@ AM_CONDITIONAL(WITH_CAIRO, $goffice_with_cairo)
 AM_CONDITIONAL(WITH_GTK,   $goffice_with_gtk)
 AM_CONDITIONAL(WITH_GNOME, $goffice_with_gnome)
 
+EXTRA_LIBS=
+EXTRA_INCLUDES=
+
 dnl ****************************
 dnl now that we have selected out libraries the whole collection in one
 dnl shot so that we can have a nice neat compile/link line
@@ -176,6 +179,26 @@ AC_CHECK_LIB(Xrender, XRenderFindFormat,
 	 AC_DEFINE(HAVE_RENDER, 1, [Define if libXrender is available.])],
 	[AC_SUBST(RENDER_LIBS, "")],
 	[-lXext])
+
+dnl Check for working pcre
+use_included_pcre=yes
+AC_CHECK_HEADER(pcre.h,[
+	AC_CHECK_LIB(pcre,pcre_compile2,[
+		AC_MSG_CHECKING([for UTF-8 support in pcre])
+		if (pcretest -C 2>&1) | grep -i "^ *UTF-8 support" >/dev/null; then
+			AC_MSG_RESULT(yes)
+			use_included_pcre=no
+			LIBS="$LIBS -lpcre"
+			EXTRA_LIBS="$EXTRA_LIBS -lpcre"
+		else
+			AC_MSG_RESULT(no)
+		fi
+	],[],[])
+])
+AM_CONDITIONAL(WITH_INCLUDED_PCRE, test "$use_included_pcre" = yes)
+dnl For the benefit of PCRE:
+AC_CHECK_FUNCS(bcopy memmove strerror strtoq strtoll)
+
 
 dnl *****************************
 AC_MSG_CHECKING([for Win32 platform])
@@ -315,9 +338,6 @@ AC_CHECK_HEADERS(ieeefp.h ieee754.h)
 dnl Check for some functions
 AC_CHECK_FUNCS(random drand48 finite memmove mkdtemp uname times sysconf)
 
-dnl For the benefit of PCRE:
-AC_CHECK_FUNCS(bcopy memmove strerror strtoq strtoll)
-
 dnl FIXME: Does this really belong here?
 AC_CHECK_FUNC(bind_textdomain_codeset,,[AC_CHECK_LIB(intl,bind_textdomain_codeset)])
 
@@ -366,7 +386,6 @@ GOFFICE_CHECK_FUNC(acosh)
 GOFFICE_CHECK_FUNC(atanh)
 
 float_msg=no
-EXTRA_LIBS= EXTRA_INCLUDES=
 AC_C_LONG_DOUBLE
 if test $ac_cv_c_long_double = yes; then
     have_mandatory_funcs=yes

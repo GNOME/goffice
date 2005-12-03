@@ -81,3 +81,7 @@ GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=go_
 	$(GENMARSHAL_COMMAND) --body $< ) >$@
 
 include $(top_srcdir)/goffice.mk
+
+if WITH_INCLUDED_PCRE
+    AM_CPPFLAGS += -I$(top_srcdir)/goffice/cut-n-paste/pcre
+endif

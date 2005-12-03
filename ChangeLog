@@ -1,3 +1,11 @@
+2005-12-02  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: Check for a system libpcre that supports UTF-8.
+	* goffice/cut-n-paste/Makefile.am: Arrange to use system pcre when
+	appropriate.
+	* goffice/utils/Makefile.am: Ditto.
+	* goffice/utils/regutf8.c: Ditto.
+
 2005-12-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* configure.in: build docs/reference/version.xml

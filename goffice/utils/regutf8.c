@@ -7,7 +7,7 @@
 
 #include <goffice/goffice-config.h>
 #include "regutf8.h"
-#include "goffice/cut-n-paste/pcre/pcre.h"
+#include <pcre.h>
 #include "go-glib-extras.h"
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
