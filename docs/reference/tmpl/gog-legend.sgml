@@ -1,8 +1,8 @@
 <!-- ##### SECTION Title ##### -->
-GogOutlinedView
+GogLegend
 
 <!-- ##### SECTION Short_Description ##### -->
-Base class for all objects displayed in a frame
+Chart legend object
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -17,23 +17,19 @@ Base class for all objects displayed in a frame
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogOutlinedObject ##### -->
+<!-- ##### STRUCT GogLegend ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### ARG GogOutlinedObject:padding-pts ##### -->
+<!-- ##### ARG GogLegend:swatch-padding-pts ##### -->
 <para>
 
 </para>
 
-<!-- ##### FUNCTION gog_outlined_object_get_pad ##### -->
+<!-- ##### ARG GogLegend:swatch-size-pts ##### -->
 <para>
 
 </para>
-
-@goo: 
-@Returns: 
-
 

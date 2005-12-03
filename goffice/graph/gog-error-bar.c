@@ -51,12 +51,12 @@ static GObjectClass *error_bar_parent_klass;
 
 #ifdef WITH_GTK
 typedef struct {
-	GogSeries *series;
-	GogErrorBar *bar;
-	char const* property;
-	GogErrorBarDisplay display;
-	GOColor color;
-	double width, line_width;
+	GogSeries 	   *series;
+	GogErrorBar 	   *bar;
+	char const 	   *property;
+	GogErrorBarDisplay  display;
+	GOColor 	    color;
+	double 		    width, line_width;
 } GogErrorBarEditor;
 
 static void

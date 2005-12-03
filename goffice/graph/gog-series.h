@@ -43,7 +43,7 @@ gboolean      gog_series_has_legend (GogSeries const *series);
 GODataScalar *gog_series_get_name   (GogSeries const *series);
 GogPlot	     *gog_series_get_plot   (GogSeries const *series);
 void	      gog_series_set_name   (GogSeries *series,
-				     GODataScalar *val, GError **err);
+				     GODataScalar *name_src, GError **err);
 void	      gog_series_set_dim    (GogSeries *series, int dim_i,
 				     GOData *val, GError **err);
 void	      gog_series_set_index  (GogSeries *series,

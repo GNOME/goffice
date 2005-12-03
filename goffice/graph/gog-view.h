@@ -105,14 +105,14 @@ typedef struct {
 GType      gog_view_get_type (void);
 
 GogObject *gog_view_get_model	     (GogView const *view);
-void	   gog_view_render	     (GogView *v, GogViewAllocation const *bbox);
+void	   gog_view_render	     (GogView *view, GogViewAllocation const *bbox);
 void       gog_view_queue_redraw     (GogView *view);
 void       gog_view_queue_resize     (GogView *view);
-void	   gog_view_padding_request  (GogView *v, GogViewAllocation const *bbox, GogViewPadding *padding);
-void       gog_view_size_request     (GogView *v, GogViewRequisition const *available, 
+void	   gog_view_padding_request  (GogView *view, GogViewAllocation const *bbox, GogViewPadding *padding);
+void       gog_view_size_request     (GogView *view, GogViewRequisition const *available, 
 				      GogViewRequisition *requisition);
-void       gog_view_size_allocate    (GogView *v, GogViewAllocation const *a);
-gboolean   gog_view_update_sizes     (GogView *v);
+void       gog_view_size_allocate    (GogView *view, GogViewAllocation const *allocation);
+gboolean   gog_view_update_sizes     (GogView *view);
 GogView   *gog_view_find_child_view  (GogView const *container,
 				      GogObject const *target_model);
 
@@ -121,11 +121,11 @@ void 		 gog_view_render_toolkit 	(GogView *view);
 GogTool		*gog_view_get_tool_at_point 	(GogView *view, double x, double y, 
 						 GogObject **gobj);
 GogView 	*gog_view_get_view_at_point	(GogView *view, double x, double y, 
-						 GogObject **gobj, GogTool **tool);
+						 GogObject **obj, GogTool **tool);
 
 /* protected */
-void gog_view_size_child_request (GogView *v,
-				  GogViewRequisition const *avail,
+void gog_view_size_child_request (GogView *view,
+				  GogViewRequisition const *available,
 				  GogViewRequisition *req,
 				  GogViewRequisition *min_req);
 

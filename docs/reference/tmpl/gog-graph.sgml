@@ -1,0 +1,198 @@
+<!-- ##### SECTION Title ##### -->
+GogGraph
+
+<!-- ##### SECTION Short_Description ##### -->
+A collection of charts
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogGraph ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SIGNAL GogGraph::add-data ##### -->
+<para>
+
+</para>
+
+@goggraph: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL GogGraph::remove-data ##### -->
+<para>
+
+</para>
+
+@goggraph: the object which received the signal.
+@arg1: 
+
+<!-- ##### ARG GogGraph:height-pts ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogGraph:theme ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogGraph:theme-name ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogGraph:width-pts ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION gog_graph_validate_chart_layout ##### -->
+<para>
+
+</para>
+
+@graph: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_graph_num_cols ##### -->
+<para>
+
+</para>
+
+@graph: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_graph_num_rows ##### -->
+<para>
+
+</para>
+
+@graph: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_graph_dup ##### -->
+<para>
+
+</para>
+
+@graph: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_graph_get_theme ##### -->
+<para>
+
+</para>
+
+@graph: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_graph_set_theme ##### -->
+<para>
+
+</para>
+
+@graph: 
+@theme: 
+
+
+<!-- ##### FUNCTION gog_graph_get_data ##### -->
+<para>
+
+</para>
+
+@graph: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_graph_ref_data ##### -->
+<para>
+
+</para>
+
+@graph: 
+@dat: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_graph_unref_data ##### -->
+<para>
+
+</para>
+
+@graph: 
+@dat: 
+
+
+<!-- ##### FUNCTION gog_graph_get_size ##### -->
+<para>
+
+</para>
+
+@graph: 
+@width: 
+@height: 
+
+
+<!-- ##### FUNCTION gog_graph_set_size ##### -->
+<para>
+
+</para>
+
+@graph: 
+@width: 
+@height: 
+
+
+<!-- ##### STRUCT GogGraphView ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gog_graph_view_handle_event ##### -->
+<para>
+
+</para>
+
+@view: 
+@event: 
+@x_offset: 
+@y_offset: 
+
+
+<!-- ##### FUNCTION gog_graph_view_get_selection ##### -->
+<para>
+
+</para>
+
+@view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_graph_view_set_selection ##### -->
+<para>
+
+</para>
+
+@gview: 
+@gobj: 
+
+

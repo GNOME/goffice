@@ -2580,9 +2580,13 @@ go_format_new (GOFormatFamily family, GOFormatDetails const *info)
 
 #ifdef DEFINE_COMMON
 /**
- * go_format_str_as_XL
+ * go_format_str_as_XL:
+ * @ptr: a format string
+ * @localized : should the string be in cannonical or locale specific form.
  *
  * The caller is responsible for freeing the resulting string.
+ *
+ * returns: a newly allocated string.
  */
 char *
 go_format_str_as_XL (char const *ptr, gboolean localized)
@@ -2662,11 +2666,11 @@ go_format_str_as_XL (char const *ptr, gboolean localized)
 
 #ifdef DEFINE_COMMON
 /**
- * go_format_as_XL :
- * @gf :
+ * go_format_as_XL:
+ * @fmt: a #GOFormat
  * @localized : should the string be in cannonical or locale specific form.
  *
- * Return a string which the caller is responsible for freeing.
+ * Returns: a string which the caller is responsible for freeing.
  */
 char *
 go_format_as_XL (GOFormat const *fmt, gboolean localized)
@@ -2693,9 +2697,10 @@ go_format_eq (GOFormat const *a, GOFormat const *b)
 #ifdef DEFINE_COMMON
 /**
  * go_format_ref :
- * @gf :
+ * @fmt : a #GOFormat
  *
- * Add a reference to a GOFormat
+ * Adds a reference to a GOFormat.
+ *
  **/
 GOFormat *
 go_format_ref (GOFormat *gf)
@@ -2715,9 +2720,10 @@ go_format_ref (GOFormat *gf)
 #ifdef DEFINE_COMMON
 /**
  * go_format_unref :
- * @gf :
+ * @fmt : a #GOFormat
  *
- * Remove a reference to a GOFormat, freeing when it goes to zero.
+ * Removes a reference to @fmt, freeing when it goes to zero.
+ *
  **/
 void
 go_format_unref (GOFormat *gf)

@@ -27,11 +27,14 @@
 #define dist(x0, y0, x1, y1) hypot((x0) - (x1),(y0) - (y1))
 
 /**
- * go_geometry_cartesian_to_polar :
- * @x, @y: cartesian coordinates.
- * @rho, @theta: polar coordinates.
+ * go_geometry_cartesian_to_polar:
+ * @x: cartesian coordinate
+ * @y: cartesian coordinate
+ * @rho: polar coordinate
+ * @theta: polar coordinate
  *
- * Convert cartesion coordinates to polar coordinates.
+ * Converts cartesion coordinates to polar coordinates.
+ * 
  **/
 void
 go_geometry_cartesian_to_polar (double x, double y, double *rho, double *theta)
@@ -41,12 +44,16 @@ go_geometry_cartesian_to_polar (double x, double y, double *rho, double *theta)
 }
 
 /**
- * go_geometry_point_to_segment :
- * @xp, @yp: point coordinates
- * @xs, ys: segment strt coordinates:
- * @w, @h: extent of segment.
+ * go_geometry_point_to_segment:
+ * @xp: point coordinate
+ * @yp: point coordinate
+ * @xs: segment start coordinate
+ * @ys: segment start coordinate
+ * @w: extent of segment 
+ * @h: extent of segment
  *
  * Computes the distance between a point and a segment.
+ *
  **/
 double
 go_geometry_point_to_segment (double xp, double yp, double xs, double ys, double w, double h)
@@ -67,11 +74,12 @@ go_geometry_point_to_segment (double xp, double yp, double xs, double ys, double
 
 /**
  * go_geometry_AABR_add:
- * @aabr0: #GOGeometryAABR
- * @aabr1: #GOGeometryAABR
+ * @aabr0: a #GOGeometryAABR
+ * @aabr1: a #GOGeometryAABR
  *
  * Computes the Axis Aligned Bounding Rectangle of aabr0 and aabr1,
  * and stores result in aabr0.
+ * 
  **/
 void
 go_geometry_AABR_add (GOGeometryAABR *aabr0, GOGeometryAABR const *aabr1)
@@ -91,10 +99,11 @@ go_geometry_AABR_add (GOGeometryAABR *aabr0, GOGeometryAABR const *aabr1)
 
 /**
  * go_geometry_OBR_to_AABR:
- * @obr: #GOGeometryOBR
- * @aabr: #GOGeometryAABR
+ * @obr: a #GOGeometryOBR
+ * @aabr: a #GOGeometryAABR
  * 
- * Returns an Axis Aligned Bouding Rectangle of obr.
+ * Stores Axis Aligned Bouding Rectangle of @obr in @aabr.
+ * 
  **/
 void
 go_geometry_OBR_to_AABR (GOGeometryOBR const *obr, GOGeometryAABR *aabr)
@@ -110,10 +119,12 @@ go_geometry_OBR_to_AABR (GOGeometryOBR const *obr, GOGeometryAABR *aabr)
 
 /** 
  * go_geometry_test_OBR_overlap:
- * @obr0: #GOGeometryOBR
- * @obr1: #GOGeometryOBR
+ * @obr0: a #GOGeometryOBR
+ * @obr1: a #GOGeometryOBR
  * 
  * Overlap test of Oriented Bounding Rectangles by the separating axis method.
+ * 
+ * return value: %TRUE if OOBRs overlap
  **/
 gboolean
 go_geometry_test_OBR_overlap (GOGeometryOBR const *obr0, GOGeometryOBR const *obr1)
@@ -172,6 +183,8 @@ go_geometry_test_OBR_overlap (GOGeometryOBR const *obr0, GOGeometryOBR const *ob
  * @alpha: angle in radians
  *
  * Returns rotation type for handling of special angles (alpha = n * pi / 2)
+ *
+ * return value: a #GOGeometryRotationType
  **/
 GOGeometryRotationType 
 go_geometry_get_rotation_type (double alpha) 
@@ -189,12 +202,13 @@ go_geometry_get_rotation_type (double alpha)
 
 /**
  * go_geometry_update_label_OBR:
- * @obr: bouding rectangle of label
+ * @obr: bounding rectangle of label
  * @alpha: angle of axis
  * @offset: minimum distance between label and axis
  * @side: side of label with respect to axis
  *
  * Convenience routine that computes position of a label relative to an axis. 
+ * 
  **/
 void
 go_geometry_calc_label_position (GOGeometryOBR *obr, double alpha, double offset, GOGeometrySide side)

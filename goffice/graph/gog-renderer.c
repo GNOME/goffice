@@ -717,12 +717,12 @@ GSF_CLASS (GogRenderer, gog_renderer,
 	   G_TYPE_OBJECT)
 
 /**
- * gog_renderer_draw_rectangle :
- * @rend: #GogRenderer
- * @rect: #GogViewAllocation
- * @sharp:
+ * gog_renderer_draw_rectangle:
+ * @rend: a #GogRenderer
+ * @rect: position and extent of rectangle
  *
- * A utility routine to build a vpath in @rect.
+ * A utility routine to build a closed rectangle vpath.
+ *
  **/
 static void
 draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean sharp)
@@ -859,12 +859,13 @@ gog_renderer_new_for_pixbuf (GogGraph *graph)
 
 /**
  * gog_renderer_update:
- * @renderer: #GogRenderer
+ * @renderer: a #GogRenderer
  * @w: requested width
  * @h: requested height
  * @zoom: requested zoom
  *
- * Request a renderer update, only useful for pixbuf based renderer.
+ * Requests a renderer update, only useful for pixbuf based renderer.
+ *
  **/
 gboolean
 gog_renderer_update (GogRenderer *renderer, double w, double h, double zoom)

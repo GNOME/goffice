@@ -796,15 +796,27 @@ SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
 	return result;
 }
 
-/* ------------------------------------------------------------------------- */
-/* Please refer to description in regression.h.  */
+/**
+ * go_linear_regression:
+ * @xss: x-vectors (i.e. independent data)
+ * @dim: number of x-vectors.
+ * @ys: y-vector.  (Dependent data.)
+ * @n: number of data points.
+ * @affine: if true, a non-zero constant is allowed.
+ * @res: output place for constant[0] and slope1[1], slope2[2],... There will be dim+1 results.
+ *
+ * Performs multi-dimensional linear regressions on the input points.
+ * Fits to "y = b + a1 * x1 + ... ad * xd".
+ *
+ * Returns: #RegressionResult as above.
+ **/
 
 RegressionResult
 SUFFIX(go_linear_regression) (DOUBLE **xss, int dim,
-		   const DOUBLE *ys, int n,
-		   gboolean affine,
-		   DOUBLE *res,
-		   SUFFIX(regression_stat_t) *regression_stat)
+			      const DOUBLE *ys, int n,
+			      gboolean affine,
+			      DOUBLE *res,
+			      SUFFIX(regression_stat_t) *regression_stat)
 {
 	RegressionResult result;
 
@@ -828,8 +840,21 @@ SUFFIX(go_linear_regression) (DOUBLE **xss, int dim,
 	return result;
 }
 
-/* ------------------------------------------------------------------------- */
-/* Please refer to description in regression.h.  */
+/**
+ * go_exponential_regression:
+ * @xss: x-vectors (i.e. independent data)
+ * @dim: number of x-vectors
+ * @ys: y-vector (dependent data)
+ * @n: number of data points
+ * @affine: if %TRUE, a non-one multiplier is allowed
+ * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
+ *
+ * Performs one-dimensional linear regressions on the input points.
+ * Fits to "y = b * m1^x1 * ... * md^xd " or equivalently to
+ * "log y = log b + x1 * log m1 + ... + xd * log md".
+ *
+ * Returns: #RegressionResult as above.
+ **/
 
 RegressionResult
 SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
@@ -878,8 +903,25 @@ SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
 	return result;
 }
 
-/* ------------------------------------------------------------------------- */
-/* Please refer to description in regression.h.  */
+/**
+ * go_logarithmic_regression:
+ * @xss: x-vectors (i.e. independent data)
+ * @dim: number of x-vectors
+ * @ys: y-vector (dependent data)
+ * @n: number of data points
+ * @affine: if %TRUE, a non-zero constant is allowed
+ * @res: output place for constant[0] and factor1[1], factor2[2],... There will be dim+1 results.
+ *
+ * This is almost a copy of linear_regression and produces multi-dimensional
+ * linear regressions on the input points after transforming xss to ln(xss).
+ * Fits to "y = b + a1 * z1 + ... ad * zd" with "zi = ln (xi)".
+ * Problems with arrays in the calling function: see comment to
+ * gnumeric_linest, which is also valid for gnumeric_logreg.
+ *
+ * (Errors: less than two points, all points on a vertical line, non-positive x data.)
+ * 
+ * Returns: #RegressionResult as above.  
+ **/
 
 RegressionResult
 SUFFIX(go_logarithmic_regression) (DOUBLE **xss, int dim,
@@ -928,8 +970,34 @@ SUFFIX(go_logarithmic_regression) (DOUBLE **xss, int dim,
 	return result;
 }
 
-/* ------------------------------------------------------------------------- */
-/* Please refer to description in regression.h.  */
+/**
+ * go_logarithmic_fit:
+ * @xs: x-vector (i.e. independent data)
+ * @ys: y-vector (dependent data)
+ * @n: number of data points
+ * @res: output place for sign[0], a[1], b[2], c[3], and sum of squared residuals[4].
+ *
+ * Performs a two-dimensional non-linear fitting on the input points.
+ * Fits to "y = a + b * ln (sign * (x - c))", with sign in {-1, +1}.
+ * The graph is a logarithmic curve moved horizontally by c and possibly
+ * mirrored across the y-axis (if sign = -1).
+ *
+ * Fits c (and sign) by iterative trials, but seems to be fast enough even
+ * for automatic recomputation.
+ *
+ * Adapts c until a local minimum of squared residuals is reached. For each
+ * new c tried out the corresponding a and b are calculated by linear
+ * regression. If no local minimum is found, an error is returned. If there
+ * is more than one local minimum, the one found is not necessarily the
+ * smallest (i.e., there might be cases in which the returned fit is not the
+ * best possible). If the shape of the point cloud is to different from
+ * ``logarithmic'', either sign can not be determined (error returned) or no
+ * local minimum will be found.
+ * 
+ * (Requires: at least 3 different x values, at least 3 different y values.)
+ *
+ * Returns: #RegressionResult as above.
+ */
 
 RegressionResult
 SUFFIX(go_logarithmic_fit) (DOUBLE *xs, const DOUBLE *ys, int n, DOUBLE *res)

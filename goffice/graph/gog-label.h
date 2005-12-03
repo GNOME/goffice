@@ -33,7 +33,7 @@ G_BEGIN_DECLS
 
 GType gog_label_get_type (void);
 
-#define GOG_REG_EQN_TYPE		(gog_reg_eqn_get_type ())
+#define GOG_REG_EQN_TYPE	(gog_reg_eqn_get_type ())
 #define GOG_REG_EQN(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_REG_EQN_TYPE, GogRegEqn))
 #define IS_GOG_REG_EQN(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_REG_EQN_TYPE))
 

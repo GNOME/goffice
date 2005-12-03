@@ -1264,12 +1264,15 @@ gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
 
 /**
  * gog_object_get_editor :
- * @obj   : #GogObject
- * @dalloc : #GogDataAllocator
- * @cc     : #GOCmdContext
- *
+ * @obj: a #GogObject
+ * @dalloc: a #GogDataAllocator
+ * @cc: a #GOCmdContext
+ * 
+ * Builds an object property editor, by calling GogObject::populate_editor
+ * virtual functions.
+ * 
+ * return value: a #GtkNotebook widget
  **/
-
 gpointer
 gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
 		       GOCmdContext *cc)
@@ -1298,9 +1301,11 @@ gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
 /**
  * gog_object_new_view :
  * @obj: a #GogObject
- * @parent:
+ * @parent: parent view
  *
- * Returns:
+ * Creates a new #GogView associated to @obj, and sets its parent to @parent.
+ *
+ * return value: a new #GogView
  **/
 GogView *
 gog_object_new_view (GogObject const *obj, GogView *parent)

@@ -1,0 +1,63 @@
+<!-- ##### SECTION Title ##### -->
+GogPersist
+
+<!-- ##### SECTION Short_Description ##### -->
+A serialization interface to/from xml
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogPersist ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gog_persist_dom_save ##### -->
+<para>
+
+</para>
+
+@gp: 
+@parent: 
+
+
+<!-- ##### FUNCTION gog_persist_dom_load ##### -->
+<para>
+
+</para>
+
+@gp: 
+@node: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_persist_sax_save ##### -->
+<para>
+
+</para>
+
+@gp: 
+@output: 
+
+
+<!-- ##### FUNCTION gog_persist_prep_sax ##### -->
+<para>
+
+</para>
+
+@gp: 
+@xin: 
+@attrs: 
+
+

@@ -716,12 +716,13 @@ gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
 }
 
 /**
- * gog_series_get_name :
- * @series : #GogSeries
+ * gog_series_get_name:
+ * @series : a #GogSeries
  *
- * Returns the _src_ of the name associated with the series
- * NOTE : this is _NOT_ the actual name
- * no references are added on the result.
+ * Gets the _source_ of the name associated with the series.
+ * NOTE : this is _NOT_ the actual name.
+ *
+ * return value: a #GODataScalar, without added reference.
  **/
 GODataScalar *
 gog_series_get_name (GogSeries const *series)
@@ -732,11 +733,12 @@ gog_series_get_name (GogSeries const *series)
 
 /**
  * gog_series_set_name :
- * @series : #GogSeries
- * @name_src : #GOData
- * @err : #Gerror
+ * @series : a #GogSeries
+ * @name_src : a #GODataScalar
+ * @err : a #Gerror
  *
- * Absorbs a ref to @name_src
+ * Absorbs a ref to @name_src.
+ *
  **/
 void
 gog_series_set_name (GogSeries *series, GODataScalar *name_src, GError **err)

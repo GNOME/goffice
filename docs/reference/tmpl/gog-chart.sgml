@@ -1,0 +1,190 @@
+<!-- ##### SECTION Title ##### -->
+GogChart
+
+<!-- ##### SECTION Short_Description ##### -->
+A set of axes and a collection of plots
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogChart ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG GogChart:cardinality-valid ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogChart:is-plot-area-manual ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogChart:plot-area ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION gog_axis_set_from_str ##### -->
+<para>
+
+</para>
+
+@str: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_get_position ##### -->
+<para>
+
+</para>
+
+@chart: 
+@x: 
+@y: 
+@cols: 
+@rows: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_set_position ##### -->
+<para>
+
+</para>
+
+@chart: 
+@x: 
+@y: 
+@cols: 
+@rows: 
+
+
+<!-- ##### FUNCTION gog_chart_get_plot_area ##### -->
+<para>
+
+</para>
+
+@chart: 
+@plot_area: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_set_plot_area ##### -->
+<para>
+
+</para>
+
+@chart: 
+@plot_area: 
+
+
+<!-- ##### FUNCTION gog_chart_request_cardinality_update ##### -->
+<para>
+
+</para>
+
+@chart: 
+
+
+<!-- ##### FUNCTION gog_chart_get_cardinality ##### -->
+<para>
+
+</para>
+
+@chart: 
+@full: 
+@visible: 
+
+
+<!-- ##### FUNCTION gog_chart_foreach_elem ##### -->
+<para>
+
+</para>
+
+@chart: 
+@only_visible: 
+@handler: 
+@data: 
+
+
+<!-- ##### FUNCTION gog_chart_get_plots ##### -->
+<para>
+
+</para>
+
+@chart: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_get_axis_set ##### -->
+<para>
+
+</para>
+
+@chart: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_axis_set_is_valid ##### -->
+<para>
+
+</para>
+
+@chart: 
+@type: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_axis_set_assign ##### -->
+<para>
+
+</para>
+
+@chart: 
+@type: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_get_axes ##### -->
+<para>
+
+</para>
+
+@chart: 
+@target: 
+@Returns: 
+<!-- # Unused Parameters # -->
+@type: 
+
+
+<!-- ##### FUNCTION gog_chart_get_grid ##### -->
+<para>
+
+</para>
+
+@chart: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_view_get_plot_area ##### -->
+<para>
+
+</para>
+
+@view: 
+@Returns: 
+
+

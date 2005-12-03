@@ -57,7 +57,7 @@ void		go_geometry_OBR_to_AABR 	(GOGeometryOBR const *obr, GOGeometryAABR *aabr);
 gboolean 	go_geometry_test_OBR_overlap 	(GOGeometryOBR const *obr0, GOGeometryOBR const *obr1);
 
 GOGeometryRotationType 
-		go_geometry_get_rotation_type	(double angle);
+		go_geometry_get_rotation_type	(double alpha);
 
 void 		go_geometry_calc_label_position	(GOGeometryOBR *obr, double alpha, double offset, GOGeometrySide side);
 

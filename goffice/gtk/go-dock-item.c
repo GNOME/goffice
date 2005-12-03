@@ -1274,19 +1274,19 @@ go_dock_item_forall (GtkContainer *container,
 
 /**
  * go_dock_item_construct:
- * @new: a #GoDockItem.
- * @name: Name for the new item
- * @behavior: Behavior for the new item
+ * @new_dock_item: a #GoDockItem
+ * @name: name for the new item
+ * @behavior: behavior for the new item
  *
- * Description: Constructs the @new GoDockItem named @name, with the
+ * Constructs the @new GoDockItem named @name, with the
  * specified @behavior.
  *
  * Returns: A new GoDockItem widget.
  **/
 void
-go_dock_item_construct (GoDockItem *new,
-			   const gchar *name,
-			   GoDockItemBehavior behavior)
+go_dock_item_construct (GoDockItem *new_dock_item,
+			const gchar *name,
+			GoDockItemBehavior behavior)
 {
   g_return_if_fail (new != NULL);
   g_return_if_fail (GO_IS_DOCK_ITEM (new));
@@ -1326,22 +1326,22 @@ go_dock_item_new (const gchar *name,
 
 /**
  * go_dock_item_get_child:
- * @item: A GoDockItem widget
+ * @dock_item: a #GoDockItem widget
  *
- * Description: Retrieve the child of @item.
+ * Retrieves the child of @item.
  *
- * Returns: The child of @item.
+ * Returns: the child of @item.
  **/
 GtkWidget *
-go_dock_item_get_child (GoDockItem *item)
+go_dock_item_get_child (GoDockItem *dock_item)
 {
-    g_return_val_if_fail (GO_IS_DOCK_ITEM (item), NULL);
+    g_return_val_if_fail (GO_IS_DOCK_ITEM (dock_item), NULL);
 
-  if (item->is_floating)
+  if (dock_item->is_floating)
     {
 
       GList *list;
-      GtkWidget *child = GTK_BIN (GTK_WIDGET (item->_priv->float_window))->child;
+      GtkWidget *child = GTK_BIN (GTK_WIDGET (dock_item->_priv->float_window))->child;
 
       list = gtk_container_get_children (GTK_CONTAINER (child));
 
@@ -1357,22 +1357,22 @@ go_dock_item_get_child (GoDockItem *item)
        g_assert_not_reached ();
     }
 
-   return GTK_BIN (item)->child;
+   return GTK_BIN (dock_item)->child;
 }
 
 /**
  * go_dock_item_get_name:
- * @item: A GoDockItem widget.
+ * @dock_item: a #GoDockItem widget
  *
- * Description: Retrieve the name of @item.
+ * Retrieves the name of @item.
  *
- * Return value: The name of @item as a malloc()ed zero-terminated
+ * Return value: the name of @item as a malloc()ed zero-terminated
  * string.
  **/
 gchar *
-go_dock_item_get_name (GoDockItem *item)
+go_dock_item_get_name (GoDockItem *dock_item)
 {
-  return g_strdup (item->name);
+  return g_strdup (dock_item->name);
 }
 
 /**

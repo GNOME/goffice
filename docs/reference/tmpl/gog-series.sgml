@@ -1,0 +1,128 @@
+<!-- ##### SECTION Title ##### -->
+GogSeries
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogSeries ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG GogSeries:has-legend ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION gog_series_is_valid ##### -->
+<para>
+
+</para>
+
+@series: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_series_has_legend ##### -->
+<para>
+
+</para>
+
+@series: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_series_get_name ##### -->
+<para>
+
+</para>
+
+@series: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_series_get_plot ##### -->
+<para>
+
+</para>
+
+@series: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_series_set_name ##### -->
+<para>
+
+</para>
+
+@series: 
+@name_src: 
+@err: 
+<!-- # Unused Parameters # -->
+@val: 
+
+
+<!-- ##### FUNCTION gog_series_set_dim ##### -->
+<para>
+
+</para>
+
+@series: 
+@dim_i: 
+@val: 
+@err: 
+
+
+<!-- ##### FUNCTION gog_series_set_index ##### -->
+<para>
+
+</para>
+
+@series: 
+@ind: 
+@is_manual: 
+
+
+<!-- ##### FUNCTION gog_series_num_elements ##### -->
+<para>
+
+</para>
+
+@series: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_series_get_overrides ##### -->
+<para>
+
+</para>
+
+@series: 
+@Returns: 
+
+
+<!-- ##### STRUCT GogSeriesElement ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG GogSeriesElement:index ##### -->
+<para>
+
+</para>
+

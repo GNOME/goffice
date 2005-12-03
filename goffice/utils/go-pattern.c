@@ -120,10 +120,11 @@ go_pattern_is_solid (GOPattern const *pat, GOColor *color)
 
 /**
  * go_pattern_set_solid :
- * @pat  : #GOPattern
- * @fore : #GOColor
+ * @pat  : a #GOPattern
+ * @fore : a #GOColor
  *
  * Makes @pat a solid pattern with colour @fore.
+ *
  **/
 void
 go_pattern_set_solid (GOPattern *pat, GOColor fore)
@@ -142,15 +143,17 @@ go_pattern_get_pattern (GOPattern const *pat)
 
 /**
  * go_pattern_get_svg_path:
- * @pattern: #GOPattern
- * @double:  pattern width
+ * @pattern: a #GOPattern
+ * @width:  pattern width
  * @height:  pattern height
  *
- * Returns an SVG path as string, which represents pattern shape.
+ * Retrieves an SVG path as string, which represents pattern shape.
  * Caller is responsible for freeing the resulting string.
  *
  * If width != NULL, returns pattern width.
  * If height != NULL, returns pattern height.
+ *
+ * returns: a #char buffer.
  **/
 #warning This result is actually an xmlChar we could run into trouble with g_free vs xmlFree.  Can we change the interface ?
 char *

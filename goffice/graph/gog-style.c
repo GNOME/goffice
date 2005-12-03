@@ -59,13 +59,14 @@ typedef GObjectClass GogStyleClass;
 
 static GObjectClass *parent_klass;
 
-/**
+/*
  * I would have liked to do this differently and have a tighter binding between theme element and style
  * 	eg gog_style_new (theme_element)
  * However that will not work easily in the context of xls import where we do
  * not know what the type is destined for until later.  This structure melds
  * smoothly with both approaches at the expense of a bit of power.
- **/
+ */
+
 /*************************************************************************/
 
 typedef struct {
@@ -1062,9 +1063,12 @@ gog_style_new (void)
 }
 
 /**
- * gog_style_dup :
- * @src : #GogStyle
+ * gog_style_dup:
+ * @style : a source #GogStyle
  *
+ * Duplicates @style.
+ *
+ * return value: a new #GogStyle
  **/
 GogStyle *
 gog_style_dup (GogStyle const *src)

@@ -1,0 +1,218 @@
+<!-- ##### SECTION Title ##### -->
+GogAxis
+
+<!-- ##### SECTION Short_Description ##### -->
+Master axes
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogAxis ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG GogAxis:assigned-format-string-XL ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogAxis:invert-axis ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogAxis:map-name ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogAxis:type ##### -->
+<para>
+
+</para>
+
+<!-- ##### STRUCT GogAxisTick ##### -->
+<para>
+
+</para>
+
+@position: 
+@type: 
+@label: 
+
+<!-- ##### ENUM GogAxisElemType ##### -->
+<para>
+
+</para>
+
+@GOG_AXIS_ELEM_MIN: 
+@GOG_AXIS_ELEM_MAX: 
+@GOG_AXIS_ELEM_MAJOR_TICK: 
+@GOG_AXIS_ELEM_MINOR_TICK: 
+@GOG_AXIS_ELEM_CROSS_POINT: 
+@GOG_AXIS_ELEM_MAX_ENTRY: 
+
+<!-- ##### FUNCTION gog_axis_get_atype ##### -->
+<para>
+
+</para>
+
+@axis: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_is_center_on_ticks ##### -->
+<para>
+
+</para>
+
+@axis: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_is_discrete ##### -->
+<para>
+
+</para>
+
+@axis: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_is_inverted ##### -->
+<para>
+
+</para>
+
+@axis: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_get_bounds ##### -->
+<para>
+
+</para>
+
+@axis: 
+@minima: 
+@maxima: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_set_bounds ##### -->
+<para>
+
+</para>
+
+@axis: 
+@minimum: 
+@maximum: 
+
+
+<!-- ##### FUNCTION gog_axis_set_extents ##### -->
+<para>
+
+</para>
+
+@axis: 
+@start: 
+@stop: 
+
+
+<!-- ##### FUNCTION gog_axis_get_ticks ##### -->
+<para>
+
+</para>
+
+@axis: 
+@ticks: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_get_labels ##### -->
+<para>
+
+</para>
+
+@axis: 
+@plot_that_labeled_axis: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_get_entry ##### -->
+<para>
+
+</para>
+
+@axis: 
+@i: 
+@user_defined: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_add_contributor ##### -->
+<para>
+
+</para>
+
+@axis: 
+@contrib: 
+
+
+<!-- ##### FUNCTION gog_axis_del_contributor ##### -->
+<para>
+
+</para>
+
+@axis: 
+@contrib: 
+
+
+<!-- ##### FUNCTION gog_axis_contributors ##### -->
+<para>
+
+</para>
+
+@axis: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_clear_contributors ##### -->
+<para>
+
+</para>
+
+@axis: 
+
+
+<!-- ##### FUNCTION gog_axis_bound_changed ##### -->
+<para>
+
+</para>
+
+@axis: 
+@contrib: 
+
+
+<!-- ##### FUNCTION gog_axis_get_grid_line ##### -->
+<para>
+
+</para>
+
+@axis: 
+@major: 
+@Returns: 
+
+

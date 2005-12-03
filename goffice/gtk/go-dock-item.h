@@ -111,8 +111,8 @@ GtkType        go_dock_item_get_type        (void) G_GNUC_CONST;
 GtkWidget     *go_dock_item_new             (const gchar *name,
                                                 GoDockItemBehavior behavior);
 void           go_dock_item_construct       (GoDockItem *new_dock_item,
-						const gchar *name,
-						GoDockItemBehavior behavior);
+					     const gchar *name,
+					     GoDockItemBehavior behavior);
 
 GtkWidget     *go_dock_item_get_child       (GoDockItem *dock_item);
 

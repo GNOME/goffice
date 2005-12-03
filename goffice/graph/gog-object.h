@@ -149,7 +149,7 @@ GSList      *gog_object_get_children	 (GogObject const *obj, GogObjectRole const
 GogObject   *gog_object_get_child_by_role(GogObject const *obj, GogObjectRole const *role);
 gpointer     gog_object_get_editor	 (GogObject *obj,
 					  GogDataAllocator *dalloc, GOCmdContext *cc);
-GogView	  *gog_object_new_view		 (GogObject const *obj, GogView *view);
+GogView	  *gog_object_new_view		 (GogObject const *obj, GogView *parent);
 gboolean   gog_object_is_deletable	 (GogObject const *obj);
 GSList    *gog_object_possible_additions (GogObject const *parent);
 GogObject *gog_object_add_by_role	 (GogObject *parent,

@@ -93,38 +93,42 @@ gog_outlined_view_get_type
 </SECTION>
 
 <SECTION>
-<FILE>gog-object-xml</FILE>
+<FILE>gog-persist</FILE>
+<INCLUDE>goffice/graph/gog-object-xml.h</INCLUDE>
 <TITLE>GogPersist</TITLE>
+GogPersist
+gog_persist_dom_save
+gog_persist_dom_load
+gog_persist_sax_save
+gog_persist_prep_sax
+<SUBSECTION Standard>
 GOG_PERSIST_TYPE
 GOG_PERSIST
 IS_GOG_PERSIST
 GOG_PERSIST_CLASS
 IS_GOG_PERSIST_CLASS
 GOG_PERSIST_GET_CLASS
+<SUBSECTION Private>
 gog_persist_get_type
-gog_persist_dom_save
-gog_persist_dom_load
-gog_persist_sax_save
-gog_persist_prep_sax
+</SECTION>
+
+<SECTION>
+<FILE>gog-object-xml</FILE>
+<TITLE>GogObjectXml</TITLE>
 gog_object_set_arg
-go_xml_out_add_color
 gog_object_write_xml_sax
 gog_object_new_from_xml
-GogObjectSaxHandler
 gog_object_sax_push_parser
+<SUBSECTION>
+GogObjectSaxHandler
+go_xml_out_add_color
 gog_xml_read_state_get_obj
 </SECTION>
 
 <SECTION>
 <FILE>gog-view</FILE>
 <TITLE>GogView</TITLE>
-GOG_VIEW_TYPE
-GOG_VIEW
-IS_GOG_VIEW
-GOG_VIEW_CLASS
-IS_GOG_VIEW_CLASS
-GOG_VIEW_GET_CLASS
-gog_view_get_type
+GogView
 gog_view_get_model
 gog_view_render
 gog_view_queue_redraw
@@ -139,15 +143,21 @@ gog_view_render_toolkit
 gog_view_get_tool_at_point
 gog_view_get_view_at_point
 gog_view_size_child_request
+<SUBSECTION Standard>
+GOG_VIEW_TYPE
+GOG_VIEW
+IS_GOG_VIEW
+GOG_VIEW_CLASS
+IS_GOG_VIEW_CLASS
+GOG_VIEW_GET_CLASS
+<SUBSECTION Private>
+gog_view_get_type
 </SECTION>
 
 <SECTION>
 <FILE>gog-graph</FILE>
 <TITLE>GogGraph</TITLE>
-GOG_GRAPH_TYPE
-GOG_GRAPH
-IS_GOG_GRAPH
-gog_graph_get_type
+GogGraph
 gog_graph_validate_chart_layout
 gog_graph_num_cols
 gog_graph_num_rows
@@ -159,29 +169,32 @@ gog_graph_ref_data
 gog_graph_unref_data
 gog_graph_get_size
 gog_graph_set_size
-
-<SUBSECTION Private>
-GOG_GRAPH_CLASS
-IS_GOG_GRAPH_CLASS
-gog_graph_request_update
-gog_graph_force_update
-GOG_GRAPH_VIEW_TYPE
-GOG_GRAPH_VIEW
-IS_GOG_GRAPH_VIEW
-gog_graph_view_get_type
+<SUBSECTION>
+GogGraphView
 gog_graph_view_handle_event
 gog_graph_view_get_selection
 gog_graph_view_set_selection
+<SUBSECTION Private>
+GOG_GRAPH_TYPE
+GOG_GRAPH
+IS_GOG_GRAPH
+GOG_GRAPH_CLASS
+IS_GOG_GRAPH_CLASS
+GOG_GRAPH_VIEW_TYPE
+GOG_GRAPH_VIEW
+IS_GOG_GRAPH_VIEW
+<SUBSECTION Private>
+gog_graph_view_get_type
+gog_graph_get_type
+gog_graph_request_update
+gog_graph_force_update
 </SECTION>
 
 <SECTION>
 <FILE>gog-chart</FILE>
 <TITLE>GogChart</TITLE>
+GogChart
 gog_axis_set_from_str
-GOG_CHART_TYPE
-GOG_CHART
-IS_GOG_CHART
-gog_chart_get_type
 gog_chart_get_position
 gog_chart_set_position
 gog_chart_get_plot_area
@@ -195,42 +208,50 @@ gog_chart_axis_set_is_valid
 gog_chart_axis_set_assign
 gog_chart_get_axes
 gog_chart_get_grid
+<SUBSECTION>
+GogChartView
 gog_chart_view_get_plot_area
-
-<SUBSECTION Private>
-GogChart
+<SUBSECTION Standard>
+GOG_CHART_TYPE
+GOG_CHART
+IS_GOG_CHART
 GogChartClass
 GOG_CHART_CLASS
 IS_GOG_CHART_CLASS
+<SUBSECTION Private>
+gog_chart_get_type
 </SECTION>
 
 <SECTION>
 <FILE>gog-legend</FILE>
 <TITLE>GogLegend</TITLE>
+GogLegend
+<SUBSECTION Standard>
 GOG_LEGEND_TYPE
 GOG_LEGEND
 IS_GOG_LEGEND
+<SUBSECTION Private>
 gog_legend_get_type
 </SECTION>
 
 <SECTION>
 <FILE>gog-grid</FILE>
 <TITLE>GogGrid</TITLE>
+GogGrid
+<SUBSECTION Standard>
 GOG_GRID_TYPE
 GOG_GRID
 IS_GOG_GRID
+<SUBSECTION Private>
 gog_grid_get_type
 </SECTION>
 
 <SECTION>
 <FILE>gog-axis</FILE>
 <TITLE>GogAxis</TITLE>
-GogAxisElemType
+GogAxis
 GogAxisTick
-GOG_AXIS_TYPE
-GOG_AXIS
-IS_GOG_AXIS
-gog_axis_get_type
+GogAxisElemType
 gog_axis_get_atype
 gog_axis_is_center_on_ticks
 gog_axis_is_discrete
@@ -247,19 +268,26 @@ gog_axis_contributors
 gog_axis_clear_contributors
 gog_axis_bound_changed
 gog_axis_get_grid_line
+<SUBSECTION Standard>
+GOG_AXIS_TYPE
+GOG_AXIS
+IS_GOG_AXIS
+<SUBSECTION Private>
+gog_axis_get_type
 </SECTION>
 
 <SECTION>
 <FILE>gog-axis-line</FILE>
 <TITLE>GogAxisLine</TITLE>
+GogAxisLine
 GogAxisPosition
 GogAxisTickTypes
+<SUBSECTION Standard>
 GOG_AXIS_LINE_TYPE
 GOG_AXIS_LINE
 IS_GOG_AXIS_LINE
-gog_axis_line_get_type
-
 <SUBSECTION Private>
+gog_axis_line_get_type
 GogAxisBase
 GogAxisBaseClass
 GOG_AXIS_BASE_TYPE
@@ -280,21 +308,21 @@ gog_axis_base_view_get_type
 <SECTION>
 <FILE>gog-grid-line</FILE>
 <TITLE>GogGridLine</TITLE>
+GogGridLine
+gog_grid_line_is_minor
+<SUBSECTION Standard>
 GOG_GRID_LINE_TYPE
 GOG_GRID_LINE
 IS_GOG_GRID_LINE
+<SUBSECTION Private>
 gog_grid_line_get_type
-gog_grid_line_is_minor
 </SECTION>
 
 <SECTION>
 <FILE>gog-plot</FILE>
 <TITLE>GogPlot</TITLE>
+GogPlot
 GogPlotBoundInfo
-GOG_PLOT_TYPE
-GOG_PLOT
-IS_GOG_PLOT
-gog_plot_get_type
 gog_plot_new_by_type
 gog_plot_new_by_name
 gog_plot_make_similar
@@ -313,7 +341,12 @@ gog_plot_axis_clear
 gog_plot_get_axis
 gog_plot_update_3d
 gog_plot_guru_helper
-
+<SUBSECTION>
+GogPlotView
+<SUBSECTION Standard>
+GOG_PLOT_TYPE
+GOG_PLOT
+IS_GOG_PLOT
 <SUBSECTION Private>
 GogPlotDesc
 GOG_PLOT_CLASS
@@ -322,18 +355,15 @@ GOG_PLOT_ITEM_GET_CLASS
 GOG_PLOT_VIEW_TYPE
 GOG_PLOT_VIEW
 IS_GOG_PLOT_VIEW
-GogPlotView
 GogPlotViewClass
 gog_plot_view_get_type
+gog_plot_get_type
 </SECTION>
 
 <SECTION>
 <FILE>gog-series</FILE>
 <TITLE>GogSeries</TITLE>
-GOG_SERIES_TYPE
-GOG_SERIES
-IS_GOG_SERIES
-gog_series_get_type
+GogSeries
 gog_series_is_valid
 gog_series_has_legend
 gog_series_get_name
@@ -343,37 +373,40 @@ gog_series_set_dim
 gog_series_set_index
 gog_series_num_elements
 gog_series_get_overrides
-
-<SUBSECTION Private>
-GogSeriesPriority
-GOG_SERIES_ACCEPT_REGRESSION_CURVE
-GogSeriesDimDesc
-GogSeriesDesc
+<SUBSECTION>
+GogSeriesElement
+<SUBSECTION Standard>
+GOG_SERIES_TYPE
+GOG_SERIES
+IS_GOG_SERIES
 GOG_SERIES_CLASS
 IS_GOG_SERIES_CLASS
 GOG_SERIES_GET_CLASS
-gog_series_check_validity
-gog_series_get_element
-</SECTION>
-
-<SECTION>
-<FILE>gog-series-element</FILE>
-<TITLE>GogSeriesElement</TITLE>
 GOG_SERIES_ELEMENT_GET_CLASS
 GOG_SERIES_ELEMENT_TYPE
 GOG_SERIES_ELEMENT
 IS_GOG_SERIES_ELEMENT
+<SUBSECTION Private>
+gog_series_get_type
 gog_series_element_get_type
+GogSeriesPriority
+GOG_SERIES_ACCEPT_REGRESSION_CURVE
+GogSeriesDimDesc
+GogSeriesDesc
+gog_series_check_validity
+gog_series_get_element
 </SECTION>
 
 <SECTION>
 <FILE>gog-series-lines</FILE>
 <TITLE>GogSeriesLines</TITLE>
 GogSeriesLines
+<SUBSECTION Standard>
 GogSeriesLinesClass
 GOG_SERIES_LINES_TYPE
 GOG_SERIES_LINES
 IS_GOG_SERIES_LINES
+<SUBSECTION Private>
 gog_series_lines_get_type
 gog_series_lines_register_type
 gog_series_lines_render
@@ -382,50 +415,61 @@ gog_series_lines_render
 <SECTION>
 <FILE>gog-error-bar</FILE>
 <TITLE>GogErrorBar</TITLE>
+GogErrorBar
 GogErrorBarType
 GogErrorBarDisplay
-GogErrorBar
-GOG_ERROR_BAR_TYPE
-GOG_ERROR_BAR
-IS_GOG_ERROR_BAR
-gog_error_bar_get_type
 gog_error_bar_dup
 gog_error_bar_prefs
 gog_error_bar_get_bounds
 gog_error_bar_get_minmax
 gog_error_bar_render
 gog_error_bar_is_visible
+<SUBSECTION Standard>
+GOG_ERROR_BAR_TYPE
+GOG_ERROR_BAR
+IS_GOG_ERROR_BAR
+<SUBSECTION Private>
+gog_error_bar_get_type
 </SECTION>
 
 <SECTION>
 <FILE>gog-reg-curve</FILE>
 <TITLE>GogRegCurve</TITLE>
-GOG_REG_CURVE_TYPE
-GOG_REG_CURVE
-IS_GOG_REG_CURVE
-gog_reg_curve_get_type
+GogRegCurve
 gog_reg_curve_new_by_name
 gog_reg_curve_new_by_type
 gog_reg_curve_get_equation
 gog_reg_curve_get_R2
 gog_reg_curve_get_bounds
+<SUBSECTION Standard>
+GOG_REG_CURVE_TYPE
+GOG_REG_CURVE
+IS_GOG_REG_CURVE
+<SUBSECTION Private>
+gog_reg_curve_get_type
 </SECTION>
 
 <SECTION>
 <FILE>gog-label</FILE>
 <TITLE>GogLabel</TITLE>
+GogLabel
+<SUBSECTION Standard>
 GOG_LABEL_TYPE
 GOG_LABEL
 IS_GOG_LABEL
+<SUBSECTION Private>
 gog_label_get_type
 </SECTION>
 
 <SECTION>
 <FILE>gog-reg-eqn</FILE>
 <TITLE>GogRegEqn</TITLE>
+GogReqEqn
+<SUBSECTION Standard>
 GOG_REG_EQN_TYPE
 GOG_REG_EQN
 IS_GOG_REG_EQN
+<SUBSECTION Private>
 gog_reg_eqn_get_type
 </SECTION>
 
@@ -434,12 +478,7 @@ gog_reg_eqn_get_type
 <SECTION>
 <FILE>gog-renderer</FILE>
 <TITLE>GogRenderer</TITLE>
-GOG_RENDERER_GRIP_SIZE
-GOG_RENDERER_TYPE
-GOG_RENDERER
-IS_GOG_RENDERER
-GOG_RENDERER_GET_CLASS
-gog_renderer_get_type
+GogRenderer
 gog_renderer_request_update
 gog_renderer_push_style
 gog_renderer_push_selection_style
@@ -471,47 +510,59 @@ gog_renderer_pt2r
 gog_renderer_new_for_pixbuf
 gog_renderer_update
 gog_renderer_get_pixbuf
-
-<SUBSECTION Private>
-GogRendererClip
+<SUBSECTION Standard>
+GOG_RENDERER_GRIP_SIZE
+GOG_RENDERER_TYPE
+GOG_RENDERER
+IS_GOG_RENDERER
+GOG_RENDERER_GET_CLASS
 GOG_RENDERER_CLASS
 IS_GOG_RENDERER_CLASS
+<SUBSECTION Private>
+gog_renderer_get_type
+GogRendererClip
 gog_renderer_invalidate_size_requests
 </SECTION>
 
 <SECTION>
 <FILE>gog-renderer-cairo</FILE>
 <TITLE>GogRendererCairo</TITLE>
+GogRendererCairo
+gog_renderer_cairo_get_pixbuf
+gog_renderer_cairo_update
+<SUBSECTION Standard>
 GOG_RENDERER_CAIRO_TYPE
 GOG_RENDERER_CAIRO
 IS_GOG_RENDERER_CAIRO
-GogRendererCairo
+<SUBSECTION Private>
 gog_renderer_cairo_get_type
-gog_renderer_cairo_get_pixbuf
-gog_renderer_cairo_update
 </SECTION>
 
 <SECTION>
 <FILE>gog-renderer-gnome-print</FILE>
 <TITLE>GogRendererGnomePrint</TITLE>
+GogRendererGnomePrint
 gog_graph_print_to_gnome_print
 </SECTION>
 
 <SECTION>
 <FILE>gog-renderer-pixbuf</FILE>
 <TITLE>GogRendererPixbuf</TITLE>
+GogRendererPixbuf
+gog_renderer_pixbuf_get
+gog_renderer_pixbuf_update
+<SUBSECTION Standard>
 GOG_RENDERER_PIXBUF_TYPE
 GOG_RENDERER_PIXBUF
 IS_GOG_RENDERER_PIXBUF
-GogRendererPixbuf
+<SUBSECTION Private>
 gog_renderer_pixbuf_get_type
-gog_renderer_pixbuf_get
-gog_renderer_pixbuf_update
 </SECTION>
 
 <SECTION>
 <FILE>gog-renderer-svg</FILE>
 <TITLE>GogRendererSVG</TITLE>
+GogRendererSVG
 gog_graph_export_to_svg
 </SECTION>
 
@@ -520,28 +571,25 @@ gog_graph_export_to_svg
 <SECTION>
 <FILE>gog-data-allocator</FILE>
 <TITLE>GogDataAllocator</TITLE>
+GogDataAllocator
+gog_data_allocator_allocate
+gog_data_allocator_editor
+<SUBSECTION Standard>
 GOG_DATA_ALLOCATOR_TYPE
 GOG_DATA_ALLOCATOR
 IS_GOG_DATA_ALLOCATOR
 GOG_DATA_ALLOCATOR_CLASS
 IS_GOG_DATA_ALLOCATOR_CLASS
 GOG_DATA_ALLOCATOR_GET_CLASS
+<SUBSECTION Private>
 gog_data_allocator_get_type
-gog_data_allocator_allocate
-gog_data_allocator_editor
 </SECTION>
 
 <SECTION>
 <FILE>gog-data-set</FILE>
 <TITLE>GogDataset</TITLE>
+GogDataSet
 GogDatasetElement
-GOG_DATASET_TYPE
-GOG_DATASET
-IS_GOG_DATASET
-GOG_DATASET_CLASS
-IS_GOG_DATASET_CLASS
-GOG_DATASET_GET_CLASS
-gog_dataset_get_type
 gog_dataset_dims
 gog_dataset_get_dim
 gog_dataset_set_dim
@@ -550,6 +598,15 @@ gog_dataset_parent_changed
 gog_dataset_get_elem
 gog_dataset_set_dim_internal
 gog_dataset_dup_to_simple
+<SUBSECTION Standard>
+GOG_DATASET_TYPE
+GOG_DATASET
+IS_GOG_DATASET
+GOG_DATASET_CLASS
+IS_GOG_DATASET_CLASS
+GOG_DATASET_GET_CLASS
+<SUBSECTION Private>
+gog_dataset_get_type
 </SECTION>
 
 ### Graph Utilities 
@@ -557,11 +614,14 @@ gog_dataset_dup_to_simple
 <SECTION>
 <FILE>gog-control-foocanvas</FILE>
 <TITLE>GogControlFooCanvas</TITLE>
+GogControlFooCanvas
+<SUBSECTION Standard>
 GOG_CONTROL_FOOCANVAS_TYPE
 GOG_CONTROL_FOOCANVAS
 IS_GOG_CONTROL_FOOCANVAS
 GogControlFooCanvas
 GogControlFooCanvasClass
+<SUBSECTION Private>
 gog_control_foocanvas_get_type
 </SECTION>
 
@@ -574,8 +634,8 @@ gog_guru
 <SECTION>
 <FILE>gog-editor</FILE>
 <TITLE>GogEditor</TITLE>
-GogEditorPage
 GogEditor
+GogEditorPage
 gog_editor_new
 gog_editor_add_page
 gog_editor_set_store_page
@@ -586,8 +646,8 @@ gog_editor_free
 <SECTION>
 <FILE>gog-tool</FILE>
 <TITLE>GogTool</TITLE>
-GogToolAction
 GogTool
+GogToolAction
 gog_tool_action_new
 gog_tool_action_move
 gog_tool_action_double_click
@@ -613,16 +673,12 @@ gog_plugin_services_shutdown
 <SECTION>
 <FILE>gog-style</FILE>
 <TITLE>GogStyle</TITLE>
-GOG_STYLE_TYPE
-GOG_STYLE
-IS_GOG_STYLE
-gog_style_get_type
+GogStyle
 GogStyleFlag
 GogFillStyle
 GogImageType
 GogStyleLine
 GogStyleMark
-GogStyle
 gog_style_new
 gog_style_dup
 gog_style_assign
@@ -640,6 +696,12 @@ gog_style_is_outline_visible
 gog_style_force_auto
 gog_style_populate_editor
 gog_style_get_editor
+<SUBSECTION Standard>
+GOG_STYLE_TYPE
+GOG_STYLE
+IS_GOG_STYLE
+<SUBSECTION Private>
+gog_style_get_type
 </SECTION>
 
 <SECTION>
@@ -1066,27 +1128,29 @@ go_range_devsql
 <FILE>go-regression</FILE>
 <TITLE>Regressions</TITLE>
 RegressionResult
-regression_stat_t
-go_regression_stat_new
-go_regression_stat_destroy
-go_linear_regression
-go_exponential_regression
-go_logarithmic_regression
 LOGFIT_C_ACCURACY
 LOGFIT_C_STEP_FACTOR
 LOGFIT_C_RANGE_FACTOR
+<SUBSECTION>
+regression_stat_t
+go_linear_regression
+go_exponential_regression
+go_logarithmic_regression
 go_logarithmic_fit
 go_non_linear_regression
+go_regression_stat_new
+go_regression_stat_destroy
 go_matrix_invert
 go_matrix_determinant
+<SUBSECTION>
 regression_stat_tl
-go_regression_stat_newl
-go_regression_stat_destroyl
 go_linear_regressionl
 go_exponential_regressionl
 go_logarithmic_regressionl
 go_logarithmic_fitl
 go_non_linear_regressionl
+go_regression_stat_newl
+go_regression_stat_destroyl
 go_matrix_invertl
 </SECTION>
 
@@ -1235,7 +1299,7 @@ go_marker_selector_get_shape
 
 <SECTION>
 <FILE>go-pattern</FILE>
-<TITLE
+<TITLE>GoPattern</TITLE>
 GOPattern
 GOPatternType
 go_pattern_from_str
@@ -1247,7 +1311,6 @@ go_pattern_get_pattern
 go_pattern_get_svg_path
 go_pattern_selector
 </SECTION>
-
 
 <SECTION>
 <FILE>regutf8</FILE>

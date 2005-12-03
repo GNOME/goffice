@@ -734,9 +734,12 @@ gog_axis_map_set (GogAxis *axis, char const *name)
 
 /**
  * gog_axis_map_is_valid
- * @axis : #GogAxis
+ * @map : a #GogAxisMap
  *
- * Returns: TRUE if map is valid, ie bounds are valid.
+ * Tests if @map was correctly initialized, i.e. bounds are
+ * valid.
+ * 
+ * returns: %TRUE if map is valid
  **/
 
 gboolean
@@ -800,8 +803,12 @@ gog_axis_map (GogAxisMap *map,
 
 /**
  * gog_axis_map_from_view :
- * @map : #GogAxisMap
+ * @map : a #GogAxisMap
  * @value : value to unmap from canvas space.
+ *
+ * Converts value from canvas space to data space.
+ *
+ * return value: value in data coordinates
  **/
 
 double 
@@ -813,26 +820,30 @@ gog_axis_map_from_view (GogAxisMap *map,
 
 /**
  * gog_axis_map_to_view :
- * @map : #GogAxisMap
- * @value : value to map to canvas space.
+ * @map : a #GogAxisMap
+ * @value : value to map to canvas space
  *
- * Returns: a value in canvas coordinates, where
- * [offset,offset+length] means a data within plot bounds.
+ * Converts value from data space to canvas space, using
+ * offset and length parameters given to gog_axis_map_new.
+ * 
+ * return value: a value in canvas coordinates
  **/
 
 double 
 gog_axis_map_to_view (GogAxisMap *map,
-			double value)
+		      double value)
 {
 	return map->desc->map_to_view (map, value);
 }
 
 /**
  * gog_axis_map_finite :
- * @map : #GogAxisMap
+ * @map : a #GogAxisMap
  * @value : value to test
  *
- * Returns: TRUE if value means something in this map
+ * Tests wether @value is valid for the given @map.
+ * 
+ * return value: %TRUE if value means something
  **/
 
 gboolean 
@@ -843,9 +854,9 @@ gog_axis_map_finite (GogAxisMap *map, double value)
 
 /**
  * gog_axis_map_get_baseline :
- * @map : #GogAxisMap
+ * @map : a #GogAxisMap
  *
- * Returns: the baseline for the given map, in view coordinates,
+ * Gets the baseline for the given map, in view coordinates,
  * clipped to offset and offset+length, where offset and length
  * are the parameters of gog_axis_map_new.
  **/
@@ -858,11 +869,11 @@ gog_axis_map_get_baseline (GogAxisMap *map)
 
 /**
  * gog_axis_map_get_extents:
- * @map : #GogAxisMap
+ * @map : a #GogAxisMap
  * @start : start for this axis
  * @stop : stop for this axis
  *
- * FIXME Returns: start and stop for the given axis map in data coordinates. If
+ * Gets start and stop for the given axis map in data coordinates. If
  * axis is not inverted, start = minimum and stop = maximum. If axis is invalid, 
  * it'll return arbitrary bounds. For example, an non inverted invalid X axis 
  * will have start set to 0.0 and stop set to 1.0.
@@ -881,11 +892,11 @@ gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
 
 /**
  * gog_axis_map_get_bounds:
- * @map : #GogAxisMap
+ * @map : a #GogAxisMap
  * @minimum : minimum for this axis
  * @maximum : maximum for this axis
  *
- * Returns: bounds for the given axis map in data coordinates. If axis is invalid, 
+ * Gets bounds for the given axis map in data coordinates. If axis is invalid, 
  * it'll return arbitrary bounds. For example, for an invalid x axis, minimum = 0.0
  * and maximum = 1.0. 
  *
@@ -1777,9 +1788,11 @@ gog_axis_set_extents (GogAxis *axis, double start, double stop)
 /**
  * gog_axis_get_ticks :
  * @axis : #GogAxis
- * @ticks : result
+ * @ticks : an array of #GogAxisTick
  *
- * Retrieve an array of tick descriptions, and return the number of ticks.
+ * An accessor to @axis->ticks.
+ *
+ * return value: number of ticks
  **/
 unsigned 
 gog_axis_get_ticks (GogAxis *axis, GogAxisTick **ticks)
@@ -1793,10 +1806,10 @@ gog_axis_get_ticks (GogAxis *axis, GogAxisTick **ticks)
 
 /**
  * gog_axis_get_labels :
- * @axi : #GogAxis
- * @plot_that_labeled_axis : #GogPlot
+ * @axis : a #GogAxis
+ * @plot_that_labeled_axis : a #GogPlot
  *
- * Returns: the possibly NULL #GOData used as a label for this axis
+ * return value: the possibly NULL #GOData used as a label for this axis
  * along with the plot that it was associated with
  **/
 GOData *

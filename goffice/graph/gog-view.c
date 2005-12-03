@@ -656,7 +656,7 @@ gog_view_padding_request (GogView *view, GogViewAllocation const *bbox, GogViewP
 
 
 /**
- * gog_view_size_request :
+ * gog_view_size_request:
  * @view : a #GogView
  * @available : available space.
  * @requisition : a #GogViewRequisition.
@@ -667,6 +667,7 @@ gog_view_padding_request (GogView *view, GogViewAllocation const *bbox, GogViewP
  *
  * Remember that the size request is not necessarily the size a view will
  * actually be allocated.
+ * 
  **/
 void
 gog_view_size_request (GogView *view, 
@@ -759,15 +760,16 @@ gog_view_render	(GogView *view, GogViewAllocation const *bbox)
 }
 
 /**
- * gog_view_size_child_request :
- * @view : #GogView
- * @available : the amount of space available in total
- * @req : additionnal requisition
- * @min_req : minimum size for displaying all children
+ * gog_view_size_child_request:
+ * @view: a #GogView
+ * @available: the amount of space available in total
+ * @req: additionnal requisition
+ * @min_req: minimum size for displaying all children
  *
- * FIXME Returns additional requision in @req which must be added to parent requisition,
+ * Computes additional requision in @req which must be added to parent requisition,
  * and minimum requisition in @min_req which is minimum space for displaying all
  * children.
+ * 
  **/
 void
 gog_view_size_child_request (GogView *view,
@@ -942,9 +944,11 @@ gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)
  * @obj : pointed object
  * @tool : pointed tool
  *
- * Returns view under cursor, searching recursively from @view. Corresponding
- * is stored in @obj. This object may or may not be model of pointed view.
+ * Gets view under cursor, searching recursively from @view. Corresponding object
+ * is stored in @obj. This object may or may not be @view->model of pointed view.
  * This function also stores tool under cursor, for the pointed view.
+ *
+ * return value: the #GogView at x,y position
  **/
 GogView *
 gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, GogTool **tool)

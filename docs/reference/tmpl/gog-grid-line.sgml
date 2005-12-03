@@ -1,8 +1,8 @@
 <!-- ##### SECTION Title ##### -->
-GogOutlinedView
+GogGridLine
 
 <!-- ##### SECTION Short_Description ##### -->
-Base class for all objects displayed in a frame
+Grid lines
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -17,23 +17,23 @@ Base class for all objects displayed in a frame
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogOutlinedObject ##### -->
+<!-- ##### STRUCT GogGridLine ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### ARG GogOutlinedObject:padding-pts ##### -->
+<!-- ##### ARG GogGridLine:is-minor ##### -->
 <para>
 
 </para>
 
-<!-- ##### FUNCTION gog_outlined_object_get_pad ##### -->
+<!-- ##### FUNCTION gog_grid_line_is_minor ##### -->
 <para>
 
 </para>
 
-@goo: 
+@ggl: 
 @Returns: 
 
 

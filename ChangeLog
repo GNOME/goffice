@@ -1,5 +1,21 @@
 2005-12-03  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* goffice/graph/gog-axis: doc fixes.
+	* goffice/graph/gog-chart.c: ditto.
+	* goffice/graph/gog-error-bar.c: ditto.
+	* goffice/graph/gog-object.c: ditto.
+	* goffice/graph/gog-renderer.c: ditto.
+	* goffice/graph/gog-series.c: ditto.
+	* goffice/graph/gog-style.c: ditto.
+	* goffice/graph/gog-view.c: ditto.
+	* goffice/gtk/go-dock-item.c: ditto.
+	* goffice/utils/format.c: ditto.
+	* goffice/utils/go-geometry.c: ditto.
+	* goffice/utils/go-pattern.c: ditto.
+	* goffice/utils/go-regression.c: move doc from headers.
+
+2005-12-03  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* goffice/graph/gog-styled-object.c: doc fixes.
 
 2005-12-03  J.H.M. Dassen (Ray) <jdassen@debian.org>

@@ -1,5 +1,24 @@
 2005-12-03  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* reference/goffice-docs.sgml: add graph/Abstract classes chapter and
+	remove Graph/Data chapter.
+	* reference/goffice-sections.txt: add Standard and private subsections
+	in a number of sections.
+	* reference/tmpl/gog-axis-line.sgml: new.
+	* reference/tmpl/gog-axis.sgml: new.
+	* reference/tmpl/gog-chart.sgml: new.
+	* reference/tmpl/gog-error-bar.sgml: new.
+	* reference/tmpl/gog-graph.sgml: new.
+	* reference/tmpl/gog-grid-line.sgml: new.
+	* reference/tmpl/gog-grid.sgml: new.
+	* reference/tmpl/gog-legend.sgml: new.
+	* reference/tmpl/gog-presist.sgml: new.
+	* reference/tmpl/gog-series-lines.sgml: new.
+	* reference/tmpl/gog-series.sgml: new.
+	* reference/goffice.types: new.
+	
+2005-12-03  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* reference/goffice-sections: use Standard subsection for GogObject,
 	GogStyledObject, GogOutlinedObject.
 	* reference/tmpl/gog-outlined-object.sgml: new.
