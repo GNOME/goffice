@@ -20,6 +20,8 @@
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-control-foocanvas.h>
+#include <goffice/graph/gog-renderer.h>
+#include <goffice/graph/gog-renderer-pixbuf.h>
 
 gog_object_get_type
 gog_styled_object_get_type
@@ -42,8 +44,6 @@ gog_error_bar_get_type
 gog_reg_eqn_get_type
 gog_reg_curve_get_type
 gog_data_allocator_get_type
-gog_data_set_type
-gog_renderer_svg_get_type
-gog_renderer_gnome_print_get_type
+gog_dataset_get_type
+gog_renderer_get_type
 gog_renderer_pixbuf_get_type
-gog_control_foo_canvas_get_type
