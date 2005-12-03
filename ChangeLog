@@ -1,3 +1,8 @@
+2005-12-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* goffice/Makefile.am: Don't try to use pcre.la from cut-n-paste when
+	using the system's pcre library.
+
 2005-12-02  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Check for a system libpcre that supports UTF-8.

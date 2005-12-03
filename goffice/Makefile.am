@@ -2,13 +2,19 @@ SUBDIRS = utils data app graph gtk drawing ms-compat cut-n-paste component
 
 lib_LTLIBRARIES = libgoffice-1.la
 
+if WITH_INCLUDED_PCRE
+pcre_la = cut-n-paste/pcre/libpcre.la
+else
+pcre_la =
+endif
+
 libgoffice_1_la_LIBADD = 			\
-	cut-n-paste/pcre/libpcre.la		\
+	$(pcre_la)				\
 	utils/libgoffice-utils.la		\
 	app/libgoffice-app.la			\
 	data/libgoffice-data.la			\
 	gtk/libgoffice-gtk.la			\
-	cut-n-paste/foocanvas/libfoocanvas.la		\
+	cut-n-paste/foocanvas/libfoocanvas.la	\
 	graph/libgoffice-graph.la		\
 	drawing/libgoffice-drawing.la		\
 	ms-compat/libgoffice-ms-compat.la	\
