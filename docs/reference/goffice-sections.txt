@@ -5,19 +5,13 @@
 <SECTION>
 <FILE>gog-object</FILE>
 <TITLE>GogObject</TITLE>
-GogObjectNamingConv
-GogObjectRole
+<INCLUDE>goffice/graph/gog-object.h</INCLUDE>
 GogObject
-GOG_OBJECT_TYPE
-GOG_OBJECT
-IS_GOG_OBJECT
-GOG_OBJECT_CLASS
-IS_GOG_OBJECT_CLASS
-GOG_OBJECT_GET_CLASS
 GOG_PARAM_PERSISTENT
 GOG_PARAM_FORCE_SAVE
-gog_object_get_type
 GogDataDuplicator
+GogObjectNamingConv
+GogObjectRole
 gog_object_dup
 gog_object_get_parent
 gog_object_get_parent_typed
@@ -49,40 +43,52 @@ gog_object_clear_parent
 gog_object_set_parent
 gog_object_register_roles
 gog_object_request_editor_update
+<SUBSECTION Standard>
+GOG_OBJECT_TYPE
+GOG_OBJECT
+IS_GOG_OBJECT
+GOG_OBJECT_CLASS
+IS_GOG_OBJECT_CLASS
+GOG_OBJECT_GET_CLASS
+<SUBSECTION Private>
+gog_object_get_type
 </SECTION>
 
 <SECTION>
 <FILE>gog-styled-object</FILE>
 <TITLE>GogStyledObject</TITLE>
+<INCLUDE>goffice/graph/gog-styled-object.h</INCLUDE>
 GogStyledObject
+gog_styled_object_get_style
+gog_styled_object_get_auto_style
+gog_styled_object_set_style
+gog_styled_object_apply_theme
+gog_styled_object_style_changed
+<SUBSECTION Standard>
 GOG_STYLED_OBJECT_TYPE
 GOG_STYLED_OBJECT
 IS_GOG_STYLED_OBJECT
 GOG_STYLED_OBJECT_GET_CLASS
+<SUBSECTION Private>
 gog_styled_object_get_type
-gog_styled_object_set_style
-gog_styled_object_get_style
-gog_styled_object_get_auto_style
-gog_styled_object_style_changed
-gog_styled_object_apply_theme
 </SECTION>
 
 <SECTION>
 <FILE>gog-outlined-object</FILE>
-<TITLE>GogOutlinedView</TITLE>
+<TITLE>GogOutlinedObject</TITLE>
 GogOutlinedObject
-GogOutlinedObjectClass
+gog_outlined_object_get_pad
+<SUBSECTION Standard>
 GOG_OUTLINED_OBJECT_TYPE
 GOG_OUTLINED_OBJECT
 IS_GOG_OUTLINED_OBJECT
-gog_outlined_object_get_type
-gog_outlined_object_get_pad
-
-<SUBSECTION Private>
+GogOutlinedObjectClass
 GOG_OUTLINED_VIEW_TYPE
 GOG_OUTLINED_VIEW
 IS_GOG_OUTLINED_VIEW
 GOG_OUTLINED_VIEW_GET_CLASS
+<SUBSECTION Private>
+gog_outlined_object_get_type
 gog_outlined_view_get_type
 </SECTION>
 

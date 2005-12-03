@@ -1,0 +1,50 @@
+<!-- ##### SECTION Title ##### -->
+GogOutlinedView
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogOutlinedObject ##### -->
+<para>
+
+</para>
+
+@base: 
+@padding_pts: 
+
+<!-- ##### MACRO GOG_OUTLINED_OBJECT_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_OUTLINED_VIEW_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION gog_outlined_object_get_pad ##### -->
+<para>
+
+</para>
+
+@goo: 
+@Returns: 
+
+

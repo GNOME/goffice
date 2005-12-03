@@ -1,3 +1,10 @@
+2005-12-03  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* reference/goffice-sections: use Standard subsection for GogObject,
+	GogStyledObject, GogOutlinedObject.
+	* reference/tmpl/gog-outlined-object.sgml: new.
+	* reference/tmpl/gog-styled-object.sgml: new.
+
 2005-12-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* reference/.cvsignore: more files to ignore.

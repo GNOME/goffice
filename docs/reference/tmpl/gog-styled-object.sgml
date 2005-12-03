@@ -1,0 +1,80 @@
+<!-- ##### SECTION Title ##### -->
+GogStyledObject
+
+<!-- ##### SECTION Short_Description ##### -->
+Base class for all styled objects of graph model
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+GogStyledObject provides a base class derived from GogObject, which adds style
+functionnalities used for drawing object on graph canvas.
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogStyledObject ##### -->
+<para>
+
+</para>
+
+@base: 
+@style: 
+
+<!-- ##### MACRO GOG_STYLED_OBJECT_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION gog_styled_object_set_style ##### -->
+<para>
+
+</para>
+
+@gso: 
+@style: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_styled_object_get_style ##### -->
+<para>
+
+</para>
+
+@gso: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_styled_object_get_auto_style ##### -->
+<para>
+
+</para>
+
+@gso: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_styled_object_style_changed ##### -->
+<para>
+
+</para>
+
+@gso: 
+
+
+<!-- ##### FUNCTION gog_styled_object_apply_theme ##### -->
+<para>
+
+</para>
+
+@gso: 
+@style: 
+
+
