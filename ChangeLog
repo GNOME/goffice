@@ -1,5 +1,9 @@
 2005-12-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* goffice/data/go-data-simple.c: doc fixes.
+
+2005-12-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* goffice/graph/goffice-graph.h: declare GogSeriesLines here.
 	* goffice/graph/gog-axis-line.h: make gtk-doc happy by creating a 
 	GogAxisTickTypes struct. 

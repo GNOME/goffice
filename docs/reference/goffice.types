@@ -24,6 +24,8 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-renderer-pixbuf.h>
 #include <goffice/graph/gog-control-foocanvas.h>
+#include <goffice/data/go-data.h>
+#include <goffice/data/go-data-simple.h>
 
 gog_object_get_type
 gog_styled_object_get_type
@@ -51,3 +53,12 @@ gog_dataset_get_type
 gog_renderer_get_type
 gog_renderer_pixbuf_get_type
 gog_control_foocanvas_get_type
+go_data_get_type
+go_data_scalar_get_type
+go_data_scalar_str_get_type
+go_data_scalar_val_get_type
+go_data_vector_get_type
+go_data_vector_str_get_type
+go_data_vector_val_get_type
+go_data_matrix_get_type
+go_data_matrix_val_get_type

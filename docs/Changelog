@@ -1,5 +1,10 @@
 2005-12-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* reference/goffice-sections.txt: typo.
+	* reference/goffice.types: GOData types.
+	
+2005-12-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* reference/goffice-sections.txt: remove GODock API. Add GOData.
 	* reference/goffice-docs.sgml: ditto.
 

@@ -1614,7 +1614,7 @@ GODataFlags
 </SECTION>
 
 <SECTION>
-<FILE>go-data-scalar/FILE>
+<FILE>go-data-scalar</FILE>
 <TITLE>GODataScalar</TITLE>
 GODataScalar
 GODataScalarVal
