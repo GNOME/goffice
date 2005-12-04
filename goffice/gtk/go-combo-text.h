@@ -23,7 +23,7 @@ GtkWidget *go_combo_text_new		 (GCompareFunc cmp_func);
 GtkWidget *go_combo_text_glade_new	 (void);
 GtkWidget *go_combo_text_get_entry	 (GoComboText *ct);
 
-gboolean   go_combo_text_set_text	 (GoComboText *ct, const gchar *label,
+gboolean   go_combo_text_set_text	 (GoComboText *ct, const gchar *text,
 					  GoComboTextSearch start);
 void	   go_combo_text_add_item	 (GoComboText *ct, const gchar *label);
 

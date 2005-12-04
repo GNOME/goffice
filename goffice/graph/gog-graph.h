@@ -61,9 +61,9 @@ void      gog_graph_set_size      (GogGraph *graph, double width, double height)
 
 GType gog_graph_view_get_type (void);
 
-void  	 gog_graph_view_handle_event 	(GogGraphView *view, GdkEvent *event, double x_offset, double y_offset);
+void  	 gog_graph_view_handle_event 	(GogGraphView *gview, GdkEvent *event, double x_offset, double y_offset);
 
-GogView *gog_graph_view_get_selection 	(GogGraphView *view);
+GogView *gog_graph_view_get_selection 	(GogGraphView *gview);
 void 	 gog_graph_view_set_selection   (GogGraphView *gview, GogObject *gobj);
 
 G_END_DECLS

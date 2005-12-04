@@ -188,7 +188,7 @@ go_list_free_custom (GList *list, GFreeFunc free_func)
 
 /**
  * go_strsplit_to_slist:
- * @string: String to split
+ * @str: String to split
  * @delimiter: Token delimiter
  *
  * Splits up string into tokens at delim and returns a string list.

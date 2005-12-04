@@ -1,5 +1,10 @@
 2005-12-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* reference/goffice-sections.txt: remove GODock API. Add GOData.
+	* reference/goffice-docs.sgml: ditto.
+
+2005-12-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* reference/goffice-docs.sgml: remove rendering chapter.
 	* reference/tmpl: new templates.
 

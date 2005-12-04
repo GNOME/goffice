@@ -44,31 +44,7 @@ typedef struct {
 	char 		*label;
 } GogAxisTick;
 
-typedef struct _GogAxisMapDesc GogAxisMapDesc;
-
-typedef struct {
-	GogAxis		*axis;
-	GogAxisMapDesc	const *desc;
-	gpointer	 data;
-	gboolean	 is_valid;	/* Default to FALSE if desc::init == NULL */
-} GogAxisMap;
-
-struct _GogAxisMapDesc {
-	double 		(*map) 		 (GogAxisMap *map, double value);
-	double 		(*map_to_view)   (GogAxisMap *map, double value);
-	double 		(*map_from_view) (GogAxisMap *map, double value);
-	gboolean	(*map_finite)    (double value);
-	double		(*map_baseline)  (GogAxisMap *map);
-	void		(*map_bounds)	 (GogAxisMap *map, double *minimum, double *maximum);
-	gboolean 	(*init) 	 (GogAxisMap *map, double offset, double length);
-	void		(*destroy) 	 (GogAxisMap *map);
-	void		(*auto_bound) 	 (GogAxis *axis, 
-					  double minimum, double maximum,
-					  double *bound);
-	void		(*calc_ticks) 	 (GogAxis *axis);
-	char const	*name;
-	char const	*description;
-};
+typedef struct _GogAxisMap GogAxisMap;
 
 GogAxisMap*   gog_axis_map_new	 	  (GogAxis *axis, double offset, double length);
 double	      gog_axis_map 		  (GogAxisMap *map, double value);

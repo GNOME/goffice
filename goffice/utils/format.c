@@ -2581,7 +2581,7 @@ go_format_new (GOFormatFamily family, GOFormatDetails const *info)
 #ifdef DEFINE_COMMON
 /**
  * go_format_str_as_XL:
- * @ptr: a format string
+ * @str: a format string
  * @localized : should the string be in cannonical or locale specific form.
  *
  * The caller is responsible for freeing the resulting string.

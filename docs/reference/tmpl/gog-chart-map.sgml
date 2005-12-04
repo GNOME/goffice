@@ -17,6 +17,12 @@ GogChartMap
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### STRUCT GogChartMap ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### STRUCT GogChartMapPolarData ##### -->
 <para>
 
@@ -28,18 +34,6 @@ GogChartMap
 @ry: 
 @th0: 
 @th1: 
-
-<!-- ##### STRUCT GogChartMap ##### -->
-<para>
-
-</para>
-
-@chart: 
-@area: 
-@data: 
-@axis_map: 
-@is_valid: 
-@map_2D_to_view: 
 
 <!-- ##### FUNCTION gog_chart_map_new ##### -->
 <para>
@@ -90,8 +84,10 @@ GogChartMap
 </para>
 
 @map: 
-@Param2: 
+@index: 
 @Returns: 
+<!-- # Unused Parameters # -->
+@Param2: 
 
 
 <!-- ##### FUNCTION gog_chart_map_get_polar_parms ##### -->

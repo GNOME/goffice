@@ -865,7 +865,6 @@ gog_renderer_new_for_pixbuf (GogGraph *graph)
  * @zoom: requested zoom
  *
  * Requests a renderer update, only useful for pixbuf based renderer.
- *
  **/
 gboolean
 gog_renderer_update (GogRenderer *renderer, double w, double h, double zoom)

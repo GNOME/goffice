@@ -1,3 +1,31 @@
+2005-12-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/goffice-graph.h: declare GogSeriesLines here.
+	* goffice/graph/gog-axis-line.h: make gtk-doc happy by creating a 
+	GogAxisTickTypes struct. 
+	* goffice/graph/gog-axis-line.c (gog_tool_move_stop_bound_move): don't
+	access GogAxisMap::axis directly.
+	* goffice/graph/gog-axis.c: make GogAxisMap and GogAxisMapDesc
+	private. Doc fixes.
+	* goffice/graph/gog-chart.c: make GogChartMap private. Documentation
+	of GogChartMap API.
+	* goffice/graph/gog-data-allocator.h: doc fixes.
+	* goffice/graph/gog-data-allocator.c: ditto.
+	* goffice/graph/gog-renderer-cairo.c: ditto.
+	* goffice/graph/gog-renderer-pixbuf.c: doc fixes.
+	* goffice/graph/gog-renderer-gnome-print.c: don't access GOMarker
+	data directly.
+	* goffice/graph/gog-renderer-svg.c: ditto.
+	* goffice/graph/gog-series-lines.c: ditto.
+	* goffice/gtk/go-combo-box.c: doc fixes.
+	* goffice/gtk/go-combo-color.c: ditto.
+	* goffice/gtk/go-combo-pixmaps.c: ditto.
+	* goffice/gtk/go-combo-text.c: ditto.
+	* goffice/gtk/go-dock-item.c: ditto.
+	* goffice/utils/format.c: ditto.
+	* goffice/utils/go-glib-extras: ditto.
+	* goffice/utils/go-marker.c: make GOMarker struct private.
+	
 2005-12-03  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-axis: doc fixes.

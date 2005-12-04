@@ -691,6 +691,7 @@ static GogTool gog_axis_tool_select_axis = {
 
 
 typedef struct {
+	GogAxis *axis;
 	GogAxisMap *map;
 	double length;
 	double start, stop;
@@ -749,6 +750,7 @@ gog_tool_move_bound_init (GogToolAction *action)
 
 	action->data = data;
 	data->map = gog_axis_map_new (axis_base->axis, 0.0, 1.0);
+	data->axis = axis_base->axis;
 	data->length = hypot (view->x_start - view->x_stop,
 			      view->y_start - view->y_stop);
 	gog_axis_map_get_extents (data->map, &data->start, &data->stop);
@@ -763,7 +765,7 @@ gog_tool_move_start_bound_move (GogToolAction *action, double x, double y)
 			       (y - view->y_start) * (view->y_stop - view->y_start)) / 
 			      (data->length * data->length), 0.9);
 
-	gog_axis_set_extents (data->map->axis, 
+	gog_axis_set_extents (data->axis, 
 			      data->stop + ((data->start - data->stop) / a),
 			      go_nan);
 }
@@ -777,7 +779,7 @@ gog_tool_move_stop_bound_move (GogToolAction *action, double x, double y)
 			       (y - view->y_stop) * (view->y_start - view->y_stop)) / 
 			      (data->length * data->length), 0.9);
 
-	gog_axis_set_extents (data->map->axis, 
+	gog_axis_set_extents (data->axis, 
 			      go_nan, 
 			      data->start + ((data->stop - data->start) / a));
 }

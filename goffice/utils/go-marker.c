@@ -45,6 +45,21 @@
 #define MARKER_DEFAULT_SIZE 5
 #define MARKER_OUTLINE_WIDTH 0.1
 
+struct _GOMarker {
+	GObject 	base;
+
+	int		size;
+	double		scale;
+	GOMarkerShape	shape;
+	GOColor		outline_color;
+	GOColor		fill_color;
+#ifdef WITH_GTK
+	GdkPixbuf	*pixbuf;
+#else
+	gpointer	 pixbuf_placeholder;
+#endif
+};
+
 typedef struct {
 	GObjectClass	base;
 } GOMarkerClass;

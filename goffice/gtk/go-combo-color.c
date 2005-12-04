@@ -271,9 +271,10 @@ go_combo_color_set_color_gdk (GOComboColor *cc, GdkColor *color)
 
 /**
  * go_combo_color_set_color :
- * @cc : #GOComboColor
- * @c  : #GOColor
- */
+ * @cc: a #GOComboColor
+ * @color: a #GOColor
+ **/
+
 void
 go_combo_color_set_color (GOComboColor *cc, GOColor c)
 {

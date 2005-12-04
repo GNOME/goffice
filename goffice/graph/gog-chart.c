@@ -74,6 +74,18 @@ gog_axis_set_from_str (char const *str)
 	return axis_set;
 }
 
+/*****************************************************************************/
+
+struct _GogChartMap {
+	GogChart 		*chart;
+	GogViewAllocation	 area;
+	gpointer	 	 data;
+	GogAxisMap		*axis_map[3];
+	gboolean		 is_valid;
+
+	void (*map_2D_to_view)	(GogChartMap *map, double x, double y, double *u, double *v);
+};
+
 static void
 calc_polygon_parameters (GogViewAllocation const *area, GogChartMapPolarData *data, gboolean fill_area)
 {
@@ -187,11 +199,35 @@ polar_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v
 	*v = data->cy + r * data->ry * sin (t);		
 }
 
+/**
+ * gog_chart_map_get_polar_parms:
+ * @map: a #GogChartMap
+ *
+ * Convenience function for retrieving data related to polar plot layout.
+ *
+ * returns: a #GogChartMapPolarData struct.
+ **/
+
 GogChartMapPolarData *
 gog_chart_map_get_polar_parms (GogChartMap *map)
 {
 	return (GogChartMapPolarData *) map->data;
 }	
+
+/**
+ * gog_chart_map_new:
+ * @chart: a #GogChart
+ * @area: area allocated to chart
+ * @axis0: 1st dimension axis
+ * @axis1: 2nd dimension axis
+ * @axis2: 3rd dimension axis
+ * @fill_area: does chart fill allocated area
+ *
+ * Creates a new #GogChartMap, used for conversion from data space 
+ * to canvas space.
+ *
+ * returns: a new #GogChart object. 
+ **/
 
 GogChartMap *
 gog_chart_map_new (GogChart *chart, GogViewAllocation const *area, 
@@ -292,20 +328,55 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 	return map;
 }
 
+/**
+ * gog_chart_map_2D_to_view:
+ * @map: a #GogChartMap
+ * @x: data x value
+ * @y: data y value
+ * @u: placeholder for x converted value
+ * @v: placeholder for y converted value
+ *
+ * Converts a 2D coordinate from data space to canvas space.
+ **/
+
 void
 gog_chart_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v)
 {
 	return (map->map_2D_to_view) (map, x, y, u, v);
 }
 
+/**
+ * gog_chart_map_get_axis_map:
+ * @map: a #GogChartMap
+ * @index: axis index
+ *
+ * Convenience function which returns one of the associated axis_map.
+ *
+ * Valid values are in range [0..2].
+ *
+ * returns: a #GogAxisMap.
+ **/
+
 GogAxisMap *
-gog_chart_map_get_axis_map (GogChartMap *map, unsigned i)
+gog_chart_map_get_axis_map (GogChartMap *map, unsigned int i)
 {
 	g_return_val_if_fail (map != NULL, NULL);
 	g_return_val_if_fail (i < 3, NULL);
 
 	return map->axis_map[i];
 }
+
+/**
+ * gog_chart_map_is_valid:
+ * @map: a #GogChartMap
+ *
+ * Tests if @map was correctly initializied, i.e. if all associated axis_map
+ * are valid (see gog_axis_map_is_valid() ).
+ *
+ * given 
+ * to gog_chart_map_new. 
+ * returns: %TRUE if @map is valid.
+ **/
 
 gboolean
 gog_chart_map_is_valid (GogChartMap *map)
@@ -314,6 +385,13 @@ gog_chart_map_is_valid (GogChartMap *map)
 
 	return map->is_valid;
 }
+
+/**
+ * gog_chart_map_free:
+ * @map: a #GogChartMap
+ *
+ * Frees @map object.
+ **/
 
 void
 gog_chart_map_free (GogChartMap *map)

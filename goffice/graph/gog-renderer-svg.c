@@ -543,7 +543,7 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 	    (fill_path_raw == NULL))
 		return;
 
-	half_size = gog_renderer_line_size (rend, marker->size) / 2.0;
+	half_size = gog_renderer_line_size (rend, go_marker_get_size (marker)) / 2.0;
 	art_affine_scale (scaling, half_size, half_size);
 	art_affine_translate (translation, x, y);
 	art_affine_multiply (affine, scaling, translation);
@@ -558,11 +558,11 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 	g_string_append_c (string, 'z');
 	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
 	g_string_free (string, TRUE);
-	buf = g_strdup_printf ("#%06x", marker->fill_color >> 8);
+	buf = g_strdup_printf ("#%06x", go_marker_get_fill_color (marker) >> 8);
 	xmlNewProp (node, CC2XML ("fill"), CC2XML (buf));
 	g_free (buf);
 	xmlNewProp (node, CC2XML ("stroke"), CC2XML ("none"));
-	opacity = marker->fill_color & 0xff;
+	opacity = go_marker_get_fill_color (marker) & 0xff;
 	if (opacity != 255) 
 		set_double_prop (node, "fill-opacity", (double) opacity / 255.0);
 
@@ -577,10 +577,10 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 	xmlNewProp (node, CC2XML ("stroke-linecap"), CC2XML ("round"));
 	set_double_prop (node, "stroke-width", 
 		gog_renderer_line_size (rend, go_marker_get_outline_width (marker)));
-	buf = g_strdup_printf ("#%06x", marker->outline_color >> 8);
+	buf = g_strdup_printf ("#%06x", go_marker_get_outline_color (marker) >> 8);
 	xmlNewProp (node, CC2XML ("stroke"), CC2XML (buf));
 	g_free (buf);
-	opacity = marker->outline_color & 0xff;
+	opacity = go_marker_get_outline_color (marker) & 0xff;
 	if (opacity != 255) 
 		set_double_prop (node, "stroke-opacity", (double) opacity / 255.0);
 

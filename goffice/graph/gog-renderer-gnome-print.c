@@ -540,7 +540,7 @@ gog_renderer_gnome_print_draw_marker (GogRenderer *renderer, double x, double y)
 
 	gnome_print_gsave (prend->gp_context);
 
-	half_size = gog_renderer_line_size (renderer, marker->size) / 2.0;
+	half_size = gog_renderer_line_size (renderer, go_marker_get_size (marker)) / 2.0;
 	art_affine_scale (scaling, half_size, half_size);
 	art_affine_translate (translation, x, y);
 	art_affine_multiply (affine, scaling, translation);
@@ -549,12 +549,12 @@ gog_renderer_gnome_print_draw_marker (GogRenderer *renderer, double x, double y)
 	fill_path = art_vpath_affine_transform (fill_path_raw, affine);
 
 	gnome_print_setlinecap (prend->gp_context, ART_PATH_STROKE_CAP_ROUND);
-	set_color (prend, marker->fill_color);
+	set_color (prend, go_marker_get_fill_color (marker));
 	draw_path (prend, fill_path);
 	gnome_print_closepath (prend->gp_context);
 	gnome_print_fill (prend->gp_context);
 
-	set_color (prend, marker->outline_color);
+	set_color (prend, go_marker_get_outline_color (marker));
 	gnome_print_setlinewidth (prend->gp_context,
 		gog_renderer_line_size (renderer,
 					go_marker_get_outline_width (marker)));

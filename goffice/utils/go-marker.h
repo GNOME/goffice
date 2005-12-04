@@ -55,23 +55,7 @@ typedef enum {
 	GO_MARKER_MAX
 } GOMarkerShape;
 
-struct _GOMarker {
-	GObject 	base;
-
-	int		size;
-	double		scale;
-	GOMarkerShape	shape;
-	GOColor		outline_color;
-	GOColor		fill_color;
-#ifdef WITH_GTK
-	GdkPixbuf	*pixbuf;
-#else
-	gpointer	 pixbuf_placeholder;
-#endif
-};
-
 GType go_marker_get_type (void); 
-
 
 GOMarkerShape    go_marker_shape_from_str       (char const *name);
 char const      *go_marker_shape_as_str         (GOMarkerShape shape);

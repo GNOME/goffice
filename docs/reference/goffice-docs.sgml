@@ -32,7 +32,6 @@
 			<xi:include href="xml/gog-styled-object.xml"/>
 			<xi:include href="xml/gog-outlined-object.xml"/>
 			<xi:include href="xml/gog-persist.xml"/>
-			<xi:include href="xml/gog-object-xml.xml"/>
 			<xi:include href="xml/gog-plot.xml"/>
 			<xi:include href="xml/gog-series.xml"/>
 			<xi:include href="xml/gog-reg-curve.xml"/>
@@ -57,14 +56,6 @@
 	<part>
 		<title>Widgets</title>
 		<chapter>
-			<title>Dock</title>
-			<xi:include href="xml/go-dock.xml"/>
-			<xi:include href="xml/go-dock-layout.xml"/>
-			<xi:include href="xml/go-dock-band.xml"/>
-			<xi:include href="xml/go-dock-item.xml"/>
-			<xi:include href="xml/go-dock-item-grip.xml"/>
-		</chapter>
-		<chapter>
 			<title>Combos</title>
 			<xi:include href="xml/go-combo-box.xml"/>
 			<xi:include href="xml/go-combo-color.xml"/>
@@ -84,10 +75,31 @@
 	<part>
 		<title>Utilities</title>
 		<chapter>
+			<title>Graphic object properties</title>
+			<xi:include href="xml/go-color.xml"/>
+			<xi:include href="xml/go-gradient.xml"/>
+			<xi:include href="xml/go-line.xml"/>
+			<xi:include href="xml/go-marker.xml"/>
+			<xi:include href="xml/go-pattern.xml"/>
+		</chapter>
+		<chapter>
+			<title>Data</title>
+			<xi:include href="xml/go-data.xml"/>
+			<xi:include href="xml/go-data-scalar.xml"/>
+			<xi:include href="xml/go-data-vector.xml"/>
+			<xi:include href="xml/go-data-matrix.xml"/>
+		</chapter>
+		<chapter>
+			<title>Mathematical functions</title>
+			<xi:include href="xml/go-math.xml"/>
+			<xi:include href="xml/go-geometry.xml"/>
+			<xi:include href="xml/go-rangefunc.xml"/>
+			<xi:include href="xml/go-regression.xml"/>
+			<xi:include href="xml/go-units.xml"/>
+		</chapter>
+		<chapter>
 			<title>Application</title>
 			<xi:include href="xml/go-app.xml"/>
-			<xi:include href="xml/go-component-factory.xml"/>
-			<xi:include href="xml/go-component.xml"/>
 			<xi:include href="xml/go-cmd-context.xml"/>
 			<xi:include href="xml/go-doc-control.xml"/>
 			<xi:include href="xml/go-doc.xml"/>
@@ -99,20 +111,9 @@
 			<xi:include href="xml/go-service.xml"/>
 		</chapter>
 		<chapter>
-			<title>Graphic object properties</title>
-			<xi:include href="xml/go-color.xml"/>
-			<xi:include href="xml/go-gradient.xml"/>
-			<xi:include href="xml/go-line.xml"/>
-			<xi:include href="xml/go-marker.xml"/>
-			<xi:include href="xml/go-pattern.xml"/>
-		</chapter>
-		<chapter>
-			<title>Mathematical functions</title>
-			<xi:include href="xml/go-math.xml"/>
-			<xi:include href="xml/go-geometry.xml"/>
-			<xi:include href="xml/go-rangefunc.xml"/>
-			<xi:include href="xml/go-regression.xml"/>
-			<xi:include href="xml/go-units.xml"/>
+			<title>Components</title>
+			<xi:include href="xml/go-component-factory.xml"/>
+			<xi:include href="xml/go-component.xml"/>
 		</chapter>
 		<chapter>
 			<title>Miscellaneous</title>
@@ -126,6 +127,14 @@
 	</part>
 </book>
 <!--
+<chapter>
+	<title>Dock</title>
+	<xi:include href="xml/go-dock.xml"/>
+	<xi:include href="xml/go-dock-layout.xml"/>
+	<xi:include href="xml/go-dock-band.xml"/>
+	<xi:include href="xml/go-dock-item.xml"/>
+	<xi:include href="xml/go-dock-item-grip.xml"/>
+</chapter>
 <xi:include href="xml/goffice.xml"/>
 <xi:include href="xml/goffice-priv.xml"/>
 <xi:include href="xml/error-info.xml"/>
@@ -136,10 +145,6 @@
 <xi:include href="xml/io-context-priv.xml"/>
 <xi:include href="xml/io-context.xml"/>
 <xi:include href="xml/module-plugin-defs.xml"/>
-<xi:include href="xml/go-data-impl.xml"/>
-<xi:include href="xml/go-data-simple.xml"/>
-<xi:include href="xml/go-data.xml"/>
-<xi:include href="xml/goffice-data.xml"/>
 <xi:include href="xml/go-action-combo-color.xml"/>
 <xi:include href="xml/go-action-combo-pixmaps.xml"/>
 <xi:include href="xml/go-action-combo-stack.xml"/>

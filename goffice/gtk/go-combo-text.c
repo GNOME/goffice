@@ -379,11 +379,8 @@ go_combo_text_set_text (GoComboText *ct, const gchar *text,
  * go_combo_text_add_item :
  * @ct : The text combo that will get the new element.
  * @label : the user visible label for the new item
- * @key   : The unique key to identify this item.
- *
- * It is ok to have multiple items with the same label, but the key must be
- * unique.
- */
+ **/
+
 void
 go_combo_text_add_item (GoComboText *ct, char const *label)
 {

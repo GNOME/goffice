@@ -59,6 +59,8 @@
 /* this should be per model */
 #define PAD_HACK	4	/* pts */
 
+typedef struct _GogAxisMapDesc GogAxisMapDesc;
+
 struct _GogAxis {
 	GogAxisBase	 base;
 
@@ -129,6 +131,32 @@ create_invalid_axis_ticks (double min, double max)
 
 	return ticks;
 }
+
+/*****************************************************************************/
+
+struct _GogAxisMap {
+	GogAxis		*axis;
+	GogAxisMapDesc	const *desc;
+	gpointer	 data;
+	gboolean	 is_valid;	/* Default to FALSE if desc::init == NULL */
+};
+
+struct _GogAxisMapDesc {
+	double 		(*map) 		 (GogAxisMap *map, double value);
+	double 		(*map_to_view)   (GogAxisMap *map, double value);
+	double 		(*map_from_view) (GogAxisMap *map, double value);
+	gboolean	(*map_finite)    (double value);
+	double		(*map_baseline)  (GogAxisMap *map);
+	void		(*map_bounds)	 (GogAxisMap *map, double *minimum, double *maximum);
+	gboolean 	(*init) 	 (GogAxisMap *map, double offset, double length);
+	void		(*destroy) 	 (GogAxisMap *map);
+	void		(*auto_bound) 	 (GogAxis *axis, 
+					  double minimum, double maximum,
+					  double *bound);
+	void		(*calc_ticks) 	 (GogAxis *axis);
+	char const	*name;
+	char const	*description;
+};
 
 /*
  * Discrete mapping
@@ -736,7 +764,7 @@ gog_axis_map_set (GogAxis *axis, char const *name)
  * gog_axis_map_is_valid
  * @map : a #GogAxisMap
  *
- * Tests if @map was correctly initialized, i.e. bounds are
+ * Tests if @map was correctly initialized, i.e. if bounds are
  * valid.
  * 
  * returns: %TRUE if map is valid
@@ -751,15 +779,17 @@ gog_axis_map_is_valid (GogAxisMap *map)
 }
 
 /**
- * gog_axis_map_new :
- * @axis: #GogAxis
+ * gog_axis_map_new:
+ * @axis: a #GogAxis
  * @offset: start of plot area.
  * @length: length of plot area.
  *
- * Returns: a new GogAxisMap for data mapping to plot window.
+ * Creates a #GogAxisMap for data mapping to plot window.
  * offset and length are optional parameters to be used with 
  * gog_axis_map_to_view in order to translates data coordinates 
  * into canvas space.
+ *
+ * returns: a newly allocated #GogAxisMap.
  **/
 
 GogAxisMap *
@@ -785,12 +815,14 @@ gog_axis_map_new (GogAxis *axis, double offset, double length)
 
 /**
  * gog_axis_map :
- * @map : #GogAxisMap
+ * @map : a #GogAxisMap
  * value : value to map to plot space.
+ * 
+ * Converts @value to plot coordinates. A value in [0,1.0] range means a data 
+ * within axis bounds.
  *
- * Returns: a value where [0,1.0] means a data within plot
- * bounds.
- * */
+ * returns: mapped value.
+ **/
 
 double 
 gog_axis_map (GogAxisMap *map,
@@ -856,7 +888,7 @@ gog_axis_map_finite (GogAxisMap *map, double value)
  * gog_axis_map_get_baseline :
  * @map : a #GogAxisMap
  *
- * Gets the baseline for the given map, in view coordinates,
+ * Gets the baseline for @map, in view coordinates,
  * clipped to offset and offset+length, where offset and length
  * are the parameters of gog_axis_map_new.
  **/
@@ -879,7 +911,7 @@ gog_axis_map_get_baseline (GogAxisMap *map)
  * will have start set to 0.0 and stop set to 1.0.
  *
  * minimum or maximum can be NULL.
- * */
+ **/
 
 void
 gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
@@ -901,7 +933,7 @@ gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
  * and maximum = 1.0. 
  *
  * minimum or maximum can be NULL.
- * */
+ **/
 
 void
 gog_axis_map_get_bounds (GogAxisMap *map, double *minimum, double *maximum)
@@ -910,9 +942,9 @@ gog_axis_map_get_bounds (GogAxisMap *map, double *minimum, double *maximum)
 }
 /**
  * gog_axis_map_free :
- * @map : #GogAxisMap
+ * @map : a #GogAxisMap
  *
- * Free GogAxisMap object.
+ * Frees #GogAxisMap object.
  **/
 
 void

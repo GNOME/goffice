@@ -26,15 +26,13 @@
 #include <goffice/graph/gog-styled-object.h>
 #include <libart_lgpl/libart.h>
 
-typedef GogStyledObject GogSeriesLines;
-typedef GogStyledObjectClass GogSeriesLinesClass;
-
 #define GOG_SERIES_LINES_TYPE		(gog_series_lines_get_type ())
 #define GOG_SERIES_LINES(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_SERIES_LINES_TYPE, GogSeriesLines))
-#define IS_GOG_SERIES_LINES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SERIES_LINES_TYPE))
+#define IS_GOG_SERIES_LINES(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SERIES_LINES_TYPE))
 
-GType gog_series_lines_get_type (void);
-void  gog_series_lines_register_type (GTypeModule *module);
-void gog_series_lines_render (GogSeriesLines *lines, GogRenderer *rend, GogViewAllocation const *bbox, ArtVpath *path, gboolean invert);
+GType 	gog_series_lines_get_type 	(void);
+void  	gog_series_lines_register_type 	(GTypeModule *module);
+void 	gog_series_lines_render 	(GogSeriesLines *lines, GogRenderer *rend, 
+					 GogViewAllocation const *bbox, ArtVpath *path, gboolean invert);
 
  #endif	/* GOG_SERIES_LINES_H */

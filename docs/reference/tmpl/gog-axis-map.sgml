@@ -17,33 +17,11 @@ GogAxisMap
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogAxisMapDesc ##### -->
-<para>
-
-</para>
-
-@map: 
-@map_to_view: 
-@map_from_view: 
-@map_finite: 
-@map_baseline: 
-@map_bounds: 
-@init: 
-@destroy: 
-@auto_bound: 
-@calc_ticks: 
-@name: 
-@description: 
-
 <!-- ##### STRUCT GogAxisMap ##### -->
 <para>
 
 </para>
 
-@axis: 
-@desc: 
-@data: 
-@is_valid: 
 
 <!-- ##### FUNCTION gog_axis_map_new ##### -->
 <para>

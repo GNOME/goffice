@@ -756,7 +756,7 @@ update_action (GogGraphView *view, GogTool *tool, double x, double y)
 
 /**
  * gog_graph_view_handle_event:
- * @view : #GogGraphView
+ * @gview : #GogGraphView
  * @event : #GdkEvent
  *
  * Handle events.
@@ -822,21 +822,21 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 
 /**
  * gog_graph_view_get_selection :
- * @view: #GogGraphView
+ * @gview: #GogGraphView
  *
  * Returns: current selected view.
  **/
 GogView *
-gog_graph_view_get_selection (GogGraphView *view)
+gog_graph_view_get_selection (GogGraphView *gview)
 {
-	g_return_val_if_fail (IS_GOG_GRAPH_VIEW (view), NULL);
+	g_return_val_if_fail (IS_GOG_GRAPH_VIEW (gview), NULL);
 	
-	return view->selected_view;
+	return gview->selected_view;
 }
 
 /**
  * gog_graph_view_set_selection
- * @view : #GogGraphView
+ * @gview : #GogGraphView
  * @gobj : new selected object
  * 
  * Sets @gobj as current selection. If @gobj is different from previously 

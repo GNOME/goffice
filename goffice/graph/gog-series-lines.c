@@ -31,6 +31,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
+typedef GogStyledObjectClass GogSeriesLinesClass;
+
 static void
 gog_series_lines_init_style (GogStyledObject *gso, GogStyle *style)
 {
@@ -71,20 +73,26 @@ gog_series_lines_class_init (GogObjectClass *klass)
 }
 
 GSF_CLASS (GogSeriesLines, gog_series_lines,
-	gog_series_lines_class_init, NULL,
-	GOG_STYLED_OBJECT_TYPE)
+	   gog_series_lines_class_init, NULL,
+	   GOG_STYLED_OBJECT_TYPE)
 
 void
 gog_series_lines_render (GogSeriesLines *lines, GogRenderer *rend, GogViewAllocation const *bbox, ArtVpath *path, gboolean invert)
 {
-	int i = 0;
 	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (lines));
+	int i = 0;
 
 	if (invert) {
+		GOMarker *marker;
+		GOColor color;
+		
 		style = gog_style_dup (style);
 		style->line.color ^= 0xffffff00;
-		style->marker.mark->outline_color ^= 0xffffff00;
-		style->marker.mark->fill_color ^= 0xffffff00;
+		marker = style->marker.mark;
+		color = go_marker_get_outline_color (marker);
+		go_marker_set_outline_color (marker, color ^ 0xffffff00);
+		color = go_marker_get_fill_color (marker);
+		go_marker_set_fill_color (marker, color ^ 0xffffff00);
 	}
 	gog_renderer_push_style (rend, style);
 	gog_renderer_draw_sharp_path (rend, path);

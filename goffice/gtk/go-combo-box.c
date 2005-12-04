@@ -361,9 +361,9 @@ go_combo_popup_tear_off (GOComboBox *combo, gboolean set_position)
 
 /**
  * go_combo_box_popup_hide:
- * @combo_box:  Combo box
+ * @combo: a #GOComboBox
  *
- * Hide popup, but not when it is torn off.
+ * Hides popup, but not when it is torn off.
  * This is the external interface - for subclasses and apps which expect a
  * regular combo which doesn't do tearoffs.
  */
@@ -578,11 +578,11 @@ GSF_CLASS (GOComboBox, go_combo_box,
 
 /**
  * go_combo_box_set_display:
- * @combo_box: the Combo Box to modify
+ * @combo: the #GOComboBox to modify
  * @display_widget: The widget to be displayed
 
  * Sets the displayed widget for the @combo_box to be @display_widget
- */
+ **/
 /* protected */ void
 go_combo_box_set_display (GOComboBox *combo_box, GtkWidget *display_widget)
 {

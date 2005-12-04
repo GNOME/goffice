@@ -200,14 +200,15 @@ cb_swatch_key_press (GtkWidget *button, GdkEventKey *event, GOComboPixmaps *comb
 }
 
 /**
- * go_combo_pixmaps_add_element :
- * @combo : #GOComboPixmaps
- * @pixbuf : #GdkPixbuf
- * @id : an identifier for the callbacks
- * @tootip : optional
+ * go_combo_pixmaps_add_element:
+ * @combo: #GOComboPixmaps
+ * @pixbuf: #GdkPixbuf
+ * @id: an identifier for the callbacks
+ * @tooltip: optional
  *
  * Absorbs a ref to the pixbuf.
  **/
+
 void
 go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 			      GdkPixbuf *pixbuf, int id, char const *tooltip)

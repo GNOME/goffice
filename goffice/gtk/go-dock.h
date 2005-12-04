@@ -93,25 +93,24 @@ struct _GoDockClass
 GtkWidget     *go_dock_new               (void);
 GtkType        go_dock_get_type          (void) G_GNUC_CONST;
 
-void           go_dock_allow_floating_items
-                                            (GoDock *dock,
-                                             gboolean enable);
+void           go_dock_allow_floating_items	(GoDock *dock,
+						 gboolean enable);
 
-void           go_dock_add_item          (GoDock             *dock,
-                                             GoDockItem         *item,
-                                             GoDockPlacement  placement,
-                                             guint                  band_num,
-                                             gint                   position,
-                                             guint                  offset,
-                                             gboolean               in_new_band);
+void           go_dock_add_item          (GoDock           *dock,
+					  GoDockItem       *item,
+					  GoDockPlacement   placement,
+					  guint             band_num,
+					  gint              position,
+					  guint             offset,
+					  gboolean          in_new_band);
 
 void           go_dock_add_floating_item (GoDock *dock,
-                                             GoDockItem *widget,
-                                             gint x, gint y,
-                                             GtkOrientation orientation);
+					  GoDockItem *item,
+					  gint x, gint y,
+					  GtkOrientation orientation);
 
 void             go_dock_set_client_area   (GoDock             *dock,
-						GtkWidget             *widget);
+					    GtkWidget             *widget);
 
 GtkWidget       *go_dock_get_client_area   (GoDock             *dock);
 

@@ -30,6 +30,11 @@
 
 G_BEGIN_DECLS
 
+typedef struct  {
+		gboolean tick_in, tick_out;
+		int size_pts;
+} GogAxisTickProperties;
+
 typedef struct {
 	GogStyledObject	 base;
 
@@ -40,10 +45,7 @@ typedef struct {
 	unsigned 	   crossed_axis_id;
 	GogDatasetElement  cross_location;
 	
-	struct {
-		gboolean tick_in, tick_out;
-		int size_pts;
-	} major, minor;
+	GogAxisTickProperties major, minor;
 	gboolean major_tick_labeled;
 } GogAxisBase;
 

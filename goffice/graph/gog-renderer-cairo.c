@@ -703,10 +703,11 @@ grc_cairo_setup (GogRendererCairo *crend, int w, int h)
 }
 
 /**
- * gog_renderer_update :
- * @prend :
- * @w :
- * @h :
+ * gog_renderer_cairo_update:
+ * @crend: a #GogRendererCairo
+ * @w:
+ * @h:
+ * @zoom:
  *
  * Returns TRUE if the size actually changed.
  **/

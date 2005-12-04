@@ -8,17 +8,17 @@ typedef enum {
 	REG_invalid_dimensions,
 	REG_invalid_data,
 	REG_not_enough_data,
-	REG_near_singular_good, /* Probably good result */
-	REG_near_singular_bad, /* Probably bad result */
+	REG_near_singular_good,	/* Probably good result */
+	REG_near_singular_bad, 	/* Probably bad result */
 	REG_singular
 } RegressionResult;
 
 typedef struct {
-        double *se; /*SE for each parameter estimator*/
-        double *t;  /*t values for each parameter estimator*/
+        double *se;		/* SE for each parameter estimator */
+        double *t;  		/* t values for each parameter estimator */
         double sqr_r;
 	double adj_sqr_r;
-        double se_y; /* The Standard Error of Y */
+        double se_y; 		/* The Standard Error of Y */
         double F;
         int    df_reg;
         int    df_resid;
@@ -30,7 +30,7 @@ typedef struct {
         double ms_resid;
 	double ybar;
 	double *xbar;
-	double var; /* The variance of the entire regression: sum(errors^2)/(n-xdim) */
+	double var; 		/* The variance of the entire regression: sum(errors^2)/(n-xdim) */
 } regression_stat_t;
 
 regression_stat_t 	*go_regression_stat_new 	(void);

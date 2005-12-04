@@ -980,6 +980,15 @@ GSF_CLASS (GogRendererPixbuf, gog_renderer_pixbuf,
 	   gog_renderer_pixbuf_class_init, gog_renderer_pixbuf_init,
 	   GOG_RENDERER_TYPE)
 
+/**
+ * gog_renderer_pixbuf_get:
+ * @prend: a #GogRendererPixbuf
+ *
+ * An accessor to pixbuf cache.
+ *
+ * returns: current pixbuf cache.
+ **/
+
 GdkPixbuf *
 gog_renderer_pixbuf_get (GogRendererPixbuf *prend)
 {
@@ -988,62 +997,18 @@ gog_renderer_pixbuf_get (GogRendererPixbuf *prend)
 	return prend->buffer;
 }
 
-#if 0 /* An initial non-working attempt to use different dpi to render
-	 different zooms */
-
-/* fontmaps are reasonably expensive use a cache to share them */
-static GHashTable *fontmap_cache = NULL; /* PangoFT2FontMap hashed by y_dpi */
-static gboolean
-cb_remove_entry (gpointer key, PangoFT2FontMap *value, PangoFT2FontMap *target)
-{
-	return value == target;
-}
-static void
-cb_map_is_gone (gpointer data, GObject *where_the_object_was)
-{
-	g_warning ("fontmap %p is gone",where_the_object_was);
-	g_hash_table_foreach_steal (fontmap_cache,
-		(GHRFunc) cb_remove_entry, where_the_object_was);
-}
-static void
-cb_weak_unref (GObject *fontmap)
-{
-	g_object_weak_unref (fontmap, cb_map_is_gone, NULL);
-}
-static PangoFT2FontMap *
-fontmap_from_cache (double x_dpi, double y_dpi)
-{
-	PangoFT2FontMap *fontmap = NULL;
-	int key_dpi = floor (y_dpi + .5);
-	gpointer key = GUINT_TO_POINTER (key_dpi);
-
-	if (fontmap_cache != NULL)
-		fontmap = g_hash_table_lookup (fontmap_cache, key);
-	else
-		fontmap_cache = g_hash_table_new_full (g_direct_hash, g_direct_equal,
-			NULL, (GDestroyNotify) cb_weak_unref);
-
-	if (fontmap == NULL) {
-		fontmap = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
-		pango_ft2_font_map_set_resolution (fontmap, x_dpi, y_dpi);
-		g_object_weak_ref (G_OBJECT (fontmap), cb_map_is_gone, NULL);
-		g_hash_table_insert (fontmap_cache, key, fontmap);
-	} else
-		g_object_ref (fontmap);
-
-	g_warning ("fontmap %d = %p", key_dpi, fontmap);
-	return fontmap;
-}
-#endif
-
 /**
- * gog_renderer_update :
- * @prend :
- * @w :
- * @h :
+ * gog_renderer_pixbuf_update:
+ * @prend: a #GogRendererPixbuf
+ * @w: requested width
+ * @h: requested height
+ * @zoom: request zoom
  *
- * Returns TRUE if the size actually changed.
+ * Asks for an update of pixbuf cache.
+ * 
+ * Returns: %TRUE if the size actually changed.
  **/
+
 gboolean
 gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 {
@@ -1124,3 +1089,52 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 
 	return redraw;
 }
+
+#if 0 /* An initial non-working attempt to use different dpi to render
+	 different zooms */
+
+/* fontmaps are reasonably expensive use a cache to share them */
+static GHashTable *fontmap_cache = NULL; /* PangoFT2FontMap hashed by y_dpi */
+static gboolean
+cb_remove_entry (gpointer key, PangoFT2FontMap *value, PangoFT2FontMap *target)
+{
+	return value == target;
+}
+static void
+cb_map_is_gone (gpointer data, GObject *where_the_object_was)
+{
+	g_warning ("fontmap %p is gone",where_the_object_was);
+	g_hash_table_foreach_steal (fontmap_cache,
+		(GHRFunc) cb_remove_entry, where_the_object_was);
+}
+static void
+cb_weak_unref (GObject *fontmap)
+{
+	g_object_weak_unref (fontmap, cb_map_is_gone, NULL);
+}
+static PangoFT2FontMap *
+fontmap_from_cache (double x_dpi, double y_dpi)
+{
+	PangoFT2FontMap *fontmap = NULL;
+	int key_dpi = floor (y_dpi + .5);
+	gpointer key = GUINT_TO_POINTER (key_dpi);
+
+	if (fontmap_cache != NULL)
+		fontmap = g_hash_table_lookup (fontmap_cache, key);
+	else
+		fontmap_cache = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+			NULL, (GDestroyNotify) cb_weak_unref);
+
+	if (fontmap == NULL) {
+		fontmap = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
+		pango_ft2_font_map_set_resolution (fontmap, x_dpi, y_dpi);
+		g_object_weak_ref (G_OBJECT (fontmap), cb_map_is_gone, NULL);
+		g_hash_table_insert (fontmap_cache, key, fontmap);
+	} else
+		g_object_ref (fontmap);
+
+	g_warning ("fontmap %d = %p", key_dpi, fontmap);
+	return fontmap;
+}
+#endif
+

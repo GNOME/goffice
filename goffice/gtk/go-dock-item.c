@@ -1278,11 +1278,10 @@ go_dock_item_forall (GtkContainer *container,
  * @name: name for the new item
  * @behavior: behavior for the new item
  *
- * Constructs the @new GoDockItem named @name, with the
+ * Constructs the @new_dock_item GoDockItem named @name, with the
  * specified @behavior.
- *
- * Returns: A new GoDockItem widget.
  **/
+
 void
 go_dock_item_construct (GoDockItem *new_dock_item,
 			const gchar *name,

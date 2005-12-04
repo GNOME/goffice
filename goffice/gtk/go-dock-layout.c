@@ -280,9 +280,9 @@ go_dock_layout_add_item (GoDockLayout *layout,
 
 gboolean
 go_dock_layout_add_floating_item (GoDockLayout *layout,
-                                     GoDockItem *item,
-                                     gint x, gint y,
-                                     GtkOrientation orientation)
+				  GoDockItem *item,
+				  gint x, gint y,
+				  GtkOrientation orientation)
 {
   GoDockLayoutItem *new;
 
