@@ -2,7 +2,7 @@
 GogSeries
 
 <!-- ##### SECTION Short_Description ##### -->
-
+Set of plot data
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -24,6 +24,17 @@ GogSeries
 
 
 <!-- ##### ARG GogSeries:has-legend ##### -->
+<para>
+
+</para>
+
+<!-- ##### STRUCT GogSeriesElement ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG GogSeriesElement:index ##### -->
 <para>
 
 </para>
@@ -114,15 +125,4 @@ GogSeries
 @series: 
 @Returns: 
 
-
-<!-- ##### STRUCT GogSeriesElement ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### ARG GogSeriesElement:index ##### -->
-<para>
-
-</para>
 

@@ -1,8 +1,8 @@
 <!-- ##### SECTION Title ##### -->
-GogSeriesLines
+GogLabel
 
 <!-- ##### SECTION Short_Description ##### -->
-Droplines
+Titles &amp; axis labels
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -17,7 +17,7 @@ Droplines
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### TYPEDEF GogSeriesLines ##### -->
+<!-- ##### STRUCT GogLabel ##### -->
 <para>
 
 </para>

@@ -1,0 +1,144 @@
+<!-- ##### SECTION Title ##### -->
+GogAxisMap
+
+<!-- ##### SECTION Short_Description ##### -->
+1D data to canvas coordinate conversion
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogAxisMapDesc ##### -->
+<para>
+
+</para>
+
+@map: 
+@map_to_view: 
+@map_from_view: 
+@map_finite: 
+@map_baseline: 
+@map_bounds: 
+@init: 
+@destroy: 
+@auto_bound: 
+@calc_ticks: 
+@name: 
+@description: 
+
+<!-- ##### STRUCT GogAxisMap ##### -->
+<para>
+
+</para>
+
+@axis: 
+@desc: 
+@data: 
+@is_valid: 
+
+<!-- ##### FUNCTION gog_axis_map_new ##### -->
+<para>
+
+</para>
+
+@axis: 
+@offset: 
+@length: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_map ##### -->
+<para>
+
+</para>
+
+@map: 
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_map_to_view ##### -->
+<para>
+
+</para>
+
+@map: 
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_map_from_view ##### -->
+<para>
+
+</para>
+
+@map: 
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_map_finite ##### -->
+<para>
+
+</para>
+
+@map: 
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_map_get_baseline ##### -->
+<para>
+
+</para>
+
+@map: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_map_get_extents ##### -->
+<para>
+
+</para>
+
+@map: 
+@start: 
+@stop: 
+
+
+<!-- ##### FUNCTION gog_axis_map_get_bounds ##### -->
+<para>
+
+</para>
+
+@map: 
+@minimum: 
+@maximum: 
+
+
+<!-- ##### FUNCTION gog_axis_map_free ##### -->
+<para>
+
+</para>
+
+@map: 
+
+
+<!-- ##### FUNCTION gog_axis_map_is_valid ##### -->
+<para>
+
+</para>
+
+@map: 
+@Returns: 
+
+

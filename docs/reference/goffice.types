@@ -11,6 +11,7 @@
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-axis-line.h>
+#include <goffice/graph/gog-axis-line-impl.h>
 #include <goffice/graph/gog-grid.h>
 #include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-series.h>
@@ -22,6 +23,7 @@
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-renderer-pixbuf.h>
+#include <goffice/graph/gog-control-foocanvas.h>
 
 gog_object_get_type
 gog_styled_object_get_type
@@ -33,8 +35,9 @@ gog_chart_get_type
 gog_legend_get_type
 gog_label_get_type
 gog_plot_get_type
-gog_axis_get_type
+gog_axis_base_get_type
 gog_axis_line_get_type
+gog_axis_get_type
 gog_grid_get_type
 gog_grid_line_get_type
 gog_series_get_type
@@ -47,3 +50,4 @@ gog_data_allocator_get_type
 gog_dataset_get_type
 gog_renderer_get_type
 gog_renderer_pixbuf_get_type
+gog_control_foocanvas_get_type

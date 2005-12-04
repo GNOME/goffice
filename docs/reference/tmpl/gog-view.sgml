@@ -1,0 +1,170 @@
+<!-- ##### SECTION Title ##### -->
+GogView
+
+<!-- ##### SECTION Short_Description ##### -->
+Base class for object views
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogView ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG GogView:model ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogView:parent ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION gog_view_get_model ##### -->
+<para>
+
+</para>
+
+@view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_view_render ##### -->
+<para>
+
+</para>
+
+@view: 
+@bbox: 
+
+
+<!-- ##### FUNCTION gog_view_queue_redraw ##### -->
+<para>
+
+</para>
+
+@view: 
+
+
+<!-- ##### FUNCTION gog_view_queue_resize ##### -->
+<para>
+
+</para>
+
+@view: 
+
+
+<!-- ##### FUNCTION gog_view_padding_request ##### -->
+<para>
+
+</para>
+
+@view: 
+@bbox: 
+@padding: 
+
+
+<!-- ##### FUNCTION gog_view_size_request ##### -->
+<para>
+
+</para>
+
+@view: 
+@available: 
+@requisition: 
+
+
+<!-- ##### FUNCTION gog_view_size_allocate ##### -->
+<para>
+
+</para>
+
+@view: 
+@allocation: 
+
+
+<!-- ##### FUNCTION gog_view_update_sizes ##### -->
+<para>
+
+</para>
+
+@view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_view_find_child_view ##### -->
+<para>
+
+</para>
+
+@container: 
+@target_model: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_view_get_toolkit ##### -->
+<para>
+
+</para>
+
+@view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_view_render_toolkit ##### -->
+<para>
+
+</para>
+
+@view: 
+
+
+<!-- ##### FUNCTION gog_view_get_tool_at_point ##### -->
+<para>
+
+</para>
+
+@view: 
+@x: 
+@y: 
+@gobj: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_view_get_view_at_point ##### -->
+<para>
+
+</para>
+
+@view: 
+@x: 
+@y: 
+@obj: 
+@tool: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_view_size_child_request ##### -->
+<para>
+
+</para>
+
+@view: 
+@available: 
+@req: 
+@min_req: 
+
+

@@ -1,8 +1,8 @@
 <!-- ##### SECTION Title ##### -->
-GogSeriesLines
+GogRegEqn
 
 <!-- ##### SECTION Short_Description ##### -->
-Droplines
+Regression equation
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -17,9 +17,19 @@ Droplines
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### TYPEDEF GogSeriesLines ##### -->
+<!-- ##### STRUCT GogRegEqn ##### -->
 <para>
 
 </para>
 
+
+<!-- ##### ARG GogRegEqn:show-eq ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogRegEqn:show-r2 ##### -->
+<para>
+
+</para>
 

@@ -1,0 +1,91 @@
+<!-- ##### SECTION Title ##### -->
+GogTool
+
+<!-- ##### SECTION Short_Description ##### -->
+On canvas graph edition tools
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogTool ##### -->
+<para>
+
+</para>
+
+@name: 
+@cursor_type: 
+@point: 
+@render: 
+@init: 
+@move: 
+@double_click: 
+@destroy: 
+
+<!-- ##### STRUCT GogToolAction ##### -->
+<para>
+
+</para>
+
+@start_x: 
+@start_y: 
+@view: 
+@tool: 
+@data: 
+
+<!-- ##### FUNCTION gog_tool_action_new ##### -->
+<para>
+
+</para>
+
+@view: 
+@tool: 
+@x: 
+@y: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_tool_action_move ##### -->
+<para>
+
+</para>
+
+@action: 
+@x: 
+@y: 
+
+
+<!-- ##### FUNCTION gog_tool_action_double_click ##### -->
+<para>
+
+</para>
+
+@action: 
+
+
+<!-- ##### FUNCTION gog_tool_action_get_object ##### -->
+<para>
+
+</para>
+
+@action: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_tool_action_free ##### -->
+<para>
+
+</para>
+
+@action: 
+
+

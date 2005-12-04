@@ -1,0 +1,105 @@
+<!-- ##### SECTION Title ##### -->
+GogChartMap
+
+<!-- ##### SECTION Short_Description ##### -->
+2D data to canvas coordinate conversion
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogChartMapPolarData ##### -->
+<para>
+
+</para>
+
+@cx: 
+@cy: 
+@rx: 
+@ry: 
+@th0: 
+@th1: 
+
+<!-- ##### STRUCT GogChartMap ##### -->
+<para>
+
+</para>
+
+@chart: 
+@area: 
+@data: 
+@axis_map: 
+@is_valid: 
+@map_2D_to_view: 
+
+<!-- ##### FUNCTION gog_chart_map_new ##### -->
+<para>
+
+</para>
+
+@chart: 
+@area: 
+@axis0: 
+@axis1: 
+@axis2: 
+@fill_area: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_map_free ##### -->
+<para>
+
+</para>
+
+@map: 
+
+
+<!-- ##### FUNCTION gog_chart_map_is_valid ##### -->
+<para>
+
+</para>
+
+@map: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_map_2D_to_view ##### -->
+<para>
+
+</para>
+
+@map: 
+@x: 
+@y: 
+@u: 
+@v: 
+
+
+<!-- ##### FUNCTION gog_chart_map_get_axis_map ##### -->
+<para>
+
+</para>
+
+@map: 
+@Param2: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_map_get_polar_parms ##### -->
+<para>
+
+</para>
+
+@map: 
+@Returns: 
+
+

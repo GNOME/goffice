@@ -1,3 +1,8 @@
+2005-12-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* reference/goffice-docs.sgml: remove rendering chapter.
+	* reference/tmpl: new templates.
+
 2005-12-03  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* reference/goffice-docs.sgml: add graph/Abstract classes chapter and

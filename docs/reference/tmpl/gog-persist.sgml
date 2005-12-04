@@ -2,7 +2,7 @@
 GogPersist
 
 <!-- ##### SECTION Short_Description ##### -->
-A serialization interface to/from xml
+XML serialization interface
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -59,5 +59,73 @@ A serialization interface to/from xml
 @gp: 
 @xin: 
 @attrs: 
+
+
+<!-- ##### FUNCTION gog_object_set_arg ##### -->
+<para>
+
+</para>
+
+@name: 
+@val: 
+@obj: 
+
+
+<!-- ##### FUNCTION gog_object_write_xml_sax ##### -->
+<para>
+
+</para>
+
+@obj: 
+@output: 
+
+
+<!-- ##### FUNCTION gog_object_new_from_xml ##### -->
+<para>
+
+</para>
+
+@parent: 
+@node: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_sax_push_parser ##### -->
+<para>
+
+</para>
+
+@xin: 
+@attrs: 
+@handler: 
+@user_data: 
+
+
+<!-- ##### USER_FUNCTION GogObjectSaxHandler ##### -->
+<para>
+
+</para>
+
+@obj: 
+@user_data: 
+
+
+<!-- ##### FUNCTION go_xml_out_add_color ##### -->
+<para>
+
+</para>
+
+@out: 
+@id: 
+@c: 
+
+
+<!-- ##### FUNCTION gog_xml_read_state_get_obj ##### -->
+<para>
+
+</para>
+
+@xin: 
+@Returns: 
 
 

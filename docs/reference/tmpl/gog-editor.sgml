@@ -1,0 +1,79 @@
+<!-- ##### SECTION Title ##### -->
+GogEditor
+
+<!-- ##### SECTION Short_Description ##### -->
+Property editor build helper
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogEditor ##### -->
+<para>
+
+</para>
+
+@store_page: 
+@pages: 
+
+<!-- ##### STRUCT GogEditorPage ##### -->
+<para>
+
+</para>
+
+@label: 
+@widget: 
+
+<!-- ##### FUNCTION gog_editor_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_editor_add_page ##### -->
+<para>
+
+</para>
+
+@editor: 
+@widget: 
+@label: 
+
+
+<!-- ##### FUNCTION gog_editor_set_store_page ##### -->
+<para>
+
+</para>
+
+@editor: 
+@store_page: 
+
+
+<!-- ##### FUNCTION gog_editor_get_notebook ##### -->
+<para>
+
+</para>
+
+@editor: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_editor_free ##### -->
+<para>
+
+</para>
+
+@editor: 
+
+

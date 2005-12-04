@@ -101,6 +101,15 @@ gog_persist_dom_save
 gog_persist_dom_load
 gog_persist_sax_save
 gog_persist_prep_sax
+<SUBSECTION>
+gog_object_set_arg
+gog_object_write_xml_sax
+gog_object_new_from_xml
+gog_object_sax_push_parser
+<SUBSECTION>
+GogObjectSaxHandler
+go_xml_out_add_color
+gog_xml_read_state_get_obj
 <SUBSECTION Standard>
 GOG_PERSIST_TYPE
 GOG_PERSIST
@@ -110,19 +119,6 @@ IS_GOG_PERSIST_CLASS
 GOG_PERSIST_GET_CLASS
 <SUBSECTION Private>
 gog_persist_get_type
-</SECTION>
-
-<SECTION>
-<FILE>gog-object-xml</FILE>
-<TITLE>GogObjectXml</TITLE>
-gog_object_set_arg
-gog_object_write_xml_sax
-gog_object_new_from_xml
-gog_object_sax_push_parser
-<SUBSECTION>
-GogObjectSaxHandler
-go_xml_out_add_color
-gog_xml_read_state_get_obj
 </SECTION>
 
 <SECTION>
@@ -209,7 +205,6 @@ gog_chart_axis_set_assign
 gog_chart_get_axes
 gog_chart_get_grid
 <SUBSECTION>
-GogChartView
 gog_chart_view_get_plot_area
 <SUBSECTION Standard>
 GOG_CHART_TYPE
@@ -280,6 +275,7 @@ gog_axis_get_type
 <FILE>gog-axis-line</FILE>
 <TITLE>GogAxisLine</TITLE>
 GogAxisLine
+GogAxisBase
 GogAxisPosition
 GogAxisTickTypes
 <SUBSECTION Standard>
@@ -288,7 +284,6 @@ GOG_AXIS_LINE
 IS_GOG_AXIS_LINE
 <SUBSECTION Private>
 gog_axis_line_get_type
-GogAxisBase
 GogAxisBaseClass
 GOG_AXIS_BASE_TYPE
 GOG_AXIS_BASE
@@ -364,6 +359,7 @@ gog_plot_get_type
 <FILE>gog-series</FILE>
 <TITLE>GogSeries</TITLE>
 GogSeries
+GogSeriesElement
 gog_series_is_valid
 gog_series_has_legend
 gog_series_get_name
@@ -373,8 +369,6 @@ gog_series_set_dim
 gog_series_set_index
 gog_series_num_elements
 gog_series_get_overrides
-<SUBSECTION>
-GogSeriesElement
 <SUBSECTION Standard>
 GOG_SERIES_TYPE
 GOG_SERIES
@@ -464,7 +458,7 @@ gog_label_get_type
 <SECTION>
 <FILE>gog-reg-eqn</FILE>
 <TITLE>GogRegEqn</TITLE>
-GogReqEqn
+GogRegEqn
 <SUBSECTION Standard>
 GOG_REG_EQN_TYPE
 GOG_REG_EQN
@@ -510,6 +504,9 @@ gog_renderer_pt2r
 gog_renderer_new_for_pixbuf
 gog_renderer_update
 gog_renderer_get_pixbuf
+<SUBSECTION>
+gog_graph_export_to_svg
+gog_graph_print_to_gnome_print
 <SUBSECTION Standard>
 GOG_RENDERER_GRIP_SIZE
 GOG_RENDERER_TYPE
@@ -522,48 +519,21 @@ IS_GOG_RENDERER_CLASS
 gog_renderer_get_type
 GogRendererClip
 gog_renderer_invalidate_size_requests
-</SECTION>
-
-<SECTION>
-<FILE>gog-renderer-cairo</FILE>
-<TITLE>GogRendererCairo</TITLE>
+gog_renderer_pixbuf_get
+gog_renderer_pixbuf_update
 GogRendererCairo
 gog_renderer_cairo_get_pixbuf
 gog_renderer_cairo_update
-<SUBSECTION Standard>
+gog_renderer_cairo_get_type
 GOG_RENDERER_CAIRO_TYPE
 GOG_RENDERER_CAIRO
 IS_GOG_RENDERER_CAIRO
-<SUBSECTION Private>
-gog_renderer_cairo_get_type
-</SECTION>
-
-<SECTION>
-<FILE>gog-renderer-gnome-print</FILE>
-<TITLE>GogRendererGnomePrint</TITLE>
 GogRendererGnomePrint
-gog_graph_print_to_gnome_print
-</SECTION>
-
-<SECTION>
-<FILE>gog-renderer-pixbuf</FILE>
-<TITLE>GogRendererPixbuf</TITLE>
 GogRendererPixbuf
-gog_renderer_pixbuf_get
-gog_renderer_pixbuf_update
-<SUBSECTION Standard>
 GOG_RENDERER_PIXBUF_TYPE
 GOG_RENDERER_PIXBUF
 IS_GOG_RENDERER_PIXBUF
-<SUBSECTION Private>
 gog_renderer_pixbuf_get_type
-</SECTION>
-
-<SECTION>
-<FILE>gog-renderer-svg</FILE>
-<TITLE>GogRendererSVG</TITLE>
-GogRendererSVG
-gog_graph_export_to_svg
 </SECTION>
 
 ### Data
@@ -588,7 +558,7 @@ gog_data_allocator_get_type
 <SECTION>
 <FILE>gog-data-set</FILE>
 <TITLE>GogDataset</TITLE>
-GogDataSet
+GogDataset
 GogDatasetElement
 gog_dataset_dims
 gog_dataset_get_dim
@@ -658,14 +628,16 @@ gog_tool_action_free
 <SECTION>
 <FILE>gog-plot-engine</FILE>
 <TITLE>GogPlotEngine</TITLE>
-GogPlotType
 GogPlotFamily
+GogPlotType
 gog_plot_families
 gog_plot_family_by_name
 gog_plot_family_register
 gog_plot_type_register
+<SUBSECTION>
 GogRegCurveType
 gog_reg_curve_types
+<SUBSECTION>
 gog_plugin_services_init
 gog_plugin_services_shutdown
 </SECTION>

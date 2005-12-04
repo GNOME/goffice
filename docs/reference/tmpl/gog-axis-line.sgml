@@ -23,6 +23,58 @@ Slave axes
 </para>
 
 
+<!-- ##### STRUCT GogAxisBase ##### -->
+<para>
+
+</para>
+
+@major_tick_labeled: 
+
+<!-- ##### ARG GogAxisBase:cross-axis-id ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogAxisBase:major-tick-in ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogAxisBase:major-tick-labeled ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogAxisBase:major-tick-out ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogAxisBase:major-tick-size-pts ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogAxisBase:minor-tick-in ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogAxisBase:minor-tick-out ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogAxisBase:minor-tick-size-pts ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogAxisBase:pos-str ##### -->
+<para>
+
+</para>
+
 <!-- ##### ENUM GogAxisPosition ##### -->
 <para>
 

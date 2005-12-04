@@ -1,0 +1,237 @@
+<!-- ##### SECTION Title ##### -->
+GogStyle
+
+<!-- ##### SECTION Short_Description ##### -->
+Style of graph objects
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogStyle ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ENUM GogStyleFlag ##### -->
+<para>
+
+</para>
+
+@GOG_STYLE_OUTLINE: 
+@GOG_STYLE_FILL: 
+@GOG_STYLE_LINE: 
+@GOG_STYLE_MARKER: 
+@GOG_STYLE_FONT: 
+@GOG_STYLE_TEXT_LAYOUT: 
+@GOG_STYLE_ALL: 
+
+<!-- ##### ENUM GogFillStyle ##### -->
+<para>
+
+</para>
+
+@GOG_FILL_STYLE_NONE: 
+@GOG_FILL_STYLE_PATTERN: 
+@GOG_FILL_STYLE_GRADIENT: 
+@GOG_FILL_STYLE_IMAGE: 
+
+<!-- ##### ENUM GogImageType ##### -->
+<para>
+
+</para>
+
+@GOG_IMAGE_STRETCHED: 
+@GOG_IMAGE_WALLPAPER: 
+@GOG_IMAGE_CENTERED: 
+
+<!-- ##### STRUCT GogStyleLine ##### -->
+<para>
+
+</para>
+
+@width: 
+@dash_type: 
+@auto_dash: 
+@color: 
+@auto_color: 
+
+<!-- ##### STRUCT GogStyleMark ##### -->
+<para>
+
+</para>
+
+@mark: 
+@auto_shape: 
+@auto_outline_color: 
+@auto_fill_color: 
+
+<!-- ##### FUNCTION gog_style_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_style_dup ##### -->
+<para>
+
+</para>
+
+@style: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_style_assign ##### -->
+<para>
+
+</para>
+
+@dst: 
+@src: 
+
+
+<!-- ##### FUNCTION gog_style_apply_theme ##### -->
+<para>
+
+</para>
+
+@dst: 
+@src: 
+
+
+<!-- ##### FUNCTION gog_style_set_marker ##### -->
+<para>
+
+</para>
+
+@style: 
+@marker: 
+
+
+<!-- ##### FUNCTION gog_style_set_font_desc ##### -->
+<para>
+
+</para>
+
+@style: 
+@desc: 
+
+
+<!-- ##### FUNCTION gog_style_set_font ##### -->
+<para>
+
+</para>
+
+@style: 
+@font: 
+
+
+<!-- ##### FUNCTION gog_style_set_fill_brightness ##### -->
+<para>
+
+</para>
+
+@style: 
+@brightness: 
+
+
+<!-- ##### FUNCTION gog_style_set_fill_image_filename ##### -->
+<para>
+
+</para>
+
+@style: 
+@filename: 
+
+
+<!-- ##### FUNCTION gog_style_set_text_angle ##### -->
+<para>
+
+</para>
+
+@style: 
+@angle: 
+
+
+<!-- ##### FUNCTION gog_style_is_different_size ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_style_is_marker_visible ##### -->
+<para>
+
+</para>
+
+@style: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_style_is_line_visible ##### -->
+<para>
+
+</para>
+
+@style: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_style_is_outline_visible ##### -->
+<para>
+
+</para>
+
+@style: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_style_force_auto ##### -->
+<para>
+
+</para>
+
+@style: 
+
+
+<!-- ##### FUNCTION gog_style_populate_editor ##### -->
+<para>
+
+</para>
+
+@style: 
+@editor: 
+@default_style: 
+@cc: 
+@object_with_style: 
+@watch_for_external_change: 
+
+
+<!-- ##### FUNCTION gog_style_get_editor ##### -->
+<para>
+
+</para>
+
+@style: 
+@default_style: 
+@cc: 
+@object_with_style: 
+@Returns: 
+
+

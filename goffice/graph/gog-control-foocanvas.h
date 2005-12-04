@@ -39,6 +39,7 @@ typedef struct {
 	GogGraph *model;
 	GogRenderer *renderer;
 } GogControlFooCanvas;
+
 typedef FooCanvasGroupClass GogControlFooCanvasClass;
 
 GType gog_control_foocanvas_get_type (void);

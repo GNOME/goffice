@@ -24,6 +24,7 @@
 			<xi:include href="xml/gog-error-bar.xml"/>
 			<xi:include href="xml/gog-label.xml"/>
 			<xi:include href="xml/gog-reg-eqn.xml"/>
+			<xi:include href="xml/gog-series-lines.xml"/>
 		</chapter>
 		<chapter>
 			<title>Abstract Base Classes</title>
@@ -34,22 +35,14 @@
 			<xi:include href="xml/gog-object-xml.xml"/>
 			<xi:include href="xml/gog-plot.xml"/>
 			<xi:include href="xml/gog-series.xml"/>
-			<xi:include href="xml/gog-series-lines.xml"/>
 			<xi:include href="xml/gog-reg-curve.xml"/>
 			<xi:include href="xml/gog-view.xml"/>
 			<xi:include href="xml/gog-data-allocator.xml"/>
 			<xi:include href="xml/gog-data-set.xml"/>
-			<xi:include href="xml/gog-renderer.xml"/>
-		</chapter>
-		<chapter>
-			<title>Rendering</title>
-			<xi:include href="xml/gog-renderer-cairo.xml"/>
-			<xi:include href="xml/gog-renderer-gnome-print.xml"/>
-			<xi:include href="xml/gog-renderer-pixbuf.xml"/>
-			<xi:include href="xml/gog-renderer-svg.xml"/>
 		</chapter>
 		<chapter>
 			<title>Utilities</title>
+			<xi:include href="xml/gog-renderer.xml"/>
 			<xi:include href="xml/gog-control-foocanvas.xml"/>
 			<xi:include href="xml/gog-guru.xml"/>
 			<xi:include href="xml/gog-editor.xml"/>

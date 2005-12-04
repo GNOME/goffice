@@ -2,7 +2,7 @@
 GogObject
 
 <!-- ##### SECTION Short_Description ##### -->
-Base object for all objects of graph model
+Base class for all objects of graph model
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>

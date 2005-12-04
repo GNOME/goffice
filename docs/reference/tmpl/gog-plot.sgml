@@ -2,7 +2,7 @@
 GogPlot
 
 <!-- ##### SECTION Short_Description ##### -->
-Base object for plot implementations
+Base class for plots
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>

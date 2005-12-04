@@ -1,0 +1,45 @@
+<!-- ##### SECTION Title ##### -->
+GogControlFooCanvas
+
+<!-- ##### SECTION Short_Description ##### -->
+Graph in a foocanvas item
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogControlFooCanvas ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG GogControlFooCanvas:h ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogControlFooCanvas:model ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogControlFooCanvas:renderer ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogControlFooCanvas:w ##### -->
+<para>
+
+</para>
+

@@ -1,0 +1,120 @@
+<!-- ##### SECTION Title ##### -->
+GogPlotEngine
+
+<!-- ##### SECTION Short_Description ##### -->
+Plot and regression curve plugin management
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogPlotFamily ##### -->
+<para>
+
+</para>
+
+@name: 
+@sample_image_file: 
+@priority: 
+@axis_set: 
+@types: 
+
+<!-- ##### STRUCT GogPlotType ##### -->
+<para>
+
+</para>
+
+@family: 
+@engine: 
+@name: 
+@sample_image_file: 
+@description: 
+@col: 
+@row: 
+@properties: 
+
+<!-- ##### FUNCTION gog_plot_families ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_family_by_name ##### -->
+<para>
+
+</para>
+
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_family_register ##### -->
+<para>
+
+</para>
+
+@name: 
+@sample_image_file: 
+@priority: 
+@axis_set: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_type_register ##### -->
+<para>
+
+</para>
+
+@famlily: 
+@col: 
+@row: 
+@name: 
+@sample_image_file: 
+@description: 
+@engine: 
+@Returns: 
+
+
+<!-- ##### STRUCT GogRegCurveType ##### -->
+<para>
+
+</para>
+
+@engine: 
+@name: 
+@description: 
+@properties: 
+
+<!-- ##### FUNCTION gog_reg_curve_types ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_plugin_services_init ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION gog_plugin_services_shutdown ##### -->
+<para>
+
+</para>
+
+
+

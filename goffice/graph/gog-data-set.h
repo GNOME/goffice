@@ -34,6 +34,7 @@ typedef struct {
 	int	    dim_i;
 	gulong	    handler;
 } GogDatasetElement;
+
 typedef struct {
 	GTypeInterface		   base;
 

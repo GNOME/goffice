@@ -1,8 +1,8 @@
 <!-- ##### SECTION Title ##### -->
-GogLegend
+GogDataAllocator
 
 <!-- ##### SECTION Short_Description ##### -->
-Chart legend
+A data allocation interface
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -17,19 +17,30 @@ Chart legend
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogLegend ##### -->
+<!-- ##### STRUCT GogDataAllocator ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### ARG GogLegend:swatch-padding-pts ##### -->
+<!-- ##### FUNCTION gog_data_allocator_allocate ##### -->
 <para>
 
 </para>
 
-<!-- ##### ARG GogLegend:swatch-size-pts ##### -->
+@a: 
+@plot: 
+
+
+<!-- ##### FUNCTION gog_data_allocator_editor ##### -->
 <para>
 
 </para>
+
+@dalloc: 
+@set: 
+@dim_i: 
+@data_type: 
+@Returns: 
+
 

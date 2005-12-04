@@ -1,0 +1,113 @@
+<!-- ##### SECTION Title ##### -->
+GogDataset
+
+<!-- ##### SECTION Short_Description ##### -->
+A data set interface
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogDataset ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT GogDatasetElement ##### -->
+<para>
+
+</para>
+
+@data: 
+@set: 
+@dim_i: 
+@handler: 
+
+<!-- ##### FUNCTION gog_dataset_dims ##### -->
+<para>
+
+</para>
+
+@set: 
+@first: 
+@last: 
+
+
+<!-- ##### FUNCTION gog_dataset_get_dim ##### -->
+<para>
+
+</para>
+
+@set: 
+@dim_i: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_dataset_set_dim ##### -->
+<para>
+
+</para>
+
+@set: 
+@dim_i: 
+@val: 
+@err: 
+
+
+<!-- ##### FUNCTION gog_dataset_finalize ##### -->
+<para>
+
+</para>
+
+@set: 
+
+
+<!-- ##### FUNCTION gog_dataset_parent_changed ##### -->
+<para>
+
+</para>
+
+@set: 
+@was_set: 
+
+
+<!-- ##### FUNCTION gog_dataset_get_elem ##### -->
+<para>
+
+</para>
+
+@set: 
+@dim_i: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_dataset_set_dim_internal ##### -->
+<para>
+
+</para>
+
+@set: 
+@dim_i: 
+@val: 
+@graph: 
+
+
+<!-- ##### FUNCTION gog_dataset_dup_to_simple ##### -->
+<para>
+
+</para>
+
+@src: 
+@dst: 
+
+

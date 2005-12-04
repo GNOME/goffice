@@ -1,0 +1,112 @@
+<!-- ##### SECTION Title ##### -->
+GogTheme
+
+<!-- ##### SECTION Short_Description ##### -->
+Graph theme management
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### MACRO GOG_THEME_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_THEME ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_THEME ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_theme_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_theme_fillin_style ##### -->
+<para>
+
+</para>
+
+@theme: 
+@style: 
+@obj: 
+@ind: 
+@complete_overwrite: 
+
+
+<!-- ##### FUNCTION gog_theme_register ##### -->
+<para>
+
+</para>
+
+@theme: 
+@is_default: 
+
+
+<!-- ##### FUNCTION gog_theme_register_file ##### -->
+<para>
+
+</para>
+
+@name: 
+@file: 
+
+
+<!-- ##### FUNCTION gog_theme_lookup ##### -->
+<para>
+
+</para>
+
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_theme_get_name ##### -->
+<para>
+
+</para>
+
+@theme: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_themes_init ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION gog_themes_shutdown ##### -->
+<para>
+
+</para>
+
+
+

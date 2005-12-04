@@ -1,8 +1,8 @@
 <!-- ##### SECTION Title ##### -->
-GogSeriesLines
+GogGuru
 
 <!-- ##### SECTION Short_Description ##### -->
-Droplines
+Graph creation guru and property editor
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -17,9 +17,16 @@ Droplines
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### TYPEDEF GogSeriesLines ##### -->
+<!-- ##### FUNCTION gog_guru ##### -->
 <para>
 
 </para>
+
+@graph: 
+@dalloc: 
+@cc: 
+@toplevel: 
+@closure: 
+@Returns: 
 
 

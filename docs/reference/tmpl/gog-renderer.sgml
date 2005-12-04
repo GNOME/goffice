@@ -1,0 +1,390 @@
+<!-- ##### SECTION Title ##### -->
+GogRenderer
+
+<!-- ##### SECTION Short_Description ##### -->
+Multi-backend renderer
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogRenderer ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SIGNAL GogRenderer::request-update ##### -->
+<para>
+
+</para>
+
+@gogrenderer: the object which received the signal.
+
+<!-- ##### ARG GogRenderer:model ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogRenderer:view ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogRenderer:zoom ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION gog_renderer_request_update ##### -->
+<para>
+
+</para>
+
+@r: 
+
+
+<!-- ##### FUNCTION gog_renderer_push_style ##### -->
+<para>
+
+</para>
+
+@rend: 
+@style: 
+
+
+<!-- ##### FUNCTION gog_renderer_push_selection_style ##### -->
+<para>
+
+</para>
+
+@renderer: 
+
+
+<!-- ##### FUNCTION gog_renderer_pop_style ##### -->
+<para>
+
+</para>
+
+@rend: 
+
+
+<!-- ##### FUNCTION gog_renderer_push_clip ##### -->
+<para>
+
+</para>
+
+@rend: 
+@clip_path: 
+
+
+<!-- ##### FUNCTION gog_renderer_pop_clip ##### -->
+<para>
+
+</para>
+
+@rend: 
+
+
+<!-- ##### FUNCTION gog_renderer_get_rectangle_vpath ##### -->
+<para>
+
+</para>
+
+@rect: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_get_ring_wedge_bpath ##### -->
+<para>
+
+</para>
+
+@cx: 
+@cy: 
+@rx_out: 
+@ry_out: 
+@rx_in: 
+@ry_in: 
+@th0: 
+@th1: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_sharp_path ##### -->
+<para>
+
+</para>
+
+@rend: 
+@path: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_sharp_polygon ##### -->
+<para>
+
+</para>
+
+@rend: 
+@path: 
+@narrow: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_sharp_rectangle ##### -->
+<para>
+
+</para>
+
+@r: 
+@rect: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_ring_wedge ##### -->
+<para>
+
+</para>
+
+@rend: 
+@cx: 
+@cy: 
+@rx_out: 
+@ry_out: 
+@rx_in: 
+@ry_in: 
+@th0: 
+@th1: 
+@narrow: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_path ##### -->
+<para>
+
+</para>
+
+@rend: 
+@path: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_polygon ##### -->
+<para>
+
+</para>
+
+@rend: 
+@path: 
+@narrow: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_rectangle ##### -->
+<para>
+
+</para>
+
+@rend: 
+@rect: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_bezier_path ##### -->
+<para>
+
+</para>
+
+@rend: 
+@path: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_text ##### -->
+<para>
+
+</para>
+
+@rend: 
+@text: 
+@pos: 
+@anchor: 
+@result: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_marker ##### -->
+<para>
+
+</para>
+
+@rend: 
+@x: 
+@y: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_grip ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@x: 
+@y: 
+
+
+<!-- ##### MACRO gog_renderer_in_grip ##### -->
+<para>
+
+</para>
+
+@x: 
+@y: 
+@grip_x: 
+@grip_y: 
+
+
+<!-- ##### FUNCTION gog_renderer_get_text_OBR ##### -->
+<para>
+
+</para>
+
+@rend: 
+@text: 
+@obr: 
+
+
+<!-- ##### FUNCTION gog_renderer_get_text_AABR ##### -->
+<para>
+
+</para>
+
+@rend: 
+@text: 
+@aabr: 
+
+
+<!-- ##### MACRO gog_renderer_draw_arc ##### -->
+<para>
+
+</para>
+
+@r: 
+@cx: 
+@cy: 
+@rx: 
+@ry: 
+@th0: 
+@th1: 
+
+
+<!-- ##### MACRO gog_renderer_draw_pie_wedge ##### -->
+<para>
+
+</para>
+
+@r: 
+@cx: 
+@cy: 
+@rx: 
+@ry: 
+@th0: 
+@th1: 
+@narrow: 
+
+
+<!-- ##### FUNCTION gog_renderer_line_size ##### -->
+<para>
+
+</para>
+
+@r: 
+@width: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_pt2r_x ##### -->
+<para>
+
+</para>
+
+@r: 
+@d: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_pt2r_y ##### -->
+<para>
+
+</para>
+
+@r: 
+@d: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_pt2r ##### -->
+<para>
+
+</para>
+
+@r: 
+@d: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_new_for_pixbuf ##### -->
+<para>
+
+</para>
+
+@graph: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_update ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@w: 
+@h: 
+@zoom: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_get_pixbuf ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_graph_export_to_svg ##### -->
+<para>
+
+</para>
+
+@graph: 
+@output: 
+@width: 
+@height: 
+@scale: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_graph_print_to_gnome_print ##### -->
+<para>
+
+</para>
+
+@graph: 
+@gp_context: 
+@width: 
+@height: 
+
+
