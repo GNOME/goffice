@@ -24,6 +24,10 @@
  * USA.
  */
 
+/* FIXME: remove gtk_object_sink and friends when possible */
+#warning undef GTK_DISABLE_DEPRECATED because of gtk_object_sink and related
+#undef GTK_DISABLE_DEPRECATED
+
 #include <goffice/goffice-config.h>
 #include "go-combo-box.h"
 #include <goffice/utils/go-marshalers.h>

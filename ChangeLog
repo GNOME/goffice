@@ -1,3 +1,7 @@
+2005-12-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-combo-box.c: undef GTK_DISABLE_DEPRECATED. [#323171]
+
 2005-12-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/data/go-data-simple.c: doc fixes.
