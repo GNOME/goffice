@@ -147,6 +147,7 @@ char const  *gog_object_get_name	 (GogObject const *obj);
 void	     gog_object_set_name	 (GogObject *obj, char *name, GError **err);
 GSList      *gog_object_get_children	 (GogObject const *obj, GogObjectRole const *filter);
 GogObject   *gog_object_get_child_by_role(GogObject const *obj, GogObjectRole const *role);
+GogObject   *gog_object_get_child_by_name(GogObject const *obj, char const *name);
 gpointer     gog_object_get_editor	 (GogObject *obj,
 					  GogDataAllocator *dalloc, GOCmdContext *cc);
 GogView	  *gog_object_new_view		 (GogObject const *obj, GogView *parent);

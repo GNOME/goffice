@@ -1062,6 +1062,22 @@ gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
 }
 
 /**
+ *
+ * gog_object_get_child_by_name :
+ * @obj : a #GogObject
+ * @role : a #char to use as a filter
+ *
+ * A convenience routine to handle a unique child
+ * Returns NULL and spews an error if there is more than one.
+ **/
+GogObject *
+gog_object_get_child_by_name (GogObject const *obj, char const *name)
+{
+	return gog_object_get_child_by_role (obj,
+		gog_object_find_role_by_name (obj, name));
+}
+
+/**
  * gog_object_is_deletable :
  * @obj : a #GogObject
  *

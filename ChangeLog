@@ -1,3 +1,9 @@
+2005-12-06  Christian Neumair  <chris@gnome-de.org>
+
+	* goffice/graph/gog-object.c:
+	* goffice/graph/gog-object.h:
+	Add gog_object_get_child_by_name API.
+
 2005-12-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-combo-box.c: undef GTK_DISABLE_DEPRECATED. [#323171]
