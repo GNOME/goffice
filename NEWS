@@ -9,6 +9,7 @@ Morten:
 	* Fix problem with colons in filenames.  [#322799]
 	* Use system libpcre when available, sufficiently recent, and
 	  properly compiled with UTF-8 support.
+	* Plug leak.
 
 --------------------------------------------------------------------------
 goffice 0.1.1:

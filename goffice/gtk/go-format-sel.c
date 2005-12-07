@@ -170,7 +170,7 @@ enum {
 
 static guint go_format_sel_signals [LAST_SIGNAL] = { 0 };
 
-static void format_entry_set_text (GOFormatSel *gfs, gchar *text);
+static void format_entry_set_text (GOFormatSel *gfs, const gchar *text);
 
 static void
 generate_format (GOFormatSel *gfs)
@@ -664,7 +664,7 @@ cb_format_entry_changed (GtkEditable *w, GOFormatSel *gfs)
  * invoke cb_format_entry_changed explicitly.
  */
 static void
-format_entry_set_text (GOFormatSel *gfs, gchar *text)
+format_entry_set_text (GOFormatSel *gfs, const gchar *text)
 {
 	GtkEntry *entry = GTK_ENTRY (gfs->format.widget[F_ENTRY]);
 
@@ -686,6 +686,7 @@ cb_format_list_select (GtkTreeSelection *selection, GOFormatSel *gfs)
 	gtk_tree_model_get (GTK_TREE_MODEL (gfs->format.formats.model),
 			    &iter, 0, &text, -1);
 	format_entry_set_text (gfs, text);
+	g_free (text);
 }
 
 static gboolean

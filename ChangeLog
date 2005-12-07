@@ -1,3 +1,8 @@
+2005-12-07  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-format-sel.c (format_entry_set_text): Constify.
+	(cb_format_list_select): Plug leak.
+
 2005-12-06  Christian Neumair  <chris@gnome-de.org>
 
 	* goffice/graph/gog-object.c:
