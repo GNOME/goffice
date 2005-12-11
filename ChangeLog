@@ -1,3 +1,9 @@
+2005-12-11  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Require pkg-config version that understands about
+	private libraries.
+	* libgoffice-1.pc.in: Moved @EXTRA_LIBS@ into Libs.private .
+
 2005-12-07  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (format_entry_set_text): Constify.
