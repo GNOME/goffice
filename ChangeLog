@@ -1,3 +1,8 @@
+2005-12-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-object-xml.c (gog_object_write_xml_sax): Add
+	precondition.  See #323608.
+
 2005-12-12  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* configure.in: bump goffice version requisition to 1.0.0.
