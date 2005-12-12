@@ -5,7 +5,7 @@
 
 2005-12-12  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
-	* configure.in: bump goffice version requisition to 1.0.0.
+	* configure.in: bump cairo version requisition to 1.0.0.
 	* goffice/graph/gog-graph.c (gog_graph_get_supported_image_formats):
 	new.
 	(gog_graph_export_image): new.
