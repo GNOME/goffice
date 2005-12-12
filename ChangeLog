@@ -1,3 +1,35 @@
+2005-12-12  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* configure.in: bump goffice version requisition to 1.0.0.
+	* goffice/graph/gog-graph.c (gog_graph_get_supported_image_formats):
+	new.
+	(gog_graph_export_image): new.
+	* goffice/graph/gog-renderer-cairo.c (grc_line_size): handle case of
+	vector rendering (for SVG, PDF, PS output).
+	(gog_renderer_cairo_clip_push): ditto.
+	(gog_renderer_cairo_line_size): ditto.
+	(gog_renderer_cairo_sharp_path): ditto.
+	(gog_renderer_cairo_draw_marker): ditto.
+	(gog_renderer_cairo_draw_text): don't restrict text position to
+	positive values.
+	(gcr_gsf_gdk_pixbuf_save): new.
+	(grc_cairo_write_func): new.
+	(grc_cairo_setup): remove and move code...
+	(gog_renderer_cairo_update): ...here.
+	* goffice/graph/gog-renderer-impl.h (GogRenderer::export_image): new.
+	* goffice/graph/gog-renderer-pixbuf.c (grp_gsf_gdk_pixbuf_save): new.
+	(gog_renderer_pixbuf_export_image): new.
+	* goffice/graph/gog-renderer-svg.c (gog_graph_export_to_svg): removed.
+	(gog_graph_export_image): new.
+	* goffice/graph/gog-renderer.c (gog_renderer_new_for_format): new.
+	(gog_renderer_export_image): new.
+	* goffice/gtk/goffice-gtk.c (gui_get_image_save_info): format is an
+	enum now.
+	(go_image_build_pixbuf_format_infos): new.
+	(go_image_get_format_info): new.
+	(go_image_get_format_from_name): new.
+	(go_image_get_formats_with_pixbuf_saver): new.
+
 2005-12-11  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Require pkg-config version that understands about

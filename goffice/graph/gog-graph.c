@@ -23,6 +23,9 @@
 #include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-chart-impl.h>
 #include <goffice/graph/gog-renderer.h>
+#ifdef WITH_CAIRO
+#include <goffice/graph/gog-renderer-cairo.h>
+#endif
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/data/go-data.h>
@@ -865,4 +868,69 @@ gog_graph_view_set_selection (GogGraphView *gview, GogObject *gobj)
 	g_signal_emit (G_OBJECT (gview), 
 		       gog_graph_view_signals [GRAPH_VIEW_SELECTION_CHANGED], 
 		       0, gobj);
+}
+
+/**
+ * gog_graph_get_supported_image_formats:
+ *
+ * Builds a list of supported formats for image export.
+ *
+ * returns: a #GSList of #GOImageFormat.
+ **/
+
+GSList *
+gog_graph_get_supported_image_formats (void)
+{
+	static GOImageFormat supported_formats[] = {
+#ifdef GOG_RENDERER_CAIRO_WITH_PS
+		GO_IMAGE_FORMAT_PS,
+#endif
+#ifdef GOG_RENDERER_CAIRO_WITH_PDF
+		GO_IMAGE_FORMAT_PDF,
+#endif
+		GO_IMAGE_FORMAT_JPG,
+		GO_IMAGE_FORMAT_PNG,
+		GO_IMAGE_FORMAT_SVG
+	};
+	GSList *list = NULL;
+	unsigned i;
+
+	for (i = 0; i < G_N_ELEMENTS (supported_formats); i++)
+		list = g_slist_prepend (list, GUINT_TO_POINTER (supported_formats[i]));
+
+	return list;
+}
+
+/**
+ * gog_graph_export_image:
+ * @graph: a #GogGraph
+ * @format: image format for export
+ * @output: a #GsfOutput stream
+ * @x_dpi: x resolution of exported graph
+ * @y_dpi: y resolution of exported graph
+ *
+ * Exports an image of @graph in given @format, writing results in a #GsfOutput stream.
+ * If export format type is a bitmap one, it computes image size with x_dpi, y_dpi and 
+ * @graph size (see gog_graph_get_size()).
+ *
+ * returns: %TRUE if export succeed.
+ **/
+
+gboolean
+gog_graph_export_image (GogGraph *graph, GOImageFormat format, GsfOutput *output,
+			double x_dpi, double y_dpi)
+{
+	GogRenderer *renderer;
+	gboolean result;
+		
+	g_return_val_if_fail (IS_GOG_GRAPH (graph), FALSE);
+	g_return_val_if_fail (format != GO_IMAGE_FORMAT_UNKNOWN, FALSE);
+	
+	renderer = gog_renderer_new_for_format (graph, format);
+	g_return_val_if_fail (renderer != NULL, FALSE);
+
+	result = gog_renderer_export_image (renderer, format, output, x_dpi, y_dpi);
+	g_object_unref (renderer);
+
+	return result;
 }

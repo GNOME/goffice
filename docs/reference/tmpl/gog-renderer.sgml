@@ -364,19 +364,6 @@ Multi-backend renderer
 @Returns: 
 
 
-<!-- ##### FUNCTION gog_graph_export_to_svg ##### -->
-<para>
-
-</para>
-
-@graph: 
-@output: 
-@width: 
-@height: 
-@scale: 
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_graph_print_to_gnome_print ##### -->
 <para>
 

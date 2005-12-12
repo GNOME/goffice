@@ -23,8 +23,10 @@
 
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-view.h>
-
 #include <goffice/data/goffice-data.h>
+#include <goffice/gtk/goffice-gtk.h>
+
+#include <gsf/gsf.h>
 
 #include <glib-object.h>
 
@@ -66,6 +68,11 @@ void  	 gog_graph_view_handle_event 	(GogGraphView *gview, GdkEvent *event, doub
 GogView *gog_graph_view_get_selection 	(GogGraphView *gview);
 void 	 gog_graph_view_set_selection   (GogGraphView *gview, GogObject *gobj);
 
+
+GSList 	 *gog_graph_get_supported_image_formats	(void);
+gboolean  gog_graph_export_image 		(GogGraph *graph, GOImageFormat format, 
+						 GsfOutput *output, double x_dpi, double y_dpi);
+	
 G_END_DECLS
 
 #endif /* GOG_GRAPH_H */

@@ -81,10 +81,13 @@ typedef struct {
 				 GogViewAllocation const *pos, GtkAnchorType anchor,
 				 GogViewAllocation *result);
 	void (*draw_marker)    	(GogRenderer *rend, double x, double y);
-	
+
 	void (*get_text_OBR)	(GogRenderer *rend, char const *text, GOGeometryOBR *obr);
-	
-	double (*line_size)		(GogRenderer const *rend, double width);
+
+	double (*line_size)	(GogRenderer const *rend, double width);
+
+	gboolean (*export_image)	(GogRenderer *renderer, GOImageFormat format, 
+					 GsfOutput *output, double x_dpi, double y_dpi);
 
 	/* Signals */
 	void (*request_update) (GogRenderer *renderer);

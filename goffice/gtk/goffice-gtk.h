@@ -26,12 +26,25 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GO_IMAGE_FORMAT_SVG,
+	GO_IMAGE_FORMAT_PNG,
+	GO_IMAGE_FORMAT_JPG,
+	GO_IMAGE_FORMAT_PDF,
+	GO_IMAGE_FORMAT_PS,
+	GO_IMAGE_FORMAT_EMF,
+	GO_IMAGE_FORMAT_WMF,
+	GO_IMAGE_FORMAT_UNKNOWN
+} GOImageFormat;
+
 typedef struct {
+	GOImageFormat format;
 	char *name;
 	char *desc;
 	char *ext;
 	gboolean has_pixbuf_saver;
-} GOImageType;
+	gboolean is_dpi_useful; 
+} GOImageFormatInfo;
 
 void	   go_editable_enters (GtkWindow *window, GtkWidget *w);
 
@@ -65,10 +78,15 @@ void	   go_gtk_help_button_init	(GtkWidget *w, char const *data_dir,
 void       go_gtk_nonmodal_dialog	(GtkWindow *toplevel, GtkWindow *dialog);
 gboolean   go_gtk_file_sel_dialog	(GtkWindow *toplevel, GtkWidget *w);
 char	  *go_gtk_select_image		(GtkWindow *toplevel, const char *initial);
-char	  *gui_get_image_save_info	(GtkWindow *toplevel, GSList *formats, 
-					 GOImageType const **ret_format);
-char *go_mime_to_image_format     (char const *mime_type);
-char *go_image_format_to_mime     (char const *format);
+char      *gui_get_image_save_info 	(GtkWindow *toplevel, GSList *supported_formats,
+					 GOImageFormat *ret_format);
+char 	  *go_mime_to_image_format      (char const *mime_type);
+char 	  *go_image_format_to_mime      (char const *format);
+
+GOImageFormatInfo const *go_image_get_format_info       	(GOImageFormat format);
+GOImageFormat            go_image_get_format_from_name  	(char const *name);
+GSList 			*go_image_get_formats_with_pixbuf_saver (void);
+
 gboolean   go_gtk_url_is_writeable	(GtkWindow *parent, char const *url,
 					 gboolean overwrite_by_default);
 

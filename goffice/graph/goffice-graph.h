@@ -94,6 +94,7 @@ typedef enum {
 	GOG_AXIS_PSEUDO_3D,
 	GOG_AXIS_TYPES
 } GogAxisType;
+
 typedef enum {
 	GOG_AXIS_SET_UNKNOWN 	  = -1,
 	GOG_AXIS_SET_NONE   	  = 0,

@@ -22,8 +22,15 @@
 #define GOG_RENDERER_CAIRO_H
 
 #include <goffice/graph/goffice-graph.h>
+
+#include <gsf/gsf.h>
+
 #include <glib-object.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+
+#ifndef WITH_CAIRO
+#error Cairo support not enabled
+#endif
 
 G_BEGIN_DECLS
 
@@ -37,6 +44,8 @@ GType      gog_renderer_cairo_get_type		(void);
 GdkPixbuf *gog_renderer_cairo_get_pixbuf   	(GogRendererCairo *crend);
 gboolean   gog_renderer_cairo_update		(GogRendererCairo *crend, int w, int h, double zoom);
 
+gboolean   gog_renderer_cairo_export_to_pdf	(GogRendererCairo *crend, GogGraph *graph, GsfOutput *output, 
+						 double width, double height, double scale);
 G_END_DECLS
 
 #endif /* GOG_RENDERER_CAIRO_H */

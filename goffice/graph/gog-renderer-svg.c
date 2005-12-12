@@ -20,7 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-graph-impl.h>
+#include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-renderer-svg.h>
 #include <goffice/graph/gog-renderer-impl.h>
 #include <goffice/graph/gog-style.h>
@@ -41,10 +41,6 @@
 
 #define CC2XML(s) ((const xmlChar *)(s))
 
-#define GOG_RENDERER_SVG_TYPE	(gog_renderer_svg_get_type ())
-#define GOG_RENDERER_SVG(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RENDERER_SVG_TYPE, GogRendererSvg))
-#define IS_GOG_RENDERER_SVG(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RENDERER_SVG_TYPE))
-
 typedef struct _GogRendererSvg GogRendererSvg;
 
 struct _GogRendererSvg {
@@ -63,8 +59,6 @@ struct _GogRendererSvg {
 typedef GogRendererClass GogRendererSvgClass;
 
 static GObjectClass *parent_klass;
-
-static GType gog_renderer_svg_get_type (void);
 
 static void 
 set_double_prop (xmlNodePtr node, const char *name, double value)
@@ -729,54 +723,22 @@ gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
 	}
 }
 
-static void
-gog_renderer_svg_class_init (GogRendererClass *rend_klass)
-{
-	GObjectClass *gobject_klass   = (GObjectClass *) rend_klass;
-
-	parent_klass = g_type_class_peek_parent (rend_klass);
-	gobject_klass->finalize	  	= gog_renderer_svg_finalize;
-	rend_klass->push_clip		= gog_renderer_svg_push_clip;
-	rend_klass->pop_clip	 	= gog_renderer_svg_pop_clip;
-	rend_klass->draw_path	  	= gog_renderer_svg_draw_path;
-	rend_klass->draw_polygon  	= gog_renderer_svg_draw_polygon;
-	rend_klass->draw_bezier_path 	= gog_renderer_svg_draw_bezier_path;
-	rend_klass->draw_bezier_polygon = gog_renderer_svg_draw_bezier_polygon;
-	rend_klass->draw_text	  	= gog_renderer_svg_draw_text;
-	rend_klass->draw_marker	  	= gog_renderer_svg_draw_marker;
-	rend_klass->get_text_OBR	= gog_renderer_svg_get_text_OBR;
-}
-
-static GSF_CLASS (GogRendererSvg, gog_renderer_svg,
-		  gog_renderer_svg_class_init, NULL,
-		  GOG_RENDERER_TYPE)
-
-/**
- * gog_graph_export_to_svg :
- * @graph  : #GogGraph
- * @output : #GsfOutput
- * @width  :
- * @height :
- *
- * Renders @graph as SVG and stores it in @output.
- *
- * Returns TRUE on success.
- **/
-gboolean
-gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
-			 double width, double height, double scale)
+static gboolean
+gog_renderer_svg_export_image (GogRenderer *renderer, GOImageFormat format,
+			       GsfOutput *output, double x_dpi, double y_dpi)
 {
 	GogViewAllocation allocation;
-	GogRendererSvg *prend;
+	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
 	xmlNsPtr namespace;
+	double width_in_pts, height_in_pts;
 	gboolean success = TRUE;
 
-	gog_graph_force_update (graph);
+	if (format != GO_IMAGE_FORMAT_SVG) {
+		g_warning ("[GogRendererSVG::export_image] Unsupported format");
+		return FALSE;
+	}
 
-	prend = g_object_new (GOG_RENDERER_SVG_TYPE,
-			      "model", graph,
-			      NULL);
-	prend->base.scale = scale;
+	prend->base.scale = 1.0;
 	prend->doc = xmlNewDoc (CC2XML ("1.0"));
 
 	xmlNewDtd (prend->doc,
@@ -795,14 +757,15 @@ gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
 
 	namespace = xmlNewNs (prend->doc->children, CC2XML ("http://www.w3.org/1999/xlink"), CC2XML ("xlink"));
 
-	set_double_prop (prend->doc->children, "width", width);
-	set_double_prop (prend->doc->children, "height", height);
+	gog_graph_get_size (renderer->model, &width_in_pts, &height_in_pts);
+	set_double_prop (prend->doc->children, "width", width_in_pts);
+	set_double_prop (prend->doc->children, "height", height_in_pts);
 
 	prend->clip_counter = 0;
 	allocation.x = 0.;
 	allocation.y = 0.;
-	allocation.w = width;
-	allocation.h = height;
+	allocation.w = width_in_pts;
+	allocation.h = height_in_pts;
 	gog_view_size_allocate (prend->base.view, &allocation);
 	gog_view_render	(prend->base.view, NULL);
 
@@ -816,8 +779,33 @@ gog_graph_export_to_svg (GogGraph *graph, GsfOutput *output,
 		success = FALSE;
 
 	xmlFreeDoc (prend->doc);
+	prend->doc = NULL;
 	g_hash_table_destroy (prend->table);
-	g_object_unref (prend);
+	prend->table = NULL;
 
 	return success;
 }
+
+static void
+gog_renderer_svg_class_init (GogRendererClass *rend_klass)
+{
+	GObjectClass *gobject_klass   = (GObjectClass *) rend_klass;
+
+	parent_klass = g_type_class_peek_parent (rend_klass);
+	gobject_klass->finalize	  	= gog_renderer_svg_finalize;
+	rend_klass->push_clip		= gog_renderer_svg_push_clip;
+	rend_klass->pop_clip	 	= gog_renderer_svg_pop_clip;
+	rend_klass->draw_path	  	= gog_renderer_svg_draw_path;
+	rend_klass->draw_polygon  	= gog_renderer_svg_draw_polygon;
+	rend_klass->draw_bezier_path 	= gog_renderer_svg_draw_bezier_path;
+	rend_klass->draw_bezier_polygon = gog_renderer_svg_draw_bezier_polygon;
+	rend_klass->draw_text	  	= gog_renderer_svg_draw_text;
+	rend_klass->draw_marker	  	= gog_renderer_svg_draw_marker;
+	rend_klass->get_text_OBR	= gog_renderer_svg_get_text_OBR;
+	rend_klass->export_image	= gog_renderer_svg_export_image;
+}
+
+GSF_CLASS (GogRendererSvg, gog_renderer_svg,
+	   gog_renderer_svg_class_init, NULL,
+	   GOG_RENDERER_TYPE)
+

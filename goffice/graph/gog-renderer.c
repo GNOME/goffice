@@ -22,19 +22,20 @@
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-renderer-impl.h>
 #include <goffice/graph/gog-renderer-pixbuf.h>
+#ifdef WITH_CAIRO
 #include <goffice/graph/gog-renderer-cairo.h>
+#endif
+#include <goffice/graph/gog-renderer-svg.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-graph.h>
+#include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-math.h>
 
+#include <gsf/gsf.h>
 #include <gsf/gsf-impl-utils.h>
-
-/* We need to define an hair line width for the svg and gnome_print renderer. 
- * 0.24 pt is the dot size of a 300 dpi printer, if the plot is printed at scale 1:1 */
-#define GOG_RENDERER_HAIR_LINE_WIDTH	0.24
 
 enum {
 	RENDERER_PROP_0,
@@ -669,6 +670,7 @@ gog_renderer_class_init (GogRendererClass *renderer_klass)
 
 	renderer_klass->sharp_path = NULL;
 	renderer_klass->line_size = NULL;
+	renderer_klass->export_image = NULL;
 
 	g_object_class_install_property (gobject_klass, RENDERER_PROP_MODEL,
 		g_param_spec_object ("model", "model",
@@ -894,4 +896,88 @@ gog_renderer_get_pixbuf (GogRenderer *renderer)
 	g_return_val_if_fail (IS_GOG_RENDERER_PIXBUF (renderer), NULL);
 	return gog_renderer_pixbuf_get (GOG_RENDERER_PIXBUF (renderer));
 #endif
+}
+
+/**
+ * gog_renderer_new_for_format:
+ * @graph: a #GogGraph
+ * @format: image format
+ * 
+ * Creates a new #GogRenderer which is capable of export to @format.
+ *
+ * returns: a new #GogRenderer.
+ **/
+
+GogRenderer *
+gog_renderer_new_for_format (GogGraph *graph, GOImageFormat format)
+{
+	GType type = G_TYPE_INVALID;
+	
+	switch (format) {
+		case GO_IMAGE_FORMAT_PNG:
+		case GO_IMAGE_FORMAT_JPG:
+#ifdef WITH_CAIRO
+			type = GOG_RENDERER_CAIRO_TYPE;
+#else
+			type = GOG_RENDERER_PIXBUF_TYPE;
+#endif
+			break;
+		case GO_IMAGE_FORMAT_SVG:
+#ifdef GOG_RENDERER_CAIRO_WITH_SVG
+			type = GOG_RENDERER_CAIRO_TYPE;
+#else
+			type = GOG_RENDERER_SVG_TYPE;
+#endif
+			break;
+		case GO_IMAGE_FORMAT_PDF:
+#ifdef GOG_RENDERER_CAIRO_WITH_PDF
+			type = GOG_RENDERER_CAIRO_TYPE;
+#endif
+			break;
+		case GO_IMAGE_FORMAT_PS:
+#ifdef GOG_RENDERER_CAIRO_WITH_PS
+			type = GOG_RENDERER_CAIRO_TYPE;
+#endif
+			break;
+		default:
+			break;
+	}
+	
+	if (type == G_TYPE_INVALID)
+		return NULL;
+	
+	return g_object_new (type, "model", graph, NULL);	
+}
+
+/**
+ * gog_renderer_export_image:
+ * @renderer: a #GogRenderer
+ * @format: image format for export
+ * @output: a #GsfOutput stream
+ * @x_dpi: x resolution of exported graph
+ * @y_dpi: y resolution of exported graph
+ *
+ * Exports an image of @graph in given @format, writing results in a #GsfOutput stream.
+ * If export format type is a bitmap one, it computes image size with x_dpi, y_dpi and 
+ * @graph size (see gog_graph_get_size()).
+ *
+ * returns: %TRUE if export succeed.
+ **/
+
+gboolean
+gog_renderer_export_image (GogRenderer *renderer, GOImageFormat format,
+			   GsfOutput *output, double x_dpi, double y_dpi)
+{
+	GogRendererClass *klass;
+
+	g_return_val_if_fail (IS_GOG_RENDERER (renderer), FALSE);
+       
+	gog_graph_force_update (renderer->model);
+
+	klass = GOG_RENDERER_GET_CLASS (renderer);
+
+	if (klass->export_image != NULL)
+		return (klass->export_image) (renderer, format, output, x_dpi, y_dpi);
+
+	return FALSE;
 }

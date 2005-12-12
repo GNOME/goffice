@@ -36,6 +36,7 @@
 #include <libart_lgpl/art_render_mask.h>
 #include <pango/pangoft2.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-output-stdio.h>
 
 #include <math.h>
 
@@ -943,6 +944,53 @@ gog_renderer_pixbuf_push_style (GogRenderer *rend, GogStyle const *style)
 	}
 }
 
+static gboolean
+grp_gsf_gdk_pixbuf_save (const gchar *buf,
+			 gsize count,
+			 GError **error,
+			 gpointer data)
+{
+	GsfOutput *output = GSF_OUTPUT (data);
+	gboolean ok = gsf_output_write (output, count, buf);
+
+	if (!ok && error)
+		*error = g_error_copy (gsf_output_error (output));
+
+	return ok;
+}
+
+static gboolean
+gog_renderer_pixbuf_export_image (GogRenderer *renderer, GOImageFormat format,
+				  GsfOutput *output, double x_dpi, double y_dpi)
+{
+	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (renderer);
+	GdkPixbuf *pixbuf;
+	GOImageFormatInfo const *format_info;
+	double width_in_pts, height_in_pts;
+
+	gog_graph_get_size (renderer->model, &width_in_pts, &height_in_pts);
+
+	switch (format) {
+		case GO_IMAGE_FORMAT_PNG:
+		case GO_IMAGE_FORMAT_JPG:
+			gog_renderer_pixbuf_update (prend, 
+						    width_in_pts * x_dpi / 72.0, 
+						    height_in_pts * y_dpi / 72.0, 1.0);
+			pixbuf = gog_renderer_pixbuf_get (prend);
+			if (pixbuf == NULL)
+				return FALSE;
+			format_info = go_image_get_format_info (format);
+			return gdk_pixbuf_save_to_callback (pixbuf,
+							    grp_gsf_gdk_pixbuf_save,
+							    output, format_info->name,
+							    NULL, NULL);
+			break;
+		default:
+			g_warning ("[GogRendererPixbuf:export_image] unsupported format");
+			return FALSE;
+	}
+}
+
 static void
 gog_renderer_pixbuf_class_init (GogRendererClass *rend_klass)
 {
@@ -963,6 +1011,7 @@ gog_renderer_pixbuf_class_init (GogRendererClass *rend_klass)
 	rend_klass->draw_marker	  	= gog_renderer_pixbuf_draw_marker;
 	rend_klass->get_text_OBR	= gog_renderer_pixbuf_get_text_OBR;
 	rend_klass->line_size		= gog_renderer_pixbuf_line_size;
+	rend_klass->export_image	= gog_renderer_pixbuf_export_image;
 }
 
 static void

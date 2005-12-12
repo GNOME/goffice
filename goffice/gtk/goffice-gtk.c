@@ -553,11 +553,24 @@ go_gtk_select_image (GtkWindow *toplevel, const char *initial)
 	return uri;
 }
 
+/**
+ * gui_get_image_save_info:
+ * @toplevel: a #GtkWindow
+ * @supported_formats: a #GSList of supported file formats
+ * @ret_format: default file format
+ *
+ * Opens a file chooser and let user choose file URI and format in a list of
+ * supported ones.
+ *
+ * returns: file URI string, and file #GOImageFormat stored in @ret_format.
+ **/
+
 char *
-gui_get_image_save_info (GtkWindow *toplevel, GSList *formats,
-			 GOImageType const **ret_format)
+gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
+			 GOImageFormat *ret_format)
 {
-	GOImageType const *sel_format = NULL;
+	GOImageFormat format;
+	GOImageFormatInfo const *format_info;
 	GtkComboBox *format_combo = NULL;
 	char *uri = NULL;
 	GtkFileChooser *fsel = gui_image_chooser_new (TRUE);
@@ -565,21 +578,18 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *formats,
 	g_object_set (G_OBJECT (fsel), "title", _("Save as"), NULL);
 
 	/* Make format chooser */
-	if (formats && ret_format) {
+	if (supported_formats && ret_format) {
 		GtkWidget *label;
 		GtkWidget *box = gtk_hbox_new (FALSE, 5);
 		GSList *l;
 		int i;
 
 		format_combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
-		if (*ret_format)
-			sel_format = *ret_format;
-		for (l = formats, i = 0; l != NULL; l = l->next, i++) {
-#warning we must find a better solution for translating strings not in goffice domain
-			gtk_combo_box_append_text
-				(format_combo,
-				 gettext (((GOImageType *) (l->data))->desc));
-			if (l->data == (void *)sel_format)
+		for (l = supported_formats, i = 0; l != NULL; l = l->next, i++) {
+			format = GPOINTER_TO_UINT (l->data);
+			format_info = go_image_get_format_info (format);
+			gtk_combo_box_append_text (format_combo, _(format_info->desc)); 
+			if (format == *ret_format)
 				gtk_combo_box_set_active (format_combo, i);
 		}
 		if (gtk_combo_box_get_active (format_combo) < 0)
@@ -602,9 +612,11 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *formats,
 	if (format_combo) {
 		char *new_uri = NULL;
 
-		sel_format = g_slist_nth_data (
-			formats, gtk_combo_box_get_active (format_combo));
-		if (!go_url_check_extension (uri, sel_format->ext, &new_uri) &&
+		format = GPOINTER_TO_UINT (g_slist_nth_data 
+			(supported_formats, 
+			 gtk_combo_box_get_active (format_combo)));
+		format_info = go_image_get_format_info (format);
+		if (!go_url_check_extension (uri, format_info->ext, &new_uri) &&
 		    !go_gtk_query_yes_no (GTK_WINDOW (fsel), TRUE,
 		     _("The given file extension does not match the"
 		       " chosen file type. Do you want to use this name"
@@ -617,7 +629,7 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *formats,
 			g_free (uri);
 			uri = new_uri;
 		}
-		*ret_format = sel_format;
+		*ret_format = format;
 	}
 	if (!go_gtk_url_is_writeable (GTK_WINDOW (fsel), uri, TRUE)) {
 		g_free (uri);
@@ -628,6 +640,13 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *formats,
 	gtk_widget_destroy (GTK_WIDGET (fsel));
 	return uri;
 }
+
+/**
+ * go_mime_to_image_format:
+ * @mime_type: a mime type string
+ *
+ * returns: file extension for the given mime type.
+ **/
 
 char *
 go_mime_to_image_format (char const *mime_type)
@@ -649,6 +668,13 @@ go_mime_to_image_format (char const *mime_type)
 
 	return g_strdup (suffix);
 }
+
+/**
+ * go_image_format_to_mime:
+ * @format: a file extension string
+ *
+ * returns: corresponding mime type.
+ **/
 
 char *
 go_image_format_to_mime (char const *format)
@@ -691,6 +717,150 @@ go_image_format_to_mime (char const *format)
 	g_slist_free (pixbuf_fmts);
 
 	return ret;
+}
+
+static GOImageFormatInfo const image_format_infos[GO_IMAGE_FORMAT_UNKNOWN] = {
+	{GO_IMAGE_FORMAT_SVG, (char *) "svg",  (char *) N_("SVG (vector graphics)"), 	 
+		(char *) "svg", FALSE, FALSE},
+	{GO_IMAGE_FORMAT_PNG, (char *) "png",  (char *) N_("PNG (raster graphics)"), 	 
+		(char *) "png", TRUE,  TRUE},
+	{GO_IMAGE_FORMAT_JPG, (char *) "jpeg", (char *) N_("JPEG (photograph)"),     	 
+		(char *) "jpg", TRUE,  TRUE},
+	{GO_IMAGE_FORMAT_PDF, (char *) "pdf",  (char *) N_("PDF (portable document format)"), 
+		(char *) "pdf", FALSE, TRUE},
+	{GO_IMAGE_FORMAT_PS,  (char *) "ps",   (char *) N_("PS (postscript)"), 		 
+		(char *) "ps",  FALSE, TRUE},
+	{GO_IMAGE_FORMAT_EMF, (char *) "emf",  (char *) N_("EMF (extended metafile)"),
+		(char *) "emf", FALSE, FALSE},
+	{GO_IMAGE_FORMAT_WMF, (char *) "wmf",  (char *) N_("WMF (windows metafile)"), 
+		(char *) "wmf", FALSE, FALSE}
+};
+
+static GOImageFormatInfo *pixbuf_image_format_infos = NULL;
+static unsigned pixbuf_format_nbr = 0;
+static gboolean pixbuf_format_done = FALSE;
+
+#define PIXBUF_IMAGE_FORMAT_OFFSET (1+GO_IMAGE_FORMAT_UNKNOWN)
+
+static void
+go_image_build_pixbuf_format_infos (void)
+{
+	GdkPixbufFormat *fmt;
+	GSList *l, *pixbuf_fmts;
+	GOImageFormatInfo *format_info;
+	gchar **exts;
+	unsigned i;
+
+	if (pixbuf_format_done)
+		return;
+	
+	pixbuf_fmts = gdk_pixbuf_get_formats ();
+	pixbuf_format_nbr = g_slist_length (pixbuf_fmts);
+	
+	if (pixbuf_format_nbr > 0) {
+		pixbuf_image_format_infos = g_new (GOImageFormatInfo, pixbuf_format_nbr);
+
+		for (l = pixbuf_fmts, i = 1, format_info = pixbuf_image_format_infos; 
+		     l != NULL; 
+		     l = l->next, i++, format_info++) {
+			fmt = (GdkPixbufFormat *)l->data;
+
+			format_info->format = GO_IMAGE_FORMAT_UNKNOWN + i;
+			format_info->name = gdk_pixbuf_format_get_name (fmt);
+			format_info->desc = gdk_pixbuf_format_get_description (fmt);
+			exts = gdk_pixbuf_format_get_extensions (fmt);
+			format_info->ext = g_strdup (exts[0]);
+			if (format_info->ext == NULL)
+				format_info->ext = format_info->name;
+			g_strfreev (exts);
+			format_info->has_pixbuf_saver = gdk_pixbuf_format_is_writable (fmt);
+			format_info->is_dpi_useful = FALSE;
+		}
+	}
+
+	g_slist_free (pixbuf_fmts);
+	pixbuf_format_done = TRUE;
+}
+
+/**
+ * go_image_get_format_info:
+ * @format: a #GOImageFormat
+ *
+ * Retrieves infromation associated to @format.
+ * 
+ * returns: a #GOImageFormatInfo struct.
+ **/
+
+GOImageFormatInfo const *
+go_image_get_format_info (GOImageFormat format)
+{
+	if (format > GO_IMAGE_FORMAT_UNKNOWN)
+		go_image_build_pixbuf_format_infos ();
+		
+	g_return_val_if_fail (format >= 0 && 
+			      format != GO_IMAGE_FORMAT_UNKNOWN &&
+			      format <= GO_IMAGE_FORMAT_UNKNOWN + pixbuf_format_nbr, NULL);
+	if (format < GO_IMAGE_FORMAT_UNKNOWN)	
+		return &image_format_infos[format];
+
+	return &pixbuf_image_format_infos[format - PIXBUF_IMAGE_FORMAT_OFFSET];
+}
+
+/**
+ * go_image_get_format_from_name:
+ * @name: a string
+ *
+ * returns: corresponding #GOImageFormat.
+ **/
+
+GOImageFormat	 
+go_image_get_format_from_name (char const *name)
+{
+	unsigned i;
+
+	go_image_build_pixbuf_format_infos ();
+	
+	for (i = 0; i < GO_IMAGE_FORMAT_UNKNOWN; i++) {
+		if (strcmp (name, image_format_infos[i].name) == 0)
+			return image_format_infos[i].format;
+	}
+
+	for (i = 0; i < pixbuf_format_nbr; i++) {
+		if (strcmp (name, pixbuf_image_format_infos[i].name) == 0)
+			return pixbuf_image_format_infos[i].format;
+	}
+
+	g_warning ("[GOImage::get_format_from_name] Unknown format name (%s)", name);
+	return GO_IMAGE_FORMAT_UNKNOWN;
+}
+
+/**
+ * go_image_get_formats_with_pixbuf_saver:
+ *
+ * returns: a list of #GOImageFormat that can be created from a pixbuf.
+ **/
+
+GSList *
+go_image_get_formats_with_pixbuf_saver (void)
+{
+	GSList *list = NULL;
+	unsigned i;
+
+	for (i = 0; i < GO_IMAGE_FORMAT_UNKNOWN; i++) 
+		if (image_format_infos[i].has_pixbuf_saver)
+			list = g_slist_prepend (list, GUINT_TO_POINTER (i));
+
+	/* TODO: before enabling this code, we must remove duplicate in pixbuf_image_format_infos */
+#if 0	
+	go_image_build_pixbuf_format_infos ();
+
+	for (i = 0; i < pixbuf_format_nbr; i++) {
+		if (pixbuf_image_format_infos[i].has_pixbuf_saver)
+			list = g_slist_prepend (list, GUINT_TO_POINTER (i + PIXBUF_IMAGE_FORMAT_OFFSET));
+	}
+#endif
+
+	return list;
 }
 
 static void

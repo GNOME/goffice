@@ -22,13 +22,18 @@
 #define GOG_RENDERER_SVG_H
 
 #include <goffice/graph/goffice-graph.h>
+
 #include <gsf/gsf.h>
+
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
-gboolean gog_graph_export_to_svg (GogGraph *graph,
-				  GsfOutput *output,
-				  double width, double height, double scale);
+#define GOG_RENDERER_SVG_TYPE	(gog_renderer_svg_get_type ())
+#define GOG_RENDERER_SVG(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RENDERER_SVG_TYPE, GogRendererSvg))
+#define IS_GOG_RENDERER_SVG(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RENDERER_SVG_TYPE))
+
+GType gog_renderer_svg_get_type (void);
 
 G_END_DECLS
 

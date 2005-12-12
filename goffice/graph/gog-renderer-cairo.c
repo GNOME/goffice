@@ -24,7 +24,7 @@
  * 	- implement stretched image texture
  * 	- fix alpha channel of source image for texture
  * 	- fix font size
- * 	- implement mutiline text
+ * 	- use pango for text rendering
  * 	- cache font properties
  * 	- implement rendering of marker with cairo 
  * 	  (that will fix grayish outline bug)
@@ -46,9 +46,20 @@
 #include <libart_lgpl/art_render_svp.h>
 #include <libart_lgpl/art_render_mask.h>
 #include <pango/pangoft2.h>
-#include <gsf/gsf-impl-utils.h>
 
-#include <cairo/cairo.h>
+#include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-output-stdio.h>
+
+#include <cairo.h>
+#ifdef CAIRO_HAS_PDF_SURFACE
+#include <cairo-pdf.h>
+#endif
+#ifdef CAIRO_HAS_PS_SURFACE
+#include <cairo-ps.h>
+#endif
+#ifdef CAIRO_HAS_SVG_SURFACE
+#include <cairo-svg.h>
+#endif
 
 #include <math.h>
 
@@ -63,6 +74,8 @@ struct _GogRendererCairo {
 	GogRenderer base;
 
 	int 		 w, h;
+
+	gboolean	 is_vector;
 
 	cairo_t		*cairo;
 	GdkPixbuf 	*pixbuf;
@@ -79,11 +92,8 @@ static void
 gog_renderer_cairo_finalize (GObject *obj)
 {
 	GogRendererCairo *crend = GOG_RENDERER_CAIRO (obj);
-	cairo_surface_t *surface;
 
 	if (crend->cairo != NULL){
-		surface = cairo_get_target (crend->cairo);
-		cairo_surface_destroy (surface);
 		cairo_destroy (crend->cairo);
 		crend->cairo = NULL;
 	}
@@ -104,6 +114,13 @@ gog_renderer_cairo_finalize (GObject *obj)
 static double
 grc_line_size (GogRenderer const *rend, double width)
 {
+	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
+
+	if (crend->is_vector)
+		return go_sub_epsilon (width) <= 0. ?
+			GOG_RENDERER_HAIR_LINE_WIDTH :
+			width * rend->scale;
+
 	if (go_sub_epsilon (width) <= 0.) /* cheesy version of hairline */
 		return 1.;
 	
@@ -202,18 +219,21 @@ gog_renderer_cairo_push_clip (GogRenderer *rend, GogRendererClip *clip)
 	int i;
 	gboolean is_rectangle;
 
-	for (i = 0; i < 6; i++)
-		if (path[i].code == ART_END)
-			break;
-	
-	is_rectangle = i == 5 &&
-		path[5].code == ART_END &&
-		path[0].x == path[3].x &&
-		path[0].x == path[4].x &&
-		path[1].x == path[2].x &&
-		path[0].y == path[1].y &&
-	       	path[0].y == path[4].y &&
-		path[2].y == path[3].y;
+	if (!crend->is_vector) {
+		for (i = 0; i < 6; i++)
+			if (path[i].code == ART_END)
+				break;
+
+		is_rectangle = i == 5 &&
+			path[5].code == ART_END &&
+			path[0].x == path[3].x &&
+			path[0].x == path[4].x &&
+			path[1].x == path[2].x &&
+			path[0].y == path[1].y &&
+			path[0].y == path[4].y &&
+			path[2].y == path[3].y;
+	} else 
+		is_rectangle = FALSE;
 
 	cairo_save (crend->cairo);
 	if (is_rectangle) {
@@ -239,9 +259,10 @@ gog_renderer_cairo_pop_clip (GogRenderer *rend, GogRendererClip *clip)
 static double
 gog_renderer_cairo_line_size (GogRenderer const *rend, double width)
 {
+	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
 	double size = grc_line_size (rend, width);
 
-	if (size < 1.0)
+	if (!crend->is_vector && size < 1.0)
 		return ceil (size);
 
 	return size;
@@ -250,7 +271,11 @@ gog_renderer_cairo_line_size (GogRenderer const *rend, double width)
 static void
 gog_renderer_cairo_sharp_path (GogRenderer *rend, ArtVpath *path, double line_width) 
 {
+	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
 	ArtVpath *iter = path;
+
+	if (crend->is_vector)
+		return;
 
 	if (((int) (rint (line_width)) % 2 == 0) && line_width > 1.0) 
 		while (iter->code != ART_END) {
@@ -484,8 +509,6 @@ gog_renderer_cairo_draw_text (GogRenderer *rend, char const *text,
 			break;
 		default : break;
 	}
-	if (obr.x <= 0)
-		obr.x = 0;
 
 	switch (anchor) {
 		case GTK_ANCHOR_NW: case GTK_ANCHOR_N: case GTK_ANCHOR_NE:
@@ -496,8 +519,6 @@ gog_renderer_cairo_draw_text (GogRenderer *rend, char const *text,
 			break;
 		default : break;
 	}
-	if (obr.y <= 0)
-		obr.y = 0;
 
 	cairo_save (cr);
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->font.color)); 
@@ -581,22 +602,57 @@ grc_get_marker_surface (GogRenderer *rend)
 	return surface;
 }
 
+
 static void
 gog_renderer_cairo_draw_marker (GogRenderer *rend, double x, double y)
 {
 	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
-	cairo_surface_t *surface;
-	double width, height;
 
-	surface = grc_get_marker_surface (rend);
-	if (surface == NULL)
-		return;
-	width = cairo_image_surface_get_width (surface);
-	height = cairo_image_surface_get_height (surface);
-	cairo_set_source_surface (crend->cairo, surface, 
-				  floor (floor (x + .5) - width / 2.0),
-				  floor (floor (y + .5) - height / 2.0));
-	cairo_paint (crend->cairo);
+	if (crend->is_vector) {
+		GOMarker *marker = rend->cur_style->marker.mark;
+		ArtVpath *path;
+		ArtVpath const *outline_path_raw, *fill_path_raw;
+		double scaling[6], translation[6], affine[6];
+		double half_size;
+
+		go_marker_get_paths (marker, &outline_path_raw, &fill_path_raw);
+
+		if ((outline_path_raw == NULL) ||
+		    (fill_path_raw == NULL))
+			return;
+
+		half_size = gog_renderer_line_size (rend, go_marker_get_size (marker)) / 2.0;
+		art_affine_scale (scaling, half_size, half_size);
+		art_affine_translate (translation, x, y);
+		art_affine_multiply (affine, scaling, translation);
+
+		path = art_vpath_affine_transform (fill_path_raw, affine);
+		cairo_set_source_rgba (crend->cairo, GO_COLOR_TO_CAIRO (go_marker_get_fill_color (marker)));
+		grc_path (crend->cairo, path, NULL);
+		cairo_fill (crend->cairo);
+		art_free (path);
+		
+		path = art_vpath_affine_transform (outline_path_raw, affine);
+		cairo_set_source_rgba (crend->cairo, GO_COLOR_TO_CAIRO (go_marker_get_outline_color (marker)));
+		cairo_set_line_width (crend->cairo, 
+				      gog_renderer_line_size (rend, go_marker_get_outline_width (marker)));
+		grc_path (crend->cairo, path, NULL);
+		cairo_stroke (crend->cairo);
+		art_free (path);
+	} else {
+		cairo_surface_t *surface;
+		double width, height;
+
+		surface = grc_get_marker_surface (rend);
+		if (surface == NULL)
+			return;
+		width = cairo_image_surface_get_width (surface);
+		height = cairo_image_surface_get_height (surface);
+		cairo_set_source_surface (crend->cairo, surface, 
+					  floor (floor (x + .5) - width / 2.0),
+					  floor (floor (y + .5) - height / 2.0));
+		cairo_paint (crend->cairo);
+	}
 }
 
 static void
@@ -614,6 +670,130 @@ gog_renderer_cairo_pop_style (GogRenderer *rend)
 		g_object_unref (crend->marker_pixbuf);
 		crend->marker_surface = NULL;
 		crend->marker_pixbuf = NULL;
+	}
+}
+
+static gboolean
+grc_gsf_gdk_pixbuf_save (const gchar *buf,
+			 gsize count,
+			 GError **error,
+			 gpointer data)
+{
+	GsfOutput *output = GSF_OUTPUT (data);
+	gboolean ok = gsf_output_write (output, count, buf);
+
+	if (!ok && error)
+		*error = g_error_copy (gsf_output_error (output));
+
+	return ok;
+}
+
+static cairo_status_t
+grc_cairo_write_func (void *closure,
+		  const unsigned char *data,
+		  unsigned int length)
+{
+	gboolean result;
+	GsfOutput *output = GSF_OUTPUT (closure);
+
+	result = gsf_output_write (output, length, data);
+
+	return result ? CAIRO_STATUS_SUCCESS : CAIRO_STATUS_WRITE_ERROR;
+}
+
+static gboolean
+gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
+				 GsfOutput *output, double x_dpi, double y_dpi)
+{
+	GogRendererCairo *crend = GOG_RENDERER_CAIRO (renderer);
+	GogViewAllocation allocation;
+	GOImageFormatInfo const *format_info;
+	cairo_surface_t *surface;
+	cairo_status_t status;
+	GdkPixbuf *pixbuf;
+	double width_in_pts, height_in_pts;
+
+	gog_graph_get_size (renderer->model, &width_in_pts, &height_in_pts);
+
+	switch (format) {
+		case GO_IMAGE_FORMAT_PNG:
+		case GO_IMAGE_FORMAT_JPG:
+			gog_renderer_cairo_update (crend, 
+						   width_in_pts * x_dpi / 72.0, 
+						   height_in_pts * y_dpi / 72.0, 1.0);
+			pixbuf = gog_renderer_cairo_get_pixbuf (crend);
+			if (pixbuf == NULL)
+				return FALSE;
+			format_info = go_image_get_format_info (format);
+			return gdk_pixbuf_save_to_callback (pixbuf,
+							    grc_gsf_gdk_pixbuf_save,
+							    output, format_info->name,
+							    NULL, NULL);
+			break;
+		case GO_IMAGE_FORMAT_PDF:
+		case GO_IMAGE_FORMAT_PS:
+		case GO_IMAGE_FORMAT_SVG:
+			crend->base.scale = 1.0;
+			switch (format) {
+				case GO_IMAGE_FORMAT_PDF:
+#ifdef CAIRO_HAS_PDF_SURFACE
+					surface = cairo_pdf_surface_create_for_stream 
+						(grc_cairo_write_func, 
+						 output, width_in_pts, height_in_pts);
+					break;
+#else
+					g_warning ("[GogRendererCairo::export_image] cairo PDF backend missing");
+					return;
+#endif
+				case GO_IMAGE_FORMAT_PS:
+#ifdef CAIRO_HAS_PS_SURFACE
+					surface = cairo_ps_surface_create_for_stream 
+						(grc_cairo_write_func, 
+						 output, width_in_pts, height_in_pts);
+					break;
+#else
+					g_warning ("[GogRendererCairo::export_image] cairo PS backend missing");
+					return;
+#endif
+				case GO_IMAGE_FORMAT_SVG:
+#ifdef CAIRO_HAS_SVG_SURFACE
+					surface = cairo_svg_surface_create_for_stream 
+						(grc_cairo_write_func, 
+						 output, width_in_pts, height_in_pts);
+					break;
+#else
+					g_warning ("[GogRendererCairo::export_image] cairo SVG backend missing");
+					return;
+#endif
+				default:
+					break;
+			}
+			crend->cairo = cairo_create (surface);
+			cairo_surface_destroy (surface);
+			cairo_set_line_join (crend->cairo, CAIRO_LINE_JOIN_ROUND);
+			cairo_set_line_cap (crend->cairo, CAIRO_LINE_CAP_ROUND);
+			crend->w = width_in_pts;
+			crend->h = height_in_pts;
+			crend->is_vector = TRUE;
+
+			allocation.x = 0.;
+			allocation.y = 0.;
+			allocation.w = width_in_pts;
+			allocation.h = height_in_pts;
+			gog_view_size_allocate (crend->base.view, &allocation);
+			gog_view_render	(crend->base.view, NULL);
+
+			cairo_show_page (crend->cairo);
+			status = cairo_status (crend->cairo);
+
+			cairo_destroy (crend->cairo);
+			crend->cairo = NULL;
+
+			return status == CAIRO_STATUS_SUCCESS;
+			break;
+		default:
+			g_warning ("[GogRendererCairo:export_image] unsupported format");
+			return FALSE;
 	}
 }
 
@@ -637,6 +817,7 @@ gog_renderer_cairo_class_init (GogRendererClass *rend_klass)
 	rend_klass->draw_marker	  	= gog_renderer_cairo_draw_marker;
 	rend_klass->get_text_OBR	= gog_renderer_cairo_get_text_OBR;
 	rend_klass->line_size		= gog_renderer_cairo_line_size;
+	rend_klass->export_image	= gog_renderer_cairo_export_image;
 }
 
 static void
@@ -647,60 +828,12 @@ gog_renderer_cairo_init (GogRendererCairo *crend)
 	crend->marker_surface = NULL;
 	crend->marker_pixbuf = NULL;
 	crend->w = crend->h = 0;
+	crend->is_vector = FALSE;
 }
 
 GSF_CLASS (GogRendererCairo, gog_renderer_cairo,
 	   gog_renderer_cairo_class_init, gog_renderer_cairo_init,
 	   GOG_RENDERER_TYPE)
-
-GdkPixbuf *
-gog_renderer_cairo_get_pixbuf (GogRendererCairo *crend)
-{
-	g_return_val_if_fail (crend != NULL, NULL);
-
-	return crend->pixbuf;
-}
-
-static gboolean
-grc_cairo_setup (GogRendererCairo *crend, int w, int h)
-{
-	cairo_surface_t *surface;
-
-	if (w == crend->w && h == crend->h)
-		return (w != 0 && h!= 0);
-		
-	if (crend->cairo != NULL) {
-		surface = cairo_get_target (crend->cairo);
-		cairo_surface_destroy (surface);
-		cairo_destroy (crend->cairo);
-		crend->cairo = NULL;
-	}
-	if (crend->pixbuf != NULL) {
-		g_object_unref (crend->pixbuf);
-		crend->pixbuf = NULL;
-	}
-	crend->w = w;
-	crend->h = h;
-
-	if (w ==0 || h == 0) 
-		return FALSE;
-	
-	crend->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, crend->w, crend->h);
-	if (crend->pixbuf == NULL) {
-		g_warning ("GogRendererCairo::cairo_setup: chart is too large");
-		return FALSE;
-	}
-
-	surface = cairo_image_surface_create_for_data (gdk_pixbuf_get_pixels (crend->pixbuf),
-						       CAIRO_FORMAT_ARGB32, 
-						       crend->w, crend->h,
-						       gdk_pixbuf_get_rowstride (crend->pixbuf));
-	crend->cairo = cairo_create (surface);
-	cairo_set_line_join (crend->cairo, CAIRO_LINE_JOIN_ROUND);
-	cairo_set_line_cap (crend->cairo, CAIRO_LINE_CAP_ROUND);
-
-	return TRUE;
-}
 
 /**
  * gog_renderer_cairo_update:
@@ -717,22 +850,48 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 	GogGraph *graph;
 	GogView *view;
 	GogViewAllocation allocation;
+	cairo_surface_t *surface;
 	gboolean redraw = TRUE;
 	gboolean size_changed;
 
-	g_return_val_if_fail (crend != NULL, FALSE);
-	g_return_val_if_fail (crend->base.view != NULL, FALSE);
+	g_return_val_if_fail (IS_GOG_RENDERER_CAIRO (crend), FALSE);
+	g_return_val_if_fail (IS_GOG_VIEW (crend->base.view), FALSE);
 
 	size_changed = crend->w != w || crend->h != h;
+	if (size_changed) {
+		if (crend->pixbuf != NULL)
+			g_object_unref (crend->pixbuf);
+		crend->pixbuf = NULL;
+		if (w == 0 || h == 0)
+			return FALSE;
+		crend->w = w;
+		crend->h = h;
+		crend->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, crend->w, crend->h);
+		if (crend->pixbuf == NULL) {
+			crend->w = 0;
+			crend->h = 0;
+			g_warning ("GogRendererCairo::cairo_setup: chart is too large");
+			return FALSE;
+		}
+	}
+	if (w == 0 || h == 0)
+		return FALSE;
 
 	view = crend->base.view;
 	graph = GOG_GRAPH (view->model);
 	gog_graph_force_update (graph);
+	
 	allocation.x = allocation.y = 0.;
 	allocation.w = w;
 	allocation.h = h;
-	if (!grc_cairo_setup (crend, w, h))
-		return redraw;
+	
+	surface = cairo_image_surface_create_for_data (gdk_pixbuf_get_pixels (crend->pixbuf),
+						       CAIRO_FORMAT_ARGB32, 
+						       crend->w, crend->h,
+						       gdk_pixbuf_get_rowstride (crend->pixbuf));
+	crend->cairo = cairo_create (surface);
+	cairo_surface_destroy (surface);
+	crend->is_vector = FALSE;
 
 	if (size_changed) {
 		crend->base.scale_x = w / graph->width;
@@ -756,15 +915,29 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 	crend->base.needs_update = FALSE;
 
 	if (redraw) { 
-		cairo_rectangle (crend->cairo, 0, 0, w, h);
-		cairo_set_source_rgba (crend->cairo, 1, 1, 1, 0);
-		cairo_fill (crend->cairo);
-		
+		cairo_set_operator (crend->cairo, CAIRO_OPERATOR_CLEAR);
+		cairo_paint (crend->cairo);
+		cairo_set_operator (crend->cairo, CAIRO_OPERATOR_OVER);
+
+		cairo_set_line_join (crend->cairo, CAIRO_LINE_JOIN_ROUND);
+		cairo_set_line_cap (crend->cairo, CAIRO_LINE_CAP_ROUND);
+
 		gog_view_render	(view, NULL);
 		
 		grc_invert_pixbuf_RB (gdk_pixbuf_get_pixels (crend->pixbuf), w, h, 
 				      gdk_pixbuf_get_rowstride (crend->pixbuf));
 	}
 
+	cairo_destroy (crend->cairo);
+	crend->cairo = NULL;
 	return redraw;
 }
+
+GdkPixbuf *
+gog_renderer_cairo_get_pixbuf (GogRendererCairo *crend)
+{
+	g_return_val_if_fail (crend != NULL, NULL);
+
+	return crend->pixbuf;
+}
+

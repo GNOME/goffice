@@ -23,11 +23,32 @@
 
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/utils/go-geometry.h>
+#include <goffice/gtk/goffice-gtk.h>
+
+#include <gsf/gsf.h>
+
 #include <gtk/gtkenums.h>
 #include <libart_lgpl/libart.h>
 #include <gdk/gdk.h>
 
+#ifdef WITH_CAIRO
+#include <cairo.h>
+#ifdef CAIRO_HAS_SVG_SURFACE
+#define GOG_RENDERER_CAIRO_WITH_SVG
+#endif
+#ifdef CAIRO_HAS_PDF_SURFACE
+#define GOG_RENDERER_CAIRO_WITH_PDF
+#endif
+#ifdef CAIRO_HAS_PS_SURFACE
+#define GOG_RENDERER_CAIRO_WITH_PS
+#endif
+#endif
+
 G_BEGIN_DECLS
+
+/* We need to define an hair line width for the svg and gnome_print renderer. 
+ * 0.24 pt is the dot size of a 300 dpi printer, if the plot is printed at scale 1:1 */
+#define GOG_RENDERER_HAIR_LINE_WIDTH	0.24
 
 #define GOG_RENDERER_GRIP_SIZE	4
 
@@ -96,6 +117,10 @@ double gog_renderer_pt2r   	  	(GogRenderer const *r, double d);
 GogRenderer 	*gog_renderer_new_for_pixbuf 	(GogGraph *graph);
 gboolean	 gog_renderer_update		(GogRenderer *renderer, double w, double h, double zoom);
 GdkPixbuf 	*gog_renderer_get_pixbuf 	(GogRenderer *renderer); 
+
+GogRenderer 	*gog_renderer_new_for_format 	(GogGraph *graph, GOImageFormat format);
+gboolean 	 gog_renderer_export_image 	(GogRenderer *renderer, GOImageFormat format,
+						 GsfOutput *output, double x_dpi, double y_dpi);
 
 G_END_DECLS
 
