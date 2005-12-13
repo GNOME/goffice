@@ -1,3 +1,8 @@
+2005-12-13  Stepan Kasal  <kasal@ucw.cz>
+
+	* goffice/component/go-component.c (go_component_export_to_svg):
+	Do not use return without a value.
+
 2005-12-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-object-xml.c (gog_object_write_xml_sax): Add

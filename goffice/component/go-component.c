@@ -331,7 +331,7 @@ go_component_export_to_svg (GOComponent *component)
 {
 	GOComponentClass *klass;
 
-	g_return_if_fail (IS_GO_COMPONENT (component));
+	g_return_val_if_fail (IS_GO_COMPONENT (component), NULL);
 
 	klass = GO_COMPONENT_GET_CLASS(component);
 	if (klass->export_to_svg)
