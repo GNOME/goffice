@@ -27,6 +27,7 @@
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-output-stdio.h>
+#include <glib/gstdio.h>
 #ifdef WITH_GNOME
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
@@ -83,11 +84,59 @@ go_filename_to_uri (const char *filename)
 				continue;
 			}
 
+			if (G_IS_DIR_SEPARATOR (p[0]) &&
+			    p[1] == '.' &&
+			    p[2] == '.' &&
+			    G_IS_DIR_SEPARATOR (p[3])) {
+				if (p == simp) {
+					/* "/../" --> "/" initially.  */
+					p += 3;
+					continue;
+				} else if (p == simp + 1) {
+					/* Nothing, leave "//../" initially alone.  */
+				} else {
+					/*
+					 * "prefix/dir/../" --> "prefix/" if
+					 * "dir" is an existing directory (not
+					 * a symlink).
+					 */
+					struct stat statbuf;
+					char savec = *q;
+					gboolean ok;
+
+					/*
+					 * Terminate the path so far so we can
+					 * it.  Restore because "p" loops over
+					 * the same.
+					 */
+					*q = 0;
+					ok = g_lstat (simp, &statbuf) == 0;
+					*q = savec;
+
+					if (ok && S_ISDIR (statbuf.st_mode)) {
+						do {
+							g_assert (q != simp);
+							q--;
+						} while (!G_IS_DIR_SEPARATOR (*q));
+						p += 3;
+						continue;
+					} else {
+						/*
+						 * Do nothing.
+						 *
+						 * Maybe the prefix does not
+						 * exist, or maybe it is not
+						 * a directory (for example
+						 * because it is a symlink).
+						 */
+					}
+				}
+			}
+
 			*q++ = *p++;
 		}
 		*q = 0;
 
-		/* FIXME: Resolve ".." parts.  */
 #ifdef WITH_GNOME
 		uri = gnome_vfs_get_uri_from_local_path (simp);
 #else
