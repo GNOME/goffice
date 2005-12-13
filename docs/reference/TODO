@@ -740,13 +740,18 @@ go_graph_widget_get_chart
 </SECTION>
 
 <SECTION>
+<FILE>go-image</FILE>
+GOImageFormat
+GOImageFormatInfo
+</SECTION>
+
+<SECTION>
 <FILE>go-marshal</FILE>
 goffice_gtk_marshal_VOID__OBJECT_OBJECT
 </SECTION>
 
 <SECTION>
 <FILE>goffice-gtk</FILE>
-GOImageType
 go_editable_enters
 go_libglade_new
 go_pixbuf_new_from_file

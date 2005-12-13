@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-gui-utils.h - Misc GTK+ utilities
+ * goffice-gtk.h - Misc GTK+ utilities
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -23,28 +23,9 @@
 #include <glade/glade-xml.h>
 #include <gtk/gtkfilechooser.h>
 #include <goffice/app/goffice-app.h>
+#include <goffice/utils/go-image.h>
 
 G_BEGIN_DECLS
-
-typedef enum {
-	GO_IMAGE_FORMAT_SVG,
-	GO_IMAGE_FORMAT_PNG,
-	GO_IMAGE_FORMAT_JPG,
-	GO_IMAGE_FORMAT_PDF,
-	GO_IMAGE_FORMAT_PS,
-	GO_IMAGE_FORMAT_EMF,
-	GO_IMAGE_FORMAT_WMF,
-	GO_IMAGE_FORMAT_UNKNOWN
-} GOImageFormat;
-
-typedef struct {
-	GOImageFormat format;
-	char *name;
-	char *desc;
-	char *ext;
-	gboolean has_pixbuf_saver;
-	gboolean is_dpi_useful; 
-} GOImageFormatInfo;
 
 void	   go_editable_enters (GtkWindow *window, GtkWidget *w);
 
@@ -80,12 +61,6 @@ gboolean   go_gtk_file_sel_dialog	(GtkWindow *toplevel, GtkWidget *w);
 char	  *go_gtk_select_image		(GtkWindow *toplevel, const char *initial);
 char      *gui_get_image_save_info 	(GtkWindow *toplevel, GSList *supported_formats,
 					 GOImageFormat *ret_format);
-char 	  *go_mime_to_image_format      (char const *mime_type);
-char 	  *go_image_format_to_mime      (char const *format);
-
-GOImageFormatInfo const *go_image_get_format_info       	(GOImageFormat format);
-GOImageFormat            go_image_get_format_from_name  	(char const *name);
-GSList 			*go_image_get_formats_with_pixbuf_saver (void);
 
 gboolean   go_gtk_url_is_writeable	(GtkWindow *parent, char const *url,
 					 gboolean overwrite_by_default);

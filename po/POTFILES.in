@@ -218,6 +218,8 @@ goffice/utils/go-glib-extras.c
 goffice/utils/go-glib-extras.h
 goffice/utils/go-gradient.c
 goffice/utils/go-gradient.h
+goffice/utils/go-image.c
+goffice/utils/go-image.h
 goffice/utils/go-libxml-extras.c
 goffice/utils/go-libxml-extras.h
 goffice/utils/go-line.c
