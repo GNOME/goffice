@@ -73,8 +73,7 @@ dnl The first call to PKG_CHECK_MODULES is inside an `if.'
 dnl We have to call PKG_PROG_PKG_CONFIG explicitly; otherwise it would
 dnl get expanded just before the first occurence of PKG_CHECK_MODULES
 dnl and might escape execution.
-dnl While we're at it, we require a version that supports private libraries
-PKG_PROG_PKG_CONFIG(0.18)
+PKG_PROG_PKG_CONFIG
 
 dnl *****************************
 goffice_reqs="

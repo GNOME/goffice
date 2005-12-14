@@ -1,3 +1,10 @@
+2005-12-13  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: Undo ChangeLog-entry-less change to
+	PKG_PROG_PKG_CONFIG that breaks SuSE 9.3 and earlier for no good
+	reason.  And if we really need to require another version, that
+	would go in autogen.sh anyway.
+
 2005-12-13  Stepan Kasal  <kasal@ucw.cz>
 
 	* goffice/gtk/goffice-gtk.h, goffice/gtk/goffice-gtk.c: Move
