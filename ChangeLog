@@ -1,5 +1,32 @@
 2005-12-16  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/goffice-features.h.in: add GOFFICE_WITH_GTK and
+	GOFFICE_WITH_GNOME.
+	* configure.in: rename WITH_GTK and WITH_GNOME to GOFFICE_WITH_GTK and
+	GOFFICE_WITH_GNOME.
+	* goffice/graph/gog-error-bar.c: ditto. 
+	* goffice/graph/gog-error-bar.h: ditto.
+	* goffice/gtk/goffice-gtk.c: (go_help_display): ditto.
+	* goffice/utils/go-color.c: ditto.
+	* goffice/utils/go-color.h: ditto (and include goffice-features.h).
+	* goffice/utils/go-file.c: (go_filename_from_uri),
+	(go_filename_to_uri), (go_shell_arg_to_uri),
+	(go_basename_from_uri), (go_dirname_from_uri), (go_file_open),
+	(go_file_create), (go_url_show), (go_get_mime_type),
+	(go_get_mime_type_for_data): ditto.
+	* goffice/utils/go-gradient.c: ditto.
+	* goffice/utils/go-gradient.h: ditto (and include goffice-features.h).
+	* goffice/utils/go-image.c: (go_image_format_to_mime),
+	(go_image_build_pixbuf_format_infos),
+	(go_image_get_formats_with_pixbuf_saver): ditto.
+	* goffice/utils/go-line.c: ditto.
+	* goffice/utils/go-marker.c: (go_marker_init), (go_marker_assign): ditto.
+	* goffice/utils/go-marker.h: ditto (and include goffice-features.h).
+	* goffice/utils/go-pattern.c: ditto.
+	* goffice/utils/go-pattern.h: ditto (and include goffice-features.h).
+
+2005-12-16  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/component/go-component-factory.c: remove go_components_set_screen_resolution
 	* goffice/component/go-component-factory.h: ditto.
 	* goffice/component/go-component.c: (go_component_set_size): do not set size if not resizable,
