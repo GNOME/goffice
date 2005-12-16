@@ -33,12 +33,14 @@
 	(go_component_draw): draw to correct size whatever the zoom and the screen resolution.
 	* goffice/component/go-component.h: changed signature of go_component_draw.
 
+2005-12-16  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (PKG_PROG_PKG_CONFIG): Add an explanation.
+	* autogen.sh: Add an explanation about REQUIRED_PKG_CONFIG_VERSION.
+
 2005-12-13  Morten Welinder  <terra@gnome.org>
 
-	* configure.in: Undo ChangeLog-entry-less change to
-	PKG_PROG_PKG_CONFIG that breaks SuSE 9.3 and earlier for no good
-	reason.  And if we really need to require another version, that
-	would go in autogen.sh anyway.
+	* configure.in: Undo change to PKG_PROG_PKG_CONFIG.
 
 2005-12-13  Stepan Kasal  <kasal@ucw.cz>
 

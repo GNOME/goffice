@@ -73,6 +73,14 @@ dnl The first call to PKG_CHECK_MODULES is inside an `if.'
 dnl We have to call PKG_PROG_PKG_CONFIG explicitly; otherwise it would
 dnl get expanded just before the first occurence of PKG_CHECK_MODULES
 dnl and might escape execution.
+dnl
+dnl While we're at it, we imight require a version that supports private libraries
+dnl	PKG_PROG_PKG_CONFIG([0.18])
+dnl but there are two problems:
+dnl 1) we cannot rule out something as new as SuSE 9.3
+dnl 2) current versions of PKG_PROG_PKG_CONFIG choke on old versions and woe a
+dnl	"syntax error" instead of "your pkgconfig/pkg-config is too old".
+dnl Let it be, for now.
 PKG_PROG_PKG_CONFIG
 
 dnl *****************************
