@@ -24,7 +24,7 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 #include <gdk/gdkpixbuf.h>
 #endif
 
@@ -68,7 +68,7 @@ go_image_format_to_mime (char const *format)
 {
 	char *ret = NULL;
  	guint i;
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 	GSList *ptr, *pixbuf_fmts;
 	GdkPixbufFormat *pfmt;
 	gchar *name;
@@ -88,7 +88,7 @@ go_image_format_to_mime (char const *format)
 		if (strcmp (format, formats[i]) == 0)
 			return g_strdup (formats[i+1]);
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 	/* Not a format we have special knowledge about - ask gdk-pixbuf */
 	pixbuf_fmts = gdk_pixbuf_get_formats ();
 	for (ptr = pixbuf_fmts; ptr != NULL; ptr = ptr->next) {
@@ -135,7 +135,7 @@ static gboolean pixbuf_format_done = FALSE;
 static void
 go_image_build_pixbuf_format_infos (void)
 {
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 	GdkPixbufFormat *fmt;
 	GSList *l, *pixbuf_fmts;
 	GOImageFormatInfo *format_info;
@@ -170,7 +170,7 @@ go_image_build_pixbuf_format_infos (void)
 	}
 
 	g_slist_free (pixbuf_fmts);
-#endif /* WITH_GTK */
+#endif /* GOFFICE_WITH_GTK */
 	pixbuf_format_done = TRUE;
 }
 
@@ -254,4 +254,3 @@ go_image_get_formats_with_pixbuf_saver (void)
 
 	return list;
 }
-

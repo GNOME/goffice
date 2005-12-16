@@ -22,6 +22,7 @@
 #define GO_PATTERN_H
 
 #include <glib.h>
+#include <goffice/goffice-features.h>
 #include <goffice/utils/goffice-utils.h>
 #include <libart_lgpl/art_render.h>
 #include <libart_lgpl/art_svp.h>
@@ -72,7 +73,7 @@ void		 go_pattern_render_svp 	 (GOPattern const *pat, ArtSVP const *svp,
 guint8 const 	*go_pattern_get_pattern  (GOPattern const *pat);
 char 		*go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height);
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 gpointer	 go_pattern_selector   (GOColor fore, GOColor back,
 					GOPatternType default_pat);
 #endif

@@ -23,10 +23,11 @@
 #define GO_MARKER_H
 
 #include <glib-object.h>
+#include <goffice/goffice-features.h>
 #include <goffice/utils/goffice-utils.h>
 #include <libart_lgpl/art_vpath.h>
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #endif
 
@@ -76,7 +77,7 @@ void		 go_marker_assign 		(GOMarker *dst, GOMarker const *src);
 GOMarker *	 go_marker_dup 			(GOMarker *src);
 GOMarker * 	 go_marker_new 			(void);
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 GdkPixbuf       *go_marker_get_pixbuf		(GOMarker *m, double scale);
 GdkPixbuf       *go_marker_get_pixbuf_with_size (GOMarker *m, guint size);
 

@@ -24,7 +24,7 @@
 #include "go-color.h"
 #include <goffice/utils/go-math.h>
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/go-combo-color.h>
 #include <goffice/gtk/go-combo-pixmaps.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
@@ -53,7 +53,7 @@ struct _GOMarker {
 	GOMarkerShape	shape;
 	GOColor		outline_color;
 	GOColor		fill_color;
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 	GdkPixbuf	*pixbuf;
 #else
 	gpointer	 pixbuf_placeholder;
@@ -256,7 +256,7 @@ static MarkerShape const marker_shapes[GO_MARKER_MAX] = {
 
 static GObjectClass *marker_parent_klass;
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 static GdkPixbuf *
 new_blank_pixbuf (GOMarker *marker, guint size)
 {
@@ -351,7 +351,7 @@ marker_update_pixbuf (GOMarker * marker)
 }
 #else
 # define marker_free_pixbuf(marker) do {} while(0)
-#endif /* WITH_GTK */
+#endif /* GOFFICE_WITH_GTK */
 
 static void
 go_marker_finalize (GObject *obj)
@@ -368,7 +368,7 @@ go_marker_init (GOMarker * marker)
 	marker->outline_color	= RGBA_BLACK;
 	marker->fill_color	= RGBA_WHITE;
 	marker->size		= MARKER_DEFAULT_SIZE;
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 	marker->pixbuf 		= NULL;
 #endif
 	marker->scale		= 1.;
@@ -407,7 +407,7 @@ go_marker_get_paths (GOMarker * marker,
 	*fill_path = marker_shapes[marker->shape].fill_path;
 }
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 GdkPixbuf *
 go_marker_get_pixbuf (GOMarker * marker, double scale)
 {
@@ -428,7 +428,7 @@ go_marker_get_pixbuf_with_size (GOMarker *marker, guint size)
 
 	return marker_create_pixbuf_with_size (marker, size);
 }
-#endif /* WITH_GTK */
+#endif /* GOFFICE_WITH_GTK */
 
 GOMarkerShape 
 go_marker_get_shape (GOMarker * marker)
@@ -515,7 +515,7 @@ go_marker_assign (GOMarker *dst, GOMarker const *src)
 	dst->outline_color	= src->outline_color;
 	dst->fill_color		= src->fill_color;
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 	if (dst->pixbuf != NULL)
 		g_object_unref (src->pixbuf);
 	dst->pixbuf = src->pixbuf;
@@ -544,7 +544,7 @@ GSF_CLASS (GOMarker, go_marker,
 
 /*---------------------------------------------------------------------------*/
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 gpointer
 go_marker_selector (GOColor outline_color, GOColor fill_color,
 		    GOMarkerShape default_shape)
@@ -593,4 +593,4 @@ go_marker_selector (GOColor outline_color, GOColor fill_color,
 
 	return GTK_WIDGET (w);
 }
-#endif /* WITH_GTK */
+#endif /* GOFFICE_WITH_GTK */
