@@ -258,6 +258,8 @@ go_component_set_size (GOComponent *component, double width, double height)
 
 	g_return_if_fail (IS_GO_COMPONENT (component));
 
+	if (!component->resizable)
+		return;
 	klass = GO_COMPONENT_GET_CLASS(component);
 	component->width = width;
 	component->height = height;
@@ -266,7 +268,7 @@ go_component_set_size (GOComponent *component, double width, double height)
 }
 
 void
-go_component_draw (GOComponent *component, double zoom)
+go_component_draw (GOComponent *component, int width_pixels, int height_pixels)
 {
 	GOComponentClass *klass;
 
@@ -274,7 +276,7 @@ go_component_draw (GOComponent *component, double zoom)
 
 	klass = GO_COMPONENT_GET_CLASS(component);
 	if (klass->draw)
-		klass->draw (component, zoom);
+		klass->draw (component, width_pixels, height_pixels);
 }
 
 gboolean

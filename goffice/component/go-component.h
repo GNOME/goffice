@@ -47,7 +47,7 @@ struct _GOComponentClass
 {
 	GObjectClass parent_class;
 
-	void (*draw) (GOComponent *component, double zoom);
+	void (*draw) (GOComponent *component, int width_pixels, int height_pixels);
 	gboolean (*edit) (GOComponent *component);
 	gboolean (*get_data) (GOComponent *component, gpointer *data, int *length,
 									void (**clearfunc) (gpointer));
@@ -87,7 +87,7 @@ gboolean go_component_get_data (GOComponent *component, gpointer *data, int *len
 									void (**clearfunc) (gpointer));
 void go_component_set_size (GOComponent *component,
 												double width, double height);
-void go_component_draw (GOComponent *component, double zoom);
+void go_component_draw (GOComponent *component, int width_pixels, int height_pixels);
 gboolean go_component_is_resizable (GOComponent *component);
 gboolean go_component_is_editable (GOComponent *component);
 gboolean go_component_edit (GOComponent *component);

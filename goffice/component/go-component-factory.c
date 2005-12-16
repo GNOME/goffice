@@ -32,8 +32,6 @@
 
 #include <string.h>
 
-double GOCXres = 96., GOCYres = 96.;
-
 static GSList *refd_plugins = NULL;
 
 /***************************************************************************/
@@ -290,11 +288,4 @@ go_component_new_by_mime_type (char const *mime_type)
 	}
 
 	return g_object_new (type, "mime-type", mime_type, NULL);
-}
-
-void
-go_components_set_screen_resolution (double xres, double yres)
-{
-	GOCXres = xres;
-	GOCYres = yres;
 }

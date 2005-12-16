@@ -1,3 +1,11 @@
+2005-12-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/component/go-component-factory.c: remove go_components_set_screen_resolution
+	* goffice/component/go-component-factory.h: ditto.
+	* goffice/component/go-component.c: (go_component_set_size): do not set size if not resizable,
+	(go_component_draw): draw to correct size whatever the zoom and the screen resolution.
+	* goffice/component/go-component.h: changed signature of go_component_draw.
+
 2005-12-13  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Undo ChangeLog-entry-less change to
