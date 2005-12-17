@@ -23,9 +23,11 @@
 
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-object-xml.h>
+#include <goffice/graph/gog-renderer-pixbuf.h>
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/utils/goffice-utils.h>
 #include <goffice/app/goffice-app.h>
+#include <goffice/utils/go-font.h>
 #include <goffice/utils/go-gradient.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-pattern.h>
