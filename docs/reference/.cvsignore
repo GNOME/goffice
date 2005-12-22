@@ -3,7 +3,6 @@ xml
 Makefile
 Makefile.in
 *.stamp
-goffice-overrides.txt
 goffice-unused.txt
 goffice-undocumented.txt
 goffice-decl-list.txt
