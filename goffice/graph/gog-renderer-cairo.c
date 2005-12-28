@@ -23,9 +23,7 @@
  *
  * 	- implement stretched image texture
  * 	- fix alpha channel of source image for texture
- * 	- fix font size
- * 	- use pango for text rendering
- * 	- cache font properties
+ * 	- cache pango_layout
  * 	- implement rendering of marker with cairo 
  * 	  (that will fix grayish outline bug)
  */
@@ -206,6 +204,8 @@ grc_draw_path (GogRenderer *rend, ArtVpath const *vpath, ArtBpath const*bpath)
 				rend->line_dash->dash, 
 				rend->line_dash->n_dash, 
 				rend->line_dash->offset);
+	else
+		cairo_set_dash (cr, NULL, 0, 0);
 	grc_path (cr, (ArtVpath *) vpath, (ArtBpath *) bpath);
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
 	cairo_stroke (cr);
@@ -333,7 +333,7 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 	cairo_surface_t *cr_surface = NULL;
 	GdkPixbuf *pixbuf = NULL;
 	GOColor color;
-	double width = grc_line_size (rend, style->line.width);
+	double width = grc_line_size (rend, style->outline.width);
 	double x[3], y[3];
 	int i, j, w, h, rowstride;
 	guint8 const *pattern;
@@ -434,6 +434,8 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 					rend->outline_dash->dash, 
 					rend->outline_dash->n_dash, 
 					rend->outline_dash->offset);
+		else
+			cairo_set_dash (cr, NULL, 0, 0);
 		cairo_stroke (cr);
 	}
 
@@ -464,38 +466,25 @@ gog_renderer_cairo_draw_text (GogRenderer *rend, char const *text,
 			      GogViewAllocation const *pos, GtkAnchorType anchor,
 			      GogViewAllocation *result)
 {
-	GogRendererCairo *crend = (GogRendererCairo *) rend;
+	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
 	GogStyle const *style = rend->cur_style;
-	PangoFontDescription const *fd = style->font.font->desc;
-	PangoWeight weight;
-	cairo_t *cr = crend->cairo;
-	cairo_text_extents_t text_extents;
-	cairo_font_extents_t font_extents;
-	cairo_font_slant_t slant;
+	PangoLayout *layout;
+	PangoContext *context;
+	cairo_t *cairo = crend->cairo;
 	GOGeometryOBR obr;
 	GOGeometryAABR aabr;
-	char const *family;
-	double size;
+	int iw, ih;
 
-	family = pango_font_description_get_family (fd);
-	size = pango_font_description_get_size (fd) / PANGO_SCALE;
-	weight = pango_font_description_get_weight (fd);
-	switch (pango_font_description_get_style (fd)) {
-		case (PANGO_STYLE_NORMAL):  slant = CAIRO_FONT_SLANT_NORMAL; break;
-		case (PANGO_STYLE_OBLIQUE): slant = CAIRO_FONT_SLANT_OBLIQUE; break;
-		case (PANGO_STYLE_ITALIC):  slant = CAIRO_FONT_SLANT_ITALIC; break;
-	}
-	/* FIXME: calculate dpi */
-	size *= rend->scale * rend->zoom;
-	cairo_select_font_face (cr, family, slant, 
-		weight > PANGO_WEIGHT_SEMIBOLD ?  CAIRO_FONT_WEIGHT_BOLD : CAIRO_FONT_WEIGHT_NORMAL);
-	cairo_set_font_size (cr, size);
-	cairo_text_extents (cr, text, &text_extents);
-	cairo_font_extents (cr, &font_extents);
-	
-	obr.w = text_extents.width;
-	obr.h = font_extents.ascent + font_extents.descent;
-	obr.alpha = rend->cur_style->text_layout.angle * M_PI / 180.0;
+	layout = pango_cairo_create_layout (cairo);
+	context = pango_layout_get_context (layout);
+	pango_cairo_context_set_resolution (context, 72 * rend->scale);
+	pango_layout_set_markup (layout, text, -1);
+	pango_layout_set_font_description (layout, style->font.font->desc);
+	pango_layout_get_size (layout, &iw, &ih);
+
+	obr.w = iw / (double)PANGO_SCALE;
+	obr.h = ih / (double)PANGO_SCALE;
+	obr.alpha = style->text_layout.angle * M_PI / 180.0;
 	obr.x = pos->x;
 	obr.y = pos->y;
 	go_geometry_OBR_to_AABR (&obr, &aabr);
@@ -520,13 +509,14 @@ gog_renderer_cairo_draw_text (GogRenderer *rend, char const *text,
 		default : break;
 	}
 
-	cairo_save (cr);
-	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->font.color)); 
-	cairo_move_to (cr, obr.x, obr.y);
-	cairo_rotate (cr, -obr.alpha);
-	cairo_rel_move_to (cr, - obr.w / 2.0, + obr.h / 2.0 - font_extents.descent);
-	cairo_show_text (cr, text);
-	cairo_restore (cr);
+	cairo_save (cairo);
+	cairo_set_source_rgba (cairo, GO_COLOR_TO_CAIRO (style->font.color)); 
+	cairo_move_to (cairo, obr.x - (obr.w / 2.0) * cos (obr.alpha) - (obr.h / 2.0) * sin (obr.alpha),
+		       obr.y + (obr.w / 2.0) * sin (obr.alpha) - (obr.h / 2.0) * cos (obr.alpha));
+	cairo_rotate (cairo, -obr.alpha);
+	pango_cairo_show_layout (cairo, layout);
+	cairo_restore (cairo);
+	g_object_unref (layout);
 
 	if (result != NULL) {
 		result->x = aabr.x;
@@ -540,34 +530,23 @@ static void
 gog_renderer_cairo_get_text_OBR (GogRenderer *rend,
 				 char const *text, GOGeometryOBR *obr)
 {
-	GogRendererCairo *crend = (GogRendererCairo *) rend;
+	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
 	GogStyle const *style = rend->cur_style;
-	PangoFontDescription const *fd = style->font.font->desc;
-	PangoWeight weight;
-	cairo_t *cr = crend->cairo;
-	cairo_text_extents_t text_extents;
-	cairo_font_extents_t font_extents;
-	cairo_font_slant_t slant;
-	char const *family;
-	double size;
-	
-	family = pango_font_description_get_family (fd);
-	/* FIXME: calculate dpi */
-	size = pango_font_description_get_size (fd) / PANGO_SCALE * rend->scale * rend->zoom;
-	weight = pango_font_description_get_weight (fd);
-	switch (pango_font_description_get_style (fd)) {
-		case (PANGO_STYLE_NORMAL):  slant = CAIRO_FONT_SLANT_NORMAL; break;
-		case (PANGO_STYLE_OBLIQUE): slant = CAIRO_FONT_SLANT_OBLIQUE; break;
-		case (PANGO_STYLE_ITALIC):  slant = CAIRO_FONT_SLANT_ITALIC; break;
-	}
-	cairo_select_font_face (cr, family, slant, 
-		weight > PANGO_WEIGHT_SEMIBOLD ?  CAIRO_FONT_WEIGHT_BOLD : CAIRO_FONT_WEIGHT_NORMAL);
-	cairo_set_font_size (cr, size);
-	cairo_text_extents (cr, text, &text_extents);
-	cairo_font_extents (cr, &font_extents);
+	PangoLayout *layout;
+	PangoContext *context;
+	PangoRectangle logical;
+	cairo_t *cairo = crend->cairo;
 
-	obr->w = text_extents.width;
-	obr->h = font_extents.ascent + font_extents.descent;
+	layout = pango_cairo_create_layout (cairo);
+	context = pango_layout_get_context (layout);
+	pango_cairo_context_set_resolution (context, 72 * rend->scale);
+	pango_layout_set_markup (layout, text, -1);
+	pango_layout_set_font_description (layout, style->font.font->desc);
+	pango_layout_get_extents (layout, NULL, &logical);
+	g_object_unref (layout);
+	
+	obr->w = ((double) logical.width + (double) PANGO_SCALE / 2.0) / (double) PANGO_SCALE;
+	obr->h = ((double) logical.height + (double) PANGO_SCALE / 2.0) /(double) PANGO_SCALE;
 }
 
 static cairo_surface_t *
@@ -601,7 +580,6 @@ grc_get_marker_surface (GogRenderer *rend)
 
 	return surface;
 }
-
 
 static void
 gog_renderer_cairo_draw_marker (GogRenderer *rend, double x, double y)

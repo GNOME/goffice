@@ -1,3 +1,11 @@
+2005-12-28  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-renderer-cairo.c (grc_draw_path): invalidate cairo
+	dash setting when line is not dashed.
+	(grc_draw_polygon): ditto. Fix a typo.
+	(gog_renderer_cairo_draw_text): use pango_cairo API instead of toy cairo text API.
+	(gog_renderer_cairo_get_text_OBR): ditto.
+
 2005-12-22  Stepan Kasal  <kasal@ucw.cz>
 
 	* docs/reference/goffice-overrides.txt: New file, fixes "make dist".
