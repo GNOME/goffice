@@ -1,3 +1,15 @@
+2005-12-30  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-renderer-cairo.c (grc_free_marker_data): new.
+	(gog_renderer_cairo_finalize): call grc_free_marker_data.
+	(grc_draw_path): don't draw a line if dash_type = GO_LINE_NONE.
+	(grc_get_marker_surface): use cairo_surface_create_similar and draw marker
+	here instead of use pixbuf given by go_marker_get_pixbuf.
+	(gog_renderer_cairo_draw_marker): don't draw marker here for vector
+	case, just paint a similar surface.
+	(gog_renderer_cairo_push_style): free marker data.
+	(gog_renderer_cairo_pop_style): ditto.
+
 2005-12-30  Stepan Kasal  <kasal@ucw.cz>
 
 	* goffice/.cvsignore: Remove goffice-paths.sh.
