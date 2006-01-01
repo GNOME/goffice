@@ -1,3 +1,9 @@
+2006-01-01  Stepan Kasal  <kasal@ucw.cz>
+
+	* docs/reference/Makefile.am (INCLUDES): Remove, it's redundant.
+	(GTKDOC_CFLAGS): Add -I$(top_builddir).
+	* docs/reference/goffice.types: Include goffice/graph/gog-object-xml.h
+
 2006-01-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-file.c: (go_mime_type_get_description): new gnome-vfs

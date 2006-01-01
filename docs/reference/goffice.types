@@ -1,6 +1,7 @@
 #include <glib-object.h>
 #include <glib.h>
 #include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/graph/gog-outlined-object.h>
 #include <goffice/graph/gog-view.h>
