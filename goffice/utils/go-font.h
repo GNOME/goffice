@@ -24,7 +24,7 @@
 #include <glib.h>
 #include <goffice/utils/goffice-utils.h>
 #include <pango/pango-font.h>
-#include <pango/pangofc-fontmap.h>
+#include <pango/pango-context.h>
 
 G_BEGIN_DECLS
 

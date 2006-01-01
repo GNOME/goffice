@@ -1,3 +1,12 @@
+2006-01-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-file.c: (go_mime_type_get_description): new gnome-vfs
+	wrapper.
+	* goffice/utils/go-file.h: ditto.
+	* goffice/utils/go-font.c: moved inclusion of pango-context.h to
+	header.
+	* goffice/utils/go-font.h: ditto, removed unused panfo_fc header.
+
 2005-12-30  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-renderer-cairo.c (grc_free_marker_data): new.

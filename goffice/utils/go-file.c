@@ -31,6 +31,7 @@
 #ifdef GOFFICE_WITH_GNOME
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
+#include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <gsf-gnome/gsf-input-gnomevfs.h>
 #include <gsf-gnome/gsf-output-gnomevfs.h>
 #include <libgnome/gnome-url.h>
@@ -667,6 +668,16 @@ gchar
 	return g_strdup (gnome_vfs_get_mime_type_for_data (data, data_size));
 #else
 	return g_strdup ("application/octet-stream");
+#endif
+}
+
+gchar const
+*go_mime_type_get_description	(gchar const *mime_type)
+{
+#ifdef WITH_GNOME
+	return gnome_vfs_mime_get_description (mime_type);
+#else
+	return mime_type;
 #endif
 }
 

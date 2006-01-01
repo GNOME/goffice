@@ -22,7 +22,6 @@
 #include <goffice/goffice-config.h>
 #include "go-font.h"
 #include "go-glib-extras.h"
-#include <pango/pango-context.h>
 
 static GHashTable	*font_hash;
 static GPtrArray	*font_array;
