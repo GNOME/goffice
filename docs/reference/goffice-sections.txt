@@ -504,7 +504,6 @@ gog_renderer_new_for_pixbuf
 gog_renderer_update
 gog_renderer_get_pixbuf
 <SUBSECTION>
-gog_graph_export_to_svg
 gog_graph_print_to_gnome_print
 <SUBSECTION Standard>
 GOG_RENDERER_GRIP_SIZE
@@ -1395,7 +1394,6 @@ GOComponentType
 go_components_get_mime_types
 go_components_get_priority
 go_components_add_mime_type
-go_components_set_screen_resolution
 goc_plugin_services_init
 goc_plugin_services_shutdown
 </SECTION>
