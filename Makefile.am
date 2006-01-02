@@ -8,7 +8,10 @@ EXTRA_DIST = README NEWS BUGS MAINTAINERS AUTHORS \
 	intltool-extract.in	\
 	intltool-update.in	\
 	intltool-merge.in
+
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
+
+DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libgoffice-1.pc

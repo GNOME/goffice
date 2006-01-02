@@ -1,8 +1,15 @@
+2006-01-02  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.am: Add DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
+	* docs/reference/Makefile.am (EXTRA_DIST): Add version.xml,
+	  to work around #314105.
+
 2006-01-01  Stepan Kasal  <kasal@ucw.cz>
 
 	* docs/reference/Makefile.am (INCLUDES): Remove, it's redundant.
 	(GTKDOC_CFLAGS): Add -I$(top_builddir).
-	* docs/reference/goffice.types: Include goffice/graph/gog-object-xml.h
+	* docs/reference/goffice.types:
+	  #include <goffice/graph/gog-object-xml.h>
 
 2006-01-01  Jean Brefort  <jean.brefort@normalesup.org>
 

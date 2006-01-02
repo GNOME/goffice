@@ -67,4 +67,5 @@ GTKDOC_LIBS = $(top_builddir)/goffice/libgoffice-1.la $(GOFFICE_LIBS)
 
 include $(top_srcdir)/gtk-doc.make
 
-EXTRA_DIST += version.xml.in
+# To work around bug #314105, we have to distribute the generated file, too.
+EXTRA_DIST += version.xml.in version.xml
