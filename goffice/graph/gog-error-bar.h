@@ -22,6 +22,7 @@
 #ifndef GOG_ERROR_BAR_H
 #define GOG_ERROR_BAR_H
 
+#include <goffice/goffice-features.h>
 #include <goffice/utils/go-color.h>
 #include "gog-series.h"
 #include "gog-data-set.h"
