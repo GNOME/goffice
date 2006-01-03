@@ -30,6 +30,7 @@
 #include <errno.h>
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct _GOFontSel {
 	GtkHBox		box;

@@ -1,6 +1,7 @@
 2006-01-03  Stepan Kasal  <kasal@ucw.cz>
 
 	* goffice/graph/gog-error-bar.h: #include <goffice/goffice-features.h>
+	* goffice/gtk/go-font-sel.c: #include <string.h> for strcmp()
 
 2006-01-02  Stepan Kasal  <kasal@ucw.cz>
 
