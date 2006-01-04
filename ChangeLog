@@ -1,3 +1,7 @@
+2006-01-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_barcol/gog-minmax.c: fixed a marker display problem.
+
 2005-11-17  Emmanuel Pacaud <emanuel.pacaud@univ-poitiers.fr>
 
 	* pixmap/chart_dropbar_1_[12].[svg,png]: fix rendering and bitmap.

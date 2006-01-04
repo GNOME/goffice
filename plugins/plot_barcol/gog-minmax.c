@@ -285,6 +285,7 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 	ArtVpath path[3], *Mpath, *mpath;
 	GogObjectRole const *role = NULL;
 	GogSeriesLines *lines;
+	GogStyle * style;
 
 	if (num_elements <= 0 || num_series <= 0)
 		return;
@@ -311,6 +312,7 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 		series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
+		style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
 		x = offset;
 		min_vals = go_data_vector_get_values (
 			GO_DATA_VECTOR (series->base.values[1].data));
@@ -324,7 +326,7 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 			n = tmp;
 		Mpath = g_new (ArtVpath, n + 1);
 		mpath = g_new (ArtVpath, n + 1);
-		gog_renderer_push_style (view->renderer, GOG_STYLED_OBJECT (series)->style);
+		gog_renderer_push_style (view->renderer, style);
 
 		for (i = 0; i < n; i++) {
 
@@ -356,7 +358,7 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 			gog_series_lines_render (lines, view->renderer, bbox, Mpath, FALSE);
 			gog_renderer_pop_style (view->renderer);
 		}
-		if (model->default_style_has_markers)
+		if (gog_style_is_marker_visible (style))
 			for (i = 0; i < n; i++) {
 				gog_renderer_draw_marker (view->renderer, mpath[i].x, mpath[i].y);
 				gog_renderer_draw_marker (view->renderer, Mpath[i].x, Mpath[i].y);
