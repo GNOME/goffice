@@ -7,7 +7,9 @@ boxplot_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
 boxplot_la_LIBADD = $(GOFFICE_PLUGIN_LIBADD)
 
 boxplot_la_SOURCES = gog-boxplot.c	\
-		    gog-boxplot.h
+		    gog-boxplot.h \
+			gog-histogram.c \
+			gog-histogram.h
 
 xml_in_files = plugin.xml.in plot-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

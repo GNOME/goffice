@@ -32,6 +32,10 @@
 #include <string.h>
 
 typedef GogStyledObjectClass GogSeriesLinesClass;
+typedef struct _GogSeriesLines {
+	GogStyledObject base;
+	gboolean use_markers;
+};
 
 static void
 gog_series_lines_init_style (GogStyledObject *gso, GogStyle *style)
@@ -41,11 +45,9 @@ gog_series_lines_init_style (GogStyledObject *gso, GogStyle *style)
 	GogPlot *plot  = GOG_PLOT (GOG_SERIES (
 						gog_object_get_parent (GOG_OBJECT (gso)))->plot);
 	char const *plot_name = G_OBJECT_TYPE_NAME (plot);
-	style->interesting_fields =
-		(parent_style->interesting_fields & GOG_STYLE_MARKER ||
-		(!strcmp (plot_name, "GogBarColPlot") && strcmp (plot_name, "GogDropBarPlot")))?
-			GOG_STYLE_LINE:
-			GOG_STYLE_LINE | GOG_STYLE_MARKER;
+	style->interesting_fields = (GOG_SERIES_LINES (gso)->use_markers)?
+			GOG_STYLE_LINE | GOG_STYLE_MARKER:
+			GOG_STYLE_LINE;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, FALSE);
 }
@@ -104,4 +106,10 @@ gog_series_lines_render (GogSeriesLines *lines, GogRenderer *rend, GogViewAlloca
 	gog_renderer_pop_style (rend);
 	if (invert)
 		g_object_unref (style);
+}
+
+void
+gog_series_lines_use_markers (GogSeriesLines *lines, gboolean use_markers)
+{
+	lines->use_markers = use_markers;
 }

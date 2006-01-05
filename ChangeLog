@@ -1,3 +1,23 @@
+2006-01-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/goffice-graph.h: change GogSeriesLines definition.
+	* goffice/graph/gog-series-lines.c: Change the way markers are managed.
+	* goffice/graph/gog-series-lines.h: ditto.
+	* goffice/utils/go-libxml-extras.c:
+	(e_xml_get_child_by_name_by_lang): fix an internaionalization bug.
+	* pixmaps/Makefile.am: add new histograms pixmaps.
+	* pixmaps/chart_histogram_1_1.png: ditto.
+	* pixmaps/chart_histogram_1_1.svg: ditto.
+	* pixmaps/hist.xpm: ditto.
+	* plugins/plot_barcol/gog-1.5d.c: (lines_post_add): add markers for lines
+	in DropBar plots.
+	* plugins/plot_boxes/Makefile.am: add histograms.
+	* plugins/plot_boxes/gog-boxplot.c: (go_plugin_init): ditto.
+	* plugins/plot_boxes/gog-histogram.c: ditto.
+	* plugins/plot_boxes/gog-histogram.h: ditto.
+	* plugins/plot_boxes/plot-types.xml.in: ditto.
+	* plugins/plot_boxes/plugin.xml.in: ditto.
+
 2006-01-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-minmax.c: fixed a marker display problem.

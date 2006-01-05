@@ -8,4 +8,11 @@
 		sample_image_file="chart_boxplot_1_1.png">
 		<property name="guru-hints">backplane</property>
 	</Type>
+	<Family _name="Histogram"	sample_image_file="hist.xpm" axis_set="xy"/>
+	<Type _name="Histogram" row="1" col="1"
+		engine="GogHistogramPlot" family="Histogram"
+		_description="Histogram."
+		sample_image_file="chart_histogram_1_1.png">
+		<property name="guru-hints">backplane</property>
+	</Type>
 </Types>

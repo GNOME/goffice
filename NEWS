@@ -3,6 +3,7 @@ goffice 0.2.0:
 Jean Brefort:
 	* Add a new components system to embed data from other
 	applications.
+	* Add Histograms.
 
 Morten:
 	* Fix translation problems causing crashes in the character set

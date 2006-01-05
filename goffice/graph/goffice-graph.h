@@ -53,7 +53,7 @@ typedef struct _GogErrorBar	GogErrorBar;
 typedef struct _GogRegCurve	GogRegCurve;
 typedef struct _GogRegEqn	GogRegEqn;
 typedef struct _GogRegCurveType	GogRegCurveType;
-typedef struct _GogStyledObject GogSeriesLines;
+typedef struct _GogSeriesLines GogSeriesLines;
 
 /* formating */
 typedef struct _GogTheme	GogTheme;

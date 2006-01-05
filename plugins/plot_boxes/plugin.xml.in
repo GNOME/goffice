@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="GOffice_plot_boxes">
 	<information>
-		<_name>Charting : Box-Plots</_name>
-		<_description>Box-Plots</_description>
+		<_name>Charting : Box-Plots/Histograms</_name>
+		<_description>Box-Plots and Histograms</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="boxplot"/>
@@ -13,10 +13,15 @@
 				<_description>Box-plot plotting engine</_description>
 			</information>
 		</service>
+		<service type="plot_engine" id="GogHistogramPlot">
+			<information>
+				<_description>Histograms plotting engine</_description>
+			</information>
+		</service>
 		<service type="plot_type" id="boxplot">
 			<file>plot-types.xml</file>
 			<information>
-				<_description>Default surface plot types</_description>
+				<_description>Statistics plot types</_description>
 			</information>
 		</service>
 	</services>

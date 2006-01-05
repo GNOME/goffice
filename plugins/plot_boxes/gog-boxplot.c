@@ -416,6 +416,10 @@ GSF_DYNAMIC_CLASS (GogBoxPlotSeries, gog_box_plot_series,
 	GOG_SERIES_TYPE)
 
 /* Plugin initialization */
+void  gog_histogram_plot_register_type (GTypeModule *module);
+void  gog_histogram_plot_series_register_type (GTypeModule *module);
+void  gog_histogram_plot_view_register_type (GTypeModule *module);
+void  gog_histogram_series_view_register_type (GTypeModule *module);
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
@@ -424,6 +428,10 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_box_plot_register_type (module);
 	gog_box_plot_view_register_type (module);
 	gog_box_plot_series_register_type (module);
+	gog_histogram_plot_register_type (module);
+	gog_histogram_plot_view_register_type (module);
+	gog_histogram_plot_series_register_type (module);
+	gog_histogram_series_view_register_type (module);
 }
 
 G_MODULE_EXPORT void

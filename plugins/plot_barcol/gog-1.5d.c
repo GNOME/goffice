@@ -435,6 +435,8 @@ lines_post_add (GogObject *parent, GogObject *child)
 {
 	GogSeries1_5d *series = GOG_SERIES1_5D (parent);
 	series->has_lines = TRUE;
+	if (GOG_IS_PLOT_DROPBAR (series->base.plot))
+		gog_series_lines_use_markers (GOG_SERIES_LINES (child), TRUE);
 	gog_object_request_update (child);
 }
 
