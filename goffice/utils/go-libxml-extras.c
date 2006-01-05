@@ -279,7 +279,7 @@ e_xml_get_child_by_name_by_lang (xmlNode const *parent, gchar const *name)
 		if (node->name == NULL || strcmp (CXML2C (node->name), name) != 0)
 			continue;
 
-		lang = xmlGetProp (node, CC2XML ("xml:lang"));
+		lang = xmlGetProp (node, CC2XML ("lang"));
 		if (lang != NULL) {
 			gint i;
 
@@ -289,10 +289,10 @@ e_xml_get_child_by_name_by_lang (xmlNode const *parent, gchar const *name)
 					best_lang_score = i;
 				}
 			}
+			xmlFree (lang);
 		} else if (best_node == NULL)
 			best_node = node;
 
-		xmlFree (lang);
 		if (best_lang_score == 0) 
 			return best_node;
 	}
