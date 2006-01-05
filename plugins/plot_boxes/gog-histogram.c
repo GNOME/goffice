@@ -195,7 +195,7 @@ gog_histogram_plot_class_init (GogPlotClass *gog_plot_klass)
 static void
 gog_histogram_plot_init (GogHistogramPlot *model)
 {
-//	model->gap_percentage = 150;
+/*	model->gap_percentage = 150; */
 }
 
 GSF_DYNAMIC_CLASS (GogHistogramPlot, gog_histogram_plot,
