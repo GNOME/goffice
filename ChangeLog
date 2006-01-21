@@ -1,5 +1,7 @@
 2006-01-21  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
+	* configure.in: Versioned the pixmap files and the translations to make
+	complete parallel installability of packages easier.
 	* docs/reference/Makefile.am, goffice/goffice.c, tests/Makefile.am:
 	follow version change.
 

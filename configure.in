@@ -332,7 +332,7 @@ dnl **************************************************
 AC_SUBST(ALL_LINGUAS,
 "am az bg ca cs da de el en_CA en_GB es et fi fr ga gl he hr hu it ja ko lv ml mr ms nb nl nn no pl pt pt_BR ro ru sk sr sr@Latn sv tr uk vi zh_CN zh_TW")
 
-AC_SUBST(GETTEXT_PACKAGE, goffice)
+AC_SUBST(GETTEXT_PACKAGE, goffice-${VERSION})
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
 	[The package name, for gettext])
 AM_GLIB_GNU_GETTEXT
@@ -480,7 +480,7 @@ dnl
 dnl These are changed in goffice.c for WIN32 packages
 AC_SUBST(goffice_datadir, '${datadir}/goffice/${VERSION}')
 AC_SUBST(goffice_libdir, '${libdir}/goffice/${VERSION}')
-AC_SUBST(goffice_icondir, '${datadir}/pixmaps/goffice')
+AC_SUBST(goffice_icondir, '${datadir}/pixmaps/goffice/${VERSION}')
 AC_SUBST(goffice_localedir, '${prefix}/${DATADIRNAME}/locale')
 dnl
 AC_SUBST(goffice_plugindir, '${goffice_libdir}/plugins')
