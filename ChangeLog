@@ -1,3 +1,8 @@
+2006-01-21  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* docs/reference/Makefile.am, goffice/goffice.c, tests/Makefile.am:
+	follow version change.
+
 2006-01-05  Jody Goldberg <jody@gnome.org>
 
 	* goffice.mk (goffice_include_dir) : version the include files to
