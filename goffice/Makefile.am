@@ -1,6 +1,6 @@
 SUBDIRS = utils data app graph gtk drawing ms-compat cut-n-paste component
 
-lib_LTLIBRARIES = libgoffice-1.la
+lib_LTLIBRARIES = libgoffice-0.la
 
 if WITH_INCLUDED_PCRE
 pcre_la = cut-n-paste/pcre/libpcre.la
@@ -8,7 +8,7 @@ else
 pcre_la =
 endif
 
-libgoffice_1_la_LIBADD = 			\
+libgoffice_0_la_LIBADD = 			\
 	$(pcre_la)				\
 	utils/libgoffice-utils.la		\
 	app/libgoffice-app.la			\
@@ -21,22 +21,22 @@ libgoffice_1_la_LIBADD = 			\
 	component/libgoffice-component.la	\
 	$(GOFFICE_LIBS)
 
-libgoffice_1_la_LDFLAGS = -version-info $(VERSION_INFO)
+libgoffice_0_la_LDFLAGS = -version-info $(VERSION_INFO)
 if WITH_WIN32
-libgoffice_1_la_LDFLAGS += -no-undefined -Wl,-export-all-symbols
-libgoffice_1_la_LIBADD += utils/libgoffice-win32-stub.la
+libgoffice_0_la_LDFLAGS += -no-undefined -Wl,-export-all-symbols
+libgoffice_0_la_LIBADD += utils/libgoffice-win32-stub.la
 endif
 
 BUILT_SOURCES =	goffice-paths.h
 CLEANFILES = $(BUILT_SOURCES)
 
-libgoffice_1_la_SOURCES = 	\
+libgoffice_0_la_SOURCES = 	\
 	$(BUILT_SOURCES)	\
 	goffice.c		\
 	goffice-priv.h
 
-libgoffice_1_ladir = $(goffice_include_dir)
-libgoffice_1_la_HEADERS = 	\
+libgoffice_0_ladir = $(goffice_include_dir)
+libgoffice_0_la_HEADERS = 	\
 	goffice-features.h	\
 	goffice.h
 

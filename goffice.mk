@@ -4,4 +4,4 @@ AM_CPPFLAGS = \
 	$(GOFFICE_CFLAGS)
 
 GOFFICE_PLUGIN_FLAGS = $(GOFFICE_PLUGIN_LDFLAGS)
-goffice_include_dir = $(includedir)/libgoffice-1/goffice
+goffice_include_dir = $(includedir)/libgoffice-0.3/goffice

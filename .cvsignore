@@ -19,7 +19,7 @@ intltool-extract*
 intltool-merge*
 intltool-modules
 intltool-update*
-libgoffice-1.pc
+libgoffice-0.3.pc
 libtool
 ltconfig
 ltmain.sh
