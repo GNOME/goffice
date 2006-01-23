@@ -73,15 +73,20 @@ make_icon (GtkAction *a, GtkWidget *tool)
 	GtkSettings *settings = gtk_widget_get_settings (tool);
 	GdkScreen *screen = gtk_widget_get_screen (tool);
 
-	if (tool->parent)
-		size = gtk_toolbar_get_icon_size (GTK_TOOLBAR (tool->parent));
-	else
-		g_object_get (settings,
-			      "gtk-toolbar-icon-size", &size,
-			      NULL);
-	gtk_icon_size_lookup_for_settings (settings, size,
-					   &pixels, NULL);
 	g_object_get (a, "stock-id", &stock_id, NULL);
+	if (stock_id == NULL)
+		return NULL;
+	if (IS_GO_TOOL_COMBO_COLOR (tool)) {
+		if (tool->parent)
+			size = gtk_toolbar_get_icon_size (GTK_TOOLBAR (tool->parent));
+		else
+			g_object_get (settings,
+					  "gtk-toolbar-icon-size", &size,
+					  NULL);
+		gtk_icon_size_lookup_for_settings (settings, size,
+						   &pixels, NULL);
+	} else
+		size = GTK_ICON_SIZE_MENU;
 	icon = gtk_icon_theme_load_icon
 		(gtk_icon_theme_get_for_screen (screen),
 		 stock_id, pixels, 0, NULL);
@@ -123,12 +128,14 @@ go_action_combo_color_connect_proxy (GtkAction *a, GtkWidget *proxy)
 
 	if (GTK_IS_IMAGE_MENU_ITEM (proxy)) { /* set the icon */
 		GdkPixbuf *icon = make_icon (a, proxy);
-		GtkWidget *image = gtk_image_new_from_pixbuf (icon);
-		g_object_unref (icon);
-
-		gtk_widget_show (image);
-		gtk_image_menu_item_set_image (
-			GTK_IMAGE_MENU_ITEM (proxy), image);
+		if (icon) {
+			GtkWidget *image = gtk_image_new_from_pixbuf (icon);
+			g_object_unref (icon);
+	
+			gtk_widget_show (image);
+			gtk_image_menu_item_set_image (
+				GTK_IMAGE_MENU_ITEM (proxy), image);
+		}
 	}
 }
 
