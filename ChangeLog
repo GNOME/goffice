@@ -1,3 +1,11 @@
+2006-01-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-action-combo-color.c: (make_icon),
+	(go_action_combo_color_connect_proxy): fixed warnings when using a
+	combo action in a menu.
+	* goffice/gtk/go-action-combo-pixmaps.c: (make_icon),
+	(go_action_combo_pixmaps_connect_proxy): ditto.
+
 2006-01-21  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Versioned the pixmap files and the translations to make
