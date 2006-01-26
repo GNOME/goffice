@@ -94,6 +94,14 @@ go_math_init (void)
  have_ninf:
 	/* ---------------------------------------- */
 
+#if defined (__GNUC__) && defined(__FAST_MATH__)
+	/*
+	 * It seems that -ffast-math implies -ffinite-math-only and that
+	 * is not going to work in goffice.
+	 */
+#error "Please do not compile this code with -ffast-math.  It will not work."
+#endif
+
 	go_nan = go_pinf * 0.0;
 	if (isnan (go_nan))
 		goto have_nan;
