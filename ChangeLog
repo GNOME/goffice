@@ -1,3 +1,10 @@
+2006-01-29  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* goffice/graph/gog-graph.c (gog_graph_view_handle_event): correct use
+	of GDK_POINTER_MOTION_HINT_MASK, according to gtk tutorial. There's
+	still a problem with foocanvas which seems to eat a GDK_BUTTON_PRESS
+	event.
+
 2006-01-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-math.c (go_math_init): Prevent compilation with
