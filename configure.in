@@ -4,8 +4,8 @@ dnl (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
 AC_PREREQ(2.54)
 
 m4_define([goffice_version_epoch], [0])
-m4_define([goffice_version_major], [1])
-m4_define([goffice_version_minor], [3])
+m4_define([goffice_version_major], [2])
+m4_define([goffice_version_minor], [0])
 m4_define([goffice_version_extra], [])
 m4_define([goffice_full_version],
     [goffice_version_epoch.goffice_version_major.goffice_version_minor[]goffice_version_extra])
