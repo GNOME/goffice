@@ -93,9 +93,19 @@ gog_polynom_reg_curve_get_value_at (GogRegCurve *curve, double x)
 	return result;
 }
 
-static char *exponent[10] = {"\xE2\x81\xB0","\xC2\xB9","\xC2\xB2","\xC2\xB3",
-	"\xE2\x81\xB4","\xE2\x81\xB5","\xE2\x81\xB6", "\xE2\x81\xB7",
-	"\xE2\x81\xB8","\xE2\x81\xB9"};
+static const char *const exponent[10] = {
+	"\xE2\x81\xB0",
+	"\xC2\xB9",
+	"\xC2\xB2",
+	"\xC2\xB3",
+	"\xE2\x81\xB4",
+	"\xE2\x81\xB5",
+	"\xE2\x81\xB6",
+	"\xE2\x81\xB7",
+	"\xE2\x81\xB8",
+	"\xE2\x81\xB9"
+};
+
 static gchar const*
 gog_polynom_reg_curve_get_equation (GogRegCurve *curve)
 {
