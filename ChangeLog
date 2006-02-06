@@ -1,3 +1,47 @@
+2006-02-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-series-impl.h: add get_xy_data to GogSeriesClass
+	(needed by regrerssion curves in histograms and line plots.
+	* goffice/graph/gog-series.c: (gog_series_get_xy_data): new function.
+	* goffice/graph/gog-series.h: ditto.
+	* goffice/utils/go-regression.c: (go_power_regression): new regression
+	method, (go_non_linear_regression): fix params updates.
+	* goffice/utils/go-regression.h: new power regressions.
+	* plugins/plot_barcol/gog-1.5d.c: (go_plugin_init): add a view to
+	GogLinePlot to support regression curves [#328236].
+	* plugins/plot_barcol/gog-line.c: (gog_line_series_view_render),
+	(gog_line_series_view_size_allocate),
+	(gog_line_series_view_class_init), (gog_line_series_init_style),
+	(gog_line_series_update), (gog_line_series_get_xy_data),
+	(gog_line_series_finalize), (gog_line_series_class_init),
+	(child_added_cb), (gog_line_plot_init), (gog_line_view_render),
+	(gog_line_view_size_allocate), (gog_line_view_class_init): ditto.
+	* plugins/plot_barcol/gog-line.h: ditto.
+	* plugins/plot_boxes/gog-histogram.c: (gog_histogram_plot_update),
+	(gog_histogram_plot_view_size_allocate),
+	(gog_histogram_plot_view_class_init), (drop_lines_post_add),
+	(gog_histogram_plot_series_update),
+	(gog_histogram_plot_series_finalize),
+	(gog_histogram_plot_series_get_xy_data),
+	(gog_histogram_plot_series_class_init),
+	(gog_histogram_plot_series_init): support regression curves.
+	* plugins/reg_linear/Makefile.am: add new power regression.
+	* plugins/reg_linear/gog-exp-reg.c:
+	(gog_exp_reg_curve_get_equation): fixed equation [#328236].
+	* plugins/reg_linear/gog-lin-reg.c: (gog_lin_reg_curve_update),
+	(gog_lin_reg_curve_get_equation),
+	(gog_lin_reg_curve_populate_editor), (go_plugin_init):
+	* plugins/reg_linear/gog-log-reg.c:
+	(gog_log_reg_curve_get_equation): ditto.
+	* plugins/reg_linear/gog-polynom-reg.c:
+	(gog_polynom_reg_curve_get_equation): ditto.
+	* plugins/reg_linear/gog-power.c: new power regression curves.
+	* plugins/reg_linear/gog-power.h: ditto.
+	* plugins/reg_linear/plugin.xml.in: ditto.
+	* plugins/reg_linear/reg-types.xml.in: ditto.
+	* plugins/reg_logfit/gog-logfit.c: (gog_log_fit_curve_update),
+	(gog_log_fit_curve_get_equation): fixed equation [#328236].
+
 2006-01-29  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* goffice/graph/gog-graph.c (gog_graph_view_handle_event): correct use

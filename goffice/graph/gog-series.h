@@ -52,6 +52,9 @@ void	      gog_series_set_index  (GogSeries *series,
 unsigned      	  gog_series_num_elements  (GogSeries const *series);
 GList const  	 *gog_series_get_overrides (GogSeries const *series);
 
+unsigned	gog_series_get_xy_data (GogSeries const *series,
+					double const **x, double const **y);
+
 G_END_DECLS
 
 #endif /* GOG_SERIES_H */

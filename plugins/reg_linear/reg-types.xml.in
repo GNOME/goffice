@@ -12,6 +12,10 @@
 		engine="GogExpRegCurve"
 		_description="Exponential regression curve">
 	</Type>
+	<Type _name="Power"
+		engine="GogPowerRegCurve"
+		_description="Power regression curve">
+	</Type>
 	<Type _name="Logarithmic"
 		engine="GogLogRegCurve"
 		_description="Logarithmic regression curve">

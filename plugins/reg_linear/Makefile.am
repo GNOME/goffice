@@ -14,7 +14,9 @@ linreg_la_SOURCES =	\
 			gog-log-reg.c	\
 		    gog-log-reg.h	\
 			gog-exp-reg.c	\
-		    gog-exp-reg.h
+		    gog-exp-reg.h	\
+			gog-power-reg.c	\
+		    gog-power-reg.h
 
 xml_in_files = plugin.xml.in reg-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

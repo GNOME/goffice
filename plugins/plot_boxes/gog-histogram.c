@@ -38,7 +38,7 @@
 typedef struct {
 	GogSeries base;
 	GogObject *droplines;
-	double *y;
+	double *x, *y;
 } GogHistogramPlotSeries;
 typedef GogSeriesClass GogHistogramPlotSeriesClass;
 
@@ -81,16 +81,25 @@ gog_histogram_plot_update (GogObject *obj)
 	if (!gog_series_is_valid (GOG_SERIES (series)) || series->base.num_elements == 0)
 			return;
 	
+	if (series->x) {
+		g_free (series->x);
+		series->x = NULL;
+	}
+	series->x = g_new (double, series->base.num_elements);
 	if (series->base.values[0].data != NULL) {
 		x_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data));
 		x_min = x_vals[0];
 		x_max = x_vals[series->base.num_elements];
 		if (model->x.fmt == NULL)
 			model->x.fmt = go_data_preferred_fmt (series->base.values[0].data);
+		for (i = 0; i < series->base.num_elements; i++)
+			series->x[i] = (x_vals[i] + x_vals[i+1]) / 2;
 	} else {
 		x_vals = NULL;
 		x_min = 0;
 		x_max = series->base.num_elements;
+		for (i = 0; i < series->base.num_elements; i++)
+			series->x[i] = (double) i + 0.5;
 	}
 	if (model->x.minima != x_min || model->x.maxima != x_max) {
 		model->x.minima = x_min;
@@ -192,14 +201,8 @@ gog_histogram_plot_class_init (GogPlotClass *gog_plot_klass)
 	plot_klass->axis_get_bounds   		= gog_histogram_plot_axis_get_bounds;
 }
 
-static void
-gog_histogram_plot_init (GogHistogramPlot *model)
-{
-/*	model->gap_percentage = 150; */
-}
-
 GSF_DYNAMIC_CLASS (GogHistogramPlot, gog_histogram_plot,
-	gog_histogram_plot_class_init, gog_histogram_plot_init,
+	gog_histogram_plot_class_init, NULL,
 	GOG_PLOT_TYPE)
 
 /*****************************************************************************/
@@ -308,11 +311,24 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_chart_map_free (chart_map);
 }
 
+static GogViewClass *histogram_plot_view_parent_klass;
+
+static void
+gog_histogram_plot_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
+{
+	GSList *ptr;
+	for (ptr = view->children; ptr != NULL; ptr = ptr->next)
+		gog_view_size_allocate (GOG_VIEW (ptr->data), allocation);
+	(histogram_plot_view_parent_klass->size_allocate) (view, allocation);
+}
+
 static void
 gog_histogram_plot_view_class_init (GogViewClass *view_klass)
 {
+	histogram_plot_view_parent_klass = (GogViewClass*) g_type_class_peek_parent (view_klass);
 	view_klass->render	  = gog_histogram_plot_view_render;
-	view_klass->clip	  = TRUE;
+	view_klass->size_allocate = gog_histogram_plot_view_size_allocate;
+	view_klass->clip	  = FALSE;
 }
 
 GSF_DYNAMIC_CLASS (GogHistogramPlotView, gog_histogram_plot_view,
@@ -371,7 +387,6 @@ static void
 drop_lines_post_add (GogObject *parent, GogObject *child)
 {
 	GogHistogramPlotSeries *series = GOG_HISTOGRAM_PLOT_SERIES (parent);
-	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (child));
 	series->droplines = child;
 	gog_object_request_update (child);
 }
@@ -396,6 +411,7 @@ gog_histogram_plot_series_update (GogObject *obj)
 	int x_len = 1, y_len = 0, i, max;
 	GogHistogramPlotSeries *series = GOG_HISTOGRAM_PLOT_SERIES (obj);
 	unsigned old_num = series->base.num_elements;
+	GSList *ptr;
 
 	if (series->base.values[1].data != NULL) {
 		y_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
@@ -419,6 +435,11 @@ gog_histogram_plot_series_update (GogObject *obj)
 	} else
 		x_len = y_len + 1;
 	series->base.num_elements = MIN (x_len - 1, y_len);
+
+	/* update children */
+	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
+		if (!IS_GOG_SERIES_LINES (ptr->data))
+			gog_object_request_update (GOG_OBJECT (ptr->data));
 
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
@@ -446,8 +467,23 @@ gog_histogram_plot_series_finalize (GObject *obj)
 		g_free (series->y); 
 		series->y = NULL;
 	}
+	if (series->x != NULL) {
+		g_free (series->x); 
+		series->x = NULL;
+	}
 
 	G_OBJECT_CLASS (series_parent_klass)->finalize (obj);
+}
+
+static unsigned
+gog_histogram_plot_series_get_xy_data (GogSeries const *series,
+					double const **x, double const **y)
+{
+	GogHistogramPlotSeries *hist_ser = GOG_HISTOGRAM_PLOT_SERIES (series);
+	*x = hist_ser->x;
+	*y = (hist_ser->y)? hist_ser->y:
+		go_data_vector_get_values (GO_DATA_VECTOR (series->values[1].data));
+	return series->num_elements;
 }
 
 static void
@@ -463,6 +499,7 @@ gog_histogram_plot_series_class_init (GogObjectClass *obj_klass)
 			drop_lines_pre_remove,
 			NULL },
 	};
+	GogSeriesClass *series_klass = (GogSeriesClass*) obj_klass;
 	GogStyledObjectClass *gso_klass = (GogStyledObjectClass*) obj_klass;
 	GogObjectClass *gog_klass = (GogObjectClass *)gso_klass;
 	GObjectClass *gobject_klass = (GObjectClass *) gso_klass;
@@ -476,8 +513,18 @@ gog_histogram_plot_series_class_init (GogObjectClass *obj_klass)
 	gso_klass->init_style = gog_histogram_plot_series_init_style;
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
+
+	series_klass->get_xy_data = gog_histogram_plot_series_get_xy_data;
+}
+
+static void
+gog_histogram_plot_series_init (GObject *obj)
+{
+	GogSeries *series = GOG_SERIES (obj);
+
+	series->acceptable_children = GOG_SERIES_ACCEPT_REGRESSION_CURVE;
 }
 
 GSF_DYNAMIC_CLASS (GogHistogramPlotSeries, gog_histogram_plot_series,
-	gog_histogram_plot_series_class_init, NULL,
+	gog_histogram_plot_series_class_init, gog_histogram_plot_series_init,
 	GOG_SERIES_TYPE)

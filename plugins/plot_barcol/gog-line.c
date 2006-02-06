@@ -48,10 +48,59 @@ enum {
 	GOG_LINE_PROP_DEFAULT_STYLE_HAS_MARKERS
 };
 
-typedef GogSeries1_5d		GogLineSeries;
+/*****************************************************************************/
+
+typedef GogView		GogLineSeriesView;
+typedef GogViewClass	GogLineSeriesViewClass;
+
+#define GOG_LINE_SERIES_VIEW_TYPE	(gog_line_series_view_get_type ())
+#define GOG_LINE_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LINE_SERIES_VIEW_TYPE, GogLineSeriesView))
+#define IS_GOG_LINE_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LINE_SERIES_VIEW_TYPE))
+
+static void
+gog_line_series_view_render (GogView *view, GogViewAllocation const *bbox)
+{
+	GSList *ptr;
+	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
+		gog_view_render	(ptr->data, bbox);
+}
+
+static void
+gog_line_series_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
+{
+	GSList *ptr;
+
+	for (ptr = view->children; ptr != NULL; ptr = ptr->next)
+		gog_view_size_allocate (GOG_VIEW (ptr->data), allocation);
+}
+
+static void
+gog_line_series_view_class_init (GogLineSeriesViewClass *gview_klass)
+{
+	GogViewClass *view_klass = GOG_VIEW_CLASS (gview_klass);
+	view_klass->render = gog_line_series_view_render;
+	view_klass->size_allocate = gog_line_series_view_size_allocate;
+	view_klass->build_toolkit = NULL;
+}
+
+GSF_DYNAMIC_CLASS (GogLineSeriesView, gog_line_series_view,
+	gog_line_series_view_class_init, NULL,
+	GOG_VIEW_TYPE)
+
+/*****************************************************************************/
+
+typedef struct {
+	GogSeries1_5d base;
+	double *x;
+} GogLineSeries;
 typedef GogSeries1_5dClass	GogLineSeriesClass;
 
 static GogStyledObjectClass *series_parent_klass;
+
+GType gog_line_series_get_type (void);
+#define GOG_LINE_SERIES_TYPE	(gog_line_series_get_type ())
+#define GOG_LINE_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LINE_SERIES_TYPE, GogLineSeries))
+#define IS_GOG_LINE_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LINE_SERIES_TYPE))
 
 static void
 gog_line_series_init_style (GogStyledObject *gso, GogStyle *style)
@@ -64,6 +113,7 @@ gog_line_series_init_style (GogStyledObject *gso, GogStyle *style)
 		return;
 
 	plot = GOG_LINE_PLOT (series->plot);
+
 	if (!plot->default_style_has_markers) {
 		style->disable_theming |= GOG_STYLE_MARKER;
 		if (style->marker.auto_shape) {
@@ -75,16 +125,77 @@ gog_line_series_init_style (GogStyledObject *gso, GogStyle *style)
 }
 
 static void
-gog_line_series_class_init (GogStyledObjectClass *gso_klass)
+gog_line_series_update (GogObject *obj)
 {
-	series_parent_klass = g_type_class_peek_parent (gso_klass);
-	gso_klass->init_style = gog_line_series_init_style;
+	GogLineSeries *series = GOG_LINE_SERIES (obj);
+	unsigned i, nb = series->base.base.num_elements;
+	GSList *ptr;
+	(GOG_OBJECT_CLASS (series_parent_klass))->update (obj);
+	if (nb != series->base.base.num_elements) {
+		nb = series->base.base.num_elements;
+		if (series->x) {
+			g_free (series->x);
+			series->x = NULL;
+		}
+		series->x = g_new (double, nb);
+		for (i = 0; i < nb; i++)
+			series->x[i] = i + 1;
+	}
+	/* update children */
+	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
+		if (!IS_GOG_SERIES_LINES (ptr->data))
+			gog_object_request_update (GOG_OBJECT (ptr->data));
 }
 
-GType gog_line_series_get_type (void);
+static unsigned
+gog_line_series_get_xy_data (GogSeries const *series,
+					double const **x, double const **y)
+{
+	GogLineSeries *line_ser = GOG_LINE_SERIES (series);
+	*x = line_ser->x;
+	*y = go_data_vector_get_values (GO_DATA_VECTOR (series->values[1].data));
+	return series->num_elements;
+}
+
+static void
+gog_line_series_finalize (GObject *obj)
+{
+	GogLineSeries *series = GOG_LINE_SERIES (obj);
+
+	if (series->x != NULL) {
+		g_free (series->x); 
+		series->x = NULL;
+	}
+
+	G_OBJECT_CLASS (series_parent_klass)->finalize (obj);
+}
+
+static void
+gog_line_series_class_init (GogStyledObjectClass *gso_klass)
+{
+	GObjectClass *obj_klass = (GObjectClass *)gso_klass;
+	GogObjectClass *gog_klass = (GogObjectClass *)gso_klass;
+	GogSeriesClass *series_klass = (GogSeriesClass*) gso_klass;
+	series_parent_klass = g_type_class_peek_parent (gso_klass);
+	obj_klass->finalize = gog_line_series_finalize;
+	gso_klass->init_style = gog_line_series_init_style;
+	gog_klass->view_type = gog_line_series_view_get_type ();
+	gog_klass->update = gog_line_series_update;
+	series_klass->get_xy_data = gog_line_series_get_xy_data;
+}
+
 GSF_DYNAMIC_CLASS (GogLineSeries, gog_line_series,
 	gog_line_series_class_init, NULL,
 	GOG_SERIES1_5D_TYPE)
+
+static void
+child_added_cb (GogLinePlot *plot, GogObject *obj)
+{
+	/* we only accept regression curves for not stacked plots */
+	if (IS_GOG_SERIES (obj) && plot->base.type == GOG_1_5D_NORMAL)
+		(GOG_SERIES (obj))->acceptable_children =
+					GOG_SERIES_ACCEPT_REGRESSION_CURVE;
+}
 
 static char const *
 gog_line_plot_type_name (G_GNUC_UNUSED GogObject const *item)
@@ -197,6 +308,8 @@ static void
 gog_line_plot_init (GogLinePlot *plot)
 {
 	plot->default_style_has_markers = TRUE;
+	g_signal_connect (G_OBJECT (plot), "child-added",
+					G_CALLBACK (child_added_cb), NULL);
 	GOG_PLOT1_5D (plot)->support_drop_lines = TRUE;
 }
 
@@ -566,13 +679,30 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		g_free (error_data[i]);
 	}
 
+	/* Now render children */
+	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
+		gog_view_render	(ptr->data, bbox);
+
 	gog_chart_map_free (chart_map);
+}
+
+static GogViewClass *line_view_parent_klass;
+
+static void
+gog_line_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
+{
+	GSList *ptr;
+	for (ptr = view->children; ptr != NULL; ptr = ptr->next)
+		gog_view_size_allocate (GOG_VIEW (ptr->data), allocation);
+	(line_view_parent_klass->size_allocate) (view, allocation);
 }
 
 static void
 gog_line_view_class_init (GogViewClass *view_klass)
 {
+	line_view_parent_klass = (GogViewClass*) g_type_class_peek_parent (view_klass);
 	view_klass->render	  = gog_line_view_render;
+	view_klass->size_allocate = gog_line_view_size_allocate;
 }
 
 GSF_DYNAMIC_CLASS (GogLineView, gog_line_view,

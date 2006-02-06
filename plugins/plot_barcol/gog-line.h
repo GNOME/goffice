@@ -49,6 +49,7 @@ GType gog_area_plot_get_type (void);
 void  gog_area_plot_register_type (GTypeModule *module);
 
 void  gog_line_series_register_type (GTypeModule *module);
+void  gog_line_series_view_register_type (GTypeModule *module);
 void  gog_line_view_register_type   (GTypeModule *module);
 
 G_END_DECLS

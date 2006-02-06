@@ -2,7 +2,7 @@
 /*
  * gog-lin-reg.c :  
  *
- * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
+ * Copyright (C) 2005-2006 Jean Brefort (jean.brefort@normalesup.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -25,6 +25,7 @@
 #include "gog-polynom-reg.h"
 #include "gog-log-reg.h"
 #include "gog-exp-reg.h"
+#include "gog-power-reg.h"
 #include <goffice/data/go-data.h>
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/utils/go-math.h>
@@ -32,6 +33,7 @@
 #include <gtk/gtktable.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtktogglebutton.h>
+#include <gtk/gtktooltips.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -59,22 +61,11 @@ gog_lin_reg_curve_update (GogObject *obj)
 	GogLinRegCurve *rc = GOG_LIN_REG_CURVE (obj);
 	GogSeries *series = GOG_SERIES (obj->parent);
 	double const *y_vals, *x_vals = NULL;
-	int used, tmp, nb;
+	int used, nb;
 
-	g_return_if_fail (gog_series_is_valid (GOG_SERIES (series)));
+	g_return_if_fail (gog_series_is_valid (series));
 
-	y_vals = go_data_vector_get_values (
-		GO_DATA_VECTOR (series->values[1].data));
-	nb = go_data_vector_get_len (
-		GO_DATA_VECTOR (series->values[1].data));
-	if (series->values[0].data) {
-		x_vals = go_data_vector_get_values (
-			GO_DATA_VECTOR (series->values[0].data));
-		tmp = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->values[0].data));
-		if (nb > tmp)
-			nb = tmp;
-	}
+	nb = gog_series_get_xy_data (series, &x_vals, &y_vals);
 	used = (GOG_LIN_REG_CURVE_GET_CLASS(rc))->build_values (rc, x_vals, y_vals, nb);
 	if (used > 1) {
 		regression_stat_t *stats = go_regression_stat_new ();
@@ -110,11 +101,17 @@ gog_lin_reg_curve_get_equation (GogRegCurve *curve)
 	if (!curve->equation) {
 		GogLinRegCurve *lin = GOG_LIN_REG_CURVE (curve);
 		if (lin->affine)
-			curve->equation = (curve->a[0] > 0.)?
-				g_strdup_printf ("y = %g x + %g", curve->a[1], curve->a[0]):
-				g_strdup_printf ("y = %g x - %g", curve->a[1], -curve->a[0]);
+			curve->equation = (curve->a[0] < 0.)?
+				((curve->a[1] < 0)?
+					g_strdup_printf ("y = \xE2\x88\x92%gx \xE2\x88\x92 %g", -curve->a[1], -curve->a[0]):
+					g_strdup_printf ("y = %gx \xE2\x88\x92 %g", curve->a[1], -curve->a[0])):
+				((curve->a[1] < 0)?
+					g_strdup_printf ("y = \xE2\x88\x92%gx + %g", -curve->a[1], curve->a[0]):
+					g_strdup_printf ("y = %gx + %g", curve->a[1], curve->a[0]));
 		else
-			curve->equation = g_strdup_printf ("y = %g x ", curve->a[1]);
+			curve->equation = (curve->a[1] < 0)?
+				g_strdup_printf ("y = \xE2\x88\x92%gx", -curve->a[1]):
+				g_strdup_printf ("y = %gx", curve->a[1]);
 	}
 	return curve->equation;
 }
@@ -158,10 +155,13 @@ gog_lin_reg_curve_populate_editor (GogRegCurve *reg_curve, GtkTable *table)
 	int rows, columns;
 	GtkWidget *w;
 	GogLinRegCurve *lin = GOG_LIN_REG_CURVE (reg_curve);
+	GtkTooltips *tips = gtk_tooltips_new ();
 
 	g_object_get (G_OBJECT (table), "n-rows", &rows, "n-columns", &columns, NULL);
 	gtk_table_resize (table, rows + 1, columns);
 	w = gtk_check_button_new_with_label (_("Affine"));
+	gtk_tooltips_set_tip (GTK_TOOLTIPS (tips), w,
+					_("Uncheck to force zero intercept"), NULL);
 	gtk_widget_show (w);
 	gtk_table_attach (table, w, 0, columns, rows, rows + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), lin->affine);
@@ -298,6 +298,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_polynom_reg_curve_register_type (module);
 	gog_log_reg_curve_register_type (module);
 	gog_exp_reg_curve_register_type (module);
+	gog_power_reg_curve_register_type (module);
 }
 
 G_MODULE_EXPORT void

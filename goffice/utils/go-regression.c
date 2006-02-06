@@ -904,6 +904,78 @@ SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
 }
 
 /**
+ * go_power_regression:
+ * @xss: x-vectors (i.e. independent data)
+ * @dim: number of x-vectors
+ * @ys: y-vector (dependent data)
+ * @n: number of data points
+ * @affine: if %TRUE, a non-one multiplier is allowed
+ * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
+ *
+ * Performs one-dimensional linear regressions on the input points.
+ * Fits to "y = b * x1^m1 * ... * xd^md " or equivalently to
+ * "log y = log b + m1 * log x1 + ... + md * log xd".
+ *
+ * Returns: #RegressionResult as above.
+ **/
+
+RegressionResult
+SUFFIX(go_power_regression) (DOUBLE **xss, int dim,
+			const DOUBLE *ys, int n,
+			gboolean affine,
+			DOUBLE *res,
+			SUFFIX(regression_stat_t) *regression_stat)
+{
+	DOUBLE *log_ys, **log_xss = NULL;
+	RegressionResult result;
+	int i, j;
+
+	g_return_val_if_fail (dim >= 1, REG_invalid_dimensions);
+	g_return_val_if_fail (n >= 1, REG_invalid_dimensions);
+
+	log_ys = g_new (DOUBLE, n);
+	for (i = 0; i < n; i++)
+		if (ys[i] > 0)
+			log_ys[i] = SUFFIX(log) (ys[i]);
+		else {
+			result = REG_invalid_data;
+			goto out;
+		}
+
+	ALLOC_MATRIX (log_xss, dim, n);
+	for (i = 0; i < dim; i++)
+	        for (j = 0; j < n; j++)
+		        if (xss[i][j] > 0)
+		                log_xss[i][j] = SUFFIX(log) (xss[i][j]);
+			else {
+			        result = REG_invalid_data;
+				goto out;
+			}
+
+	if (affine) {
+		DOUBLE **log_xss2;
+		log_xss2 = g_new (DOUBLE *, dim + 1);
+		log_xss2[0] = NULL;  /* Substitute for 1-vector.  */
+		memcpy (log_xss2 + 1, log_xss, dim * sizeof (DOUBLE *));
+
+		result = SUFFIX(general_linear_regression) (log_xss2, dim + 1, log_ys,
+						    n, res, regression_stat, affine);
+		g_free (log_xss2);
+	} else {
+		res[0] = 0;
+		result = SUFFIX(general_linear_regression) (log_xss, dim, log_ys, n,
+						    res + 1, regression_stat, affine);
+	}
+
+ out:
+	if (log_xss != NULL)
+		FREE_MATRIX (log_xss, dim, n);
+	g_free (log_ys);
+	return result;
+}
+
+
+/**
  * go_logarithmic_regression:
  * @xss: x-vectors (i.e. independent data)
  * @dim: number of x-vectors
@@ -1430,7 +1502,7 @@ SUFFIX(go_non_linear_regression) (SUFFIX(RegressionFunction) f,
 		for(i = 0; i < p_dim; i++)
 			tmp_par[i] = par[i] + dpar[i];
 
-		result = SUFFIX(chi_squared) (f, xvals, par, yvals, sigmas,
+		result = SUFFIX(chi_squared) (f, xvals, tmp_par, yvals, sigmas,
 				      x_dim, &chi_pos);
 		if (result != REG_ok)
 			goto out;
@@ -1444,7 +1516,8 @@ SUFFIX(go_non_linear_regression) (SUFFIX(RegressionFunction) f,
 		if (chi_pos <= chi_pre + DELTA / 2) {
 			/* There is improvement */
 			r /= 10;
-			par = tmp_par;
+			for(i = 0; i < p_dim; i++)
+				par[i] = tmp_par[i];
 
 			if (SUFFIX(fabs) (chi_pos - chi_pre) < DELTA)
 				break;

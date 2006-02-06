@@ -832,3 +832,29 @@ gog_series_get_element (GogSeries const *series, int index)
 	
 	return NULL;
 }
+
+unsigned
+gog_series_get_xy_data (GogSeries const *series,
+					double const **x, double const **y)
+{
+	GogSeriesClass	*klass = GOG_SERIES_GET_CLASS (series);
+	int first, last, res, nb;
+	g_return_val_if_fail (gog_series_is_valid (GOG_SERIES (series)), 0);
+	gog_dataset_dims (GOG_DATASET (series), &first, &last);
+	g_return_val_if_fail (last >= 1, 0);
+	if (klass->get_xy_data != NULL)
+		return (klass->get_xy_data) (series, x, y);
+	*y = go_data_vector_get_values (
+		GO_DATA_VECTOR (series->values[1].data));
+	res = go_data_vector_get_len (
+		GO_DATA_VECTOR (series->values[1].data));
+	if (series->values[0].data) {
+		*x = go_data_vector_get_values (
+			GO_DATA_VECTOR (series->values[0].data));
+		nb = go_data_vector_get_len (
+			GO_DATA_VECTOR (series->values[0].data));
+		if (res > nb)
+			res = nb;
+	}
+	return res;
+}

@@ -18,6 +18,11 @@
 				<_description>Exponential regression curve engine</_description>
 			</information>
 		</service>
+		<service type="regcurve_engine" id="GogPowerRegCurve">
+			<information>
+				<_description>Power regression curve engine</_description>
+			</information>
+		</service>
 		<service type="regcurve_engine" id="GogLogRegCurve">
 			<information>
 				<_description>Logarithmic regression curve engine</_description>

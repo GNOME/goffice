@@ -2,7 +2,7 @@
 /*
  * gog-logfit.c :  
  *
- * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
+ * Copyright (C) 2005-2006 Jean Brefort (jean.brefort@normalesup.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -39,23 +39,12 @@ gog_log_fit_curve_update (GogObject *obj)
 	GogSeries *series = GOG_SERIES (obj->parent);
 	double const *y_vals, *x_vals = NULL;
 	double *tx_vals, *ty_vals, x, y;
-	int i, used, tmp, nb;
+	int i, used, nb;
 	double xmin, xmax;
 
-	g_return_if_fail (gog_series_is_valid (GOG_SERIES (series)));
+	g_return_if_fail (gog_series_is_valid (series));
 
-	y_vals = go_data_vector_get_values (
-		GO_DATA_VECTOR (series->values[1].data));
-	nb = go_data_vector_get_len (
-		GO_DATA_VECTOR (series->values[1].data));
-	if (series->values[0].data) {
-		x_vals = go_data_vector_get_values (
-			GO_DATA_VECTOR (series->values[0].data));
-		tmp = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->values[0].data));
-		if (nb > tmp)
-			nb = tmp;
-	}
+	nb = gog_series_get_xy_data (series, &x_vals, &y_vals);
 	gog_reg_curve_get_bounds (rc, &xmin, &xmax);
 	tx_vals = g_new (double, nb);
 	ty_vals = g_new (double, nb);
@@ -108,21 +97,38 @@ static gchar const*
 gog_log_fit_curve_get_equation (GogRegCurve *curve)
 {
 	if (!curve->equation) {
-		if (curve->a[0] > 0.) {
-			if (curve->a[2] > 0.)
-				curve->equation = (curve->a[3] > 0.)?
-					g_strdup_printf ("y = %g + %g * ln (x - %g)", curve->a[1], curve->a[2], curve->a[3]):
-					g_strdup_printf ("y = %g + %g * ln (x + %g)", curve->a[1], curve->a[2], -curve->a[3]);
-			else
-				curve->equation = (curve->a[3] > 0.)?
-					g_strdup_printf ("y = %g - %g * ln (x - %g)", curve->a[1], -curve->a[2], curve->a[3]):
-					g_strdup_printf ("y = %g - %g * ln (x + %g)", curve->a[1], -curve->a[2], -curve->a[3]);
-		} else {
-			if (curve->a[2] > 0.)
-				curve->equation = g_strdup_printf ("y = %g + %g * ln (%g - x)", curve->a[1], curve->a[2], curve->a[3]);
-			else
-				curve->equation = g_strdup_printf ("y = %g - %g * ln (%g - x)", curve->a[1], -curve->a[2], curve->a[3]);
-		}
+		if (curve->a[0] > 0.)
+			curve->equation = (curve->a[3] < 0.)?
+				((curve-> a[1] < 0)?
+					((curve->a[2] < 0)?
+						g_strdup_printf("y = \xE2\x88\x92%g \xE2\x88\x92 %g ln(x + %g)", -curve->a[1], -curve->a[2], -curve->a[3]):
+						g_strdup_printf("y = \xE2\x88\x92%g + %g ln(x + %g)", -curve->a[1], curve->a[2], -curve->a[3])):
+					((curve->a[2] < 0)?
+						g_strdup_printf("y = %g \xE2\x88\x92 %g ln(x + %g)", curve->a[1], -curve->a[2], -curve->a[3]):
+						g_strdup_printf("y = %g + %g ln(x + %g)", curve->a[1], curve->a[2], -curve->a[3]))):
+				((curve-> a[1] < 0)?
+					((curve->a[2] < 0)?
+						g_strdup_printf("y = \xE2\x88\x92%g \xE2\x88\x92 %g ln(x \xE2\x88\x92 %g)", -curve->a[1], -curve->a[2], curve->a[3]):
+						g_strdup_printf("y = \xE2\x88\x92%g + %g ln(x \xE2\x88\x92 %g)", -curve->a[1], curve->a[2], curve->a[3])):
+					((curve->a[2] < 0)?
+						g_strdup_printf("y = %g \xE2\x88\x92 %g ln(x \xE2\x88\x92 %g)", curve->a[1], -curve->a[2], curve->a[3]):
+						g_strdup_printf("y = %g + %g ln(x \xE2\x88\x92% g)", curve->a[1], curve->a[2], curve->a[3])));
+		else
+			curve->equation = (curve->a[3] < 0.)?
+				((curve-> a[1] < 0)?
+					((curve->a[2] < 0)?
+						g_strdup_printf("y = \xE2\x88\x92%g \xE2\x88\x92 %g ln(\xE2\x88\x92%g \xE2\x88\x92 x)", -curve->a[1], -curve->a[2], -curve->a[3]):
+						g_strdup_printf("y = \xE2\x88\x92%g + %g ln(\xE2\x88\x92%g \xE2\x88\x92 x)", -curve->a[1], curve->a[2], -curve->a[3])):
+					((curve->a[2] < 0)?
+						g_strdup_printf("y = %g \xE2\x88\x92 %g ln(\xE2\x88\x92%g \xE2\x88\x92 x)", curve->a[1], -curve->a[2], -curve->a[3]):
+						g_strdup_printf("y = %g + %g ln(\xE2\x88\x92%g \xE2\x88\x92 x)", curve->a[1], curve->a[2], -curve->a[3]))):
+				((curve-> a[1] < 0)?
+					((curve->a[2] < 0)?
+						g_strdup_printf("y = \xE2\x88\x92%g \xE2\x88\x9 2%g ln(%g \xE2\x88\x92 x)", -curve->a[1], -curve->a[2], curve->a[3]):
+						g_strdup_printf("y = \xE2\x88\x92%g + %g ln(%g \xE2\x88\x92 x)", -curve->a[1], curve->a[2], curve->a[3])):
+					((curve->a[2] < 0)?
+						g_strdup_printf("y = %g \xE2\x88\x92 %g ln(%g\xE2\x88\x92 x)", curve->a[1], -curve->a[2], curve->a[3]):
+						g_strdup_printf("y = %g + %g ln(%g \xE2\x88\x92 x)", curve->a[1], curve->a[2], curve->a[3])));
 	}
 	return curve->equation;
 }

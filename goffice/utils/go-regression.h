@@ -46,6 +46,11 @@ RegressionResult 	 go_exponential_regression 	(double **xss, int dim,
 							 gboolean affine,
 							 double *res,
 							 regression_stat_t *stat);
+RegressionResult 	 go_power_regression 	(double **xss, int dim,
+							 const double *ys, int n,
+							 gboolean affine,
+							 double *res,
+							 regression_stat_t *stat);
 RegressionResult 	 go_logarithmic_regression 	(double **xss, int dim,
 							 const double *ys, int n,
 							 gboolean affine,
@@ -118,6 +123,11 @@ RegressionResult    go_linear_regressionl   	(long double **xss, int dim,
 						 long double *res,
 						 regression_stat_tl *stat);
 RegressionResult    go_exponential_regressionl 	(long double **xss, int dim,
+						 const long double *ys, int n,
+						 gboolean affine,
+						 long double *res,
+						 regression_stat_tl *stat);
+RegressionResult    go_power_regressionl 	(long double **xss, int dim,
 						 const long double *ys, int n,
 						 gboolean affine,
 						 long double *res,

@@ -93,28 +93,68 @@ gog_polynom_reg_curve_get_value_at (GogRegCurve *curve, double x)
 	return result;
 }
 
+static char *exponent[10] = {"\xE2\x81\xB0","\xC2\xB9","\xC2\xB2","\xC2\xB3",
+	"\xE2\x81\xB4","\xE2\x81\xB5","\xE2\x81\xB6", "\xE2\x81\xB7",
+	"\xE2\x81\xB8","\xE2\x81\xB9"};
 static gchar const*
 gog_polynom_reg_curve_get_equation (GogRegCurve *curve)
 {
 	if (!curve->equation) {
 		GogLinRegCurve *lin = GOG_LIN_REG_CURVE (curve);
-		GString *str = g_string_new ("");
-		int i;
-		if (lin->affine) {
-			if (curve->a[0] > 0.)
-				g_string_printf(str, "y = %g + %g x", curve->a[0], curve->a[1]);
-			else
-				g_string_printf(str, "y = %g - %g x", curve->a[0], -curve->a[1]);
-		} else {
-			g_string_printf(str, "y = %g x", curve->a[1]);
-		}
-		for (i = 2; i <= lin->dims; i++) {
-			if (i % 3 == 0)
+		GString *str = g_string_new ("y =");
+		int i = lin->dims, j = 1;
+		gboolean first = TRUE;
+		while (--i > 1) {
+			if (curve->a[i] == 0.) /* a very rare event */
+				continue;
+			j++;
+			if (j % 3 == 3)
 				g_string_append (str, "\n");
-			if (curve->a[i] > 0.)
-				g_string_append_printf(str, " + %g x^%d", curve->a[i], i);
-			else
-				g_string_append_printf(str, " - %g x^%d", -curve->a[i], i);
+			if (first) {
+				if (curve->a[i] > 0.)
+					g_string_append_printf(str, " %gx%s", curve->a[i], exponent[i]);
+				else
+					g_string_append_printf(str, " \xE2\x88\x92%gx%s", -curve->a[i], exponent[i]);
+			} else {
+				first = FALSE;
+				if (curve->a[i] > 0.)
+					g_string_append_printf(str, " + %gx%s", curve->a[i], exponent[i]);
+				else
+					g_string_append_printf(str, " \xE2\x88\x92 %gx%s", -curve->a[i], exponent[i]);
+			}
+		}
+		if (curve->a[1] != 0.) {
+			j++;
+			if (j % 3 == 3)
+				g_string_append (str, "\n");
+			if (first) {
+				if (curve->a[1] > 0.)
+					g_string_append_printf(str, " %gx", curve->a[1]);
+				else
+					g_string_append_printf(str, " \xE2\x88\x92%gx", -curve->a[1]);
+				first = FALSE;
+			} else {
+				if (curve->a[1] > 0.)
+					g_string_append_printf(str, " + %gx", curve->a[1]);
+				else
+					g_string_append_printf(str, " \xE2\x88\x92 %gx", -curve->a[1]);
+			}
+		}
+		if (lin->affine && curve->a[0] != 0.) {
+			j++;
+			if (j % 3 == 3)
+				g_string_append (str, "\n");
+			if (first) {
+				if (curve->a[0] > 0.)
+					g_string_append_printf(str, " %g", curve->a[0]);
+				else
+					g_string_append_printf(str, " \xE2\x88\x92%g", -curve->a[0]);
+			} else {
+				if (curve->a[0] > 0.)
+					g_string_append_printf(str, " + %g", curve->a[0]);
+				else
+					g_string_append_printf(str, " \xE2\x88\x92 %g", -curve->a[0]);
+			}
 		}
 		curve->equation = g_string_free (str, FALSE);
 	}

@@ -72,11 +72,17 @@ gog_log_reg_curve_get_equation (GogRegCurve *curve)
 	if (!curve->equation) {
 		GogLinRegCurve *lin = GOG_LIN_REG_CURVE (curve);
 		if (lin->affine)
-			curve->equation = (curve->a[0] > 0.)?
-				g_strdup_printf ("y = %g ln(x) + %g", curve->a[1], curve->a[0]):
-				g_strdup_printf ("y = %g ln(x) - %g", curve->a[1], -curve->a[0]);
+			curve->equation = (curve->a[0] < 0.)?
+				((curve->a[1] < 0)?
+					g_strdup_printf ("y = \xE2\x88\x92%g ln(x) \xE2\x88\x92 %g", -curve->a[1], -curve->a[0]):
+					g_strdup_printf ("y = %g ln(x) \xE2\x88\x92 %g", curve->a[1], -curve->a[0])):
+				((curve->a[1] < 0)?
+					g_strdup_printf ("y = \xE2\x88\x92%g ln(x) + %g", -curve->a[1], curve->a[0]):
+					g_strdup_printf ("y = %g ln(x) + %g", curve->a[1], curve->a[0]));
 		else
-			curve->equation = g_strdup_printf ("y = %g ln(x)", curve->a[1]);
+			curve->equation = (curve->a[1] < 0)?
+				g_strdup_printf ("y = \xE2\x88\x92%g ln(x)", -curve->a[1]):
+				g_strdup_printf ("y = %g ln(x)", curve->a[1]);
 	}
 	return curve->equation;
 }

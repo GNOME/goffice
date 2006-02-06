@@ -1,9 +1,11 @@
-goffice 0.2.0:
+goffice 0.3.0:
 
 Jean Brefort:
 	* Add a new components system to embed data from other
 	applications.
 	* Add Histograms.
+	* Add regression curves to histograms and line plots.
+	* Add power regressions.
 
 Morten:
 	* Fix translation problems causing crashes in the character set

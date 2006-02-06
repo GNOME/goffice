@@ -95,6 +95,8 @@ typedef struct {
 
 	/* Virtuals */
 	void (*dim_changed) (GogSeries *series, int dim_i);
+	unsigned (*get_xy_data) (GogSeries const *series,
+					double const **x, double const **y);
 } GogSeriesClass;
 
 #define GOG_SERIES_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_SERIES_TYPE, GogSeriesClass))
