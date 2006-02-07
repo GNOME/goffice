@@ -1,5 +1,12 @@
 2006-02-06  Morten Welinder  <terra@gnome.org>
 
+	* plugins/reg_linear/gog-polynom-reg.c
+	(gog_polynom_reg_curve_get_equation): Simplify.  Handle exponents
+	>= 10 again.  Include highest terms.  Drop "1" factors.  Handle
+	degenerate case of "y = 0".
+
+2006-02-06  Morten Welinder  <terra@gnome.org>
+
 	* plugins/reg_linear/gog-polynom-reg.c: Constify.
 
 2006-02-06  Jean Brefort  <jean.brefort@normalesup.org>
