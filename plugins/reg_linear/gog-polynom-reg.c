@@ -32,7 +32,8 @@
 #include <gsf/gsf-impl-utils.h>
 
 #define UNICODE_MINUS_SIGN_C 0x2212
-
+static int minus_utf8_len;
+static char minus_utf8[6];
 
 static GogObjectClass *gog_polynom_reg_curve_parent_klass;
 
@@ -121,6 +122,28 @@ append_exponent (GString *res, unsigned int i)
 }
 
 
+static void
+append_number (GString *res, double c, gboolean suppress1)
+{
+	size_t prelen = res->len;
+
+	g_string_append_printf (res, "%g", c);
+
+	if (suppress1 && res->len == prelen + 1 && res->str[prelen] == '1')
+		g_string_truncate (res, prelen);
+	else {
+		/* Handle the minuses as in -1.2222e-3.  */
+		size_t i;
+		for (i = prelen; i < res->len; i++)
+			if (res->str[i] == '-') {
+				res->str[i] = minus_utf8[0];
+				g_string_insert_len (res, i + 1, minus_utf8 + 1, minus_utf8_len - 1);
+				i += minus_utf8_len - 1;
+			}
+	}
+}
+
+
 static gchar const*
 gog_polynom_reg_curve_get_equation (GogRegCurve *curve)
 {
@@ -131,7 +154,6 @@ gog_polynom_reg_curve_get_equation (GogRegCurve *curve)
 
 		for (i = lin->dims; i >= lasti; i--) {
 			double c_i = curve->a[i];
-			size_t prelen;
 
 			if (c_i == 0.) /* a very rare event */
 				continue;
@@ -143,21 +165,18 @@ gog_polynom_reg_curve_get_equation (GogRegCurve *curve)
 
 			g_string_append_c (str, ' ');
 			if (j != 1) {
-				if (c_i > 0)
+				if (c_i >= 0)
 					g_string_append_c (str, '+');
 				else {
-					g_string_append_unichar (str, UNICODE_MINUS_SIGN_C);
+					g_string_append_len (str, minus_utf8, minus_utf8_len);
 					c_i = -c_i;
 				}				
 				g_string_append_c (str, ' ');
 			}
 
-			prelen = str->len;
-			g_string_append_printf (str, "%g", c_i);
+			append_number (str, c_i, i >= 1);
+
 			if (i >= 1) {
-				if (str->len == prelen + 1 &&
-				    str->str[prelen] == '1')
-					str->len--;  /* Kill lonely "1".  */
 				g_string_append_c (str, 'x');
 				if (i > 1)
 					append_exponent (str, i);
@@ -219,6 +238,8 @@ gog_polynom_reg_curve_class_init (GogRegCurveClass *reg_curve_klass)
 	reg_curve_klass->populate_editor = gog_polynom_reg_curve_populate_editor;
 
 	gog_object_klass->type_name	= gog_polynom_reg_curve_type_name;
+
+	minus_utf8_len = g_unichar_to_utf8 (UNICODE_MINUS_SIGN_C, minus_utf8);
 }
 
 static void
