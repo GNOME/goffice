@@ -47,23 +47,23 @@
 
 #define SETUP_LOCALE_SWITCH char *oldlocale = NULL
 
-#define START_LOCALE_SWITCH						\
+#define START_LOCALE_SWITCH							\
 	do {									\
 		if (gfs->locale) {						\
-			currency_date_format_shutdown ();			\
+			go_currency_date_format_shutdown ();			\
 			oldlocale = g_strdup (setlocale (LC_ALL, NULL));	\
-			go_setlocale (LC_ALL, gfs->locale);		\
-			currency_date_format_init ();				\
+			go_setlocale (LC_ALL, gfs->locale);			\
+			go_currency_date_format_init ();			\
 		}								\
 	} while (0)
 
-#define END_LOCALE_SWITCH						\
+#define END_LOCALE_SWITCH							\
 	do {									\
 		if (oldlocale) {						\
-			currency_date_format_shutdown ();			\
+			go_currency_date_format_shutdown ();			\
 			go_setlocale (LC_ALL, oldlocale);			\
 			g_free (oldlocale);					\
-			currency_date_format_init ();				\
+			go_currency_date_format_init ();			\
 		}								\
 	} while (0)
 
