@@ -2143,7 +2143,7 @@ go_fmt_general_int (GString *result, int val, int col_width)
 
 #ifdef DEFINE_COMMON
 void
-number_format_init (void)
+go_number_format_init (void)
 {
 	style_format_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 		NULL, (GDestroyNotify) go_format_unref);
@@ -2171,7 +2171,7 @@ cb_format_leak (gpointer key, gpointer value, gpointer user_data)
 
 #ifdef DEFINE_COMMON
 void
-number_format_shutdown (void)
+go_number_format_shutdown (void)
 {
 	GHashTable *tmp;
 

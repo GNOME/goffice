@@ -186,7 +186,7 @@ my_regerror (int err, const GORegexp *preg)
 }
 
 void
-currency_date_format_init (void)
+go_currency_date_format_init (void)
 {
 	gboolean precedes, space_sep;
 	char const *curr = format_get_currency (&precedes, &space_sep)->str;
@@ -345,7 +345,7 @@ currency_date_format_init (void)
 }
 
 void
-currency_date_format_shutdown (void)
+go_currency_date_format_shutdown (void)
 {
 	/* We need to free allocated strings since */
 	/* currency_date_format_init/shutdown may  */

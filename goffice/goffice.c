@@ -81,7 +81,7 @@ libgoffice_init (void)
 		return;
 
 #ifdef G_OS_WIN32
-{
+	{
 	gchar *dir = g_win32_get_package_installation_directory (NULL, "libgoffice-0-3.dll");
 	libgoffice_data_dir = g_build_filename (dir,
 		"share", "goffice", GOFFICE_VERSION, NULL);
@@ -92,7 +92,7 @@ libgoffice_init (void)
 	libgoffice_lib_dir = g_build_filename (dir,
 		"lib", "goffice", GOFFICE_VERSION, NULL);
 	g_free (dir);
-}
+	}
 #endif
 
 	bindtextdomain (GETTEXT_PACKAGE, libgoffice_locale_dir);
@@ -122,7 +122,8 @@ libgoffice_init (void)
 	(void) GO_DATA_SCALAR_VAL_TYPE;
 	(void) GO_DATA_SCALAR_STR_TYPE;
 	gog_themes_init	();
-	number_format_init ();
+	go_number_format_init ();
+	go_currency_date_format_init ();
 }
 
 void
@@ -132,7 +133,8 @@ libgoffice_shutdown (void)
 	go_fonts_shutdown ();
 	goc_plugin_services_shutdown ();
 	gog_plugin_services_shutdown ();
-	number_format_shutdown ();
+	go_currency_date_format_shutdown ();
+	go_number_format_shutdown ();
 #ifdef G_OS_WIN32
 	g_free (libgoffice_data_dir);
 	g_free (libgoffice_icon_dir);

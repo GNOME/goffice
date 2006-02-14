@@ -145,10 +145,10 @@ GString const *format_get_thousand     (void);
 GString const *format_get_decimal      (void);
 char const *   format_boolean          (gboolean b);
 
-void number_format_init (void);
-void number_format_shutdown (void);
-void currency_date_format_init     (void);
-void currency_date_format_shutdown (void);
+void go_number_format_init (void);
+void go_number_format_shutdown (void);
+void go_currency_date_format_init     (void);
+void go_currency_date_format_shutdown (void);
 
 extern char const * const day_short   [];
 extern char const * const day_long    [];
