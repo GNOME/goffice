@@ -17,6 +17,7 @@ Morten:
 	* Use system libpcre when available, sufficiently recent, and
 	  properly compiled with UTF-8 support.
 	* Plug leak.
+	* Handle problems with formats containing "ss." but no more.
 
 --------------------------------------------------------------------------
 goffice 0.1.1:
