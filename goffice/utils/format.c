@@ -1939,7 +1939,6 @@ SUFFIX(go_format_number) (GString *result,
 					/* HACK for fractional seconds.  */
 					DOUBLE days, secs;
 					int decs = 0;
-					int old_len = result->len;
 					format++;
 					while (format[1] == '0')
 						decs++, format++;
@@ -1947,10 +1946,12 @@ SUFFIX(go_format_number) (GString *result,
 					secs = SUFFIX(modf) (SUFFIX(fabs) (number), &days);
 					secs = SUFFIX(modf) (secs * (24 * 60 * 60), &days);
 
-					if (decs > 0)
+					if (decs > 0) {
+						size_t old_len = result->len;
 						g_string_append_printf (result, "%.*" FORMAT_f, decs, secs);
-					/* Remove the "0" or "1" before the dot.  */
-					g_string_erase (result, old_len, 1);
+						/* Remove the "0" or "1" before the dot.  */
+						g_string_erase (result, old_len, 1);
+					}
 				}
 			}
 			break;
