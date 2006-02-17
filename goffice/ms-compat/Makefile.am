@@ -14,3 +14,5 @@ libgoffice_ms_compat_la_HEADERS = 	\
 	go-ms-parser.h
 
 include $(top_srcdir)/goffice.mk
+
+LIB_PUBLIC_HDRS = $(libgoffice_ms_compat_la_HEADERS)

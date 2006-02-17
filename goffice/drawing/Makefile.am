@@ -30,3 +30,5 @@ libgoffice_drawing_la_HEADERS = 	\
 	god-text-model.h
 
 include $(top_srcdir)/goffice.mk
+
+LIB_PUBLIC_HDRS = $(libgoffice_drawing_la_HEADERS)

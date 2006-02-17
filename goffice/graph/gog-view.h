@@ -54,7 +54,6 @@ struct _GogToolAction {
 GogToolAction 	*gog_tool_action_new 		(GogView *view, GogTool *tool, double x, double y);
 void 		 gog_tool_action_move 		(GogToolAction *action, double x, double y);
 void 		 gog_tool_action_double_click 	(GogToolAction *action);
-GogObject	*gog_tool_action_get_object	(GogToolAction *action);
 void 		 gog_tool_action_free 		(GogToolAction *action);
 	
 /*****************************************************************************/

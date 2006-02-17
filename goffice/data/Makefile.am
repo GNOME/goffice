@@ -12,3 +12,5 @@ libgoffice_data_la_HEADERS = 	\
 	go-data-simple.h 
 
 include $(top_srcdir)/goffice.mk
+
+LIB_PUBLIC_HDRS = $(libgoffice_data_la_HEADERS)

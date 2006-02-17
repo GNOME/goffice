@@ -65,3 +65,5 @@ non-intermediate: foo-canvas-marshal.c
 
 CLEANFILES = foo-canvas-marshal.h foo-canvas-marshal.c
 
+include $(top_srcdir)/goffice-win32.mk
+LIB_PUBLIC_HDRS = $(libfoocanvasinclude_HEADERS)

@@ -48,7 +48,6 @@ typedef struct {
 
 GType gog_persist_get_type (void);
 
-void     gog_persist_dom_save (GogPersist const *gp, xmlNode *parent);
 gboolean gog_persist_dom_load (GogPersist *gp, xmlNode *node);
 void     gog_persist_sax_save (GogPersist const *gp, GsfXMLOut *output);
 void	 gog_persist_prep_sax (GogPersist *gp, 

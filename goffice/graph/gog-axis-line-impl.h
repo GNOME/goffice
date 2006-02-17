@@ -60,8 +60,6 @@ GType gog_axis_base_get_type (void);
 GogAxisPosition 	gog_axis_base_get_position (GogAxisBase *axis_base);
 void		    	gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position);
 
-void			gog_axis_base_set_label_angle (GogAxisBase *axis_base, double angle);
-
 typedef struct {
 	GogView		base;
 

@@ -1,5 +1,9 @@
 goffice 0.3.0:
 
+Ivan Wong :
+	* [Win32] Only export symbols which are in the public headers.
+	  [#307356]
+
 Jean Brefort:
 	* Add a new components system to embed data from other
 	applications.

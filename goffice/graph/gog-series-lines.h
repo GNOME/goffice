@@ -31,7 +31,6 @@
 #define IS_GOG_SERIES_LINES(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SERIES_LINES_TYPE))
 
 GType 	gog_series_lines_get_type 	(void);
-void  	gog_series_lines_register_type 	(GTypeModule *module);
 void 	gog_series_lines_render 	(GogSeriesLines *lines, GogRenderer *rend, 
 					 GogViewAllocation const *bbox, ArtVpath *path, gboolean invert);
 void	gog_series_lines_use_markers (GogSeriesLines *lines, gboolean use_markers);

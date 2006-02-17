@@ -677,7 +677,8 @@ typedef struct {
 #ifdef GOFFICE_WITH_GNOME
 #include <libgnome/gnome-help.h>
 #elif defined(G_OS_WIN32)
-#include <goffice/utils/win32-stub.h>
+#include <windows.h>
+#include <htmlhelp.h>
 #endif
 static void
 go_help_display (CBHelpPaths const *paths)
@@ -733,7 +734,7 @@ go_help_display (CBHelpPaths const *paths)
 		gchar *path = g_build_filename (paths->data_dir, "doc", "C", chmfile, NULL);
 
 		g_free (chmfile);
-		if (!HtmlHelp_ (GetDesktopWindow (), path, HH_HELP_CONTEXT, id))
+		if (!HtmlHelp (GetDesktopWindow (), path, HH_HELP_CONTEXT, id))
 			go_gtk_notice_dialog (NULL, GTK_MESSAGE_ERROR, "Failed to spawn HtmlHelp");
 		g_free (path);
 	}

@@ -94,3 +94,5 @@ dist_glade_DATA = \
 	gog-reg-eqn-prefs.glade
 
 include $(top_srcdir)/goffice.mk
+
+LIB_PUBLIC_HDRS = $(libgoffice_graph_la_HEADERS)

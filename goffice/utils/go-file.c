@@ -35,12 +35,9 @@
 #include <gsf-gnome/gsf-input-gnomevfs.h>
 #include <gsf-gnome/gsf-output-gnomevfs.h>
 #include <libgnome/gnome-url.h>
-#else
-#ifdef G_OS_WIN32
-#include <windows.h>
-#include <winreg.h>
-#include <goffice/utils/win32-stub.h>
-#endif
+#elif defined G_OS_WIN32
+#include <urlmon.h>
+#include <io.h>
 #endif
 
 #include <string.h>
@@ -642,7 +639,7 @@ go_get_mime_type (gchar const *uri)
 
 	wuri = g_utf8_to_utf16 (uri, -1, NULL, NULL, NULL);
 	if (wuri &&
-	    FindMimeFromData_ (NULL, wuri, NULL, 0, NULL, 0, &mime_type, 0) == NOERROR)
+	    FindMimeFromData (NULL, wuri, NULL, 0, NULL, 0, &mime_type, 0) == NOERROR)
 	{
 		g_free (wuri);
 		return g_utf16_to_utf8 (mime_type, -1, NULL, NULL, NULL);

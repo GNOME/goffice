@@ -83,12 +83,12 @@ char const *go_guess_encoding		(char const *raw, size_t len,
 char const *go_get_real_name		(void);
 void	    go_destroy_password	(char *passwd);
 
-GOMemChunk  *go_mem_chunk_new		(char const *, size_t, size_t);
-void	     go_mem_chunk_destroy	(GOMemChunk *, gboolean);
-gpointer     go_mem_chunk_alloc		(GOMemChunk *);
-gpointer     go_mem_chunk_alloc0	(GOMemChunk *);
-void         go_mem_chunk_free		(GOMemChunk *, gpointer);
-void         go_mem_chunk_foreach_leak	(GOMemChunk *, GFunc, gpointer);
+GOMemChunk  *go_mem_chunk_new		(char const *name, size_t user_atom_size, size_t chunk_size);
+void	     go_mem_chunk_destroy	(GOMemChunk *chunk, gboolean expect_leaks);
+gpointer     go_mem_chunk_alloc		(GOMemChunk *chunk);
+gpointer     go_mem_chunk_alloc0	(GOMemChunk *chunk);
+void         go_mem_chunk_free		(GOMemChunk *chunk, gpointer mem);
+void         go_mem_chunk_foreach_leak	(GOMemChunk *chunk, GFunc cb, gpointer user);
 
 void	go_object_toggle             (gpointer object,
 				      const gchar *property_name);

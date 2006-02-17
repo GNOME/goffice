@@ -69,11 +69,12 @@ typedef struct {
   GORegoff rm_so, rm_eo;
 } GORegmatch;
 
-int go_regcomp (GORegexp *, const char *, int);
-int go_regexec (const GORegexp *, const char *, size_t,
-		       GORegmatch *, int);
-size_t go_regerror (int, const GORegexp *, char *, size_t);
-void go_regfree (GORegexp *);
+int go_regcomp (GORegexp * preg, const char *pattern, int cflags);
+int go_regexec (const GORegexp * preg, const char *string, size_t nmatch,
+		GORegmatch pmatch[], int eflags);
+size_t go_regerror (int errcode, const GORegexp * preg, char *errbuf,
+		    size_t errbuf_size);
+void go_regfree (GORegexp * preg);
 
 /* -------------------------------------------------------------------------- */
 

@@ -7,9 +7,6 @@
 
 G_BEGIN_DECLS
 
-void go_plugin_init	(GOPlugin *p, GOCmdContext *cc); /* optional, called after dlopen */
-void go_plugin_shutdown	(GOPlugin *p, GOCmdContext *cc); /* optional, called before close */
-
 typedef struct {
 	char const * const key;		/* object being versioned */
 	char const * const version;	/* version id (strict equality is required) */

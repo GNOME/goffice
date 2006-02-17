@@ -52,3 +52,5 @@ UNUSED = \
 EXTRA_DIST = $(UNUSED)
 
 include $(top_srcdir)/goffice.mk
+
+LIB_PUBLIC_HDRS = $(libgoffice_app_la_HEADERS)

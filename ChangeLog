@@ -1,3 +1,47 @@
+2006-02-18  Ivan, Wong Yat Cheung <ivanwong@gnome.org>
+
+	* configure.in:
+	* dumpdef.pl: NEW
+	* goffice.mk:
+	* goffice-win32.mk: NEW
+	* goffice/Makefile.am:
+	* goffice/app/Makefile.am:
+	* goffice/cut-n-paste/foocanvas/Makefile.am:
+	* goffice/data/Makefile.am:
+	* goffice/drawing/Makefile.am:
+	* goffice/graph/Makefile.am:
+	* goffice/gtk/Makefile.am:
+	* goffice/ms-compat/Makefile.am:
+	* goffice/utils/Makefile.am:
+	[Win32] 1.) For every source directory of a library, pass all
+	the public headers (with all #include removed) to the C preprocessor.
+	2.) Pass the result from 1. to a perl script which extracts names of
+	all the public functions and variables. 3.) Concat all from step 2. to
+	produce a single .def file at the top directory of the library. No
+	--export-all-symbols anymore.
+
+	* goffice/gtk/goffice-gtk.c:
+	* goffice/utils/Makefile.am:
+	* goffice/utils/go-file.c:
+	win32-stub is no longer needed.
+
+	* goffice/app/module-plugin-defs.h:
+	* goffice/data/go-data.h:
+	* goffice/graph/gog-axis-line-impl.h:
+	* goffice/graph/gog-object-xml.h:
+	* goffice/graph/gog-series-lines.h:
+	* goffice/graph/gog-view.h:
+	* goffice/gtk/go-combo-color.h:
+	* goffice/utils/go-glib-extras.h:
+	* goffice/utils/go-marker.h:
+	* goffice/utils/regutf8.h:
+	Remove non-exist public function declarations.
+
+2006-02-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/format.c (go_format_number): Fix handling of
+	decimals.
+
 2006-02-16  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/format.c (go_format_number): Fix handling of

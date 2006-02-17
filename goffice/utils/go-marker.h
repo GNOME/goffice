@@ -84,8 +84,6 @@ GdkPixbuf       *go_marker_get_pixbuf_with_size (GOMarker *m, guint size);
 gpointer 	 go_marker_selector 		(GOColor outline_color, 
 						 GOColor fill_color,
 						 GOMarkerShape default_shape);
-GOMarkerShape	 go_marker_selector_get_shape	(gpointer selector,
-						 int index, gboolean *is_auto);
 #endif
 	
 G_END_DECLS
