@@ -72,9 +72,9 @@ goffice.def: local.def app/local.def \
 
 if HAVE_LIBEXE
 goffice_mslibdir = $(DESTDIR)$(libdir)
-goffice_mslib_DATA = goffice-1.lib
+goffice_mslib_DATA = goffice-0.lib
 
-goffice-1.lib: libgoffice-1.la goffice.def
-	lib -name:libgoffice-1-$(VERSION_IFACE).dll -def:goffice.def -out:$@
+goffice-0.lib: libgoffice-0.la goffice.def
+	lib -name:libgoffice-0-$(VERSION_IFACE).dll -def:goffice.def -out:$@
 endif
 endif
