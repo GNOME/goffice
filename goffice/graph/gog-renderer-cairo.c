@@ -177,20 +177,33 @@ grc_path (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath)
 
 /* Red and blue are inverted in a pixbuf compared to cairo */
 static void
-grc_invert_pixbuf_RB (unsigned char *pixels, int width, int height, int rowstride)
+grc_pixbuf_to_cairo (unsigned char *p, int width, int height, int rowstride)
 {
 	int i,j;
 	unsigned char a;
+	guint t;
+	
+#define MULT(d,c,a,t) G_STMT_START { t = c * a + 0x7f; d = ((t >> 8) + t) >> 8; } G_STMT_END
 	
 	for (i = 0; i < height; i++) {
 		for (j = 0; j < width; j++) {
-			a = pixels[0];
-			pixels[0] = pixels[2];
-			pixels[2] = a;
-			pixels += 4;
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+			MULT(a,    p[2], p[3], t);
+			MULT(p[1], p[1], p[3], t);
+			MULT(p[2], p[0], p[3], t);
+			p[0] = a;
+#else	  
+			a = p[3];
+			MULT(p[3], p[2], a, t);
+			MULT(p[2], p[1], a, t);
+			MULT(p[1], p[0], a, t);
+			p[0] = a;
+#endif
+			p += 4;
 		}
-		pixels += rowstride - width * 4;
+		p += rowstride - width * 4;
 	}
+#undef MULT
 }
 
 static void
@@ -418,7 +431,7 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 			rowstride = gdk_pixbuf_get_rowstride (pixbuf);
 			cr_surface = cairo_image_surface_create_for_data (pixels,
 				CAIRO_FORMAT_ARGB32, w, h, rowstride);
-			grc_invert_pixbuf_RB (pixels, w, h, rowstride);
+			grc_pixbuf_to_cairo (pixels, w, h, rowstride);
 			cr_pattern = cairo_pattern_create_for_surface (cr_surface);
 			cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
 			cairo_set_source (cr, cr_pattern);
@@ -693,7 +706,7 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 	GogRendererCairo *crend = GOG_RENDERER_CAIRO (renderer);
 	GogViewAllocation allocation;
 	GOImageFormatInfo const *format_info;
-	cairo_surface_t *surface;
+	cairo_surface_t *surface = NULL;
 	cairo_status_t status;
 	GdkPixbuf *pixbuf;
 	double width_in_pts, height_in_pts;
@@ -908,8 +921,8 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 
 		gog_view_render	(view, NULL);
 		
-		grc_invert_pixbuf_RB (gdk_pixbuf_get_pixels (crend->pixbuf), w, h, 
-				      gdk_pixbuf_get_rowstride (crend->pixbuf));
+		grc_pixbuf_to_cairo (gdk_pixbuf_get_pixels (crend->pixbuf), w, h, 
+				     gdk_pixbuf_get_rowstride (crend->pixbuf));
 	}
 
 	cairo_destroy (crend->cairo);

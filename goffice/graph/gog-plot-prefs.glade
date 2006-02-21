@@ -3,7 +3,7 @@
 
 <glade-interface>
 
-<widget class="GtkWindow" id="gog_chart_prefs_window">
+<widget class="GtkWindow" id="gog_plot_prefs_window">
   <property name="visible">True</property>
   <property name="title" translatable="yes">GogChartPrefs</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -18,9 +18,10 @@
   <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <property name="focus_on_map">True</property>
+  <property name="urgency_hint">False</property>
 
   <child>
-    <widget class="GtkVBox" id="gog_chart_prefs">
+    <widget class="GtkVBox" id="gog_plot_prefs">
       <property name="border_width">12</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>

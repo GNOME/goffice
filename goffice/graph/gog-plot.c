@@ -34,12 +34,14 @@
 #include <goffice/utils/go-math.h>
 #include <glib/gi18n-lib.h>
 
-#include <gtk/gtktable.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkcelllayout.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkliststore.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcelllayout.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtktable.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
@@ -142,9 +144,73 @@ role_series_pre_remove (GogObject *parent, GogObject *series)
 }
 
 typedef struct {
+	GladeXML	*gui;
+	GtkWidget	*x_spin, *y_spin, *w_spin, *h_spin;
+	gulong		 w_spin_signal, h_spin_signal;
+	GtkWidget	*manual_toggle;
+	GogChart	*chart;
 	GogPlot		*plot;
-	GogAxisType	type;
+	gulong		 update_editor_handler;
 } PlotPrefState;
+
+static void
+plot_pref_state_free (PlotPrefState *state) 
+{
+	g_signal_handler_disconnect (G_OBJECT (state->plot), state->update_editor_handler);
+	g_object_unref (state->plot);
+	g_object_unref (state->chart);
+	g_object_unref (state->gui);
+}
+
+static void
+cb_plot_area_changed (GtkWidget *spin, PlotPrefState *state)
+{
+	GogViewAllocation pos;
+	double value;
+	double max;
+
+       	value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (spin)) / 100.0;
+
+       	gog_chart_get_plot_area (state->chart, &pos);
+	if (spin == state->x_spin) {
+		pos.x = value;
+		max = 1.0 - pos.x;
+		g_signal_handler_block (state->w_spin, state->w_spin_signal);
+		gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->w_spin), 0.0, max * 100.0);
+		if (pos.w > max) pos.w = max;
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), pos.w * 100.0);
+		g_signal_handler_unblock (state->w_spin, state->w_spin_signal);
+	}
+	else if (spin == state->y_spin) {
+		pos.y = value;
+		max = 1.0 - pos.y;
+		g_signal_handler_block (state->h_spin, state->h_spin_signal);
+		gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->h_spin), 0.0, max * 100.0);
+		if (pos.h > max) pos.h = max;
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), pos.w * 100.0);
+		g_signal_handler_unblock (state->h_spin, state->h_spin_signal);
+	}
+	else if (spin == state->w_spin) {
+		pos.w = value;
+	}
+	else if (spin == state->h_spin) {
+		pos.h = value;
+	}
+	gog_chart_set_plot_area (state->chart, &pos);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->manual_toggle), TRUE);
+}
+
+static void
+cb_manual_toggle_changed (GtkToggleButton *button, PlotPrefState *state)
+{
+	if (gtk_toggle_button_get_active (button)) {
+		GogViewAllocation plot_area;
+
+		gog_chart_get_plot_area (state->chart, &plot_area);
+		gog_chart_set_plot_area (state->chart, &plot_area);
+	} else
+		gog_chart_set_plot_area (state->chart, NULL);
+}
 
 static void
 cb_axis_changed (GtkComboBox *combo, PlotPrefState *state)
@@ -156,7 +222,30 @@ cb_axis_changed (GtkComboBox *combo, PlotPrefState *state)
 	memset (&value, 0, sizeof (GValue));
 	gtk_combo_box_get_active_iter (combo, &iter);
 	gtk_tree_model_get_value (model, &iter, 1, &value);
-	gog_plot_set_axis_by_id (state->plot, state->type, g_value_get_uint (&value));
+	gog_plot_set_axis_by_id (state->plot, 
+				 GPOINTER_TO_UINT (g_object_get_data (G_OBJECT(combo), "axis-type")),
+				 g_value_get_uint (&value));
+}
+
+static void
+cb_update_editor (GogObject *gobj, PlotPrefState *state)
+{
+	GogViewAllocation plot_area;
+	gboolean is_plot_area_manual;
+
+	is_plot_area_manual = gog_chart_get_plot_area (state->chart, &plot_area);
+	
+	if (state->x_spin != NULL)
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->x_spin), plot_area.x * 100.0);
+	if (state->y_spin != NULL)
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->y_spin), plot_area.y * 100.0);
+	if (state->w_spin != NULL)
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), plot_area.w * 100.0);
+	if (state->h_spin != NULL)
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), plot_area.h * 100.0);
+	if (state->manual_toggle != NULL)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->manual_toggle), 
+					      is_plot_area_manual);
 }
 
 static void
@@ -175,79 +264,132 @@ gog_plot_populate_editor (GogObject *obj,
 		N_("Pseudo 3D axis:")
 	};
 	
-	GtkWidget *table, *combo;
+	GtkWidget *w;
 	GogAxisType type;
 	GogPlot *plot = GOG_PLOT (obj);
 	unsigned count = 0, axis_count;
 	GSList *axes, *ptr;
 	GogChart *chart = GOG_CHART (gog_object_get_parent (obj));
 	GogAxis *axis;
+	GogViewAllocation plot_area;
 	GtkListStore *store;
 	GtkTreeIter iter;
 	GtkCellRenderer *cell;
+	GladeXML *gui;
 	PlotPrefState *state;
+	gboolean is_plot_area_manual;
 
 	g_return_if_fail (chart != NULL);
+	gui = go_libglade_new ("gog-plot-prefs.glade", "gog_plot_prefs", GETTEXT_PACKAGE, cc);
+	g_return_if_fail (gui != NULL);
 
-	if (gog_chart_get_axis_set (chart) != GOG_AXIS_SET_XY) {
-		(GOG_OBJECT_CLASS(plot_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
-		return;
-	}
+	state = g_new  (PlotPrefState, 1);
+	state->plot = plot;
+	state->chart = chart;
+	state->gui = gui;
 
-	table = gtk_table_new (0, 1, FALSE);
-	for (type = 0 ; type < GOG_AXIS_TYPES ; type++) {
-		if (plot->axis[type] != NULL) {
-			count++;
-			gtk_table_resize (GTK_TABLE (table), count, 1);
-			gtk_table_attach (GTK_TABLE (table), gtk_label_new (_(axis_labels[type])),
-					  0, 1, count - 1, count, 0, 0, 0, 0);
+	g_object_ref (G_OBJECT (plot));
+	g_object_ref (G_OBJECT (chart));
 
-			store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_UINT);
-			combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
+	if (gog_chart_get_axis_set (chart) == GOG_AXIS_SET_XY) {
+		GtkWidget *combo;
+		GtkWidget *table = gtk_table_new (0, 1, FALSE);
 
-			cell = gtk_cell_renderer_text_new ();
-			gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
-			gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell,
-							"text", 0,
-							NULL);
-			
-			axes = gog_chart_get_axes (chart, type);
-			axis_count = 0;
-			for (ptr = axes; ptr != NULL; ptr = ptr->next) {
-				axis = GOG_AXIS (ptr->data);
-				gtk_list_store_prepend (store, &iter);
-				gtk_list_store_set (store, &iter, 
-					0, gog_object_get_name (GOG_OBJECT (axis)), 
-					1, gog_object_get_id (GOG_OBJECT (axis)),
-					-1);
-				if (axis == plot->axis[type])
-					gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter); 
-				axis_count++;
+		for (type = 0 ; type < GOG_AXIS_TYPES ; type++) {
+			if (plot->axis[type] != NULL) {
+				count++;
+				gtk_table_resize (GTK_TABLE (table), count, 1);
+				gtk_table_attach (GTK_TABLE (table), gtk_label_new (_(axis_labels[type])),
+						  0, 1, count - 1, count, 0, 0, 0, 0);
+
+				store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_UINT);
+				combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
+
+				cell = gtk_cell_renderer_text_new ();
+				gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
+				gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell,
+								"text", 0,
+								NULL);
+
+				axes = gog_chart_get_axes (chart, type);
+				axis_count = 0;
+				for (ptr = axes; ptr != NULL; ptr = ptr->next) {
+					axis = GOG_AXIS (ptr->data);
+					gtk_list_store_prepend (store, &iter);
+					gtk_list_store_set (store, &iter, 
+							    0, gog_object_get_name (GOG_OBJECT (axis)), 
+							    1, gog_object_get_id (GOG_OBJECT (axis)),
+							    -1);
+					if (axis == plot->axis[type])
+						gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter); 
+					axis_count++;
+				}
+				if (axis_count < 2)
+					gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
+				g_slist_free (axes);
+				gtk_table_attach (GTK_TABLE (table), combo,
+						  1, 2, count - 1, count, 0, 0, 0, 0);
+				g_object_set_data (G_OBJECT (combo), "axis-type", GUINT_TO_POINTER (type));
+				g_signal_connect (G_OBJECT (combo), "changed",
+						  G_CALLBACK (cb_axis_changed), state);
 			}
-			if (axis_count < 2)
-				gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
-			g_slist_free (axes);
-			gtk_table_attach (GTK_TABLE (table), combo,
-					  1, 2, count - 1, count, 0, 0, 0, 0);
-			state = g_new (PlotPrefState, 1);
-			state->plot = plot;
-			state->type = type;
-			g_signal_connect (G_OBJECT (combo), "changed",
-					  G_CALLBACK (cb_axis_changed), state);
-			g_object_set_data_full (G_OBJECT (combo),
-						"state", state, (GDestroyNotify) g_free);
 		}
-	}
 
-	if (count > 0) {
-		gtk_table_set_col_spacings (GTK_TABLE (table), 12);
-		gtk_table_set_row_spacings (GTK_TABLE (table), 6);
-		gtk_container_set_border_width (GTK_CONTAINER (table), 12);
-		gtk_widget_show_all (table);
-		gog_editor_add_page (editor, table, _("Axes"));
+		if (count > 0) {
+			gtk_table_set_col_spacings (GTK_TABLE (table), 12);
+			gtk_table_set_row_spacings (GTK_TABLE (table), 6);
+			gtk_container_set_border_width (GTK_CONTAINER (table), 12);
+			gtk_widget_show_all (table);
+			gog_editor_add_page (editor, table, _("Axes"));
+		}
+		else
+			g_object_unref (G_OBJECT (table));
 	}
-	else
-		g_object_unref (G_OBJECT (table));
+	
+	is_plot_area_manual = gog_chart_get_plot_area (chart, &plot_area);
+	
+	state->x_spin = glade_xml_get_widget (gui, "x_spin");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->x_spin), 
+				   plot_area.x * 100.0); 
+	g_signal_connect (G_OBJECT (state->x_spin), "value-changed", 
+			  G_CALLBACK (cb_plot_area_changed), state);
+
+	state->y_spin = glade_xml_get_widget (gui, "y_spin");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->y_spin), 
+				   plot_area.y * 100.0); 
+	g_signal_connect (G_OBJECT (state->y_spin), "value-changed", 
+			  G_CALLBACK (cb_plot_area_changed), state);
+
+	state->w_spin = glade_xml_get_widget (gui, "w_spin");
+	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->w_spin), 
+				   0.0, (1.0 - plot_area.x) * 100.0);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), 
+				   100.0 * plot_area.w); 
+	state->w_spin_signal = g_signal_connect (G_OBJECT (state->w_spin), "value-changed", 
+						 G_CALLBACK (cb_plot_area_changed), state);
+
+	state->h_spin = glade_xml_get_widget (gui, "h_spin");
+	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->h_spin), 
+				   0.0, (1.0 - plot_area.y) * 100.0);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), 
+				   100.0 * plot_area.h); 
+	state->h_spin_signal = g_signal_connect (G_OBJECT (state->h_spin), "value-changed", 
+						 G_CALLBACK (cb_plot_area_changed), state);
+
+	state->manual_toggle = glade_xml_get_widget (gui, "manual_toggle");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->manual_toggle), 
+				      is_plot_area_manual);
+	g_signal_connect (G_OBJECT (state->manual_toggle), "toggled", 
+			  G_CALLBACK (cb_manual_toggle_changed), state);
+	
+	w = glade_xml_get_widget (gui, "gog_plot_prefs");
+	g_object_set_data_full (G_OBJECT (w), "state", state, 
+				(GDestroyNotify) plot_pref_state_free);  
+	gog_editor_add_page (editor, w, _("Plot area"));
+	
+	state->update_editor_handler = g_signal_connect (G_OBJECT (plot), 
+							 "update-editor", 
+							 G_CALLBACK (cb_update_editor), state);
 	
 	(GOG_OBJECT_CLASS(plot_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }

@@ -663,19 +663,31 @@ GSF_CLASS_ABSTRACT (GogAxisBase, gog_axis_base,
 static gboolean gog_axis_base_view_point (GogView *view, double x, double y);
 
 static gboolean
+gog_tool_bound_is_valid_axis (GogView *view) 
+{
+	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
+	GogAxisType type = gog_axis_get_atype (axis_base->axis);
+
+	return (type == GOG_AXIS_X ||
+		type == GOG_AXIS_Y);
+
+}
+
+static gboolean
 gog_tool_select_axis_point (GogView *view, double x, double y, GogObject **gobj)
 {
-	return gog_axis_base_view_point (view, x, y);
+	return (gog_tool_bound_is_valid_axis (view) && 
+		gog_axis_base_view_point (view, x, y));
 }
 
 static void
 gog_tool_select_axis_render (GogView *view)
 {
-	ArtVpath *path;
-
-	path = gog_renderer_get_rectangle_vpath (&view->allocation);
-	gog_renderer_draw_sharp_path (view->renderer, path);
-	art_free (path);
+	if (gog_tool_bound_is_valid_axis (view)) {
+		ArtVpath *path = gog_renderer_get_rectangle_vpath (&view->allocation);
+		gog_renderer_draw_sharp_path (view->renderer, path);
+		art_free (path);
+	}
 }
 
 static GogTool gog_axis_tool_select_axis = {
@@ -698,16 +710,6 @@ typedef struct {
 } MoveBoundData;
 	
 static gboolean
-gog_tool_bound_is_valid_axis (GogView *view) 
-{
-	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
-	GogAxisType type = gog_axis_get_atype (axis_base->axis);
-
-	return (type == GOG_AXIS_X ||
-		type == GOG_AXIS_Y);
-
-}
-static gboolean
 gog_tool_move_start_bound_point (GogView *view, double x, double y, GogObject **gobj)
 {
 	return gog_tool_bound_is_valid_axis (view) &&
@@ -728,17 +730,19 @@ gog_tool_move_start_bound_render (GogView *view)
 static gboolean
 gog_tool_move_stop_bound_point (GogView *view, double x, double y, GogObject **gobj)
 {
-	return gog_renderer_in_grip (x, y, 
+	return (gog_tool_bound_is_valid_axis (view) && 
+		gog_renderer_in_grip (x, y, 
 				     GOG_AXIS_BASE_VIEW (view)->x_stop, 
-				     GOG_AXIS_BASE_VIEW (view)->y_stop);
+				     GOG_AXIS_BASE_VIEW (view)->y_stop));
 }
 
 static void
 gog_tool_move_stop_bound_render (GogView *view)
 {
-	gog_renderer_draw_grip (view->renderer, 
-				GOG_AXIS_BASE_VIEW (view)->x_stop, 
-				GOG_AXIS_BASE_VIEW (view)->y_stop);
+	if (gog_tool_bound_is_valid_axis (view)) 
+		gog_renderer_draw_grip (view->renderer, 
+					GOG_AXIS_BASE_VIEW (view)->x_stop, 
+					GOG_AXIS_BASE_VIEW (view)->y_stop);
 }
 
 static void

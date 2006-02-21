@@ -185,12 +185,14 @@ extern gpointer gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc);
 static void
 gog_pie_plot_populate_editor (GogObject *item, 
 			      GogEditor *editor,
-		    G_GNUC_UNUSED GogDataAllocator *dalloc,
-		    GOCmdContext *cc)
+			      G_GNUC_UNUSED GogDataAllocator *dalloc,
+			      GOCmdContext *cc)
 {
 	gog_editor_add_page (editor, 
 			     gog_pie_plot_pref (GOG_PIE_PLOT (item), cc),
 			     _("Properties"));
+
+	(GOG_OBJECT_CLASS(pie_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
 
 static void
@@ -520,6 +522,8 @@ static GogTool gog_tool_move_pie = {
 typedef GogPlotView		GogPieView;
 typedef GogPlotViewClass	GogPieViewClass;
 
+static GogViewClass *pie_view_parent_klass;
+
 #define MAX_ARC_SEGMENTS 64
 
 static void
@@ -700,12 +704,16 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 static void
 gog_pie_view_build_toolkit (GogView *view)
 {
+	(GOG_VIEW_CLASS (pie_view_parent_klass)->build_toolkit) (view);	
+
 	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_move_pie);
 }
 
 static void
 gog_pie_view_class_init (GogViewClass *view_klass)
 {
+	pie_view_parent_klass = g_type_class_peek_parent (view_klass);
+
 	view_klass->render 		= gog_pie_view_render;
 	view_klass->build_toolkit 	= gog_pie_view_build_toolkit;
 }

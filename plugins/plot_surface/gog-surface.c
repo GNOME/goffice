@@ -198,12 +198,14 @@ extern gpointer gog_contour_plot_pref (GogContourPlot *plot, GOCmdContext *cc);
 static void
 gog_contour_plot_populate_editor (GogObject *item,
 				  GogEditor *editor,
-		    G_GNUC_UNUSED GogDataAllocator *dalloc,
-		    GOCmdContext *cc)
+				  G_GNUC_UNUSED GogDataAllocator *dalloc,
+				  GOCmdContext *cc)
 {
 	gog_editor_add_page (editor,
 			     gog_contour_plot_pref (GOG_CONTOUR_PLOT (item), cc),
 			     _("Properties"));
+
+	(GOG_OBJECT_CLASS(plot_contour_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
 
 static void

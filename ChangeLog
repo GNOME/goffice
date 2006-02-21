@@ -1,3 +1,33 @@
+2006-02-21  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Move plot area property editor to GogPlot.
+	
+	* goffice/graph/gog-axis-line.c (gog_tool_select_axis_point),
+	(gog_tool_select_axis_render),
+	(gog_tool_move_stop_bound_point),
+	(gog_tool_move_stop_bound_render): check for axis type.
+	* goffice/graph/gog-chart-prefs.glade: move to gog-plot-prefs.glade.
+	* goffice/graph/gog-chart.c (chart_pref_state_free),
+	(cb_plot_area_changed), (cb_manual_toggle_changed),
+	(gog_chart_populate_editor): remove plot area property editor.
+	* goffice/graph/gog-plot.c (plot_pref_state_free),
+	(cb_plot_area_changed), (cb_manual_toggle_changed): new.
+	(cb_axis_changed): axis type stored as object data.
+	(cb_update_editor): new.
+	(gog_plot_populate_editor): add plot area property editor.
+	* plugins/plot_pie/gog-pie.c (gog_pie_plot_populate_editor): show plot
+	area editor.
+	(gog_pie_view_build_toolkit): and enable edition by mouse.
+	* plugins/plot_surface/gog-surface.c
+	(gog_contour_plot_populate_editor): show plot area editor.
+					    
+	* goffice/graph/gog-renderer-cairo.c (grc_pixbuf_to_cairo): probably 
+	fix pixbuf to cairo data conversion for big endian in a renamed
+	grc_invert_pixbuf_RB.
+	
+	* goffice/graph/gog-view.c (gog_tool_select_object_render): fix object
+	outline.
+
 2006-02-19  Ivan, Wong Yat Cheung <ivanwong@gnome.org>
 
 	* goffice/Makefile.am: use the right library version when making

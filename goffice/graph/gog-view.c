@@ -24,6 +24,7 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/graph/gog-styled-object.h>
 #include <goffice/graph/gog-style.h>
 
 #include <goffice/utils/go-color.h>
@@ -46,8 +47,16 @@ static void
 gog_tool_select_object_render (GogView *view)
 {
 	ArtVpath *path;
+	GogViewAllocation rect = view->allocation;
+	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (view->model));
+	double line_width = gog_renderer_line_size (view->renderer, style->line.width);
+	
+	rect.x -= line_width / 2.0;
+	rect.y -= line_width / 2.0;
+	rect.w += line_width;
+	rect.h += line_width;
 
-	path = gog_renderer_get_rectangle_vpath (&view->allocation);
+	path = gog_renderer_get_rectangle_vpath (&rect);
 	gog_renderer_draw_sharp_path (view->renderer, path);
 	art_free (path);
 }
