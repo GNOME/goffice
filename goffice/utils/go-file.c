@@ -671,7 +671,7 @@ gchar
 gchar const
 *go_mime_type_get_description	(gchar const *mime_type)
 {
-#ifdef WITH_GNOME
+#ifdef GOFFICE_WITH_GNOME
 	return gnome_vfs_mime_get_description (mime_type);
 #else
 	return mime_type;

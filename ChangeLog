@@ -1,3 +1,8 @@
+2006-02-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-file.c: (go_mime_type_get_description): use
+	GOFFICE_WITH_GNOME instead of WITH_GNOME.
+
 2006-02-25  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-object-prefs.glade: Use a combo_box for
