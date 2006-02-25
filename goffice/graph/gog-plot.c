@@ -147,7 +147,8 @@ typedef struct {
 	GladeXML	*gui;
 	GtkWidget	*x_spin, *y_spin, *w_spin, *h_spin;
 	gulong		 w_spin_signal, h_spin_signal;
-	GtkWidget	*manual_toggle;
+	GtkWidget	*position_select_combo;
+	GtkWidget	*manual_setting_table;
 	GogChart	*chart;
 	GogPlot		*plot;
 	gulong		 update_editor_handler;
@@ -197,19 +198,23 @@ cb_plot_area_changed (GtkWidget *spin, PlotPrefState *state)
 		pos.h = value;
 	}
 	gog_chart_set_plot_area (state->chart, &pos);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->manual_toggle), TRUE);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (state->position_select_combo), 1);
+	gtk_widget_show (state->manual_setting_table);
 }
 
 static void
-cb_manual_toggle_changed (GtkToggleButton *button, PlotPrefState *state)
+cb_manual_position_changed (GtkComboBox *combo, PlotPrefState *state)
 {
-	if (gtk_toggle_button_get_active (button)) {
+	if (gtk_combo_box_get_active (combo) == 1) {
 		GogViewAllocation plot_area;
 
 		gog_chart_get_plot_area (state->chart, &plot_area);
 		gog_chart_set_plot_area (state->chart, &plot_area);
-	} else
+		gtk_widget_show (state->manual_setting_table);
+	} else {
 		gog_chart_set_plot_area (state->chart, NULL);
+		gtk_widget_hide (state->manual_setting_table);
+	}
 }
 
 static void
@@ -243,9 +248,14 @@ cb_update_editor (GogObject *gobj, PlotPrefState *state)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), plot_area.w * 100.0);
 	if (state->h_spin != NULL)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), plot_area.h * 100.0);
-	if (state->manual_toggle != NULL)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->manual_toggle), 
-					      is_plot_area_manual);
+	if (state->position_select_combo != NULL) {
+		gtk_combo_box_set_active (GTK_COMBO_BOX (state->position_select_combo), 
+					  is_plot_area_manual ? 1 : 0);
+		if (is_plot_area_manual)
+			gtk_widget_show (state->manual_setting_table);
+		else
+			gtk_widget_hide (state->manual_setting_table);
+	}
 }
 
 static void
@@ -376,21 +386,25 @@ gog_plot_populate_editor (GogObject *obj,
 	state->h_spin_signal = g_signal_connect (G_OBJECT (state->h_spin), "value-changed", 
 						 G_CALLBACK (cb_plot_area_changed), state);
 
-	state->manual_toggle = glade_xml_get_widget (gui, "manual_toggle");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->manual_toggle), 
-				      is_plot_area_manual);
-	g_signal_connect (G_OBJECT (state->manual_toggle), "toggled", 
-			  G_CALLBACK (cb_manual_toggle_changed), state);
+	state->position_select_combo = glade_xml_get_widget (gui, "position_select_combo");
+	gtk_combo_box_set_active (GTK_COMBO_BOX (state->position_select_combo), 
+				  is_plot_area_manual ? 1 : 0); 
+	state->manual_setting_table = glade_xml_get_widget (gui, "manual_setting_table");
+	if (!is_plot_area_manual)
+		gtk_widget_hide (state->manual_setting_table);
 	
+	g_signal_connect (G_OBJECT (state->position_select_combo),
+			  "changed", G_CALLBACK (cb_manual_position_changed), state);
+
 	w = glade_xml_get_widget (gui, "gog_plot_prefs");
 	g_object_set_data_full (G_OBJECT (w), "state", state, 
 				(GDestroyNotify) plot_pref_state_free);  
 	gog_editor_add_page (editor, w, _("Plot area"));
-	
+
 	state->update_editor_handler = g_signal_connect (G_OBJECT (plot), 
 							 "update-editor", 
 							 G_CALLBACK (cb_update_editor), state);
-	
+
 	(GOG_OBJECT_CLASS(plot_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }
 

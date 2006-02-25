@@ -1,3 +1,15 @@
+2006-02-25  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-object-prefs.glade: Use a combo_box for
+	manual/automatic position selection.
+	* goffice/graph/gog-plot-prefs.glade: ditto.
+	* goffice/graph/gog-object.c (cb_manuel_position_changed): ditto.
+	(gog_object_populate_editor): ditto.
+	* goffice/graph/gog-plot.c (cb_manual_position_changed): ditto. Was
+	cb_manual_toggle_changed.
+	(cb_update_editor): ditto.
+	(gog_plot_populate_editor): ditto.
+	
 2006-02-21  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Move plot area property editor to GogPlot.

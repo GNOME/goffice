@@ -356,7 +356,8 @@ gog_object_get_property (GObject *obj, guint param_id,
 
 typedef struct {
 	GtkWidget	*x_spin, *y_spin, *w_spin, *h_spin;
-	GtkWidget	*manual_toggle;
+	GtkWidget	*position_select_combo;
+	GtkWidget	*position_notebook;
 	GogObject	*gobj;
 	GladeXML	*gui;
 	gulong		 update_editor_handler;
@@ -403,16 +404,28 @@ cb_position_changed (GtkWidget *spin, ObjectPrefState *state)
 	else if (spin == state->h_spin)
 		pos.h = value;
 	gog_object_set_manual_position (state->gobj, &pos);
-	if (state->manual_toggle != NULL)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->manual_toggle), TRUE);
 }
 
 static void
-cb_manual_position_changed (GtkToggleButton *button, ObjectPrefState *state)
+update_select_state (ObjectPrefState *state)
 {
+	if (state->position_select_combo) {
+		int index = gog_object_get_position_flags (state->gobj, GOG_POSITION_MANUAL) == 0 ? 0 : 1;
+		
+		gtk_combo_box_set_active (GTK_COMBO_BOX (state->position_select_combo), index); 
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (state->position_notebook), index);
+	}
+}
+
+static void
+cb_manual_position_changed (GtkComboBox *combo, ObjectPrefState *state)
+{
+	int index = gtk_combo_box_get_active (combo);
+
 	gog_object_set_position_flags (state->gobj, 
-		gtk_toggle_button_get_active (button) ? GOG_POSITION_MANUAL : 0, 
+		index != 0 ? GOG_POSITION_MANUAL : 0, 
 		GOG_POSITION_MANUAL);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (state->position_notebook), index);
 }
 
 static void
@@ -421,8 +434,6 @@ cb_anchor_changed (GtkComboBox *combo, ObjectPrefState *state)
 	GogObjectPosition position = position_anchor[gtk_combo_box_get_active (combo)].flags;
 
 	gog_object_set_position_flags (state->gobj, position, GOG_POSITION_ANCHOR);
-	if (state->manual_toggle != NULL)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->manual_toggle), TRUE);
 }
 
 static void
@@ -436,9 +447,8 @@ cb_update_editor (GogObject *gobj, ObjectPrefState *state)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), gobj->manual_position.w * 100.0);
 	if (state->h_spin != NULL)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), gobj->manual_position.h * 100.0);
-	if (state->manual_toggle != NULL)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->manual_toggle), 
-			gog_object_get_position_flags (state->gobj, GOG_POSITION_MANUAL) != 0);
+	
+	update_select_state (state);
 }
 
 static void
@@ -471,11 +481,13 @@ gog_object_populate_editor (GogObject *gobj,
 	state = g_new (ObjectPrefState, 1);
 	state->gobj = gobj;
 	state->gui = gui;
-	state->manual_toggle = NULL;
+	state->position_select_combo = NULL;
 	state->x_spin = NULL;
 	state->y_spin = NULL;
 	state->w_spin = NULL;
 	state->h_spin = NULL;
+	state->position_notebook = glade_xml_get_widget (gui, "position_notebook");
+
 	g_object_ref (G_OBJECT (gobj));
 
 	widget_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
@@ -516,10 +528,8 @@ gog_object_populate_editor (GogObject *gobj,
 		gtk_widget_hide (w);
 	}
 
-	if (!(allowable_positions & GOG_POSITION_COMPASS)) {
-		w =glade_xml_get_widget (gui, "automatic_position_box");
-		gtk_widget_hide (w);
-	}
+	if (!(allowable_positions & GOG_POSITION_COMPASS)) 
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (state->position_notebook), 1);
 	
 	g_object_unref (G_OBJECT (widget_size_group));
 	g_object_unref (G_OBJECT (label_size_group));
@@ -578,23 +588,23 @@ gog_object_populate_editor (GogObject *gobj,
 			w = glade_xml_get_widget (gui, "manual_sizes");
 			gtk_widget_hide (w);
 		}
-	} else {
-		w = glade_xml_get_widget (gui, "manual_position_box");
-		gtk_widget_hide (w);
-	}
+	} else 
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (state->position_notebook), 0);
 
 	g_object_unref (G_OBJECT (widget_size_group));
 	g_object_unref (G_OBJECT (label_size_group));
 
-	w = glade_xml_get_widget (gui, "manual_position_button");
 	if ((allowable_positions & GOG_POSITION_MANUAL) &&
 	    ((allowable_positions & (GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT)) ||
 	     (allowable_positions & GOG_POSITION_SPECIAL))) {
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
-				       gog_object_get_position_flags (gobj, GOG_POSITION_MANUAL) != 0);
-		g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (cb_manual_position_changed), state);
-		state->manual_toggle = w;
+		state->position_select_combo = glade_xml_get_widget (gui, "position_select_combo");
+
+		update_select_state (state);
+
+		g_signal_connect (G_OBJECT (state->position_select_combo),
+				  "changed", G_CALLBACK (cb_manual_position_changed), state);
 	} else {
+		w = glade_xml_get_widget (gui, "position_select_box");
 		gtk_widget_hide (w);
 	}
 
