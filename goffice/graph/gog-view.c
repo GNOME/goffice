@@ -68,7 +68,7 @@ static GogTool gog_tool_select_object = {
 	gog_tool_select_object_render,
 	NULL /* init */,
         NULL /* move */,	
-	NULL /* double-click */,
+	NULL /* double_click */,
 	NULL /* destroy */
 };
 
@@ -125,6 +125,13 @@ gog_tool_move_object_move (GogToolAction *action, double x, double y)
 	gog_object_set_position_flags (action->view->model, GOG_POSITION_MANUAL, GOG_POSITION_MANUAL);
 }
 
+static void
+gog_tool_move_object_double_click (GogToolAction *action)
+{
+	gog_object_set_position_flags (action->view->model, 0, GOG_POSITION_MANUAL);
+}
+
+
 static GogTool gog_tool_move_object = {
 	N_("Move"), 
 	GDK_FLEUR,
@@ -132,7 +139,7 @@ static GogTool gog_tool_move_object = {
 	NULL /* render */,
 	gog_tool_move_object_init, 
 	gog_tool_move_object_move, 
-	NULL /* double-click */,
+	gog_tool_move_object_double_click,
 	NULL /* destroy */
 };
 

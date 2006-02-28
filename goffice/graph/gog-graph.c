@@ -779,7 +779,7 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 
 	switch (event->type) {
 		case GDK_2BUTTON_PRESS:
-			if (view->action != NULL)
+			if (view->action != NULL) 
 				gog_tool_action_double_click (view->action);
 			break;
 		case GDK_BUTTON_PRESS: 

@@ -1857,6 +1857,22 @@ gog_style_set_marker (GogStyle *style, GOMarker *marker)
 	}
 }
 
+/**
+ * gog_style_get_marker :
+ * @style : #GogStyle
+ *
+ * Accessor for @style::marker, without referencing it. 
+ *
+ * return value: the style #GOMarker.
+ **/
+GOMarker const *
+gog_style_get_marker (GogStyle *style) 
+{
+	g_return_val_if_fail (IS_GOG_STYLE (style), NULL);
+
+	return style->marker.mark;
+}
+
 void
 gog_style_set_font_desc (GogStyle *style, PangoFontDescription *desc)
 {

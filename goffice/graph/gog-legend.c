@@ -28,6 +28,8 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-math.h>
 #include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -184,19 +186,19 @@ gog_legend_class_init (GogLegendClass *klass)
 		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};
 
-	GObjectClass *gobject_klass   = (GObjectClass *) klass;
-	GogObjectClass *gog_klass = (GogObjectClass *) klass;
-	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
+	GObjectClass         *gobject_klass = (GObjectClass *) klass;
+	GogObjectClass       *gog_klass     = (GogObjectClass *) klass;
+	GogStyledObjectClass *style_klass   = (GogStyledObjectClass *) klass;
 
 	parent_klass = g_type_class_peek_parent (klass);
 	
 	gobject_klass->set_property = gog_legend_set_property;
 	gobject_klass->get_property = gog_legend_get_property;
-	gog_klass->parent_changed = gog_legend_parent_changed;
-	gog_klass->update	  = gog_legend_update;
-	gog_klass->populate_editor	= gog_legend_populate_editor;
-	gog_klass->view_type	  = gog_legend_view_get_type ();
-	style_klass->init_style	  = gog_legend_init_style;
+	gog_klass->parent_changed   = gog_legend_parent_changed;
+	gog_klass->update           = gog_legend_update;
+	gog_klass->populate_editor  = gog_legend_populate_editor;
+	gog_klass->view_type        = gog_legend_view_get_type ();
+	style_klass->init_style     = gog_legend_init_style;
 	
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
@@ -228,9 +230,12 @@ typedef struct {
 	double		element_width;
 	double		element_height;
 	unsigned	element_per_blocks;
+	double 		swatch_w;
+	double 		swatch_h;
 	unsigned	num_blocks;
 	gboolean	uses_lines;
 	double		label_offset;
+	double		font_size;
 } GogLegendView;
 
 typedef GogOutlinedViewClass	GogLegendViewClass;
@@ -241,29 +246,21 @@ typedef GogOutlinedViewClass	GogLegendViewClass;
 
 static GogViewClass *lview_parent_klass;
 
-typedef struct {
-	GogView const 		*view;
-	GogViewRequisition 	 maximum;
-	gboolean		 uses_lines;
-	GogStyle		*legend_style;
-} SizeClosure;
-
 static void
 cb_size_elements (unsigned i, GogStyle const *style, 
-		  char const *name, SizeClosure *data)
+		  char const *name, GogLegendView *glv)
 {
+	GogView *view = GOG_VIEW (glv);
 	GOGeometryAABR aabr;
 	
-	gog_renderer_push_style (data->view->renderer, data->legend_style);
-	gog_renderer_get_text_AABR (data->view->renderer, name, &aabr);
-	gog_renderer_pop_style (data->view->renderer);
+	gog_renderer_get_text_AABR (view->renderer, name, &aabr);
 
-	if (data->maximum.w < aabr.w)
-		data->maximum.w = aabr.w;
-	if (data->maximum.h < aabr.h)
-		data->maximum.h = aabr.h;
-	if (!data->uses_lines && (style->interesting_fields & GOG_STYLE_LINE))
-		data->uses_lines = TRUE;
+	if (glv->element_width < aabr.w)
+		glv->element_width = aabr.w;
+	if (glv->element_height < aabr.h)
+		glv->element_height = aabr.h;
+	if (!glv->uses_lines && (style->interesting_fields & GOG_STYLE_LINE))
+		glv->uses_lines = TRUE;
 }
 
 static void
@@ -275,8 +272,8 @@ gog_legend_view_size_request (GogView *v,
 	GogLegendView *glv = GOG_LEGEND_VIEW (v);
 	GogLegend *l = GOG_LEGEND (v->model);
 	GogViewRequisition child_req, residual;
-	SizeClosure data;
-	double available_space, element_size, swatch_padding;
+	GogStyle *style;
+	double available_space, element_size;
 	unsigned num_elements;
 
 	residual = *available;
@@ -291,27 +288,27 @@ gog_legend_view_size_request (GogView *v,
 
 	gog_chart_get_cardinality (chart, NULL, &num_elements);
 	
-	data.view = v;
-	data.maximum.w = 0.;
-	data.maximum.h = gog_renderer_pt2r_y (v->renderer, l->swatch_size_pts) * 1.2;
-	data.uses_lines = FALSE;
-	data.legend_style = GOG_STYLED_OBJECT (l)->style;
+	style = gog_styled_object_get_style (GOG_STYLED_OBJECT (l));
+	gog_renderer_push_style (v->renderer, style);
+	
+	glv->font_size = pango_font_description_get_size (style->font.font->desc) / PANGO_SCALE;
+	glv->swatch_w = gog_renderer_pt2r_x (v->renderer, glv->font_size);
+	glv->swatch_h = gog_renderer_pt2r_y (v->renderer, glv->font_size);
+					     
+	glv->element_width = 0.;
+	glv->element_height = 1.2 * glv->swatch_h;
+	glv->uses_lines = FALSE;
 
 	gog_chart_foreach_elem (chart, TRUE,
-		(GogEnumFunc) cb_size_elements, &data);
+		(GogEnumFunc) cb_size_elements, glv);
 
-	swatch_padding = gog_renderer_pt2r_x (v->renderer, l->swatch_padding_pts);
-	glv->label_offset = gog_renderer_pt2r_x (v->renderer,
-		(data.uses_lines ? 3 : 1) * l->swatch_size_pts + swatch_padding * .5);
+	gog_renderer_pop_style (v->renderer);
 
-	data.maximum.w += glv->label_offset + swatch_padding;
-	
-	glv->element_height = data.maximum.h;
-	glv->element_width = data.maximum.w;
-	glv->uses_lines = data.uses_lines;
+	glv->label_offset = (glv->uses_lines ? 3.5 : 1.5) * glv->swatch_w;
+	glv->element_width += glv->label_offset + glv->swatch_w;
 
 	available_space = glv->is_vertical ? residual.h : residual.w;
-	element_size = glv->is_vertical ? data.maximum.h : data.maximum.w;	
+	element_size = glv->is_vertical ? glv->element_height : glv->element_width;	
 	
 	glv->element_per_blocks = available_space > 0. ? floor (available_space / element_size) : 0;
 	
@@ -323,15 +320,31 @@ gog_legend_view_size_request (GogView *v,
 	glv->num_blocks = floor ((num_elements - 1) / glv->element_per_blocks) + 1;
 
 	if (glv->is_vertical) {
-		req->h += MIN (glv->element_per_blocks, num_elements) * data.maximum.h;
-		req->w += glv->num_blocks * data.maximum.w - swatch_padding;
+		req->h += MIN (glv->element_per_blocks, num_elements) * glv->element_height;
+		req->w += glv->num_blocks * glv->element_width - glv->swatch_w;
 	} else {
-		req->h += glv->num_blocks * data.maximum.h;
-		req->w += MIN (glv->element_per_blocks, num_elements) * data.maximum.w - swatch_padding;
+		req->h += glv->num_blocks * glv->element_height;
+		req->w += MIN (glv->element_per_blocks, num_elements) * glv->element_width - glv->swatch_w;
 	}
 
 	req->w = MAX (child_req.w, req->w);
 	req->h = MAX (child_req.h, req->h);
+}
+
+typedef struct {
+	double size_max;
+	double size_min;
+} SwatchScaleClosure;
+
+static void
+cb_swatch_scale (unsigned i, GogStyle const *style, char const *name,
+		 SwatchScaleClosure *data)
+{
+	double size = go_marker_get_size (style->marker.mark);
+	if (data->size_max < size)
+		data->size_max = size;
+	if (data->size_min > size)
+		data->size_min = size;
 }
 
 typedef struct {
@@ -341,6 +354,7 @@ typedef struct {
 	double block_step_x, block_step_y;
 	GogViewAllocation swatch;
 	ArtVpath line_path[3];
+	double swatch_scale_a, swatch_scale_b;
 } RenderClosure;
 
 static void
@@ -350,9 +364,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	GogView const *view = data->view;
 	GogLegendView *glv = GOG_LEGEND_VIEW (view);
 	GogRenderer *renderer = view->renderer;
-	GogStyledObject *obj = GOG_STYLED_OBJECT (data->view->model);
 	GogStyle *style = NULL;
-	GogStyle *legend_style = obj->style;
 	GogViewAllocation pos, rectangle;
 
 	if (i > 0) {
@@ -366,12 +378,16 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	}
 	
 	if (base_style->interesting_fields & GOG_STYLE_LINE) { /* line and marker */
-		style = (GogStyle *)base_style;
+		style = gog_style_dup (base_style);
+		go_marker_set_size (style->marker.mark, 
+				    go_marker_get_size (style->marker.mark) *
+				    data->swatch_scale_a + data->swatch_scale_b);
+
 		gog_renderer_push_style (renderer, style);
 		data->line_path[0].x = data->x;
 		data->line_path[1].x = data->x + data->swatch.w * 3.;
 		data->line_path[0].y = 
-		data->line_path[1].y = data->y + glv->element_height / 2.;
+			data->line_path[1].y = data->y + glv->element_height / 2.;
 		gog_renderer_draw_sharp_path (renderer, data->line_path);
 		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * 1.5, 
 					  data->line_path[0].y);
@@ -392,10 +408,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	pos.x = data->x + glv->label_offset;
 	pos.y = data->y + glv->element_height / 2.0;
 	pos.w = pos.h = -1;
-
-	gog_renderer_push_style (renderer, legend_style);
 	gog_renderer_draw_text (renderer, name, &pos, GTK_ANCHOR_W, NULL);
-	gog_renderer_pop_style (renderer);
 
 	if (style != base_style && style != NULL)
 		g_object_unref (style);
@@ -406,18 +419,47 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 {
 	GogLegendView *glv = GOG_LEGEND_VIEW (v);
 	GogLegend *l = GOG_LEGEND (v->model);
+	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (l));
 	RenderClosure data;
+	SwatchScaleClosure swatch_data;
+	double swatch_size_min;
+	double swatch_size_max;
 
 	(lview_parent_klass->render) (v, bbox);
 	
 	if (glv->element_per_blocks < 1)
 		return;
+	
+	gog_renderer_push_style (v->renderer, style);
+	
+	swatch_data.size_max = 0.0;
+	swatch_data.size_min = glv->font_size;
+	
+	gog_chart_foreach_elem (GOG_CHART (v->model->parent), TRUE,
+		(GogEnumFunc) cb_swatch_scale, &swatch_data);
+
+	swatch_size_max = glv->font_size;
+	swatch_size_min = glv->font_size / 4.0;
+	if (swatch_data.size_max < swatch_size_max)
+		swatch_data.size_max = swatch_size_max;
+	if (swatch_data.size_min > swatch_size_min)
+		swatch_data.size_min = swatch_size_min;
+	if (go_sub_epsilon (fabs (swatch_data.size_max - swatch_data.size_min)) > 0.0) {
+		data.swatch_scale_a = (swatch_size_max - swatch_size_min) / 
+			(swatch_data.size_max - swatch_data.size_min);
+		data.swatch_scale_b = - swatch_data.size_min * 
+			data.swatch_scale_a +swatch_size_min;
+	} else {
+		data.swatch_scale_a = 1.0;
+		data.swatch_scale_b = 0.0;
+	}
 
 	if (glv->uses_lines) {
 		data.line_path[0].code = ART_MOVETO;
 		data.line_path[1].code = ART_LINETO;
 		data.line_path[2].code = ART_END;
 	}
+	
 	data.view = v;
 	data.x = v->residual.x;
 	data.y = v->residual.y;
@@ -429,16 +471,15 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 	data.block_step_y = glv->is_vertical ? 
 		- glv->element_height * (glv->element_per_blocks - 1) :
 		+ glv->element_height;
-	data.swatch.w = gog_renderer_pt2r_x (v->renderer, 
-					     l->swatch_size_pts);
-	data.swatch.h = gog_renderer_pt2r_y (v->renderer, 
-					     l->swatch_size_pts);
-	data.swatch.x = (glv->label_offset - data.swatch.w -
-			 gog_renderer_pt2r_x (v->renderer, l->swatch_padding_pts) * .5) * .5;
+	data.swatch.w = glv->swatch_w;
+	data.swatch.h = glv->swatch_h;
+	data.swatch.x = (glv->label_offset - 1.5 * data.swatch.w) * .5;
 	data.swatch.y = (glv->element_height - data.swatch.h) * .5;
 	
 	gog_chart_foreach_elem (GOG_CHART (v->model->parent), TRUE,
 		(GogEnumFunc) cb_render_elements, &data);
+
+	gog_renderer_pop_style (v->renderer);
 }
 
 static void

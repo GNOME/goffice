@@ -124,7 +124,9 @@ GogStyle  *gog_style_dup		(GogStyle const *style);
 void	   gog_style_assign		(GogStyle *dst, GogStyle const *src);
 void	   gog_style_apply_theme	(GogStyle *dst, GogStyle const *src);
 
-void	   gog_style_set_marker			(GogStyle *style, GOMarker *marker);
+GOMarker const *gog_style_get_marker 	(GogStyle *style);
+void            gog_style_set_marker 	(GogStyle *style, GOMarker *marker);
+
 void	   gog_style_set_font_desc		(GogStyle *style,
 						 PangoFontDescription *desc);
 void	   gog_style_set_font			(GogStyle *style, GOFont const *font);

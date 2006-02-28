@@ -1,3 +1,21 @@
+2006-02-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-legend.c (cb_size_elements): don't push legend
+	style here. Pass GogLegendView pointer directly. 
+	(cb_render_elements): don't push legend style here. Keep marker size
+	to sane values. 
+	(cb_swatch_scale): calculate maximum and minimum marker size.
+	(gog_legend_view_size_request): make swatch size a function of legend
+	font size.
+	(gog_legend_view_render): ditto. Keep marker size to sane values.
+				  
+	* goffice/graph/gog-plot.c (gog_tool_move_plot_area_double_click): set
+	position to automatic on double click.
+	* goffice/graph/gog-object.c (gog_tool_move_object_double_click):
+	ditto.
+	
+	* goffice/graph/gog-style.c (gog_style_get_marker): new.
+	
 2006-02-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-file.c: (go_mime_type_get_description): use

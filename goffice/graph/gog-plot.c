@@ -1052,6 +1052,14 @@ gog_tool_move_plot_area_move (GogToolAction *action, double x, double y)
 	gog_chart_set_plot_area (data->chart, &plot_area);
 }
 
+static void
+gog_tool_move_plot_area_double_click (GogToolAction *action)
+{
+	MovePlotAreaData *data = action->data;
+	
+	gog_chart_set_plot_area (data->chart, NULL);
+}
+
 static GogTool gog_tool_move_plot_area = {
 	N_("Move plot area"), 
 	GDK_FLEUR,
@@ -1059,7 +1067,7 @@ static GogTool gog_tool_move_plot_area = {
 	gog_tool_move_plot_area_render,
 	gog_tool_move_plot_area_init, 
 	gog_tool_move_plot_area_move, 
-	NULL /* double-click */,
+	gog_tool_move_plot_area_double_click,
 	NULL /*destroy*/
 };
 
