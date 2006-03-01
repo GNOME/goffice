@@ -138,7 +138,6 @@
 	go_currency_date_format_init.
 	(libgoffice_shutdown): Call go_currency_date_format_shutdown.
 
->>>>>>> 1.770
 2006-02-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/component/go-component.h: add GOC_PARAM_PERSISTENT flag.
