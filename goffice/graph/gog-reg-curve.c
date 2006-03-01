@@ -300,16 +300,16 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogSeries *series = GOG_SERIES ((GOG_OBJECT (rc))->parent);
 	GogPlot *plot = series->plot;
 	GogAxisMap *x_map, *y_map;
-	double buf, *x, *y;
+	double buf, *x, *y, ymax;
 	GogStyle *style;
 	ArtBpath *path;
-	int i;
+	int i, invalids;
 	GSList *ptr;
 
 	x_map = gog_axis_map_new (plot->axis[0], 
 				  view->residual.x , view->residual.w);
-	y_map = gog_axis_map_new (plot->axis[1], 
-				  view->residual.y + view->residual.h, 
+	ymax = view->residual.y + view->residual.h;
+	y_map = gog_axis_map_new (plot->axis[1], ymax, 
 				  -view->residual.h);
 
 	if (!(gog_axis_map_is_valid (x_map) &&
@@ -331,9 +331,19 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	for (i = 1; i <= rc->ninterp; i++)
 		x[i] = x[0] + i * buf;
 
-	for (i = 0; i <= rc->ninterp + 1; i++)
+	invalids = 0;
+	for (i = 0; i <= rc->ninterp + 1; i++) {
 		y[i] = gog_axis_map_to_view (y_map,
 					gog_reg_curve_get_value_at (rc, gog_axis_map_from_view (x_map, x[i])));
+		if (y[i] < view->residual.y || y[i] > ymax) {
+			invalids++;
+			/* if two or more points are outisde the interval,
+			we keep only the first and last ones */
+			if (invalids > 2)
+				y[i - 1] = go_nan;
+		} else
+			invalids = 0;
+	}
 
 	path = go_line_build_bpath (x, y, rc->ninterp + 2);
 	style = GOG_STYLED_OBJECT (rc)->style;
