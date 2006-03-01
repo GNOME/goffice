@@ -1,3 +1,8 @@
+2006-03-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-reg-curve.c: (gog_reg_curve_view_render): don't render
+	segments outside the bounding box [#332990].
+
 2006-01-30  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
