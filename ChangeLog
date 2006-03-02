@@ -1,3 +1,8 @@
+2006-03-02  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-axis.c (gog_axis_view_size_allocate): fix axis
+	label allocation.
+
 2006-03-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-reg-curve.c: (gog_reg_curve_view_render): don't render

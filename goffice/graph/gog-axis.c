@@ -2078,7 +2078,7 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 					if (type == GOG_AXIS_X) {
 						child_bbox.x = plot_area->x + 
 							(plot_area->w - req.w) / 2.0;
-						child_bbox.w = plot_area->w;
+						child_bbox.w = req.w;
 						child_bbox.h = req.h;
 						if (axis_pos != GOG_AXIS_AT_HIGH) {
 							child_bbox.y = tmp.y + tmp.h - req.h;
@@ -2090,7 +2090,7 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 					} else { 
 						child_bbox.y = plot_area->y + 
 							(plot_area->h - req.h) / 2.0;
-						child_bbox.h = plot_area->h;
+						child_bbox.h = req.h;
 						child_bbox.w = req.w;
 						if (axis_pos != GOG_AXIS_AT_HIGH) {
 							child_bbox.x = tmp.x;
