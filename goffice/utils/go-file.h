@@ -25,6 +25,22 @@
 
 G_BEGIN_DECLS
 
+typedef struct _GOFilePermissions GOFilePermissions;
+
+struct _GOFilePermissions {
+	gboolean owner_read;
+	gboolean owner_write;
+	gboolean owner_execute;
+
+	gboolean group_read;
+	gboolean group_write;
+	gboolean group_execute;
+
+	gboolean others_read;
+	gboolean others_write;
+	gboolean others_execute;
+};
+
 char *go_filename_from_uri (const char *uri);
 char *go_filename_to_uri (const char *filename);
 char *go_shell_arg_to_uri (const char *arg);
@@ -36,6 +52,16 @@ void go_shell_argv_to_glib_encoding_free (void);
 GsfInput  *go_file_open		(char const *uri, GError **err);
 GsfOutput *go_file_create	(char const *uri, GError **err);
 GSList	  *go_file_split_urls	(char const *data);
+
+gchar     *go_file_get_owner_name (char const *uri);
+gchar     *go_file_get_group_name (char const *uri);
+
+GOFilePermissions *go_get_file_permissions (char const *uri);
+void go_set_file_permissions (char const *uri, GOFilePermissions * file_permissions);
+
+gchar * go_file_get_date_accessed (char const *uri);
+gchar * go_file_get_date_modified (char const *uri);
+gchar * go_file_get_date_changed  (char const *uri);
 
 gchar	*go_url_decode		(gchar const *text);
 gchar	*go_url_encode		(gchar const *text);

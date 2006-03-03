@@ -1,3 +1,13 @@
+2006-03-03  Eduardo Lima <eduardo.lima@indt.org.br>
+
+	* goffice/utils/go-file.[ch] (go_file_get_owner_name): new
+	(go_file_get_group_name): new
+	(go_get_file_permissions): new
+	(go_set_file_permissions): new
+	(go_file_get_date_accessed): new
+	(go_file_get_date_modified): new
+	(go_file_get_date_changed): new
+
 2006-03-03  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-renderer-cairo.c (grc_draw_polygon): implement

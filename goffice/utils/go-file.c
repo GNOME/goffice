@@ -43,7 +43,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
-
+#include <pwd.h>
+#include <grp.h>
+#include <time.h>
 /* ------------------------------------------------------------------------- */
 
 char *
@@ -424,6 +426,332 @@ go_file_split_urls (const char *data)
 
   uris = g_slist_reverse (uris);
   return uris;
+}
+
+
+gchar *
+go_file_get_owner_name (char const *uri)
+{
+	gboolean error = FALSE;
+	guint uid = 0;
+	struct passwd *password_info;
+	
+#ifdef GOFFICE_WITH_GNOME
+	GnomeVFSFileInfo *file_info;
+
+	GnomeVFSResult result;
+
+        file_info = gnome_vfs_file_info_new ();
+        result = gnome_vfs_get_file_info (uri, file_info,
+                                          GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	
+        if (result == GNOME_VFS_OK)
+		uid = file_info->uid;
+	else
+		error = TRUE;
+
+	gnome_vfs_file_info_unref (file_info);
+#else
+	struct stat file_stat;
+	int result;
+
+	result = g_stat (go_filename_from_uri (uri), &file_stat);
+
+	if (result == 0)
+		uid = file_stat.st_uid;
+	else
+		error = TRUE;
+#endif
+
+	if (error == TRUE)
+		return NULL;
+
+	password_info = getpwuid (uid);
+
+	if (password_info == NULL)
+		return NULL;
+
+	return password_info->pw_gecos;
+}
+
+gchar *
+go_file_get_group_name (char const *uri)
+{
+	gboolean error = FALSE;
+	guint gid = 0;
+	struct group *group_info;
+	
+#ifdef GOFFICE_WITH_GNOME
+	GnomeVFSFileInfo *file_info;
+
+	GnomeVFSResult result;
+
+        file_info = gnome_vfs_file_info_new ();
+        result = gnome_vfs_get_file_info (uri, file_info,
+                                          GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	
+        if (result == GNOME_VFS_OK)
+		gid = file_info->gid;
+	else
+		error = TRUE;
+
+	gnome_vfs_file_info_unref (file_info);
+#else
+	struct stat file_stat;
+	int result;
+
+	result = g_stat (go_filename_from_uri (uri), &file_stat);
+
+	if (result == 0)
+		gid = file_stat.st_gid;
+	else
+		error = TRUE;
+#endif
+
+	if (error == TRUE)
+		return NULL;
+
+	group_info = getgrgid (gid);
+ 
+	if (group_info == NULL)
+		return NULL;
+
+	return group_info->gr_name;
+}
+
+GOFilePermissions *
+go_get_file_permissions (char const *uri)
+{
+	GOFilePermissions * file_permissions = NULL;
+
+#if defined (GOFFICE_WITH_GNOME)
+	GnomeVFSFileInfo *file_info;
+	GnomeVFSResult result;
+
+        file_info = gnome_vfs_file_info_new ();
+        result = gnome_vfs_get_file_info (uri, file_info,
+					  GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS |
+                                          GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+
+        if (result == GNOME_VFS_OK) {
+		file_permissions = g_new0 (GOFilePermissions, 1);
+
+		/* Owner  Permissions */ 
+		file_permissions->owner_read    = ((file_info->permissions & GNOME_VFS_PERM_USER_READ) != 0);
+		file_permissions->owner_write   = ((file_info->permissions & GNOME_VFS_PERM_USER_WRITE) != 0);
+		file_permissions->owner_execute = ((file_info->permissions & GNOME_VFS_PERM_USER_EXEC) != 0);
+
+		/* Group  Permissions */ 
+		file_permissions->group_read    = ((file_info->permissions & GNOME_VFS_PERM_GROUP_READ) != 0);
+		file_permissions->group_write   = ((file_info->permissions & GNOME_VFS_PERM_GROUP_WRITE) != 0);
+		file_permissions->group_execute = ((file_info->permissions & GNOME_VFS_PERM_GROUP_EXEC) != 0);
+
+		/* Others Permissions */ 
+		file_permissions->others_read    = ((file_info->permissions & GNOME_VFS_PERM_OTHER_READ) != 0);
+		file_permissions->others_write   = ((file_info->permissions & GNOME_VFS_PERM_OTHER_WRITE) != 0);
+		file_permissions->others_execute = ((file_info->permissions & GNOME_VFS_PERM_OTHER_EXEC) != 0);
+	}
+
+	gnome_vfs_file_info_unref (file_info);
+#elif ! defined (G_OS_WIN32)
+	struct stat file_stat;
+	int result;
+
+	result = g_stat (go_filename_from_uri (uri), &file_stat);
+
+	if (result == 0) {
+		file_permissions = g_new0 (GOFilePermissions, 1);
+
+		/* Owner  Permissions */ 
+		file_permissions->owner_read    = ((file_stat.st_mode & S_IRUSR) != 0);
+		file_permissions->owner_write   = ((file_stat.st_mode & S_IWUSR) != 0);
+		file_permissions->owner_execute = ((file_stat.st_mode & S_IXUSR) != 0);
+                                                                            
+		/* Group  Permissions */                                    
+		file_permissions->group_read    = ((file_stat.st_mode & S_IRGRP) != 0);
+		file_permissions->group_write   = ((file_stat.st_mode & S_IWGRP) != 0);
+		file_permissions->group_execute = ((file_stat.st_mode & S_IXGRP) != 0);
+                                                                            
+		/* Others Permissions */                                    
+		file_permissions->others_read    = ((file_stat.st_mode & S_IROTH) != 0);
+		file_permissions->others_write   = ((file_stat.st_mode & S_IWOTH) != 0);
+		file_permissions->others_execute = ((file_stat.st_mode & S_IXOTH) != 0);
+	}
+#endif
+	return file_permissions;
+}
+
+void 
+go_set_file_permissions (char const *uri, GOFilePermissions * file_permissions)
+{
+#if defined (GOFFICE_WITH_GNOME)
+	GnomeVFSFileInfo *file_info;
+	GnomeVFSResult result;
+
+        file_info = gnome_vfs_file_info_new ();
+	file_info->permissions = 0;
+
+	/* Set owner permissions */
+	if (file_permissions->owner_read == TRUE)
+		file_info->permissions |= GNOME_VFS_PERM_USER_READ;
+
+	if (file_permissions->owner_write == TRUE)
+		file_info->permissions |= GNOME_VFS_PERM_USER_WRITE;
+
+	if (file_permissions->owner_execute == TRUE)
+		file_info->permissions |= GNOME_VFS_PERM_USER_EXEC;
+
+	/* Set group permissions */
+	if (file_permissions->group_read == TRUE)
+		file_info->permissions |= GNOME_VFS_PERM_GROUP_READ;
+
+	if (file_permissions->group_write == TRUE)
+		file_info->permissions |= GNOME_VFS_PERM_GROUP_WRITE;
+
+	if (file_permissions->group_execute == TRUE)
+		file_info->permissions |= GNOME_VFS_PERM_GROUP_EXEC;
+
+	/* Set others permissions */
+	if (file_permissions->others_read == TRUE)
+		file_info->permissions |= GNOME_VFS_PERM_OTHER_READ;
+
+	if (file_permissions->others_write == TRUE)
+		file_info->permissions |= GNOME_VFS_PERM_OTHER_WRITE;
+
+	if (file_permissions->others_execute == TRUE)
+		file_info->permissions |= GNOME_VFS_PERM_OTHER_EXEC;
+
+	result = gnome_vfs_set_file_info (uri, file_info, 
+					  GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS |
+					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS |
+					  GNOME_VFS_SET_FILE_INFO_PERMISSIONS);
+
+	if (result != GNOME_VFS_OK)
+		g_warning ("Error setting permissions for file '%s'.", go_filename_from_uri (uri));
+	
+	gnome_vfs_file_info_unref (file_info);
+#elif ! defined (G_OS_WIN32)
+	mode_t permissions = 0;
+	int result;
+
+	/* Set owner permissions */
+	if (file_permissions->owner_read == TRUE)
+		permissions |= S_IRUSR;
+
+	if (file_permissions->owner_write == TRUE)
+		permissions |= S_IWUSR;
+
+	if (file_permissions->owner_execute == TRUE)
+		permissions |= S_IXUSR;
+
+	/* Set group permissions */
+	if (file_permissions->group_read == TRUE)
+		permissions |= S_IRGRP;
+
+	if (file_permissions->group_write == TRUE)
+		permissions |= S_IWGRP;
+
+	if (file_permissions->group_execute == TRUE)
+		permissions |= S_IXGRP;
+
+	/* Set others permissions */
+	if (file_permissions->others_read == TRUE)
+		permissions |= S_IROTH;
+
+	if (file_permissions->others_write == TRUE)
+		permissions |= S_IWOTH;
+
+	if (file_permissions->others_execute == TRUE)
+		permissions |= S_IXOTH;
+
+	result = chmod(go_filename_from_uri (uri), permissions);
+
+	if (result != 0)
+		g_warning ("Error setting permissions for file '%s'.", go_filename_from_uri (uri));
+#endif
+}
+
+typedef enum {
+	GO_FILE_DATE_TYPE_ACCESSED = 0,
+	GO_FILE_DATE_TYPE_MODIFIED,
+	GO_FILE_DATE_TYPE_CHANGED
+} GOFileDateType;
+
+static gchar *
+go_file_get_date (char const *uri, GOFileDateType type)
+{
+	time_t time;
+	gboolean error = FALSE;
+
+#ifdef GOFFICE_WITH_GNOME
+	GnomeVFSFileInfo *file_info;
+
+	GnomeVFSResult result;
+
+        file_info = gnome_vfs_file_info_new ();
+        result = gnome_vfs_get_file_info (uri, file_info,
+                                          GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	
+        if (result == GNOME_VFS_OK) {
+		switch (type) {
+			case GO_FILE_DATE_TYPE_ACCESSED:
+				time = file_info->atime;
+				break;
+			case GO_FILE_DATE_TYPE_MODIFIED:
+				time = file_info->mtime;
+				break;
+			case GO_FILE_DATE_TYPE_CHANGED:
+				time = file_info->ctime;
+				break;
+		}
+	} else
+		error = TRUE;
+
+	gnome_vfs_file_info_unref (file_info);
+#else
+	struct stat file_stat;
+	int result;
+
+	result = g_stat (go_filename_from_uri (uri), &file_stat);
+
+	if (result == 0) {
+		switch (type) {
+			case GO_FILE_DATE_TYPE_ACCESSED:
+				time = file_stat.st_atime;
+				break;
+			case GO_FILE_DATE_TYPE_MODIFIED:
+				time = file_stat.st_mtime;
+				break;
+			case GO_FILE_DATE_TYPE_CHANGED:
+				time = file_stat.st_ctime;
+				break;
+		}
+	} else
+		error = TRUE;
+#endif
+
+	if (error == TRUE)
+		return NULL;
+
+	return ctime (&time);
+}
+
+gchar *
+go_file_get_date_accessed (char const *uri)
+{
+	return go_file_get_date (uri, GO_FILE_DATE_TYPE_ACCESSED);
+}
+
+gchar *
+go_file_get_date_modified (char const *uri)
+{
+	return go_file_get_date (uri, GO_FILE_DATE_TYPE_MODIFIED);
+}
+
+gchar *
+go_file_get_date_changed (char const *uri)
+{
+	return go_file_get_date (uri, GO_FILE_DATE_TYPE_CHANGED);
 }
 
 /* ------------------------------------------------------------------------- */
