@@ -21,8 +21,7 @@
 
 /* TODO:
  *
- * 	- implement stretched image texture
- * 	- fix alpha channel of source image for texture
+ * 	- take screen resolution into account for image and patterns
  * 	- cache pango_layout
  */
 
@@ -352,6 +351,7 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 	cairo_t *cr = crend->cairo;
 	cairo_pattern_t *cr_pattern = NULL;
 	cairo_surface_t *cr_surface = NULL;
+	cairo_matrix_t cr_matrix;
 	GdkPixbuf *pixbuf = NULL;
 	GOColor color;
 	double width = grc_line_size (rend, style->outline.width);
@@ -424,6 +424,7 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 				cairo_set_source_rgba (cr, 1, 1, 1, 1); 
 				break;
 			}
+			cairo_fill_extents (cr, &x[0], &y[0], &x[1], &y[1]);
 			pixbuf = gdk_pixbuf_add_alpha (style->fill.image.image, FALSE, 0, 0, 0);
 			pixels = gdk_pixbuf_get_pixels (pixbuf);
 			h = gdk_pixbuf_get_height (pixbuf);
@@ -434,6 +435,23 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 			grc_pixbuf_to_cairo (pixels, w, h, rowstride);
 			cr_pattern = cairo_pattern_create_for_surface (cr_surface);
 			cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
+			switch (style->fill.image.type) {
+				case GOG_IMAGE_CENTERED:
+					cairo_matrix_init_translate (&cr_matrix, 
+								     -(x[1] - x[0] - w) / 2 - x[0], 
+								     -(y[1] - y[0] - h) / 2 - y[0]);
+					cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
+					break;
+				case GOG_IMAGE_STRETCHED:
+					cairo_matrix_init_scale (&cr_matrix, 
+								 w / (x[1] - x[0]), 
+								 h / (y[1] - y[0]));
+					cairo_matrix_translate (&cr_matrix, -x[0], -y[0]);
+					cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
+					break;
+				case GOG_IMAGE_WALLPAPER:
+					break;
+			}
 			cairo_set_source (cr, cr_pattern);
 			break;
 

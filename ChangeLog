@@ -1,3 +1,8 @@
+2006-03-03  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-renderer-cairo.c (grc_draw_polygon): implement
+	stretched image.
+
 2006-03-02  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-axis.c (gog_axis_view_size_allocate): fix axis
