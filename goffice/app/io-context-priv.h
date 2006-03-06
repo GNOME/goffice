@@ -56,6 +56,7 @@ struct _IOContext {
 	gdouble  last_progress;
 	gdouble  last_time;
 	GOProgressHelper helper;
+	gboolean exec_main_loop;
 };
 
 struct _IOContextClass {

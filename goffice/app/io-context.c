@@ -17,12 +17,18 @@
 #include <goffice/utils/go-file.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkmain.h>
+#include <glib/gi18n-lib.h>
 
 #define PROGRESS_UPDATE_STEP        0.01
 #define PROGRESS_UPDATE_STEP_END    (1.0 / 400)
 #define PROGRESS_UPDATE_PERIOD_SEC  0.20
 
 #define IOC_CLASS(ioc) IO_CONTEXT_CLASS(G_OBJECT_GET_CLASS(ioc))
+
+enum {
+	IOC_PROP_0,
+	IOC_PROP_EXEC_LOOP,
+};
 
 static void
 io_context_init (IOContext *ioc)
@@ -38,6 +44,7 @@ io_context_init (IOContext *ioc)
 	ioc->last_progress = -1.0;
 	ioc->last_time = 0.0;
 	ioc->helper.helper_type = GO_PROGRESS_HELPER_NONE;
+	ioc->exec_main_loop = TRUE;
 }
 
 static void
@@ -56,6 +63,36 @@ ioc_finalize (GObject *obj)
 	}
 
 	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
+}
+
+static void
+io_context_set_property (GObject *obj, guint param_id,
+		       GValue const *value, GParamSpec *pspec)
+{
+	IOContext *ioc = IO_CONTEXT (obj);
+
+	switch (param_id) {
+	case IOC_PROP_EXEC_LOOP:
+		ioc->exec_main_loop = g_value_get_boolean (value);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+}
+
+static void
+io_context_get_property (GObject *obj, guint param_id,
+		       GValue *value, GParamSpec *pspec)
+{
+	IOContext *ioc = IO_CONTEXT (obj);
+
+	switch (param_id) {
+	case IOC_PROP_EXEC_LOOP:
+		g_value_set_boolean (value, ioc->exec_main_loop);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
 }
 
 static char *
@@ -105,10 +142,17 @@ io_context_gnm_cmd_context_init (GOCmdContextClass *cc_class)
 	cc_class->error.error      = ioc_error_error;
 	cc_class->error.error_info = ioc_error_error_info;
 }
+
 static void
 io_context_class_init (GObjectClass *klass)
 {
 	klass->finalize = ioc_finalize;
+	klass->set_property = io_context_set_property;
+	klass->get_property = io_context_get_property;
+	g_object_class_install_property (klass, IOC_PROP_EXEC_LOOP,
+		g_param_spec_boolean ("exec-main-loop", _("exec-main-loop"),
+			_("Execute main loop iteration"),
+			TRUE, G_PARAM_READWRITE));
 }
 
 GSF_CLASS_FULL (IOContext, io_context,
@@ -235,8 +279,9 @@ io_progress_update (IOContext *ioc, gdouble f)
 	}
 
 	/* FIXME : abstract this into the workbook control */
-	while (gtk_events_pending ())
-		gtk_main_iteration_do (FALSE);
+	if (ioc->exec_main_loop)
+		while (gtk_events_pending ())
+			gtk_main_iteration_do (FALSE);
 }
 
 void

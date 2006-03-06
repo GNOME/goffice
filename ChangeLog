@@ -1,3 +1,11 @@
+2006-03-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/io-context-priv.h: added a exec_main_loop flag to IOContext
+	* goffice/app/io-context.c: (io_context_init),
+	(io_context_set_property), (io_context_get_property),
+	(io_context_class_init), (io_progress_update): ditto, and implement it
+	as a GObject property.
+
 2006-03-03  Eduardo Lima <eduardo.lima@indt.org.br>
 
 	* goffice/utils/go-file.[ch] (go_file_get_owner_name): new
