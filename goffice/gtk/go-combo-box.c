@@ -84,11 +84,11 @@ go_combo_popup_reparent (GtkWidget *popup,
 			 GtkWidget *new_parent,
 			 gboolean unrealize)
 {
-	gboolean was_floating = g_object_is_floating (popup);
-
 #if GLIB_CHECK_VERSION(2,9,1)
+	gboolean was_floating = g_object_is_floating (popup);
 	g_object_ref_sink (popup);
 #else
+	gboolean was_floating = GTK_OBJECT_FLOATING (popup);
 	g_object_ref (popup);
 	gtk_object_sink (GTK_OBJECT (popup));
 #endif
