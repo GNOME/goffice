@@ -1,3 +1,10 @@
+2006-03-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/module-plugin-defs.h: add prototypes for go_plugin_init
+	and go_plugin_shutdown.
+	* goffice/graph/gog-theme.c: (gog_theme_find_element): initialized
+	klass = NULL to avoid a warning.
+
 2006-03-11  Jody Goldberg <jody@gnome.org>
 
 	* goffice/gtk/go-combo-box.c :

@@ -139,7 +139,7 @@ static GogThemeElement *
 gog_theme_find_element (GogTheme *theme, GogObject *obj)
 {
 	GogThemeElement *elem = NULL;
-	GObjectClass *klass;
+	GObjectClass *klass = NULL;	/* make gcc happy */
 	char const *name;
 
 	if (theme == NULL)
