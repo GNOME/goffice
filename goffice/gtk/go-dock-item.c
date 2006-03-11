@@ -18,9 +18,9 @@
  * Library General Public License for more details.
  *
  * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
- * USA.
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  */
 /*
   @NOTATION@
@@ -34,19 +34,22 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <glib/gi18n-lib.h>
+#include <glib/gi18n.h>
 #include "go-dock-item.h"
 #include "go-dock-band.h"
 #include "go-dock-item-grip.h"
 #include "go-ui-marshal.h"
 
+#ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
+#endif
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktoolbar.h>
 #include <gtk/gtkwindow.h>
 
+#include <glib/gi18n.h>
 #include <libgnome/gnome-macros.h>
 
 struct _GoDockItemPrivate
@@ -1177,8 +1180,12 @@ go_dock_item_add (GtkContainer *container,
   /* Claim the base reference to the widget, so that it doesn't get owned by the
    * floating window.
    */
+#if GLIB_CHECK_VERSION(2,9,1)
+  g_object_ref_sink (widget);
+#else
   g_object_ref (widget);
   gtk_object_sink (GTK_OBJECT (widget));
+#endif
 
   gtk_widget_set_parent_window (widget, dock_item->bin_window);
   dock_item->_priv->child = widget;
@@ -1274,18 +1281,19 @@ go_dock_item_forall (GtkContainer *container,
 
 /**
  * go_dock_item_construct:
- * @new_dock_item: a #GoDockItem
- * @name: name for the new item
- * @behavior: behavior for the new item
+ * @new: a #GoDockItem.
+ * @name: Name for the new item
+ * @behavior: Behavior for the new item
  *
- * Constructs the @new_dock_item GoDockItem named @name, with the
+ * Description: Constructs the @new GoDockItem named @name, with the
  * specified @behavior.
+ *
+ * Returns: A new GoDockItem widget.
  **/
-
 void
-go_dock_item_construct (GoDockItem *new_dock_item,
-			const gchar *name,
-			GoDockItemBehavior behavior)
+go_dock_item_construct (GoDockItem *new,
+			   const gchar *name,
+			   GoDockItemBehavior behavior)
 {
   g_return_if_fail (new != NULL);
   g_return_if_fail (GO_IS_DOCK_ITEM (new));
@@ -1325,22 +1333,22 @@ go_dock_item_new (const gchar *name,
 
 /**
  * go_dock_item_get_child:
- * @dock_item: a #GoDockItem widget
+ * @item: A GoDockItem widget
  *
- * Retrieves the child of @item.
+ * Description: Retrieve the child of @item.
  *
- * Returns: the child of @item.
+ * Returns: The child of @item.
  **/
 GtkWidget *
-go_dock_item_get_child (GoDockItem *dock_item)
+go_dock_item_get_child (GoDockItem *item)
 {
-    g_return_val_if_fail (GO_IS_DOCK_ITEM (dock_item), NULL);
+    g_return_val_if_fail (GO_IS_DOCK_ITEM (item), NULL);
 
-  if (dock_item->is_floating)
+  if (item->is_floating)
     {
 
       GList *list;
-      GtkWidget *child = GTK_BIN (GTK_WIDGET (dock_item->_priv->float_window))->child;
+      GtkWidget *child = GTK_BIN (GTK_WIDGET (item->_priv->float_window))->child;
 
       list = gtk_container_get_children (GTK_CONTAINER (child));
 
@@ -1356,22 +1364,22 @@ go_dock_item_get_child (GoDockItem *dock_item)
        g_assert_not_reached ();
     }
 
-   return GTK_BIN (dock_item)->child;
+   return GTK_BIN (item)->child;
 }
 
 /**
  * go_dock_item_get_name:
- * @dock_item: a #GoDockItem widget
+ * @item: A GoDockItem widget.
  *
- * Retrieves the name of @item.
+ * Description: Retrieve the name of @item.
  *
- * Return value: the name of @item as a malloc()ed zero-terminated
+ * Return value: The name of @item as a malloc()ed zero-terminated
  * string.
  **/
 gchar *
-go_dock_item_get_name (GoDockItem *dock_item)
+go_dock_item_get_name (GoDockItem *item)
 {
-  return g_strdup (dock_item->name);
+  return g_strdup (item->name);
 }
 
 /**
@@ -1807,3 +1815,4 @@ go_dock_item_get_grip (GoDockItem *item)
   else
     return item->_priv->grip;
 }
+

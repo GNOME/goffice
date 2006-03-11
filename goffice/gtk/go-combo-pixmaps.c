@@ -120,8 +120,12 @@ go_combo_pixmaps_init (GOComboPixmaps *combo)
 	combo->table = gtk_table_new (1, 1, 0);
 
 	combo->tool_tip = gtk_tooltips_new ();
+#if GLIB_CHECK_VERSION(2,9,1)
+	g_object_ref_sink (combo->tool_tip);
+#else
 	g_object_ref (combo->tool_tip);
 	gtk_object_sink (GTK_OBJECT (combo->tool_tip));
+#endif
 
 	combo->preview_button = gtk_toggle_button_new ();
 	combo->preview_image = gtk_image_new ();

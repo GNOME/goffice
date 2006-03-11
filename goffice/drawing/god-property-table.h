@@ -132,7 +132,7 @@ void              god_property_table_set_int      (GodPropertyTable *table,
 						   gint32            val);
 void              god_property_table_set_length   (GodPropertyTable *table,
 						   GodPropertyID     id,
-						   go_unit_t         val);
+						   GODistance         val);
 void              god_property_table_set_pointer  (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   gpointer          val);
@@ -153,9 +153,9 @@ guint32           god_property_table_get_uint     (GodPropertyTable *table,
 gint32            god_property_table_get_int      (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   gint32            default_value);
-go_unit_t         god_property_table_get_length   (GodPropertyTable *table,
+GODistance        god_property_table_get_length   (GodPropertyTable *table,
 						   GodPropertyID     id,
-						   go_unit_t         default_value);
+						   GODistance         default_value);
 gpointer          god_property_table_get_pointer  (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   gpointer          default_value);

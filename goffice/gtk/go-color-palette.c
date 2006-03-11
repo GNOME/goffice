@@ -454,8 +454,12 @@ go_color_palette_setup (GOColorPalette *pal,
 	}
 
 	pal->tip = tip = gtk_tooltips_new ();
+#if GLIB_CHECK_VERSION(2,9,1)
+	g_object_ref_sink (pal->tip);
+#else
 	g_object_ref (pal->tip);
 	gtk_object_sink (GTK_OBJECT (pal->tip));
+#endif
 
 	for (row = 0; row < rows; row++)
 		for (col = 0; col < cols; col++) {

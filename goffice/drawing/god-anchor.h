@@ -36,17 +36,17 @@ typedef struct {
 typedef struct {
 	GObjectClass parent_class;
 
-	void (*get_rect)  (GodAnchor *anchor, GoRect *rect);
-	void (*set_rect)  (GodAnchor *anchor, const GoRect *rect);
+	void (*get_rect)  (GodAnchor *anchor, GORect *rect);
+	void (*set_rect)  (GodAnchor *anchor, const GORect *rect);
 } GodAnchorClass;
 
 GType      god_anchor_get_type  (void);
 
 GodAnchor *god_anchor_new       (void);
 void       god_anchor_get_rect  (GodAnchor    *anchor,
-				 GoRect       *rect);
+				 GORect       *rect);
 void       god_anchor_set_rect  (GodAnchor    *anchor,
-				 const GoRect *anchor_value);
+				 const GORect *anchor_value);
 
 
 

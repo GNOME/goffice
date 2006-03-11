@@ -197,7 +197,7 @@ foo_canvas_widget_destroy (GtkObject *object)
 	witem = FOO_CANVAS_WIDGET (object);
 
 	if (witem->widget && !witem->in_destroy) {
-		gtk_signal_disconnect (GTK_OBJECT (witem->widget), witem->destroy_id);
+		g_signal_handler_disconnect (G_OBJECT (witem->widget), witem->destroy_id);
 		gtk_widget_destroy (witem->widget);
 		witem->widget = NULL;
 	}
@@ -319,17 +319,15 @@ foo_canvas_widget_set_property (GObject            *object,
 	switch (param_id) {
 	case PROP_WIDGET:
 		if (witem->widget) {
-			gtk_signal_disconnect (GTK_OBJECT (witem->widget), witem->destroy_id);
+			g_signal_handler_disconnect (G_OBJECT (witem->widget), witem->destroy_id);
 			gtk_container_remove (GTK_CONTAINER (item->canvas), witem->widget);
 		}
 
 		obj = g_value_get_object (value);
 		if (obj) {
 			witem->widget = GTK_WIDGET (obj);
-			witem->destroy_id = gtk_signal_connect (GTK_OBJECT (obj),
-								"destroy",
-								(GtkSignalFunc) do_destroy,
-								witem);
+			witem->destroy_id = g_signal_connect (G_OBJECT (obj),
+				"destroy", G_CALLBACK (do_destroy), witem);
 			gtk_layout_put (GTK_LAYOUT (item->canvas), witem->widget,
 					witem->cx + item->canvas->zoom_xofs,
 					witem->cy + item->canvas->zoom_yofs);

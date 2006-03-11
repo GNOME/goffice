@@ -119,7 +119,7 @@ god_property_table_set_int      (GodPropertyTable       *prop_table,
 void
 god_property_table_set_length   (GodPropertyTable *prop_table,
 				 GodPropertyID     id,
-				 go_unit_t         val)
+				 GODistance         val)
 {
 	GValue *value = g_value_new(G_TYPE_INT64);
 	g_value_set_int64 (value, val);
@@ -207,10 +207,10 @@ god_property_table_get_int      (GodPropertyTable       *prop_table,
 	return g_value_get_int (value);
 }
 
-go_unit_t
+GODistance
 god_property_table_get_length   (GodPropertyTable *prop_table,
 				 GodPropertyID     id,
-				 go_unit_t         default_value)
+				 GODistance         default_value)
 {
 	GValue *value;
 

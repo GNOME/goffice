@@ -18,8 +18,8 @@
 
    You should have received a copy of the GNU Library General Public
    License along with the Gnome Library; see the file COPYING.LIB.  If not,
-   write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
-   Boston, MA  02110-1301 USA.
+   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   Boston, MA 02111-1307, USA.
 
    Author: Ettore Perazzoli <ettore@comm2000.it>
 */
@@ -93,24 +93,25 @@ struct _GoDockClass
 GtkWidget     *go_dock_new               (void);
 GtkType        go_dock_get_type          (void) G_GNUC_CONST;
 
-void           go_dock_allow_floating_items	(GoDock *dock,
-						 gboolean enable);
+void           go_dock_allow_floating_items
+                                            (GoDock *dock,
+                                             gboolean enable);
 
-void           go_dock_add_item          (GoDock           *dock,
-					  GoDockItem       *item,
-					  GoDockPlacement   placement,
-					  guint             band_num,
-					  gint              position,
-					  guint             offset,
-					  gboolean          in_new_band);
+void           go_dock_add_item          (GoDock             *dock,
+                                             GoDockItem         *item,
+                                             GoDockPlacement  placement,
+                                             guint                  band_num,
+                                             gint                   position,
+                                             guint                  offset,
+                                             gboolean               in_new_band);
 
 void           go_dock_add_floating_item (GoDock *dock,
-					  GoDockItem *item,
-					  gint x, gint y,
-					  GtkOrientation orientation);
+                                             GoDockItem *widget,
+                                             gint x, gint y,
+                                             GtkOrientation orientation);
 
 void             go_dock_set_client_area   (GoDock             *dock,
-					    GtkWidget             *widget);
+						GtkWidget             *widget);
 
 GtkWidget       *go_dock_get_client_area   (GoDock             *dock);
 

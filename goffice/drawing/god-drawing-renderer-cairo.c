@@ -59,7 +59,7 @@ get_pixbuf (GodDrawing *drawing,
 typedef struct {
 	GodDrawing *drawing;
 	cairo_t *context;
-	GoRect *rect;
+	GORect *rect;
 	long long y_ofs;
 	const GodDefaultAttributes *default_attributes;
 } DrawTextContext;
@@ -235,7 +235,7 @@ draw_text (GodTextModel *text,
 		layout = NULL;
 	}
 
-	draw_context->y_ofs += GO_PT_TO_UN ((go_unit_t)height) / PANGO_SCALE;
+	draw_context->y_ofs += GO_PT_TO_UN ((GODistance)height) / PANGO_SCALE;
 	draw_context->y_ofs += space_after;
 }
 
@@ -245,7 +245,7 @@ god_drawing_renderer_cairo_render_shape (GodDrawing *drawing,
 					 GodShape   *shape)
 {
 	GodAnchor *anchor;
-	GoRect anchor_rect;
+	GORect anchor_rect;
 
 	anchor = god_shape_get_anchor (shape);
 	if (anchor) {

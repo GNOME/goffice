@@ -16,8 +16,8 @@
 
    You should have received a copy of the GNU Library General Public
    License along with the Gnome Library; see the file COPYING.LIB.  If not,
-   write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
-   Boston, MA  02110-1301 USA.
+   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   Boston, MA 02111-1307, USA.
 
    Author: Ettore Perazzoli <ettore@comm2000.it>
 */
@@ -26,7 +26,7 @@
 */
 
 #include <goffice/goffice-config.h>
-#include <glib/gi18n-lib.h>
+#include <glib/gi18n.h>
 #include <string.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>

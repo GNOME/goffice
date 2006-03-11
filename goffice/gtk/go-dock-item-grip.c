@@ -11,7 +11,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <glib/gi18n-lib.h>
+#include <glib/gi18n.h>
 #include "go-a11y.h"
 #include "go-dock-band.h"
 #include "go-dock-item-grip.h"
@@ -21,6 +21,7 @@
 #include <gtk/gtkaccessible.h>
 #include <gtk/gtkbindings.h>
 #include <libgnome/gnome-macros.h>
+#include <glib/gi18n.h>
 #include <string.h>
 
 #define DRAG_HANDLE_SIZE 10

@@ -24,10 +24,6 @@
  * USA.
  */
 
-/* FIXME: remove gtk_object_sink and friends when possible */
-#warning undef GTK_DISABLE_DEPRECATED because of gtk_object_sink and related
-#undef GTK_DISABLE_DEPRECATED
-
 #include <goffice/goffice-config.h>
 #include "go-combo-box.h"
 #include <goffice/utils/go-marshalers.h>
@@ -85,29 +81,36 @@ static void go_combo_set_tearoff_state (GOComboBox *combo, gboolean torn_off);
  */
 static void
 go_combo_popup_reparent (GtkWidget *popup,
-			  GtkWidget *new_parent,
-			  gboolean unrealize)
+			 GtkWidget *new_parent,
+			 gboolean unrealize)
 {
-	GtkObject *object = GTK_OBJECT (popup);
-	gboolean was_floating = GTK_OBJECT_FLOATING (object);
+	gboolean was_floating = g_object_is_floating (popup);
 
-	g_object_ref (object);
-	gtk_object_sink (object);
+#if GLIB_CHECK_VERSION(2,9,1)
+	g_object_ref_sink (popup);
+#else
+	g_object_ref (popup);
+	gtk_object_sink (GTK_OBJECT (popup));
+#endif
 
 	if (unrealize) {
-		g_object_ref (object);
+		g_object_ref (popup);
 		gtk_container_remove (GTK_CONTAINER (popup->parent), popup);
 		gtk_container_add (GTK_CONTAINER (new_parent), popup);
-		g_object_unref (object);
+		g_object_unref (popup);
 	}
 	else
 		gtk_widget_reparent (GTK_WIDGET (popup), new_parent);
 	gtk_widget_set_size_request (new_parent, -1, -1);
 
-	if (was_floating)
-		GTK_OBJECT_SET_FLAGS (object, GTK_FLOATING);
-	else
-		g_object_unref (object);
+	if (was_floating) {
+#if GLIB_CHECK_VERSION(2,9,1)
+		g_object_force_floating (G_OBJECT (popup));
+#else
+		GTK_OBJECT_SET_FLAGS (GTK_OBJECT (popup), GTK_FLOATING);
+#endif
+	} else
+		g_object_unref (popup);
 }
 
 static void
@@ -315,12 +318,16 @@ go_combo_popup_tear_off (GOComboBox *combo, gboolean set_position)
 
 	if (!combo->priv->tearoff_window) {
 		GtkWidget *tearoff;
-		const gchar *title;
+		gchar const *title;
 
 		/* FIXME: made this a toplevel, not a dialog ! */
 		tearoff = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-		gtk_widget_ref (tearoff);
+#if GLIB_CHECK_VERSION(2,9,1)
+		g_object_ref_sink (tearoff);
+#else
+		g_object_ref (tearoff);
 		gtk_object_sink (GTK_OBJECT (tearoff));
+#endif
 		combo->priv->tearoff_window = tearoff;
 		gtk_widget_set_app_paintable (tearoff, TRUE);
 		g_signal_connect (tearoff, "key_press_event",
@@ -545,8 +552,12 @@ go_combo_box_init (GOComboBox *combo_box)
 	 */
 
 	combo_box->priv->toplevel = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_widget_ref (combo_box->priv->toplevel);
+#if GLIB_CHECK_VERSION(2,9,1)
+	g_object_ref_sink (combo_box->priv->toplevel);
+#else
+	g_object_ref (combo_box->priv->toplevel);
 	gtk_object_sink (GTK_OBJECT (combo_box->priv->toplevel));
+#endif
 	g_object_set (G_OBJECT (combo_box->priv->toplevel),
 		"allow-shrink",	FALSE,
 		"allow-grow",	TRUE,

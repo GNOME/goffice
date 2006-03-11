@@ -1024,9 +1024,10 @@ GO_EMU_TO_UN
 GO_EMU_TO_IN
 GO_EMU_TO_PT
 GO_EMU_TO_CM
-go_unit_t
-GoPoint
-GoRect
+GOUnit
+GODistance
+GOPoint
+GORect
 </SECTION>
 
 <SECTION>

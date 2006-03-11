@@ -37,8 +37,8 @@ struct GodDrawingRendererGdkPrivate_ {
 	GdkDrawable *drawable;
 	GdkGC *gc;
 	GodAnchor *extents;
-	go_unit_t x_units_per_pixel;
-	go_unit_t y_units_per_pixel;
+	GODistance x_units_per_pixel;
+	GODistance y_units_per_pixel;
 };
 
 GodDrawingRendererGdk *
@@ -56,7 +56,7 @@ update_units_per_pixel (GodDrawingRendererGdk *renderer)
 {
 	if (renderer->priv->drawable && renderer->priv->extents) {
 		gint pixel_width, pixel_height;
-		GoRect extent_rect;
+		GORect extent_rect;
 		gdk_drawable_get_size (renderer->priv->drawable, &pixel_width, &pixel_height);
 		god_anchor_get_rect (renderer->priv->extents, &extent_rect);
 
@@ -339,7 +339,7 @@ draw_text (GodTextModel *text,
 		pango_layout_set_auto_dir (layout, FALSE);
 #if 0
 		pango_font_description_set_absolute_size (bullet_desc, 
-							  GO_PT_TO_UN ((go_unit_t) bullet_size * PANGO_SCALE) /
+							  GO_PT_TO_UN ((GODistance) bullet_size * PANGO_SCALE) /
 							  draw_context->renderer->priv->y_units_per_pixel);
 #endif
 		pango_font_description_set_size (bullet_desc, pango_font_description_get_size (bullet_desc) * sqrt (bullet_size));
@@ -368,7 +368,7 @@ god_drawing_renderer_gdk_render_shape (GodDrawingRendererGdk *renderer,
 	GodAnchor *anchor;
 	GdkRectangle rect;
 	GdkRectangle intersection;
-	GoRect anchor_rect;
+	GORect anchor_rect;
 
 	anchor = god_shape_get_anchor (shape);
 	if (anchor) {

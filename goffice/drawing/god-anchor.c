@@ -31,7 +31,7 @@
 static GObjectClass *parent_class;
 
 struct GodAnchorPrivate_ {
-	GoRect rect;
+	GORect rect;
 };
 
 GodAnchor *
@@ -46,7 +46,7 @@ god_anchor_new (void)
 
 void
 god_anchor_get_rect  (GodAnchor *anchor,
-		      GoRect    *rect)
+		      GORect    *rect)
 {
 	if (GOD_ANCHOR_GET_CLASS (anchor)->get_rect) {
 		GOD_ANCHOR_GET_CLASS (anchor)->get_rect (anchor, rect);
@@ -60,7 +60,7 @@ god_anchor_get_rect  (GodAnchor *anchor,
 
 void
 god_anchor_set_rect  (GodAnchor    *anchor,
-		      const GoRect *rect)
+		      const GORect *rect)
 {
 	if (GOD_ANCHOR_GET_CLASS (anchor)->set_rect)
 		GOD_ANCHOR_GET_CLASS (anchor)->set_rect (anchor, rect);
@@ -90,14 +90,14 @@ god_anchor_finalize (GObject *object)
 
 static void
 real_god_anchor_get_rect (GodAnchor *anchor,
-			  GoRect *rect)
+			  GORect *rect)
 {
 	*rect = anchor->priv->rect;
 }
 
 static void
 real_god_anchor_set_rect (GodAnchor *anchor,
-			  const GoRect    *rect)
+			  const GORect    *rect)
 {
 	anchor->priv->rect = *rect;
 }

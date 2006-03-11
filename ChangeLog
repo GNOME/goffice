@@ -1,3 +1,13 @@
+2006-03-11  Jody Goldberg <jody@gnome.org>
+
+	* goffice/gtk/go-combo-box.c :
+	* goffice/gtk/go-color-palette.c : 
+	* goffice/gtk/go-combo-pixmaps.c : use g_object_ref_sink
+	  for newer versions of glib.
+
+	* goffice/cut-n-paste/foocanvas : update
+	* plugins/gnome_extensions/egg-recent-* : update
+
 2006-03-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/io-context-priv.h: added a exec_main_loop flag to IOContext

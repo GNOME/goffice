@@ -64,19 +64,17 @@ G_BEGIN_DECLS
 #define GO_EMU_TO_PT(emu)	((emu)*PT_PER_IN/EMU_PER_IN)
 #define GO_EMU_TO_CM(emu)	((emu)*CM_PER_IN/EMU_PER_IN/100)
 
-typedef gint64 go_unit_t;
-
+typedef gint64 GODistance;
 typedef struct {
-	go_unit_t x;
-	go_unit_t y;
-} GoPoint;
-
+	GODistance x;
+	GODistance y;
+} GOPoint;
 typedef struct {
-	go_unit_t top;
-	go_unit_t left;
-	go_unit_t bottom;
-	go_unit_t right;
-} GoRect;
+	GODistance top;
+	GODistance left;
+	GODistance bottom;
+	GODistance right;
+} GORect;
 
 G_END_DECLS
 

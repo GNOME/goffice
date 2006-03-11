@@ -24,10 +24,16 @@ libeggrecent_a_SOURCES =		\
 	egg-recent-view-gtk.h		\
 		\
 		\
+	egg-recent-view-uimanager.c	\
+	egg-recent-view-uimanager.h	\
 	egg-recent-util.c		\
 	egg-recent-util.h
 
 
 
+
+uimanager_view_test_SOURCES = uimanager-view-test.c
+uimanager_view_test_LDFLAGS = libeggrecent.a $(EGG_RECENT_LIBS) $(EGG_EXEC_LIBS)
+uimanager_view_test_DEPENDENCIES = libeggrecent.a
 
 
