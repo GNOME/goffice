@@ -295,10 +295,9 @@ redraw_and_repick_if_mapped (FooCanvasItem *item)
 	}
 }
 
-
-/* Standard object dispose function for canvas items */
+/* Destroy handler for canvas items */
 static void
-foo_canvas_item_dispose (GObject *object)
+foo_canvas_item_destroy (GtkObject *object)
 {
 	FooCanvasItem *item;
 
@@ -306,42 +305,47 @@ foo_canvas_item_dispose (GObject *object)
 
 	item = FOO_CANVAS_ITEM (object);
 
-	foo_canvas_item_request_redraw (item);
+	if (item->canvas) {
+		foo_canvas_item_request_redraw (item);
 
-	/* Make the canvas forget about us */
+		/* Make the canvas forget about us */
 
-	if (item == item->canvas->current_item) {
-		item->canvas->current_item = NULL;
-		item->canvas->need_repick = TRUE;
+		if (item == item->canvas->current_item) {
+			item->canvas->current_item = NULL;
+			item->canvas->need_repick = TRUE;
+		}
+
+		if (item == item->canvas->new_current_item) {
+			item->canvas->new_current_item = NULL;
+			item->canvas->need_repick = TRUE;
+		}
+
+		if (item == item->canvas->grabbed_item) {
+			GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
+			item->canvas->grabbed_item = NULL;
+			gdk_display_pointer_ungrab (display, GDK_CURRENT_TIME);
+		}
+
+		if (item == item->canvas->focused_item)
+			item->canvas->focused_item = NULL;
+
+		/* Normal destroy stuff */
+
+		if (item->object.flags & FOO_CANVAS_ITEM_MAPPED)
+			(* FOO_CANVAS_ITEM_GET_CLASS (item)->unmap) (item);
+
+		if (item->object.flags & FOO_CANVAS_ITEM_REALIZED)
+			(* FOO_CANVAS_ITEM_GET_CLASS (item)->unrealize) (item);
+
+		if (item->parent)
+			group_remove (FOO_CANVAS_GROUP (item->parent), item);
+
+		item->canvas = NULL;
 	}
 
-	if (item == item->canvas->new_current_item) {
-		item->canvas->new_current_item = NULL;
-		item->canvas->need_repick = TRUE;
-	}
-
-	if (item == item->canvas->grabbed_item) {
-		GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
-		item->canvas->grabbed_item = NULL;
-		gdk_display_pointer_ungrab (display, GDK_CURRENT_TIME);
-	}
-
-	if (item == item->canvas->focused_item)
-		item->canvas->focused_item = NULL;
-
-	/* Normal destroy stuff */
-
-	if (item->object.flags & FOO_CANVAS_ITEM_MAPPED)
-		(* FOO_CANVAS_ITEM_GET_CLASS (item)->unmap) (item);
-
-	if (item->object.flags & FOO_CANVAS_ITEM_REALIZED)
-		(* FOO_CANVAS_ITEM_GET_CLASS (item)->unrealize) (item);
-
-	if (item->parent)
-		group_remove (FOO_CANVAS_GROUP (item->parent), item);
-
-	G_OBJECT_CLASS (item_parent_class)->dispose (object);
+	GTK_OBJECT_CLASS (item_parent_class)->destroy (object);
 }
+
 
 /* Realize handler for canvas items */
 static void
@@ -987,6 +991,7 @@ foo_canvas_item_reparent (FooCanvasItem *item, FooCanvasGroup *new_group)
 
 	group_remove (FOO_CANVAS_GROUP (item->parent), item);
 	item->parent = FOO_CANVAS_ITEM (new_group);
+	/* item->canvas is unchanged.  */
 	group_add (new_group, item);
 
 	/* Redraw and repick */
@@ -1682,6 +1687,7 @@ group_remove (FooCanvasGroup *group, FooCanvasItem *item)
 			/* Unparent the child */
 
 			item->parent = NULL;
+			item->canvas = NULL;
 			g_object_unref (G_OBJECT (item));
 
 			/* Remove it from the list */
@@ -2156,8 +2162,10 @@ foo_canvas_destroy (GtkObject *object)
 		canvas->root_destroy_id = 0;
 	}
 	if (canvas->root) {
-		g_object_unref (G_OBJECT (canvas->root));
+		FooCanvasItem *root = canvas->root;
 		canvas->root = NULL;
+		gtk_object_destroy (GTK_OBJECT (root));
+		g_object_unref (root);
 	}
 
 	shutdown_transients (canvas);
@@ -3953,8 +3961,10 @@ static void
 foo_canvas_item_class_init (FooCanvasItemClass *class)
 {
 	GObjectClass *gobject_class;
+	GtkObjectClass *object_class;
 
 	gobject_class = (GObjectClass *) class;
+	object_class  = (GtkObjectClass *) class;
 
 	item_parent_class = gtk_type_class (gtk_object_get_type ());
 
@@ -3983,7 +3993,7 @@ foo_canvas_item_class_init (FooCanvasItemClass *class)
 			      G_TYPE_BOOLEAN, 1,
 			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	gobject_class->dispose = foo_canvas_item_dispose;
+	object_class->destroy = foo_canvas_item_destroy;
 
 	class->realize = foo_canvas_item_realize;
 	class->unrealize = foo_canvas_item_unrealize;
