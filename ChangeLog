@@ -1,3 +1,17 @@
+2006-03-14  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_file_get_owner_name,
+	go_file_get_group_name): Ensure that result is UTF-8 encoded.  Let
+	the caller free the result.  Handle remote files sanely.  Plug
+	leaks.
+	(go_file_get_date, go_file_get_date_changed,
+	go_file_get_date_modified, go_file_get_date_accessed): return a
+	time_t, not a [const] char *.  That makes it possible to localize
+	properly.  Plug leak.
+	(go_set_file_permissions): Plug leaks and avoid dumping non-UTF8
+	error messages.
+	(go_get_file_permissions): Plug leak.
+
 2006-03-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/module-plugin-defs.h: add prototypes for go_plugin_init

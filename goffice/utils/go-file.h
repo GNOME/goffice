@@ -59,9 +59,9 @@ gchar     *go_file_get_group_name (char const *uri);
 GOFilePermissions *go_get_file_permissions (char const *uri);
 void go_set_file_permissions (char const *uri, GOFilePermissions * file_permissions);
 
-gchar * go_file_get_date_accessed (char const *uri);
-gchar * go_file_get_date_modified (char const *uri);
-gchar * go_file_get_date_changed  (char const *uri);
+time_t go_file_get_date_accessed (char const *uri);
+time_t go_file_get_date_modified (char const *uri);
+time_t go_file_get_date_changed  (char const *uri);
 
 gchar	*go_url_decode		(gchar const *text);
 gchar	*go_url_encode		(gchar const *text);

@@ -28,6 +28,7 @@
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-output-stdio.h>
 #include <glib/gstdio.h>
+#include <glib/gi18n-lib.h>
 #ifdef GOFFICE_WITH_GNOME
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
@@ -428,14 +429,21 @@ go_file_split_urls (const char *data)
   return uris;
 }
 
-
+/*
+ * Return the real name of the owner of a URI.  The result will be in
+ * UTF-8 and the caller must free the result.
+ */
 gchar *
 go_file_get_owner_name (char const *uri)
 {
 	gboolean error = FALSE;
 	guint uid = 0;
 	struct passwd *password_info;
-	
+	const char *name;
+	gsize namelen;
+	char *nameutf8;
+	gboolean islocal = FALSE;
+
 #ifdef GOFFICE_WITH_GNOME
 	GnomeVFSFileInfo *file_info;
 
@@ -444,43 +452,72 @@ go_file_get_owner_name (char const *uri)
         file_info = gnome_vfs_file_info_new ();
         result = gnome_vfs_get_file_info (uri, file_info,
                                           GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-	
-        if (result == GNOME_VFS_OK)
+
+        if (result == GNOME_VFS_OK) {
 		uid = file_info->uid;
-	else
+		islocal = GNOME_VFS_FILE_INFO_LOCAL (file_info);
+	} else
 		error = TRUE;
 
 	gnome_vfs_file_info_unref (file_info);
 #else
 	struct stat file_stat;
-	int result;
+	char *filename = go_filename_from_uri (uri);
+	int result = filename ? g_stat (filename, &file_stat) : -1;
 
-	result = g_stat (go_filename_from_uri (uri), &file_stat);
-
-	if (result == 0)
+	g_free (filename);
+	if (result == 0) {
 		uid = file_stat.st_uid;
-	else
+		islocal = TRUE;
+	} else
 		error = TRUE;
 #endif
 
-	if (error == TRUE)
+	if (error)
 		return NULL;
+
+	if (!islocal) {
+		/* xgettext: generic fake user name for non-local files. */
+		return g_strdup (_("remote user"));
+	}
 
 	password_info = getpwuid (uid);
 
 	if (password_info == NULL)
 		return NULL;
 
-	return password_info->pw_gecos;
+	name = password_info->pw_gecos;
+	(void) go_guess_encoding (name, strlen (name),
+				  NULL, &nameutf8);
+	if (!nameutf8)
+		return NULL;
+	namelen = strlen (nameutf8);
+
+	/*
+	 * What about magic characters used instead of user name?
+	 */
+
+	/* Strip comma characters at the end of the string.  */
+	while (namelen > 0 && nameutf8[namelen - 1] == ',')
+		nameutf8[--namelen] = 0;
+
+	return nameutf8;
 }
 
+/*
+ * Return the group name of the owner of a URI.  The result will be in
+ * UTF-8 and the caller must free the result.
+ */
 gchar *
 go_file_get_group_name (char const *uri)
 {
 	gboolean error = FALSE;
 	guint gid = 0;
 	struct group *group_info;
-	
+	gboolean islocal = FALSE;
+	const char *name;
+	char *nameutf8;
+
 #ifdef GOFFICE_WITH_GNOME
 	GnomeVFSFileInfo *file_info;
 
@@ -489,34 +526,45 @@ go_file_get_group_name (char const *uri)
         file_info = gnome_vfs_file_info_new ();
         result = gnome_vfs_get_file_info (uri, file_info,
                                           GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-	
-        if (result == GNOME_VFS_OK)
+
+        if (result == GNOME_VFS_OK) {
 		gid = file_info->gid;
-	else
+		islocal = GNOME_VFS_FILE_INFO_LOCAL (file_info);
+	} else
 		error = TRUE;
 
 	gnome_vfs_file_info_unref (file_info);
 #else
 	struct stat file_stat;
-	int result;
+	char *filename = go_filename_from_uri (uri);
+	int result = filename ? g_stat (filename, &file_stat) : -1;
 
-	result = g_stat (go_filename_from_uri (uri), &file_stat);
+	g_free (filename);
 
-	if (result == 0)
+	if (result == 0) {
 		gid = file_stat.st_gid;
-	else
+		islocal = TRUE;
+	} else
 		error = TRUE;
 #endif
 
-	if (error == TRUE)
+	if (error)
 		return NULL;
 
+	if (!islocal) {
+		/* xgettext: generic fake group name for non-local files. */
+		return g_strdup (_("remote"));
+	}
+
 	group_info = getgrgid (gid);
- 
+
 	if (group_info == NULL)
 		return NULL;
 
-	return group_info->gr_name;
+	name = group_info->gr_name;
+	(void) go_guess_encoding (name, strlen (name),
+				  NULL, &nameutf8);
+	return nameutf8;
 }
 
 GOFilePermissions *
@@ -536,17 +584,17 @@ go_get_file_permissions (char const *uri)
         if (result == GNOME_VFS_OK) {
 		file_permissions = g_new0 (GOFilePermissions, 1);
 
-		/* Owner  Permissions */ 
+		/* Owner  Permissions */
 		file_permissions->owner_read    = ((file_info->permissions & GNOME_VFS_PERM_USER_READ) != 0);
 		file_permissions->owner_write   = ((file_info->permissions & GNOME_VFS_PERM_USER_WRITE) != 0);
 		file_permissions->owner_execute = ((file_info->permissions & GNOME_VFS_PERM_USER_EXEC) != 0);
 
-		/* Group  Permissions */ 
+		/* Group  Permissions */
 		file_permissions->group_read    = ((file_info->permissions & GNOME_VFS_PERM_GROUP_READ) != 0);
 		file_permissions->group_write   = ((file_info->permissions & GNOME_VFS_PERM_GROUP_WRITE) != 0);
 		file_permissions->group_execute = ((file_info->permissions & GNOME_VFS_PERM_GROUP_EXEC) != 0);
 
-		/* Others Permissions */ 
+		/* Others Permissions */
 		file_permissions->others_read    = ((file_info->permissions & GNOME_VFS_PERM_OTHER_READ) != 0);
 		file_permissions->others_write   = ((file_info->permissions & GNOME_VFS_PERM_OTHER_WRITE) != 0);
 		file_permissions->others_execute = ((file_info->permissions & GNOME_VFS_PERM_OTHER_EXEC) != 0);
@@ -555,24 +603,24 @@ go_get_file_permissions (char const *uri)
 	gnome_vfs_file_info_unref (file_info);
 #elif ! defined (G_OS_WIN32)
 	struct stat file_stat;
-	int result;
+	char *filename = go_filename_from_uri (uri);
+	int result = filename ? g_stat (filename, &file_stat) : -1;
 
-	result = g_stat (go_filename_from_uri (uri), &file_stat);
-
+	g_free (filename);
 	if (result == 0) {
 		file_permissions = g_new0 (GOFilePermissions, 1);
 
-		/* Owner  Permissions */ 
+		/* Owner  Permissions */
 		file_permissions->owner_read    = ((file_stat.st_mode & S_IRUSR) != 0);
 		file_permissions->owner_write   = ((file_stat.st_mode & S_IWUSR) != 0);
 		file_permissions->owner_execute = ((file_stat.st_mode & S_IXUSR) != 0);
-                                                                            
-		/* Group  Permissions */                                    
+
+		/* Group  Permissions */
 		file_permissions->group_read    = ((file_stat.st_mode & S_IRGRP) != 0);
 		file_permissions->group_write   = ((file_stat.st_mode & S_IWGRP) != 0);
 		file_permissions->group_execute = ((file_stat.st_mode & S_IXGRP) != 0);
-                                                                            
-		/* Others Permissions */                                    
+
+		/* Others Permissions */
 		file_permissions->others_read    = ((file_stat.st_mode & S_IROTH) != 0);
 		file_permissions->others_write   = ((file_stat.st_mode & S_IWOTH) != 0);
 		file_permissions->others_execute = ((file_stat.st_mode & S_IXOTH) != 0);
@@ -581,7 +629,7 @@ go_get_file_permissions (char const *uri)
 	return file_permissions;
 }
 
-void 
+void
 go_set_file_permissions (char const *uri, GOFilePermissions * file_permissions)
 {
 #if defined (GOFFICE_WITH_GNOME)
@@ -621,18 +669,19 @@ go_set_file_permissions (char const *uri, GOFilePermissions * file_permissions)
 	if (file_permissions->others_execute == TRUE)
 		file_info->permissions |= GNOME_VFS_PERM_OTHER_EXEC;
 
-	result = gnome_vfs_set_file_info (uri, file_info, 
+	result = gnome_vfs_set_file_info (uri, file_info,
 					  GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS |
 					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS |
 					  GNOME_VFS_SET_FILE_INFO_PERMISSIONS);
 
 	if (result != GNOME_VFS_OK)
-		g_warning ("Error setting permissions for file '%s'.", go_filename_from_uri (uri));
-	
+		g_warning ("Error setting permissions for '%s'.", uri);
+
 	gnome_vfs_file_info_unref (file_info);
 #elif ! defined (G_OS_WIN32)
 	mode_t permissions = 0;
 	int result;
+	char *filename;
 
 	/* Set owner permissions */
 	if (file_permissions->owner_read == TRUE)
@@ -664,10 +713,12 @@ go_set_file_permissions (char const *uri, GOFilePermissions * file_permissions)
 	if (file_permissions->others_execute == TRUE)
 		permissions |= S_IXOTH;
 
-	result = chmod(go_filename_from_uri (uri), permissions);
+	filename = go_filename_from_uri (uri);
+	result = g_chmod (filename, permissions);
+	g_free (filename);
 
 	if (result != 0)
-		g_warning ("Error setting permissions for file '%s'.", go_filename_from_uri (uri));
+		g_warning ("Error setting permissions for %s.", uri);
 #endif
 }
 
@@ -677,11 +728,10 @@ typedef enum {
 	GO_FILE_DATE_TYPE_CHANGED
 } GOFileDateType;
 
-static gchar *
+static time_t
 go_file_get_date (char const *uri, GOFileDateType type)
 {
-	time_t time;
-	gboolean error = FALSE;
+	time_t tm = -1;
 
 #ifdef GOFFICE_WITH_GNOME
 	GnomeVFSFileInfo *file_info;
@@ -691,64 +741,59 @@ go_file_get_date (char const *uri, GOFileDateType type)
         file_info = gnome_vfs_file_info_new ();
         result = gnome_vfs_get_file_info (uri, file_info,
                                           GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-	
+
         if (result == GNOME_VFS_OK) {
 		switch (type) {
 			case GO_FILE_DATE_TYPE_ACCESSED:
-				time = file_info->atime;
+				tm = file_info->atime;
 				break;
 			case GO_FILE_DATE_TYPE_MODIFIED:
-				time = file_info->mtime;
+				tm = file_info->mtime;
 				break;
 			case GO_FILE_DATE_TYPE_CHANGED:
-				time = file_info->ctime;
+				tm = file_info->ctime;
 				break;
 		}
-	} else
-		error = TRUE;
+	}
 
 	gnome_vfs_file_info_unref (file_info);
 #else
 	struct stat file_stat;
-	int result;
+	char *filename = go_filename_from_uri (uri);
+	int result = filename ? g_stat (filename, &file_stat) : -1;
 
-	result = g_stat (go_filename_from_uri (uri), &file_stat);
-
+	g_free (filename);
 	if (result == 0) {
 		switch (type) {
 			case GO_FILE_DATE_TYPE_ACCESSED:
-				time = file_stat.st_atime;
+				tm = file_stat.st_atime;
 				break;
 			case GO_FILE_DATE_TYPE_MODIFIED:
-				time = file_stat.st_mtime;
+				tm = file_stat.st_mtime;
 				break;
 			case GO_FILE_DATE_TYPE_CHANGED:
-				time = file_stat.st_ctime;
+				tm = file_stat.st_ctime;
 				break;
 		}
-	} else
-		error = TRUE;
+	}
 #endif
 
-	if (error == TRUE)
-		return NULL;
-
-	return ctime (&time);
+	return tm;
 }
 
-gchar *
+time_t
 go_file_get_date_accessed (char const *uri)
 {
 	return go_file_get_date (uri, GO_FILE_DATE_TYPE_ACCESSED);
 }
 
-gchar *
+time_t
 go_file_get_date_modified (char const *uri)
 {
 	return go_file_get_date (uri, GO_FILE_DATE_TYPE_MODIFIED);
 }
 
-gchar *
+time_t
 go_file_get_date_changed (char const *uri)
 {
 	return go_file_get_date (uri, GO_FILE_DATE_TYPE_CHANGED);
