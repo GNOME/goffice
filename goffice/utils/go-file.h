@@ -22,6 +22,7 @@
 
 #include <glib.h>
 #include <gsf/gsf.h>
+#include <time.h>
 
 G_BEGIN_DECLS
 

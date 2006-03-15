@@ -1,3 +1,7 @@
+2006-03-15  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* goffice/utils/go-file.h: #include <time.h> for time_t.
+
 2006-03-14  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-file.c (go_file_get_owner_name,
