@@ -1,3 +1,8 @@
+2006-03-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/module-plugin-defs.h: add a comment for go_plugin_init
+	and go_plugin_shutdown declaration.
+
 2006-03-15  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* goffice/utils/go-file.h: #include <time.h> for time_t.
