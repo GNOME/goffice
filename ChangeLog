@@ -1,3 +1,8 @@
+2006-03-16  Morten Welinder  <terra@gnome.org>
+
+	* plugins/plot_barcol/gog-1.5d.h: Bitfields need to be explicitly
+	signed or unsigned.
+
 2006-03-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/module-plugin-defs.h: add a comment for go_plugin_init
