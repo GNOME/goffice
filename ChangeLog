@@ -1,5 +1,8 @@
 2006-03-16  Morten Welinder  <terra@gnome.org>
 
+	* plugins/plot_surface/gog-surface.c (gog_contour_view_render):
+	Use NULL, not 0.
+
 	* plugins/plot_barcol/gog-1.5d.h: Bitfields need to be explicitly
 	signed or unsigned.
 

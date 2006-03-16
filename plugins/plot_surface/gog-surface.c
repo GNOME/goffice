@@ -540,7 +540,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogContourPlot const *plot = GOG_CONTOUR_PLOT (view->model);
 	GogSeries const *series = GOG_SERIES (plot->base.series->data);
-	GODataVector *x_vec = 0, *y_vec = 0;
+	GODataVector *x_vec = NULL, *y_vec = NULL;
 	GogAxisMap *x_map, *y_map;
 	double zval0, zval1, zval2 = 0., zval3, t;
 	double x[4], y[4], zval[4];
