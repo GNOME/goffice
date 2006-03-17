@@ -1,3 +1,12 @@
+goffice (0.2.0-2) unstable; urgency=low
+
+  * [goffice/graph/gog-reg-curve.c] Fix from CVS: (gog_reg_curve_view_render):
+    don't render segments outside the bounding box.
+  * [debian/control] Updated libgsf dependencies for the new release.
+  * [debian/libgoffice-1-2-dbg.links] Updated.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 17 Mar 2006 22:18:37 +0100
+
 goffice (0.2.0-1) unstable; urgency=low
 
   * New upstream bugfix release.
