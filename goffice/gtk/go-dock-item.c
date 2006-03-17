@@ -1180,7 +1180,7 @@ go_dock_item_add (GtkContainer *container,
   /* Claim the base reference to the widget, so that it doesn't get owned by the
    * floating window.
    */
-#if GLIB_CHECK_VERSION(2,9,1)
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
   g_object_ref_sink (widget);
 #else
   g_object_ref (widget);

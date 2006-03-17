@@ -33,16 +33,7 @@
 #include <goffice/utils/go-marshalers.h>
 
 #include <goffice/utils/go-color.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkdrawingarea.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtktooltips.h>
-#include <gtk/gtkcolorseldialog.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkcolor.h>
 #include <glib/gi18n-lib.h>
@@ -454,7 +445,7 @@ go_color_palette_setup (GOColorPalette *pal,
 	}
 
 	pal->tip = tip = gtk_tooltips_new ();
-#if GLIB_CHECK_VERSION(2,9,1)
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 	g_object_ref_sink (pal->tip);
 #else
 	g_object_ref (pal->tip);

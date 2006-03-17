@@ -71,10 +71,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <gdk/gdkprivate.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkaccessible.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include "foo-canvas.h"
 #include "foo-canvas-i18n.h"
 
@@ -295,9 +292,9 @@ redraw_and_repick_if_mapped (FooCanvasItem *item)
 	}
 }
 
-/* Destroy handler for canvas items */
+/* Dispose handler for canvas items */
 static void
-foo_canvas_item_destroy (GtkObject *object)
+foo_canvas_item_dispose (GObject *object)
 {
 	FooCanvasItem *item;
 
@@ -343,7 +340,7 @@ foo_canvas_item_destroy (GtkObject *object)
 		item->canvas = NULL;
 	}
 
-	GTK_OBJECT_CLASS (item_parent_class)->destroy (object);
+	G_OBJECT_CLASS (item_parent_class)->dispose (object);
 }
 
 
@@ -1644,7 +1641,7 @@ foo_canvas_group_bounds (FooCanvasItem *item, double *x1, double *y1, double *x2
 static void
 group_add (FooCanvasGroup *group, FooCanvasItem *item)
 {
-#if GLIB_CHECK_VERSION(2,9,1)
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 	g_object_ref_sink (item);
 #else
 	g_object_ref (item);
@@ -2098,7 +2095,7 @@ foo_canvas_init (FooCanvas *canvas)
 	canvas->root = FOO_CANVAS_ITEM (g_object_new (foo_canvas_group_get_type (), NULL));
 	canvas->root->canvas = canvas;
 
-#if GLIB_CHECK_VERSION(2,9,1)
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 	g_object_ref_sink (canvas->root);
 #else
 	g_object_ref (canvas->root);
@@ -3960,16 +3957,13 @@ foo_canvas_item_accessible_factory_get_type (void)
 static void
 foo_canvas_item_class_init (FooCanvasItemClass *class)
 {
-	GObjectClass *gobject_class;
-	GtkObjectClass *object_class;
-
-	gobject_class = (GObjectClass *) class;
-	object_class  = (GtkObjectClass *) class;
+	GObjectClass *gobject_class = (GObjectClass *) class;
 
 	item_parent_class = gtk_type_class (gtk_object_get_type ());
 
 	gobject_class->set_property = foo_canvas_item_set_property;
 	gobject_class->get_property = foo_canvas_item_get_property;
+	gobject_class->dispose = foo_canvas_item_dispose;
 
 	g_object_class_install_property
 		(gobject_class, ITEM_PROP_PARENT,
@@ -3992,8 +3986,6 @@ foo_canvas_item_class_init (FooCanvasItemClass *class)
 			      foo_canvas_marshal_BOOLEAN__BOXED,
 			      G_TYPE_BOOLEAN, 1,
 			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
-
-	object_class->destroy = foo_canvas_item_destroy;
 
 	class->realize = foo_canvas_item_realize;
 	class->unrealize = foo_canvas_item_unrealize;

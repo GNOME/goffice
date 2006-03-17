@@ -28,14 +28,7 @@
 #include "go-combo-box.h"
 #include <goffice/utils/go-marshalers.h>
 
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtktearoffmenuitem.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkarrow.h>
-#include <gtk/gtkeventbox.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkframe.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
 
@@ -84,7 +77,7 @@ go_combo_popup_reparent (GtkWidget *popup,
 			 GtkWidget *new_parent,
 			 gboolean unrealize)
 {
-#if GLIB_CHECK_VERSION(2,9,1)
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 	gboolean was_floating = g_object_is_floating (popup);
 	g_object_ref_sink (popup);
 #else
@@ -104,7 +97,7 @@ go_combo_popup_reparent (GtkWidget *popup,
 	gtk_widget_set_size_request (new_parent, -1, -1);
 
 	if (was_floating) {
-#if GLIB_CHECK_VERSION(2,9,1)
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 		g_object_force_floating (G_OBJECT (popup));
 #else
 		GTK_OBJECT_SET_FLAGS (GTK_OBJECT (popup), GTK_FLOATING);
@@ -322,7 +315,7 @@ go_combo_popup_tear_off (GOComboBox *combo, gboolean set_position)
 
 		/* FIXME: made this a toplevel, not a dialog ! */
 		tearoff = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-#if GLIB_CHECK_VERSION(2,9,1)
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 		g_object_ref_sink (tearoff);
 #else
 		g_object_ref (tearoff);
@@ -552,7 +545,7 @@ go_combo_box_init (GOComboBox *combo_box)
 	 */
 
 	combo_box->priv->toplevel = gtk_window_new (GTK_WINDOW_POPUP);
-#if GLIB_CHECK_VERSION(2,9,1)
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 	g_object_ref_sink (combo_box->priv->toplevel);
 #else
 	g_object_ref (combo_box->priv->toplevel);

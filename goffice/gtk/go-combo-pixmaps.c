@@ -25,13 +25,7 @@
 #include "go-combo-pixmaps.h"
 #include "go-combo-box.h"
 
-#include <gtk/gtkwindow.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkvbox.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
 #include <glib/gi18n-lib.h>
@@ -120,7 +114,7 @@ go_combo_pixmaps_init (GOComboPixmaps *combo)
 	combo->table = gtk_table_new (1, 1, 0);
 
 	combo->tool_tip = gtk_tooltips_new ();
-#if GLIB_CHECK_VERSION(2,9,1)
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 	g_object_ref_sink (combo->tool_tip);
 #else
 	g_object_ref (combo->tool_tip);
