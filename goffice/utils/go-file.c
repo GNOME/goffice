@@ -49,6 +49,9 @@
 #include <time.h>
 /* ------------------------------------------------------------------------- */
 
+/*
+ * Convert an escaped URI into a filename.
+ */
 char *
 go_filename_from_uri (const char *uri)
 {
@@ -59,10 +62,13 @@ go_filename_from_uri (const char *uri)
 #endif
 }
 
-
+/*
+ * Convert a filename into an escaped URI.
+ */
 char *
 go_filename_to_uri (const char *filename)
 {
+	/* FIXME: g_path_is_absolute is true for "/a/b/c" on Win32.  */
 	if (g_path_is_absolute (filename)) {
 		char *uri;
 		char *simp = g_strdup (filename);
@@ -146,6 +152,10 @@ go_filename_to_uri (const char *filename)
 		g_free (simp);
 		return uri;
 	} else {
+		/*
+		 * FIXME: this probably does not work for "c:foo" on
+		 * Win32.
+		 */
 		char *uri;
 		char *current_dir = g_get_current_dir ();
 		char *abs_filename =
@@ -159,6 +169,62 @@ go_filename_to_uri (const char *filename)
 }
 
 
+/*
+ * More or less the same as gnome_vfs_uri_make_full_from_relative.
+ */
+char *
+go_url_resolve_relative (const char *ref_uri, const char *rel_uri)
+{
+	GString *res = g_string_new (ref_uri);
+	size_t len = res->len;
+	char *p, *q, *start;
+
+	while (len > 0 && res->str[len - 1] != '/')
+		len--;
+	if (len == 0)
+		return g_string_free (res, TRUE);
+
+	g_string_truncate (res, len--);
+	g_string_append (res, rel_uri);
+
+	for (p = q = start = res->str + len; *p;) {
+		if (p[0] == '/' && p[1] == '/') {
+			/* "//" --> "/".  */
+			p++;
+			continue;
+		}
+
+		if (p[0] == '/' && p[1] == '.' && p[2] == '/') {
+			/* "/./" -> "/".  */
+			p += 2;
+			continue;
+		}
+
+		if (p[0] == '/' && p[1] == '.' && p[2] == '.' &&
+		    p[3] == '/' && p != start) {
+			/*
+			 * "prefix/dir/../" --> "prefix/".
+			 */
+			do {
+				q--;
+			} while (*q != '/');
+			p += 3;
+			continue;
+		}
+
+		*q++ = *p++;
+	}
+
+	*q = 0;
+
+	return g_string_free (res, FALSE);
+}
+
+
+/*
+ * Convert a shell argv entry (assumed already translated into filename
+ * encoding) to an escaped URI.
+ */
 char *
 go_shell_arg_to_uri (const char *arg)
 {
@@ -169,8 +235,13 @@ go_shell_arg_to_uri (const char *arg)
 
 	tmp = go_filename_from_uri (arg);
 	if (tmp) {
+		/*
+		 * Do the reverse translation to get a minimum of
+		 * canonicalization.
+		 */
+		char *res = go_filename_to_uri (tmp);
 		g_free (tmp);
-		return g_strdup (arg);
+		return res;
 	}
 
 #ifdef GOFFICE_WITH_GNOME
@@ -181,8 +252,13 @@ go_shell_arg_to_uri (const char *arg)
 		 */
 		GnomeVFSURI *uri = gnome_vfs_uri_new (arg);
 		if (uri) {
+			/*
+			 * Do the reverse translation to get a minimum of
+			 * canonicalization.
+			 */
+			char *res = gnome_vfs_uri_to_string (uri, 0);
 			gnome_vfs_uri_unref (uri);
-			return g_strdup (arg);
+			return res;
 		}
 	}
 #endif
@@ -195,11 +271,14 @@ go_shell_arg_to_uri (const char *arg)
  * go_basename_from_uri:
  * @uri :
  *
- * Decode the final path component.  Returns as UTF-8 encoded.
+ * Decode the final path component.  Returns as UTF-8 encoded suitable
+ * for display.
  **/
 char *
 go_basename_from_uri (const char *uri)
 {
+	char *res;
+
 #ifdef GOFFICE_WITH_GNOME
 	char *raw_uri = gnome_vfs_unescape_string (uri, G_DIR_SEPARATOR_S);
 	char *basename = raw_uri ? g_path_get_basename (raw_uri) : NULL;
@@ -214,13 +293,10 @@ go_basename_from_uri (const char *uri)
 	g_free (filename);
 
 #endif
-	{
-		char *basename_utf8 = basename
-			? g_filename_to_utf8 (basename, -1, NULL, NULL, NULL)
-			: NULL;
-		g_free (basename);
-		return basename_utf8;
-	}
+
+	res = basename ? g_filename_display_name (basename) : NULL;
+	g_free (basename);
+	return res;
 }
 
 /**
@@ -228,7 +304,8 @@ go_basename_from_uri (const char *uri)
  * @uri :
  * @brief: if TRUE, hide "file://" if present.
  *
- * Decode the all but the final path component.  Returns as UTF-8 encoded.
+ * Decode the all but the final path component.  Returns as UTF-8 encoded
+ * suitable for display.
  **/
 char *
 go_dirname_from_uri (const char *uri, gboolean brief)
@@ -253,9 +330,7 @@ go_dirname_from_uri (const char *uri, gboolean brief)
 		dirname = temp;
 	}
 
-	dirname_utf8 = dirname
-		? g_filename_to_utf8 (dirname, -1, NULL, NULL, NULL)
-		: NULL;
+	dirname_utf8 = dirname ? g_filename_display_name (dirname) : NULL;
 	g_free (dirname);
 	return dirname_utf8;
 }
@@ -836,32 +911,37 @@ go_url_decode (gchar const *text)
  * go_url_encode: url-encode a string according to RFC 2368.
  */
 gchar*
-go_url_encode (gchar const *text)
+go_url_encode (gchar const *text, int type)
 {
+	const char *good;
 	static const char hex[16] = "0123456789ABCDEF";
 	GString* result;
 
 	g_return_val_if_fail (text != NULL, NULL);
 	g_return_val_if_fail (*text != '\0', NULL);
 
+	switch (type) {
+	case 0: /* mailto: */
+		good = ".-_@";
+		break;
+	case 1: /* file: or http: */
+		good = "!$&'()*+,-./:=@_";
+		break;
+	default:
+		return NULL;
+	}
+
 	result = g_string_new (NULL);
 	while (*text) {
 		unsigned char c = *text++;
-		switch (c) {
-		case '.': case '-': case '_': case '@':
+		if (g_ascii_isalnum (c) || strchr (good, c))
 			g_string_append_c (result, c);
-			break;
-		default:
-			if (g_ascii_isalnum (c))
-				g_string_append_c (result, c);
-			else {
-				g_string_append_c (result, '%');
-				g_string_append_c (result, hex[c >> 4]);
-				g_string_append_c (result, hex[c & 0xf]);
-			}
+		else {
+			g_string_append_c (result, '%');
+			g_string_append_c (result, hex[c >> 4]);
+			g_string_append_c (result, hex[c & 0xf]);
 		}
 	}
-
 	return g_string_free (result, FALSE);
 }
 
