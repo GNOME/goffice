@@ -148,17 +148,6 @@ datetime_timet_to_seconds (time_t t)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_g_days_between (GDate const* date1, GDate const *date2)
-{
-	g_return_val_if_fail (g_date_valid (date1), 0);
-	g_return_val_if_fail (g_date_valid (date2), 0);
-
-	return (int) (g_date_get_julian (date2) - g_date_get_julian (date1));
-}
-
-/* ------------------------------------------------------------------------- */
-
-int
 datetime_g_months_between (GDate const *date1, GDate const *date2)
 {
 	g_return_val_if_fail (g_date_valid (date1), 0);

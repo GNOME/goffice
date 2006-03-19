@@ -46,8 +46,6 @@ int	datetime_serial_raw_to_serial (double raw);
 int datetime_timet_to_seconds (time_t t);
 int datetime_serial_raw_to_seconds (double raw);
 
-int datetime_g_days_between (GDate const *date1, GDate const *date2);
-
 /* Number of full months between date1 and date2. */
 /* largest value s.t. g_date_add_months (date1, result) <= date2 */
 /* except that if the day is decreased in g_date_add_monts, treat
