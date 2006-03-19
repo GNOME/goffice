@@ -101,7 +101,7 @@ gog_polynom_reg_curve_get_equation (GogRegCurve *curve)
 		GString *str = g_string_new ("");
 		int i;
 		if (lin->affine) {
-			if (curve->a[0] > 0.)
+			if (curve->a[1] > 0.)
 				g_string_printf(str, "y = %g + %g x", curve->a[0], curve->a[1]);
 			else
 				g_string_printf(str, "y = %g - %g x", curve->a[0], -curve->a[1]);
