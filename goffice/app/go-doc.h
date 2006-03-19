@@ -2,7 +2,7 @@
 /*
  * go-doc.h :  A GOffice document
  *
- * Copyright (C) 2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2004-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -23,6 +23,7 @@
 
 #include <goffice/app/goffice-app.h>
 #include <glib-object.h>
+#include <gsf/gsf.h>
 
 G_BEGIN_DECLS
 
@@ -31,6 +32,18 @@ G_BEGIN_DECLS
 #define IS_GO_DOC(o)	    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_DOC_TYPE))
 
 GType go_doc_get_type (void);
+
+gboolean go_doc_is_pristine		 (GODoc const *doc);
+void	 go_doc_set_dirty		 (GODoc *doc, gboolean is_dirty);
+gboolean go_doc_is_dirty		 (GODoc const *doc);
+void	 go_doc_mark_not_modified	 (GODoc *doc);
+
+gboolean	 go_doc_set_uri		 (GODoc *doc, char const *uri);
+char const	*go_doc_get_uri		 (GODoc const *doc);
+
+GsfDocMetaData	*go_doc_get_meta_data	 (GODoc const *doc);
+void		 go_doc_set_meta_data	 (GODoc *doc, GsfDocMetaData *data);
+void		 go_doc_update_meta_data (GODoc *doc);
 
 #if 0
 GODoc   *go_doc_new_from_input  (GsfInput *input,
@@ -46,6 +59,8 @@ gboolean go_doc_save_as		(GODoc *doc, GODocExporter *fmt, char const *uri,
 				 GOIOContext *cc);
 gboolean go_doc_sendto		(GODoc *doc, GOIOContext *cc);
 #endif
+
+/* put into GODoc (as properties) */
 
 G_END_DECLS
 

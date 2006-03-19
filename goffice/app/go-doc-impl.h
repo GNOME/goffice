@@ -2,7 +2,7 @@
 /*
  * go-doc-impl.h : Implementation details of a GOffice Document
  *
- * Copyright (C) 2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2004-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -27,10 +27,21 @@ G_BEGIN_DECLS
 
 struct _GODoc {
 	GObject		 base;
+
+	gchar		*uri;
+	GsfDocMetaData	*meta_data;
+	gboolean	 modified;
+	gboolean	 pristine;
 };
 
 typedef struct {
 	GObjectClass	base;
+
+	struct {
+		/* Reload doc statistics and update linked values */
+		void (*update)  (GODoc *doc);
+		void (*changed) (GODoc *doc);
+	} meta_data;
 } GODocClass;
 
 #define GO_DOC_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST ((k), GO_DOC_TYPE, GODocClass))

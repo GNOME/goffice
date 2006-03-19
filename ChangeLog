@@ -1,3 +1,7 @@
+2006-03-18  Jody Goldberg <jody@gnome.org>
+
+	* goffice/app/go-doc.c : actually implement some basics
+
 2006-03-18  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-file.c (go_url_resolve_relative): New function.
