@@ -1,3 +1,11 @@
+2006-03-20  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_filename_simplify): New function.
+	(go_filename_to_uri): Extracted from here.
+	(go_url_simplify): New function.
+	(go_url_resolve_relative): Extracted from here.
+	(go_shell_arg_to_uri): Use go_url_simplify.
+
 2006-03-19  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/datetime.c (datetime_g_days_between): Remove.

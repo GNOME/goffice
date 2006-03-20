@@ -42,6 +42,15 @@ struct _GOFilePermissions {
 	gboolean others_execute;
 };
 
+typedef enum {
+	GO_DOTDOT_SYNTACTIC,    /* Assume no symlinks.  */
+	GO_DOTDOT_TEST,         /* Check.  */
+	GO_DOTDOT_LEAVE         /* Leave alone.  */
+} GODotDot;
+
+char *go_filename_simplify (const char *filename, GODotDot dotdot, gboolean make_absolute);
+char *go_url_simplify (const char *uri);
+
 char *go_filename_from_uri (const char *uri);
 char *go_filename_to_uri (const char *filename);
 char *go_url_resolve_relative (const char *ref_uri, const char *rel_uri);

@@ -68,126 +68,136 @@ go_filename_from_uri (const char *uri)
 char *
 go_filename_to_uri (const char *filename)
 {
-	/* FIXME: g_path_is_absolute is true for "/a/b/c" on Win32.  */
-	if (g_path_is_absolute (filename)) {
-		char *uri;
-		char *simp = g_strdup (filename);
-		char *p, *q;
+	char *simp, *uri;
 
-		for (p = q = simp; *p;) {
-			if (p != simp &&
-			    G_IS_DIR_SEPARATOR (p[0]) &&
-			    G_IS_DIR_SEPARATOR (p[1])) {
-				/* "//" --> "/", except initially.  */
-				p++;
+	g_return_val_if_fail (filename != NULL, NULL);
+
+	simp = go_filename_simplify (filename, GO_DOTDOT_TEST, TRUE);
+
+#ifdef GOFFICE_WITH_GNOME
+	uri = gnome_vfs_get_uri_from_local_path (simp);
+#else
+	uri = g_filename_to_uri (simp, NULL, NULL);
+#endif
+	g_free (simp);
+	return uri;
+}
+
+char *
+go_filename_simplify (const char *filename, GODotDot dotdot,
+		      gboolean make_absolute)
+{
+	char *simp, *p, *q;
+
+	g_return_val_if_fail (filename != NULL, NULL);
+
+	if (make_absolute && !g_path_is_absolute (filename)) {
+		/*
+		 * FIXME: this probably does not work for "c:foo" on
+		 * Win32.
+		 */
+		char *current_dir = g_get_current_dir ();
+		simp = g_build_filename (current_dir, filename, NULL);
+		g_free (current_dir);
+	} else
+		simp = g_strdup (filename);
+
+	for (p = q = simp; *p;) {
+		if (p != simp &&
+		    G_IS_DIR_SEPARATOR (p[0]) &&
+		    G_IS_DIR_SEPARATOR (p[1])) {
+			/* "//" --> "/", except initially.  */
+			p++;
+			continue;
+		}
+
+		if (G_IS_DIR_SEPARATOR (p[0]) &&
+		    p[1] == '.' &&
+		    G_IS_DIR_SEPARATOR (p[2])) {
+			/* "/./" -> "/".  */
+			p += 2;
+			continue;
+		}
+
+		if (G_IS_DIR_SEPARATOR (p[0]) &&
+		    p[1] == '.' &&
+		    p[2] == '.' &&
+		    G_IS_DIR_SEPARATOR (p[3])) {
+			if (p == simp) {
+				/* "/../" --> "/" initially.  */
+				p += 3;
 				continue;
-			}
+			} else if (p == simp + 1) {
+				/* Nothing, leave "//../" initially alone.  */
+			} else {
+				/*
+				 * "prefix/dir/../" --> "prefix/" if
+				 * "dir" is an existing directory (not
+				 * a symlink).
+				 */
+				gboolean isdir;
 
-			if (G_IS_DIR_SEPARATOR (p[0]) &&
-			    p[1] == '.' &&
-			    G_IS_DIR_SEPARATOR (p[2])) {
-				/* "/./" -> "/".  */
-				p += 2;
-				continue;
-			}
-
-			if (G_IS_DIR_SEPARATOR (p[0]) &&
-			    p[1] == '.' &&
-			    p[2] == '.' &&
-			    G_IS_DIR_SEPARATOR (p[3])) {
-				if (p == simp) {
-					/* "/../" --> "/" initially.  */
-					p += 3;
-					continue;
-				} else if (p == simp + 1) {
-					/* Nothing, leave "//../" initially alone.  */
-				} else {
-					/*
-					 * "prefix/dir/../" --> "prefix/" if
-					 * "dir" is an existing directory (not
-					 * a symlink).
-					 */
+				switch (dotdot) {
+				case GO_DOTDOT_SYNTACTIC:
+					isdir = TRUE;
+					break;
+				case GO_DOTDOT_TEST: {
 					struct stat statbuf;
 					char savec = *q;
-					gboolean ok;
-
 					/*
 					 * Terminate the path so far so we can
 					 * it.  Restore because "p" loops over
 					 * the same.
 					 */
 					*q = 0;
-					ok = g_lstat (simp, &statbuf) == 0;
+					isdir = (g_lstat (simp, &statbuf) == 0) &&
+						S_ISDIR (statbuf.st_mode);
 					*q = savec;
+					break;
+				}
+				default:
+					isdir = FALSE;
+					break;
+				}
 
-					if (ok && S_ISDIR (statbuf.st_mode)) {
-						do {
-							g_assert (q != simp);
-							q--;
-						} while (!G_IS_DIR_SEPARATOR (*q));
-						p += 3;
-						continue;
-					} else {
-						/*
-						 * Do nothing.
-						 *
-						 * Maybe the prefix does not
-						 * exist, or maybe it is not
-						 * a directory (for example
-						 * because it is a symlink).
-						 */
-					}
+				if (isdir) {
+					do {
+						g_assert (q != simp);
+						q--;
+					} while (!G_IS_DIR_SEPARATOR (*q));
+					p += 3;
+					continue;
+				} else {
+					/*
+					 * Do nothing.
+					 *
+					 * Maybe the prefix does not
+					 * exist, or maybe it is not
+					 * a directory (for example
+					 * because it is a symlink).
+					 */
 				}
 			}
-
-			*q++ = *p++;
 		}
-		*q = 0;
 
-#ifdef GOFFICE_WITH_GNOME
-		uri = gnome_vfs_get_uri_from_local_path (simp);
-#else
-		uri = g_filename_to_uri (simp, NULL, NULL);
-#endif
-		g_free (simp);
-		return uri;
-	} else {
-		/*
-		 * FIXME: this probably does not work for "c:foo" on
-		 * Win32.
-		 */
-		char *uri;
-		char *current_dir = g_get_current_dir ();
-		char *abs_filename =
-			g_build_filename (current_dir, filename, NULL);
-		g_return_val_if_fail (g_path_is_absolute (abs_filename), NULL);
-		uri = go_filename_to_uri (abs_filename);
-		g_free (current_dir);
-		g_free (abs_filename);
-		return uri;
+		*q++ = *p++;
 	}
+	*q = 0;
+
+	return simp;
 }
 
-
 /*
- * More or less the same as gnome_vfs_uri_make_full_from_relative.
+ * Simplify a potentially non-local path using only slashes.
  */
-char *
-go_url_resolve_relative (const char *ref_uri, const char *rel_uri)
+static char *
+simplify_path (const char *uri)
 {
-	GString *res = g_string_new (ref_uri);
-	size_t len = res->len;
-	char *p, *q, *start;
+	char *simp, *p, *q;
 
-	while (len > 0 && res->str[len - 1] != '/')
-		len--;
-	if (len == 0)
-		return g_string_free (res, TRUE);
+	simp = g_strdup (uri);
 
-	g_string_truncate (res, len--);
-	g_string_append (res, rel_uri);
-
-	for (p = q = start = res->str + len; *p;) {
+	for (p = q = simp; *p;) {
 		if (p[0] == '/' && p[1] == '/') {
 			/* "//" --> "/".  */
 			p++;
@@ -200,24 +210,101 @@ go_url_resolve_relative (const char *ref_uri, const char *rel_uri)
 			continue;
 		}
 
-		if (p[0] == '/' && p[1] == '.' && p[2] == '.' &&
-		    p[3] == '/' && p != start) {
-			/*
-			 * "prefix/dir/../" --> "prefix/".
-			 */
-			do {
-				q--;
-			} while (*q != '/');
-			p += 3;
-			continue;
+		if (p[0] == '/' && p[1] == '.' && p[2] == '.' && p[3] == '/') {
+			if (p == simp) {
+				/* "/../" --> "/" initially.  */
+				p += 3;
+				continue;
+			} else {
+				/* Leave alone */
+			}
 		}
 
 		*q++ = *p++;
 	}
-
 	*q = 0;
 
-	return g_string_free (res, FALSE);
+	return simp;
+}
+
+static char *
+simplify_host_path (const char *uri, size_t hstart)
+{
+	const char *slash = strchr (uri + hstart, '/');
+	char *simp, *psimp;
+	size_t pstart;
+
+	if (!slash)
+		return g_strdup (uri);
+
+	pstart = slash + 1 - uri;
+	psimp = simplify_path (slash + 1);
+	simp = g_new (char, pstart + strlen (psimp) + 1);
+	memcpy (simp, uri, pstart);
+	strcpy (simp + pstart, psimp);
+	g_free (psimp);
+	return simp;
+}
+
+char *
+go_url_simplify (const char *uri)
+{
+	char *simp, *p;
+
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	if (g_ascii_strncasecmp (uri, "file:///", 8) == 0) {
+		char *filename = go_filename_from_uri (uri);
+		char *simp = filename ? go_filename_to_uri (filename) : NULL;
+		g_free (filename);
+		return simp;
+	}
+
+	if (g_ascii_strncasecmp (uri, "http://", 7) == 0)
+		simp = simplify_host_path (uri, 7);
+	else if (g_ascii_strncasecmp (uri, "ftp://", 6) == 0)
+		simp = simplify_host_path (uri, 6);
+	else
+		simp = g_strdup (uri);
+
+	/* Lower-case protocol name.  */
+	for (p = simp; g_ascii_isalpha (*p); p++)
+		*p = g_ascii_tolower (*p);
+
+	return simp;
+}
+
+
+/*
+ * More or less the same as gnome_vfs_uri_make_full_from_relative.
+ */
+char *
+go_url_resolve_relative (const char *ref_uri, const char *rel_uri)
+{
+	char *simp, *uri;
+
+#ifdef GOFFICE_WITH_GNOME
+	uri = gnome_vfs_uri_make_full_from_relative (ref_uri, rel_uri);
+#else
+	size_t len = strlen (ref_uri);
+
+	/* FIXME: This doesn't work if rel_uri starts with a slash.  */
+
+	uri = g_new (char, len + strlen (rel_uri) + 1);
+	memcpy (uri, rel_uri, len + 1);
+	while (len > 0 && uri[len - 1] != '/')
+		len--;
+	if (len == 0) {
+		g_free (uri);
+		return NULL;
+	}
+
+	strcpy (uri + len, rel_uri);
+#endif
+
+	simp = go_url_simplify (uri);
+	g_free (uri);
+	return simp;
 }
 
 
@@ -252,13 +339,8 @@ go_shell_arg_to_uri (const char *arg)
 		 */
 		GnomeVFSURI *uri = gnome_vfs_uri_new (arg);
 		if (uri) {
-			/*
-			 * Do the reverse translation to get a minimum of
-			 * canonicalization.
-			 */
-			char *res = gnome_vfs_uri_to_string (uri, 0);
 			gnome_vfs_uri_unref (uri);
-			return res;
+			return go_url_simplify (arg);
 		}
 	}
 #endif
