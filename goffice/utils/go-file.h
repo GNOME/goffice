@@ -53,7 +53,10 @@ char *go_url_simplify (const char *uri);
 
 char *go_filename_from_uri (const char *uri);
 char *go_filename_to_uri (const char *filename);
+
 char *go_url_resolve_relative (const char *ref_uri, const char *rel_uri);
+char *go_url_make_relative (const char *uri, const char *ref_uri);
+
 char *go_shell_arg_to_uri (const char *arg);
 char *go_basename_from_uri (const char *uri);
 char *go_dirname_from_uri (const char *uri, gboolean brief);

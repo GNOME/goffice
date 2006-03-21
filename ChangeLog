@@ -1,3 +1,7 @@
+2006-03-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_url_make_relative): New function.
+
 2006-03-20  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-file.c (go_filename_simplify): New function.

@@ -262,6 +262,8 @@ go_url_simplify (const char *uri)
 
 	if (g_ascii_strncasecmp (uri, "http://", 7) == 0)
 		simp = simplify_host_path (uri, 7);
+	else if (g_ascii_strncasecmp (uri, "https://", 8) == 0)
+		simp = simplify_host_path (uri, 8);
 	else if (g_ascii_strncasecmp (uri, "ftp://", 6) == 0)
 		simp = simplify_host_path (uri, 6);
 	else
@@ -307,6 +309,84 @@ go_url_resolve_relative (const char *ref_uri, const char *rel_uri)
 	return simp;
 }
 
+static char *
+make_rel (const char *uri, const char *ref_uri,
+	  const char *uri_host, const char *slash)
+{
+	const char *p, *q;
+	int n;
+	GString *res;
+
+	if (!slash)
+		return NULL;
+
+	if (uri_host != NULL &&
+	    strncmp (uri_host, ref_uri + (uri_host - uri), slash - uri_host))
+		return NULL;
+
+	for (p = slash; *p; p++) {
+		if (*p != ref_uri[p - uri])
+			break;
+		else if (*p == '/')
+			slash = p;
+	}
+	/* URI components agree until slash.  */
+
+	/* Find out the number of '/' in uri after slash.  */
+	n = 0;
+	q = slash;
+	while (1) {
+		q = strchr (q + 1, '/');
+		if (q)
+			n++;
+		else
+			break;
+	}
+
+	res = g_string_new (NULL);
+	while (n-- > 0)
+		g_string_append (res, "../");
+	g_string_append (res, slash + 1);
+	return g_string_free (res, FALSE);
+}
+
+char *
+go_url_make_relative (const char *uri, const char *ref_uri)
+{
+	int i;
+
+	/* Check that protocols are the same.  */
+	for (i = 0; 1; i++) {
+		char c = uri[i];
+		char rc = ref_uri[i];
+
+		if (c == 0)
+			return NULL;
+
+		if (c == ':') {
+			if (rc == ':')
+				break;
+			return NULL;
+		}
+
+		if (g_ascii_tolower (c) != g_ascii_tolower (rc))
+			return NULL;
+	}
+
+	if (g_ascii_strncasecmp (uri, "file:///", 8) == 0)
+		return make_rel (uri, ref_uri, NULL, uri + 7);  /* Yes, 7.  */
+
+	if (g_ascii_strncasecmp (uri, "http://", 7) == 0)
+		return make_rel (uri, ref_uri, uri + 7, strchr (uri + 7, '/'));
+
+	if (g_ascii_strncasecmp (uri, "https://", 8) == 0)
+		return make_rel (uri, ref_uri, uri + 8, strchr (uri + 8, '/'));
+
+	if (g_ascii_strncasecmp (uri, "ftp://", 6) == 0)
+		return make_rel (uri, ref_uri, uri + 6, strchr (uri + 6, '/'));
+
+	return NULL;
+}
 
 /*
  * Convert a shell argv entry (assumed already translated into filename
