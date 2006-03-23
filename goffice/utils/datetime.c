@@ -20,7 +20,7 @@
 /* ------------------------------------------------------------------------- */
 
 /* One less that the Julian day number of 19000101.  */
-static int date_origin = 0;
+static int date_origin_1900 = 0;
 /* Julian day number of 19040101.  */
 static int date_origin_1904 = 0;
 
@@ -28,19 +28,27 @@ static int date_origin_1904 = 0;
  * The serial number of 19000228.  Excel allocates a serial number for
  * the non-existing date 19000229.
  */
-static int const date_serial_19000228 = 59;
+static const int date_serial_19000228 = 59;
+
+/* 31-Dec-9999 */
+static const int date_serial_max_1900 = 2958465;
+static const int date_serial_max_1904 = 2957003;
+
 
 static void
 date_init (void)
 {
+	GDate date;
+
+	g_date_clear (&date, 1);
+
 	/* Day 1 means 1st of January of 1900 */
-	GDate* date = g_date_new_dmy (1, 1, 1900);
-	date_origin = g_date_get_julian (date) - 1;
+	g_date_set_dmy (&date, 1, 1, 1900);
+	date_origin_1900 = g_date_get_julian (&date) - 1;
 
 	/* Day 0 means 1st of January of 1904 */
-	g_date_set_dmy (date, 1, 1, 1904);
-	date_origin_1904 = g_date_get_julian (date);
-	g_date_free (date);
+	g_date_set_dmy (&date, 1, 1, 1904);
+	date_origin_1904 = g_date_get_julian (&date);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -50,12 +58,12 @@ datetime_g_to_serial (GDate const *date, GODateConventions const *conv)
 {
 	int day;
 
-	if (!date_origin)
+	if (!date_origin_1900)
 		date_init ();
 
 	if (conv && conv->use_1904)
 		return g_date_get_julian (date) - date_origin_1904;
-	day = g_date_get_julian (date) - date_origin;
+	day = g_date_get_julian (date) - date_origin_1900;
 	return day + (day > date_serial_19000228);
 }
 
@@ -64,18 +72,22 @@ datetime_g_to_serial (GDate const *date, GODateConventions const *conv)
 void
 datetime_serial_to_g (GDate *res, int serial, GODateConventions const *conv)
 {
-	if (!date_origin)
+	if (!date_origin_1900)
 		date_init ();
 
 	g_date_clear (res, 1);
-	if (conv && conv->use_1904)
+	if (conv && conv->use_1904) {
+		if (serial > date_serial_max_1904)
+			return;
 		g_date_set_julian (res, serial + date_origin_1904);
-	else if (serial > date_serial_19000228) {
+	} else if (serial > date_serial_19000228) {
+		if (serial > date_serial_max_1900)
+			return;
 		if (serial == date_serial_19000228 + 1)
 			g_warning ("Request for date 19000229.");
-		g_date_set_julian (res, serial + date_origin - 1);
+		g_date_set_julian (res, serial + date_origin_1900 - 1);
 	} else
-		g_date_set_julian (res, serial + date_origin);
+		g_date_set_julian (res, serial + date_origin_1900);
 }
 
 /* ------------------------------------------------------------------------- */
