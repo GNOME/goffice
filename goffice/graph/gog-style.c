@@ -59,13 +59,14 @@ typedef GObjectClass GogStyleClass;
 
 static GObjectClass *parent_klass;
 
-/**
+/*
  * I would have liked to do this differently and have a tighter binding between theme element and style
  * 	eg gog_style_new (theme_element)
  * However that will not work easily in the context of xls import where we do
  * not know what the type is destined for until later.  This structure melds
  * smoothly with both approaches at the expense of a bit of power.
- **/
+ */
+
 /*************************************************************************/
 
 typedef struct {
@@ -1063,15 +1064,18 @@ gog_style_new (void)
 
 /**
  * gog_style_dup :
- * @src : #GogStyle
+ * @style : a source #GogStyle
  *
+ * Duplicates @style.
+ *
+ * return value: a new #GogStyle
  **/
 GogStyle *
 gog_style_dup (GogStyle const *src)
 {
 	GogStyle *dst;
 
-	g_return_val_if_fail (GOG_STYLE (src) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_STYLE (src), NULL);
 
 	dst = gog_style_new ();
 	gog_style_assign (dst, src);
@@ -1084,8 +1088,8 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 	if (src == dst)
 		return;
 
-	g_return_if_fail (GOG_STYLE (src) != NULL);
-	g_return_if_fail (GOG_STYLE (dst) != NULL);
+	g_return_if_fail (IS_GOG_STYLE (src));
+	g_return_if_fail (IS_GOG_STYLE (dst));
 
 	if (GOG_FILL_STYLE_IMAGE == src->fill.type &&
 	    src->fill.image.image != NULL)
@@ -1134,8 +1138,8 @@ gog_style_apply_theme (GogStyle *dst, GogStyle const *src)
 	if (src == dst)
 		return;
 
-	g_return_if_fail (GOG_STYLE (src) != NULL);
-	g_return_if_fail (GOG_STYLE (dst) != NULL);
+	g_return_if_fail (IS_GOG_STYLE (src));
+	g_return_if_fail (IS_GOG_STYLE (dst));
 
 	if (dst->outline.auto_dash)
 		dst->outline.dash_type = src->outline.dash_type;
@@ -1843,8 +1847,8 @@ gog_style_force_auto (GogStyle *style)
 void
 gog_style_set_marker (GogStyle *style, GOMarker *marker)
 {
-	g_return_if_fail (GOG_STYLE (style) != NULL);
-	g_return_if_fail (GO_MARKER (marker) != NULL);
+	g_return_if_fail (IS_GOG_STYLE (style));
+	g_return_if_fail (IS_GO_MARKER (marker));
 
 	if (style->marker.mark != marker) {
 		if (style->marker.mark != NULL)
@@ -1853,12 +1857,28 @@ gog_style_set_marker (GogStyle *style, GOMarker *marker)
 	}
 }
 
+/**
+ * gog_style_get_marker :
+ * @style : #GogStyle
+ *
+ * Accessor for @style::marker, without referencing it. 
+ *
+ * return value: the style #GOMarker.
+ **/
+GOMarker const *
+gog_style_get_marker (GogStyle *style) 
+{
+	g_return_val_if_fail (IS_GOG_STYLE (style), NULL);
+
+	return style->marker.mark;
+}
+
 void
 gog_style_set_font_desc (GogStyle *style, PangoFontDescription *desc)
 {
 	GOFont const *font;
 
-	g_return_if_fail (GOG_STYLE (style) != NULL);
+	g_return_if_fail (IS_GOG_STYLE (style));
 
 	font = go_font_new_by_desc (desc);
 	if (font != NULL) {
@@ -1870,7 +1890,7 @@ gog_style_set_font_desc (GogStyle *style, PangoFontDescription *desc)
 void
 gog_style_set_font (GogStyle *style, GOFont const *font)
 {
-	g_return_if_fail (GOG_STYLE (style) != NULL);
+	g_return_if_fail (IS_GOG_STYLE (style));
 
 	if (font != NULL) {
 		go_font_unref (style->font.font);
@@ -1881,7 +1901,7 @@ gog_style_set_font (GogStyle *style, GOFont const *font)
 void
 gog_style_set_fill_brightness (GogStyle *style, float brightness)
 {
-	g_return_if_fail (GOG_STYLE (style) != NULL);
+	g_return_if_fail (IS_GOG_STYLE (style));
 	g_return_if_fail (style->fill.type == GOG_FILL_STYLE_GRADIENT);
 
 	style->fill.gradient.brightness = brightness;
@@ -1900,7 +1920,7 @@ gog_style_set_fill_brightness (GogStyle *style, float brightness)
 void
 gog_style_set_fill_image_filename (GogStyle *style, char *filename)
 {
-	g_return_if_fail (GOG_STYLE (style) != NULL);
+	g_return_if_fail (IS_GOG_STYLE (style));
 
 	if (style->fill.type == GOG_FILL_STYLE_IMAGE) {
 		if (style->fill.image.image != NULL)
@@ -1926,7 +1946,7 @@ gog_style_set_fill_image_filename (GogStyle *style, char *filename)
 void
 gog_style_set_text_angle (GogStyle *style, double angle)
 {
-	g_return_if_fail (GOG_STYLE (style) != NULL);
+	g_return_if_fail (IS_GOG_STYLE (style));
 
 	style->text_layout.angle = CLAMP (angle, -180.0, 180.0);
 	style->text_layout.auto_angle = FALSE;

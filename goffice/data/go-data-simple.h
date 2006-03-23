@@ -63,7 +63,7 @@ void    go_data_vector_str_set_translate_func (GODataVectorStr *vector,
 					       GOTranslateFunc  func,
 					       gpointer         data,
 					       GDestroyNotify   notify);
-void go_data_vector_str_set_translation_domain (GODataVectorStr *vec,
+void go_data_vector_str_set_translation_domain (GODataVectorStr *vector,
 						char const      *domain);
 
 #define GO_DATA_MATRIX_VAL_TYPE  (go_data_matrix_val_get_type ())

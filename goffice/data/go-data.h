@@ -32,7 +32,6 @@ G_BEGIN_DECLS
 #define IS_GO_DATA(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_DATA_TYPE))
 
 GType go_data_get_type (void);
-gboolean  go_data_needs_recalc	(GOData const *dat);
 GOData	 *go_data_dup		(GOData const *src);
 gboolean  go_data_eq		(GOData const *a, GOData const *b);
 GOFormat *go_data_preferred_fmt (GOData const *dat);

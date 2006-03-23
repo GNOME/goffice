@@ -156,7 +156,7 @@ gog_text_get_str (GogText *text)
 {
 	GogTextClass *klass;
 	
-	g_return_val_if_fail (GOG_TEXT (text) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_TEXT (text), NULL);
 	
        	klass = GOG_TEXT_GET_CLASS (text);
 
@@ -212,7 +212,7 @@ gog_label_get_str (GogText *text)
 {
 	GogLabel *label = GOG_LABEL (text);
 	
-	g_return_val_if_fail (GOG_LABEL (label) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_LABEL (label), NULL);
 
 	if (label->text.data != NULL)
 		return g_strdup (go_data_scalar_get_str (GO_DATA_SCALAR (label->text.data)));

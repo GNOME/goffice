@@ -44,7 +44,7 @@ typedef struct {
 
 GType gog_data_allocator_get_type (void);
 
-void	 gog_data_allocator_allocate (GogDataAllocator *a, GogPlot *plot);
+void	 gog_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot);
 gpointer gog_data_allocator_editor   (GogDataAllocator *dalloc, GogDataset *set,
 				      int dim_i, GogDataType data_type);
 

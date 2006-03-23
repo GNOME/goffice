@@ -200,10 +200,6 @@ foo_canvas_item_new (FooCanvasGroup *parent, GType type, const gchar *first_arg_
 static void
 item_post_create_setup (FooCanvasItem *item)
 {
-	GtkObject *obj;
-
-	obj = GTK_OBJECT (item);
-
 	group_add (FOO_CANVAS_GROUP (item->parent), item);
 
 	redraw_and_repick_if_mapped (item);
@@ -299,10 +295,9 @@ redraw_and_repick_if_mapped (FooCanvasItem *item)
 	}
 }
 
-
-/* Standard object dispose function for canvas items */
+/* Destroy handler for canvas items */
 static void
-foo_canvas_item_dispose (GObject *object)
+foo_canvas_item_destroy (GtkObject *object)
 {
 	FooCanvasItem *item;
 
@@ -310,42 +305,47 @@ foo_canvas_item_dispose (GObject *object)
 
 	item = FOO_CANVAS_ITEM (object);
 
-	foo_canvas_item_request_redraw (item);
+	if (item->canvas) {
+		foo_canvas_item_request_redraw (item);
 
-	/* Make the canvas forget about us */
+		/* Make the canvas forget about us */
 
-	if (item == item->canvas->current_item) {
-		item->canvas->current_item = NULL;
-		item->canvas->need_repick = TRUE;
+		if (item == item->canvas->current_item) {
+			item->canvas->current_item = NULL;
+			item->canvas->need_repick = TRUE;
+		}
+
+		if (item == item->canvas->new_current_item) {
+			item->canvas->new_current_item = NULL;
+			item->canvas->need_repick = TRUE;
+		}
+
+		if (item == item->canvas->grabbed_item) {
+			GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
+			item->canvas->grabbed_item = NULL;
+			gdk_display_pointer_ungrab (display, GDK_CURRENT_TIME);
+		}
+
+		if (item == item->canvas->focused_item)
+			item->canvas->focused_item = NULL;
+
+		/* Normal destroy stuff */
+
+		if (item->object.flags & FOO_CANVAS_ITEM_MAPPED)
+			(* FOO_CANVAS_ITEM_GET_CLASS (item)->unmap) (item);
+
+		if (item->object.flags & FOO_CANVAS_ITEM_REALIZED)
+			(* FOO_CANVAS_ITEM_GET_CLASS (item)->unrealize) (item);
+
+		if (item->parent)
+			group_remove (FOO_CANVAS_GROUP (item->parent), item);
+
+		item->canvas = NULL;
 	}
 
-	if (item == item->canvas->new_current_item) {
-		item->canvas->new_current_item = NULL;
-		item->canvas->need_repick = TRUE;
-	}
-
-	if (item == item->canvas->grabbed_item) {
-		GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
-		item->canvas->grabbed_item = NULL;
-		gdk_display_pointer_ungrab (display, GDK_CURRENT_TIME);
-	}
-
-	if (item == item->canvas->focused_item)
-		item->canvas->focused_item = NULL;
-
-	/* Normal destroy stuff */
-
-	if (item->object.flags & FOO_CANVAS_ITEM_MAPPED)
-		(* FOO_CANVAS_ITEM_GET_CLASS (item)->unmap) (item);
-
-	if (item->object.flags & FOO_CANVAS_ITEM_REALIZED)
-		(* FOO_CANVAS_ITEM_GET_CLASS (item)->unrealize) (item);
-
-	if (item->parent)
-		group_remove (FOO_CANVAS_GROUP (item->parent), item);
-
-	G_OBJECT_CLASS (item_parent_class)->dispose (object);
+	GTK_OBJECT_CLASS (item_parent_class)->destroy (object);
 }
+
 
 /* Realize handler for canvas items */
 static void
@@ -985,19 +985,20 @@ foo_canvas_item_reparent (FooCanvasItem *item, FooCanvasGroup *new_group)
 
 	/* Everything is ok, now actually reparent the item */
 
-	g_object_ref (GTK_OBJECT (item)); /* protect it from the unref in group_remove */
+	g_object_ref (G_OBJECT (item)); /* protect it from the unref in group_remove */
 
 	foo_canvas_item_request_redraw (item);
 
 	group_remove (FOO_CANVAS_GROUP (item->parent), item);
 	item->parent = FOO_CANVAS_ITEM (new_group);
+	/* item->canvas is unchanged.  */
 	group_add (new_group, item);
 
 	/* Redraw and repick */
 
 	redraw_and_repick_if_mapped (item);
 
-	g_object_unref (GTK_OBJECT (item));
+	g_object_unref (G_OBJECT (item));
 }
 
 /**
@@ -1643,8 +1644,12 @@ foo_canvas_group_bounds (FooCanvasItem *item, double *x1, double *y1, double *x2
 static void
 group_add (FooCanvasGroup *group, FooCanvasItem *item)
 {
-	g_object_ref (GTK_OBJECT (item));
+#if GLIB_CHECK_VERSION(2,9,1)
+	g_object_ref_sink (item);
+#else
+	g_object_ref (item);
 	gtk_object_sink (GTK_OBJECT (item));
+#endif
 
 	if (!group->item_list) {
 		group->item_list = g_list_append (group->item_list, item);
@@ -1682,7 +1687,8 @@ group_remove (FooCanvasGroup *group, FooCanvasItem *item)
 			/* Unparent the child */
 
 			item->parent = NULL;
-			g_object_unref (GTK_OBJECT (item));
+			item->canvas = NULL;
+			g_object_unref (G_OBJECT (item));
 
 			/* Remove it from the list */
 
@@ -2092,12 +2098,15 @@ foo_canvas_init (FooCanvas *canvas)
 	canvas->root = FOO_CANVAS_ITEM (g_object_new (foo_canvas_group_get_type (), NULL));
 	canvas->root->canvas = canvas;
 
-	g_object_ref (GTK_OBJECT (canvas->root));
+#if GLIB_CHECK_VERSION(2,9,1)
+	g_object_ref_sink (canvas->root);
+#else
+	g_object_ref (canvas->root);
 	gtk_object_sink (GTK_OBJECT (canvas->root));
+#endif
 
-	canvas->root_destroy_id = g_signal_connect (GTK_OBJECT (canvas->root), "destroy",
-						    (GtkSignalFunc) panic_root_destroyed,
-						    canvas);
+	canvas->root_destroy_id = g_signal_connect (G_OBJECT (canvas->root),
+		"destroy", G_CALLBACK (panic_root_destroyed), canvas);
 
 	canvas->need_repick = TRUE;
 	canvas->doing_update = FALSE;
@@ -2149,12 +2158,14 @@ foo_canvas_destroy (GtkObject *object)
 	canvas = FOO_CANVAS (object);
 
 	if (canvas->root_destroy_id) {
-		g_signal_handler_disconnect (GTK_OBJECT (canvas->root), canvas->root_destroy_id);
+		g_signal_handler_disconnect (G_OBJECT (canvas->root), canvas->root_destroy_id);
 		canvas->root_destroy_id = 0;
 	}
 	if (canvas->root) {
-		g_object_unref (GTK_OBJECT (canvas->root));
+		FooCanvasItem *root = canvas->root;
 		canvas->root = NULL;
+		gtk_object_destroy (GTK_OBJECT (root));
+		g_object_unref (root);
 	}
 
 	shutdown_transients (canvas);
@@ -2366,9 +2377,9 @@ scroll_to (FooCanvas *canvas, int cx, int cy, gboolean redraw)
 	/* Signal GtkLayout that it should do a redraw. */
 	if (redraw) {
 	if (changed_x)
-		g_signal_emit_by_name (GTK_OBJECT (canvas->layout.hadjustment), "value_changed");
+		g_signal_emit_by_name (G_OBJECT (canvas->layout.hadjustment), "value_changed");
 	if (changed_y)
-		g_signal_emit_by_name (GTK_OBJECT (canvas->layout.vadjustment), "value_changed");
+		g_signal_emit_by_name (G_OBJECT (canvas->layout.vadjustment), "value_changed");
 }
 }
 
@@ -2398,8 +2409,8 @@ foo_canvas_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 		   canvas->layout.hadjustment->value,
 		   canvas->layout.vadjustment->value, TRUE);
 
-	g_signal_emit_by_name (GTK_OBJECT (canvas->layout.hadjustment), "changed");
-	g_signal_emit_by_name (GTK_OBJECT (canvas->layout.vadjustment), "changed");
+	g_signal_emit_by_name (G_OBJECT (canvas->layout.hadjustment), "changed");
+	g_signal_emit_by_name (G_OBJECT (canvas->layout.vadjustment), "changed");
 }
 
 /* Emits an event for an item in the canvas, be it the current item, grabbed
@@ -2525,14 +2536,14 @@ emit_event (FooCanvas *canvas, GdkEvent *event)
 	finished = FALSE;
 
 	while (item && !finished) {
-		g_object_ref (GTK_OBJECT (item));
+		g_object_ref (G_OBJECT (item));
 
 		g_signal_emit (
-		       GTK_OBJECT (item), item_signals[ITEM_EVENT], 0,
+		       G_OBJECT (item), item_signals[ITEM_EVENT], 0,
 			&ev, &finished);
 
 		parent = item->parent;
-		g_object_unref (GTK_OBJECT (item));
+		g_object_unref (G_OBJECT (item));
 
 		item = parent;
 	}
@@ -3950,8 +3961,10 @@ static void
 foo_canvas_item_class_init (FooCanvasItemClass *class)
 {
 	GObjectClass *gobject_class;
+	GtkObjectClass *object_class;
 
 	gobject_class = (GObjectClass *) class;
+	object_class  = (GtkObjectClass *) class;
 
 	item_parent_class = gtk_type_class (gtk_object_get_type ());
 
@@ -3980,7 +3993,7 @@ foo_canvas_item_class_init (FooCanvasItemClass *class)
 			      G_TYPE_BOOLEAN, 1,
 			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	gobject_class->dispose = foo_canvas_item_dispose;
+	object_class->destroy = foo_canvas_item_destroy;
 
 	class->realize = foo_canvas_item_realize;
 	class->unrealize = foo_canvas_item_unrealize;

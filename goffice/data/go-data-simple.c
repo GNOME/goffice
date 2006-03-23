@@ -733,7 +733,7 @@ go_data_vector_str_new (char const * const *str, unsigned n, GDestroyNotify noti
 
 /**
  * go_data_vector_str_set_translate_func:
- * @vec: a #GODataVectorStr
+ * @vector: a #GODataVectorStr
  * @func: a #GOTranslateFunc
  * @data: data to be passed to @func and @notify
  * @notify: a #GODestroyNotify function to be called when @vec is 
@@ -766,7 +766,7 @@ dgettext_swapped (char const *msgid,
 
 /**
  * go_data_vector_str_set_translation_domain:
- * @action_group: a #GtkActionGroup
+ * @vector: a #GODataVectorStr
  * @domain: the translation domain to use for dgettext() calls
  * 
  * Sets the translation domain and uses dgettext() for translating the 

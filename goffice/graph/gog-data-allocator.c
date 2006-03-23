@@ -44,12 +44,29 @@ gog_data_allocator_get_type (void)
 	return gog_data_allocator_type;
 }
 
+/**
+ * gog_data_allocator_allocate:
+ * @dalloc: a #GogDataAllocator
+ * @plot:  a #GogPlot
+ *
+ **/
+
 void
 gog_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot)
 {
 	g_return_if_fail (IS_GOG_DATA_ALLOCATOR (dalloc));
 	GOG_DATA_ALLOCATOR_GET_CLASS (dalloc)->allocate (dalloc, plot);
 }
+
+/**
+ * gog_data_allocator_editor:
+ * @dalloc: a #GogDataAllocator
+ * @set:
+ * @dim_i:
+ * @data_type:
+ *
+ * returns: a #GtkWidget.
+ **/
 
 gpointer
 gog_data_allocator_editor (GogDataAllocator *dalloc, GogDataset *set,

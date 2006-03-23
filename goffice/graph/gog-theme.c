@@ -139,7 +139,7 @@ static GogThemeElement *
 gog_theme_find_element (GogTheme *theme, GogObject *obj)
 {
 	GogThemeElement *elem = NULL;
-	GObjectClass *klass;
+	GObjectClass *klass = NULL;	/* make gcc happy */
 	char const *name;
 
 	if (theme == NULL)
@@ -244,7 +244,7 @@ gog_theme_fillin_style (GogTheme *theme, GogStyle *style,
 void
 gog_theme_register (GogTheme *theme, gboolean is_default)
 {
-	g_return_if_fail (GOG_THEME (theme) != NULL);
+	g_return_if_fail (IS_GOG_THEME (theme));
 
 	if (is_default) {
 		g_object_ref (theme);
@@ -329,7 +329,7 @@ gog_theme_lookup (char const *name)
 char const *
 gog_theme_get_name (GogTheme const *theme)
 {
-	g_return_val_if_fail (GOG_THEME (theme) != NULL, "");
+	g_return_val_if_fail (IS_GOG_THEME (theme), "");
 	return theme->name;
 }
 

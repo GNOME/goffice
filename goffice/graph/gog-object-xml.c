@@ -270,6 +270,8 @@ gog_object_write_xml_sax (GogObject const *obj, GsfXMLOut *output)
 	GParamSpec **props;
 	GSList	    *ptr;
 
+	g_return_if_fail (IS_GOG_OBJECT (obj));
+
 	gsf_xml_out_start_element (output, "GogObject");
 
 	/* Primary details */

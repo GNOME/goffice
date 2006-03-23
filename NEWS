@@ -1,3 +1,13 @@
+goffice 0.2.1:
+
+Jean Brefort:
+	* Fixed a sign in equation [#328236].
+
+Morten:
+	* Back port some fixes for free memory reads that were causing
+	  problems on freebsd.
+
+--------------------------------------------------------------------------
 goffice 0.1.2:
 
 Morten:

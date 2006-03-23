@@ -61,7 +61,7 @@ enum {
 gboolean
 gog_grid_line_is_minor (GogGridLine *ggl)
 {
-	g_return_val_if_fail (GOG_GRID_LINE (ggl) != NULL, FALSE);
+	g_return_val_if_fail (IS_GOG_GRID_LINE (ggl), FALSE);
 
 	return ggl->is_minor;
 }
@@ -322,14 +322,6 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_renderer_pop_style (view->renderer);
 }
 
-static gboolean
-gog_grid_line_info_at_point (GogView *view, double x, double y,
-			    GogObject const *cur_selection,
-			    GogObject **obj, char **name)
-{
-	return FALSE;
-}
-
 static void
 gog_grid_line_view_class_init (GogGridLineViewClass *gview_klass)
 {
@@ -337,7 +329,6 @@ gog_grid_line_view_class_init (GogGridLineViewClass *gview_klass)
 
 	gview_parent_klass = g_type_class_peek_parent (gview_klass);
 	view_klass->render 		= gog_grid_line_view_render;
-	view_klass->info_at_point 	= gog_grid_line_info_at_point;
 }
 
 static GSF_CLASS (GogGridLineView, gog_grid_line_view,

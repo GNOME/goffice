@@ -52,7 +52,7 @@ gog_dataset_get_type (void)
  * @first : inclusive
  * @last : _inclusive_
  *
- * Returns the first and last valid indicises to get/set dim.
+ * FIXME: Returns the first and last valid indicises to get/set dim.
  **/
 void
 gog_dataset_dims (GogDataset const *set, int *first, int *last)
@@ -82,7 +82,7 @@ gog_dataset_get_dim (GogDataset const *set, int dim_i)
 
 /**
  * gog_dataset_set_dim :
- * @series : #GogSeries
+ * @set: #GogDataset
  * @dim_i :  < 0 gets the name
  * @val : #GOData
  * @err : #GError
@@ -94,7 +94,7 @@ gog_dataset_set_dim (GogDataset *set, int dim_i, GOData *val, GError **err)
 {
 	GogDatasetClass *klass;
 
-	g_return_if_fail (val == NULL || GO_DATA (val) != NULL);
+	g_return_if_fail (val == NULL || IS_GO_DATA (val));
 
 	if (set == NULL || !IS_GOG_DATASET (set)) {
 		g_warning ("gog_dataset_set_dim called with invalid GogDataset");

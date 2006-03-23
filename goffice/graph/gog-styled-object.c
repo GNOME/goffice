@@ -37,15 +37,11 @@ enum {
 	STYLE_CHANGED,
 	LAST_SIGNAL
 };
+
+void gog_styled_object_style_changed (GogStyledObject *obj);
+	
 static gulong gog_styled_object_signals [LAST_SIGNAL] = { 0, };
 static GObjectClass *parent_klass;
-
-void
-gog_styled_object_style_changed (GogStyledObject *obj)
-{
-	g_signal_emit (G_OBJECT (obj),
-		gog_styled_object_signals [STYLE_CHANGED], 0, obj->style);
-}
 
 static void
 gog_styled_object_set_property (GObject *obj, guint param_id,
@@ -176,13 +172,24 @@ GSF_CLASS (GogStyledObject, gog_styled_object,
 	   gog_styled_object_class_init, gog_styled_object_init,
 	   GOG_OBJECT_TYPE)
 
+/**
+ * gog_styled_object_set_style:
+ * @gso: a #GogStyledObject
+ * @style: a #GogStyle
+ *
+ * Sets a new style for @gso, and emits "style-changed" signal. This function
+ * does not take ownership of @style.
+ *
+ * return value: %TRUE if new style may lead to change of object size, which
+ * happens when changing font size for example. 
+ **/
 gboolean
 gog_styled_object_set_style (GogStyledObject *gso,
 			     GogStyle *style)
 {
 	gboolean resize;
 
-	g_return_val_if_fail (GOG_STYLED_OBJECT (gso) != NULL, FALSE);
+	g_return_val_if_fail (IS_GOG_STYLED_OBJECT (gso), FALSE);
 
 	if (gso->style == style)
 		return FALSE;
@@ -201,23 +208,27 @@ gog_styled_object_set_style (GogStyledObject *gso,
 
 /**
  * gog_styled_object_get_style :
- * @gso : #GogStyledObject
+ * @gso: a #GogStyledObject
  *
- * Returns a pointer to @gso's style but does not reference it.
+ * Simply an accessor function that returns @gso->style, without referencing it.
+ *
+ * return value: the styled object's #GogStyle
  **/
 GogStyle *
 gog_styled_object_get_style (GogStyledObject *gso)
 {
-	g_return_val_if_fail (GOG_STYLED_OBJECT (gso) != NULL, NULL);
+	g_return_val_if_fail (IS_GOG_STYLED_OBJECT (gso), NULL);
 	return gso->style;
 }
 
 /**
  * gog_styled_object_get_auto_style :
- * @gso : #GogStyledObject
+ * @gso: a #GogStyledObject
  *
- * Returns a new style that is initialized with the auto values for @gso.
+ * This function returns a new style that is initialized with the auto values for @gso.
  * Caller is responsible for the result.
+ *
+ * return value: a new #GogStyle
  **/
 GogStyle *
 gog_styled_object_get_auto_style (GogStyledObject *gso)
@@ -228,6 +239,15 @@ gog_styled_object_get_auto_style (GogStyledObject *gso)
 	return res;
 }
 
+/**
+ * gog_styled_object_apply_theme:
+ * @gso: a #GogStyledObject
+ * @style: a #GogStyle that will be themed
+ *
+ * Apply theme of @gso's parent graph to @style, i.e. properties with 
+ * auto flag set to %TRUE are changed to default theme value.
+ *
+ **/
 void
 gog_styled_object_apply_theme (GogStyledObject *gso, GogStyle *style)
 {
@@ -236,4 +256,18 @@ gog_styled_object_apply_theme (GogStyledObject *gso, GogStyle *style)
 		GogStyledObjectClass *klass = GOG_STYLED_OBJECT_GET_CLASS (gso);
 		(klass->init_style) (gso, style);
 	}
+}
+
+/**
+ * gog_styled_object_style_changed:
+ * @gso: a #GogStyledObject
+ *
+ * Emits the "style-changed" signal.
+ *
+ **/
+void
+gog_styled_object_style_changed (GogStyledObject *gso)
+{
+	g_signal_emit (G_OBJECT (gso),
+		gog_styled_object_signals [STYLE_CHANGED], 0, gso->style);
 }
