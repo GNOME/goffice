@@ -59,7 +59,7 @@ confflags +=    --enable-iso-c \
 # Features
 confflags +=    --without-cairo
 
-upstreamversion=$(shell dpkg-parsechangelog | grep Version | head -1 | sed -e 's/Version: //g' -e 's/-[A-Za-z0-9\.]*$$//g')
+upstreamversion=$(shell dpkg-parsechangelog | grep Version | head -1 | sed -e 's/Version: //g' -e 's/-[A-Za-z0-9+\.]*$$//g')
 versionh=$(shell echo $(upstreamversion) | sed -e 's/\.[^.]*$$//')
 versiont=$(shell echo $(upstreamversion) | sed -e 's/^.*\.//')
 nextupstreamversion=$(shell echo $(versionh).$$(expr $(versiont) + 1))

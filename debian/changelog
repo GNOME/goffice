@@ -1,3 +1,11 @@
+goffice (0.2.1-1) unstable; urgency=low
+
+  * New upstream bugfix release.
+  * [debian/rules] Corrected sed expression to determine the upstream
+    version: `+' is allowed in a debian_revision.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 23 Mar 2006 07:51:36 +0100
+
 goffice (0.2.0-2) unstable; urgency=low
 
   * [goffice/graph/gog-reg-curve.c] Fix from CVS: (gog_reg_curve_view_render):
