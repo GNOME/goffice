@@ -138,6 +138,14 @@ else
 	dnl If the requirements are not met, fail.
 	ui_msg="Gtk"
 	PKG_CHECK_MODULES(GTK, [$goffice_gtk_reqs])
+
+	dnl check for g_chmod (present only in glib >= 2.8)
+	AC_MSG_CHECKING([for g_chmod])
+	AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <glib/gstdio.h>]], [[(void)g_chmod("/xxx",0777);]])],
+                       [AC_DEFINE(HAVE_G_CHMOD, 1, [Define if g_chmod is available as macro or function])
+                        AC_MSG_RESULT(yes)],
+                       [AC_MSG_RESULT(no)])
+
 fi 
 
 goffice_with_gnome=$goffice_with_gtk

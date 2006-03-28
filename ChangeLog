@@ -1,3 +1,9 @@
+2006-03-28  Eduardo Lima  <eduardo.lima@indt.org.br>
+	* configure.in: Borrowed code from libgsf to check for g_chmod(),
+	avoiding dependency on glib 2.8.
+	* goffice/utils/go-file.c (go_set_file_permissions): Call chmod()
+	instead of g_chmod() if not defined HAVE_G_CHMOD. 
+
 2006-03-23  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/datetime.c (datetime_serial_to_g): Don't go beyond
