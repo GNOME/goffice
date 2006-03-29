@@ -1,3 +1,7 @@
+2006-03-29  Eduardo Lima  <eduardo.lima@indt.org.br>
+
+	* configure.in: Fixed check for g_chmod().
+
 2006-03-28  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/datetime.c (go_date_weekday_name,
