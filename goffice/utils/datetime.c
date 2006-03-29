@@ -485,3 +485,39 @@ gnm_date_convention_base (GODateConventions const *conv)
 	g_return_val_if_fail (conv != NULL, 1900);
 	return conv->use_1904 ? 1904 : 1900;
 }
+
+/* ------------------------------------------------------------------------- */
+
+char *
+go_date_weekday_name (GDateWeekday wd, gboolean abbrev)
+{
+	char buf[100];
+	GDate date;
+
+	g_return_val_if_fail (g_date_valid_weekday (wd), NULL);
+
+	g_date_clear (&date, 1);
+	g_date_set_dmy (&date, 5 + (int)wd, 3, 2006);
+	g_date_strftime (buf, sizeof (buf) - 1,
+			 abbrev ? "%a" : "%A",
+			 &date);
+	return g_strdup (buf);
+}
+
+char *
+go_date_month_name (GDateMonth m, gboolean abbrev)
+{
+	char buf[100];
+	GDate date;
+
+	g_return_val_if_fail (g_date_valid_month (m), NULL);
+
+	g_date_clear (&date, 1);
+	g_date_set_dmy (&date, 15, m, 2006);
+	g_date_strftime (buf, sizeof (buf) - 1,
+			 abbrev ? "%b" : "%B",
+			 &date);
+	return g_strdup (buf);
+}
+
+/* ------------------------------------------------------------------------- */

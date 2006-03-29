@@ -90,6 +90,9 @@ double coupdaysnc (GDate const *settle, GDate const *mat,
 
 int gnm_date_convention_base (GODateConventions const *conv);
 
+char *go_date_weekday_name (GDateWeekday wd, gboolean abbrev);
+char *go_date_month_name (GDateMonth m, gboolean abbrev);
+
 G_END_DECLS
 
 #endif /* _GO_DATETIME_H_ */

@@ -1,4 +1,11 @@
+2006-03-28  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/datetime.c (go_date_weekday_name,
+	go_date_month_name): New function.  This should allow for a
+	cleaner interface.
+
 2006-03-28  Eduardo Lima  <eduardo.lima@indt.org.br>
+
 	* configure.in: Borrowed code from libgsf to check for g_chmod(),
 	avoiding dependency on glib 2.8.
 	* goffice/utils/go-file.c (go_set_file_permissions): Call chmod()
