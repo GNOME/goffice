@@ -24,7 +24,6 @@
 #include <goffice/goffice-config.h>
 #include "go-format.h"
 #include "format-impl.h"
-#include "go-format-match.h"
 #include "go-color.h"
 #include "datetime.h"
 #include "go-glib-extras.h"
@@ -122,68 +121,6 @@ static double beyond_precision;
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 static long double beyond_precisionl;
 #endif
-
-/* FIXME : use nl_langinfo
- * DAY_{1-7} (LC_TIME)
- * ABDAY_{1-7} (LC_TIME)
- * MON_{1-12} (LC_TIME)
- * ABMON_{1-12} (LC_TIME)
- *
- * The down side is that we can not guarantee the case
- **/
-char const * const day_short [] = {
-	N_("*Sun"),
-	N_("*Mon"),
-	N_("*Tue"),
-	N_("*Wed"),
-	N_("*Thu"),
-	N_("*Fri"),
-	N_("*Sat"),
-	NULL,
-};
-
-char const * const day_long [] = {
-	N_("Sunday"),
-	N_("Monday"),
-	N_("Tuesday"),
-	N_("Wednesday"),
-	N_("Thursday"),
-	N_("Friday"),
-	N_("Saturday"),
-	NULL
-};
-
-char const * const month_short [] = {
-	N_("*Jan"),
-	N_("*Feb"),
-	N_("*Mar"),
-	N_("*Apr"),
-	N_("*May"),
-	N_("*Jun"),
-	N_("*Jul"),
-	N_("*Aug"),
-	N_("*Sep"),
-	N_("*Oct"),
-	N_("*Nov"),
-	N_("*Dec"),
-	NULL
-};
-
-char const * const month_long [] = {
-	N_("January"),
-	N_("February"),
-	N_("March"),
-	N_("April"),
-	N_("May"),
-	N_("June"),
-	N_("July"),
-	N_("August"),
-	N_("September"),
-	N_("October"),
-	N_("November"),
-	N_("December"),
-	NULL
-};
 
 static GOColor lookup_color (char const *str, char const *end);
 
@@ -447,7 +384,7 @@ append_year (GString *string, gchar const *format, struct tm const *time_split)
 static int
 append_month (GString *string, int n, struct tm const *time_split)
 {
-	int month = time_split->tm_mon + 1;
+	GDateMonth month = time_split->tm_mon + 1;
 
 	if (n == 1) {
 		g_string_append_printf (string, "%d", month);
@@ -460,16 +397,25 @@ append_month (GString *string, int n, struct tm const *time_split)
 	}
 
 	if (n == 3) {
-		g_string_append (string, _(month_short[month - 1]) + 1);
+		char *s = go_date_month_name (month, TRUE);
+		g_string_append (string, s);
+		g_free (s);
 		return 3;
 	}
 
 	if (n == 5) {
-		g_string_append_c (string, _(month_short[month - 1])[1]);
+		char *s = go_date_month_name (month, TRUE);
+		if (s[0]) g_string_append_unichar (string, g_utf8_get_char (s));
+		g_free (s);
 		return 5;
 	}
-	g_string_append (string, _(month_long[month - 1]));
-	return 4;
+
+	{
+		char *s = go_date_month_name (month, FALSE);
+		g_string_append (string, s);
+		g_free (s);
+		return 4;
+	}
 }
 
 /*
@@ -491,13 +437,21 @@ append_day (GString *string, gchar const *format, struct tm const *time_split)
 
 	if (format[3] != 'd' && format[3] != 'D') {
 		/* Note: day-of-week.  */
-		g_string_append (string, _(day_short[time_split->tm_wday]) + 1);
+		GDateWeekday wd = (time_split->tm_wday + 6) % 7 + 1;
+		char *s = go_date_weekday_name (wd, TRUE);
+		g_string_append (string, s);
+		g_free (s);
 		return 3;
 	}
 
-	/* Note: day-of-week.  */
-	g_string_append (string, _(day_long[time_split->tm_wday]));
-	return 4;
+	{
+		/* Note: day-of-week.  */
+		GDateWeekday wd = (time_split->tm_wday + 6) % 7 + 1;
+		char *s = go_date_weekday_name (wd, FALSE);
+		g_string_append (string, s);
+		g_free (s);
+		return 4;
+	}
 }
 
 static void
@@ -588,8 +542,6 @@ format_entry_ctor (GOFormat *container)
 	entry->elapsed_time = FALSE;
 	entry->want_am_pm = entry->has_fraction = FALSE;
 	entry->go_color = 0;
-	entry->regexp_str = NULL;
-	entry->match_tags = NULL;
 
 	/* symbolic failure */
 	g_return_val_if_fail (container != NULL, entry);
@@ -604,7 +556,6 @@ static void
 format_entry_dtor (gpointer data, gpointer user_data)
 {
 	GOFormatElement *entry = data;
-	format_match_release (entry);
 	g_free ((char *)entry->format);
 	g_free (entry);
 }
@@ -621,7 +572,6 @@ format_entry_set_fmt (GOFormatElement *entry,
 		? g_strndup (begin, end - begin)
 		: g_strdup ((entry->go_color || entry->restriction_type != '*')
 			    ? "General" : "");
-	format_match_create (entry);
 }
 #endif
 

@@ -20,7 +20,6 @@ libgoffice_utils_la_SOURCES =	\
 	format.c		\
 	formats.c		\
 	go-format.c		\
-	go-format-match.c	\
 	regutf8.c 		\
 	\
 	go-glib-extras.c	\
@@ -45,7 +44,6 @@ libgoffice_utils_la_HEADERS = 	\
 	datetime.h		\
 	format-impl.h		\
 	go-format.h		\
-	go-format-match.h	\
 	regutf8.h 		\
 	go-glib-extras.h	\
 	go-libxml-extras.h	\

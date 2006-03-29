@@ -1,3 +1,15 @@
+2006-03-29  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/format.c (append_day): Use go_date_weekday_name.
+	(append_month): Use go_date_month_name.  Fix UTF-8 problem.
+	(day_short, day_long, month_short, month_long): Remove.
+	(format_entry_ctor): Don't setup regexps.
+	(format_entry_set_fmt): Ditto.
+	(format_entry_dtor): Don't destroy regexps.
+
+	* goffice/utils/Makefile.am (libgoffice_utils_la_HEADERS): Kill
+	go-format-match.h
+
 2006-03-29  Eduardo Lima  <eduardo.lima@indt.org.br>
 
 	* configure.in: Fixed check for g_chmod().

@@ -150,11 +150,6 @@ void go_number_format_shutdown (void);
 void go_currency_date_format_init     (void);
 void go_currency_date_format_shutdown (void);
 
-extern char const * const day_short   [];
-extern char const * const day_long    [];
-extern char const * const month_short [];
-extern char const * const month_long  [];
-
 G_END_DECLS
 
 #endif /* GO_FORMAT_H */

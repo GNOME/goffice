@@ -21,9 +21,6 @@ struct _GOFormatElement {
 	gboolean    elapsed_time;
 
 	GOFormat	*container;
-	char		*regexp_str;
-	GByteArray	*match_tags;
-	GORegexp	 regexp;
 };
 
 void go_fmt_general_int    (GString *result, int val, int col_width);
