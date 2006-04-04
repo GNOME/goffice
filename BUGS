@@ -16,8 +16,6 @@ Plans
     0) Move gnome depends into a plugin
 	0.1) egg-recent-files
     1) Format and number match rewrite
-	: Why does the number matching bother comparing against formats that are
-	  covered by 'General' ?
 	: When applying a currency symbol we need to store the NON-localized id.
 	: hour month and year format strings need to be internationalized.
 	    eg tt:ss instead of hh:ss for other locales.
@@ -25,8 +23,6 @@ Plans
 	: We do not format fractional seconds correctly.	(DONE)
 	: Parsing should handle embedded strings
 	: It incorrectly accepts mmm:ss as some sort of minute spec.
-	: When entering "ppp/qqq" into a cell with non-fractional format, do not
-	  make it a fraction.
 	: Consider adding "%" to entry text when typing a text with a percentage
 	  format.  (I.e., user has "44%" in cell and presses "5" -- that causes
 	"5%" to be shown the the cursor between "5" and "%".)
