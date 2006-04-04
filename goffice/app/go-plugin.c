@@ -637,6 +637,7 @@ go_plugin_read_service_list (GOPlugin *plugin, xmlNode *tree, ErrorInfo **ret_er
 
 	g_return_val_if_fail (tree != NULL, NULL);
 
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	node = e_xml_get_child_by_name (tree, (xmlChar *)"services");
 	if (node == NULL)
 		return NULL;
@@ -1038,6 +1039,7 @@ go_plugin_deactivate (GOPlugin *plugin, ErrorInfo **ret_error)
 			go_plugin_use_unref (plugin_dependency_get_plugin (dep));
 		);
 		if (plugin->loader != NULL) {
+			go_plugin_loader_unload_base (plugin->loader, ret_error);
 			g_object_unref (plugin->loader);
 			plugin->loader = NULL;
 		}

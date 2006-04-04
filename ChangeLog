@@ -1,3 +1,9 @@
+2006-04-04  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-plugin.c (go_plugin_deactivate): Unload the
+	plugin so the shutdown hook gets called.
+	(go_plugin_read_service_list): Ditto.
+
 2006-03-29  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/format.c (append_day): Use go_date_weekday_name.

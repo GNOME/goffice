@@ -22,6 +22,7 @@ Morten:
 	  properly compiled with UTF-8 support.
 	* Plug leak.
 	* Handle problems with formats containing "ss." but no more.
+	* Fix plugin deactivation.  [#336742]
 
 --------------------------------------------------------------------------
 goffice 0.1.1:
