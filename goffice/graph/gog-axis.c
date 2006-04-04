@@ -479,9 +479,11 @@ map_linear_calc_ticks (GogAxis *axis)
 			ticks[i].type = GOG_AXIS_TICK_MAJOR;
 				if (axis->assigned_format == NULL || 
 				    go_format_is_general (axis->assigned_format))
-					ticks[i].label = go_format_value (axis->format, ticks[i].position);
+					ticks[i].label = go_format_value (axis->format, 
+									  ticks[i].position);
 				else
-					ticks[i].label = go_format_value (axis->assigned_format, ticks[i].position);
+					ticks[i].label = go_format_value (axis->assigned_format, 
+									  ticks[i].position);
 			}
 		else {
 			ticks[i].type = GOG_AXIS_TICK_MINOR;
@@ -661,9 +663,11 @@ map_log_calc_ticks (GogAxis *axis)
 				ticks[count].type = GOG_AXIS_TICK_MAJOR;
 				if (axis->assigned_format == NULL || 
 				    go_format_is_general (axis->assigned_format))
-					ticks[count].label = go_format_value (axis->format, ticks[count].position);
+					ticks[count].label = go_format_value (axis->format,
+									      ticks[count].position);
 				else
-					ticks[count].label = go_format_value (axis->assigned_format, ticks[count].position);
+					ticks[count].label = go_format_value (axis->assigned_format, 
+									      ticks[count].position);
 				count++;
 			}
 			else {
@@ -1555,7 +1559,11 @@ gog_axis_populate_editor (GogObject *gobj,
 
 	/* Format page */
 	if (!axis->is_discrete && gog_axis_get_atype (axis) != GOG_AXIS_PSEUDO_3D) {
-		w = go_format_sel_new ();
+#ifdef WITH_CAIRO
+		w = go_format_sel_new_full (TRUE);
+#else
+		w = go_format_sel_new_full (FALSE);
+#endif
 		if (axis->assigned_format != NULL && !go_format_is_general (axis->assigned_format))
 			go_format_sel_set_style_format (GO_FORMAT_SEL (w),
 				axis->assigned_format);

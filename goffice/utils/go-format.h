@@ -59,6 +59,9 @@ typedef struct {
 	gboolean date_has_days;
 	gboolean date_has_months;
 	int      fraction_denominator;
+	gboolean simplify_mantissa;
+	int	 exponent_step;
+	gboolean use_markup;
 } GOFormatDetails;
 
 struct _GOFormat {
@@ -120,12 +123,20 @@ extern GOFormatCurrency     const go_format_currencies [];
 
 typedef struct {
 	int  right_optional, right_spaces, right_req, right_allowed;
-	int  left_spaces, left_req;
+	int  left_optional, left_spaces, left_req;
 	float scale;
 	gboolean rendered;
 	gboolean decimal_separator_seen;
 	gboolean group_thousands;
 	gboolean has_fraction;
+
+	gboolean exponent_seen;
+	
+	int exponent_digit_nbr;
+	gboolean exponent_show_sign;
+	gboolean exponent_lower_e;
+
+	gboolean use_markup;
 } GONumberFormat;
 
 void go_render_number (GString *result, double number, GONumberFormat const *info);

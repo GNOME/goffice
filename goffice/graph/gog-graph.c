@@ -915,7 +915,7 @@ gog_graph_get_supported_image_formats (void)
  *
  * Exports an image of @graph in given @format, writing results in a #GsfOutput stream.
  * If export format type is a bitmap one, it computes image size with x_dpi, y_dpi and 
- * @graph size (see gog_graph_get_size()).
+ * @graph size (see @gog_graph_get_size()).
  *
  * returns: %TRUE if export succeed.
  **/

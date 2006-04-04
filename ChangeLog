@@ -1,3 +1,36 @@
+2006-04-04  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix engineering format: http://bugzilla.gnome.org/show_bug.cgi?id=129706
+	Adds a special format using pango markup for superscripted exponents,
+	currently only enabled in format selector in graph guru when using
+	cairo renderer.
+	
+	* goffice/graph/gog-axis.c (gog_axis_populate_editor): enable format
+	with markup when using cairo.
+	* goffice/gtk/go-format-sel.c (generate_format): handle new format
+	settings.
+	(go_format_sel_set_style_format): ditto.
+	(cb_engineering_toggle): new.
+	(cb_superscript_toggle): new.
+	(cb_superscript_hide_1_toggle): new.
+	(fmt_dialog_enable_widgets): handle new scientific format widgets.
+	(nfs_init): ditto.
+	(go_format_sel_new_full): new. Provides a way to enable format with
+	markup.
+	(go_format_sel_new): creates a new format selector with pango markup
+	disabled.
+	* goffice/gtk/go-format-sel.glade: add new widgets for scientific
+	format.
+	* goffice/utils/format.c (go_render_number_scientific): new.
+	(do_render_number): call go_render_number_scientific when needed.
+	(go_format_as_scientific): handle exponent step, use of marlup and
+	simplification of mantissa.
+	(go_format_number): fix handling of scientific/engineering format.
+	* goffice/utils/formats.c (go_currency_date_format_init): expand
+	science/percentage format.
+	(cell_format_is_number): handle simplification of mantissa, use of
+	markup and exponent step for scientific format.
+	
 2006-04-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-plugin.c (go_plugin_deactivate): Unload the

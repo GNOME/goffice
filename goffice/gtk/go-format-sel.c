@@ -105,7 +105,8 @@ typedef enum {
 	F_SYMBOL_LABEL,		F_SYMBOL,
 	F_ENTRY,
 	F_LIST_LABEL,		F_LIST_SCROLL,		F_LIST,
-	F_DECIMAL_SPIN,	
+	F_DECIMAL_SPIN,		F_ENGINEERING_BUTTON,	
+	F_SUPERSCRIPT_BOX,	F_SUPERSCRIPT_BUTTON,	F_SUPERSCRIPT_HIDE_1_BUTTON,
 	F_NEGATIVE_LABEL,	F_NEGATIVE_SCROLL,	F_NEGATIVE,
 	F_DECIMAL_LABEL,	F_CODE_LABEL,	F_SYMBOL_BOX,
 	F_DECIMAL_BOX,	F_CODE_BOX,	F_MAX_WIDGET
@@ -119,6 +120,7 @@ struct  _GOFormatSel {
 	char	 *locale;
 
 	gboolean  enable_edit;
+	gboolean  show_format_with_markup;
 
 	GODateConventions const *date_conv;
 
@@ -151,6 +153,9 @@ struct  _GOFormatSel {
 		int		negative_format;
 		int		currency_index;
 		gboolean	use_separator;
+		gboolean	use_markup;
+		int		exponent_step;
+		gboolean	simplify_mantissa;
 	} format;
 };
 
@@ -187,6 +192,9 @@ generate_format (GOFormatSel *gfs)
 	format.num_decimals = gfs->format.num_decimals;
 	format.negative_fmt = gfs->format.negative_format;
 	format.currency_symbol_index = gfs->format.currency_index;
+	format.use_markup = gfs->format.use_markup;
+	format.exponent_step = gfs->format.exponent_step;
+	format.simplify_mantissa = gfs->format.simplify_mantissa;
 
 	new_format = go_format_new (page, &format);
 	if (new_format) {
@@ -359,6 +367,37 @@ cb_separator_toggle (GtkObject *obj, GOFormatSel *gfs)
 }
 
 static void
+cb_engineering_toggle (GtkObject *obj, GOFormatSel *gfs)
+{
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj)))
+		gfs->format.exponent_step = 3;
+	else
+		gfs->format.exponent_step = 1;
+
+	draw_format_preview (gfs, TRUE);
+}
+
+static void
+cb_superscript_toggle (GtkObject *obj, GOFormatSel *gfs)
+{
+	gfs->format.use_markup =
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
+	gtk_widget_set_sensitive (gfs->format.widget[F_SUPERSCRIPT_HIDE_1_BUTTON],
+				  gfs->format.use_markup);
+
+	draw_format_preview (gfs, TRUE);
+}
+
+static void
+cb_superscript_hide_1_toggle (GtkObject *obj, GOFormatSel *gfs)
+{
+	gfs->format.simplify_mantissa =
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
+
+	draw_format_preview (gfs, TRUE);
+}
+
+static void
 fmt_dialog_init_fmt_list (GOFormatSel *gfs, char const *const *formats,
 			  GtkTreeIter *select)
 {
@@ -464,6 +503,10 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 			F_DECIMAL_BOX,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
+			F_ENGINEERING_BUTTON,
+			F_SUPERSCRIPT_BOX,
+			F_SUPERSCRIPT_BUTTON,
+			F_SUPERSCRIPT_HIDE_1_BUTTON,
 			F_MAX_WIDGET
 		},
 		/* Text */
@@ -526,6 +569,7 @@ stays:
 
 	gfs->format.current_type = page;
 	for (i = 0; (tmp = contents[page][i]) != F_MAX_WIDGET ; ++i) {
+		gboolean show_widget = TRUE;
 		GtkWidget *w = gfs->format.widget[tmp];
 
 		switch (tmp) {
@@ -591,6 +635,35 @@ stays:
 						   gfs->format.num_decimals);
 			break;
 
+		case F_SUPERSCRIPT_BOX:
+			if (!gfs->show_format_with_markup)
+				show_widget = FALSE;
+			break;
+
+		case F_SUPERSCRIPT_BUTTON:
+			if (gfs->show_format_with_markup) {
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+							      gfs->format.use_markup);
+			} else 
+				show_widget = FALSE;
+			break;
+
+		case F_SUPERSCRIPT_HIDE_1_BUTTON:
+			if (gfs->show_format_with_markup) {
+				
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+							      gfs->format.simplify_mantissa);
+				gtk_widget_set_sensitive (w, gfs->format.use_markup);
+			} else
+				show_widget = FALSE;
+			break;
+
+		case F_ENGINEERING_BUTTON:
+			gtk_toggle_button_set_active
+				(GTK_TOGGLE_BUTTON (gfs->format.widget[F_ENGINEERING_BUTTON]),
+				 gfs->format.exponent_step == 3);
+			break;
+
 		case F_SEPARATOR:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gfs->format.widget[F_SEPARATOR]),
 						      gfs->format.use_separator);
@@ -600,7 +673,8 @@ stays:
 			; /* Nothing */
 		}
 
-		gtk_widget_show (w);
+		if (show_widget)
+			gtk_widget_show (w);
 	}
 
 	draw_format_preview (gfs, TRUE);
@@ -850,6 +924,10 @@ nfs_init (GOFormatSel *gfs)
 		"format_list_scroll",
 		"format_list",
 		"format_number_decimals",
+		"format_engineering_button",
+		"format_superscript_box",
+		"format_superscript_button",
+		"format_superscript_hide_1_button",
 		"format_negatives_label",
 		"format_negatives_scroll",
 		"format_negatives",
@@ -872,6 +950,7 @@ nfs_init (GOFormatSel *gfs)
 	GtkWidget *old_parent;
 
 	gfs->enable_edit = FALSE;
+	gfs->show_format_with_markup = FALSE;
 	gfs->locale = NULL;
 
 	gfs->gui = go_libglade_new ("go-format-sel.glade", NULL, GETTEXT_PACKAGE, NULL);
@@ -898,6 +977,10 @@ nfs_init (GOFormatSel *gfs)
 	gfs->format.num_decimals = gfs->format.spec->family_info.num_decimals;
 	gfs->format.negative_format = gfs->format.spec->family_info.negative_fmt;
 	gfs->format.currency_index = gfs->format.spec->family_info.currency_symbol_index;
+	
+	gfs->format.use_markup = FALSE;
+	gfs->format.simplify_mantissa = FALSE;
+	gfs->format.exponent_step = 1;
 
 	gfs->format.preview_box = glade_xml_get_widget (gfs->gui, "preview_box");
 	gfs->format.preview = GTK_TEXT_VIEW (glade_xml_get_widget (gfs->gui, "preview"));
@@ -973,6 +1056,12 @@ nfs_init (GOFormatSel *gfs)
 		G_CALLBACK (cb_decimals_changed), gfs);
 	g_signal_connect (G_OBJECT (gfs->format.widget[F_SEPARATOR]), "toggled",
 		G_CALLBACK (cb_separator_toggle), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_ENGINEERING_BUTTON]), "toggled",
+		G_CALLBACK (cb_engineering_toggle), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_SUPERSCRIPT_BUTTON]), "toggled",
+		G_CALLBACK (cb_superscript_toggle), gfs);
+	g_signal_connect (G_OBJECT (gfs->format.widget[F_SUPERSCRIPT_HIDE_1_BUTTON]), "toggled",
+		G_CALLBACK (cb_superscript_hide_1_toggle), gfs);
 
 	/* setup custom format list */
 	gfs->format.formats.model = gtk_list_store_new (1, G_TYPE_STRING);
@@ -1095,10 +1184,45 @@ nfs_class_init (GObjectClass *klass)
 GSF_CLASS (GOFormatSel, go_format_sel,
 	   nfs_class_init, nfs_init, GTK_TYPE_HBOX)
 
+/** 
+ * go_format_sel_new_full:
+ * @use_markup: enable formats using pango markup
+ *
+ * Creates a format selector widget, with general format selected
+ * by default. When @use_markup is set to %TRUE, it shows additional
+ * widgets for editing properties of formats using pango markup 
+ * (e.g. scientific format with superscripted exponent).
+ * 
+ * returns: a format selector widget.
+ **/
+
+GtkWidget *
+go_format_sel_new_full (gboolean use_markup)
+{
+	GOFormatSel *gfs;
+
+	gfs = g_object_new (GO_FORMAT_SEL_TYPE, NULL);
+
+	if (gfs != NULL)
+		gfs->show_format_with_markup = use_markup;
+
+	return (GtkWidget *) gfs;
+}
+
+/**
+ * go_format_sel_new:
+ *
+ * Creates a format selector widget, with general format selected
+ * by default, and formats using pango markup disabled. See
+ * @go_format_sel_new_full.
+ * 
+ * returns: a format selector widget.
+ **/
+
 GtkWidget *
 go_format_sel_new (void)
 {
-	return g_object_new (GO_FORMAT_SEL_TYPE, NULL);
+	return go_format_sel_new_full (FALSE);
 }
 
 void
@@ -1124,10 +1248,13 @@ go_format_sel_set_style_format (GOFormatSel *gfs,
 
 	gfs->format.spec = style_format;
 
-	gfs->format.use_separator = style_format->family_info.thousands_sep;
-	gfs->format.num_decimals = style_format->family_info.num_decimals;
-	gfs->format.negative_format = style_format->family_info.negative_fmt;
-	gfs->format.currency_index = style_format->family_info.currency_symbol_index;
+	gfs->format.use_separator 	= style_format->family_info.thousands_sep;
+	gfs->format.num_decimals 	= style_format->family_info.num_decimals;
+	gfs->format.negative_format 	= style_format->family_info.negative_fmt;
+	gfs->format.currency_index 	= style_format->family_info.currency_symbol_index;
+	gfs->format.use_markup 		= style_format->family_info.use_markup;
+	gfs->format.exponent_step	= style_format->family_info.exponent_step;
+	gfs->format.simplify_mantissa	= style_format->family_info.simplify_mantissa;
 
 	combo = GO_COMBO_TEXT (gfs->format.widget[F_SYMBOL]);
 	go_combo_text_set_text

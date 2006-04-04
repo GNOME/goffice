@@ -907,6 +907,110 @@ SUFFIX(go_render_number) (GString *result,
 		g_string_append_c (result, ' ');
 }
 
+/* TODO: this function currently does not take into account:
+ * 	- left_req > 1
+ * 	- right_optional value. It always uses g format. */
+
+static void
+SUFFIX(go_render_number_scientific) (GString *result, 
+				      DOUBLE value, 
+				      GONumberFormat const *info)
+{
+	char const *mantissa_sign = "";
+	char const *exponent_sign = "";
+	int exponent;
+	int exponent_digit_nbr = info->exponent_digit_nbr;
+	int exponent_step = info->left_req + info->left_optional;
+	int precision = info->right_req;
+	int i;
+	gboolean show_exponent_sign = info->exponent_show_sign;
+	gboolean lower_e = info->exponent_lower_e;
+	gboolean use_markup = info->use_markup;
+	gboolean use_g_format = FALSE;
+	gboolean is_zero = FALSE;
+
+	if (exponent_step < 1)
+		exponent_step = 1;
+
+	if (value < 0.) {
+		mantissa_sign = "-";
+		value = -value;
+	}
+
+	if (SUFFIX(go_sub_epsilon) (value) <= 0) {
+		exponent = 0;
+		is_zero = TRUE;
+	} else {
+		exponent = (int) SUFFIX(floor) (SUFFIX(log10) (value));
+		if (exponent >= 0)
+			exponent = (exponent / exponent_step) * exponent_step;
+		else
+			exponent = (exponent + 1 - exponent_step) / exponent_step * exponent_step;
+	}
+
+	/* Use g format for mantissa as soon as we see # to the left
+	 * of decimal separator, and restrict to exponent < 4, since
+	 * g fallback to f for exponent >= 4 */
+	use_g_format = info->right_optional > 0 && exponent_step < 4;
+
+	value *= SUFFIX(pow) (10, -exponent);
+	
+	if (exponent < 0) {
+		exponent_sign = "-";
+		exponent = -exponent;
+	} else if (show_exponent_sign && !use_markup)
+		exponent_sign = "+";
+
+	if (exponent == 0 && exponent_digit_nbr == 0) {
+		g_string_append_printf (result, 
+					use_g_format ? "%s%*" FORMAT_G : "%s%.*" FORMAT_f, 
+					mantissa_sign, 
+					precision, value); 
+	} else {
+		if (use_markup) {
+			/* Don't render mantissa when it's almost 1.0 and no left digit is required,
+			 * taking into account precision */ 
+			if ((SUFFIX(fabs) (value - 1) < SUFFIX(pow) (10.0, -6 - precision)) &&
+			    info->left_req < 1)
+				g_string_append_printf (result, "%s10<sup>%s%d</sup>", 
+							mantissa_sign, 
+							exponent_sign,
+							exponent); 
+			else {
+				g_string_append_printf (result, 
+							use_g_format ? "%s%*" FORMAT_G : "%s%.*" FORMAT_f,
+							mantissa_sign, 
+							precision, value);
+				g_string_append_unichar (result, 0x00D7);
+				g_string_append_printf (result, "10<sup>%s%d</sup>", 
+							exponent_sign,
+							exponent); 
+			}
+		} else {
+			char const* format;
+			int exponent_start;
+			int length;
+
+			if (use_g_format)
+				format = lower_e ? "%s%*" FORMAT_G "e%s%n%d" : "%s%*" FORMAT_G "E%s%n%d";
+			else
+				format = lower_e ? "%s%.*" FORMAT_f "e%s%n%d" : "%s%.*" FORMAT_f "E%s%n%d";
+
+			g_string_append_printf (result, format, 
+						mantissa_sign,
+						precision, value, 
+						exponent_sign,
+						&exponent_start,
+						exponent);
+
+			length = result->len - exponent_start;
+			if (length < exponent_digit_nbr)
+				for (i = 0; i < exponent_digit_nbr - length; i++)
+					g_string_insert_c (result, exponent_start, '0');
+		}
+	}
+}
+
 static void
 SUFFIX(do_render_number) (DOUBLE number, GONumberFormat *info, GString *result)
 {
@@ -931,7 +1035,10 @@ SUFFIX(do_render_number) (DOUBLE number, GONumberFormat *info, GString *result)
 		decimal_point);
 #endif
 
-	SUFFIX(go_render_number) (result, info->scale * number, info);
+	if (info->exponent_seen)
+		SUFFIX(go_render_number_scientific) (result, number, info);
+	else 
+		SUFFIX(go_render_number) (result, info->scale * number, info);
 }
 
 static DOUBLE
@@ -1136,17 +1243,26 @@ go_format_as_scientific (GOFormatDetails const *fmt)
 {
 	GString *str;
 	GOFormat *gf;
+	int i;
 
 	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
 	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
 
 	str = g_string_new (NULL);
-	g_string_append_c (str, '0');
+	for (i = 0; i < fmt->exponent_step - 1; i++)
+		g_string_append_c (str, '#');
+	if (fmt->simplify_mantissa)
+		g_string_append_c (str, '#');
+	else
+		g_string_append_c (str, '0');
 	if (fmt->num_decimals > 0) {
 		g_string_append_c (str, '.');
 		g_string_append_len (str, zeros, fmt->num_decimals);
 	}
-	g_string_append (str, "E+00");
+	if (fmt->use_markup)
+		g_string_append (str, "EE0");
+	else
+		g_string_append (str, "E+00");
 
 	gf = go_format_new_from_XL (str->str, FALSE);
 	g_string_free (str, TRUE);
@@ -1601,8 +1717,12 @@ SUFFIX(go_format_number) (GString *result,
 
 		case '#':
 			can_render_number = TRUE;
-			if (info.decimal_separator_seen)
-				info.right_optional++;
+			if (!info.exponent_seen) { 
+				if (info.decimal_separator_seen)
+					info.right_optional++;
+				else 
+					info.left_optional++;
+			}
 			break;
 
 		case '?':
@@ -1615,13 +1735,17 @@ SUFFIX(go_format_number) (GString *result,
 
 		case '0':
 			can_render_number = TRUE;
-			if (info.decimal_separator_seen){
-				info.right_req++;
-				info.right_allowed++;
-				info.right_spaces++;
-			} else {
-				info.left_spaces++;
-				info.left_req++;
+			if (info.exponent_seen) 
+				info.exponent_digit_nbr++;
+			else {
+				if (info.decimal_separator_seen){
+					info.right_req++;
+					info.right_allowed++;
+					info.right_spaces++;
+				} else {
+					info.left_spaces++;
+					info.left_req++;
+				}
 			}
 			break;
 
@@ -1655,31 +1779,22 @@ SUFFIX(go_format_number) (GString *result,
 				go_string_append_gstring (result, format_get_thousand ());
 			break;
 
-		/* FIXME: this is a gross hack */
-		/* FIXME: Missing support for scientific notation.
-		 * #00.00e###  that keeps axponent to a multiple of 3
-		 * XL seems to just special case that.
-		 **/
-		case 'E': case 'e': {
-			gboolean const is_lower = (*format++ == 'e');
-			gboolean shows_plus = FALSE;
-			int prec = info.right_optional + info.right_req;
-
-			can_render_number = TRUE;
-			if (*format == '+') {
-				shows_plus = TRUE;
-				format++;
-			} else if (*format == '-')
-				format++;
-
-			while (*format == '0' || *format == '#')
-				format++;
-
-			g_string_append_printf (result,
-						is_lower ? "%.*" FORMAT_e : "%.*" FORMAT_E,
-						prec, number);
-			return;
-		}
+		case 'E': 
+			if (info.exponent_seen) 
+				info.use_markup = TRUE;
+			else {
+				info.exponent_seen = TRUE;
+				can_render_number = TRUE;
+			}
+			break;
+			
+		case 'e': 
+			if (!info.exponent_seen) {
+				info.exponent_seen = TRUE;
+				info.exponent_lower_e = TRUE;
+				can_render_number = TRUE;
+			};
+			break;
 
 		case '\\':
 			if (format[1] != '\0') {
@@ -1768,9 +1883,13 @@ SUFFIX(go_format_number) (GString *result,
 				}
 			}
 
+		case '+':
+			if (info.exponent_seen) {
+				info.exponent_show_sign = TRUE;
+				break;
+			}
 		case '-':
 		case '(':
-		case '+':
 		case ':':
 		case ' ': /* eg # ?/? */
 		case '$':

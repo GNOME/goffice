@@ -31,6 +31,7 @@ typedef struct _GOFormatSel	GOFormatSel;
 
 GType		go_format_sel_get_type	(void);
 GtkWidget * 	go_format_sel_new  	(void);
+GtkWidget * 	go_format_sel_new_full	(gboolean use_markup);
 
 void		go_format_sel_set_focus (GOFormatSel *gfs);
 void		go_format_sel_set_style_format (GOFormatSel *gfs,

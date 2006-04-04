@@ -109,6 +109,16 @@ go_format_value_gstring (GOFormat const *format, GString *res, double val,
 	}
 }
 
+/**
+ * go_format_value:
+ * @format: a #GOFormat
+ * value: value to format
+ *
+ * Converts @value into a string using format specified by @format.
+ *
+ * returns: a newly allocated string containing formated value.
+ **/
+
 char *
 go_format_value (GOFormat const *fmt, double val)
 {

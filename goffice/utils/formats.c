@@ -205,7 +205,7 @@ go_currency_date_format_init (void)
 	char const * const brackets_number_pattern = "^(.*)_\\);(\\[[Rr][Ee][Dd]\\])?\\(\\1\\)$";
 
 	/* This one is for GO_FORMAT_PERCENTAGE and GO_FORMAT_SCIENTIFIC, extended regexp */
-	char const *pattern_percent_science = "^0(.0{1,30})?(%|E+00)$";
+	char const *pattern_percent_science = "^(#{0,30}(0?))(\\.(((0{1,30})(#{0,30}))|#{1,30}))?(%|[eE]\\+?0{1,30}|(EE)\\+?0{1,30})$";
 
 	char const *pattern_fraction = "^#\\\\? (\\?+)/(\\?+|[1-9]\\d*)$";
 
@@ -635,7 +635,7 @@ cell_format_is_number (char const * const fmt, GOFormatDetails *info)
 	GOFormatFamily result = GO_FORMAT_NUMBER;
 	char const *ptr = fmt;
 	int cur = -1;
-	GORegmatch match[9];
+	GORegmatch match[10];
 
 	/* GO_FORMAT_CURRENCY or GO_FORMAT_NUMBER ? */
 	if ((result = cell_format_simple_number (fmt, info)) != GO_FORMAT_UNKNOWN)
@@ -665,11 +665,21 @@ cell_format_is_number (char const * const fmt, GOFormatDetails *info)
 	/* GO_FORMAT_PERCENTAGE or GO_FORMAT_SCIENTIFIC ? */
 	if (go_regexec (&re_percent_science, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 		info->num_decimals = 0;
-		if (match[1].rm_eo != -1)
-			info->num_decimals = match[1].rm_eo -
-				match[1].rm_so - 1;
+		info->exponent_step = 1;
 
-		if (ptr[match[2].rm_so] == '%')
+		if (match[1].rm_eo != -1)
+			info->exponent_step = match[1].rm_eo - match[1].rm_so;
+
+		if (match[2].rm_eo != -1)
+			info->simplify_mantissa = TRUE;
+			
+		if (match[6].rm_eo != -1)
+			info->num_decimals = match[6].rm_eo - match[6].rm_so;
+
+		if (match[9].rm_eo != -1)
+			info->use_markup = TRUE;
+
+		if (ptr[match[8].rm_so] == '%')
 			return GO_FORMAT_PERCENTAGE;
 		else
 			return GO_FORMAT_SCIENTIFIC;
@@ -749,6 +759,9 @@ go_format_classify (GOFormat const *gf, GOFormatDetails *info)
 	info->date_has_days = FALSE;
 	info->date_has_months = FALSE;
 	info->fraction_denominator = 0;
+	info->use_markup = FALSE;
+	info->exponent_step = 1;
+	info->simplify_mantissa = FALSE;
 
 	if (*fmt == '\0')
 		return GO_FORMAT_UNKNOWN;
