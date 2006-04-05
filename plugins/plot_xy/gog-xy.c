@@ -38,7 +38,7 @@
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>
-#include <gtk/gtklabel.h>
+#include <gtk/gtktogglebutton.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
@@ -754,7 +754,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 
 		if (show_marks && !GOG_IS_BUBBLE_PLOT (model))
-			markers[j] = g_new (MarkerData, n);
+			markers[j] = g_new0 (MarkerData, n);
 
 		margin = gog_renderer_line_size (view->renderer, 1);
 		x_margin_min = view->allocation.x - margin;
@@ -772,9 +772,9 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			   if not available everywhere.  Note, that NANs
 			   have been ruled out.  */
 			if (!gog_axis_map_finite (y_map, y))
-				y = 0; /* excel is just sooooo consistent */
+				y = (series->invalid_as_zero)? 0: go_nan; /* excel is just sooooo consistent */
 			if (!gog_axis_map_finite (x_map, x))
-				x = i;
+				x =  (series->invalid_as_zero)? 0: go_nan;
 			x_canvas = gog_axis_map_to_view (x_map, x);
 			y_canvas = gog_axis_map_to_view (y_map, y);
 			if (GOG_IS_BUBBLE_PLOT(model)) {
@@ -977,7 +977,8 @@ typedef GogSeriesClass GogXYSeriesClass;
 enum {
 	SERIES_PROP_0,
 	SERIES_PROP_XERRORS,
-	SERIES_PROP_YERRORS
+	SERIES_PROP_YERRORS,
+	SERIES_PROP_INVALID_AS_ZERO
 };
 
 static GogStyledObjectClass *series_parent_klass;
@@ -1123,6 +1124,12 @@ gog_xy_series_set_property (GObject *obj, guint param_id,
 			g_object_unref (series->y_errors);
 		series->y_errors = bar;
 		break;
+	case SERIES_PROP_INVALID_AS_ZERO:
+		series->invalid_as_zero = g_value_get_boolean (value);
+		gog_object_request_update (GOG_OBJECT (series));
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
 	}
 }
 
@@ -1139,7 +1146,18 @@ gog_xy_series_get_property (GObject *obj, guint param_id,
 	case SERIES_PROP_YERRORS :
 		g_value_set_object (value, series->y_errors);
 		break;
+	case SERIES_PROP_INVALID_AS_ZERO:
+		g_value_set_boolean (value, series->invalid_as_zero);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
 	}
+}
+
+static void
+invalid_toggled_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "invalid-as-zero", gtk_toggle_button_get_active (btn), NULL);
 }
 
 static void 
@@ -1148,14 +1166,32 @@ gog_xy_series_populate_editor (GogObject *obj,
 				GogDataAllocator *dalloc,
 				GOCmdContext *cc)
 {
-	GtkWidget *error_page;
+	GtkWidget *w;
+	char const *dir = go_plugin_get_dir_name (
+		go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
+	char *path = g_build_filename (dir, "gog-xy-series-prefs.glade", NULL);
+	GladeXML *gui = go_libglade_new (path, "gog-xy-series-prefs", GETTEXT_PACKAGE, cc);
+
+	g_free (path);
+    if (gui != NULL) {
+		w = glade_xml_get_widget (gui, "invalid-as-zero");
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+				(GOG_XY_SERIES (obj))->invalid_as_zero);
+		g_signal_connect (G_OBJECT (w),
+			"toggled",
+			G_CALLBACK (invalid_toggled_cb), obj);
+		w = glade_xml_get_widget (gui, "gog-xy-series-prefs");
+		g_object_set_data_full (G_OBJECT (w),
+			"state", gui, (GDestroyNotify)g_object_unref);
+		gog_editor_add_page (editor, w, _("Details"));
+	}
 
 	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
-	
-	error_page = gog_error_bar_prefs (GOG_SERIES (obj), "x-errors", TRUE, dalloc, cc);
-	gog_editor_add_page (editor, error_page, _("X error bars"));
-	error_page = gog_error_bar_prefs (GOG_SERIES (obj), "y-errors", FALSE, dalloc, cc);
-	gog_editor_add_page (editor, error_page, _("Y error bars"));
+
+	w = gog_error_bar_prefs (GOG_SERIES (obj), "x-errors", TRUE, dalloc, cc);
+	gog_editor_add_page (editor, w, _("X error bars"));
+	w = gog_error_bar_prefs (GOG_SERIES (obj), "y-errors", FALSE, dalloc, cc);
+	gog_editor_add_page (editor, w, _("Y error bars"));
 }
 
 static void
@@ -1204,6 +1240,10 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 		g_param_spec_object ("y-errors", "y-errors",
 			"GogErrorBar *",
 			GOG_ERROR_BAR_TYPE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, SERIES_PROP_INVALID_AS_ZERO,
+		g_param_spec_boolean ("invalid-as-zero", _("invalid-as-zero"),
+			_("Replace invalid values by 0 when drawing markers or bubbles"),
+			FALSE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 }
 
 GSF_DYNAMIC_CLASS (GogXYSeries, gog_xy_series,

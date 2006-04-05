@@ -1,3 +1,14 @@
+2006-04-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_xy/Makefile.am: add new glade file.
+	* plugins/plot_xy/gog-xy-series-prefs.glade: new glade file.
+	* plugins/plot_xy/gog-xy.c: (gog_xy_view_render),
+	(gog_xy_series_set_property), (gog_xy_series_get_property),
+	(invalid_toggled_cb), (gog_xy_series_populate_editor),
+	(gog_xy_series_class_init): use zero instead of invalid data or
+	skip them [#334697].
+	* plugins/plot_xy/gog-xy.h: ditto.
+
 2006-04-04  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix engineering format: http://bugzilla.gnome.org/show_bug.cgi?id=129706

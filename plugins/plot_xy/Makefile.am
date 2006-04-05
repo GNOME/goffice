@@ -16,7 +16,9 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
-dist_glade_DATA = gog-bubble-prefs.glade
+dist_glade_DATA =	\
+	gog-bubble-prefs.glade	\
+	gog-xy-series-prefs.glade
 
 # do not use the intl-tool stuff to merge the text back
 # its simpler to just use gettext directly

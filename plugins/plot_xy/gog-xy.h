@@ -73,6 +73,7 @@ typedef struct {
 	GogSeries base;
 	GogErrorBar *x_errors, *y_errors;
 	GogObject *hdroplines, *vdroplines;
+	gboolean invalid_as_zero;
 } GogXYSeries;
 
 #define GOG_XY_SERIES_TYPE	(gog_xy_series_get_type ())

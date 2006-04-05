@@ -10,6 +10,7 @@ Jean Brefort:
 	* Add Histograms.
 	* Add regression curves to histograms and line plots.
 	* Add power regressions.
+	* Fix use of invalid data in scatter plots. [#334697]
 
 Morten:
 	* Fix translation problems causing crashes in the character set
