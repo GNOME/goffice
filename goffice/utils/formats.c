@@ -207,7 +207,7 @@ go_currency_date_format_init (void)
 	/* This one is for GO_FORMAT_PERCENTAGE and GO_FORMAT_SCIENTIFIC, extended regexp */
 	char const *pattern_percent_science = "^(#{0,30}(0?))(\\.(((0{1,30})(#{0,30}))|#{1,30}))?(%|[eE]\\+?0{1,30}|(EE)\\+?0{1,30})$";
 
-	char const *pattern_fraction = "^#\\\\? (\\?+)/(\\?+|[1-9]\\d*)$";
+	char const *pattern_fraction = "^([0?#]+ +)?([0#?]+)/([0#?]+|[1-9]\\d*)$";
 
 	/* This one is for GO_FORMAT_ACCOUNTING */
 
@@ -722,15 +722,15 @@ cell_format_is_number (char const * const fmt, GOFormatDetails *info)
 static gboolean
 cell_format_is_fraction (char const *fmt, GOFormatDetails *info)
 {
-	GORegmatch match[3];
+	GORegmatch match[4];
 	const char *denominator;
 
 	if (go_regexec (&re_fraction, fmt, G_N_ELEMENTS (match), match, 0) != 0)
 		return FALSE;
 
-	denominator = fmt + match[2].rm_so;
-	if (denominator[0] == '?') {
-		info->num_decimals = match[1].rm_eo - match[1].rm_so;
+	denominator = fmt + match[3].rm_so;
+	if (g_ascii_digit_value (denominator[0]) < 1) {
+		info->num_decimals = match[3].rm_eo - match[3].rm_so;
 		info->fraction_denominator = 0;
 	} else {
 		info->num_decimals = 0;

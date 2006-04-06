@@ -24,6 +24,7 @@ Morten:
 	* Plug leak.
 	* Handle problems with formats containing "ss." but no more.
 	* Fix plugin deactivation.  [#336742]
+	* Improve fraction format handling.
 
 --------------------------------------------------------------------------
 goffice 0.1.1:

@@ -1862,7 +1862,7 @@ SUFFIX(go_format_number) (GString *result,
 						info.rendered = TRUE;
 						numerator += whole * denominator;
 					} else
-						show_zero = (number == 0);
+						show_zero = (number == 0 || whole == 0);
 
 					/*
 					 * FIXME: the space-aligning here doesn't come out

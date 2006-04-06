@@ -1,3 +1,12 @@
+2006-04-06  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/format.c (go_format_number): Show 0/x also when
+	whole==0, even if we rendered it (blank).
+
+	* goffice/utils/formats.c (go_currency_date_format_init): Match
+	more fraction formats.
+	(cell_format_is_fraction): Adjust accordingly.
+
 2006-04-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_xy/Makefile.am: add new glade file.
