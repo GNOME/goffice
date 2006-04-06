@@ -24,19 +24,7 @@
 #include <goffice/app/go-cmd-context.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/goffice-priv.h>
-#include <gtk/gtkalignment.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkbbox.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkfilechooserdialog.h>
-#include <gtk/gtkicontheme.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>
@@ -57,45 +45,13 @@
 #define W_OK 2
 #endif
 
-/* g_access would be nice here.  */
-static int
-go_access (const char *filename, int what)
-{
+#ifndef HAVE_G_ACCESS
 #ifdef G_OS_WIN32
-	int retval;
-	int save_errno;
-	if (G_WIN32_HAVE_WIDECHAR_API ()) {
-		wchar_t *wfilename = g_utf8_to_utf16 (filename, -1, NULL, NULL, NULL);
-		if (wfilename == NULL) {
-			errno = EINVAL;
-			return -1;
-		}
-
-		retval = _waccess (wfilename, what);
-		save_errno = errno;
-
-		g_free (wfilename);
-      
-		errno = save_errno;
-	} else {
-		gchar *cp_filename = g_locale_from_utf8 (filename, -1, NULL, NULL, NULL);
-		if (cp_filename == NULL) {
-			errno = EINVAL;
-			return -1;
-		}
-
-		retval = _access (cp_filename, what);
-		save_errno = errno;
-
-		g_free (cp_filename);
-
-		errno = save_errno;
-	}
-	return retval;
+#error "A glib with g_access is required for Win32"
 #else
-	return access (filename, what);
+#define g_access access
 #endif
-}
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -800,7 +756,7 @@ go_gtk_url_is_writeable (GtkWindow *parent, char const *uri,
 		go_gtk_notice_dialog (parent, GTK_MESSAGE_ERROR,
 				      _("%s\nis a directory name"), uri);
 		result = FALSE;
-	} else if (go_access (filename, W_OK) != 0 && errno != ENOENT) {
+	} else if (g_access (filename, W_OK) != 0 && errno != ENOENT) {
 		go_gtk_notice_dialog (parent, GTK_MESSAGE_ERROR,
 				      _("You do not have permission to save to\n%s"),
 				      uri);
@@ -960,4 +916,93 @@ go_pixbuf_new_from_file (char const *filename)
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (path, NULL);
 	g_free (path);
 	return pixbuf;
+}
+
+#ifndef HAVE_GTK_DIALOG_GET_RESPONSE_FOR_WIDGET
+/* This is public from 2.8 onwards.   */
+static gint
+gtk_dialog_get_response_for_widget (GtkDialog *dialog, GtkWidget *widget)
+{
+	const struct {
+		gint response_id;
+	} *rd = g_object_get_data (G_OBJECT (widget),
+				   "gtk-dialog-response-data");
+	if (!rd)
+		return GTK_RESPONSE_NONE;
+	else
+		return rd->response_id;
+}
+#endif
+
+
+/**
+ * go_dialog_guess_alternative_button_order:
+ * @dialog :
+ *
+ * This function inspects the buttons in the dialog and comes up
+ * with a reasonable alternative dialog order.
+ **/
+void
+go_dialog_guess_alternative_button_order (GtkDialog *dialog)
+{
+	GList *children, *tmp;
+	int i, nchildren;
+	int *new_order;
+	int i_yes = -1, i_no = -1, i_ok = -1, i_cancel = -1, i_apply = -1;
+	gboolean again;
+	gboolean any = FALSE;
+	int loops = 0;
+
+	children = gtk_container_get_children (GTK_CONTAINER (dialog->action_area));
+	if (!children)
+		return;
+
+	nchildren = g_list_length (children);
+	new_order = g_new (int, nchildren);
+
+	for (tmp = children, i = 0; tmp; tmp = tmp->next, i++) {
+		GtkWidget *child = tmp->data;
+		int res = gtk_dialog_get_response_for_widget (dialog, child);
+		new_order[i] = res;
+		switch (res) {
+		case GTK_RESPONSE_YES: i_yes = i; break;
+		case GTK_RESPONSE_NO: i_no = i; break;
+		case GTK_RESPONSE_OK: i_ok = i; break;
+		case GTK_RESPONSE_CANCEL: i_cancel = i; break;
+		case GTK_RESPONSE_APPLY: i_apply = i; break;
+		}
+	}
+	g_list_free (children);
+
+#define MAYBE_SWAP(ifirst,ilast)				\
+	if (ifirst >= 0 && ilast >= 0 && ifirst > ilast) {	\
+		int tmp;					\
+								\
+		tmp = new_order[ifirst];			\
+		new_order[ifirst] = new_order[ilast];		\
+		new_order[ilast] = tmp;				\
+								\
+		tmp = ifirst;					\
+		ifirst = ilast;					\
+		ilast = tmp;					\
+								\
+		again = TRUE;					\
+		any = TRUE;					\
+	}
+
+	do {
+		again = FALSE;
+		MAYBE_SWAP (i_yes, i_no);
+		MAYBE_SWAP (i_ok, i_cancel);
+		MAYBE_SWAP (i_cancel, i_apply);
+		MAYBE_SWAP (i_no, i_cancel);
+	} while (again && ++loops < 2);
+
+#undef MAYBE_SWAP
+
+	if (any)
+		gtk_dialog_set_alternative_button_order_from_array (dialog,
+								    nchildren,
+								    new_order);
+	g_free (new_order);
 }

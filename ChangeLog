@@ -1,5 +1,13 @@
 2006-04-06  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/goffice-gtk.c
+	(go_dialog_guess_alternative_button_order): New function.
+
+2006-04-06  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_access): Replace by g_access, if
+	present, and by access otherwise.
+
 	* goffice/app/go-plugin.c (go_plugin_deactivate): Only unload base
 	if it is actually loaded.
 

@@ -386,7 +386,6 @@ if test $ac_cv_func_log = no; then
 fi
 
 
-dnl check for g_chmod (present only in glib >= 2.8)
 SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $GOFFICE_CFLAGS"
@@ -396,6 +395,14 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <glib/gstdio.h>]], [[(void)g_chmod("/
                [AC_DEFINE(HAVE_G_CHMOD, 1, [Define if g_chmod is available as macro or function])
                 AC_MSG_RESULT(yes)],
                [AC_MSG_RESULT(no)])
+AC_MSG_CHECKING([for g_access])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <glib/gstdio.h>]], [[(void)g_access("/xxx",0);]])],
+               [AC_DEFINE(HAVE_G_ACCESS, 1, [Define if g_access is available as macro or function])
+                AC_MSG_RESULT(yes)],
+               [AC_MSG_RESULT(no)])
+if test "x$goffice_with_gtk" = "xtrue" ; then
+  AC_CHECK_FUNCS(gtk_dialog_get_response_for_widget)
+fi
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
 

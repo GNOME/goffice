@@ -67,6 +67,8 @@ gboolean   go_gtk_url_is_writeable	(GtkWindow *parent, char const *url,
 
 void	   go_atk_setup_label	 	(GtkWidget *label, GtkWidget *target);
 
+void       go_dialog_guess_alternative_button_order (GtkDialog *dialog);
+
 G_END_DECLS
 
 #endif /* _GOFFICE_GTK_H_ */
