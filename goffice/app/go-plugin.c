@@ -1039,7 +1039,8 @@ go_plugin_deactivate (GOPlugin *plugin, ErrorInfo **ret_error)
 			go_plugin_use_unref (plugin_dependency_get_plugin (dep));
 		);
 		if (plugin->loader != NULL) {
-			go_plugin_loader_unload_base (plugin->loader, ret_error);
+			if (go_plugin_loader_is_base_loaded (plugin->loader))
+				go_plugin_loader_unload_base (plugin->loader, ret_error);
 			g_object_unref (plugin->loader);
 			plugin->loader = NULL;
 		}

@@ -1,5 +1,8 @@
 2006-04-06  Morten Welinder  <terra@gnome.org>
 
+	* goffice/app/go-plugin.c (go_plugin_deactivate): Only unload base
+	if it is actually loaded.
+
 	* goffice/utils/format.c (go_format_number): Show 0/x also when
 	whole==0, even if we rendered it (blank).
 
