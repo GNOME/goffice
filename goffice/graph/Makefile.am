@@ -65,9 +65,9 @@ libgoffice_graph_la_HEADERS = \
 	gog-series.h			\
 	gog-series-impl.h		\
 	gog-error-bar.h			\
-	gog-trend-line.c		\
+	gog-trend-line.h		\
 	gog-reg-curve.h			\
-	gog-smoothed-curve.c	\
+	gog-smoothed-curve.h	\
 	gog-series-lines.h		\
 	gog-data-allocator.h		\
 	gog-data-set.h			\
