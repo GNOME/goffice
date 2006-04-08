@@ -95,7 +95,7 @@ typedef GogViewClass	GogSmoothedCurveViewClass;
 #define GOG_SMOOTHED_CURVE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_SMOOTHED_CURVE_VIEW_TYPE, GogSmoothedCurveView))
 #define IS_GOG_SMOOTHED_CURVE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SMOOTHED_CURVE_VIEW_TYPE))
 
-//static GogViewClass *smoothed_curve_view_parent_klass;
+/*static GogViewClass *smoothed_curve_view_parent_klass; */
 
 static void
 gog_smoothed_curve_view_render (GogView *view, GogViewAllocation const *bbox)
@@ -108,7 +108,7 @@ gog_smoothed_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogStyle *style;
 	ArtVpath *path;
 	unsigned i;
-//	GSList *ptr;
+/*	GSList *ptr; */
 
 	if (curve->nb == 0 || curve->x == NULL || curve->y == NULL)
 		return;
@@ -168,10 +168,10 @@ static void
 gog_smoothed_curve_view_class_init (GogSmoothedCurveViewClass *gview_klass)
 {
 	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
-//	smoothed_curve_view_parent_klass = g_type_class_peek_parent (gview_klass);
+/*	smoothed_curve_view_parent_klass = g_type_class_peek_parent (gview_klass); */
 
 	view_klass->render	  = gog_smoothed_curve_view_render;
-//	view_klass->size_allocate = gog_smoothed_curve_view_size_allocate;
+/*	view_klass->size_allocate = gog_smoothed_curve_view_size_allocate; */
 }
 
 static GSF_CLASS (GogSmoothedCurveView, gog_smoothed_curve_view,
