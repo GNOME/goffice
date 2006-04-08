@@ -29,6 +29,7 @@
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>
 #include <glib/gi18n-lib.h>
+#include <glib/gstdio.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
 
