@@ -542,7 +542,7 @@ gog_themes_init	(void)
 	style->line.width = 1;
 	style->line.color = RGBA_BLACK;
 	gog_theme_add_element (theme, style,
-		NULL, "GogRegCurve", NULL);
+		NULL, "GogTrendLine", NULL);
 
 	/* regression equations */
 	style = gog_style_new ();
@@ -647,13 +647,13 @@ gog_themes_init	(void)
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogLabel", NULL);
 
-	/* regression curves */
+	/* trend lines */
 	style = gog_style_new ();
 	style->line.dash_type = GO_LINE_SOLID;
 	style->line.width = 1;
 	style->line.color = RGBA_BLACK;
 	gog_theme_add_element (theme, style,
-		NULL, "GogRegCurve", NULL);
+		NULL, "GogTrendLine", NULL);
 
 	/* regression equations */
 	style = gog_style_new ();

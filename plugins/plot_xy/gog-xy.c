@@ -1036,7 +1036,7 @@ gog_xy_series_init (GObject *obj)
 
 	series->x_errors = series->y_errors = NULL;
 	(GOG_SERIES (series))->acceptable_children =
-				GOG_SERIES_ACCEPT_REGRESSION_CURVE;
+				GOG_SERIES_ACCEPT_TREND_LINE;
 	series->hdroplines = series->vdroplines = NULL;
 }
 

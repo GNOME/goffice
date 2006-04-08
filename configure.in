@@ -550,6 +550,7 @@ plugins/plot_surface/Makefile
 plugins/plot_boxes/Makefile
 plugins/reg_linear/Makefile
 plugins/reg_logfit/Makefile
+plugins/smoothing/Makefile
 pixmaps/Makefile
 po/Makefile.in
 tests/Makefile

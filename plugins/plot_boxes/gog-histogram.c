@@ -523,7 +523,7 @@ gog_histogram_plot_series_init (GObject *obj)
 {
 	GogSeries *series = GOG_SERIES (obj);
 
-	series->acceptable_children = GOG_SERIES_ACCEPT_REGRESSION_CURVE;
+	series->acceptable_children = GOG_SERIES_ACCEPT_TREND_LINE;
 }
 
 GSF_DYNAMIC_CLASS (GogHistogramPlotSeries, gog_histogram_plot_series,

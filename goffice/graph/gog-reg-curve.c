@@ -228,22 +228,8 @@ gog_reg_curve_dataset_init (GogDatasetClass *iface)
 
 GSF_CLASS_FULL (GogRegCurve, gog_reg_curve,
 	   NULL, NULL, gog_reg_curve_class_init, NULL,
-	   gog_reg_curve_init, GOG_STYLED_OBJECT_TYPE, G_TYPE_FLAG_ABSTRACT,
+	   gog_reg_curve_init, GOG_TREND_LINE_TYPE, G_TYPE_FLAG_ABSTRACT,
 		GSF_INTERFACE (gog_reg_curve_dataset_init, GOG_DATASET_TYPE))
-
-GogRegCurve *
-gog_reg_curve_new_by_type (GogRegCurveType const *type)
-{
-	GogRegCurve *res;
-
-	g_return_val_if_fail (type != NULL, NULL);
-
-	res = gog_reg_curve_new_by_name (type->engine);
-	if (res != NULL && type->properties != NULL)
-		g_hash_table_foreach (type->properties,
-			(GHFunc) gog_object_set_arg, res);
-	return res;
-}
 
 static double
 gog_reg_curve_get_value_at (GogRegCurve *reg_curve, double x)

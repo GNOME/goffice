@@ -8,12 +8,12 @@
 		<attribute name="module_file" value="logfit"/>
 	</loader>
 	<services>
-		<service type="regcurve_engine" id="GogLogFitCurve">
+		<service type="trendline_engine" id="GogLogFitCurve">
 			<information>
 				<_description>Logarithmic fitting curve engine</_description>
 			</information>
 		</service>
-		<service type="regcurve_type" id="logfit">
+		<service type="trendline_type" id="logfit">
 			<file>reg-types.xml</file>
 			<information>
 				<_description>Logarithmic fitting curves types</_description>

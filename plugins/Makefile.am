@@ -6,4 +6,5 @@ SUBDIRS = \
 	plot_surface \
 	plot_boxes \
 	reg_linear \
-	reg_logfit
+	reg_logfit \
+	smoothing

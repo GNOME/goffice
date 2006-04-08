@@ -194,7 +194,7 @@ child_added_cb (GogLinePlot *plot, GogObject *obj)
 	/* we only accept regression curves for not stacked plots */
 	if (IS_GOG_SERIES (obj) && plot->base.type == GOG_1_5D_NORMAL)
 		(GOG_SERIES (obj))->acceptable_children =
-					GOG_SERIES_ACCEPT_REGRESSION_CURVE;
+					GOG_SERIES_ACCEPT_TREND_LINE;
 }
 
 static char const *

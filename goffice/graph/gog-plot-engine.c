@@ -23,7 +23,7 @@
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-theme.h>
-#include <goffice/graph/gog-reg-curve.h>
+#include <goffice/graph/gog-trend-line.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/app/go-plugin-service-impl.h>
@@ -355,48 +355,48 @@ GSF_CLASS (GogThemeService, gog_theme_service,
 /***************************************************************************/
 /* Support regression curves engines in plugins */
 
-#define GOG_REG_CURVE_ENGINE_SERVICE_TYPE  (gog_reg_curve_engine_service_get_type ())
-#define GOG_REG_CURVE_ENGINE_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_REG_CURVE_ENGINE_SERVICE_TYPE, GogRegCurveEngineService))
-#define IS_GOG_REG_CURVE_ENGINE_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_REG_CURVE_ENGINE_SERVICE_TYPE))
+#define GOG_TREND_LINE_ENGINE_SERVICE_TYPE  (gog_trend_line_engine_service_get_type ())
+#define GOG_TREND_LINE_ENGINE_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TREND_LINE_ENGINE_SERVICE_TYPE, GogTrendLineEngineService))
+#define IS_GOG_TREND_LINE_ENGINE_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TREND_LINE_ENGINE_SERVICE_TYPE))
 
-static GType gog_reg_curve_engine_service_get_type (void);
+static GType gog_trend_line_engine_service_get_type (void);
 
-typedef PluginServiceGObjectLoader	GogRegCurveEngineService;
-typedef PluginServiceGObjectLoaderClass GogRegCurveEngineServiceClass;
+typedef PluginServiceGObjectLoader	GogTrendLineEngineService;
+typedef PluginServiceGObjectLoaderClass GogTrendLineEngineServiceClass;
 
-static GHashTable *pending_reg_curves_engines = NULL;
+static GHashTable *pending_trend_lines_engines = NULL;
 
 static char *
-gog_reg_curve_engine_service_get_description (GOPluginService *service)
+gog_trend_line_engine_service_get_description (GOPluginService *service)
 {
 	return g_strdup (_("Regression Curve Engine"));
 }
 
 static void
-gog_reg_curve_engine_service_class_init (PluginServiceGObjectLoaderClass *gobj_loader_class)
+gog_trend_line_engine_service_class_init (PluginServiceGObjectLoaderClass *gobj_loader_class)
 {
 	GOPluginServiceClass *ps_class = GPS_CLASS (gobj_loader_class);
 
-	ps_class->get_description = gog_reg_curve_engine_service_get_description;
+	ps_class->get_description = gog_trend_line_engine_service_get_description;
 
 	gobj_loader_class->pending =
-		pending_reg_curves_engines = g_hash_table_new (g_str_hash, g_str_equal);
+		pending_trend_lines_engines = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
-GSF_CLASS (GogRegCurveEngineService, gog_reg_curve_engine_service,
-           gog_reg_curve_engine_service_class_init, NULL,
+GSF_CLASS (GogTrendLineEngineService, gog_trend_line_engine_service,
+           gog_trend_line_engine_service_class_init, NULL,
            GO_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE)
 
-GogRegCurve *
-gog_reg_curve_new_by_name (char const *id)
+GogTrendLine *
+gog_trend_line_new_by_name (char const *id)
 {
 	GType type = g_type_from_name (id);
 
 	if (type == 0) {
 		ErrorInfo *err = NULL;
 		GOPluginService *service =
-			pending_reg_curves_engines
-			? g_hash_table_lookup (pending_reg_curves_engines, id)
+			pending_trend_lines_engines
+			? g_hash_table_lookup (pending_trend_lines_engines, id)
 			: NULL;
 		GOPlugin *plugin;
 
@@ -429,41 +429,41 @@ gog_reg_curve_new_by_name (char const *id)
 /***************************************************************************/
 /* Use a plugin service to define regression curves types */
 
-#define GOG_REG_CURVE_SERVICE_TYPE		(gog_reg_curve_service_get_type ())
-#define GOG_REG_CURVE_SERVICE(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_REG_CURVE_SERVICE_TYPE, GogRegCurveService))
-#define IS_GOG_REG_CURVE_SERVICE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_REG_CURVE_SERVICE_TYPE))
+#define GOG_TREND_LINE_SERVICE_TYPE		(gog_trend_line_service_get_type ())
+#define GOG_TREND_LINE_SERVICE(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TREND_LINE_SERVICE_TYPE, GogTrendLineService))
+#define IS_GOG_TREND_LINE_SERVICE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TREND_LINE_SERVICE_TYPE))
 
-GType gog_reg_curve_service_get_type (void);
+GType gog_trend_line_service_get_type (void);
 
 typedef struct {
 	PluginServiceSimple	base;
 
 	GSList	*types;
-} GogRegCurveService;
-typedef PluginServiceSimpleClass GogRegCurveServiceClass;
+} GogTrendLineService;
+typedef PluginServiceSimpleClass GogTrendLineServiceClass;
 
-static GHashTable *pending_reg_curve_type_files = NULL;
-static GHashTable *reg_curves_types = NULL;
+static GHashTable *pending_trend_line_type_files = NULL;
+static GHashTable *trend_line_types = NULL;
 
 static void
-cb_pending_reg_curve_types_load (char const *path,
-			    GogRegCurveService *service,
+cb_pending_trend_line_types_load (char const *path,
+			    GogTrendLineService *service,
 			    G_GNUC_UNUSED gpointer ignored)
 {
 	xmlNode *ptr, *prop;
 	xmlDoc *doc = go_xml_parse_file (path);
-	GogRegCurveType *type;
+	GogTrendLineType *type;
 
 	g_return_if_fail (doc != NULL && doc->xmlRootNode != NULL);
 
 	for (ptr = doc->xmlRootNode->xmlChildrenNode; ptr ; ptr = ptr->next)
 		if (!xmlIsBlankNode (ptr) && ptr->name && !strcmp (ptr->name, "Type")) {
-			type = g_new0 (GogRegCurveType, 1);
+			type = g_new0 (GogTrendLineType, 1);
 			type->name = xmlGetProp (ptr, "_name");
 			type->description = xmlGetProp (ptr, "_description");
 			type->engine = xmlGetProp (ptr, "engine");
 			service->types = g_slist_prepend (service->types, type);
-			g_hash_table_insert (reg_curves_types, type->name, type);
+			g_hash_table_insert (trend_line_types, type->name, type);
 			for (prop = ptr->xmlChildrenNode ; prop != NULL ; prop = prop->next)
 				if (!xmlIsBlankNode (prop) &&
 					prop->name && !strcmp (prop->name, "property")) {
@@ -486,19 +486,19 @@ cb_pending_reg_curve_types_load (char const *path,
 }
 
 static void
-pending_reg_curves_types_load (void)
+pending_trend_line_types_load (void)
 {
-	if (pending_reg_curve_type_files != NULL) {
-		GHashTable *tmp = pending_reg_curve_type_files;
-		pending_reg_curve_type_files = NULL;
+	if (pending_trend_line_type_files != NULL) {
+		GHashTable *tmp = pending_trend_line_type_files;
+		pending_trend_line_type_files = NULL;
 		g_hash_table_foreach (tmp,
-			(GHFunc) cb_pending_reg_curve_types_load, NULL);
+			(GHFunc) cb_pending_trend_line_types_load, NULL);
 		g_hash_table_destroy (tmp);
 	}
 }
 
 static void
-gog_reg_curve_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+gog_trend_line_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
 {
 	char    *path;
 	xmlNode *ptr;
@@ -513,37 +513,37 @@ gog_reg_curve_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorIn
 				g_free (path);
 				path = tmp;
 			}
-			if (pending_reg_curve_type_files == NULL)
-				pending_reg_curve_type_files = g_hash_table_new_full (
+			if (pending_trend_line_type_files == NULL)
+				pending_trend_line_type_files = g_hash_table_new_full (
 					g_str_hash, g_str_equal, g_free, g_object_unref);
 			g_object_ref (service);
-			g_hash_table_replace (pending_reg_curve_type_files, path, service);
+			g_hash_table_replace (pending_trend_line_type_files, path, service);
 		}
 }
 
 static char *
-gog_reg_curve_service_get_description (GOPluginService *service)
+gog_trend_line_service_get_description (GOPluginService *service)
 {
 	return g_strdup (_("Regression Curve Type"));
 }
 
 static void
-gog_reg_curve_service_init (GObject *obj)
+gog_trend_line_service_init (GObject *obj)
 {
-	GogRegCurveService *service = GOG_REG_CURVE_SERVICE (obj);
+	GogTrendLineService *service = GOG_TREND_LINE_SERVICE (obj);
 
 	service->types = NULL;
 }
 
 static void
-gog_reg_curve_service_class_init (GOPluginServiceClass *ps_class)
+gog_trend_line_service_class_init (GOPluginServiceClass *ps_class)
 {
-	ps_class->read_xml	  = gog_reg_curve_service_read_xml;
-	ps_class->get_description = gog_reg_curve_service_get_description;
+	ps_class->read_xml	  = gog_trend_line_service_read_xml;
+	ps_class->get_description = gog_trend_line_service_get_description;
 }
 
-GSF_CLASS (GogRegCurveService, gog_reg_curve_service,
-           gog_reg_curve_service_class_init, gog_reg_curve_service_init,
+GSF_CLASS (GogTrendLineService, gog_trend_line_service,
+           gog_trend_line_service_class_init, gog_trend_line_service_init,
            GO_PLUGIN_SERVICE_SIMPLE_TYPE)
 
 /***************************************************************************/
@@ -554,8 +554,8 @@ gog_plugin_services_init (void)
 	plugin_service_define ("plot_engine", &gog_plot_engine_service_get_type);
 	plugin_service_define ("plot_type",   &gog_plot_type_service_get_type);
 	plugin_service_define ("chart_theme",  &gog_theme_service_get_type);
-	plugin_service_define ("regcurve_engine", &gog_reg_curve_engine_service_get_type);
-	plugin_service_define ("regcurve_type", &gog_reg_curve_service_get_type);
+	plugin_service_define ("trendline_engine", &gog_trend_line_engine_service_get_type);
+	plugin_service_define ("trendline_type", &gog_trend_line_service_get_type);
 }
 
 void
@@ -668,7 +668,7 @@ gog_plot_type_register (GogPlotFamily *family, int col, int row,
 /***************************************************************************/
 
 static void
-gog_reg_curve_type_free (GogRegCurveType *type)
+gog_trend_line_type_free (GogTrendLineType *type)
 {
 	g_free (type->name);
 	g_free (type->description);
@@ -677,18 +677,18 @@ gog_reg_curve_type_free (GogRegCurveType *type)
 }
 
 static void
-create_reg_curve_types (void)
+create_trend_line_types (void)
 {
-	if (!reg_curves_types)
-		reg_curves_types = g_hash_table_new_full
+	if (!trend_line_types)
+		trend_line_types = g_hash_table_new_full
 			(g_str_hash, g_str_equal,
-			 NULL, (GDestroyNotify) gog_reg_curve_type_free);
+			 NULL, (GDestroyNotify) gog_trend_line_type_free);
 }
 
 GHashTable const *
-gog_reg_curve_types (void)
+gog_trend_line_types (void)
 {
-	create_reg_curve_types ();
-	pending_reg_curves_types_load ();
-	return reg_curves_types;
+	create_trend_line_types ();
+	pending_trend_line_types_load ();
+	return trend_line_types;
 }

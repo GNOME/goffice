@@ -56,7 +56,7 @@ typedef enum {
 	GOG_SERIES_ERRORS
 } GogSeriesPriority;
 
-#define GOG_SERIES_ACCEPT_REGRESSION_CURVE	1
+#define GOG_SERIES_ACCEPT_TREND_LINE	1
 
 struct _GogSeriesDimDesc {
 	char const *name;

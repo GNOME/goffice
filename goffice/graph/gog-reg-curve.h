@@ -22,12 +22,15 @@
 #ifndef GOG_REG_CURVE_H
 #define GOG_REG_CURVE_H
 
+#include <goffice/graph/gog-trend-line.h>
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-data-set.h>
 #include <gtk/gtktable.h>
 
+G_BEGIN_DECLS
+
 struct  _GogRegCurve {
-	GogStyledObject	base;
+	GogTrendLine	base;
 	
 	GogSeries 	  *series;
 	gboolean  	   weighted;
@@ -41,7 +44,7 @@ struct  _GogRegCurve {
 };
 
 typedef struct {
-	GogStyledObjectClass base;
+	GogTrendLineClass base;
 
 	double 		(*get_value_at) (GogRegCurve *reg_curve, double x);
 	gchar const* 	(*get_equation) (GogRegCurve *reg_curve);
@@ -54,10 +57,10 @@ typedef struct {
 
 GType gog_reg_curve_get_type (void);
 
-GogRegCurve *gog_reg_curve_new_by_name  (char const *id);
-GogRegCurve *gog_reg_curve_new_by_type  (GogRegCurveType const *type);
 gchar const *gog_reg_curve_get_equation (GogRegCurve *reg_curve);
 double       gog_reg_curve_get_R2       (GogRegCurve *reg_curve);
 void         gog_reg_curve_get_bounds   (GogRegCurve *reg_curve, double *xmin, double *xmax);
+
+G_END_DECLS
 
 #endif /* GOG_REG_CURVE_H */

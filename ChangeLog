@@ -1,3 +1,42 @@
+2006-04-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: add new plugin (smoothed curves).
+	* goffice/graph/Makefile.am: add new files.
+	* goffice/graph/goffice-graph.h: add GogTrendLine and GogSmoothedCurve
+	types.
+	* goffice/graph/gog-chart.c: fixed typo.
+	* goffice/graph/gog-guru.c: replace GogRegCurve by GogTrendLine.
+	* goffice/graph/gog-object-xml.c: ditto.
+	* goffice/graph/gog-plot-engine.c: ditto.
+	* goffice/graph/gog-plot-engine.h: ditto.
+	* goffice/graph/gog-reg-curve.c: make GogRegCurve derive from GogTrendLine.
+	* goffice/graph/gog-reg-curve.h: ditto.
+	* goffice/graph/gog-series-impl.h: replace regression curves by trend lines.
+	* goffice/graph/gog-series.c: ditto.
+	* goffice/graph/gog-smoothed-curve.c: new smoothed curves:
+	* goffice/graph/gog-smoothed-curve.h: ditto.
+	* goffice/graph/gog-theme.c: added tredn lines and removed
+	regression curves.
+	* goffice/graph/gog-trend-line.c: new parent object for regression
+	curves and trend lines.
+	* goffice/graph/gog-trend-line.h: ditto.
+	* plugins/Makefile.am: add smoothing plugin.
+	* plugins/plot_barcol/gog-line.c: accept trend lines.
+	* plugins/plot_boxes/gog-histogram.c: ditto.
+	* plugins/plot_xy/gog-xy.c: ditto.
+	* plugins/reg_linear/plugin.xml.in: changed service name.
+	* plugins/reg_logfit/plugin.xml.in: ditto.
+	* plugins/smoothing/Makefile.am: new moving average curves.
+	* plugins/smoothing/gog-exp-smooth.c: ditto.
+	* plugins/smoothing/gog-exp-smooth.glade: ditto.
+	* plugins/smoothing/gog-exp-smooth.h: ditto.
+	* plugins/smoothing/gog-moving-avg.c: ditto.
+	* plugins/smoothing/gog-moving-avg.glade: ditto.
+	* plugins/smoothing/gog-moving-avg.h: ditto.
+	* plugins/smoothing/plugin.c: ditto.
+	* plugins/smoothing/plugin.xml.in: ditto.
+	* plugins/smoothing/types.xml.in: ditto.
+
 2006-04-06  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/goffice-gtk.c

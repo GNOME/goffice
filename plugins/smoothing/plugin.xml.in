@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="GOffice_smoothing">
+	<information>
+		<_name>Smoothed curves</_name>
+		<_description>Smoothed curves</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="smoothing"/>
+	</loader>
+	<services>
+		<service type="trendline_engine" id="GogMovingAvg">
+			<information>
+				<_description>Moving average smoothing engine</_description>
+			</information>
+		</service>
+		<service type="trendline_engine" id="GogExpSmooth">
+			<information>
+				<_description>exponential smoothing engine</_description>
+			</information>
+		</service>
+		<service type="trendline_type" id="smoothing">
+			<file>types.xml</file>
+			<information>
+				<_description>Smoothed curves types</_description>
+			</information>
+		</service>
+	</services>
+</plugin>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
+	<Type _name="Moving average"
+		engine="GogMovingAvg"
+		_description="Moving average smoothed curve">
+	</Type>
+	<Type _name="Exponentially smoothed curve"
+		engine="GogExpSmooth"
+		_description="Exponentially smoothed curve">
+	</Type>
+</Types>

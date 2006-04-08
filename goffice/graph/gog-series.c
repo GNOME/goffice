@@ -210,7 +210,7 @@ static gboolean
 regression_curve_can_add (GogObject const *parent)
 {
 	GogSeries *series = GOG_SERIES (parent);
-	return (series->acceptable_children & GOG_SERIES_ACCEPT_REGRESSION_CURVE) != 0;
+	return (series->acceptable_children & GOG_SERIES_ACCEPT_TREND_LINE) != 0;
 }
 
 static void
@@ -468,6 +468,14 @@ gog_series_class_init (GogSeriesClass *klass)
 		  role_series_element_post_add,
 		  role_series_element_pre_remove, NULL },
 		{ N_("Regression curve"), "GogRegCurve",	1,
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
+		  regression_curve_can_add,
+		  NULL,
+		  NULL,
+		  regression_curve_post_add,
+		  regression_curve_pre_remove,
+		  NULL },
+		{ N_("Trend line"), "GogTrendLine",	2,
 		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
 		  regression_curve_can_add,
 		  NULL,

@@ -710,7 +710,7 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 
 	g_object_class_install_property (gobject_klass, CHART_PROP_CARDINALITY_VALID,
 		g_param_spec_boolean ("cardinality-valid", "cardinality-valid",
-				      "Is the charts cardinality currently vaid",
+				      "Is the charts cardinality currently valid",
 				      FALSE, G_PARAM_READABLE));
 	g_object_class_install_property (gobject_klass, CHART_PROP_PLOT_AREA,
 		g_param_spec_string ("plot-area", "Plot area",
@@ -1200,4 +1200,3 @@ gog_chart_view_get_plot_area (GogView const *view)
 
 	return &(GOG_CHART_VIEW (view)->plot_area);
 }
-
