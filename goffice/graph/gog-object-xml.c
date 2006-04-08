@@ -551,7 +551,7 @@ gogo_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (t == 0) {
 			res = (GogObject *)gog_plot_new_by_name (type);
 			if (NULL == res)
-				res = (GogObject *)gog_reg_curve_new_by_name (type);
+				res = (GogObject *)gog_trend_line_new_by_name (type);
 		} else
 			res = g_object_new (t, NULL);
 

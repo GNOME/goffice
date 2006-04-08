@@ -1,5 +1,10 @@
 2006-04-08  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-object-xml.c: (gogo_start): use
+	gog_trend_line_new_by_name instead of obsolete gog_reg_curve_new_by_name.
+
+2006-04-08  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* configure.in: add new plugin (smoothed curves).
 	* goffice/graph/Makefile.am: add new files.
 	* goffice/graph/goffice-graph.h: add GogTrendLine and GogSmoothedCurve
