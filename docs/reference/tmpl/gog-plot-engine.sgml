@@ -86,24 +86,6 @@ Plot and regression curve plugin management
 @Returns: 
 
 
-<!-- ##### STRUCT GogRegCurveType ##### -->
-<para>
-
-</para>
-
-@engine: 
-@name: 
-@description: 
-@properties: 
-
-<!-- ##### FUNCTION gog_reg_curve_types ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_plugin_services_init ##### -->
 <para>
 

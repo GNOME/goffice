@@ -17,18 +17,10 @@ Droplines
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### TYPEDEF GogSeriesLines ##### -->
+<!-- ##### STRUCT GogSeriesLines ##### -->
 <para>
 
 </para>
-
-
-<!-- ##### FUNCTION gog_series_lines_register_type ##### -->
-<para>
-
-</para>
-
-@module: 
 
 
 <!-- ##### FUNCTION gog_series_lines_render ##### -->

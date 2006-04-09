@@ -2,7 +2,7 @@
 GogPersist
 
 <!-- ##### SECTION Short_Description ##### -->
-XML serialization interface
+
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -21,15 +21,6 @@ XML serialization interface
 <para>
 
 </para>
-
-
-<!-- ##### FUNCTION gog_persist_dom_save ##### -->
-<para>
-
-</para>
-
-@gp: 
-@parent: 
 
 
 <!-- ##### FUNCTION gog_persist_dom_load ##### -->

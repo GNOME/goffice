@@ -1,3 +1,11 @@
+2006-04-09  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* reference/goffice-sections.txt, reference/tmpl/gog-persist.sgml,
+	reference/tmpl/gog-plot-engine.sgml,
+	reference/tmpl/gog-reg-curve.sgml,
+	reference/tmpl/gog-series-lines.sgml: Cleanups to fix gtk-doc
+	warnings.
+
 2005-12-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* reference/goffice-sections.txt: typo.

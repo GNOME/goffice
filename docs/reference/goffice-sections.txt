@@ -97,7 +97,6 @@ gog_outlined_view_get_type
 <INCLUDE>goffice/graph/gog-object-xml.h</INCLUDE>
 <TITLE>GogPersist</TITLE>
 GogPersist
-gog_persist_dom_save
 gog_persist_dom_load
 gog_persist_sax_save
 gog_persist_prep_sax
@@ -291,7 +290,6 @@ IS_GOG_AXIS_BASE
 gog_axis_base_get_type
 gog_axis_base_get_position
 gog_axis_base_set_position
-gog_axis_base_set_label_angle
 GogAxisBaseView
 GogAxisBaseViewClass
 GOG_AXIS_BASE_VIEW_TYPE
@@ -384,7 +382,6 @@ IS_GOG_SERIES_ELEMENT
 gog_series_get_type
 gog_series_element_get_type
 GogSeriesPriority
-GOG_SERIES_ACCEPT_REGRESSION_CURVE
 GogSeriesDimDesc
 GogSeriesDesc
 gog_series_check_validity
@@ -395,7 +392,6 @@ gog_series_get_element
 <FILE>gog-series-lines</FILE>
 <TITLE>GogSeriesLines</TITLE>
 GogSeriesLines
-gog_series_lines_register_type
 gog_series_lines_render
 <SUBSECTION Standard>
 GOG_SERIES_LINES_TYPE
@@ -429,8 +425,6 @@ gog_error_bar_get_type
 <FILE>gog-reg-curve</FILE>
 <TITLE>GogRegCurve</TITLE>
 GogRegCurve
-gog_reg_curve_new_by_name
-gog_reg_curve_new_by_type
 gog_reg_curve_get_equation
 gog_reg_curve_get_R2
 gog_reg_curve_get_bounds
@@ -618,7 +612,6 @@ GogToolAction
 gog_tool_action_new
 gog_tool_action_move
 gog_tool_action_double_click
-gog_tool_action_get_object
 gog_tool_action_free
 </SECTION>
 
@@ -631,10 +624,6 @@ gog_plot_families
 gog_plot_family_by_name
 gog_plot_family_register
 gog_plot_type_register
-<SUBSECTION>
-GogRegCurveType
-gog_reg_curve_types
-<SUBSECTION>
 gog_plugin_services_init
 gog_plugin_services_shutdown
 </SECTION>
@@ -758,8 +747,6 @@ go_combo_color_get_color
 go_combo_color_set_color
 go_combo_color_set_color_to_default
 go_combo_color_set_color_gdk
-go_combo_color_get_default
-go_combo_color_set_default
 go_combo_color_set_allow_alpha
 go_combo_color_set_instant_apply
 </SECTION>
@@ -1024,7 +1011,6 @@ GO_EMU_TO_UN
 GO_EMU_TO_IN
 GO_EMU_TO_PT
 GO_EMU_TO_CM
-GOUnit
 GODistance
 GOPoint
 GORect
@@ -1135,7 +1121,6 @@ go_marker_new
 go_marker_get_pixbuf
 go_marker_get_pixbuf_with_size
 go_marker_selector
-go_marker_selector_get_shape
 </SECTION>
 
 <SECTION>
@@ -1183,14 +1168,6 @@ go_search_replace_get_type
 </SECTION>
 
 <SECTION>
-<FILE>go-format-match</FILE>
-<TITLE>GoFormatMatch</TITLE>
-MatchType
-format_match_create
-format_match_release
-</SECTION>
-
-<SECTION>
 <FILE>go-format</FILE>
 <TITLE>GoFormat</TITLE>
 GOFormatFamily
@@ -1235,10 +1212,6 @@ format_get_row_sep
 format_get_thousand
 format_get_decimal
 format_boolean
-number_format_init
-number_format_shutdown
-currency_date_format_init
-currency_date_format_shutdown
 </SECTION>
 
 
@@ -1596,7 +1569,6 @@ GOServiceSimpleClass
 <TITLE>GOData</TITLE>
 GOData
 <SUBSECTION>
-go_data_needs_recalc
 go_data_dup
 go_data_eq
 go_data_preferred_fmt

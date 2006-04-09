@@ -72,15 +72,6 @@ On canvas graph edition tools
 @action: 
 
 
-<!-- ##### FUNCTION gog_tool_action_get_object ##### -->
-<para>
-
-</para>
-
-@action: 
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_tool_action_free ##### -->
 <para>
 

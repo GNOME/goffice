@@ -28,24 +28,6 @@ Base class for regression curves
 
 </para>
 
-<!-- ##### FUNCTION gog_reg_curve_new_by_name ##### -->
-<para>
-
-</para>
-
-@id: 
-@Returns: 
-
-
-<!-- ##### FUNCTION gog_reg_curve_new_by_type ##### -->
-<para>
-
-</para>
-
-@type: 
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_reg_curve_get_equation ##### -->
 <para>
 
