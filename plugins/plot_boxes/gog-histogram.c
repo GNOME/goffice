@@ -249,7 +249,7 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	path = art_new (ArtVpath, nb);
 	path[0].code = ART_MOVETO;
 	curx = path[0].x = gog_axis_map_to_view (x_map, ((x_vals)? x_vals[0]: 0.));
-	path[0].y = gog_axis_map_to_view (y_map, 0.);
+	path[0].y = gog_axis_map_get_baseline (y_map);
 	for (i = 0, j = 1; i < series->base.num_elements; i++) {
 		path[j].code = ART_LINETO;
 		path[j].x = curx;
@@ -260,7 +260,7 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 	path[j].code = ART_LINETO;
 	path[j].x = curx;
-	path[j++].y = gog_axis_map_to_view (y_map, 0.);
+	path[j++].y = path[0].y;
 	path[j].code = ART_LINETO;
 	path[j].x = path[0].x;
 	path[j++].y = path[0].y;
@@ -279,7 +279,7 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			droppath[0].x = droppath[1].x =
 				gog_axis_map_to_view (x_map, ((x_vals)? x_vals[i]: 0.));
 			if (y_vals[i-1] * y_vals[i] > 0.) {
-				droppath[0].y = gog_axis_map_to_view (y_map, 0.);
+				droppath[0].y = path[0].y;
 				if (y_vals[i] > 0.)
 					droppath[1].y = gog_axis_map_to_view (y_map,
 						MIN (y_vals[i-1], y_vals[i]));

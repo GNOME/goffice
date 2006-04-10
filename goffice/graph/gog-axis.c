@@ -586,7 +586,7 @@ map_log_baseline (GogAxisMap *map)
 	MapLogData *data = map->data;
 
 	return map->axis->inverted ?
-		data->max * data->a_inv + data->b_inv :
+		data->min * data->a_inv + data->b_inv :
 		data->min * data->a + data->b;
 }
 

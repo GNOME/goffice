@@ -1,3 +1,10 @@
+2006-04-10  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-axis.c (map_log_baseline): inverted or not,
+	baseline is always min.
+	* plugins/plot_boxes/gog-histogram.c
+	(gog_histogram_plot_view_render): fix in case of log y axis.
+
 2006-04-10  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/format.c (format_compile): Fix handling of
