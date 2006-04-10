@@ -626,13 +626,19 @@ format_compile (GOFormat *format)
 				}
 			} else if (*begin == '=') {
 				entry->restriction_type = '=';
+			} else if (*begin == '$') {
+				/* A currency.  */
+				if (NULL == real_start)
+					real_start = fmt;
+				fmt = end;
+				continue;
 			} else {
-				if (begin[1] == ']' &&
-				    (*begin == 'h' || *begin == 'H' ||
+				if ((*begin == 'h' || *begin == 'H' ||
 				     *begin == 'm' || *begin == 'M' ||
-				     *begin == 's' || *begin == 'S'))
+				     *begin == 's' || *begin == 'S') &&
+				    begin[1] == ']')
 					entry->elapsed_time = TRUE;
-				else if (*begin != '$' && entry->go_color == 0) {
+				else if (entry->go_color == 0) {
 					entry->go_color = lookup_color (begin, end);
 					/* Only the first colour counts */
 					if (0 != entry->go_color) {
@@ -648,6 +654,7 @@ format_compile (GOFormat *format)
 
 			/* fall back on 0 for errors */
 			errno = 0;
+			/* FIXME: ->restriction_value should probably be a long double.  */
 			entry->restriction_value = STRTO (begin, (char **)&end);
 			if (errno == ERANGE || begin == end)
 				entry->restriction_value = 0.;

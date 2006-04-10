@@ -26,7 +26,6 @@
 #include <pango/pango-attributes.h>
 #include <glib.h>
 
-#include <goffice/utils/goffice-utils.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS

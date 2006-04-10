@@ -26,6 +26,7 @@ Morten:
 	* Handle problems with formats containing "ss." but no more.
 	* Fix plugin deactivation.  [#336742]
 	* Improve fraction format handling.
+	* Fix format problem for [$curr].
 
 --------------------------------------------------------------------------
 goffice 0.1.1:
