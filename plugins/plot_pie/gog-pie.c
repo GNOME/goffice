@@ -75,16 +75,18 @@ gog_pie_series_element_get_property (GObject *obj, guint param_id,
 	}
 }
 
+#ifdef WITH_GTK
 extern gpointer gog_pie_series_element_pref (GogPieSeriesElement *element, GOCmdContext *cc);
 static gpointer
 gog_pie_series_element_populate_editor (GogObject *gobj,
 					GogEditor *editor,
-			       GOCmdContext *cc)
+					GOCmdContext *cc)
 {
 	GtkWidget *widget = gog_pie_series_element_pref (GOG_PIE_SERIES_ELEMENT (gobj), cc);
 	gog_editor_add_page (editor, widget, _("Settings"));
 	return widget;
 }
+#endif
 
 static void
 gog_pie_series_element_class_init (GogPieSeriesElementClass *klass)
@@ -95,7 +97,9 @@ gog_pie_series_element_class_init (GogPieSeriesElementClass *klass)
 	gobject_klass->get_property = gog_pie_series_element_get_property;
 	
 	ppe_parent_klass 	= g_type_class_peek_parent (klass);
+#ifdef WITH_GTK
 	klass->gse_populate_editor	= gog_pie_series_element_populate_editor;
+#endif
 
 	g_object_class_install_property (gobject_klass, ELEMENT_SEPARATION,
 		g_param_spec_float ("separation", "separation",
@@ -258,15 +262,6 @@ GSF_DYNAMIC_CLASS (GogPiePlot, gog_pie_plot,
 	gog_pie_plot_class_init, gog_pie_plot_init,
 	GOG_PLOT_TYPE)
 
-static void
-gog_pie_plot_set_default_separation (GogPiePlot *pie, double separation)
-{
-	g_return_if_fail (GOG_PIE_PLOT (pie) != NULL);
-
-	pie->default_separation = CLAMP (separation, 0.0, 5.0);
-	gog_object_emit_changed (GOG_OBJECT (pie), FALSE);
-}
-
 /*****************************************************************************/
 
 enum {
@@ -367,6 +362,7 @@ GSF_DYNAMIC_CLASS (GogRingPlot, gog_ring_plot,
 
 /*****************************************************************************/
 
+#ifdef WITH_GTK
 typedef struct {
 	double x, y, r;
 	double start_pos;
@@ -516,6 +512,7 @@ static GogTool gog_tool_move_pie = {
 	gog_tool_move_pie_double_click,
 	NULL /*destroy*/
 };
+#endif
 
 /*****************************************************************************/
 
@@ -705,8 +702,9 @@ static void
 gog_pie_view_build_toolkit (GogView *view)
 {
 	(GOG_VIEW_CLASS (pie_view_parent_klass)->build_toolkit) (view);	
-
+#ifdef WITH_GTK
 	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_move_pie);
+#endif
 }
 
 static void

@@ -16,7 +16,9 @@
 #include "go-cmd-context.h"
 #include <goffice/utils/go-file.h>
 #include <gsf/gsf-impl-utils.h>
+#ifdef GOFFICE_WITH_GTK
 #include <gtk/gtkmain.h>
+#endif
 #include <glib/gi18n-lib.h>
 
 #define PROGRESS_UPDATE_STEP        0.01
@@ -278,10 +280,12 @@ io_progress_update (IOContext *ioc, gdouble f)
 		}
 	}
 
+#ifdef GOFFICE_WITH_GTK
 	/* FIXME : abstract this into the workbook control */
 	if (ioc->exec_main_loop)
 		while (gtk_events_pending ())
 			gtk_main_iteration_do (FALSE);
+#endif
 }
 
 void

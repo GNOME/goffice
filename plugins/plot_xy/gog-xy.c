@@ -38,7 +38,6 @@
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>
-#include <gtk/gtktogglebutton.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
@@ -1154,6 +1153,9 @@ gog_xy_series_get_property (GObject *obj, guint param_id,
 	}
 }
 
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
+#include <gtk/gtktogglebutton.h>
 static void
 invalid_toggled_cb (GtkToggleButton *btn, GObject *obj)
 {
@@ -1163,8 +1165,8 @@ invalid_toggled_cb (GtkToggleButton *btn, GObject *obj)
 static void 
 gog_xy_series_populate_editor (GogObject *obj,
 			       GogEditor *editor,
-				GogDataAllocator *dalloc,
-				GOCmdContext *cc)
+			       GogDataAllocator *dalloc,
+			       GOCmdContext *cc)
 {
 	GtkWidget *w;
 	char const *dir = go_plugin_get_dir_name (
@@ -1173,7 +1175,7 @@ gog_xy_series_populate_editor (GogObject *obj,
 	GladeXML *gui = go_libglade_new (path, "gog-xy-series-prefs", GETTEXT_PACKAGE, cc);
 
 	g_free (path);
-    if (gui != NULL) {
+	if (gui != NULL) {
 		w = glade_xml_get_widget (gui, "invalid-as-zero");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 				(GOG_XY_SERIES (obj))->invalid_as_zero);
@@ -1193,6 +1195,7 @@ gog_xy_series_populate_editor (GogObject *obj,
 	w = gog_error_bar_prefs (GOG_SERIES (obj), "y-errors", FALSE, dalloc, cc);
 	gog_editor_add_page (editor, w, _("Y error bars"));
 }
+#endif
 
 static void
 gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
@@ -1227,7 +1230,9 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 	gobject_klass->set_property = gog_xy_series_set_property;
 	gobject_klass->get_property = gog_xy_series_get_property;
 	gog_klass->update		= gog_xy_series_update;
+#ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor	= gog_xy_series_populate_editor;
+#endif
 	gso_klass->init_style		= gog_xy_series_init_style;
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));

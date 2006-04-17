@@ -7,16 +7,18 @@ pie_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
 pie_la_LIBADD = $(GOFFICE_PLUGIN_LIBADD)
 
 pie_la_SOURCES = \
-	gog-pie.c		\
-	gog-pie.h		\
-	gog-pie-prefs.c
+	gog-pie.c	\
+	gog-pie.h
 
 xml_in_files = plugin.xml.in plot-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
+if WITH_GTK
 dist_glade_DATA = gog-pie-prefs.glade gog-ring-prefs.glade gog-pie-series.glade
+pie_la_SOURCES += gog-pie-prefs.c
+endif
 
 # do not use the intl-tool stuff to merge the text back
 # its simpler to just use gettext directly

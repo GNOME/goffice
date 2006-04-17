@@ -33,10 +33,14 @@
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-math.h>
-#include <goffice/gtk/goffice-gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
+
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtktogglebutton.h>
+#include <gtk/gtktable.h>
+#endif
 
 #define GOG_REG_CURVE_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_REG_CURVE_TYPE, GogRegCurveClass))
 
@@ -57,6 +61,7 @@ gog_reg_curve_init_style (GogStyledObject *gso, GogStyle *style)
 		style, GOG_OBJECT (gso), 0, FALSE);
 }
 
+#ifdef GOFFICE_WITH_GTK
 static void
 skip_invalid_toggled_cb (GtkToggleButton* btn, GObject *obj)
 {
@@ -64,10 +69,10 @@ skip_invalid_toggled_cb (GtkToggleButton* btn, GObject *obj)
 }
 
 static void
-gog_reg_curve_populate_editor (GogObject *gobj, 
-			  GogEditor *editor, 
-			  GogDataAllocator *dalloc, 
-			  GOCmdContext *cc)
+gog_reg_curve_populate_editor (GogObject	*gobj, 
+			       GogEditor	*editor, 
+			       GogDataAllocator	*dalloc, 
+			       GOCmdContext	*cc)
 {
 	GtkWidget *w;
 	GtkTable *table;
@@ -100,6 +105,7 @@ gog_reg_curve_populate_editor (GogObject *gobj,
 
 	(GOG_OBJECT_CLASS (reg_curve_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 }
+#endif
 
 static void
 gog_reg_curve_get_property (GObject *obj, guint param_id,
@@ -173,8 +179,10 @@ gog_reg_curve_class_init (GogObjectClass *gog_klass)
 
 	gobject_klass->get_property = gog_reg_curve_get_property;
 	gobject_klass->set_property = gog_reg_curve_set_property;
-	gobject_klass->finalize = gog_reg_curve_finalize;
-	gog_klass->populate_editor	= gog_reg_curve_populate_editor;
+	gobject_klass->finalize	    = gog_reg_curve_finalize;
+#ifdef GOFFICE_WITH_GTK
+	gog_klass->populate_editor  = gog_reg_curve_populate_editor;
+#endif
 	style_klass->init_style = gog_reg_curve_init_style;
 	gog_klass->type_name	= gog_reg_curve_type_name;
 	gog_klass->view_type	= gog_reg_curve_view_get_type ();
@@ -182,7 +190,9 @@ gog_reg_curve_class_init (GogObjectClass *gog_klass)
 
 	reg_curve_klass->get_value_at = NULL;
 	reg_curve_klass->get_equation = NULL;
+#ifdef GOFFICE_WITH_GTK
 	reg_curve_klass->populate_editor = NULL;
+#endif
 
 	g_object_class_install_property (gobject_klass, REG_CURVE_PROP_SKIP_INVALID,
 		g_param_spec_boolean ("skip-invalid", "skip-invalid",

@@ -24,13 +24,14 @@
 #include <goffice/graph/gog-graph-impl.h> /* for gog_graph_request_update */
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/data/go-data.h>
-#include <goffice/gtk/goffice-gtk.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 #include <stdlib.h>
 
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtknotebook.h>
@@ -38,6 +39,7 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkwidget.h>
+#endif
 
 /*****************************************************************************/
 
@@ -74,6 +76,7 @@ gog_editor_set_store_page (GogEditor *editor, unsigned *store_page)
 	editor->store_page = store_page;
 }
 
+#ifdef GOFFICE_WITH_GTK
 static void
 cb_switch_page (G_GNUC_UNUSED GtkNotebook *n, G_GNUC_UNUSED GtkNotebookPage *p,
 		guint page_num, guint *store_page)
@@ -121,6 +124,7 @@ gog_editor_get_notebook (GogEditor *editor)
 
 	return notebook;
 }
+#endif
 
 void
 gog_editor_free (GogEditor *editor)
@@ -354,6 +358,7 @@ gog_object_get_property (GObject *obj, guint param_id,
 	}
 }
 
+#ifdef GOFFICE_WITH_GTK
 typedef struct {
 	GtkWidget	*x_spin, *y_spin, *w_spin, *h_spin;
 	GtkWidget	*position_select_combo;
@@ -617,6 +622,7 @@ gog_object_populate_editor (GogObject *gobj,
 				(GDestroyNotify) object_pref_state_free);  
 	gog_editor_add_page (editor, w, _("Position"));
 }
+#endif
 
 static void
 gog_object_base_init (GogObjectClass *klass)
@@ -644,7 +650,9 @@ gog_object_class_init (GObjectClass *klass)
 	klass->get_property	= gog_object_get_property;
 
 	gog_klass->parent_changed  = gog_object_parent_changed;
+#ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor = gog_object_populate_editor;
+#endif
 
 	gog_klass->can_manual_size = FALSE;
 	gog_klass->use_parent_as_proxy = FALSE;
@@ -1303,6 +1311,7 @@ gpointer
 gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
 		       GOCmdContext *cc)
 {
+#ifdef GOFFICE_WITH_GTK
 	GtkWidget *notebook;
 	GogEditor *editor;
 	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (obj);
@@ -1322,6 +1331,9 @@ gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
 	gog_editor_free (editor);
 
 	return notebook;
+#else
+	return NULL;
+#endif
 }
 
 /**

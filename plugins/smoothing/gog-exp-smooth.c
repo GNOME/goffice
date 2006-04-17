@@ -21,15 +21,11 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-exp-smooth.h"
-#include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/data/go-data.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/utils/go-math.h>
 #include <goffice/utils/go-rangefunc.h>
-#include <gtk/gtkeventbox.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktable.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
@@ -40,6 +36,11 @@ enum {
 
 static GObjectClass *exp_smooth_parent_klass;
 
+#ifdef WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
+#include <gtk/gtkeventbox.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktable.h>
 static void
 steps_changed_cb (GtkSpinButton *button, GObject *es)
 {
@@ -85,6 +86,7 @@ gog_exp_smooth_populate_editor (GogObject *obj,
 
 	(GOG_OBJECT_CLASS (exp_smooth_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }
+#endif
 
 static void
 gog_exp_smooth_update (GogObject *obj)
@@ -227,7 +229,9 @@ gog_exp_smooth_class_init (GogSmoothedCurveClass *curve_klass)
 	gobject_klass->get_property = gog_exp_smooth_get_property;
 	gobject_klass->set_property = gog_exp_smooth_set_property;
 
+#ifdef WITH_GTK
 	gog_object_klass->populate_editor = gog_exp_smooth_populate_editor;
+#endif
 	gog_object_klass->update = gog_exp_smooth_update;
 	gog_object_klass->type_name	= gog_exp_smooth_type_name;
 

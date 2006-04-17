@@ -8,15 +8,15 @@ linreg_la_LIBADD = $(GOFFICE_PLUGIN_LIBADD)
 
 linreg_la_SOURCES =	\
 			gog-lin-reg.c	\
-		    gog-lin-reg.h	\
+			gog-lin-reg.h	\
 			gog-polynom-reg.c	\
-		    gog-polynom-reg.h	\
+			gog-polynom-reg.h	\
 			gog-log-reg.c	\
-		    gog-log-reg.h	\
+			gog-log-reg.h	\
 			gog-exp-reg.c	\
-		    gog-exp-reg.h	\
+			gog-exp-reg.h	\
 			gog-power-reg.c	\
-		    gog-power-reg.h
+			gog-power-reg.h
 
 xml_in_files = plugin.xml.in reg-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

@@ -28,13 +28,9 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-math.h>
-#include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>
-#include <glade/glade-xml.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkenums.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
@@ -44,6 +40,11 @@ static GogObjectClass *gog_box_plot_parent_klass;
 
 static GType gog_box_plot_view_get_type (void);
 
+#ifdef WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
+#include <glade/glade-xml.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtkenums.h>
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *boxplot)
 {
@@ -88,6 +89,7 @@ gog_box_plot_populate_editor (GogObject *item,
 	
 	(GOG_OBJECT_CLASS(gog_box_plot_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
+#endif
 
 enum {
 	BOX_PLOT_PROP_0,
@@ -214,7 +216,9 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 	gog_object_klass->type_name	= gog_box_plot_type_name;
 	gog_object_klass->view_type	= gog_box_plot_view_get_type ();
 	gog_object_klass->update	= gog_box_plot_update;
+#ifdef WITH_GTK
 	gog_object_klass->populate_editor = gog_box_plot_populate_editor;
+#endif
 
 	{
 		static GogSeriesDimDesc dimensions[] = {

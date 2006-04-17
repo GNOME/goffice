@@ -39,7 +39,6 @@
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>
-#include <gtk/gtklabel.h>
 #include <gsf/gsf-impl-utils.h>
 
 GOFFICE_PLUGIN_MODULE_HEADER;
@@ -540,6 +539,8 @@ gog_series1_5d_get_property (GObject *obj, guint param_id,
 	}
 }
 
+#ifdef WITH_GTK
+#include <gtk/gtklabel.h>
 static void 
 gog_series1_5d_populate_editor (GogObject *obj,
 				GogEditor *editor,
@@ -562,6 +563,7 @@ gog_series1_5d_populate_editor (GogObject *obj,
 	error_page = gog_error_bar_prefs (series, "errors", horizontal, dalloc, cc);
 	gog_editor_add_page (editor, error_page, _("Error bars"));
 }
+#endif
 
 static void
 gog_series1_5d_finalize (GObject *obj)
@@ -612,7 +614,9 @@ gog_series1_5d_class_init (GogObjectClass *obj_klass)
 	gobject_klass->get_property = gog_series1_5d_get_property;
 	gobject_klass->finalize 	      = gog_series1_5d_finalize;
 	obj_klass->update 	      = gog_series1_5d_update;
+#ifdef WITH_GTK
 	obj_klass->populate_editor    = gog_series1_5d_populate_editor;
+#endif
 	gog_series_klass->dim_changed = gog_series1_5d_dim_changed;
 
 	gog_object_register_roles (obj_klass, roles, G_N_ELEMENTS (roles));

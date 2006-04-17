@@ -8,7 +8,7 @@ logfit_la_LIBADD = $(GOFFICE_PLUGIN_LIBADD)
 
 logfit_la_SOURCES =	\
 			gog-logfit.c	\
-		    gog-logfit.h
+			gog-logfit.h
 
 xml_in_files = plugin.xml.in reg-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

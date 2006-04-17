@@ -23,15 +23,43 @@
 
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/utils/go-geometry.h>
-#include <goffice/gtk/goffice-gtk.h>
+#include <goffice/utils/go-image.h>
+#include <glib-object.h>
 
 #include <gsf/gsf.h>
-
-#include <gtk/gtkenums.h>
 #include <libart_lgpl/libart.h>
-#include <gdk/gdk.h>
 
-#ifdef WITH_CAIRO
+#if 1 /* def GOFFICE_WITH_GTK breaks without goffice-config.h included */
+#include <gtk/gtkenums.h>
+#include <goffice/gtk/goffice-gtk.h>
+#include <gdk/gdk.h>
+#else
+/* VILE HACK VILE HACK VILE HACK */
+typedef struct HACK_GdkPixbuf GdkPixbuf;
+typedef enum
+{
+  GTK_ANCHOR_CENTER,
+  GTK_ANCHOR_NORTH,
+  GTK_ANCHOR_NORTH_WEST,
+  GTK_ANCHOR_NORTH_EAST,
+  GTK_ANCHOR_SOUTH,
+  GTK_ANCHOR_SOUTH_WEST,
+  GTK_ANCHOR_SOUTH_EAST,
+  GTK_ANCHOR_WEST,
+  GTK_ANCHOR_EAST,
+  GTK_ANCHOR_N		= GTK_ANCHOR_NORTH,
+  GTK_ANCHOR_NW		= GTK_ANCHOR_NORTH_WEST,
+  GTK_ANCHOR_NE		= GTK_ANCHOR_NORTH_EAST,
+  GTK_ANCHOR_S		= GTK_ANCHOR_SOUTH,
+  GTK_ANCHOR_SW		= GTK_ANCHOR_SOUTH_WEST,
+  GTK_ANCHOR_SE		= GTK_ANCHOR_SOUTH_EAST,
+  GTK_ANCHOR_W		= GTK_ANCHOR_WEST,
+  GTK_ANCHOR_E		= GTK_ANCHOR_EAST
+} GtkAnchorType;
+/* VILE HACK VILE HACK VILE HACK */
+#endif
+
+#ifdef GOFFICE_WITH_CAIRO
 #include <cairo.h>
 #ifdef CAIRO_HAS_SVG_SURFACE
 #define GOG_RENDERER_CAIRO_WITH_SVG

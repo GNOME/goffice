@@ -28,6 +28,7 @@
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-marker.h>
 
+#ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/go-color-palette.h>
 #include <goffice/gtk/go-combo-color.h>
 #include <goffice/gtk/go-combo-pixmaps.h>
@@ -46,6 +47,7 @@
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtknotebook.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
+#endif
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -69,6 +71,7 @@ static GObjectClass *parent_klass;
 
 /*************************************************************************/
 
+#ifdef GOFFICE_WITH_GTK
 typedef struct {
 	GladeXML  	*gui;
 	GladeXML  	*font_gui;
@@ -1053,6 +1056,7 @@ gog_style_get_editor (GogStyle *style,
 	gtk_widget_show (notebook);
 	return notebook;
 }
+#endif
 
 /*****************************************************************************/
 

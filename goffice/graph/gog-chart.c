@@ -30,7 +30,6 @@
 #include <goffice/graph/gog-grid.h>
 #include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/gtk/goffice-gtk.h>
 #include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -38,8 +37,11 @@
 #include <string.h>
 #include <math.h>
 
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
+#endif
 
 static const struct {
 	char const *name;

@@ -25,11 +25,9 @@
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/gtk/goffice-gtk.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/app/go-plugin.h>
 
-#include <gtk/gtkspinbutton.h>
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
@@ -158,6 +156,9 @@ gog_minmax_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	return data;
 }
 
+#ifdef WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
+#include <gtk/gtkspinbutton.h>
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *minmax)
 {
@@ -194,6 +195,7 @@ gog_minmax_plot_populate_editor (GogObject *item,
 	gog_editor_add_page (editor, w, _("Properties"));
 	(GOG_OBJECT_CLASS(gog_minmax_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
+#endif
 
 static gboolean
 gog_minmax_swap_x_and_y (GogPlot1_5d *model)
@@ -228,7 +230,9 @@ gog_minmax_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 
 	gog_object_klass->type_name	= gog_minmax_plot_type_name;
 	gog_object_klass->view_type	= gog_minmax_view_get_type ();
+#ifdef WITH_GTK
 	gog_object_klass->populate_editor	= gog_minmax_plot_populate_editor;
+#endif
 
 	{
 		static GogSeriesDimDesc dimensions[] = {

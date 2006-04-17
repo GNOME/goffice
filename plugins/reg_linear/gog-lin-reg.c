@@ -30,10 +30,6 @@
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/utils/go-math.h>
 #include <glib/gi18n-lib.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtktooltips.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -48,12 +44,6 @@ enum {
 	REG_LIN_REG_CURVE_PROP_AFFINE,
 	REG_LIN_REG_CURVE_PROP_DIMS,
 };
-
-static void
-affine_toggled_cb (GtkToggleButton *btn, GObject *obj)
-{
-	g_object_set (obj, "affine", gtk_toggle_button_get_active (btn), NULL);
-}
 
 static void
 gog_lin_reg_curve_update (GogObject *obj)
@@ -149,8 +139,19 @@ gog_lin_reg_curve_build_values (GogLinRegCurve *rc, double const *x_vals, double
 	return used;
 }
 
+#ifdef GOFFICE_WITH_GTK
+#include <gtk/gtktable.h>
+#include <gtk/gtkcheckbutton.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtktooltips.h>
 static void
-gog_lin_reg_curve_populate_editor (GogRegCurve *reg_curve, GtkTable *table)
+affine_toggled_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "affine", gtk_toggle_button_get_active (btn), NULL);
+}
+
+static void
+gog_lin_reg_curve_populate_editor (GogRegCurve *reg_curve, gpointer table)
 {
 	int rows, columns;
 	GtkWidget *w;
@@ -167,6 +168,7 @@ gog_lin_reg_curve_populate_editor (GogRegCurve *reg_curve, GtkTable *table)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), lin->affine);
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (affine_toggled_cb), lin);
 }
+#endif
 
 static char const *
 gog_lin_reg_curve_type_name (G_GNUC_UNUSED GogObject const *item)
@@ -259,7 +261,9 @@ gog_lin_reg_curve_class_init (GogRegCurveClass *reg_curve_klass)
 
 	reg_curve_klass->get_value_at = gog_lin_reg_curve_get_value_at;
 	reg_curve_klass->get_equation = gog_lin_reg_curve_get_equation;
+#ifdef GOFFICE_WITH_GTK
 	reg_curve_klass->populate_editor = gog_lin_reg_curve_populate_editor;
+#endif
 
 	lin_klass->lin_reg_func = go_linear_regression;
 	lin_klass->build_values = gog_lin_reg_curve_build_values;

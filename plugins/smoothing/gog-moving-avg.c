@@ -21,12 +21,9 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-moving-avg.h"
-#include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/utils/go-math.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktogglebutton.h>
 #include <glib/gi18n-lib.h>
 
 enum {
@@ -36,18 +33,6 @@ enum {
 };
 
 static GObjectClass *moving_avg_parent_klass;
-
-static void
-span_changed_cb (GtkSpinButton *button, GObject *ma)
-{
-	g_object_set (ma, "span", gtk_spin_button_get_value_as_int (button), NULL);
-}
-
-static void
-xavg_toggled_cb (GtkToggleButton *button, GObject *ma)
-{
-	g_object_set (ma, "xavg", gtk_toggle_button_get_active (button), NULL);
-}
 
 static void
 gog_moving_avg_get_property (GObject *obj, guint param_id,
@@ -87,6 +72,22 @@ gog_moving_avg_set_property (GObject *obj, guint param_id,
 	}
 }
 
+#ifdef WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktogglebutton.h>
+static void
+span_changed_cb (GtkSpinButton *button, GObject *ma)
+{
+	g_object_set (ma, "span", gtk_spin_button_get_value_as_int (button), NULL);
+}
+
+static void
+xavg_toggled_cb (GtkToggleButton *button, GObject *ma)
+{
+	g_object_set (ma, "xavg", gtk_toggle_button_get_active (button), NULL);
+}
+
 static void
 gog_moving_avg_populate_editor (GogObject *obj, 
 				GogEditor *editor,
@@ -117,6 +118,7 @@ gog_moving_avg_populate_editor (GogObject *obj,
 
 	(GOG_OBJECT_CLASS (moving_avg_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }
+#endif
 
 static void
 gog_moving_avg_update (GogObject *obj)
@@ -187,7 +189,9 @@ gog_moving_avg_class_init (GogSmoothedCurveClass *curve_klass)
 
 	gobject_klass->get_property = gog_moving_avg_get_property;
 	gobject_klass->set_property = gog_moving_avg_set_property;
+#ifdef WITH_GTK
 	gog_object_klass->populate_editor = gog_moving_avg_populate_editor;
+#endif
 	gog_object_klass->update = gog_moving_avg_update;
 	gog_object_klass->type_name	= gog_moving_avg_type_name;
 

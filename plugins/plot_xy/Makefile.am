@@ -7,18 +7,20 @@ xy_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
 xy_la_LIBADD = $(GOFFICE_PLUGIN_LIBADD)
 
 xy_la_SOURCES = \
-	gog-xy.c		\
-	gog-xy.h		\
-	gog-bubble-prefs.c
+	gog-xy.c	\
+	gog-xy.h
 
 xml_in_files = plugin.xml.in plot-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
-dist_glade_DATA =	\
+if WITH_GTK
+xy_la_SOURCES  += gog-bubble-prefs.c
+dist_glade_DATA = \
 	gog-bubble-prefs.glade	\
 	gog-xy-series-prefs.glade
+endif
 
 # do not use the intl-tool stuff to merge the text back
 # its simpler to just use gettext directly

@@ -31,11 +31,7 @@ libgoffice_graph_la_SOURCES = \
 	gog-data-allocator.c		\
 	gog-data-set.c			\
 	\
-	gog-guru.c			\
 	gog-renderer.c			\
-	gog-control-foocanvas.c		\
-	gog-renderer-gnome-print.c	\
-	gog-renderer-pixbuf.c		\
 	gog-renderer-svg.c
 
 libgoffice_graph_ladir = $(goffice_include_dir)/graph
@@ -71,13 +67,20 @@ libgoffice_graph_la_HEADERS = \
 	gog-series-lines.h		\
 	gog-data-allocator.h		\
 	gog-data-set.h			\
-	gog-guru.h			\
 	gog-renderer.h			\
 	gog-renderer-impl.h		\
-	gog-control-foocanvas.h		\
-	gog-renderer-gnome-print.h	\
-	gog-renderer-pixbuf.h		\
 	gog-renderer-svg.h
+
+if WITH_GTK
+  libgoffice_graph_la_SOURCES += gog-control-foocanvas.c	\
+				 gog-renderer-gnome-print.c	\
+				 gog-renderer-pixbuf.c		\
+				 gog-guru.c
+  libgoffice_graph_la_HEADERS += gog-control-foocanvas.h	\
+				 gog-renderer-gnome-print.h	\
+				 gog-renderer-pixbuf.h		\
+				 gog-guru.h
+endif
 
 if WITH_CAIRO
   libgoffice_graph_la_SOURCES += gog-renderer-cairo.c	

@@ -23,7 +23,7 @@
 #include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-chart-impl.h>
 #include <goffice/graph/gog-renderer.h>
-#ifdef WITH_CAIRO
+#ifdef GOFFICE_WITH_CAIRO
 #include <goffice/graph/gog-renderer-cairo.h>
 #endif
 #include <goffice/graph/gog-style.h>
@@ -32,8 +32,6 @@
 #include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-impl-utils.h>
-
-#include <gdk/gdkcursor.h>
 
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -591,7 +589,9 @@ struct _GogGraphView {
 	GogToolAction		*action;
 	GogObject		*selected_object;
 	GogView			*selected_view;
+#ifdef GOFFICE_WITH_GTK
 	GdkCursorType		 cursor_type;
+#endif
 };
 
 typedef struct {
@@ -722,13 +722,16 @@ gog_graph_view_init (GogGraphView *view)
 	view->action = NULL;
 	view->selected_object = NULL;
 	view->selected_view = NULL;
+#ifdef GOFFICE_WITH_GTK
 	view->cursor_type = GDK_LEFT_PTR;
+#endif
 }
 
 GSF_CLASS (GogGraphView, gog_graph_view,
 	   gog_graph_view_class_init, gog_graph_view_init,
 	   GOG_OUTLINED_VIEW_TYPE)
 
+#ifdef GOFFICE_WITH_GTK
 static void
 update_cursor (GogGraphView *view, GogTool *tool, GdkWindow *window)
 {
@@ -744,6 +747,7 @@ update_cursor (GogGraphView *view, GogTool *tool, GdkWindow *window)
 		gdk_cursor_unref (cursor);
 	}
 }
+#endif
 
 static void
 update_action (GogGraphView *view, GogTool *tool, double x, double y)
@@ -756,6 +760,9 @@ update_action (GogGraphView *view, GogTool *tool, double x, double y)
 	if (tool != NULL)
 		view->action = gog_tool_action_new (view->selected_view, tool, x, y);
 }
+
+#ifdef GOFFICE_WITH_GTK
+#include <gdk/gdkcursor.h>
 
 /**
  * gog_graph_view_handle_event:
@@ -826,6 +833,7 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 			break;
 	}
 }
+#endif
 
 /**
  * gog_graph_view_get_selection :

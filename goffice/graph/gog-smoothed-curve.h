@@ -25,7 +25,6 @@
 #include <goffice/graph/gog-trend-line.h>
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-data-set.h>
-#include <gtk/gtktable.h>
 
 G_BEGIN_DECLS
 

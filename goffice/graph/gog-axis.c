@@ -36,13 +36,14 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-math.h>
-#include <goffice/gtk/goffice-gtk.h>
-#include <goffice/gtk/go-format-sel.h>
 #include <goffice/data/go-data-simple.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
+#include <goffice/gtk/go-format-sel.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkcelllayout.h>
 #include <gtk/gtkcheckbutton.h>
@@ -53,6 +54,7 @@
 #include <gtk/gtknotebook.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtktogglebutton.h>
+#endif
 
 #include <string.h>
 
@@ -721,6 +723,7 @@ static const GogAxisMapDesc map_descs[] =
 	}
 };
 
+#ifdef GOFFICE_WITH_GTK
 static void
 gog_axis_map_set_by_num (GogAxis *axis, unsigned num)
 {
@@ -746,6 +749,7 @@ gog_axis_map_populate_combo (GogAxis *axis, GtkComboBox *combo)
 			gtk_combo_box_set_active (combo, i);
 	}
 }
+#endif
 
 static void
 gog_axis_map_set (GogAxis *axis, char const *name) 
@@ -1363,6 +1367,7 @@ gog_axis_update (GogObject *obj)
 		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
 }
 
+#ifdef GOFFICE_WITH_GTK
 static void
 cb_axis_toggle_changed (GtkToggleButton *toggle_button, GObject *axis)
 {
@@ -1559,7 +1564,7 @@ gog_axis_populate_editor (GogObject *gobj,
 
 	/* Format page */
 	if (!axis->is_discrete && gog_axis_get_atype (axis) != GOG_AXIS_PSEUDO_3D) {
-#ifdef WITH_CAIRO
+#ifdef GOFFICE_WITH_CAIRO
 		w = go_format_sel_new_full (TRUE);
 #else
 		w = go_format_sel_new_full (FALSE);
@@ -1584,6 +1589,7 @@ gog_axis_populate_editor (GogObject *gobj,
 
 	gog_editor_set_store_page (editor, &axis_pref_page);
 }
+#endif
 
 static void
 gog_axis_init_style (GogStyledObject *gso, GogStyle *style)
@@ -1644,7 +1650,9 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 	gog_klass->update	= gog_axis_update;
+#ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor	= gog_axis_populate_editor;
+#endif
 	gog_klass->view_type	= gog_axis_view_get_type ();
 	style_klass->init_style = gog_axis_init_style;
 }

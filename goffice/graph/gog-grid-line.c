@@ -34,8 +34,9 @@
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-math.h>
 
+#ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
-
+#endif
 
 #include <glib/gi18n-lib.h>
 

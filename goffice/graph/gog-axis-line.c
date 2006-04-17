@@ -28,19 +28,20 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
-
-#include <goffice/gtk/goffice-gtk.h>
-
 #include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
 
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
+#include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkcelllayout.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtkliststore.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
+#endif
 
 #include <glib/gi18n-lib.h>
 
@@ -334,6 +335,7 @@ gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position)
 	axis_base->position = position;
 }
 
+#ifdef GOFFICE_WITH_GTK
 typedef struct {
 	GogAxisBase 	*axis_base;
 	GladeXML 	*gui;
@@ -552,6 +554,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 
 	(GOG_OBJECT_CLASS(gab_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 }
+#endif
 
 static void
 gog_axis_base_init_style (GogStyledObject *gso, GogStyle *style)
@@ -612,7 +615,9 @@ gog_axis_base_class_init (GObjectClass *gobject_klass)
 			"Which axis to cross",
 			0, G_MAXUINT, 0, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
+#ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor	= gog_axis_base_populate_editor;
+#endif
 	gog_klass->view_type		= gog_axis_base_view_get_type ();
 	gso_klass->init_style 		= gog_axis_base_init_style;
 }
@@ -672,6 +677,8 @@ gog_tool_bound_is_valid_axis (GogView *view)
 		type == GOG_AXIS_Y);
 
 }
+
+#ifdef GOFFICE_WITH_GTK
 
 static gboolean
 gog_tool_select_axis_point (GogView *view, double x, double y, GogObject **gobj)
@@ -817,6 +824,7 @@ static GogTool gog_axis_tool_stop_bound = {
 	NULL /* double-click */,
 	gog_tool_move_bound_destroy
 };
+#endif
 
 /************************************************************************/
 
@@ -1645,9 +1653,11 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 static void
 gog_axis_base_build_toolkit (GogView *view)
 {
+#ifdef GOFFICE_WITH_GTK
 	view->toolkit = g_slist_prepend (view->toolkit, &gog_axis_tool_select_axis);
 	view->toolkit = g_slist_prepend (view->toolkit, &gog_axis_tool_start_bound);
 	view->toolkit = g_slist_prepend (view->toolkit, &gog_axis_tool_stop_bound);
+#endif
 }
 
 static void

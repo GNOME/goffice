@@ -28,7 +28,7 @@
 #include <glib-object.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#ifndef WITH_CAIRO
+#ifndef GOFFICE_WITH_CAIRO
 #error Cairo support not enabled
 #endif
 

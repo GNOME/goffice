@@ -24,7 +24,7 @@
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/data/goffice-data.h>
-#include <goffice/gtk/goffice-gtk.h>
+#include <goffice/utils/go-image.h>
 
 #include <gsf/gsf.h>
 
@@ -63,8 +63,6 @@ void      gog_graph_set_size      (GogGraph *graph, double width, double height)
 
 GType gog_graph_view_get_type (void);
 
-void  	 gog_graph_view_handle_event 	(GogGraphView *gview, GdkEvent *event, double x_offset, double y_offset);
-
 GogView *gog_graph_view_get_selection 	(GogGraphView *gview);
 void 	 gog_graph_view_set_selection   (GogGraphView *gview, GogObject *gobj);
 
@@ -72,7 +70,12 @@ void 	 gog_graph_view_set_selection   (GogGraphView *gview, GogObject *gobj);
 GSList 	 *gog_graph_get_supported_image_formats	(void);
 gboolean  gog_graph_export_image 		(GogGraph *graph, GOImageFormat format, 
 						 GsfOutput *output, double x_dpi, double y_dpi);
-	
+
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
+void  	 gog_graph_view_handle_event 	(GogGraphView *gview, GdkEvent *event, double x_offset, double y_offset);
+#endif
+
 G_END_DECLS
 
 #endif /* GOG_GRAPH_H */

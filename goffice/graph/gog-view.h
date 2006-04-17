@@ -22,7 +22,6 @@
 #define GOG_VIEW_H
 
 #include <goffice/graph/goffice-graph.h>
-#include <gdk/gdk.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
@@ -34,7 +33,8 @@ typedef struct _GogToolAction GogToolAction;
 typedef struct {
 	char const 	*name;
 
-	GdkCursorType	 cursor_type;
+	/* GdkCursorType	 cursor_type; Not compatible with --without-gtk */
+	int	 	cursor_type;
 	
 	gboolean 	(*point) 	(GogView *view, double x, double y, GogObject **object);
 	void 		(*render)	(GogView *view);

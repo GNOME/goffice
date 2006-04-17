@@ -34,6 +34,7 @@
 #include <goffice/utils/go-math.h>
 #include <glib/gi18n-lib.h>
 
+#ifdef GOFFICE_WITH_GTK
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkcelllayout.h>
 #include <gtk/gtkcombobox.h>
@@ -42,6 +43,7 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtktable.h>
+#endif
 
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
@@ -143,6 +145,7 @@ role_series_pre_remove (GogObject *parent, GogObject *series)
 	gog_plot_request_cardinality_update (plot);
 }
 
+#ifdef GOFFICE_WITH_GTK
 typedef struct {
 	GladeXML	*gui;
 	GtkWidget	*x_spin, *y_spin, *w_spin, *h_spin;
@@ -407,6 +410,7 @@ gog_plot_populate_editor (GogObject *obj,
 
 	(GOG_OBJECT_CLASS(plot_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }
+#endif
 
 static void
 gog_plot_set_property (GObject *obj, guint param_id,
@@ -509,7 +513,9 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 	gobject_klass->finalize		= gog_plot_finalize;
 	gobject_klass->set_property	= gog_plot_set_property;
 	gobject_klass->get_property	= gog_plot_get_property;
+#ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor	= gog_plot_populate_editor;
+#endif
 	plot_klass->axis_set 		= GOG_AXIS_SET_NONE;
 	plot_klass->guru_helper		= NULL;
 
@@ -987,6 +993,7 @@ gog_plot_guru_helper (GogPlot *plot)
 
 /*****************************************************************************/
 
+#ifdef GOFFICE_WITH_GTK
 typedef struct {
 	GogViewAllocation	 start_position;
 	GogViewAllocation	 chart_allocation;
@@ -1122,6 +1129,7 @@ static GogTool gog_tool_resize_plot_area = {
 	NULL /* double-click */,
 	NULL /*destroy*/
 };
+#endif
 
 /*****************************************************************************/
 
@@ -1130,8 +1138,10 @@ static GogViewClass *pview_parent_klass;
 static void
 gog_plot_view_build_toolkit (GogView *view)
 {
+#ifdef GOFFICE_WITH_GTK
 	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_move_plot_area);
 	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_resize_plot_area);
+#endif
 }
 
 static void

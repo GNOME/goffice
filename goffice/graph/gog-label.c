@@ -32,17 +32,19 @@
 #include <goffice/graph/gog-reg-curve.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/data/go-data.h>
-#include <goffice/gtk/goffice-gtk.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtkalignment.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
+#endif
 
 static GType gog_text_view_get_type (void);
 
@@ -182,6 +184,7 @@ typedef GogTextClass GogLabelClass;
 
 static GObjectClass *label_parent_klass;
 
+#ifdef GOFFICE_WITH_GTK
 static void
 gog_label_populate_editor (GogObject *gobj, 
 			   GogEditor *editor, 
@@ -206,6 +209,7 @@ gog_label_populate_editor (GogObject *gobj,
 	(GOG_OBJECT_CLASS(label_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 	gog_editor_set_store_page (editor, &label_pref_page);
 }
+#endif
 
 static char *
 gog_label_get_str (GogText *text)
@@ -231,12 +235,14 @@ static void
 gog_label_class_init (GogLabelClass *klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) klass;
-	GogObjectClass *gog_klass = (GogObjectClass *) klass;
 	GogTextClass *got_klass = (GogTextClass *) klass; 
+#ifdef GOFFICE_WITH_GTK
+	GogObjectClass *gog_klass = (GogObjectClass *) klass;
+	gog_klass->populate_editor = gog_label_populate_editor;
+#endif
 
 	label_parent_klass = g_type_class_peek_parent (klass);
 	gobject_klass->finalize	   = gog_label_finalize;
-	gog_klass->populate_editor = gog_label_populate_editor;
 	got_klass->get_str	   = gog_label_get_str;
 }
 
@@ -290,14 +296,6 @@ typedef GogTextClass GogRegEqnClass;
 static GObjectClass *reg_eqn_parent_klass;
 
 static void
-cb_text_visibility_changed (GtkToggleButton *button, GogObject *gobj)
-{
-	char const* property = (char const*) g_object_get_data (G_OBJECT (button), "prop");
-	g_object_set (G_OBJECT (gobj), property, gtk_toggle_button_get_active (button), NULL);
-	gog_object_emit_changed (gobj, TRUE);
-}
-
-static void
 gog_reg_eqn_set_property (GObject *obj, guint param_id,
 			GValue const *value, GParamSpec *pspec)
 {
@@ -335,6 +333,15 @@ gog_reg_eqn_get_property (GObject *obj, guint param_id,
 	}
 }
 
+#ifdef GOFFICE_WITH_GTK
+static void
+cb_text_visibility_changed (GtkToggleButton *button, GogObject *gobj)
+{
+	char const* property = (char const*) g_object_get_data (G_OBJECT (button), "prop");
+	g_object_set (G_OBJECT (gobj), property, gtk_toggle_button_get_active (button), NULL);
+	gog_object_emit_changed (gobj, TRUE);
+}
+
 static void
 gog_reg_eqn_populate_editor (GogObject *gobj, 
 			     GogEditor *editor, 
@@ -365,6 +372,7 @@ gog_reg_eqn_populate_editor (GogObject *gobj,
 
 	(GOG_OBJECT_CLASS(reg_eqn_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 }
+#endif
 
 static char const *
 gog_reg_eqn_type_name (GogObject const *gobj)
@@ -400,7 +408,9 @@ gog_reg_eqn_class_init (GogObjectClass *gog_klass)
 
 	gobject_klass->set_property	= gog_reg_eqn_set_property;
 	gobject_klass->get_property	= gog_reg_eqn_get_property;
+#ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor	= gog_reg_eqn_populate_editor;
+#endif
 	gog_klass->type_name		= gog_reg_eqn_type_name;
 	got_klass->get_str	   	= gog_reg_eqn_get_str;
 

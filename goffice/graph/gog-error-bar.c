@@ -29,17 +29,9 @@
 #include "gog-renderer.h"
 #include <goffice/data/go-data-impl.h>
 #include <goffice/data/go-data.h>
-#include <goffice/gtk/go-color-palette.h>
-#include <goffice/gtk/go-combo-color.h>
-#include <goffice/gtk/go-combo-pixmaps.h>
-#include <goffice/gtk/goffice-gtk.h>
 #include <goffice/utils/go-math.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtklabel.h>
-#include <glade/glade-xml.h>
+
 #include <glib/gi18n-lib.h>
 
 #include <string.h>
@@ -50,6 +42,15 @@ typedef GObjectClass GogErrorBarClass;
 static GObjectClass *error_bar_parent_klass;
 
 #ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/go-color-palette.h>
+#include <goffice/gtk/go-combo-color.h>
+#include <goffice/gtk/go-combo-pixmaps.h>
+#include <goffice/gtk/goffice-gtk.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtkcombobox.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtklabel.h>
+#include <glade/glade-xml.h>
 typedef struct {
 	GogSeries 	   *series;
 	GogErrorBar 	   *bar;

@@ -34,6 +34,7 @@
 
 /*****************************************************************************/
 
+#ifdef GOFFICE_WITH_GTK
 static gboolean
 gog_tool_select_object_point (GogView *view, double x, double y, GogObject **gobj)
 {
@@ -194,6 +195,7 @@ static GogTool gog_tool_resize_object = {
 	NULL /* double-click */,
 	NULL /* destroy */
 };
+#endif
 
 /*****************************************************************************/
 
@@ -565,9 +567,11 @@ gog_view_render_real (GogView *view, GogViewAllocation const *bbox)
 static void
 gog_view_build_toolkit (GogView *view)
 {
+#ifdef GOFFICE_WITH_GTK
 	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_select_object);
 	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_move_object);
 	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_resize_object);
+#endif
 }
 
 static void

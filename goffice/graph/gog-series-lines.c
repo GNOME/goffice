@@ -32,22 +32,18 @@
 #include <string.h>
 
 typedef GogStyledObjectClass GogSeriesLinesClass;
-typedef struct _GogSeriesLines {
+struct _GogSeriesLines {
 	GogStyledObject base;
-	gboolean use_markers;
+
+	gboolean	use_markers;
 };
 
 static void
 gog_series_lines_init_style (GogStyledObject *gso, GogStyle *style)
 {
-	GogStyle *parent_style = gog_styled_object_get_style (
-			GOG_STYLED_OBJECT (gog_object_get_parent (GOG_OBJECT (gso))));
-	GogPlot *plot  = GOG_PLOT (GOG_SERIES (
-						gog_object_get_parent (GOG_OBJECT (gso)))->plot);
-	char const *plot_name = G_OBJECT_TYPE_NAME (plot);
-	style->interesting_fields = (GOG_SERIES_LINES (gso)->use_markers)?
-			GOG_STYLE_LINE | GOG_STYLE_MARKER:
-			GOG_STYLE_LINE;
+	style->interesting_fields = (GOG_SERIES_LINES (gso)->use_markers)
+		? GOG_STYLE_LINE | GOG_STYLE_MARKER
+		: GOG_STYLE_LINE;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, FALSE);
 }

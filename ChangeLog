@@ -1,3 +1,10 @@
+2006-04-16  Jody Goldberg <jody@gnome.org>
+
+	* *.[ch] : Clear the easy bit for --without-gtk
+	  Leaving us with a library that lack GdkPixbuf and needs a
+	  replacement for GtkAnchorType.  Still not exactly turn-key but it
+	  makes the primary elements clear.
+
 2006-04-10  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-axis.c (map_log_baseline): inverted or not,

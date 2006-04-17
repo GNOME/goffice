@@ -1,5 +1,8 @@
 goffice 0.3.0:
 
+NOTE : This is a _development_ release.  It is not intended as a production
+    release.  The api will change.
+
 Ivan Wong :
 	* [Win32] Only export symbols which are in the public headers.
 	  [#307356]
@@ -13,6 +16,9 @@ Jean Brefort:
 	* Add moving average trend curves.
 	* Fix use of invalid data in scatter plots. [#334697]
 
+Jody:
+	* Some cleanup towards supporting --without-gtk.
+	*
 Morten:
 	* Fix translation problems causing crashes in the character set
 	  selector for people not using UTF-8.

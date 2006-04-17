@@ -23,7 +23,7 @@
 
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-object-xml.h>
-#include <goffice/graph/gog-renderer-pixbuf.h>
+#include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/utils/goffice-utils.h>
 #include <goffice/app/goffice-app.h>
@@ -102,9 +102,9 @@ struct _GogStyle {
 			float   brightness; /* < 0 => 2 color */
 		} gradient;
 		struct {
-			GogImageType type;
-			GdkPixbuf *image;
-			char      *filename;
+			GogImageType	 type;
+			gpointer	 image;
+			char		*filename;
 		} image;
 	} fill;
 	GogStyleMark marker;

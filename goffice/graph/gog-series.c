@@ -27,10 +27,12 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-error-bar.h>
 #include <goffice/data/go-data.h>
-#include <goffice/gtk/goffice-gtk.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
+
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkhseparator.h>
@@ -39,6 +41,7 @@
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkcheckbutton.h>
+#endif
 
 #include <string.h>
 
@@ -104,6 +107,7 @@ gog_series_element_get_property (GObject *obj, guint param_id,
 	}
 }
 
+#ifdef GOFFICE_WITH_GTK
 static void
 cb_index_changed (GtkSpinButton *spin_button, GogSeriesElement *element)
 {
@@ -162,6 +166,7 @@ gog_series_element_populate_editor (GogObject *gobj,
 
 	gog_editor_set_store_page (editor, &series_element_pref_page);
 }
+#endif
 
 static void
 gog_series_element_init_style (GogStyledObject *gso, GogStyle *style)
@@ -188,7 +193,9 @@ gog_series_element_class_init (GogSeriesElementClass *klass)
 	gobject_klass->set_property = gog_series_element_set_property;
 	gobject_klass->get_property = gog_series_element_get_property;
 
+#ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor 	= gog_series_element_populate_editor;
+#endif
 	style_klass->init_style	    	= gog_series_element_init_style;
 
 	gog_klass->use_parent_as_proxy  = TRUE;
@@ -330,6 +337,7 @@ gog_series_get_property (GObject *obj, guint param_id,
 	}
 }
 
+#ifdef GOFFICE_WITH_GTK
 static unsigned
 make_dim_editor (GtkTable *table, unsigned row, GtkWidget *editor,
 		 char const *name, GogSeriesPriority priority, gboolean is_shared)
@@ -440,6 +448,7 @@ gog_series_populate_editor (GogObject *gobj,
 
 	gog_editor_set_store_page (editor, &series_pref_page);
 }
+#endif
 
 static void
 gog_series_update (GogObject *obj)
@@ -494,7 +503,9 @@ gog_series_class_init (GogSeriesClass *klass)
 	gobject_klass->set_property	= gog_series_set_property;
 	gobject_klass->get_property	= gog_series_get_property;
 
+#ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor	= gog_series_populate_editor;
+#endif
 	gog_klass->update		= gog_series_update;
 	style_klass->init_style 	= gog_series_init_style;
 	/* series do not have views, so just forward signals from the plot */

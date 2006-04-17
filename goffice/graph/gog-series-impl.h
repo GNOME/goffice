@@ -28,7 +28,6 @@
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-style.h>
 #include <glib-object.h>
-#include <gtk/gtknotebook.h>
 
 G_BEGIN_DECLS
 

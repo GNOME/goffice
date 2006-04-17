@@ -25,9 +25,6 @@
 #include <goffice/utils/go-math.h>
 #include <goffice/utils/go-regression.h>
 #include <glib/gi18n-lib.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkspinbutton.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -36,11 +33,6 @@ static int minus_utf8_len;
 static char minus_utf8[6];
 
 static GogObjectClass *gog_polynom_reg_curve_parent_klass;
-
-static void order_changed_cb (GtkSpinButton *btn, GObject *obj)
-{
-	g_object_set (obj, "dims", gtk_spin_button_get_value_as_int (btn), NULL);
-}
 
 static int
 gog_polynom_reg_curve_build_values (GogLinRegCurve *rc, double const *x_vals,
@@ -192,8 +184,18 @@ gog_polynom_reg_curve_get_equation (GogRegCurve *curve)
 	return curve->equation;
 }
 
+#ifdef GOFFICE_WITH_GTK
+#include <gtk/gtklabel.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtkspinbutton.h>
 static void
-gog_polynom_reg_curve_populate_editor (GogRegCurve *reg_curve, GtkTable *table)
+order_changed_cb (GtkSpinButton *btn, GObject *obj)
+{
+	g_object_set (obj, "dims", gtk_spin_button_get_value_as_int (btn), NULL);
+}
+
+static void
+gog_polynom_reg_curve_populate_editor (GogRegCurve *reg_curve, gpointer table)
 {
 	int rows, columns;
 	GtkWidget *w;
@@ -213,6 +215,7 @@ gog_polynom_reg_curve_populate_editor (GogRegCurve *reg_curve, GtkTable *table)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), lin->dims);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (order_changed_cb), lin);
 }
+#endif
 
 static char const *
 gog_polynom_reg_curve_type_name (G_GNUC_UNUSED GogObject const *item)
@@ -235,7 +238,9 @@ gog_polynom_reg_curve_class_init (GogRegCurveClass *reg_curve_klass)
 
 	reg_curve_klass->get_value_at = gog_polynom_reg_curve_get_value_at;
 	reg_curve_klass->get_equation = gog_polynom_reg_curve_get_equation;
+#ifdef GOFFICE_WITH_GTK
 	reg_curve_klass->populate_editor = gog_polynom_reg_curve_populate_editor;
+#endif
 
 	gog_object_klass->type_name	= gog_polynom_reg_curve_type_name;
 

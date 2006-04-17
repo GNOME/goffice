@@ -17,7 +17,9 @@
 #include <goffice/drawing/god-property-table.h>
 #include <goffice/drawing/god-anchor.h>
 #include <goffice/drawing/god-text-model.h>
+#ifdef GOFFICE_WITH_GTK
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#endif
 
 G_BEGIN_DECLS
 
@@ -41,7 +43,9 @@ typedef struct {
 GType      god_image_get_type        (void);
 GodImage  *god_image_new             (void);
 
+#ifdef GOFFICE_WITH_GTK
 GdkPixbuf *god_image_get_pixbuf      (GodImage     *image);
+#endif
 /* Instead of setting the pixbuf, you set the image data.  */
 void       god_image_set_image_data  (GodImage     *image,
 				      const char   *format,
