@@ -916,7 +916,8 @@ SUFFIX(go_render_number) (GString *result,
 
 /* TODO: this function currently does not take into account:
  * 	- left_req > 1
- * 	- right_optional value. It always uses g format. */
+ * 	- mixed right_optional and right_req. It always uses g format
+ * 	  for right_optional > 0 */
 
 static void
 SUFFIX(go_render_number_scientific) (GString *result, 
@@ -925,15 +926,18 @@ SUFFIX(go_render_number_scientific) (GString *result,
 {
 	char const *mantissa_sign = "";
 	char const *exponent_sign = "";
+	DOUBLE mantissa;
+	DOUBLE epsilon;
 	int exponent;
 	int exponent_digit_nbr = info->exponent_digit_nbr;
 	int exponent_step = info->left_req + info->left_optional;
-	int precision = info->right_req;
+	int precision = info->right_req + info->right_optional;
+	int format_precision;
 	int i;
 	gboolean show_exponent_sign = info->exponent_show_sign;
 	gboolean lower_e = info->exponent_lower_e;
 	gboolean use_markup = info->use_markup;
-	gboolean use_g_format = FALSE;
+	gboolean use_g_format = info->right_optional > 0;
 	gboolean is_zero = FALSE;
 
 	if (exponent_step < 1)
@@ -943,6 +947,11 @@ SUFFIX(go_render_number_scientific) (GString *result,
 		mantissa_sign = "-";
 		value = -value;
 	}
+
+	if (precision < 0)
+		precision = 0;
+
+	epsilon = SUFFIX(pow) (10, -precision) / 2.0; 
 
 	if (SUFFIX(go_sub_epsilon) (value) <= 0) {
 		exponent = 0;
@@ -955,29 +964,38 @@ SUFFIX(go_render_number_scientific) (GString *result,
 			exponent = (exponent + 1 - exponent_step) / exponent_step * exponent_step;
 	}
 
-	/* Use g format for mantissa as soon as we see # to the left
-	 * of decimal separator, and restrict to exponent < 4, since
-	 * g fallback to f for exponent >= 4 */
-	use_g_format = info->right_optional > 0 && exponent_step < 4;
+	mantissa = value * SUFFIX(pow) (10, -exponent);
 
-	value *= SUFFIX(pow) (10, -exponent);
+	/* Here we try to avoid to display 10.00E-01 for 1.0-epsilon */
+	if (!is_zero && 
+	    SUFFIX(log10) (mantissa + epsilon) >= (DOUBLE) exponent_step) {
+		exponent += exponent_step;
+		mantissa = value * SUFFIX(pow) (10, -exponent);
+	}
 	
-	if (exponent < 0) {
+	if (exponent < 0 ||
+	    (exponent == 0 && mantissa < 1.0)) {
 		exponent_sign = "-";
 		exponent = -exponent;
 	} else if (show_exponent_sign && !use_markup)
 		exponent_sign = "+";
 
+	/* Calculate precision for g format. With g, precision is the maximum number 
+	 * of displayed digits, so we have to add to requested precision the actual 
+	 * number of left digits in mantissa */
+	format_precision = precision + 
+		((use_g_format && !is_zero) ? (MAX ((int) SUFFIX(floor) (SUFFIX(log10) (mantissa)) + 1, 1)) : 0);
+
 	if (exponent == 0 && exponent_digit_nbr == 0) {
 		g_string_append_printf (result, 
-					use_g_format ? "%s%*" FORMAT_G : "%s%.*" FORMAT_f, 
+					use_g_format ? "%s%.*" FORMAT_G : "%s%.*" FORMAT_f, 
 					mantissa_sign, 
-					precision, value); 
+					format_precision, mantissa); 
 	} else {
 		if (use_markup) {
 			/* Don't render mantissa when it's almost 1.0 and no left digit is required,
 			 * taking into account precision */ 
-			if ((SUFFIX(fabs) (value - 1) < SUFFIX(pow) (10.0, -6 - precision)) &&
+			if ((SUFFIX(fabs) (mantissa - 1) < epsilon) &&
 			    info->left_req < 1)
 				g_string_append_printf (result, "%s10<sup>%s%d</sup>", 
 							mantissa_sign, 
@@ -985,10 +1003,10 @@ SUFFIX(go_render_number_scientific) (GString *result,
 							exponent); 
 			else {
 				g_string_append_printf (result, 
-							use_g_format ? "%s%*" FORMAT_G : "%s%.*" FORMAT_f,
+							use_g_format ? "%s%.*" FORMAT_G : "%s%.*" FORMAT_f,
 							mantissa_sign, 
-							precision, value);
-				g_string_append_unichar (result, 0x00D7);
+							format_precision, mantissa);
+				g_string_append_unichar (result, 0x00D7); /* multiplication sign */
 				g_string_append_printf (result, "10<sup>%s%d</sup>", 
 							exponent_sign,
 							exponent); 
@@ -999,13 +1017,13 @@ SUFFIX(go_render_number_scientific) (GString *result,
 			int length;
 
 			if (use_g_format)
-				format = lower_e ? "%s%*" FORMAT_G "e%s%n%d" : "%s%*" FORMAT_G "E%s%n%d";
+				format = lower_e ? "%s%.*" FORMAT_G "e%s%n%d" : "%s%.*" FORMAT_G "E%s%n%d";
 			else
 				format = lower_e ? "%s%.*" FORMAT_f "e%s%n%d" : "%s%.*" FORMAT_f "E%s%n%d";
 
 			g_string_append_printf (result, format, 
 						mantissa_sign,
-						precision, value, 
+						format_precision, mantissa, 
 						exponent_sign,
 						&exponent_start,
 						exponent);

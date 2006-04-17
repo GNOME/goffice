@@ -1,3 +1,9 @@
+2006-04-17  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/utils/format.c (go_render_number_scientific): fix for
+	#338554 (1-epsilon was displayed 10.00E-01 instead of 1.00E-00).
+	Also fix handling of optional right digits.
+
 2006-04-17  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* configure.in: Remove obsolete entry for no_NO
