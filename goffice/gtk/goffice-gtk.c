@@ -515,52 +515,105 @@ go_gtk_select_image (GtkWindow *toplevel, const char *initial)
  * @toplevel: a #GtkWindow
  * @supported_formats: a #GSList of supported file formats
  * @ret_format: default file format
+ * @resolution: export resolution
  *
  * Opens a file chooser and let user choose file URI and format in a list of
  * supported ones.
  *
- * returns: file URI string, and file #GOImageFormat stored in @ret_format.
+ * returns: file URI string, file #GOImageFormat stored in @ret_format, and
+ * export resolution in @resolution.
  **/
+
+typedef struct {
+	char *uri;
+	double resolution;
+	gboolean is_expanded;
+	GOImageFormat format;
+} SaveInfoState;
+
+static void
+save_info_state_free (SaveInfoState *state) 
+{
+	g_free (state->uri);
+	g_free (state);
+}
 
 char *
 gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
-			 GOImageFormat *ret_format)
+			 GOImageFormat *ret_format, double *resolution)
 {
 	GOImageFormat format;
 	GOImageFormatInfo const *format_info;
 	GtkComboBox *format_combo = NULL;
-	char *uri = NULL;
 	GtkFileChooser *fsel = gui_image_chooser_new (TRUE);
+	GtkWidget *expander = NULL;
+	GtkWidget *resolution_spin = NULL;
+	GladeXML *gui;
+	SaveInfoState *state;
+	const char *key = "gui_get_image_save_info";
+	char *uri = NULL;
+
+	state = g_object_get_data (G_OBJECT (toplevel), key);
+	if (state == NULL) {
+		state = g_new (SaveInfoState, 1);
+		g_return_val_if_fail (state != NULL, NULL);
+		state->uri = NULL;
+		state->resolution = 150.0;
+		state->is_expanded = FALSE;
+		state->format = GO_IMAGE_FORMAT_SVG;
+		g_object_set_data_full (G_OBJECT (toplevel), key,
+					state, (GDestroyNotify) save_info_state_free);
+	}
 
 	g_object_set (G_OBJECT (fsel), "title", _("Save as"), NULL);
 
-	/* Make format chooser */
-	if (supported_formats && ret_format) {
-		GtkWidget *label;
-		GtkWidget *box = gtk_hbox_new (FALSE, 5);
-		GSList *l;
-		int i;
+	gui = go_libglade_new ("go-image-save-dialog-extra.glade", 
+			       "image_save_dialog_extra", 
+			       GETTEXT_PACKAGE, NULL);
+	if (gui != NULL) {
+		GtkWidget *widget;
 
-		format_combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
-		for (l = supported_formats, i = 0; l != NULL; l = l->next, i++) {
-			format = GPOINTER_TO_UINT (l->data);
-			format_info = go_image_get_format_info (format);
-			gtk_combo_box_append_text (format_combo, _(format_info->desc)); 
-			if (format == *ret_format)
-				gtk_combo_box_set_active (format_combo, i);
+		/* Format selection UI */
+		if (supported_formats != NULL && ret_format != NULL) {
+			int i;
+			GSList *l;
+			format_combo = GTK_COMBO_BOX (glade_xml_get_widget (gui, "format_combo"));
+			for (l = supported_formats, i = 0; l != NULL; l = l->next, i++) {
+				format = GPOINTER_TO_UINT (l->data);
+				format_info = go_image_get_format_info (format);
+				gtk_combo_box_append_text (format_combo, _(format_info->desc)); 
+				if (format == state->format)
+					gtk_combo_box_set_active (format_combo, i);
+			}
+			if (gtk_combo_box_get_active (format_combo) < 0)
+				gtk_combo_box_set_active (format_combo, 0);
+		} else {
+			widget = glade_xml_get_widget (gui, "file_type_box");
+			gtk_widget_hide (widget);
 		}
-		if (gtk_combo_box_get_active (format_combo) < 0)
-			gtk_combo_box_set_active (format_combo, 0);
 
-		label = gtk_label_new_with_mnemonic (_("File _type:"));
-		gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
-		gtk_box_pack_start (GTK_BOX (box),  GTK_WIDGET (format_combo),
-				    TRUE, TRUE, 0);
-		gtk_label_set_mnemonic_widget (GTK_LABEL (label),
-					       GTK_WIDGET (format_combo));
-		gtk_file_chooser_set_extra_widget (fsel, box);
+		/* Export setting expander */
+		expander = glade_xml_get_widget (gui, "export_expander");
+		if (resolution != NULL) {
+			gtk_expander_set_expanded (GTK_EXPANDER (expander), state->is_expanded);
+			resolution_spin = glade_xml_get_widget (gui, "resolution_spin");
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (resolution_spin), state->resolution);
+		} else 
+			gtk_widget_hide (expander);
+
+		if (resolution != NULL && supported_formats != NULL && ret_format != NULL) {
+			widget = glade_xml_get_widget (gui, "image_save_dialog_extra");
+			gtk_file_chooser_set_extra_widget (fsel, widget);
+		}
+
+		g_object_unref (G_OBJECT (gui));
 	}
 
+	if (state->uri != NULL) {
+		gtk_file_chooser_set_uri (fsel, state->uri);
+		gtk_file_chooser_unselect_all (fsel);
+	}
+	
 	/* Show file selector */
  loop:
 	if (!go_gtk_file_sel_dialog (toplevel, GTK_WIDGET (fsel)))
@@ -594,7 +647,19 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 		goto loop;
 	}
  out:
+	if (uri != NULL) {
+		g_free (state->uri);
+		state->uri = g_strdup (uri);
+		state->format = *ret_format;
+		if (resolution != NULL) {
+			state->is_expanded = gtk_expander_get_expanded (GTK_EXPANDER (expander));
+			*resolution =  gtk_spin_button_get_value (GTK_SPIN_BUTTON (resolution_spin));
+			state->resolution = *resolution;
+		}
+	}
+
 	gtk_widget_destroy (GTK_WIDGET (fsel));
+
 	return uri;
 }
 

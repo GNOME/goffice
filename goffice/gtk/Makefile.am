@@ -52,9 +52,10 @@ libgoffice_gtk_la_HEADERS = 		\
 
 gladedir = $(goffice_datadir)/glade
 dist_glade_DATA = \
-	go-rotation-sel.glade 	\
-	go-font-sel.glade 	\
-	go-format-sel.glade 
+	go-rotation-sel.glade			\
+	go-font-sel.glade 			\
+	go-format-sel.glade 			\
+	go-image-save-dialog-extra.glade
 
 # This list should be empty when we reach a stable phase.
 UNUSED = \

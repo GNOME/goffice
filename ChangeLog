@@ -1,3 +1,10 @@
+2006-04-19  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/gtk/go-image-save-dialog-extra.glade: new.
+	* goffice/gtk/goffice-gtk.c (go_gtk_select_image): use glade file
+	above for widgets in extra area. Displays a spin box for selecting
+	output resolution.
+
 2006-04-18  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/goffice-gtk.c (go_gtk_dialog_run): Hold a ref to the
