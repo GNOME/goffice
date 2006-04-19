@@ -787,17 +787,6 @@ go_gtk_url_is_writeable (GtkWindow *parent, char const *uri,
 	return result;
 }
 
-static gint
-cb_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
-{
-	if(e->keyval == GDK_Escape) {
-		gtk_dialog_response (GTK_DIALOG (w), GTK_RESPONSE_CANCEL);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
 /**
  * go_gtk_dialog_run
  *
@@ -816,13 +805,14 @@ go_gtk_dialog_run (GtkDialog *dialog, GtkWindow *parent)
 		go_gtk_window_set_transient (parent, GTK_WINDOW (dialog));
 	}
 
-	g_signal_connect (G_OBJECT (dialog),
-		"key-press-event",
-		G_CALLBACK (cb_modal_dialog_keypress), NULL);
+	g_object_ref (dialog);
 
 	while ((result = gtk_dialog_run (dialog)) >= 0)
 	       ;
 	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	g_object_unref (dialog);
+
 	return result;
 }
 
@@ -876,8 +866,6 @@ go_gtk_notice_nonmodal_dialog (GtkWindow *parent, GtkWidget **ref,
 		G_CALLBACK (gtk_widget_destroyed), ref);
 
 	gtk_widget_show (dialog);
-
-	return;
 }
 
 gboolean

@@ -1,3 +1,9 @@
+2006-04-18  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_dialog_run): Hold a ref to the
+	dialog until we're done with it.  Don't install an [Esc] handler
+	since gtk_dialog_run does that now.
+
 2006-04-17  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/utils/format.c (go_render_number_scientific): fix for
