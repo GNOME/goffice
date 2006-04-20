@@ -51,21 +51,27 @@ static gboolean
 go_tool_combo_text_create_menu_proxy (GtkToolItem *tool_item)
 {
 }
+#endif
+
 static gboolean
 go_tool_combo_text_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips,
 				char const *tip_text,
 				char const *tip_private)
 {
+	GOToolComboText *self = (GOToolComboText *)tool_item;
+	go_combo_box_set_tooltip (GO_COMBO_BOX (self->combo), tooltips,
+				  tip_text, tip_private);
+	return TRUE;
 }
-#endif
+
 static void
 go_tool_combo_text_class_init (GtkToolItemClass *tool_item_klass)
 {
 #if 0
-	gobject_klass->finalize		   = go_tool_combo_stack_finalize;
-	tool_item_klass->create_menu_proxy = go_tool_combo_stack_create_menu_proxy;
-	tool_item_klass->set_tooltip	   = go_tool_combo_stack_set_tooltip;
+	gobject_klass->finalize		   = go_tool_combo_text_finalize;
+	tool_item_klass->create_menu_proxy = go_tool_combo_text_create_menu_proxy;
 #endif
+	tool_item_klass->set_tooltip	   = go_tool_combo_text_set_tooltip;
 }
 
 static GSF_CLASS (GOToolComboText, go_tool_combo_text,
