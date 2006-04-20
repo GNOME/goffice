@@ -33,6 +33,7 @@ Morten:
 	* Fix plugin deactivation.  [#336742]
 	* Improve fraction format handling.
 	* Fix format problem for [$curr].
+	* Implement tooltips for text combos.  [#339122]
 
 --------------------------------------------------------------------------
 goffice 0.1.1:
