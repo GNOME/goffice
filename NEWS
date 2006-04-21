@@ -1,3 +1,10 @@
+goffice 0.2.2:
+
+J.H.M. Dassen (Ray):
+	* Backported Morten's fixes for a problem with fraction formats for
+	  very large values. [Debian #340463]
+
+--------------------------------------------------------------------------
 goffice 0.2.1:
 
 Jean Brefort:
