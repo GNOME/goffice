@@ -3,6 +3,23 @@ goffice 0.3.0:
 NOTE : This is a _development_ release.  It is not intended as a production
     release.  The api will change.
 
+Emmanuel Pacaud:
+	* Add initial support for moving objects by mouse.
+	* Add a resolution setting in image export file chooser.
+	* Add support for PDF and PS export of graphs when using cairo
+	renderer.
+	* Add gtk-doc support.
+	* Improve legend layout by making swatch size proptional to font
+       	size.
+	* Improve dialog for manual position of dialog.
+	* Fix baseline for area plot and histogram when using a log axis.
+	* Implement stretched image pattern in cairo renderer.
+	* Fix axis label position.
+	* Improve scientific format, add an engineering mode and a
+	special format with markup for display of exponent as 
+	superscript (e.g. 10²) (Currently only used by graph engine when
+	using cairo renderer).
+	
 Ivan Wong :
 	* [Win32] Only export symbols which are in the public headers.
 	  [#307356]
