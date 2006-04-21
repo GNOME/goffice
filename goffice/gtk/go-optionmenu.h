@@ -33,9 +33,7 @@
 #ifndef _GO_OPTIONMENU_H_
 #define _GO_OPTIONMENU_H_
 
-
-#include <gdk/gdk.h>
-#include <gtk/gtkbutton.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -52,19 +50,12 @@ typedef struct _GOOptionMenuClass  GOOptionMenuClass;
 struct _GOOptionMenu
 {
 	GtkButton button;
-	
-	GtkWidget *menu;
-	GtkWidget *select_menu;
-	GtkWidget *menu_item;
-	GtkWidget *old_menu_item;
 
-	GtkWidget *last_signaled_menu_item;
+	/*< private >*/
 
-	GSList *selection;
-	gboolean new_selection;
-	
-	guint16 width;
-	guint16 height;
+	GtkMenuShell *menu;
+	GtkMenuItem *selected;
+	GtkLabel *button_label;
 };
 
 struct _GOOptionMenuClass
@@ -83,10 +74,8 @@ struct _GOOptionMenuClass
 
 GType      go_option_menu_get_type    (void) G_GNUC_CONST;
 GtkWidget* go_option_menu_new         (void);
-GtkWidget* go_option_menu_get_menu    (GOOptionMenu *option_menu);
 void       go_option_menu_set_menu    (GOOptionMenu *option_menu,
 				       GtkWidget *menu);
-void       go_option_menu_remove_menu (GOOptionMenu *option_menu);
 void       go_option_menu_set_history (GOOptionMenu *option_menu,
 				       GSList *selection);
 GtkWidget *go_option_menu_get_history (GOOptionMenu *option_menu);

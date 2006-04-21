@@ -1,5 +1,7 @@
 2006-04-20  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-optionmenu.c: Simplify.
+
 	* goffice/gtk/go-action-combo-text.c
 	(go_tool_combo_text_set_tooltip): Implement.
 
