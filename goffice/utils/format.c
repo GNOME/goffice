@@ -1760,6 +1760,8 @@ SUFFIX(go_format_number) (GString *result,
 			if (can_render_number && info.left_spaces > info.left_req) {
 				int size = 0;
 				int numerator = -1, denominator = -1;
+				DOUBLE whole = SUFFIX(floor) (number);
+				DOUBLE fractional = number - whole;
 
 				while (format[size + 1] == '?')
 					++size;
@@ -1770,10 +1772,10 @@ SUFFIX(go_format_number) (GString *result,
 
 					errno = 0;
 					denominator = strtol ((char *)format + 1, &end, 10);
-					if (format + 1 != end && errno != ERANGE) {
+					if (format + 1 != end && errno != ERANGE && denominator <= G_MAXINT) {
 						size = end - (format + 1);
 						format = end;
-						numerator = (int)((number - (int)number) * denominator + 0.5);
+						numerator = (int)(fractional * denominator + 0.5);
 					}
 				} else {
 					static int const powers[9] = {
@@ -1784,7 +1786,7 @@ SUFFIX(go_format_number) (GString *result,
 					format += size + 1;
 					if (size > (int)G_N_ELEMENTS (powers))
 						size = G_N_ELEMENTS (powers);
-					go_continued_fraction (number - (int)number, powers[size - 1],
+					go_continued_fraction (fractional, powers[size - 1],
 						&numerator, &denominator);
 				}
 
@@ -1793,7 +1795,7 @@ SUFFIX(go_format_number) (GString *result,
 					/* improper fractions */
 					if (!info.rendered) {
 						info.rendered = TRUE;
-						numerator += ((int)number) * denominator;
+						numerator += whole * denominator;
 					} else
 						show_zero = (number == 0);
 
