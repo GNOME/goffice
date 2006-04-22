@@ -215,6 +215,7 @@ static void
 cb_select (GtkMenuItem *item, GOOptionMenu *option_menu)
 {
 	go_option_menu_select_item (option_menu, item);
+	g_signal_emit (option_menu, signals[CHANGED], 0);
 }
 
 static void
