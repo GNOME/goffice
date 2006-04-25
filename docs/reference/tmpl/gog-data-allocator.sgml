@@ -30,8 +30,6 @@ A data allocation interface
 
 @dalloc: 
 @plot: 
-<!-- # Unused Parameters # -->
-@a: 
 
 
 <!-- ##### FUNCTION gog_data_allocator_editor ##### -->

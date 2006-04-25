@@ -83,8 +83,6 @@ Set of plot data
 @series: 
 @name_src: 
 @err: 
-<!-- # Unused Parameters # -->
-@val: 
 
 
 <!-- ##### FUNCTION gog_series_set_dim ##### -->

@@ -119,7 +119,6 @@
 			<title>Miscellaneous</title>
 			<xi:include href="xml/regutf8.xml"/>
 			<xi:include href="xml/go-search-replace.xml"/>
-			<xi:include href="xml/go-format-match.xml"/>
 			<xi:include href="xml/go-format.xml"/>
 			<xi:include href="xml/go-glib-extras.xml"/>
 			<xi:include href="xml/go-libxml-extras.xml"/>

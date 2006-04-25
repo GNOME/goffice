@@ -1,7 +1,8 @@
 goffice 0.3.0:
 
-NOTE : This is a _development_ release.  It is not intended as a production
-    release.  The api will change.
+NOTE : This is a _DEVELOPMENT_ release.  Please use the 0.2.x series for
+	production systems.  The api/abi in 0.3.x is expected to change without
+	notice until 0.4.0.
 
 Emmanuel Pacaud:
 	* Add initial support for moving objects by mouse.
@@ -35,7 +36,7 @@ Jean Brefort:
 
 Jody:
 	* Some cleanup towards supporting --without-gtk.
-	*
+
 Morten:
 	* Fix translation problems causing crashes in the character set
 	  selector for people not using UTF-8.

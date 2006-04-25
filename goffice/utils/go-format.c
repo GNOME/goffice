@@ -111,7 +111,7 @@ go_format_value_gstring (GOFormat const *format, GString *res, double val,
 
 /**
  * go_format_value:
- * @format: a #GOFormat
+ * @fmt: a #GOFormat
  * value: value to format
  *
  * Converts @value into a string using format specified by @format.

@@ -176,8 +176,6 @@ A collection of charts
 @event: 
 @x_offset: 
 @y_offset: 
-<!-- # Unused Parameters # -->
-@view: 
 
 
 <!-- ##### FUNCTION gog_graph_view_get_selection ##### -->
@@ -187,8 +185,6 @@ A collection of charts
 
 @gview: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@view: 
 
 
 <!-- ##### FUNCTION gog_graph_view_set_selection ##### -->

@@ -164,9 +164,6 @@ Base class for all objects of graph model
 @new_parent: 
 @datadup: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@obj: 
-@dup: 
 
 
 <!-- ##### FUNCTION gog_object_get_parent ##### -->
@@ -273,8 +270,6 @@ Base class for all objects of graph model
 @obj: 
 @parent: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@view: 
 
 
 <!-- ##### FUNCTION gog_object_is_deletable ##### -->
@@ -293,8 +288,6 @@ Base class for all objects of graph model
 
 @parent: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@obj: 
 
 
 <!-- ##### FUNCTION gog_object_add_by_role ##### -->
@@ -359,8 +352,6 @@ Base class for all objects of graph model
 @flags: 
 @mask: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@p: 
 
 
 <!-- ##### FUNCTION gog_object_get_manual_position ##### -->
@@ -447,8 +438,6 @@ Base class for all objects of graph model
 @role: 
 @id: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@Param4: 
 
 
 <!-- ##### FUNCTION gog_object_register_roles ##### -->

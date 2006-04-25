@@ -86,8 +86,6 @@ GogChartMap
 @map: 
 @index: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@Param2: 
 
 
 <!-- ##### FUNCTION gog_chart_map_get_polar_parms ##### -->

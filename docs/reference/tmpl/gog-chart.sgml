@@ -166,8 +166,6 @@ A set of axes and a collection of plots
 @chart: 
 @target: 
 @Returns: 
-<!-- # Unused Parameters # -->
-@type: 
 
 
 <!-- ##### FUNCTION gog_chart_get_grid ##### -->
