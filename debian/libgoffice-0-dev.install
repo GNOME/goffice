@@ -3,4 +3,4 @@ usr/lib/libgoffice-[0-9]*.a
 usr/lib/libgoffice-[0-9]*.la
 usr/lib/libgoffice-[0-9]*.so
 usr/lib/pkgconfig/libgoffice-[0-9]*.pc
-usr/share/doc/libgoffice-1-dev/html/*
+usr/share/doc/libgoffice-0-dev/html/*
