@@ -25,8 +25,7 @@
 #include "goffice-gtk.h"
 #include <goffice/utils/go-glib-extras.h>
 
-#include <gtk/gtkaction.h>
-#include <gtk/gtktoolitem.h>
+#include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
@@ -107,19 +106,6 @@ set_entry_val (GOActionComboText *taction, char const *text)
 	}
 }
 
-#if 0
-static void
-go_action_combo_text_connect_proxy (GtkAction *action, GtkWidget *proxy)
-{
-}
-
-static void
-go_action_combo_disconnect_proxy (GtkAction *action,
-				  GtkWidget *proxy)
-{
-}
-#endif
-
 static gint
 g_strcase_equal (gconstpointer s1, gconstpointer s2)
 {
@@ -135,7 +121,7 @@ cb_entry_changed (GoComboText *ct, char const *text, GOActionComboText *taction)
 }
 
 static GtkWidget *
-go_action_combo_create_tool_item (GtkAction *act)
+go_action_combo_text_create_tool_item (GtkAction *act)
 {
 	GOActionComboText *taction = GO_ACTION_COMBO_TEXT (act);
 	GOToolComboText *tool = g_object_new (GO_TOOL_COMBO_TEXT_TYPE, NULL);
@@ -177,8 +163,42 @@ go_action_combo_create_tool_item (GtkAction *act)
 }
 
 static void
+cb_menu_activated (GtkMenuItem *item, GOActionComboText *taction)
+{
+	const char *text = g_object_get_data (G_OBJECT (item), "text");
+	set_entry_val (taction, text);
+	gtk_action_activate (GTK_ACTION (taction));
+}
+
+static GtkWidget *
+go_action_combo_text_create_menu_item (GtkAction *act)
+{
+	GOActionComboText *taction = GO_ACTION_COMBO_TEXT (act);
+	GtkWidget *menu = gtk_menu_new ();
+	GtkWidget *item = gtk_image_menu_item_new ();
+	GSList *ptr;
+
+	for (ptr = taction->elements; ptr != NULL ; ptr = ptr->next) {
+		const char *text = ptr->data;
+		GtkWidget *item = gtk_menu_item_new_with_label (text);
+		g_object_set_data (G_OBJECT (item), "text", (gpointer)text);
+		g_signal_connect (item, "activate",
+				  G_CALLBACK (cb_menu_activated),
+				  act);
+
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	}
+
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), menu);
+	gtk_widget_show_all (item);
+	return item;
+}
+
+static void
 go_action_combo_text_finalize (GObject *obj)
 {
+	GOActionComboText *taction = GO_ACTION_COMBO_TEXT (obj);
+	go_slist_free_custom (taction->elements, (GFreeFunc)g_free);
 	combo_text_parent->finalize (obj);
 }
 
@@ -201,9 +221,9 @@ go_action_combo_text_set_property (GObject      *object,
 
 static void
 go_action_combo_text_get_property (GObject      *object,
-		  guint         prop_id,
-		  GValue       *value,
-		  GParamSpec   *pspec)
+				   guint         prop_id,
+				   GValue       *value,
+				   GParamSpec   *pspec)
 {
 	GOActionComboText *taction = GO_ACTION_COMBO_TEXT (object);
 
@@ -224,12 +244,8 @@ go_action_combo_text_class_init (GtkActionClass *gtk_act_klass)
 	combo_text_parent = g_type_class_peek_parent (gobject_klass);
 	gobject_klass->finalize		= go_action_combo_text_finalize;
 
-	gtk_act_klass->create_tool_item = go_action_combo_create_tool_item;
-#if 0
-	gtk_act_klass->create_menu_item = Use the default
-	gtk_act_klass->connect_proxy	= go_action_combo_stack_connect_proxy;
-	gtk_act_klass->disconnect_proxy = go_action_combo_stack_disconnect_proxy;
-#endif
+	gtk_act_klass->create_tool_item = go_action_combo_text_create_tool_item;
+	gtk_act_klass->create_menu_item = go_action_combo_text_create_menu_item;
 
 	gobject_klass->set_property	= go_action_combo_text_set_property;
 	gobject_klass->get_property	= go_action_combo_text_get_property;
@@ -237,7 +253,7 @@ go_action_combo_text_class_init (GtkActionClass *gtk_act_klass)
 	g_object_class_install_property (gobject_klass,
 		PROP_CASE_SENSITIVE,
 		g_param_spec_boolean ("case-sensitive", _("Case Sensitive"),
-			_("Should the text comparasion be case sensitive"),
+			_("Should the text comparison be case sensitive"),
 			TRUE,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
 			GSF_PARAM_STATIC));

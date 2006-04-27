@@ -1,3 +1,10 @@
+2006-04-27  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-action-combo-text.c
+	(go_action_combo_text_create_menu_item): New function.  Fixes
+	#157901.
+	(go_action_combo_text_finalize): Plug leak.
+
 2006-04-25  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump to 0.3.1

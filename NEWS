@@ -1,3 +1,10 @@
+goffice 0.3.1:
+
+Morten:
+	* Make text combos work in overflowed toolbars.  [#157901]
+
+--------------------------------------------------------------------------
+
 goffice 0.3.0:
 
 NOTE : This is a _DEVELOPMENT_ release.  Please use the 0.2.x series for
