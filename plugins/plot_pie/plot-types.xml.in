@@ -24,7 +24,7 @@
     <Type _name="Split Half Pie" row="2" col="2"
 	  engine="GogPiePlot" family="Pie"
 	  _description="Percentage of each contributor in a half circle with wedges split apart."
-	  sample_image_file="chart_pie_3_1.png">
+	  sample_image_file="chart_pie_3_2.png">
  	  <property name="initial-angle">270.</property>
  	  <property name="span">180.</property>
 	  <property name="default-separation">.20</property>
