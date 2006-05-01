@@ -244,8 +244,8 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 			G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_SPAN,
 		g_param_spec_float ("span", _("span"),
-			_("Total angle used (360 for full circle, 180 for half)"),
-			0., 360., 360.,
+			_("Total angle used as a percentage of the full circle"),
+			10., 100., 100.,
 			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	{
@@ -268,7 +268,7 @@ static void
 gog_pie_plot_init (GogPiePlot *pie)
 {
 	pie->base.vary_style_by_element = TRUE;
-	pie->span = 360;
+	pie->span = 100.;
 }
 
 GSF_DYNAMIC_CLASS (GogPiePlot, gog_pie_plot,
@@ -400,7 +400,7 @@ find_element (GogView *view, double cx, double cy, double x, double y,
 		return FALSE;
 
 	theta = (atan2 (y - cy, x - cx) 
-		 * 180 / M_PI - pie->initial_angle + 90.) / pie->span;
+		 * 180 / M_PI - pie->initial_angle + 90.) / pie->span / 3.6;
 	if (theta < 0)
 		theta += 1.;
 
@@ -592,13 +592,13 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	else if (num_series > 1)
 		num_series = 1;
 
-	/* calculate things when span < 360. */
-	if (model->span < 360.) {
+	/* calculate things when span < 100. */
+	if (model->span < 100.) {
 		double xmin, xmax, ymin, ymax, ratio;
 		double begin, cur, end;
 		if (num_series == 1) {
 			begin = (model->initial_angle + series->initial_angle) * M_PI / 180. - M_PI / 2.;
-			end = begin + model->span * M_PI / 180.;
+			end = begin + model->span * M_PI / 50.;
 		} else {
 			/* WARNING: this code has not been checked */
 			ptr = model->base.series;
@@ -617,7 +617,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 					end = cur;
 			}
 			begin = (model->initial_angle + begin) * M_PI / 180. - M_PI / 2.;
-			end = (model->initial_angle + end + model->span) * M_PI / 180. - M_PI / 2.;
+			end = (model->initial_angle + end + model->span) * M_PI / 50. - M_PI / 2.;
 		}
 		cur = ceil (begin / M_PI * 2 - 1e-10) * M_PI / 2;
 		xmin = xmax = cos (begin);
@@ -703,7 +703,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		theta = (model->initial_angle + series->initial_angle) * M_PI / 180. - M_PI / 2.;
 
-		scale = 2 * M_PI / 360 * model->span / series->total;
+		scale = 2 * M_PI / 100 * model->span / series->total;
 		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
 
 		style = GOG_STYLED_OBJECT (series)->style;

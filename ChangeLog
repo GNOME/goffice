@@ -1,4 +1,11 @@
 2006-05-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_pie/gog-pie.c: (gog_pie_plot_class_init),
+	(gog_pie_plot_init), (find_element), (gog_pie_view_render):
+	use percentage for span instead of degrees.
+	* plugins/plot_pie/plot-types.xml.in: ditto.
+
+2006-05-01  Jean Brefort  <jean.brefort@normalesup.org>
 	* pixmaps/Makefile.am: add new pixmaps for half pies.
 	* pixmaps/chart_pie_3_1.png: ditto.
 	* pixmaps/chart_pie_3_1.svg: ditto.
