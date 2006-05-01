@@ -1,5 +1,8 @@
 goffice 0.3.1:
 
+Jean Brefort:
+	* Add a half pie plots.
+
 Morten:
 	* Make text combos work in overflowed toolbars.  [#157901]
 

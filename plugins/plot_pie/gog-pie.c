@@ -122,7 +122,8 @@ enum {
 	PLOT_PROP_0,
 	PLOT_PROP_INITIAL_ANGLE,
 	PLOT_PROP_DEFAULT_SEPARATION,
-	PLOT_PROP_IN_3D
+	PLOT_PROP_IN_3D,
+	PLOT_PROP_SPAN
 };
 
 GOFFICE_PLUGIN_MODULE_HEADER;
@@ -147,6 +148,9 @@ gog_pie_plot_set_property (GObject *obj, guint param_id,
 		break;
 	case PLOT_PROP_IN_3D :
 		pie->in_3d = g_value_get_boolean (value);
+		break;
+	case PLOT_PROP_SPAN :
+		pie->span = g_value_get_float (value);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -173,6 +177,9 @@ gog_pie_plot_get_property (GObject *obj, guint param_id,
 		break;
 	case PLOT_PROP_IN_3D :
 		g_value_set_boolean (value, pie->in_3d);
+		break;
+	case PLOT_PROP_SPAN :
+		g_value_set_float (value, pie->span);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -235,6 +242,11 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 			"Draw 3d wedges",
 			FALSE,
 			G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_klass, PLOT_PROP_SPAN,
+		g_param_spec_float ("span", _("span"),
+			_("Total angle used (360 for full circle, 180 for half)"),
+			0., 360., 360.,
+			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	{
 		static GogSeriesDimDesc dimensions[] = {
@@ -256,6 +268,7 @@ static void
 gog_pie_plot_init (GogPiePlot *pie)
 {
 	pie->base.vary_style_by_element = TRUE;
+	pie->span = 360;
 }
 
 GSF_DYNAMIC_CLASS (GogPiePlot, gog_pie_plot,
@@ -387,7 +400,7 @@ find_element (GogView *view, double cx, double cy, double x, double y,
 		return FALSE;
 
 	theta = (atan2 (y - cy, x - cx) 
-		 * 180 / M_PI - pie->initial_angle + 90.) / 360.;
+		 * 180 / M_PI - pie->initial_angle + 90.) / pie->span;
 	if (theta < 0)
 		theta += 1.;
 
@@ -579,14 +592,94 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	else if (num_series > 1)
 		num_series = 1;
 
-	/* centre things */
-	cx = view->allocation.x + view->allocation.w/2.;
-	cy = view->allocation.y + view->allocation.h/2.;
+	/* calculate things when span < 360. */
+	if (model->span < 360.) {
+		double xmin, xmax, ymin, ymax, ratio;
+		double begin, cur, end;
+		if (num_series == 1) {
+			begin = (model->initial_angle + series->initial_angle) * M_PI / 180. - M_PI / 2.;
+			end = begin + model->span * M_PI / 180.;
+		} else {
+			/* WARNING: this code has not been checked */
+			ptr = model->base.series;
+			while (!gog_series_is_valid (GOG_SERIES (ptr->data)))
+				ptr = ptr->next;
+			series = ptr->data;
+			begin = end = series->initial_angle;
+			for (ptr = ptr->next; ptr != NULL; ptr = ptr->next) {
+				if (!gog_series_is_valid (GOG_SERIES (ptr->data)))
+					continue;
+				series = ptr->data;
+				cur = series->initial_angle;
+				if (cur < begin)
+					begin = cur;
+				if (cur > end)
+					end = cur;
+			}
+			begin = (model->initial_angle + begin) * M_PI / 180. - M_PI / 2.;
+			end = (model->initial_angle + end + model->span) * M_PI / 180. - M_PI / 2.;
+		}
+		cur = ceil (begin / M_PI * 2 - 1e-10) * M_PI / 2;
+		xmin = xmax = cos (begin);
+		ymin = ymax = sin (begin);
+		while (cur < end) {
+			cx = cos (cur);
+			cy = sin (cur);
+			if (cx > xmax)
+				xmax = cx;
+			if (cx < xmin)
+				xmin = cx;
+			if (cy > ymax)
+				ymax = cy;
+			if (cy < ymin)
+				ymin = cy;
+			cur += M_PI / 2;
+		}
+		cx = cos (end);
+		cy = sin (end);
+		if (cx > xmax)
+			xmax = cx;
+		if (cx < xmin)
+			xmin = cx;
+		if (cy > ymax)
+			ymax = cy;
+		if (cy < ymin)
+			ymin = cy;
+		/* we ensure that the center will be visible */
+		if (xmin > 0.)
+			xmin = 0.;
+		if (xmax < 0.)
+			xmax = 0.;
+		if (ymin > 0.)
+			ymin = 0.;
+		if (ymax < 0.)
+			ymax = 0.;
+		ratio = (ymax - ymin) / (xmax - xmin);
+		if (view->allocation.h > view->allocation.w * ratio) {
+			r_tot = view->allocation.w * MAX (xmax, -xmin) / (xmax - xmin);
+			cx = view->allocation.x - view->allocation.w * xmin / (xmax - xmin);
+			cy = view->allocation.y +
+				(view->allocation.h + view->allocation.w * ratio) / 2.
+				- view->allocation.w * ratio * ymax / (ymax - ymin);
+		} else {
+			r_tot = view->allocation.h * MAX (ymax, -ymin) / (ymax - ymin);
+			cx = view->allocation.x +
+				(view->allocation.w - view->allocation.h / ratio) / 2.
+				- view->allocation.h / ratio * xmin / (xmax - xmin);
+			cy = view->allocation.y - view->allocation.h * ymin / (ymax - ymin);
+		}
+		r_tot /= 1. + model->default_separation + separation_max;
+	} else {
+		/* centre things */
+		cx = view->allocation.x + view->allocation.w/2.;
+		cy = view->allocation.y + view->allocation.h/2.;
+	
+		r_tot = view->allocation.h;
+		if (r_tot > view->allocation.w)
+			r_tot = view->allocation.w;
+		r_tot /= 2. * (1. + model->default_separation + separation_max);
+	}
 
-	r_tot = view->allocation.h;
-	if (r_tot > view->allocation.w)
-		r_tot = view->allocation.w;
-	r_tot /= 2. * (1. + model->default_separation + separation_max);
 	default_sep = r_tot * model->default_separation;
 	center_radius = r_tot * center_size;
 	r = r_tot * (1. - center_size);
@@ -608,9 +701,9 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		r_int = center_radius + r * ((double)index - 1.0) / (double)num_series;
 		r_ext = center_radius + r * (double)index / (double)num_series;
 
-		theta = (model->initial_angle + series->initial_angle) * 2. * M_PI / 360. - M_PI / 2.;
+		theta = (model->initial_angle + series->initial_angle) * M_PI / 180. - M_PI / 2.;
 
-		scale = 2 * M_PI / series->total;
+		scale = 2 * M_PI / 360 * model->span / series->total;
 		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
 
 		style = GOG_STYLED_OBJECT (series)->style;

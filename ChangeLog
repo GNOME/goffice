@@ -1,3 +1,16 @@
+2006-05-01  Jean Brefort  <jean.brefort@normalesup.org>
+	* pixmaps/Makefile.am: add new pixmaps for half pies.
+	* pixmaps/chart_pie_3_1.png: ditto.
+	* pixmaps/chart_pie_3_1.svg: ditto.
+	* pixmaps/chart_pie_3_2.png: ditto.
+	* pixmaps/chart_pie_3_2.svg: ditto.
+	* plugins/plot_pie/gog-pie.c: (gog_pie_plot_set_property),
+	(gog_pie_plot_get_property), (gog_pie_plot_class_init),
+	(gog_pie_plot_init), (find_element), (gog_pie_view_render):
+	add support for half pies.
+	* plugins/plot_pie/gog-pie.h: ditto.
+	* plugins/plot_pie/plot-types.xml.in: ditto.
+
 2006-04-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-action-combo-text.c

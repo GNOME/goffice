@@ -12,8 +12,23 @@
 	  engine="GogPiePlot" family="Pie"
 	  _description="Percentage of each contributor with wedges split apart."
 	  sample_image_file="chart_pie_2_1.png">
-	<property name="default_separation">.20</property>
+	<property name="default-separation">.20</property>
     </Type>
+    <Type _name="Half Pie" row="2" col="1"
+	  engine="GogPiePlot" family="Pie"
+	  _description="Percentage of each contributor in a half circle."
+	  sample_image_file="chart_pie_3_1.png">
+ 	  <property name="initial-angle">270.</property>
+ 	  <property name="span">180.</property>
+   </Type>
+    <Type _name="Split Half Pie" row="2" col="2"
+	  engine="GogPiePlot" family="Pie"
+	  _description="Percentage of each contributor in a half circle with wedges split apart."
+	  sample_image_file="chart_pie_3_1.png">
+ 	  <property name="initial-angle">270.</property>
+ 	  <property name="span">180.</property>
+	  <property name="default-separation">.20</property>
+   </Type>
     <Type _name="Ring" row="1" col="1"
 	  engine="GogRingPlot" family="Ring"
 	  _description="Percentage of each contributor displayed in ring for each serie."

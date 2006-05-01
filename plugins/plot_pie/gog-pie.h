@@ -42,7 +42,8 @@ GType gog_pie_series_element_get_type (void);
 typedef struct {
 	GogPlot	base;
 
-	int	 initial_angle;	 	/* degrees counterclockwise from 3 o'clock */
+	float	 initial_angle;	 	/* degrees counterclockwise from 3 o'clock */
+	float  span;
 	float	 default_separation;	/* as a percentage of the radius */
 	gboolean in_3d;
 } GogPiePlot;
