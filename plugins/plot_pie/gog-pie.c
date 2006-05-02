@@ -617,7 +617,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 					end = cur;
 			}
 			begin = (model->initial_angle + begin) * M_PI / 180. - M_PI / 2.;
-			end = (model->initial_angle + end + model->span) * M_PI / 50. - M_PI / 2.;
+			end = ((model->initial_angle + end) / 180. + model->span / 50.) * M_PI - M_PI / 2.;
 		}
 		cur = ceil (begin / M_PI * 2 - 1e-10) * M_PI / 2;
 		xmin = xmax = cos (begin);
