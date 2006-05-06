@@ -1,3 +1,10 @@
+2006-05-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-renderer-gnome-print.c 
+	(gog_renderer_gnome_print_draw_text):
+	Use markup when compiled with cairo support.
+	(gog_renderer_gnome_print_get_text_OBR): ditto.
+
 2006-05-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_pie/gog-pie.c: (gog_pie_view_render): fixed max angle

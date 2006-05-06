@@ -453,7 +453,11 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 		int iw, ih;
 
 		pango_layout_set_font_description (prend->layout, pango_font);
+#ifdef GOFFICE_WITH_CAIRO
+		pango_layout_set_markup (prend->layout, text, -1);
+#else
 		pango_layout_set_text (prend->layout, text, -1);
+#endif
 		pango_layout_get_size (prend->layout, &iw, &ih);
 		obr.w = iw / (double)PANGO_SCALE;
 		obr.h = ih / (double)PANGO_SCALE;
@@ -514,7 +518,11 @@ gog_renderer_gnome_print_get_text_OBR (GogRenderer *rend, char const *text, GOGe
 	int iw, ih;
 
 	pango_layout_set_font_description (prend->layout, pango_font);
+#ifdef GOFFICE_WITH_CAIRO
+	pango_layout_set_markup (prend->layout, text, -1);
+#else
 	pango_layout_set_text (prend->layout, text, -1);
+#endif
 	pango_layout_get_size (prend->layout, &iw, &ih);
 	obr->w = iw / (double)PANGO_SCALE;
 	obr->h = ih / (double)PANGO_SCALE;
