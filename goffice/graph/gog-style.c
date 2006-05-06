@@ -938,7 +938,7 @@ static void
 text_layout_init (StylePrefState *state, guint32 enable, GogEditor *editor, GOCmdContext *cc)
 {
 	GogStyle *style = state->style;
-	GtkWidget *w;
+	GtkWidget *w, *box;
 
 	if (!enable)
 		return;
@@ -948,7 +948,10 @@ text_layout_init (StylePrefState *state, guint32 enable, GogEditor *editor, GOCm
 		style->text_layout.angle);
 	g_signal_connect (G_OBJECT (w), "rotation-changed",
 		G_CALLBACK (cb_angle_changed), state);
-	gog_editor_add_page (editor, w, _("Text"));
+	box = gtk_vbox_new (FALSE, 6);
+	gtk_box_pack_start_defaults (GTK_BOX (box), w);
+	gtk_container_set_border_width (GTK_CONTAINER (box), 12);
+	gog_editor_add_page (editor, box, _("Text"));
 }
 
 /************************************************************************/

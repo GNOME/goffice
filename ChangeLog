@@ -1,5 +1,10 @@
 2006-05-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* goffice/graph/gog-style.c (text_layout_init): Add border around 
+	rotation selector widget.
+
+2006-05-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	* goffice/graph/gog-renderer-gnome-print.c 
 	(gog_renderer_gnome_print_draw_text):
 	Use markup when compiled with cairo support.
