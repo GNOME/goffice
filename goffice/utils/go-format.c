@@ -3,6 +3,7 @@
  * go-format.c :
  *
  * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2006 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -21,8 +22,10 @@
 
 #include <goffice/goffice-config.h>
 #include "go-format.h"
+#include "go-font.h"
 #include "go-math.h"
 #include "datetime.h"
+#include <go-glib-extras.h>
 #include "format-impl.h"
 #include <string.h>
 
@@ -46,7 +49,9 @@ go_style_format_condition (GOFormatElement const *entry, double val)
 
 void
 go_format_value_gstring (GOFormat const *format, GString *res, double val,
-			 int col_width, GODateConventions const *date_conv)
+			 int col_width,
+			 GODateConventions const *date_conv,
+			 gboolean unicode_minus)
 {
 	GOFormatElement const *entry = NULL; /* default to General */
 	GSList const *list = NULL;
@@ -88,33 +93,33 @@ go_format_value_gstring (GOFormat const *format, GString *res, double val,
 
 	/* More than one format? -- abs the value.  */
 	need_abs = entry && format->entries->next;
+	if (need_abs)
+		val = fabs (val);
 
-	if (INT_MAX >= val && val >= INT_MIN && val == floor (val)) {
-		int i_val = (int)val;
-		if (need_abs)
-			i_val = ABS (i_val);
+	if (entry == NULL) {
+		GString *new_str = NULL;
 
-		if (entry == NULL)
-			go_fmt_general_int (res, i_val, col_width);
-		else
-			go_format_number (res, i_val, col_width, entry, date_conv);
+		if (res->len)
+			new_str = g_string_sized_new (G_ASCII_DTOSTR_BUF_SIZE);
+		go_render_general (NULL, res->len ? new_str : res,
+				   go_format_measure_strlen,
+				   go_font_metrics_unit,
+				   val, col_width, unicode_minus);
+		if (new_str) {
+			go_string_append_gstring (res, new_str);
+			g_string_free (new_str, TRUE);
+		}
 	} else {
-		if (need_abs)
-			val = fabs (val);
-
-		if (entry == NULL)
-			go_fmt_general_float (res, val, col_width);
-		else
-			go_format_number (res, val, col_width, entry, date_conv);
+		go_format_number (res, val, col_width, entry, date_conv, unicode_minus);
 	}
 }
 
 /**
  * go_format_value:
  * @fmt: a #GOFormat
- * value: value to format
+ * @val: value to format
  *
- * Converts @value into a string using format specified by @format.
+ * Converts @val into a string using format specified by @fmt.
  *
  * returns: a newly allocated string containing formated value.
  **/
@@ -122,12 +127,7 @@ go_format_value_gstring (GOFormat const *format, GString *res, double val,
 char *
 go_format_value (GOFormat const *fmt, double val)
 {
-	GString *res;
-
-	if (!go_finite (val))
-		return g_strdup ("#VALUE!");
-
-	res = g_string_sized_new (20);
-	go_format_value_gstring (fmt, res, val, -1, NULL);
+	GString *res = g_string_sized_new (20);
+	go_format_value_gstring (fmt, res, val, -1, NULL, FALSE);
 	return g_string_free (res, FALSE);
 }

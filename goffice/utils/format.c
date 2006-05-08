@@ -1,6 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* format.c - attempts to emulate excel's number formatting ability.
+ *
  * Copyright (C) 1998 Chris Lahey, Miguel de Icaza
+ * Copyright (C) 2005-2006 Morten Welinder (terra@gnome.org)
  *
  * Redid the format parsing routine to make it accept more of the Excel
  * formats.  The number rendeing code from Chris has not been touched,
@@ -23,6 +25,7 @@
 
 #include <goffice/goffice-config.h>
 #include "go-format.h"
+#include "go-font.h"
 #include "format-impl.h"
 #include "go-color.h"
 #include "datetime.h"
@@ -921,8 +924,8 @@ SUFFIX(go_render_number) (GString *result,
 
 static void
 SUFFIX(go_render_number_scientific) (GString *result, 
-				      DOUBLE value, 
-				      GONumberFormat const *info)
+				     DOUBLE value, 
+				     GONumberFormat const *info)
 {
 	char const *mantissa_sign = "";
 	char const *exponent_sign = "";
@@ -944,7 +947,7 @@ SUFFIX(go_render_number_scientific) (GString *result,
 		exponent_step = 1;
 
 	if (value < 0.) {
-		mantissa_sign = "-";
+		mantissa_sign = info->unicode_minus ? "\xe2\x88\x92" : "-";
 		value = -value;
 	}
 
@@ -975,7 +978,7 @@ SUFFIX(go_render_number_scientific) (GString *result,
 	
 	if (exponent < 0 ||
 	    (exponent == 0 && mantissa < 1.0)) {
-		exponent_sign = "-";
+		exponent_sign = info->unicode_minus ? "\xe2\x88\x92" : "-";
 		exponent = -exponent;
 	} else if (show_exponent_sign && !use_markup)
 		exponent_sign = "+";
@@ -1048,7 +1051,7 @@ SUFFIX(do_render_number) (DOUBLE number, GONumberFormat *info, GString *result)
 		"left_spaces: %d\n"
 		"right_spaces:%d\n"
 		"right_allow: %d\n"
-		"supress:     %d\n"
+		"suppress:    %d\n"
 		"decimalseen: %d\n"
 		"decimalp:    %s\n",
 		info->left_req,
@@ -1689,10 +1692,268 @@ go_format_toggle_1000sep (GOFormat const *fmt)
 
 /*********************************************************************/
 
+#ifdef DEFINE_COMMON
+int
+go_format_measure_zero (G_GNUC_UNUSED const GString *str,
+			G_GNUC_UNUSED PangoLayout *layout)
+{
+	return 0;
+}
+#endif
+
+#ifdef DEFINE_COMMON
+int
+go_format_measure_pango (G_GNUC_UNUSED const GString *str,
+			 PangoLayout *layout)
+{
+	int w;
+	pango_layout_get_size (layout, &w, NULL);
+#ifdef DEBUG_GENERAL
+	g_print ("[%s] --> %d\n", str->str, w);
+#endif
+	return w;
+}
+#endif
+
+#ifdef DEFINE_COMMON
+int
+go_format_measure_strlen (const GString *str,
+			  G_GNUC_UNUSED PangoLayout *layout)
+{
+	return g_utf8_strlen (str->str, -1);
+}
+#endif
+
+/*********************************************************************/
+
+#ifdef DEFINE_COMMON
+static gboolean
+convert_minus (GString *str, size_t i)
+{
+	if (str->str[i] != '-')
+		return FALSE;
+
+	str->str[i] = 0xe2;
+	g_string_insert_len (str, i + 1, "\x88\x92", 2);
+	return TRUE;
+}
+#endif
+
+#define HANDLE_MINUS(i) do { if (unicode_minus) convert_minus (str, (i)); } while (0)
+#define SETUP_LAYOUT do { if (layout) pango_layout_set_text (layout, str->str, -1); } while (0)
+
+/*
+ * gnm_format_general:
+ * @layout: Optional PangoLayout, probably preseeded with font attribute.
+ * @str: a GString to store (not append!) the resulting string in.
+ * @measure: Function to measure width of string/layout.
+ * @metrics: Font metrics corresponding to @mesaure.
+ * @val: floating-point value.  Must be finite.
+ * @col_width: intended max width of layout in pango units.  -1 means
+ *             no restriction.
+ * @unicode_minus: Use unicode minuses, not hyphens.
+ *
+ * Render a floating-point value into @layout in such a way that the
+ * layouting width does not needlessly exceed @col_width.  Optionally
+ * use unicode minus instead of hyphen.
+ */
+void
+SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
+			   GOFormatMeasure measure,
+			   const GOFontMetrics *metrics,
+			   DOUBLE val,
+			   int col_width,
+			   gboolean unicode_minus)
+{
+	DOUBLE aval, l10;
+	int prec, safety, digs, maxdigits;
+	size_t epos;
+	gboolean rounds_to_0;
+	int sign_width;
+
+	if (col_width == -1) {
+		measure = go_format_measure_zero;
+		maxdigits = PREFIX(DIG);
+		col_width = INT_MAX;
+		sign_width = 0;
+	} else {
+		maxdigits = MIN (PREFIX(DIG), col_width / metrics->min_digit_width);
+		sign_width = unicode_minus
+			? metrics->minus_width
+			: metrics->hyphen_width;
+	}
+
+#ifdef DEBUG_GENERAL
+	g_print ("Rendering %" FORMAT_G " to width %d (<=%d digits)\n",
+		 val, col_width, maxdigits);
+#endif
+	if (val == 0)
+		goto zero;
+
+	aval = SUFFIX(fabs) (val);
+	if (aval >= SUFFIX(1e15) || aval < SUFFIX(1e-4))
+		goto e_notation;
+	l10 = SUFFIX(log10) (aval);
+
+	/* Number of digits in [aval].  */
+	digs = (aval >= 1 ? 1 + (int)l10 : 1);
+
+	/* Check if there is room for the whole part, including sign.  */
+	safety = metrics->avg_digit_width / 2;
+
+	if (digs * metrics->min_digit_width > col_width) {
+#ifdef DEBUG_GENERAL
+		g_print ("No room for whole part.\n");
+#endif
+		goto e_notation;
+	} else if (digs * metrics->max_digit_width + safety <
+		   col_width - (val > 0 ? 0 : sign_width)) {
+#ifdef DEBUG_GENERAL
+		g_print ("Room for whole part.\n");
+#endif
+		if (val == SUFFIX(floor) (val) || digs == maxdigits) {
+			g_string_printf (str, "%.0" FORMAT_f, val);
+			HANDLE_MINUS (0);
+			SETUP_LAYOUT;
+			return;
+		}
+	} else {
+		int w;
+#ifdef DEBUG_GENERAL
+		g_print ("Maybe room for whole part.\n");
+#endif
+
+		g_string_printf (str, "%.0" FORMAT_f, val);
+		HANDLE_MINUS (0);
+		SETUP_LAYOUT;
+		w = measure (str, layout);
+		if (w > col_width)
+			goto e_notation;
+
+		if (val == SUFFIX(floor) (val) || digs == maxdigits)
+			return;
+	}
+
+	prec = maxdigits - digs;
+	g_string_printf (str, "%.*" FORMAT_f, prec, val);
+	HANDLE_MINUS (0);
+	while (str->str[str->len - 1] == '0') {
+		g_string_truncate (str, str->len - 1);
+		prec--;
+	}
+	if (prec == 0) {
+		/* We got "xxxxxx.000" and dropped the zeroes.  */
+		const char *dot = g_utf8_prev_char (str->str + str->len);
+		g_string_truncate (str, dot - str->str);
+		SETUP_LAYOUT;
+		return;
+	}
+
+	while (prec > 0) {
+		int w;
+
+		SETUP_LAYOUT;
+		w = measure (str, layout);
+		if (w <= col_width)
+			return;
+
+		prec--;
+		g_string_printf (str, "%.*" FORMAT_f, prec, val);
+		HANDLE_MINUS (0);
+	}
+
+	SETUP_LAYOUT;
+	return;
+
+ e_notation:
+	rounds_to_0 = (aval < 0.5);
+	prec = (col_width -
+		(val > 0 ? 0 : sign_width) -
+		(aval < 1 ? sign_width : metrics->plus_width) -
+		metrics->E_width) / metrics->min_digit_width - 3;
+	if (prec <= 0) {
+#ifdef DEBUG_GENERAL
+		if (prec == 0)
+			g_print ("Maybe room for E notation with no decimals.\n");
+		else
+			g_print ("No room for E notation.\n");
+#endif
+		/* Certainly too narrow for precision.  */
+		if (prec == 0 || !rounds_to_0) {
+			int w;
+
+			g_string_printf (str, "%.0" FORMAT_E, val);
+			HANDLE_MINUS (0);
+			epos = strchr (str->str, 'E') - str->str;
+			HANDLE_MINUS (epos + 1);
+			SETUP_LAYOUT;
+			if (!rounds_to_0)
+				return;
+
+			w = measure (str, layout);
+			if (w <= col_width)
+				return;
+		}
+
+		goto zero;
+	}
+	prec = MIN (prec, PREFIX(DIG) - 1);
+	g_string_printf (str, "%.*" FORMAT_E, prec, val);
+	epos = strchr (str->str, 'E') - str->str;
+	digs = 0;
+	while (str->str[epos - 1 - digs] == '0')
+		digs++;
+	if (digs) {
+		epos -= digs;
+		g_string_erase (str, epos, digs);
+		prec -= digs;
+		if (prec == 0) {
+			int dot = 1 + (str->str[0] == '-');
+			g_string_erase (str, dot, epos - dot);
+		}
+	}
+
+	while (1) {
+		int w;
+
+		HANDLE_MINUS (0);
+		epos = strchr (str->str + prec + 1, 'E') - str->str;
+		HANDLE_MINUS (epos + 1);
+		SETUP_LAYOUT;
+		w = measure (str, layout);
+		if (w <= col_width)
+			return;
+
+		if (prec > 2 && w - metrics->max_digit_width > col_width)
+			prec -= 2;
+		else {
+			prec--;
+			if (prec < 0)
+				break;
+		}
+		g_string_printf (str, "%.*" FORMAT_E, prec, val);
+	}
+
+	if (rounds_to_0)
+		goto zero;
+
+	SETUP_LAYOUT;
+	return;
+
+ zero:
+#ifdef DEBUG_GENERAL
+	g_print ("Zero.\n");
+#endif
+	g_string_assign (str, "0");
+	SETUP_LAYOUT;
+	return;
+}
+
 void
 SUFFIX(go_format_number) (GString *result,
 			  DOUBLE number, int col_width, GOFormatElement const *entry,
-			  GODateConventions const *date_conv)
+			  GODateConventions const *date_conv,
+			  gboolean unicode_minus)
 {
 	gchar const *format = entry->format;
 	GONumberFormat info;
@@ -1712,11 +1973,16 @@ SUFFIX(go_format_number) (GString *result,
 	signed_number = number;
 	if (number < 0.) {
 		number = -number;
-		if (!entry->suppress_minus)
-			g_string_append_c (result, '-');
+		if (!entry->suppress_minus) {
+			if (unicode_minus)
+				g_string_append (result, "\xe2\x88\x92");
+			else
+				g_string_append_c (result, '-');
+		}
 	}
 	info.has_fraction = entry->has_fraction;
 	info.scale = 1;
+	info.unicode_minus = unicode_minus;
 
 	while (*format) {
 		/* This is just g_utf8_get_char, but we're in a hurry.  */
@@ -2136,105 +2402,6 @@ SUFFIX(go_format_number) (GString *result,
 			g_string_insert_unichar (result, fill_start, fill_char);
 	}
 }
-
-/**
- * go_fmt_general_float:
- *
- * @val : the integer value being formated.
- * @col_width : the approximate width in characters.
- **/
-void
-SUFFIX(go_fmt_general_float) (GString *result, DOUBLE val, double col_width)
-{
-	DOUBLE tmp;
-	int log_val, prec;
-
-	if (col_width < 0.) {
-		g_string_append_printf (result, "%.*" FORMAT_G, PREFIX(DIG), val);
-		return;
-	}
-
-	if (val < 0.) {
-		/* leave space for minus sign */
-		/* FIXME : idealy we would use the width of a minus sign */
-		col_width -= 1.;
-		tmp = SUFFIX(log10) (-val);
-	} else
-		tmp = (val > 0.) ? SUFFIX(log10) (val) : 0;
-
-	/* leave space for the decimal */
-	/* FIXME : idealy we would use the width of a decimal point */
-	prec = (int) floor (col_width - .4);
-	if (prec < 0)
-		prec = 0;
-
-	if (tmp > 0.) {
-		log_val = SUFFIX(ceil) (tmp);
-
-		/* Decrease precision to leave space for the E+00 */
-		if (log_val > prec)
-			for (prec -= 4; log_val >= 100 ; log_val /= 10)
-				prec--;
-	} else {
-		log_val = SUFFIX(floor) (tmp);
-
-		/* Display 0 for cols that are too narrow for scientific
-		 * notation with abs (value) < 1 */
-		if (col_width < 5. && -log_val >= prec) {
-			g_string_append_c (result, '0');
-			return;
-		}
-
-		/* Include leading zeros eg 0.0x has 2 leading zero */
-		if (log_val >= -4)
-			prec += log_val;
-
-		/* Decrease precision to leave space for the E+00 */
-		else for (prec -= 4; log_val <= -100 ; log_val /= 10)
-			prec--;
-	}
-
-	if (prec < 1)
-		prec = 1;
-	else if (prec > PREFIX(DIG))
-		prec = PREFIX(DIG);
-
-	g_string_append_printf (result, "%.*" FORMAT_G, prec, val);
-}
-
-#ifdef DEFINE_COMMON
-/**
- * go_fmt_general_int :
- *
- * @val : the integer value being formated.
- * @col_width : the approximate width in characters.
- */
-void
-go_fmt_general_int (GString *result, int val, int col_width)
-{
-	if (col_width > 0) {
-		int log_val;
-
-		if (val < 0) {
-			/* leave space for minus sign */
-			col_width--;
-			log_val = ceil (log10 ((unsigned int)-val));
-		} else
-			log_val = (val > 0) ? ceil (log10 (val)) : 0;
-
-		/* Switch to scientific notation if things are too wide */
-		if (log_val > col_width) {
-			/* Decrease available width by 5 to account for .+E00 */
-			g_string_append_printf (result, "%.*G", col_width - 5, (double)val);
-			return;
-		}
-	}
-
-	/* FIXME: we can do better than this.  */
-	g_string_append_printf (result, "%d", val);
-}
-#endif
-
 
 #ifdef DEFINE_COMMON
 void

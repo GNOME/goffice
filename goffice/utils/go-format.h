@@ -24,6 +24,7 @@
 #include <goffice/goffice-features.h>
 #include <goffice/utils/goffice-utils.h>
 #include <pango/pango-attributes.h>
+#include <pango/pango-layout.h>
 #include <glib.h>
 
 #include <glib-object.h>
@@ -98,9 +99,13 @@ void      go_format_unref		(GOFormat *fmt);
 #define   go_format_is_text(fmt)	((fmt)->family == GO_FORMAT_TEXT)
 #define   go_format_is_var_width(fmt)	((fmt)->is_var_width)
 
+void      go_format_value_gstring       (GOFormat const *format, GString *res,
+					 double val,
+					 int col_width,
+					 GODateConventions const *date_conv,
+					 gboolean unicode_minus);
 char	*go_format_value		(GOFormat const *fmt, double val);
-void	 go_format_value_gstring	(GOFormat const *format, GString *res, double val,
-					 int col_width, GODateConventions const *date_conv);
+
 gboolean go_format_eq			(GOFormat const *a, GOFormat const *b);
 GOFormat *go_format_inc_precision	(GOFormat const *fmt);
 GOFormat *go_format_dec_precision	(GOFormat const *fmt);
@@ -120,17 +125,40 @@ extern GOFormatCurrency     const go_format_currencies [];
 
 /*************************************************************************/
 
+typedef int (*GOFormatMeasure) (const GString *str, PangoLayout *layout);
+int go_format_measure_zero (const GString *str, PangoLayout *layout);
+int go_format_measure_pango (const GString *str, PangoLayout *layout);
+int go_format_measure_strlen (const GString *str, PangoLayout *layout);
+
+void go_render_general  (PangoLayout *layout, GString *str,
+			 GOFormatMeasure measure,
+			 const GOFontMetrics *metrics,
+			 double val,
+			 int col_width,
+			 gboolean unicode_minus);
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+void go_render_generall (PangoLayout *layout, GString *str,
+			 GOFormatMeasure measure,
+			 const GOFontMetrics *metrics,
+			 long double val,
+			 int col_width,
+			 gboolean unicode_minus);
+#endif
+
+/*************************************************************************/
+
 typedef struct {
 	int  right_optional, right_spaces, right_req, right_allowed;
 	int  left_optional, left_spaces, left_req;
-	float scale;
+	double scale;
 	gboolean rendered;
 	gboolean decimal_separator_seen;
 	gboolean group_thousands;
 	gboolean has_fraction;
+	gboolean unicode_minus;
 
 	gboolean exponent_seen;
-	
+
 	int exponent_digit_nbr;
 	gboolean exponent_show_sign;
 	gboolean exponent_lower_e;

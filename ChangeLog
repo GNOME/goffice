@@ -5,6 +5,16 @@
 
 2006-05-08  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/format.c (go_render_general): Extracted from
+	gnumeric.
+	(go_fmt_general_float, go_fmt_general_int): Remove.  All callers
+	fixed.
+	(go_render_number_scientific, go_format_number): Handle
+	unicode_minus.
+
+	* goffice/utils/go-format.c (go_format_value_gstring): Add
+	unicode_minus flag.  All callers changed.
+
 	* goffice/utils/go-font.c (go_font_metrics_new,
 	go_font_metrics_free, go_font_metrics_unit): New, moved from
 	Gnumeric.

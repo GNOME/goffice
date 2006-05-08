@@ -2,7 +2,6 @@
 #define GO_FORMAT_IMPL_H
 
 #include <goffice/utils/go-format.h>
-#include <goffice/utils/regutf8.h>
 
 G_BEGIN_DECLS
 
@@ -23,16 +22,15 @@ struct _GOFormatElement {
 	GOFormat	*container;
 };
 
-void go_fmt_general_int    (GString *result, int val, int col_width);
-void go_fmt_general_float  (GString *result, double val, double col_width);
 void go_format_number      (GString *result,
 			    double number, int col_width, GOFormatElement const *elem,
-			    GODateConventions const *date_conv);
+			    GODateConventions const *date_conv,
+			    gboolean unicode_minus);
 #ifdef GOFFICE_WITH_LONG_DOUBLE
-void go_fmt_general_floatl (GString *result, long double val, double col_width);
 void go_format_numberl     (GString *result,
 			    long double number, int col_width, GOFormatElement const *elem,
-			    GODateConventions const *date_conv);
+			    GODateConventions const *date_conv,
+			    gboolean unicode_minus);
 #endif
 
 G_END_DECLS
