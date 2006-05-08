@@ -28,6 +28,7 @@ G_BEGIN_DECLS
 
 typedef guint32				GOColor;
 typedef struct _GOFont			GOFont;
+typedef struct _GOFontMetrics		GOFontMetrics;
 typedef struct _GOPattern		GOPattern;
 typedef struct _GOMarker		GOMarker;
 typedef struct _GOFormat		GOFormat;

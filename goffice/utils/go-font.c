@@ -22,6 +22,7 @@
 #include <goffice/goffice-config.h>
 #include "go-font.h"
 #include "go-glib-extras.h"
+#include <pango/pango-layout.h>
 
 static GHashTable	*font_hash;
 static GPtrArray	*font_array;
@@ -206,10 +207,78 @@ go_fonts_list_sizes (void)
 		 NULL);
 }
 
+
+
+GOFontMetrics *
+go_font_metrics_new (PangoContext *context, GOFont const *font)
+{
+	PangoLayout *layout = pango_layout_new (context);
+	GOFontMetrics *res = g_new0 (GOFontMetrics, 1);
+	int i, sumw = 0;
+
+	pango_layout_set_font_description (layout, font->desc);
+	res->min_digit_width = INT_MAX;
+	for (i = 0; i <= 9; i++) {
+		char c = '0' + i;
+		int w;
+
+		pango_layout_set_text (layout, &c, 1);
+		pango_layout_get_size (layout, &w, NULL);
+
+		res->digit_widths[i] = w;
+
+		w = MAX (w, PANGO_SCALE);  /* At least one pixel.  */
+		res->min_digit_width = MIN (w, res->min_digit_width);
+		res->max_digit_width = MAX (w, res->max_digit_width);
+		sumw += w;
+	}
+	res->avg_digit_width = (sumw + 5) / 10;
+
+	pango_layout_set_text (layout, "-", -1);
+	pango_layout_get_size (layout, &res->hyphen_width, NULL);
+
+	pango_layout_set_text (layout, "\xe2\x88\x92", -1);
+	pango_layout_get_size (layout, &res->minus_width, NULL);
+
+	pango_layout_set_text (layout, "+", -1);
+	pango_layout_get_size (layout, &res->plus_width, NULL);
+
+	pango_layout_set_text (layout, "E", -1);
+	pango_layout_get_size (layout, &res->E_width, NULL);
+
+	g_object_unref (layout);
+
+	return res;
+}
+
+
+void
+go_font_metrics_free (GOFontMetrics *metrics)
+{
+	g_free (metrics);
+}
+
+static GOFontMetrics go_font_metrics_unit_var;
+
+/* All widths == 1.  */
+const GOFontMetrics *go_font_metrics_unit = &go_font_metrics_unit_var;
+
 /* private */
 void
 go_fonts_init (void)
 {
+	int i;
+
+	go_font_metrics_unit_var.min_digit_width = 1;
+	go_font_metrics_unit_var.max_digit_width = 1;
+	go_font_metrics_unit_var.avg_digit_width = 1;
+	go_font_metrics_unit_var.hyphen_width = 1;
+	go_font_metrics_unit_var.minus_width = 1;
+	go_font_metrics_unit_var.plus_width = 1;
+	go_font_metrics_unit_var.E_width = 1;
+	for (i = 0; i <= 9; i++)
+		go_font_metrics_unit_var.digit_widths[i] = 1;
+
 	font_array = g_ptr_array_new ();
 	font_hash = g_hash_table_new_full (
 		(GHashFunc)pango_font_description_hash,

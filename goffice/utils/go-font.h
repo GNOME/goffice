@@ -28,14 +28,25 @@
 
 G_BEGIN_DECLS
 
-struct _GOFont {
-	PangoFontDescription	*desc;
-	int			 underline;
-	gboolean		 strikethrough;
-	GOColor			 color;
+struct _GOFontMetrics {
+	int digit_widths[10];
+	int min_digit_width;
+	int max_digit_width;
+	int avg_digit_width;
+	int hyphen_width, minus_width, plus_width;
+	int E_width;
+};
 
-	int	 ref_count;
-	int	 font_index; /* each renderer keeps an array for lookup */
+struct _GOFont {
+	int ref_count;
+	int font_index; /* each renderer keeps an array for lookup */
+
+	PangoFontDescription *desc;
+
+	/* Attributes.  Currently unused.  */
+	int underline;
+	gboolean strikethrough;
+	GOColor color;
 };
 
 GOFont const *go_font_new_by_desc  (PangoFontDescription *desc);
@@ -48,6 +59,10 @@ gboolean      go_font_eq	   (GOFont const *a, GOFont const *b);
 
 GSList       *go_fonts_list_families (PangoContext *context);
 GSList       *go_fonts_list_sizes    (void);
+
+GOFontMetrics *go_font_metrics_new (PangoContext *context, GOFont const *font);
+extern const GOFontMetrics *go_font_metrics_unit;
+void go_font_metrics_free (GOFontMetrics *metrics);
 
 /* cache notification */
 void go_font_cache_register   (GClosure *callback);
