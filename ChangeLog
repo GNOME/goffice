@@ -1,3 +1,8 @@
+2006-05-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/component/go-component.c: change api.
+	* goffice/component/go-component.h: ditto.
+
 2006-05-08  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-font.c (go_font_metrics_new,

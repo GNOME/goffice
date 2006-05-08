@@ -232,14 +232,17 @@ go_component_set_data (GOComponent *component, char const *data, int length)
 
 	g_return_if_fail (IS_GO_COMPONENT (component));
 
+	component->data = data;
+	component->length = length;
+
 	klass = GO_COMPONENT_GET_CLASS(component);
 	if (klass->set_data)
-		klass->set_data (component, data, length);
+		klass->set_data (component);
 }
 
 gboolean
 go_component_get_data (GOComponent *component, gpointer *data, int *length,
-									void (**clearfunc) (gpointer))
+							void (**clearfunc) (gpointer), gpointer *user_data)
 {
 	GOComponentClass *klass;
 
@@ -247,7 +250,7 @@ go_component_get_data (GOComponent *component, gpointer *data, int *length,
 
 	klass = GO_COMPONENT_GET_CLASS(component);
 	if (klass->get_data)
-		return klass->get_data (component, data, length, clearfunc);
+		return klass->get_data (component, data, length, clearfunc, user_data);
 	return FALSE;
 }
 
@@ -265,6 +268,19 @@ go_component_set_size (GOComponent *component, double width, double height)
 	component->height = height;
 	if (klass->set_size)
 		klass->set_size (component);
+}
+
+void
+go_component_draw_cairo (GOComponent *component, gpointer data,
+												double width, double height)
+{
+	GOComponentClass *klass;
+
+	g_return_if_fail (IS_GO_COMPONENT (component));
+
+	klass = GO_COMPONENT_GET_CLASS(component);
+	if (klass->draw_cairo)
+		klass->draw_cairo (component, data, width, height);
 }
 
 void
@@ -339,4 +355,22 @@ go_component_export_to_svg (GOComponent *component)
 	if (klass->export_to_svg)
 		return klass->export_to_svg (component);
 	return NULL;
+}
+
+static GOCmdContext *goc_cc;
+
+void
+go_component_set_command_context (GOCmdContext *cc)
+{
+	if (goc_cc)
+		g_object_unref (goc_cc);
+	goc_cc = cc;
+	if (goc_cc)
+		g_object_ref (goc_cc);
+}
+
+GOCmdContext *
+go_component_get_command_context (void)
+{
+	return goc_cc;
 }

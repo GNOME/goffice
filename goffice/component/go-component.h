@@ -24,6 +24,7 @@
 
 #include <glib-object.h>
 #include <gdk/gdkwindow.h>
+#include <goffice/app/goffice-app.h>
 #include <libgnomeprint/gnome-print.h>
 
 G_BEGIN_DECLS
@@ -39,6 +40,8 @@ struct _GOComponent
 	double width, ascent, descent, height;
 	double default_width, default_ascent, default_descent;
 	gboolean needs_window, resizable, editable;
+	char const *data;
+	int length;
 	GdkWindow *window;
 	GdkPixbuf *pixbuf;
 };
@@ -47,18 +50,20 @@ struct _GOComponentClass
 {
 	GObjectClass parent_class;
 
-	void (*draw) (GOComponent *component, int width_pixels, int height_pixels);
 	gboolean (*edit) (GOComponent *component);
 	gboolean (*get_data) (GOComponent *component, gpointer *data, int *length,
-									void (**clearfunc) (gpointer));
+							void (**clearfunc) (gpointer), gpointer *user_data);
 	void (*mime_type_set) (GOComponent* component);
-	void (*print) (GOComponent *component, GnomePrintContext *gpc,
-												double width, double height);
-	void (*set_data) (GOComponent *component, char const *data, int length);
+	void (*set_data) (GOComponent *component);
 	void (*set_default_size) (GOComponent* component);
 	void (*set_pixbuf) (GOComponent *component);
 	void (*set_size) (GOComponent *component);
 	void (*set_window) (GOComponent *component);
+	void (*draw_cairo) (GOComponent *component, gpointer data,
+												double width, double height);
+	void (*print) (GOComponent *component, GnomePrintContext *gpc,
+												double width, double height);
+	void (*draw) (GOComponent *component, int width_pixels, int height_pixels);
 	char *(*export_to_svg) (GOComponent *component);
 
 	/* signals */
@@ -86,7 +91,7 @@ void go_component_set_pixbuf (GOComponent *component, GdkPixbuf *pixbuf);
 void go_component_set_data (GOComponent *component,
 												char const *data, int length);
 gboolean go_component_get_data (GOComponent *component, gpointer *data, int *length,
-									void (**clearfunc) (gpointer));
+									void (**clearfunc) (gpointer), gpointer *user_data);
 void go_component_set_size (GOComponent *component,
 												double width, double height);
 void go_component_draw (GOComponent *component, int width_pixels, int height_pixels);
@@ -97,6 +102,11 @@ void go_component_print (GOComponent *component, GnomePrintContext *gpc,
 												double width, double height);
 void go_component_emit_changed (GOComponent *component);
 char *go_component_export_to_svg (GOComponent *component);
+
+void go_component_set_command_context (GOCmdContext *cc);
+GOCmdContext *go_component_get_command_context (void);
+void go_component_draw_cairo (GOComponent *component, gpointer data,
+												double width, double height);
 
 G_END_DECLS
 
