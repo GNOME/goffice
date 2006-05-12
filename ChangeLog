@@ -1,5 +1,9 @@
 2006-05-12  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-color.h: define GO_COLOR_TO_CAIRO.
+
+2006-05-12  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-style.c: (pixbuf_to_cairo),
 	(gog_style_create_cairo_pattern): new cairo support functions.
 	* goffice/graph/gog-style.h: ditto.

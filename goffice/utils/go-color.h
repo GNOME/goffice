@@ -109,6 +109,13 @@ UINT_TO_RGB((i), ((guchar*)p), ((guchar*)p)+1, ((guchar*)p)+2)
 #define PIXEL_GREY(p,g) PIXEL_RGB(p,g,g,g)
 #define PIXEL_GREYA(p,g,a) PIXEL_RGBA(p,g,g,g,a)
 
+#define DOUBLE_RGBA_R(x) (double)UINT_RGBA_R(x)/255.0
+#define DOUBLE_RGBA_G(x) (double)UINT_RGBA_G(x)/255.0
+#define DOUBLE_RGBA_B(x) (double)UINT_RGBA_B(x)/255.0
+#define DOUBLE_RGBA_A(x) (double)UINT_RGBA_A(x)/255.0
+
+#define GO_COLOR_TO_CAIRO(x) DOUBLE_RGBA_R(x),DOUBLE_RGBA_G(x),DOUBLE_RGBA_B(x),DOUBLE_RGBA_A(x)
+
 void go_color_to_artpix  (ArtPixMaxDepth *res, GOColor rgba);
 void go_color_render_svp (GOColor color, ArtSVP const *svp,
 			  int x0, int y0, int x1, int y1,
