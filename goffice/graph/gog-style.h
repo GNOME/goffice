@@ -32,6 +32,7 @@
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-pattern.h>
 #include <glib-object.h>
+#include <cairo/cairo.h>
 
 G_BEGIN_DECLS
 
@@ -150,6 +151,9 @@ gpointer   gog_style_get_editor	     	(GogStyle *style,
 					 GogStyle *default_style,
 					 GOCmdContext *cc,
 					 GObject *object_with_style);
+
+cairo_pattern_t *gog_style_create_cairo_pattern (GogStyle *style,
+					double width, double height);
 
 G_END_DECLS
 
