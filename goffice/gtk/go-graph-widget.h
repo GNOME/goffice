@@ -32,10 +32,25 @@ G_BEGIN_DECLS
 #define GO_GRAPH_WIDGET(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_GRAPH_WIDGET_TYPE, GOGraphWidget))
 #define IS_GO_GRAPH_WIDGET(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_GRAPH_WIDGET_TYPE))
 
-typedef struct _GOGraphWidget GOGraphWidget;
+typedef struct _GOGraphWidget      GOGraphWidget;
+typedef struct _GOGraphWidgetClass GOGraphWidgetClass;
+
+typedef enum {
+	GO_GRAPH_WIDGET_SIZE_MODE_FIT = 0,
+	GO_GRAPH_WIDGET_SIZE_MODE_FIT_WIDTH,
+	GO_GRAPH_WIDGET_SIZE_MODE_FIT_HEIGHT,
+	GO_GRAPH_WIDGET_SIZE_MODE_FIXED_SIZE
+} GOGraphWidgetSizeMode;
+
+GType go_graph_widget_reference_direction_get_type (void);
 
 GType go_graph_widget_get_type (void);
-GtkWidget *go_graph_widget_new (void);
+GtkWidget *go_graph_widget_new (GogGraph *graph);
+
+void go_graph_widget_set_size_mode (GOGraphWidget         *widget,
+				    GOGraphWidgetSizeMode  size_mode,
+				    int                    width,
+				    int                    height);
 
 GogGraph *go_graph_widget_get_graph (GOGraphWidget *widget);
 GogChart *go_graph_widget_get_chart (GOGraphWidget *widget);

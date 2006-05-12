@@ -75,7 +75,7 @@ main (int argc, char *argv[])
 	gtk_box_pack_end (GTK_BOX (box), w, FALSE, FALSE, 2);
 
 	/* Create a graph widget and add it to the GtkVBox */
-	w = go_graph_widget_new ();
+	w = go_graph_widget_new (NULL);
 	gtk_box_pack_end (GTK_BOX (box), w, TRUE, TRUE, 0);
 	/* Get the embedded graph */
 	graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (w));

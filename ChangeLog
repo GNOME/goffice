@@ -1,3 +1,11 @@
+2006-05-12  Christian Neumair  <chris@gnome-de.org>
+
+	* goffice/gtk/go-graph-widget.c:
+	* goffice/gtk/go-graph-widget.h: Add multiple size modes,
+	modify go_graph_widget_new to take a GogGraph *.
+
+	* tests/pie-demo.c: (main): Pass NULL to go_graph_widget_new.
+
 2006-05-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/component/go-component.c: change api.
