@@ -1120,11 +1120,23 @@ SUFFIX(split_time) (struct tm *tm,
 	GDate date;
 	DOUBLE delta = 1 / (invprecision * (2 * 24 * 60 * 60));
 	DOUBLE fl_number;
+	int i_number;
 
 	number += delta;
 	fl_number = SUFFIX(floor) (number);
+	i_number = (fl_number >= INT_MIN && fl_number <= INT_MAX)
+		? (int)fl_number
+		: INT_MAX;
 
-	datetime_serial_to_g (&date, (int)fl_number, date_conv);
+	datetime_serial_to_g (&date, i_number, date_conv);
+	if (!g_date_valid (&date) || g_date_get_year (&date) > 9999) {
+		/*
+		 * It's not clear what to do here.  Excel uses #######
+		 * for invalid dates.
+		 */
+		g_date_set_dmy (&date, 31, 12, 9999);
+	}
+
 	g_date_to_struct_tm (&date, tm);
 
 	secs = (int)((number - fl_number) * (24 * 60 * 60));

@@ -1,3 +1,8 @@
+2006-05-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/format.c (split_time): Handle invalid dates
+	sanely.
+
 2006-05-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-color.h: define GO_COLOR_TO_CAIRO.

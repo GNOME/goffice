@@ -5,6 +5,7 @@ Jean Brefort:
 
 Morten:
 	* Make text combos work in overflowed toolbars.  [#157901]
+	* Avoid CRITICALs on formatting invalid dates.
 
 --------------------------------------------------------------------------
 
