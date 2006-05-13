@@ -152,8 +152,8 @@ gpointer   gog_style_get_editor	     	(GogStyle *style,
 					 GOCmdContext *cc,
 					 GObject *object_with_style);
 
-cairo_pattern_t *gog_style_create_cairo_pattern (GogStyle *style,
-					double width, double height);
+cairo_pattern_t *gog_style_create_cairo_pattern (GogStyle const *style,
+						 double width, double height);
 
 G_END_DECLS
 

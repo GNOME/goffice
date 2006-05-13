@@ -2001,7 +2001,7 @@ pixbuf_to_cairo (unsigned char *p, int width, int height, int rowstride)
  * return value: the pattern or NULL if it could not be created.
  **/
 cairo_pattern_t *
-gog_style_create_cairo_pattern (GogStyle *style, double width, double height)
+gog_style_create_cairo_pattern (GogStyle const *style, double width, double height)
 {
 	cairo_pattern_t *cr_pattern;
 	cairo_surface_t *cr_surface;
@@ -2123,4 +2123,6 @@ gog_style_create_cairo_pattern (GogStyle *style, double width, double height)
 		case GOG_FILL_STYLE_NONE:
 			return NULL;
 	}
+
+	return NULL;
 }

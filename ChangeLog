@@ -1,3 +1,8 @@
+2006-05-13  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-style.c (gog_style_create_cairo_pattern) :
+	  constify and fix some warnings.
+
 2006-05-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-plugin.c: (go_plugins_add): new function.

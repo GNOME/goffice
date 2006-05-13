@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_REGRESSION_H
-#define GNUMERIC_REGRESSION_H
+#ifndef GO_UTILS_REGRESSION_H
+#define GO_UTILS_REGRESSION_H
 
 #include <glib/gtypes.h>
 
@@ -157,4 +157,4 @@ gboolean    go_matrix_invertl 		(long double **A, int n);
 long double go_matrix_determinantl 	(long double **A, int n);
 #endif
 
-#endif
+#endif /* GO_UTILS_REGRESSION_H */

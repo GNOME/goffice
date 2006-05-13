@@ -868,9 +868,7 @@ go_rotation_sel_get_rotation
 <FILE>go-optionmenu</FILE>
 <TITLE>GoOptionMenu</TITLE>
 go_option_menu_new
-go_option_menu_get_menu
 go_option_menu_set_menu
-go_option_menu_remove_menu
 go_option_menu_set_history
 go_option_menu_get_history
 <SUBSECTION Standard>

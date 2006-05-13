@@ -31,11 +31,10 @@ G_BEGIN_DECLS
 
 extern double GOCXres, GOCYres;
 
-struct _GOComponent
-{
+struct _GOComponent {
 	GObject parent;
 
-/*protected*/
+	/*protected*/
 	char *mime_type;
 	double width, ascent, descent, height;
 	double default_width, default_ascent, default_descent;
@@ -46,13 +45,12 @@ struct _GOComponent
 	GdkPixbuf *pixbuf;
 };
 
-struct _GOComponentClass
-{
+struct _GOComponentClass {
 	GObjectClass parent_class;
 
 	gboolean (*edit) (GOComponent *component);
 	gboolean (*get_data) (GOComponent *component, gpointer *data, int *length,
-							void (**clearfunc) (gpointer), gpointer *user_data);
+			      void (**clearfunc) (gpointer), gpointer *user_data);
 	void (*mime_type_set) (GOComponent* component);
 	void (*set_data) (GOComponent *component);
 	void (*set_default_size) (GOComponent* component);
@@ -60,9 +58,9 @@ struct _GOComponentClass
 	void (*set_size) (GOComponent *component);
 	void (*set_window) (GOComponent *component);
 	void (*draw_cairo) (GOComponent *component, gpointer data,
-												double width, double height);
+			    double width, double height);
 	void (*print) (GOComponent *component, GnomePrintContext *gpc,
-												double width, double height);
+		       double width, double height);
 	void (*draw) (GOComponent *component, int width_pixels, int height_pixels);
 	char *(*export_to_svg) (GOComponent *component);
 
@@ -84,29 +82,26 @@ GOComponent  *go_component_new_by_name	(char const *id);
 GOComponent  *go_component_new_by_mime_type	(char const *mime_type);
 
 void go_component_set_default_size (GOComponent *component,
-								double width, double ascent, double descent);
+				    double width, double ascent, double descent);
 gboolean go_component_needs_window (GOComponent *component);
 void go_component_set_window (GOComponent *component, GdkWindow *window);
 void go_component_set_pixbuf (GOComponent *component, GdkPixbuf *pixbuf);
 void go_component_set_data (GOComponent *component,
-												char const *data, int length);
+			    char const *data, int length);
 gboolean go_component_get_data (GOComponent *component, gpointer *data, int *length,
-									void (**clearfunc) (gpointer), gpointer *user_data);
-void go_component_set_size (GOComponent *component,
-												double width, double height);
+				void (**clearfunc) (gpointer data), gpointer *user_data);
+void go_component_set_size (GOComponent *component, double width, double height);
 void go_component_draw (GOComponent *component, int width_pixels, int height_pixels);
 gboolean go_component_is_resizable (GOComponent *component);
 gboolean go_component_is_editable (GOComponent *component);
 gboolean go_component_edit (GOComponent *component);
-void go_component_print (GOComponent *component, GnomePrintContext *gpc,
-												double width, double height);
+void go_component_print (GOComponent *component, GnomePrintContext *gpc, double width, double height);
 void go_component_emit_changed (GOComponent *component);
 char *go_component_export_to_svg (GOComponent *component);
 
 void go_component_set_command_context (GOCmdContext *cc);
 GOCmdContext *go_component_get_command_context (void);
-void go_component_draw_cairo (GOComponent *component, gpointer data,
-												double width, double height);
+void go_component_draw_cairo (GOComponent *component, gpointer data, double width, double height);
 
 G_END_DECLS
 
