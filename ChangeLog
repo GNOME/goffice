@@ -1,3 +1,8 @@
+2006-05-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-plugin.c: (go_plugins_add): new function.
+	* goffice/app/go-plugin.h: ditto.
+
 2006-05-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/format.c (split_time): Handle invalid dates

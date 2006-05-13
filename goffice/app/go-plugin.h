@@ -48,6 +48,11 @@ void	go_plugins_init	    (GOCmdContext *context,
 			     gboolean activate_new_plugins,
 			     GType  default_loader_type);
 GSList *go_plugins_shutdown (void);
+void	go_plugins_add	    (GOCmdContext *context,
+			     GSList const *known_states,
+			     GSList const *active_plugins,
+			     GSList *plugin_dirs,
+			     GType  default_loader_type);
 
 void	  go_plugins_register_loader (const gchar *id_str, GOPluginService *service);
 void	  go_plugins_unregister_loader (const gchar *id_str);

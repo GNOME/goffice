@@ -1772,6 +1772,84 @@ go_plugins_init (GOCmdContext *context,
 	}
 }
 
+/**
+ * go_plugins_add:
+ * @context     : #GOCmdContext used to report errors
+ *
+ * Adds new plugins to currently used plugins.
+ */
+void
+go_plugins_add (GOCmdContext *context,
+		 GSList const *known_states,
+		 GSList const *active_plugins,
+		 GSList *plugin_dirs,
+		 GType  default_loader_type)
+{
+	GSList *error_list = NULL;
+	ErrorInfo *error;
+	GSList *plugin_list;
+
+	plugin_dirs = g_slist_append (plugin_dirs, go_plugins_get_plugin_dir ());
+
+	go_default_loader_type = default_loader_type;
+	go_plugins_set_dirs (plugin_dirs);
+
+	GO_SLIST_FOREACH (known_states, char, state_str,
+		PluginFileState *state;
+
+		state = plugin_file_state_from_string (state_str);
+		if (state != NULL)
+			g_hash_table_insert (plugin_file_state_dir_hash, state->dir_name, state);
+	);
+	plugin_file_state_hash_changed = FALSE;
+
+	/* collect information about the available plugins */
+	g_slist_free (available_plugins);
+	available_plugins = go_plugin_list_read_for_all_dirs (&error);
+	GO_SLIST_FOREACH (available_plugins, GOPlugin, plugin,
+		g_hash_table_insert (
+			available_plugins_id_hash,
+			(gpointer) go_plugin_get_id (plugin), plugin);
+	);
+	if (error != NULL) {
+		GO_SLIST_PREPEND (error_list, error_info_new_str_with_details (
+			_("Errors while reading info about available plugins."), error));
+	}
+
+	/* get descriptors for all previously active plugins */
+	plugin_list = NULL;
+	GO_SLIST_FOREACH (active_plugins, char, plugin_id,
+		GOPlugin *plugin = go_plugins_get_plugin_by_id (plugin_id);
+		if (plugin != NULL)
+			GO_SLIST_PREPEND (plugin_list, plugin);
+	);
+
+	/* get descriptors for new plugins */
+	g_hash_table_foreach (
+		plugin_file_state_dir_hash,
+		(GHFunc) ghf_collect_new_plugins,
+		&plugin_list);
+
+	plugin_list = g_slist_reverse (plugin_list);
+	go_plugin_db_activate_plugin_list (plugin_list, &error);
+	g_slist_free (plugin_list);
+	if (error != NULL) {
+		GO_SLIST_PREPEND (error_list, error_info_new_str_with_details (
+			_("Errors while activating plugins."), error));
+	}
+
+	/* report initialization errors */
+	if (error_list != NULL) {
+		GO_SLIST_REVERSE (error_list);
+		error = error_info_new_str_with_details_list (
+		        _("Errors while initializing plugin system."),
+		        error_list);
+
+		go_cmd_context_error_info (context, error);
+		error_info_free (error);
+	}
+}
+
 static void
 ghf_collect_used_plugin_state_strings (gpointer key, gpointer value, gpointer user_data)
 {
