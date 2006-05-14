@@ -946,3 +946,17 @@ gog_graph_export_image (GogGraph *graph, GOImageFormat format, GsfOutput *output
 
 	return result;
 }
+
+void gog_graph_render_to_cairo (GogGraph *graph, gpointer data, double w, double h)
+{
+#ifdef GOFFICE_WITH_CAIRO
+	GogRendererCairo *rend = GOG_RENDERER_CAIRO (g_object_new (
+		GOG_RENDERER_CAIRO_TYPE,
+		"model", graph,
+		"cairo", data,
+		"is-vector", FALSE,
+		NULL));
+	gog_renderer_cairo_update (rend, w, h, 1.);
+	g_object_unref (rend);
+#endif
+}

@@ -58,12 +58,11 @@
 
 #include <math.h>
 
-#define DOUBLE_RGBA_R(x) (double)UINT_RGBA_R(x)/255.0
-#define DOUBLE_RGBA_G(x) (double)UINT_RGBA_G(x)/255.0
-#define DOUBLE_RGBA_B(x) (double)UINT_RGBA_B(x)/255.0
-#define DOUBLE_RGBA_A(x) (double)UINT_RGBA_A(x)/255.0
-
-#define GO_COLOR_TO_CAIRO(x) DOUBLE_RGBA_R(x),DOUBLE_RGBA_G(x),DOUBLE_RGBA_B(x),DOUBLE_RGBA_A(x)
+enum {
+	RENDERER_CAIRO_PROP_0,
+	RENDERER_CAIRO_PROP_CAIRO,
+	RENDERER_CAIRO_PROP_IS_VECTOR,
+};
 
 static void grc_free_marker_data (GogRendererCairo *crend);
 
@@ -102,6 +101,49 @@ gog_renderer_cairo_finalize (GObject *obj)
 	grc_free_marker_data (crend);
 	
 	(*parent_klass->finalize) (obj);
+}
+
+static void
+gog_renderer_cairo_set_property (GObject *obj, guint param_id,
+			   GValue const *value, GParamSpec *pspec)
+{
+	GogRendererCairo *crend = GOG_RENDERER_CAIRO (obj);
+
+	switch (param_id) {
+	case RENDERER_CAIRO_PROP_CAIRO:
+		if (crend->cairo)
+			cairo_destroy (crend->cairo);
+		crend->cairo = g_value_get_pointer (value);
+		if (crend->cairo)
+			cairo_reference (crend->cairo);
+		break;
+
+	case RENDERER_CAIRO_PROP_IS_VECTOR:
+		crend->is_vector = g_value_get_boolean (value);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+}
+
+static void
+gog_renderer_cairo_get_property (GObject *obj, guint param_id,
+			   GValue *value, GParamSpec *pspec)
+{
+	GogRendererCairo *crend = GOG_RENDERER_CAIRO (obj);
+
+	switch (param_id) {
+	case RENDERER_CAIRO_PROP_CAIRO:
+		g_value_set_pointer (value, crend->cairo);
+		break;
+	case RENDERER_CAIRO_PROP_IS_VECTOR:
+		g_value_set_boolean (value, crend->is_vector);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
 }
 
 static void
@@ -759,7 +801,7 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 					break;
 #else
 					g_warning ("[GogRendererCairo::export_image] cairo PDF backend missing");
-					return;
+					return FALSE;
 #endif
 				case GO_IMAGE_FORMAT_PS:
 #ifdef CAIRO_HAS_PS_SURFACE
@@ -769,7 +811,7 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 					break;
 #else
 					g_warning ("[GogRendererCairo::export_image] cairo PS backend missing");
-					return;
+					return FALSE;
 #endif
 				case GO_IMAGE_FORMAT_SVG:
 #ifdef CAIRO_HAS_SVG_SURFACE
@@ -779,7 +821,7 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 					break;
 #else
 					g_warning ("[GogRendererCairo::export_image] cairo SVG backend missing");
-					return;
+					return FALSE;
 #endif
 				default:
 					break;
@@ -811,6 +853,7 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 			g_warning ("[GogRendererCairo:export_image] unsupported format");
 			return FALSE;
 	}
+	return TRUE;
 }
 
 static void
@@ -820,6 +863,8 @@ gog_renderer_cairo_class_init (GogRendererClass *rend_klass)
 
 	parent_klass = g_type_class_peek_parent (rend_klass);
 	gobject_klass->finalize		= gog_renderer_cairo_finalize;
+	gobject_klass->get_property = gog_renderer_cairo_get_property;
+	gobject_klass->set_property = gog_renderer_cairo_set_property;
 	rend_klass->push_style		= gog_renderer_cairo_push_style;
 	rend_klass->pop_style		= gog_renderer_cairo_pop_style;
 	rend_klass->push_clip  		= gog_renderer_cairo_push_clip;
@@ -834,6 +879,15 @@ gog_renderer_cairo_class_init (GogRendererClass *rend_klass)
 	rend_klass->get_text_OBR	= gog_renderer_cairo_get_text_OBR;
 	rend_klass->line_size		= gog_renderer_cairo_line_size;
 	rend_klass->export_image	= gog_renderer_cairo_export_image;
+
+	g_object_class_install_property (gobject_klass, RENDERER_CAIRO_PROP_CAIRO,
+		g_param_spec_pointer ("cairo", "cairo",
+			"the cairo_t* this renderer uses",
+			G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_klass, RENDERER_CAIRO_PROP_IS_VECTOR,
+		g_param_spec_boolean ("is-vector", "is-vector",
+			"tells if the cairo surface is vectorial or raster", FALSE,
+			G_PARAM_READWRITE));
 }
 
 static void
@@ -868,6 +922,7 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 	cairo_surface_t *surface;
 	gboolean redraw = TRUE;
 	gboolean size_changed;
+	gboolean create_cairo = crend->cairo == NULL;
 
 	g_return_val_if_fail (IS_GOG_RENDERER_CAIRO (crend), FALSE);
 	g_return_val_if_fail (IS_GOG_VIEW (crend->base.view), FALSE);
@@ -899,14 +954,16 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 	allocation.x = allocation.y = 0.;
 	allocation.w = w;
 	allocation.h = h;
-	
-	surface = cairo_image_surface_create_for_data (gdk_pixbuf_get_pixels (crend->pixbuf),
-						       CAIRO_FORMAT_ARGB32, 
-						       crend->w, crend->h,
-						       gdk_pixbuf_get_rowstride (crend->pixbuf));
-	crend->cairo = cairo_create (surface);
-	cairo_surface_destroy (surface);
-	crend->is_vector = FALSE;
+
+	if (create_cairo) {	
+		surface = cairo_image_surface_create_for_data (gdk_pixbuf_get_pixels (crend->pixbuf),
+								   CAIRO_FORMAT_ARGB32, 
+								   crend->w, crend->h,
+								   gdk_pixbuf_get_rowstride (crend->pixbuf));
+		crend->cairo = cairo_create (surface);
+		cairo_surface_destroy (surface);
+		crend->is_vector = FALSE;
+	}
 
 	if (size_changed) {
 		crend->base.scale_x = w / graph->width;
@@ -929,9 +986,12 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 	redraw |= crend->base.needs_update;
 	crend->base.needs_update = FALSE;
 
-	if (redraw) { 
-		cairo_set_operator (crend->cairo, CAIRO_OPERATOR_CLEAR);
-		cairo_paint (crend->cairo);
+	if (redraw) {
+		if (create_cairo) {
+			/* clear if we created it, not otherwise */
+			cairo_set_operator (crend->cairo, CAIRO_OPERATOR_CLEAR);
+			cairo_paint (crend->cairo);
+		}
 		cairo_set_operator (crend->cairo, CAIRO_OPERATOR_OVER);
 
 		cairo_set_line_join (crend->cairo, CAIRO_LINE_JOIN_ROUND);
@@ -943,8 +1003,10 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 				     gdk_pixbuf_get_rowstride (crend->pixbuf));
 	}
 
-	cairo_destroy (crend->cairo);
-	crend->cairo = NULL;
+	if (create_cairo) {
+		cairo_destroy (crend->cairo);
+		crend->cairo = NULL;
+	}
 	return redraw;
 }
 
@@ -955,4 +1017,3 @@ gog_renderer_cairo_get_pixbuf (GogRendererCairo *crend)
 
 	return crend->pixbuf;
 }
-

@@ -1,5 +1,12 @@
 2006-05-14  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-graph.c: (gog_graph_render_to_cairo): new function.
+	* goffice/graph/gog-graph.h: ditto.
+	* goffice/graph/gog-renderer-cairo.c: added "cairo" and "is-vector"
+	properties to allow rendering to an external cairo_t structure.
+
+2006-05-14  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* configure.in: use Cairo if present.
 	* goffice/goffice-features.h.in: export GOFFICE_WITH_CAIRO.
 	* goffice/graph/gog-style.c: compile even without cairo.

@@ -76,6 +76,8 @@ gboolean  gog_graph_export_image 		(GogGraph *graph, GOImageFormat format,
 void  	 gog_graph_view_handle_event 	(GogGraphView *gview, GdkEvent *event, double x_offset, double y_offset);
 #endif
 
+void gog_graph_render_to_cairo (GogGraph *graph, gpointer data, double w, double h);
+
 G_END_DECLS
 
 #endif /* GOG_GRAPH_H */
