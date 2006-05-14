@@ -1,3 +1,10 @@
+2006-05-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: use Cairo if present.
+	* goffice/goffice-features.h.in: export GOFFICE_WITH_CAIRO.
+	* goffice/graph/gog-style.c: compile even without cairo.
+	* goffice/graph/gog-style.h: ditto.
+
 2006-05-13  Jody Goldberg <jody@gnome.org>
 
 	* goffice/graph/gog-style.c (gog_style_create_cairo_pattern) :

@@ -1990,6 +1990,7 @@ pixbuf_to_cairo (unsigned char *p, int width, int height, int rowstride)
 #undef MULT
 }
 
+#ifdef GOFFICE_WITH_CAIRO
 /**
  * gog_style_create_cairo_pattern:
  * @style : #GogStyle
@@ -2126,3 +2127,4 @@ gog_style_create_cairo_pattern (GogStyle const *style, double width, double heig
 
 	return NULL;
 }
+#endif
