@@ -1959,6 +1959,7 @@ gog_style_set_text_angle (GogStyle *style, double angle)
 	style->text_layout.auto_angle = FALSE;
 }
 
+#ifdef GOFFICE_WITH_CAIRO
 /* Red and blue are inverted in a pixbuf compared to cairo */
 static void
 pixbuf_to_cairo (unsigned char *p, int width, int height, int rowstride)
@@ -1989,6 +1990,7 @@ pixbuf_to_cairo (unsigned char *p, int width, int height, int rowstride)
 	}
 #undef MULT
 }
+#endif
 
 #ifdef GOFFICE_WITH_CAIRO
 /**
