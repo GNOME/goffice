@@ -41,7 +41,6 @@ struct  _GOGraphWidget{
 
 	GogRenderer *renderer;
 	GogGraph *graph;
-	GogChart *chart; /* first chart created on init */
 	double aspect_ratio;
 	guint width, height, xoffset, yoffset;
 	int requested_width, requested_height;
@@ -418,4 +417,18 @@ go_graph_widget_get_graph (GOGraphWidget *widget)
 {
 	g_return_val_if_fail (IS_GO_GRAPH_WIDGET (widget), NULL);
 	return widget->graph;
+}
+
+/**
+ * go_graph_widget_get_chart :
+ * @widget : #GOGraphWidget
+ * 
+ * Returns the #GogChart created by go_graph_widget_new().
+ **/
+GogChart *
+go_graph_widget_get_chart (GOGraphWidget *widget)
+{
+	g_return_val_if_fail (IS_GO_GRAPH_WIDGET (widget), NULL);
+	return (GogChart *) gog_object_get_child_by_name (
+						GOG_OBJECT (widget->graph), "Chart");
 }

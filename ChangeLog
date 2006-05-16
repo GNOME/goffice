@@ -1,3 +1,9 @@
+2006-05-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-graph-widget.c: removed unused GOGraphWidget::chart,
+	and reimplemented helper function go_graph_widget_get_chart for
+	compatibility.
+
 2006-05-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-graph.c: (gog_graph_render_to_cairo): new function.
