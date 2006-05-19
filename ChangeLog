@@ -1,3 +1,8 @@
+2006-05-19  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-renderer.c (gog_renderer_new_for_format): Fix
+	preprocessor conditionals.
+
 2006-05-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-graph-widget.c: removed unused GOGraphWidget::chart,

@@ -938,6 +938,7 @@ gog_renderer_new_for_format (GogGraph *graph, GOImageFormat format)
 #else
 #ifdef GOFFICE_WITH_GTK
 			type = GOG_RENDERER_PIXBUF_TYPE;
+#else
 			g_warning ("No cairo AND no gtk ???");
 			return NULL;
 #endif
