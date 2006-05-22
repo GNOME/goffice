@@ -41,6 +41,7 @@ typedef struct {
 	char *ext;
 	gboolean has_pixbuf_saver;
 	gboolean is_dpi_useful; 
+	gboolean alpha_support;
 } GOImageFormatInfo;
 
 char 	  *go_mime_to_image_format      (char const *mime_type);

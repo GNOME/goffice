@@ -1,3 +1,13 @@
+2006-05-22  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/utils/go-format.c: new alpha_support property for
+	GOImageFormatInfo. Tells wether export format support alpha channel.
+	* goffice/graph/gog-renderer-cairo.c 
+	(gog_renderer_cairo_export_image): for image formats that don't 
+	support alpha channel, composite onto white background.
+	* goffice/graph/gog-renderer-pixbuf.c
+	(gog_renderer_pixbuf_export_image): ditto.
+
 2006-05-19  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-renderer.c (gog_renderer_new_for_format): Fix

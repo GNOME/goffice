@@ -111,19 +111,19 @@ go_image_format_to_mime (char const *format)
 
 static GOImageFormatInfo const image_format_infos[GO_IMAGE_FORMAT_UNKNOWN] = {
 	{GO_IMAGE_FORMAT_SVG, (char *) "svg",  (char *) N_("SVG (vector graphics)"), 	 
-		(char *) "svg", FALSE, FALSE},
+		(char *) "svg", FALSE, FALSE, TRUE},
 	{GO_IMAGE_FORMAT_PNG, (char *) "png",  (char *) N_("PNG (raster graphics)"), 	 
-		(char *) "png", TRUE,  TRUE},
+		(char *) "png", TRUE,  TRUE, TRUE},
 	{GO_IMAGE_FORMAT_JPG, (char *) "jpeg", (char *) N_("JPEG (photograph)"),     	 
-		(char *) "jpg", TRUE,  TRUE},
+		(char *) "jpg", TRUE,  TRUE, FALSE},
 	{GO_IMAGE_FORMAT_PDF, (char *) "pdf",  (char *) N_("PDF (portable document format)"), 
-		(char *) "pdf", FALSE, TRUE},
+		(char *) "pdf", FALSE, TRUE, TRUE},
 	{GO_IMAGE_FORMAT_PS,  (char *) "ps",   (char *) N_("PS (postscript)"), 		 
-		(char *) "ps",  FALSE, TRUE},
+		(char *) "ps",  FALSE, TRUE, TRUE},
 	{GO_IMAGE_FORMAT_EMF, (char *) "emf",  (char *) N_("EMF (extended metafile)"),
-		(char *) "emf", FALSE, FALSE},
+		(char *) "emf", FALSE, FALSE, TRUE},
 	{GO_IMAGE_FORMAT_WMF, (char *) "wmf",  (char *) N_("WMF (windows metafile)"), 
-		(char *) "wmf", FALSE, FALSE}
+		(char *) "wmf", FALSE, FALSE, TRUE}
 };
 
 static GOImageFormatInfo *pixbuf_image_format_infos = NULL;
@@ -166,6 +166,7 @@ go_image_build_pixbuf_format_infos (void)
 			g_strfreev (exts);
 			format_info->has_pixbuf_saver = gdk_pixbuf_format_is_writable (fmt);
 			format_info->is_dpi_useful = FALSE;
+			format_info->alpha_support = TRUE;
 		}
 	}
 
