@@ -166,7 +166,7 @@ go_image_build_pixbuf_format_infos (void)
 			g_strfreev (exts);
 			format_info->has_pixbuf_saver = gdk_pixbuf_format_is_writable (fmt);
 			format_info->is_dpi_useful = FALSE;
-			format_info->alpha_support = TRUE;
+			format_info->alpha_support = FALSE;
 		}
 	}
 

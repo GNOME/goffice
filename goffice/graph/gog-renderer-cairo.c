@@ -775,33 +775,6 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 	gog_graph_get_size (renderer->model, &width_in_pts, &height_in_pts);
 
 	switch (format) {
-		case GO_IMAGE_FORMAT_PNG:
-		case GO_IMAGE_FORMAT_JPG:
-			gog_renderer_cairo_update (crend, 
-						   width_in_pts * x_dpi / 72.0, 
-						   height_in_pts * y_dpi / 72.0, 1.0);
-			pixbuf = gog_renderer_cairo_get_pixbuf (crend);
-			if (pixbuf == NULL)
-				return FALSE;
-			format_info = go_image_get_format_info (format);
-			if (!format_info->alpha_support) 
-				output_pixbuf = gdk_pixbuf_composite_color_simple (pixbuf,
-										   gdk_pixbuf_get_width (pixbuf),
-										   gdk_pixbuf_get_height (pixbuf),
-										   GDK_INTERP_NEAREST,
-										   255, 256, 0xffffffff,
-										   0xffffffff);
-
-			else 
-				output_pixbuf = pixbuf;
-			result = gdk_pixbuf_save_to_callback (output_pixbuf,
-							      grc_gsf_gdk_pixbuf_save,
-							      output, format_info->name,
-							      NULL, NULL);
-			if (!format_info->alpha_support)
-				g_object_unref (output_pixbuf);
-			return result;
-			break;
 		case GO_IMAGE_FORMAT_PDF:
 		case GO_IMAGE_FORMAT_PS:
 		case GO_IMAGE_FORMAT_SVG:
@@ -864,10 +837,39 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 			return status == CAIRO_STATUS_SUCCESS;
 			break;
 		default:
-			g_warning ("[GogRendererCairo:export_image] unsupported format");
-			return FALSE;
+			format_info = go_image_get_format_info (format);
+			if (!format_info->has_pixbuf_saver) {
+				g_warning ("[GogRendererCairo:export_image] unsupported format");
+				return FALSE;
+			}
+
+			gog_renderer_cairo_update (crend, 
+						   width_in_pts * x_dpi / 72.0, 
+						   height_in_pts * y_dpi / 72.0, 1.0);
+			pixbuf = gog_renderer_cairo_get_pixbuf (crend);
+			if (pixbuf == NULL)
+				return FALSE;
+			format_info = go_image_get_format_info (format);
+			if (!format_info->alpha_support) 
+				output_pixbuf = gdk_pixbuf_composite_color_simple (pixbuf,
+										   gdk_pixbuf_get_width (pixbuf),
+										   gdk_pixbuf_get_height (pixbuf),
+										   GDK_INTERP_NEAREST,
+										   255, 256, 0xffffffff,
+										   0xffffffff);
+
+			else 
+				output_pixbuf = pixbuf;
+			result = gdk_pixbuf_save_to_callback (output_pixbuf,
+							      grc_gsf_gdk_pixbuf_save,
+							      output, format_info->name,
+							      NULL, NULL);
+			if (!format_info->alpha_support)
+				g_object_unref (output_pixbuf);
+			return result;
+			break;
 	}
-	return TRUE;
+	return FALSE;
 }
 
 static void
