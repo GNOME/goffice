@@ -1,5 +1,12 @@
 2006-05-22  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* goffice/graph/gog-axis.c (map_log_calc_ticks): fix major start tick.
+	(get_adjusted_tick_array): obviously, I'm not reliable when it comes
+	to calculate memory allocation sizes, so emit a critical when
+	something's wrong.
+	
+2006-05-22  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	* goffice/utils/go-image.c (go_image_build_pixbuf_format_infos):
 	default alpha_support to FALSE.
 	* goffice/graph/gog-renderer-cairo.c

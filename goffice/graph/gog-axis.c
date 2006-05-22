@@ -103,6 +103,9 @@ static GogAxisTick *
 get_adjusted_tick_array (GogAxisTick *ticks, int allocated_size, int exact_size) 
 {
 	GogAxisTick *tmp_ticks;
+
+	if (exact_size > allocated_size)
+		g_critical ("[GogAxisTick] wrong memory allocation size");
 	
 	if (exact_size > 0) {
 		if (exact_size != allocated_size) {
@@ -647,7 +650,7 @@ map_log_calc_ticks (GogAxis *axis)
 		return;
 	}
 
-	start_tick = ceil (log10 (minimum));
+	start_tick = floor (log10 (minimum));
 	tick_nbr = major_tick = ceil (ceil (log10 (maximum)) - floor (log10 (minimum)) + 1.0);
 	tick_nbr *= minor_tick;
 	if (tick_nbr < 1 || tick_nbr > GOG_AXIS_MAX_TICK_NBR) {
@@ -678,15 +681,15 @@ map_log_calc_ticks (GogAxis *axis)
 				count++;
 			}
 		} 
-			for (j = 1; j < minor_tick; j++) {
-				position = pow (10.0, i + start_tick) * (9.0 / (double)minor_tick * (double) j + 1.0);
-				if (position >= go_sub_epsilon (minimum) && go_sub_epsilon (position) <= maximum) {
-					ticks[count].position = position;
-					ticks[count].type = GOG_AXIS_TICK_MINOR;
-					ticks[count].label = NULL;
-					count++;
-				}
+		for (j = 1; j < minor_tick; j++) {
+			position = pow (10.0, i + start_tick) * (9.0 / (double)minor_tick * (double) j + 1.0);
+			if (position >= go_sub_epsilon (minimum) && go_sub_epsilon (position) <= maximum) {
+				ticks[count].position = position;
+				ticks[count].type = GOG_AXIS_TICK_MINOR;
+				ticks[count].label = NULL;
+				count++;
 			}
+		}
 	}
 
 	ticks = get_adjusted_tick_array (ticks, tick_nbr, count);
