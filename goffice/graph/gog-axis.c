@@ -100,29 +100,6 @@ struct _GogAxis {
 static void gog_axis_set_ticks (GogAxis *axis,int tick_nbr, GogAxisTick *ticks);
 
 static GogAxisTick *
-get_adjusted_tick_array (GogAxisTick *ticks, int allocated_size, int exact_size) 
-{
-	GogAxisTick *tmp_ticks;
-
-	if (exact_size > allocated_size)
-		g_critical ("[GogAxisTick] wrong memory allocation size");
-	
-	if (exact_size > 0) {
-		if (exact_size != allocated_size) {
-			tmp_ticks = g_new (GogAxisTick, exact_size);
-			memcpy (tmp_ticks, ticks, sizeof (GogAxisTick) * exact_size);
-			g_free (ticks);
-		} else
-			tmp_ticks = ticks;
-	} else {
-		g_free (ticks);
-		tmp_ticks = NULL;
-	}
-
-	return tmp_ticks;
-}
-
-static GogAxisTick *
 create_invalid_axis_ticks (double min, double max) 
 {
 	GogAxisTick *ticks;
@@ -692,7 +669,10 @@ map_log_calc_ticks (GogAxis *axis)
 		}
 	}
 
-	ticks = get_adjusted_tick_array (ticks, tick_nbr, count);
+	if (count > tick_nbr)
+		g_critical ("[GogAxisMap::log_calc_ticks] wrong memory allocation size");
+
+	ticks = g_renew (GogAxisTick, ticks, count);
 	gog_axis_set_ticks (axis, count, ticks);
 }
 
