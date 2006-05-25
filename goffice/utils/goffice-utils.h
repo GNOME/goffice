@@ -34,6 +34,7 @@ typedef struct _GOMarker		GOMarker;
 typedef struct _GOFormat		GOFormat;
 typedef struct _GOFormatElement		GOFormatElement;
 typedef struct _GODateConventions	GODateConventions;
+typedef struct _GOImage		GOImage;
 
 /* rename this */
 typedef struct _GOMemChunk		GOMemChunk;

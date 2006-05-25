@@ -1960,39 +1960,6 @@ gog_style_set_text_angle (GogStyle *style, double angle)
 }
 
 #ifdef GOFFICE_WITH_CAIRO
-/* Red and blue are inverted in a pixbuf compared to cairo */
-static void
-pixbuf_to_cairo (unsigned char *p, int width, int height, int rowstride)
-{
-	int i,j;
-	unsigned char a;
-	guint t;
-	
-#define MULT(d,c,a,t) G_STMT_START { t = c * a + 0x7f; d = ((t >> 8) + t) >> 8; } G_STMT_END
-	
-	for (i = 0; i < height; i++) {
-		for (j = 0; j < width; j++) {
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-			MULT(a,    p[2], p[3], t);
-			MULT(p[1], p[1], p[3], t);
-			MULT(p[2], p[0], p[3], t);
-			p[0] = a;
-#else	  
-			a = p[3];
-			MULT(p[3], p[2], a, t);
-			MULT(p[2], p[1], a, t);
-			MULT(p[1], p[0], a, t);
-			p[0] = a;
-#endif
-			p += 4;
-		}
-		p += rowstride - width * 4;
-	}
-#undef MULT
-}
-#endif
-
-#ifdef GOFFICE_WITH_CAIRO
 /**
  * gog_style_create_cairo_pattern:
  * @style : #GogStyle
@@ -2004,17 +1971,17 @@ pixbuf_to_cairo (unsigned char *p, int width, int height, int rowstride)
  * return value: the pattern or NULL if it could not be created.
  **/
 cairo_pattern_t *
-gog_style_create_cairo_pattern (GogStyle const *style, double width, double height)
+gog_style_create_cairo_pattern (GogStyle const *style, double width, double height, gpointer *data)
 {
 	cairo_pattern_t *cr_pattern;
 	cairo_surface_t *cr_surface;
 	cairo_matrix_t cr_matrix;
-	GdkPixbuf *pixbuf = NULL;
 	GOColor color;
+	GdkPixbuf *pixbuf = NULL;
 	double x[3], y[3];
-	int i, j, w, h, rowstride;
+	int i, j, w, h;
 	guint8 const *pattern;
-	unsigned char *pixels, *iter;
+	unsigned char *iter;
 
 	static struct { unsigned x0i, y0i, x1i, y1i; } const grad_i[GO_GRADIENT_MAX] = {
 		{0, 0, 0, 1},
@@ -2043,6 +2010,7 @@ gog_style_create_cairo_pattern (GogStyle const *style, double width, double heig
 	x[0] = y[0] = 0.;
 	x[1] = width;
 	y[1] = height;
+	*data = NULL;
 	switch (style->fill.type) {
 		case GOG_FILL_STYLE_PATTERN:
 			if (go_pattern_is_solid (&style->fill.pattern, &color))
@@ -2054,6 +2022,7 @@ gog_style_create_cairo_pattern (GogStyle const *style, double width, double heig
 
 				pattern = go_pattern_get_pattern (&style->fill.pattern);
 				pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 8, 8);
+				*data = pixbuf;
 				iter = gdk_pixbuf_get_pixels (pixbuf);
 				rowstride = gdk_pixbuf_get_rowstride (pixbuf);
 				cr_surface = cairo_image_surface_create_for_data ( iter, 
@@ -2095,14 +2064,14 @@ gog_style_create_cairo_pattern (GogStyle const *style, double width, double heig
 				return NULL;
 			}
 			pixbuf = gdk_pixbuf_add_alpha (style->fill.image.image, FALSE, 0, 0, 0);
-			pixels = gdk_pixbuf_get_pixels (pixbuf);
-			h = gdk_pixbuf_get_height (pixbuf);
-			w = gdk_pixbuf_get_width (pixbuf);
-			rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-			cr_surface = cairo_image_surface_create_for_data (pixels,
-				CAIRO_FORMAT_ARGB32, w, h, rowstride);
-			pixbuf_to_cairo (pixels, w, h, rowstride);
-			cr_pattern = cairo_pattern_create_for_surface (cr_surface);
+			{
+				GOImage *image = go_image_new_from_pixbuf (pixbuf);
+				cr_pattern = go_image_create_cairo_pattern (image);
+				*data = image;
+				g_object_unref (pixbuf);
+				g_object_get (image, "width", &w, "height", &h, NULL);
+			}
+			cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
 			switch (style->fill.image.type) {
 				case GOG_IMAGE_CENTERED:
 					cairo_matrix_init_translate (&cr_matrix, 
@@ -2120,7 +2089,6 @@ gog_style_create_cairo_pattern (GogStyle const *style, double width, double heig
 				case GOG_IMAGE_WALLPAPER:
 					break;
 			}
-			cairo_surface_destroy (cr_surface);
 			return cr_pattern;
 
 		case GOG_FILL_STYLE_NONE:

@@ -216,37 +216,6 @@ grc_path (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath)
 		}
 }
 
-/* Red and blue are inverted in a pixbuf compared to cairo */
-static void
-grc_pixbuf_to_cairo (unsigned char *p, int width, int height, int rowstride)
-{
-	int i,j;
-	unsigned char a;
-	guint t;
-	
-#define MULT(d,c,a,t) G_STMT_START { t = c * a + 0x7f; d = ((t >> 8) + t) >> 8; } G_STMT_END
-	
-	for (i = 0; i < height; i++) {
-		for (j = 0; j < width; j++) {
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-			MULT(a,    p[2], p[3], t);
-			MULT(p[1], p[1], p[3], t);
-			MULT(p[2], p[0], p[3], t);
-			p[0] = a;
-#else	  
-			a = p[3];
-			MULT(p[3], p[2], a, t);
-			MULT(p[2], p[1], a, t);
-			MULT(p[1], p[0], a, t);
-			p[0] = a;
-#endif
-			p += 4;
-		}
-		p += rowstride - width * 4;
-	}
-#undef MULT
-}
-
 static void
 grc_draw_path (GogRenderer *rend, ArtVpath const *vpath, ArtBpath const*bpath)
 {
@@ -395,12 +364,13 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 	cairo_surface_t *cr_surface = NULL;
 	cairo_matrix_t cr_matrix;
 	GdkPixbuf *pixbuf = NULL;
+	GOImage *image = NULL;
 	GOColor color;
 	double width = grc_line_size (rend, style->outline.width);
 	double x[3], y[3];
-	int i, j, w, h, rowstride;
+	int i, j, w, h;
 	guint8 const *pattern;
-	unsigned char *pixels, *iter;
+	unsigned char *iter;
 
 	g_return_if_fail (bpath != NULL || vpath != NULL);
 
@@ -468,14 +438,10 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 			}
 			cairo_fill_extents (cr, &x[0], &y[0], &x[1], &y[1]);
 			pixbuf = gdk_pixbuf_add_alpha (style->fill.image.image, FALSE, 0, 0, 0);
-			pixels = gdk_pixbuf_get_pixels (pixbuf);
+			image = go_image_new_from_pixbuf (pixbuf);
+			cr_pattern = go_image_create_cairo_pattern (image);
 			h = gdk_pixbuf_get_height (pixbuf);
 			w = gdk_pixbuf_get_width (pixbuf);
-			rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-			cr_surface = cairo_image_surface_create_for_data (pixels,
-				CAIRO_FORMAT_ARGB32, w, h, rowstride);
-			grc_pixbuf_to_cairo (pixels, w, h, rowstride);
-			cr_pattern = cairo_pattern_create_for_surface (cr_surface);
 			cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
 			switch (style->fill.image.type) {
 				case GOG_IMAGE_CENTERED:
@@ -526,6 +492,8 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 		cairo_surface_destroy (cr_surface);
 	if (pixbuf)
 		g_object_unref (pixbuf);
+	if (image)
+		g_object_unref (image);
 }
 
 static void
@@ -935,7 +903,7 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 	GogGraph *graph;
 	GogView *view;
 	GogViewAllocation allocation;
-	cairo_surface_t *surface;
+	GOImage *image = NULL;
 	gboolean redraw = TRUE;
 	gboolean size_changed;
 	gboolean create_cairo = crend->cairo == NULL;
@@ -944,7 +912,7 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 	g_return_val_if_fail (IS_GOG_VIEW (crend->base.view), FALSE);
 
 	size_changed = crend->w != w || crend->h != h;
-	if (size_changed) {
+	if (size_changed && create_cairo) {
 		if (crend->pixbuf != NULL)
 			g_object_unref (crend->pixbuf);
 		crend->pixbuf = NULL;
@@ -971,13 +939,9 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 	allocation.w = w;
 	allocation.h = h;
 
-	if (create_cairo) {	
-		surface = cairo_image_surface_create_for_data (gdk_pixbuf_get_pixels (crend->pixbuf),
-								   CAIRO_FORMAT_ARGB32, 
-								   crend->w, crend->h,
-								   gdk_pixbuf_get_rowstride (crend->pixbuf));
-		crend->cairo = cairo_create (surface);
-		cairo_surface_destroy (surface);
+	if (create_cairo) {
+		image = go_image_new_from_pixbuf (crend->pixbuf);
+		crend->cairo = go_image_get_cairo (image);;
 		crend->is_vector = FALSE;
 	}
 
@@ -1014,9 +978,11 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 		cairo_set_line_cap (crend->cairo, CAIRO_LINE_CAP_ROUND);
 
 		gog_view_render	(view, NULL);
-		
-		grc_pixbuf_to_cairo (gdk_pixbuf_get_pixels (crend->pixbuf), w, h, 
-				     gdk_pixbuf_get_rowstride (crend->pixbuf));
+
+		if (create_cairo) {
+			go_image_get_pixbuf (image);
+			g_object_unref (image);
+		}
 	}
 
 	if (create_cairo) {

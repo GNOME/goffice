@@ -23,10 +23,8 @@
 #include <goffice/utils/go-image.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
-
-#ifdef GOFFICE_WITH_GTK
-#include <gdk/gdkpixbuf.h>
-#endif
+#include <gsf/gsf-impl-utils.h>
+#include <glib/gi18n-lib.h>
 
 /**
  * go_mime_to_image_format:
@@ -254,4 +252,332 @@ go_image_get_formats_with_pixbuf_saver (void)
 #endif
 
 	return list;
+}
+
+/*********************************
+ * GOImage object implementation *
+ *********************************/
+
+static GObjectClass *parent_klass;
+
+struct _GOImage {
+	GObject parent;
+	guint8 *data;
+	guint width, height, rowstride;
+	gboolean target_cairo;
+#ifdef GOFFICE_WITH_CAIRO
+	cairo_t *cairo;
+#endif
+#ifdef GOFFICE_WITH_GTK
+	GdkPixbuf *pixbuf;
+#endif
+};
+
+enum {
+	IMAGE_PROP_0,
+	IMAGE_PROP_WIDTH,
+	IMAGE_PROP_HEIGHT,
+#ifdef GOFFICE_WITH_GTK
+	IMAGE_PROP_PIXBUF,
+#endif
+};
+
+static void
+pixbuf_to_cairo (GOImage *image)
+{
+	guint i,j, rowstride;
+	guint t;
+	unsigned char *src, *dst;
+
+	g_return_if_fail (IS_GO_IMAGE (image) && image->data && image->pixbuf);
+	
+#define MULT(d,c,a,t) G_STMT_START { t = c * a + 0x7f; d = ((t >> 8) + t) >> 8; } G_STMT_END
+
+	src = gdk_pixbuf_get_pixels (image->pixbuf);
+	dst = image->data;
+	rowstride = gdk_pixbuf_get_rowstride (image->pixbuf);
+
+	for (i = 0; i < image->height; i++) {
+		for (j = 0; j < image->width; j++) {
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+			MULT(dst[0], src[2], src[3], t);
+			MULT(dst[1], src[1], src[3], t);
+			MULT(dst[2], src[0], src[3], t);
+			dst[3] = src[3];
+#else	  
+			MULT(dst[3], src[2], src[3], t);
+			MULT(dst[2], src[1], src[3], t);
+			MULT(dst[1], src[0], src[3], t);
+			dst[0] = src[3];
+#endif
+			src += 4;
+			dst += 4;
+		}
+		dst += image->rowstride - image->width * 4;
+		src += rowstride - image->width * 4;
+	}
+#undef MULT
+}
+
+static void
+cairo_to_pixbuf (GOImage *image)
+{
+	guint i,j, rowstride;
+	unsigned char *src, *dst;
+	guint t;
+	
+	g_return_if_fail (IS_GO_IMAGE (image) && image->data && image->pixbuf);
+
+#define MULT(d,c,a,t) G_STMT_START { t = (a)? c * 255 / a: 0; d = t;} G_STMT_END
+
+	dst = gdk_pixbuf_get_pixels (image->pixbuf);
+	rowstride = gdk_pixbuf_get_rowstride (image->pixbuf);
+	src = image->data;
+
+	for (i = 0; i < image->height; i++) {
+		for (j = 0; j < image->width; j++) {
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+			MULT(dst[0], src[2], src[3], t);
+			MULT(dst[1], src[1], src[3], t);
+			MULT(dst[2], src[0], src[3], t);
+			dst[3] = src[3];
+#else	  
+			MULT(dst[3], src[2], src[3], t);
+			MULT(dst[2], src[1], src[3], t);
+			MULT(dst[1], src[0], src[3], t);
+			dst[0] = src[3];
+#endif
+			src += 4;
+			dst += 4;
+		}
+		dst += rowstride - image->width * 4;
+		src += image->rowstride - image->width * 4;
+	}
+#undef MULT
+}
+
+static void
+go_image_set_property (GObject *obj, guint param_id,
+		       GValue const *value, GParamSpec *pspec)
+{
+	GOImage *image = GO_IMAGE (obj);
+	gboolean size_changed = FALSE;
+	guint n;
+
+	switch (param_id) {
+	case IMAGE_PROP_WIDTH:
+		n = g_value_get_uint (value);
+		if (n != image->width) {
+			image->width = n;
+			size_changed = TRUE;
+		}
+		break;
+	case IMAGE_PROP_HEIGHT:
+		n = g_value_get_uint (value);
+		if (n != image->height) {
+			image->height = n;
+			size_changed = TRUE;
+		}
+		break;
+#ifdef GOFFICE_WITH_GTK
+	case IMAGE_PROP_PIXBUF: {
+			GdkPixbuf *pixbuf = GDK_PIXBUF (g_value_get_object (value));
+			if (!GDK_IS_PIXBUF (pixbuf) || !gdk_pixbuf_get_has_alpha (pixbuf))
+				break;
+			if (image->pixbuf)
+				g_object_unref (image->pixbuf);
+			g_object_ref (pixbuf);
+			image->pixbuf = pixbuf;
+			if (image->data != NULL) {
+				g_free (image->data);
+				image->data = NULL;
+			}
+			image->width = gdk_pixbuf_get_width (pixbuf);
+			image->height = gdk_pixbuf_get_height (pixbuf);
+			image->rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+			image->target_cairo = FALSE;
+		}
+		break;
+#endif
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+
+	if (size_changed) {
+		if (image->pixbuf) {
+			g_object_unref (image->pixbuf);
+			image->pixbuf = NULL;
+		}
+		if (image->data != NULL)
+			g_free (image->data);
+		/* GOImage only supports pixbuf with alpha values at the moment */
+		image->rowstride = image->width * 4;
+		image->data = g_new0 (guint8, image->height * image->rowstride);
+		image->target_cairo = TRUE;
+	}
+}
+
+static void
+go_image_get_property (GObject *obj, guint param_id,
+		       GValue *value, GParamSpec *pspec)
+{
+	GOImage *image = GO_IMAGE (obj);
+
+	switch (param_id) {
+	case IMAGE_PROP_WIDTH:
+		g_value_set_uint (value, image->width);
+		break;
+	case IMAGE_PROP_HEIGHT:
+		g_value_set_uint (value, image->height);
+		break;
+#ifdef GOFFICE_WITH_GTK
+	case IMAGE_PROP_PIXBUF:
+		if (image->target_cairo && image->pixbuf) {
+			cairo_to_pixbuf (image);
+			image->target_cairo = FALSE;
+		}
+		g_value_set_object (value, image->pixbuf);
+		break;
+#endif
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+}
+
+static void
+go_image_finalize (GObject *obj)
+{
+	GOImage *image = GO_IMAGE	(obj);
+	if (image->data != NULL)
+		g_free (image->data);
+#ifdef GOFFICE_WITH_GTK
+	if (image->pixbuf)
+		g_object_unref (image->pixbuf);
+#endif
+	(parent_klass->finalize) (obj);
+}
+
+typedef GObjectClass GOImageClass;
+
+static void
+go_image_class_init (GOImageClass *klass)
+{
+	klass->finalize = go_image_finalize;
+	klass->set_property = go_image_set_property;
+	klass->get_property = go_image_get_property;
+	parent_klass = g_type_class_peek_parent (klass);
+	g_object_class_install_property (klass, IMAGE_PROP_WIDTH,
+		g_param_spec_int ("width", _("Width"),
+			_("Image width in pixels"),
+			0, G_MAXUINT16, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (klass, IMAGE_PROP_HEIGHT,
+		g_param_spec_int ("height", _("Height"),
+			_("Image height in pixels"),
+			0, G_MAXUINT16, 0, G_PARAM_READWRITE));
+#ifdef GOFFICE_WITH_GTK
+	g_object_class_install_property (klass, IMAGE_PROP_PIXBUF,
+		g_param_spec_object ("pixbuf", _("Pixbuf"),
+			_("GdkPixbuf object from which the GOImage is built"),
+			GDK_TYPE_PIXBUF, G_PARAM_READWRITE));
+#endif
+}
+
+GSF_CLASS (GOImage, go_image,
+		  go_image_class_init, NULL,
+		  G_TYPE_OBJECT)
+
+#ifdef GOFFICE_WITH_CAIRO
+cairo_t *
+go_image_get_cairo (GOImage *image)
+{
+	cairo_surface_t *surface ;
+	cairo_t *cairo;
+
+	g_return_val_if_fail (IS_GO_IMAGE (image), NULL);
+	if (image->data == NULL && image->pixbuf == NULL)
+		return NULL;
+	if (image->data == NULL) {
+		/* image built from a pixbuf */
+		image->data = g_new0 (guint8, image->height * image->rowstride);
+	}
+	if (!image->target_cairo) {
+		pixbuf_to_cairo (image);
+		image->target_cairo = TRUE;
+	}
+	surface = cairo_image_surface_create_for_data (
+              				image->data,
+							CAIRO_FORMAT_ARGB32,
+							image->width, image->height, 
+               				image->rowstride);
+	cairo = cairo_create (surface);
+	cairo_surface_destroy (surface);
+	image->target_cairo = TRUE;
+	return cairo;
+}
+
+cairo_pattern_t *go_image_create_cairo_pattern (GOImage *image)
+{
+	cairo_surface_t *surface ;
+	cairo_pattern_t *pat;
+
+	g_return_val_if_fail (IS_GO_IMAGE (image), NULL);
+	if (image->data == NULL && image->pixbuf == NULL)
+		return NULL;
+	if (image->data == NULL) {
+		/* image built from a pixbuf */
+		image->data = g_new0 (guint8, image->height * image->rowstride);
+	}
+	if (!image->target_cairo) {
+		pixbuf_to_cairo (image);
+		image->target_cairo = TRUE;
+	}
+	surface = cairo_image_surface_create_for_data (
+              				image->data,
+							CAIRO_FORMAT_ARGB32,
+							image->width, image->height, 
+               				image->rowstride);
+	pat = cairo_pattern_create_for_surface (surface);
+	cairo_surface_destroy (surface);
+	return pat;
+}
+
+#endif
+
+#ifdef GOFFICE_WITH_GTK
+GOImage *
+go_image_new_from_pixbuf (GdkPixbuf *pixbuf)
+{
+	return g_object_new (GO_IMAGE_TYPE, "pixbuf", pixbuf, NULL);
+}
+
+GdkPixbuf *go_image_get_pixbuf (GOImage *image)
+{
+	if (!image->pixbuf) {
+		if (image->width == 0 || image->height == 0 || image->data == NULL)
+			return NULL;
+		image->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
+								image->width, image->height);
+	}
+	if (image->target_cairo) {
+		cairo_to_pixbuf (image);
+		image->target_cairo = FALSE;
+	}
+	return image->pixbuf;
+}
+#endif
+
+GOImage *go_image_new_from_file (const char *filename, GError **error)
+{
+#ifdef GOFFICE_WITH_GTK
+	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (filename, error);
+	GOImage *image = g_object_new (GO_IMAGE_TYPE, "pixbuf", pixbuf, NULL);
+	g_object_unref (pixbuf);
+	image->target_cairo = FALSE;
+	return image;
+#else
+	g_warning ("go_image_new_from_file not implemented!");
+	return NULL;
+#endif
 }

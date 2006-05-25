@@ -19,7 +19,14 @@
 #ifndef GO_IMAGE_H
 #define GO_IMAGE_H
 
-#include <glib.h>
+#include <glib-object.h>
+#include <goffice/utils/goffice-utils.h>
+#ifdef GOFFICE_WITH_CAIRO
+#	include <cairo/cairo.h>
+#endif
+#ifdef GOFFICE_WITH_GTK
+#	include <gdk-pixbuf/gdk-pixbuf.h>
+#endif
 
 G_BEGIN_DECLS
 
@@ -50,6 +57,28 @@ char 	  *go_image_format_to_mime      (char const *format);
 GOImageFormatInfo const *go_image_get_format_info       	(GOImageFormat format);
 GOImageFormat            go_image_get_format_from_name  	(char const *name);
 GSList 			*go_image_get_formats_with_pixbuf_saver (void);
+
+/******************
+ * GOImage object *
+ ******************/
+
+#define GO_IMAGE_TYPE	(go_image_get_type ())
+#define GO_IMAGE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_IMAGE_TYPE, GOImage))
+#define IS_GO_IMAGE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_IMAGE_TYPE))
+
+GType go_image_get_type (void);
+
+#ifdef GOFFICE_WITH_CAIRO
+cairo_t *go_image_get_cairo (GOImage *image);
+cairo_pattern_t *go_image_create_cairo_pattern (GOImage *image);
+#endif
+
+#ifdef GOFFICE_WITH_GTK
+GOImage *go_image_new_from_pixbuf (GdkPixbuf *pixbuf);
+GdkPixbuf *go_image_get_pixbuf (GOImage *image);
+#endif
+
+GOImage *go_image_new_from_file (const char *filename, GError **error);
 
 G_END_DECLS
 
