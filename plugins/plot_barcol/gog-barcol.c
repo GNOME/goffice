@@ -467,8 +467,8 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 						paths[j][i * 2 - 1].x = gog_axis_map_to_view (x_map, x);
 						paths[j][i * 2 - 1].y = gog_axis_map_to_view (y_map, work.y);
 					}
-					paths[j][i].x = gog_axis_map_to_view (x_map, x);
-					paths[j][i].x = gog_axis_map_to_view (y_map, work.y + work.h);
+					paths[j][i * 2].x = gog_axis_map_to_view (x_map, x);
+					paths[j][i * 2].y = gog_axis_map_to_view (y_map, work.y + work.h);
 				}
 			}
 		}
