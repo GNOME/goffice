@@ -1,5 +1,9 @@
 2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-image.c: Fix preprocessor conditionals.
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-renderer-cairo.c: (grc_draw_polygon),
 	(gog_renderer_cairo_update): use GOImage.
 	* goffice/graph/gog-style.c: (gog_style_create_cairo_pattern): ditto.

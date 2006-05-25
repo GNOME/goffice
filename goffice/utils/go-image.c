@@ -282,6 +282,7 @@ enum {
 #endif
 };
 
+#ifdef GOFFICE_WITH_CAIRO
 static void
 pixbuf_to_cairo (GOImage *image)
 {
@@ -318,7 +319,9 @@ pixbuf_to_cairo (GOImage *image)
 	}
 #undef MULT
 }
+#endif
 
+#ifdef GOFFICE_WITH_GTK
 static void
 cairo_to_pixbuf (GOImage *image)
 {
@@ -355,6 +358,7 @@ cairo_to_pixbuf (GOImage *image)
 	}
 #undef MULT
 }
+#endif
 
 static void
 go_image_set_property (GObject *obj, guint param_id,
