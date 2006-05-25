@@ -1,3 +1,16 @@
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* pixmaps/Makefile.am: add new pixmaps for step plots.
+	* pixmaps/chart_scatter_3_1.svg: new icon.
+	* pixmaps/chart_scatter_4_1.png: ditto.
+	* pixmaps/chart_scatter_4_1.svg: ditto.
+	* pixmaps/chart_scatter_4_2.png: ditto.
+	* pixmaps/chart_scatter_4_2.svg: ditto.
+	* pixmaps/chart_scatter_4_3.png: ditto.
+	* pixmaps/chart_scatter_4_3.svg: ditto.
+	* pixmaps/chart_scatter_4_4.png: ditto.
+	* pixmaps/chart_scatter_4_4.svg: ditto.
+
 2006-05-24  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-axis.c (get_adjusted_tick_array): removed.
