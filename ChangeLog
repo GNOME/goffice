@@ -1,3 +1,9 @@
+2006-05-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_xy/gog-xy.c: add four types of stepped plots.
+	* plugins/plot_xy/gog-xy.h: ditto.
+	* plugins/plot_xy/plot-types.xml.in: ditto.
+
 2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-image.c: Fix preprocessor conditionals.

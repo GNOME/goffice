@@ -7,7 +7,7 @@
 	  engine="GogXYPlot" family="XY"
 	  _description="Markers at each point."
 	  sample_image_file="chart_scatter_1_1.png">
-	  <property name="default-style-has-lines">FALSE</property>
+	  <property name="interpolation">none</property>
 	  <property name="guru-hints">backplane</property>
     </Type>
     <!-- really 3_1 -->
@@ -15,6 +15,7 @@
 	  engine="GogXYPlot" family="XY"
 	  _description="Linearly interpolate between multi-dimensional points,with markers at each point."
 	  sample_image_file="chart_scatter_3_1.png">
+	  <property name="interpolation">linear</property>
 	  <property name="guru-hints">backplane</property>
     </Type>
     <Type _name="XY Lines" row="2" col="2"
@@ -22,6 +23,7 @@
 	  _description="Linearly interpolate between multi-dimensional points."
 	  sample_image_file="chart_scatter_3_2.png">
 	  <property name="default-style-has-markers">FALSE</property>
+	  <property name="interpolation">linear</property>
 	  <property name="guru-hints">backplane</property>
     </Type>
     <Type _name="XY Splines" row="2" col="3"
@@ -29,7 +31,39 @@
 	  _description="Interpolate between multi-dimensional points with Bezier splines."
 	  sample_image_file="chart_scatter_3_3.png">
 	  <property name="default-style-has-markers">FALSE</property>
-	  <property name="use-splines">TRUE</property>
+	  <property name="interpolation">spline</property>
+	  <property name="guru-hints">backplane</property>
+    </Type>
+    <Type _name="XY Steps Start" row="3" col="1"
+	  engine="GogXYPlot" family="XY"
+	  _description="Stepped curve using the first y value."
+	  sample_image_file="chart_scatter_4_1.png">
+	  <property name="default-style-has-markers">TRUE</property>
+	  <property name="interpolation">step-start</property>
+	  <property name="guru-hints">backplane</property>
+    </Type>
+    <Type _name="XY Steps End" row="3" col="2"
+	  engine="GogXYPlot" family="XY"
+	  _description="Stepped curve using the last y value."
+	  sample_image_file="chart_scatter_4_2.png">
+	  <property name="default-style-has-markers">TRUE</property>
+	  <property name="interpolation">step-end</property>
+	  <property name="guru-hints">backplane</property>
+    </Type>
+    <Type _name="XY Steps Center" row="3" col="3"
+	  engine="GogXYPlot" family="XY"
+	  _description="Stepped curve using the nearest y value."
+	  sample_image_file="chart_scatter_4_3.png">
+	  <property name="default-style-has-markers">TRUE</property>
+	  <property name="interpolation">step-center-x</property>
+	  <property name="guru-hints">backplane</property>
+    </Type>
+    <Type _name="XY Steps Mean" row="3" col="4"
+	  engine="GogXYPlot" family="XY"
+	  _description="Stepped curve using the mean y value."
+	  sample_image_file="chart_scatter_4_4.png">
+	  <property name="default-style-has-markers">TRUE</property>
+	  <property name="interpolation">step-center-y</property>
 	  <property name="guru-hints">backplane</property>
     </Type>
     <Type _name="Bubble" row="1" col="1"
