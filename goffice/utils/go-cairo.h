@@ -42,7 +42,6 @@ void go_cairo_pop_clip  	(GOCairo *gcairo);
 void go_cairo_stroke		(GOCairo *gcairo, GOPath const *path);
 void go_cairo_fill		(GOCairo *gcairo, GOPath const *path);
 void go_cairo_draw_shape	(GOCairo *gcairo, GOPath const *path);
-void go_cairo_draw_rectangle 	(GOCairo *gcairo, double x, double y, double width, double height);
 void go_cairo_draw_markers	(GOCairo *gcairo, GOPath const *path);
 void go_cairo_draw_text		(GOCairo *gcairo, double x, double y, char const *text, GtkAnchorType anchor);
 
