@@ -1,3 +1,7 @@
+2006-05-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-graph-widget.c: modifying the graph secured.
+
 2006-05-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/utils/go-path.c: new.

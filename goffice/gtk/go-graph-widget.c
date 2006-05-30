@@ -47,6 +47,9 @@ struct  _GOGraphWidget{
 	int button_press_x, button_press_y;
 	gboolean button_pressed;
 
+	/* Idle handler ID */
+	guint idle_id;
+
 	GOGraphWidgetSizeMode size_mode;
 };
 
@@ -231,15 +234,34 @@ static void
 go_graph_widget_finalize (GObject *object)
 {
 	GOGraphWidget *w = GO_GRAPH_WIDGET (object);
+	if (w->idle_id)
+		g_source_remove (w->idle_id);
 	g_object_unref (w->graph);
 	g_object_unref (w->renderer);
 	(G_OBJECT_CLASS (graph_parent_klass))->finalize (object);
 }
 
+static gint
+idle_handler (GOGraphWidget *w)
+{
+	GDK_THREADS_ENTER ();
+
+	/* Reset idle id */
+	w->idle_id = 0;
+	update_image_rect (w, GTK_WIDGET (w)->allocation);
+	gtk_widget_queue_draw (GTK_WIDGET (w));
+
+	GDK_THREADS_LEAVE ();
+
+	return FALSE;
+}
+
 static void
 go_graph_widget_request_update (GOGraphWidget *w)
 {
-	update_image_rect (w, GTK_WIDGET (w)->allocation);
+	if (!w->idle_id)
+		w->idle_id = g_idle_add_full (GDK_PRIORITY_REDRAW - 20,
+						   (GSourceFunc) idle_handler, w, NULL);
 }
 
 static void
