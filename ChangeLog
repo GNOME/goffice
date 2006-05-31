@@ -1,3 +1,9 @@
+2006-05-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_barcol/gog-dropbar.c: (gog_dropbar_view_render): fixed
+	discrete axis origin.
+	* plugins/plot_barcol/gog-minmax.c: (gog_minmax_view_render): ditto.
+
 2006-05-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* pixmaps/chart_scatter_*: simplification.
