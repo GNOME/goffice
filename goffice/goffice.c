@@ -124,6 +124,7 @@ libgoffice_init (void)
 	gog_themes_init	();
 	go_number_format_init ();
 	go_currency_date_format_init ();
+	initialized = TRUE;
 }
 
 void
