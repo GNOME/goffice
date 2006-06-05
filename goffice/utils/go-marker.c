@@ -347,6 +347,8 @@ marker_free_pixbuf (GOMarker * marker)
 static void
 marker_update_pixbuf (GOMarker * marker)
 {
+	if (marker->pixbuf)
+		marker_free_pixbuf (marker);
 	marker->pixbuf = marker_create_pixbuf_with_size (marker, marker->size);
 }
 #else
@@ -517,7 +519,7 @@ go_marker_assign (GOMarker *dst, GOMarker const *src)
 
 #ifdef GOFFICE_WITH_GTK
 	if (dst->pixbuf != NULL)
-		g_object_unref (src->pixbuf);
+		g_object_unref (dst->pixbuf);
 	dst->pixbuf = src->pixbuf;
 	if (dst->pixbuf != NULL)
 		g_object_ref (dst->pixbuf);
