@@ -25,6 +25,7 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-file.h>
+#include <goffice/utils/go-image.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-marker.h>
 
@@ -90,7 +91,7 @@ typedef struct {
 			guint	   timer;
 		} gradient;
 		struct {
-			GdkPixbuf *image;
+			GOImage *image;
 		} image;
 	} fill;
 	struct {
@@ -138,7 +139,7 @@ create_go_combo_color (StylePrefState *state,
 }
 
 static void
-gog_style_set_image_preview (GdkPixbuf *pix, StylePrefState *state)
+gog_style_set_image_preview (GOImage *pix, StylePrefState *state)
 {
 	GdkPixbuf *scaled;
 	int width, height;
@@ -158,13 +159,12 @@ gog_style_set_image_preview (GdkPixbuf *pix, StylePrefState *state)
 
 	w = glade_xml_get_widget (state->gui, "fill_image_sample");
 
-	scaled = go_pixbuf_intelligent_scale (pix, HSCALE, VSCALE);
+	scaled = go_pixbuf_intelligent_scale (go_image_get_pixbuf (pix), HSCALE, VSCALE);
 	gtk_image_set_from_pixbuf (GTK_IMAGE (w), scaled);
 	g_object_unref (scaled);
 
 	w = glade_xml_get_widget (state->gui, "image-size-label");
-	width = gdk_pixbuf_get_width (pix);
-	height = gdk_pixbuf_get_height (pix);
+	g_object_get (pix, "width", &width, "height", &height, NULL);
 
 	size = g_strdup_printf (_("%d x %d"), width, height);
 	gtk_label_set_text (GTK_LABEL (w), size);
@@ -1939,7 +1939,7 @@ gog_style_set_fill_image_filename (GogStyle *style, char *filename)
 	}
 
 	style->fill.image.filename = filename;
-	style->fill.image.image = gdk_pixbuf_new_from_file (filename, NULL);
+	style->fill.image.image = go_image_new_from_file (filename, NULL);
 }
 
 /**
@@ -2063,14 +2063,8 @@ gog_style_create_cairo_pattern (GogStyle const *style, double width, double heig
 			if (style->fill.image.image == NULL) {
 				return NULL;
 			}
-			pixbuf = gdk_pixbuf_add_alpha (style->fill.image.image, FALSE, 0, 0, 0);
-			{
-				GOImage *image = go_image_new_from_pixbuf (pixbuf);
-				cr_pattern = go_image_create_cairo_pattern (image);
-				*data = image;
-				g_object_unref (pixbuf);
-				g_object_get (image, "width", &w, "height", &h, NULL);
-			}
+			cr_pattern = go_image_create_cairo_pattern (style->fill.image.image);
+			g_object_get (style->fill.image.image, "width", &w, "height", &h, NULL);
 			cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
 			switch (style->fill.image.type) {
 				case GOG_IMAGE_CENTERED:

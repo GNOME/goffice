@@ -1,5 +1,25 @@
 2006-06-05  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-renderer-cairo.c: (grc_draw_polygon): GogStyle now use
+	GOImage instead of GdkPixbuf.
+	* goffice/graph/gog-renderer-gnome-print.c:
+	(gog_renderer_gnome_print_draw_polygon): ditto.
+	* goffice/graph/gog-renderer-pixbuf.c:
+	(gog_renderer_pixbuf_draw_polygon): ditto.
+	* goffice/graph/gog-style.c: (gog_style_set_image_preview),
+	(gog_style_set_fill_image_filename),
+	(gog_style_create_cairo_pattern): ditto.
+	* goffice/graph/gog-style.h: ditto.
+	* goffice/utils/go-cairo.c: (go_cairo_fill): ditto.
+	* goffice/utils/go-image.c: (go_image_set_property),
+	(go_image_class_init), (go_image_get_pixbuf),
+	(go_image_new_from_file), (go_image_get_pixels),
+	(go_image_get_rowstride), (go_image_fill): add new functions and fixed some
+	issues.
+	* goffice/utils/go-image.h: new functions.
+
+2006-06-05  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/utils/go-marker.c: (marker_update_pixbuf): free old
 	pixbuf if any,
 	(go_marker_assign): unref destination pixbuf, not source.

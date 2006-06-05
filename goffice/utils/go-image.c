@@ -20,6 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
+#include <goffice/utils/go-color.h>
 #include <goffice/utils/go-image.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -386,11 +387,14 @@ go_image_set_property (GObject *obj, guint param_id,
 #ifdef GOFFICE_WITH_GTK
 	case IMAGE_PROP_PIXBUF: {
 			GdkPixbuf *pixbuf = GDK_PIXBUF (g_value_get_object (value));
-			if (!GDK_IS_PIXBUF (pixbuf) || !gdk_pixbuf_get_has_alpha (pixbuf))
+			if (!GDK_IS_PIXBUF (pixbuf))
 				break;
+			if (!gdk_pixbuf_get_has_alpha (pixbuf))
+				pixbuf = gdk_pixbuf_add_alpha (pixbuf, FALSE, 0, 0, 0);
+			else
+				g_object_ref (pixbuf);
 			if (image->pixbuf)
 				g_object_unref (image->pixbuf);
-			g_object_ref (pixbuf);
 			image->pixbuf = pixbuf;
 			if (image->data != NULL) {
 				g_free (image->data);
@@ -473,11 +477,11 @@ go_image_class_init (GOImageClass *klass)
 	klass->get_property = go_image_get_property;
 	parent_klass = g_type_class_peek_parent (klass);
 	g_object_class_install_property (klass, IMAGE_PROP_WIDTH,
-		g_param_spec_int ("width", _("Width"),
+		g_param_spec_uint ("width", _("Width"),
 			_("Image width in pixels"),
 			0, G_MAXUINT16, 0, G_PARAM_READWRITE));
 	g_object_class_install_property (klass, IMAGE_PROP_HEIGHT,
-		g_param_spec_int ("height", _("Height"),
+		g_param_spec_uint ("height", _("Height"),
 			_("Image height in pixels"),
 			0, G_MAXUINT16, 0, G_PARAM_READWRITE));
 #ifdef GOFFICE_WITH_GTK
@@ -556,7 +560,8 @@ go_image_new_from_pixbuf (GdkPixbuf *pixbuf)
 	return g_object_new (GO_IMAGE_TYPE, "pixbuf", pixbuf, NULL);
 }
 
-GdkPixbuf *go_image_get_pixbuf (GOImage *image)
+GdkPixbuf *
+go_image_get_pixbuf (GOImage *image)
 {
 	if (!image->pixbuf) {
 		if (image->width == 0 || image->height == 0 || image->data == NULL)
@@ -572,7 +577,8 @@ GdkPixbuf *go_image_get_pixbuf (GOImage *image)
 }
 #endif
 
-GOImage *go_image_new_from_file (const char *filename, GError **error)
+GOImage *
+go_image_new_from_file (const char *filename, GError **error)
 {
 #ifdef GOFFICE_WITH_GTK
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (filename, error);
@@ -584,4 +590,39 @@ GOImage *go_image_new_from_file (const char *filename, GError **error)
 	g_warning ("go_image_new_from_file not implemented!");
 	return NULL;
 #endif
+}
+
+guint8 *
+go_image_get_pixels (GOImage *image)
+{
+	g_return_val_if_fail (image, NULL);
+	return image->data;
+}
+
+int
+go_image_get_rowstride (GOImage *image)
+{
+	g_return_val_if_fail (image, 0);
+	return image->rowstride;
+}
+
+void
+go_image_fill (GOImage *image, GOColor color)
+{
+	guint32 val;
+	guint8 *dst;
+	unsigned i, j;
+	g_return_if_fail (image);
+
+	dst = image->data;
+	if (image->target_cairo)
+		val = (UINT_RGBA_R (color) << 8) + (UINT_RGBA_G (color) << 16)
+			+ (UINT_RGBA_B (color) << 24) + UINT_RGBA_A (color);
+	else
+		val = color;
+	for (i = 0; i < image->height; i++) {
+		for (j = 0; j < image->width; j++)
+			*((guint32*) dst) = val;
+		dst += image->rowstride - image->width * 4;
+	}
 }

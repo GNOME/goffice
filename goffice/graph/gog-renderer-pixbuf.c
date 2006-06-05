@@ -438,7 +438,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path, gbool
 		case GOG_FILL_STYLE_IMAGE: {
 			GdkRectangle path_rect, clip_rect, dest_rect;
 
-			image = style->fill.image.image;
+			image = go_image_get_pixbuf (style->fill.image.image);
 			if (image == NULL)
 				break;
 
@@ -1198,4 +1198,3 @@ fontmap_from_cache (double x_dpi, double y_dpi)
 	return fontmap;
 }
 #endif
-

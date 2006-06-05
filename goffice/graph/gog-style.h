@@ -106,7 +106,7 @@ struct _GogStyle {
 		} gradient;
 		struct {
 			GogImageType	 type;
-			gpointer	 image;
+			GOImage	 *image;
 			char		*filename;
 		} image;
 	} fill;

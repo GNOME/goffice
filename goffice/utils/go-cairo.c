@@ -448,7 +448,6 @@ go_cairo_fill (GOCairo *gcairo, GOPath const *path)
 	cairo_pattern_t *cr_pattern = NULL;
 	cairo_surface_t *cr_surface = NULL;
 	cairo_matrix_t cr_matrix;
-	GdkPixbuf *pixbuf = NULL;
 	GOImage *image = NULL;
 	GOColor color;
 	double width = go_cairo_line_size (gcairo, style->outline.width);
@@ -476,9 +475,9 @@ go_cairo_fill (GOCairo *gcairo, GOPath const *path)
 				int rowstride;
 
 				pattern = go_pattern_get_pattern (&style->fill.pattern);
-				pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 8, 8);
-				iter = gdk_pixbuf_get_pixels (pixbuf);
-				rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+				image = g_object_new (GO_IMAGE_TYPE, "width", 8, "height", 8, NULL);
+				iter = go_image_get_pixels (image);
+				rowstride = go_image_get_rowstride (image);
 				cr_surface = cairo_image_surface_create_for_data ( iter, 
 					CAIRO_FORMAT_ARGB32, 8, 8, rowstride);
 				for (i = 0; i < 8; i++) {
@@ -521,11 +520,8 @@ go_cairo_fill (GOCairo *gcairo, GOPath const *path)
 				break;
 			}
 			cairo_fill_extents (cr, &x[0], &y[0], &x[1], &y[1]);
-			pixbuf = gdk_pixbuf_add_alpha (style->fill.image.image, FALSE, 0, 0, 0);
-			image = go_image_new_from_pixbuf (pixbuf);
-			cr_pattern = go_image_create_cairo_pattern (image);
-			h = gdk_pixbuf_get_height (pixbuf);
-			w = gdk_pixbuf_get_width (pixbuf);
+			cr_pattern = go_image_create_cairo_pattern (style->fill.image.image);
+			g_object_get (style->fill.image.image, "width", &w, "height", &h, NULL);
 			cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
 			switch (style->fill.image.type) {
 				case GOG_IMAGE_CENTERED:
@@ -556,8 +552,6 @@ go_cairo_fill (GOCairo *gcairo, GOPath const *path)
 		cairo_pattern_destroy (cr_pattern);
 	if (cr_surface != NULL)
 		cairo_surface_destroy (cr_surface);
-	if (pixbuf)
-		g_object_unref (pixbuf);
 	if (image)
 		g_object_unref (image);
 }

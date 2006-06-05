@@ -79,6 +79,9 @@ GdkPixbuf *go_image_get_pixbuf (GOImage *image);
 #endif
 
 GOImage *go_image_new_from_file (const char *filename, GError **error);
+guint8 *go_image_get_pixels (GOImage *image);
+int go_image_get_rowstride (GOImage *image);
+void go_image_fill (GOImage *image, GOColor color);
 
 G_END_DECLS
 

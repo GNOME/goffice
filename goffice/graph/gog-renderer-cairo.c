@@ -437,11 +437,8 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 				break;
 			}
 			cairo_fill_extents (cr, &x[0], &y[0], &x[1], &y[1]);
-			pixbuf = gdk_pixbuf_add_alpha (style->fill.image.image, FALSE, 0, 0, 0);
-			image = go_image_new_from_pixbuf (pixbuf);
-			cr_pattern = go_image_create_cairo_pattern (image);
-			h = gdk_pixbuf_get_height (pixbuf);
-			w = gdk_pixbuf_get_width (pixbuf);
+			cr_pattern = go_image_create_cairo_pattern (style->fill.image.image);
+			g_object_get (style->fill.image.image, "width", &w, "height", &h, NULL);
 			cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
 			switch (style->fill.image.type) {
 				case GOG_IMAGE_CENTERED:

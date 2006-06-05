@@ -300,7 +300,7 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 			break;
 
 		case GOG_FILL_STYLE_IMAGE:
-			image = style->fill.image.image;
+			image = go_image_get_pixbuf (style->fill.image.image);
 			if (image == NULL)
 				break;
 			gnome_print_gsave (prend->gp_context);
