@@ -1,3 +1,12 @@
+2006-06-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-marker.c: (marker_update_pixbuf): free old
+	pixbuf if any,
+	(go_marker_assign): unref destination pixbuf, not source.
+	* plugins/plot_barcol/gog-dropbar.c: (gog_dropbar_view_render): fixed
+	discrete axis origin.
+	* plugins/plot_barcol/gog-minmax.c: (gog_minmax_view_render): ditto.
+
 2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-barcol.c: (gog_barcol_view_render):

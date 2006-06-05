@@ -329,7 +329,7 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_renderer_push_style (view->renderer, style);
 
 		for (i = 0; i < n; i++) {
-
+			x++;
 			if (is_vertical) {
 				mpath[i].x = Mpath[i].x = path[0].x = path[1].x = gog_axis_map_to_view (x_map, x);
 				mpath[i].y = path[0].y = gog_axis_map_to_view (y_map, min_vals[i]);
@@ -340,7 +340,6 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 				Mpath[i].x =path[1].x = gog_axis_map_to_view (x_map, max_vals[i]);
 			}
 			gog_renderer_draw_sharp_path (view->renderer, path);
-			x += 1;
 		}
 		if (series->has_lines) {
 			if (!role)

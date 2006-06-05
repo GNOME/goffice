@@ -226,6 +226,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 		} else
 			path1[j] = NULL;
 		for (i = 0; i < n; i++) {
+			x++;
 			work.x = x;
 			work.y = start_vals[i];
 			work.h = end_vals[i] - work.y;
@@ -247,7 +248,6 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 					barcol_draw_rect (view->renderer, model->horizontal, x_map, y_map, &work);
 			barcol_draw_rect (view->renderer, model->horizontal, x_map, y_map, &work);
 			gog_renderer_pop_style (view->renderer);
-			x += 1;
 		}
 		offset += step;
 		g_object_unref (neg_style);
