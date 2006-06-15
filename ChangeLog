@@ -1,3 +1,9 @@
+2006-06-14  Jody Goldberg <jody@gnome.org>
+
+	* goffice/utils/go-marker.c : constify
+
+	* goffice/utils/go-cairo.c : tweak comments to make gtk-doc happy.
+
 2006-06-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-renderer-cairo.c: (grc_draw_polygon): GogStyle now use

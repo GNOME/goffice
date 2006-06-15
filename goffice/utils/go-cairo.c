@@ -19,13 +19,14 @@
  * USA
  */
 
-/**
- * TODO:- preserve path in draw_shape when sharp == FALSE.
+/*
+ * TODO
+ * 	- preserve path in draw_shape when sharp == FALSE.
  * 	- remove libart stuff.
  * 	- use GOImage.
  * 	- take screen resolution into account for image and patterns
  * 	- cache pango_layout
- **/
+ */
 
 #include <glib.h>
 

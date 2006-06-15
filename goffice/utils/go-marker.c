@@ -401,7 +401,7 @@ go_marker_shape_as_str (GOMarkerShape shape)
 }
 
 void
-go_marker_get_paths (GOMarker * marker,
+go_marker_get_paths (GOMarker const *marker,
 		     ArtVpath const **outline_path,
 		     ArtVpath const **fill_path)
 {
@@ -433,7 +433,7 @@ go_marker_get_pixbuf_with_size (GOMarker *marker, guint size)
 #endif /* GOFFICE_WITH_GTK */
 
 GOMarkerShape 
-go_marker_get_shape (GOMarker * marker)
+go_marker_get_shape (GOMarker const *marker)
 {
 	return marker->shape;
 }
@@ -449,7 +449,7 @@ go_marker_set_shape (GOMarker *marker, GOMarkerShape shape)
 }
 	
 GOColor
-go_marker_get_outline_color (GOMarker * marker)
+go_marker_get_outline_color (GOMarker const *marker)
 {
 	return marker->outline_color;
 }
@@ -465,7 +465,7 @@ go_marker_set_outline_color (GOMarker *marker, GOColor color)
 }
 	
 GOColor
-go_marker_get_fill_color (GOMarker * marker)
+go_marker_get_fill_color (GOMarker const *marker)
 {
 	return marker->fill_color;
 }
@@ -481,13 +481,13 @@ go_marker_set_fill_color (GOMarker *marker, GOColor color)
 }
 	
 int
-go_marker_get_size (GOMarker * marker)
+go_marker_get_size (GOMarker const *marker)
 {
 	return marker->size;
 }
 
 double 
-go_marker_get_outline_width (GOMarker * marker)
+go_marker_get_outline_width (GOMarker const *marker)
 {
 	return (double)marker->size * MARKER_OUTLINE_WIDTH;
 }
@@ -527,7 +527,7 @@ go_marker_assign (GOMarker *dst, GOMarker const *src)
 }	
 	
 GOMarker *
-go_marker_dup (GOMarker *src)
+go_marker_dup (GOMarker const *src)
 {
 	GOMarker *dst = go_marker_new ();
 	go_marker_assign (dst, src);
