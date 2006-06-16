@@ -27,7 +27,7 @@
 
 G_BEGIN_DECLS
 
-void	   go_editable_enters (GtkWindow *window, GtkWidget *w);
+void	   go_gtk_editable_enters (GtkWindow *window, GtkWidget *w);
 
 GladeXML  *go_libglade_new (char const *gladefile, char const *root,
 			    char const *domain, GOCmdContext *cc);

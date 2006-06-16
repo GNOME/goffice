@@ -343,6 +343,29 @@ Multi-backend renderer
 @Returns: 
 
 
+<!-- ##### FUNCTION gog_renderer_new_for_format ##### -->
+<para>
+
+</para>
+
+@graph: 
+@format: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_export_image ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@format: 
+@output: 
+@x_dpi: 
+@y_dpi: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gog_renderer_update ##### -->
 <para>
 

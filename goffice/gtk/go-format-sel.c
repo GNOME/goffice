@@ -1314,8 +1314,8 @@ go_format_sel_editable_enters (GOFormatSel *gfs,
 			       GtkWindow *window)
 {
 	g_return_if_fail (IS_GO_FORMAT_SEL (gfs));
-	go_editable_enters (window, gfs->format.widget[F_DECIMAL_SPIN]);
-	go_editable_enters (window, gfs->format.widget[F_ENTRY]);
+	go_gtk_editable_enters (window, gfs->format.widget[F_DECIMAL_SPIN]);
+	go_gtk_editable_enters (window, gfs->format.widget[F_ENTRY]);
 }
 
 void		

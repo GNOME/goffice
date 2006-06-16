@@ -455,11 +455,11 @@ go_font_sel_new (void)
 void
 go_font_sel_editable_enters (GOFontSel *gfs, GtkWindow *dialog)
 {
-	go_editable_enters (dialog,
+	go_gtk_editable_enters (dialog,
 		GTK_WIDGET (gfs->font_name_entry));
-	go_editable_enters (dialog,
+	go_gtk_editable_enters (dialog,
 		GTK_WIDGET (gfs->font_style_entry));
-	go_editable_enters (dialog,
+	go_gtk_editable_enters (dialog,
 		GTK_WIDGET (gfs->font_size_entry));
 }
 

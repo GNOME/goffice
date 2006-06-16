@@ -131,6 +131,25 @@ Master axes
 @stop: 
 
 
+<!-- ##### FUNCTION gog_axis_get_format ##### -->
+<para>
+
+</para>
+
+@axis: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_set_format ##### -->
+<para>
+
+</para>
+
+@axis: 
+@fmt: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gog_axis_get_ticks ##### -->
 <para>
 

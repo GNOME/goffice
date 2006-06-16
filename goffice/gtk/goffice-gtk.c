@@ -147,9 +147,9 @@ go_libglade_new (char const *gladefile, char const *root,
 }
 
 /**
- * go_editable_enters:
- * @window: dialog to affect.
- * @editable: Editable to affect.
+ * go_gtk_editable_enters:
+ * @window:
+ * @w: 
  *
  * Normally if there's an editable widget (such as #GtkEntry) in your
  * dialog, pressing Enter will activate the editable rather than the
@@ -158,7 +158,7 @@ go_libglade_new (char const *gladefile, char const *root,
  * function enables that behavior.
  **/
 void
-go_editable_enters (GtkWindow *window, GtkWidget *w)
+go_gtk_editable_enters (GtkWindow *window, GtkWidget *w)
 {
 	g_return_if_fail (GTK_IS_WINDOW (window));
 	g_signal_connect_swapped (G_OBJECT (w),
@@ -226,12 +226,11 @@ cb_parent_mapped (GtkWidget *parent, GtkWindow *window)
 
 /**
  * go_gtk_window_set_transient
- * @wbcg	: The calling window
+ * @toplevel	: The calling window
  * @window      : the transient window
  *
  * Make the window a child of the workbook in the command context, if there is
- * one.
- * The function duplicates the positioning functionality in
+ * one.  The function duplicates the positioning functionality in
  * gnome_dialog_set_parent, but does not require the transient window to be
  * a GnomeDialog.
  */
@@ -794,6 +793,7 @@ go_gtk_help_button_init (GtkWidget *w, char const *data_dir, char const *app, ch
  * go_gtk_url_is_writeable:
  * @parent : #GtkWindow
  * @uri :
+ * @overwrite_by_default :
  *
  * Check if it makes sense to try saving.
  * If it's an existing file and writable for us, ask if we want to overwrite.

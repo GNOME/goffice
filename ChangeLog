@@ -1,3 +1,9 @@
+2006-06-15  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=344747
+	* goffice/graph/gog-axis.c (gog_axis_get_format) : new.
+	(gog_axis_set_format) : make public.
+
 2006-06-14  Jody Goldberg <jody@gnome.org>
 
 	* goffice/utils/go-marker.c : constify

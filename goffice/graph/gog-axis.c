@@ -1104,9 +1104,11 @@ role_label_can_add (GogObject const *parent)
  * Absorbs a reference to @fmt, and accepts NULL.
  * returns TRUE if things changed
  **/
-static gboolean
+gboolean
 gog_axis_set_format (GogAxis *axis, GOFormat *fmt)
 {
+	g_return_val_if_fail (IS_GOG_AXIS (axis), FALSE);
+
 	if (go_format_eq (fmt, axis->assigned_format)) {
 		go_format_unref (fmt);
 		return FALSE;
@@ -1115,6 +1117,19 @@ gog_axis_set_format (GogAxis *axis, GOFormat *fmt)
 		go_format_unref (axis->assigned_format);
 	axis->assigned_format = fmt;
 	return TRUE;
+}
+
+/**
+ * gog_axis_get_format :
+ * @axis :#GogAxis
+ *
+ * Returns the format assigned to @axis but does not add a reference.
+ **/
+GOFormat *
+gog_axis_get_format (GogAxis const *axis)
+{
+	g_return_val_if_fail (IS_GOG_AXIS (axis), NULL);
+	return axis->assigned_format;
 }
 
 static void

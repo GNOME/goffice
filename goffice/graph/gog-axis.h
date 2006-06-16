@@ -74,6 +74,8 @@ gboolean      gog_axis_get_bounds 	  (GogAxis const *axis,
 void	      gog_axis_set_bounds 	  (GogAxis *axis,
 					   double minimum, double maximum);
 void 	      gog_axis_set_extents 	  (GogAxis *axis, double start, double stop);
+GOFormat     *gog_axis_get_format	  (GogAxis const *axis);
+gboolean      gog_axis_set_format	  (GogAxis *axis, GOFormat *fmt);
 unsigned      gog_axis_get_ticks 	  (GogAxis *axis, GogAxisTick **ticks);
 GOData	     *gog_axis_get_labels	  (GogAxis const *axis,
 					   GogPlot **plot_that_labeled_axis);
