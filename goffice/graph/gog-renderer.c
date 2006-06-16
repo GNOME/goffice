@@ -322,15 +322,32 @@ gog_renderer_get_ring_wedge_bpath (double cx, double cy,
 				   double th0, double th1)
 {
 	ArtBpath *path;
-	double th_arc, th_out, th_in, th_delta, t;
+	double th_arc, th_out, th_in, th_delta, t, r;
 	int i, n_segs;
-	gboolean fill = rx_in >= 0.0 && ry_in >= 0.0;
+	gboolean fill;
 	gboolean draw_in, ellipse = FALSE;
+
+	if (rx_out < rx_in) {
+		r = rx_out;
+		rx_out = rx_in;
+		rx_in = r;
+	}
+	if (ry_out < ry_in) {
+		r = ry_out;
+		ry_out = ry_in;
+		ry_in = r;
+	}
+	/* Here we tolerate slightly negative values for inside radius
+	 * when deciding to fill. We use outside radius for comparison. */
+	fill = rx_in >= -(rx_out * 1e-6) && ry_in >= -(ry_out * 1e-6);
 
  	if (rx_out <= 0.0 || ry_out <= 0.0 || rx_out < rx_in || ry_out < ry_in)
 		return NULL;
 
-	draw_in = fill && (rx_in > rx_out / 1E6) && (ry_in > ry_out / 1E6);
+	/* Here also we use outside radius for comparison. If inside radius
+	 * is high enough, we'll emit an arc, otherwise we just use lines to
+	 * wedge center. */
+	draw_in = fill && (rx_in > rx_out * 1e-6) && (ry_in > ry_out * 1e-6);
 
 	if (th1 < th0) { t = th1; th1 = th0; th0 = t; }
 	if (go_add_epsilon (th1 - th0) >= 2 * M_PI) {
@@ -367,7 +384,15 @@ gog_renderer_get_ring_wedge_bpath (double cx, double cy,
 			path[n_segs + 2].code = ART_LINETO;
 			path[n_segs + 3].code = ART_END;
 		}
-	} else 
+	} else if (fill && ellipse) {
+		if (draw_in) {
+			path[n_segs + 1].x3 = cx + rx_in * cos (th0);
+			path[n_segs + 1].y3 = cy + ry_in * sin (th0);
+			path[n_segs + 1].code = ART_MOVETO;
+			path[2 * n_segs + 2].code = ART_END;
+		} else
+			path[n_segs + 1].code = ART_END;
+	} else
 		/* Arc */
 		path[n_segs + 1].code = ART_END;
 
@@ -385,12 +410,12 @@ gog_renderer_get_ring_wedge_bpath (double cx, double cy,
 		path[i].code = ART_CURVETO;
 		th_out -= th_delta;
 		if (draw_in) {
-			path[i+n_segs+1].x1 = cx + rx_in * (cos (th_in) - t * sin (th_in));
-			path[i+n_segs+1].y1 = cy + ry_in * (sin (th_in) + t * cos (th_in));
+			path[i+n_segs+1].x1 = cx + rx_in * (cos (th_in) + t * sin (th_in));
+			path[i+n_segs+1].y1 = cy + ry_in * (sin (th_in) - t * cos (th_in));
 			path[i+n_segs+1].x3 = cx + rx_in * cos (th_in + th_delta);
 			path[i+n_segs+1].y3 = cy + ry_in * sin (th_in + th_delta);
-			path[i+n_segs+1].x2 = path[i+n_segs+1].x3 + rx_in * t * sin (th_in + th_delta);
-			path[i+n_segs+1].y2 = path[i+n_segs+1].y3 - ry_in * t * cos (th_in + th_delta);
+			path[i+n_segs+1].x2 = path[i+n_segs+1].x3 - rx_in * t * sin (th_in + th_delta);
+			path[i+n_segs+1].y2 = path[i+n_segs+1].y3 + ry_in * t * cos (th_in + th_delta);
 			path[i+n_segs+1].code = ART_CURVETO;
 			th_in += th_delta;
 		}
@@ -428,7 +453,7 @@ gog_renderer_draw_ring_wedge (GogRenderer *rend, double cx, double cy,
 	if (path == NULL)
 		return;
 
-	if (rx_in >= 0.0 && ry_in >= 0.0)
+	if (go_add_epsilon (rx_in) >= 0.0 && go_add_epsilon (ry_in) >= 0.0)
 		(klass->draw_bezier_polygon) (rend, path, narrow);
 	else
 		(klass->draw_bezier_path) (rend, path);

@@ -511,11 +511,15 @@ gog_themes_init	(void)
 	style->outline.dash_type = GO_LINE_SOLID;
 	style->line.width = 0.4; 
 	style->line.color = RGBA_BLACK;
+	go_pattern_set_solid (&style->fill.pattern, RGBA_TO_UINT (0xE0, 0xE0, 0xE0, 0xE0));
+	style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_theme_add_element (theme, style, NULL, NULL, "MajorGrid");
 	style = gog_style_new ();
 	style->outline.dash_type = GO_LINE_SOLID;
 	style->line.width = 0.2; 
 	style->line.color = RGBA_BLACK; 
+	go_pattern_set_solid (&style->fill.pattern, RGBA_TO_UINT (0xE0, 0xE0, 0xE0, 0xE0));
+	style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_theme_add_element (theme, style, NULL, NULL, "MinorGrid");
 	
 	/* series */
@@ -620,11 +624,15 @@ gog_themes_init	(void)
 	style->line.dash_type = GO_LINE_SOLID;
 	style->line.width = 0.; /* hairline */
 	style->line.color = RGBA_GREY (0x96);
+	go_pattern_set_solid (&style->fill.pattern, RGBA_TO_UINT (0xE0, 0xE0, 0xE0, 0xE0));
+	style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_theme_add_element (theme, style, NULL, NULL, "MajorGrid");
 	style = gog_style_new ();
 	style->line.dash_type = GO_LINE_SOLID;
 	style->line.width = 0.; /* hairline */
 	style->line.color = RGBA_GREY (0xC0);
+	go_pattern_set_solid (&style->fill.pattern, RGBA_TO_UINT (0xE0, 0xE0, 0xE0, 0xE0));
+	style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_theme_add_element (theme, style, NULL, NULL, "MinorGrid");
 	
 	/* series */

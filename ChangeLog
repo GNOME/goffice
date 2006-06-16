@@ -1,3 +1,28 @@
+2006-06-16  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Add support for background stripes.
+	
+	* goffice/graph/gog-chart.c (grid_line_render): render stripes, then
+	lines. Add a kludge layer on top of the initial kludge, since we
+	don't use GogView::render, but specialized render functions.
+	* goffice/graph/gog-grid-line.c (gog_grid_line_init_style): enable
+	fill property.
+	(fill_rectangle): new.
+	(gog_grid_line_xy_render): new.
+	(gog_grid_line_radial_render): new.
+	(gog_grid_line_circular_render): new.
+	(gog_grid_line_view_render): not called directly by GogView::render.
+	Now has a stripes parameter.
+	(gog_grid_line_view_render_lines): new.
+	(gog_grid_line_view_render_stripes): new.
+	* goffice/graph/gog-renderer.c (gog_renderer_get_ring_wedge_vpath):
+	automatically swap in and out radii. Fix fill decision.
+	Fix ring wedges.
+	* goffice/graph/gog-style.c (gog_style_init): set fill to none by
+	default. That'll be overriden by theme settings.
+	* goffice/graph/gog-theme (gog_themes_init): init fill property of
+	GogGridLine objects.
+
 2006-06-15  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=344747

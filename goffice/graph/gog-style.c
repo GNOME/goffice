@@ -1222,7 +1222,7 @@ gog_style_init (GogStyle *style)
 	style->line.dash_type = GO_LINE_SOLID;
 	style->outline.dash_type = GO_LINE_SOLID;
 	style->outline.width = 0;
-	style->fill.type = GOG_FILL_STYLE_PATTERN;
+	style->fill.type = GOG_FILL_STYLE_NONE;
 	style->fill.gradient.brightness = -1.;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_BLACK);
 	style->font.font = go_font_new_by_index (0);
@@ -1757,18 +1757,45 @@ static void
 gog_style_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static GsfXMLInNode const dtd[] = {
-	  GSF_XML_IN_NODE (STYLE, STYLE, -1, "GogObject", FALSE, NULL, NULL),
-	    GSF_XML_IN_NODE_FULL (STYLE, STYLE_LINE,	-1, "line", GSF_XML_NO_CONTENT, FALSE, FALSE, &gog_style_sax_load_line, NULL, 0),
-	    GSF_XML_IN_NODE_FULL (STYLE, STYLE_OUTLINE,	-1, "outline", GSF_XML_NO_CONTENT, FALSE, FALSE, &gog_style_sax_load_line, NULL, 1),
-	    GSF_XML_IN_NODE (STYLE, STYLE_FILL,		-1, "fill", GSF_XML_NO_CONTENT, &gog_style_sax_load_fill, NULL),
-	      GSF_XML_IN_NODE (STYLE_FILL, FILL_PATTERN,  -1, "pattern", GSF_XML_NO_CONTENT, &gog_style_sax_load_fill_pattern, NULL),
-	      GSF_XML_IN_NODE (STYLE_FILL, FILL_GRADIENT, -1, "gradient", GSF_XML_NO_CONTENT, &gog_style_sax_load_fill_gradient, NULL),
-	    GSF_XML_IN_NODE (STYLE, STYLE_MARKER,	-1, "marker", GSF_XML_NO_CONTENT, &gog_style_sax_load_marker, NULL),
-	    GSF_XML_IN_NODE (STYLE, STYLE_FONT,		-1, "font", GSF_XML_NO_CONTENT, &gog_style_sax_load_font, NULL),
-	    GSF_XML_IN_NODE (STYLE, STYLE_ALIGNMENT,	-1, "text_layout", GSF_XML_NO_CONTENT, &gog_style_sax_load_text_layout, NULL),
-	  GSF_XML_IN_NODE_END
+		GSF_XML_IN_NODE 	(STYLE, STYLE, 
+					 -1, "GogObject", 
+					 FALSE, NULL, NULL),
+		GSF_XML_IN_NODE_FULL 	(STYLE, STYLE_LINE, 
+					 -1, "line", 
+					 GSF_XML_NO_CONTENT, FALSE, FALSE, 
+					 &gog_style_sax_load_line, NULL, 0),
+		GSF_XML_IN_NODE_FULL 	(STYLE, STYLE_OUTLINE,	
+					 -1, "outline", 
+					 GSF_XML_NO_CONTENT, FALSE, FALSE, 
+					 &gog_style_sax_load_line, NULL, 1),
+		GSF_XML_IN_NODE 	(STYLE, STYLE_FILL, 
+					 -1, "fill", 
+					 GSF_XML_NO_CONTENT, 
+					 &gog_style_sax_load_fill, NULL),
+		GSF_XML_IN_NODE 	(STYLE_FILL, FILL_PATTERN,  
+					 -1, "pattern", 
+					 GSF_XML_NO_CONTENT, 
+					 &gog_style_sax_load_fill_pattern, NULL),
+		GSF_XML_IN_NODE 	(STYLE_FILL, FILL_GRADIENT, 
+					 -1, "gradient", 
+					 GSF_XML_NO_CONTENT, 
+					 &gog_style_sax_load_fill_gradient, NULL),
+		GSF_XML_IN_NODE 	(STYLE, STYLE_MARKER,	
+					 -1, "marker", 
+					 GSF_XML_NO_CONTENT, 
+					 &gog_style_sax_load_marker, NULL),
+		GSF_XML_IN_NODE 	(STYLE, STYLE_FONT,
+			 		 -1, "font", 
+					 GSF_XML_NO_CONTENT, 
+					 &gog_style_sax_load_font, NULL),
+		GSF_XML_IN_NODE 	(STYLE, STYLE_ALIGNMENT,	
+					 -1, "text_layout", 
+					 GSF_XML_NO_CONTENT, 
+					 &gog_style_sax_load_text_layout, NULL),
+		GSF_XML_IN_NODE_END
 	};
 	static GsfXMLInDoc *doc = NULL;
+	
 	if (NULL == doc)
 		doc = gsf_xml_in_doc_new (dtd, NULL);
 	gsf_xml_in_push_state (xin, doc, NULL, NULL, attrs);

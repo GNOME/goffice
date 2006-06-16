@@ -1108,32 +1108,45 @@ static void
 grid_line_render (GSList *start_ptr, GogViewAllocation const *bbox) 
 {
 	GSList *ptr, *child_ptr;
+	GSList *minor_grid_lines = NULL;
+	GSList *major_grid_lines = NULL;
 	GogView *child_view, *axis_child_view;
 
-	/* Render minor lines first */
 	for (ptr = start_ptr; ptr != NULL; ptr = ptr->next) {
 		child_view = ptr->data;
 		if (IS_GOG_AXIS (child_view->model)) {
 			for (child_ptr = child_view->children; child_ptr != NULL; child_ptr = child_ptr->next) {
 				axis_child_view = child_ptr->data;
-				if (IS_GOG_GRID_LINE (axis_child_view->model) &&
-				    gog_grid_line_is_minor (GOG_GRID_LINE (axis_child_view->model)))
-					gog_view_render (axis_child_view, bbox);
+				if (IS_GOG_GRID_LINE (axis_child_view->model)) {
+					if (gog_grid_line_is_minor (GOG_GRID_LINE (axis_child_view->model)))
+						minor_grid_lines = g_slist_prepend (minor_grid_lines, 
+										    axis_child_view);
+					else
+						major_grid_lines = g_slist_prepend (major_grid_lines, 
+										    axis_child_view);
+				}	
 			}
 		}
 	}	    
-	/* then render major lines */
-	for (ptr = start_ptr; ptr != NULL; ptr = ptr->next) {
-		child_view = ptr->data;
-		if (IS_GOG_AXIS (child_view->model)) {
-			for (child_ptr = child_view->children; child_ptr != NULL; child_ptr = child_ptr->next) {
-				axis_child_view = child_ptr->data;
-				if (IS_GOG_GRID_LINE (axis_child_view->model) &&
-				    !gog_grid_line_is_minor (GOG_GRID_LINE (axis_child_view->model)))
-					gog_view_render (axis_child_view, bbox);
-			}
-		}
-	}	    
+	
+	/* Render stripes, minor first then major */
+	for (ptr = minor_grid_lines; ptr != NULL; ptr = ptr->next) {
+		gog_grid_line_view_render_stripes (ptr->data);
+	}
+	for (ptr = major_grid_lines; ptr != NULL; ptr = ptr->next) {
+		gog_grid_line_view_render_stripes (ptr->data);
+	}
+	
+	/* Render lines, minor first then major */
+	for (ptr = minor_grid_lines; ptr != NULL; ptr = ptr->next) {
+		gog_grid_line_view_render_lines (ptr->data);
+	}
+	for (ptr = major_grid_lines; ptr != NULL; ptr = ptr->next) {
+		gog_grid_line_view_render_lines (ptr->data);
+	}
+	
+	g_slist_free (minor_grid_lines);
+	g_slist_free (major_grid_lines);
 }
 
 static void
