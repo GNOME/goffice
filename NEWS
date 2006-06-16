@@ -3,6 +3,7 @@ goffice 0.3.1:
 Emmanuel Pacaud:
 	* Composite graph image onto white background when exporting to
 	formats that don't support alpha channel [#339126].
+	* Add support for background stripes.
 	* Fix display of log axis minor ticks [#341880].
 
 Jean Brefort:
