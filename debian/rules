@@ -141,6 +141,8 @@ install: build
 		cp -vdf $$l $(CURDIR)/debian/tmp/usr/lib/debug ; \
 	done
 
+	rm -f $(CURDIR)/debian/tmp/usr/lib/libgoffice-*.la
+
 
 # Build architecture-independent files here.
 binary-indep: build install
