@@ -39,6 +39,7 @@
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
+#include <gtk/gtkcombobox.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 #endif
@@ -117,18 +118,18 @@ calc_circle_parameters (GogViewAllocation const *area, GogChartMapPolarData *dat
 		x_max = y_max = 1.0;
 	} else {
 		double x;
-		if (data->th0 > 2.0 * M_PI) {
+
+		if (data->th0 < -2.0 * M_PI) {
 			x = data->th0 - fmod (data->th0, 2.0 * M_PI);
 			data->th0 -= x;
 			data->th1 -= x;
-		} else if (data->th1 < - 2.0 * M_PI) {
+		} else if (data->th1 > 2.0 * M_PI) {
 			x = data->th1 - fmod (data->th1, 2.0 * M_PI);
-			data->th0 -= x;
-			data->th1 -= x;
+			data->th0 += x;
+			data->th1 += x;
 		}
 		if (data->th1 - data->th0 > go_add_epsilon (2 * M_PI)) 
-			data->th1 = data->th0 + 
-				fmod (data->th1 - data->th0, 2.0 * M_PI);
+			data->th1 = data->th0 + 2 * M_PI; 
 
 		x_min = x_max = y_min = y_max = 0;
 		x = cos (-data->th0);
@@ -142,11 +143,14 @@ calc_circle_parameters (GogViewAllocation const *area, GogChartMapPolarData *dat
 
 		if (0 > data->th0 && 0 < data->th1)
 			x_max = 1.0;
-		if (M_PI / 2.0 > data->th0 && M_PI / 2.0 < data->th1)
+		if ((       M_PI / 2.0 > data->th0 &&        M_PI / 2.0 < data->th1) ||
+		    (-3.0 * M_PI / 2.0 > data->th0 && -3.0 * M_PI / 2.0 < data->th1))
 			y_min = -1.0;
-		if (M_PI > data->th0 && M_PI < data->th1)
+		if (( M_PI > data->th0 &&  M_PI < data->th1) ||
+		    (-M_PI > data->th0 && -M_PI < data->th1))
 			x_min = -1.0;
-		if (3.0 * M_PI / 2.0 > data->th0 && 3.0 * M_PI / 2.0 < data->th1)
+		if (( 3.0 * M_PI / 2.0 > data->th0 &&  3.0 * M_PI / 2.0 < data->th1) ||
+		    (-      M_PI / 2.0 > data->th0 && -      M_PI / 2.0 < data->th1))
 			y_max = 1.0;
 	}
 	data->rx = area->w / (x_max - x_min);
@@ -284,9 +288,11 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 			}
 		case GOG_AXIS_SET_RADAR:
 			{
-				double minimum, maximum;
 				GogChartMapPolarData *data = g_new (GogChartMapPolarData, 1);
-				
+				double minimum, maximum;
+				double z_rotation = gog_axis_get_circular_rotation (axis0) * M_PI / 180.0;
+				double perimeter;
+	
 				map->axis_map[0] = gog_axis_map_new (axis0, 0.0, 1.0);
 				gog_axis_map_get_bounds (map->axis_map[0], &minimum, &maximum);
 				if (gog_axis_is_discrete (axis0)) {
@@ -295,11 +301,12 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 					calc_polygon_parameters (area, data, fill_area);
 					gog_axis_map_free (map->axis_map[0]);
 					map->axis_map[0] = gog_axis_map_new (axis0, 
-						- M_PI / 2.0,
+						- M_PI / 2.0 + z_rotation,
 						2.0 * M_PI * (maximum - minimum) / (maximum - minimum + 1));
 				} else {
-					minimum *= 2.0 * M_PI / 360.0;
-					maximum *= 2.0 * M_PI / 360.0;
+					perimeter = gog_axis_get_polar_perimeter (axis0);
+					minimum = minimum * 2.0 * M_PI / perimeter + z_rotation;
+					maximum = maximum * 2.0 * M_PI / perimeter + z_rotation;
 					data->th0 = minimum;
 					data->th1 = maximum;
 					calc_circle_parameters (area, data, fill_area);
@@ -415,7 +422,7 @@ enum {
 	CHART_PROP_0,
 	CHART_PROP_CARDINALITY_VALID,
 	CHART_PROP_PLOT_AREA,
-	CHART_PROP_PLOT_AREA_IS_MANUAL
+	CHART_PROP_PLOT_AREA_IS_MANUAL,
 };
 
 static GType gog_chart_view_get_type (void);
@@ -517,7 +524,7 @@ gog_chart_populate_editor (GogObject *gobj,
 			   GOCmdContext *cc)
 {
 	static guint chart_pref_page = 0;
-	
+
 	(GOG_OBJECT_CLASS(chart_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
 	gog_editor_set_store_page (editor, &chart_pref_page);

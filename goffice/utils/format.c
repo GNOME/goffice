@@ -1973,6 +1973,7 @@ SUFFIX(go_format_number) (GString *result,
 	gboolean hour_seen = FALSE;
 	gboolean time_display_elapsed = FALSE;
 	gboolean ignore_further_elapsed = FALSE;
+	gboolean pi_seen = FALSE;
 
 	gunichar fill_char = 0;
 	int fill_start = -1;
@@ -2128,8 +2129,9 @@ SUFFIX(go_format_number) (GString *result,
 			if (can_render_number && info.left_spaces > info.left_req) {
 				int size = 0;
 				int numerator = -1, denominator = -1;
-				DOUBLE whole = SUFFIX(floor) (number);
-				DOUBLE fractional = number - whole;
+				DOUBLE frac_number = pi_seen ? number / M_PI : number;
+				DOUBLE whole = SUFFIX(floor) (frac_number);
+				DOUBLE fractional = frac_number - whole;
 
 				while (format[size + 1] == '?')
 					++size;
@@ -2140,7 +2142,9 @@ SUFFIX(go_format_number) (GString *result,
 
 					errno = 0;
 					denominator = strtol ((char *)format + 1, &end, 10);
-					if (format + 1 != end && errno != ERANGE && denominator <= G_MAXINT) {
+					if (format + 1 != end && 
+					    errno != ERANGE && 
+					    denominator <= G_MAXINT) {
 						size = end - (format + 1);
 						format = end;
 						numerator = (int)(fractional * denominator + 0.5);
@@ -2165,22 +2169,36 @@ SUFFIX(go_format_number) (GString *result,
 						info.rendered = TRUE;
 						numerator += whole * denominator;
 					} else
-						show_zero = (number == 0 || whole == 0);
+						show_zero = (frac_number == 0 || whole == 0);
 
-					/*
-					 * FIXME: the space-aligning here doesn't come out
-					 * right except in mono-space fonts.
-					 */
-					if (numerator > 0 || show_zero) {
-						g_string_append_printf (result,
-									"%*d/%-*d",
-									info.left_spaces, numerator,
-									size, denominator);
+					if (pi_seen) {
+						/* We differ here from standard fraction behaviour
+						 * by ignoring white spaces */
+						if (numerator > 0) {
+							if (numerator > 1) 
+								g_string_append_printf (result, "%d", numerator);
+							g_string_append_unichar (result, 0x03c0);
+							if (denominator != 1)
+								g_string_append_printf (result, "/%d", denominator);
+						} else {
+							g_string_append_c (result, '0');
+						}
 					} else {
-						g_string_append_printf (result,
-									"%-*s",
-									info.left_spaces + 1 + size,
-									"");
+						/*
+						 * FIXME: the space-aligning here doesn't come out
+						 * right except in mono-space fonts.
+						 */
+						if (numerator > 0 || show_zero) {
+							g_string_append_printf (result,
+										"%*d/%-*d",
+										info.left_spaces, numerator,
+										size, denominator);
+						} else {
+							g_string_append_printf (result,
+										"%-*s",
+										info.left_spaces + 1 + size,
+										"");
+						}
 					}
 					continue;
 				}
@@ -2380,18 +2398,26 @@ SUFFIX(go_format_number) (GString *result,
 			break;
 
 		case 'P': case 'p':
-			if (need_time_split)
-				need_time_split = SUFFIX(split_time)
-					(&tm, signed_number, SUFFIX(guess_invprecision) (format), date_conv);
-			if (tm.tm_hour >= 12){
-				g_string_append_c (result, *format);
-				if (*(format + 1) == 'm' || *(format + 1) == 'M'){
-					format++;
-					g_string_append_c (result, *format);
-				}
+			if (*(format + 1) == 'I' ||
+			    *(format + 1) == 'i') {
+				pi_seen = TRUE;
+				format++;
 			} else {
-				if (*(format + 1) == 'm' || *(format + 1) == 'M')
-					format++;
+				if (need_time_split)
+					need_time_split = SUFFIX(split_time)
+						(&tm, signed_number, 
+						 SUFFIX(guess_invprecision) (format), 
+						 date_conv);
+				if (tm.tm_hour >= 12){
+					g_string_append_c (result, *format);
+					if (*(format + 1) == 'm' || *(format + 1) == 'M'){
+						format++;
+						g_string_append_c (result, *format);
+					}
+				} else {
+					if (*(format + 1) == 'm' || *(format + 1) == 'M')
+						format++;
+				}
 			}
 			break;
 

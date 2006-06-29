@@ -30,6 +30,13 @@
 G_BEGIN_DECLS
 
 typedef enum {
+	GOG_AXIS_POLAR_UNIT_DEGREES,
+	GOG_AXIS_POLAR_UNIT_RADIANS,
+	GOG_AXIS_POLAR_UNIT_GRADS,
+	GOG_AXIS_POLAR_UNIT_MAX
+} GogAxisPolarUnit;
+
+typedef enum {
 	GOG_AXIS_ELEM_MIN = 0,
 	GOG_AXIS_ELEM_MAX,
 	GOG_AXIS_ELEM_MAJOR_TICK,
@@ -90,6 +97,11 @@ void	      gog_axis_clear_contributors (GogAxis *axis);
 void	      gog_axis_bound_changed	  (GogAxis *axis, GogObject *contrib);
 
 GogGridLine  *gog_axis_get_grid_line 	  (GogAxis *axis, gboolean major);
+
+void	      		gog_axis_set_polar_unit		(GogAxis *axis, GogAxisPolarUnit unit);
+GogAxisPolarUnit	gog_axis_get_polar_unit		(GogAxis *axis);
+double 			gog_axis_get_polar_perimeter 	(GogAxis *axis);
+double 			gog_axis_get_circular_rotation 	(GogAxis *axis);
 
 G_END_DECLS
 

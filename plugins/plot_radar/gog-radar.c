@@ -336,8 +336,8 @@ gog_polar_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 
 	switch (axis) {
 	case GOG_AXIS_CIRCULAR:
-		bounds->val.minima = bounds->logical.minima= 0.;
-		bounds->val.maxima = bounds->logical.maxima= 360.0;
+		bounds->val.minima = bounds->logical.minima= -G_MAXDOUBLE;
+		bounds->val.maxima = bounds->logical.maxima=  G_MAXDOUBLE;
 		bounds->is_discrete    = FALSE;
 		break;
 	case GOG_AXIS_RADIAL:

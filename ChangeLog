@@ -1,3 +1,31 @@
+2006-06-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Add support for polar plot units (degrees, radians, grads).
+
+	* goffice/graph/gog-axis.c (map_linear_auto_bound): handle radian
+	and grad case.
+	(gog_axis_set_format): request an object update.
+	(gog_axis_set_property): handle new circular_rotation and polar_unit
+	properties.
+	(gog_axis_get_property): ditto.
+	(gog_axis_class_init): ditto.
+	(gog_axis_pref_state_free): new.
+	(gog_axis_populate_polar_unit_combo): new.
+	(cb_polar_unit_changed): new.
+	(cb_rotation_changed): new.
+	(gog_axis_populate_editor): handle circular_rotation and polar_unit
+	properties.
+	(gog_axis_set_polar_unit): new.
+	(gog_axis_get_polar_unit): new.
+	(gog_axis_get_polar_perimeter): new.
+	(gog_axis_get_circular_rotation): new.
+	* goffice/graph/gog-chart.c (calc_circle_parameters): fix wrong
+	calculations.
+	(gog_chart_map_new): handle other polar units.
+	* goffice/utils/format.c (go_format_number): handle new ?pi/? format.
+	* plugins/plot_radar/gog-radar.c (gog_polar_plot_axis_get_bounds):
+	don't limit bounds to 0 / 360 °.
+	
 2006-06-28  Jody Goldberg <jody@gnome.org>
 
 	* goffice/graph/gog-style.h : include <cairo.h> rather than

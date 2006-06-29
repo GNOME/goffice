@@ -143,9 +143,9 @@ typedef struct {
 
 static GogPositionFlagDesc const position_compass[] = {
 	{N_("Top"), 		"top",		GOG_POSITION_N},
-	{N_("Top right"), 	"top-righ",	GOG_POSITION_N|GOG_POSITION_E},
+	{N_("Top right"), 	"top-right",	GOG_POSITION_N|GOG_POSITION_E},
 	{N_("Right"), 		"right",	GOG_POSITION_E},
-	{N_("Bottom right"), 	"bottom-righ",	GOG_POSITION_E|GOG_POSITION_S},
+	{N_("Bottom right"), 	"bottom-right",	GOG_POSITION_E|GOG_POSITION_S},
 	{N_("Bottom"),		"bottom",	GOG_POSITION_S},
 	{N_("Bottom left"),	"bottom-left",	GOG_POSITION_S|GOG_POSITION_W},
 	{N_("Left"),		"left",		GOG_POSITION_W},

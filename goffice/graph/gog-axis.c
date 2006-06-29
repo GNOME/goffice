@@ -53,6 +53,7 @@
 #include <gtk/gtkmisc.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtktable.h>
+#include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 #endif
 
@@ -60,6 +61,24 @@
 
 /* this should be per model */
 #define PAD_HACK	4	/* pts */
+
+static struct {
+	GogAxisPolarUnit unit;
+	const char 	*name;
+	double		 perimeter;
+	const char	*xl_format;
+	double		 auto_minimum;
+	double		 auto_maximum;
+	double		 auto_major;
+	double		 auto_minor;	
+} polar_units[GOG_AXIS_POLAR_UNIT_MAX] = {
+	{ GOG_AXIS_POLAR_UNIT_DEGREES, N_("Degrees"), 360.0,	"0\"°\"",   0.0, 360.0,     30.0,      10.0},
+	{ GOG_AXIS_POLAR_UNIT_RADIANS, N_("Radians"), 2 * M_PI,	"?pi/??", -M_PI,  M_PI, M_PI/4.0, M_PI/16.0},
+	{ GOG_AXIS_POLAR_UNIT_GRADS,   N_("Grads"),   400.0,	"General",  0.0, 400.0,     50.0,      10.0}
+};
+
+#define GOG_AXIS_CIRCULAR_ROTATION_MIN -180.0
+#define GOG_AXIS_CIRCULAR_ROTATION_MAX  180.0
 
 typedef struct _GogAxisMapDesc GogAxisMapDesc;
 
@@ -83,6 +102,9 @@ struct _GogAxis {
 	GOFormat       *format, *assigned_format;
 
 	GogAxisMapDesc const 	*map_desc;
+
+	GogAxisPolarUnit	 polar_unit;
+	double			 circular_rotation;
 
 	GogAxisTick	*ticks;
 	unsigned	 tick_nbr;
@@ -365,10 +387,10 @@ map_linear_auto_bound (GogAxis *axis, double minimum, double maximum, double *bo
 	int expon;
 
 	if (gog_axis_get_atype (axis) == GOG_AXIS_CIRCULAR) {
-		bound[GOG_AXIS_ELEM_MIN] = 0.0;
-		bound[GOG_AXIS_ELEM_MAX] = 360.0;
-		bound[GOG_AXIS_ELEM_MAJOR_TICK] = 30.0;
-		bound[GOG_AXIS_ELEM_MINOR_TICK] = 10.0;
+		bound[GOG_AXIS_ELEM_MIN] = polar_units[axis->polar_unit].auto_minimum;
+		bound[GOG_AXIS_ELEM_MAX] = polar_units[axis->polar_unit].auto_maximum;
+		bound[GOG_AXIS_ELEM_MAJOR_TICK] = polar_units[axis->polar_unit].auto_major;
+		bound[GOG_AXIS_ELEM_MINOR_TICK] = polar_units[axis->polar_unit].auto_minor;
 		return;
 	}	
 
@@ -459,14 +481,14 @@ map_linear_calc_ticks (GogAxis *axis)
 		ratio = ticks[i].position / major_tick;
 		if (fabs (ratio - rint (ratio)) < 1E-3) {
 			ticks[i].type = GOG_AXIS_TICK_MAJOR;
-				if (axis->assigned_format == NULL || 
-				    go_format_is_general (axis->assigned_format))
-					ticks[i].label = go_format_value (axis->format, 
-									  ticks[i].position);
-				else
-					ticks[i].label = go_format_value (axis->assigned_format, 
-									  ticks[i].position);
-			}
+			if (axis->assigned_format == NULL || 
+			    go_format_is_general (axis->assigned_format))
+				ticks[i].label = go_format_value (axis->format, 
+								  ticks[i].position);
+			else
+				ticks[i].label = go_format_value (axis->assigned_format, 
+								  ticks[i].position);
+		}
 		else {
 			ticks[i].type = GOG_AXIS_TICK_MINOR;
 			ticks[i].label = NULL;
@@ -1027,7 +1049,9 @@ enum {
 	AXIS_PROP_TYPE,
 	AXIS_PROP_INVERT,
 	AXIS_PROP_MAP,
-	AXIS_PROP_ASSIGNED_FORMAT_STR_XL
+	AXIS_PROP_ASSIGNED_FORMAT_STR_XL,
+	AXIS_PROP_CIRCULAR_ROTATION,
+	AXIS_PROP_POLAR_UNIT
 };
 
 /*****************************************************************************/
@@ -1116,6 +1140,8 @@ gog_axis_set_format (GogAxis *axis, GOFormat *fmt)
 	if (axis->assigned_format != NULL)
 		go_format_unref (axis->assigned_format);
 	axis->assigned_format = fmt;
+
+	gog_object_request_update (GOG_OBJECT (axis));
 	return TRUE;
 }
 
@@ -1174,6 +1200,23 @@ gog_axis_set_property (GObject *obj, guint param_id,
 		calc_ticks = resized;
 		break;
 	}
+	case AXIS_PROP_CIRCULAR_ROTATION:
+		axis->circular_rotation = CLAMP (g_value_get_double (value),
+						 GOG_AXIS_CIRCULAR_ROTATION_MIN,
+						 GOG_AXIS_CIRCULAR_ROTATION_MAX);
+		break;
+	case AXIS_PROP_POLAR_UNIT: {
+		char const *str = g_value_get_string (value);
+		unsigned int i;
+		for (i = 0; i < G_N_ELEMENTS (polar_units); i++) {
+			if (g_ascii_strcasecmp (str, polar_units[i].name) == 0) {
+				axis->polar_unit = i;
+				break;
+			}
+		}
+		resized = calc_ticks = TRUE;
+		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -1210,6 +1253,12 @@ gog_axis_get_property (GObject *obj, guint param_id,
 				go_format_as_XL	(axis->assigned_format, FALSE));
 		else
 			g_value_set_static_string (value, NULL);
+		break;
+	case AXIS_PROP_CIRCULAR_ROTATION:
+		g_value_set_double (value, axis->circular_rotation);
+		break;
+	case AXIS_PROP_POLAR_UNIT:
+		g_value_set_string (value, polar_units[axis->polar_unit].name);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -1366,6 +1415,23 @@ gog_axis_update (GogObject *obj)
 }
 
 #ifdef GOFFICE_WITH_GTK
+
+typedef struct {
+	GladeXML 	*gui;
+	GogAxis		*axis;
+	GtkWidget 	*format_selector;	
+} GogAxisPrefState;
+
+static void
+gog_axis_pref_state_free (GogAxisPrefState *state)
+{
+	if (state->axis != NULL)
+		g_object_unref (state->axis);
+	if (state->gui != NULL)
+		g_object_unref (state->gui);
+	g_free (state);
+}
+
 static void
 cb_axis_toggle_changed (GtkToggleButton *toggle_button, GObject *axis)
 {
@@ -1472,7 +1538,7 @@ make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 static void
 cb_axis_fmt_changed (G_GNUC_UNUSED GtkWidget *widget,
 		     char *fmt,
-		     GObject *axis)
+		     GogAxis *axis)
 {
 	g_object_set (axis, "assigned-format-string-XL", fmt, NULL);
 }
@@ -1482,6 +1548,45 @@ cb_map_combo_changed (GtkComboBox *combo,
 		      GogAxis *axis)
 {
 	gog_axis_map_set_by_num (axis, gtk_combo_box_get_active (combo));
+}
+
+static void
+gog_axis_populate_polar_unit_combo (GogAxis *axis, GtkComboBox *combo)
+{
+	unsigned i, id = 0;
+
+	g_return_if_fail (IS_GOG_AXIS (axis));
+
+	for (i = 0; i < G_N_ELEMENTS (polar_units); i++) {
+		gtk_combo_box_append_text (combo, _(polar_units[i].name));
+		if (polar_units[i].unit == axis->polar_unit)
+			id = i;
+	}
+	gtk_combo_box_set_active (combo, id);
+}
+
+static void
+cb_polar_unit_changed (GtkComboBox *combo,
+		       GogAxisPrefState *state)
+{
+	GogAxis *axis = state->axis;
+	GOFormat *format;
+
+	axis->polar_unit = gtk_combo_box_get_active (combo);
+	format = go_format_new_from_XL (polar_units[axis->polar_unit].xl_format, FALSE);
+
+	if (gog_axis_set_format (axis, format) &&
+	    state->format_selector != NULL) 
+		go_format_sel_set_style_format (GO_FORMAT_SEL (state->format_selector), format);
+}
+
+static void
+cb_rotation_changed (GtkSpinButton *spin, GogAxis *axis)
+{
+	axis->circular_rotation = CLAMP (gtk_spin_button_get_value (spin), 
+					 GOG_AXIS_CIRCULAR_ROTATION_MIN, 
+					 GOG_AXIS_CIRCULAR_ROTATION_MAX);
+	gog_object_emit_changed (GOG_OBJECT (axis), TRUE);
 }
 
 static void
@@ -1498,12 +1603,18 @@ gog_axis_populate_editor (GogObject *gobj,
 	GtkTable  *table;
 	unsigned i = 0;
 	GogAxis *axis = GOG_AXIS (gobj);
+	GogAxisPrefState *state;
 	GogDataset *set = GOG_DATASET (gobj);
 	GladeXML *gui;
 
 	gui = go_libglade_new ("gog-axis-prefs.glade", "axis_pref_box", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
+
+	state = g_new0 (GogAxisPrefState, 1);
+	state->gui = gui;
+	state->axis = axis;
+	g_object_ref (G_OBJECT (axis));
 
 	/* Bounds Page */
 	table = GTK_TABLE (glade_xml_get_widget (gui, "bound_table"));
@@ -1542,6 +1653,24 @@ gog_axis_populate_editor (GogObject *gobj,
 		gtk_widget_hide (w);
 	}
 
+	if (!axis->is_discrete && gog_axis_get_atype (axis) == GOG_AXIS_CIRCULAR) {
+		GtkWidget *w = glade_xml_get_widget (gui, "polar_unit_combo");
+		gog_axis_populate_polar_unit_combo (axis, GTK_COMBO_BOX (w));
+		g_signal_connect (G_OBJECT (w),
+				  "changed",
+				  G_CALLBACK (cb_polar_unit_changed),
+				  state);
+
+		w = glade_xml_get_widget (gui, "circular_rotation_spinbutton");
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), axis->circular_rotation);
+		g_signal_connect_object (G_OBJECT (w), "value-changed",
+					 G_CALLBACK (cb_rotation_changed),
+					 axis, 0);
+	} else {
+		GtkWidget *w = glade_xml_get_widget (gui, "circular_table");
+		gtk_widget_hide (w);
+	}
+
 	for (i = 0; i < G_N_ELEMENTS (toggle_props) ; i++) {
 		gboolean cur_val;
 		GtkWidget *w = glade_xml_get_widget (gui, toggle_props[i]);
@@ -1567,6 +1696,8 @@ gog_axis_populate_editor (GogObject *gobj,
 #else
 		w = go_format_sel_new_full (FALSE);
 #endif
+		state->format_selector = w;
+
 		if (axis->assigned_format != NULL && !go_format_is_general (axis->assigned_format))
 			go_format_sel_set_style_format (GO_FORMAT_SEL (w),
 				axis->assigned_format);
@@ -1582,8 +1713,8 @@ gog_axis_populate_editor (GogObject *gobj,
 	}
 
 	w = glade_xml_get_widget (gui, "axis_pref_box");
-	g_object_set_data_full (G_OBJECT (w), "gui", gui,
-				(GDestroyNotify)g_object_unref);
+	g_object_set_data_full (G_OBJECT (w), "state", state,
+				(GDestroyNotify)gog_axis_pref_state_free);
 
 	gog_editor_set_store_page (editor, &axis_pref_page);
 }
@@ -1644,6 +1775,17 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 		g_param_spec_string ("assigned-format-string-XL", NULL,
 			"The user assigned format to use for non-discrete axis labels (XL format)",
 			"General", G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_CIRCULAR_ROTATION,
+		g_param_spec_double ("circular-rotation", "Rotation of circular axis", 
+				     "Rotation of circular axis",
+				     GOG_AXIS_CIRCULAR_ROTATION_MIN, 
+				     GOG_AXIS_CIRCULAR_ROTATION_MAX,
+				     0.0, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_POLAR_UNIT,
+		g_param_spec_string ("polar-unit", "Polar axis set unit", 
+				     "Polar axis set unit", 
+				     polar_units[GOG_AXIS_POLAR_UNIT_DEGREES].name,
+				     G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
@@ -1673,6 +1815,9 @@ gog_axis_init (GogAxis *axis)
 	axis->format = axis->assigned_format = NULL;
 
 	gog_axis_map_set (axis, NULL);
+
+	axis->polar_unit = GOG_AXIS_POLAR_UNIT_DEGREES;
+	axis->circular_rotation = 0;
 
 	axis->ticks = NULL;
 	axis->tick_nbr = 0;
@@ -1978,6 +2123,73 @@ gog_axis_get_grid_line (GogAxis *axis, gboolean major)
 		return grid_line;
 	}
 	return NULL;
+}
+
+/**
+ * gog_axis_set_polar_unit:
+ * @axis: a #GogAxis
+ * @unit: #GogAxisPolarUnit
+ *
+ * Sets unit of a circular axis. See #GogAxisPolarUnit for valid
+ * values. 
+ **/
+
+void
+gog_axis_set_polar_unit (GogAxis *axis, GogAxisPolarUnit unit)
+{
+	g_return_if_fail (IS_GOG_AXIS (axis));
+
+	axis->polar_unit = CLAMP (unit, 0, GOG_AXIS_POLAR_UNIT_MAX - 1);
+}
+
+/**
+ * gog_axis_get_polar_unit:
+ * @axis: a #GogAxis
+ *
+ * returns: unit of @axis if it's a circular axis of a polar
+ * axis set, -1 otherwise.
+ **/
+
+GogAxisPolarUnit
+gog_axis_get_polar_unit (GogAxis *axis)
+{
+	g_return_val_if_fail (IS_GOG_AXIS (axis), 0);
+
+	return axis->polar_unit;
+}
+
+/**
+ * gog_axis_get_circular_perimeter:
+ * @axis: a #GogAxis
+ *
+ * returns: perimeter of a circular #GogAxis of a polar axis set.
+ * 
+ * 	radians: 2*pi
+ * 	degrees: 360.0
+ * 	grads  : 400.0
+ **/
+
+double
+gog_axis_get_polar_perimeter (GogAxis *axis)
+{
+	g_return_val_if_fail (IS_GOG_AXIS (axis), 0.0);
+
+	return polar_units[axis->polar_unit].perimeter;
+}
+
+/**
+ * gog_axis_get_circular_rotation:
+ * @axis: a #GogAxis
+ *
+ * returns: rotation of a circular #GogAxis.
+ **/
+
+double
+gog_axis_get_circular_rotation (GogAxis *axis)
+{
+	g_return_val_if_fail (IS_GOG_AXIS (axis), 0.0);
+
+	return axis->circular_rotation;
 }
 
 /****************************************************************************/
