@@ -1,3 +1,9 @@
+2006-06-28  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-style.h : include <cairo.h> rather than
+	  <cairo/cairo.h>
+	* goffice/utils/go-image.h : ditto.
+
 2006-06-16  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Add support for background stripes.

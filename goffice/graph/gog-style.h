@@ -33,7 +33,7 @@
 #include <goffice/utils/go-pattern.h>
 #include <glib-object.h>
 #ifdef GOFFICE_WITH_CAIRO
-#	include <cairo/cairo.h>
+#	include <cairo.h>
 #endif
 
 G_BEGIN_DECLS

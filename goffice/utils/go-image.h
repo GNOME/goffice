@@ -22,7 +22,7 @@
 #include <glib-object.h>
 #include <goffice/utils/goffice-utils.h>
 #ifdef GOFFICE_WITH_CAIRO
-#	include <cairo/cairo.h>
+#	include <cairo.h>
 #endif
 #ifdef GOFFICE_WITH_GTK
 #	include <gdk-pixbuf/gdk-pixbuf.h>
