@@ -4,7 +4,10 @@ Emmanuel Pacaud:
 	* Composite graph image onto white background when exporting to
 	formats that don't support alpha channel [#339126].
 	* Add support for background stripes.
+	* Add radian and grad unit support for polar plots.
+	* Add rotation support for polar plots.
 	* Fix display of log axis minor ticks [#341880].
+	* Add new ?pi/? format, mainly for polar plot use.
 
 Jean Brefort:
 	* Add a half pie plots.
