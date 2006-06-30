@@ -511,7 +511,7 @@ static void
 gog_rt_view_class_init (GogViewClass *view_klass)
 {
 	view_klass->render	  = gog_rt_view_render;
-	view_klass->clip	  = TRUE;
+	view_klass->clip	  = FALSE;
 }
 
 GSF_DYNAMIC_CLASS (GogRTView, gog_rt_view,

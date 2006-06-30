@@ -1,3 +1,8 @@
+2006-06-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* plugins/plot_radar/gog-radar.c (gog_rt_view_class_init): disable
+	default clipping.
+
 2006-06-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Add support for polar plot units (degrees, radians, grads).
