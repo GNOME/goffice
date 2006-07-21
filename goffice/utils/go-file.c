@@ -288,7 +288,12 @@ go_url_resolve_relative (const char *ref_uri, const char *rel_uri)
 #ifdef GOFFICE_WITH_GNOME
 	uri = gnome_vfs_uri_make_full_from_relative (ref_uri, rel_uri);
 #else
-	size_t len = strlen (ref_uri);
+	size_t len;
+
+	g_return_val_if_fail (ref_uri != NULL, NULL);
+	g_return_val_if_fail (rel_uri != NULL, NULL);
+
+	len = strlen (ref_uri);
 
 	/* FIXME: This doesn't work if rel_uri starts with a slash.  */
 

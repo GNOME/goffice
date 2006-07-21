@@ -1,3 +1,8 @@
+2006-07-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_url_resolve_relative): Add
+	preconditions.
+
 2006-06-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* plugins/plot_radar/gog-radar.c (gog_rt_view_class_init): disable
