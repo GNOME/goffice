@@ -1,5 +1,10 @@
 2006-07-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* plugins/plot_xy/gog-axy.c (gog_xy_view_render): make step
+	interpolation sharp.
+
+2006-07-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	* plugins/plot_barcol/gog-barcol.c (barcol_draw_rect): make barcol
 	plot log scale safe.
 

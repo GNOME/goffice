@@ -896,7 +896,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					}
 				}
 				path[j].code = ART_END;
-				gog_renderer_draw_path (view->renderer, path);
+				gog_renderer_draw_sharp_path (view->renderer, path);
 				art_free (path);
 				break;
 			}
