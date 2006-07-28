@@ -1,5 +1,12 @@
 2006-07-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* goffice/graph/gog-theme.c (gog_themes_init): set serie default fill 
+	style to GOG_FILL_STYLE_PATTERN.
+	* plugins/plot_boxes/gog-histogram.c (gog_histogram_plot_view_render):
+	make histogram plots sharp.
+
+2006-07-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	* plugins/plot_xy/gog-axy.c (gog_xy_view_render): make step
 	interpolation sharp.
 

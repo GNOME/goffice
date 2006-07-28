@@ -527,6 +527,7 @@ gog_themes_init	(void)
 	style->outline.dash_type = GO_LINE_SOLID;
 	style->outline.width = 0; /* hairline */
 	style->outline.color = RGBA_BLACK;
+	style->fill.type = GOG_FILL_STYLE_PATTERN;
 	/* FIXME : not really true, will want to split area from line */
 	gog_theme_add_element (theme, style,
 		map_area_series_solid_default, "GogSeries", NULL);

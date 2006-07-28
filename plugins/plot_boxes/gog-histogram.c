@@ -266,7 +266,7 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	path[j++].y = path[0].y;
 	path[j].code = ART_END;
 	gog_renderer_push_style (view->renderer, style);
-	gog_renderer_draw_polygon (view->renderer, path, FALSE);
+	gog_renderer_draw_sharp_polygon (view->renderer, path, FALSE);
 
 	if (series->droplines) {
 		ArtVpath droppath[3];
