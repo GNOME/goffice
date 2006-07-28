@@ -1,3 +1,8 @@
+2006-07-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* plugins/plot_barcol/gog-barcol.c (barcol_draw_rect): make barcol
+	plot log scale safe.
+
 2006-07-21  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-file.c (go_url_resolve_relative): Add

@@ -265,11 +265,23 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 	if (flip) {
 		x0 = gog_axis_map_to_view (x_map, rect->y);
 		x1 = gog_axis_map_to_view (x_map, rect->y + rect->h);
-		y0 = gog_axis_map_to_view (y_map, rect->x);
-		y1 = gog_axis_map_to_view (y_map, rect->x + rect->w);
+		if (gog_axis_map_finite (y_map, rect->x))
+			y0 = gog_axis_map_to_view (y_map, rect->x);
+		else
+			y0 = gog_axis_map_get_baseline (y_map);
+		if (gog_axis_map_finite (y_map, rect->x + rect->w))
+			y1 = gog_axis_map_to_view (y_map, rect->x + rect->w);
+		else
+			y1 = gog_axis_map_get_baseline (y_map);
 	} else {
-		x0 = gog_axis_map_to_view (x_map, rect->x);
-		x1 = gog_axis_map_to_view (x_map, rect->x + rect->w);
+		if (gog_axis_map_finite (x_map, rect->x))
+			x0 = gog_axis_map_to_view (x_map, rect->x);
+		else
+			x0 = gog_axis_map_get_baseline (x_map);
+		if (gog_axis_map_finite (x_map, rect->x + rect->w))
+			x1 = gog_axis_map_to_view (x_map, rect->x + rect->w);
+		else
+			x1 = gog_axis_map_get_baseline (x_map);
 		y0 = gog_axis_map_to_view (y_map, rect->y);
 		y1 = gog_axis_map_to_view (y_map, rect->y + rect->h);
 	}
