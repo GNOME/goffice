@@ -489,9 +489,10 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (is_polar) { 
 			bpath = gog_renderer_get_ring_wedge_bpath (parms->cx, parms->cy, parms->rx, parms->ry,
 								   0.0, 0.0, -parms->th0, -parms->th1);
-			clip_path = art_bez_path_to_vec (bpath, .1);
-			g_free (bpath);
-			gog_renderer_push_clip (view->renderer, clip_path);	
+			if (bpath != NULL) {
+				clip_path = art_bez_path_to_vec (bpath, .1);
+				gog_renderer_push_clip (view->renderer, clip_path);	
+			}
 		}
 
 		if (closed_shape && is_area) {
@@ -499,8 +500,10 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 		} else
 			gog_renderer_draw_path (view->renderer, path);
 
-		if (is_polar)
+		if (is_polar && bpath != NULL) {
+			g_free (bpath);
 			gog_renderer_pop_clip (view->renderer);
+		}
 
 		gog_renderer_pop_style (view->renderer);
 	}

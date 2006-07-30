@@ -1,3 +1,8 @@
+2006-07-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* plugins/plot_radar/gog-radar.c (gog_rt_view_render): fix a crash
+	where clip path == NULL (#349238).
+
 2006-07-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-theme.c (gog_themes_init): set serie default fill 

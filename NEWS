@@ -8,6 +8,8 @@ Emmanuel Pacaud:
 	* Add rotation support for polar plots.
 	* Fix display of log axis minor ticks [#341880].
 	* Add new ?pi/? format, mainly for polar plot use.
+	* Fix bar/col plots when using log scale. 
+	* Fix a crash when polar plot width or height == 0 [#349238].
 
 Jean Brefort:
 	* Add a half pie plots.
