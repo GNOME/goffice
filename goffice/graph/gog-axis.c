@@ -234,7 +234,7 @@ map_discrete_auto_bound (GogAxis *axis,
 	if ((maximum - minimum) > GOG_AXIS_DISCRETE_AUTO_MAX_MAJOR_TICK_NBR) 
 		bound [GOG_AXIS_ELEM_MAJOR_TICK] = 
 		bound [GOG_AXIS_ELEM_MINOR_TICK] =
-			ceil ((maximum - minimum + 1.0) / 
+			go_fake_ceil ((maximum - minimum + 1.0) / 
 			      (double) GOG_AXIS_DISCRETE_AUTO_MAX_MAJOR_TICK_NBR); 
 	else
 		bound [GOG_AXIS_ELEM_MAJOR_TICK] = 
@@ -269,11 +269,11 @@ map_discrete_calc_ticks (GogAxis *axis)
 	}
 		
 	tick_start = axis->center_on_ticks ? 
-		ceil (minimum / (double) major_tick) * major_tick : 
-		ceil ((minimum - 0.5) / (double) major_tick) * major_tick + 0.5;
-	label_start = ceil (minimum / (double) major_label) * major_label;
-	tick_nbr = floor (go_add_epsilon (maximum - tick_start) / major_tick + 1.0);
-	label_nbr = floor (go_add_epsilon (maximum - label_start) / major_label + 1.0);
+		go_fake_ceil (minimum / (double) major_tick) * major_tick : 
+		go_fake_ceil ((minimum - 0.5) / (double) major_tick) * major_tick + 0.5;
+	label_start = go_fake_ceil (minimum / (double) major_label) * major_label;
+	tick_nbr = go_fake_floor ((maximum - tick_start) / major_tick + 1.0);
+	label_nbr = go_fake_floor ((maximum - label_start) / major_label + 1.0);
 	tick_nbr = CLAMP (tick_nbr, 0, GOG_AXIS_MAX_TICK_NBR);
 	label_nbr = CLAMP (label_nbr, 0, GOG_AXIS_MAX_TICK_NBR);
 	if (tick_nbr < 1  && label_nbr < 1) {
@@ -466,8 +466,8 @@ map_linear_calc_ticks (GogAxis *axis)
 	} else
 		tick_step = major_tick;
 	
-	start = ceil (minimum / tick_step) * tick_step;
-	tick_nbr = floor (go_add_epsilon ((maximum - start) / tick_step + 1.0));
+	start = go_fake_ceil (minimum / tick_step) * tick_step;
+	tick_nbr = go_fake_floor ((maximum - start) / tick_step + 1.0);
 	if (tick_nbr < 1 || tick_nbr > GOG_AXIS_MAX_TICK_NBR) {
 		gog_axis_set_ticks (axis, 0, NULL);
 		return;
@@ -476,7 +476,7 @@ map_linear_calc_ticks (GogAxis *axis)
 
 	for (i = 0; i < tick_nbr; i++) {
 		ticks[i].position = start + (double) i * tick_step;
-		if (fabs (ticks[i].position) < tick_step / 1E10)
+		if (fabs (ticks[i].position) < tick_step * 1e-10)
 			ticks[i].position = 0.0;
 		ratio = ticks[i].position / major_tick;
 		if (fabs (ratio - rint (ratio)) < 1E-3) {
@@ -615,10 +615,10 @@ map_log_auto_bound (GogAxis *axis, double minimum, double maximum, double *bound
 	if (maximum < minimum)
 		maximum = minimum * 100.0;
 
-	maximum = ceil (log10 (maximum));
-	minimum = floor (log10 (minimum));
+	maximum = go_fake_ceil (log10 (maximum));
+	minimum = go_fake_floor (log10 (minimum));
 	
-	step = ceil ((maximum - minimum + 1.0) / 
+	step = go_fake_ceil ((maximum - minimum + 1.0) / 
 		     (double) GOG_AXIS_LOG_AUTO_MAX_MAJOR_TICK_NBR); 
 
 	bound [GOG_AXIS_ELEM_MIN] = pow ( 10.0, minimum);
@@ -649,8 +649,9 @@ map_log_calc_ticks (GogAxis *axis)
 		return;
 	}
 
-	start_tick = floor (log10 (minimum));
-	tick_nbr = major_tick = ceil (ceil (log10 (maximum)) - floor (log10 (minimum)) + 1.0);
+	start_tick = go_fake_floor (log10 (minimum));
+	tick_nbr = major_tick = go_fake_ceil (go_fake_ceil (log10 (maximum)) - 
+					      go_fake_floor (log10 (minimum)) + 1.0);
 	tick_nbr *= minor_tick;
 	if (tick_nbr < 1 || tick_nbr > GOG_AXIS_MAX_TICK_NBR) {
 		gog_axis_set_ticks (axis, 0, NULL);

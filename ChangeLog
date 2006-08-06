@@ -1,3 +1,13 @@
+2006-08-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-axis.c (map_discrete_calc_ticks): use go_fake_ceil
+	and go_fake_floor variants preventively.
+	(map_linear_calc_ticks): ditto. (Not preventively in this case, I've
+	really seen an issue on my laptop, where lower bound tick was not
+	displayed for minimum < 0.0).
+	(map_log_auto_bounds): ditto.
+	(map_log_calc_ticks): ditto.
+	
 2006-07-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* plugins/plot_radar/gog-radar.c (gog_rt_view_render): fix a crash
