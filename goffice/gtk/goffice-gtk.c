@@ -537,6 +537,17 @@ save_info_state_free (SaveInfoState *state)
 	g_free (state);
 }
 
+static void
+cb_format_combo_changed (GtkComboBox *combo, GtkWidget *expander)
+{
+	GOImageFormatInfo const *format_info;
+
+	format_info = go_image_get_format_info (gtk_combo_box_get_active (combo));
+	gtk_widget_set_sensitive (expander, 
+				  format_info != NULL && 
+				  format_info->is_dpi_useful);
+}
+
 char *
 gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 			 GOImageFormat *ret_format, double *resolution)
@@ -547,6 +558,7 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 	GtkFileChooser *fsel = gui_image_chooser_new (TRUE);
 	GtkWidget *expander = NULL;
 	GtkWidget *resolution_spin = NULL;
+	GtkWidget *resolution_table;
 	GladeXML *gui;
 	SaveInfoState *state;
 	const char *key = "gui_get_image_save_info";
@@ -581,7 +593,7 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 				format = GPOINTER_TO_UINT (l->data);
 				format_info = go_image_get_format_info (format);
 				gtk_combo_box_append_text (format_combo, _(format_info->desc)); 
-				if (format == state->format)
+				if (format == state->format) 
 					gtk_combo_box_set_active (format_combo, i);
 			}
 			if (gtk_combo_box_get_active (format_combo) < 0)
@@ -603,6 +615,12 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 		if (resolution != NULL && supported_formats != NULL && ret_format != NULL) {
 			widget = glade_xml_get_widget (gui, "image_save_dialog_extra");
 			gtk_file_chooser_set_extra_widget (fsel, widget);
+
+			resolution_table = glade_xml_get_widget (gui, "resolution_table");
+		
+			cb_format_combo_changed (format_combo, resolution_table);	
+			g_signal_connect (GTK_WIDGET (format_combo), "changed", 
+					  G_CALLBACK (cb_format_combo_changed), resolution_table);
 		}
 
 		g_object_unref (G_OBJECT (gui));

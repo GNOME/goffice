@@ -778,6 +778,7 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 				default:
 					break;
 			}
+			cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
 			crend->cairo = cairo_create (surface);
 			cairo_surface_destroy (surface);
 			cairo_set_line_join (crend->cairo, CAIRO_LINE_JOIN_ROUND);

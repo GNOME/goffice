@@ -1,5 +1,20 @@
 2006-08-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* configure.in: bump cairo req to 1.2.0 for
+	cairo_surface_set_fallback_resolution.
+	* goffice/graph/gog-renderer-cairo.c
+	(gog_renderer_cairo_export_image): call
+	cairo_surface_set_fallback_resolution.
+	* goffice/gtk/goffice-gtk.c (cb_format_combo_changed): new.
+	(gui_get_image_save_info): disable resolution spinbutton for formats
+	that don't require a resolution setting.
+	* goffice/utils/go-image.c: set is_dpi_useful to FALSE for PDF format.
+	* goffice/app/go-plugin.c (plugin_get_loader_if_needed): fix compiler
+	warning.
+	(go_plugin_list_read_for_subdirs_of_dir): ditto.
+
+2006-08-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	* goffice/graph/gog-axis.c (map_discrete_calc_ticks): use go_fake_ceil
 	and go_fake_floor variants preventively.
 	(map_linear_calc_ticks): ditto. (Not preventively in this case, I've

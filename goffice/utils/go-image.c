@@ -116,7 +116,7 @@ static GOImageFormatInfo const image_format_infos[GO_IMAGE_FORMAT_UNKNOWN] = {
 	{GO_IMAGE_FORMAT_JPG, (char *) "jpeg", (char *) N_("JPEG (photograph)"),     	 
 		(char *) "jpg", TRUE,  TRUE, FALSE},
 	{GO_IMAGE_FORMAT_PDF, (char *) "pdf",  (char *) N_("PDF (portable document format)"), 
-		(char *) "pdf", FALSE, TRUE, TRUE},
+		(char *) "pdf", FALSE, FALSE, TRUE},
 	{GO_IMAGE_FORMAT_PS,  (char *) "ps",   (char *) N_("PS (postscript)"), 		 
 		(char *) "ps",  FALSE, TRUE, TRUE},
 	{GO_IMAGE_FORMAT_EMF, (char *) "emf",  (char *) N_("EMF (extended metafile)"),

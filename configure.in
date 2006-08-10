@@ -96,7 +96,7 @@ goffice_reqs="
 	libart-2.0		>= 2.3.11
 "
 goffice_cairo_reqs="
-	cairo			>= 1.0.0
+	cairo			>= 1.2.0
 "
 goffice_gtk_reqs="
 	gtk+-2.0		>= 2.6.0
