@@ -1,3 +1,10 @@
+2006-08-11  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-object.c (gog_editor_get_notebook): always show
+	notebook tabs. Makes thing more consistent.
+	* plugins/plot_xy/gog-xy.c (gog_xy_series_populate_editor): don't display
+	details on first page.
+
 2006-08-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* configure.in: bump cairo req to 1.2.0 for

@@ -1331,6 +1331,8 @@ gog_xy_series_populate_editor (GogObject *obj,
 	GladeXML *gui = go_libglade_new (path, "gog-xy-series-prefs", GETTEXT_PACKAGE, cc);
 
 	g_free (path);
+	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
+
 	if (gui != NULL) {
 		w = glade_xml_get_widget (gui, "invalid-as-zero");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
@@ -1343,8 +1345,6 @@ gog_xy_series_populate_editor (GogObject *obj,
 			"state", gui, (GDestroyNotify)g_object_unref);
 		gog_editor_add_page (editor, w, _("Details"));
 	}
-
-	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 
 	w = gog_error_bar_prefs (GOG_SERIES (obj), "x-errors", TRUE, dalloc, cc);
 	gog_editor_add_page (editor, w, _("X error bars"));

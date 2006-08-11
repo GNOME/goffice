@@ -111,9 +111,6 @@ gog_editor_get_notebook (GogEditor *editor)
 		page_count = 1;
 	}
 
-	if (page_count == 1)
-		gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
-
 	if (editor->store_page != NULL) {
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), *editor->store_page);
 		g_signal_connect (G_OBJECT (notebook),
