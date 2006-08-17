@@ -1,3 +1,24 @@
+2006-08-17  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-axis-line.c (gog_axis_base_set_property): handle
+	new padding property.
+	(gog_axis_base_get_property): ditto.
+	(gog_axis_base_class_init): ditto.
+	(cb_position_toggled): make padding spinbutton insensitive when
+	padding setting is not relevent.
+	(cb_padding_changed): new.
+	(gog_axis_base_populate_editor): handle padding spinbutton.
+	(gog_axis_base_get_padding): new.
+	(axis_line_point): take padding setting into account.
+	(axis_line_get_bbox): ditto.
+	(axis_line_render): ditto. Store axis position here for use by
+	axis tools...
+	(x_process): ... instead of here. Adapt to new axis_line_render and
+	axis_line_point signature.
+	(xy_process): ditto.
+	(radar_process): ditto.
+	* goffice/graph/gog-axis-prefs.glade: add new padding spinbutton.
+
 2006-08-11  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-object.c (gog_editor_get_notebook): always show
