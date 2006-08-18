@@ -1,3 +1,13 @@
+2006-08-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-style.c: (str_as_image_type),
+	(image_type_as_str), (gog_style_fill_sax_save),
+	(gog_style_image_load), (gog_style_fill_load),
+	(gog_style_sax_load_fill_image), (gog_style_persist_prep_sax): save
+	image fill options.
+	* goffice/utils/go-image.c: (go_image_get_pixbuf): don't crash if image
+	is NULL [#348780].
+
 2006-08-17  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-axis-line.c (gog_axis_base_set_property): handle

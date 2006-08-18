@@ -563,6 +563,7 @@ go_image_new_from_pixbuf (GdkPixbuf *pixbuf)
 GdkPixbuf *
 go_image_get_pixbuf (GOImage *image)
 {
+	g_return_val_if_fail (image != NULL, NULL);
 	if (!image->pixbuf) {
 		if (image->width == 0 || image->height == 0 || image->data == NULL)
 			return NULL;

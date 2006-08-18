@@ -1240,6 +1240,15 @@ static struct {
 	{ GOG_FILL_STYLE_IMAGE,    "image" }
 };
 
+static struct {
+	GogFillStyle fstyle;
+	char const *name;
+} image_names[] = {
+	{ GOG_IMAGE_CENTERED,     "centered" },
+	{ GOG_IMAGE_STRETCHED,    "stretched" },
+	{ GOG_IMAGE_WALLPAPER,    "wallpaper" },
+};
+
 static gboolean
 bool_prop (xmlNode *node, char const *name, gboolean *res)
 {
@@ -1285,6 +1294,26 @@ fill_style_as_str (GogFillStyle fstyle)
 		if (fill_names[i].fstyle == fstyle)
 			return fill_names[i].name;
 	return "pattern";
+}
+
+static GogImageType
+str_as_image_type (char const *name)
+{
+	unsigned i;
+	for (i = 0; i < G_N_ELEMENTS (image_names); i++)
+		if (strcmp (image_names[i].name, name) == 0)
+			return image_names[i].fstyle;
+	return GOG_IMAGE_STRETCHED;
+}
+
+static char const *
+image_type_as_str (GogFillStyle fstyle)
+{
+	unsigned i;
+	for (i = 0; i < G_N_ELEMENTS (image_names); i++)
+		if (image_names[i].fstyle == fstyle)
+			return image_names[i].name;
+	return "stretched";
 }
 
 static void
@@ -1379,7 +1408,11 @@ gog_style_fill_sax_save (GsfXMLOut *output, GogStyle const *style)
 		gog_style_gradient_sax_save (output, style);
 		break;
 	case GOG_FILL_STYLE_IMAGE:
-		/* FIXME: TODO */
+		gsf_xml_out_start_element (output, "image");
+		gsf_xml_out_add_cstr_unchecked (output, "type",
+				image_type_as_str (style->fill.image.type));
+// TODO save the pixels
+		gsf_xml_out_end_element (output);
 		break;
 	default:
 		break;
@@ -1412,6 +1445,17 @@ gog_style_gradient_load (xmlNode *node, GogStyle *style)
 			xmlFree (str);
 		}
 	}
+}
+
+static void
+gog_style_image_load (xmlNode *node, GogStyle *style)
+{
+	char *str = xmlGetProp (node, "type");
+	if (str != NULL) {
+		style->fill.image.type = str_as_image_type (str);
+		xmlFree (str);
+	}
+	// TODO: load the pixels
 }
 
 static void
@@ -1467,7 +1511,14 @@ gog_style_fill_load (xmlNode *node, GogStyle *style)
 		}
 		break;
 	case GOG_FILL_STYLE_IMAGE:
-		/* FIXME: TODO */
+		for (ptr = node->xmlChildrenNode ;
+		     ptr != NULL ; ptr = ptr->next) {
+			if (xmlIsBlankNode (ptr) || ptr->name == NULL)
+				continue;
+			if (strcmp (ptr->name, "image") == 0) {
+				gog_style_image_load (ptr, style);
+			}
+		}
 		break;
 	default:
 		break;
@@ -1669,6 +1720,19 @@ gog_style_sax_load_fill_gradient (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+gog_style_sax_load_fill_image (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
+	g_return_if_fail (style->fill.type == GOG_FILL_STYLE_IMAGE);
+	// TODO: load the pixels
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "type")) {
+			style->fill.image.type = str_as_image_type (attrs[1]);
+			break;
+		}
+}
+
+static void
 gog_style_sax_load_fill (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
@@ -1780,6 +1844,10 @@ gog_style_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs
 					 -1, "gradient", 
 					 GSF_XML_NO_CONTENT, 
 					 &gog_style_sax_load_fill_gradient, NULL),
+		GSF_XML_IN_NODE 	(STYLE_FILL, FILL_IMAGE, 
+					 -1, "image", 
+					 GSF_XML_CONTENT, 
+					 &gog_style_sax_load_fill_image, NULL),
 		GSF_XML_IN_NODE 	(STYLE, STYLE_MARKER,	
 					 -1, "marker", 
 					 GSF_XML_NO_CONTENT, 
