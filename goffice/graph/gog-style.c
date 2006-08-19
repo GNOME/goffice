@@ -1411,7 +1411,7 @@ gog_style_fill_sax_save (GsfXMLOut *output, GogStyle const *style)
 		gsf_xml_out_start_element (output, "image");
 		gsf_xml_out_add_cstr_unchecked (output, "type",
 				image_type_as_str (style->fill.image.type));
-// TODO save the pixels
+/* TODO save the pixels */
 		gsf_xml_out_end_element (output);
 		break;
 	default:
@@ -1455,7 +1455,7 @@ gog_style_image_load (xmlNode *node, GogStyle *style)
 		style->fill.image.type = str_as_image_type (str);
 		xmlFree (str);
 	}
-	// TODO: load the pixels
+	/* TODO: load the pixels */
 }
 
 static void
@@ -1724,7 +1724,7 @@ gog_style_sax_load_fill_image (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
 	g_return_if_fail (style->fill.type == GOG_FILL_STYLE_IMAGE);
-	// TODO: load the pixels
+	/* TODO: load the pixels */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "type")) {
 			style->fill.image.type = str_as_image_type (attrs[1]);
