@@ -32,16 +32,17 @@ G_BEGIN_DECLS
 
 GType gog_theme_get_type (void);
 
-void gog_theme_fillin_style    (GogTheme *theme, GogStyle *style,
-		                GogObject *obj, int ind,
-				gboolean complete_overwrite);
-;
-void gog_theme_register        (GogTheme *theme, gboolean is_default);
-void gog_theme_register_file   (char const *name, char const *file);
-GogTheme   *gog_theme_lookup   (char const *name);
-char const *gog_theme_get_name (GogTheme const *theme);
+GogTheme   *gog_theme_new        	(char const *name);
+GogTheme   *gog_theme_new_from_file     (char const *name, char const *file);
+char const *gog_theme_get_name 		(GogTheme const *theme);
+void 	    gog_theme_fillin_style    	(GogTheme const *theme, GogStyle *style,
+				         GogObject const *obj, int ind,
+				         gboolean complete_overwrite);
 
-
+void	    gog_theme_registry_add		(GogTheme *theme, gboolean is_default);
+GogTheme   *gog_theme_registry_lookup 		(char const *name);
+GSList	   *gog_theme_registry_get_theme_names	(void);
+	
 /* private */
 void gog_themes_init	 (void);
 void gog_themes_shutdown (void);

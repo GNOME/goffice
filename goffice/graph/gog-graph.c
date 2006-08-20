@@ -37,6 +37,12 @@
 #include <string.h>
 #include <stdlib.h>
 
+#ifdef GOFFICE_WITH_GTK
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkcombobox.h>
+#include <gtk/gtkliststore.h>
+#endif
+
 #define GOG_GRAPH_DEFAULT_WIDTH 	GO_CM_TO_PT (12.0)
 #define GOG_GRAPH_DEFAULT_HEIGHT 	GO_CM_TO_PT (8.0)
 
@@ -58,6 +64,8 @@ static gulong gog_graph_signals [GRAPH_LAST_SIGNAL] = { 0, };
 static GObjectClass *graph_parent_klass;
 static GogViewClass *gview_parent_klass;
 
+static void apply_theme (GogObject *object, GogTheme const *theme, gboolean force_auto);
+	
 static void
 gog_graph_set_property (GObject *obj, guint param_id,
 			GValue const *value, GParamSpec *pspec)
@@ -70,7 +78,7 @@ gog_graph_set_property (GObject *obj, guint param_id,
 		break;
 	case GRAPH_PROP_THEME_NAME :
 		gog_graph_set_theme (graph,
-			gog_theme_lookup (g_value_get_string (value)));
+			gog_theme_registry_lookup (g_value_get_string (value)));
 		break;
 	case GRAPH_PROP_WIDTH:
 		gog_graph_set_size (graph, g_value_get_double (value),
@@ -139,6 +147,88 @@ gog_graph_type_name (GogObject const *gobj)
 	return N_("Graph");
 }
 
+#ifdef GOFFICE_WITH_GTK
+
+static void
+cb_theme_changed (GtkComboBox *combo, GogGraph *graph)
+{
+	GSList *theme_names;
+	char const *name;
+	int index = gtk_combo_box_get_active (combo);
+	
+	theme_names = gog_theme_registry_get_theme_names ();
+	if (theme_names == NULL)
+		return;
+
+	name = g_slist_nth_data (theme_names, index);
+	g_slist_free (theme_names);
+	if (name == NULL)
+		return;
+	
+	gog_graph_set_theme (graph, gog_theme_registry_lookup (name));
+}
+
+static void
+cb_force_theme (GtkButton *button, GogGraph *graph)
+{
+	apply_theme (GOG_OBJECT (graph), graph->theme, TRUE);
+}
+
+static void
+gog_graph_populate_editor (GogObject *gobj, 
+			   GogEditor *editor, 
+			   G_GNUC_UNUSED GogDataAllocator *dalloc, 
+			   GOCmdContext *cc)
+{
+	GogGraph *graph = GOG_GRAPH (gobj);
+	GladeXML *gui;
+	GSList *theme_names;
+	static guint graph_pref_page = 0;
+
+	gui = go_libglade_new ("gog-graph-prefs.glade", "gog_graph_prefs", GETTEXT_PACKAGE, cc);
+	if (gui == NULL)
+		return;
+
+	(GOG_OBJECT_CLASS(graph_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
+
+	theme_names = gog_theme_registry_get_theme_names ();
+	
+	if (theme_names != NULL) {
+		GtkWidget *box;
+		GtkWidget *combo;
+		GSList *ptr;
+		char const *graph_theme_name;
+		int count, index = 0;
+		
+		graph_theme_name = gog_theme_get_name (graph->theme);
+		combo = glade_xml_get_widget (gui, "theme_combo");
+		gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (combo))));	
+		
+		count = 0;
+		for (ptr = theme_names; ptr != NULL; ptr = ptr->next) {
+			gtk_combo_box_append_text (GTK_COMBO_BOX (combo), _(ptr->data));
+			if (strcmp (ptr->data, graph_theme_name) == 0) 
+				index = count;
+			count++;
+		}
+		gtk_combo_box_set_active (GTK_COMBO_BOX (combo), index);
+		
+		g_signal_connect (G_OBJECT (combo), "changed", G_CALLBACK (cb_theme_changed), graph);
+		g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "force_theme_button")), "clicked",
+				  G_CALLBACK (cb_force_theme), graph);
+
+		box = glade_xml_get_widget (gui, "gog_graph_prefs");
+		g_object_set_data_full (G_OBJECT (box), "gui", gui,
+					(GDestroyNotify)g_object_unref);
+		gog_editor_add_page (editor, box, _("Theme"));
+
+		g_slist_free (theme_names);	
+	}	     
+
+	gog_editor_set_store_page (editor, &graph_pref_page);
+}
+#endif
+
 static void
 role_chart_post_add (GogObject *parent, GogObject *chart)
 {
@@ -192,9 +282,13 @@ gog_graph_class_init (GogGraphClass *klass)
 	gobject_klass->get_property = gog_graph_get_property;
 	gobject_klass->finalize	    = gog_graph_finalize;
 
-	gog_klass->update	= gog_graph_update;
-	gog_klass->type_name	= gog_graph_type_name;
-	gog_klass->view_type	= gog_graph_view_get_type ();
+	gog_klass->update	    = gog_graph_update;
+	gog_klass->type_name	    = gog_graph_type_name;
+	gog_klass->view_type	    = gog_graph_view_get_type ();
+#ifdef GOFFICE_WITH_GTK
+	gog_klass->populate_editor  = gog_graph_populate_editor;
+#endif
+	
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 	gog_graph_signals [GRAPH_ADD_DATA] = g_signal_new ("add-data",
@@ -245,7 +339,7 @@ gog_graph_init (GogGraph *graph)
 	graph->width = GOG_GRAPH_DEFAULT_WIDTH;
 	graph->height = GOG_GRAPH_DEFAULT_HEIGHT;
 	graph->idle_handler = 0;
-	graph->theme = gog_theme_lookup (NULL); /* default */
+	graph->theme = gog_theme_registry_lookup (NULL); /* default */
 
 	/* Cheat and assign a name here, graphs will not have parents until we
 	 * support graphs in graphs */
@@ -369,12 +463,38 @@ gog_graph_get_theme (GogGraph const *graph)
 	return graph->theme;
 }
 
+static void
+apply_theme (GogObject *object, GogTheme const *theme, gboolean force_auto)
+{
+	GSList *ptr;
+
+	for (ptr = object->children; ptr !=  NULL; ptr = ptr->next)
+		apply_theme (ptr->data, theme, force_auto);		
+
+	if (IS_GOG_STYLED_OBJECT (object)) {
+		GogStyledObject *styled_object = (GogStyledObject *) object;
+		GogStyle *style;
+
+		style = gog_styled_object_get_style (styled_object);
+		if (force_auto) 
+			/* FIXME: Some style settings are not themed yet,
+			 * such as font or fill type. */
+			gog_style_force_auto (style);
+		gog_styled_object_apply_theme (styled_object, style);
+		gog_styled_object_style_changed (styled_object);
+		gog_object_emit_changed (object, TRUE);
+	}
+}
+
 void
 gog_graph_set_theme (GogGraph *graph, GogTheme *theme)
 {
 	g_return_if_fail (IS_GOG_GRAPH (graph));
 	g_return_if_fail (IS_GOG_THEME (theme));
-#warning TODO
+
+	graph->theme = theme;
+
+	apply_theme (GOG_OBJECT (graph), graph->theme, FALSE);	
 }
 
 /**

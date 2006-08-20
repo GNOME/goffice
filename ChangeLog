@@ -1,3 +1,25 @@
+2006-08-20  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Add a graph theme selector.
+
+	* goffice/graph/gog-graph.c (cb_theme_changed): new.
+	(cb_force_theme): new.
+	(gog_graph_populate_editor): new.
+	(gog_graph_class_init): install graph property editor.
+	(apply_theme): new.
+	* goffice/graph/gog-plot-engine.c (gog_theme_service_read_xml): adapt
+	to GogTheme API changes.
+	* goffice/graph/gog-theme.c: remove theme hash caches. They were
+	broken. I didn't see a good way to fix them.
+	(gog_theme_register): renamed to gog_theme_registry_add. Change theme
+	list order.
+	(gog_theme_new_from_file): new. Don't register theme to be consistent
+	with got_theme_new.
+	(gog_theme_register_file): removed.
+	(gog_theme_lookup): renamed to gog_theme_registry_lookup.
+	(gog_theme_registry_get_theme_names): new.
+	(gog_themes_init): Theme for chart titles. Tweak Guppi theme.
+			   
 2006-08-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-style.c: (str_as_image_type),

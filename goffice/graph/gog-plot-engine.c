@@ -317,8 +317,9 @@ typedef PluginServiceSimpleClass GogThemeServiceClass;
 static void
 gog_theme_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
 {
-	char    *path;
+	GogTheme *theme;
 	xmlNode *ptr;
+	char    *path;
 
 	for (ptr = tree->xmlChildrenNode; ptr != NULL; ptr = ptr->next)
 		if (0 == xmlStrcmp (ptr->name, "file") &&
@@ -330,8 +331,9 @@ gog_theme_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo *
 				g_free (path);
 				path = tmp;
 			}
-			gog_theme_register_file (
-				plugin_service_get_description (service), path);
+			theme = gog_theme_new_from_file (plugin_service_get_description (service),
+							 path);
+			gog_theme_registry_add (theme, FALSE);	
 		}
 }
 

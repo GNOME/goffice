@@ -398,7 +398,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogViewAllocation const *area;
 	GSList   *ptr;
 	ArtVpath *path, *clip_path;
-	ArtBpath *bpath;
+	ArtBpath *bpath = NULL;
 	double th0, theta_min, theta_max, theta;
 	double rho_min, rho_max, rho;
 	gboolean const is_area = GOG_IS_PLOT_RADAR_AREA (model);
