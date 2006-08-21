@@ -1083,7 +1083,7 @@ cb_sample_plot_resize (FooCanvas *canvas,
 static void
 graph_guru_init_format_page (GraphGuruState *s)
 {
-	GtkWidget *w;
+	GtkWidget *w, *canvas;
 	GtkTreeViewColumn *column;
 
 	if (s->fmt_page_initialized)
@@ -1114,19 +1114,21 @@ graph_guru_init_format_page (GraphGuruState *s)
 		G_CALLBACK (cb_prec_last), s);
 
 	/* Load up the sample view and make it fill the entire canvas */
-	w = glade_xml_get_widget (s->gui, "sample_canvas");
+	w = glade_xml_get_widget (s->gui, "sample-alignment");
+	canvas = foo_canvas_new ();
+	gtk_container_add (GTK_CONTAINER (w), canvas);
 	s->sample_graph_item = foo_canvas_item_new (
-		foo_canvas_root (FOO_CANVAS (w)), GOG_CONTROL_FOOCANVAS_TYPE,
+		foo_canvas_root (FOO_CANVAS (canvas)), GOG_CONTROL_FOOCANVAS_TYPE,
 		"model", s->graph,
 		NULL);
-	cb_sample_plot_resize (FOO_CANVAS (w), &w->allocation, s);
-	g_signal_connect (G_OBJECT (w),
+	cb_sample_plot_resize (FOO_CANVAS (canvas), &w->allocation, s);
+	g_signal_connect (G_OBJECT (canvas),
 		"size_allocate",
 		G_CALLBACK (cb_sample_plot_resize), s);
-	g_signal_connect_after (G_OBJECT (w),
+	g_signal_connect_after (G_OBJECT (canvas),
 		"button_press_event",
 		G_CALLBACK (cb_canvas_select_item), s);
-	gtk_widget_show (w);
+	gtk_widget_show (canvas);
 
 	w = glade_xml_get_widget (s->gui, "prop_alignment");
 	s->prop_container = GTK_CONTAINER (w);

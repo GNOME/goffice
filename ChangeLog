@@ -1,3 +1,12 @@
+2006-08-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-guru.c: (graph_guru_init_format_page): explicitly
+	create the FooCanvas widget instead of using the custom widget mechanism
+	from libglade, because when called from the Abiword plugin, the
+	foo_canvas_new might be unresolved and lead to a crash
+	(https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=190579).
+	* goffice/graph/gog-guru.glade: ditto.
+
 2006-06-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-marker.c: (marker_update_pixbuf): free old
