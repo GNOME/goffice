@@ -1102,7 +1102,7 @@ cb_graph_selection_changed (GogGraphView *view, GogObject *gobj,
 static void
 graph_guru_init_format_page (GraphGuruState *s)
 {
-	GtkWidget *w;
+	GtkWidget *w, *canvas;
 	GtkTreeViewColumn *column;
 	GogRenderer *rend;
 
@@ -1134,20 +1134,22 @@ graph_guru_init_format_page (GraphGuruState *s)
 		G_CALLBACK (cb_prec_last), s);
 
 	/* Load up the sample view and make it fill the entire canvas */
-	w = glade_xml_get_widget (s->gui, "sample_canvas");
+	w = glade_xml_get_widget (s->gui, "sample-alignment");
+	canvas = foo_canvas_new ();
+	gtk_container_add (GTK_CONTAINER (w), canvas);
 	s->sample_graph_item = foo_canvas_item_new (
-		foo_canvas_root (FOO_CANVAS (w)), GOG_CONTROL_FOOCANVAS_TYPE,
+		foo_canvas_root (FOO_CANVAS (canvas)), GOG_CONTROL_FOOCANVAS_TYPE,
 		"model", s->graph,
 		NULL);
-	gtk_widget_add_events (w, GDK_POINTER_MOTION_HINT_MASK);
-	cb_sample_plot_resize (FOO_CANVAS (w), &w->allocation, s);
-	g_signal_connect (G_OBJECT (w),
+	gtk_widget_add_events (canvas, GDK_POINTER_MOTION_HINT_MASK);
+	cb_sample_plot_resize (FOO_CANVAS (canvas), &canvas->allocation, s);
+	g_signal_connect (G_OBJECT (canvas),
 		"size_allocate",
 		G_CALLBACK (cb_sample_plot_resize), s);
-	g_signal_connect_after (G_OBJECT (w),
+	g_signal_connect_after (G_OBJECT (canvas),
 		"event",
 		G_CALLBACK (cb_canvas_select_item), s);
-	gtk_widget_show (w);
+	gtk_widget_show (canvas);
 	
 	/* Connect to selection-changed signal of graph view */
 	g_object_get (G_OBJECT (s->sample_graph_item), "renderer", &rend, NULL);
