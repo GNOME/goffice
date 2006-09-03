@@ -1,3 +1,17 @@
+2006-09-03  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	New GOPalette and GOSelector widgets for unification
+	and beautification of goffice selectors. They depend on
+	cairo, so I'm not using them for now, until we change gtk
+	version requirement.
+
+	* goffice/gtk/go-line-selector.[ch],
+	* goffice/gtk/go-marker-selector.[ch],
+	* goffice/gtk/go-pattern-selector.[ch],
+	* goffice/gtk/go-color-selector.[ch],
+	* goffice/gtk/go-selector.[ch],
+	* goffice/gtk/go-palette.[ch]: new.
+
 2006-08-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-guru.c: (graph_guru_init_format_page): explicitly

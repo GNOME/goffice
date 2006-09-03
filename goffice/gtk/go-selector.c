@@ -1,0 +1,455 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * go-selector.c :
+ *
+ * Copyright (C) 2006 Emmanuel Pacaud (emmanuel.pacaud@lapp.in2p3.fr)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+
+#include <goffice/goffice-config.h>
+
+#include "go-selector.h"
+
+#include <gtk/gtkalignment.h>
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkarrow.h>
+#include <gtk/gtkcelllayout.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkcellview.h>
+#include <gtk/gtkcombobox.h>
+#include <gtk/gtkdrawingarea.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkiconview.h>
+#include <gtk/gtkliststore.h>
+#include <gtk/gtkmenu.h>
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkseparatormenuitem.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtktreemodel.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtkvseparator.h>
+#include <glib/gi18n-lib.h>
+
+#include <gdk/gdkkeysyms.h>
+
+enum {
+	GO_SELECTOR_ACTIVATE,
+	GO_SELECTOR_LAST_SIGNAL
+};
+
+static guint 	go_selector_signals[GO_SELECTOR_LAST_SIGNAL] = {0,};
+
+static void     go_selector_finalize   		(GObject *object);
+
+static void 	go_selector_button_toggled 	(GtkWidget *button, 
+						 gpointer   data);
+static gboolean go_selector_key_press 		(GtkWidget   *widget,
+						 GdkEventKey *event,
+						 gpointer     data);
+static void 	go_selector_popdown 		(GOSelector *selector);
+static void 	go_selector_popup		(GOSelector *selector);
+
+static void 	go_selector_set_active_internal (GOSelector *selector, 
+						 int index, 
+						 gboolean is_auto);
+
+#define GO_SELECTOR_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GO_TYPE_SELECTOR, GOSelectorPrivate))
+
+struct _GOSelectorPrivate {
+	GtkWidget *button;
+	GtkWidget *box;
+	GtkWidget *alignment;
+	GtkWidget *swatch;
+	GtkWidget *separator;
+	GtkWidget *arrow;
+	
+	GOPalette *palette;
+
+	gboolean 	 selected_is_auto;
+	int	 	 selected_index;
+};
+
+G_DEFINE_TYPE (GOSelector, go_selector, GTK_TYPE_HBOX)
+
+static void
+go_selector_init (GOSelector *selector)
+{
+	GOSelectorPrivate *priv;
+
+	priv = GO_SELECTOR_GET_PRIVATE (selector);
+
+	selector->priv = priv;
+
+	priv->palette = NULL;
+	priv->selected_index = 0;
+	priv->selected_is_auto = FALSE;
+
+	gtk_widget_push_composite_child ();
+  
+	priv->button = gtk_toggle_button_new ();
+	g_signal_connect (priv->button, "toggled",
+			  G_CALLBACK (go_selector_button_toggled), selector);
+	g_signal_connect_after (priv->button, 
+				"key_press_event",
+				G_CALLBACK (go_selector_key_press), selector);
+	gtk_widget_show (priv->button);
+
+      	priv->box = gtk_hbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (priv->button), 
+			   priv->box);
+	gtk_widget_show (priv->box);
+
+	priv->alignment = gtk_alignment_new (.5, .5, 1., 1.);
+	gtk_alignment_set_padding (GTK_ALIGNMENT (priv->alignment), 0, 0, 0, 4);
+	gtk_box_pack_start (GTK_BOX (priv->box),
+			    priv->alignment, TRUE, TRUE, 0);
+	gtk_widget_show (priv->alignment);
+	
+	priv->separator = gtk_vseparator_new ();
+	gtk_box_pack_start (GTK_BOX (priv->box),
+			    priv->separator, FALSE, FALSE, 0);
+	gtk_widget_show (priv->separator);
+
+	priv->arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
+	gtk_box_pack_start (GTK_BOX (priv->box),
+			    priv->arrow, FALSE, FALSE, 0);
+	gtk_widget_show (priv->arrow);
+
+	gtk_widget_pop_composite_child ();
+	
+	gtk_box_pack_start (GTK_BOX (selector), priv->button, TRUE, TRUE, 0);	
+}
+
+static void
+go_selector_class_init (GOSelectorClass *class)
+{
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	
+	object_class->finalize = go_selector_finalize;
+	
+	go_selector_signals[GO_SELECTOR_ACTIVATE] =
+		g_signal_new ("activate",
+			      G_OBJECT_CLASS_TYPE (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GOSelectorClass, activate),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+
+	g_type_class_add_private (object_class, sizeof (GOSelectorPrivate));
+}
+
+static void
+go_selector_finalize (GObject *object)
+{
+	GOSelectorPrivate *priv;
+
+	priv = GO_SELECTOR (object)->priv;
+
+	if (priv->palette)
+		g_object_unref (priv->palette);
+
+	(* G_OBJECT_CLASS (go_selector_parent_class)->finalize) (object);
+}
+
+static void
+cb_palette_activate (GOPalette *palette, int index, GOSelector *selector)
+{
+	go_selector_set_active_internal (selector, index, FALSE);
+}
+
+static void
+cb_palette_automatic_activate (GOPalette *palette, int index, GOSelector *selector)
+{
+	go_selector_set_active_internal (selector, index, TRUE);
+}
+
+static void
+cb_palette_deactivate (GOPalette *palette, GOSelector *selector)
+{
+	go_selector_popdown (selector);
+}
+
+GtkWidget *
+go_selector_new (GOPalette *palette)
+{
+	GOSelectorPrivate *priv;
+	GtkWidget *selector;
+
+	selector = g_object_new (GO_TYPE_SELECTOR, NULL);
+
+	g_return_val_if_fail (GO_IS_PALETTE (palette), selector);
+	
+	priv = GO_SELECTOR_GET_PRIVATE (selector);
+
+	g_object_ref (palette);
+	gtk_object_sink (GTK_OBJECT (palette));
+
+	priv->palette = palette;
+	priv->swatch = go_palette_swatch_new (GO_PALETTE (palette), 0);
+	gtk_container_add (GTK_CONTAINER (priv->alignment), priv->swatch);
+
+	g_signal_connect (palette, "activate", G_CALLBACK(cb_palette_activate), selector);
+	g_signal_connect (palette, "automatic-activate", G_CALLBACK(cb_palette_automatic_activate), selector);
+	g_signal_connect (palette, "deactivate", G_CALLBACK(cb_palette_deactivate), selector);
+
+	return selector;
+}
+
+static void
+go_selector_menu_position_below (GtkMenu  *menu,
+				      gint     *x,
+				      gint     *y,
+				      gint     *push_in,
+				      gpointer  user_data)
+{
+	GOSelector *selector = GO_SELECTOR (user_data);
+	gint sx, sy;
+	GtkWidget *widget;
+	GtkRequisition req;
+	GdkScreen *screen;
+	gint monitor_num;
+	GdkRectangle monitor;
+
+	widget = GTK_WIDGET (selector);
+
+	gdk_window_get_origin (widget->window, &sx, &sy);
+
+	if (GTK_WIDGET_NO_WINDOW (widget))
+	{
+		sx += widget->allocation.x;
+		sy += widget->allocation.y;
+	}
+
+	gtk_widget_size_request (GTK_WIDGET (menu), &req);
+
+	if (gtk_widget_get_direction (GTK_WIDGET (selector)) == GTK_TEXT_DIR_LTR)
+		*x = sx;
+	else
+		*x = sx + widget->allocation.width - req.width;
+	*y = sy;
+
+	screen = gtk_widget_get_screen (GTK_WIDGET (selector));
+	monitor_num = gdk_screen_get_monitor_at_window (screen, 
+							GTK_WIDGET (selector)->window);
+	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
+
+	if (*x < monitor.x)
+		*x = monitor.x;
+	else if (*x + req.width > monitor.x + monitor.width)
+		*x = monitor.x + monitor.width - req.width;
+
+	if (monitor.y + monitor.height - *y - widget->allocation.height >= req.height)
+		*y += widget->allocation.height;
+	else if (*y - monitor.y >= req.height)
+		*y -= req.height;
+	else if (monitor.y + monitor.height - *y - widget->allocation.height > *y - monitor.y) 
+		*y += widget->allocation.height;
+	else
+		*y -= req.height;
+
+	*push_in = FALSE;
+}
+
+static void
+go_selector_popup (GOSelector *selector)
+{
+	GOSelectorPrivate *priv;
+
+	g_return_if_fail (GO_IS_SELECTOR (selector));
+	priv = GO_SELECTOR_GET_PRIVATE (selector);
+
+	if (!GTK_WIDGET_REALIZED (selector))
+		return;
+
+	if (GTK_WIDGET_MAPPED (priv->palette))
+		return;
+	
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button), TRUE);
+	gtk_menu_popup (GTK_MENU (priv->palette),
+			NULL, NULL, 
+			go_selector_menu_position_below, selector,
+			0, 0);
+}
+
+static void
+go_selector_popdown (GOSelector *selector)
+{
+	GOSelectorPrivate *priv;
+
+	g_return_if_fail (GO_IS_SELECTOR (selector));
+	priv = GO_SELECTOR_GET_PRIVATE (selector);
+
+	gtk_menu_popdown (GTK_MENU (priv->palette));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button), FALSE);
+}
+
+static void
+go_selector_button_toggled (GtkWidget *button,
+				 gpointer   data)
+{
+	GOSelectorPrivate *priv;
+	GOSelector *selector = GO_SELECTOR (data);
+
+	priv = GO_SELECTOR_GET_PRIVATE (selector);
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
+		go_selector_popup (selector);
+	else
+		go_selector_popdown (selector);
+}
+
+static gboolean
+go_selector_key_press (GtkWidget   *widget,
+			    GdkEventKey *event,
+			    gpointer     data)
+{
+	GOSelector *selector = GO_SELECTOR (data);
+	GOSelectorPrivate *priv;
+	guint state = event->state & gtk_accelerator_get_default_mod_mask ();
+	int n_swatches, index;
+	gboolean found = FALSE;
+
+	priv = GO_SELECTOR_GET_PRIVATE (selector);
+
+	if ((event->keyval == GDK_Down || event->keyval == GDK_KP_Down) && 
+	    state == GDK_MOD1_MASK) {
+		go_selector_popup (selector);
+		return TRUE;
+	}
+
+	if (state != 0)
+		return FALSE;
+
+	n_swatches = go_palette_get_n_swatches (GO_PALETTE (priv->palette));
+	index = 0;
+	
+	switch (event->keyval) 
+	{
+		case GDK_Down:
+		case GDK_KP_Down:
+			if (priv->selected_index < n_swatches - 1) {
+				index = priv->selected_index + 1;
+				found = TRUE;
+				break;
+			}
+			/* else fall through */
+		case GDK_Page_Up:
+		case GDK_KP_Page_Up:
+		case GDK_Home: 
+		case GDK_KP_Home:
+			if (priv->selected_index != 0) {
+				index = 0;
+				found = TRUE;
+			}
+			break;
+
+		case GDK_Up:
+		case GDK_KP_Up:
+			if (priv->selected_index  > 0) {
+				index = priv->selected_index - 1;
+				found = TRUE;
+				break;
+			}
+			/* else fall through */      
+		case GDK_Page_Down:
+		case GDK_KP_Page_Down:
+		case GDK_End: 
+		case GDK_KP_End:
+			if (priv->selected_index != n_swatches - 1) {
+				index = n_swatches - 1;
+				found = TRUE;
+			}
+			break;
+		default:
+			return FALSE;
+	}
+
+	if (found) 
+		go_selector_set_active_internal (selector, index, FALSE);
+
+	return TRUE;
+}
+
+static void
+go_selector_set_active_internal (GOSelector *selector, int index, gboolean is_auto)
+{
+	go_selector_popdown (selector);
+
+	selector->priv->selected_index = index;
+	selector->priv->selected_is_auto = is_auto;
+
+	g_object_set_data (G_OBJECT (selector->priv->swatch), "index", 
+			   GINT_TO_POINTER (index));
+
+	go_selector_update_swatch (selector);
+
+	g_signal_emit (selector, go_selector_signals[GO_SELECTOR_ACTIVATE], 0);
+}
+
+gboolean
+go_selector_set_active (GOSelector *selector, int index)
+{
+	int n_swatches;
+	
+	g_return_val_if_fail (GO_IS_SELECTOR (selector), FALSE);
+	
+	n_swatches = go_palette_get_n_swatches (GO_PALETTE (selector->priv->palette));
+	
+	if (index != selector->priv->selected_index && 
+	    index >= 0 && 
+	    index < n_swatches) {
+		go_selector_set_active_internal (selector, index, FALSE);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+int
+go_selector_get_active (GOSelector *selector, gboolean *is_auto)
+{
+	g_return_val_if_fail (GO_IS_SELECTOR (selector), 0);
+
+	if (is_auto != NULL)
+		*is_auto = selector->priv->selected_is_auto;
+	return selector->priv->selected_index;
+}
+
+void
+go_selector_update_swatch (GOSelector *selector)
+{
+
+	g_return_if_fail (GO_IS_SELECTOR (selector));
+
+	gtk_widget_queue_draw (selector->priv->swatch);
+}
+
+void
+go_selector_activate (GOSelector *selector)
+{
+	g_return_if_fail (GO_IS_SELECTOR (selector));
+
+	go_selector_update_swatch (selector);
+	g_signal_emit (selector, go_selector_signals[GO_SELECTOR_ACTIVATE], 0);
+}
+
+gpointer 	 
+go_selector_get_user_data (GOSelector *selector)
+{
+	g_return_val_if_fail (GO_IS_SELECTOR (selector), NULL);
+
+	return go_palette_get_user_data (GO_PALETTE (selector->priv->palette));	
+}
