@@ -116,7 +116,7 @@ go_color_group_find (char const *name, gpointer context)
 	tmp_key.name = (char *)name;
 	tmp_key.context = context;
 	return (GOColorGroup *) g_hash_table_lookup (go_color_groups, &tmp_key);
-	}
+}
 
 static guint
 cg_hash (GOColorGroup const *key)
@@ -202,12 +202,13 @@ go_color_group_add_color (GOColorGroup *cg, GOColor c)
 	unsigned i;
 	g_return_if_fail (IS_GO_COLOR_GROUP (cg));
 
-	for (i = GO_COLOR_GROUP_HISTORY_SIZE ; i-- > 0 ;)
+	for (i = GO_COLOR_GROUP_HISTORY_SIZE - 1 ; i > 0; i--)
 		if (cg->history[i] == c)
 			break;
 	for ( ; i < GO_COLOR_GROUP_HISTORY_SIZE-1 ; i++)
 		cg->history [i] = cg->history [i+1];
 	cg->history [GO_COLOR_GROUP_HISTORY_SIZE-1] = c;
+
 	g_signal_emit (G_OBJECT (cg),
 		go_color_group_signals [HISTORY_CHANGED], 0);
 }

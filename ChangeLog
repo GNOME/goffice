@@ -1,5 +1,10 @@
 2006-09-03  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* goffice/gtk/go-color-group.c (go_color_group_add_color): fix
+	history.
+
+2006-09-03  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	New GOPalette and GOSelector widgets for unification
 	and beautification of goffice selectors. They depend on
 	cairo, so I'm not using them for now, until we change gtk
