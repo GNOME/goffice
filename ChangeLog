@@ -1,3 +1,13 @@
+2006-09-04  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/gtk/go-gradient-selector.[ch]: new.
+	* goffice/gtk/go-color-selector.c (go_color_selector_set_color): new.
+	* goffice/gtk/go-marker-selector.c (go_marker_palette_render_func):
+	use marker colors.
+	(go_marker_selector_new): ditto.
+	(go_marker_selector_set_colors): new.
+	* goffice/gtk/go-palette.c (cb_swatch_expose): don't leak cairo_t.
+	
 2006-09-03  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/gtk/go-color-group.c (go_color_group_add_color): fix

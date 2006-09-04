@@ -32,6 +32,7 @@ GtkWidget *go_color_selector_new	(GOColor initial_color,
 					 GOColor default_color, 
 					 char const *group);
 GOColor    go_color_selector_get_color 	(GOSelector *selector, gboolean *is_auto);
+void 	   go_color_selector_set_color  (GOSelector *selector, GOColor color);
 
 G_END_DECLS
 

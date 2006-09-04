@@ -23,6 +23,11 @@
 
 #include <goffice/utils/go-color.h>
 
+typedef struct {
+	GOColor outline_color;
+	GOColor fill_color;
+} GOMarkerSelectorState;
+
 static void
 go_marker_palette_render_func (cairo_t *cr,
 			       GdkRectangle const *area,
@@ -31,23 +36,32 @@ go_marker_palette_render_func (cairo_t *cr,
 {
 	GOMarker *marker;
 	GdkPixbuf *pixbuf;
-	int size = MIN (area->width, area->height) * .8;
+	GOMarkerSelectorState *state = data;
+	int size = 2 * ((int) (MIN (area->width, area->height) * .30));
 
 	if (size < 1)
 		return;
 
 	marker = go_marker_new ();
-	go_marker_set_fill_color (marker, RGBA_WHITE);
-	go_marker_set_outline_color (marker, RGBA_BLACK);
+	go_marker_set_fill_color (marker, state->fill_color);
+	go_marker_set_outline_color (marker, state->outline_color);
 	go_marker_set_size (marker, size);
 	go_marker_set_shape (marker, index);
+
+	cairo_set_line_width (cr, 1);
+	cairo_set_source_rgb (cr, 1., 1., 1.);
+	cairo_rectangle (cr, area->x + .5 , area->y + .5 , area->width - 1, area->height - 1);
+	cairo_fill_preserve (cr);
+	cairo_set_source_rgb (cr, .75, .75, .75);
+	cairo_stroke (cr);
 
 	pixbuf = go_marker_get_pixbuf (marker, 1.0);
 	if (pixbuf == NULL)
 		return;
+	
 	gdk_cairo_set_source_pixbuf (cr, pixbuf, 
-				     area->x + (area->width - gdk_pixbuf_get_width (pixbuf)) / 2,
-				     area->y + (area->height - gdk_pixbuf_get_height (pixbuf)) / 2);
+				     (int) (area->x + (area->width - gdk_pixbuf_get_width (pixbuf)) / 2.0),
+				     (int) (area->y + (area->height - gdk_pixbuf_get_height (pixbuf)) / 2.0));
 	cairo_paint (cr);
 	g_object_unref (pixbuf);
 }
@@ -58,10 +72,15 @@ go_marker_selector_new (GOMarkerShape initial_shape,
 {
 	GtkWidget *palette;
 	GtkWidget *selector;
+	GOMarkerSelectorState *state;
+
+	state = g_new (GOMarkerSelectorState, 1);
+	state->outline_color = RGBA_BLACK;
+	state->fill_color = RGBA_WHITE;
 
 	palette = go_palette_new (GO_MARKER_MAX, 1.0, 4, 
 				  go_marker_palette_render_func,
-				  NULL, NULL);
+				  state, g_free);
 	go_palette_show_automatic (GO_PALETTE (palette), 
 				   CLAMP (default_shape, 0, GO_MARKER_MAX -1),
 				   NULL); 	
@@ -74,4 +93,13 @@ go_marker_selector_new (GOMarkerShape initial_shape,
 void
 go_marker_selector_set_colors (GOSelector *selector, GOColor outline, GOColor fill)
 {
+	GOMarkerSelectorState *state;
+
+	g_return_if_fail (GO_IS_SELECTOR (selector));
+
+	state = go_selector_get_user_data (selector);
+	g_return_if_fail (state != NULL);
+	state->outline_color = outline;
+	state->fill_color = fill;
+	go_selector_update_swatch (selector);
 }

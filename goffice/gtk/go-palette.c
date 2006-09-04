@@ -47,8 +47,6 @@
 
 #include <math.h>
 
-#define SWATCH_SIZE 10
-
 enum {
 	GO_PALETTE_ACTIVATE,
 	GO_PALETTE_AUTOMATIC_ACTIVATE,
@@ -174,21 +172,21 @@ go_palette_finalize (GObject *object)
 static gboolean
 cb_swatch_expose (GtkWidget *swatch, GdkEventExpose *event, GOPalette *palette)
 {
-	gdk_window_set_back_pixmap (swatch->window, NULL, FALSE);
-	
 	if (palette->priv->swatch_render) {
 		cairo_t *cr = gdk_cairo_create (swatch->window);
 		GdkRectangle area;
 		int index;
 
-		index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (swatch), "index"));
-		
 		area.x = 0;
 		area.y = 0;
 		area.width = swatch->allocation.width;
 		area.height = swatch->allocation.height;
 
+		index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (swatch), "index"));
+
 		(palette->priv->swatch_render) (cr, &area, index, palette->priv->data);
+
+		cairo_destroy (cr);
 	}
 	return TRUE;
 }

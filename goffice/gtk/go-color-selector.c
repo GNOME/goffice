@@ -348,3 +348,18 @@ go_color_selector_new (GOColor initial_color,
 
 	return selector;
 }
+
+void
+go_color_selector_set_color (GOSelector *selector, GOColor color)
+{
+	GOColorSelectorState *state;
+	int index;
+	
+	g_return_if_fail (GO_IS_SELECTOR (selector));
+
+	state =  go_selector_get_user_data (selector);
+	g_return_if_fail (state != NULL);
+	
+	index = get_index (state->n_swatches, state->color_group, color);
+	go_selector_set_active (selector, index);
+}
