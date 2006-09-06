@@ -82,7 +82,7 @@ G_BEGIN_DECLS
 { (*(r)) = ((u)>>16)&0xff; (*(g)) = ((u)>>8)&0xff; (*(b)) = (u)&0xff; }
 #define UINT_TO_RGBA(u,r,g,b,a) \
 { UINT_TO_RGB(((u)>>8),r,g,b); (*(a)) = (u)&0xff; }
-#define MONO_INTERPOLATE(v1, v2, t) ((gint)rint((v2)*(t)+(v1)*(1-(t))))
+#define MONO_INTERPOLATE(v1, v2, t) ((gint)go_rint((v2)*(t)+(v1)*(1-(t))))
 #define UINT_INTERPOLATE(c1, c2, t) \
   RGBA_TO_UINT( MONO_INTERPOLATE(UINT_RGBA_R(c1), UINT_RGBA_R(c2), t), \
 		MONO_INTERPOLATE(UINT_RGBA_G(c1), UINT_RGBA_G(c2), t), \

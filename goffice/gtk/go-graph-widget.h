@@ -42,8 +42,6 @@ typedef enum {
 	GO_GRAPH_WIDGET_SIZE_MODE_FIXED_SIZE
 } GOGraphWidgetSizeMode;
 
-GType go_graph_widget_reference_direction_get_type (void);
-
 GType go_graph_widget_get_type (void);
 GtkWidget *go_graph_widget_new (GogGraph *graph);
 

@@ -227,7 +227,7 @@ gog_theme_fillin_style (GogTheme const *theme,
 	else
 		gog_style_apply_theme (style, elem->style);
 
-#warning we should handle the applicability here not in the map
+/* FIXME FIXME FIXME we should handle the applicability here not in the map */
 	if (ind >= 0 && elem->map)
 		(elem->map) (style, ind);
 }

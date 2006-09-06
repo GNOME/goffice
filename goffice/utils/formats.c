@@ -572,7 +572,11 @@ find_currency (char const *ptr, int len)
 {
 	int i;
 
-	if (len == 5 && memcmp (ptr, "\"€\"", 5) == 0) {
+	/* the below string is actually "\"€\"". We use hex codes
+	 * here because Micrsoft's C compiler will parse this string
+	 * incorrectly if the environment multiple-byte encoding is NOT
+	 * iso-8859-1 compatible. See also find_decimal_char() in format.c */
+	if (len == 5 && memcmp (ptr, "\"\xe2\x82\xac\"", 5) == 0) {
 		/* Accept quoted Euro character -- arbitrarity pick form 1.  */
 		return EURO_FORM_1;
 	} else if (len >= 2 && ptr[0] == '"' && ptr [len - 1] == '"') {

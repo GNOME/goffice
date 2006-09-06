@@ -461,7 +461,7 @@ map_linear_calc_ticks (GogAxis *axis)
 	if (major_tick <= 0.) major_tick = maximum - minimum;
 	if (minor_tick <= 0.) minor_tick = maximum - minimum;
 	if (minor_tick < major_tick) {
-		minor_tick = major_tick / rint (major_tick / minor_tick);
+		minor_tick = major_tick / go_rint (major_tick / minor_tick);
 		tick_step = minor_tick;
 	} else
 		tick_step = major_tick;
@@ -479,7 +479,7 @@ map_linear_calc_ticks (GogAxis *axis)
 		if (fabs (ticks[i].position) < tick_step * 1e-10)
 			ticks[i].position = 0.0;
 		ratio = ticks[i].position / major_tick;
-		if (fabs (ratio - rint (ratio)) < 1E-3) {
+		if (fabs (ratio - go_rint (ratio)) < 1E-3) {
 			ticks[i].type = GOG_AXIS_TICK_MAJOR;
 			if (axis->assigned_format == NULL || 
 			    go_format_is_general (axis->assigned_format))
@@ -637,8 +637,8 @@ map_log_calc_ticks (GogAxis *axis)
 	int tick_nbr, i, j;
 	int count;
 
-	major_label = rint (gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL));
-	minor_tick = rint (gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL) + 1.0);
+	major_label = go_rint (gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL));
+	minor_tick = go_rint (gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL) + 1.0);
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum) || major_label < 1) {
 		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (1.0, 10.0));

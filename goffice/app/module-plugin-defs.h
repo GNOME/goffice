@@ -31,7 +31,7 @@ G_MODULE_EXPORT GOPluginModuleDepend const go_plugin_depends [] = {	\
 G_MODULE_EXPORT GOPluginModuleHeader const go_plugin_header =  		\
 	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) }
 
-/* the folowwing two functions ar declared here, but are not
+/* the folowwing two functions are declared here, but are not
  * implemented in libgoffice. Each plugin must implement one
  * instance of both. */
 void go_plugin_init (GOPlugin *plugin, GOCmdContext *cc);

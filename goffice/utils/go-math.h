@@ -4,10 +4,15 @@
 #include <math.h>
 #include <goffice/goffice-features.h>
 #include <glib/gmacros.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 
 /* ------------------------------------------------------------------------- */
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 void go_math_init (void);
 void go_continued_fraction (double val, int max_denom, int *res_num, int *res_denom);
@@ -15,9 +20,9 @@ void go_stern_brocot	   (double val, int max_denom, int *res_num, int *res_denom
 
 /* ------------------------------------------------------------------------- */
 
-extern double go_nan;
-extern double go_pinf;
-extern double go_ninf;
+GO_VAR_DECL double go_nan;
+GO_VAR_DECL double go_pinf;
+GO_VAR_DECL double go_ninf;
 
 double go_add_epsilon (double x);
 double go_sub_epsilon (double x);
@@ -54,9 +59,9 @@ double expm1 (double x);
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 
-extern long double go_nanl;
-extern long double go_pinfl;
-extern long double go_ninfl;
+GO_VAR_DECL long double go_nanl;
+GO_VAR_DECL long double go_pinfl;
+GO_VAR_DECL long double go_ninfl;
 
 long double go_add_epsilonl (long double x);
 long double go_sub_epsilonl (long double x);
@@ -85,6 +90,11 @@ long double strtold (const char *, char **);
 long double modfl (long double x, long double *iptr);
 #endif
 
+#endif
+
+#ifdef _MSC_VER
+#define isnan _isnan
+#define finite _finite
 #endif
 
 /* ------------------------------------------------------------------------- */

@@ -43,9 +43,15 @@
 
 #include <string.h>
 #include <stdlib.h>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+#ifdef HAVE_PWD_H
 #include <pwd.h>
+#endif
+#ifdef HAVE_GRP_H
 #include <grp.h>
+#endif
 #include <time.h>
 /* ------------------------------------------------------------------------- */
 
@@ -151,7 +157,7 @@ go_filename_simplify (const char *filename, GODotDot dotdot,
 					 */
 					*q = 0;
 					isdir = (g_lstat (simp, &statbuf) == 0) &&
-						S_ISDIR (statbuf.st_mode);
+						1;//S_ISDIR (statbuf.st_mode);
 					*q = savec;
 					break;
 				}
@@ -680,11 +686,13 @@ go_file_get_owner_name (char const *uri)
 {
 	gboolean error = FALSE;
 	guint uid = 0;
+	gboolean islocal = FALSE;
+#ifdef HAVE_PWD_H
 	struct passwd *password_info;
 	const char *name;
 	gsize namelen;
 	char *nameutf8;
-	gboolean islocal = FALSE;
+#endif
 
 #ifdef GOFFICE_WITH_GNOME
 	GnomeVFSFileInfo *file_info;
@@ -723,6 +731,7 @@ go_file_get_owner_name (char const *uri)
 		return g_strdup (_("remote user"));
 	}
 
+#ifdef HAVE_PWD_H
 	password_info = getpwuid (uid);
 
 	if (password_info == NULL)
@@ -744,6 +753,9 @@ go_file_get_owner_name (char const *uri)
 		nameutf8[--namelen] = 0;
 
 	return nameutf8;
+#else
+	return NULL;
+#endif
 }
 
 /*
@@ -755,10 +767,12 @@ go_file_get_group_name (char const *uri)
 {
 	gboolean error = FALSE;
 	guint gid = 0;
-	struct group *group_info;
 	gboolean islocal = FALSE;
+#ifdef HAVE_GRP_H
+	struct group *group_info;
 	const char *name;
 	char *nameutf8;
+#endif
 
 #ifdef GOFFICE_WITH_GNOME
 	GnomeVFSFileInfo *file_info;
@@ -798,6 +812,7 @@ go_file_get_group_name (char const *uri)
 		return g_strdup (_("remote"));
 	}
 
+#ifdef HAVE_GRP_H
 	group_info = getgrgid (gid);
 
 	if (group_info == NULL)
@@ -807,6 +822,9 @@ go_file_get_group_name (char const *uri)
 	(void) go_guess_encoding (name, strlen (name),
 				  NULL, &nameutf8);
 	return nameutf8;
+#else
+	return NULL;
+#endif
 }
 
 GOFilePermissions *
@@ -1358,4 +1376,30 @@ go_shell_argv_to_glib_encoding_free (void)
 		g_free (saved_args);
 	}
 #endif
+}
+
+gint
+go_file_access (char const *uri, gint mode)
+{
+	gint ret;
+	gchar *filename;
+
+	filename = go_filename_from_uri (uri);
+	if (!filename)
+		return -1;
+
+#ifdef G_OS_WIN32
+#  ifndef HAVE_G_ACCESS
+#    error "A glib with g_access is required for Win32"
+#  else
+	/* FIXME FIXME FIXME Use Security API instead of checking file attributes only on NT-based environment */
+	ret = g_access (filename, mode);
+#  endif
+#else
+	ret = access (filename, mode);
+#endif
+	
+	g_free (filename);
+	
+	return ret;
 }

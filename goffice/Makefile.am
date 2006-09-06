@@ -30,7 +30,9 @@ libgoffice_0_la_LDFLAGS = -version-info $(VERSION_INFO)
 if WITH_WIN32
 libgoffice_0_la_DEPENDENCIES = goffice.def
 libgoffice_0_la_LDFLAGS += -no-undefined -export-symbols goffice.def
+if WITH_NATIVE_WIN32
 libgoffice_0_la_LIBADD += -luuid -lhtmlhelp -lurlmon
+endif
 endif
 
 BUILT_SOURCES =	goffice-paths.h
@@ -66,10 +68,11 @@ goffice-paths.h: Makefile
 include $(top_srcdir)/goffice.mk
 
 if WITH_WIN32
-LIB_PUBLIC_HDRS = $(libgoffice_1_la_HEADERS)
+LIB_PUBLIC_HDRS = $(libgoffice_0_la_HEADERS)
 
 goffice.def: local.def app/local.def \
 	cut-n-paste/foocanvas/local.def \
+	component/local.def \
 	data/local.def drawing/local.def graph/local.def \
 	gtk/local.def ms-compat/local.def utils/local.def
 	echo EXPORTS > $@ && \

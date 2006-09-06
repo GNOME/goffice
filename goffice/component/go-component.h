@@ -24,12 +24,13 @@
 
 #include <glib-object.h>
 #include <gdk/gdkwindow.h>
+#include <goffice/goffice.h>
 #include <goffice/app/goffice-app.h>
 #include <libgnomeprint/gnome-print.h>
 
 G_BEGIN_DECLS
 
-extern double GOCXres, GOCYres;
+GO_VAR_DECL double GOCXres, GOCYres;
 
 struct _GOComponent {
 	GObject parent;
@@ -77,8 +78,6 @@ typedef struct _GOComponentClass GOComponentClass;
 #define GOC_PARAM_PERSISTENT	(1 << (G_PARAM_USER_SHIFT+0))
 
 GType	  go_component_get_type (void);
-GOComponent  *go_component_new_by_type	(GOComponentType const *type);
-GOComponent  *go_component_new_by_name	(char const *id);
 GOComponent  *go_component_new_by_mime_type	(char const *mime_type);
 
 void go_component_set_default_size (GOComponent *component,

@@ -5,3 +5,4 @@ Makefile
 *.loT
 go-marshalers.c 
 go-marshalers.h 
+*.def

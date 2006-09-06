@@ -130,7 +130,7 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 			for (i = 4; i >= 0; i--)
 				if (!strcmp (priority, GOPriorityName[i]))
 					break;
-#warning the code should take into account that a plugin might be deactivated !
+/* FIXME FIXME FIXME the code should take into account that a plugin might be deactivated ! */
 			if (mime_type == NULL) {
 				mime_type = g_new (GOMimeType, 1);
 				mime_type->priority = i;

@@ -44,8 +44,6 @@ GType      gog_renderer_cairo_get_type		(void);
 GdkPixbuf *gog_renderer_cairo_get_pixbuf   	(GogRendererCairo *crend);
 gboolean   gog_renderer_cairo_update		(GogRendererCairo *crend, int w, int h, double zoom);
 
-gboolean   gog_renderer_cairo_export_to_pdf	(GogRendererCairo *crend, GogGraph *graph, GsfOutput *output, 
-						 double width, double height, double scale);
 G_END_DECLS
 
 #endif /* GOG_RENDERER_CAIRO_H */

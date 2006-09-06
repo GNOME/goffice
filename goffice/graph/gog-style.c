@@ -28,6 +28,7 @@
 #include <goffice/utils/go-image.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-math.h>
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/go-color-palette.h>
@@ -192,7 +193,7 @@ cb_outline_size_changed (GtkAdjustment *adj, StylePrefState *state)
 
 	g_return_if_fail (style != NULL);
 
-	style->outline.width = rint (adj->value * 100.) / 100.;
+	style->outline.width = go_rint (adj->value * 100.) / 100.;
 	set_style (state);
 }
 
@@ -271,7 +272,7 @@ cb_line_size_changed (GtkAdjustment *adj, StylePrefState const *state)
 
 	g_return_if_fail (style != NULL);
 
-	style->line.width = rint (adj->value * 100.) / 100.;
+	style->line.width = go_rint (adj->value * 100.) / 100.;
 	set_style (state);
 }
 
@@ -638,7 +639,7 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 		g_warning ("Sorry -- cannot handle URIs here right now.");
 		return;
 	}
-#warning "Handle URIs here."
+/* FIXME FIXME FIXME Handle URIs here. */
 
 	gog_style_set_fill_image_filename (style, filename);
 
@@ -864,7 +865,7 @@ cb_font_changed (GOFontSel *fs, PangoAttrList *list,
 	GSList *extra_attrs;
 	const GOFont *font = go_font_new_by_desc (desc);
 	pango_attr_iterator_get_font (iter, desc, NULL, &extra_attrs);
-#warning "we should do something for extra attributes"
+/* FIXME FIXME FIXME we should do something for extra attributes */
 	g_slist_foreach (extra_attrs, (GFunc)pango_attribute_destroy, NULL);
 	g_slist_free (extra_attrs);
 	pango_attr_iterator_destroy (iter);
@@ -1898,7 +1899,7 @@ gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
 gboolean
 gog_style_is_marker_visible (GogStyle const *style)
 {
-#warning TODO : make this smarter
+/* FIXME FIXME FIXME TODO : make this smarter */
 	return (style->interesting_fields & GOG_STYLE_MARKER) &&
 		go_marker_get_shape (style->marker.mark) != GO_MARKER_NONE;
 }
@@ -1906,7 +1907,7 @@ gog_style_is_marker_visible (GogStyle const *style)
 gboolean
 gog_style_is_outline_visible (GogStyle const *style)
 {
-#warning TODO : make this smarter
+/* FIXME FIXME FIXME make this smarter */
 	return UINT_RGBA_A (style->outline.color) > 0 && 
 		style->outline.dash_type != GO_LINE_NONE;
 }
@@ -1914,7 +1915,7 @@ gog_style_is_outline_visible (GogStyle const *style)
 gboolean
 gog_style_is_line_visible (GogStyle const *style)
 {
-#warning TODO : make this smarter
+/* FIXME FIXME FIXME TODO : make this smarter */
 	return UINT_RGBA_A (style->line.color) > 0 && 
 		style->line.dash_type != GO_LINE_NONE;
 }

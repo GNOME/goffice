@@ -1393,12 +1393,18 @@ find_decimal_char (char const *str)
 		switch (*str){
 			/* These ones do not have any argument */
 		case '#': case '?': case '0': case '%':
-		case '-': case '+': case ')': case '£':
-		case ':': case '$': case '¥': case '¤':
+		case '-': case '+': case ')': case ':': case '$':
 		case 'M': case 'm': case 'D': case 'd':
 		case 'Y': case 'y': case 'S': case 's':
 		case '*': case 'h': case 'H': case 'A':
 		case 'a': case 'P': case 'p':
+		case 0xa3: case 0xa4: case 0xa5:
+		/* the above characters are actually '£', '¤' and '¥', we use hex codes
+		 * here because Micrsoft's C compiler will parse these characters
+		 * incorrectly and won't be aware of the closing single-quote if the environment
+		 * multiple-byte encoding is NOT iso-8859-1 compatible. e.g. if big-5
+		 * is being used the parser will treat the two bytes [£'] as a single
+		 * character. */
 			break;
 
 			/* Quoted string */

@@ -28,6 +28,18 @@ G_BEGIN_DECLS
 void libgoffice_init     (void);
 void libgoffice_shutdown (void);
 
+#ifndef GO_VAR_DECL
+#  ifdef WIN32
+#    ifdef GOFFICE_COMPILATION
+#      define GO_VAR_DECL __declspec(dllexport)
+#    else
+#      define GO_VAR_DECL extern __declspec(dllimport)
+#    endif
+#  else
+#    define GO_VAR_DECL extern
+#  endif
+#endif /* GO_VAR_DECL */
+
 G_END_DECLS
 
 #endif /* GOFFICE_H */

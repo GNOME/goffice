@@ -22,7 +22,9 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <fcntl.h>
 #include <errno.h>
 
@@ -331,7 +333,7 @@ go_string_append_gstring (GString *target, const GString *source)
  * Return value: newly allocated string.
  **/
 char *
-go_utf8_strcapital (const char *p, ssize_t len)
+go_utf8_strcapital (const char *p, gssize len)
 {
 	const char *pend = (len < 0 ? NULL : p + len);
 	GString *res = g_string_sized_new (len < 0 ? 1 : len + 1);

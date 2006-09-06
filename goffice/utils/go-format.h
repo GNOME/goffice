@@ -21,6 +21,7 @@
 #ifndef GO_FORMAT_H
 #define GO_FORMAT_H
 
+#include <goffice/goffice.h>
 #include <goffice/goffice-features.h>
 #include <goffice/utils/goffice-utils.h>
 #include <pango/pango-attributes.h>
@@ -120,8 +121,8 @@ typedef struct {
 } GOFormatCurrency;
 
 /* Indexed by GOFormatFamily */
-extern char const * const * const go_format_builtins [];
-extern GOFormatCurrency     const go_format_currencies [];
+GO_VAR_DECL char const * const * const go_format_builtins [];
+GO_VAR_DECL GOFormatCurrency     const go_format_currencies [];
 
 /*************************************************************************/
 

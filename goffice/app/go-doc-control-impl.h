@@ -29,6 +29,7 @@ struct _GODocControl {
 	GObject		 base;
 
 	struct {
+		gpointer dummy;
 	} state[GO_DOC_CONTROL_STATE_MAX];
 };
 

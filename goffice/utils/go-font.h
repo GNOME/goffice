@@ -22,6 +22,8 @@
 #define GO_FONT_H
 
 #include <glib.h>
+#include <goffice/goffice.h>
+#include <goffice/goffice-features.h>
 #include <goffice/utils/goffice-utils.h>
 #include <pango/pango-font.h>
 #include <pango/pango-context.h>
@@ -61,7 +63,7 @@ GSList       *go_fonts_list_families (PangoContext *context);
 GSList       *go_fonts_list_sizes    (void);
 
 GOFontMetrics *go_font_metrics_new (PangoContext *context, GOFont const *font);
-extern const GOFontMetrics *go_font_metrics_unit;
+GO_VAR_DECL const GOFontMetrics *go_font_metrics_unit;
 void go_font_metrics_free (GOFontMetrics *metrics);
 
 /* cache notification */

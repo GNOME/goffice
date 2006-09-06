@@ -6,3 +6,6 @@ libgoffice-1.pc
 Makefile
 Makefile.in
 stamp-h*
+*.exp
+*.lib
+*.def

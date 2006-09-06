@@ -11,6 +11,11 @@ Emmanuel Pacaud:
 	* Fix bar/col plots when using log scale. 
 	* Fix a crash when polar plot width or height == 0 [#349238].
 
+Ivan Wong :
+	* [Win32] Add the attribute GO_VAR_DECL for public global
+	variable so that public header files are now compatible with
+	MSVC.
+
 Jean Brefort:
 	* Add a half pie plots.
 

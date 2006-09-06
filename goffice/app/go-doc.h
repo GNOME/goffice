@@ -36,7 +36,6 @@ GType go_doc_get_type (void);
 gboolean go_doc_is_pristine		 (GODoc const *doc);
 void	 go_doc_set_dirty		 (GODoc *doc, gboolean is_dirty);
 gboolean go_doc_is_dirty		 (GODoc const *doc);
-void	 go_doc_mark_not_modified	 (GODoc *doc);
 
 gboolean	 go_doc_set_uri		 (GODoc *doc, char const *uri);
 char const	*go_doc_get_uri		 (GODoc const *doc);

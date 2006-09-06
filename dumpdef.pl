@@ -40,7 +40,7 @@ sub parse_header {
 		      \s*;/gxm) {
 	push @symbols, $1;
     }
-    while ($lines =~ /^\s*extern\s+ #function type
+    while ($lines =~ /^\s*(?:extern|__attribute__\(\(dllexport\)\))\s+ #function type
 		      [A-Za-z_]\w*(?:[\s\*]+[A-Za-z_]\w*)*[\s\*]+([A-Za-z_]\w*) #[first arg
 		      \s*(?:\[\s*\]\s*)?;/gxm) {
 	push @symbols, "$1 DATA";

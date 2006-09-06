@@ -31,3 +31,4 @@ xlibtool
 xltmain.sh
 xmldocs.make
 ylwrap
+*.def

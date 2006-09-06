@@ -19,7 +19,7 @@ libgoffice_app_la_SOURCES = \
 	go-cmd-context.c
 
 libgoffice_app_ladir = $(goffice_include_dir)/app
-libgoffice_app_la_HEADERS = 	\
+libgoffice_app_la_api_headers = 	\
 	goffice-app.h			\
 	\
 	go-doc.h 			\
@@ -29,7 +29,6 @@ libgoffice_app_la_HEADERS = 	\
 	go-plugin.h 			\
 	go-plugin-loader.h 		\
 	go-plugin-loader-module.h 	\
-	module-plugin-defs.h 		\
 	go-plugin-service.h 		\
 	go-plugin-service-impl.h	\
 	file.h				\
@@ -38,6 +37,9 @@ libgoffice_app_la_HEADERS = 	\
 	io-context-priv.h		\
 	go-cmd-context.h		\
 	go-cmd-context-impl.h
+libgoffice_app_la_HEADERS = 	\
+	$(libgoffice_app_la_api_headers) \
+	module-plugin-defs.h
 
 # This list should be empty when we reach a stable phase.
 UNUSED = \
@@ -53,4 +55,4 @@ EXTRA_DIST = $(UNUSED)
 
 include $(top_srcdir)/goffice.mk
 
-LIB_PUBLIC_HDRS = $(libgoffice_app_la_HEADERS)
+LIB_PUBLIC_HDRS = $(libgoffice_app_la_api_headers)

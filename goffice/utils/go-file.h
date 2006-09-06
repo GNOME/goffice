@@ -48,6 +48,13 @@ typedef enum {
 	GO_DOTDOT_LEAVE         /* Leave alone.  */
 } GODotDot;
 
+#ifndef R_OK
+#  define F_OK 0
+#  define X_OK 1
+#  define W_OK 2
+#  define R_OK 4
+#endif
+
 char *go_filename_simplify (const char *filename, GODotDot dotdot, gboolean make_absolute);
 char *go_url_simplify (const char *uri);
 
@@ -77,6 +84,8 @@ time_t go_file_get_date_accessed (char const *uri);
 time_t go_file_get_date_modified (char const *uri);
 time_t go_file_get_date_changed  (char const *uri);
 
+gint	 go_file_access (char const *uri, gint mode);
+
 gchar	*go_url_decode		(gchar const *text);
 gchar	*go_url_encode		(gchar const *text, int type);
 GError	*go_url_show		(gchar const *url);
@@ -86,6 +95,14 @@ gboolean go_url_check_extension (gchar const *uri,
 gchar	*go_get_mime_type	(gchar const *uri);
 gchar	*go_get_mime_type_for_data	(gconstpointer data, int data_size);
 gchar const	*go_mime_type_get_description	(gchar const *mime_type);
+
+#ifndef HAVE_G_ACCESS
+#ifdef G_OS_WIN32
+#error "A glib with g_access is required for Win32"
+#else
+#define g_access access
+#endif
+#endif
 
 G_END_DECLS
 

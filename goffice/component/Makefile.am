@@ -11,3 +11,6 @@ libgoffice_component_la_HEADERS = 	\
 	go-component-factory.h
 
 include $(top_srcdir)/goffice.mk
+
+LIB_PUBLIC_HDRS = $(libgoffice_component_la_HEADERS)
+

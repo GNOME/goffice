@@ -163,7 +163,7 @@ go_doc_set_uri (GODoc *doc, char const *uri)
 	g_free (doc->uri);
 	doc->uri = new_uri;
 
-#warning should we allow signal to return FALSE and disable the assignment ?
+/* FIXME FIXME FIXME should we allow signal to return FALSE and disable the assignment ? */
 	g_object_notify (G_OBJECT (doc), "uri");
 
 	return TRUE;

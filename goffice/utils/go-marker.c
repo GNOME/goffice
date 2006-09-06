@@ -281,7 +281,7 @@ marker_create_pixbuf_with_size (GOMarker *marker, guint size)
 	ArtVpath  *fill_path;
 	GdkPixbuf *pixbuf;
 
-	size = rint (marker->scale * size);
+	size = go_rint (marker->scale * size);
 
 	if (size < 1 || marker->shape == GO_MARKER_NONE)
 		return NULL;

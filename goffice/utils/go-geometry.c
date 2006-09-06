@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 
+#include <goffice/utils/go-math.h>
 #include <goffice/utils/go-geometry.h>
 #include <math.h>
 
@@ -196,7 +197,7 @@ go_geometry_get_rotation_type (double alpha)
 	
 	if (fmod(alpha + GO_GEOMETRY_ANGLE_TOLERANCE, M_PI / 2.0) > 2 * GO_GEOMETRY_ANGLE_TOLERANCE)
 		return GO_ROTATE_FREE;
-	index = rint (2.0 * alpha / M_PI);
+	index = go_rint (2.0 * alpha / M_PI);
 	return index < GO_ROTATE_FREE ? index : GO_ROTATE_NONE;
 }
 

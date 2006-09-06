@@ -1,3 +1,68 @@
+2006-09-07  Ivan, Wong Yat Cheung <ivanwong@gnome.org>
+
+	* .cvsignore:
+	* goffice/.cvsignore:
+	* goffice/app/.cvsignore:
+	* goffice/component/.cvsignore:
+	* goffice/data/.cvsignore:
+	* goffice/drawing/.cvsignore:
+	* goffice/graph/.cvsignore:
+	* goffice/gtk/.cvsignore:
+	* goffice/ms-compat/.cvsignore:
+	* goffice/utils/.cvsignore: added *.def
+
+	* configure.in: distinguishs between native Win32 and Cygwin. The later one is
+	actually a kind of Unix whose share object shares the properties of a DLL.
+
+	* goffice.mk:
+	* goffice/goffice.h: defines GO_VAR_DECL
+
+	* goffice-win32.mk:
+	* dumpdef.pl: recognizes GO_VAR_DECL (dllexport) for global variables.
+
+	* goffice/Makefile.am:
+	* goffice/app/Makefile.am:
+	* goffice/component/Makefile.am: fixed Win32 build
+
+	* goffice/app/go-plugin.c:
+	* goffice/gtk/goffice-gtk.c:
+	* goffice/utils/go-file.[ch]: added go_file_access().
+
+	* goffice/app/file.c:
+	* goffice/app/go-doc-control-impl.h:
+	* goffice/app/go-doc.[ch]:
+	* goffice/component/go-component-factory.c:
+	* goffice/component/go-component.h:
+	* goffice/cut-n-paste/foocanvas/foo-canvas-line.c:
+	* goffice/cut-n-paste/foocanvas/foo-canvas-polygon.c:
+	* goffice/drawing/god-drawing-renderer-gdk.c:
+	* goffice/graph/gog-axis.c:
+	* goffice/graph/gog-guru.c:
+	* goffice/graph/gog-renderer-cairo.h:
+	* goffice/graph/gog-renderer-svg.c:
+	* goffice/graph/gog-style.c:
+	* goffice/graph/gog-theme.c:
+	* goffice/gtk/go-action-combo-color.c:
+	* goffice/gtk/go-action-combo-pixmaps.c:
+	* goffice/gtk/go-color-palette.c:
+	* goffice/gtk/go-combo-box.c:
+	* goffice/gtk/go-combo-color.c:
+	* goffice/gtk/go-combo-pixmaps.c:
+	* goffice/gtk/go-font-sel.c:
+	* goffice/gtk/go-graph-widget.h:
+	* goffice/utils/format.c:
+	* goffice/utils/formats.c:
+	* goffice/utils/go-color.h:
+	* goffice/utils/go-font.h:
+	* goffice/utils/go-format.[ch]:
+	* goffice/utils/go-geometry.c:
+	* goffice/utils/go-glib-extras.[ch]:
+	* goffice/utils/go-marker.c:
+	* goffice/utils/go-math.h:
+	* goffice/utils/go-pattern.c: replaced all #warning with /* FIXME ...*/
+	replaced all calls to rint() with go_rint(), uses GO_VAR_DECL for all
+	public global variables, replaced ssize_t with gssize, etc.
+
 2006-09-04  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/gtk/go-gradient-selector.[ch]: new.

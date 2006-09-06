@@ -29,6 +29,7 @@
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-units.h>
+#include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-impl-utils.h>
@@ -698,7 +699,7 @@ gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
 	xmlNewProp (node, CC2XML ("fill"), CC2XML (buf));
 	g_free (buf);
 	xmlNewProp (node, CC2XML ("font-family"), CC2XML (pango_font_description_get_family (fd)));
-	buf = g_strdup_printf ("%d", (int)(rint (gog_renderer_pt2r(rend, pango_font_description_get_size (fd) / PANGO_SCALE))));
+	buf = g_strdup_printf ("%d", (int)(go_rint (gog_renderer_pt2r(rend, pango_font_description_get_size (fd) / PANGO_SCALE))));
 	xmlNewProp (node, CC2XML ("font-size"), CC2XML (buf));
 	g_free (buf);
 	switch (pango_font_description_get_weight (fd)) {

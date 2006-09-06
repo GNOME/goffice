@@ -72,7 +72,7 @@ int	    go_str_compare		(void const *x, void const *y);
 guint	    go_ascii_strcase_hash	(gconstpointer v);
 gint	    go_ascii_strcase_equal	(gconstpointer v, gconstpointer v2);
 gint	    go_utf8_collate_casefold	(char const *a, char const *b);
-char	   *go_utf8_strcapital		(char const *p, ssize_t len);
+char	   *go_utf8_strcapital		(char const *p, gssize len);
 void	    go_strescape		(GString *target, char const *str);
 char const *go_strunescape		(GString *target, char const *str);
 void	    go_string_append_gstring	(GString *target, const GString *src);

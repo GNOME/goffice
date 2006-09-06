@@ -25,7 +25,7 @@
 #include "go-font.h"
 #include "go-math.h"
 #include "datetime.h"
-#include <go-glib-extras.h>
+#include "go-glib-extras.h"
 #include "format-impl.h"
 #include <string.h>
 

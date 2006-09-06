@@ -34,25 +34,13 @@
 #include <gsf/gsf-input-textline.h>
 
 #include <string.h>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <errno.h>
 
 #define PREVIEW_HSIZE 150
 #define PREVIEW_VSIZE 150
-
-/* ------------------------------------------------------------------------- */
-
-#ifndef W_OK
-#define W_OK 2
-#endif
-
-#ifndef HAVE_G_ACCESS
-#ifdef G_OS_WIN32
-#error "A glib with g_access is required for Win32"
-#else
-#define g_access access
-#endif
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -840,7 +828,7 @@ go_gtk_url_is_writeable (GtkWindow *parent, char const *uri,
 		go_gtk_notice_dialog (parent, GTK_MESSAGE_ERROR,
 				      _("%s\nis a directory name"), uri);
 		result = FALSE;
-	} else if (g_access (filename, W_OK) != 0 && errno != ENOENT) {
+	} else if (go_file_access (uri, W_OK) != 0 && errno != ENOENT) {
 		go_gtk_notice_dialog (parent, GTK_MESSAGE_ERROR,
 				      _("You do not have permission to save to\n%s"),
 				      uri);
