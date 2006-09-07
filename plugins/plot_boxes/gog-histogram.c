@@ -218,13 +218,18 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogChartMap *chart_map;
 	GogAxisMap *x_map, *y_map;
 	GogViewAllocation const *area;
-	GogHistogramPlotSeries const *series = GOG_HISTOGRAM_PLOT_SERIES (model->base.series->data);
+	GogHistogramPlotSeries const *series;
 	double *x_vals = NULL, *y_vals, curx, cury;
-	unsigned i, j, nb = (series->base.num_elements + 1) * 2 + 2;
+	unsigned i, j, nb;
 	ArtVpath *path ;
 	GSList *ptr;
-	GogStyle *style = GOG_STYLED_OBJECT (series)->style;
+	GogStyle *style;
 
+	if (model->base.series == NULL)
+		return;
+	series = GOG_HISTOGRAM_PLOT_SERIES (model->base.series->data);
+	nb = (series->base.num_elements + 1) * 2 + 2;
+	style = GOG_STYLED_OBJECT (series)->style;
 	if (series->base.num_elements < 1)
 		return;
 	area = gog_chart_view_get_plot_area (view->parent);

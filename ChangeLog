@@ -1,3 +1,9 @@
+2006-09-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_boxes/gog-histogram.c:
+	(gog_histogram_plot_view_render): check if a series is present before
+	using it (fixes #354705).
+
 2006-09-07  Ivan, Wong Yat Cheung <ivanwong@gnome.org>
 
 	* .cvsignore:
