@@ -48,6 +48,8 @@ typedef PluginServiceGObjectLoaderClass GOComponentEngineServiceClass;
 
 static GHashTable *pending_engines = NULL;
 static GHashTable *mime_types = NULL;
+static GHashTable *suffixes = NULL;
+
 static GSList *mime_types_names = NULL;
 
 static char *
@@ -212,6 +214,12 @@ goc_plugin_services_shutdown (void)
 	g_slist_foreach (refd_plugins, (GFunc) go_plugin_use_unref, NULL);
 	g_slist_foreach (refd_plugins, (GFunc) g_object_unref, NULL);
 	g_slist_free (refd_plugins);
+	if (pending_engines)
+		g_hash_table_destroy (pending_engines);
+	if (mime_types)
+		g_hash_table_destroy (mime_types);
+	if (suffixes)
+		g_hash_table_destroy (suffixes);
 }
 
 GSList *
@@ -243,6 +251,22 @@ go_components_add_mime_type (char *mime, GOMimePriority priority, char const *se
 	{
 		mime_type->priority = priority;
 	}
+}
+
+void
+go_components_set_mime_suffix (char const *mime, char const *suffix)
+{
+	if (suffixes == NULL)
+		suffixes =
+			g_hash_table_new_full (g_str_hash, g_str_equal,
+					       g_free, g_free);
+	g_hash_table_insert (suffixes, g_strdup (mime), g_strdup (suffix));
+}
+
+char const *
+go_components_get_mime_suffix (char const *mime)
+{
+	return (suffixes)? g_hash_table_lookup (suffixes, mime): NULL;
 }
 
 GOComponent *
