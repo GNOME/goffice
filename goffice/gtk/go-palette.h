@@ -19,8 +19,8 @@
  * USA
  */
 
-#ifndef __GO_PALETTE_H__
-#define __GO_PALETTE_H__
+#ifndef GO_PALETTE_H
+#define GO_PALETTE_H
 
 #include <gtk/gtkmenu.h>
 
@@ -75,4 +75,4 @@ GtkWidget 	*go_palette_swatch_new 		(GOPalette *palette, int index);
 int		 go_palette_get_n_swatches 	(GOPalette *palette);
 G_END_DECLS
 
-#endif /* __GO_PALETTE_H__ */
+#endif /* GO_PALETTE_H */

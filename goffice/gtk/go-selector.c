@@ -24,12 +24,13 @@
 #include "go-selector.h"
 
 #include <gtk/gtkalignment.h>
-#include <gtk/gtkbutton.h>
 #include <gtk/gtkarrow.h>
+#include <gtk/gtkbutton.h>
 #include <gtk/gtkcelllayout.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkcellview.h>
 #include <gtk/gtkcombobox.h>
+#include <gtk/gtkdnd.h>
 #include <gtk/gtkdrawingarea.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtkiconview.h>
@@ -80,6 +81,13 @@ struct _GOSelectorPrivate {
 
 	gboolean 	 selected_is_auto;
 	int	 	 selected_index;
+
+	int		 		dnd_length;
+	GtkTargetEntry	 		dnd_type;
+	GOSelectorDndDataGet		dnd_data_get;
+	GOSelectorDndDataReceived	dnd_data_received;
+	GOSelectorDndFillIcon		dnd_fill_icon;
+	gboolean			dnd_initialized;
 };
 
 G_DEFINE_TYPE (GOSelector, go_selector, GTK_TYPE_HBOX)
@@ -131,6 +139,14 @@ go_selector_init (GOSelector *selector)
 	gtk_widget_pop_composite_child ();
 	
 	gtk_box_pack_start (GTK_BOX (selector), priv->button, TRUE, TRUE, 0);	
+
+	priv->dnd_length = 0;
+	priv->dnd_type.target = NULL;
+	priv->dnd_type.flags = 0;
+	priv->dnd_type.info = 0;
+	priv->dnd_data_get = NULL;
+	priv->dnd_data_received = NULL;
+	priv->dnd_initialized = FALSE;
 }
 
 static void
@@ -161,6 +177,7 @@ go_selector_finalize (GObject *object)
 
 	if (priv->palette)
 		g_object_unref (priv->palette);
+	g_free (priv->dnd_type.target);
 
 	(* G_OBJECT_CLASS (go_selector_parent_class)->finalize) (object);
 }
@@ -452,4 +469,108 @@ go_selector_get_user_data (GOSelector *selector)
 	g_return_val_if_fail (GO_IS_SELECTOR (selector), NULL);
 
 	return go_palette_get_user_data (GO_PALETTE (selector->priv->palette));	
+}
+
+static void
+go_selector_drag_data_received (GtkWidget        *button,
+				GdkDragContext   *context,
+				gint              x,
+				gint              y,
+				GtkSelectionData *selection_data,
+				guint             info,
+				guint32           time,
+				GOSelector       *selector)
+{
+	GOSelectorPrivate *priv = selector->priv;
+
+	if (selection_data->length != priv->dnd_length ||
+	    priv->dnd_data_received == NULL) 
+		return;
+
+	(priv->dnd_data_received) (selector, selection_data->data);
+}
+
+static void
+go_selector_drag_begin (GtkWidget      *button,
+			GdkDragContext *context,
+			GOSelector     *selector)
+{
+	GOSelectorPrivate *priv = selector->priv;
+	GdkPixbuf *pixbuf;
+
+	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE,
+				 8, 48, 32);
+
+	if (priv->dnd_fill_icon != NULL)
+		(priv->dnd_fill_icon) (selector, pixbuf);
+	else
+		gdk_pixbuf_fill (pixbuf, 0);
+
+	gtk_drag_set_icon_pixbuf (context, pixbuf, -2, -2);
+	g_object_unref (pixbuf);
+}
+
+static void
+go_selector_drag_data_get (GtkWidget        *button,
+			   GdkDragContext   *context,
+			   GtkSelectionData *selection_data,
+			   guint             info,
+			   guint             time,
+			   GOSelector       *selector)
+{
+	GOSelectorPrivate *priv = selector->priv;
+	gpointer data;
+
+	if (priv->dnd_data_get == NULL)
+		return;
+
+	data = (priv->dnd_data_get) (selector);
+	
+	if (data != NULL) {
+		gtk_selection_data_set (selection_data, selection_data->target,
+					8, data, priv->dnd_length);
+		g_free (data);
+	}
+}
+
+void
+go_selector_setup_dnd (GOSelector *selector,
+		       char const *dnd_target,
+		       int dnd_length,
+		       GOSelectorDndDataGet data_get,
+		       GOSelectorDndDataReceived data_received,
+		       GOSelectorDndFillIcon fill_icon)
+{
+	GOSelectorPrivate *priv;
+
+	g_return_if_fail (GO_IS_SELECTOR (selector));
+	
+	priv = selector->priv;
+	g_return_if_fail (!priv->dnd_initialized);
+	g_return_if_fail (dnd_length > 0);
+	g_return_if_fail (dnd_target != NULL);
+
+	priv->dnd_length = dnd_length;
+	priv->dnd_data_get = data_get;
+	priv->dnd_data_received = data_received;
+	priv->dnd_fill_icon = fill_icon;
+	priv->dnd_type.target = g_strdup (dnd_target);
+
+	gtk_drag_dest_set (priv->button,
+			   GTK_DEST_DEFAULT_MOTION |
+			   GTK_DEST_DEFAULT_HIGHLIGHT |
+			   GTK_DEST_DEFAULT_DROP,
+			   &priv->dnd_type, 1, GDK_ACTION_COPY);
+	gtk_drag_source_set (priv->button,
+			     GDK_BUTTON1_MASK|GDK_BUTTON3_MASK,
+			     &priv->dnd_type, 1, GDK_ACTION_COPY);
+	
+	g_signal_connect (priv->button, "drag_begin",
+			  G_CALLBACK (go_selector_drag_begin), selector);
+	g_signal_connect (priv->button, "drag_data_received",
+			  G_CALLBACK (go_selector_drag_data_received), selector);
+	g_signal_connect (priv->button, "drag_data_get",
+			  G_CALLBACK (go_selector_drag_data_get), selector);
+
+	priv->dnd_initialized = TRUE;
 }

@@ -1,3 +1,26 @@
+2006-09-10  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Add drag and drop support to color selector.
+	Postpone palette content creation to widget realization.
+
+	* goffice/gtk/go-color-selector.c (cb_color_dialog_response): use
+	go_color_selector_set_color.
+	(go_color_selector_drag_data_received),
+	(go_color_selector_drag_data_get),
+	(go_color_selector_drag_fill_icon): new.
+	(go_color_selector_new): setup drag and drop.
+	(go_color_selector_set_color): return TRUE if color actually changed.
+	* goffice/gtk/go-palette.c (go_palette_realize): fill menu here. That
+	makes dialog with lot of selectors appear faster.
+	(go_palette_new): don't fill menu.
+	(go_palette_show_automatic): ditto.
+	(go_palette_show_custom): ditto.
+	* goffice/gtk/go-selector.c (go_selector_drag_data_received),
+	(go_selector_drag_data_get), (go_selector_drag_begin): new.
+	We should make drag_begin smarter and don't require a custom
+	implementation.
+	(go_selector_setup_dnd): new.
+
 2006-09-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/component/go-component-factory.c:

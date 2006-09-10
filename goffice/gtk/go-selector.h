@@ -19,12 +19,14 @@
  * USA
  */
 
-#ifndef __GO_SELECTOR_H__
-#define __GO_SELECTOR_H__
+#ifndef GO_SELECTOR_H
+#define GO_SELECTOR_H
 
 #include <gtk/gtkhbox.h>
 
 #include <goffice/gtk/go-palette.h>
+
+G_BEGIN_DECLS
 
 #define GO_TYPE_SELECTOR		(go_selector_get_type ())
 #define GO_SELECTOR(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), GO_TYPE_SELECTOR, GOSelector))
@@ -64,7 +66,18 @@ void 		 go_selector_activate 		(GOSelector *selector);
 
 gpointer 	 go_selector_get_user_data 	(GOSelector *selector);
 
+typedef void		(*GOSelectorDndDataReceived)	(GOSelector *selector, gpointer data);
+typedef gpointer	(*GOSelectorDndDataGet)		(GOSelector *selector);
+typedef void		(*GOSelectorDndFillIcon)	(GOSelector *selector, GdkPixbuf *pixbuf);
+
+void 			go_selector_setup_dnd 		(GOSelector *selector,
+							 char const *dnd_target,
+							 int dnd_length,
+							 GOSelectorDndDataGet data_get,
+							 GOSelectorDndDataReceived data_received,
+							 GOSelectorDndFillIcon fill_icon);
+
 G_END_DECLS
 
-#endif /* __GO_SELECTOR_H__ */
+#endif /* GO_SELECTOR_H */
 

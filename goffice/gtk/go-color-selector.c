@@ -175,10 +175,10 @@ go_color_selector_get_color (GOSelector *selector, gboolean *is_auto)
 		*is_auto = flag;
 
 	/* In case default_color is in palette history and its index was moved by the
-	 * successive color choices */
+	 * successive color choices. */
 	if (flag)
 		return state->default_color;
-
+	
 	return get_color (state->n_swatches, state->color_group, index);
 }
 
@@ -269,9 +269,7 @@ cb_color_dialog_response (GtkColorSelectionDialog *color_dialog,
 		color = GDK_TO_UINT (gdk_color);
 		alpha >>= 8;
 		color = UINT_RGBA_CHANGE_A (color, alpha);
-		if (!go_selector_set_active (selector, get_index (state->n_swatches, 
-							       state->color_group, 
-							       color))) 
+		if (!go_color_selector_set_color (selector, color))
 			/* Index is not necessarly changed, but swatch may change */
 			go_selector_activate (selector);
 	}
@@ -313,6 +311,56 @@ cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
        	gtk_widget_show (color_dialog);
 }
 
+static void
+go_color_selector_drag_data_received (GOSelector *selector, gpointer data)
+{
+	GOColor color = RGBA_WHITE;
+	guint16 *color_data = data;
+
+	color = UINT_RGBA_CHANGE_R (color, color_data[0] >> 8);
+	color = UINT_RGBA_CHANGE_G (color, color_data[1] >> 8);
+	color = UINT_RGBA_CHANGE_B (color, color_data[2] >> 8);
+	color = UINT_RGBA_CHANGE_A (color, color_data[3] >> 8);
+
+	go_color_selector_set_color (selector, color);
+}
+
+static gpointer
+go_color_selector_drag_data_get (GOSelector *selector) 
+{
+	GOColorSelectorState *state;
+	GOColor color;
+	int index;
+	guint16 *data;
+
+	state = go_selector_get_user_data (selector);
+	
+	data = g_new0 (guint16, 4);
+	index = go_selector_get_active (selector, NULL);
+	color = get_color (state->n_swatches, state->color_group, index);
+
+	data[0] = UINT_RGBA_R (color) << 8;
+	data[1] = UINT_RGBA_G (color) << 8;
+	data[2] = UINT_RGBA_B (color) << 8;
+	data[3] = UINT_RGBA_A (color) << 8; 
+
+	return data;
+}
+
+static void
+go_color_selector_drag_fill_icon (GOSelector *selector, GdkPixbuf *pixbuf)
+{
+	GOColorSelectorState *state;
+	GOColor color;
+	int index;
+
+	state = go_selector_get_user_data (selector);
+	index = go_selector_get_active (selector, NULL);
+	color = get_color (state->n_swatches, state->color_group, index);
+
+	gdk_pixbuf_fill (pixbuf, color);
+}
+
 GtkWidget *
 go_color_selector_new (GOColor initial_color, 
 		       GOColor default_color,
@@ -346,20 +394,26 @@ go_color_selector_new (GOColor initial_color,
 	go_selector_set_active (GO_SELECTOR (selector), initial_index);
 	g_signal_connect (palette, "custom-activate", G_CALLBACK (cb_combo_custom_activate), selector);
 
+	go_selector_setup_dnd (GO_SELECTOR (selector), "application/x-color", 8,
+			       go_color_selector_drag_data_get,
+			       go_color_selector_drag_data_received,
+			       go_color_selector_drag_fill_icon); 
+
 	return selector;
 }
 
-void
+gboolean
 go_color_selector_set_color (GOSelector *selector, GOColor color)
 {
 	GOColorSelectorState *state;
 	int index;
 	
-	g_return_if_fail (GO_IS_SELECTOR (selector));
+	g_return_val_if_fail (GO_IS_SELECTOR (selector), FALSE);
 
 	state =  go_selector_get_user_data (selector);
-	g_return_if_fail (state != NULL);
+	g_return_val_if_fail (state != NULL, FALSE);
 	
 	index = get_index (state->n_swatches, state->color_group, color);
-	go_selector_set_active (selector, index);
+	
+	return go_selector_set_active (selector, index);
 }
