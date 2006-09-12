@@ -720,7 +720,7 @@ plugin_dependency_free (gpointer data)
 static void
 go_plugin_read (GOPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_error)
 {
-	gchar *file_name, *uri;
+	gchar *file_name;
 	xmlDocPtr doc;
 	gchar *id, *name, *description;
 	xmlNode *tree, *information_node, *dependencies_node, *loader_node;
@@ -734,9 +734,9 @@ go_plugin_read (GOPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_error)
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	file_name = g_build_filename (dir_name, PLUGIN_INFO_FILE_NAME, NULL);
-	uri = go_filename_to_uri (file_name);
 	doc = go_xml_parse_file (file_name);
 	if (doc == NULL || doc->xmlRootNode == NULL || strcmp (doc->xmlRootNode->name, "plugin") != 0) {
+		char *uri = go_filename_to_uri (file_name);
 		if (go_file_access (uri, R_OK) != 0) {
 			*ret_error = error_info_new_printf (
 			             _("Can't read plugin info file (\"%s\")."),

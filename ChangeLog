@@ -1,3 +1,10 @@
+2006-09-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-plugin.c (go_plugin_read): Plug leak.
+
+	* goffice/component/go-component-factory.c
+	(go_component_type_service_read_xml): Plug leak.
+
 2006-09-10  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Add drag and drop support to color selector.

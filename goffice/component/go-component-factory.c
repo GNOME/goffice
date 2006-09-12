@@ -124,14 +124,17 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 	for (ptr = tree->xmlChildrenNode; ptr != NULL; ptr = ptr->next)
 		if (0 == xmlStrcmp (ptr->name, "mime_type"))
 		{
-			char *name = g_strdup (xmlGetProp (ptr, "name"));
-			char const *priority = xmlGetProp (ptr, "priority");
+			char *name = xmlGetProp (ptr, "name");
+			char *priority = xmlGetProp (ptr, "priority");
 			GOMimeType *mime_type =
 				g_hash_table_lookup (mime_types, name);
 			int i;
+
 			for (i = 4; i >= 0; i--)
 				if (!strcmp (priority, GOPriorityName[i]))
 					break;
+			g_free (priority);
+
 /* FIXME FIXME FIXME the code should take into account that a plugin might be deactivated ! */
 			if (mime_type == NULL) {
 				mime_type = g_new (GOMimeType, 1);
@@ -144,9 +147,8 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 				g_hash_table_replace (mime_types, name,
 						      mime_type);
 			} else if (i > mime_type->priority) {
-				if (mime_type->component_type_name != NULL)
-					g_free (mime_type->
-						component_type_name);
+				g_free (name);
+				g_free (mime_type->component_type_name);
 				mime_type->component_type_name =
 					g_strdup (service->id);
 				mime_type->priority = i;
