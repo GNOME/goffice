@@ -1,3 +1,8 @@
+2006-09-14  Ivan, Wong Yat Cheung <email@ivanwong.info>
+
+	* goffice/utils/go-file.h: The check for HAVE_G_ACCESS is in
+	go-file.c and should not be put in a public header.
+
 2006-09-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-plugin.c (go_plugin_read): Plug leak.
