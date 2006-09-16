@@ -1028,9 +1028,6 @@ cb_canvas_select_item (FooCanvas *canvas, GdkEvent *event,
 
 			g_return_val_if_fail (FOO_IS_CANVAS (canvas), FALSE);
 
-			if (canvas->current_item == NULL)
-				return FALSE;
-
 			g_object_get (G_OBJECT(s->sample_graph_item), "x", &item_x, "y", &item_y, NULL);
 			gog_graph_view_handle_event (s->graph_view, (GdkEvent *) event, 
 						     item_x * canvas->pixels_per_unit,

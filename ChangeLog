@@ -1,3 +1,8 @@
+2006-09-16  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-guru.c (cb_canvas_select_item): fix for first
+	click lost.
+
 2006-09-14  Ivan, Wong Yat Cheung <email@ivanwong.info>
 
 	* goffice/utils/go-file.h: The check for HAVE_G_ACCESS is in
