@@ -28,10 +28,6 @@
 #include <glib-object.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#ifndef GOFFICE_WITH_CAIRO
-#error Cairo support not enabled
-#endif
-
 G_BEGIN_DECLS
 
 #define GOG_RENDERER_CAIRO_TYPE		(gog_renderer_cairo_get_type ())

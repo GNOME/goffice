@@ -21,9 +21,8 @@
 
 #include <glib-object.h>
 #include <goffice/utils/goffice-utils.h>
-#ifdef GOFFICE_WITH_CAIRO
-#	include <cairo.h>
-#endif
+#include <cairo.h>
+
 #ifdef GOFFICE_WITH_GTK
 #	include <gdk-pixbuf/gdk-pixbuf.h>
 #endif
@@ -68,20 +67,18 @@ GSList 			*go_image_get_formats_with_pixbuf_saver (void);
 
 GType go_image_get_type (void);
 
-#ifdef GOFFICE_WITH_CAIRO
-cairo_t *go_image_get_cairo (GOImage *image);
-cairo_pattern_t *go_image_create_cairo_pattern (GOImage *image);
-#endif
+cairo_t 	*go_image_get_cairo 		(GOImage *image);
+cairo_pattern_t *go_image_create_cairo_pattern 	(GOImage *image);
 
 #ifdef GOFFICE_WITH_GTK
-GOImage *go_image_new_from_pixbuf (GdkPixbuf *pixbuf);
-GdkPixbuf *go_image_get_pixbuf (GOImage *image);
+GOImage 	*go_image_new_from_pixbuf 	(GdkPixbuf *pixbuf);
+GdkPixbuf 	*go_image_get_pixbuf 		(GOImage *image);
 #endif
 
-GOImage *go_image_new_from_file (const char *filename, GError **error);
-guint8 *go_image_get_pixels (GOImage *image);
-int go_image_get_rowstride (GOImage *image);
-void go_image_fill (GOImage *image, GOColor color);
+GOImage 	*go_image_new_from_file 	(const char *filename, GError **error);
+guint8 		*go_image_get_pixels 		(GOImage *image);
+int 		 go_image_get_rowstride 	(GOImage *image);
+void 		 go_image_fill 			(GOImage *image, GOColor color);
 
 G_END_DECLS
 

@@ -32,7 +32,7 @@ libgoffice_graph_la_SOURCES = \
 	gog-data-set.c			\
 	\
 	gog-renderer.c			\
-	gog-renderer-svg.c
+	gog-renderer-cairo.c
 
 libgoffice_graph_ladir = $(goffice_include_dir)/graph
 libgoffice_graph_la_HEADERS = \
@@ -69,24 +69,16 @@ libgoffice_graph_la_HEADERS = \
 	gog-data-set.h			\
 	gog-renderer.h			\
 	gog-renderer-impl.h		\
-	gog-renderer-svg.h
+	gog-renderer-cairo.h
 
 if WITH_GTK
   libgoffice_graph_la_SOURCES += gog-control-foocanvas.c	\
 				 gog-renderer-gnome-print.c	\
-				 gog-renderer-pixbuf.c		\
 				 gog-guru.c
   libgoffice_graph_la_HEADERS += gog-control-foocanvas.h	\
 				 gog-renderer-gnome-print.h	\
-				 gog-renderer-pixbuf.h		\
 				 gog-guru.h
 endif
-
-if WITH_CAIRO
-  libgoffice_graph_la_SOURCES += gog-renderer-cairo.c	
-  libgoffice_graph_la_HEADERS += gog-renderer-cairo.h
-endif
-
 
 gladedir = $(goffice_datadir)/glade
 dist_glade_DATA = \

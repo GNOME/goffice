@@ -48,7 +48,7 @@
 /* Extra, possibly empty tag for this release */
 #undef GO_VERSION_EXTRA
 
-/* Define if GOffice uses Cairo */
+/* Define if Goffice uses Cairo */
 #undef GOFFICE_WITH_CAIRO
 
 /* Define if GOffice uses Gtk+ */

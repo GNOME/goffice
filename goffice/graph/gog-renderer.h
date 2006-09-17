@@ -59,7 +59,6 @@ typedef enum
 /* VILE HACK VILE HACK VILE HACK */
 #endif
 
-#ifdef GOFFICE_WITH_CAIRO
 #include <cairo.h>
 #ifdef CAIRO_HAS_SVG_SURFACE
 #define GOG_RENDERER_CAIRO_WITH_SVG
@@ -69,7 +68,6 @@ typedef enum
 #endif
 #ifdef CAIRO_HAS_PS_SURFACE
 #define GOG_RENDERER_CAIRO_WITH_PS
-#endif
 #endif
 
 G_BEGIN_DECLS

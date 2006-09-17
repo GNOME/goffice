@@ -2055,7 +2055,6 @@ gog_style_set_text_angle (GogStyle *style, double angle)
 	style->text_layout.auto_angle = FALSE;
 }
 
-#ifdef GOFFICE_WITH_CAIRO
 /**
  * gog_style_create_cairo_pattern:
  * @style : #GogStyle
@@ -2187,4 +2186,3 @@ gog_style_create_cairo_pattern (GogStyle const *style, double width, double heig
 
 	return NULL;
 }
-#endif

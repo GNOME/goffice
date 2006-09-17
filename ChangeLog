@@ -1,3 +1,17 @@
+2006-09-17  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* configure.in: hard dependency to cairo 1.2.0. Alwayas define
+	GOFFICE_WITH_CAIRO.
+	* goffice/graph/Makefile.am: always build cairo renderer. Don't build
+	pixbuf and svg renderers.
+	* goffice/graph/gog-axis.c: suppress condition on GOFFICE_WITH_CAIRO 
+	(format with markup).
+	* goffice/graph/gog-graph.c: ditto.
+	* goffice/graph/gog-renderer-gnome-print.c: ditto (text with markup).
+	* goffice/graph/gog-renderer.[ch]: ditto.
+	* goffice/graph/gog-style.[ch]: ditto.
+	* goffice/utils/go-image.[ch]: ditto.
+
 2006-09-16  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-guru.c (cb_canvas_select_item): fix for first

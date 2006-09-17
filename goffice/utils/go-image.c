@@ -266,9 +266,7 @@ struct _GOImage {
 	guint8 *data;
 	guint width, height, rowstride;
 	gboolean target_cairo;
-#ifdef GOFFICE_WITH_CAIRO
 	cairo_t *cairo;
-#endif
 #ifdef GOFFICE_WITH_GTK
 	GdkPixbuf *pixbuf;
 #endif
@@ -283,7 +281,6 @@ enum {
 #endif
 };
 
-#ifdef GOFFICE_WITH_CAIRO
 static void
 pixbuf_to_cairo (GOImage *image)
 {
@@ -320,7 +317,6 @@ pixbuf_to_cairo (GOImage *image)
 	}
 #undef MULT
 }
-#endif
 
 #ifdef GOFFICE_WITH_GTK
 static void
@@ -496,7 +492,6 @@ GSF_CLASS (GOImage, go_image,
 		  go_image_class_init, NULL,
 		  G_TYPE_OBJECT)
 
-#ifdef GOFFICE_WITH_CAIRO
 cairo_t *
 go_image_get_cairo (GOImage *image)
 {
@@ -550,8 +545,6 @@ cairo_pattern_t *go_image_create_cairo_pattern (GOImage *image)
 	cairo_surface_destroy (surface);
 	return pat;
 }
-
-#endif
 
 #ifdef GOFFICE_WITH_GTK
 GOImage *

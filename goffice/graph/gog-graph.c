@@ -23,9 +23,7 @@
 #include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-chart-impl.h>
 #include <goffice/graph/gog-renderer.h>
-#ifdef GOFFICE_WITH_CAIRO
 #include <goffice/graph/gog-renderer-cairo.h>
-#endif
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/data/go-data.h>
@@ -1022,7 +1020,9 @@ gog_graph_get_supported_image_formats (void)
 #endif
 		GO_IMAGE_FORMAT_JPG,
 		GO_IMAGE_FORMAT_PNG,
-		GO_IMAGE_FORMAT_SVG
+#ifdef GOG_RENDERER_CAIRO_WITH_SVG
+		GO_IMAGE_FORMAT_SVG,
+#endif
 	};
 	GSList *list = NULL;
 	unsigned i;
@@ -1069,7 +1069,6 @@ gog_graph_export_image (GogGraph *graph, GOImageFormat format, GsfOutput *output
 
 void gog_graph_render_to_cairo (GogGraph *graph, gpointer data, double w, double h)
 {
-#ifdef GOFFICE_WITH_CAIRO
 	GogRendererCairo *rend = GOG_RENDERER_CAIRO (g_object_new (
 		GOG_RENDERER_CAIRO_TYPE,
 		"model", graph,
@@ -1078,5 +1077,4 @@ void gog_graph_render_to_cairo (GogGraph *graph, gpointer data, double w, double
 		NULL));
 	gog_renderer_cairo_update (rend, w, h, 1.);
 	g_object_unref (rend);
-#endif
 }

@@ -1692,11 +1692,7 @@ gog_axis_populate_editor (GogObject *gobj,
 
 	/* Format page */
 	if (!axis->is_discrete && gog_axis_get_atype (axis) != GOG_AXIS_PSEUDO_3D) {
-#ifdef GOFFICE_WITH_CAIRO
 		w = go_format_sel_new_full (TRUE);
-#else
-		w = go_format_sel_new_full (FALSE);
-#endif
 		state->format_selector = w;
 
 		if (axis->assigned_format != NULL && !go_format_is_general (axis->assigned_format))

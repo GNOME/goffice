@@ -21,13 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-renderer-impl.h>
-#ifdef GOFFICE_WITH_GTK
-#include <goffice/graph/gog-renderer-pixbuf.h>
-#endif
-#ifdef GOFFICE_WITH_CAIRO
 #include <goffice/graph/gog-renderer-cairo.h>
-#endif
-#include <goffice/graph/gog-renderer-svg.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-graph-impl.h>
@@ -879,16 +873,7 @@ gog_renderer_push_selection_style (GogRenderer *renderer)
 GogRenderer*
 gog_renderer_new_for_pixbuf (GogGraph *graph)
 {
-#ifdef GOFFICE_WITH_CAIRO
 	return g_object_new (GOG_RENDERER_CAIRO_TYPE, "model", graph, NULL);
-#else
-#ifdef GOFFICE_WITH_GTK
-	return g_object_new (GOG_RENDERER_PIXBUF_TYPE, "model", graph, NULL);
-#else
-	g_warning ("No cairo AND no gtk ???");
-	return NULL;
-#endif
-#endif
 }
 
 /**
@@ -903,18 +888,8 @@ gog_renderer_new_for_pixbuf (GogGraph *graph)
 gboolean
 gog_renderer_update (GogRenderer *renderer, double w, double h, double zoom)
 {
-#ifdef GOFFICE_WITH_CAIRO
 	g_return_val_if_fail (IS_GOG_RENDERER_CAIRO (renderer), FALSE);
 	return gog_renderer_cairo_update (GOG_RENDERER_CAIRO (renderer), w, h, zoom);
-#else
-#ifdef GOFFICE_WITH_GTK
-	g_return_val_if_fail (IS_GOG_RENDERER_PIXBUF (renderer), FALSE);
-	return gog_renderer_pixbuf_update (GOG_RENDERER_PIXBUF (renderer), w, h, zoom);
-#else
-	g_warning ("No cairo AND no gtk ???");
-	return FALSE;
-#endif
-#endif
 }
 
 /** 
@@ -926,18 +901,8 @@ gog_renderer_update (GogRenderer *renderer, double w, double h, double zoom)
 GdkPixbuf*
 gog_renderer_get_pixbuf (GogRenderer *renderer)
 {
-#ifdef GOFFICE_WITH_CAIRO
 	g_return_val_if_fail (IS_GOG_RENDERER_CAIRO (renderer), NULL);
      	return gog_renderer_cairo_get_pixbuf (GOG_RENDERER_CAIRO (renderer));
-#else
-#ifdef GOFFICE_WITH_GTK
-	g_return_val_if_fail (IS_GOG_RENDERER_PIXBUF (renderer), NULL);
-	return gog_renderer_pixbuf_get (GOG_RENDERER_PIXBUF (renderer));
-#else
-	g_warning ("No cairo AND no gtk ???");
-	return NULL;
-#endif
-#endif
 }
 
 /**
@@ -959,8 +924,6 @@ gog_renderer_new_for_format (GogGraph *graph, GOImageFormat format)
 		case GO_IMAGE_FORMAT_SVG:
 #ifdef GOG_RENDERER_CAIRO_WITH_SVG
 			type = GOG_RENDERER_CAIRO_TYPE;
-#else
-			type = GOG_RENDERER_SVG_TYPE;
 #endif
 			break;
 		case GO_IMAGE_FORMAT_PDF:
@@ -976,16 +939,7 @@ gog_renderer_new_for_format (GogGraph *graph, GOImageFormat format)
 		case GO_IMAGE_FORMAT_PNG:
 		case GO_IMAGE_FORMAT_JPG:
 		default:
-#ifdef GOFFICE_WITH_CAIRO
 			type = GOG_RENDERER_CAIRO_TYPE;
-#else
-#ifdef GOFFICE_WITH_GTK
-			type = GOG_RENDERER_PIXBUF_TYPE;
-#else
-			g_warning ("No cairo AND no gtk ???");
-			return NULL;
-#endif
-#endif
 			break;
 	}
 	
