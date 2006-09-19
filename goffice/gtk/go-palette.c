@@ -21,6 +21,8 @@
 
 #include <goffice/goffice-config.h>
 
+#include <goffice/utils/go-image.h>
+
 #include "go-palette.h"
 
 #include <gtk/gtkalignment.h>
@@ -41,6 +43,8 @@
 #include <gtk/gtktreemodel.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtkvseparator.h>
+#include <gtk/gtkversion.h>
+
 #include <glib/gi18n-lib.h>
 
 #include <gdk/gdkkeysyms.h>
@@ -225,9 +229,13 @@ static gboolean
 cb_swatch_expose (GtkWidget *swatch, GdkEventExpose *event, GOPalette *palette)
 {
 	if (palette->priv->swatch_render) {
-		cairo_t *cr = gdk_cairo_create (swatch->window);
+		cairo_t *cr;
 		GdkRectangle area;
 		int index;
+		
+#if GTK_CHECK_VERSION(2,8,0)
+		
+		cr = gdk_cairo_create (swatch->window);
 
 		area.x = 0;
 		area.y = 0;
@@ -239,26 +247,41 @@ cb_swatch_expose (GtkWidget *swatch, GdkEventExpose *event, GOPalette *palette)
 		(palette->priv->swatch_render) (cr, &area, index, palette->priv->data);
 
 		cairo_destroy (cr);
+
+#else /* if GTK < 2.8.0 */
+	
+#warning [GOPalette:cb_swatch_expose] Use of old version of gtk (<2.8.0)	
+
+		GdkPixbuf *pixbuf;
+		GOImage *image;
+
+		area.x = 0;
+		area.y = 0;
+		area.width = swatch->allocation.width;
+		area.height = swatch->allocation.height;
+		
+	       	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 
+					 area.width, area.height);
+	       	image = go_image_new_from_pixbuf (pixbuf);
+		g_object_unref (pixbuf);
+		
+		cr = go_image_get_cairo (image);
+		
+		index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (swatch), "index"));
+
+		(palette->priv->swatch_render) (cr, &area, index, palette->priv->data);
+		
+		cairo_destroy (cr);
+		pixbuf = go_image_get_pixbuf (image);
+
+		gdk_draw_pixbuf (GDK_DRAWABLE (swatch->window), NULL, pixbuf,
+				 0, 0, 0, 0, area.width, area.height, 
+				 GDK_RGB_DITHER_NONE, 0, 0);
+
+		g_object_unref (image);
+#endif
 	}
 	return TRUE;
-}
-
-GtkWidget *
-go_palette_swatch_new (GOPalette *palette, int index)
-{
-	GtkWidget *swatch;
-	
-	swatch = gtk_drawing_area_new ();
-
-	g_object_set_data (G_OBJECT (swatch), "index", GINT_TO_POINTER (index));
-	g_signal_connect (G_OBJECT (swatch), "expose-event", G_CALLBACK (cb_swatch_expose), palette);
-	gtk_widget_set_size_request (swatch, 
-				     palette->priv->swatch_width, 
-				     palette->priv->swatch_height);
-
-	gtk_widget_show (swatch);
-
-	return swatch;
 }
 
 static void
@@ -300,7 +323,13 @@ cb_custom_activate (GtkWidget *item, GOPalette *palette)
 
 /**
  * go_palette_new:
- *
+ * @n_swatches: number of palette items
+ * @swatch_width: swatch width as multiple of swatch height
+ * @n_columns: number of columns for displaying palette items
+ * @swatch_render: a user function used for swatch rendering
+ * @data: user data for use by swatch render function
+ * @destroy: a function to destroy user data on widget finalization
+ * 
  * Returns a new #GOPalette object.
  **/
 GtkWidget *
@@ -335,6 +364,14 @@ go_palette_new (int n_swatches,
 	return palette;
 }
 
+/**
+ * go_palette_show_automatic:
+ * @palette: a #GOPalette
+ * @index: index to use on automatic item activation
+ * @label: if not NULL, replace automatic button label
+ *
+ * Adds an automatic button to @palette.
+ **/
 void
 go_palette_show_automatic (GOPalette *palette, 
 			   int index,
@@ -352,6 +389,14 @@ go_palette_show_automatic (GOPalette *palette,
 	priv->show_automatic = TRUE;
 }
 
+/**
+ * go_palette_show_custom:
+ * @palette: a #GOPalette
+ * @label: if not NULL, replaces custom button label
+ *
+ * Adds a custom button to bottom of @palette. An activation
+ * of custom button will cause an emition of "custom_activate" signal.
+ **/
 void
 go_palette_show_custom (GOPalette *palette, 
 			char const *label)
@@ -367,12 +412,12 @@ go_palette_show_custom (GOPalette *palette,
 	priv->show_custom = TRUE;
 }
 
-int
-go_palette_get_n_swatches (GOPalette *palette)
-{
-	return palette->priv->n_swatches;
-}
-
+/**
+ * go_palette_get_user_data:
+ * @palette: a #GOPalette
+ *
+ * Returns a pointer to user data given to go_palette_new function.
+ **/
 gpointer
 go_palette_get_user_data (GOPalette *palette)
 {
@@ -380,3 +425,42 @@ go_palette_get_user_data (GOPalette *palette)
 	
 	return palette->priv->data;		      
 }
+
+/**
+ * go_palette_swatch_new:
+ * @palette: a #GOPalette
+ * @index: default index
+ *
+ * Returns a new #GtkDrawingArea which will be rendered like a @palette
+ * swatch. @index can be changed later by changing swatch "index" data.
+ **/
+GtkWidget *
+go_palette_swatch_new (GOPalette *palette, int index)
+{
+	GtkWidget *swatch;
+	
+	swatch = gtk_drawing_area_new ();
+
+	g_object_set_data (G_OBJECT (swatch), "index", GINT_TO_POINTER (index));
+	g_signal_connect (G_OBJECT (swatch), "expose-event", G_CALLBACK (cb_swatch_expose), palette);
+	gtk_widget_set_size_request (swatch, 
+				     palette->priv->swatch_width, 
+				     palette->priv->swatch_height);
+
+	gtk_widget_show (swatch);
+
+	return swatch;
+}
+
+/**
+ * go_palette_get_n_swatches:
+ * @palette: a #GOPalette
+ *
+ * A convenience function that returns number of palette items.
+ **/
+int
+go_palette_get_n_swatches (GOPalette *palette)
+{
+	return palette->priv->n_swatches;
+}
+

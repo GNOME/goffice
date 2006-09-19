@@ -3,6 +3,7 @@
  * gog-style.c :
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2006      Emmanuel Pacaud (emmanuel.pacaud@lapp.in2p3.fr)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -31,12 +32,15 @@
 #include <goffice/utils/go-math.h>
 
 #ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/go-color-palette.h>
-#include <goffice/gtk/go-combo-color.h>
-#include <goffice/gtk/go-combo-pixmaps.h>
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/gtk/go-font-sel.h>
+#include <goffice/gtk/go-palette.h>
 #include <goffice/gtk/go-rotation-sel.h>
+#include <goffice/gtk/go-color-selector.h>
+#include <goffice/gtk/go-gradient-selector.h>
+#include <goffice/gtk/go-line-selector.h>
+#include <goffice/gtk/go-marker-selector.h>
+#include <goffice/gtk/go-pattern-selector.h>
 
 #include <glade/glade-xml.h>
 #include <gtk/gtkcheckbutton.h>
@@ -48,6 +52,7 @@
 #include <gtk/gtkrange.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtknotebook.h>
+#include <gtk/gtksizegroup.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 #endif
 
@@ -83,20 +88,30 @@ typedef struct {
 	gboolean   	 enable_edit;
 	gulong     	 style_changed_handler;
 	struct {
+		GtkSizeGroup *size_group;
+		GtkWidget *background;
+		GtkWidget *background_box;
+		GtkWidget *background_label;
+		GtkWidget *foreground;
+		GtkWidget *foreground_box;
+		GtkWidget *foreground_label;
+		GtkWidget *notebook;
 		struct {
-			GtkWidget *fore, *back, *combo;
+			GtkWidget *selector;
+			GtkWidget *box;
 		} pattern;
 		struct {
-			GtkWidget *start, *end, *end_label, *combo;
-			GtkWidget *brightness, *brightness_box;
-			guint	   timer;
+			GtkWidget *selector;
+			GtkWidget *box;
+			GtkWidget *brightness;
+			GtkWidget *brightness_box;
 		} gradient;
 		struct {
 			GOImage *image;
 		} image;
 	} fill;
 	struct {
-		GtkWidget *combo;
+		GtkWidget *selector;
 	} marker;
 } StylePrefState;
 
@@ -119,23 +134,17 @@ set_style (StylePrefState const *state)
 
 static GtkWidget *
 create_go_combo_color (StylePrefState *state,
-		       GOColor initial_val, GOColor default_val,
+		       GOColor initial_color, GOColor automatic_color,
 		       GladeXML *gui,
 		       char const *group, char const *label_name,
 		       GCallback func)
 {
 	GtkWidget *w;
 
-	w = go_combo_color_new (NULL, _("Automatic"), default_val,
-		go_color_group_fetch (group, NULL));
-	go_combo_color_set_instant_apply (GO_COMBO_COLOR (w), FALSE);
-	go_combo_color_set_allow_alpha (GO_COMBO_COLOR (w), TRUE);
+	w = go_color_selector_new (initial_color, automatic_color, group);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (gui, label_name)), w);
-	go_combo_color_set_color (GO_COMBO_COLOR (w), initial_val);
-	g_signal_connect (G_OBJECT (w),
-		"color_changed",
-		G_CALLBACK (func), state);
+	g_signal_connect (G_OBJECT (w), "activate", G_CALLBACK (func), state);
 	return w;
 }
 
@@ -173,16 +182,13 @@ gog_style_set_image_preview (GOImage *pix, StylePrefState *state)
 }
 
 /************************************************************************/
-static void
-cb_outline_dash_type_changed (GtkWidget *cc, int dash_type, StylePrefState const *state)
-{
-	GogStyle *style = state->style;
-	gboolean is_auto = dash_type < 0;
 
-	if (is_auto) 
-		dash_type = -dash_type;
-	style->outline.auto_dash = is_auto;
-	style->outline.dash_type = dash_type;
+static void
+cb_outline_dash_type_changed (GOSelector *selector, StylePrefState const *state)
+{
+	GogStyleLine *line = &state->style->outline;
+
+	line->dash_type = go_selector_get_active (selector, &line->auto_dash);
 	set_style (state);
 }
 
@@ -198,17 +204,15 @@ cb_outline_size_changed (GtkAdjustment *adj, StylePrefState *state)
 }
 
 static void
-cb_outline_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
-			  G_GNUC_UNUSED gboolean  is_custom,
-			  G_GNUC_UNUSED gboolean  by_user,
-			  gboolean  is_default, StylePrefState *state)
+cb_outline_color_changed (GOSelector *selector,
+			  StylePrefState *state)
 {
 	GogStyle *style = state->style;
 
 	g_return_if_fail (style != NULL);
 
-	style->outline.color = color;
-	style->outline.auto_color = is_default;
+	style->outline.color = go_color_selector_get_color (selector, 
+							    &style->outline.auto_color);
 	set_style (state);
 }
 
@@ -227,11 +231,10 @@ outline_init (StylePrefState *state, gboolean enable)
 	table = glade_xml_get_widget (state->gui, "outline_table");
 
 	/* DashType */
-	w = go_line_dash_selector (default_style->outline.dash_type);
-	gtk_table_attach (GTK_TABLE (table), w, 1, 3, 0, 1, 0, 0, 0, 0);
-	go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS (w), style->outline.dash_type);
-	g_signal_connect (G_OBJECT (w),
-			  "changed",
+	w = go_line_dash_selector_new (style->outline.dash_type,
+				       default_style->outline.dash_type);
+	gtk_table_attach (GTK_TABLE (table), w, 1, 3, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	g_signal_connect (G_OBJECT (w), "activate", 
 			  G_CALLBACK (cb_outline_dash_type_changed), state);
 	/* Size */
 	w = glade_xml_get_widget (state->gui, "outline_size_spin");
@@ -245,7 +248,7 @@ outline_init (StylePrefState *state, gboolean enable)
 		state->gui,
 		"outline_color", "outline_color_label",
 		G_CALLBACK (cb_outline_color_changed));
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_widget_show_all (table);
 }
 
@@ -253,15 +256,11 @@ outline_init (StylePrefState *state, gboolean enable)
 /************************************************************************/
 
 static void
-cb_line_dash_type_changed (GtkWidget *cc, int dash_type, StylePrefState const *state)
+cb_line_dash_type_changed (GOSelector *palette, StylePrefState const *state)
 {
-	GogStyle *style = state->style;
-	gboolean is_auto = dash_type < 0;
+	GogStyleLine *line = &state->style->line;
 
-	if (is_auto) 
-		dash_type = -dash_type;
-	style->line.auto_dash = is_auto;
-	style->line.dash_type = dash_type;
+	line->dash_type = go_selector_get_active (palette, &line->auto_dash);
 	set_style (state);
 }
 
@@ -277,17 +276,14 @@ cb_line_size_changed (GtkAdjustment *adj, StylePrefState const *state)
 }
 
 static void
-cb_line_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
-		       G_GNUC_UNUSED gboolean  is_custom,
-		       G_GNUC_UNUSED gboolean  by_user,
-		       gboolean  is_default, StylePrefState *state)
+cb_line_color_changed (GOSelector *selector,
+		       StylePrefState *state)
 {
 	GogStyle *style = state->style;
 
 	g_return_if_fail (style != NULL);
 
-	style->line.color = color;
-	style->line.auto_color = is_default;
+	style->line.color = go_color_selector_get_color (selector, &style->line.auto_color);
 	set_style (state);
 }
 
@@ -306,11 +302,10 @@ line_init (StylePrefState *state, gboolean enable)
 	table = glade_xml_get_widget (state->gui, "line_table");
 
 	/* DashType */
-	w = go_line_dash_selector (default_style->line.dash_type);
-	gtk_table_attach (GTK_TABLE (table), w, 1, 3, 0, 1, 0, 0, 0, 0);
-	go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS (w), style->line.dash_type);
-	g_signal_connect (G_OBJECT (w),
-			  "changed",
+	w = go_line_dash_selector_new (style->line.dash_type,
+				       default_style->line.dash_type);
+	gtk_table_attach (GTK_TABLE (table), w, 1, 3, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	g_signal_connect (G_OBJECT (w), "activate",
 			  G_CALLBACK (cb_line_dash_type_changed), state);
 
 	/* Size */
@@ -326,86 +321,53 @@ line_init (StylePrefState *state, gboolean enable)
 		state->gui,
 		"line_color", "line_color_label",
 		G_CALLBACK (cb_line_color_changed));
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_widget_show_all (table);
 }
 
 /************************************************************************/
 
+static void cb_fill_background_color (GOSelector *selector, StylePrefState *state);
+static void cb_fill_foreground_color (GOSelector *selector, StylePrefState *state);
+
 static void
-cb_pattern_type_changed (GtkWidget *cc, int pattern, StylePrefState const *state)
+fill_update_selectors (StylePrefState const *state)
 {
 	GogStyle *style = state->style;
-	gboolean is_auto = pattern < 0;
 
-	if (is_auto)
-		pattern = -pattern;
-	style->fill.pattern.pattern = pattern;
-	set_style (state);
+	go_pattern_selector_set_colors (GO_SELECTOR (state->fill.pattern.selector),
+				        style->fill.pattern.fore,
+					style->fill.pattern.back);
+	go_gradient_selector_set_colors (GO_SELECTOR (state->fill.gradient.selector), 
+					 style->fill.pattern.back,
+					 style->fill.pattern.fore);
+
+	g_signal_handlers_block_by_func (state->fill.background, cb_fill_background_color, 
+					 (gpointer) state);
+	g_signal_handlers_block_by_func (state->fill.foreground, cb_fill_background_color, 
+					 (gpointer) state);
+	
+	go_color_selector_set_color (GO_SELECTOR (state->fill.background),
+				     style->fill.pattern.back);
+	go_color_selector_set_color (GO_SELECTOR (state->fill.foreground),
+				     style->fill.pattern.fore);
+	
+	g_signal_handlers_unblock_by_func (state->fill.background, cb_fill_background_color, 
+					   (gpointer) state);
+	g_signal_handlers_unblock_by_func (state->fill.foreground, cb_fill_background_color, 
+					   (gpointer) state);
 }
 
-static void
-populate_pattern_combo (StylePrefState *state)
-{
-	GogStyle *style = state->style;
-	GogStyle *default_style = state->default_style;
-	GtkWidget *table, *combo;
-	GOPatternType type = GO_PATTERN_SOLID;
-
-	if (state->fill.pattern.combo != NULL)
-		gtk_widget_destroy (state->fill.pattern.combo);
-
-	state->fill.pattern.combo = combo = go_pattern_selector (
-		style->fill.pattern.fore,
-		style->fill.pattern.back,
-		default_style->fill.pattern.pattern);
-
-	table = glade_xml_get_widget (state->gui, "fill_pattern_table");
-	gtk_table_attach (GTK_TABLE (table), combo, 1, 2, 0, 1, 0, 0, 0, 0);
-	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (glade_xml_get_widget (state->gui, "fill_pattern_type_label")), combo);
-
-	if (style->fill.type == GOG_FILL_STYLE_PATTERN)
-		type = style->fill.pattern.pattern;
-	go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS(combo), type);
-	g_signal_connect (G_OBJECT (combo),
-		"changed",
-		G_CALLBACK (cb_pattern_type_changed), state);
-	gtk_widget_show (combo);
-}
+/************************************************************************/
 
 static void
-cb_fg_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
-		     G_GNUC_UNUSED gboolean is_custom,
-		     G_GNUC_UNUSED gboolean by_user,
-		     gboolean is_default, StylePrefState *state)
+cb_pattern_type_activate (GtkWidget *selector, StylePrefState const *state)
 {
 	GogStyle *style = state->style;
+	gboolean is_auto;
 
-	g_return_if_fail (style != NULL);
-	g_return_if_fail (GOG_FILL_STYLE_PATTERN == style->fill.type);
-
-	style->fill.pattern.fore = color;
-	style->fill.auto_fore = is_default;
+	style->fill.pattern.pattern = go_selector_get_active (GO_SELECTOR (selector), &is_auto);
 	set_style (state);
-	populate_pattern_combo (state);
-}
-
-static void
-cb_bg_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
-		     G_GNUC_UNUSED gboolean is_custom,
-		     G_GNUC_UNUSED gboolean by_user,
-		     gboolean is_default, StylePrefState *state)
-{
-	GogStyle *style = state->style;
-
-	g_return_if_fail (style != NULL);
-	g_return_if_fail (GOG_FILL_STYLE_PATTERN == style->fill.type);
-
-	style->fill.pattern.back = color;
-	style->fill.auto_back = is_default;
-	set_style (state);
-	populate_pattern_combo (state);
 }
 
 static void
@@ -413,147 +375,43 @@ fill_pattern_init (StylePrefState *state)
 {
 	GogStyle *style = state->style;
 	GogStyle *default_style = state->default_style;
+	GtkWidget *selector;
+	GtkWidget *label;
+       
+	state->fill.pattern.selector = selector = 
+		go_pattern_selector_new (style->fill.pattern.pattern,
+					 default_style->fill.pattern.pattern);
+	go_pattern_selector_set_colors (GO_SELECTOR (selector), style->fill.pattern.fore,
+					style->fill.pattern.back);
 
-	GtkWidget *w, *table =
-		glade_xml_get_widget (state->gui, "fill_pattern_table");
+	label = glade_xml_get_widget (state->gui, "fill_pattern_label");
+	gtk_size_group_add_widget (state->fill.size_group, label);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), selector);
+	state->fill.pattern.box = glade_xml_get_widget (state->gui, "fill_pattern_box");
+	gtk_box_pack_start (GTK_BOX (state->fill.pattern.box), selector, FALSE, FALSE, 0);
 
-	state->fill.pattern.fore = w = create_go_combo_color (state,
-		style->fill.pattern.fore,
-		default_style->fill.pattern.fore,
-		state->gui,
-		"pattern_foreground", "fill_pattern_foreground_label",
-		G_CALLBACK (cb_fg_color_changed));
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, 0, 0, 0, 0);
-
-	state->fill.pattern.back = w = create_go_combo_color (state,
-		style->fill.pattern.back,
-		default_style->fill.pattern.back,
-		state->gui,
-		"pattern_background", "fill_pattern_background_label",
-		G_CALLBACK (cb_bg_color_changed));
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
-
-	populate_pattern_combo (state);
-	gtk_widget_show_all (table);
+	g_signal_connect (G_OBJECT (selector), "activate",
+			  G_CALLBACK (cb_pattern_type_activate), state);
+	gtk_widget_show (selector);
 }
 
 /************************************************************************/
 
-static GOGradientDirection default_to_last_selected_type = GO_GRADIENT_N_TO_S;
 static void
-cb_gradient_type_changed (GtkWidget *cc, int id, StylePrefState const *state)
+cb_brightness_changed (GtkRange *range, StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	style->fill.gradient.dir = default_to_last_selected_type = id;
+
+	gog_style_set_fill_brightness (style, gtk_range_get_value (range));
 	set_style (state);
+	fill_update_selectors (state);
 }
 
 static void
-populate_gradient_combo (StylePrefState *state)
+cb_gradient_type_changed (GOSelector *selector, StylePrefState const *state)
 {
 	GogStyle *style = state->style;
-	GtkWidget *combo, *table;
-
-	if (state->fill.gradient.combo != NULL)
-		gtk_widget_destroy (state->fill.gradient.combo);
-
-	state->fill.gradient.combo = combo = go_gradient_selector (
-		style->fill.pattern.back,
-		style->fill.pattern.fore);
-	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (glade_xml_get_widget (state->gui, "fill_gradient_direction_label")), combo);
-
-	table = glade_xml_get_widget (state->gui, "fill_gradient_table");
-	gtk_table_attach (GTK_TABLE (table), combo, 1, 2, 0, 1, 0, 0, 0, 0);
-	go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS (combo),
-		(style->fill.type == GOG_FILL_STYLE_GRADIENT)
-			? style->fill.gradient.dir : default_to_last_selected_type);
-
-	g_signal_connect (G_OBJECT (combo),
-		"changed",
-		G_CALLBACK (cb_gradient_type_changed), state);
-	gtk_widget_show (combo);
-}
-
-static void
-cb_fill_gradient_start_color (G_GNUC_UNUSED GOComboColor *cc, GOColor  color,
-			      G_GNUC_UNUSED gboolean is_custom,
-			      G_GNUC_UNUSED gboolean by_user,
-			      gboolean is_default, StylePrefState *state)
-{
-	GogStyle *style = state->style;
-	style->fill.pattern.back = color;
-	style->fill.auto_back = is_default;
-	set_style (state);
-	populate_gradient_combo (state);
-}
-
-static gboolean
-cb_delayed_gradient_combo_update (StylePrefState *state)
-{
-	state->fill.gradient.timer = 0;
-	populate_gradient_combo (state);
-	return FALSE;
-}
-
-static void
-cb_fill_gradient_end_color (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
-			    G_GNUC_UNUSED gboolean is_custom,
-			    gboolean by_user,
-			    gboolean is_default, StylePrefState *state)
-{
-	GogStyle *style = state->style;
-
-	style->fill.pattern.fore = color;
-	style->fill.auto_fore = is_default;
-	set_style (state);
-
-	if (by_user)
-		populate_gradient_combo (state);
-	else {
-		if (state->fill.gradient.timer != 0)
-			g_source_remove (state->fill.gradient.timer);
-		state->fill.gradient.timer = g_timeout_add (100,
-			(GSourceFunc) cb_delayed_gradient_combo_update, state);
-	}
-}
-
-static void
-cb_gradient_brightness_value_changed (GtkWidget *w, StylePrefState *state)
-{
-	GogStyle *style = state->style;
-
-	gog_style_set_fill_brightness (style,
-		gtk_range_get_value (GTK_RANGE (w)));
-	go_combo_color_set_color (GO_COMBO_COLOR (state->fill.gradient.end),
-		style->fill.pattern.fore);
-	set_style (state);
-}
-
-static void
-cb_gradient_style_changed (GtkWidget *w, StylePrefState *state)
-{
-	GogStyle *style = state->style;
-
-	GtkWidget *val = glade_xml_get_widget (state->gui,
-		"fill_gradient_brightness");
-	GtkWidget *box = glade_xml_get_widget (state->gui,
-		"fill_gradient_brightness_box");
-
-	gboolean two_color = gtk_combo_box_get_active (GTK_COMBO_BOX (w)) == 0;
-
-	if (two_color) {
-		style->fill.gradient.brightness = -1;
-		gtk_widget_hide (box);
-	} else {
-		gtk_widget_show (box);
-		gog_style_set_fill_brightness (style,
-			gtk_range_get_value (GTK_RANGE (val)));
-		go_combo_color_set_color (GO_COMBO_COLOR (state->fill.gradient.end),
-			style->fill.pattern.fore);
-	}
-	g_object_set (G_OBJECT (state->fill.gradient.end), "visible", two_color, NULL);
-	g_object_set (G_OBJECT (state->fill.gradient.end_label), "visible", two_color, NULL);
+	style->fill.gradient.dir = go_selector_get_active (selector, NULL);
 	set_style (state);
 }
 
@@ -561,59 +419,92 @@ static void
 fill_gradient_init (StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	GogStyle *default_style = state->default_style;
-	GtkWidget *w, *table = glade_xml_get_widget (state->gui, "fill_gradient_table");
-	GtkWidget *type = glade_xml_get_widget (state->gui, "fill_gradient_type");
+	GtkWidget *selector;
+	GtkWidget *brightness;
+	GtkWidget *label;
 
-	state->fill.gradient.start = w = create_go_combo_color (state,
-		style->fill.pattern.back,
-		default_style->fill.pattern.back,
-		state->gui,
-		"gradient_start", "fill_gradient_start_label",
-		G_CALLBACK (cb_fill_gradient_start_color));
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
-	gtk_widget_show (w);
+	state->fill.gradient.selector = selector = 
+		go_gradient_selector_new (style->fill.gradient.dir,
+					  style->fill.gradient.dir);
+	go_gradient_selector_set_colors (GO_SELECTOR (selector), 
+					 style->fill.pattern.back,
+					 style->fill.pattern.fore);
+	label = glade_xml_get_widget (state->gui, "fill_gradient_label");
+	gtk_size_group_add_widget (state->fill.size_group, label);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), selector);
+	state->fill.gradient.box = glade_xml_get_widget (state->gui, "fill_gradient_box");
+	gtk_box_pack_start (GTK_BOX (state->fill.gradient.box), selector, FALSE, FALSE, 0);
 
-	state->fill.gradient.end = w = create_go_combo_color (state,
-		style->fill.pattern.fore,
-		default_style->fill.pattern.fore,
-		state->gui,
-		"gradient_end", "fill_gradient_end_label",
-		G_CALLBACK (cb_fill_gradient_end_color));
-	gtk_table_attach (GTK_TABLE (table), w, 3, 4, 2, 3, 0, 0, 0, 0);
-	gtk_widget_show (w);
-
-	state->fill.gradient.end_label = glade_xml_get_widget (state->gui,
-		"fill_gradient_end_label");
-	state->fill.gradient.brightness = glade_xml_get_widget (state->gui,
-		"fill_gradient_brightness");
-	state->fill.gradient.brightness_box = glade_xml_get_widget (state->gui,
-		"fill_gradient_brightness_box");
-
-	if ((style->fill.type != GOG_FILL_STYLE_GRADIENT) ||
-	    (style->fill.gradient.brightness < 0)) {
-		gtk_combo_box_set_active (GTK_COMBO_BOX (type), 0);
-		gtk_widget_hide (state->fill.gradient.brightness_box);
-	} else {
-		gtk_combo_box_set_active (GTK_COMBO_BOX (type), 1);
-		gtk_widget_show (state->fill.gradient.brightness_box);
-		gtk_range_set_value (GTK_RANGE (state->fill.gradient.brightness),
-			style->fill.gradient.brightness);
-		gtk_widget_hide (state->fill.gradient.end);
-		gtk_widget_hide (state->fill.gradient.end_label);
-	}
-
-	g_signal_connect (G_OBJECT (type),
-		"changed",
-		G_CALLBACK (cb_gradient_style_changed), state);
-	g_signal_connect (G_OBJECT (state->fill.gradient.brightness),
-		"value_changed",
-		G_CALLBACK (cb_gradient_brightness_value_changed), state);
-
-	populate_gradient_combo (state);
-	gtk_widget_show (table);
+	state->fill.gradient.brightness = brightness =
+		glade_xml_get_widget (state->gui, "fill_brightness_scale");
+	label = glade_xml_get_widget (state->gui, "fill_brightness_label");
+	gtk_size_group_add_widget (state->fill.size_group, label);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), brightness);
+	state->fill.gradient.brightness_box = glade_xml_get_widget (state->gui, "fill_brightness_box");
+	
+	g_signal_connect (selector, "activate",
+			  G_CALLBACK (cb_gradient_type_changed), state);
+	g_signal_connect (brightness, "value_changed", 
+			   G_CALLBACK (cb_brightness_changed), state);
+	gtk_widget_show (selector);
+	gtk_widget_show (brightness);
 }
 
+/************************************************************************/
+
+static void
+cb_fill_background_color (GOSelector *selector, StylePrefState *state)
+{
+	GogStyle *style = state->style;
+	
+	style->fill.pattern.back = go_color_selector_get_color (selector, 
+								&style->fill.auto_back);
+	set_style (state);
+	fill_update_selectors (state);
+}
+
+static void
+cb_fill_foreground_color (GOSelector *selector, StylePrefState *state)
+{
+	GogStyle *style = state->style;
+
+	style->fill.pattern.fore = go_color_selector_get_color (selector,
+								&style->fill.auto_fore);
+	style->fill.gradient.brightness = -1;
+	set_style (state);
+	fill_update_selectors (state);
+}
+
+static void
+fill_color_init (StylePrefState *state)
+{
+	GogStyle *style = state->style;
+	GogStyle *default_style = state->default_style;
+	GtkWidget *w;
+
+	state->fill.background = w = create_go_combo_color (state,
+		style->fill.pattern.back,
+		default_style->fill.pattern.back,
+		state->gui, "pattern_background", "fill_background_label",
+		G_CALLBACK (cb_fill_background_color));
+	state->fill.background_box = glade_xml_get_widget (state->gui, "fill_background_box");
+	gtk_box_pack_start (GTK_BOX (state->fill.background_box), w, FALSE, FALSE, 0);
+	gtk_widget_show (w);
+
+	state->fill.foreground = w = create_go_combo_color (state,
+		style->fill.pattern.fore,
+		default_style->fill.pattern.fore,
+		state->gui, "pattern_foreground", "fill_foreground_label",
+		G_CALLBACK (cb_fill_foreground_color));
+	state->fill.foreground_box = glade_xml_get_widget (state->gui, "fill_foreground_box");
+	gtk_box_pack_start (GTK_BOX (state->fill.foreground_box), w, FALSE, FALSE, 0);
+	gtk_widget_show (w);
+
+	state->fill.foreground_label = glade_xml_get_widget (state->gui, "fill_foreground_label");
+	gtk_size_group_add_widget (state->fill.size_group, state->fill.foreground_label);
+	state->fill.background_label = glade_xml_get_widget (state->gui, "fill_background_label");
+	gtk_size_group_add_widget (state->fill.size_group, state->fill.background_label);
+}
 /************************************************************************/
 
 static void
@@ -696,36 +587,105 @@ fill_image_init (StylePrefState *state)
 
 /************************************************************************/
 
+typedef enum {
+	FILL_TYPE_NONE,
+	FILL_TYPE_PATTERN,
+	FILL_TYPE_GRADIENT_BICOLOR,
+	FILL_TYPE_GRADIENT_UNICOLOR,
+	FILL_TYPE_IMAGE
+} FillType;
+
+static struct {
+	GogFillStyle 	type;
+	int		page;
+	gboolean	show_pattern;
+	gboolean	show_gradient;
+	gboolean	show_brightness;
+} fill_infos[] = {
+	{GOG_FILL_STYLE_NONE,		0, FALSE, FALSE, FALSE},
+	{GOG_FILL_STYLE_PATTERN,	1, TRUE,  FALSE, FALSE},
+	{GOG_FILL_STYLE_GRADIENT,	1, FALSE, TRUE,  FALSE},
+	{GOG_FILL_STYLE_GRADIENT,	1, FALSE, TRUE,  TRUE},
+	{GOG_FILL_STYLE_IMAGE,		2, FALSE, FALSE, FALSE}
+};
+
+static void
+fill_update_visibilies (FillType type, StylePrefState *state)
+{
+	g_object_set (state->fill.pattern.box, "visible" , fill_infos[type].show_pattern, NULL);
+	g_object_set (state->fill.gradient.box, "visible", fill_infos[type].show_gradient, NULL);	
+	g_object_set (state->fill.gradient.brightness_box, "visible", 
+		      fill_infos[type].show_brightness, NULL);
+	g_object_set (state->fill.foreground_box, "visible", 
+		      !fill_infos[type].show_brightness, NULL);
+
+	if (fill_infos[type].show_gradient) {
+		gtk_label_set_text (GTK_LABEL (state->fill.foreground_label), _("Start:"));
+		gtk_label_set_text (GTK_LABEL (state->fill.background_label), _("End:"));
+	} else {
+		gtk_label_set_text (GTK_LABEL (state->fill.foreground_label), _("Foreground:"));
+		gtk_label_set_text (GTK_LABEL (state->fill.background_label), _("Background:"));
+	}
+
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (state->fill.notebook), fill_infos[type].page);
+}
+
 static void
 cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 {
-	GtkWidget *w;
+	int index;
 
-	state->style->fill.type = gtk_combo_box_get_active (GTK_COMBO_BOX (menu));
+	index = CLAMP (gtk_combo_box_get_active (GTK_COMBO_BOX (menu)), 0, (int) G_N_ELEMENTS (fill_infos) - 1);
+
+	state->style->fill.type = fill_infos[index].type;
 	set_style (state);
 
-	w = glade_xml_get_widget (state->gui, "fill_notebook");
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (w), state->style->fill.type);
+	fill_update_visibilies (index, state);
 }
 
 static void
 fill_init (StylePrefState *state, gboolean enable)
 {
 	GtkWidget *w;
+	FillType type;
 
 	if (!enable) {
 		gtk_widget_hide (glade_xml_get_widget (state->gui, "fill_box"));
 		return;
 	}
 
+	state->fill.size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+
+	fill_color_init (state);
 	fill_pattern_init (state);
 	fill_gradient_init (state);
 	fill_image_init (state);
+	fill_update_selectors (state);
 
-	w = glade_xml_get_widget (state->gui, "fill_notebook");
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (w), state->style->fill.type);
+	state->fill.notebook = glade_xml_get_widget (state->gui, "fill_notebook");
+	
+	switch (state->style->fill.type) {
+		case GOG_FILL_STYLE_PATTERN:
+			type = FILL_TYPE_PATTERN;
+			break;
+		case GOG_FILL_STYLE_GRADIENT:
+			if (state->style->fill.gradient.brightness >= 0)
+				type = FILL_TYPE_GRADIENT_UNICOLOR;
+			else
+				type = FILL_TYPE_GRADIENT_BICOLOR;
+			break;
+		case GOG_FILL_STYLE_IMAGE:
+			type = FILL_TYPE_IMAGE;
+			break;
+		case GOG_FILL_STYLE_NONE:
+		default:
+			type = FILL_TYPE_NONE;
+			break;
+	}
+	fill_update_visibilies (type, state);
+
 	w = glade_xml_get_widget (state->gui, "fill_type_menu");
-	gtk_combo_box_set_active (GTK_COMBO_BOX (w), state->style->fill.type);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (w), type);
 	g_signal_connect (G_OBJECT (w),
 		"changed",
 		G_CALLBACK (cb_fill_type_changed), state);
@@ -736,74 +696,53 @@ fill_init (StylePrefState *state, gboolean enable)
 
 /************************************************************************/
 
-
 static void
-cb_marker_shape_changed (GtkWidget *cc, int shape, StylePrefState const *state)
+cb_marker_shape_changed (GOSelector *selector, StylePrefState const *state)
 {
 	GogStyle *style = state->style;
-	gboolean is_auto = shape < 0;
+	GOMarkerShape shape;
+	gboolean is_auto;
 
-	if (is_auto)
-		shape = -shape;
+	shape = go_selector_get_active (selector, &is_auto);
 	go_marker_set_shape (style->marker.mark, shape);
 	style->marker.auto_shape = is_auto;
 	set_style (state);
 }
 
 static void
-populate_marker_combo (StylePrefState *state)
+cb_marker_outline_color_changed (GOSelector *selector,
+				 StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	GtkWidget *combo, *table;
+	GOColor color;
+	gboolean is_auto;
 
-	if (state->marker.combo != NULL)
-		gtk_widget_destroy (state->marker.combo);
-
-	state->marker.combo = combo = go_marker_selector (
-	        go_marker_get_outline_color (style->marker.mark),
-		go_marker_get_fill_color (style->marker.mark),
-		go_marker_get_shape (state->default_style->marker.mark));
-	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (glade_xml_get_widget (state->gui, "marker_shape_label")), combo);
-
-	table = glade_xml_get_widget (state->gui, "marker_table");
-	gtk_table_attach (GTK_TABLE (table), combo, 1, 2, 0, 1, 0, 0, 0, 0);
-	go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS (combo),
-		go_marker_get_shape (style->marker.mark));
-	g_signal_connect (G_OBJECT (combo),
-		"changed",
-		G_CALLBACK (cb_marker_shape_changed), state);
-	gtk_widget_show (combo);
-}
-
-static void
-cb_marker_outline_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
-				 G_GNUC_UNUSED gboolean is_custom,
-				 G_GNUC_UNUSED gboolean by_user,
-				 gboolean is_auto, StylePrefState *state)
-{
-	GogStyle *style = state->style;
-	if (is_auto)
-		color = go_marker_get_outline_color (state->default_style->marker.mark);
+	color = go_color_selector_get_color (selector, &is_auto);
 	go_marker_set_outline_color (style->marker.mark, color);
 	style->marker.auto_outline_color = is_auto;
 	set_style (state);
-	populate_marker_combo (state);
+	
+	go_marker_selector_set_colors (GO_SELECTOR (state->marker.selector), 
+				       color,
+				       go_marker_get_fill_color (style->marker.mark));
 }
 
 static void
-cb_marker_fill_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
-			      G_GNUC_UNUSED gboolean is_custom,
-			      G_GNUC_UNUSED gboolean by_user,
-			      gboolean is_auto, StylePrefState *state)
+cb_marker_fill_color_changed (GOSelector *selector,
+			      StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	if (is_auto)
-		color = go_marker_get_fill_color (state->default_style->marker.mark);
+	GOColor color;
+	gboolean is_auto;
+
+	color = go_color_selector_get_color (selector, &is_auto);
 	go_marker_set_fill_color (style->marker.mark, color);
 	style->marker.auto_fill_color = is_auto;
 	set_style (state);
-	populate_marker_combo (state);
+
+	go_marker_selector_set_colors (GO_SELECTOR (state->marker.selector), 
+				       go_marker_get_outline_color (style->marker.mark),
+				       color);
 }
 
 static void
@@ -819,22 +758,35 @@ marker_init (StylePrefState *state, gboolean enable)
 	GogStyle *style = state->style;
 	GogStyle *default_style = state->default_style;
 	GtkWidget *table, *w;
+	GtkWidget *selector;
 
 	if (!enable) {
 		gtk_widget_hide (glade_xml_get_widget (state->gui, "marker_box"));
 		return;
 	}
 
-	populate_marker_combo (state);
 	table = glade_xml_get_widget (state->gui, "marker_table");
+
+	state->marker.selector = selector = 
+		go_marker_selector_new (go_marker_get_shape (style->marker.mark),
+					go_marker_get_shape (state->default_style->marker.mark));
+		go_marker_selector_set_colors (GO_SELECTOR (selector), 
+					       go_marker_get_outline_color (style->marker.mark),
+					       go_marker_get_fill_color (style->marker.mark));
+	w = glade_xml_get_widget (state->gui, "marker_shape_label");
+	gtk_label_set_mnemonic_widget (GTK_LABEL (w), selector);
+	gtk_table_attach (GTK_TABLE (table), selector, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	g_signal_connect (G_OBJECT (selector), "activate", 
+			  G_CALLBACK (cb_marker_shape_changed), state);
+	gtk_widget_show (selector);
 
 	w = create_go_combo_color (state,
 		go_marker_get_fill_color (style->marker.mark),
 		go_marker_get_fill_color (default_style->marker.mark),
 		state->gui,
-		"pattern_foreground", "marker_fill_label",
+		"pattern_background", "marker_fill_label",
 		G_CALLBACK (cb_marker_fill_color_changed));
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
 
 	w = create_go_combo_color (state,
 		go_marker_get_outline_color (style->marker.mark),
@@ -842,7 +794,7 @@ marker_init (StylePrefState *state, gboolean enable)
 		state->gui,
 		"pattern_foreground", "marker_outline_label",
 		G_CALLBACK (cb_marker_outline_color_changed));
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
 
 	w = glade_xml_get_widget (state->gui, "marker_size_spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w),
@@ -874,14 +826,12 @@ cb_font_changed (GOFontSel *fs, PangoAttrList *list,
 }
 
 static void
-cb_font_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
-		       G_GNUC_UNUSED gboolean is_custom,
-		       G_GNUC_UNUSED gboolean by_user,
-		       gboolean is_auto, StylePrefState *state)
+cb_font_color_changed (GOSelector *selector,
+		       StylePrefState *state)
 {
 	GogStyle *style = state->style;
-
-	style->font.color = color;
+	
+	style->font.color = go_color_selector_get_color (selector, NULL);
 	set_style (state);
 }
 
@@ -903,21 +853,17 @@ font_init (StylePrefState *state, guint32 enable, GogEditor *editor, GOCmdContex
 
 	state->font_gui = gui;
 
-	w = create_go_combo_color (state,
-		style->font.color,
-		style->font.color,
-		gui,
-		"pattern_foreground", "font_color_label",
-		G_CALLBACK (cb_font_color_changed));
+	w = create_go_combo_color (state, style->font.color, style->font.color,
+				   gui, "pattern_foreground", "font_color_label",
+				   G_CALLBACK (cb_font_color_changed));
 	box = glade_xml_get_widget (gui, "color_box");
 	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
 	gtk_widget_show (w);
 				    
 	w = go_font_sel_new ();
 	go_font_sel_set_font (GO_FONT_SEL (w), style->font.font);
-	g_signal_connect (G_OBJECT (w),
-		"font_changed",
-		G_CALLBACK (cb_font_changed), state);
+	g_signal_connect (G_OBJECT (w), "font_changed", 
+			  G_CALLBACK (cb_font_changed), state);
 	gtk_widget_show (w);
 
  	box = glade_xml_get_widget (gui, "gog_style_font_prefs");
@@ -978,10 +924,6 @@ gog_style_pref_state_free (StylePrefState *state)
 	g_object_unref (state->gui);
 	if (state->font_gui != NULL)
 		g_object_unref (state->font_gui);
-	if (state->fill.gradient.timer != 0) {
-		g_source_remove (state->fill.gradient.timer);
-		state->fill.gradient.timer = 0;
-	}
 	if (state->fill.image.image != NULL)
 		g_object_unref (state->fill.image.image);
 	g_free (state);
@@ -2006,6 +1948,8 @@ gog_style_set_fill_brightness (GogStyle *style, float brightness)
 {
 	g_return_if_fail (IS_GOG_STYLE (style));
 	g_return_if_fail (style->fill.type == GOG_FILL_STYLE_GRADIENT);
+
+	brightness = CLAMP (brightness, 0, 100.0);
 
 	style->fill.gradient.brightness = brightness;
 	style->fill.pattern.fore = (brightness < 50.)

@@ -83,6 +83,15 @@ go_pattern_palette_render_func (cairo_t *cr,
 	g_object_unref (pixbuf);
 }
 
+/**
+ * go_pattern_selector_new:
+ * @initial_type: pattern type initially selected
+ * @default_type: automatic pattern type
+ *
+ * Creates a new pattern selector.
+ *
+ * Returns a new #GtkWidget.
+ **/
 GtkWidget *
 go_pattern_selector_new (GOPatternType initial_type,
 			 GOPatternType default_type)
@@ -109,6 +118,14 @@ go_pattern_selector_new (GOPatternType initial_type,
 	return selector;
 }
 
+/**
+ * go_pattern_selector_set_colors:
+ * @selector: a pattern #GOSelector
+ * @foreground: foreground color
+ * @background: background color
+ *
+ * Updates swatch colors of @selector.
+ **/
 void
 go_pattern_selector_set_colors (GOSelector *selector, 
 				GOColor foreground, 

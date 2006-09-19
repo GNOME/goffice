@@ -25,11 +25,6 @@
 #include "go-pattern.h"
 #include "go-color.h"
 
-#ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/go-combo-pixmaps.h>
-#include <gdk-pixbuf/gdk-pixdata.h>
-#endif
-
 #include <libart_lgpl/libart.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -201,71 +196,6 @@ go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height
 
 	return (char *)svg_path;
 }
-
-#ifdef GOFFICE_WITH_GTK
-gpointer
-go_pattern_selector (GOColor fore, GOColor back,
-		     GOPatternType default_pat)
-{
-	static GOPatternType const elements[] = {
-		GO_PATTERN_SOLID,	GO_PATTERN_GREY75,	GO_PATTERN_GREY50,	GO_PATTERN_GREY25,
-		GO_PATTERN_GREY125,	GO_PATTERN_GREY625,	GO_PATTERN_HORIZ,	GO_PATTERN_VERT,
-		GO_PATTERN_REV_DIAG,	GO_PATTERN_DIAG,	GO_PATTERN_DIAG_CROSS,	GO_PATTERN_THICK_DIAG_CROSS,
-		GO_PATTERN_THIN_HORIZ,		GO_PATTERN_THIN_VERT,
-		GO_PATTERN_THIN_REV_DIAG,	GO_PATTERN_THIN_DIAG,
-		GO_PATTERN_THIN_HORIZ_CROSS,	GO_PATTERN_THIN_DIAG_CROSS,
-		GO_PATTERN_FOREGROUND_SOLID,	GO_PATTERN_SMALL_CIRCLES,
-		GO_PATTERN_SEMI_CIRCLES, GO_PATTERN_THATCH,	GO_PATTERN_LARGE_CIRCLES,   GO_PATTERN_BRICKS,
-		GO_PATTERN_MAX	/* fill with auto */
-	};
-	int const W = 20, H = 20;
-	unsigned	 i;
-	gboolean	 is_auto;
-	GOComboPixmaps	*w;
-	GdkPixbuf	*pixbuf;
-	GOPattern	 pat;
-	ArtVpath	 path[6];
-	ArtSVP		*svp;
-
-	pat.fore = fore;
-	pat.back = back;
-
-	path[0].code = ART_MOVETO;
-	path[1].code = ART_LINETO;
-	path[2].code = ART_LINETO;
-	path[3].code = ART_LINETO;
-	path[4].code = ART_LINETO;
-	path[5].code = ART_END;
-	path[0].x = path[1].x = path[4].x = 0;
-	path[2].x = path[3].x = W;
-	path[0].y = path[3].y = path[4].y = 0;
-	path[1].y = path[2].y = H;
-	svp = art_svp_from_vpath (path);
-
-	w = go_combo_pixmaps_new (5);
-	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
-		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
-		gdk_pixbuf_fill (pixbuf, 0); /* in case the fill colours have alpha = 0 */
-		is_auto = elements[i] == GO_PATTERN_MAX;
-		pat.pattern = is_auto ? default_pat : i;
-		go_pattern_render_svp (&pat, svp, 0, 0, W, H,
-			gdk_pixbuf_get_pixels (pixbuf),
-			gdk_pixbuf_get_rowstride (pixbuf));
-		if (is_auto) {
-			/* xgettext : this will appear as 'Automatic (patternname)' */
-			char *name = g_strdup_printf (_("Automatic (%s)"),
-				_(go_patterns [default_pat].name));
-			go_combo_pixmaps_add_element (w, pixbuf,
-				-default_pat, name);
-			g_free (name);
-		} else
-			go_combo_pixmaps_add_element (w, pixbuf, pat.pattern,
-				_(go_patterns[pat.pattern].name));
-	}
-	art_svp_free (svp);
-	return w;
-}
-#endif /* GOFFICE_WITH_GTK */
 
 /*
  *  A slightly modified version of art_rgb_svp to render into rgba buffer

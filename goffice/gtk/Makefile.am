@@ -22,7 +22,15 @@ libgoffice_gtk_la_SOURCES =		\
 	go-action-combo-stack.c 	\
 	go-action-combo-text.c	\
 	\
-	go-graph-widget.c
+	go-palette.c			\
+	go-selector.c			\
+	go-color-selector.c		\
+	go-gradient-selector.c		\
+	go-line-selector.c		\
+	go-marker-selector.c		\
+	go-pattern-selector.c		\
+	\
+	go-graph-widget.c		
 
 
 libgoffice_gtk_ladir = $(goffice_include_dir)/gtk
@@ -46,7 +54,15 @@ libgoffice_gtk_la_HEADERS = 		\
 	go-action-combo-color.h 	\
 	go-action-combo-pixmaps.h 	\
 	go-action-combo-stack.h 	\
-	go-action-combo-text.h	\
+	go-action-combo-text.h		\
+	\
+	go-palette.h			\
+	go-selector.h			\
+	go-color-selector.h		\
+	go-gradient-selector.h		\
+	go-line-selector.h		\
+	go-marker-selector.h		\
+	go-pattern-selector.h		\
 	\
 	go-graph-widget.h
 

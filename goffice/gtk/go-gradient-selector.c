@@ -57,6 +57,9 @@ go_gradient_swatch_render_func (cairo_t *cr,
 	double x[3], y[3];
 
 	cairo_rectangle (cr, area->x + .5 , area->y + .5 , area->width - 1, area->height - 1);
+	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+	cairo_fill_preserve (cr);
+
 	x[0] = area->x;
 	y[0] = area->y;
 	x[1] = area->x + area->width;

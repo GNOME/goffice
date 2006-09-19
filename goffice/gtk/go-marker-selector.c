@@ -66,6 +66,15 @@ go_marker_palette_render_func (cairo_t *cr,
 	g_object_unref (pixbuf);
 }
 
+/**
+ * go_marker_selector_new:
+ * @initial_shape: marker shape intially selected
+ * @default_shape: automatic marker shape
+ *
+ * Creates a new marker selector.
+ *
+ * returns a new #GtkWidget.
+ **/
 GtkWidget *
 go_marker_selector_new (GOMarkerShape initial_shape,
 			GOMarkerShape default_shape)
@@ -90,6 +99,14 @@ go_marker_selector_new (GOMarkerShape initial_shape,
 	return selector;
 }
 
+/**
+ * go_marker_selector_set_colors:
+ * @selector: a #GOSelector
+ * @outline: outline color
+ * @fill: fill color
+ *
+ * Updates swatch colors of @selector.
+ **/
 void
 go_marker_selector_set_colors (GOSelector *selector, GOColor outline, GOColor fill)
 {

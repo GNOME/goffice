@@ -42,6 +42,8 @@
 #include <gtk/gtktreemodel.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtkvseparator.h>
+#include <gtk/gtkversion.h>
+
 #include <glib/gi18n-lib.h>
 
 #include <gdk/gdkkeysyms.h>
@@ -200,6 +202,15 @@ cb_palette_deactivate (GOPalette *palette, GOSelector *selector)
 	go_selector_popdown (selector);
 }
 
+/**
+ * go_selector_new:
+ * @palette: a #GOPalette
+ *
+ * Creates a new selector, using @palette. Selector button swatch will use
+ * swatch render function of @palette.
+ *
+ * returns a new #GtkWidget.
+ **/ 
 GtkWidget *
 go_selector_new (GOPalette *palette)
 {
@@ -212,8 +223,12 @@ go_selector_new (GOPalette *palette)
 	
 	priv = GO_SELECTOR_GET_PRIVATE (selector);
 
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
+	g_object_ref_sink (palette);
+#else
 	g_object_ref (palette);
 	gtk_object_sink (GTK_OBJECT (palette));
+#endif
 
 	priv->palette = palette;
 	priv->swatch = go_palette_swatch_new (GO_PALETTE (palette), 0);
@@ -417,6 +432,16 @@ go_selector_set_active_internal (GOSelector *selector, int index, gboolean is_au
 	g_signal_emit (selector, go_selector_signals[GO_SELECTOR_ACTIVATE], 0);
 }
 
+/**
+ * go_selector_set_active:
+ * @selector: a #GOSelector
+ * @index: new index
+ *
+ * Sets current selection index, and emits "activate" signal if
+ * selection is actually changed.
+ *
+ * Returns TRUE if selection is actually changed.
+ **/
 gboolean
 go_selector_set_active (GOSelector *selector, int index)
 {
@@ -435,6 +460,15 @@ go_selector_set_active (GOSelector *selector, int index)
 	return FALSE;
 }
 
+/**
+ * go_selector_get_active:
+ * @selector: a #GOSelector
+ *
+ * Retrieves current selection index, and set @is_auto to TRUE if
+ * current selection was set by clicking on automatic palette item.
+ *
+ * Returns current index.
+ **/
 int
 go_selector_get_active (GOSelector *selector, gboolean *is_auto)
 {
@@ -445,6 +479,12 @@ go_selector_get_active (GOSelector *selector, gboolean *is_auto)
 	return selector->priv->selected_index;
 }
 
+/**
+ * go_selector_update_swatch:
+ * @selector: a #GOSelector
+ *
+ * Requests a swatch update.
+ **/
 void
 go_selector_update_swatch (GOSelector *selector)
 {
@@ -454,6 +494,12 @@ go_selector_update_swatch (GOSelector *selector)
 	gtk_widget_queue_draw (selector->priv->swatch);
 }
 
+/**
+ * go_selector_activate:
+ * @selector: a #GOSelector
+ *
+ * Updates slector swatch and emits an "activate" signal.
+ **/
 void
 go_selector_activate (GOSelector *selector)
 {
@@ -463,6 +509,15 @@ go_selector_activate (GOSelector *selector)
 	g_signal_emit (selector, go_selector_signals[GO_SELECTOR_ACTIVATE], 0);
 }
 
+/**
+ * go_selector_get_user_data:
+ * @selector: a #GOSelector
+ *
+ * A convenience function to access user_data of selector palette.
+ * (See @go_palette_get_user_data).
+ *
+ * Returns a pointer to palette user_data.
+ **/
 gpointer 	 
 go_selector_get_user_data (GOSelector *selector)
 {
@@ -533,6 +588,17 @@ go_selector_drag_data_get (GtkWidget        *button,
 	}
 }
 
+/**
+ * go_selector_setup_dnd:
+ * @selector: a #GOSelector
+ * @dnd_target: drag and drop target type
+ * @dnd_length: length of data transfered on drop
+ * @data_get: a user provided data_get method
+ * @data_received: a user provided data_received method
+ * @fill_icon: a user function for dnd icon creation
+ *
+ * Setups drag and drop for @selector.
+ **/
 void
 go_selector_setup_dnd (GOSelector *selector,
 		       char const *dnd_target,

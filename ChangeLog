@@ -1,3 +1,27 @@
+2006-09-18  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-style-prefs.glade: some tweaks. Use only two color
+	selectors for gradient/pattern.
+	* goffice/graph/gog-style.c: ditto. use new pattern/marker/line/color
+	selectors.
+	* goffice/gtk/go-color-palette.c: convert ColorNamePair to
+	GONamedColor, for use of default_color_set in go-color-selector.c.
+	* goffice/gtk/go-color-selector.c: share default_color_set.
+	Add some documentation.
+	* goffice/gtk/go-line-selector.c: Add some documentation.
+	* goffice/gtk/go-marker-selector.c: ditto.
+	* goffice/gtk/go-pattern-selector.c: ditto.
+	* goffice/gtk/go-selector.c: ditto.
+	* goffice/gtk/go-palette.c: ditto.
+	(cb_swatch_expose): implementation for gtk < 2.8.0.
+	
+	* goffice/utils/go-gradient.c (go_gradient_selector): removed.
+	* goffice/utils/go-line.c (go_line_dash_selector): removed.
+	* goffice/utils/go-marker.c (go_marker_selector): removed.
+	* goffice/utils/go-pattern.c (go_pattern_selector): removed.
+
+	* goffice/utils/format.c (find_decimal_char): fix warning.
+	
 2006-09-17  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* configure.in: hard dependency to cairo 1.2.0. Alwayas define

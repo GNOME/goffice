@@ -2,7 +2,7 @@
 /*
  * go-line.c :
  *
- * Copyright (C) 2004 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
+ * Copyright (C) 2004-2006 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -25,10 +25,6 @@
 #include "go-line.h"
 #include "go-math.h"
 
-#ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/go-combo-pixmaps.h>
-#endif
-
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
@@ -40,7 +36,7 @@ typedef struct {
 static const GOLineDashDesc line_dash_desc =		{2,	{ 18, 6 } };
 static const GOLineDashDesc line_dot_desc = 		{2,	{ 3, 3 } };
 static const GOLineDashDesc line_dash_dot_desc =	{4, 	{ 9, 3, 6, 3 } };
-static const GOLineDashDesc line_dash_dot_dot_desc =  {6, 	{ 9, 3, 3, 3, 3, 3 } };	
+static const GOLineDashDesc line_dash_dot_dot_desc =    {6, 	{ 9, 3, 3, 3, 3, 3 } };	
 
 static struct {
 	GOLineDashType type;
@@ -240,79 +236,6 @@ go_line_dash_vpath (ArtVpath const *path,
 }
 					 
 #ifdef GOFFICE_WITH_GTK
-
-#define LINE_SAMPLE_HEIGHT	5
-#define LINE_SAMPLE_WIDTH	60
-
-gpointer	 
-go_line_dash_selector (GOLineDashType default_type)
-{
-	static GOLineDashType const elements[] = {
-		GO_LINE_NONE,
-		GO_LINE_SOLID,
-		GO_LINE_DASH,
-		GO_LINE_DOT,
-		GO_LINE_DASH_DOT,
-		GO_LINE_DASH_DOT_DOT,
-		GO_LINE_MAX
-	};
-
-	unsigned	 i;
-	gboolean	 is_auto;
-	GOComboPixmaps	*w;
-	GdkPixbuf	*pixbuf;
-	ArtVpathDash	*dash;
-	GOLineDashType	 dash_type;
-	ArtVpath	 line[3], *path;
-	ArtSVP		*svp;
-	GogViewAllocation bbox;
-
-	bbox.x = 0;
-	bbox.y = 0;
-	bbox.w = LINE_SAMPLE_WIDTH;
-	bbox.h = LINE_SAMPLE_HEIGHT;
-
-	line[0].code = ART_MOVETO;
-	line[1].code = ART_LINETO;
-	line[2].code = ART_END;
-	line[0].x = 0.5;
-	line[1].x = LINE_SAMPLE_WIDTH - 0.5;
-	line[0].y = line[1].y = LINE_SAMPLE_HEIGHT / 2.0;
-
-	w = go_combo_pixmaps_new (1);
-	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
-		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 
-					 LINE_SAMPLE_WIDTH, LINE_SAMPLE_HEIGHT);
-		gdk_pixbuf_fill (pixbuf, 0); /* in case the fill colours have alpha = 0 */
-		is_auto = elements[i] == GO_LINE_MAX;
-		dash_type = is_auto ? default_type : i;
-		if (dash_type != GO_LINE_NONE) {
-			dash = go_line_get_vpath_dash (dash_type, 1.0);
-			path = dash != NULL ? art_vpath_dash (line, dash) : line;
-			svp = art_svp_vpath_stroke (path,
-						    ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_ROUND,
-						    1.0, 4.0, 0.5);
-			if (dash != NULL) {
-				go_line_vpath_dash_free (dash);
-				g_free (path);
-			}
-			go_color_render_svp (0x000000FF, svp, 0, 0, LINE_SAMPLE_WIDTH, LINE_SAMPLE_HEIGHT,
-					     gdk_pixbuf_get_pixels (pixbuf),
-					     gdk_pixbuf_get_rowstride (pixbuf));
-			art_svp_free (svp);
-		}
-		if (is_auto) {
-			/* xgettext : this will appear as 'Automatic (patternname)' */
-			char *name = g_strdup_printf (_("Automatic (%s)"),
-						      _(line_dashes [default_type].label));
-			go_combo_pixmaps_add_element (w, pixbuf, -default_type, name);
-			g_free (name);
-		} else
-			go_combo_pixmaps_add_element (w, pixbuf, dash_type,
-						      _(line_dashes[dash_type].label));
-	}
-	return w;
-}
 
 ArtBpath*
 go_line_build_bpath (double const *x, double const *y, int n)

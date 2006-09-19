@@ -30,82 +30,7 @@
 #include <gtk/gtkcolorsel.h>
 #include <gtk/gtkcolorseldialog.h>
 
-typedef struct _ColorNamePair ColorNamePair;
-
-struct _ColorNamePair {
-	GOColor	color;
-	char const *name;	/* english name - eg. "white" */
-};
-
-static ColorNamePair const default_color_set [] = {
-	{ RGBA_TO_UINT (0x00, 0x00, 0x00, 0xff), N_("black")},
-	{ RGBA_TO_UINT (0x99, 0x33, 0x00, 0xff), N_("light brown")},
-	{ RGBA_TO_UINT (0x33, 0x33, 0x00, 0xff), N_("brown gold")},
-	{ RGBA_TO_UINT (0x00, 0x33, 0x00, 0xff), N_("dark green #2")},
-	{ RGBA_TO_UINT (0x00, 0x33, 0x66, 0xff), N_("navy")},
-	{ RGBA_TO_UINT (0x00, 0x00, 0x80, 0xff), N_("dark blue")},
-	{ RGBA_TO_UINT (0x33, 0x33, 0x99, 0xff), N_("purple #2")},
-	{ RGBA_TO_UINT (0x33, 0x33, 0x33, 0xff), N_("very dark gray")},
-
-	{ RGBA_TO_UINT (0x80, 0x00, 0x00, 0xff), N_("dark red")},
-	{ RGBA_TO_UINT (0xFF, 0x66, 0x00, 0xff), N_("red-orange")},
-	{ RGBA_TO_UINT (0x80, 0x80, 0x00, 0xff), N_("gold")},
-	{ RGBA_TO_UINT (0x00, 0x80, 0x00, 0xff), N_("dark green")},
-	{ RGBA_TO_UINT (0x00, 0x80, 0x80, 0xff), N_("dull blue")},
-	{ RGBA_TO_UINT (0x00, 0x00, 0xFF, 0xff), N_("blue")},
-	{ RGBA_TO_UINT (0x66, 0x66, 0x99, 0xff), N_("dull purple")},
-	{ RGBA_TO_UINT (0x80, 0x80, 0x80, 0xff), N_("dark gray")},
-
-	{ RGBA_TO_UINT (0xFF, 0x00, 0x00, 0xff), N_("red")},
-	{ RGBA_TO_UINT (0xFF, 0x99, 0x00, 0xff), N_("orange")},
-	{ RGBA_TO_UINT (0x99, 0xCC, 0x00, 0xff), N_("lime")},
-	{ RGBA_TO_UINT (0x33, 0x99, 0x66, 0xff), N_("dull green")},
-	{ RGBA_TO_UINT (0x33, 0xCC, 0xCC, 0xff), N_("dull blue #2")},
-	{ RGBA_TO_UINT (0x33, 0x66, 0xFF, 0xff), N_("sky blue #2")},
-	{ RGBA_TO_UINT (0x80, 0x00, 0x80, 0xff), N_("purple")},
-	{ RGBA_TO_UINT (0x96, 0x96, 0x96, 0xff), N_("gray")},
-
-	{ RGBA_TO_UINT (0xFF, 0x00, 0xFF, 0xff), N_("magenta")},
-	{ RGBA_TO_UINT (0xFF, 0xCC, 0x00, 0xff), N_("bright orange")},
-	{ RGBA_TO_UINT (0xFF, 0xFF, 0x00, 0xff), N_("yellow")},
-	{ RGBA_TO_UINT (0x00, 0xFF, 0x00, 0xff), N_("green")},
-	{ RGBA_TO_UINT (0x00, 0xFF, 0xFF, 0xff), N_("cyan")},
-	{ RGBA_TO_UINT (0x00, 0xCC, 0xFF, 0xff), N_("bright blue")},
-	{ RGBA_TO_UINT (0x99, 0x33, 0x66, 0xff), N_("red purple")},
-	{ RGBA_TO_UINT (0xC0, 0xC0, 0xC0, 0xff), N_("light gray")},
-
-	{ RGBA_TO_UINT (0xFF, 0x99, 0xCC, 0xff), N_("pink")},
-	{ RGBA_TO_UINT (0xFF, 0xCC, 0x99, 0xff), N_("light orange")},
-	{ RGBA_TO_UINT (0xFF, 0xFF, 0x99, 0xff), N_("light yellow")},
-	{ RGBA_TO_UINT (0xCC, 0xFF, 0xCC, 0xff), N_("light green")},
-	{ RGBA_TO_UINT (0xCC, 0xFF, 0xFF, 0xff), N_("light cyan")},
-	{ RGBA_TO_UINT (0x99, 0xCC, 0xFF, 0xff), N_("light blue")},
-	{ RGBA_TO_UINT (0xCC, 0x99, 0xFF, 0xff), N_("light purple")},
-	{ RGBA_TO_UINT (0xFF, 0xFF, 0xFF, 0xff), N_("white")},
-
-	{ 0, NULL},
-
-	/* Disable these for now, they are mostly repeats */
-	{ RGBA_TO_UINT (0x99, 0x99, 0xFF, 0xff), N_("purplish blue")},
-	{ RGBA_TO_UINT (0x99, 0x33, 0x66, 0xff), N_("red purple")},
-	{ RGBA_TO_UINT (0xFF, 0xFF, 0xCC, 0xff), N_("light yellow")},
-	{ RGBA_TO_UINT (0xCC, 0xFF, 0xFF, 0xff), N_("light blue")},
-	{ RGBA_TO_UINT (0x66, 0x00, 0x66, 0xff), N_("dark purple")},
-	{ RGBA_TO_UINT (0xFF, 0x80, 0x80, 0xff), N_("pink")},
-	{ RGBA_TO_UINT (0x00, 0x66, 0xCC, 0xff), N_("sky blue")},
-	{ RGBA_TO_UINT (0xCC, 0xCC, 0xFF, 0xff), N_("light purple")},
-
-	{ RGBA_TO_UINT (0x00, 0x00, 0x80, 0xff), N_("dark blue")},
-	{ RGBA_TO_UINT (0xFF, 0x00, 0xFF, 0xff), N_("magenta")},
-	{ RGBA_TO_UINT (0xFF, 0xFF, 0x00, 0xff), N_("yellow")},
-	{ RGBA_TO_UINT (0x00, 0xFF, 0xFF, 0xff), N_("cyan")},
-	{ RGBA_TO_UINT (0x80, 0x00, 0x80, 0xff), N_("purple")},
-	{ RGBA_TO_UINT (0x80, 0x00, 0x00, 0xff), N_("dark red")},
-	{ RGBA_TO_UINT (0x00, 0x80, 0x80, 0xff), N_("dull blue")},
-	{ RGBA_TO_UINT (0x00, 0x00, 0xFF, 0xff), N_("blue")},
-
-	{ 0, NULL},
-};
+extern GONamedColor default_color_set [];
 
 typedef struct {
 	int n_swatches;
@@ -158,28 +83,6 @@ get_color (int n_swatches, GOColorGroup *color_group, int index)
 		return default_color_set[index].color;
 	else
 		return color_group->history[index - (n_swatches - GO_COLOR_GROUP_HISTORY_SIZE)];
-}
-
-GOColor 
-go_color_selector_get_color (GOSelector *selector, gboolean *is_auto)
-{
-	GOColorSelectorState *state;
-	int index;
-	gboolean flag;
-
-	g_return_val_if_fail (GO_IS_SELECTOR (selector), RGB_WHITE);
-	
-	index = go_selector_get_active (selector, &flag);
-	state = go_selector_get_user_data (selector);
-	if (is_auto != NULL)
-		*is_auto = flag;
-
-	/* In case default_color is in palette history and its index was moved by the
-	 * successive color choices. */
-	if (flag)
-		return state->default_color;
-	
-	return get_color (state->n_swatches, state->color_group, index);
 }
 
 static cairo_status_t
@@ -361,6 +264,18 @@ go_color_selector_drag_fill_icon (GOSelector *selector, GdkPixbuf *pixbuf)
 	gdk_pixbuf_fill (pixbuf, color);
 }
 
+/**
+ * go_color_selector_new:
+ * @initial_color: initially selected color
+ * @default_color: automatic color
+ * @color_group: a #GOColorGroup name
+ * 
+ * Creates a new color selector, with @initial_color selected.
+ * Palette will contain an automatic button, which can be used to 
+ * select @default_color. This widget supports color drag and drop.
+ *
+ * returns a #GtkWidget.
+ **/
 GtkWidget *
 go_color_selector_new (GOColor initial_color, 
 		       GOColor default_color,
@@ -402,6 +317,16 @@ go_color_selector_new (GOColor initial_color,
 	return selector;
 }
 
+/**
+ * go_color_selector_set_color:
+ * @selector: a color selector
+ * @color: a color
+ *
+ * Sets current selection to @color. An "activate" signal will be emited.
+ * Selector has to be a selector created via @go_color_selector_new.
+ *
+ * returns TRUE if selection changed.
+ **/
 gboolean
 go_color_selector_set_color (GOSelector *selector, GOColor color)
 {
@@ -417,3 +342,37 @@ go_color_selector_set_color (GOSelector *selector, GOColor color)
 	
 	return go_selector_set_active (selector, index);
 }
+
+
+/**
+ * go_color_selector_get_color:
+ * @selector: a #GOSelector
+ * 
+ * Retrieves current color selection of a #GOSelector 
+ * created via @go_color_selector_new. @is_auto will be set to
+ * TRUE if current selection was set by clicking on automatic palette item.
+ *
+ * return current color selection.
+ **/
+GOColor 
+go_color_selector_get_color (GOSelector *selector, gboolean *is_auto)
+{
+	GOColorSelectorState *state;
+	int index;
+	gboolean flag;
+
+	g_return_val_if_fail (GO_IS_SELECTOR (selector), RGB_WHITE);
+	
+	index = go_selector_get_active (selector, &flag);
+	state = go_selector_get_user_data (selector);
+	if (is_auto != NULL)
+		*is_auto = flag;
+
+	/* In case default_color is in palette history and its index was moved by the
+	 * successive color choices. */
+	if (flag)
+		return state->default_color;
+	
+	return get_color (state->n_swatches, state->color_group, index);
+}
+

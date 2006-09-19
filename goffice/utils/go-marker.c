@@ -25,8 +25,7 @@
 #include <goffice/utils/go-math.h>
 
 #ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/go-combo-color.h>
-#include <goffice/gtk/go-combo-pixmaps.h>
+#include <goffice/gtk/go-palette.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 #include <glade/glade-xml.h>
 #endif
@@ -258,17 +257,6 @@ static GObjectClass *marker_parent_klass;
 
 #ifdef GOFFICE_WITH_GTK
 static GdkPixbuf *
-new_blank_pixbuf (GOMarker *marker, guint size)
-{
-	int offset = ceil ((double)size * MARKER_OUTLINE_WIDTH / 2.0);
-	int pixbuf_size = size + 1 + 2 * offset;
-	GdkPixbuf *res = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
-					    pixbuf_size, pixbuf_size);
-	gdk_pixbuf_fill (res, 0); /* in case the fill colours have alpha = 0 */
-	return res;
-}
-
-static GdkPixbuf *
 marker_create_pixbuf_with_size (GOMarker *marker, guint size)
 {
 	double scaling[6], translation[6], affine[6];
@@ -288,7 +276,6 @@ marker_create_pixbuf_with_size (GOMarker *marker, guint size)
 
 	/* FIXME : markers look bad due to grey outline */
 
-	/* keep in sync with new_blank_pixbuf */
 	offset = ceil ((double)size * MARKER_OUTLINE_WIDTH / 2.0);
 	pixbuf_size = size + 1 + 2 * offset;
 	half_size = (double)size / 2.0;
@@ -543,56 +530,3 @@ go_marker_new (void)
 GSF_CLASS (GOMarker, go_marker,
 	   go_marker_class_init, go_marker_init,
 	   G_TYPE_OBJECT)
-
-/*---------------------------------------------------------------------------*/
-
-#ifdef GOFFICE_WITH_GTK
-gpointer
-go_marker_selector (GOColor outline_color, GOColor fill_color,
-		    GOMarkerShape default_shape)
-{
-	static const GOMarkerShape elements[] = {
-		GO_MARKER_NONE,		GO_MARKER_TRIANGLE_UP,	GO_MARKER_BUTTERFLY,
-		GO_MARKER_TRIANGLE_LEFT, GO_MARKER_DIAMOND,	GO_MARKER_TRIANGLE_RIGHT,
-		GO_MARKER_BAR,		GO_MARKER_TRIANGLE_DOWN, GO_MARKER_HOURGLASS,
-		GO_MARKER_HALF_BAR,	GO_MARKER_SQUARE,	GO_MARKER_CIRCLE,
-		GO_MARKER_X,		GO_MARKER_CROSS,	GO_MARKER_ASTERISK,
-		GO_MARKER_MAX /* fill with auto */
-	};
-
-	unsigned	 i;
-	GOComboPixmaps	*w;
-	GOMarker	*marker = go_marker_new ();
-
-	go_marker_set_fill_color (marker, fill_color);
-	go_marker_set_outline_color (marker, outline_color);
-	go_marker_set_size (marker, 15);
-
-	w = go_combo_pixmaps_new (4);
-	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
-		GOMarkerShape shape = elements[i];
-		gboolean is_auto = (shape == GO_MARKER_MAX);
-		GdkPixbuf *pixbuf;
-
-		go_marker_set_shape (marker, is_auto ? default_shape : shape);
-		pixbuf = go_marker_get_pixbuf (marker, 1.0);
-		if (pixbuf == NULL) /* handle none */
-			pixbuf = new_blank_pixbuf (marker, marker->size);
-		else	/* add_element absorbs ref */
-			g_object_ref (pixbuf);
-		if (is_auto) {
-			/* xgettext : this will appear as 'Automatic (shapename)' */
-			char *name = g_strdup_printf (_("Automatic (%s)"),
-				_(marker_shapes [default_shape].name));
-			go_combo_pixmaps_add_element (w, pixbuf,
-				-default_shape, name);
-			g_free (name);
-		} else
-			go_combo_pixmaps_add_element (w, pixbuf,
-				shape, _(marker_shapes [shape].name));
-	}
-	g_object_unref (marker);
-
-	return GTK_WIDGET (w);
-}
-#endif /* GOFFICE_WITH_GTK */

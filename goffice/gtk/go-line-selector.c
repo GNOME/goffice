@@ -57,6 +57,15 @@ go_line_dash_palette_render_func (cairo_t *cr,
 	cairo_stroke (cr);
 }
 
+/**
+ * go_line_dash_selector_new:
+ * @initial_type: line type initially selected
+ * @default_type: automatic line type
+ *
+ * Creates a new line type selector.
+ *
+ * Returns a new #GtkWidget.
+ **/
 GtkWidget *
 go_line_dash_selector_new (GOLineDashType initial_type,
 			   GOLineDashType default_type)

@@ -2,7 +2,7 @@
 /*
  * go-line.h : 
  *
- * Copyright (C) 2004 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
+ * Copyright (C) 2004-2006 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -47,8 +47,6 @@ ArtVpathDash 	*go_line_get_vpath_dash 	(GOLineDashType type, double scale);
 ArtVpath 	*go_line_clip_vpath		(ArtVpath const *path, GogViewAllocation const *bbox);
 ArtVpath 	*go_line_dash_vpath 		(ArtVpath const *path, ArtVpathDash const *dash, 
 						 GogViewAllocation const *bbox);
-
-gpointer	 go_line_dash_selector		(GOLineDashType default_type);
 
 ArtBpath *go_line_build_bpath (double const *x, double const *y, int n);
 ArtVpath *go_line_build_vpath (double const *x, double const *y, int n);

@@ -39,6 +39,11 @@
 
 G_BEGIN_DECLS
 
+typedef struct {
+	GOColor		 color;
+	char const 	*name;	/* english name - eg. "white" */
+} GONamedColor;
+
 /*
   Some convenient macros for drawing into an RGB buffer.
   Beware of side effects, code-bloat, and all of the other classic

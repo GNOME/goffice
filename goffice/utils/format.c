@@ -1390,7 +1390,7 @@ find_decimal_char (char const *str)
 		if (*str == ',')
 			continue;
 
-		switch (*str){
+		switch ((unsigned char) *str){
 			/* These ones do not have any argument */
 		case '#': case '?': case '0': case '%':
 		case '-': case '+': case ')': case ':': case '$':

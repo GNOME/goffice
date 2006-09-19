@@ -41,7 +41,6 @@
 
 #include <string.h>
 
-typedef struct _ColorNamePair ColorNamePair;
 struct _GOColorPalette {
 	GtkVBox	base;
 
@@ -56,7 +55,7 @@ struct _GOColorPalette {
 	GtkTooltips *tip;
 
 	/* The table with our default color names */
-	ColorNamePair const *default_set;
+	GONamedColor const *default_set;
 };
 
 typedef struct {
@@ -77,12 +76,7 @@ enum {
 	LAST_SIGNAL
 };
 
-struct _ColorNamePair {
-	GOColor	color;
-	char const *name;	/* english name - eg. "white" */
-};
-
-static ColorNamePair const default_color_set [] = {
+GONamedColor const default_color_set [] = {
 	{ RGBA_TO_UINT (0x00, 0x00, 0x00, 0xff), N_("black")},
 	{ RGBA_TO_UINT (0x99, 0x33, 0x00, 0xff), N_("light brown")},
 	{ RGBA_TO_UINT (0x33, 0x33, 0x00, 0xff), N_("brown gold")},
@@ -249,7 +243,7 @@ GSF_CLASS (GOColorPalette, go_color_palette,
  * Utility function
  */
 static gboolean
-color_in_palette (ColorNamePair const *set, GOColor color)
+color_in_palette (GONamedColor const *set, GOColor color)
 {
 	int i;
 
@@ -341,7 +335,7 @@ cb_swatch_key_press (GtkBin *button, GdkEventKey *event, GOColorPalette *pal)
  */
 static GtkWidget *
 go_color_palette_button_new (GOColorPalette *pal, GtkTable* table, GtkTooltips *tip,
-			  ColorNamePair const * color_name, gint col, gint row)
+			     GONamedColor const * color_name, gint col, gint row)
 {
         GtkWidget *button, *swatch, *box;
 	GdkColor   gdk;
@@ -427,7 +421,7 @@ static GtkWidget *
 go_color_palette_setup (GOColorPalette *pal,
 		     char const *no_color_label,
 		     int cols, int rows,
-		     ColorNamePair const *color_names)
+		     GONamedColor const *color_names)
 {
 	GtkWidget	*w, *table;
 	GtkTooltips	*tip;
@@ -466,7 +460,7 @@ custom_colors :
 	if (col > 0)
 		row++;
 	for (col = 0; col < cols && col < GO_COLOR_GROUP_HISTORY_SIZE; col++) {
-		ColorNamePair color_name = { 0, N_("custom") };
+		GONamedColor color_name = { 0, N_("custom") };
 		color_name.color = pal->group->history [col];
 		pal->swatches [col] = go_color_palette_button_new (pal,
 			GTK_TABLE (table), GTK_TOOLTIPS (tip),
@@ -524,7 +518,7 @@ go_color_palette_new (char const *no_color_label,
 	GOColorPalette *pal;
 	int const cols = 8;
 	int const rows = 6;
-	ColorNamePair const *color_names = default_color_set;
+	GONamedColor const *color_names = default_color_set;
 
 	pal = g_object_new (GO_COLOR_PALETTE_TYPE, NULL);
 
@@ -663,7 +657,7 @@ go_color_palette_make_menu (char const *no_color_label,
 	int cols = 8;
 	int rows = 6;
 	int col, row, pos, table_row = 0;
-	ColorNamePair const *color_names = default_color_set;
+	GONamedColor const *color_names = default_color_set;
         GtkWidget *w, *submenu;
 
 	submenu = g_object_new (go_menu_color_get_type (), NULL);

@@ -80,10 +80,6 @@ GOMarker * 	 go_marker_new 			(void);
 #ifdef GOFFICE_WITH_GTK
 GdkPixbuf       *go_marker_get_pixbuf		(GOMarker *m, double scale);
 GdkPixbuf       *go_marker_get_pixbuf_with_size (GOMarker *m, guint size);
-
-gpointer 	 go_marker_selector 		(GOColor outline_color, 
-						 GOColor fill_color,
-						 GOMarkerShape default_shape);
 #endif
 	
 G_END_DECLS

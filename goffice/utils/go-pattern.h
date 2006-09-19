@@ -73,11 +73,6 @@ void		 go_pattern_render_svp 	 (GOPattern const *pat, ArtSVP const *svp,
 guint8 const 	*go_pattern_get_pattern  (GOPattern const *pat);
 char 		*go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height);
 
-#ifdef GOFFICE_WITH_GTK
-gpointer	 go_pattern_selector   (GOColor fore, GOColor back,
-					GOPatternType default_pat);
-#endif
-
 G_END_DECLS
 
 #endif /* GO_PATTERN_H */
