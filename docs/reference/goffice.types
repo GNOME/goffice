@@ -52,7 +52,6 @@ gog_reg_curve_get_type
 gog_data_allocator_get_type
 gog_dataset_get_type
 gog_renderer_get_type
-gog_renderer_pixbuf_get_type
 gog_control_foocanvas_get_type
 go_data_get_type
 go_data_scalar_get_type
