@@ -157,7 +157,7 @@ go_filename_simplify (const char *filename, GODotDot dotdot,
 					 */
 					*q = 0;
 					isdir = (g_lstat (simp, &statbuf) == 0) &&
-						1;//S_ISDIR (statbuf.st_mode);
+						1;/*S_ISDIR (statbuf.st_mode);*/
 					*q = savec;
 					break;
 				}
