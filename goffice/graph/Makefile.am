@@ -71,6 +71,11 @@ libgoffice_graph_la_HEADERS = \
 	gog-renderer-impl.h		\
 	gog-renderer-cairo.h
 
+if GOFFICE_USE_SVG_RENDERER
+  libgoffice_graph_la_SOURCES += gog-renderer-svg.c
+  libgoffice_graph_la_HEADERS += gog-renderer-svg.h
+endif
+
 if WITH_GTK
   libgoffice_graph_la_SOURCES += gog-control-foocanvas.c	\
 				 gog-renderer-gnome-print.c	\

@@ -29,6 +29,9 @@
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-math.h>
+#ifndef GOG_RENDERER_CAIRO_WITH_SVG
+#include <goffice/graph/gog-renderer-svg.h>
+#endif
 
 #include <gsf/gsf.h>
 #include <gsf/gsf-impl-utils.h>
@@ -924,6 +927,8 @@ gog_renderer_new_for_format (GogGraph *graph, GOImageFormat format)
 		case GO_IMAGE_FORMAT_SVG:
 #ifdef GOG_RENDERER_CAIRO_WITH_SVG
 			type = GOG_RENDERER_CAIRO_TYPE;
+#else
+			type = GOG_RENDERER_SVG_TYPE;
 #endif
 			break;
 		case GO_IMAGE_FORMAT_PDF:

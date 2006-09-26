@@ -21,6 +21,8 @@
 #ifndef GOG_RENDERER_SVG_H
 #define GOG_RENDERER_SVG_H
 
+#warning Using old SVG renderer /* Please upgrade to cairo 1.2.0 */
+
 #include <goffice/graph/goffice-graph.h>
 
 #include <gsf/gsf.h>

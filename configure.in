@@ -94,7 +94,7 @@ goffice_reqs="
 	pango			>= 1.8.1
 	pangoft2		>= 1.8.1
 	libart-2.0		>= 2.3.11
-	cairo			>= 1.2.0
+	cairo			>= 1.0.0
 "
 goffice_gtk_reqs="
 	gtk+-2.0		>= 2.6.0
@@ -154,6 +154,12 @@ AM_CONDITIONAL(WITH_GTK,   $goffice_with_gtk)
 AM_CONDITIONAL(WITH_GNOME, $goffice_with_gnome)
 
 AC_DEFINE(GOFFICE_WITH_CAIRO, 1, [Goffice uses Cairo])
+
+PKG_CHECK_MODULES(CAIRO_SVG, [cairo-svg >= 1.2.0],
+                  [goffice_use_svg_renderer=false],
+                  [goffice_use_svg_renderer=true
+                   AC_MSG_RESULT(no)])
+AM_CONDITIONAL(GOFFICE_USE_SVG_RENDERER, $goffice_use_svg_renderer)
 
 EXTRA_LIBS=
 EXTRA_INCLUDES=

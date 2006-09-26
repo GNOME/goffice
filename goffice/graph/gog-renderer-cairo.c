@@ -711,7 +711,7 @@ grc_gsf_gdk_pixbuf_save (const gchar *buf,
 	return ok;
 }
 
-static cairo_status_t
+G_GNUC_UNUSED static cairo_status_t
 grc_cairo_write_func (void *closure,
 		  const unsigned char *data,
 		  unsigned int length)
@@ -750,6 +750,7 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 					surface = cairo_pdf_surface_create_for_stream 
 						(grc_cairo_write_func, 
 						 output, width_in_pts, height_in_pts);
+					cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
 					break;
 #else
 					g_warning ("[GogRendererCairo::export_image] cairo PDF backend missing");
@@ -760,6 +761,7 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 					surface = cairo_ps_surface_create_for_stream 
 						(grc_cairo_write_func, 
 						 output, width_in_pts, height_in_pts);
+					cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
 					break;
 #else
 					g_warning ("[GogRendererCairo::export_image] cairo PS backend missing");
@@ -770,6 +772,7 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 					surface = cairo_svg_surface_create_for_stream 
 						(grc_cairo_write_func, 
 						 output, width_in_pts, height_in_pts);
+					cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
 					break;
 #else
 					g_warning ("[GogRendererCairo::export_image] cairo SVG backend missing");
@@ -778,7 +781,6 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 				default:
 					break;
 			}
-			cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
 			crend->cairo = cairo_create (surface);
 			cairo_surface_destroy (surface);
 			cairo_set_line_join (crend->cairo, CAIRO_LINE_JOIN_ROUND);

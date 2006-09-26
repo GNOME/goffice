@@ -1020,9 +1020,7 @@ gog_graph_get_supported_image_formats (void)
 #endif
 		GO_IMAGE_FORMAT_JPG,
 		GO_IMAGE_FORMAT_PNG,
-#ifdef GOG_RENDERER_CAIRO_WITH_SVG
-		GO_IMAGE_FORMAT_SVG,
-#endif
+		GO_IMAGE_FORMAT_SVG
 	};
 	GSList *list = NULL;
 	unsigned i;

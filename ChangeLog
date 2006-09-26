@@ -1,3 +1,15 @@
+2006-09-26  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* configure.in: lower cairo requirement to 1.0. Use SVG renderer if
+	cairo SVG backend is not available.
+	* goffice/graph/Makefile.am: ditto.
+	* goffice/graph/gog-graph.c (gog_graph_get_supported_image_formats): SVG 
+	always supported.
+	* goffice/graph/gog-renderer-cairo.c
+	(gog_renderer_cairo_export_image): move
+	cairo_surface_set_fallback_resolution inside #ifdef statements. This
+	is a new API only available in cairo >= 1.2.0, as PDF and PS backends.
+	
 2006-09-18  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-style-prefs.glade: some tweaks. Use only two color
