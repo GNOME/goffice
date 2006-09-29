@@ -49,6 +49,7 @@ typedef enum {
 	GOG_STYLE_MARKER	= 1 << 3,
 	GOG_STYLE_FONT		= 1 << 4,
 	GOG_STYLE_TEXT_LAYOUT	= 1 << 5,
+	GOG_STYLE_INTERPOLATION	= 1 << 6,
 	GOG_STYLE_ALL		= 0x1F
 } GogStyleFlag;
 
@@ -91,6 +92,10 @@ struct _GogStyle {
 	GogStyleFlag	disable_theming;
 
 	GogStyleLine	outline, line;
+	struct {
+		GOLineInterpolation type;
+		gboolean 	 auto_type;
+	} interpolation;
 	struct {
 		GogFillStyle	type;
 		gboolean	auto_fore, auto_back;	/* share between pattern and gradient */

@@ -52,6 +52,20 @@ static struct {
 	{ GO_LINE_DASH_DOT,	N_("Dash dot"),		"dash-dot",	&line_dash_dot_desc },
 	{ GO_LINE_DASH_DOT_DOT,	N_("Dash dot dot"),	"dash-dot-dot",	&line_dash_dot_dot_desc }
 };
+
+static struct {
+	GOLineInterpolation type;
+	char const *label;
+	char const *name;
+} line_interpolations[GO_LINE_INTERPOLATION_MAX] = 
+{
+	{ GO_LINE_INTERPOLATION_LINEAR,			N_("Linear"), 				"linear" },
+	{ GO_LINE_INTERPOLATION_SPLINE,			N_("Spline"),				"spline" },
+	{ GO_LINE_INTERPOLATION_STEP_START,		N_("Step at start"), 		"step-start" },
+	{ GO_LINE_INTERPOLATION_STEP_END,			N_("Step at end"),			"step-end" },
+	{ GO_LINE_INTERPOLATION_STEP_CENTER_X,	N_("Step at center"),		"step-center-x" },
+	{ GO_LINE_INTERPOLATION_STEP_CENTER_Y,	N_("Step to mean"),			"step-center-y" }
+};
 	
 GOLineDashType
 go_line_dash_from_str (char const *name)
@@ -77,6 +91,36 @@ go_line_dash_as_str (GOLineDashType type)
 	for (i = 0; i < GO_LINE_MAX; i++) {
 		if (line_dashes[i].type == type) {
 			ret = line_dashes[i].name;
+			break;
+		}
+	}
+	return ret;
+}
+	
+GOLineInterpolation
+go_line_interpolation_from_str (char const *name)
+{
+	unsigned i;
+	GOLineInterpolation ret = GO_LINE_INTERPOLATION_LINEAR;
+
+	for (i = 0; i < GO_LINE_INTERPOLATION_MAX; i++) {
+		if (strcmp (line_interpolations[i].name, name) == 0) {
+			ret = line_interpolations[i].type;
+			break;
+		}
+	}
+	return ret;
+}
+
+char const *
+go_line_interpolation_as_str (GOLineInterpolation type)
+{
+	unsigned i;
+	char const *ret = "linear";
+
+	for (i = 0; i < GO_LINE_MAX; i++) {
+		if (line_interpolations[i].type == type) {
+			ret = line_interpolations[i].name;
 			break;
 		}
 	}

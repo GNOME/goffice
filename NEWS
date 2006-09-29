@@ -18,6 +18,8 @@ Ivan Wong :
 
 Jean Brefort:
 	* Add a half pie plots.
+	* Allow to chose an interpolation type for each series in
+	scatter plots.
 
 Morten:
 	* Make text combos work in overflowed toolbars.  [#157901]

@@ -38,8 +38,21 @@ typedef enum {
 	GO_LINE_MAX
 } GOLineDashType;
 
+typedef enum {
+	GO_LINE_INTERPOLATION_LINEAR,
+	GO_LINE_INTERPOLATION_SPLINE,
+	GO_LINE_INTERPOLATION_STEP_START,
+	GO_LINE_INTERPOLATION_STEP_END,
+	GO_LINE_INTERPOLATION_STEP_CENTER_X,
+	GO_LINE_INTERPOLATION_STEP_CENTER_Y,
+	GO_LINE_INTERPOLATION_MAX
+} GOLineInterpolation;
+
 GOLineDashType	 go_line_dash_from_str		(char const *name);
 char const 	*go_line_dash_as_str		(GOLineDashType type);
+
+GOLineInterpolation	 go_line_interpolation_from_str		(char const *name);
+char const 	*go_line_interpolation_as_str		(GOLineInterpolation type);
 
 void 		 go_line_vpath_dash_free	(ArtVpathDash *dash);
 ArtVpathDash 	*go_line_get_vpath_dash 	(GOLineDashType type, double scale);

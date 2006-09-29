@@ -1,3 +1,15 @@
+2006-09-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-style-prefs.glade: add an interpolation type
+	selector.
+	* goffice/graph/gog-style.c: add interopolation type to GogStyle.
+	* goffice/graph/gog-style.h: ditto.
+	* goffice/utils/go-line.c: add support for general interpolation
+	types.
+	* goffice/utils/go-line.h: ditto.
+	* plugins/plot_xy/gog-xy.c: use interpolation types in series.
+	* plugins/plot_xy/gog-xy.h: ditto.
+
 2006-09-26  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* configure.in: lower cairo requirement to 1.0. Use SVG renderer if

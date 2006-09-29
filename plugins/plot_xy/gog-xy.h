@@ -27,20 +27,6 @@
 
 G_BEGIN_DECLS
 
-typedef enum {
-	GOG_XY_INTERPOLATION_NONE,
-	GOG_XY_INTERPOLATION_LINEAR,
-	GOG_XY_INTERPOLATION_SPLINE,
-	GOG_XY_INTERPOLATION_STEP,
-} GogXYInterpolation;
-
-enum {
-	GOG_XY_STEP_START,
-	GOG_XY_STEP_END,
-	GOG_XY_STEP_CENTER_X,
-	GOG_XY_STEP_CENTER_Y,
-};
-
 typedef struct {
 	GogPlot	base;
 
@@ -53,8 +39,8 @@ typedef struct {
 typedef struct {
 	Gog2DPlot	base;
 	gboolean	default_style_has_markers;
-	GogXYInterpolation interpolation;
-	int interp_subtype;
+	gboolean	default_style_has_lines;
+	GOLineInterpolation interpolation;
 } GogXYPlot;
 
 typedef struct {

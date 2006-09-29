@@ -272,42 +272,16 @@ gog_xy_set_property (GObject *obj, guint param_id,
 		xy->default_style_has_markers = g_value_get_boolean (value);
 		break;
 	case GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES: {
-		gboolean b = g_value_get_boolean (value);
-		if (!b)
-			xy->interpolation = GOG_XY_INTERPOLATION_NONE;
-		else if (xy->interpolation == GOG_XY_INTERPOLATION_NONE)
-			xy->interpolation = GOG_XY_INTERPOLATION_LINEAR;
+		xy->default_style_has_lines = g_value_get_boolean (value);
 		break;
 	}
 	case GOG_XY_PROP_USE_SPLINES:
 		if (g_value_get_boolean (value))
-			xy->interpolation = GOG_XY_INTERPOLATION_SPLINE;
+			xy->interpolation = GO_LINE_INTERPOLATION_SPLINE;
 		break;
 	case GOG_XY_PROP_INTERPOLATION: {
 		char const *s = g_value_get_string (value);
-		if (!strcmp (s, "none"))
-			xy->interpolation = GOG_XY_INTERPOLATION_NONE;
-		else if (!strcmp (s, "linear"))
-			xy->interpolation = GOG_XY_INTERPOLATION_LINEAR;
-		else if (!strcmp (s, "spline"))
-			xy->interpolation = GOG_XY_INTERPOLATION_SPLINE;
-		else if (!strncmp (s, "step", 4)) {
-			xy->interpolation = GOG_XY_INTERPOLATION_STEP;
-			s += 5;
-			if (!strcmp (s, "start"))
-				xy->interp_subtype = GOG_XY_STEP_START;
-			else if (!strcmp (s, "end"))
-				xy->interp_subtype = GOG_XY_STEP_END;
-			else if (!strcmp (s, "center-x"))
-				xy->interp_subtype = GOG_XY_STEP_CENTER_X;
-			else if (!strcmp (s, "center-y"))
-				xy->interp_subtype = GOG_XY_STEP_CENTER_Y;
-			else
-				g_warning ("Invalid value \"%s\" for subtype of a stepped plot", s);
-			break;
-		}
-		else
-			g_warning ("Invalid value \"%s\" for property \"interpolation\" of a scatter plot", s);
+		xy->interpolation = go_line_interpolation_from_str (s);;
 		break;
 	}
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -324,45 +298,14 @@ gog_xy_get_property (GObject *obj, guint param_id,
 		g_value_set_boolean (value, xy->default_style_has_markers);
 		break;
 	case GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES:
-		g_value_set_boolean (value, xy->interpolation != GOG_XY_INTERPOLATION_NONE);
+		g_value_set_boolean (value, xy->default_style_has_lines);
 		break;
 	case GOG_XY_PROP_USE_SPLINES:
-		g_value_set_boolean (value, xy->interpolation == GOG_XY_INTERPOLATION_SPLINE);
+		g_value_set_boolean (value, xy->interpolation == GO_LINE_INTERPOLATION_SPLINE);
 		break;
-	case GOG_XY_PROP_INTERPOLATION: {
-		switch (xy->interpolation) {
-		case GOG_XY_INTERPOLATION_NONE:
-			g_value_set_string (value, "none");
-			break;
-		case GOG_XY_INTERPOLATION_LINEAR:
-			g_value_set_string (value, "linear");
-			break;
-		case GOG_XY_INTERPOLATION_SPLINE:
-			g_value_set_string (value, "spline");
-			break;
-		case GOG_XY_INTERPOLATION_STEP: {
-			switch (xy->interp_subtype) {
-			case GOG_XY_STEP_START:
-				g_value_set_string (value, "step-start");
-				break;
-			case GOG_XY_STEP_END:
-				g_value_set_string (value, "step-end");
-				break;
-			case GOG_XY_STEP_CENTER_X:
-				g_value_set_string (value, "step-center-x");
-				break;
-			case GOG_XY_STEP_CENTER_Y:
-				g_value_set_string (value, "step-center-y");
-				break;
-			default:
-				g_assert_not_reached ();
-				break;
-			}
-			break;
-		}
-		}
+	case GOG_XY_PROP_INTERPOLATION:
+		g_value_set_string (value, go_line_interpolation_as_str (xy->interpolation));
 		break;
-	}
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
@@ -415,7 +358,7 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 		};
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER;
+		plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER | GOG_STYLE_INTERPOLATION;
 	}
 }
 
@@ -423,7 +366,7 @@ static void
 gog_xy_plot_init (GogXYPlot *xy)
 {
 	xy->default_style_has_markers = TRUE;
-	xy->interpolation = GOG_XY_INTERPOLATION_LINEAR;
+	xy->default_style_has_lines = TRUE;
 }
 
 GSF_DYNAMIC_CLASS (GogXYPlot, gog_xy_plot,
@@ -623,7 +566,6 @@ bubble_draw_circle (GogView *view, double x, double y, double radius)
 	path[0].x = path[MAX_ARC_SEGMENTS].x = x + radius;
 	path[0].y = path[MAX_ARC_SEGMENTS].y = y;
 	path[0].code = ART_MOVETO;
-#warning what about small bubbles. With a very small radius, libart emits lot of warnings.
 	if (radius < 1.) radius = 1.;
 	for (i = 1, theta = dt; i < MAX_ARC_SEGMENTS; i++, theta += dt) {
 		path[i].x = x + radius * cos (theta);
@@ -809,22 +751,25 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					gog_axis_map_to_view (y_map, y_vals[i]):
 					go_nan;
 			}
-			switch (GOG_XY_PLOT (view->model)->interpolation) {
-			case GOG_XY_INTERPOLATION_LINEAR: {
+			switch (style->interpolation.type) {
+			case GO_LINE_INTERPOLATION_LINEAR: {
 				ArtVpath *path;
 				path = go_line_build_vpath (x_splines, y_splines, n);
 				gog_renderer_draw_path (view->renderer, path);
 				art_free (path);
 				break;
 			}
-			case GOG_XY_INTERPOLATION_SPLINE: {
+			case GO_LINE_INTERPOLATION_SPLINE: {
 				ArtBpath *path;
 				path = go_line_build_bpath (x_splines, y_splines, n);
 				gog_renderer_draw_bezier_path (view->renderer, path);
 				art_free (path);
 				break;
 			}
-			case GOG_XY_INTERPOLATION_STEP: {
+			case GO_LINE_INTERPOLATION_STEP_START:
+			case GO_LINE_INTERPOLATION_STEP_END:
+			case GO_LINE_INTERPOLATION_STEP_CENTER_X:
+			case GO_LINE_INTERPOLATION_STEP_CENTER_Y: {
 				unsigned i, j;
 				ArtVpath *path;
 				gboolean b = FALSE;
@@ -834,7 +779,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				if (n == i)
 					break;
 				path = art_new (ArtVpath,
-					((GOG_XY_PLOT (view->model)->interp_subtype <= GOG_XY_STEP_END)?
+					((style->interpolation.type <= GO_LINE_INTERPOLATION_STEP_END)?
 					2 * n + 1: 3 * n + 1));
 				path[0].code = ART_MOVETO;
 				path[0].x = x_splines[i];
@@ -852,8 +797,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 						path[j].x = x_splines[i];
 						path[j++].y = y_splines[i];
 						b = FALSE;
-					} else switch (GOG_XY_PLOT (view->model)->interp_subtype) {
-					case GOG_XY_STEP_START:
+					} else switch (style->interpolation.type) {
+					case GO_LINE_INTERPOLATION_STEP_START:
 						path[j].code = ART_LINETO;
 						path[j].x = x_splines[i];
 						path[j++].y = y_splines[i-1];
@@ -861,7 +806,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 						path[j].x = x_splines[i];
 						path[j++].y = y_splines[i];
 						break;
-					case GOG_XY_STEP_END:
+					case GO_LINE_INTERPOLATION_STEP_END:
 						path[j].code = ART_LINETO;
 						path[j].x = x_splines[i-1];
 						path[j++].y = y_splines[i];
@@ -869,7 +814,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 						path[j].x = x_splines[i];
 						path[j++].y = y_splines[i];
 						break;
-					case GOG_XY_STEP_CENTER_X:
+					case GO_LINE_INTERPOLATION_STEP_CENTER_X:
 						path[j].code = ART_LINETO;
 						path[j].x = path[j+1].x = (x_splines[i-1] + x_splines[i]) / 2.;
 						path[j++].y = y_splines[i-1];
@@ -879,7 +824,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 						path[j].x = x_splines[i];
 						path[j++].y = y_splines[i];
 						break;
-					case GOG_XY_STEP_CENTER_Y:
+					case GO_LINE_INTERPOLATION_STEP_CENTER_Y:
 						path[j].code = ART_LINETO;
 						path[j].x = x_splines[i-1];
 						path[j++].y = (y_splines[i-1] + y_splines[i]) / 2.;
@@ -1230,9 +1175,12 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 	    style->marker.auto_shape) 
 		go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 
-	if (!plot->interpolation &&
+	if (!plot->default_style_has_lines &&
 	    style->line.auto_dash)
 		style->line.dash_type = GO_LINE_NONE;
+
+	if (style->interpolation.auto_type)
+		style->interpolation.type = plot->interpolation;
 }
 
 static void
