@@ -1,8 +1,13 @@
+2006-09-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_xy/plot-types.xml.in: fixed the has-lines flag
+	after the interpolation patch.
+
 2006-09-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-style-prefs.glade: add an interpolation type
 	selector.
-	* goffice/graph/gog-style.c: add interopolation type to GogStyle.
+	* goffice/graph/gog-style.c: add interpolation type to GogStyle.
 	* goffice/graph/gog-style.h: ditto.
 	* goffice/utils/go-line.c: add support for general interpolation
 	types.

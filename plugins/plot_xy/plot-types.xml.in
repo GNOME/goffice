@@ -7,7 +7,7 @@
 	  engine="GogXYPlot" family="XY"
 	  _description="Markers at each point."
 	  sample_image_file="chart_scatter_1_1.png">
-	  <property name="interpolation">none</property>
+	  <property name="default-style-has-lines">FALSE</property>
 	  <property name="guru-hints">backplane</property>
     </Type>
     <!-- really 3_1 -->
@@ -15,7 +15,6 @@
 	  engine="GogXYPlot" family="XY"
 	  _description="Linearly interpolate between multi-dimensional points,with markers at each point."
 	  sample_image_file="chart_scatter_3_1.png">
-	  <property name="interpolation">linear</property>
 	  <property name="guru-hints">backplane</property>
     </Type>
     <Type _name="XY Lines" row="2" col="2"
@@ -23,7 +22,6 @@
 	  _description="Linearly interpolate between multi-dimensional points."
 	  sample_image_file="chart_scatter_3_2.png">
 	  <property name="default-style-has-markers">FALSE</property>
-	  <property name="interpolation">linear</property>
 	  <property name="guru-hints">backplane</property>
     </Type>
     <Type _name="XY Splines" row="2" col="3"
