@@ -154,8 +154,10 @@ gog_box_plot_set_property (GObject *obj, guint param_id,
 		break;
 	case BOX_PLOT_PROP_VERTICAL:
 		boxplot->vertical = g_value_get_boolean (value);
-		gog_axis_bound_changed (boxplot->base.axis[0], GOG_OBJECT (boxplot));
-		gog_axis_bound_changed (boxplot->base.axis[1], GOG_OBJECT (boxplot));
+		if (boxplot->base.axis[0])
+			gog_axis_bound_changed (boxplot->base.axis[0], GOG_OBJECT (boxplot));
+		if (boxplot->base.axis[1])
+			gog_axis_bound_changed (boxplot->base.axis[1], GOG_OBJECT (boxplot));
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */

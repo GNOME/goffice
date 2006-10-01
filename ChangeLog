@@ -1,5 +1,9 @@
 2006-10-01  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/plot_boxes/gog-boxplot.c: don't update inexistant axes.
+
+2006-10-01  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-renderer.c: (gog_renderer_export_image): avoid
 	creating a pxbuf with a resolution <= 0.
 	* pixmaps/Makefile.am: new box-plot icons.
