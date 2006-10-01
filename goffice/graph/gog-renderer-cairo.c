@@ -175,6 +175,10 @@ grc_line_size (GogRenderer const *rend, double width)
 	return floor (width);
 }
 
+/* This is a workaround for a cairo bug, due to its internal
+ * handling of coordinates (16.16 fixed point). */
+#define GO_CAIRO_CLAMP(x) CLAMP((x),-15000,15000)
+
 static void
 grc_path (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath)
 {
@@ -183,10 +187,12 @@ grc_path (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath)
 			switch (vpath->code) {
 				case ART_MOVETO_OPEN:
 				case ART_MOVETO:
-					cairo_move_to (cr, vpath->x, vpath->y);
+					cairo_move_to (cr, GO_CAIRO_CLAMP (vpath->x), 
+						           GO_CAIRO_CLAMP (vpath->y));
 					break;
 				case ART_LINETO:
-					cairo_line_to (cr, vpath->x, vpath->y);
+					cairo_line_to (cr, GO_CAIRO_CLAMP (vpath->x), 
+						           GO_CAIRO_CLAMP (vpath->y));
 					break;
 				default:
 					break;
@@ -198,16 +204,20 @@ grc_path (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath)
 			switch (bpath->code) {
 				case ART_MOVETO_OPEN:
 				case ART_MOVETO:
-					cairo_move_to (cr, bpath->x3, bpath->y3);
+					cairo_move_to (cr, GO_CAIRO_CLAMP (bpath->x3),
+						      	   GO_CAIRO_CLAMP (bpath->y3));
 					break;
 				case ART_LINETO:
-					cairo_line_to (cr, bpath->x3, bpath->y3);
+					cairo_line_to (cr, GO_CAIRO_CLAMP (bpath->x3),
+						           GO_CAIRO_CLAMP (bpath->y3));
 					break;
 				case ART_CURVETO:
-					cairo_curve_to (cr, 
-						       bpath->x1, bpath->y1,
-						       bpath->x2, bpath->y2,
-						       bpath->x3, bpath->y3);
+					cairo_curve_to (cr, GO_CAIRO_CLAMP (bpath->x1), 
+							    GO_CAIRO_CLAMP (bpath->y1),
+							    GO_CAIRO_CLAMP (bpath->x2), 
+							    GO_CAIRO_CLAMP (bpath->y2),
+							    GO_CAIRO_CLAMP (bpath->x3), 
+							    GO_CAIRO_CLAMP (bpath->y3));
 					break;
 				default:
 					break;
