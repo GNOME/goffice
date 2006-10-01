@@ -26,13 +26,7 @@
 
 G_BEGIN_DECLS
 
-typedef struct {
-	GogPlot	base;
-
-	unsigned  num_series;
-	double min, max;
-	int gap_percentage;
-} GogBoxPlot;
+typedef struct _GogBoxPlot GogBoxPlot;
 typedef GogPlotClass GogBoxPlotClass;
 
 #define GOG_BOX_PLOT_TYPE	(gog_box_plot_get_type ())

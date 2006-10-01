@@ -1,3 +1,16 @@
+2006-10-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-renderer.c: (gog_renderer_export_image): avoid
+	creating a pxbuf with a resolution <= 0.
+	* pixmaps/Makefile.am: new box-plot icons.
+	* pixmaps/chart_boxplot_1_2.png: ditto.
+	* pixmaps/chart_boxplot_1_2.svg: ditto.
+	* plugins/plot_boxes/gog-boxplot-prefs.glade: implement vertical
+	box-plots. [#358153]
+	* plugins/plot_boxes/gog-boxplot.c: ditto.
+	* plugins/plot_boxes/gog-boxplot.h: ditto.
+	* plugins/plot_boxes/plot-types.xml.in: ditto.
+
 2006-09-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_xy/plot-types.xml.in: fixed the has-lines flag

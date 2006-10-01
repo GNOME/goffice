@@ -33,10 +33,10 @@ dist_icon_DATA = \
 	chart_scatter_4_4.png \
 	chart_bubble_1_1.png \
 	chart_contour_1_1.png \
-	chart_boxplot_1_1.png \
-	chart_dropbar_1_1.png chart_dropbar_1_2.png \
-	chart_minmax_1_1.png chart_minmax_1_2.png \
-	chart_minmax_2_1.png chart_minmax_2_2.png \
+	chart_boxplot_1_1.png	chart_boxplot_1_2.png \
+	chart_dropbar_1_1.png	chart_dropbar_1_2.png \
+	chart_minmax_1_1.png	chart_minmax_1_2.png \
+	chart_minmax_2_1.png	chart_minmax_2_2.png \
 	chart_histogram_1_1.png \
 	\
 	area.xpm 	\

@@ -20,6 +20,7 @@ Jean Brefort:
 	* Add a half pie plots.
 	* Allow to chose an interpolation type for each series in
 	scatter plots.
+	* Implement vertical box-plots. [#358153]
 
 Morten:
 	* Make text combos work in overflowed toolbars.  [#157901]

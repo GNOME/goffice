@@ -26,6 +26,7 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-chart.h>
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-math.h>
 #include <goffice/app/module-plugin-defs.h>
@@ -36,19 +37,37 @@
 
 GOFFICE_PLUGIN_MODULE_HEADER;
 
+struct _GogBoxPlot {
+	GogPlot	base;
+
+	unsigned  num_series;
+	double min, max;
+	int gap_percentage;
+	gboolean vertical;
+	char const **names;
+};
+
 static GogObjectClass *gog_box_plot_parent_klass;
 
 static GType gog_box_plot_view_get_type (void);
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
 #include <glade/glade-xml.h>
+#include <gtk/gtkcombobox.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkenums.h>
+
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *boxplot)
 {
 	g_object_set (boxplot, "gap-percentage", (int)adj->value, NULL);
+}
+
+static void
+cb_layout_changed (GtkComboBox *box, GObject *boxplot)
+{
+	g_object_set (boxplot, "vertical", gtk_combo_box_get_active (box), NULL);
 }
 
 static gpointer
@@ -72,6 +91,10 @@ gog_box_plot_pref (GogObject *obj,
 		"value_changed",
 		G_CALLBACK (cb_gap_changed), boxplot);
 
+	w = glade_xml_get_widget (gui, "layout");
+	gtk_combo_box_set_active (GTK_COMBO_BOX (w), boxplot->vertical);
+	g_signal_connect (w, "changed", G_CALLBACK (cb_layout_changed), boxplot);
+
 	w = glade_xml_get_widget (gui, "gog_box_plot_prefs");
 	g_object_set_data_full (G_OBJECT (w),
 		"state", gui, (GDestroyNotify)g_object_unref);
@@ -94,6 +117,7 @@ gog_box_plot_populate_editor (GogObject *item,
 enum {
 	BOX_PLOT_PROP_0,
 	BOX_PLOT_PROP_GAP_PERCENTAGE,
+	BOX_PLOT_PROP_VERTICAL,
 };
 
 typedef struct {
@@ -128,6 +152,11 @@ gog_box_plot_set_property (GObject *obj, guint param_id,
 	case BOX_PLOT_PROP_GAP_PERCENTAGE:
 		boxplot->gap_percentage = g_value_get_int (value);
 		break;
+	case BOX_PLOT_PROP_VERTICAL:
+		boxplot->vertical = g_value_get_boolean (value);
+		gog_axis_bound_changed (boxplot->base.axis[0], GOG_OBJECT (boxplot));
+		gog_axis_bound_changed (boxplot->base.axis[1], GOG_OBJECT (boxplot));
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
@@ -143,6 +172,9 @@ gog_box_plot_get_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case BOX_PLOT_PROP_GAP_PERCENTAGE:
 		g_value_set_int (value, boxplot->gap_percentage);
+		break;
+	case BOX_PLOT_PROP_VERTICAL:
+		g_value_set_boolean (value, boxplot->vertical);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -175,12 +207,21 @@ gog_box_plot_update (GogObject *obj)
 		min = 0.;
 	if (max == -DBL_MAX)
 		max = 1.;
-	if (model->min != min || model->max != max || model->num_series != num_series) {
+	if (model->min != min || model->max != max) {
 		model->min = min;
 		model->max = max;
-		model->num_series = num_series;
-		gog_axis_bound_changed (model->base.axis[0], GOG_OBJECT (model));
+		gog_axis_bound_changed (model->base.axis[(model->vertical)? 1: 0],
+								GOG_OBJECT (model));
 	}
+	if (model->num_series != num_series) {
+		model->num_series = num_series;
+		if (model->names)
+			g_free (model->names);
+		model->names = (num_series)? g_new0 (char const*, num_series): NULL;
+	}
+	/* always update series axis because a series name might have changed */
+	gog_axis_bound_changed (model->base.axis[(model->vertical)? 0: 1],
+							GOG_OBJECT (model));
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 }
 
@@ -190,11 +231,48 @@ gog_box_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 {
 	GogBoxPlot *model = GOG_BOX_PLOT (plot);
 
-	bounds->val.minima = model->min;
-	bounds->val.maxima = model->max;
-	bounds->is_discrete = FALSE;
+	if ((axis == GOG_AXIS_X && model->vertical) ||
+			(axis == GOG_AXIS_Y && !model->vertical)) {
+		GODataScalar *s;
+		GogSeries *series;
+		GSList *ptr;
+		int n = 0;
+		gboolean has_names = FALSE;
+		if (model->names)
+			for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
+				series = GOG_SERIES (ptr->data);
+				if (!gog_series_is_valid (GOG_SERIES (series)) ||
+					!go_data_vector_get_len (GO_DATA_VECTOR (series->values[0].data)))
+					continue;
+				s = gog_series_get_name (series);
+				if (s) {
+					model->names[n] = go_data_scalar_get_str (s);
+					has_names = TRUE;
+				}
+				n++;
+			}
+		bounds->val.minima = .5;
+		bounds->val.maxima = model->num_series + .5;
+		bounds->is_discrete = TRUE;
+		bounds->center_on_ticks = FALSE;
+		return has_names? go_data_vector_str_new (model->names, n, NULL): NULL;
+		
+	} else {
+		bounds->val.minima = model->min;
+		bounds->val.maxima = model->max;
+		bounds->is_discrete = FALSE;
+	}
 
 	return NULL;
+}
+
+static void
+gog_box_plot_finalize (GObject *obj)
+{
+	GogBoxPlot *plot = GOG_BOX_PLOT (obj);
+	if (plot && plot->names)
+		g_free (plot->names);
+	G_OBJECT_CLASS (gog_box_plot_parent_klass)->finalize (obj);
 }
 
 static void
@@ -208,15 +286,20 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 
 	gobject_klass->set_property = gog_box_plot_set_property;
 	gobject_klass->get_property = gog_box_plot_get_property;
+	gobject_klass->finalize = gog_box_plot_finalize;
 	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_GAP_PERCENTAGE,
-		g_param_spec_int ("gap-percentage", "gap percentage",
-			"The padding around each group as a percentage of their width",
+		g_param_spec_int ("gap-percentage", _("gap percentage"),
+			_("The padding around each group as a percentage of their width"),
 			0, 500, 150, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_VERTICAL,
+		g_param_spec_boolean ("vertical", _("vertical"),
+			_("Whether the box-plot should be vertical instead of horizontal"),
+			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_box_plot_type_name;
 	gog_object_klass->view_type	= gog_box_plot_view_get_type ();
 	gog_object_klass->update	= gog_box_plot_update;
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 	gog_object_klass->populate_editor = gog_box_plot_populate_editor;
 #endif
 
@@ -231,7 +314,7 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->series_type = gog_box_plot_series_get_type ();
-	plot_klass->axis_set = GOG_AXIS_SET_X;
+	plot_klass->axis_set = GOG_AXIS_SET_XY;
 	plot_klass->desc.series.style_fields	= GOG_STYLE_LINE | GOG_STYLE_FILL;
 	plot_klass->axis_get_bounds   		= gog_box_plot_axis_get_bounds;
 }
@@ -254,7 +337,10 @@ static void
 gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogBoxPlot const *model = GOG_BOX_PLOT (view->model);
-	GogAxisMap *x_map;
+	GogChart *chart = GOG_CHART (view->model->parent);
+	GogChartMap *chart_map;
+	GogViewAllocation const *area;
+	GogAxisMap *map;
 	GogBoxPlotSeries const *series;
 	double hrect, hser, y, hbar;
 	double min, qu1, med, qu3, max;
@@ -264,17 +350,28 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	double line_width;
 	GogStyle *style;
 
-	x_map = gog_axis_map_new (GOG_PLOT (model)->axis[0], 
-				  view->allocation.x, view->allocation.w);
-
-	if (!gog_axis_map_is_valid (x_map)) {
-		gog_axis_map_free (x_map);
+	area = gog_chart_view_get_plot_area (view->parent);
+	chart_map = gog_chart_map_new (chart, area, 
+				       GOG_PLOT (model)->axis[GOG_AXIS_X], 
+				       GOG_PLOT (model)->axis[GOG_AXIS_Y],
+				       NULL, FALSE);
+	if (!gog_chart_map_is_valid (chart_map)) {
+		gog_chart_map_free (chart_map);
 		return;
 	}
+	
+	map = model->vertical ? gog_chart_map_get_axis_map (chart_map, 1):
+					gog_chart_map_get_axis_map (chart_map, 0);
 
-	hser = view->allocation.h / model->num_series;
-	hrect = hser / (1. + model->gap_percentage / 100.);
-	y = view->allocation.y + view->allocation.h - hser / 2.;
+	if (model->vertical) {
+		hser = view->allocation.w / model->num_series;
+		hrect = hser / (1. + model->gap_percentage / 100.);
+		y = view->allocation.x + hser / 2.;
+	} else {
+		hser = view->allocation.h / model->num_series;
+		hrect = hser / (1. + model->gap_percentage / 100.);
+		y = view->allocation.y + view->allocation.h - hser / 2.;
+	}
 	hrect /= 2.;
 	hbar = hrect / 2.;
 	path[0].code = ART_MOVETO;
@@ -291,43 +388,74 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		style = GOG_STYLED_OBJECT (series)->style;
 		line_width = style->line.width / 2.;
 		gog_renderer_push_style (view->renderer, style);
-		min = gog_axis_map_to_view (x_map, series->vals[0]);
-		qu1 = gog_axis_map_to_view (x_map, series->vals[1]);
-		med = gog_axis_map_to_view (x_map, series->vals[2]);
-		qu3 = gog_axis_map_to_view (x_map, series->vals[3]);
-		max = gog_axis_map_to_view (x_map, series->vals[4]);
-		rect.x = qu1;
-		rect.w = qu3 - qu1;
-		rect.y = y - hrect;
-		rect.h = 2* hrect;
-		gog_renderer_draw_sharp_rectangle (view->renderer, &rect);
-		path[2].code = ART_END;
-		path[0].y = y + hbar;
-		path[1].y = y - hbar;
-		path[0].x = path[1].x = min;
-		gog_renderer_draw_sharp_path (view->renderer, path);
-		path[0].x = path[1].x = max;
-		gog_renderer_draw_sharp_path (view->renderer, path);
-		path[0].y = path[1].y = y;
-		path[0].x = qu3;
-		gog_renderer_draw_sharp_path (view->renderer, path);
-		path[0].x = min;
-		path[1].x = qu1;
-		gog_renderer_draw_sharp_path (view->renderer, path);
-		path[0].x = path[1].x = med;
-		path[0].y = y + hrect;
-		path[1].y = y - hrect;
-		gog_renderer_draw_sharp_path (view->renderer, path);
-		path[2].code = ART_LINETO;
-		path[0].x = path[3].x = path[4].x = qu1;
-		path[1].x = path[2].x = qu3;
-		path[0].y = path[1].y = path[4].y = y - hrect;
-		path[2].y = path[3].y = y + hrect;
+		min = gog_axis_map_to_view (map, series->vals[0]);
+		qu1 = gog_axis_map_to_view (map, series->vals[1]);
+		med = gog_axis_map_to_view (map, series->vals[2]);
+		qu3 = gog_axis_map_to_view (map, series->vals[3]);
+		max = gog_axis_map_to_view (map, series->vals[4]);
+		if (model->vertical) {
+			rect.y = qu1;
+			rect.h = qu3 - qu1;
+			rect.x = y - hrect;
+			rect.w = 2* hrect;
+			gog_renderer_draw_sharp_rectangle (view->renderer, &rect);
+			path[2].code = ART_END;
+			path[0].x = y + hbar;
+			path[1].x = y - hbar;
+			path[0].y = path[1].y = min;
+			gog_renderer_draw_sharp_path (view->renderer, path);
+			path[0].y = path[1].y = max;
+			gog_renderer_draw_sharp_path (view->renderer, path);
+			path[0].x = path[1].x = y;
+			path[0].y = qu3;
+			gog_renderer_draw_sharp_path (view->renderer, path);
+			path[0].y = min;
+			path[1].y = qu1;
+			gog_renderer_draw_sharp_path (view->renderer, path);
+			path[0].y = path[1].y = med;
+			path[0].x = y + hrect;
+			path[1].x = y - hrect;
+			gog_renderer_draw_sharp_path (view->renderer, path);
+			path[2].code = ART_LINETO;
+			path[0].y = path[3].y = path[4].y = qu1;
+			path[1].y = path[2].y = qu3;
+			path[0].x = path[1].x = path[4].x = y - hrect;
+			path[2].x = path[3].x = y + hrect;
+			y += hser;
+		} else {
+			rect.x = qu1;
+			rect.w = qu3 - qu1;
+			rect.y = y - hrect;
+			rect.h = 2* hrect;
+			gog_renderer_draw_sharp_rectangle (view->renderer, &rect);
+			path[2].code = ART_END;
+			path[0].y = y + hbar;
+			path[1].y = y - hbar;
+			path[0].x = path[1].x = min;
+			gog_renderer_draw_sharp_path (view->renderer, path);
+			path[0].x = path[1].x = max;
+			gog_renderer_draw_sharp_path (view->renderer, path);
+			path[0].y = path[1].y = y;
+			path[0].x = qu3;
+			gog_renderer_draw_sharp_path (view->renderer, path);
+			path[0].x = min;
+			path[1].x = qu1;
+			gog_renderer_draw_sharp_path (view->renderer, path);
+			path[0].x = path[1].x = med;
+			path[0].y = y + hrect;
+			path[1].y = y - hrect;
+			gog_renderer_draw_sharp_path (view->renderer, path);
+			path[2].code = ART_LINETO;
+			path[0].x = path[3].x = path[4].x = qu1;
+			path[1].x = path[2].x = qu3;
+			path[0].y = path[1].y = path[4].y = y - hrect;
+			path[2].y = path[3].y = y + hrect;
+			y -= hser;
+		}
 		gog_renderer_draw_sharp_path (view->renderer, path);
 		gog_renderer_pop_style (view->renderer);
-		y -= hser;
 	}
-	gog_axis_map_free (x_map);
+	gog_chart_map_free (chart_map);
 }
 
 static void
@@ -370,7 +498,6 @@ gog_box_plot_series_update (GogObject *obj)
 			(GO_DATA_VECTOR (series->base.values[0].data));
 	}
 	series->base.num_elements = len;
-
 	if (len > 0) {
 		double *svals = g_new (double, len), x, fpos, residual;
 		int n, pos;

@@ -976,7 +976,11 @@ gog_renderer_export_image (GogRenderer *renderer, GOImageFormat format,
 	GogRendererClass *klass;
 
 	g_return_val_if_fail (IS_GOG_RENDERER (renderer), FALSE);
-       
+
+	if (x_dpi <= 0.)
+		x_dpi = 96.;
+	if (y_dpi <= 0.)
+		y_dpi = 96.;
 	gog_graph_force_update (renderer->model);
 
 	klass = GOG_RENDERER_GET_CLASS (renderer);
