@@ -23,7 +23,6 @@
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-renderer-pixbuf.h>
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/data/go-data.h>
 #include <goffice/data/go-data-simple.h>

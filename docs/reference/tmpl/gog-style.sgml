@@ -34,6 +34,7 @@ Style of graph objects
 @GOG_STYLE_MARKER: 
 @GOG_STYLE_FONT: 
 @GOG_STYLE_TEXT_LAYOUT: 
+@GOG_STYLE_INTERPOLATION: 
 @GOG_STYLE_ALL: 
 
 <!-- ##### ENUM GogFillStyle ##### -->

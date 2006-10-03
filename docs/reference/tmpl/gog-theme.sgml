@@ -60,33 +60,6 @@ Graph theme management
 @complete_overwrite: 
 
 
-<!-- ##### FUNCTION gog_theme_register ##### -->
-<para>
-
-</para>
-
-@theme: 
-@is_default: 
-
-
-<!-- ##### FUNCTION gog_theme_register_file ##### -->
-<para>
-
-</para>
-
-@name: 
-@file: 
-
-
-<!-- ##### FUNCTION gog_theme_lookup ##### -->
-<para>
-
-</para>
-
-@name: 
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_theme_get_name ##### -->
 <para>
 

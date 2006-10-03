@@ -1,3 +1,7 @@
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.3.1
+
 2006-10-01  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-renderer-cairo.c (grc_path): clamp coordinates

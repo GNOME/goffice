@@ -123,8 +123,6 @@ goffice/graph/gog-reg-eqn-prefs.glade
 goffice/graph/gog-renderer-gnome-print.c
 goffice/graph/gog-renderer-gnome-print.h
 goffice/graph/gog-renderer-impl.h
-goffice/graph/gog-renderer-pixbuf.c
-goffice/graph/gog-renderer-pixbuf.h
 goffice/graph/gog-renderer-svg.c
 goffice/graph/gog-renderer-svg.h
 goffice/graph/gog-renderer.c

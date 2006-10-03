@@ -28,12 +28,22 @@ Master axes
 
 </para>
 
+<!-- ##### ARG GogAxis:circular-rotation ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG GogAxis:invert-axis ##### -->
 <para>
 
 </para>
 
 <!-- ##### ARG GogAxis:map-name ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogAxis:polar-unit ##### -->
 <para>
 
 </para>
