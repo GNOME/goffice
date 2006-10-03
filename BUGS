@@ -151,7 +151,7 @@ Plans
 	1.14.23) Editor for label format			(DONE)
 	1.14.24) Persist label format				(DONE)
 	1.14.25) Auto selection of label format			(DONE)
-	1.14.26) Axis/plot area padding				<-------->
+	1.14.26) Axis/plot area padding				(DONE)
 	1.14.27) Broken axes					<-------->
 	1.14.28) Stacked axes					<-------->
     1.15) per series plot type specific data			(DONE)
@@ -195,7 +195,7 @@ Plans
     1.21) themes
 	1.21.1) Actually use the themes to initialize styles	(DONE)
 	1.21.2) load from xml					<-------->
-	1.21.3) selector for graphs				<-------->
+	1.21.3) selector for graphs				(DONE)
 	1.21.4) How to change a graph's theme			<-------->
 	1.21.5) Use Roles rather than Types to enumerate	(DONE)
 	1.21.5) Allow type aliases				(DONE)
@@ -287,28 +287,31 @@ Plans
     1.38) Polar plots
     	1.38.1) Initial implementation				(DONE)
     	1.38.2) Fill surface					<-------->
-	1.38.3) Radian/centigrad unit				<-------->
-	1.38.4) Plot rotation					<-------->
-	1.38.5) Axis labels as fraction of PI			<-------->
-	1.38.6) Display label as x° when using degrees		<-------->
+	1.38.3) Radian/centigrad unit				(DONE)
+	1.38.4) Plot rotation					(DONE)
+	1.38.5) Axis labels as fraction of PI			(DONE)
+	1.38.6) Display label as x° when using degrees		(DONE)
     1.39) Histogramm plots
-    	1.39.1) Initial implementation				<-------->
+    	1.39.1) Initial implementation				(DONE)
     1.40) Object tree
-        1.40.1) Add an icon to each objects			<-------->
+        1.40.1) Add an icon to each objects and use a swatch	<-------->
+	   series.
 	1.40.2) Enable multiple selection for object group  	<-------->
-	    style modification
+	   style modification
     1.41) Range selection
     	1.41.1) Initial implementation				<-------->
 
 Misc things to fix
 ------------------
 
-	: Open guru, click on forward, then back. Now navigating through plot
-	list is very slow. That's because at each object addition/removal in
-	object tree, an object editor is created.
+	: Open guru, click on forward, then back. Now		<--------> 
+	navigating through plot list is very slow. That's 
+	because at each object addition/removal in object tree,
+       	an object editor is created.
 
-	: Current GogGrid object is not used for grid display. We should rename
-        it to GogBackplane, GogWall or GogBackground.
+	: Current GogGrid object is not used for grid display.	<-------->
+	We should rename it to GogBackplane, GogWall or 
+	GogBackground.
 
-	: Markers with non solid fill color are displayed without filling for 
-	some shapes.
+	: Markers with non solid fill color are displayed 
+	without filling for some shapes.			(FIXED)
