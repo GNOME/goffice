@@ -1,3 +1,14 @@
+goffice (0.3.1-1) experimental; urgency=low
+
+  * New upstream development release.
+ 
+  * [debian/control, debian/rules] Build with Cairo support.
+  * [debian/control] Bumped Standards-Version (no changes necessary).
+  * [debian/libgoffice-0-dev.install, debian/rules] Stopped shipping .la file;
+    requested by Loic Minier <lool@dooz.org>.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue,  3 Oct 2006 18:53:37 +0200
+
 goffice (0.3.0-1) experimental; urgency=low
 
   * New upstream development release. Changes include:

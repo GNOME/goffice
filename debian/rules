@@ -61,7 +61,7 @@ confflags +=    --enable-iso-c \
                 --enable-compile-warnings=maximum
 
 # Features
-confflags +=    --without-cairo --enable-gtk-doc
+confflags +=    --with-cairo --enable-gtk-doc
 
 upstreamversion=$(shell dpkg-parsechangelog | grep Version | head -1 | sed -e 's/Version: //g' -e 's/-[A-Za-z0-9+\.]*$$//g')
 versionh=$(shell echo $(upstreamversion) | sed -e 's/\.[^.]*$$//')
@@ -144,6 +144,8 @@ install: build
 	for l in `find $(CURDIR)/debian/tmp/usr/lib -name '*.so*'`; do \
 		cp -vdf $$l $(CURDIR)/debian/tmp/usr/lib/debug ; \
 	done
+
+	rm -f $(CURDIR)/debian/tmp/usr/lib/libgoffice-*.la
 
 
 # Build architecture-independent files here.
