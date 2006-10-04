@@ -126,6 +126,7 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 		{
 			char *name = xmlGetProp (ptr, "name");
 			char *priority = xmlGetProp (ptr, "priority");
+			char *support_clipboard = xmlGetProp (ptr, "clipboard");
 			GOMimeType *mime_type =
 				g_hash_table_lookup (mime_types, name);
 			int i;
@@ -141,6 +142,8 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 				mime_type->priority = i;
 				mime_type->component_type_name =
 					g_strdup (service->id);
+				mime_type->support_clipboard = (support_clipboard &&
+					!strcmp (support_clipboard, "yes"))? TRUE: FALSE;
 				mime_types_names =
 					g_slist_append (mime_types_names,
 							name);
@@ -235,6 +238,13 @@ go_components_get_priority (char const *mime_type)
 {
 	GOMimeType *t = g_hash_table_lookup (mime_types, mime_type);
 	return (t) ? t->priority : GO_MIME_PRIORITY_INVALID;
+}
+
+gboolean
+go_components_support_clipboard (char const *mime_type)
+{
+	GOMimeType *t = g_hash_table_lookup (mime_types, mime_type);
+	return (t) ? t->support_clipboard : FALSE;
 }
 
 void

@@ -1,3 +1,9 @@
+2006-10-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/component/go-component-factory.c: add a minimum support for
+	optional clipboard operations (default is no clipboard).
+	* goffice/component/go-component-factory.h: ditto.
+
 2006-10-02  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

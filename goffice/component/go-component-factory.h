@@ -38,10 +38,12 @@ typedef struct
 {
 	GOMimePriority priority;
 	char* component_type_name;
+	gboolean support_clipboard;
 } GOMimeType;
 
 GSList *go_components_get_mime_types (void);
 GOMimePriority go_components_get_priority (char const *mime_type);
+gboolean go_components_support_clipboard (char const *mime_type);
 void go_components_add_mime_type (char *mime, GOMimePriority priority, char const *service_id);
 void go_components_set_mime_suffix (char const *mime, char const *suffix);
 char const *go_components_get_mime_suffix (char const *mime);
