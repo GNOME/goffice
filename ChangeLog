@@ -1,3 +1,9 @@
+2006-10-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: check for pangocairo. [#359904]
+	* goffice/graph/gog-renderer-cairo.c: include pangocairo.h instead of
+	pangoft2.h.
+
 2006-10-05  Dom Lachowicz <domlachowicz@gmail.com>
 
 	* goffice/gtk/go-palette.h: Include cairo.h. Don't assume that GTK+

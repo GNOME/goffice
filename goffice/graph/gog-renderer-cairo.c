@@ -40,7 +40,7 @@
 #include <libart_lgpl/art_render_gradient.h>
 #include <libart_lgpl/art_render_svp.h>
 #include <libart_lgpl/art_render_mask.h>
-#include <pango/pangoft2.h>
+#include <pango/pangocairo.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
