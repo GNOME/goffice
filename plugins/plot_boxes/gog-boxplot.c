@@ -351,7 +351,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList *ptr;
 	double line_width;
 	GogStyle *style;
-	int num_ser = 0;
+	int num_ser = 1;
 
 	area = gog_chart_view_get_plot_area (view->parent);
 	chart_map = gog_chart_map_new (chart, area, 

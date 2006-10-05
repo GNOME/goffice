@@ -1,5 +1,10 @@
 2006-10-05  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/plot_boxes/gog-boxplot.c: (gog_box_plot_view_render): fixed
+	a boundary issue.
+
+2006-10-05  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_boxes/gog-boxplot.c: (gog_box_plot_view_render): make use
 	of the second axis map so that box-plots support inverted axis.
 
