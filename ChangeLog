@@ -1,3 +1,8 @@
+2006-10-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_boxes/gog-boxplot.c: (gog_box_plot_view_render): make use
+	of the second axis map so that box-plots support inverted axis.
+
 2006-10-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/component/go-component-factory.c: add a minimum support for

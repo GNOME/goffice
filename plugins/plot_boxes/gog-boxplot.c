@@ -342,7 +342,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogChart *chart = GOG_CHART (view->model->parent);
 	GogChartMap *chart_map;
 	GogViewAllocation const *area;
-	GogAxisMap *map;
+	GogAxisMap *map, *ser_map;
 	GogBoxPlotSeries const *series;
 	double hrect, hser, y, hbar;
 	double min, qu1, med, qu3, max;
@@ -351,6 +351,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList *ptr;
 	double line_width;
 	GogStyle *style;
+	int num_ser = 0;
 
 	area = gog_chart_view_get_plot_area (view->parent);
 	chart_map = gog_chart_map_new (chart, area, 
@@ -362,17 +363,22 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 	}
 	
-	map = model->vertical ? gog_chart_map_get_axis_map (chart_map, 1):
-					gog_chart_map_get_axis_map (chart_map, 0);
+	if (model->vertical) {
+		map = gog_chart_map_get_axis_map (chart_map, 1);
+		ser_map = gog_chart_map_get_axis_map (chart_map, 0);
+	} else {
+		map = gog_chart_map_get_axis_map (chart_map, 0);
+		ser_map = gog_chart_map_get_axis_map (chart_map, 1);
+	}
 
 	if (model->vertical) {
 		hser = view->allocation.w / model->num_series;
 		hrect = hser / (1. + model->gap_percentage / 100.);
-		y = view->allocation.x + hser / 2.;
+//		y = view->allocation.x + hser / 2.;
 	} else {
 		hser = view->allocation.h / model->num_series;
 		hrect = hser / (1. + model->gap_percentage / 100.);
-		y = view->allocation.y + view->allocation.h - hser / 2.;
+//		y = view->allocation.y + view->allocation.h - hser / 2.;
 	}
 	hrect /= 2.;
 	hbar = hrect / 2.;
@@ -395,6 +401,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		med = gog_axis_map_to_view (map, series->vals[2]);
 		qu3 = gog_axis_map_to_view (map, series->vals[3]);
 		max = gog_axis_map_to_view (map, series->vals[4]);
+		y = gog_axis_map_to_view (ser_map, num_ser);
 		if (model->vertical) {
 			rect.y = qu1;
 			rect.h = qu3 - qu1;
@@ -423,7 +430,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			path[1].y = path[2].y = qu3;
 			path[0].x = path[1].x = path[4].x = y - hrect;
 			path[2].x = path[3].x = y + hrect;
-			y += hser;
+//			y += hser;
 		} else {
 			rect.x = qu1;
 			rect.w = qu3 - qu1;
@@ -452,10 +459,11 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			path[1].x = path[2].x = qu3;
 			path[0].y = path[1].y = path[4].y = y - hrect;
 			path[2].y = path[3].y = y + hrect;
-			y -= hser;
+//			y -= hser;
 		}
 		gog_renderer_draw_sharp_path (view->renderer, path);
 		gog_renderer_pop_style (view->renderer);
+		num_ser++;
 	}
 	gog_chart_map_free (chart_map);
 }
