@@ -1,3 +1,9 @@
+2006-10-05  Jon K Hellan  <hellan@acm.org>
+
+	* goffice/utils/go-image.c (go_mime_to_image_format) 
+	(go_image_build_pixbuf_format_infos): Base mime_to_image_format on
+	info from gdk-pixbuf.
+
 2006-10-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: check for pangocairo. [#359904]

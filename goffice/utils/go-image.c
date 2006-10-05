@@ -27,6 +27,15 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+static GOImageFormatInfo *pixbuf_image_format_infos = NULL;
+static GHashTable *pixbuf_mimes = NULL;
+static unsigned pixbuf_format_nbr = 0;
+static gboolean pixbuf_format_done = FALSE;
+
+#define PIXBUF_IMAGE_FORMAT_OFFSET (1+GO_IMAGE_FORMAT_UNKNOWN)
+
+static void go_image_build_pixbuf_format_infos (void);
+
 /**
  * go_mime_to_image_format:
  * @mime_type: a mime type string
@@ -38,21 +47,23 @@ char *
 go_mime_to_image_format (char const *mime_type)
 {
  	guint i;
-	const char *suffix;
 	const char* exceptions[] = {
-		"svg+xml", "svg",
-		"x-wmf", "wmf",
-		"x-emf", "emf",
+		"image/svg", "svg",
+		"image/svg+xml", "svg",
+		"image/svg-xml", "svg",
+		"image/vnd.adobe.svg+xml", "svg",
+		"text/xml-svg", "svg",
+		"image/x-wmf", "wmf",
+		"image/x-emf", "emf",
 	};
 
-	if (strncmp (mime_type, "image/", 6) != 0)
-		return NULL;
-	suffix = mime_type + 6;
 	for (i = 0; i < G_N_ELEMENTS (exceptions); i +=2)
-		if (strcmp (suffix, exceptions[i]) == 0)
+		if (strcmp (mime_type, exceptions[i]) == 0)
 			return g_strdup (exceptions[i+1]);
 
-	return g_strdup (suffix);
+	go_image_build_pixbuf_format_infos ();
+
+	return g_strdup (g_hash_table_lookup (pixbuf_mimes, mime_type));
 }
 
 /**
@@ -125,12 +136,6 @@ static GOImageFormatInfo const image_format_infos[GO_IMAGE_FORMAT_UNKNOWN] = {
 		(char *) "wmf", FALSE, FALSE, TRUE}
 };
 
-static GOImageFormatInfo *pixbuf_image_format_infos = NULL;
-static unsigned pixbuf_format_nbr = 0;
-static gboolean pixbuf_format_done = FALSE;
-
-#define PIXBUF_IMAGE_FORMAT_OFFSET (1+GO_IMAGE_FORMAT_UNKNOWN)
-
 static void
 go_image_build_pixbuf_format_infos (void)
 {
@@ -138,8 +143,8 @@ go_image_build_pixbuf_format_infos (void)
 	GdkPixbufFormat *fmt;
 	GSList *l, *pixbuf_fmts;
 	GOImageFormatInfo *format_info;
-	gchar **exts;
-	unsigned i;
+	gchar **exts, **mimes;
+	unsigned i, j;
 
 	if (pixbuf_format_done)
 		return;
@@ -149,6 +154,8 @@ go_image_build_pixbuf_format_infos (void)
 	
 	if (pixbuf_format_nbr > 0) {
 		pixbuf_image_format_infos = g_new (GOImageFormatInfo, pixbuf_format_nbr);
+		pixbuf_mimes = g_hash_table_new_full 
+			(g_str_hash, g_str_equal, g_free, g_free);
 
 		for (l = pixbuf_fmts, i = 1, format_info = pixbuf_image_format_infos; 
 		     l != NULL; 
@@ -166,6 +173,15 @@ go_image_build_pixbuf_format_infos (void)
 			format_info->has_pixbuf_saver = gdk_pixbuf_format_is_writable (fmt);
 			format_info->is_dpi_useful = FALSE;
 			format_info->alpha_support = FALSE;
+
+			mimes = gdk_pixbuf_format_get_mime_types (fmt);
+			for (j = 0; mimes[j]; j++) {
+				g_hash_table_insert
+					(pixbuf_mimes, 
+					 g_strdup((gpointer) mimes[j]),
+					 g_strdup((gpointer) format_info->name));
+			}
+			g_strfreev (mimes);
 		}
 	}
 
