@@ -1,3 +1,7 @@
+2006-10-06  Dom Lachowicz <domlachowicz@gmail.com>
+
+	* libgoffice-0.3.pc.in: Require cairo. Not everyone has GTK+ 2.8
+	
 2006-10-06  Jon K Hellan  <hellan@acm.org>
 
 	* goffice/gtk/goffice-gtk.c (gui_get_image_save_info): Don't hide
