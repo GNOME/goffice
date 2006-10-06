@@ -306,7 +306,7 @@ go_gtk_file_sel_dialog (GtkWindow *toplevel, GtkWidget *w)
 	delete_handler = g_signal_connect (w, "delete_event",
 		G_CALLBACK (gu_delete_handler), NULL);
 
-	gtk_widget_show_all (w);
+	gtk_widget_show (w);
 	gtk_grab_add (w);
 	gtk_main ();
 
@@ -591,6 +591,11 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 			gtk_widget_hide (widget);
 		}
 
+		if (supported_formats != NULL && ret_format != NULL) {
+			widget = glade_xml_get_widget (gui, "image_save_dialog_extra");
+			gtk_file_chooser_set_extra_widget (fsel, widget);
+		}
+
 		/* Export setting expander */
 		expander = glade_xml_get_widget (gui, "export_expander");
 		if (resolution != NULL) {
@@ -601,9 +606,6 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 			gtk_widget_hide (expander);
 
 		if (resolution != NULL && supported_formats != NULL && ret_format != NULL) {
-			widget = glade_xml_get_widget (gui, "image_save_dialog_extra");
-			gtk_file_chooser_set_extra_widget (fsel, widget);
-
 			resolution_table = glade_xml_get_widget (gui, "resolution_table");
 		
 			cb_format_combo_changed (format_combo, resolution_table);	

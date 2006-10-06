@@ -1,3 +1,10 @@
+2006-10-06  Jon K Hellan  <hellan@acm.org>
+
+	* goffice/gtk/goffice-gtk.c (gui_get_image_save_info): Don't hide
+	format selector just because resolution isn't meaningful.
+	(go_gtk_file_sel_dialog): Use gtk_widget_show instead of
+	show_all. Otherwise, we can't hide unwanted widgets.
+
 2006-10-05  Jon K Hellan  <hellan@acm.org>
 
 	* goffice/utils/go-image.c (go_mime_to_image_format) 
