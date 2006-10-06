@@ -1,5 +1,15 @@
 2006-10-06  Dom Lachowicz <domlachowicz@gmail.com>
 
+	* goffice/gtk/goffice-gtk.c: Conditionally implement 
+	gdk_cairo_set_source_pixbuf(), stolen from GTK+ 2.8. Implement
+	go_cairo_set_source_pixbuf() in terms of it.
+	* goffice/gtk/goffice-gtk.h: Ditto
+	* goffice/gtk/go-market-selector.c: Use go_cairo_set_source_pixbuf()
+	* goffice/gtk/go-pattern-selector.c: Ditto
+	* configure.in: Check for gdk_cairo_set_source_pixbuf()
+	
+2006-10-06  Dom Lachowicz <domlachowicz@gmail.com>
+
 	* libgoffice-0.3.pc.in: Require pangocairo. Not everyone has GTK+ 2.8
 
 2006-10-06  Dom Lachowicz <domlachowicz@gmail.com>

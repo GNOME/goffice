@@ -35,6 +35,10 @@ GladeXML  *go_libglade_new (char const *gladefile, char const *root,
 GdkPixbuf *go_pixbuf_new_from_file	(char const *filename);
 GdkPixbuf *go_pixbuf_intelligent_scale	(GdkPixbuf *pixbuf, 
 					 guint width, guint height);
+void       go_cairo_set_source_pixbuf (cairo_t   *cr,
+				       GdkPixbuf *pixbuf,
+				       double     pixbuf_x,
+				       double     pixbuf_y);
 
 int	   go_pango_measure_string	(PangoContext *context,
 					 PangoFontDescription const *font_desc,

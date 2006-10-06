@@ -20,6 +20,7 @@
  */
 
 #include "go-marker-selector.h"
+#include "goffice-gtk.h"
 
 #include <goffice/utils/go-color.h>
 
@@ -59,9 +60,9 @@ go_marker_palette_render_func (cairo_t *cr,
 	if (pixbuf == NULL)
 		return;
 	
-	gdk_cairo_set_source_pixbuf (cr, pixbuf, 
-				     (int) (area->x + (area->width - gdk_pixbuf_get_width (pixbuf)) / 2.0),
-				     (int) (area->y + (area->height - gdk_pixbuf_get_height (pixbuf)) / 2.0));
+	go_cairo_set_source_pixbuf (cr, pixbuf, 
+				    (int) (area->x + (area->width - gdk_pixbuf_get_width (pixbuf)) / 2.0),
+				    (int) (area->y + (area->height - gdk_pixbuf_get_height (pixbuf)) / 2.0));
 	cairo_paint (cr);
 	g_object_unref (pixbuf);
 }

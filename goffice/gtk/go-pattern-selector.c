@@ -20,6 +20,7 @@
  */
 
 #include "go-pattern-selector.h"
+#include "goffice-gtk.h"
 
 #include <goffice/utils/go-color.h>
 #include <libart_lgpl/libart.h>
@@ -72,7 +73,7 @@ go_pattern_palette_render_func (cairo_t *cr,
 	
 	art_svp_free (svp);
 
-	gdk_cairo_set_source_pixbuf (cr, pixbuf, 0, 0);
+	go_cairo_set_source_pixbuf (cr, pixbuf, 0, 0);
 	cairo_pattern_set_extend (cairo_get_source (cr), CAIRO_EXTEND_REPEAT);
 	cairo_paint (cr);
 	cairo_rectangle (cr, area->x + .5 , area->y + .5 , area->width - 1, area->height - 1);
