@@ -1,5 +1,13 @@
 2006-10-06  Dom Lachowicz <domlachowicz@gmail.com>
 
+	* configure.in: I accidentally checked in a change that
+	disabled all DEPRECATED checks. This is because the deprecation
+	checks won't build with GTK+ 2.6.x and Glib >= 2.8. I'll need to
+	come up with a better work-around for this, as it also effects
+	Gnumeric proper.
+	
+2006-10-06  Dom Lachowicz <domlachowicz@gmail.com>
+
 	* goffice/gtk/goffice-gtk.c: Conditionally implement 
 	gdk_cairo_set_source_pixbuf(), stolen from GTK+ 2.8. Implement
 	go_cairo_set_source_pixbuf() in terms of it.
