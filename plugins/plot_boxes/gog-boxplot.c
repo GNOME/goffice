@@ -374,11 +374,11 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (model->vertical) {
 		hser = view->allocation.w / model->num_series;
 		hrect = hser / (1. + model->gap_percentage / 100.);
-//		y = view->allocation.x + hser / 2.;
+/*		y = view->allocation.x + hser / 2.; */
 	} else {
 		hser = view->allocation.h / model->num_series;
 		hrect = hser / (1. + model->gap_percentage / 100.);
-//		y = view->allocation.y + view->allocation.h - hser / 2.;
+/*		y = view->allocation.y + view->allocation.h - hser / 2.; */
 	}
 	hrect /= 2.;
 	hbar = hrect / 2.;
@@ -430,7 +430,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			path[1].y = path[2].y = qu3;
 			path[0].x = path[1].x = path[4].x = y - hrect;
 			path[2].x = path[3].x = y + hrect;
-//			y += hser;
+/*			y += hser; */
 		} else {
 			rect.x = qu1;
 			rect.w = qu3 - qu1;
@@ -459,7 +459,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			path[1].x = path[2].x = qu3;
 			path[0].y = path[1].y = path[4].y = y - hrect;
 			path[2].y = path[3].y = y + hrect;
-//			y -= hser;
+/*			y -= hser; */
 		}
 		gog_renderer_draw_sharp_path (view->renderer, path);
 		gog_renderer_pop_style (view->renderer);
