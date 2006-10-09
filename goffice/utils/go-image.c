@@ -57,9 +57,9 @@ go_mime_to_image_format (char const *mime_type)
 		"image/x-emf", "emf",
 	};
 
-	for (i = 0; i < G_N_ELEMENTS (exceptions); i +=2)
+	for (i = 0; i < G_N_ELEMENTS (exceptions); i += 2)
 		if (strcmp (mime_type, exceptions[i]) == 0)
-			return g_strdup (exceptions[i+1]);
+			return g_strdup (exceptions[i + 1]);
 
 	go_image_build_pixbuf_format_infos ();
 
@@ -80,12 +80,8 @@ go_image_format_to_mime (char const *format)
  	guint i;
 #ifdef GOFFICE_WITH_GTK
 	GSList *ptr, *pixbuf_fmts;
-	GdkPixbufFormat *pfmt;
-	gchar *name;
-	int cmp;
-	gchar **mimes;
 #endif
-	const char* formats[] = {
+	static const char* const formats[] = {
 		"svg", "image/svg,image/svg+xml",
 		"wmf", "x-wmf",
 		"emf", "x-emf",
@@ -94,20 +90,21 @@ go_image_format_to_mime (char const *format)
 	if (format == NULL)
 		return NULL;
 
-	for (i = 0; i < G_N_ELEMENTS (formats); i +=2)
+	for (i = 0; i < G_N_ELEMENTS (formats); i += 2)
 		if (strcmp (format, formats[i]) == 0)
-			return g_strdup (formats[i+1]);
+			return g_strdup (formats[i + 1]);
 
 #ifdef GOFFICE_WITH_GTK
 	/* Not a format we have special knowledge about - ask gdk-pixbuf */
 	pixbuf_fmts = gdk_pixbuf_get_formats ();
 	for (ptr = pixbuf_fmts; ptr != NULL; ptr = ptr->next) {
-		pfmt = (GdkPixbufFormat *)ptr->data;
-		name = gdk_pixbuf_format_get_name (pfmt);
-		cmp = strcmp (format, name);
+		GdkPixbufFormat *pfmt = ptr->data;
+		gchar *name = gdk_pixbuf_format_get_name (pfmt);
+		int cmp = strcmp (format, name);
 		g_free (name);
 		if (cmp == 0) {
-			mimes = gdk_pixbuf_format_get_mime_types (pfmt);
+			gchar **mimes =
+				gdk_pixbuf_format_get_mime_types (pfmt);
 			ret = g_strjoinv (",", mimes);
 			g_strfreev (mimes);
 			break;
@@ -592,14 +589,18 @@ go_image_new_from_file (const char *filename, GError **error)
 {
 #ifdef GOFFICE_WITH_GTK
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (filename, error);
-	GOImage *image = g_object_new (GO_IMAGE_TYPE, "pixbuf", pixbuf, NULL);
-	g_object_unref (pixbuf);
-	image->target_cairo = FALSE;
-	return image;
+	if (pixbuf) {
+		GOImage *image = g_object_new (GO_IMAGE_TYPE,
+					       "pixbuf", pixbuf,
+					       NULL);
+		g_object_unref (pixbuf);
+		image->target_cairo = FALSE;
+		return image;
+	}
 #else
 	g_warning ("go_image_new_from_file not implemented!");
-	return NULL;
 #endif
+	return NULL;
 }
 
 guint8 *
