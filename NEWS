@@ -3,6 +3,13 @@ goffice 0.3.2:
 Dom:
 	* Fixes for usage with gtk 2.6.
 
+Jon Kåre:
+        * Use info from gdk-pixbuf to convert from MIME type to image
+	  format. 
+        * Fix bug which hid file save format selector .
+        * go_gtk_file_sel_dialog no longer unhides all hidden widgets
+	  when displaying dialog.
+
 Morten:
 	* Handle errors while loading images better.
 
@@ -32,13 +39,6 @@ Jean Brefort:
 	* Allow to chose an interpolation type for each series in
 	scatter plots.
 	* Implement vertical box-plots. [#358153]
-
-Jon Kåre:
-        * Use info from gdk-pixbuf to convert from MIME type to image
-	  format. 
-        * Fix bug which hid file save format selector .
-        * go_gtk_file_sel_dialog no longer unhides all hidden widgets
-	  when displaying dialog.
 
 Morten:
 	* Make text combos work in overflowed toolbars.  [#157901]
