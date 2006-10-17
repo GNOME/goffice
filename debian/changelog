@@ -1,3 +1,9 @@
+goffice (0.3.2-1) experimental; urgency=low
+
+  * New upstream development release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 17 Oct 2006 19:05:05 +0200
+
 goffice (0.3.1-1) experimental; urgency=low
 
   * New upstream development release.
