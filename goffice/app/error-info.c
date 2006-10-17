@@ -157,12 +157,14 @@ error_info_print_with_offset (ErrorInfo *error, gint offset)
 {
 	GSList *l;
 
+	g_return_if_fail (error != NULL);
+
 	if (error->msg != NULL) {
 		char c = 'E';
 
 		if (error->severity == GO_WARNING)
 			c = 'W';
-		fprintf (stderr, "%*s%c %s\n", offset, "", c, error->msg);
+		g_printerr ("%*s%c %s\n", offset, "", c, error->msg);
 		offset += 2;
 	}
 	for (l = error->details; l != NULL; l = l->next)

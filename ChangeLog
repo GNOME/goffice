@@ -1,3 +1,8 @@
+2006-10-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/error-info.c (error_info_print_with_offset): Add
+	precondition and use g_printerr, not fprintf.
+
 2006-10-16  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Post release verion bump
