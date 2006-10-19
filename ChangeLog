@@ -1,3 +1,11 @@
+2006-10-18  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-renderer-cairo.c
+	(gog_renderer_cairo_export_image): Use
+	cairo_surface_set_fallback_resolution only when available.
+
+	* configure.in: Check for cairo_surface_set_fallback_resolution.
+
 2006-10-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/error-info.c (error_info_print_with_offset): Add
