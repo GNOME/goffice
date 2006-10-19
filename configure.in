@@ -388,6 +388,10 @@ if test $ac_cv_func_log = no; then
          LIBS="$LIBS -lm"])
 fi
 
+SAVE_LIBS=$LIBS
+LIBS="$GOFFICE_LIBS $LIBS"
+AC_CHECK_FUNCS(cairo_surface_set_fallback_resolution)
+LIBS=$SAVE_LIBS
 
 SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
