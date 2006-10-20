@@ -126,30 +126,24 @@ go_action_combo_text_create_tool_item (GtkAction *act)
 	GOActionComboText *taction = GO_ACTION_COMBO_TEXT (act);
 	GOToolComboText *tool = g_object_new (GO_TOOL_COMBO_TEXT_TYPE, NULL);
 	GSList *ptr;
-	int tmp, w = -1;
+	int w = -1;
 
 	tool->combo = (GoComboText *)go_combo_text_new (taction->case_sensitive ? NULL : g_strcase_equal);
 	if (taction->largest_elem != NULL)
-		w = go_pango_measure_string (
-			gtk_widget_get_pango_context (GTK_WIDGET (tool->combo)),
-			go_combo_text_get_entry (tool->combo)->style->font_desc, 
-			taction->largest_elem);
+		w = g_utf8_strlen (taction->largest_elem, -1);
+
 	for (ptr = taction->elements; ptr != NULL ; ptr = ptr->next) {
 		go_combo_text_add_item	(tool->combo, ptr->data);
 		if (taction->largest_elem == NULL) {
-			tmp = go_pango_measure_string (
-				gtk_widget_get_pango_context (GTK_WIDGET (tool->combo)),
-				go_combo_text_get_entry (tool->combo)->style->font_desc, 
-				ptr->data);
+			int tmp = g_utf8_strlen (ptr->data, -1);
 			if (w < tmp)
 				w = tmp;
 		}
 	}
-				
+
 	go_combo_box_set_title (GO_COMBO_BOX (tool->combo),
 		_(gtk_action_get_name (act)));
-	gtk_widget_set_size_request (
-		go_combo_text_get_entry (tool->combo), w, -1);
+	gtk_entry_set_width_chars (GTK_ENTRY (go_combo_text_get_entry (tool->combo)), w);
 	g_object_set (G_OBJECT (tool), "visible-vertical", FALSE, NULL);
 
 	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
