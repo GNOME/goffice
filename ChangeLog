@@ -1,3 +1,7 @@
+2006-10-20  Jon K Hellan  <hellan@acm.org>
+
+	* plugins/plot_boxes/gog-boxplot.c: Fix include.
+
 2006-10-19  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-action-combo-text.c
