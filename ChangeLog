@@ -3,7 +3,7 @@
 	* goffice/gtk/go-action-combo-text.c
 	(go_action_combo_text_create_tool_item): Set width using
 	gtk_entry_set_width_chars, not pixels.  This will automatically
-	listen to style changes.
+	listen to style changes.  Fixes #362704.
 
 2006-10-18  Morten Welinder  <terra@gnome.org>
 
