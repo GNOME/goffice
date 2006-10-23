@@ -103,6 +103,7 @@ update_image_rect (GOGraphWidget *gw,
 	gw->yoffset = MAX (0, (int) (allocation.height - gw->height) / 2);
 	gw->xoffset = MAX (0, (int) (allocation.width - gw->width) / 2);
 
+	gog_graph_set_size (gw->graph, gw->width, gw->height);
 	gog_renderer_update (gw->renderer, gw->width, gw->height, 1.0);
 }
 

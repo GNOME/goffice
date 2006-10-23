@@ -1,3 +1,8 @@
+2006-10-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-graph-widget.c: (update_image_rect): set the graph
+	size. Fixes #344646.
+
 2006-10-20  Jon K Hellan  <hellan@acm.org>
 
 	* plugins/plot_boxes/gog-boxplot.c: Fix include.
