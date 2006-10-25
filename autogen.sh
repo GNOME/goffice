@@ -3,7 +3,7 @@
 
 PKG_NAME="goffice"
 
-REQUIRED_AUTOMAKE_VERSION=1.7.2
+REQUIRED_AUTOMAKE_VERSION=1.9.0
 REQUIRED_LIBTOOL_VERSION=1.4.3
 
 # We need intltool >= 0.27.2 to extract the UTF-8 chars from source code:

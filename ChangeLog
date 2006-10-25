@@ -1,3 +1,9 @@
+2006-10-25  Morten Welinder  <terra@gnome.org>
+
+	* autogen.sh (REQUIRED_AUTOMAKE_VERSION): Up to 1.9.0 like
+	Gnumeric.  Fixes certain, but not all, issues with building in
+	non-standard locations.
+
 2006-10-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-graph-widget.c: (update_image_rect): set the graph
