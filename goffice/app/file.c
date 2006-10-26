@@ -487,32 +487,40 @@ go_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 		     gconstpointer FIXME_FIXME_workbook_view,
 		     GsfOutput *output)
 {
-	char *file_name;
-
 	g_return_if_fail (IS_GO_FILE_SAVER (fs));
 	g_return_if_fail (GSF_IS_OUTPUT (output));
 
 	if (GSF_IS_OUTPUT_STDIO (output)) {
-		file_name = (char *) gsf_output_name (output);
+		const char *name = gsf_output_name (output);
+		/*
+		 * This is mostly bogus.  We need a proper source for the file
+		 * name, not something double-converted.
+		 */		   
+		char *file_name = name
+			? g_filename_from_utf8 (name, -1, NULL, NULL, NULL)
+			: NULL;
 
-		if (file_name == NULL) {
-			ErrorInfo *save_error = error_info_new_str(
-				_("Not a valid UTF-8 filename."));
-			gnumeric_io_error_info_set (io_context, save_error);
-			return;
-		}
-		
+		/* If we don't have a filename, silently skip the test.  */
 		if (!fs->overwrite_files &&
-		    g_file_test ((file_name), G_FILE_TEST_EXISTS)) {
+		    file_name &&
+		    g_file_test (file_name, G_FILE_TEST_EXISTS)) {
 			ErrorInfo *save_error;
+			const char *msg = _("Saving over old files of this type is disabled for safety.");
+
+			if (!gsf_output_error (output))
+				gsf_output_set_error (output, 0, msg);
+
+			g_free (file_name);
 
 			save_error = error_info_new_str_with_details (
-				_("Saving over old files of this type is disabled for safety."),
+				msg,
 				error_info_new_str (
 					_("You can turn this safety feature off by editing appropriate plugin.xml file.")));
 			gnumeric_io_error_info_set (io_context, save_error);
 			return;
 		}
+
+		g_free (file_name);
 	}
 
 	GO_FILE_SAVER_METHOD (fs, save) (fs, io_context, FIXME_FIXME_workbook_view, output);

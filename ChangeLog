@@ -1,3 +1,9 @@
+2006-10-26  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/file.c (go_file_saver_save): Fix filename handling
+	as much as current API allows.  Make sure to set and error at the
+	GSF level when we do at higher level.  Fixes #365115
+
 2006-10-25  Morten Welinder  <terra@gnome.org>
 
 	* autogen.sh (REQUIRED_AUTOMAKE_VERSION): Up to 1.9.0 like
