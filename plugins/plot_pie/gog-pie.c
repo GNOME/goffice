@@ -75,7 +75,7 @@ gog_pie_series_element_get_property (GObject *obj, guint param_id,
 	}
 }
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 extern gpointer gog_pie_series_element_pref (GogPieSeriesElement *element, GOCmdContext *cc);
 static gpointer
 gog_pie_series_element_populate_editor (GogObject *gobj,
@@ -97,7 +97,7 @@ gog_pie_series_element_class_init (GogPieSeriesElementClass *klass)
 	gobject_klass->get_property = gog_pie_series_element_get_property;
 	
 	ppe_parent_klass 	= g_type_class_peek_parent (klass);
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 	klass->gse_populate_editor	= gog_pie_series_element_populate_editor;
 #endif
 
@@ -375,7 +375,7 @@ GSF_DYNAMIC_CLASS (GogRingPlot, gog_ring_plot,
 
 /*****************************************************************************/
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 typedef struct {
 	double x, y, r;
 	double start_pos;
@@ -795,7 +795,7 @@ static void
 gog_pie_view_build_toolkit (GogView *view)
 {
 	(GOG_VIEW_CLASS (pie_view_parent_klass)->build_toolkit) (view);	
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_move_pie);
 #endif
 }

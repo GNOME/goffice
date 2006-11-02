@@ -1,3 +1,12 @@
+2006-11-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_barcol/gog-1.5d.c: use GOFFICE_WITH_GTK
+	instead of WITH_GTK. [#368789]
+	* plugins/plot_barcol/gog-minmax.c: ditto.
+	* plugins/plot_pie/gog-pie.c: ditto.
+	* plugins/smoothing/gog-exp-smooth.c: ditto.
+	* plugins/smoothing/gog-moving-avg.c: ditto.
+
 2006-10-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/file.c (go_file_saver_save): Fix filename handling

@@ -36,7 +36,7 @@ enum {
 
 static GObjectClass *exp_smooth_parent_klass;
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtkeventbox.h>
 #include <gtk/gtkspinbutton.h>
@@ -229,7 +229,7 @@ gog_exp_smooth_class_init (GogSmoothedCurveClass *curve_klass)
 	gobject_klass->get_property = gog_exp_smooth_get_property;
 	gobject_klass->set_property = gog_exp_smooth_set_property;
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 	gog_object_klass->populate_editor = gog_exp_smooth_populate_editor;
 #endif
 	gog_object_klass->update = gog_exp_smooth_update;

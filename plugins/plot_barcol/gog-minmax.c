@@ -156,7 +156,7 @@ gog_minmax_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	return data;
 }
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtkspinbutton.h>
 static void
@@ -230,7 +230,7 @@ gog_minmax_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 
 	gog_object_klass->type_name	= gog_minmax_plot_type_name;
 	gog_object_klass->view_type	= gog_minmax_view_get_type ();
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 	gog_object_klass->populate_editor	= gog_minmax_plot_populate_editor;
 #endif
 

@@ -72,7 +72,7 @@ gog_moving_avg_set_property (GObject *obj, guint param_id,
 	}
 }
 
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
@@ -189,7 +189,7 @@ gog_moving_avg_class_init (GogSmoothedCurveClass *curve_klass)
 
 	gobject_klass->get_property = gog_moving_avg_get_property;
 	gobject_klass->set_property = gog_moving_avg_set_property;
-#ifdef WITH_GTK
+#ifdef GOFFICE_WITH_GTK
 	gog_object_klass->populate_editor = gog_moving_avg_populate_editor;
 #endif
 	gog_object_klass->update = gog_moving_avg_update;
