@@ -1,3 +1,10 @@
+2006-11-03  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/formats.c (cell_format_is_time,
+	cell_format_is_date): New functions.
+	(go_format_classify): Use above functions.  Partial fix for
+	#370183.
+
 2006-11-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-1.5d.c: use GOFFICE_WITH_GTK

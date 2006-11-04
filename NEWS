@@ -3,6 +3,7 @@ goffice 0.3.3:
 Morten:
 	* Fix combo sizing problem.  [#362704]
 	* Fix Save problem.  [#365115]
+	* Detect more date/time formats.  Part of [#370183]
 
 --------------------------------------------------------------------------
 

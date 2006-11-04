@@ -743,6 +743,30 @@ cell_format_is_fraction (char const *fmt, GOFormatDetails *info)
 	return TRUE;
 }
 
+static gboolean
+cell_format_is_time (char const *fmt, GOFormatDetails *info)
+{
+	if (strstr (fmt, "[h]") || strstr (fmt, "hh") ||
+	    strstr (fmt, "mm:ss"))
+		return TRUE;
+
+	return FALSE;
+}
+
+static gboolean
+cell_format_is_date (char const *fmt, GOFormatDetails *info)
+{
+	if (strstr (fmt, "yy") || strstr (fmt, "mmm")) {
+		info->date_has_days = 
+			(NULL != g_utf8_strchr (fmt, -1, 'd'));
+		info->date_has_months = 
+			(NULL != g_utf8_strchr (fmt, -1, 'm'));
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 
 GOFormatFamily
 go_format_classify (GOFormat const *gf, GOFormatDetails *info)
@@ -805,5 +829,12 @@ go_format_classify (GOFormat const *gf, GOFormatDetails *info)
 				return i;
 			}
 	}
+
+	if (cell_format_is_time (fmt, info))
+		return GO_FORMAT_TIME;
+
+	if (cell_format_is_date (fmt, info))
+		return GO_FORMAT_DATE;
+
 	return GO_FORMAT_UNKNOWN;
 }
