@@ -275,6 +275,15 @@ GSF_DYNAMIC_CLASS (GogPiePlot, gog_pie_plot,
 	gog_pie_plot_class_init, gog_pie_plot_init,
 	GOG_PLOT_TYPE)
 
+static void
+gog_pie_plot_set_default_separation (GogPiePlot *pie, double separation)
+{
+	g_return_if_fail (GOG_PIE_PLOT (pie) != NULL);
+
+	pie->default_separation = CLAMP (separation, 0.0, 5.0); 
+	gog_object_emit_changed (GOG_OBJECT (pie), FALSE);
+}
+
 /*****************************************************************************/
 
 enum {
