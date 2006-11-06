@@ -1,3 +1,10 @@
+goffice 0.3.4:
+
+Morten:
+	* Handle formats like "dd.mm.yyyy".
+
+--------------------------------------------------------------------------
+
 goffice 0.3.3:
 
 Morten:

@@ -2060,17 +2060,15 @@ SUFFIX(go_format_number) (GString *result,
 			break;
 
 		case '.': {
-			int c = *(format + 1);
+			int c2 = *(format + 1);
 
-			can_render_number = TRUE;
-			if (0 && c && (c != '0' && c != '#' && c != '?'))
-				/*
-				 * Before reinstating this, look at format
-				 * "#,##0.\\-" with value 255.
-				 */
-				number /= 1000;
-			else
+			if (!need_time_split && c2 != '0')
+				/* Literal "." after date/time seen. */
+				g_string_append_unichar (result, c);
+			else {
+				can_render_number = TRUE;
 				info.decimal_separator_seen = TRUE;
+			}
 			break;
 		}
 
