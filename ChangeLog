@@ -1,5 +1,9 @@
 2006-11-05  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : Post release version bump
+
+2006-11-05  Jody Goldberg <jody@gnome.org>
+
 	* Release 0.3.3
 
 2006-11-04  Jean Brefort  <jean.brefort@normalesup.org>
