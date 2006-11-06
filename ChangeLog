@@ -1,3 +1,7 @@
+2006-11-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.2.2
+
 2006-08-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-guru.c: (graph_guru_init_format_page): explicitly
