@@ -27,10 +27,12 @@
 
 G_BEGIN_DECLS
 
-typedef void (*GOPaletteSwatchRenderCallback)	(cairo_t *cr,
-						 GdkRectangle const *area,
-						 int index,
-						 gpointer data);
+typedef void (*GOPaletteSwatchRenderCallback)		(cairo_t *cr,
+							 GdkRectangle const *area,
+							 int index,
+							 gpointer data);
+typedef const char * (*GOPaletteSwatchTooltipCallback)	(int index,
+							 gpointer data);
 
 #define GO_TYPE_PALETTE			(go_palette_get_type ())
 #define GO_PALETTE(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), GO_TYPE_PALETTE, GOPalette))
@@ -65,6 +67,7 @@ GtkWidget 	*go_palette_new 		(int n_swatches,
 						 double swatch_width,
 						 int n_colmuns,
 						 GOPaletteSwatchRenderCallback swatch_render,
+						 GOPaletteSwatchTooltipCallback get_tooltip,
 						 gpointer data,
 						 GDestroyNotify destroy);
 void 		 go_palette_show_automatic 	(GOPalette *palette, int index, char const *label);

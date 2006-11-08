@@ -106,7 +106,7 @@ go_pattern_selector_new (GOPatternType initial_type,
 	state->background = RGBA_BLACK;
 
 	palette = go_palette_new (GO_PATTERN_MAX, 1.0, 5,
-				  go_pattern_palette_render_func,
+				  go_pattern_palette_render_func, NULL,
 				  state, g_free);
 	go_palette_show_automatic (GO_PALETTE (palette), 
 				   CLAMP (default_type, 0, GO_PATTERN_MAX - 1),

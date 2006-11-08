@@ -98,7 +98,7 @@ go_gradient_selector_new (GOGradientDirection initial_direction,
 	state->stop_color = RGBA_WHITE;
 
 	palette = go_palette_new (GO_GRADIENT_MAX, 1.0, 4, 
-				  go_gradient_swatch_render_func,
+				  go_gradient_swatch_render_func, NULL,
 				  state, g_free);
 	go_palette_show_automatic (GO_PALETTE (palette), 
 				   CLAMP (default_direction, 0, GO_GRADIENT_MAX -1),

@@ -301,7 +301,7 @@ go_color_selector_new (GOColor initial_color,
 	initial_index = get_index (state->n_swatches, state->color_group, initial_color);
 	
 	palette = go_palette_new (state->n_swatches, 1.0, 8, 
-				  go_color_palette_render_func,
+				  go_color_palette_render_func, NULL,
 				  state, go_color_selector_state_free);
 	go_palette_show_automatic (GO_PALETTE (palette), default_index, NULL); 	
 	go_palette_show_custom (GO_PALETTE (palette), "Custom color...");

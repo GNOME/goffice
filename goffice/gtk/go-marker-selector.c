@@ -89,7 +89,7 @@ go_marker_selector_new (GOMarkerShape initial_shape,
 	state->fill_color = RGBA_WHITE;
 
 	palette = go_palette_new (GO_MARKER_MAX, 1.0, 4, 
-				  go_marker_palette_render_func,
+				  go_marker_palette_render_func, NULL,
 				  state, g_free);
 	go_palette_show_automatic (GO_PALETTE (palette), 
 				   CLAMP (default_shape, 0, GO_MARKER_MAX -1),

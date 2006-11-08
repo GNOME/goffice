@@ -50,9 +50,10 @@ typedef enum {
 
 GOLineDashType	 go_line_dash_from_str		(char const *name);
 char const 	*go_line_dash_as_str		(GOLineDashType type);
+char const 	*go_line_dash_as_label 		(GOLineDashType type);
 
 GOLineInterpolation	 go_line_interpolation_from_str		(char const *name);
-char const 	*go_line_interpolation_as_str		(GOLineInterpolation type);
+char const 		*go_line_interpolation_as_str		(GOLineInterpolation type);
 
 void 		 go_line_vpath_dash_free	(ArtVpathDash *dash);
 ArtVpathDash 	*go_line_get_vpath_dash 	(GOLineDashType type, double scale);

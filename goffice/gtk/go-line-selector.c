@@ -19,9 +19,12 @@
  * USA
  */
 
+#include <goffice/goffice-config.h>
+
 #include "go-line-selector.h"
 
 #include <libart_lgpl/libart.h>
+#include <glib/gi18n-lib.h>
 
 static void
 go_line_dash_palette_render_func (cairo_t *cr,
@@ -57,6 +60,12 @@ go_line_dash_palette_render_func (cairo_t *cr,
 	cairo_stroke (cr);
 }
 
+static char const *
+go_line_dash_palette_get_tooltip_func (int index, void *data)
+{
+	return _(go_line_dash_as_label (index));
+}
+
 /**
  * go_line_dash_selector_new:
  * @initial_type: line type initially selected
@@ -74,7 +83,8 @@ go_line_dash_selector_new (GOLineDashType initial_type,
 	GtkWidget *selector;
 
 	palette = go_palette_new (GO_LINE_MAX, 3.0, 2, 
-				  go_line_dash_palette_render_func,
+				  go_line_dash_palette_render_func, 
+				  go_line_dash_palette_get_tooltip_func,
 				  NULL, NULL);
 	go_palette_show_automatic (GO_PALETTE (palette), 
 				   CLAMP (default_type, 0, GO_LINE_MAX -1),

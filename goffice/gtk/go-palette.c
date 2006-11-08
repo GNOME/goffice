@@ -34,12 +34,15 @@
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtkdrawingarea.h>
 #include <gtk/gtkframe.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtkiconview.h>
+#include <gtk/gtklabel.h>
 #include <gtk/gtkliststore.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkseparatormenuitem.h>
 #include <gtk/gtktogglebutton.h>
+#include <gtk/gtktooltips.h>
 #include <gtk/gtktreemodel.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtkvseparator.h>
@@ -74,7 +77,9 @@ struct _GOPalettePrivate {
 	int		 swatch_width;
 	int		 swatch_height;
 
-	GOPaletteSwatchRenderCallback swatch_render; 
+	GOPaletteSwatchRenderCallback 	swatch_render; 
+	GOPaletteSwatchTooltipCallback 	get_tooltip;
+
 	gpointer 	 data;
 	GDestroyNotify	 destroy;
 
@@ -88,6 +93,8 @@ struct _GOPalettePrivate {
 	GtkWidget	*custom;
 	GtkWidget	*custom_separator;
 	char		*custom_label;
+
+	GtkTooltips	*tooltips;
 };
 
 G_DEFINE_TYPE (GOPalette, go_palette, GTK_TYPE_MENU)
@@ -127,6 +134,14 @@ go_palette_init (GOPalette *palette)
 
 	priv->swatch_height = rect.height + 2;
 	priv->swatch_width = priv->swatch_height;
+
+	priv->tooltips = gtk_tooltips_new ();
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
+	g_object_ref_sink (priv->tooltips);
+#else
+	g_object_ref (priv->tooltips);
+	gtk_object_sink (GTK_OBJECT (priv->tool_tips));
+#endif
 }
 
 static void
@@ -217,6 +232,7 @@ go_palette_finalize (GObject *object)
 
 	priv = GO_PALETTE_GET_PRIVATE (object);
 
+	g_object_unref (priv->tooltips);
 	if (priv->data && priv->destroy)
 		(priv->destroy) (priv->data);
 	g_free (priv->automatic_label);
@@ -298,10 +314,18 @@ go_palette_menu_item_new (GOPalette *palette, int index)
 {
 	GtkWidget *swatch; 
 	GtkWidget *item;
+	GOPalettePrivate *priv = palette->priv;
 
 	item = gtk_menu_item_new ();
 	swatch = go_palette_swatch_new (palette, index);
 	gtk_container_add (GTK_CONTAINER (item), swatch);
+
+	if (priv->get_tooltip) {
+		char const *tip;
+
+		tip = priv->get_tooltip (index, priv->data);
+		gtk_tooltips_set_tip (palette->priv->tooltips, item, tip, NULL);
+	}
 	
 	g_signal_connect (item, "activate", G_CALLBACK (cb_menu_item_activate), palette); 
 
@@ -337,6 +361,7 @@ go_palette_new (int n_swatches,
 		double swatch_width,
 		int n_columns,
 		GOPaletteSwatchRenderCallback swatch_render,
+		GOPaletteSwatchTooltipCallback get_tooltip,
 		gpointer data,
 		GDestroyNotify destroy)
 			
@@ -352,6 +377,7 @@ go_palette_new (int n_swatches,
 
 	priv->n_swatches = n_swatches;
 	priv->swatch_render = swatch_render;
+	priv->get_tooltip = get_tooltip;
 	priv->data = data;
 	priv->destroy = destroy;
 	if (swatch_width > 0.)

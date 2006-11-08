@@ -1,3 +1,19 @@
+2006-11-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/gtk/go-color-selector.c (go_color_selector_new): adapt 
+	to new go_palette_new signature.
+	* goffice/gtk/go-gradient-selector.c (go_gradient_selector_new):
+	ditto.
+	* goffice/gtk/go-marker-selector.c (go_marker_selector_new): ditto.
+	* goffice/gtk/go-pattern-selector.c (go_pattern_selector_new): ditto.
+	* goffice/gtk/go-line-selector.c (go_line_dash_selector_new): ditto.
+	(go_line_dash_palette_get_tooltip_func): new.
+	* goffice/gtk/go-palette.c (go_palette_init): init tooltips object.
+	(go_palette_menu_item_new): add a tooltip using user get_tooltip
+	function.
+	(go_palette_new): add a new argument defining a get_tooltip callback.
+	* goffice/utils/go-line.c (go_line_dash_as_label): new.
+
 2006-11-06  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/format.c (go_format_number): Handle "dd.mm.yyyy".

@@ -96,6 +96,21 @@ go_line_dash_as_str (GOLineDashType type)
 	}
 	return ret;
 }
+
+char const *
+go_line_dash_as_label (GOLineDashType type)
+{
+	unsigned i;
+	char const *ret = line_dashes[0].label;
+
+	for (i = 0; i < GO_LINE_MAX; i++) {
+		if (line_dashes[i].type == type) {
+			ret = line_dashes[i].label;
+			break;
+		}
+	}
+	return ret;
+}
 	
 GOLineInterpolation
 go_line_interpolation_from_str (char const *name)
