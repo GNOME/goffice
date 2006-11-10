@@ -99,14 +99,10 @@ gog_exp_smooth_update (GogObject *obj)
 	double *x, *y, *w, *incr;
 	double epsilon;
 
-	if (es->base.x != NULL) {
-		g_free (es->base.x);
-		es->base.x = NULL;
-	}
-	if (es->base.y != NULL) {
-		g_free (es->base.y);
-		es->base.y = NULL;
-	}
+	g_free (es->base.x);
+	es->base.x = NULL;
+	g_free (es->base.y);
+	es->base.y = NULL;
 	if (!gog_series_is_valid (series))
 		return;
 

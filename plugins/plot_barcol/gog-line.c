@@ -133,10 +133,7 @@ gog_line_series_update (GogObject *obj)
 	(GOG_OBJECT_CLASS (series_parent_klass))->update (obj);
 	if (nb != series->base.base.num_elements) {
 		nb = series->base.base.num_elements;
-		if (series->x) {
-			g_free (series->x);
-			series->x = NULL;
-		}
+		g_free (series->x);
 		series->x = g_new (double, nb);
 		for (i = 0; i < nb; i++)
 			series->x[i] = i + 1;
@@ -162,10 +159,8 @@ gog_line_series_finalize (GObject *obj)
 {
 	GogLineSeries *series = GOG_LINE_SERIES (obj);
 
-	if (series->x != NULL) {
-		g_free (series->x); 
-		series->x = NULL;
-	}
+	g_free (series->x);
+	series->x = NULL;
 
 	G_OBJECT_CLASS (series_parent_klass)->finalize (obj);
 }

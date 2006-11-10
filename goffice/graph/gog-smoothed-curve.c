@@ -48,10 +48,8 @@ static void
 gog_smoothed_curve_finalize (GObject *obj)
 {
 	GogSmoothedCurve *curve = GOG_SMOOTHED_CURVE (obj);
-	if (curve->x != NULL)
-		g_free (curve->x);
-	if (curve->y != NULL)
-		g_free (curve->y);
+	g_free (curve->x);
+	g_free (curve->y);
 	(*smoothed_curve_parent_klass->finalize) (obj);
 }
 

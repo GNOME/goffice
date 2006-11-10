@@ -414,8 +414,7 @@ gog_contour_plot_finalize (GObject *obj)
 {
 	GogContourPlot *plot = GOG_CONTOUR_PLOT (obj);
 	gog_contour_plot_clear_formats (plot);
-	if (plot->plotted_data)
-		g_free (plot->plotted_data);
+	g_free (plot->plotted_data);
 	G_OBJECT_CLASS (plot_contour_parent_klass)->finalize (obj);
 }
 

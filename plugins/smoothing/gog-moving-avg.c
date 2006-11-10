@@ -129,14 +129,10 @@ gog_moving_avg_update (GogObject *obj)
 	double xtot = 0., ytot = 0.;
 	int nb, i, j, invalid;
 
-	if (ma->base.x != NULL) {
-		g_free (ma->base.x);
-		ma->base.x = NULL;
-	}
-	if (ma->base.y != NULL) {
-		g_free (ma->base.y);
-		ma->base.y = NULL;
-	}
+	g_free (ma->base.x);
+	ma->base.x = NULL;
+	g_free (ma->base.y);
+	ma->base.y = NULL;
 	if (!gog_series_is_valid (series))
 		return;
 

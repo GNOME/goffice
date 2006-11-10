@@ -52,8 +52,7 @@ static void go_component_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case COMPONENT_PROP_MIME_TYPE:
-		if (component->mime_type)
-			g_free (component->mime_type);
+		g_free (component->mime_type);
 		str = g_value_get_string (value);
 		if (str == NULL)
 			break;
@@ -107,8 +106,7 @@ go_component_finalize (GObject *obj)
 {
 	GOComponent *component = GO_COMPONENT (obj);
 
-	if (component->mime_type != NULL)
-		g_free (component->mime_type);
+	g_free (component->mime_type);
 
 	(*component_parent_klass->finalize) (obj);
 }

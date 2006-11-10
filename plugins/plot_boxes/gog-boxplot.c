@@ -217,8 +217,7 @@ gog_box_plot_update (GogObject *obj)
 	}
 	if (model->num_series != num_series) {
 		model->num_series = num_series;
-		if (model->names)
-			g_free (model->names);
+		g_free (model->names);
 		model->names = (num_series)? g_new0 (char const*, num_series): NULL;
 	}
 	/* always update series axis because a series name might have changed */

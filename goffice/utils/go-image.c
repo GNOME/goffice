@@ -405,10 +405,8 @@ go_image_set_property (GObject *obj, guint param_id,
 			if (image->pixbuf)
 				g_object_unref (image->pixbuf);
 			image->pixbuf = pixbuf;
-			if (image->data != NULL) {
-				g_free (image->data);
-				image->data = NULL;
-			}
+			g_free (image->data);
+			image->data = NULL;
 			image->width = gdk_pixbuf_get_width (pixbuf);
 			image->height = gdk_pixbuf_get_height (pixbuf);
 			image->rowstride = gdk_pixbuf_get_rowstride (pixbuf);
@@ -426,8 +424,7 @@ go_image_set_property (GObject *obj, guint param_id,
 			g_object_unref (image->pixbuf);
 			image->pixbuf = NULL;
 		}
-		if (image->data != NULL)
-			g_free (image->data);
+		g_free (image->data);
 		/* GOImage only supports pixbuf with alpha values at the moment */
 		image->rowstride = image->width * 4;
 		image->data = g_new0 (guint8, image->height * image->rowstride);
@@ -467,8 +464,7 @@ static void
 go_image_finalize (GObject *obj)
 {
 	GOImage *image = GO_IMAGE	(obj);
-	if (image->data != NULL)
-		g_free (image->data);
+	g_free (image->data);
 #ifdef GOFFICE_WITH_GTK
 	if (image->pixbuf)
 		g_object_unref (image->pixbuf);

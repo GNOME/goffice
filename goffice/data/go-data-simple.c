@@ -45,10 +45,8 @@ go_data_scalar_val_finalize (GObject *obj)
 {
 	GODataScalarVal *val = (GODataScalarVal *)obj;
 
-	if (val->str != NULL) {
-		g_free (val->str);
-		val->str = NULL;
-	}
+	g_free (val->str);
+	val->str = NULL;
 
 	(*scalar_val_parent_klass->finalize) (obj);
 }
@@ -494,8 +492,7 @@ go_data_vector_str_finalize (GObject *obj)
 	if (str->translate_notify != NULL)
 		(*str->translate_notify) (str->translate_data);
 
-	if (str->base.values != NULL)
-		g_free (str->base.values);
+	g_free (str->base.values);
 	str->base.values = NULL;
 
 	(*vector_str_parent_klass->finalize) (obj);

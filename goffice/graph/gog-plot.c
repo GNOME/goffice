@@ -72,10 +72,8 @@ gog_plot_finalize (GObject *obj)
 	g_slist_free (plot->series); /* GogObject does the unref */
 
 	gog_plot_axis_clear (plot, GOG_AXIS_SET_ALL); /* just in case */
-	if (plot->plot_group)
-		g_free (plot->plot_group);
-	if (plot->guru_hints != NULL)
-		g_free (plot->guru_hints);
+	g_free (plot->plot_group);
+	g_free (plot->guru_hints);
 
 	(*plot_parent_klass->finalize) (obj);
 }
@@ -436,14 +434,12 @@ gog_plot_set_property (GObject *obj, guint param_id,
 		break;
 	case PLOT_PROP_GROUP: {
 		char const *group = g_value_get_string (value);
-		if (plot->plot_group)
-			g_free (plot->plot_group);
+		g_free (plot->plot_group);
 		plot->plot_group = (group)? g_strdup (g_value_get_string (value)): NULL;
 		break;
 	}
 	case PLOT_PROP_GURU_HINTS:
-		if (plot->guru_hints != NULL)
-			g_free (plot->guru_hints);
+		g_free (plot->guru_hints);
 		plot->guru_hints = g_strdup (g_value_get_string (value));
 		break;
 

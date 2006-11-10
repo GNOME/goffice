@@ -147,14 +147,10 @@ gog_reg_curve_finalize (GObject *obj)
 		g_free (rc->bounds);
 		rc->bounds = NULL;
 	}
-	if (rc->a != NULL) {
-		g_free (rc->a);
-		rc->a = NULL;
-	}
-	if (rc->equation != NULL) {
-		g_free (rc->equation);
-		rc->equation = NULL;
-	}
+	g_free (rc->a);
+	rc->a = NULL;
+	g_free (rc->equation);
+	rc->equation = NULL;
 	(*reg_curve_parent_klass->finalize) (obj);
 }
 

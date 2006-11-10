@@ -102,8 +102,7 @@ char const *GOPriorityName[] = {
 static void
 go_mime_type_free (GOMimeType * mime_type)
 {
-	if (mime_type->component_type_name)
-		g_free (mime_type->component_type_name);
+	g_free (mime_type->component_type_name);
 	g_free (mime_type);
 }
 

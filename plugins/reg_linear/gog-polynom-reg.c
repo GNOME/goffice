@@ -46,12 +46,10 @@ gog_polynom_reg_curve_build_values (GogLinRegCurve *rc, double const *x_vals,
 	if (rc->x_vals == NULL)
 		rc->x_vals = g_new0 (double*, rc->dims);
 	for (i = 0; i < rc->dims; i++) {
-		if (rc->x_vals[i] != NULL)
-			g_free (rc->x_vals[i]);
+		g_free (rc->x_vals[i]);
 		rc->x_vals[i] = g_new (double, n);
 	}
-	if (rc->y_vals != NULL)
-		g_free (rc->y_vals);
+	g_free (rc->y_vals);
 	rc->y_vals = g_new (double, n);
 	for (i = 0, used = 0; i < n; i++) {
 		x = (x_vals)? x_vals[i]: i;

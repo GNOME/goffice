@@ -1,3 +1,26 @@
+2006-11-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* goffice/component/go-component-factory.c (go_mime_type_free),
+	  goffice/component/go-component.c (go_component_set_property, go_component_finalize),
+	  goffice/data/go-data-simple.c (go_data_scalar_val_finalize, go_data_vector_str_finalize),
+	  goffice/graph/gog-plot.c (gog_plot_finalize, gog_plot_set_property),
+	  goffice/graph/gog-reg-curve.c (gog_reg_curve_finalize),
+	  goffice/graph/gog-smoothed-curve.c (gog_smoothed_curve_finalize),
+	  goffice/utils/go-image.c (go_image_set_property, go_image_finalize),
+	  goffice/utils/go-regression.c (go_regression_stat_destroy),
+	  plugins/plot_barcol/gog-line.c (gog_line_series_update, gog_line_series_finalize),
+	  plugins/plot_boxes/gog-boxplot.c (gog_box_plot_update),
+	  plugins/plot_boxes/gog-histogram.c (gog_histogram_plot_update, gog_histogram_plot_series_finalize),
+	  plugins/plot_surface/gog-surface.c (gog_contour_plot_finalize),
+	  plugins/plot_surface/xl-surface.c (get_y_vector, xl_contour_plot_finalize),
+	  plugins/reg_linear/gog-lin-reg.c (gog_lin_reg_curve_update, gog_lin_reg_curve_build_values, gog_lin_reg_curve_set_property, gog_lin_reg_curve_finalize),
+	  plugins/reg_linear/gog-log-reg.c (gog_log_reg_curve_build_values),
+	  plugins/reg_linear/gog-polynom-reg.c (gog_polynom_reg_curve_build_values),
+	  plugins/reg_logfit/gog-logfit.c (gog_log_fit_curve_update),
+	  plugins/smoothing/gog-exp-smooth.c (gog_exp_smooth_update),
+	  plugins/smoothing/gog-moving-avg.c (gog_moving_avg_update):
+	  simplified as g_free handles NULL properly. Fixes #369662.
+
 2006-11-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/gtk/go-color-selector.c (go_color_selector_new): adapt 

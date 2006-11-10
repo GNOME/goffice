@@ -176,8 +176,7 @@ get_y_vector (GogPlot *plot)
 	GSList *ptr;
 	int i;
 
-	if (contour->y_labels)
-		g_free (contour->y_labels);
+	g_free (contour->y_labels);
 	contour->y_labels = g_new0 (char const *, contour->base.rows);
 
 	for (ptr = plot->series, i = 0 ; ptr != NULL ; ptr = ptr->next, i++) {
@@ -233,8 +232,7 @@ static void
 xl_contour_plot_finalize (GObject *obj)
 {
 	XLContourPlot *plot = XL_CONTOUR_PLOT (obj);
-	if (plot->y_labels)
-		g_free (plot->y_labels);
+	g_free (plot->y_labels);
 	G_OBJECT_CLASS (xl_contour_parent_klass)->finalize (obj);
 }
 

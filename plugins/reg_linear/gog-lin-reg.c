@@ -72,10 +72,8 @@ gog_lin_reg_curve_update (GogObject *obj)
 		for (nb = 0; nb <= rc->dims; nb++)
 			rc->base.a[nb] = go_nan;
 	}
-	if (rc->base.equation) {
-		g_free (rc->base.equation);
-		rc->base.equation = NULL;
-	}
+	g_free (rc->base.equation);
+	rc->base.equation = NULL;
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 }
 
@@ -115,11 +113,9 @@ gog_lin_reg_curve_build_values (GogLinRegCurve *rc, double const *x_vals, double
 	gog_reg_curve_get_bounds (&rc->base, &xmin, &xmax);
 	if (rc->x_vals == NULL)
 		rc->x_vals = g_new0 (double*, 1);
-	if (*rc->x_vals != NULL)
-		g_free (*rc->x_vals);
+	g_free (*rc->x_vals);
 	*rc->x_vals = g_new (double, n);
-	if (rc->y_vals != NULL)
-		g_free (rc->y_vals);
+	g_free (rc->y_vals);
 	rc->y_vals = g_new (double, n);
 	for (i = 0, used = 0; i < n; i++) {
 		x = (x_vals)? x_vals[i]: i;
@@ -210,12 +206,11 @@ gog_lin_reg_curve_set_property (GObject *obj, guint param_id,
 		if (rc->x_vals) {
 			int i;
 			for (i = 0; i < rc->dims; i++){
-				if (rc->x_vals[i])
-					g_free (rc->x_vals[i]);
+				g_free (rc->x_vals[i]);
 			}
-			g_free (rc->x_vals);
-			rc->x_vals = NULL;
 		}
+		g_free (rc->x_vals);
+		rc->x_vals = NULL;
 		rc->dims = g_value_get_uint (value);
 		g_free (rc->base.a);
 		rc->base.a = g_new (double, rc->dims + 1);
@@ -233,13 +228,11 @@ gog_lin_reg_curve_finalize (GObject *obj)
 	GogLinRegCurve *rc = GOG_LIN_REG_CURVE (obj);
 	int i;
 	if (rc->x_vals) {
-		for (i = 0; i < rc->dims; i++) 
-			if (rc->x_vals[i] != NULL)
-				g_free (rc->x_vals[i]);
-		g_free (rc->x_vals);
+		for (i = 0; i < rc->dims; i++)
+			g_free (rc->x_vals[i]);
 	}
-	if (rc->y_vals != NULL)
-		g_free (rc->y_vals);
+	g_free (rc->x_vals);
+	g_free (rc->y_vals);
 	(G_OBJECT_CLASS (gog_lin_reg_curve_parent_klass))->finalize (obj);
 }
 

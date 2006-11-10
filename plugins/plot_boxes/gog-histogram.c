@@ -82,10 +82,7 @@ gog_histogram_plot_update (GogObject *obj)
 	if (!gog_series_is_valid (GOG_SERIES (series)) || series->base.num_elements == 0)
 			return;
 	
-	if (series->x) {
-		g_free (series->x);
-		series->x = NULL;
-	}
+	g_free (series->x);
 	series->x = g_new (double, series->base.num_elements);
 	if (series->base.values[0].data != NULL) {
 		x_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data));
@@ -107,10 +104,8 @@ gog_histogram_plot_update (GogObject *obj)
 		model->x.maxima = x_max;
 		gog_axis_bound_changed (model->base.axis[0], GOG_OBJECT (model));
 	}
-	if (series->y) {
-		g_free (series->y);
-		series->y = NULL;
-	}
+	g_free (series->y);
+	series->y = NULL;
 	if (series->base.values[1].data != NULL) {
 		if (x_vals) {
 			series->y = g_new (double, series->base.num_elements);
@@ -469,14 +464,10 @@ gog_histogram_plot_series_finalize (GObject *obj)
 {
 	GogHistogramPlotSeries *series = GOG_HISTOGRAM_PLOT_SERIES (obj);
 
-	if (series->y != NULL) {
-		g_free (series->y); 
-		series->y = NULL;
-	}
-	if (series->x != NULL) {
-		g_free (series->x); 
-		series->x = NULL;
-	}
+	g_free (series->y);
+	series->y = NULL;
+	g_free (series->x);
+	series->x = NULL;
 
 	G_OBJECT_CLASS (series_parent_klass)->finalize (obj);
 }

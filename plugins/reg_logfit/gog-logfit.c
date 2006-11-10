@@ -78,10 +78,8 @@ gog_log_fit_curve_update (GogObject *obj)
 	}
 	g_free (tx_vals);
 	g_free (ty_vals);
-	if (rc->equation) {
-		g_free (rc->equation);
-		rc->equation = NULL;
-	}
+	g_free (rc->equation);
+	rc->equation = NULL;
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 }
 

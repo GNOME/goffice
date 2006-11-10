@@ -1139,12 +1139,9 @@ SUFFIX(go_regression_stat_destroy) (SUFFIX(regression_stat_t) *regression_stat)
 {
 	g_return_if_fail (regression_stat != NULL);
 
-	if (regression_stat->se)
-		g_free(regression_stat->se);
-	if (regression_stat->t)
-		g_free(regression_stat->t);
-	if (regression_stat->xbar)
-		g_free(regression_stat->xbar);
+	g_free(regression_stat->se);
+	g_free(regression_stat->t);
+	g_free(regression_stat->xbar);
 	g_free (regression_stat);
 }
 
