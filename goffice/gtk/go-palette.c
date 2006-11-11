@@ -140,7 +140,7 @@ go_palette_init (GOPalette *palette)
 	g_object_ref_sink (priv->tooltips);
 #else
 	g_object_ref (priv->tooltips);
-	gtk_object_sink (GTK_OBJECT (priv->tool_tips));
+	gtk_object_sink (GTK_OBJECT (priv->tooltips));
 #endif
 }
 
