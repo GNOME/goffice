@@ -46,6 +46,8 @@ enum {
 	CONTOUR_PROP_TRANSPOSED
 };
 
+#define EPSILON 1e-13
+
 static GogObjectClass *plot_contour_parent_klass;
 
 typedef struct {
@@ -120,11 +122,11 @@ gog_contour_plot_real_build_matrix (GogContourPlot const *plot, gboolean *cardin
 	GogAxisTick *zticks;
 	GogAxis *axis = plot->base.axis[GOG_AXIS_PSEUDO_3D];
 	unsigned nticks;
-	double x[2], val;
+	double *x, val;
 	GogSeries *series = GOG_SERIES (plot->base.series->data);
 	GODataMatrix *mat = GO_DATA_MATRIX (series->values[2].data);
 	unsigned n = plot->rows * plot->columns;
-	double *data, minimum, maximum;
+	double *data, minimum, maximum, slope, offset = 0.;
 	unsigned max;
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum))
@@ -132,13 +134,30 @@ gog_contour_plot_real_build_matrix (GogContourPlot const *plot, gboolean *cardin
 	data = g_new (double, n);
 	nticks = gog_axis_get_ticks (axis, &zticks);
 	map = gog_axis_map_new (axis, 0, 1);
+	x = g_new (double, nticks);
 	for (i = j = 0; i < nticks; i++)
 		if (zticks[i].type == GOG_AXIS_TICK_MAJOR) {
 			x[j++] = gog_axis_map_to_view (map, zticks[i].position);
-			if (j > 1)
-				break;
 		}
-	x[1] -= x[0];
+	max = --j;
+	if (x[1] > x[0]) {
+		if (x[0] > EPSILON) {
+			offset = 1.;
+			max++;
+		}
+		if (x[j] < 1. - EPSILON)
+			max++;
+		slope = 1 / (x[1] - x[0]);
+	} else {
+		offset = j;
+		if (x[0] < 1. - EPSILON)
+			max++;
+		if (x[j] > EPSILON) {
+			max++;
+			offset += 1.;
+		}
+		slope = 1 / (x[0] - x[1]);
+	}
 
 	for (i = 0; i < plot->rows; i++)
 		for (j = 0; j < plot->columns; j++) {
@@ -147,21 +166,21 @@ gog_contour_plot_real_build_matrix (GogContourPlot const *plot, gboolean *cardin
 			if (fabs (val) == DBL_MAX)
 				val = go_nan;
 			else {
-				val = val/ x[1] - x[0];
+				val = offset + slope * (val - x[0]);
 				if (val < 0)
-					val = go_nan;
+					val = (val < -EPSILON)? go_nan: 0.;
 			}
 			if (plot->transposed)
 				data[j * plot->rows + i] = val;
 			else
 				data[i * plot->columns + j] = val;
 		}
-	max = (unsigned) ceil (1 / x[1]);
 	if (series->num_elements != max) {
 		series->num_elements = max;
 		*cardinality_changed = TRUE;
 	}
 	gog_axis_map_free (map);
+	g_free (x);
 	return data;
 }
 
@@ -198,12 +217,14 @@ extern gpointer gog_contour_plot_pref (GogContourPlot *plot, GOCmdContext *cc);
 static void
 gog_contour_plot_populate_editor (GogObject *item,
 				  GogEditor *editor,
-		    G_GNUC_UNUSED GogDataAllocator *dalloc,
-		    GOCmdContext *cc)
+				  G_GNUC_UNUSED GogDataAllocator *dalloc,
+				  GOCmdContext *cc)
 {
 	gog_editor_add_page (editor,
 			     gog_contour_plot_pref (GOG_CONTOUR_PLOT (item), cc),
 			     _("Properties"));
+
+	(GOG_OBJECT_CLASS (plot_contour_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
 
 static void
@@ -366,7 +387,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 	double minimum, maximum;
 
 	gog_axis_get_bounds (axis, &minimum, &maximum);
-	
+
 	if (separator == 0) {
 		struct lconv *lc = localeconv ();
 		separator = (strcmp (lc->decimal_point, ","))? ',': ';';
@@ -395,12 +416,39 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
 	style->fill.pattern.pattern = GO_PATTERN_SOLID;
 
-	for (i = 0; i < j; i++) {
-		style->fill.pattern.back = color[i];
-		label = g_strdup_printf ("[%g%c %g%c", limits[i], separator,
-					limits[i + 1], (i == j - 1)? ']':'[');
-		(func) (i, style, label, data);
-		g_free (label);
+	if (gog_axis_is_inverted (axis)) {
+		for (i = 0; i < j; i++) {
+			style->fill.pattern.back = color[i];
+			label = g_strdup_printf ("[%g%c %g%c", limits[j - i - 1], separator,
+						limits[j - i], (limits[i - j] > minimum)? '[':']');
+			(func) (i, style, label, data);
+			g_free (label);
+		}
+		if (limits[i - j] > minimum) {
+			gog_theme_fillin_style (theme, style, GOG_OBJECT (plot->series->data), i, FALSE);
+			label = g_strdup_printf ("[%g%c %g]", minimum, separator,
+						limits[i - j]);
+			(func) (i, style, label, data);
+			g_free (label);
+		}
+	} else {
+		if (minimum < limits[0]) {
+			style->fill.pattern.back = color[0];
+			label = g_strdup_printf ("[%g%c %g]", minimum, separator,
+						limits[0]);
+			(func) (0, style, label, data);
+			g_free (label);
+			i = 1;
+			j++;
+		} else
+			i = 0;
+		for (; i < j; i++) {
+			style->fill.pattern.back = color[i];
+			label = g_strdup_printf ("[%g%c %g%c", limits[i], separator,
+						limits[i + 1], (i == j - 1)? ']':'[');
+			(func) (i, style, label, data);
+			g_free (label);
+		}
 	}
 	g_free (limits);
 	g_object_unref (style);
@@ -412,8 +460,7 @@ gog_contour_plot_finalize (GObject *obj)
 {
 	GogContourPlot *plot = GOG_CONTOUR_PLOT (obj);
 	gog_contour_plot_clear_formats (plot);
-	if (plot->plotted_data)
-		g_free (plot->plotted_data);
+	g_free (plot->plotted_data);
 	G_OBJECT_CLASS (plot_contour_parent_klass)->finalize (obj);
 }
 
@@ -537,8 +584,8 @@ static void
 gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogContourPlot const *plot = GOG_CONTOUR_PLOT (view->model);
-	GogSeries const *series = GOG_SERIES (plot->base.series->data);
-	GODataVector *x_vec = 0, *y_vec = 0;
+	GogSeries const *series;
+	GODataVector *x_vec = NULL, *y_vec = NULL;
 	GogAxisMap *x_map, *y_map;
 	double zval0, zval1, zval2 = 0., zval3, t;
 	double x[4], y[4], zval[4];
@@ -554,9 +601,13 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	GOColor *color;
 	gboolean cw;
 	double *data;
-	int max = series->num_elements;
+	int max;
 	gboolean xdiscrete, ydiscrete;
 
+	if (plot->base.series == NULL)
+		return;
+	series = GOG_SERIES (plot->base.series->data);
+	max = series->num_elements;
 	if (plot->transposed) {
 		imax = plot->columns;
 		jmax = plot->rows;
