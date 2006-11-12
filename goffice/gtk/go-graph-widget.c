@@ -33,7 +33,9 @@ static void go_graph_widget_request_update (GOGraphWidget *w);
 enum {
 	GRAPH_WIDGET_PROP_0,
 	GRAPH_WIDGET_PROP_ASPECT_RATIO,
-	GRAPH_WIDGET_PROP_GRAPH
+	GRAPH_WIDGET_PROP_GRAPH,
+	GRAPH_WIDGET_PROP_HRES,
+	GRAPH_WIDGET_PROP_VRES
 };
 
 struct  _GOGraphWidget{
@@ -46,6 +48,7 @@ struct  _GOGraphWidget{
 	int requested_width, requested_height;
 	int button_press_x, button_press_y;
 	gboolean button_pressed;
+	double hres, vres;
 
 	/* Idle handler ID */
 	guint idle_id;
@@ -103,7 +106,7 @@ update_image_rect (GOGraphWidget *gw,
 	gw->yoffset = MAX (0, (int) (allocation.height - gw->height) / 2);
 	gw->xoffset = MAX (0, (int) (allocation.width - gw->width) / 2);
 
-	gog_graph_set_size (gw->graph, gw->width, gw->height);
+	gog_graph_set_size (gw->graph, gw->width * 72. / gw->hres, gw->height * 72. / gw->vres);
 	gog_renderer_update (gw->renderer, gw->width, gw->height, 1.0);
 }
 
@@ -281,6 +284,12 @@ go_graph_widget_set_property (GObject *obj, guint param_id,
 		g_signal_connect_swapped (w->renderer, "request_update",
 			G_CALLBACK (go_graph_widget_request_update), w);
 		break;
+	case GRAPH_WIDGET_PROP_HRES:
+		w->hres = g_value_get_double (value);
+		break;
+	case GRAPH_WIDGET_PROP_VRES:
+		w->vres = g_value_get_double (value);
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -300,6 +309,12 @@ go_graph_widget_get_property (GObject *obj, guint param_id,
 		break;
 	case GRAPH_WIDGET_PROP_GRAPH :
 		g_value_set_object (value, w->graph);
+		break;
+	case GRAPH_WIDGET_PROP_HRES:
+		g_value_set_double (value, w->hres);
+		break;
+	case GRAPH_WIDGET_PROP_VRES:
+		g_value_set_double (value, w->vres);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -334,6 +349,16 @@ go_graph_widget_class_init (GOGraphWidgetClass *klass)
 			"The graph to render.",
 			gog_graph_get_type (), 
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+	g_object_class_install_property (object_class,
+		GRAPH_WIDGET_PROP_HRES,
+		g_param_spec_double ("hres", "hres",
+			"Assumed horizontal screen resolution in pixels per inch.",
+			1., G_MAXDOUBLE, 96., G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+	g_object_class_install_property (object_class,
+		GRAPH_WIDGET_PROP_VRES,
+		g_param_spec_double ("vres", "vres",
+			"Assumed vertical screen resolution in pixels per inch.",
+			1., G_MAXDOUBLE, 96., G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void
@@ -342,6 +367,7 @@ go_graph_widget_init (GOGraphWidget *w)
 	gtk_widget_add_events (GTK_WIDGET (w), GDK_POINTER_MOTION_MASK |
 					       GDK_BUTTON_PRESS_MASK |
 					       GDK_BUTTON_RELEASE_MASK);
+	w->hres = w->vres = 96.;
 }
 
 /**
