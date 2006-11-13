@@ -957,7 +957,7 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 
 	if (create_cairo) {
 		image = go_image_new_from_pixbuf (crend->pixbuf);
-		crend->cairo = go_image_get_cairo (image);;
+		crend->cairo = go_image_get_cairo (image);
 		crend->is_vector = FALSE;
 	}
 
@@ -995,13 +995,12 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 
 		gog_view_render	(view, NULL);
 
-		if (create_cairo) {
+		if (create_cairo)
 			go_image_get_pixbuf (image);
-			g_object_unref (image);
-		}
 	}
 
 	if (create_cairo) {
+		g_object_unref (image);
 		cairo_destroy (crend->cairo);
 		crend->cairo = NULL;
 	}

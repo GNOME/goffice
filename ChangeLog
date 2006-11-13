@@ -1,3 +1,8 @@
+2006-11-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-renderer-cairo.c: (gog_renderer_cairo_update): fixed
+	a memory leak.
+
 2006-11-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-graph-widget.c: add horizontal and vertical resolution
