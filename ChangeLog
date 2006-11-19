@@ -1,3 +1,10 @@
+2006-11-19  Jon K Hellan  <hellan@acm.org>
+
+	* goffice/graph/gog-chart.c (gog_chart_map_2D_to_view): void
+	function was returning value.
+
+	* goffice/graph/gog-data-set.c (gog_dataset_dims): Ditto.
+
 2006-11-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-renderer-cairo.c: (gog_renderer_cairo_update): fixed

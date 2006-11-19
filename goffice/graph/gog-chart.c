@@ -351,7 +351,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 void
 gog_chart_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v)
 {
-	return (map->map_2D_to_view) (map, x, y, u, v);
+	(map->map_2D_to_view) (map, x, y, u, v);
 }
 
 /**

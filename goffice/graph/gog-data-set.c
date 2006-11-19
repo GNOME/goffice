@@ -61,7 +61,7 @@ gog_dataset_dims (GogDataset const *set, int *first, int *last)
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (first != NULL);
 	g_return_if_fail (last != NULL);
-	return (klass->dims) (set, first, last);
+	(klass->dims) (set, first, last);
 }
 
 /**
