@@ -1,3 +1,7 @@
+2006-11-25  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-undo.[ch]: New files.
+
 2006-11-19  Jon K Hellan  <hellan@acm.org>
 
 	* goffice/graph/gog-chart.c (gog_chart_map_2D_to_view): void
@@ -7,13 +11,14 @@
 
 2006-11-13  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/graph/gog-renderer-cairo.c: (gog_renderer_cairo_update): fixed
-	a memory leak.
+	* goffice/graph/gog-renderer-cairo.c: (gog_renderer_cairo_update):
+	fixed a memory leak.
 
 2006-11-12  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/gtk/go-graph-widget.c: add horizontal and vertical resolution
-	properties so that go_graph_set_size can be called with the size in pts.
+	* goffice/gtk/go-graph-widget.c: add horizontal and vertical
+	resolution properties so that go_graph_set_size can be called with
+	the size in pts.
 
 2006-11-11  Jean Brefort  <jean.brefort@normalesup.org>
 
