@@ -1,3 +1,7 @@
+2006-11-27  Morten Welinder  <terra@gnome.org>
+
+	* */*.c: Renaming of format_ symbols and a few others.
+
 2006-11-25  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-undo.[ch]: New files.

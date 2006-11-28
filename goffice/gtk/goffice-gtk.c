@@ -498,7 +498,7 @@ go_gtk_select_image (GtkWindow *toplevel, const char *initial)
 }
 
 /**
- * gui_get_image_save_info:
+ * go_gui_get_image_save_info:
  * @toplevel: a #GtkWindow
  * @supported_formats: a #GSList of supported file formats
  * @ret_format: default file format
@@ -537,7 +537,7 @@ cb_format_combo_changed (GtkComboBox *combo, GtkWidget *expander)
 }
 
 char *
-gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
+go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 			 GOImageFormat *ret_format, double *resolution)
 {
 	GOImageFormat format;
@@ -549,7 +549,7 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 	GtkWidget *resolution_table;
 	GladeXML *gui;
 	SaveInfoState *state;
-	const char *key = "gui_get_image_save_info";
+	const char *key = "go_gui_get_image_save_info";
 	char *uri = NULL;
 
 	state = g_object_get_data (G_OBJECT (toplevel), key);

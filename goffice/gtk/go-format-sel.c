@@ -274,11 +274,11 @@ fillin_negative_samples (GOFormatSel *gfs)
 	START_LOCALE_SWITCH;
 
 	if (gfs->format.use_separator)
-		thousand_sep = format_get_thousand ()->str;
+		thousand_sep = go_format_get_thousand ()->str;
 	else
 		thousand_sep = "";
 	if (gfs->format.num_decimals > 0)
-		decimal = format_get_decimal ()->str;
+		decimal = go_format_get_decimal ()->str;
 	else
 		decimal = "";
 

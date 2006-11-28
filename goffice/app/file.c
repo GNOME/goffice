@@ -850,7 +850,7 @@ go_file_saver_for_id (gchar const *id)
 }
 
 /**
- * get_file_savers:
+ * go_get_file_savers:
  *
  * Returns the list of registered file savers (using go_file_saver_register or
  * go_file_saver_register_as_default).
@@ -858,20 +858,20 @@ go_file_saver_for_id (gchar const *id)
  * Return value: list of GOFileSaver objects, which you shouldn't modify.
  */
 GList *
-get_file_savers (void)
+go_get_file_savers (void)
 {
 	return file_saver_list;
 }
 
 /**
- * get_file_openers:
+ * go_get_file_openers:
  *
  * Returns the list of registered file openers (using go_file_opener_register).
  *
  * Return value: list of GOFileOpener objects, which you shouldn't modify.
  */
 GList *
-get_file_openers (void)
+go_get_file_openers (void)
 {
 	return file_opener_list;
 }

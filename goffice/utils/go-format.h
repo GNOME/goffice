@@ -173,16 +173,16 @@ void go_render_numberl (GString *result, long double number, GONumberFormat cons
 #endif
 
 /* Locale support routines */
-void	       go_set_untranslated_bools (void);
-char const *   go_setlocale            (int category, char const *val);
-GString const *format_get_currency     (gboolean *precedes, gboolean *space_sep);
-gboolean       format_month_before_day (void);
-char           format_get_arg_sep      (void);
-char           format_get_col_sep      (void);
-char           format_get_row_sep      (void);
-GString const *format_get_thousand     (void);
-GString const *format_get_decimal      (void);
-char const *   format_boolean          (gboolean b);
+void	       go_set_untranslated_bools  (void);
+char const *   go_setlocale               (int category, char const *val);
+GString const *go_format_get_currency     (gboolean *precedes, gboolean *space_sep);
+gboolean       go_format_month_before_day (void);
+char           go_format_get_arg_sep      (void);
+char           go_format_get_col_sep      (void);
+char           go_format_get_row_sep      (void);
+GString const *go_format_get_thousand     (void);
+GString const *go_format_get_decimal      (void);
+char const *   go_format_boolean          (gboolean b);
 
 void go_number_format_init (void);
 void go_number_format_shutdown (void);

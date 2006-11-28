@@ -128,12 +128,12 @@ FileFormatLevel go_file_saver_get_format_level	(GOFileSaver const *fs);
  *
  */
 
-GList *get_file_openers (void);
+GList *go_get_file_openers (void);
 void		 go_file_opener_unregister (GOFileOpener *fo);
 void		 go_file_opener_register   (GOFileOpener *fo, gint priority);
 GOFileOpener	*go_file_opener_for_id	    (char const *id);
 
-GList *get_file_savers (void);
+GList *go_get_file_savers (void);
 void go_file_saver_unregister	(GOFileSaver *fs);
 void go_file_saver_register	(GOFileSaver *fs);
 void go_file_saver_register_as_default (GOFileSaver *fs, gint priority);

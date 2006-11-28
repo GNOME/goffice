@@ -189,7 +189,7 @@ void
 go_currency_date_format_init (void)
 {
 	gboolean precedes, space_sep;
-	char const *curr = format_get_currency (&precedes, &space_sep)->str;
+	char const *curr = go_format_get_currency (&precedes, &space_sep)->str;
 	char *pre, *post, *pre_rep, *post_rep;
 	int err;
 
@@ -299,7 +299,7 @@ go_currency_date_format_init (void)
 
 	g_free (*pre ? pre : post);
 
-	if (!format_month_before_day ()) {
+	if (!go_format_month_before_day ()) {
 		fmts_date [0]  = "d/m/yy";
 		fmts_date [1]  = "d/m/yyyy";
 		fmts_date [2]  = "mmm-d-yy";

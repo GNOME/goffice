@@ -366,7 +366,7 @@ go_data_vector_val_as_str (GOData const *dat)
 	if (vec->n ==0)
 		return g_strdup ("");
 
-	sep = format_get_col_sep ();
+	sep = go_format_get_col_sep ();
 	g_snprintf (sz, sizeof (sz), "%g", vec->val[0]);
 	str = g_string_new (sz);
 	for (i = 1; i < vec->n; i++) {
@@ -401,9 +401,9 @@ go_data_vector_val_from_str (GOData *dat, char const *str)
 		if (*end) {
 			if (!sep) {
 				/* allow the use of all possible seps */
-				if ((sep = format_get_arg_sep ()) != *end)
-					if ((sep = format_get_col_sep ()) != *end)
-						sep = format_get_row_sep ();
+				if ((sep = go_format_get_arg_sep ()) != *end)
+					if ((sep = go_format_get_col_sep ()) != *end)
+						sep = go_format_get_row_sep ();
 			}
 			if (*end != sep) {
 				g_array_free (values, TRUE);
@@ -533,7 +533,7 @@ go_data_vector_str_as_str (GOData const *dat)
 	char sep;
 	int i;
 
-	sep = format_get_col_sep ();
+	sep = go_format_get_col_sep ();
 	if (vec->n ==0)
 		return g_strdup ("");
 
@@ -564,13 +564,13 @@ go_data_vector_str_from_str (GOData *dat, char const *str)
 
 	values = g_array_sized_new (FALSE, FALSE, sizeof(char*), 16);
 	/* search which separator has been used */
-	sep = format_get_col_sep ();
+	sep = go_format_get_col_sep ();
 	end = strchr (cur, sep);
 	if (end == NULL) {
-		sep = format_get_arg_sep ();
+		sep = go_format_get_arg_sep ();
 		end = strchr (cur, sep);
 		if (end ==NULL)
-			sep = format_get_row_sep ();
+			sep = go_format_get_row_sep ();
 	}
 	vec->str = NULL;
 	vec->n = 0;
@@ -884,8 +884,8 @@ go_data_matrix_val_as_str (GOData const *dat)
 	if (mat->size.rows == 0 || mat->size.columns == 0)
 		return g_strdup ("");
 
-	col_sep = format_get_col_sep ();
-	row_sep = format_get_row_sep ();
+	col_sep = go_format_get_col_sep ();
+	row_sep = go_format_get_row_sep ();
 	g_snprintf (sz, sizeof (sz), "%g", mat->val[0]);
 	str = g_string_new (sz);
 	for (j = 1; j < mat->size.columns; j++) {
@@ -918,8 +918,8 @@ go_data_matrix_val_from_str (GOData *dat, char const *str)
 	g_return_val_if_fail (str != NULL, TRUE);
 
 	values = g_array_sized_new (FALSE, FALSE, sizeof(double), 16);
-	col_sep = format_get_col_sep ();
-	row_sep = format_get_row_sep ();
+	col_sep = go_format_get_col_sep ();
+	row_sep = go_format_get_row_sep ();
 	i = j = columns = 0;
 	if (mat->notify && mat->val)
 		(*mat->notify) (mat->val);

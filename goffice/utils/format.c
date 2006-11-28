@@ -195,7 +195,7 @@ update_lc (void)
 }
 
 GString const *
-format_get_decimal (void)
+go_format_get_decimal (void)
 {
 	if (!locale_info_cached)
 		update_lc ();
@@ -204,7 +204,7 @@ format_get_decimal (void)
 }
 
 GString const *
-format_get_thousand (void)
+go_format_get_thousand (void)
 {
 	if (!locale_info_cached)
 		update_lc ();
@@ -213,7 +213,7 @@ format_get_thousand (void)
 }
 
 /**
- * format_get_currency :
+ * go_format_get_currency :
  * @precedes : a pointer to a boolean which is set to TRUE if the currency
  * 		should precede
  * @space_sep: a pointer to a boolean which is set to TRUE if the currency
@@ -223,7 +223,7 @@ format_get_thousand (void)
  * case.
  */
 GString const *
-format_get_currency (gboolean *precedes, gboolean *space_sep)
+go_format_get_currency (gboolean *precedes, gboolean *space_sep)
 {
 	if (!locale_info_cached)
 		update_lc ();
@@ -238,13 +238,13 @@ format_get_currency (gboolean *precedes, gboolean *space_sep)
 }
 
 /*
- * format_month_before_day :
+ * go_format_month_before_day :
  *
  * A quick utility routine to guess whether the default date format
  * uses day/month or month/day
  */
 gboolean
-format_month_before_day (void)
+go_format_month_before_day (void)
 {
 #ifdef HAVE_LANGINFO_H
 	static gboolean month_first = TRUE;
@@ -286,29 +286,29 @@ format_month_before_day (void)
  * comma, in which case use a semi-colon
  */
 char
-format_get_arg_sep (void)
+go_format_get_arg_sep (void)
 {
-	if (format_get_decimal ()->str[0] == ',')
+	if (go_format_get_decimal ()->str[0] == ',')
 		return ';';
 	return ',';
 }
 
 char
-format_get_col_sep (void)
+go_format_get_col_sep (void)
 {
-	if (format_get_decimal ()->str[0] == ',')
+	if (go_format_get_decimal ()->str[0] == ',')
 		return '\\';
 	return ',';
 }
 
 char
-format_get_row_sep (void)
+go_format_get_row_sep (void)
 {
 	return ';';
 }
 
 char const *
-format_boolean (gboolean b)
+go_format_boolean (gboolean b)
 {
 	if (!boolean_cached) {
 		lc_TRUE = _("TRUE");
@@ -810,7 +810,7 @@ SUFFIX(go_render_number) (GString *result,
 			  DOUBLE number,
 			  GONumberFormat const *info)
 {
-	GString const *thousands_sep = format_get_thousand ();
+	GString const *thousands_sep = go_format_get_thousand ();
 	char num_buf[(PREFIX(MANT_DIG) + PREFIX(MAX_EXP)) * 2 + 1];
 	gchar *num = num_buf + sizeof (num_buf) - 1;
 	DOUBLE frac_part, int_part;
@@ -877,7 +877,7 @@ SUFFIX(go_render_number) (GString *result,
 	     number < 1.0 &&
 	     info->right_allowed == 0 &&
 	     info->right_optional > 0))
-		go_string_append_gstring (result, format_get_decimal ());
+		go_string_append_gstring (result, go_format_get_decimal ());
 
 	/* TODO : clip this a DBL_DIG */
 	/* TODO : What if is a fraction ? */
@@ -2084,7 +2084,7 @@ SUFFIX(go_format_number) (GString *result,
 				format = tmp;
 				continue;
 			} else
-				go_string_append_gstring (result, format_get_thousand ());
+				go_string_append_gstring (result, go_format_get_thousand ());
 			break;
 
 		case 'E': 
@@ -2569,8 +2569,8 @@ go_format_str_delocalize (char const *descriptor_string)
 		return g_strdup ("");
 
 	if (strcmp (descriptor_string, _("General"))) {
-		GString const *thousands_sep = format_get_thousand ();
-		GString const *decimal = format_get_decimal ();
+		GString const *thousands_sep = go_format_get_thousand ();
+		GString const *decimal = go_format_get_decimal ();
 		char const *ptr = descriptor_string;
 		GString *res = g_string_sized_new (strlen (ptr));
 
@@ -2907,8 +2907,8 @@ go_format_str_as_XL (char const *ptr, gboolean localized)
 	if (!strcmp (ptr, "General"))
 		return g_strdup (_("General"));
 
-	thousands_sep = format_get_thousand ();
-	decimal = format_get_decimal ();
+	thousands_sep = go_format_get_thousand ();
+	decimal = go_format_get_decimal ();
 
 	res = g_string_sized_new (strlen (ptr));
 

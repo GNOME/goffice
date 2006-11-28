@@ -363,7 +363,7 @@ days_between_basis (GDate const *from, GDate const *to, basis_t basis)
 /* ------------------------------------------------------------------------- */
 
 /*
- * coup_cd
+ * go_coup_cd
  *
  * @res	      :
  * @settlement: GDate *
@@ -378,7 +378,7 @@ days_between_basis (GDate const *from, GDate const *to, basis_t basis)
  * this function does not depend on the basis of counting!
  */
 void
-coup_cd (GDate *result, GDate const *settlement, GDate const *maturity,
+go_coup_cd (GDate *result, GDate const *settlement, GDate const *maturity,
 	 int freq, gboolean eom, gboolean next)
 {
         int        months, periods;
@@ -426,7 +426,7 @@ coup_cd (GDate *result, GDate const *settlement, GDate const *maturity,
  * Currently, returns negative numbers if the branch is not implemented.
  */
 double
-coupdays (GDate const *settlement, GDate const *maturity,
+go_coupdays (GDate const *settlement, GDate const *maturity,
 	  GnmCouponConvention const *conv)
 {
 	GDate prev, next;
@@ -441,8 +441,8 @@ coupdays (GDate const *settlement, GDate const *maturity,
 		return 365.0 / conv->freq;
 	case BASIS_ACT_ACT:
 	default:
-		coup_cd (&next, settlement, maturity, conv->freq, conv->eom, TRUE);
-		coup_cd (&prev, settlement, maturity, conv->freq, conv->eom, FALSE);
+		go_coup_cd (&next, settlement, maturity, conv->freq, conv->eom, TRUE);
+		go_coup_cd (&prev, settlement, maturity, conv->freq, conv->eom, FALSE);
 		return days_between_basis (&prev, &next, BASIS_ACT_ACT);
         }
 }
@@ -455,16 +455,16 @@ coupdays (GDate const *settlement, GDate const *maturity,
  * the settlement date.
  */
 double
-coupdaybs (GDate const *settlement, GDate const *maturity,
+go_coupdaybs (GDate const *settlement, GDate const *maturity,
 	   GnmCouponConvention const *conv)
 {
 	GDate prev_coupon;
-	coup_cd (&prev_coupon, settlement, maturity, conv->freq, conv->eom, FALSE);
+	go_coup_cd (&prev_coupon, settlement, maturity, conv->freq, conv->eom, FALSE);
 	return days_between_basis (&prev_coupon, settlement, conv->basis);
 }
 
 /**
- * coupdaysnc :
+ * go_coupdaysnc :
  * @settlement :
  * @maturity :
  * @freq :
@@ -475,11 +475,11 @@ coupdaybs (GDate const *settlement, GDate const *maturity,
  * coupon date.
  **/
 double
-coupdaysnc (GDate const *settlement, GDate const *maturity,
+go_coupdaysnc (GDate const *settlement, GDate const *maturity,
 	    GnmCouponConvention const *conv)
 {
 	GDate next_coupon;
-	coup_cd (&next_coupon, settlement, maturity, conv->freq, conv->eom, TRUE);
+	go_coup_cd (&next_coupon, settlement, maturity, conv->freq, conv->eom, TRUE);
 	return days_between_basis (settlement, &next_coupon, conv->basis);
 }
 
