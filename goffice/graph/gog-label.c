@@ -288,7 +288,7 @@ enum {
 
 struct  _GogRegEqn {
 	GogLabel base;
-	gboolean show_eq, show_r2, valid_r2;
+	gboolean show_eq, show_r2;
 };
 
 typedef GogTextClass GogRegEqnClass;
@@ -366,13 +366,9 @@ gog_reg_eqn_populate_editor (GogObject *gobj,
 	g_signal_connect (w, "toggled", G_CALLBACK (cb_text_visibility_changed), gobj);
 
 	w = glade_xml_get_widget (gui, "show_r2");
-	if (reg_eqn->valid_r2) {
-		g_object_set_data (G_OBJECT (w), "prop", (void*) "show-r2");
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), reg_eqn->show_r2);
-		g_signal_connect (w, "toggled", G_CALLBACK (cb_text_visibility_changed), gobj);
-	} else {
-		gtk_widget_set_sensitive (w, FALSE);
-	}
+	g_object_set_data (G_OBJECT (w), "prop", (void*) "show-r2");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), reg_eqn->show_r2);
+	g_signal_connect (w, "toggled", G_CALLBACK (cb_text_visibility_changed), gobj);
 
 	(GOG_OBJECT_CLASS(reg_eqn_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 }
@@ -396,10 +392,10 @@ gog_reg_eqn_get_str (GogText *text)
 			NULL;
 	else 
 		return reg_eqn->show_eq ? 
-			g_strdup_printf ("%s\r\nR²=%g",
+			g_strdup_printf ("%s\r\nR² = %g",
 					 gog_reg_curve_get_equation (reg_curve),
 					 gog_reg_curve_get_R2 (reg_curve)) :
-			g_strdup_printf ("R²=%g", gog_reg_curve_get_R2 (reg_curve));
+			g_strdup_printf ("R² = %g", gog_reg_curve_get_R2 (reg_curve));
 }
 
 static void
@@ -438,14 +434,6 @@ gog_reg_eqn_init (GogRegEqn *reg_eqn)
 GSF_CLASS (GogRegEqn, gog_reg_eqn,
 	   gog_reg_eqn_class_init, gog_reg_eqn_init,
 	   GOG_TEXT_TYPE)
-
-void
-gog_reg_eqn_set_valid_r2 (GogRegEqn *eqn, gboolean valid)
-{
-	eqn->valid_r2 = valid;
-	if (!valid)
-		eqn->show_r2 = FALSE;
-}
 
 /************************************************************************/
 

@@ -38,7 +38,6 @@ GType gog_label_get_type (void);
 #define IS_GOG_REG_EQN(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_REG_EQN_TYPE))
 
 GType gog_reg_eqn_get_type (void);
-void gog_reg_eqn_set_valid_r2 (GogRegEqn *eqn, gboolean valid);
 
 G_END_DECLS
 
