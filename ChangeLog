@@ -1,3 +1,8 @@
+2006-11-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-color-selector.c:  add go_color_selector_set_allow_alpha.
+	* goffice/gtk/go-color-selector.h: ditto.
+
 2006-11-27  Morten Welinder  <terra@gnome.org>
 
 	* */*.c: Renaming of format_ symbols and a few others.

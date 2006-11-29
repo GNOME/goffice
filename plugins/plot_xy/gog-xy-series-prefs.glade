@@ -1,57 +1,71 @@
-<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
-<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
+<!-- Generated with glade3
+	Version: 3.0.1
+	Date: Fri Aug 25 12:01:48 2006
+	User: jean
+	Host: athlon
+-->
 <glade-interface>
-
-<widget class="GtkWindow" id="window1">
-  <property name="title" translatable="yes">window1</property>
-  <property name="type">GTK_WINDOW_TOPLEVEL</property>
-  <property name="window_position">GTK_WIN_POS_NONE</property>
-  <property name="modal">False</property>
-  <property name="resizable">True</property>
-  <property name="destroy_with_parent">False</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
-  <property name="focus_on_map">True</property>
-  <property name="urgency_hint">False</property>
-
-  <child>
-    <widget class="GtkTable" id="gog-xy-series-prefs">
-      <property name="border_width">12</property>
-      <property name="visible">True</property>
-      <property name="n_rows">1</property>
-      <property name="n_columns">1</property>
-      <property name="homogeneous">False</property>
-      <property name="row_spacing">6</property>
-      <property name="column_spacing">12</property>
-
-      <child>
-	<widget class="GtkCheckButton" id="invalid-as-zero">
-	  <property name="visible">True</property>
-	  <property name="tooltip" translatable="yes">Show markers or bubbles at 0 when the value is invalid</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="yes">_Use nul value instead of invalid</property>
-	  <property name="use_underline">True</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="focus_on_click">True</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	  <property name="draw_indicator">True</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">0</property>
-	  <property name="right_attach">1</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-    </widget>
-  </child>
-</widget>
-
+  <widget class="GtkWindow" id="window1">
+    <property name="title">window1</property>
+    <child>
+      <widget class="GtkTable" id="gog-xy-series-prefs">
+        <property name="visible">True</property>
+        <property name="border_width">12</property>
+        <property name="n_rows">2</property>
+        <property name="n_columns">2</property>
+        <property name="column_spacing">12</property>
+        <property name="row_spacing">6</property>
+        <child>
+          <widget class="GtkComboBox" id="interpolation">
+            <property name="visible">True</property>
+            <property name="items" translatable="yes">None
+Linear
+Spline
+Step at start
+Step at end
+Step at center
+Step to average</property>
+          </widget>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="right_attach">2</property>
+            <property name="top_attach">1</property>
+            <property name="bottom_attach">2</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options"></property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkLabel" id="interpolation-lbl">
+            <property name="visible">True</property>
+            <property name="xalign">0,000000</property>
+            <property name="label" translatable="yes">Interpolation type:</property>
+          </widget>
+          <packing>
+            <property name="top_attach">1</property>
+            <property name="bottom_attach">2</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkCheckButton" id="invalid-as-zero">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="label" translatable="yes">_Use nul value instead of invalid</property>
+            <property name="use_underline">True</property>
+            <property name="draw_indicator">True</property>
+            <property name="tooltip">Show markers or bubbles at 0 when the value is invalid</property>
+          </widget>
+          <packing>
+            <property name="right_attach">2</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options"></property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
 </glade-interface>

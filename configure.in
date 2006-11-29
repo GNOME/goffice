@@ -556,6 +556,7 @@ plugins/plot_radar/Makefile
 plugins/plot_xy/Makefile
 plugins/plot_surface/Makefile
 plugins/plot_boxes/Makefile
+plugins/reg_dist/Makefile
 plugins/reg_linear/Makefile
 plugins/reg_logfit/Makefile
 plugins/smoothing/Makefile

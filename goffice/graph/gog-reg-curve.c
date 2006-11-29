@@ -30,6 +30,7 @@
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/graph/gog-label.h>
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-math.h>
@@ -78,6 +79,7 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 	GtkTable *table;
 	GladeXML *gui;
 	GogDataset *set = GOG_DATASET (gobj);
+	GogRegCurve *rc = GOG_REG_CURVE (gobj);
 
 	gui = go_libglade_new ("gog-reg-curve-prefs.glade", "reg-curve-prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
@@ -94,6 +96,14 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 1, GOG_DATA_SCALAR));
 	gtk_widget_show (w);
 	gtk_table_attach (table, w, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	if (rc->use_errors) {
+		w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 2, GOG_DATA_VECTOR));
+		gtk_widget_show (w);
+		gtk_table_attach (table, w, 1, 2, 2, 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	} else {
+		w = glade_xml_get_widget (gui, "errors-label");
+		gtk_widget_hide (w);
+	}
 	w = glade_xml_get_widget (gui, "skip-invalid");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 					(GOG_REG_CURVE (gobj))->skip_invalid);
@@ -142,10 +152,10 @@ static void
 gog_reg_curve_finalize (GObject *obj)
 {
 	GogRegCurve *rc = GOG_REG_CURVE (obj);
-	if (rc->bounds != NULL) {
+	if (rc->data != NULL) {
 		gog_dataset_finalize (GOG_DATASET (obj));
-		g_free (rc->bounds);
-		rc->bounds = NULL;
+		g_free (rc->data);
+		rc->data = NULL;
 	}
 	g_free (rc->a);
 	rc->a = NULL;
@@ -161,12 +171,20 @@ gog_reg_curve_type_name (GogObject const *gobj)
 }
 
 static void
+eqn_post_add (GogObject *parent, GogObject *child)
+{
+	GogRegCurve *curve = GOG_REG_CURVE (parent);
+	GogRegEqn *eqn = GOG_REG_EQN (child);
+	gog_reg_eqn_set_valid_r2 (eqn, curve->valid_r2);
+}
+
+static void
 gog_reg_curve_class_init (GogObjectClass *gog_klass)
 {
 	static GogObjectRole const roles[] = {
 		{ N_("Equation"), "GogRegEqn",	0,
 		  GOG_POSITION_ANY_MANUAL, GOG_POSITION_MANUAL, GOG_OBJECT_NAME_BY_ROLE,
-		  NULL, NULL, NULL, NULL, NULL, NULL },
+		  NULL, NULL, NULL, eqn_post_add, NULL, NULL },
 	};
 	GObjectClass *gobject_klass = (GObjectClass *) gog_klass;
 	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) gog_klass;
@@ -199,23 +217,26 @@ static void
 gog_reg_curve_init (GogRegCurve *reg_curve)
 {
 	reg_curve->ninterp = 100;
-	reg_curve->bounds = g_new0 (GogDatasetElement, 2);
+	reg_curve->data = g_new0 (GogDatasetElement, 3); /* we do not know at this
+	point if we have errors support */
+	reg_curve->valid_r2 = TRUE;
 }
 
 static void
 gog_reg_curve_dataset_dims (GogDataset const *set, int *first, int *last)
 {
+	GogRegCurve const *rc = GOG_REG_CURVE (set);
 	*first = 0;
-	*last = 1;
+	*last = (rc->use_errors)? 2: 1;
 }
 
 static GogDatasetElement *
 gog_reg_curve_dataset_get_elem (GogDataset const *set, int dim_i)
 {
 	GogRegCurve const *rc = GOG_REG_CURVE (set);
-	g_return_val_if_fail (2 > dim_i, NULL);
+	g_return_val_if_fail (((rc->use_errors)? 3: 2) > dim_i, NULL);
 	g_return_val_if_fail (dim_i >= 0, NULL);
-	return rc->bounds + dim_i;
+	return rc->data + dim_i;
 }
 
 static void
@@ -258,20 +279,27 @@ gog_reg_curve_get_R2 (GogRegCurve *reg_curve)
 void
 gog_reg_curve_get_bounds (GogRegCurve *reg_curve, double *xmin, double *xmax)
 {
-	if (reg_curve->bounds[0].data) {
+	if (reg_curve->data[0].data) {
 		*xmin = go_data_scalar_get_value (
-			GO_DATA_SCALAR (reg_curve->bounds[0].data));
+			GO_DATA_SCALAR (reg_curve->data[0].data));
 		if (*xmin == go_nan || !go_finite (*xmin))
 			*xmin = -DBL_MAX;
 	} else
 		*xmin = -DBL_MAX;
-	if (reg_curve->bounds[1].data) {
+	if (reg_curve->data[1].data) {
 		*xmax = go_data_scalar_get_value (
-			GO_DATA_SCALAR (reg_curve->bounds[1].data));
+			GO_DATA_SCALAR (reg_curve->data[1].data));
 		if (*xmax == go_nan || !go_finite (*xmax))
 			*xmax = DBL_MAX;
 	} else
 		*xmax = DBL_MAX;
+}
+
+GODataVector *
+gog_reg_curve_get_errors (GogRegCurve *reg_curve)
+{
+	return (reg_curve->use_errors && reg_curve->data[2].data)?
+		GO_DATA_VECTOR (reg_curve->data[2].data): NULL;
 }
 
 /****************************************************************************/

@@ -72,12 +72,12 @@ go_sys_lib_dir (void)
 	return libgoffice_lib_dir;
 }
 
+static gboolean goffice_initialized = FALSE;
+
 void
 libgoffice_init (void)
 {
-	static gboolean initialized = FALSE;
-
-	if (initialized)
+	if (!g_atomic_int_compare_and_exchange (&goffice_initialized, FALSE, TRUE))
 		return;
 
 #ifdef G_OS_WIN32
@@ -124,7 +124,6 @@ libgoffice_init (void)
 	gog_themes_init	();
 	go_number_format_init ();
 	go_currency_date_format_init ();
-	initialized = TRUE;
 }
 
 void

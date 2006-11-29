@@ -32,14 +32,14 @@ struct  _GogRegCurve {
 	GogTrendLine	base;
 	
 	GogSeries 	  *series;
-	gboolean  	   weighted;
-	GODataVector 	  *weights;
-	GogDatasetElement *bounds;
-	gboolean	   skip_invalid; /* do not take into account invalid data */
-	int		   ninterp;	 /* how many points to use for display the curve as a vpath */
-	double		  *a;		 /* calculated coefficients, must be allocated by derived class */
-	double		   R2;		 /* squared regression coefficient */
-	char		  *equation;
+	GogDatasetElement *data;
+	gboolean skip_invalid; /* do not take into account invalid data */
+	int ninterp; /* how many points to use for display the curve as a vpath */
+	double *a; /* calculated coefficients, must be allocated by derived class */
+	double R2; /* squared regression coefficient */
+	char *equation;
+	gboolean valid_r2, use_errors; /* use_errors is TRUE when the regression
+	procedure uses standard errors for the data */
 };
 
 typedef struct {
@@ -59,6 +59,9 @@ GType gog_reg_curve_get_type (void);
 gchar const *gog_reg_curve_get_equation (GogRegCurve *reg_curve);
 double       gog_reg_curve_get_R2       (GogRegCurve *reg_curve);
 void         gog_reg_curve_get_bounds   (GogRegCurve *reg_curve, double *xmin, double *xmax);
+GODataVector * gog_reg_curve_get_errors (GogRegCurve *reg_curve);
+
+G_END_DECLS
 
 G_END_DECLS
 

@@ -36,6 +36,7 @@ typedef struct {
 	int n_swatches;
 	GOColorGroup *color_group;
 	GOColor default_color;
+	gboolean allow_alpha;
 } GOColorSelectorState;
 
 static void
@@ -187,6 +188,7 @@ cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
 	GtkWidget *color_selection;
 	GdkColor gdk_color;
 	GOColor color;
+	GOColorSelectorState *state = go_selector_get_user_data (selector);
 	
 	color_dialog = g_object_get_data (G_OBJECT (selector), "color-dialog");
 	if (color_dialog != NULL) {
@@ -194,7 +196,8 @@ cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
 		color = go_color_selector_get_color (selector, NULL);
 		gtk_color_selection_set_current_color (GTK_COLOR_SELECTION (color_selection), 
 						       go_color_to_gdk (color, &gdk_color));
-		gtk_color_selection_set_current_alpha (GTK_COLOR_SELECTION (color_selection), 
+		if (state->allow_alpha)
+			gtk_color_selection_set_current_alpha (GTK_COLOR_SELECTION (color_selection), 
 						       UINT_RGBA_A (color) * 257);
 		gtk_window_present (GTK_WINDOW (color_dialog));
 		return;
@@ -202,13 +205,14 @@ cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
 
 	color_dialog = gtk_color_selection_dialog_new (_("Custom color..."));
 	color_selection = GTK_COLOR_SELECTION_DIALOG (color_dialog)->colorsel;
+	gtk_color_selection_set_has_opacity_control (GTK_COLOR_SELECTION (color_selection), state->allow_alpha);
 	g_object_set_data_full (G_OBJECT (selector), "color-dialog", color_dialog, 
 				(GDestroyNotify) gtk_widget_destroy);
 	color = go_color_selector_get_color (selector, NULL);
 	gtk_color_selection_set_current_color (GTK_COLOR_SELECTION (color_selection), 
 					       go_color_to_gdk (color, &gdk_color));
-	gtk_color_selection_set_has_opacity_control (GTK_COLOR_SELECTION (color_selection), TRUE);
-	gtk_color_selection_set_current_alpha (GTK_COLOR_SELECTION (color_selection), 
+	if (state->allow_alpha)
+		gtk_color_selection_set_current_alpha (GTK_COLOR_SELECTION (color_selection), 
 					       UINT_RGBA_A (color) * 257);
 	g_signal_connect (color_dialog, "response", G_CALLBACK (cb_color_dialog_response), selector);
        	gtk_widget_show (color_dialog);
@@ -290,6 +294,7 @@ go_color_selector_new (GOColor initial_color,
 
 	state = g_new (GOColorSelectorState, 1);
 	state->default_color = default_color;
+	state->allow_alpha = TRUE;
 	
 	while (default_color_set[count].name != NULL) count ++;
 	state->n_swatches = count + GO_COLOR_GROUP_HISTORY_SIZE;
@@ -376,3 +381,16 @@ go_color_selector_get_color (GOSelector *selector, gboolean *is_auto)
 	return get_color (state->n_swatches, state->color_group, index);
 }
 
+/**
+ * go_color_selector_set_allow_alpha :
+ * @selector : #GOColorSelector
+ * @allow_alpha : 
+ *
+ * Should the custom colour selector allow the use of opacity.
+ **/
+void
+go_color_selector_set_allow_alpha (GOSelector *selector, gboolean allow_alpha)
+{
+	GOColorSelectorState *state = go_selector_get_user_data (selector);
+	state->allow_alpha = allow_alpha;
+}
