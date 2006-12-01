@@ -116,7 +116,7 @@ gog_object_set_arg_full (char const *name, char const *val, GogObject *obj, xmlN
 				g_object_unref (val_obj);
 			}
 		}
-	} else if (!gsf_xml_gvalue_from_str (&res, G_TYPE_FUNDAMENTAL (prop_type), val))
+	} else if (!gsf_xml_gvalue_from_str (&res, prop_type, val))
 		success = FALSE;
 
 	if (!success) {
@@ -159,7 +159,9 @@ gog_object_write_property_sax (GogObject const *obj, GParamSpec *pspec, GsfXMLOu
 	case G_TYPE_LONG:
 	case G_TYPE_ULONG:
 	case G_TYPE_FLOAT:
-	case G_TYPE_DOUBLE: {
+	case G_TYPE_DOUBLE:
+	case G_TYPE_ENUM:
+	case G_TYPE_FLAGS: {
 		GValue str = { 0 };
 		g_value_init (&str, G_TYPE_STRING);
 		g_value_transform (&value, &str);
@@ -196,7 +198,8 @@ gog_object_write_property_sax (GogObject const *obj, GParamSpec *pspec, GsfXMLOu
 		break;
 
 	default:
-		;
+		g_warning ("I could not persist property \"%s\", since type \"%s\" is unhandled.",
+			   g_param_spec_get_name (pspec), g_type_name (G_TYPE_FUNDAMENTAL(prop_type)));
 	}
 	g_value_unset (&value);
 }

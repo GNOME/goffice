@@ -1,3 +1,11 @@
+2006-12-01  Christian Neumair  <chris@gnome-de.org>
+
+	* goffice/graph/gog-object-xml.c: (gog_object_set_arg_full),
+	(gog_object_write_property_sax):
+	Pass actual property type to gsf_xml_gvalue_from_str() instead of its
+	fundamental type. Also persist enums and flags, and bail if
+	persistance failed.
+
 2006-11-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-color-selector.c:  add go_color_selector_set_allow_alpha.
