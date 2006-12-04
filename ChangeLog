@@ -1,3 +1,7 @@
+2006-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.3.4
+
 2006-12-01  Christian Neumair  <chris@gnome-de.org>
 
 	* goffice/graph/gog-object-xml.c: (gog_object_set_arg_full),
