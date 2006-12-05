@@ -76,6 +76,7 @@ struct _GogRendererCairo {
 	cairo_t		*cairo;
 	GdkPixbuf 	*pixbuf;
 
+	gboolean	 marker_as_surface;
 	cairo_surface_t *marker_surface;
 	double		 marker_x_offset;
 	double		 marker_y_offset;
@@ -605,46 +606,28 @@ gog_renderer_cairo_get_text_OBR (GogRenderer *rend,
 	obr->h = ((double) logical.height + (double) PANGO_SCALE / 2.0) /(double) PANGO_SCALE;
 }
 
-static cairo_surface_t *
-grc_get_marker_surface (GogRenderer *rend)
+static void
+grc_draw_marker (cairo_t *cairo, GOMarker *marker, double x, double y, double scale, gboolean is_vector)
 {
-	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
-	GOMarker *marker = rend->cur_style->marker.mark;
-	cairo_t *cairo;
-	cairo_surface_t *surface;
 	ArtVpath *path;
 	ArtVpath const *outline_path_raw, *fill_path_raw;
 	double scaling[6], translation[6], affine[6];
-	double half_size, offset;
-
-	if (crend->marker_surface != NULL)
-		return crend->marker_surface;
+	double half_size;
 
 	go_marker_get_paths (marker, &outline_path_raw, &fill_path_raw);
 
 	if ((outline_path_raw == NULL) ||
 	    (fill_path_raw == NULL))
-		return NULL;
-
-	if (crend->is_vector) {
-		half_size = rend->scale * go_marker_get_size (marker) / 2.0;
-		offset = half_size + rend->scale * go_marker_get_outline_width (marker);
-	} else {
-		half_size = rint (rend->scale * go_marker_get_size (marker)) / 2.0;
-		offset = ceil (rend->scale * go_marker_get_outline_width (marker) / 2.0) + 
-			half_size + .5;
-	}
-	surface = cairo_surface_create_similar (cairo_get_target (crend->cairo),
-						CAIRO_CONTENT_COLOR_ALPHA,
-						2.0 * offset, 
-						2.0 * offset);
-	cairo = cairo_create (surface);
+		return;
 
 	cairo_set_line_cap (cairo, CAIRO_LINE_CAP_SQUARE);
 	cairo_set_line_join (cairo, CAIRO_LINE_JOIN_MITER);
+
+	half_size = 0.5 * (is_vector ? scale * go_marker_get_size (marker) :
+			  	       rint (scale * go_marker_get_size (marker))); 
 						       
-	art_affine_scale (scaling, half_size, half_size);
-	art_affine_translate (translation, offset, offset);
+	art_affine_scale (scaling, half_size , half_size);
+	art_affine_translate (translation, x, y);
 	art_affine_multiply (affine, scaling, translation);
 
 	path = art_vpath_affine_transform (fill_path_raw, affine);
@@ -655,10 +638,40 @@ grc_get_marker_surface (GogRenderer *rend)
 
 	path = art_vpath_affine_transform (outline_path_raw, affine);
 	cairo_set_source_rgba (cairo, GO_COLOR_TO_CAIRO (go_marker_get_outline_color (marker)));
-	cairo_set_line_width (cairo, rend->scale * go_marker_get_outline_width (marker));
+	cairo_set_line_width (cairo, scale * go_marker_get_outline_width (marker));
 	grc_path (cairo, path, NULL);
 	cairo_stroke (cairo);
 	art_free (path);
+}
+
+static cairo_surface_t *
+grc_get_marker_surface (GogRenderer *rend)
+{
+	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
+	GOMarker *marker = rend->cur_style->marker.mark;
+	cairo_t *cairo;
+	cairo_surface_t *surface;
+	double half_size, offset;
+
+	if (crend->marker_surface != NULL)
+		return crend->marker_surface;
+
+	if (crend->is_vector) {
+		half_size = rend->scale * go_marker_get_size (marker) / 2.0;
+		offset = half_size + rend->scale * go_marker_get_outline_width (marker);
+	} else {
+		half_size = rint (rend->scale * go_marker_get_size (marker)) / 2.0;
+		offset = ceil (rend->scale * go_marker_get_outline_width (marker) / 2.0) + 
+			half_size + .5;
+	}
+
+	surface = cairo_surface_create_similar (cairo_get_target (crend->cairo),
+						CAIRO_CONTENT_COLOR_ALPHA,
+						2.0 * offset, 
+						2.0 * offset);
+	cairo = cairo_create (surface);
+
+	grc_draw_marker (cairo, marker, offset, offset, rend->scale, crend->is_vector);
 
 	cairo_destroy (cairo);
 
@@ -679,15 +692,22 @@ gog_renderer_cairo_draw_marker (GogRenderer *rend, double x, double y)
 	if (surface == NULL)
 		return;
 
-	if (crend->is_vector)
-		cairo_set_source_surface (crend->cairo, surface, 
-					  x - crend->marker_x_offset, 
-					  y - crend->marker_y_offset);
-	else 
+	if (crend->is_vector) {
+		if (crend->marker_as_surface) {
+			cairo_set_source_surface (crend->cairo, surface, 
+						  x - crend->marker_x_offset, 
+						  y - crend->marker_y_offset); 
+			cairo_paint (crend->cairo);
+		} else 
+			grc_draw_marker (crend->cairo, rend->cur_style->marker.mark,
+					 x, y, rend->scale, TRUE);
+
+	} else {
 		cairo_set_source_surface (crend->cairo, surface, 
 					  floor (x - crend->marker_x_offset), 
 					  floor (y - crend->marker_y_offset));
-	cairo_paint (crend->cairo);
+		cairo_paint (crend->cairo);
+	}
 }
 
 static void
@@ -756,6 +776,7 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 			crend->base.scale = 1.0;
 			switch (format) {
 				case GO_IMAGE_FORMAT_PDF:
+					crend->marker_as_surface = FALSE;
 #ifdef CAIRO_HAS_PDF_SURFACE
 					surface = cairo_pdf_surface_create_for_stream 
 						(grc_cairo_write_func, 
@@ -769,6 +790,7 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 					return FALSE;
 #endif
 				case GO_IMAGE_FORMAT_PS:
+					crend->marker_as_surface = FALSE;
 #ifdef CAIRO_HAS_PS_SURFACE
 					surface = cairo_ps_surface_create_for_stream 
 						(grc_cairo_write_func, 
@@ -782,6 +804,7 @@ gog_renderer_cairo_export_image (GogRenderer *renderer, GOImageFormat format,
 					return FALSE;
 #endif
 				case GO_IMAGE_FORMAT_SVG:
+					crend->marker_as_surface = TRUE;
 #ifdef CAIRO_HAS_SVG_SURFACE
 					surface = cairo_svg_surface_create_for_stream 
 						(grc_cairo_write_func, 

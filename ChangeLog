@@ -1,3 +1,13 @@
+2006-12-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix markers in PDF and PS export.
+
+	* goffice/graph/gog-renderer-cairo.c (grc_draw_marker): new.
+	(grc_get_marker_surface): use grc_draw_marker.
+	(gog_renderer_cairo_draw_marker): don't use a cached cairo surface for
+	marker rendering when exporting to PDF and PS.
+	(gog_renderer_cairo_export_image): ditto.
+
 2006-12-04  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
