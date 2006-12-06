@@ -1849,7 +1849,7 @@ gog_style_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs
 					 -1, "outline", 
 					 GSF_XML_NO_CONTENT, FALSE, FALSE, 
 					 &gog_style_sax_load_line, NULL, 1),
-		GSF_XML_IN_NODE_FULL 	(STYLE, STYLE_LINE, 
+		GSF_XML_IN_NODE_FULL 	(STYLE, STYLE_INTERPOLATION, 
 					 -1, "interpolation", 
 					 GSF_XML_NO_CONTENT, FALSE, FALSE, 
 					 &gog_style_sax_load_interpolation, NULL, 0),
