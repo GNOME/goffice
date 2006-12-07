@@ -832,7 +832,7 @@ gog_chart_get_plot_area (GogChart *chart, GogViewAllocation *plot_area)
 }
 
 /**
- * gog_chart_set_plot_area :
+ * gog_chart_set_plot_area:
  * @chart : #GogChart
  * @plot_area  : #GogViewAllocation
  *
@@ -852,7 +852,19 @@ gog_chart_set_plot_area (GogChart *chart, GogViewAllocation const *plot_area)
 	gog_object_emit_changed (GOG_OBJECT (chart), TRUE);
 }
 
-/* FIXME: function description here */
+/**
+ * gog_chart_get_cardinality:
+ * @chart: a #GogChart
+ * @full: placeholder for full cardinality
+ * @visible: placeholder for visible cardinality
+ *
+ * Update and cache cardinality values if required, and returns
+ * full and visible cardinality. Full cardinality is the number of 
+ * chart elements that require a different style. Visible cardinality is
+ * the number of chart elements showed in chart legend.
+ *
+ * @full and @visible may be NULL.
+ **/ 
 void
 gog_chart_get_cardinality (GogChart *chart, unsigned *full, unsigned *visible)
 {
@@ -865,6 +877,7 @@ gog_chart_get_cardinality (GogChart *chart, unsigned *full, unsigned *visible)
 		chart->cardinality_valid = TRUE;
 		chart->full_cardinality = chart->visible_cardinality = 0;
 		for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next) {
+			gog_plot_update_cardinality (ptr->data, chart->visible_cardinality);
 			gog_plot_get_cardinality (ptr->data, &tmp_full, &tmp_visible);
 			chart->full_cardinality += tmp_full;
 			chart->visible_cardinality += tmp_visible;

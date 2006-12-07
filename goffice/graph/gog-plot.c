@@ -632,45 +632,62 @@ gog_plot_request_cardinality_update (GogPlot *plot)
 }
 
 /**
- * gog_plot_get_cardinality :
+ * gog_plot_update_cardinality :
  * @plot : #GogPlot
+ * @index_num: index offset for this plot
  *
- * Return the number of logical elements in the plot, updating the cache if
- * necessary
+ * Update cardinality and cache result. See @gog_chart_get_cardinality.
+ **/
+void
+gog_plot_update_cardinality (GogPlot *plot, int index_num)
+{
+	GogSeries *series;
+	GSList	  *ptr;
+	gboolean   is_valid;
+	unsigned   size = 0, no_legend = 0, i;
+
+	g_return_if_fail (IS_GOG_PLOT (plot));
+
+	plot->cardinality_valid = TRUE;
+	plot->index_num = i = index_num;
+
+	for (ptr = plot->series; ptr != NULL ; ptr = ptr->next) {
+		series = GOG_SERIES (ptr->data);
+		is_valid = gog_series_is_valid (GOG_SERIES (series));
+		if (plot->vary_style_by_element) {
+			if (is_valid && size < series->num_elements)
+				size = series->num_elements;
+			gog_series_set_index (series, plot->index_num, FALSE);
+		} else {
+			gog_series_set_index (series, i++, FALSE);
+			if (!gog_series_has_legend (series))
+				no_legend++;
+		}
+	}
+
+	plot->full_cardinality =
+		plot->vary_style_by_element ? size : (i - plot->index_num);
+	plot->visible_cardinality = plot->full_cardinality - no_legend;
+}
+
+/**
+ * gog_plot_get_cardinality:
+ * @plot: #GogPlot
+ * @full: placeholder for full cardinality
+ * @visible: placeholder for visible cardinality
+ *
+ * Return the number of logical elements in the plot.
+ * See @gog_chart_get_cardinality.
+ *
+ * @full and @visible may be NULL.
  **/
 void
 gog_plot_get_cardinality (GogPlot *plot, unsigned *full, unsigned *visible)
 {
 	g_return_if_fail (IS_GOG_PLOT (plot));
 
-	if (!plot->cardinality_valid) {
-		GogSeries *series;
-		GSList	  *ptr;
-		gboolean   is_valid;
-		unsigned   size = 0, no_legend = 0, i;
-
-		plot->cardinality_valid = TRUE;
-		gog_chart_get_cardinality (gog_plot_get_chart (plot), NULL, &i);
-		plot->index_num = i;
-
-		for (ptr = plot->series; ptr != NULL ; ptr = ptr->next) {
-			series = GOG_SERIES (ptr->data);
-			is_valid = gog_series_is_valid (GOG_SERIES (series));
-			if (plot->vary_style_by_element) {
-				if (is_valid && size < series->num_elements)
-					size = series->num_elements;
-				gog_series_set_index (series, plot->index_num, FALSE);
-			} else {
-				gog_series_set_index (series, i++, FALSE);
-				if (!gog_series_has_legend (series))
-					no_legend++;
-			}
-		}
-
-		plot->full_cardinality =
-			plot->vary_style_by_element ? size : (i - plot->index_num);
-		plot->visible_cardinality = plot->full_cardinality - no_legend;
-	}
+	if (!plot->cardinality_valid)
+		g_warning ("[GogPlot::get_cardinality] Invalid cardinality");
 
 	if (full != NULL)
 		*full = plot->full_cardinality;

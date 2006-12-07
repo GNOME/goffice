@@ -270,7 +270,7 @@ gog_legend_view_size_request (GogView *v,
 	GogChart *chart = GOG_CHART (v->model->parent);
 	GogLegendView *glv = GOG_LEGEND_VIEW (v);
 	GogLegend *l = GOG_LEGEND (v->model);
-	GogViewRequisition child_req, residual;
+	GogViewRequisition child_req, residual, frame_req;
 	GogStyle *style;
 	double available_space, element_size;
 	unsigned num_elements;
@@ -278,15 +278,29 @@ gog_legend_view_size_request (GogView *v,
 	residual = *available;
 	req->w = req->h = 0;
 	gog_view_size_child_request (v, available, req, &child_req);
-	lview_parent_klass->size_request (v, available, req);
-	residual.w -= req->w;
-	residual.h -= req->h;
+	frame_req.w = frame_req.h = 0;
+	lview_parent_klass->size_request (v, available, &frame_req);
+	residual.w -= req->w + frame_req.w;
+	residual.h -= req->h + frame_req.h;
 
 	glv->is_vertical = gog_object_get_position_flags (GOG_OBJECT (l), GOG_POSITION_COMPASS) &
 		(GOG_POSITION_E | GOG_POSITION_W);
 
 	gog_chart_get_cardinality (chart, NULL, &num_elements);
-	
+
+	if (num_elements < 1) {
+		/* If there's no child requisition and no element, there's no 
+		 * point in displaying a legend box. */
+		if (go_sub_epsilon (child_req.w) <= 0.0 &&
+		    go_sub_epsilon (child_req.h) <= 0.0) {
+			req->w = req->h = -1;
+		} else {
+			req->w = child_req.w + frame_req.w;
+			req->h = child_req.h + frame_req.h;
+		}
+		return;
+	}
+
 	style = gog_styled_object_get_style (GOG_STYLED_OBJECT (l));
 	gog_renderer_push_style (v->renderer, style);
 	
@@ -326,8 +340,8 @@ gog_legend_view_size_request (GogView *v,
 		req->w += MIN (glv->element_per_blocks, num_elements) * glv->element_width - glv->swatch_w;
 	}
 
-	req->w = MAX (child_req.w, req->w);
-	req->h = MAX (child_req.h, req->h);
+	req->w = frame_req.w + MAX (child_req.w, req->w);
+	req->h = frame_req.h + MAX (child_req.h, req->h);
 }
 
 typedef struct {

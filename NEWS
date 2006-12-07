@@ -1,3 +1,12 @@
+goffice 0.3.5:
+
+Emmanuel Pacaud:
+	* Fix legend where there's no element to display. [#382354]
+	* Fix legend when reordering plots. [#382663]
+	* Fix markers in PDF and PS export.
+
+--------------------------------------------------------------------------
+
 goffice 0.3.4:
 
 Morten:
