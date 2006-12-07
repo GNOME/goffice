@@ -119,8 +119,7 @@ go_regexec (const GORegexp *gor, const char *txt,
       return REG_ESPACE;
 
     offsetcount = nmatch * 3;
-    /* FIXME: we really want g_try_new but that is recent.  */
-    offsets = allocated = g_new (int, offsetcount);
+    offsets = allocated = g_try_new (int, offsetcount);
     if (!offsets)
       return REG_ESPACE;
   } else {
