@@ -1222,7 +1222,7 @@ static struct {
 static struct {
 	GogFillStyle fstyle;
 	char const *name;
-} image_names[] = {
+} image_tiling_names[] = {
 	{ GOG_IMAGE_CENTERED,     "centered" },
 	{ GOG_IMAGE_STRETCHED,    "stretched" },
 	{ GOG_IMAGE_WALLPAPER,    "wallpaper" },
@@ -1276,22 +1276,22 @@ fill_style_as_str (GogFillStyle fstyle)
 }
 
 static GogImageType
-str_as_image_type (char const *name)
+str_as_image_tiling (char const *name)
 {
 	unsigned i;
-	for (i = 0; i < G_N_ELEMENTS (image_names); i++)
-		if (strcmp (image_names[i].name, name) == 0)
-			return image_names[i].fstyle;
+	for (i = 0; i < G_N_ELEMENTS (image_tiling_names); i++)
+		if (strcmp (image_tiling_names[i].name, name) == 0)
+			return image_tiling_names[i].fstyle;
 	return GOG_IMAGE_STRETCHED;
 }
 
 static char const *
-image_type_as_str (GogFillStyle fstyle)
+image_tiling_as_str (GogFillStyle fstyle)
 {
 	unsigned i;
-	for (i = 0; i < G_N_ELEMENTS (image_names); i++)
-		if (image_names[i].fstyle == fstyle)
-			return image_names[i].name;
+	for (i = 0; i < G_N_ELEMENTS (image_tiling_names); i++)
+		if (image_tiling_names[i].fstyle == fstyle)
+			return image_tiling_names[i].name;
 	return "stretched";
 }
 
@@ -1411,8 +1411,9 @@ gog_style_fill_sax_save (GsfXMLOut *output, GogStyle const *style)
 		break;
 	case GOG_FILL_STYLE_IMAGE:
 		gsf_xml_out_start_element (output, "image");
+		/* FIXME : type is not a good characterization */
 		gsf_xml_out_add_cstr_unchecked (output, "type",
-				image_type_as_str (style->fill.image.type));
+			image_tiling_as_str (style->fill.image.type));
 /* TODO save the pixels */
 		gsf_xml_out_end_element (output);
 		break;
@@ -1454,7 +1455,7 @@ gog_style_image_load (xmlNode *node, GogStyle *style)
 {
 	char *str = xmlGetProp (node, "type");
 	if (str != NULL) {
-		style->fill.image.type = str_as_image_type (str);
+		style->fill.image.type = str_as_image_tiling (str);
 		xmlFree (str);
 	}
 	/* TODO: load the pixels */
@@ -1672,7 +1673,7 @@ gog_style_persist_dom_load (GogPersist *gp, xmlNode *node)
 static void
 gog_style_sax_load_line (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
+	GogStyle *style = GOG_STYLE (xin->user_state);
 	GogStyleLine *line = xin->node->user_data.v_int ? &style->outline : &style->line;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -1697,7 +1698,7 @@ gog_style_sax_load_line (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gog_style_sax_load_interpolation (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
+	GogStyle *style = GOG_STYLE (xin->user_state);
 	if (0 == strcmp (attrs[0], "type")) {
 		style->interpolation.type = go_line_interpolation_from_str (attrs[1]);
 		style->interpolation.auto_type = FALSE;
@@ -1707,7 +1708,7 @@ gog_style_sax_load_interpolation (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gog_style_sax_load_fill_pattern (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
+	GogStyle *style = GOG_STYLE (xin->user_state);
 	g_return_if_fail (style->fill.type == GOG_FILL_STYLE_PATTERN);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "type"))
@@ -1721,7 +1722,7 @@ gog_style_sax_load_fill_pattern (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gog_style_sax_load_fill_gradient (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
+	GogStyle *style = GOG_STYLE (xin->user_state);
 	g_return_if_fail (style->fill.type == GOG_FILL_STYLE_GRADIENT);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "direction"))
@@ -1737,12 +1738,12 @@ gog_style_sax_load_fill_gradient (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gog_style_sax_load_fill_image (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
+	GogStyle *style = GOG_STYLE (xin->user_state);
 	g_return_if_fail (style->fill.type == GOG_FILL_STYLE_IMAGE);
 	/* TODO: load the pixels */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "type")) {
-			style->fill.image.type = str_as_image_type (attrs[1]);
+			style->fill.image.type = str_as_image_tiling (attrs[1]);
 			break;
 		}
 }
@@ -1750,7 +1751,7 @@ gog_style_sax_load_fill_image (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gog_style_sax_load_fill (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
+	GogStyle *style = GOG_STYLE (xin->user_state);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "type"))
 			style->fill.type = str_as_fill_style (attrs[1]);
@@ -1762,7 +1763,7 @@ gog_style_sax_load_fill (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gog_style_sax_load_marker (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
+	GogStyle *style = GOG_STYLE (xin->user_state);
 	GOMarker *marker = go_marker_dup (style->marker.mark);
 	GOColor c;
 
@@ -1790,7 +1791,7 @@ gog_style_sax_load_marker (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gog_style_sax_load_font (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
+	GogStyle *style = GOG_STYLE (xin->user_state);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "color"))
 			go_color_from_str (attrs[1], &style->font.color);
@@ -1804,7 +1805,7 @@ gog_style_sax_load_font (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 gog_style_sax_load_text_layout (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	GogStyle *style = GOG_STYLE (gog_xml_read_state_get_obj (xin));
+	GogStyle *style = GOG_STYLE (xin->user_state);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "angle"))
 			gog_style_set_text_angle (style, g_strtod (attrs[1], NULL));
@@ -1887,7 +1888,7 @@ gog_style_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs
 	
 	if (NULL == doc)
 		doc = gsf_xml_in_doc_new (dtd, NULL);
-	gsf_xml_in_push_state (xin, doc, NULL, NULL, attrs);
+	gsf_xml_in_push_state (xin, doc, gp, NULL, attrs);
 }
 
 static void

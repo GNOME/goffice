@@ -1,3 +1,11 @@
+2006-12-09  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-style.c (gog_style_sax_load_*) : Pass in the
+	  GogStyle as the user_state rather than using
+	  gog_xml_read_state_get_obj.  This allows the parser to be used
+	  externally by code (gnumeric sheet objects) that do not have the
+	  GogObject parser state.
+
 2006-12-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-legend.c (gog_legend_view_size_request): Fix

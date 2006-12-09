@@ -5,6 +5,9 @@ Emmanuel Pacaud:
 	* Fix legend when reordering plots. [#382663]
 	* Fix markers in PDF and PS export.
 
+Jody:
+	* Make the GogStyle sax parser usable by outside objects.
+
 --------------------------------------------------------------------------
 
 goffice 0.3.4:
@@ -43,6 +46,10 @@ Morten:
 
 --------------------------------------------------------------------------
 goffice 0.3.1:
+
+NOTE : This is a _DEVELOPMENT_ release.  Please use the 0.2.x series for
+	production systems.  The api/abi in 0.3.x is expected to change without
+	notice until 0.4.0.
 
 Emmanuel Pacaud:
 	* Composite graph image onto white background when exporting to
