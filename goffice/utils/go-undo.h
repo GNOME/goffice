@@ -23,11 +23,12 @@ struct _GOUndo {
 struct _GOUndoClass {
 	GObjectClass	base;
 
-	void (*undo) (GOUndo *u);
+	void (*undo) (GOUndo *u, gpointer data);
 };
 
 /* Basic operations */
 void go_undo_undo (GOUndo *u);
+void go_undo_undo_with_data (GOUndo *u, gpointer data);
 
 /* ------------------------------------------------------------------------- */
 /* Compound operations.  */
@@ -64,10 +65,12 @@ GType go_undo_binary_get_type (void);
 typedef struct _GOUndoBinary GOUndoBinary;
 typedef struct _GOUndoBinaryClass GOUndoBinaryClass;
 
+typedef void (*GOUndoBinaryFunc) (gpointer a, gpointer b, gpointer data);
+
 struct _GOUndoBinary {
 	GOUndo base;
 	gpointer a, b;
-	GFunc undo;
+	GOUndoBinaryFunc undo;
 	GFreeFunc disposea;
 	GFreeFunc disposeb;
 };
@@ -76,10 +79,34 @@ struct _GOUndoBinaryClass {
 	GOUndoClass base;
 };
 
-GOUndo *go_undo_binary_new (gpointer a, gpointer b, GFunc undo,
+GOUndo *go_undo_binary_new (gpointer a, gpointer b, GOUndoBinaryFunc undo,
 			    GFreeFunc fa, GFreeFunc fb);
 
-GOUndo *go_undo_unary_new (gpointer a, GFreeFunc undo, GFreeFunc fa);
+/* ------------------------------------------------------------------------- */
+
+#define GO_UNDO_UNARY_TYPE  (go_undo_unary_get_type ())
+#define GO_UNDO_UNARY(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_UNDO_UNARY_TYPE, GOUndoUnary))
+#define IS_GO_UNDO_UNARY(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_UNDO_UNARY_TYPE))
+
+GType go_undo_unary_get_type (void);
+
+typedef struct _GOUndoUnary GOUndoUnary;
+typedef struct _GOUndoUnaryClass GOUndoUnaryClass;
+
+typedef void (*GOUndoUnaryFunc) (gpointer a, gpointer data);
+
+struct _GOUndoUnary {
+	GOUndo base;
+	gpointer a;
+	GOUndoUnaryFunc undo;
+	GFreeFunc disposea;
+};
+
+struct _GOUndoUnaryClass {
+	GOUndoClass base;
+};
+
+GOUndo *go_undo_unary_new (gpointer a, GOUndoUnaryFunc undo, GFreeFunc fa);
 
 /* ------------------------------------------------------------------------- */
 

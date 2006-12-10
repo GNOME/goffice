@@ -13,15 +13,27 @@
 
 GSF_CLASS (GOUndo, go_undo, NULL, NULL, G_TYPE_OBJECT)
 
+/*
+ * Execute the stored undo operation.  Note: the supplied data item is
+ * supplied to the undo operation.  It is meant not to affect the undo
+ * operation in any way, but rather supply a context through which
+ * progress and errors can be reported.
+ */
 void
-go_undo_undo (GOUndo *u)
+go_undo_undo_with_data (GOUndo *u, gpointer data)
 {
 	GOUndoClass *uc;
 
 	g_return_if_fail (IS_GO_UNDO (u));
 
 	uc = G_TYPE_INSTANCE_GET_CLASS (u, GO_UNDO_TYPE, GOUndoClass);
-	uc->undo (u);
+	uc->undo (u, data);
+}
+
+void
+go_undo_undo (GOUndo *u)
+{
+	return go_undo_undo_with_data (u, NULL);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -51,14 +63,14 @@ go_undo_group_finalize (GObject *o)
 }
 
 static void
-go_undo_group_undo (GOUndo *u)
+go_undo_group_undo (GOUndo *u, gpointer data)
 {
 	GOUndoGroup *ug = (GOUndoGroup *)u;
 	unsigned i;
 
 	for (i = ug->undos->len; i-- > 0; ) {
 		GOUndo *u = g_ptr_array_index (ug->undos, i);
-		go_undo_undo (u);
+		go_undo_undo_with_data (u, data);
 	}
 }
 
@@ -107,11 +119,11 @@ go_undo_binary_finalize (GObject *o)
 }
 
 static void
-go_undo_binary_undo (GOUndo *u)
+go_undo_binary_undo (GOUndo *u, gpointer data)
 {
 	GOUndoBinary *ua = (GOUndoBinary *)u;
 
-	ua->undo (ua->a, ua->b);
+	ua->undo (ua->a, ua->b, data);
 }
 
 static void
@@ -130,7 +142,7 @@ GSF_CLASS (GOUndoBinary, go_undo_binary,
 	   go_undo_binary_class_init, NULL, GO_UNDO_TYPE)
 
 GOUndo *
-go_undo_binary_new (gpointer a, gpointer b, GFunc undo,
+go_undo_binary_new (gpointer a, gpointer b, GOUndoBinaryFunc undo,
 		    GFreeFunc fa, GFreeFunc fb)
 {
 	GOUndoBinary *ua = g_object_new (GO_UNDO_BINARY_TYPE, NULL);
@@ -142,11 +154,50 @@ go_undo_binary_new (gpointer a, gpointer b, GFunc undo,
 	return (GOUndo *)ua;
 }
 
-/* We fake this, but we can fix it later if we need to.  */
-GOUndo *
-go_undo_unary_new (gpointer a, GFreeFunc undo, GFreeFunc fa)
+/* ------------------------------------------------------------------------- */
+
+static GObjectClass *go_undo_unary_parent_class;
+
+static void
+go_undo_unary_finalize (GObject *o)
 {
-	return go_undo_binary_new (a, NULL, (GFunc)undo, fa, NULL);
+	GOUndoUnary *ua = (GOUndoUnary *)o;
+
+	if (ua->disposea)
+		ua->disposea (ua->a);
+}
+
+static void
+go_undo_unary_undo (GOUndo *u, gpointer data)
+{
+	GOUndoUnary *ua = (GOUndoUnary *)u;
+
+	ua->undo (ua->a, data);
+}
+
+static void
+go_undo_unary_class_init (GObjectClass *gobject_class)
+{
+	GOUndoClass *uclass = (GOUndoClass *)gobject_class;
+
+	go_undo_unary_parent_class = g_type_class_peek_parent (gobject_class);
+
+	gobject_class->finalize = go_undo_unary_finalize;
+	uclass->undo = go_undo_unary_undo;
+}
+
+
+GSF_CLASS (GOUndoUnary, go_undo_unary,
+	   go_undo_unary_class_init, NULL, GO_UNDO_TYPE)
+
+GOUndo *
+go_undo_unary_new (gpointer a, GOUndoUnaryFunc undo, GFreeFunc fa)
+{
+	GOUndoUnary *ua = g_object_new (GO_UNDO_UNARY_TYPE, NULL);
+	ua->a = a;
+	ua->undo = undo;
+	ua->disposea = fa;
+	return (GOUndo *)ua;
 }
 
 /* ------------------------------------------------------------------------- */
