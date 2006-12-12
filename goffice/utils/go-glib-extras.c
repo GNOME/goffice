@@ -637,12 +637,11 @@ go_mem_chunk_foreach_leak (GOMemChunk *chunk, GFunc cb, gpointer user)
 int
 go_str_compare (void const *x, void const *y)
 {
-	if (x == NULL || y == NULL) {
-		if (x == y)
-			return 0;
-		else
-			return x ? -1 : 1;
-	}
+	if (x == y)
+		return 0;
+
+	if (x == NULL || y == NULL)
+		return x ? -1 : 1;
 
 	return strcmp (x, y);
 }
