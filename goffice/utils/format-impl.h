@@ -22,15 +22,17 @@ struct _GOFormatElement {
 	GOFormat	*container;
 };
 
-void go_format_number      (GString *result,
-			    double number, int col_width, GOFormatElement const *elem,
-			    GODateConventions const *date_conv,
-			    gboolean unicode_minus);
+GOFormatNumberError go_format_number (GString *result,
+				      double number, int col_width,
+				      GOFormatElement const *elem,
+				      GODateConventions const *date_conv,
+				      gboolean unicode_minus);
 #ifdef GOFFICE_WITH_LONG_DOUBLE
-void go_format_numberl     (GString *result,
-			    long double number, int col_width, GOFormatElement const *elem,
-			    GODateConventions const *date_conv,
-			    gboolean unicode_minus);
+GOFormatNumberError go_format_numberl (GString *result,
+				       long double number, int col_width,
+				       GOFormatElement const *elem,
+				       GODateConventions const *date_conv,
+				       gboolean unicode_minus);
 #endif
 
 G_END_DECLS

@@ -357,103 +357,100 @@ static GHashTable *style_format_hash = NULL;
 
 
 /*
- * Parses the year field at the beginning of the format.  Returns the
- * number of characters used.
+ * Adds a year.
  */
-static int
-append_year (GString *string, gchar const *format, struct tm const *time_split)
+static void
+append_year (GString *string, int n, struct tm const *time_split)
 {
 	int year = time_split->tm_year + 1900;
 
-	if (format[1] != 'y' && format[1] != 'Y') {
-		g_string_append_c (string, 'y');
-		return 1;
-	}
-
-	if ((format[2] != 'y' && format[2] != 'Y') ||
-	    (format[3] != 'y' && format[3] != 'Y')) {
+	if (n <= 2)
 		g_string_append_printf (string, "%02d", year % 100);
-		return 2;
-	}
-
-	g_string_append_printf (string, "%04d", year);
-	return 4;
+	else
+		g_string_append_printf (string, "%04d", year);
 }
 
 /*
- * Parses the month field at the beginning of the format.  Returns the
- * number of characters used.
+ * Adds a Thai solar year.  No kidding.
  */
-static int
+static void
+append_thai_year (GString *string, int n, struct tm const *time_split)
+{
+	int year = time_split->tm_year + 1900 + 543;
+
+	if (n <= 2)
+		g_string_append_printf (string, "%02d", year % 100);
+	else
+		g_string_append_printf (string, "%04d", year);
+}
+
+/*
+ * Adds a month name or number.
+ */
+static void
 append_month (GString *string, int n, struct tm const *time_split)
 {
 	GDateMonth month = time_split->tm_mon + 1;
 
-	if (n == 1) {
+	switch (n) {
+	case 1:
 		g_string_append_printf (string, "%d", month);
-		return 1;
-	}
-
-	if (n == 2) {
+		return;
+	case 2:
 		g_string_append_printf (string, "%02d", month);
-		return 2;
-	}
-
-	if (n == 3) {
+		return;
+	case 3: {
 		char *s = go_date_month_name (month, TRUE);
 		g_string_append (string, s);
 		g_free (s);
-		return 3;
+		return;
 	}
-
-	if (n == 5) {
+	case 5: {
 		char *s = go_date_month_name (month, TRUE);
 		if (s[0]) g_string_append_unichar (string, g_utf8_get_char (s));
 		g_free (s);
-		return 5;
+		return;
 	}
-
-	{
+	case 4:
+	default: {
 		char *s = go_date_month_name (month, FALSE);
 		g_string_append (string, s);
 		g_free (s);
-		return 4;
+		return;
+	}
 	}
 }
 
 /*
- * Parses the day field at the beginning of the format.  Returns the
- * number of characters used.
+ * Add a day-of-month number or a day-of-week name.
  */
-static int
-append_day (GString *string, gchar const *format, struct tm const *time_split)
+static void
+append_day (GString *string, int n, struct tm const *time_split)
 {
-	if (format[1] != 'd' && format[1] != 'D') {
+	switch (n) {
+	case 1:
 		g_string_append_printf (string, "%d", time_split->tm_mday);
-		return 1;
-	}
-
-	if (format[2] != 'd' && format[2] != 'D') {
+		return;
+	case 2:
 		g_string_append_printf (string, "%02d", time_split->tm_mday);
-		return 2;
-	}
-
-	if (format[3] != 'd' && format[3] != 'D') {
+		return;
+	case 3: {
 		/* Note: day-of-week.  */
 		GDateWeekday wd = (time_split->tm_wday + 6) % 7 + 1;
 		char *s = go_date_weekday_name (wd, TRUE);
 		g_string_append (string, s);
 		g_free (s);
-		return 3;
+		return;
 	}
-
-	{
+	case 4:
+	default: {
 		/* Note: day-of-week.  */
 		GDateWeekday wd = (time_split->tm_wday + 6) % 7 + 1;
 		char *s = go_date_weekday_name (wd, FALSE);
 		g_string_append (string, s);
 		g_free (s);
-		return 4;
+		return;
+	}
 	}
 }
 
@@ -706,6 +703,8 @@ format_compile (GOFormat *format)
 		case 'M': case 'm':
 		case 'D': case 'd':
 		case 'Y': case 'y':
+		case 'b':
+		case 'G': case 'g':
 		case 'S': case 's':
 		case 'H': case 'h':
 			if (!entry->suppress_minus && !entry->elapsed_time)
@@ -1110,7 +1109,7 @@ SUFFIX(guess_invprecision) (const gchar *format)
  * > However, import or export date using serial date number will be a problem.
  * > If no one noticed anything wrong, it must be that no one did it that way.
  */
-static gboolean
+static GOFormatNumberError
 SUFFIX(split_time) (struct tm *tm,
 		    DOUBLE number,
 		    DOUBLE invprecision,
@@ -1124,18 +1123,16 @@ SUFFIX(split_time) (struct tm *tm,
 
 	number += delta;
 	fl_number = SUFFIX(floor) (number);
+	if (fl_number < 0 || fl_number >= INT_MAX)
+		return GO_FORMAT_NUMBER_DATE_ERROR;
+
 	i_number = (fl_number >= INT_MIN && fl_number <= INT_MAX)
 		? (int)fl_number
 		: INT_MAX;
 
 	datetime_serial_to_g (&date, i_number, date_conv);
-	if (!g_date_valid (&date) || g_date_get_year (&date) > 9999) {
-		/*
-		 * It's not clear what to do here.  Excel uses #######
-		 * for invalid dates.
-		 */
-		g_date_set_dmy (&date, 31, 12, 9999);
-	}
+	if (!g_date_valid (&date) || g_date_get_year (&date) > 9999)
+		return GO_FORMAT_NUMBER_DATE_ERROR;
 
 	g_date_to_struct_tm (&date, tm);
 
@@ -1146,7 +1143,7 @@ SUFFIX(split_time) (struct tm *tm,
 	secs -= tm->tm_min * 60;
 	tm->tm_sec  = secs;
 
-	return FALSE;
+	return GO_FORMAT_NUMBER_OK;
 }
 
 #ifdef DEFINE_COMMON
@@ -1395,7 +1392,8 @@ find_decimal_char (char const *str)
 		case '#': case '?': case '0': case '%':
 		case '-': case '+': case ')': case ':': case '$':
 		case 'M': case 'm': case 'D': case 'd':
-		case 'Y': case 'y': case 'S': case 's':
+		case 'Y': case 'y': case 'b': case 'g': case 'G':
+		case 'S': case 's':
 		case '*': case 'h': case 'H': case 'A':
 		case 'a': case 'P': case 'p':
 		case 0xa3: case 0xa4: case 0xa5:
@@ -1407,20 +1405,20 @@ find_decimal_char (char const *str)
 		 * character. */
 			break;
 
-			/* Quoted string */
 		case '"':
+			/* Quoted string */
 			for (str++; *str && *str != '"'; str++)
 				;
 			break;
 
-			/* Escaped char and spacing format */
 		case '\\': case '_':
+			/* Escaped char and spacing format */
 			if (*(str + 1))
 				str++;
 			break;
 
-			/* Scientific number */
 		case 'E': case 'e':
+			/* Scientific number */
 			for (str++; *str;){
 				if (*str == '+')
 					str++;
@@ -1967,7 +1965,22 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 	return;
 }
 
-void
+#define DO_TIME_SPLIT						\
+  do {								\
+	if (need_time_split) {					\
+		GOFormatNumberError err = SUFFIX(split_time)	\
+			(&tm,					\
+			 signed_number,				\
+			 SUFFIX(guess_invprecision) (format),	\
+			 date_conv);				\
+		if (err)					\
+			return err;				\
+		need_time_split = FALSE;			\
+	}							\
+  } while (0)
+
+
+GOFormatNumberError
 SUFFIX(go_format_number) (GString *result,
 			  DOUBLE number, int col_width, GOFormatElement const *entry,
 			  GODateConventions const *date_conv,
@@ -2009,9 +2022,10 @@ SUFFIX(go_format_number) (GString *result,
 
 		switch (c) {
 
-		case '[':
+		case '[': {
+			char c2 = format[1];
 			/* Currency symbol */
-			if (format[1] == '$') {
+			if (c2 == '$') {
 				gboolean no_locale = TRUE;
 				for (format += 2; *format && *format != ']' ; ++format)
 					/* strip digits from [$<currency>-{digit}+] */
@@ -2021,9 +2035,15 @@ SUFFIX(go_format_number) (GString *result,
 						g_string_append_c (result, *format);
 				if (!*format)
 					continue;
-			} else if (!ignore_further_elapsed)
-				time_display_elapsed = TRUE;
+			} else if (c2 == 's' || c2 == 'S' ||
+				   c2 == 'm' || c2 == 'M' ||
+				   c2 == 'h' || c2 == 'H') {
+				if (!ignore_further_elapsed)
+					time_display_elapsed = TRUE;
+			} else
+				return GO_FORMAT_NUMBER_INVALID_FORMAT;
 			break;
+		}
 
 		case '#':
 			can_render_number = TRUE;
@@ -2060,7 +2080,7 @@ SUFFIX(go_format_number) (GString *result,
 			break;
 
 		case '.': {
-			int c2 = *(format + 1);
+			char c2 = *(format + 1);
 
 			if (!need_time_split && c2 != '0')
 				/* Literal "." after date/time seen. */
@@ -2268,10 +2288,6 @@ SUFFIX(go_format_number) (GString *result,
 		case 'm': {
 			int n;
 
-			/* FIXME : Yuck
-			 * This is a problem waiting to happen.
-			 * rewrite.
-			 */
 			for (n = 1; format[1] == 'M' || format[1] == 'm'; format++)
 				n++;
 			if (format[1] == ']')
@@ -2283,32 +2299,60 @@ SUFFIX(go_format_number) (GString *result,
 				break;
 			}
 
-			if (need_time_split)
-				need_time_split = SUFFIX(split_time)
-					(&tm, signed_number, SUFFIX(guess_invprecision) (format), date_conv);
+			DO_TIME_SPLIT;
+
 			if (hour_seen ||
 			    (format[1] == ':' &&
 			     (format[2] == 's' || format[2] == 'S'))) {
 				append_minute (result, n, &tm);
-			} else
+			} else {
 				append_month (result, n, &tm);
+			}
 			break;
 		}
 
 		case 'D':
-		case 'd':
-			if (need_time_split)
-				need_time_split = SUFFIX(split_time)
-					(&tm, signed_number, SUFFIX(guess_invprecision) (format), date_conv);
-			format += append_day (result, format, &tm) - 1;
+		case 'd': {
+			int n;
+
+			for (n = 1; format[1] == 'D' || format[1] == 'd'; format++)
+				n++;
+
+			DO_TIME_SPLIT;
+
+			append_day (result, n, &tm);
 			break;
+		}
 
 		case 'Y':
-		case 'y':
-			if (need_time_split)
-				need_time_split = SUFFIX(split_time)
-					(&tm, signed_number, SUFFIX(guess_invprecision) (format), date_conv);
-			format += append_year (result, format, &tm) - 1;
+		case 'y': {
+			int n;
+
+			for (n = 1; format[1] == 'Y' || format[1] == 'y'; format++)
+				n++;
+
+			DO_TIME_SPLIT;
+
+			append_year (result, n, &tm);
+			break;
+		}
+
+		case 'b': {
+			int n;
+
+			for (n = 1; format[1] == 'b'; format++)
+				n++;
+
+			DO_TIME_SPLIT;
+
+			append_thai_year (result, n, &tm);
+			break;
+		}
+
+		case 'g':
+		case 'G':
+			/* Something funky with Japanese eras.  Blank for me.  */
+			DO_TIME_SPLIT;
 			break;
 
 		case 'S':
@@ -2324,9 +2368,8 @@ SUFFIX(go_format_number) (GString *result,
 				ignore_further_elapsed = TRUE;
 				SUFFIX(append_second_elapsed) (result, number);
 			} else {
-				if (need_time_split)
-					need_time_split = SUFFIX(split_time)
-						(&tm, signed_number, SUFFIX(guess_invprecision) (format), date_conv);
+				DO_TIME_SPLIT;
+
 				append_second (result, n, &tm);
 
 				if (format[1] == '.') {
@@ -2370,9 +2413,7 @@ SUFFIX(go_format_number) (GString *result,
 				 * more than 2 h eg 'hh' force 12 hour mode.
 				 * NOTE : This is a non-XL extension
 				 */
-				if (need_time_split)
-					need_time_split = SUFFIX(split_time)
-						(&tm, signed_number, SUFFIX(guess_invprecision) (format), date_conv);
+				DO_TIME_SPLIT;
 
 				append_hour (result, n, &tm, entry->want_am_pm);
 			}
@@ -2382,9 +2423,8 @@ SUFFIX(go_format_number) (GString *result,
 
 		case 'A':
 		case 'a':
-			if (need_time_split)
-				need_time_split = SUFFIX(split_time)
-					(&tm, signed_number, SUFFIX(guess_invprecision) (format), date_conv);
+			DO_TIME_SPLIT;
+
 			if (tm.tm_hour < 12){
 				g_string_append_c (result, *format);
 				format++;
@@ -2407,11 +2447,8 @@ SUFFIX(go_format_number) (GString *result,
 				pi_seen = TRUE;
 				format++;
 			} else {
-				if (need_time_split)
-					need_time_split = SUFFIX(split_time)
-						(&tm, signed_number, 
-						 SUFFIX(guess_invprecision) (format), 
-						 date_conv);
+				DO_TIME_SPLIT;
+
 				if (tm.tm_hour >= 12){
 					g_string_append_c (result, *format);
 					if (*(format + 1) == 'm' || *(format + 1) == 'M'){
@@ -2443,7 +2480,11 @@ SUFFIX(go_format_number) (GString *result,
 		while (count-- > 0)
 			g_string_insert_unichar (result, fill_start, fill_char);
 	}
+
+	return GO_FORMAT_NUMBER_OK;
 }
+
+#undef DO_TIME_SPLIT
 
 #ifdef DEFINE_COMMON
 void

@@ -1,3 +1,16 @@
+2006-12-14  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_value_gstring): Return
+	error code.
+	(go_format_value): Simplistic handling of errors.
+
+	* goffice/utils/format.c (append_day): Handle crazy number of ds.
+	(append_thai_year): New function.
+	(go_format_number): Handle 'b', 'g', 'G'.  Return error code.
+
+	* goffice/utils/go-font.c (go_font_metrics_new): Get the width of
+	"#" too.
+
 2006-12-11  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-glib-extras.c (go_str_compare): Simplify and

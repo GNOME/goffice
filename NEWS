@@ -8,6 +8,9 @@ Emmanuel Pacaud:
 Jody:
 	* Make the GogStyle sax parser usable by outside objects.
 
+Morten:
+	* Improve number formatting.
+
 --------------------------------------------------------------------------
 
 goffice 0.3.4:

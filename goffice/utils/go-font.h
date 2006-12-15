@@ -37,6 +37,7 @@ struct _GOFontMetrics {
 	int avg_digit_width;
 	int hyphen_width, minus_width, plus_width;
 	int E_width;
+	int hash_width;
 };
 
 struct _GOFont {

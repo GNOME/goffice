@@ -51,6 +51,13 @@ typedef enum {
 	GO_FORMAT_MARKUP	= 11	/* Internal use only */
 } GOFormatFamily;
 
+typedef enum {
+	GO_FORMAT_NUMBER_OK = 0,
+	GO_FORMAT_NUMBER_INVALID_FORMAT,
+	GO_FORMAT_NUMBER_DATE_ERROR
+} GOFormatNumberError;
+
+
 typedef struct {
 	gboolean thousands_sep;
 	int	 num_decimals;	/* 0 - 30 */
@@ -100,11 +107,12 @@ void      go_format_unref		(GOFormat *fmt);
 #define   go_format_is_text(fmt)	((fmt)->family == GO_FORMAT_TEXT)
 #define   go_format_is_var_width(fmt)	((fmt)->is_var_width)
 
-void      go_format_value_gstring       (GOFormat const *format, GString *res,
-					 double val,
-					 int col_width,
-					 GODateConventions const *date_conv,
-					 gboolean unicode_minus);
+GOFormatNumberError go_format_value_gstring (GOFormat const *format,
+					     GString *res,
+					     double val,
+					     int col_width,
+					     GODateConventions const *date_conv,
+					     gboolean unicode_minus);
 char	*go_format_value		(GOFormat const *fmt, double val);
 
 gboolean go_format_eq			(GOFormat const *a, GOFormat const *b);

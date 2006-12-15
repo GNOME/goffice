@@ -246,6 +246,9 @@ go_font_metrics_new (PangoContext *context, GOFont const *font)
 	pango_layout_set_text (layout, "E", -1);
 	pango_layout_get_size (layout, &res->E_width, NULL);
 
+	pango_layout_set_text (layout, "#", -1);
+	pango_layout_get_size (layout, &res->hash_width, NULL);
+
 	g_object_unref (layout);
 
 	return res;
@@ -276,6 +279,7 @@ go_fonts_init (void)
 	go_font_metrics_unit_var.minus_width = 1;
 	go_font_metrics_unit_var.plus_width = 1;
 	go_font_metrics_unit_var.E_width = 1;
+	go_font_metrics_unit_var.hash_width = 1;
 	for (i = 0; i <= 9; i++)
 		go_font_metrics_unit_var.digit_widths[i] = 1;
 

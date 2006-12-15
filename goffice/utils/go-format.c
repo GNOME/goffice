@@ -47,7 +47,10 @@ go_style_format_condition (GOFormatElement const *entry, double val)
 	}
 }
 
-void
+/*
+ * FIXME: this needs a long double version.
+ */
+GOFormatNumberError
 go_format_value_gstring (GOFormat const *format, GString *res, double val,
 			 int col_width,
 			 GODateConventions const *date_conv,
@@ -71,7 +74,7 @@ go_format_value_gstring (GOFormat const *format, GString *res, double val,
 
 		/* Empty formats should be ignored */
 		if (entry->format[0] == '\0')
-			return;
+			return GO_FORMAT_NUMBER_OK;
 
 #if 0
 		if (go_color && entry->go_color != 0)
@@ -110,8 +113,11 @@ go_format_value_gstring (GOFormat const *format, GString *res, double val,
 			g_string_free (new_str, TRUE);
 		}
 	} else {
-		go_format_number (res, val, col_width, entry, date_conv, unicode_minus);
+		return go_format_number (res, val, col_width, entry,
+					 date_conv, unicode_minus);
 	}
+
+	return GO_FORMAT_NUMBER_OK;
 }
 
 /**
@@ -128,6 +134,11 @@ char *
 go_format_value (GOFormat const *fmt, double val)
 {
 	GString *res = g_string_sized_new (20);
-	go_format_value_gstring (fmt, res, val, -1, NULL, FALSE);
+	GOFormatNumberError err =
+		go_format_value_gstring (fmt, res, val, -1, NULL, FALSE);
+	if (err) {
+		/* Invalid number for format.  */
+		g_string_assign (res, "#####");
+	}
 	return g_string_free (res, FALSE);
 }
