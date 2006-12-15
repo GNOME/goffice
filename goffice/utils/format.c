@@ -516,7 +516,10 @@ SUFFIX(append_minute_elapsed) (GString *string, struct tm *tm, DOUBLE number)
 static void
 append_second (GString *string, int n, struct tm const *time_split)
 {
-	g_string_append_printf (string, "%0*d", n, time_split->tm_sec);
+	if (n <= 1)
+		g_string_append_printf (string, "%d", time_split->tm_sec);
+	else
+		g_string_append_printf (string, "%02d", time_split->tm_sec);
 }
 #endif
 
@@ -1706,6 +1709,39 @@ go_format_toggle_1000sep (GOFormat const *fmt)
 }
 #endif
 
+#ifdef DEFINE_COMMON
+static gboolean
+tail_forces_minutes (const char *s)
+{
+	while (1) {
+		char c = *s;
+		switch (c) {
+		case 0:
+		case 'b':
+		case 'd': case 'D':
+		case 'm': case 'M':
+		case 'h': case 'H':
+		case 'y': case 'Y':
+			return FALSE;
+		case 's': case 'S':
+			return TRUE;
+		case '"':
+			s++;
+			while (*s != '"') {
+				if (*s == 0)
+					return FALSE;
+				s++;
+			}
+			s++;
+			break;
+		default:
+			s++;
+			break;
+		}
+	}
+}
+#endif
+
 /*********************************************************************/
 
 #ifdef DEFINE_COMMON
@@ -1990,6 +2026,7 @@ SUFFIX(go_format_number) (GString *result,
 	GONumberFormat info;
 	gboolean can_render_number = FALSE;
 	gboolean hour_seen = FALSE;
+	gboolean m_is_minutes = FALSE;
 	gboolean time_display_elapsed = FALSE;
 	gboolean ignore_further_elapsed = FALSE;
 	gboolean pi_seen = FALSE;
@@ -2292,22 +2329,25 @@ SUFFIX(go_format_number) (GString *result,
 				n++;
 			if (format[1] == ']')
 				format++;
+
+			m_is_minutes = m_is_minutes || tail_forces_minutes (format + 1);
+
 			if (time_display_elapsed) {
 				need_time_split = time_display_elapsed = FALSE;
 				ignore_further_elapsed = TRUE;
 				SUFFIX(append_minute_elapsed) (result, &tm, number);
+				m_is_minutes = FALSE;
 				break;
 			}
 
 			DO_TIME_SPLIT;
 
-			if (hour_seen ||
-			    (format[1] == ':' &&
-			     (format[2] == 's' || format[2] == 'S'))) {
+			if (m_is_minutes)
 				append_minute (result, n, &tm);
-			} else {
+			else
 				append_month (result, n, &tm);
-			}
+
+			m_is_minutes = FALSE;
 			break;
 		}
 
@@ -2391,6 +2431,8 @@ SUFFIX(go_format_number) (GString *result,
 					}
 				}
 			}
+
+			m_is_minutes = TRUE;
 			break;
 		}
 
@@ -2418,6 +2460,8 @@ SUFFIX(go_format_number) (GString *result,
 				append_hour (result, n, &tm, entry->want_am_pm);
 			}
 			hour_seen = TRUE;
+
+			m_is_minutes = TRUE;
 			break;
 		}
 
@@ -2462,10 +2506,11 @@ SUFFIX(go_format_number) (GString *result,
 			}
 			break;
 
+		case 'n': case 'N':
+			return GO_FORMAT_NUMBER_INVALID_FORMAT;
+
 		default:
-			/* TODO : After release check this.
-			 * shouldn't we tack on the explicit characters here ?
-			 */
+			g_string_append_unichar (result, g_utf8_get_char (format));
 			break;
 		}
 		format = g_utf8_next_char (format);
