@@ -2144,20 +2144,24 @@ SUFFIX(go_format_number) (GString *result,
 				go_string_append_gstring (result, go_format_get_thousand ());
 			break;
 
-		case 'E': 
-			if (info.exponent_seen) 
+		case 'E':
+			if (!can_render_number)
+				g_string_append_c (result, 'E');
+			else if (info.exponent_seen) 
 				info.use_markup = TRUE;
-			else {
+			else
 				info.exponent_seen = TRUE;
-				can_render_number = TRUE;
-			}
 			break;
-			
-		case 'e': 
-			if (!info.exponent_seen) {
+
+		case 'e':
+			if (!can_render_number) {
+				while (format[1] == 'e')
+					format++;
+				DO_TIME_SPLIT;
+				append_year (result, 4, &tm);
+			} else if (!info.exponent_seen) {
 				info.exponent_seen = TRUE;
 				info.exponent_lower_e = TRUE;
-				can_render_number = TRUE;
 			};
 			break;
 
