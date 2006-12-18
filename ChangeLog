@@ -1,3 +1,7 @@
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.3.5
+
 2006-12-15  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/format.c (append_second): Handle sss etc. right.
