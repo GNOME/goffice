@@ -2025,7 +2025,7 @@ SUFFIX(go_format_number) (GString *result,
 	gchar const *format = entry->format;
 	GONumberFormat info;
 	gboolean can_render_number = FALSE;
-	gboolean hour_seen = FALSE;
+	gboolean seconds_trigger_minutes = TRUE;
 	gboolean m_is_minutes = FALSE;
 	gboolean time_display_elapsed = FALSE;
 	gboolean ignore_further_elapsed = FALSE;
@@ -2146,7 +2146,7 @@ SUFFIX(go_format_number) (GString *result,
 
 		case 'E':
 			if (!can_render_number)
-				g_string_append_c (result, 'E');
+				return GO_FORMAT_NUMBER_INVALID_FORMAT;
 			else if (info.exponent_seen) 
 				info.use_markup = TRUE;
 			else
@@ -2346,9 +2346,10 @@ SUFFIX(go_format_number) (GString *result,
 
 			DO_TIME_SPLIT;
 
-			if (m_is_minutes)
+			if (m_is_minutes) {
+				seconds_trigger_minutes = FALSE;
 				append_minute (result, n, &tm);
-			else
+			} else
 				append_month (result, n, &tm);
 
 			m_is_minutes = FALSE;
@@ -2436,7 +2437,10 @@ SUFFIX(go_format_number) (GString *result,
 				}
 			}
 
-			m_is_minutes = TRUE;
+			if (seconds_trigger_minutes) {
+				seconds_trigger_minutes = FALSE;
+				m_is_minutes = TRUE;
+			}
 			break;
 		}
 
@@ -2463,7 +2467,6 @@ SUFFIX(go_format_number) (GString *result,
 
 				append_hour (result, n, &tm, entry->want_am_pm);
 			}
-			hour_seen = TRUE;
 
 			m_is_minutes = TRUE;
 			break;
