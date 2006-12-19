@@ -1795,7 +1795,7 @@ convert_minus (GString *str, size_t i)
 #define SETUP_LAYOUT do { if (layout) pango_layout_set_text (layout, str->str, -1); } while (0)
 
 /*
- * gnm_format_general:
+ * go_format_general:
  * @layout: Optional PangoLayout, probably preseeded with font attribute.
  * @str: a GString to store (not append!) the resulting string in.
  * @measure: Function to measure width of string/layout.

@@ -1,3 +1,13 @@
+2006-12-18  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_style_format_find_entry): New
+	static function, mostly from Gnumeric.
+	(go_style_format_condition): Generalize.
+	(go_format_value_gstring): Generalize to handle layouts, not just
+	strings.  Generalize to handle non-number values.  All callers
+	changed.
+	* Makefile.am: Don't install format-impl.h
+
 2006-12-17  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

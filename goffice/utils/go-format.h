@@ -82,6 +82,30 @@ struct _GOFormat {
 	PangoAttrList	*markup;	/* only for GO_FORMAT_MARKUP */
 };
 
+/*************************************************************************/
+
+typedef int (*GOFormatMeasure) (const GString *str, PangoLayout *layout);
+int go_format_measure_zero (const GString *str, PangoLayout *layout);
+int go_format_measure_pango (const GString *str, PangoLayout *layout);
+int go_format_measure_strlen (const GString *str, PangoLayout *layout);
+
+void go_render_general  (PangoLayout *layout, GString *str,
+			 GOFormatMeasure measure,
+			 const GOFontMetrics *metrics,
+			 double val,
+			 int col_width,
+			 gboolean unicode_minus);
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+void go_render_generall (PangoLayout *layout, GString *str,
+			 GOFormatMeasure measure,
+			 const GOFontMetrics *metrics,
+			 long double val,
+			 int col_width,
+			 gboolean unicode_minus);
+#endif
+
+/*************************************************************************/
+
 GOFormat *go_format_new_from_XL		(char const *str, gboolean delocalize);
 GOFormat *go_format_new			(GOFormatFamily family,
 					 GOFormatDetails const *details);
@@ -107,12 +131,15 @@ void      go_format_unref		(GOFormat *fmt);
 #define   go_format_is_text(fmt)	((fmt)->family == GO_FORMAT_TEXT)
 #define   go_format_is_var_width(fmt)	((fmt)->is_var_width)
 
-GOFormatNumberError go_format_value_gstring (GOFormat const *format,
-					     GString *res,
-					     double val,
-					     int col_width,
-					     GODateConventions const *date_conv,
-					     gboolean unicode_minus);
+GOFormatNumberError
+go_format_value_gstring (PangoLayout *layout, GString *str,
+			 const GOFormatMeasure measure,
+			 const GOFontMetrics *metrics,
+			 GOFormat const *format,
+			 double val, char type, const char *sval,
+			 int col_width,
+			 GODateConventions const *date_conv,
+			 gboolean unicode_minus);
 char	*go_format_value		(GOFormat const *fmt, double val);
 
 gboolean go_format_eq			(GOFormat const *a, GOFormat const *b);
@@ -131,28 +158,6 @@ typedef struct {
 /* Indexed by GOFormatFamily */
 GO_VAR_DECL char const * const * const go_format_builtins [];
 GO_VAR_DECL GOFormatCurrency     const go_format_currencies [];
-
-/*************************************************************************/
-
-typedef int (*GOFormatMeasure) (const GString *str, PangoLayout *layout);
-int go_format_measure_zero (const GString *str, PangoLayout *layout);
-int go_format_measure_pango (const GString *str, PangoLayout *layout);
-int go_format_measure_strlen (const GString *str, PangoLayout *layout);
-
-void go_render_general  (PangoLayout *layout, GString *str,
-			 GOFormatMeasure measure,
-			 const GOFontMetrics *metrics,
-			 double val,
-			 int col_width,
-			 gboolean unicode_minus);
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-void go_render_generall (PangoLayout *layout, GString *str,
-			 GOFormatMeasure measure,
-			 const GOFontMetrics *metrics,
-			 long double val,
-			 int col_width,
-			 gboolean unicode_minus);
-#endif
 
 /*************************************************************************/
 

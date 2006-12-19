@@ -44,13 +44,14 @@ libgoffice_utils_la_HEADERS = 	\
 	go-math.h		\
 	go-undo.h		\
 	datetime.h		\
-	format-impl.h		\
 	go-format.h		\
 	regutf8.h 		\
 	go-glib-extras.h	\
 	go-libxml-extras.h	\
 	go-rangefunc.h	\
 	go-regression.h
+
+noinst_HEADERS = format-impl.h
 
 CLEANFILES =			\
 	go-marshalers.h		\
