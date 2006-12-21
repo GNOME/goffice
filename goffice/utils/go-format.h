@@ -137,6 +137,7 @@ go_format_value_gstring (PangoLayout *layout, GString *str,
 			 const GOFontMetrics *metrics,
 			 GOFormat const *format,
 			 double val, char type, const char *sval,
+			 GOColor *go_color,
 			 int col_width,
 			 GODateConventions const *date_conv,
 			 gboolean unicode_minus);

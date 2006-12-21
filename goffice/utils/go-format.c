@@ -125,6 +125,7 @@ go_format_value_gstring (PangoLayout *layout, GString *str,
 			 const GOFontMetrics *metrics,
 			 GOFormat const *format,
 			 double val, char type, const char *sval,
+			 GOColor *go_color,
 			 int col_width,
 			 GODateConventions const *date_conv,
 			 gboolean unicode_minus)
@@ -135,7 +136,7 @@ go_format_value_gstring (PangoLayout *layout, GString *str,
 	g_return_val_if_fail (type == 'F' || sval != NULL, (GOFormatNumberError)-1);
 	g_return_val_if_fail (str != NULL, (GOFormatNumberError)-1);
 
-	entry = go_style_format_find_entry (format, val, type, NULL, &need_abs, &empty);
+	entry = go_style_format_find_entry (format, val, type, go_color, &need_abs, &empty);
 
 	/* Empty formats should be ignored */
 	if (empty) {
@@ -199,6 +200,7 @@ go_format_value (GOFormat const *fmt, double val)
 					 go_font_metrics_unit,
 					 fmt,
 					 val, 'F', NULL,
+					 NULL,
 					 -1, NULL, FALSE);
 	if (err) {
 		/* Invalid number for format.  */
