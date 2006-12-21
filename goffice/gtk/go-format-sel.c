@@ -22,7 +22,7 @@
 
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/gtk/go-combo-text.h>
-#include <goffice/utils/format-impl.h>
+#include <goffice/utils/go-format.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marshalers.h>
 
