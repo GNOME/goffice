@@ -1047,22 +1047,21 @@ SUFFIX(do_render_number) (DOUBLE number, GONumberFormat *info, GString *result)
 	info->rendered = TRUE;
 
 #if 0
-	printf ("Rendering: %g with:\n", number);
-	printf ("left_req:    %d\n"
-		"right_req:   %d\n"
-		"left_spaces: %d\n"
-		"right_spaces:%d\n"
-		"right_allow: %d\n"
-		"suppress:    %d\n"
-		"decimalseen: %d\n"
-		"decimalp:    %s\n",
-		info->left_req,
-		info->right_req,
-		info->left_spaces,
-		info->right_spaces,
-		info->right_allowed + info->right_optional,
-		info->decimal_separator_seen,
-		decimal_point);
+	g_print ("Rendering: %" FORMAT_G " with:\n", number);
+	g_print ("left_req:    %d\n"
+		 "right_req:   %d\n"
+		 "left_spaces: %d\n"
+		 "right_spaces:%d\n"
+		 "right_allow: %d\n"
+		 "decimalseen: %d\n"
+		 "decimalp:    %s\n",
+		 info->left_req,
+		 info->right_req,
+		 info->left_spaces,
+		 info->right_spaces,
+		 info->right_allowed + info->right_optional,
+		 info->decimal_separator_seen,
+		 go_format_get_decimal ()->str);
 #endif
 
 	if (info->exponent_seen)
@@ -2096,7 +2095,13 @@ SUFFIX(go_format_number) (GString *result,
 			can_render_number = TRUE;
 			if (info.decimal_separator_seen)
 				info.right_spaces++;
-			else
+			else if (entry->has_fraction) {
+				const char *p = format + 1;
+				while (*p == '?')
+					p++;
+				if (*p == '/')
+					info.left_spaces++;
+			} else
 				info.left_spaces++;
 			break;
 
@@ -2213,7 +2218,8 @@ SUFFIX(go_format_number) (GString *result,
 						size = end - (format + 1);
 						format = end;
 						numerator = (int)(fractional * denominator + 0.5);
-					}
+					} else
+						return GO_FORMAT_NUMBER_INVALID_FORMAT;
 				} else {
 					static int const powers[9] = {
 						10, 100, 1000, 10000, 100000,
@@ -2265,8 +2271,8 @@ SUFFIX(go_format_number) (GString *result,
 										"");
 						}
 					}
-					continue;
 				}
+				continue;
 			}
 
 		case '+':
