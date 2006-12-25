@@ -1,3 +1,9 @@
+2006-12-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/reg_logfit/gog-logfit.c: (gog_log_fit_curve_type_name): fixed
+	comment.
+	* po/POTFILES.in: add missing files.
+
 2006-12-22  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/format.c (go_format_number): Improve fractions a

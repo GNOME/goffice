@@ -281,5 +281,9 @@ plugins/reg_linear/reg-types.xml.in
 plugins/reg_logfit/gog-logfit.c
 plugins/reg_logfit/plugin.xml.in
 plugins/reg_logfit/reg-types.xml.in
-plugins/smoothing/gog-exp-smooth.glade
+plugins/smoothing/gog-moving-avg.c
 plugins/smoothing/gog-moving-avg.glade
+plugins/smoothing/gog-exp-smooth.c
+plugins/smoothing/gog-exp-smooth.glade
+plugins/smoothing/plugin.xml.in
+plugins/smoothing/types.xml.in

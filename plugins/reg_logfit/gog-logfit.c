@@ -134,8 +134,8 @@ gog_log_fit_curve_get_equation (GogRegCurve *curve)
 static char const *
 gog_log_fit_curve_type_name (G_GNUC_UNUSED GogObject const *item)
 {
-	/* xgettext : the base for how to name scatter plot objects
-	 * eg The 2nd plot in a chart will be called
+	/* xgettext : the base for how to name logarithmic fits
+	 * eg The 2nd fit for a series will be called
 	 * 	Log fit2 */
 	return N_("Log fit");
 }
