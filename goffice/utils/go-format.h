@@ -141,7 +141,20 @@ go_format_value_gstring (PangoLayout *layout, GString *str,
 			 int col_width,
 			 GODateConventions const *date_conv,
 			 gboolean unicode_minus);
-char	*go_format_value		(GOFormat const *fmt, double val);
+char	*go_format_value (GOFormat const *fmt, double val);
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+GOFormatNumberError
+go_format_value_gstringl (PangoLayout *layout, GString *str,
+			  const GOFormatMeasure measure,
+			  const GOFontMetrics *metrics,
+			  GOFormat const *format,
+			  long double val, char type, const char *sval,
+			  GOColor *go_color,
+			  int col_width,
+			  GODateConventions const *date_conv,
+			  gboolean unicode_minus);
+char	*go_format_valuel (GOFormat const *fmt, long double val);
+#endif
 
 gboolean go_format_eq			(GOFormat const *a, GOFormat const *b);
 GOFormat *go_format_inc_precision	(GOFormat const *fmt);

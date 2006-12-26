@@ -18,7 +18,6 @@ libgoffice_utils_la_SOURCES =	\
 	go-math.c		\
 	go-undo.c		\
 	datetime.c		\
-	format.c		\
 	formats.c		\
 	go-format.c		\
 	regutf8.c 		\
@@ -50,8 +49,6 @@ libgoffice_utils_la_HEADERS = 	\
 	go-libxml-extras.h	\
 	go-rangefunc.h	\
 	go-regression.h
-
-noinst_HEADERS = format-impl.h
 
 CLEANFILES =			\
 	go-marshalers.h		\

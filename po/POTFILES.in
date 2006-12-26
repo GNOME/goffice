@@ -196,8 +196,6 @@ goffice/ms-compat/god-image-ms.c
 goffice/ms-compat/god-image-ms.h
 goffice/utils/datetime.c
 goffice/utils/datetime.h
-goffice/utils/format-impl.h
-goffice/utils/format.c
 goffice/utils/formats.c
 goffice/utils/go-color.c
 goffice/utils/go-color.h

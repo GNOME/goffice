@@ -1,3 +1,7 @@
+2006-12-26  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c: Merge format.c in here.
+
 2006-12-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/reg_logfit/gog-logfit.c: (gog_log_fit_curve_type_name): fixed
