@@ -2241,15 +2241,23 @@ SUFFIX(go_format_number) (GString *result,
 				/* check for explicit denominator */
 				if (size == 0) {
 					char *end;
+					unsigned long ul;
 
 					errno = 0;
-					denominator = strtol ((char *)format + 1, &end, 10);
+					ul = strtoul ((char *)format + 1, &end, 10);
 					if (format + 1 != end && 
 					    errno != ERANGE && 
-					    denominator <= G_MAXINT) {
+					    ul <= G_MAXINT) {
+						DOUBLE dn;
+
+						denominator = ul;
 						size = end - (format + 1);
 						format = end;
-						numerator = (int)(fractional * denominator + 0.5);
+
+						dn = SUFFIX(floor)(fractional * denominator + 0.5);
+						if (dn > G_MAXINT)
+							return GO_FORMAT_NUMBER_INVALID_FORMAT;
+						numerator = (int)(dn);
 					} else
 						return GO_FORMAT_NUMBER_INVALID_FORMAT;
 				} else {
@@ -2269,8 +2277,11 @@ SUFFIX(go_format_number) (GString *result,
 					gboolean show_zero = TRUE;
 					/* improper fractions */
 					if (!info.rendered) {
+						DOUBLE dn = numerator + whole * denominator;
 						info.rendered = TRUE;
-						numerator += whole * denominator;
+						if (dn > G_MAXINT)
+							return GO_FORMAT_NUMBER_INVALID_FORMAT;
+						numerator = (int)dn;
 					} else
 						show_zero = (frac_number == 0 || whole == 0);
 

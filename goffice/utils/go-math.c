@@ -579,8 +579,8 @@ go_continued_fraction (double val, int max_denom, int *res_num, int *res_denom)
 		}
 
 		ia = (int)a;
-		n3 = a * n2 + n1;
-		d3 = a * d2 + d1;
+		n3 = ia * n2 + n1;
+		d3 = ia * d2 + d1;
 
 		x = y;
 		y = newy;
