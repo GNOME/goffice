@@ -33,7 +33,6 @@
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>
-
 #include <string.h>
 
 #define CC2XML(s) ((const xmlChar *)(s))
@@ -42,15 +41,17 @@ typedef GObjectClass GogErrorBarClass;
 static GObjectClass *error_bar_parent_klass;
 
 #ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/go-color-palette.h>
-#include <goffice/gtk/go-combo-color.h>
-#include <goffice/gtk/go-combo-pixmaps.h>
+#include <goffice/gtk/go-color-selector.h>
 #include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkcombobox.h>
+#include <gtk/gtkcellrendererpixbuf.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkcelllayout.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtklabel.h>
 #include <glade/glade-xml.h>
+
 typedef struct {
 	GogSeries 	   *series;
 	GogErrorBar 	   *bar;
@@ -59,6 +60,18 @@ typedef struct {
 	GOColor 	    color;
 	double 		    width, line_width;
 } GogErrorBarEditor;
+
+static struct {
+	char const 		*h_pixbuf;
+	char const 		*v_pixbuf;
+	char const 		*label;
+	GogErrorBarDisplay	 display;
+} display_combo_desc[] = {
+	{"bar-none.png",	"bar-none.png",		N_("None"),	GOG_ERROR_BAR_DISPLAY_NONE},
+	{"bar-hplus.png",	"bar-vplus.png",	N_("Positive"),	GOG_ERROR_BAR_DISPLAY_POSITIVE},
+	{"bar-hminus.png",	"bar-vminus.png",	N_("Negative"),	GOG_ERROR_BAR_DISPLAY_NEGATIVE},
+	{"bar-hboth.png",	"bar-vboth.png",	N_("Both"),	GOG_ERROR_BAR_DISPLAY_BOTH}
+};
 
 static void
 cb_destroy (G_GNUC_UNUSED GtkWidget *w, GogErrorBarEditor *editor)
@@ -89,11 +102,11 @@ cb_line_width_changed (GtkAdjustment *adj, GogErrorBarEditor *editor)
 }
 
 static void
-cb_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
-		     G_GNUC_UNUSED gboolean is_custom,
-		     G_GNUC_UNUSED gboolean by_user,
-		     G_GNUC_UNUSED gboolean is_default, GogErrorBarEditor *editor)
+cb_color_changed (GOSelector *selector,
+		  GogErrorBarEditor *editor)
 {
+	GOColor color = go_color_selector_get_color (selector, NULL);
+
 	editor->color = color;
 	if (editor->bar) {
 		editor->bar->style->line.color = color;
@@ -102,13 +115,24 @@ cb_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
 }
 
 static void
-cb_display_changed (G_GNUC_UNUSED GOComboPixmaps *combo, GogErrorBarDisplay display, GogErrorBarEditor *editor)
+cb_display_changed (GtkComboBox *combo, GogErrorBarEditor *editor)
 {
-	editor->display = display;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GValue value;
+
+	memset (&value, 0, sizeof (GValue));
+       	model = gtk_combo_box_get_model (combo);
+	gtk_combo_box_get_active_iter (combo, &iter);
+	gtk_tree_model_get_value (model, &iter, 2, &value);
+
+	editor->display = g_value_get_uint (&value);
 	if (editor->bar) {
-		editor->bar->display = display;
+		editor->bar->display = g_value_get_uint (&value);
 		gog_object_request_update (GOG_OBJECT (editor->series));
 	}
+
+	g_value_unset (&value);
 }
 
 static void
@@ -154,13 +178,17 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 		set = GOG_DATASET (editor->bar->series);
 		data = g_object_get_data (G_OBJECT (w), "plus");
 		if (!data) {
-			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i, GOG_DATA_VECTOR));
+			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 
+									       editor->bar->error_i, 
+									       GOG_DATA_VECTOR));
 			gtk_table_attach (GTK_TABLE (table), al, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 			g_object_set_data (G_OBJECT (w), "plus", al);
 		}
 		data = g_object_get_data (G_OBJECT (w), "minus");
 		if (!data) {
-			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i + 1, GOG_DATA_VECTOR));
+			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 
+									       editor->bar->error_i + 1, 
+									       GOG_DATA_VECTOR));
 			gtk_table_attach (GTK_TABLE (table), al, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 			g_object_set_data (G_OBJECT (w), "minus", al);
 		}
@@ -179,11 +207,15 @@ gog_error_bar_prefs (GogSeries *series,
 {
 	GladeXML *gui;
 	GtkWidget *w, *bar_prefs;
-	GOComboPixmaps *cpx;
 	GtkTable *style_table, *values_table;
-	GogDataset *set;
+	GtkWidget *combo;
+	GtkListStore *list;
+	GtkTreeIter iter;
+	GtkCellRenderer *cell;
 	GdkPixbuf *pixbuf;
+	GogDataset *set;
 	GogErrorBarEditor *editor;
+	unsigned int i;
 
 	g_return_val_if_fail (IS_GOG_SERIES (series), NULL);
 
@@ -225,62 +257,45 @@ gog_error_bar_prefs (GogSeries *series,
 	style_table = GTK_TABLE (glade_xml_get_widget (gui, "style_table"));
 
 	/* Color */
-	w = go_combo_color_new (NULL, _("Automatic"), RGBA_BLACK,
-		go_color_group_fetch ("color", NULL));
-	go_combo_color_set_instant_apply (GO_COMBO_COLOR (w), FALSE);
-	go_combo_color_set_allow_alpha (GO_COMBO_COLOR (w), TRUE);
+	w = go_color_selector_new (editor->color, RGBA_BLACK, "error-bar");
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (gui, "color_label")), w);
-	go_combo_color_set_color (GO_COMBO_COLOR (w), editor->color);
 	g_signal_connect (G_OBJECT (w),
-		"color_changed",
+		"activate",
 		G_CALLBACK (cb_color_changed), editor);
-	gtk_table_attach (GTK_TABLE (style_table), w, 1, 2, 3, 4, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (style_table), w, 1, 2, 3, 4, GTK_FILL, GTK_FILL, 0, 0);
 	
 	/* Display style */
-	cpx = go_combo_pixmaps_new (4);
-	pixbuf = go_pixbuf_new_from_file ("bar-none.png");
-	go_combo_pixmaps_add_element  (cpx,
-				       pixbuf,
-				       GOG_ERROR_BAR_DISPLAY_NONE,
-				       _("No error bar displayed"));
-	if (horizontal) {
-		pixbuf = go_pixbuf_new_from_file ("bar-hplus.png");
-		go_combo_pixmaps_add_element  (cpx,
-					       pixbuf,
-					       GOG_ERROR_BAR_DISPLAY_POSITIVE,
-					       _("Positive error bar displayed"));
-		pixbuf = go_pixbuf_new_from_file ("bar-hminus.png");
-		go_combo_pixmaps_add_element  (cpx,
-					       pixbuf,
-					       GOG_ERROR_BAR_DISPLAY_NEGATIVE,
-					       _("Negative error bar displayed"));
-		pixbuf = go_pixbuf_new_from_file ("bar-hboth.png");
-		go_combo_pixmaps_add_element  (cpx,
-					       pixbuf,
-					       GOG_ERROR_BAR_DISPLAY_BOTH,
-					       _("Full error bar displayed"));
-	} else {
-		pixbuf = go_pixbuf_new_from_file ("bar-vplus.png");
-		go_combo_pixmaps_add_element  (cpx,
-					       pixbuf,
-					       GOG_ERROR_BAR_DISPLAY_POSITIVE,
-					       _("Positive error bar displayed"));
-		pixbuf = go_pixbuf_new_from_file ("bar-vminus.png");
-		go_combo_pixmaps_add_element  (cpx,
-					       pixbuf,
-					       GOG_ERROR_BAR_DISPLAY_NEGATIVE,
-					       _("Negative error bar displayed"));
-		pixbuf = go_pixbuf_new_from_file ("bar-vboth.png");
-		go_combo_pixmaps_add_element  (cpx,
-					       pixbuf,
-					       GOG_ERROR_BAR_DISPLAY_BOTH,
-					       _("Full error bar displayed"));
-	}
-	gtk_table_attach (GTK_TABLE (style_table), GTK_WIDGET(cpx), 1, 2, 0, 1, 0, 0, 0, 0);
-	go_combo_pixmaps_select_id (cpx, editor->display);
-	g_signal_connect (G_OBJECT (cpx), "changed", G_CALLBACK (cb_display_changed), editor);
+	list = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_UINT);
+	combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list));
+	g_object_unref (list);
 
+	cell = gtk_cell_renderer_pixbuf_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, FALSE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell, "pixbuf", 0, NULL);
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, FALSE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell, "text", 1, NULL);
+
+	for (i = 0; i < G_N_ELEMENTS (display_combo_desc); i++) {
+		pixbuf = go_pixbuf_new_from_file (horizontal ? 
+						  display_combo_desc[i].h_pixbuf :
+						  display_combo_desc[i].v_pixbuf);
+		gtk_list_store_append (list, &iter);
+		gtk_list_store_set (list, &iter, 
+				    0, pixbuf,
+				    1, display_combo_desc[i].label,
+				    2, display_combo_desc[i].display,
+				    -1);
+		g_object_unref (pixbuf);
+		if (editor->display == display_combo_desc[i].display || i == 0)
+			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter);
+	}
+
+	gtk_table_attach (GTK_TABLE (style_table), GTK_WIDGET(combo), 1, 4, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	g_signal_connect (G_OBJECT (combo), "changed", G_CALLBACK (cb_display_changed), editor);
+	
 	/* Category property*/
 	w = glade_xml_get_widget (gui, "category_combo");
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), (editor->bar)? (int) editor->bar->type: 0);

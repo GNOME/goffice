@@ -861,7 +861,7 @@ gog_chart_set_plot_area (GogChart *chart, GogViewAllocation const *plot_area)
  * Update and cache cardinality values if required, and returns
  * full and visible cardinality. Full cardinality is the number of 
  * chart elements that require a different style. Visible cardinality is
- * the number of chart elements showed in chart legend.
+ * the number of chart elements shown in chart legend.
  *
  * @full and @visible may be NULL.
  **/ 

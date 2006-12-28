@@ -44,6 +44,7 @@
 #endif
 
 #include <glib/gi18n-lib.h>
+#include <string.h>
 
 static GogViewClass *gab_view_parent_klass;
 static GObjectClass *gab_parent_klass;
@@ -376,6 +377,7 @@ cb_cross_axis_changed (GtkComboBox *combo, AxisBasePrefs *state)
 	GValue value;
 	GtkTreeModel *model = gtk_combo_box_get_model (combo);
 
+	memset (&value, 0, sizeof (GValue));
 	gtk_combo_box_get_active_iter (combo, &iter);
 	gtk_tree_model_get_value (model, &iter, 1, &value);
 	state->axis_base->crossed_axis_id = g_value_get_uint (&value);
@@ -383,6 +385,8 @@ cb_cross_axis_changed (GtkComboBox *combo, AxisBasePrefs *state)
 	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "axis_cross")),
 		 TRUE);
+
+	g_value_unset (&value);
 }
 
 static void
