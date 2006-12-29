@@ -1,3 +1,11 @@
+2006-12-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-chart.c (gog_chart_get_cardinality): use full
+	cardinality for plot index offset. The style of a serie do not
+	depend on the visibility of another serie.
+	* goffice/graph/gog-legend.c (cb_render_elements): use a counter
+	instead of relying on first callback argument.
+
 2006-12-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-axis-line.c (cb_cross_axis_changed): clear GValue

@@ -361,6 +361,7 @@ cb_swatch_scale (unsigned i, GogStyle const *style, char const *name,
 }
 
 typedef struct {
+	int count;
 	GogView const *view;
 	double x, y;
 	double element_step_x, element_step_y;
@@ -371,7 +372,7 @@ typedef struct {
 } RenderClosure;
 
 static void
-cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
+cb_render_elements (unsigned index, GogStyle const *base_style, char const *name,
 		    RenderClosure *data)
 {
 	GogView const *view = data->view;
@@ -380,8 +381,8 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	GogStyle *style = NULL;
 	GogViewAllocation pos, rectangle;
 
-	if (i > 0) {
-		if ((i % glv->element_per_blocks) != 0) {
+	if (data->count > 0) {
+		if ((data->count % glv->element_per_blocks) != 0) {
 			data->x += data->element_step_x;
 			data->y += data->element_step_y;
 		} else {
@@ -389,6 +390,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 			data->y += data->block_step_y;
 		}
 	}
+	data->count++;
 	
 	if (base_style->interesting_fields & GOG_STYLE_LINE) { /* line and marker */
 		style = gog_style_dup (base_style);
@@ -473,6 +475,7 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 		data.line_path[2].code = ART_END;
 	}
 	
+	data.count = 0;
 	data.view = v;
 	data.x = v->residual.x;
 	data.y = v->residual.y;

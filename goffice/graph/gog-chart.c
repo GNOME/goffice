@@ -877,7 +877,7 @@ gog_chart_get_cardinality (GogChart *chart, unsigned *full, unsigned *visible)
 		chart->cardinality_valid = TRUE;
 		chart->full_cardinality = chart->visible_cardinality = 0;
 		for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next) {
-			gog_plot_update_cardinality (ptr->data, chart->visible_cardinality);
+			gog_plot_update_cardinality (ptr->data, chart->full_cardinality);
 			gog_plot_get_cardinality (ptr->data, &tmp_full, &tmp_visible);
 			chart->full_cardinality += tmp_full;
 			chart->visible_cardinality += tmp_visible;
