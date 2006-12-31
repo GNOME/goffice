@@ -51,6 +51,16 @@ typedef struct {
 	float bubble_scale;
 } GogBubblePlot;
 
+typedef struct {
+	Gog2DPlot	base;
+	gboolean	default_style_has_lines;
+	GOLineInterpolation interpolation;
+	struct {
+		double minima, maxima;
+		GOFormat *fmt;
+	} z;
+} GogXYColorPlot;
+
 #define GOG_2D_PLOT_TYPE	(gog_2d_plot_get_type ())
 #define GOG_2D_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_2D_PLOT_TYPE, Gog2DPlot))
 #define GOG_IS_2D_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_2D_PLOT_TYPE))
@@ -68,6 +78,12 @@ GType gog_xy_plot_get_type (void);
 #define GOG_IS_BUBBLE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_BUBBLE_PLOT_TYPE))
 
 GType gog_bubble_plot_get_type (void);
+
+#define GOG_XY_COLOR_PLOT_TYPE	(gog_xy_color_plot_get_type ())
+#define GOG_XY_COLOR_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XY_COLOR_PLOT_TYPE, GogXYColorPlot))
+#define GOG_IS_XY_COLOR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XY_COLOR_PLOT_TYPE))
+
+GType gog_xy_color_plot_get_type (void);
 
 typedef struct {
 	GogSeries base;

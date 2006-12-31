@@ -1,3 +1,9 @@
+2006-12-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* pixmaps/color.xpm: new pixmap.
+	* pixmaps/chart_colored_1_1.png: ditto.
+	* pixmaps/chart_colored_1_1.svg: ditto.
+
 2006-12-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-chart.c (gog_chart_get_cardinality): use full

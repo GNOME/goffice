@@ -32,6 +32,7 @@ dist_icon_DATA = \
 	chart_scatter_4_1.png	chart_scatter_4_2.png	chart_scatter_4_3.png \
 	chart_scatter_4_4.png \
 	chart_bubble_1_1.png \
+	chart_colored_1_1.png \
 	chart_contour_1_1.png \
 	chart_boxplot_1_1.png	chart_boxplot_1_2.png \
 	chart_dropbar_1_1.png	chart_dropbar_1_2.png \
@@ -43,6 +44,7 @@ dist_icon_DATA = \
 	bar.xpm		\
 	boxplot.xpm		\
 	bubble.xpm	\
+	color.xpm	\
 	column.xpm	\
 	doughnut.xpm	\
 	dropbar.xpm	\

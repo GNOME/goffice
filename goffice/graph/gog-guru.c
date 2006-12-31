@@ -650,10 +650,11 @@ cb_plot_family_menu_create (char const *id, GogPlotFamily *family,
 	if (g_hash_table_size (family->types) <= 0)
 		return;
 
-	axis_set = gog_chart_get_axis_set (GOG_CHART (closure->state->prop_object));
+	axis_set = gog_chart_get_axis_set (GOG_CHART (closure->state->prop_object)) 
+				& GOG_AXIS_SET_FUNDAMENTAL;
 
 	if (axis_set != GOG_AXIS_SET_UNKNOWN &&
-	    family->axis_set != axis_set)
+	    (family->axis_set & GOG_AXIS_SET_FUNDAMENTAL) != axis_set)
 		return;
 
 	menu = gtk_image_menu_item_new_with_label (_(family->name));

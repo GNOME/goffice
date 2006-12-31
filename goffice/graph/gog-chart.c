@@ -53,7 +53,8 @@ static const struct {
 	{ "xy", 	GOG_AXIS_SET_XY},
 	{ "xyz",	GOG_AXIS_SET_XYZ},
 	{ "radar",	GOG_AXIS_SET_RADAR},
-	{ "pseudo-3d",	GOG_AXIS_SET_XY_pseudo_3d}
+	{ "pseudo-3d",	GOG_AXIS_SET_XY_pseudo_3d},
+	{ "xy-color",	GOG_AXIS_SET_XY_COLOR}
 };
 	
 GogAxisSet
@@ -273,6 +274,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 			}
 		case GOG_AXIS_SET_XY:
 		case GOG_AXIS_SET_XY_pseudo_3d:
+		case GOG_AXIS_SET_XY_COLOR:
 			{
 				map->axis_map[0] = gog_axis_map_new (axis0, map->area.x, map->area.w);
 				map->axis_map[1] = gog_axis_map_new (axis1, map->area.y + map->area.h, 
@@ -328,6 +330,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 		case GOG_AXIS_SET_ALL:
 		case GOG_AXIS_SET_NONE:
 		case GOG_AXIS_SET_UNKNOWN:
+		default:
 			g_warning ("[Chart::map_new] not implemented for this axis set (%i)",
 				   axis_set);
 			map->map_2D_to_view = null_map_2D;
@@ -550,7 +553,18 @@ role_plot_post_add (GogObject *parent, GogObject *plot)
 {
 	GogChart *chart = GOG_CHART (parent);
 	gboolean ok = TRUE;
+	GogPlotClass *plot_klass = GOG_PLOT_CLASS (G_OBJECT_GET_CLASS (plot));
+	GogAxisSet axis_set = plot_klass->axis_set & ~GOG_AXIS_SET_FUNDAMENTAL;
 
+	if (axis_set) {
+		int i = GOG_AXIS_VIRTUAL, j = 1 << GOG_AXIS_VIRTUAL;
+		for (; i < GOG_AXIS_TYPES; i++, j <<= 1)
+			if ((axis_set & j) != 0 && (chart->axis_set & j) == 0) {
+				GogObject *axis = GOG_OBJECT (g_object_new (GOG_AXIS_TYPE, "type", i, NULL));
+				chart->axis_set |= j;
+				gog_object_add_by_name (GOG_OBJECT (chart), "Color-Axis", axis);
+			}
+	}
 	/* APPEND to keep order, there won't be that many */
 	chart->plots = g_slist_append (chart->plots, plot);
 	gog_chart_request_cardinality_update (chart);
@@ -580,6 +594,7 @@ role_plot_pre_remove (GogObject *parent, GogObject *plot)
 	    chart->axis_set != GOG_AXIS_SET_XY &&
 	    chart->axis_set != GOG_AXIS_SET_X && 
 	    chart->axis_set != GOG_AXIS_SET_XY_pseudo_3d &&
+	    chart->axis_set != GOG_AXIS_SET_XY_COLOR &&
 	    chart->axis_set != GOG_AXIS_SET_RADAR) {
 		GogObject *grid = chart->grid; /* clear_parent clears ::grid */
 		gog_object_clear_parent (GOG_OBJECT (grid));
@@ -595,6 +610,7 @@ role_grid_can_add (GogObject const *parent)
 		(chart->axis_set == GOG_AXIS_SET_XY ||
 		 chart->axis_set == GOG_AXIS_SET_X ||
 		 chart->axis_set == GOG_AXIS_SET_XY_pseudo_3d ||
+		 chart->axis_set == GOG_AXIS_SET_XY_COLOR ||
 		 chart->axis_set == GOG_AXIS_SET_RADAR);
 }
 
@@ -659,6 +675,8 @@ static gboolean radial_axis_can_add (GogObject const *parent) { return axis_can_
 static void radial_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_RADIAL); }
 static gboolean pseudo_3d_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_PSEUDO_3D); }
 static void pseudo_3d_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_PSEUDO_3D); }
+static gboolean color_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_COLOR); }
+static void color_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_COLOR); }
 
 static GogObjectRole const roles[] = {
 	{ N_("Grid"), "GogGrid",	0,
@@ -688,7 +706,11 @@ static GogObjectRole const roles[] = {
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  pseudo_3d_axis_can_add, axis_can_remove, NULL, pseudo_3d_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_PSEUDO_3D } },
-	{ N_("Plot"), "GogPlot",	4,	/* keep the axis before the plots */
+	{ N_("Color-Axis"), "GogAxis", 4,
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  color_axis_can_add, axis_can_remove, NULL, color_axis_post_add, axis_pre_remove, NULL,
+	  { GOG_AXIS_COLOR } },
+	{ N_("Plot"), "GogPlot",	5,	/* keep the axis before the plots */
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
 	  NULL, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } },
 	{ N_("Title"), "GogLabel",	10,

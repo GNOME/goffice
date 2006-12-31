@@ -252,6 +252,7 @@ gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base)
 	switch (axis_set) {
 		case GOG_AXIS_SET_XY:
 		case GOG_AXIS_SET_XY_pseudo_3d:
+		case GOG_AXIS_SET_XY_COLOR:
 			if (axis_type == GOG_AXIS_X)
 				crossed_type = GOG_AXIS_Y;
 			else
@@ -269,6 +270,7 @@ gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base)
 		case GOG_AXIS_SET_XYZ:
 		case GOG_AXIS_SET_ALL:
 		case GOG_AXIS_SET_NONE:
+		default:
 			g_message ("[GogAxisBase::get_crossed_axis_type] unimplemented for this axis set (%i)",
 				   axis_set);
 			break;
@@ -1685,7 +1687,8 @@ gog_axis_base_view_padding_request (GogView *view, GogViewAllocation const *bbox
 			xy_process (GOG_AXIS_BASE_PADDING_REQUEST, view, padding, bbox, 0., 0.);
 			break;
 		case GOG_AXIS_SET_XY_pseudo_3d:
-			if (gog_axis_get_atype (axis_base->axis) != GOG_AXIS_PSEUDO_3D)
+		case GOG_AXIS_SET_XY_COLOR:
+			if (gog_axis_get_atype (axis_base->axis) < GOG_AXIS_VIRTUAL)
 				xy_process (GOG_AXIS_BASE_PADDING_REQUEST, view, padding, bbox, 0., 0.);
 			break;
 		case GOG_AXIS_SET_RADAR:
@@ -1727,7 +1730,8 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 			xy_process (GOG_AXIS_BASE_RENDER, view, NULL, plot_area, 0., 0.);
 			break;
 		case GOG_AXIS_SET_XY_pseudo_3d:
-			if (gog_axis_get_atype (axis_base->axis) != GOG_AXIS_PSEUDO_3D)
+		case GOG_AXIS_SET_XY_COLOR:
+			if (gog_axis_get_atype (axis_base->axis) < GOG_AXIS_VIRTUAL)
 				xy_process (GOG_AXIS_BASE_RENDER, view, NULL, plot_area, 0., 0.);
 			break;
 		case GOG_AXIS_SET_RADAR:

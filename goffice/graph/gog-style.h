@@ -50,6 +50,7 @@ typedef enum {
 	GOG_STYLE_FONT		= 1 << 4,
 	GOG_STYLE_TEXT_LAYOUT	= 1 << 5,
 	GOG_STYLE_INTERPOLATION	= 1 << 6,
+	GOG_STYLE_MARKER_NO_COLOR	= 1 << 7,
 	GOG_STYLE_ALL		= 0x1F
 } GogStyleFlag;
 

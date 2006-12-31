@@ -805,9 +805,13 @@ marker_init (StylePrefState *state, gboolean enable)
 	state->marker.selector = selector = 
 		go_marker_selector_new (go_marker_get_shape (style->marker.mark),
 					go_marker_get_shape (state->default_style->marker.mark));
+	if ((style->interesting_fields & GOG_STYLE_MARKER_NO_COLOR )== 0)
 		go_marker_selector_set_colors (GO_SELECTOR (selector), 
 					       go_marker_get_outline_color (style->marker.mark),
 					       go_marker_get_fill_color (style->marker.mark));
+	else
+		go_marker_selector_set_colors (GO_SELECTOR (selector), 
+					       RGBA_BLUE, RGBA_BLUE);
 	w = glade_xml_get_widget (state->gui, "marker_shape_label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), selector);
 	gtk_table_attach (GTK_TABLE (table), selector, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
@@ -815,20 +819,38 @@ marker_init (StylePrefState *state, gboolean enable)
 			  G_CALLBACK (cb_marker_shape_changed), state);
 	gtk_widget_show (selector);
 
-	w = create_go_combo_color (state,
-		go_marker_get_fill_color (style->marker.mark),
-		go_marker_get_fill_color (default_style->marker.mark),
-		state->gui,
-		"pattern_background", "marker_fill_label",
-		G_CALLBACK (cb_marker_fill_color_changed));
+	if ((style->interesting_fields & GOG_STYLE_MARKER_NO_COLOR ) == 0)
+		w = create_go_combo_color (state,
+			go_marker_get_fill_color (style->marker.mark),
+			go_marker_get_fill_color (default_style->marker.mark),
+			state->gui,
+			"pattern_background", "marker_fill_label",
+			G_CALLBACK (cb_marker_fill_color_changed));
+	else {
+		w = create_go_combo_color (state,
+			RGBA_BLUE, RGBA_BLUE,
+			state->gui,
+			"pattern_background", "marker_fill_label",
+			G_CALLBACK (cb_marker_fill_color_changed));
+		gtk_widget_set_sensitive (w, FALSE);
+	}
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
-
-	w = create_go_combo_color (state,
-		go_marker_get_outline_color (style->marker.mark),
-		go_marker_get_outline_color (default_style->marker.mark),
-		state->gui,
-		"pattern_foreground", "marker_outline_label",
-		G_CALLBACK (cb_marker_outline_color_changed));
+	
+	if ((style->interesting_fields & GOG_STYLE_MARKER_NO_COLOR ) == 0)
+		w = create_go_combo_color (state,
+			go_marker_get_outline_color (style->marker.mark),
+			go_marker_get_outline_color (default_style->marker.mark),
+			state->gui,
+			"pattern_foreground", "marker_outline_label",
+			G_CALLBACK (cb_marker_outline_color_changed));
+	else {
+		w = create_go_combo_color (state,
+			RGBA_BLUE, RGBA_BLUE,
+			state->gui,
+			"pattern_background", "marker_fill_label",
+			G_CALLBACK (cb_marker_outline_color_changed));
+		gtk_widget_set_sensitive (w, FALSE);
+	}
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
 
 	w = glade_xml_get_widget (state->gui, "marker_size_spin");

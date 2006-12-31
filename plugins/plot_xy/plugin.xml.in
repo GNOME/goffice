@@ -17,6 +17,11 @@
 				<_description>Bubble plotting engine</_description>
 			</information>
 		</service>
+		<service type="plot_engine" id="GogXYColorPlot">
+			<information>
+				<_description>2D colored scatter plotting engine</_description>
+			</information>
+		</service>
 		<service type="plot_type" id="plot_xy">
 			<file>plot-types.xml</file>
 			<information>

@@ -92,7 +92,9 @@ typedef enum {
 	GOG_AXIS_Z,
 	GOG_AXIS_CIRCULAR,
 	GOG_AXIS_RADIAL,
-	GOG_AXIS_PSEUDO_3D,
+	GOG_AXIS_VIRTUAL,
+	GOG_AXIS_PSEUDO_3D = GOG_AXIS_VIRTUAL,
+	GOG_AXIS_COLOR,
 	GOG_AXIS_TYPES
 } GogAxisType;
 
@@ -102,8 +104,10 @@ typedef enum {
 	GOG_AXIS_SET_X		  = (1 << GOG_AXIS_X),
 	GOG_AXIS_SET_XY		  = (1 << GOG_AXIS_X) | (1 << GOG_AXIS_Y),
 	GOG_AXIS_SET_XY_pseudo_3d = (1 << GOG_AXIS_X) | (1 << GOG_AXIS_Y) | (1 << GOG_AXIS_PSEUDO_3D),
+	GOG_AXIS_SET_XY_COLOR = (1 << GOG_AXIS_X) | (1 << GOG_AXIS_Y) | (1 << GOG_AXIS_COLOR),
 	GOG_AXIS_SET_XYZ	  = (1 << GOG_AXIS_X) | (1 << GOG_AXIS_Y) | (1 << GOG_AXIS_Z),
 	GOG_AXIS_SET_RADAR        = (1 << GOG_AXIS_CIRCULAR) | (1 << GOG_AXIS_RADIAL),
+	GOG_AXIS_SET_FUNDAMENTAL = ((1 << GOG_AXIS_VIRTUAL) - 1),
 	GOG_AXIS_SET_ALL	  = ((1 << GOG_AXIS_TYPES) -1)
 } GogAxisSet;
 
@@ -139,6 +143,8 @@ typedef enum {
 	GOG_MS_DIM_END,	/* we made it up for dropbars */
 	GOG_MS_DIM_LOW,	/* we made it up for hi-lo*/
 	GOG_MS_DIM_HIGH,	/* we made it up for hi-lo */
+	GOG_MS_DIM_EXTRA1,	/* we made it up for other uses */
+	GOG_MS_DIM_EXTRA2,	/* we made it up for other uses */
 } GogMSDimType;
 
 typedef enum {

@@ -52,6 +52,8 @@ typedef Gog2DPlotClass GogXYPlotClass;
 
 typedef Gog2DPlotClass GogBubblePlotClass;
 
+typedef Gog2DPlotClass GogXYColorPlotClass;
+
 GOFFICE_PLUGIN_MODULE_HEADER;
 
 static GogObjectClass *plot2d_parent_klass;
@@ -552,6 +554,191 @@ GSF_DYNAMIC_CLASS (GogBubblePlot, gog_bubble_plot,
 	GOG_2D_PLOT_TYPE)
 
 /*****************************************************************************/
+
+enum {
+	GOG_XY_COLOR_PROP_0,
+	GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES,
+	GOG_XY_COLOR_PROP_INTERPOLATION,
+};
+
+static GogObjectClass *map_parent_klass;
+
+#define GOG_XY_COLOR_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_XY_COLOR_PLOT_TYPE, GogXYColorPlotClass))
+
+static void
+gog_xy_color_plot_clear_formats (GogXYColorPlot *map)
+{
+	if (map->z.fmt != NULL) {
+		go_format_unref (map->z.fmt);
+		map->z.fmt = NULL;
+	}
+}
+
+static void
+gog_xy_color_plot_update (GogObject *obj)
+{
+	GogXYColorPlot *model = GOG_XY_COLOR_PLOT (obj);
+	GogXYSeries const *series = NULL;
+	double z_min, z_max, tmp_min, tmp_max;
+	GSList *ptr;
+
+	z_min = DBL_MAX;
+	z_max = -DBL_MAX;
+	gog_xy_color_plot_clear_formats (model);
+	for (ptr = model->base.base.series ; ptr != NULL ; ptr = ptr->next) {
+		series = ptr->data;
+		if (!gog_series_is_valid (GOG_SERIES (series)))
+			continue;
+
+		go_data_vector_get_minmax (GO_DATA_VECTOR (
+			series->base.values[2].data), &tmp_min, &tmp_max);
+		if (z_min > tmp_min) z_min = tmp_min;
+		if (z_max < tmp_max) z_max = tmp_max;
+		if (model->z.fmt == NULL)
+			model->z.fmt = go_data_preferred_fmt (series->base.values[2].data);
+	}
+
+	if (model->z.minima != z_min || model->z.maxima != z_max) {
+		model->z.minima = z_min;
+		model->z.maxima = z_max;
+		gog_axis_bound_changed (model->base.base.axis[GOG_AXIS_COLOR], GOG_OBJECT (model));
+	}
+	map_parent_klass->update (obj);
+}
+
+static GOData *
+gog_xy_color_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
+			     GogPlotBoundInfo *bounds)
+{
+	if (axis == GOG_AXIS_PSEUDO_3D) {
+		GogXYColorPlot *model = GOG_XY_COLOR_PLOT (plot);
+
+		bounds->val.minima = model->z.minima;
+		bounds->val.maxima = model->z.maxima;
+		bounds->is_discrete = model->z.minima > model->z.maxima ||
+			!go_finite (model->z.minima) ||
+			!go_finite (model->z.maxima);
+		if (bounds->fmt == NULL && model->z.fmt != NULL)
+			bounds->fmt = go_format_ref (model->z.fmt);
+		return NULL;
+	}
+	return GOG_PLOT_CLASS (map_parent_klass)->axis_get_bounds (plot, axis, bounds);
+}
+
+static char const *
+gog_xy_color_plot_type_name (G_GNUC_UNUSED GogObject const *item)
+{
+	/* xgettext : the base for how to name map like plot objects
+	 * eg The 2nd plot in a chart will be called
+	 * 	Map2 */
+	return N_("XYColor");
+}
+
+static void
+gog_xy_color_plot_set_property (GObject *obj, guint param_id,
+		     GValue const *value, GParamSpec *pspec)
+{
+	GogXYColorPlot *map = GOG_XY_COLOR_PLOT (obj);
+	switch (param_id) {
+	case GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES: {
+		map->default_style_has_lines = g_value_get_boolean (value);
+		break;
+	}
+	case GOG_XY_COLOR_PROP_INTERPOLATION: {
+		char const *s = g_value_get_string (value);
+		map->interpolation = go_line_interpolation_from_str (s);;
+		break;
+	}
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+static void
+gog_xy_color_plot_get_property (GObject *obj, guint param_id,
+		     GValue *value, GParamSpec *pspec)
+{
+	GogXYColorPlot const *map = GOG_XY_COLOR_PLOT (obj);
+	switch (param_id) {
+	case GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES:
+		g_value_set_boolean (value, map->default_style_has_lines);
+		break;
+	case GOG_XY_COLOR_PROP_INTERPOLATION:
+		g_value_set_string (value, go_line_interpolation_as_str (map->interpolation));
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
+gog_xy_color_plot_finalize (GObject *obj)
+{
+	gog_xy_color_plot_clear_formats (GOG_XY_COLOR_PLOT (obj));
+	G_OBJECT_CLASS (map_parent_klass)->finalize (obj);
+}
+
+static void
+gog_xy_color_plot_class_init (GogPlotClass *plot_klass)
+{
+	GObjectClass *gobject_klass = (GObjectClass *) plot_klass;
+	GogObjectClass *gog_klass = (GogObjectClass *) plot_klass;
+
+	map_parent_klass = g_type_class_peek_parent (plot_klass);
+
+	gobject_klass->set_property = gog_xy_color_plot_set_property;
+	gobject_klass->get_property = gog_xy_color_plot_get_property;
+	gobject_klass->finalize     = gog_xy_color_plot_finalize;
+
+	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES,
+		g_param_spec_boolean ("default-style-has-lines", NULL,
+			"Should the default style of a series include lines",
+			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_INTERPOLATION,
+		g_param_spec_string  ("interpolation", NULL,
+			_("Interpolation type (none, linear, spline or step) with variant, if any."),
+            "none", G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	gog_klass->type_name	= gog_xy_color_plot_type_name;
+	gog_klass->update		= gog_xy_color_plot_update;
+
+	{
+		static GogSeriesDimDesc dimensions[] = {
+			{ N_("X"), GOG_SERIES_SUGGESTED, FALSE,
+			  GOG_DIM_INDEX, GOG_MS_DIM_CATEGORIES },
+			{ N_("Y"), GOG_SERIES_REQUIRED, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			{ N_("Z"), GOG_SERIES_REQUIRED, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_EXTRA1 },
+/* Names of the error data are not translated since they are not used */
+			{ "Y+err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_plus1 },
+			{ "Y-err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_minus1 },
+			{ "X+err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_plus2 },
+			{ "X-err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_minus2 }
+		};
+		plot_klass->desc.series.dim = dimensions;
+		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
+		plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER
+			| GOG_STYLE_INTERPOLATION |GOG_STYLE_MARKER_NO_COLOR;
+	}
+	plot_klass->axis_set	      	= GOG_AXIS_SET_XY_COLOR;
+	plot_klass->axis_get_bounds   	= gog_xy_color_plot_axis_get_bounds;
+}
+
+static void
+gog_xy_color_plot_init (GogXYColorPlot *map)
+{
+	map->default_style_has_lines = FALSE;
+}
+
+GSF_DYNAMIC_CLASS (GogXYColorPlot, gog_xy_color_plot,
+	gog_xy_color_plot_class_init, gog_xy_color_plot_init,
+	GOG_2D_PLOT_TYPE)
+
+
+/*****************************************************************************/
 typedef GogPlotView		GogXYView;
 typedef GogPlotViewClass	GogXYViewClass;
 
@@ -578,8 +765,25 @@ bubble_draw_circle (GogView *view, double x, double y, double radius)
 	gog_renderer_draw_polygon (view->renderer, path, FALSE);
 }
 
+static GOColor
+get_map_color (double z)
+{
+	if (z <= 0.)
+		return RGBA_BLUE;
+	if (z <= 1.)
+		return RGBA_BLUE + ((int) (z * 255.) << 16);
+	if (z <= 2.)
+		return RGBA_GREEN + ((int) ((2. - z) * 255) << 8);
+	if (z <= 4.)
+		return RGBA_GREEN + ((int) ((z / 2. - 1.) * 255) << 24);
+	if (z <= 6.)
+		return RGBA_RED + ((int) ((3. - z / 2.) * 255) << 16);
+	return RGBA_RED;
+}
+
 typedef struct {
 	double x, y;
+	GOColor color;
 } MarkerData;
 
 static void
@@ -589,7 +793,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	unsigned num_series;
 	GogChart *chart = GOG_CHART (view->model->parent);
 	GogChartMap *chart_map;
-	GogAxisMap *x_map, *y_map;
+	GogAxisMap *x_map, *y_map, *z_map;
 	GogXYSeries const *series = NULL;
 	unsigned i ,j ,k ,n, tmp;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
@@ -597,12 +801,13 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogViewAllocation const *area;
 	GSList *ptr;
 	double const *y_vals, *x_vals = NULL, *z_vals = NULL;
-	double x = 0., y = 0., z, x_canvas = 0., y_canvas = 0.;
+	double x = 0., y = 0., z = 0., x_canvas = 0., y_canvas = 0.;
 	double zmax, rmax = 0., x_zero, y_zero;
 	double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
 	double xerrmin, xerrmax, yerrmin, yerrmax;
 	GogStyle *style = NULL;
 	gboolean show_marks, show_lines, show_negatives, in_3d, size_as_area = TRUE;
+	gboolean is_map = GOG_IS_XY_COLOR_PLOT (model);
 
 	MarkerData **markers;
 	unsigned *num_markers;
@@ -619,6 +824,9 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	x_map = gog_chart_map_get_axis_map (chart_map, 0);
 	y_map = gog_chart_map_get_axis_map (chart_map, 1);
+	z_map = is_map?
+			gog_axis_map_new (model->base.axis[GOG_AXIS_COLOR], 0, 6):
+			NULL;
 
 	/* Draw drop lines from point to axis start. To change this behaviour
 	 * and draw drop lines from point to zero, we can use gog_axis_map_get_baseline:
@@ -716,6 +924,14 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			style = gog_style_dup (style);
 		gog_renderer_push_style (view->renderer, style);
 
+		if (is_map) {
+			z_vals = go_data_vector_get_values (
+				GO_DATA_VECTOR (series->base.values[2].data));
+			tmp = go_data_vector_get_len (
+				GO_DATA_VECTOR (series->base.values[2].data));
+			if (n > tmp)
+				n = tmp;
+		}
 		if (GOG_IS_BUBBLE_PLOT (model)) {
 			double zmin;
 			go_data_vector_get_minmax (GO_DATA_VECTOR (series->base.values[2].data), &zmin, &zmax);
@@ -868,6 +1084,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			y = *y_vals++;
 			if (isnan (y) || isnan (x))
 				continue;
+			if (is_map && isnan (z = *z_vals++))
+				continue;
 			/* We are checking with go_finite here because isinf
 			   if not available everywhere.  Note, that NANs
 			   have been ruled out.  */
@@ -920,6 +1138,10 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			    y_margin_min <= y_canvas && y_canvas <= y_margin_max) {
 				markers[j][k].x = x_canvas;
 				markers[j][k].y = y_canvas;
+				if (is_map)
+					markers[j][k].color = (gog_axis_map_finite (z_map, z))?
+							get_map_color (gog_axis_map_to_view (z_map, z)):
+							0;
 				k++;
 			}
 		}
@@ -943,10 +1165,20 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					series = ptr->data;
 					style = GOG_STYLED_OBJECT (series)->style;
 					gog_renderer_push_style (view->renderer, style);
-					for (k = 0; k < num_markers[j]; k++)
+					for (k = 0; k < num_markers[j]; k++) {
+						if (is_map) {
+							go_marker_set_outline_color
+								(style->marker.mark,markers[j][k].color);
+							go_marker_set_fill_color
+								(style->marker.mark,markers[j][k].color);
+							gog_renderer_push_style (view->renderer, style);
+						}
 						gog_renderer_draw_marker (view->renderer, 
 									  markers[j][k].x,
 									  markers[j][k].y);
+						if (is_map)
+							gog_renderer_pop_style (view->renderer);
+					}
 					gog_renderer_pop_style (view->renderer);
 					g_free (markers[j]);
 				}
@@ -957,6 +1189,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_view_render	(ptr->data, bbox);
 
 	gog_chart_map_free (chart_map);
+	if (is_map)
+		gog_axis_map_free (z_map);
 }
 
 static GogViewClass *xy_view_parent_klass;
@@ -1097,7 +1331,7 @@ gog_xy_series_update (GogObject *obj)
 		y_len = go_data_vector_get_len (
 			GO_DATA_VECTOR (series->base.values[1].data));
 	}
-	if (GOG_IS_BUBBLE_PLOT (series->base.plot)) {
+	if (GOG_IS_BUBBLE_PLOT (series->base.plot) || GOG_IS_XY_COLOR_PLOT (series->base.plot)) {
 		double *z_vals = NULL;
 		int z_len = 0;
 		if (series->base.values[2].data != NULL) {
@@ -1162,25 +1396,34 @@ static void
 gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	GogSeries *series = GOG_SERIES (gso);
-	GogXYPlot const *plot;
 
 	series_parent_klass->init_style (gso, style);
 	if (series->plot == NULL ||
 	    GOG_IS_BUBBLE_PLOT (series->plot))
 		return;
 
-	plot = GOG_XY_PLOT (series->plot);
+	if (GOG_IS_XY_PLOT (series->plot)) {
+		GogXYPlot const *plot = GOG_XY_PLOT (series->plot);
 
-	if (!plot->default_style_has_markers &&
-	    style->marker.auto_shape) 
-		go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
+		if (!plot->default_style_has_markers &&
+			style->marker.auto_shape) 
+			go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 
-	if (!plot->default_style_has_lines &&
-	    style->line.auto_dash)
-		style->line.dash_type = GO_LINE_NONE;
+		if (!plot->default_style_has_lines &&
+			style->line.auto_dash)
+			style->line.dash_type = GO_LINE_NONE;
 
-	if (style->interpolation.auto_type)
-		style->interpolation.type = plot->interpolation;
+		if (style->interpolation.auto_type)
+			style->interpolation.type = plot->interpolation;
+	} else {
+		GogXYColorPlot const *plot = GOG_XY_COLOR_PLOT (series->plot);
+		if (!plot->default_style_has_lines &&
+			style->line.auto_dash)
+			style->line.dash_type = GO_LINE_NONE;
+
+		if (style->interpolation.auto_type)
+			style->interpolation.type = plot->interpolation;
+	}
 }
 
 static void
@@ -1366,6 +1609,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_2d_plot_register_type (module);
 	gog_xy_plot_register_type (module);
 	gog_bubble_plot_register_type (module);
+	gog_xy_color_plot_register_type (module);
 	gog_xy_view_register_type (module);
 	gog_xy_series_view_register_type (module);
 	gog_xy_series_register_type (module);
