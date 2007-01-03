@@ -1,3 +1,10 @@
+2006-01-03  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-renderer-cairo.c (gog_renderer_cairo_draw_text):
+	Don't scale text by using pango_cairo_context_set_resolution, but use
+	cairo_scale instead. Much more WYSIWYG now.
+	(gog_renderer_cairo_get_text_OBR): ditto.
+
 2006-12-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* pixmaps/color.xpm: new pixmap.

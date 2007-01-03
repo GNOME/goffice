@@ -534,13 +534,13 @@ gog_renderer_cairo_draw_text (GogRenderer *rend, char const *text,
 
 	layout = pango_cairo_create_layout (cairo);
 	context = pango_layout_get_context (layout);
-	pango_cairo_context_set_resolution (context, 72 * rend->scale);
+	pango_cairo_context_set_resolution (context, 72.0);
 	pango_layout_set_markup (layout, text, -1);
 	pango_layout_set_font_description (layout, style->font.font->desc);
 	pango_layout_get_size (layout, &iw, &ih);
 
-	obr.w = iw / (double)PANGO_SCALE;
-	obr.h = ih / (double)PANGO_SCALE;
+	obr.w = rend->scale * (iw / (double)PANGO_SCALE);
+	obr.h = rend->scale * (ih / (double)PANGO_SCALE);
 	obr.alpha = style->text_layout.angle * M_PI / 180.0;
 	obr.x = pos->x;
 	obr.y = pos->y;
@@ -571,6 +571,7 @@ gog_renderer_cairo_draw_text (GogRenderer *rend, char const *text,
 	cairo_move_to (cairo, obr.x - (obr.w / 2.0) * cos (obr.alpha) - (obr.h / 2.0) * sin (obr.alpha),
 		       obr.y + (obr.w / 2.0) * sin (obr.alpha) - (obr.h / 2.0) * cos (obr.alpha));
 	cairo_rotate (cairo, -obr.alpha);
+	cairo_scale (cairo, rend->scale, rend->scale);
 	pango_cairo_show_layout (cairo, layout);
 	cairo_restore (cairo);
 	g_object_unref (layout);
@@ -596,14 +597,14 @@ gog_renderer_cairo_get_text_OBR (GogRenderer *rend,
 
 	layout = pango_cairo_create_layout (cairo);
 	context = pango_layout_get_context (layout);
-	pango_cairo_context_set_resolution (context, 72 * rend->scale);
+	pango_cairo_context_set_resolution (context, 72.0);
 	pango_layout_set_markup (layout, text, -1);
 	pango_layout_set_font_description (layout, style->font.font->desc);
 	pango_layout_get_extents (layout, NULL, &logical);
 	g_object_unref (layout);
 	
-	obr->w = ((double) logical.width + (double) PANGO_SCALE / 2.0) / (double) PANGO_SCALE;
-	obr->h = ((double) logical.height + (double) PANGO_SCALE / 2.0) /(double) PANGO_SCALE;
+	obr->w = rend->scale * ((double) logical.width + (double) PANGO_SCALE / 2.0) / (double) PANGO_SCALE;
+	obr->h = rend->scale * ((double) logical.height + (double) PANGO_SCALE / 2.0) /(double) PANGO_SCALE;
 }
 
 static void
