@@ -757,10 +757,6 @@ static gboolean
 cell_format_is_date (char const *fmt, GOFormatDetails *info)
 {
 	if (strstr (fmt, "yy") || strstr (fmt, "mmm")) {
-		info->date_has_days = 
-			(NULL != g_utf8_strchr (fmt, -1, 'd'));
-		info->date_has_months = 
-			(NULL != g_utf8_strchr (fmt, -1, 'm'));
 		return TRUE;
 	}
 
@@ -784,8 +780,6 @@ go_format_classify (GOFormat const *gf, GOFormatDetails *info)
 	info->negative_fmt = 0;
 	info->list_element = 0;
 	info->currency_symbol_index = 1; /* '$' */
-	info->date_has_days = FALSE;
-	info->date_has_months = FALSE;
 	info->fraction_denominator = 0;
 	info->use_markup = FALSE;
 	info->exponent_step = 1;
@@ -815,17 +809,6 @@ go_format_classify (GOFormat const *gf, GOFormatDetails *info)
 		for (; elem[j] ; ++j)
 			if (g_ascii_strcasecmp (_(elem[j]), fmt) == 0) {
 				info->list_element = j;
-				switch (i) {
-				case GO_FORMAT_DATE:
-					info->date_has_days = 
-						(NULL != g_utf8_strchr (elem[j],-1,'d'));
-					info->date_has_months = 
-						(NULL != g_utf8_strchr (elem[j],-1,'m'));
-					break;
-				default:
-					break;
-				}
-				
 				return i;
 			}
 	}

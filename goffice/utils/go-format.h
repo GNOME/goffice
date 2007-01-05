@@ -64,8 +64,6 @@ typedef struct {
 	int	 negative_fmt;	/* 0 - 3 */
 	int	 currency_symbol_index;
 	int	 list_element;
-	gboolean date_has_days;
-	gboolean date_has_months;
 	int      fraction_denominator;
 	gboolean simplify_mantissa;
 	int	 exponent_step;

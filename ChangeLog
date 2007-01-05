@@ -1,3 +1,12 @@
+2007-01-04  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-format-sel.c (fmt_dialog_enable_widgets): When
+	displaying a widget, display its parents too.  This kills the need
+	for all the silly box widgets.
+
+	* goffice/utils/go-format.h (GOFormatDetails): Eliminate
+	date_has_days and date_has_months.  No-one uses them.
+
 2006-01-03  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-renderer-cairo.c (gog_renderer_cairo_draw_text):

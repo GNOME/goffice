@@ -106,10 +106,10 @@ typedef enum {
 	F_ENTRY,
 	F_LIST_LABEL,		F_LIST_SCROLL,		F_LIST,
 	F_DECIMAL_SPIN,		F_ENGINEERING_BUTTON,	
-	F_SUPERSCRIPT_BOX,	F_SUPERSCRIPT_BUTTON,	F_SUPERSCRIPT_HIDE_1_BUTTON,
+	F_SUPERSCRIPT_BUTTON,	F_SUPERSCRIPT_HIDE_1_BUTTON,
 	F_NEGATIVE_LABEL,	F_NEGATIVE_SCROLL,	F_NEGATIVE,
-	F_DECIMAL_LABEL,	F_CODE_LABEL,	F_SYMBOL_BOX,
-	F_DECIMAL_BOX,	F_CODE_BOX,	F_MAX_WIDGET
+	F_DECIMAL_LABEL,	F_CODE_LABEL,
+	F_MAX_WIDGET
 } FormatWidget;
 
 struct  _GOFormatSel {
@@ -430,7 +430,6 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 		/* Number */
 		{
 			F_NUMBER_EXPLANATION,
-			F_DECIMAL_BOX,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
 			F_SEPARATOR,
@@ -442,11 +441,9 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 		/* Currency */
 		{
 			F_CURRENCY_EXPLANATION,
-			F_DECIMAL_BOX,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
 			F_SEPARATOR,
-			F_SYMBOL_BOX,
 			F_SYMBOL_LABEL,
 			F_SYMBOL,
 			F_NEGATIVE_LABEL,
@@ -457,10 +454,8 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 		/* Accounting */
 		{
 			F_ACCOUNTING_EXPLANATION,
-			F_DECIMAL_BOX,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
-			F_SYMBOL_BOX,
 			F_SYMBOL_LABEL,
 			F_SYMBOL,
 			F_MAX_WIDGET
@@ -484,7 +479,6 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 		/* Percentage */
 		{
 			F_PERCENTAGE_EXPLANATION,
-			F_DECIMAL_BOX,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
 			F_MAX_WIDGET
@@ -500,11 +494,9 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 		/* Scientific */
 		{
 			F_SCIENTIFIC_EXPLANATION,
-			F_DECIMAL_BOX,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
 			F_ENGINEERING_BUTTON,
-			F_SUPERSCRIPT_BOX,
 			F_SUPERSCRIPT_BUTTON,
 			F_SUPERSCRIPT_HIDE_1_BUTTON,
 			F_MAX_WIDGET
@@ -522,7 +514,6 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 		/* Custom */
 		{
 			F_CUSTOM_EXPLANATION,
-			F_CODE_BOX,
 			F_CODE_LABEL,
 			F_ENTRY,
 			F_LIST_LABEL,
@@ -635,11 +626,6 @@ stays:
 						   gfs->format.num_decimals);
 			break;
 
-		case F_SUPERSCRIPT_BOX:
-			if (!gfs->show_format_with_markup)
-				show_widget = FALSE;
-			break;
-
 		case F_SUPERSCRIPT_BUTTON:
 			if (gfs->show_format_with_markup) {
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
@@ -673,8 +659,12 @@ stays:
 			; /* Nothing */
 		}
 
-		if (show_widget)
-			gtk_widget_show (w);
+		if (show_widget) {
+			while (!GTK_WIDGET_VISIBLE (w)) {
+				gtk_widget_show (w);
+				w = w->parent;
+			}
+		}
 	}
 
 	draw_format_preview (gfs, TRUE);
@@ -925,7 +915,6 @@ nfs_init (GOFormatSel *gfs)
 		"format_list",
 		"format_number_decimals",
 		"format_engineering_button",
-		"format_superscript_box",
 		"format_superscript_button",
 		"format_superscript_hide_1_button",
 		"format_negatives_label",
@@ -933,9 +922,6 @@ nfs_init (GOFormatSel *gfs)
 		"format_negatives",
 		"format_decimal_label",
 		"format_code_label",
-		"format_symbol_box",
-		"format_decimal_box",
-		"format_code_box",
 		NULL
 	};
 

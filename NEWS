@@ -2,6 +2,7 @@ goffice 0.3.6:
 
 Morten:
 	* Generalize number formatting.
+	* Simplify format widget a bit.
 
 --------------------------------------------------------------------------
 
