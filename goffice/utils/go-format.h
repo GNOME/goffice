@@ -128,6 +128,11 @@ void      go_format_unref		(GOFormat *fmt);
 #define   go_format_is_markup(fmt)	((fmt)->family == GO_FORMAT_MARKUP)
 #define   go_format_is_text(fmt)	((fmt)->family == GO_FORMAT_TEXT)
 #define   go_format_is_var_width(fmt)	((fmt)->is_var_width)
+int       go_format_is_date             (GOFormat const *fmt);
+int       go_format_is_date_for_value   (GOFormat const *fmt, double val, char type);
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+int       go_format_is_date_for_valuel  (GOFormat const *fmt, long double val, char type);
+#endif
 
 GOFormatNumberError
 go_format_value_gstring (PangoLayout *layout, GString *str,

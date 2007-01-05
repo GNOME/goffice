@@ -3386,6 +3386,40 @@ go_format_unref (GOFormat *gf)
 #endif
 
 #ifdef DEFINE_COMMON
+/**
+ * go_format_is_date:
+ * @fmt: Format to query
+ *
+ * Returns TRUE if the format is a date format.
+ * Returns FALSE if the format is not a date format.
+ * Returns -1 if the format is inconstent.
+ */
+int
+go_format_is_date (GOFormat const *fmt)
+{
+	g_return_val_if_fail (fmt != NULL, -1);
+
+	/* Close enough for now: */
+	return fmt->family == GO_FORMAT_DATE
+		? (int)TRUE
+		: (int)FALSE;
+}
+#endif
+
+int
+SUFFIX(go_format_is_date_for_value) (GOFormat const *fmt, DOUBLE val, char type)
+{
+	g_return_val_if_fail (fmt != NULL, -1);
+
+	if (type != 'F')
+		return FALSE;
+
+	/* Close enough for now: */
+	return go_format_is_date (fmt);
+}
+
+
+#ifdef DEFINE_COMMON
 GOFormat *
 go_format_general (void)
 {

@@ -1,3 +1,8 @@
+2007-01-05  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_is_date,
+	go_format_is_date_for_value): New functions.
+
 2007-01-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (fmt_dialog_enable_widgets): When
