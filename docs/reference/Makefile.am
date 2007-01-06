@@ -58,7 +58,8 @@ IGNORE_HFILES=	\
 	
 HTML_IMAGES=
 
-content_files=
+content_files = \
+        $(top_srcdir)/docs/reference/version.xml
 
 expand_content_files=
 
@@ -69,3 +70,6 @@ include $(top_srcdir)/gtk-doc.make
 
 # To work around bug #314105, we have to distribute the generated file, too.
 EXTRA_DIST += version.xml.in version.xml
+
+$(top_srcdir)/docs/reference/version.xml:
+	cp $(top_builddir)/docs/reference/version.xml $@
