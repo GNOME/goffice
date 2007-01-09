@@ -290,22 +290,29 @@ strtod_helper (const char *s)
  * @end: optional pointer to end of string.
  *
  * Like strtod, but without hex notation and MS extensions.
+ * Unlike strtod, there is no need to reset errno before calling this.
  */
 double
 go_strtod (const char *s, char **end)
 {
 	int maxlen = strtod_helper (s);
+	int save_errno;
 	char *tmp;
 	double res;
 
-	if (maxlen < 0)
+	if (maxlen < 0) {
+		errno = 0;
 		return strtod (s, end);
+	}
 
 	tmp = g_strndup (s, maxlen);
+	errno = 0;
 	res = strtod (tmp, end);
+	save_errno = errno;
 	if (end)
 		*end = (char *)s + (*end - tmp);
 	g_free (tmp);
+	errno = save_errno;
 
 	return res;
 }
@@ -428,22 +435,29 @@ go_pow10l (int n)
  * @end: optional pointer to end of string.
  *
  * Like strtold, but without hex notation and MS extensions.
+ * Unlike strtold, there is no need to reset errno before calling this.
  */
 long double
 go_strtold (const char *s, char **end)
 {
 	int maxlen = strtod_helper (s);
+	int save_errno;
 	char *tmp;
 	long double res;
 
-	if (maxlen < 0)
+	if (maxlen < 0) {
+		errno = 0;
 		return strtold (s, end);
+	}
 
 	tmp = g_strndup (s, maxlen);
+	errno = 0;
 	res = strtold (tmp, end);
+	save_errno = errno;
 	if (end)
 		*end = (char *)s + (*end - tmp);
 	g_free (tmp);
+	errno = save_errno;
 
 	return res;
 }

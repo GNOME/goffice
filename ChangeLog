@@ -1,3 +1,8 @@
+2007-01-09  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-math.c (go_strtod): Eliminate the need to reset
+	errno before calling this.
+
 2007-01-08  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-math.c (go_strtod, go_strtold): New functions.
