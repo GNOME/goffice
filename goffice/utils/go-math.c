@@ -257,6 +257,60 @@ go_pow10 (int n)
 	return pow (10.0, n);
 }
 
+static int
+strtod_helper (const char *s)
+{
+	const char *p = s;
+
+	while (g_ascii_isspace (*p))
+		p++;
+	if (*p == '+' || *p == '-')
+		p++;
+	if (p[0] == '0' && (p[1] == 'x' || p[1] == 'X'))
+		/* Disallow C99 hex notation.  */
+		return (p + 1) - s;
+
+	while (1) {
+		if (*p == 'd' || *p == 'D')
+			return p - s;
+
+		if (*p == 0 ||
+		    g_ascii_isspace (*p) ||
+		    g_ascii_isalpha (*p))
+			return -1;
+
+		p++;
+	}
+}
+
+
+/*
+ * go_strtod: A sane strtod.
+ * @s: string to convert
+ * @end: optional pointer to end of string.
+ *
+ * Like strtod, but without hex notation and MS extensions.
+ */
+double
+go_strtod (const char *s, char **end)
+{
+	int maxlen = strtod_helper (s);
+	char *tmp;
+	double res;
+
+	if (maxlen < 0)
+		return strtod (s, end);
+
+	tmp = g_strndup (s, maxlen);
+	res = strtod (tmp, end);
+	if (end)
+		*end = (char *)s + (*end - tmp);
+	g_free (tmp);
+
+	return res;
+}
+
+
 #ifdef GOFFICE_SUPPLIED_LOG1P
 double
 log1p (double x)
@@ -366,6 +420,32 @@ go_pow10l (int n)
 		return (fast + 20)[n];
 
 	return powl (10.0L, n);
+}
+
+/*
+ * go_strtold: A sane strtold.
+ * @s: string to convert
+ * @end: optional pointer to end of string.
+ *
+ * Like strtold, but without hex notation and MS extensions.
+ */
+long double
+go_strtold (const char *s, char **end)
+{
+	int maxlen = strtod_helper (s);
+	char *tmp;
+	long double res;
+
+	if (maxlen < 0)
+		return strtold (s, end);
+
+	tmp = g_strndup (s, maxlen);
+	res = strtold (tmp, end);
+	if (end)
+		*end = (char *)s + (*end - tmp);
+	g_free (tmp);
+
+	return res;
 }
 
 /*
