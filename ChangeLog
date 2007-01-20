@@ -1,3 +1,8 @@
+2007-01-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-guru.c: (cb_plot_family_menu_create): fix recently
+	introduced bug.
+
 2007-01-09  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-math.c (go_strtod): Eliminate the need to reset

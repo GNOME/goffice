@@ -653,7 +653,7 @@ cb_plot_family_menu_create (char const *id, GogPlotFamily *family,
 	axis_set = gog_chart_get_axis_set (GOG_CHART (closure->state->prop_object)) 
 				& GOG_AXIS_SET_FUNDAMENTAL;
 
-	if (axis_set != GOG_AXIS_SET_UNKNOWN &&
+	if (axis_set != GOG_AXIS_SET_FUNDAMENTAL &&
 	    (family->axis_set & GOG_AXIS_SET_FUNDAMENTAL) != axis_set)
 		return;
 
