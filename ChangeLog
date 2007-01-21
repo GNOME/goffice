@@ -1,6 +1,15 @@
+2007-01-20  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=397679
+	* goffice/graph/gog-renderer-cairo.c (gog_renderer_cairo_update) :
+	  Don't freak everything out if we attempt to render with w/h < 1.
+	  That should not happen, but if it gets through, avoid a nan
+	* goffice/graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_update) :
+	  ditto.
+
 2007-01-20  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/graph/gog-guru.c: (cb_plot_family_menu_create): fix recently
+	* goffice/graph/gog-guru.c (cb_plot_family_menu_create): fix recently
 	introduced bug.
 
 2007-01-09  Morten Welinder  <terra@gnome.org>

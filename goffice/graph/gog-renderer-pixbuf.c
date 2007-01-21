@@ -1090,8 +1090,8 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 	if (prend->w != w || prend->h != h) {
 		prend->w = w;
 		prend->h = h;
-		prend->base.scale_x = w / graph->width;
-		prend->base.scale_y = h / graph->height;
+		crend->base.scale_x = (graph->width >= 1.) ? (w / graph->width) : 1.;
+		crend->base.scale_y = (graph->height >= 1.) ? (h / graph->height) : 1.;
 		prend->base.scale = MIN (prend->base.scale_x, prend->base.scale_y);
 		prend->base.zoom  = zoom;
 		prend->dpi_x = gog_renderer_pt2r_x (&prend->base, GO_IN_TO_PT ((double)1.))

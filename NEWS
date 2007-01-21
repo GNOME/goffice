@@ -1,5 +1,8 @@
 goffice 0.3.6:
 
+Jody:
+	* Avoid cairo assertion when rendering a 0 sized view. [#397679]
+
 Morten:
 	* Generalize number formatting.
 	* Simplify format widget a bit.

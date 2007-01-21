@@ -986,8 +986,8 @@ gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)
 	}
 
 	if (size_changed) {
-		crend->base.scale_x = w / graph->width;
-		crend->base.scale_y = h / graph->height;
+		crend->base.scale_x = (graph->width >= 1.) ? (w / graph->width) : 1.;
+		crend->base.scale_y = (graph->height >= 1.) ? (h / graph->height) : 1.;
 		crend->base.scale = MIN (crend->base.scale_x, crend->base.scale_y);
 		crend->base.zoom  = zoom;
 
