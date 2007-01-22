@@ -2964,7 +2964,7 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 			(((PangoAttrInt *)a)->value >= PANGO_WEIGHT_BOLD) ? 1 : 0);
 		break;
 	case PANGO_ATTR_STRIKETHROUGH :
-		g_string_append_printf (accum, "[strikthrough=%d",
+		g_string_append_printf (accum, "[strikethrough=%d",
 			((PangoAttrInt *)a)->value ? 1 : 0);
 		break;
 	case PANGO_ATTR_UNDERLINE :
@@ -2977,6 +2977,12 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 			break;
 		case PANGO_UNDERLINE_DOUBLE :
 			g_string_append (accum, "[underline=double");
+			break;
+		case PANGO_UNDERLINE_LOW :
+			g_string_append (accum, "[underline=low");
+			break;
+		case PANGO_UNDERLINE_ERROR :
+			g_string_append (accum, "[underline=error");
 			break;
 		}
 		break;
@@ -3058,6 +3064,10 @@ go_format_parse_markup (char *str)
 					a = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
 				else if (0 == strcmp (val, "double"))
 					a = pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE);
+				else if (0 == strcmp (val, "low"))
+					a = pango_attr_underline_new (PANGO_UNDERLINE_LOW);
+				else if (0 == strcmp (val, "error"))
+					a = pango_attr_underline_new (PANGO_UNDERLINE_ERROR);
 			}
 			break;
 

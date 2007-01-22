@@ -1,3 +1,9 @@
+2007-01-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (cb_attrs_as_string): Fix typo
+	"strikthough" and add underline styles "low" and "error".
+	(go_format_parse_markup): Add "low" and "error" here too.
+
 2007-01-20  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=397679
