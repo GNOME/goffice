@@ -187,7 +187,7 @@ generate_format (GOFormatSel *gfs)
 	 * It is a strange idea not to reuse GOFormatDetails
 	 * in this file, so build one.
 	 */
-	GOFormatDetails format = gfs->format.spec->family_info;
+	GOFormatDetails format = *go_format_get_details (gfs->format.spec);
 	format.thousands_sep = gfs->format.use_separator;
 	format.num_decimals = gfs->format.num_decimals;
 	format.negative_fmt = gfs->format.negative_format;
@@ -403,7 +403,7 @@ fmt_dialog_init_fmt_list (GOFormatSel *gfs, char const *const *formats,
 {
 	GtkTreeIter iter;
 	char *fmt;
-	char const *cur_fmt = gfs->format.spec->format;
+	char *cur_fmt = go_format_as_XL (gfs->format.spec, FALSE);
 
 	for (; *formats; formats++) {
 		gtk_list_store_append (gfs->format.formats.model, &iter);
@@ -415,6 +415,8 @@ fmt_dialog_init_fmt_list (GOFormatSel *gfs, char const *const *formats,
 		if (!strcmp (*formats, cur_fmt))
 			*select = iter;
 	}
+
+	g_free (cur_fmt);
 }
 
 static void
@@ -550,8 +552,8 @@ stays:
 	    page == GO_FORMAT_TEXT) {
 		int list_elem = 0;
 		char *tmp;
-		if (page == gfs->format.spec->family)
-			list_elem = gfs->format.spec->family_info.list_element;
+		if (page == go_format_get_family (gfs->format.spec))
+			list_elem = go_format_get_details (gfs->format.spec)->list_element;
 
 		tmp = go_format_str_as_XL (go_format_builtins[page][list_elem], TRUE);
 		format_entry_set_text (gfs, tmp);
@@ -705,11 +707,14 @@ static void
 cb_format_entry_changed (GtkEditable *w, GOFormatSel *gfs)
 {
 	char *fmt;
+	char *cur_fmt;
 	if (!gfs->enable_edit)
 		return;
 
 	fmt = go_format_str_delocalize (gtk_entry_get_text (GTK_ENTRY (w)));
-	if (strcmp (gfs->format.spec->format, fmt)) {
+	cur_fmt = go_format_as_XL (gfs->format.spec, FALSE);
+
+	if (strcmp (cur_fmt, fmt)) {
 		go_format_unref (gfs->format.spec);
 		gfs->format.spec = go_format_new_from_XL (fmt, FALSE);
 		g_signal_emit (G_OBJECT (gfs),
@@ -717,7 +722,9 @@ cb_format_entry_changed (GtkEditable *w, GOFormatSel *gfs)
 			       fmt);
 		draw_format_preview (gfs, FALSE);
 	}
+
 	g_free (fmt);
+	g_free (cur_fmt);
 }
 
 /*
@@ -839,7 +846,8 @@ set_format_category_menu_from_style (GOFormatSel *gfs)
 	g_return_if_fail (IS_GO_FORMAT_SEL (gfs));
 
 	/* Attempt to extract general parameters from the current format */
-	if ((page = gfs->format.spec->family) < 0)
+	page = go_format_get_family (gfs->format.spec);
+	if (page < 0)
 		page = FMT_CUSTOM; /* Default to custom */
 
 	set_format_category (gfs, page);
@@ -931,6 +939,7 @@ nfs_init (GOFormatSel *gfs)
 	char const *name;
 	int i;
 	GOFormatFamily page;
+	const GOFormatDetails *family_info;
 
 	GtkWidget *toplevel;
 	GtkWidget *old_parent;
@@ -959,10 +968,11 @@ nfs_init (GOFormatSel *gfs)
 	gfs->format.current_type = -1;
 
 	/* Even if the format was not recognized it has set intelligent defaults */
-	gfs->format.use_separator = gfs->format.spec->family_info.thousands_sep;
-	gfs->format.num_decimals = gfs->format.spec->family_info.num_decimals;
-	gfs->format.negative_format = gfs->format.spec->family_info.negative_fmt;
-	gfs->format.currency_index = gfs->format.spec->family_info.currency_symbol_index;
+	family_info = go_format_get_details (gfs->format.spec);
+	gfs->format.use_separator = family_info->thousands_sep;
+	gfs->format.num_decimals = family_info->num_decimals;
+	gfs->format.negative_format = family_info->negative_fmt;
+	gfs->format.currency_index = family_info->currency_symbol_index;
 	
 	gfs->format.use_markup = FALSE;
 	gfs->format.simplify_mantissa = FALSE;
@@ -1096,7 +1106,8 @@ nfs_init (GOFormatSel *gfs)
 	/* Connect signal for format menu */
 	set_format_category_menu_from_style (gfs);
 
-	if ((page = gfs->format.spec->family) < 0)
+	page = go_format_get_family (gfs->format.spec);
+	if (page < 0)
 		page = FMT_CUSTOM; /* Default to custom */
 	fmt_dialog_enable_widgets (gfs, page);
 
@@ -1224,6 +1235,7 @@ go_format_sel_set_style_format (GOFormatSel *gfs,
 				GOFormat *style_format)
 {
 	GoComboText *combo;
+	const GOFormatDetails *family_info;
 
 	g_return_if_fail (IS_GO_FORMAT_SEL (gfs));
 	g_return_if_fail (style_format != NULL);
@@ -1234,13 +1246,14 @@ go_format_sel_set_style_format (GOFormatSel *gfs,
 
 	gfs->format.spec = style_format;
 
-	gfs->format.use_separator 	= style_format->family_info.thousands_sep;
-	gfs->format.num_decimals 	= style_format->family_info.num_decimals;
-	gfs->format.negative_format 	= style_format->family_info.negative_fmt;
-	gfs->format.currency_index 	= style_format->family_info.currency_symbol_index;
-	gfs->format.use_markup 		= style_format->family_info.use_markup;
-	gfs->format.exponent_step	= style_format->family_info.exponent_step;
-	gfs->format.simplify_mantissa	= style_format->family_info.simplify_mantissa;
+	family_info = go_format_get_details (style_format);
+	gfs->format.use_separator 	= family_info->thousands_sep;
+	gfs->format.num_decimals 	= family_info->num_decimals;
+	gfs->format.negative_format 	= family_info->negative_fmt;
+	gfs->format.currency_index 	= family_info->currency_symbol_index;
+	gfs->format.use_markup 		= family_info->use_markup;
+	gfs->format.exponent_step	= family_info->exponent_step;
+	gfs->format.simplify_mantissa	= family_info->simplify_mantissa;
 
 	combo = GO_COMBO_TEXT (gfs->format.widget[F_SYMBOL]);
 	go_combo_text_set_text
@@ -1319,7 +1332,7 @@ go_format_sel_set_locale (GOFormatSel *gfs,
 char const *    
 go_format_sel_format_classification (GOFormat const *style_format)
 {
-	GOFormatFamily page = style_format->family;
+	GOFormatFamily page = go_format_get_family (style_format);
 
 	if (page < 0 || page > FMT_CUSTOM)
 		page = FMT_CUSTOM; /* Default to custom */

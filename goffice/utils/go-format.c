@@ -108,6 +108,46 @@
 /***************************************************************************/
 
 #ifdef DEFINE_COMMON
+struct _GOFormat {
+	int		 ref_count;
+	char		*format;
+        GSList		*entries;	/* Of type GOFormatElement. */
+	GOFormatFamily	 family;
+	GOFormatDetails	 family_info;
+	gboolean	 is_var_width;
+	PangoAttrList	*markup;	/* only for GO_FORMAT_MARKUP */
+};
+
+GOFormatFamily
+go_format_get_family (GOFormat const *fmt)
+{
+	g_return_val_if_fail (fmt != NULL, GO_FORMAT_UNKNOWN);
+	return fmt->family;
+}
+
+const GOFormatDetails *
+go_format_get_details (GOFormat const *fmt)
+{
+	g_return_val_if_fail (fmt != NULL, NULL);
+	return &fmt->family_info;
+}
+
+const PangoAttrList *
+go_format_get_markup (GOFormat const *fmt)
+{
+	g_return_val_if_fail (fmt != NULL, NULL);
+	g_return_val_if_fail (fmt->family == GO_FORMAT_MARKUP, NULL);
+	return fmt->markup;
+}
+
+gboolean
+go_format_is_simple (GOFormat const *fmt)
+{
+	g_return_val_if_fail (fmt != NULL, TRUE);
+	return g_slist_length (fmt->entries) <= 1;
+}
+
+
 static GOFormat *default_percentage_fmt;
 static GOFormat *default_money_fmt;
 static GOFormat *default_date_fmt;
@@ -3221,7 +3261,7 @@ go_format_new (GOFormatFamily family, GOFormatDetails const *info)
 /**
  * go_format_str_as_XL:
  * @str: a format string
- * @localized : should the string be in cannonical or locale specific form.
+ * @localized : should the string be in canonical or locale specific form.
  *
  * The caller is responsible for freeing the resulting string.
  *
@@ -3392,6 +3432,67 @@ go_format_unref (GOFormat *gf)
 	g_slist_free (gf->entries);
 	g_free (gf->format);
 	g_free (gf);
+}
+#endif
+
+
+#ifdef DEFINE_COMMON
+/**
+ * go_format_is_general
+ * @fmt: Format to query
+ *
+ * Returns TRUE if the format is "General".
+ * Returns FALSE otherwise.
+ */
+gboolean
+go_format_is_general (GOFormat const *fmt)
+{
+	return fmt->family == GO_FORMAT_GENERAL;
+}
+#endif
+
+#ifdef DEFINE_COMMON
+/**
+ * go_format_is_markup
+ * @fmt: Format to query
+ *
+ * Returns TRUE if the format is a markup format
+ * Returns FALSE otherwise.
+ */
+gboolean
+go_format_is_markup (GOFormat const *fmt)
+{
+	return fmt->family == GO_FORMAT_MARKUP;
+}
+#endif
+
+#ifdef DEFINE_COMMON
+/**
+ * go_format_is_text
+ * @fmt: Format to query
+ *
+ * Returns TRUE if the format is a text format
+ * Returns FALSE otherwise.
+ */
+gboolean
+go_format_is_text (GOFormat const *fmt)
+{
+	return fmt->family == GO_FORMAT_TIME;
+}
+#endif
+
+#ifdef DEFINE_COMMON
+/**
+ * go_format_is_text
+ * @fmt: Format to query
+ *
+ * Returns TRUE if the format is variable width
+ * Returns FALSE otherwise.
+ */
+gboolean
+go_format_is_var_width (GOFormat const *fmt)
+{
+	return fmt->is_var_width != 0;
 }
 #endif
 

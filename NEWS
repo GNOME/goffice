@@ -8,6 +8,7 @@ Morten:
 	* Simplify format widget a bit.
 	* Implement go_strtod and go_strtold.
 	* Fix marshalling of pango formats with strikethrough set.
+	* Make the GOFormat type private.
 
 --------------------------------------------------------------------------
 

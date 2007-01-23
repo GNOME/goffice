@@ -70,16 +70,6 @@ typedef struct {
 	gboolean use_markup;
 } GOFormatDetails;
 
-struct _GOFormat {
-	int		 ref_count;
-	char		*format;
-        GSList		*entries;	/* Of type GOFormatElement. */
-	GOFormatFamily	 family;
-	GOFormatDetails	 family_info;
-	gboolean	 is_var_width;
-	PangoAttrList	*markup;	/* only for GO_FORMAT_MARKUP */
-};
-
 /*************************************************************************/
 
 typedef int (*GOFormatMeasure) (const GString *str, PangoLayout *layout);
@@ -124,15 +114,22 @@ char   	 *go_format_as_XL	   	(GOFormat const *fmt, gboolean localized);
 GOFormat *go_format_ref		 	(GOFormat *fmt);
 void      go_format_unref		(GOFormat *fmt);
 
-#define	  go_format_is_general(fmt)	((fmt)->family == GO_FORMAT_GENERAL)
-#define   go_format_is_markup(fmt)	((fmt)->family == GO_FORMAT_MARKUP)
-#define   go_format_is_text(fmt)	((fmt)->family == GO_FORMAT_TEXT)
-#define   go_format_is_var_width(fmt)	((fmt)->is_var_width)
+gboolean  go_format_is_general          (GOFormat const *fmt);
+gboolean  go_format_is_markup           (GOFormat const *fmt);
+gboolean  go_format_is_text             (GOFormat const *fmt);
+gboolean  go_format_is_var_width        (GOFormat const *fmt);
 int       go_format_is_date             (GOFormat const *fmt);
 int       go_format_is_date_for_value   (GOFormat const *fmt, double val, char type);
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 int       go_format_is_date_for_valuel  (GOFormat const *fmt, long double val, char type);
 #endif
+
+GOFormatFamily         go_format_get_family (GOFormat const *fmt);
+const GOFormatDetails *go_format_get_details (GOFormat const *fmt);
+
+const PangoAttrList *go_format_get_markup (GOFormat const *fmt);
+
+gboolean go_format_is_simple (GOFormat const *fmt);
 
 GOFormatNumberError
 go_format_value_gstring (PangoLayout *layout, GString *str,

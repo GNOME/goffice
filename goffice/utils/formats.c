@@ -767,12 +767,14 @@ cell_format_is_date (char const *fmt, GOFormatDetails *info)
 GOFormatFamily
 go_format_classify (GOFormat const *gf, GOFormatDetails *info)
 {
-	char const *fmt = gf->format;
+	char *fmt;
 	GOFormatFamily res;
 	int i;
 
-	g_return_val_if_fail (fmt != NULL, GO_FORMAT_GENERAL);
+	g_return_val_if_fail (gf != NULL, GO_FORMAT_GENERAL);
 	g_return_val_if_fail (info != NULL, GO_FORMAT_GENERAL);
+
+	fmt = go_format_as_XL (gf, FALSE);
 
 	/* Init the result to something sane */
 	info->thousands_sep = FALSE;
@@ -785,22 +787,32 @@ go_format_classify (GOFormat const *gf, GOFormatDetails *info)
 	info->exponent_step = 1;
 	info->simplify_mantissa = FALSE;
 
-	if (*fmt == '\0')
+	if (*fmt == '\0') {
+		g_free (fmt);
 		return GO_FORMAT_UNKNOWN;
+	}
 
 	/* Note: ->family is not yet ready.  */
-	if (g_ascii_strcasecmp (gf->format, fmts_general[0]) == 0)
+	if (g_ascii_strcasecmp (fmt, fmts_general[0]) == 0) {
+		g_free (fmt);
 		return GO_FORMAT_GENERAL;
+	}
 
-	if (fmt[0] == '@' && fmt[1] == '[')
+	if (fmt[0] == '@' && fmt[1] == '[') {
+		g_free (fmt);
 		return GO_FORMAT_MARKUP;
+	}
 
 	/* Can we parse it ? */
-	if ((res = cell_format_is_number (fmt, info)) != GO_FORMAT_UNKNOWN)
+	if ((res = cell_format_is_number (fmt, info)) != GO_FORMAT_UNKNOWN) {
+		g_free (fmt);
 		return res;
+	}
 
-	if (cell_format_is_fraction (fmt, info))
+	if (cell_format_is_fraction (fmt, info)) {
+		g_free (fmt);
 		return GO_FORMAT_FRACTION;
+	}
 
 	/* Is it in the lists */
 	for (i = 0; go_format_builtins[i] != NULL ; ++i) {
@@ -809,15 +821,21 @@ go_format_classify (GOFormat const *gf, GOFormatDetails *info)
 		for (; elem[j] ; ++j)
 			if (g_ascii_strcasecmp (_(elem[j]), fmt) == 0) {
 				info->list_element = j;
+				g_free (fmt);
 				return i;
 			}
 	}
 
-	if (cell_format_is_time (fmt, info))
+	if (cell_format_is_time (fmt, info)) {
+		g_free (fmt);
 		return GO_FORMAT_TIME;
+	}
 
-	if (cell_format_is_date (fmt, info))
+	if (cell_format_is_date (fmt, info)) {
+		g_free (fmt);
 		return GO_FORMAT_DATE;
+	}
 
+	g_free (fmt);
 	return GO_FORMAT_UNKNOWN;
 }
