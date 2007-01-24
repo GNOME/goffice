@@ -175,42 +175,6 @@ GO_VAR_DECL GOFormatCurrency     const go_format_currencies [];
 
 /*************************************************************************/
 
-typedef struct {
-	int  right_optional, right_spaces, right_req, right_allowed;
-	int  left_optional, left_spaces, left_req;
-	double scale;
-	gboolean rendered;
-	gboolean decimal_separator_seen;
-	gboolean group_thousands;
-	gboolean has_fraction;
-	gboolean unicode_minus;
-
-	gboolean exponent_seen;
-
-	int exponent_digit_nbr;
-	gboolean exponent_show_sign;
-	gboolean exponent_lower_e;
-
-	gboolean use_markup;
-} GONumberFormat;
-
-void go_render_number (GString *result, double number, GONumberFormat const *info);
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-void go_render_numberl (GString *result, long double number, GONumberFormat const *info);
-#endif
-
-/* Locale support routines */
-void	       go_set_untranslated_bools  (void);
-char const *   go_setlocale               (int category, char const *val);
-GString const *go_format_get_currency     (gboolean *precedes, gboolean *space_sep);
-gboolean       go_format_month_before_day (void);
-char           go_format_get_arg_sep      (void);
-char           go_format_get_col_sep      (void);
-char           go_format_get_row_sep      (void);
-GString const *go_format_get_thousand     (void);
-GString const *go_format_get_decimal      (void);
-char const *   go_format_boolean          (gboolean b);
-
 void go_number_format_init (void);
 void go_number_format_shutdown (void);
 void go_currency_date_format_init     (void);

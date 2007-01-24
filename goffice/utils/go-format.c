@@ -33,6 +33,7 @@
 
 #include <goffice/goffice-config.h>
 #include "go-format.h"
+#include "go-locale.h"
 #include "go-font.h"
 #include "go-color.h"
 #include "datetime.h"
@@ -42,17 +43,10 @@
 
 #include <time.h>
 #include <math.h>
-#include <locale.h>
 #include <string.h>
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
-#ifdef HAVE_LANGINFO_H
-#  include <langinfo.h>
-#endif
-#ifdef G_OS_WIN32
-#  include <windows.h>
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -66,7 +60,7 @@
 #define FORMAT_f "f"
 #define FORMAT_E "E"
 #define FORMAT_G "G"
-#define STRTO strtod
+#define STRTO go_strtod
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 /*
@@ -96,7 +90,7 @@
 #define FORMAT_f "Lf"
 #define FORMAT_E "LE"
 #define FORMAT_G "LG"
-#define STRTO strtold
+#define STRTO go_strtold
 #endif
 
 #endif
@@ -117,6 +111,25 @@ struct _GOFormat {
 	gboolean	 is_var_width;
 	PangoAttrList	*markup;	/* only for GO_FORMAT_MARKUP */
 };
+
+typedef struct {
+	int  right_optional, right_spaces, right_req, right_allowed;
+	int  left_optional, left_spaces, left_req;
+	double scale;
+	gboolean rendered;
+	gboolean decimal_separator_seen;
+	gboolean group_thousands;
+	gboolean has_fraction;
+	gboolean unicode_minus;
+
+	gboolean exponent_seen;
+
+	int exponent_digit_nbr;
+	gboolean exponent_show_sign;
+	gboolean exponent_lower_e;
+
+	gboolean use_markup;
+} GONumberFormat;
 
 GOFormatFamily
 go_format_get_family (GOFormat const *fmt)
@@ -156,234 +169,12 @@ static GOFormat *default_date_time_fmt;
 static GOFormat *default_general_fmt;
 
 
-/*
- * Points to the locale information for number display.  All strings are
- * in UTF-8 encoding.
- */
-static gboolean locale_info_cached = FALSE;
-static GString *lc_decimal = NULL;
-static GString *lc_thousand = NULL;
-static gboolean lc_precedes;
-static gboolean lc_space_sep;
-static GString *lc_currency = NULL;
-
-static gboolean date_order_cached = FALSE;
-
-static gboolean boolean_cached = FALSE;
-static char const *lc_TRUE = NULL;
-static char const *lc_FALSE = NULL;
-
 static double beyond_precision;
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 static long double beyond_precisionl;
 #endif
 
 static GOColor lookup_color (char const *str, char const *end);
-
-char const *
-go_setlocale (int category, char const *val)
-{
-	locale_info_cached = FALSE;
-	date_order_cached = FALSE;
-	boolean_cached = FALSE;
-	return setlocale (category, val);
-}
-
-static void
-convert1 (GString *res, char const *lstr, char const *name, char const *def)
-{
-	char *tmp;
-
-	if (lstr == NULL || lstr[0] == 0) {
-		g_string_assign (res, def);
-		return;
-	}
-
-	tmp = g_locale_to_utf8 (lstr, -1, NULL, NULL, NULL);
-	if (tmp) {
-		g_string_assign (res, tmp);
-		g_free (tmp);
-		return;
-	}
-
-	g_warning ("Failed to convert locale's %s \"%s\" to UTF-8.", name, lstr);
-	g_string_assign (res, def);
-}
-
-static void
-update_lc (void)
-{
-	struct lconv *lc = localeconv ();
-
-	/*
-	 * Extract all information here as lc is not guaranteed to stay
-	 * valid after next localeconv call which could be anywhere.
-	 */
-
-	convert1 (lc_decimal, lc->decimal_point, "decimal separator", ".");
-	if (g_utf8_strlen (lc_decimal->str, -1) != 1)
-		g_warning ("Decimal separator is not a single character.");
-
-	convert1 (lc_thousand, lc->mon_thousands_sep, "monetary thousands separator",
-		  (lc_decimal->str[0] == ',' ? "." : ","));
-	if (g_utf8_strlen (lc_thousand->str, -1) != 1)
-		g_warning ("Monetary thousands separator is not a single character.");
-
-	if (g_string_equal (lc_thousand, lc_decimal)) {
-		g_string_assign (lc_thousand,
-				 (lc_decimal->str[0] == ',') ? "." : ",");
-		g_warning ("Monetary thousands separator is the same as the decimal separator; converting '%s' to '%s'",
-			   lc_decimal->str, lc_thousand->str);
-	}
-
-	/* Use != 0 rather than == 1 so that CHAR_MAX (undefined) is true */
-	lc_precedes = (lc->p_cs_precedes != 0);
-
-	/* Use == 1 rather than != 0 so that CHAR_MAX (undefined) is false */
-	lc_space_sep = (lc->p_sep_by_space == 1);
-
-	convert1 (lc_currency, lc->currency_symbol, "currency symbol",	"$");
-
-	locale_info_cached = TRUE;
-}
-
-GString const *
-go_format_get_decimal (void)
-{
-	if (!locale_info_cached)
-		update_lc ();
-
-	return lc_decimal;
-}
-
-GString const *
-go_format_get_thousand (void)
-{
-	if (!locale_info_cached)
-		update_lc ();
-
-	return lc_thousand;
-}
-
-/**
- * go_format_get_currency :
- * @precedes : a pointer to a boolean which is set to TRUE if the currency
- * 		should precede
- * @space_sep: a pointer to a boolean which is set to TRUE if the currency
- * 		should have a space separating it from the the value
- *
- * Play with the default logic so that things come out nicely for the default
- * case.
- */
-GString const *
-go_format_get_currency (gboolean *precedes, gboolean *space_sep)
-{
-	if (!locale_info_cached)
-		update_lc ();
-
-	if (precedes)
-		*precedes = lc_precedes;
-
-	if (space_sep)
-		*space_sep = lc_space_sep;
-
-	return lc_currency;
-}
-
-/*
- * go_format_month_before_day :
- *
- * A quick utility routine to guess whether the default date format
- * uses day/month or month/day
- */
-gboolean
-go_format_month_before_day (void)
-{
-#ifdef HAVE_LANGINFO_H
-	static gboolean month_first = TRUE;
-
-	if (!date_order_cached) {
-		char const *ptr = nl_langinfo (D_FMT);
-
-		date_order_cached = TRUE;
-		month_first = TRUE;
-		if (ptr)
-			while (*ptr) {
-				char c = *ptr++;
-				if (c == 'd' || c == 'D') {
-					month_first = FALSE;
-					break;
-				} else if (c == 'm' || c == 'M')
-					break;
-			}
-	}
-
-	return month_first;
-#elif defined(G_OS_WIN32)
-	TCHAR str[2];
-
-	GetLocaleInfo (LOCALE_USER_DEFAULT, LOCALE_IDATE, str, 2);
-
-	return str[0] != L'1';
-#else
-	static gboolean warning = TRUE;
-	if (warning) {
-		g_warning ("Incomplete locale library, dates will be month day year");
-		warning = FALSE;
-	}
-	return TRUE;
-#endif
-}
-
-/* Use comma as the arg separator unless the decimal point is a
- * comma, in which case use a semi-colon
- */
-char
-go_format_get_arg_sep (void)
-{
-	if (go_format_get_decimal ()->str[0] == ',')
-		return ';';
-	return ',';
-}
-
-char
-go_format_get_col_sep (void)
-{
-	if (go_format_get_decimal ()->str[0] == ',')
-		return '\\';
-	return ',';
-}
-
-char
-go_format_get_row_sep (void)
-{
-	return ';';
-}
-
-char const *
-go_format_boolean (gboolean b)
-{
-	if (!boolean_cached) {
-		lc_TRUE = _("TRUE");
-		lc_FALSE = _("FALSE");
-		boolean_cached = TRUE;
-	}
-	return b ? lc_TRUE : lc_FALSE;
-}
-
-/**
- * go_set_untranslated_bools :
- * 
- * Short circuit the current locale so that we can import files
- * and still produce error messages in the current LC_MESSAGE
- **/
-void
-go_set_untranslated_bools (void)
-{
-	lc_TRUE = "TRUE";
-	lc_FALSE = "FALSE";
-	boolean_cached = TRUE;
-}
 
 /***************************************************************************/
 
@@ -727,8 +518,6 @@ format_compile (GOFormat *format)
 			}
 			fmt = end;
 
-			/* fall back on 0 for errors */
-			errno = 0;
 			/* FIXME: ->restriction_value should probably be a long double.  */
 			entry->restriction_value = STRTO (begin, (char **)&end);
 			if (errno == ERANGE || begin == end)
@@ -879,7 +668,7 @@ lookup_color (gchar const *str, gchar const *end)
 }
 #endif
 
-void
+static void
 SUFFIX(go_render_number) (GString *result,
 			  DOUBLE number,
 			  GONumberFormat const *info)
@@ -2821,10 +2610,6 @@ go_number_format_init (void)
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 	beyond_precisionl = go_pow10l (LDBL_DIG) + 1;
 #endif
-
-	lc_decimal = g_string_new (NULL);
-	lc_thousand = g_string_new (NULL);
-	lc_currency = g_string_new (NULL);
 }
 #endif
 
@@ -2834,7 +2619,7 @@ cb_format_leak (gpointer key, gpointer value, gpointer user_data)
 {
 	GOFormat const *gf = value;
 	if (gf->ref_count != 1)
-		fprintf (stderr, "Leaking GOFormat at %p [%s].\n", gf, gf->format);
+		g_printerr ("Leaking GOFormat at %p [%s].\n", gf, gf->format);
 }
 #endif
 
@@ -2843,15 +2628,6 @@ void
 go_number_format_shutdown (void)
 {
 	GHashTable *tmp;
-
-	g_string_free (lc_decimal, TRUE);
-	lc_decimal = NULL;
-
-	g_string_free (lc_thousand, TRUE);
-	lc_thousand = NULL;
-
-	g_string_free (lc_currency, TRUE);
-	lc_currency = NULL;
 
 	if (default_percentage_fmt) {
 		go_format_unref (default_percentage_fmt);

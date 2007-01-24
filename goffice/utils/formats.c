@@ -10,6 +10,7 @@
  */
 #include <goffice/goffice-config.h>
 #include "go-format.h"
+#include "go-locale.h"
 #include <goffice/utils/regutf8.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>

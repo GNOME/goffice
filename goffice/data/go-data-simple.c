@@ -22,6 +22,7 @@
 #include "go-data-simple.h"
 #include "go-data-impl.h"
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>

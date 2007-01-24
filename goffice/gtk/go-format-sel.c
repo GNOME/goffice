@@ -20,27 +20,18 @@
 #include <goffice/goffice-config.h>
 #include "go-format-sel.h"
 
-#include <goffice/gtk/goffice-gtk.h>
-#include <goffice/gtk/go-combo-text.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-marshalers.h>
+#include "goffice/gtk/goffice-gtk.h"
+#include "goffice/gtk/go-combo-text.h"
+#include "goffice/utils/go-format.h"
+#include "goffice/utils/go-locale.h"
+#include "goffice/utils/go-color.h"
+#include "goffice/utils/go-marshalers.h"
 
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtksizegroup.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtktreeview.h>
+#include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
 #include <string.h>
-#include <locale.h>
 
 /* The maximum number of chars in the formatting sample */
 #define FORMAT_PREVIEW_MAX 25

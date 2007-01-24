@@ -26,17 +26,13 @@
 #include <goffice/goffice-config.h>
 #include "go-locale-sel.h"
 #include "go-optionmenu.h"
-#include <goffice/utils/go-glib-extras.h>
-#include <gtk/gtkcheckmenuitem.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkseparatormenuitem.h>
+#include "goffice/utils/go-glib-extras.h"
+#include "goffice/utils/go-locale.h"
+#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 #include <stdlib.h>
-#include <locale.h>
 
 #define LS(x) GO_LOCALE_SEL (x)
 

@@ -12,6 +12,7 @@ libgoffice_utils_la_SOURCES =	\
 	go-gradient.c		\
 	go-image.c		\
 	go-line.c		\
+	go-locale.c		\
 	go-marker.c		\
 	go-pattern.c		\
 	go-geometry.c		\
@@ -36,6 +37,7 @@ libgoffice_utils_la_HEADERS = 	\
 	go-gradient.h		\
 	go-image.h		\
 	go-line.h		\
+	go-locale.h		\
 	go-marker.h		\
 	go-pattern.h		\
 	go-units.h		\
