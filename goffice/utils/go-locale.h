@@ -26,16 +26,18 @@
 
 G_BEGIN_DECLS
 
-void	       go_set_untranslated_bools  (void);
 char const *   go_setlocale               (int category, char const *val);
-GString const *go_format_get_currency     (gboolean *precedes, gboolean *space_sep);
-gboolean       go_format_month_before_day (void);
-char           go_format_get_arg_sep      (void);
-char           go_format_get_col_sep      (void);
-char           go_format_get_row_sep      (void);
-GString const *go_format_get_thousand     (void);
-GString const *go_format_get_decimal      (void);
-char const *   go_format_boolean          (gboolean b);
+void	       go_locale_untranslated_booleans  (void);
+
+char const *   go_locale_boolean_name     (gboolean b);
+
+GString const *go_locale_get_currency     (gboolean *precedes, gboolean *space_sep);
+char           go_locale_get_arg_sep      (void);
+char           go_locale_get_col_sep      (void);
+char           go_locale_get_row_sep      (void);
+GString const *go_locale_get_thousand     (void);
+GString const *go_locale_get_decimal      (void);
+gboolean       go_locale_month_before_day (void);
 
 G_END_DECLS
 

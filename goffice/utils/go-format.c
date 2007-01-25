@@ -673,7 +673,7 @@ SUFFIX(go_render_number) (GString *result,
 			  DOUBLE number,
 			  GONumberFormat const *info)
 {
-	GString const *thousands_sep = go_format_get_thousand ();
+	GString const *thousands_sep = go_locale_get_thousand ();
 	char num_buf[(PREFIX(MANT_DIG) + PREFIX(MAX_EXP)) * 2 + 1];
 	gchar *num = num_buf + sizeof (num_buf) - 1;
 	DOUBLE frac_part, int_part;
@@ -740,7 +740,7 @@ SUFFIX(go_render_number) (GString *result,
 	     number < 1.0 &&
 	     info->right_allowed == 0 &&
 	     info->right_optional > 0))
-		go_string_append_gstring (result, go_format_get_decimal ());
+		go_string_append_gstring (result, go_locale_get_decimal ());
 
 	/* TODO : clip this a DBL_DIG */
 	/* TODO : What if is a fraction ? */
@@ -922,7 +922,7 @@ SUFFIX(do_render_number) (DOUBLE number, GONumberFormat *info, GString *result)
 		 info->right_spaces,
 		 info->right_allowed + info->right_optional,
 		 info->decimal_separator_seen,
-		 go_format_get_decimal ()->str);
+		 go_locale_get_decimal ()->str);
 #endif
 
 	if (info->exponent_seen)
@@ -2007,7 +2007,7 @@ SUFFIX(go_format_number) (GString *result,
 				format = tmp;
 				continue;
 			} else
-				go_string_append_gstring (result, go_format_get_thousand ());
+				go_string_append_gstring (result, go_locale_get_thousand ());
 			break;
 
 		case 'E':
@@ -2710,8 +2710,8 @@ go_format_str_delocalize (char const *descriptor_string)
 		return g_strdup ("");
 
 	if (strcmp (descriptor_string, _("General"))) {
-		GString const *thousands_sep = go_format_get_thousand ();
-		GString const *decimal = go_format_get_decimal ();
+		GString const *thousands_sep = go_locale_get_thousand ();
+		GString const *decimal = go_locale_get_decimal ();
 		char const *ptr = descriptor_string;
 		GString *res = g_string_sized_new (strlen (ptr));
 
@@ -3058,8 +3058,8 @@ go_format_str_as_XL (char const *ptr, gboolean localized)
 	if (!strcmp (ptr, "General"))
 		return g_strdup (_("General"));
 
-	thousands_sep = go_format_get_thousand ();
-	decimal = go_format_get_decimal ();
+	thousands_sep = go_locale_get_thousand ();
+	decimal = go_locale_get_decimal ();
 
 	res = g_string_sized_new (strlen (ptr));
 

@@ -124,7 +124,7 @@ update_lc (void)
 }
 
 GString const *
-go_format_get_decimal (void)
+go_locale_get_decimal (void)
 {
 	if (!locale_info_cached)
 		update_lc ();
@@ -133,7 +133,7 @@ go_format_get_decimal (void)
 }
 
 GString const *
-go_format_get_thousand (void)
+go_locale_get_thousand (void)
 {
 	if (!locale_info_cached)
 		update_lc ();
@@ -142,7 +142,7 @@ go_format_get_thousand (void)
 }
 
 /**
- * go_format_get_currency :
+ * go_locale_get_currency :
  * @precedes : a pointer to a boolean which is set to TRUE if the currency
  * 		should precede
  * @space_sep: a pointer to a boolean which is set to TRUE if the currency
@@ -152,7 +152,7 @@ go_format_get_thousand (void)
  * case.
  */
 GString const *
-go_format_get_currency (gboolean *precedes, gboolean *space_sep)
+go_locale_get_currency (gboolean *precedes, gboolean *space_sep)
 {
 	if (!locale_info_cached)
 		update_lc ();
@@ -167,13 +167,13 @@ go_format_get_currency (gboolean *precedes, gboolean *space_sep)
 }
 
 /*
- * go_format_month_before_day :
+ * go_locale_month_before_day :
  *
  * A quick utility routine to guess whether the default date format
  * uses day/month or month/day
  */
 gboolean
-go_format_month_before_day (void)
+go_locale_month_before_day (void)
 {
 #ifdef HAVE_LANGINFO_H
 	static gboolean month_first = TRUE;
@@ -215,29 +215,29 @@ go_format_month_before_day (void)
  * comma, in which case use a semi-colon
  */
 char
-go_format_get_arg_sep (void)
+go_locale_get_arg_sep (void)
 {
-	if (go_format_get_decimal ()->str[0] == ',')
+	if (go_locale_get_decimal ()->str[0] == ',')
 		return ';';
 	return ',';
 }
 
 char
-go_format_get_col_sep (void)
+go_locale_get_col_sep (void)
 {
-	if (go_format_get_decimal ()->str[0] == ',')
+	if (go_locale_get_decimal ()->str[0] == ',')
 		return '\\';
 	return ',';
 }
 
 char
-go_format_get_row_sep (void)
+go_locale_get_row_sep (void)
 {
 	return ';';
 }
 
 char const *
-go_format_boolean (gboolean b)
+go_locale_boolean_name (gboolean b)
 {
 	if (!boolean_cached) {
 		lc_TRUE = _("TRUE");
@@ -248,13 +248,13 @@ go_format_boolean (gboolean b)
 }
 
 /**
- * go_set_untranslated_bools :
+ * go_locale_untranslated_booleans :
  * 
  * Short circuit the current locale so that we can import files
  * and still produce error messages in the current LC_MESSAGE
  **/
 void
-go_set_untranslated_bools (void)
+go_locale_untranslated_booleans (void)
 {
 	lc_TRUE = "TRUE";
 	lc_FALSE = "FALSE";

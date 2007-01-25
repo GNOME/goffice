@@ -1,7 +1,7 @@
 2007-01-24  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-locale.[ch]: New files, extracted from
-	go-format.[ch].
+	go-format.[ch].  Grand renaming.
 
 	* goffice/utils/go-format.c (go_render_number): Make this static.
 
