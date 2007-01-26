@@ -109,22 +109,22 @@ struct _GoDockItemClass
 /* Public methods.  */
 GtkType        go_dock_item_get_type        (void) G_GNUC_CONST;
 GtkWidget     *go_dock_item_new             (const gchar *name,
-                                                GoDockItemBehavior behavior);
-void           go_dock_item_construct       (GoDockItem *new_dock_item,
-						const gchar *name,
-						GoDockItemBehavior behavior);
+					     GoDockItemBehavior behavior);
+void           go_dock_item_construct       (GoDockItem *new_item,
+					     const gchar *name,
+					     GoDockItemBehavior behavior);
 
-GtkWidget     *go_dock_item_get_child       (GoDockItem *dock_item);
+GtkWidget     *go_dock_item_get_child       (GoDockItem *item);
 
-char          *go_dock_item_get_name        (GoDockItem *dock_item);
+char          *go_dock_item_get_name        (GoDockItem *item);
 
 void           go_dock_item_set_shadow_type (GoDockItem *dock_item,
-                                                GtkShadowType type);
+					     GtkShadowType type);
 
 GtkShadowType  go_dock_item_get_shadow_type (GoDockItem *dock_item);
 
 gboolean       go_dock_item_set_orientation (GoDockItem *dock_item,
-                                                GtkOrientation orientation);
+					     GtkOrientation orientation);
 
 GtkOrientation go_dock_item_get_orientation (GoDockItem *dock_item);
 
@@ -134,23 +134,22 @@ GoDockItemBehavior
 /* Private methods.  */
 #if 1 /* defined(GO_UI_INTERNAL) */
 void           go_dock_item_set_locked      (GoDockItem *dock_item,
-						 gboolean        locked);
+					     gboolean        locked);
 gboolean       go_dock_item_detach          (GoDockItem *item,
-						 gint x, gint y);
+					     gint x, gint y);
 
 void           go_dock_item_attach          (GoDockItem *item,
-						 GtkWidget *parent,
-						 gint x, gint y);
+					     GtkWidget *parent,
+					     gint x, gint y);
 void           go_dock_item_unfloat         (GoDockItem *item);
 
 void           go_dock_item_grab_pointer    (GoDockItem *item);
 
 void           go_dock_item_drag_floating   (GoDockItem *item,
-						 gint x, gint y);
+					     gint x, gint y);
 
-void           go_dock_item_handle_size_request
-                                               (GoDockItem *item,
-                                                GtkRequisition *requisition);
+void           go_dock_item_handle_size_request (GoDockItem *item,
+						 GtkRequisition *requisition);
 
 void           go_dock_item_get_floating_position
                                                (GoDockItem *item,

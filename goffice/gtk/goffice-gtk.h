@@ -57,7 +57,7 @@ gboolean   go_gtk_query_yes_no		(GtkWindow *toplevel, gboolean default_answer,
 GtkWidget *go_gtk_button_new_with_stock (char const *text,
 					 char const *stock_id);
 void	   go_gtk_widget_disable_focus	(GtkWidget *w);
-void       go_gtk_window_set_transient  (GtkWindow *parent,   GtkWindow *window);
+void       go_gtk_window_set_transient  (GtkWindow *toplevel, GtkWindow *window);
 void	   go_gtk_help_button_init	(GtkWidget *w, char const *data_dir,
 					 char const *app, char const *link);
 void       go_gtk_nonmodal_dialog	(GtkWindow *toplevel, GtkWindow *dialog);
@@ -66,7 +66,7 @@ char	  *go_gtk_select_image		(GtkWindow *toplevel, const char *initial);
 char      *go_gui_get_image_save_info 	(GtkWindow *toplevel, GSList *supported_formats,
 					 GOImageFormat *ret_format, double *dpi);
 
-gboolean   go_gtk_url_is_writeable	(GtkWindow *parent, char const *url,
+gboolean   go_gtk_url_is_writeable	(GtkWindow *parent, char const *uri,
 					 gboolean overwrite_by_default);
 
 void	   go_atk_setup_label	 	(GtkWidget *label, GtkWidget *target);

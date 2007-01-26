@@ -1346,9 +1346,9 @@ go_dock_add_item (GoDock *dock,
  **/
 void
 go_dock_add_floating_item (GoDock *dock,
-                              GoDockItem *item,
-                              gint x, gint y,
-                              GtkOrientation orientation)
+			   GoDockItem *item,
+			   gint x, gint y,
+			   GtkOrientation orientation)
 {
   GtkWidget *widget;
 

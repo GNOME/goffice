@@ -800,7 +800,7 @@ go_gtk_help_button_init (GtkWidget *w, char const *data_dir, char const *app, ch
 /**
  * go_gtk_url_is_writeable:
  * @parent : #GtkWindow
- * @uri :
+ * @uri : the uri to test.
  * @overwrite_by_default :
  *
  * Check if it makes sense to try saving.

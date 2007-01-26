@@ -48,6 +48,34 @@ Graph theme management
 @Returns: 
 
 
+<!-- ##### FUNCTION gog_theme_new ##### -->
+<para>
+
+</para>
+
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_theme_new_from_file ##### -->
+<para>
+
+</para>
+
+@name: 
+@file: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_theme_get_name ##### -->
+<para>
+
+</para>
+
+@theme: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gog_theme_fillin_style ##### -->
 <para>
 
@@ -60,12 +88,29 @@ Graph theme management
 @complete_overwrite: 
 
 
-<!-- ##### FUNCTION gog_theme_get_name ##### -->
+<!-- ##### FUNCTION gog_theme_registry_add ##### -->
 <para>
 
 </para>
 
 @theme: 
+@is_default: 
+
+
+<!-- ##### FUNCTION gog_theme_registry_lookup ##### -->
+<para>
+
+</para>
+
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_theme_registry_get_theme_names ##### -->
+<para>
+
+</para>
+
 @Returns: 
 
 

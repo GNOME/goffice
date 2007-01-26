@@ -106,9 +106,9 @@ void           go_dock_add_item          (GoDock             *dock,
                                              gboolean               in_new_band);
 
 void           go_dock_add_floating_item (GoDock *dock,
-                                             GoDockItem *widget,
-                                             gint x, gint y,
-                                             GtkOrientation orientation);
+					  GoDockItem *item,
+					  gint x, gint y,
+					  GtkOrientation orientation);
 
 void             go_dock_set_client_area   (GoDock             *dock,
 						GtkWidget             *widget);

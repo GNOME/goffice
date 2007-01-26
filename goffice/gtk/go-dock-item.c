@@ -22,9 +22,6 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
-/*
-  @NOTATION@
-*/
 
 /*
  * NB. this may look like a GtkBin, but it contains
@@ -1281,30 +1278,30 @@ go_dock_item_forall (GtkContainer *container,
 
 /**
  * go_dock_item_construct:
- * @new: a #GoDockItem.
+ * @new_item: a #GoDockItem.
  * @name: Name for the new item
  * @behavior: Behavior for the new item
  *
- * Description: Constructs the @new GoDockItem named @name, with the
+ * Description: Constructs the @new_item GoDockItem named @name, with the
  * specified @behavior.
  *
- * Returns: A new GoDockItem widget.
+ * Returns: A new #GoDockItem widget.
  **/
 void
-go_dock_item_construct (GoDockItem *new,
-			   const gchar *name,
-			   GoDockItemBehavior behavior)
+go_dock_item_construct (GoDockItem *new_item,
+			const gchar *name,
+			GoDockItemBehavior behavior)
 {
-  g_return_if_fail (new != NULL);
-  g_return_if_fail (GO_IS_DOCK_ITEM (new));
+  g_return_if_fail (new_item != NULL);
+  g_return_if_fail (GO_IS_DOCK_ITEM (new_item));
 
-  new->name = g_strdup (name);
-  new->behavior = behavior;
+  new_item->name = g_strdup (name);
+  new_item->behavior = behavior;
 
   if (behavior & GO_DOCK_ITEM_BEH_LOCKED)
     {
-      gtk_widget_hide (new->_priv->grip);
-      GTK_WIDGET_UNSET_FLAGS (new->_priv->grip, GTK_CAN_FOCUS);
+      gtk_widget_hide (new_item->_priv->grip);
+      GTK_WIDGET_UNSET_FLAGS (new_item->_priv->grip, GTK_CAN_FOCUS);
     }
 }
 
@@ -1320,7 +1317,7 @@ go_dock_item_construct (GoDockItem *new,
  **/
 GtkWidget *
 go_dock_item_new (const gchar *name,
-		      GoDockItemBehavior behavior)
+		  GoDockItemBehavior behavior)
 {
   GoDockItem *new;
 
