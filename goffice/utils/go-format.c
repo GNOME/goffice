@@ -3253,7 +3253,7 @@ go_format_is_markup (GOFormat const *fmt)
 gboolean
 go_format_is_text (GOFormat const *fmt)
 {
-	return fmt->family == GO_FORMAT_TIME;
+	return fmt->family == GO_FORMAT_TEXT;
 }
 #endif
 

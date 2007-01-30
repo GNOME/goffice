@@ -1,5 +1,5 @@
 /*
- * go-format.c :
+ * go-locale.c :
  *
  * Copyright (C) 1998 Chris Lahey, Miguel de Icaza
  * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
