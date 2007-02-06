@@ -116,7 +116,7 @@ void  gog_renderer_draw_bezier_path     (GogRenderer *rend, ArtBpath const *path
 
 void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
 				   GogViewAllocation const *pos, GtkAnchorType anchor,
-				   GogViewAllocation *result);
+				   gboolean use_markup);
 void  gog_renderer_draw_marker	  (GogRenderer *rend, double x, double y);
 void  gog_renderer_draw_grip	  (GogRenderer *renderer, double x, double y);
 
@@ -125,8 +125,10 @@ void  gog_renderer_draw_grip	  (GogRenderer *renderer, double x, double y);
 						 (y) >= ((grip_y) - (GOG_RENDERER_GRIP_SIZE)) && \
 						 (y) <= ((grip_y) + (GOG_RENDERER_GRIP_SIZE)))
 
-void  gog_renderer_get_text_OBR   (GogRenderer *rend, char const *text, GOGeometryOBR *obr);
-void  gog_renderer_get_text_AABR  (GogRenderer *rend, char const *text, GOGeometryAABR *aabr);
+void  gog_renderer_get_text_OBR   (GogRenderer *rend, char const *text, 
+				   gboolean use_markup, GOGeometryOBR *obr);
+void  gog_renderer_get_text_AABR  (GogRenderer *rend, char const *text, 
+				   gboolean use_markup, GOGeometryAABR *aabr);
 
 #define gog_renderer_draw_arc(r,cx,cy,rx,ry,th0,th1) \
 	gog_renderer_draw_ring_wedge (r,cx,cy,rx,ry,-1.,-1.,th0,th1,FALSE)

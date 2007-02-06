@@ -441,7 +441,7 @@ gog_renderer_gnome_print_draw_bezier_polygon (GogRenderer *rend, ArtBpath const 
 static void
 gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 				    GogViewAllocation const *pos, GtkAnchorType anchor,
-				    GogViewAllocation *result)
+				    gboolean use_markup)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
 	PangoFontDescription *pango_font = get_font (prend,  rend->cur_style->font.font);
@@ -453,7 +453,10 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 		int iw, ih;
 
 		pango_layout_set_font_description (prend->layout, pango_font);
-		pango_layout_set_markup (prend->layout, text, -1);
+		if (use_markup)
+			pango_layout_set_markup (prend->layout, text, -1);
+		else
+			pango_layout_set_text (prend->layout, text, -1);
 		pango_layout_get_size (prend->layout, &iw, &ih);
 		obr.w = iw / (double)PANGO_SCALE;
 		obr.h = ih / (double)PANGO_SCALE;
@@ -497,24 +500,22 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 		gnome_print_rotate (prend->gp_context, rend->cur_style->text_layout.angle);
 		gnome_print_pango_layout (prend->gp_context, prend->layout);
 		gnome_print_grestore (prend->gp_context);
-		if (result != NULL) {
-			result->x = aabr.x;
-			result->y = aabr.y;
-			result->w = aabr.w;
-			result->h = aabr.h;
-		}
 	}
 }
 
 static void
-gog_renderer_gnome_print_get_text_OBR (GogRenderer *rend, char const *text, GOGeometryOBR *obr)
+gog_renderer_gnome_print_get_text_OBR (GogRenderer *rend, char const *text, 
+				       gboolean use_markup, GOGeometryOBR *obr)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
 	PangoFontDescription *pango_font = get_font (prend,  rend->cur_style->font.font);
 	int iw, ih;
 
 	pango_layout_set_font_description (prend->layout, pango_font);
-	pango_layout_set_markup (prend->layout, text, -1);
+	if (use_markup)
+		pango_layout_set_markup (prend->layout, text, -1);
+	else
+		pango_layout_set_text (prend->layout, text, -1);
 	pango_layout_get_size (prend->layout, &iw, &ih);
 	obr->w = iw / (double)PANGO_SCALE;
 	obr->h = ih / (double)PANGO_SCALE;

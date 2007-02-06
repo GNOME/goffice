@@ -584,7 +584,7 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 }
 
 static PangoLayout *
-make_layout (GogRenderer *rend, char const *text)
+make_layout (GogRenderer *rend, char const *text, gboolean use_markup)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
 	PangoLayout *layout;
@@ -610,16 +610,20 @@ make_layout (GogRenderer *rend, char const *text)
 	layout = pango_layout_new (prend->pango_context);
 	pango_layout_set_font_description (layout, fd);
 
-	pango_layout_set_text (layout, text, -1);
+	if (use_markup)
+		pango_layout_set_markup (layout, text, -1);
+	else
+		pango_layout_set_text (layout, text, -1);
 
 	return layout;
 }
 
 static void
-gog_renderer_svg_get_text_OBR (GogRenderer *rend, char const *text, GOGeometryOBR *obr)
+gog_renderer_svg_get_text_OBR (GogRenderer *rend, char const *text, 
+			       gboolean use_markup, GOGeometryOBR *obr)
 {
 	PangoRectangle  rect;
-	PangoLayout    *layout = make_layout (rend, text);
+	PangoLayout    *layout = make_layout (rend, text, use_markup);
 	
 	pango_layout_get_pixel_extents (layout, NULL, &rect);
 	g_object_unref (layout);
@@ -630,12 +634,12 @@ gog_renderer_svg_get_text_OBR (GogRenderer *rend, char const *text, GOGeometryOB
 static void
 gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
 			    GogViewAllocation const *pos, GtkAnchorType anchor,
-			    GogViewAllocation *result)
+			    gboolean use_markup)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
 	GogStyle const *style = rend->cur_style;
 	PangoRectangle  rect;
-	PangoLayout* layout = make_layout (rend, text);
+	PangoLayout* layout = make_layout (rend, text, use_markup);
 	PangoFontDescription const *fd = style->font.font->desc;
 	PangoLayoutIter* iter =pango_layout_get_iter(layout);
 	GOGeometryOBR obr;

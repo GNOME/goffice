@@ -1,3 +1,33 @@
+2006-02-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Disable pango markup for all user entered texts.
+	http://bugzilla.gnome.org/show_bug.cgi?id=403209
+
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_text):
+	remove the unused result parameter and add a new use_markup flag.
+	(gog_renderer_get_text_OBR): add new use_markup flag.
+	(gog_renderer_get_text_AABR): ditto.
+	* goffice/graph/gog-renderer-cairo.c: ditto.
+	* goffice/graph/gog-renderer-gnome-print.c: ditto.
+	* goffice/graph/gog-renderer-svg.c: ditto.
+
+	* goffice/graph/gog-label.c (gog_text_view_size_request): don't use
+	pango markup.
+	(gog_text_view_render): ditto.
+	* goffice/graph/gog-legend.c (cb_size_elements): ditto.
+	(cb_render_elements): ditto.
+	
+	* goffice/graph/gog-axis-line..c (axis_line_get_bbox): use pango
+	markup (for exponent of log axes).
+	(axis_line_render): ditto.
+	(axis_circle_get_bbox): ditto.
+	(axis_circle_render): ditto.
+	* goffice/graph/gog-axis.c (map_discrete_calc_ticks): but escape user
+	text here.
+	
+	* goffice/graph/gog-grid.c (gog_grid_view_render): handle new
+	GogAxisSet type.
+
 2007-01-30  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_is_text): Typo.

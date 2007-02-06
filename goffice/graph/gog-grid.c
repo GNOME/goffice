@@ -83,7 +83,8 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_renderer_push_style (view->renderer, grid->base.style);
 	switch (gog_chart_get_axis_set (chart)) {
 		case GOG_AXIS_SET_X:
-		case GOG_AXIS_SET_XY: {
+		case GOG_AXIS_SET_XY:
+		case GOG_AXIS_SET_XY_COLOR: {
 			ArtVpath path[6];
 			
 			path[0].code = ART_MOVETO;
@@ -153,6 +154,7 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 		case GOG_AXIS_SET_XYZ:
 		case GOG_AXIS_SET_XY_pseudo_3d:
+		case GOG_AXIS_SET_FUNDAMENTAL:
 		case GOG_AXIS_SET_ALL:
 		case GOG_AXIS_SET_UNKNOWN:
 		case GOG_AXIS_SET_NONE:

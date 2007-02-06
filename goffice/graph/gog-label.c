@@ -458,7 +458,7 @@ gog_text_view_size_request (GogView *v,
 	req->w = req->h = 0.;
 	if (str != NULL) {
 		gog_renderer_push_style (v->renderer, text->base.base.style);
-		gog_renderer_get_text_AABR (v->renderer, str, &aabr);
+		gog_renderer_get_text_AABR (v->renderer, str, FALSE, &aabr);
 		gog_renderer_pop_style (v->renderer);
 		req->w = aabr.w;
 		req->h = aabr.h;
@@ -485,14 +485,14 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 			double pad_x = gog_renderer_pt2r_x (view->renderer, goo->padding_pts);
 			double pad_y = gog_renderer_pt2r_y (view->renderer, goo->padding_pts);
 
-			gog_renderer_get_text_AABR (view->renderer, str, &aabr);
+			gog_renderer_get_text_AABR (view->renderer, str, FALSE, &aabr);
 			rect = view->allocation;
 			rect.w = aabr.w + 2. * outline + pad_x;
 			rect.h = aabr.h + 2. * outline + pad_y;
 			gog_renderer_draw_sharp_rectangle (view->renderer, &rect);
 		}
 		gog_renderer_draw_text (view->renderer, str,
-					&view->residual, GTK_ANCHOR_NW, NULL);
+					&view->residual, GTK_ANCHOR_NW, FALSE);
 		g_free (str);
 	}
 	gog_renderer_pop_style (view->renderer);

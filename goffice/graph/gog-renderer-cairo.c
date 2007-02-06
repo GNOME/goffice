@@ -521,7 +521,7 @@ gog_renderer_cairo_draw_bezier_polygon (GogRenderer *rend, ArtBpath const *path,
 static void
 gog_renderer_cairo_draw_text (GogRenderer *rend, char const *text,
 			      GogViewAllocation const *pos, GtkAnchorType anchor,
-			      GogViewAllocation *result)
+			      gboolean use_markup)
 {
 	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
 	GogStyle const *style = rend->cur_style;
@@ -535,7 +535,10 @@ gog_renderer_cairo_draw_text (GogRenderer *rend, char const *text,
 	layout = pango_cairo_create_layout (cairo);
 	context = pango_layout_get_context (layout);
 	pango_cairo_context_set_resolution (context, 72.0);
-	pango_layout_set_markup (layout, text, -1);
+	if (use_markup)
+		pango_layout_set_markup (layout, text, -1);
+	else
+		pango_layout_set_text (layout, text, -1);
 	pango_layout_set_font_description (layout, style->font.font->desc);
 	pango_layout_get_size (layout, &iw, &ih);
 
@@ -575,18 +578,11 @@ gog_renderer_cairo_draw_text (GogRenderer *rend, char const *text,
 	pango_cairo_show_layout (cairo, layout);
 	cairo_restore (cairo);
 	g_object_unref (layout);
-
-	if (result != NULL) {
-		result->x = aabr.x;
-		result->y = aabr.y;
-		result->w = aabr.w;
-		result->h = aabr.h;
-	}
 }
 
 static void
-gog_renderer_cairo_get_text_OBR (GogRenderer *rend,
-				 char const *text, GOGeometryOBR *obr)
+gog_renderer_cairo_get_text_OBR (GogRenderer *rend, char const *text, 
+				 gboolean use_markup, GOGeometryOBR *obr)
 {
 	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
 	GogStyle const *style = rend->cur_style;
@@ -598,7 +594,10 @@ gog_renderer_cairo_get_text_OBR (GogRenderer *rend,
 	layout = pango_cairo_create_layout (cairo);
 	context = pango_layout_get_context (layout);
 	pango_cairo_context_set_resolution (context, 72.0);
-	pango_layout_set_markup (layout, text, -1);
+	if (use_markup)
+		pango_layout_set_markup (layout, text, -1);
+	else 
+		pango_layout_set_text (layout, text, -1);
 	pango_layout_set_font_description (layout, style->font.font->desc);
 	pango_layout_get_extents (layout, NULL, &logical);
 	g_object_unref (layout);

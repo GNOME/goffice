@@ -571,16 +571,15 @@ gog_renderer_draw_bezier_path (GogRenderer *rend, ArtBpath const *path)
  * @text   : the string to draw
  * @pos    : #GogViewAllocation
  * @anchor : #GtkAnchorType how to draw relative to @pos
- * @result : an optionally NULL #GogViewAllocation
+ * @use_markup: wether to use pango markup
  *
  * Have @rend draw @text in the at @pos.{x,y} anchored by the @anchor corner.
  * If @pos.w or @pos.h are >= 0 then clip the results to less than that size.
- * If @result is supplied it will recieve the actual position of the result.
  **/
 void
 gog_renderer_draw_text (GogRenderer *rend, char const *text,
 			GogViewAllocation const *pos, GtkAnchorType anchor,
-			GogViewAllocation *result)
+			gboolean use_markup)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
@@ -588,17 +587,10 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
 	g_return_if_fail (rend->cur_style != NULL);
 	g_return_if_fail (text != NULL);
 
-	if (*text == '\0') {
-		if (result != NULL) {
-			result->x = pos->x;
-			result->y = pos->y;
-			result->w = 0.;
-			result->h = 0.;
-		}
+	if (*text == '\0') 
 		return;
-	}
 
-	(klass->draw_text) (rend, text, pos, anchor, result);
+	(klass->draw_text) (rend, text, pos, anchor, use_markup);
 }
 
 /**
@@ -620,12 +612,14 @@ gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
 
 /**
  * gog_renderer_get_text_OBR :
- * @rend : #GogRenderer
- * @text : the string to draw
- * @obr : #GOGeometryOBR to store the Object Bounding Rectangle of @text.
+ * @rend: #GogRenderer
+ * @text: the string to draw
+ * @use_markup: wether to use pango markup
+ * @obr: #GOGeometryOBR to store the Object Bounding Rectangle of @text.
  **/
 void
-gog_renderer_get_text_OBR (GogRenderer *rend, char const *text, GOGeometryOBR *obr)
+gog_renderer_get_text_OBR (GogRenderer *rend, char const *text, 
+			   gboolean use_markup, GOGeometryOBR *obr)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
@@ -642,7 +636,7 @@ gog_renderer_get_text_OBR (GogRenderer *rend, char const *text, GOGeometryOBR *o
 		return;
 	}
 
-	(klass->get_text_OBR) (rend, text, obr);
+	(klass->get_text_OBR) (rend, text, use_markup, obr);
 
 	/* Make sure invisible things don't skew size */
 	if (obr->w == 0)
@@ -655,16 +649,18 @@ gog_renderer_get_text_OBR (GogRenderer *rend, char const *text, GOGeometryOBR *o
 
 /**
  * gog_renderer_get_text_AABR :
- * @rend : #GogRenderer
- * @text : the string to draw
- * @aabr : #GOGeometryAABR to store the Axis Aligned Bounding Rectangle of @text.
+ * @rend: #GogRenderer
+ * @text: the string to draw
+ * @use_markup: wether to use pango markup
+ * @aabr: #GOGeometryAABR to store the Axis Aligned Bounding Rectangle of @text.
  **/
 void
-gog_renderer_get_text_AABR (GogRenderer *rend, char const *text, GOGeometryAABR *aabr)
+gog_renderer_get_text_AABR (GogRenderer *rend, char const *text, 
+			    gboolean use_markup, GOGeometryAABR *aabr)
 {
 	GOGeometryOBR obr;
 
-	gog_renderer_get_text_OBR (rend, text, &obr);
+	gog_renderer_get_text_OBR (rend, text, use_markup, &obr);
 	go_geometry_OBR_to_AABR (&obr, aabr);
 }
 

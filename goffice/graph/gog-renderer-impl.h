@@ -79,10 +79,11 @@ typedef struct {
 	
 	void (*draw_text)      	(GogRenderer *rend, char const *text,
 				 GogViewAllocation const *pos, GtkAnchorType anchor,
-				 GogViewAllocation *result);
+				 gboolean use_markup);
 	void (*draw_marker)    	(GogRenderer *rend, double x, double y);
 
-	void (*get_text_OBR)	(GogRenderer *rend, char const *text, GOGeometryOBR *obr);
+	void (*get_text_OBR)	(GogRenderer *rend, char const *text, 
+				 gboolean use_markup, GOGeometryOBR *obr);
 
 	double (*line_size)	(GogRenderer const *rend, double width);
 

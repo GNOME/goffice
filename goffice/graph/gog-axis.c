@@ -292,9 +292,11 @@ map_discrete_calc_ticks (GogAxis *axis)
 		index = ticks[j].position - 1;
 		ticks[j].type = GOG_AXIS_TICK_NONE;
 		if (axis->labels != NULL) {
-			if (index < go_data_vector_get_len (axis->labels) && index >= 0)
-				ticks[j].label = go_data_vector_get_str (axis->labels, index);
-			else
+			if (index < go_data_vector_get_len (axis->labels) && index >= 0) {
+				char *label = go_data_vector_get_str (axis->labels, index);
+				ticks[j].label = g_markup_escape_text (label, -1);
+				g_free (label);
+			} else
 				ticks[j].label = NULL;
 		}
 		else
