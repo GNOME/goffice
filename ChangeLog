@@ -1,5 +1,9 @@
 2006-02-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* goffice/graph/gog-renderer-pixbuf.[ch]: removed.
+
+2006-02-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Disable pango markup for all user entered texts.
 	http://bugzilla.gnome.org/show_bug.cgi?id=403209
 
