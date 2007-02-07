@@ -10,6 +10,7 @@ Morten:
 	* Fix marshalling of pango formats with strikethrough set.
 	* Make the GOFormat type private.
 	* Extract go-locale.[ch] from go-format.[ch]
+	* Fix UMR.
 
 --------------------------------------------------------------------------
 

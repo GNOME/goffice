@@ -1,3 +1,8 @@
+2007-02-07  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_str_delocalize): Don't
+	overrun source string on unbalanced quote.
+
 2006-02-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-renderer-pixbuf.[ch]: removed.

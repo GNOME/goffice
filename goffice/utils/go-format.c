@@ -2726,8 +2726,9 @@ go_format_str_delocalize (char const *descriptor_string)
 				do {
 					g_string_append_c (res, *ptr++);
 				} while (*ptr && *ptr != '\"');
-				if (*ptr)
-					g_string_append_c (res, *ptr);
+				if (*ptr == 0)
+					break;
+				g_string_append_c (res, *ptr);
 			} else if (*ptr == '[') {
 				char *tmp = translate_format_color (res, ptr, TRUE);
 				if (tmp != NULL)
