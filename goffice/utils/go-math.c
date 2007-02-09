@@ -7,6 +7,7 @@
 
 #include <goffice/goffice-config.h>
 #include "go-math.h"
+#include "go-locale.h"
 #include <glib.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -268,7 +269,7 @@ strtod_helper (const char *s)
 		p++;
 	if (p[0] == '0' && (p[1] == 'x' || p[1] == 'X'))
 		/* Disallow C99 hex notation.  */
-		return (p + 1) - s;
+		return s - (p + 1);
 
 	while (1) {
 		if (*p == 'd' || *p == 'D')
@@ -277,7 +278,7 @@ strtod_helper (const char *s)
 		if (*p == 0 ||
 		    g_ascii_isspace (*p) ||
 		    g_ascii_isalpha (*p))
-			return -1;
+			return INT_MAX;
 
 		p++;
 	}
@@ -300,14 +301,58 @@ go_strtod (const char *s, char **end)
 	char *tmp;
 	double res;
 
-	if (maxlen < 0) {
+	if (maxlen == INT_MAX) {
 		errno = 0;
 		return strtod (s, end);
+	} else if (maxlen < 0) {
+		/* Hex */
+		errno = 0;
+		if (end)
+			*end = (char *)s - maxlen;
+		return 0;
 	}
 
 	tmp = g_strndup (s, maxlen);
 	errno = 0;
 	res = strtod (tmp, end);
+	save_errno = errno;
+	if (end)
+		*end = (char *)s + (*end - tmp);
+	g_free (tmp);
+	errno = save_errno;
+
+	return res;
+}
+
+/*
+ * go_ascii_strtod: A sane g_ascii_strtod.
+ * @s: string to convert
+ * @end: optional pointer to end of string.
+ *
+ * Like g_ascii_strtod, but without hex notation and MS extensions.
+ * There is no need to reset errno before calling this.
+ */
+double
+go_ascii_strtod (const char *s, char **end)
+{
+	int maxlen = strtod_helper (s);
+	int save_errno;
+	char *tmp;
+	double res;
+
+	if (maxlen == INT_MAX)
+		return g_ascii_strtod (s, end);
+	else if (maxlen < 0) {
+		/* Hex */
+		errno = 0;
+		if (end)
+			*end = (char *)s - maxlen;
+		return 0;
+	}
+
+	tmp = g_strndup (s, maxlen);
+	errno = 0;
+	res = g_ascii_strtod (tmp, end);
 	save_errno = errno;
 	if (end)
 		*end = (char *)s + (*end - tmp);
@@ -445,9 +490,14 @@ go_strtold (const char *s, char **end)
 	char *tmp;
 	long double res;
 
-	if (maxlen < 0) {
+	if (maxlen == INT_MAX) {
 		errno = 0;
 		return strtold (s, end);
+	} else if (maxlen < 0) {
+		errno = 0;
+		if (end)
+			*end = (char *)s - maxlen;
+		return 0;
 	}
 
 	tmp = g_strndup (s, maxlen);
@@ -457,6 +507,46 @@ go_strtold (const char *s, char **end)
 	if (end)
 		*end = (char *)s + (*end - tmp);
 	g_free (tmp);
+	errno = save_errno;
+
+	return res;
+}
+
+/*
+ * go_ascii_strtold: A sane strtold pretending to be in "C" locale.
+ * @s: string to convert
+ * @end: optional pointer to end of string.
+ *
+ * Like strtold, but without hex notation and MS extensions.
+ * Unlike strtold, there is no need to reset errno before calling this.
+ */
+long double
+go_ascii_strtold (const char *s, char **end)
+{
+	GString *tmp;
+	const GString *decimal;
+	int save_errno;
+	char *the_end;
+	/* Use the "double" version for parsing.  */
+	long double res = go_ascii_strtod (s, &the_end);
+	if (end)
+		*end = the_end;
+	if (the_end == s)
+		return res;
+
+	decimal = go_locale_get_decimal ();
+	tmp = g_string_sized_new (the_end - s + 10);
+	while (s < the_end) {
+		if (*s == '.') {
+			g_string_append_len (tmp, decimal->str, decimal->len);
+			g_string_append (tmp, ++s);
+			break;
+		}
+		g_string_append_c (tmp, *s++);
+	}
+	res = strtold (tmp->str, NULL);
+	save_errno = errno;
+	g_string_free (tmp, TRUE);
 	errno = save_errno;
 
 	return res;

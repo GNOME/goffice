@@ -1,3 +1,8 @@
+2007-02-09  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-math.c (go_ascii_strtod, go_ascii_strtold): New
+	functions.
+
 2007-02-07  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_str_delocalize): Don't
