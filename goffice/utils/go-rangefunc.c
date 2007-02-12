@@ -8,6 +8,7 @@
 
 #include <goffice/goffice-config.h>
 #include "go-rangefunc.h"
+#include <glib/gmem.h>
 
 #include <math.h>
 #include <stdlib.h>
@@ -34,7 +35,7 @@
 
 /* Arithmetic sum.  */
 int
-SUFFIX(go_range_sum) (const DOUBLE *xs, int n, DOUBLE *res)
+SUFFIX(go_range_sum) (DOUBLE const *xs, int n, DOUBLE *res)
 {
 	/* http://bugzilla.gnome.org/show_bug.cgi?id=131588 */
 #ifdef HAVE_LONG_DOUBLE
@@ -53,7 +54,7 @@ SUFFIX(go_range_sum) (const DOUBLE *xs, int n, DOUBLE *res)
 
 /* Arithmetic sum of squares.  */
 int
-SUFFIX(go_range_sumsq) (const DOUBLE *xs, int n, DOUBLE *res)
+SUFFIX(go_range_sumsq) (DOUBLE const *xs, int n, DOUBLE *res)
 {
 	/* http://bugzilla.gnome.org/show_bug.cgi?id=131588 */
 #ifdef HAVE_LONG_DOUBLE
@@ -72,7 +73,7 @@ SUFFIX(go_range_sumsq) (const DOUBLE *xs, int n, DOUBLE *res)
 
 /* Arithmetic average.  */
 int
-SUFFIX(go_range_average) (const DOUBLE *xs, int n, DOUBLE *res)
+SUFFIX(go_range_average) (DOUBLE const *xs, int n, DOUBLE *res)
 {
 	if (n <= 0 || SUFFIX(go_range_sum) (xs, n, res))
 		return 1;
@@ -83,7 +84,7 @@ SUFFIX(go_range_average) (const DOUBLE *xs, int n, DOUBLE *res)
 
 /* Minimum element.  */
 int
-SUFFIX(go_range_min) (const DOUBLE *xs, int n, DOUBLE *res)
+SUFFIX(go_range_min) (DOUBLE const *xs, int n, DOUBLE *res)
 {
 	if (n > 0) {
 		DOUBLE min = xs[0];
@@ -100,7 +101,7 @@ SUFFIX(go_range_min) (const DOUBLE *xs, int n, DOUBLE *res)
 
 /* Maximum element.  */
 int
-SUFFIX(go_range_max) (const DOUBLE *xs, int n, DOUBLE *res)
+SUFFIX(go_range_max) (DOUBLE const *xs, int n, DOUBLE *res)
 {
 	if (n > 0) {
 		DOUBLE max = xs[0];
@@ -117,7 +118,7 @@ SUFFIX(go_range_max) (const DOUBLE *xs, int n, DOUBLE *res)
 
 /* Maximum absolute element.  */
 int
-SUFFIX(go_range_maxabs) (const DOUBLE *xs, int n, DOUBLE *res)
+SUFFIX(go_range_maxabs) (DOUBLE const *xs, int n, DOUBLE *res)
 {
 	if (n > 0) {
 		DOUBLE max = SUFFIX(fabs) (xs[0]);
@@ -134,7 +135,7 @@ SUFFIX(go_range_maxabs) (const DOUBLE *xs, int n, DOUBLE *res)
 
 /* Sum of square deviations from mean.  */
 int
-SUFFIX(go_range_devsq) (const DOUBLE *xs, int n, DOUBLE *res)
+SUFFIX(go_range_devsq) (DOUBLE const *xs, int n, DOUBLE *res)
 {
 	DOUBLE m, dx, q = 0;
 	if (n > 0) {
@@ -148,4 +149,77 @@ SUFFIX(go_range_devsq) (const DOUBLE *xs, int n, DOUBLE *res)
 	}
 	*res = q;
 	return 0;
+}
+
+static int
+SUFFIX(float_compare) (DOUBLE const *a, DOUBLE const *b)
+{
+	if (*a < *b)
+		return -1;
+	else if (*a == *b)
+		return 0;
+	else
+		return 1;
+}
+
+static DOUBLE *
+SUFFIX(range_sort) (DOUBLE const *xs, int n)
+{
+	if (n <= 0)
+		return NULL;
+	else {
+		DOUBLE *ys = g_new (DOUBLE, n);
+		memcpy (ys, xs, n * sizeof (DOUBLE));
+		qsort (ys, n, sizeof (ys[0]), (int (*) (const void *, const void *))&SUFFIX(float_compare));
+		return ys;
+	}
+}
+/* This requires sorted data.  */
+int
+SUFFIX(go_range_fractile_inter_sorted) (DOUBLE const *xs, int n, DOUBLE *res, DOUBLE f)
+{
+	DOUBLE fpos, residual;
+	int pos;
+
+	if (n <= 0 || f < 0.0 || f > 1.0)
+		return 1;
+
+	fpos = (n - 1) * f;
+	pos = (int)fpos;
+	residual = fpos - pos;
+
+	if (residual == 0.0 || pos + 1 >= n)
+		*res = xs[pos];
+	else
+		*res = (1 - residual) * xs[pos] + residual * xs[pos + 1];
+
+	return 0;
+}
+
+int
+SUFFIX(go_range_fractile_inter) (DOUBLE const *xs, int n, DOUBLE *res, DOUBLE f)
+{
+	DOUBLE *ys = SUFFIX(range_sort) (xs, n);
+	int error = SUFFIX(go_range_fractile_inter_sorted) (ys, n, res, f);
+	g_free (ys);
+	return error;
+}
+
+int
+SUFFIX(go_range_fractile_inter_nonconst) (DOUBLE *xs, int n, DOUBLE *res, DOUBLE f)
+{
+	qsort (xs, n, sizeof (xs[0]), (int (*) (const void *, const void *))&SUFFIX(float_compare));
+	return SUFFIX(go_range_fractile_inter_sorted) (xs, n, res, f);
+}
+
+int
+SUFFIX(go_range_median_inter) (DOUBLE const *xs, int n, DOUBLE *res)
+{
+	return SUFFIX(go_range_fractile_inter) (xs, n, res, 0.5);
+}
+
+int
+SUFFIX(go_range_median_inter_nonconst) (DOUBLE *xs, int n, DOUBLE *res)
+{
+	return SUFFIX(go_range_fractile_inter_nonconst) (xs, n, res, 0.5);
 }

@@ -29,6 +29,7 @@
 #include <goffice/graph/gog-chart.h>
 #include <goffice/data/go-data-simple.h>
 #include <goffice/utils/go-math.h>
+#include <goffice/utils/go-rangefunc.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>
@@ -482,17 +483,6 @@ GSF_DYNAMIC_CLASS (GogBoxPlotView, gog_box_plot_view,
 
 static GogObjectClass *gog_box_plot_series_parent_klass;
 
-static gint
-float_compare (const double *a, const double *b)
-{
-        if (*a < *b)
-                return -1;
-	else if (*a == *b)
-	        return 0;
-	else
-	        return 1;
-}
-
 static void
 gog_box_plot_series_update (GogObject *obj)
 {
@@ -508,20 +498,12 @@ gog_box_plot_series_update (GogObject *obj)
 	}
 	series->base.num_elements = len;
 	if (len > 0) {
-		double *svals = g_new (double, len), x, fpos, residual;
-		int n, pos;
+		double *svals = g_new (double, len), x;
+		int n;
 		memcpy (svals, vals, len * sizeof (double));
-		qsort (svals, len, sizeof (double), (int (*) (const void *, const void *))&float_compare);
-		for (n = 0, x = 0.; n < 5; n++, x+= 0.25) { 
-			fpos = (len - 1) * x;
-			pos = (int) fpos;
-			residual = fpos - pos;
-
-			if (residual == 0.0 || pos + 1 >= len)
-				series->vals[n] = svals[pos];
-			else
-				series->vals[n] = (1 - residual) * svals[pos] + residual * svals[pos + 1];
-		}
+		go_range_fractile_inter_nonconst (svals, len, &series->vals[0], 0);
+		for (x = 0.25,n = 1; n < 5; n++, x+= 0.25)
+			go_range_fractile_inter_sorted (svals, len, &series->vals[n], x);
 		g_free (svals);
 	}
 	/* queue plot for redraw */

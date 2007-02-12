@@ -1,3 +1,11 @@
+2007-02-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-rangefunc.c: copied some new functions
+	from gnumeric.
+	* goffice/utils/go-rangefunc.h: ditto.
+	* plugins/plot_boxes/gog-boxplot.c: find fractiles using
+	new functions in go-rangefunc.*.
+
 2007-02-09  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-math.c (go_ascii_strtod, go_ascii_strtold): New
