@@ -41,6 +41,9 @@ static gboolean lc_precedes;
 static gboolean lc_space_sep;
 static GString *lc_currency = NULL;
 
+static gboolean date_format_cached = FALSE;
+static GString *lc_date_format = NULL;
+
 static gboolean date_order_cached = FALSE;
 
 static gboolean boolean_cached = FALSE;
@@ -51,6 +54,7 @@ char const *
 go_setlocale (int category, char const *val)
 {
 	locale_info_cached = FALSE;
+	date_format_cached = FALSE;
 	date_order_cached = FALSE;
 	boolean_cached = FALSE;
 	return setlocale (category, val);
@@ -166,6 +170,73 @@ go_locale_get_currency (gboolean *precedes, gboolean *space_sep)
 	return lc_currency;
 }
 
+GString const *
+go_locale_get_date_format (void)
+{
+	if (!date_format_cached) {
+		if (lc_date_format)
+			g_string_truncate (lc_date_format, 0);
+		else
+			lc_date_format = g_string_new (NULL);
+
+#ifdef HAVE_LANGINFO_H
+		{
+			char const *fmt = nl_langinfo (D_FMT);
+			while (*fmt) {
+				switch (*fmt) {
+				case 'a': g_string_append (lc_date_format, "ddd"); break;
+				case 'A': g_string_append (lc_date_format, "dddd"); break;
+				case 'b': g_string_append (lc_date_format, "mmm"); break;
+				case 'B': g_string_append (lc_date_format, "mmmm"); break;
+				case 'd': g_string_append (lc_date_format, "dd"); break;
+				case 'D': g_string_append (lc_date_format, "mm/dd/yy"); break;
+				case 'e': g_string_append (lc_date_format, "d"); break; /* Approx */
+				case 'F': g_string_append (lc_date_format, "yyyy-mm-dd"); break;
+				case 'h': g_string_append (lc_date_format, "mmm"); break;
+				case 'm': g_string_append (lc_date_format, "mm"); break;
+				case 't': g_string_append (lc_date_format, "\t"); break;
+				case 'y': g_string_append (lc_date_format, "yy"); break;
+				case 'Y': g_string_append (lc_date_format, "yyyy"); break;
+				case '%':
+					/*
+					 * Docs say we get things in strftime format,
+					 * but I don't seem to get the '%'s. Hence we
+					 * ignore '%'s.
+					 */
+					break;
+				default:
+					if (g_ascii_isalpha (*fmt))
+						g_warning ("Unhandled locale date code '%c'", *fmt);
+					else
+						g_string_append_c (lc_date_format, *fmt);
+				}
+				fmt++;
+			}
+		}
+#endif
+
+		/* Sanity check */
+		if (!g_utf8_validate (lc_date_format->str, -1, NULL)) {
+			g_warning ("Produced non-UTF-8 date format.  Please report.");
+			g_string_truncate (lc_date_format, 0);
+		}
+
+		/* Default */
+		if (lc_date_format->len == 0) {
+			static gboolean warning = TRUE;
+			g_string_append (lc_date_format, "dddd, mmmm dd, yyyy");
+			if (warning) {
+				g_warning ("Using default system date format: %s",
+					   lc_date_format->str);
+				warning = FALSE;
+			}
+		}
+
+		date_format_cached = TRUE;
+	}
+	return lc_date_format;
+}
+
 /*
  * go_locale_month_before_day :
  *
@@ -189,7 +260,7 @@ go_locale_month_before_day (void)
 				if (c == 'd' || c == 'D') {
 					month_first = FALSE;
 					break;
-				} else if (c == 'm' || c == 'M')
+				} else if (c == 'm')
 					break;
 			}
 	}
@@ -249,7 +320,7 @@ go_locale_boolean_name (gboolean b)
 
 /**
  * go_locale_untranslated_booleans :
- * 
+ *
  * Short circuit the current locale so that we can import files
  * and still produce error messages in the current LC_MESSAGE
  **/

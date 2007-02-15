@@ -39,6 +39,8 @@ GString const *go_locale_get_thousand     (void);
 GString const *go_locale_get_decimal      (void);
 gboolean       go_locale_month_before_day (void);
 
+GString const *go_locale_get_date_format  (void);
+
 G_END_DECLS
 
 #endif /* GO_LOCALE_H */

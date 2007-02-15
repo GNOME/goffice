@@ -1,3 +1,9 @@
+2007-02-15  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-locale.c (go_locale_month_before_day): 'M' is
+	minutes, so ignore it.
+	(go_locale_get_date_format): New function.
+
 2007-02-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-rangefunc.c: copied some new functions
