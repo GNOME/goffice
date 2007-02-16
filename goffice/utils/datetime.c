@@ -492,6 +492,22 @@ gnm_date_convention_base (GODateConventions const *conv)
 
 /* ------------------------------------------------------------------------- */
 
+static char *
+deal_with_spaces (char *buf)
+{
+	/* Abbreviated January in "fi_FI" has a terminating space.  */
+	gsize len = strlen (buf);
+
+	while (len > 0) {
+		char *prev = g_utf8_prev_char (buf + len);
+		if (!g_unichar_isspace (g_utf8_get_char (prev)))
+			break;
+		len = prev - buf;
+	}
+	buf[len] = 0;
+	return g_strdup (buf);
+}
+
 char *
 go_date_weekday_name (GDateWeekday wd, gboolean abbrev)
 {
@@ -505,7 +521,8 @@ go_date_weekday_name (GDateWeekday wd, gboolean abbrev)
 	g_date_strftime (buf, sizeof (buf) - 1,
 			 abbrev ? "%a" : "%A",
 			 &date);
-	return g_strdup (buf);
+
+	return deal_with_spaces (buf);
 }
 
 char *
@@ -521,7 +538,8 @@ go_date_month_name (GDateMonth m, gboolean abbrev)
 	g_date_strftime (buf, sizeof (buf) - 1,
 			 abbrev ? "%b" : "%B",
 			 &date);
-	return g_strdup (buf);
+
+	return deal_with_spaces (buf);
 }
 
 /* ------------------------------------------------------------------------- */

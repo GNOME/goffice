@@ -1,3 +1,8 @@
+2007-02-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/datetime.c (go_date_month_name): Trim terminating
+	spaces in the result.
+
 2007-02-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=408520
