@@ -1,3 +1,9 @@
+2007-02-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=408520
+	* plugins/reg_linear/gog-exp-reg.c:
+	(gog_exp_reg_curve_get_equation): fix equation.
+
 2007-02-15  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-locale.c (go_locale_month_before_day): 'M' is

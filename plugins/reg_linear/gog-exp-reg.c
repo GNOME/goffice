@@ -39,17 +39,17 @@ gog_exp_reg_curve_get_equation (GogRegCurve *curve)
 	if (!curve->equation) {
 		GogLinRegCurve *lin = GOG_LIN_REG_CURVE (curve);
 		if (lin->affine)
-			curve->equation = (curve->a[0] < 0.)?
-				((curve->a[1] < 0)?
-					g_strdup_printf ("ln(y) = \xE2\x88\x92%gx \xE2\x88\x92 %g", -curve->a[1], -curve->a[0]):
-					g_strdup_printf ("ln(y) = %gx \xE2\x88\x92% g", curve->a[1], -curve->a[0])):
-				((curve->a[1] < 0)?
-					g_strdup_printf ("ln(y) = \xE2\x88\x92%gx + %g", -curve->a[1], curve->a[0]):
-					g_strdup_printf ("ln(y) = %gx + %g", curve->a[1], curve->a[0]));
+			curve->equation = (curve->a[0] < 1.)?
+				((curve->a[1] < 1.)?
+					g_strdup_printf ("ln(y) = \xE2\x88\x92%gx \xE2\x88\x92 %g", -log (curve->a[1]), -log (curve->a[0])):
+					g_strdup_printf ("ln(y) = %gx \xE2\x88\x92% g", log (curve->a[1]), -log (curve->a[0]))):
+				((curve->a[1] < 1.)?
+					g_strdup_printf ("ln(y) = \xE2\x88\x92%gx + %g", -log (curve->a[1]), log (curve->a[0])):
+					g_strdup_printf ("ln(y) = %gx + %g", log (curve->a[1]), log (curve->a[0])));
 		else
-			curve->equation = (curve->a[1] < 0)?
-				g_strdup_printf ("ln(y) = \xE2\x88\x92%gx", -curve->a[1]):
-				g_strdup_printf ("ln(y) = %gx", curve->a[1]);
+			curve->equation = (curve->a[1] < 1.)?
+				g_strdup_printf ("ln(y) = \xE2\x88\x92%gx", -log (curve->a[1])):
+				g_strdup_printf ("ln(y) = %gx", log (curve->a[1]));
 	}
 	return curve->equation;
 }
