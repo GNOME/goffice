@@ -50,13 +50,15 @@ go_line_dash_palette_render_func (cairo_t *cr,
 		return;
 
 	cairo_set_source_rgb (cr, 0, 0, 0);
+	cairo_set_line_width (cr, 1);
+	cairo_set_line_cap (cr, CAIRO_LINE_CAP_SQUARE);
 	dash = go_line_get_vpath_dash (index, 1);
 	if (dash != NULL) {
 		cairo_set_dash (cr, dash->dash, dash->n_dash, 0);
 		go_line_vpath_dash_free (dash);
 	}
-	cairo_move_to (cr, area->x + 3, y);
-	cairo_line_to (cr, area->x + area->width - 3, y);
+	cairo_move_to (cr, area->x + 3.5, y);
+	cairo_line_to (cr, area->x + area->width - 3.5, y);
 	cairo_stroke (cr);
 }
 
@@ -82,7 +84,7 @@ go_line_dash_selector_new (GOLineDashType initial_type,
 	GtkWidget *palette;
 	GtkWidget *selector;
 
-	palette = go_palette_new (GO_LINE_MAX, 3.0, 2, 
+	palette = go_palette_new (GO_LINE_MAX, 3.0, 3, 
 				  go_line_dash_palette_render_func, 
 				  go_line_dash_palette_get_tooltip_func,
 				  NULL, NULL);

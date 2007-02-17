@@ -174,7 +174,7 @@ set_dash (GogRendererGnomePrint *prend, ArtVpathDash *dash)
 }
 
 static void
-gog_renderer_gnome_print_draw_path (GogRenderer *renderer, ArtVpath const *path)
+gog_renderer_gnome_print_draw_path (GogRenderer *renderer, ArtVpath const *path, gboolean sharp)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
 	GogStyle const *style = renderer->cur_style;
@@ -213,7 +213,7 @@ print_image (GogRendererGnomePrint *prend, GdkPixbuf *image, int w, int h)
 #define PIXBUF_SIZE 1024
 static void
 gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
-				       gboolean narrow)
+				       gboolean sharp, gboolean narrow)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
 	GogStyle const *style = renderer->cur_style;
@@ -434,7 +434,7 @@ gog_renderer_gnome_print_draw_bezier_polygon (GogRenderer *rend, ArtBpath const 
 					      gboolean narrow)
 {
 	ArtVpath *vpath = art_bez_path_to_vec (path, .1);
-	gog_renderer_gnome_print_draw_polygon (rend, vpath, narrow);
+	gog_renderer_gnome_print_draw_polygon (rend, vpath, FALSE, narrow);
 	art_free (vpath);
 }
 
@@ -632,6 +632,7 @@ gog_graph_print_to_gnome_print (GogGraph *graph,
 	 * http://bugzilla.gnome.org/show_bug.cgi?id=149452
 	 */
 	gnome_print_setlinewidth (prend->gp_context, 0.1);
+	gnome_print_setlinecap (prend->gp_context, 1);
 	
 	gog_view_render	(prend->base.view, NULL);
 	g_object_unref (prend);

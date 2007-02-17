@@ -69,10 +69,8 @@ typedef struct {
  	void (*push_clip)	(GogRenderer *renderer, GogRendererClip *clip);
  	void (*pop_clip) 	(GogRenderer *renderer, GogRendererClip *clip);
  	
-	void (*sharp_path)	(GogRenderer *renderer, ArtVpath *path, double line_width);
-
-	void (*draw_path)      	(GogRenderer *renderer, ArtVpath const *path);
-	void (*draw_polygon)   	(GogRenderer *renderer, ArtVpath const *path, gboolean narrow);
+	void (*draw_path)      	(GogRenderer *renderer, ArtVpath const *path, gboolean sharp);
+	void (*draw_polygon)   	(GogRenderer *renderer, ArtVpath const *path, gboolean sharp, gboolean narrow);
 	
 	void (*draw_bezier_path)	(GogRenderer *renderer, ArtBpath const *path);
 	void (*draw_bezier_polygon)    	(GogRenderer *renderer, ArtBpath const *path, gboolean narrow);
@@ -85,7 +83,7 @@ typedef struct {
 	void (*get_text_OBR)	(GogRenderer *rend, char const *text, 
 				 gboolean use_markup, GOGeometryOBR *obr);
 
-	double (*line_size)	(GogRenderer const *rend, double width);
+	double (*line_size)	(GogRenderer const *rend, double width, gboolean sharp);
 
 	gboolean (*export_image)	(GogRenderer *renderer, GOImageFormat format, 
 					 GsfOutput *output, double x_dpi, double y_dpi);

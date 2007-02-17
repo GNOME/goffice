@@ -364,7 +364,7 @@ fill_properties (GogRenderer *renderer, xmlNodePtr node, gboolean narrow)
 }
 
 static void
-gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path)
+gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path, gboolean sharp)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
 	GogStyle const *style = renderer->cur_style;
@@ -392,6 +392,7 @@ gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path)
 	
 	buf = g_strdup_printf ("#%06x", style->line.color >> 8);
 	xmlNewProp (node, CC2XML ("stroke"), CC2XML (buf));
+	xmlNewProp (node, CC2XML ("stroke-linecap"), CC2XML ("round"));
 	g_free (buf);
 	
 	opacity = style->line.color & 0xff;
@@ -401,7 +402,7 @@ gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path)
 
 static void
 gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path, 
-			       gboolean narrow)
+			       gboolean sharp, gboolean narrow)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
 	GogStyle const *style = renderer->cur_style;
@@ -487,6 +488,7 @@ gog_renderer_svg_draw_bezier_path (GogRenderer *rend, ArtBpath const *path)
 	stroke_dasharray (node, rend->line_dash);
 	buf = g_strdup_printf ("#%06x", style->line.color >> 8);
 	xmlNewProp (node, CC2XML ("stroke"), CC2XML (buf));
+	xmlNewProp (node, CC2XML ("stroke-linecap"), CC2XML ("round"));
 	g_free (buf);
 	opacity = style->line.color & 0xff;
 	if (opacity != 255) 

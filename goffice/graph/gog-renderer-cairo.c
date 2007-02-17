@@ -156,21 +156,21 @@ grc_free_marker_data (GogRendererCairo *crend)
 	}
 }
 
+#define GRC_LINEAR_SCALE(w,scale) (go_sub_epsilon (w) <= 0.0 ? GOG_RENDERER_HAIR_LINE_WIDTH : w) * scale 
+
 static double
-grc_line_size (GogRenderer const *rend, double width)
+grc_line_size (GogRenderer const *rend, double width, gboolean sharp)
 {
 	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
 
 	if (crend->is_vector)
-		return go_sub_epsilon (width) <= 0. ?
-			GOG_RENDERER_HAIR_LINE_WIDTH :
-			width * rend->scale;
+		return GRC_LINEAR_SCALE (width, rend->scale);
 
 	if (go_sub_epsilon (width) <= 0.) /* cheesy version of hairline */
 		return 1.;
 	
 	width *= rend->scale;
-	if (width <= 1.)
+	if (!sharp || width <= 1.)
 		return width;
 
 	return floor (width);
@@ -179,9 +179,10 @@ grc_line_size (GogRenderer const *rend, double width)
 /* This is a workaround for a cairo bug, due to its internal
  * handling of coordinates (16.16 fixed point). */
 #define GO_CAIRO_CLAMP(x) CLAMP((x),-15000,15000)
+#define GO_CAIRO_CLAMP_SNAP(x,odd) GO_CAIRO_CLAMP(odd ? floor (x + .5):floor (x) + .5)
 
 static void
-grc_path (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath)
+grc_path_raw (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath)
 {
 	if (vpath) 
 		while (vpath->code != ART_END) {
@@ -228,12 +229,45 @@ grc_path (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath)
 }
 
 static void
-grc_draw_path (GogRenderer *rend, ArtVpath const *vpath, ArtBpath const*bpath)
+grc_path_sharp (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath, double line_width)
+{
+	gboolean odd = ((int) (rint (line_width)) % 2 == 0) && line_width > 1.0;
+
+	if (vpath) 
+		while (vpath->code != ART_END) {
+			switch (vpath->code) {
+				case ART_MOVETO_OPEN:
+				case ART_MOVETO:
+					cairo_move_to (cr, GO_CAIRO_CLAMP_SNAP (vpath->x, odd), 
+						           GO_CAIRO_CLAMP_SNAP (vpath->y, odd));
+					break;
+				case ART_LINETO:
+					cairo_line_to (cr, GO_CAIRO_CLAMP_SNAP (vpath->x, odd), 
+						           GO_CAIRO_CLAMP_SNAP (vpath->y, odd));
+					break;
+				default:
+					break;
+			}
+			vpath++;
+		}
+}
+
+static void
+grc_path (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath, double line_width, gboolean sharp)
+{
+	if (sharp)
+		grc_path_sharp (cr, vpath, bpath, line_width);
+	else
+		grc_path_raw (cr, vpath, bpath);
+}
+
+static void
+grc_draw_path (GogRenderer *rend, ArtVpath const *vpath, ArtBpath const*bpath, gboolean sharp)
 {
 	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
 	GogStyle const *style = rend->cur_style;
 	cairo_t *cr = crend->cairo;
-	double width = grc_line_size (rend, style->line.width);
+	double width = grc_line_size (rend, style->line.width, sharp);
 
 	g_return_if_fail (bpath != NULL || vpath != NULL);
 
@@ -248,8 +282,11 @@ grc_draw_path (GogRenderer *rend, ArtVpath const *vpath, ArtBpath const*bpath)
 				rend->line_dash->offset);
 	else
 		cairo_set_dash (cr, NULL, 0, 0);
-	grc_path (cr, (ArtVpath *) vpath, (ArtBpath *) bpath);
+	grc_path (cr, (ArtVpath *) vpath, (ArtBpath *) bpath, width, 
+		  sharp && !crend->is_vector);
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
+	cairo_set_line_cap (cr, (width < 3 && !crend->is_vector) ? 
+			    CAIRO_LINE_CAP_SQUARE : CAIRO_LINE_CAP_ROUND);
 	cairo_stroke (cr);
 }
 
@@ -285,7 +322,7 @@ gog_renderer_cairo_push_clip (GogRenderer *rend, GogRendererClip *clip)
 				 floor (path[1].x + 0.5) - x,
 				 floor (path[2].y + 0.5) - y);
 	} else {
-		grc_path (crend->cairo, path, NULL);
+		grc_path (crend->cairo, path, NULL, 0.0, FALSE);
 	}
 	cairo_clip (crend->cairo);
 }
@@ -299,10 +336,10 @@ gog_renderer_cairo_pop_clip (GogRenderer *rend, GogRendererClip *clip)
 }
 
 static double
-gog_renderer_cairo_line_size (GogRenderer const *rend, double width)
+gog_renderer_cairo_line_size (GogRenderer const *rend, double width, gboolean sharp)
 {
 	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
-	double size = grc_line_size (rend, width);
+	double size = grc_line_size (rend, width, sharp);
 
 	if (!crend->is_vector && size < 1.0)
 		return ceil (size);
@@ -311,43 +348,20 @@ gog_renderer_cairo_line_size (GogRenderer const *rend, double width)
 }
 
 static void
-gog_renderer_cairo_sharp_path (GogRenderer *rend, ArtVpath *path, double line_width) 
+gog_renderer_cairo_draw_path (GogRenderer *rend, ArtVpath const *path, gboolean sharp)
 {
-	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
-	ArtVpath *iter = path;
-
-	if (crend->is_vector)
-		return;
-
-	if (((int) (rint (line_width)) % 2 == 0) && line_width > 1.0) 
-		while (iter->code != ART_END) {
-			iter->x = floor (iter->x + .5);
-			iter->y = floor (iter->y + .5);
-			iter++;
-		}
-	else
-		while (iter->code != ART_END) {
-			iter->x = floor (iter->x) + .5;
-			iter->y = floor (iter->y) + .5;
-			iter++;
-		}
-}
-
-static void
-gog_renderer_cairo_draw_path (GogRenderer *rend, ArtVpath const *path)
-{
-	grc_draw_path (rend, path, NULL);
+	grc_draw_path (rend, path, NULL, sharp);
 }
   
 static void
 gog_renderer_cairo_draw_bezier_path (GogRenderer *rend, ArtBpath const *path)
 {
-	grc_draw_path (rend, NULL, path);
+	grc_draw_path (rend, NULL, path, FALSE);
 }
 
 static void
-grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath, 
-		  ArtBpath const *bpath, gboolean narrow)
+grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath, ArtBpath const *bpath, 
+		  gboolean sharp, gboolean narrow)
 {
 	struct { unsigned x0i, y0i, x1i, y1i; } const grad_i[GO_GRADIENT_MAX] = {
 		{0, 0, 0, 1},
@@ -377,7 +391,7 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 	GdkPixbuf *pixbuf = NULL;
 	GOImage *image = NULL;
 	GOColor color;
-	double width = grc_line_size (rend, style->outline.width);
+	double width = grc_line_size (rend, style->outline.width, sharp);
 	double x[3], y[3];
 	int i, j, w, h;
 	guint8 const *pattern;
@@ -391,7 +405,8 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 		return;
 
 	cairo_set_line_width (cr, width);
-	grc_path (cr, (ArtVpath *) vpath, (ArtBpath *) bpath);
+	grc_path (cr, (ArtVpath *) vpath, (ArtBpath *) bpath, width, 
+		  sharp && !crend->is_vector);
 
 	switch (style->fill.type) {
 		case GOG_FILL_STYLE_PATTERN:
@@ -491,6 +506,8 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 					rend->outline_dash->offset);
 		else
 			cairo_set_dash (cr, NULL, 0, 0);
+		cairo_set_line_cap (cr, (width < 3 && !crend->is_vector) ? 
+				    CAIRO_LINE_CAP_SQUARE : CAIRO_LINE_CAP_ROUND);
 		cairo_stroke (cr);
 	}
 
@@ -505,17 +522,17 @@ grc_draw_polygon (GogRenderer *rend, ArtVpath const *vpath,
 }
 
 static void
-gog_renderer_cairo_draw_polygon (GogRenderer *rend, ArtVpath const *path, 
+gog_renderer_cairo_draw_polygon (GogRenderer *rend, ArtVpath const *path, gboolean sharp, 
 				 gboolean narrow)
 {
-	grc_draw_polygon (rend, path, NULL, narrow);
+	grc_draw_polygon (rend, path, NULL, sharp, narrow);
 }
 
 static void
 gog_renderer_cairo_draw_bezier_polygon (GogRenderer *rend, ArtBpath const *path,
 					 gboolean narrow)
 {
-	grc_draw_polygon (rend, NULL, path, narrow);
+	grc_draw_polygon (rend, NULL, path, FALSE, narrow);
 }
 
 static void
@@ -632,14 +649,14 @@ grc_draw_marker (cairo_t *cairo, GOMarker *marker, double x, double y, double sc
 
 	path = art_vpath_affine_transform (fill_path_raw, affine);
 	cairo_set_source_rgba (cairo, GO_COLOR_TO_CAIRO (go_marker_get_fill_color (marker)));
-	grc_path (cairo, path, NULL);
+	grc_path (cairo, path, NULL, 0.0, FALSE);
 	cairo_fill (cairo);
 	art_free (path);
 
 	path = art_vpath_affine_transform (outline_path_raw, affine);
 	cairo_set_source_rgba (cairo, GO_COLOR_TO_CAIRO (go_marker_get_outline_color (marker)));
 	cairo_set_line_width (cairo, scale * go_marker_get_outline_width (marker));
-	grc_path (cairo, path, NULL);
+	grc_path (cairo, path, NULL, 0.0, FALSE);
 	cairo_stroke (cairo);
 	art_free (path);
 }
@@ -892,7 +909,6 @@ gog_renderer_cairo_class_init (GogRendererClass *rend_klass)
 	rend_klass->pop_style		= gog_renderer_cairo_pop_style;
 	rend_klass->push_clip  		= gog_renderer_cairo_push_clip;
 	rend_klass->pop_clip     	= gog_renderer_cairo_pop_clip;
-	rend_klass->sharp_path		= gog_renderer_cairo_sharp_path;
 	rend_klass->draw_path	  	= gog_renderer_cairo_draw_path;
 	rend_klass->draw_polygon  	= gog_renderer_cairo_draw_polygon;
 	rend_klass->draw_bezier_path 	= gog_renderer_cairo_draw_bezier_path;

@@ -30,13 +30,19 @@
 
 typedef struct {
 	int 		 n_dash;
-	double 		 dash[6];
+	double 		 dash[8];
 } GOLineDashDesc;
 
-static const GOLineDashDesc line_dash_desc =		{2,	{ 18, 6 } };
-static const GOLineDashDesc line_dot_desc = 		{2,	{ 3, 3 } };
-static const GOLineDashDesc line_dash_dot_desc =	{4, 	{ 9, 3, 6, 3 } };
-static const GOLineDashDesc line_dash_dot_dot_desc =    {6, 	{ 9, 3, 3, 3, 3, 3 } };	
+static const GOLineDashDesc line_short_dot_desc = 		{2,	{ 0, 2 } };
+static const GOLineDashDesc line_dot_desc = 			{2,	{ 3, 3 } };
+static const GOLineDashDesc line_short_dash_desc =		{2,	{ 6, 3 } };
+static const GOLineDashDesc line_short_dash_dot_desc =		{4, 	{ 6, 3, 0, 3 } };
+static const GOLineDashDesc line_short_dash_dot_dot_desc =    	{6, 	{ 6, 3, 0, 3, 0, 3 } };
+static const GOLineDashDesc line_dash_dot_dot_dot_desc =    	{8, 	{ 9, 3, 0, 3, 0, 3, 0, 3 } };
+static const GOLineDashDesc line_dash_dot_desc =		{4, 	{ 9, 6, 3, 6 } };
+static const GOLineDashDesc line_dash_dot_dot_desc =    	{6, 	{ 9, 3, 3, 3, 3, 3 } };	
+static const GOLineDashDesc line_dash_desc =			{2,	{ 12, 4 } };
+static const GOLineDashDesc line_long_dash_desc =		{2,	{ 18, 4 } };
 
 static struct {
 	GOLineDashType type;
@@ -45,12 +51,30 @@ static struct {
 	const GOLineDashDesc *dash_desc;
 } line_dashes[GO_LINE_MAX] = 
 {
-	{ GO_LINE_NONE,		N_("None"), 		"none",		NULL },
-	{ GO_LINE_SOLID,	N_("Solid"),		"solid",	NULL },
-	{ GO_LINE_DASH,		N_("Dash"), 		"dash",		&line_dash_desc },
-	{ GO_LINE_DOT,		N_("Dot"),		"dot",		&line_dot_desc},
-	{ GO_LINE_DASH_DOT,	N_("Dash dot"),		"dash-dot",	&line_dash_dot_desc },
-	{ GO_LINE_DASH_DOT_DOT,	N_("Dash dot dot"),	"dash-dot-dot",	&line_dash_dot_dot_desc }
+	{ GO_LINE_NONE,			N_("None"), 			
+		"none",			NULL },
+	{ GO_LINE_SOLID,		N_("Solid"),			
+		"solid",		NULL },
+	{ GO_LINE_S_DOT,		N_("Dot"),		
+		"s-dot",		&line_short_dot_desc},
+	{ GO_LINE_S_DASH_DOT,		N_("Dash dot"),		
+		"s-dash-dot",		&line_short_dash_dot_desc },
+	{ GO_LINE_S_DASH_DOT_DOT,	N_("Dash dot dot"),	
+		"s-dash-dot-dot",	&line_short_dash_dot_dot_desc },
+	{ GO_LINE_DASH_DOT_DOT_DOT,	N_("Dash dot dot dot"),	
+		"dash-dot-dot-dot",	&line_dash_dot_dot_dot_desc },
+	{ GO_LINE_DOT,			N_("Short dash"),			
+		"dot",			&line_dot_desc},
+	{ GO_LINE_S_DASH,		N_("Dash"), 		
+		"s-dash",		&line_short_dash_desc },
+	{ GO_LINE_DASH,			N_("Long dash"), 			
+		"dash",			&line_dash_desc },
+	{ GO_LINE_LONG_DASH,		N_("Very long dash"), 			
+		"l-dash",		&line_long_dash_desc },
+	{ GO_LINE_DASH_DOT,		N_("Long dash dash"),			
+		"dash-dot",		&line_dash_dot_desc },
+	{ GO_LINE_DASH_DOT_DOT,		N_("Long dash dash dash"),		
+		"dash-dot-dot",		&line_dash_dot_dot_desc }
 };
 
 static struct {
@@ -59,12 +83,12 @@ static struct {
 	char const *name;
 } line_interpolations[GO_LINE_INTERPOLATION_MAX] = 
 {
-	{ GO_LINE_INTERPOLATION_LINEAR,			N_("Linear"), 				"linear" },
-	{ GO_LINE_INTERPOLATION_SPLINE,			N_("Spline"),				"spline" },
-	{ GO_LINE_INTERPOLATION_STEP_START,		N_("Step at start"), 		"step-start" },
-	{ GO_LINE_INTERPOLATION_STEP_END,			N_("Step at end"),			"step-end" },
-	{ GO_LINE_INTERPOLATION_STEP_CENTER_X,	N_("Step at center"),		"step-center-x" },
-	{ GO_LINE_INTERPOLATION_STEP_CENTER_Y,	N_("Step to mean"),			"step-center-y" }
+	{ GO_LINE_INTERPOLATION_LINEAR,		N_("Linear"), 		"linear" },
+	{ GO_LINE_INTERPOLATION_SPLINE,		N_("Spline"),		"spline" },
+	{ GO_LINE_INTERPOLATION_STEP_START,	N_("Step at start"), 	"step-start" },
+	{ GO_LINE_INTERPOLATION_STEP_END,	N_("Step at end"),	"step-end" },
+	{ GO_LINE_INTERPOLATION_STEP_CENTER_X,	N_("Step at center"),	"step-center-x" },
+	{ GO_LINE_INTERPOLATION_STEP_CENTER_Y,	N_("Step to mean"),	"step-center-y" }
 };
 	
 GOLineDashType
@@ -163,7 +187,7 @@ go_line_get_vpath_dash (GOLineDashType type, double scale)
 	dash_desc = line_dashes[type].dash_desc;
 	if (dash_desc != NULL) {
 		dash = g_new (ArtVpathDash, 1);
-		dash->offset = 0.5;
+		dash->offset = 0.0;
 		dash->n_dash = dash_desc->n_dash;
 		dash->dash = g_new (double, dash->n_dash);
 		for (i = 0; i < dash->n_dash; i++) 

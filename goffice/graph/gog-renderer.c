@@ -162,6 +162,19 @@ gog_renderer_invalidate_size_requests (GogRenderer *rend)
 		gog_renderer_request_update (rend);
 }
 
+static double
+line_size (GogRenderer const *rend, double width, gboolean sharp)
+{
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
+
+	if (klass->line_size)
+		return (klass->line_size) (rend, width, sharp);
+	
+	if (go_sub_epsilon (width) <= 0.)
+		width = GOG_RENDERER_HAIR_LINE_WIDTH;
+	return width * rend->scale;
+}
+
 static void
 update_dash (GogRenderer *rend)
 {
@@ -175,9 +188,9 @@ update_dash (GogRenderer *rend)
 	if (rend->cur_style == NULL)
 		return;
 
-	size = gog_renderer_line_size (rend, rend->cur_style->line.width);
+	size = line_size (rend, rend->cur_style->line.width, FALSE);
 	rend->line_dash = go_line_get_vpath_dash (rend->cur_style->line.dash_type, size);
-	size = gog_renderer_line_size (rend, rend->cur_style->outline.width);
+	size = line_size (rend, rend->cur_style->outline.width, FALSE);
 	rend->outline_dash = go_line_get_vpath_dash (rend->cur_style->outline.dash_type, size);
 }
 
@@ -474,12 +487,7 @@ gog_renderer_draw_sharp_path (GogRenderer *rend, ArtVpath *path)
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (rend->cur_style != NULL);
 
-	if (klass->sharp_path) {
-		(klass->sharp_path) (rend, path, 
-			gog_renderer_line_size (rend, rend->cur_style->line.width));
-	}
-
-	(klass->draw_path) (rend, path);
+	(klass->draw_path) (rend, path, TRUE);
 }
 
 /**
@@ -497,7 +505,7 @@ gog_renderer_draw_path (GogRenderer *rend, ArtVpath const *path)
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (rend->cur_style != NULL);
 
-	(klass->draw_path) (rend, path);
+	(klass->draw_path) (rend, path, FALSE);
 }
 
 /**
@@ -518,12 +526,7 @@ gog_renderer_draw_sharp_polygon (GogRenderer *rend, ArtVpath *path, gboolean nar
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (rend->cur_style != NULL);
 
-	if (klass->sharp_path) {
-		(klass->sharp_path) (rend, path,
-			gog_renderer_line_size (rend, rend->cur_style->outline.width));
-	}
-
-	(klass->draw_polygon) (rend, path, narrow);
+	(klass->draw_polygon) (rend, path, TRUE, narrow);
 }
 
 /**
@@ -543,7 +546,7 @@ gog_renderer_draw_polygon (GogRenderer *rend, ArtVpath const *path, gboolean nar
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (rend->cur_style != NULL);
 
-	(klass->draw_polygon) (rend, path, narrow);
+	(klass->draw_polygon) (rend, path, FALSE, narrow);
 }
 
 
@@ -688,7 +691,6 @@ gog_renderer_class_init (GogRendererClass *renderer_klass)
 	gobject_klass->set_property = gog_renderer_set_property;
 	gobject_klass->get_property = gog_renderer_get_property;
 
-	renderer_klass->sharp_path = NULL;
 	renderer_klass->line_size = NULL;
 	renderer_klass->export_image = NULL;
 
@@ -790,14 +792,7 @@ gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
 double
 gog_renderer_line_size (GogRenderer const *rend, double width)
 {
-	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
-
-	if (klass->line_size)
-		return (klass->line_size) (rend, width);
-	
-	if (go_sub_epsilon (width) <= 0.)
-		width = GOG_RENDERER_HAIR_LINE_WIDTH;
-	return width * rend->scale;
+	return line_size (rend, width, TRUE);
 }
 
 double

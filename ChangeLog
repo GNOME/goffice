@@ -1,3 +1,38 @@
+2006-02-17  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Dashed line improvements. More line styles.
+	http://bugzilla.gnome.org/show_bug.cgi?id=403403
+
+	* goffice/gtk/go-line-selector.c (go_line_dash_palette_render_func):
+	sharper rendering.
+	(go_line_dash_selector_new): 3 columns layout.
+	* goffice/utils/go-lines.c: some more line styles.
+	(go_line_dash_vpath): sharper dashed line rendering.
+	* goffice/graph/gog-renderer-cairo.c (grc_line_size): round only for
+	sharp rendering.
+	(grc_path_raw): new.
+	(grc_path_sharp): new. Sharpening happens here now.
+	(grc_draw_path): takes a sharp parameter. Use square line cap for
+	small width.
+	(grc_draw_polygon): ditto.
+	(gog_renderer_cairo_line_size): takes a sharp parameter.
+	(gog_renderer_cairo_draw_path): ditto.
+	(gog_renderer_cairo_draw_polygon): ditto.
+	(draw_path): ditto.
+	(gog_renderer_cairo_sharp_path): removed.
+	* goffice/graph/gog-renderer-gnomep-print.c: add sharp parameter.
+	(gog_graph_print_to_gnome_print): set line cap to round.
+	* goffice/graph/gog-legend.c (gog_legend_view_size_request): makes the
+	line sample longer.
+	(cb_render_elements): ditto.
+	* goffice/graph/gog-renderer.c: add a sharp parameter to draw_path,
+	draw_polygon and line_size virtuals. 
+	(line_size): new.
+	* goffice/graph/gog-renderer.h: double the width of the hairline for
+	vector formats. 
+	* goffice/graph/gog-renderer-svg.c: stroke with round line cap. Add
+	sharp parameter. 
+	
 2007-02-16  Morten Welinder <terra@gnome.org>
 
 	* Release 0.3.6

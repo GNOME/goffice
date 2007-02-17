@@ -317,7 +317,7 @@ gog_legend_view_size_request (GogView *v,
 
 	gog_renderer_pop_style (v->renderer);
 
-	glv->label_offset = (glv->uses_lines ? 3.5 : 1.5) * glv->swatch_w;
+	glv->label_offset = (glv->uses_lines ? 4.5 : 1.5) * glv->swatch_w;
 	glv->element_width += glv->label_offset + glv->swatch_w;
 
 	available_space = glv->is_vertical ? residual.h : residual.w;
@@ -400,11 +400,11 @@ cb_render_elements (unsigned index, GogStyle const *base_style, char const *name
 
 		gog_renderer_push_style (renderer, style);
 		data->line_path[0].x = data->x;
-		data->line_path[1].x = data->x + data->swatch.w * 3.;
+		data->line_path[1].x = data->x + data->swatch.w * 4;
 		data->line_path[0].y = 
 			data->line_path[1].y = data->y + glv->element_height / 2.;
 		gog_renderer_draw_sharp_path (renderer, data->line_path);
-		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * 1.5, 
+		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * 2.25, 
 					  data->line_path[0].y);
 	} else {					/* area swatch */
 		style = gog_style_dup (base_style);
