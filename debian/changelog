@@ -1,3 +1,11 @@
+goffice (0.3.6-1) experimental; urgency=low
+
+  * New upstream development release.
+  * [debian/rules] Build architecture-independent package in binary-indep
+    target. (Closes: #403730)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 17 Feb 2007 11:48:54 +0100
+
 goffice (0.3.5-1) experimental; urgency=low
 
   * New upstream development release.

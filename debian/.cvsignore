@@ -1,9 +1,0 @@
-files
-libgoffice-1
-libgoffice-1-common
-libgoffice-1-dbg
-libgoffice-1-dev
-tmp
-*.pre*.debhelper
-*.post*.debhelper
-*.substvars

@@ -150,47 +150,82 @@ install: build
 
 # Build architecture-independent files here.
 binary-indep: build install
-# We have nothing to do by default.
+	dh_testdir -i
+	dh_testroot -i
+	dh_installchangelogs ChangeLog -i
+
+	dh_install -i --sourcedir=debian/tmp -X/usr/lib/debug
+
+	dh_installdocs -i
+	dh_installexamples -i
+#	dh_install -i
+#	dh_installmenu -i
+#	dh_installdebconf -i
+#	dh_installlogrotate -i
+#	dh_installemacsen -i
+#	dh_installpam -i
+	dh_installmime -i
+#	dh_installinit -i
+#	dh_installcron -i
+	dh_installinfo -i
+	dh_installman -i
+	dh_gconf -i
+	dh_scrollkeeper -i
+	dh_desktop -i
+	dh_link -i
+	dh_buildinfo -i
+	dh_compress -i
+	dh_fixperms -i
+#	dh_perl -i
+#	dh_python -i
+#	dh_makeshlibs -
+	dh_installdeb -i
+	dh_gencontrol -i -v -- -VUpstream-Version=$(upstreamversion)
+	dh_md5sums -i
+	dh_builddeb -i
 
 # Build architecture-dependent files here.
 binary-arch: build install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs ChangeLog
-	dh_installdocs
+	dh_testdir -s
+	dh_testroot -s
+#	dh_installdebconf -s
+	dh_installdocs -s
+	dh_installexamples -s
+#	dh_installmenu -s
+#	dh_installlogrotate -s
+#	dh_installemacsen -s
+#	dh_installpam -s
+	dh_installmime -s
+#	dh_installinit -s
+#	dh_installcron -s
+	dh_installman -s
+	dh_installinfo -s
+	dh_installchangelogs ChangeLog -s
 
 	rm -rvf $(CURDIR)/debian/libgoffice-0-$(so_version_major)-dbg/usr/share/doc/libgoffice-0-$(so_version_major)-dbg
 
-	dh_installexamples
-	dh_install --sourcedir=debian/tmp --fail-missing -X/usr/lib/debug
-	dh_install -plibgoffice-0-$(so_version_major)-dbg --sourcedir=debian/tmp
-#	dh_installmenu
-#	dh_installdebconf	
-#	dh_installlogrotate
-#	dh_installemacsen
-#	dh_installpam
-	dh_installmime
-#	dh_installinit
-#	dh_installcron
-	dh_installinfo
-	dh_installman
-	dh_gconf
-	dh_scrollkeeper
-	dh_desktop
-	dh_link
-	dh_strip -v -Nlibgoffice-0-$(so_major_version)-dbg
-	dh_buildinfo
-	dh_compress
-	dh_fixperms
-#	dh_perl
-#	dh_python
-	#dh_makeshlibs -plibgoffice-0 -V 'libgoffice-0 (>= $(upstreamversion)), libgoffice-1 (<< $(nextupstreamversion))'
-	dh_makeshlibs -plibgoffice-0-$(so_version_major) -V 'libgoffice-0-$(so_version_major) (>= $(upstreamversion))'
-	dh_installdeb
-	dh_shlibdeps -l debian/libgoffice-0-$(so_version_major)/usr/lib/ -L libgoffice-0-$(so_version_major)
-	dh_gencontrol -v -- -VUpstream-Version=$(upstreamversion)
-	dh_md5sums
-	dh_builddeb
+	dh_install -s --sourcedir=debian/tmp -X/usr/lib/debug
+	dh_install -s -plibgoffice-0-$(so_version_major)-dbg --sourcedir=debian/tmp
+	dh_gconf -s
+	dh_scrollkeeper -s
+	dh_desktop -s
+
+	dh_link -s
+	dh_strip -s -v -Nlibgoffice-0-$(so_major_version)-dbg
+
+	dh_buildinfo -s
+
+	dh_compress -s
+	dh_fixperms -s
+	#dh_makeshlibs -s -plibgoffice-0 -V 'libgoffice-0 (>= $(upstreamversion)), libgoffice-1 (<< $(nextupstreamversion))'
+	dh_makeshlibs -s -plibgoffice-0-$(so_version_major) -V 'libgoffice-0-$(so_version_major) (>= $(upstreamversion))'
+	dh_installdeb -s
+#	dh_perl -s
+#	dh_python -s
+	dh_shlibdeps -s -l debian/libgoffice-0-$(so_version_major)/usr/lib/ -L libgoffice-0-$(so_version_major)
+	dh_gencontrol -s -v -- -VUpstream-Version=$(upstreamversion)
+	dh_md5sums -s
+	dh_builddeb -s
 
 binary: binary-indep binary-arch
 .PHONY: build clean binary-indep binary-arch binary install 
