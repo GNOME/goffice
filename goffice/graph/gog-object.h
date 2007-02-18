@@ -132,6 +132,7 @@ typedef struct {
 
 #define GOG_PARAM_PERSISTENT	(1 << (G_PARAM_USER_SHIFT+0))
 #define GOG_PARAM_FORCE_SAVE	(1 << (G_PARAM_USER_SHIFT+1))	/* even if the value == default */
+#define GOG_PARAM_POSITION	(1 << (G_PARAM_USER_SHIFT+2))	/* position parameters */
 
 GType gog_object_get_type (void);
 
@@ -162,10 +163,12 @@ void		  gog_object_can_reorder (GogObject const *obj,
 GogObject	 *gog_object_reorder	 (GogObject const *obj,
 					  gboolean inc, gboolean goto_max);
 
-GogObjectPosition gog_object_get_position_flags	   (GogObject const *obj, GogObjectPosition mask);
-gboolean          gog_object_set_position_flags    (GogObject *obj, GogObjectPosition flags, GogObjectPosition mask);
-void	          gog_object_get_manual_position   (GogObject *obj, GogViewAllocation *pos);
-void 		  gog_object_set_manual_position   (GogObject *obj, GogViewAllocation const *pos);
+GogObjectPosition gog_object_get_position_flags	       (GogObject const *obj, GogObjectPosition mask);
+gboolean          gog_object_set_position_flags        (GogObject *obj, GogObjectPosition flags, 
+							GogObjectPosition mask);
+gboolean 	  gog_object_is_default_position_flags (GogObject const *obj, char const *name);
+void	          gog_object_get_manual_position       (GogObject *obj, GogViewAllocation *pos);
+void 		  gog_object_set_manual_position       (GogObject *obj, GogViewAllocation const *pos);
 
 GogViewAllocation gog_object_get_manual_allocation (GogObject *gobj, 
 						    GogViewAllocation const *parent_allocation, 

@@ -1,3 +1,15 @@
+2006-02-18  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix incorrect saving of position (which happens when role default
+	position is not the same as the g_param_spec one).
+	http://bugzilla.gnome.org/show_bug.cgi?id=345836
+
+	* goffice/graph/gog-object-xml.c (gog_object_write_property_sax): use
+	gog_object_is_default_position_flags.
+	* goffice/graph/gog-object.c (gog_object_class_init): sets the
+	GOG_PARAM_POSITION flag for "compass", "alignment" and "anchor".
+	(gog_object_is_default_position_flags): new.
+						
 2006-02-17  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Dashed line improvements. More line styles.

@@ -144,8 +144,11 @@ gog_object_write_property_sax (GogObject const *obj, GParamSpec *pspec, GsfXMLOu
 	g_object_get_property  (G_OBJECT (obj), pspec->name, &value);
 
 	/* No need to save default values */
-	if (!(pspec->flags & GOG_PARAM_FORCE_SAVE) &&
-	    g_param_value_defaults (pspec, &value)) {
+	if (((pspec->flags & GOG_PARAM_POSITION) &&
+	     gog_object_is_default_position_flags (obj, pspec->name)) ||
+	    (!(pspec->flags & GOG_PARAM_FORCE_SAVE) &&
+	     !(pspec->flags & GOG_PARAM_POSITION) && 
+	     g_param_value_defaults (pspec, &value))) {
 		g_value_unset (&value);
 		return;
 	}

@@ -665,11 +665,11 @@ gog_object_class_init (GObjectClass *klass)
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_COMPASS,
 		g_param_spec_string ("compass", "Compass",
 				     "Compass auto position flags",
-				     "top", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+				     "top", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT|GOG_PARAM_POSITION));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_ALIGNMENT,
 		g_param_spec_string ("alignment", "Alignment",
 				     "Alignment flag",
-				     "fill", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+				     "fill", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT|GOG_PARAM_POSITION));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_IS_MANUAL,
 		g_param_spec_boolean ("is-position-manual", "Is position manual", 
 				      "Is position manual",
@@ -677,7 +677,7 @@ gog_object_class_init (GObjectClass *klass)
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_ANCHOR,
 		g_param_spec_string ("anchor", "Anchor",
 				     "Anchor for manual position",
-				     "top-left", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+				     "top-left", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT|GOG_PARAM_POSITION));
 
 	gog_object_signals [CHILD_ADDED] = g_signal_new ("child-added",
 		G_TYPE_FROM_CLASS (klass),
@@ -1711,6 +1711,36 @@ gog_object_get_manual_allocation (GogObject *gobj,
 	}
 
 	return pos;
+}
+
+/*
+ * gog_object_is_default_position_flags:
+ * @obj: a #GogObject
+ * @name: name of the position property
+ *
+ * returns: true if the current position flags corresponding to the property @name
+ * are the defaults stored in @obj role.
+ **/
+gboolean
+gog_object_is_default_position_flags (GogObject const *obj, char const *name)
+{
+	int mask;
+
+	g_return_val_if_fail (name != NULL, FALSE);
+
+	if (obj->role == NULL)
+		return FALSE;
+
+	if (strcmp (name, "compass") == 0)
+		mask = GOG_POSITION_COMPASS;
+	else if (strcmp (name, "alignment") == 0)
+		mask = GOG_POSITION_ALIGNMENT;
+	else if (strcmp (name, "anchor") == 0)
+		mask = GOG_POSITION_ANCHOR;
+	else 
+		return FALSE;
+
+	return (obj->position & mask) == (obj->role->default_position & mask);
 }
 
 GogObjectRole const *
