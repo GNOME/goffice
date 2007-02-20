@@ -597,7 +597,6 @@ gog_xy_color_plot_update (GogObject *obj)
 		if (model->z.fmt == NULL)
 			model->z.fmt = go_data_preferred_fmt (series->base.values[2].data);
 	}
-
 	if (model->z.minima != z_min || model->z.maxima != z_max) {
 		model->z.minima = z_min;
 		model->z.maxima = z_max;
@@ -610,7 +609,7 @@ static GOData *
 gog_xy_color_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 			     GogPlotBoundInfo *bounds)
 {
-	if (axis == GOG_AXIS_PSEUDO_3D) {
+	if (axis == GOG_AXIS_COLOR) {
 		GogXYColorPlot *model = GOG_XY_COLOR_PLOT (plot);
 
 		bounds->val.minima = model->z.minima;
