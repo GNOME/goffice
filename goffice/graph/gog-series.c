@@ -201,10 +201,11 @@ gog_series_element_class_init (GogSeriesElementClass *klass)
 	gog_klass->use_parent_as_proxy  = TRUE;
 
 	g_object_class_install_property (gobject_klass, ELEMENT_INDEX,
-		g_param_spec_int ("index", "index",
-			"Index of the corresponding data element",
+		g_param_spec_int ("index", 
+			_("Index"),
+			_("Index of the corresponding data element"),
 			0, G_MAXINT, 0,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
 }
 
 GSF_CLASS (GogSeriesElement, gog_series_element,
@@ -514,10 +515,11 @@ gog_series_class_init (GogSeriesClass *klass)
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 	g_object_class_install_property (gobject_klass, SERIES_HAS_LEGEND,
-		g_param_spec_boolean ("has-legend", "has-legend",
-			"Should the series show up in legends",
+		g_param_spec_boolean ("has-legend", 
+			_("Has-legend"),
+			_("Should the series show up in legends"),
 			TRUE,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
 static void

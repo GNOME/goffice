@@ -46,7 +46,7 @@ GOFFICE_PLUGIN_MODULE_HEADER;
 enum {
 	GOG_1_5D_PROP_0,
 	GOG_1_5D_PROP_TYPE,
-	GOG_1_5D_PROP_IN_3D	/* place holder for XL */
+	GOG_1_5D_PROP_IN_3D	/* placeholder for XL */
 };
 
 static GogObjectClass *plot1_5d_parent_klass;
@@ -317,13 +317,17 @@ gog_plot1_5d_class_init (GogPlotClass *plot_klass)
 	gobject_klass->finalize = gog_plot1_5d_finalize;
 
 	g_object_class_install_property (gobject_klass, GOG_1_5D_PROP_TYPE,
-		g_param_spec_string ("type", "type",
-			"How to group multiple series, normal, stacked, as_percentage",
-			"normal", G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_string ("type", 
+			_("Type"),
+			_("How to group multiple series, normal, stacked, as_percentage"),
+			"normal", 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_1_5D_PROP_IN_3D,
-		g_param_spec_boolean ("in-3d", "in-3d",
-			"Place holder to all us to round trip pseudo 3d state",
-			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("in-3d", 
+			_("In 3d"),
+			_("Placeholder to allow us to round trip pseudo 3d state"),
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_klass->update	= gog_plot1_5d_update;
 
@@ -622,9 +626,11 @@ gog_series1_5d_class_init (GogObjectClass *obj_klass)
 	gog_object_register_roles (obj_klass, roles, G_N_ELEMENTS (roles));
 
 	g_object_class_install_property (gobject_klass, SERIES_PROP_ERRORS,
-		g_param_spec_object ("errors", "errors",
-			"GogErrorBar *",
-			GOG_ERROR_BAR_TYPE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_object ("errors", 
+			_("Error bars"),
+			_("GogErrorBar *"),
+			GOG_ERROR_BAR_TYPE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
 static void

@@ -1,5 +1,10 @@
 2006-02-21  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Fix calls to g_object_class_install_property.
+	http://bugzilla.gnome.org/show_bug.cgi?id=172866
+
+2006-02-21  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Restrict legend sample line width to sane values, like what we do for
 	markers.
 	http://bugzilla.gnome.org/show_bug.cgi?id=404819

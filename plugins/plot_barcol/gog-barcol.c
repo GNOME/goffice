@@ -199,18 +199,23 @@ gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	gobject_klass->get_property = gog_barcol_plot_get_property;
 
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_GAP_PERCENTAGE,
-		g_param_spec_int ("gap-percentage", "gap percentage",
-			"The padding around each group as a percentage of their width",
-			0, 500, 150, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_int ("gap-percentage", 
+			_("Gap percentage"),
+			_("The padding around each group as a percentage of their width"),
+			0, 500, 150, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_OVERLAP_PERCENTAGE,
-		g_param_spec_int ("overlap-percentage", "overlap percentage",
-			"The distance between series as a percentage of their width",
-			-100, 100, 0, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_int ("overlap-percentage", 
+			_("Overlap percentage"),
+			_("The distance between series as a percentage of their width"),
+			-100, 100, 0, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_HORIZONTAL,
-		g_param_spec_boolean ("horizontal", "horizontal",
-			"horizontal bars or vertical columns",
+		g_param_spec_boolean ("horizontal", 
+			_("horizontal"),
+			_("horizontal bars or vertical columns"),
 			FALSE,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_barcol_plot_type_name;
 	gog_object_klass->populate_editor	= gog_barcol_plot_populate_editor;

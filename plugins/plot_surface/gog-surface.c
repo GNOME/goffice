@@ -518,9 +518,11 @@ gog_contour_plot_class_init (GogContourPlotClass *klass)
 	gobject_klass->set_property = gog_contour_plot_set_property;
 	gobject_klass->get_property = gog_contour_plot_get_property;
 	g_object_class_install_property (gobject_klass, CONTOUR_PROP_TRANSPOSED,
-		g_param_spec_boolean ("transposed", "transposed",
-			"Transpose the plot",
-			FALSE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("transposed", 
+			_("Transposed"),
+			_("Transpose the plot"),
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 
 	/* Fill in GOGObject superclass values */
 	gog_object_klass->update	= gog_contour_plot_update;

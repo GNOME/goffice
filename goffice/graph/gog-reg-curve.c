@@ -191,8 +191,11 @@ gog_reg_curve_class_init (GogObjectClass *gog_klass)
 #endif
 
 	g_object_class_install_property (gobject_klass, REG_CURVE_PROP_SKIP_INVALID,
-		g_param_spec_boolean ("skip-invalid", "skip-invalid",
-			"Skip invalid data", FALSE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("skip-invalid", 
+			_("Skip invalid"),
+			_("Skip invalid data"), 
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
 static void

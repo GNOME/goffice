@@ -655,29 +655,41 @@ gog_object_class_init (GObjectClass *klass)
 	gog_klass->use_parent_as_proxy = FALSE;
 
 	g_object_class_install_property (klass, OBJECT_PROP_ID,
-		g_param_spec_uint ("id", "id", "Object ID",
-				   0, G_MAXINT, 0,
-				   G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_uint ("id", 
+			_("Object ID"), 
+			_("Object numerical ID"),
+			0, G_MAXINT, 0,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION,
-		g_param_spec_string ("position", "Position", 
-				     "Position and size of object, in percentage of parent size",
-				     "0 0 1 1", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_string ("position", 
+			_("Position"), 
+			_("Position and size of object, in percentage of parent size"),
+			"0 0 1 1", 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_COMPASS,
-		g_param_spec_string ("compass", "Compass",
-				     "Compass auto position flags",
-				     "top", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT|GOG_PARAM_POSITION));
+		g_param_spec_string ("compass", 
+			_("Compass"),
+			_("Compass auto position flags"),
+			"top", 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT | GOG_PARAM_POSITION));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_ALIGNMENT,
-		g_param_spec_string ("alignment", "Alignment",
-				     "Alignment flag",
-				     "fill", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT|GOG_PARAM_POSITION));
+		g_param_spec_string ("alignment", 
+			_("Alignment"),
+			_("Alignment flag"),
+			"fill",
+		       	GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT | GOG_PARAM_POSITION));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_IS_MANUAL,
-		g_param_spec_boolean ("is-position-manual", "Is position manual", 
-				      "Is position manual",
-				      FALSE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("is-position-manual", 
+			_("Is position manual"), 
+			_("Is position manual"),
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_ANCHOR,
-		g_param_spec_string ("anchor", "Anchor",
-				     "Anchor for manual position",
-				     "top-left", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT|GOG_PARAM_POSITION));
+		g_param_spec_string ("anchor", 
+			_("Anchor"),
+			_("Anchor for manual position"),
+			"top-left", 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT | GOG_PARAM_POSITION));
 
 	gog_object_signals [CHILD_ADDED] = g_signal_new ("child-added",
 		G_TYPE_FROM_CLASS (klass),

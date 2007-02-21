@@ -631,48 +631,68 @@ gog_axis_base_class_init (GObjectClass *gobject_klass)
 	gog_klass->parent_changed 	= gog_axis_base_parent_changed;
 
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_POSITION,
-		g_param_spec_string ("pos_str", "pos_str",
-			"Where to position an axis low, high, or crossing",
-			"low", G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_string ("pos-str", 
+			_("Axis position"),
+			_("Where to position an axis low, high, or crossing"),
+			"low", 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MAJOR_TICK_LABELED,
-		g_param_spec_boolean ("major-tick-labeled", NULL,
-			"Show labels for major ticks",
-			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("major-tick-labeled", 
+			_("Major labels"),
+			_("Show labels for major ticks"),
+			TRUE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MAJOR_TICK_IN,
-		g_param_spec_boolean ("major-tick-in", NULL,
-			"Major tick marks inside the axis",
-			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("major-tick-in", 
+			_("Inside major ticks"),
+			_("Major tick marks inside the chart area"),
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MAJOR_TICK_OUT,
-		g_param_spec_boolean ("major-tick-out", NULL,
-			"Major tick marks outside the axis",
-			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("major-tick-out", 
+			_("Outside major ticks"),
+			_("Major tick marks outside the chart area"),
+			TRUE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MAJOR_TICK_SIZE_PTS,
-		g_param_spec_int ("major-tick-size-pts", "major-tick-size-pts",
-			"Size of the major tick marks, in points",
-			0, 20, 4, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_int ("major-tick-size-pts", 
+			_("Major tick size"),
+			_("Size of the major tick marks, in points"),
+			0, 20, 4, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MINOR_TICK_IN,
-		g_param_spec_boolean ("minor-tick-in", NULL,
-			"Minor tick marks inside the axis",
-			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("minor-tick-in", 
+			_("Inside minor ticks"),
+			_("Minor tick marks inside the chart area"),
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MINOR_TICK_OUT,
-		g_param_spec_boolean ("minor-tick-out", NULL,
-			"Minor tick marks outside the axis",
-			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("minor-tick-out", 
+			_("Outside minor ticks"),
+			_("Minor tick marks outside the axis"),
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MINOR_TICK_SIZE_PTS,
-		g_param_spec_int ("minor-tick-size-pts", NULL,
-			"Size of the minor tick marks, in points",
-			0, 15, 2, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_int ("minor-tick-size-pts", 
+			_("Minor tick size"),
+			_("Size of the minor tick marks, in points"),
+			0, 15, 2, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_CROSS_AXIS_ID,
-		g_param_spec_uint ("cross_axis_id", NULL,
-			"Which axis to cross",
-			0, G_MAXUINT, 0, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_uint ("cross-axis-id", 
+			_("Cross axis id"),
+			_("Which axis to cross"),
+			0, G_MAXUINT, 0, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_PADDING_PTS,
-		g_param_spec_int ("padding-pts", NULL,
-			"Distance from axis line to plot area, in points",
-			-G_MAXINT, G_MAXINT, 0, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_int ("padding-pts", 
+			_("Axis padding"),
+			_("Distance from axis line to plot area, in points"),
+			-G_MAXINT, G_MAXINT, 0, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor	= gog_axis_base_populate_editor;

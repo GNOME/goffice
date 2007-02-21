@@ -325,21 +325,29 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 	gobject_klass->get_property = gog_xy_get_property;
 
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS,
-		g_param_spec_boolean ("default-style-has-markers", NULL,
-			"Should the default style of a series include markers",
-			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("default-style-has-markers", 
+			_("Default markers"),
+			_("Should the default style of a series include markers"),
+			TRUE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES,
-		g_param_spec_boolean ("default-style-has-lines", NULL,
-			"Should the default style of a series include lines",
-			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("default-style-has-lines", 
+			_("Default lines"),
+			_("Should the default style of a series include lines"),
+			TRUE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_USE_SPLINES,
-		g_param_spec_boolean ("use-splines", NULL,
-			"Should the plot use splines instead of linear interpolation",
-			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("use-splines", 
+			_("Use splines"),
+			_("Should the plot use splines instead of linear interpolation"),
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_INTERPOLATION,
-		g_param_spec_string  ("interpolation", NULL,
-			_("Interpolation type (none, linear, spline or step) with variant, if any."),
-            "none", G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_string  ("interpolation", 
+			_("Interpolation"),
+			_("Interpolation type (none, linear, spline or step) with variant, if any"),
+			"none", 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	gog_klass->type_name	= gog_xy_plot_type_name;
 
 	{
@@ -482,25 +490,29 @@ gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 	gog_2d_plot_klass->adjust_bounds = gog_bubble_plot_adjust_bounds;
 
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_AS_AREA,
-		g_param_spec_boolean ("size-as-area", "size-as-area",
-			"Display size as area instead of diameter",
+		g_param_spec_boolean ("size-as-area", 
+			_("Size as area"),
+			_("Display size as area instead of diameter"),
 			TRUE,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_SHOW_NEGATIVES,
-		g_param_spec_boolean ("show-negatives", "show-negatives",
-			"Draw bubbles for negative values",
+		g_param_spec_boolean ("show-negatives", 
+			_("Show negatives"),
+			_("Draw bubbles for negative values"),
 			FALSE,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_IN_3D,
-		g_param_spec_boolean ("in-3d", "in-3d",
-			"Draw 3d bubbles",
+		g_param_spec_boolean ("in-3d", 
+			_("In 3d"),
+			_("Draw 3d bubbles"),
 			FALSE,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_SCALE,
-		g_param_spec_float ("bubble-scale", "bubble-scale",
-			"Fraction of default radius used for display.",
+		g_param_spec_float ("bubble-scale", 
+			_("Bubble scale"),
+			_("Fraction of default radius used for display"),
 			0., 2., 1.,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	{
 		static GogSeriesDimDesc dimensions[] = {
 			{ N_("X"), GOG_SERIES_SUGGESTED, FALSE,
@@ -689,13 +701,17 @@ gog_xy_color_plot_class_init (GogPlotClass *plot_klass)
 	gobject_klass->finalize     = gog_xy_color_plot_finalize;
 
 	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES,
-		g_param_spec_boolean ("default-style-has-lines", NULL,
-			"Should the default style of a series include lines",
-			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("default-style-has-lines", 
+			_("Default lines"),
+			_("Should the default style of a series include lines"),
+			TRUE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_INTERPOLATION,
-		g_param_spec_string  ("interpolation", NULL,
-			_("Interpolation type (none, linear, spline or step) with variant, if any."),
-            "none", G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_string  ("interpolation", 
+			_("Interpolation"),
+			_("Interpolation type (none, linear, spline or step) with variant, if any"),
+			"none", 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	gog_klass->type_name	= gog_xy_color_plot_type_name;
 	gog_klass->update		= gog_xy_color_plot_update;
 
@@ -1584,17 +1600,23 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 	g_object_class_install_property (gobject_klass, SERIES_PROP_XERRORS,
-		g_param_spec_object ("x-errors", "x-errors",
-			"GogErrorBar *",
-			GOG_ERROR_BAR_TYPE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_object ("x-errors", 
+			_("X error bars"),
+			_("GogErrorBar *"),
+			GOG_ERROR_BAR_TYPE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_YERRORS,
-		g_param_spec_object ("y-errors", "y-errors",
-			"GogErrorBar *",
-			GOG_ERROR_BAR_TYPE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_object ("y-errors", 
+			_("Y error bars"),
+			_("GogErrorBar *"),
+			GOG_ERROR_BAR_TYPE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_INVALID_AS_ZERO,
-		g_param_spec_boolean ("invalid-as-zero", _("invalid-as-zero"),
+		g_param_spec_boolean ("invalid-as-zero", 
+			_("Invalid as zero"),
 			_("Replace invalid values by 0 when drawing markers or bubbles"),
-			FALSE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 }
 
 GSF_DYNAMIC_CLASS (GogXYSeries, gog_xy_series,

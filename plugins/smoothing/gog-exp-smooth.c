@@ -232,9 +232,11 @@ gog_exp_smooth_class_init (GogSmoothedCurveClass *curve_klass)
 	gog_object_klass->type_name	= gog_exp_smooth_type_name;
 
 	g_object_class_install_property (gobject_klass, EXP_SMOOTH_PROP_STEPS,
-		g_param_spec_int ("steps", "steps",
-			"Number of interpolation steps", 10, G_MAXINT, 100,
-			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_int ("steps", 
+			_("Steps"),
+			_("Number of interpolation steps"), 
+			10, G_MAXINT, 100,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
 static void

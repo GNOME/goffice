@@ -1759,32 +1759,40 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 
 	/* no need to persist, the role handles that */
 	g_object_class_install_property (gobject_klass, AXIS_PROP_TYPE,
-		g_param_spec_int ("type", "Type",
-			"GogAxisType",
-			GOG_AXIS_UNKNOWN, GOG_AXIS_TYPES, GOG_AXIS_UNKNOWN, G_PARAM_READWRITE));
+		g_param_spec_int ("type", _("Type"),
+			_("Numerical type of this axis"),
+			GOG_AXIS_UNKNOWN, GOG_AXIS_TYPES, GOG_AXIS_UNKNOWN, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_INVERT,
-		g_param_spec_boolean ("invert-axis", NULL,
-			"Scale from high to low rather than low to high",
-			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("invert-axis", _("Invert axis"),
+			_("Scale from high to low rather than low to high"),
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_MAP,
-		g_param_spec_string ("map-name", "MapName",
-			"The name of the map for scaling",
-			"linear", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_string ("map-name", _("MapName"),
+			_("The name of the map for scaling"),
+			"linear", 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_ASSIGNED_FORMAT_STR_XL,
-		g_param_spec_string ("assigned-format-string-XL", NULL,
-			"The user assigned format to use for non-discrete axis labels (XL format)",
-			"General", G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_string ("assigned-format-string-XL", 
+			_("Assigned XL format"),
+			_("The user assigned format to use for non-discrete axis labels (XL format)"),
+			"General", 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_CIRCULAR_ROTATION,
-		g_param_spec_double ("circular-rotation", "Rotation of circular axis", 
-				     "Rotation of circular axis",
-				     GOG_AXIS_CIRCULAR_ROTATION_MIN, 
-				     GOG_AXIS_CIRCULAR_ROTATION_MAX,
-				     0.0, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_double ("circular-rotation", 
+			_("Rotation of circular axis"), 
+			_("Rotation of circular axis"),
+			GOG_AXIS_CIRCULAR_ROTATION_MIN, 
+			GOG_AXIS_CIRCULAR_ROTATION_MAX,
+			0.0, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_POLAR_UNIT,
-		g_param_spec_string ("polar-unit", "Polar axis set unit", 
-				     "Polar axis set unit", 
-				     polar_units[GOG_AXIS_POLAR_UNIT_DEGREES].name,
-				     G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_string ("polar-unit", 
+			_("Polar axis set unit"), 
+			_("Polar axis set unit"), 
+			polar_units[GOG_AXIS_POLAR_UNIT_DEGREES].name,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 

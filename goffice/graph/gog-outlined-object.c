@@ -76,9 +76,11 @@ gog_outlined_object_class_init (GObjectClass *gobject_klass)
 	gobject_klass->get_property = gog_outlined_object_get_property;
 
 	g_object_class_install_property (gobject_klass, OUTLINED_OBJECT_PROP_PADDING_PTS,
-		g_param_spec_double ("padding_pts", "Padding Pts",
-			"# of pts separating charts in the grid.",
-			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_double ("padding-pts", 
+			_("Padding Pts"),
+			_("Number of pts separating charts in the grid"),
+			0, G_MAXDOUBLE, 0, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
 static void

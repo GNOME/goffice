@@ -36,6 +36,8 @@
 #include <gsf/gsf.h>
 #include <gsf/gsf-impl-utils.h>
 
+#include <glib/gi18n-lib.h>
+
 enum {
 	RENDERER_PROP_0,
 	RENDERER_PROP_MODEL,
@@ -695,17 +697,23 @@ gog_renderer_class_init (GogRendererClass *renderer_klass)
 	renderer_klass->export_image = NULL;
 
 	g_object_class_install_property (gobject_klass, RENDERER_PROP_MODEL,
-		g_param_spec_object ("model", "model",
-			"the GogGraph this renderer displays",
-			GOG_GRAPH_TYPE, G_PARAM_READWRITE));
+		g_param_spec_object ("model", 
+			_("Model"),
+			_("The GogGraph this renderer displays"),
+			GOG_GRAPH_TYPE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, RENDERER_PROP_VIEW,
-		g_param_spec_object ("view", "view",
-			"the GogView this renderer is displaying",
-			GOG_VIEW_TYPE, G_PARAM_READABLE));
+		g_param_spec_object ("view", 
+			_("View"),
+			_("the GogView this renderer is displaying"),
+			GOG_VIEW_TYPE, 
+			GSF_PARAM_STATIC | G_PARAM_READABLE));
 	g_object_class_install_property (gobject_klass, RENDERER_PROP_ZOOM,
-		g_param_spec_double ("zoom", "zoom Height Pts",
-			"global scale factor",
-			1., G_MAXDOUBLE, 1., G_PARAM_READWRITE));
+		g_param_spec_double ("zoom", 
+			_("Zoom Height Pts"),
+			_("Global scale factor"),
+			1., G_MAXDOUBLE, 1., 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	renderer_signals [RENDERER_SIGNAL_REQUEST_UPDATE] = g_signal_new ("request-update",
 		G_TYPE_FROM_CLASS (renderer_klass),

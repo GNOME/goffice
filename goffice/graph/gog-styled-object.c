@@ -157,9 +157,11 @@ gog_styled_object_class_init (GogObjectClass *gog_klass)
 	style_klass->init_style	    = gog_styled_object_init_style;
 
 	g_object_class_install_property (gobject_klass, STYLED_OBJECT_PROP_STYLE,
-		g_param_spec_object ("style", "style",
-			"GogStyle *",
-			GOG_STYLE_TYPE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_object ("style", 
+			_("Style"),
+			_("A pointer to the GogStyle object"),
+			GOG_STYLE_TYPE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
 static void

@@ -308,23 +308,29 @@ gog_graph_class_init (GogGraphClass *klass)
 		1, G_TYPE_OBJECT);
 
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_THEME,
-		g_param_spec_object ("theme", "Theme",
-			"The theme for elements of the graph",
-			GOG_THEME_TYPE, G_PARAM_READWRITE));
+		g_param_spec_object ("theme", 
+			_("Theme"),
+			_("The theme for elements of the graph"),
+			GOG_THEME_TYPE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_THEME_NAME,
-		g_param_spec_string ("theme-name", "ThemeName",
-			"The name of the theme for elements of the graph",
-			"default", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_string ("theme-name", 
+			_("Theme name"),
+			_("The name of the theme for elements of the graph"),
+			"default", 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_WIDTH,
-		g_param_spec_double ("width-pts", "Width",
-			"Logical graph width, in points",
+		g_param_spec_double ("width-pts", 
+			_("Width"),
+			_("Logical graph width, in points"),
 			0.0, G_MAXDOUBLE, GOG_GRAPH_DEFAULT_WIDTH,
-			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_HEIGHT,
-		g_param_spec_double ("height-pts", "Height",
-			"Logical graph heigth, in points",
+		g_param_spec_double ("height-pts", 
+			_("Height"),
+			_("Logical graph heigth, in points"),
 			0.0, G_MAXDOUBLE, GOG_GRAPH_DEFAULT_HEIGHT,
-			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
 static void
@@ -820,9 +826,11 @@ gog_graph_view_class_init (GogGraphViewClass *gview_klass)
 	view_klass->clip	    = TRUE;
 
 	g_object_class_install_property (gobject_klass, GRAPH_VIEW_PROP_RENDERER,
-		g_param_spec_object ("renderer", "renderer",
-			"the renderer for this view",
-			GOG_RENDERER_TYPE, G_PARAM_WRITABLE));
+		g_param_spec_object ("renderer", 
+			_("Renderer"),
+			_("the renderer for this view"),
+			GOG_RENDERER_TYPE, 
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	
 	gog_graph_view_signals [GRAPH_VIEW_SELECTION_CHANGED] = g_signal_new ("selection-changed",
 		G_TYPE_FROM_CLASS (gview_klass),

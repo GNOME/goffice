@@ -290,13 +290,17 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 	gobject_klass->get_property = gog_box_plot_get_property;
 	gobject_klass->finalize = gog_box_plot_finalize;
 	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_GAP_PERCENTAGE,
-		g_param_spec_int ("gap-percentage", _("gap percentage"),
+		g_param_spec_int ("gap-percentage", 
+			_("Gap percentage"),
 			_("The padding around each group as a percentage of their width"),
-			0, 500, 150, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			0, 500, 150, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_VERTICAL,
-		g_param_spec_boolean ("vertical", _("vertical"),
+		g_param_spec_boolean ("vertical", 
+			_("Vertical"),
 			_("Whether the box-plot should be vertical instead of horizontal"),
-			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_box_plot_type_name;
 	gog_object_klass->view_type	= gog_box_plot_view_get_type ();

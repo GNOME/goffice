@@ -285,9 +285,11 @@ gog_line_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	gobject_klass->get_property = gog_line_get_property;
 
 	g_object_class_install_property (gobject_klass, GOG_LINE_PROP_DEFAULT_STYLE_HAS_MARKERS,
-		g_param_spec_boolean ("default-style-has-markers", NULL,
-			"Should the default style of a series include markers",
-			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("default-style-has-markers", 
+			_("Default markers"),
+			_("Should the default style of a series include markers"),
+			TRUE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_klass->type_name	= gog_line_plot_type_name;
 	gog_klass->view_type	= gog_line_view_get_type ();

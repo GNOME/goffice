@@ -139,9 +139,11 @@ gog_text_class_init (GogTextClass *klass)
 	gobject_klass->get_property = gog_text_get_property;
 
 	g_object_class_install_property (gobject_klass, TEXT_PROP_ALLOW_MARKUP,
-		g_param_spec_boolean ("allow-markup", "Allow markup",
-			"Support basic html-ish markup",
-			TRUE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("allow-markup", 
+			_("Allow markup"),
+			_("Support basic html-ish markup"),
+			TRUE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_klass->view_type		= gog_text_view_get_type ();
 	style_klass->init_style 	= gog_text_init_style;
@@ -415,13 +417,17 @@ gog_reg_eqn_class_init (GogObjectClass *gog_klass)
 	got_klass->get_str	   	= gog_reg_eqn_get_str;
 
 	g_object_class_install_property (gobject_klass, REG_EQN_SHOW_EQ,
-		g_param_spec_boolean ("show-eq", NULL,
-			"Show the equation on the graph",
-			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("show-eq", 
+			_("Show equation"),
+			_("Show the equation on the graph"),
+			TRUE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, REG_EQN_SHOW_R2,
-		g_param_spec_boolean ("show-r2", NULL,
-			"Show the correlation coefficient on the graph",
-			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("show-r2", 
+			_("Show coefficient"),
+			_("Show the correlation coefficient on the graph"),
+			TRUE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
 static void

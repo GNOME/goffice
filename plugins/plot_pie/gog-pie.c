@@ -102,10 +102,11 @@ gog_pie_series_element_class_init (GogPieSeriesElementClass *klass)
 #endif
 
 	g_object_class_install_property (gobject_klass, ELEMENT_SEPARATION,
-		g_param_spec_float ("separation", "separation",
-			"Amount a slice is extended as a percentage of the radius",
+		g_param_spec_float ("separation", 
+			_("Separation"),
+			_("Amount a slice is extended as a percentage of the radius"),
 			0, G_MAXFLOAT, 0.,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
 GSF_DYNAMIC_CLASS (GogPieSeriesElement, gog_pie_series_element,
@@ -228,25 +229,29 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 	gog_klass->view_type	= gog_pie_view_get_type ();
 
 	g_object_class_install_property (gobject_klass, PLOT_PROP_INITIAL_ANGLE,
-		g_param_spec_float ("initial-angle", "initial-angle",
-			"Degrees clockwise from 12 O'Clock.",
+		g_param_spec_float ("initial-angle", 
+			_("Initial angle"),
+			_("Degrees clockwise from 12 O'Clock."),
 			0, G_MAXFLOAT, 0.,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_DEFAULT_SEPARATION,
-		g_param_spec_float ("default-separation", "default-separation",
-			"Default amount a slice is extended as a percentage of the radius",
+		g_param_spec_float ("default-separation", 
+			_("Default separation"),
+			_("Default amount a slice is extended as a percentage of the radius"),
 			0, G_MAXFLOAT, 0.,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_IN_3D,
-		g_param_spec_boolean ("in-3d", "in-3d",
-			"Draw 3d wedges",
+		g_param_spec_boolean ("in-3d", 
+			_("In 3d"),
+			_("Draw 3d wedges"),
 			FALSE,
-			G_PARAM_READWRITE));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_SPAN,
-		g_param_spec_float ("span", _("span"),
+		g_param_spec_float ("span", 
+			_("Span"),
 			_("Total angle used as a percentage of the full circle"),
 			10., 100., 100.,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	{
 		static GogSeriesDimDesc dimensions[] = {
@@ -362,10 +367,11 @@ gog_ring_plot_class_init (GogPiePlotClass *pie_plot_klass)
 	gog_klass->populate_editor = gog_ring_plot_populate_editor;
 
 	g_object_class_install_property (gobject_klass, RING_PLOT_PROP_CENTER_SIZE,
-		g_param_spec_float ("center-size", "center-size",
-			"Size of the center hole as a percentage of the radius",
+		g_param_spec_float ("center-size", 
+			_("Center-size"),
+			_("Size of the center hole as a percentage of the radius"),
 			0, 100., 0.,
-			G_PARAM_READWRITE));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
@@ -914,15 +920,17 @@ gog_pie_series_class_init (GObjectClass *gobject_klass)
 	gobject_klass->get_property = gog_pie_series_get_property;
 
 	g_object_class_install_property (gobject_klass, SERIES_PROP_INITIAL_ANGLE,
-		g_param_spec_float ("initial-angle", "initial-angle",
-			"Degrees clockwise from 12 O'Clock.",
+		g_param_spec_float ("initial-angle", 
+			_("Initial-angle"),
+			_("Degrees clockwise from 12 O'Clock"),
 			0, G_MAXFLOAT, 0.,
-			G_PARAM_READWRITE));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_SEPARATION,
-		g_param_spec_float ("separation", "separation",
-			"Default amount a slice is extended as a percentage of the radius",
+		g_param_spec_float ("separation", 
+			_("Separation"),
+			_("Default amount a slice is extended as a percentage of the radius"),
 			0, G_MAXFLOAT, 0.,
-			G_PARAM_READWRITE));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 GSF_DYNAMIC_CLASS (GogPieSeries, gog_pie_series,

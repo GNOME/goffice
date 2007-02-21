@@ -192,13 +192,17 @@ gog_moving_avg_class_init (GogSmoothedCurveClass *curve_klass)
 	gog_object_klass->type_name	= gog_moving_avg_type_name;
 
 	g_object_class_install_property (gobject_klass, MOVING_AVG_PROP_SPAN,
-		g_param_spec_int ("span", "span",
-			"Number of averaged values", 2, G_MAXINT, 3,
-			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_int ("span", 
+			_("Span"),
+			_("Number of averaged values"), 
+			2, G_MAXINT, 3,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, MOVING_AVG_PROP_XAVG,
-		g_param_spec_boolean ("xavg", "xavg",
-			"Use averaged x values", TRUE,
-			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("xavg", 
+			_("Average X"),
+			_("Use averaged x values"),
+		       	TRUE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
 static void

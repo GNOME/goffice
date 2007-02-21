@@ -176,9 +176,11 @@ gog_rt_plot_class_init (GogPlotClass *gog_plot_klass)
 
 	g_object_class_install_property (gobject_klass, 
 					 PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS,
-		g_param_spec_boolean ("default-style-has-markers", NULL,
-			"Should the default style of a series include markers",
-			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("default-style-has-markers", 
+			_("Default markers"),
+			_("Should the default style of a series include markers"),
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	/* Fill in GogPlotClass methods */
 	gog_plot_klass->desc.num_series_min = 1;

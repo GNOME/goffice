@@ -215,18 +215,23 @@ gog_minmax_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	gobject_klass->get_property = gog_minmax_plot_get_property;
 
 	g_object_class_install_property (gobject_klass, MINMAX_PROP_GAP_PERCENTAGE,
-		g_param_spec_int ("gap-percentage", "gap percentage",
-			"The padding around each group as a percentage of their width",
-			0, 500, 150, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_int ("gap-percentage", 
+			_("Gap percentage"),
+			_("The padding around each group as a percentage of their width"),
+			0, 500, 150, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, MINMAX_PROP_HORIZONTAL,
-		g_param_spec_boolean ("horizontal", "horizontal",
-			"horizontal or vertical lines",
+		g_param_spec_boolean ("horizontal", 
+			_("Horizontal"),
+			_("Horizontal or vertical lines"),
 			FALSE,
 			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, MINMAX_PROP_DEFAULT_STYLE_HAS_MARKERS,
-		g_param_spec_boolean ("default-style-has-markers", NULL,
-			"Should the default style of a series include markers",
-			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("default-style-has-markers", 
+			_("Default markers"),
+			_("Should the default style of a series include markers"),
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_minmax_plot_type_name;
 	gog_object_klass->view_type	= gog_minmax_view_get_type ();

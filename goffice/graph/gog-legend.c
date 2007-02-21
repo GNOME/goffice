@@ -202,13 +202,17 @@ gog_legend_class_init (GogLegendClass *klass)
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 	g_object_class_install_property (gobject_klass, LEGEND_SWATCH_SIZE_PTS,
-		g_param_spec_double ("swatch_size_pts", "Swatch Size pts",
-			"size of the swatches in pts.",
-			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_double ("swatch-size-pts", 
+			_("Swatch Size pts"),
+			_("size of the swatches in pts."),
+			0, G_MAXDOUBLE, 0, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, LEGEND_SWATCH_PADDING_PTS,
-		g_param_spec_double ("swatch_padding_pts", "Swatch Padding pts",
-			"padding between the swatches in pts.",
-			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_double ("swatch-padding-pts", 
+			_("Swatch Padding pts"),
+			_("padding between the swatches in pts."),
+			0, G_MAXDOUBLE, 0, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
 static void

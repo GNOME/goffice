@@ -590,13 +590,15 @@ gog_view_class_init (GogViewClass *view_klass)
 	view_klass->clip	     = FALSE;
 
 	g_object_class_install_property (gobject_klass, GOG_VIEW_PROP_PARENT,
-		g_param_spec_object ("parent", "parent",
-			"the GogView parent",
+		g_param_spec_object ("parent", 
+			_("Parent"),
+			_("the GogView parent"),
 			GOG_VIEW_TYPE,
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, GOG_VIEW_PROP_MODEL,
-		g_param_spec_object ("model", "model",
-			"the GogObject this view displays",
+		g_param_spec_object ("model", 
+			_("Model"),
+			_("The GogObject this view displays"),
 			GOG_OBJECT_TYPE,
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 }

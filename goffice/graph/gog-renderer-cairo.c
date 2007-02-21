@@ -45,6 +45,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
 
+#include <glib/gi18n-lib.h>
+
 #include <cairo.h>
 #ifdef CAIRO_HAS_PDF_SURFACE
 #include <cairo-pdf.h>
@@ -933,13 +935,16 @@ gog_renderer_cairo_class_init (GogRendererClass *rend_klass)
 	rend_klass->export_image	= gog_renderer_cairo_export_image;
 
 	g_object_class_install_property (gobject_klass, RENDERER_CAIRO_PROP_CAIRO,
-		g_param_spec_pointer ("cairo", "cairo",
-			"the cairo_t* this renderer uses",
-			G_PARAM_READWRITE));
+		g_param_spec_pointer ("cairo", 
+			_("Cairo"),
+			_("The cairo_t* this renderer uses"),
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, RENDERER_CAIRO_PROP_IS_VECTOR,
-		g_param_spec_boolean ("is-vector", "is-vector",
-			"tells if the cairo surface is vectorial or raster", FALSE,
-			G_PARAM_READWRITE));
+		g_param_spec_boolean ("is-vector",
+			_("Is vector"),
+			_("Tells if the cairo surface is vectorial or raster"),
+		       	FALSE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 static void

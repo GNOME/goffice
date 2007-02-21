@@ -209,19 +209,29 @@ gog_control_foocanvas_class_init (GogControlFooCanvasClass *klass)
 	item_klass->point  = gog_control_foocanvas_point;
 
 	g_object_class_install_property (gobject_klass, CTRL_FOO_PROP_H,
-		 g_param_spec_double ("h", _("H"), _("Height"),
-			0, G_MAXDOUBLE, 100., G_PARAM_READWRITE));
+		 g_param_spec_double ("h", 
+			_("H"), 
+			_("Height"),
+			0, G_MAXDOUBLE, 100., 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, CTRL_FOO_PROP_W,
-		 g_param_spec_double ("w", _("W"), _("Width"),
-			0, G_MAXDOUBLE, 100., G_PARAM_READWRITE));
+		 g_param_spec_double ("w", 
+			_("W"), 
+			_("Width"),
+			0, G_MAXDOUBLE, 100., 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, CTRL_FOO_PROP_MODEL,
-		g_param_spec_object ("model", "model",
-			"the GogObject this object displays",
-			GOG_OBJECT_TYPE, G_PARAM_WRITABLE));
+		g_param_spec_object ("model", 
+			_("Model"),
+			_("The GogObject this object displays"),
+			GOG_OBJECT_TYPE, 
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, CTRL_FOO_PROP_RENDERER,
-		g_param_spec_object ("renderer", "renderer",
-			"the GogRenderer being displayed",
-			GOG_RENDERER_TYPE, G_PARAM_READWRITE));
+		g_param_spec_object ("renderer", 
+			_("Renderer"),
+			_("The GogRenderer being displayed"),
+			GOG_RENDERER_TYPE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 static void

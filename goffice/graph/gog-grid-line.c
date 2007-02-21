@@ -123,8 +123,11 @@ gog_grid_line_class_init (GogGridLineClass *klass)
 	style_klass->init_style = gog_grid_line_init_style;
 	
 	g_object_class_install_property (gobject_klass, GRID_LINE_PROP_IS_MINOR,
-		g_param_spec_boolean ("is-minor", "is-minor",
-			"Are these minor grid lines", FALSE, G_PARAM_READWRITE));
+		g_param_spec_boolean ("is-minor", 
+			_("Is-minor"),
+			_("Are these minor grid lines"), 
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 GSF_CLASS (GogGridLine, gog_grid_line,

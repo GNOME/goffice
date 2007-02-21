@@ -516,27 +516,36 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 	plot_klass->guru_helper		= NULL;
 
 	g_object_class_install_property (gobject_klass, PLOT_PROP_VARY_STYLE_BY_ELEMENT,
-		g_param_spec_boolean ("vary-style-by-element", "vary-style-by-element",
-			"Use a different style for each segments",
+		g_param_spec_boolean ("vary-style-by-element", 
+			_("Vary style by element"),
+			_("Use a different style for each segments"),
 			FALSE,
-			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT|GOG_PARAM_FORCE_SAVE));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_X,
-		g_param_spec_uint ("x_axis", "x_axis", "Reference to X axis",
+		g_param_spec_uint ("x-axis", 
+			_("X axis"), 
+			_("Reference to X axis"),
 			0, G_MAXINT, 0,
-			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_Y,
-		g_param_spec_uint ("y_axis", "y_axis", "Reference to Y axis",
+		g_param_spec_uint ("y-axis", 
+			_("Y axis"), 
+			_("Reference to Y axis"),
 			0, G_MAXINT, 0,
-			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_GROUP,
-		g_param_spec_string ("plot-group", _("Plot group"), 
+		g_param_spec_string ("plot-group", 
+			_("Plot group"), 
 			_("Name of plot group if any"),
-			NULL, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+			NULL, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_GURU_HINTS,
-		g_param_spec_string ("guru-hints", _("Guru hints"), 
+		g_param_spec_string ("guru-hints", 
+			_("Guru hints"), 
 			_("Semicolon separated list of hints for automatic addition of objects in "
 			  "guru dialog"),
-			NULL, G_PARAM_READWRITE));
+			NULL, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	gog_klass->children_reordered = gog_plot_children_reordered;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));

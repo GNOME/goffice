@@ -740,17 +740,23 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 	gog_klass->can_manual_size = TRUE;
 
 	g_object_class_install_property (gobject_klass, CHART_PROP_CARDINALITY_VALID,
-		g_param_spec_boolean ("cardinality-valid", "cardinality-valid",
-				      "Is the charts cardinality currently valid",
-				      FALSE, G_PARAM_READABLE));
+		g_param_spec_boolean ("cardinality-valid", 
+				      _("Valid cardinality"),
+				      _("Is the charts cardinality currently valid"),
+				      FALSE, 
+				      GSF_PARAM_STATIC | G_PARAM_READABLE));
 	g_object_class_install_property (gobject_klass, CHART_PROP_PLOT_AREA,
-		g_param_spec_string ("plot-area", "Plot area",
-				     "Position and size of plot area, in percentage of chart size",
-				     "0 0 1 1", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_string ("plot-area", 
+				     _("Plot area"),
+				     _("Position and size of plot area, in percentage of chart size"),
+				     "0 0 1 1", 
+				     GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, CHART_PROP_PLOT_AREA_IS_MANUAL,
-		g_param_spec_boolean ("is-plot-area-manual", "Is plot area manual", 
-				      "Is plot area manual",
-				      FALSE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+		g_param_spec_boolean ("is-plot-area-manual", 
+				      _("Manual plot area"), 
+				      _("Is plot area manual"),
+				      FALSE, 
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_klass->view_type = gog_chart_view_get_type ();
 	gog_klass->update    = gog_chart_update;
