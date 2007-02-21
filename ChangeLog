@@ -1,3 +1,8 @@
+2007-02-20  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-locale.c (go_locale_get_time_format): New
+	function.
+
 2007-02-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_xy/gog-xy.c: (gog_xy_color_plot_update),

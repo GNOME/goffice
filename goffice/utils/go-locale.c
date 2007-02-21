@@ -43,6 +43,8 @@ static GString *lc_currency = NULL;
 
 static gboolean date_format_cached = FALSE;
 static GString *lc_date_format = NULL;
+static gboolean time_format_cached = FALSE;
+static GString *lc_time_format = NULL;
 
 static gboolean date_order_cached = FALSE;
 
@@ -55,6 +57,7 @@ go_setlocale (int category, char const *val)
 {
 	locale_info_cached = FALSE;
 	date_format_cached = FALSE;
+	time_format_cached = FALSE;
 	date_order_cached = FALSE;
 	boolean_cached = FALSE;
 	return setlocale (category, val);
@@ -217,16 +220,16 @@ go_locale_get_date_format (void)
 
 		/* Sanity check */
 		if (!g_utf8_validate (lc_date_format->str, -1, NULL)) {
-			g_warning ("Produced non-UTF-8 date format.  Please report.");
+			g_warning ("Produced non-UTF-8 time format.  Please report.");
 			g_string_truncate (lc_date_format, 0);
 		}
 
 		/* Default */
 		if (lc_date_format->len == 0) {
 			static gboolean warning = TRUE;
-			g_string_append (lc_date_format, "dddd, mmmm dd, yyyy");
+			g_string_append (lc_date_format, "hh:mm:ss");
 			if (warning) {
-				g_warning ("Using default system date format: %s",
+				g_warning ("Using default system time format: %s",
 					   lc_date_format->str);
 				warning = FALSE;
 			}
@@ -235,6 +238,70 @@ go_locale_get_date_format (void)
 		date_format_cached = TRUE;
 	}
 	return lc_date_format;
+}
+
+GString const *
+go_locale_get_time_format (void)
+{
+	if (!time_format_cached) {
+		if (lc_time_format)
+			g_string_truncate (lc_time_format, 0);
+		else
+			lc_time_format = g_string_new (NULL);
+
+#ifdef HAVE_LANGINFO_H
+		{
+			char const *fmt = nl_langinfo (T_FMT);
+			while (*fmt) {
+				switch (*fmt) {
+				case 'H': g_string_append (lc_time_format, "hh"); break;
+				case 'I': g_string_append (lc_time_format, "hh"); break;
+				case 'k': g_string_append (lc_time_format, "h"); break; /* Approx */
+				case 'l': g_string_append (lc_time_format, "h"); break; /* Approx */
+				case 'M': g_string_append (lc_time_format, "mm"); break;
+				case 'p': g_string_append (lc_time_format, "AM/PM"); break;
+				case 'r': g_string_append (lc_time_format, "hh:mm:ss AM/PM"); break;
+				case 'S': g_string_append (lc_time_format, "ss"); break;
+				case 'T': g_string_append (lc_time_format, "hh:mm:ss"); break;
+				case 't': g_string_append (lc_time_format, "\t"); break;
+				case '%':
+					/*
+					 * Docs say we get things in strftime format,
+					 * but I don't seem to get the '%'s. Hence we
+					 * ignore '%'s.
+					 */
+					break;
+				default:
+					if (g_ascii_isalpha (*fmt))
+						g_warning ("Unhandled locale time code '%c'", *fmt);
+					else
+						g_string_append_c (lc_time_format, *fmt);
+				}
+				fmt++;
+			}
+		}
+#endif
+
+		/* Sanity check */
+		if (!g_utf8_validate (lc_time_format->str, -1, NULL)) {
+			g_warning ("Produced non-UTF-8 time format.  Please report.");
+			g_string_truncate (lc_time_format, 0);
+		}
+
+		/* Default */
+		if (lc_time_format->len == 0) {
+			static gboolean warning = TRUE;
+			g_string_append (lc_time_format, "dddd, mmmm dd, yyyy");
+			if (warning) {
+				g_warning ("Using default system time format: %s",
+					   lc_time_format->str);
+				warning = FALSE;
+			}
+		}
+
+		time_format_cached = TRUE;
+	}
+	return lc_time_format;
 }
 
 /*

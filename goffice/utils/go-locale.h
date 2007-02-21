@@ -40,6 +40,7 @@ GString const *go_locale_get_decimal      (void);
 gboolean       go_locale_month_before_day (void);
 
 GString const *go_locale_get_date_format  (void);
+GString const *go_locale_get_time_format  (void);
 
 G_END_DECLS
 
