@@ -223,6 +223,15 @@ GSF_CLASS (GogLegend, gog_legend,
 	   gog_legend_class_init, gog_legend_init,
 	   GOG_OUTLINED_OBJECT_TYPE)
 
+#define	GLV_ELEMENT_HEIGHT_EM		1.2	/* Legend element height, in font size */
+#define GLV_LINE_WIDTH_MAX_DEFAULT_EM	0.5	/* Maximum sample line width, in font size */
+#define GLV_LINE_LENGTH_EM		4.0	/* Sample line length, in font size */
+#define GLV_SAMPLE_DASH_LENGTH		1.2	/* Minimum dash sequence length */
+#define GLV_SWATCH_LENGTH_EM		1.0	/* Swatch height/width, in font size */
+#define GLV_SWATCH_SIZE_MIN_EM		0.25	/* Minimum swatch size, in font size */
+#define GLV_SWATCH_SPACING_EM		0.5	/* Space between swatch and label, in font size */
+#define GLV_ELEMENT_SPACING_EM		1.0	/* Space between legend elements, in font size */
+
 typedef struct {
 	GogOutlinedView	base;
 	gboolean	is_vertical;
@@ -258,7 +267,7 @@ cb_size_elements (unsigned i, GogStyle const *style,
 		glv->element_width = aabr.w;
 	if (glv->element_height < aabr.h)
 		glv->element_height = aabr.h;
-	if (!glv->uses_lines && (style->interesting_fields & GOG_STYLE_LINE))
+	if (!glv->uses_lines && (style->interesting_fields & GOG_STYLE_LINE)) 
 		glv->uses_lines = TRUE;
 }
 
@@ -309,7 +318,7 @@ gog_legend_view_size_request (GogView *v,
 	glv->swatch_h = gog_renderer_pt2r_y (v->renderer, glv->font_size);
 					     
 	glv->element_width = 0.;
-	glv->element_height = 1.2 * glv->swatch_h;
+	glv->element_height = GLV_ELEMENT_HEIGHT_EM * glv->swatch_h;
 	glv->uses_lines = FALSE;
 
 	gog_chart_foreach_elem (chart, TRUE,
@@ -317,8 +326,10 @@ gog_legend_view_size_request (GogView *v,
 
 	gog_renderer_pop_style (v->renderer);
 
-	glv->label_offset = (glv->uses_lines ? 4.5 : 1.5) * glv->swatch_w;
-	glv->element_width += glv->label_offset + glv->swatch_w;
+	glv->label_offset = (glv->uses_lines ? 
+			     GLV_LINE_LENGTH_EM + GLV_SWATCH_SPACING_EM : 
+			     GLV_SWATCH_LENGTH_EM + GLV_SWATCH_SPACING_EM) * glv->swatch_w;
+	glv->element_width += glv->label_offset + glv->swatch_w * GLV_ELEMENT_SPACING_EM;
 
 	available_space = glv->is_vertical ? residual.h : residual.w;
 	element_size = glv->is_vertical ? glv->element_height : glv->element_width;	
@@ -334,10 +345,11 @@ gog_legend_view_size_request (GogView *v,
 
 	if (glv->is_vertical) {
 		req->h += MIN (glv->element_per_blocks, num_elements) * glv->element_height;
-		req->w += glv->num_blocks * glv->element_width - glv->swatch_w;
+		req->w += glv->num_blocks * glv->element_width - glv->swatch_w * GLV_ELEMENT_SPACING_EM;
 	} else {
 		req->h += glv->num_blocks * glv->element_height;
-		req->w += MIN (glv->element_per_blocks, num_elements) * glv->element_width - glv->swatch_w;
+		req->w += MIN (glv->element_per_blocks, num_elements) * glv->element_width 
+			- glv->swatch_w * GLV_ELEMENT_SPACING_EM;
 	}
 
 	req->w = frame_req.w + MAX (child_req.w, req->w);
@@ -347,17 +359,43 @@ gog_legend_view_size_request (GogView *v,
 typedef struct {
 	double size_max;
 	double size_min;
+	double line_length;
+	double line_width_max;
+	double hairline_width;
+	double line_scale;
 } SwatchScaleClosure;
 
 static void
 cb_swatch_scale (unsigned i, GogStyle const *style, char const *name,
 		 SwatchScaleClosure *data)
 {
-	double size = go_marker_get_size (style->marker.mark);
+	double size;
+	double maximum, scale;
+       
+	size = go_marker_get_size (style->marker.mark);
 	if (data->size_max < size)
 		data->size_max = size;
 	if (data->size_min > size)
 		data->size_min = size;
+
+	if (style->interesting_fields & GOG_STYLE_LINE &&
+	    style->line.width > data->hairline_width) {
+		if (style->line.dash_type != GO_LINE_NONE && style->line.dash_type != GO_LINE_SOLID)
+			maximum = data->line_length / (GLV_SAMPLE_DASH_LENGTH 
+						       * go_line_dash_get_length (style->line.dash_type));
+		else
+			maximum = style->line.width;
+
+		if (maximum > data->line_width_max)
+			maximum = data->line_width_max;
+
+		if (maximum > data->hairline_width) 
+			scale = (maximum - data->hairline_width) / (style->line.width - data->hairline_width);
+		else 
+			scale = 0;
+		if (data->line_scale > scale)
+			data->line_scale = scale;
+	}
 }
 
 typedef struct {
@@ -369,6 +407,8 @@ typedef struct {
 	GogViewAllocation swatch;
 	ArtVpath line_path[3];
 	double swatch_scale_a, swatch_scale_b;
+	double line_scale_a, line_scale_b;
+	double hairline_width;
 } RenderClosure;
 
 static void
@@ -397,14 +437,16 @@ cb_render_elements (unsigned index, GogStyle const *base_style, char const *name
 		go_marker_set_size (style->marker.mark, 
 				    go_marker_get_size (style->marker.mark) *
 				    data->swatch_scale_a + data->swatch_scale_b);
+		if (style->line.width > data->hairline_width)
+			style->line.width = style->line.width * data->line_scale_a + data->line_scale_b;
 
 		gog_renderer_push_style (renderer, style);
 		data->line_path[0].x = data->x;
-		data->line_path[1].x = data->x + data->swatch.w * 4;
+		data->line_path[1].x = data->x + data->swatch.w * GLV_LINE_LENGTH_EM;
 		data->line_path[0].y = 
-			data->line_path[1].y = data->y + glv->element_height / 2.;
+		data->line_path[1].y = data->y + glv->element_height / 2.;
 		gog_renderer_draw_sharp_path (renderer, data->line_path);
-		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * 2.25, 
+		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * GLV_LINE_LENGTH_EM * .5, 
 					  data->line_path[0].y);
 	} else {					/* area swatch */
 		style = gog_style_dup (base_style);
@@ -439,6 +481,7 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 	SwatchScaleClosure swatch_data;
 	double swatch_size_min;
 	double swatch_size_max;
+	double hairline_width;
 
 	(lview_parent_klass->render) (v, bbox);
 	
@@ -447,14 +490,19 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 	
 	gog_renderer_push_style (v->renderer, style);
 	
+	hairline_width = gog_renderer_get_hairline_width_pts (v->renderer);
 	swatch_data.size_max = 0.0;
 	swatch_data.size_min = glv->font_size;
+	swatch_data.line_scale = 1.0;
+	swatch_data.line_width_max = GLV_LINE_WIDTH_MAX_DEFAULT_EM * glv->font_size;
+	swatch_data.line_length = GLV_LINE_LENGTH_EM * glv->font_size;
+	swatch_data.hairline_width = hairline_width;
 	
 	gog_chart_foreach_elem (GOG_CHART (v->model->parent), TRUE,
 		(GogEnumFunc) cb_swatch_scale, &swatch_data);
 
 	swatch_size_max = glv->font_size;
-	swatch_size_min = glv->font_size / 4.0;
+	swatch_size_min = glv->font_size * GLV_SWATCH_SIZE_MIN_EM;
 	if (swatch_data.size_max < swatch_size_max)
 		swatch_data.size_max = swatch_size_max;
 	if (swatch_data.size_min > swatch_size_min)
@@ -468,6 +516,10 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 		data.swatch_scale_a = 1.0;
 		data.swatch_scale_b = 0.0;
 	}
+	data.line_scale_a = swatch_data.line_scale;
+	data.line_scale_b = - hairline_width * data.line_scale_a + hairline_width;
+
+	data.hairline_width = hairline_width;
 
 	if (glv->uses_lines) {
 		data.line_path[0].code = ART_MOVETO;

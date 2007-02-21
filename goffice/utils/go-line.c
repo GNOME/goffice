@@ -30,19 +30,20 @@
 
 typedef struct {
 	int 		 n_dash;
+	double		 length;
 	double 		 dash[8];
 } GOLineDashDesc;
 
-static const GOLineDashDesc line_short_dot_desc = 		{2,	{ 0, 2 } };
-static const GOLineDashDesc line_dot_desc = 			{2,	{ 3, 3 } };
-static const GOLineDashDesc line_short_dash_desc =		{2,	{ 6, 3 } };
-static const GOLineDashDesc line_short_dash_dot_desc =		{4, 	{ 6, 3, 0, 3 } };
-static const GOLineDashDesc line_short_dash_dot_dot_desc =    	{6, 	{ 6, 3, 0, 3, 0, 3 } };
-static const GOLineDashDesc line_dash_dot_dot_dot_desc =    	{8, 	{ 9, 3, 0, 3, 0, 3, 0, 3 } };
-static const GOLineDashDesc line_dash_dot_desc =		{4, 	{ 9, 6, 3, 6 } };
-static const GOLineDashDesc line_dash_dot_dot_desc =    	{6, 	{ 9, 3, 3, 3, 3, 3 } };	
-static const GOLineDashDesc line_dash_desc =			{2,	{ 12, 4 } };
-static const GOLineDashDesc line_long_dash_desc =		{2,	{ 18, 4 } };
+static const GOLineDashDesc line_short_dot_desc = 		{2, 10,	{ 0, 2 } };
+static const GOLineDashDesc line_dot_desc = 			{2, 12,	{ 3, 3 } };
+static const GOLineDashDesc line_short_dash_desc =		{2, 9,	{ 6, 3 } };
+static const GOLineDashDesc line_short_dash_dot_desc =		{4, 12,	{ 6, 3, 0, 3 } };
+static const GOLineDashDesc line_short_dash_dot_dot_desc =    	{6, 15,	{ 6, 3, 0, 3, 0, 3 } };
+static const GOLineDashDesc line_dash_dot_dot_dot_desc =    	{8, 21,	{ 9, 3, 0, 3, 0, 3, 0, 3 } };
+static const GOLineDashDesc line_dash_dot_desc =		{4, 24,	{ 9, 6, 3, 6 } };
+static const GOLineDashDesc line_dash_dot_dot_desc =    	{6, 24,	{ 9, 3, 3, 3, 3, 3 } };	
+static const GOLineDashDesc line_dash_desc =			{2, 16,	{ 12, 4 } };
+static const GOLineDashDesc line_long_dash_desc =		{2, 22,	{ 18, 4 } };
 
 static struct {
 	GOLineDashType type;
@@ -135,7 +136,25 @@ go_line_dash_as_label (GOLineDashType type)
 	}
 	return ret;
 }
+
+/**
+ * go_line_dash_get_length:
+ * @type: dash type
+ *
+ * returns the unscaled length of the dash sequence.
+ **/
+double
+go_line_dash_get_length (GOLineDashType type)
+{
+	const GOLineDashDesc *dash_desc;
+
+	if (type < 0 || type >= G_N_ELEMENTS (line_dashes))
+		return 1.0;
 	
+	dash_desc = line_dashes[type].dash_desc;
+	return dash_desc != NULL ? dash_desc->length : 1.0;
+}
+
 GOLineInterpolation
 go_line_interpolation_from_str (char const *name)
 {

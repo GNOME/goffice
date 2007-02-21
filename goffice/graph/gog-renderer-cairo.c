@@ -156,7 +156,7 @@ grc_free_marker_data (GogRendererCairo *crend)
 	}
 }
 
-#define GRC_LINEAR_SCALE(w,scale) (go_sub_epsilon (w) <= 0.0 ? GOG_RENDERER_HAIR_LINE_WIDTH : w) * scale 
+#define GRC_LINEAR_SCALE(w,scale) (go_sub_epsilon (w) <= 0.0 ? GOG_RENDERER_HAIRLINE_WIDTH_PTS : w) * scale 
 
 static double
 grc_line_size (GogRenderer const *rend, double width, gboolean sharp)
@@ -345,6 +345,18 @@ gog_renderer_cairo_line_size (GogRenderer const *rend, double width, gboolean sh
 		return ceil (size);
 
 	return size;
+}
+
+static double
+gog_renderer_cairo_hairline_pts (GogRenderer const *rend)
+{
+	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
+
+	if (crend->is_vector
+	    || go_sub_epsilon (rend->scale) <= 0.0)
+	       return GOG_RENDERER_HAIRLINE_WIDTH_PTS;
+
+	return 1.0 / rend->scale;
 }
 
 static void
@@ -917,6 +929,7 @@ gog_renderer_cairo_class_init (GogRendererClass *rend_klass)
 	rend_klass->draw_marker	  	= gog_renderer_cairo_draw_marker;
 	rend_klass->get_text_OBR	= gog_renderer_cairo_get_text_OBR;
 	rend_klass->line_size		= gog_renderer_cairo_line_size;
+	rend_klass->hairline_pts 	= gog_renderer_cairo_hairline_pts;
 	rend_klass->export_image	= gog_renderer_cairo_export_image;
 
 	g_object_class_install_property (gobject_klass, RENDERER_CAIRO_PROP_CAIRO,

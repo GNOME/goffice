@@ -1,3 +1,20 @@
+2006-02-21  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Restrict legend sample line width to sane values, like what we do for
+	markers.
+	http://bugzilla.gnome.org/show_bug.cgi?id=404819
+
+	* goffice/utils/go-line.c: add a sequence length to dash descriptors.
+	(go_line_dash_get_length): new.
+	* goffice/graph/gog-renderer.c (gog_renderer_get_hairline_width_pts):
+	new.
+	* goffice/graph/gog-renderer-cairo.c: provide an implemenation of
+	hairline_pts.
+	* goffice/graph/gog-legend.c: use defines for legend element layout.
+	(cb_swatch_scale): compute the scale used for restricting sample width
+	in order to always shows correctly the dashed lines.
+	(cb_render_elements): apply line width scale.
+	
 2007-02-20  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-locale.c (go_locale_get_time_format): New

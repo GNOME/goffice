@@ -57,6 +57,7 @@ typedef enum {
 GOLineDashType	 go_line_dash_from_str		(char const *name);
 char const 	*go_line_dash_as_str		(GOLineDashType type);
 char const 	*go_line_dash_as_label 		(GOLineDashType type);
+double		 go_line_dash_get_length	(GOLineDashType type);
 
 GOLineInterpolation	 go_line_interpolation_from_str		(char const *name);
 char const 		*go_line_interpolation_as_str		(GOLineInterpolation type);

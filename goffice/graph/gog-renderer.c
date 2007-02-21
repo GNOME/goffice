@@ -171,7 +171,7 @@ line_size (GogRenderer const *rend, double width, gboolean sharp)
 		return (klass->line_size) (rend, width, sharp);
 	
 	if (go_sub_epsilon (width) <= 0.)
-		width = GOG_RENDERER_HAIR_LINE_WIDTH;
+		width = GOG_RENDERER_HAIRLINE_WIDTH_PTS;
 	return width * rend->scale;
 }
 
@@ -811,6 +811,25 @@ double
 gog_renderer_pt2r (GogRenderer const *rend, double d)
 {
 	return d * rend->scale;
+}
+
+/**
+ * gog_renderer_get_hairline_width_pts:
+ * @rend: a #GogRenderer
+ *
+ * returns the hairline width in pts.
+ **/
+double
+gog_renderer_get_hairline_width_pts (GogRenderer const *rend)
+{
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
+
+	g_return_val_if_fail (klass != NULL, GOG_RENDERER_HAIRLINE_WIDTH_PTS);
+
+	if (klass->hairline_pts)
+		return (klass->hairline_pts) (rend);
+
+	return GOG_RENDERER_HAIRLINE_WIDTH_PTS;
 }
 
 /**

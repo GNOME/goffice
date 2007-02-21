@@ -85,6 +85,8 @@ typedef struct {
 
 	double (*line_size)	(GogRenderer const *rend, double width, gboolean sharp);
 
+	double (*hairline_pts)	(GogRenderer const *rend);
+
 	gboolean (*export_image)	(GogRenderer *renderer, GOImageFormat format, 
 					 GsfOutput *output, double x_dpi, double y_dpi);
 
