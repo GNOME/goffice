@@ -267,6 +267,7 @@ plugins/plot_surface/xl-surface.c
 plugins/plot_xy/gog-bubble-prefs.c
 plugins/plot_xy/gog-bubble-prefs.glade
 plugins/plot_xy/gog-xy-series-prefs.glade
+plugins/plot_xy/gog-xy-color-prefs.glade
 plugins/plot_xy/gog-xy.c
 plugins/plot_xy/gog-xy.h
 plugins/plot_xy/plot-types.xml.in
