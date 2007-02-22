@@ -19,6 +19,7 @@ if WITH_GTK
 xy_la_SOURCES  += gog-bubble-prefs.c
 dist_glade_DATA = \
 	gog-bubble-prefs.glade	\
+	gog-xy-color-prefs.glade	\
 	gog-xy-series-prefs.glade
 endif
 

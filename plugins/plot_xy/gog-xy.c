@@ -571,6 +571,7 @@ enum {
 	GOG_XY_COLOR_PROP_0,
 	GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES,
 	GOG_XY_COLOR_PROP_INTERPOLATION,
+	GOG_XY_COLOR_PROP_HIDE_OUTLIERS,
 };
 
 static GogObjectClass *map_parent_klass;
@@ -645,25 +646,70 @@ gog_xy_color_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("XYColor");
 }
 
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
+#include <gtk/gtktogglebutton.h>
+static void
+hide_outliers_toggled_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "hide-outliers", gtk_toggle_button_get_active (btn), NULL);
+}
+
+static void 
+gog_xy_color_plot_populate_editor (GogObject *obj,
+			       GogEditor *editor,
+			       GogDataAllocator *dalloc,
+			       GOCmdContext *cc)
+{
+	GtkWidget *w;
+	char const *dir = go_plugin_get_dir_name (
+		go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
+	char *path = g_build_filename (dir, "gog-xy-color-prefs.glade", NULL);
+	GladeXML *gui = go_libglade_new (path, "gog-xy-color-prefs", GETTEXT_PACKAGE, cc);
+
+	g_free (path);
+
+	if (gui != NULL) {
+		w = glade_xml_get_widget (gui, "hide-outliers");
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+				(GOG_XY_COLOR_PLOT (obj))->hide_outliers);
+		g_signal_connect (G_OBJECT (w),
+			"toggled",
+			G_CALLBACK (hide_outliers_toggled_cb), obj);
+		w = glade_xml_get_widget (gui, "gog-xy-color-prefs");
+		gog_editor_add_page (editor, w, _("Properties"));
+	}
+
+	(GOG_OBJECT_CLASS(map_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
+}
+#endif
+
 static void
 gog_xy_color_plot_set_property (GObject *obj, guint param_id,
 		     GValue const *value, GParamSpec *pspec)
 {
 	GogXYColorPlot *map = GOG_XY_COLOR_PLOT (obj);
 	switch (param_id) {
-	case GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES: {
+	case GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES:
 		map->default_style_has_lines = g_value_get_boolean (value);
 		break;
-	}
 	case GOG_XY_COLOR_PROP_INTERPOLATION: {
 		char const *s = g_value_get_string (value);
 		map->interpolation = go_line_interpolation_from_str (s);;
 		break;
 	}
+	case GOG_XY_COLOR_PROP_HIDE_OUTLIERS:
+		map->hide_outliers = g_value_get_boolean (value);
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
+
+	/* none of the attributes triggers a size change yet.
+	 * When we add data labels we'll need it */
+	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 }
+
 static void
 gog_xy_color_plot_get_property (GObject *obj, guint param_id,
 		     GValue *value, GParamSpec *pspec)
@@ -675,6 +721,9 @@ gog_xy_color_plot_get_property (GObject *obj, guint param_id,
 		break;
 	case GOG_XY_COLOR_PROP_INTERPOLATION:
 		g_value_set_string (value, go_line_interpolation_as_str (map->interpolation));
+		break;
+	case GOG_XY_COLOR_PROP_HIDE_OUTLIERS:
+		g_value_set_boolean (value, map->hide_outliers);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -712,9 +761,15 @@ gog_xy_color_plot_class_init (GogPlotClass *plot_klass)
 			_("Interpolation type (none, linear, spline or step) with variant, if any"),
 			"none", 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
-	gog_klass->type_name	= gog_xy_color_plot_type_name;
+	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_HIDE_OUTLIERS,
+		g_param_spec_boolean  ("hide-outliers", 
+			_("hide-outliers"),
+			_("Hide data outside of the color axis bounds"),
+			TRUE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	gog_klass->type_name		= gog_xy_color_plot_type_name;
 	gog_klass->update		= gog_xy_color_plot_update;
-
+	gog_klass->populate_editor	= gog_xy_color_plot_populate_editor;
 	{
 		static GogSeriesDimDesc dimensions[] = {
 			{ N_("X"), GOG_SERIES_SUGGESTED, FALSE,
@@ -746,6 +801,7 @@ static void
 gog_xy_color_plot_init (GogXYColorPlot *map)
 {
 	map->default_style_has_lines = FALSE;
+	map->hide_outliers = TRUE;
 }
 
 GSF_DYNAMIC_CLASS (GogXYColorPlot, gog_xy_color_plot,
@@ -781,8 +837,10 @@ bubble_draw_circle (GogView *view, double x, double y, double radius)
 }
 
 static GOColor
-get_map_color (double z)
+get_map_color (double z, gboolean hide_outliers)
 {
+	if (hide_outliers && (z < 0. || z > 6.))
+		return 0;
 	if (z <= 0.)
 		return RGBA_BLUE;
 	if (z <= 1.)
@@ -822,7 +880,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	double xerrmin, xerrmax, yerrmin, yerrmax;
 	GogStyle *style = NULL;
 	gboolean show_marks, show_lines, show_negatives, in_3d, size_as_area = TRUE;
-	gboolean is_map = GOG_IS_XY_COLOR_PLOT (model);
+	gboolean is_map = GOG_IS_XY_COLOR_PLOT (model), hide_outliers = TRUE;
 
 	MarkerData **markers;
 	unsigned *num_markers;
@@ -842,6 +900,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	z_map = is_map?
 			gog_axis_map_new (model->base.axis[GOG_AXIS_COLOR], 0, 6):
 			NULL;
+	if (is_map)
+		hide_outliers = GOG_XY_COLOR_PLOT (model)->hide_outliers;
 
 	/* Draw drop lines from point to axis start. To change this behaviour
 	 * and draw drop lines from point to zero, we can use gog_axis_map_get_baseline:
@@ -1155,7 +1215,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				markers[j][k].y = y_canvas;
 				if (is_map)
 					markers[j][k].color = (gog_axis_map_finite (z_map, z))?
-							get_map_color (gog_axis_map_to_view (z_map, z)):
+							get_map_color (gog_axis_map_to_view (z_map, z), hide_outliers):
 							0;
 				k++;
 			}
@@ -1516,8 +1576,6 @@ gog_xy_series_get_property (GObject *obj, guint param_id,
 }
 
 #ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/goffice-gtk.h>
-#include <gtk/gtktogglebutton.h>
 static void
 invalid_toggled_cb (GtkToggleButton *btn, GObject *obj)
 {

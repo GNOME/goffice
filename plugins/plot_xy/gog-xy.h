@@ -54,6 +54,7 @@ typedef struct {
 typedef struct {
 	Gog2DPlot	base;
 	gboolean	default_style_has_lines;
+	gboolean	hide_outliers;
 	GOLineInterpolation interpolation;
 	struct {
 		double minima, maxima;

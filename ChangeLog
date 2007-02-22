@@ -1,3 +1,11 @@
+2007-02-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_xy/Makefile.am: add new glade file.
+	* plugins/plot_xy/gog-xy-color-prefs.glade: new glade file.
+	* plugins/plot_xy/gog-xy.c: allow hiding data outside of
+	the color axis bounds.
+	* plugins/plot_xy/gog-xy.h: ditto.
+
 2007-02-21  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (generate_format): Generate formats

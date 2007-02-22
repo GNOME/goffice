@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
+<!--Generated with glade3 3.1.5 on Thu Feb 22 15:42:33 2007 by jean@gericom-->
+<glade-interface>
+  <widget class="GtkWindow" id="window1">
+    <child>
+      <widget class="GtkTable" id="gog-xy-color-prefs">
+        <property name="visible">True</property>
+        <property name="border_width">12</property>
+        <property name="n_rows">1</property>
+        <property name="n_columns">1</property>
+        <property name="column_spacing">12</property>
+        <property name="row_spacing">6</property>
+        <child>
+          <widget class="GtkCheckButton" id="hide-outliers">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">Hide data outside of color axis bounds</property>
+            <property name="draw_indicator">True</property>
+          </widget>
+          <packing>
+            <property name="x_options"></property>
+            <property name="y_options"></property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+</glade-interface>
