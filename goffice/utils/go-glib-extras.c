@@ -320,6 +320,14 @@ go_string_append_gstring (GString *target, const GString *source)
 	g_string_append_len (target, source->str, source->len);
 }
 
+void
+go_string_append_c_n (GString *target, char c, gsize n)
+{
+	gsize len = target->len;
+	g_string_set_size (target, len + n);
+	memset (target->str + len, c, n);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /**
