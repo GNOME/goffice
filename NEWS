@@ -1,5 +1,13 @@
 goffice 0.3.7:
 
+Emmanuel Pacaud:
+
+	* Fix calls to g_object_class_install_property. [#172866]
+	* Show a complete dash sequence for sample lines in legends. [#404819]
+	* Fix persistence of legend position. [345836]
+	* Only round width of sharp line. [#403403]
+	* Add more line styles
+
 --------------------------------------------------------------------------
 goffice 0.3.6:
 
