@@ -1,5 +1,9 @@
 2007-02-21  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-format-sel.c (generate_format): Generate formats
+	here.
+	(fmt_dialog_enable_widgets): Recognize builtins here.
+
 	* goffice/utils/go-glib-extras.c (go_string_append_c_n): New
 	function.
 

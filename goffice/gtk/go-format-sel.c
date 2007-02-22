@@ -26,6 +26,7 @@
 #include "goffice/utils/go-locale.h"
 #include "goffice/utils/go-color.h"
 #include "goffice/utils/go-marshalers.h"
+#include "goffice/utils/go-glib-extras.h"
 
 #include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
@@ -169,32 +170,192 @@ static guint go_format_sel_signals [LAST_SIGNAL] = { 0 };
 static void format_entry_set_text (GOFormatSel *gfs, const gchar *text);
 
 static void
+generate_number (GString *dst,
+		 int num_decimals,
+		 gboolean thousands_sep,
+		 int symbol,
+		 int negative_fmt)
+{
+	gboolean precedes = go_format_currencies[symbol].precedes;
+	gboolean has_space = go_format_currencies[symbol].has_space;
+	const char *symstr = go_format_currencies[symbol].symbol;
+
+	/* Currency */
+	if (symbol != 0 && precedes) {
+		g_string_append (dst, symstr);
+		if (has_space) g_string_append_c (dst, ' ');
+	}
+
+	if (thousands_sep)
+		g_string_append (dst, "#,##0");
+	else
+		g_string_append_c (dst, '0');
+
+	if (num_decimals > 0) {
+		g_string_append_c (dst, '.');
+		go_string_append_c_n (dst, '0', num_decimals);
+	}
+
+	/* Currency */
+	if (symbol != 0 && !precedes) {
+		if (has_space)
+			g_string_append_c (dst, ' ');
+		g_string_append (dst, symstr);
+	}
+
+	/* There are negatives */
+	if (negative_fmt > 0) {
+		size_t prelen = dst->len;
+
+		switch (negative_fmt) {
+		case 1 : g_string_append (dst, ";[Red]");
+			break;
+		case 2 : g_string_append (dst, "_);(");
+			break;
+		case 3 : g_string_append (dst, "_);[Red](");
+			break;
+		default :
+			g_assert_not_reached ();
+		};
+
+		g_string_append_len (dst, dst->str, prelen);
+
+		if (negative_fmt >= 2)
+			g_string_append_c (dst, ')');
+	}
+}
+
+static void
+generate_accounting (GString *dst,
+		     int num_decimals,
+		     int symbol)
+{
+	GString *num = g_string_new (NULL);
+	GString *sym = g_string_new (NULL);
+	GString *q = g_string_new (NULL);
+
+	gboolean precedes = go_format_currencies[symbol].precedes;
+	gboolean has_space = go_format_currencies[symbol].has_space;
+	const char *symstr = go_format_currencies[symbol].symbol;
+	const char *quote = symstr[0] != '[' ? "\"" : "";
+
+	generate_number (num, num_decimals, TRUE, 0, 0);
+	go_string_append_c_n (q, '?', num_decimals);
+
+	if (precedes) {
+		g_string_append (sym, quote);
+		g_string_append (sym, symstr);
+		g_string_append (sym, quote);
+		g_string_append (sym, "* ");
+		if (has_space) g_string_append_c (sym, ' ');
+
+		g_string_append_printf
+			(dst,
+			 "_(%s%s_);_(%s(%s);_(%s\"-\"%s_);_(@_)",
+			 sym->str, num->str,
+			 sym->str, num->str,
+			 sym->str, q->str);
+	} else {
+		g_string_append (sym, "* ");
+		if (has_space) g_string_append_c (sym, ' ');
+		g_string_append (sym, quote);
+		g_string_append (sym, symstr);
+		g_string_append (sym, quote);
+
+		g_string_append_printf
+			(dst,
+			 "_(%s%s_);_((%s)%s;_(\"-\"%s%s_);_(@_)",
+			 num->str, sym->str,
+			 num->str, sym->str,
+			 q->str, sym->str);
+	}
+
+	g_string_free (num, TRUE);
+	g_string_free (q, TRUE);
+	g_string_free (sym, TRUE);
+}
+
+static void
+generate_scientific (GString *dst,
+		     int num_decimals,
+		     int exponent_step,
+		     gboolean use_markup,
+		     gboolean simplify_mantissa)
+{
+	go_string_append_c_n (dst, '#', MAX (0, exponent_step - 1));
+	if (simplify_mantissa)
+		g_string_append_c (dst, '#');
+	else
+		g_string_append_c (dst, '0');
+
+	if (num_decimals > 0) {
+		g_string_append_c (dst, '.');
+		go_string_append_c_n (dst, '0', num_decimals);
+	}
+
+	if (use_markup)
+		g_string_append (dst, "EE0");
+	else
+		g_string_append (dst, "E+00");
+}
+
+
+static void
 generate_format (GOFormatSel *gfs)
 {
 	GOFormatFamily const page = gfs->format.current_type;
-	GOFormat *new_format;
+	GOFormat *new_format = NULL;
+	GString *fmt = g_string_new (NULL);
 
-	/* 
-	 * It is a strange idea not to reuse GOFormatDetails
-	 * in this file, so build one.
-	 */
-	GOFormatDetails format = *go_format_get_details (gfs->format.spec);
-	format.thousands_sep = gfs->format.use_separator;
-	format.num_decimals = gfs->format.num_decimals;
-	format.negative_fmt = gfs->format.negative_format;
-	format.currency_symbol_index = gfs->format.currency_index;
-	format.use_markup = gfs->format.use_markup;
-	format.exponent_step = gfs->format.exponent_step;
-	format.simplify_mantissa = gfs->format.simplify_mantissa;
+	switch (page) {
+	case GO_FORMAT_GENERAL:
+	case GO_FORMAT_TEXT:
+		g_string_append (fmt, go_format_builtins[page][0]);
+		break;
+	case GO_FORMAT_NUMBER:
+		generate_number (fmt,
+				 gfs->format.num_decimals,
+				 gfs->format.use_separator,
+				 0,
+				 gfs->format.negative_format);
+		break;
+	case GO_FORMAT_CURRENCY:
+		generate_number (fmt,
+				 gfs->format.num_decimals,
+				 gfs->format.use_separator,
+				 gfs->format.currency_index,
+				 gfs->format.negative_format);
+		break;
+	case GO_FORMAT_ACCOUNTING:
+		generate_accounting (fmt,
+				     gfs->format.num_decimals,
+				     gfs->format.currency_index);
+		break;
+	case GO_FORMAT_PERCENTAGE:
+		generate_number (fmt, gfs->format.num_decimals, FALSE, 0, 0);
+		g_string_append_c (fmt, '%');
+		break;
+	case GO_FORMAT_SCIENTIFIC:
+		generate_scientific (fmt,
+				     gfs->format.num_decimals,
+				     gfs->format.exponent_step,
+				     gfs->format.use_markup,
+				     gfs->format.simplify_mantissa);
+		break;
+	default:
+		break;
+	}
 
-	new_format = go_format_new (page, &format);
+	if (fmt->len)
+		new_format = go_format_new_from_XL (fmt->str, FALSE);
+	g_string_free (fmt, TRUE);
+
 	if (new_format) {
 		char *tmp = go_format_as_XL (new_format, TRUE);
 		format_entry_set_text (gfs, tmp);
 		g_free (tmp);
+		go_format_unref (new_format);
 	}
-
-	go_format_unref (new_format);
 }
 
 static char *
@@ -541,14 +702,22 @@ stays:
 	    page == GO_FORMAT_ACCOUNTING ||
 	    page == GO_FORMAT_FRACTION ||
 	    page == GO_FORMAT_TEXT) {
+		char const * const *candidates = go_format_builtins[page];
 		int list_elem = 0;
-		char *tmp;
-		if (page == go_format_get_family (gfs->format.spec))
-			list_elem = go_format_get_details (gfs->format.spec)->list_element;
+		char *fmtstr = go_format_as_XL (gfs->format.spec, FALSE);
 
-		tmp = go_format_str_as_XL (go_format_builtins[page][list_elem], TRUE);
-		format_entry_set_text (gfs, tmp);
-		g_free (tmp);
+		while (candidates[list_elem]) {
+			if (strcmp (candidates[list_elem], fmtstr) == 0)
+				break;
+			list_elem++;
+		}
+		if (candidates[list_elem] == NULL)
+			list_elem = 0;
+		g_free (fmtstr);
+
+		fmtstr = go_format_str_as_XL (candidates[list_elem], TRUE);
+		format_entry_set_text (gfs, fmtstr);
+		g_free (fmtstr);
 	}
 
 	gfs->format.current_type = page;
