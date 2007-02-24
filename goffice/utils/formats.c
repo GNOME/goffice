@@ -291,10 +291,10 @@ go_currency_date_format_shutdown (void)
 		g_free ((char *)(fmts_currency [i]));
 		fmts_currency [i] = NULL;
 	}
-	g_free ((char *)(fmts_accounting [0]));
+	g_free ((char *)(fmts_accounting[0]));
 	fmts_accounting [0] = NULL;
-	g_free ((char *)(fmts_accounting [2]));
-	fmts_accounting [3] = NULL;
+	g_free ((char *)(fmts_accounting[2]));
+	fmts_accounting[2] = NULL;
 }
 
 GOFormatCurrency const go_format_currencies[] =

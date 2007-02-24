@@ -12,6 +12,7 @@ Morten:
 	* Fix UTF-8 problem in format preview.
 	* Separate the format selector from format internals.
 	* Total rewrite of number formatting.  [#74618]  [#163438]
+	* Fix potential memory corruption in format dialog.
 
 --------------------------------------------------------------------------
 goffice 0.3.6:
