@@ -2063,11 +2063,15 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			datetime_serial_to_g (&date,
 					      (int)SUFFIX(floor)(valsecs / 86400),
 					      date_conv);
-			if (!g_date_valid (&date))
+			if (!g_date_valid (&date)) {
 				res = GO_FORMAT_NUMBER_DATE_ERROR;
+				break;
+			}
 			year = g_date_get_year (&date);
-			if (year > 9999)
+			if (year > 9999) {
 				res = GO_FORMAT_NUMBER_DATE_ERROR;
+				break;
+			}
 			month = g_date_get_month (&date);
 			day = g_date_get_day (&date);
 			weekday = g_date_get_weekday (&date);
