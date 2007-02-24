@@ -4,6 +4,8 @@
 	function independent of go-format.c internals.
 	(fillin_negative_samples): Use GOFormat instead of doing things by
 	hand.
+	(study_format): Identify currency.
+
 	* goffice/utils/go-format.c: Total rewrite.
 	* goffice/utils/formats.c: Remove various unused stuff.
 

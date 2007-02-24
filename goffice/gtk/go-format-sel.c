@@ -966,6 +966,49 @@ set_format_category (GOFormatSel *gfs, int row)
 	gtk_tree_path_free (path);
 }
 
+/* Returns the index in go_format_currencies of the symbol in ptr */
+static int
+find_symbol (char const *ptr, gsize len, gboolean precedes)
+{
+	int i;
+	gboolean has_space;
+	gboolean quoted;
+
+	if (len <= 0)
+		return 0;
+
+	if (precedes) {
+		has_space = ptr[len - 1] == ' ';
+		if (has_space)
+			len--;
+	} else {
+		has_space = ptr[0] == ' ';
+		if (has_space)
+			len--, ptr++;
+	}
+
+	quoted = len > 2 && ptr[0] == '\"' && ptr[len - 1] == '\"';
+
+	for (i = 1; go_format_currencies[i].symbol; i++) {
+		const GOFormatCurrency *ci = go_format_currencies + i;
+
+		if (ci->precedes != precedes)
+			continue;
+
+		if (strncmp (ci->symbol, ptr, len) == 0) {
+			return i;
+		}
+
+		/* Allow quoting of things that aren't [$FOO] */
+		if (quoted && ci->symbol[0] != '[' &&
+		    strncmp (ci->symbol, ptr + 1, len - 2) == 0) {
+			return i;
+		}
+	}
+
+	return 0;
+}
+
 static GOFormatFamily
 study_format (GOFormatSel *gfs)
 {
@@ -1004,7 +1047,50 @@ study_format (GOFormatSel *gfs)
 			(strstr (str, ";[Red]") ? 1 : 0) +
 			(strstr (str, "_);") ? 2 : 0);
 
-		gfs->format.currency_index = 0; /* FIXME */
+		if (str[0] == '_' && str[1] == '(') {
+			const char *start = str + 2;
+			gboolean precedes = start[0] != '#';
+			gsize len = 0;
+
+			if (precedes) {
+				while (start[len] && start[len] != '*')
+					len++;
+			} else {
+				while (start[0] == '0' || start[0] == '.' ||
+				       start[0] == '#' || start[0] == ',')
+					start++;
+				if (start[0] == '*' && start[1])
+					start += 2;
+				while (start[len] && start[len] != '_')
+					len++;
+			}
+
+			gfs->format.currency_index =
+				find_symbol (start, len, precedes);
+			typ = GO_FORMAT_ACCOUNTING;
+		} else {
+			gboolean precedes = str[0] != '0' && str[0] != '#';
+			const char *start;
+			gsize len = 0;
+			int symbol;
+
+			if (precedes) {
+				start = str;
+				while (start[len] && start[len] != '0' && start[len] != '#')
+					len++;
+			} else {
+				start = str + strlen (str);
+				if (start > str && start[-1] == ')')
+					start--;
+				while (start > str && start[-1] != '0' && start[-1] != '#')
+					start--, len++;
+			}
+			symbol = find_symbol (start, len, precedes);
+			if (symbol != 0) {
+				gfs->format.currency_index = symbol;
+				typ = GO_FORMAT_CURRENCY;
+			}
+		}
 
 		gfs->format.use_separator = (strstr (str, "#,##0") != NULL);
 
@@ -1027,8 +1113,12 @@ study_format (GOFormatSel *gfs)
 
 	if (newstr) {
 		/* Test the generated format. */
-		if (strcmp (str, newstr))
+		if (strcmp (str, newstr)) {
+#if 0
+			g_print ("[%s] <-> [%s]\n", str, newstr);
+#endif
 			typ = FMT_CUSTOM;
+		}
 		g_free (newstr);
 	} else {
 		const char *elem = find_builtin (str, typ, FALSE);

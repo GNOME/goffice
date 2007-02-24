@@ -11,7 +11,7 @@ Emmanuel Pacaud:
 Morten:
 	* Fix UTF-8 problem in format preview.
 	* Separate the format selector from format internals.
-	* Total rewrite of number formatting.
+	* Total rewrite of number formatting.  [#74618]  [#163438]
 
 --------------------------------------------------------------------------
 goffice 0.3.6:

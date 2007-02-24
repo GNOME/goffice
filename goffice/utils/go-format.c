@@ -354,8 +354,24 @@ go_format_get_family (GOFormat const *fmt)
 			return GO_FORMAT_PERCENTAGE;
 		return GO_FORMAT_NUMBER;
 	default:
-	case GO_FMT_COND:
-		return GO_FORMAT_GENERAL;
+	case GO_FMT_COND: {
+		int i;
+		GOFormatFamily t0 = GO_FORMAT_UNKNOWN;
+
+		for (i = 0; i < fmt->u.cond.n; i++) {
+			const GOFormatCondition *ci =
+				fmt->u.cond.conditions + i;
+			if (i == 0)
+				t0 = go_format_get_family (ci->fmt);
+			if (ci->op == GO_FMT_COND_TEXT &&
+			    i == fmt->u.cond.n - 1)
+				continue;
+			if (t0 != go_format_get_family (ci->fmt))
+				return GO_FORMAT_UNKNOWN;
+		}
+
+		return t0;
+	}
 	}
 }
 

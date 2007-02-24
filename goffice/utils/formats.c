@@ -297,8 +297,6 @@ go_currency_date_format_shutdown (void)
 	fmts_accounting [3] = NULL;
 }
 
-#define EURO_FORM_1 4
-
 GOFormatCurrency const go_format_currencies[] =
 {
  	{ "", "None", TRUE, FALSE },	/* These first six elements */
@@ -491,31 +489,3 @@ GOFormatCurrency const go_format_currencies[] =
 
 	{ NULL, NULL, FALSE, FALSE }
 };
-
-/* Returns the index in go_format_currencies of the symbol in ptr */
-static int
-find_currency (char const *ptr, int len)
-{
-	int i;
-
-	/*
-	 * The string below is actually "\"€\"". We use hex codes
-	 * here because Micrsoft's C compiler will parse this string
-	 * incorrectly if the environment multiple-byte encoding is NOT
-	 * iso-8859-1 compatible.
-	 */
-	if (len == 5 && memcmp (ptr, "\"\xe2\x82\xac\"", 5) == 0) {
-		/* Accept quoted Euro character -- arbitrarity pick form 1.  */
-		return EURO_FORM_1;
-	} else if (len >= 2 && ptr[0] == '"' && ptr [len - 1] == '"') {
-		/* Accept quotes around the currency.  */
-		ptr++;
-		len -= 2;
-	}
-
-	for (i = 0; go_format_currencies[i].symbol; i++)
-		if (strncmp (go_format_currencies[i].symbol, ptr, len) == 0)
-			return i;
-
-	return -1;
-}
