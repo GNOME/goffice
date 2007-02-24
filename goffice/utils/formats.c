@@ -170,47 +170,12 @@ go_format_builtins [] = {
 	NULL
 };
 
-/* The compiled regexp for go_format_classify */
-static GORegexp re_simple_number;
-static GORegexp re_red_number;
-static GORegexp re_brackets_number;
-static GORegexp re_percent_science;
-static GORegexp re_account;
-static GORegexp re_fraction;
-
-static const char *
-my_regerror (int err, const GORegexp *preg)
-{
-	static char buffer[1024];
-	go_regerror (err, preg, buffer, sizeof (buffer));
-	return buffer;
-}
-
 void
 go_currency_date_format_init (void)
 {
 	gboolean precedes, space_sep;
 	char const *curr = go_locale_get_currency (&precedes, &space_sep)->str;
 	char *pre, *post, *pre_rep, *post_rep;
-	int err;
-
-	/* Compile the regexps for format classification */
-
-	/* This one is for simple numbers - it is an extended regexp */
-	char const * const simple_number_pattern = "^(\"?(\\$|£|¥|€|\\[\\$.{1,3}-?[0-9]{0,3}\\])\"? ?)?(#,##)?0(\\.0{1,30})?( ?(\\$|£|¥|€|\\[\\$.{1,3}-?[0-9]{0,3}\\]))?$";
-
-	/* This one is for matching formats like 0.00;[Red]0.00 */
-	char const * const red_number_pattern = "^(.*);\\[[Rr][Ee][Dd]\\]\\1$";
-
-	/* This one is for matching formats like 0.00_);(0.00) */
-	char const * const brackets_number_pattern = "^(.*)_\\);(\\[[Rr][Ee][Dd]\\])?\\(\\1\\)$";
-
-	/* This one is for GO_FORMAT_PERCENTAGE and GO_FORMAT_SCIENTIFIC, extended regexp */
-	char const *pattern_percent_science = "^(#{0,30}(0?))(\\.(((0{1,30})(#{0,30}))|#{1,30}))?(%|[eE]\\+?0{1,30}|(EE)\\+?0{1,30})$";
-
-	char const *pattern_fraction = "^([0?#]+ +)?([0#?]+)/([0#?]+|[1-9]\\d*)$";
-
-	/* This one is for GO_FORMAT_ACCOUNTING */
 
 	/*
 	 *  1. "$*  "	Yes, it is needed (because we use match[])
@@ -222,39 +187,6 @@ go_currency_date_format_init (void)
 	 *  7. "*  $"
 	 *  8. "$"
 	 */
-
-	char const *pattern_account = "^_\\((((.*)\\*  ?)?)(#,##0(\\.0{1,30})?)((\\*  ?(.*))?)_\\);_\\(\\1\\(\\4\\)\\6;_\\(\\1\"-\"\\?{0,30}\\6_\\);_\\(@_\\)$";
-
-
-	err = go_regcomp (&re_simple_number, simple_number_pattern, 0);
-	if (err)
-		g_warning ("Error in regcomp() for simple number, please report the bug [%s] [%s]",
-			   my_regerror (err, &re_simple_number), simple_number_pattern);
-
-	err = go_regcomp (&re_red_number, red_number_pattern, 0);
-	if (err)
-		g_warning ("Error in regcomp() for red number, please report the bug [%s] [%s]",
-			   my_regerror (err, &re_red_number), red_number_pattern);
-
-	err = go_regcomp (&re_brackets_number, brackets_number_pattern, 0);
-	if (err)
-		g_warning ("Error in regcomp() for brackets number, please report the bug [%s] [%s]",
-			   my_regerror (err, &re_brackets_number), brackets_number_pattern);
-
-	err = go_regcomp (&re_percent_science, pattern_percent_science, 0);
-	if (err)
-		g_warning ("Error in regcomp() for percent and science, please report the bug [%s] [%s]",
-			  my_regerror (err, &re_percent_science), pattern_percent_science);
-
-	err = go_regcomp (&re_fraction, pattern_fraction, 0);
-	if (err)
-		g_warning ("Error in regcomp() for fraction, please report the bug [%s] [%s]",
-			  my_regerror (err, &re_fraction), pattern_fraction);
-
-	err = go_regcomp (&re_account, pattern_account, 0);
-	if (err)
-		g_warning ("Error in regcomp() for account, please report the bug [%s] [%s]",
-			   my_regerror (err, &re_account), pattern_account);
 
 	if (precedes) {
 		post_rep = post = (char *)"";
@@ -363,13 +295,6 @@ go_currency_date_format_shutdown (void)
 	fmts_accounting [0] = NULL;
 	g_free ((char *)(fmts_accounting [2]));
 	fmts_accounting [3] = NULL;
-
-	go_regfree (&re_simple_number);
-	go_regfree (&re_red_number);
-	go_regfree (&re_brackets_number);
-	go_regfree (&re_percent_science);
-	go_regfree (&re_account);
-	go_regfree (&re_fraction);
 }
 
 #define EURO_FORM_1 4
@@ -573,10 +498,12 @@ find_currency (char const *ptr, int len)
 {
 	int i;
 
-	/* the below string is actually "\"€\"". We use hex codes
+	/*
+	 * The string below is actually "\"€\"". We use hex codes
 	 * here because Micrsoft's C compiler will parse this string
 	 * incorrectly if the environment multiple-byte encoding is NOT
-	 * iso-8859-1 compatible. See also find_decimal_char() in format.c */
+	 * iso-8859-1 compatible.
+	 */
 	if (len == 5 && memcmp (ptr, "\"\xe2\x82\xac\"", 5) == 0) {
 		/* Accept quoted Euro character -- arbitrarity pick form 1.  */
 		return EURO_FORM_1;
@@ -591,252 +518,4 @@ find_currency (char const *ptr, int len)
 			return i;
 
 	return -1;
-}
-
-static GOFormatFamily
-cell_format_simple_number (char const * const fmt, GOFormatDetails *info)
-{
-	GOFormatFamily result = GO_FORMAT_NUMBER;
-	int cur = -1;
-	GORegmatch match[7];
-
-	if (go_regexec (&re_simple_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
-
-		if (match[2].rm_eo == -1 && match[6].rm_eo == -1) {
-			result = GO_FORMAT_NUMBER;
-			info->currency_symbol_index = 0;
-		} else {
-			result = GO_FORMAT_CURRENCY;
-			if (match[6].rm_eo == -1)
-				cur = find_currency (fmt + match[2].rm_so,
-						     match[2].rm_eo
-						     - match[2].rm_so);
-			else if (match[2].rm_eo == -1)
-				cur = find_currency (fmt + match[6].rm_so,
-						     match[6].rm_eo
-						     - match[6].rm_so);
-			if (cur == -1)
-				return GO_FORMAT_UNKNOWN;
-			info->currency_symbol_index = cur;
-		}
-
-		if (match[3].rm_eo != -1)
-			info->thousands_sep = TRUE;
-
-		info->num_decimals = 0;
-		if (match[4].rm_eo != -1)
-			info->num_decimals = match[4].rm_eo -
-				match[4].rm_so - 1;
-
-		return result;
-	} else {
-		return GO_FORMAT_UNKNOWN;
-	}
-}
-
-static GOFormatFamily
-cell_format_is_number (char const * const fmt, GOFormatDetails *info)
-{
-	GOFormatFamily result = GO_FORMAT_NUMBER;
-	char const *ptr = fmt;
-	int cur = -1;
-	GORegmatch match[10];
-
-	/* GO_FORMAT_CURRENCY or GO_FORMAT_NUMBER ? */
-	if ((result = cell_format_simple_number (fmt, info)) != GO_FORMAT_UNKNOWN)
-		return result;
-
-	if (go_regexec (&re_red_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
-		char *tmp = g_strndup(fmt+match[1].rm_so,
-				      match[1].rm_eo-match[1].rm_so);
-		result = cell_format_simple_number (tmp, info);
-		g_free(tmp);
-		info->negative_fmt = 1;
-		return result;
-	}
-
-	if (go_regexec (&re_brackets_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
-		char *tmp = g_strndup(fmt+match[1].rm_so,
-				      match[1].rm_eo-match[1].rm_so);
-		result = cell_format_simple_number (tmp, info);
-		g_free(tmp);
-		if (match[2].rm_eo != -1)
-			info->negative_fmt = 3;
-		else
-			info->negative_fmt = 2;
-		return result;
-	}
-
-	/* GO_FORMAT_PERCENTAGE or GO_FORMAT_SCIENTIFIC ? */
-	if (go_regexec (&re_percent_science, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
-		info->num_decimals = 0;
-		info->exponent_step = 1;
-
-		if (match[1].rm_eo != -1)
-			info->exponent_step = match[1].rm_eo - match[1].rm_so;
-
-		if (match[2].rm_eo != -1)
-			info->simplify_mantissa = TRUE;
-			
-		if (match[6].rm_eo != -1)
-			info->num_decimals = match[6].rm_eo - match[6].rm_so;
-
-		if (match[9].rm_eo != -1)
-			info->use_markup = TRUE;
-
-		if (ptr[match[8].rm_so] == '%')
-			return GO_FORMAT_PERCENTAGE;
-		else
-			return GO_FORMAT_SCIENTIFIC;
-	}
-
-	/* GO_FORMAT_ACCOUNTING */
-	if (go_regexec (&re_account, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
-		info->num_decimals = 0;
-		if (match[5].rm_eo != -1)
-			info->num_decimals = match[5].rm_eo -
-				match[5].rm_so - 1;
-
-		if (match[1].rm_eo == -1 && match[6].rm_eo == -1)
-			return GO_FORMAT_UNKNOWN;
-		else {
-			if (match[8].rm_eo == -1)
-				cur = find_currency (ptr + match[3].rm_so,
-						    match[3].rm_eo
-						    - match[3].rm_so);
-			else if (match[3].rm_eo == -1)
-				cur = find_currency (ptr + match[8].rm_so,
-						    match[8].rm_eo
-						    - match[8].rm_so);
-			else
-				return GO_FORMAT_UNKNOWN;
-
-		}
-
-		if (cur == -1)
-			return GO_FORMAT_UNKNOWN;
-		info->currency_symbol_index = cur;
-
-		return GO_FORMAT_ACCOUNTING;
-	}
-
-	return GO_FORMAT_UNKNOWN;
-
-}
-
-static gboolean
-cell_format_is_fraction (char const *fmt, GOFormatDetails *info)
-{
-	GORegmatch match[4];
-	const char *denominator;
-
-	if (go_regexec (&re_fraction, fmt, G_N_ELEMENTS (match), match, 0) != 0)
-		return FALSE;
-
-	denominator = fmt + match[3].rm_so;
-	if (g_ascii_digit_value (denominator[0]) < 1) {
-		info->num_decimals = match[3].rm_eo - match[3].rm_so;
-		info->fraction_denominator = 0;
-	} else {
-		info->num_decimals = 0;
-		info->fraction_denominator = atoi (denominator);
-	}
-	return TRUE;
-}
-
-static gboolean
-cell_format_is_time (char const *fmt, GOFormatDetails *info)
-{
-	if (strstr (fmt, "[h]") || strstr (fmt, "hh") ||
-	    strstr (fmt, "mm:ss"))
-		return TRUE;
-
-	return FALSE;
-}
-
-static gboolean
-cell_format_is_date (char const *fmt, GOFormatDetails *info)
-{
-	if (strstr (fmt, "yy") || strstr (fmt, "mmm")) {
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-
-GOFormatFamily
-go_format_classify (GOFormat const *gf, GOFormatDetails *info)
-{
-	char *fmt;
-	GOFormatFamily res;
-	int i;
-
-	g_return_val_if_fail (gf != NULL, GO_FORMAT_GENERAL);
-	g_return_val_if_fail (info != NULL, GO_FORMAT_GENERAL);
-
-	fmt = go_format_as_XL (gf, FALSE);
-
-	/* Init the result to something sane */
-	info->thousands_sep = FALSE;
-	info->num_decimals = 2;
-	info->negative_fmt = 0;
-	info->list_element = 0;
-	info->currency_symbol_index = 1; /* '$' */
-	info->fraction_denominator = 0;
-	info->use_markup = FALSE;
-	info->exponent_step = 1;
-	info->simplify_mantissa = FALSE;
-
-	if (*fmt == '\0') {
-		g_free (fmt);
-		return GO_FORMAT_UNKNOWN;
-	}
-
-	/* Note: ->family is not yet ready.  */
-	if (g_ascii_strcasecmp (fmt, fmts_general[0]) == 0) {
-		g_free (fmt);
-		return GO_FORMAT_GENERAL;
-	}
-
-	if (fmt[0] == '@' && fmt[1] == '[') {
-		g_free (fmt);
-		return GO_FORMAT_MARKUP;
-	}
-
-	/* Can we parse it ? */
-	if ((res = cell_format_is_number (fmt, info)) != GO_FORMAT_UNKNOWN) {
-		g_free (fmt);
-		return res;
-	}
-
-	if (cell_format_is_fraction (fmt, info)) {
-		g_free (fmt);
-		return GO_FORMAT_FRACTION;
-	}
-
-	/* Is it in the lists */
-	for (i = 0; go_format_builtins[i] != NULL ; ++i) {
-		int j = 0;
-		char const * const * elem = go_format_builtins[i];
-		for (; elem[j] ; ++j)
-			if (g_ascii_strcasecmp (_(elem[j]), fmt) == 0) {
-				info->list_element = j;
-				g_free (fmt);
-				return i;
-			}
-	}
-
-	if (cell_format_is_time (fmt, info)) {
-		g_free (fmt);
-		return GO_FORMAT_TIME;
-	}
-
-	if (cell_format_is_date (fmt, info)) {
-		g_free (fmt);
-		return GO_FORMAT_DATE;
-	}
-
-	g_free (fmt);
-	return GO_FORMAT_UNKNOWN;
 }

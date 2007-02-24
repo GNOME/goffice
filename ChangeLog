@@ -1,3 +1,12 @@
+2007-02-23  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-format-sel.c: Make truncation UTF-8 safe.  Make
+	function independent of go-format.c internals.
+	(fillin_negative_samples): Use GOFormat instead of doing things by
+	hand.
+	* goffice/utils/go-format.c: Total rewrite.
+	* goffice/utils/formats.c: Remove various unused stuff.
+
 2007-02-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_xy/Makefile.am: add new glade file.

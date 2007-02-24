@@ -4,7 +4,7 @@
  *
  * Copyright (C) 1998 Chris Lahey, Miguel de Icaza
  * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
- * Copyright (C) 2005-2006 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2005-2007 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -27,11 +27,12 @@
  * This file includes itself in order to provide both "double" and "long
  * double" versions of most functions.
  *
- * This most source lines tus correspond to two functions, gdb is having
+ * Most source lines thus correspond to two functions, gdb is having
  * a hard time sorting things out.  Feel with it.
  */
 
 #include <goffice/goffice-config.h>
+#include <gsf/gsf-msole-utils.h>
 #include "go-format.h"
 #include "go-locale.h"
 #include "go-font.h"
@@ -47,6 +48,10 @@
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
+
+#define OBSERVE_XL_CONDITION_LIMITS
+#define OBSERVE_XL_EXPONENT_1
+#define ALLOW_EE_MARKUP
 
 /* ------------------------------------------------------------------------- */
 
@@ -102,62 +107,271 @@
 /***************************************************************************/
 
 #ifdef DEFINE_COMMON
+
+typedef enum {
+	OP_END = 0,
+	OP_CHAR,		/* unichar */
+	OP_CHAR_INVISIBLE,	/* unichar */
+	OP_CHAR_REPEAT,
+	OP_FILL,		/* unichar */
+	OP_LOCALE,		/* locale langstr */
+	/* ------------------------------- */
+	OP_DATE_ROUND,		/* decimals */
+	OP_DATE_SPLIT,
+	OP_DATE_YEAR,
+	OP_DATE_YEAR_2,
+	OP_DATE_YEAR_THAI,
+	OP_DATE_YEAR_THAI_2,
+	OP_DATE_MONTH,
+	OP_DATE_MONTH_2,
+	OP_DATE_MONTH_NAME,
+	OP_DATE_MONTH_NAME_1,
+	OP_DATE_MONTH_NAME_3,
+	OP_DATE_DAY,
+	OP_DATE_DAY_2,
+	OP_DATE_WEEKDAY,
+	OP_DATE_WEEKDAY_3,
+	/* ------------------------------- */
+	OP_TIME_SPLIT_24,
+	OP_TIME_SPLIT_12,
+	OP_TIME_SPLIT_ELAPSED_HOUR,
+	OP_TIME_SPLIT_ELAPSED_MINUTE,
+	OP_TIME_SPLIT_ELAPSED_SECOND,
+	OP_TIME_HOUR,
+	OP_TIME_HOUR_2,
+	OP_TIME_HOUR_N,		/* n */
+	OP_TIME_AMPM,
+	OP_TIME_AP,		/* [aA][pP] */
+	OP_TIME_MINUTE,
+	OP_TIME_MINUTE_2,
+	OP_TIME_MINUTE_N,	/* n */
+	OP_TIME_SECOND,
+	OP_TIME_SECOND_2,
+	OP_TIME_SECOND_N,	/* n */
+	OP_TIME_SECOND_DECIMAL_START,
+	OP_TIME_SECOND_DECIMAL_DIGIT,
+	/* ------------------------------- */
+	OP_NUM_SCALE,		/* orders */
+	OP_NUM_ENABLE_THOUSANDS,
+	OP_NUM_DISABLE_THOUSANDS,
+	OP_NUM_PRINTF_E,	/* prec */
+	OP_NUM_PRINTF_F,	/* prec */
+	OP_NUM_SIGN,
+	OP_NUM_VAL_SIGN,
+	OP_NUM_MOVETO_ONES,
+	OP_NUM_MOVETO_DECIMALS,
+	OP_NUM_REST_WHOLE,
+	OP_NUM_APPEND_MODE,
+	OP_NUM_DECIMAL_POINT,
+	OP_NUM_DIGIT_1,		/* [0?#] */
+	OP_NUM_DECIMAL_1,	/* [0?#] */
+	OP_NUM_DIGIT_1_0,	/* [0?#] */
+	OP_NUM_DENUM_DIGIT_Q,
+	OP_NUM_EXPONENT_SIGN,
+	OP_NUM_EXPONENT_1,
+	OP_NUM_VAL_EXPONENT,
+	OP_NUM_FRACTION,	/* wholep explicitp (digits|denominator) */
+	OP_NUM_FRACTION_WHOLE,
+	OP_NUM_FRACTION_NOMINATOR,
+	OP_NUM_FRACTION_DENOMINATOR,
+	OP_NUM_FRACTION_BLANK,
+	OP_NUM_GENERAL_MARK,
+	OP_NUM_GENERAL_DO,
+	/* ------------------------------- */
+	OP_STR_APPEND_SVAL
+} GOFormatOp;
+
+typedef enum {
+	TOK_GENERAL = 256,	/* General	*/
+
+	TOK_STRING,		/* "xyz"	*/
+	TOK_CHAR,		/* non-ascii */
+	TOK_ESCAPED_CHAR,	/* \x		*/
+	TOK_INVISIBLE_CHAR,	/* _x		*/
+	TOK_REPEATED_CHAR,	/* *x		*/
+
+	TOK_AMPM5,		/* am/pm	*/
+	TOK_AMPM3,		/* a/p		*/
+
+	TOK_ELAPSED_H,		/* [hhh...]	*/
+	TOK_ELAPSED_M,		/* [mmm...]	*/
+	TOK_ELAPSED_S,		/* [sss...]	*/
+
+	TOK_COLOR,		/* [red]	*/
+	TOK_CONDITION,		/* [>0]		*/
+	TOK_LOCALE,		/* [$txt-F800]	*/
+
+	TOK_ERROR
+} GOFormatToken;
+
+typedef enum {
+	TT_TERMINATES_SINGLE = 1,
+	TT_ERROR = 2,
+
+	TT_ALLOWED_IN_DATE = 0x10,
+	TT_STARTS_DATE = 0x20,
+
+	TT_ALLOWED_IN_NUMBER = 0x100,
+	TT_STARTS_NUMBER = 0x200,
+
+	TT_ALLOWED_IN_TEXT = 0x1000,
+	TT_STARTS_TEXT = 0x2000
+} GOFormatTokenType;
+
+typedef enum {
+	GO_FMT_INVALID,
+	GO_FMT_COND,
+	GO_FMT_NUMBER,
+	GO_FMT_EMPTY,
+	GO_FMT_TEXT,
+	GO_FMT_MARKUP
+} GOFormatClass;
+
+typedef enum {
+	GO_FMT_COND_NONE,
+	GO_FMT_COND_EQ,
+	GO_FMT_COND_NE,
+	GO_FMT_COND_LT,
+	GO_FMT_COND_LE,
+	GO_FMT_COND_GT,
+	GO_FMT_COND_GE,
+	GO_FMT_COND_TEXT,
+	GO_FMT_COND_NONTEXT
+} GOFormatConditionOp;
+
+typedef struct {
+	GOFormatConditionOp op;
+	unsigned implicit : 1;
+	unsigned true_inhibits_minus : 1;
+	unsigned false_inhibits_minus : 1;
+	/* Plain "double".  It isn't worth it to have two types.  */
+	double val;
+	GOFormat *fmt;
+} GOFormatCondition;
+
+typedef struct {
+	guint32 locale;
+} GOFormatLocale;
+
+
 struct _GOFormat {
-	int		 ref_count;
-	char		*format;
-        GSList		*entries;	/* Of type GOFormatElement. */
-	GOFormatFamily	 family;
-	GOFormatDetails	 family_info;
-	gboolean	 is_var_width;
-	PangoAttrList	*markup;	/* only for GO_FORMAT_MARKUP */
+	unsigned int typ : 8;
+	unsigned int ref_count : 24;
+	GOColor color;
+	unsigned int has_fill;
+	char *format;
+	union {
+		struct {
+			int n;
+			GOFormatCondition *conditions;
+		} cond;
+
+		struct {
+			guchar *program;
+			unsigned int E_format    : 1;
+			unsigned int use_markup  : 1;
+			unsigned int has_date    : 1;
+			unsigned int has_time    : 1;
+			unsigned int fraction    : 1;
+			unsigned int scale_is_2  : 1;
+			unsigned int has_general : 1;
+			unsigned int is_general  : 1;
+		} number;
+
+		struct {
+			guchar *program;
+		} text;
+
+		PangoAttrList *markup;
+	} u;
 };
 
 typedef struct {
-	int  right_optional, right_spaces, right_req, right_allowed;
-	int  left_optional, left_spaces, left_req;
-	double scale;
-	gboolean rendered;
-	gboolean decimal_separator_seen;
-	gboolean group_thousands;
-	gboolean has_fraction;
-	gboolean unicode_minus;
+	const char *tstr;
+	int token;
+	GOFormatTokenType tt;
+} GOFormatParseItem;
 
-	gboolean exponent_seen;
+typedef struct {
+	/* Set by go_format_preparse: */
+	GArray *tokens;
 
-	int exponent_digit_nbr;
-	gboolean exponent_show_sign;
-	gboolean exponent_lower_e;
+	GOFormatClass typ;
+	gboolean is_date;
+	gboolean is_number;   /* has TT_STARTS_NUMBER token */
 
-	gboolean use_markup;
-} GONumberFormat;
+	GOFormatCondition cond;
+	gboolean have_cond;
+
+	GOColor color;
+	gboolean have_color;
+
+	GOFormatLocale locale;
+	gboolean have_locale;
+
+	gunichar fill_char;
+
+	int tno_slash;
+	int tno_E;
+
+	gboolean has_general, is_general;
+
+	/* Set by go_format_parse_number_new_1: */
+	int scale;
+
+	/* Set by go_format_parse_number_fraction: */
+	int force_zero_pos;
+	gboolean explicit_denom;
+} GOFormatParseState;
+
+#define REPEAT_CHAR_MARKER 0
 
 GOFormatFamily
 go_format_get_family (GOFormat const *fmt)
 {
 	g_return_val_if_fail (fmt != NULL, GO_FORMAT_UNKNOWN);
-	return fmt->family;
-}
 
-const GOFormatDetails *
-go_format_get_details (GOFormat const *fmt)
-{
-	g_return_val_if_fail (fmt != NULL, NULL);
-	return &fmt->family_info;
+	switch (fmt->typ) {
+	case GO_FMT_MARKUP:
+		return GO_FORMAT_MARKUP;
+	case GO_FMT_INVALID:
+	case GO_FMT_EMPTY:
+		return GO_FORMAT_UNKNOWN;
+	case GO_FMT_TEXT:
+		return GO_FORMAT_TEXT;
+	case GO_FMT_NUMBER:
+		if (fmt->u.number.is_general)
+			return GO_FORMAT_GENERAL;
+		if (fmt->u.number.has_time)
+			return GO_FORMAT_TIME;
+		if (fmt->u.number.has_date)
+			return GO_FORMAT_DATE;
+		if (fmt->u.number.fraction)
+			return GO_FORMAT_FRACTION;
+		if (fmt->u.number.E_format)
+			return GO_FORMAT_SCIENTIFIC;
+		if (fmt->u.number.scale_is_2)
+			return GO_FORMAT_PERCENTAGE;
+		return GO_FORMAT_NUMBER;
+	default:
+	case GO_FMT_COND:
+		return GO_FORMAT_GENERAL;
+	}
 }
 
 const PangoAttrList *
 go_format_get_markup (GOFormat const *fmt)
 {
 	g_return_val_if_fail (fmt != NULL, NULL);
-	g_return_val_if_fail (fmt->family == GO_FORMAT_MARKUP, NULL);
-	return fmt->markup;
+	g_return_val_if_fail (fmt->typ == GO_FMT_MARKUP, NULL);
+	return fmt->u.markup;
 }
 
 gboolean
 go_format_is_simple (GOFormat const *fmt)
 {
 	g_return_val_if_fail (fmt != NULL, TRUE);
-	return g_slist_length (fmt->entries) <= 1;
+	return (fmt->typ != GO_FMT_COND);
 }
 
 
@@ -167,6 +381,7 @@ static GOFormat *default_date_fmt;
 static GOFormat *default_time_fmt;
 static GOFormat *default_date_time_fmt;
 static GOFormat *default_general_fmt;
+static GOFormat *default_empty_fmt;
 
 
 static double beyond_precision;
@@ -174,460 +389,16 @@ static double beyond_precision;
 static long double beyond_precisionl;
 #endif
 
-static GOColor lookup_color (char const *str, char const *end);
-
 /***************************************************************************/
 
 /* WARNING : Global */
 static GHashTable *style_format_hash = NULL;
 
-/*
- * The returned string is newly allocated.
- *
- * Current format is an optional date specification followed by an
- * optional number specification.
- *
- * A date specification is an arbitrary sequence of characters (other
- * than '#', '0', '?', or '.') which is copied to the output.  The
- * standard date fields are substituted for.  If it ever finds an a or
- * a p it lists dates in 12 hour time, otherwise, it lists dates in 24
- * hour time.
- *
- * A number specification is as described in the relevant portions of
- * the excel formatting information.  Commas can currently only appear
- * at the end of the number specification.  Fractions are supported
- * but the parsing is not as nice as it should be.
- */
-
-
-/*
- * Adds a year.
- */
-static void
-append_year (GString *string, int n, struct tm const *time_split)
-{
-	int year = time_split->tm_year + 1900;
-
-	if (n <= 2)
-		g_string_append_printf (string, "%02d", year % 100);
-	else
-		g_string_append_printf (string, "%04d", year);
-}
-
-/*
- * Adds a Thai solar year.  No kidding.
- */
-static void
-append_thai_year (GString *string, int n, struct tm const *time_split)
-{
-	int year = time_split->tm_year + 1900 + 543;
-
-	if (n <= 2)
-		g_string_append_printf (string, "%02d", year % 100);
-	else
-		g_string_append_printf (string, "%04d", year);
-}
-
-/*
- * Adds a month name or number.
- */
-static void
-append_month (GString *string, int n, struct tm const *time_split)
-{
-	GDateMonth month = time_split->tm_mon + 1;
-
-	switch (n) {
-	case 1:
-		g_string_append_printf (string, "%d", month);
-		return;
-	case 2:
-		g_string_append_printf (string, "%02d", month);
-		return;
-	case 3: {
-		char *s = go_date_month_name (month, TRUE);
-		g_string_append (string, s);
-		g_free (s);
-		return;
-	}
-	case 5: {
-		char *s = go_date_month_name (month, TRUE);
-		if (s[0]) g_string_append_unichar (string, g_utf8_get_char (s));
-		g_free (s);
-		return;
-	}
-	case 4:
-	default: {
-		char *s = go_date_month_name (month, FALSE);
-		g_string_append (string, s);
-		g_free (s);
-		return;
-	}
-	}
-}
-
-/*
- * Add a day-of-month number or a day-of-week name.
- */
-static void
-append_day (GString *string, int n, struct tm const *time_split)
-{
-	switch (n) {
-	case 1:
-		g_string_append_printf (string, "%d", time_split->tm_mday);
-		return;
-	case 2:
-		g_string_append_printf (string, "%02d", time_split->tm_mday);
-		return;
-	case 3: {
-		/* Note: day-of-week.  */
-		GDateWeekday wd = (time_split->tm_wday + 6) % 7 + 1;
-		char *s = go_date_weekday_name (wd, TRUE);
-		g_string_append (string, s);
-		g_free (s);
-		return;
-	}
-	case 4:
-	default: {
-		/* Note: day-of-week.  */
-		GDateWeekday wd = (time_split->tm_wday + 6) % 7 + 1;
-		char *s = go_date_weekday_name (wd, FALSE);
-		g_string_append (string, s);
-		g_free (s);
-		return;
-	}
-	}
-}
-
-static void
-append_hour (GString *string, int n, struct tm const *time_split,
-	     gboolean want_am_pm)
-{
-	int hour = time_split->tm_hour;
-
-	g_string_append_printf (string, "%0*d", MIN (n, 2),
-				(want_am_pm || (n > 2))
-				? ((hour + 11) % 12) + 1
-				: hour);
-}
-#endif
-
-static void
-SUFFIX(append_hour_elapsed) (GString *string, struct tm *tm, DOUBLE number)
-{
-	DOUBLE whole_days, frac_days;
-	gboolean is_neg;
-	int cs;  /* Centi seconds.  */
-	int const secs_per_day = 24 * 60 * 60;
-
-	is_neg = (number < 0);
-	frac_days = SUFFIX(modf) (number, &whole_days);
-
-	/* ick.  round assuming no more than 100th of a second, we really need
-	 * to know the precision earlier */
-	cs = (int)SUFFIX(go_fake_round) (SUFFIX(fabs) (frac_days) * secs_per_day * 100);
-
-	/* FIXME: Why limit hours to int? */
-	cs /= 100;
-	tm->tm_sec = cs % 60;
-	cs /= 60;
-	tm->tm_min = cs % 60;
-	cs /= 60;
-	tm->tm_hour = (is_neg ? -cs : cs) + (int)(whole_days * 24);
-
-	g_string_append_printf (string, "%d", tm->tm_hour);
-}
-
-#ifdef DEFINE_COMMON
-static void
-append_minute (GString *string, int n, struct tm const *time_split)
-{
-	g_string_append_printf (string, "%0*d", n, time_split->tm_min);
-}
-#endif
-
-static void
-SUFFIX(append_minute_elapsed) (GString *string, struct tm *tm, DOUBLE number)
-{
-	DOUBLE res, int_part;
-
-	res = SUFFIX(modf) (SUFFIX(go_fake_round) (number * 24. * 60.), &int_part);
-	tm->tm_min = int_part;
-	tm->tm_sec = res * ((res < 0.) ? -60. : 60.);
-	g_string_append_printf (string, "%d", tm->tm_min);
-}
-
-#ifdef DEFINE_COMMON
-static void
-append_second (GString *string, int n, struct tm const *time_split)
-{
-	if (n <= 1)
-		g_string_append_printf (string, "%d", time_split->tm_sec);
-	else
-		g_string_append_printf (string, "%02d", time_split->tm_sec);
-}
-#endif
-
-static void
-SUFFIX(append_second_elapsed) (GString *string, DOUBLE number)
-{
-	g_string_append_printf (string, "%d",
-				(int) SUFFIX(go_fake_round) (number * 24. * 3600.));
-}
-
-#ifdef DEFINE_COMMON
-
-typedef struct _GOFormatElement
-{
-        char const *format;
-        char        restriction_type;
-        double	    restriction_value;
-	GOColor     go_color;
-
-	/* fmt contains an '@' that stringifies things */
-	gboolean    forces_text;
-
-	gboolean    want_am_pm;
-	gboolean    has_fraction;
-	gboolean    suppress_minus;
-	gboolean    elapsed_time;
-
-	GOFormat	*container;
-} GOFormatElement;
-
-static GOFormatElement *
-format_entry_ctor (GOFormat *container)
-{
-	GOFormatElement *entry;
-
-	entry = g_new (GOFormatElement, 1);
-	entry->container = container;
-	entry->restriction_type = '*';
-	entry->restriction_value = 0.;
-	entry->suppress_minus = FALSE;
-	entry->forces_text = FALSE;
-	entry->elapsed_time = FALSE;
-	entry->want_am_pm = entry->has_fraction = FALSE;
-	entry->go_color = 0;
-
-	/* symbolic failure */
-	g_return_val_if_fail (container != NULL, entry);
-
-	return entry;
-}
-#endif
-
-#ifdef DEFINE_COMMON
-/* WARNING : do not call this for temporary formats generated for 'General' */
-static void
-format_entry_dtor (gpointer data, gpointer user_data)
-{
-	GOFormatElement *entry = data;
-	g_free ((char *)entry->format);
-	g_free (entry);
-}
-#endif
-
-#ifdef DEFINE_COMMON
-static void
-format_entry_set_fmt (GOFormatElement *entry,
-		      gchar const *begin,
-		      gchar const *end)
-{
-	/* empty formats are General if there is a color, or a condition */
-	entry->format = (begin != NULL && end != begin)
-		? g_strndup (begin, end - begin)
-		: g_strdup ((entry->go_color || entry->restriction_type != '*')
-			    ? "General" : "");
-}
-#endif
-
-#ifdef DEFINE_COMMON
-/*
- * Since the Excel formating codes contain a number of ambiguities, this
- * routine does some analysis on the format first.  This routine should always
- * return, it cannot fail, in the worst case it should just downgrade to
- * simplistic formatting
- */
-static void
-format_compile (GOFormat *format)
-{
-	gchar const *fmt, *real_start = NULL;
-	GOFormatElement *entry = format_entry_ctor (format);
-	int num_entries = 1, counter = 0;
-	GSList *ptr;
-
-	for (fmt = format->format; *fmt ; fmt++) {
-		if (NULL == real_start && '[' != *fmt)
-			real_start = fmt;
-
-		switch (*fmt) {
-		case '[': {
-			gchar const *begin = fmt + 1;
-			gchar const *end = begin;
-
-			/* find end checking for escapes but not quotes ?? */
-			for (; end[0] != ']' && end[1] != '\0' ; ++end)
-				if (*end == '\\')
-					end++;
-
-			/* Check for conditional */
-			if (*begin == '<') {
-				if (begin[1] == '=') {
-					entry->restriction_type = ',';
-					begin += 2;
-				} else if (begin[1] == '>') {
-					entry->restriction_type = '+';
-					begin += 2;
-				} else {
-					entry->restriction_type = '<';
-					begin++;
-				}
-			} else if (*begin == '>') {
-				if (begin[1] == '=') {
-					entry->restriction_type = '.';
-					begin += 2;
-				} else {
-					entry->restriction_type = '>';
-					begin++;
-				}
-			} else if (*begin == '=') {
-				entry->restriction_type = '=';
-			} else if (*begin == '$') {
-				/* A currency.  */
-				if (NULL == real_start)
-					real_start = fmt;
-				fmt = end;
-				continue;
-			} else {
-				if ((*begin == 'h' || *begin == 'H' ||
-				     *begin == 'm' || *begin == 'M' ||
-				     *begin == 's' || *begin == 'S') &&
-				    begin[1] == ']')
-					entry->elapsed_time = TRUE;
-				else if (entry->go_color == 0) {
-					entry->go_color = lookup_color (begin, end);
-					/* Only the first colour counts */
-					if (0 != entry->go_color) {
-						fmt = end;
-						continue;
-					}
-				}
-				if (NULL == real_start)
-					real_start = fmt;
-				continue;
-			}
-			fmt = end;
-
-			/* FIXME: ->restriction_value should probably be a long double.  */
-			entry->restriction_value = STRTO (begin, (char **)&end);
-			if (errno == ERANGE || begin == end)
-				entry->restriction_value = 0.;
-
-			/* this is a guess based on checking the results of
-			 * 0.00;[<0]0.00
-			 * 0.00;[<=0]0.00
-			 *
-			 * for -1.2.3
-			 **/
-			else if (entry->restriction_type == '<')
-				entry->suppress_minus = (entry->restriction_value <= 0.);
-			else if (entry->restriction_type == ',')
-				entry->suppress_minus = (entry->restriction_value < 0.);
-			break;
-		}
-
-		case '\\' :
-			if (fmt[1] != '\0')
-				fmt++; /* skip escaped characters */
-			break;
-
-		case '\'' :
-		case '\"' : {
-			/* skip quoted strings */
-			char const match = *fmt;
-			for (; fmt[0] != match && fmt[1] != '\0'; fmt++)
-				if (*fmt == '\\')
-					fmt++;
-			break;
-		}
-
-		case '/':
-			if (fmt[1] == '?' || (fmt[1] >= '0' && fmt[1] <= '9')) {
-				entry->has_fraction = TRUE;
-				fmt++;
-			}
-			break;
-
-		case 'a': case 'A':
-		case 'p': case 'P':
-			if (fmt[1] == 'm' || fmt[1] == 'M')
-				entry->want_am_pm = TRUE;
-			break;
-
-		case 'M': case 'm':
-		case 'D': case 'd':
-		case 'Y': case 'y':
-		case 'b':
-		case 'G': case 'g':
-		case 'S': case 's':
-		case 'H': case 'h':
-			if (!entry->suppress_minus && !entry->elapsed_time)
-				entry->suppress_minus = TRUE;
-			break;
-
-		case '@':
-			entry->forces_text = TRUE;
-			break;
-
-		case ';':
-			format_entry_set_fmt (entry, real_start, fmt);
-			format->entries = g_slist_append (format->entries, entry);
-			num_entries++;
-
-			entry = format_entry_ctor (format);
-			real_start = NULL;
-			break;
-
-		case '*':
-			if (fmt != format->format)
-				format->is_var_width = TRUE;
-			break;
-
-		default :
-			break;
-		}
-	}
-
-	format_entry_set_fmt (entry, real_start, fmt);
-	format->entries = g_slist_append (format->entries, entry);
-
-	for (ptr = format->entries; ptr && counter++ < 4 ; ptr = ptr->next) {
-		GOFormatElement *entry = ptr->data;
-
-		/* apply the standard restrictions where things are unspecified */
-		if (entry->restriction_type == '*') {
-			entry->restriction_value = 0.;
-			switch (counter) {
-			case 1 : entry->restriction_type = (num_entries > 2) ? '>' : '.';
-				 break;
-			case 2 : entry->restriction_type = '<'; break;
-			case 3 : entry->restriction_type = '='; break;
-			case 4 : entry->restriction_type = '@'; break;
-			default :
-				 break;
-			}
-		}
-	}
-}
-#endif
-
-#ifdef DEFINE_COMMON
 /* used to generate formats when delocalizing so keep the leadings caps */
-typedef struct {
+static const struct {
 	char const *name;
-	GOColor	 go_color;
-} FormatColor;
-static FormatColor const format_colors [] = {
+	GOColor	go_color;
+} format_colors[] = {
 	{ N_("Black"),	 RGBA_BLACK },
 	{ N_("Blue"),	 RGBA_BLUE },
 	{ N_("Cyan"),	 RGBA_CYAN },
@@ -637,947 +408,484 @@ static FormatColor const format_colors [] = {
 	{ N_("White"),	 RGBA_WHITE },
 	{ N_("Yellow"),	 RGBA_YELLOW }
 };
-#endif
 
-#ifdef DEFINE_COMMON
-static FormatColor const *
-lookup_color_by_name (gchar const *str, gchar const *end,
-		      gboolean translate)
+/*
+ * Parse [CcolorName].
+ *
+ * Return TRUE, if ok.  Then @color will be filled in, and @n will be
+ * a number 0-7 for standard colors.
+ *
+ * Returns FALSE otherwise and @color will be zeroed.
+ */
+static gboolean
+go_format_parse_color (const char *str, GOColor *color,
+		       int *n, gboolean *named)
 {
-	int i, len;
+	const char *close;
+	unsigned int ui;
 
-	len = end - str;
-	for (i = G_N_ELEMENTS (format_colors) ; i-- > 0 ; ) {
-		gchar const *name = format_colors[i].name;
-		if (translate)
-			name = _(name);
+	*color = 0;
 
-		if (0 == g_ascii_strncasecmp (name, str, len) && name[len] == '\0')
-			return format_colors + i;
-	}
-	return NULL;
-}
-#endif
+	if (*str++ != '[')
+		return FALSE;
 
-#ifdef DEFINE_COMMON
-static GOColor
-lookup_color (gchar const *str, gchar const *end)
-{
-	FormatColor const *color = lookup_color_by_name (str, end, FALSE);
-	return (color != NULL) ? color->go_color : 0;
-}
-#endif
+	close = strchr (str, ']');
+	if (!close)
+		return FALSE;
 
-static void
-SUFFIX(go_render_number) (GString *result,
-			  DOUBLE number,
-			  GONumberFormat const *info)
-{
-	GString const *thousands_sep = go_locale_get_thousand ();
-	char num_buf[(PREFIX(MANT_DIG) + PREFIX(MAX_EXP)) * 2 + 1];
-	gchar *num = num_buf + sizeof (num_buf) - 1;
-	DOUBLE frac_part, int_part;
-	int group, zero_count, digit_count = 0;
-	int left_req = info->left_req;
-	int right_req = info->right_req;
-	int left_spaces = info->left_spaces;
-	int right_spaces = info->right_spaces;
-	int right_allowed = info->right_allowed + info->right_optional;
-	int sigdig = 0;
-
-	number = SUFFIX(go_add_epsilon) (number);
-
-	if (right_allowed >= 0 && !info->has_fraction) {
-		/* Change "rounding" into "truncating".   */
-		/* Note, that we assume number >= 0 here. */
-		DOUBLE delta = 5 * SUFFIX(go_pow10) (-right_allowed - 1);
-		number += delta;
-	}
-	frac_part = SUFFIX(modf) (number, &int_part);
-
-	*num = '\0';
-	group = (info->group_thousands) ? 3 : -1;
-	for (; int_part > SUFFIX(beyond_precision) ; int_part /= 10., digit_count++) {
-		if (group-- == 0) {
-			int i;
-			group = 2;
-			for (i = thousands_sep->len - 1; i >= 0; i--)
-				*(--num) = thousands_sep->str[i];
+	for (ui = 0; ui < G_N_ELEMENTS (format_colors); ui++) {
+		const char *name = format_colors[ui].name;
+		gsize len = strlen (name);
+		if (g_ascii_strncasecmp (str, format_colors[ui].name, len) == 0) {
+			*color = format_colors[ui].go_color;
+			if (n)
+				*n = ui;
+			if (named)
+				*named = TRUE;
+			return TRUE;
 		}
-		*(--num) = '0';
-		sigdig++;
 	}
 
-	for (; int_part >= 1. ; int_part /= 10., digit_count++) {
-		DOUBLE r = SUFFIX(floor) (int_part);
-		int digit = r - SUFFIX(floor) (r / 10) * 10;
-
-		if (group-- == 0) {
-			int i;
-			group = 2;
-			for (i = thousands_sep->len - 1; i >= 0; i--)
-				*(--num) = thousands_sep->str[i];
-		}
-		*(--num) = digit + '0';
-		sigdig++;
+	if (g_ascii_strncasecmp (str, "color", 5) == 0) {
+		char *end;
+		guint64 ull = g_ascii_strtoull (str + 5, &end, 10);
+		if (end == str || errno == ERANGE || ull > 56)
+			return FALSE;
+		if (n)
+			*n = ull;
+		if (named)
+			*named = FALSE;
+		return TRUE;
 	}
 
-	if (left_req > digit_count) {
-		for (left_spaces -= left_req ; left_spaces-- > 0 ;)
-			g_string_append_c (result, ' ');
-		for (left_req -= digit_count ; left_req-- > 0 ;)
-			g_string_append_c (result, '0');
-	}
-
-	g_string_append_len (result, num, num_buf + sizeof (num_buf) - 1 - num);
-
-	/* If the format contains only "#"s to the left of the decimal
-	 * point, number in the [0.0,1.0] range are prefixed with a
-	 * decimal point
-	 */
-	if (info->decimal_separator_seen ||
-	    (number > 0.0 &&
-	     number < 1.0 &&
-	     info->right_allowed == 0 &&
-	     info->right_optional > 0))
-		go_string_append_gstring (result, go_locale_get_decimal ());
-
-	/* TODO : clip this a DBL_DIG */
-	/* TODO : What if is a fraction ? */
-	right_allowed -= right_req;
-	right_spaces  -= right_req;
-	while (right_req-- > 0) {
-		gint digit;
-		frac_part *= 10.0;
-		digit = (gint)frac_part;
-		frac_part -= digit;
-		if (++sigdig > PREFIX(DIG)) digit = 0;
-		g_string_append_c (result, digit + '0');
-	}
-
-	zero_count = 0;
-
-	while (right_allowed-- > 0) {
-		gint digit;
-		frac_part *= 10.0;
-		digit = (gint)frac_part;
-		frac_part -= digit;
-
-		if (++sigdig > PREFIX(DIG)) digit = 0;
-
-		if (digit != 0) {
-			right_spaces -= zero_count + 1;
-			zero_count = 0;
-		} else
-			zero_count ++;
-
-		g_string_append_c (result, digit + '0');
-	}
-
-	g_string_truncate (result, result->len - zero_count);
-
-	while (right_spaces-- > 0)
-		g_string_append_c (result, ' ');
+	return FALSE;
 }
 
-/* TODO: this function currently does not take into account:
- * 	- left_req > 1
- * 	- mixed right_optional and right_req. It always uses g format
- * 	  for right_optional > 0 */
-
-static void
-SUFFIX(go_render_number_scientific) (GString *result, 
-				     DOUBLE value, 
-				     GONumberFormat const *info)
+static gboolean
+go_format_parse_locale (const char *str, GOFormatLocale *locale, gsize *nchars)
 {
-	char const *mantissa_sign = "";
-	char const *exponent_sign = "";
-	DOUBLE mantissa;
-	DOUBLE epsilon;
-	int exponent;
-	int exponent_digit_nbr = info->exponent_digit_nbr;
-	int exponent_step = info->left_req + info->left_optional;
-	int precision = info->right_req + info->right_optional;
-	int format_precision;
-	int i;
-	gboolean show_exponent_sign = info->exponent_show_sign;
-	gboolean lower_e = info->exponent_lower_e;
-	gboolean use_markup = info->use_markup;
-	gboolean use_g_format = info->right_optional > 0;
-	gboolean is_zero = FALSE;
+	guint64 ull;
+	const char *close;
+	char *end;
+	gsize n;
 
-	if (exponent_step < 1)
-		exponent_step = 1;
+	if (*str++ != '[' ||
+	    *str++ != '$')
+		return FALSE;
 
-	if (value < 0.) {
-		mantissa_sign = info->unicode_minus ? "\xe2\x88\x92" : "-";
-		value = -value;
+	close = strchr (str, ']');
+	if (!close)
+		return FALSE;
+
+	n = 0;
+	while (*str != '-' && *str != ']') {
+		str = g_utf8_next_char (str);
+		n++;
 	}
+	if (nchars)
+		*nchars = n;
 
-	if (precision < 0)
-		precision = 0;
-
-	epsilon = SUFFIX(pow) (10, -precision) / 2.0; 
-
-	if (SUFFIX(go_sub_epsilon) (value) <= 0) {
-		exponent = 0;
-		is_zero = TRUE;
+	if (*str == '-') {
+		str++;
+		ull = g_ascii_strtoull (str, &end, 16);
+		if (str == end || errno == ERANGE || ull > G_MAXUINT)
+			return FALSE;
 	} else {
-		exponent = (int) SUFFIX(floor) (SUFFIX(log10) (value));
-		if (exponent >= 0)
-			exponent = (exponent / exponent_step) * exponent_step;
-		else
-			exponent = (exponent + 1 - exponent_step) / exponent_step * exponent_step;
+		ull = 0;
 	}
+	if (locale)
+		locale->locale = ull;
 
-	mantissa = value * SUFFIX(pow) (10, -exponent);
-
-	/* Here we try to avoid to display 10.00E-01 for 1.0-epsilon */
-	if (!is_zero && 
-	    SUFFIX(log10) (mantissa + epsilon) >= (DOUBLE) exponent_step) {
-		exponent += exponent_step;
-		mantissa = value * SUFFIX(pow) (10, -exponent);
-	}
-	
-	if (exponent < 0 ||
-	    (exponent == 0 && mantissa < 1.0)) {
-		exponent_sign = info->unicode_minus ? "\xe2\x88\x92" : "-";
-		exponent = -exponent;
-	} else if (show_exponent_sign && !use_markup)
-		exponent_sign = "+";
-
-	/* Calculate precision for g format. With g, precision is the maximum number 
-	 * of displayed digits, so we have to add to requested precision the actual 
-	 * number of left digits in mantissa */
-	format_precision = precision + 
-		((use_g_format && !is_zero) ? (MAX ((int) SUFFIX(floor) (SUFFIX(log10) (mantissa)) + 1, 1)) : 0);
-
-	if (exponent == 0 && exponent_digit_nbr == 0) {
-		g_string_append_printf (result, 
-					use_g_format ? "%s%.*" FORMAT_G : "%s%.*" FORMAT_f, 
-					mantissa_sign, 
-					format_precision, mantissa); 
-	} else {
-		if (use_markup) {
-			/* Don't render mantissa when it's almost 1.0 and no left digit is required,
-			 * taking into account precision */ 
-			if ((SUFFIX(fabs) (mantissa - 1) < epsilon) &&
-			    info->left_req < 1)
-				g_string_append_printf (result, "%s10<sup>%s%d</sup>", 
-							mantissa_sign, 
-							exponent_sign,
-							exponent); 
-			else {
-				g_string_append_printf (result, 
-							use_g_format ? "%s%.*" FORMAT_G : "%s%.*" FORMAT_f,
-							mantissa_sign, 
-							format_precision, mantissa);
-				g_string_append_unichar (result, 0x00D7); /* multiplication sign */
-				g_string_append_printf (result, "10<sup>%s%d</sup>", 
-							exponent_sign,
-							exponent); 
-			}
-		} else {
-			char const* format;
-			int exponent_start;
-			int length;
-
-			if (use_g_format)
-				format = lower_e ? "%s%.*" FORMAT_G "e%s%n%d" : "%s%.*" FORMAT_G "E%s%n%d";
-			else
-				format = lower_e ? "%s%.*" FORMAT_f "e%s%n%d" : "%s%.*" FORMAT_f "E%s%n%d";
-
-			g_string_append_printf (result, format, 
-						mantissa_sign,
-						format_precision, mantissa, 
-						exponent_sign,
-						&exponent_start,
-						exponent);
-
-			length = result->len - exponent_start;
-			if (length < exponent_digit_nbr)
-				for (i = 0; i < exponent_digit_nbr - length; i++)
-					g_string_insert_c (result, exponent_start, '0');
-		}
-	}
+	return TRUE;
 }
 
 static void
-SUFFIX(do_render_number) (DOUBLE number, GONumberFormat *info, GString *result)
+determine_inhibit_minus (GOFormatCondition *cond)
 {
-	info->rendered = TRUE;
-
-#if 0
-	g_print ("Rendering: %" FORMAT_G " with:\n", number);
-	g_print ("left_req:    %d\n"
-		 "right_req:   %d\n"
-		 "left_spaces: %d\n"
-		 "right_spaces:%d\n"
-		 "right_allow: %d\n"
-		 "decimalseen: %d\n"
-		 "decimalp:    %s\n",
-		 info->left_req,
-		 info->right_req,
-		 info->left_spaces,
-		 info->right_spaces,
-		 info->right_allowed + info->right_optional,
-		 info->decimal_separator_seen,
-		 go_locale_get_decimal ()->str);
-#endif
-
-	if (info->exponent_seen)
-		SUFFIX(go_render_number_scientific) (result, number, info);
-	else 
-		SUFFIX(go_render_number) (result, info->scale * number, info);
-}
-
-static DOUBLE
-SUFFIX(guess_invprecision) (const gchar *format)
-{
-	/*
-	 * invprecision should be 1 for "mm:ss", 10 for "mm:ss.0", and
-	 * 100 for "mm:ss.00" etc.
-	 */
-
-	/*
-	 * This is _crude_.  One day we really will re-do the formats.
-	 */
-	format = strchr (format, '.');
-	if (!format)
-		return 1;
-	else {
-		DOUBLE res = 1;
-
-		while (*++format == '0')
-			res *= 10;
-
-		return res;
-	}
-}
-
-
-/*
- * Microsoft Excel has a bug in the handling of year 1900,
- * I quote from http://catless.ncl.ac.uk/Risks/19.64.html#subj9.1
- *
- * > Microsoft EXCEL version 6.0 ("Office 95 version") and version 7.0 ("Office
- * > 97 version") believe that year 1900 is a leap year.  The extra February 29
- * > cause the following problems.
- * >
- * > 1)  All day-of-week before March 1, 1900 are incorrect;
- * > 2)  All date sequence (serial number) on and after March 1, 1900 are incorrect.
- * > 3)  Calculations of number of days across March 1, 1900 are incorrect.
- * >
- * > The risk of the error will cause must be little.  Especially case 1.
- * > However, import or export date using serial date number will be a problem.
- * > If no one noticed anything wrong, it must be that no one did it that way.
- */
-static GOFormatNumberError
-SUFFIX(split_time) (struct tm *tm,
-		    DOUBLE number,
-		    DOUBLE invprecision,
-		    GODateConventions const *date_conv)
-{
-	guint secs;
-	GDate date;
-	DOUBLE delta = 1 / (invprecision * (2 * 24 * 60 * 60));
-	DOUBLE fl_number;
-	int i_number;
-
-	number += delta;
-	fl_number = SUFFIX(floor) (number);
-	if (fl_number < 0 || fl_number >= INT_MAX)
-		return GO_FORMAT_NUMBER_DATE_ERROR;
-
-	i_number = (fl_number >= INT_MIN && fl_number <= INT_MAX)
-		? (int)fl_number
-		: INT_MAX;
-
-	datetime_serial_to_g (&date, i_number, date_conv);
-	if (!g_date_valid (&date) || g_date_get_year (&date) > 9999)
-		return GO_FORMAT_NUMBER_DATE_ERROR;
-
-	g_date_to_struct_tm (&date, tm);
-
-	secs = (int)((number - fl_number) * (24 * 60 * 60));
-	tm->tm_hour = secs / 3600;
-	secs -= tm->tm_hour * 3600;
-	tm->tm_min  = secs / 60;
-	secs -= tm->tm_min * 60;
-	tm->tm_sec  = secs;
-
-	return GO_FORMAT_NUMBER_OK;
-}
-
-#ifdef DEFINE_COMMON
-#define NUM_ZEROS 30
-static char const zeros[NUM_ZEROS + 1]  = "000000000000000000000000000000";
-static char const qmarks[NUM_ZEROS + 1] = "??????????????????????????????";
-#endif
-
-#ifdef DEFINE_COMMON
-/**
- * go_format_as_number :
- * @fmt : #GOFormatDetails
- *
- * generate an unlocalized number format based on @fmt.
- **/
-static GOFormat *
-go_format_as_number (GOFormatDetails const *fmt)
-{
-	int symbol = fmt->currency_symbol_index;
-	GString *str, *tmp;
-	GOFormat *gf;
-
-	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
-	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
-
-	str = g_string_new (NULL);
-
-	/* Currency */
-	if (symbol != 0 && go_format_currencies[symbol].precedes) {
-		g_string_append (str, go_format_currencies[symbol].symbol);
-		if (go_format_currencies[symbol].has_space)
-			g_string_append_c (str, ' ');
-	}
-
-	if (fmt->thousands_sep)
-		g_string_append (str, "#,##0");
-	else
-		g_string_append_c (str, '0');
-
-	if (fmt->num_decimals > 0) {
-		g_string_append_c (str, '.');
-		g_string_append_len (str, zeros, fmt->num_decimals);
-	}
-
-	/* Currency */
-	if (symbol != 0 && !go_format_currencies[symbol].precedes) {
-		if (go_format_currencies[symbol].has_space)
-			g_string_append_c (str, ' ');
-		g_string_append (str, go_format_currencies[symbol].symbol);
-	}
-
-	/* There are negatives */
-	if (fmt->negative_fmt > 0) {
-		size_t prelen = str->len;
-
-		switch (fmt->negative_fmt) {
-		case 1 : g_string_append (str, ";[Red]");
-			break;
-		case 2 : g_string_append (str, "_);(");
-			break;
-		case 3 : g_string_append (str, "_);[Red](");
-			break;
-		default :
-			g_assert_not_reached ();
-		};
-
-		tmp = g_string_new_len (str->str, str->len);
-		g_string_append_len (tmp, str->str, prelen);
-		g_string_free (str, TRUE);
-		str = tmp;
-
-		if (fmt->negative_fmt >= 2)
-			g_string_append_c (str, ')');
-	}
-
-	gf = go_format_new_from_XL (str->str, FALSE);
-	g_string_free (str, TRUE);
-	return gf;
-}
-#endif
-
-#ifdef DEFINE_COMMON
-static GOFormat *
-style_format_fraction (GOFormatDetails const *fmt)
-{
-	GString *str = g_string_new (NULL);
-	GOFormat *gf;
-
-	if (fmt->fraction_denominator >= 2) {
-		g_string_printf (str, "# ?/%d", fmt->fraction_denominator);
-	} else {
-		g_return_val_if_fail (fmt->num_decimals > 0, NULL);
-		g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
-
-		g_string_append (str, "# ");
-		g_string_append_len (str, qmarks, fmt->num_decimals);
-		g_string_append_c (str, '/');
-		g_string_append_len (str, qmarks, fmt->num_decimals);
-	}
-
-	gf = go_format_new_from_XL (str->str, FALSE);
-	g_string_free (str, TRUE);
-	return gf;
-}
-#endif
-
-#ifdef DEFINE_COMMON
-static GOFormat *
-go_format_as_percentage (GOFormatDetails const *fmt)
-{
-	GString *str;
-	GOFormat *gf;
-
-	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
-	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
-
-	str = g_string_new (NULL);
-	g_string_append_c (str, '0');
-	if (fmt->num_decimals > 0) {
-		g_string_append_c (str, '.');
-		g_string_append_len (str, zeros, fmt->num_decimals);
-	}
-	g_string_append_c (str, '%');
-
-	gf = go_format_new_from_XL (str->str, FALSE);
-	g_string_free (str, TRUE);
-	return gf;
-}
-#endif
-
-#ifdef DEFINE_COMMON
-static GOFormat *
-go_format_as_scientific (GOFormatDetails const *fmt)
-{
-	GString *str;
-	GOFormat *gf;
-	int i;
-
-	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
-	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
-
-	str = g_string_new (NULL);
-	for (i = 0; i < fmt->exponent_step - 1; i++)
-		g_string_append_c (str, '#');
-	if (fmt->simplify_mantissa)
-		g_string_append_c (str, '#');
-	else
-		g_string_append_c (str, '0');
-	if (fmt->num_decimals > 0) {
-		g_string_append_c (str, '.');
-		g_string_append_len (str, zeros, fmt->num_decimals);
-	}
-	if (fmt->use_markup)
-		g_string_append (str, "EE0");
-	else
-		g_string_append (str, "E+00");
-
-	gf = go_format_new_from_XL (str->str, FALSE);
-	g_string_free (str, TRUE);
-	return gf;
-}
-#endif
-
-#ifdef DEFINE_COMMON
-static GOFormat *
-go_format_as_account (GOFormatDetails const *fmt)
-{
-	GString *str, *sym, *num;
-	GOFormat *gf;
-	int symbol = fmt->currency_symbol_index;
-	gboolean quote_currency;
-
-	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
-	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
-
-	str = g_string_new (NULL);
-	/* The number with decimals */
-	num = g_string_new ("#,##0");
-	if (fmt->num_decimals > 0) {
-		g_string_append_c (num, '.');
-		g_string_append_len (num, zeros, fmt->num_decimals);
-	}
-
-	/* The currency symbols with space after or before */
-	sym = g_string_new (NULL);
-	quote_currency = (go_format_currencies[symbol].symbol[0] != '[');
-	if (go_format_currencies[symbol].precedes) {
-		if (quote_currency)
-			g_string_append_c (sym, '\"');
-		g_string_append (sym, go_format_currencies[symbol].symbol);
-		if (quote_currency)
-			g_string_append_c (sym, '\"');
-		g_string_append (sym, "* ");
-		if (go_format_currencies[symbol].has_space)
-			g_string_append_c (sym, ' ');
-	} else {
-		g_string_append (sym, "* ");
-		if (go_format_currencies[symbol].has_space)
-			g_string_append_c (sym, ' ');
-		if (quote_currency)
-			g_string_append_c (sym, '\"');
-		g_string_append (sym, go_format_currencies[symbol].symbol);
-		if (quote_currency)
-			g_string_append_c (sym, '\"');
-	}
-
-	/* Finally build the correct string */
-	if (go_format_currencies[symbol].precedes) {
-		g_string_append_printf (str, "_(%s%s_);_(%s(%s);_(%s\"-\"%s_);_(@_)",
-					sym->str, num->str,
-					sym->str, num->str,
-					sym->str, (qmarks + NUM_ZEROS) - fmt->num_decimals);
-	} else {
-		g_string_append_printf (str, "_(%s%s_);_((%s)%s;_(\"-\"%s%s_);_(@_)",
-					num->str, sym->str,
-					num->str, sym->str,
-					(qmarks + NUM_ZEROS) - fmt->num_decimals, sym->str);
-	}
-
-	g_string_free (num, TRUE);
-	g_string_free (sym, TRUE);
-
-	gf = go_format_new_from_XL (str->str, FALSE);
-	g_string_free (str, TRUE);
-	return gf;
-}
-#endif
-
-#ifdef DEFINE_COMMON
-/*
- * Finds the decimal char in @str doing the proper parsing of a
- * format string
- */
-static char const *
-find_decimal_char (char const *str)
-{
-	for (;*str; str++){
-		if (*str == '.')
-			return str;
-
-		if (*str == ',')
-			continue;
-
-		switch ((unsigned char) *str){
-			/* These ones do not have any argument */
-		case '#': case '?': case '0': case '%':
-		case '-': case '+': case ')': case ':': case '$':
-		case 'M': case 'm': case 'D': case 'd':
-		case 'Y': case 'y': case 'b': case 'g': case 'G':
-		case 'S': case 's':
-		case '*': case 'h': case 'H': case 'A':
-		case 'a': case 'P': case 'p':
-		case 0xa3: case 0xa4: case 0xa5:
-		/* the above characters are actually '£', '¤' and '¥', we use hex codes
-		 * here because Micrsoft's C compiler will parse these characters
-		 * incorrectly and won't be aware of the closing single-quote if the environment
-		 * multiple-byte encoding is NOT iso-8859-1 compatible. e.g. if big-5
-		 * is being used the parser will treat the two bytes [£'] as a single
-		 * character. */
-			break;
-
-		case '"':
-			/* Quoted string */
-			for (str++; *str && *str != '"'; str++)
-				;
-			break;
-
-		case '\\': case '_':
-			/* Escaped char and spacing format */
-			if (*(str + 1))
-				str++;
-			break;
-
-		case 'E': case 'e':
-			/* Scientific number */
-			for (str++; *str;){
-				if (*str == '+')
-					str++;
-				else if (*str == '-')
-					str++;
-				else if (*str == '0')
-					str++;
-				else
-					break;
-			}
-		}
-	}
-	return NULL;
-}
-#endif
-
-#ifdef DEFINE_COMMON
-/* An helper function which modify the number of decimals displayed
- * and recreate the format string by calling the good function */
-static GOFormat *
-reformat_decimals (GOFormatDetails const *fc,
-		   GOFormat * (*format_function) (GOFormatDetails const *fmt),
-		   int step)
-{
-	GOFormatDetails fc_copy;
-
-	/* Be sure that the number of decimals displayed will remain correct */
-	if ((fc->num_decimals+step > NUM_ZEROS) || (fc->num_decimals+step <0))
-		return NULL;
-	fc_copy = *fc;
-	fc_copy.num_decimals += step;
-
-	return (*format_function) (&fc_copy);
-}
-#endif
-
-#ifdef DEFINE_COMMON
-/*
- * This routine scans the format_string for a decimal dot,
- * and if it finds it, it removes the first zero after it to
- * reduce the display precision for the number.
- *
- * Returns NULL if the new format would not change things
- */
-GOFormat *
-go_format_dec_precision (GOFormat const *fmt)
-{
-	int start;
-	char *ret;
-	char const *format_string = fmt->format;
-
-	switch (fmt->family) {
-	case GO_FORMAT_NUMBER:
-	case GO_FORMAT_CURRENCY:
-		return reformat_decimals (&fmt->family_info, &go_format_as_number, -1);
-	case GO_FORMAT_ACCOUNTING:
-		return reformat_decimals (&fmt->family_info, &go_format_as_account, -1);
-	case GO_FORMAT_PERCENTAGE:
-		return reformat_decimals (&fmt->family_info, &go_format_as_percentage, -1);
-	case GO_FORMAT_SCIENTIFIC:
-		return reformat_decimals (&fmt->family_info, &go_format_as_scientific, -1);
-	case GO_FORMAT_FRACTION: {
-		GOFormatDetails fc = fmt->family_info;
-
-		if (fc.fraction_denominator >= 2) {
-			if (fc.fraction_denominator > 2 &&
-			    ((fc.fraction_denominator & (fc.fraction_denominator - 1)) == 0))
-				/* It's a power of two.  */
-				fc.fraction_denominator /= 2;
-			else if (fc.fraction_denominator > 10 &&
-				 fc.fraction_denominator % 10 == 0)
-				/* It's probably a power of ten.  */
-				fc.fraction_denominator /= 10;
-			else
-				return NULL;
-		} else {
-			if (fc.num_decimals <= 1)
-				return NULL;
-			fc.num_decimals--;
-		}
-		return style_format_fraction (&fc);
-	}
-
-	case GO_FORMAT_TIME:
-		/* FIXME: we might have decimals on seconds part.  */
-	case GO_FORMAT_DATE:
-	case GO_FORMAT_TEXT:
-	case GO_FORMAT_SPECIAL:
-	case GO_FORMAT_MARKUP:
-		/* Nothing to remove for these formats ! */
-		return NULL;
-	case GO_FORMAT_UNKNOWN:
-	case GO_FORMAT_GENERAL:
-		; /* Nothing.  */
-	}
-
-	/* Use the old code for more special formats to try to remove a
-	   decimal */
-
-	/*
-	 * Consider General format as 0. with several optional decimal places.
-	 * This is WRONG.  FIXME FIXME FIXME
-	 * We need to look at the number of decimals in the current value
-	 * and use that as a base.
-	 */
-	if (go_format_is_general (fmt))
-		format_string = "0.########";
-
-	start = 0;
-	ret = g_strdup (format_string);
-	while (1) {
-		char *p = (char *)find_decimal_char (ret + start);
-		int offset;
-
-		if (!p)
-			break;
-
-		/* If there is more than 1 thing after the decimal place
-		 * leave the decimal.
-		 * If there is only 1 thing after the decimal remove the decimal too.
-		 */
-		if ((p[1] == '0' || p[1] == '#') && (p[2] == '0' || p[2] == '#'))
-			offset = 1, ++p;
-		else
-			offset = 2;
-
-		strcpy (p, p + offset);
-
-		start = (p + 1) - ret;
-	}
-
-	if (start) {
-		GOFormat *gf = go_format_new_from_XL (ret, FALSE);
-		g_free (ret);
-		return gf;
-	} else {
-		g_free (ret);
-		return NULL;
-	}
-}
-#endif
-
-#ifdef DEFINE_COMMON
-/**
- * go_format_inc_precision :
- * @fmt : #GOFormat
- * Scans @fmt for the decimal character and when it finds it, it adds a zero
- * after it to force the rendering of the number with one more digit of decimal
- * precision.
- *
- * Returns NULL if the new format would not change things
- **/
-GOFormat *
-go_format_inc_precision (GOFormat const *fmt)
-{
-	char const *pre = NULL;
-	char const *post = NULL;
-	char *res;
-	char const *format_string = fmt->format;
-	GOFormat *gf;
-
-	switch (fmt->family) {
-	case GO_FORMAT_NUMBER:
-	case GO_FORMAT_CURRENCY:
-		return reformat_decimals (&fmt->family_info, &go_format_as_number, +1);
-	case GO_FORMAT_ACCOUNTING:
-		return reformat_decimals (&fmt->family_info, &go_format_as_account, +1);
-	case GO_FORMAT_PERCENTAGE:
-		return reformat_decimals (&fmt->family_info, &go_format_as_percentage, +1);
-	case GO_FORMAT_SCIENTIFIC:
-		return reformat_decimals (&fmt->family_info, &go_format_as_scientific, +1);
-	case GO_FORMAT_FRACTION: {
-		GOFormatDetails fc = fmt->family_info;
-
-		if (fc.fraction_denominator >= 2) {
-			if (fc.fraction_denominator <= INT_MAX / 2 &&
-			    ((fc.fraction_denominator & (fc.fraction_denominator - 1)) == 0))
-				/* It's a power of two.  */
-				fc.fraction_denominator *= 2;
-			else if (fc.fraction_denominator <= INT_MAX / 10 &&
-				 fc.fraction_denominator % 10 == 0)
-				/* It's probably a power of ten.  */
-				fc.fraction_denominator *= 10;
-			else
-				return NULL;
-		} else {
-			if (fc.num_decimals >= 5)
-				return NULL;
-			fc.num_decimals++;
-		}
-		return style_format_fraction (&fc);
-	}
-
-	case GO_FORMAT_TIME:
-		/* FIXME: we might have decimals on seconds part.  */
-	case GO_FORMAT_DATE:
-	case GO_FORMAT_TEXT:
-	case GO_FORMAT_SPECIAL:
-	case GO_FORMAT_MARKUP:
-		/* Nothing to add for these formats ! */
-		return NULL;
-	case GO_FORMAT_UNKNOWN:
-	case GO_FORMAT_GENERAL:
-		; /* Nothing.  */
-	}
-
-	/* Use the old code for more special formats to try to add a
-	   decimal */
-
-	if (go_format_is_general (fmt)) {
-		format_string = "0";
-		pre = format_string + 1;
-		post = pre;
-	} else {
-		pre = find_decimal_char (format_string);
-
-		/* If there is no decimal append to the last '0' */
-		if (pre == NULL) {
-			pre = strrchr (format_string, '0');
-
-			/* If there are no 0s append to the ':s' */
-			if (pre == NULL) {
-				pre = strrchr (format_string, 's');
-				if (pre > format_string && pre[-1] == ':') {
-					if (pre[1] == 's')
-						pre += 2;
-					else
-						++pre;
-				} else
-					return NULL;
-			} else
-				++pre;
-			post = pre;
-		} else
-			post = pre + 1;
-	}
-	res = g_malloc ((pre - format_string + 1) +
-		      1 + /* for the decimal */
-		      1 + /* for the extra 0 */
-		      strlen (post) +
-		      1 /*terminate */);
-	if (!res)
-		return NULL;
-
-	strncpy (res, format_string, pre - format_string);
-	res[pre-format_string + 0] = '.';
-	res[pre-format_string + 1] = '0';
-	strcpy (res + (pre - format_string) + 2, post);
-
-	gf = go_format_new_from_XL (res, FALSE);
-	g_free (res);
-	return gf;
-}
-#endif
-
-#ifdef DEFINE_COMMON
-GOFormat *
-go_format_toggle_1000sep (GOFormat const *fmt)
-{
-	GOFormatDetails fc;
-
-	fc = fmt->family_info;
-	fc.thousands_sep = !fc.thousands_sep;
-
-	switch (fmt->family) {
-	case GO_FORMAT_NUMBER:
-	case GO_FORMAT_CURRENCY:
-		return go_format_as_number (&fc);
-
-	case GO_FORMAT_ACCOUNTING:
-		/*
-		 * FIXME: this doesn't actually work as no 1000 seps
-		 * are used for accounting.
-		 */
-		return go_format_as_account (&fc);
-	case GO_FORMAT_GENERAL:
-		fc.currency_symbol_index = 0;
-		return go_format_as_number (&fc);
-
+	cond->true_inhibits_minus = FALSE;
+	cond->false_inhibits_minus = FALSE;
+
+	switch (cond->op) {
+	case GO_FMT_COND_GT:
+		/* ">" and ">=" strangely follow the same rule. */
+	case GO_FMT_COND_GE:
+		cond->false_inhibits_minus = (cond->val <= 0);
+		break;
+	case GO_FMT_COND_LT:
+		cond->true_inhibits_minus = (cond->val <= 0);
+		break;
+	case GO_FMT_COND_LE:
+		cond->true_inhibits_minus = (cond->val < 0);
+		break;
+	case GO_FMT_COND_EQ:
+		cond->true_inhibits_minus = (cond->val < 0);
+		break;
+	case GO_FMT_COND_NE:
+		cond->false_inhibits_minus = (cond->val < 0);
+		break;
 	default:
 		break;
 	}
+}
 
+
+static gboolean
+go_format_parse_condition (const char *str, GOFormatCondition *cond)
+{
+	char *end;
+
+	cond->op = GO_FMT_COND_NONE;
+	cond->val = 0;
+	cond->fmt = NULL;
+	cond->implicit = TRUE;
+
+	if (*str++ != '[')
+		return FALSE;
+
+	if (str[0] == '>' && str[1] == '=')
+		cond->op = GO_FMT_COND_GE, str += 2;
+	else if (str[0] == '>')
+		cond->op = GO_FMT_COND_GT, str++;
+	else if (str[0] == '<' && str[1] == '=')
+		cond->op = GO_FMT_COND_LE, str += 2;
+	else if (str[0] == '<' && str[1] == '>')
+		cond->op = GO_FMT_COND_NE, str += 2;
+	else if (str[0] == '<')
+		cond->op = GO_FMT_COND_LT, str++;
+	else if (str[0] == '=')
+		cond->op = GO_FMT_COND_EQ, str++;
+	else
+		return FALSE;
+	cond->implicit = FALSE;
+
+	cond->val = go_ascii_strtod (str, &end);
+	if (end == str || errno == ERANGE)
+		return FALSE;
+	end = strchr (end, ']');
+	if (!end)
+		return FALSE;
+
+	determine_inhibit_minus (cond);
+
+	return TRUE;
+}
+
+static GOFormatToken
+go_format_token (char const **pstr, GOFormatTokenType *ptt)
+{
+	const char *str = *pstr;
+	GOFormatTokenType tt =
+		TT_ALLOWED_IN_DATE | TT_ALLOWED_IN_NUMBER | TT_ALLOWED_IN_TEXT;
+	int t;
+	int len = 1;
+
+	if (str == NULL)
+		goto error;
+
+	t = *(guchar *)str;
+	switch (t) {
+	case 0:
+		len = 0; /* Note: str not advanced.  */
+	case ';':
+		tt = TT_TERMINATES_SINGLE;
+		break;
+
+	case 'g': case 'G':
+		if (g_ascii_strncasecmp (str + 1, "General" + 1, 7 - 1) == 0) {
+			t = TOK_GENERAL;
+			tt = TT_ALLOWED_IN_DATE;
+			len = 7;
+			break;
+		}
+		/* Fall through.  */
+	case 'd': case 'D':
+	case 'y': case 'Y':
+	case 'b': case 'B':
+	case 'e':
+	case 'h': case 'H':
+	case 'm': case 'M':
+	case 's': case 'S':
+		tt = TT_ALLOWED_IN_DATE | TT_STARTS_DATE;
+		break;
+
+	case 'n': case 'N':
+		goto error;
+
+	case 'a': case 'A':
+		if (str[1] == '/' && (str[2] == 'p' || str[2] == 'P')) {
+			tt = TT_ALLOWED_IN_DATE | TT_STARTS_DATE;
+			t = TOK_AMPM3;
+			len = 3;
+		} else if ((str[1] == 'm' || str[1] == 'M') &&
+			   str[2] == '/' &&
+			   (str[3] == 'p' || str[3] == 'P') &&
+			   (str[4] == 'm' || str[4] == 'M')) {
+			tt = TT_ALLOWED_IN_DATE | TT_STARTS_DATE;
+			t = TOK_AMPM5;
+			len = 5;
+		}
+		break;
+
+	case '[':
+		switch (str[1]) {
+		case 's': case 'S':
+		case 'm': case 'M':
+		case 'h': case 'H': {
+			char c = g_ascii_toupper (str[1]);
+			len++;
+			while (g_ascii_toupper (str[len]) == c)
+				len++;
+			if (str[len] == ']') {
+				t = (c == 'S'
+				     ? TOK_ELAPSED_S
+				     : (c == 'M'
+					? TOK_ELAPSED_M
+					: TOK_ELAPSED_H));
+				tt = TT_ALLOWED_IN_DATE | TT_STARTS_DATE;
+			} else
+				t = TOK_COLOR;
+			break;
+		}
+		case '=':
+		case '>':
+		case '<':
+			t = TOK_CONDITION;
+			break;
+
+		case '$':
+			t = TOK_LOCALE;
+			break;
+
+		default:
+			if (g_ascii_isalpha (str[1]))
+				t = TOK_COLOR;
+			else
+				goto error;
+			break;
+		}
+
+		while (str[len] != ']') {
+			if (str[len] == 0)
+				goto error;
+			len++;
+		}
+		len++;
+		break;
+
+	case '0':
+	case '.':
+	case '/':
+		tt = TT_ALLOWED_IN_DATE | TT_ALLOWED_IN_NUMBER | TT_STARTS_NUMBER;
+		break;
+
+	case '1': case '2': case '3': case '4':
+	case '5': case '6': case '7': case '8': case '9':
+	case '#':
+	case '?':
+	case '%':
+	case 'E':
+		tt = TT_ALLOWED_IN_NUMBER | TT_STARTS_NUMBER;
+		break;
+
+	case '@':
+		tt = TT_ALLOWED_IN_TEXT | TT_STARTS_TEXT;
+		break;
+
+	case '\\':
+		t = TOK_ESCAPED_CHAR;
+		if (str[1] == 0)
+			goto error;
+		len += g_utf8_skip[((guchar *)str)[1]];
+		break;
+
+	case '_':
+		t = TOK_INVISIBLE_CHAR;
+		if (str[1] == 0)
+			goto error;
+		len += g_utf8_skip[((guchar *)str)[1]];
+		break;
+
+	case '*':
+		t = TOK_REPEATED_CHAR;
+		if (str[1] == 0)
+			goto error;
+		len += g_utf8_skip[((guchar *)str)[1]];
+		break;
+
+	case '"':
+		t = TOK_STRING;
+		while (str[len] != '"') {
+			if (str[len] == 0)
+				goto error;
+			len++;
+		}
+		len++;
+		break;
+
+	default:
+		if (t >= 0x80) {
+			t = TOK_CHAR;
+			len = g_utf8_skip[((guchar *)str)[0]];
+		}
+		break;
+	}
+
+	if (ptt)
+		*ptt = tt;
+	*pstr = str + len;
+	return t;
+
+ error:
+	if (ptt)
+		*ptt = TT_ERROR;
+	return TOK_ERROR;
+}
+
+#define GET_TOKEN(_i) g_array_index (pstate->tokens, GOFormatParseItem, _i)
+
+static const char *
+go_format_preparse (const char *str, GOFormatParseState *pstate)
+{
+	gboolean ntokens = 0;  /* Excluding cond,color,locale */
+	gboolean is_date = FALSE;
+	gboolean is_number = FALSE;
+	gboolean is_text = FALSE;
+	gboolean has_general = FALSE;
+
+	g_array_set_size (pstate->tokens, 0);
+	pstate->tno_slash = -1;
+	pstate->tno_E = -1;
+
+	while (1) {
+		GOFormatTokenType tt;
+		const char *tstr = str;
+		int t = go_format_token (&str, &tt);
+		int tno = pstate->tokens->len;
+
+		if (tt & TT_TERMINATES_SINGLE) {
+			if (pstate->tno_E >= 0 && pstate->tno_slash >= 0)
+				goto error;
+			if (has_general && (is_number || is_text))
+				goto error;
+
+			pstate->is_date = is_date;
+			pstate->is_number = is_number;
+			pstate->has_general = has_general;
+			pstate->is_general = has_general && ntokens == 1;
+
+			if (ntokens == 0)
+				pstate->typ = GO_FMT_EMPTY;
+			else if (is_text)
+				pstate->typ = GO_FMT_TEXT;
+			else
+				pstate->typ = GO_FMT_NUMBER;
+			return tstr;
+		}
+
+		if (is_date) {
+			if (!(tt & TT_ALLOWED_IN_DATE))
+				goto error;
+		} else if (is_number) {
+			if (!(tt & TT_ALLOWED_IN_NUMBER))
+				goto error;
+		} else if (is_text) {
+			if (!(tt & TT_ALLOWED_IN_TEXT))
+				goto error;
+		} else {
+			if (tt & TT_STARTS_DATE)
+				is_date = TRUE;
+			else if (tt & TT_STARTS_NUMBER)
+				is_number = TRUE;
+			else if (tt & TT_STARTS_TEXT)
+				is_text = TRUE;
+		}
+
+		g_array_set_size (pstate->tokens, tno + 1);
+		GET_TOKEN(tno).tstr = tstr;
+		GET_TOKEN(tno).token = t;
+		GET_TOKEN(tno).tt = tt;
+
+		switch (t) {
+		case TOK_ERROR:
+			goto error;
+
+		case TOK_GENERAL:
+			if (has_general)
+				goto error;
+			has_general = TRUE;
+			ntokens++;
+			break;
+
+		case TOK_CONDITION:
+			if (pstate->have_cond ||
+			    !go_format_parse_condition (tstr, &pstate->cond))
+				goto error;
+			pstate->have_cond = TRUE;
+			break;
+
+		case TOK_COLOR:
+			if (pstate->have_color ||
+			    !go_format_parse_color (tstr, &pstate->color, NULL, NULL))
+				goto error;
+			pstate->have_color = TRUE;
+			break;
+
+		case TOK_LOCALE:
+			if (pstate->have_locale ||
+			    !go_format_parse_locale (tstr, &pstate->locale, NULL))
+				goto error;
+			pstate->have_locale = TRUE;
+			break;
+
+		case TOK_REPEATED_CHAR:
+			/* Last one counts.  */
+			pstate->fill_char = g_utf8_get_char (tstr + 1);
+			ntokens++;
+			break;
+
+		case 'E':
+			ntokens++;
+#ifdef ALLOW_EE_MARKUP
+			if (pstate->tno_E >= 0 && pstate->tno_E == tno - 1)
+				break;
+#endif
+			if (pstate->tno_E >= 0)
+				goto error;
+			pstate->tno_E = tno;
+			break;
+
+		case '/':
+			ntokens++;
+			if (is_number) {
+				if (pstate->tno_slash >= 0)
+					goto error;
+				pstate->tno_slash = tno;
+				break;
+			}
+			break;
+
+		default:
+			ntokens++;
+			break;
+		}
+	}
+
+ error:
+	pstate->typ = GO_FMT_INVALID;
 	return NULL;
 }
-#endif
 
-#ifdef DEFINE_COMMON
 static gboolean
-tail_forces_minutes (const char *s)
+tail_forces_minutes (const char *str)
 {
 	while (1) {
-		char c = *s;
-		switch (c) {
+		GOFormatTokenType tt;
+		int t = go_format_token (&str, &tt);
+
+		switch (t) {
 		case 0:
-		case 'b':
+		case ';':
+		case 'b': case 'B':
 		case 'd': case 'D':
 		case 'm': case 'M':
 		case 'h': case 'H':
@@ -1585,22 +893,1691 @@ tail_forces_minutes (const char *s)
 			return FALSE;
 		case 's': case 'S':
 			return TRUE;
-		case '"':
-			s++;
-			while (*s != '"') {
-				if (*s == 0)
-					return FALSE;
-				s++;
+		}
+	}
+}
+
+
+static GOFormat *
+go_format_create (GOFormatClass cl, const char *format)
+{
+	GOFormat *fmt = g_new0 (GOFormat, 1);
+	fmt->typ = cl;
+	fmt->ref_count = 1;
+	fmt->format = g_strdup (format);
+	return fmt;
+}
+
+#define ADD_OP(op) g_string_append_c (prg,(op))
+#define ADD_OPuc(op,uc) do { g_string_append_c (prg,(op)); g_string_append_unichar (prg, (uc)); } while (0)
+#define ADD_OP2(op1,op2) do { ADD_OP(op1); ADD_OP(op2); } while (0)
+#define ADD_OP3(op1,op2,op3) do { ADD_OP2(op1,op2); ADD_OP(op3); } while (0)
+
+/*
+ * Handle literal characters, including quoted segments and invisible
+ * characters.
+ */
+static void
+handle_common_token (const char *tstr, GOFormatToken t, GString *prg)
+{
+	switch (t) {
+	case TOK_STRING:
+		tstr++;
+		while (*tstr != '"') {
+			ADD_OPuc (OP_CHAR, g_utf8_get_char (tstr));
+			tstr = g_utf8_next_char (tstr);
+		}
+		break;
+
+	case TOK_CHAR:
+		ADD_OPuc (OP_CHAR, g_utf8_get_char (tstr));
+		break;
+
+	case TOK_ESCAPED_CHAR:
+		ADD_OPuc (OP_CHAR, g_utf8_get_char (tstr + 1));
+		break;
+
+	case TOK_INVISIBLE_CHAR:
+		ADD_OPuc (OP_CHAR_INVISIBLE, g_utf8_get_char (tstr + 1));
+		break;
+
+	case TOK_REPEATED_CHAR:
+		ADD_OP (OP_CHAR_REPEAT);
+		break;
+
+	case TOK_LOCALE: {
+		char *oldlocale;
+		GOFormatLocale locale;
+		const char *lang;
+		gsize nchars;
+		gboolean ok = go_format_parse_locale (tstr, &locale, &nchars);
+		/* Already parsed elsewhere */
+		g_return_if_fail (ok);
+
+		tstr += 2;
+		for (; nchars > 0; nchars--) {
+			gunichar uc = g_utf8_get_char (tstr);
+			tstr = g_utf8_next_char (tstr);
+			ADD_OP (OP_CHAR);
+			g_string_append_unichar (prg, uc);
+		}
+
+		lang = gsf_msole_language_for_lid (locale.locale & 0xffff);
+
+		oldlocale = g_strdup (setlocale (LC_ALL, NULL));
+		ok = setlocale (LC_ALL, lang) != NULL;
+		setlocale (LC_ALL, oldlocale);
+		g_free (oldlocale);
+
+		if (!ok)
+			break;
+		ADD_OP (OP_LOCALE);
+		g_string_append_len (prg, (void *)&locale, sizeof (locale));
+		/* Include the terminating zero: */
+		g_string_append_len (prg, lang, strlen (lang) + 1);
+		break;
+	}
+
+	case 0:
+		break;
+
+	default:
+		if (t < 0x80) {
+			ADD_OP2 (OP_CHAR, t);
+		}
+		break;
+	}
+}
+
+static void
+handle_fill (GString *prg, const GOFormatParseState *pstate)
+{
+	if (pstate->fill_char) {
+		ADD_OP (OP_FILL);
+		g_string_append_unichar (prg, pstate->fill_char);
+	}
+}
+
+
+static GOFormat *
+go_format_parse_sequential (const char *str, GString *prg,
+			    const GOFormatParseState *pstate)
+{
+	int date_decimals = 0;
+	gboolean seen_date = FALSE;
+	gboolean seen_time = FALSE;
+	gboolean seen_hour = FALSE;
+	gboolean seen_ampm = FALSE;
+	gboolean seen_minute = FALSE;
+	gboolean seen_second = FALSE;
+	gboolean seen_elapsed = FALSE;
+	gboolean m_is_minutes = FALSE;
+	gboolean seconds_trigger_minutes = TRUE;
+
+	if (!prg)
+		prg = g_string_new (NULL);
+
+	while (1) {
+		const char *token = str;
+		GOFormatTokenType tt;
+		int t = go_format_token (&str, &tt);
+
+		switch (t) {
+		case 0: case ';':
+			goto done;
+
+		case 'd': case 'D': {
+			int n = 1;
+			while (*str == 'd' || *str == 'D')
+				str++, n++;
+			seen_date = TRUE;
+			switch (n) {
+			case 1: ADD_OP (OP_DATE_DAY); break;
+			case 2: ADD_OP (OP_DATE_DAY_2); break;
+			case 3: ADD_OP (OP_DATE_WEEKDAY_3); break;
+			default: ADD_OP (OP_DATE_WEEKDAY); break;
 			}
-			s++;
+			break;
+		}
+
+		case 'y': case 'Y': {
+			int n = 1;
+			while (*str == 'y' || *str == 'Y')
+				str++, n++;
+			seen_date = TRUE;
+			ADD_OP (n <= 2 ? OP_DATE_YEAR_2 : OP_DATE_YEAR);
+			break;
+		}
+
+		case 'b': case 'B': {
+			int n = 1;
+			while (*str == 'b' || *str == 'B')
+				str++, n++;
+			seen_date = TRUE;
+			ADD_OP (n <= 2 ? OP_DATE_YEAR_THAI_2 : OP_DATE_YEAR_THAI);
+			break;
+		}
+
+		case 'e':
+			while (*str == 'e') str++;
+			seen_date = TRUE;
+			ADD_OP (OP_DATE_YEAR);
+			break;
+
+		case 'g': case 'G':
+			/* Something with Japanese eras.  Blank for me. */
+			seen_date = TRUE;
+			break;
+
+		case 'h': case 'H': {
+			int n = 1;
+			while (*str == 'h' || *str == 'H')
+				str++, n++;
+			seen_time = TRUE;
+			ADD_OP (n == 1 ? OP_TIME_HOUR : OP_TIME_HOUR_2);
+			seen_hour = TRUE;
+			m_is_minutes = TRUE;
+			break;
+		}
+
+		case 'm': case 'M': {
+			int n = 1;
+			while (*str == 'm' || *str == 'M')
+				str++, n++;
+			m_is_minutes = (n <= 2) && (m_is_minutes || tail_forces_minutes (str));
+
+			if (m_is_minutes) {
+				seen_time = TRUE;
+				seconds_trigger_minutes = FALSE;
+				ADD_OP (n == 1 ? OP_TIME_MINUTE : OP_TIME_MINUTE_2);
+				m_is_minutes = FALSE;
+				seen_minute = TRUE;
+			} else {
+				seen_date = TRUE;
+				switch (n) {
+				case 1: ADD_OP (OP_DATE_MONTH); break;
+				case 2: ADD_OP (OP_DATE_MONTH_2); break;
+				case 3: ADD_OP (OP_DATE_MONTH_NAME_3); break;
+				case 5: ADD_OP (OP_DATE_MONTH_NAME_1); break;
+				default: ADD_OP (OP_DATE_MONTH_NAME); break;
+				}
+			}
+			break;
+		}
+
+		case 's': case 'S': {
+			int n = 1;
+			while (*str == 's' || *str == 'S')
+				str++, n++;
+
+			if (seconds_trigger_minutes) {
+				seconds_trigger_minutes = FALSE;
+				m_is_minutes = TRUE;
+			}
+
+			seen_time = TRUE;
+			ADD_OP (n == 1 ? OP_TIME_SECOND : OP_TIME_SECOND_2);
+			seen_second = TRUE;
+
+			break;
+		}
+
+		case TOK_AMPM3:
+			if (seen_elapsed)
+				goto error;
+			seen_time = TRUE;
+			seen_ampm = TRUE;
+			ADD_OP3 (OP_TIME_AP, token[0], token[2]);
+			break;
+
+		case TOK_AMPM5:
+			if (seen_elapsed)
+				goto error;
+			seen_time = TRUE;
+			seen_ampm = TRUE;
+			ADD_OP (OP_TIME_AMPM);
+			break;
+
+		case '.':
+			if (*str == '0') {
+				int n = 0;
+				seen_time = TRUE;
+				ADD_OP (OP_TIME_SECOND_DECIMAL_START);
+				while (*str == '0') {
+					str++, n++;
+					ADD_OP (OP_TIME_SECOND_DECIMAL_DIGIT);
+				}
+				/* The actual limit is debatable.  This is what XL does.  */
+				if (n > 3)
+					goto error;
+				date_decimals = MAX (date_decimals, n);
+			} else {
+				ADD_OP2 (OP_CHAR, '.');
+			}
+			break;
+
+		case '0':
+			goto error;
+
+		case TOK_ELAPSED_H:
+			if (seen_elapsed || seen_ampm)
+				goto error;
+			seen_time = TRUE;
+			seen_elapsed = TRUE;
+			seen_hour = TRUE;
+			m_is_minutes = TRUE;
+			ADD_OP2 (OP_TIME_HOUR_N, str - token - 2);
+			break;
+
+		case TOK_ELAPSED_M:
+			if (seen_elapsed || seen_ampm)
+				goto error;
+			seen_time = TRUE;
+			seen_elapsed = TRUE;
+			seen_minute = TRUE;
+			m_is_minutes = FALSE;
+			ADD_OP2 (OP_TIME_MINUTE_N, str - token - 2);
+			break;
+
+		case TOK_ELAPSED_S:
+			if (seen_elapsed || seen_ampm)
+				goto error;
+			seen_time = TRUE;
+			seen_elapsed = TRUE;
+			seen_second = TRUE;
+			if (seconds_trigger_minutes) {
+				m_is_minutes = TRUE;
+				seconds_trigger_minutes = FALSE;
+			}
+			ADD_OP2 (OP_TIME_SECOND_N, str - token - 2);
+			break;
+
+		case TOK_GENERAL:
+			ADD_OP (OP_NUM_GENERAL_MARK);
+			break;
+
+		case '@':
+			ADD_OP (OP_STR_APPEND_SVAL);
+			break;
+
+		default:
+			handle_common_token (token, t, prg);
+			break;
+		}
+	}
+
+ done:
+	if (pstate->typ == GO_FMT_TEXT) {
+		GOFormat *fmt = go_format_create (GO_FMT_TEXT, NULL);
+		handle_fill (prg, pstate);
+		fmt->u.text.program = g_string_free (prg, FALSE);
+		return fmt;
+	} else {
+		GOFormat *fmt = go_format_create (GO_FMT_NUMBER, NULL);
+		guchar splits[4] = { OP_DATE_ROUND, date_decimals };
+		guchar *p = splits + 2;
+		if (seen_date) {
+			*p++ = OP_DATE_SPLIT;
+			fmt->u.number.has_date = TRUE;
+		}
+		if (seen_time) {
+			guchar op;
+			if (seen_elapsed) {
+				if (seen_hour)
+					op = OP_TIME_SPLIT_ELAPSED_HOUR;
+				else if (seen_minute)
+					op = OP_TIME_SPLIT_ELAPSED_MINUTE;
+				else
+					op = OP_TIME_SPLIT_ELAPSED_SECOND;
+			} else {
+				op = seen_ampm
+					? OP_TIME_SPLIT_12
+					: OP_TIME_SPLIT_24;
+			}
+			*p++ = op;
+			fmt->u.number.has_time = TRUE;
+		}
+		if (pstate->has_general) {
+			ADD_OP (OP_NUM_GENERAL_DO);
+			fmt->u.number.has_general = pstate->has_general;
+			fmt->u.number.is_general = pstate->is_general;
+		}
+		handle_fill (prg, pstate);
+		g_string_insert_len (prg, 0, splits, p - splits);
+		fmt->u.number.program = g_string_free (prg, FALSE);
+		return fmt;
+	}
+
+ error:
+	return NULL;
+}
+
+static gboolean
+comma_is_thousands (const char *str)
+{
+	while (1) {
+		GOFormatTokenType tt;
+		int t = go_format_token (&str, &tt);
+
+		switch (t) {
+		case '0': case '?': case '#':
+			return TRUE;
+		case 0:
+		case ';':
+		case '.':
+			return FALSE;
+		}
+	}
+}
+
+static gboolean
+go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
+			      int tno_start, int tno_end,
+			      int E_part, int frac_part)
+{
+	int decimals = 0;
+	int whole_digits = 0;
+	gboolean inhibit_thousands = (E_part == 2) || (frac_part >= 2);
+	gboolean thousands = FALSE;
+	gboolean whole_part = TRUE;
+	int scale = 0;
+	int first_digit_pos = -1;
+	int dot_pos = -1;
+	int one_pos;
+	int i;
+	int tno_numstart = -1;
+	int force_zero_pos = frac_part == 3 ? pstate->force_zero_pos : INT_MAX;
+
+	for (i = tno_start; i < tno_end; i++) {
+		const GOFormatParseItem *ti = &GET_TOKEN(i);
+
+		if (tno_numstart == - 1 && (ti->tt & TT_STARTS_NUMBER))
+			tno_numstart = i;
+
+		switch (ti->token) {
+		case '.':
+			if (!whole_part)
+				break;
+			dot_pos = i;
+			if (first_digit_pos == -1)
+				first_digit_pos = i;
+			whole_part = FALSE;
+			break;
+
+		case '0': case '?': case '#':
+			if (first_digit_pos == -1)
+				first_digit_pos = i;
+			if (whole_part)
+				whole_digits++;
+			else
+				decimals++;
+			break;
+
+		case '%':
+			if (E_part != 2)
+				scale += 2;
+			break;
+
+		case ',':
+			if (tno_numstart != -1 && E_part != 2) {
+				if (comma_is_thousands (ti->tstr)) {
+					if (whole_part)
+						thousands = TRUE;
+					if (ti->tstr[1] == ' ')
+						inhibit_thousands = TRUE;
+				} else {
+					if (frac_part == 0)
+						scale -= 3;
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	if (E_part == 1) {
+		if (tno_numstart == -1)
+			goto error;
+
+		ADD_OP3 (OP_NUM_PRINTF_E, decimals, whole_digits);
+#ifdef OBSERVE_XL_EXPONENT_1
+		if (whole_digits + decimals == 0) {
+			/*
+			 * If no digits precede "E", pretend that the
+			 * exponent is 1.  Don't ask!
+			 */
+			ADD_OP (OP_NUM_EXPONENT_1);
+		}
+#endif
+	} else {
+		if (scale && !frac_part)
+			ADD_OP2 (OP_NUM_SCALE, scale);
+		ADD_OP2 (OP_NUM_PRINTF_F, decimals);
+		if (thousands && !inhibit_thousands)
+			ADD_OP (OP_NUM_ENABLE_THOUSANDS);
+	}
+	ADD_OP (OP_NUM_SIGN);
+
+	for (i = tno_start; i < tno_numstart; i++) {
+		const GOFormatParseItem *ti = &GET_TOKEN(i);
+		handle_common_token (ti->tstr, ti->token, prg);
+	}
+
+	if (E_part == 2) {
+		ADD_OP (OP_NUM_EXPONENT_SIGN);
+		if (first_digit_pos == -1)
+			goto error;
+	}
+
+	one_pos = (dot_pos == -1) ? tno_end - 1 : dot_pos - 1;
+	ADD_OP (OP_NUM_MOVETO_ONES);
+	for (i = one_pos; i >= tno_numstart; i--) {
+		const GOFormatParseItem *ti = &GET_TOKEN(i);
+
+		if (pstate->explicit_denom && g_ascii_isdigit (ti->token)) {
+			ADD_OP2 (OP_CHAR, ti->token);
+			continue;
+		}
+
+		switch (ti->token) {
+		case '?':
+			if (frac_part == 3 && i < force_zero_pos) {
+				ADD_OP (OP_NUM_DENUM_DIGIT_Q);
+				break;
+			}
+			/* Fall through  */
+		case '0':
+		case '#':
+			if (i >= force_zero_pos)
+				ADD_OP2 (OP_NUM_DIGIT_1_0, ti->token);
+			else
+				ADD_OP2 (OP_NUM_DIGIT_1, ti->token);
+			break;
+		case ',':
+			if (frac_part == 3)
+				ADD_OP2 (OP_CHAR, ',');
 			break;
 		default:
-			s++;
+			handle_common_token (ti->tstr, ti->token, prg);
+		}
+		if (i == first_digit_pos)
+			ADD_OP (OP_NUM_REST_WHOLE);
+	}
+	ADD_OP (OP_NUM_APPEND_MODE);
+
+	if (dot_pos >= 0) {
+		ADD_OP (OP_NUM_DECIMAL_POINT);
+		ADD_OP (OP_NUM_MOVETO_DECIMALS);
+		for (i = dot_pos + 1; i < tno_end; i++) {
+			const GOFormatParseItem *ti = &GET_TOKEN(i);
+
+			switch (ti->token) {
+			case '0':
+			case '?':
+			case '#':
+				ADD_OP2 (OP_NUM_DECIMAL_1, ti->token);
+				break;
+			case ',':
+				break;
+			default:
+				handle_common_token (ti->tstr, ti->token, prg);
+			}
+		}
+	}
+
+	pstate->scale = scale;
+	return TRUE;
+
+ error:
+	g_string_free (prg, TRUE);
+	return FALSE;
+}
+
+
+static GOFormat *
+go_format_parse_number_plain (GOFormatParseState *pstate)
+{
+	GOFormat *fmt;
+	GString *prg = g_string_new (NULL);
+
+	if (!go_format_parse_number_new_1 (prg, pstate,
+					   0, pstate->tokens->len,
+					   0, 0))
+		return NULL;
+
+	handle_fill (prg, pstate);
+
+	fmt = go_format_create (GO_FMT_NUMBER, NULL);
+	fmt->u.number.program = g_string_free (prg, FALSE);
+	fmt->u.number.scale_is_2 = (pstate->scale == 2);
+	return fmt;
+}
+
+static GOFormat *
+go_format_parse_number_E (GOFormatParseState *pstate)
+{
+	GOFormat *fmt;
+	GString *prg;
+	gboolean use_markup;
+	int tno_end = pstate->tokens->len;
+
+	if (pstate->tno_E + 2 >= tno_end)
+		return NULL;
+	switch (GET_TOKEN (pstate->tno_E + 1).token) {
+	case '+':
+		use_markup = FALSE;
+		break;
+#ifdef ALLOW_EE_MARKUP
+	case 'E':
+		use_markup = TRUE;
+		break;
+#endif
+	default:
+		return NULL;
+	}
+		
+	prg = g_string_new (NULL);
+
+	if (!go_format_parse_number_new_1 (prg, pstate,
+					   0, pstate->tno_E,
+					   1, 0))
+		return NULL;
+
+	ADD_OP (OP_NUM_VAL_EXPONENT);
+	if (use_markup) {
+		/*
+		 * FIXME: come up with a way of erasing the mantissa if it is
+		 * 1.000... and not wanted.
+		 */
+		ADD_OP (OP_CHAR);
+		g_string_append_unichar (prg, 0x00D7); /* "x" */
+		ADD_OP2 (OP_CHAR, '1');
+		ADD_OP2 (OP_CHAR, '0');
+		ADD_OP2 (OP_CHAR, '<');
+		ADD_OP2 (OP_CHAR, 's');
+		ADD_OP2 (OP_CHAR, 'u');
+		ADD_OP2 (OP_CHAR, 'p');
+		ADD_OP2 (OP_CHAR, '>');
+	} else 
+		ADD_OP2 (OP_CHAR, 'E');
+
+	if (!go_format_parse_number_new_1 (prg, pstate,
+					   pstate->tno_E + 2, tno_end,
+					   2, 0))
+		return NULL;
+
+	if (use_markup) {
+		ADD_OP2 (OP_CHAR, '<');
+		ADD_OP2 (OP_CHAR, '/');
+		ADD_OP2 (OP_CHAR, 's');
+		ADD_OP2 (OP_CHAR, 'u');
+		ADD_OP2 (OP_CHAR, 'p');
+		ADD_OP2 (OP_CHAR, '>');
+	}
+
+	handle_fill (prg, pstate);
+
+	fmt = go_format_create (GO_FMT_NUMBER, NULL);
+	fmt->u.number.program = g_string_free (prg, FALSE);
+	fmt->u.number.E_format = TRUE;
+	fmt->u.number.use_markup = use_markup;
+	fmt->u.number.scale_is_2 = (pstate->scale == 2);
+	return fmt;
+}
+
+static GOFormat *
+go_format_parse_number_fraction (GOFormatParseState *pstate)
+{
+	GOFormat *fmt;
+	GString *prg;
+	int tno_slash = pstate->tno_slash;
+	int tno_end = pstate->tokens->len;
+	int tno_suffix = tno_end;
+	int tno_endwhole, tno_denom;
+	int i;
+	double denominator = 0;
+	gboolean explicit_denom = FALSE;
+	int denominator_digits = 0;
+	gboolean inhibit_blank = FALSE;
+	int scale = 0;
+
+	/*
+	 * First determine where the whole part, if any, ends.
+	 *
+	 * ???? ???/??? xxx
+	 *     ^   ^    ^
+	 *     |   |    +--- tno_suffix
+	 *     |   +-------- tno_slash
+	 *     +------------ tno_endwhole
+	 */
+
+	i = tno_slash - 1;
+	/* Back up to digit. */
+	while (i >= 0) {
+		int t = GET_TOKEN (i).token;
+		if (t == '0' || t == '#' || t == '?')
+			break;
+		i--;
+	}
+
+	/* Back up to space. */
+	while (i >= 0) {
+		int t = GET_TOKEN (i).token;
+		if (t == ' ')
+			break;
+		i--;
+	}
+	tno_endwhole = i;
+
+	/* Back up to digit. */
+	while (i >= 0) {
+		int t = GET_TOKEN (i).token;
+		if (t == '0' || t == '#' || t == '?')
+			break;
+		i--;
+	}
+
+	if (i < 0) {
+		tno_endwhole = -1;
+		inhibit_blank = TRUE;
+	} else {
+		for (i = tno_endwhole; i < tno_slash; i++) {
+			int t = GET_TOKEN (i).token;
+			if (t == '0')
+				inhibit_blank = TRUE;
+		}
+	}
+
+	/* ---------------------------------------- */
+
+	i = tno_slash + 1;
+	while (i < tno_end) {
+		int t = GET_TOKEN (i).token;
+		if (g_ascii_isdigit (t) || t == '#' || t == '?')
+			break;
+		i++;
+	}
+	if (i == tno_end)
+		return NULL;
+	tno_denom = i;
+
+	for (i = tno_denom; i < tno_end; i++) {
+		int t = GET_TOKEN (i).token;
+		if (g_ascii_isdigit (t)) {
+			denominator = denominator * 10 + (t - '0');
+			if (t != '0')
+				explicit_denom = TRUE;
+		}
+	}
+
+	for (i = tno_denom; i < tno_end; i++) {
+		const GOFormatParseItem *ti = &GET_TOKEN(i);
+		if (ti->token == ',')
+			return NULL;
+		if (ti->token == TOK_CONDITION ||
+		    ti->token == TOK_LOCALE ||
+		    ti->token == TOK_COLOR)
+			continue;
+		if (!(ti->tt & TT_STARTS_NUMBER))
+			break;
+		if (explicit_denom && (ti->token == '?' || ti->token == '#'))
+			return NULL;
+		denominator_digits++;
+	}
+	pstate->force_zero_pos = i;
+
+	while (tno_suffix >= i) {
+		int token = GET_TOKEN(tno_suffix - 1).token;
+		if (token == '#' || token == '?' || g_ascii_isdigit (token))
+			break;
+		tno_suffix--;
+	}
+
+	/* ---------------------------------------- */
+
+	prg = g_string_new (NULL);
+	ADD_OP3 (OP_NUM_FRACTION, tno_endwhole != -1, explicit_denom);
+	if (explicit_denom)
+		g_string_append_len (prg, (void*)&denominator, sizeof (denominator));
+	else
+		ADD_OP (MIN (10, denominator_digits));
+
+	if (tno_endwhole != -1) {
+		ADD_OP (OP_NUM_FRACTION_WHOLE);
+		if (!go_format_parse_number_new_1 (prg, pstate,
+						   0, tno_endwhole + 1,
+						   0, 1))
+			return NULL;
+		scale += pstate->scale;
+	}
+	ADD_OP (OP_NUM_DISABLE_THOUSANDS);
+
+	ADD_OP (OP_NUM_FRACTION_NOMINATOR);
+	if (!go_format_parse_number_new_1 (prg, pstate,
+					   tno_endwhole + 1, tno_slash + 1,
+					   0, 2))
+		return NULL;
+	scale += pstate->scale;
+
+	pstate->explicit_denom = explicit_denom;
+	ADD_OP (OP_NUM_FRACTION_DENOMINATOR);
+	if (!go_format_parse_number_new_1 (prg, pstate,
+					   tno_slash + 1, tno_suffix,
+					   0, 3))
+		return NULL;
+	scale += pstate->scale;
+	if (!inhibit_blank)
+		ADD_OP (OP_NUM_FRACTION_BLANK);
+
+	for (i = tno_suffix; i < tno_end; i++) {
+		const GOFormatParseItem *ti = &GET_TOKEN(i);
+		if (ti->token == '%')
+			scale += 2;
+		handle_common_token (ti->tstr, ti->token, prg);
+	}
+
+	if (scale) {
+		guchar scaling[2] = { OP_NUM_SCALE, scale };
+		g_string_insert_len (prg, 0, scaling, 2);
+	}
+
+	handle_fill (prg, pstate);
+
+	fmt = go_format_create (GO_FMT_NUMBER, NULL);
+	fmt->u.number.program = g_string_free (prg, FALSE);
+	fmt->u.number.fraction = TRUE;
+	fmt->u.number.scale_is_2 = (pstate->scale == 2);
+	return fmt;
+}
+
+static GOFormat *
+go_format_parse (const char *str)
+{
+	GOFormat *fmt;
+	const char *str0 = str;
+	GOFormatCondition *conditions = NULL;
+	int i, nparts = 0;
+	gboolean has_text_format = FALSE;
+
+#if 0
+	g_print ("Parse: [%s]\n", str0);
+#endif
+	while (1) {
+		GOFormatCondition *condition;
+		const char *tail;
+		GOFormatParseState state;
+		GOFormat *fmt = NULL;;
+
+		memset (&state, 0, sizeof (state));
+		state.tokens =
+			g_array_new (FALSE, FALSE, sizeof (GOFormatParseItem));
+
+		tail = go_format_preparse (str, &state);
+		if (!tail) {
+			g_array_free (state.tokens, TRUE);
+			goto bail;
+		}
+
+		nparts++;
+		conditions = g_renew (GOFormatCondition, conditions, nparts);
+		condition = conditions + (nparts - 1);
+		*condition = state.cond;
+		if (!state.have_cond)
+			condition->implicit = TRUE;
+
+		if (state.locale.locale == 0xf800) {
+			const GString *dfmt = go_locale_get_date_format ();
+			fmt = go_format_parse_sequential (dfmt->str, NULL, &state);
+			/* Make the upcoming switch do nothing.  */
+			state.typ = GO_FMT_INVALID;
+		} else if (state.locale.locale == 0xf400) {
+			const GString *tfmt = go_locale_get_time_format ();
+			fmt = go_format_parse_sequential (tfmt->str, NULL, &state);
+			/* Make the upcoming switch do nothing.  */
+			state.typ = GO_FMT_INVALID;
+		}
+
+		switch (state.typ) {
+		case GO_FMT_EMPTY:
+			fmt = go_format_create (state.typ, NULL);
+			break;
+
+		case GO_FMT_TEXT:
+			fmt = go_format_parse_sequential (str, NULL, &state);
+			break;
+
+		case GO_FMT_NUMBER:
+			if (state.is_date || state.has_general)
+				fmt = go_format_parse_sequential (str, NULL, &state);
+			else if (state.tno_E >= 0)
+				fmt = go_format_parse_number_E (&state);
+			else if (state.tno_slash >= 0)
+				fmt = go_format_parse_number_fraction (&state);
+			else if (state.is_number) {
+				fmt = go_format_parse_number_plain (&state);
+			} else {
+				GString *prg = g_string_new (NULL);
+				/* Crazy number.  Sign only.  */
+				ADD_OP (OP_NUM_VAL_SIGN);
+				fmt = go_format_parse_sequential (str, prg, &state);
+			}
+			break;
+
+		default:
+			; /* Nothing */
+		}
+		g_array_free (state.tokens, TRUE);
+		if (!fmt)
+			goto bail;
+
+		condition->fmt = fmt;
+		fmt->format = g_strndup (str, tail - str);
+		fmt->has_fill = state.fill_char != 0;
+		fmt->color = state.color;
+
+		if (go_format_is_text (fmt)) {
+			/* Only one text format.  */
+			if (has_text_format)
+				goto bail;
+			has_text_format = TRUE;
+			if (condition->implicit)
+				condition->op = GO_FMT_COND_TEXT;
+		}
+
+		str = tail;
+		if (*str == 0)
+			break;
+		str++;
+	}
+
+	if (nparts == 1 && conditions[0].implicit) {
+		/* Simple. */
+		fmt = conditions[0].fmt;
+		g_free (conditions);
+	} else {
+		int i;
+
+		fmt = go_format_create (GO_FMT_COND, str0);
+		fmt->u.cond.n = nparts;
+		fmt->u.cond.conditions = conditions;
+
+		for (i = 0; i < nparts; i++) {
+			gboolean no_zero_format =
+				(nparts <= 2 ||
+				 conditions[2].op != GO_FMT_COND_NONE);
+			gboolean negative_explicit =
+				(nparts >= 2 &&
+				 conditions[1].op != GO_FMT_COND_NONE);
+			static const GOFormatConditionOp ops[4] = {
+				GO_FMT_COND_GT,
+				GO_FMT_COND_LT,
+				GO_FMT_COND_EQ,
+				GO_FMT_COND_TEXT
+			};
+			GOFormatCondition *cond = conditions + i;
+			if (i <= 4 && cond->op == GO_FMT_COND_NONE) {
+				cond->implicit = TRUE;
+				cond->val = 0;
+				if (i == 0 && no_zero_format && !negative_explicit)
+					cond->op = GO_FMT_COND_GE;
+				else if (i == 1 && no_zero_format) {
+					if (!conditions[0].implicit &&
+					    conditions[0].true_inhibits_minus)
+						conditions[0].false_inhibits_minus = TRUE;
+					cond->op = GO_FMT_COND_NONTEXT;
+				} else
+					cond->op = ops[i];
+				determine_inhibit_minus (cond);
+			}
+#ifdef OBSERVE_XL_CONDITION_LIMITS
+			if (i >= 2 && !cond->implicit) {
+				go_format_unref (fmt);
+				nparts = 0;
+				conditions = NULL;
+				goto bail;
+			}
+#endif
+		}
+	}
+
+	return fmt;
+
+ bail:
+	for (i = 0; i < nparts; i++)
+		go_format_unref (conditions[i].fmt);
+	g_free (conditions);
+	return go_format_create (GO_FMT_INVALID, str0);
+}
+
+#undef ADD_OP
+#undef ADD_OP2
+#undef ADD_OP3
+
+
+
+static void
+append_i2 (GString *dst, int i)
+{
+	g_string_append_printf (dst, "%02d", i);
+}
+
+static void
+append_i (GString *dst, int i)
+{
+	g_string_append_printf (dst, "%d", i);
+}
+
+static const char unicode_minus_utf8[3] = "\xe2\x88\x92";
+
+#define SETUP_LAYOUT do { if (layout) pango_layout_set_text (layout, str->str, -1); } while (0)
+
+static void
+fill_with_char (GString *str, PangoLayout *layout, gsize fill_pos,
+		gunichar fill_char,
+		GOFormatMeasure measure, int col_width)
+{
+	int w, w1, wbase;
+	gsize n, gap;
+	char fill_utf8[7];
+	gsize fill_utf8_len;
+
+	SETUP_LAYOUT;
+	wbase = measure (str, layout);
+	if (wbase >= col_width)
+		return;
+
+	fill_utf8_len = g_unichar_to_utf8 (fill_char, fill_utf8);
+
+	g_string_insert_len (str, fill_pos, fill_utf8, fill_utf8_len);
+	SETUP_LAYOUT;
+	w = measure (str, layout);
+	w1 = w - wbase;
+	if (w > col_width || w1 <= 0) {
+		g_string_erase (str, fill_pos, fill_utf8_len);
+		return;
+	}
+
+	n = (col_width - w) / w1;
+	if (n == 0)
+		return;
+
+	gap = n * fill_utf8_len;
+	g_string_set_size (str, str->len + gap);
+	g_memmove (str->str + fill_pos + gap,
+		   str->str + fill_pos,
+		   str->len - (fill_pos + gap));
+	while (n > 0) {
+		memcpy (str->str + fill_pos, fill_utf8, fill_utf8_len);
+		fill_pos += fill_utf8_len;
+		n--;
+	}
+}
+
+#endif
+
+static GOFormatNumberError
+SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
+			   const GOFormatMeasure measure,
+			   const GOFontMetrics *metrics,
+			   const guchar *prg,
+			   int col_width,
+			   DOUBLE val, const char *sval,
+			   GODateConventions const *date_conv,
+			   gboolean unicode_minus)
+{
+	GOFormatNumberError res = GO_FORMAT_NUMBER_OK;
+	DOUBLE valsecs = 0;
+	GDateYear year = 0;
+	GDateMonth month = 0;
+	GDateDay day = 0;
+	GDateWeekday weekday = 0;
+	DOUBLE hour = 0, minute = 0, second = 0;
+	gboolean ispm = FALSE;
+	char fsecond[PREFIX(DIG) + 10];
+	const char *date_dec_ptr = NULL;
+	GString *numtxt = NULL;
+	size_t dotpos = 0;
+	size_t numi = 0;
+	int numpos = -1;
+	int generalpos = -1;
+	const GString *decimal = go_locale_get_decimal ();
+	const GString *comma = go_locale_get_thousand ();
+	gboolean thousands = FALSE;
+	gboolean digit_count = 0;
+	int exponent = 0;
+	struct {
+		DOUBLE w, n, d;
+		gsize nominator_start;
+	} fraction;
+	char *oldlocale = NULL;
+
+	memset (&fraction, 0, sizeof (fraction));
+
+	while (1) {
+		GOFormatOp op = *prg++;
+
+		switch (op) {
+		case OP_END:
+			if (layout)
+				pango_layout_set_text (layout, dst->str, -1);
+			if (numtxt)
+				g_string_free (numtxt, TRUE);
+			if (oldlocale) {
+				go_setlocale (LC_ALL, oldlocale);
+				g_free (oldlocale);
+			}
+			return res;
+
+		case OP_CHAR: {
+			const guchar *next = g_utf8_next_char (prg);
+			g_string_insert_len (dst, numpos, prg, next - prg);
+			prg = next;
+			break;
+		}
+
+		case OP_CHAR_INVISIBLE: {
+			const guchar *next = g_utf8_next_char (prg);
+			/* This ignores actual width for now.  */
+			g_string_insert_c (dst, numpos, ' ');
+			prg = next;
+			break;
+		}
+
+		case OP_CHAR_REPEAT: {
+			g_string_insert_c (dst, numpos, REPEAT_CHAR_MARKER);
+			break;
+		}
+
+		case OP_FILL: {
+			gssize fill_pos = -1;
+			gsize i = 0;
+			gunichar fill_char = g_utf8_get_char (prg);
+
+			prg = g_utf8_next_char (prg);
+
+			while (i < dst->len) {
+				if (dst->str[i] == REPEAT_CHAR_MARKER) {
+					fill_pos = i;
+					g_string_erase (dst, i, 1);
+				} else
+					i++;
+			}
+
+			if (fill_pos >= 0 && col_width >= 0)
+				fill_with_char (dst, layout, fill_pos,
+						fill_char,
+						measure, col_width);
+			break;
+		}
+
+		case OP_LOCALE: {
+			GOFormatLocale locale;
+			const char *lang;
+			memcpy (&locale, prg, sizeof (locale));
+			prg += sizeof (locale);
+			lang = (const char *)prg;
+			prg += strlen (lang) + 1;
+
+			oldlocale = g_strdup (go_setlocale (LC_ALL, NULL));
+			/* Setting LC_TIME should be enough, but glib gets
+			   confused over character sets.  */
+			go_setlocale (LC_TIME, lang);
+			go_setlocale (LC_CTYPE, lang);
+			break;
+		}
+
+		case OP_DATE_ROUND: {
+			int date_decimals = *prg++;
+			DOUBLE unit = SUFFIX(go_pow10)(date_decimals);
+
+			valsecs = SUFFIX(floor)(SUFFIX(go_add_epsilon) (val) * (unit * 86400) + 0.5);
+			if (date_decimals) {
+				DOUBLE f = SUFFIX(fmod) (valsecs, unit);
+				sprintf (fsecond, "%0*.0" FORMAT_f,
+					 date_decimals, f);
+				valsecs = SUFFIX(floor)(valsecs / unit);
+			}
+			break;
+		}
+
+		case OP_DATE_SPLIT: {
+			GDate date;
+			datetime_serial_to_g (&date,
+					      (int)SUFFIX(floor)(valsecs / 86400),
+					      date_conv);
+			if (!g_date_valid (&date))
+				res = GO_FORMAT_NUMBER_DATE_ERROR;
+			year = g_date_get_year (&date);
+			if (year > 9999)
+				res = GO_FORMAT_NUMBER_DATE_ERROR;
+			month = g_date_get_month (&date);
+			day = g_date_get_day (&date);
+			weekday = g_date_get_weekday (&date);
+			break;
+		}
+
+		case OP_DATE_YEAR:
+			append_i (dst, year);
+			break;
+
+		case OP_DATE_YEAR_2:
+			append_i2 (dst, year % 100);
+			break;
+
+		case OP_DATE_YEAR_THAI:
+			append_i (dst, year + 543);
+			break;
+
+		case OP_DATE_YEAR_THAI_2:
+			append_i2 (dst, (year + 543) % 100);
+			break;
+
+		case OP_DATE_MONTH:
+			append_i (dst, month);
+			break;
+
+		case OP_DATE_MONTH_2:
+			append_i2 (dst, month);
+			break;
+
+		case OP_DATE_MONTH_NAME: {
+			char *s = go_date_month_name (month, FALSE);
+			g_string_append (dst, s);
+			g_free (s);
+			break;
+		}
+
+		case OP_DATE_MONTH_NAME_1: {
+			char *s = go_date_month_name (month, TRUE);
+			g_string_append_c (dst, *s);
+			g_free (s);
+			break;
+		}
+
+		case OP_DATE_MONTH_NAME_3: {
+			char *s = go_date_month_name (month, TRUE);
+			g_string_append (dst, s);
+			g_free (s);
+			break;
+		}
+
+		case OP_DATE_DAY:
+			append_i (dst, day);
+			break;
+
+		case OP_DATE_DAY_2:
+			append_i2 (dst, day);
+			break;
+
+		case OP_DATE_WEEKDAY: {
+			char *s = go_date_weekday_name (weekday, FALSE);
+			g_string_append (dst, s);
+			g_free (s);
+			break;
+		}
+
+		case OP_DATE_WEEKDAY_3: {
+			char *s = go_date_weekday_name (weekday, TRUE);
+			g_string_append (dst, s);
+			g_free (s);
+			break;
+		}
+
+		case OP_TIME_SPLIT_12:
+		case OP_TIME_SPLIT_24: {
+			int secs = (int)SUFFIX(fmod)(valsecs, 86400);
+			int h = secs / 3600;
+			minute = (secs / 60) % 60;
+			second = secs % 60;
+			if (op == OP_TIME_SPLIT_12) {
+				ispm = (h >= 12);
+				if (ispm) h -= 12;
+				hour = h ? h : 12;
+			} else {
+				hour = h;
+			}
+			break;
+		}
+
+		case OP_TIME_SPLIT_ELAPSED_HOUR:
+		case OP_TIME_SPLIT_ELAPSED_MINUTE:
+		case OP_TIME_SPLIT_ELAPSED_SECOND: {
+			DOUBLE s = valsecs;
+
+			if (op == OP_TIME_SPLIT_ELAPSED_SECOND)
+				second = s;
+			else {
+				second = SUFFIX(fmod)(s, 60);
+				s = SUFFIX(floor)(s / 60);
+				if (op == OP_TIME_SPLIT_ELAPSED_MINUTE)
+					minute = s;
+				else {
+					minute = SUFFIX(fmod)(s, 60);
+					s = SUFFIX(floor)(s / 60);
+					hour = s;
+				}
+			}
+			break;
+		}
+
+		case OP_TIME_HOUR_2:
+			if (hour < 100) {
+				append_i2 (dst, (int)hour);
+				break;
+			}
+			/* Fall through */
+		case OP_TIME_HOUR:
+			g_string_append_printf (dst, "%.0" FORMAT_f, hour);
+			break;
+
+		case OP_TIME_HOUR_N: {
+			int n = *prg++;
+			g_string_append_printf (dst, "%0*.0" FORMAT_f, n, hour);
+			break;
+		}
+
+		case OP_TIME_AMPM:
+			g_string_append (dst, ispm ? "PM" : "AM");
+			break;
+
+		case OP_TIME_AP: {
+			char ca = *prg++;
+			char cp = *prg++;
+			g_string_append_c (dst, ispm ? cp : ca);
+			break;
+		}
+
+		case OP_TIME_MINUTE_2:
+			if (minute < 100) {
+				append_i2 (dst, (int)minute);
+				break;
+			}
+			/* Fall through */
+		case OP_TIME_MINUTE:
+			g_string_append_printf (dst, "%.0" FORMAT_f, minute);
+			break;
+
+		case OP_TIME_MINUTE_N: {
+			int n = *prg++;
+			g_string_append_printf (dst, "%0*.0" FORMAT_f, n, minute);
+			break;
+		}
+
+		case OP_TIME_SECOND_2:
+			if (second < 100) {
+				append_i2 (dst, (int)second);
+				break;
+			}
+			/* Fall through */
+		case OP_TIME_SECOND:
+			g_string_append_printf (dst, "%.0" FORMAT_f, second);
+			break;
+
+		case OP_TIME_SECOND_N: {
+			int n = *prg++;
+			g_string_append_printf (dst, "%0*.0" FORMAT_f, n, second);
+			break;
+		}
+
+		case OP_TIME_SECOND_DECIMAL_START:
+			/* Reset to start of decimal string.  */
+			date_dec_ptr = fsecond;
+			go_string_append_gstring (dst, decimal);
+			break;
+
+		case OP_TIME_SECOND_DECIMAL_DIGIT:
+			g_string_append_c (dst, *date_dec_ptr++);
+			break;
+
+		case OP_NUM_SCALE: {
+			int n = *(const signed char *)prg;
+			prg++;
+			if (n >= 0)
+				val *= SUFFIX(go_pow10) (n);
+			else
+				val /= SUFFIX(go_pow10) (-n);
+			break;
+		}
+
+		case OP_NUM_PRINTF_E: {
+			int n = *prg++;
+			int wd = *prg++;
+			const char *dot;
+			int exponent_guess = 0;
+			int nde = 0;
+			gboolean retry;
+			gboolean retried = FALSE;
+
+			if (wd > 1 && val != 0) {
+				exponent_guess = (int)floor (SUFFIX(log10) (SUFFIX(fabs) (val)));
+				nde = (exponent_guess >= 0)
+					? exponent_guess % wd
+					: (wd - ((-exponent_guess) % wd)) % wd;
+			}
+
+			if (!numtxt)
+				numtxt = g_string_sized_new (100);
+
+			do {
+				const char *epos;
+				g_string_printf (numtxt, "%.*" FORMAT_E, n + nde, val);
+				epos = strchr (numtxt->str, 'E');
+				retry = FALSE;
+				if (epos) {
+					exponent = atoi (epos + 1);
+					g_string_truncate (numtxt, epos - numtxt->str);
+				}
+
+				if (wd > 1) {
+					char *dot;
+					if (exponent != exponent_guess && !retried) {
+						nde = (nde == wd - 1) ? 0 : nde + 1;
+						retry = !retried;
+						retried = TRUE;
+						continue;
+					}
+					dot = strstr (numtxt->str, decimal->str);
+					if (dot) {
+						memmove (dot, dot + decimal->len, nde);
+						memcpy (dot + nde, decimal->str, decimal->len);
+					} else {
+						while (nde > 0) {
+							g_string_append_c (numtxt, '0');
+							nde--;
+						}
+					}
+					exponent -= nde;
+				}
+			} while (retry);
+
+			dot = strstr (numtxt->str, decimal->str);
+			if (dot) {
+				size_t i = numtxt->len;
+				dotpos = dot - numtxt->str;
+				while (numtxt->str[i - 1] == '0')
+					i--;
+				/* Kill zeroes in "xxx.xxx000"  */
+				g_string_truncate (numtxt, i);
+			} else
+				dotpos = numtxt->len;
+
+			break;
+		}
+
+		case OP_NUM_PRINTF_F: {
+			int n = *prg++;
+			const char *dot;
+			if (!numtxt)
+				numtxt = g_string_sized_new (100);
+			g_string_printf (numtxt, "%.*" FORMAT_f, n, val);
+			dot = strstr (numtxt->str, decimal->str);
+			if (dot) {
+				size_t i = numtxt->len;
+				dotpos = dot - numtxt->str;
+				while (numtxt->str[i - 1] == '0')
+					i--;
+				/* Kill zeroes in "xxx.xxx000"  */
+				g_string_truncate (numtxt, i);
+
+				if (numtxt->str[0] == '-' &&
+				    numtxt->str[1] == '0' &&
+				    dotpos == 2 &&
+				    numtxt->len == dotpos + decimal->len) {
+					g_string_erase (numtxt, 0, 1);
+					dotpos--;
+				}
+			} else
+				dotpos = numtxt->len;
+			break;
+		}
+
+		case OP_NUM_ENABLE_THOUSANDS:
+			thousands = TRUE;
+			break;
+
+		case OP_NUM_DISABLE_THOUSANDS:
+			thousands = FALSE;
+			break;
+
+		case OP_NUM_SIGN:
+			if (numtxt->str[0] == '-') {
+				g_string_erase (numtxt, 0, 1);
+				dotpos--;
+				if (unicode_minus)
+					g_string_insert_len (dst, numpos,
+							     unicode_minus_utf8,
+							     3);
+				else
+					g_string_insert_c (dst, numpos, '-');
+			}
+			break;
+
+		case OP_NUM_VAL_SIGN:
+			if (val < 0) {
+				if (unicode_minus)
+					g_string_insert_len (dst, numpos,
+							     unicode_minus_utf8,
+							     3);
+				else
+					g_string_insert_c (dst, numpos, '-');
+			}
+			break;
+
+		case OP_NUM_MOVETO_ONES: {
+			numi = dotpos;
+			/* Ignore the zero in "0.xxx" */
+			if (numi == 1 && numtxt->str[0] == '0' && numtxt->str[dotpos] != 0)
+				numi--;
+			numpos = dst->len;
+			break;
+		}
+
+		case OP_NUM_MOVETO_DECIMALS:
+			if (dotpos == numtxt->len)
+				numi = dotpos;
+			else
+				numi = dotpos + decimal->len;
+			break;
+
+		case OP_NUM_REST_WHOLE:
+			while (numi > 0) {
+				char c = numtxt->str[--numi];
+				digit_count++;
+				if (thousands && digit_count > 3 &&
+				    digit_count % 3 == 1)
+					g_string_insert_len (dst, numpos,
+							     comma->str,
+							     comma->len);
+				g_string_insert_c (dst, numpos, c);
+			}
+			break;
+
+		case OP_NUM_APPEND_MODE:
+			numpos = -1;
+			break;
+
+		case OP_NUM_DECIMAL_POINT:
+			go_string_append_gstring (dst, decimal);
+			break;
+
+		case OP_NUM_DIGIT_1: {
+			char fc = *prg++;
+			char c;
+			if (numi == 0) {
+				if (fc == '0')
+					c = '0';
+				else if (fc == '?')
+					c = ' ';
+				else
+					break;
+			} else {
+				c = numtxt->str[numi - 1];
+				numi--;
+			}
+			digit_count++;
+			if (thousands && digit_count > 3 &&
+			    digit_count % 3 == 1) {
+				g_string_insert_len (dst, numpos,
+						     comma->str, comma->len);
+			}
+			g_string_insert_c (dst, numpos, c);
+			break;
+		}
+
+		case OP_NUM_DECIMAL_1: {
+			char fc = *prg++;
+			char c;
+			if (numi == numtxt->len) {
+				if (fc == '0')
+					c = '0';
+				else if (fc == '?')
+					c = ' ';
+				else
+					break;
+			} else {
+				c = numtxt->str[numi];
+				numi++;
+			}
+			g_string_append_c (dst, c);
+			break;
+		}
+
+		case OP_NUM_DIGIT_1_0: {
+			char fc = *prg++;
+			if (fc == '0')
+				g_string_insert_c (dst, numpos, '0');
+			else if (fc == '?')
+				g_string_insert_c (dst, numpos, ' ');
+			break;
+		}
+
+		case OP_NUM_DENUM_DIGIT_Q:
+			if (numi == 0)
+				g_string_append_c (dst, ' ');
+			else {
+				char c = numtxt->str[numi - 1];
+				numi--;
+				g_string_insert_c (dst, numpos, c);
+			}
+			break;
+
+		case OP_NUM_EXPONENT_SIGN:
+			if (exponent >= 0)
+				g_string_insert_c (dst, numpos, '+');
+			else if (unicode_minus)
+				g_string_insert_len (dst, numpos,
+						     unicode_minus_utf8,
+						     3);
+			else
+				g_string_insert_c (dst, numpos, '-');
+			break;
+
+		case OP_NUM_VAL_EXPONENT:
+			val = SUFFIX (fabs) (exponent);
+			break;
+
+		case OP_NUM_EXPONENT_1:
+			exponent = 1;
+			break;
+
+		case OP_NUM_FRACTION: {
+			gboolean wp = *prg++;
+			gboolean explicit_denom = *prg++;
+			DOUBLE aval = SUFFIX(go_add_epsilon) (SUFFIX(fabs)(val));
+
+			fraction.w = SUFFIX(floor) (aval);
+			aval -= fraction.w;
+
+			if (explicit_denom) {
+				double plaind; /* Plain double */
+				memcpy (&plaind, prg, sizeof (plaind));
+				prg += sizeof (plaind);
+
+				fraction.d = plaind;
+				fraction.n = SUFFIX(floor) (0.5 + aval * fraction.d);
+			} else {
+				int digits = *prg++;
+				int ni, di;
+				go_continued_fraction (aval, SUFFIX(go_pow10) (digits), &ni, &di);
+				fraction.n = ni;
+				fraction.d = di;
+			}
+
+			if (wp && fraction.n == fraction.d) {
+				fraction.w += 1;
+				fraction.n = 0;
+			}
+			if (!wp)
+				fraction.n += fraction.d * fraction.w;
+
+			if (val < 0) {
+				if (wp)
+					fraction.w = 0 - fraction.w;
+				else
+					fraction.n = 0 - fraction.n;
+			}
+
+			break;
+		}
+
+		case OP_NUM_FRACTION_WHOLE:
+			val = fraction.w;
+			break;
+
+		case OP_NUM_FRACTION_NOMINATOR:
+			fraction.nominator_start = dst->len;
+			val = fraction.n;
+			break;
+
+		case OP_NUM_FRACTION_DENOMINATOR:
+			val = fraction.d;
+			break;
+
+		case OP_NUM_FRACTION_BLANK:
+			if (fraction.n == 0) {
+				/* Replace all added characters by spaces.  */
+				gsize chars = g_utf8_strlen (dst->str + fraction.nominator_start, -1);
+				memset (dst->str + fraction.nominator_start, ' ', chars);
+				g_string_truncate (dst, fraction.nominator_start + chars);
+			}
+			break;
+
+		case OP_NUM_GENERAL_MARK:
+			generalpos = dst->len;
+			break;
+
+		case OP_NUM_GENERAL_DO: {
+			gboolean is_empty = (dst->len == 0);
+			GString *gen;
+			int w = col_width;
+			if (is_empty) {
+				gen = dst;
+			} else {
+				if (w >= 0) {
+					w -= measure (dst, layout);
+					if (w < 0) w = 0;
+				}
+				gen = g_string_new (NULL);
+			}
+			SUFFIX(go_render_general)
+				(layout, gen, measure, metrics,
+				 val, w, unicode_minus);
+			if (!is_empty) {
+				g_string_insert_len (dst, generalpos,
+						     gen->str, gen->len);
+				g_string_free (gen, TRUE);
+			}
+			break;
+		}
+
+		case OP_STR_APPEND_SVAL:
+			g_string_append (dst, sval);
 			break;
 		}
 	}
 }
-#endif
 
 /*********************************************************************/
 
@@ -1652,7 +2629,6 @@ convert_minus (GString *str, size_t i)
 #endif
 
 #define HANDLE_MINUS(i) do { if (unicode_minus) convert_minus (str, (i)); } while (0)
-#define SETUP_LAYOUT do { if (layout) pango_layout_set_text (layout, str->str, -1); } while (0)
 
 /*
  * go_format_general:
@@ -1861,711 +2837,99 @@ SUFFIX(go_render_general) (PangoLayout *layout, GString *str,
 	return;
 }
 
-#define DO_TIME_SPLIT						\
-  do {								\
-	if (need_time_split) {					\
-		GOFormatNumberError err = SUFFIX(split_time)	\
-			(&tm,					\
-			 signed_number,				\
-			 SUFFIX(guess_invprecision) (format),	\
-			 date_conv);				\
-		if (err)					\
-			return err;				\
-		need_time_split = FALSE;			\
-	}							\
-  } while (0)
-
-
-static GOFormatNumberError
-SUFFIX(go_format_number) (GString *result,
-			  DOUBLE number, int col_width, GOFormatElement const *entry,
-			  GODateConventions const *date_conv,
-			  gboolean unicode_minus)
-{
-	gchar const *format = entry->format;
-	GONumberFormat info;
-	gboolean can_render_number = FALSE;
-	gboolean seconds_trigger_minutes = TRUE;
-	gboolean m_is_minutes = FALSE;
-	gboolean time_display_elapsed = FALSE;
-	gboolean ignore_further_elapsed = FALSE;
-	gboolean pi_seen = FALSE;
-
-	gunichar fill_char = 0;
-	int fill_start = -1;
-
-	gboolean need_time_split = TRUE;
-	struct tm tm;
-	DOUBLE signed_number;
-
-	memset (&info, 0, sizeof (info));
-	signed_number = number;
-	if (number < 0.) {
-		number = -number;
-		if (!entry->suppress_minus) {
-			if (unicode_minus)
-				g_string_append (result, "\xe2\x88\x92");
-			else
-				g_string_append_c (result, '-');
-		}
-	}
-	info.has_fraction = entry->has_fraction;
-	info.scale = 1;
-	info.unicode_minus = unicode_minus;
-
-	while (*format) {
-		/* This is just g_utf8_get_char, but we're in a hurry.  */
-		gunichar c = (*format & 0x80) ? g_utf8_get_char (format) : *(guchar *)format;
-
-		switch (c) {
-
-		case '[': {
-			char c2 = format[1];
-			/* Currency symbol */
-			if (c2 == '$') {
-				gboolean no_locale = TRUE;
-				for (format += 2; *format && *format != ']' ; ++format)
-					/* strip digits from [$<currency>-{digit}+] */
-					if (*format == '-')
-						no_locale = FALSE;
-					else if (no_locale)
-						g_string_append_c (result, *format);
-				if (!*format)
-					continue;
-			} else if (c2 == 's' || c2 == 'S' ||
-				   c2 == 'm' || c2 == 'M' ||
-				   c2 == 'h' || c2 == 'H') {
-				if (!ignore_further_elapsed)
-					time_display_elapsed = TRUE;
-			} else
-				return GO_FORMAT_NUMBER_INVALID_FORMAT;
-			break;
-		}
-
-		case '#':
-			can_render_number = TRUE;
-			if (!info.exponent_seen) { 
-				if (info.decimal_separator_seen)
-					info.right_optional++;
-				else 
-					info.left_optional++;
-			}
-			break;
-
-		case '?':
-			can_render_number = TRUE;
-			if (info.decimal_separator_seen)
-				info.right_spaces++;
-			else if (entry->has_fraction) {
-				const char *p = format + 1;
-				while (*p == '?')
-					p++;
-				if (*p == '/')
-					info.left_spaces++;
-			} else
-				info.left_spaces++;
-			break;
-
-		case '0':
-			can_render_number = TRUE;
-			if (info.exponent_seen) 
-				info.exponent_digit_nbr++;
-			else {
-				if (info.decimal_separator_seen){
-					info.right_req++;
-					info.right_allowed++;
-					info.right_spaces++;
-				} else {
-					info.left_spaces++;
-					info.left_req++;
-				}
-			}
-			break;
-
-		case '.': {
-			char c2 = *(format + 1);
-
-			if (!need_time_split && c2 != '0')
-				/* Literal "." after date/time seen. */
-				g_string_append_unichar (result, c);
-			else {
-				can_render_number = TRUE;
-				info.decimal_separator_seen = TRUE;
-			}
-			break;
-		}
-
-		case ',':
-			if (can_render_number) {
-				gchar const *tmp = format;
-				while (*++tmp == ',')
-					;
-				if (*tmp == '\0' || *tmp == '.' || *tmp == ';')
-					/* NOTE : format-tmp is NEGATIVE */
-					info.scale = SUFFIX(go_pow10) (3*(format-tmp));
-				info.group_thousands = TRUE;
-				format = tmp;
-				continue;
-			} else
-				go_string_append_gstring (result, go_locale_get_thousand ());
-			break;
-
-		case 'E':
-			if (!can_render_number)
-				return GO_FORMAT_NUMBER_INVALID_FORMAT;
-			else if (info.exponent_seen) 
-				info.use_markup = TRUE;
-			else
-				info.exponent_seen = TRUE;
-			break;
-
-		case 'e':
-			if (!can_render_number) {
-				while (format[1] == 'e')
-					format++;
-				DO_TIME_SPLIT;
-				append_year (result, 4, &tm);
-			} else if (!info.exponent_seen) {
-				info.exponent_seen = TRUE;
-				info.exponent_lower_e = TRUE;
-			};
-			break;
-
-		case '\\':
-			if (format[1] != '\0') {
-				if (can_render_number && !info.rendered)
-					SUFFIX(do_render_number) (number, &info, result);
-
-				format++;
-				g_string_append_len (result, format,
-					g_utf8_skip[*(guchar *)format]);
-			}
-			break;
-
-		case '"': {
-			gchar const *tmp = ++format;
-			if (can_render_number && !info.rendered)
-				SUFFIX(do_render_number) (number, &info, result);
-
-			for (; *tmp && *tmp != '"'; tmp++)
-				;
-			g_string_append_len (result, format, tmp-format);
-			format = tmp;
-			if (!*format)
-				continue;
-			break;
-		}
-
-		case '/': /* fractions */
-			if (can_render_number && info.left_spaces > info.left_req) {
-				int size = 0;
-				int numerator = -1, denominator = -1;
-				DOUBLE frac_number = pi_seen ? number / M_PI : number;
-				DOUBLE whole = SUFFIX(floor) (frac_number);
-				DOUBLE fractional = frac_number - whole;
-
-				while (format[size + 1] == '?')
-					++size;
-
-				/* check for explicit denominator */
-				if (size == 0) {
-					char *end;
-					unsigned long ul;
-
-					errno = 0;
-					ul = strtoul ((char *)format + 1, &end, 10);
-					if (format + 1 != end && 
-					    errno != ERANGE && 
-					    ul <= G_MAXINT) {
-						DOUBLE dn;
-
-						denominator = ul;
-						size = end - (format + 1);
-						format = end;
-
-						dn = SUFFIX(floor)(fractional * denominator + 0.5);
-						if (dn > G_MAXINT)
-							return GO_FORMAT_NUMBER_INVALID_FORMAT;
-						numerator = (int)(dn);
-					} else
-						return GO_FORMAT_NUMBER_INVALID_FORMAT;
-				} else {
-					static int const powers[9] = {
-						10, 100, 1000, 10000, 100000,
-						1000000, 10000000, 100000000, 1000000000
-					};
-
-					format += size + 1;
-					if (size > (int)G_N_ELEMENTS (powers))
-						size = G_N_ELEMENTS (powers);
-					go_continued_fraction (fractional, powers[size - 1],
-						&numerator, &denominator);
-				}
-
-				if (denominator > 0) {
-					gboolean show_zero = TRUE;
-					/* improper fractions */
-					if (!info.rendered) {
-						DOUBLE dn = numerator + whole * denominator;
-						info.rendered = TRUE;
-						if (dn > G_MAXINT)
-							return GO_FORMAT_NUMBER_INVALID_FORMAT;
-						numerator = (int)dn;
-					} else
-						show_zero = (frac_number == 0 || whole == 0);
-
-					if (pi_seen) {
-						/* We differ here from standard fraction behaviour
-						 * by ignoring white spaces */
-						if (numerator > 0) {
-							if (numerator > 1) 
-								g_string_append_printf (result, "%d", numerator);
-							g_string_append_unichar (result, 0x03c0);
-							if (denominator != 1)
-								g_string_append_printf (result, "/%d", denominator);
-						} else {
-							g_string_append_c (result, '0');
-						}
-					} else {
-						/*
-						 * FIXME: the space-aligning here doesn't come out
-						 * right except in mono-space fonts.
-						 */
-						if (numerator > 0 || show_zero) {
-							g_string_append_printf (result,
-										"%*d/%-*d",
-										info.left_spaces, numerator,
-										size, denominator);
-						} else {
-							g_string_append_printf (result,
-										"%-*s",
-										info.left_spaces + 1 + size,
-										"");
-						}
-					}
-				}
-				continue;
-			}
-
-		case '+':
-			if (info.exponent_seen) {
-				info.exponent_show_sign = TRUE;
-				break;
-			}
-		case '-':
-		case '(':
-		case ':':
-		case ' ': /* eg # ?/? */
-		case '$':
-		case 0x00A3 : /* pound */
-		case 0x00A5 : /* yen */
-		case 0x20AC : /* Euro */
-		case ')':
-			if (can_render_number && !info.rendered)
-				SUFFIX(do_render_number) (number, &info, result);
-			g_string_append_unichar (result, c);
-			break;
-
-		/* percent */
-		case '%':
-			if (!info.rendered) {
-				number *= 100;
-				if (can_render_number)
-					SUFFIX(do_render_number) (number, &info, result);
-				else
-					can_render_number = TRUE;
-			}
-			g_string_append_c (result, '%');
-			break;
-
-		case '_':
-			if (can_render_number && !info.rendered)
-				SUFFIX(do_render_number) (number, &info, result);
-			if (format[1])
-				format++;
-			g_string_append_c (result, ' ');
-			break;
-
-		case '*':
-			/* Intentionally forget any previous fill characters
-			 * (no need to be smart).
-			 * FIXME : make the simplifying assumption that we are
-			 * not going to fill in the middle of a number.  This
-			 * assumption is WRONG! but ok until we rewrite the
-			 * format engine.
-			 */
-			if (format[1]) {
-				if (can_render_number && !info.rendered)
-					SUFFIX(do_render_number) (number, &info, result);
-				++format;
-				fill_char = g_utf8_get_char (format);
-				fill_start = result->len;
-			}
-			break;
-
-		case 'M':
-		case 'm': {
-			int n;
-
-			for (n = 1; format[1] == 'M' || format[1] == 'm'; format++)
-				n++;
-			if (format[1] == ']')
-				format++;
-
-			m_is_minutes = m_is_minutes || tail_forces_minutes (format + 1);
-
-			if (time_display_elapsed) {
-				need_time_split = time_display_elapsed = FALSE;
-				ignore_further_elapsed = TRUE;
-				SUFFIX(append_minute_elapsed) (result, &tm, number);
-				m_is_minutes = FALSE;
-				break;
-			}
-
-			DO_TIME_SPLIT;
-
-			if (m_is_minutes) {
-				seconds_trigger_minutes = FALSE;
-				append_minute (result, n, &tm);
-			} else
-				append_month (result, n, &tm);
-
-			m_is_minutes = FALSE;
-			break;
-		}
-
-		case 'D':
-		case 'd': {
-			int n;
-
-			for (n = 1; format[1] == 'D' || format[1] == 'd'; format++)
-				n++;
-
-			DO_TIME_SPLIT;
-
-			append_day (result, n, &tm);
-			break;
-		}
-
-		case 'Y':
-		case 'y': {
-			int n;
-
-			for (n = 1; format[1] == 'Y' || format[1] == 'y'; format++)
-				n++;
-
-			DO_TIME_SPLIT;
-
-			append_year (result, n, &tm);
-			break;
-		}
-
-		case 'b': {
-			int n;
-
-			for (n = 1; format[1] == 'b'; format++)
-				n++;
-
-			DO_TIME_SPLIT;
-
-			append_thai_year (result, n, &tm);
-			break;
-		}
-
-		case 'g':
-		case 'G':
-			/* Something funky with Japanese eras.  Blank for me.  */
-			DO_TIME_SPLIT;
-			break;
-
-		case 'S':
-		case 's': {
-			int n;
-
-			for (n = 1; format[1] == 's' || format[1] == 'S'; format++)
-				n++;
-			if (format[1] == ']')
-				format++;
-			if (time_display_elapsed) {
-				need_time_split = time_display_elapsed = FALSE;
-				ignore_further_elapsed = TRUE;
-				SUFFIX(append_second_elapsed) (result, number);
-			} else {
-				DO_TIME_SPLIT;
-
-				append_second (result, n, &tm);
-
-				if (format[1] == '.') {
-					/* HACK for fractional seconds.  */
-					DOUBLE days, secs;
-					int decs = 0;
-					format++;
-					while (format[1] == '0')
-						decs++, format++;
-
-					secs = SUFFIX(modf) (SUFFIX(fabs) (number), &days);
-					secs = SUFFIX(modf) (secs * (24 * 60 * 60), &days);
-
-					if (decs > 0) {
-						size_t old_len = result->len;
-						g_string_append_printf (result, "%.*" FORMAT_f, decs, secs);
-						/* Remove the "0" or "1" before the dot.  */
-						g_string_erase (result, old_len, 1);
-					}
-				}
-			}
-
-			if (seconds_trigger_minutes) {
-				seconds_trigger_minutes = FALSE;
-				m_is_minutes = TRUE;
-			}
-			break;
-		}
-
-		case 'H':
-		case 'h': {
-			int n;
-
-			for (n = 1; format[1] == 'h' || format[1] == 'H'; format++)
-				n++;
-			if (format[1] == ']')
-				format++;
-			if (time_display_elapsed) {
-				need_time_split = time_display_elapsed = FALSE;
-				ignore_further_elapsed = TRUE;
-				SUFFIX(append_hour_elapsed) (result, &tm, number);
-			} else {
-				/* h == hour optionally in 24 hour mode
-				 * h followed by am/pm puts it in 12 hour mode
-				 *
-				 * more than 2 h eg 'hh' force 12 hour mode.
-				 * NOTE : This is a non-XL extension
-				 */
-				DO_TIME_SPLIT;
-
-				append_hour (result, n, &tm, entry->want_am_pm);
-			}
-
-			m_is_minutes = TRUE;
-			break;
-		}
-
-		case 'A':
-		case 'a':
-			DO_TIME_SPLIT;
-
-			if (tm.tm_hour < 12){
-				g_string_append_c (result, *format);
-				format++;
-				if (*format == 'm' || *format == 'M'){
-					g_string_append_c (result, *format);
-					if (*(format + 1) == '/')
-						format++;
-				}
-			} else {
-				if (*(format + 1) == 'm' || *(format + 1) == 'M')
-					format++;
-				if (*(format + 1) == '/')
-					format++;
-			}
-			break;
-
-		case 'P': case 'p':
-			if (*(format + 1) == 'I' ||
-			    *(format + 1) == 'i') {
-				pi_seen = TRUE;
-				format++;
-			} else {
-				DO_TIME_SPLIT;
-
-				if (tm.tm_hour >= 12){
-					g_string_append_c (result, *format);
-					if (*(format + 1) == 'm' || *(format + 1) == 'M'){
-						format++;
-						g_string_append_c (result, *format);
-					}
-				} else {
-					if (*(format + 1) == 'm' || *(format + 1) == 'M')
-						format++;
-				}
-			}
-			break;
-
-		case 'n': case 'N':
-			return GO_FORMAT_NUMBER_INVALID_FORMAT;
-
-		default:
-			g_string_append_unichar (result, g_utf8_get_char (format));
-			break;
-		}
-		format = g_utf8_next_char (format);
-	}
-
-	if (!info.rendered && can_render_number)
-		SUFFIX(do_render_number) (number, &info, result);
-
-	/* This is kinda ugly.  It does not handle variable width fonts */
-	if (fill_char != '\0') {
-		int count = col_width - result->len;
-		while (count-- > 0)
-			g_string_insert_unichar (result, fill_start, fill_char);
-	}
-
-	return GO_FORMAT_NUMBER_OK;
-}
-#undef DO_TIME_SPLIT
-
-static gboolean
-SUFFIX(go_style_format_condition) (GOFormatElement const *entry, DOUBLE val, char type)
-{
-	if (entry->restriction_type == '*')
-		return TRUE;
-
-	switch (type) {
-	case 'B': case 'S':
-		return entry->restriction_type == '@';
-
-	case 'F':
-		switch (entry->restriction_type) {
-		case '<': return val < entry->restriction_value;
-		case '>': return val > entry->restriction_value;
-		case '=': return val == entry->restriction_value;
-		case ',': return val <= entry->restriction_value;
-		case '.': return val >= entry->restriction_value;
-		case '+': return val != entry->restriction_value;
-		default:
-			return FALSE;
-		}
-
-	case 'E':
-	default:
-		return FALSE;
-	}
-}
-
-static GOFormatElement const *
-SUFFIX(go_style_format_find_entry) (GOFormat const *format,
-				    DOUBLE val, char type,
-				    GOColor *go_color, gboolean *need_abs,
-				    gboolean *empty)
-{
-	GOFormatElement const *entry = NULL;
-
-	if (go_color)
-		*go_color = 0;
-
-	if (format) {
-		GSList *ptr;
-		GOFormatElement const *last_entry = NULL;
-
-		for (ptr = format->entries; ptr; ptr = ptr->next) {
-			last_entry = ptr->data;			
-			/* 142474 : only set entry if it matches */
-			if (SUFFIX(go_style_format_condition) (ptr->data, val, type)) {
-				entry = last_entry;
-				break;
-			}
-		}
-
-		/*
-		 * 356140: floating point values need to use the last format
-		 * if nothing else matched.
-		 */
-		if (entry == NULL && type == 'F')
-			entry = last_entry;
-
-		if (entry != NULL) {
-			/* Empty formats should be ignored */
-			if (entry->format[0] == '\0') {
-				*empty = TRUE;
-				return entry;
-			}
-
-			if (go_color && entry->go_color != 0)
-				*go_color = entry->go_color;
-
-			if (strcmp (entry->format, "@") == 0) {
-				/* FIXME : Formatting a value as a text returns
-				 * the entered text.  We need access to the
-				 * parse format */
-				entry = NULL;
-
-			/* FIXME : Just containing General is enough to be
-			 * general for now.  We'll ignore prefixes and suffixes
-			 * for the time being */
-			} else if (strstr (entry->format, "General") != NULL)
-				entry = NULL;
-		}
-	}
-
-	/* More than one format? -- abs the value.  */
-	*need_abs = entry && format->entries->next;
-	*empty = FALSE;
-
-	return entry;
-}
 
 GOFormatNumberError
 SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
 				 const GOFormatMeasure measure,
 				 const GOFontMetrics *metrics,
-				 GOFormat const *format,
+				 GOFormat const *fmt,
 				 DOUBLE val, char type, const char *sval,
 				 GOColor *go_color,
 				 int col_width,
 				 GODateConventions const *date_conv,
 				 gboolean unicode_minus)
 {
-	GOFormatElement const *entry;
-	gboolean need_abs, empty;
+	gboolean inhibit = FALSE;
 
-	g_return_val_if_fail (type == 'F' || sval != NULL, (GOFormatNumberError)-1);
-	g_return_val_if_fail (str != NULL, (GOFormatNumberError)-1);
+	g_return_val_if_fail (type == 'F' || sval != NULL,
+			      (GOFormatNumberError)-1);
 
-	entry = SUFFIX(go_style_format_find_entry) (format, val, type, go_color, &need_abs, &empty);
+	g_string_truncate (str, 0);
 
-	/* Empty formats should be ignored */
-	if (empty) {
-		if (layout) pango_layout_set_text (layout, "", -1);
-		return GO_FORMAT_NUMBER_OK;
-	}
+	if (fmt)
+		fmt = SUFFIX(go_format_specialize) (fmt, val, type, &inhibit);
+	if (!fmt)
+		fmt = go_format_general ();
+
+	if (go_color)
+		*go_color = fmt->color;
 
 	if (type == 'F') {
-		if (!SUFFIX(go_finite) (val)) {
-			const char *text = _("#VALUE!");
-			if (layout) pango_layout_set_text (layout, text, -1);
-			g_string_append (str, text);
-			return GO_FORMAT_NUMBER_OK;
-		}
-
-		if (entry == NULL) {
+		switch (fmt->typ) {
+		case GO_FMT_TEXT:
+			if (inhibit)
+				val = SUFFIX(fabs)(val);
 			SUFFIX(go_render_general)
 				(layout, str, measure, metrics,
 				 val,
 				 col_width, unicode_minus);
 			return GO_FORMAT_NUMBER_OK;
-		} else {
-			GOFormatNumberError err;
 
-			if (need_abs)
-				val = SUFFIX(fabs) (val);
+		case GO_FMT_NUMBER:
+			if (val < 0) {
+				if (fmt->u.number.has_date ||
+				    fmt->u.number.has_time)
+					return GO_FORMAT_NUMBER_DATE_ERROR;
+				if (inhibit)
+					val = SUFFIX(fabs)(val);
+			}
+			return SUFFIX(go_format_execute)
+				(layout, str,
+				 measure, metrics,
+				 fmt->u.number.program,
+				 col_width,
+				 val, sval, date_conv,
+				 unicode_minus);
 
-			/* FIXME: -1 kills filling here.  */
-			err = SUFFIX(go_format_number)
-				(str, val, -1, entry,
-				 date_conv, unicode_minus);
-			if (err)
-				g_string_truncate (str, 0);
-			else if (layout)
-				pango_layout_set_text (layout, str->str, -1);
-			return err;
+		case GO_FMT_EMPTY:
+			SETUP_LAYOUT;
+			return GO_FORMAT_NUMBER_OK;
+
+		default:
+		case GO_FMT_INVALID:
+		case GO_FMT_MARKUP:
+		case GO_FMT_COND:
+			SETUP_LAYOUT;
+			return GO_FORMAT_NUMBER_INVALID_FORMAT;
 		}
 	} else {
-		if (layout) pango_layout_set_text (layout, sval, -1);
-		g_string_append (str, sval);
-	}
+		switch (fmt->typ) {
+		case GO_FMT_TEXT:
+			return SUFFIX(go_format_execute)
+				(layout, str,
+				 measure, metrics,
+				 fmt->u.text.program,
+				 col_width,
+				 val, sval, date_conv,
+				 unicode_minus);
 
-	return GO_FORMAT_NUMBER_OK;
+		case GO_FMT_NUMBER:
+			g_string_assign (str, sval);
+			SETUP_LAYOUT;
+			return GO_FORMAT_NUMBER_OK;
+
+		case GO_FMT_EMPTY:
+			SETUP_LAYOUT;
+			return GO_FORMAT_NUMBER_OK;
+
+		default:
+		case GO_FMT_INVALID:
+		case GO_FMT_MARKUP:
+		case GO_FMT_COND:
+			SETUP_LAYOUT;
+			return GO_FORMAT_NUMBER_INVALID_FORMAT;
+		}
+	}
 }
 
 /**
@@ -2659,6 +3023,11 @@ go_number_format_shutdown (void)
 		default_general_fmt = NULL;
 	}
 
+	if (default_empty_fmt) {
+		go_format_unref (default_empty_fmt);
+		default_empty_fmt = NULL;
+	}
+
 	tmp = style_format_hash;
 	style_format_hash = NULL;
 	g_hash_table_foreach (tmp, cb_format_leak, NULL);
@@ -2669,85 +3038,347 @@ go_number_format_shutdown (void)
 /****************************************************************************/
 
 #ifdef DEFINE_COMMON
-static char *
-translate_format_color (GString *res, char const *ptr, gboolean translate_to_en)
+
+static GOFormat *
+make_frobbed_format (char *str, const GOFormat *fmt)
 {
-	char *end;
-	FormatColor const *color;
+	GOFormat *res;
 
-	g_string_append_c (res, '[');
-
-	/*
-	 * Special [h*], [m*], [*s] is using for
-	 * and [$*] are for currencies.
-	 * measuring times, not for specifying colors.
-	 */
-	if (ptr[1] == 'h' || ptr[1] == 's' || ptr[1] == 'm' || ptr[1] == '$')
-		return NULL;
-
-	end = strchr (ptr, ']');
-	if (end == NULL)
-		return NULL;
-
-	color = lookup_color_by_name (ptr+1, end, translate_to_en);
-	if (color != NULL) {
-		g_string_append (res, translate_to_en
-			? color->name : _(color->name));
-		g_string_append_c (res, ']');
-		return end;
+	if (strcmp (str, fmt->format) == 0)
+		res = NULL;
+	else {
+		g_print ("Frobbed [%s] -> [%s]\n", fmt->format, str);
+		res = go_format_new_from_XL (str, FALSE);
+		if (res->typ == GO_FMT_INVALID) {
+			go_format_unref (res);
+			res = NULL;
+		}
 	}
+
+	g_free (str);
+	return res;
+}
+
+char *
+go_format_str_delocalize (char const *str)
+{
+	GString *res;
+	GString const *comma = go_locale_get_thousand ();
+	GString const *decimal = go_locale_get_decimal ();
+	gboolean decimal_needs_quoting =
+		strcmp (decimal->str, ".") == 0 ||
+		strcmp (decimal->str, ",") == 0;
+	gboolean comma_needs_quoting =
+		strcmp (comma->str, ".") == 0 ||
+		strcmp (comma->str, ",") == 0;
+	gboolean decimal_is_dot = strcmp (decimal->str, ".") == 0;
+	const char *tgeneral = _("General");
+	gsize tgeneral_len = strlen (tgeneral);
+
+	g_return_val_if_fail (str != NULL, NULL);
+
+	res = g_string_new (NULL);
+	while (1) {
+		const char *token = str;
+		GOFormatTokenType tt;
+		int t = go_format_token (&str, &tt);
+
+		switch (t) {
+		case TOK_ERROR:
+			g_string_append (res, token);
+			/* Fall through */
+		case 0:
+			return g_string_free (res, FALSE);
+
+		case '\\':
+			if ((strncmp (token + 1, decimal->str, decimal->len) == 0 && !decimal_needs_quoting) ||
+			    (strncmp (str + 1, comma->str, comma->len) == 0 && !comma_needs_quoting))
+				token++;
+			g_string_append_len (res, token, str - token);
+			break;
+
+		case TOK_CONDITION:
+			if (decimal_is_dot)
+				goto regular;
+
+			while (token != str) {
+				if (strncmp (token, decimal->str, decimal->len) == 0) {
+					g_string_append_c (res, '.');
+					token += decimal->len;
+				} else if (*token == '.')  {
+					/* 1000.00 becomes 1000\.00 */
+					g_string_append_c (res, '\\');
+					g_string_append_c (res, *token++);
+				} else
+					g_string_append_c (res, *token++);
+			}
+			break;
+
+		case TOK_COLOR: {
+			int i;
+			const char *tcolor = _("[Color");
+			gsize tcolor_len = strlen (tcolor);
+
+			/*
+			 * FIXME: German has both "Cyan" and "Zyan" for the
+			 * same color.
+			 */
+			for (i = G_N_ELEMENTS (format_colors); --i >= 0;) {
+				const char *name = format_colors[i].name;
+				const char *tname = _(name);
+				gsize len = strlen (tname);
+				/* FIXME: "ascii" is surely wrong.  */
+				if (g_ascii_strncasecmp (token + 1, tname, len) == 0) {
+					g_string_append_c (res, '[');
+					g_string_append (res, name);
+					g_string_append_c (res, ']');
+					break;
+				}
+			}
+			if (i >= 0)
+				break;
+
+			/* FIXME: "ascii" is surely wrong.  */
+			if (g_ascii_strncasecmp (token, tcolor, tcolor_len) == 0) {
+				g_string_append (res, "[Color");
+				token += tcolor_len;
+				g_string_append_len (res, token, str - token);
+				break;				
+			}
+
+			g_string_append (res, "[Invalid]");
+			break;
+		}
+
+		case TOK_GENERAL:
+			/* Oops.  Pretend we saw only "G".  */
+			str = token + 1;
+		default:
+		regular:
+			/* Tokenizer doesn't know translated "General".  */
+			if (strncmp (token, tgeneral, tgeneral_len) == 0) {
+				g_string_append (res, "General");
+				str = token + tgeneral_len;
+				break;
+			}
+
+			if (strncmp (token, decimal->str, decimal->len) == 0) {
+				str = token + decimal->len;
+				g_string_append_c (res, '.');
+				break;
+			}
+
+			if (strncmp (token, comma->str, comma->len) == 0) {
+				str = token + comma->len;
+				g_string_append_c (res, ',');
+				break;
+			}
+
+			g_string_append_len (res, token, str - token);
+		}
+	}
+}
+
+char *
+go_format_str_localize (char const *str)
+{
+	GString *res;
+	GString const *comma = go_locale_get_thousand ();
+	GString const *decimal = go_locale_get_decimal ();
+	gboolean decimal_is_dot = strcmp (decimal->str, ".") == 0;
+
+	g_return_val_if_fail (str != NULL, NULL);
+
+	res = g_string_new (NULL);
+	while (1) {
+		const char *token = str;
+		GOFormatTokenType tt;
+		int t = go_format_token (&str, &tt);
+
+		switch (t) {
+		case TOK_ERROR:
+			g_string_append (res, token);
+			/* Fall through */
+		case 0:
+			return g_string_free (res, FALSE);
+		case '.':
+			go_string_append_gstring (res, decimal);
+			break;
+		case ',':
+			go_string_append_gstring (res, comma);
+			break;
+		case TOK_GENERAL:
+			g_string_append (res, _("General"));
+			break;
+		case TOK_CONDITION:
+			if (decimal_is_dot)
+				goto regular;
+
+			while (token != str) {
+				if (*token == '.') {
+					go_string_append_gstring (res, decimal);
+					token++;
+				} else if (strncmp (token, decimal->str, decimal->len) == 0) {
+					/* 1000,00 becomes 1000\,00 */
+					g_string_append_c (res, '\\');
+					g_string_append_c (res, *token++);
+				} else
+					g_string_append_c (res, *token++);
+			}
+			break;
+
+		case TOK_COLOR: {
+			int n;
+			GOColor color;
+			gboolean named;
+
+			if (go_format_parse_color (token, &color, &n, &named)) {
+				g_string_append_c (res, '[');
+				if (named)
+					g_string_append (res, _(format_colors[n].name));
+				else
+					g_string_append_printf (res, "Color%d", n);
+				g_string_append_c (res, ']');
+			} else
+				g_string_append (res, _("[Invalid]"));
+
+			break;
+		}
+
+		default:
+		regular:
+			if (strncmp (token, decimal->str, decimal->len) == 0 ||
+			    strncmp (token, comma->str, comma->len) == 0) {
+				/* In particular, neither "." nor ","  */
+				g_string_append_c (res, '\\');
+			}
+			g_string_append_len (res, token, str - token);
+		}
+	}
+}
+
+/**
+ * go_format_inc_precision :
+ * @fmt : #GOFormat
+ *
+ * Increaseds the displayed precision for @fmt by one digit.
+ *
+ * Returns NULL if the new format would not change things
+ **/
+GOFormat *
+go_format_inc_precision (GOFormat const *fmt)
+{
+	GString *res = g_string_new (NULL);
+	const char *str = fmt->format;
+	gssize last_zero = -1;
+
+	while (1) {
+		const char *token = str;
+		GOFormatTokenType tt;
+		int t = go_format_token (&str, &tt);
+
+		switch (t) {
+		case TOK_ERROR:
+			str = token + strlen (token);
+			/* Fall through */
+		case 0:
+		case ';':
+			g_string_append_len (res, token, str - token);
+			if (last_zero >= 0)
+				g_string_insert_len (res, last_zero + 1,
+						     ".0", 2);
+			last_zero = -1;
+			if (t == ';')
+				break;
+			return make_frobbed_format (g_string_free (res, FALSE), fmt);
+
+		case 's': case 'S':
+			g_string_append_c (res, t);
+			while (*str == 's' || *str == 'S')
+				g_string_append_c (res, *str++);
+			if (str[0] != '.')
+				g_string_append_c (res, '.');
+			else
+				g_string_append_c (res, *str++);
+			g_string_append_c (res, '0');
+			last_zero = -2;
+			break;
+
+		case '.': {
+			int n = 0;
+			g_string_append_c (res, t);
+			while (*str == '0') {
+				g_string_append_c (res, *str++);
+				n++;
+			}
+			if (n < DBL_DIG)
+				g_string_append_c (res, '0');
+			last_zero = -2;
+			break;
+		}
+
+		case '0':
+			if (last_zero == -1)
+				last_zero = res->len;
+			/* Fall through.  */
+
+		default:
+			g_string_append_len (res, token, str - token);
+		}
+	}
+}
+
+/**
+ * go_format_dec_precision :
+ * @fmt : #GOFormat
+ *
+ * Decreases the displayed precision for @fmt by one digit.
+ *
+ * Returns NULL if the new format would not change things
+ **/
+GOFormat *
+go_format_dec_precision (GOFormat const *fmt)
+{
+	GString *res = g_string_new (NULL);
+	const char *str = fmt->format;
+
+	while (1) {
+		const char *token = str;
+		GOFormatTokenType tt;
+		int t = go_format_token (&str, &tt);
+
+		switch (t) {
+		case TOK_ERROR:
+			g_string_append (res, str);
+			/* Fall through */
+		case 0:
+			return make_frobbed_format (g_string_free (res, FALSE), fmt);
+
+		case '.':
+			if (str[0] == '0') {
+				if (str[1] == '0')
+					g_string_append_c (res, '.');
+				str++;
+				break;
+			}
+			/* Fall through */
+
+		default:
+			g_string_append_len (res, token, str - token);
+		}
+	}
+}
+
+GOFormat *
+go_format_toggle_1000sep (GOFormat const *fmt)
+{
+	g_return_val_if_fail (fmt != NULL, NULL);
+
+	/* FIXME */
 	return NULL;
 }
-#endif
 
-#ifdef DEFINE_COMMON
-char *
-go_format_str_delocalize (char const *descriptor_string)
-{
-	g_return_val_if_fail (descriptor_string != NULL, NULL);
 
-	if (*descriptor_string == '\0')
-		return g_strdup ("");
-
-	if (strcmp (descriptor_string, _("General"))) {
-		GString const *thousands_sep = go_locale_get_thousand ();
-		GString const *decimal = go_locale_get_decimal ();
-		char const *ptr = descriptor_string;
-		GString *res = g_string_sized_new (strlen (ptr));
-
-		for ( ; *ptr ; ++ptr) {
-			if (strncmp (ptr, decimal->str, decimal->len) == 0) {
-				ptr += decimal->len - 1;
-				g_string_append_c (res, '.');
-			} else if (strncmp (ptr, thousands_sep->str, thousands_sep->len) == 0) {
-				ptr += thousands_sep->len - 1;
-				g_string_append_c (res, ',');
-			} else if (*ptr == '\"') {
-				do {
-					g_string_append_c (res, *ptr++);
-				} while (*ptr && *ptr != '\"');
-				if (*ptr == 0)
-					break;
-				g_string_append_c (res, *ptr);
-			} else if (*ptr == '[') {
-				char *tmp = translate_format_color (res, ptr, TRUE);
-				if (tmp != NULL)
-					ptr = tmp;
-			} else {
-				if (*ptr == '\\' && ptr[1] != '\0') {
-					ptr++;
-					/* Ignore '\' if we probably added it */
-					if (strncmp (ptr, decimal->str, decimal->len) != 0 &&
-					    strncmp (ptr, thousands_sep->str, thousands_sep->len) != 0)
-						g_string_append_c (res, '\\');
-				}
-				g_string_append_c (res, *ptr);
-			}
-		}
-		return g_string_free (res, FALSE);
-	} else
-		return g_strdup ("General");
-}
 #endif
 
 #ifdef DEFINE_COMMON
@@ -2833,19 +3464,19 @@ go_format_parse_markup (char *str)
 
 	attrs = pango_attr_list_new ();
 	for (str++ ; *str ; str = closer + 1) {
-		g_return_val_if_fail (*str == '[', attrs);
+		if (*str != '[') goto bail;
 		str++;
 
 		val = strchr (str, '=');
-		g_return_val_if_fail (val != NULL, attrs);
+		if (!val) goto bail;
 		len = val - str;
 		val++;
 
 		val_end = strchr (val, ':');
-		g_return_val_if_fail (val_end != NULL, attrs);
+		if (!val_end) goto bail;
 
 		closer = strchr (val_end, ']');
-		g_return_val_if_fail (closer != NULL, attrs);
+		if (!closer) goto bail;
 		*val_end = '\0';
 		*closer = '\0';
 
@@ -2907,6 +3538,10 @@ go_format_parse_markup (char *str)
 	}
 
 	return attrs;
+
+ bail:
+	pango_attr_list_unref (attrs);
+	return NULL;
 }
 #endif
 
@@ -2920,42 +3555,48 @@ go_format_parse_markup (char *str)
  * @descriptor_string: XL descriptor in UTF-8 encoding.
  **/
 GOFormat *
-go_format_new_from_XL (char const *descriptor_string, gboolean delocalize)
+go_format_new_from_XL (char const *str, gboolean delocalize)
 {
 	GOFormat *format;
 	char *desc_copy = NULL;
 
-	/* Safety net */
-	if (descriptor_string == NULL) {
-		g_warning ("Invalid format descriptor string, using General");
-		descriptor_string = "General";
-	} else if (delocalize)
-		descriptor_string = desc_copy = go_format_str_delocalize (descriptor_string);
+	g_return_val_if_fail (str != NULL,
+			      go_format_create (GO_FMT_INVALID, NULL));
 
-	format = (GOFormat *) g_hash_table_lookup (style_format_hash, descriptor_string);
+	/* Markup formats are not subject to localization. */
+	if (str[0] == '@' && str[1] == '[') {
+		PangoAttrList *attrs;
+		desc_copy = g_strdup (str);
+		attrs = go_format_parse_markup (desc_copy);
+		if (attrs) {
+			format = go_format_create (GO_FMT_MARKUP, str);
+			format->u.markup = attrs;
+		} else
+			format = go_format_create (GO_FMT_INVALID, str);
 
-	if (NULL == format) {
-		format = g_new0 (GOFormat, 1);
-		format->format = g_strdup (descriptor_string);
-		format->entries = NULL;
-		format->family = go_format_classify (format, &format->family_info);
-		format->is_var_width = FALSE;
-		if (format->family == GO_FORMAT_MARKUP)
-			format->markup = go_format_parse_markup (format->format);
-		else if (!go_format_is_general (format))
-			format_compile (format);
-		else
-			format->is_var_width = TRUE;
-
-		format->ref_count = 1;
-		g_hash_table_insert (style_format_hash, format->format, format);
+		g_free (desc_copy);
+		return format;
 	}
+
+	if (delocalize)
+		str = desc_copy = go_format_str_delocalize (str);
+
+	format = g_hash_table_lookup (style_format_hash, str);
+	if (format == NULL) {
+		format = go_format_parse (str);
+		g_hash_table_insert (style_format_hash,
+				     format->format,
+				     format);
+	}
+
 #ifdef DEBUG_REF_COUNT
-	g_message (__FUNCTION__ " format=%p '%s' ref_count=%d",
+	g_message ("%s: format=%p '%s' ref_count=%d",
+		   G_GNUC_FUNCTION,
 		   format, format->format, format->ref_count);
 #endif
 
 	g_free (desc_copy);
+
 	return go_format_ref (format);
 }
 #endif
@@ -2972,169 +3613,48 @@ go_format_new_from_XL (char const *descriptor_string, gboolean delocalize)
 GOFormat *
 go_format_new_markup (PangoAttrList *markup, gboolean add_ref)
 {
-	GOFormat *format = g_new0 (GOFormat, 1);
-	GString *accum = g_string_new ("@");
+	GOFormat *fmt;
 
+	GString *accum = g_string_new ("@");
 	pango_attr_list_filter (markup,
 		(PangoAttrFilterFunc) cb_attrs_as_string, accum);
+	fmt = go_format_new_from_XL (accum->str, FALSE);
+	g_string_free (accum, TRUE);
 
-	format->format = g_string_free (accum, FALSE);
-	format->entries = NULL;
-	format->family = GO_FORMAT_MARKUP;
-	format->markup = markup;
-	if (add_ref)
-		pango_attr_list_ref (markup);
+	if (!add_ref)
+		pango_attr_list_unref (markup);
 
-	format->ref_count = 0;
-
-#ifdef DEBUG_REF_COUNT
-	g_message (__FUNCTION__ " format=%p '%s' ref_count=%d",
-		   format, format->format, format->ref_count);
-#endif
-
-	return go_format_ref (format);
+	return fmt;
 }
 #endif
 
-
-#ifdef DEFINE_COMMON
-GOFormat *
-go_format_new (GOFormatFamily family, GOFormatDetails const *info)
-{
-	switch (family) {
-	case GO_FORMAT_GENERAL:
-	case GO_FORMAT_TEXT:
-		return go_format_new_from_XL (go_format_builtins[family][0], FALSE);
-
-	case GO_FORMAT_NUMBER: {
-		/* Make sure no currency is selected */
-		GOFormatDetails info_copy = *info;
-		info_copy.currency_symbol_index = 0;
-		return go_format_as_number (&info_copy);
-	}
-
-	case GO_FORMAT_CURRENCY:
-		return go_format_as_number (info);
-
-	case GO_FORMAT_ACCOUNTING:
-		return go_format_as_account (info);
-
-	case GO_FORMAT_PERCENTAGE:
-		return go_format_as_percentage (info);
-
-	case GO_FORMAT_SCIENTIFIC:
-		return go_format_as_scientific (info);
-
-	default:
-	case GO_FORMAT_DATE:
-	case GO_FORMAT_TIME:
-		return NULL;
-	};
-}
-#endif
-
-
-#ifdef DEFINE_COMMON
-/**
- * go_format_str_as_XL:
- * @str: a format string
- * @localized : should the string be in canonical or locale specific form.
- *
- * The caller is responsible for freeing the resulting string.
- *
- * returns: a newly allocated string.
- */
-char *
-go_format_str_as_XL (char const *ptr, gboolean localized)
-{
-	GString const *thousands_sep, *decimal;
-	GString *res;
-
-	g_return_val_if_fail (ptr != NULL,
-			      g_strdup (localized ? _("General") : "General"));
-
-	if (!localized)
-		return g_strdup (ptr);
-
-	if (!strcmp (ptr, "General"))
-		return g_strdup (_("General"));
-
-	thousands_sep = go_locale_get_thousand ();
-	decimal = go_locale_get_decimal ();
-
-	res = g_string_sized_new (strlen (ptr));
-
-	/* TODO : XL seems to do an adaptive escaping of
-	 * things.
-	 * eg '#,##0.00 ' in a locale that uses ' '
-	 * as the thousands would become
-	 *    '# ##0.00 '
-	 * rather than
-	 *    '# ##0.00\ '
-	 *
-	 * TODO : Minimal quotes.
-	 * It also seems to have a display mode vs a storage mode.
-	 * Internally it adds a few quotes around strings.
-	 * Then tries not to display the quotes unless needed.
-	 */
-	for ( ; *ptr ; ++ptr)
-		switch (*ptr) {
-		case '.':
-			go_string_append_gstring (res, decimal);
-			break;
-		case ',':
-			go_string_append_gstring (res, thousands_sep);
-			break;
-
-		case '\"':
-			do {
-				g_string_append_c (res, *ptr++);
-			} while (*ptr && *ptr != '\"');
-			if (*ptr)
-				g_string_append_c (res, *ptr);
-			break;
-
-		case '\\':
-			g_string_append_c (res, '\\');
-			if (ptr[1] != '\0') {
-				g_string_append_c (res, ptr[1]);
-				++ptr;
-			}
-			break;
-
-		case '[': {
-			char *tmp = translate_format_color (res, ptr, FALSE);
-			if (tmp != NULL)
-				ptr = tmp;
-			break;
-		}
-
-		default:
-			if (strncmp (ptr, decimal->str, decimal->len) == 0 ||
-			    strncmp (ptr, thousands_sep->str, thousands_sep->len) == 0)
-				g_string_append_c (res, '\\');
-			g_string_append_c (res, *ptr);
-		}
-
-	return g_string_free (res, FALSE);
-}
-#endif
 
 #ifdef DEFINE_COMMON
 /**
  * go_format_as_XL:
  * @fmt: a #GOFormat
- * @localized : should the string be in cannonical or locale specific form.
+ * @localized : should the string be in canonical or locale specific form.
  *
  * Returns: a string which the caller is responsible for freeing.
  */
 char *
 go_format_as_XL (GOFormat const *fmt, gboolean localized)
 {
+	const char *str;
+
 	g_return_val_if_fail (fmt != NULL,
 			      g_strdup (localized ? _("General") : "General"));
 
-	return go_format_str_as_XL (fmt->format, localized);
+	str = fmt->format;
+
+	/* Markup formats are not subject to localization. */
+	if (str[0] == '@' && str[1] == '[')
+		return g_strdup (str);
+
+	if (localized)
+		return go_format_str_localize (str);
+	else
+		return g_strdup (str);
 }
 #endif
 
@@ -3165,13 +3685,15 @@ go_format_ref (GOFormat *gf)
 
 	gf->ref_count++;
 #ifdef DEBUG_REF_COUNT
-	g_message (__FUNCTION__ " format=%p '%s' ref_count=%d",
+	g_message ("%s: format=%p '%s' ref_count=%d",
+		   G_GNUC_FUNCTION,
 		   gf, gf->format, gf->ref_count);
 #endif
 
 	return gf;
 }
 #endif
+
 
 #ifdef DEFINE_COMMON
 /**
@@ -3191,22 +3713,36 @@ go_format_unref (GOFormat *gf)
 
 	gf->ref_count--;
 #ifdef DEBUG_REF_COUNT
-	g_message (__FUNCTION__ " format=%p '%s' ref_count=%d",
+	g_message ("%s: format=%p '%s' ref_count=%d",
+		   G_GNUC_FUNCTION,
 		   gf, gf->format, gf->ref_count);
 #endif
 	if (gf->ref_count != 0)
 		return;
 
-	if (NULL != gf->markup) /* markup is not shared in the global cache */
-		pango_attr_list_unref (gf->markup);
-	else if (style_format_hash) {
-		g_warning ("Probable ref counting problem. fmt %p '%s' is being unrefed while still in the global cache",
-			   gf, gf->format);
+	switch (gf->typ) {
+	case GO_FMT_COND: {
+		int i;
+		for (i = 0; i < gf->u.cond.n; i++)
+			go_format_unref (gf->u.cond.conditions[i].fmt);
+		g_free (gf->u.cond.conditions);
+		break;
+	}
+	case GO_FMT_NUMBER:
+		g_free (gf->u.number.program);
+		break;
+	case GO_FMT_TEXT:
+		g_free (gf->u.text.program);
+		break;
+	case GO_FMT_EMPTY:
+	case GO_FMT_INVALID:
+		break;
+	case GO_FMT_MARKUP:
+		if (gf->u.markup)
+			pango_attr_list_unref (gf->u.markup);
+		break;
 	}
 
-	/* resources allocated in format_compile should be disposed here */
-	g_slist_foreach (gf->entries, &format_entry_dtor, NULL);
-	g_slist_free (gf->entries);
 	g_free (gf->format);
 	g_free (gf);
 }
@@ -3218,13 +3754,15 @@ go_format_unref (GOFormat *gf)
  * go_format_is_general
  * @fmt: Format to query
  *
- * Returns TRUE if the format is "General".
+ * Returns TRUE if the format is "General", possibly with condition,
+ * color, and/or locale.  ("xGeneral" is thus not considered to be General
+ * for the purpose of this function.)
  * Returns FALSE otherwise.
  */
 gboolean
 go_format_is_general (GOFormat const *fmt)
 {
-	return fmt->family == GO_FORMAT_GENERAL;
+	return fmt->typ == GO_FMT_NUMBER && fmt->u.number.is_general;
 }
 #endif
 
@@ -3239,7 +3777,7 @@ go_format_is_general (GOFormat const *fmt)
 gboolean
 go_format_is_markup (GOFormat const *fmt)
 {
-	return fmt->family == GO_FORMAT_MARKUP;
+	return fmt->typ == GO_FMT_MARKUP;
 }
 #endif
 
@@ -3254,22 +3792,39 @@ go_format_is_markup (GOFormat const *fmt)
 gboolean
 go_format_is_text (GOFormat const *fmt)
 {
-	return fmt->family == GO_FORMAT_TEXT;
+	return fmt->typ == GO_FMT_TEXT;
 }
 #endif
 
 #ifdef DEFINE_COMMON
 /**
- * go_format_is_text
+ * go_format_is_var_width
  * @fmt: Format to query
  *
- * Returns TRUE if the format is variable width
+ * Returns TRUE if the format is variable width, i.e., can stretch.
  * Returns FALSE otherwise.
  */
 gboolean
 go_format_is_var_width (GOFormat const *fmt)
 {
-	return fmt->is_var_width != 0;
+	g_return_val_if_fail (fmt != NULL, FALSE);
+
+	if (fmt->has_fill != 0)
+		return TRUE;
+
+	switch (fmt->typ) {
+	case GO_FMT_COND: {
+		int i;
+		for (i = 0; i < fmt->u.cond.n; i++)
+			if (go_format_is_var_width (fmt->u.cond.conditions[i].fmt))
+				return TRUE;
+		return FALSE;
+	}
+	case GO_FMT_NUMBER:
+		return fmt->u.number.has_general;
+	default:
+		return FALSE;
+	}
 }
 #endif
 
@@ -3286,26 +3841,109 @@ int
 go_format_is_date (GOFormat const *fmt)
 {
 	g_return_val_if_fail (fmt != NULL, -1);
-
-	/* Close enough for now: */
-	return fmt->family == GO_FORMAT_DATE
-		? (int)TRUE
-		: (int)FALSE;
+	return fmt->typ == GO_FMT_NUMBER && fmt->u.number.has_date;
 }
 #endif
 
 int
 SUFFIX(go_format_is_date_for_value) (GOFormat const *fmt, DOUBLE val, char type)
 {
-	g_return_val_if_fail (fmt != NULL, -1);
-
 	if (type != 'F')
 		return FALSE;
 
-	/* Close enough for now: */
-	return go_format_is_date (fmt);
+	fmt = SUFFIX(go_format_specialize) (fmt, val, type, NULL);
+	return fmt && go_format_is_date (fmt);
 }
 
+const GOFormat *
+SUFFIX(go_format_specialize) (GOFormat const *fmt, DOUBLE val, char type,
+			      gboolean *inhibit_minus)
+{
+	int i;
+	gboolean is_number = (type == 'F');
+	GOFormat *last_implicit_num = NULL;
+	gboolean has_implicit = FALSE;
+	gboolean dummy;
+
+	g_return_val_if_fail (fmt != NULL, NULL);
+
+	if (inhibit_minus == NULL)
+		inhibit_minus = &dummy;
+
+	*inhibit_minus = FALSE;
+
+	if (fmt->typ != GO_FMT_COND) {
+		if (fmt->typ == GO_FMT_EMPTY && !is_number)
+			return go_format_general ();
+		return fmt;
+	}
+
+	for (i = 0; i < fmt->u.cond.n; i++) {
+		GOFormatCondition *c = fmt->u.cond.conditions + i;
+		gboolean cond;
+
+		if (c->implicit) {
+			if (c->op != GO_FMT_COND_TEXT)
+				last_implicit_num = c->fmt;
+			has_implicit = TRUE;
+		} else {
+			if (has_implicit)
+				*inhibit_minus = FALSE;
+			last_implicit_num = NULL;
+			has_implicit = FALSE;
+		}
+
+		switch (c->op) {
+		case GO_FMT_COND_EQ:
+			cond = (is_number && val == c->val);
+			break;
+		case GO_FMT_COND_NE:
+			cond = (is_number && val != c->val);
+			break;
+		case GO_FMT_COND_LT:
+			cond = (is_number && val <  c->val);
+			break;
+		case GO_FMT_COND_LE:
+			cond = (is_number && val <= c->val);
+			break;
+		case GO_FMT_COND_GT:
+			cond = (is_number && val >  c->val);
+			break;
+		case GO_FMT_COND_GE:
+			cond = (is_number && val >= c->val);
+			break;
+		case GO_FMT_COND_TEXT:
+			cond = (type == 'S' || type == 'B');
+			break;
+		case GO_FMT_COND_NONTEXT:
+			cond = is_number;
+			break;
+		default:
+			cond = TRUE;
+			break;
+		}
+
+		if (cond) {
+			if (c->true_inhibits_minus)
+				*inhibit_minus = TRUE;
+			return c->fmt;
+		}
+
+		if (c->false_inhibits_minus)
+			*inhibit_minus = TRUE;
+	}
+
+	*inhibit_minus = FALSE;
+
+	if (is_number) {
+		if (last_implicit_num)
+			return last_implicit_num;
+		else if (has_implicit)
+			return go_format_empty ();
+	}
+
+	return go_format_general ();
+}
 
 #ifdef DEFINE_COMMON
 GOFormat *
@@ -3315,6 +3953,16 @@ go_format_general (void)
 		default_general_fmt = go_format_new_from_XL (
 			go_format_builtins[GO_FORMAT_GENERAL][0], FALSE);
 	return default_general_fmt;
+}
+#endif
+
+#ifdef DEFINE_COMMON
+GOFormat *
+go_format_empty (void)
+{
+	if (!default_empty_fmt)
+		default_empty_fmt = go_format_new_from_XL ("", FALSE);
+	return default_empty_fmt;
 }
 #endif
 

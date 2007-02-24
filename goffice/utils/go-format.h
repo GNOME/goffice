@@ -57,19 +57,6 @@ typedef enum {
 	GO_FORMAT_NUMBER_DATE_ERROR
 } GOFormatNumberError;
 
-
-typedef struct {
-	gboolean thousands_sep;
-	int	 num_decimals;	/* 0 - 30 */
-	int	 negative_fmt;	/* 0 - 3 */
-	int	 currency_symbol_index;
-	int	 list_element;
-	int      fraction_denominator;
-	gboolean simplify_mantissa;
-	int	 exponent_step;
-	gboolean use_markup;
-} GOFormatDetails;
-
 /*************************************************************************/
 
 typedef int (*GOFormatMeasure) (const GString *str, PangoLayout *layout);
@@ -95,20 +82,19 @@ void go_render_generall (PangoLayout *layout, GString *str,
 /*************************************************************************/
 
 GOFormat *go_format_new_from_XL		(char const *str, gboolean delocalize);
-GOFormat *go_format_new			(GOFormatFamily family,
-					 GOFormatDetails const *details);
 GOFormat *go_format_new_markup		(PangoAttrList *markup, gboolean add_ref);
 
 /* these do not add a reference to the result */
 GOFormat *go_format_general	   	(void);
+GOFormat *go_format_empty               (void);
 GOFormat *go_format_default_date	(void);
 GOFormat *go_format_default_time	(void);
 GOFormat *go_format_default_date_time	(void);
 GOFormat *go_format_default_percentage	(void);
 GOFormat *go_format_default_money	(void);
 
+char     *go_format_str_localize        (char const *str);
 char	 *go_format_str_delocalize	(char const *str);
-char   	 *go_format_str_as_XL	   	(char const *str, gboolean localized);
 char   	 *go_format_as_XL	   	(GOFormat const *fmt, gboolean localized);
 
 GOFormat *go_format_ref		 	(GOFormat *fmt);
@@ -119,13 +105,22 @@ gboolean  go_format_is_markup           (GOFormat const *fmt);
 gboolean  go_format_is_text             (GOFormat const *fmt);
 gboolean  go_format_is_var_width        (GOFormat const *fmt);
 int       go_format_is_date             (GOFormat const *fmt);
+
+const GOFormat *go_format_specialize          (GOFormat const *fmt,
+					       double val, char type,
+					       gboolean *inhibit_minus);
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+const GOFormat *go_format_specializel         (GOFormat const *fmt,
+					       long double val, char type,
+					       gboolean *inhibit_minus);
+#endif
+
 int       go_format_is_date_for_value   (GOFormat const *fmt, double val, char type);
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 int       go_format_is_date_for_valuel  (GOFormat const *fmt, long double val, char type);
 #endif
 
 GOFormatFamily         go_format_get_family (GOFormat const *fmt);
-const GOFormatDetails *go_format_get_details (GOFormat const *fmt);
 
 const PangoAttrList *go_format_get_markup (GOFormat const *fmt);
 
@@ -135,7 +130,7 @@ GOFormatNumberError
 go_format_value_gstring (PangoLayout *layout, GString *str,
 			 const GOFormatMeasure measure,
 			 const GOFontMetrics *metrics,
-			 GOFormat const *format,
+			 GOFormat const *fmt,
 			 double val, char type, const char *sval,
 			 GOColor *go_color,
 			 int col_width,
@@ -147,7 +142,7 @@ GOFormatNumberError
 go_format_value_gstringl (PangoLayout *layout, GString *str,
 			  const GOFormatMeasure measure,
 			  const GOFontMetrics *metrics,
-			  GOFormat const *format,
+			  GOFormat const *fmt,
 			  long double val, char type, const char *sval,
 			  GOColor *go_color,
 			  int col_width,
@@ -160,7 +155,6 @@ gboolean go_format_eq			(GOFormat const *a, GOFormat const *b);
 GOFormat *go_format_inc_precision	(GOFormat const *fmt);
 GOFormat *go_format_dec_precision	(GOFormat const *fmt);
 GOFormat *go_format_toggle_1000sep	(GOFormat const *fmt);
-GOFormatFamily go_format_classify	(GOFormat const *fmt, GOFormatDetails *details);
 
 typedef struct {
 	gchar const *symbol;
