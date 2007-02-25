@@ -212,6 +212,12 @@ go_fonts_list_sizes (void)
 GOFontMetrics *
 go_font_metrics_new (PangoContext *context, GOFont const *font)
 {
+	static gunichar thin_spaces[] = {
+		0x200a, /* Hair space */
+		0x2009, /* Thin space */
+		0x2008, /* Puctuation space */
+		0x2006  /* Six-per-em space */
+	};
 	PangoLayout *layout = pango_layout_new (context);
 	GOFontMetrics *res = g_new0 (GOFontMetrics, 1);
 	int i, sumw = 0;
@@ -249,6 +255,28 @@ go_font_metrics_new (PangoContext *context, GOFont const *font)
 	pango_layout_set_text (layout, "#", -1);
 	pango_layout_get_size (layout, &res->hash_width, NULL);
 
+	pango_layout_set_text (layout, " ", -1);
+	pango_layout_get_size (layout, &res->space_width, NULL);
+
+	res->thin_space = 0;
+	res->thin_space_width = 0;
+	for (i = 0; i < (int)G_N_ELEMENTS (thin_spaces); i++) {
+		gunichar uc = thin_spaces[i];
+		char ucs[8];
+		int w;
+
+		ucs[g_unichar_to_utf8 (uc, ucs)] = 0;
+
+		pango_layout_set_text (layout, ucs, -1);
+		pango_layout_get_size (layout, &w, NULL);
+
+		if (w > 0 && w < res->space_width &&
+		    (!res->thin_space || w < res->thin_space_width)) {
+			res->thin_space = uc;
+			res->thin_space_width = w;
+		}
+	}
+
 	g_object_unref (layout);
 
 	return res;
@@ -282,6 +310,9 @@ go_fonts_init (void)
 	go_font_metrics_unit_var.hash_width = 1;
 	for (i = 0; i <= 9; i++)
 		go_font_metrics_unit_var.digit_widths[i] = 1;
+	go_font_metrics_unit_var.space_width = 1;
+	go_font_metrics_unit_var.thin_space = 0;
+	go_font_metrics_unit_var.thin_space_width = 1;
 
 	font_array = g_ptr_array_new ();
 	font_hash = g_hash_table_new_full (

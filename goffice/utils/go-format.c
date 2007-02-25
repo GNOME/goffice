@@ -2021,10 +2021,15 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 					i++;
 			}
 
-			if (fill_pos >= 0 && col_width >= 0)
+			if (fill_pos >= 0 && col_width >= 0) {
 				fill_with_char (dst, layout, fill_pos,
 						fill_char,
 						measure, col_width);
+				if (fill_char == ' ' && metrics->thin_space)
+					fill_with_char (dst, layout, fill_pos,
+							metrics->thin_space,
+							measure, col_width);
+			}
 			break;
 		}
 

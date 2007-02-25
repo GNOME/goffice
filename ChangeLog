@@ -1,7 +1,12 @@
 2007-02-24  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-font.c (go_font_metrics_new): Acquire
+	information and various space characters too.
+
 	* goffice/utils/go-format.c (go_format_execute) [OP_DATE_SPLIT]:
 	If date is not valid, don't request year etc.
+	(go_format_execute) [OP_FILL]: When space filling, fine-tune with
+	thin spaces.
 
 2007-02-23  Morten Welinder  <terra@gnome.org>
 

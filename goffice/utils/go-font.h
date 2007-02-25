@@ -38,6 +38,14 @@ struct _GOFontMetrics {
 	int hyphen_width, minus_width, plus_width;
 	int E_width;
 	int hash_width;
+	int space_width;
+
+	/*
+	 * A space that is narrower than a regular space, or 0 if no such
+	 * character was found.
+	 */
+	gunichar thin_space;
+	int thin_space_width;
 };
 
 struct _GOFont {
