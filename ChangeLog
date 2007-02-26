@@ -1,3 +1,9 @@
+2007-02-25  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_parse_number_fraction):
+	Reinstate pi fraction extention.
+	(go_format_parse_number_E): Simplify mantissa when requested.
+
 2007-02-24  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-font.c (go_font_metrics_new): Acquire

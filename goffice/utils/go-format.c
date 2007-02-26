@@ -52,6 +52,7 @@
 #define OBSERVE_XL_CONDITION_LIMITS
 #define OBSERVE_XL_EXPONENT_1
 #define ALLOW_EE_MARKUP
+#define ALLOW_PI_SLASH
 
 /* ------------------------------------------------------------------------- */
 
@@ -167,14 +168,23 @@ typedef enum {
 	OP_NUM_DECIMAL_1,	/* [0?#] */
 	OP_NUM_DIGIT_1_0,	/* [0?#] */
 	OP_NUM_DENUM_DIGIT_Q,
-	OP_NUM_EXPONENT_SIGN,
+	OP_NUM_EXPONENT_SIGN,	/* forced-p */
 	OP_NUM_EXPONENT_1,
 	OP_NUM_VAL_EXPONENT,
+#ifdef ALLOW_EE_MARKUP
+	OP_NUM_MARK_MANTISSA,
+	OP_NUM_SIMPLIFY_MANTISSA,
+	OP_NUM_SIMPLIFY_EXPONENT,
+#endif
 	OP_NUM_FRACTION,	/* wholep explicitp (digits|denominator) */
 	OP_NUM_FRACTION_WHOLE,
 	OP_NUM_FRACTION_NOMINATOR,
 	OP_NUM_FRACTION_DENOMINATOR,
 	OP_NUM_FRACTION_BLANK,
+#ifdef ALLOW_PI_SLASH
+	OP_NUM_FRACTION_SCALE_PI,
+	OP_NUM_FRACTION_SIMPLIFY_PI,
+#endif
 	OP_NUM_GENERAL_MARK,
 	OP_NUM_GENERAL_DO,
 	/* ------------------------------- */
@@ -322,9 +332,13 @@ typedef struct {
 	/* Set by go_format_parse_number_fraction: */
 	int force_zero_pos;
 	gboolean explicit_denom;
+	gboolean forced_exponent_sign;
 } GOFormatParseState;
 
 #define REPEAT_CHAR_MARKER 0
+#define UNICODE_PI 0x03c0
+#define UNICODE_TIMES 0x00D7
+#define UNICODE_MINUS 0x2212
 
 GOFormatFamily
 go_format_get_family (GOFormat const *fmt)
@@ -861,12 +875,13 @@ go_format_preparse (const char *str, GOFormatParseState *pstate)
 
 		case 'E':
 			ntokens++;
+			if (pstate->tno_E >= 0) {
 #ifdef ALLOW_EE_MARKUP
-			if (pstate->tno_E >= 0 && pstate->tno_E == tno - 1)
-				break;
+				if (pstate->tno_E == tno - 1)
+					break;
 #endif
-			if (pstate->tno_E >= 0)
 				goto error;
+			}
 			pstate->tno_E = tno;
 			break;
 
@@ -1381,8 +1396,12 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 		handle_common_token (ti->tstr, ti->token, prg);
 	}
 
-	if (E_part == 2) {
-		ADD_OP (OP_NUM_EXPONENT_SIGN);
+	if (E_part == 1) {
+#ifdef ALLOW_EE_MARKUP
+		ADD_OP (OP_NUM_MARK_MANTISSA);
+#endif
+	} else if (E_part == 2) {
+		ADD_OP2 (OP_NUM_EXPONENT_SIGN, pstate->forced_exponent_sign);
 		if (first_digit_pos == -1)
 			goto error;
 	}
@@ -1478,22 +1497,42 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 	GString *prg;
 	gboolean use_markup;
 	int tno_end = pstate->tokens->len;
+	int tno_exp_start = pstate->tno_E + 2;
+	gboolean simplify_mantissa;
 
-	if (pstate->tno_E + 2 >= tno_end)
+	if (tno_exp_start >= tno_end)
 		return NULL;
 	switch (GET_TOKEN (pstate->tno_E + 1).token) {
 	case '+':
 		use_markup = FALSE;
+		simplify_mantissa = FALSE;
+		pstate->forced_exponent_sign = TRUE;
 		break;
 #ifdef ALLOW_EE_MARKUP
-	case 'E':
+	case 'E': {
+		int i;
+
 		use_markup = TRUE;
+		pstate->forced_exponent_sign =
+			(GET_TOKEN (tno_exp_start).token == '+');
+		if (pstate->forced_exponent_sign)
+			tno_exp_start++;
+
+		simplify_mantissa = TRUE;
+		for (i = 0; i < pstate->tno_E; i++) {
+			if (GET_TOKEN(i).token == '0') {
+				simplify_mantissa = FALSE;
+				break;
+			}
+		}
+
 		break;
+	}
 #endif
 	default:
 		return NULL;
 	}
-		
+
 	prg = g_string_new (NULL);
 
 	if (!go_format_parse_number_new_1 (prg, pstate,
@@ -1502,13 +1541,11 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 		return NULL;
 
 	ADD_OP (OP_NUM_VAL_EXPONENT);
+#ifdef ALLOW_EE_MARKUP
 	if (use_markup) {
-		/*
-		 * FIXME: come up with a way of erasing the mantissa if it is
-		 * 1.000... and not wanted.
-		 */
-		ADD_OP (OP_CHAR);
-		g_string_append_unichar (prg, 0x00D7); /* "x" */
+		ADD_OPuc (OP_CHAR, UNICODE_TIMES);
+		if (simplify_mantissa)
+			ADD_OP (OP_NUM_SIMPLIFY_MANTISSA);
 		ADD_OP2 (OP_CHAR, '1');
 		ADD_OP2 (OP_CHAR, '0');
 		ADD_OP2 (OP_CHAR, '<');
@@ -1516,14 +1553,16 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 		ADD_OP2 (OP_CHAR, 'u');
 		ADD_OP2 (OP_CHAR, 'p');
 		ADD_OP2 (OP_CHAR, '>');
-	} else 
+	} else
+#endif
 		ADD_OP2 (OP_CHAR, 'E');
 
 	if (!go_format_parse_number_new_1 (prg, pstate,
-					   pstate->tno_E + 2, tno_end,
+					   tno_exp_start, tno_end,
 					   2, 0))
 		return NULL;
 
+#ifdef ALLOW_EE_MARKUP
 	if (use_markup) {
 		ADD_OP2 (OP_CHAR, '<');
 		ADD_OP2 (OP_CHAR, '/');
@@ -1531,7 +1570,10 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 		ADD_OP2 (OP_CHAR, 'u');
 		ADD_OP2 (OP_CHAR, 'p');
 		ADD_OP2 (OP_CHAR, '>');
+		if (simplify_mantissa)
+			ADD_OP (OP_NUM_SIMPLIFY_EXPONENT);
 	}
+#endif
 
 	handle_fill (prg, pstate);
 
@@ -1558,6 +1600,14 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 	int denominator_digits = 0;
 	gboolean inhibit_blank = FALSE;
 	int scale = 0;
+#ifdef ALLOW_PI_SLASH
+	gboolean pi_scale = (tno_slash >= 2 &&
+			     GET_TOKEN(tno_slash - 2).token == 'p' &&
+			     GET_TOKEN(tno_slash - 1).token == 'i');
+#else
+	gboolean pi_scale = FALSE;
+#endif
+
 
 	/*
 	 * First determine where the whole part, if any, ends.
@@ -1654,6 +1704,12 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 	/* ---------------------------------------- */
 
 	prg = g_string_new (NULL);
+
+#ifdef ALLOW_PI_SLASH
+	if (pi_scale)
+		ADD_OP (OP_NUM_FRACTION_SCALE_PI);
+#endif
+
 	ADD_OP3 (OP_NUM_FRACTION, tno_endwhole != -1, explicit_denom);
 	if (explicit_denom)
 		g_string_append_len (prg, (void*)&denominator, sizeof (denominator));
@@ -1672,10 +1728,15 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 
 	ADD_OP (OP_NUM_FRACTION_NOMINATOR);
 	if (!go_format_parse_number_new_1 (prg, pstate,
-					   tno_endwhole + 1, tno_slash + 1,
+					   tno_endwhole + 1,
+					   pi_scale ? tno_slash - 2 :tno_slash,
 					   0, 2))
 		return NULL;
 	scale += pstate->scale;
+
+	if (pi_scale)
+		ADD_OPuc (OP_CHAR, UNICODE_PI); /* "pi" */
+	ADD_OP2 (OP_CHAR, '/');
 
 	pstate->explicit_denom = explicit_denom;
 	ADD_OP (OP_NUM_FRACTION_DENOMINATOR);
@@ -1686,6 +1747,10 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 	scale += pstate->scale;
 	if (!inhibit_blank)
 		ADD_OP (OP_NUM_FRACTION_BLANK);
+#ifdef ALLOW_PI_SLASH
+	else if (pi_scale)
+		ADD_OP (OP_NUM_FRACTION_SIMPLIFY_PI);
+#endif
 
 	for (i = tno_suffix; i < tno_end; i++) {
 		const GOFormatParseItem *ti = &GET_TOKEN(i);
@@ -1967,7 +2032,12 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		DOUBLE w, n, d;
 		gsize nominator_start;
 	} fraction;
+#ifdef ALLOW_EE_MARKUP
+	int mantissa_start = -1;
+	int special_mantissa = INT_MAX;
+#endif
 	char *oldlocale = NULL;
+
 
 	memset (&fraction, 0, sizeof (fraction));
 
@@ -2325,8 +2395,26 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 					i--;
 				/* Kill zeroes in "xxx.xxx000"  */
 				g_string_truncate (numtxt, i);
-			} else
+			} else {
+				const char *epos = strchr (numtxt->str, 'E');
+				if (epos)
+					g_string_truncate (numtxt,
+							   epos - numtxt->str);
 				dotpos = numtxt->len;
+			}
+
+#ifdef ALLOW_EE_MARKUP
+			if (!dot || numtxt->str[dotpos + decimal->len] == 0) {
+				if (dotpos == 2 &&
+				    numtxt->str[0] == '-' &&
+				    numtxt->str[1] == '1')
+					special_mantissa = -1;
+				else if (dotpos == 1 && numtxt->str[0] == '0')
+					special_mantissa = 0;
+				else if (dotpos == 1 && numtxt->str[0] == '1')
+					special_mantissa = +1;
+			}
+#endif
 
 			break;
 		}
@@ -2488,16 +2576,19 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			}
 			break;
 
-		case OP_NUM_EXPONENT_SIGN:
-			if (exponent >= 0)
-				g_string_insert_c (dst, numpos, '+');
-			else if (unicode_minus)
+		case OP_NUM_EXPONENT_SIGN: {
+			gboolean forced = (*prg++ != 0);
+			if (exponent >= 0) {
+				if (forced)
+					g_string_insert_c (dst, numpos, '+');
+			} else if (unicode_minus)
 				g_string_insert_len (dst, numpos,
 						     unicode_minus_utf8,
 						     3);
 			else
 				g_string_insert_c (dst, numpos, '-');
 			break;
+		}
 
 		case OP_NUM_VAL_EXPONENT:
 			val = SUFFIX (fabs) (exponent);
@@ -2506,6 +2597,24 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		case OP_NUM_EXPONENT_1:
 			exponent = 1;
 			break;
+
+#ifdef ALLOW_EE_MARKUP
+		case OP_NUM_MARK_MANTISSA:
+			mantissa_start = dst->len;
+			break;
+
+		case OP_NUM_SIMPLIFY_MANTISSA:
+			if (special_mantissa != INT_MAX)
+				g_string_truncate (dst, mantissa_start);
+			break;
+
+		case OP_NUM_SIMPLIFY_EXPONENT:
+			if (special_mantissa == 0) {
+				g_string_truncate (dst, mantissa_start);
+				g_string_append_c (dst, '0');
+			}
+			break;
+#endif
 
 		case OP_NUM_FRACTION: {
 			gboolean wp = *prg++;
@@ -2547,6 +2656,13 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			break;
 		}
 
+#ifdef ALLOW_PI_SLASH
+		case OP_NUM_FRACTION_SCALE_PI:
+			/* FIXME: not long-double safe.  */
+			val /= G_PI;
+			break;
+#endif
+
 		case OP_NUM_FRACTION_WHOLE:
 			val = fraction.w;
 			break;
@@ -2568,6 +2684,24 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 				g_string_truncate (dst, fraction.nominator_start + chars);
 			}
 			break;
+
+#ifdef ALLOW_PI_SLASH
+		case OP_NUM_FRACTION_SIMPLIFY_PI:
+			if (fraction.n == 0) {
+				/* Replace the whole thing by "0".  */
+				g_string_truncate (dst,
+						   fraction.nominator_start);
+				g_string_append_c (dst, '0');
+			} else if (fraction.n == 1 || fraction.n == -1) {
+				/* Remove "1".  */
+				gsize p = fraction.nominator_start;
+				while (dst->str[p] && dst->str[p] != '1')
+					p++;
+				if (dst->str[p])
+					g_string_erase (dst, p, 1);
+			}
+			break;
+#endif
 
 		case OP_NUM_GENERAL_MARK:
 			generalpos = dst->len;
@@ -3168,7 +3302,7 @@ go_format_str_delocalize (char const *str)
 				g_string_append (res, "[Color");
 				token += tcolor_len;
 				g_string_append_len (res, token, str - token);
-				break;				
+				break;
 			}
 
 			g_string_append (res, "[Invalid]");
