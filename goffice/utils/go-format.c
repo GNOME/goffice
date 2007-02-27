@@ -3972,7 +3972,7 @@ go_format_is_var_width (GOFormat const *fmt)
  *
  * Returns TRUE if the format is a date format.
  * Returns FALSE if the format is not a date format.
- * Returns -1 if the format is inconstent.
+ * Returns -1 if the format is inconsistent.
  */
 int
 go_format_is_date (GOFormat const *fmt)
@@ -3981,16 +3981,6 @@ go_format_is_date (GOFormat const *fmt)
 	return fmt->typ == GO_FMT_NUMBER && fmt->u.number.has_date;
 }
 #endif
-
-int
-SUFFIX(go_format_is_date_for_value) (GOFormat const *fmt, DOUBLE val, char type)
-{
-	if (type != 'F')
-		return FALSE;
-
-	fmt = SUFFIX(go_format_specialize) (fmt, val, type, NULL);
-	return fmt && go_format_is_date (fmt);
-}
 
 const GOFormat *
 SUFFIX(go_format_specialize) (GOFormat const *fmt, DOUBLE val, char type,
