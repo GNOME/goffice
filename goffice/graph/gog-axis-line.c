@@ -249,10 +249,8 @@ gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base)
 	axis_set = gog_chart_get_axis_set (axis_base->chart);
 
 	crossed_type = GOG_AXIS_UNKNOWN;
-	switch (axis_set) {
+	switch (axis_set & GOG_AXIS_SET_FUNDAMENTAL) {
 		case GOG_AXIS_SET_XY:
-		case GOG_AXIS_SET_XY_pseudo_3d:
-		case GOG_AXIS_SET_XY_COLOR:
 			if (axis_type == GOG_AXIS_X)
 				crossed_type = GOG_AXIS_Y;
 			else
@@ -1695,21 +1693,18 @@ gog_axis_base_view_padding_request (GogView *view, GogViewAllocation const *bbox
 	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
 	GogStyle *style = axis_base->base.style;
 
+	if (gog_axis_get_atype (axis_base->axis) >= GOG_AXIS_VIRTUAL)
+		return;
 	axis_set = gog_chart_get_axis_set (axis_base->chart);
 
 	gog_renderer_push_style (view->renderer, style);
 
-	switch (axis_set) {
+	switch (axis_set & GOG_AXIS_SET_FUNDAMENTAL) {
 		case GOG_AXIS_SET_X:
 			x_process (GOG_AXIS_BASE_PADDING_REQUEST, view, padding, bbox, 0., 0.);
 			break;
 		case GOG_AXIS_SET_XY:
 			xy_process (GOG_AXIS_BASE_PADDING_REQUEST, view, padding, bbox, 0., 0.);
-			break;
-		case GOG_AXIS_SET_XY_pseudo_3d:
-		case GOG_AXIS_SET_XY_COLOR:
-			if (gog_axis_get_atype (axis_base->axis) < GOG_AXIS_VIRTUAL)
-				xy_process (GOG_AXIS_BASE_PADDING_REQUEST, view, padding, bbox, 0., 0.);
 			break;
 		case GOG_AXIS_SET_RADAR:
 			radar_process (GOG_AXIS_BASE_PADDING_REQUEST, view, padding, bbox, 0., 0.);
@@ -1733,6 +1728,9 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogStyle *style = axis_base->base.style;
 	GogViewAllocation const *plot_area;
 
+	if (gog_axis_get_atype (axis_base->axis) >= GOG_AXIS_VIRTUAL)
+		return;
+
 	axis_set = gog_chart_get_axis_set (axis_base->chart);
 	/* FIXME: not nice */
 	if (IS_GOG_AXIS (view->model))
@@ -1742,17 +1740,12 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	gog_renderer_push_style (view->renderer, style);
 
-	switch (axis_set) {
+	switch (axis_set & GOG_AXIS_SET_FUNDAMENTAL) {
 		case GOG_AXIS_SET_X:
 			x_process (GOG_AXIS_BASE_RENDER, view, NULL, plot_area, 0., 0.);
 			break;
 		case GOG_AXIS_SET_XY:
 			xy_process (GOG_AXIS_BASE_RENDER, view, NULL, plot_area, 0., 0.);
-			break;
-		case GOG_AXIS_SET_XY_pseudo_3d:
-		case GOG_AXIS_SET_XY_COLOR:
-			if (gog_axis_get_atype (axis_base->axis) < GOG_AXIS_VIRTUAL)
-				xy_process (GOG_AXIS_BASE_RENDER, view, NULL, plot_area, 0., 0.);
 			break;
 		case GOG_AXIS_SET_RADAR:
 			radar_process (GOG_AXIS_BASE_RENDER, view, NULL, plot_area, 0., 0.);

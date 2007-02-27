@@ -294,7 +294,6 @@ gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		return NULL;
 	}
 
-	g_warning ("not reached");
 	return NULL;
 }
 

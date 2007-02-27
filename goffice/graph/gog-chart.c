@@ -255,7 +255,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 	map->is_valid = FALSE;
 
 	axis_set = gog_chart_get_axis_set (chart);
-	switch (axis_set) {
+	switch (axis_set & GOG_AXIS_SET_FUNDAMENTAL) {
 		case GOG_AXIS_SET_X:
 			{
 				XMapData *data = g_new (XMapData, 1);
@@ -562,7 +562,19 @@ role_plot_post_add (GogObject *parent, GogObject *plot)
 			if ((axis_set & j) != 0 && (chart->axis_set & j) == 0) {
 				GogObject *axis = GOG_OBJECT (g_object_new (GOG_AXIS_TYPE, "type", i, NULL));
 				chart->axis_set |= j;
-				gog_object_add_by_name (GOG_OBJECT (chart), "Color-Axis", axis);
+				switch (i) {
+				case GOG_AXIS_PSEUDO_3D:
+					gog_object_add_by_name (GOG_OBJECT (chart), "Pseudo-3D-Axis", axis);
+					break;
+				case GOG_AXIS_COLOR:
+					gog_object_add_by_name (GOG_OBJECT (chart), "Color-Axis", axis);
+					break;
+				case GOG_AXIS_BUBBLE:
+					gog_object_add_by_name (GOG_OBJECT (chart), "Bubble-Axis", axis);
+					break;
+				default:
+					g_warning ("Unknown axis type: %x\n", i);
+				}
 			}
 	}
 	/* APPEND to keep order, there won't be that many */
@@ -675,6 +687,8 @@ static gboolean radial_axis_can_add (GogObject const *parent) { return axis_can_
 static void radial_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_RADIAL); }
 static gboolean pseudo_3d_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_PSEUDO_3D); }
 static void pseudo_3d_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_PSEUDO_3D); }
+static gboolean bubble_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_BUBBLE); }
+static void bubble_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_BUBBLE); }
 static gboolean color_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_COLOR); }
 static void color_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_COLOR); }
 
@@ -706,11 +720,15 @@ static GogObjectRole const roles[] = {
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  pseudo_3d_axis_can_add, axis_can_remove, NULL, pseudo_3d_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_PSEUDO_3D } },
-	{ N_("Color-Axis"), "GogAxis", 4,
+	{ N_("Bubble-Axis"), "GogAxis", 4,
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  bubble_axis_can_add, axis_can_remove, NULL, bubble_axis_post_add, axis_pre_remove, NULL,
+	  { GOG_AXIS_BUBBLE } },
+	{ N_("Color-Axis"), "GogAxis", 5,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  color_axis_can_add, axis_can_remove, NULL, color_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_COLOR } },
-	{ N_("Plot"), "GogPlot",	5,	/* keep the axis before the plots */
+	{ N_("Plot"), "GogPlot",	6,	/* keep the axis before the plots */
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
 	  NULL, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } },
 	{ N_("Title"), "GogLabel",	10,

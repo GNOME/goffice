@@ -1,3 +1,15 @@
+2007-02-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/goffice-graph.h: add bubble axis.
+	* goffice/graph/gog-axis-line.c: fix various virtual axis issues.
+	* goffice/graph/gog-axis.c: (gog_axis_populate_editor): don't
+	add style related pages forvirtual axis.
+	* goffice/graph/gog-chart.c: implement bubble axis adding and
+	fix various related issues.
+	* plugins/plot_barcol/gog-1.5d.c: (gog_plot1_5d_axis_get_bounds):
+	removed a warning since various axis sets might be used when using
+	mixed plots.
+
 2007-02-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_is_date_for_value): Remove.

@@ -1689,28 +1689,29 @@ gog_axis_populate_editor (GogObject *gobj,
 			     glade_xml_get_widget (gui, "axis_pref_box"),
 			     _("Scale"));
 
-	/* Style page */
-	(GOG_OBJECT_CLASS(parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
+	if (gog_axis_get_atype (axis) < GOG_AXIS_VIRTUAL) {
+	    /* Style page */
+	    (GOG_OBJECT_CLASS(parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
-	/* Format page */
-	if (!axis->is_discrete && gog_axis_get_atype (axis) != GOG_AXIS_PSEUDO_3D) {
-		w = go_format_sel_new_full (TRUE);
-		state->format_selector = w;
+	    /* Format page */
+	    if (!axis->is_discrete) {
+		    w = go_format_sel_new_full (TRUE);
+		    state->format_selector = w;
 
-		if (axis->assigned_format != NULL && !go_format_is_general (axis->assigned_format))
-			go_format_sel_set_style_format (GO_FORMAT_SEL (w),
-				axis->assigned_format);
-		else if (axis->format != NULL)
-			go_format_sel_set_style_format (GO_FORMAT_SEL (w),
-				axis->format);
+		    if (axis->assigned_format != NULL && !go_format_is_general (axis->assigned_format))
+			    go_format_sel_set_style_format (GO_FORMAT_SEL (w),
+				    axis->assigned_format);
+		    else if (axis->format != NULL)
+			    go_format_sel_set_style_format (GO_FORMAT_SEL (w),
+				    axis->format);
 
-		gog_editor_add_page (editor, w, _("Format"));
+		    gog_editor_add_page (editor, w, _("Format"));
 
-		gtk_widget_show (w);
-		g_signal_connect (G_OBJECT (w),
-			"format_changed", G_CALLBACK (cb_axis_fmt_changed), axis);
+		    gtk_widget_show (w);
+		    g_signal_connect (G_OBJECT (w),
+			    "format_changed", G_CALLBACK (cb_axis_fmt_changed), axis);
+	    }
 	}
-
 	w = glade_xml_get_widget (gui, "axis_pref_box");
 	g_object_set_data_full (G_OBJECT (w), "state", state,
 				(GDestroyNotify)gog_axis_pref_state_free);
