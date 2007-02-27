@@ -81,7 +81,7 @@ void go_render_generall (PangoLayout *layout, GString *str,
 
 /*************************************************************************/
 
-GOFormat *go_format_new_from_XL		(char const *str, gboolean delocalize);
+GOFormat *go_format_new_from_XL		(char const *str);
 GOFormat *go_format_new_markup		(PangoAttrList *markup, gboolean add_ref);
 
 /* these do not add a reference to the result */
@@ -95,7 +95,7 @@ GOFormat *go_format_default_money	(void);
 
 char     *go_format_str_localize        (char const *str);
 char	 *go_format_str_delocalize	(char const *str);
-char   	 *go_format_as_XL	   	(GOFormat const *fmt, gboolean localized);
+const char* go_format_as_XL	   	(GOFormat const *fmt);
 
 GOFormat *go_format_ref		 	(GOFormat *fmt);
 void      go_format_unref		(GOFormat *fmt);
@@ -113,11 +113,6 @@ const GOFormat *go_format_specialize          (GOFormat const *fmt,
 const GOFormat *go_format_specializel         (GOFormat const *fmt,
 					       long double val, char type,
 					       gboolean *inhibit_minus);
-#endif
-
-int       go_format_is_date_for_value   (GOFormat const *fmt, double val, char type);
-#ifdef GOFFICE_WITH_LONG_DOUBLE
-int       go_format_is_date_for_valuel  (GOFormat const *fmt, long double val, char type);
 #endif
 
 GOFormatFamily         go_format_get_family (GOFormat const *fmt);

@@ -1,3 +1,9 @@
+2007-02-26  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_is_date_for_value): Remove.
+	(go_format_as_XL, go_format_new_from_XL): Drop localization
+	argument.  All callers changed.
+
 2007-02-25  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_parse_number_fraction):

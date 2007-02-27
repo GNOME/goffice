@@ -3206,8 +3206,7 @@ make_frobbed_format (char *str, const GOFormat *fmt)
 	if (strcmp (str, fmt->format) == 0)
 		res = NULL;
 	else {
-		g_print ("Frobbed [%s] -> [%s]\n", fmt->format, str);
-		res = go_format_new_from_XL (str, FALSE);
+		res = go_format_new_from_XL (str);
 		if (res->typ == GO_FMT_INVALID) {
 			go_format_unref (res);
 			res = NULL;
@@ -3714,18 +3713,15 @@ go_format_parse_markup (char *str)
  * @descriptor_string: XL descriptor in UTF-8 encoding.
  **/
 GOFormat *
-go_format_new_from_XL (char const *str, gboolean delocalize)
+go_format_new_from_XL (char const *str)
 {
 	GOFormat *format;
-	char *desc_copy = NULL;
 
-	g_return_val_if_fail (str != NULL,
-			      go_format_create (GO_FMT_INVALID, NULL));
+	g_return_val_if_fail (str != NULL, go_format_general ());
 
-	/* Markup formats are not subject to localization. */
 	if (str[0] == '@' && str[1] == '[') {
 		PangoAttrList *attrs;
-		desc_copy = g_strdup (str);
+		char *desc_copy = g_strdup (str);
 		attrs = go_format_parse_markup (desc_copy);
 		if (attrs) {
 			format = go_format_create (GO_FMT_MARKUP, str);
@@ -3736,9 +3732,6 @@ go_format_new_from_XL (char const *str, gboolean delocalize)
 		g_free (desc_copy);
 		return format;
 	}
-
-	if (delocalize)
-		str = desc_copy = go_format_str_delocalize (str);
 
 	format = g_hash_table_lookup (style_format_hash, str);
 	if (format == NULL) {
@@ -3753,8 +3746,6 @@ go_format_new_from_XL (char const *str, gboolean delocalize)
 		   G_GNUC_FUNCTION,
 		   format, format->format, format->ref_count);
 #endif
-
-	g_free (desc_copy);
 
 	return go_format_ref (format);
 }
@@ -3777,7 +3768,7 @@ go_format_new_markup (PangoAttrList *markup, gboolean add_ref)
 	GString *accum = g_string_new ("@");
 	pango_attr_list_filter (markup,
 		(PangoAttrFilterFunc) cb_attrs_as_string, accum);
-	fmt = go_format_new_from_XL (accum->str, FALSE);
+	fmt = go_format_new_from_XL (accum->str);
 	g_string_free (accum, TRUE);
 
 	if (!add_ref)
@@ -3792,28 +3783,15 @@ go_format_new_markup (PangoAttrList *markup, gboolean add_ref)
 /**
  * go_format_as_XL:
  * @fmt: a #GOFormat
- * @localized : should the string be in canonical or locale specific form.
  *
- * Returns: a string which the caller is responsible for freeing.
+ * Returns: the XL style format strint.
  */
-char *
-go_format_as_XL (GOFormat const *fmt, gboolean localized)
+const char *
+go_format_as_XL (GOFormat const *fmt)
 {
-	const char *str;
+	g_return_val_if_fail (fmt != NULL, "General");
 
-	g_return_val_if_fail (fmt != NULL,
-			      g_strdup (localized ? _("General") : "General"));
-
-	str = fmt->format;
-
-	/* Markup formats are not subject to localization. */
-	if (str[0] == '@' && str[1] == '[')
-		return g_strdup (str);
-
-	if (localized)
-		return go_format_str_localize (str);
-	else
-		return g_strdup (str);
+	return fmt->format;
 }
 #endif
 
@@ -4110,7 +4088,7 @@ go_format_general (void)
 {
 	if (!default_general_fmt)
 		default_general_fmt = go_format_new_from_XL (
-			go_format_builtins[GO_FORMAT_GENERAL][0], FALSE);
+			go_format_builtins[GO_FORMAT_GENERAL][0]);
 	return default_general_fmt;
 }
 #endif
@@ -4120,7 +4098,7 @@ GOFormat *
 go_format_empty (void)
 {
 	if (!default_empty_fmt)
-		default_empty_fmt = go_format_new_from_XL ("", FALSE);
+		default_empty_fmt = go_format_new_from_XL ("");
 	return default_empty_fmt;
 }
 #endif
@@ -4131,7 +4109,7 @@ go_format_default_date (void)
 {
 	if (!default_date_fmt)
 		default_date_fmt = go_format_new_from_XL (
-			go_format_builtins[GO_FORMAT_DATE][0], FALSE);
+			go_format_builtins[GO_FORMAT_DATE][0]);
 	return default_date_fmt;
 }
 #endif
@@ -4142,7 +4120,7 @@ go_format_default_time (void)
 {
 	if (!default_time_fmt)
 		default_time_fmt = go_format_new_from_XL (
-			go_format_builtins[GO_FORMAT_TIME][0], FALSE);
+			go_format_builtins[GO_FORMAT_TIME][0]);
 	return default_time_fmt;
 }
 #endif
@@ -4153,7 +4131,7 @@ go_format_default_date_time (void)
 {
 	if (!default_date_time_fmt)
 		default_date_time_fmt = go_format_new_from_XL (
-			go_format_builtins[GO_FORMAT_TIME][4], FALSE);
+			go_format_builtins[GO_FORMAT_TIME][4]);
 	return default_date_time_fmt;
 }
 #endif
@@ -4164,7 +4142,7 @@ go_format_default_percentage (void)
 {
 	if (!default_percentage_fmt)
 		default_percentage_fmt = go_format_new_from_XL (
-			go_format_builtins[GO_FORMAT_PERCENTAGE][1], FALSE);
+			go_format_builtins[GO_FORMAT_PERCENTAGE][1]);
 	return default_percentage_fmt;
 }
 #endif
@@ -4175,7 +4153,7 @@ go_format_default_money (void)
 {
 	if (!default_money_fmt)
 		default_money_fmt = go_format_new_from_XL (
-			go_format_builtins[GO_FORMAT_CURRENCY][2], FALSE);
+			go_format_builtins[GO_FORMAT_CURRENCY][2]);
 	return default_money_fmt;
 }
 #endif

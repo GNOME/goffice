@@ -426,7 +426,7 @@ fillin_negative_samples (GOFormatSel *gfs)
 				 gfs->format.use_separator,
 				 page == GO_FORMAT_NUMBER ? 0 : gfs->format.currency_index,
 				 i);
-		fmt = go_format_new_from_XL (fmtstr->str, FALSE);
+		fmt = go_format_new_from_XL (fmtstr->str);
 		g_string_free (fmtstr, TRUE);
 		buf = go_format_value (fmt, -3210.123456789);
 		go_format_unref (fmt);
@@ -513,7 +513,7 @@ fmt_dialog_init_fmt_list (GOFormatSel *gfs, char const *const *formats,
 {
 	GtkTreeIter iter;
 	char *fmt;
-	char *cur_fmt = go_format_as_XL (gfs->format.spec, FALSE);
+	const char *cur_fmt = go_format_as_XL (gfs->format.spec);
 
 	for (; *formats; formats++) {
 		gtk_list_store_append (gfs->format.formats.model, &iter);
@@ -525,8 +525,6 @@ fmt_dialog_init_fmt_list (GOFormatSel *gfs, char const *const *formats,
 		if (!strcmp (*formats, cur_fmt))
 			*select = iter;
 	}
-
-	g_free (cur_fmt);
 }
 
 static const char *
@@ -679,13 +677,13 @@ stays:
 	    page == GO_FORMAT_ACCOUNTING ||
 	    page == GO_FORMAT_FRACTION ||
 	    page == GO_FORMAT_TEXT) {
-		char *fmtstr = go_format_as_XL (gfs->format.spec, FALSE);
+		const char *fmtstr = go_format_as_XL (gfs->format.spec);
 		const char *elem = find_builtin (fmtstr, page, TRUE);
-		g_free (fmtstr);
+		char *lelem;
 
-		fmtstr = go_format_str_localize (elem);
-		format_entry_set_text (gfs, fmtstr);
-		g_free (fmtstr);
+		lelem = go_format_str_localize (elem);
+		format_entry_set_text (gfs, lelem);
+		g_free (lelem);
 	}
 
 	gfs->format.current_type = page;
@@ -725,7 +723,7 @@ stays:
 			*      the std formats and the custom formats in the GOFormat hash.
 			*/
 			if  (page == FMT_CUSTOM && select.stamp == 0) {
-				char *tmp = go_format_as_XL (gfs->format.spec, TRUE);
+				char *tmp = go_format_str_localize (go_format_as_XL (gfs->format.spec));
 				format_entry_set_text (gfs, tmp);
 				g_free (tmp);
 			} else if (select.stamp == 0)
@@ -835,16 +833,16 @@ static void
 cb_format_entry_changed (GtkEditable *w, GOFormatSel *gfs)
 {
 	char *fmt;
-	char *cur_fmt;
+	const char *cur_fmt;
 	if (!gfs->enable_edit)
 		return;
 
 	fmt = go_format_str_delocalize (gtk_entry_get_text (GTK_ENTRY (w)));
-	cur_fmt = go_format_as_XL (gfs->format.spec, FALSE);
+	cur_fmt = go_format_as_XL (gfs->format.spec);
 
 	if (strcmp (cur_fmt, fmt)) {
 		go_format_unref (gfs->format.spec);
-		gfs->format.spec = go_format_new_from_XL (fmt, FALSE);
+		gfs->format.spec = go_format_new_from_XL (fmt);
 		g_signal_emit (G_OBJECT (gfs),
 			       go_format_sel_signals [FORMAT_CHANGED], 0,
 			       fmt);
@@ -852,7 +850,6 @@ cb_format_entry_changed (GtkEditable *w, GOFormatSel *gfs)
 	}
 
 	g_free (fmt);
-	g_free (cur_fmt);
 }
 
 /*
@@ -1013,7 +1010,7 @@ static GOFormatFamily
 study_format (GOFormatSel *gfs)
 {
 	const GOFormat *fmt = gfs->format.spec;
-	char *str = go_format_as_XL (fmt, FALSE);
+	const char *str = go_format_as_XL (fmt);
 	char *newstr;
 	GOFormatFamily typ = go_format_get_family (fmt);
 
@@ -1125,8 +1122,6 @@ study_format (GOFormatSel *gfs)
 		if (!elem)
 			typ = FMT_CUSTOM;
 	}
-
-	g_free (str);
 
 	return typ;
 }
