@@ -1,3 +1,8 @@
+2007-03-01  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: Unconditionally require a proper system PCRE
+	library.
+
 2007-02-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/goffice-graph.h: add bubble axis.

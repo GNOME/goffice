@@ -2,14 +2,7 @@ SUBDIRS = utils data app graph ms-compat cut-n-paste
 
 lib_LTLIBRARIES = libgoffice-0.la
 
-if WITH_INCLUDED_PCRE
-pcre_la = cut-n-paste/pcre/libpcre.la
-else
-pcre_la =
-endif
-
 libgoffice_0_la_LIBADD = 			\
-	$(pcre_la)				\
 	utils/libgoffice-utils.la		\
 	app/libgoffice-app.la			\
 	data/libgoffice-data.la			\

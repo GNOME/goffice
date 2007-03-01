@@ -15,6 +15,7 @@ Morten:
 	* Fix potential memory corruption in format dialog.
 	* Make space-filling in formats use thinner spaces when
           available.  [#163438]
+	* Remove embedded PCRE.
 
 --------------------------------------------------------------------------
 goffice 0.3.6:

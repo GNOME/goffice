@@ -76,7 +76,3 @@ GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=go_
 include $(top_srcdir)/goffice.mk
 
 LIB_PUBLIC_HDRS = $(libgoffice_utils_la_HEADERS)
-
-if WITH_INCLUDED_PCRE
-    AM_CPPFLAGS += -I$(top_srcdir)/goffice/cut-n-paste/pcre
-endif

@@ -180,24 +180,16 @@ AC_CHECK_LIB(Xrender, XRenderFindFormat,
 	[-lXext])
 
 dnl Check for working pcre
-use_included_pcre=yes
-AC_CHECK_HEADER(pcre.h,[
-	AC_CHECK_LIB(pcre,pcre_compile2,[
-		AC_MSG_CHECKING([for UTF-8 support in pcre])
-		if (pcretest -C 2>&1) | grep -i "^ *UTF-8 support" >/dev/null; then
-			AC_MSG_RESULT(yes)
-			use_included_pcre=no
-			LIBS="$LIBS -lpcre"
-			EXTRA_LIBS="$EXTRA_LIBS -lpcre"
-		else
-			AC_MSG_RESULT(no)
-		fi
-	],[],[])
-])
-AM_CONDITIONAL(WITH_INCLUDED_PCRE, test "$use_included_pcre" = yes)
-dnl For the benefit of PCRE:
-AC_CHECK_FUNCS(bcopy memmove strerror strtoq strtoll)
-
+AC_CHECK_HEADER(pcre.h,[], AC_MSG_ERROR([Header files for PCRE were not found]))
+AC_CHECK_LIB(pcre,pcre_compile2,[], AC_MSG_ERROR([The PCRE library is missing or too old]))
+AC_MSG_CHECKING([for UTF-8 support in pcre])
+if (pcretest -C 2>&1) | grep -i "^ *UTF-8 support" >/dev/null; then
+    AC_MSG_RESULT(yes)
+    LIBS="$LIBS -lpcre"
+    EXTRA_LIBS="$EXTRA_LIBS -lpcre"
+else
+    AC_MSG_ERROR([The installed PCRE library is not configured for UTF-8 support.])
+fi
 
 dnl *****************************
 AC_MSG_CHECKING([for Win32 platform])
@@ -548,7 +540,6 @@ goffice/ms-compat/Makefile
 goffice/component/Makefile
 goffice/cut-n-paste/Makefile
 goffice/cut-n-paste/foocanvas/Makefile
-goffice/cut-n-paste/pcre/Makefile
 plugins/Makefile
 plugins/plot_barcol/Makefile
 plugins/plot_pie/Makefile
