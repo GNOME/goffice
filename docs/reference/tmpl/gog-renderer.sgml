@@ -211,7 +211,7 @@ Multi-backend renderer
 @text: 
 @pos: 
 @anchor: 
-@result: 
+@use_markup: 
 
 
 <!-- ##### FUNCTION gog_renderer_draw_marker ##### -->
@@ -252,6 +252,7 @@ Multi-backend renderer
 
 @rend: 
 @text: 
+@use_markup: 
 @obr: 
 
 
@@ -262,6 +263,7 @@ Multi-backend renderer
 
 @rend: 
 @text: 
+@use_markup: 
 @aabr: 
 
 

@@ -3439,8 +3439,9 @@ go_format_inc_precision (GOFormat const *fmt)
 
 		switch (t) {
 		case TOK_ERROR:
-			str = token + strlen (token);
-			/* Fall through */
+			g_string_free (res, TRUE);
+			return NULL;
+
 		case 0:
 		case ';':
 			g_string_append_len (res, token, str - token);

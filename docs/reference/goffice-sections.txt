@@ -1370,7 +1370,6 @@ go_search_replace_get_type
 <FILE>go-format</FILE>
 GOFormatFamily
 GOFormatNumberError
-GOFormatDetails
 GOFormatMeasure
 go_format_measure_zero
 go_format_measure_pango
@@ -1378,7 +1377,6 @@ go_format_measure_strlen
 go_render_general
 go_render_generall
 go_format_new_from_XL
-go_format_new
 go_format_new_markup
 go_format_general
 go_format_default_date
@@ -1386,8 +1384,8 @@ go_format_default_time
 go_format_default_date_time
 go_format_default_percentage
 go_format_default_money
+go_format_str_localize
 go_format_str_delocalize
-go_format_str_as_XL
 go_format_as_XL
 go_format_ref
 go_format_unref
@@ -1396,10 +1394,7 @@ go_format_is_markup
 go_format_is_text
 go_format_is_var_width
 go_format_is_date
-go_format_is_date_for_value
-go_format_is_date_for_valuel
 go_format_get_family
-go_format_get_details
 go_format_get_markup
 go_format_is_simple
 go_format_value_gstring
@@ -1410,7 +1405,6 @@ go_format_eq
 go_format_inc_precision
 go_format_dec_precision
 go_format_toggle_1000sep
-go_format_classify
 GOFormatCurrency
 go_number_format_init
 go_number_format_shutdown
