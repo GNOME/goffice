@@ -428,9 +428,9 @@ gog_error_bar_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
 	if (str != NULL)
 		gsf_xml_out_add_cstr_unchecked (output, "display", str);
 	if (bar->width != 5.)
-		gsf_xml_out_add_float (output, "width", bar->width, 2);
+		gsf_xml_out_add_float (output, "width", bar->width, 6);
 	if (bar->style->line.width != 1.)
-		gsf_xml_out_add_float (output, "line_width", bar->style->line.width, 2);
+		gsf_xml_out_add_float (output, "line_width", bar->style->line.width, 6);
 	if (bar->style->line.color != RGBA_BLACK)
 		go_xml_out_add_color (output, "color", bar->style->line.color);
 }

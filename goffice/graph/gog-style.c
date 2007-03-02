@@ -1358,7 +1358,7 @@ gog_style_line_sax_save (GsfXMLOut *output, char const *name,
 	gsf_xml_out_add_cstr_unchecked (output, "dash",
 		go_line_dash_as_str (line->dash_type));
 	gsf_xml_out_add_bool (output, "auto-dash", line->auto_dash);
-	gsf_xml_out_add_float (output, "width", line->width, 1);
+	gsf_xml_out_add_float (output, "width", line->width, 6);
 	go_xml_out_add_color (output, "color", line->color);
 	gsf_xml_out_add_bool (output, "auto-color", line->auto_color);
 	gsf_xml_out_end_element (output);
@@ -1397,7 +1397,7 @@ gog_style_gradient_sax_save (GsfXMLOut *output, GogStyle const *style)
 		style->fill.pattern.back);
 	if (style->fill.gradient.brightness >= 0.)
 		gsf_xml_out_add_float (output, "brightness",
-			style->fill.gradient.brightness, 2);
+			style->fill.gradient.brightness, 6);
 	else 
 		go_xml_out_add_color (output, "end-color",
 			style->fill.pattern.fore);
@@ -1660,7 +1660,7 @@ static void
 gog_style_text_layout_sax_save (GsfXMLOut *output, GogStyle const *style)
 {
 	gsf_xml_out_start_element (output, "text_layout");
-	gsf_xml_out_add_float (output, "angle", style->text_layout.angle, 1);
+	gsf_xml_out_add_float (output, "angle", style->text_layout.angle, 6);
 	gsf_xml_out_end_element (output);
 }
 

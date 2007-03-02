@@ -1,3 +1,12 @@
+2006-03-02  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-style.c (gog_style_line_sax_save): increase float 
+	format precision.
+	(gog_style_gradient_sax_save): ditto.
+	(gog_style_text_layout_sax_save): ditto.
+	* goffice/graph/gog-error-bars.c (gog_error_bar_persist_sax_save):
+	ditto.
+
 2007-03-01  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_toggle_1000sep):
