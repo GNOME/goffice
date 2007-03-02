@@ -485,6 +485,8 @@ go_format_parse_color (const char *str, GOColor *color,
 			*n = ull;
 		if (named)
 			*named = FALSE;
+
+		/* FIXME: What do we do about *color?  */
 		return TRUE;
 	}
 
@@ -3507,8 +3509,9 @@ go_format_dec_precision (GOFormat const *fmt)
 
 		switch (t) {
 		case TOK_ERROR:
-			g_string_append (res, str);
-			/* Fall through */
+			g_string_free (res, TRUE);
+			return NULL;
+
 		case 0:
 			return make_frobbed_format (g_string_free (res, FALSE), fmt);
 
@@ -3530,13 +3533,78 @@ go_format_dec_precision (GOFormat const *fmt)
 GOFormat *
 go_format_toggle_1000sep (GOFormat const *fmt)
 {
+	GString *res;
+	const char *str;
+	int commapos = -1;
+	int numstart = -1;
+
 	g_return_val_if_fail (fmt != NULL, NULL);
 
-	/* FIXME */
-	return NULL;
+	res = g_string_new (NULL);
+	str = fmt->format;
+
+	while (1) {
+		const char *token = str;
+		GOFormatTokenType tt;
+		int t = go_format_token (&str, &tt);
+
+		if (numstart == -1 && (tt & TT_STARTS_NUMBER))
+			numstart = res->len;
+
+		switch (t) {
+		case TOK_ERROR:
+			g_string_free (res, TRUE);
+			return NULL;
+
+		case 0:
+		case ';':
+			if (numstart == -1) {
+				/* Nothing. */
+			} else if (commapos == -1) {
+				g_string_insert (res, numstart, "#,##");
+			} else {
+				int n = 0;
+
+				g_string_erase (res, commapos, 1);
+				commapos = -1;
+
+				while (res->str[numstart + n] == '#')
+					n++;
+
+				if (n && res->str[numstart + n] == '0')
+					g_string_erase (res, numstart, n);
+			}
+
+			if (t == 0)
+				return make_frobbed_format
+					(g_string_free (res, FALSE), fmt);
+
+			numstart = -1;
+			break;
+
+		case ',':
+			if (numstart != -1 && comma_is_thousands (token)) {
+				if (commapos != -1)
+					g_string_erase (res, commapos, 1);
+				commapos = res->len;
+			}
+			break;
+
+		case TOK_GENERAL:
+			if (go_format_is_general (fmt)) {
+				/* Format is just "General" and color etc. */
+				g_string_append (res, "#,##0");
+				continue;
+			}
+			break;
+
+		default:
+			break;
+		}
+
+		g_string_append_len (res, token, str - token);
+	}
 }
-
-
 #endif
 
 #ifdef DEFINE_COMMON

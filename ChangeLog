@@ -1,5 +1,8 @@
 2007-03-01  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-format.c (go_format_toggle_1000sep):
+	Re-implement.
+
 	* configure.in: Unconditionally require a proper system PCRE
 	library.
 
