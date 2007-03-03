@@ -1,3 +1,9 @@
+2007-03-02  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis-line.c (axis_line_render): If we have to
+	skip entries because there is no room, skip regularly.  Fixes
+	#413660.
+
 2006-03-02  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-style.c (gog_style_line_sax_save): increase float 

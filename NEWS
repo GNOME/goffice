@@ -16,6 +16,7 @@ Morten:
 	* Make space-filling in formats use thinner spaces when
           available.  [#163438]
 	* Remove embedded PCRE.
+	* Improve axis labeling.  [#413660]
 
 --------------------------------------------------------------------------
 goffice 0.3.6:

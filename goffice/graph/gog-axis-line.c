@@ -1040,9 +1040,9 @@ axis_line_render (GogAxisBase *axis_base,
 {
 	GogAxisMap *map = NULL;
 	GogAxisTick *ticks;
-	GogViewAllocation label_pos;
 	GogStyle *style = axis_base->base.style;
-	GOGeometryOBR txt_obr, txt_obr_old = {0., 0., 0., 0., 0.};
+	GOGeometryOBR zero_obr;
+	GOGeometryOBR *obrs = NULL;
 	ArtVpath path[3];
 	double line_width;
 	double axis_length, axis_angle, label_padding;
@@ -1052,7 +1052,7 @@ axis_line_render (GogAxisBase *axis_base,
 	double cos_alpha, sin_alpha;
 	double pos, pos_x, pos_y;
 	double padding = gog_axis_base_get_padding (axis_base);
-	unsigned i, tick_nbr;
+	unsigned i, tick_nbr, nobr = 0, *indexmap = NULL;
 	gboolean draw_major, draw_minor;
 	gboolean is_line_visible;
 
@@ -1105,10 +1105,14 @@ axis_line_render (GogAxisBase *axis_base,
 
 	tick_len = axis_base->major.tick_out ? major_tick_len :
 		(axis_base->minor.tick_out ? minor_tick_len : 0.);
-	gog_renderer_get_text_OBR (renderer, "0", TRUE, &txt_obr);
-	label_padding = txt_obr.w;
+	gog_renderer_get_text_OBR (renderer, "0", TRUE, &zero_obr);
+	label_padding = zero_obr.w;
 
 	tick_nbr = gog_axis_get_ticks (axis_base->axis, &ticks);
+	if (draw_labels) {
+		obrs = g_new0 (GOGeometryOBR, tick_nbr);
+		indexmap = g_new0 (unsigned int, tick_nbr);
+	}
 
 	for (i = 0; i < tick_nbr; i++) {
 		if (gog_axis_map (map, ticks[i].position) < start_at)
@@ -1152,21 +1156,50 @@ axis_line_render (GogAxisBase *axis_base,
 		}
 
 		if (ticks[i].label != NULL && draw_labels) {
+			GOGeometryOBR *obr = obrs + nobr;
 			pos = gog_axis_map_to_view (map, ticks[i].position);
-			gog_renderer_get_text_OBR (renderer, ticks[i].label, TRUE, &txt_obr);
-			txt_obr.w += label_padding;
-			go_geometry_calc_label_position (&txt_obr, axis_angle, tick_len, side);
-			txt_obr.x += x + pos * cos (axis_angle);
-			txt_obr.y += y + pos * sin (axis_angle);
-			if (!go_geometry_test_OBR_overlap (&txt_obr, &txt_obr_old)) {
-				label_pos.x = txt_obr.x;
-				label_pos.y = txt_obr.y;
-				gog_renderer_draw_text (renderer, ticks[i].label,
-							&label_pos, GTK_ANCHOR_CENTER, TRUE);
-				txt_obr_old = txt_obr;
-			}
+			gog_renderer_get_text_OBR (renderer, ticks[i].label, TRUE, obr);
+			obr->w += label_padding;
+			go_geometry_calc_label_position (obr, axis_angle, tick_len, side);
+			obr->x += x + pos * cos (axis_angle);
+			obr->y += y + pos * sin (axis_angle);
+
+			indexmap[nobr] = i;
+			nobr++;
 		}
 	}
+
+	/*
+	 * This is far from perfect, but at least things are regular.
+	 * The axis really needs to be queried to figure this out,
+	 * especially if dates are involved.
+	 */
+	if (nobr > 0) {
+		int skip = 1;
+
+		for (i = skip; i < nobr; i += skip) {
+			gboolean overlap =
+				go_geometry_test_OBR_overlap (obrs + i,
+							      obrs + i + skip);
+			if (overlap) {
+				skip++;
+				i = 0;
+				continue;
+			}
+		}
+
+		for (i = 0; i < nobr; i += skip) {
+			unsigned j = indexmap[i];
+			GogViewAllocation label_pos;
+			label_pos.x = obrs[i].x;
+			label_pos.y = obrs[i].y;
+			gog_renderer_draw_text (renderer, ticks[j].label,
+						&label_pos, GTK_ANCHOR_CENTER,
+						TRUE);
+		}
+	}
+	g_free (obrs);
+	g_free (indexmap);
 
 	gog_axis_map_free (map);
 }
