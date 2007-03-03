@@ -175,53 +175,53 @@ grc_line_size (GogRenderer const *rend, double width, gboolean sharp)
 	if (!sharp || width <= 1.)
 		return width;
 
-	return floor (width);
+	return go_fake_round (width);
 }
 
 /* This is a workaround for a cairo bug, due to its internal
  * handling of coordinates (16.16 fixed point). */
 #define GO_CAIRO_CLAMP(x) CLAMP((x),-15000,15000)
-#define GO_CAIRO_CLAMP_SNAP(x,odd) GO_CAIRO_CLAMP(odd ? floor (x + .5):floor (x) + .5)
+#define GO_CAIRO_CLAMP_SNAP(x,even) GO_CAIRO_CLAMP(even ? floor (x + .5):floor (x) + .5)
 
 static void
 grc_path_raw (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath)
 {
-	if (vpath) 
+	if (vpath) { 
 		while (vpath->code != ART_END) {
 			switch (vpath->code) {
 				case ART_MOVETO_OPEN:
 				case ART_MOVETO:
 					cairo_move_to (cr, GO_CAIRO_CLAMP (vpath->x), 
-						           GO_CAIRO_CLAMP (vpath->y));
+						       GO_CAIRO_CLAMP (vpath->y));
 					break;
 				case ART_LINETO:
 					cairo_line_to (cr, GO_CAIRO_CLAMP (vpath->x), 
-						           GO_CAIRO_CLAMP (vpath->y));
+						       GO_CAIRO_CLAMP (vpath->y));
 					break;
 				default:
 					break;
 			}
 			vpath++;
 		}
-	else
+	} else
 		while (bpath->code != ART_END) {
 			switch (bpath->code) {
 				case ART_MOVETO_OPEN:
 				case ART_MOVETO:
 					cairo_move_to (cr, GO_CAIRO_CLAMP (bpath->x3),
-						      	   GO_CAIRO_CLAMP (bpath->y3));
+						       GO_CAIRO_CLAMP (bpath->y3));
 					break;
 				case ART_LINETO:
 					cairo_line_to (cr, GO_CAIRO_CLAMP (bpath->x3),
-						           GO_CAIRO_CLAMP (bpath->y3));
+						       GO_CAIRO_CLAMP (bpath->y3));
 					break;
 				case ART_CURVETO:
 					cairo_curve_to (cr, GO_CAIRO_CLAMP (bpath->x1), 
-							    GO_CAIRO_CLAMP (bpath->y1),
-							    GO_CAIRO_CLAMP (bpath->x2), 
-							    GO_CAIRO_CLAMP (bpath->y2),
-							    GO_CAIRO_CLAMP (bpath->x3), 
-							    GO_CAIRO_CLAMP (bpath->y3));
+							GO_CAIRO_CLAMP (bpath->y1),
+							GO_CAIRO_CLAMP (bpath->x2), 
+							GO_CAIRO_CLAMP (bpath->y2),
+							GO_CAIRO_CLAMP (bpath->x3), 
+							GO_CAIRO_CLAMP (bpath->y3));
 					break;
 				default:
 					break;
@@ -233,19 +233,19 @@ grc_path_raw (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath)
 static void
 grc_path_sharp (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath, double line_width)
 {
-	gboolean odd = ((int) (rint (line_width)) % 2 == 0) && line_width > 1.0;
+	gboolean even = ((int) (go_fake_ceil (line_width)) % 2 == 0) && line_width > 1.0;
 
 	if (vpath) 
 		while (vpath->code != ART_END) {
 			switch (vpath->code) {
 				case ART_MOVETO_OPEN:
 				case ART_MOVETO:
-					cairo_move_to (cr, GO_CAIRO_CLAMP_SNAP (vpath->x, odd), 
-						           GO_CAIRO_CLAMP_SNAP (vpath->y, odd));
+					cairo_move_to (cr, GO_CAIRO_CLAMP_SNAP (vpath->x, even), 
+						           GO_CAIRO_CLAMP_SNAP (vpath->y, even));
 					break;
 				case ART_LINETO:
-					cairo_line_to (cr, GO_CAIRO_CLAMP_SNAP (vpath->x, odd), 
-						           GO_CAIRO_CLAMP_SNAP (vpath->y, odd));
+					cairo_line_to (cr, GO_CAIRO_CLAMP_SNAP (vpath->x, even), 
+						           GO_CAIRO_CLAMP_SNAP (vpath->y, even));
 					break;
 				default:
 					break;
@@ -269,13 +269,24 @@ grc_draw_path (GogRenderer *rend, ArtVpath const *vpath, ArtBpath const*bpath, g
 	GogRendererCairo *crend = GOG_RENDERER_CAIRO (rend);
 	GogStyle const *style = rend->cur_style;
 	cairo_t *cr = crend->cairo;
-	double width = grc_line_size (rend, style->line.width, sharp);
+	double width;
+	gboolean legend_line;
 
 	g_return_if_fail (bpath != NULL || vpath != NULL);
 
 	if (style->line.dash_type == GO_LINE_NONE)
 		return;
 
+	/* KLUDGE snap coordinate of legend line sample. */
+	legend_line =!sharp 
+		&& !crend->is_vector
+		&& vpath != NULL 
+		&& vpath[0].code == ART_MOVETO 
+		&& vpath[1].code == ART_LINETO 
+		&& vpath[2].code == ART_END 
+		&& (vpath[0].x == vpath[1].x || vpath[0].y == vpath[1].y);
+
+	width = grc_line_size (rend, style->line.width, sharp);
 	cairo_set_line_width (cr, width);
 	if (rend->line_dash != NULL)
 		cairo_set_dash (cr, 
@@ -284,10 +295,11 @@ grc_draw_path (GogRenderer *rend, ArtVpath const *vpath, ArtBpath const*bpath, g
 				rend->line_dash->offset);
 	else
 		cairo_set_dash (cr, NULL, 0, 0);
+
 	grc_path (cr, (ArtVpath *) vpath, (ArtBpath *) bpath, width, 
-		  sharp && !crend->is_vector);
+		  (sharp || legend_line) && !crend->is_vector);
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
-	cairo_set_line_cap (cr, (width < 3 && !crend->is_vector) ? 
+	cairo_set_line_cap (cr, (width <= 2.0 && !crend->is_vector) ? 
 			    CAIRO_LINE_CAP_SQUARE : CAIRO_LINE_CAP_ROUND);
 	cairo_stroke (cr);
 }
@@ -318,11 +330,11 @@ gog_renderer_cairo_push_clip (GogRenderer *rend, GogRendererClip *clip)
 
 	cairo_save (crend->cairo);
 	if (is_rectangle) {
-		double x = floor (path[0].x + 0.5);
-		double y = floor (path[0].y + 0.5);
+		double x = go_fake_floor (path[0].x);
+		double y = go_fake_floor (path[0].y);
 		cairo_rectangle (crend->cairo, x, y,
-				 floor (path[1].x + 0.5) - x,
-				 floor (path[2].y + 0.5) - y);
+				 go_fake_ceil (path[1].x) - x,
+				 go_fake_ceil (path[2].y) - y);
 	} else {
 		grc_path (crend->cairo, path, NULL, 0.0, FALSE);
 	}

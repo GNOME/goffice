@@ -171,7 +171,7 @@ line_size (GogRenderer const *rend, double width, gboolean sharp)
 
 	if (klass->line_size)
 		return (klass->line_size) (rend, width, sharp);
-	
+
 	if (go_sub_epsilon (width) <= 0.)
 		width = GOG_RENDERER_HAIRLINE_WIDTH_PTS;
 	return width * rend->scale;

@@ -351,9 +351,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	double hrect, hser, y, hbar;
 	double min, qu1, med, qu3, max;
 	ArtVpath	path[6];
-	GogViewAllocation rect;
 	GSList *ptr;
-	double line_width;
 	GogStyle *style;
 	int num_ser = 1;
 
@@ -378,11 +376,9 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (model->vertical) {
 		hser = view->allocation.w / model->num_series;
 		hrect = hser / (1. + model->gap_percentage / 100.);
-/*		y = view->allocation.x + hser / 2.; */
 	} else {
 		hser = view->allocation.h / model->num_series;
 		hrect = hser / (1. + model->gap_percentage / 100.);
-/*		y = view->allocation.y + view->allocation.h - hser / 2.; */
 	}
 	hrect /= 2.;
 	hbar = hrect / 2.;
@@ -398,7 +394,6 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			!go_data_vector_get_len (GO_DATA_VECTOR (series->base.values[0].data)))
 			continue;
 		style = GOG_STYLED_OBJECT (series)->style;
-		line_width = style->line.width / 2.;
 		gog_renderer_push_style (view->renderer, style);
 		min = gog_axis_map_to_view (map, series->vals[0]);
 		qu1 = gog_axis_map_to_view (map, series->vals[1]);
@@ -407,11 +402,12 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		max = gog_axis_map_to_view (map, series->vals[4]);
 		y = gog_axis_map_to_view (ser_map, num_ser);
 		if (model->vertical) {
-			rect.y = qu1;
-			rect.h = qu3 - qu1;
-			rect.x = y - hrect;
-			rect.w = 2* hrect;
-			gog_renderer_draw_sharp_rectangle (view->renderer, &rect);
+			path[2].code = ART_LINETO;
+			path[0].y = path[3].y = path[4].y = qu1;
+			path[1].y = path[2].y = qu3;
+			path[0].x = path[1].x = path[4].x = y - hrect;
+			path[2].x = path[3].x = y + hrect;
+			gog_renderer_draw_sharp_polygon (view->renderer, path, TRUE);
 			path[2].code = ART_END;
 			path[0].x = y + hbar;
 			path[1].x = y - hbar;
@@ -434,13 +430,13 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			path[1].y = path[2].y = qu3;
 			path[0].x = path[1].x = path[4].x = y - hrect;
 			path[2].x = path[3].x = y + hrect;
-/*			y += hser; */
 		} else {
-			rect.x = qu1;
-			rect.w = qu3 - qu1;
-			rect.y = y - hrect;
-			rect.h = 2* hrect;
-			gog_renderer_draw_sharp_rectangle (view->renderer, &rect);
+			path[2].code = ART_LINETO;
+			path[0].x = path[3].x = path[4].x = qu1;
+			path[1].x = path[2].x = qu3;
+			path[0].y = path[1].y = path[4].y = y - hrect;
+			path[2].y = path[3].y = y + hrect;
+			gog_renderer_draw_sharp_polygon (view->renderer, path, TRUE);
 			path[2].code = ART_END;
 			path[0].y = y + hbar;
 			path[1].y = y - hbar;
@@ -463,7 +459,6 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 			path[1].x = path[2].x = qu3;
 			path[0].y = path[1].y = path[4].y = y - hrect;
 			path[2].y = path[3].y = y + hrect;
-/*			y -= hser; */
 		}
 		gog_renderer_draw_sharp_path (view->renderer, path);
 		gog_renderer_pop_style (view->renderer);

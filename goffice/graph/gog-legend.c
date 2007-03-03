@@ -424,6 +424,7 @@ cb_render_elements (unsigned index, GogStyle const *base_style, char const *name
 	GogRenderer *renderer = view->renderer;
 	GogStyle *style = NULL;
 	GogViewAllocation pos, rectangle;
+	double half_width;
 
 	if (data->count > 0) {
 		if ((data->count % glv->element_per_blocks) != 0) {
@@ -445,12 +446,13 @@ cb_render_elements (unsigned index, GogStyle const *base_style, char const *name
 			style->line.width = style->line.width * data->line_scale_a + data->line_scale_b;
 
 		gog_renderer_push_style (renderer, style);
-		data->line_path[0].x = data->x;
-		data->line_path[1].x = data->x + data->swatch.w * GLV_LINE_LENGTH_EM;
+		half_width = 0.5 * gog_renderer_line_size (renderer, style->line.width);
+		data->line_path[0].x = data->x + half_width;
+		data->line_path[1].x = data->x + data->swatch.w * GLV_LINE_LENGTH_EM - half_width;
 		data->line_path[0].y = 
 		data->line_path[1].y = data->y + glv->element_height / 2.;
-		gog_renderer_draw_sharp_path (renderer, data->line_path);
-		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * GLV_LINE_LENGTH_EM * .5, 
+		gog_renderer_draw_path (renderer, data->line_path);
+		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * GLV_LINE_LENGTH_EM * 0.5, 
 					  data->line_path[0].y);
 	} else {					/* area swatch */
 		style = gog_style_dup (base_style);
@@ -492,6 +494,9 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 	if (glv->element_per_blocks < 1)
 		return;
 	
+	gog_renderer_push_clip (v->renderer, 
+				gog_renderer_get_rectangle_vpath (&v->residual));
+
 	gog_renderer_push_style (v->renderer, style);
 	
 	hairline_width = gog_renderer_get_hairline_width_pts (v->renderer);
@@ -552,6 +557,8 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 		(GogEnumFunc) cb_render_elements, &data);
 
 	gog_renderer_pop_style (v->renderer);
+
+	gog_renderer_pop_clip (v->renderer);
 }
 
 static void
@@ -562,7 +569,6 @@ gog_legend_view_class_init (GogLegendViewClass *gview_klass)
 	lview_parent_klass = g_type_class_peek_parent (gview_klass);
 	view_klass->size_request    = gog_legend_view_size_request;
 	view_klass->render	    = gog_legend_view_render;
-	view_klass->clip 	    = TRUE;
 }
 
 static GSF_CLASS (GogLegendView, gog_legend_view,
