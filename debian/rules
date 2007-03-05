@@ -86,9 +86,10 @@ source-updates:
 		install -p $$tf $$file && \
 		rm -f $$tf ; \
 	done
-	rm -rf autom4te.cache config-stamp
+	rm -rf autom4te.cache configure-stamp
 
-config-stamp: configure
+configure: configure-stamp
+configure-stamp:
 	dh_testdir
 	# Add here commands to configure the package.
 
@@ -96,10 +97,10 @@ config-stamp: configure
 	rm -f goffice/goffice-paths.h
 	cd build && env "CFLAGS=$(CFLAGS)" "LDFLAGS=$(LDFLAGS)" ../configure $(confflags)
 
-	touch config-stamp
+	touch configure-stamp
 
 build: build-stamp
-build-stamp:  config-stamp
+build-stamp:  configure-stamp
 	dh_testdir
 
 	$(MAKE) -C build
@@ -109,7 +110,7 @@ build-stamp:  config-stamp
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f config-stamp build-stamp
+	rm -f configure-stamp build-stamp
 
 	-$(MAKE) -C build distclean
 	rm -rf build
@@ -148,46 +149,21 @@ install: build
 	rm -f $(CURDIR)/debian/tmp/usr/lib/libgoffice-*.la
 
 
-# Build architecture-independent files here.
-binary-indep: build install
-	dh_testdir -i
-	dh_testroot -i
-	dh_installchangelogs ChangeLog -i
+# This single target is used to build all the packages, all at once, or
+# one at a time. So keep in mind: any options passed to commands here will
+# affect _all_ packages. Anything that should only affect one package
+# should be put in another target (such as the install target) or be put
+# into conditional constructs.
+binary-common:
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs ChangeLog
+ifeq ($(DH_OPTIONS),-s)
+	rm -rvf $(CURDIR)/debian/libgoffice-0-$(so_version_major)-dbg/usr/share/doc/libgoffice-0-$(so_version_major)-dbg
+	dh_install --sourcedir=debian/tmp -X/usr/lib/debug
+	dh_install -plibgoffice-0-$(so_version_major)-dbg --sourcedir=debian/tmp
+endif
 
-	dh_install -i --sourcedir=debian/tmp -X/usr/lib/debug
-
-	dh_installdocs -i
-	dh_installexamples -i
-#	dh_install -i
-#	dh_installmenu -i
-#	dh_installdebconf -i
-#	dh_installlogrotate -i
-#	dh_installemacsen -i
-#	dh_installpam -i
-	dh_installmime -i
-#	dh_installinit -i
-#	dh_installcron -i
-	dh_installinfo -i
-	dh_installman -i
-	dh_gconf -i
-	dh_scrollkeeper -i
-	dh_desktop -i
-	dh_link -i
-	dh_buildinfo -i
-	dh_compress -i
-	dh_fixperms -i
-#	dh_perl -i
-#	dh_python -i
-#	dh_makeshlibs -
-	dh_installdeb -i
-	dh_gencontrol -i -v -- -VUpstream-Version=$(upstreamversion)
-	dh_md5sums -i
-	dh_builddeb -i
-
-# Build architecture-dependent files here.
-binary-arch: build install
-	dh_testdir -s
-	dh_testroot -s
 #	dh_installdebconf -s
 	dh_installdocs -s
 	dh_installexamples -s
@@ -200,32 +176,59 @@ binary-arch: build install
 #	dh_installcron -s
 	dh_installman -s
 	dh_installinfo -s
-	dh_installchangelogs ChangeLog -s
-
+	dh_installdocs
+	dh_installexamples
+#	dh_install
+#	dh_installmenu
+#	dh_installdebconf
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+	dh_installmime
+#	dh_installinit
+#	dh_installcron
+	dh_installinfo
+	dh_installman
+	dh_gconf
+	dh_scrollkeeper
+	dh_desktop
+ifeq ($(DH_OPTIONS),-s)
 	rm -rvf $(CURDIR)/debian/libgoffice-0-$(so_version_major)-dbg/usr/share/doc/libgoffice-0-$(so_version_major)-dbg
+endif
+	dh_link
+	dh_buildinfo
+	dh_compress
+#	dh_perl
+#	dh_python
+ifeq ($(DH_OPTIONS),-s)
+	dh_strip -v -Nlibgoffice-0-$(so_major_version)-dbg
 
-	dh_install -s --sourcedir=debian/tmp -X/usr/lib/debug
-	dh_install -s -plibgoffice-0-$(so_version_major)-dbg --sourcedir=debian/tmp
-	dh_gconf -s
-	dh_scrollkeeper -s
-	dh_desktop -s
+        # Unfortunately, "-s" overrides "-p" for dh_makeshlibs and by acting
+        # on all architecture-dependent packages we would get wrong shlibs
+        # here, so we need to undo the "-s".
+	env -u DH_OPTIONS dh_makeshlibs -s -plibgoffice-0-$(so_version_major) -V 'libgoffice-0-$(so_version_major) (>= $(upstreamversion))'
 
-	dh_link -s
-	dh_strip -s -v -Nlibgoffice-0-$(so_major_version)-dbg
-
-	dh_buildinfo -s
-
-	dh_compress -s
-	dh_fixperms -s
-	#dh_makeshlibs -s -plibgoffice-0 -V 'libgoffice-0 (>= $(upstreamversion)), libgoffice-1 (<< $(nextupstreamversion))'
-	dh_makeshlibs -s -plibgoffice-0-$(so_version_major) -V 'libgoffice-0-$(so_version_major) (>= $(upstreamversion))'
-	dh_installdeb -s
-#	dh_perl -s
-#	dh_python -s
 	dh_shlibdeps -s -l debian/libgoffice-0-$(so_version_major)/usr/lib/ -L libgoffice-0-$(so_version_major)
-	dh_gencontrol -s -v -- -VUpstream-Version=$(upstreamversion)
-	dh_md5sums -s
-	dh_builddeb -s
+endif
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol -v -- -VUpstream-Version=$(upstreamversion)
+	dh_md5sums
+	dh_builddeb
+
+# Build architecture independant packages using the common target.
+binary-indep: build install
+	$(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
+
+# Build architecture dependant packages using the common target.
+binary-arch: build install
+	$(MAKE) -f debian/rules DH_OPTIONS=-s binary-common
+
+## Any other binary targets build just one binary package at a time.
+#binary-%: build install
+#	make -f debian/rules binary-common DH_OPTIONS=-p$*
+#
 
 binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install 
+
+.PHONY: source-updates configure build clean install binary-indep binary-arch binary
