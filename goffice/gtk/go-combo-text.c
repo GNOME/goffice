@@ -303,6 +303,8 @@ GSF_CLASS (GoComboText, go_combo_text,
 GtkWidget *
 go_combo_text_get_entry (GoComboText *ct)
 {
+	g_return_val_if_fail (IS_GO_COMBO_TEXT (ct), NULL);
+
 	return ct->entry;
 }
 
@@ -319,11 +321,17 @@ go_combo_text_set_text (GoComboText *ct, const gchar *text,
 			GoComboTextSearch start)
 {
 	gboolean found = FALSE, result;
-	GtkTreeView   *list = GTK_TREE_VIEW (ct->list);
+	GtkTreeView *list;
 	GtkTreeIter iter;
 	GtkTreeModel *store;
-	GtkTreeSelection *selection = gtk_tree_view_get_selection (list);
+	GtkTreeSelection *selection;
 	char *label;
+
+	g_return_val_if_fail (IS_GO_COMBO_TEXT (ct), FALSE);
+	g_return_val_if_fail (text != NULL, FALSE);
+
+	list = GTK_TREE_VIEW (ct->list);
+	selection = gtk_tree_view_get_selection (list);
 
 	/* Be careful */
 	result = start != GO_COMBO_TEXT_FROM_TOP &&
@@ -385,6 +393,8 @@ go_combo_text_add_item (GoComboText *ct, char const *label)
 {
 	GtkListStore *store;
 	GtkTreeIter iter;
+
+	g_return_if_fail (IS_GO_COMBO_TEXT (ct));
 	g_return_if_fail (label != NULL);
 
 	store = GTK_LIST_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (ct->list)));
