@@ -1,3 +1,11 @@
+goffice (0.3.7-2) experimental; urgency=high
+
+  * [debian/rules] Corrected mistake in reorganisation which caused the
+    -common package to lack a number of vital files, causing a gnumeric crash
+    reported as http://bugzilla.gnome.org/show_bug.cgi?id=416047 .
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  8 Mar 2007 21:36:46 +0100
+
 goffice (0.3.7-1) experimental; urgency=low
 
   * New upstream development release.

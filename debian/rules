@@ -160,7 +160,9 @@ binary-common:
 	dh_installchangelogs ChangeLog
 ifeq ($(DH_OPTIONS),-s)
 	rm -rvf $(CURDIR)/debian/libgoffice-0-$(so_version_major)-dbg/usr/share/doc/libgoffice-0-$(so_version_major)-dbg
+endif
 	dh_install --sourcedir=debian/tmp -X/usr/lib/debug
+ifeq ($(DH_OPTIONS),-s)
 	dh_install -plibgoffice-0-$(so_version_major)-dbg --sourcedir=debian/tmp
 endif
 
