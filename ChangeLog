@@ -1,5 +1,8 @@
 2007-03-08  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/formats.c (go_format_currencies): Translate
+	"None".
+
 	* goffice/gtk/go-combo-text.c (go_combo_text_set_text,
 	go_combo_text_get_entry, go_combo_text_add_item): Add
 	preconditions.

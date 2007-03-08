@@ -299,10 +299,10 @@ go_currency_date_format_shutdown (void)
 
 GOFormatCurrency const go_format_currencies[] =
 {
- 	{ "", "None", TRUE, FALSE },	/* These first six elements */
- 	{ "$", "$", TRUE, FALSE },	/* Must stay in this order */
- 	{ "£", "£", TRUE, FALSE },	/* GBP */
- 	{ "¥", "¥", TRUE, FALSE },	/* JPY */
+ 	{ "", N_("None"), TRUE, FALSE },	/* These first six elements */
+ 	{ "$", "$", TRUE, FALSE },		/* Must stay in this order */
+ 	{ "£", "£", TRUE, FALSE },		/* GBP */
+ 	{ "¥", "¥", TRUE, FALSE },		/* JPY */
 
  	/* Add yours to this list ! */
  	{ "[$€-1]", "€ Euro (100 €)", FALSE, TRUE},
