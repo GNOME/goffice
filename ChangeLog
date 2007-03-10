@@ -1,3 +1,8 @@
+2007-03-10  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-font.c (go_font_metrics_new): Don't pick a
+	space that is too tall, see bug 416526.
+
 2007-03-08  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/formats.c (go_format_currencies): Translate

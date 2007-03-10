@@ -221,6 +221,7 @@ go_font_metrics_new (PangoContext *context, GOFont const *font)
 	PangoLayout *layout = pango_layout_new (context);
 	GOFontMetrics *res = g_new0 (GOFontMetrics, 1);
 	int i, sumw = 0;
+	int space_height;
 
 	pango_layout_set_font_description (layout, font->desc);
 	res->min_digit_width = INT_MAX;
@@ -256,21 +257,21 @@ go_font_metrics_new (PangoContext *context, GOFont const *font)
 	pango_layout_get_size (layout, &res->hash_width, NULL);
 
 	pango_layout_set_text (layout, " ", -1);
-	pango_layout_get_size (layout, &res->space_width, NULL);
+	pango_layout_get_size (layout, &res->space_width, &space_height);
 
 	res->thin_space = 0;
 	res->thin_space_width = 0;
 	for (i = 0; i < (int)G_N_ELEMENTS (thin_spaces); i++) {
 		gunichar uc = thin_spaces[i];
 		char ucs[8];
-		int w;
+		int w, h;
 
 		ucs[g_unichar_to_utf8 (uc, ucs)] = 0;
 
 		pango_layout_set_text (layout, ucs, -1);
-		pango_layout_get_size (layout, &w, NULL);
+		pango_layout_get_size (layout, &w, &h);
 
-		if (w > 0 && w < res->space_width &&
+		if (w > 0 && w < res->space_width && h <= space_height &&
 		    (!res->thin_space || w < res->thin_space_width)) {
 			res->thin_space = uc;
 			res->thin_space_width = w;
