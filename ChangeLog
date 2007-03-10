@@ -1,3 +1,8 @@
+2007-03-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/Makefile.am: removed $(BUILT_SOURCES) from
+	libgoffice_0_la_SOURCES. [#354874]
+
 2007-03-10  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-font.c (go_font_metrics_new): Don't pick a

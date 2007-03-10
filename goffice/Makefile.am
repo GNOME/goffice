@@ -32,7 +32,6 @@ BUILT_SOURCES =	goffice-paths.h
 CLEANFILES = $(BUILT_SOURCES)
 
 libgoffice_0_la_SOURCES = 	\
-	$(BUILT_SOURCES)	\
 	goffice.c		\
 	goffice-priv.h
 
