@@ -23,6 +23,7 @@ Morten:
           available.  [#163438]
 	* Remove embedded PCRE.
 	* Improve axis labeling.  [#413660]
+	* Simplify formats that yield "n\pi/1".  [#417981]
 
 --------------------------------------------------------------------------
 goffice 0.3.6:

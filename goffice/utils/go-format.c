@@ -2032,7 +2032,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 	int exponent = 0;
 	struct {
 		DOUBLE w, n, d;
-		gsize nominator_start;
+		gsize nominator_start, denominator_start;
 	} fraction;
 #ifdef ALLOW_EE_MARKUP
 	int mantissa_start = -1;
@@ -2675,6 +2675,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			break;
 
 		case OP_NUM_FRACTION_DENOMINATOR:
+			fraction.denominator_start = dst->len;
 			val = fraction.d;
 			break;
 
@@ -2689,6 +2690,12 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 #ifdef ALLOW_PI_SLASH
 		case OP_NUM_FRACTION_SIMPLIFY_PI:
+			if (fraction.n != 0 && fraction.d == 1) {
+				/* Remove "/1".  */
+				g_string_truncate (dst,
+						   fraction.denominator_start - 1);
+			}
+
 			if (fraction.n == 0) {
 				/* Replace the whole thing by "0".  */
 				g_string_truncate (dst,

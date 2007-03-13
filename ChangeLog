@@ -1,3 +1,8 @@
+2007-03-13  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_execute)
+	[OP_NUM_FRACTION_SIMPLIFY_PI]: Simplify "n\pi/1" too.  #417981.
+
 2007-03-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/Makefile.am: removed $(BUILT_SOURCES) from
