@@ -65,6 +65,7 @@ int
 go_regcomp (GORegexp *gor, const char *pat , int cflags)
 {
   const char *errorptr;
+  char *norm_pat;
   int errorofs, errorcode;
   pcre *r;
   int coptions =
@@ -73,9 +74,12 @@ go_regcomp (GORegexp *gor, const char *pat , int cflags)
     ((cflags & REG_ICASE) ? PCRE_CASELESS : 0) |
     ((cflags & REG_NEWLINE) ? PCRE_MULTILINE : 0);
 
-  gor->ppcre = r = pcre_compile2 (pat, coptions,
+  norm_pat = g_utf8_normalize (pat, -1, G_NORMALIZE_DEFAULT);
+  gor->ppcre = r = pcre_compile2 (norm_pat, coptions,
 				  &errorcode, &errorptr, &errorofs,
 				  NULL);
+  g_free (norm_pat);
+
   if (r == NULL) {
     switch (errorcode) {
     case 1: case 2: case 3: case 37: return REG_EESCAPE;

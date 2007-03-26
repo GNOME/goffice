@@ -216,7 +216,13 @@ go_font_metrics_new (PangoContext *context, GOFont const *font)
 		0x200a, /* Hair space */
 		0x2009, /* Thin space */
 		0x2008, /* Puctuation space */
-		0x2006  /* Six-per-em space */
+		0x2006, /* Six-per-em space */
+		0x2007, /* Figure space */
+		0x2005, /* Four-per-em space */
+		0x2004, /* Three-per-em space */
+		0x2003, /* Em space */
+		0x2002, /* En space */
+		0x202f  /* Narrow no-break space */
 	};
 	PangoLayout *layout = pango_layout_new (context);
 	GOFontMetrics *res = g_new0 (GOFontMetrics, 1);

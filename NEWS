@@ -2,6 +2,7 @@ goffice 0.3.8:
 
 Morten:
 	* Add preconditions to text combo widget's API functions.
+	* Unicode-normalize regexps patterns.
 
 --------------------------------------------------------------------------
 goffice 0.3.7:
