@@ -146,6 +146,7 @@ struct  _GOFormatSel {
 		int		num_decimals;
 		int		negative_format;
 		int		currency_index;
+		gboolean        force_quoted;
 		gboolean	use_separator;
 		gboolean	use_markup;
 		int		exponent_step;
@@ -176,15 +177,19 @@ generate_number (GString *dst,
 		 int num_decimals,
 		 gboolean thousands_sep,
 		 int symbol,
+		 gboolean force_quoted,
 		 int negative_fmt)
 {
 	gboolean precedes = go_format_currencies[symbol].precedes;
 	gboolean has_space = go_format_currencies[symbol].has_space;
 	const char *symstr = go_format_currencies[symbol].symbol;
+	gboolean extra_quotes = (force_quoted && symstr[0] != '"');
 
 	/* Currency */
 	if (symbol != 0 && precedes) {
+		if (extra_quotes) g_string_append_c (dst, '"');
 		g_string_append (dst, symstr);
+		if (extra_quotes) g_string_append_c (dst, '"');
 		if (has_space) g_string_append_c (dst, ' ');
 	}
 
@@ -202,7 +207,9 @@ generate_number (GString *dst,
 	if (symbol != 0 && !precedes) {
 		if (has_space)
 			g_string_append_c (dst, ' ');
+		if (extra_quotes) g_string_append_c (dst, '"');
 		g_string_append (dst, symstr);
+		if (extra_quotes) g_string_append_c (dst, '"');
 	}
 
 	/* There are negatives */
@@ -241,7 +248,7 @@ generate_accounting (GString *dst,
 	const char *symstr = go_format_currencies[symbol].symbol;
 	const char *quote = symstr[0] != '[' ? "\"" : "";
 
-	generate_number (num, num_decimals, TRUE, 0, 0);
+	generate_number (num, num_decimals, TRUE, 0, FALSE, 0);
 	go_string_append_c_n (q, '?', num_decimals);
 
 	if (precedes) {
@@ -317,6 +324,7 @@ generate_format (GOFormatSel *gfs, GOFormatFamily page)
 				 gfs->format.num_decimals,
 				 gfs->format.use_separator,
 				 0,
+				 FALSE,
 				 gfs->format.negative_format);
 		break;
 	case GO_FORMAT_CURRENCY:
@@ -324,6 +332,7 @@ generate_format (GOFormatSel *gfs, GOFormatFamily page)
 				 gfs->format.num_decimals,
 				 gfs->format.use_separator,
 				 gfs->format.currency_index,
+				 gfs->format.force_quoted,
 				 gfs->format.negative_format);
 		break;
 	case GO_FORMAT_ACCOUNTING:
@@ -332,7 +341,7 @@ generate_format (GOFormatSel *gfs, GOFormatFamily page)
 				     gfs->format.currency_index);
 		break;
 	case GO_FORMAT_PERCENTAGE:
-		generate_number (fmt, gfs->format.num_decimals, FALSE, 0, 0);
+		generate_number (fmt, gfs->format.num_decimals, FALSE, 0, FALSE, 0);
 		g_string_append_c (fmt, '%');
 		break;
 	case GO_FORMAT_SCIENTIFIC:
@@ -425,6 +434,7 @@ fillin_negative_samples (GOFormatSel *gfs)
 				 gfs->format.num_decimals,
 				 gfs->format.use_separator,
 				 page == GO_FORMAT_NUMBER ? 0 : gfs->format.currency_index,
+				 gfs->format.force_quoted,
 				 i);
 		fmt = go_format_new_from_XL (fmtstr->str);
 		g_string_free (fmtstr, TRUE);
@@ -1017,6 +1027,7 @@ study_format (GOFormatSel *gfs)
 	gfs->format.num_decimals = 0;	
 	gfs->format.negative_format = 0;
 	gfs->format.currency_index = 0;
+	gfs->format.force_quoted = FALSE;
 	gfs->format.use_separator = FALSE;
 	gfs->format.use_markup = FALSE;
 	gfs->format.exponent_step = 1;
@@ -1064,6 +1075,7 @@ study_format (GOFormatSel *gfs)
 
 			gfs->format.currency_index =
 				find_symbol (start, len, precedes);
+			gfs->format.force_quoted = (start[0] == '"');
 			typ = GO_FORMAT_ACCOUNTING;
 		} else {
 			gboolean precedes = str[0] != '0' && str[0] != '#';
@@ -1085,6 +1097,7 @@ study_format (GOFormatSel *gfs)
 			symbol = find_symbol (start, len, precedes);
 			if (symbol != 0) {
 				gfs->format.currency_index = symbol;
+				gfs->format.force_quoted = (start[0] == '"');
 				typ = GO_FORMAT_CURRENCY;
 			}
 		}

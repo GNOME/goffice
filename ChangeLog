@@ -1,3 +1,8 @@
+2007-03-28  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-format-sel.c (generate_number, generate_format,
+	study_format): Handle quoted dollars too.  Fixes part of #423603.
+
 2007-03-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-regression.c: add namespace to names missing it.
