@@ -41,7 +41,7 @@ typedef struct {
 				    const double *ys, int n,
 				    gboolean affine,
 				    double *res,
-				    regression_stat_t *stat);
+				    go_regression_stat_t *stat);
 	int (*build_values) (GogLinRegCurve *rc, double const *x_vals,
 					double const *y_vals, int n);
 } GogLinRegCurveClass;

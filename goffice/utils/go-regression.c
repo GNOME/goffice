@@ -422,14 +422,14 @@ static RegressionResult
 SUFFIX(general_linear_regression) (DOUBLE **xss, int xdim,
 			   const DOUBLE *ys, int n,
 			   DOUBLE *result,
-			   SUFFIX(regression_stat_t) *regression_stat, gboolean affine)
+			   SUFFIX(go_regression_stat_t) *regression_stat, gboolean affine)
 {
 	DOUBLE *xTy, **xTx;
 	int i,j;
 	RegressionResult regerr;
 
 	if (regression_stat)
-		memset (regression_stat, 0, sizeof (SUFFIX(regression_stat_t)));
+		memset (regression_stat, 0, sizeof (SUFFIX(go_regression_stat_t)));
 
 	if (xdim > n)
 		return REG_not_enough_data;
@@ -816,7 +816,7 @@ SUFFIX(go_linear_regression) (DOUBLE **xss, int dim,
 			      const DOUBLE *ys, int n,
 			      gboolean affine,
 			      DOUBLE *res,
-			      SUFFIX(regression_stat_t) *regression_stat)
+			      SUFFIX(go_regression_stat_t) *regression_stat)
 {
 	RegressionResult result;
 
@@ -861,7 +861,7 @@ SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
 			const DOUBLE *ys, int n,
 			gboolean affine,
 			DOUBLE *res,
-			SUFFIX(regression_stat_t) *regression_stat)
+			SUFFIX(go_regression_stat_t) *regression_stat)
 {
 	DOUBLE *log_ys;
 	RegressionResult result;
@@ -924,7 +924,7 @@ SUFFIX(go_power_regression) (DOUBLE **xss, int dim,
 			const DOUBLE *ys, int n,
 			gboolean affine,
 			DOUBLE *res,
-			SUFFIX(regression_stat_t) *regression_stat)
+			SUFFIX(go_regression_stat_t) *regression_stat)
 {
 	DOUBLE *log_ys, **log_xss = NULL;
 	RegressionResult result;
@@ -1000,7 +1000,7 @@ SUFFIX(go_logarithmic_regression) (DOUBLE **xss, int dim,
 			const DOUBLE *ys, int n,
 			gboolean affine,
 			DOUBLE *res,
-			SUFFIX(regression_stat_t) *regression_stat)
+			SUFFIX(go_regression_stat_t) *regression_stat)
 {
         DOUBLE **log_xss;
 	RegressionResult result;
@@ -1120,10 +1120,10 @@ SUFFIX(go_logarithmic_fit) (DOUBLE *xs, const DOUBLE *ys, int n, DOUBLE *res)
 
 /* ------------------------------------------------------------------------- */
 
-SUFFIX(regression_stat_t) *
+SUFFIX(go_regression_stat_t) *
 SUFFIX(go_regression_stat_new) (void)
 {
-	SUFFIX(regression_stat_t) * regression_stat = g_new0 (SUFFIX(regression_stat_t), 1);
+	SUFFIX(go_regression_stat_t) * regression_stat = g_new0 (SUFFIX(go_regression_stat_t), 1);
 
 	regression_stat->se = NULL;
 	regression_stat->t = NULL;
@@ -1135,7 +1135,7 @@ SUFFIX(go_regression_stat_new) (void)
 /* ------------------------------------------------------------------------- */
 
 void
-SUFFIX(go_regression_stat_destroy) (SUFFIX(regression_stat_t) *regression_stat)
+SUFFIX(go_regression_stat_destroy) (SUFFIX(go_regression_stat_t) *regression_stat)
 {
 	g_return_if_fail (regression_stat != NULL);
 
@@ -1166,7 +1166,7 @@ SUFFIX(go_regression_stat_destroy) (SUFFIX(regression_stat_t) *regression_stat)
  * See the header file for more information.
  */
 static RegressionResult
-SUFFIX(derivative) (SUFFIX(RegressionFunction) f,
+SUFFIX(derivative) (SUFFIX(GORegressionFunction) f,
 	    DOUBLE *df,
 	    DOUBLE *x, /* Only one point, not the whole data set. */
 	    DOUBLE *par,
@@ -1220,7 +1220,7 @@ SUFFIX(derivative) (SUFFIX(RegressionFunction) f,
  * still useful for the fit.
  */
 static RegressionResult
-SUFFIX(chi_squared) (SUFFIX(RegressionFunction) f,
+SUFFIX(chi_squared) (SUFFIX(GORegressionFunction) f,
 	     DOUBLE ** xvals, /* The entire data set. */
 	     DOUBLE *par,
 	     DOUBLE *yvals,   /* Ditto. */
@@ -1256,7 +1256,7 @@ SUFFIX(chi_squared) (SUFFIX(RegressionFunction) f,
  * the Chi Squared.
  */
 static RegressionResult
-SUFFIX(chi_derivative) (SUFFIX(RegressionFunction) f,
+SUFFIX(chi_derivative) (SUFFIX(GORegressionFunction) f,
 		DOUBLE *dchi,
 		DOUBLE **xvals, /* The entire data set. */
 		DOUBLE *par,
@@ -1324,7 +1324,7 @@ SUFFIX(chi_derivative) (SUFFIX(RegressionFunction) f,
 
 static RegressionResult
 SUFFIX(coefficient_matrix) (DOUBLE **A, /* Output matrix. */
-		    SUFFIX(RegressionFunction) f,
+		    SUFFIX(GORegressionFunction) f,
 		    DOUBLE **xvals, /* The entire data set. */
 		    DOUBLE *par,
 		    DOUBLE *yvals,  /* Ditto. */
@@ -1386,7 +1386,7 @@ SUFFIX(coefficient_matrix) (DOUBLE **A, /* Output matrix. */
 
 /* FIXME:  I am not happy with the behaviour with infinite errors.  */
 static RegressionResult
-SUFFIX(parameter_errors) (SUFFIX(RegressionFunction) f,
+SUFFIX(parameter_errors) (SUFFIX(GORegressionFunction) f,
 		  DOUBLE **xvals, /* The entire data set. */
 		  DOUBLE *par,
 		  DOUBLE *yvals,  /* Ditto. */
@@ -1441,7 +1441,7 @@ SUFFIX(parameter_errors) (SUFFIX(RegressionFunction) f,
  *            meaningful without the sigmas.
  */
 RegressionResult
-SUFFIX(go_non_linear_regression) (SUFFIX(RegressionFunction) f,
+SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 		       DOUBLE **xvals, /* The entire data set. */
 		       DOUBLE *par,
 		       DOUBLE *yvals,  /* Ditto. */

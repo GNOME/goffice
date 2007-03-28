@@ -31,31 +31,31 @@ typedef struct {
 	double ybar;
 	double *xbar;
 	double var; 		/* The variance of the entire regression: sum(errors^2)/(n-xdim) */
-} regression_stat_t;
+} go_regression_stat_t;
 
-regression_stat_t 	*go_regression_stat_new 	(void);
-void 			 go_regression_stat_destroy 	(regression_stat_t *regression_stat);
+go_regression_stat_t 	*go_regression_stat_new 	(void);
+void 			 go_regression_stat_destroy 	(go_regression_stat_t *regression_stat);
 
 RegressionResult 	 go_linear_regression 		(double **xss, int dim,
 							 const double *ys, int n,
 							 gboolean affine,
 							 double *res,
-							 regression_stat_t *stat);
+							 go_regression_stat_t *stat);
 RegressionResult 	 go_exponential_regression 	(double **xss, int dim,
 							 const double *ys, int n,
 							 gboolean affine,
 							 double *res,
-							 regression_stat_t *stat);
+							 go_regression_stat_t *stat);
 RegressionResult 	 go_power_regression 	(double **xss, int dim,
 							 const double *ys, int n,
 							 gboolean affine,
 							 double *res,
-							 regression_stat_t *stat);
+							 go_regression_stat_t *stat);
 RegressionResult 	 go_logarithmic_regression 	(double **xss, int dim,
 							 const double *ys, int n,
 							 gboolean affine,
 							 double *res,
-							 regression_stat_t *stat);
+							 go_regression_stat_t *stat);
 
 /* Final accuracy of c is: width of x-range rounded to the next smaller
  * (10^integer), the result times LOGFIT_C_ACCURACY.
@@ -77,9 +77,9 @@ RegressionResult go_logarithmic_fit (double *xs,
 				  const double *ys, int n,
 				  double *res);
 
-typedef RegressionResult (*RegressionFunction) (double * x, double * params, double *f);
+typedef RegressionResult (*GORegressionFunction) (double * x, double * params, double *f);
 
-RegressionResult go_non_linear_regression (RegressionFunction f,
+RegressionResult go_non_linear_regression (GORegressionFunction f,
 					   double **xvals,
 					   double *par,
 					   double *yvals,
@@ -112,38 +112,38 @@ typedef struct {
 	long double *xbar;
 	long double var; /* The variance of the entire regression:
 			sum(errors^2)/(n-xdim) */
-} regression_stat_tl;
+} go_regression_stat_tl;
 
-regression_stat_tl *go_regression_stat_newl	(void);
-void 		    go_regression_stat_destroyl	(regression_stat_tl *regression_stat);
+go_regression_stat_tl *go_regression_stat_newl	(void);
+void 		    go_regression_stat_destroyl	(go_regression_stat_tl *regression_stat);
 
 RegressionResult    go_linear_regressionl   	(long double **xss, int dim,
 						 const long double *ys, int n,
 						 gboolean affine,
 						 long double *res,
-						 regression_stat_tl *stat);
+						 go_regression_stat_tl *stat);
 RegressionResult    go_exponential_regressionl 	(long double **xss, int dim,
 						 const long double *ys, int n,
 						 gboolean affine,
 						 long double *res,
-						 regression_stat_tl *stat);
+						 go_regression_stat_tl *stat);
 RegressionResult    go_power_regressionl 	(long double **xss, int dim,
 						 const long double *ys, int n,
 						 gboolean affine,
 						 long double *res,
-						 regression_stat_tl *stat);
+						 go_regression_stat_tl *stat);
 RegressionResult    go_logarithmic_regressionl	(long double **xss, int dim,
 						 const long double *ys, int n,
 						 gboolean affine,
 						 long double *res,
-						 regression_stat_tl *stat);
+						 go_regression_stat_tl *stat);
 RegressionResult    go_logarithmic_fitl 	(long double *xs,
 						 const long double *ys, int n,
 						 long double *res);
 
-typedef RegressionResult (*RegressionFunctionl) (long double * x, long double * params, long double *f);
+typedef RegressionResult (*GORegressionFunctionl) (long double * x, long double * params, long double *f);
 
-RegressionResult    go_non_linear_regressionl 	(RegressionFunctionl f,
+RegressionResult    go_non_linear_regressionl 	(GORegressionFunctionl f,
 						 long double **xvals,
 						 long double *par,
 						 long double *yvals,

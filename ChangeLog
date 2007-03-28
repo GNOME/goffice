@@ -1,3 +1,10 @@
+2007-03-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-regression.c: add namespace to names missing it.
+	* goffice/utils/go-regression.h: ditto.
+	* plugins/reg_linear/gog-lin-reg.c: use new names in go-regression.h
+	* plugins/reg_linear/gog-lin-reg.h: ditto.
+
 2007-03-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-font.c (go_font_metrics_new): Try even more

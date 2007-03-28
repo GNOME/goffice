@@ -58,7 +58,7 @@ gog_lin_reg_curve_update (GogObject *obj)
 	nb = gog_series_get_xy_data (series, &x_vals, &y_vals);
 	used = (GOG_LIN_REG_CURVE_GET_CLASS(rc))->build_values (rc, x_vals, y_vals, nb);
 	if (used > 1) {
-		regression_stat_t *stats = go_regression_stat_new ();
+		go_regression_stat_t *stats = go_regression_stat_new ();
 		RegressionResult res =
 			(GOG_LIN_REG_CURVE_GET_CLASS(rc))->lin_reg_func (rc->x_vals, rc->dims,
 						rc->y_vals, used, rc->affine, rc->base.a, stats);
