@@ -460,7 +460,7 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 		pango_layout_get_size (prend->layout, &iw, &ih);
 		obr.w = iw / (double)PANGO_SCALE;
 		obr.h = ih / (double)PANGO_SCALE;
-		obr.alpha = rend->cur_style->text_layout.angle * M_PI / 180.0;
+		obr.alpha = -rend->cur_style->text_layout.angle * M_PI / 180.0;
 		obr.x = pos->x;
 		obr.y = pos->y;
 		go_geometry_OBR_to_AABR (&obr, &aabr);
@@ -495,8 +495,8 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 			UINT_RGBA_G (fore_color) / 255.,
 			UINT_RGBA_B (fore_color) / 255.);
 		gnome_print_moveto (prend->gp_context, 
-				    obr.x - (obr.w / 2.0) * cos (obr.alpha) - (obr.h / 2.0) * sin (obr.alpha),
-				    -obr.y - (obr.w / 2.0) * sin (obr.alpha) + (obr.h / 2.0) * cos (obr.alpha));
+				    obr.x - (obr.w / 2.0) * cos (obr.alpha) + (obr.h / 2.0) * sin (obr.alpha),
+				    -obr.y + (obr.w / 2.0) * sin (obr.alpha) + (obr.h / 2.0) * cos (obr.alpha));
 		gnome_print_rotate (prend->gp_context, rend->cur_style->text_layout.angle);
 		gnome_print_pango_layout (prend->gp_context, prend->layout);
 		gnome_print_grestore (prend->gp_context);

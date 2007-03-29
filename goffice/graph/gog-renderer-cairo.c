@@ -587,7 +587,7 @@ gog_renderer_cairo_draw_text (GogRenderer *rend, char const *text,
 
 	obr.w = rend->scale * (iw / (double)PANGO_SCALE);
 	obr.h = rend->scale * (ih / (double)PANGO_SCALE);
-	obr.alpha = style->text_layout.angle * M_PI / 180.0;
+	obr.alpha = -style->text_layout.angle * M_PI / 180.0;
 	obr.x = pos->x;
 	obr.y = pos->y;
 	go_geometry_OBR_to_AABR (&obr, &aabr);
@@ -614,9 +614,9 @@ gog_renderer_cairo_draw_text (GogRenderer *rend, char const *text,
 
 	cairo_save (cairo);
 	cairo_set_source_rgba (cairo, GO_COLOR_TO_CAIRO (style->font.color)); 
-	cairo_move_to (cairo, obr.x - (obr.w / 2.0) * cos (obr.alpha) - (obr.h / 2.0) * sin (obr.alpha),
-		       obr.y + (obr.w / 2.0) * sin (obr.alpha) - (obr.h / 2.0) * cos (obr.alpha));
-	cairo_rotate (cairo, -obr.alpha);
+	cairo_move_to (cairo, obr.x - (obr.w / 2.0) * cos (obr.alpha) + (obr.h / 2.0) * sin (obr.alpha),
+		       obr.y - (obr.w / 2.0) * sin (obr.alpha) - (obr.h / 2.0) * cos (obr.alpha));
+	cairo_rotate (cairo, obr.alpha);
 	cairo_scale (cairo, rend->scale, rend->scale);
 	pango_cairo_show_layout (cairo, layout);
 	cairo_restore (cairo);

@@ -649,7 +649,7 @@ gog_renderer_get_text_OBR (GogRenderer *rend, char const *text,
 	else if (obr->h == 0)
 		obr->w = 0;
 	
-	obr->alpha = rend->cur_style->text_layout.angle * M_PI / 180.0;
+	obr->alpha = -rend->cur_style->text_layout.angle * M_PI / 180.0;
 }
 
 /**

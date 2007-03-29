@@ -1,3 +1,26 @@
+2007-03-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix alignement of rotated labels. #343507
+
+	* goffice/graph/gog-axis-line.c (axis_line_get_bbox): compute the
+	correct anchor.
+	(axis_line_render): ditto.
+	* goffice/graph/gog-grid.c (gog_grid_view_render):
+	GOG_AXIS_SET_XY_BUBBLE has a background.
+	* goffice/graph/gog-renderer-cairo.c (gog_renderer_cairo_draw_text):
+	label rotation angle in the same direction as the canvas.
+	* goffice/graph/gog-renderer-gnome-print.c
+	(gog_renderer_gnome_print_draw_text): ditto.
+	* goffice/graph/gog-renderer-svg.c (gog_renderer_svg_draw_text):
+	ditto.
+	* goffice/graph/gog-renderer.c (gog_renderer_get_text_OBR): ditto.
+	* goffice/utils/go-geometry.c (go_geometry_test_OBR_overlap):
+	simplify.
+	(go_geometry_calc_label_anchor): new.
+	(go_geometry_calc_label_position): add an acnhor parameter.
+
+	* goffice/utils/datetime.c: fix compilation warning.
+			    
 2007-03-28  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (generate_number, generate_format,

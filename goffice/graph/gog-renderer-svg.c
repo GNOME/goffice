@@ -659,7 +659,7 @@ gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
 	g_object_unref (layout);
 	obr.w = gog_renderer_pt2r (rend, rect.width / PANGO_SCALE);
 	obr.h = gog_renderer_pt2r (rend, rect.height / PANGO_SCALE);
-	obr.alpha = rend->cur_style->text_layout.angle * M_PI / 180.0;
+	obr.alpha = -rend->cur_style->text_layout.angle * M_PI / 180.0;
 	obr.x = pos->x;
 	obr.y = pos->y;
 	go_geometry_OBR_to_AABR (&obr, &aabr);

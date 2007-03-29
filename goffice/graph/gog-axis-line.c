@@ -949,12 +949,15 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	GogStyle *style = axis_base->base.style;
 	GOGeometryAABR txt_aabr;
 	GOGeometryOBR txt_obr;
+	GOGeometryOBR *obrs = NULL;
+	GOGeometrySide label_anchor = GO_SIDE_AUTO;
 	double line_width;
 	double axis_length, axis_angle, label_padding;
 	double cos_alpha, sin_alpha;
 	double pos;
 	double minor_tick_len, major_tick_len, tick_len;
 	double padding = gog_axis_base_get_padding (axis_base);
+	double label_size_max = 0;
 	unsigned i, tick_nbr;
 	gboolean is_line_visible;
 
@@ -1006,23 +1009,39 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 
 	tick_nbr = gog_axis_get_ticks (axis_base->axis, &ticks);
 
-	if (!draw_labels)
+	if (!draw_labels || tick_nbr < 1)
 		return total_bbox;
 
 	map = gog_axis_map_new (axis_base->axis, 0., axis_length);
 
+	obrs = g_new0 (GOGeometryOBR, tick_nbr);
 	for (i = 0; i < tick_nbr; i++) {
 		if (ticks[i].label != NULL) {
+			GOGeometryOBR *obr = obrs + i;
+			gog_renderer_get_text_OBR (renderer, ticks[i].label, TRUE, obr);
+			if (obr->w > label_size_max
+			    || obr->h > label_size_max) {
+				label_size_max = MAX (obr->w, obr->h);
+				label_anchor = go_geometry_calc_label_anchor (obr, axis_angle);
+			}					
+		}
+	}
+
+	for (i = 0; i < tick_nbr; i++) {
+		if (ticks[i].label != NULL) {
+			GOGeometryOBR *obr = obrs + i;
 			pos = gog_axis_map_to_view (map, ticks[i].position);
-			gog_renderer_get_text_OBR (renderer, ticks[i].label, TRUE, &txt_obr);
-			txt_obr.w += label_padding;
-			go_geometry_calc_label_position (&txt_obr, axis_angle, tick_len, side);
-			txt_obr.x += x + pos * cos (axis_angle);
-			txt_obr.y += y + pos * sin (axis_angle);
-			go_geometry_OBR_to_AABR (&txt_obr, &txt_aabr);
+			obr->w += label_padding;
+			go_geometry_calc_label_position (obr, axis_angle, tick_len, 
+							 side, label_anchor);
+			obr->x += x + pos * cos (axis_angle);
+			obr->y += y + pos * sin (axis_angle);
+			go_geometry_OBR_to_AABR (obr, &txt_aabr);
 			go_geometry_AABR_add (&total_bbox, &txt_aabr);
 		}
 	}
+	g_free (obrs);
+
 	gog_axis_map_free (map);
 
 	return total_bbox;
@@ -1043,6 +1062,7 @@ axis_line_render (GogAxisBase *axis_base,
 	GogStyle *style = axis_base->base.style;
 	GOGeometryOBR zero_obr;
 	GOGeometryOBR *obrs = NULL;
+	GOGeometrySide label_anchor = GO_SIDE_AUTO;
 	ArtVpath path[3];
 	double line_width;
 	double axis_length, axis_angle, label_padding;
@@ -1052,6 +1072,7 @@ axis_line_render (GogAxisBase *axis_base,
 	double cos_alpha, sin_alpha;
 	double pos, pos_x, pos_y;
 	double padding = gog_axis_base_get_padding (axis_base);
+	double label_size_max = 0;
 	unsigned i, tick_nbr, nobr = 0, *indexmap = NULL;
 	gboolean draw_major, draw_minor;
 	gboolean is_line_visible;
@@ -1112,6 +1133,17 @@ axis_line_render (GogAxisBase *axis_base,
 	if (draw_labels) {
 		obrs = g_new0 (GOGeometryOBR, tick_nbr);
 		indexmap = g_new0 (unsigned int, tick_nbr);
+		for (i = 0; i < tick_nbr; i++) {
+			if (ticks[i].label != NULL) {
+				GOGeometryOBR *obr = obrs + i;
+				gog_renderer_get_text_OBR (renderer, ticks[i].label, TRUE, obr);
+				if (obr->w > label_size_max
+				    || obr->h > label_size_max) {
+					label_size_max = MAX (obr->w, obr->h);
+					label_anchor = go_geometry_calc_label_anchor (obr, axis_angle);
+				}					
+			}
+		}
 	}
 
 	for (i = 0; i < tick_nbr; i++) {
@@ -1156,11 +1188,11 @@ axis_line_render (GogAxisBase *axis_base,
 		}
 
 		if (ticks[i].label != NULL && draw_labels) {
-			GOGeometryOBR *obr = obrs + nobr;
+			GOGeometryOBR *obr = obrs + i;
 			pos = gog_axis_map_to_view (map, ticks[i].position);
-			gog_renderer_get_text_OBR (renderer, ticks[i].label, TRUE, obr);
 			obr->w += label_padding;
-			go_geometry_calc_label_position (obr, axis_angle, tick_len, side);
+			go_geometry_calc_label_position (obr, axis_angle, tick_len, 
+							 side, label_anchor);
 			obr->x += x + pos * cos (axis_angle);
 			obr->y += y + pos * sin (axis_angle);
 
@@ -1178,9 +1210,12 @@ axis_line_render (GogAxisBase *axis_base,
 		int skip = 1;
 
 		for (i = skip; i < nobr; i += skip) {
-			gboolean overlap =
-				go_geometry_test_OBR_overlap (obrs + i,
-							      obrs + i + skip);
+			unsigned j;
+			gboolean overlap;
+
+			j = indexmap[i];
+			overlap = go_geometry_test_OBR_overlap (obrs + j,
+								obrs + indexmap[i - skip]);
 			if (overlap) {
 				skip++;
 				i = 0;
@@ -1191,8 +1226,8 @@ axis_line_render (GogAxisBase *axis_base,
 		for (i = 0; i < nobr; i += skip) {
 			unsigned j = indexmap[i];
 			GogViewAllocation label_pos;
-			label_pos.x = obrs[i].x;
-			label_pos.y = obrs[i].y;
+			label_pos.x = obrs[j].x;
+			label_pos.y = obrs[j].y;
 			gog_renderer_draw_text (renderer, ticks[j].label,
 						&label_pos, GTK_ANCHOR_CENTER,
 						TRUE);
@@ -1267,7 +1302,8 @@ axis_circle_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 		if (ticks[i].label != NULL && draw_labels) {
 			gog_renderer_get_text_OBR (renderer, ticks[i].label, TRUE, &txt_obr);
 			txt_obr.w += label_padding;
-			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len, GO_SIDE_LEFT);
+			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len, 
+							 GO_SIDE_LEFT, GO_SIDE_AUTO);
 			txt_obr.x += x;
 			txt_obr.y += y;
 			go_geometry_OBR_to_AABR (&txt_obr, &txt_aabr);
@@ -1395,7 +1431,8 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 						  &label_pos.x, &label_pos.y);
 			gog_renderer_get_text_OBR (renderer, ticks[i].label, TRUE, &txt_obr);
 			txt_obr.w += label_padding;
-			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len, GO_SIDE_LEFT);
+			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len, 
+							 GO_SIDE_LEFT, GO_SIDE_AUTO);
 			label_pos.x += txt_obr.x;
 			label_pos.y += txt_obr.y;
 			txt_obr.x = label_pos.x;

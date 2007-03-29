@@ -13,6 +13,7 @@
 #include "datetime.h"
 
 #include <math.h>
+#include <string.h>
 
 #define SECS_PER_DAY (24 * 60 * 60)
 #define HALF_SEC (0.5 / SECS_PER_DAY)

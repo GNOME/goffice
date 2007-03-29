@@ -132,17 +132,15 @@ go_geometry_test_OBR_overlap (GOGeometryOBR const *obr0, GOGeometryOBR const *ob
 {
         double TL, pa, pb;
         double cos_delta, sin_delta;
-        double cos_alpha, sin_alpha;
-        double delta_x, delta_y;
 	double a00, a01, a10, a11;
+	double alpha, delta;
 
-        delta_x = obr1->x - obr0->x;
-        delta_y = obr1->y - obr0->y;
-        cos_delta = cos (obr1->alpha - obr0->alpha);
-        sin_delta = sin (obr1->alpha - obr0->alpha);
+        cos_delta = fabs (cos (obr1->alpha - obr0->alpha));
+        sin_delta = fabs (sin (obr1->alpha - obr0->alpha));
 
-        cos_alpha = fabs (cos (obr0->alpha));
-        sin_alpha = fabs (sin (obr0->alpha));
+	go_geometry_cartesian_to_polar (obr1->x - obr0->x, 
+					obr1->y - obr0->y,
+					&delta, &alpha);
 
 	a00 = fabs (obr0->w / 2.0);
 	a01 = fabs (obr0->h / 2.0);
@@ -150,32 +148,29 @@ go_geometry_test_OBR_overlap (GOGeometryOBR const *obr0, GOGeometryOBR const *ob
 	a11 = fabs (obr1->h / 2.0);
 
         /* Separating axis parallel to obr0->w */
-        TL = fabs (delta_x * cos_alpha - delta_y * sin_alpha);
+        TL = fabs (delta * cos (alpha - obr0->alpha));
         pa = a00;
         pb = a10 * cos_delta + a11 * sin_delta;
         if (TL > pa + pb) return FALSE;
         
         /* Separating axis parallel to obr->h */
-        TL = fabs (delta_x * sin_alpha + delta_y * cos_alpha);
+        TL = fabs (delta * sin (alpha - obr0->alpha));
         pa = a01;
         pb = a10 * sin_delta + a11 * cos_delta;
         if (TL > pa + pb) return FALSE;
 
-        cos_alpha = fabs (cos (obr1->alpha));
-        sin_alpha = fabs (sin (obr1->alpha));
-
         /* Separating axis parallel to obr1->w */
-        TL = fabs (delta_x * cos_alpha - delta_y * sin_alpha);
+        TL = fabs (delta * cos (obr1->alpha - alpha));
         pa = a00 * cos_delta + a01 * sin_delta;
         pb = a10;
         if (TL > pa + pb) return FALSE;
 
         /* Separating axis parallel to obr1->h */
-        TL = fabs (delta_x * sin_alpha + delta_y * cos_alpha);
+        TL = fabs (delta * sin (obr1->alpha - alpha));
         pa = a00 * sin_delta + a01 * cos_delta;
         pb = a11;
         if (TL > pa + pb) return FALSE;
-        
+	
         return TRUE;
 }
 
@@ -202,23 +197,72 @@ go_geometry_get_rotation_type (double alpha)
 }
 
 /**
+ * go_geometry_calc_label_anchor:
+ * @obr: bounding rectangle of label
+ * @alpha: angle of axis
+ *
+ * Returns computed label anchor, to be used by go_geometry_calc_label_position.
+ **/
+GOGeometrySide
+go_geometry_calc_label_anchor (GOGeometryOBR *obr, double alpha)
+{
+	double dt, ds;
+
+	dt = fabs (obr->w * sin (obr->alpha - alpha) / 2.0);
+	ds = fabs (obr->h * cos (obr->alpha - alpha) / 2.0);
+
+	return dt < ds ? GO_SIDE_TOP_BOTTOM : GO_SIDE_LEFT_RIGHT;
+}
+
+/**
  * go_geometry_update_label_OBR:
  * @obr: bounding rectangle of label
  * @alpha: angle of axis
  * @offset: minimum distance between label and axis
  * @side: side of label with respect to axis
+ * @anchor: where to anchor the label
  *
  * Convenience routine that computes position of a label relative to an axis. 
- * 
+ * Returns the computed anchor if @anchor == GO_SIDE_AUTO, or @anchor value. 
  **/
-void
-go_geometry_calc_label_position (GOGeometryOBR *obr, double alpha, double offset, GOGeometrySide side)
+GOGeometrySide
+go_geometry_calc_label_position (GOGeometryOBR *obr, double alpha, double offset, 
+				 GOGeometrySide side, GOGeometrySide anchor)
 {
-	GOGeometryAABR aabr;
-	
-	go_geometry_OBR_to_AABR (obr, &aabr);
+	double dt, ds;
+	double sinus, cosinus;
 
-	offset += (fabs (aabr.w * sin (alpha)) + fabs (aabr.h * cos (alpha))) / 2.0;
-	obr->x = offset * ((side == GO_SIDE_RIGHT) ? - sin (alpha) : + sin (alpha));
-	obr->y = offset * ((side == GO_SIDE_RIGHT) ? + cos (alpha) : - cos (alpha));
+	if (side == GO_SIDE_RIGHT)
+		alpha += M_PI;
+
+       	sinus = sin (obr->alpha - alpha);
+	cosinus = cos (obr->alpha - alpha);
+
+	dt = fabs (obr->w * sinus / 2.0);
+	ds = fabs (obr->h * cosinus / 2.0);
+
+	if (anchor == GO_SIDE_AUTO)
+		anchor = dt < ds ? GO_SIDE_TOP_BOTTOM : GO_SIDE_LEFT_RIGHT;
+
+	if ((anchor & GO_SIDE_TOP_BOTTOM) != 0) {
+		offset += dt;
+		obr->x =  obr->h * sin (obr->alpha) / 2.0;
+		obr->y = -obr->h * cos (obr->alpha) / 2.0;
+		if (cosinus < 0.0) {
+			obr->x = -obr->x;
+			obr->y = -obr->y;
+		}
+	} else {
+		offset += ds;
+		obr->x = -obr->w * cos (obr->alpha) / 2.0;
+		obr->y = -obr->w * sin (obr->alpha) / 2.0;
+		if (sinus < 0.0) {
+			obr->x = -obr->x;
+			obr->y = -obr->y;
+		}
+	}
+	obr->x += offset *  sin (alpha);
+	obr->y += offset * -cos (alpha);	
+
+	return anchor;
 }	

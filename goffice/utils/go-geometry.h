@@ -29,8 +29,13 @@ G_BEGIN_DECLS
 #define GO_GEOMETRY_ANGLE_TOLERANCE 1E-3
 
 typedef enum {
-	GO_SIDE_LEFT,
-	GO_SIDE_RIGHT
+	GO_SIDE_LEFT		= 1 << 0,
+	GO_SIDE_RIGHT		= 1 << 1,
+	GO_SIDE_LEFT_RIGHT	= 3 << 0,
+	GO_SIDE_TOP		= 1 << 2,
+	GO_SIDE_BOTTOM		= 1 << 3,
+	GO_SIDE_TOP_BOTTOM	= 3 << 2,
+	GO_SIDE_AUTO		= 15
 } GOGeometrySide;
 
 typedef enum {
@@ -56,10 +61,10 @@ void 		go_geometry_AABR_add 		(GOGeometryAABR *aabr0, GOGeometryAABR const *aabr
 void		go_geometry_OBR_to_AABR 	(GOGeometryOBR const *obr, GOGeometryAABR *aabr);
 gboolean 	go_geometry_test_OBR_overlap 	(GOGeometryOBR const *obr0, GOGeometryOBR const *obr1);
 
-GOGeometryRotationType 
-		go_geometry_get_rotation_type	(double alpha);
-
-void 		go_geometry_calc_label_position	(GOGeometryOBR *obr, double alpha, double offset, GOGeometrySide side);
+GOGeometryRotationType	go_geometry_get_rotation_type	(double alpha);
+GOGeometrySide 		go_geometry_calc_label_anchor 	(GOGeometryOBR *obr, double alpha);
+GOGeometrySide		go_geometry_calc_label_position	(GOGeometryOBR *obr, double alpha, double offset,
+							 GOGeometrySide side, GOGeometrySide anchor);
 
 G_END_DECLS
 

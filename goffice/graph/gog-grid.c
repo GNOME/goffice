@@ -84,7 +84,8 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 	switch (gog_chart_get_axis_set (chart)) {
 		case GOG_AXIS_SET_X:
 		case GOG_AXIS_SET_XY:
-		case GOG_AXIS_SET_XY_COLOR: {
+		case GOG_AXIS_SET_XY_COLOR: 
+		case GOG_AXIS_SET_XY_BUBBLE: {
 			ArtVpath path[6];
 			
 			path[0].code = ART_MOVETO;
