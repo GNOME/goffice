@@ -26,7 +26,6 @@
 #include <gdk/gdkwindow.h>
 #include <goffice/goffice.h>
 #include <goffice/app/goffice-app.h>
-#include <libgnomeprint/gnome-print.h>
 
 G_BEGIN_DECLS
 
@@ -60,8 +59,6 @@ struct _GOComponentClass {
 	void (*set_window) (GOComponent *component);
 	void (*draw_cairo) (GOComponent *component, gpointer data,
 			    double width, double height);
-	void (*print) (GOComponent *component, GnomePrintContext *gpc,
-		       double width, double height);
 	void (*draw) (GOComponent *component, int width_pixels, int height_pixels);
 	char *(*export_to_svg) (GOComponent *component);
 
@@ -94,7 +91,6 @@ void go_component_draw (GOComponent *component, int width_pixels, int height_pix
 gboolean go_component_is_resizable (GOComponent *component);
 gboolean go_component_is_editable (GOComponent *component);
 gboolean go_component_edit (GOComponent *component);
-void go_component_print (GOComponent *component, GnomePrintContext *gpc, double width, double height);
 void go_component_emit_changed (GOComponent *component);
 char *go_component_export_to_svg (GOComponent *component);
 

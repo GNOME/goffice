@@ -1,3 +1,12 @@
+2007-03-29  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : remove gnomeprint dep.
+	* libgoffice-0.3.pc.in : ditto.
+	* goffice/graph/Makefile.am : drop the gnomeprint based renderer.
+	* goffice/component/go-component.c : remove the gnomeprint based
+	  'print' method.
+	(go_component_print) : ditto.
+
 2007-03-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix alignement of rotated labels. #343507
