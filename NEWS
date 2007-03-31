@@ -1,5 +1,8 @@
 goffice 0.3.8:
 
+Emmanuel:
+	* Fix alignement of rotated axis labels. [#343507]
+	
 Morten:
 	* Add preconditions to text combo widget's API functions.
 	* Unicode-normalize regexps patterns.
