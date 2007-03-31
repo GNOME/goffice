@@ -321,6 +321,19 @@ go_component_edit (GOComponent *component)
 }
 
 void
+go_component_print (GOComponent *component, GnomePrintContext *gpc,
+												double width, double height)
+{
+	GOComponentClass *klass;
+
+	g_return_if_fail (IS_GO_COMPONENT (component));
+
+	klass = GO_COMPONENT_GET_CLASS(component);
+	if (klass->print)
+		klass->print (component, gpc, width, height);
+}
+
+void
 go_component_emit_changed (GOComponent *component)
 {
 	g_return_if_fail (IS_GO_COMPONENT (component));

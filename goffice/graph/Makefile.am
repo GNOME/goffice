@@ -78,8 +78,10 @@ endif
 
 if WITH_GTK
   libgoffice_graph_la_SOURCES += gog-control-foocanvas.c	\
+				 gog-renderer-gnome-print.c	\
 				 gog-guru.c
   libgoffice_graph_la_HEADERS += gog-control-foocanvas.h	\
+				 gog-renderer-gnome-print.h	\
 				 gog-guru.h
 endif
 

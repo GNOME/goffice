@@ -1,8 +1,5 @@
 goffice 0.3.8:
 
-Jody:
-	* Thanks to Andreas we can drop the gnomeprint dep here too.
-
 Morten:
 	* Add preconditions to text combo widget's API functions.
 	* Unicode-normalize regexps patterns.
