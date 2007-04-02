@@ -1,3 +1,7 @@
+2007-04-02  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/regutf8.c (go_regcomp): Undo last change.
+
 2007-03-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix alignement of rotated labels. #343507
