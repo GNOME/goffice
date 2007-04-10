@@ -1,3 +1,8 @@
+2007-04-10  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-format-sel.glade: Fix minor grammar issue.  Fixes
+	#428331.
+
 2007-04-02  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/regutf8.c (go_regcomp): Undo last change.
