@@ -1,3 +1,8 @@
+2007-04-11  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_guess_encoding): Actually
+	verify that we get good UTF-8.  Fixes #401588.
+
 2007-04-10  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-format-sel.glade: Fix minor grammar issue.  Fixes

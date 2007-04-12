@@ -6,6 +6,7 @@ Emmanuel:
 Morten:
 	* Add preconditions to text combo widget's API functions.
 	* Unicode-normalize regexps patterns.
+	* Improve character set guesser.  [#401588]
 
 --------------------------------------------------------------------------
 goffice 0.3.7:

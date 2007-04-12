@@ -707,6 +707,12 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 		utf8_data = g_convert (raw, len, "UTF-8", guess,
 				       NULL, NULL, &error);
 		if (!error) {
+			/*
+			 * We can actually fail this test when gues is UTF-8,
+			 * see #401588.
+			 */
+			if (!g_utf8_validate (utf8_data, -1, NULL))
+				continue;
 			if (debug)
 				g_print ("Guessed %s as encoding.\n", guess);
 			if (utf8_str)
