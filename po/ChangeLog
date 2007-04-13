@@ -1,5 +1,9 @@
 2007-04-13  Jakub Friedl <jfriedl@suse.cz>
 
+	* cs.po: Updated Czech translation
+
+2007-04-13  Jakub Friedl <jfriedl@suse.cz>
+
 	* cs.po: Fixed a wrong string in Czech (Farsi --> Perština)
 
 2007-03-04  Morten Welinder <terra@gnome.org>
