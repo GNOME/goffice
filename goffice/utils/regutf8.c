@@ -269,11 +269,12 @@ go_search_replace_verify (GoSearchReplace *sr, gboolean repl, GError **err)
 	}
 
 	if (repl && !sr->replace_text) {
+		/* Probably a programmer error.  */
 		if (err)
 			g_set_error (err,
 				     go_search_replace_error_quark (),
 				     0,
-				     _("Search string must not be empty."));
+				     _("Replacement string must be set."));
 		return FALSE;
 	}
 
