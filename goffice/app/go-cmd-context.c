@@ -62,7 +62,7 @@ go_cmd_context_error_export (GOCmdContext *context, char const *message)
 void
 go_cmd_context_error_invalid (GOCmdContext *context, char const *msg, char const *val)
 {
-	GError *err = g_error_new (go_error_invalid(), 0, "Invalid %s : '%s'", msg, val);
+	GError *err = g_error_new (go_error_invalid(), 0, _("Invalid %s: '%s'"), msg, val);
 	go_cmd_context_error (context, err);
 	g_error_free (err);
 }

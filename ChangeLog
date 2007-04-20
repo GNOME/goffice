@@ -1,3 +1,8 @@
+2007-04-20  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-cmd-context.c (go_cmd_context_error_invalid):
+	Translate.
+
 2007-04-19  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (find_builtin): Handle
