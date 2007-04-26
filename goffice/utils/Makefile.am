@@ -26,7 +26,8 @@ libgoffice_utils_la_SOURCES =	\
 	go-glib-extras.c	\
 	go-libxml-extras.c	\
 	go-rangefunc.c	\
-	go-regression.c
+	go-regression.c	\
+	go-cspline.c
 
 libgoffice_utils_ladir = $(goffice_include_dir)/utils
 libgoffice_utils_la_HEADERS = 	\
@@ -50,7 +51,8 @@ libgoffice_utils_la_HEADERS = 	\
 	go-glib-extras.h	\
 	go-libxml-extras.h	\
 	go-rangefunc.h	\
-	go-regression.h
+	go-regression.h	\
+	go-cspline.h
 
 CLEANFILES =			\
 	go-marshalers.h		\

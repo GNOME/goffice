@@ -1,3 +1,12 @@
+2007-04-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/Makefile.am: added new cubic spline support.
+	* goffice/utils/go-cspline.c: ditto.
+	* goffice/utils/go-cspline.h: ditto.
+	* goffice/utils/go-rangefunc.c: (go_range_increasing): new
+	convenience function.
+	* goffice/utils/go-rangefunc.h: ditto.
+
 2007-04-21  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

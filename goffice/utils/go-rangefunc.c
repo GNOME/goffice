@@ -223,3 +223,13 @@ SUFFIX(go_range_median_inter_nonconst) (DOUBLE *xs, int n, DOUBLE *res)
 {
 	return SUFFIX(go_range_fractile_inter_nonconst) (xs, n, res, 0.5);
 }
+
+int
+SUFFIX(go_range_increasing) (DOUBLE const *xs, int n)
+{
+	int i;
+	for (i = 1; i < n; i++)
+		if (xs[i - 1] >= xs[i])
+			return 0;
+	return 1;
+}
