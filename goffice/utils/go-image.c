@@ -355,10 +355,10 @@ cairo_to_pixbuf (GOImage *image)
 			MULT(dst[2], src[0], src[3], t);
 			dst[3] = src[3];
 #else	  
-			MULT(dst[3], src[2], src[3], t);
-			MULT(dst[2], src[1], src[3], t);
-			MULT(dst[1], src[0], src[3], t);
-			dst[0] = src[3];
+			MULT(dst[0], src[1], src[0], t);
+			MULT(dst[1], src[2], src[0], t);
+			MULT(dst[2], src[3], src[0], t);
+			dst[3] = src[0];
 #endif
 			src += 4;
 			dst += 4;

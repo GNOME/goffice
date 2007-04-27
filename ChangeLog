@@ -1,3 +1,8 @@
+2007-04-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-image.c: (cairo_to_pixbuf): fixed conversion
+	on bigendian machines [#432532].
+
 2007-04-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/Makefile.am: added new cubic spline support.

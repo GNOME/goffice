@@ -2,6 +2,7 @@ goffice 0.3.9:
 
 Jean:
 	* Add support for cubic splines.
+	* Fix graph rendering on big endian machines. [#432532]
 
 --------------------------------------------------------------------------
 goffice 0.3.8:
