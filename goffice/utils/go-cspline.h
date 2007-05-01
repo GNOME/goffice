@@ -41,9 +41,9 @@ struct GOCSpline *go_cspline_init (double const *x, double const *y, int n,
 void go_cspline_destroy (struct GOCSpline *sp);
 double go_cspline_get_value (struct GOCSpline *sp, double x);
 double go_cspline_get_deriv (struct GOCSpline *sp, double x);
-double *go_cspline_get_values (struct GOCSpline *sp, double *x, int n);
-double *go_cspline_get_derivs (struct GOCSpline *sp, double *x, int n);
-double *go_cspline_get_integrals (struct GOCSpline *sp, double *x, int n);
+double *go_cspline_get_values (struct GOCSpline *sp, double const *x, int n);
+double *go_cspline_get_derivs (struct GOCSpline *sp, double const *x, int n);
+double *go_cspline_get_integrals (struct GOCSpline *sp, double const *x, int n);
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 struct GOCSplinel {
@@ -57,9 +57,9 @@ struct GOCSplinel *go_cspline_initl (long double const *x, long double const *y,
 void go_cspline_destroyl (struct GOCSplinel *sp);
 long double go_cspline_get_valuel (struct GOCSplinel *sp, long double x);
 long double go_cspline_get_derivl (struct GOCSplinel *sp, long double x);
-long double *go_cspline_get_valuesl (struct GOCSplinel *sp, long double *x, int n);
-long double *go_cspline_get_derivsl (struct GOCSplinel *sp, long double *x, int n);
-long double *go_cspline_get_integralsl (struct GOCSplinel *sp, long double *x, int n);
+long double *go_cspline_get_valuesl (struct GOCSplinel *sp, long double const *x, int n);
+long double *go_cspline_get_derivsl (struct GOCSplinel *sp, long double const *x, int n);
+long double *go_cspline_get_integralsl (struct GOCSplinel *sp, long double const *x, int n);
 #endif
 
 #endif

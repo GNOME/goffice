@@ -1,3 +1,10 @@
+2007-05-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-cspline.c: (go_cspline_get_values),
+	(go_cspline_get_derivs), (go_cspline_get_integrals):
+	constified arguments and fixed the code.
+	* goffice/utils/go-cspline.h: constified arguments.
+
 2007-04-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-image.c: (cairo_to_pixbuf): fixed conversion

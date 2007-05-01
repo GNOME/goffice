@@ -278,21 +278,23 @@ Returns an array of the n interpolated values at the n values stored in x.
 The x values must be in increasing order.
 sp must be a spine structure as returned by SUFFIX(go_cspline_init)
 */
-DOUBLE *SUFFIX(go_cspline_get_values) (struct SUFFIX(GOCSpline) *sp, DOUBLE *x, int n)
+DOUBLE *SUFFIX(go_cspline_get_values) (struct SUFFIX(GOCSpline) *sp, DOUBLE const *x, int n)
 {
 	DOUBLE *res, dx;
-	int i, j;
+	int i, j, k, jmax;
 	g_return_val_if_fail (sp != NULL, NULL);
 	if (!x || n <= 0 || !SUFFIX(go_range_increasing) (x, n))
 		return NULL;
 	res = g_new (DOUBLE, n);
 	j = 1;
+	jmax = sp->n - 1;
 	for (i = 0; i < n; i++) {
 		dx = x[i];
-		while (dx > sp->x[j])
+		while (dx > sp->x[j] && j < jmax)
 			j++;
-		dx -= dx > sp->x[j];
-		res[i] = sp->y[j] + dx * (sp->c[j] + dx * (sp->b[j] + dx * sp->a[j]));
+		k = j - 1;
+		dx -= sp->x[k];
+		res[i] = sp->y[k] + dx * (sp->c[k] + dx * (sp->b[k] + dx * sp->a[k]));
 	}
 	return res;
 }
@@ -302,21 +304,23 @@ Returns an array of the n interpolated derivatives at the n values stored in x.
 The x values must be in increasing order.
 sp must be a spine structure as returned by SUFFIX(go_cspline_init)
 */
-DOUBLE *SUFFIX(go_cspline_get_derivs) (struct SUFFIX(GOCSpline) *sp, DOUBLE *x, int n)
+DOUBLE *SUFFIX(go_cspline_get_derivs) (struct SUFFIX(GOCSpline) *sp, DOUBLE const *x, int n)
 {
 	DOUBLE *res, dx;
-	int i, j;
+	int i, j, k, jmax;
 	g_return_val_if_fail (sp != NULL, NULL);
 	if (!x || n <= 0 || !SUFFIX(go_range_increasing) (x, n))
 		return NULL;
 	res = g_new (DOUBLE, n);
 	j = 1;
+	jmax = sp->n - 1;
 	for (i = 0; i < n; i++) {
 		dx = x[i];
-		while (dx > sp->x[j])
+		while (dx > sp->x[j] && j < jmax)
 			j++;
-		dx -= dx > sp->x[j];
-		res[i] = sp->c[j] + dx * (2 * sp->b[j] + dx * 3 * sp->a[j]);
+		k = j - 1;
+		dx -= sp->x[k];
+		res[i] = sp->c[k] + dx * (2 * sp->b[k] + dx * 3 * sp->a[k]);
 	}
 	return res;
 }
@@ -327,29 +331,34 @@ values stored in x.
 The x values must be in increasing order.
 sp must be a spine structure as returned by SUFFIX(go_cspline_init)
 */
-DOUBLE *SUFFIX(go_cspline_get_integrals) (struct SUFFIX(GOCSpline) *sp, DOUBLE *x, int n)
+DOUBLE *SUFFIX(go_cspline_get_integrals) (struct SUFFIX(GOCSpline) *sp, DOUBLE const *x, int n)
 {
 	DOUBLE *res, start, end, sum;
-	int i, j;
+	int i, j, k, jmax;
 	g_return_val_if_fail (sp != NULL, NULL);
 	if (!x || n <= 1 || !SUFFIX(go_range_increasing) (x, n))
 		return NULL;
 	res = g_new (DOUBLE, n - 1);
 	j = 1;
+	jmax = sp->n - 1;
 	start = x[0];
 	for (i = 1; i < n; i++) {
 		sum = 0.;
 		end = x[i];
-		while (start > sp->x[j])
+		while (start >= sp->x[j])
 			j++;
-		while (end > sp->x[j]) {
-			start = sp->x[j] - start;
-			sum += start * (sp->y[j] + start * (sp->c[j] / 2. + start * (sp->b[j] / 3. + start * sp->a[j] / 4.)));
+		k = (j > 1)? j - 1: 0;
+		start -= sp->x[k];
+		sum = -start * (sp->y[k] + start * (sp->c[k] / 2. + start * (sp->b[k] / 3. + start * sp->a[k] / 4.)));
+		while (j < jmax && end > sp->x[j]) {
+			start = sp->x[j] - sp->x[k];
+			sum += start * (sp->y[k] + start * (sp->c[k] / 2. + start * (sp->b[k] / 3. + start * sp->a[k] / 4.)));
 			start = sp->x[j];
 			j++;
+			k = j - 1;
 		}
-		start = end - start;
-		sum += start * (sp->y[j] + start * (sp->c[j] / 2. + start * (sp->b[j] / 3. + start * sp->a[j] / 4.)));
+		start = end - sp->x[k];
+		sum += start * (sp->y[k] + start * (sp->c[k] / 2. + start * (sp->b[k] / 3. + start * sp->a[k] / 4.)));
 		res[i - 1] = sum;
 		start = end;
 	}
