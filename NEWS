@@ -1,4 +1,7 @@
-goffice 0.3.9:
+goffice 0.4.1:
+
+--------------------------------------------------------------------------
+goffice 0.4.0:
 
 Jean:
 	* Add support for cubic splines.
