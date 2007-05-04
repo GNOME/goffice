@@ -1,3 +1,13 @@
+goffice (0.4.0-1) experimental; urgency=low
+
+  * New upstream development release.
+  * Upstream fixes include goffice/utils/go-image.c: (cairo_to_pixbuf): fixed
+    conversion on bigendian machines [gnome bugzilla #432532]. 
+    (Closes: #411628)
+  * [debian/*] Adapt to 0.4 version.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri,  4 May 2007 07:36:38 +0200
+
 goffice (0.3.8-1) experimental; urgency=low
 
   * New upstream development release.

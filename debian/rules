@@ -70,7 +70,7 @@ nextupstreamversion=$(shell echo $(versionh).$$(expr $(versiont) + 1))
 
 # These values must match their configure.in counterparts
 goffice_version_epoch=0
-goffice_version_major=3
+goffice_version_major=4
 
 # This goes into the package names; make sure the debian/* files match
 so_version_major=$(shell expr $(goffice_version_epoch) '*' 100 '+' $(goffice_version_major))
