@@ -14,6 +14,6 @@ DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libgoffice-0.3.pc
+pkgconfig_DATA = libgoffice-0.4.pc
 
 include $(top_srcdir)/goffice.mk
