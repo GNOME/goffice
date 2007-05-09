@@ -1,3 +1,8 @@
+2007-05-09  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-axis.c (gog_axis_view_size_allocate): fix manual
+	position of axis labels.
+
 2007-05-03  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

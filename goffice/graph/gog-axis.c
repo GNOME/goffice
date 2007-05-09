@@ -2303,7 +2303,7 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 		if (IS_GOG_LABEL (child->model) && (pos & GOG_POSITION_MANUAL)) {
 			gog_view_size_request (child, &available, &req);
 			child_bbox = gog_object_get_manual_allocation (gog_view_get_model (child), 
-								       plot_area, &req);
+								       &view->allocation, &req);
 			gog_view_size_allocate (child, &child_bbox);
 		} else {
 			if (GOG_POSITION_IS_SPECIAL (pos)) {
