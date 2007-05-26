@@ -27,33 +27,9 @@
 
 #include <string.h>
 
+#define CXML2C(s) ((char const *)(s))
+
 static GHashTable *services = NULL;
-
-static FileFormatLevel
-parse_format_level_str (gchar const *format_level_str, FileFormatLevel def)
-{
-	FileFormatLevel	format_level;
-
-	if (format_level_str == NULL) {
-		format_level = def;
-	} else if (g_ascii_strcasecmp (format_level_str, "none") == 0) {
-		format_level = FILE_FL_NONE;
-	} else if (g_ascii_strcasecmp (format_level_str, "write_only") == 0) {
-		format_level = FILE_FL_WRITE_ONLY;
-	} else if (g_ascii_strcasecmp (format_level_str, "new") == 0) {
-		format_level = FILE_FL_NEW;
-	} else if (g_ascii_strcasecmp (format_level_str, "manual") == 0) {
-		format_level = FILE_FL_MANUAL;
-	} else if (g_ascii_strcasecmp (format_level_str, "manual_remember") == 0) {
-		format_level = FILE_FL_MANUAL_REMEMBER;
-	} else if (g_ascii_strcasecmp (format_level_str, "auto") == 0) {
-		format_level = FILE_FL_AUTO;
-	} else {
-		format_level = def;
-	}
-
-	return format_level;
-}
 
 static GHashTable *
 get_plugin_file_savers_hash (GOPlugin *plugin)
@@ -563,6 +539,7 @@ struct _PluginServiceFileSaver {
 	GOPluginService plugin_service;
 
 	gchar *file_extension;
+	gchar *mime_type;
 	FileFormatLevel format_level;
 	gchar *description;
 	gint   default_saver_priority;
@@ -581,6 +558,7 @@ plugin_service_file_saver_init (GObject *obj)
 
 	GO_PLUGIN_SERVICE (obj)->cbs_ptr = &service_file_saver->cbs;
 	service_file_saver->file_extension = NULL;
+	service_file_saver->mime_type = NULL;
 	service_file_saver->description = NULL;
 	service_file_saver->cbs.plugin_func_file_save = NULL;
 	service_file_saver->saver = NULL;
@@ -593,13 +571,10 @@ plugin_service_file_saver_finalize (GObject *obj)
 	GObjectClass *parent_class;
 
 	g_free (service_file_saver->file_extension);
-	service_file_saver->file_extension = NULL;
+	g_free (service_file_saver->mime_type);
 	g_free (service_file_saver->description);
-	service_file_saver->description = NULL;
-	if (service_file_saver->saver != NULL) {
+	if (service_file_saver->saver != NULL)
 		g_object_unref (service_file_saver->saver);
-		service_file_saver->saver = NULL;
-	}
 
 	parent_class = g_type_class_peek (GO_PLUGIN_SERVICE_TYPE);
 	parent_class->finalize (obj);
@@ -608,15 +583,10 @@ plugin_service_file_saver_finalize (GObject *obj)
 static void
 plugin_service_file_saver_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
 {
-	gchar *file_extension;
 	xmlNode *information_node;
 	gchar *description;
-	gchar *format_level_str, *save_scope_str;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	file_extension = xml_node_get_cstr (tree, "file_extension");
-	format_level_str = xml_node_get_cstr (tree, "format_level");
-	save_scope_str = xml_node_get_cstr (tree, "save_scope");
 	information_node = e_xml_get_child_by_name (tree, (xmlChar *)"information");
 	if (information_node != NULL) {
 		xmlNode *node;
@@ -634,35 +604,40 @@ plugin_service_file_saver_read_xml (GOPluginService *service, xmlNode *tree, Err
 	} else {
 		description = NULL;
 	}
+
 	if (description != NULL) {
-		PluginServiceFileSaver *service_file_saver = GO_PLUGIN_SERVICE_FILE_SAVER (service);
+		xmlChar *s;
+		int scope = FILE_SAVE_WORKBOOK;
+		int level = FILE_FL_WRITE_ONLY;
+		PluginServiceFileSaver *psfs =
+			GO_PLUGIN_SERVICE_FILE_SAVER (service);
 
-		service_file_saver->file_extension = file_extension;
-		service_file_saver->description = description;
-		service_file_saver->format_level = parse_format_level_str (format_level_str,
-		                                                           FILE_FL_WRITE_ONLY);
-		if (!xml_node_get_int (tree, "default_saver_priority", &(service_file_saver->default_saver_priority)))
-			service_file_saver->default_saver_priority = -1;
+		s = xml_node_get_cstr (tree, "file_extension");
+		psfs->file_extension = g_strdup (CXML2C (s));
+		xmlFree (s);
 
-		service_file_saver->save_scope = FILE_SAVE_WORKBOOK;
-		if (save_scope_str) {
-			if (g_ascii_strcasecmp (save_scope_str, "sheet") == 0)
-				service_file_saver->save_scope 
-					= FILE_SAVE_SHEET;
-			else if (g_ascii_strcasecmp (save_scope_str, 
-						     "range") == 0) {
-				service_file_saver->save_scope 
-					= FILE_SAVE_RANGE;
-			}
-		}
-		if (!xml_node_get_bool (tree, "overwrite_files", &(service_file_saver->overwrite_files)))
-			service_file_saver->overwrite_files = TRUE;
+		s = xml_node_get_cstr (tree, "mime_type");
+		psfs->mime_type = g_strdup (CXML2C (s));
+		xmlFree (s);
+
+		psfs->description = description;
+
+		(void)xml_node_get_enum (tree, "format_level",
+					 GO_FILE_SAVER_LEVEL_TYPE, &level);
+		psfs->format_level = (FileFormatLevel)level;
+
+		if (!xml_node_get_int (tree, "default_saver_priority", &(psfs->default_saver_priority)))
+			psfs->default_saver_priority = -1;
+
+		(void)xml_node_get_enum (tree, "save_scope",
+					 GO_FILE_SAVER_SCOPE_TYPE, &scope);
+		psfs->save_scope = (FileSaveScope)scope;
+
+		if (!xml_node_get_bool (tree, "overwrite_files", &(psfs->overwrite_files)))
+			psfs->overwrite_files = TRUE;
 	} else {
 		*ret_error = error_info_new_str (_("File saver has no description"));
-		g_free (file_extension);
 	}
-	g_free (format_level_str);
-	g_free (save_scope_str);
 }
 
 static void
@@ -677,7 +652,7 @@ plugin_service_file_saver_activate (GOPluginService *service, ErrorInfo **ret_er
 		go_file_saver_register (service_file_saver->saver);
 	} else {
 		go_file_saver_register_as_default (service_file_saver->saver,
-						    service_file_saver->default_saver_priority);
+						   service_file_saver->default_saver_priority);
 	}
 	file_savers_hash = get_plugin_file_savers_hash (service->plugin);
 	g_assert (g_hash_table_lookup (file_savers_hash, service->id) == NULL);
@@ -789,26 +764,29 @@ GSF_CLASS (GOPluginFileSaver, go_plugin_file_saver,
 static GOPluginFileSaver *
 go_plugin_file_saver_new (GOPluginService *service)
 {
-	GOPluginFileSaver *fs;
-	PluginServiceFileSaver *service_file_saver = GO_PLUGIN_SERVICE_FILE_SAVER (service);
+	GOPluginFileSaver *pfs;
+	PluginServiceFileSaver *psfs = GO_PLUGIN_SERVICE_FILE_SAVER (service);
 	gchar *saver_id;
 
-	saver_id = g_strconcat (
-		go_plugin_get_id (service->plugin), ":", service->id, NULL);
-	fs = GO_PLUGIN_FILE_SAVER (g_object_new (TYPE_GO_PLUGIN_FILE_SAVER, NULL));
-	go_file_saver_setup (GO_FILE_SAVER (fs), saver_id,
-	                       service_file_saver->file_extension,
-	                       service_file_saver->description,
-	                       service_file_saver->format_level,
-	                       NULL);
-	go_file_saver_set_save_scope (GO_FILE_SAVER (fs),
-	                                service_file_saver->save_scope);
-	go_file_saver_set_overwrite_files (GO_FILE_SAVER (fs),
-	                                     service_file_saver->overwrite_files);
-	fs->service = service;
+	saver_id = g_strconcat (go_plugin_get_id (service->plugin),
+				":",
+				service->id,
+				NULL);
+	pfs = GO_PLUGIN_FILE_SAVER (g_object_new
+				   (TYPE_GO_PLUGIN_FILE_SAVER,
+				    "id", saver_id,
+				    "extension", psfs->file_extension,
+				    "mime-type", psfs->mime_type,
+				    "description", psfs->description,
+				    "format-level", psfs->format_level,
+				    "overwrite", psfs->overwrite_files,
+				    "scope", psfs->save_scope,
+				    NULL));
+
+	pfs->service = service;
 	g_free (saver_id);
 
-	return fs;
+	return pfs;
 }
 
 /*

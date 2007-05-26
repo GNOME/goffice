@@ -74,21 +74,14 @@ struct _GOFileSaver {
 	GObject parent;
 
 	gchar                *id;
-	const gchar          *mime_type;
+	gchar                *mime_type;
 	gchar                *extension;
 	gchar                *description;
 	gboolean              overwrite_files;
-	FileFormatLevel               format_level;
-	FileSaveScope                 save_scope;
-	GOFileSaverSaveFunc         save_func;
+	FileFormatLevel       format_level;
+	FileSaveScope         save_scope;
+	GOFileSaverSaveFunc   save_func;
 };
-
-void go_file_saver_setup (GOFileSaver *fs,
-                            const gchar *id,
-                            const gchar *extension,
-                            const gchar *description,
-                            FileFormatLevel level,
-                            GOFileSaverSaveFunc save_func);
 
 G_END_DECLS
 

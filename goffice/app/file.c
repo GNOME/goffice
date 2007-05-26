@@ -321,6 +321,97 @@ go_file_saver_finalize (GObject *obj)
 	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
 }
 
+enum {
+	FS_PROP_0,
+	FS_PROP_ID,
+	FS_PROP_MIME_TYPE,
+	FS_PROP_EXTENSION,
+	FS_PROP_DESCRIPTION,
+	FS_PROP_OVERWRITE,
+	FS_PROP_FORMAT_LEVEL,
+	FS_PROP_SCOPE
+};
+
+static void
+go_file_saver_set_property (GObject *object, guint property_id,
+			    GValue const *value, GParamSpec *pspec)
+{
+	GOFileSaver *fs = (GOFileSaver *)object;
+
+	switch (property_id) {
+	case FS_PROP_ID: {
+		char *s = g_strdup (g_value_get_string (value));
+		g_free (fs->id);
+		fs->id = s;
+		break;
+	}
+	case FS_PROP_MIME_TYPE: {
+		char *s = g_strdup (g_value_get_string (value));
+		g_free (fs->mime_type);
+		fs->mime_type = s;
+		break;
+	}
+	case FS_PROP_EXTENSION: {
+		char *s = g_strdup (g_value_get_string (value));
+		g_free (fs->extension);
+		fs->extension = s;
+		break;
+	}
+	case FS_PROP_DESCRIPTION: {
+		char *s = g_strdup (g_value_get_string (value));
+		g_free (fs->description);
+		fs->description = s;
+		break;
+	}
+	case FS_PROP_OVERWRITE:
+		fs->overwrite_files = g_value_get_boolean (value);
+		break;
+	case FS_PROP_FORMAT_LEVEL:
+		fs->format_level = g_value_get_enum (value);
+		break;
+	case FS_PROP_SCOPE:
+		fs->save_scope = g_value_get_enum (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+go_file_saver_get_property (GObject *object, guint property_id,
+			    GValue *value, GParamSpec *pspec)
+{
+	GOFileSaver *fs = (GOFileSaver *)object;
+
+	switch (property_id) {
+	case FS_PROP_ID:
+		g_value_set_string (value, fs->id);
+		break;
+	case FS_PROP_MIME_TYPE:
+		g_value_set_string (value, fs->mime_type);
+		break;
+	case FS_PROP_EXTENSION:
+		g_value_set_string (value, fs->extension);
+		break;
+	case FS_PROP_DESCRIPTION:
+		g_value_set_string (value, fs->description);
+		break;
+	case FS_PROP_OVERWRITE:
+		g_value_set_boolean (value, fs->overwrite_files);
+		break;
+	case FS_PROP_FORMAT_LEVEL:
+		g_value_set_enum (value, fs->format_level);
+		break;
+	case FS_PROP_SCOPE:
+		g_value_set_enum (value, fs->save_scope);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
 static void
 go_file_saver_save_real (GOFileSaver const *fs, IOContext *io_context,
 			  gconstpointer FIXME_FIXME_workbook_view, GsfOutput *output)
@@ -336,7 +427,85 @@ go_file_saver_save_real (GOFileSaver const *fs, IOContext *io_context,
 static void
 go_file_saver_class_init (GOFileSaverClass *klass)
 {
-	G_OBJECT_CLASS (klass)->finalize = go_file_saver_finalize;
+	GObjectClass *goc = G_OBJECT_CLASS (klass);
+
+	goc->finalize = go_file_saver_finalize;
+	goc->set_property = go_file_saver_set_property;
+	goc->get_property = go_file_saver_get_property;
+
+        g_object_class_install_property
+		(goc,
+		 FS_PROP_ID,
+		 g_param_spec_string ("id",
+				      _("ID"),
+				      _("The identifier of the saver."),
+				      NULL,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_CONSTRUCT_ONLY |
+				      G_PARAM_READWRITE));
+
+        g_object_class_install_property
+		(goc,
+		 FS_PROP_MIME_TYPE,
+		 g_param_spec_string ("mime-type",
+				      _("MIME type"),
+				      _("The MIME type of the saver."),
+				      NULL,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
+
+        g_object_class_install_property
+		(goc,
+		 FS_PROP_EXTENSION,
+		 g_param_spec_string ("extension",
+				      _("Extension"),
+				      _("The standard file name extension of the saver."),
+				      NULL,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
+
+        g_object_class_install_property
+		(goc,
+		 FS_PROP_DESCRIPTION,
+		 g_param_spec_string ("description",
+				      _("Description"),
+				      _("The description of the saver."),
+				      NULL,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
+
+        g_object_class_install_property
+		(goc,
+		 FS_PROP_OVERWRITE,
+		 g_param_spec_boolean ("overwrite",
+				       _("Overwrite"),
+				       _("Whether the saver will overwrite files."),
+				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+
+	/* What a load of crap! */
+        g_object_class_install_property
+		(goc,
+		 FS_PROP_FORMAT_LEVEL,
+		 g_param_spec_enum ("format-level",
+				    _("Format Level"),
+				    _(""),
+				    GO_FILE_SAVER_LEVEL_TYPE,
+				    FILE_FL_NEW,
+				    GSF_PARAM_STATIC |
+				    G_PARAM_READWRITE));
+
+        g_object_class_install_property
+		(goc,
+		 FS_PROP_SCOPE,
+		 g_param_spec_enum ("scope",
+				    _("Scope"),
+				    _("How much of a document is saved"),
+				    GO_FILE_SAVER_SCOPE_TYPE,
+				    FILE_SAVE_WORKBOOK,
+				    GSF_PARAM_STATIC |
+				    G_PARAM_READWRITE));
 
 	klass->save = go_file_saver_save_real;
 }
@@ -344,44 +513,6 @@ go_file_saver_class_init (GOFileSaverClass *klass)
 GSF_CLASS (GOFileSaver, go_file_saver,
 	   go_file_saver_class_init, go_file_saver_init,
 	   G_TYPE_OBJECT)
-
-/**
- * go_file_saver_setup:
- * @fs          : Newly created GOFileSaver object
- * @id          : Optional ID of the saver (or NULL)
- * @extension   : Optional default extension of saved files (or NULL)
- * @description : Description of supported file format
- * @level       : File format level
- * @save_func   : Pointer to "save" function
- *
- * Sets up GOFileSaver object, newly created with g_object_new function.
- * This is intended to be used only by GOFileSaver derivates.
- * Use go_file_saver_new, if you want to create GOFileSaver object.
- */
-void
-go_file_saver_setup (GOFileSaver *fs, gchar const *id,
-                       gchar const *extension,
-                       gchar const *description,
-                       FileFormatLevel level,
-                       GOFileSaverSaveFunc save_func)
-{
-	g_return_if_fail (IS_GO_FILE_SAVER (fs));
-
-	fs->id = g_strdup (id);
-	fs->mime_type = NULL;
-
-/* FIXME FIXME FIXME mime disabled */
-#if 0
-	gchar *tmp = g_strdup_printf ("SomeFile.%s", extension);
-	gnome_mime_type_or_default (tmp,
-	    "application/application/x-gnumeric");
-	g_free (tmp);
-#endif
-	fs->extension = g_strdup (extension);
-	fs->description = g_strdup (description);
-	fs->format_level = level;
-	fs->save_func = save_func;
-}
 
 /**
  * go_file_saver_new:
@@ -399,15 +530,20 @@ go_file_saver_setup (GOFileSaver *fs, gchar const *id,
  */
 GOFileSaver *
 go_file_saver_new (gchar const *id,
-                     gchar const *extension,
-                     gchar const *description,
-                     FileFormatLevel level,
-                     GOFileSaverSaveFunc save_func)
+		   gchar const *extension,
+		   gchar const *description,
+		   FileFormatLevel level,
+		   GOFileSaverSaveFunc save_func)
 {
 	GOFileSaver *fs;
 
-	fs = GO_FILE_SAVER (g_object_new (TYPE_GO_FILE_SAVER, NULL));
-	go_file_saver_setup (fs, id, extension, description, level, save_func);
+	fs = GO_FILE_SAVER (g_object_new (TYPE_GO_FILE_SAVER,
+					  "id", id,
+					  "extension", extension,
+					  "description", description,
+					  "format-level", level,
+					  NULL));
+	fs->save_func = save_func;
 
 	return fs;
 }
@@ -543,6 +679,43 @@ go_file_saver_set_overwrite_files (GOFileSaver *fs, gboolean overwrite)
 
 	fs->overwrite_files = overwrite;
 }
+
+GType
+go_file_saver_level_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+	  static GEnumValue values[] = {
+		  { FILE_FL_NONE, (char*)"GO_FILE_SAVER_LEVEL_NONE", (char*)"none" },
+		  { FILE_FL_WRITE_ONLY, (char*)"GO_FILE_SAVER_LEVEL_WRITE_ONLY", (char*)"write_only" },
+		  { FILE_FL_NEW, (char*)"GO_FILE_SAVER_LEVEL_NEW", (char*)"new" },
+		  { FILE_FL_MANUAL, (char*)"GO_FILE_SAVER_LEVEL_MANUAL", (char*)"manual" },
+		  { FILE_FL_MANUAL_REMEMBER, (char*)"GO_FILE_SAVER_LEVEL_MANUAL_REMEMBER", (char*)"manual_remember" },
+		  { FILE_FL_AUTO, (char*)"GO_FILE_SAVER_LEVEL_AUTO", (char*)"auto" },
+		  { 0, NULL, NULL }
+	  };
+	  etype = g_enum_register_static ("GOFileSaverLevel", values);
+  }
+  return etype;
+}
+
+GType
+go_file_saver_scope_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+	  static GEnumValue values[] = {
+		  { FILE_SAVE_WORKBOOK, (char*)"GO_FILE_SAVER_SCOPE_WORKBOOK", (char*)"workbook" },
+		  { FILE_SAVE_SHEET, (char*)"GO_FILE_SAVER_SCOPE_SHEET", (char*)"sheet" },
+		  { FILE_SAVE_RANGE, (char*)"GO_FILE_SAVER_SCOPE_RANGE", (char*)"range" },
+		  { 0, NULL, NULL }
+	  };
+	  etype = g_enum_register_static ("GOFileSaverScope", values);
+  }
+  return etype;
+}
+
+/*-------------------------------------------------------------------------- */
 
 
 /*

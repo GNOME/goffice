@@ -1,3 +1,20 @@
+2007-05-25  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/file.c (go_file_saver_level_get_type,
+	go_file_saver_scope_get_type): New functions.
+	(go_file_saver_new): Use object properties.
+	(go_file_saver_class_init): Install object properties, setter, and
+	getter.
+	(go_file_saver_setup): Remove.  All callers now use object
+	properties.
+
+	* goffice/app/go-plugin-service.c
+	(plugin_service_file_saver_read_xml): Major cleanup.  Handle mime
+	type too.
+	(go_plugin_file_saver_new): Use object properties for the saver.
+	Set mime type too.
+	(parse_format_level_str): Remove.  xml_node_get_enum can do that.
+
 2007-05-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-style.c: (cb_font_changed): set the
