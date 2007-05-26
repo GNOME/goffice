@@ -900,7 +900,7 @@ dataset_dup (GogDataset const *src, GogDataset *dst)
 GogObject *
 gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator datadup)
 {
-	gint	     n;
+	guint	     n;
 	GParamSpec **props;
 	GogObject   *dst = NULL;
 	GSList      *ptr;
