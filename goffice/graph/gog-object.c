@@ -850,8 +850,10 @@ gog_object_set_id (GogObject *obj, unsigned id)
 
 	g_return_if_fail (IS_GOG_OBJECT (obj));
 
-	if (id == 0)
-		return gog_object_generate_id (obj);
+	if (id == 0) {
+		gog_object_generate_id (obj);
+		return;
+	}
 
 	g_return_if_fail (GOG_OBJECT (obj)->parent != NULL);
 
