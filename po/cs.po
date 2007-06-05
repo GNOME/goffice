@@ -9,12 +9,13 @@
 # Michal Bukovjan <bukm@centrum.cz>, 2002,2003.
 # Miloslav Trmac <mitr@volny.cz>, 2003, 2004, 2005.
 # Jakub Friedl <jfriedl@suse.cz>, 2007.
+#: ../goffice/app/file.c:493
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-13 22:22+0200\n"
-"PO-Revision-Date: 2007-04-13 22:22+0200\n"
+"POT-Creation-Date: 2007-06-05 13:54+0200\n"
+"PO-Revision-Date: 2007-06-05 13:54+0200\n"
 "Last-Translator: Jakub Friedl <jfriedl@suse.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,20 +24,79 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ../goffice/app/file.c:508
+#: ../goffice/app/file.c:440
+msgid "ID"
+msgstr "ID"
+
+#: ../goffice/app/file.c:441
+msgid "The identifier of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:451
+msgid "MIME type"
+msgstr "MIME typ"
+
+#: ../goffice/app/file.c:452
+msgid "The MIME type of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:461
+msgid "Extension"
+msgstr "Přípona"
+
+#: ../goffice/app/file.c:462
+msgid "The standard file name extension of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:471
+msgid "Description"
+msgstr "Popis"
+
+#: ../goffice/app/file.c:472
+msgid "The description of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:481
+msgid "Overwrite"
+msgstr "Přepsat"
+
+#: ../goffice/app/file.c:482
+msgid "Whether the saver will overwrite files."
+msgstr ""
+
+#: ../goffice/app/file.c:492
+#, fuzzy
+msgid "Format Level"
+msgstr "Formát"
+
+#: ../goffice/app/file.c:503
+#, fuzzy
+msgid "Scope"
+msgstr "Speciální"
+
+#: ../goffice/app/file.c:504
+msgid "How much of a document is saved"
+msgstr ""
+
+#: ../goffice/app/file.c:644
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "Uložení přes staré soubory tohoto typu je kvůli bezpečnosti vypnuto."
 
-#: ../goffice/app/file.c:518
+#: ../goffice/app/file.c:654
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Tuto bezpečnostní funkci lze vypnout úpravou odpovídajícího souboru plugin."
 "xml."
 
+#: ../goffice/app/go-cmd-context.c:65
+#, fuzzy, c-format
+msgid "Invalid %s: '%s'"
+msgstr "Neplatná data."
+
 #: ../goffice/app/go-doc.c:117
 msgid "URI"
-msgstr ""
+msgstr "URI"
 
 #: ../goffice/app/go-doc.c:118
 msgid "The URI associated with this document."
@@ -140,77 +200,77 @@ msgstr "Načítač nemá metodu load_base.\n"
 msgid "Service '%s' not supported by l."
 msgstr "Služba '%s' není podporována l."
 
-#: ../goffice/app/go-plugin-service.c:156
-#: ../goffice/app/go-plugin-service.c:853
+#: ../goffice/app/go-plugin-service.c:132
+#: ../goffice/app/go-plugin-service.c:831
 msgid "Error while loading plugin service."
 msgstr "Chyba při načítání služby pro zásuvné moduly."
 
-#: ../goffice/app/go-plugin-service.c:164
+#: ../goffice/app/go-plugin-service.c:140
 msgid "Initializing function inside plugin returned error."
 msgstr "Inicializační funkce v zásuvném modulu vrátila chybu."
 
-#: ../goffice/app/go-plugin-service.c:182
+#: ../goffice/app/go-plugin-service.c:158
 msgid "Cleanup function inside plugin returned error."
 msgstr "Čistící funkce v zásuvném modulu vrátila chybu."
 
-#: ../goffice/app/go-plugin-service.c:192 ../goffice/gtk/go-format-sel.c:68
+#: ../goffice/app/go-plugin-service.c:168 ../goffice/gtk/go-format-sel.c:68
 #: ../goffice/utils/go-format.c:3242 ../goffice/utils/go-format.c:3378
 msgid "General"
 msgstr "Všeobecné"
 
-#: ../goffice/app/go-plugin-service.c:343
+#: ../goffice/app/go-plugin-service.c:319
 msgid "File opener has no description"
 msgstr "Otvírač souborů nemá popis"
 
-#: ../goffice/app/go-plugin-service.c:375
+#: ../goffice/app/go-plugin-service.c:351
 #, c-format
 msgid "File opener - %s"
 msgstr "Otvírač souborů - %s"
 
-#: ../goffice/app/go-plugin-service.c:495
+#: ../goffice/app/go-plugin-service.c:471
 msgid "Error while reading file."
 msgstr "Chyba při čtení souboru."
 
-#: ../goffice/app/go-plugin-service.c:661
+#: ../goffice/app/go-plugin-service.c:639
 msgid "File saver has no description"
 msgstr "Ukladač souborů s nemá popis"
 
-#: ../goffice/app/go-plugin-service.c:707
+#: ../goffice/app/go-plugin-service.c:682
 #, c-format
 msgid "File saver - %s"
 msgstr "Ukladač souborů - %s"
 
-#: ../goffice/app/go-plugin-service.c:767
+#: ../goffice/app/go-plugin-service.c:742
 #, fuzzy
 msgid "Error while loading plugin for saving."
 msgstr "Chyba při načítání služby pro zásuvné moduly."
 
-#: ../goffice/app/go-plugin-service.c:769
+#: ../goffice/app/go-plugin-service.c:744
 msgid "Failed to load plugin for saving"
 msgstr ""
 
-#: ../goffice/app/go-plugin-service.c:888
+#: ../goffice/app/go-plugin-service.c:866
 msgid "Plugin loader"
 msgstr "Načítač zásuvných modulů"
 
-#: ../goffice/app/go-plugin-service.c:912
+#: ../goffice/app/go-plugin-service.c:890
 msgid "GObject loader"
 msgstr "Načítač GObject"
 
-#: ../goffice/app/go-plugin-service.c:1019
+#: ../goffice/app/go-plugin-service.c:997
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "Chybí atribut \"type\" v elementu \"service\"."
 
-#: ../goffice/app/go-plugin-service.c:1025
+#: ../goffice/app/go-plugin-service.c:1003
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Neznámý typ služby: %s."
 
-#: ../goffice/app/go-plugin-service.c:1041
+#: ../goffice/app/go-plugin-service.c:1019
 msgid "Error reading service information."
 msgstr "Chyba při čtení informací o službě."
 
-#: ../goffice/app/go-plugin-service.c:1103
+#: ../goffice/app/go-plugin-service.c:1081
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -374,21 +434,21 @@ msgstr "Chyby při inicializaci systému zásuvných modulů."
 
 #: ../goffice/app/io-context.c:155
 msgid "exec-main-loop"
-msgstr ""
+msgstr "exec-main-loop"
 
 #: ../goffice/app/io-context.c:156
 msgid "Execute main loop iteration"
 msgstr ""
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:214
-#: ../goffice/graph/gog-style.c:958 ../goffice/gtk/go-format-sel.c:77
+#: ../goffice/graph/gog-style.c:959 ../goffice/gtk/go-format-sel.c:77
 #: ../goffice/gtk/go-rotation-sel.c:140
 msgid "Text"
 msgstr "Text"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:215
 msgid "Text to render"
-msgstr ""
+msgstr "Text k vykreslení"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:223
 msgid "Markup"
@@ -399,7 +459,7 @@ msgid "Marked up text to render"
 msgstr ""
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:249
-#: ../goffice/graph/gog-style.c:929
+#: ../goffice/graph/gog-style.c:930
 msgid "Font"
 msgstr "Písmo"
 
@@ -468,19 +528,19 @@ msgstr ""
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:359
 msgid "Strikethrough"
-msgstr ""
+msgstr "Přeškrtnout"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:360
 msgid "Whether to strike through the text"
-msgstr ""
+msgstr "Zda text přeškrtnout"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:368
 msgid "Underline"
-msgstr ""
+msgstr "Podtrhnout"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:369
 msgid "Style of underline for this text"
-msgstr ""
+msgstr "Styl podtržení tohoto textu"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:378
 #: ../goffice/graph/gog-axis.c:1690
@@ -516,7 +576,7 @@ msgstr "Šířka textu"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:470
 msgid "Width of the rendered text"
-msgstr ""
+msgstr "Šířka vykresleného textu"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:477
 msgid "Text height"
@@ -524,7 +584,7 @@ msgstr "Výška textu"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:478
 msgid "Height of the rendered text"
-msgstr ""
+msgstr "Výška vykresleného textu"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:486
 msgid "Font family set"
@@ -684,9 +744,8 @@ msgid "Layout"
 msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:633
-#, fuzzy
 msgid "Axis position"
-msgstr "<b>Umístění</b>"
+msgstr "Poloha osy"
 
 #: ../goffice/graph/gog-axis-line.c:634
 msgid "Where to position an axis low, high, or crossing"
@@ -860,9 +919,8 @@ msgid "_Type:"
 msgstr "_Typ:"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:19
-#, fuzzy
 msgid "_Unit:"
-msgstr "_Přizpůsobit:"
+msgstr "_Jednotka:"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:20
 #, fuzzy
@@ -972,18 +1030,16 @@ msgid "Label"
 msgstr "Titulek"
 
 #: ../goffice/graph/gog-axis.c:1763 ../plugins/plot_barcol/gog-1.5d.c:320
-#, fuzzy
 msgid "Type"
-msgstr "_Typ:"
+msgstr "Typ"
 
 #: ../goffice/graph/gog-axis.c:1764
 msgid "Numerical type of this axis"
 msgstr ""
 
 #: ../goffice/graph/gog-axis.c:1768
-#, fuzzy
 msgid "Invert axis"
-msgstr "_Invertovat osu"
+msgstr "Invertovat osu"
 
 #: ../goffice/graph/gog-axis.c:1769
 msgid "Scale from high to low rather than low to high"
@@ -1008,9 +1064,8 @@ msgid ""
 msgstr ""
 
 #: ../goffice/graph/gog-axis.c:1785 ../goffice/graph/gog-axis.c:1786
-#, fuzzy
 msgid "Rotation of circular axis"
-msgstr "Kruhová osa"
+msgstr "Rotace kruhové osy"
 
 #: ../goffice/graph/gog-axis.c:1793 ../goffice/graph/gog-axis.c:1794
 msgid "Polar axis set unit"
@@ -1186,17 +1241,16 @@ msgid "None"
 msgstr "Nic"
 
 #: ../goffice/graph/gog-error-bar.c:71
-#, fuzzy
 msgid "Positive"
-msgstr "<b>Umístění</b>"
+msgstr "Pozitivní"
 
 #: ../goffice/graph/gog-error-bar.c:72
 msgid "Negative"
-msgstr ""
+msgstr "Negativní"
 
 #: ../goffice/graph/gog-error-bar.c:73
 msgid "Both"
-msgstr ""
+msgstr "Obojí"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
@@ -1206,9 +1260,8 @@ msgid "Graph"
 msgstr "Graf"
 
 #: ../goffice/graph/gog-graph.c:221 ../goffice/graph/gog-graph.c:312
-#, fuzzy
 msgid "Theme"
-msgstr "Čas"
+msgstr "Motiv"
 
 #: ../goffice/graph/gog-graph.c:266
 msgid "Chart"
@@ -1216,15 +1269,15 @@ msgstr "Graf"
 
 #: ../goffice/graph/gog-graph.c:313
 msgid "The theme for elements of the graph"
-msgstr ""
+msgstr "Motiv prvků grafu"
 
 #: ../goffice/graph/gog-graph.c:318
 msgid "Theme name"
-msgstr ""
+msgstr "Jméno motivu"
 
 #: ../goffice/graph/gog-graph.c:319
 msgid "The name of the theme for elements of the graph"
-msgstr ""
+msgstr "Jméno motivu prvků grafu"
 
 #: ../goffice/graph/gog-graph.c:325
 msgid "Logical graph width, in points"
@@ -1247,26 +1300,20 @@ msgid "Are these minor grid lines"
 msgstr ""
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:1
-#, fuzzy
 msgid "<b>Description</b>"
-msgstr "<b>Definice</b>"
+msgstr "<b>Popis</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:2
-#, fuzzy
 msgid "<b>_Plot type</b>"
-msgstr "<b>Vzorek</b>"
+msgstr "<b>_Typ grafu</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:3
-#, fuzzy
 msgid "<b>_Subtype</b>"
-msgstr "<b>Styl</b>"
+msgstr "<b>_Podtyp</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:4
-#, fuzzy
 msgid "Show sample"
-msgstr ""
-"Zobrazit\n"
-"ukázku"
+msgstr "Zobrazit ukázku"
 
 #: ../goffice/graph/gog-guru.c:1171 ../goffice/graph/gog-series.c:405
 msgid "Name"
@@ -1363,42 +1410,38 @@ msgstr "%"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:3
 msgid "Anchor:"
-msgstr ""
+msgstr "Kotva:"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:4
 #: ../goffice/graph/gog-plot-prefs.glade.h:3
-#, fuzzy
 msgid ""
 "Automatic\n"
 "Manual"
-msgstr "Automatické"
+msgstr ""
+"Automatické\n"
+"Manuální"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:6
-#, fuzzy
 msgid "GogObjectPrefs"
-msgstr "Objektivní"
+msgstr "GogObjectPrefs"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:7
-#, fuzzy
 msgid "_Alignment:"
-msgstr "Zarovnání"
+msgstr "Z_arovnání:"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:8
 #: ../goffice/graph/gog-plot-prefs.glade.h:6
-#, fuzzy
 msgid "_Height:"
-msgstr "Výška"
+msgstr "_Výška:"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:9
 #: ../goffice/graph/gog-plot-prefs.glade.h:7
-#, fuzzy
 msgid "_Object position:"
-msgstr "_Směr:"
+msgstr "Poloha _objektu:"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:10
-#, fuzzy
 msgid "_Position:"
-msgstr "_Směr:"
+msgstr "_Poloha:"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:12
 #: ../goffice/graph/gog-plot-prefs.glade.h:9
@@ -1448,14 +1491,12 @@ msgid "Fill"
 msgstr ""
 
 #: ../goffice/graph/gog-object.c:154 ../plugins/plot_barcol/gog-dropbar.c:60
-#, fuzzy
 msgid "Start"
-msgstr "_Počátek:"
+msgstr "Počátek"
 
 #: ../goffice/graph/gog-object.c:155 ../plugins/plot_barcol/gog-dropbar.c:62
-#, fuzzy
 msgid "End"
-msgstr "_Konec:"
+msgstr "Konec"
 
 #: ../goffice/graph/gog-object.c:156 ../goffice/graph/gog-object.c:164
 #, fuzzy
@@ -1862,7 +1903,7 @@ msgstr "Popředí:"
 msgid "Background:"
 msgstr "Pozadí"
 
-#: ../goffice/graph/gog-style.c:1025 ../goffice/graph/gog-styled-object.c:161
+#: ../goffice/graph/gog-style.c:1026 ../goffice/graph/gog-styled-object.c:161
 msgid "Style"
 msgstr "Styl"
 
@@ -2610,11 +2651,11 @@ msgstr "Speciální"
 msgid "Custom"
 msgstr "Vlastní"
 
-#: ../goffice/gtk/go-format-sel.c:1329
+#: ../goffice/gtk/go-format-sel.c:1334
 msgid "Negative Number Format"
 msgstr "Formát záporného čísla"
 
-#: ../goffice/gtk/go-format-sel.c:1357
+#: ../goffice/gtk/go-format-sel.c:1362
 msgid "Number Formats"
 msgstr "Formáty čísla"
 
@@ -4503,68 +4544,72 @@ msgstr "Vzorek je příliš velký."
 msgid "Unmatched ) or \\)"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:267 ../goffice/utils/regutf8.c:276
+#: ../goffice/utils/regutf8.c:267
 msgid "Search string must not be empty."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:288
+#: ../goffice/utils/regutf8.c:277
+msgid "Replacement string must be set."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:289
 #, c-format
 msgid "Invalid search pattern (%s)"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:312
+#: ../goffice/utils/regutf8.c:313
 msgid "Invalid $-specification in replacement."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:322
+#: ../goffice/utils/regutf8.c:323
 msgid "Invalid trailing backslash in replacement."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:799
+#: ../goffice/utils/regutf8.c:800
 msgid "Search Text"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:800
+#: ../goffice/utils/regutf8.c:801
 msgid "The text to search for"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:809
+#: ../goffice/utils/regutf8.c:810
 msgid "Replacement Text"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:810
+#: ../goffice/utils/regutf8.c:811
 msgid "The text to replace with"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:818
+#: ../goffice/utils/regutf8.c:819
 msgid "Is Regular Expression"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:819
+#: ../goffice/utils/regutf8.c:820
 msgid "Is the search text a regular expression."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:827
+#: ../goffice/utils/regutf8.c:828
 msgid "Ignore Case"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:828
+#: ../goffice/utils/regutf8.c:829
 msgid "Ignore the case of letters."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:836
+#: ../goffice/utils/regutf8.c:837
 msgid "Preserve Case"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:837
+#: ../goffice/utils/regutf8.c:838
 msgid "Preserve the case of letters."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:845
+#: ../goffice/utils/regutf8.c:846
 msgid "Match Words"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:846
+#: ../goffice/utils/regutf8.c:847
 msgid "Match whole words only."
 msgstr ""
 
@@ -5045,11 +5090,12 @@ msgid "Min Max plotting engine"
 msgstr "Engine kreslení čar"
 
 #: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:3
-#, fuzzy
 msgid ""
 "Horizontal\n"
 "Vertical"
-msgstr "Horizontální pruhy"
+msgstr ""
+"Horizontální\n"
+"Vertikální"
 
 #: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:7
 msgid "_Layout"
@@ -5078,17 +5124,16 @@ msgid "BoxPlot"
 msgstr "Graf"
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:2
-#, fuzzy
 msgid "HBoxPlots"
-msgstr "Graf"
+msgstr "HBoxPlots"
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:3
 msgid "Histogram"
-msgstr ""
+msgstr "Histogram"
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:4
 msgid "Histogram."
-msgstr ""
+msgstr "Histogram."
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:5
 #, fuzzy
@@ -5096,9 +5141,8 @@ msgid "Horizontal Box-Plot."
 msgstr "Horizontální pruhy"
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:6
-#, fuzzy
 msgid "VBoxPlots"
-msgstr "Graf"
+msgstr "VBoxPlots"
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:7
 #, fuzzy
@@ -5188,7 +5232,7 @@ msgstr "KoláčovýGraf"
 
 #: ../plugins/plot_pie/gog-pie.c:233
 msgid "Initial angle"
-msgstr ""
+msgstr "Počáteční úhel"
 
 #: ../plugins/plot_pie/gog-pie.c:234
 #, fuzzy
@@ -5239,7 +5283,7 @@ msgstr ""
 
 #: ../plugins/plot_pie/gog-pie.c:924
 msgid "Initial-angle"
-msgstr ""
+msgstr "Počáteční úhel"
 
 #: ../plugins/plot_pie/gog-pie.c:925
 #, fuzzy
@@ -5351,7 +5395,7 @@ msgstr "RadarovýGraf"
 
 #: ../plugins/plot_radar/gog-radar.c:369
 msgid "Angle"
-msgstr ""
+msgstr "Úhel"
 
 #: ../plugins/plot_radar/gog-radar.c:371
 #, fuzzy
@@ -5546,9 +5590,8 @@ msgid "Should the plot use splines instead of linear interpolation"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:347 ../plugins/plot_xy/gog-xy.c:760
-#, fuzzy
 msgid "Interpolation"
-msgstr "Popis"
+msgstr "Interpolace"
 
 #: ../plugins/plot_xy/gog-xy.c:348 ../plugins/plot_xy/gog-xy.c:761
 msgid "Interpolation type (none, linear, spline or step) with variant, if any"
@@ -5567,9 +5610,8 @@ msgid "Display size as area instead of diameter"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:500
-#, fuzzy
 msgid "Show negatives"
-msgstr "Zobrazovat _záporné hodnoty"
+msgstr "Zobrazovat záporné hodnoty"
 
 #: ../plugins/plot_xy/gog-xy.c:501
 #, fuzzy
@@ -5758,7 +5800,7 @@ msgstr ""
 #. * 	Exponential regression2
 #: ../plugins/reg_linear/gog-exp-reg.c:63
 msgid "Exponential regression"
-msgstr ""
+msgstr "Exponenciální regrese"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:159
 #: ../plugins/reg_linear/gog-lin-reg.c:266
@@ -5774,7 +5816,7 @@ msgstr ""
 #. * 	Linear regression2
 #: ../plugins/reg_linear/gog-lin-reg.c:175
 msgid "Linear regression"
-msgstr ""
+msgstr "Lineární regrese"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:267
 msgid "If true, a non-zero constant is allowed"
@@ -5793,9 +5835,8 @@ msgstr "Formáty čísla"
 #. * eg The 2nd plot in a chart will be called
 #. * 	Logarithmic regression2
 #: ../plugins/reg_linear/gog-log-reg.c:94
-#, fuzzy
 msgid "Logarithmic regression"
-msgstr "Logaritmické mapování"
+msgstr "Logaritmická regrese"
 
 #: ../plugins/reg_linear/gog-polynom-reg.c:205
 #, fuzzy
@@ -5843,7 +5884,7 @@ msgstr ""
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:1
 msgid "Exponential"
-msgstr ""
+msgstr "Exponenciální"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:2
 msgid "Exponential regression curve"
@@ -5854,9 +5895,8 @@ msgid "Linear regression curve"
 msgstr ""
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:5
-#, fuzzy
 msgid "Logarithmic"
-msgstr "Logaritmické mapování"
+msgstr "Logaritmické"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:6
 msgid "Logarithmic regression curve"
@@ -5933,7 +5973,7 @@ msgstr ""
 
 #: ../plugins/smoothing/gog-moving-avg.c:202
 msgid "Average X"
-msgstr ""
+msgstr "Průměr X"
 
 #: ../plugins/smoothing/gog-moving-avg.c:203
 msgid "Use averaged x values"
@@ -5951,7 +5991,7 @@ msgstr ""
 #: ../plugins/smoothing/gog-exp-smooth.c:67
 #: ../plugins/smoothing/gog-exp-smooth.c:237
 msgid "Number of interpolation steps"
-msgstr ""
+msgstr "Počet kroků interpolace"
 
 #: ../plugins/smoothing/gog-exp-smooth.c:76
 msgid ""
@@ -5969,9 +6009,8 @@ msgid "Exponentially smoothed curve"
 msgstr ""
 
 #: ../plugins/smoothing/gog-exp-smooth.c:236
-#, fuzzy
 msgid "Steps"
-msgstr "*Zář"
+msgstr "Kroky"
 
 #: ../plugins/smoothing/gog-exp-smooth.glade.h:1
 #, fuzzy
@@ -5979,9 +6018,8 @@ msgid "_Period:"
 msgstr "_Popředí:"
 
 #: ../plugins/smoothing/gog-exp-smooth.glade.h:2
-#, fuzzy
 msgid "_Steps:"
-msgstr "_Velikost:"
+msgstr "_Kroky:"
 
 #: ../plugins/smoothing/plugin.xml.in.h:1
 #, fuzzy
