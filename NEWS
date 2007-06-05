@@ -1,6 +1,8 @@
 goffice 0.4.1:
 
+Morten:
 	* Let file savers specify a mime type.
+	* Fix reversed-literal problem with formats.  [#444247]
 
 --------------------------------------------------------------------------
 goffice 0.4.0:

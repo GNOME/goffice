@@ -1,3 +1,9 @@
+2007-06-05  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_execute): Handle OP_STRING.
+	(handle_common_token): Issue OP_STRING ofr TOK_STRING.  Fixes
+	#444247.
+
 2007-05-25  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/file.c (go_file_saver_level_get_type,

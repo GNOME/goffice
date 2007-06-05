@@ -114,6 +114,7 @@ typedef enum {
 	OP_CHAR,		/* unichar */
 	OP_CHAR_INVISIBLE,	/* unichar */
 	OP_CHAR_REPEAT,
+	OP_STRING,		/* 0-termined */
 	OP_FILL,		/* unichar */
 	OP_LOCALE,		/* locale langstr */
 	/* ------------------------------- */
@@ -954,13 +955,16 @@ static void
 handle_common_token (const char *tstr, GOFormatToken t, GString *prg)
 {
 	switch (t) {
-	case TOK_STRING:
-		tstr++;
-		while (*tstr != '"') {
-			ADD_OPuc (OP_CHAR, g_utf8_get_char (tstr));
-			tstr = g_utf8_next_char (tstr);
+	case TOK_STRING: {
+		size_t len = strchr (tstr + 1, '"') - (tstr + 1);
+		if (len > 0) {
+			ADD_OP (OP_STRING);
+			g_string_append_len (prg, tstr + 1, len);
+			g_string_append_c (prg, '\0');
 		}
+		tstr += len + 2;
 		break;
+	}
 
 	case TOK_CHAR:
 		ADD_OPuc (OP_CHAR, g_utf8_get_char (tstr));
@@ -2075,6 +2079,13 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		case OP_CHAR_REPEAT: {
 			g_string_insert_c (dst, numpos, REPEAT_CHAR_MARKER);
+			break;
+		}
+
+		case OP_STRING: {
+			size_t len = strlen (prg);
+			g_string_insert_len (dst, numpos, prg, len);
+			prg += len + 1;
 			break;
 		}
 
