@@ -126,8 +126,8 @@ calc_circle_parameters (GogViewAllocation const *area, GogChartMapPolarData *dat
 			data->th1 -= x;
 		} else if (data->th1 > 2.0 * M_PI) {
 			x = data->th1 - fmod (data->th1, 2.0 * M_PI);
-			data->th0 += x;
-			data->th1 += x;
+			data->th0 -= x;
+			data->th1 -= x;
 		}
 		if (data->th1 - data->th0 > go_add_epsilon (2 * M_PI)) 
 			data->th1 = data->th0 + 2 * M_PI; 

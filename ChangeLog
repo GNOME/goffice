@@ -1,3 +1,8 @@
+2007-06-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-chart.c (calc_circle_parameters): fix rotation of
+	circular axis for theta_max > 360°.
+
 2007-06-05  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_execute): Handle OP_STRING.
