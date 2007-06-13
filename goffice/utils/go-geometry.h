@@ -23,6 +23,7 @@
 #define GO_GEOMETRY_H
 
 #include <goffice/graph/goffice-graph.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
@@ -37,6 +38,14 @@ typedef enum {
 	GO_SIDE_TOP_BOTTOM	= 3 << 2,
 	GO_SIDE_AUTO		= 15
 } GOGeometrySide;
+
+typedef enum {
+	GO_DIRECTION_UP    = 0,	
+	GO_DIRECTION_DOWN  = 1,
+	GO_DIRECTION_LEFT  = 2,
+	GO_DIRECTION_RIGHT = 3,
+	GO_DIRECTION_NONE  = 4
+} GODirection;
 
 typedef enum {
 	GO_ROTATE_NONE = 0,
@@ -65,6 +74,11 @@ GOGeometryRotationType	go_geometry_get_rotation_type	(double alpha);
 GOGeometrySide 		go_geometry_calc_label_anchor 	(GOGeometryOBR *obr, double alpha);
 GOGeometrySide		go_geometry_calc_label_position	(GOGeometryOBR *obr, double alpha, double offset,
 							 GOGeometrySide side, GOGeometrySide anchor);
+
+#define  GO_DIRECTION_TYPE (go_direction_get_type())
+GType    go_direction_get_type	    (void) G_GNUC_CONST;
+gboolean go_direction_is_horizontal (GODirection d);
+gboolean go_direction_is_forward    (GODirection d);
 
 G_END_DECLS
 

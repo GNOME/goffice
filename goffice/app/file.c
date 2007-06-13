@@ -967,10 +967,10 @@ go_file_saver_for_mime_type (gchar const *mime_type)
  * go_file_saver_for_file_name :
  * @file_name :
  *
- * Searches for file opener with given @filename, registered using
+ * Searches for file saver with given @filename, registered using
  * go_file_opener_register
  *
- * Return value: GOFileOpener object or NULL if opener cannot be found.
+ * Return value: GOFileSaver object or NULL if opener cannot be found.
  **/
 GOFileSaver *
 go_file_saver_for_file_name (char const *file_name)

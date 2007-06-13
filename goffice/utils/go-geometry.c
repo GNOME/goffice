@@ -266,3 +266,45 @@ go_geometry_calc_label_position (GOGeometryOBR *obr, double alpha, double offset
 
 	return anchor;
 }	
+
+/**
+ * go_direction_is_horizontal :
+ * @d : #GODirection
+ *
+ * Returns TRUE for GO_DIRECTION_LEFT and GO_DIRECTION_RIGHT.
+ **/
+gboolean
+go_direction_is_horizontal (GODirection d)
+{
+	return (d & 2) != 0;
+}
+
+/**
+ * go_direction_is_forward :
+ * @d : #GODirection
+ *
+ * Returns TRUE for GO_DIRECTION_DOWN or GO_DIRECTION_RIGHT.
+ **/
+gboolean
+go_direction_is_forward (GODirection d)
+{
+	return (d & 1) != 0;
+}
+
+GType
+go_direction_get_type (void)
+{
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue const values[] = {
+			{ GO_DIRECTION_NONE,	"GO_DIRECTION_NONE",	"none" },
+			{ GO_DIRECTION_DOWN,	"GO_DIRECTION_DOWN",	"down" },
+			{ GO_DIRECTION_UP,	"GO_DIRECTION_UP",	"up" },
+			{ GO_DIRECTION_RIGHT,	"GO_DIRECTION_RIGHT",	"right" },
+			{ GO_DIRECTION_LEFT,	"GO_DIRECTION_LEFT",	"left" },
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static (g_intern_static_string ("GODirection"), values);
+	}
+	return etype;
+}

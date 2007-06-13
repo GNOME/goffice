@@ -1,3 +1,14 @@
+2007-06-12  Jody Goldberg <jody@gnome.org>
+
+	* goffice/utils/go-geometry.c (go_direction_get_type) : new.
+	(go_direction_is_forward) : new.
+	(go_direction_is_horizontal) : new.
+
+2007-06-12  Jody Goldberg <jody@gnome.org>
+
+	* goffice/app/file.c (go_file_saver_for_file_name) : fix cut-n-paste-o
+	  in docs.
+
 2007-06-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-chart.c (calc_circle_parameters): fix rotation of
