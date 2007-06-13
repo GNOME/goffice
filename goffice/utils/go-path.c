@@ -2,7 +2,9 @@
 /*
  * go-path.c
  *
- * Copyright (C) 2006 Emmanuel Pacaud (emmanuel.pacaud@lapp.in2p3.fr)
+ * Copyright © 2002 University of Southern California
+ * Copyright © 2005 Red Hat, Inc.
+ * Copyright © 2006 Emmanuel Pacaud (emmanuel.pacaud@lapp.in2p3.fr)
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -17,6 +19,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
+ *
+ * This code is an adaptation of the path code which can be found in
+ * the cairo library (http://cairographics.org). 
+ *
+ * Contributor(s):
+ *	Carl D. Worth <cworth@cworth.org>
+ *	Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
  */
 
 #include <goffice/utils/go-path-impl.h>
