@@ -1549,12 +1549,19 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
 
 	g_return_val_if_fail (is_a != 0, NULL);
 
-	if (child == NULL)
+	if (child == NULL) {
 		child = (role->allocate)
 			? (role->allocate) (parent)
 			: g_object_new (is_a, NULL);
 
+		/* g_object_new or the allocator have already generated an
+		 * error message, just exit */
+		if (child == NULL)
+			return NULL;
+	}
+
 	g_return_val_if_fail (G_TYPE_CHECK_INSTANCE_TYPE (child, is_a), NULL);
+
 	child->explicitly_typed_role = explicitly_typed_role;
 	if (gog_object_set_parent (child, parent, role, 0))
 		return child;

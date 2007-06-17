@@ -1,3 +1,16 @@
+2007-06-17  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-object.c (gog_object_add_by_role) : Add error
+	  handling for unknown types.
+
+	* goffice/graph/gog-object-xml.c (gogo_dim_start) : handle NULL
+	  objects from preceding errors.
+	(gogo_dim_end) : ditto.
+	(gogo_prop_start) : ditto.
+	(gogo_end) : ditto.
+	(gogo_start) : ditto.  Make it clear that all paths through this must
+	  add something to the obj_stack.
+
 2007-06-12  Jody Goldberg <jody@gnome.org>
 
 	* goffice/utils/go-geometry.c (go_direction_get_type) : new.

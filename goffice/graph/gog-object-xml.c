@@ -390,6 +390,9 @@ gogo_dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 	xmlChar const *dim_str = NULL, *type_str = NULL;
 	GType type;
 
+	if (NULL == state->obj)
+		return;
+
 	g_return_if_fail (IS_GOG_DATASET (state->obj));
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -426,6 +429,10 @@ static void
 gogo_dim_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 {
 	GogXMLReadState *state = (GogXMLReadState *)xin->user_state;
+
+	if (NULL == state->obj)
+		return;
+
 	g_return_if_fail (IS_GOG_DATASET (state->obj));
 
 	if (NULL != state->dimension) {
@@ -445,6 +452,11 @@ gogo_prop_start (GsfXMLIn *xin, xmlChar const **attrs)
 	xmlChar const *prop_str = NULL, *type_str = NULL;
 	GType prop_type;
 	int i;
+
+	if (NULL == state->obj) {
+		state->prop_spec = NULL;
+		return;
+	}
 
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
 		if (0 == strcmp (attrs[i], "name"))
@@ -502,7 +514,7 @@ gogo_prop_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 	GType prop_type, prop_ftype;
 	GValue val = { 0 };
 
-	if (state->prop_spec == NULL)
+	if (state->obj == NULL || state->prop_spec == NULL)
 		return;
 
 	prop_type = G_PARAM_SPEC_VALUE_TYPE (state->prop_spec);
@@ -538,6 +550,7 @@ gogo_prop_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 	g_value_unset (&val);
 }
 
+/* NOTE : every path through this must push something onto obj_stack. */
 static void
 gogo_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -561,21 +574,19 @@ gogo_start (GsfXMLIn *xin, xmlChar const **attrs)
 		} else
 			res = g_object_new (t, NULL);
 
-		g_return_if_fail (res != NULL);
+		if (res == NULL) {
+			g_warning ("unknown type '%s'", type);
+		}
 	} else
 		res = NULL;
 
-	if (role != NULL) {
+	if (role != NULL)
 		res = gog_object_add_by_name (state->obj, role, res);
-	} else {
-		g_return_if_fail (state->obj == NULL);
+	if (res != NULL) {
+		res->explicitly_typed_role = (type != NULL);
+		if (IS_GOG_PERSIST (res))
+			gog_persist_prep_sax (GOG_PERSIST (res), xin, attrs);
 	}
-
-	g_return_if_fail (res != NULL);
-
-	res->explicitly_typed_role = (type != NULL);
-	if (IS_GOG_PERSIST (res))
-		gog_persist_prep_sax (GOG_PERSIST (res), xin, attrs);
 
 	state->obj_stack = g_slist_prepend (state->obj_stack, state->obj);
 	state->obj = res;
@@ -586,7 +597,8 @@ gogo_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 {
 	GogXMLReadState *state = (GogXMLReadState *)xin->user_state;
 
-	if (state->obj_stack->data != NULL) {
+	/* Leave the top object on the stack for use in the caller */
+	if (state->obj_stack->next != NULL) {
 		state->obj = state->obj_stack->data;
 		state->obj_stack = g_slist_remove (state->obj_stack, state->obj);
 	} else

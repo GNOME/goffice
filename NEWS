@@ -1,5 +1,8 @@
 goffice 0.4.1:
 
+Jody:
+	* Fault tolerance for unknown types on load.
+
 Morten:
 	* Let file savers specify a mime type.
 	* Fix reversed-literal problem with formats.  [#444247]
