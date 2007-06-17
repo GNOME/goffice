@@ -1,3 +1,15 @@
+2007-06-17  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* goffice/graph/gog-object-xml.c (gog_object_write_xml_sax): fixed
+	signedness issue spotted with help of sparse.
+	* goffice/graph/gog-view.c (gog_view_queue_resize): Made do-while into
+	a compound statement. (Silences sparse warning)
+	* goffice/graph/gog-style.c: Be more consistent in use of enum types.
+	* goffice/component/go-component-factory.c
+	(go_components_get_mime_types): Fixed non-ANSI function declaration by
+	specifying "void" for the parameter list, rather than leaving it
+	unspecified.
+
 2007-06-17  Jody Goldberg <jody@gnome.org>
 
 	* goffice/graph/gog-object.c (gog_object_add_by_role) : Add error

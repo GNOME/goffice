@@ -227,7 +227,7 @@ goc_plugin_services_shutdown (void)
 }
 
 GSList *
-go_components_get_mime_types ()
+go_components_get_mime_types (void)
 {
 	return mime_types_names;
 }

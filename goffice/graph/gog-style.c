@@ -1243,7 +1243,7 @@ static struct {
 };
 
 static struct {
-	GogFillStyle fstyle;
+	GogImageType fstyle;
 	char const *name;
 } image_tiling_names[] = {
 	{ GOG_IMAGE_CENTERED,     "centered" },
@@ -1309,7 +1309,7 @@ str_as_image_tiling (char const *name)
 }
 
 static char const *
-image_tiling_as_str (GogFillStyle fstyle)
+image_tiling_as_str (GogImageType fstyle)
 {
 	unsigned i;
 	for (i = 0; i < G_N_ELEMENTS (image_tiling_names); i++)

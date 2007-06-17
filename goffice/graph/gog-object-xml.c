@@ -272,7 +272,7 @@ gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output)
 void
 gog_object_write_xml_sax (GogObject const *obj, GsfXMLOut *output)
 {
-	gint	     n;
+	guint	     n;
 	GParamSpec **props;
 	GSList	    *ptr;
 

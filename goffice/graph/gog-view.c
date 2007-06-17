@@ -656,9 +656,9 @@ gog_view_queue_resize (GogView *view)
 
 	gog_renderer_request_update (view->renderer);
 
-	do
+	do {
 		view->allocation_valid = FALSE; /* in case there is no parent */
-	while (NULL != (view = view->parent) && view->allocation_valid);
+	} while (NULL != (view = view->parent) && view->allocation_valid);
 }
 
 void
