@@ -945,7 +945,7 @@ gog_renderer_new_for_format (GogGraph *graph, GOImageFormat format)
 		case GO_IMAGE_FORMAT_SVG:
 #ifdef GOG_RENDERER_CAIRO_WITH_SVG
 			type = GOG_RENDERER_CAIRO_TYPE;
-#else
+#elif GOFFICE_USE_SVG_RENDERER
 			type = GOG_RENDERER_SVG_TYPE;
 #endif
 			break;

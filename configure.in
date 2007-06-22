@@ -161,6 +161,7 @@ PKG_CHECK_MODULES(CAIRO_SVG, [cairo-svg >= 1.2.0],
                   [goffice_use_svg_renderer=true
                    AC_MSG_RESULT(no)])
 AM_CONDITIONAL(GOFFICE_USE_SVG_RENDERER, $goffice_use_svg_renderer)
+AC_SUBST(GOFFICE_USE_SVG_RENDERER)
 
 EXTRA_LIBS=
 EXTRA_INCLUDES=

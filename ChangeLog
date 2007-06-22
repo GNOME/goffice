@@ -1,3 +1,8 @@
+2007-06-21  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : export GOFFICE_USE_SVG_RENDERER.
+	* goffice/graph/gog-renderer.c : honour it here.
+
 2007-06-17  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* goffice/graph/gog-object-xml.c (gog_object_write_xml_sax): fixed
