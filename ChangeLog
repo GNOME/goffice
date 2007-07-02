@@ -1,5 +1,15 @@
 2007-07-01  Jody Goldberg <jody@gnome.org>
 
+	Patch from Jean for 340552
+	* goffice/graph/gog-graph.c (gog_graph_finalize) : free the new
+	  data_hash.
+	(gog_graph_init) : init the data hash.
+	(gog_graph_get_data) : use the has rather than quarks.
+	(gog_graph_ref_data) : ditto.
+	(gog_graph_unref_data) : ditto.
+
+2007-07-01  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : remove req for pangoft.  No need for that anymore.
 
 2007-07-01  Jody Goldberg <jody@gnome.org>

@@ -136,6 +136,8 @@ gog_graph_finalize (GObject *obj)
 		graph->idle_handler = 0;
 	}
 
+	g_hash_table_unref (graph->data_refs);
+
 	(graph_parent_klass->finalize) (obj);
 }
 
@@ -351,6 +353,8 @@ gog_graph_init (GogGraph *graph)
 	gog_theme_fillin_style (graph->theme,
 		gso->style, GOG_OBJECT (graph), 0, TRUE);
 	gog_styled_object_apply_theme (gso, gso->style);
+
+	graph->data_refs = g_hash_table_new (g_direct_hash, g_direct_equal);
 }
 
 GSF_CLASS (GogGraph, gog_graph,
@@ -527,7 +531,6 @@ gog_graph_get_data (GogGraph const *graph)
 GOData *
 gog_graph_ref_data (GogGraph *graph, GOData *dat)
 {
-	GObject *g_obj;
 	gpointer res;
 	unsigned count;
 
@@ -538,8 +541,7 @@ gog_graph_ref_data (GogGraph *graph, GOData *dat)
 	g_return_val_if_fail (IS_GO_DATA (dat), dat);
 
 	/* Does it already exist in the graph ? */
-	g_obj = G_OBJECT (graph);
-	res = g_object_get_qdata (g_obj, (GQuark)dat);
+	res = g_hash_table_lookup (graph->data_refs, dat);
 	if (res == NULL) {
 
 		/* is there something like it already */
@@ -549,17 +551,20 @@ gog_graph_ref_data (GogGraph *graph, GOData *dat)
 				break;
 
 		if (existing == NULL) {
-			g_signal_emit (g_obj, gog_graph_signals [GRAPH_ADD_DATA], 0, dat);
+			g_signal_emit (graph, gog_graph_signals [GRAPH_ADD_DATA], 0, dat);
 			graph->data = g_slist_prepend (graph->data, dat);
 			g_object_ref (dat);
 		} else {
 			dat = existing->data;
-			res = g_object_get_qdata (g_obj, (GQuark)dat);
+			res = g_hash_table_lookup (graph->data_refs, dat);
 		}
 	}
 
 	count = GPOINTER_TO_UINT (res) + 1;
-	g_object_set_qdata (g_obj, (GQuark)dat, GUINT_TO_POINTER (count));
+	if (res)
+		g_hash_table_replace (graph->data_refs, dat, GUINT_TO_POINTER (count));
+	else
+		g_hash_table_insert (graph->data_refs, dat, GUINT_TO_POINTER (count));
 	g_object_ref (dat);
 	return dat;
 }
@@ -573,7 +578,6 @@ gog_graph_ref_data (GogGraph *graph, GOData *dat)
 void
 gog_graph_unref_data (GogGraph *graph, GOData *dat)
 {
-	GObject *g_obj;
 	gpointer res;
 	unsigned count;
 
@@ -593,8 +597,7 @@ gog_graph_unref_data (GogGraph *graph, GOData *dat)
 	if (graph->data == NULL)
 		return;
 
-	g_obj = G_OBJECT (graph);
-	res = g_object_get_qdata (g_obj, (GQuark)dat);
+	res = g_hash_table_lookup (graph->data_refs, dat);
 
 	g_return_if_fail (res != NULL);
 
@@ -605,10 +608,10 @@ gog_graph_unref_data (GogGraph *graph, GOData *dat)
 			gog_graph_signals [GRAPH_REMOVE_DATA], 0, dat);
 		graph->data = g_slist_remove (graph->data, dat);
 		g_object_unref (dat);
-		g_object_set_qdata (g_obj, (GQuark)dat, NULL);
+		g_hash_table_remove (graph->data_refs, dat);
 	} else
 		/* store the decremented count */
-		g_object_set_qdata (g_obj, (GQuark)dat, GUINT_TO_POINTER (count));
+		g_hash_table_replace (graph->data_refs, dat, GUINT_TO_POINTER (count));
 }
 
 static gboolean

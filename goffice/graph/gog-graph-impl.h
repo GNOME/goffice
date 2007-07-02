@@ -40,6 +40,8 @@ struct _GogGraph {
 	double	  width, height;
 
 	guint	  idle_handler;
+
+	GHashTable *data_refs;
 };
 
 typedef struct {
