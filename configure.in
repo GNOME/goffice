@@ -92,7 +92,6 @@ goffice_reqs="
 	libgsf-1		>= 1.13.3
 	libxml-2.0		>= 2.4.12
 	pango			>= 1.8.1
-	pangoft2		>= 1.8.1
 	pangocairo		>= 1.8.1
 	libart-2.0		>= 2.3.11
 	cairo			>= 1.0.0

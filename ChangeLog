@@ -1,5 +1,9 @@
 2007-07-01  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : remove req for pangoft.  No need for that anymore.
+
+2007-07-01  Jody Goldberg <jody@gnome.org>
+
 	Patch from Andreas Kohler.
 	* goffice-win32.mk :  portability patch for [#367785]
 
