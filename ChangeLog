@@ -1,3 +1,8 @@
+2007-07-01  Jody Goldberg <jody@gnome.org>
+
+	Patch from Andreas Kohler.
+	* goffice-win32.mk :  portability patch for [#367785]
+
 2007-06-21  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : export GOFFICE_USE_SVG_RENDERER.

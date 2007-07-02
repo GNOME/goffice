@@ -5,6 +5,8 @@ noinst_DATA = local.def
 local.def: stamp-local.def
 	@true
 
+# note the [<space><tab>] in the regular expressions below
+#     some versions of sed on win32 do not support the \t escape.
 stamp-local.def: $(LIB_PUBLIC_HDRS) Makefile $(top_srcdir)/dumpdef.pl
 	hdrs='$(LIB_PUBLIC_HDRS)'; \
 	hdrs_list=''; \
@@ -16,7 +18,7 @@ stamp-local.def: $(LIB_PUBLIC_HDRS) Makefile $(top_srcdir)/dumpdef.pl
 	  fi; \
 	done; \
 	cat $(top_builddir)/goffice/goffice-config.h $$hdrs_list | \
-		sed -e 's/^#[ \t]*include[ \t]\+.*$$//g' | \
+		sed -e 's/^#[ 	]*include[ 	]\+.*$$//g' | \
 		$(CPP) $(AM_CPPFLAGS) "-DGO_VAR_DECL=__declspec(dllexport)" -P - > xgen-localdef.1 && \
 	perl $(top_srcdir)/dumpdef.pl \
 		xgen-localdef.1 > xgen-localdef.2 \
