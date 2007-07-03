@@ -1,3 +1,9 @@
+2007-07-03  Jody Goldberg <jody@gnome.org>
+
+	* goffice/goffice.c (libgoffice_init) : on win32 qualify icon dir with
+	  the version to match the installation dir in configure.in and fix
+	  the dll name. [#442707]
+
 2007-07-01  Jody Goldberg <jody@gnome.org>
 
 	Patch from Jean for 340552

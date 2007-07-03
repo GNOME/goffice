@@ -82,11 +82,11 @@ libgoffice_init (void)
 
 #ifdef G_OS_WIN32
 	{
-	gchar *dir = g_win32_get_package_installation_directory (NULL, "libgoffice-0-3.dll");
+	gchar *dir = g_win32_get_package_installation_directory (NULL, "libgoffice-0-4.dll");
 	libgoffice_data_dir = g_build_filename (dir,
 		"share", "goffice", GOFFICE_VERSION, NULL);
 	libgoffice_icon_dir = g_build_filename (dir,
-		"share", "pixmaps", "goffice", NULL);
+		"share", "pixmaps", "goffice", GOFFICE_VERSION, NULL);
 	libgoffice_locale_dir = g_build_filename (dir,
 		"share", "locale", NULL);
 	libgoffice_lib_dir = g_build_filename (dir,
@@ -137,9 +137,10 @@ libgoffice_shutdown (void)
 	go_currency_date_format_shutdown ();
 	go_number_format_shutdown ();
 #ifdef G_OS_WIN32
-	g_free (libgoffice_data_dir);
-	g_free (libgoffice_icon_dir);
-	g_free (libgoffice_locale_dir);
-	g_free (libgoffice_lib_dir);
+	/* const_cast, we created these above */
+	g_free ((char *)libgoffice_data_dir);
+	g_free ((char *)libgoffice_icon_dir);
+	g_free ((char *)libgoffice_locale_dir);
+	g_free ((char *)libgoffice_lib_dir);
 #endif
 }

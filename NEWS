@@ -5,6 +5,7 @@ Jean:
 
 Jody:
 	* Fault tolerance for unknown types on load.
+	* Fix icon paths on windows. [#442707]
 
 Morten:
 	* Let file savers specify a mime type.
