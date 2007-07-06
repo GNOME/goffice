@@ -4,7 +4,7 @@ Jean:
 	* Make 64bit clean. [#340552]
 
 Jody:
-	* Fault tolerance for unknown types on load.
+	* Fault tolerance for unknown types on load. [#419955]
 	* Fix icon paths on windows. [#442707]
 
 Morten:
