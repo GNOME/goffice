@@ -1,3 +1,7 @@
+2007-07-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.4.1
+
 2007-07-03  Jody Goldberg <jody@gnome.org>
 
 	* goffice/goffice.c (libgoffice_init) : on win32 qualify icon dir with

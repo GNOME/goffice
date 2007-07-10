@@ -118,6 +118,11 @@ fmts_time [] = {
 	"mm:ss.0",
 	"[mm]:ss",
 	"[ss]",
+
+	/* iso 8601 (zulu time only for now) */
+	"yyyy-mm-dd\"T\"hh:mm\"Z\"",
+	"yyyy-mm-dd\"T\"hh:mm:ss\"Z\"",
+	"yyyy-mm-dd\"T\"hh:mm:ss.0\"Z\"",
 	NULL
 };
 
