@@ -7,11 +7,12 @@
 # Takeshi Aihana <aihana@gnome.gr.jp>, 2000-2002.
 # Ryoichi INAGAKI <ryo1@bc.wakwak.com>, 2005-2006.
 # 
+#: ../goffice/app/file.c:493
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-02 00:51+0900\n"
+"POT-Creation-Date: 2007-07-10 08:22-0400\n"
 "PO-Revision-Date: 2006-02-02 01:05+0900\n"
 "Last-Translator: Ryoichi INAGAKI <ryo1@bc.wakwak.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -19,20 +20,93 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../goffice/app/file.c:500
-msgid "Not a valid UTF-8 filename."
-msgstr "ファイル名の UTF-8 エンコーディングが正しくありません．"
+#: ../goffice/app/file.c:440
+msgid "ID"
+msgstr ""
 
-#: ../goffice/app/file.c:510
+#: ../goffice/app/file.c:441
+msgid "The identifier of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:451
+msgid "MIME type"
+msgstr ""
+
+#: ../goffice/app/file.c:452
+msgid "The MIME type of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:461
+msgid "Extension"
+msgstr ""
+
+#: ../goffice/app/file.c:462
+msgid "The standard file name extension of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:471
+#, fuzzy
+msgid "Description"
+msgstr "<b>詳細</b>"
+
+#: ../goffice/app/file.c:472
+msgid "The description of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:481
+msgid "Overwrite"
+msgstr ""
+
+#: ../goffice/app/file.c:482
+msgid "Whether the saver will overwrite files."
+msgstr ""
+
+#: ../goffice/app/file.c:492
+#, fuzzy
+msgid "Format Level"
+msgstr "書式"
+
+#: ../goffice/app/file.c:503
+#, fuzzy
+msgid "Scope"
+msgstr "尺度"
+
+#: ../goffice/app/file.c:504
+msgid "How much of a document is saved"
+msgstr ""
+
+#: ../goffice/app/file.c:644
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "この形式の古いファイルを保存すると，安全性が損なわれます．"
 
-#: ../goffice/app/file.c:512
+#: ../goffice/app/file.c:654
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "適切なプラグインファイル (plugin.xml) を修正すると，この安全機能を OFF にする"
 "ことが可能です．"
+
+#: ../goffice/app/go-cmd-context.c:65
+#, c-format
+msgid "Invalid %s: '%s'"
+msgstr ""
+
+#: ../goffice/app/go-doc.c:117
+msgid "URI"
+msgstr ""
+
+#: ../goffice/app/go-doc.c:118
+msgid "The URI associated with this document."
+msgstr ""
+
+#: ../goffice/app/go-doc.c:122
+#, fuzzy
+msgid "Dirty"
+msgstr "離散"
+
+#: ../goffice/app/go-doc.c:123
+msgid "Whether the document has been changed."
+msgstr ""
 
 #: ../goffice/app/go-object.c:51
 msgid "Objects"
@@ -42,170 +116,6 @@ msgstr "オブジェクト"
 #, c-format
 msgid "Loading plugin '%s' that contains the object '%s'"
 msgstr "オブジェクト '%2$s' を含むプラグイン '%1$s' をロード中です"
-
-#: ../goffice/app/go-plugin.c:330
-#, c-format
-msgid "File contains plugin info with invalid id (%s), expected %s."
-msgstr ""
-"不正な ID (%s) のプラグイン情報が含まれています．%s だと想定されています．"
-
-#: ../goffice/app/go-plugin.c:334
-msgid "Couldn't read plugin info from file."
-msgstr "ファイルからプラグイン情報が読み込めませんでした．"
-
-#: ../goffice/app/go-plugin.c:479
-msgid "Unknown name"
-msgstr "名前が不明です"
-
-#: ../goffice/app/go-plugin.c:573
-#, c-format
-msgid "Unsupported loader type \"%s\"."
-msgstr "サポートしていないローダ形式 \"%s\" です．"
-
-#: ../goffice/app/go-plugin.c:581
-#, c-format
-msgid "Error while preparing loader \"%s\"."
-msgstr "ローダ \"%s\" の準備中にエラーが発生しました．"
-
-#: ../goffice/app/go-plugin.c:658
-#, c-format
-msgid "Error while reading service #%d info."
-msgstr "サービス #%d 情報の読み込み中にエラーが発生しました．"
-
-#: ../goffice/app/go-plugin.c:737
-#, c-format
-msgid "Can't read plugin info file (\"%s\")."
-msgstr "プラグイン情報ファイル (\"%s\") が読めません．"
-
-#: ../goffice/app/go-plugin.c:741
-#, c-format
-msgid "File \"%s\" is not valid plugin info file."
-msgstr "ファイル \"%s\" は正しいプラグイン情報ファイルではありません．"
-
-#: ../goffice/app/go-plugin.c:826
-#, c-format
-msgid "Errors while reading services for plugin with id=\"%s\"."
-msgstr "プラグイン (ID=\"%s\") のサービスの読み込み中にエラーが発生しました．"
-
-#: ../goffice/app/go-plugin.c:837
-#, c-format
-msgid "Plugin id contains invalid characters (%s)."
-msgstr "プラグインの ID に不適切な文字 (%s) が含まれています．"
-
-#: ../goffice/app/go-plugin.c:841
-msgid "Unknown plugin name."
-msgstr "プラグイン名が不明です．"
-
-#: ../goffice/app/go-plugin.c:845
-#, c-format
-msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
-msgstr ""
-"IDが \"%s\" のプラグインのローダが定義されていないか，ID が間違っています．"
-
-#: ../goffice/app/go-plugin.c:851
-msgid "Plugin has no id."
-msgstr "ID のないプラグインです．"
-
-#: ../goffice/app/go-plugin.c:892
-#, c-format
-msgid "Error initializing plugin loader (\"%s\")."
-msgstr "プラグインローダー (\"%s\") の初期化中にエラーが発生しました．"
-
-#: ../goffice/app/go-plugin.c:923 ../goffice/app/go-plugin.c:1080
-msgid "Detected cyclic plugin dependencies."
-msgstr "プラグインの巡回依存を検出しました．"
-
-#: ../goffice/app/go-plugin.c:947
-#, c-format
-msgid "Couldn't activate plugin with id=\"%s\"."
-msgstr "ID が \"%s\" のプラグインを有効にすることができませんでした．"
-
-#: ../goffice/app/go-plugin.c:953 ../goffice/app/go-plugin.c:1126
-#, c-format
-msgid "Couldn't find plugin with id=\"%s\"."
-msgstr "ID が \"%s\" のプラグインが見つかりませんでした．"
-
-#: ../goffice/app/go-plugin.c:960
-msgid "Error while activating plugin dependencies."
-msgstr "依存するプラグインを有効にする際にエラーが発生しました．"
-
-#: ../goffice/app/go-plugin.c:974
-#, c-format
-msgid "Error while activating plugin service #%d."
-msgstr "プラグイン・サービス #%d の有効にする際にエラーが発生しました．"
-
-#: ../goffice/app/go-plugin.c:1027
-#, c-format
-msgid "Error while deactivating plugin service #%d."
-msgstr "プラグイン・サービス #%d の無効にする際にエラーが発生しました．"
-
-#: ../goffice/app/go-plugin.c:1092 ../goffice/app/go-plugin.c:1113
-msgid "Cannot load plugin loader."
-msgstr "プラグイン・ローダが読み込めません．"
-
-#: ../goffice/app/go-plugin.c:1120
-#, c-format
-msgid "Couldn't load plugin with id=\"%s\"."
-msgstr "ID が \"%s\" のプラグインを読み込めませんでした．"
-
-#: ../goffice/app/go-plugin.c:1133
-msgid "Error while loading plugin dependencies."
-msgstr "プラグイン依存関係の読み込み中にエラーが発生しました．"
-
-#: ../goffice/app/go-plugin.c:1309
-#, c-format
-msgid "Errors occurred while reading plugin informations from file \"%s\"."
-msgstr "ファイル \"%s\" からのプラグイン情報取得中にエラーが発生しました．"
-
-#: ../goffice/app/go-plugin.c:1428
-#, c-format
-msgid "Couldn't activate plugin \"%s\" (ID: %s)."
-msgstr "プラグイン \"%s\" (ID: %s) を有効にすることが出来ませんでした．"
-
-#: ../goffice/app/go-plugin.c:1463
-#, c-format
-msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
-msgstr "プラグイン \"%s\" (ID: %s) を無効にすることが出来ませんでした．"
-
-#: ../goffice/app/go-plugin.c:1588 ../goffice/app/go-plugin.c:1734
-msgid "Errors while reading info about available plugins."
-msgstr "利用可能プラグインの情報の読み込み中にエラーが発生しました．"
-
-#: ../goffice/app/go-plugin.c:1612
-msgid "Errors while deactivating plugins that are no longer on disk."
-msgstr "ディスク上にないプラグインを無効にする際にエラーが発生しました．"
-
-#: ../goffice/app/go-plugin.c:1633
-#, c-format
-msgid ""
-"The following plugins are no longer on disk but are still active:\n"
-"%s.\n"
-"You should restart this program now."
-msgstr ""
-"次のプラグインはディスク上にありませんがまだ有効になっています:\n"
-"%s．\n"
-"このプログラムをすぐに再起動するべきです．"
-
-#: ../goffice/app/go-plugin.c:1757
-msgid "Errors while activating plugins."
-msgstr "プラグインを有効にする際にエラーが発生しました．"
-
-#: ../goffice/app/go-plugin.c:1764
-msgid "Errors while initializing plugin system."
-msgstr "プラグインシステムの初期化中にエラーが発生しました．"
-
-#: ../goffice/app/go-plugin-loader.c:47
-msgid "Loader has no set_attributes method.\n"
-msgstr "ローダに set_attributes 関数がありません．\n"
-
-#: ../goffice/app/go-plugin-loader.c:62
-msgid "Loader has no load_base method.\n"
-msgstr "ローダに load_base 関数がありません．\n"
-
-#: ../goffice/app/go-plugin-loader.c:107 ../goffice/app/go-plugin-loader.c:145
-#, c-format
-msgid "Service '%s' not supported by l."
-msgstr "サービス '%s' はサポートしていません．"
 
 #: ../goffice/app/go-plugin-loader-module.c:56
 msgid "Module file name not given."
@@ -275,77 +185,89 @@ msgstr "ファイルには関数 \"%s\" が含まれていません．"
 msgid "Module doesn't contain \"%s\" function."
 msgstr "モジュールには関数 \"%s\" が含まれていません．"
 
-#: ../goffice/app/go-plugin-service.c:156
-#: ../goffice/app/go-plugin-service.c:853
+#: ../goffice/app/go-plugin-loader.c:47
+msgid "Loader has no set_attributes method.\n"
+msgstr "ローダに set_attributes 関数がありません．\n"
+
+#: ../goffice/app/go-plugin-loader.c:62
+msgid "Loader has no load_base method.\n"
+msgstr "ローダに load_base 関数がありません．\n"
+
+#: ../goffice/app/go-plugin-loader.c:107 ../goffice/app/go-plugin-loader.c:145
+#, c-format
+msgid "Service '%s' not supported by l."
+msgstr "サービス '%s' はサポートしていません．"
+
+#: ../goffice/app/go-plugin-service.c:132
+#: ../goffice/app/go-plugin-service.c:831
 msgid "Error while loading plugin service."
 msgstr "プラグイン・サービスの読み込み中にエラーが発生しました。"
 
-#: ../goffice/app/go-plugin-service.c:164
+#: ../goffice/app/go-plugin-service.c:140
 msgid "Initializing function inside plugin returned error."
 msgstr "プラグイン内の関数の初期化でエラーが返されました。"
 
-#: ../goffice/app/go-plugin-service.c:182
+#: ../goffice/app/go-plugin-service.c:158
 msgid "Cleanup function inside plugin returned error."
 msgstr "プラグイン無いの関数のクリンナップでエラーが返されました。"
 
-#: ../goffice/app/go-plugin-service.c:192 ../goffice/gtk/go-format-sel.c:74
-#: ../goffice/utils/format.c:2267 ../goffice/utils/format.c:2598
-#: ../goffice/utils/format.c:2604 ../goffice/utils/format.c:2679
+#: ../goffice/app/go-plugin-service.c:168 ../goffice/gtk/go-format-sel.c:68
+#: ../goffice/utils/go-format.c:3253 ../goffice/utils/go-format.c:3389
 msgid "General"
 msgstr "標準"
 
-#: ../goffice/app/go-plugin-service.c:343
+#: ../goffice/app/go-plugin-service.c:319
 msgid "File opener has no description"
 msgstr "ファイルオープナーには説明がありません"
 
-#: ../goffice/app/go-plugin-service.c:375
+#: ../goffice/app/go-plugin-service.c:351
 #, c-format
 msgid "File opener - %s"
 msgstr "ファイルオープナー - %s"
 
-#: ../goffice/app/go-plugin-service.c:495
+#: ../goffice/app/go-plugin-service.c:471
 msgid "Error while reading file."
 msgstr "ファイルの読み込み中にエラーが発生しました。"
 
-#: ../goffice/app/go-plugin-service.c:661
+#: ../goffice/app/go-plugin-service.c:639
 msgid "File saver has no description"
 msgstr "ファイルセーバーには説明がありません"
 
-#: ../goffice/app/go-plugin-service.c:707
+#: ../goffice/app/go-plugin-service.c:682
 #, c-format
 msgid "File saver - %s"
 msgstr "ファイルセーバー - %s"
 
-#: ../goffice/app/go-plugin-service.c:767
+#: ../goffice/app/go-plugin-service.c:742
 msgid "Error while loading plugin for saving."
 msgstr "保存用プラグインの読み込み中にエラーが発生しました．"
 
-#: ../goffice/app/go-plugin-service.c:769
+#: ../goffice/app/go-plugin-service.c:744
 msgid "Failed to load plugin for saving"
 msgstr "保存用プラグインの読み込みに失敗しました．"
 
-#: ../goffice/app/go-plugin-service.c:888
+#: ../goffice/app/go-plugin-service.c:866
 msgid "Plugin loader"
 msgstr "プラグイン・ローダ"
 
-#: ../goffice/app/go-plugin-service.c:912
+#: ../goffice/app/go-plugin-service.c:890
 msgid "GObject loader"
 msgstr "GObject ローダ"
 
-#: ../goffice/app/go-plugin-service.c:1019
+#: ../goffice/app/go-plugin-service.c:997
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "\"type\" 属性が \"service\" 要素にありません．"
 
-#: ../goffice/app/go-plugin-service.c:1025
+#: ../goffice/app/go-plugin-service.c:1003
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "不明なサービスタイプです: %s．"
 
-#: ../goffice/app/go-plugin-service.c:1041
+#: ../goffice/app/go-plugin-service.c:1019
 msgid "Error reading service information."
 msgstr "サービス情報の読み込みでエラーが発生しました．"
 
-#: ../goffice/app/go-plugin-service.c:1103
+#: ../goffice/app/go-plugin-service.c:1081
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -353,8 +275,168 @@ msgstr ""
 "サービスを有効にする前にロードしなければならない(PLUGIN_ALWAYS_LOADがセットさ"
 "れている)のですが、ロードに失敗しました．"
 
+#: ../goffice/app/go-plugin.c:333
+#, c-format
+msgid "File contains plugin info with invalid id (%s), expected %s."
+msgstr ""
+"不正な ID (%s) のプラグイン情報が含まれています．%s だと想定されています．"
+
+#: ../goffice/app/go-plugin.c:337
+msgid "Couldn't read plugin info from file."
+msgstr "ファイルからプラグイン情報が読み込めませんでした．"
+
+#: ../goffice/app/go-plugin.c:482
+msgid "Unknown name"
+msgstr "名前が不明です"
+
+#: ../goffice/app/go-plugin.c:576
+#, c-format
+msgid "Unsupported loader type \"%s\"."
+msgstr "サポートしていないローダ形式 \"%s\" です．"
+
+#: ../goffice/app/go-plugin.c:584
+#, c-format
+msgid "Error while preparing loader \"%s\"."
+msgstr "ローダ \"%s\" の準備中にエラーが発生しました．"
+
+#: ../goffice/app/go-plugin.c:662
+#, c-format
+msgid "Error while reading service #%d info."
+msgstr "サービス #%d 情報の読み込み中にエラーが発生しました．"
+
+#: ../goffice/app/go-plugin.c:742
+#, c-format
+msgid "Can't read plugin info file (\"%s\")."
+msgstr "プラグイン情報ファイル (\"%s\") が読めません．"
+
+#: ../goffice/app/go-plugin.c:746
+#, c-format
+msgid "File \"%s\" is not valid plugin info file."
+msgstr "ファイル \"%s\" は正しいプラグイン情報ファイルではありません．"
+
+#: ../goffice/app/go-plugin.c:832
+#, c-format
+msgid "Errors while reading services for plugin with id=\"%s\"."
+msgstr "プラグイン (ID=\"%s\") のサービスの読み込み中にエラーが発生しました．"
+
+#: ../goffice/app/go-plugin.c:843
+#, c-format
+msgid "Plugin id contains invalid characters (%s)."
+msgstr "プラグインの ID に不適切な文字 (%s) が含まれています．"
+
+#: ../goffice/app/go-plugin.c:847
+msgid "Unknown plugin name."
+msgstr "プラグイン名が不明です．"
+
+#: ../goffice/app/go-plugin.c:851
+#, c-format
+msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
+msgstr ""
+"IDが \"%s\" のプラグインのローダが定義されていないか，ID が間違っています．"
+
+#: ../goffice/app/go-plugin.c:857
+msgid "Plugin has no id."
+msgstr "ID のないプラグインです．"
+
+#: ../goffice/app/go-plugin.c:898
+#, c-format
+msgid "Error initializing plugin loader (\"%s\")."
+msgstr "プラグインローダー (\"%s\") の初期化中にエラーが発生しました．"
+
+#: ../goffice/app/go-plugin.c:929 ../goffice/app/go-plugin.c:1088
+msgid "Detected cyclic plugin dependencies."
+msgstr "プラグインの巡回依存を検出しました．"
+
+#: ../goffice/app/go-plugin.c:953
+#, c-format
+msgid "Couldn't activate plugin with id=\"%s\"."
+msgstr "ID が \"%s\" のプラグインを有効にすることができませんでした．"
+
+#: ../goffice/app/go-plugin.c:959 ../goffice/app/go-plugin.c:1134
+#, c-format
+msgid "Couldn't find plugin with id=\"%s\"."
+msgstr "ID が \"%s\" のプラグインが見つかりませんでした．"
+
+#: ../goffice/app/go-plugin.c:966
+msgid "Error while activating plugin dependencies."
+msgstr "依存するプラグインを有効にする際にエラーが発生しました．"
+
+#: ../goffice/app/go-plugin.c:980
+#, c-format
+msgid "Error while activating plugin service #%d."
+msgstr "プラグイン・サービス #%d の有効にする際にエラーが発生しました．"
+
+#: ../goffice/app/go-plugin.c:1033
+#, c-format
+msgid "Error while deactivating plugin service #%d."
+msgstr "プラグイン・サービス #%d の無効にする際にエラーが発生しました．"
+
+#: ../goffice/app/go-plugin.c:1100 ../goffice/app/go-plugin.c:1121
+msgid "Cannot load plugin loader."
+msgstr "プラグイン・ローダが読み込めません．"
+
+#: ../goffice/app/go-plugin.c:1128
+#, c-format
+msgid "Couldn't load plugin with id=\"%s\"."
+msgstr "ID が \"%s\" のプラグインを読み込めませんでした．"
+
+#: ../goffice/app/go-plugin.c:1141
+msgid "Error while loading plugin dependencies."
+msgstr "プラグイン依存関係の読み込み中にエラーが発生しました．"
+
+#: ../goffice/app/go-plugin.c:1317
+#, c-format
+msgid "Errors occurred while reading plugin informations from file \"%s\"."
+msgstr "ファイル \"%s\" からのプラグイン情報取得中にエラーが発生しました．"
+
+#: ../goffice/app/go-plugin.c:1436
+#, c-format
+msgid "Couldn't activate plugin \"%s\" (ID: %s)."
+msgstr "プラグイン \"%s\" (ID: %s) を有効にすることが出来ませんでした．"
+
+#: ../goffice/app/go-plugin.c:1471
+#, c-format
+msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
+msgstr "プラグイン \"%s\" (ID: %s) を無効にすることが出来ませんでした．"
+
+#: ../goffice/app/go-plugin.c:1596 ../goffice/app/go-plugin.c:1742
+#: ../goffice/app/go-plugin.c:1821
+msgid "Errors while reading info about available plugins."
+msgstr "利用可能プラグインの情報の読み込み中にエラーが発生しました．"
+
+#: ../goffice/app/go-plugin.c:1620
+msgid "Errors while deactivating plugins that are no longer on disk."
+msgstr "ディスク上にないプラグインを無効にする際にエラーが発生しました．"
+
+#: ../goffice/app/go-plugin.c:1641
+#, c-format
+msgid ""
+"The following plugins are no longer on disk but are still active:\n"
+"%s.\n"
+"You should restart this program now."
+msgstr ""
+"次のプラグインはディスク上にありませんがまだ有効になっています:\n"
+"%s．\n"
+"このプログラムをすぐに再起動するべきです．"
+
+#: ../goffice/app/go-plugin.c:1765 ../goffice/app/go-plugin.c:1843
+msgid "Errors while activating plugins."
+msgstr "プラグインを有効にする際にエラーが発生しました．"
+
+#: ../goffice/app/go-plugin.c:1772 ../goffice/app/go-plugin.c:1850
+msgid "Errors while initializing plugin system."
+msgstr "プラグインシステムの初期化中にエラーが発生しました．"
+
+#: ../goffice/app/io-context.c:155
+msgid "exec-main-loop"
+msgstr ""
+
+#: ../goffice/app/io-context.c:156
+msgid "Execute main loop iteration"
+msgstr ""
+
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:214
-#: ../goffice/graph/gog-style.c:948 ../goffice/gtk/go-format-sel.c:83
+#: ../goffice/graph/gog-style.c:959 ../goffice/gtk/go-format-sel.c:77
 #: ../goffice/gtk/go-rotation-sel.c:140
 msgid "Text"
 msgstr "テキスト"
@@ -372,7 +454,7 @@ msgid "Marked up text to render"
 msgstr ""
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:249
-#: ../goffice/graph/gog-style.c:922
+#: ../goffice/graph/gog-style.c:930
 msgid "Font"
 msgstr "フォント"
 
@@ -456,7 +538,7 @@ msgid "Style of underline for this text"
 msgstr ""
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:378
-#: ../goffice/graph/gog-axis.c:1551
+#: ../goffice/graph/gog-axis.c:1690
 msgid "Scale"
 msgstr "尺度"
 
@@ -579,18 +661,18 @@ msgstr "名前を付けて保存"
 msgid "Whether this tag affects font scaling"
 msgstr ""
 
-#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1230
-#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1231
-#: ../plugins/plot_surface/gog-surface.c:486
-#: ../plugins/plot_surface/xl-surface.c:258 ../plugins/plot_xy/gog-xy.c:331
-#: ../plugins/plot_xy/gog-xy.c:490
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1228
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1229
+#: ../plugins/plot_surface/gog-surface.c:535
+#: ../plugins/plot_surface/xl-surface.c:256 ../plugins/plot_xy/gog-xy.c:355
+#: ../plugins/plot_xy/gog-xy.c:518 ../plugins/plot_xy/gog-xy.c:775
 msgid "X"
 msgstr "X"
 
-#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1237
-#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1238
-#: ../plugins/plot_surface/gog-surface.c:488 ../plugins/plot_xy/gog-xy.c:333
-#: ../plugins/plot_xy/gog-xy.c:492
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1235
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1236
+#: ../plugins/plot_surface/gog-surface.c:537 ../plugins/plot_xy/gog-xy.c:357
+#: ../plugins/plot_xy/gog-xy.c:520 ../plugins/plot_xy/gog-xy.c:777
 msgid "Y"
 msgstr "Y"
 
@@ -620,6 +702,7 @@ msgstr "スペース"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:227
 #: ../goffice/drawing/god-paragraph-attributes.c:228
+#: ../goffice/graph/gog-object.c:677
 msgid "Alignment"
 msgstr "配置"
 
@@ -651,89 +734,108 @@ msgstr ""
 msgid "Bullet On"
 msgstr "問題のサイズ"
 
-#: ../goffice/graph/gog-axis.c:697
-msgid "Discrete"
-msgstr "離散"
-
-#: ../goffice/graph/gog-axis.c:697
-msgid "Discrete mapping"
-msgstr "離散写像"
-
-#: ../goffice/graph/gog-axis.c:708 ../plugins/reg_linear/reg-types.xml.in.h:3
-msgid "Linear"
-msgstr "線形"
-
-#: ../goffice/graph/gog-axis.c:708
-msgid "Linear mapping"
-msgstr "線型写像"
-
-#: ../goffice/graph/gog-axis.c:716
-msgid "Log"
-msgstr "対数"
-
-#: ../goffice/graph/gog-axis.c:716
-msgid "Logarithm mapping"
-msgstr "対数写像"
-
-#: ../goffice/graph/gog-axis.c:1505 ../goffice/graph/gog-axis.c:1514
-msgid "M_inimum"
-msgstr "最小(_I)"
-
-#: ../goffice/graph/gog-axis.c:1506 ../goffice/graph/gog-axis.c:1515
-msgid "M_aximum"
-msgstr "最大(_A)"
-
-#: ../goffice/graph/gog-axis.c:1507
-msgid "Categories between _ticks"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:1508
-msgid "Categories between _labels"
-msgstr ""
-
-#: ../goffice/graph/gog-axis.c:1516
-msgid "Ma_jor ticks"
-msgstr "目盛間隔(_J)"
-
-#: ../goffice/graph/gog-axis.c:1517
-msgid "Mi_nor ticks"
-msgstr "補助目盛間隔(_N)"
-
-#: ../goffice/graph/gog-axis.c:1566
-msgid "Format"
-msgstr "書式"
-
-#: ../goffice/graph/gog-axis.c:1596
-msgid "MajorGrid"
-msgstr "グリッド"
-
-#: ../goffice/graph/gog-axis.c:1599
-msgid "MinorGrid"
-msgstr "補助グリッド"
-
-#: ../goffice/graph/gog-axis.c:1602
-#, fuzzy
-msgid "AxisLine"
-msgstr "線"
-
-#: ../goffice/graph/gog-axis.c:1605
-msgid "Label"
-msgstr "ラベル"
-
-#: ../goffice/graph/gog-axis-line.c:551
+#: ../goffice/graph/gog-axis-line.c:605
 msgid "Layout"
 msgstr "レイアウト"
 
-#: ../goffice/graph/gog-axis-line.c:682
+#: ../goffice/graph/gog-axis-line.c:633
+#, fuzzy
+msgid "Axis position"
+msgstr "位置"
+
+#: ../goffice/graph/gog-axis-line.c:634
+msgid "Where to position an axis low, high, or crossing"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:639
+msgid "Major labels"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:640
+msgid "Show labels for major ticks"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:645
+#, fuzzy
+msgid "Inside major ticks"
+msgstr "目盛間隔(_J)"
+
+#: ../goffice/graph/gog-axis-line.c:646
+msgid "Major tick marks inside the chart area"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:651
+#, fuzzy
+msgid "Outside major ticks"
+msgstr "目盛間隔(_J)"
+
+#: ../goffice/graph/gog-axis-line.c:652
+msgid "Major tick marks outside the chart area"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:657
+#, fuzzy
+msgid "Major tick size"
+msgstr "目盛間隔(_J)"
+
+#: ../goffice/graph/gog-axis-line.c:658
+msgid "Size of the major tick marks, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:664
+#, fuzzy
+msgid "Inside minor ticks"
+msgstr "補助目盛間隔(_N)"
+
+#: ../goffice/graph/gog-axis-line.c:665
+msgid "Minor tick marks inside the chart area"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:670
+#, fuzzy
+msgid "Outside minor ticks"
+msgstr "補助目盛間隔(_N)"
+
+#: ../goffice/graph/gog-axis-line.c:671
+msgid "Minor tick marks outside the axis"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:676
+#, fuzzy
+msgid "Minor tick size"
+msgstr "補助目盛間隔(_N)"
+
+#: ../goffice/graph/gog-axis-line.c:677
+msgid "Size of the minor tick marks, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:683
+msgid "Cross axis id"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:684
+msgid "Which axis to cross"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:690
+#, fuzzy
+msgid "Axis padding"
+msgstr "線"
+
+#: ../goffice/graph/gog-axis-line.c:691
+msgid "Distance from axis line to plot area, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:785
 #, fuzzy
 msgid "Select axis"
 msgstr "画像の選択"
 
-#: ../goffice/graph/gog-axis-line.c:796
+#: ../goffice/graph/gog-axis-line.c:891
 msgid "Set start bound"
 msgstr ""
 
-#: ../goffice/graph/gog-axis-line.c:807
+#: ../goffice/graph/gog-axis-line.c:902
 msgid "Set stop bound"
 msgstr ""
 
@@ -758,9 +860,7 @@ msgstr "<b>補助目盛</b>"
 msgid "<b>Position</b>"
 msgstr "<b>位置</b>"
 
-#. Color
 #: ../goffice/graph/gog-axis-prefs.glade.h:6
-#: ../goffice/graph/gog-error-bar.c:227 ../goffice/graph/gog-style.c:124
 msgid "Automatic"
 msgstr "自動"
 
@@ -773,164 +873,311 @@ msgid "O_utside"
 msgstr "外側(_U)"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:9
+msgid "Padding:"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:10
 msgid "_Cross"
 msgstr "交差(_C)"
 
-#: ../goffice/graph/gog-axis-prefs.glade.h:10
+#: ../goffice/graph/gog-axis-prefs.glade.h:11
 msgid "_High"
 msgstr "高(_H)"
 
-#: ../goffice/graph/gog-axis-prefs.glade.h:11
+#: ../goffice/graph/gog-axis-prefs.glade.h:12
 msgid "_Inside"
 msgstr "内側(_I)"
 
-#: ../goffice/graph/gog-axis-prefs.glade.h:12
+#: ../goffice/graph/gog-axis-prefs.glade.h:13
 msgid "_Invert axis"
 msgstr "座標軸を反転(_I)"
 
-#: ../goffice/graph/gog-axis-prefs.glade.h:13
+#: ../goffice/graph/gog-axis-prefs.glade.h:14
 msgid "_Low"
 msgstr "低(_L)"
 
-#: ../goffice/graph/gog-axis-prefs.glade.h:14
+#: ../goffice/graph/gog-axis-prefs.glade.h:15
 msgid "_Outside"
 msgstr "外側(_O)"
 
-#: ../goffice/graph/gog-axis-prefs.glade.h:15
+#: ../goffice/graph/gog-axis-prefs.glade.h:16
+#, fuzzy
+msgid "_Rotation:"
+msgstr "位置(_P):"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:17
 msgid "_Show Labels"
 msgstr "ラベルを表示(_S)"
 
-#: ../goffice/graph/gog-axis-prefs.glade.h:16
-#: ../goffice/graph/gog-style-prefs.glade.h:27
+#: ../goffice/graph/gog-axis-prefs.glade.h:18
+#: ../goffice/graph/gog-style-prefs.glade.h:31
 msgid "_Type:"
 msgstr "種類(_T):"
 
-#: ../goffice/graph/gog-axis-prefs.glade.h:17
+#: ../goffice/graph/gog-axis-prefs.glade.h:19
+#, fuzzy
+msgid "_Unit:"
+msgstr "合わせる(_F):"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:20
 msgid "at"
 msgstr "と次で"
 
-#: ../goffice/graph/gog-chart.c:632
-msgid "Plot area"
-msgstr "プロットエリア"
+#: ../goffice/graph/gog-axis-prefs.glade.h:21
+#: ../goffice/gtk/go-rotation-sel.glade.h:4
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:8
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:9
+msgid "degrees"
+msgstr "度"
 
-#: ../goffice/graph/gog-chart.c:768
+#: ../goffice/graph/gog-axis-prefs.glade.h:22
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:14
+#: ../goffice/graph/gog-style-prefs.glade.h:32
+msgid "pts"
+msgstr "pts"
+
+#: ../goffice/graph/gog-axis.c:75
+#, fuzzy
+msgid "Degrees"
+msgstr "度"
+
+#: ../goffice/graph/gog-axis.c:76
+#, fuzzy
+msgid "Radians"
+msgstr "レーダー"
+
+#: ../goffice/graph/gog-axis.c:77
+#, fuzzy
+msgid "Grads"
+msgstr "グリッド"
+
+#: ../goffice/graph/gog-axis.c:711
+msgid "Discrete"
+msgstr "離散"
+
+#: ../goffice/graph/gog-axis.c:711
+msgid "Discrete mapping"
+msgstr "離散写像"
+
+#: ../goffice/graph/gog-axis.c:722 ../goffice/utils/go-line.c:87
+#: ../plugins/reg_linear/reg-types.xml.in.h:3
+msgid "Linear"
+msgstr "線形"
+
+#: ../goffice/graph/gog-axis.c:722
+msgid "Linear mapping"
+msgstr "線型写像"
+
+#: ../goffice/graph/gog-axis.c:730
+msgid "Log"
+msgstr "対数"
+
+#: ../goffice/graph/gog-axis.c:730
+msgid "Logarithm mapping"
+msgstr "対数写像"
+
+#: ../goffice/graph/gog-axis.c:1626 ../goffice/graph/gog-axis.c:1635
+msgid "M_inimum"
+msgstr "最小(_I)"
+
+#: ../goffice/graph/gog-axis.c:1627 ../goffice/graph/gog-axis.c:1636
+msgid "M_aximum"
+msgstr "最大(_A)"
+
+#: ../goffice/graph/gog-axis.c:1628
+msgid "Categories between _ticks"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1629
+msgid "Categories between _labels"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1637
+msgid "Ma_jor ticks"
+msgstr "目盛間隔(_J)"
+
+#: ../goffice/graph/gog-axis.c:1638
+msgid "Mi_nor ticks"
+msgstr "補助目盛間隔(_N)"
+
+#: ../goffice/graph/gog-axis.c:1708
+msgid "Format"
+msgstr "書式"
+
+#: ../goffice/graph/gog-axis.c:1739
+msgid "MajorGrid"
+msgstr "グリッド"
+
+#: ../goffice/graph/gog-axis.c:1742
+msgid "MinorGrid"
+msgstr "補助グリッド"
+
+#: ../goffice/graph/gog-axis.c:1745
+#, fuzzy
+msgid "AxisLine"
+msgstr "線"
+
+#: ../goffice/graph/gog-axis.c:1748
+msgid "Label"
+msgstr "ラベル"
+
+#: ../goffice/graph/gog-axis.c:1763 ../plugins/plot_barcol/gog-1.5d.c:320
+#, fuzzy
+msgid "Type"
+msgstr "種類(_T):"
+
+#: ../goffice/graph/gog-axis.c:1764
+msgid "Numerical type of this axis"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1768
+#, fuzzy
+msgid "Invert axis"
+msgstr "座標軸を反転(_I)"
+
+#: ../goffice/graph/gog-axis.c:1769
+msgid "Scale from high to low rather than low to high"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1773
+#, fuzzy
+msgid "MapName"
+msgstr "名前"
+
+#: ../goffice/graph/gog-axis.c:1774
+msgid "The name of the map for scaling"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1779
+msgid "Assigned XL format"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1780
+msgid ""
+"The user assigned format to use for non-discrete axis labels (XL format)"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1785 ../goffice/graph/gog-axis.c:1786
+msgid "Rotation of circular axis"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1793 ../goffice/graph/gog-axis.c:1794
+msgid "Polar axis set unit"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:696
 msgid "Grid"
 msgstr "グリッド"
 
-#: ../goffice/graph/gog-chart.c:771
+#: ../goffice/graph/gog-chart.c:699
 msgid "X-Axis"
 msgstr "X軸"
 
-#: ../goffice/graph/gog-chart.c:775
+#: ../goffice/graph/gog-chart.c:703
 msgid "Y-Axis"
 msgstr "Y軸"
 
-#: ../goffice/graph/gog-chart.c:779
+#: ../goffice/graph/gog-chart.c:707
 msgid "Z-Axis"
 msgstr "Z軸"
 
-#: ../goffice/graph/gog-chart.c:783
+#: ../goffice/graph/gog-chart.c:711
 msgid "Circular-Axis"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:787
+#: ../goffice/graph/gog-chart.c:715
 msgid "Radial-Axis"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:791
+#: ../goffice/graph/gog-chart.c:719
 msgid "Pseudo-3D-Axis"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:795
+#: ../goffice/graph/gog-chart.c:723
+#, fuzzy
+msgid "Bubble-Axis"
+msgstr "バブル"
+
+#: ../goffice/graph/gog-chart.c:727
+#, fuzzy
+msgid "Color-Axis"
+msgstr "色"
+
+#: ../goffice/graph/gog-chart.c:731
 msgid "Plot"
 msgstr "プロット"
 
-#: ../goffice/graph/gog-chart.c:798 ../goffice/graph/gog-graph.c:185
-#: ../goffice/graph/gog-legend.c:182
+#: ../goffice/graph/gog-chart.c:734 ../goffice/graph/gog-graph.c:273
+#: ../goffice/graph/gog-legend.c:183
 msgid "Title"
 msgstr "タイトル"
 
-#: ../goffice/graph/gog-chart.c:803
+#: ../goffice/graph/gog-chart.c:739
 msgid "Legend"
 msgstr "凡例"
 
-#: ../goffice/graph/gog-chart-prefs.glade.h:2
-#: ../goffice/graph/gog-object-prefs.glade.h:2
-#: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:2
-#: ../plugins/plot_barcol/gog-minmax-prefs.glade.h:2
-#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:2
-#: ../plugins/plot_pie/gog-pie-prefs.glade.h:2
-#: ../plugins/plot_pie/gog-pie-series.glade.h:2
-#: ../plugins/plot_pie/gog-ring-prefs.glade.h:2
-#, no-c-format
-msgid "%"
-msgstr "%"
+#: ../goffice/graph/gog-chart.c:762
+msgid "Valid cardinality"
+msgstr ""
 
-#: ../goffice/graph/gog-chart-prefs.glade.h:3
-msgid "<b>Plot area position</b>"
-msgstr "<b>プロットエリアの位置</b>"
+#: ../goffice/graph/gog-chart.c:763
+msgid "Is the charts cardinality currently valid"
+msgstr ""
 
-#: ../goffice/graph/gog-chart-prefs.glade.h:4
-msgid "GogChartPrefs"
-msgstr "GogChartPrefs"
+#: ../goffice/graph/gog-chart.c:768 ../goffice/graph/gog-plot.c:403
+msgid "Plot area"
+msgstr "プロットエリア"
 
-#: ../goffice/graph/gog-chart-prefs.glade.h:5
-#: ../goffice/graph/gog-object-prefs.glade.h:8
-msgid "_Height:"
-msgstr "高さ(_H):"
+#: ../goffice/graph/gog-chart.c:769
+msgid "Position and size of plot area, in percentage of chart size"
+msgstr ""
 
-#: ../goffice/graph/gog-chart-prefs.glade.h:6
-#: ../goffice/graph/gog-object-prefs.glade.h:10
-msgid "_Use manual positionning"
-msgstr "手動で位置をあわせる(_U)"
+#: ../goffice/graph/gog-chart.c:774
+#, fuzzy
+msgid "Manual plot area"
+msgstr "プロットエリア"
 
-#: ../goffice/graph/gog-chart-prefs.glade.h:7
-#: ../goffice/graph/gog-error-bar-prefs.glade.h:13
-#: ../goffice/graph/gog-object-prefs.glade.h:11
-msgid "_Width:"
-msgstr "幅(_W):"
+#: ../goffice/graph/gog-chart.c:775
+#, fuzzy
+msgid "Is plot area manual"
+msgstr "プロットエリア"
 
-#: ../goffice/graph/gog-chart-prefs.glade.h:8
-#: ../goffice/graph/gog-object-prefs.glade.h:12
-msgid "_X:"
-msgstr "_X:"
-
-#: ../goffice/graph/gog-chart-prefs.glade.h:9
-#: ../goffice/graph/gog-object-prefs.glade.h:13
-msgid "_Y:"
-msgstr "_Y:"
-
-#: ../goffice/graph/gog-control-foocanvas.c:212
+#: ../goffice/graph/gog-control-foocanvas.c:213
 msgid "H"
 msgstr "H"
 
-#: ../goffice/graph/gog-control-foocanvas.c:212
+#: ../goffice/graph/gog-control-foocanvas.c:214
+#: ../goffice/graph/gog-graph.c:332 ../goffice/utils/go-image.c:489
 msgid "Height"
 msgstr "高さ"
 
-#: ../goffice/graph/gog-control-foocanvas.c:215
+#: ../goffice/graph/gog-control-foocanvas.c:219
 msgid "W"
 msgstr "W"
 
-#: ../goffice/graph/gog-control-foocanvas.c:215
+#: ../goffice/graph/gog-control-foocanvas.c:220
+#: ../goffice/graph/gog-graph.c:326 ../goffice/utils/go-image.c:485
 msgid "Width"
 msgstr "幅"
 
-#: ../goffice/graph/gog-error-bar.c:245
-msgid "No error bar displayed"
-msgstr "誤差棒を表示しない"
+#: ../goffice/graph/gog-control-foocanvas.c:225
+#: ../goffice/graph/gog-renderer.c:701 ../goffice/graph/gog-view.c:600
+msgid "Model"
+msgstr ""
 
-#: ../goffice/graph/gog-error-bar.c:251 ../goffice/graph/gog-error-bar.c:267
-msgid "Positive error bar displayed"
-msgstr "正方向の誤差棒のみ表示"
+#: ../goffice/graph/gog-control-foocanvas.c:226
+msgid "The GogObject this object displays"
+msgstr ""
 
-#: ../goffice/graph/gog-error-bar.c:256 ../goffice/graph/gog-error-bar.c:272
-msgid "Negative error bar displayed"
+#: ../goffice/graph/gog-control-foocanvas.c:231
+#: ../goffice/graph/gog-graph.c:833
+msgid "Renderer"
+msgstr ""
+
+#: ../goffice/graph/gog-control-foocanvas.c:232
+#, fuzzy
+msgid "The GogRenderer being displayed"
 msgstr "負方向の誤差棒のみ表示"
-
-#: ../goffice/graph/gog-error-bar.c:261 ../goffice/graph/gog-error-bar.c:277
-msgid "Full error bar displayed"
-msgstr "両方の誤差棒を表示"
 
 #: ../goffice/graph/gog-error-bar-prefs.glade.h:1
 msgid "(+)"
@@ -976,64 +1223,78 @@ msgstr ""
 msgid "_Line width:"
 msgstr "線の幅(_L):"
 
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:13
+#: ../goffice/graph/gog-object-prefs.glade.h:11
+#: ../goffice/graph/gog-plot-prefs.glade.h:8
+msgid "_Width:"
+msgstr "幅(_W):"
+
+#: ../goffice/graph/gog-error-bar.c:70 ../goffice/utils/formats.c:307
+#: ../goffice/utils/go-line.c:55
+msgid "None"
+msgstr "なし"
+
+#: ../goffice/graph/gog-error-bar.c:71
+#, fuzzy
+msgid "Positive"
+msgstr "位置"
+
+#: ../goffice/graph/gog-error-bar.c:72
+msgid "Negative"
+msgstr ""
+
+#: ../goffice/graph/gog-error-bar.c:73
+#, fuzzy
+msgid "Both"
+msgstr "下"
+
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/graph/gog-graph.c:141 ../goffice/graph/gog-graph.c:254
+#: ../goffice/graph/gog-graph.c:147 ../goffice/graph/gog-graph.c:352
 msgid "Graph"
 msgstr "グラフ"
 
-#: ../goffice/graph/gog-graph.c:180
+#: ../goffice/graph/gog-graph.c:223 ../goffice/graph/gog-graph.c:314
+#, fuzzy
+msgid "Theme"
+msgstr "時間"
+
+#: ../goffice/graph/gog-graph.c:268
 msgid "Chart"
 msgstr "図表"
 
-#: ../goffice/graph/gog-guru.c:1169 ../goffice/graph/gog-series.c:396
-msgid "Name"
-msgstr "名前"
+#: ../goffice/graph/gog-graph.c:315
+msgid "The theme for elements of the graph"
+msgstr ""
 
-#: ../goffice/graph/gog-guru.c:1196
-msgid "Step 1 of 2: Select Chart Type"
-msgstr "ステップ 1/2: グラフの種類を選択"
+#: ../goffice/graph/gog-graph.c:320
+msgid "Theme name"
+msgstr ""
 
-#: ../goffice/graph/gog-guru.c:1204
-msgid "Step 2 of 2: Customize Chart"
-msgstr "ステップ 2/2: グラフのカスタマイズ"
+#: ../goffice/graph/gog-graph.c:321
+msgid "The name of the theme for elements of the graph"
+msgstr ""
 
-#: ../goffice/graph/gog-guru.c:1209
-msgid "Customize Chart"
-msgstr "グラフのカスタマイズ"
+#: ../goffice/graph/gog-graph.c:327
+msgid "Logical graph width, in points"
+msgstr ""
 
-#: ../goffice/graph/gog-guru.c:1285
-msgid "_Insert"
-msgstr "挿入(_I)"
+#: ../goffice/graph/gog-graph.c:333
+msgid "Logical graph heigth, in points"
+msgstr ""
 
-#: ../goffice/graph/gog-guru.c:1347
-msgid "_Plot Type"
-msgstr "グラフの種類(_P)"
+#: ../goffice/graph/gog-graph.c:834
+msgid "the renderer for this view"
+msgstr ""
 
-#: ../goffice/graph/gog-guru.glade.h:1
-msgid "GNOME Office Graph"
-msgstr "GNOME オフィス グラフ"
+#: ../goffice/graph/gog-grid-line.c:127
+msgid "Is-minor"
+msgstr ""
 
-#: ../goffice/graph/gog-guru.glade.h:2
-msgid "Pull f_orward"
-msgstr "1つ前面に送る(_O)"
-
-#: ../goffice/graph/gog-guru.glade.h:3
-msgid "Pull to _front"
-msgstr "最前面に送る(_F)"
-
-#: ../goffice/graph/gog-guru.glade.h:4
-msgid "Push b_ackward"
-msgstr "1つ背面に送る(_A)"
-
-#: ../goffice/graph/gog-guru.glade.h:5
-msgid "Push to _back"
-msgstr "最背面に送る(_B)"
-
-#: ../goffice/graph/gog-guru.glade.h:6
-msgid "_Order"
-msgstr "順序(_O)"
+#: ../goffice/graph/gog-grid-line.c:128
+msgid "Are these minor grid lines"
+msgstr ""
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:1
 msgid "<b>Description</b>"
@@ -1051,85 +1312,111 @@ msgstr "<b>形式(_S)</b>"
 msgid "Show sample"
 msgstr "サンプルを表示"
 
-#: ../goffice/graph/gog-label.c:197
+#: ../goffice/graph/gog-guru.c:1171 ../goffice/graph/gog-series.c:405
+msgid "Name"
+msgstr "名前"
+
+#: ../goffice/graph/gog-guru.c:1198
+msgid "Step 1 of 2: Select Chart Type"
+msgstr "ステップ 1/2: グラフの種類を選択"
+
+#: ../goffice/graph/gog-guru.c:1206
+msgid "Step 2 of 2: Customize Chart"
+msgstr "ステップ 2/2: グラフのカスタマイズ"
+
+#: ../goffice/graph/gog-guru.c:1211
+msgid "Customize Chart"
+msgstr "グラフのカスタマイズ"
+
+#: ../goffice/graph/gog-guru.c:1287
+msgid "_Insert"
+msgstr "挿入(_I)"
+
+#: ../goffice/graph/gog-guru.c:1349
+msgid "_Plot Type"
+msgstr "グラフの種類(_P)"
+
+#: ../goffice/graph/gog-label.c:143
+msgid "Allow markup"
+msgstr ""
+
+#: ../goffice/graph/gog-label.c:144
+msgid "Support basic html-ish markup"
+msgstr ""
+
+#: ../goffice/graph/gog-label.c:202
 msgid "_Text:"
 msgstr "テキスト(_T):"
 
-#: ../goffice/graph/gog-label.c:204 ../goffice/graph/gog-series.c:437
+#: ../goffice/graph/gog-label.c:209 ../goffice/graph/gog-series.c:446
 msgid "Data"
 msgstr "データ"
 
-#: ../goffice/graph/gog-label.c:354 ../goffice/graph/gog-reg-curve.c:83
+#: ../goffice/graph/gog-label.c:363 ../goffice/graph/gog-reg-curve.c:88
+#: ../plugins/plot_xy/gog-xy.c:1610
 msgid "Details"
 msgstr "詳細"
 
-#: ../goffice/graph/gog-label.c:372
+#: ../goffice/graph/gog-label.c:382
 msgid "Regression Equation"
 msgstr ""
 
-#: ../goffice/graph/gog-object.c:141 ../goffice/graph/gog-object.c:160
-msgid "Top"
-msgstr "上"
+#: ../goffice/graph/gog-label.c:421
+#, fuzzy
+msgid "Show equation"
+msgstr "分数"
 
-#: ../goffice/graph/gog-object.c:142 ../goffice/graph/gog-object.c:161
-msgid "Top right"
-msgstr "右上"
+#: ../goffice/graph/gog-label.c:422
+msgid "Show the equation on the graph"
+msgstr ""
 
-#: ../goffice/graph/gog-object.c:143 ../goffice/graph/gog-object.c:164
-msgid "Right"
-msgstr "右"
+#: ../goffice/graph/gog-label.c:427
+msgid "Show coefficient"
+msgstr ""
 
-#: ../goffice/graph/gog-object.c:144 ../goffice/graph/gog-object.c:167
-msgid "Bottom right"
-msgstr "右下"
+#: ../goffice/graph/gog-label.c:428
+msgid "Show the correlation coefficient on the graph"
+msgstr ""
 
-#: ../goffice/graph/gog-object.c:145 ../goffice/graph/gog-object.c:166
-msgid "Bottom"
-msgstr "下"
+#: ../goffice/graph/gog-legend.c:206
+msgid "Swatch Size pts"
+msgstr ""
 
-#: ../goffice/graph/gog-object.c:146 ../goffice/graph/gog-object.c:165
-msgid "Bottom left"
-msgstr "左下"
+#: ../goffice/graph/gog-legend.c:207
+msgid "size of the swatches in pts."
+msgstr ""
 
-#: ../goffice/graph/gog-object.c:147 ../goffice/graph/gog-object.c:162
-msgid "Left"
-msgstr "左"
+#: ../goffice/graph/gog-legend.c:212
+msgid "Swatch Padding pts"
+msgstr ""
 
-#: ../goffice/graph/gog-object.c:148 ../goffice/graph/gog-object.c:159
-msgid "Top left"
-msgstr "左上"
+#: ../goffice/graph/gog-legend.c:213
+msgid "padding between the swatches in pts."
+msgstr ""
 
-#: ../goffice/graph/gog-object.c:152
-msgid "Fill"
-msgstr "塗りつぶし"
-
-#: ../goffice/graph/gog-object.c:153 ../plugins/plot_barcol/gog-dropbar.c:60
-msgid "Start"
-msgstr "開始"
-
-#: ../goffice/graph/gog-object.c:154 ../plugins/plot_barcol/gog-dropbar.c:62
-msgid "End"
-msgstr "終了"
-
-#: ../goffice/graph/gog-object.c:155 ../goffice/graph/gog-object.c:163
-msgid "Center"
-msgstr "中心"
-
-#: ../goffice/graph/gog-object.c:608
-msgid "Position"
-msgstr "位置"
+#: ../goffice/graph/gog-object-prefs.glade.h:2
+#: ../goffice/graph/gog-plot-prefs.glade.h:2
+#: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:2
+#: ../plugins/plot_barcol/gog-minmax-prefs.glade.h:2
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:2
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:2
+#: ../plugins/plot_pie/gog-pie-series.glade.h:2
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:2
+#, no-c-format
+msgid "%"
+msgstr "%"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:3
-msgid "<b>Automatic position</b>"
-msgstr "<b>自動位置合わせ</b>"
-
-#: ../goffice/graph/gog-object-prefs.glade.h:4
-msgid "<b>Manual position</b>"
-msgstr "<b>手動位置合わせ</b>"
-
-#: ../goffice/graph/gog-object-prefs.glade.h:5
 msgid "Anchor:"
 msgstr "アンカー:"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:4
+#: ../goffice/graph/gog-plot-prefs.glade.h:3
+#, fuzzy
+msgid ""
+"Automatic\n"
+"Manual"
+msgstr "自動"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:6
 msgid "GogObjectPrefs"
@@ -1139,73 +1426,132 @@ msgstr "GogObjectPrefs"
 msgid "_Alignment:"
 msgstr "配置(_A):"
 
+#: ../goffice/graph/gog-object-prefs.glade.h:8
+#: ../goffice/graph/gog-plot-prefs.glade.h:6
+msgid "_Height:"
+msgstr "高さ(_H):"
+
 #: ../goffice/graph/gog-object-prefs.glade.h:9
+#: ../goffice/graph/gog-plot-prefs.glade.h:7
+#, fuzzy
+msgid "_Object position:"
+msgstr "位置(_P):"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:10
 msgid "_Position:"
 msgstr "位置(_P):"
 
-#: ../goffice/graph/gog-plot.c:169
-msgid "X axis:"
-msgstr "X 軸:"
+#: ../goffice/graph/gog-object-prefs.glade.h:12
+#: ../goffice/graph/gog-plot-prefs.glade.h:9
+msgid "_X:"
+msgstr "_X:"
 
-#: ../goffice/graph/gog-plot.c:170
-msgid "Y axis:"
-msgstr "Y 軸:"
+#: ../goffice/graph/gog-object-prefs.glade.h:13
+#: ../goffice/graph/gog-plot-prefs.glade.h:10
+msgid "_Y:"
+msgstr "_Y:"
 
-#: ../goffice/graph/gog-plot.c:171
-msgid "Z axis:"
-msgstr "Z 軸:"
+#: ../goffice/graph/gog-object.c:142 ../goffice/graph/gog-object.c:161
+msgid "Top"
+msgstr "上"
 
-#: ../goffice/graph/gog-plot.c:172
-msgid "Circular axis:"
-msgstr ""
+#: ../goffice/graph/gog-object.c:143 ../goffice/graph/gog-object.c:162
+msgid "Top right"
+msgstr "右上"
 
-#: ../goffice/graph/gog-plot.c:173
-msgid "Radial axis:"
-msgstr ""
+#: ../goffice/graph/gog-object.c:144 ../goffice/graph/gog-object.c:165
+msgid "Right"
+msgstr "右"
 
-#: ../goffice/graph/gog-plot.c:174
-msgid "Type axis:"
-msgstr ""
+#: ../goffice/graph/gog-object.c:145 ../goffice/graph/gog-object.c:168
+msgid "Bottom right"
+msgstr "右下"
 
-#: ../goffice/graph/gog-plot.c:175
-msgid "Pseudo 3D axis:"
-msgstr ""
+#: ../goffice/graph/gog-object.c:146 ../goffice/graph/gog-object.c:167
+msgid "Bottom"
+msgstr "下"
 
-#: ../goffice/graph/gog-plot.c:247
-msgid "Axes"
-msgstr "座標軸"
+#: ../goffice/graph/gog-object.c:147 ../goffice/graph/gog-object.c:166
+msgid "Bottom left"
+msgstr "左下"
 
-#: ../goffice/graph/gog-plot.c:343
-msgid "Series"
-msgstr "系"
+#: ../goffice/graph/gog-object.c:148 ../goffice/graph/gog-object.c:163
+msgid "Left"
+msgstr "左"
 
-#: ../goffice/graph/gog-plot.c:374
-msgid "Plot group"
-msgstr "プロットグループ"
+#: ../goffice/graph/gog-object.c:149 ../goffice/graph/gog-object.c:160
+msgid "Top left"
+msgstr "左上"
 
-#: ../goffice/graph/gog-plot.c:375
-msgid "Name of plot group if any"
-msgstr ""
+#: ../goffice/graph/gog-object.c:153
+msgid "Fill"
+msgstr "塗りつぶし"
 
-#: ../goffice/graph/gog-plot.c:378
-msgid "Guru hints"
-msgstr ""
+#: ../goffice/graph/gog-object.c:154 ../plugins/plot_barcol/gog-dropbar.c:60
+msgid "Start"
+msgstr "開始"
 
-#: ../goffice/graph/gog-plot.c:379
-msgid ""
-"Semicolon separated list of hints for automatic addition of objects in guru "
-"dialog"
-msgstr ""
+#: ../goffice/graph/gog-object.c:155 ../plugins/plot_barcol/gog-dropbar.c:62
+msgid "End"
+msgstr "終了"
 
-#: ../goffice/graph/gog-plot.c:900
+#: ../goffice/graph/gog-object.c:156 ../goffice/graph/gog-object.c:164
+msgid "Center"
+msgstr "中心"
+
+#: ../goffice/graph/gog-object.c:620 ../goffice/graph/gog-object.c:665
+msgid "Position"
+msgstr "位置"
+
+#: ../goffice/graph/gog-object.c:659
 #, fuzzy
-msgid "Move plot area"
-msgstr "プロットエリア"
+msgid "Object ID"
+msgstr "オブジェクト"
 
-#: ../goffice/graph/gog-plot.c:952
+#: ../goffice/graph/gog-object.c:660
+msgid "Object numerical ID"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:666
+msgid "Position and size of object, in percentage of parent size"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:671
 #, fuzzy
-msgid "Resize plot area"
-msgstr "プロットエリア"
+msgid "Compass"
+msgstr "交差(_C)"
+
+#: ../goffice/graph/gog-object.c:672
+msgid "Compass auto position flags"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:678
+#, fuzzy
+msgid "Alignment flag"
+msgstr "配置"
+
+#: ../goffice/graph/gog-object.c:683 ../goffice/graph/gog-object.c:684
+msgid "Is position manual"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:689
+#, fuzzy
+msgid "Anchor"
+msgstr "アンカー:"
+
+#: ../goffice/graph/gog-object.c:690
+#, fuzzy
+msgid "Anchor for manual position"
+msgstr "手動で位置をあわせる(_U)"
+
+#: ../goffice/graph/gog-outlined-object.c:80
+#, fuzzy
+msgid "Padding Pts"
+msgstr "円/ドーナツでプロットします．"
+
+#: ../goffice/graph/gog-outlined-object.c:81
+msgid "Number of pts separating charts in the grid"
+msgstr ""
 
 #: ../goffice/graph/gog-plot-engine.c:56
 msgid "Plot Engine"
@@ -1215,26 +1561,113 @@ msgstr "プロットエンジン"
 msgid "Plot Type"
 msgstr "プロットの種類"
 
-#: ../goffice/graph/gog-plot-engine.c:341
+#: ../goffice/graph/gog-plot-engine.c:343
 msgid "Chart Theme"
 msgstr "グラフのテーマ"
 
-#: ../goffice/graph/gog-plot-engine.c:372
+#: ../goffice/graph/gog-plot-engine.c:374
 msgid "Regression Curve Engine"
 msgstr ""
 
-#: ../goffice/graph/gog-plot-engine.c:527
+#: ../goffice/graph/gog-plot-engine.c:529
 msgid "Regression Curve Type"
 msgstr ""
 
-#: ../goffice/graph/gog-reg-curve.c:158
-msgid "Regression Curve"
+#: ../goffice/graph/gog-plot-prefs.glade.h:5
+msgid "GogChartPrefs"
+msgstr "GogChartPrefs"
+
+#: ../goffice/graph/gog-plot.c:269
+msgid "X axis:"
+msgstr "X 軸:"
+
+#: ../goffice/graph/gog-plot.c:270
+msgid "Y axis:"
+msgstr "Y 軸:"
+
+#: ../goffice/graph/gog-plot.c:271
+msgid "Z axis:"
+msgstr "Z 軸:"
+
+#: ../goffice/graph/gog-plot.c:272
+msgid "Circular axis:"
 msgstr ""
 
-#: ../goffice/graph/gog-reg-curve.c:165
+#: ../goffice/graph/gog-plot.c:273
+msgid "Radial axis:"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:274
+msgid "Type axis:"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:275
+msgid "Pseudo 3D axis:"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:354
+msgid "Axes"
+msgstr "座標軸"
+
+#: ../goffice/graph/gog-plot.c:499
+msgid "Series"
+msgstr "系"
+
+#: ../goffice/graph/gog-plot.c:520
+msgid "Vary style by element"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:521
+msgid "Use a different style for each segments"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:526
 #, fuzzy
-msgid "Equation"
-msgstr "分数"
+msgid "X axis"
+msgstr "X 軸:"
+
+#: ../goffice/graph/gog-plot.c:527
+#, fuzzy
+msgid "Reference to X axis"
+msgstr "画像の選択"
+
+#: ../goffice/graph/gog-plot.c:532
+#, fuzzy
+msgid "Y axis"
+msgstr "Y 軸:"
+
+#: ../goffice/graph/gog-plot.c:533
+#, fuzzy
+msgid "Reference to Y axis"
+msgstr "画像の選択"
+
+#: ../goffice/graph/gog-plot.c:538
+msgid "Plot group"
+msgstr "プロットグループ"
+
+#: ../goffice/graph/gog-plot.c:539
+msgid "Name of plot group if any"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:544
+msgid "Guru hints"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:545
+msgid ""
+"Semicolon separated list of hints for automatic addition of objects in guru "
+"dialog"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:1093
+#, fuzzy
+msgid "Move plot area"
+msgstr "プロットエリア"
+
+#: ../goffice/graph/gog-plot.c:1145
+#, fuzzy
+msgid "Resize plot area"
+msgstr "プロットエリア"
 
 #: ../goffice/graph/gog-reg-curve-prefs.glade.h:1
 msgid "High bound:"
@@ -1245,7 +1678,22 @@ msgid "Low bound:"
 msgstr "下界:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.glade.h:3
+#: ../goffice/graph/gog-reg-curve.c:196
 msgid "Skip invalid data"
+msgstr "不正なデータをスキップ"
+
+#: ../goffice/graph/gog-reg-curve.c:160
+msgid "Regression Curve"
+msgstr ""
+
+#: ../goffice/graph/gog-reg-curve.c:167
+#, fuzzy
+msgid "Equation"
+msgstr "分数"
+
+#: ../goffice/graph/gog-reg-curve.c:195
+#, fuzzy
+msgid "Skip invalid"
 msgstr "不正なデータをスキップ"
 
 #: ../goffice/graph/gog-reg-eqn-prefs.glade.h:1
@@ -1256,54 +1704,90 @@ msgstr ""
 msgid "Display _regression coefficient R²"
 msgstr ""
 
-#: ../goffice/graph/gog-series.c:142
+#: ../goffice/graph/gog-renderer.c:702
+msgid "The GogGraph this renderer displays"
+msgstr ""
+
+#: ../goffice/graph/gog-renderer.c:707
+msgid "View"
+msgstr ""
+
+#: ../goffice/graph/gog-renderer.c:708
+msgid "the GogView this renderer is displaying"
+msgstr ""
+
+#: ../goffice/graph/gog-renderer.c:713
+msgid "Zoom Height Pts"
+msgstr ""
+
+#: ../goffice/graph/gog-renderer.c:714
+msgid "Global scale factor"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:146
 msgid "Index:"
 msgstr "インデックス:"
 
-#: ../goffice/graph/gog-series.c:161 ../plugins/plot_pie/gog-pie.c:85
+#: ../goffice/graph/gog-series.c:165 ../plugins/plot_pie/gog-pie.c:86
 msgid "Settings"
 msgstr "設定"
 
-#: ../goffice/graph/gog-series.c:464
+#: ../goffice/graph/gog-series.c:205
+#, fuzzy
+msgid "Index"
+msgstr "インデックス:"
+
+#: ../goffice/graph/gog-series.c:206
+msgid "Index of the corresponding data element"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:474
 msgid "Point"
 msgstr "点"
 
-#: ../goffice/graph/gog-series.c:470
+#: ../goffice/graph/gog-series.c:480
 msgid "Regression curve"
 msgstr ""
 
-#: ../goffice/graph/gog-style.c:166 ../goffice/gtk/goffice-gtk.c:459
-#, c-format
-msgid "%d x %d"
-msgstr "%d x %d"
+#: ../goffice/graph/gog-series.c:488
+#, fuzzy
+msgid "Trend line"
+msgstr "区分線"
 
-#: ../goffice/graph/gog-style.c:1019
-msgid "Style"
-msgstr "スタイル"
+#: ../goffice/graph/gog-series.c:519
+#, fuzzy
+msgid "Has-legend"
+msgstr "凡例"
+
+#: ../goffice/graph/gog-series.c:520
+msgid "Should the series show up in legends"
+msgstr ""
 
 #: ../goffice/graph/gog-style-prefs.glade.h:1
-msgid ""
-"2 Colors\n"
-"Brightness"
-msgstr ""
-"2色\n"
-"明るさ"
-
-#: ../goffice/graph/gog-style-prefs.glade.h:3
 msgid "<b>Fill</b>"
 msgstr "<b>塗りつぶし</b>"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:4
+#: ../goffice/graph/gog-style-prefs.glade.h:2
+#, fuzzy
+msgid "<b>Interpolation</b>"
+msgstr "<b>詳細</b>"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:3
 msgid "<b>Line</b>"
 msgstr "<b>線</b>"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:5
+#: ../goffice/graph/gog-style-prefs.glade.h:4
 msgid "<b>Marker</b>"
 msgstr "<b>マーカー</b>"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:6
+#: ../goffice/graph/gog-style-prefs.glade.h:5
 msgid "<b>Outline</b>"
 msgstr "<b>輪郭</b>"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:6
+#, fuzzy
+msgid "B_rightness:"
+msgstr "明るくする(_B)"
 
 #: ../goffice/graph/gog-style-prefs.glade.h:7
 msgid "Co_lor:"
@@ -1311,9 +1795,21 @@ msgstr "色(_L):"
 
 #: ../goffice/graph/gog-style-prefs.glade.h:8
 msgid ""
+"Linear\n"
+"Spline\n"
+"Step at start\n"
+"Step at end\n"
+"Step at center\n"
+"Step to average"
+msgstr ""
+
+#: ../goffice/graph/gog-style-prefs.glade.h:14
+#, fuzzy
+msgid ""
 "None\n"
 "Pattern\n"
-"Gradient\n"
+"Bicolor gradient\n"
+"Unicolor gradient\n"
 "Image"
 msgstr ""
 "なし\n"
@@ -1321,113 +1817,137 @@ msgstr ""
 "グラデーション\n"
 "画像"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:12
-msgid "O_utline color:"
+#: ../goffice/graph/gog-style-prefs.glade.h:19
+#, fuzzy
+msgid "O_utline:"
 msgstr "輪郭の色(_U):"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:13
+#: ../goffice/graph/gog-style-prefs.glade.h:20
 msgid "Sha_pe:"
 msgstr "形(_P):"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:14
+#: ../goffice/graph/gog-style-prefs.glade.h:21
 msgid "Si_ze:"
 msgstr "サイズ(_Z):"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:15
+#: ../goffice/graph/gog-style-prefs.glade.h:22
 msgid "St_yle:"
 msgstr "スタイル(_Y):"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:16
-msgid "Ty_pe:"
-msgstr "形式(_P):"
-
-#: ../goffice/graph/gog-style-prefs.glade.h:17
+#: ../goffice/graph/gog-style-prefs.glade.h:23
 msgid "_Background:"
 msgstr "背景(_B):"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:18
+#: ../goffice/graph/gog-style-prefs.glade.h:24
 msgid "_Direction:"
 msgstr "方向(_D):"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:19
-msgid "_End:"
-msgstr "終了(_E):"
+#: ../goffice/graph/gog-style-prefs.glade.h:25
+#, fuzzy
+msgid "_Fill:"
+msgstr "塗りつぶし"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:20
-msgid "_Fill color:"
-msgstr "塗りつぶし(_F):"
-
-#: ../goffice/graph/gog-style-prefs.glade.h:21
+#: ../goffice/graph/gog-style-prefs.glade.h:26
 msgid "_Fit:"
 msgstr "合わせる(_F):"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:22
+#: ../goffice/graph/gog-style-prefs.glade.h:27
 msgid "_Foreground:"
 msgstr "文字色(_F):"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:23
+#: ../goffice/graph/gog-style-prefs.glade.h:28
 msgid "_Pattern:"
 msgstr "パターン(_P):"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:24
+#: ../goffice/graph/gog-style-prefs.glade.h:29
 msgid "_Select..."
 msgstr "選択(_S)..."
 
-#: ../goffice/graph/gog-style-prefs.glade.h:25
+#: ../goffice/graph/gog-style-prefs.glade.h:30
 msgid "_Size:"
 msgstr "サイズ(_S):"
 
-#: ../goffice/graph/gog-style-prefs.glade.h:26
-msgid "_Start:"
-msgstr "開始(_S):"
-
-#: ../goffice/graph/gog-style-prefs.glade.h:28
-msgid "_brighter"
-msgstr "明るくする(_B)"
-
-#: ../goffice/graph/gog-style-prefs.glade.h:29
-msgid "_darker"
-msgstr "暗くする(_D)"
-
-#: ../goffice/graph/gog-style-prefs.glade.h:30
-msgid "pts"
-msgstr "pts"
-
-#: ../goffice/graph/gog-style-prefs.glade.h:31
+#: ../goffice/graph/gog-style-prefs.glade.h:33
 msgid ""
 "stretched\n"
 "wallpaper"
 msgstr ""
 
-#. TODO : have a look at apple's themes
+#: ../goffice/graph/gog-style.c:179 ../goffice/gtk/goffice-gtk.c:403
+#, c-format
+msgid "%d x %d"
+msgstr "%d x %d"
+
+#: ../goffice/graph/gog-style.c:658
+#, fuzzy
+msgid "Start:"
+msgstr "開始(_S):"
+
+#: ../goffice/graph/gog-style.c:659
+#, fuzzy
+msgid "End:"
+msgstr "終了(_E):"
+
+#: ../goffice/graph/gog-style.c:661
+#, fuzzy
+msgid "Foreground:"
+msgstr "文字色(_F):"
+
+#: ../goffice/graph/gog-style.c:662
+#, fuzzy
+msgid "Background:"
+msgstr "背景(_B):"
+
+#: ../goffice/graph/gog-style.c:1026 ../goffice/graph/gog-styled-object.c:161
+msgid "Style"
+msgstr "スタイル"
+
+#: ../goffice/graph/gog-styled-object.c:162
+msgid "A pointer to the GogStyle object"
+msgstr ""
+
 #. An MS Excel-ish theme
-#: ../goffice/graph/gog-theme.c:458
+#: ../goffice/graph/gog-theme.c:497
 msgid "Default"
 msgstr "デフォルト"
 
 #. Guppi
-#: ../goffice/graph/gog-theme.c:563
+#: ../goffice/graph/gog-theme.c:618
 msgid "Guppi"
 msgstr "Guppi"
 
-#: ../goffice/graph/gog-view.c:56
+#: ../goffice/graph/gog-view.c:66
 msgid "Select object"
 msgstr ""
 
-#: ../goffice/graph/gog-view.c:120
+#: ../goffice/graph/gog-view.c:137
 msgid "Move"
 msgstr ""
 
-#: ../goffice/graph/gog-view.c:172
+#: ../goffice/graph/gog-view.c:189
 msgid "Resize object"
 msgstr ""
 
-#: ../goffice/gtk/go-action-combo-text.c:233
+#: ../goffice/graph/gog-view.c:594
+#, fuzzy
+msgid "Parent"
+msgstr "パーセンテージ"
+
+#: ../goffice/graph/gog-view.c:595
+msgid "the GogView parent"
+msgstr ""
+
+#: ../goffice/graph/gog-view.c:601
+msgid "The GogObject this view displays"
+msgstr ""
+
+#: ../goffice/gtk/go-action-combo-text.c:249
 msgid "Case Sensitive"
 msgstr "大/小文字を区別"
 
-#: ../goffice/gtk/go-action-combo-text.c:234
-msgid "Should the text comparasion be case sensitive"
+#: ../goffice/gtk/go-action-combo-text.c:250
+#, fuzzy
+msgid "Should the text comparison be case sensitive"
 msgstr "文字列比較は大/小文字を区別すべきです"
 
 #: ../goffice/gtk/go-charmap-sel.c:74
@@ -1486,7 +2006,7 @@ msgstr "ベトナム語"
 msgid "Western"
 msgstr "西欧"
 
-#: ../goffice/gtk/go-charmap-sel.c:88 ../goffice/gtk/go-locale-sel.c:75
+#: ../goffice/gtk/go-charmap-sel.c:88 ../goffice/gtk/go-locale-sel.c:71
 msgid "Other"
 msgstr "その他"
 
@@ -1830,194 +2350,202 @@ msgstr "変換方向"
 msgid "This value determines which iconv test to perform."
 msgstr "この値は実行するiconvテストを決定します．"
 
-#: ../goffice/gtk/go-color-palette.c:95
+#: ../goffice/gtk/go-color-palette.c:80
 msgid "black"
 msgstr "黒"
 
-#: ../goffice/gtk/go-color-palette.c:96
+#: ../goffice/gtk/go-color-palette.c:81
 msgid "light brown"
 msgstr "淡い茶色"
 
-#: ../goffice/gtk/go-color-palette.c:97
+#: ../goffice/gtk/go-color-palette.c:82
 msgid "brown gold"
 msgstr "茶金色"
 
-#: ../goffice/gtk/go-color-palette.c:98
+#: ../goffice/gtk/go-color-palette.c:83
 msgid "dark green #2"
 msgstr "暗い緑 #2"
 
-#: ../goffice/gtk/go-color-palette.c:99
+#: ../goffice/gtk/go-color-palette.c:84
 msgid "navy"
 msgstr "濃紺"
 
-#: ../goffice/gtk/go-color-palette.c:100 ../goffice/gtk/go-color-palette.c:152
+#: ../goffice/gtk/go-color-palette.c:85 ../goffice/gtk/go-color-palette.c:137
 msgid "dark blue"
 msgstr "暗い青"
 
-#: ../goffice/gtk/go-color-palette.c:101
+#: ../goffice/gtk/go-color-palette.c:86
 msgid "purple #2"
 msgstr "紫 #2"
 
-#: ../goffice/gtk/go-color-palette.c:102
+#: ../goffice/gtk/go-color-palette.c:87
 msgid "very dark gray"
 msgstr "とても暗い赤"
 
-#: ../goffice/gtk/go-color-palette.c:104 ../goffice/gtk/go-color-palette.c:157
+#: ../goffice/gtk/go-color-palette.c:89 ../goffice/gtk/go-color-palette.c:142
 msgid "dark red"
 msgstr "暗い赤"
 
-#: ../goffice/gtk/go-color-palette.c:105
+#: ../goffice/gtk/go-color-palette.c:90
 msgid "red-orange"
 msgstr "赤橙"
 
-#: ../goffice/gtk/go-color-palette.c:106
+#: ../goffice/gtk/go-color-palette.c:91
 msgid "gold"
 msgstr "金"
 
-#: ../goffice/gtk/go-color-palette.c:107
+#: ../goffice/gtk/go-color-palette.c:92
 msgid "dark green"
 msgstr "深緑"
 
-#: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:158
+#: ../goffice/gtk/go-color-palette.c:93 ../goffice/gtk/go-color-palette.c:143
 msgid "dull blue"
 msgstr "くすんだ青"
 
-#: ../goffice/gtk/go-color-palette.c:109 ../goffice/gtk/go-color-palette.c:159
+#: ../goffice/gtk/go-color-palette.c:94 ../goffice/gtk/go-color-palette.c:144
 msgid "blue"
 msgstr "青"
 
-#: ../goffice/gtk/go-color-palette.c:110
+#: ../goffice/gtk/go-color-palette.c:95
 msgid "dull purple"
 msgstr "くすんだ紫"
 
-#: ../goffice/gtk/go-color-palette.c:111
+#: ../goffice/gtk/go-color-palette.c:96
 msgid "dark gray"
 msgstr "ダークグレー"
 
-#: ../goffice/gtk/go-color-palette.c:113
+#: ../goffice/gtk/go-color-palette.c:98
 msgid "red"
 msgstr "赤"
 
-#: ../goffice/gtk/go-color-palette.c:114
+#: ../goffice/gtk/go-color-palette.c:99
 msgid "orange"
 msgstr "橙"
 
-#: ../goffice/gtk/go-color-palette.c:115
+#: ../goffice/gtk/go-color-palette.c:100
 msgid "lime"
 msgstr "ライム"
 
-#: ../goffice/gtk/go-color-palette.c:116
+#: ../goffice/gtk/go-color-palette.c:101
 msgid "dull green"
 msgstr "くすんだ緑"
 
-#: ../goffice/gtk/go-color-palette.c:117
+#: ../goffice/gtk/go-color-palette.c:102
 msgid "dull blue #2"
 msgstr "くすんだ青 #2"
 
-#: ../goffice/gtk/go-color-palette.c:118
+#: ../goffice/gtk/go-color-palette.c:103
 msgid "sky blue #2"
 msgstr "スカイブルー #2"
 
-#: ../goffice/gtk/go-color-palette.c:119 ../goffice/gtk/go-color-palette.c:156
+#: ../goffice/gtk/go-color-palette.c:104 ../goffice/gtk/go-color-palette.c:141
 msgid "purple"
 msgstr "紫"
 
-#: ../goffice/gtk/go-color-palette.c:120
+#: ../goffice/gtk/go-color-palette.c:105
 msgid "gray"
 msgstr "グレー"
 
-#: ../goffice/gtk/go-color-palette.c:122 ../goffice/gtk/go-color-palette.c:153
+#: ../goffice/gtk/go-color-palette.c:107 ../goffice/gtk/go-color-palette.c:138
 msgid "magenta"
 msgstr "マゼンタ"
 
-#: ../goffice/gtk/go-color-palette.c:123
+#: ../goffice/gtk/go-color-palette.c:108
 msgid "bright orange"
 msgstr "明るいオレンジ"
 
-#: ../goffice/gtk/go-color-palette.c:124 ../goffice/gtk/go-color-palette.c:154
+#: ../goffice/gtk/go-color-palette.c:109 ../goffice/gtk/go-color-palette.c:139
 msgid "yellow"
 msgstr "黄"
 
-#: ../goffice/gtk/go-color-palette.c:125
+#: ../goffice/gtk/go-color-palette.c:110
 msgid "green"
 msgstr "緑"
 
-#: ../goffice/gtk/go-color-palette.c:126 ../goffice/gtk/go-color-palette.c:155
+#: ../goffice/gtk/go-color-palette.c:111 ../goffice/gtk/go-color-palette.c:140
 msgid "cyan"
 msgstr "シアン"
 
-#: ../goffice/gtk/go-color-palette.c:127
+#: ../goffice/gtk/go-color-palette.c:112
 msgid "bright blue"
 msgstr "明るい青"
 
-#: ../goffice/gtk/go-color-palette.c:128 ../goffice/gtk/go-color-palette.c:144
+#: ../goffice/gtk/go-color-palette.c:113 ../goffice/gtk/go-color-palette.c:129
 msgid "red purple"
 msgstr "赤紫"
 
-#: ../goffice/gtk/go-color-palette.c:129
+#: ../goffice/gtk/go-color-palette.c:114
 msgid "light gray"
 msgstr "淡い灰色"
 
-#: ../goffice/gtk/go-color-palette.c:131 ../goffice/gtk/go-color-palette.c:148
+#: ../goffice/gtk/go-color-palette.c:116 ../goffice/gtk/go-color-palette.c:133
 msgid "pink"
 msgstr "ピンク"
 
-#: ../goffice/gtk/go-color-palette.c:132
+#: ../goffice/gtk/go-color-palette.c:117
 msgid "light orange"
 msgstr "淡いオレンジ"
 
-#: ../goffice/gtk/go-color-palette.c:133 ../goffice/gtk/go-color-palette.c:145
+#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:130
 msgid "light yellow"
 msgstr "淡い黄"
 
-#: ../goffice/gtk/go-color-palette.c:134
+#: ../goffice/gtk/go-color-palette.c:119
 msgid "light green"
 msgstr "淡い緑"
 
-#: ../goffice/gtk/go-color-palette.c:135
+#: ../goffice/gtk/go-color-palette.c:120
 msgid "light cyan"
 msgstr "淡いシアン"
 
-#: ../goffice/gtk/go-color-palette.c:136 ../goffice/gtk/go-color-palette.c:146
+#: ../goffice/gtk/go-color-palette.c:121 ../goffice/gtk/go-color-palette.c:131
 msgid "light blue"
 msgstr "淡い青"
 
-#: ../goffice/gtk/go-color-palette.c:137 ../goffice/gtk/go-color-palette.c:150
+#: ../goffice/gtk/go-color-palette.c:122 ../goffice/gtk/go-color-palette.c:135
 msgid "light purple"
 msgstr "淡い紫"
 
-#: ../goffice/gtk/go-color-palette.c:138
+#: ../goffice/gtk/go-color-palette.c:123
 msgid "white"
 msgstr "白"
 
 #. Disable these for now, they are mostly repeats
-#: ../goffice/gtk/go-color-palette.c:143
+#: ../goffice/gtk/go-color-palette.c:128
 msgid "purplish blue"
 msgstr "紫青"
 
-#: ../goffice/gtk/go-color-palette.c:147
+#: ../goffice/gtk/go-color-palette.c:132
 msgid "dark purple"
 msgstr "暗い紫"
 
-#: ../goffice/gtk/go-color-palette.c:149
+#: ../goffice/gtk/go-color-palette.c:134
 msgid "sky blue"
 msgstr "スカイブルー"
 
-#: ../goffice/gtk/go-color-palette.c:474
+#: ../goffice/gtk/go-color-palette.c:463
 msgid "custom"
 msgstr "カスタム"
 
-#: ../goffice/gtk/go-color-palette.c:481 ../goffice/gtk/go-color-palette.c:710
+#: ../goffice/gtk/go-color-palette.c:470 ../goffice/gtk/go-color-palette.c:699
 msgid "Custom Color..."
 msgstr "カスタムカラー..."
 
-#: ../goffice/gtk/go-combo-box.c:264
+#: ../goffice/gtk/go-combo-box.c:260
 msgid "Add tearoffs to menus"
 msgstr ""
 
-#: ../goffice/gtk/go-combo-box.c:265
+#: ../goffice/gtk/go-combo-box.c:261
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr ""
+
+#: ../goffice/gtk/go-dock-item-grip.c:261
+msgid "Dock the toolbar"
+msgstr "ツールバーを結合する"
+
+#: ../goffice/gtk/go-dock-item-grip.c:262
+msgid "Undock the toolbar"
+msgstr "ツールバーを切り離す"
 
 #: ../goffice/gtk/go-dock-item.c:235 ../goffice/gtk/go-dock-item.c:236
 msgid "Shadow type"
@@ -2034,74 +2562,6 @@ msgstr "指定する幅"
 #: ../goffice/gtk/go-dock-item.c:266 ../goffice/gtk/go-dock-item.c:267
 msgid "Preferred height"
 msgstr "指定する高さ"
-
-#: ../goffice/gtk/go-dock-item-grip.c:260
-msgid "Dock the toolbar"
-msgstr "ツールバーを結合する"
-
-#: ../goffice/gtk/go-dock-item-grip.c:261
-msgid "Undock the toolbar"
-msgstr "ツールバーを切り離す"
-
-#: ../goffice/gtk/goffice-gtk.c:183
-#, c-format
-msgid "Unable to open file '%s'"
-msgstr "ファイル'%s'を開けません"
-
-#: ../goffice/gtk/goffice-gtk.c:494
-msgid "All Files"
-msgstr "すべてのファイル"
-
-#: ../goffice/gtk/goffice-gtk.c:499
-msgid "Images"
-msgstr "画像"
-
-#: ../goffice/gtk/goffice-gtk.c:543
-msgid "Select an Image"
-msgstr "画像の選択"
-
-#: ../goffice/gtk/goffice-gtk.c:578
-msgid "Save as"
-msgstr "名前を付けて保存"
-
-#: ../goffice/gtk/goffice-gtk.c:598
-msgid "File _type:"
-msgstr "ファイルタイプ(_T):"
-
-#: ../goffice/gtk/goffice-gtk.c:621
-msgid ""
-"The given file extension does not match the chosen file type. Do you want to "
-"use this name anyway?"
-msgstr ""
-"指定されたファイルの拡張子は選択したファイルタイプと一致していません．この名"
-"前をとにかく使用しますか?"
-
-#: ../goffice/gtk/goffice-gtk.c:800
-#, c-format
-msgid ""
-"%s\n"
-"is a directory name"
-msgstr ""
-"%s\n"
-"はディレクトリ名です"
-
-#: ../goffice/gtk/goffice-gtk.c:804
-#, c-format
-msgid ""
-"You do not have permission to save to\n"
-"%s"
-msgstr "%s に保存するためのパーミッションがありません"
-
-#: ../goffice/gtk/goffice-gtk.c:811
-#, c-format
-msgid ""
-"A file called <i>%s</i> already exists in %s.\n"
-"\n"
-"Do you want to save over it?"
-msgstr ""
-"ファイル <i>%s</i> はすでに %s に存在します。\n"
-"\n"
-"上書き保存しますか?"
 
 #: ../goffice/gtk/go-font-sel.c:183
 msgid "Normal"
@@ -2146,51 +2606,51 @@ msgstr "プレビュー"
 msgid "Size:"
 msgstr "サイズ:"
 
-#: ../goffice/gtk/go-format-sel.c:75
+#: ../goffice/gtk/go-format-sel.c:69
 msgid "Number"
 msgstr "数値"
 
-#: ../goffice/gtk/go-format-sel.c:76
+#: ../goffice/gtk/go-format-sel.c:70
 msgid "Currency"
 msgstr "通貨"
 
-#: ../goffice/gtk/go-format-sel.c:77
+#: ../goffice/gtk/go-format-sel.c:71
 msgid "Accounting"
 msgstr "会計"
 
-#: ../goffice/gtk/go-format-sel.c:78
+#: ../goffice/gtk/go-format-sel.c:72
 msgid "Date"
 msgstr "日付"
 
-#: ../goffice/gtk/go-format-sel.c:79
+#: ../goffice/gtk/go-format-sel.c:73
 msgid "Time"
 msgstr "時間"
 
-#: ../goffice/gtk/go-format-sel.c:80
+#: ../goffice/gtk/go-format-sel.c:74
 msgid "Percentage"
 msgstr "パーセンテージ"
 
-#: ../goffice/gtk/go-format-sel.c:81
+#: ../goffice/gtk/go-format-sel.c:75
 msgid "Fraction"
 msgstr "分数"
 
-#: ../goffice/gtk/go-format-sel.c:82
+#: ../goffice/gtk/go-format-sel.c:76
 msgid "Scientific"
 msgstr "科学技術"
 
-#: ../goffice/gtk/go-format-sel.c:84
+#: ../goffice/gtk/go-format-sel.c:78
 msgid "Special"
 msgstr "特別"
 
-#: ../goffice/gtk/go-format-sel.c:85
+#: ../goffice/gtk/go-format-sel.c:79
 msgid "Custom"
 msgstr "カスタム"
 
-#: ../goffice/gtk/go-format-sel.c:960
+#: ../goffice/gtk/go-format-sel.c:1334
 msgid "Negative Number Format"
 msgstr "負の数のフォーマット"
 
-#: ../goffice/gtk/go-format-sel.c:982
+#: ../goffice/gtk/go-format-sel.c:1362
 msgid "Number Formats"
 msgstr "数字フォーマット"
 
@@ -2251,24 +2711,677 @@ msgid "Preview:"
 msgstr "プレビュー:"
 
 #: ../goffice/gtk/go-format-sel.glade.h:15
+msgid "Restrict exponent to multiples of 3"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:16
 msgid "S_ymbol:"
 msgstr "記号(_Y):"
 
-#: ../goffice/gtk/go-format-sel.glade.h:16
+#: ../goffice/gtk/go-format-sel.glade.h:17
 msgid "Select an appropriate format automatically."
 msgstr "適切なフォーマットを自動的に選択します．"
 
-#: ../goffice/gtk/go-format-sel.glade.h:17
+#: ../goffice/gtk/go-format-sel.glade.h:18
 msgid "Specify an XL-style format directly"
 msgstr "エクセルスタイルのフォーマットを直接指定します"
 
-#: ../goffice/gtk/go-format-sel.glade.h:18
+#: ../goffice/gtk/go-format-sel.glade.h:19
+msgid "Use _superscript"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:20
+msgid "Use superscript for exponent (e.g. 4×10²)"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:21
+msgid "When mantissa is equal to 1, only show exponent part (e.g. 10²)"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:22
+msgid "_Don't show 1x's"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:23
+msgid "_Engineering notation"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:24
 msgid "_Format:"
 msgstr "書式(_F):"
 
-#: ../goffice/gtk/go-format-sel.glade.h:19
-msgid "_Use Separator for 1000's"
+#: ../goffice/gtk/go-format-sel.glade.h:25
+#, fuzzy
+msgid "_Use separator for 1000s"
 msgstr "1000単位でセパレータを使用する(_U)"
+
+#: ../goffice/gtk/go-locale-sel.c:64
+msgid "Western Europe"
+msgstr "西欧"
+
+#: ../goffice/gtk/go-locale-sel.c:65
+msgid "Eastern Europe"
+msgstr "東欧"
+
+#: ../goffice/gtk/go-locale-sel.c:66
+msgid "North America"
+msgstr "北米"
+
+#: ../goffice/gtk/go-locale-sel.c:67
+msgid "South & Central America"
+msgstr "中南米"
+
+#: ../goffice/gtk/go-locale-sel.c:68
+msgid "Asia"
+msgstr "アジア"
+
+#: ../goffice/gtk/go-locale-sel.c:69
+msgid "Africa"
+msgstr "アフリカ"
+
+#: ../goffice/gtk/go-locale-sel.c:70
+msgid "Australia"
+msgstr "オーストラリア"
+
+#.
+#. * The format here is "Country/Language (locale)" or just
+#. * "Country (locale)" when there is only one choice or one
+#. * very dominant language.
+#. *
+#. * Note: lots of people get very emotional over this.  Please
+#. * err on the safe side, if any.
+#.
+#: ../goffice/gtk/go-locale-sel.c:102
+msgid "United States/English (C)"
+msgstr "アメリカ合衆国/英語 (C)"
+
+#: ../goffice/gtk/go-locale-sel.c:103
+msgid "South Africa Afrikaans (af_ZA)"
+msgstr "南アフリカ アフリカーンス (af_ZA)"
+
+#: ../goffice/gtk/go-locale-sel.c:104
+msgid "Ethiopia/Amharic (am_ET)"
+msgstr "エチオピア/アムハリク語 (am_ET)"
+
+#: ../goffice/gtk/go-locale-sel.c:105
+msgid "United Arab Emirates (ar_AE)"
+msgstr "アラブ首長国連邦 (ar_AE)"
+
+#: ../goffice/gtk/go-locale-sel.c:106
+msgid "Bahrain (ar_BH)"
+msgstr "バーレーン (ar_BH)"
+
+#: ../goffice/gtk/go-locale-sel.c:107
+msgid "Algeria (ar_DZ)"
+msgstr "アルジェリア (ar_DZ)"
+
+#: ../goffice/gtk/go-locale-sel.c:108
+msgid "Egypt (ar_EG)"
+msgstr "エジプト (ar_EG)"
+
+#: ../goffice/gtk/go-locale-sel.c:109
+msgid "India/Arabic (ar_IN)"
+msgstr "インド/アラブ語 (ar_IN)"
+
+#: ../goffice/gtk/go-locale-sel.c:110
+msgid "Iraq (ar_IQ)"
+msgstr "イラク (ar_IQ)"
+
+#: ../goffice/gtk/go-locale-sel.c:111
+msgid "Jordan (ar_JO)"
+msgstr "ヨルダン (ar_JO)"
+
+#: ../goffice/gtk/go-locale-sel.c:112
+msgid "Kuwait (ar_KW)"
+msgstr "クウェート (ar_KW)"
+
+#: ../goffice/gtk/go-locale-sel.c:113
+msgid "Lebanon (ar_LB)"
+msgstr "レバノン (ar_LB)"
+
+#: ../goffice/gtk/go-locale-sel.c:114
+msgid "Libya (ar_LY)"
+msgstr "リビア (ar_LY)"
+
+#: ../goffice/gtk/go-locale-sel.c:115
+msgid "Morocco (ar_MA)"
+msgstr "モロッコ (ar_MA)"
+
+#: ../goffice/gtk/go-locale-sel.c:116
+msgid "Oman (ar_OM)"
+msgstr "オマーン (ar_OM)"
+
+#: ../goffice/gtk/go-locale-sel.c:117
+msgid "Qatar (ar_QA)"
+msgstr "カタール (ar_QA)"
+
+#: ../goffice/gtk/go-locale-sel.c:118
+msgid "Saudi Arabia (ar_SA)"
+msgstr "サウジアラビア (ar_SA)"
+
+#: ../goffice/gtk/go-locale-sel.c:119
+msgid "Sudan (ar_SD)"
+msgstr "スーダン (ar_SD)"
+
+#: ../goffice/gtk/go-locale-sel.c:120
+msgid "Syria (ar_SY)"
+msgstr "シリア (ar_SY)"
+
+#: ../goffice/gtk/go-locale-sel.c:121
+msgid "Tunisia (ar_TN)"
+msgstr "チュニジア (ar_TN)"
+
+#: ../goffice/gtk/go-locale-sel.c:122
+msgid "Yemen (ar_YE)"
+msgstr "イエメン (ar_YE)"
+
+#: ../goffice/gtk/go-locale-sel.c:123
+msgid "Azerbaijan (az_AZ)"
+msgstr "アゼルバイジャン (az_AZ)"
+
+#: ../goffice/gtk/go-locale-sel.c:124
+msgid "Belarus (be_BY)"
+msgstr "ベラルーシ (be_BY)"
+
+#: ../goffice/gtk/go-locale-sel.c:125
+msgid "Bulgaria (bg_BG)"
+msgstr "ブルガリア (bg_BG)"
+
+#: ../goffice/gtk/go-locale-sel.c:126
+msgid "Bangladesh (bn_BD)"
+msgstr "バングラデシュ (bn_BD)"
+
+#: ../goffice/gtk/go-locale-sel.c:127
+msgid "India/Bengali (bn_IN)"
+msgstr "インド/ベンガリ語 (bn_IN)"
+
+#: ../goffice/gtk/go-locale-sel.c:128
+msgid "France/Breton (br_FR)"
+msgstr "フランス/ブルトン語 (br_FR)"
+
+#: ../goffice/gtk/go-locale-sel.c:129
+msgid "Bosnia and Herzegowina (bs_BA)"
+msgstr "ボスニア・ヘルツェゴビナ (bs_BA)"
+
+#: ../goffice/gtk/go-locale-sel.c:130
+msgid "Spain/Catalan (ca_ES)"
+msgstr "スペイン/カタラン語 (ca_ES)"
+
+#: ../goffice/gtk/go-locale-sel.c:131
+msgid "Czech Republic (cs_CZ)"
+msgstr "チェコ共和国 (cs_CZ)"
+
+#: ../goffice/gtk/go-locale-sel.c:132
+msgid "Great Britain/Welsh (cy_GB)"
+msgstr "グレートブリテン/ウェルシュ語 (cy_GB)"
+
+#: ../goffice/gtk/go-locale-sel.c:133
+msgid "Denmark (da_DK)"
+msgstr "デンマーク (da_DK)"
+
+#: ../goffice/gtk/go-locale-sel.c:134
+msgid "Austria (de_AT)"
+msgstr "オーストリア (de_AT)"
+
+#: ../goffice/gtk/go-locale-sel.c:135
+msgid "Belgium/German (de_BE)"
+msgstr "ベルギー/ドイツ語 (de_BE)"
+
+#: ../goffice/gtk/go-locale-sel.c:136
+msgid "Switzerland/German (de_CH)"
+msgstr "スイス/ドイツ語 (de_CH)"
+
+#: ../goffice/gtk/go-locale-sel.c:137
+msgid "Germany (de_DE)"
+msgstr "ドイツ (de_DE)"
+
+#: ../goffice/gtk/go-locale-sel.c:138
+msgid "Luxembourg/German (de_LU)"
+msgstr "ルクセンブルグ/ドイツ語 (de_LU)"
+
+#: ../goffice/gtk/go-locale-sel.c:139
+msgid "Greece (el_GR)"
+msgstr "ギリシャ (el_GR)"
+
+#: ../goffice/gtk/go-locale-sel.c:140
+msgid "Australia (en_AU)"
+msgstr "オーストラリア (en_AU)"
+
+#: ../goffice/gtk/go-locale-sel.c:141
+msgid "Botswana (en_BW)"
+msgstr "ボスニア (en_BW)"
+
+#: ../goffice/gtk/go-locale-sel.c:142
+msgid "Canada/English (en_CA)"
+msgstr "カナダ/英語 (en_CA)"
+
+#: ../goffice/gtk/go-locale-sel.c:143
+msgid "Great Britain (en_GB)"
+msgstr "イギリス (en_GB)"
+
+#: ../goffice/gtk/go-locale-sel.c:144
+msgid "Hong Kong/English (en_HK)"
+msgstr "香港/英語 (en_HK)"
+
+#: ../goffice/gtk/go-locale-sel.c:145
+msgid "Ireland (en_IE)"
+msgstr "アイルランド (en_IE)"
+
+#: ../goffice/gtk/go-locale-sel.c:146
+msgid "India/English (en_IN)"
+msgstr "インド/英語 (en_IN)"
+
+#: ../goffice/gtk/go-locale-sel.c:147
+msgid "New Zealand (en_NZ)"
+msgstr "ニュージーランド (en_NZ)"
+
+#: ../goffice/gtk/go-locale-sel.c:148
+msgid "Philippines (en_PH)"
+msgstr "フィリピン (en_PH)"
+
+#: ../goffice/gtk/go-locale-sel.c:149
+msgid "Singapore/English (en_SG)"
+msgstr "シンガポール/英語 (en_SG)"
+
+#: ../goffice/gtk/go-locale-sel.c:150
+msgid "United States/English (en_US)"
+msgstr "アメリカ合衆国/英語 (en_US)"
+
+#: ../goffice/gtk/go-locale-sel.c:151
+msgid "South Africa/English (en_ZA)"
+msgstr "南アフリカ/英語 (en_ZA)"
+
+#: ../goffice/gtk/go-locale-sel.c:152
+msgid "Zimbabwe (en_ZW)"
+msgstr "ジンバブエ (en_ZW)"
+
+#: ../goffice/gtk/go-locale-sel.c:153
+msgid "Esperanto (eo_EO)"
+msgstr "エスペラント (eo_EO)"
+
+#: ../goffice/gtk/go-locale-sel.c:154
+msgid "Argentina (es_AR)"
+msgstr "アルゼンチン (es_AR)"
+
+#: ../goffice/gtk/go-locale-sel.c:155
+msgid "Bolivia (es_BO)"
+msgstr "ボリビア (es_BO)"
+
+#: ../goffice/gtk/go-locale-sel.c:156
+msgid "Chile (es_CL)"
+msgstr "チリ (es_CL)"
+
+#: ../goffice/gtk/go-locale-sel.c:157
+msgid "Colombia (es_CO)"
+msgstr "コロンビア (es_CO)"
+
+#: ../goffice/gtk/go-locale-sel.c:158
+msgid "Costa Rica (es_CR)"
+msgstr "コスタリカ (es_CR)"
+
+#: ../goffice/gtk/go-locale-sel.c:159
+msgid "Dominican Republic (es_DO)"
+msgstr "ドミニカ共和国 (es_DO)"
+
+#: ../goffice/gtk/go-locale-sel.c:160
+msgid "Ecuador (es_EC)"
+msgstr "エクアドル (es_EC)"
+
+#: ../goffice/gtk/go-locale-sel.c:161
+msgid "Spain (es_ES)"
+msgstr "スペイン (es_ES)"
+
+#: ../goffice/gtk/go-locale-sel.c:162
+msgid "Guatemala (es_GT)"
+msgstr "グアテマラ (es_GT)"
+
+#: ../goffice/gtk/go-locale-sel.c:163
+msgid "Honduras (es_HN)"
+msgstr "ホンジュラス (es_HN)"
+
+#: ../goffice/gtk/go-locale-sel.c:164
+msgid "Mexico (es_MX)"
+msgstr "メキシコ (es_MX)"
+
+#: ../goffice/gtk/go-locale-sel.c:165
+msgid "Nicaragua (es_NI)"
+msgstr "ニカラグア (es_NI)"
+
+#: ../goffice/gtk/go-locale-sel.c:166
+msgid "Panama (es_PA)"
+msgstr "パナマ (es_PA)"
+
+#: ../goffice/gtk/go-locale-sel.c:167
+msgid "Peru (es_PE)"
+msgstr "ペルー (es_PE)"
+
+#: ../goffice/gtk/go-locale-sel.c:168
+msgid "Puerto Rico (es_PR)"
+msgstr "プエルトリコ (es_PR)"
+
+#: ../goffice/gtk/go-locale-sel.c:169
+msgid "Paraguay (es_PY)"
+msgstr "パラグアイ (es_PY)"
+
+#: ../goffice/gtk/go-locale-sel.c:170
+msgid "El Salvador (es_SV)"
+msgstr "エルサルバドル (es_SV)"
+
+#: ../goffice/gtk/go-locale-sel.c:171
+msgid "United States/Spanish (es_US)"
+msgstr "アメリカ合衆国/スペイン語 (es_US)"
+
+#: ../goffice/gtk/go-locale-sel.c:172
+msgid "Uruguay (es_UY)"
+msgstr "ウルグアイ (es_UY)"
+
+#: ../goffice/gtk/go-locale-sel.c:173
+msgid "Venezuela (es_VE)"
+msgstr "ベネズエラ (es_VE)"
+
+#: ../goffice/gtk/go-locale-sel.c:174
+msgid "Estonia (et_EE)"
+msgstr "エストニア (et_EE)"
+
+#: ../goffice/gtk/go-locale-sel.c:175
+msgid "Spain/Basque (eu_ES)"
+msgstr "スペイン/バスク語 (eu_ES)"
+
+#: ../goffice/gtk/go-locale-sel.c:176
+msgid "Iran (fa_IR)"
+msgstr "イラン (fa_UR)"
+
+#: ../goffice/gtk/go-locale-sel.c:177
+msgid "Finland/Finnish (fi_FI)"
+msgstr "フィンランド/フィン語 (fi_FI)"
+
+#: ../goffice/gtk/go-locale-sel.c:178
+msgid "Faroe Islands (fo_FO)"
+msgstr "フェロー諸島 (fo_FO)"
+
+#: ../goffice/gtk/go-locale-sel.c:179
+msgid "Belgium/French (fr_BE)"
+msgstr "ベルギー/フランス語 (fr_BE)"
+
+#: ../goffice/gtk/go-locale-sel.c:180
+msgid "Canada/French (fr_CA)"
+msgstr "カナダ/フランス語 (fr_CA)"
+
+#: ../goffice/gtk/go-locale-sel.c:181
+msgid "Switzerland/French (fr_CH)"
+msgstr "スイス/フランス語 (fr_CH)"
+
+#: ../goffice/gtk/go-locale-sel.c:182
+msgid "France (fr_FR)"
+msgstr "フランス (fr_FR)"
+
+#: ../goffice/gtk/go-locale-sel.c:183
+msgid "Ireland/Gaelic (ga_IE)"
+msgstr "アイルランド/ゲール語 (ga_IE)"
+
+#: ../goffice/gtk/go-locale-sel.c:184
+msgid "Great Britain/Scottish Gaelic (gd_GB)"
+msgstr "イギリス/スコットランド・ゲール語 (gd_GB)"
+
+#: ../goffice/gtk/go-locale-sel.c:185
+msgid "Spain/Galician (gl_ES)"
+msgstr "スペイン/ガリシア語 (gl_ES)"
+
+#: ../goffice/gtk/go-locale-sel.c:186
+msgid "Great Britain/Manx Gaelic (gv_GB)"
+msgstr "イギリス/マン島語 (gv_GB)"
+
+#: ../goffice/gtk/go-locale-sel.c:187
+msgid "India/Hindu (hi_IN)"
+msgstr "インド/ヒンズー語 (hi_IN)"
+
+#: ../goffice/gtk/go-locale-sel.c:188
+msgid "Croatia (hr_HR)"
+msgstr "クロアチア (hr_HR)"
+
+#: ../goffice/gtk/go-locale-sel.c:189
+msgid "Hungary (hu_HU)"
+msgstr "ハンガリー (hu_HU)"
+
+#: ../goffice/gtk/go-locale-sel.c:190
+msgid "Armenia (hy_AM)"
+msgstr "アルメニア (hy_AM)"
+
+#: ../goffice/gtk/go-locale-sel.c:191
+msgid "(i18n)"
+msgstr "(i18n)"
+
+#: ../goffice/gtk/go-locale-sel.c:192
+msgid "Indonesia (id_ID)"
+msgstr "インドネシア (id_ID)"
+
+#: ../goffice/gtk/go-locale-sel.c:193
+msgid "Iceland (is_IS)"
+msgstr "アイスランド (is_IS)"
+
+#: ../goffice/gtk/go-locale-sel.c:194
+msgid "(iso14651_t1)"
+msgstr "(iso14651_t1)"
+
+#: ../goffice/gtk/go-locale-sel.c:195
+msgid "Switzerland/Italian (it_CH)"
+msgstr "スイス/イタリア語 (it_CH)"
+
+#: ../goffice/gtk/go-locale-sel.c:196
+msgid "Italy (it_IT)"
+msgstr "イタリア(it_IT)"
+
+#: ../goffice/gtk/go-locale-sel.c:197
+msgid "Israel/Hebrew (iw_IL)"
+msgstr "イスラエル/ヘブライ (iw_IL)"
+
+#: ../goffice/gtk/go-locale-sel.c:198
+msgid "Japan (ja_JP)"
+msgstr "日本 (ja_JP)"
+
+#: ../goffice/gtk/go-locale-sel.c:199
+msgid "Georgia (ka_GE)"
+msgstr "ジョージア (ka_GE)"
+
+#: ../goffice/gtk/go-locale-sel.c:200
+msgid "Greenland (kl_GL)"
+msgstr "グリーンランド (kl_GL)"
+
+#: ../goffice/gtk/go-locale-sel.c:201
+msgid "Korea (ko_KR)"
+msgstr "韓国 (ko_KR)"
+
+#: ../goffice/gtk/go-locale-sel.c:202
+msgid "Great Britain/Cornish (kw_GB)"
+msgstr "イギリス/コーンウォール語 (kw_GB)"
+
+#: ../goffice/gtk/go-locale-sel.c:203
+msgid "Lithuania (lt_LT)"
+msgstr "リトアニア (lt_LT)"
+
+#: ../goffice/gtk/go-locale-sel.c:204
+msgid "Latvia (lv_LV)"
+msgstr "ラトビア (lv_LV)"
+
+#: ../goffice/gtk/go-locale-sel.c:205
+msgid "New Zealand/Maori (mi_NZ)"
+msgstr "ニュージーランド/マオリ語 (mi_NZ)"
+
+#: ../goffice/gtk/go-locale-sel.c:206
+msgid "Macedonia (mk_MK)"
+msgstr "マケドニア (mk_MK)"
+
+#: ../goffice/gtk/go-locale-sel.c:207
+msgid "India/Marathi (mr_IN)"
+msgstr "インド/マラーティー語 (mr_IN)"
+
+#: ../goffice/gtk/go-locale-sel.c:208
+msgid "Malaysia (ms_MY)"
+msgstr "マレーシア (ms_MY)"
+
+#: ../goffice/gtk/go-locale-sel.c:209
+msgid "Malta (mt_MT)"
+msgstr "マルタ (mt_MT)"
+
+#: ../goffice/gtk/go-locale-sel.c:210
+msgid "Belgium/Flemish (nl_BE)"
+msgstr "ベルギー/フレミッシュ語 (nl_BE)"
+
+#: ../goffice/gtk/go-locale-sel.c:211
+msgid "The Netherlands (nl_NL)"
+msgstr "オランダ (nl_NL)"
+
+#: ../goffice/gtk/go-locale-sel.c:212
+msgid "Norway/Nynorsk (nn_NO)"
+msgstr "ノルウェー/ニーノシュク語 (nn_NO)"
+
+#: ../goffice/gtk/go-locale-sel.c:213
+msgid "Norway/Bokmal (no_NO)"
+msgstr "ノルウェー/ボクモール語 (no_NO)"
+
+#: ../goffice/gtk/go-locale-sel.c:214
+msgid "France/Occitan (oc_FR)"
+msgstr "フランス/オック語 (oc_FR)"
+
+#: ../goffice/gtk/go-locale-sel.c:215
+msgid "Poland (pl_PL)"
+msgstr "ポーランド (pl_PL)"
+
+#: ../goffice/gtk/go-locale-sel.c:216
+msgid "Brazil (pt_BR)"
+msgstr "ブラジル (pt_BR)"
+
+#: ../goffice/gtk/go-locale-sel.c:217
+msgid "Portugal (pt_PT)"
+msgstr "ポルトガル (pt_PT)"
+
+#: ../goffice/gtk/go-locale-sel.c:218
+msgid "Romania (ro_RO)"
+msgstr "ルーマニア (ro_RO)"
+
+#: ../goffice/gtk/go-locale-sel.c:219
+msgid "Russia (ru_RU)"
+msgstr "ロシア (ru_RU)"
+
+#: ../goffice/gtk/go-locale-sel.c:220
+msgid "Ukraine/Russian (ru_UA)"
+msgstr "ウクラニア/ロシア語 (ru_UA)"
+
+#: ../goffice/gtk/go-locale-sel.c:221
+msgid "Norway/Saami (se_NO)"
+msgstr "ノルウェー/サーミ語 (se_NO)"
+
+#: ../goffice/gtk/go-locale-sel.c:222
+msgid "Slovakia (sk_SK)"
+msgstr "スロバキア (sk_SK)"
+
+#: ../goffice/gtk/go-locale-sel.c:223
+msgid "Slovenia (sl_SI)"
+msgstr "スロベニア (sl_SI)"
+
+#: ../goffice/gtk/go-locale-sel.c:224
+msgid "Albania (sq_AL)"
+msgstr "アルバニア (sq_AL)"
+
+#: ../goffice/gtk/go-locale-sel.c:225
+msgid "Yugoslavia (sr_YU)"
+msgstr "ユーゴスラビア (sr_YU)"
+
+#: ../goffice/gtk/go-locale-sel.c:226
+msgid "Finland/Swedish (sv_FI)"
+msgstr "フィンランド/スウェーデン語 (sv_FI)"
+
+#: ../goffice/gtk/go-locale-sel.c:227
+msgid "Sweden (sv_SE)"
+msgstr "スウェーデン (sv_SE)"
+
+#: ../goffice/gtk/go-locale-sel.c:228
+msgid "India/Tamil (ta_IN)"
+msgstr "インド/タミル語 (ta_IN)"
+
+#: ../goffice/gtk/go-locale-sel.c:229
+msgid "India/Telugu (te_IN)"
+msgstr "インド/テルグ語 (te_IN)"
+
+#: ../goffice/gtk/go-locale-sel.c:230
+msgid "Tajikistan (tg_TJ)"
+msgstr "タジキスタン (tg_TJ)"
+
+#: ../goffice/gtk/go-locale-sel.c:231
+msgid "Thailand (th_TH)"
+msgstr "タイ (th_TH)"
+
+#: ../goffice/gtk/go-locale-sel.c:232
+msgid "Eritrea (ti_ER)"
+msgstr "エリトリア (ti_ER)"
+
+#: ../goffice/gtk/go-locale-sel.c:233
+msgid "Ethiopia/Tigrinya (ti_ET)"
+msgstr "エチオピア/チグリニア語 (ti_ET)"
+
+#: ../goffice/gtk/go-locale-sel.c:234
+msgid "Philippines/Tagalog (tl_PH)"
+msgstr "フィリピン/タガログ語 (tl_PH)"
+
+#: ../goffice/gtk/go-locale-sel.c:235
+msgid "Turkey (tr_TR)"
+msgstr "トルコ語 (tr_TR)"
+
+#: ../goffice/gtk/go-locale-sel.c:236
+msgid "Russia/Tatar (tt_RU)"
+msgstr "ロシア/タタール語 (tt_RU)"
+
+#: ../goffice/gtk/go-locale-sel.c:237
+msgid "Ukraine (uk_UA)"
+msgstr "ウクラニア (uk_UA)"
+
+#: ../goffice/gtk/go-locale-sel.c:238
+msgid "Pakistan (ur_PK)"
+msgstr "パキスタン (ur_PK)"
+
+#: ../goffice/gtk/go-locale-sel.c:239
+msgid "Uzbekistan (uz_UZ)"
+msgstr "ウズベキスタン (uz_UZ)"
+
+#: ../goffice/gtk/go-locale-sel.c:240
+msgid "Vietnam (vi_VN)"
+msgstr "ベトナム (vi_VN)"
+
+#: ../goffice/gtk/go-locale-sel.c:241
+msgid "Belgium/Walloon (wa_BE)"
+msgstr "ベルギー/ワロン語 (wa_BE)"
+
+#: ../goffice/gtk/go-locale-sel.c:242
+msgid "United States/Yiddish (yi_US)"
+msgstr "アメリカ合衆国/イディッシュ語 (yi_US)"
+
+#: ../goffice/gtk/go-locale-sel.c:243
+msgid "China (zh_CN)"
+msgstr "中国 (zh_CN)"
+
+#: ../goffice/gtk/go-locale-sel.c:244
+msgid "Hong Kong/Chinese (zh_HK)"
+msgstr "香港/中国語 (zh_HK)"
+
+#: ../goffice/gtk/go-locale-sel.c:245
+msgid "Singapore/Chinese (zh_SG)"
+msgstr "シンガポール/中国語 (zh_SG)"
+
+#: ../goffice/gtk/go-locale-sel.c:246
+msgid "Taiwan (zh_TW)"
+msgstr "台湾 (zh_TW)"
+
+#: ../goffice/gtk/go-locale-sel.c:447
+msgid "Current Locale: "
+msgstr "現在のロケール: "
+
+#: ../goffice/gtk/go-optionmenu.c:415
+msgid "Menu"
+msgstr "メニュー"
+
+#: ../goffice/gtk/go-optionmenu.c:416
+msgid "The menu of options"
+msgstr "オプションメニュー"
 
 #: ../goffice/gtk/go-rotation-sel.glade.h:1
 msgid "    "
@@ -2282,1759 +3395,1082 @@ msgstr "<b>方向</b>"
 msgid "A_ngle:"
 msgstr "角度(_N):"
 
-#: ../goffice/gtk/go-rotation-sel.glade.h:4
-#: ../plugins/plot_pie/gog-pie-prefs.glade.h:8
-#: ../plugins/plot_pie/gog-ring-prefs.glade.h:9
-msgid "degrees"
-msgstr "度"
-
-#: ../goffice/gtk/go-locale-sel.c:68
-msgid "Western Europe"
-msgstr "西欧"
-
-#: ../goffice/gtk/go-locale-sel.c:69
-msgid "Eastern Europe"
-msgstr "東欧"
-
-#: ../goffice/gtk/go-locale-sel.c:70
-msgid "North America"
-msgstr "北米"
-
-#: ../goffice/gtk/go-locale-sel.c:71
-msgid "South & Central America"
-msgstr "中南米"
-
-#: ../goffice/gtk/go-locale-sel.c:72
-msgid "Asia"
-msgstr "アジア"
-
-#: ../goffice/gtk/go-locale-sel.c:73
-msgid "Africa"
-msgstr "アフリカ"
-
-#: ../goffice/gtk/go-locale-sel.c:74
-msgid "Australia"
-msgstr "オーストラリア"
-
-#.
-#. * The format here is "Country/Language (locale)" or just
-#. * "Country (locale)" when there is only one choice or one
-#. * very dominant language.
-#. *
-#. * Note: lots of people get very emotional over this.  Please
-#. * err on the safe side, if any.
-#.
-#: ../goffice/gtk/go-locale-sel.c:106
-msgid "United States/English (C)"
-msgstr "アメリカ合衆国/英語 (C)"
-
-#: ../goffice/gtk/go-locale-sel.c:107
-msgid "South Africa Afrikaans (af_ZA)"
-msgstr "南アフリカ アフリカーンス (af_ZA)"
-
-#: ../goffice/gtk/go-locale-sel.c:108
-msgid "Ethiopia/Amharic (am_ET)"
-msgstr "エチオピア/アムハリク語 (am_ET)"
-
-#: ../goffice/gtk/go-locale-sel.c:109
-msgid "United Arab Emirates (ar_AE)"
-msgstr "アラブ首長国連邦 (ar_AE)"
-
-#: ../goffice/gtk/go-locale-sel.c:110
-msgid "Bahrain (ar_BH)"
-msgstr "バーレーン (ar_BH)"
-
-#: ../goffice/gtk/go-locale-sel.c:111
-msgid "Algeria (ar_DZ)"
-msgstr "アルジェリア (ar_DZ)"
-
-#: ../goffice/gtk/go-locale-sel.c:112
-msgid "Egypt (ar_EG)"
-msgstr "エジプト (ar_EG)"
-
-#: ../goffice/gtk/go-locale-sel.c:113
-msgid "India/Arabic (ar_IN)"
-msgstr "インド/アラブ語 (ar_IN)"
-
-#: ../goffice/gtk/go-locale-sel.c:114
-msgid "Iraq (ar_IQ)"
-msgstr "イラク (ar_IQ)"
-
-#: ../goffice/gtk/go-locale-sel.c:115
-msgid "Jordan (ar_JO)"
-msgstr "ヨルダン (ar_JO)"
-
-#: ../goffice/gtk/go-locale-sel.c:116
-msgid "Kuwait (ar_KW)"
-msgstr "クウェート (ar_KW)"
-
-#: ../goffice/gtk/go-locale-sel.c:117
-msgid "Lebanon (ar_LB)"
-msgstr "レバノン (ar_LB)"
-
-#: ../goffice/gtk/go-locale-sel.c:118
-msgid "Libya (ar_LY)"
-msgstr "リビア (ar_LY)"
-
-#: ../goffice/gtk/go-locale-sel.c:119
-msgid "Morocco (ar_MA)"
-msgstr "モロッコ (ar_MA)"
-
-#: ../goffice/gtk/go-locale-sel.c:120
-msgid "Oman (ar_OM)"
-msgstr "オマーン (ar_OM)"
-
-#: ../goffice/gtk/go-locale-sel.c:121
-msgid "Qatar (ar_QA)"
-msgstr "カタール (ar_QA)"
-
-#: ../goffice/gtk/go-locale-sel.c:122
-msgid "Saudi Arabia (ar_SA)"
-msgstr "サウジアラビア (ar_SA)"
-
-#: ../goffice/gtk/go-locale-sel.c:123
-msgid "Sudan (ar_SD)"
-msgstr "スーダン (ar_SD)"
-
-#: ../goffice/gtk/go-locale-sel.c:124
-msgid "Syria (ar_SY)"
-msgstr "シリア (ar_SY)"
-
-#: ../goffice/gtk/go-locale-sel.c:125
-msgid "Tunisia (ar_TN)"
-msgstr "チュニジア (ar_TN)"
-
-#: ../goffice/gtk/go-locale-sel.c:126
-msgid "Yemen (ar_YE)"
-msgstr "イエメン (ar_YE)"
-
-#: ../goffice/gtk/go-locale-sel.c:127
-msgid "Azerbaijan (az_AZ)"
-msgstr "アゼルバイジャン (az_AZ)"
-
-#: ../goffice/gtk/go-locale-sel.c:128
-msgid "Belarus (be_BY)"
-msgstr "ベラルーシ (be_BY)"
-
-#: ../goffice/gtk/go-locale-sel.c:129
-msgid "Bulgaria (bg_BG)"
-msgstr "ブルガリア (bg_BG)"
-
-#: ../goffice/gtk/go-locale-sel.c:130
-msgid "Bangladesh (bn_BD)"
-msgstr "バングラデシュ (bn_BD)"
-
-#: ../goffice/gtk/go-locale-sel.c:131
-msgid "India/Bengali (bn_IN)"
-msgstr "インド/ベンガリ語 (bn_IN)"
-
-#: ../goffice/gtk/go-locale-sel.c:132
-msgid "France/Breton (br_FR)"
-msgstr "フランス/ブルトン語 (br_FR)"
-
-#: ../goffice/gtk/go-locale-sel.c:133
-msgid "Bosnia and Herzegowina (bs_BA)"
-msgstr "ボスニア・ヘルツェゴビナ (bs_BA)"
-
-#: ../goffice/gtk/go-locale-sel.c:134
-msgid "Spain/Catalan (ca_ES)"
-msgstr "スペイン/カタラン語 (ca_ES)"
-
-#: ../goffice/gtk/go-locale-sel.c:135
-msgid "Czech Republic (cs_CZ)"
-msgstr "チェコ共和国 (cs_CZ)"
-
-#: ../goffice/gtk/go-locale-sel.c:136
-msgid "Great Britain/Welsh (cy_GB)"
-msgstr "グレートブリテン/ウェルシュ語 (cy_GB)"
-
-#: ../goffice/gtk/go-locale-sel.c:137
-msgid "Denmark (da_DK)"
-msgstr "デンマーク (da_DK)"
-
-#: ../goffice/gtk/go-locale-sel.c:138
-msgid "Austria (de_AT)"
-msgstr "オーストリア (de_AT)"
-
-#: ../goffice/gtk/go-locale-sel.c:139
-msgid "Belgium/German (de_BE)"
-msgstr "ベルギー/ドイツ語 (de_BE)"
-
-#: ../goffice/gtk/go-locale-sel.c:140
-msgid "Switzerland/German (de_CH)"
-msgstr "スイス/ドイツ語 (de_CH)"
-
-#: ../goffice/gtk/go-locale-sel.c:141
-msgid "Germany (de_DE)"
-msgstr "ドイツ (de_DE)"
-
-#: ../goffice/gtk/go-locale-sel.c:142
-msgid "Luxembourg/German (de_LU)"
-msgstr "ルクセンブルグ/ドイツ語 (de_LU)"
-
-#: ../goffice/gtk/go-locale-sel.c:143
-msgid "Greece (el_GR)"
-msgstr "ギリシャ (el_GR)"
-
-#: ../goffice/gtk/go-locale-sel.c:144
-msgid "Australia (en_AU)"
-msgstr "オーストラリア (en_AU)"
-
-#: ../goffice/gtk/go-locale-sel.c:145
-msgid "Botswana (en_BW)"
-msgstr "ボスニア (en_BW)"
-
-#: ../goffice/gtk/go-locale-sel.c:146
-msgid "Canada/English (en_CA)"
-msgstr "カナダ/英語 (en_CA)"
-
-#: ../goffice/gtk/go-locale-sel.c:147
-msgid "Great Britain (en_GB)"
-msgstr "イギリス (en_GB)"
-
-#: ../goffice/gtk/go-locale-sel.c:148
-msgid "Hong Kong/English (en_HK)"
-msgstr "香港/英語 (en_HK)"
-
-#: ../goffice/gtk/go-locale-sel.c:149
-msgid "Ireland (en_IE)"
-msgstr "アイルランド (en_IE)"
-
-#: ../goffice/gtk/go-locale-sel.c:150
-msgid "India/English (en_IN)"
-msgstr "インド/英語 (en_IN)"
-
-#: ../goffice/gtk/go-locale-sel.c:151
-msgid "New Zealand (en_NZ)"
-msgstr "ニュージーランド (en_NZ)"
-
-#: ../goffice/gtk/go-locale-sel.c:152
-msgid "Philippines (en_PH)"
-msgstr "フィリピン (en_PH)"
-
-#: ../goffice/gtk/go-locale-sel.c:153
-msgid "Singapore/English (en_SG)"
-msgstr "シンガポール/英語 (en_SG)"
-
-#: ../goffice/gtk/go-locale-sel.c:154
-msgid "United States/English (en_US)"
-msgstr "アメリカ合衆国/英語 (en_US)"
-
-#: ../goffice/gtk/go-locale-sel.c:155
-msgid "South Africa/English (en_ZA)"
-msgstr "南アフリカ/英語 (en_ZA)"
-
-#: ../goffice/gtk/go-locale-sel.c:156
-msgid "Zimbabwe (en_ZW)"
-msgstr "ジンバブエ (en_ZW)"
-
-#: ../goffice/gtk/go-locale-sel.c:157
-msgid "Esperanto (eo_EO)"
-msgstr "エスペラント (eo_EO)"
-
-#: ../goffice/gtk/go-locale-sel.c:158
-msgid "Argentina (es_AR)"
-msgstr "アルゼンチン (es_AR)"
-
-#: ../goffice/gtk/go-locale-sel.c:159
-msgid "Bolivia (es_BO)"
-msgstr "ボリビア (es_BO)"
-
-#: ../goffice/gtk/go-locale-sel.c:160
-msgid "Chile (es_CL)"
-msgstr "チリ (es_CL)"
-
-#: ../goffice/gtk/go-locale-sel.c:161
-msgid "Colombia (es_CO)"
-msgstr "コロンビア (es_CO)"
-
-#: ../goffice/gtk/go-locale-sel.c:162
-msgid "Costa Rica (es_CR)"
-msgstr "コスタリカ (es_CR)"
-
-#: ../goffice/gtk/go-locale-sel.c:163
-msgid "Dominican Republic (es_DO)"
-msgstr "ドミニカ共和国 (es_DO)"
-
-#: ../goffice/gtk/go-locale-sel.c:164
-msgid "Ecuador (es_EC)"
-msgstr "エクアドル (es_EC)"
-
-#: ../goffice/gtk/go-locale-sel.c:165
-msgid "Spain (es_ES)"
-msgstr "スペイン (es_ES)"
-
-#: ../goffice/gtk/go-locale-sel.c:166
-msgid "Guatemala (es_GT)"
-msgstr "グアテマラ (es_GT)"
-
-#: ../goffice/gtk/go-locale-sel.c:167
-msgid "Honduras (es_HN)"
-msgstr "ホンジュラス (es_HN)"
-
-#: ../goffice/gtk/go-locale-sel.c:168
-msgid "Mexico (es_MX)"
-msgstr "メキシコ (es_MX)"
-
-#: ../goffice/gtk/go-locale-sel.c:169
-msgid "Nicaragua (es_NI)"
-msgstr "ニカラグア (es_NI)"
-
-#: ../goffice/gtk/go-locale-sel.c:170
-msgid "Panama (es_PA)"
-msgstr "パナマ (es_PA)"
-
-#: ../goffice/gtk/go-locale-sel.c:171
-msgid "Peru (es_PE)"
-msgstr "ペルー (es_PE)"
-
-#: ../goffice/gtk/go-locale-sel.c:172
-msgid "Puerto Rico (es_PR)"
-msgstr "プエルトリコ (es_PR)"
-
-#: ../goffice/gtk/go-locale-sel.c:173
-msgid "Paraguay (es_PY)"
-msgstr "パラグアイ (es_PY)"
-
-#: ../goffice/gtk/go-locale-sel.c:174
-msgid "El Salvador (es_SV)"
-msgstr "エルサルバドル (es_SV)"
-
-#: ../goffice/gtk/go-locale-sel.c:175
-msgid "United States/Spanish (es_US)"
-msgstr "アメリカ合衆国/スペイン語 (es_US)"
-
-#: ../goffice/gtk/go-locale-sel.c:176
-msgid "Uruguay (es_UY)"
-msgstr "ウルグアイ (es_UY)"
-
-#: ../goffice/gtk/go-locale-sel.c:177
-msgid "Venezuela (es_VE)"
-msgstr "ベネズエラ (es_VE)"
-
-#: ../goffice/gtk/go-locale-sel.c:178
-msgid "Estonia (et_EE)"
-msgstr "エストニア (et_EE)"
-
-#: ../goffice/gtk/go-locale-sel.c:179
-msgid "Spain/Basque (eu_ES)"
-msgstr "スペイン/バスク語 (eu_ES)"
-
-#: ../goffice/gtk/go-locale-sel.c:180
-msgid "Iran (fa_IR)"
-msgstr "イラン (fa_UR)"
-
-#: ../goffice/gtk/go-locale-sel.c:181
-msgid "Finland/Finnish (fi_FI)"
-msgstr "フィンランド/フィン語 (fi_FI)"
-
-#: ../goffice/gtk/go-locale-sel.c:182
-msgid "Faroe Islands (fo_FO)"
-msgstr "フェロー諸島 (fo_FO)"
-
-#: ../goffice/gtk/go-locale-sel.c:183
-msgid "Belgium/French (fr_BE)"
-msgstr "ベルギー/フランス語 (fr_BE)"
-
-#: ../goffice/gtk/go-locale-sel.c:184
-msgid "Canada/French (fr_CA)"
-msgstr "カナダ/フランス語 (fr_CA)"
-
-#: ../goffice/gtk/go-locale-sel.c:185
-msgid "Switzerland/French (fr_CH)"
-msgstr "スイス/フランス語 (fr_CH)"
-
-#: ../goffice/gtk/go-locale-sel.c:186
-msgid "France (fr_FR)"
-msgstr "フランス (fr_FR)"
-
-#: ../goffice/gtk/go-locale-sel.c:187
-msgid "Ireland/Gaelic (ga_IE)"
-msgstr "アイルランド/ゲール語 (ga_IE)"
-
-#: ../goffice/gtk/go-locale-sel.c:188
-msgid "Great Britain/Scottish Gaelic (gd_GB)"
-msgstr "イギリス/スコットランド・ゲール語 (gd_GB)"
-
-#: ../goffice/gtk/go-locale-sel.c:189
-msgid "Spain/Galician (gl_ES)"
-msgstr "スペイン/ガリシア語 (gl_ES)"
-
-#: ../goffice/gtk/go-locale-sel.c:190
-msgid "Great Britain/Manx Gaelic (gv_GB)"
-msgstr "イギリス/マン島語 (gv_GB)"
-
-#: ../goffice/gtk/go-locale-sel.c:191
-msgid "India/Hindu (hi_IN)"
-msgstr "インド/ヒンズー語 (hi_IN)"
-
-#: ../goffice/gtk/go-locale-sel.c:192
-msgid "Croatia (hr_HR)"
-msgstr "クロアチア (hr_HR)"
-
-#: ../goffice/gtk/go-locale-sel.c:193
-msgid "Hungary (hu_HU)"
-msgstr "ハンガリー (hu_HU)"
-
-#: ../goffice/gtk/go-locale-sel.c:194
-msgid "Armenia (hy_AM)"
-msgstr "アルメニア (hy_AM)"
-
-#: ../goffice/gtk/go-locale-sel.c:195
-msgid "(i18n)"
-msgstr "(i18n)"
-
-#: ../goffice/gtk/go-locale-sel.c:196
-msgid "Indonesia (id_ID)"
-msgstr "インドネシア (id_ID)"
-
-#: ../goffice/gtk/go-locale-sel.c:197
-msgid "Iceland (is_IS)"
-msgstr "アイスランド (is_IS)"
-
-#: ../goffice/gtk/go-locale-sel.c:198
-msgid "(iso14651_t1)"
-msgstr "(iso14651_t1)"
-
-#: ../goffice/gtk/go-locale-sel.c:199
-msgid "Switzerland/Italian (it_CH)"
-msgstr "スイス/イタリア語 (it_CH)"
-
-#: ../goffice/gtk/go-locale-sel.c:200
-msgid "Italy (it_IT)"
-msgstr "イタリア(it_IT)"
-
-#: ../goffice/gtk/go-locale-sel.c:201
-msgid "Israel/Hebrew (iw_IL)"
-msgstr "イスラエル/ヘブライ (iw_IL)"
-
-#: ../goffice/gtk/go-locale-sel.c:202
-msgid "Japan (ja_JP)"
-msgstr "日本 (ja_JP)"
-
-#: ../goffice/gtk/go-locale-sel.c:203
-msgid "Georgia (ka_GE)"
-msgstr "ジョージア (ka_GE)"
-
-#: ../goffice/gtk/go-locale-sel.c:204
-msgid "Greenland (kl_GL)"
-msgstr "グリーンランド (kl_GL)"
-
-#: ../goffice/gtk/go-locale-sel.c:205
-msgid "Korea (ko_KR)"
-msgstr "韓国 (ko_KR)"
-
-#: ../goffice/gtk/go-locale-sel.c:206
-msgid "Great Britain/Cornish (kw_GB)"
-msgstr "イギリス/コーンウォール語 (kw_GB)"
-
-#: ../goffice/gtk/go-locale-sel.c:207
-msgid "Lithuania (lt_LT)"
-msgstr "リトアニア (lt_LT)"
-
-#: ../goffice/gtk/go-locale-sel.c:208
-msgid "Latvia (lv_LV)"
-msgstr "ラトビア (lv_LV)"
-
-#: ../goffice/gtk/go-locale-sel.c:209
-msgid "New Zealand/Maori (mi_NZ)"
-msgstr "ニュージーランド/マオリ語 (mi_NZ)"
-
-#: ../goffice/gtk/go-locale-sel.c:210
-msgid "Macedonia (mk_MK)"
-msgstr "マケドニア (mk_MK)"
-
-#: ../goffice/gtk/go-locale-sel.c:211
-msgid "India/Marathi (mr_IN)"
-msgstr "インド/マラーティー語 (mr_IN)"
-
-#: ../goffice/gtk/go-locale-sel.c:212
-msgid "Malaysia (ms_MY)"
-msgstr "マレーシア (ms_MY)"
-
-#: ../goffice/gtk/go-locale-sel.c:213
-msgid "Malta (mt_MT)"
-msgstr "マルタ (mt_MT)"
-
-#: ../goffice/gtk/go-locale-sel.c:214
-msgid "Belgium/Flemish (nl_BE)"
-msgstr "ベルギー/フレミッシュ語 (nl_BE)"
-
-#: ../goffice/gtk/go-locale-sel.c:215
-msgid "The Netherlands (nl_NL)"
-msgstr "オランダ (nl_NL)"
-
-#: ../goffice/gtk/go-locale-sel.c:216
-msgid "Norway/Nynorsk (nn_NO)"
-msgstr "ノルウェー/ニーノシュク語 (nn_NO)"
-
-#: ../goffice/gtk/go-locale-sel.c:217
-msgid "Norway/Bokmal (no_NO)"
-msgstr "ノルウェー/ボクモール語 (no_NO)"
-
-#: ../goffice/gtk/go-locale-sel.c:218
-msgid "France/Occitan (oc_FR)"
-msgstr "フランス/オック語 (oc_FR)"
-
-#: ../goffice/gtk/go-locale-sel.c:219
-msgid "Poland (pl_PL)"
-msgstr "ポーランド (pl_PL)"
-
-#: ../goffice/gtk/go-locale-sel.c:220
-msgid "Brazil (pt_BR)"
-msgstr "ブラジル (pt_BR)"
-
-#: ../goffice/gtk/go-locale-sel.c:221
-msgid "Portugal (pt_PT)"
-msgstr "ポルトガル (pt_PT)"
-
-#: ../goffice/gtk/go-locale-sel.c:222
-msgid "Romania (ro_RO)"
-msgstr "ルーマニア (ro_RO)"
-
-#: ../goffice/gtk/go-locale-sel.c:223
-msgid "Russia (ru_RU)"
-msgstr "ロシア (ru_RU)"
-
-#: ../goffice/gtk/go-locale-sel.c:224
-msgid "Ukraine/Russian (ru_UA)"
-msgstr "ウクラニア/ロシア語 (ru_UA)"
-
-#: ../goffice/gtk/go-locale-sel.c:225
-msgid "Norway/Saami (se_NO)"
-msgstr "ノルウェー/サーミ語 (se_NO)"
-
-#: ../goffice/gtk/go-locale-sel.c:226
-msgid "Slovakia (sk_SK)"
-msgstr "スロバキア (sk_SK)"
-
-#: ../goffice/gtk/go-locale-sel.c:227
-msgid "Slovenia (sl_SI)"
-msgstr "スロベニア (sl_SI)"
-
-#: ../goffice/gtk/go-locale-sel.c:228
-msgid "Albania (sq_AL)"
-msgstr "アルバニア (sq_AL)"
-
-#: ../goffice/gtk/go-locale-sel.c:229
-msgid "Yugoslavia (sr_YU)"
-msgstr "ユーゴスラビア (sr_YU)"
-
-#: ../goffice/gtk/go-locale-sel.c:230
-msgid "Finland/Swedish (sv_FI)"
-msgstr "フィンランド/スウェーデン語 (sv_FI)"
-
-#: ../goffice/gtk/go-locale-sel.c:231
-msgid "Sweden (sv_SE)"
-msgstr "スウェーデン (sv_SE)"
-
-#: ../goffice/gtk/go-locale-sel.c:232
-msgid "India/Tamil (ta_IN)"
-msgstr "インド/タミル語 (ta_IN)"
-
-#: ../goffice/gtk/go-locale-sel.c:233
-msgid "India/Telugu (te_IN)"
-msgstr "インド/テルグ語 (te_IN)"
-
-#: ../goffice/gtk/go-locale-sel.c:234
-msgid "Tajikistan (tg_TJ)"
-msgstr "タジキスタン (tg_TJ)"
-
-#: ../goffice/gtk/go-locale-sel.c:235
-msgid "Thailand (th_TH)"
-msgstr "タイ (th_TH)"
-
-#: ../goffice/gtk/go-locale-sel.c:236
-msgid "Eritrea (ti_ER)"
-msgstr "エリトリア (ti_ER)"
-
-#: ../goffice/gtk/go-locale-sel.c:237
-msgid "Ethiopia/Tigrinya (ti_ET)"
-msgstr "エチオピア/チグリニア語 (ti_ET)"
-
-#: ../goffice/gtk/go-locale-sel.c:238
-msgid "Philippines/Tagalog (tl_PH)"
-msgstr "フィリピン/タガログ語 (tl_PH)"
-
-#: ../goffice/gtk/go-locale-sel.c:239
-msgid "Turkey (tr_TR)"
-msgstr "トルコ語 (tr_TR)"
-
-#: ../goffice/gtk/go-locale-sel.c:240
-msgid "Russia/Tatar (tt_RU)"
-msgstr "ロシア/タタール語 (tt_RU)"
-
-#: ../goffice/gtk/go-locale-sel.c:241
-msgid "Ukraine (uk_UA)"
-msgstr "ウクラニア (uk_UA)"
-
-#: ../goffice/gtk/go-locale-sel.c:242
-msgid "Pakistan (ur_PK)"
-msgstr "パキスタン (ur_PK)"
-
-#: ../goffice/gtk/go-locale-sel.c:243
-msgid "Uzbekistan (uz_UZ)"
-msgstr "ウズベキスタン (uz_UZ)"
-
-#: ../goffice/gtk/go-locale-sel.c:244
-msgid "Vietnam (vi_VN)"
-msgstr "ベトナム (vi_VN)"
-
-#: ../goffice/gtk/go-locale-sel.c:245
-msgid "Belgium/Walloon (wa_BE)"
-msgstr "ベルギー/ワロン語 (wa_BE)"
-
-#: ../goffice/gtk/go-locale-sel.c:246
-msgid "United States/Yiddish (yi_US)"
-msgstr "アメリカ合衆国/イディッシュ語 (yi_US)"
-
-#: ../goffice/gtk/go-locale-sel.c:247
-msgid "China (zh_CN)"
-msgstr "中国 (zh_CN)"
-
-#: ../goffice/gtk/go-locale-sel.c:248
-msgid "Hong Kong/Chinese (zh_HK)"
-msgstr "香港/中国語 (zh_HK)"
-
-#: ../goffice/gtk/go-locale-sel.c:249
-msgid "Singapore/Chinese (zh_SG)"
-msgstr "シンガポール/中国語 (zh_SG)"
-
-#: ../goffice/gtk/go-locale-sel.c:250
-msgid "Taiwan (zh_TW)"
-msgstr "台湾 (zh_TW)"
-
-#: ../goffice/gtk/go-locale-sel.c:451
-msgid "Current Locale: "
-msgstr "現在のロケール: "
-
-#: ../goffice/gtk/go-optionmenu.c:197
-msgid "Menu"
-msgstr "メニュー"
-
-#: ../goffice/gtk/go-optionmenu.c:198
-msgid "The menu of options"
-msgstr "オプションメニュー"
-
-#: ../goffice/gtk/go-optionmenu.c:204
-msgid "Indicator Size"
-msgstr "インジケータのサイズ"
-
-#: ../goffice/gtk/go-optionmenu.c:205
-msgid "Size of dropdown indicator"
-msgstr "ドロップダウンインジケータのサイズ"
-
-#: ../goffice/gtk/go-optionmenu.c:210
-msgid "Indicator Spacing"
-msgstr "インジケータスペーシング"
-
-#: ../goffice/gtk/go-optionmenu.c:211
-msgid "Spacing around indicator"
-msgstr "インジケータのまわりのスペーシング"
-
-#: ../goffice/utils/format.c:135
-msgid "*Sun"
-msgstr "*日"
-
-#: ../goffice/utils/format.c:136
-msgid "*Mon"
-msgstr "*月"
-
-#: ../goffice/utils/format.c:137
-msgid "*Tue"
-msgstr "*火"
-
-#: ../goffice/utils/format.c:138
-msgid "*Wed"
-msgstr "*水"
-
-#: ../goffice/utils/format.c:139
-msgid "*Thu"
-msgstr "*木"
-
-#: ../goffice/utils/format.c:140
-msgid "*Fri"
-msgstr "*金"
-
-#: ../goffice/utils/format.c:141
-msgid "*Sat"
-msgstr "*土"
-
-#: ../goffice/utils/format.c:146
-msgid "Sunday"
-msgstr "日曜日"
-
-#: ../goffice/utils/format.c:147
-msgid "Monday"
-msgstr "月曜日"
-
-#: ../goffice/utils/format.c:148
-msgid "Tuesday"
-msgstr "火曜日"
-
-#: ../goffice/utils/format.c:149
-msgid "Wednesday"
-msgstr "水曜日"
-
-#: ../goffice/utils/format.c:150
-msgid "Thursday"
-msgstr "木曜日"
-
-#: ../goffice/utils/format.c:151
-msgid "Friday"
-msgstr "金曜日"
-
-#: ../goffice/utils/format.c:152
-msgid "Saturday"
-msgstr "土曜日"
-
-#: ../goffice/utils/format.c:157
-msgid "*Jan"
-msgstr "*1"
-
-#: ../goffice/utils/format.c:158
-msgid "*Feb"
-msgstr "*2"
-
-#: ../goffice/utils/format.c:159
-msgid "*Mar"
-msgstr "*3"
-
-#: ../goffice/utils/format.c:160
-msgid "*Apr"
-msgstr "*4"
-
-#: ../goffice/utils/format.c:161
-msgid "*May"
-msgstr "*5"
-
-#: ../goffice/utils/format.c:162
-msgid "*Jun"
-msgstr "*6"
-
-#: ../goffice/utils/format.c:163
-msgid "*Jul"
-msgstr "*7"
-
-#: ../goffice/utils/format.c:164
-msgid "*Aug"
-msgstr "*8"
-
-#: ../goffice/utils/format.c:165
-msgid "*Sep"
-msgstr "*9"
-
-#: ../goffice/utils/format.c:166
-msgid "*Oct"
-msgstr "*10"
-
-#: ../goffice/utils/format.c:167
-msgid "*Nov"
-msgstr "*11"
-
-#: ../goffice/utils/format.c:168
-msgid "*Dec"
-msgstr "*12"
-
-#: ../goffice/utils/format.c:173
-msgid "January"
-msgstr "1月"
-
-#: ../goffice/utils/format.c:174
-msgid "February"
-msgstr "2月"
-
-#: ../goffice/utils/format.c:175
-msgid "March"
-msgstr "3月"
-
-#: ../goffice/utils/format.c:176
-msgid "April"
-msgstr "4月"
-
-#: ../goffice/utils/format.c:177
-msgid "May"
-msgstr "5月"
-
-#: ../goffice/utils/format.c:178
-msgid "June"
-msgstr "6月"
-
-#: ../goffice/utils/format.c:179
-msgid "July"
-msgstr "7月"
-
-#: ../goffice/utils/format.c:180
-msgid "August"
-msgstr "8月"
-
-#: ../goffice/utils/format.c:181
-msgid "September"
-msgstr "9月"
-
-#: ../goffice/utils/format.c:182
-msgid "October"
-msgstr "10月"
-
-#: ../goffice/utils/format.c:183
-msgid "November"
-msgstr "11月"
-
-#: ../goffice/utils/format.c:184
-msgid "December"
-msgstr "12月"
-
-#: ../goffice/utils/format.c:374
-msgid "TRUE"
-msgstr "TRUE"
-
-#: ../goffice/utils/format.c:375
-msgid "FALSE"
-msgstr "FALSE"
-
-#: ../goffice/utils/format.c:808
-msgid "Black"
-msgstr "黒"
-
-#: ../goffice/utils/format.c:809
-msgid "Blue"
-msgstr "青"
-
-#: ../goffice/utils/format.c:810
-msgid "Cyan"
-msgstr "シアン"
-
-#: ../goffice/utils/format.c:811
-msgid "Green"
-msgstr "緑"
-
-#: ../goffice/utils/format.c:812
-msgid "Magenta"
-msgstr "マゼンタ"
-
-#: ../goffice/utils/format.c:813
-msgid "Red"
-msgstr "赤"
-
-#: ../goffice/utils/format.c:814
-msgid "White"
-msgstr "白"
-
-#: ../goffice/utils/format.c:815
-msgid "Yellow"
-msgstr "黄"
+#: ../goffice/gtk/goffice-gtk.c:128
+#, c-format
+msgid "Unable to open file '%s'"
+msgstr "ファイル'%s'を開けません"
+
+#: ../goffice/gtk/goffice-gtk.c:438
+msgid "All Files"
+msgstr "すべてのファイル"
+
+#: ../goffice/gtk/goffice-gtk.c:443
+msgid "Images"
+msgstr "画像"
+
+#: ../goffice/gtk/goffice-gtk.c:487
+msgid "Select an Image"
+msgstr "画像の選択"
+
+#: ../goffice/gtk/goffice-gtk.c:567
+msgid "Save as"
+msgstr "名前を付けて保存"
+
+#: ../goffice/gtk/goffice-gtk.c:638
+msgid ""
+"The given file extension does not match the chosen file type. Do you want to "
+"use this name anyway?"
+msgstr ""
+"指定されたファイルの拡張子は選択したファイルタイプと一致していません．この名"
+"前をとにかく使用しますか?"
+
+#: ../goffice/gtk/goffice-gtk.c:831
+#, c-format
+msgid ""
+"%s\n"
+"is a directory name"
+msgstr ""
+"%s\n"
+"はディレクトリ名です"
+
+#: ../goffice/gtk/goffice-gtk.c:835
+#, c-format
+msgid ""
+"You do not have permission to save to\n"
+"%s"
+msgstr "%s に保存するためのパーミッションがありません"
+
+#: ../goffice/gtk/goffice-gtk.c:842
+#, c-format
+msgid ""
+"A file called <i>%s</i> already exists in %s.\n"
+"\n"
+"Do you want to save over it?"
+msgstr ""
+"ファイル <i>%s</i> はすでに %s に存在します。\n"
+"\n"
+"上書き保存しますか?"
 
 #. The first column has three letter acronyms
 #. * for each currency.  They MUST start with '[$'
 #. * The second column has the long names of the currencies.
 #.
 #. 2002/08/04 Updated to match iso 4217
-#: ../goffice/utils/formats.c:393
+#: ../goffice/utils/formats.c:322
 msgid "United Arab Emirates, Dirhams"
 msgstr "アラブ首長国連邦, ディルハム"
 
-#: ../goffice/utils/formats.c:394
+#: ../goffice/utils/formats.c:323
 msgid "Afghanistan, Afghanis"
 msgstr "アフガニスタン, アフガニ"
 
-#: ../goffice/utils/formats.c:395
+#: ../goffice/utils/formats.c:324
 msgid "Albania, Leke"
 msgstr "アルバニア, レク"
 
-#: ../goffice/utils/formats.c:396
+#: ../goffice/utils/formats.c:325
 msgid "Armenia, Drams"
 msgstr "アルメニア, ドラム"
 
-#: ../goffice/utils/formats.c:397
+#: ../goffice/utils/formats.c:326
 msgid "Netherlands Antilles, Guilders"
 msgstr "オランダ領アンティル, ギルダー"
 
-#: ../goffice/utils/formats.c:398
+#: ../goffice/utils/formats.c:327
 msgid "Angola, Kwanza"
 msgstr "アンゴラ, クワンザ"
 
-#: ../goffice/utils/formats.c:399
+#: ../goffice/utils/formats.c:328
 msgid "Argentina, Pesos"
 msgstr "アルゼンチン, ペソ"
 
-#: ../goffice/utils/formats.c:400
+#: ../goffice/utils/formats.c:329
 msgid "Australia, Dollars"
 msgstr "オーストラリア, ドル"
 
-#: ../goffice/utils/formats.c:401
+#: ../goffice/utils/formats.c:330
 msgid "Aruba, Guilders"
 msgstr "アルバ, ギルダー"
 
-#: ../goffice/utils/formats.c:402
+#: ../goffice/utils/formats.c:331
 msgid "Azerbaijan, Manats"
 msgstr "アゼルバイジャン, マナト"
 
-#: ../goffice/utils/formats.c:403
+#: ../goffice/utils/formats.c:332
 msgid "Bosnia and Herzegovina, Convertible Marka"
 msgstr "ボスニア・ヘルツェゴビナ, 兌換マルカ"
 
-#: ../goffice/utils/formats.c:404
+#: ../goffice/utils/formats.c:333
 msgid "Barbados, Dollars"
 msgstr "バルバドス, ドル"
 
-#: ../goffice/utils/formats.c:405
+#: ../goffice/utils/formats.c:334
 msgid "Bangladesh, Taka"
 msgstr "バングラデシュ, タカ"
 
-#: ../goffice/utils/formats.c:406
+#: ../goffice/utils/formats.c:335
 msgid "Bulgaria, Leva"
 msgstr "ブルガリア, レフ"
 
-#: ../goffice/utils/formats.c:407
+#: ../goffice/utils/formats.c:336
 msgid "Bahrain, Dinars"
 msgstr "バーレーン, ディナール"
 
-#: ../goffice/utils/formats.c:408
+#: ../goffice/utils/formats.c:337
 msgid "Burundi, Francs"
 msgstr "ブルンジ, フラン"
 
-#: ../goffice/utils/formats.c:409
+#: ../goffice/utils/formats.c:338
 msgid "Bermuda, Dollars"
 msgstr "バーミューダ, ドル"
 
-#: ../goffice/utils/formats.c:410
+#: ../goffice/utils/formats.c:339
 msgid "Brunei Darussalam, Dollars"
 msgstr "ブルネイ＝ダルサラーム, ドル"
 
-#: ../goffice/utils/formats.c:411
+#: ../goffice/utils/formats.c:340
 msgid "Bolivia, Bolivianos"
 msgstr "ボリビア, ボリビアーノ"
 
-#: ../goffice/utils/formats.c:412
+#: ../goffice/utils/formats.c:341
 msgid "Brazil, Brazil Real"
 msgstr "ブラジル, ブラジルレアル"
 
-#: ../goffice/utils/formats.c:413
+#: ../goffice/utils/formats.c:342
 msgid "Bahamas, Dollars"
 msgstr "バハマ, ドル"
 
-#: ../goffice/utils/formats.c:414
+#: ../goffice/utils/formats.c:343
 msgid "Bhutan, Ngultrum"
 msgstr "ブータン, ヌルタム"
 
-#: ../goffice/utils/formats.c:415
+#: ../goffice/utils/formats.c:344
 msgid "Botswana, Pulas"
 msgstr "ボツワナ, プラ"
 
-#: ../goffice/utils/formats.c:416
+#: ../goffice/utils/formats.c:345
 msgid "Belarus, Rubles"
 msgstr "ベラルーシ, ルーブル"
 
-#: ../goffice/utils/formats.c:417
+#: ../goffice/utils/formats.c:346
 msgid "Belize, Dollars"
 msgstr "ベリーズ, ドル"
 
-#: ../goffice/utils/formats.c:418
+#: ../goffice/utils/formats.c:347
 msgid "Canada, Dollars"
 msgstr "カナダ, ドル"
 
-#: ../goffice/utils/formats.c:419
+#: ../goffice/utils/formats.c:348
 msgid "Congo/Kinshasa, Congolese Francs"
 msgstr "コンゴ/キンシャサ, コンゴフラン"
 
-#: ../goffice/utils/formats.c:420
+#: ../goffice/utils/formats.c:349
 msgid "Switzerland, Francs"
 msgstr "スイス, フラン"
 
-#: ../goffice/utils/formats.c:421
+#: ../goffice/utils/formats.c:350
 msgid "Chile, Pesos"
 msgstr "チリ, ペソ"
 
-#: ../goffice/utils/formats.c:422
+#: ../goffice/utils/formats.c:351
 msgid "China, Yuan Renminbi"
 msgstr "中国, 元人民幣"
 
-#: ../goffice/utils/formats.c:423
+#: ../goffice/utils/formats.c:352
 msgid "Colombia, Pesos"
 msgstr "コロンビア, ペソ"
 
-#: ../goffice/utils/formats.c:424
+#: ../goffice/utils/formats.c:353
 msgid "Costa Rica, Colones"
 msgstr "コスタリカ, コロン"
 
-#: ../goffice/utils/formats.c:425
+#: ../goffice/utils/formats.c:354
 msgid "Cuba, Pesos"
 msgstr "キューバ, ペソ"
 
-#: ../goffice/utils/formats.c:426
+#: ../goffice/utils/formats.c:355
 msgid "Cape Verde, Escudos"
 msgstr "カーボベルデ, エスクード"
 
-#: ../goffice/utils/formats.c:427
+#: ../goffice/utils/formats.c:356
 msgid "Cyprus, Pounds"
 msgstr "キプロス, ポンド"
 
-#: ../goffice/utils/formats.c:428
+#: ../goffice/utils/formats.c:357
 msgid "Czech Republic, Koruny"
 msgstr "チェコ共和国, コルナ"
 
-#: ../goffice/utils/formats.c:429
+#: ../goffice/utils/formats.c:358
 msgid "Djibouti, Francs"
 msgstr "ジブチ, フラン"
 
-#: ../goffice/utils/formats.c:430
+#: ../goffice/utils/formats.c:359
 msgid "Denmark, Kroner"
 msgstr "デンマーク, クローネ"
 
-#: ../goffice/utils/formats.c:431
+#: ../goffice/utils/formats.c:360
 msgid "Dominican Republic, Pesos"
 msgstr "ドミニカ共和国, ペソ"
 
-#: ../goffice/utils/formats.c:432
+#: ../goffice/utils/formats.c:361
 msgid "Algeria, Algeria Dinars"
 msgstr "アルジェリア, アルジェリア・ディナール"
 
-#: ../goffice/utils/formats.c:433
+#: ../goffice/utils/formats.c:362
 msgid "Estonia, Krooni"
 msgstr "エストニア, クローン"
 
-#: ../goffice/utils/formats.c:434
+#: ../goffice/utils/formats.c:363
 msgid "Egypt, Pounds"
 msgstr "エジプト, ポンド"
 
-#: ../goffice/utils/formats.c:435
+#: ../goffice/utils/formats.c:364
 msgid "Eritrea, Nakfa"
 msgstr "エリトリア, ナクファ"
 
-#: ../goffice/utils/formats.c:436
+#: ../goffice/utils/formats.c:365
 msgid "Ethiopia, Birr"
 msgstr "エチオピア, ブル"
 
-#: ../goffice/utils/formats.c:437
+#: ../goffice/utils/formats.c:366
 msgid "Euro Member Countries, Euro"
 msgstr "ユーロ加盟国, ユーロ"
 
-#: ../goffice/utils/formats.c:438
+#: ../goffice/utils/formats.c:367
 msgid "Fiji, Dollars"
 msgstr "フィジー, ドル"
 
-#: ../goffice/utils/formats.c:439
+#: ../goffice/utils/formats.c:368
 msgid "Falkland Islands (Malvinas), Pounds"
 msgstr "フォークランド諸島(マルビナス), ポンド"
 
-#: ../goffice/utils/formats.c:440
+#: ../goffice/utils/formats.c:369
 msgid "United Kingdom, Pounds"
 msgstr "イギリス連合王国, ポンド"
 
-#: ../goffice/utils/formats.c:441
+#: ../goffice/utils/formats.c:370
 msgid "Georgia, Lari"
 msgstr "グルジア, ラリ"
 
-#: ../goffice/utils/formats.c:442
+#: ../goffice/utils/formats.c:371
 msgid "Guernsey, Pounds"
 msgstr "ガーンジー, ポンド"
 
-#: ../goffice/utils/formats.c:443
+#: ../goffice/utils/formats.c:372
 msgid "Ghana, Cedis"
 msgstr "ガーナ, セディ"
 
-#: ../goffice/utils/formats.c:444
+#: ../goffice/utils/formats.c:373
 msgid "Gibraltar, Pounds"
 msgstr "ジブラルタル, ポンド"
 
-#: ../goffice/utils/formats.c:445
+#: ../goffice/utils/formats.c:374
 msgid "Gambia, Dalasi"
 msgstr "ガンビア, ダラシ"
 
-#: ../goffice/utils/formats.c:446
+#: ../goffice/utils/formats.c:375
 msgid "Guinea, Francs"
 msgstr "ギニア, フラン"
 
-#: ../goffice/utils/formats.c:447
+#: ../goffice/utils/formats.c:376
 msgid "Guatemala, Quetzales"
 msgstr "グアテマラ, ケツァル"
 
-#: ../goffice/utils/formats.c:448
+#: ../goffice/utils/formats.c:377
 msgid "Guyana, Dollars"
 msgstr "ガイアナ, ドル"
 
-#: ../goffice/utils/formats.c:449
+#: ../goffice/utils/formats.c:378
 msgid "Hong Kong, Dollars"
 msgstr "香港, ドル"
 
-#: ../goffice/utils/formats.c:450
+#: ../goffice/utils/formats.c:379
 msgid "Honduras, Lempiras"
 msgstr "ホンジュラス, レンピラ"
 
-#: ../goffice/utils/formats.c:451
+#: ../goffice/utils/formats.c:380
 msgid "Croatia, Kuna"
 msgstr "クロアチア, クーナ"
 
-#: ../goffice/utils/formats.c:452
+#: ../goffice/utils/formats.c:381
 msgid "Haiti, Gourdes"
 msgstr "ハイチ, グールド"
 
-#: ../goffice/utils/formats.c:453
+#: ../goffice/utils/formats.c:382
 msgid "Hungary, Forint"
 msgstr "ハンガリー, フォリント"
 
-#: ../goffice/utils/formats.c:454
+#: ../goffice/utils/formats.c:383
 msgid "Indonesia, Rupiahs"
 msgstr "インドネシア, ルピア"
 
-#: ../goffice/utils/formats.c:455
+#: ../goffice/utils/formats.c:384
 msgid "Israel, New Shekels"
 msgstr "イスラエル, 新シェケル"
 
-#: ../goffice/utils/formats.c:456
+#: ../goffice/utils/formats.c:385
 msgid "Isle of Man, Pounds"
 msgstr "マン島, ポンド"
 
-#: ../goffice/utils/formats.c:457
+#: ../goffice/utils/formats.c:386
 msgid "India, Rupees"
 msgstr "インド, ルピー"
 
-#: ../goffice/utils/formats.c:458
+#: ../goffice/utils/formats.c:387
 msgid "Iraq, Dinars"
 msgstr "イラク, ディナール"
 
-#: ../goffice/utils/formats.c:459
+#: ../goffice/utils/formats.c:388
 msgid "Iran, Rials"
 msgstr "イラン, リアル"
 
-#: ../goffice/utils/formats.c:460
+#: ../goffice/utils/formats.c:389
 msgid "Iceland, Kronur"
 msgstr "アイスランド, クローナ"
 
-#: ../goffice/utils/formats.c:461
+#: ../goffice/utils/formats.c:390
 msgid "Jersey, Pounds"
 msgstr "ジャージー, ポンド"
 
-#: ../goffice/utils/formats.c:462
+#: ../goffice/utils/formats.c:391
 msgid "Jamaica, Dollars"
 msgstr "ジャマイカ, ドル"
 
-#: ../goffice/utils/formats.c:463
+#: ../goffice/utils/formats.c:392
 msgid "Jordan, Dinars"
 msgstr "ヨルダン, ディナール"
 
-#: ../goffice/utils/formats.c:464
+#: ../goffice/utils/formats.c:393
 msgid "Japan, Yen"
 msgstr "日本, 円"
 
-#: ../goffice/utils/formats.c:465
+#: ../goffice/utils/formats.c:394
 msgid "Kenya, Shillings"
 msgstr "ケニア, シリング"
 
-#: ../goffice/utils/formats.c:466
+#: ../goffice/utils/formats.c:395
 msgid "Kyrgyzstan, Soms"
 msgstr "キルギスタン, ソム"
 
-#: ../goffice/utils/formats.c:467
+#: ../goffice/utils/formats.c:396
 msgid "Cambodia, Riels"
 msgstr "カンボジア, リエル"
 
-#: ../goffice/utils/formats.c:468
+#: ../goffice/utils/formats.c:397
 msgid "Comoros, Francs"
 msgstr "コモロ, フラン"
 
-#: ../goffice/utils/formats.c:469
+#: ../goffice/utils/formats.c:398
 msgid "Korea (North), Won"
 msgstr "北朝鮮, ウォン"
 
-#: ../goffice/utils/formats.c:470
+#: ../goffice/utils/formats.c:399
 msgid "Korea (South), Won"
 msgstr "韓国, ウォン"
 
-#: ../goffice/utils/formats.c:471
+#: ../goffice/utils/formats.c:400
 msgid "Kuwait, Dinars"
 msgstr "クウェート, ディナール"
 
-#: ../goffice/utils/formats.c:472
+#: ../goffice/utils/formats.c:401
 msgid "Cayman Islands, Dollars"
 msgstr "ケイマン諸島, ドル"
 
-#: ../goffice/utils/formats.c:473
+#: ../goffice/utils/formats.c:402
 msgid "Kazakstan, Tenge"
 msgstr "カザフスタン, テンゲ"
 
-#: ../goffice/utils/formats.c:474
+#: ../goffice/utils/formats.c:403
 msgid "Laos, Kips"
 msgstr "ラオス, キップ"
 
-#: ../goffice/utils/formats.c:475
+#: ../goffice/utils/formats.c:404
 msgid "Lebanon, Pounds"
 msgstr "レバノン, ポンド"
 
-#: ../goffice/utils/formats.c:476
+#: ../goffice/utils/formats.c:405
 msgid "Sri Lanka, Rupees"
 msgstr "スリランカ, ルピー"
 
-#: ../goffice/utils/formats.c:477
+#: ../goffice/utils/formats.c:406
 msgid "Liberia, Dollars"
 msgstr "リベリア, ドル"
 
-#: ../goffice/utils/formats.c:478
+#: ../goffice/utils/formats.c:407
 msgid "Lesotho, Maloti"
 msgstr "レソト, ロティ"
 
-#: ../goffice/utils/formats.c:479
+#: ../goffice/utils/formats.c:408
 msgid "Lithuania, Litai"
 msgstr "リトアニア, リタス"
 
-#: ../goffice/utils/formats.c:480
+#: ../goffice/utils/formats.c:409
 msgid "Latvia, Lati"
 msgstr "ラトビア, ラト"
 
-#: ../goffice/utils/formats.c:481
+#: ../goffice/utils/formats.c:410
 msgid "Libya, Dinars"
 msgstr "リビア, ディナール"
 
-#: ../goffice/utils/formats.c:482
+#: ../goffice/utils/formats.c:411
 msgid "Morocco, Dirhams"
 msgstr "モロッコ, ディルハム"
 
-#: ../goffice/utils/formats.c:483
+#: ../goffice/utils/formats.c:412
 msgid "Moldova, Lei"
 msgstr "モルドバ, レイ"
 
-#: ../goffice/utils/formats.c:484
+#: ../goffice/utils/formats.c:413
 msgid "Madagascar, Malagasy Francs"
 msgstr "マダガスカル, マラガシー・フラン"
 
-#: ../goffice/utils/formats.c:485
+#: ../goffice/utils/formats.c:414
 msgid "Macedonia, Denars"
 msgstr "マケドニア, デナール"
 
-#: ../goffice/utils/formats.c:486
+#: ../goffice/utils/formats.c:415
 msgid "Myanmar (Burma), Kyats"
 msgstr "ミャンマー(ビルマ), チャット"
 
-#: ../goffice/utils/formats.c:487
+#: ../goffice/utils/formats.c:416
 msgid "Mongolia, Tugriks"
 msgstr "モンゴル, ツグリク"
 
-#: ../goffice/utils/formats.c:488
+#: ../goffice/utils/formats.c:417
 msgid "Macau, Patacas"
 msgstr "マカオ, パタカ"
 
-#: ../goffice/utils/formats.c:489
+#: ../goffice/utils/formats.c:418
 msgid "Mauritania, Ouguiyas"
 msgstr "モーリタニア, ウギア"
 
-#: ../goffice/utils/formats.c:490
+#: ../goffice/utils/formats.c:419
 msgid "Malta, Liri"
 msgstr "マルタ, リラ"
 
-#: ../goffice/utils/formats.c:491
+#: ../goffice/utils/formats.c:420
 msgid "Mauritius, Rupees"
 msgstr "モーリシャス, ルピー"
 
-#: ../goffice/utils/formats.c:492
+#: ../goffice/utils/formats.c:421
 msgid "Maldives (Maldive Islands), Rufiyaa"
 msgstr "モルジブ(モルジブ諸島), ルフィヤ"
 
-#: ../goffice/utils/formats.c:493
+#: ../goffice/utils/formats.c:422
 msgid "Malawi, Kwachas"
 msgstr "マラウィ, クワチャ"
 
-#: ../goffice/utils/formats.c:494
+#: ../goffice/utils/formats.c:423
 msgid "Mexico, Pesos"
 msgstr "メキシコ, ペソ"
 
-#: ../goffice/utils/formats.c:495
+#: ../goffice/utils/formats.c:424
 msgid "Malaysia, Ringgits"
 msgstr "マレーシア, リンギット"
 
-#: ../goffice/utils/formats.c:496
+#: ../goffice/utils/formats.c:425
 msgid "Mozambique, Meticais"
 msgstr "モザンビーク, メティカル"
 
-#: ../goffice/utils/formats.c:497
+#: ../goffice/utils/formats.c:426
 msgid "Namibia, Dollars"
 msgstr "ナミビア, ドル"
 
-#: ../goffice/utils/formats.c:498
+#: ../goffice/utils/formats.c:427
 msgid "Nigeria, Nairas"
 msgstr "ナイジェリア, ナイラ"
 
-#: ../goffice/utils/formats.c:499
+#: ../goffice/utils/formats.c:428
 msgid "Nicaragua, Gold Cordobas"
 msgstr "ニカラグア, コルドバ"
 
-#: ../goffice/utils/formats.c:500
+#: ../goffice/utils/formats.c:429
 msgid "Norway, Krone"
 msgstr "ノルウェー, クローネ"
 
-#: ../goffice/utils/formats.c:501
+#: ../goffice/utils/formats.c:430
 msgid "Nepal, Nepal Rupees"
 msgstr "ネパール, ネパール・ルピー"
 
-#: ../goffice/utils/formats.c:502
+#: ../goffice/utils/formats.c:431
 msgid "New Zealand, Dollars"
 msgstr "ニュージーランド, ドル"
 
-#: ../goffice/utils/formats.c:503
+#: ../goffice/utils/formats.c:432
 msgid "Oman, Rials"
 msgstr "オマーン, リアル"
 
-#: ../goffice/utils/formats.c:504
+#: ../goffice/utils/formats.c:433
 msgid "Panama, Balboa"
 msgstr "パナマ, バルボア"
 
-#: ../goffice/utils/formats.c:505
+#: ../goffice/utils/formats.c:434
 msgid "Peru, Nuevos Soles"
 msgstr "ペルー, 新ソル"
 
-#: ../goffice/utils/formats.c:506
+#: ../goffice/utils/formats.c:435
 msgid "Papua New Guinea, Kina"
 msgstr "パプアニューギニア, キナ"
 
-#: ../goffice/utils/formats.c:507
+#: ../goffice/utils/formats.c:436
 msgid "Philippines, Pesos"
 msgstr "フィリピン, ペソ"
 
-#: ../goffice/utils/formats.c:508
+#: ../goffice/utils/formats.c:437
 msgid "Pakistan, Rupees"
 msgstr "パキスタン, ルピー"
 
-#: ../goffice/utils/formats.c:509
+#: ../goffice/utils/formats.c:438
 msgid "Poland, Zlotys"
 msgstr "ポーランド, ズロチ"
 
-#: ../goffice/utils/formats.c:510
+#: ../goffice/utils/formats.c:439
 msgid "Paraguay, Guarani"
 msgstr "パラグアイ, グアラニ"
 
-#: ../goffice/utils/formats.c:511
+#: ../goffice/utils/formats.c:440
 msgid "Qatar, Rials"
 msgstr "カタール, リヤル"
 
-#: ../goffice/utils/formats.c:512
+#: ../goffice/utils/formats.c:441
 msgid "Romania, Lei"
 msgstr "ルーマニア, レイ"
 
-#: ../goffice/utils/formats.c:513
+#: ../goffice/utils/formats.c:442
 msgid "Russia, Rubles"
 msgstr "ロシア, ルーブル"
 
-#: ../goffice/utils/formats.c:514
+#: ../goffice/utils/formats.c:443
 msgid "Rwanda, Rwanda Francs"
 msgstr "ルワンダ, ルワンダ・フラン"
 
-#: ../goffice/utils/formats.c:515
+#: ../goffice/utils/formats.c:444
 msgid "Saudi Arabia, Riyals"
 msgstr "サウジアラビア, リヤル"
 
-#: ../goffice/utils/formats.c:516
+#: ../goffice/utils/formats.c:445
 msgid "Solomon Islands, Dollars"
 msgstr "ソロモン諸島, ドル"
 
-#: ../goffice/utils/formats.c:517
+#: ../goffice/utils/formats.c:446
 msgid "Seychelles, Rupees"
 msgstr "セイシェル, ルピー"
 
-#: ../goffice/utils/formats.c:518
+#: ../goffice/utils/formats.c:447
 msgid "Sudan, Dinars"
 msgstr "スーダン, ディナール"
 
-#: ../goffice/utils/formats.c:519
+#: ../goffice/utils/formats.c:448
 msgid "Sweden, Kronor"
 msgstr "スウェーデン, クローナ"
 
-#: ../goffice/utils/formats.c:520
+#: ../goffice/utils/formats.c:449
 msgid "Singapore, Dollars"
 msgstr "シンガポール, ドル"
 
-#: ../goffice/utils/formats.c:521
+#: ../goffice/utils/formats.c:450
 msgid "Saint Helena, Pounds"
 msgstr "セントヘレナ, ポンド"
 
-#: ../goffice/utils/formats.c:522
+#: ../goffice/utils/formats.c:451
 msgid "Slovenia, Tolars"
 msgstr "スロベニア, トラー"
 
-#: ../goffice/utils/formats.c:523
+#: ../goffice/utils/formats.c:452
 msgid "Slovakia, Koruny"
 msgstr "スロバキア, コルナ"
 
-#: ../goffice/utils/formats.c:524
+#: ../goffice/utils/formats.c:453
 msgid "Sierra Leone, Leones"
 msgstr "シエラレオネ, レオン"
 
-#: ../goffice/utils/formats.c:525
+#: ../goffice/utils/formats.c:454
 msgid "Somalia, Shillings"
 msgstr "ソマリア, シリング"
 
-#: ../goffice/utils/formats.c:526
+#: ../goffice/utils/formats.c:455
 msgid "Seborga, Luigini"
 msgstr "セボルガ, ルイジーニ"
 
-#: ../goffice/utils/formats.c:527
+#: ../goffice/utils/formats.c:456
 msgid "Suriname, Guilders"
 msgstr "スリナム, ギルダー"
 
-#: ../goffice/utils/formats.c:528
+#: ../goffice/utils/formats.c:457
 msgid "Sao Tome and Principe, Dobras"
 msgstr "サントメ=プリンチペ, ドブラ"
 
-#: ../goffice/utils/formats.c:529
+#: ../goffice/utils/formats.c:458
 msgid "El Salvador, Colones"
 msgstr "エルサルバドル, コロン"
 
-#: ../goffice/utils/formats.c:530
+#: ../goffice/utils/formats.c:459
 msgid "Syria, Pounds"
 msgstr "シリア, ポンド"
 
-#: ../goffice/utils/formats.c:531
+#: ../goffice/utils/formats.c:460
 msgid "Swaziland, Emalangeni"
 msgstr "スワジランド, リランゲニ"
 
-#: ../goffice/utils/formats.c:532
+#: ../goffice/utils/formats.c:461
 msgid "Thailand, Baht"
 msgstr "タイ, バーツ"
 
-#: ../goffice/utils/formats.c:533
+#: ../goffice/utils/formats.c:462
 msgid "Tajikistan, Rubles"
 msgstr "タジキスタン, ルーブル"
 
-#: ../goffice/utils/formats.c:534
+#: ../goffice/utils/formats.c:463
 msgid "Turkmenistan, Manats"
 msgstr "トルクメニスタン, マナト"
 
-#: ../goffice/utils/formats.c:535
+#: ../goffice/utils/formats.c:464
 msgid "Tunisia, Dinars"
 msgstr "チュニジア, ディナール"
 
-#: ../goffice/utils/formats.c:536
+#: ../goffice/utils/formats.c:465
 msgid "Tonga, Pa'anga"
 msgstr "トンガ, パアンガ"
 
-#: ../goffice/utils/formats.c:537
+#: ../goffice/utils/formats.c:466
 msgid "Turkey, Liras"
 msgstr "トルコ, リラ"
 
-#: ../goffice/utils/formats.c:538
+#: ../goffice/utils/formats.c:467
 msgid "Trinidad and Tobago, Dollars"
 msgstr "トリニダード=トバゴ, ドル"
 
-#: ../goffice/utils/formats.c:539
+#: ../goffice/utils/formats.c:468
 msgid "Tuvalu, Tuvalu Dollars"
 msgstr "ツバル, ツバルドル"
 
-#: ../goffice/utils/formats.c:540
+#: ../goffice/utils/formats.c:469
 msgid "Taiwan, New Dollars"
 msgstr "台湾, 新ドル"
 
-#: ../goffice/utils/formats.c:541
+#: ../goffice/utils/formats.c:470
 msgid "Tanzania, Shillings"
 msgstr "タンザニア, シリング"
 
-#: ../goffice/utils/formats.c:542
+#: ../goffice/utils/formats.c:471
 msgid "Ukraine, Hryvnia"
 msgstr "ウクライナ, グリブナ"
 
-#: ../goffice/utils/formats.c:543
+#: ../goffice/utils/formats.c:472
 msgid "Uganda, Shillings"
 msgstr "ウガンダ, シリング"
 
-#: ../goffice/utils/formats.c:544
+#: ../goffice/utils/formats.c:473
 msgid "United States of America, Dollars"
 msgstr "アメリカ合衆国, ドル"
 
-#: ../goffice/utils/formats.c:545
+#: ../goffice/utils/formats.c:474
 msgid "Uruguay, Pesos"
 msgstr "ウルグアイ, ペソ"
 
-#: ../goffice/utils/formats.c:546
+#: ../goffice/utils/formats.c:475
 msgid "Uzbekistan, Sums"
 msgstr "ウズベキスタン, スム"
 
-#: ../goffice/utils/formats.c:547
+#: ../goffice/utils/formats.c:476
 msgid "Venezuela, Bolivares"
 msgstr "ベネズエラ, ボリバル"
 
-#: ../goffice/utils/formats.c:548
+#: ../goffice/utils/formats.c:477
 msgid "Viet Nam, Dong"
 msgstr "ベトナム, ドン"
 
-#: ../goffice/utils/formats.c:549
+#: ../goffice/utils/formats.c:478
 msgid "Vanuatu, Vatu"
 msgstr "バヌアツ, バツ"
 
-#: ../goffice/utils/formats.c:550
+#: ../goffice/utils/formats.c:479
 msgid "Samoa, Tala"
 msgstr "サモア, タラ"
 
-#: ../goffice/utils/formats.c:551
+#: ../goffice/utils/formats.c:480
 msgid "Communaute Financiere Africaine BEAC, Francs"
 msgstr "アフリカ財政協同体(CFA) BEAC, フラン"
 
-#: ../goffice/utils/formats.c:552
+#: ../goffice/utils/formats.c:481
 msgid "Silver, Ounces"
 msgstr "銀, オンス"
 
-#: ../goffice/utils/formats.c:553
+#: ../goffice/utils/formats.c:482
 msgid "Gold, Ounces"
 msgstr "金, オンス"
 
-#: ../goffice/utils/formats.c:554
+#: ../goffice/utils/formats.c:483
 msgid "East Caribbean Dollars"
 msgstr "東カリブ・ドル"
 
-#: ../goffice/utils/formats.c:555
+#: ../goffice/utils/formats.c:484
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
 msgstr "国際通貨基金(IMF) 特別引き出し権(SDR)"
 
-#: ../goffice/utils/formats.c:556
+#: ../goffice/utils/formats.c:485
 msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr "アフリカ財政協同体(CFA) BCEAO, フラン"
 
-#: ../goffice/utils/formats.c:557
+#: ../goffice/utils/formats.c:486
 msgid "Palladium, Ounces"
 msgstr "パラジウム, オンス"
 
-#: ../goffice/utils/formats.c:558
+#: ../goffice/utils/formats.c:487
 msgid "Comptoirs Francais du Pacifique Francs"
 msgstr ""
 
-#: ../goffice/utils/formats.c:559
+#: ../goffice/utils/formats.c:488
 msgid "Platinum, Ounces"
 msgstr "プラチナ, オンス"
 
-#: ../goffice/utils/formats.c:560
+#: ../goffice/utils/formats.c:489
 msgid "Yemen, Rials"
 msgstr "イエメン, リアル"
 
-#: ../goffice/utils/formats.c:561
+#: ../goffice/utils/formats.c:490
 msgid "Yugoslavia, New Dinars"
 msgstr "ユーゴスラビア, ニューディナール"
 
-#: ../goffice/utils/formats.c:562
+#: ../goffice/utils/formats.c:491
 msgid "South Africa, Rand"
 msgstr "南アフリカ, ランド"
 
-#: ../goffice/utils/formats.c:563
+#: ../goffice/utils/formats.c:492
 msgid "Zambia, Kwacha"
 msgstr "ザンビア, クワチャ"
 
-#: ../goffice/utils/formats.c:564
+#: ../goffice/utils/formats.c:493
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "ジンバブエ, ジンバブエ・ドル"
 
-#: ../goffice/utils/go-image.c:113
+#. xgettext: generic fake user name for non-local files.
+#: ../goffice/utils/go-file.c:731
+msgid "remote user"
+msgstr ""
+
+#. xgettext: generic fake group name for non-local files.
+#: ../goffice/utils/go-file.c:812
+msgid "remote"
+msgstr ""
+
+#: ../goffice/utils/go-format.c:433
+msgid "Black"
+msgstr "黒"
+
+#: ../goffice/utils/go-format.c:434
+msgid "Blue"
+msgstr "青"
+
+#: ../goffice/utils/go-format.c:435
+msgid "Cyan"
+msgstr "シアン"
+
+#: ../goffice/utils/go-format.c:436
+msgid "Green"
+msgstr "緑"
+
+#: ../goffice/utils/go-format.c:437
+msgid "Magenta"
+msgstr "マゼンタ"
+
+#: ../goffice/utils/go-format.c:438
+msgid "Red"
+msgstr "赤"
+
+#: ../goffice/utils/go-format.c:439
+msgid "White"
+msgstr "白"
+
+#: ../goffice/utils/go-format.c:440
+msgid "Yellow"
+msgstr "黄"
+
+#: ../goffice/utils/go-format.c:3297
+#, fuzzy
+msgid "[Color"
+msgstr "色"
+
+#: ../goffice/utils/go-format.c:3421
+msgid "[Invalid]"
+msgstr ""
+
+#: ../goffice/utils/go-image.c:120
 msgid "SVG (vector graphics)"
 msgstr ""
 
-#: ../goffice/utils/go-image.c:115
+#: ../goffice/utils/go-image.c:122
 msgid "PNG (raster graphics)"
 msgstr ""
 
-#: ../goffice/utils/go-image.c:117
+#: ../goffice/utils/go-image.c:124
 msgid "JPEG (photograph)"
 msgstr ""
 
-#: ../goffice/utils/go-image.c:119
+#: ../goffice/utils/go-image.c:126
 msgid "PDF (portable document format)"
 msgstr ""
 
-#: ../goffice/utils/go-image.c:121
+#: ../goffice/utils/go-image.c:128
 msgid "PS (postscript)"
 msgstr ""
 
-#: ../goffice/utils/go-image.c:123
+#: ../goffice/utils/go-image.c:130
 msgid "EMF (extended metafile)"
 msgstr ""
 
-#: ../goffice/utils/go-image.c:125
+#: ../goffice/utils/go-image.c:132
 msgid "WMF (windows metafile)"
 msgstr ""
 
-#: ../goffice/utils/go-line.c:52
-msgid "None"
-msgstr "なし"
+#: ../goffice/utils/go-image.c:486
+msgid "Image width in pixels"
+msgstr ""
 
-#: ../goffice/utils/go-line.c:53 ../goffice/utils/go-pattern.c:46
+#: ../goffice/utils/go-image.c:490
+msgid "Image height in pixels"
+msgstr ""
+
+#: ../goffice/utils/go-image.c:494
+msgid "Pixbuf"
+msgstr ""
+
+#: ../goffice/utils/go-image.c:495
+msgid "GdkPixbuf object from which the GOImage is built"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:57 ../goffice/utils/go-pattern.c:41
 msgid "Solid"
 msgstr "実線"
 
-#: ../goffice/utils/go-line.c:54
-msgid "Dash"
-msgstr "破線"
-
-#: ../goffice/utils/go-line.c:55
+#: ../goffice/utils/go-line.c:59
 msgid "Dot"
 msgstr "点線"
 
-#: ../goffice/utils/go-line.c:56
+#: ../goffice/utils/go-line.c:61
 msgid "Dash dot"
 msgstr "一点破線"
 
-#: ../goffice/utils/go-line.c:57
+#: ../goffice/utils/go-line.c:63
 msgid "Dash dot dot"
 msgstr "二点破線"
 
-#. xgettext : this will appear as 'Automatic (patternname)'
-#. xgettext : this will appear as 'Automatic (shapename)'
-#. xgettext : this will appear as 'Automatic (patternname)'
-#: ../goffice/utils/go-line.c:306 ../goffice/utils/go-marker.c:583
-#: ../goffice/utils/go-pattern.c:256
-#, c-format
-msgid "Automatic (%s)"
-msgstr "自動 (%s)"
+#: ../goffice/utils/go-line.c:65
+#, fuzzy
+msgid "Dash dot dot dot"
+msgstr "二点破線"
 
-#: ../goffice/utils/go-marker.c:240
+#: ../goffice/utils/go-line.c:67
+msgid "Short dash"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:69
+msgid "Dash"
+msgstr "破線"
+
+#: ../goffice/utils/go-line.c:71
+msgid "Long dash"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:73
+msgid "Very long dash"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:75
+msgid "Long dash dash"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:77
+msgid "Long dash dash dash"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:88
+#, fuzzy
+msgid "Spline"
+msgstr "曲線でつないだ散布図"
+
+#: ../goffice/utils/go-line.c:89
+msgid "Step at start"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:90
+msgid "Step at end"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:91
+#, fuzzy
+msgid "Step at center"
+msgstr "スペース"
+
+#: ../goffice/utils/go-line.c:92
+msgid "Step to mean"
+msgstr ""
+
+#: ../goffice/utils/go-locale.c:381
+msgid "TRUE"
+msgstr "TRUE"
+
+#: ../goffice/utils/go-locale.c:382
+msgid "FALSE"
+msgstr "FALSE"
+
+#: ../goffice/utils/go-marker.c:239
 msgid "none"
 msgstr "なし"
 
-#: ../goffice/utils/go-marker.c:241
+#: ../goffice/utils/go-marker.c:240
 msgid "square"
 msgstr "正方形"
 
-#: ../goffice/utils/go-marker.c:242
+#: ../goffice/utils/go-marker.c:241
 msgid "diamond"
 msgstr "ダイヤモンド"
 
-#: ../goffice/utils/go-marker.c:243
+#: ../goffice/utils/go-marker.c:242
 msgid "triangle down"
 msgstr "三角形（下）"
 
-#: ../goffice/utils/go-marker.c:244
+#: ../goffice/utils/go-marker.c:243
 msgid "triangle up"
 msgstr "三角形（上）"
 
-#: ../goffice/utils/go-marker.c:245
+#: ../goffice/utils/go-marker.c:244
 msgid "triangle right"
 msgstr "三角形（右）"
 
-#: ../goffice/utils/go-marker.c:246
+#: ../goffice/utils/go-marker.c:245
 msgid "triangle left"
 msgstr "三角形（左）"
 
-#: ../goffice/utils/go-marker.c:247
+#: ../goffice/utils/go-marker.c:246
 msgid "circle"
 msgstr "円"
 
-#: ../goffice/utils/go-marker.c:248
+#: ../goffice/utils/go-marker.c:247
 msgid "x"
 msgstr "x"
 
-#: ../goffice/utils/go-marker.c:249
+#: ../goffice/utils/go-marker.c:248
 msgid "cross"
 msgstr "十字"
 
-#: ../goffice/utils/go-marker.c:250
+#: ../goffice/utils/go-marker.c:249
 msgid "asterisk"
 msgstr "アスタリスク"
 
-#: ../goffice/utils/go-marker.c:251
+#: ../goffice/utils/go-marker.c:250
 msgid "bar"
 msgstr "棒"
 
-#: ../goffice/utils/go-marker.c:252
+#: ../goffice/utils/go-marker.c:251
 msgid "half bar"
 msgstr "半分の棒"
 
-#: ../goffice/utils/go-marker.c:253
+#: ../goffice/utils/go-marker.c:252
 msgid "butterfly"
 msgstr "蝶々"
 
-#: ../goffice/utils/go-marker.c:254
+#: ../goffice/utils/go-marker.c:253
 msgid "hourglass"
 msgstr "ホールグラス"
 
-#: ../goffice/utils/go-pattern.c:48
+#: ../goffice/utils/go-pattern.c:43
 #, no-c-format
 msgid "75% Grey"
 msgstr "75% グレー"
 
-#: ../goffice/utils/go-pattern.c:50
+#: ../goffice/utils/go-pattern.c:45
 #, no-c-format
 msgid "50% Grey"
 msgstr "50% グレー"
 
-#: ../goffice/utils/go-pattern.c:52
+#: ../goffice/utils/go-pattern.c:47
 #, no-c-format
 msgid "25% Grey"
 msgstr "25% グレー"
 
-#: ../goffice/utils/go-pattern.c:54
+#: ../goffice/utils/go-pattern.c:49
 #, no-c-format
 msgid "12.5% Grey"
 msgstr "12.5% グレー"
 
-#: ../goffice/utils/go-pattern.c:56
+#: ../goffice/utils/go-pattern.c:51
 #, no-c-format
 msgid "6.25% Grey"
 msgstr "6.25% グレー"
 
-#: ../goffice/utils/go-pattern.c:57
+#: ../goffice/utils/go-pattern.c:52
 msgid "Horizontal Stripe"
 msgstr "横縞"
 
-#: ../goffice/utils/go-pattern.c:58
+#: ../goffice/utils/go-pattern.c:53
 msgid "Vertical Stripe"
 msgstr "縦縞"
 
-#: ../goffice/utils/go-pattern.c:59
+#: ../goffice/utils/go-pattern.c:54
 msgid "Reverse Diagonal Stripe"
 msgstr "右下がり斜線の縞"
 
-#: ../goffice/utils/go-pattern.c:60
+#: ../goffice/utils/go-pattern.c:55
 msgid "Diagonal Stripe"
 msgstr "左下がり斜線の縞"
 
-#: ../goffice/utils/go-pattern.c:61
+#: ../goffice/utils/go-pattern.c:56
 msgid "Diagonal Crosshatch"
 msgstr "斜線の格子"
 
-#: ../goffice/utils/go-pattern.c:62
+#: ../goffice/utils/go-pattern.c:57
 msgid "Thick Diagonal Crosshatch"
 msgstr "太い斜線の格子"
 
-#: ../goffice/utils/go-pattern.c:63
+#: ../goffice/utils/go-pattern.c:58
 msgid "Thin Horizontal Stripe"
 msgstr "細い横縞"
 
-#: ../goffice/utils/go-pattern.c:64
+#: ../goffice/utils/go-pattern.c:59
 msgid "Thin Vertical Stripe"
 msgstr "細い縦縞"
 
-#: ../goffice/utils/go-pattern.c:65
+#: ../goffice/utils/go-pattern.c:60
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "細い右下がり斜線の縞"
 
-#: ../goffice/utils/go-pattern.c:66
+#: ../goffice/utils/go-pattern.c:61
 msgid "Thin Diagonal Stripe"
 msgstr "細い左下がり斜線の縞"
 
-#: ../goffice/utils/go-pattern.c:67
+#: ../goffice/utils/go-pattern.c:62
 msgid "Thin Horizontal Crosshatch"
 msgstr "細い横線の格子"
 
-#: ../goffice/utils/go-pattern.c:68
+#: ../goffice/utils/go-pattern.c:63
 msgid "Thin Diagonal Crosshatch"
 msgstr "細い斜線の格子"
 
-#: ../goffice/utils/go-pattern.c:69
+#: ../goffice/utils/go-pattern.c:64
 msgid "Foreground Solid"
 msgstr "前景色で塗りつぶし"
 
-#: ../goffice/utils/go-pattern.c:70
+#: ../goffice/utils/go-pattern.c:65
 msgid "Small Circles"
 msgstr "小円"
 
 #. Applix
-#: ../goffice/utils/go-pattern.c:71
+#: ../goffice/utils/go-pattern.c:66
 msgid "Semi Circles"
 msgstr "半円"
 
 #. Applix
-#: ../goffice/utils/go-pattern.c:72
+#: ../goffice/utils/go-pattern.c:67
 msgid "Thatch"
 msgstr "わらふき"
 
 #. Applix small thatch
-#: ../goffice/utils/go-pattern.c:73
+#: ../goffice/utils/go-pattern.c:68
 msgid "Large Circles"
 msgstr "大きな円"
 
-#: ../goffice/utils/go-pattern.c:75
+#: ../goffice/utils/go-pattern.c:70
 msgid "Bricks"
 msgstr "レンガ"
 
@@ -4103,115 +4539,124 @@ msgstr ""
 msgid "Unmatched ) or \\)"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:267 ../goffice/utils/regutf8.c:276
+#: ../goffice/utils/regutf8.c:267
 msgid "Search string must not be empty."
 msgstr "検索文字列が空ではいけません．"
 
-#: ../goffice/utils/regutf8.c:288
+#: ../goffice/utils/regutf8.c:277
+#, fuzzy
+msgid "Replacement string must be set."
+msgstr "検索文字列が空ではいけません．"
+
+#: ../goffice/utils/regutf8.c:289
 #, c-format
 msgid "Invalid search pattern (%s)"
 msgstr "検索パターンが正しくありません (%s)"
 
-#: ../goffice/utils/regutf8.c:312
+#: ../goffice/utils/regutf8.c:313
 msgid "Invalid $-specification in replacement."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:322
+#: ../goffice/utils/regutf8.c:323
 msgid "Invalid trailing backslash in replacement."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:799
+#: ../goffice/utils/regutf8.c:800
 msgid "Search Text"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:800
+#: ../goffice/utils/regutf8.c:801
 msgid "The text to search for"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:809
+#: ../goffice/utils/regutf8.c:810
 msgid "Replacement Text"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:810
+#: ../goffice/utils/regutf8.c:811
 msgid "The text to replace with"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:818
+#: ../goffice/utils/regutf8.c:819
 msgid "Is Regular Expression"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:819
+#: ../goffice/utils/regutf8.c:820
 msgid "Is the search text a regular expression."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:827
+#: ../goffice/utils/regutf8.c:828
 msgid "Ignore Case"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:828
+#: ../goffice/utils/regutf8.c:829
 msgid "Ignore the case of letters."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:836
+#: ../goffice/utils/regutf8.c:837
 msgid "Preserve Case"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:837
+#: ../goffice/utils/regutf8.c:838
 msgid "Preserve the case of letters."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:845
+#: ../goffice/utils/regutf8.c:846
 msgid "Match Words"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:846
+#: ../goffice/utils/regutf8.c:847
 msgid "Match whole words only."
 msgstr ""
 
-#: ../plugins/plot_barcol/gog-1.5d.c:333
+#: ../plugins/plot_barcol/gog-1.5d.c:321
+msgid "How to group multiple series, normal, stacked, as_percentage"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-1.5d.c:326 ../plugins/plot_pie/gog-pie.c:245
+#: ../plugins/plot_xy/gog-xy.c:506
+msgid "In 3d"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-1.5d.c:327
+msgid "Placeholder to allow us to round trip pseudo 3d state"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-1.5d.c:335
 #: ../plugins/plot_barcol/gog-dropbar.c:58
-#: ../plugins/plot_barcol/gog-minmax.c:235 ../plugins/plot_pie/gog-pie.c:235
-#: ../plugins/plot_radar/gog-radar.c:261
+#: ../plugins/plot_barcol/gog-minmax.c:244 ../plugins/plot_pie/gog-pie.c:258
+#: ../plugins/plot_radar/gog-radar.c:263
 msgid "Labels"
 msgstr "ラベル"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:335
-#: ../plugins/plot_boxes/gog-boxplot.c:221 ../plugins/plot_pie/gog-pie.c:237
-#: ../plugins/plot_radar/gog-radar.c:263
+#: ../plugins/plot_barcol/gog-1.5d.c:337
+#: ../plugins/plot_boxes/gog-boxplot.c:314 ../plugins/plot_pie/gog-pie.c:260
+#: ../plugins/plot_radar/gog-radar.c:265
 msgid "Values"
 msgstr "値"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:563
+#: ../plugins/plot_barcol/gog-1.5d.c:567 ../plugins/plot_barcol/gog-1.5d.c:629
 msgid "Error bars"
 msgstr "誤差棒"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:581
+#: ../plugins/plot_barcol/gog-1.5d.c:586
 msgid "Series lines"
 msgstr "区分線"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:588
+#: ../plugins/plot_barcol/gog-1.5d.c:593
 msgid "Drop lines"
 msgstr "降下線"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:596
+#: ../plugins/plot_barcol/gog-1.5d.c:601
 #: ../plugins/plot_barcol/plot-types.xml.in.h:78
 msgid "Lines"
 msgstr "折れ線グラフ"
 
-#. xgettext : the base for how to name bar/col plot objects
-#. * eg The 2nd bar/col plot in a chart will be called
-#. * 	PlotBarCol2
-#: ../plugins/plot_barcol/gog-barcol.c:99
-msgid "PlotBarCol"
-msgstr "PlotBarCol"
-
-#: ../plugins/plot_barcol/gog-barcol.c:111
-#: ../plugins/plot_barcol/gog-minmax.c:194
-#: ../plugins/plot_boxes/gog-boxplot.c:87 ../plugins/plot_pie/gog-pie.c:193
-#: ../plugins/plot_pie/gog-pie.c:328 ../plugins/plot_surface/gog-surface.c:206
-#: ../plugins/plot_xy/gog-xy.c:385
-msgid "Properties"
-msgstr "プロパティ"
+#: ../plugins/plot_barcol/gog-1.5d.c:630 ../plugins/plot_xy/gog-xy.c:1663
+#: ../plugins/plot_xy/gog-xy.c:1669
+#, fuzzy
+msgid "GogErrorBar *"
+msgstr "誤差棒"
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:3
 msgid "How far the bars/cols overlap as a percentage of the width"
@@ -4223,15 +4668,63 @@ msgstr ""
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:5
 #: ../plugins/plot_barcol/gog-minmax-prefs.glade.h:3
-#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:3
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:5
 msgid "Separation between groups as a percentage of bar/col width"
 msgstr ""
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:6
 #: ../plugins/plot_barcol/gog-minmax-prefs.glade.h:4
-#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:4
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:6
 msgid "_Gap:"
 msgstr "間隔(_G):"
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd bar/col plot in a chart will be called
+#. * 	PlotBarCol2
+#: ../plugins/plot_barcol/gog-barcol.c:99
+msgid "PlotBarCol"
+msgstr "PlotBarCol"
+
+#: ../plugins/plot_barcol/gog-barcol.c:111
+#: ../plugins/plot_barcol/gog-minmax.c:195
+#: ../plugins/plot_boxes/gog-boxplot.c:112 ../plugins/plot_pie/gog-pie.c:205
+#: ../plugins/plot_pie/gog-pie.c:352 ../plugins/plot_surface/gog-surface.c:225
+#: ../plugins/plot_xy/gog-xy.c:409 ../plugins/plot_xy/gog-xy.c:680
+#: ../plugins/smoothing/gog-moving-avg.c:117
+#: ../plugins/smoothing/gog-exp-smooth.c:85
+msgid "Properties"
+msgstr "プロパティ"
+
+#: ../plugins/plot_barcol/gog-barcol.c:203
+#: ../plugins/plot_barcol/gog-minmax.c:219
+#: ../plugins/plot_boxes/gog-boxplot.c:294
+#, fuzzy
+msgid "Gap percentage"
+msgstr "パーセンテージ"
+
+#: ../plugins/plot_barcol/gog-barcol.c:204
+#: ../plugins/plot_barcol/gog-minmax.c:220
+#: ../plugins/plot_boxes/gog-boxplot.c:295
+msgid "The padding around each group as a percentage of their width"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol.c:209
+#, fuzzy
+msgid "Overlap percentage"
+msgstr "パーセンテージ"
+
+#: ../plugins/plot_barcol/gog-barcol.c:210
+msgid "The distance between series as a percentage of their width"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol.c:215
+#, fuzzy
+msgid "horizontal"
+msgstr "横縞"
+
+#: ../plugins/plot_barcol/gog-barcol.c:216
+msgid "horizontal bars or vertical columns"
+msgstr ""
 
 #. xgettext : the base for how to name drop bar/col plot objects
 #. * eg The 2nd drop bar/col plot in a chart will be called
@@ -4244,30 +4737,53 @@ msgstr "PlotDropBar"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: ../plugins/plot_barcol/gog-line.c:96
+#: ../plugins/plot_barcol/gog-line.c:202
 msgid "PlotLine"
 msgstr "PlotLine"
+
+#: ../plugins/plot_barcol/gog-line.c:289
+#: ../plugins/plot_barcol/gog-minmax.c:231
+#: ../plugins/plot_radar/gog-radar.c:180 ../plugins/plot_xy/gog-xy.c:329
+#, fuzzy
+msgid "Default markers"
+msgstr "デフォルト"
+
+#: ../plugins/plot_barcol/gog-line.c:290
+#: ../plugins/plot_barcol/gog-minmax.c:232
+#: ../plugins/plot_radar/gog-radar.c:181 ../plugins/plot_xy/gog-xy.c:330
+msgid "Should the default style of a series include markers"
+msgstr ""
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: ../plugins/plot_barcol/gog-line.c:216
+#: ../plugins/plot_barcol/gog-line.c:326
 msgid "PlotArea"
 msgstr "PlotArea"
 
 #. xgettext : the base for how to name min/max line plot objects
 #. * eg The 2nd min/max line plot in a chart will be called
 #. * 	PlotMinMax2
-#: ../plugins/plot_barcol/gog-minmax.c:138
+#: ../plugins/plot_barcol/gog-minmax.c:136
 msgid "PlotMinMax"
 msgstr "PlotMinMax"
 
-#: ../plugins/plot_barcol/gog-minmax.c:237
+#: ../plugins/plot_barcol/gog-minmax.c:225
+#, fuzzy
+msgid "Horizontal"
+msgstr "横縞"
+
+#: ../plugins/plot_barcol/gog-minmax.c:226
+#, fuzzy
+msgid "Horizontal or vertical lines"
+msgstr "横縞"
+
+#: ../plugins/plot_barcol/gog-minmax.c:246
 msgid "Min"
 msgstr "最小"
 
-#: ../plugins/plot_barcol/gog-minmax.c:239
+#: ../plugins/plot_barcol/gog-minmax.c:248
 msgid "Max"
 msgstr "最大"
 
@@ -4548,34 +5064,66 @@ msgstr "線、エリア、棒、列でプロットします"
 msgid "Min Max plotting engine"
 msgstr "線プロットエンジン"
 
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:3
+#, fuzzy
+msgid ""
+"Horizontal\n"
+"Vertical"
+msgstr "横縞"
+
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:7
+#, fuzzy
+msgid "_Layout"
+msgstr "レイアウト"
+
 #. xgettext : the base for how to name box-plot objects
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
-#: ../plugins/plot_boxes/gog-boxplot.c:116
+#: ../plugins/plot_boxes/gog-boxplot.c:143
 #, fuzzy
 msgid "Box-Plot"
 msgstr "プロット"
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:1
+#: ../plugins/plot_boxes/gog-boxplot.c:300
 #, fuzzy
-msgid "Box-Plot."
-msgstr "プロット"
+msgid "Vertical"
+msgstr "縦縞"
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:2
+#: ../plugins/plot_boxes/gog-boxplot.c:301
+msgid "Whether the box-plot should be vertical instead of horizontal"
+msgstr ""
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:1
 msgid "BoxPlot"
 msgstr "BoxPlot"
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:3
-msgid "BoxPlots"
+#: ../plugins/plot_boxes/plot-types.xml.in.h:2
+#, fuzzy
+msgid "HBoxPlots"
 msgstr "BoxPlots"
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:4
+#: ../plugins/plot_boxes/plot-types.xml.in.h:3
 msgid "Histogram"
 msgstr ""
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:5
+#: ../plugins/plot_boxes/plot-types.xml.in.h:4
 msgid "Histogram."
 msgstr "ヒストグラム．"
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:5
+#, fuzzy
+msgid "Horizontal Box-Plot."
+msgstr "横縞"
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:6
+#, fuzzy
+msgid "VBoxPlots"
+msgstr "BoxPlots"
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:7
+#, fuzzy
+msgid "Vertical Box-Plot."
+msgstr "プロット"
 
 #: ../plugins/plot_boxes/plugin.xml.in.h:1
 msgid "Box-Plots and Histograms"
@@ -4600,18 +5148,6 @@ msgstr "ヒストグラムプロットエンジン"
 #, fuzzy
 msgid "Statistics plot types"
 msgstr "デフォルト円グラフタイプ"
-
-#: ../plugins/plot_pie/gog-pie.c:181
-msgid "PlotPie"
-msgstr "PlotPie"
-
-#: ../plugins/plot_pie/gog-pie.c:316
-msgid "PlotRing"
-msgstr "PlotRing"
-
-#: ../plugins/plot_pie/gog-pie.c:508
-msgid "Move pie"
-msgstr ""
 
 #: ../plugins/plot_pie/gog-pie-prefs.glade.h:3
 #: ../plugins/plot_pie/gog-ring-prefs.glade.h:4
@@ -4651,41 +5187,128 @@ msgstr ""
 msgid "_Separation:"
 msgstr "分割(_S):"
 
+#: ../plugins/plot_pie/gog-pie.c:106 ../plugins/plot_pie/gog-pie.c:930
+#, fuzzy
+msgid "Separation"
+msgstr "分割(_S):"
+
+#: ../plugins/plot_pie/gog-pie.c:107
+msgid "Amount a slice is extended as a percentage of the radius"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:193
+msgid "PlotPie"
+msgstr "PlotPie"
+
+#: ../plugins/plot_pie/gog-pie.c:233
+msgid "Initial angle"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:234
+msgid "Degrees clockwise from 12 O'Clock."
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:239
+#, fuzzy
+msgid "Default separation"
+msgstr "セパレータ"
+
+#: ../plugins/plot_pie/gog-pie.c:240 ../plugins/plot_pie/gog-pie.c:931
+msgid "Default amount a slice is extended as a percentage of the radius"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:246
+msgid "Draw 3d wedges"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:251 ../plugins/smoothing/gog-moving-avg.c:196
+msgid "Span"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:252
+msgid "Total angle used as a percentage of the full circle"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:340
+msgid "PlotRing"
+msgstr "PlotRing"
+
+#: ../plugins/plot_pie/gog-pie.c:371
+#, fuzzy
+msgid "Center-size"
+msgstr "中心サイズ(_T):"
+
+#: ../plugins/plot_pie/gog-pie.c:372
+msgid "Size of the center hole as a percentage of the radius"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:534
+msgid "Move pie"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:924
+msgid "Initial-angle"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:925
+msgid "Degrees clockwise from 12 O'Clock"
+msgstr ""
+
 #: ../plugins/plot_pie/gog-ring-prefs.glade.h:3
 msgid "Cen_ter size:"
 msgstr "中心サイズ(_T):"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:1
+msgid "Half Pie"
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:2
 msgid ""
 "Percentage of each contributor displayed in ring for each serie with wedges "
 "of the last ring split apart."
 msgstr ""
 
-#: ../plugins/plot_pie/plot-types.xml.in.h:2
+#: ../plugins/plot_pie/plot-types.xml.in.h:3
 msgid "Percentage of each contributor displayed in ring for each serie."
 msgstr ""
 
-#: ../plugins/plot_pie/plot-types.xml.in.h:3
-msgid "Percentage of each contributor with wedges split apart."
-msgstr ""
-
 #: ../plugins/plot_pie/plot-types.xml.in.h:4
-msgid "Percentage of each contributor."
+#, fuzzy
+msgid ""
+"Percentage of each contributor in a half circle with wedges split apart."
 msgstr "それぞれのコントリビュータのパーセンテージです。"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:5
+#, fuzzy
+msgid "Percentage of each contributor in a half circle."
+msgstr "それぞれのコントリビュータのパーセンテージです。"
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:6
+msgid "Percentage of each contributor with wedges split apart."
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:7
+msgid "Percentage of each contributor."
+msgstr "それぞれのコントリビュータのパーセンテージです。"
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:8
 msgid "Pie"
 msgstr "円"
 
-#: ../plugins/plot_pie/plot-types.xml.in.h:6
+#: ../plugins/plot_pie/plot-types.xml.in.h:9
 msgid "Ring"
 msgstr "ドーナツ"
 
-#: ../plugins/plot_pie/plot-types.xml.in.h:7
+#: ../plugins/plot_pie/plot-types.xml.in.h:10
+#, fuzzy
+msgid "Split Half Pie"
+msgstr "分割円"
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:11
 msgid "Split Pie"
 msgstr "分割円"
 
-#: ../plugins/plot_pie/plot-types.xml.in.h:8
+#: ../plugins/plot_pie/plot-types.xml.in.h:12
 msgid "Split Ring"
 msgstr "分割ドーナツ"
 
@@ -4712,7 +5335,7 @@ msgstr "ドーナツグラフプロットエンジン"
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
 #. * 	PlotRT2
-#: ../plugins/plot_radar/gog-radar.c:214
+#: ../plugins/plot_radar/gog-radar.c:216
 msgid "PlotRadar"
 msgstr "PlotRadar"
 
@@ -4720,22 +5343,22 @@ msgstr "PlotRadar"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotRadarArea2
 #.
-#: ../plugins/plot_radar/gog-radar.c:296
+#: ../plugins/plot_radar/gog-radar.c:298
 msgid "PlotRadarArea"
 msgstr "PlotRadarArea"
 
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
 #. * 	PlotPolar2
-#: ../plugins/plot_radar/gog-radar.c:328
+#: ../plugins/plot_radar/gog-radar.c:330
 msgid "PlotPolar"
 msgstr "PlotPolar"
 
-#: ../plugins/plot_radar/gog-radar.c:367
+#: ../plugins/plot_radar/gog-radar.c:369
 msgid "Angle"
 msgstr "角度"
 
-#: ../plugins/plot_radar/gog-radar.c:369
+#: ../plugins/plot_radar/gog-radar.c:371
 msgid "Magnitude"
 msgstr ""
 
@@ -4803,12 +5426,22 @@ msgstr "転置"
 
 #. xgettext : the base for how to name contour plot objects
 #.
-#: ../plugins/plot_surface/gog-surface.c:194
+#: ../plugins/plot_surface/gog-surface.c:213
 msgid "PlotContour"
 msgstr "PlotContour"
 
-#: ../plugins/plot_surface/gog-surface.c:490
-#: ../plugins/plot_surface/xl-surface.c:260
+#: ../plugins/plot_surface/gog-surface.c:522
+#, fuzzy
+msgid "Transposed"
+msgstr "転置"
+
+#: ../plugins/plot_surface/gog-surface.c:523
+#, fuzzy
+msgid "Transpose the plot"
+msgstr "転置"
+
+#: ../plugins/plot_surface/gog-surface.c:539
+#: ../plugins/plot_surface/xl-surface.c:258 ../plugins/plot_xy/gog-xy.c:779
 msgid "Z"
 msgstr "Z"
 
@@ -4874,133 +5507,332 @@ msgstr ""
 msgid "_Vary colors by bubble"
 msgstr ""
 
+#: ../plugins/plot_xy/gog-xy-series-prefs.glade.h:1
+msgid "Show markers or bubbles at 0 when the value is invalid"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy-series-prefs.glade.h:2
+msgid "_Use nul value instead of invalid"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy-color-prefs.glade.h:1
+msgid "Hide data outside of color axis bounds"
+msgstr ""
+
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: ../plugins/plot_xy/gog-xy.c:261
+#: ../plugins/plot_xy/gog-xy.c:264
 msgid "PlotXY"
 msgstr "PlotXY"
 
-#: ../plugins/plot_xy/gog-xy.c:373
+#: ../plugins/plot_xy/gog-xy.c:335 ../plugins/plot_xy/gog-xy.c:754
+#, fuzzy
+msgid "Default lines"
+msgstr "デフォルト円グラフタイプ"
+
+#: ../plugins/plot_xy/gog-xy.c:336 ../plugins/plot_xy/gog-xy.c:755
+msgid "Should the default style of a series include lines"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:341
+#, fuzzy
+msgid "Use splines"
+msgstr "曲線でつないだ散布図"
+
+#: ../plugins/plot_xy/gog-xy.c:342
+msgid "Should the plot use splines instead of linear interpolation"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:347 ../plugins/plot_xy/gog-xy.c:760
+#, fuzzy
+msgid "Interpolation"
+msgstr "フォントの説明"
+
+#: ../plugins/plot_xy/gog-xy.c:348 ../plugins/plot_xy/gog-xy.c:761
+msgid "Interpolation type (none, linear, spline or step) with variant, if any"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:397
 msgid "PlotBubble"
 msgstr "PlotBubble"
 
-#: ../plugins/plot_xy/gog-xy.c:494 ../plugins/plot_xy/plot-types.xml.in.h:1
+#: ../plugins/plot_xy/gog-xy.c:494
+#, fuzzy
+msgid "Size as area"
+msgstr "プロットエリア"
+
+#: ../plugins/plot_xy/gog-xy.c:495
+msgid "Display size as area instead of diameter"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:500
+#, fuzzy
+msgid "Show negatives"
+msgstr "負の値を表示する(_N)"
+
+#: ../plugins/plot_xy/gog-xy.c:501
+#, fuzzy
+msgid "Draw bubbles for negative values"
+msgstr "負の値を表示する(_N)"
+
+#: ../plugins/plot_xy/gog-xy.c:507
+msgid "Draw 3d bubbles"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:512
+#, fuzzy
+msgid "Bubble scale"
+msgstr "バブル"
+
+#: ../plugins/plot_xy/gog-xy.c:513
+msgid "Fraction of default radius used for display"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:522 ../plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
 msgstr "バブル"
 
-#: ../plugins/plot_xy/gog-xy.c:1156
+#. xgettext : the base for how to name map like plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	Map2
+#: ../plugins/plot_xy/gog-xy.c:646
+#, fuzzy
+msgid "XYColor"
+msgstr "色"
+
+#: ../plugins/plot_xy/gog-xy.c:766
+msgid "hide-outliers"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:767
+msgid "Hide data outside of the color axis bounds"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:1614 ../plugins/plot_xy/gog-xy.c:1662
 msgid "X error bars"
 msgstr "X 誤差棒"
 
-#: ../plugins/plot_xy/gog-xy.c:1158
+#: ../plugins/plot_xy/gog-xy.c:1616 ../plugins/plot_xy/gog-xy.c:1668
 msgid "Y error bars"
 msgstr "Y 誤差棒"
 
-#: ../plugins/plot_xy/gog-xy.c:1165
+#: ../plugins/plot_xy/gog-xy.c:1624
 #, fuzzy
 msgid "Horizontal drop lines"
 msgstr "横縞"
 
-#: ../plugins/plot_xy/gog-xy.c:1173
+#: ../plugins/plot_xy/gog-xy.c:1632
 #, fuzzy
 msgid "Vertical drop lines"
 msgstr "縦縞"
 
+#: ../plugins/plot_xy/gog-xy.c:1674
+#, fuzzy
+msgid "Invalid as zero"
+msgstr "正しくないパターンです．"
+
+#: ../plugins/plot_xy/gog-xy.c:1675
+msgid "Replace invalid values by 0 when drawing markers or bubbles"
+msgstr ""
+
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
+#, fuzzy
+msgid "ColoredXY"
+msgstr "色"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:3
 msgid "Interpolate between multi-dimensional points with Bezier splines."
 msgstr "各点をベジェ曲線でつないだ散布図です．"
 
 #. really 3_1
-#: ../plugins/plot_xy/plot-types.xml.in.h:4
+#: ../plugins/plot_xy/plot-types.xml.in.h:5
 msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
 msgstr "各点を折れ線でつないだマーカー付き散布図です．"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:5
+#: ../plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Linearly interpolate between multi-dimensional points."
 msgstr "各点を折れ線でつないだ散布図です．"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:6
+#: ../plugins/plot_xy/plot-types.xml.in.h:7
+#, fuzzy
+msgid "Map"
+msgstr "5月"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:8
 msgid "Markers at each point."
 msgstr "各点にマーカーが付く散布図です．"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:7
+#: ../plugins/plot_xy/plot-types.xml.in.h:9
 msgid "Multi-dimensional points with circle at each point."
 msgstr ""
 
+#: ../plugins/plot_xy/plot-types.xml.in.h:10
+#, fuzzy
+msgid ""
+"Multi-dimensional points with data dependent color marker at each point."
+msgstr "各点を折れ線でつないだマーカー付き散布図です．"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:11
+msgid "Stepped curve using the first y value."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:12
+msgid "Stepped curve using the last y value."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:13
+msgid "Stepped curve using the mean y value."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:14
+msgid "Stepped curve using the nearest y value."
+msgstr ""
+
 #. really 3_1
-#: ../plugins/plot_xy/plot-types.xml.in.h:9
+#: ../plugins/plot_xy/plot-types.xml.in.h:16
 msgid "XY"
 msgstr "散布図"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:10
+#: ../plugins/plot_xy/plot-types.xml.in.h:17
 msgid "XY Lines"
 msgstr "折れ線でつないだ散布図"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:11
+#: ../plugins/plot_xy/plot-types.xml.in.h:18
 msgid "XY Points"
 msgstr "マーカー付き散布図"
 
-#: ../plugins/plot_xy/plot-types.xml.in.h:12
+#: ../plugins/plot_xy/plot-types.xml.in.h:19
 msgid "XY Splines"
 msgstr "曲線でつないだ散布図"
 
+#: ../plugins/plot_xy/plot-types.xml.in.h:20
+msgid "XY Steps Center"
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:21
+msgid "XY Steps End"
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:22
+msgid "XY Steps Mean"
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:23
+msgid "XY Steps Start"
+msgstr ""
+
 #: ../plugins/plot_xy/plugin.xml.in.h:1
+#, fuzzy
+msgid "2D colored scatter plotting engine"
+msgstr "2次元散布図プロットエンジン"
+
+#: ../plugins/plot_xy/plugin.xml.in.h:2
 msgid "2D plots"
 msgstr "2次元プロット"
 
-#: ../plugins/plot_xy/plugin.xml.in.h:2
+#: ../plugins/plot_xy/plugin.xml.in.h:3
 msgid "2D scatter plotting engine"
 msgstr "2次元散布図プロットエンジン"
 
-#: ../plugins/plot_xy/plugin.xml.in.h:3
+#: ../plugins/plot_xy/plugin.xml.in.h:4
 msgid "Bubble plotting engine"
 msgstr "バブルプロットエンジン"
 
-#: ../plugins/plot_xy/plugin.xml.in.h:4
+#: ../plugins/plot_xy/plugin.xml.in.h:5
 msgid "Charting : XY/Scatter/Bubble"
 msgstr "グラフ: 散布図/バブル"
 
-#: ../plugins/plot_xy/plugin.xml.in.h:5
+#: ../plugins/plot_xy/plugin.xml.in.h:6
 msgid "Stock Scatter plot types"
 msgstr ""
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Exponential regression2
-#: ../plugins/reg_linear/gog-exp-reg.c:61
+#: ../plugins/reg_linear/gog-exp-reg.c:63
 msgid "Exponential regression"
 msgstr ""
 
-#: ../plugins/reg_linear/gog-lin-reg.c:164
+#: ../plugins/reg_linear/gog-lin-reg.c:159
+#: ../plugins/reg_linear/gog-lin-reg.c:266
 msgid "Affine"
+msgstr ""
+
+#: ../plugins/reg_linear/gog-lin-reg.c:161
+msgid "Uncheck to force zero intercept"
 msgstr ""
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Linear regression2
-#: ../plugins/reg_linear/gog-lin-reg.c:177
+#: ../plugins/reg_linear/gog-lin-reg.c:175
 msgid "Linear regression"
 msgstr ""
+
+#: ../plugins/reg_linear/gog-lin-reg.c:267
+msgid "If true, a non-zero constant is allowed"
+msgstr ""
+
+#: ../plugins/reg_linear/gog-lin-reg.c:272
+msgid "Dims"
+msgstr ""
+
+#: ../plugins/reg_linear/gog-lin-reg.c:273
+#, fuzzy
+msgid "Number of x-vectors"
+msgstr "数字フォーマット"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Logarithmic regression2
-#: ../plugins/reg_linear/gog-log-reg.c:90
+#: ../plugins/reg_linear/gog-log-reg.c:94
 msgid "Logarithmic regression"
 msgstr ""
 
-#: ../plugins/reg_linear/gog-polynom-reg.c:134
+#: ../plugins/reg_linear/gog-polynom-reg.c:205
 msgid "Order:"
 msgstr "順序:"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Polynomial regression2
-#: ../plugins/reg_linear/gog-polynom-reg.c:152
+#: ../plugins/reg_linear/gog-polynom-reg.c:224
 msgid "Polynomial regression"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:1
+msgid "Exponential regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:2
+msgid "Linear regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:3
+msgid "Linear regression curves"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:4
+msgid "Linear regression curves types"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:5
+msgid "Logarithmic regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:6
+msgid "Polynomial regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:7
+msgid "Power regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:8
+msgid "Regression curve : linear"
 msgstr ""
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:1
@@ -5032,38 +5864,19 @@ msgstr ""
 msgid "Polynomial regression curve"
 msgstr ""
 
-#: ../plugins/reg_linear/plugin.xml.in.h:1
-msgid "Exponential regression curve engine"
+#: ../plugins/reg_linear/reg-types.xml.in.h:9
+#, fuzzy
+msgid "Power"
+msgstr "極座標"
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:10
+msgid "Power regression curve"
 msgstr ""
 
-#: ../plugins/reg_linear/plugin.xml.in.h:2
-msgid "Linear regression curve engine"
-msgstr ""
-
-#: ../plugins/reg_linear/plugin.xml.in.h:3
-msgid "Linear regression curves"
-msgstr ""
-
-#: ../plugins/reg_linear/plugin.xml.in.h:4
-msgid "Linear regression curves types"
-msgstr ""
-
-#: ../plugins/reg_linear/plugin.xml.in.h:5
-msgid "Logarithmic regression curve engine"
-msgstr ""
-
-#: ../plugins/reg_linear/plugin.xml.in.h:6
-msgid "Polynomial regression curve engine"
-msgstr ""
-
-#: ../plugins/reg_linear/plugin.xml.in.h:7
-msgid "Regression curve : linear"
-msgstr ""
-
-#. xgettext : the base for how to name scatter plot objects
-#. * eg The 2nd plot in a chart will be called
+#. xgettext : the base for how to name logarithmic fits
+#. * eg The 2nd fit for a series will be called
 #. * 	Log fit2
-#: ../plugins/reg_logfit/gog-logfit.c:136
+#: ../plugins/reg_logfit/gog-logfit.c:140
 msgid "Log fit"
 msgstr ""
 
@@ -5092,6 +5905,281 @@ msgstr ""
 #, fuzzy
 msgid "Logarithmic fitting curve"
 msgstr "対数写像"
+
+#: ../plugins/smoothing/gog-moving-avg.c:105
+msgid "Number of values from which to calculate an average"
+msgstr ""
+
+#: ../plugins/smoothing/gog-moving-avg.c:111
+msgid "Whether to average x values as well or use the last one"
+msgstr ""
+
+#. xgettext : the base for how to name moving averge smoothed curves objects
+#. * eg The 2nd one for a series will be called
+#. * 	Moving average2
+#: ../plugins/smoothing/gog-moving-avg.c:176
+#: ../plugins/smoothing/types.xml.in.h:2
+msgid "Moving average"
+msgstr ""
+
+#: ../plugins/smoothing/gog-moving-avg.c:197
+msgid "Number of averaged values"
+msgstr ""
+
+#: ../plugins/smoothing/gog-moving-avg.c:202
+msgid "Average X"
+msgstr ""
+
+#: ../plugins/smoothing/gog-moving-avg.c:203
+msgid "Use averaged x values"
+msgstr ""
+
+#: ../plugins/smoothing/gog-moving-avg.glade.h:1
+#, fuzzy
+msgid "_Span:"
+msgstr "分割(_S):"
+
+#: ../plugins/smoothing/gog-moving-avg.glade.h:2
+msgid "_Use averaged abscissa"
+msgstr ""
+
+#: ../plugins/smoothing/gog-exp-smooth.c:67
+#: ../plugins/smoothing/gog-exp-smooth.c:237
+msgid "Number of interpolation steps"
+msgstr ""
+
+#: ../plugins/smoothing/gog-exp-smooth.c:76
+msgid ""
+"Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
+"If no value or a negative (or nul) value is provided, the default will be "
+"used"
+msgstr ""
+
+#. xgettext : the base for how to name exponentially smoothed curves objects
+#. * eg The 2nd one for a series will be called
+#. * 	Exponentially smoothed curve2
+#: ../plugins/smoothing/gog-exp-smooth.c:171
+#: ../plugins/smoothing/types.xml.in.h:1
+msgid "Exponentially smoothed curve"
+msgstr ""
+
+#: ../plugins/smoothing/gog-exp-smooth.c:236
+#, fuzzy
+msgid "Steps"
+msgstr "*9"
+
+#: ../plugins/smoothing/gog-exp-smooth.glade.h:1
+#, fuzzy
+msgid "_Period:"
+msgstr "文字色(_F):"
+
+#: ../plugins/smoothing/gog-exp-smooth.glade.h:2
+#, fuzzy
+msgid "_Steps:"
+msgstr "サイズ(_S):"
+
+#: ../plugins/smoothing/plugin.xml.in.h:1
+#, fuzzy
+msgid "Moving average smoothing engine"
+msgstr "線プロットエンジン"
+
+#: ../plugins/smoothing/plugin.xml.in.h:2
+msgid "Smoothed curves"
+msgstr ""
+
+#: ../plugins/smoothing/plugin.xml.in.h:3
+msgid "Smoothed curves types"
+msgstr ""
+
+#: ../plugins/smoothing/plugin.xml.in.h:4
+#, fuzzy
+msgid "exponential smoothing engine"
+msgstr "棒/列プロットエンジン"
+
+#: ../plugins/smoothing/types.xml.in.h:3
+msgid "Moving average smoothed curve"
+msgstr ""
+
+#~ msgid "Not a valid UTF-8 filename."
+#~ msgstr "ファイル名の UTF-8 エンコーディングが正しくありません．"
+
+#~ msgid "<b>Plot area position</b>"
+#~ msgstr "<b>プロットエリアの位置</b>"
+
+#~ msgid "No error bar displayed"
+#~ msgstr "誤差棒を表示しない"
+
+#~ msgid "Positive error bar displayed"
+#~ msgstr "正方向の誤差棒のみ表示"
+
+#~ msgid "Full error bar displayed"
+#~ msgstr "両方の誤差棒を表示"
+
+#~ msgid "GNOME Office Graph"
+#~ msgstr "GNOME オフィス グラフ"
+
+#~ msgid "Pull f_orward"
+#~ msgstr "1つ前面に送る(_O)"
+
+#~ msgid "Pull to _front"
+#~ msgstr "最前面に送る(_F)"
+
+#~ msgid "Push b_ackward"
+#~ msgstr "1つ背面に送る(_A)"
+
+#~ msgid "Push to _back"
+#~ msgstr "最背面に送る(_B)"
+
+#~ msgid "_Order"
+#~ msgstr "順序(_O)"
+
+#~ msgid "<b>Automatic position</b>"
+#~ msgstr "<b>自動位置合わせ</b>"
+
+#~ msgid "<b>Manual position</b>"
+#~ msgstr "<b>手動位置合わせ</b>"
+
+#~ msgid ""
+#~ "2 Colors\n"
+#~ "Brightness"
+#~ msgstr ""
+#~ "2色\n"
+#~ "明るさ"
+
+#~ msgid "Ty_pe:"
+#~ msgstr "形式(_P):"
+
+#~ msgid "_Fill color:"
+#~ msgstr "塗りつぶし(_F):"
+
+#~ msgid "_darker"
+#~ msgstr "暗くする(_D)"
+
+#~ msgid "File _type:"
+#~ msgstr "ファイルタイプ(_T):"
+
+#~ msgid "Indicator Size"
+#~ msgstr "インジケータのサイズ"
+
+#~ msgid "Size of dropdown indicator"
+#~ msgstr "ドロップダウンインジケータのサイズ"
+
+#~ msgid "Indicator Spacing"
+#~ msgstr "インジケータスペーシング"
+
+#~ msgid "Spacing around indicator"
+#~ msgstr "インジケータのまわりのスペーシング"
+
+#~ msgid "*Sun"
+#~ msgstr "*日"
+
+#~ msgid "*Mon"
+#~ msgstr "*月"
+
+#~ msgid "*Tue"
+#~ msgstr "*火"
+
+#~ msgid "*Wed"
+#~ msgstr "*水"
+
+#~ msgid "*Thu"
+#~ msgstr "*木"
+
+#~ msgid "*Fri"
+#~ msgstr "*金"
+
+#~ msgid "*Sat"
+#~ msgstr "*土"
+
+#~ msgid "Sunday"
+#~ msgstr "日曜日"
+
+#~ msgid "Monday"
+#~ msgstr "月曜日"
+
+#~ msgid "Tuesday"
+#~ msgstr "火曜日"
+
+#~ msgid "Wednesday"
+#~ msgstr "水曜日"
+
+#~ msgid "Thursday"
+#~ msgstr "木曜日"
+
+#~ msgid "Friday"
+#~ msgstr "金曜日"
+
+#~ msgid "Saturday"
+#~ msgstr "土曜日"
+
+#~ msgid "*Jan"
+#~ msgstr "*1"
+
+#~ msgid "*Feb"
+#~ msgstr "*2"
+
+#~ msgid "*Mar"
+#~ msgstr "*3"
+
+#~ msgid "*Apr"
+#~ msgstr "*4"
+
+#~ msgid "*May"
+#~ msgstr "*5"
+
+#~ msgid "*Jun"
+#~ msgstr "*6"
+
+#~ msgid "*Jul"
+#~ msgstr "*7"
+
+#~ msgid "*Aug"
+#~ msgstr "*8"
+
+#~ msgid "*Oct"
+#~ msgstr "*10"
+
+#~ msgid "*Nov"
+#~ msgstr "*11"
+
+#~ msgid "*Dec"
+#~ msgstr "*12"
+
+#~ msgid "January"
+#~ msgstr "1月"
+
+#~ msgid "February"
+#~ msgstr "2月"
+
+#~ msgid "March"
+#~ msgstr "3月"
+
+#~ msgid "April"
+#~ msgstr "4月"
+
+#~ msgid "June"
+#~ msgstr "6月"
+
+#~ msgid "July"
+#~ msgstr "7月"
+
+#~ msgid "August"
+#~ msgstr "8月"
+
+#~ msgid "September"
+#~ msgstr "9月"
+
+#~ msgid "October"
+#~ msgstr "10月"
+
+#~ msgid "November"
+#~ msgstr "11月"
+
+#~ msgid "December"
+#~ msgstr "12月"
+
+#~ msgid "Automatic (%s)"
+#~ msgstr "自動 (%s)"
 
 #, fuzzy
 #~ msgid "Box-Plots"

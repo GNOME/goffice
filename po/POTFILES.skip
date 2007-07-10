@@ -1,0 +1,9 @@
+plugins/plot_barcol/plot-types.xml
+plugins/plot_boxes/plot-types.xml
+plugins/plot_pie/plot-types.xml
+plugins/plot_radar/plot-types.xml
+plugins/plot_surface/plot-types.xml
+plugins/plot_xy/plot-types.xml
+plugins/reg_linear/reg-types.xml
+plugins/reg_logfit/reg-types.xml
+plugins/smoothing/types.xml
