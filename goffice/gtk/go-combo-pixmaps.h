@@ -25,6 +25,7 @@
 #define _GO_COMBO_PIXMAPS_H_
 
 #include <gtk/gtktooltips.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 G_BEGIN_DECLS
 
