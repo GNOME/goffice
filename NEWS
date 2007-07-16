@@ -1,3 +1,11 @@
+goffice 0.4.2:
+
+Jody:
+	* Foocanvas bug that scaled images by 1 extra pixel. [#314864]
+	* Fix compilation for Gtk+ trunk.
+	* Minor memory leak.
+
+--------------------------------------------------------------------------
 goffice 0.4.1:
 
 Jean:

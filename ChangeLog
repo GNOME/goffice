@@ -1,3 +1,15 @@
+2007-07-16  Jody Goldberg <jody@gnome.org>
+
+	* goffice/cut-n-paste/foocanvas/foo-canvas-text.c
+	(foo_canvas_text_update) : round the bounds rather than using floor
+	  and ceil.  The disparity would exacerbate rounding errors caused by
+	  scaling, and would result in 1 pixel errors.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.c
+	(foo_canvas_pixbuf_update) : ditto.  The errors where especially
+	noticable here because images would get scaled. [#314864]
+	* goffice/cut-n-paste/foocanvas/foo-canvas.c
+	(foo_canvas_item_accessible_get_item_extents) : ditto.
+
 2007-07-16  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-object.c (gog_editor_register_widget): new.

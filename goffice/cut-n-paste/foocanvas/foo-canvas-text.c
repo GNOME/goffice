@@ -1390,8 +1390,8 @@ foo_canvas_text_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int f
 	get_bounds (text, &x1, &y1, &x2, &y2);
 
 	foo_canvas_update_bbox (item,
-				  floor (x1), floor (y1),
-				  ceil (x2), ceil (y2));
+				floor (x1+.5), floor (y1+.5),
+				floor (x2+.5), floor (y2+.5));
 }
 
 /* Realize handler for the text item */

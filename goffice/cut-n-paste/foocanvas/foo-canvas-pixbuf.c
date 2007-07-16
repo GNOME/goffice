@@ -690,10 +690,10 @@ foo_canvas_pixbuf_update (FooCanvasItem *item,
 				    bbox_x1, bbox_y1,
 				    &item->x2, &item->y2);
 
-		item->x1 = floor (item->x1);
-		item->y1 = floor (item->y1);
-		item->x2 = ceil (item->x2);
-		item->y2 = ceil (item->y2);
+		item->x1 = floor (item->x1 + .5);
+		item->y1 = floor (item->y1 + .5);
+		item->x2 = floor (item->x2 + .5);
+		item->y2 = floor (item->y2 + .5);
 
 #ifdef FOO_CANVAS_PIXBUF_VERBOSE
 		g_print ("BBox is %g %g %g %g\n", item->x1, item->y1, item->x2, item->y2);

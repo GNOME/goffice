@@ -3617,10 +3617,10 @@ foo_canvas_item_accessible_get_item_extents (FooCanvasItem *item,
 	foo_canvas_item_get_bounds (item, &bx1, &by1, &bx2, &by2);
 	foo_canvas_w2c_rect_d (item->canvas, &bx1, &by1, &bx2, &by2);
 	foo_canvas_get_scroll_offsets (item->canvas, &scroll_x, &scroll_y);
-	x1 = floor (bx1);
-	y1 = floor (by1);
-	x2 = ceil (bx2);
-	y2 = ceil (by2);
+	x1 = floor (bx1 + .5);
+	y1 = floor (by1 + .5);
+	x2 = floor (bx2 + .5);
+	y2 = floor (by2 + .5);
 	rect->x = x1 - scroll_x;
 	rect->y = y1 - scroll_y;
 	rect->width = x2 - x1;
