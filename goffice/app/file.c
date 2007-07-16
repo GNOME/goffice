@@ -317,6 +317,7 @@ go_file_saver_finalize (GObject *obj)
 	g_free (fs->id);
 	g_free (fs->extension);
 	g_free (fs->description);
+	g_free (fs->mime_type);
 
 	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
 }
