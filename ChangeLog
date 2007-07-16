@@ -1,3 +1,8 @@
+2007-07-16  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-object.c (gog_editor_register_widget): new.
+	(gog_editor_get_registered_widget): new.
+
 2007-07-15  Jody Goldberg <jody@gnome.org>
 
 	* goffice/app/file.c (go_file_saver_finalize) : do not leak the mime

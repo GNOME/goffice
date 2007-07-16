@@ -43,6 +43,14 @@
 
 /*****************************************************************************/
 
+/**
+ * gog_editor_new:
+ *
+ * Creates a new GogEditor object, which is used to store a 
+ * collection of property edition widgets (pages). The returned 
+ * object must be freed using @gog_editor_free.
+ **/
+
 GogEditor *
 gog_editor_new (void)
 {
@@ -50,9 +58,36 @@ gog_editor_new (void)
 
 	editor->store_page = NULL;
 	editor->pages = NULL;
+	g_datalist_init (&editor->registered_widgets);
 
 	return editor;
 }
+
+/**
+ * gog_editor_free:
+ * @editor: a #GogEditor
+ *
+ * Frees a GogEditor object.
+ **/
+
+void
+gog_editor_free (GogEditor *editor)
+{
+	g_slist_foreach (editor->pages, (GFunc) g_free, NULL);
+	g_slist_free (editor->pages);
+	g_datalist_clear (&editor->registered_widgets);
+
+	g_free (editor);
+}
+
+/**
+ * gog_editor_add_page:
+ * @editor: a #GogEditor
+ * @widget: property edition widget
+ * @label: a label identifying the widget
+ *
+ * Adds a page to @editor.
+ */
 
 void
 gog_editor_add_page (GogEditor *editor, gpointer widget, char const *label)
@@ -68,6 +103,14 @@ gog_editor_add_page (GogEditor *editor, gpointer widget, char const *label)
 	editor->pages = g_slist_prepend (editor->pages, page);
 }
 
+/**
+ * gog_editor_set_store_page:
+ * @editor: a #GogEditor
+ * @store_page: placeholder for the last selected page
+ *
+ * Sets a placeholder for storing the last active editor page.
+ **/
+
 void
 gog_editor_set_store_page (GogEditor *editor, unsigned *store_page)
 {
@@ -77,6 +120,42 @@ gog_editor_set_store_page (GogEditor *editor, unsigned *store_page)
 }
 
 #ifdef GOFFICE_WITH_GTK
+
+/**
+ * gog_editor_register_widget:
+ * @editor: a #GogEditor
+ * @widget: a #GtkWidget
+ * 
+ * Registers a widget that then can be retrieved later using 
+ * @gog_editor_get_registered_widget. The main use of this function is to 
+ * provide the ability to extend a page.
+ **/
+
+void
+gog_editor_register_widget (GogEditor *editor, GtkWidget *widget)
+{
+	g_return_if_fail (editor != NULL);
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+
+	g_datalist_set_data (&editor->registered_widgets, gtk_widget_get_name (widget), widget);
+}
+
+/**
+ * gog_editor_get_registered_widget:
+ * @editor: a #GogEditor
+ * @name: the name of the registered widget
+ *
+ * Retrieves a widget previously registered using @gog_editor_register_widget.
+ **/
+
+GtkWidget *
+gog_editor_get_registered_widget (GogEditor *editor, char const *name)
+{
+	g_return_val_if_fail (editor != NULL, NULL);
+
+	return g_datalist_get_data (&editor->registered_widgets, name);
+}
+
 static void
 cb_switch_page (G_GNUC_UNUSED GtkNotebook *n, G_GNUC_UNUSED GtkNotebookPage *p,
 		guint page_num, guint *store_page)
@@ -84,7 +163,14 @@ cb_switch_page (G_GNUC_UNUSED GtkNotebook *n, G_GNUC_UNUSED GtkNotebookPage *p,
 		*store_page = page_num;
 }
 
-gpointer
+/**
+ * gog_editor_get_notebook:
+ * @editor: a #GogEditor
+ *
+ * Buils a GtkNotebook from the widget collection stored in @editor.
+ **/
+
+GtkWidget *
 gog_editor_get_notebook (GogEditor *editor)
 {
 	GtkWidget *notebook;
@@ -121,16 +207,8 @@ gog_editor_get_notebook (GogEditor *editor)
 
 	return notebook;
 }
+
 #endif
-
-void
-gog_editor_free (GogEditor *editor)
-{
-	g_slist_foreach (editor->pages, (GFunc) g_free, NULL);
-	g_slist_free (editor->pages);
-
-	g_free (editor);
-}
 
 typedef struct {
 	char const *label;

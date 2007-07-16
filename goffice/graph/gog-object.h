@@ -34,15 +34,21 @@ typedef struct {
 } GogEditorPage;
 
 typedef struct {
-	unsigned	*store_page;	/* pointer to a place for storing last edited page */
-	GSList		*pages;		/* GogEditorPage */
+	unsigned	*store_page;		/* pointer to a place for storing last edited page */
+	GSList		*pages;			/* GogEditorPage */
+	GData		*registered_widgets;
 } GogEditor;
 
-GogEditor	*gog_editor_new 		 (void);
-void		 gog_editor_add_page 		 (GogEditor *editor, gpointer widget, char const *label);
-void 		 gog_editor_set_store_page  	 (GogEditor *editor, unsigned *store_page);
-gpointer 	 gog_editor_get_notebook 	 (GogEditor *editor);
-void 		 gog_editor_free 		 (GogEditor *editor);
+GogEditor	*gog_editor_new 		  (void);
+void 		 gog_editor_free 		  (GogEditor *editor);
+void		 gog_editor_add_page 		  (GogEditor *editor, gpointer widget, char const *label);
+#ifdef GOFFICE_WITH_GTK
+#include <gtk/gtkwidget.h>
+void 		 gog_editor_set_store_page  	  (GogEditor *editor, unsigned *store_page);
+void 		 gog_editor_register_widget 	  (GogEditor *editor, GtkWidget *widget);
+GtkWidget  	*gog_editor_get_registered_widget (GogEditor *editor, char const *name);
+GtkWidget 	*gog_editor_get_notebook 	  (GogEditor *editor);
+#endif
 
 typedef enum {
 	GOG_OBJECT_NAME_BY_ROLE	 = 1,
