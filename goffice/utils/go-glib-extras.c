@@ -665,7 +665,7 @@ go_guess_encoding (const char *raw, size_t len, const char *user_guess,
 	g_return_val_if_fail (raw != NULL, NULL);
 
 	for (try = 1; 1; try++) {
-		const char *guess;
+		char const *guess = NULL;
 		GError *error = NULL;
 		char *utf8_data;
 

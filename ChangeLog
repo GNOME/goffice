@@ -1,3 +1,9 @@
+2007-07-17  Jody Goldberg <jody@gnome.org>
+
+	From Coverity.
+	* goffice/utils/go-glib-extras.c (go_guess_encoding) : Avoid crash if
+	  libxml2 returns ERROR or NONE when guessing encoding.
+
 2007-07-16  Jody Goldberg <jody@gnome.org>
 
 	* goffice/cut-n-paste/foocanvas/foo-canvas-text.c
