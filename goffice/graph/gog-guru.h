@@ -35,6 +35,8 @@ GtkWidget *gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 		     GOCmdContext *cc, GtkWindow *toplevel,
 		     GClosure *closure);
 
+GtkWidget *gog_guru_get_help_button (GtkWidget *guru);
+
 G_END_DECLS
 
 #endif /* GOG_GURU_H */

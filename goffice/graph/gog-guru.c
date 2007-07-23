@@ -1429,16 +1429,26 @@ graph_guru_init (GraphGuruState *s)
 	s->button_navigate = graph_guru_init_button (s, "button_navigate");
 	s->button_ok	   = graph_guru_init_ok_button (s);
 
-/* FIXME FIXME FIXME move the docs down to libgoffice */
-	go_gtk_help_button_init	(glade_xml_get_widget (s->gui, "help_button"),
-				 go_sys_data_dir (), "gnumeric",
-				 "sect-graphics-plots");
-
 	return FALSE;
 }
 
 /**
- * dialog_graph_guru
+ * gog_guru_get_help_button :
+ * @guru : #GtkWidget  (the result of gog_guru).
+ *
+ * Quick utility to allow application specific help.  Required until we clean
+ * up the relationship between goffice and gnumeric to decide which parts of
+ * the hlpe live where.
+ **/
+GtkWidget *
+gog_guru_get_help_button (GtkWidget *guru)
+{
+	GraphGuruState *state = g_object_get_data (G_OBJECT (guru), "state");
+	return state ? glade_xml_get_widget (state->gui, "help_button") : NULL;
+}
+
+/**
+ * gog_guru
  * @wb : The workbook to use as a parent window.
  * @graph : the graph to edit
  * @page : the page to start on.

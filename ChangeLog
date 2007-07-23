@@ -1,3 +1,8 @@
+2007-07-18  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-guru.c (gog_guru_get_help_button) : a hook to
+	  work around the docs still living in gnumeric. [#394181]
+
 2007-07-17  Jody Goldberg <jody@gnome.org>
 
 	From Coverity.
