@@ -1,3 +1,9 @@
+goffice (0.4.2-1) experimental; urgency=low
+
+  * New upstream development release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 24 Jul 2007 18:49:41 +0200
+
 goffice (0.4.1-1) experimental; urgency=low
 
   * New upstream development release.
