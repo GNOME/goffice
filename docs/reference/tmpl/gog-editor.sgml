@@ -24,6 +24,7 @@ Property editor build helper
 
 @store_page: 
 @pages: 
+@registered_widgets: 
 
 <!-- ##### STRUCT GogEditorPage ##### -->
 <para>

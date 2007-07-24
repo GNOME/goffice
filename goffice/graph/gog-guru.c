@@ -1509,6 +1509,8 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	/* a candidate for merging into attach guru */
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) graph_guru_state_destroy);
+
+#warning for 0.5.0 remove this and have the callers set transient and handle show, then drop the toplevel arg
 	go_gtk_nonmodal_dialog (toplevel, GTK_WINDOW (state->dialog));
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 

@@ -3,6 +3,7 @@ goffice 0.4.2:
 Jody:
 	* Foocanvas bug that scaled images by 1 extra pixel. [#314864]
 	* Fix compilation for Gtk+ trunk.
+	* Fix chart guru help button. [#394181]
 	* Minor memory leak.
 
 --------------------------------------------------------------------------
