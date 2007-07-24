@@ -1,3 +1,8 @@
+2007-07-24  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-line.c (go_line_interpolation_as_str): Don't
+	overrun line_interpolations array.
+
 2007-07-23  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
