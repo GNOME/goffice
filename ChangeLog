@@ -1,6 +1,10 @@
-2007-07-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
-
+2007-07-29  J.H.M. Dassen (Ray) <jdassen@debian.org> 
 	* configure.in: Resync ALL_LINGUAS with po files.
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_window_set_transient) : minor
+	  coverity report caused by some #ifndef WITH_GNOME.
 
 2007-07-24  Morten Welinder  <terra@gnome.org>
 

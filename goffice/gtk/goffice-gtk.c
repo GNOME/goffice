@@ -225,17 +225,19 @@ cb_parent_mapped (GtkWidget *parent, GtkWindow *window)
 void
 go_gtk_window_set_transient (GtkWindow *toplevel, GtkWindow *window)
 {
-/* FIXME:                                                                     */
-/* 	GtkWindowPosition position = gnome_preferences_get_dialog_position(); */
+#if 0
+	GtkWindowPosition position = gnome_preferences_get_dialog_position(); */
+	if (position == GTK_WIN_POS_NONE)
+		position = GTK_WIN_POS_CENTER_ON_PARENT;
+#else
 	GtkWindowPosition position = GTK_WIN_POS_CENTER_ON_PARENT;
+#endif
 
 	g_return_if_fail (GTK_IS_WINDOW (toplevel));
 	g_return_if_fail (GTK_IS_WINDOW (window));
 
 	gtk_window_set_transient_for (window, toplevel);
 
-	if (position == GTK_WIN_POS_NONE)
-		position = GTK_WIN_POS_CENTER_ON_PARENT;
 	gtk_window_set_position (window, position);
 
 	if (!GTK_WIDGET_MAPPED (toplevel))
