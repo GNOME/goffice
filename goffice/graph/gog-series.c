@@ -41,6 +41,7 @@
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkcheckbutton.h>
+#include <gtk/gtkcombobox.h>
 #endif
 
 #include <string.h>
@@ -238,7 +239,8 @@ static GObjectClass *series_parent_klass;
 
 enum {
 	SERIES_PROP_0,
-	SERIES_HAS_LEGEND
+	SERIES_PROP_HAS_LEGEND,
+	SERIES_PROP_INTERPOLATION
 };
 
 static gboolean
@@ -308,7 +310,7 @@ gog_series_set_property (GObject *obj, guint param_id,
 	gboolean b_tmp;
 
 	switch (param_id) {
-	case SERIES_HAS_LEGEND :
+	case SERIES_PROP_HAS_LEGEND :
 		b_tmp = g_value_get_boolean (value);
 		if (series->has_legend ^ b_tmp) {
 			series->has_legend = b_tmp;
@@ -316,6 +318,10 @@ gog_series_set_property (GObject *obj, guint param_id,
 				gog_plot_request_cardinality_update (series->plot);
 		}
 		break;
+	case SERIES_PROP_INTERPOLATION:
+		series->interpolation = go_line_interpolation_from_str (g_value_get_string (value));
+		break;
+
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
@@ -330,9 +336,13 @@ gog_series_get_property (GObject *obj, guint param_id,
 	GogSeries *series = GOG_SERIES (obj);
 
 	switch (param_id) {
-	case SERIES_HAS_LEGEND :
+	case SERIES_PROP_HAS_LEGEND :
 		g_value_set_boolean (value, series->has_legend);
 		break;
+	case SERIES_PROP_INTERPOLATION:
+		g_value_set_string (value, go_line_interpolation_as_str (series->interpolation));
+		break;
+
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
@@ -369,17 +379,25 @@ cb_show_in_legend (GtkToggleButton *b, GObject *series)
 }
 
 static void
+cb_line_interpolation_changed (GtkComboBox *box, GogSeries *series)
+{
+	series->interpolation = gtk_combo_box_get_active (box);
+	gog_object_emit_changed (GOG_OBJECT (series), FALSE);
+}
+
+static void
 gog_series_populate_editor (GogObject *gobj,
 			    GogEditor *editor,
 		   GogDataAllocator *dalloc,
 		   GOCmdContext *cc)
 {
 	static guint series_pref_page = 1;
-	GtkWidget *w;
+	GtkWidget *w, *line_box;
 	GtkTable  *table;
 	unsigned i, row = 0;
 	gboolean has_shared = FALSE;
 	GogSeries *series = GOG_SERIES (gobj);
+	GogSeriesClass *series_class = GOG_SERIES_GET_CLASS (series);
 	GogDataset *set = GOG_DATASET (gobj);
 	GogSeriesDesc const *desc;
 	GogDataType data_type;
@@ -447,6 +465,24 @@ gog_series_populate_editor (GogObject *gobj,
 
 	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
+	line_box = gog_editor_get_registered_widget (editor, "line_box");
+	if (series_class->has_interpolation && line_box != NULL) {
+		GladeXML *gui;
+		GtkWidget *widget;
+
+		gui = go_libglade_new ("gog-series-prefs.glade", "interpolation_prefs", GETTEXT_PACKAGE, cc);
+		if (gui != NULL) {
+			widget = glade_xml_get_widget (gui, "interpolation_prefs");
+			gtk_box_pack_start (GTK_BOX (line_box), widget, FALSE, FALSE, 0);
+			widget = glade_xml_get_widget (gui, "interpolation_combo");
+			gtk_combo_box_set_active (GTK_COMBO_BOX (widget), series->interpolation);
+			g_signal_connect (widget, "changed",
+					  G_CALLBACK (cb_line_interpolation_changed), series);
+			g_object_set_data_full (G_OBJECT (widget), "gui", gui, 
+						(GDestroyNotify) g_object_unref);  
+		}
+	}
+
 	gog_editor_set_store_page (editor, &series_pref_page);
 }
 #endif
@@ -503,6 +539,7 @@ gog_series_class_init (GogSeriesClass *klass)
 	gobject_klass->finalize		= gog_series_finalize;
 	gobject_klass->set_property	= gog_series_set_property;
 	gobject_klass->get_property	= gog_series_get_property;
+	klass->has_interpolation	= FALSE;
 
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor	= gog_series_populate_editor;
@@ -514,11 +551,17 @@ gog_series_class_init (GogSeriesClass *klass)
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
-	g_object_class_install_property (gobject_klass, SERIES_HAS_LEGEND,
+	g_object_class_install_property (gobject_klass, SERIES_PROP_HAS_LEGEND,
 		g_param_spec_boolean ("has-legend", 
 			_("Has-legend"),
 			_("Should the series show up in legends"),
 			TRUE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+        g_object_class_install_property (gobject_klass, SERIES_PROP_INTERPOLATION,
+		 g_param_spec_string ("interpolation",
+			_("Interpolation"),
+			_("Type of line interpolation"),
+			"linear",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
@@ -531,6 +574,7 @@ gog_series_init (GogSeries *series)
 	series->values = NULL;
 	series->index = -1;
 	series->acceptable_children = 0;
+	series->interpolation = GO_LINE_INTERPOLATION_LINEAR;
 }
 
 static void

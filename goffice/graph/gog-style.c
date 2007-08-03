@@ -288,17 +288,19 @@ cb_line_color_changed (GOSelector *selector,
 }
 
 static void
-line_init (StylePrefState *state, gboolean enable)
+line_init (StylePrefState *state, gboolean enable, GogEditor *editor)
 {
 	GogStyle *style = state->style;
 	GogStyle *default_style = state->default_style;
 	GtkWidget *w, *table;
 
+	w = glade_xml_get_widget (state->gui, "line_box");
 	if (!enable) {
-		gtk_widget_hide (glade_xml_get_widget (state->gui, "line_box"));
+		gtk_widget_hide (w);
 		return;
 	}
 
+	gog_editor_register_widget (editor, w);
 	table = glade_xml_get_widget (state->gui, "line_table");
 
 	/* DashType */
@@ -324,43 +326,6 @@ line_init (StylePrefState *state, gboolean enable)
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_widget_show_all (table);
 }
-
-
-/************************************************************************/
-
-static void
-cb_line_interpolation_changed (GtkComboBox *box, StylePrefState const *state)
-{
-	GogStyle *style = state->style;
-
-	g_return_if_fail (style != NULL);
-
-	style->interpolation.type = gtk_combo_box_get_active (box);
-	style->interpolation.auto_type = FALSE;
-	set_style (state);
-}
-
-static void
-interp_init (StylePrefState *state, gboolean enable)
-{
- 	GogStyle *style = state->style;
-	GtkWidget *w;
-
-	if (enable) {
- 		w = glade_xml_get_widget (state->gui, "interpolation-box");
- 		gtk_combo_box_set_active (GTK_COMBO_BOX (w), style->interpolation.type);
- 		g_signal_connect (G_OBJECT (w),
- 				  "changed",
- 				  G_CALLBACK (cb_line_interpolation_changed), state);
- 	} else {
- 		w = glade_xml_get_widget (state->gui, "interpolation-lbl");
- 		gtk_widget_hide (w);
- 		w = glade_xml_get_widget (state->gui, "interp-hbox");
- 		gtk_widget_hide (w);
- 	}
-}
-
-/************************************************************************/
 
 static void cb_fill_background_color (GOSelector *selector, StylePrefState *state);
 static void cb_fill_foreground_color (GOSelector *selector, StylePrefState *state);
@@ -1026,8 +991,7 @@ gog_style_populate_editor (GogStyle *style,
 	gog_editor_add_page (editor, w, _("Style"));
 	
 	outline_init 	 (state, enable & GOG_STYLE_OUTLINE);
-	line_init    	 (state, enable & GOG_STYLE_LINE);
-	interp_init		 (state, enable & GOG_STYLE_INTERPOLATION);
+	line_init    	 (state, enable & GOG_STYLE_LINE, editor);
 	fill_init    	 (state, enable & GOG_STYLE_FILL);
 	marker_init  	 (state, enable & GOG_STYLE_MARKER);
 	font_init    	 (state, enable & GOG_STYLE_FONT, editor, cc);
@@ -1122,7 +1086,6 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 	dst->marker = src->marker;
 	dst->marker.mark = go_marker_dup (src->marker.mark);
 	dst->font    = src->font;
-	dst->interpolation    = src->interpolation;
 
 	if (GOG_FILL_STYLE_IMAGE == dst->fill.type)
 		dst->fill.image.filename = g_strdup (dst->fill.image.filename);
@@ -1362,29 +1325,6 @@ gog_style_line_sax_save (GsfXMLOut *output, char const *name,
 	gsf_xml_out_add_float (output, "width", line->width, 6);
 	go_xml_out_add_color (output, "color", line->color);
 	gsf_xml_out_add_bool (output, "auto-color", line->auto_color);
-	gsf_xml_out_end_element (output);
-}
-
-static void
-gog_style_interpolation_load (xmlNode *node, GogStyle *style)
-{
-	char *str;
-	str = xmlGetProp (node, "type");
-	if (str != NULL) {
-		style->interpolation.type = go_line_interpolation_from_str (str);
-		style->interpolation.auto_type= FALSE;
-		xmlFree (str);
-	}
-}
-
-static void
-gog_style_interpolation_sax_save (GsfXMLOut *output, GogStyle const *style)
-{
-	if (style->interpolation.auto_type)
-		return;
-	gsf_xml_out_start_element (output, "interpolation");
-	gsf_xml_out_add_cstr_unchecked (output, "type",
-		go_line_interpolation_as_str (style->interpolation.type));
 	gsf_xml_out_end_element (output);
 }
 
@@ -1679,8 +1619,6 @@ gog_style_persist_dom_load (GogPersist *gp, xmlNode *node)
 			gog_style_line_load (ptr, &style->outline);
 		else if (strcmp (ptr->name, "line") == 0)
 			gog_style_line_load (ptr, &style->line);
-		else if (strcmp (ptr->name, "interpolation") == 0)
-			gog_style_interpolation_load (ptr, style);
 		else if (strcmp (ptr->name, "fill") == 0)
 			gog_style_fill_load (ptr, style);
 		else if (strcmp (ptr->name, "marker") == 0)
@@ -1716,16 +1654,6 @@ gog_style_sax_load_line (GsfXMLIn *xin, xmlChar const **attrs)
 			go_color_from_str (attrs[1], &line->color);
 		else if (bool_sax_prop ("auto-color", attrs[0], attrs[1], &line->auto_color))
 			;
-}
-
-static void
-gog_style_sax_load_interpolation (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	GogStyle *style = GOG_STYLE (xin->user_state);
-	if (0 == strcmp (attrs[0], "type")) {
-		style->interpolation.type = go_line_interpolation_from_str (attrs[1]);
-		style->interpolation.auto_type = FALSE;
-	}
 }
 
 static void
@@ -1846,8 +1774,6 @@ gog_style_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
 		gog_style_line_sax_save (output, "outline", &style->outline);
 	if (style->interesting_fields & GOG_STYLE_LINE)
 		gog_style_line_sax_save (output, "line", &style->line);
-	if (style->interesting_fields & GOG_STYLE_INTERPOLATION)
-		gog_style_interpolation_sax_save (output, style);
 	if (style->interesting_fields & GOG_STYLE_FILL)
 		gog_style_fill_sax_save (output, style);
 	if (style->interesting_fields & GOG_STYLE_MARKER)
@@ -1873,10 +1799,6 @@ gog_style_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs
 					 -1, "outline", 
 					 GSF_XML_NO_CONTENT, FALSE, FALSE, 
 					 &gog_style_sax_load_line, NULL, 1),
-		GSF_XML_IN_NODE_FULL 	(STYLE, STYLE_INTERPOLATION, 
-					 -1, "interpolation", 
-					 GSF_XML_NO_CONTENT, FALSE, FALSE, 
-					 &gog_style_sax_load_interpolation, NULL, 0),
 		GSF_XML_IN_NODE 	(STYLE, STYLE_FILL, 
 					 -1, "fill", 
 					 GSF_XML_NO_CONTENT, 
@@ -1978,7 +1900,6 @@ gog_style_force_auto (GogStyle *style)
 	style->outline.auto_color =
 	style->line.auto_dash =
 	style->line.auto_color =
-	style->interpolation.auto_type =
 	style->fill.auto_fore =
 	style->fill.auto_back =
 	style->font.auto_scale =

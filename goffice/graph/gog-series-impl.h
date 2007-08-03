@@ -85,10 +85,14 @@ struct _GogSeries {
 	gboolean	   has_legend;
 	unsigned   	   num_elements;
 	GList		  *overrides;  /* GogSeriesElement (individual points) */
+
+	GOLineInterpolation	interpolation;
 };
 
 typedef struct {
 	GogStyledObjectClass base;
+
+	gboolean	has_interpolation;
 
 	GType		series_element_type;
 

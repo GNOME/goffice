@@ -277,15 +277,6 @@ gog_xy_set_property (GObject *obj, guint param_id,
 		xy->default_style_has_lines = g_value_get_boolean (value);
 		break;
 	}
-	case GOG_XY_PROP_USE_SPLINES:
-		if (g_value_get_boolean (value))
-			xy->interpolation = GO_LINE_INTERPOLATION_SPLINE;
-		break;
-	case GOG_XY_PROP_INTERPOLATION: {
-		char const *s = g_value_get_string (value);
-		xy->interpolation = go_line_interpolation_from_str (s);;
-		break;
-	}
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
@@ -301,12 +292,6 @@ gog_xy_get_property (GObject *obj, guint param_id,
 		break;
 	case GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES:
 		g_value_set_boolean (value, xy->default_style_has_lines);
-		break;
-	case GOG_XY_PROP_USE_SPLINES:
-		g_value_set_boolean (value, xy->interpolation == GO_LINE_INTERPOLATION_SPLINE);
-		break;
-	case GOG_XY_PROP_INTERPOLATION:
-		g_value_set_string (value, go_line_interpolation_as_str (xy->interpolation));
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -335,18 +320,6 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 			_("Default lines"),
 			_("Should the default style of a series include lines"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
-	g_object_class_install_property (gobject_klass, GOG_XY_PROP_USE_SPLINES,
-		g_param_spec_boolean ("use-splines", 
-			_("Use splines"),
-			_("Should the plot use splines instead of linear interpolation"),
-			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
-	g_object_class_install_property (gobject_klass, GOG_XY_PROP_INTERPOLATION,
-		g_param_spec_string  ("interpolation", 
-			_("Interpolation"),
-			_("Interpolation type (none, linear, spline or step) with variant, if any"),
-			"none", 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	gog_klass->type_name	= gog_xy_plot_type_name;
 
@@ -693,11 +666,6 @@ gog_xy_color_plot_set_property (GObject *obj, guint param_id,
 	case GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES:
 		map->default_style_has_lines = g_value_get_boolean (value);
 		break;
-	case GOG_XY_COLOR_PROP_INTERPOLATION: {
-		char const *s = g_value_get_string (value);
-		map->interpolation = go_line_interpolation_from_str (s);;
-		break;
-	}
 	case GOG_XY_COLOR_PROP_HIDE_OUTLIERS:
 		map->hide_outliers = g_value_get_boolean (value);
 		break;
@@ -718,9 +686,6 @@ gog_xy_color_plot_get_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES:
 		g_value_set_boolean (value, map->default_style_has_lines);
-		break;
-	case GOG_XY_COLOR_PROP_INTERPOLATION:
-		g_value_set_string (value, go_line_interpolation_as_str (map->interpolation));
 		break;
 	case GOG_XY_COLOR_PROP_HIDE_OUTLIERS:
 		g_value_set_boolean (value, map->hide_outliers);
@@ -754,12 +719,6 @@ gog_xy_color_plot_class_init (GogPlotClass *plot_klass)
 			_("Default lines"),
 			_("Should the default style of a series include lines"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
-	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_INTERPOLATION,
-		g_param_spec_string  ("interpolation", 
-			_("Interpolation"),
-			_("Interpolation type (none, linear, spline or step) with variant, if any"),
-			"none", 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_HIDE_OUTLIERS,
 		g_param_spec_boolean  ("hide-outliers", 
@@ -1042,7 +1001,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					gog_axis_map_to_view (y_map, y_vals[i]):
 					go_nan;
 			}
-			switch (style->interpolation.type) {
+			switch (series->base.interpolation) {
 			case GO_LINE_INTERPOLATION_LINEAR: {
 				ArtVpath *path;
 				path = go_line_build_vpath (x_splines, y_splines, n);
@@ -1070,7 +1029,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				if (n == i)
 					break;
 				path = art_new (ArtVpath,
-					((style->interpolation.type <= GO_LINE_INTERPOLATION_STEP_END)?
+					((series->base.interpolation <= GO_LINE_INTERPOLATION_STEP_END)?
 					2 * n + 1: 3 * n + 1));
 				path[0].code = ART_MOVETO;
 				path[0].x = x_splines[i];
@@ -1088,7 +1047,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 						path[j].x = x_splines[i];
 						path[j++].y = y_splines[i];
 						b = FALSE;
-					} else switch (style->interpolation.type) {
+					} else switch (series->base.interpolation) {
 					case GO_LINE_INTERPOLATION_STEP_START:
 						path[j].code = ART_LINETO;
 						path[j].x = x_splines[i];
@@ -1487,17 +1446,11 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 		if (!plot->default_style_has_lines &&
 			style->line.auto_dash)
 			style->line.dash_type = GO_LINE_NONE;
-
-		if (style->interpolation.auto_type)
-			style->interpolation.type = plot->interpolation;
 	} else {
 		GogXYColorPlot const *plot = GOG_XY_COLOR_PLOT (series->plot);
 		if (!plot->default_style_has_lines &&
 			style->line.auto_dash)
 			style->line.dash_type = GO_LINE_NONE;
-
-		if (style->interpolation.auto_type)
-			style->interpolation.type = plot->interpolation;
 	}
 }
 
@@ -1640,6 +1593,7 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 	};
 	GogObjectClass *gog_klass = (GogObjectClass *)gso_klass;
 	GObjectClass *gobject_klass = (GObjectClass *) gso_klass;
+	GogSeriesClass *series_klass = (GogSeriesClass *) gso_klass;
 
 	series_parent_klass = g_type_class_peek_parent (gso_klass);
 	gog_klass->update	= gog_xy_series_update;
@@ -1654,6 +1608,7 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 	gog_klass->populate_editor	= gog_xy_series_populate_editor;
 #endif
 	gso_klass->init_style		= gog_xy_series_init_style;
+	series_klass->has_interpolation = TRUE;
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 

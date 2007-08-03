@@ -1,3 +1,31 @@
+2007-08-03  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Move interpolation property from GogStyle to GogSeries.
+
+	* goffice/graph/gog-plot.c (role_series_post_add): sets line
+	interpolation of child series.
+	(gog_plot_set_property), (gog_plot_get_property),
+	(gog_plot_class_init), (gog_plot_init): handle interpolation property.
+	* goffice/graph/gog-series.c (gog_series_set_property),
+	(gog_series_get_property), (gog_series_class_init), (gog_series_init): 
+	handle line interpolation property.
+	(gog_series_populate_editor): add a line property selector if
+	GogSeriesClass::has_interpolation == TRUE. The selector is added to
+	the GogStyle::line editor.
+	* goffice/graph/gog-style-prefs.glade: move line intertpolation
+	selector...
+	* goffice/graph/gog-series-prefs.glade: ...here.
+	* goffice/graph/gog-style.c (line_init): register line_box
+	widget for later extension.						
+	(cb_line_interpolation_changed): removed.
+	(interp_init): removed.
+	(gog_style_interpolation_load): removed.
+	(gog_style_interpolation_sax_save): removed.
+	(gog_style_sax_load_interpolation): removed.
+	* plugins/plot_xy/gog-xy.c: remove use_splines and interpolation
+	properties.
+	(gog_xy_view_render): line interpolation is a GogSeries property now.
+
 2007-07-29  J.H.M. Dassen (Ray) <jdassen@debian.org> 
 	* configure.in: Resync ALL_LINGUAS with po files.
 
@@ -42,7 +70,7 @@
 	* goffice/cut-n-paste/foocanvas/foo-canvas.c
 	(foo_canvas_item_accessible_get_item_extents) : ditto.
 
-2007-07-16  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+2007-07-14  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-object.c (gog_editor_register_widget): new.
 	(gog_editor_get_registered_widget): new.

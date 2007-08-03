@@ -49,6 +49,8 @@ struct _GogPlot {
 	gchar		*plot_group;
 	char		*guru_hints;
 
+	GOLineInterpolation	interpolation;
+
 	GogAxis		*axis[GOG_AXIS_TYPES];
 
 	/* Usually a copy from the class but it's here to allow a GogPlotType to

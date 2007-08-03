@@ -56,6 +56,7 @@ enum {
 	PLOT_PROP_AXIS_X,
 	PLOT_PROP_AXIS_Y,
 	PLOT_PROP_GROUP,
+	PLOT_PROP_DEFAULT_INTERPOLATION,
 	PLOT_PROP_GURU_HINTS
 };
 
@@ -84,6 +85,7 @@ role_series_can_add (GogObject const *parent)
 	GogPlot *plot = GOG_PLOT (parent);
 	return g_slist_length (plot->series) < plot->desc.num_series_max;
 }
+
 static gboolean
 role_series_can_remove (GogObject const *child)
 {
@@ -113,6 +115,7 @@ role_series_post_add (GogObject *parent, GogObject *child)
 	/* Alias things so that dim -1 is valid */
 	series->values = g_new0 (GogDatasetElement, num_dim+1) + 1;
 	series->plot = plot;
+	series->interpolation = plot->interpolation;
 
 	/* if there are other series associated with the plot, and there are 
 	 * shared dimensions, clone them over.  */
@@ -438,6 +441,9 @@ gog_plot_set_property (GObject *obj, guint param_id,
 		plot->plot_group = (group)? g_strdup (g_value_get_string (value)): NULL;
 		break;
 	}
+	case PLOT_PROP_DEFAULT_INTERPOLATION:
+		plot->interpolation = go_line_interpolation_from_str (g_value_get_string (value));
+		break;
 	case PLOT_PROP_GURU_HINTS:
 		g_free (plot->guru_hints);
 		plot->guru_hints = g_strdup (g_value_get_string (value));
@@ -467,6 +473,9 @@ gog_plot_get_property (GObject *obj, guint param_id,
 		break;
 	case PLOT_PROP_GROUP:
 		g_value_set_string (value, plot->plot_group);
+		break;
+	case PLOT_PROP_DEFAULT_INTERPOLATION:
+		g_value_set_string (value, go_line_interpolation_as_str (plot->interpolation));
 		break;
 	case PLOT_PROP_GURU_HINTS:
 		g_value_set_string (value, plot->guru_hints);
@@ -546,6 +555,12 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 			  "guru dialog"),
 			NULL, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+        g_object_class_install_property (gobject_klass, PLOT_PROP_DEFAULT_INTERPOLATION,
+		 g_param_spec_string ("interpolation",
+			_("Default interpolation"),
+			_("Default type of series line interpolation"),
+			"linear",
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_klass->children_reordered = gog_plot_children_reordered;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
@@ -562,6 +577,7 @@ gog_plot_init (GogPlot *plot, GogPlotClass const *derived_plot_klass)
 	plot->render_before_axes = FALSE;
 	plot->plot_group = NULL;
 	plot->guru_hints = NULL;
+	plot->interpolation = GO_LINE_INTERPOLATION_LINEAR;
 }
 
 GSF_CLASS_ABSTRACT (GogPlot, gog_plot,

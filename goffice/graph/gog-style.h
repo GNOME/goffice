@@ -94,10 +94,6 @@ struct _GogStyle {
 
 	GogStyleLine	outline, line;
 	struct {
-		GOLineInterpolation type;
-		gboolean 	 auto_type;
-	} interpolation;
-	struct {
 		GogFillStyle	type;
 		gboolean	auto_fore, auto_back;	/* share between pattern and gradient */
 		gboolean	invert_if_negative;	/* placeholder for XL */
