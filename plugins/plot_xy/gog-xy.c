@@ -44,7 +44,7 @@
 
 typedef struct {
 	GogPlotClass	base;
-	
+
 	void (*adjust_bounds) (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max);
 } Gog2DPlotClass;
 
@@ -139,7 +139,7 @@ gog_2d_plot_update (GogObject *obj)
 		if (y_max < tmp_max)
 			y_max = tmp_max;
 	}
-	
+
 	if (model->x.minima != x_min || model->x.maxima != x_max) {
 		model->x.minima = x_min;
 		model->x.maxima = x_max;
@@ -188,8 +188,8 @@ gog_2d_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 			if (gog_series_is_valid (GOG_SERIES (ptr->data)))
 				return GOG_SERIES (ptr->data)->values[0].data;
 		return NULL;
-	} 
-	
+	}
+
 	if (axis == GOG_AXIS_Y) {
 		bounds->val.minima = model->y.minima;
 		bounds->val.maxima = model->y.maxima;
@@ -247,8 +247,7 @@ enum {
 	GOG_XY_PROP_0,
 	GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS,
 	GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES,
-	GOG_XY_PROP_USE_SPLINES,
-	GOG_XY_PROP_INTERPOLATION,
+	GOG_XY_PROP_USE_SPLINES
 };
 
 static GogObjectClass *xy_parent_klass;
@@ -273,10 +272,12 @@ gog_xy_set_property (GObject *obj, guint param_id,
 	case GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS:
 		xy->default_style_has_markers = g_value_get_boolean (value);
 		break;
-	case GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES: {
+	case GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES:
 		xy->default_style_has_lines = g_value_get_boolean (value);
 		break;
-	}
+	case GOG_XY_PROP_USE_SPLINES:
+		xy->use_splines = g_value_get_boolean (value);
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
@@ -292,6 +293,9 @@ gog_xy_get_property (GObject *obj, guint param_id,
 		break;
 	case GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES:
 		g_value_set_boolean (value, xy->default_style_has_lines);
+		break;
+	case GOG_XY_PROP_USE_SPLINES:
+		g_value_set_boolean (value, xy->use_splines);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -320,6 +324,12 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 			_("Default lines"),
 			_("Should the default style of a series include lines"),
 			TRUE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, GOG_XY_PROP_USE_SPLINES,
+		g_param_spec_boolean ("use-splines",
+			_("Use splines"),
+			_("Should the plot use splines instead of linear interpolation"),
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	gog_klass->type_name	= gog_xy_plot_type_name;
 
@@ -1440,12 +1450,15 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 		GogXYPlot const *plot = GOG_XY_PLOT (series->plot);
 
 		if (!plot->default_style_has_markers &&
-			style->marker.auto_shape) 
+			style->marker.auto_shape)
 			go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 
 		if (!plot->default_style_has_lines &&
 			style->line.auto_dash)
 			style->line.dash_type = GO_LINE_NONE;
+
+		if (plot->use_splines)
+			series->interpolation = GO_LINE_INTERPOLATION_SPLINE;
 	} else {
 		GogXYColorPlot const *plot = GOG_XY_COLOR_PLOT (series->plot);
 		if (!plot->default_style_has_lines &&

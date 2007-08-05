@@ -40,7 +40,7 @@ typedef struct {
 	Gog2DPlot	base;
 	gboolean	default_style_has_markers;
 	gboolean	default_style_has_lines;
-	GOLineInterpolation interpolation;
+	gboolean	use_splines;			/* for compatibility with goffice 0.2.x */
 } GogXYPlot;
 
 typedef struct {
@@ -55,7 +55,6 @@ typedef struct {
 	Gog2DPlot	base;
 	gboolean	default_style_has_lines;
 	gboolean	hide_outliers;
-	GOLineInterpolation interpolation;
 	struct {
 		double minima, maxima;
 		GOFormat *fmt;

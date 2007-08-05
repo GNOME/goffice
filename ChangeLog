@@ -1,3 +1,9 @@
+2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Put back goffice 0.2.x GogXYPlot::use-spline property.
+
+	* plugins/plot_xy/gog-xy.c: here.
+
 2007-08-03  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Move interpolation property from GogStyle to GogSeries.
