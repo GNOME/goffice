@@ -287,6 +287,10 @@ gog_xy_get_property (GObject *obj, guint param_id,
 		     GValue *value, GParamSpec *pspec)
 {
 	GogXYPlot const *xy = GOG_XY_PLOT (obj);
+	GogSeries *series;
+	GSList *iter;
+	gboolean use_splines;
+
 	switch (param_id) {
 	case GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS:
 		g_value_set_boolean (value, xy->default_style_has_markers);
@@ -295,7 +299,14 @@ gog_xy_get_property (GObject *obj, guint param_id,
 		g_value_set_boolean (value, xy->default_style_has_lines);
 		break;
 	case GOG_XY_PROP_USE_SPLINES:
-		g_value_set_boolean (value, xy->use_splines);
+		use_splines = xy->use_splines;
+		/* Drop use_splines as soon as one of the series has interpolation different
+		 * from GO_LINE_INTERPOLATION_SPLINE */
+		for (iter = GOG_PLOT (xy)->series; iter != NULL; iter = iter->next) {
+			series = iter->data;
+			use_splines = use_splines && (series->interpolation == GO_LINE_INTERPOLATION_SPLINE);
+		}
+		g_value_set_boolean (value, use_splines);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;

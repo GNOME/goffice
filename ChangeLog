@@ -1,5 +1,12 @@
 2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Drop use-splines as soon as one of the series has interpolation
+	different from GO_LINE_INTERPOLATION_SPLINE.
+
+	* plugins/plot_xy/gog-xy.c (gog_xy_get_property): here.
+
+2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Put back goffice 0.2.x GogXYPlot::use-spline property.
 
 	* plugins/plot_xy/gog-xy.c: here.
