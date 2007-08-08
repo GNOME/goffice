@@ -1,3 +1,7 @@
+2007-08-07  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-undo.c (go_undo_combine): New function.
+
 2007-08-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Add gog_graph_render_to_cairo_vector for better gnumeric printing.

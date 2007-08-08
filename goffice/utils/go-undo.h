@@ -30,6 +30,8 @@ struct _GOUndoClass {
 void go_undo_undo (GOUndo *u);
 void go_undo_undo_with_data (GOUndo *u, gpointer data);
 
+GOUndo *go_undo_combine (GOUndo *a, GOUndo *b);
+
 /* ------------------------------------------------------------------------- */
 /* Compound operations.  */
 

@@ -36,6 +36,37 @@ go_undo_undo (GOUndo *u)
 	return go_undo_undo_with_data (u, NULL);
 }
 
+/**
+ * go_undo_combine:
+ * @a: optional first undo operation
+ * @b: optional last undo operation
+ *
+ * Combines two undo operations and returns the combination.  This function
+ * takes ownership of the argument references and gives ownership of the
+ * result to the caller.  Either argument may be NULL in which case the
+ * other is returned.
+ */
+GOUndo *
+go_undo_combine (GOUndo *a, GOUndo *b)
+{
+	g_return_val_if_fail (a == NULL || IS_GO_UNDO (a), NULL);
+	g_return_val_if_fail (b == NULL || IS_GO_UNDO (b), NULL);
+
+	if (!a)
+		return b;
+	else if (!b)
+		return a;
+	else if (IS_GO_UNDO_GROUP (a)) {
+		go_undo_group_add (GO_UNDO_GROUP (a), b);
+		return a;
+	} else {
+		GOUndoGroup *g = go_undo_group_new ();
+		go_undo_group_add (g, a);
+		go_undo_group_add (g, b);
+		return GO_UNDO (g);
+	}
+}
+
 /* ------------------------------------------------------------------------- */
 
 static GObjectClass *go_undo_group_parent_class;
