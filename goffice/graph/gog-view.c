@@ -849,7 +849,8 @@ gog_view_size_child_request (GogView *view,
  * @target_model : #GogObject
  *
  * Find the GogView contained in @container that corresponds to @model.
- * Returns NULL on error or if @target_model has no view.
+ *
+ * Returns: NULL on error or if @target_model has no view.
  **/
 GogView *
 gog_view_find_child_view  (GogView const *container, GogObject const *target_model)
@@ -914,7 +915,7 @@ gog_view_render_toolkit (GogView *view)
  * gog_view_get_toolkit :
  * @view : #GogView
  *
- * Returns toolkit associated with given view.
+ * Returns: toolkit associated with given view.
  **/
 GSList const *
 gog_view_get_toolkit (GogView *view)

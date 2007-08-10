@@ -980,7 +980,7 @@ GSF_CLASS (GogRendererCairo, gog_renderer_cairo,
  * @h:
  * @zoom:
  *
- * Returns TRUE if the size actually changed.
+ * Returns: TRUE if the size actually changed.
  **/
 gboolean
 gog_renderer_cairo_update (GogRendererCairo *crend, int w, int h, double zoom)

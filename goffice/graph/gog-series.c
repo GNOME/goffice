@@ -684,7 +684,7 @@ GSF_CLASS_FULL (GogSeries, gog_series,
  * gog_series_get_plot :
  * @series : #GogSeries
  *
- * Returns the possibly NULL plot that contains this series.
+ * Returns: the possibly NULL plot that contains this series.
  **/
 GogPlot *
 gog_series_get_plot (GogSeries const *series)
@@ -697,7 +697,7 @@ gog_series_get_plot (GogSeries const *series)
  * gog_series_is_valid :
  * @series : #GogSeries
  *
- * Returns the current cached validity.  Does not recheck
+ * Returns: the current cached validity.  Does not recheck
  **/
 gboolean
 gog_series_is_valid (GogSeries const *series)
@@ -737,7 +737,7 @@ gog_series_check_validity (GogSeries *series)
  * gog_series_has_legend :
  * @series : #GogSeries
  *
- * Returns TRUE if the series has a visible legend entry
+ * Returns: TRUE if the series has a visible legend entry
  **/
 gboolean
 gog_series_has_legend (GogSeries const *series)
@@ -831,7 +831,7 @@ gog_series_set_dim (GogSeries *series, int dim_i, GOData *val, GError **err)
  * gog_series_num_elements :
  * @series : #GogSeries
  *
- * Returns the number of elements in the series
+ * Returns: the number of elements in the series
  **/
 unsigned
 gog_series_num_elements (GogSeries const *series)

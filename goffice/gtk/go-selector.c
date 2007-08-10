@@ -209,7 +209,7 @@ cb_palette_deactivate (GOPalette *palette, GOSelector *selector)
  * Creates a new selector, using @palette. Selector button swatch will use
  * swatch render function of @palette.
  *
- * returns a new #GtkWidget.
+ * Returns: a new #GtkWidget.
  **/ 
 GtkWidget *
 go_selector_new (GOPalette *palette)
@@ -440,7 +440,7 @@ go_selector_set_active_internal (GOSelector *selector, int index, gboolean is_au
  * Sets current selection index, and emits "activate" signal if
  * selection is actually changed.
  *
- * Returns TRUE if selection is actually changed.
+ * Returns: TRUE if selection is actually changed.
  **/
 gboolean
 go_selector_set_active (GOSelector *selector, int index)
@@ -463,11 +463,12 @@ go_selector_set_active (GOSelector *selector, int index)
 /**
  * go_selector_get_active:
  * @selector: a #GOSelector
+ * @is_auto :
  *
  * Retrieves current selection index, and set @is_auto to TRUE if
  * current selection was set by clicking on automatic palette item.
  *
- * Returns current index.
+ * Returns: current index.
  **/
 int
 go_selector_get_active (GOSelector *selector, gboolean *is_auto)
@@ -516,7 +517,7 @@ go_selector_activate (GOSelector *selector)
  * A convenience function to access user_data of selector palette.
  * (See @go_palette_get_user_data).
  *
- * Returns a pointer to palette user_data.
+ * Returns: a pointer to palette user_data.
  **/
 gpointer 	 
 go_selector_get_user_data (GOSelector *selector)

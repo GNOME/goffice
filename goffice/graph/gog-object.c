@@ -976,7 +976,6 @@ dataset_dup (GogDataset const *src, GogDataset *dst)
  *
  * Returns: FIXME
  **/
-
 GogObject *
 gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator datadup)
 {
@@ -1028,7 +1027,7 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
  * @obj : a #GogObject
  *
  * Returns: @obj's parent, potentially NULL if it has not been added to a
- * heirarchy yet.  does not change ref-count in any way.
+ * 	heirarchy yet.  does not change ref-count in any way.
  **/
 GogObject *
 gog_object_get_parent (GogObject const *obj)
@@ -1175,7 +1174,7 @@ gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
  * @role : a #char to use as a filter
  *
  * A convenience routine to handle a unique child
- * Returns NULL and spews an error if there is more than one.
+ * Returns: NULL and spews an error if there is more than one.
  **/
 GogObject *
 gog_object_get_child_by_name (GogObject const *obj, char const *name)
@@ -1257,7 +1256,7 @@ gog_role_cmp_full (GogObjectRole const *a, GogObjectRole const *b)
  * @parent: a #GogObject
  *
  * Returns: a list of GogObjectRoles that could be added.
- * The resulting list needs to be freed
+ * 	The resulting list needs to be freed
  **/
 GSList *
 gog_object_possible_additions (GogObject const *parent)

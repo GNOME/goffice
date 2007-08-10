@@ -139,9 +139,9 @@ go_line_dash_as_label (GOLineDashType type)
 
 /**
  * go_line_dash_get_length:
- * @type: dash type
+ * @type: #GOLineDashType
  *
- * returns the unscaled length of the dash sequence.
+ * Returns: the unscaled length of the dash sequence.
  **/
 double
 go_line_dash_get_length (GOLineDashType type)

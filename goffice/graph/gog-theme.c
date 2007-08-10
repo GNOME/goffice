@@ -460,9 +460,8 @@ gog_theme_registry_lookup (char const *name)
 /**
  * gog_theme_registry_get_theme_names:
  * 
- * Returns a newly allocated theme name list from theme registry.
+ * Returns: a newly allocated theme name list from theme registry.
  **/
-
 GSList *
 gog_theme_registry_get_theme_names (void)
 {

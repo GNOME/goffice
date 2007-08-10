@@ -103,15 +103,17 @@ go_gtk_dialog_add_button (GtkDialog *dialog, const gchar* text, const gchar* sto
 }
 
 /**
- * go_libglade_new :
+ * go_glade_new :
  * @gcc : #GOCmdContext
  * @gladefile :
  *
  * Simple utility to open glade files
+ *
+ * 0.4.3 : renamed from go_libglade_new
  **/
 GladeXML *
-go_libglade_new (char const *gladefile, char const *root,
-		 char const *domain, GOCmdContext *gcc)
+go_glade_new (char const *gladefile, char const *root,
+	      char const *domain, GOCmdContext *gcc)
 {
 	GladeXML *gui;
 	char *f;
@@ -132,6 +134,54 @@ go_libglade_new (char const *gladefile, char const *root,
 	g_free (f);
 
 	return gui;
+}
+
+/**
+ * go_glade_signal_connect :
+ * @gui : #GladeXML
+ * @instance_name :
+ * @detailed_signal :
+ * @c_handle : #GCallback
+ * @data :
+ *
+ * Convenience wrapper around g_signal_connect for glade.
+ **/
+gulong
+go_glade_signal_connect	(GladeXML	*gui,
+			 gchar const	*instance_name,
+			 gchar const	*detailed_signal,
+			 GCallback	 c_handler,
+			 gpointer	 data)
+{
+	GtkWidget *w;
+	g_return_val_if_fail (gui != NULL, 0);
+	w = glade_xml_get_widget (gui, instance_name);
+	g_return_val_if_fail (w != NULL, 0);
+	return g_signal_connect (w, detailed_signal, c_handler, data);
+}
+
+/**
+ * go_glade_signal_connect :
+ * @gui : #GladeXML
+ * @instance_name :
+ * @detailed_signal :
+ * @c_handle : #GCallback
+ * @data :
+ *
+ * Convenience wrapper around g_signal_connect_swapped for glade.
+ **/
+gulong
+go_glade_signal_connect_swapped (GladeXML	*gui,
+				 gchar const	*instance_name,
+				 gchar const	*detailed_signal,
+				 GCallback	 c_handler,
+				 gpointer	 data)
+{
+	GtkWidget *w;
+	g_return_val_if_fail (gui != NULL, 0);
+	w = glade_xml_get_widget (gui, instance_name);
+	g_return_val_if_fail (w != NULL, 0);
+	return g_signal_connect_swapped (w, detailed_signal, c_handler, data);
 }
 
 /**
@@ -499,20 +549,6 @@ go_gtk_select_image (GtkWindow *toplevel, const char *initial)
 	return uri;
 }
 
-/**
- * go_gui_get_image_save_info:
- * @toplevel: a #GtkWindow
- * @supported_formats: a #GSList of supported file formats
- * @ret_format: default file format
- * @resolution: export resolution
- *
- * Opens a file chooser and let user choose file URI and format in a list of
- * supported ones.
- *
- * returns: file URI string, file #GOImageFormat stored in @ret_format, and
- * export resolution in @resolution.
- **/
-
 typedef struct {
 	char *uri;
 	double resolution;
@@ -538,6 +574,19 @@ cb_format_combo_changed (GtkComboBox *combo, GtkWidget *expander)
 				  format_info->is_dpi_useful);
 }
 
+/**
+ * go_gui_get_image_save_info:
+ * @toplevel: a #GtkWindow
+ * @supported_formats: a #GSList of supported file formats
+ * @ret_format: default file format
+ * @resolution: export resolution
+ *
+ * Opens a file chooser and let user choose file URI and format in a list of
+ * supported ones.
+ *
+ * Returns: file URI string, file #GOImageFormat stored in @ret_format, and
+ * 	export resolution in @resolution.
+ **/
 char *
 go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 			 GOImageFormat *ret_format, double *resolution)
@@ -971,7 +1020,7 @@ go_gtk_query_yes_no (GtkWindow *parent, gboolean default_answer,
  *
  * utility routine to create pixbufs from file @name in the goffice_icon_dir.
  *
- * Returns a GdkPixbuf that the caller is responsible for.
+ * Returns: a GdkPixbuf that the caller is responsible for.
  **/
 GdkPixbuf *
 go_pixbuf_new_from_file (char const *filename)

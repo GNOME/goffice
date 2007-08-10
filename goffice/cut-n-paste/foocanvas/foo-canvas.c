@@ -3378,7 +3378,7 @@ foo_canvas_w2c_rect_d (FooCanvas *canvas,
  * @cy: Y pixel coordinate (return value).
  *
  * Converts world coordinates into canvas pixel coordinates.  This version
- * returns coordinates in floating point coordinates, for greater precision.
+ * produces coordinates in floating point coordinates, for greater precision.
  **/
 void
 foo_canvas_w2c_d (FooCanvas *canvas, double wx, double wy, double *cx, double *cy)

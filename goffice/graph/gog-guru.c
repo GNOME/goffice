@@ -1449,12 +1449,14 @@ gog_guru_get_help_button (GtkWidget *guru)
 
 /**
  * gog_guru
- * @wb : The workbook to use as a parent window.
- * @graph : the graph to edit
- * @page : the page to start on.
+ * @graph	: the graph to edit
+ * @dalloc	: The data allocator to use for editing
+ * @cc		: Where to report errors
+ * @toplevel	: as a parent window.
+ * @closure	:
  *
- * Pop up a graph guru.
- */
+ * Returns: and shows new graph guru.
+ **/
 GtkWidget *
 gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	  GOCmdContext *cc, GtkWindow *toplevel,

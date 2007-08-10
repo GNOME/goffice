@@ -336,8 +336,8 @@ go_color_render_svp (GOColor color, ArtSVP const *svp,
  * @str :
  * @res :
  * 
- * Returns TRUE if @str can be parsed as a color of the form R:G:B:A and the
- * result is stored in @res.
+ * Returns: TRUE if @str can be parsed as a color of the form R:G:B:A and the
+ * 	result is stored in @res.
  **/
 gboolean
 go_color_from_str (gchar const *str, GOColor *res)

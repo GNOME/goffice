@@ -825,7 +825,7 @@ gog_renderer_pt2r (GogRenderer const *rend, double d)
  * gog_renderer_get_hairline_width_pts:
  * @rend: a #GogRenderer
  *
- * returns the hairline width in pts.
+ * Returns: the hairline width in pts.
  **/
 double
 gog_renderer_get_hairline_width_pts (GogRenderer const *rend)
@@ -917,7 +917,7 @@ gog_renderer_update (GogRenderer *renderer, double w, double h, double zoom)
  * gog_renderer_get_pixbuf:
  * @renderer : #GogRenderer
  *
- * Returns current pixbuf buffer from a renderer that can render into a pixbuf.
+ * Returns: current pixbuf buffer from a renderer that can render into a pixbuf.
  **/
 GdkPixbuf*
 gog_renderer_get_pixbuf (GogRenderer *renderer)

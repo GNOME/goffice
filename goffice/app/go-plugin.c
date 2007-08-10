@@ -58,7 +58,7 @@ static GHashTable *loader_services = NULL;
 static GType	   go_default_loader_type;
 
 static void plugin_get_loader_if_needed (GOPlugin *plugin, ErrorInfo **ret_error);
-static void go_plugin_read (GOPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_error);
+static void go_plugin_read (GOPlugin *plugin, gchar const *dir_name, ErrorInfo **ret_error);
 static void go_plugin_load_base (GOPlugin *plugin, ErrorInfo **ret_error);
 
 /*
@@ -116,7 +116,7 @@ static GObjectClass *parent_class = NULL;
 static void plugin_dependency_free (gpointer data);
 
 static void
-go_plugin_message (gint level, const gchar *format, ...)
+go_plugin_message (gint level, gchar const *format, ...)
 {
 #ifdef PLUGIN_DEBUG
 	va_list args;
@@ -204,7 +204,7 @@ GSF_CLASS (GOPlugin, go_plugin, go_plugin_class_init, go_plugin_init,
            G_TYPE_OBJECT)
 
 static GOPlugin *
-go_plugin_new_from_xml (const gchar *dir_name, ErrorInfo **ret_error)
+go_plugin_new_from_xml (gchar const *dir_name, ErrorInfo **ret_error)
 {
 	GOPlugin *plugin;
 	ErrorInfo *error;
@@ -224,7 +224,7 @@ go_plugin_new_from_xml (const gchar *dir_name, ErrorInfo **ret_error)
 }
 
 static GOPlugin *
-go_plugin_new_with_id_and_dir_name_only (const gchar *id, const gchar *dir_name)
+go_plugin_new_with_id_and_dir_name_only (gchar const *id, gchar const *dir_name)
 {
 	GOPlugin *plugin = g_object_new (GO_PLUGIN_TYPE, NULL);
 	plugin->id = g_strdup (id);
@@ -250,7 +250,7 @@ static gboolean plugin_file_state_hash_changed;
 static GHashTable *plugin_file_state_dir_hash;
 
 static gchar *
-get_file_state_as_string (const gchar *file_name)
+get_file_state_as_string (gchar const *file_name)
 {
 	struct stat st;
 
@@ -272,7 +272,7 @@ plugin_file_state_as_string (PluginFileState *state)
 }
 
 static PluginFileState *
-plugin_file_state_from_string (const gchar *str)
+plugin_file_state_from_string (gchar const *str)
 {
 	PluginFileState *state;
 	gchar **strv;
@@ -364,12 +364,12 @@ go_plugin_read_full_info_if_needed (GOPlugin *plugin)
 
 /**
  * go_plugin_get_textdomain:
- * @plugin      : The plugin
+ * @plugin : #GOPlugin
  *
- * Returns plugin's textdomain for use with textdomain(3) and d*gettext(3)
- * functions.
- */
-const gchar *
+ * Returns: plugin's textdomain for use with textdomain(3) and d*gettext(3)
+ * 	functions.
+ **/
+gchar const *
 go_plugin_get_textdomain (GOPlugin *plugin)
 {
 	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
@@ -383,10 +383,10 @@ go_plugin_get_textdomain (GOPlugin *plugin)
 
 /**
  * go_plugin_is_active:
- * @plugin      : The plugin
+ * @plugin : #GOPlugin
  *
- * Returns : TRUE if @plugin is active and FALSE otherwise.
- */
+ * Returns: TRUE if @plugin is active and FALSE otherwise.
+ **/
 gboolean
 go_plugin_is_active (GOPlugin *plugin)
 {
@@ -436,12 +436,12 @@ go_plugin_get_type_module (GOPlugin *plugin)
 
 /**
  * go_plugin_get_dir_name:
- * @plugin      : The plugin
+ * @plugin : #GOPlugin
  *
- * Returns the name of the directory in which @plugin is located.
- * Returned string is != NULL and stays valid during @plugin's lifetime.
- */
-const gchar *
+ * Returns: the name of the directory in which @plugin is located.
+ * 	Returned string is != NULL and stays valid during @plugin's lifetime.
+ **/
+gchar const *
 go_plugin_get_dir_name (GOPlugin *plugin)
 {
 	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
@@ -451,13 +451,13 @@ go_plugin_get_dir_name (GOPlugin *plugin)
 
 /**
  * go_plugin_get_id:
- * @plugin      : The plugin
+ * @plugin : #GOPlugin
  *
- * Returns the ID of @plugin (unique string used for idenfification of
- * plugin).
- * Returned string is != NULL and stays valid during @plugin's lifetime.
- */
-const gchar *
+ * Returns: the ID of @plugin (unique string used for idenfification of
+ * 	plugin).  Returned string is != NULL and stays valid during @plugin's
+ * 	lifetime.
+ **/
+gchar const *
 go_plugin_get_id (GOPlugin *plugin)
 {
 	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
@@ -467,13 +467,13 @@ go_plugin_get_id (GOPlugin *plugin)
 
 /**
  * go_plugin_get_name:
- * @plugin      : The plugin
+ * @plugin : #GOPlugin
  *
- * Returns textual name of @plugin. If the real name is not available
- * for some reason, automatically generated string will be returned.
- * Returned string is != NULL and stays valid during @plugin's lifetime.
- */
-const gchar *
+ * Returns: textual name of @plugin. If the real name is not available
+ * 	for some reason, automatically generated string will be returned.
+ * 	Returned string is != NULL and stays valid during @plugin's lifetime.
+ **/
+gchar const *
 go_plugin_get_name (GOPlugin *plugin)
 {
 	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
@@ -486,13 +486,12 @@ go_plugin_get_name (GOPlugin *plugin)
 
 /**
  * go_plugin_get_description:
- * @plugin      : The plugin
+ * @plugin : #GOPlugin
  *
- * Returns textual description of @plugin or NULL if description is not
- * available.
- * Returned string stays valid during @plugin's lifetime.
- */
-const gchar *
+ * Returns: textual description of @plugin or NULL if description is not
+ * 	available.  Returned string stays valid during @plugin's lifetime.
+ **/
+gchar const *
 go_plugin_get_description (GOPlugin *plugin)
 {
 	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
@@ -505,10 +504,10 @@ go_plugin_get_description (GOPlugin *plugin)
 
 /**
  * go_plugin_is_loaded:
- * @plugin      : The plugin
+ * @plugin : #GOPlugin
  *
- * Returns : TRUE if @plugin is loaded and FALSE otherwise.
- */
+ * Returns: TRUE if @plugin is loaded and FALSE otherwise.
+ **/
 gboolean
 go_plugin_is_loaded (GOPlugin *plugin)
 {
@@ -529,10 +528,11 @@ go_plugin_is_loaded (GOPlugin *plugin)
  * consists of loader's plugin id and service id concatenated using colon).
  * All requests to create new loader object of this type will be passed to
  * @service.
+ *
  * This function is intended for use by GOPluginService objects.
- */
+ **/
 void
-go_plugins_register_loader (const gchar *loader_id, GOPluginService *service)
+go_plugins_register_loader (gchar const *loader_id, GOPluginService *service)
 {
 	g_return_if_fail (loader_id != NULL);
 	g_return_if_fail (service != NULL);
@@ -547,10 +547,11 @@ go_plugins_register_loader (const gchar *loader_id, GOPluginService *service)
  * Unregisters a type of plugin loader identified by @loader_id. After
  * callingthis function Gnumeric will be unable to load plugins supported
  * by the specified loader.
+ *
  * This function is intended for use by GOPluginService objects.
- */
+ **/
 void
-go_plugins_unregister_loader (const gchar *loader_id)
+go_plugins_unregister_loader (gchar const *loader_id)
 {
 	g_return_if_fail (loader_id != NULL);
 
@@ -558,7 +559,7 @@ go_plugins_unregister_loader (const gchar *loader_id)
 }
 
 static GType
-get_loader_type_by_id (const gchar *id_str, ErrorInfo **ret_error)
+get_loader_type_by_id (gchar const *id_str, ErrorInfo **ret_error)
 {
 	GOPluginService *loader_service;
 	ErrorInfo *error;
@@ -718,7 +719,7 @@ plugin_dependency_free (gpointer data)
 }
 
 static void
-go_plugin_read (GOPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_error)
+go_plugin_read (GOPlugin *plugin, gchar const *dir_name, ErrorInfo **ret_error)
 {
 	gchar *file_name;
 	xmlDocPtr doc;
@@ -906,7 +907,7 @@ plugin_get_loader_if_needed (GOPlugin *plugin, ErrorInfo **ret_error)
 
 /**
  * go_plugin_activate:
- * @plugin      : The plugin
+ * @plugin : #GOPlugin
  * @ret_error   : Pointer used to report errors
  *
  * Activates @plugin together with all its dependencies.
@@ -996,7 +997,7 @@ go_plugin_activate (GOPlugin *plugin, ErrorInfo **ret_error)
 
 /**
  * go_plugin_deactivate:
- * @plugin      : The plugin
+ * @plugin : #GOPlugin
  * @ret_error   : Pointer used to report errors
  *
  * Dectivates @plugin. Its dependencies will NOT be automatically
@@ -1055,11 +1056,11 @@ go_plugin_deactivate (GOPlugin *plugin, ErrorInfo **ret_error)
 
 /**
  * go_plugin_can_deactivate:
- * @plugin       : The plugin
+ * @plugin : #GOPlugin
  *
  * Tells if the plugin can be deactivated using go_plugin_deactivate.
  *
- * Returns : TRUE if @plugin can be deactivated and FALSE otherwise.
+ * Returns: TRUE if @plugin can be deactivated and FALSE otherwise.
  */
 gboolean
 go_plugin_can_deactivate (GOPlugin *plugin)
@@ -1153,7 +1154,7 @@ go_plugin_load_base (GOPlugin *plugin, ErrorInfo **ret_error)
 
 /**
  * go_plugin_load_service:
- * @plugin       : The plugin
+ * @plugin : #GOPlugin
  * @service     : Plugin service
  * @ret_error   : Pointer used to report errors
  *
@@ -1177,7 +1178,7 @@ go_plugin_load_service (GOPlugin *plugin, GOPluginService *service, ErrorInfo **
 
 /**
  * go_plugin_unload_service:
- * @plugin       : The plugin
+ * @plugin : #GOPlugin
  * @service     : Plugin service
  * @ret_error   : Pointer used to report errors
  *
@@ -1200,7 +1201,7 @@ go_plugin_unload_service (GOPlugin *plugin, GOPluginService *service, ErrorInfo 
 
 /**
  * go_plugin_use_ref:
- * @plugin      : The plugin
+ * @plugin : #GOPlugin
  */
 void
 go_plugin_use_ref (GOPlugin *plugin)
@@ -1216,8 +1217,8 @@ go_plugin_use_ref (GOPlugin *plugin)
 
 /**
  * go_plugin_use_unref:
- * @plugin      : The plugin
- */
+ * @plugin : #GOPlugin
+ **/
 void
 go_plugin_use_unref (GOPlugin *plugin)
 {
@@ -1233,14 +1234,14 @@ go_plugin_use_unref (GOPlugin *plugin)
 
 /**
  * go_plugin_get_dependencies_ids:
- * @plugin      : The plugin
+ * @plugin : #GOPlugin
  *
- * Returns the list of identifiers of plugins that @plugin depends on.
- * All these plugins will be automatically activated before activating
- * the @plugin itself.
- * The caller must free the returned list together with the strings it
- * points to (use go_slist_free_custom (list, g_free) to do this).
- */
+ * Returns: the list of identifiers of plugins that @plugin depends on.
+ * 	All these plugins will be automatically activated before activating the
+ * 	@plugin itself.  The caller must free the returned list together with
+ * 	the strings it points to (use go_slist_free_custom (list, g_free) to do
+ * 	this).
+ **/
 GSList *
 go_plugin_get_dependencies_ids (GOPlugin *plugin)
 {
@@ -1255,9 +1256,10 @@ go_plugin_get_dependencies_ids (GOPlugin *plugin)
 
 /**
  * go_plugin_get_services:
- * @plugin      : The plugin
+ * @plugin : #GOPlugin
  *
- */
+ * Returns: A list of services.  The list must not be freed or changed.
+ **/
 GSList *
 go_plugin_get_services (GOPlugin *plugin)
 {
@@ -1270,7 +1272,7 @@ go_plugin_get_services (GOPlugin *plugin)
  * May return NULL without errors (is XML file doesn't exist)
  */
 static GOPlugin *
-go_plugin_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error)
+go_plugin_read_for_dir (gchar const *dir_name, ErrorInfo **ret_error)
 {
 	GOPlugin *plugin = NULL;
 	gchar *file_name;
@@ -1328,7 +1330,7 @@ go_plugin_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error)
  * May return partial list and some error info.
  */
 static GSList *
-go_plugin_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret_error)
+go_plugin_list_read_for_subdirs_of_dir (gchar const *dir_name, ErrorInfo **ret_error)
 {
 	GSList *plugins = NULL;
 	GDir *dir;
@@ -1483,8 +1485,8 @@ go_plugin_db_deactivate_plugin_list (GSList *plugins, ErrorInfo **ret_error)
 /**
  * plugins_get_available_plugins:
  *
- * Returns the list of available plugins. The returned value must not be
- * freed and stays valid until calling plugins_rescan or plugins_shutdown.
+ * Returns: the list of available plugins. The returned value must not be freed
+ * 	and stays valid until calling plugins_rescan or plugins_shutdown.
  **/
 GSList *
 go_plugins_get_available_plugins (void)
@@ -1495,8 +1497,8 @@ go_plugins_get_available_plugins (void)
 /**
  * plugins_get_active_plugins:
  *
- * Returns the list of active plugins.  The caller needs to free the list, but
- * not the content.
+ * Returns: the list of active plugins.  The caller needs to free the list, but
+ * 	not the content.
  **/
 GSList *
 go_plugins_get_active_plugins (void)
@@ -1516,13 +1518,13 @@ go_plugins_get_active_plugins (void)
  * plugins_get_plugin_by_id:
  * @plugin_id    : String containing plugin ID
  *
- * Returns GOPlugin object for plugin with ID equal to @plugin_id or NULL
- * if there's no plugin available with given id.
- * Function returns "borrowed" reference, use g_object_ref if you want to
- * be sure that plugin won't disappear.
+ * Returns: GOPlugin object for plugin with ID equal to @plugin_id or NULL
+ * 	if there's no plugin available with given id.  Function returns
+ * 	"borrowed" reference, use g_object_ref if you want to be sure that
+ * 	plugin won't disappear.
  */
 GOPlugin *
-go_plugins_get_plugin_by_id (const gchar *plugin_id)
+go_plugins_get_plugin_by_id (gchar const *plugin_id)
 {
 	g_return_val_if_fail (plugin_id != NULL, NULL);
 
@@ -1531,7 +1533,7 @@ go_plugins_get_plugin_by_id (const gchar *plugin_id)
 
 /**
  * plugin_db_mark_plugin_for_deactivation :
- * @plugin:
+ * @plugin : #GOPlugin
  * @mark:
  */
 void
@@ -1553,7 +1555,7 @@ go_plugin_db_mark_plugin_for_deactivation (GOPlugin *plugin, gboolean mark)
 
 /**
  * plugin_db_is_plugin_marked_for_deactivation :
- * @plugin: 
+ * @plugin : #GOPlugin
  */
 gboolean
 go_plugin_db_is_plugin_marked_for_deactivation (GOPlugin *plugin)

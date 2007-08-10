@@ -198,7 +198,7 @@ datetime_g_years_between (GDate const *date1, GDate const *date2)
  * @date:      date
  * @method:    week numbering method
  *
- * Returns week number according to the given method.
+ * Returns: week number according to the given method.
  * 1:   Week starts on Sunday. Days before first Sunday are in week 0.
  * 2:   Week starts on Monday. Days before first Monday are in week 0.
  * 150: ISO 8601 week number. See datetime_isoweeknum.
@@ -422,10 +422,14 @@ go_coup_cd (GDate *result, GDate const *settlement, GDate const *maturity,
 /* ------------------------------------------------------------------------- */
 
 
-/*
- * Returns the number of days in the coupon period of the settlement date.
+/**
+ * go_coupdays:
+ * @settlement : #GDate
+ * @maturity   : #GDate
+ *
+ * Returns: the number of days in the coupon period of the settlement date.
  * Currently, returns negative numbers if the branch is not implemented.
- */
+ **/
 double
 go_coupdays (GDate const *settlement, GDate const *maturity,
 	  GnmCouponConvention const *conv)
@@ -451,13 +455,18 @@ go_coupdays (GDate const *settlement, GDate const *maturity,
 /* ------------------------------------------------------------------------- */
 
 
-/*
- * Returns the number of days from the beginning of the coupon period to
- * the settlement date.
- */
+/**
+ * go_coupdaybs:
+ * @settlement : #GDate
+ * @maturity : #GDate
+ * @conv : #GnmCouponConvention
+ *
+ * Returns: the number of days from the beginning of the coupon period to the
+ * 	settlement date.
+ **/
 double
 go_coupdaybs (GDate const *settlement, GDate const *maturity,
-	   GnmCouponConvention const *conv)
+	      GnmCouponConvention const *conv)
 {
 	GDate prev_coupon;
 	go_coup_cd (&prev_coupon, settlement, maturity, conv->freq, conv->eom, FALSE);
@@ -472,7 +481,7 @@ go_coupdaybs (GDate const *settlement, GDate const *maturity,
  * @basis :
  * @eom :
  *
- * Returns the number of days from the settlement date to the next
+ * Returns: the number of days from the settlement date to the next
  * coupon date.
  **/
 double

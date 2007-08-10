@@ -427,7 +427,8 @@ go_graph_widget_set_size_mode (GOGraphWidget         *widget,
  * Creates a new #GOGraphWidget with an embedded #GogGraph.
  * If graph is NULL, the graph will be auto-created, and a
  * #GogChart will be added graph.
- * Returns the newly created #GOGraphWidget.
+ *
+ * Returns: the newly created #GOGraphWidget.
  **/
 GtkWidget *
 go_graph_widget_new (GogGraph *graph)
@@ -459,7 +460,7 @@ GSF_CLASS (GOGraphWidget, go_graph_widget,
  * go_graph_widget_get_graph :
  * @widget : #GOGraphWidget
  * 
- * Returns the #GogGraph embedded in the widget.
+ * Returns: the #GogGraph embedded in the widget.
  **/
 GogGraph *
 go_graph_widget_get_graph (GOGraphWidget *widget)
@@ -472,7 +473,7 @@ go_graph_widget_get_graph (GOGraphWidget *widget)
  * go_graph_widget_get_chart :
  * @widget : #GOGraphWidget
  * 
- * Returns the #GogChart created by go_graph_widget_new().
+ * Returns: the #GogChart created by go_graph_widget_new().
  **/
 GogChart *
 go_graph_widget_get_chart (GOGraphWidget *widget)

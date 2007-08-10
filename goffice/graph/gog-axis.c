@@ -783,9 +783,8 @@ gog_axis_map_set (GogAxis *axis, char const *name)
  * Tests if @map was correctly initialized, i.e. if bounds are
  * valid.
  * 
- * returns: %TRUE if map is valid
+ * Returns: %TRUE if map is valid
  **/
-
 gboolean
 gog_axis_map_is_valid (GogAxisMap *map) 
 {
@@ -805,9 +804,8 @@ gog_axis_map_is_valid (GogAxisMap *map)
  * gog_axis_map_to_view in order to translates data coordinates 
  * into canvas space.
  *
- * returns: a newly allocated #GogAxisMap.
+ * Returns: a newly allocated #GogAxisMap.
  **/
-
 GogAxisMap *
 gog_axis_map_new (GogAxis *axis, double offset, double length)
 {
@@ -837,9 +835,8 @@ gog_axis_map_new (GogAxis *axis, double offset, double length)
  * Converts @value to plot coordinates. A value in [0,1.0] range means a data 
  * within axis bounds.
  *
- * returns: mapped value.
+ * Returns: mapped value.
  **/
-
 double 
 gog_axis_map (GogAxisMap *map,
 	      double value)
@@ -1129,7 +1126,8 @@ role_label_can_add (GogObject const *parent)
  * @fmt  : #GOFormat
  *
  * Absorbs a reference to @fmt, and accepts NULL.
- * returns TRUE if things changed
+ *
+ * Returns: TRUE if things changed
  **/
 gboolean
 gog_axis_set_format (GogAxis *axis, GOFormat *fmt)
@@ -1152,7 +1150,7 @@ gog_axis_set_format (GogAxis *axis, GOFormat *fmt)
  * gog_axis_get_format :
  * @axis :#GogAxis
  *
- * Returns the format assigned to @axis but does not add a reference.
+ * Returns: the format assigned to @axis but does not add a reference.
  **/
 GOFormat *
 gog_axis_get_format (GogAxis const *axis)
@@ -1896,7 +1894,7 @@ gog_axis_is_center_on_ticks (GogAxis const *axis)
  * @axis : #GogAxis
  * 
  * Returns: TRUE if @axis enumerates a set of discrete items, rather than a
- * continuous value
+ * 	continuous value
  **/ 
 gboolean
 gog_axis_is_discrete (GogAxis const *axis)
@@ -2154,8 +2152,8 @@ gog_axis_set_polar_unit (GogAxis *axis, GogAxisPolarUnit unit)
  * gog_axis_get_polar_unit:
  * @axis: a #GogAxis
  *
- * returns: unit of @axis if it's a circular axis of a polar
- * axis set, -1 otherwise.
+ * Returns: unit of @axis if it's a circular axis of a polar
+ * 	axis set, -1 otherwise.
  **/
 
 GogAxisPolarUnit
@@ -2170,13 +2168,11 @@ gog_axis_get_polar_unit (GogAxis *axis)
  * gog_axis_get_circular_perimeter:
  * @axis: a #GogAxis
  *
- * returns: perimeter of a circular #GogAxis of a polar axis set.
- * 
+ * Returns: perimeter of a circular #GogAxis of a polar axis set.
  * 	radians: 2*pi
  * 	degrees: 360.0
  * 	grads  : 400.0
  **/
-
 double
 gog_axis_get_polar_perimeter (GogAxis *axis)
 {
@@ -2189,9 +2185,8 @@ gog_axis_get_polar_perimeter (GogAxis *axis)
  * gog_axis_get_circular_rotation:
  * @axis: a #GogAxis
  *
- * returns: rotation of a circular #GogAxis.
+ * Returns: rotation of a circular #GogAxis.
  **/
-
 double
 gog_axis_get_circular_rotation (GogAxis *axis)
 {

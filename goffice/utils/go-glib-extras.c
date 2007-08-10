@@ -40,7 +40,7 @@ cb_hash_collect_keys (gpointer key, gpointer value, GSList **accum)
  *
  * Collects an unordered list of the keys in @hash.
  *
- * Returns a list which the caller needs to free.
+ * Returns: a list which the caller needs to free.
  * 	The content has not additional references added
  **/
 GSList *
@@ -64,7 +64,7 @@ cb_hash_collect_values (gpointer key, gpointer value, GSList **accum)
  *
  * Collects an unordered list of the values in @hash.
  *
- * Returns a list which the caller needs to free.
+ * Returns: a list which the caller needs to free.
  * 	The content has not additional references added
  **/
 GSList *

@@ -74,7 +74,7 @@ go_marker_palette_render_func (cairo_t *cr,
  *
  * Creates a new marker selector.
  *
- * returns a new #GtkWidget.
+ * Returns: a new #GtkWidget.
  **/
 GtkWidget *
 go_marker_selector_new (GOMarkerShape initial_shape,

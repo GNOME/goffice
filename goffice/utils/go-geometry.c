@@ -178,9 +178,9 @@ go_geometry_test_OBR_overlap (GOGeometryOBR const *obr0, GOGeometryOBR const *ob
  * go_geometry_get_rotation_type:
  * @alpha: angle in radians
  *
- * Returns rotation type for handling of special angles (alpha = n * pi / 2)
+ * Calculates rotation type for handling of special angles (alpha = n * pi / 2)
  *
- * return value: a #GOGeometryRotationType
+ * Returns: a #GOGeometryRotationType
  **/
 GOGeometryRotationType 
 go_geometry_get_rotation_type (double alpha) 
@@ -201,7 +201,7 @@ go_geometry_get_rotation_type (double alpha)
  * @obr: bounding rectangle of label
  * @alpha: angle of axis
  *
- * Returns computed label anchor, to be used by go_geometry_calc_label_position.
+ * Returns: computed label anchor, to be used by go_geometry_calc_label_position.
  **/
 GOGeometrySide
 go_geometry_calc_label_anchor (GOGeometryOBR *obr, double alpha)
@@ -215,7 +215,7 @@ go_geometry_calc_label_anchor (GOGeometryOBR *obr, double alpha)
 }
 
 /**
- * go_geometry_update_label_OBR:
+ * go_geometry_calc_label_position:
  * @obr: bounding rectangle of label
  * @alpha: angle of axis
  * @offset: minimum distance between label and axis
@@ -223,7 +223,8 @@ go_geometry_calc_label_anchor (GOGeometryOBR *obr, double alpha)
  * @anchor: where to anchor the label
  *
  * Convenience routine that computes position of a label relative to an axis. 
- * Returns the computed anchor if @anchor == GO_SIDE_AUTO, or @anchor value. 
+ *
+ * Returns: the computed anchor if @anchor == GO_SIDE_AUTO, or @anchor value. 
  **/
 GOGeometrySide
 go_geometry_calc_label_position (GOGeometryOBR *obr, double alpha, double offset, 
@@ -271,7 +272,7 @@ go_geometry_calc_label_position (GOGeometryOBR *obr, double alpha, double offset
  * go_direction_is_horizontal :
  * @d : #GODirection
  *
- * Returns TRUE for GO_DIRECTION_LEFT and GO_DIRECTION_RIGHT.
+ * Returns: TRUE for GO_DIRECTION_LEFT and GO_DIRECTION_RIGHT.
  **/
 gboolean
 go_direction_is_horizontal (GODirection d)
@@ -283,7 +284,7 @@ go_direction_is_horizontal (GODirection d)
  * go_direction_is_forward :
  * @d : #GODirection
  *
- * Returns TRUE for GO_DIRECTION_DOWN or GO_DIRECTION_RIGHT.
+ * Returns: TRUE for GO_DIRECTION_DOWN or GO_DIRECTION_RIGHT.
  **/
 gboolean
 go_direction_is_forward (GODirection d)

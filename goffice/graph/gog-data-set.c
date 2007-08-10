@@ -52,7 +52,9 @@ gog_dataset_get_type (void)
  * @first : inclusive
  * @last : _inclusive_
  *
- * FIXME: Returns the first and last valid indicises to get/set dim.
+ * FIXME ?? Fix what ??
+ * Stores the first and last valid indicises to get/set dim
+ * in @first and @last.
  **/
 void
 gog_dataset_dims (GogDataset const *set, int *first, int *last)
@@ -69,8 +71,8 @@ gog_dataset_dims (GogDataset const *set, int *first, int *last)
  * @set : #GogDataset
  * @dim_i :
  *
- * Returns the GOData associated with dimension @dim_i.  Does NOT add a
- * reference.
+ * Returns: the GOData associated with dimension @dim_i.  Does NOT add a
+ * 	reference.
  **/
 GOData *
 gog_dataset_get_dim (GogDataset const *set, int dim_i)

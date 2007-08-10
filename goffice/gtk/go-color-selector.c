@@ -278,7 +278,7 @@ go_color_selector_drag_fill_icon (GOSelector *selector, GdkPixbuf *pixbuf)
  * Palette will contain an automatic button, which can be used to 
  * select @default_color. This widget supports color drag and drop.
  *
- * returns a #GtkWidget.
+ * Returns: a #GtkWidget.
  **/
 GtkWidget *
 go_color_selector_new (GOColor initial_color, 
@@ -330,7 +330,7 @@ go_color_selector_new (GOColor initial_color,
  * Sets current selection to @color. An "activate" signal will be emited.
  * Selector has to be a selector created via @go_color_selector_new.
  *
- * returns TRUE if selection changed.
+ * Returns: TRUE if selection changed.
  **/
 gboolean
 go_color_selector_set_color (GOSelector *selector, GOColor color)

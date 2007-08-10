@@ -472,9 +472,9 @@ go_action_combo_stack_truncate (GOActionComboStack *a, unsigned n)
  * go_action_combo_stack_selection :
  * @a : #GOActionComboStack
  *
- * Returns the key of the item last selected in one of the proxies.
- * Yes this interface is terrible, but we can't return the key in the activate
- * signal.
+ * Returns: the key of the item last selected in one of the proxies.
+ * 	Yes this interface is terrible, but we can't return the key in the
+ * 	activate signal.
  *
  * NOTE : see writeup in cb_tool_popped.
  **/

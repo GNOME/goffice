@@ -29,8 +29,20 @@ G_BEGIN_DECLS
 
 void	   go_gtk_editable_enters (GtkWindow *window, GtkWidget *w);
 
-GladeXML  *go_libglade_new (char const *gladefile, char const *root,
-			    char const *domain, GOCmdContext *cc);
+/* go_libglade_new deprecated in 0.4.3, will be removed in 0.5.x */
+#define go_libglade_new	go_glade_new
+GladeXML  *go_glade_new		   	   (char const *gladefile, char const *root,
+					    char const *domain, GOCmdContext *cc);
+gulong	   go_glade_signal_connect	   (GladeXML *gui,
+					    gchar const *instance_name,
+					    gchar const *detailed_signal,
+					    GCallback	 c_handler,
+					    gpointer	 data);
+gulong	   go_glade_signal_connect_swapped (GladeXML *gui,
+					    gchar const *instance_name,
+					    gchar const *detailed_signal,
+					    GCallback	 c_handler,
+					    gpointer	 data);
 
 GdkPixbuf *go_pixbuf_new_from_file	(char const *filename);
 GdkPixbuf *go_pixbuf_intelligent_scale	(GdkPixbuf *pixbuf, 

@@ -426,10 +426,10 @@ static long double beyond_precisionl;
 static GHashTable *style_format_hash = NULL;
 
 /* used to generate formats when delocalizing so keep the leadings caps */
-static const struct {
+static struct {
 	char const *name;
 	GOColor	go_color;
-} format_colors[] = {
+} const format_colors[] = {
 	{ N_("Black"),	 RGBA_BLACK },
 	{ N_("Blue"),	 RGBA_BLUE },
 	{ N_("Cyan"),	 RGBA_CYAN },
@@ -441,18 +441,21 @@ static const struct {
 };
 
 /*
- * Parse [CcolorName].
+ * go_format_parse_color :
+ * @str :
+ * @color :
+ * @n :
+ * @named :
  *
- * Return TRUE, if ok.  Then @color will be filled in, and @n will be
- * a number 0-7 for standard colors.
- *
- * Returns FALSE otherwise and @color will be zeroed.
- */
+ * Return: TRUE, if ok.  Then @color will be filled in, and @n will be
+ * 	a number 0-7 for standard colors.
+ *	Returns FALSE otherwise and @color will be zeroed.
+ **/
 static gboolean
-go_format_parse_color (const char *str, GOColor *color,
+go_format_parse_color (char const *str, GOColor *color,
 		       int *n, gboolean *named)
 {
-	const char *close;
+	char const *close;
 	unsigned int ui;
 
 	*color = 0;
@@ -3441,7 +3444,7 @@ go_format_str_localize (char const *str)
  *
  * Increaseds the displayed precision for @fmt by one digit.
  *
- * Returns NULL if the new format would not change things
+ * Returns: NULL if the new format would not change things
  **/
 GOFormat *
 go_format_inc_precision (GOFormat const *fmt)
@@ -3513,7 +3516,7 @@ go_format_inc_precision (GOFormat const *fmt)
  *
  * Decreases the displayed precision for @fmt by one digit.
  *
- * Returns NULL if the new format would not change things
+ * Returns: NULL if the new format would not change things
  **/
 GOFormat *
 go_format_dec_precision (GOFormat const *fmt)
@@ -3978,11 +3981,11 @@ go_format_unref (GOFormat *gf)
  * go_format_is_general
  * @fmt: Format to query
  *
- * Returns TRUE if the format is "General", possibly with condition,
- * color, and/or locale.  ("xGeneral" is thus not considered to be General
- * for the purpose of this function.)
- * Returns FALSE otherwise.
- */
+ * Returns: TRUE if the format is "General", possibly with condition,
+ * 	color, and/or locale.  ("xGeneral" is thus not considered to be General
+ * 	for the purpose of this function.)
+ *	Returns FALSE otherwise.
+ **/
 gboolean
 go_format_is_general (GOFormat const *fmt)
 {
@@ -3995,8 +3998,8 @@ go_format_is_general (GOFormat const *fmt)
  * go_format_is_markup
  * @fmt: Format to query
  *
- * Returns TRUE if the format is a markup format
- * Returns FALSE otherwise.
+ * Returns: TRUE if the format is a markup format
+ * 	Returns FALSE otherwise.
  */
 gboolean
 go_format_is_markup (GOFormat const *fmt)
@@ -4010,9 +4013,9 @@ go_format_is_markup (GOFormat const *fmt)
  * go_format_is_text
  * @fmt: Format to query
  *
- * Returns TRUE if the format is a text format
- * Returns FALSE otherwise.
- */
+ * Returns: TRUE if the format is a text format
+ * 	Returns FALSE otherwise.
+ **/
 gboolean
 go_format_is_text (GOFormat const *fmt)
 {
@@ -4025,9 +4028,9 @@ go_format_is_text (GOFormat const *fmt)
  * go_format_is_var_width
  * @fmt: Format to query
  *
- * Returns TRUE if the format is variable width, i.e., can stretch.
- * Returns FALSE otherwise.
- */
+ * Returns: TRUE if the format is variable width, i.e., can stretch.
+ * 	Returns FALSE otherwise.
+ **/
 gboolean
 go_format_is_var_width (GOFormat const *fmt)
 {
@@ -4057,10 +4060,10 @@ go_format_is_var_width (GOFormat const *fmt)
  * go_format_is_date:
  * @fmt: Format to query
  *
- * Returns TRUE if the format is a date format.
- * Returns FALSE if the format is not a date format.
- * Returns -1 if the format is inconsistent.
- */
+ * Returns: TRUE if the format is a date format.
+ * 	Returns FALSE if the format is not a date format.
+ * 	Returns -1 if the format is inconsistent.
+ **/
 int
 go_format_is_date (GOFormat const *fmt)
 {

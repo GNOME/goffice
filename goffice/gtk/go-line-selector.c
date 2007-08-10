@@ -75,7 +75,7 @@ go_line_dash_palette_get_tooltip_func (int index, void *data)
  *
  * Creates a new line type selector.
  *
- * Returns a new #GtkWidget.
+ * Returns: a new #GtkWidget.
  **/
 GtkWidget *
 go_line_dash_selector_new (GOLineDashType initial_type,

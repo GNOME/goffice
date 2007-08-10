@@ -94,8 +94,8 @@ go_pattern_as_str (GOPatternType pattern)
  * @pat : #GOPattern
  * @color : #GOColor
  * 
- * Returns if @pat is solid, and stores the color in @color.
- * If @pat is not solid @color is not touched.
+ * Returns: if @pat is solid, and stores the color in @color.
+ * 	If @pat is not solid @color is not touched.
  **/
 gboolean
 go_pattern_is_solid (GOPattern const *pat, GOColor *color)
@@ -148,8 +148,9 @@ go_pattern_get_pattern (GOPattern const *pat)
  * If width != NULL, returns pattern width.
  * If height != NULL, returns pattern height.
  *
- * returns: a #char buffer.
+ * Returns: a #char buffer.
  **/
+#warning change interface and check all callers for 0.5.0
 /* FIXME FIXME FIXME This result is actually an xmlChar we could run into trouble with g_free vs xmlFree.  Can we change the interface ? */
 char *
 go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height)

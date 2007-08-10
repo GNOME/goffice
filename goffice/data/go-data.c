@@ -114,7 +114,7 @@ go_data_dup (GOData const *src)
  * @a : #GOData
  * @b : #GOData
  *
- * Returns TRUE if @a and @b are the same
+ * Returns: TRUE if @a and @b are the same
  **/
 gboolean
 go_data_eq (GOData const *a, GOData const *b)
@@ -136,11 +136,12 @@ go_data_eq (GOData const *a, GOData const *b)
 }
 
 /**
- * go_data_prefered_fmt :
+ * go_data_preferred_fmt :
  * @dat : #GOData
  *
  * Caller is responsible for unrefing the result.
- * Returns the fmt preferred by the the data
+ *
+ * Returns: the fmt preferred by the the data
  **/
 GOFormat *
 go_data_preferred_fmt (GOData const *dat)
@@ -175,7 +176,8 @@ go_data_as_str (GOData const *dat)
  * @str :
  *
  * De-serializes the source information returned from go_data_as_str.
- * Returns FALSE on error.
+ *
+ * Returns: FALSE on error.
  **/
 gboolean
 go_data_from_str (GOData *dat, char const *str)
