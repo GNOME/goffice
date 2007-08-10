@@ -99,7 +99,6 @@ goffice_reqs="
 goffice_gtk_reqs="
 	gtk+-2.0		>= 2.6.0
 	libglade-2.0		>= 2.3.6
-	libgnomeprint-2.2	>= 2.8.2
 "
 goffice_gnome_reqs="
 	gconf-2.0

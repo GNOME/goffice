@@ -1,5 +1,11 @@
 2007-08-10  Jody Goldberg <jody@gnome.org>
 
+	* goffice/graph/Makefile.am : remove gog-renderer-gnome-print
+	* libgoffice-0.5.pc.in : bump from 0.4 -> 0.5 and drop gnomeprint
+	* configure.in : drop gnomeprint req
+
+2007-08-10  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : Post release bump to 0.5.0
 
 2007-08-10  Jody Goldberg <jody@gnome.org>
