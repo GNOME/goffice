@@ -26,7 +26,6 @@
 #include <gdk/gdkwindow.h>
 #include <goffice/goffice.h>
 #include <goffice/app/goffice-app.h>
-#include <libgnomeprint/gnome-print.h>
 
 G_BEGIN_DECLS
 
