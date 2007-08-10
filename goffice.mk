@@ -5,6 +5,6 @@ AM_CPPFLAGS = \
 	-DGOFFICE_COMPILATION
 
 GOFFICE_PLUGIN_FLAGS = $(GOFFICE_PLUGIN_LDFLAGS)
-goffice_include_dir = $(includedir)/libgoffice-0.4/goffice
+goffice_include_dir = $(includedir)/libgoffice-0.5/goffice
 
 include $(top_srcdir)/goffice-win32.mk
