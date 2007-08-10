@@ -1,5 +1,9 @@
 2007-08-10  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : Post release bump to 0.5.0
+
+2007-08-10  Jody Goldberg <jody@gnome.org>
+
 	* Release 0.4.3	(Branch point for 0.5.0)
 
 2007-08-07  Morten Welinder  <terra@gnome.org>
