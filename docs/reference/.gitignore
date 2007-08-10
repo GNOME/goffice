@@ -1,3 +1,4 @@
+*.bak
 html
 xml
 Makefile
@@ -13,3 +14,4 @@ goffice.interfaces
 goffice.prerequisites
 goffice.signals
 version.xml
+.libs

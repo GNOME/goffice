@@ -3,3 +3,7 @@ Makefile
 .deps
 plot-types.xml
 plugin.xml
+*.lo
+*.loT
+*.la
+.libs

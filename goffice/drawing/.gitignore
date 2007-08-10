@@ -1,7 +1,8 @@
 Makefile.in
 Makefile
 .deps
-plot-types.xml
-plugin.xml
+.libs
+*.def
 *.lo
-*.loT
+*.la
+*.gladep

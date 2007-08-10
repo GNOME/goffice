@@ -1,7 +1,8 @@
 Makefile.in
 Makefile
 .deps
-*.gladep
-*.lo
-*.loT
+.libs
 *.def
+*.lo
+*.la
+*.gladep

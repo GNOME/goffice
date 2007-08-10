@@ -1,3 +1,5 @@
+.deps
+.libs
 goffice-config.h
 goffice-config.h.in
 goffice-features.h
@@ -9,3 +11,5 @@ stamp-h*
 *.exp
 *.lib
 *.def
+*.lo
+*.la

@@ -1,0 +1,10 @@
+go-marshalers.c
+go-marshalers.h
+Makefile.in
+Makefile
+.deps
+.libs
+*.def
+*.lo
+*.la
+*.gladep

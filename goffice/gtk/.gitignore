@@ -2,5 +2,7 @@ Makefile.in
 Makefile
 .deps
 .libs
-reg-types.xml
-plugin.xml
+*.def
+*.lo
+*.la
+*.gladep
