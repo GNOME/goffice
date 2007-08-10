@@ -1,5 +1,12 @@
 2007-08-10  Jean Brefort  <jean.brefort@normalesup.org>
 
+
+	* goffice/component/go-component.c: removed all rendering functions
+	and replace by go_component_render using a cairo_t*.
+	* goffice/component/go-component.h: ditto.
+
+2007-08-10  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/cut-n-paste/foocanvas/Makefile.am: fix headers path
 	from 0.4 to 0.5.
 	* goffice/goffice.c: (libgoffice_init): rename dll (0-4->0-5).

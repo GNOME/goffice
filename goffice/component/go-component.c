@@ -269,28 +269,16 @@ go_component_set_size (GOComponent *component, double width, double height)
 }
 
 void
-go_component_draw_cairo (GOComponent *component, gpointer data,
-												double width, double height)
+go_component_render (GOComponent *component, cairo_t *cr,
+			double width, double height)
 {
 	GOComponentClass *klass;
 
 	g_return_if_fail (IS_GO_COMPONENT (component));
 
 	klass = GO_COMPONENT_GET_CLASS(component);
-	if (klass->draw_cairo)
-		klass->draw_cairo (component, data, width, height);
-}
-
-void
-go_component_draw (GOComponent *component, int width_pixels, int height_pixels)
-{
-	GOComponentClass *klass;
-
-	g_return_if_fail (IS_GO_COMPONENT (component));
-
-	klass = GO_COMPONENT_GET_CLASS(component);
-	if (klass->draw)
-		klass->draw (component, width_pixels, height_pixels);
+	if (klass->render)
+		klass->render (component, cr, width, height);
 }
 
 gboolean
@@ -321,38 +309,12 @@ go_component_edit (GOComponent *component)
 }
 
 void
-go_component_print (GOComponent *component, GnomePrintContext *gpc,
-												double width, double height)
-{
-	GOComponentClass *klass;
-
-	g_return_if_fail (IS_GO_COMPONENT (component));
-
-	klass = GO_COMPONENT_GET_CLASS(component);
-	if (klass->print)
-		klass->print (component, gpc, width, height);
-}
-
-void
 go_component_emit_changed (GOComponent *component)
 {
 	g_return_if_fail (IS_GO_COMPONENT (component));
 
 	g_signal_emit (G_OBJECT (component),
 		go_component_signals [CHANGED], 0);
-}
-
-char *
-go_component_export_to_svg (GOComponent *component)
-{
-	GOComponentClass *klass;
-
-	g_return_val_if_fail (IS_GO_COMPONENT (component), NULL);
-
-	klass = GO_COMPONENT_GET_CLASS(component);
-	if (klass->export_to_svg)
-		return klass->export_to_svg (component);
-	return NULL;
 }
 
 static GOCmdContext *goc_cc;

@@ -58,12 +58,8 @@ struct _GOComponentClass {
 	void (*set_pixbuf) (GOComponent *component);
 	void (*set_size) (GOComponent *component);
 	void (*set_window) (GOComponent *component);
-	void (*draw_cairo) (GOComponent *component, gpointer data,
+	void (*render) (GOComponent *component, cairo_t *cr,
 			    double width, double height);
-	void (*print) (GOComponent *component, GnomePrintContext *gpc,
-		       double width, double height);
-	void (*draw) (GOComponent *component, int width_pixels, int height_pixels);
-	char *(*export_to_svg) (GOComponent *component);
 
 	/* signals */
 	void (*changed) (GOComponent* component);
@@ -90,17 +86,14 @@ void go_component_set_data (GOComponent *component,
 gboolean go_component_get_data (GOComponent *component, gpointer *data, int *length,
 				void (**clearfunc) (gpointer data), gpointer *user_data);
 void go_component_set_size (GOComponent *component, double width, double height);
-void go_component_draw (GOComponent *component, int width_pixels, int height_pixels);
 gboolean go_component_is_resizable (GOComponent *component);
 gboolean go_component_is_editable (GOComponent *component);
 gboolean go_component_edit (GOComponent *component);
-void go_component_print (GOComponent *component, GnomePrintContext *gpc, double width, double height);
 void go_component_emit_changed (GOComponent *component);
-char *go_component_export_to_svg (GOComponent *component);
 
 void go_component_set_command_context (GOCmdContext *cc);
 GOCmdContext *go_component_get_command_context (void);
-void go_component_draw_cairo (GOComponent *component, gpointer data, double width, double height);
+void go_component_render (GOComponent *component, cairo_t *cr, double width, double height);
 
 G_END_DECLS
 
