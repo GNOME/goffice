@@ -47,7 +47,7 @@ sub copy_subsystem {
     while (<SRC>) {
 	next if /^pkgconfig/ ... !/\\\s*$/;
 
-	s|/libfoocanvas-1.0/libfoocanvas|/libgoffice-0.4/goffice/cut-n-paste/foocanvas/|;
+	s|/libfoocanvas-1.0/libfoocanvas|/libgoffice-0.5/goffice/cut-n-paste/foocanvas/|;
 	s|\$\(LIBFOOCANVAS_CFLAGS\)|\$\(GOFFICE_CFLAGS\)|;
 	s/lib_LTLIBRARIES/noinst_LTLIBRARIES/;
 
