@@ -528,7 +528,7 @@ GTK_DOC_CHECK([1.4])
 
 AC_CONFIG_FILES([
 Makefile
-libgoffice-0.4.pc
+libgoffice-0.5.pc
 goffice/Makefile
 goffice/app/Makefile
 goffice/utils/Makefile
