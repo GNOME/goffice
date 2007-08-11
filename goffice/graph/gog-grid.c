@@ -80,15 +80,15 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogGrid *grid = GOG_GRID (view->model);
 	GogChart *chart = GOG_CHART (gog_object_get_parent (view->model));
-	
+
 	gog_renderer_push_style (view->renderer, grid->base.style);
 	switch (gog_chart_get_axis_set (chart)) {
 		case GOG_AXIS_SET_X:
 		case GOG_AXIS_SET_XY:
-		case GOG_AXIS_SET_XY_COLOR: 
+		case GOG_AXIS_SET_XY_COLOR:
 		case GOG_AXIS_SET_XY_BUBBLE: {
 			ArtVpath path[6];
-			
+
 			path[0].code = ART_MOVETO;
 			path[1].code = ART_LINETO;
 			path[2].code = ART_LINETO;
@@ -97,8 +97,8 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 			path[5].code = ART_END;
 			path[0].x = path[1].x = path[4].x = view->allocation.x;
 			path[2].x = path[3].x = path[0].x + view->allocation.w;
-			path[0].y = path[3].y = path[4].y = view->allocation.y; 
-			path[1].y = path[2].y = path[0].y + view->allocation.h; 
+			path[0].y = path[3].y = path[4].y = view->allocation.y;
+			path[1].y = path[2].y = path[0].y + view->allocation.h;
 
 			gog_renderer_draw_sharp_polygon (view->renderer, path, FALSE);
 			break;
@@ -110,10 +110,11 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 			GogAxisMap *map;
 			GogChartMapPolarData *parms;
 			GSList *axis_list;
-			ArtVpath *path;
+			GOPath *path;
 			double position, start, stop;
+			double x, y;
 			unsigned step_nbr, i;
-		       
+
 			axis_list = gog_chart_get_axes (chart, GOG_AXIS_CIRCULAR);
 			if (axis_list == NULL)
 				break;
@@ -131,29 +132,30 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 			map = gog_chart_map_get_axis_map (c_map, 1);
 			gog_axis_map_get_extents (map, &start, &position);
 
+			path = go_path_new ();
+
 			if (gog_axis_is_discrete (c_axis)) {
 				map = gog_chart_map_get_axis_map (c_map, 0);
 				gog_axis_map_get_extents (map, &start, &stop);
 				step_nbr = go_rint (parms->th1 - parms->th0) + 1;
-				path = art_new (ArtVpath, step_nbr + 2);
 				for (i = 0; i <= step_nbr; i++) {
-					gog_chart_map_2D_to_view (c_map, i + parms->th0, 
-								  position, &path[i].x, &path[i].y);
-					path[i].code = ART_LINETO;
+					gog_chart_map_2D_to_view (c_map, i + parms->th0, position, &x, &y);
+					if (i == 0)
+						go_path_move_to (path, x, y);
+					else
+						go_path_line_to (path, x, y);
 				}
-				path[0].code = ART_MOVETO;
-				path[step_nbr + 1].code = ART_END;
-				gog_renderer_draw_polygon (view->renderer, path, FALSE);
-				g_free (path);
 			} else {
-				double a = gog_axis_map (map, position); 
-				gog_renderer_draw_pie_wedge (view->renderer, parms->cx, parms->cy,
-							     parms->rx * a, parms->ry * a,
-							     -parms->th1, -parms->th0, FALSE);
+				double a = gog_axis_map (map, position);
+				go_path_pie_wedge (path, parms->cx, parms->cy,
+						   parms->rx * a, parms->ry * a,
+						   -parms->th1, -parms->th0);
 			}
+			gog_renderer_draw_shape (view->renderer, path);
+			go_path_free (path);
 			gog_chart_map_free (c_map);
 			break;
-			}
+					 }
 		case GOG_AXIS_SET_XYZ:
 		case GOG_AXIS_SET_XY_pseudo_3d:
 		case GOG_AXIS_SET_FUNDAMENTAL:

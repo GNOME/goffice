@@ -97,27 +97,16 @@ double gog_renderer_get_hairline_width_pts	(GogRenderer const *r);
 
 void  gog_renderer_stroke_serie    	(GogRenderer *renderer, GOPath const *path);
 void  gog_renderer_fill_serie		(GogRenderer *renderer, GOPath const *path, GOPath const *close_path);
+void  gog_renderer_draw_shape 		(GogRenderer *renderer, GOPath const *path);
+void  gog_renderer_stroke_shape		(GogRenderer *renderer, GOPath const *path);
+void  gog_renderer_fill_shape 		(GogRenderer *renderer, GOPath const *path);
 
 ArtVpath * gog_renderer_get_rectangle_vpath 	(GogViewAllocation const *rect);
-ArtBpath * gog_renderer_get_ring_wedge_bpath	(double cx, double cy,
-						 double rx_out, double ry_out,
-						 double rx_in, double ry_in,
-						 double th0, double th1);
 
 void  gog_renderer_draw_sharp_path	(GogRenderer *rend, ArtVpath *path);
 void  gog_renderer_draw_sharp_polygon   (GogRenderer *rend, ArtVpath *path, gboolean narrow);
 void  gog_renderer_draw_sharp_rectangle (GogRenderer *r, GogViewAllocation const *rect);
 
-#define gog_renderer_draw_arc(r,cx,cy,rx,ry,th0,th1) \
-	gog_renderer_draw_ring_wedge (r,cx,cy,rx,ry,-1.,-1.,th0,th1,FALSE)
-#define gog_renderer_draw_pie_wedge(r,cx,cy,rx,ry,th0,th1,narrow) \
-	gog_renderer_draw_ring_wedge (r,cx,cy,rx,ry,0.,0.,th0,th1,narrow)
-
-void  gog_renderer_draw_ring_wedge  	(GogRenderer *rend, double cx, double cy,
-					 double rx_out, double ry_out,
-					 double rx_in, double ry_in,
-					 double th0, double th1,
-					 gboolean narrow);
 void  gog_renderer_draw_path      	(GogRenderer *rend, ArtVpath const *path);
 void  gog_renderer_draw_polygon   	(GogRenderer *rend, ArtVpath const *path, gboolean narrow);
 void  gog_renderer_draw_rectangle 	(GogRenderer *rend, GogViewAllocation const *rect);

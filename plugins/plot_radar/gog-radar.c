@@ -45,7 +45,7 @@
 #include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkcombobox.h>
-#endif 
+#endif
 
 typedef struct {
 	GogPlotClass	base;
@@ -53,7 +53,8 @@ typedef struct {
 
 enum {
 	PLOT_PROP_0,
-	PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS
+	PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS,
+	PLOT_PROP_DEFAULT_STYLE_HAS_FILL
 };
 
 GOFFICE_PLUGIN_MODULE_HEADER;
@@ -99,6 +100,9 @@ gog_rt_plot_set_property (GObject *obj, guint param_id,
 	case PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS:
 		rt->default_style_has_markers = g_value_get_boolean (value);
 		break;
+	case PLOT_PROP_DEFAULT_STYLE_HAS_FILL:
+		rt->default_style_has_fill = g_value_get_boolean (value);
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
@@ -117,6 +121,9 @@ gog_rt_plot_get_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS:
 		g_value_set_boolean (value, rt->default_style_has_markers);
+		break;
+	case PLOT_PROP_DEFAULT_STYLE_HAS_FILL:
+		g_value_set_boolean (value, rt->default_style_has_fill);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -189,12 +196,19 @@ gog_rt_plot_class_init (GogPlotClass *gog_plot_klass)
 	gog_object_klass->update	= gog_rt_plot_update;
 	gog_object_klass->view_type	= gog_rt_view_get_type ();
 
-	g_object_class_install_property (gobject_klass, 
-					 PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS,
-		g_param_spec_boolean ("default-style-has-markers", 
+	g_object_class_install_property (gobject_klass,
+		PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS,
+		g_param_spec_boolean ("default-style-has-markers",
 			_("Default markers"),
 			_("Should the default style of a series include markers"),
-			FALSE, 
+			FALSE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass,
+		PLOT_PROP_DEFAULT_STYLE_HAS_FILL,
+		g_param_spec_boolean ("default-style-has-fill",
+			_("Default fill"),
+			_("Should the default style of a series include fill"),
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	/* Fill in GogPlotClass methods */
@@ -211,6 +225,7 @@ gog_rt_plot_init (GogRTPlot *rt)
 {
 	rt->base.vary_style_by_element = FALSE;
 	rt->default_style_has_markers = FALSE;
+	rt->default_style_has_fill = FALSE;
 	rt->num_elements = 0;
 }
 
@@ -471,8 +486,9 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 		c_vals = is_polar ?  go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data)) : NULL;
 
 		if (is_polar) {
-			bpath = gog_renderer_get_ring_wedge_bpath (parms->cx, parms->cy, parms->rx, parms->ry,
-								   0.0, 0.0, -parms->th0, -parms->th1);
+#warning Restore clipping
+/*                        bpath = gog_renderer_get_ring_wedge_bpath (parms->cx, parms->cy, parms->rx, parms->ry,*/
+/*                                                                   0.0, 0.0, -parms->th0, -parms->th1);*/
 			if (bpath != NULL) {
 				clip_path = art_bez_path_to_vec (bpath, .1);
 				gog_renderer_push_clip (view->renderer, clip_path);
@@ -723,9 +739,11 @@ gog_rt_series_init_style (GogStyledObject *gso, GogStyle *style)
 
 	plot = GOG_RT_PLOT (series->plot);
 
-	if (!plot->default_style_has_markers &&
-	    style->marker.auto_shape) 
+	if (!plot->default_style_has_markers && style->marker.auto_shape)
 		go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
+
+	if (!plot->default_style_has_fill && style->fill.auto_type)
+		style->fill.type = GOG_FILL_STYLE_NONE;
 }
 
 static void

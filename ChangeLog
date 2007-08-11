@@ -1,3 +1,26 @@
+2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Swith to GOPath API for ring wedge shapes. Improve size of exported
+	graphs.
+
+	* goffice/graph/gog-axis-line.c (axis_circle_render): use GOPath API.
+	* goffice/graph/gog-grid-line.c (gog_grid_line_radial_render): ditto.
+	(gog_grid_line_circular_render): ditto.
+	* goffice/graph/gog-grid.c (gog_grid_view_render): ditto.
+	* goffice/graph/gog-renderer.c (emit_line), (emit_outline),
+	(emit_fill): clear current if !preserve on early exit.
+	(_draw_shape): new.
+	(gog_renderer_draw_shape), (gog_renderer_fill_shape),
+	gog_renderer_stroke_shape): new.
+	(emit_stroke): renamed to emit_line.
+	(gog_renderer_get_ring_wedge_bpath): removed.
+	(gog_renderer_draw_ring_wedge): removed.
+	* goffice/utils/go-path.c (go_path_ring_wedge): always begin with a
+	move_to.
+	* plugins/plot_radar/gog-radar.c: add a default_style_has_fill
+	property, like XY plots. 
+	(gog_rt_view_render): disable clipping for now.
+
 2007-08-03  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Rename gog_renderer_serie_stroke and gog_renderer_serie_fill to

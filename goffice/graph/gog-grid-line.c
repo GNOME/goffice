@@ -254,7 +254,7 @@ gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
 }
 
 static void
-gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view, 
+gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 			     GogAxis *axis, GogAxisTick *ticks, unsigned int tick_nbr,
 			     GogChart *chart,
 			     GogViewAllocation const *plot_area,
@@ -265,7 +265,8 @@ gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 	GogChartMap *c_map;
 	GogChartMapPolarData *parms;
 	GSList *axis_list;
-	ArtVpath *c_path;
+	GOPath *path;
+	double x, y;
 	unsigned int i, j;
 	gboolean stripe_started = FALSE;
 
@@ -275,9 +276,10 @@ gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 	circular_axis = GOG_AXIS (axis_list->data);
 	g_slist_free (axis_list);
 
-	c_map = gog_chart_map_new (GOG_CHART (chart), plot_area, 
+	c_map = gog_chart_map_new (GOG_CHART (chart), plot_area,
 				   circular_axis, axis, NULL, FALSE);
 	parms = gog_chart_map_get_polar_parms (c_map);
+	path = go_path_new ();
 
 	if (gog_axis_is_discrete (circular_axis)) {
 		unsigned step_nbr;
@@ -288,31 +290,30 @@ gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 		gog_axis_map_get_extents (map, &start, &stop);
 		step_nbr = go_rint (parms->th1 - parms->th0) + 1;
 		if (stripes) {
-			c_path = art_new (ArtVpath, 2 * step_nbr + 3);
 			for (i = 0; i < tick_nbr; i++) {
 				if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
 				    grid_line->is_minor) {
 					if (stripe_started) {
 						for (j = 0; j <= step_nbr; j++) {
-							gog_chart_map_2D_to_view (c_map, 
-										  j + parms->th0 , 
-										  ticks[i].position, 
-										  &c_path[-j + 2 * step_nbr + 1].x,
-										  &c_path[-j + 2 * step_nbr + 1].y);
-							c_path[-j + 2 * step_nbr + 1].code = ART_LINETO;
+							gog_chart_map_2D_to_view (c_map,
+										  step_nbr - j + parms->th0 ,
+										  ticks[i].position,
+										  &x, &y);
+							go_path_line_to (path, x, y);
 						}
-						c_path[2 * step_nbr + 2].code = ART_END;
-						gog_renderer_draw_polygon (view->renderer, c_path, TRUE);
+						go_path_close (path);
 						stripe_started = FALSE;
 					} else {
 						for (j = 0; j <= step_nbr; j++) {
-							gog_chart_map_2D_to_view (c_map, 
-										  j + parms->th0 , 
-										  ticks[i].position, 
-										  &c_path[j].x, &c_path[j].y);
-							c_path[j].code = ART_LINETO;
+							gog_chart_map_2D_to_view (c_map,
+										  j + parms->th0 ,
+										  ticks[i].position,
+										  &x, &y);
+							if (j == 0)
+								go_path_move_to (path, x, y);
+							else
+								go_path_line_to (path, x, y);
 						}
-						c_path[0].code = ART_MOVETO;
 						stripe_started = TRUE;
 					}
 				}
@@ -321,35 +322,31 @@ gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 				map = gog_chart_map_get_axis_map (c_map, 1);
 				gog_axis_map_get_bounds (map, &minimum, &maximum);
 				for (j = 0; j <= step_nbr; j++) {
-					gog_chart_map_2D_to_view (c_map, 
-								  j + parms->th0 , 
-								  maximum, 
-								  &c_path[-j + 2 * step_nbr + 1].x,
-								  &c_path[-j + 2 * step_nbr + 1].y);
-					c_path[-j + 2 * step_nbr + 1].code = ART_LINETO;
+					gog_chart_map_2D_to_view (c_map, step_nbr - j + parms->th0 ,
+								  maximum, &x, &y);
+					go_path_line_to (path, x, y);
 				}
-				c_path[2 * step_nbr + 2].code = ART_END;
-				gog_renderer_draw_polygon (view->renderer, c_path, TRUE);
+				go_path_close (path);
 			}
+			gog_renderer_fill_shape (view->renderer, path);
 		} else {
-			c_path = art_new (ArtVpath, step_nbr + 2);
 			for (i = 0; i < tick_nbr; i++) {
 				if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
 				    (ticks[i].type == GOG_AXIS_TICK_MINOR && grid_line->is_minor)) {
 					for (j = 0; j <= step_nbr; j++) {
-						gog_chart_map_2D_to_view (c_map, 
-									  j + parms->th0 , 
-									  ticks[i].position, 
-									  &c_path[j].x, &c_path[j].y);
-						c_path[j].code = ART_LINETO;
+						gog_chart_map_2D_to_view (c_map,
+									  j + parms->th0 ,
+									  ticks[i].position,
+									  &x, &y);
+						if (j == 0)
+							go_path_move_to (path, x, y);
+						else
+							go_path_line_to (path, x, y);
 					}
-					c_path[0].code = ART_MOVETO;
-					c_path[step_nbr + 1].code = ART_END;
-					gog_renderer_draw_path (view->renderer, c_path);
 				}
 			}
+			gog_renderer_stroke_shape (view->renderer, path);
 		}
-		g_free (c_path);
 	} else {
 		double position;
 		double previous_position = 0;
@@ -357,19 +354,18 @@ gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 
 		map = gog_chart_map_get_axis_map (c_map, 1);
 		if (stripes) {
-			for (i = 0; i < tick_nbr; i++) { 
+			for (i = 0; i < tick_nbr; i++) {
 				if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
 				    grid_line->is_minor) {
 					position = gog_axis_map (map, ticks[i].position);
 					if (stripe_started) {
-						gog_renderer_draw_ring_wedge (view->renderer, 
-									      parms->cx, parms->cy,
-									      position * parms->rx, 
-									      position * parms->ry,
-									      previous_position * parms->rx, 
-									      previous_position * parms->ry,
-									      -parms->th1, -parms->th0,
-									      TRUE);
+						go_path_ring_wedge (path,
+								    parms->cx, parms->cy,
+								    position * parms->rx,
+								    position * parms->ry,
+								    previous_position * parms->rx,
+								    previous_position * parms->ry,
+								    -parms->th1, -parms->th0);
 						stripe_started = FALSE;
 					} else {
 						previous_position = position;
@@ -380,28 +376,30 @@ gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 			if (stripe_started) {
 				gog_axis_map_get_bounds (map, &minimum, &maximum);
 				position = gog_axis_map (map, maximum);
-				gog_renderer_draw_ring_wedge (view->renderer, 
-							      parms->cx, parms->cy,
-							      position * parms->rx, 
-							      position * parms->ry,
-							      previous_position * parms->rx, 
-							      previous_position * parms->ry,
-							      -parms->th1, -parms->th0,
-							      TRUE);
+				go_path_ring_wedge (path,
+						    parms->cx, parms->cy,
+						    position * parms->rx,
+						    position * parms->ry,
+						    previous_position * parms->rx,
+						    previous_position * parms->ry,
+						    -parms->th1, -parms->th0);
 			}
+			gog_renderer_fill_shape (view->renderer, path);
 		} else {
-			for (i = 0; i < tick_nbr; i++) { 
+			for (i = 0; i < tick_nbr; i++) {
 				if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
 				    (ticks[i].type == GOG_AXIS_TICK_MINOR && grid_line->is_minor)) {
 					position = gog_axis_map (map, ticks[i].position);
-					gog_renderer_draw_arc (view->renderer, parms->cx, parms->cy,
-							       position * parms->rx, 
-							       position * parms->ry,
-							       -parms->th1, -parms->th0);
+					go_path_arc (path, parms->cx, parms->cy,
+						     position * parms->rx,
+						     position * parms->ry,
+						     -parms->th1, -parms->th0);
 				}
 			}
+			gog_renderer_stroke_shape (view->renderer, path);
 		}
 	}
+	go_path_free (path);
 	gog_chart_map_free (c_map);
 }
 
@@ -417,8 +415,9 @@ gog_grid_line_circular_render (GogGridLine *grid_line, GogView *view,
 	GogChartMap *c_map;
 	GogChartMapPolarData *parms;
 	GSList *axis_list;
-	ArtVpath path[3];
+	GOPath *path;
 	double start, stop;
+	double x0, y0, x1, y1;
 	unsigned int i;
 	gboolean stripe_started = FALSE;
 
@@ -429,11 +428,13 @@ gog_grid_line_circular_render (GogGridLine *grid_line, GogView *view,
 	radial_axis = GOG_AXIS (axis_list->data);
 	g_slist_free (axis_list);
 
-	c_map = gog_chart_map_new (GOG_CHART (chart), plot_area, 
+	c_map = gog_chart_map_new (GOG_CHART (chart), plot_area,
 				   axis, radial_axis, NULL, FALSE);
 	parms = gog_chart_map_get_polar_parms (c_map);
 	map = gog_chart_map_get_axis_map (c_map, 1);
 	gog_axis_map_get_extents (map, &start, &stop);
+
+	path = go_path_new ();
 
 	if (stripes) {
 		double last_theta = 0, theta, r_in, r_out;
@@ -443,20 +444,19 @@ gog_grid_line_circular_render (GogGridLine *grid_line, GogView *view,
 		r_in = gog_axis_map (map, start);
 		r_out = gog_axis_map (map, stop);
 		map = gog_chart_map_get_axis_map (c_map, 0);
-		for (i = 0; i < tick_nbr; i++) 
+		for (i = 0; i < tick_nbr; i++)
 			if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
 			    grid_line->is_minor) {
 				if (stripe_started) {
 					theta = gog_axis_map (map, ticks[i].position);
-					gog_renderer_draw_ring_wedge (view->renderer, 
-								      parms->cx, parms->cy,
-								      r_in * parms->rx, 
-								      r_in * parms->ry,
-								      r_out * parms->rx, 
-								      r_out * parms->ry,
-								      -parms->th0 - theta * delta_theta,
-								      -parms->th0 - last_theta * delta_theta,
-								      TRUE);
+					go_path_ring_wedge (path,
+							    parms->cx, parms->cy,
+							    r_in * parms->rx,
+							    r_in * parms->ry,
+							    r_out * parms->rx,
+							    r_out * parms->ry,
+							    -parms->th0 - theta * delta_theta,
+							    -parms->th0 - last_theta * delta_theta);
 					stripe_started = FALSE;
 				} else {
 					last_theta = gog_axis_map (map, ticks[i].position);
@@ -466,29 +466,29 @@ gog_grid_line_circular_render (GogGridLine *grid_line, GogView *view,
 		if (stripe_started) {
 			gog_axis_map_get_bounds (map, &minimum, &maximum);
 			theta = gog_axis_map (map, maximum);
-			gog_renderer_draw_ring_wedge (view->renderer, 
-						      parms->cx, parms->cy,
-						      r_in * parms->rx, 
-						      r_in * parms->ry,
-						      r_out * parms->rx, 
-						      r_out * parms->ry,
-						      -parms->th0 - theta * delta_theta,
-						      -parms->th0 - last_theta * delta_theta,
-						      TRUE);
+			go_path_ring_wedge (path,
+					    parms->cx, parms->cy,
+					    r_in * parms->rx,
+					    r_in * parms->ry,
+					    r_out * parms->rx,
+					    r_out * parms->ry,
+					    -parms->th0 - theta * delta_theta,
+					    -parms->th0 - last_theta * delta_theta);
 		}
+		gog_renderer_fill_shape (view->renderer, path);
 	} else {
-		gog_chart_map_2D_to_view (c_map, 0, start, &path[0].x, &path[0].y);
-		path[0].code = ART_MOVETO;
-		path[1].code = ART_LINETO;
-		path[2].code = ART_END;
-		for (i = 0; i < tick_nbr; i++) 
+		gog_chart_map_2D_to_view (c_map, 0, start, &x0, &y0);
+		for (i = 0; i < tick_nbr; i++)
 			if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
 			    (ticks[i].type == GOG_AXIS_TICK_MINOR && grid_line->is_minor)) {
-				gog_chart_map_2D_to_view (c_map, ticks[i].position, stop, 
-							  &path[1].x, &path[1].y);
-				gog_renderer_draw_path (view->renderer, path);
+				gog_chart_map_2D_to_view (c_map, ticks[i].position, stop,
+							  &x1, &y1);
+				go_path_move_to (path, x0, y0);
+				go_path_line_to (path, x1, y1);
 			}
+		gog_renderer_stroke_shape (view->renderer, path);
 	}
+	go_path_free (path);
 	gog_chart_map_free (c_map);
 }
 

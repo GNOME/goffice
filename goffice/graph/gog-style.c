@@ -1447,6 +1447,8 @@ gog_style_fill_load (xmlNode *node, GogStyle *style)
 	style->fill.type = str_as_fill_style (str);
 	xmlFree (str);
 
+	style->fill.auto_type = FALSE;
+
 	if (bool_prop (node, "auto-type", &tmp))
 		style->fill.auto_type = tmp;
 	if (bool_prop (node, "is-auto", &tmp))
@@ -1716,6 +1718,7 @@ static void
 gog_style_sax_load_fill (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GogStyle *style = GOG_STYLE (xin->user_state);
+	style->fill.auto_type = FALSE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "type"))
 			style->fill.type = str_as_fill_style (attrs[1]);

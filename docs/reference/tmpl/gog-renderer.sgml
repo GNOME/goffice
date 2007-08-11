@@ -114,22 +114,6 @@ Multi-backend renderer
 @Returns: 
 
 
-<!-- ##### FUNCTION gog_renderer_get_ring_wedge_bpath ##### -->
-<para>
-
-</para>
-
-@cx: 
-@cy: 
-@rx_out: 
-@ry_out: 
-@rx_in: 
-@ry_in: 
-@th0: 
-@th1: 
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_renderer_draw_sharp_path ##### -->
 <para>
 
@@ -156,23 +140,6 @@ Multi-backend renderer
 
 @r: 
 @rect: 
-
-
-<!-- ##### FUNCTION gog_renderer_draw_ring_wedge ##### -->
-<para>
-
-</para>
-
-@rend: 
-@cx: 
-@cy: 
-@rx_out: 
-@ry_out: 
-@rx_in: 
-@ry_in: 
-@th0: 
-@th1: 
-@narrow: 
 
 
 <!-- ##### FUNCTION gog_renderer_draw_path ##### -->
@@ -275,35 +242,6 @@ Multi-backend renderer
 @text: 
 @use_markup: 
 @aabr: 
-
-
-<!-- ##### MACRO gog_renderer_draw_arc ##### -->
-<para>
-
-</para>
-
-@r: 
-@cx: 
-@cy: 
-@rx: 
-@ry: 
-@th0: 
-@th1: 
-
-
-<!-- ##### MACRO gog_renderer_draw_pie_wedge ##### -->
-<para>
-
-</para>
-
-@r: 
-@cx: 
-@cy: 
-@rx: 
-@ry: 
-@th0: 
-@th1: 
-@narrow: 
 
 
 <!-- ##### FUNCTION gog_renderer_line_size ##### -->

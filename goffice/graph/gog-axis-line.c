@@ -1331,10 +1331,11 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 	GogChartMapPolarData *parms = gog_chart_map_get_polar_parms (c_map);
 	GOGeometryOBR txt_obr, txt_obr_old = {0., 0., 0., 0., 0.};
 	GOGeometryOBR txt_obr_first;
-	ArtVpath *cpath, path[3];
+	GOPath *path;
 	double angle, offset, position, label_padding;
 	double start, stop;
 	double major_tick_len, minor_tick_len, tick_len;
+	double x0, y0, x1, y1;
 	unsigned i, step_nbr, tick_nbr;
 	gboolean draw_major, draw_minor;
 	gboolean is_line_visible;
@@ -1344,33 +1345,25 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 	gog_axis_map_get_extents (map, &offset , &position);
 	map = gog_chart_map_get_axis_map (c_map, 0);
 
+	path = go_path_new ();
+
 	if (is_discrete) {
 		gog_axis_map_get_extents (map, &start, &stop);
 		step_nbr = go_rint (parms->th1 - parms->th0) + 1;
-		cpath = art_new (ArtVpath, step_nbr + 2);
 		for (i = 0; i <= step_nbr; i++) {
-			gog_chart_map_2D_to_view (c_map, i + parms->th0, 
-						  position, &cpath[i].x, &cpath[i].y);
-			cpath[i].code = ART_LINETO;
+			gog_chart_map_2D_to_view (c_map, i + parms->th0, position, &x0, &y0);
+			if (i == 0)
+				go_path_move_to (path, x0, y0);
+			else
+				go_path_line_to (path, x0, y0);
 		}
-		cpath[0].code = ART_MOVETO;
-		cpath[step_nbr + 1].code = ART_END;
-		gog_renderer_draw_path (renderer, cpath);
-		g_free (cpath);
-	} else {
-		gog_renderer_draw_arc (renderer, parms->cx, parms->cy, parms->rx, parms->ry,
-				      -parms->th1, -parms->th0);
-	}
+	} else
+		go_path_arc (path, parms->cx, parms->cy, parms->rx, parms->ry,
+			     -parms->th1, -parms->th0);
 
 	is_line_visible = gog_style_is_line_visible (axis_base->base.style);
 	draw_major = axis_base->major.tick_in || axis_base->major.tick_out;
 	draw_minor = axis_base->minor.tick_in || axis_base->minor.tick_out;
-
-	if (is_line_visible) {
-		path[0].code = ART_MOVETO;
-		path[1].code = ART_LINETO;
-		path[2].code = ART_END;
-	}
 
 	minor_tick_len = gog_renderer_pt2r (renderer, axis_base->minor.size_pts);
 	major_tick_len = gog_renderer_pt2r (renderer, axis_base->major.size_pts);
@@ -1387,38 +1380,40 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 				case GOG_AXIS_TICK_MAJOR:
 					if (draw_major) {
 						gog_chart_map_2D_to_view (c_map, ticks[i].position, position,
-									  &path[0].x, &path[0].y);
+									  &x0, &y0);
 						if (axis_base->major.tick_in) {
-							path[1].x = path[0].x - major_tick_len * cos (angle);
-							path[1].y = path[0].y - major_tick_len * sin (angle);
+							x1 = x0 - major_tick_len * cos (angle);
+							y1 = y0 - major_tick_len * sin (angle);
 						} else {
-							path[1].x = path[0].x;
-							path[1].y = path[0].y;
+							x1 = x0;
+							y1 = y0;
 						}
 						if (axis_base->major.tick_out) {
-							path[0].x += major_tick_len * cos (angle);
-							path[0].y += major_tick_len * sin (angle);
+							x0 += major_tick_len * cos (angle);
+							y0 += major_tick_len * sin (angle);
 						}
-						gog_renderer_draw_path (renderer, path);
+						go_path_move_to (path, x0, y0);
+						go_path_line_to (path, x1, y1);
 					}
 					break;
 
 				case GOG_AXIS_TICK_MINOR:
 					if (draw_minor) {
 						gog_chart_map_2D_to_view (c_map, ticks[i].position, position,
-									  &path[0].x, &path[0].y);
+									  &x0, &y0);
 						if (axis_base->minor.tick_in) {
-							path[1].x = path[0].x - minor_tick_len * cos (angle);
-							path[1].y = path[0].y - minor_tick_len * sin (angle);
+							x1 = x0 - minor_tick_len * cos (angle);
+							y1 = y0 - minor_tick_len * sin (angle);
 						} else {
-							path[1].x = path[0].x;
-							path[1].y = path[0].y;
+							x1 = x0;
+							y1 = y0;
 						}
 						if (axis_base->minor.tick_out) {
-							path[0].x += minor_tick_len * cos (angle);
-							path[0].y += minor_tick_len * sin (angle);
+							x0 += minor_tick_len * cos (angle);
+							y0 += minor_tick_len * sin (angle);
 						}
-						gog_renderer_draw_path (renderer, path);
+						go_path_move_to (path, x0, y0);
+						go_path_line_to (path, x1, y1);
 					}
 					break;
 
@@ -1438,7 +1433,7 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 			label_pos.y += txt_obr.y;
 			txt_obr.x = label_pos.x;
 			txt_obr.y = label_pos.y;
-			if (!first_label_done || 
+			if (!first_label_done ||
 			    (!go_geometry_test_OBR_overlap (&txt_obr, &txt_obr_old) &&
 			     !go_geometry_test_OBR_overlap (&txt_obr, &txt_obr_first))) {
 				gog_renderer_draw_text (renderer, ticks[i].label,
@@ -1451,6 +1446,9 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 			}
 		}
 	}
+
+	gog_renderer_stroke_shape (renderer, path);
+	go_path_free (path);
 }
 
 static gboolean

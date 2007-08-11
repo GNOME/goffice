@@ -29,6 +29,7 @@ G_BEGIN_DECLS
 typedef struct {
 	GogPlot	base;
 	gboolean default_style_has_markers;
+	gboolean default_style_has_fill;
 	unsigned num_elements;
 	struct {
 		double minima, maxima;
@@ -38,7 +39,7 @@ typedef struct {
 typedef GogRTPlot GogRadarPlot;
 
 typedef GogRTPlot GogPolarPlot;
-	
+
 #define GOG_RT_PLOT_TYPE	(gog_rt_plot_get_type ())
 #define GOG_RT_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RT_PLOT_TYPE, GogRTPlot))
 #define GOG_IS_PLOT_RT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RT_PLOT_TYPE))

@@ -279,14 +279,17 @@ gog_renderer_pt2r (GogRenderer const *rend, double d)
 /*****************************************************************************/
 
 static void
-emit_stroke (GogRenderer *rend, gboolean preserve, GOPathOptions options)
+emit_line (GogRenderer *rend, gboolean preserve, GOPathOptions options)
 {
 	GogStyle const *style = rend->cur_style;
 	cairo_t *cr = rend->cairo;
 	double width;
 
-	if (!gog_style_is_line_visible (style))
+	if (!gog_style_is_line_visible (style)) {
+		if (!preserve)
+			cairo_new_path (cr);
 		return;
+	}
 
 	width = _grc_line_size (rend, style->line.width, options & GO_PATH_OPTIONS_SNAP_WIDTH);
 	cairo_set_line_width (cr, width);
@@ -315,8 +318,11 @@ emit_outline (GogRenderer *rend, gboolean preserve, GOPathOptions options)
 	cairo_t *cr = rend->cairo;
 	double width;
 
-	if (!gog_style_is_outline_visible (style))
+	if (!gog_style_is_outline_visible (style)) {
+		if (!preserve)
+			cairo_new_path (cr);
 		return;
+	}
 
 	width = _grc_line_size (rend, style->outline.width, options & GO_PATH_OPTIONS_SNAP_WIDTH);
 	cairo_set_line_width (cr, width);
@@ -375,6 +381,8 @@ emit_fill (GogRenderer *rend, gboolean preserve)
 
 	switch (style->fill.type) {
 		case GOG_FILL_STYLE_NONE:
+			if (!preserve)
+				cairo_new_path (cr);
 			return;
 			break;
 		case GOG_FILL_STYLE_PATTERN:
@@ -650,7 +658,7 @@ gog_renderer_stroke_serie (GogRenderer *renderer,
 
 	if (gog_style_is_line_visible (style)) {
 		path_interpret (renderer, path, width);
-		emit_stroke (renderer, FALSE, go_path_get_options (path));
+		emit_line (renderer, FALSE, go_path_get_options (path));
 	}
 }
 
@@ -671,6 +679,57 @@ gog_renderer_fill_serie (GogRenderer *renderer,
 		fill_path_interpret (renderer, path, close_path);
 		emit_fill (renderer, FALSE);
 	}
+}
+
+static void
+_draw_shape (GogRenderer *renderer, GOPath const *path, gboolean fill, gboolean stroke)
+{
+	GogStyle const *style;
+	GOPathOptions line_options;
+	double width;
+	gboolean use_outline;
+
+	g_return_if_fail (IS_GOG_RENDERER (renderer));
+	g_return_if_fail (renderer->cur_style != NULL);
+	g_return_if_fail (IS_GO_PATH (path));
+
+        style = renderer->cur_style;
+	use_outline = style->interesting_fields & GOG_STYLE_OUTLINE;
+
+	line_options = go_path_get_options (path);
+	width = _grc_line_size (renderer, use_outline ? style->outline.width : style->line.width,
+				line_options & GO_PATH_OPTIONS_SNAP_WIDTH);
+
+	path_interpret (renderer, path, width);
+
+	if (fill)
+		emit_fill (renderer, stroke);
+
+	if (stroke) {
+		if (use_outline)
+			emit_outline (renderer, FALSE, go_path_get_options (path));
+		else
+			emit_line (renderer, FALSE, go_path_get_options (path));
+	}
+}
+
+void
+gog_renderer_draw_shape (GogRenderer *renderer,
+			 GOPath const *path)
+{
+	_draw_shape (renderer, path, TRUE, TRUE);
+}
+
+void
+gog_renderer_stroke_shape (GogRenderer *renderer, GOPath const *path)
+{
+	_draw_shape (renderer, path, FALSE, TRUE);
+}
+
+void
+gog_renderer_fill_shape (GogRenderer *renderer, GOPath const *path)
+{
+	_draw_shape (renderer, path, TRUE, FALSE);
 }
 
 /*****************************************************************************/
@@ -697,7 +756,7 @@ grc_draw_path (GogRenderer *rend, ArtVpath const *vpath, ArtBpath const*bpath, g
 
 		grc_path (rend->cairo, (ArtVpath *) vpath, (ArtBpath *) bpath, width,
 			  (sharp || legend_line) && !rend->is_vector);
-		emit_stroke (rend, FALSE, sharp ? GO_PATH_OPTIONS_SHARP : 0);
+		emit_line (rend, FALSE, sharp ? GO_PATH_OPTIONS_SHARP : 0);
 	}
 
 }
@@ -895,163 +954,6 @@ void
 gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
 {
 	draw_rectangle (rend, rect, FALSE);
-}
-
-/**
- * gog_renderer_get_ring_wedge_vpath :
- * @x : center x coordinate
- * @y : center y coordinate
- * @width  : x radius
- * @height : y radius
- * @th0 : start arc angle
- * @th1 : stop arc angle
- *
- * a utility routine to build a ring wedge path.
- **/
-
-ArtBpath *
-gog_renderer_get_ring_wedge_bpath (double cx, double cy,
-				   double rx_out, double ry_out,
-				   double rx_in, double ry_in,
-				   double th0, double th1)
-{
-	ArtBpath *path;
-	double th_arc, th_out, th_in, th_delta, t, r;
-	int i, n_segs;
-	gboolean fill;
-	gboolean draw_in, ellipse = FALSE;
-
-	if (rx_out < rx_in) {
-		r = rx_out;
-		rx_out = rx_in;
-		rx_in = r;
-	}
-	if (ry_out < ry_in) {
-		r = ry_out;
-		ry_out = ry_in;
-		ry_in = r;
-	}
-	/* Here we tolerate slightly negative values for inside radius
-	 * when deciding to fill. We use outside radius for comparison. */
-	fill = rx_in >= -(rx_out * 1e-6) && ry_in >= -(ry_out * 1e-6);
-
-	if (rx_out <= 0.0 || ry_out <= 0.0 || rx_out < rx_in || ry_out < ry_in)
-		return NULL;
-
-	/* Here also we use outside radius for comparison. If inside radius
-	 * is high enough, we'll emit an arc, otherwise we just use lines to
-	 * wedge center. */
-	draw_in = fill && (rx_in > rx_out * 1e-6) && (ry_in > ry_out * 1e-6);
-
-	if (th1 < th0) { t = th1; th1 = th0; th0 = t; }
-	if (go_add_epsilon (th1 - th0) >= 2 * M_PI) {
-		ellipse = TRUE;
-		th1 = th0 + 2 * M_PI;
-	}
-
-	th_arc = th1 - th0;
-	n_segs = ceil (fabs (th_arc / (M_PI * 0.5 + 0.001)));
-
-	path = g_new (ArtBpath, (1 + n_segs) * (draw_in ? 2 : 1) + (fill ? (draw_in ? 2 : 3) : 1));
-
-	path[0].x3 = cx + rx_out * cos (th1);
-	path[0].y3 = cy + ry_out * sin (th1);
-	path[0].code = ART_MOVETO;
-
-	if (fill && !ellipse) {
-		path[n_segs + 1].x3 = cx + rx_in * cos (th0);
-		path[n_segs + 1].y3 = cy + ry_in * sin (th0);
-		path[n_segs + 1].code = ART_LINETO;
-		if (draw_in) {
-			/* Ring wedge */
-			path[2 * n_segs + 2].x3 = path[0].x3;
-			path[2 * n_segs + 2].y3 = path[0].y3;
-			path[2 * n_segs + 2].code = ART_LINETO;
-			path[2 * n_segs + 3].code = ART_END;
-		} else {
-			/* Pie wedge */
-			path[n_segs + 1].x3 = cx;
-			path[n_segs + 1].y3 = cy;
-			path[n_segs + 1].code = ART_LINETO;
-			path[n_segs + 2].x3 = path[0].x3;
-			path[n_segs + 2].y3 = path[0].y3;
-			path[n_segs + 2].code = ART_LINETO;
-			path[n_segs + 3].code = ART_END;
-		}
-	} else if (fill && ellipse) {
-		if (draw_in) {
-			path[n_segs + 1].x3 = cx + rx_in * cos (th0);
-			path[n_segs + 1].y3 = cy + ry_in * sin (th0);
-			path[n_segs + 1].code = ART_MOVETO;
-			path[2 * n_segs + 2].code = ART_END;
-		} else
-			path[n_segs + 1].code = ART_END;
-	} else
-		/* Arc */
-		path[n_segs + 1].code = ART_END;
-
-	th_delta = th_arc / n_segs;
-	t = - (8.0 / 3.0) * sin (th_delta * 0.25) * sin (th_delta * 0.25) / sin (th_delta * 0.5);
-	th_out = th1;
-	th_in = th0;
-	for (i = 1; i <= n_segs; i++) {
-		path[i].x1 = cx + rx_out * (cos (th_out) - t * sin (th_out));
-		path[i].y1 = cy + ry_out * (sin (th_out) + t * cos (th_out));
-		path[i].x3 = cx + rx_out * cos (th_out - th_delta);
-		path[i].y3 = cy + ry_out * sin (th_out - th_delta);
-		path[i].x2 = path[i].x3 + rx_out * t * sin (th_out - th_delta);
-		path[i].y2 = path[i].y3 - ry_out * t * cos (th_out - th_delta);
-		path[i].code = ART_CURVETO;
-		th_out -= th_delta;
-		if (draw_in) {
-			path[i+n_segs+1].x1 = cx + rx_in * (cos (th_in) + t * sin (th_in));
-			path[i+n_segs+1].y1 = cy + ry_in * (sin (th_in) - t * cos (th_in));
-			path[i+n_segs+1].x3 = cx + rx_in * cos (th_in + th_delta);
-			path[i+n_segs+1].y3 = cy + ry_in * sin (th_in + th_delta);
-			path[i+n_segs+1].x2 = path[i+n_segs+1].x3 - rx_in * t * sin (th_in + th_delta);
-			path[i+n_segs+1].y2 = path[i+n_segs+1].y3 + ry_in * t * cos (th_in + th_delta);
-			path[i+n_segs+1].code = ART_CURVETO;
-			th_in += th_delta;
-		}
-	}
-	return path;
-}
-
-/**
- * gog_renderer_draw_ring_wedge :
- * @rend: #GogRenderer
- * @cx: center x coordinate
- * @cy: center y coordinate
- * @rx_out: x radius
- * @ry_out: y radius
- * @th0: start arc angle
- * @th1: stop arc angle
- *
- * a utility routine to draw an arc.
- **/
-
-void
-gog_renderer_draw_ring_wedge (GogRenderer *rend, double cx, double cy,
-			      double rx_out, double ry_out,
-			      double rx_in, double ry_in,
-			      double th0, double th1,
-			      gboolean narrow)
-{
-	ArtBpath *path;
-
-	g_return_if_fail (IS_GOG_RENDERER (rend));
-	g_return_if_fail (rend->cur_style != NULL);
-
-	path = gog_renderer_get_ring_wedge_bpath (cx, cy, rx_out, ry_out, rx_in, ry_in, th0, th1);
-	if (path == NULL)
-		return;
-
-	if (go_add_epsilon (rx_in) >= 0.0 && go_add_epsilon (ry_in) >= 0.0)
-		grc_draw_polygon (rend, NULL, path, FALSE, narrow);
-	else
-		grc_draw_path (rend, NULL, path, FALSE);
-
-	g_free (path);
 }
 
 /**
