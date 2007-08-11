@@ -144,29 +144,17 @@ typedef GogViewClass	GogGridLineViewClass;
 #define IS_GOG_GRID_LINE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRID_LINE_VIEW_TYPE))
 
 static void
-fill_rectangle (GogRenderer *renderer, GogViewAllocation const *rectangle)
-{
-	ArtVpath *path = gog_renderer_get_rectangle_vpath (rectangle);
-	gog_renderer_draw_polygon (renderer, path, FALSE);
-	g_free (path);
-}
-
-static void
 gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
-			 GogAxis *axis, GogAxisTick *ticks, unsigned int tick_nbr, 
+			 GogAxis *axis, GogAxisTick *ticks, unsigned int tick_nbr,
 			 GogViewAllocation const *plot_area,
 			 gboolean stripes)
 {
 	GogAxisMap *map = NULL;
 	GogAxisType axis_type = gog_axis_get_atype (axis);
-	GogViewAllocation rect;
-	ArtVpath path[3];
+	GogViewAllocation rect = {.0, .0, .0, .0};
+	GOPath *path;
 	unsigned int i;
 	gboolean stripe_started = FALSE;
-	
-	path[0].code = ART_MOVETO;
-	path[1].code = ART_LINETO;
-	path[2].code = ART_END;
 
 	switch (axis_type) {
 		case GOG_AXIS_X:
@@ -179,18 +167,21 @@ gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
 			return;
 	}
 
+	path = go_path_new ();
+	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
+
 	switch (axis_type) {
-		case GOG_AXIS_X: 
+		case GOG_AXIS_X:
 			if (stripes) {
 				rect.y = plot_area->y;
 				rect.h = plot_area->h;
-				for (i = 0; i < tick_nbr; i++) 
+				for (i = 0; i < tick_nbr; i++)
 					if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
 					    grid_line->is_minor) {
 						if (stripe_started) {
 							rect.w = gog_axis_map_to_view (map, ticks[i].position) -
 								rect.x;
-							fill_rectangle (view->renderer, &rect);
+							go_path_rectangle (path, rect.x, rect.y, rect.w, rect.h);
 							stripe_started = FALSE;
 						} else {
 							rect.x = gog_axis_map_to_view (map, ticks[i].position);
@@ -199,31 +190,33 @@ gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
 					}
 				if (stripe_started) {
 					rect.w = (plot_area->x + plot_area->w) - rect.x;
-					fill_rectangle (view->renderer, &rect);
+					go_path_rectangle (path, rect.x, rect.y, rect.w, rect.h);
 				}
+				gog_renderer_fill_shape (view->renderer, path);
 			} else {
-				for (i = 0; i < tick_nbr; i++) 
+				double x;
+
+				for (i = 0; i < tick_nbr; i++)
 					if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
 					    (ticks[i].type == GOG_AXIS_TICK_MINOR && grid_line->is_minor)) {
-						path[0].y = plot_area->y;
-						path[1].y = plot_area->y + plot_area->h;
-						path[0].x = gog_axis_map_to_view (map, ticks[i].position);
-						path[1].x = path[0].x;
-						gog_renderer_draw_sharp_path (view->renderer, path);
+						x = gog_axis_map_to_view (map, ticks[i].position);
+						go_path_move_to (path, x, plot_area->y);
+						go_path_line_to (path, x, plot_area->y + plot_area->h);
 					}
+				gog_renderer_stroke_shape (view->renderer, path);
 			}
 			break;
-		case GOG_AXIS_Y: 
+		case GOG_AXIS_Y:
 			if (stripes) {
 				rect.x = plot_area->x;
 				rect.w = plot_area->w;
-				for (i = 0; i < tick_nbr; i++) 
+				for (i = 0; i < tick_nbr; i++)
 					if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
 					    grid_line->is_minor) {
 						if (stripe_started) {
 							rect.h = gog_axis_map_to_view (map, ticks[i].position) -
 								rect.y;
-							fill_rectangle (view->renderer, &rect);
+							go_path_rectangle (path, rect.x, rect.y, rect.w, rect.h);
 							stripe_started = FALSE;
 						} else {
 							rect.y = gog_axis_map_to_view (map, ticks[i].position);
@@ -232,24 +225,28 @@ gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
 					}
 				if (stripe_started) {
 					rect.h = plot_area->y - rect.y;
-					fill_rectangle (view->renderer, &rect);
+					go_path_rectangle (path, rect.x, rect.y, rect.w, rect.h);
 				}
+				gog_renderer_fill_shape (view->renderer, path);
 			} else {
+				double y;
+
 				for (i = 0; i < tick_nbr; i++) {
 					if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
 					    (ticks[i].type == GOG_AXIS_TICK_MINOR && grid_line->is_minor)) {
-						path[0].x = plot_area->x;
-						path[1].x = plot_area->x + plot_area->w;
-						path[0].y = gog_axis_map_to_view (map, ticks[i].position);
-						path[1].y = path[0].y; 
-						gog_renderer_draw_sharp_path (view->renderer, path);
+						y = gog_axis_map_to_view (map, ticks[i].position);
+						go_path_move_to (path, plot_area->x, y);
+						go_path_line_to (path, plot_area->x + plot_area->w, y);
 					}
 				}
+				gog_renderer_stroke_shape (view->renderer, path);
 			}
 			break;
 		default:
 			break;
 	}
+
+	go_path_free (path);
 	gog_axis_map_free (map);
 }
 

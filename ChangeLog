@@ -1,5 +1,12 @@
 2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Finish conversion of GogGridLine to GOPath.
+
+	* goffice/graph/gog-grid-line.c (fill_rectangle): removed.
+	(gog_grid_line_xy_render): use GOPath. Group fill and strokes.
+
+2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Convert GogAxisLine to GOPath. Emit axis ticks in one stroke, in order
 	to reduce export file size. We should not have the same performance
 	issue we had with libart.
