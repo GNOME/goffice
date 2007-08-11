@@ -331,7 +331,7 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	path = gog_chart_map_make_path (chart_map, x, y, rc->ninterp + 1, GO_LINE_INTERPOLATION_SPLINE);
 	style = GOG_STYLED_OBJECT (rc)->style;
 	gog_renderer_push_style (view->renderer, style);
-	gog_renderer_serie_stroke (view->renderer, path);
+	gog_renderer_stroke_serie (view->renderer, path);
 	gog_renderer_pop_style (view->renderer);
 	go_path_free (path);
 

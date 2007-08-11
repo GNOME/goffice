@@ -95,8 +95,8 @@ double gog_renderer_pt2r   	  	(GogRenderer const *r, double d);
 
 double gog_renderer_get_hairline_width_pts	(GogRenderer const *r);
 
-void  gog_renderer_serie_stroke    	(GogRenderer *renderer, GOPath const *path);
-void  gog_renderer_serie_fill		(GogRenderer *renderer, GOPath const *path, GOPath const *close_path);
+void  gog_renderer_stroke_serie    	(GogRenderer *renderer, GOPath const *path);
+void  gog_renderer_fill_serie		(GogRenderer *renderer, GOPath const *path, GOPath const *close_path);
 
 ArtVpath * gog_renderer_get_rectangle_vpath 	(GogViewAllocation const *rect);
 ArtBpath * gog_renderer_get_ring_wedge_bpath	(double cx, double cy,

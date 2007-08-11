@@ -990,7 +990,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 				close_path = gog_chart_map_make_close_path (chart_map, x_vals, y_vals, n,
 									    series->base.fill_type);
-				gog_renderer_serie_fill (view->renderer, path, close_path);
+				gog_renderer_fill_serie	(view->renderer, path, close_path);
 				if (close_path != NULL)
 					go_path_free (close_path);
 			} else {
@@ -1015,7 +1015,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 					}
 				}
-				gog_renderer_serie_fill (view->renderer, path, next_path);
+				gog_renderer_fill_serie (view->renderer, path, next_path);
 			}
 		}
 
@@ -1037,7 +1037,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				go_path_move_to (drop_path, x_left, y_drop);
 				go_path_line_to (drop_path, gog_axis_map_to_view (x_map, x), y_drop);
 			}
-			gog_renderer_serie_stroke (view->renderer, drop_path);
+			gog_renderer_stroke_serie (view->renderer, drop_path);
 			go_path_free (drop_path);
 			gog_renderer_pop_style (view->renderer);
 		}
@@ -1060,13 +1060,13 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				go_path_move_to (drop_path, x_drop, y_bottom);
 				go_path_line_to (drop_path, x_drop, gog_axis_map_to_view (y_map, y_vals[i]));
 			}
-			gog_renderer_serie_stroke (view->renderer, drop_path);
+			gog_renderer_stroke_serie (view->renderer, drop_path);
 			go_path_free (drop_path);
 			gog_renderer_pop_style (view->renderer);
 		}
 
 		if ((show_lines || show_fill) && !GOG_IS_BUBBLE_PLOT (model)) {
-			gog_renderer_serie_stroke (view->renderer, path);
+			gog_renderer_stroke_serie (view->renderer, path);
 			go_path_free (path);
 		}
 

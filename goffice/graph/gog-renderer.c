@@ -630,7 +630,7 @@ fill_path_interpret (GogRenderer  *rend,
 }
 
 void
-gog_renderer_serie_stroke (GogRenderer *renderer,
+gog_renderer_stroke_serie (GogRenderer *renderer,
 			   GOPath const *path)
 {
 	GogStyle const *style;
@@ -655,7 +655,7 @@ gog_renderer_serie_stroke (GogRenderer *renderer,
 }
 
 void
-gog_renderer_serie_fill (GogRenderer *renderer,
+gog_renderer_fill_serie (GogRenderer *renderer,
 			 GOPath const *path,
 			 GOPath const *close_path)
 {
