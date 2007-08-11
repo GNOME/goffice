@@ -664,7 +664,6 @@ gog_renderer_serie_fill (GogRenderer *renderer,
 	g_return_if_fail (IS_GOG_RENDERER (renderer));
 	g_return_if_fail (renderer->cur_style != NULL);
 	g_return_if_fail (IS_GO_PATH (path));
-	g_return_if_fail (IS_GO_PATH (close_path));
 
 	style = renderer->cur_style;
 

@@ -1,3 +1,8 @@
+2007-08-03  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-renderer.c (gog_renderer_serie_fill): accept NULL
+	close_path.
+
 2007-08-02  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Merge of GogRenderer and GogRendererCairo.
