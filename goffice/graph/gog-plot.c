@@ -1054,7 +1054,7 @@ gog_tool_move_plot_area_render (GogView *view)
 {
 	GogViewAllocation const *plot_area = gog_chart_view_get_plot_area (view->parent);
 
-	gog_renderer_stroke_rectangle (view->renderer, plot_area);
+	gog_renderer_draw_selection_rectangle (view->renderer, plot_area);
 }
 
 static void

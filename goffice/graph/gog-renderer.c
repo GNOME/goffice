@@ -86,7 +86,8 @@ struct _GogRenderer {
 	ArtVpathDash *line_dash;
 	ArtVpathDash *outline_dash;
 
-	GogStyle *grip_style;
+	GogStyle 	*grip_style;
+	GogStyle 	*selection_style;
 
 	int 		 w, h;
 
@@ -958,6 +959,9 @@ _draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean fill
 	gboolean const narrow = (rect->w < 3.) || (rect->h < 3.);
 	double o, o_2;
 
+	g_return_if_fail (IS_GOG_RENDERER (rend));
+	g_return_if_fail (IS_GOG_STYLE (rend->cur_style));
+
 	path = go_path_new ();
 	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 
@@ -1000,11 +1004,53 @@ gog_renderer_draw_grip (GogRenderer *renderer, double x, double y)
 {
 	GogViewAllocation rectangle;
 
+	if (renderer->grip_style == NULL) {
+		GogStyle *style;
+
+		style = gog_style_new ();
+		style->outline.dash_type = GO_LINE_SOLID;
+		style->outline.width = 0.0;
+		style->outline.color =
+		style->fill.pattern.back = 0xff000080;
+		style->fill.pattern.pattern = GO_PATTERN_SOLID;
+		style->fill.type = GOG_FILL_STYLE_PATTERN;
+		style->interesting_fields = GOG_STYLE_FILL | GOG_STYLE_OUTLINE;
+
+		renderer->grip_style = style;
+	}
+
 	rectangle.x = x - GOG_RENDERER_GRIP_SIZE;
 	rectangle.y = y - GOG_RENDERER_GRIP_SIZE;
 	rectangle.w = rectangle.h = 2 * GOG_RENDERER_GRIP_SIZE;
 
+	gog_renderer_push_style (renderer, renderer->grip_style);
+
 	gog_renderer_draw_rectangle (renderer, &rectangle);
+
+	gog_renderer_pop_style (renderer);
+}
+
+void
+gog_renderer_draw_selection_rectangle (GogRenderer *renderer, GogViewAllocation const *rectangle)
+{
+	if (renderer->selection_style == NULL) {
+		GogStyle *style;
+
+		style = gog_style_new ();
+		style->line.dash_type = GO_LINE_DOT;
+		style->line.width = 0.0;
+		style->line.color = 0x0000ffB0;
+		style->fill.type = GOG_FILL_STYLE_NONE;
+		style->interesting_fields = GOG_STYLE_LINE;
+
+		renderer->selection_style = style;
+	}
+
+	gog_renderer_push_style (renderer, renderer->selection_style);
+
+	gog_renderer_draw_rectangle (renderer, rectangle);
+
+	gog_renderer_pop_style (renderer);
 }
 
 static void
@@ -1296,30 +1342,6 @@ gog_renderer_push_style (GogRenderer *rend, GogStyle const *style)
 	_free_marker_data (rend);
 
 	_update_dash (rend);
-}
-
-/**
- * gog_renderer_push_selection_style:
- * @renderer : #GogRenderer
- *
- * Push a style used for selection and grip rendering.
- **/
-void
-gog_renderer_push_selection_style (GogRenderer *renderer)
-{
-	if (renderer->grip_style == NULL) {
-		renderer->grip_style = gog_style_new ();
-		renderer->grip_style->outline.dash_type = GO_LINE_SOLID;
-		renderer->grip_style->outline.width = 0.0;
-		renderer->grip_style->outline.color =
-		renderer->grip_style->fill.pattern.back = 0xff000080;
-		renderer->grip_style->line.dash_type = GO_LINE_DOT;
-		renderer->grip_style->line.width = 0.0;
-		renderer->grip_style->line.color = 0x0000ffB0;
-		renderer->grip_style->fill.pattern.pattern = GO_PATTERN_SOLID;
-		renderer->grip_style->fill.type = GOG_FILL_STYLE_PATTERN;
-	}
-	gog_renderer_push_style (renderer, renderer->grip_style);
 }
 
 void
@@ -1723,6 +1745,7 @@ gog_renderer_init (GogRenderer *rend)
 	go_font_cache_register (rend->font_watcher);
 
 	rend->grip_style = NULL;
+	rend->selection_style = NULL;
 }
 
 static void
@@ -1748,6 +1771,11 @@ gog_renderer_finalize (GObject *obj)
 	if (rend->grip_style != NULL) {
 		g_object_unref (rend->grip_style);
 		rend->grip_style = NULL;
+	}
+
+	if (rend->selection_style != NULL) {
+		g_object_unref (rend->selection_style);
+		rend->selection_style = NULL;
 	}
 
 	if (rend->cur_style != NULL) {

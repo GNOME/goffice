@@ -468,7 +468,7 @@ gog_tool_move_pie_render (GogView *view)
 	rectangle.w = r;
 	rectangle.h = r;
 
-	gog_renderer_stroke_rectangle (view->renderer, &rectangle);
+	gog_renderer_draw_selection_rectangle (view->renderer, &rectangle);
 }
 
 static void

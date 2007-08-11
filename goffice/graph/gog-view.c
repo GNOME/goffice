@@ -56,7 +56,7 @@ gog_tool_select_object_render (GogView *view)
 	rect.w += line_width;
 	rect.h += line_width;
 
-	gog_renderer_stroke_rectangle (view->renderer, &rect);
+	gog_renderer_draw_selection_rectangle (view->renderer, &rect);
 }
 
 static GogTool gog_tool_select_object = {

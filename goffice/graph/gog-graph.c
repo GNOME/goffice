@@ -793,11 +793,8 @@ gog_graph_view_render  (GogView *view, GogViewAllocation const *bbox)
 
 	gview_parent_klass->render (view, bbox);
 
-	if (gview->selected_view != NULL) {
-		gog_renderer_push_selection_style (view->renderer);
+	if (gview->selected_view != NULL)
 		gog_view_render_toolkit (gview->selected_view);
-		gog_renderer_pop_style (view->renderer);
-	}
 }
 
 static void

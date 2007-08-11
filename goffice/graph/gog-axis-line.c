@@ -775,16 +775,8 @@ gog_tool_select_axis_point (GogView *view, double x, double y, GogObject **gobj)
 static void
 gog_tool_select_axis_render (GogView *view)
 {
-	if (gog_tool_bound_is_valid_axis (view)) {
-		GOPath *path;
-
-		path = go_path_new ();
-		go_path_rectangle (path, view->allocation.x, view->allocation.y,
-				   view->allocation.w, view->allocation.h);
-		go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
-		gog_renderer_draw_shape (view->renderer, path);
-		go_path_free (path);
-	}
+	if (gog_tool_bound_is_valid_axis (view))
+		gog_renderer_draw_selection_rectangle (view->renderer, &view->allocation);
 }
 
 static GogTool gog_axis_tool_select_axis = {
