@@ -834,22 +834,12 @@ typedef GogPlotViewClass	GogXYViewClass;
 static void
 bubble_draw_circle (GogView *view, double x, double y, double radius)
 {
-	double theta, dt = 2 * M_PI / MAX_ARC_SEGMENTS;
-	int i;
-	ArtVpath path[MAX_ARC_SEGMENTS + 2];
-	path[0].x = path[MAX_ARC_SEGMENTS].x = x + radius;
-	path[0].y = path[MAX_ARC_SEGMENTS].y = y;
-	path[0].code = ART_MOVETO;
-	if (radius < 1.) radius = 1.;
-	for (i = 1, theta = dt; i < MAX_ARC_SEGMENTS; i++, theta += dt) {
-		path[i].x = x + radius * cos (theta);
-		/* must turn clockwise for gradients */
-		path[i].y = y - radius * sin (theta);
-		path[i].code = ART_LINETO;
-	}
-	path[MAX_ARC_SEGMENTS].code = ART_LINETO;
-	path[MAX_ARC_SEGMENTS + 1].code = ART_END;
-	gog_renderer_draw_polygon (view->renderer, path, FALSE);
+	GOPath *path;
+
+	path = go_path_new ();
+	go_path_pie_wedge (path, x, y, radius, radius, 0, 2 * M_PI);
+	gog_renderer_draw_shape (view->renderer, path);
+	go_path_free (path);
 }
 
 static GOColor
@@ -908,8 +898,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 
 	area = gog_chart_view_get_plot_area (view->parent);
-	chart_map = gog_chart_map_new (chart, area, 
-				       GOG_PLOT (model)->axis[GOG_AXIS_X], 
+	chart_map = gog_chart_map_new (chart, area,
+				       GOG_PLOT (model)->axis[GOG_AXIS_X],
 				       GOG_PLOT (model)->axis[GOG_AXIS_Y],
 				       NULL, FALSE);
 	if (!gog_chart_map_is_valid (chart_map)) {
