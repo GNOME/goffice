@@ -23,8 +23,6 @@
 #define GO_LINE_H
 
 #include <goffice/graph/goffice-graph.h>
-#include <libart_lgpl/libart.h>
-#include <glib.h>
 
 G_BEGIN_DECLS
 
@@ -54,23 +52,21 @@ typedef enum {
 	GO_LINE_INTERPOLATION_MAX
 } GOLineInterpolation;
 
-GOLineDashType	 go_line_dash_from_str		(char const *name);
-char const 	*go_line_dash_as_str		(GOLineDashType type);
-char const 	*go_line_dash_as_label 		(GOLineDashType type);
-double		 go_line_dash_get_length	(GOLineDashType type);
+typedef struct {
+	double		 offset;
+	unsigned int	 n_dash;
+	double		*dash;
+} GOLineDashSequence;
+
+GOLineDashType		 go_line_dash_from_str		(char const *name);
+char const 		*go_line_dash_as_str		(GOLineDashType type);
+char const 		*go_line_dash_as_label 		(GOLineDashType type);
+double			 go_line_dash_get_length	(GOLineDashType type);
+GOLineDashSequence	*go_line_dash_get_sequence 	(GOLineDashType type, double scale);
+void 		  	 go_line_dash_sequence_free	(GOLineDashSequence *sequence);
 
 GOLineInterpolation	 go_line_interpolation_from_str		(char const *name);
 char const 		*go_line_interpolation_as_str		(GOLineInterpolation type);
-
-void 		 go_line_vpath_dash_free	(ArtVpathDash *dash);
-ArtVpathDash 	*go_line_get_vpath_dash 	(GOLineDashType type, double scale);
-
-ArtVpath 	*go_line_clip_vpath		(ArtVpath const *path, GogViewAllocation const *bbox);
-ArtVpath 	*go_line_dash_vpath 		(ArtVpath const *path, ArtVpathDash const *dash, 
-						 GogViewAllocation const *bbox);
-
-ArtBpath *go_line_build_bpath (double const *x, double const *y, int n);
-ArtVpath *go_line_build_vpath (double const *x, double const *y, int n);
 
 G_END_DECLS
 

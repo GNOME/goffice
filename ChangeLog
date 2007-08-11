@@ -1,5 +1,24 @@
 2007-08-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Remove unused code and dependency to libart in go-line.c.
+
+	* goffice/graph/gog-renderer.c:
+	s/go_line_get_vpath_dash/go_line_dash_get_sequence/
+	s/go_line_vpath_dash_free/go_line_dash_sequence_free/
+	* goffice/gtk/go-line-selector.c (go_line_dash_palette_render_func):
+	ditto.
+	* goffice/graph/gog-smoothed-curve.c (gog_smoothed_curve_view_render):
+	use GOPath API and gog_chart_map_make_path. Remove commented code.
+	* goffice/utils/go-line.c (go_line_get_vpath_dash): renamed to
+	go_line_dash_get_sequence.
+	(go_line_vpath_dash_free): renamed to go_line_dash_sequence_free.
+	(go_line_clip_vpath): removed.
+	(go_line_dash_vpath): removed.
+	(go_line_build_bpath): removed.
+	(go_line_build_vpath): removed.
+
+2007-08-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Fix tool rendering. Add gog_renderer_draw_selection_rectangle.
 
 	* goffice/graph/gog-axis-line.c (gog_tool_select_axis_render): use

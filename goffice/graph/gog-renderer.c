@@ -83,8 +83,8 @@ struct _GogRenderer {
 	GogStyle const *cur_style;
 	GSList   *style_stack;
 
-	ArtVpathDash *line_dash;
-	ArtVpathDash *outline_dash;
+	GOLineDashSequence 	*line_dash;
+	GOLineDashSequence 	*outline_dash;
 
 	GogStyle 	*grip_style;
 	GogStyle 	*selection_style;
@@ -231,18 +231,18 @@ _update_dash (GogRenderer *rend)
 {
 	double size;
 
-	go_line_vpath_dash_free (rend->line_dash);
+	go_line_dash_sequence_free (rend->line_dash);
 	rend->line_dash = NULL;
-	go_line_vpath_dash_free (rend->outline_dash);
+	go_line_dash_sequence_free (rend->outline_dash);
 	rend->outline_dash = NULL;
 
 	if (rend->cur_style == NULL)
 		return;
 
 	size = _line_size (rend, rend->cur_style->line.width, FALSE);
-	rend->line_dash = go_line_get_vpath_dash (rend->cur_style->line.dash_type, size);
+	rend->line_dash = go_line_dash_get_sequence (rend->cur_style->line.dash_type, size);
 	size = _line_size (rend, rend->cur_style->outline.width, FALSE);
-	rend->outline_dash = go_line_get_vpath_dash (rend->cur_style->outline.dash_type, size);
+	rend->outline_dash = go_line_dash_get_sequence (rend->cur_style->outline.dash_type, size);
 }
 
 double
@@ -1763,9 +1763,9 @@ gog_renderer_finalize (GObject *obj)
 	}
 	_free_marker_data (rend);
 
-	go_line_vpath_dash_free (rend->line_dash);
+	go_line_dash_sequence_free (rend->line_dash);
 	rend->line_dash = NULL;
-	go_line_vpath_dash_free (rend->outline_dash);
+	go_line_dash_sequence_free (rend->outline_dash);
 	rend->outline_dash = NULL;
 
 	if (rend->grip_style != NULL) {

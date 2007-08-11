@@ -25,6 +25,7 @@
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
@@ -101,27 +102,28 @@ gog_smoothed_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogSmoothedCurve *curve = GOG_SMOOTHED_CURVE (view->model);
 	GogSeries *series = GOG_SERIES ((GOG_OBJECT (curve))->parent);
 	GogPlot *plot = series->plot;
+	GogChart *chart = GOG_CHART (GOG_OBJECT (plot)->parent);
 	GogAxisMap *x_map, *y_map;
+	GogChartMap *chart_map;
 	double *x, *y;
 	GogStyle *style;
-	ArtVpath *path;
+	GOPath *path;
 	unsigned i;
 
 	if (curve->nb == 0 || curve->x == NULL || curve->y == NULL)
 		return;
 
-	x_map = gog_axis_map_new (plot->axis[0],
-				  view->residual.x , view->residual.w);
-	y_map = gog_axis_map_new (plot->axis[1],
-				  view->residual.y + view->residual.h,
-				  -view->residual.h);
-
-	if (!(gog_axis_map_is_valid (x_map) &&
-	      gog_axis_map_is_valid (y_map))) {
-		gog_axis_map_free (x_map);
-		gog_axis_map_free (y_map);
+	chart_map = gog_chart_map_new (chart, &view->residual,
+				       plot->axis[GOG_AXIS_X],
+				       plot->axis[GOG_AXIS_Y],
+				       NULL, FALSE);
+	if (!gog_chart_map_is_valid (chart_map)) {
+		gog_chart_map_free (chart_map);
 		return;
 	}
+
+	x_map = gog_chart_map_get_axis_map (chart_map, 0);
+	y_map = gog_chart_map_get_axis_map (chart_map, 1);
 
 	gog_renderer_push_clip_rectangle (view->renderer, view->residual.x, view->residual.y,
 					  view->residual.w, view->residual.h);
@@ -133,42 +135,27 @@ gog_smoothed_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 		y[i] = gog_axis_map_to_view (y_map, curve->y[i]);
 	}
 
-	path = go_line_build_vpath (x, y, curve->nb);
+	path = gog_chart_map_make_path (chart_map, x, y, curve->nb, GO_LINE_INTERPOLATION_LINEAR);
 	style = GOG_STYLED_OBJECT (curve)->style;
 	gog_renderer_push_style (view->renderer, style);
-	gog_renderer_draw_path (view->renderer, path);
-
+	gog_renderer_stroke_serie (view->renderer, path);
 	gog_renderer_pop_style (view->renderer);
+	go_path_free (path);
+
 	g_free (x);
 	g_free (y);
-	art_free (path);
-	gog_axis_map_free (x_map);
-	gog_axis_map_free (y_map);
 
 	gog_renderer_pop_clip (view->renderer);
-/*	
-	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
-		gog_view_render	(ptr->data, bbox);*/
+
+	gog_chart_map_free (chart_map);
 }
-
-/*static void
-gog_smoothed_curve_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
-{
-	GSList *ptr;
-
-	for (ptr = view->children; ptr != NULL; ptr = ptr->next)
-		gog_view_size_allocate (GOG_VIEW (ptr->data), allocation);
-	(smoothed_curve_view_parent_klass->size_allocate) (view, allocation);
-}*/
 
 static void
 gog_smoothed_curve_view_class_init (GogSmoothedCurveViewClass *gview_klass)
 {
 	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
-/*	smoothed_curve_view_parent_klass = g_type_class_peek_parent (gview_klass); */
 
 	view_klass->render	  = gog_smoothed_curve_view_render;
-/*	view_klass->size_allocate = gog_smoothed_curve_view_size_allocate; */
 }
 
 static GSF_CLASS (GogSmoothedCurveView, gog_smoothed_curve_view,

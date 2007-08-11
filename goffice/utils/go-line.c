@@ -41,7 +41,7 @@ static const GOLineDashDesc line_short_dash_dot_desc =		{4, 12,	{ 6, 3, 0, 3 } }
 static const GOLineDashDesc line_short_dash_dot_dot_desc =    	{6, 15,	{ 6, 3, 0, 3, 0, 3 } };
 static const GOLineDashDesc line_dash_dot_dot_dot_desc =    	{8, 21,	{ 9, 3, 0, 3, 0, 3, 0, 3 } };
 static const GOLineDashDesc line_dash_dot_desc =		{4, 24,	{ 9, 6, 3, 6 } };
-static const GOLineDashDesc line_dash_dot_dot_desc =    	{6, 24,	{ 9, 3, 3, 3, 3, 3 } };	
+static const GOLineDashDesc line_dash_dot_dot_desc =    	{6, 24,	{ 9, 3, 3, 3, 3, 3 } };
 static const GOLineDashDesc line_dash_desc =			{2, 16,	{ 12, 4 } };
 static const GOLineDashDesc line_long_dash_desc =		{2, 22,	{ 18, 4 } };
 
@@ -50,31 +50,31 @@ static struct {
 	char const *label;
 	char const *name;
 	const GOLineDashDesc *dash_desc;
-} line_dashes[GO_LINE_MAX] = 
+} line_dashes[GO_LINE_MAX] =
 {
-	{ GO_LINE_NONE,			N_("None"), 			
+	{ GO_LINE_NONE,			N_("None"),
 		"none",			NULL },
-	{ GO_LINE_SOLID,		N_("Solid"),			
+	{ GO_LINE_SOLID,		N_("Solid"),
 		"solid",		NULL },
-	{ GO_LINE_S_DOT,		N_("Dot"),		
+	{ GO_LINE_S_DOT,		N_("Dot"),
 		"s-dot",		&line_short_dot_desc},
-	{ GO_LINE_S_DASH_DOT,		N_("Dash dot"),		
+	{ GO_LINE_S_DASH_DOT,		N_("Dash dot"),
 		"s-dash-dot",		&line_short_dash_dot_desc },
-	{ GO_LINE_S_DASH_DOT_DOT,	N_("Dash dot dot"),	
+	{ GO_LINE_S_DASH_DOT_DOT,	N_("Dash dot dot"),
 		"s-dash-dot-dot",	&line_short_dash_dot_dot_desc },
-	{ GO_LINE_DASH_DOT_DOT_DOT,	N_("Dash dot dot dot"),	
+	{ GO_LINE_DASH_DOT_DOT_DOT,	N_("Dash dot dot dot"),
 		"dash-dot-dot-dot",	&line_dash_dot_dot_dot_desc },
-	{ GO_LINE_DOT,			N_("Short dash"),			
+	{ GO_LINE_DOT,			N_("Short dash"),
 		"dot",			&line_dot_desc},
-	{ GO_LINE_S_DASH,		N_("Dash"), 		
+	{ GO_LINE_S_DASH,		N_("Dash"),
 		"s-dash",		&line_short_dash_desc },
-	{ GO_LINE_DASH,			N_("Long dash"), 			
+	{ GO_LINE_DASH,			N_("Long dash"),
 		"dash",			&line_dash_desc },
-	{ GO_LINE_LONG_DASH,		N_("Very long dash"), 			
+	{ GO_LINE_LONG_DASH,		N_("Very long dash"),
 		"l-dash",		&line_long_dash_desc },
-	{ GO_LINE_DASH_DOT,		N_("Long dash dash"),			
+	{ GO_LINE_DASH_DOT,		N_("Long dash dash"),
 		"dash-dot",		&line_dash_dot_desc },
-	{ GO_LINE_DASH_DOT_DOT,		N_("Long dash dash dash"),		
+	{ GO_LINE_DASH_DOT_DOT,		N_("Long dash dash dash"),
 		"dash-dot-dot",		&line_dash_dot_dot_desc }
 };
 
@@ -82,7 +82,7 @@ static struct {
 	GOLineInterpolation type;
 	char const *label;
 	char const *name;
-} line_interpolations[GO_LINE_INTERPOLATION_MAX] = 
+} line_interpolations[GO_LINE_INTERPOLATION_MAX] =
 {
 	{ GO_LINE_INTERPOLATION_LINEAR,		N_("Linear"), 		"linear" },
 	{ GO_LINE_INTERPOLATION_SPLINE,		N_("Spline"),		"spline" },
@@ -91,7 +91,15 @@ static struct {
 	{ GO_LINE_INTERPOLATION_STEP_CENTER_X,	N_("Step at center"),	"step-center-x" },
 	{ GO_LINE_INTERPOLATION_STEP_CENTER_Y,	N_("Step to mean"),	"step-center-y" }
 };
-	
+
+/**
+ * go_line_dash_from_str:
+ * @name: Name of the dash type
+ *
+ * Returns a GOLineDashType corresponding to name, or GO_LINE_NONE
+ * if not found.
+ **/
+
 GOLineDashType
 go_line_dash_from_str (char const *name)
 {
@@ -107,6 +115,14 @@ go_line_dash_from_str (char const *name)
 	return ret;
 }
 
+/**
+ * go_line_dash_as_str:
+ * @type: a #GOLineDashType
+ *
+ * Returns a pointer to the nickname of the dash type, or "none" if 
+ * type is invalid. The returning string should not be freed.
+ **/
+
 char const *
 go_line_dash_as_str (GOLineDashType type)
 {
@@ -121,6 +137,15 @@ go_line_dash_as_str (GOLineDashType type)
 	}
 	return ret;
 }
+
+/**
+ * go_line_dash_as_label:
+ * @type: a #GOLineDashType
+ *
+ * Returns a pointer to the user readable name of the dash type,
+ * or the name of GO_LINE_NONE if type is invalid. The returned
+ * string should not be freed.
+ **/
 
 char const *
 go_line_dash_as_label (GOLineDashType type)
@@ -141,8 +166,9 @@ go_line_dash_as_label (GOLineDashType type)
  * go_line_dash_get_length:
  * @type: #GOLineDashType
  *
- * Returns: the unscaled length of the dash sequence.
+ * Returns the unscaled length of the dash sequence.
  **/
+
 double
 go_line_dash_get_length (GOLineDashType type)
 {
@@ -150,10 +176,66 @@ go_line_dash_get_length (GOLineDashType type)
 
 	if (type < 0 || type >= G_N_ELEMENTS (line_dashes))
 		return 1.0;
-	
+
 	dash_desc = line_dashes[type].dash_desc;
 	return dash_desc != NULL ? dash_desc->length : 1.0;
 }
+
+/**
+ * go_line_dash_get_sequence:
+ * @type: a #GOLineDashType
+ * @scale: dash scale
+ *
+ * Returns a struct containing the dash sequence corresponding to @type,
+ * or NULL if type is invalid or equal to GO_LINE_NONE.
+ * The lengths are scaled according to @scale.
+ **/
+
+GOLineDashSequence *
+go_line_dash_get_sequence (GOLineDashType type, double scale)
+{
+	unsigned int i;
+	GOLineDashSequence *sequence = NULL;
+	const GOLineDashDesc *dash_desc;
+
+	if (type < 0 || type >= G_N_ELEMENTS (line_dashes))
+		return NULL;
+
+	dash_desc = line_dashes[type].dash_desc;
+	if (dash_desc != NULL) {
+		sequence = g_new (GOLineDashSequence, 1);
+		sequence->offset = 0.0;
+		sequence->n_dash = dash_desc->n_dash;
+		sequence->dash = g_new (double, sequence->n_dash);
+		for (i = 0; i < sequence->n_dash; i++)
+			sequence->dash[i] = scale * dash_desc->dash[i];
+	}
+
+	return sequence;
+}
+
+/**
+ * go_line_dash_sequence_free:
+ * @sequence: a #GOLineDashSequence
+ *
+ * Frees the dash sequence struct.
+ **/
+
+void
+go_line_dash_sequence_free (GOLineDashSequence *sequence)
+{
+	if (sequence != NULL)
+		g_free (sequence->dash);
+	g_free (sequence);
+}
+
+/**
+ * go_line_interpolation_from_str:
+ * @name: an interpolation type nickname
+ *
+ * Returns a #GOLineInterpolation corresponding to @name, or 
+ * GO_LINE_INTERPOLATION_LINEAR if not found.
+ **/
 
 GOLineInterpolation
 go_line_interpolation_from_str (char const *name)
@@ -170,6 +252,14 @@ go_line_interpolation_from_str (char const *name)
 	return ret;
 }
 
+/**
+ * go_line_interpolation_as_str:
+ * @type: an interpolation type
+ *
+ * Returns a pointer to the nickname of @type, or "linear" if type
+ * is invalid. The returned string should not be freed.
+ **/
+
 char const *
 go_line_interpolation_as_str (GOLineInterpolation type)
 {
@@ -184,296 +274,3 @@ go_line_interpolation_as_str (GOLineInterpolation type)
 	}
 	return ret;
 }
-
-void
-go_line_vpath_dash_free (ArtVpathDash *dash)
-{
-	if (dash != NULL)
-		g_free (dash->dash);
-	g_free (dash);
-}
-
-ArtVpathDash *
-go_line_get_vpath_dash (GOLineDashType type, double scale)
-{
-	int i;
-	ArtVpathDash *dash = NULL;
-	const GOLineDashDesc *dash_desc;
-
-	if (type < 0 || type >= G_N_ELEMENTS (line_dashes))
-		return NULL;
-	
-	dash_desc = line_dashes[type].dash_desc;
-	if (dash_desc != NULL) {
-		dash = g_new (ArtVpathDash, 1);
-		dash->offset = 0.0;
-		dash->n_dash = dash_desc->n_dash;
-		dash->dash = g_new (double, dash->n_dash);
-		for (i = 0; i < dash->n_dash; i++) 
-			dash->dash[i] = scale * dash_desc->dash[i];
-	}
-
-	return dash;
-}
-
-/* Liang-Barsky line clipping */
-ArtVpath *
-go_line_clip_vpath (ArtVpath const *vpath, GogViewAllocation const *clip_area)
-{
-	double x1, y1, x2, y2;
-	double p[4], q[4], r, t1 = 0., t2 = 1., delta_x, delta_y;
-	double x_min, x_max, y_min, y_max;
-	unsigned i = 0, j;
-	gboolean clip_last, clip_first;
-	ArtVpath *result_path;
-	int n_result, n_result_max;
-	
-	x_min = clip_area->x;
-	x_max = x_min + clip_area->w;
-	y_min = clip_area->y;
-	y_max = y_min + clip_area->h;
-
-	n_result = 0;
-	n_result_max = 16;
-	result_path = art_new (ArtVpath, n_result_max);
-
-	/* TODO clip_first computation isn't needed if previous clip_last was FALSE */
-	while (vpath[i].code != ART_END) {
-		gboolean reject = FALSE;
-		clip_last = TRUE;
-		while (vpath[i+1].code == ART_LINETO) {
-
-			t1 = 0.;
-			t2 = 1.;
-
-			x1 = vpath[i].x;
-			y1 = vpath[i].y;
-			x2 = vpath[i+1].x;
-			y2 = vpath[i+1].y;
-
-			delta_x = x2 - x1;
-			delta_y = y2 - y1;
-
-			p[0] = - delta_x;
-			q[0] = x1 - x_min;
-			p[1] = delta_x;
-			q[1] = x_max - x1;
-			p[2] = - delta_y;
-			q[2] = y1 - y_min;
-			p[3] = delta_y;
-			q[3] = y_max - y1;
-
-			clip_last = FALSE;
-			clip_first = FALSE;
-
-			for (j = 0; j < 4; j++) {
-				if (p[j] < 0.) {
-					r =  q[j] / p[j];
-					if (r > t1) {
-						t1 = r;
-						clip_first = TRUE;
-					} 
-				}
-				else if (p[j] > 0.) {
-					r =  q[j] / p[j];
-					if (r < t2) {
-						t2 = r;
-						clip_last = TRUE;
-					} 
-				}
-			}
-
-			if (t1 <= t2) {
-				reject = FALSE;
-				if (clip_first) 
-					art_vpath_add_point (&result_path, &n_result, &n_result_max,
-							     ART_MOVETO,
-							     x1 + t1 * delta_x,
-							     y1 + t1 * delta_y);
-				else
-					art_vpath_add_point (&result_path, &n_result, &n_result_max,
-							     vpath[i].code,
-							     vpath[i].x,
-							     vpath[i].y);
-				if (clip_last)
-					art_vpath_add_point (&result_path, &n_result, &n_result_max,
-							     ART_LINETO,
-							     x1 + t2 * delta_x,
-							     y1 + t2 * delta_y);
-			} else 
-				reject = TRUE;		     
-			
-			i++;
-		}
-		if (!clip_last && !reject)
-			art_vpath_add_point (&result_path, &n_result, &n_result_max,
-					     ART_LINETO, vpath[i].x, vpath[i].y);
-
-		i++;
-	}
-	art_vpath_add_point (&result_path, &n_result, &n_result_max,
-			     ART_END, 0., 0.);
-
-	return result_path;
-}
-
-ArtVpath *
-go_line_dash_vpath (ArtVpath const *path, 
-		    ArtVpathDash const *dash,
-		    GogViewAllocation const *bbox)
-{
-	ArtVpath *dashed;
-
-	if (dash == NULL) 
-		return NULL;
-
-	if (bbox != NULL) {
-		ArtVpath *clipped = go_line_clip_vpath (path, bbox);
-		dashed = art_vpath_dash (clipped, dash);
-		g_free (clipped);
-	} else
-		dashed = art_vpath_dash (path, dash);
-
-	return dashed;
-}
-					 
-#ifdef GOFFICE_WITH_GTK
-
-ArtBpath*
-go_line_build_bpath (double const *x, double const *y, int n)
-{
-	ArtBpath *path;
-	int i, j, start, cur, nb;
-	double *lengths, *angles, curx, cury, t, t0, a0, a1;
-
-	g_return_val_if_fail (n > 0, NULL);
-
-	path = art_new (ArtBpath, n + 1);
-	lengths = g_new (double, n - 1);
-	angles = g_new (double, n - 1);
-
-	j = -1;
-	for (start = nb = cur = i = 0; i <= n; i++) {
-		if ((i == n) || isnan (x[i]) || !go_finite (x[i]) || (fabs (x[i]) == DBL_MAX) ||
-			isnan (y[i]) || !go_finite (y[i]) || (fabs (y[i]) == DBL_MAX)) {
-			/* invalid or infinite points interrupt the curve; DBL_MAX is also filtered
-			because this value is returned when mapping a negative value to a logarithmic
-			axis. */
-			switch (nb) {
-			case 0: /* invalid point: don't draw anything */
-				break;
-			case 1: /* isolated point: don't draw anything */
-				j--;
-				break;
-			case 2: /* two points: draw a linear segment*/
-				path[start++].code = ART_MOVETO_OPEN;
-				path[start++].code = ART_LINETO;
-				cur = start;
-				break;
-			default: /* draw a bezier spline */
-				path[start].code = ART_MOVETO_OPEN;
-				while (start < j) {
-					curx = path[start + 1].x3 - path[start].x3;
-					cury = path[start + 1].y3 - path[start].y3;
-					lengths[start] = sqrt (curx * curx + cury * cury) / 4.;
-					angles[start] = atan2 (cury, curx);
-					start++ ;
-					path[start].code = ART_CURVETO;
-				}
-				start++;
-				a0 = angles[cur];
-				a1 = angles[cur + 1];
-				if (fabs (a1 - a0) > M_PI)
-					a1 -= (a1 > a0)? 2. * M_PI: -2. * M_PI;
-				t = (a0 * lengths[cur + 1] + a1 * lengths[cur])
-					/ (lengths[cur] + lengths[cur + 1]);
-				t0 = (a0 * 3. - t) / 2.;
-				cur++;
-				path[cur].x1 = path[cur - 1].x3 + lengths[cur - 1] * cos (t0);
-				path[cur].y1 = path[cur - 1].y3 + lengths[cur - 1] * sin (t0);
-				path[cur].x2 = path[cur].x3 - lengths[cur - 1] * cos (t);
-				path[cur].y2 = path[cur].y3 - lengths[cur - 1] * sin (t);
-				cur++;
-				t0 = t;
-				a0 = a1;
-				while (cur < j) {
-					a1 = angles[cur];
-					if (fabs (a1 - a0) > M_PI)
-						a1 -= (a1 > a0)? 2. * M_PI: -2. * M_PI;
-					t = (a0 * lengths[cur] + a1 * lengths[cur - 1])
-						/ (lengths[cur] + lengths[cur - 1]);
-					path[cur].x1 = path[cur - 1].x3 + lengths[cur - 1] * cos (t0);
-					path[cur].y1 = path[cur - 1].y3 + lengths[cur - 1] * sin (t0);
-					path[cur].x2 = path[cur].x3 - lengths[cur - 1] * cos (t);
-					path[cur].y2 = path[cur].y3 - lengths[cur - 1] * sin (t);
-					t0 = t;
-					a0 = a1;
-					cur++;
-				}
-				path[cur].x1 = path[cur - 1].x3 + lengths[cur - 1] * cos (t0);
-				path[cur].y1 = path[cur - 1].y3 + lengths[cur - 1] * sin (t0);
-				t = (a0 * 3. - t0) / 2.;
-				path[cur].x2 = path[cur].x3 - lengths[cur - 1] * cos (t);
-				path[cur].y2 = path[cur].y3 - lengths[cur - 1] * sin (t);
-				cur++;
-			}
-			nb = 0;
-		} else if (!nb || ((path[j].x3 != x[i]) || (path[j].y3 != y[i]))) {
-			j++;
-			path[j].x3 = x[i];
-			path[j].y3 = y[i];
-			nb++;
-		}
-	}
-
-	path[start].code = ART_END;
-	g_free (lengths);
-	g_free (angles);
-	return path;
-}
-
-ArtVpath*
-go_line_build_vpath (double const *x, double const *y, int n)
-{
-	ArtVpath *path;
-	int i, j, start, nb;
-
-	g_return_val_if_fail (n > 0, NULL);
-
-	path = art_new (ArtVpath, n + 1);
-
-	j = -1;
-	for (start = nb = i = 0; i <= n; i++) {
-		if ((i == n) || isnan (x[i]) || !go_finite (x[i]) || (fabs (x[i]) == DBL_MAX) ||
-			isnan (y[i]) || !go_finite (y[i]) || (fabs (y[i]) == DBL_MAX)) {
-			/* invalid or infinite points interrupt the path; DBL_MAX is also filtered
-			because this value is returned when mapping a negative value to a logarithmic
-			axis. */
-			switch (nb) {
-			case 0: /* invalid point: don't draw anything */
-				break;
-			case 1: /* isolated point: don't draw anything */
-				j--;
-				break;
-			default: 
-				path[start].code = ART_MOVETO_OPEN;
-				while (start < j) {
-					start++ ;
-					path[start].code = ART_LINETO;
-				}
-				start++;
-			}
-			nb = 0;
-		} else if (!nb || ((path[j].x != x[i]) || (path[j].y != y[i]))) {
-			j++;
-			path[j].x = x[i];
-			path[j].y = y[i];
-			nb++;
-		}
-	}
-
-	path[start].code = ART_END;
-	return path;
-}
-
-#endif /* GOFFICE_WITH_GTK */

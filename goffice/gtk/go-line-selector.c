@@ -32,7 +32,7 @@ go_line_dash_palette_render_func (cairo_t *cr,
 				  int index, 
 				  gpointer data)
 {
-	ArtVpathDash *dash;
+	GOLineDashSequence *sequence;
 	double y;
 
 	if (index < 0 || index >= GO_LINE_MAX)
@@ -45,17 +45,17 @@ go_line_dash_palette_render_func (cairo_t *cr,
 	cairo_fill_preserve (cr);
 	cairo_set_source_rgb (cr, .75, .75, .75);
 	cairo_stroke (cr);
-	
+
 	if (index == GO_LINE_NONE)
 		return;
 
 	cairo_set_source_rgb (cr, 0, 0, 0);
 	cairo_set_line_width (cr, 1);
 	cairo_set_line_cap (cr, CAIRO_LINE_CAP_SQUARE);
-	dash = go_line_get_vpath_dash (index, 1);
-	if (dash != NULL) {
-		cairo_set_dash (cr, dash->dash, dash->n_dash, 0);
-		go_line_vpath_dash_free (dash);
+	sequence = go_line_dash_get_sequence (index, 1);
+	if (sequence != NULL) {
+		cairo_set_dash (cr, sequence->dash, sequence->n_dash, 0.);
+		go_line_dash_sequence_free (sequence);
 	}
 	cairo_move_to (cr, area->x + 3.5, y);
 	cairo_line_to (cr, area->x + area->width - 3.5, y);
