@@ -556,15 +556,15 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogPiePlot const *model = GOG_PIE_PLOT (view->model);
 	GogPieSeries const *series = NULL;
-	double separated_cx, separated_cy, cx, cy, r, dt, tmp, theta, len, *vals, scale;
+	double separated_cx, separated_cy, cx, cy, r, theta, len, *vals, scale;
 	double default_sep;
-	unsigned elem, j, n, k;
-	ArtVpath path [MAX_ARC_SEGMENTS*2 + 4];
+	unsigned elem, k;
+	GOPath *path;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
 	GogStyle *style;
 	GSList *ptr;
 	unsigned num_series = 0;
-	unsigned index, mirror = 0; /* init mirror because gcc is silly */
+	unsigned index;
 	double center_radius;
 	double center_size = 0.0;
 	double r_ext, r_int, r_tot;
@@ -577,7 +577,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	/* compute number of valid series */
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
-	  	if (!gog_series_is_valid (GOG_SERIES (ptr->data)))
+		if (!gog_series_is_valid (GOG_SERIES (ptr->data)))
 			continue;
 		num_series++;
 	}
@@ -590,11 +590,11 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	if ((style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series))))
 		outline_width_max = gog_renderer_line_size (view->renderer, style->outline.width);
 	for (overrides = gog_series_get_overrides (GOG_SERIES (series));
-	     overrides != NULL; 
+	     overrides != NULL;
 	     overrides = overrides->next) {
 		separation = GOG_PIE_SERIES_ELEMENT (overrides->data)->separation;
 		if (separation_max < separation)
-			separation_max = separation; 
+			separation_max = separation;
 		style = gog_styled_object_get_style (GOG_STYLED_OBJECT (overrides->data));
 		if (outline_width_max < style->outline.width)
 			outline_width_max = style->outline.width;
@@ -695,6 +695,8 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		r_tot /= 2. * (1. + model->default_separation + separation_max);
 	}
 
+	path = go_path_new ();
+
 	default_sep = r_tot * model->default_separation;
 	center_radius = r_tot * center_size;
 	r = r_tot * (1. - center_size);
@@ -731,27 +733,27 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			len = fabs (vals[k]) * scale;
 			if (!go_finite (len) || len < 1e-3)
 				continue;
-			
+
 			gpse = NULL;
 			if ((overrides != NULL) &&
 			    (GOG_SERIES_ELEMENT (overrides->data)->index == k)) {
 				gpse = GOG_PIE_SERIES_ELEMENT (overrides->data);
 				overrides = overrides->next;
-				gog_renderer_push_style (view->renderer, 
+				gog_renderer_push_style (view->renderer,
 					gog_styled_object_get_style (
 						GOG_STYLED_OBJECT (gpse)));
 			} else if (model->base.vary_style_by_element)
 				gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
 							model->base.index_num + k, FALSE);
-				
+
 			/* only separate the outer ring */
 			separated_cx = cx;
 			separated_cy = cy;
-			if (num_series == index && (default_sep > 0. || gpse != NULL)) { 
+			if (num_series == index && (default_sep > 0. || gpse != NULL)) {
 
 				separation = default_sep;
 
-				if (gpse != NULL) 
+				if (gpse != NULL)
 					separation += gpse->separation * r_tot;
 
 				separated_cx += separation * cos (theta + len/2.);
@@ -759,40 +761,14 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 			theta += len;
 
-			n = MAX_ARC_SEGMENTS * len / (2 * M_PI);
-			if (n < 6)
-				n = 6;
-			else if (n > MAX_ARC_SEGMENTS)
-				n = MAX_ARC_SEGMENTS;
-
-			dt = (double)-len / (double)n;
-			path[0].code = ART_MOVETO;
-			path[0].x = separated_cx;
-			path[0].y = separated_cy;
-			if (has_hole) {
-				path[0].x += r_int * cos (theta);
-				path[0].y += r_int * sin (theta);
-				mirror = 2*n + 3;
-				path[mirror].code = ART_END;
-			} else {
-				path[n+2].code = ART_LINETO;
-				path[n+2].x = separated_cx;
-				path[n+2].y = separated_cy;
-				path[n+3].code = ART_END;
-			}
-			for (tmp = theta, j = 0; j++ <= n ; tmp += dt) {
-				path[j].code = ART_LINETO;
-				path[j].x = separated_cx + r_ext * cos (tmp);
-				path[j].y = separated_cy + r_ext * sin (tmp);
-				if (has_hole) {
-					path[mirror - j].code = ART_LINETO;
-					path[mirror - j].x = separated_cx + r_int * cos (tmp);
-					path[mirror - j].y = separated_cy + r_int * sin (tmp);
-				}
-			}
-
-			gog_renderer_draw_polygon (view->renderer, path,
-						   r * len < 5 /* drop outline for thin segments */);
+			go_path_ring_wedge (path, separated_cx, separated_cy,
+					    r_ext, r_ext,
+					    has_hole ? r_int : 0.0,
+					    has_hole ? r_int : 0.0,
+					    theta - len,
+					    theta);
+			gog_renderer_draw_shape (view->renderer, path);
+			go_path_clear (path);
 
 			if (gpse != NULL)
 				gog_renderer_pop_style (view->renderer);
@@ -804,6 +780,8 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		index ++;
 	}
+
+	go_path_free (path);
 }
 
 static void

@@ -1,5 +1,11 @@
 2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Use of go_path_ring_wedge for pie wedge rendering.
+
+	* plugins/plot_pie/gog-pie.c (gog_pie_view_render): here.
+
+2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Use of go_path_pie_wedge for bubble rendering.
 
 	* plugins/plot_xy/gog-xy.c (bubble_draw_circle): here.
