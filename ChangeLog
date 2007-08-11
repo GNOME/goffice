@@ -1,3 +1,12 @@
+2007-08-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix clipping bug introduced by GOPath conversion.
+
+	* goffice/graph/gog-renderer.c (gog_renderer_push_clip_rectangle):
+	here.
+
+	(_draw_rectangle): call _draw_shape directly.
+
 2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Adapt renderer rectangle API to new style (draw, fill, stroke).

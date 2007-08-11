@@ -755,8 +755,8 @@ gog_renderer_push_clip (GogRenderer *rend, GOPath const *path)
  * @w: width of clipping rectangle
  * @h: height of clipping rectangle
  *
- * Defines a rectangular clipping region. For screen rendering, this function 
- * takes care to round the coordinates, in order to have efficient clipping. 
+ * Defines a rectangular clipping region. For efficient screen rendering, 
+ * this function takes care to round the coordinates.
  **/
 
 void
@@ -771,8 +771,8 @@ gog_renderer_push_clip_rectangle (GogRenderer *rend, double x, double y, double 
 		double xx = go_fake_floor (x);
 		double yy = go_fake_floor (y);
 		go_path_rectangle (path, xx, yy,
-				   go_fake_ceil (x + w),
-				   go_fake_ceil (y + h));
+				   go_fake_ceil (x + w) - xx,
+				   go_fake_ceil (y + h) - yy);
 	}
 	gog_renderer_push_clip (rend, path);
 	go_path_free (path);
@@ -969,12 +969,7 @@ _draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean fill
 
 	go_path_rectangle (path, rect->x + o_2, rect->y + o_2, rect->w - o, rect->h - o);
 
-	if (stroke && fill)
-		gog_renderer_draw_shape (rend, path);
-	else if (stroke)
-		gog_renderer_stroke_shape (rend, path);
-	else
-		gog_renderer_fill_shape (rend, path);
+	_draw_shape (rend, path, fill, stroke);
 
 	go_path_free (path);
 }
