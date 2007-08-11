@@ -30,6 +30,16 @@ Multi-backend renderer
 
 @gogrenderer: the object which received the signal.
 
+<!-- ##### ARG GogRenderer:cairo ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GogRenderer:is-vector ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG GogRenderer:model ##### -->
 <para>
 
@@ -387,16 +397,5 @@ Multi-backend renderer
 
 @renderer: 
 @Returns: 
-
-
-<!-- ##### FUNCTION gog_graph_print_to_gnome_print ##### -->
-<para>
-
-</para>
-
-@graph: 
-@gp_context: 
-@width: 
-@height: 
 
 

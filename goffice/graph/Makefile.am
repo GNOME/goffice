@@ -33,8 +33,7 @@ libgoffice_graph_la_SOURCES = \
 	gog-data-allocator.c		\
 	gog-data-set.c			\
 	\
-	gog-renderer.c			\
-	gog-renderer-cairo.c
+	gog-renderer.c
 
 libgoffice_graph_ladir = $(goffice_include_dir)/graph
 libgoffice_graph_la_HEADERS = \
@@ -66,18 +65,11 @@ libgoffice_graph_la_HEADERS = \
 	gog-error-bar.h			\
 	gog-trend-line.h		\
 	gog-reg-curve.h			\
-	gog-smoothed-curve.h	\
+	gog-smoothed-curve.h		\
 	gog-series-lines.h		\
 	gog-data-allocator.h		\
 	gog-data-set.h			\
-	gog-renderer.h			\
-	gog-renderer-impl.h		\
-	gog-renderer-cairo.h
-
-if GOFFICE_USE_SVG_RENDERER
-  libgoffice_graph_la_SOURCES += gog-renderer-svg.c
-  libgoffice_graph_la_HEADERS += gog-renderer-svg.h
-endif
+	gog-renderer.h
 
 if WITH_GTK
   libgoffice_graph_la_SOURCES += gog-control-foocanvas.c	\

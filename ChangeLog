@@ -1,3 +1,19 @@
+2007-08-02  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Merge of GogRenderer and GogRendererCairo.
+
+	* configure.in: explicitely require cairo, cairo-svg, cairo-pdf and
+	cairo-ps 1.2.0.
+	* goffice/graph/gog-renderer-cairo.[ch]: merge code in gog-renderer.
+	* goffice/graph/gog-renderer-svg.[ch]: deleted.
+	* goffice/graph/gog-renderer-gnome-print.[ch]: removed.
+	* goffice/graph/gog-renderer-impl.h: removed.
+	* goffice/graph/Makefile.am: update.
+	* goffice/graph/gog-graph.c (gog_graph_export_image): GogRendererCairo
+	doesn't exist anymore.
+	(gog_graph_render_to_cairo): ditto.
+	* goffice/graph/gog-renderer.c: merge cairo implementation.
+
 2007-08-01  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fill support for XY plots.

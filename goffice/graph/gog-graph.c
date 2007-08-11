@@ -23,7 +23,6 @@
 #include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-chart-impl.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-renderer-cairo.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/data/go-data.h>
@@ -1063,10 +1062,10 @@ gog_graph_export_image (GogGraph *graph, GOImageFormat format, GsfOutput *output
 {
 	GogRenderer *renderer;
 	gboolean result;
-		
+
 	g_return_val_if_fail (IS_GOG_GRAPH (graph), FALSE);
 	g_return_val_if_fail (format != GO_IMAGE_FORMAT_UNKNOWN, FALSE);
-	
+
 	renderer = gog_renderer_new_for_format (graph, format);
 	g_return_val_if_fail (renderer != NULL, FALSE);
 
@@ -1078,25 +1077,25 @@ gog_graph_export_image (GogGraph *graph, GOImageFormat format, GsfOutput *output
 
 void gog_graph_render_to_cairo (GogGraph *graph, gpointer data, double w, double h)
 {
-	GogRendererCairo *rend = GOG_RENDERER_CAIRO (g_object_new (
-		GOG_RENDERER_CAIRO_TYPE,
+	GogRenderer *rend = GOG_RENDERER (g_object_new (
+		GOG_RENDERER_TYPE,
 		"model", graph,
 		"cairo", data,
 		"is-vector", FALSE,
 		NULL));
-	gog_renderer_cairo_update (rend, w, h, 1.);
+	gog_renderer_update (rend, w, h, 1.);
 	g_object_unref (rend);
 }
 
 void gog_graph_render_to_cairo_vector (GogGraph *graph, gpointer data, double w, double h)
 {
-	GogRendererCairo *rend = GOG_RENDERER_CAIRO (g_object_new (
-		GOG_RENDERER_CAIRO_TYPE,
+	GogRenderer *rend = GOG_RENDERER (g_object_new (
+		GOG_RENDERER_TYPE,
 		"model", graph,
 		"cairo", data,
 		"is-vector", TRUE,
 		NULL));
-	gog_renderer_cairo_update (rend, w, h, 1.);
+	gog_renderer_update (rend, w, h, 1.);
 	g_object_unref (rend);
 }
 
