@@ -117,7 +117,7 @@ Plans
 	1.12.3) Bounds on 1 axis implicitly clip the other	<-------->
 	1.12.4) Splined interpolation				(DONE)
 	1.12.5) Bubbles 					(DONE)
-	1.12.6) Fill surface					<-------->
+	1.12.6) Fill surface					(DONE)
 	1.12.7) label points					<-------->
     1.13) Decide on recalc strategy				(DONE)
 	1.13.1) Getting data from sheet -> graphs		(DONE)
@@ -196,7 +196,7 @@ Plans
 	1.21.1) Actually use the themes to initialize styles	(DONE)
 	1.21.2) load from xml					<-------->
 	1.21.3) selector for graphs				(DONE)
-	1.21.4) How to change a graph's theme			<-------->
+	1.21.4) How to change a graph's theme			(DONE)
 	1.21.5) Use Roles rather than Types to enumerate	(DONE)
 	1.21.5) Allow type aliases				(DONE)
     1.22) Legend
@@ -278,7 +278,7 @@ Plans
 	1.36.1) Initial implementation				(DONE)
 	1.36.2) XLS import					<-------->
 	1.36.3) XLS export					<-------->
-	1.36.4) Draw lines to main axis				<-------->
+	1.36.4) Draw lines to main axis or a selected dest.	<-------->
     1.37) Surface plots
 	1.37.1) 3D axis and orientation				<-------->
 	1.37.2) Implementation.					<-------->
@@ -286,7 +286,7 @@ Plans
 	1.37.4) XLS export					<-------->
     1.38) Polar plots
     	1.38.1) Initial implementation				(DONE)
-    	1.38.2) Fill surface					<-------->
+    	1.38.2) Fill surface					(DONE)
 	1.38.3) Radian/centigrad unit				(DONE)
 	1.38.4) Plot rotation					(DONE)
 	1.38.5) Axis labels as fraction of PI			(DONE)
