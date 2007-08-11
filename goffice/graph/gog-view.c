@@ -772,9 +772,11 @@ gog_view_render	(GogView *view, GogViewAllocation const *bbox)
 		return;
 
 	if (klass->clip) {
-		gog_renderer_push_clip (view->renderer, 
-			gog_renderer_get_rectangle_vpath (&view->allocation));
+		gog_renderer_push_clip_rectangle (view->renderer, view->allocation.x, view->allocation.y,
+						  view->allocation.w, view->allocation.h);
+
 		klass->render (view, bbox);
+
 		gog_renderer_pop_clip (view->renderer);
 	}
 	else

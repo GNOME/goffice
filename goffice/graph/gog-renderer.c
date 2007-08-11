@@ -69,11 +69,6 @@ static gulong renderer_signals [RENDERER_SIGNAL_LAST] = { 0, };
 
 static GObjectClass *parent_klass;
 
-typedef struct {
-	ArtVpath *path;
-	gpointer data;
-} GogRendererClip;
-
 struct _GogRenderer {
 	GObject	 base;
 
@@ -81,9 +76,6 @@ struct _GogRenderer {
 	GogView	 *view;
 	float	  scale, scale_x, scale_y;
 	float	  zoom;
-
-	GogRendererClip const *cur_clip;
-	GSList	  *clip_stack;
 
 	GClosure *font_watcher;
 	gboolean  needs_update;
@@ -734,6 +726,75 @@ gog_renderer_fill_shape (GogRenderer *renderer, GOPath const *path)
 
 /*****************************************************************************/
 
+/**
+ * gog_renderer_push_clip:
+ * @rend: #GogRenderer
+ * @path: a #GOPath
+ *
+ * Defines the current clipping region. 
+ **/
+
+void
+gog_renderer_push_clip (GogRenderer *rend, GOPath const *path)
+{
+	g_return_if_fail (IS_GOG_RENDERER (rend));
+	g_return_if_fail (IS_GO_PATH (path));
+
+	cairo_save (rend->cairo);
+
+	path_interpret (rend, path, 0);
+
+	cairo_clip (rend->cairo);
+}
+
+/**
+ * gog_renderer_push_clip_rectangle:
+ * @rend: #GogRenderer
+ * @x: left coordinate
+ * @y: top coordinate
+ * @w: width of clipping rectangle
+ * @h: height of clipping rectangle
+ *
+ * Defines a rectangular clipping region. For screen rendering, this function 
+ * takes care to round the coordinates, in order to have efficient clipping. 
+ **/
+
+void
+gog_renderer_push_clip_rectangle (GogRenderer *rend, double x, double y, double w, double h)
+{
+	GOPath *path;
+
+	path = go_path_new ();
+	if (rend->is_vector)
+		go_path_rectangle (path, x, y, w, h);
+	else {
+		double xx = go_fake_floor (x);
+		double yy = go_fake_floor (y);
+		go_path_rectangle (path, xx, yy,
+				   go_fake_ceil (x + w),
+				   go_fake_ceil (y + h));
+	}
+	gog_renderer_push_clip (rend, path);
+	go_path_free (path);
+}
+
+/**
+ * gog_renderer_pop_clip :
+ * @rend : #GogRenderer
+ *
+ * End the current clipping.
+ **/
+
+void
+gog_renderer_pop_clip (GogRenderer *rend)
+{
+	g_return_if_fail (IS_GOG_RENDERER (rend));
+
+	cairo_restore (rend->cairo);
+}
+
+/*****************************************************************************/
+
 static void
 grc_draw_path (GogRenderer *rend, ArtVpath const *vpath, ArtBpath const*bpath, gboolean sharp)
 {
@@ -1241,89 +1302,6 @@ gog_renderer_get_text_AABR (GogRenderer *rend, char const *text,
 	go_geometry_OBR_to_AABR (&obr, aabr);
 }
 
-/**
- * gog_renderer_push_clip :
- * @rend      : #GogRenderer
- * @clip_path : #ArtVpath array
- *
- * Defines the current clipping region. 
- **/
-void
-gog_renderer_push_clip (GogRenderer *rend, ArtVpath *clip_path)
-{
-	GogRendererClip *clip;
-	ArtVpath *path;
-	int i;
-	gboolean is_rectangle;
-
-	g_return_if_fail (IS_GOG_RENDERER (rend));
-	g_return_if_fail (clip_path != NULL);
-
-	clip = g_new (GogRendererClip, 1);
-	clip->path = clip_path;
-
-	rend->clip_stack = g_slist_prepend (rend->clip_stack, clip);
-	rend->cur_clip = clip;
-
-	path = clip->path;
-
-	if (!rend->is_vector) {
-		for (i = 0; i < 6; i++)
-			if (path[i].code == ART_END)
-				break;
-
-		is_rectangle = i == 5 &&
-			path[5].code == ART_END &&
-			path[0].x == path[3].x &&
-			path[0].x == path[4].x &&
-			path[1].x == path[2].x &&
-			path[0].y == path[1].y &&
-			path[0].y == path[4].y &&
-			path[2].y == path[3].y;
-	} else
-		is_rectangle = FALSE;
-
-	cairo_save (rend->cairo);
-	if (is_rectangle) {
-		double x = go_fake_floor (path[0].x);
-		double y = go_fake_floor (path[0].y);
-		cairo_rectangle (rend->cairo, x, y,
-				 go_fake_ceil (path[1].x) - x,
-				 go_fake_ceil (path[2].y) - y);
-	} else {
-		grc_path (rend->cairo, path, NULL, 0.0, FALSE);
-	}
-	cairo_clip (rend->cairo);
-}
-
-/**
- * gog_renderer_pop_clip :
- * @rend : #GogRenderer
- *
- * End the current clipping.
- **/
-void
-gog_renderer_pop_clip (GogRenderer *rend)
-{
-	GogRendererClip *clip;
-
-	g_return_if_fail (IS_GOG_RENDERER (rend));
-	g_return_if_fail (rend->clip_stack != NULL);
-
-	clip = (GogRendererClip *) rend->clip_stack->data;
-
-	cairo_restore (rend->cairo);
-
-	g_free (clip->path);
-	g_free (clip);
-	rend->clip_stack = g_slist_delete_link (rend->clip_stack, rend->clip_stack);
-
-	if (rend->clip_stack != NULL)
-		rend->cur_clip = (GogRendererClip *) rend->clip_stack->data;
-	else
-		rend->cur_clip = NULL;
-}
-
 static void
 _free_marker_data (GogRenderer *rend)
 {
@@ -1763,9 +1741,6 @@ gog_renderer_init (GogRenderer *rend)
 	rend->w = rend->h = 0;
 	rend->is_vector = FALSE;
 
-	rend->cur_clip = NULL;
-	rend->clip_stack = NULL;
-
 	rend->line_dash = NULL;
 	rend->outline_dash = NULL;
 
@@ -1804,9 +1779,6 @@ gog_renderer_finalize (GObject *obj)
 		g_object_unref (rend->grip_style);
 		rend->grip_style = NULL;
 	}
-
-	if (rend->clip_stack != NULL)
-		g_warning ("Missing calls to gog_renderer_pop_clip");
 
 	if (rend->cur_style != NULL) {
 		g_warning ("Missing calls to gog_renderer_style_pop left dangling style references");

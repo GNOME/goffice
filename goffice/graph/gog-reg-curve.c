@@ -305,8 +305,8 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	double delta_x;
 	int i;
 
-	chart_map = gog_chart_map_new (chart, &view->residual, 
-				       plot->axis[GOG_AXIS_X], 
+	chart_map = gog_chart_map_new (chart, &view->residual,
+				       plot->axis[GOG_AXIS_X],
 				       plot->axis[GOG_AXIS_Y],
 				       NULL, FALSE);
 	if (!gog_chart_map_is_valid (chart_map)) {
@@ -317,8 +317,8 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	x_map = gog_chart_map_get_axis_map (chart_map, 0);
 	y_map = gog_chart_map_get_axis_map (chart_map, 1);
 
-	gog_renderer_push_clip (view->renderer, 
-		gog_renderer_get_rectangle_vpath (&view->residual)); 
+	gog_renderer_push_clip_rectangle (view->renderer, view->residual.x, view->residual.y,
+					  view->residual.w, view->residual.h);
 
 	x = g_new (double, rc->ninterp + 1);
 	y = g_new (double, rc->ninterp + 1);
@@ -339,9 +339,9 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	g_free (y);
 
 	gog_renderer_pop_clip (view->renderer);
-	
+
 	gog_chart_map_free (chart_map);
-	
+
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
 		gog_view_render	(ptr->data, bbox);
 }

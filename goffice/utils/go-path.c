@@ -410,7 +410,6 @@ go_path_rectangle (GOPath *path,
 		   double x, double y,
 		   double width, double height)
 {
-	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 	go_path_move_to (path, x, y);
 	go_path_line_to (path, x + width, y);
 	go_path_line_to (path, x + width, y + height);

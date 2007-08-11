@@ -94,7 +94,7 @@ Multi-backend renderer
 </para>
 
 @rend: 
-@clip_path: 
+@path: 
 
 
 <!-- ##### FUNCTION gog_renderer_pop_clip ##### -->

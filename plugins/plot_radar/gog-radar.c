@@ -486,13 +486,13 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 		c_vals = is_polar ?  go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data)) : NULL;
 
 		if (is_polar) {
-#warning Restore clipping
-/*                        bpath = gog_renderer_get_ring_wedge_bpath (parms->cx, parms->cy, parms->rx, parms->ry,*/
-/*                                                                   0.0, 0.0, -parms->th0, -parms->th1);*/
-			if (bpath != NULL) {
-				clip_path = art_bez_path_to_vec (bpath, .1);
-				gog_renderer_push_clip (view->renderer, clip_path);
-			}
+			GOPath *clip_path;
+
+			clip_path = go_path_new ();
+			go_path_ring_wedge (clip_path, parms->cx, parms->cy, parms->rx, parms->ry,
+					    0.0, 0.0, -parms->th0, -parms->th1);
+			gog_renderer_push_clip (view->renderer, clip_path);
+			go_path_free (clip_path);
 		}
 
 		if (next_path != NULL)

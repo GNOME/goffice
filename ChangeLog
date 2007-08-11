@@ -1,5 +1,26 @@
 2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Convert the clipping API to GOPath. Drop the clip stack, that's not
+	needed anymore.
+
+	* goffice/graph/gog-renderer.c: here.
+	(gog_renderer_push_clip_rectangle): new.
+	* goffice/graph/gog-legend.c (gog_legend_view_render): use
+	gog_renderer_push_clip_rectangle.
+	* goffice/graph/gog-reg-curve.c (gog_reg_curve_view_render): ditto.
+	* goffice/graph/gog-smoothed-curve.c (gog_smoothed_curve_view_render):
+	ditto.
+	* goffice/graph/gog-view.c (gog_view_render): ditto.
+	* plugins/plot_barcol/gog-line.c (gog_line_view_render): ditto.
+	* plugins/plot_surface/gog-surface.c (gog_contour_view_render): ditto.
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): ditto.
+	* plugins/plot_radar/gog-radar.c (gog_rt_view_render): restore
+	clipping.
+	* goffice/utils/go-path.c (go_path_rectangle): don't change path
+	options here. That's not consistent and a call for troubles.
+
+2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Swith to GOPath API for ring wedge shapes. Improve size of exported
 	graphs.
 

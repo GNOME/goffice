@@ -490,15 +490,15 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 	double hairline_width;
 
 	(lview_parent_klass->render) (v, bbox);
-	
+
 	if (glv->element_per_blocks < 1)
 		return;
-	
-	gog_renderer_push_clip (v->renderer, 
-				gog_renderer_get_rectangle_vpath (&v->residual));
+
+	gog_renderer_push_clip_rectangle (v->renderer, v->residual.x, v->residual.y,
+					  v->residual.w, v->residual.h);
 
 	gog_renderer_push_style (v->renderer, style);
-	
+
 	hairline_width = gog_renderer_get_hairline_width_pts (v->renderer);
 	swatch_data.size_max = 0.0;
 	swatch_data.size_min = glv->font_size;
@@ -506,7 +506,7 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 	swatch_data.line_width_max = GLV_LINE_WIDTH_MAX_DEFAULT_EM * glv->font_size;
 	swatch_data.line_length = GLV_LINE_LENGTH_EM * glv->font_size;
 	swatch_data.hairline_width = hairline_width;
-	
+
 	gog_chart_foreach_elem (GOG_CHART (v->model->parent), TRUE,
 		(GogEnumFunc) cb_swatch_scale, &swatch_data);
 

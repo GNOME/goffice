@@ -942,8 +942,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	x_baseline = gog_axis_map_get_baseline (x_map);
 	y_baseline = gog_axis_map_get_baseline (y_map);
 
-	gog_renderer_push_clip (view->renderer,
-				gog_renderer_get_rectangle_vpath (&view->allocation));
+	gog_renderer_push_clip_rectangle (view->renderer, view->allocation.x, view->allocation.y,
+					  view->allocation.w, view->allocation.h);
 
 	markers = g_alloca (num_series * sizeof (MarkerData *));
 	num_markers = g_alloca (num_series * sizeof (unsigned));

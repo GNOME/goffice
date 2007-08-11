@@ -106,15 +106,14 @@ gog_smoothed_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogStyle *style;
 	ArtVpath *path;
 	unsigned i;
-/*	GSList *ptr; */
 
 	if (curve->nb == 0 || curve->x == NULL || curve->y == NULL)
 		return;
 
-	x_map = gog_axis_map_new (plot->axis[0], 
+	x_map = gog_axis_map_new (plot->axis[0],
 				  view->residual.x , view->residual.w);
-	y_map = gog_axis_map_new (plot->axis[1], 
-				  view->residual.y + view->residual.h, 
+	y_map = gog_axis_map_new (plot->axis[1],
+				  view->residual.y + view->residual.h,
 				  -view->residual.h);
 
 	if (!(gog_axis_map_is_valid (x_map) &&
@@ -123,10 +122,10 @@ gog_smoothed_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_axis_map_free (y_map);
 		return;
 	}
-	
-	gog_renderer_push_clip (view->renderer, 
-		gog_renderer_get_rectangle_vpath (&view->residual)); 
-	
+
+	gog_renderer_push_clip_rectangle (view->renderer, view->residual.x, view->residual.y,
+					  view->residual.w, view->residual.h);
+
 	x = g_new (double, curve->nb);
 	y = g_new (double, curve->nb);
 	for (i = 0; i < curve->nb; i++) {

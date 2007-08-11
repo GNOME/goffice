@@ -134,8 +134,9 @@ void  gog_renderer_push_style     	(GogRenderer *rend, GogStyle const *style);
 void  gog_renderer_push_selection_style (GogRenderer *renderer);
 void  gog_renderer_pop_style      	(GogRenderer *rend);
 
-void  gog_renderer_push_clip 	  (GogRenderer *rend, ArtVpath *clip_path);
-void  gog_renderer_pop_clip       (GogRenderer *rend);
+void  gog_renderer_push_clip 	  	(GogRenderer *rend, GOPath const *path);
+void  gog_renderer_push_clip_rectangle 	(GogRenderer *rend, double x, double y, double w, double h);
+void  gog_renderer_pop_clip       	(GogRenderer *rend);
 
 /* utilities for cairo/libart transition */
 GogRenderer 	*gog_renderer_new_for_pixbuf 	(GogGraph *graph);

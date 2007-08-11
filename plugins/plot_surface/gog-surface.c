@@ -674,8 +674,8 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	g_object_unref (style);
 
 	/* clip to avoid problems with logarithmic axes */
-	gog_renderer_push_clip (rend, 
-				gog_renderer_get_rectangle_vpath (&view->residual));
+	gog_renderer_push_clip_rectangle (rend, view->residual.x, view->residual.y,
+					  view->residual.w, view->residual.h);
 
 	style = gog_style_new ();
 	style->interesting_fields = GOG_STYLE_FILL | GOG_STYLE_OUTLINE;
