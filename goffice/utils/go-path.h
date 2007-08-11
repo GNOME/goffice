@@ -81,11 +81,16 @@ void 	go_path_ring_wedge 	(GOPath *path, double cx, double cy,
 void    go_path_pie_wedge 	(GOPath *path, double cx, double cy,
 				 	       double rx, double ry,
 				 	       double th0, double th1);
-void    go_path_arc	 	(GOPath *path, double cx, double cy,
-				 	       double rx, double ry,
-				 	       double th0, double th1);
-void	go_path_rectangle	(GOPath *path, double x, double y, 
-				 	       double width, double height);
+void    go_path_arc	 	(GOPath *path,
+				 double cx, double cy,
+				 double rx, double ry,
+				 double th0, double th1);
+void    go_path_arc_to	 	(GOPath *path,
+				 double cx, double cy,
+				 double rx, double ry,
+				 double th0, double th1);
+void	go_path_rectangle	(GOPath *path, double x, double y,
+				 double width, double height);
 
 void	go_path_get_extremes 	(const GOPath *path, GOPathPoint *first_point, GOPathPoint *last_point);
 

@@ -524,33 +524,33 @@ polar_make_path_step (GogChartMap *map, double const *x, double const *y, int n_
 		    && fabs (yy) != DBL_MAX) {
 			n_valid_points++;
 
-			if (n_valid_points == 1) 
+			if (n_valid_points == 1)
 				go_path_move_to (path, xx, yy);
 			else
-				switch (interpolation) {	       
+				switch (interpolation) {
 					case GO_LINE_INTERPOLATION_STEP_START:
-						go_path_arc (path, cx, cy, 
-							     last_rho * rx, last_rho * ry, 
-							     last_theta, theta);
+						go_path_arc_to (path, cx, cy,
+								last_rho * rx, last_rho * ry,
+								last_theta, theta);
 						break;
 					case GO_LINE_INTERPOLATION_STEP_END:
-						go_path_arc (path, cx, cy, 
-							     rho * rx, rho * ry, 
-							     last_theta, theta);
+						go_path_arc_to (path, cx, cy,
+								rho * rx, rho * ry,
+								last_theta, theta);
 						break;
 					case GO_LINE_INTERPOLATION_STEP_CENTER_X:
-						go_path_arc (path, cx, cy, 
-							     last_rho * rx, last_rho * ry,
-							     last_theta, (last_theta + theta) / 2.0);
-						go_path_arc (path, cx, cy, 
-							     rho * rx, rho * ry,
-							     (last_theta + theta) / 2.0, theta);
+						go_path_arc_to (path, cx, cy,
+								last_rho * rx, last_rho * ry,
+								last_theta, (last_theta + theta) / 2.0);
+						go_path_arc_to (path, cx, cy,
+								rho * rx, rho * ry,
+								(last_theta + theta) / 2.0, theta);
 						break;
 					case GO_LINE_INTERPOLATION_STEP_CENTER_Y:
-						go_path_arc (path, cx, cy, 
-							     (last_rho + rho) * rx / 2.0, 
-							     (last_rho + rho) * ry / 2.0,
-							     last_theta, theta);
+						go_path_arc_to (path, cx, cy,
+								(last_rho + rho) * rx / 2.0,
+								(last_rho + rho) * ry / 2.0,
+								last_theta, theta);
 						go_path_line_to (path, xx, yy);
 						break;
 					default:
@@ -561,7 +561,7 @@ polar_make_path_step (GogChartMap *map, double const *x, double const *y, int n_
 			last_yy = yy;
 			last_theta = theta;
 			last_rho = rho;
-		} else 
+		} else
 			n_valid_points = 0;
 	}
 
@@ -617,17 +617,17 @@ polar_make_close_path (GogChartMap *map, double const *x, double const *y,
 		case GOG_SERIES_FILL_TYPE_ORIGIN:
 			close_path = go_path_new ();
 			rho = gog_axis_map_get_baseline (r_map);
-			go_path_arc (close_path, parms->cx, parms->cy,
-				     rho * parms->rx, rho * parms->ry,
-				     gog_axis_map_to_view (t_map, theta_start), 
-				     gog_axis_map_to_view (t_map, theta_end));
+			go_path_arc_to (close_path, parms->cx, parms->cy,
+					rho * parms->rx, rho * parms->ry,
+					gog_axis_map_to_view (t_map, theta_start),
+					gog_axis_map_to_view (t_map, theta_end));
 			break;
 		case GOG_SERIES_FILL_TYPE_EDGE:
 			close_path = go_path_new ();
-			go_path_arc (close_path, parms->cx, parms->cy,
-				     parms->rx, parms->ry,
-				     gog_axis_map_to_view (t_map, theta_start), 
-				     gog_axis_map_to_view (t_map, theta_end));
+			go_path_arc_to (close_path, parms->cx, parms->cy,
+					parms->rx, parms->ry,
+					gog_axis_map_to_view (t_map, theta_start),
+					gog_axis_map_to_view (t_map, theta_end));
 			break;
 		case GOG_SERIES_FILL_TYPE_SELF:
 			break;

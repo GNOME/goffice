@@ -1,5 +1,15 @@
 2007-08-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Fix step interpolation for radar plots by introducing a new
+	go_path_arc_to function, which will not start with move_to like
+	go_path_arc.
+
+	* goffice/utils/go-path.c: (go_path_arc_to) new.
+	* goffice/graph/gog-chart-map.c: (polar_make_path_step) use the new
+	go_path_arc_to function.
+
+2007-08-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Move GogStyleFill editor to GogSeries, and make it appear along with
 	fill settings.
 

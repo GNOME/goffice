@@ -288,12 +288,13 @@ go_path_close (GOPath *path)
 	go_path_add_points (path, GO_PATH_ACTION_CLOSE_PATH, NULL, 0);
 }
 
-void
-go_path_ring_wedge (GOPath *path,
-		    double cx, double cy,
-		    double rx_out, double ry_out,
-		    double rx_in, double ry_in,
-		    double th0, double th1)
+static void
+_ring_wedge (GOPath *path,
+	     double cx, double cy,
+	     double rx_out, double ry_out,
+	     double rx_in, double ry_in,
+	     double th0, double th1,
+	     gboolean arc_to)
 {
 	double th_arc, th_out, th_in, th_delta, t, r;
 	double x, y;
@@ -333,7 +334,10 @@ go_path_ring_wedge (GOPath *path,
 	th_arc = th1 - th0;
 	n_segs = ceil (fabs (th_arc / (M_PI * 0.5 + 0.001)));
 
-	go_path_move_to (path, cx + rx_out * cos (th0), cy + ry_out * sin (th0));
+	if (arc_to && !fill)
+		go_path_line_to (path, cx + rx_out * cos (th0), cy + ry_out * sin (th0));
+	else
+		go_path_move_to (path, cx + rx_out * cos (th0), cy + ry_out * sin (th0));
 
 	th_delta = th_arc / n_segs;
 	t = (8.0 / 3.0) * sin (th_delta * 0.25) * sin (th_delta * 0.25) / sin (th_delta * 0.5);
@@ -388,12 +392,22 @@ go_path_ring_wedge (GOPath *path,
 }
 
 void
-go_path_pie_wedge (GOPath *path,
-	     double cx, double cy,
-	     double rx, double ry,
-	     double th0, double th1)
+go_path_ring_wedge (GOPath *path,
+		    double cx, double cy,
+		    double rx_out, double ry_out,
+		    double rx_in, double ry_in,
+		    double th0, double th1)
 {
-	go_path_ring_wedge (path, cx, cy, rx, ry, 0.0, 0.0, th0, th1);
+	_ring_wedge (path, cx, cy, rx_out, ry_out, rx_in, ry_in, th0, th1, FALSE);
+}
+
+void
+go_path_pie_wedge (GOPath *path,
+		   double cx, double cy,
+		   double rx, double ry,
+		   double th0, double th1)
+{
+	_ring_wedge (path, cx, cy, rx, ry, 0.0, 0.0, th0, th1, FALSE);
 }
 
 void
@@ -402,7 +416,16 @@ go_path_arc (GOPath *path,
 	     double rx, double ry,
 	     double th0, double th1)
 {
-	go_path_ring_wedge (path, cx, cy, rx, ry, -1.0, -1.0, th0, th1);
+	_ring_wedge (path, cx, cy, rx, ry, -1.0, -1.0, th0, th1, FALSE);
+}
+
+void
+go_path_arc_to (GOPath *path,
+		double cx, double cy,
+		double rx, double ry,
+		double th0, double th1)
+{
+	_ring_wedge (path, cx, cy, rx, ry, -1.0, -1.0, th0, th1, TRUE);
 }
 
 void
