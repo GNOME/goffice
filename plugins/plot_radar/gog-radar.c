@@ -433,8 +433,6 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogViewAllocation const *area;
 	GOPath *next_path = NULL;
 	GSList   *ptr;
-	ArtVpath *clip_path;
-	ArtBpath *bpath = NULL;
 	double th0, theta_min, theta_max, theta = 0;
 	double rho_min, rho_max, rho;
 	gboolean const is_polar = GOG_IS_PLOT_POLAR (model);
@@ -452,7 +450,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	c_map = gog_chart_map_get_axis_map (chart_map, 0);
 	r_map = gog_chart_map_get_axis_map (chart_map, 1);
 	parms = gog_chart_map_get_polar_parms (chart_map);
-	
+
 	gog_axis_map_get_bounds (c_map, &theta_min, &theta_max);
 	th0 = theta_min;
 	gog_axis_map_get_bounds (r_map, &rho_min, &rho_max);
@@ -568,10 +566,8 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_renderer_stroke_serie (view->renderer, path);
 		go_path_free (path);
 
-		if (is_polar && bpath != NULL) {
-			g_free (bpath);
+		if (is_polar)
 			gog_renderer_pop_clip (view->renderer);
-		}
 
 		if (gog_style_is_marker_visible (style)) {
 			for (count = 0; count < series->base.num_elements; count++) {

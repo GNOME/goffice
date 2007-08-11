@@ -97,20 +97,13 @@ double gog_renderer_get_hairline_width_pts	(GogRenderer const *r);
 
 void  gog_renderer_stroke_serie    	(GogRenderer *renderer, GOPath const *path);
 void  gog_renderer_fill_serie		(GogRenderer *renderer, GOPath const *path, GOPath const *close_path);
+
 void  gog_renderer_draw_shape 		(GogRenderer *renderer, GOPath const *path);
 void  gog_renderer_stroke_shape		(GogRenderer *renderer, GOPath const *path);
 void  gog_renderer_fill_shape 		(GogRenderer *renderer, GOPath const *path);
 
-ArtVpath * gog_renderer_get_rectangle_vpath 	(GogViewAllocation const *rect);
-
-void  gog_renderer_draw_sharp_path	(GogRenderer *rend, ArtVpath *path);
-void  gog_renderer_draw_sharp_polygon   (GogRenderer *rend, ArtVpath *path, gboolean narrow);
-void  gog_renderer_draw_sharp_rectangle (GogRenderer *r, GogViewAllocation const *rect);
-
-void  gog_renderer_draw_path      	(GogRenderer *rend, ArtVpath const *path);
-void  gog_renderer_draw_polygon   	(GogRenderer *rend, ArtVpath const *path, gboolean narrow);
-void  gog_renderer_draw_rectangle 	(GogRenderer *rend, GogViewAllocation const *rect);
-void  gog_renderer_draw_bezier_path     (GogRenderer *rend, ArtBpath const *path);
+void  gog_renderer_draw_rectangle	(GogRenderer *rend, GogViewAllocation const *rect);
+void  gog_renderer_stroke_rectangle 	(GogRenderer *rend, GogViewAllocation const *rect);
 
 void  gog_renderer_draw_grip	  (GogRenderer *renderer, double x, double y);
 
@@ -148,6 +141,14 @@ gboolean 	 gog_renderer_export_image 	(GogRenderer *renderer, GOImageFormat form
 						 GsfOutput *output, double x_dpi, double y_dpi);
 
 void  gog_renderer_request_update (GogRenderer *r);
+
+/* Deprecated API */
+void  gog_renderer_draw_sharp_path	(GogRenderer *rend, ArtVpath *path);
+void  gog_renderer_draw_sharp_polygon   (GogRenderer *rend, ArtVpath *path, gboolean narrow);
+
+void  gog_renderer_draw_path      	(GogRenderer *rend, ArtVpath const *path);
+void  gog_renderer_draw_polygon   	(GogRenderer *rend, ArtVpath const *path, gboolean narrow);
+void  gog_renderer_draw_bezier_path     (GogRenderer *rend, ArtBpath const *path);
 
 G_END_DECLS
 

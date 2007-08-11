@@ -105,15 +105,6 @@ Multi-backend renderer
 @rend: 
 
 
-<!-- ##### FUNCTION gog_renderer_get_rectangle_vpath ##### -->
-<para>
-
-</para>
-
-@rect: 
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_renderer_draw_sharp_path ##### -->
 <para>
 
@@ -131,15 +122,6 @@ Multi-backend renderer
 @rend: 
 @path: 
 @narrow: 
-
-
-<!-- ##### FUNCTION gog_renderer_draw_sharp_rectangle ##### -->
-<para>
-
-</para>
-
-@r: 
-@rect: 
 
 
 <!-- ##### FUNCTION gog_renderer_draw_path ##### -->

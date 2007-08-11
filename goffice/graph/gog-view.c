@@ -47,19 +47,16 @@ gog_tool_select_object_point (GogView *view, double x, double y, GogObject **gob
 static void
 gog_tool_select_object_render (GogView *view)
 {
-	ArtVpath *path;
 	GogViewAllocation rect = view->allocation;
 	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (view->model));
 	double line_width = gog_renderer_line_size (view->renderer, style->line.width);
-	
+
 	rect.x -= line_width / 2.0;
 	rect.y -= line_width / 2.0;
 	rect.w += line_width;
 	rect.h += line_width;
 
-	path = gog_renderer_get_rectangle_vpath (&rect);
-	gog_renderer_draw_sharp_path (view->renderer, path);
-	art_free (path);
+	gog_renderer_stroke_rectangle (view->renderer, &rect);
 }
 
 static GogTool gog_tool_select_object = {

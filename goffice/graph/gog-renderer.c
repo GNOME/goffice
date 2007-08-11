@@ -943,31 +943,6 @@ gog_renderer_draw_bezier_path (GogRenderer *rend, ArtBpath const *path)
 }
 
 /**
- * gog_renderer_get_rectangle_vpath :
- * @rect:
- *
- * a utility routine to build a rectangle path.
- **/
-
-ArtVpath *
-gog_renderer_get_rectangle_vpath (GogViewAllocation const *rect)
-{
-	ArtVpath *path;
-
-	path = g_new (ArtVpath, 6);
-
-	path[0].x = path[3].x = path[4].x = rect->x;
-	path[1].x = path[2].x = rect->x + rect->w;
-	path[0].y = path[1].y = path[4].y = rect->y;
-	path[2].y = path[3].y = rect->y + rect->h;
-	path[0].code = ART_MOVETO;
-	path[1].code = path[2].code = path[3].code = path[4].code = ART_LINETO;
-	path[5].code = ART_END;
-
-	return path;
-}
-
-/**
  * gog_renderer_draw_rectangle:
  * @rend: a #GogRenderer
  * @rect: position and extent of rectangle
@@ -977,44 +952,43 @@ gog_renderer_get_rectangle_vpath (GogViewAllocation const *rect)
  **/
 
 static void
-draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean sharp)
+_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean fill, gboolean stroke)
 {
+	GOPath *path;
 	gboolean const narrow = (rect->w < 3.) || (rect->h < 3.);
 	double o, o_2;
-	ArtVpath path[6];
+
+	path = go_path_new ();
+	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 
 	if (!narrow) {
 		o = gog_renderer_line_size (rend, rend->cur_style->outline.width);
 		o_2 = o / 2.;
 	} else
 		o = o_2 = 0.;
-	path[0].code = ART_MOVETO;
-	path[1].code = ART_LINETO;
-	path[2].code = ART_LINETO;
-	path[3].code = ART_LINETO;
-	path[4].code = ART_LINETO;
-	path[5].code = ART_END;
-	path[0].x = path[1].x = path[4].x = rect->x + o_2;
-	path[2].x = path[3].x = path[0].x + rect->w - o;
-	path[0].y = path[3].y = path[4].y = rect->y + o_2;
-	path[1].y = path[2].y = path[0].y + rect->h - o;
 
-	if (sharp)
-		gog_renderer_draw_sharp_polygon (rend, path, narrow);
+	go_path_rectangle (path, rect->x + o_2, rect->y + o_2, rect->w - o, rect->h - o);
+
+	if (stroke && fill)
+		gog_renderer_draw_shape (rend, path);
+	else if (stroke)
+		gog_renderer_stroke_shape (rend, path);
 	else
-		gog_renderer_draw_polygon (rend, path, narrow);
-}
+		gog_renderer_fill_shape (rend, path);
 
-void
-gog_renderer_draw_sharp_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
-{
-	draw_rectangle (rend, rect, TRUE);
+	go_path_free (path);
 }
 
 void
 gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
 {
-	draw_rectangle (rend, rect, FALSE);
+	_draw_rectangle (rend, rect, TRUE, TRUE);
+}
+
+void
+gog_renderer_stroke_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
+{
+	_draw_rectangle (rend, rect, TRUE, TRUE);
 }
 
 /**
@@ -1025,6 +999,7 @@ gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
  *
  * Draw a grip, used for moving/resizing of objects.
  **/
+
 void
 gog_renderer_draw_grip (GogRenderer *renderer, double x, double y)
 {
@@ -1034,7 +1009,7 @@ gog_renderer_draw_grip (GogRenderer *renderer, double x, double y)
 	rectangle.y = y - GOG_RENDERER_GRIP_SIZE;
 	rectangle.w = rectangle.h = 2 * GOG_RENDERER_GRIP_SIZE;
 
-	gog_renderer_draw_sharp_rectangle (renderer, &rectangle);
+	gog_renderer_draw_rectangle (renderer, &rectangle);
 }
 
 static void

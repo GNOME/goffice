@@ -1,5 +1,28 @@
 2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Adapt renderer rectangle API to new style (draw, fill, stroke).
+
+	* goffice/graph/gog-label.c (gog_text_view_render):
+	gog_renderer_draw_sharp_rectangle is gog_renderer_draw_rectangle now.
+	* goffice/graph/gog-legend.c (cb_render_elements): ditto.
+	* goffice/graph/gog-outlined-object.c (gog_outlined_view_render):
+	ditto.
+	* goffice/graph/gog-plot.c (gog_tool_move_plot_area_render): use
+	gog_renderer_stroke_rectangle.
+	* goffice/graph/gog-view.c (gog_tool_select_object_render): ditto.
+	* plugins/plot_pie/gog-pie.c (gog_tool_move_pie_render): ditto.
+	* goffice/graph/gog-renderer.c (gog_renderer_get_rectangle_vpath):
+	removed.
+	(_draw_rectangle): use GOPath.
+	(gog_renderer_draw_sharp_rectangle): removed.
+	(gog_renderer_draw_rectangle): draw shar rectangle.
+	(gog_renderer_stroke_rectangle): new.
+	(gog_renderer_draw_grip): adapt to new API.
+	* plugins/plot_radar/gog-radar.c (gog_rt_view_render): remove unused
+	variables.
+
+2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Use of go_path_ring_wedge for pie wedge rendering.
 
 	* plugins/plot_pie/gog-pie.c (gog_pie_view_render): here.

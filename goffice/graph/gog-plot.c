@@ -1042,7 +1042,7 @@ static gboolean
 gog_tool_move_plot_area_point (GogView *view, double x, double y, GogObject **gobj)
 {
 	GogViewAllocation const *plot_area = gog_chart_view_get_plot_area (view->parent);
-	
+
 	return (x >= plot_area->x &&
 		x <= (plot_area->x + plot_area->w) &&
 		y >= plot_area->y &&
@@ -1053,11 +1053,8 @@ static void
 gog_tool_move_plot_area_render (GogView *view)
 {
 	GogViewAllocation const *plot_area = gog_chart_view_get_plot_area (view->parent);
-	ArtVpath *path;
 
-	path = gog_renderer_get_rectangle_vpath (plot_area);
-	gog_renderer_draw_sharp_path (view->renderer, path);
-	art_free (path);
+	gog_renderer_stroke_rectangle (view->renderer, plot_area);
 }
 
 static void

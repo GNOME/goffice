@@ -464,7 +464,7 @@ cb_render_elements (unsigned index, GogStyle const *base_style, char const *name
 		rectangle.y += data->y;
 
 		gog_renderer_push_style (renderer, style);
-		gog_renderer_draw_sharp_rectangle (renderer, &rectangle);
+		gog_renderer_draw_rectangle (renderer, &rectangle);
 	}
 	gog_renderer_pop_style (renderer);
 

@@ -458,9 +458,8 @@ static void
 gog_tool_move_pie_render (GogView *view)
 {
 	GogViewAllocation rectangle;
-	ArtVpath *path;
 	double r = view->allocation.h;
-	
+
 	if (r > view->allocation.w)
 		r = view->allocation.w;
 
@@ -469,9 +468,7 @@ gog_tool_move_pie_render (GogView *view)
 	rectangle.w = r;
 	rectangle.h = r;
 
-	path = gog_renderer_get_rectangle_vpath (&rectangle);
-	gog_renderer_draw_sharp_path (view->renderer, path);
-	art_free (path);
+	gog_renderer_stroke_rectangle (view->renderer, &rectangle);
 }
 
 static void
@@ -480,7 +477,7 @@ gog_tool_move_pie_init (GogToolAction *action)
 	GogPiePlot *pie = GOG_PIE_PLOT (action->view->model);
 	MovePieData *data = g_new0 (MovePieData, 1);
 	GogViewAllocation area = action->view->allocation;
-	
+
 	data->r = area.h;
 	if (data->r > area.w)
 		data->r = area.w;
