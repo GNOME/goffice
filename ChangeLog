@@ -1,5 +1,15 @@
 2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Convert GogAxisLine to GOPath. Emit axis ticks in one stroke, in order
+	to reduce export file size. We should not have the same performance
+	issue we had with libart.
+
+	* goffice/graph/gog-axis-line.c (gog_tool_select_axis_render): use
+	GOPath.
+	(axis_line_render): ditto.
+
+2007-08-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Convert the clipping API to GOPath. Drop the clip stack, that's not
 	needed anymore.
 

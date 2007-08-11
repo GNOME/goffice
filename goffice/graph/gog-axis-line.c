@@ -776,9 +776,14 @@ static void
 gog_tool_select_axis_render (GogView *view)
 {
 	if (gog_tool_bound_is_valid_axis (view)) {
-		ArtVpath *path = gog_renderer_get_rectangle_vpath (&view->allocation);
-		gog_renderer_draw_sharp_path (view->renderer, path);
-		art_free (path);
+		GOPath *path;
+
+		path = go_path_new ();
+		go_path_rectangle (path, view->allocation.x, view->allocation.y,
+				   view->allocation.w, view->allocation.h);
+		go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
+		gog_renderer_draw_shape (view->renderer, path);
+		go_path_free (path);
 	}
 }
 
@@ -976,7 +981,7 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	gog_renderer_get_text_OBR (renderer, "0", TRUE, &txt_obr);
 	label_padding = txt_obr.w;
 
-	total_bbox.x = x; total_bbox.y = y; 
+	total_bbox.x = x; total_bbox.y = y;
 	total_bbox.w = w; total_bbox.h = h;
 	bbox.x = x -= gog_renderer_pt2r_x (renderer, padding * cos_alpha);
 	bbox.y = y -= gog_renderer_pt2r_y (renderer, padding * sin_alpha);
@@ -1024,7 +1029,7 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 			    || obr->h > label_size_max) {
 				label_size_max = MAX (obr->w, obr->h);
 				label_anchor = go_geometry_calc_label_anchor (obr, axis_angle);
-			}					
+			}
 		}
 	}
 
@@ -1033,7 +1038,7 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 			GOGeometryOBR *obr = obrs + i;
 			pos = gog_axis_map_to_view (map, ticks[i].position);
 			obr->w += label_padding;
-			go_geometry_calc_label_position (obr, axis_angle, tick_len, 
+			go_geometry_calc_label_position (obr, axis_angle, tick_len,
 							 side, label_anchor);
 			obr->x += x + pos * cos (axis_angle);
 			obr->y += y + pos * sin (axis_angle);
@@ -1049,7 +1054,7 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 }
 
 static void
-axis_line_render (GogAxisBase *axis_base, 
+axis_line_render (GogAxisBase *axis_base,
 		  GogAxisBaseView *axis_base_view,
 		  GogRenderer *renderer,
 		  double x, double y, double w, double h,
@@ -1064,7 +1069,7 @@ axis_line_render (GogAxisBase *axis_base,
 	GOGeometryOBR zero_obr;
 	GOGeometryOBR *obrs = NULL;
 	GOGeometrySide label_anchor = GO_SIDE_AUTO;
-	ArtVpath path[3];
+	GOPath *path = NULL;
 	double line_width;
 	double axis_length, axis_angle, label_padding;
 	double major_tick_len, minor_tick_len, tick_len;
@@ -1081,31 +1086,24 @@ axis_line_render (GogAxisBase *axis_base,
 	go_geometry_cartesian_to_polar (w, h, &axis_length, &axis_angle);
 	cos_alpha = side == GO_SIDE_LEFT ? - sin (axis_angle) : + sin (axis_angle);
 	sin_alpha = side == GO_SIDE_LEFT ? + cos (axis_angle) : - cos (axis_angle);
-	
+
 	x -= gog_renderer_pt2r_x (renderer, padding * cos_alpha);
 	y -= gog_renderer_pt2r_y (renderer, padding * sin_alpha);
-	
+
 	axis_base_view->x_start = x;
 	axis_base_view->y_start = y;
 	axis_base_view->x_stop = x + w;
-	axis_base_view->y_stop = y + h;	
+	axis_base_view->y_stop = y + h;
 
 	is_line_visible = gog_style_is_line_visible (style);
 	line_width = gog_renderer_line_size (renderer, style->line.width) / 2;
+
 	if (is_line_visible)
 	{
-		path[0].code = ART_MOVETO;
-		path[1].code = ART_LINETO;
-		path[2].code = ART_END;
-
-		path[0].x = x;
-		path[0].y = y;
-		path[1].x = path[0].x + w;
-		path[1].y = path[0].y + h;
-		if (sharp)
-			gog_renderer_draw_sharp_path (renderer, path);
-		else
-			gog_renderer_draw_path (renderer, path);
+		path = go_path_new ();
+		go_path_set_options (path, sharp ? GO_PATH_OPTIONS_SHARP : 0);
+		go_path_move_to (path, x, y);
+		go_path_line_to (path, x + w, y + h);
 	}
 
 	map = gog_axis_map_new (axis_base->axis, 0., axis_length);
@@ -1142,7 +1140,7 @@ axis_line_render (GogAxisBase *axis_base,
 				    || obr->h > label_size_max) {
 					label_size_max = MAX (obr->w, obr->h);
 					label_anchor = go_geometry_calc_label_anchor (obr, axis_angle);
-				}					
+				}
 			}
 		}
 	}
@@ -1159,27 +1157,19 @@ axis_line_render (GogAxisBase *axis_base,
 			switch (ticks[i].type) {
 				case GOG_AXIS_TICK_MAJOR:
 					if (draw_major) {
-						path[0].x = major_out_x + pos_x;
-						path[1].x = major_in_x + pos_x;
-						path[0].y = major_out_y + pos_y;
-						path[1].y = major_in_y + pos_y;
-						if (sharp)
-							gog_renderer_draw_sharp_path (renderer, path);
-						else
-							gog_renderer_draw_path (renderer, path);
+						go_path_move_to (path, major_out_x + pos_x,
+								 major_out_y + pos_y);
+						go_path_line_to (path, major_in_x + pos_x,
+								 major_in_y + pos_y);
 					}
 					break;
 
 				case GOG_AXIS_TICK_MINOR:
 					if (draw_minor) {
-						path[0].x = minor_out_x + pos_x;
-						path[1].x = minor_in_x + pos_x;
-						path[0].y = minor_out_y + pos_y;
-						path[1].y = minor_in_y + pos_y;
-						if (sharp)
-							gog_renderer_draw_sharp_path (renderer, path);
-						else
-							gog_renderer_draw_path (renderer, path);
+						go_path_move_to (path, minor_out_x + pos_x,
+								 minor_out_y + pos_y);
+						go_path_line_to (path, minor_in_x + pos_x,
+								 minor_in_y + pos_y);
 					}
 					break;
 
@@ -1192,7 +1182,7 @@ axis_line_render (GogAxisBase *axis_base,
 			GOGeometryOBR *obr = obrs + i;
 			pos = gog_axis_map_to_view (map, ticks[i].position);
 			obr->w += label_padding;
-			go_geometry_calc_label_position (obr, axis_angle, tick_len, 
+			go_geometry_calc_label_position (obr, axis_angle, tick_len,
 							 side, label_anchor);
 			obr->x += x + pos * cos (axis_angle);
 			obr->y += y + pos * sin (axis_angle);
@@ -1200,6 +1190,11 @@ axis_line_render (GogAxisBase *axis_base,
 			indexmap[nobr] = i;
 			nobr++;
 		}
+	}
+
+	if (is_line_visible) {
+		gog_renderer_stroke_shape (renderer, path);
+		go_path_free (path);
 	}
 
 	/*
