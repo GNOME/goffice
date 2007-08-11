@@ -217,16 +217,19 @@ cb_outline_color_changed (GOSelector *selector,
 }
 
 static void
-outline_init (StylePrefState *state, gboolean enable)
+outline_init (StylePrefState *state, gboolean enable, GogEditor *editor)
 {
 	GogStyle *style = state->style;
 	GogStyle *default_style = state->default_style;
 	GtkWidget *w, *table;
 
+	w = glade_xml_get_widget (state->gui, "outline_box");
 	if (!enable) {
-		gtk_widget_hide (glade_xml_get_widget (state->gui, "outline_box"));
+		gtk_widget_hide (w);
 		return;
 	}
+
+	gog_editor_register_widget (editor, w);
 
 	table = glade_xml_get_widget (state->gui, "outline_table");
 
@@ -638,6 +641,7 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 	index = CLAMP (gtk_combo_box_get_active (GTK_COMBO_BOX (menu)), 0, (int) G_N_ELEMENTS (fill_infos) - 1);
 
 	state->style->fill.type = fill_infos[index].type;
+	state->style->fill.auto_type = FALSE;
 	set_style (state);
 
 	fill_update_visibilies (index, state);
@@ -753,19 +757,22 @@ cb_marker_size_changed (GtkAdjustment *adj, StylePrefState *state)
 }
 
 static void
-marker_init (StylePrefState *state, gboolean enable)
+marker_init (StylePrefState *state, gboolean enable, GogEditor *editor, GOCmdContext *cc)
 {
 	GogStyle *style = state->style;
 	GogStyle *default_style = state->default_style;
 	GtkWidget *table, *w;
 	GtkWidget *selector;
+	GladeXML *gui;
 
-	if (!enable) {
-		gtk_widget_hide (glade_xml_get_widget (state->gui, "marker_box"));
+	if (!enable)
 		return;
-	}
 
-	table = glade_xml_get_widget (state->gui, "marker_table");
+	gui = go_libglade_new ("gog-style-prefs.glade", "gog_style_marker_prefs", GETTEXT_PACKAGE, cc);
+	if (gui == NULL)
+		return;
+
+	table = glade_xml_get_widget (gui, "marker_table");
 
 	state->marker.selector = selector = 
 		go_marker_selector_new (go_marker_get_shape (style->marker.mark),
@@ -777,7 +784,7 @@ marker_init (StylePrefState *state, gboolean enable)
 	else
 		go_marker_selector_set_colors (GO_SELECTOR (selector), 
 					       RGBA_BLUE, RGBA_BLUE);
-	w = glade_xml_get_widget (state->gui, "marker_shape_label");
+	w = glade_xml_get_widget (gui, "marker_shape_label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), selector);
 	gtk_table_attach (GTK_TABLE (table), selector, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	g_signal_connect (G_OBJECT (selector), "activate", 
@@ -788,14 +795,12 @@ marker_init (StylePrefState *state, gboolean enable)
 		w = create_go_combo_color (state,
 			go_marker_get_fill_color (style->marker.mark),
 			go_marker_get_fill_color (default_style->marker.mark),
-			state->gui,
-			"pattern_background", "marker_fill_label",
+			gui, "pattern_background", "marker_fill_label",
 			G_CALLBACK (cb_marker_fill_color_changed));
 	else {
 		w = create_go_combo_color (state,
 			RGBA_BLUE, RGBA_BLUE,
-			state->gui,
-			"pattern_background", "marker_fill_label",
+			gui, "pattern_background", "marker_fill_label",
 			G_CALLBACK (cb_marker_fill_color_changed));
 		gtk_widget_set_sensitive (w, FALSE);
 	}
@@ -805,20 +810,18 @@ marker_init (StylePrefState *state, gboolean enable)
 		w = create_go_combo_color (state,
 			go_marker_get_outline_color (style->marker.mark),
 			go_marker_get_outline_color (default_style->marker.mark),
-			state->gui,
-			"pattern_foreground", "marker_outline_label",
+			gui, "pattern_foreground", "marker_outline_label",
 			G_CALLBACK (cb_marker_outline_color_changed));
 	else {
 		w = create_go_combo_color (state,
 			RGBA_BLUE, RGBA_BLUE,
-			state->gui,
-			"pattern_background", "marker_fill_label",
+			gui, "pattern_background", "marker_fill_label",
 			G_CALLBACK (cb_marker_outline_color_changed));
 		gtk_widget_set_sensitive (w, FALSE);
 	}
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
 
-	w = glade_xml_get_widget (state->gui, "marker_size_spin");
+	w = glade_xml_get_widget (gui, "marker_size_spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w),
 		go_marker_get_size (style->marker.mark));
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
@@ -826,6 +829,10 @@ marker_init (StylePrefState *state, gboolean enable)
 		G_CALLBACK (cb_marker_size_changed), state);
 
 	gtk_widget_show_all (table);
+
+	w = glade_xml_get_widget (gui, "gog_style_marker_prefs");
+
+	gog_editor_add_page (editor, w, _("Markers"));
 }
 
 /************************************************************************/
@@ -985,15 +992,15 @@ gog_style_populate_editor (GogStyle *style,
 	state->object_with_style = object_with_style;
 	state->enable_edit = FALSE;
 
- 	w = glade_xml_get_widget (gui, "gog_style_prefs");
+	w = glade_xml_get_widget (gui, "gog_style_prefs");
 	g_object_set_data_full (G_OBJECT (w),
 		"state", state, (GDestroyNotify) gog_style_pref_state_free);
 	gog_editor_add_page (editor, w, _("Style"));
-	
-	outline_init 	 (state, enable & GOG_STYLE_OUTLINE);
+
+	outline_init 	 (state, enable & GOG_STYLE_OUTLINE, editor);
 	line_init    	 (state, enable & GOG_STYLE_LINE, editor);
 	fill_init    	 (state, enable & GOG_STYLE_FILL);
-	marker_init  	 (state, enable & GOG_STYLE_MARKER);
+	marker_init  	 (state, enable & GOG_STYLE_MARKER, editor, cc);
 	font_init    	 (state, enable & GOG_STYLE_FONT, editor, cc);
 	text_layout_init (state, enable & GOG_STYLE_TEXT_LAYOUT, editor, cc);
 
@@ -1117,6 +1124,8 @@ gog_style_apply_theme (GogStyle *dst, GogStyle const *src)
 		dst->outline.dash_type = src->outline.dash_type;
 	if (dst->outline.auto_color)
 		dst->outline.color = src->outline.color;
+	if (dst->fill.auto_type)
+		dst->fill.type = src->fill.type;
 	if (dst->fill.auto_fore)
 		dst->fill.pattern.fore = src->fill.pattern.fore;
 	if (dst->fill.auto_back)
@@ -1351,6 +1360,8 @@ gog_style_fill_sax_save (GsfXMLOut *output, GogStyle const *style)
 	gsf_xml_out_start_element (output, "fill");
 	gsf_xml_out_add_cstr_unchecked (output, "type",
 		    fill_style_as_str (style->fill.type));
+	gsf_xml_out_add_bool (output, "auto-type",
+		style->fill.auto_type);
 	gsf_xml_out_add_bool (output, "is-auto",
 		style->fill.auto_back);
 	gsf_xml_out_add_bool (output, "auto-fore",
@@ -1436,6 +1447,8 @@ gog_style_fill_load (xmlNode *node, GogStyle *style)
 	style->fill.type = str_as_fill_style (str);
 	xmlFree (str);
 
+	if (bool_prop (node, "auto-type", &tmp))
+		style->fill.auto_type = tmp;
 	if (bool_prop (node, "is-auto", &tmp))
 		style->fill.auto_back = tmp;
 	if (bool_prop (node, "auto-fore", &tmp))
@@ -1706,6 +1719,8 @@ gog_style_sax_load_fill (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "type"))
 			style->fill.type = str_as_fill_style (attrs[1]);
+		else if (bool_sax_prop ("auto-type", attrs[0], attrs[1], &style->fill.auto_type))
+			;
 		else if (bool_sax_prop ("is-auto", attrs[0], attrs[1], &style->fill.auto_back))
 			;
 		else if (bool_sax_prop ("auto-fore", attrs[0], attrs[1], &style->fill.auto_fore))
@@ -1865,7 +1880,9 @@ gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
 gboolean
 gog_style_is_marker_visible (GogStyle const *style)
 {
-/* FIXME FIXME FIXME TODO : make this smarter */
+	g_return_val_if_fail (IS_GOG_STYLE (style), FALSE);
+
+	/* FIXME FIXME FIXME TODO : make this smarter */
 	return (style->interesting_fields & GOG_STYLE_MARKER) &&
 		go_marker_get_shape (style->marker.mark) != GO_MARKER_NONE;
 }
@@ -1873,7 +1890,9 @@ gog_style_is_marker_visible (GogStyle const *style)
 gboolean
 gog_style_is_outline_visible (GogStyle const *style)
 {
-/* FIXME FIXME FIXME make this smarter */
+	g_return_val_if_fail (IS_GOG_STYLE (style), FALSE);
+
+	/* FIXME FIXME FIXME make this smarter */
 	return UINT_RGBA_A (style->outline.color) > 0 && 
 		style->outline.dash_type != GO_LINE_NONE;
 }
@@ -1881,14 +1900,25 @@ gog_style_is_outline_visible (GogStyle const *style)
 gboolean
 gog_style_is_line_visible (GogStyle const *style)
 {
-/* FIXME FIXME FIXME TODO : make this smarter */
+	g_return_val_if_fail (IS_GOG_STYLE (style), FALSE);
+
+	/* FIXME FIXME FIXME TODO : make this smarter */
 	return UINT_RGBA_A (style->line.color) > 0 && 
 		style->line.dash_type != GO_LINE_NONE;
+}
+
+gboolean 
+gog_style_is_fill_visible (const GogStyle *style)
+{
+	g_return_val_if_fail (IS_GOG_STYLE (style), FALSE);
+
+	return (style->fill.type != GOG_FILL_STYLE_NONE);
 }
 
 void
 gog_style_force_auto (GogStyle *style)
 {
+	g_return_if_fail (IS_GOG_STYLE (style));
 
 	if (style->marker.mark != NULL)
 		g_object_unref (G_OBJECT (style->marker.mark));
@@ -1900,6 +1930,7 @@ gog_style_force_auto (GogStyle *style)
 	style->outline.auto_color =
 	style->line.auto_dash =
 	style->line.auto_color =
+	style->fill.auto_type =
 	style->fill.auto_fore =
 	style->fill.auto_back =
 	style->font.auto_scale =

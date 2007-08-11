@@ -75,6 +75,9 @@ typedef struct {
 	void (*draw_bezier_path)	(GogRenderer *renderer, ArtBpath const *path);
 	void (*draw_bezier_polygon)    	(GogRenderer *renderer, ArtBpath const *path, gboolean narrow);
 	
+	void (*serie_stroke)   	(GogRenderer *renderer, GOPath const *path);
+	void (*serie_fill)   	(GogRenderer *renderer, GOPath const *path, GOPath const *close_path);
+
 	void (*draw_text)      	(GogRenderer *rend, char const *text,
 				 GogViewAllocation const *pos, GtkAnchorType anchor,
 				 gboolean use_markup);

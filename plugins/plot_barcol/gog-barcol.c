@@ -23,6 +23,7 @@
 #include "gog-barcol.h"
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/graph/gog-style.h>

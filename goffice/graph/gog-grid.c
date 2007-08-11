@@ -22,6 +22,7 @@
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-grid.h>
 #include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-view.h>

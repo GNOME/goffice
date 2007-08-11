@@ -24,6 +24,7 @@
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/utils/go-geometry.h>
 #include <goffice/utils/go-image.h>
+#include <goffice/utils/go-path.h>
 #include <glib-object.h>
 
 #include <gsf/gsf.h>
@@ -114,6 +115,9 @@ void  gog_renderer_draw_path      	(GogRenderer *rend, ArtVpath const *path);
 void  gog_renderer_draw_polygon   	(GogRenderer *rend, ArtVpath const *path, gboolean narrow);
 void  gog_renderer_draw_rectangle 	(GogRenderer *rend, GogViewAllocation const *rect);
 void  gog_renderer_draw_bezier_path     (GogRenderer *rend, ArtBpath const *path);
+
+void  gog_renderer_serie_stroke    	(GogRenderer *renderer, GOPath const *path);
+void  gog_renderer_serie_fill		(GogRenderer *renderer, GOPath const *path, GOPath const *close_path);
 
 void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
 				   GogViewAllocation const *pos, GtkAnchorType anchor,

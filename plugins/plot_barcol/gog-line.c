@@ -24,7 +24,7 @@
 #include "gog-1.5d.h"
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/graph/gog-view.h>
-#include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-axis.h>

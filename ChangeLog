@@ -1,3 +1,90 @@
+2007-08-01  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fill support for XY plots.
+	Interpolation, drop lines and fill support for radar plots.
+
+	* goffice/graph/gog-axis.c (gog_axis_map_is_inverted): new
+	* goffice/graph/gog-chart.c: move GogChartMap code...
+	* goffice/graph/gog-chart-map.c: ... here.
+	(get_extremes_2D): new.
+	(make_path_linear): new.
+	(make_path_spline): new.
+	(xy_make_path_step): new.
+	(xy_make_path): new.
+	(xy_make_close_path): new.
+	(polar_make_path_step): new.
+	(polar_make_path): new.
+	(polar_make_close_path): new.
+	(gog_chart_map_make_path): new.
+	(gog_chart_map_make_close_path): new.
+	* goffice/graph/gog-reg-curve.c (gog_reg_curve_view_render): use
+	gog_chart_make_path and GOPath API.
+	* goffice/graph/gog-renderer-cairo.c (emit_stroke): new.
+	(emit_outline): new.
+	(emit_fill): new.
+	(path_raw_move_to): new.
+	(path_raw_line_to): new.
+	(path_snap_even_move_to),
+	(path_snap_even_line_to),
+	(path_snap_odd_move_to),
+	(path_snap_odd_line_to): new.
+	(path_interpret): new.
+	(fill_path_line_to): new.
+	(fill_path_close_path),
+	(fill_path_interpret): new.
+	(gog_renderer_cairo_serie_stroke): new.
+	(gog_renderer_cairo_serie_fill): new.
+	* goffice/graph/gog-renderer.c (gog_renderer_serie_stroke),
+	(gog_renderer_serie_fill): new.
+	* goffice/graph/gog-series.c: add a GogSeriesFillType property.
+	(gog_series_get_data): new.
+	(gog_series_get_xy_data): use gog_series_get_data.
+	(gog_series_get_xyz_data): new, using gog_series_get_data.
+	(gog_series_get_fill_type), (gog_series_set_fill_type): accessor for
+	GogSeries::fill_type property.
+	(gog_series_populate_fill_type_combo),
+	(gog_series_get_fill_type_from_combo): convenience functions for use in
+	GogSeries editors.
+	* goffice/graph/gog-style-prefs.glade: move marker editor in its own
+	page.
+	* goffice/graph/gog-style.c (outline_init): register outline_box
+	widget.
+	(gog_style_apply_theme), (gog_style_fill_sax_save),
+	(gog_style_fill_load), (gog_style_sax_load_fill),
+	(cb_fill_type_changed): fill has an auto_type flag now.
+	(marker_init): marker editor has its own page now.
+	(gog_style_is_fill_visible): new.
+
+	Actually use GOPath API. Don't use it as an object storage, just
+	paths.
+
+	* goffice/utils/go-path.c: switch to fixed size data buffers.
+	(go_path_get_options): new.
+	(go_path_add_data): renamed to go_path_add_points.
+	(go_path_move_to), (go_path_line_to), (go_path_curve_to): clamp here.
+	(go_path_ring_wedge): new.
+	(go_path_pie_wedge): new.
+	(go_path_new_rectangle): removed.
+	(go_path_add_style): removed.
+	(go_path_interpret): new.
+
+	* plugins/plot_radar/gog-radar.c (gog_rt_view_render): implement
+	interpolation and fill support.
+	(radial_drop_lines_can_add), (radial_drop_lines_post_add),
+	(radial_drop_lines_pre_remove): new.
+	(gog_rt_series_populate_editor): new. Editor for FillType Property.
+	(gog_rt_series_class_init): sets relevant FillType values.
+	Add drop lines support.
+	* plugins/plot_radar/gog-rt-series-prefs.glade: new.
+
+	* plugins/plot_xy/gog-xy-series-prefs.glade: add FillType editor.
+	* plugins/plot_xy/gog-xy.c: add a default-style-has-fill property, for
+	compatibility with the previous behaviour wher xy plots didn't have
+	fill enabled.
+	(gog_xy_view_render): implement fill support.
+	(gog_xy_series_update): use gog_series_get_xy_data and
+	gog_series_get_xyz_data.
+
 2007-08-11  Christian Neumair <cneumair@gnome.org>
 
 	* goffice/graph/gog-object-xml.c: (gogo_prop_end): Pass instance type
@@ -71,7 +158,7 @@
 	(gog_plot_set_property), (gog_plot_get_property),
 	(gog_plot_class_init), (gog_plot_init): handle interpolation property.
 	* goffice/graph/gog-series.c (gog_series_set_property),
-	(gog_series_get_property), (gog_series_class_init), (gog_series_init): 
+	(gog_series_get_property), (gog_series_class_init), (gog_series_init):
 	handle line interpolation property.
 	(gog_series_populate_editor): add a line property selector if
 	GogSeriesClass::has_interpolation == TRUE. The selector is added to

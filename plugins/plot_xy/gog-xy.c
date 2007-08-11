@@ -28,6 +28,7 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-error-bar.h>
 #include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-color.h>
@@ -247,6 +248,7 @@ enum {
 	GOG_XY_PROP_0,
 	GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS,
 	GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES,
+	GOG_XY_PROP_DEFAULT_STYLE_HAS_FILL,
 	GOG_XY_PROP_USE_SPLINES
 };
 
@@ -275,6 +277,9 @@ gog_xy_set_property (GObject *obj, guint param_id,
 	case GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES:
 		xy->default_style_has_lines = g_value_get_boolean (value);
 		break;
+	case GOG_XY_PROP_DEFAULT_STYLE_HAS_FILL:
+		xy->default_style_has_fill = g_value_get_boolean (value);
+		break;
 	case GOG_XY_PROP_USE_SPLINES:
 		xy->use_splines = g_value_get_boolean (value);
 		break;
@@ -297,6 +302,9 @@ gog_xy_get_property (GObject *obj, guint param_id,
 		break;
 	case GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES:
 		g_value_set_boolean (value, xy->default_style_has_lines);
+		break;
+	case GOG_XY_PROP_DEFAULT_STYLE_HAS_FILL:
+		g_value_set_boolean (value, xy->default_style_has_fill);
 		break;
 	case GOG_XY_PROP_USE_SPLINES:
 		use_splines = xy->use_splines;
@@ -326,14 +334,20 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS,
 		g_param_spec_boolean ("default-style-has-markers", 
-			_("Default markers"),
+			_("Has markers by default"),
 			_("Should the default style of a series include markers"),
 			TRUE, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES,
 		g_param_spec_boolean ("default-style-has-lines", 
-			_("Default lines"),
+			_("Has lines by default"),
 			_("Should the default style of a series include lines"),
+			TRUE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DEFAULT_STYLE_HAS_FILL,
+		g_param_spec_boolean ("default-style-has-fill", 
+			_("Has fill by default"),
+			_("Should the default style of a series include fill"),
 			TRUE, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_USE_SPLINES,
@@ -362,7 +376,10 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 		};
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER | GOG_STYLE_INTERPOLATION;
+		plot_klass->desc.series.style_fields = GOG_STYLE_LINE 
+			| GOG_STYLE_FILL 
+			| GOG_STYLE_MARKER 
+			| GOG_STYLE_INTERPOLATION;
 	}
 }
 
@@ -371,6 +388,7 @@ gog_xy_plot_init (GogXYPlot *xy)
 {
 	xy->default_style_has_markers = TRUE;
 	xy->default_style_has_lines = TRUE;
+	xy->default_style_has_fill = FALSE;
 }
 
 GSF_DYNAMIC_CLASS (GogXYPlot, gog_xy_plot,
@@ -564,6 +582,7 @@ GSF_DYNAMIC_CLASS (GogBubblePlot, gog_bubble_plot,
 enum {
 	GOG_XY_COLOR_PROP_0,
 	GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES,
+	GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_FILL,
 	GOG_XY_COLOR_PROP_INTERPOLATION,
 	GOG_XY_COLOR_PROP_HIDE_OUTLIERS,
 };
@@ -643,6 +662,8 @@ gog_xy_color_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtktogglebutton.h>
+#include <gtk/gtkcombobox.h>
+
 static void
 hide_outliers_toggled_cb (GtkToggleButton *btn, GObject *obj)
 {
@@ -651,16 +672,18 @@ hide_outliers_toggled_cb (GtkToggleButton *btn, GObject *obj)
 
 static void 
 gog_xy_color_plot_populate_editor (GogObject *obj,
-			       GogEditor *editor,
-			       GogDataAllocator *dalloc,
-			       GOCmdContext *cc)
+				   GogEditor *editor,
+				   GogDataAllocator *dalloc,
+				   GOCmdContext *cc)
 {
 	GtkWidget *w;
-	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
-	char *path = g_build_filename (dir, "gog-xy-color-prefs.glade", NULL);
-	GladeXML *gui = go_libglade_new (path, "gog-xy-color-prefs", GETTEXT_PACKAGE, cc);
+	GladeXML *gui;
+	char const *dir;
+	char *path;
 
+	dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
+	path = g_build_filename (dir, "gog-xy-color-prefs.glade", NULL);
+	gui = go_libglade_new (path, "gog-xy-color-prefs", GETTEXT_PACKAGE, cc);
 	g_free (path);
 
 	if (gui != NULL) {
@@ -687,6 +710,9 @@ gog_xy_color_plot_set_property (GObject *obj, guint param_id,
 	case GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES:
 		map->default_style_has_lines = g_value_get_boolean (value);
 		break;
+	case GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_FILL:
+		map->default_style_has_fill = g_value_get_boolean (value);
+		break;
 	case GOG_XY_COLOR_PROP_HIDE_OUTLIERS:
 		map->hide_outliers = g_value_get_boolean (value);
 		break;
@@ -707,6 +733,9 @@ gog_xy_color_plot_get_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES:
 		g_value_set_boolean (value, map->default_style_has_lines);
+		break;
+	case GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_FILL:
+		g_value_set_boolean (value, map->default_style_has_fill);
 		break;
 	case GOG_XY_COLOR_PROP_HIDE_OUTLIERS:
 		g_value_set_boolean (value, map->hide_outliers);
@@ -737,8 +766,14 @@ gog_xy_color_plot_class_init (GogPlotClass *plot_klass)
 
 	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES,
 		g_param_spec_boolean ("default-style-has-lines", 
-			_("Default lines"),
+			_("Has lines by default"),
 			_("Should the default style of a series include lines"),
+			TRUE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_FILL,
+		g_param_spec_boolean ("default-style-has-fill", 
+			_("Has fill by default"),
+			_("Should the default style of a series include fill"),
 			TRUE, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_HIDE_OUTLIERS,
@@ -781,6 +816,7 @@ static void
 gog_xy_color_plot_init (GogXYColorPlot *map)
 {
 	map->default_style_has_lines = FALSE;
+	map->default_style_has_fill = FALSE;
 	map->hide_outliers = TRUE;
 }
 
@@ -846,24 +882,30 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	unsigned num_series;
 	GogChart *chart = GOG_CHART (view->model->parent);
 	GogChartMap *chart_map;
-	GogAxisMap *x_map, *y_map, *z_map;
+	GogAxisMap *x_map, *y_map, *z_map = NULL;
 	GogXYSeries const *series = NULL;
-	unsigned i ,j ,k ,n, tmp;
+	unsigned i ,j ,k ,n;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
 	GogStyle *neg_style = NULL;
+	GogStyle *style = NULL;
 	GogViewAllocation const *area;
+	GOPath *path = NULL, *next_path = NULL;
 	GSList *ptr;
-	double const *y_vals, *x_vals = NULL, *z_vals = NULL;
+	double const *y_vals, *x_vals, *z_vals;
 	double x = 0., y = 0., z = 0., x_canvas = 0., y_canvas = 0.;
-	double zmax, rmax = 0., x_zero, y_zero;
+	double zmax, rmax = 0., x_left, y_bottom, x_right, y_top;
 	double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
 	double xerrmin, xerrmax, yerrmin, yerrmax;
-	GogStyle *style = NULL;
-	gboolean show_marks, show_lines, show_negatives, in_3d, size_as_area = TRUE;
+	double x_baseline, y_baseline;
+	gboolean show_marks, show_lines, show_fill, show_negatives, in_3d, size_as_area = TRUE;
 	gboolean is_map = GOG_IS_XY_COLOR_PLOT (model), hide_outliers = TRUE;
 
 	MarkerData **markers;
 	unsigned *num_markers;
+
+	for (num_series = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, num_series++);
+	if (num_series < 1)
+		return;
 
 	area = gog_chart_view_get_plot_area (view->parent);
 	chart_map = gog_chart_map_new (chart, area, 
@@ -877,28 +919,32 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	x_map = gog_chart_map_get_axis_map (chart_map, 0);
 	y_map = gog_chart_map_get_axis_map (chart_map, 1);
-	z_map = is_map?
-			gog_axis_map_new (model->base.axis[GOG_AXIS_COLOR], 0, 6):
-			NULL;
-	if (is_map)
+
+	if (is_map) {
+		z_map = gog_axis_map_new (model->base.axis[GOG_AXIS_COLOR], 0, 6);
 		hide_outliers = GOG_XY_COLOR_PLOT (model)->hide_outliers;
+	}
 
 	/* Draw drop lines from point to axis start. To change this behaviour
 	 * and draw drop lines from point to zero, we can use gog_axis_map_get_baseline:
-	 * x_zero = gog_axis_map_get_baseline (x_map); 
+	 * x_bottom = gog_axis_map_get_baseline (x_map); 
 	 * What we really want is to draw drop lines from point to
 	 * a selected axis. But for this purpose, we need a GogAxisBase selector in
 	 * GogSeriesLine, which doesn't really know what it's supposed to do with it. */
 
-	gog_axis_map_get_extents (x_map, &x_zero, NULL); 
-	x_zero = gog_axis_map_to_view (x_map, x_zero);
-	gog_axis_map_get_extents (y_map, &y_zero, NULL); 
-	y_zero = gog_axis_map_to_view (y_map, y_zero);
+	gog_axis_map_get_extents (x_map, &x_left, &x_right);
+	x_left = gog_axis_map_to_view (x_map, x_left);
+	x_right = gog_axis_map_to_view (x_map, x_right);
+	gog_axis_map_get_extents (y_map, &y_bottom, &y_top);
+	y_bottom = gog_axis_map_to_view (y_map, y_bottom);
+	y_top = gog_axis_map_to_view (y_map, y_top);
 
-	gog_renderer_push_clip (view->renderer, 
+	x_baseline = gog_axis_map_get_baseline (x_map);
+	y_baseline = gog_axis_map_get_baseline (y_map);
+
+	gog_renderer_push_clip (view->renderer,
 				gog_renderer_get_rectangle_vpath (&view->allocation));
 
-	for (num_series = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, num_series++);
 	markers = g_alloca (num_series * sizeof (MarkerData *));
 	num_markers = g_alloca (num_series * sizeof (unsigned));
 
@@ -906,87 +952,124 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		series = ptr->data;
 		markers[j] = NULL;
 
-		if (!gog_series_is_valid (GOG_SERIES (series))) 
+		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 
-		y_vals = go_data_vector_get_values (
-			GO_DATA_VECTOR (series->base.values[1].data));
-		n = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[1].data));
-		if (series->base.values[0].data) {
-			x_vals = go_data_vector_get_values (
-				GO_DATA_VECTOR (series->base.values[0].data));
-			tmp = go_data_vector_get_len (
-				GO_DATA_VECTOR (series->base.values[0].data));
-			if (n > tmp)
-				n = tmp;
-		}
-		style = GOG_STYLED_OBJECT (series)->style;
-
-		if (n <= 0)
+		if (is_map || GOG_IS_BUBBLE_PLOT (model))
+			n = gog_series_get_xyz_data (GOG_SERIES (series), &x_vals, &y_vals, &z_vals);
+		else
+			n = gog_series_get_xy_data (GOG_SERIES (series), &x_vals, &y_vals);
+		if (n < 1)
 			continue;
 
-		/* plot drop lines if any */
-		if (series->hdroplines) {
-			ArtVpath droppath[3];
-			droppath[0].code = ART_MOVETO;
-			droppath[1].code = ART_LINETO;
-			droppath[2].code = ART_END;
-			droppath[0].x = x_zero;
-			gog_renderer_push_style (view->renderer,
-				gog_styled_object_get_style (GOG_STYLED_OBJECT (series->hdroplines)));
-			for (i = 0; i < n; i++) {
-				if (!gog_axis_map_finite (y_map, y_vals[i]))
-					continue;
-				x = x_vals ? x_vals[i] : i + 1;
-				if (!gog_axis_map_finite (x_map, x))
-					continue;
-				droppath[1].x = gog_axis_map_to_view (x_map, x);
-				droppath[0].y = droppath[1].y = gog_axis_map_to_view (y_map, y_vals[i]);
-				gog_series_lines_render (GOG_SERIES_LINES (series->hdroplines),
-								view->renderer, bbox, droppath, FALSE);
-			}
-			gog_renderer_pop_style (view->renderer);
-		}
-		if (series->vdroplines) {
-			ArtVpath droppath[3];
-			droppath[0].code = ART_MOVETO;
-			droppath[1].code = ART_LINETO;
-			droppath[2].code = ART_END;
-			droppath[0].y = y_zero;
-			gog_renderer_push_style (view->renderer,
-				gog_styled_object_get_style (GOG_STYLED_OBJECT (series->vdroplines)));
-			for (i = 0; i < n; i++) {
-				if (!gog_axis_map_finite (y_map, y_vals[i]))
-					continue;
-				x = x_vals ? x_vals[i] : i + 1;
-				if (!gog_axis_map_finite (x_map, x))
-					continue;
-				droppath[1].y = gog_axis_map_to_view (y_map, y_vals[i]);
-				droppath[0].x = droppath[1].x = gog_axis_map_to_view (x_map, x);
-				gog_series_lines_render (GOG_SERIES_LINES (series->vdroplines),
-								view->renderer, bbox, droppath, FALSE);
-			}
-			gog_renderer_pop_style (view->renderer);
-		}
+		style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
 
 		show_marks = gog_style_is_marker_visible (style);
 		show_lines = gog_style_is_line_visible (style);
-		if (!show_marks && !show_lines)
-			continue;
+		show_fill = gog_style_is_fill_visible (style);
 
 		if (model->base.vary_style_by_element)
 			style = gog_style_dup (style);
 		gog_renderer_push_style (view->renderer, style);
 
-		if (is_map) {
-			z_vals = go_data_vector_get_values (
-				GO_DATA_VECTOR (series->base.values[2].data));
-			tmp = go_data_vector_get_len (
-				GO_DATA_VECTOR (series->base.values[2].data));
-			if (n > tmp)
-				n = tmp;
+		if ((show_lines || show_fill) && !GOG_IS_BUBBLE_PLOT (model)) {
+			GOPathPoint first_point, last_point;
+
+			if (next_path != NULL)
+				path = next_path;
+			else
+				path = gog_chart_map_make_path (chart_map, x_vals, y_vals,
+								n, series->base.interpolation);
+
+			next_path = NULL;
+
+			go_path_get_extremes (path, &first_point, &last_point);
+
+			if (series->base.fill_type != GOG_SERIES_FILL_TYPE_NEXT) {
+				GOPath *close_path;
+
+				close_path = gog_chart_map_make_close_path (chart_map, x_vals, y_vals, n,
+									    series->base.fill_type);
+				gog_renderer_serie_fill (view->renderer, path, close_path);
+				if (close_path != NULL)
+					go_path_free (close_path);
+			} else {
+				if (ptr->next != NULL) {
+					GogXYSeries *next_series;
+
+					next_series = ptr->next->data;
+					if (gog_series_is_valid (GOG_SERIES (next_series))) {
+						GogStyle *next_style;
+						const double *next_x_vals, *next_y_vals;
+						unsigned int next_n_points;
+
+						next_n_points = gog_series_get_xy_data
+							(GOG_SERIES (next_series),
+							 &next_x_vals, &next_y_vals);
+						next_style = gog_styled_object_get_style
+							(GOG_STYLED_OBJECT (next_series));
+
+						next_path = gog_chart_map_make_path
+							(chart_map, next_x_vals, next_y_vals,
+							 next_n_points, next_series->base.interpolation);
+
+					}
+				}
+				gog_renderer_serie_fill (view->renderer, path, next_path);
+			}
 		}
+
+		if (series->hdroplines) {
+			GOPath *drop_path;
+			double y_drop;
+
+			gog_renderer_push_style (view->renderer,
+				gog_styled_object_get_style (GOG_STYLED_OBJECT (series->hdroplines)));
+			drop_path = go_path_new ();
+			go_path_set_options (drop_path, GO_PATH_OPTIONS_SHARP);
+			for (i = 0; i < n; i++) {
+				if (!gog_axis_map_finite (y_map, y_vals[i]))
+					continue;
+				x = x_vals ? x_vals[i] : i + 1;
+				if (!gog_axis_map_finite (x_map, x))
+					continue;
+				y_drop = gog_axis_map_to_view (y_map, y_vals[i]);
+				go_path_move_to (drop_path, x_left, y_drop);
+				go_path_line_to (drop_path, gog_axis_map_to_view (x_map, x), y_drop);
+			}
+			gog_renderer_serie_stroke (view->renderer, drop_path);
+			go_path_free (drop_path);
+			gog_renderer_pop_style (view->renderer);
+		}
+
+		if (series->vdroplines) {
+			GOPath *drop_path;
+			double x_drop;
+
+			gog_renderer_push_style (view->renderer,
+				gog_styled_object_get_style (GOG_STYLED_OBJECT (series->vdroplines)));
+			drop_path = go_path_new ();
+			go_path_set_options (drop_path, GO_PATH_OPTIONS_SHARP);
+			for (i = 0; i < n; i++) {
+				if (!gog_axis_map_finite (y_map, y_vals[i]))
+					continue;
+				x = x_vals ? x_vals[i] : i + 1;
+				if (!gog_axis_map_finite (x_map, x))
+					continue;
+				x_drop = gog_axis_map_to_view (x_map, x);
+				go_path_move_to (drop_path, x_drop, y_bottom);
+				go_path_line_to (drop_path, x_drop, gog_axis_map_to_view (y_map, y_vals[i]));
+			}
+			gog_renderer_serie_stroke (view->renderer, drop_path);
+			go_path_free (drop_path);
+			gog_renderer_pop_style (view->renderer);
+		}
+
+		if ((show_lines || show_fill) && !GOG_IS_BUBBLE_PLOT (model)) {
+			gog_renderer_serie_stroke (view->renderer, path);
+			go_path_free (path);
+		}
+
 		if (GOG_IS_BUBBLE_PLOT (model)) {
 			double zmin;
 			go_data_vector_get_minmax (GO_DATA_VECTOR (series->base.values[2].data), &zmin, &zmax);
@@ -1004,124 +1087,6 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				neg_style->fill.pattern.pattern = GO_PATTERN_SOLID;
 				neg_style->fill.pattern.back = RGBA_WHITE;
 			}
-	
-			z_vals = go_data_vector_get_values (
-				GO_DATA_VECTOR (series->base.values[2].data));
-			tmp = go_data_vector_get_len (
-				GO_DATA_VECTOR (series->base.values[2].data));
-			if (n > tmp)
-				n = tmp;
-		} else if (show_lines) {
-			double *x_splines = g_new (double, n), *y_splines = g_new (double, n);
-			for (i = 0; i < n; i++) {
-				x = x_vals ? x_vals[i] : i + 1;
-				x_splines[i] = gog_axis_map_finite (x_map, x) ?
-					gog_axis_map_to_view (x_map, x):
-					go_nan;
-				y_splines[i] = gog_axis_map_finite (y_map, y_vals[i]) ?
-					gog_axis_map_to_view (y_map, y_vals[i]):
-					go_nan;
-			}
-			switch (series->base.interpolation) {
-			case GO_LINE_INTERPOLATION_LINEAR: {
-				ArtVpath *path;
-				path = go_line_build_vpath (x_splines, y_splines, n);
-				gog_renderer_draw_path (view->renderer, path);
-				art_free (path);
-				break;
-			}
-			case GO_LINE_INTERPOLATION_SPLINE: {
-				ArtBpath *path;
-				path = go_line_build_bpath (x_splines, y_splines, n);
-				gog_renderer_draw_bezier_path (view->renderer, path);
-				art_free (path);
-				break;
-			}
-			case GO_LINE_INTERPOLATION_STEP_START:
-			case GO_LINE_INTERPOLATION_STEP_END:
-			case GO_LINE_INTERPOLATION_STEP_CENTER_X:
-			case GO_LINE_INTERPOLATION_STEP_CENTER_Y: {
-				unsigned i, j;
-				ArtVpath *path;
-				gboolean b = FALSE;
-				i = 0;
-				while ((!go_finite (x_splines[i]) || !go_finite (y_splines[i]))  && n < i)
-					i++;
-				if (n == i)
-					break;
-				path = art_new (ArtVpath,
-					((series->base.interpolation <= GO_LINE_INTERPOLATION_STEP_END)?
-					2 * n + 1: 3 * n + 1));
-				path[0].code = ART_MOVETO;
-				path[0].x = x_splines[i];
-				path[0].y = y_splines[i++];
-				for (j = 1; i < n; i++) {
-					while ((!go_finite (x_splines[i]) ||
-							!go_finite (y_splines[i]))  && i < n) {
-						i++;
-						b = TRUE;
-					}
-					if (n == i)
-						break;
-					if (b) {
-						path[j].code = ART_MOVETO;
-						path[j].x = x_splines[i];
-						path[j++].y = y_splines[i];
-						b = FALSE;
-					} else switch (series->base.interpolation) {
-					case GO_LINE_INTERPOLATION_STEP_START:
-						path[j].code = ART_LINETO;
-						path[j].x = x_splines[i];
-						path[j++].y = y_splines[i-1];
-						path[j].code = ART_LINETO;
-						path[j].x = x_splines[i];
-						path[j++].y = y_splines[i];
-						break;
-					case GO_LINE_INTERPOLATION_STEP_END:
-						path[j].code = ART_LINETO;
-						path[j].x = x_splines[i-1];
-						path[j++].y = y_splines[i];
-						path[j].code = ART_LINETO;
-						path[j].x = x_splines[i];
-						path[j++].y = y_splines[i];
-						break;
-					case GO_LINE_INTERPOLATION_STEP_CENTER_X:
-						path[j].code = ART_LINETO;
-						path[j].x = path[j+1].x = (x_splines[i-1] + x_splines[i]) / 2.;
-						path[j++].y = y_splines[i-1];
-						path[j].code = ART_LINETO;
-						path[j++].y = y_splines[i];
-						path[j].code = ART_LINETO;
-						path[j].x = x_splines[i];
-						path[j++].y = y_splines[i];
-						break;
-					case GO_LINE_INTERPOLATION_STEP_CENTER_Y:
-						path[j].code = ART_LINETO;
-						path[j].x = x_splines[i-1];
-						path[j++].y = (y_splines[i-1] + y_splines[i]) / 2.;
-						path[j].code = ART_LINETO;
-						path[j].y = path[j-1].y;
-						path[j++].x = x_splines[i];
-						path[j].code = ART_LINETO;
-						path[j].x = x_splines[i];
-						path[j++].y = y_splines[i];
-						break;
-					default:
-						g_assert_not_reached ();
-						break;
-					}
-				}
-				path[j].code = ART_END;
-				gog_renderer_draw_sharp_path (view->renderer, path);
-				art_free (path);
-				break;
-			}
-			default:
-				g_assert_not_reached ();
-				break;
-			}
-			g_free (x_splines);
-			g_free (y_splines);
 		}
 
 		if (show_marks && !GOG_IS_BUBBLE_PLOT (model))
@@ -1157,14 +1122,19 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					if (GOG_BUBBLE_PLOT(model)->show_negatives) {
 						gog_renderer_push_style (view->renderer, neg_style);
 						bubble_draw_circle (view, x_canvas, y_canvas, 
-									((size_as_area)? sqrt (- z / zmax): - z / zmax) * rmax);
+								    ((size_as_area) ? 
+								     sqrt (- z / zmax) :
+								    - z / zmax) * rmax);
 						gog_renderer_pop_style (view->renderer);
 					} else continue;
 				} else {
 					if (model->base.vary_style_by_element)
 						gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
-							model->base.index_num + i - 1, FALSE);
-					bubble_draw_circle (view, x_canvas, y_canvas, ((size_as_area)? sqrt (z / zmax): z / zmax) * rmax);
+									model->base.index_num + i - 1, FALSE);
+					bubble_draw_circle (view, x_canvas, y_canvas, 
+							    ((size_as_area) ?
+							    sqrt (z / zmax) :
+							    z / zmax) * rmax);
 				}
 			}
 
@@ -1178,6 +1148,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 								   xerrmin, xerrmax, TRUE);
 				 }
 			}
+
 			if (gog_error_bar_is_visible (series->y_errors)) {
 				GogErrorBar const *bar = series->y_errors;
 				 if (gog_error_bar_get_bounds (bar, i - 1, &yerrmin, &yerrmax)) {
@@ -1204,6 +1175,9 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_renderer_pop_style (view->renderer);
 		num_markers[j] = k;
 	}
+
+	if (next_path != NULL)
+		go_path_free (next_path);
 
 	if (GOG_IS_BUBBLE_PLOT (model)) {
 		if (model->base.vary_style_by_element)
@@ -1375,34 +1349,17 @@ static GogStyledObjectClass *series_parent_klass;
 static void
 gog_xy_series_update (GogObject *obj)
 {
-	double *x_vals = NULL, *y_vals = NULL;
-	int x_len = 0, y_len = 0;
+	const double *x_vals, *y_vals, *z_vals = NULL;
 	GogXYSeries *series = GOG_XY_SERIES (obj);
 	unsigned old_num = series->base.num_elements;
 	GSList *ptr;
 
-	if (series->base.values[1].data != NULL) {
-		y_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
-		y_len = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[1].data));
-	}
-	if (GOG_IS_BUBBLE_PLOT (series->base.plot) || GOG_IS_XY_COLOR_PLOT (series->base.plot)) {
-		double *z_vals = NULL;
-		int z_len = 0;
-		if (series->base.values[2].data != NULL) {
-			z_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[2].data));
-			z_len = go_data_vector_get_len (
-				GO_DATA_VECTOR (series->base.values[2].data));
-			if (y_len > z_len) y_len = z_len;
-		}
-	}
-	if (series->base.values[0].data != NULL) {
-		x_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data));
-		x_len = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[0].data));
-	} else
-		x_len = y_len;
-	series->base.num_elements = MIN (x_len, y_len);
+	if (GOG_IS_BUBBLE_PLOT (series->base.plot) || GOG_IS_XY_COLOR_PLOT (series->base.plot)) 
+		series->base.num_elements = gog_series_get_xyz_data (GOG_SERIES (series), 
+								     &x_vals, &y_vals, &z_vals);
+	else
+		series->base.num_elements = gog_series_get_xy_data (GOG_SERIES (series), 
+								    &x_vals, &y_vals);
 
 	/* update children */
 	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
@@ -1423,9 +1380,9 @@ gog_xy_series_init (GObject *obj)
 {
 	GogXYSeries *series = GOG_XY_SERIES (obj);
 
+	GOG_SERIES (series)->fill_type = GOG_SERIES_FILL_TYPE_Y_ORIGIN;
+	(GOG_SERIES (series))->acceptable_children = GOG_SERIES_ACCEPT_TREND_LINE;
 	series->x_errors = series->y_errors = NULL;
-	(GOG_SERIES (series))->acceptable_children =
-				GOG_SERIES_ACCEPT_TREND_LINE;
 	series->hdroplines = series->vdroplines = NULL;
 }
 
@@ -1460,21 +1417,24 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 	if (GOG_IS_XY_PLOT (series->plot)) {
 		GogXYPlot const *plot = GOG_XY_PLOT (series->plot);
 
-		if (!plot->default_style_has_markers &&
-			style->marker.auto_shape)
+		if (!plot->default_style_has_markers && style->marker.auto_shape)
 			go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 
-		if (!plot->default_style_has_lines &&
-			style->line.auto_dash)
+		if (!plot->default_style_has_lines && style->line.auto_dash)
 			style->line.dash_type = GO_LINE_NONE;
+
+		if (!plot->default_style_has_fill && style->fill.auto_type)
+			style->fill.type = GOG_FILL_STYLE_NONE;
 
 		if (plot->use_splines)
 			series->interpolation = GO_LINE_INTERPOLATION_SPLINE;
 	} else {
 		GogXYColorPlot const *plot = GOG_XY_COLOR_PLOT (series->plot);
-		if (!plot->default_style_has_lines &&
-			style->line.auto_dash)
+		if (!plot->default_style_has_lines && style->line.auto_dash)
 			style->line.dash_type = GO_LINE_NONE;
+
+		if (!plot->default_style_has_fill && style->fill.auto_type)
+			style->fill.type = GOG_FILL_STYLE_NONE;
 	}
 }
 
@@ -1559,31 +1519,48 @@ invalid_toggled_cb (GtkToggleButton *btn, GObject *obj)
 	g_object_set (obj, "invalid-as-zero", gtk_toggle_button_get_active (btn), NULL);
 }
 
+static void
+fill_type_changed_cb (GtkComboBox *combo, GObject *obj)
+{
+	gog_series_set_fill_type (GOG_SERIES (obj), 
+				  gog_series_get_fill_type_from_combo (GOG_SERIES (obj), combo));
+}
+
 static void 
 gog_xy_series_populate_editor (GogObject *obj,
 			       GogEditor *editor,
 			       GogDataAllocator *dalloc,
 			       GOCmdContext *cc)
 {
+	GogXYSeries *series;
 	GtkWidget *w;
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
 	char *path = g_build_filename (dir, "gog-xy-series-prefs.glade", NULL);
-	GladeXML *gui = go_libglade_new (path, "gog-xy-series-prefs", GETTEXT_PACKAGE, cc);
+	GladeXML *gui = go_libglade_new (path, "gog_xy_series_prefs", GETTEXT_PACKAGE, cc);
 
 	g_free (path);
+
 	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 
 	if (gui != NULL) {
-		w = glade_xml_get_widget (gui, "invalid-as-zero");
+		w = glade_xml_get_widget (gui, "invalid_as_zero");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 				(GOG_XY_SERIES (obj))->invalid_as_zero);
 		g_signal_connect (G_OBJECT (w),
 			"toggled",
 			G_CALLBACK (invalid_toggled_cb), obj);
-		w = glade_xml_get_widget (gui, "gog-xy-series-prefs");
+		series = GOG_XY_SERIES (obj);
+
+		w = glade_xml_get_widget (gui, "fill_type_combo");
+		gog_series_populate_fill_type_combo (GOG_SERIES (series), GTK_COMBO_BOX (w));
+		g_signal_connect (G_OBJECT (w), "changed", 
+				  G_CALLBACK (fill_type_changed_cb), obj);
+
+		w = glade_xml_get_widget (gui, "gog_xy_series_prefs");
 		g_object_set_data_full (G_OBJECT (w),
 			"state", gui, (GDestroyNotify)g_object_unref);
+
 		gog_editor_add_page (editor, w, _("Details"));
 	}
 
@@ -1614,6 +1591,17 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 			vert_drop_lines_post_add,
 			vert_drop_lines_pre_remove,
 			NULL },
+	};
+	static GogSeriesFillType const valid_fill_type_list[] = {
+		GOG_SERIES_FILL_TYPE_BOTTOM,
+		GOG_SERIES_FILL_TYPE_TOP,
+		GOG_SERIES_FILL_TYPE_LEFT,
+		GOG_SERIES_FILL_TYPE_RIGHT,
+		GOG_SERIES_FILL_TYPE_Y_ORIGIN,
+		GOG_SERIES_FILL_TYPE_X_ORIGIN,
+		GOG_SERIES_FILL_TYPE_SELF,
+		GOG_SERIES_FILL_TYPE_NEXT,
+		GOG_SERIES_FILL_TYPE_INVALID
 	};
 	GogObjectClass *gog_klass = (GogObjectClass *)gso_klass;
 	GObjectClass *gobject_klass = (GObjectClass *) gso_klass;
@@ -1653,7 +1641,9 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 			_("Invalid as zero"),
 			_("Replace invalid values by 0 when drawing markers or bubbles"),
 			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+
+	series_klass->valid_fill_type_list = valid_fill_type_list;
 }
 
 GSF_DYNAMIC_CLASS (GogXYSeries, gog_xy_series,

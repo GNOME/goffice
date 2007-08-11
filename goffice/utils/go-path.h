@@ -32,47 +32,69 @@
 #define GO_PATH_H
 
 #include <glib.h>
-#include <goffice/graph/gog-style.h>
 
-typedef struct _GOPath 		  GOPath;
+typedef enum {
+	GO_PATH_DIRECTION_FORWARD,
+	GO_PATH_DIRECTION_BACKWARD
+} GOPathDirection;
+
+typedef enum {
+	GO_PATH_OPTIONS_SNAP_COORDINATES 	= 1<<0,
+	GO_PATH_OPTIONS_SNAP_WIDTH		= 1<<1,
+	GO_PATH_OPTIONS_SHARP			= 3
+} GOPathOptions;
+
+typedef struct {
+	double x;
+	double y;
+} GOPathPoint;
+
+typedef void (GOPathMoveToFunc) 	(void *closure, GOPathPoint const *point);
+typedef void (GOPathLineToFunc) 	(void *closure, GOPathPoint const *point);
+typedef void (GOPathCurveToFunc) 	(void *closure, GOPathPoint const *point0,
+					 		GOPathPoint const *point1,
+							GOPathPoint const *point2);
+typedef void (GOPathClosePathFunc) 	(void *closure);
+
+typedef struct _GOPath GOPath;
 
 #define IS_GO_PATH(x) ((x) != NULL)
 
 GOPath *go_path_new 	      	(void);
-GOPath *go_path_new_with_size 	(int size);
 void 	go_path_clear	      	(GOPath *path);
 void    go_path_free          	(GOPath *path);
-void    go_path_set_sharp  	(GOPath *path, gboolean sharp);
 
-/* Pathes */
-void go_path_move_to 		(GOPath *path, double x, double y);
-void go_path_line_to 		(GOPath *path, double x, double y);
-void go_path_curve_to 		(GOPath *path, double x0, double y0, 
-			 		       double x1, double y1, 
-					       double x2, double y2);
-void go_path_close 		(GOPath *path);
-void go_path_add_arc 		(GOPath *path, double cx, double cy, 
-			 		       double rx, double ry, 
-					       double th0, double th1);
-void go_path_set_marker_flag 	(GOPath *path);
+void    	go_path_set_options  	(GOPath *path, GOPathOptions options);
+GOPathOptions   go_path_get_options  	(GOPath const *path);
 
-/* Shapes */
-void go_path_add_rectangle  	(GOPath *path, double x, double y, 
-			     		       double width, double height);
-void go_path_add_ring_wedge 	(GOPath *path, double cx, double xy,
-			 	               double rx_out, double ry_out, 
-					       double rx_in, double ry_in, 
-					       double th0, double th1);
-void go_path_add_pie_wedge  	(GOPath *path, double cx, double cy, 
-			 	               double rx, double ry, 
-					       double th0, double th1);
-void go_path_add_vertical_bar	(GOPath *path, double x, double y,
-			 		       double width, double height);	 
-void go_path_add_horizontal_bar	(GOPath *path, double x, double y,
-			 		       double width, double height);	 
-void go_path_add_style	    	(GOPath *path, GogStyle const *style);
+void 	go_path_move_to 	(GOPath *path, double x, double y);
+void 	go_path_line_to 	(GOPath *path, double x, double y);
+void 	go_path_curve_to 	(GOPath *path, double x0, double y0, 
+				 	       double x1, double y1, 
+				 	       double x2, double y2);
+void 	go_path_close 		(GOPath *path);
 
-/* Helper functions */
-GOPath *go_path_new_rectangle 	(double x, double y, double width, double height);
+void 	go_path_ring_wedge 	(GOPath *path, double cx, double cy, 
+				 	       double rx_out, double ry_out,
+					       double rx_in, double ry_in,
+					       double th0, double th1);
+void    go_path_pie_wedge 	(GOPath *path, double cx, double cy,
+				 	       double rx, double ry,
+				 	       double th0, double th1);
+void    go_path_arc	 	(GOPath *path, double cx, double cy,
+				 	       double rx, double ry,
+				 	       double th0, double th1);
+void	go_path_rectangle	(GOPath *path, double x, double y, 
+				 	       double width, double height);
+
+void	go_path_get_extremes 	(const GOPath *path, GOPathPoint *first_point, GOPathPoint *last_point);
+
+void	go_path_interpret	(GOPath const *path,
+				 GOPathDirection direction,
+				 GOPathMoveToFunc *move_to,
+				 GOPathLineToFunc *line_to,
+				 GOPathCurveToFunc *curve_to,
+				 GOPathClosePathFunc *close_path,
+				 void *closure);
 
 #endif 

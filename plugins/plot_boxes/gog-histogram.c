@@ -24,6 +24,7 @@
 #include <goffice/data/go-data.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/utils/go-format.h>

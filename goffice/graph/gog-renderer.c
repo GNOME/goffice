@@ -570,6 +570,30 @@ gog_renderer_draw_bezier_path (GogRenderer *rend, ArtBpath const *path)
 	(klass->draw_bezier_path) (rend, path);
 }
 
+void  
+gog_renderer_serie_stroke (GogRenderer *renderer, GOPath const *path)
+{
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (renderer);
+
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (renderer->cur_style != NULL);
+
+	if (klass->serie_stroke != NULL)
+		(klass->serie_stroke) (renderer, path);
+}
+
+void  
+gog_renderer_serie_fill (GogRenderer *renderer, GOPath const *path, GOPath const *close_path)
+{
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (renderer);
+
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (renderer->cur_style != NULL);
+
+	if (klass->serie_fill != NULL)
+		(klass->serie_fill) (renderer, path, close_path);
+}
+
 /**
  * gog_renderer_draw_text :
  * @rend   : #GogRenderer

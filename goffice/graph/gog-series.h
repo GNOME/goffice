@@ -28,6 +28,21 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GOG_SERIES_FILL_TYPE_Y_ORIGIN,
+	GOG_SERIES_FILL_TYPE_X_ORIGIN,
+	GOG_SERIES_FILL_TYPE_BOTTOM,
+	GOG_SERIES_FILL_TYPE_LEFT,
+	GOG_SERIES_FILL_TYPE_TOP,
+	GOG_SERIES_FILL_TYPE_RIGHT,
+	GOG_SERIES_FILL_TYPE_ORIGIN,
+	GOG_SERIES_FILL_TYPE_CENTER,
+	GOG_SERIES_FILL_TYPE_EDGE,
+	GOG_SERIES_FILL_TYPE_SELF,
+	GOG_SERIES_FILL_TYPE_NEXT,
+	GOG_SERIES_FILL_TYPE_INVALID
+} GogSeriesFillType;
+
 #define GOG_SERIES_ELEMENT_TYPE	(gog_series_element_get_type ())
 #define GOG_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_SERIES_ELEMENT_TYPE, GogSeriesElement))
 #define IS_GOG_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SERIES_ELEMENT_TYPE))
@@ -49,12 +64,26 @@ void	      gog_series_set_dim    (GogSeries *series, int dim_i,
 void	      gog_series_set_index  (GogSeries *series,
 				     int ind, gboolean is_manual);
 
-unsigned      	  gog_series_num_elements  (GogSeries const *series);
-GList const  	 *gog_series_get_overrides (GogSeries const *series);
+unsigned      	  gog_series_num_elements  	(GogSeries const *series);
+GList const  	 *gog_series_get_overrides 	(GogSeries const *series);
 
-unsigned	gog_series_get_xy_data (GogSeries const *series,
-					double const **x, double const **y);
+unsigned	  gog_series_get_xy_data   	(GogSeries const *series,
+						 double const **x, 
+						 double const **y);
+unsigned	  gog_series_get_xyz_data  	(GogSeries const *series,
+						 double const **x, 
+						 double const **y, 
+						 double const **z);
+
+GogSeriesFillType gog_series_get_fill_type 	(GogSeries const *series);
+void 		  gog_series_set_fill_type 	(GogSeries *series, GogSeriesFillType fill_type);
+
+#ifdef GOFFICE_WITH_GTK
+#include <gtk/gtkcombobox.h>
+
+void 		  gog_series_populate_fill_type_combo 	(GogSeries const *series, GtkComboBox *combo);
+GogSeriesFillType gog_series_get_fill_type_from_combo 	(GogSeries const *series, GtkComboBox *combo);
+#endif
 
 G_END_DECLS
-
 #endif /* GOG_SERIES_H */

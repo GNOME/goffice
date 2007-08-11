@@ -2,7 +2,8 @@
 /*
  * gog-radar.c
  *
- * Copyright (C) 2004 Michael Devine (mdevine@cs.stanford.edu)
+ * Copyright (C) 2004 Michael Devine <mdevine@cs.stanford.edu>
+ * Copyright (C) 2007 Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -23,6 +24,7 @@
 #include "gog-radar.h"
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
@@ -39,6 +41,12 @@
 
 #include <string.h>
 
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkcombobox.h>
+#endif 
+
 typedef struct {
 	GogPlotClass	base;
 } GogRTPlotClass;
@@ -51,9 +59,16 @@ enum {
 GOFFICE_PLUGIN_MODULE_HEADER;
 
 typedef struct {
-	GogSeries base;
+	GogSeries 	   base;
+	GogObject 	  *radial_drop_lines;
 } GogRTSeries;
+
 typedef GogSeriesClass GogRTSeriesClass;
+
+enum {
+	SERIES_PROP_0,
+	SERIES_PROP_FILL_TYPE
+};
 
 #define GOG_RT_SERIES_TYPE	(gog_rt_series_get_type ())
 #define GOG_RT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RT_SERIES_TYPE, GogRTSeries))
@@ -373,7 +388,10 @@ gog_polar_plot_class_init (GogPlotClass *gog_plot_klass)
 		};
 		gog_plot_klass->desc.series.dim = dimensions;
 		gog_plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		gog_plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER;
+		gog_plot_klass->desc.series.style_fields = GOG_STYLE_LINE 
+			| GOG_STYLE_FILL 
+			| GOG_STYLE_MARKER
+			| GOG_STYLE_INTERPOLATION;
 	}
 
 	gog_plot_klass->axis_get_bounds	= gog_polar_plot_axis_get_bounds;
@@ -398,12 +416,12 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogChartMap *chart_map;
 	GogChartMapPolarData *parms;
 	GogViewAllocation const *area;
+	GOPath *next_path = NULL;
 	GSList   *ptr;
-	ArtVpath *path, *clip_path;
+	ArtVpath *clip_path;
 	ArtBpath *bpath = NULL;
-	double th0, theta_min, theta_max, theta;
+	double th0, theta_min, theta_max, theta = 0;
 	double rho_min, rho_max, rho;
-	gboolean const is_area = GOG_IS_PLOT_RADAR_AREA (model);
 	gboolean const is_polar = GOG_IS_PLOT_POLAR (model);
 
 	r_axis = GOG_PLOT (model)->axis[GOG_AXIS_RADIAL];
@@ -433,83 +451,139 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 		theta_max = theta;
 	}
 
-	path = g_alloca ((model->num_elements + 2) * sizeof (ArtVpath));
 	for (ptr = model->base.series; ptr != NULL; ptr = ptr->next) {
 
 		GogRTSeries *series = GOG_RT_SERIES (ptr->data);
 		GogStyle *style;
-		gboolean closed_shape;
+		GOPath *path;
 		unsigned count;
-		double   *r_vals, *c_vals = NULL;
+		double *r_vals, *c_vals;
+		double x, y;
 
-		if (!gog_series_is_valid (GOG_SERIES (series))) 
+		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 
 		style = GOG_STYLED_OBJECT (series)->style;
 
 		gog_renderer_push_style (view->renderer, style);
 
-		closed_shape = (series->base.num_elements == model->num_elements);
 		r_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
-		if (is_polar)
-			c_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data));
-		for (count = 0; count < series->base.num_elements; count++) {
+		c_vals = is_polar ?  go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data)) : NULL;
 
-			if (!gog_axis_map_finite (r_map, r_vals [count])) {
-				closed_shape = FALSE;
-				continue;
-			}
-			
-			path[count].code = ((count != 0 && !isnan (r_vals[count-1])) 
-					    ? ART_LINETO : ART_MOVETO);
-
-			rho = (!is_polar || (go_add_epsilon (r_vals[count] - rho_min) >= 0.0)) ?
-				r_vals[count] : rho_min;
-			gog_chart_map_2D_to_view (chart_map, 
-						  is_polar ? c_vals[count] : count + th0, rho,
-						  &path[count].x, &path[count].y);
-
-			if (is_polar) theta = gog_axis_map_to_view (c_map, c_vals[count]);
-
-			if ( !is_polar || 
-			     (go_add_epsilon (r_vals[count] - rho_min) >= 0.0 && 
-			      go_add_epsilon (rho_max - r_vals[count]) >= 0.0 &&
-			      go_add_epsilon ((theta_max - theta_min) - fmod (theta_max - theta, 2 * M_PI)) >= 0.0 &&
-			      go_add_epsilon ((theta_max - theta_min) - fmod (theta - theta_min, 2 * M_PI)) >= 0.0))
-				gog_renderer_draw_marker (view->renderer, path[count].x, path[count].y);
-		}
-
-		if (!is_polar && series->base.num_elements == model->num_elements
-		    && gog_axis_map_finite (r_map, r_vals[count-1])) {
-			path[count].code = ART_LINETO; 
-			path[count].x = path[0].x;
-			path[count].y = path[0].y;
-			count++;
-		}
-		path[count].code = ART_END;
-
-		if (is_polar) { 
+		if (is_polar) {
 			bpath = gog_renderer_get_ring_wedge_bpath (parms->cx, parms->cy, parms->rx, parms->ry,
 								   0.0, 0.0, -parms->th0, -parms->th1);
 			if (bpath != NULL) {
 				clip_path = art_bez_path_to_vec (bpath, .1);
-				gog_renderer_push_clip (view->renderer, clip_path);	
+				gog_renderer_push_clip (view->renderer, clip_path);
 			}
 		}
 
-		if (closed_shape && is_area) {
-			gog_renderer_draw_polygon (view->renderer, path, FALSE);
-		} else
-			gog_renderer_draw_path (view->renderer, path);
+		if (next_path != NULL)
+			path = next_path;
+		else
+			path = gog_chart_map_make_path (chart_map, c_vals,r_vals, series->base.num_elements,
+							series->base.interpolation);
+
+		next_path = NULL;
+
+		if (!is_polar) {
+			go_path_close (path);
+			gog_renderer_serie_fill (view->renderer, path, NULL);
+		} else {
+			if (series->base.fill_type != GOG_SERIES_FILL_TYPE_NEXT) {
+				GOPath *close_path;
+
+				close_path = gog_chart_map_make_close_path (chart_map, c_vals, r_vals,
+									    series->base.num_elements,
+									    series->base.fill_type);
+				gog_renderer_serie_fill (view->renderer, path, close_path);
+				if (close_path != NULL)
+					go_path_free (close_path);
+			} else {
+				if (ptr->next != NULL) {
+					GogRTSeries *next_series;
+
+					next_series = ptr->next->data;
+					if (gog_series_is_valid (GOG_SERIES (next_series))) {
+						GogStyle *next_style;
+						const double *next_x_vals, *next_y_vals;
+						unsigned int next_n_points;
+
+						next_n_points = gog_series_get_xy_data
+							(GOG_SERIES (next_series),
+							 &next_x_vals, &next_y_vals);
+						next_style = gog_styled_object_get_style
+							(GOG_STYLED_OBJECT (next_series));
+
+						next_path = gog_chart_map_make_path
+							(chart_map, next_x_vals, next_y_vals,
+							 next_n_points, next_series->base.interpolation);
+
+					}
+				}
+				gog_renderer_serie_fill (view->renderer, path, next_path);
+			}
+		}
+
+		if (series->radial_drop_lines != NULL) {
+			GOPath *drop_path;
+			double theta, rho;
+			unsigned int i;
+
+			gog_renderer_push_style (view->renderer,
+				gog_styled_object_get_style (GOG_STYLED_OBJECT (series->radial_drop_lines)));
+			drop_path = go_path_new ();
+			for (i = 0; i < series->base.num_elements; i++) {
+				gog_chart_map_2D_to_view (chart_map, c_vals != NULL ? c_vals[i] : i+1,
+							  r_vals[i], &theta, &rho);
+				if (   go_finite (theta) 
+				    && go_finite (rho) 
+				    && rho > rho_min) {
+					go_path_move_to (drop_path, parms->cx, parms->cy);
+					go_path_line_to (drop_path, theta, rho);
+				}
+			}
+			gog_renderer_serie_stroke (view->renderer, drop_path);
+			go_path_free (drop_path);
+			gog_renderer_pop_style (view->renderer);
+		}
+
+		gog_renderer_serie_stroke (view->renderer, path);
+		go_path_free (path);
 
 		if (is_polar && bpath != NULL) {
 			g_free (bpath);
 			gog_renderer_pop_clip (view->renderer);
 		}
 
+		if (gog_style_is_marker_visible (style)) {
+			for (count = 0; count < series->base.num_elements; count++) {
+				rho = (!is_polar || (go_add_epsilon (r_vals[count] - rho_min) >= 0.0)) ?
+					r_vals[count] : rho_min;
+				gog_chart_map_2D_to_view (chart_map, 
+							  is_polar ? c_vals[count] : count + 1, rho,
+							  &x, &y);
+
+				if (is_polar) theta = gog_axis_map_to_view (c_map, c_vals[count]);
+
+				if ( !is_polar || 
+				     (go_add_epsilon (r_vals[count] - rho_min) >= 0.0 && 
+				      go_add_epsilon (rho_max - r_vals[count]) >= 0.0 &&
+				      go_add_epsilon ((theta_max - theta_min) 
+						      - fmod (theta_max - theta, 2 * M_PI)) >= 0.0 &&
+				      go_add_epsilon ((theta_max - theta_min) 
+						      - fmod (theta - theta_min, 2 * M_PI)) >= 0.0))
+					gog_renderer_draw_marker (view->renderer, x, y);
+			}
+		}
+
 		gog_renderer_pop_style (view->renderer);
 	}
 	gog_chart_map_free (chart_map);
+
+	if (next_path != NULL)
+		go_path_free (next_path);
 }
 
 static void
@@ -525,7 +599,80 @@ GSF_DYNAMIC_CLASS (GogRTView, gog_rt_view,
 
 /*****************************************************************************/
 
+static gboolean
+radial_drop_lines_can_add (GogObject const *parent)
+{
+	GogRTSeries *series = GOG_RT_SERIES (parent);
+	return (   series->radial_drop_lines == NULL 
+		&& GOG_IS_PLOT_POLAR (gog_series_get_plot (GOG_SERIES (parent))));
+}
+
+static void
+radial_drop_lines_post_add (GogObject *parent, GogObject *child)
+{
+	GogRTSeries *series = GOG_RT_SERIES (parent);
+	series->radial_drop_lines = child;
+	gog_object_request_update (child);
+}
+
+static void
+radial_drop_lines_pre_remove (GogObject *parent, GogObject *child)
+{
+	GogRTSeries *series = GOG_RT_SERIES (parent);
+	series->radial_drop_lines = NULL;
+}
+
+/*****************************************************************************/
+
 static GogStyledObjectClass *series_parent_klass;
+
+#ifdef GOFFICE_WITH_GTK
+static void
+fill_type_changed_cb (GtkComboBox *combo, GObject *obj)
+{
+	gog_series_set_fill_type (GOG_SERIES (obj), 
+				  gog_series_get_fill_type_from_combo (GOG_SERIES (obj), combo));
+}
+
+static void 
+gog_rt_series_populate_editor (GogObject *obj,
+			       GogEditor *editor,
+			       GogDataAllocator *dalloc,
+			       GOCmdContext *cc)
+{
+	GogRTSeries *series;
+	GladeXML *gui;
+	GtkWidget *w;
+	char const *dir;
+	char *path;
+
+	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
+
+	if (!GOG_IS_PLOT_POLAR (gog_series_get_plot (GOG_SERIES (obj))))
+		return;
+
+	dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_radar"));
+	path = g_build_filename (dir, "gog-rt-series-prefs.glade", NULL);
+	gui = go_libglade_new (path, "gog_rt_series_prefs", GETTEXT_PACKAGE, cc);
+	g_free (path);
+	
+	if (gui == NULL)
+		return;
+
+	series = GOG_RT_SERIES (obj);
+
+	w = glade_xml_get_widget (gui, "fill_type_combo");
+	gog_series_populate_fill_type_combo (GOG_SERIES (series), GTK_COMBO_BOX (w));
+	g_signal_connect (G_OBJECT (w), "changed", 
+			  G_CALLBACK (fill_type_changed_cb), obj);
+
+	w = glade_xml_get_widget (gui, "gog_rt_series_prefs");
+	g_object_set_data_full (G_OBJECT (w),
+				"state", gui, (GDestroyNotify)g_object_unref);
+
+	gog_editor_add_page (editor, w, _("Details"));
+}
+#endif
 
 static void
 gog_rt_series_update (GogObject *obj)
@@ -555,6 +702,16 @@ gog_rt_series_update (GogObject *obj)
 }
 
 static void
+gog_rt_series_init (GObject *obj)
+{
+	GogSeries *series = GOG_SERIES (obj);
+	GogRTSeries *rt_series = GOG_RT_SERIES (obj);
+
+	series->fill_type = GOG_SERIES_FILL_TYPE_ORIGIN;
+	rt_series->radial_drop_lines = NULL;
+}
+
+static void
 gog_rt_series_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	GogSeries *series = GOG_SERIES (gso);
@@ -574,15 +731,40 @@ gog_rt_series_init_style (GogStyledObject *gso, GogStyle *style)
 static void
 gog_rt_series_class_init (GogStyledObjectClass *gso_klass)
 {
-	GogObjectClass * obj_klass = (GogObjectClass *) gso_klass;
+	static GogObjectRole const roles[] = {
+		{ N_("Radial drop lines"), "GogSeriesLines", 2,
+			GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+			radial_drop_lines_can_add,
+			NULL,
+			NULL,
+			radial_drop_lines_post_add,
+			radial_drop_lines_pre_remove,
+			NULL }
+	};
+	static GogSeriesFillType const valid_fill_type_list[] = {
+		GOG_SERIES_FILL_TYPE_CENTER,
+		GOG_SERIES_FILL_TYPE_EDGE,
+		GOG_SERIES_FILL_TYPE_ORIGIN,
+		GOG_SERIES_FILL_TYPE_SELF,
+		GOG_SERIES_FILL_TYPE_NEXT,
+		GOG_SERIES_FILL_TYPE_INVALID
+	};
+	GogObjectClass *obj_klass = GOG_OBJECT_CLASS (gso_klass);
+	GogSeriesClass *series_klass = GOG_SERIES_CLASS (gso_klass);
 
 	series_parent_klass = g_type_class_peek_parent (gso_klass);
 	gso_klass->init_style = gog_rt_series_init_style;
 	obj_klass->update = gog_rt_series_update;
+#ifdef GOFFICE_WITH_GTK
+	obj_klass->populate_editor	= gog_rt_series_populate_editor;
+#endif
+	gog_object_register_roles (obj_klass, roles, G_N_ELEMENTS (roles));
+
+	series_klass->valid_fill_type_list = valid_fill_type_list;
 }
 
 GSF_DYNAMIC_CLASS (GogRTSeries, gog_rt_series,
-	gog_rt_series_class_init, NULL,
+	gog_rt_series_class_init, gog_rt_series_init,
 	GOG_SERIES_TYPE)
 
 G_MODULE_EXPORT void

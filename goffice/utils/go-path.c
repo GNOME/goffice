@@ -28,32 +28,64 @@
  *	Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
  */
 
-#include <goffice/utils/go-path-impl.h>
+#include <goffice/utils/go-path.h>
+#include <goffice/utils/go-math.h>
+#include <string.h>
 
 #define GO_PATH_DEFAULT_BUFFER_SIZE 64
+/* This is a workaround for a cairo bug, due to its internal
+ * handling of coordinates (16.16 fixed point). */
+#define GO_PATH_CLAMP(x) CLAMP((x),-15000,15000)
+
+typedef struct _GOPathData	 GOPathData;
+typedef struct _GOPathDataBuffer GOPathDataBuffer;
+
+typedef enum _GOPathAction {
+	GO_PATH_ACTION_MOVE_TO 		= 0,
+	GO_PATH_ACTION_LINE_TO 		= 1,
+	GO_PATH_ACTION_CURVE_TO 	= 2,
+	GO_PATH_ACTION_CLOSE_PATH 	= 3
+} GOPathAction; 
+
+static int action_n_args[4] = { 1, 1, 3, 0};
+
+struct _GOPathDataBuffer {
+	int n_points;
+	int n_actions;
+
+	GOPathAction 	*actions;
+	GOPathPoint 	*points;
+
+	struct _GOPathDataBuffer *next;
+	struct _GOPathDataBuffer *previous;
+};
+
+struct _GOPath {
+	GOPathDataBuffer *data_buffer_head;
+	GOPathDataBuffer *data_buffer_tail;
+
+	GOPathOptions 	  options;
+};
 
 static void
 go_path_data_buffer_free (GOPathDataBuffer *buffer)
 {
-	g_message ("[GOPathDataBuffer::free] %p", buffer);
-	g_free (buffer->data);
+	g_free (buffer->points);
+	g_free (buffer->actions);
 	g_free (buffer);
 }
 
 static void
 go_path_data_buffer_clear (GOPathDataBuffer *buffer)
 {
-	g_message ("[GOPathDataBuffer::clear] %p", buffer);
-	buffer->num_data = 0;
+	buffer->n_points = 0;
+	buffer->n_actions = 0;
 }
 
 static GOPathDataBuffer *
-go_path_data_buffer_new (int size) 
+go_path_data_buffer_new (void) 
 {
 	GOPathDataBuffer *buffer;
-	
-	if (size <= 0)
-		size = GO_PATH_DEFAULT_BUFFER_SIZE;
 	
 	buffer = g_new (GOPathDataBuffer, 1);
 	if (buffer == NULL) {
@@ -61,27 +93,35 @@ go_path_data_buffer_new (int size)
 		return NULL;
 	}
 
-	buffer->max_data = size;
-	buffer->num_data = 0;
-	buffer->data = g_new (GOPathData, size);
-	if (buffer->data == NULL) {
+	buffer->points = g_new (GOPathPoint, GO_PATH_DEFAULT_BUFFER_SIZE);
+	if (buffer->points == NULL) {
 		g_warning ("[GOPathDataBuffer::new] can't create data buffer");
 		g_free (buffer);
 		return NULL;
 	}
-	buffer->next = NULL;
 
-	g_message ("[GOPathDataBuffer::new] %p, size = %d", buffer, size);
+	buffer->actions = g_new (GOPathAction, GO_PATH_DEFAULT_BUFFER_SIZE);
+	if (buffer->actions == NULL) {
+		g_warning ("[GOPathDataBuffer::new] can't create data buffer");
+		g_free (buffer->points);
+		g_free (buffer);
+		return NULL;
+	}
+
+	buffer->n_points = 0;
+	buffer->n_actions  =0;
+	buffer->next = NULL;
+	buffer->previous = NULL;
 
 	return buffer;
 }
 
 static GOPathDataBuffer *
-go_path_add_data_buffer (GOPath *path, int size)
+go_path_add_data_buffer (GOPath *path)
 {
 	GOPathDataBuffer *buffer;
 
-	buffer = go_path_data_buffer_new (size);
+	buffer = go_path_data_buffer_new ();
 	if (buffer == NULL)
 		return NULL;
 	
@@ -90,6 +130,7 @@ go_path_add_data_buffer (GOPath *path, int size)
 		path->data_buffer_tail = buffer;
 		return buffer;
 	}
+	buffer->previous = path->data_buffer_tail;
 	path->data_buffer_tail->next = buffer;
 	path->data_buffer_tail = buffer;
 
@@ -97,22 +138,20 @@ go_path_add_data_buffer (GOPath *path, int size)
 }
 
 GOPath *
-go_path_new_with_size (int size)
+go_path_new (void)
 {
 	GOPath *path;
 	
 	path = g_new (GOPath, 1);
 	if (path == NULL) {
-		g_warning ("[GOPath::new_with_size] can't create path");
+		g_warning ("[GOPath::new] can't create path");
 		return NULL;
 	}
 	path->data_buffer_tail = NULL;
 	path->data_buffer_head = NULL;
-	path->sharp = FALSE;
+	path->options = 0;
 
-	g_message ("[GOPath::new] %p", path);
-	
-	if (go_path_add_data_buffer (path, size) == NULL) {
+	if (go_path_add_data_buffer (path) == NULL) {
 		g_free (path);
 		return NULL;
 	}
@@ -120,20 +159,12 @@ go_path_new_with_size (int size)
 	return path;
 }
 
-GOPath *
-go_path_new (void)
-{
-	return go_path_new_with_size (0);
-}
-
 void
 go_path_clear (GOPath *path)
 {
 	GOPathDataBuffer *buffer;
 	
-	g_return_if_fail (path != NULL);
-
-	g_message ("[GOPath::free] %p", path);
+	g_return_if_fail (IS_GO_PATH (path));
 
 	if (path->data_buffer_head == NULL)
 		return;
@@ -160,8 +191,6 @@ go_path_free (GOPath *path)
 	GOPathDataBuffer *buffer;
 	
 	g_return_if_fail (path != NULL);
-
-	g_message ("[GOPath::free] %p", path);
 	
 	while (path->data_buffer_head != NULL) {
 		buffer = path->data_buffer_head->next;
@@ -172,7 +201,7 @@ go_path_free (GOPath *path)
 }
 
 /**
- * go_path_set_sharp:
+ * FIXME go_path_set_sharp:
  * @path: a #GOPath
  * @sharp: TRUE for trying to keep line sharp
  *
@@ -182,194 +211,351 @@ go_path_free (GOPath *path)
  **/
 
 void
-go_path_set_sharp (GOPath *path, gboolean sharp)
+go_path_set_options (GOPath *path, GOPathOptions options)
 {
-	g_return_if_fail (path != NULL);
+	g_return_if_fail (IS_GO_PATH (path));
 
-	path->sharp = sharp;
+	path->options = options;
+}
+
+GOPathOptions
+go_path_get_options (GOPath const *path)
+{
+	g_return_val_if_fail (IS_GO_PATH (path), 0);
+
+	return path->options;
 }
 
 static void
-go_path_add_data (GOPath *path, GOPathData const *data, int num_data)
+go_path_add_points (GOPath *path, GOPathAction action,
+		    GOPathPoint *points, int n_points)
 {
 	GOPathDataBuffer *buffer = path->data_buffer_tail;
-	int i,j;
-	
-	g_return_if_fail (path != NULL);
+	int i;
 
-	if (buffer == NULL ||
-	    buffer->num_data + num_data > buffer->max_data) 
-		buffer = go_path_add_data_buffer (path, GO_PATH_DEFAULT_BUFFER_SIZE);
-	if (buffer == NULL)
-		return;
+	g_return_if_fail (IS_GO_PATH (path));
 
-	for (i = buffer->num_data, j = 0; i < buffer->num_data + num_data; i++, j++) 
-		buffer->data[i] = data[j];
-	buffer->num_data += num_data;
+	if (buffer->n_actions + 1 > GO_PATH_DEFAULT_BUFFER_SIZE 
+	    || buffer->n_points + n_points > GO_PATH_DEFAULT_BUFFER_SIZE)
+		buffer = go_path_add_data_buffer (path);
+
+	buffer->actions[buffer->n_actions++] = action;
+
+	for (i = 0; i < n_points; i++)
+		buffer->points[buffer->n_points++] = points[i];		
 }
 
 void
 go_path_move_to (GOPath *path, double x, double y)
 {
-	GOPathData data;
+	GOPathPoint point;
 
-	data.point.x = x;
-	data.point.y = y;
-	data.action = GO_PATH_ACTION_MOVE_TO;
-	go_path_add_data (path, &data, 1);
+	point.x = GO_PATH_CLAMP (x);
+	point.y = GO_PATH_CLAMP (y);
+	go_path_add_points (path, GO_PATH_ACTION_MOVE_TO, &point, 1);
 }
 
 void
 go_path_line_to (GOPath *path, double x, double y)
 {
-	GOPathData data;
+	GOPathPoint point;
 
-	data.point.x = x;
-	data.point.y = y;
-	data.action = GO_PATH_ACTION_LINE_TO;
-	go_path_add_data (path, &data, 1);
+	point.x = GO_PATH_CLAMP (x);
+	point.y = GO_PATH_CLAMP (y);
+	go_path_add_points (path, GO_PATH_ACTION_LINE_TO, &point, 1);
 }
 
 void
-go_path_curve_to (GOPath *path, double x0, double y0, double x1, double y1, double x2, double y2)
+go_path_curve_to (GOPath *path, 
+		  double x0, double y0, 
+		  double x1, double y1, 
+		  double x2, double y2)
 {
-	GOPathData data[3];
+	GOPathPoint points[3];
 
-	data[0].point.x = x0;
-	data[0].point.y = y0;
-	data[0].action = GO_PATH_ACTION_CURVE_TO;
-	data[1].point.x = x0;
-	data[1].point.y = y0;
-	data[1].action = GO_PATH_ACTION_CURVE_TO;
-	data[2].point.x = x0;
-	data[2].point.y = y0;
-	data[2].action = GO_PATH_ACTION_CURVE_TO;
-	go_path_add_data (path, data, 3);
+	points[0].x = GO_PATH_CLAMP (x0);
+	points[0].y = GO_PATH_CLAMP (y0);
+	points[1].x = GO_PATH_CLAMP (x1);
+	points[1].y = GO_PATH_CLAMP (y1);
+	points[2].x = GO_PATH_CLAMP (x2);
+	points[2].y = GO_PATH_CLAMP (y2);
+	go_path_add_points (path, GO_PATH_ACTION_CURVE_TO, points, 3);
 }
 
 void
 go_path_close (GOPath *path)
 {
-	GOPathData data;
-
-	data.action = GO_PATH_ACTION_CLOSE_PATH;
-	go_path_add_data (path, &data, 1);
+	go_path_add_points (path, GO_PATH_ACTION_CLOSE_PATH, NULL, 0);
 }
 
 void
-go_path_add_arc (GOPath *path, 
-		 double cx, double cy, 
-		 double rx, double ry, 
-		 double th0, double th1)
+go_path_ring_wedge (GOPath *path,
+		    double cx, double cy, 
+		    double rx_out, double ry_out,
+		    double rx_in, double ry_in,
+		    double th0, double th1)
 {
-	GOPathData data[3];
+	double th_arc, th_out, th_in, th_delta, t, r;
+	double x, y;
+	int i, n_segs;
+	gboolean fill;
+	gboolean draw_in, ellipse = FALSE;
 
-	data[0].point.x = cx;
-	data[0].point.y = cy;
-	data[0].action = GO_PATH_ACTION_ARC;
-	data[1].point.x = rx;
-	data[1].point.y = ry;
-	data[1].action = GO_PATH_ACTION_ARC;
-	data[2].point.x = th0;
-	data[2].point.y = th1;
-	data[2].action = GO_PATH_ACTION_ARC;
-	go_path_add_data (path, data, 3);
+	g_return_if_fail (IS_GO_PATH (path));
+
+	if (rx_out < rx_in) {
+		r = rx_out;
+		rx_out = rx_in;
+		rx_in = r;
+	}
+	if (ry_out < ry_in) {
+		r = ry_out;
+		ry_out = ry_in;
+		ry_in = r;
+	}
+	/* Here we tolerate slightly negative values for inside radius
+	 * when deciding to fill. We use outside radius for comparison. */
+	fill = rx_in >= -(rx_out * 1e-6) && ry_in >= -(ry_out * 1e-6);
+
+	/* Here also we use outside radius for comparison. If inside radius
+	 * is high enough, we'll emit an arc, otherwise we just use lines to
+	 * wedge center. */
+	draw_in = fill && (rx_in > rx_out * 1e-6) && (ry_in > ry_out * 1e-6);
+
+	if (go_add_epsilon (th1 - th0) >= 2 * M_PI) {
+		ellipse = TRUE;
+		th1 = th0 + 2 * M_PI;
+	} else if (go_add_epsilon (th0 - th1) >= 2 * M_PI) {
+		ellipse = TRUE;
+		th0 = th1 + 2 * M_PI;
+	}
+
+	th_arc = th1 - th0;
+	n_segs = ceil (fabs (th_arc / (M_PI * 0.5 + 0.001)));
+
+	if (fill)
+		go_path_move_to (path, cx + rx_out * cos (th0), cy + ry_out * sin (th0));
+	else
+		go_path_line_to (path, cx + rx_out * cos (th0), cy + ry_out * sin (th0));
+
+	th_delta = th_arc / n_segs;
+	t = (8.0 / 3.0) * sin (th_delta * 0.25) * sin (th_delta * 0.25) / sin (th_delta * 0.5);
+
+	th_out = th0;
+	for (i = 0; i < n_segs; i++) {	
+		x = cx + rx_out * cos (th_out + th_delta);
+		y = cy + ry_out * sin (th_out + th_delta);
+		go_path_curve_to (path,
+				  cx + rx_out * (cos (th_out) - t * sin (th_out)),
+				  cy + ry_out * (sin (th_out) + t * cos (th_out)),
+				  x + rx_out * t * sin (th_out + th_delta),
+				  y - ry_out * t * cos (th_out + th_delta),
+				  x, y);
+		th_out += th_delta;
+	}
+
+	if (!fill)
+		return;
+
+	if (ellipse) {
+		go_path_close (path);
+		if (!draw_in)
+			return;
+	}
+
+	if (!ellipse) {
+		if (draw_in)
+			go_path_line_to (path,
+					 cx + rx_in * cos (th1),
+					 cy + ry_in * sin (th1));
+		else
+			go_path_line_to (path, cx, cy);
+	}
+
+	if (draw_in) {
+		th_in = th1;
+		for (i = 0; i < n_segs; i++) {	
+			x = cx + rx_in * cos (th_in - th_delta);
+			y = cy + ry_in * sin (th_in - th_delta);
+			go_path_curve_to (path,
+					  cx + rx_in * (cos (th_in) + t * sin (th_in)),
+					  cy + ry_in * (sin (th_in) - t * cos (th_in)),
+					  x - rx_in * t * sin (th_in - th_delta),
+					  y + ry_in * t * cos (th_in - th_delta),
+					  x, y);
+			th_in -= th_delta;
+		}
+	}
+
+	go_path_close (path);
 }
-
-/**
- * go_path_set_marker_flag:
- * @path: a #GOPath
- *
- * Sets the marker flag for the current point.
- **/
 
 void
-go_path_set_marker_flag (GOPath *path)
+go_path_pie_wedge (GOPath *path,
+	     double cx, double cy,
+	     double rx, double ry,
+	     double th0, double th1)
 {
-	GOPathDataBuffer *buffer = path->data_buffer_tail;
-
-	g_return_if_fail (path != NULL);
-
-	if (buffer != NULL &&
-	    buffer->num_data > 0)
-		buffer->data[buffer->num_data - 1].action |= GO_PATH_FLAG_MARKER;
+	go_path_ring_wedge (path, cx, cy, rx, ry, 0.0, 0.0, th0, th1);
 }
 
 void
-go_path_add_rectangle (GOPath *path, double x, double y, double width, double height) 
+go_path_arc (GOPath *path,
+	     double cx, double cy,
+	     double rx, double ry,
+	     double th0, double th1)
 {
-	GOPathData data[2];
-
-	data[0].point.x = x;
-	data[0].point.y = y;
-	data[0].action = GO_PATH_ACTION_RECTANGLE;
-	data[1].point.x = width;
-	data[1].point.y = height;
-	data[1].action = GO_PATH_ACTION_RECTANGLE;
-	go_path_add_data (path, data, 2);
+	go_path_ring_wedge (path, cx, cy, rx, ry, -1.0, -1.0, th0, th1);
 }
 
-void 
-go_path_add_ring_wedge (GOPath *path, 
-			double cx, double cy,
-			double rx_out, double ry_out, 
-			double rx_in, double ry_in, 
-			double th0, double th1)
+void
+go_path_rectangle (GOPath *path,
+		   double x, double y, 
+		   double width, double height)
 {
-	GOPathData data[4];
-
-	data[0].point.x = cx;
-	data[0].point.y = cy;
-	data[0].action = GO_PATH_ACTION_RING_WEDGE;
-	data[1].point.x = rx_out;
-	data[1].point.y = ry_out;
-	data[1].action = GO_PATH_ACTION_RING_WEDGE;
-	data[2].point.x = rx_in;
-	data[2].point.y = ry_in;
-	data[2].action = GO_PATH_ACTION_RING_WEDGE;
-	data[3].point.x = th0;
-	data[3].point.y = th1;
-	data[3].action = GO_PATH_ACTION_RING_WEDGE;
-	go_path_add_data (path, data, 4);
+	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
+	go_path_move_to (path, x, y);
+	go_path_line_to (path, x + width, y);
+	go_path_line_to (path, x + width, y + height);
+	go_path_line_to (path, x, y + height);
+	go_path_close (path);
 }
 
-void 
-go_path_add_pie_wedge (GOPath *path, 
-		       double cx, double cy, 
-		       double rx, double ry, 
-		       double th0, double th1)
+void
+go_path_get_extremes (const GOPath *path, GOPathPoint *first_point, GOPathPoint *last_point)
 {
-	GOPathData data[3];
+	GOPathDataBuffer *buffer;
+	GOPathPoint l_first_point = {0.0, 0.0};
+	GOPathPoint l_last_point = {0.0, 0.0};
 
-	data[0].point.x = cx;
-	data[0].point.y = cy;
-	data[0].action = GO_PATH_ACTION_PIE_WEDGE;
-	data[1].point.x = rx;
-	data[1].point.y = ry;
-	data[1].action = GO_PATH_ACTION_PIE_WEDGE;
-	data[2].point.x = th0;
-	data[2].point.y = th1;
-	data[2].action = GO_PATH_ACTION_PIE_WEDGE;
-	go_path_add_data (path, data, 3);
-}
+	g_return_if_fail (IS_GO_PATH (path));
 
-void 
-go_path_add_style (GOPath *path, GogStyle const *style)
-{
-	GOPathData data;
+	buffer = path->data_buffer_head;
 
-	data.action = GO_PATH_ACTION_STYLE;
-	data.style = style;
+	if (buffer->n_points > 0)
+		switch (buffer->actions[0]) {
+			case GO_PATH_ACTION_MOVE_TO:
+			case GO_PATH_ACTION_LINE_TO:
+				l_first_point.x = buffer->points[0].x;
+				l_first_point.y = buffer->points[0].y;
+				break;
+			case GO_PATH_ACTION_CURVE_TO:
+				l_first_point.x = buffer->points[2].x;
+				l_first_point.y = buffer->points[2].y;
+				break;
+			default:
+				break;
+		}
+
+	buffer = path->data_buffer_tail;
+
+	while (buffer->n_actions < 1) {
+		buffer = buffer->previous;
+		if (buffer == NULL)
+			break;
+	}
 	
-	go_path_add_data (path, &data, 1);
+	if (buffer != NULL) {
+		if (buffer->actions[buffer->n_actions - 1] == GO_PATH_ACTION_CLOSE_PATH)
+			l_last_point = l_first_point;
+		else {
+			l_last_point.x = buffer->points[buffer->n_points - 1].x;
+			l_last_point.y = buffer->points[buffer->n_points - 1].y;
+		}
+	}
+
+	if (first_point != NULL)
+		*first_point = l_first_point;
+
+	if (last_point != NULL)
+		*last_point = l_last_point;
 }
 
-GOPath *
-go_path_new_rectangle (double x, double y, double width, double height)
+void	
+go_path_interpret (GOPath const		*path,
+		   GOPathDirection 	 direction,
+		   GOPathMoveToFunc 	*move_to,
+		   GOPathLineToFunc 	*line_to,
+		   GOPathCurveToFunc 	*curve_to,
+		   GOPathClosePathFunc 	*close_path,
+		   void *closure)
 {
-	path = go_path_new_with_size (2);
-	
-	go_path_set_sharp (path, TRUE);
-	go_path_add_rectangle (path, x, y, width, height);
-	return path;
+	GOPathDataBuffer *buffer;
+	GOPathAction action, next_action;
+	GOPathPoint *points;
+	GOPathPoint *prev_control_points = NULL;
+	gboolean forward = (direction == GO_PATH_DIRECTION_FORWARD);
+	int index;
+
+	if (path == NULL)
+		return;
+
+	if (forward) {
+		for (buffer = path->data_buffer_head; buffer != NULL; buffer = buffer->next) {
+			int i;
+			points = buffer->points;
+
+			for (i = 0; i != buffer->n_actions; i++) {
+
+				action = buffer->actions[i];
+
+				switch (action) {
+					case GO_PATH_ACTION_MOVE_TO:
+						(*move_to) (closure, &points[0]);
+						break;
+					case GO_PATH_ACTION_LINE_TO:
+						(*line_to) (closure, &points[0]);
+						break;
+					case GO_PATH_ACTION_CURVE_TO:
+						(*curve_to) (closure, &points[0], &points[1], &points[2]);
+						break;
+					case GO_PATH_ACTION_CLOSE_PATH:
+					default:
+						(*close_path) (closure);
+						break;
+				}
+				points += action_n_args[action];
+			}
+		}
+		return;
+	}
+
+	next_action = GO_PATH_ACTION_MOVE_TO;
+
+	for (buffer = path->data_buffer_tail; buffer != NULL; buffer = buffer->previous) {
+		int i;
+
+		points = buffer->points + buffer->n_points;
+
+		for (i = buffer->n_actions - 1; i != -1; i--) {
+			action = next_action;
+			next_action = buffer->actions[i];
+
+			points -= action_n_args[next_action];
+
+			index = next_action == GO_PATH_ACTION_CURVE_TO ? 2 : 0;
+
+			switch (action) {
+				case GO_PATH_ACTION_MOVE_TO:
+					(*move_to) (closure, &points[index]);
+					break;
+				case GO_PATH_ACTION_LINE_TO:
+					(*line_to) (closure, &points[index]);
+					break;
+				case GO_PATH_ACTION_CURVE_TO:
+					(*curve_to) (closure, 
+						     &prev_control_points[1], 
+						     &prev_control_points[0],
+						     &points[index]);
+					break;
+				case GO_PATH_ACTION_CLOSE_PATH:
+				default:
+					(*close_path) (closure);
+					break;
+			}
+
+			prev_control_points = &points[0];
+		}
+	}
 }
+

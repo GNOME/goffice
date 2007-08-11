@@ -46,6 +46,29 @@
 
 #include <string.h>
 
+/* Keep in sync with GogSeriesFillType enum */
+static struct {
+	GogSeriesFillType  type;
+	char const 	  *name;
+	char const 	  *label;
+} _fill_type_infos[] = {
+	{GOG_SERIES_FILL_TYPE_Y_ORIGIN,	"y-origin",	N_("Y origin")},
+	{GOG_SERIES_FILL_TYPE_X_ORIGIN,	"x-origin",	N_("X origin")},
+	{GOG_SERIES_FILL_TYPE_BOTTOM,	"bottom",	N_("Bottom")},
+	{GOG_SERIES_FILL_TYPE_LEFT,	"left",		N_("Left")},
+	{GOG_SERIES_FILL_TYPE_TOP,	"top",		N_("Top")},
+	{GOG_SERIES_FILL_TYPE_RIGHT,	"right",	N_("Right")},
+	{GOG_SERIES_FILL_TYPE_ORIGIN,	"origin",	N_("Origin")},
+	{GOG_SERIES_FILL_TYPE_CENTER,	"center",	N_("Center")},
+	{GOG_SERIES_FILL_TYPE_EDGE,	"edge",		N_("Edge")},
+	{GOG_SERIES_FILL_TYPE_SELF,	"self",		N_("Self")},
+	{GOG_SERIES_FILL_TYPE_NEXT,	"next",		N_("Next series")},
+	{GOG_SERIES_FILL_TYPE_INVALID,	"invalid",	""}
+};
+
+#ifdef GOFFICE_WITH_GTK
+#endif
+
 int gog_series_get_valid_element_index (GogSeries const *series, int old_index, int desired_index);
 
 /*****************************************************************************/
@@ -240,7 +263,8 @@ static GObjectClass *series_parent_klass;
 enum {
 	SERIES_PROP_0,
 	SERIES_PROP_HAS_LEGEND,
-	SERIES_PROP_INTERPOLATION
+	SERIES_PROP_INTERPOLATION,
+	SERIES_PROP_FILL_TYPE
 };
 
 static gboolean
@@ -308,6 +332,8 @@ gog_series_set_property (GObject *obj, guint param_id,
 {
 	GogSeries *series = GOG_SERIES (obj);
 	gboolean b_tmp;
+	char const *name;
+	unsigned int i;
 
 	switch (param_id) {
 	case SERIES_PROP_HAS_LEGEND :
@@ -320,6 +346,12 @@ gog_series_set_property (GObject *obj, guint param_id,
 		break;
 	case SERIES_PROP_INTERPOLATION:
 		series->interpolation = go_line_interpolation_from_str (g_value_get_string (value));
+		break;
+	case SERIES_PROP_FILL_TYPE:
+		name = g_value_get_string (value);
+		for (i = 0; i < G_N_ELEMENTS (_fill_type_infos); i++)
+			if (strcmp (_fill_type_infos[i].name, name) == 0)
+			       series->fill_type = _fill_type_infos[i].type;
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -341,6 +373,9 @@ gog_series_get_property (GObject *obj, guint param_id,
 		break;
 	case SERIES_PROP_INTERPOLATION:
 		g_value_set_string (value, go_line_interpolation_as_str (series->interpolation));
+		break;
+	case SERIES_PROP_FILL_TYPE:
+		g_value_set_string (value, _fill_type_infos[series->fill_type].name);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -530,6 +565,7 @@ gog_series_class_init (GogSeriesClass *klass)
 		  regression_curve_pre_remove,
 		  NULL },
 	};
+	unsigned int i;
 
 	GObjectClass *gobject_klass = (GObjectClass *) klass;
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
@@ -563,6 +599,18 @@ gog_series_class_init (GogSeriesClass *klass)
 			_("Type of line interpolation"),
 			"linear",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, SERIES_PROP_FILL_TYPE,
+		g_param_spec_string ("fill-type", 
+			_("Fill type"),
+			_("How to fill the area"),
+			"invalid",
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+
+	klass->valid_fill_type_list = NULL;
+
+	/* Check for consistency between enum and infos */
+	for (i = 0; i < G_N_ELEMENTS (_fill_type_infos); i++)
+		g_assert (_fill_type_infos[i].type == i);
 }
 
 static void
@@ -898,28 +946,143 @@ gog_series_get_element (GogSeries const *series, int index)
 	return NULL;
 }
 
+static unsigned int
+gog_series_get_data (GogSeries const *series, int *indices, double **data, int n_vectors)
+{
+	GODataVector *vector;
+	int i, n_points = 0, vector_n_points;
+	int first, last;
+	int index;
+	gboolean is_set = FALSE;
+
+	g_return_val_if_fail (gog_series_is_valid (series), 0);
+
+	gog_dataset_dims (GOG_DATASET (series), &first, &last);
+
+	for (i = 0; i < n_vectors; i++) {
+		index = indices != NULL ? indices[i] : i;
+		if (index >= first && index <= last &&
+		    (vector = GO_DATA_VECTOR (series->values[index].data)) != NULL) {
+			data[i] = go_data_vector_get_values (vector);
+			vector_n_points = go_data_vector_get_len (vector);
+			if (!is_set) {
+				is_set = TRUE;
+				n_points = vector_n_points;
+			} else
+				n_points = MIN (vector_n_points, n_points);
+		} else
+			data[i] = NULL;
+	}	
+
+	return n_points;
+}
+
 unsigned
-gog_series_get_xy_data (GogSeries const *series,
-					double const **x, double const **y)
+gog_series_get_xy_data (GogSeries const  *series,
+			double const 	**x, 
+			double const 	**y)
 {
 	GogSeriesClass	*klass = GOG_SERIES_GET_CLASS (series);
-	int first, last, res, nb;
-	g_return_val_if_fail (gog_series_is_valid (GOG_SERIES (series)), 0);
-	gog_dataset_dims (GOG_DATASET (series), &first, &last);
-	g_return_val_if_fail (last >= 1, 0);
-	if (klass->get_xy_data != NULL)
+	double *data[2];
+	unsigned int n_points;
+
+	g_return_val_if_fail (klass != NULL, 0);
+
+	if (klass->get_xy_data != NULL) {
+		int first, last;
+
+		g_return_val_if_fail (gog_series_is_valid (GOG_SERIES (series)), 0);
+		gog_dataset_dims (GOG_DATASET (series), &first, &last);
+
+		g_return_val_if_fail (first <= 0, 0);
+		g_return_val_if_fail (last >= 1, 0);
+
 		return (klass->get_xy_data) (series, x, y);
-	*y = go_data_vector_get_values (
-		GO_DATA_VECTOR (series->values[1].data));
-	res = go_data_vector_get_len (
-		GO_DATA_VECTOR (series->values[1].data));
-	if (series->values[0].data) {
-		*x = go_data_vector_get_values (
-			GO_DATA_VECTOR (series->values[0].data));
-		nb = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->values[0].data));
-		if (res > nb)
-			res = nb;
 	}
-	return res;
+
+	n_points = gog_series_get_data (series, NULL, data, 2);
+
+	*x = data[0];
+	*y = data[1];
+
+	return n_points;
 }
+
+unsigned
+gog_series_get_xyz_data (GogSeries const  *series,
+			 double const 	 **x, 
+			 double const 	 **y, 
+			 double const 	 **z)
+{
+	double *data[3];
+	unsigned int n_points;
+
+	n_points = gog_series_get_data (series, NULL, data, 3);
+
+	*x = data[0];
+	*y = data[1];
+	*z = data[2];
+
+	return n_points;
+}
+
+GogSeriesFillType
+gog_series_get_fill_type (GogSeries const *series)
+{
+	g_return_val_if_fail (IS_GOG_SERIES (series), GOG_SERIES_FILL_TYPE_INVALID);
+
+	return series->fill_type;
+}
+
+void
+gog_series_set_fill_type (GogSeries *series, GogSeriesFillType fill_type)
+{
+	GogSeriesClass *series_klass;
+
+	g_return_if_fail (IS_GOG_SERIES (series));
+	if (series->fill_type == fill_type)
+		return;
+	g_return_if_fail (fill_type >= 0 && fill_type < GOG_SERIES_FILL_TYPE_INVALID);
+
+	series_klass = GOG_SERIES_GET_CLASS (series);
+	g_return_if_fail (series_klass->valid_fill_type_list != NULL);
+
+	series->fill_type = fill_type;
+	gog_object_request_update (GOG_OBJECT (series));
+}
+
+#ifdef GOFFICE_WITH_GTK
+void
+gog_series_populate_fill_type_combo (GogSeries const *series, GtkComboBox *combo)
+{
+	GogSeriesClass *series_klass;
+	GogSeriesFillType fill_type;
+	unsigned int i;
+
+	g_return_if_fail (IS_GOG_SERIES (series));
+	series_klass = GOG_SERIES_GET_CLASS (series);
+	g_return_if_fail (series_klass->valid_fill_type_list != NULL);
+
+	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (combo)));
+	for (i = 0; series_klass->valid_fill_type_list[i] != GOG_SERIES_FILL_TYPE_INVALID; i++) {
+		fill_type = series_klass->valid_fill_type_list[i];
+		if (fill_type >= 0 && fill_type < GOG_SERIES_FILL_TYPE_INVALID) {
+			gtk_combo_box_append_text (combo, _(_fill_type_infos[fill_type].label));
+			if (fill_type == series->fill_type)
+				gtk_combo_box_set_active (combo, i);
+		}
+	}
+}
+
+GogSeriesFillType
+gog_series_get_fill_type_from_combo (GogSeries const *series, GtkComboBox *combo)
+{
+	GogSeriesClass *series_klass;
+
+	g_return_val_if_fail (IS_GOG_SERIES (series), GOG_SERIES_FILL_TYPE_INVALID);
+	series_klass = GOG_SERIES_GET_CLASS (series);
+	g_return_val_if_fail (series_klass->valid_fill_type_list != NULL, GOG_SERIES_FILL_TYPE_INVALID);
+
+	return series_klass->valid_fill_type_list[gtk_combo_box_get_active (combo)];
+}
+#endif

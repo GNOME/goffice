@@ -30,6 +30,7 @@
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/graph/gog-chart-map.h>
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-math.h>
@@ -294,65 +295,52 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogRegCurve *rc = GOG_REG_CURVE (view->model);
 	GogSeries *series = GOG_SERIES ((GOG_OBJECT (rc))->parent);
 	GogPlot *plot = series->plot;
+	GogChart *chart = GOG_CHART (GOG_OBJECT (plot)->parent);
 	GogAxisMap *x_map, *y_map;
-	double buf, *x, *y, ymax;
+	GogChartMap *chart_map;
 	GogStyle *style;
-	ArtBpath *path;
-	int i, invalids;
+	GOPath *path;
 	GSList *ptr;
+	double *x, *y;
+	double delta_x;
+	int i;
 
-	x_map = gog_axis_map_new (plot->axis[0], 
-				  view->residual.x , view->residual.w);
-	ymax = view->residual.y + view->residual.h;
-	y_map = gog_axis_map_new (plot->axis[1], ymax, 
-				  -view->residual.h);
-
-	if (!(gog_axis_map_is_valid (x_map) &&
-	      gog_axis_map_is_valid (y_map))) {
-		gog_axis_map_free (x_map);
-		gog_axis_map_free (y_map);
+	chart_map = gog_chart_map_new (chart, &view->residual, 
+				       plot->axis[GOG_AXIS_X], 
+				       plot->axis[GOG_AXIS_Y],
+				       NULL, FALSE);
+	if (!gog_chart_map_is_valid (chart_map)) {
+		gog_chart_map_free (chart_map);
 		return;
 	}
-	
+
+	x_map = gog_chart_map_get_axis_map (chart_map, 0);
+	y_map = gog_chart_map_get_axis_map (chart_map, 1);
+
 	gog_renderer_push_clip (view->renderer, 
 		gog_renderer_get_rectangle_vpath (&view->residual)); 
-	
-	x = g_new (double, rc->ninterp + 3);
-	y = g_new (double, rc->ninterp + 3);
-	gog_axis_get_bounds (plot->axis[0], x, x + rc->ninterp + 1);
-	x[0] = gog_axis_map_to_view (x_map, x[0]);
-	x[rc->ninterp + 1] = gog_axis_map_to_view (x_map, x[rc->ninterp + 1]);
-	buf = (x[rc->ninterp + 1] - x[0]) / (rc->ninterp + 1);
-	for (i = 1; i <= rc->ninterp; i++)
-		x[i] = x[0] + i * buf;
 
-	invalids = 0;
-	for (i = 0; i <= rc->ninterp + 1; i++) {
-		y[i] = gog_axis_map_to_view (y_map,
-					gog_reg_curve_get_value_at (rc, gog_axis_map_from_view (x_map, x[i])));
-		if (y[i] < view->residual.y || y[i] > ymax) {
-			invalids++;
-			/* if two or more points are outisde the interval,
-			we keep only the first and last ones */
-			if (invalids > 2)
-				y[i - 1] = go_nan;
-		} else
-			invalids = 0;
+	x = g_new (double, rc->ninterp + 1);
+	y = g_new (double, rc->ninterp + 1);
+	delta_x = view->residual.w / rc->ninterp;
+	for (i = 0; i <= rc->ninterp; i++) {
+		x[i] = gog_axis_map_from_view (x_map, i * delta_x + view->residual.x);
+		y[i] = gog_reg_curve_get_value_at (rc, x[i]);
 	}
 
-	path = go_line_build_bpath (x, y, rc->ninterp + 2);
+	path = gog_chart_map_make_path (chart_map, x, y, rc->ninterp + 1, GO_LINE_INTERPOLATION_SPLINE);
 	style = GOG_STYLED_OBJECT (rc)->style;
 	gog_renderer_push_style (view->renderer, style);
-	gog_renderer_draw_bezier_path (view->renderer, path);
-
+	gog_renderer_serie_stroke (view->renderer, path);
 	gog_renderer_pop_style (view->renderer);
+	go_path_free (path);
+
 	g_free (x);
 	g_free (y);
-	art_free (path);
-	gog_axis_map_free (x_map);
-	gog_axis_map_free (y_map);
 
 	gog_renderer_pop_clip (view->renderer);
+	
+	gog_chart_map_free (chart_map);
 	
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
 		gog_view_render	(ptr->data, bbox);

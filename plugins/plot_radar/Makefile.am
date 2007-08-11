@@ -15,6 +15,11 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
+if WITH_GTK
+dist_glade_DATA = \
+	gog-rt-series-prefs.glade
+endif
+
 # do not use the intl-tool stuff to merge the text back
 # its simpler to just use gettext directly
 plot-types.xml : plot-types.xml.in

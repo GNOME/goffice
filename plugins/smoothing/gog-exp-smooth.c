@@ -272,7 +272,7 @@ gog_exp_smooth_dataset_init (GogDatasetClass *iface)
 {
 	iface->get_elem	   = gog_exp_smooth_dataset_get_elem;
 	iface->dims	   = gog_exp_smooth_dataset_dims;
-	iface->dim_changed	   = gog_exp_smooth_dataset_dim_changed;
+	iface->dim_changed = gog_exp_smooth_dataset_dim_changed;
 }
 
 GSF_DYNAMIC_CLASS_FULL (GogExpSmooth, gog_exp_smooth,

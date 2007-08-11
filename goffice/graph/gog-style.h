@@ -95,6 +95,7 @@ struct _GogStyle {
 	GogStyleLine	outline, line;
 	struct {
 		GogFillStyle	type;
+		gboolean	auto_type;
 		gboolean	auto_fore, auto_back;	/* share between pattern and gradient */
 		gboolean	invert_if_negative;	/* placeholder for XL */
 
@@ -141,6 +142,7 @@ gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
 gboolean   gog_style_is_marker_visible	(GogStyle const *style);
 gboolean   gog_style_is_line_visible	(GogStyle const *style);
 gboolean   gog_style_is_outline_visible	(GogStyle const *style);
+gboolean   gog_style_is_fill_visible	(GogStyle const *style);
 void	   gog_style_force_auto		(GogStyle *style);
 
 void 	   gog_style_populate_editor 	(GogStyle *style,

@@ -28,33 +28,15 @@ typedef enum _GOPathAction {
 	GO_PATH_ACTION_MOVE_TO 		= 0,
 	GO_PATH_ACTION_LINE_TO 		= 1,
 	GO_PATH_ACTION_CURVE_TO 	= 2,
-	GO_PATH_ACTION_CLOSE_PATH 	= 3,
-	GO_PATH_ACTION_ARC		= 4,
-	GO_PATH_ACTION_RECTANGLE	= 5,
-	GO_PATH_ACTION_RING_WEDGE	= 6,
-	GO_PATH_ACTION_PIE_WEDGE	= 7,
-	GO_PATH_ACTION_STYLE		= 8,
-	GO_PATH_ACTION_MASK		= 0x0F,
-	GO_PATH_FLAG_MARKER		= 1 << 4
+	GO_PATH_ACTION_CLOSE_PATH 	= 3
 } GOPathAction; 
-
-typedef enum {
-	GO_PATH_SNAP_NONE,
-	GO_PATH_SNAP_ROUND,
-	GO_PATH_SNAP_HALF
-} GOPathSnapType;
 
 typedef struct _GOPathData	 GOPathData;
 typedef struct _GOPathDataBuffer GOPathDataBuffer;
 
 struct _GOPathData {
-	union {
-		struct {
-			double x, y;
-		} point;
-		GogStyle const *style;
-	};
 	GOPathAction action;
+	GOPoint point;
 };
 
 struct _GOPathDataBuffer {

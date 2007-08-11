@@ -40,6 +40,7 @@ typedef struct {
 	Gog2DPlot	base;
 	gboolean	default_style_has_markers;
 	gboolean	default_style_has_lines;
+	gboolean	default_style_has_fill;
 	gboolean	use_splines;			/* for compatibility with goffice 0.2.x */
 } GogXYPlot;
 
@@ -54,6 +55,7 @@ typedef struct {
 typedef struct {
 	Gog2DPlot	base;
 	gboolean	default_style_has_lines;
+	gboolean	default_style_has_fill;
 	gboolean	hide_outliers;
 	struct {
 		double minima, maxima;
@@ -86,10 +88,12 @@ GType gog_bubble_plot_get_type (void);
 GType gog_xy_color_plot_get_type (void);
 
 typedef struct {
-	GogSeries base;
-	GogErrorBar *x_errors, *y_errors;
-	GogObject *hdroplines, *vdroplines;
-	gboolean invalid_as_zero;
+	GogSeries 	   base;
+	GogErrorBar 	  *x_errors;
+	GogErrorBar 	  *y_errors;
+	GogObject 	  *hdroplines;
+       	GogObject	  *vdroplines;
+	gboolean 	   invalid_as_zero;
 } GogXYSeries;
 
 #define GOG_XY_SERIES_TYPE	(gog_xy_series_get_type ())

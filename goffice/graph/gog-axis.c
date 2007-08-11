@@ -953,6 +953,23 @@ gog_axis_map_get_bounds (GogAxisMap *map, double *minimum, double *maximum)
 {
 	return map->desc->map_bounds (map, minimum, maximum);
 }
+
+/**
+ * gog_axis_map_is_inverted:
+ * @map: a #GogAxisMap
+ *
+ * Accessor to the axis is_inverted property.
+ **/
+
+gboolean
+gog_axis_map_is_inverted (GogAxisMap *map)
+{
+	g_return_val_if_fail (map != NULL, FALSE);
+	g_return_val_if_fail (IS_GOG_AXIS (map->axis), FALSE);
+
+	return map->axis->inverted;
+}
+
 /**
  * gog_axis_map_free :
  * @map : a #GogAxisMap

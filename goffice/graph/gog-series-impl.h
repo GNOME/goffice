@@ -39,10 +39,10 @@ typedef struct {
 
 typedef struct {
 	GogStyledObjectClass base;
-	
+
 	/* Virtuals */
-	gpointer (*gse_populate_editor) (GogObject *gobj, 
-					 GogEditor *editor, 
+	gpointer (*gse_populate_editor) (GogObject *gobj,
+					 GogEditor *editor,
 					 GOCmdContext *cc);
 } GogSeriesElementClass;
 
@@ -84,6 +84,7 @@ struct _GogSeries {
 	GogDatasetElement *values;
 	gboolean	   has_legend;
 	unsigned   	   num_elements;
+	GogSeriesFillType  fill_type;
 	GList		  *overrides;  /* GogSeriesElement (individual points) */
 
 	GOLineInterpolation	interpolation;
@@ -92,9 +93,9 @@ struct _GogSeries {
 typedef struct {
 	GogStyledObjectClass base;
 
-	gboolean	has_interpolation;
-
-	GType		series_element_type;
+	gboolean		 has_interpolation;
+	GType			 series_element_type;
+	GogSeriesFillType const	*valid_fill_type_list;
 
 	/* Virtuals */
 	void (*dim_changed) (GogSeries *series, int dim_i);

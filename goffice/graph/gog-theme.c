@@ -595,6 +595,8 @@ gog_themes_init	(void)
 	style->line.dash_type = GO_LINE_SOLID;
 	style->line.width = 1;
 	style->line.color = RGBA_BLACK;
+	go_pattern_set_solid (&style->fill.pattern, RGBA_TO_UINT (0x00, 0x00, 0x00, 0x20));
+	style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_theme_add_element (theme, style,
 		NULL, "GogTrendLine", NULL);
 
@@ -710,6 +712,8 @@ gog_themes_init	(void)
 	style->line.dash_type = GO_LINE_SOLID;
 	style->line.width = 1;
 	style->line.color = RGBA_BLACK;
+	go_pattern_set_solid (&style->fill.pattern, RGBA_TO_UINT (0x00, 0x00, 0x00, 0x20));
+	style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_theme_add_element (theme, style,
 		NULL, "GogTrendLine", NULL);
 
