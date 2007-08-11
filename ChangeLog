@@ -1,5 +1,27 @@
 2007-08-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Move GogStyleFill editor to GogSeries, and make it appear along with
+	fill settings.
+
+	* goffice/graph/gog-series-prefs.glade: describe the GogFillType
+	editor.
+	* goffice/graph/gog-series.c (gog_series_populate_editor): handle
+	GogFillType editor.
+	* goffice/graph/gog-style-prefs.glade: add a placeholder for the fill
+	type editor.
+	* goffice/graph/gog-style.c (fill_update_visibilies): handle
+	placeholder visibility.
+	(fill_init): register placeholder.
+	* plugins/plot_radar/gog-radar.c: remove fill type editor.
+	(gog_rt_series_class_init): enable interpolation and fill_type
+	properties.
+	* plugins/plot_xy/gog-xy-series-prefs.glade: remove fill type editor.
+	* plugins/plot_xy/gog-xy.c (gog_xy_series_populate_editor): remove
+	fill type editor.
+	(gog_xy_series_class_init): enable fill_type property.
+
+2007-08-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Remove unused code and dependency to libart in go-line.c.
 
 	* goffice/graph/gog-renderer.c:

@@ -1510,13 +1510,6 @@ invalid_toggled_cb (GtkToggleButton *btn, GObject *obj)
 }
 
 static void
-fill_type_changed_cb (GtkComboBox *combo, GObject *obj)
-{
-	gog_series_set_fill_type (GOG_SERIES (obj), 
-				  gog_series_get_fill_type_from_combo (GOG_SERIES (obj), combo));
-}
-
-static void 
 gog_xy_series_populate_editor (GogObject *obj,
 			       GogEditor *editor,
 			       GogDataAllocator *dalloc,
@@ -1541,11 +1534,6 @@ gog_xy_series_populate_editor (GogObject *obj,
 			"toggled",
 			G_CALLBACK (invalid_toggled_cb), obj);
 		series = GOG_XY_SERIES (obj);
-
-		w = glade_xml_get_widget (gui, "fill_type_combo");
-		gog_series_populate_fill_type_combo (GOG_SERIES (series), GTK_COMBO_BOX (w));
-		g_signal_connect (G_OBJECT (w), "changed", 
-				  G_CALLBACK (fill_type_changed_cb), obj);
 
 		w = glade_xml_get_widget (gui, "gog_xy_series_prefs");
 		g_object_set_data_full (G_OBJECT (w),
@@ -1610,7 +1598,9 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 	gog_klass->populate_editor	= gog_xy_series_populate_editor;
 #endif
 	gso_klass->init_style		= gog_xy_series_init_style;
+
 	series_klass->has_interpolation = TRUE;
+	series_klass->has_fill_type	= TRUE;
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 

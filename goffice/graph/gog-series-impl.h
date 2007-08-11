@@ -94,8 +94,11 @@ typedef struct {
 	GogStyledObjectClass base;
 
 	gboolean		 has_interpolation;
-	GType			 series_element_type;
+	gboolean		 has_fill_type;
+
 	GogSeriesFillType const	*valid_fill_type_list;
+
+	GType			 series_element_type;
 
 	/* Virtuals */
 	void (*dim_changed) (GogSeries *series, int dim_i);

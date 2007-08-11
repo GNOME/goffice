@@ -3,7 +3,7 @@
  * gog-style.c :
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
- * Copyright (C) 2006      Emmanuel Pacaud (emmanuel.pacaud@lapp.in2p3.fr)
+ * Copyright (C) 2006-2007 Emmanuel Pacaud (emmanuel.pacaud@lapp.in2p3.fr)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -96,6 +96,7 @@ typedef struct {
 		GtkWidget *foreground_box;
 		GtkWidget *foreground_label;
 		GtkWidget *notebook;
+		GtkWidget *extension_box;
 		struct {
 			GtkWidget *selector;
 			GtkWidget *box;
@@ -304,6 +305,7 @@ line_init (StylePrefState *state, gboolean enable, GogEditor *editor)
 	}
 
 	gog_editor_register_widget (editor, w);
+
 	table = glade_xml_get_widget (state->gui, "line_table");
 
 	/* DashType */
@@ -616,11 +618,12 @@ static void
 fill_update_visibilies (FillType type, StylePrefState *state)
 {
 	g_object_set (state->fill.pattern.box, "visible" , fill_infos[type].show_pattern, NULL);
-	g_object_set (state->fill.gradient.box, "visible", fill_infos[type].show_gradient, NULL);	
-	g_object_set (state->fill.gradient.brightness_box, "visible", 
+	g_object_set (state->fill.gradient.box, "visible", fill_infos[type].show_gradient, NULL);
+	g_object_set (state->fill.gradient.brightness_box, "visible",
 		      fill_infos[type].show_brightness, NULL);
-	g_object_set (state->fill.foreground_box, "visible", 
+	g_object_set (state->fill.foreground_box, "visible",
 		      !fill_infos[type].show_brightness, NULL);
+	g_object_set (state->fill.extension_box, "visible", type != FILL_TYPE_NONE, NULL);
 
 	if (fill_infos[type].show_gradient) {
 		gtk_label_set_text (GTK_LABEL (state->fill.foreground_label), _("Start:"));
@@ -648,7 +651,7 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 }
 
 static void
-fill_init (StylePrefState *state, gboolean enable)
+fill_init (StylePrefState *state, gboolean enable, GogEditor *editor)
 {
 	GtkWidget *w;
 	FillType type;
@@ -657,6 +660,9 @@ fill_init (StylePrefState *state, gboolean enable)
 		gtk_widget_hide (glade_xml_get_widget (state->gui, "fill_box"));
 		return;
 	}
+
+	state->fill.extension_box = glade_xml_get_widget (state->gui, "fill_extension_box");
+	gog_editor_register_widget (editor, state->fill.extension_box);
 
 	state->fill.size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
@@ -667,7 +673,7 @@ fill_init (StylePrefState *state, gboolean enable)
 	fill_update_selectors (state);
 
 	state->fill.notebook = glade_xml_get_widget (state->gui, "fill_notebook");
-	
+
 	switch (state->style->fill.type) {
 		case GOG_FILL_STYLE_PATTERN:
 			type = FILL_TYPE_PATTERN;
@@ -999,7 +1005,7 @@ gog_style_populate_editor (GogStyle *style,
 
 	outline_init 	 (state, enable & GOG_STYLE_OUTLINE, editor);
 	line_init    	 (state, enable & GOG_STYLE_LINE, editor);
-	fill_init    	 (state, enable & GOG_STYLE_FILL);
+	fill_init    	 (state, enable & GOG_STYLE_FILL, editor);
 	marker_init  	 (state, enable & GOG_STYLE_MARKER, editor, cc);
 	font_init    	 (state, enable & GOG_STYLE_FONT, editor, cc);
 	text_layout_init (state, enable & GOG_STYLE_TEXT_LAYOUT, editor, cc);

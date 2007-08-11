@@ -421,13 +421,20 @@ cb_line_interpolation_changed (GtkComboBox *box, GogSeries *series)
 }
 
 static void
+cb_fill_type_changed (GtkComboBox *combo, GObject *obj)
+{
+	gog_series_set_fill_type (GOG_SERIES (obj),
+				  gog_series_get_fill_type_from_combo (GOG_SERIES (obj), combo));
+}
+
+static void
 gog_series_populate_editor (GogObject *gobj,
 			    GogEditor *editor,
 		   GogDataAllocator *dalloc,
 		   GOCmdContext *cc)
 {
 	static guint series_pref_page = 1;
-	GtkWidget *w, *line_box;
+	GtkWidget *w, *box;
 	GtkTable  *table;
 	unsigned i, row = 0;
 	gboolean has_shared = FALSE;
@@ -500,21 +507,39 @@ gog_series_populate_editor (GogObject *gobj,
 
 	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
-	line_box = gog_editor_get_registered_widget (editor, "line_box");
-	if (series_class->has_interpolation && line_box != NULL) {
+	box = gog_editor_get_registered_widget (editor, "line_box");
+	if (series_class->has_interpolation && box != NULL) {
 		GladeXML *gui;
 		GtkWidget *widget;
 
 		gui = go_libglade_new ("gog-series-prefs.glade", "interpolation_prefs", GETTEXT_PACKAGE, cc);
 		if (gui != NULL) {
 			widget = glade_xml_get_widget (gui, "interpolation_prefs");
-			gtk_box_pack_start (GTK_BOX (line_box), widget, FALSE, FALSE, 0);
+			gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
 			widget = glade_xml_get_widget (gui, "interpolation_combo");
 			gtk_combo_box_set_active (GTK_COMBO_BOX (widget), series->interpolation);
 			g_signal_connect (widget, "changed",
 					  G_CALLBACK (cb_line_interpolation_changed), series);
-			g_object_set_data_full (G_OBJECT (widget), "gui", gui, 
-						(GDestroyNotify) g_object_unref);  
+			g_object_set_data_full (G_OBJECT (widget), "gui", gui,
+						(GDestroyNotify) g_object_unref);
+		}
+	}
+
+	box = gog_editor_get_registered_widget (editor, "fill_extension_box");
+	if (series_class->has_fill_type && box != NULL) {
+		GladeXML *gui;
+		GtkWidget *widget;
+
+		gui = go_libglade_new ("gog-series-prefs.glade", "fill_type_prefs", GETTEXT_PACKAGE, cc);
+		if (gui != NULL) {
+			widget = glade_xml_get_widget (gui, "fill_type_combo");
+			gog_series_populate_fill_type_combo (GOG_SERIES (series), GTK_COMBO_BOX (widget));
+			g_signal_connect (G_OBJECT (widget), "changed",
+					  G_CALLBACK (cb_fill_type_changed), series);
+			widget = glade_xml_get_widget (gui, "fill_type_prefs");
+			gtk_box_pack_start (GTK_BOX (box), widget, TRUE, TRUE, 0);
+			g_object_set_data_full (G_OBJECT (widget), "gui", gui,
+						(GDestroyNotify) g_object_unref);
 		}
 	}
 

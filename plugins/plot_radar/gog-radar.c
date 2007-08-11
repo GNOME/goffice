@@ -638,54 +638,6 @@ radial_drop_lines_pre_remove (GogObject *parent, GogObject *child)
 
 static GogStyledObjectClass *series_parent_klass;
 
-#ifdef GOFFICE_WITH_GTK
-static void
-fill_type_changed_cb (GtkComboBox *combo, GObject *obj)
-{
-	gog_series_set_fill_type (GOG_SERIES (obj), 
-				  gog_series_get_fill_type_from_combo (GOG_SERIES (obj), combo));
-}
-
-static void 
-gog_rt_series_populate_editor (GogObject *obj,
-			       GogEditor *editor,
-			       GogDataAllocator *dalloc,
-			       GOCmdContext *cc)
-{
-	GogRTSeries *series;
-	GladeXML *gui;
-	GtkWidget *w;
-	char const *dir;
-	char *path;
-
-	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
-
-	if (!GOG_IS_PLOT_POLAR (gog_series_get_plot (GOG_SERIES (obj))))
-		return;
-
-	dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_radar"));
-	path = g_build_filename (dir, "gog-rt-series-prefs.glade", NULL);
-	gui = go_libglade_new (path, "gog_rt_series_prefs", GETTEXT_PACKAGE, cc);
-	g_free (path);
-	
-	if (gui == NULL)
-		return;
-
-	series = GOG_RT_SERIES (obj);
-
-	w = glade_xml_get_widget (gui, "fill_type_combo");
-	gog_series_populate_fill_type_combo (GOG_SERIES (series), GTK_COMBO_BOX (w));
-	g_signal_connect (G_OBJECT (w), "changed", 
-			  G_CALLBACK (fill_type_changed_cb), obj);
-
-	w = glade_xml_get_widget (gui, "gog_rt_series_prefs");
-	g_object_set_data_full (G_OBJECT (w),
-				"state", gui, (GDestroyNotify)g_object_unref);
-
-	gog_editor_add_page (editor, w, _("Details"));
-}
-#endif
-
 static void
 gog_rt_series_update (GogObject *obj)
 {
@@ -766,15 +718,16 @@ gog_rt_series_class_init (GogStyledObjectClass *gso_klass)
 	GogObjectClass *obj_klass = GOG_OBJECT_CLASS (gso_klass);
 	GogSeriesClass *series_klass = GOG_SERIES_CLASS (gso_klass);
 
-	series_parent_klass = g_type_class_peek_parent (gso_klass);
-	gso_klass->init_style = gog_rt_series_init_style;
+	series_parent_klass = 	g_type_class_peek_parent (gso_klass);
+	gso_klass->init_style =	gog_rt_series_init_style;
 	obj_klass->update = gog_rt_series_update;
-#ifdef GOFFICE_WITH_GTK
-	obj_klass->populate_editor	= gog_rt_series_populate_editor;
-#endif
+
+	series_klass->has_fill_type =		TRUE;
+	series_klass->has_interpolation = 	TRUE;
+
 	gog_object_register_roles (obj_klass, roles, G_N_ELEMENTS (roles));
 
-	series_klass->valid_fill_type_list = valid_fill_type_list;
+	series_klass->valid_fill_type_list = 	valid_fill_type_list;
 }
 
 GSF_DYNAMIC_CLASS (GogRTSeries, gog_rt_series,
