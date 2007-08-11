@@ -539,7 +539,7 @@ gogo_prop_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 			return;
 		}
 
-		if (!gsf_xml_gvalue_from_str (&val, prop_ftype, content)) {
+		if (!gsf_xml_gvalue_from_str (&val, prop_type, content)) {
 			g_warning ("could not convert string to type `%s' for property `%s'",
 				   g_type_name (prop_type), state->prop_spec->name);
 			return;
