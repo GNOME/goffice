@@ -1,3 +1,9 @@
+2007-08-10  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_shell_argv_to_glib_encoding):
+	NULL-terminate argv array.  Don't bother setting argc.
+	(go_shell_argv_to_glib_encoding_free): Use g_strfreev.
+
 2007-08-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 
