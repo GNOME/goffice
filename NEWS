@@ -1,3 +1,10 @@
+goffice 0.5.0:
+
+Emmanuel:
+	* Fill support for polar xy plots.
+	* Interpolation support for polar plots.
+
+--------------------------------------------------------------------------
 goffice 0.4.2:
 
 Jody:
