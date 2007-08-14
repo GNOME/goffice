@@ -1,3 +1,18 @@
+2007-08-12  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix update of dim editors when moving axis bounds.
+
+	* goffice/graph/gog-axis.c (set_to_auto_value): new.
+	(cb_enable_dim): use set_to_auto_value.
+	(cb_axis_bound_changed): removed.
+	(cb_update_editor): new.
+	(make_dim_editor): don't connect to Axis::changed signal, but to
+	Axis::update-editor.
+
+2007-08-12  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/utils/go-cairo.[ch]: removed.
+
 2007-08-11  Christian Neumair <cneumair@gnome.org>
 
 	* goffice/graph/gog-object-xml.c: (gogo_prop_end): Pass instance type
