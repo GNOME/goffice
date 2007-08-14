@@ -1,3 +1,8 @@
+2007-08-13  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_shell_arg_to_uri): Don't trash
+	fd://0 and friends.
+
 2007-08-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix step interpolation for radar plots by introducing a new

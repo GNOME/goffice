@@ -320,6 +320,8 @@ go_url_resolve_relative (const char *ref_uri, const char *rel_uri)
 	return simp;
 }
 
+/* ------------------------------------------------------------------------- */
+
 static char *
 make_rel (const char *uri, const char *ref_uri,
 	  const char *uri_host, const char *slash)
@@ -399,6 +401,30 @@ go_url_make_relative (const char *uri, const char *ref_uri)
 	return NULL;
 }
 
+/* ------------------------------------------------------------------------- */
+
+static gboolean
+is_fd_uri (const char *uri, int *fd)
+{
+	unsigned long ul;
+	char *end;
+
+	if (g_ascii_strncasecmp (uri, "fd://", 5))
+		return FALSE;
+	uri += 5;
+	if (!g_ascii_isdigit (*uri))
+		return FALSE;  /* Space, for example.  */
+
+	ul = strtoul (uri, &end, 10);
+	if (*end != 0 || ul > INT_MAX)
+		return FALSE;
+
+	*fd = (int)ul;
+	return TRUE;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /*
  * Convert a shell argv entry (assumed already translated into filename
  * encoding) to an escaped URI.
@@ -407,6 +433,7 @@ char *
 go_shell_arg_to_uri (const char *arg)
 {
 	gchar *tmp;
+	int fd;
 
 	if (g_path_is_absolute (arg) || strchr (arg, ':') == NULL)
 		return go_filename_to_uri (arg);
@@ -421,6 +448,9 @@ go_shell_arg_to_uri (const char *arg)
 		g_free (tmp);
 		return res;
 	}
+
+	if (is_fd_uri (arg, &fd))
+		return g_strdup (arg);
 
 #ifdef GOFFICE_WITH_GNOME
 	{
@@ -506,28 +536,6 @@ go_dirname_from_uri (const char *uri, gboolean brief)
 	dirname_utf8 = dirname ? g_filename_display_name (dirname) : NULL;
 	g_free (dirname);
 	return dirname_utf8;
-}
-
-/* ------------------------------------------------------------------------- */
-
-static gboolean
-is_fd_uri (const char *uri, int *fd)
-{
-	unsigned long ul;
-	char *end;
-
-	if (g_ascii_strncasecmp (uri, "fd://", 5))
-		return FALSE;
-	uri += 5;
-	if (!g_ascii_isdigit (*uri))
-		return FALSE;  /* Space, for example.  */
-
-	ul = strtoul (uri, &end, 10);
-	if (*end != 0 || ul > INT_MAX)
-		return FALSE;
-
-	*fd = (int)ul;
-	return TRUE;
 }
 
 /* ------------------------------------------------------------------------- */

@@ -4,6 +4,9 @@ Emmanuel:
 	* Fill support for polar xy plots.
 	* Interpolation support for polar plots.
 
+Morten:
+	* Fix "fs://0" handling in go_shell_arg_to_uri.
+
 --------------------------------------------------------------------------
 goffice 0.4.2:
 
