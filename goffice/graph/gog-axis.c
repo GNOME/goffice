@@ -1465,27 +1465,20 @@ typedef struct {
 	GogDataset *set;
 	unsigned dim;
 	gulong update_editor_handler;
-	gulong changed_handler;
+	gulong toggle_handler;
 } ElemToggleData;
 
 static void
 elem_toggle_data_free (ElemToggleData *data)
 {
 	g_signal_handler_disconnect (G_OBJECT (data->set), data->update_editor_handler);
-	g_signal_handler_disconnect (G_OBJECT (data->set), data->changed_handler);
 	g_free (data);
 }
 
 static void
-cb_enable_dim (GtkToggleButton *toggle_button, ElemToggleData *closure)
+set_to_auto_value (ElemToggleData *closure)
 {
-	gboolean is_auto = gtk_toggle_button_get_active (toggle_button);
 	double bound = GOG_AXIS (closure->set)->auto_bound [closure->dim];
-
-	gtk_widget_set_sensitive (closure->editor, !is_auto);
-
-	if (is_auto) /* clear the data */
-		gog_dataset_set_dim (closure->set, closure->dim, NULL, NULL);
 
 	if (go_finite (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
 		char *str = g_strdup_printf ("%g", bound);
@@ -1493,27 +1486,38 @@ cb_enable_dim (GtkToggleButton *toggle_button, ElemToggleData *closure)
 		g_free (str);
 	} else
 		g_object_set (closure->editor, "text", "", NULL);
+
 }
 
 static void
-cb_axis_bound_changed (GogObject *axis, gboolean resize, ElemToggleData *closure)
+cb_enable_dim (GtkToggleButton *toggle_button, ElemToggleData *closure)
 {
-	if (gtk_toggle_button_get_active (closure->toggle)) {
-		double bound = GOG_AXIS (closure->set)->auto_bound [closure->dim];
-		if (go_finite (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
-			char *str = g_strdup_printf ("%g", bound);
-			g_object_set (closure->editor, "text", str, NULL);
-			g_free (str);
-		} else
-			g_object_set (closure->editor, "text", "", NULL);
-	}
+	gboolean is_auto = gtk_toggle_button_get_active (toggle_button);
+
+	gtk_widget_set_sensitive (closure->editor, !is_auto);
+
+	if (is_auto)
+		gog_dataset_set_dim (closure->set, closure->dim, NULL, NULL);
+
+	set_to_auto_value (closure);
 }
 
 static void
 cb_update_dim_editor (GogObject *gobj, ElemToggleData *closure)
 {
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (closure->toggle),
-		gog_dataset_get_dim (closure->set, closure->dim) == NULL);
+	gboolean is_auto;
+
+	g_signal_handler_block (closure->toggle, closure->toggle_handler);
+
+	is_auto = (gog_dataset_get_dim (closure->set, closure->dim) == NULL);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (closure->toggle), is_auto);
+	gtk_widget_set_sensitive (GTK_WIDGET (closure->editor), !is_auto);
+
+	if (is_auto)
+		set_to_auto_value (closure);
+
+	g_signal_handler_unblock (closure->toggle, closure->toggle_handler);
 }
 
 static void
@@ -1531,26 +1535,25 @@ make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 	info->set = set;
 	info->dim = dim;
 	info->toggle = GTK_TOGGLE_BUTTON (toggle);
-	
-	g_signal_connect (G_OBJECT (toggle),
-			  "toggled",
-			  G_CALLBACK (cb_enable_dim), info);
+
+	info->toggle_handler = g_signal_connect (G_OBJECT (toggle),
+						 "toggled",
+						 G_CALLBACK (cb_enable_dim), info);
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle),
 				      gog_dataset_get_dim (set, dim) == NULL);
 
-	info->update_editor_handler = g_signal_connect (G_OBJECT (set), 
-							"update-editor", 
+	info->update_editor_handler = g_signal_connect (G_OBJECT (set),
+							"update-editor",
 							G_CALLBACK (cb_update_dim_editor), info);
-	info->changed_handler = g_signal_connect (G_OBJECT (set),
-						  "changed",
-						  G_CALLBACK (cb_axis_bound_changed), info);
+
 	g_object_weak_ref (G_OBJECT (toggle), (GWeakNotify) elem_toggle_data_free, info);
 
 	gtk_table_attach (table, toggle,
 		0, 1, dim + 1, dim + 2, GTK_FILL, 0, 0, 0);
 	gtk_table_attach (table, editor,
 		1, 2, dim + 1, dim + 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	
+
 }
 
 static void
