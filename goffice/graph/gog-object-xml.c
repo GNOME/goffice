@@ -31,6 +31,13 @@
 #include <string.h>
 #include <stdlib.h>
 
+/* GogGrid object was used with "Grid" role name by GogChart. We've changed the role
+ * name to "Backplane", since that's what the user see in the UI, and that's what GogGrid
+ * really is. We do the substitution on save/load for backward compatibility. */
+
+#define GOG_BACKPLANE_OLD_ROLE_NAME	"Grid"
+#define GOG_BACKPLANE_NEW_ROLE_NAME	"Backplane"
+
 GType
 gog_persist_get_type (void)
 {
@@ -281,8 +288,12 @@ gog_object_write_xml_sax (GogObject const *obj, GsfXMLOut *output)
 	gsf_xml_out_start_element (output, "GogObject");
 
 	/* Primary details */
-	if (obj->role != NULL)
-		gsf_xml_out_add_cstr (output, "role", obj->role->id);
+	if (obj->role != NULL) {
+		if (strcmp (obj->role->id, GOG_BACKPLANE_NEW_ROLE_NAME) == 0)
+			gsf_xml_out_add_cstr (output, "role", GOG_BACKPLANE_OLD_ROLE_NAME);
+		else
+			gsf_xml_out_add_cstr (output, "role", obj->role->id);
+	}
 	if (obj->explicitly_typed_role || obj->role == NULL)
 		gsf_xml_out_add_cstr (output, "type", G_OBJECT_TYPE_NAME (obj));
 
@@ -333,7 +344,11 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 	if (role == NULL) {
 		g_return_val_if_fail (parent == NULL, NULL);
 	} else {
-		res = gog_object_add_by_name (parent, role, res);
+		/* FIXME */
+		if (strcmp (role, GOG_BACKPLANE_OLD_ROLE_NAME) == 0)
+			res = gog_object_add_by_name (parent, GOG_BACKPLANE_NEW_ROLE_NAME, res);
+		else
+			res = gog_object_add_by_name (parent, role, res);
 		xmlFree (role);
 	}
 
@@ -580,8 +595,12 @@ gogo_start (GsfXMLIn *xin, xmlChar const **attrs)
 	} else
 		res = NULL;
 
-	if (role != NULL)
-		res = gog_object_add_by_name (state->obj, role, res);
+	if (role != NULL) {
+		if (strcmp (role, GOG_BACKPLANE_OLD_ROLE_NAME) == 0)
+			res = gog_object_add_by_name (state->obj, GOG_BACKPLANE_NEW_ROLE_NAME, res);
+		else
+			res = gog_object_add_by_name (state->obj, role, res);
+	}
 	if (res != NULL) {
 		res->explicitly_typed_role = (type != NULL);
 		if (IS_GOG_PERSIST (res))

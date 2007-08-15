@@ -353,7 +353,7 @@ static gboolean color_axis_can_add (GogObject const *parent) { return axis_can_a
 static void color_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_COLOR); }
 
 static GogObjectRole const roles[] = {
-	{ N_("Grid"), "GogGrid",	0,
+	{ N_("Backplane"), "GogGrid",	0,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  role_grid_can_add, NULL, NULL, role_grid_post_add, role_grid_pre_remove, NULL, { -1 } },
 	{ N_("X-Axis"), "GogAxis",	1,

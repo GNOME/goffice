@@ -1,3 +1,15 @@
+2007-08-15  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Change Grid role name to Backplane, since that what GogGrid really is.
+	We should rename the GogGrid object to GogBackplane later.
+
+	* goffice/graph/gog-object-xml.c (gog_object_write_xml_sax): do the
+	substitution here, for backward compatibility.
+	(gog_object_new_from_xml): ditto.
+	(gogo_start): ditto.
+	* goffice/graph/gog-chart.c (gog_chart_class_init): replace "Grid" role
+	name by "Backplane".
+
 2007-08-12  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix update of dim editors when moving axis bounds.
