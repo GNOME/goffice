@@ -441,56 +441,6 @@ go_path_rectangle (GOPath *path,
 }
 
 void
-go_path_get_extremes (const GOPath *path, GOPathPoint *first_point, GOPathPoint *last_point)
-{
-	GOPathDataBuffer *buffer;
-	GOPathPoint l_first_point = {0.0, 0.0};
-	GOPathPoint l_last_point = {0.0, 0.0};
-
-	g_return_if_fail (IS_GO_PATH (path));
-
-	buffer = path->data_buffer_head;
-
-	if (buffer->n_points > 0)
-		switch (buffer->actions[0]) {
-			case GO_PATH_ACTION_MOVE_TO:
-			case GO_PATH_ACTION_LINE_TO:
-				l_first_point.x = buffer->points[0].x;
-				l_first_point.y = buffer->points[0].y;
-				break;
-			case GO_PATH_ACTION_CURVE_TO:
-				l_first_point.x = buffer->points[2].x;
-				l_first_point.y = buffer->points[2].y;
-				break;
-			default:
-				break;
-		}
-
-	buffer = path->data_buffer_tail;
-
-	while (buffer->n_actions < 1) {
-		buffer = buffer->previous;
-		if (buffer == NULL)
-			break;
-	}
-
-	if (buffer != NULL) {
-		if (buffer->actions[buffer->n_actions - 1] == GO_PATH_ACTION_CLOSE_PATH)
-			l_last_point = l_first_point;
-		else {
-			l_last_point.x = buffer->points[buffer->n_points - 1].x;
-			l_last_point.y = buffer->points[buffer->n_points - 1].y;
-		}
-	}
-
-	if (first_point != NULL)
-		*first_point = l_first_point;
-
-	if (last_point != NULL)
-		*last_point = l_last_point;
-}
-
-void
 go_path_interpret (GOPath const		*path,
 		   GOPathDirection 	 direction,
 		   GOPathMoveToFunc 	*move_to,

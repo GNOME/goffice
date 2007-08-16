@@ -92,8 +92,6 @@ void    go_path_arc_to	 	(GOPath *path,
 void	go_path_rectangle	(GOPath *path, double x, double y,
 				 double width, double height);
 
-void	go_path_get_extremes 	(const GOPath *path, GOPathPoint *first_point, GOPathPoint *last_point);
-
 void	go_path_interpret	(GOPath const *path,
 				 GOPathDirection direction,
 				 GOPathMoveToFunc *move_to,

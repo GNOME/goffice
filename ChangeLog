@@ -1,3 +1,9 @@
+2007-08-16  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Remove unused code.
+
+	* goffice/utils/gog-path.[ch] (go_path_get_extremes]: removed.
+
 2007-08-15  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Change Grid role name to Backplane, since that what GogGrid really is.
