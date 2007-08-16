@@ -963,8 +963,6 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_renderer_push_style (view->renderer, style);
 
 		if ((show_lines || show_fill) && !GOG_IS_BUBBLE_PLOT (model)) {
-			GOPathPoint first_point, last_point;
-
 			if (next_path != NULL)
 				path = next_path;
 			else
@@ -972,8 +970,6 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 								n, series->base.interpolation);
 
 			next_path = NULL;
-
-			go_path_get_extremes (path, &first_point, &last_point);
 
 			if (series->base.fill_type != GOG_SERIES_FILL_TYPE_NEXT) {
 				GOPath *close_path;

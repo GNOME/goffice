@@ -1,5 +1,12 @@
 2007-08-16  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Really make go_path_get_extremes unused.
+
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): removed useless call
+	to go_path_get_extremes.
+
+2007-08-16  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Remove unused code.
 
 	* goffice/utils/gog-path.[ch] (go_path_get_extremes]: removed.
