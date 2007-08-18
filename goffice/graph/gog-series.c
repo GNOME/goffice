@@ -980,7 +980,8 @@ gog_series_get_data (GogSeries const *series, int *indices, double **data, int n
 	int index;
 	gboolean is_set = FALSE;
 
-	g_return_val_if_fail (gog_series_is_valid (series), 0);
+	if (!gog_series_is_valid (series))
+		return 0;
 
 	gog_dataset_dims (GOG_DATASET (series), &first, &last);
 
@@ -1016,7 +1017,9 @@ gog_series_get_xy_data (GogSeries const  *series,
 	if (klass->get_xy_data != NULL) {
 		int first, last;
 
-		g_return_val_if_fail (gog_series_is_valid (GOG_SERIES (series)), 0);
+		if (!gog_series_is_valid (GOG_SERIES (series)))
+			return 0;
+
 		gog_dataset_dims (GOG_DATASET (series), &first, &last);
 
 		g_return_val_if_fail (first <= 0, 0);

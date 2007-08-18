@@ -1,5 +1,11 @@
 2007-08-18  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* goffice/graph/gog-series.c (gog_series_get_data): don't emit a
+	warning whe series is invalid.
+	(gog_series_get_xy_data): ditto.
+
+2007-08-18  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Fix automatic creation of backplane via guru-hints.
 
 	* goffice/graph/gog-plot.c (gog_plot_guru_helper): backplane role name
