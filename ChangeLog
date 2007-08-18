@@ -1,3 +1,9 @@
+2007-08-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* pixmaps/Makefile.am: add new icon for surface plots.
+	* pixmaps/chart_surface_2_1.png: ditto.
+	* pixmaps/chart_surface_2_1.svg: ditto.
+
 2007-08-16  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Really make go_path_get_extremes unused.
