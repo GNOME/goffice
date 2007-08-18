@@ -1,3 +1,30 @@
+2007-08-18  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix automatic creation of backplane via guru-hints.
+
+	* goffice/graph/gog-plot.c (gog_plot_guru_helper): backplane role name
+	is "Backplane" now, not "Gird".
+
+2007-08-18  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Conversion of GOMarker to cairo.
+
+	* goffice/utils/go-marker.c: removed dependency on libart and
+	GdkPixbuf. Use SVG path string for marker description.
+	(marker_create_pixbuf_with_size), (marker_free_pixbuf),
+	(marker_update_pixbuf), (go_marker_finalize),
+	(go_marker_get_pixbuf), (go_marker_get_pixbuf_with_size): removed.
+	(go_marker_set_shape), (go_marker_set_outline_color),
+	(go_marker_set_fill_color), (go_marker_set_size), (go_marker_assign):
+	no more pixbuf caching.
+	(go_marker_render): new.
+	(go_marker_create_cairo_surface): new.
+	* goffice/gtk/go-marker-selector.c: (go_marker_palette_render_func)
+	use go_marker_render.
+	* goffice/graph/gog-renderer.c (_draw_marker): removed.
+	(_get_marker_surface): use go_marker_create_cairo_surface.
+	* goffice/utils/go-cairo.c (go_cairo_emit_svg_path): new.
+
 2007-08-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* pixmaps/Makefile.am: add new icon for surface plots.

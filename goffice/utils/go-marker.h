@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-marker.h :
+ * gog-marker.h
  *
- * Copyright (C) 2003-2004 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
+ * Copyright (C) 2003-2007 Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -25,11 +25,7 @@
 #include <glib-object.h>
 #include <goffice/goffice-features.h>
 #include <goffice/utils/goffice-utils.h>
-#include <libart_lgpl/art_vpath.h>
-
-#ifdef GOFFICE_WITH_GTK
-#include <gdk-pixbuf/gdk-pixbuf.h>
-#endif
+#include <cairo.h>
 
 G_BEGIN_DECLS
 
@@ -56,13 +52,10 @@ typedef enum {
 	GO_MARKER_MAX
 } GOMarkerShape;
 
-GType go_marker_get_type (void); 
+GType go_marker_get_type (void);
 
 GOMarkerShape    go_marker_shape_from_str       (char const *name);
 char const      *go_marker_shape_as_str         (GOMarkerShape shape);
-void		 go_marker_get_paths		(GOMarker const *marker,
-						 ArtVpath const **outline_path,
-						 ArtVpath const **fill_path);
 GOMarkerShape 	 go_marker_get_shape		(GOMarker const *m);
 void 		 go_marker_set_shape 		(GOMarker *m, GOMarkerShape shape);
 GOColor 	 go_marker_get_outline_color	(GOMarker const *m);
@@ -77,11 +70,11 @@ void		 go_marker_assign 		(GOMarker *dst, GOMarker const *src);
 GOMarker *	 go_marker_dup 			(GOMarker const *src);
 GOMarker * 	 go_marker_new 			(void);
 
-#ifdef GOFFICE_WITH_GTK
-GdkPixbuf       *go_marker_get_pixbuf		(GOMarker *m, double scale);
-GdkPixbuf       *go_marker_get_pixbuf_with_size (GOMarker *m, guint size);
-#endif
-	
+void 		 go_marker_render 		(GOMarker const *marker, cairo_t *cr,
+						 double x, double y, double scale);
+cairo_surface_t *go_marker_create_cairo_surface (GOMarker const *marker, cairo_t *cr,
+						 double scale, double *center);
+
 G_END_DECLS
 
 #endif /* GO_MARKER_H */

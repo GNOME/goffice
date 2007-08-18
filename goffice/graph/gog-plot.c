@@ -1004,20 +1004,20 @@ gog_plot_guru_helper (GogPlot *plot)
 	char *hint;
 	unsigned i;
 
- 	g_return_if_fail (IS_GOG_PLOT (plot));	
+	g_return_if_fail (IS_GOG_PLOT (plot));
 	klass = GOG_PLOT_GET_CLASS (plot);
 
 	if (plot->guru_hints == NULL)
 		return;
 
 	hints = g_strsplit (plot->guru_hints, ";", 0);
-	
+
 	for (i = 0; i < g_strv_length (hints); i++) {
 		hint = g_strstrip (hints[i]);
 		if (strcmp (hints[i], "backplane") == 0) {
 			GogChart *chart = GOG_CHART (gog_object_get_parent (GOG_OBJECT (plot)));
 			if (chart != NULL && gog_chart_get_grid (chart) == NULL)
-				gog_object_add_by_name (GOG_OBJECT (chart), "Grid", NULL);
+				gog_object_add_by_name (GOG_OBJECT (chart), "Backplane", NULL);
 		} else if (strcmp (hints[i], "major-grid") == 0) {
 			gog_plot_guru_helper_add_grid_line (plot, TRUE);
 		} else if (strcmp (hints[i], "minor-grid") == 0) {

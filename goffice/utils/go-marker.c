@@ -2,7 +2,7 @@
 /*
  * go-marker.c :
  *
- * Copyright (C) 2003-2004 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
+ * Copyright (C) 2003-2007 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -23,20 +23,7 @@
 #include "go-marker.h"
 #include "go-color.h"
 #include <goffice/utils/go-math.h>
-
-#ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/go-palette.h>
-#include <gdk-pixbuf/gdk-pixdata.h>
-#include <glade/glade-xml.h>
-#endif
-
-#include <libart_lgpl/art_render_gradient.h>
-#include <libart_lgpl/art_render_svp.h>
-#include <libart_lgpl/art_render_mask.h>
-#include <libart_lgpl/art_svp_vpath_stroke.h>
-#include <libart_lgpl/art_svp_vpath.h>
-#include <libart_lgpl/art_affine.h>
-#include <libart_lgpl/art_rgb_svp.h>
+#include <goffice/utils/go-cairo.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
@@ -52,11 +39,6 @@ struct _GOMarker {
 	GOMarkerShape	shape;
 	GOColor		outline_color;
 	GOColor		fill_color;
-#ifdef GOFFICE_WITH_GTK
-	GdkPixbuf	*pixbuf;
-#else
-	gpointer	 pixbuf_placeholder;
-#endif
 };
 
 typedef struct {
@@ -65,171 +47,28 @@ typedef struct {
 
 #define GO_MARKER_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS((o),  GO_MARKER_TYPE, GOMarkerClass))
 
-static ArtVpath const square_path[] = { 
-	{ART_MOVETO, -1.0, -1.0},
-	{ART_LINETO, -1.0,  1.0},
-	{ART_LINETO,  1.0,  1.0},
-	{ART_LINETO,  1.0, -1.0},
-	{ART_LINETO, -1.0, -1.0},
-	{ART_END   ,  0.0,  0.0}
-};
-
-static ArtVpath const diamond_path[] = { 
-	{ART_MOVETO,  0.0, -1.0},
-	{ART_LINETO,  1.0,  0.0},
-	{ART_LINETO,  0.0,  1.0},
-	{ART_LINETO, -1.0,  0.0},
-	{ART_LINETO,  0.0, -1.0},
-	{ART_END   ,  0.0,  0.0}
-};
-
-static ArtVpath const triangle_down_path[] = { 
-	{ART_MOVETO, -1.0, -1.0},
-	{ART_LINETO,  1.0, -1.0},
-	{ART_LINETO,  0.0,  1.0},
-	{ART_LINETO, -1.0, -1.0},
-	{ART_END   ,  0.0,  0.0}
-};
-
-static ArtVpath const triangle_up_path[] = { 
-	{ART_MOVETO,  0.0, -1.0},
-	{ART_LINETO,  1.0,  1.0},
-	{ART_LINETO, -1.0,  1.0},
-	{ART_LINETO,  0.0, -1.0},
-	{ART_END   ,  0.0,  0.0}
-};
-
-static ArtVpath const triangle_right_path[] = { 
-	{ART_MOVETO, -1.0, -1.0},
-	{ART_LINETO,  1.0,  0.0},
-	{ART_LINETO, -1.0,  1.0},
-	{ART_LINETO, -1.0, -1.0},
-	{ART_END   ,  0.0,  0.0}
-};
-
-static ArtVpath const triangle_left_path[] = { 
-	{ART_MOVETO,  1.0, -1.0},
-	{ART_LINETO, -1.0,  0.0},
-	{ART_LINETO,  1.0,  1.0},
-	{ART_LINETO,  1.0, -1.0},
-	{ART_END   ,  0.0,  0.0}
-};
-
-static ArtVpath const circle_path[] = {
-	{ART_MOVETO,	1.000	,	0.000	},
-	{ART_LINETO,	0.985	,	0.174	},
-	{ART_LINETO,	0.940	,	0.342	},
-	{ART_LINETO,	0.866	,	0.500	},
-	{ART_LINETO,	0.766	,	0.643	},
-	{ART_LINETO,	0.643	,	0.766	},
-	{ART_LINETO,	0.500	,	0.866	},
-	{ART_LINETO,	0.342	,	0.940	},
-	{ART_LINETO,	0.174	,	0.985	},
-	{ART_LINETO,	0.000	,	1.000	},
-	{ART_LINETO,	-0.174	,	0.985	},
-	{ART_LINETO,	-0.342	,	0.940	},
-	{ART_LINETO,	-0.500	,	0.866	},
-	{ART_LINETO,	-0.643	,	0.766	},
-	{ART_LINETO,	-0.766	,	0.643	},
-	{ART_LINETO,	-0.866	,	0.500	},
-	{ART_LINETO,	-0.940	,	0.342	},
-	{ART_LINETO,	-0.985	,	0.174	},
-	{ART_LINETO,	-1.000	,	0.000	},
-	{ART_LINETO,	-0.985	,	-0.174	},
-	{ART_LINETO,	-0.940	,	-0.342	},
-	{ART_LINETO,	-0.866	,	-0.500	},
-	{ART_LINETO,	-0.766	,	-0.643	},
-	{ART_LINETO,	-0.643	,	-0.766	},
-	{ART_LINETO,	-0.500	,	-0.866	},
-	{ART_LINETO,	-0.342	,	-0.940	},
-	{ART_LINETO,	-0.174	,	-0.985	},
-	{ART_LINETO,	-0.000	,	-1.000	},
-	{ART_LINETO,	0.174	,	-0.985	},
-	{ART_LINETO,	0.342	,	-0.940	},
-	{ART_LINETO,	0.500	,	-0.866	},
-	{ART_LINETO,	0.643	,	-0.766	},
-	{ART_LINETO,	0.766	,	-0.643	},
-	{ART_LINETO,	0.866	,	-0.500	},
-	{ART_LINETO,	0.940	,	-0.342	},
-	{ART_LINETO,	0.985	,	-0.174	},
-	{ART_LINETO,	1.000	,	 0.000	},
-	{ART_END,	0.000	,  	 0.000	}
-};
-
-static ArtVpath const x_path[] = { 
-	{ART_MOVETO,  1.0,  1.0},
-	{ART_LINETO, -1.0, -1.0},
-	{ART_MOVETO,  1.0, -1.0},
-	{ART_LINETO, -1.0,  1.0},
-	{ART_END   ,  0.0,  0.0}
-};
-
-static ArtVpath const cross_path[] = { 
-	{ART_MOVETO,  1.0,  0.0},
-	{ART_LINETO, -1.0,  0.0},
-	{ART_MOVETO,  0.0,  1.0},
-	{ART_LINETO,  0.0, -1.0},
-	{ART_END   ,  0.0,  0.0}
-};
-
-static ArtVpath const asterisk_path[] = { 
-	{ART_MOVETO,  0.7,  0.7},
-	{ART_LINETO, -0.7, -0.7},
-	{ART_MOVETO,  0.7, -0.7},
-	{ART_LINETO, -0.7,  0.7},
-	{ART_MOVETO,  1.0,  0.0},
-	{ART_LINETO, -1.0,  0.0},
-	{ART_MOVETO,  0.0,  1.0},
-	{ART_LINETO,  0.0, -1.0},
-	{ART_END   ,  0.0,  0.0}
-};
-
-static ArtVpath const bar_path[] = {
-	{ART_MOVETO, -1.0, -0.2},
-	{ART_LINETO,  1.0, -0.2},
-	{ART_LINETO,  1.0,  0.2},
-	{ART_LINETO, -1.0,  0.2},
-	{ART_LINETO, -1.0, -0.2},
-	{ART_END   ,  0.0,  0.0}
-};
-
-static ArtVpath const half_bar_path[] = {
-	{ART_MOVETO,  0.0, -0.2},
-	{ART_LINETO,  1.0, -0.2},
-	{ART_LINETO,  1.0,  0.2},
-	{ART_LINETO,  0.0,  0.2},
-	{ART_LINETO,  0.0, -0.2},
-	{ART_END   ,  0.0,  0.0}
-};
-
-static ArtVpath const butterfly_path[] = {
-	{ART_MOVETO, -1.0, -1.0},
-	{ART_LINETO, -1.0,  1.0},
-	{ART_LINETO,  0.0,  0.0},
-	{ART_LINETO,  1.0,  1.0},
-	{ART_LINETO,  1.0, -1.0},
-	{ART_LINETO,  0.0,  0.0},
-	{ART_LINETO, -1.0, -1.0},
-	{ART_END   ,  0.0,  0.0}
-};
-
-static ArtVpath const hourglass_path[] = {
-	{ART_MOVETO, -1.0, -1.0},
-	{ART_LINETO,  1.0, -1.0},
-	{ART_LINETO,  0.0,  0.0},
-	{ART_LINETO,  1.0,  1.0},
-	{ART_LINETO, -1.0,  1.0},
-	{ART_LINETO,  0.0,  0.0},
-	{ART_LINETO, -1.0, -1.0},
-	{ART_END   ,  0.0,  0.0}
-};
+const char square_path[] = 		"M-1,-1 L-1,1 1,1 1,-1 z";
+const char diamond_path[] =		"M0,-1 L1,0 0,1 -1,0 z";
+const char triangle_down_path[] =	"M-1,-1 L1,-1 0,1 z";
+const char triangle_up_path[] =		"M0,-1 L1,1 -1,1 z";
+const char triangle_right_path[] =	"M-1,-1 L1,0 -1,1 z";
+const char triangle_left_path[] =	"M1,-1 L-1,0 1,1 z";
+const char circle_path[] =		"M1,0 C1,0.56 0.56,1 0,1 C-0.56,1 -1,0.56 -1,0 "
+					"C-1,-0.56 -0.56,-1 0,-1 C0.56,-1 1,-0.56 1,0 L1,0 z";
+const char x_path[] =			"M1,1 L-1,-1 M1,-1 L-1,1";
+const char cross_path[] =		"M1,0 L-1,0 M0,1 L0,-1";
+const char asterisk_path[] =		"M0.7,0.7 L-0.7,-0.7 M0.7,-0.7 L-0.7,0.7 M1,0 L-1,0 M0,1 L0,-1";
+const char bar_path[] =			"M-1 -0.2 L 1 -0.2 L 1 0.2 L -1 0.2 z";
+const char half_bar_path[] = 		"M0,-0.2 L1,-0.2 1,0.2 0,0.2 z";
+const char butterfly_path[] =		"M-1,-1 L-1,1 0,0 1,1 1,-1 0,0 z";
+const char hourglass_path[] =		"M-1,-1 L1,-1 0,0 1,1 -1,1 0,0 z";
 
 typedef struct
 {
 	char const *name;
 	char const *str;
-	ArtVpath const *outline_path;
-	ArtVpath const *fill_path;
+	char const *outline_path;
+	char const *fill_path;
 } MarkerShape;
 
 #define MAKE_MARKER_SHAPE(name, str, path)	{name, str, path, path}
@@ -255,101 +94,6 @@ static MarkerShape const marker_shapes[GO_MARKER_MAX] = {
 
 static GObjectClass *marker_parent_klass;
 
-#ifdef GOFFICE_WITH_GTK
-static GdkPixbuf *
-marker_create_pixbuf_with_size (GOMarker *marker, guint size)
-{
-	double scaling[6], translation[6], affine[6];
-	guchar *pixels;
-	int rowstride;
-	ArtSVP *outline, *fill;
-	double half_size;
-	int pixbuf_size, offset;
-	ArtVpath  *outline_path;
-	ArtVpath  *fill_path;
-	GdkPixbuf *pixbuf;
-
-	size = go_rint (marker->scale * size);
-
-	if (size < 1 || marker->shape == GO_MARKER_NONE)
-		return NULL;
-
-	/* FIXME : markers look bad due to grey outline */
-
-	offset = ceil ((double)size * MARKER_OUTLINE_WIDTH / 2.0);
-	pixbuf_size = size + 1 + 2 * offset;
-	half_size = (double)size / 2.0;
-	
-	art_affine_scale (scaling, half_size, half_size);
-	art_affine_translate (translation, half_size + offset + .5, half_size + offset + .5);
-	art_affine_multiply (affine, scaling, translation);
-	
-	outline_path = art_vpath_affine_transform (marker_shapes[marker->shape].outline_path, affine);
-	fill_path = art_vpath_affine_transform (marker_shapes[marker->shape].fill_path, affine);
-
-	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, pixbuf_size, pixbuf_size);
-	pixels = gdk_pixbuf_get_pixels (pixbuf);
-	rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-
-	gdk_pixbuf_fill (pixbuf, 0xffffff00);
-	outline = art_svp_vpath_stroke (outline_path,
-					ART_PATH_STROKE_JOIN_MITER,
-					ART_PATH_STROKE_CAP_SQUARE,
-				 	MARKER_OUTLINE_WIDTH * (double)size, 4, 0.5);
-	fill = art_svp_from_vpath (fill_path);
-
-	go_color_render_svp (marker->fill_color, fill, 0, 0, pixbuf_size, pixbuf_size, 
-			     pixels, rowstride);
-	go_color_render_svp (marker->outline_color, outline, 0, 0, pixbuf_size, pixbuf_size,
-			     pixels, rowstride);
-
-	art_svp_free (fill);
-	art_svp_free (outline);
-
-	g_free (outline_path);
-	g_free (fill_path);
-
-/*	{*/
-/*		GError * error = NULL;*/
-		
-/*		if (!gdk_pixbuf_save (pixbuf, "test.png", "png", &error, NULL))*/
-/*		{*/
-/*			g_warning("%s", error->message);*/
-/*			g_error_free (error);*/
-/*		}*/
-/*	}*/
-
-	return pixbuf; 
-}
-	
-static void
-marker_free_pixbuf (GOMarker * marker)
-{
-	if (marker->pixbuf != NULL) {
-		g_object_unref (marker->pixbuf);
-		marker->pixbuf = NULL;
-	}
-}
-
-static void
-marker_update_pixbuf (GOMarker * marker)
-{
-	if (marker->pixbuf)
-		marker_free_pixbuf (marker);
-	marker->pixbuf = marker_create_pixbuf_with_size (marker, marker->size);
-}
-#else
-# define marker_free_pixbuf(marker) do {} while(0)
-#endif /* GOFFICE_WITH_GTK */
-
-static void
-go_marker_finalize (GObject *obj)
-{
-	marker_free_pixbuf(GO_MARKER (obj));
-	
-	marker_parent_klass->finalize (obj);
-}
-
 static void
 go_marker_init (GOMarker * marker)
 {
@@ -357,17 +101,12 @@ go_marker_init (GOMarker * marker)
 	marker->outline_color	= RGBA_BLACK;
 	marker->fill_color	= RGBA_WHITE;
 	marker->size		= MARKER_DEFAULT_SIZE;
-#ifdef GOFFICE_WITH_GTK
-	marker->pixbuf 		= NULL;
-#endif
-	marker->scale		= 1.;
 }
 
 static void
 go_marker_class_init (GObjectClass *gobject_klass)
 {
 	marker_parent_klass = g_type_class_peek_parent (gobject_klass);
-	gobject_klass->finalize	= go_marker_finalize;
 }
 
 GOMarkerShape
@@ -387,39 +126,16 @@ go_marker_shape_as_str (GOMarkerShape shape)
 		: marker_shapes[shape].str;
 }
 
-void
+static void
 go_marker_get_paths (GOMarker const *marker,
-		     ArtVpath const **outline_path,
-		     ArtVpath const **fill_path)
+		     char const **outline_path,
+		     char const **fill_path)
 {
 	*outline_path = marker_shapes[marker->shape].outline_path;
 	*fill_path = marker_shapes[marker->shape].fill_path;
 }
 
-#ifdef GOFFICE_WITH_GTK
-GdkPixbuf *
-go_marker_get_pixbuf (GOMarker * marker, double scale)
-{
-	g_return_val_if_fail (IS_GO_MARKER (marker), NULL);
-
-	if (marker->pixbuf == NULL ||
-	    marker->scale !=  scale) {
-		marker->scale = scale;
-		marker_update_pixbuf (marker);
-	}
-	return marker->pixbuf;
-}
-
-GdkPixbuf *
-go_marker_get_pixbuf_with_size (GOMarker *marker, guint size)
-{
-	g_return_val_if_fail (IS_GO_MARKER (marker), NULL);
-
-	return marker_create_pixbuf_with_size (marker, size);
-}
-#endif /* GOFFICE_WITH_GTK */
-
-GOMarkerShape 
+GOMarkerShape
 go_marker_get_shape (GOMarker const *marker)
 {
 	return marker->shape;
@@ -428,13 +144,13 @@ go_marker_get_shape (GOMarker const *marker)
 void
 go_marker_set_shape (GOMarker *marker, GOMarkerShape shape)
 {
-	g_return_if_fail (IS_GO_MARKER (marker));	    
+	g_return_if_fail (IS_GO_MARKER (marker));
+
 	if (marker->shape == shape)
 		return;
 	marker->shape = shape;
-	marker_free_pixbuf(marker);
 }
-	
+
 GOColor
 go_marker_get_outline_color (GOMarker const *marker)
 {
@@ -448,9 +164,8 @@ go_marker_set_outline_color (GOMarker *marker, GOColor color)
 	if (marker->outline_color == color)
 		return;
 	marker->outline_color = color;
-	marker_free_pixbuf(marker);
 }
-	
+
 GOColor
 go_marker_get_fill_color (GOMarker const *marker)
 {
@@ -464,16 +179,15 @@ go_marker_set_fill_color (GOMarker *marker, GOColor color)
 	if (marker->fill_color == color)
 		return;
 	marker->fill_color = color;
-	marker_free_pixbuf(marker);
 }
-	
+
 int
 go_marker_get_size (GOMarker const *marker)
 {
 	return marker->size;
 }
 
-double 
+double
 go_marker_get_outline_width (GOMarker const *marker)
 {
 	return (double)marker->size * MARKER_OUTLINE_WIDTH;
@@ -487,7 +201,6 @@ go_marker_set_size (GOMarker *marker, int size)
 	if (marker->size == size)
 		return;
 	marker->size = size;
-	marker_free_pixbuf(marker);
 }
 
 void
@@ -504,15 +217,8 @@ go_marker_assign (GOMarker *dst, GOMarker const *src)
 	dst->outline_color	= src->outline_color;
 	dst->fill_color		= src->fill_color;
 
-#ifdef GOFFICE_WITH_GTK
-	if (dst->pixbuf != NULL)
-		g_object_unref (dst->pixbuf);
-	dst->pixbuf = src->pixbuf;
-	if (dst->pixbuf != NULL)
-		g_object_ref (dst->pixbuf);
-#endif
-}	
-	
+}
+
 GOMarker *
 go_marker_dup (GOMarker const *src)
 {
@@ -525,6 +231,103 @@ GOMarker *
 go_marker_new (void)
 {
 	return g_object_new (GO_MARKER_TYPE, NULL);
+}
+
+/**
+ * go_marker_render:
+ * @marker: a #GOMarker
+ * @cr: a cairo context
+ * @x: x position
+ * @y: y position
+ * @scale: current scale
+ *
+ * Renders @marker onto the @cairo target, using @x and @y for the position.
+ **/
+
+void
+go_marker_render (GOMarker const *marker, cairo_t *cr, double x, double y, double scale)
+{
+	char const *outline_path_raw, *fill_path_raw;
+	double half_size;
+
+	go_marker_get_paths (marker, &outline_path_raw, &fill_path_raw);
+
+	if ((outline_path_raw == NULL) ||
+	    (fill_path_raw == NULL))
+		return;
+
+	cairo_set_line_cap (cr, CAIRO_LINE_CAP_SQUARE);
+	cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
+
+	half_size = 0.5 *  scale * go_marker_get_size (marker);
+
+	cairo_translate (cr, x, y);
+	cairo_scale (cr, half_size, half_size);
+
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (go_marker_get_fill_color (marker)));
+	go_cairo_emit_svg_path (cr, fill_path_raw);
+	cairo_fill (cr);
+
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (go_marker_get_outline_color (marker)));
+	cairo_set_line_width (cr, 2.0 * scale * MARKER_OUTLINE_WIDTH);
+	go_cairo_emit_svg_path (cr, outline_path_raw);
+	cairo_stroke (cr);
+}
+
+/**
+ * go_marker_create_cairo_surface:
+ * @marker: a #GOMarker
+ * @cr: a cairo context
+ * @scale: current context scale
+ * @center: a placeholder for the center position of the surface
+ *
+ * Creates a new cairo surface similar to the current target of @cr, and render
+ * @marker on it. @center will contain the coordinate of the center of the surface.
+ *
+ * Returns the newly created surface. This surface should be destroyed using cairo_surface_destroy
+ * after use.
+ **/
+
+cairo_surface_t *
+go_marker_create_cairo_surface (GOMarker const *marker, cairo_t *cr, double scale, double *center)
+{
+	cairo_t *cairo;
+	cairo_surface_t *surface;
+	cairo_surface_t *current_surface;
+	cairo_surface_type_t surface_type;
+	double half_size, offset;
+
+	g_return_val_if_fail (IS_GO_MARKER (marker), NULL);
+	g_return_val_if_fail (cr != NULL, NULL);
+
+	current_surface = cairo_get_target (cr);
+	surface_type = cairo_surface_get_type (current_surface);
+
+	if (surface_type == CAIRO_SURFACE_TYPE_SVG ||
+	    surface_type == CAIRO_SURFACE_TYPE_PS ||
+	    surface_type == CAIRO_SURFACE_TYPE_PDF) {
+		half_size = scale * go_marker_get_size (marker) / 2.0;
+		offset = half_size + scale * go_marker_get_outline_width (marker);
+	} else {
+		half_size = rint (scale * go_marker_get_size (marker)) / 2.0;
+		offset = ceil (scale * go_marker_get_outline_width (marker) / 2.0) +
+			half_size + .5;
+	}
+
+	surface = cairo_surface_create_similar (cairo_get_target (cr),
+						CAIRO_CONTENT_COLOR_ALPHA,
+						2.0 * offset,
+						2.0 * offset);
+	cairo = cairo_create (surface);
+
+	go_marker_render (marker, cairo, offset, offset, scale);
+
+	cairo_destroy (cairo);
+
+	if (center)
+		*center = offset;
+
+	return surface;
 }
 
 GSF_CLASS (GOMarker, go_marker,

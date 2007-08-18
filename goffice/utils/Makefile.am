@@ -9,6 +9,7 @@ libgoffice_utils_la_SOURCES =	\
 	go-file.c		\
 	go-font.c		\
 	\
+	go-cairo.c		\
 	go-gradient.c		\
 	go-image.c		\
 	go-line.c		\
@@ -33,6 +34,7 @@ libgoffice_utils_la_SOURCES =	\
 libgoffice_utils_ladir = $(goffice_include_dir)/utils
 libgoffice_utils_la_HEADERS = 	\
 	goffice-utils.h		\
+	go-cairo.h		\
 	go-color.h		\
 	go-file.h		\
 	go-font.h		\

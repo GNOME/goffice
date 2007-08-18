@@ -32,11 +32,10 @@ typedef struct {
 static void
 go_marker_palette_render_func (cairo_t *cr,
 			       GdkRectangle const *area,
-			       int index, 
+			       int index,
 			       gpointer data)
 {
 	GOMarker *marker;
-	GdkPixbuf *pixbuf;
 	GOMarkerSelectorState *state = data;
 	int size = 2 * ((int) (MIN (area->width, area->height) * .30));
 
@@ -56,15 +55,7 @@ go_marker_palette_render_func (cairo_t *cr,
 	cairo_set_source_rgb (cr, .75, .75, .75);
 	cairo_stroke (cr);
 
-	pixbuf = go_marker_get_pixbuf (marker, 1.0);
-	if (pixbuf == NULL)
-		return;
-	
-	go_cairo_set_source_pixbuf (cr, pixbuf, 
-				    (int) (area->x + (area->width - gdk_pixbuf_get_width (pixbuf)) / 2.0),
-				    (int) (area->y + (area->height - gdk_pixbuf_get_height (pixbuf)) / 2.0));
-	cairo_paint (cr);
-	g_object_unref (pixbuf);
+	go_marker_render (marker, cr, area->x + area->width / 2.0, area->y + area->height / 2.0, 1.0);
 }
 
 /**
@@ -88,14 +79,14 @@ go_marker_selector_new (GOMarkerShape initial_shape,
 	state->outline_color = RGBA_BLACK;
 	state->fill_color = RGBA_WHITE;
 
-	palette = go_palette_new (GO_MARKER_MAX, 1.0, 4, 
+	palette = go_palette_new (GO_MARKER_MAX, 1.0, 4,
 				  go_marker_palette_render_func, NULL,
 				  state, g_free);
-	go_palette_show_automatic (GO_PALETTE (palette), 
+	go_palette_show_automatic (GO_PALETTE (palette),
 				   CLAMP (default_shape, 0, GO_MARKER_MAX -1),
-				   NULL); 	
+				   NULL);
 	selector = go_selector_new (GO_PALETTE (palette));
-	go_selector_set_active (GO_SELECTOR (selector), 
+	go_selector_set_active (GO_SELECTOR (selector),
 				CLAMP (initial_shape, 0, GO_MARKER_MAX - 1));
 	return selector;
 }
