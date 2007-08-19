@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-10 08:22-0400\n"
-"PO-Revision-Date: 2007-08-07 14:13+0200\n"
+"PO-Revision-Date: 2007-08-19 21:30+0200\n"
 "Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -1905,7 +1905,7 @@ msgstr "Turc"
 
 #: ../goffice/gtk/go-charmap-sel.c:85
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 #: ../goffice/gtk/go-charmap-sel.c:86
 msgid "Vietnamese"
@@ -2181,11 +2181,11 @@ msgstr ""
 
 #: ../goffice/gtk/go-charmap-sel.c:185
 msgid "Unicode (UTF-7)"
-msgstr ""
+msgstr "Unicode (UTF-7)"
 
 #: ../goffice/gtk/go-charmap-sel.c:186
 msgid "Unicode (UTF-8)"
-msgstr ""
+msgstr "Unicode (UTF-8)"
 
 #: ../goffice/gtk/go-charmap-sel.c:187
 msgid "Unicode (UTF-16BE)"
@@ -2665,7 +2665,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:64
 msgid "Western Europe"
-msgstr ""
+msgstr "Euròpa de l'oèst"
 
 #: ../goffice/gtk/go-locale-sel.c:65
 msgid "Eastern Europe"
@@ -2673,7 +2673,7 @@ msgstr ""
 
 #: ../goffice/gtk/go-locale-sel.c:66
 msgid "North America"
-msgstr ""
+msgstr "America del nòrd"
 
 #: ../goffice/gtk/go-locale-sel.c:67
 msgid "South & Central America"
