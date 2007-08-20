@@ -1,3 +1,9 @@
+2007-08-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/Makefile.am: changed library name to libgoffice-0.5.so
+	* configure.in: ditto.
+	* libgoffice-0.5.pc.in: ditto.
+
 2007-08-18  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-series.c (gog_series_get_data): don't emit a
