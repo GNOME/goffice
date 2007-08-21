@@ -15,7 +15,7 @@
 	Fix automatic creation of backplane via guru-hints.
 
 	* goffice/graph/gog-plot.c (gog_plot_guru_helper): backplane role name
-	is "Backplane" now, not "Gird".
+	is "Backplane" now, not "Grid".
 
 2007-08-18  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
