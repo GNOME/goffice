@@ -26,6 +26,7 @@
 #include <goffice/utils/goffice-utils.h>
 #include <libart_lgpl/art_render.h>
 #include <libart_lgpl/art_svp.h>
+#include <libxml/tree.h>
 
 G_BEGIN_DECLS
 
