@@ -1145,6 +1145,7 @@ go_url_encode (gchar const *text, int type)
 }
 
 #ifndef GOFFICE_WITH_GNOME
+#ifndef G_OS_WIN32
 static char *
 check_program (char const *prog)
 {
@@ -1157,6 +1158,7 @@ check_program (char const *prog)
 		return NULL;
 	return g_strdup (prog);
 }
+#endif
 #endif
 
 GError *
@@ -1340,9 +1342,12 @@ gchar const **
 go_shell_argv_to_glib_encoding (gint argc, gchar const **argv)
 {
 #ifdef G_OS_WIN32
-	gchar **args = g_new (gchar *, argc + 1);
+	gchar **args;
 
-	args[argv] = NULL;
+	g_return_val_if_fail (saved_args == NULL, argv);
+
+	args = g_new (gchar *, argc + 1);
+	args[argc] = NULL;
 
 	if (G_WIN32_IS_NT_BASED ()) {
 		LPWSTR *wargs;

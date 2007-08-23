@@ -1,5 +1,11 @@
 2007-08-21  Jody Goldberg <jody@gnome.org>
 
+	* goffice/utils/go-file.c (check_program) : disable for win32 also.
+	(go_shell_argv_to_glib_encoding) : fix typo and avoid a memory leak on
+	  failure.
+
+2007-08-21  Jody Goldberg <jody@gnome.org>
+
 	* docs/reference/goffice-sections.txt : remove
 	  gog_renderer_push_selection_style it's been deleted.
 	* goffice/graph/gog-renderer.h : ditto.
