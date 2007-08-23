@@ -125,7 +125,6 @@ void  gog_renderer_get_text_AABR  (GogRenderer *rend, char const *text,
 				   gboolean use_markup, GOGeometryAABR *aabr);
 
 void  gog_renderer_push_style     	(GogRenderer *rend, GogStyle const *style);
-void  gog_renderer_push_selection_style (GogRenderer *renderer);
 void  gog_renderer_pop_style      	(GogRenderer *rend);
 
 void  gog_renderer_push_clip 	  	(GogRenderer *rend, GOPath const *path);

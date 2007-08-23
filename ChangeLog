@@ -1,3 +1,9 @@
+2007-08-21  Jody Goldberg <jody@gnome.org>
+
+	* docs/reference/goffice-sections.txt : remove
+	  gog_renderer_push_selection_style it's been deleted.
+	* goffice/graph/gog-renderer.h : ditto.
+
 2007-08-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/Makefile.am: changed library name to libgoffice-0.5.so

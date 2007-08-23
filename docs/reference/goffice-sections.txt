@@ -475,7 +475,6 @@ gog_reg_eqn_get_type
 GogRenderer
 gog_renderer_request_update
 gog_renderer_push_style
-gog_renderer_push_selection_style
 gog_renderer_pop_style
 gog_renderer_push_clip
 gog_renderer_pop_clip
