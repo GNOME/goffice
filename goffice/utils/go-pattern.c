@@ -148,11 +148,9 @@ go_pattern_get_pattern (GOPattern const *pat)
  * If width != NULL, returns pattern width.
  * If height != NULL, returns pattern height.
  *
- * Returns: a #char buffer.
+ * Returns: a #xmlChar buffer (free using xmlFree).
  **/
-#warning change interface and check all callers for 0.5.0
-/* FIXME FIXME FIXME This result is actually an xmlChar we could run into trouble with g_free vs xmlFree.  Can we change the interface ? */
-char *
+xmlChar *
 go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height)
 {
 	char *path;

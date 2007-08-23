@@ -71,7 +71,7 @@ void		 go_pattern_render_svp 	 (GOPattern const *pat, ArtSVP const *svp,
 					  int x0, int y0, int x1, int y1,
 					  art_u8 *buf, int rowstride);
 guint8 const 	*go_pattern_get_pattern  (GOPattern const *pat);
-char 		*go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height);
+xmlChar		*go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height);
 
 G_END_DECLS
 

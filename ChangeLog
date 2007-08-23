@@ -88,6 +88,15 @@
 	* goffice/utils/go-file.c (go_shell_arg_to_uri): Don't trash
 	fd://0 and friends.
 
+2007-08-10  Jody Goldberg <jody@gnome.org>
+
+	* goffice/utils/go-pattern.c (go_pattern_get_svg_path) : this actually
+	  returned an xmlChar *
+	* goffice/graph/gog-renderer-svg.c (fill_properties) : adjust to
+	  actual result type from go_pattern_get_svg_path.
+
+	* goffice/goffice.c (libgoffice_init) : use GO_VERSION_* for the dll.
+
 2007-08-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix step interpolation for radar plots by introducing a new
@@ -391,7 +400,6 @@
 	(go_shell_argv_to_glib_encoding_free): Use g_strfreev.
 
 2007-08-10  Jean Brefort  <jean.brefort@normalesup.org>
-
 
 	* goffice/component/go-component.c: removed all rendering functions
 	and replace by go_component_render using a cairo_t*.
