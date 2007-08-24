@@ -1,3 +1,8 @@
+2007-08-24  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-locale.c (go_locale_get_date_format): Use a
+	sane default and report it as a date default, not a time default.
+
 2007-08-21  Jody Goldberg <jody@gnome.org>
 
 	* goffice/utils/go-file.c (check_program) : disable for win32 also.

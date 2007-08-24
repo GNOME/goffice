@@ -227,9 +227,9 @@ go_locale_get_date_format (void)
 		/* Default */
 		if (lc_date_format->len == 0) {
 			static gboolean warning = TRUE;
-			g_string_append (lc_date_format, "hh:mm:ss");
+			g_string_append (lc_date_format, "yyyy/mm/dd");
 			if (warning) {
-				g_warning ("Using default system time format: %s",
+				g_warning ("Using default system date format: %s",
 					   lc_date_format->str);
 				warning = FALSE;
 			}

@@ -5,7 +5,8 @@ Emmanuel:
 	* Interpolation support for polar plots.
 
 Morten:
-	* Fix "fs://0" handling in go_shell_arg_to_uri.
+	* Fix "fd://0" handling in go_shell_arg_to_uri.
+	* Fix default date format.
 
 --------------------------------------------------------------------------
 goffice 0.4.2:
