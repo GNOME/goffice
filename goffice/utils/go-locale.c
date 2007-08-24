@@ -220,7 +220,7 @@ go_locale_get_date_format (void)
 
 		/* Sanity check */
 		if (!g_utf8_validate (lc_date_format->str, -1, NULL)) {
-			g_warning ("Produced non-UTF-8 time format.  Please report.");
+			g_warning ("Produced non-UTF-8 date format.  Please report.");
 			g_string_truncate (lc_date_format, 0);
 		}
 
