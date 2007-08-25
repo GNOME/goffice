@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-pattern-selector.h : 
+ * go-pattern-selector.h 
  *
- * Copyright (C) 2006 Emmanuel Pacaud (emmanuel.pacaud@lapp.in2p3.fr) 
+ * Copyright (C) 2006-2007 Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr> 
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -30,8 +30,8 @@ G_BEGIN_DECLS
 
 GtkWidget 	*go_pattern_selector_new	(GOPatternType initial_type,
 						 GOPatternType default_type);
-void 		 go_pattern_selector_set_colors (GOSelector *selector, 
-						 GOColor foreground, 
+void 		 go_pattern_selector_set_colors (GOSelector *selector,
+						 GOColor foreground,
 						 GOColor background);
 
 G_END_DECLS

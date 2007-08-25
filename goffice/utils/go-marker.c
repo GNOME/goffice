@@ -289,45 +289,44 @@ go_marker_render (GOMarker const *marker, cairo_t *cr, double x, double y, doubl
  **/
 
 cairo_surface_t *
-go_marker_create_cairo_surface (GOMarker const *marker, cairo_t *cr, double scale, double *center)
+go_marker_create_cairo_surface (GOMarker const *marker, cairo_t *cr, double scale,
+				double *width, double *height)
 {
-	cairo_t *cairo;
-	cairo_surface_t *surface;
-	cairo_surface_t *current_surface;
-	cairo_surface_type_t surface_type;
+	cairo_t *cr_tmp;
+	cairo_surface_t *cr_surface;
+	cairo_surface_t *current_cr_surface;
 	double half_size, offset;
 
 	g_return_val_if_fail (IS_GO_MARKER (marker), NULL);
 	g_return_val_if_fail (cr != NULL, NULL);
 
-	current_surface = cairo_get_target (cr);
-	surface_type = cairo_surface_get_type (current_surface);
+	current_cr_surface = cairo_get_target (cr);
 
-	if (surface_type == CAIRO_SURFACE_TYPE_SVG ||
-	    surface_type == CAIRO_SURFACE_TYPE_PS ||
-	    surface_type == CAIRO_SURFACE_TYPE_PDF) {
-		half_size = scale * go_marker_get_size (marker) / 2.0;
+	if (go_cairo_surface_is_vector (current_cr_surface)) {
+		half_size = scale * go_marker_get_size (marker) * 0.5;
 		offset = half_size + scale * go_marker_get_outline_width (marker);
 	} else {
-		half_size = rint (scale * go_marker_get_size (marker)) / 2.0;
-		offset = ceil (scale * go_marker_get_outline_width (marker) / 2.0) +
+		half_size = rint (scale * go_marker_get_size (marker)) * 0.5;
+		offset = ceil (scale * go_marker_get_outline_width (marker) * 0.5) +
 			half_size + .5;
 	}
 
-	surface = cairo_surface_create_similar (cairo_get_target (cr),
-						CAIRO_CONTENT_COLOR_ALPHA,
-						2.0 * offset,
-						2.0 * offset);
-	cairo = cairo_create (surface);
+	cr_surface = cairo_surface_create_similar (current_cr_surface,
+						   CAIRO_CONTENT_COLOR_ALPHA,
+						   2.0 * offset,
+						   2.0 * offset);
+	cr_tmp = cairo_create (cr_surface);
 
-	go_marker_render (marker, cairo, offset, offset, scale);
+	go_marker_render (marker, cr_tmp, offset, offset, scale);
 
-	cairo_destroy (cairo);
+	cairo_destroy (cr_tmp);
 
-	if (center)
-		*center = offset;
+	if (width != NULL)
+		*width = offset * 2.0;
+	if (height != NULL)
+		*height = offset * 2.0;
 
-	return surface;
+	return cr_surface;
 }
 
 GSF_CLASS (GOMarker, go_marker,

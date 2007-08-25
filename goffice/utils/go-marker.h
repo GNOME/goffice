@@ -72,8 +72,8 @@ GOMarker * 	 go_marker_new 			(void);
 
 void 		 go_marker_render 		(GOMarker const *marker, cairo_t *cr,
 						 double x, double y, double scale);
-cairo_surface_t *go_marker_create_cairo_surface (GOMarker const *marker, cairo_t *cr,
-						 double scale, double *center);
+cairo_surface_t *go_marker_create_cairo_surface (GOMarker const *marker, cairo_t *cr, double scale,
+						 double *width, double *height);
 
 G_END_DECLS
 

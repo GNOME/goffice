@@ -2,7 +2,7 @@
 /*
  * go-pattern-selector.c :
  *
- * Copyright (C) 2006 Emmanuel Pacaud (emmanuel.pacaud@lapp.in2p3.fr)
+ * Copyright (C) 2006-2007 Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -23,7 +23,6 @@
 #include "goffice-gtk.h"
 
 #include <goffice/utils/go-color.h>
-#include <libart_lgpl/libart.h>
 
 typedef struct {
 	GOColor foreground;
@@ -33,28 +32,12 @@ typedef struct {
 static void
 go_pattern_palette_render_func (cairo_t *cr,
 				GdkRectangle const *area,
-				int index, 
+				int index,
 				gpointer data)
 {
-	int const W = 8, H = 8;
 	GOPattern pattern;
-	GdkPixbuf *pixbuf;
 	GOPatternSelectorState *state = data;
-	ArtVpath path[6];
-	ArtSVP *svp;
-
-	path[0].code = ART_MOVETO;
-	path[1].code = ART_LINETO;
-	path[2].code = ART_LINETO;
-	path[3].code = ART_LINETO;
-	path[4].code = ART_LINETO;
-	path[5].code = ART_END;
-	path[0].x = path[1].x = path[4].x = 0;
-	path[2].x = path[3].x = W;
-	path[0].y = path[3].y = path[4].y = 0;
-	path[1].y = path[2].y = H;
-	
-	svp = art_svp_from_vpath (path);
+	cairo_pattern_t *cr_pattern;
 
 	if (state) {
 		pattern.fore = state->foreground;
@@ -65,23 +48,16 @@ go_pattern_palette_render_func (cairo_t *cr,
 	}
 	pattern.pattern = index;
 
-	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
-	gdk_pixbuf_fill (pixbuf, 0xffffffff);
-	go_pattern_render_svp (&pattern, svp, 0, 0, W, H,
-			       gdk_pixbuf_get_pixels (pixbuf),
-			       gdk_pixbuf_get_rowstride (pixbuf));
-	
-	art_svp_free (svp);
+	cr_pattern = go_pattern_create_cairo_pattern (&pattern, cr);
 
-	go_cairo_set_source_pixbuf (cr, pixbuf, 0, 0);
-	cairo_pattern_set_extend (cairo_get_source (cr), CAIRO_EXTEND_REPEAT);
+	cairo_set_source (cr, cr_pattern);
 	cairo_paint (cr);
 	cairo_rectangle (cr, area->x + .5 , area->y + .5 , area->width - 1, area->height - 1);
 	cairo_set_line_width (cr, 1);
 	cairo_set_source_rgb (cr, .75, .75, .75);
 	cairo_stroke (cr);
 
-	g_object_unref (pixbuf);
+	cairo_pattern_destroy (cr_pattern);
 }
 
 /**

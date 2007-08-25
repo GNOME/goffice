@@ -24,9 +24,8 @@
 #include <glib.h>
 #include <goffice/goffice-features.h>
 #include <goffice/utils/goffice-utils.h>
-#include <libart_lgpl/art_render.h>
-#include <libart_lgpl/art_svp.h>
 #include <libxml/tree.h>
+#include <cairo.h>
 
 G_BEGIN_DECLS
 
@@ -68,11 +67,10 @@ GOPatternType	 go_pattern_from_str     (char const *name);
 char const	*go_pattern_as_str       (GOPatternType pattern);
 gboolean	 go_pattern_is_solid     (GOPattern const *pat, GOColor *color);
 void		 go_pattern_set_solid    (GOPattern *pat, GOColor fore);
-void		 go_pattern_render_svp 	 (GOPattern const *pat, ArtSVP const *svp,
-					  int x0, int y0, int x1, int y1,
-					  art_u8 *buf, int rowstride);
 guint8 const 	*go_pattern_get_pattern  (GOPattern const *pat);
 xmlChar		*go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height);
+
+cairo_pattern_t *go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr);
 
 G_END_DECLS
 

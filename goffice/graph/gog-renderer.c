@@ -361,15 +361,10 @@ emit_fill (GogRenderer *rend, gboolean preserve)
 	GogStyle const *style = rend->cur_style;
 	cairo_t *cr = rend->cairo;
 	cairo_pattern_t *cr_pattern = NULL;
-	cairo_surface_t *cr_surface = NULL;
 	cairo_matrix_t cr_matrix;
-	GdkPixbuf *pixbuf = NULL;
-	GOImage *image = NULL;
 	GOColor color;
 	double x[3], y[3];
-	int i, j, w, h;
-	guint8 const *pattern;
-	unsigned char *iter;
+	int w, h;
 
 	switch (style->fill.type) {
 		case GOG_FILL_STYLE_NONE:
@@ -377,35 +372,10 @@ emit_fill (GogRenderer *rend, gboolean preserve)
 				cairo_new_path (cr);
 			return;
 			break;
-		case GOG_FILL_STYLE_PATTERN:
-			if (go_pattern_is_solid (&style->fill.pattern, &color))
-				cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
-			else {
-				GOColor fore = style->fill.pattern.fore;
-				GOColor back = style->fill.pattern.back;
-				int rowstride;
 
-				pattern = go_pattern_get_pattern (&style->fill.pattern);
-				pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 8, 8);
-				iter = gdk_pixbuf_get_pixels (pixbuf);
-				rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-				cr_surface = cairo_image_surface_create_for_data ( iter,
-					CAIRO_FORMAT_ARGB32, 8, 8, rowstride);
-				for (i = 0; i < 8; i++) {
-					for (j = 0; j < 8; j++) {
-						color = pattern[i] & (1 << j) ? fore : back;
-						iter[0] = UINT_RGBA_B (color);
-						iter[1] = UINT_RGBA_G (color);
-						iter[2] = UINT_RGBA_R (color);
-						iter[3] = UINT_RGBA_A (color);
-						iter += 4;
-					}
-					iter += rowstride - 32;
-				}
-				cr_pattern = cairo_pattern_create_for_surface (cr_surface);
-				cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
-				cairo_set_source (cr, cr_pattern);
-			}
+		case GOG_FILL_STYLE_PATTERN:
+			cr_pattern = go_pattern_create_cairo_pattern (&style->fill.pattern, cr);
+			cairo_set_source (cr, cr_pattern);
 			break;
 
 		case GOG_FILL_STYLE_GRADIENT:
@@ -462,12 +432,6 @@ emit_fill (GogRenderer *rend, gboolean preserve)
 
 	if (cr_pattern != NULL)
 		cairo_pattern_destroy (cr_pattern);
-	if (cr_surface != NULL)
-		cairo_surface_destroy (cr_surface);
-	if (pixbuf)
-		g_object_unref (pixbuf);
-	if (image)
-		g_object_unref (image);
 }
 
 static void
@@ -1056,13 +1020,14 @@ static cairo_surface_t *
 _get_marker_surface (GogRenderer *rend)
 {
 	GOMarker *marker = rend->cur_style->marker.mark;
+	double width;
 
 	if (rend->marker_surface != NULL)
 		return rend->marker_surface;
 
-	rend->marker_surface = go_marker_create_cairo_surface (marker, rend->cairo, rend->scale,
-							       &rend->marker_offset);
+	rend->marker_surface = go_marker_create_cairo_surface (marker, rend->cairo, rend->scale, &width, NULL);
 
+	rend->marker_offset = width * 0.5;
 	return rend->marker_surface;
 }
 

@@ -30,7 +30,8 @@
 
 G_BEGIN_DECLS
 
-void go_cairo_emit_svg_path (cairo_t *cr, char const *path);
+void 		go_cairo_emit_svg_path 		(cairo_t *cr, char const *path);
+gboolean 	go_cairo_surface_is_vector 	(cairo_surface_t const *surface);
 
 G_END_DECLS
 

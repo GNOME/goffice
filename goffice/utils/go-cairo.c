@@ -215,3 +215,15 @@ go_cairo_emit_svg_path (cairo_t *cr, char const *path)
 			ptr++;
 	}
 }
+
+gboolean
+go_cairo_surface_is_vector (cairo_surface_t const *surface)
+{
+	cairo_surface_type_t type;
+
+	type = cairo_surface_get_type ((cairo_surface_t *) surface);
+
+	return (type == CAIRO_SURFACE_TYPE_SVG ||
+		type == CAIRO_SURFACE_TYPE_PDF ||
+		type == CAIRO_SURFACE_TYPE_PS);
+}

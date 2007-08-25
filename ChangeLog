@@ -1,3 +1,24 @@
+2007-08-25  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Move GOPattern code to cairo. 
+	Minor tweak of go_marker_create_cairo_surface.
+
+	* goffice/graph/gog-renderer.c (emit_fill): use
+	go_pattern_create_cairo_pattern.
+	(_get_marker_surface): adapt to new go_marker_create_cairo_surface.
+	* goffice/gtk/go-pattern-selector.c (go_pattern_palette_render_func):
+	use go_pattern_create_cairo_pattern.
+	* goffice/utils/go-cairo.c (go_cairo_surface_is_vector): new.
+	* goffice/utils/go-marker.c (go_marker_create_cairo_surface): return
+	width and height of the created surface, in case of
+	future non square surfaces.
+	* goffice/utils/go-pattern.c (pattern_solid): removed.
+	(pattern_blend): removed.
+	(cb_pattern_alpha): removed.
+	(cb_pattern_opaque): removed.
+	(go_pattern_render_svp): removed.
+	(go_pattern_create_cairo_pattern): new.
+
 2007-08-24  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-locale.c (go_locale_get_date_format): Use a
