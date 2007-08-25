@@ -210,7 +210,6 @@ go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height
 cairo_pattern_t *
 go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 {
-	cairo_t *cr_tmp;
 	cairo_surface_t *cr_surface;
 	cairo_pattern_t *cr_pattern;
 	GOColor color;
@@ -223,7 +222,8 @@ go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 		 * with Inkscape. */
 
 	} else if (go_cairo_surface_is_vector (cairo_get_target (cr))) {
-		char *svg_path;
+		cairo_t *cr_tmp;
+		xmlChar *svg_path;
 		double width, height;
 
 		svg_path = go_pattern_get_svg_path (pattern, &width, &height);
@@ -243,7 +243,7 @@ go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 		go_cairo_emit_svg_path (cr_tmp, svg_path);
 		cairo_set_line_width (cr_tmp, 0.2);
 		cairo_fill (cr_tmp);
-		g_free (svg_path);
+		xmlFree (svg_path);
 
 		cairo_destroy (cr_tmp);
 
@@ -262,16 +262,18 @@ go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 		stride = cairo_image_surface_get_stride (cr_surface);
 		iter = cairo_image_surface_get_data (cr_surface);
 
-		for (i = 0; i < 8; i++) {
-			for (j = 0; j < 8; j++) {
-				color = pattern_data[i] & (1 << j) ? pattern->fore : pattern->back;
-				iter[0] = UINT_RGBA_B (color);
-				iter[1] = UINT_RGBA_G (color);
-				iter[2] = UINT_RGBA_R (color);
-				iter[3] = UINT_RGBA_A (color);
-				iter += 4;
+		if (iter != NULL) {
+			for (i = 0; i < 8; i++) {
+				for (j = 0; j < 8; j++) {
+					color = pattern_data[i] & (1 << j) ? pattern->fore : pattern->back;
+					iter[0] = UINT_RGBA_B (color);
+					iter[1] = UINT_RGBA_G (color);
+					iter[2] = UINT_RGBA_R (color);
+					iter[3] = UINT_RGBA_A (color);
+					iter += 4;
+				}
+				iter += stride - 32;
 			}
-			iter += stride - 32;
 		}
 
 		cr_pattern = cairo_pattern_create_for_surface (cr_surface);

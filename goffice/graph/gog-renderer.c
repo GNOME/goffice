@@ -362,7 +362,6 @@ emit_fill (GogRenderer *rend, gboolean preserve)
 	cairo_t *cr = rend->cairo;
 	cairo_pattern_t *cr_pattern = NULL;
 	cairo_matrix_t cr_matrix;
-	GOColor color;
 	double x[3], y[3];
 	int w, h;
 

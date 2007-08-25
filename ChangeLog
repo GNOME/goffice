@@ -1,5 +1,13 @@
 2007-08-25  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* goffice/graph/gog-renderer.c (emit_fill): removed unused color
+	variable.
+	* goffice/utils/go-pattern.c (go_pattern_create_cairo_pattern):
+	suppress compilation warning. Check image data pointer before using
+	it.
+
+2007-08-25  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Move GOPattern code to cairo. 
 	Minor tweak of go_marker_create_cairo_surface.
 
