@@ -1044,27 +1044,27 @@ gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
 	g_return_if_fail (IS_GOG_RENDERER (rend));
 	g_return_if_fail (rend->cur_style != NULL);
 
+	if (rend->is_vector && !rend->marker_as_surface) {
+		go_marker_render (rend->cur_style->marker.mark, rend->cairo,
+				  x, y, rend->scale);
+		return;
+	}
+
 	surface = _get_marker_surface (rend);
 
 	if (surface == NULL)
 		return;
 
-	if (rend->is_vector) {
-		if (rend->marker_as_surface) {
-			cairo_set_source_surface (rend->cairo, surface,
-						  x - rend->marker_offset,
-						  y - rend->marker_offset);
-			cairo_paint (rend->cairo);
-		} else
-			go_marker_render (rend->cur_style->marker.mark, rend->cairo,
-					  x, y, rend->scale);
-
-	} else {
+	if (rend->is_vector)
+		cairo_set_source_surface (rend->cairo, surface,
+					  x - rend->marker_offset,
+					  y - rend->marker_offset);
+	else
 		cairo_set_source_surface (rend->cairo, surface,
 					  floor (x - rend->marker_offset),
 					  floor (y - rend->marker_offset));
-		cairo_paint (rend->cairo);
-	}
+
+	cairo_paint (rend->cairo);
 }
 
 /**

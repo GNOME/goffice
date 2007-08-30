@@ -1,5 +1,12 @@
 2007-08-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_marker): avoid
+	useless cairo surface creation in case of PDF or PS export.
+	* goffice/utils/go-marker.c (go_marker_render): put cairo_save and
+	cairo_restore around coordinate transformation.
+
+2007-08-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	* goffice/graph/gog-chart-map.c (get_extremes_2D): handle x == NULL or
 	y == NULL cases.
 
