@@ -250,8 +250,6 @@ go_path_move_to (GOPath *path, double x, double y)
 {
 	GOPathPoint point;
 
-	g_return_if_fail (path != NULL);
-
 	point.x = GO_PATH_CLAMP (x);
 	point.y = GO_PATH_CLAMP (y);
 	go_path_add_points (path, GO_PATH_ACTION_MOVE_TO, &point, 1);
@@ -261,8 +259,6 @@ void
 go_path_line_to (GOPath *path, double x, double y)
 {
 	GOPathPoint point;
-
-	g_return_if_fail (path != NULL);
 
 	point.x = GO_PATH_CLAMP (x);
 	point.y = GO_PATH_CLAMP (y);
@@ -277,8 +273,6 @@ go_path_curve_to (GOPath *path,
 {
 	GOPathPoint points[3];
 
-	g_return_if_fail (path != NULL);
-
 	points[0].x = GO_PATH_CLAMP (x0);
 	points[0].y = GO_PATH_CLAMP (y0);
 	points[1].x = GO_PATH_CLAMP (x1);
@@ -291,8 +285,6 @@ go_path_curve_to (GOPath *path,
 void
 go_path_close (GOPath *path)
 {
-	g_return_if_fail (path != NULL);
-
 	go_path_add_points (path, GO_PATH_ACTION_CLOSE_PATH, NULL, 0);
 }
 

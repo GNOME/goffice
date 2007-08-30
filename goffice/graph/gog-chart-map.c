@@ -875,9 +875,6 @@ gog_chart_map_make_path (GogChartMap *map, double const *x, double const *y,
 			 int n_points, 
 			 GOLineInterpolation interpolation)
 {
-	g_return_val_if_fail (x != NULL, NULL);
-	g_return_val_if_fail (y != NULL, NULL);
-
 	if (map->make_path != NULL)
 		return (map->make_path) (map, x, y, n_points, interpolation);
 
@@ -900,9 +897,6 @@ gog_chart_map_make_close_path (GogChartMap *map, double const *x, double const *
 			       int n_points, 
 			       GogSeriesFillType fill_type)
 {
-	g_return_val_if_fail (x != NULL, NULL);
-	g_return_val_if_fail (y != NULL, NULL);
-
 	if (map->make_close_path != NULL)
 		return (map->make_close_path) (map, x, y, n_points, fill_type);
 

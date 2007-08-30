@@ -72,6 +72,14 @@ Multi-backend renderer
 @style: 
 
 
+<!-- ##### FUNCTION gog_renderer_push_selection_style ##### -->
+<para>
+
+</para>
+
+@renderer: 
+
+
 <!-- ##### FUNCTION gog_renderer_pop_style ##### -->
 <para>
 
