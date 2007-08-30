@@ -39,29 +39,34 @@ struct _GogChartMap {
 					 GogSeriesFillType fill_type);
 };
 
-static gboolean 
-get_extremes_2D (double const *x, double const *y, double n_data, 
+static gboolean
+get_extremes_2D (double const *x, double const *y, double n_data,
 		 double *x_start, double *y_start,
 		 double *x_end, double *y_end)
 {
-	gboolean start_found = FALSE, end_found = FALSE;	
+	gboolean start_found = FALSE, end_found = FALSE;
 	unsigned int i, j;
+	double xx, yy;
 
 	for (i = 0, j = n_data - 1; i < n_data; i++, j--) {
-		if (!start_found && go_finite (x[i]) && go_finite (y[i])) {
+		xx = x != NULL ? x[i] : i + 1;
+		yy = y != NULL ? y[i] : i + 1;
+		if (!start_found && go_finite (xx) && go_finite (yy)) {
 			if (x_start != NULL)
-				*x_start = x[i];
+				*x_start = xx;
 			if (y_start != NULL)
-				*y_start = y[i];
+				*y_start = yy;
 			if (end_found)
 				return TRUE;
 			start_found = TRUE;
 		}
-		if (!end_found && go_finite (x[j]) && go_finite (y[j])) {
+		xx = x != NULL ? x[j] : j + 1;
+		yy = y != NULL ? y[j] : j + 1;
+		if (!end_found && go_finite (xx) && go_finite (yy)) {
 			if (x_end != NULL)
-				*x_end = x[j];
+				*x_end = xx;
 			if (y_end != NULL)
-				*y_end = y[j];
+				*y_end = yy;
 			if (start_found)
 				return TRUE;
 			end_found = TRUE;
@@ -94,7 +99,7 @@ static void
 calc_circle_parameters (GogViewAllocation const *area, GogChartMapPolarData *data, gboolean fill_area)
 {
 	double x_min, x_max, y_min, y_max;
-	
+
 	if (data->th0 >= data->th1) {
 		x_min = y_min = -1.0;
 		x_max = y_max = 1.0;
@@ -110,8 +115,8 @@ calc_circle_parameters (GogViewAllocation const *area, GogChartMapPolarData *dat
 			data->th0 -= x;
 			data->th1 -= x;
 		}
-		if (data->th1 - data->th0 > go_add_epsilon (2 * M_PI)) 
-			data->th1 = data->th0 + 2 * M_PI; 
+		if (data->th1 - data->th0 > go_add_epsilon (2 * M_PI))
+			data->th1 = data->th0 + 2 * M_PI;
 
 		x_min = x_max = y_min = y_max = 0;
 		x = cos (-data->th0);
@@ -140,12 +145,12 @@ calc_circle_parameters (GogViewAllocation const *area, GogChartMapPolarData *dat
 	if (!fill_area) {
 		data->rx = MIN (data->rx, data->ry);
 		data->ry = data->rx;
-	}	
+	}
 	data->cx = -x_min * data->rx + area->x + (area->w - data->rx * (x_max - x_min)) / 2.0;
 	data->cy = -y_min * data->ry + area->y + (area->h - data->ry * (y_max - y_min)) / 2.0;
 }
 
-static void 
+static void
 null_map_2D (GogChartMap *map, double x, double y, double *u, double *v)
 {
 	g_warning ("[GogChartMap::map_2D] not implemented");
@@ -155,7 +160,7 @@ typedef struct {
 	double a, b;
 } XMapData;
 
-static void 
+static void
 x_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v)
 {
 	XMapData *data = map->data;
