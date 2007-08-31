@@ -1869,6 +1869,13 @@ gog_object_allocate_roles (GogObjectClass *klass)
 	klass->roles_allocated = TRUE;
 }
 
+/**
+ * gog_object_register_roles :
+ * @klass : #GogObjectClass
+ * @roles : #GogObjectRole
+ * @n_roles :
+ *
+ **/
 void
 gog_object_register_roles (GogObjectClass *klass,
 			   GogObjectRole const *roles, unsigned n_roles)
