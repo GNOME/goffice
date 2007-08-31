@@ -445,9 +445,9 @@ Base class for all objects of graph model
 
 </para>
 
-@klass:
-@roles:
-@n_roles:
+@klass: 
+@roles: 
+@n_roles: 
 
 
 <!-- ##### FUNCTION gog_object_request_editor_update ##### -->
