@@ -1,5 +1,4 @@
 2007-08-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
-
 	* goffice/graph/gog-renderer.c (gog_renderer_draw_marker): avoid
 	useless cairo surface creation in case of PDF or PS export.
 	* goffice/utils/go-marker.c (go_marker_render): put cairo_save and
@@ -9,6 +8,13 @@
 
 	* goffice/graph/gog-chart-map.c (get_extremes_2D): handle x == NULL or
 	y == NULL cases.
+
+2007-08-29  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-series.c (gog_series_dataset_get_elem) : be more
+	  permissive, return NULL on requests for dim >= num_dum rather than
+	  spewing an error.
+	* goffice/graph/gog-data-set.c (gog_dataset_get_dim) : ditto.
 
 2007-08-25  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 

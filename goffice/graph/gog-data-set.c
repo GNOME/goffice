@@ -72,13 +72,14 @@ gog_dataset_dims (GogDataset const *set, int *first, int *last)
  * @dim_i :
  *
  * Returns: the GOData associated with dimension @dim_i.  Does NOT add a
- * 	reference.
+ * 	reference.  or %NULL on failure.
  **/
 GOData *
 gog_dataset_get_dim (GogDataset const *set, int dim_i)
 {
 	GogDatasetElement *elem = gog_dataset_get_elem (set, dim_i);
-	g_return_val_if_fail (elem != NULL, NULL);
+	if (NULL == elem)
+		return NULL;
 	return elem->data;
 }
 

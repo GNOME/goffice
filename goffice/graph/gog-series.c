@@ -665,8 +665,11 @@ static GogDatasetElement *
 gog_series_dataset_get_elem (GogDataset const *set, int dim_i)
 {
 	GogSeries const *series = GOG_SERIES (set);
-	g_return_val_if_fail ((int)series->plot->desc.series.num_dim > dim_i, NULL);
+
 	g_return_val_if_fail (dim_i >= -1, NULL);
+
+	if (dim_i >= (int)series->plot->desc.series.num_dim)
+		return NULL;
 	return series->values + dim_i;
 }
 
