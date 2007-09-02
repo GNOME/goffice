@@ -7,6 +7,7 @@ Emmanuel:
 Morten:
 	* Fix "fd://0" handling in go_shell_arg_to_uri.
 	* Fix default date format.
+	* Add function to tell month/day order in format.
 
 --------------------------------------------------------------------------
 goffice 0.4.2:

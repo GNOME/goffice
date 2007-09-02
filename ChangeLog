@@ -1,3 +1,7 @@
+2007-09-02  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_month_before_day): New function.
+
 2007-08-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-renderer.c (gog_renderer_draw_marker): avoid

@@ -282,6 +282,8 @@ struct _GOFormat {
 			unsigned int E_format    : 1;
 			unsigned int use_markup  : 1;
 			unsigned int has_date    : 1;
+			unsigned int date_mbd    : 1;  /* month, then day.  */
+			unsigned int date_dbm    : 1;  /* day, then month.  */
 			unsigned int has_time    : 1;
 			unsigned int fraction    : 1;
 			unsigned int scale_is_2  : 1;
@@ -1045,6 +1047,8 @@ go_format_parse_sequential (const char *str, GString *prg,
 {
 	int date_decimals = 0;
 	gboolean seen_date = FALSE;
+	gboolean seen_month = FALSE;
+	gboolean seen_day = FALSE;
 	gboolean seen_time = FALSE;
 	gboolean seen_hour = FALSE;
 	gboolean seen_ampm = FALSE;
@@ -1053,6 +1057,8 @@ go_format_parse_sequential (const char *str, GString *prg,
 	gboolean seen_elapsed = FALSE;
 	gboolean m_is_minutes = FALSE;
 	gboolean seconds_trigger_minutes = TRUE;
+	gboolean date_mbd = FALSE;
+	gboolean date_dbm = FALSE;
 
 	if (!prg)
 		prg = g_string_new (NULL);
@@ -1076,6 +1082,11 @@ go_format_parse_sequential (const char *str, GString *prg,
 			case 2: ADD_OP (OP_DATE_DAY_2); break;
 			case 3: ADD_OP (OP_DATE_WEEKDAY_3); break;
 			default: ADD_OP (OP_DATE_WEEKDAY); break;
+			}
+			if (!seen_day) {
+				seen_day = TRUE;
+				if (seen_month)
+					date_mbd = TRUE;
 			}
 			break;
 		}
@@ -1140,6 +1151,11 @@ go_format_parse_sequential (const char *str, GString *prg,
 				case 3: ADD_OP (OP_DATE_MONTH_NAME_3); break;
 				case 5: ADD_OP (OP_DATE_MONTH_NAME_1); break;
 				default: ADD_OP (OP_DATE_MONTH_NAME); break;
+				}
+				if (!seen_month) {
+					seen_month = TRUE;
+					if (seen_day)
+						date_dbm = TRUE;
 				}
 			}
 			break;
@@ -1259,6 +1275,8 @@ go_format_parse_sequential (const char *str, GString *prg,
 		if (seen_date) {
 			*p++ = OP_DATE_SPLIT;
 			fmt->u.number.has_date = TRUE;
+			fmt->u.number.date_mbd = date_mbd;
+			fmt->u.number.date_dbm = date_dbm;
 		}
 		if (seen_time) {
 			guchar op;
@@ -4071,6 +4089,29 @@ go_format_is_date (GOFormat const *fmt)
 	return fmt->typ == GO_FMT_NUMBER && fmt->u.number.has_date;
 }
 #endif
+
+#ifdef DEFINE_COMMON
+/**
+ * go_format_month_before_day:
+ * @fmt: Format to query
+ *
+ * Returns: TRUE if the format is a date format with month and day in that order.
+ * 	Returns FALSE if the format is a date format with day and month in that order.
+ * 	Returns -1 otherwise.
+ **/
+int
+go_format_month_before_day (GOFormat const *fmt)
+{
+	if (go_format_is_date (fmt) != 1)
+		return -1;
+	if (fmt->u.number.date_mbd)
+		return +1;
+	if (fmt->u.number.date_dbm)
+		return 0;
+	return -1;
+}
+#endif
+
 
 const GOFormat *
 SUFFIX(go_format_specialize) (GOFormat const *fmt, DOUBLE val, char type,
