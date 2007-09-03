@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * go-locale.c :
  *
@@ -173,6 +174,26 @@ go_locale_get_currency (gboolean *precedes, gboolean *space_sep)
 	return lc_currency;
 }
 
+#if defined(G_OS_WIN32)
+static void
+go_locale_win32_get_user_default (GString *res, unsigned int id)
+{
+	GError *error = NULL;
+	WCHAR fmt_utf16[64];
+	int utf16_len = GetLocaleInfoW (LOCALE_USER_DEFAULT,
+		id, fmt_utf16, sizeof (fmt_utf16));
+	gsize  utf8_len;
+	char *fmt_utf8 = g_convert ((gchar *)fmt_utf16, utf16_len*2,
+		 "UTF-8", "UTF-16LE", NULL, &utf8_len, &error);
+	if (NULL != fmt_utf8) 
+		g_string_append_len (lc_date_format, fmt_utf8, utf8_len);
+	else if (NULL != error) {
+		g_warning ("error: %s", error->message);
+		g_error_free (error);
+	}
+}
+#endif
+
 GString const *
 go_locale_get_date_format (void)
 {
@@ -182,7 +203,9 @@ go_locale_get_date_format (void)
 		else
 			lc_date_format = g_string_new (NULL);
 
-#ifdef HAVE_LANGINFO_H
+#if defined(G_OS_WIN32)
+		go_locale_win32_get_user_default (lc_date_format, LOCALE_SLONGDATE);
+#elif defined(HAVE_LANGINFO_H)
 		{
 			char const *fmt = nl_langinfo (D_FMT);
 			while (*fmt) {
@@ -249,7 +272,9 @@ go_locale_get_time_format (void)
 		else
 			lc_time_format = g_string_new (NULL);
 
-#ifdef HAVE_LANGINFO_H
+#if defined(G_OS_WIN32)
+		go_locale_win32_get_user_default (lc_date_format, LOCALE_STIME);
+#elif defined(HAVE_LANGINFO_H)
 		{
 			char const *fmt = nl_langinfo (T_FMT);
 			while (*fmt) {
@@ -313,40 +338,42 @@ go_locale_get_time_format (void)
 gboolean
 go_locale_month_before_day (void)
 {
-#ifdef HAVE_LANGINFO_H
 	static gboolean month_first = TRUE;
-
 	if (!date_order_cached) {
-		char const *ptr = nl_langinfo (D_FMT);
-
 		date_order_cached = TRUE;
-		month_first = TRUE;
-		if (ptr)
-			while (*ptr) {
-				char c = *ptr++;
-				if (c == 'd' || c == 'D') {
-					month_first = FALSE;
-					break;
-				} else if (c == 'm')
-					break;
+
+#if defined(G_OS_WIN32)
+		{
+			TCHAR str[2];
+			GetLocaleInfo (LOCALE_USER_DEFAULT, LOCALE_IDATE, str, 2);
+			month_first = str[0] != L'1';
+		}
+
+#elif defined(HAVE_LANGINFO_H)
+		{
+			char const *ptr = nl_langinfo (D_FMT);
+			if (ptr)
+				while (*ptr) {
+					char c = *ptr++;
+					if (c == 'd' || c == 'D') {
+						month_first = FALSE;
+						break;
+					} else if (c == 'm')
+						break;
+				}
+		}
+#else
+		{
+			static gboolean warning = TRUE;
+			if (warning) {
+				g_warning ("Incomplete locale library, dates will be month day year");
+				warning = FALSE;
 			}
+		}
+#endif
 	}
 
 	return month_first;
-#elif defined(G_OS_WIN32)
-	TCHAR str[2];
-
-	GetLocaleInfo (LOCALE_USER_DEFAULT, LOCALE_IDATE, str, 2);
-
-	return str[0] != L'1';
-#else
-	static gboolean warning = TRUE;
-	if (warning) {
-		g_warning ("Incomplete locale library, dates will be month day year");
-		warning = FALSE;
-	}
-	return TRUE;
-#endif
 }
 
 /* Use comma as the arg separator unless the decimal point is a

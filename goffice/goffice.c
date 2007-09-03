@@ -82,8 +82,10 @@ libgoffice_init (void)
 
 #ifdef G_OS_WIN32
 	{
-	gchar *dir = g_win32_get_package_installation_directory (NULL,
-		"libgoffice-" #GO_VERSION_EPOCH "-" #GO_VERSION_MAJOR ".dll");
+#define S(s)	#s
+	gchar *dir = g_win32_get_package_installation_directory (NULL, (char *)
+		"libgoffice-" S(GO_VERSION_EPOCH) "-" S(GO_VERSION_MAJOR) ".dll");
+#undef S
 	libgoffice_data_dir = g_build_filename (dir,
 		"share", "goffice", GOFFICE_VERSION, NULL);
 	libgoffice_icon_dir = g_build_filename (dir,

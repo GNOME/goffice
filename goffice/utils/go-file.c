@@ -1293,7 +1293,9 @@ go_get_mime_type (gchar const *uri)
 
 	wuri = g_utf8_to_utf16 (uri, -1, NULL, NULL, NULL);
 	if (wuri &&
-	    FindMimeFromData (NULL, wuri, NULL, 0, NULL, 0, &mime_type, 0) == NOERROR)
+	    FindMimeFromData (NULL, wuri,
+			      NULL, 0,
+			      NULL, FMFD_ENABLEMIMESNIFFING, &mime_type, 0) == NOERROR)
 	{
 		g_free (wuri);
 		return g_utf16_to_utf8 (mime_type, -1, NULL, NULL, NULL);
@@ -1312,18 +1314,33 @@ go_get_mime_type (gchar const *uri)
 #endif
 }
 
-gchar
-*go_get_mime_type_for_data	(gconstpointer data, int data_size)
+gchar *
+go_get_mime_type_for_data (gconstpointer data, int data_size)
 {
 #ifdef GOFFICE_WITH_GNOME
 	return g_strdup (gnome_vfs_get_mime_type_for_data (data, data_size));
+#elif defined(G_OS_WIN32)
+	LPWSTR mime_type;
+
+	if (FindMimeFromData (NULL, NULL,
+			      (LPVOID)data, data_size,
+			      NULL, FMFD_ENABLEMIMESNIFFING, &mime_type, 0) == NOERROR)
+	{
+		return g_utf16_to_utf8 (mime_type, -1, NULL, NULL, NULL);
+	}
+
+	/* We try to determine mime using FindMimeFromData().
+	 * However, we are not sure whether the functions will know about
+	 * the necessary mime types. In the worst wase we fall back to
+	 * "text/plain" */
+	return g_strdup ("text/plain");
 #else
 	return g_strdup ("application/octet-stream");
 #endif
 }
 
-gchar const
-*go_mime_type_get_description	(gchar const *mime_type)
+gchar const *
+go_mime_type_get_description (gchar const *mime_type)
 {
 #ifdef GOFFICE_WITH_GNOME
 	return gnome_vfs_mime_get_description (mime_type);

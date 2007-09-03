@@ -1,3 +1,17 @@
+2007-09-03  Jody Goldberg <jody@gnome.org>
+
+	* goffice/utils/go-file.c (go_get_mime_type) : Use
+	  FMFD_ENABLEMIMESNIFFING.
+	(go_get_mime_type_for_data) : write a win32 variant.
+
+	* goffice/utils/go-locale.c (go_locale_win32_get_user_default) : new.
+	(go_locale_get_date_format) : use it here in preference to langinfo.
+	(go_locale_get_time_format) : and here too.
+	(go_locale_month_before_day) : use the win32 locale info in preference
+	  to langinfo.
+
+	* goffice/goffice.c (libgoffice_init) : make it compile on win32.
+
 2007-09-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* tests/Makefile.am: fix library name.
