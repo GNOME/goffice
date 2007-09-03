@@ -1,3 +1,7 @@
+2007-09-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* tests/Makefile.am: fix library name.
+
 2007-09-02  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_month_before_day): New function.
