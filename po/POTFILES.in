@@ -37,6 +37,7 @@ goffice/app/io-context-priv.h
 goffice/app/io-context.c
 goffice/app/io-context.h
 goffice/app/module-plugin-defs.h
+goffice/component/go-component-factory.c
 goffice/cut-n-paste/foocanvas/foo-canvas-text.c
 goffice/cut-n-paste/foocanvas/foo-canvas.c
 goffice/data/go-data-impl.h
@@ -90,6 +91,7 @@ goffice/graph/gog-error-bar-prefs.glade
 goffice/graph/gog-error-bar.c
 goffice/graph/gog-error-bar.h
 goffice/graph/gog-graph-impl.h
+goffice/graph/gog-graph-prefs.glade
 goffice/graph/gog-graph.c
 goffice/graph/gog-graph.h
 goffice/graph/gog-grid-line.c
@@ -120,16 +122,13 @@ goffice/graph/gog-plot.h
 goffice/graph/gog-reg-curve-prefs.glade
 goffice/graph/gog-reg-curve.c
 goffice/graph/gog-reg-eqn-prefs.glade
-goffice/graph/gog-renderer-gnome-print.c
-goffice/graph/gog-renderer-gnome-print.h
-goffice/graph/gog-renderer-impl.h
-goffice/graph/gog-renderer-svg.c
-goffice/graph/gog-renderer-svg.h
 goffice/graph/gog-renderer.c
 goffice/graph/gog-renderer.h
 goffice/graph/gog-series-impl.h
+goffice/graph/gog-series-prefs.glade
 goffice/graph/gog-series.c
 goffice/graph/gog-series.h
+goffice/graph/gog-smoothed-curve.c
 goffice/graph/gog-style-prefs.glade
 goffice/graph/gog-style.c
 goffice/graph/gog-style.h
@@ -137,6 +136,7 @@ goffice/graph/gog-styled-object.c
 goffice/graph/gog-styled-object.h
 goffice/graph/gog-theme.c
 goffice/graph/gog-theme.h
+goffice/graph/gog-trend-line.c
 goffice/graph/gog-view.c
 goffice/graph/gog-view.h
 goffice/gtk/go-action-combo-color.c
@@ -153,6 +153,7 @@ goffice/gtk/go-color-group.c
 goffice/gtk/go-color-group.h
 goffice/gtk/go-color-palette.c
 goffice/gtk/go-color-palette.h
+goffice/gtk/go-color-selector.c
 goffice/gtk/go-combo-box.c
 goffice/gtk/go-combo-box.h
 goffice/gtk/go-combo-color.c
@@ -177,10 +178,12 @@ goffice/gtk/go-font-sel.h
 goffice/gtk/go-format-sel.c
 goffice/gtk/go-format-sel.glade
 goffice/gtk/go-format-sel.h
+goffice/gtk/go-image-save-dialog-extra.glade
 goffice/gtk/go-locale-sel.c
 goffice/gtk/go-locale-sel.h
 goffice/gtk/go-optionmenu.c
 goffice/gtk/go-optionmenu.h
+goffice/gtk/go-palette.c
 goffice/gtk/go-rotation-sel.c
 goffice/gtk/go-rotation-sel.glade
 goffice/gtk/go-rotation-sel.h
@@ -243,6 +246,7 @@ plugins/plot_barcol/plugin.xml.in
 plugins/plot_boxes/gog-boxplot-prefs.glade
 plugins/plot_boxes/gog-boxplot.c
 plugins/plot_boxes/gog-boxplot.h
+plugins/plot_boxes/gog-histogram.c
 plugins/plot_boxes/plot-types.xml.in
 plugins/plot_boxes/plugin.xml.in
 plugins/plot_pie/gog-pie-prefs.c
@@ -277,6 +281,7 @@ plugins/reg_linear/gog-lin-reg.c
 plugins/reg_linear/gog-lin-reg.h
 plugins/reg_linear/gog-log-reg.c
 plugins/reg_linear/gog-polynom-reg.c
+plugins/reg_linear/gog-power-reg.c
 plugins/reg_linear/plugin.xml.in
 plugins/reg_linear/reg-types.xml.in
 plugins/reg_logfit/gog-logfit.c
