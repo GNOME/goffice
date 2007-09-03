@@ -4,6 +4,9 @@ Emmanuel:
 	* Fill support for polar xy plots.
 	* Interpolation support for polar plots.
 
+Jody:
+	* Win32 portability and locale fixes.
+
 Morten:
 	* Fix "fd://0" handling in go_shell_arg_to_uri.
 	* Fix default date format.

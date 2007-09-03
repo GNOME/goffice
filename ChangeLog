@@ -1,5 +1,9 @@
 2007-09-03  Jody Goldberg <jody@gnome.org>
 
+	* Release 0.5.0
+
+2007-09-03  Jody Goldberg <jody@gnome.org>
+
 	* goffice/utils/go-file.c (go_get_mime_type) : Use
 	  FMFD_ENABLEMIMESNIFFING.
 	(go_get_mime_type_for_data) : write a win32 variant.

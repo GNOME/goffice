@@ -1,3 +1,7 @@
+2007-09-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.5.0
+
 2007-08-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* import-foocanvas: updated headers path (0.4->0.5).
