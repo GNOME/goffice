@@ -1,3 +1,7 @@
+2007-09-05  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_has_hour): New function.
+
 2007-09-03  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

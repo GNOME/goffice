@@ -285,6 +285,7 @@ struct _GOFormat {
 			unsigned int date_mbd    : 1;  /* month, then day.  */
 			unsigned int date_dbm    : 1;  /* day, then month.  */
 			unsigned int has_time    : 1;
+			unsigned int has_hour    : 1;
 			unsigned int fraction    : 1;
 			unsigned int scale_is_2  : 1;
 			unsigned int has_general : 1;
@@ -1294,6 +1295,7 @@ go_format_parse_sequential (const char *str, GString *prg,
 			}
 			*p++ = op;
 			fmt->u.number.has_time = TRUE;
+			fmt->u.number.has_hour = seen_hour;
 		}
 		if (pstate->has_general) {
 			ADD_OP (OP_NUM_GENERAL_DO);
@@ -4095,9 +4097,9 @@ go_format_is_date (GOFormat const *fmt)
  * go_format_month_before_day:
  * @fmt: Format to query
  *
- * Returns: TRUE if the format is a date format with month and day in that order.
- * 	Returns FALSE if the format is a date format with day and month in that order.
- * 	Returns -1 otherwise.
+ * Returns: TRUE if format is a date format with month and day in that order.
+ * 	    FALSE if format is a date format with day and month in that order.
+ * 	    -1 otherwise.
  **/
 int
 go_format_month_before_day (GOFormat const *fmt)
@@ -4109,6 +4111,24 @@ go_format_month_before_day (GOFormat const *fmt)
 	if (fmt->u.number.date_dbm)
 		return 0;
 	return -1;
+}
+#endif
+
+
+#ifdef DEFINE_COMMON
+/**
+ * go_format_has_hour:
+ * @fmt: Format to query
+ *
+ * Returns: TRUE if format is a number format with an hour specifier
+ * 	    FALSE otherwise.
+ **/
+gboolean
+go_format_has_hour (GOFormat const *fmt)
+{
+	return (fmt->typ == GO_FMT_NUMBER &&
+		fmt->u.number.has_time &&
+		fmt->u.number.has_hour);
 }
 #endif
 
