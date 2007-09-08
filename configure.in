@@ -52,8 +52,8 @@ AM_MAINTAINER_MODE
 # Make --disable-static the default
 AC_DISABLE_STATIC
 
-dnl We need intltool >= 0.27.2 to extract the UTF-8 chars from source code
-AC_PROG_INTLTOOL([0.27.2])
+dnl We need intltool >= 0.35.0 to use the LINGUAS file in the po dir 
+IT_PROG_INTLTOOL([0.35.0])
 
 dnl We use $host_os:
 AC_CANONICAL_HOST
@@ -321,9 +321,6 @@ if test $works_without_bsd_source = no ; then
 fi
 
 dnl **************************************************
-AC_SUBST(ALL_LINGUAS,
-"am az bg ca cs da de el en_CA en_GB es et fi fr ga gl he hr hu it ja ko lv ml mr ms nb nl nn oc pl pt pt_BR ro ru sk sr sr@Latn sv tr uk vi zh_CN zh_TW")
-
 AC_SUBST(GETTEXT_PACKAGE, goffice-${VERSION})
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
 	[The package name, for gettext])

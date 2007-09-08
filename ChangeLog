@@ -1,3 +1,7 @@
+2007-09-08  Jean Brefort  <jean@acer>
+
+	* configure.in: applied patch from Claude Paroz. [#474037]
+
 2007-09-05  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_has_hour): New function.

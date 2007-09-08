@@ -1,3 +1,7 @@
+2007-09-08  Jean Brefort  <jean@acer>
+
+	* LINGUAS: applied patch from Claude Paroz. [#474037]
+
 2007-09-08  Jean Brefort <jean.brefort@normalesup.org>
 
 	* fr.po: Fixed a few wrong translations.
