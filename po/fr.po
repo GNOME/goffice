@@ -4687,7 +4687,7 @@ msgstr "_Espacement :"
 #. * 	PlotBarCol2
 #: ../plugins/plot_barcol/gog-barcol.c:99
 msgid "PlotBarCol"
-msgstr "Histogramme"
+msgstr "BarreColonne"
 
 #: ../plugins/plot_barcol/gog-barcol.c:111
 #: ../plugins/plot_barcol/gog-minmax.c:195
@@ -5059,7 +5059,7 @@ msgstr "Moteur de dessin barres/colonnes"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:3
 msgid "Charting : Bar/Col/Line/Area"
-msgstr "Graphes : Barres/Histogrammes/Lignes/Aires"
+msgstr "Graphes : Barres/Colonnes/Lignes/Aires"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:4
 msgid "Default 1.5d plot types"
@@ -5120,11 +5120,11 @@ msgstr "BoxPlots"
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:3
 msgid "Histogram"
-msgstr ""
+msgstr "Histogramme"
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:4
 msgid "Histogram."
-msgstr ""
+msgstr "Histogramme"
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:5
 #, fuzzy
