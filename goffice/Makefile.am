@@ -24,7 +24,9 @@ if WITH_WIN32
 libgoffice_0_5_la_DEPENDENCIES = goffice.def
 libgoffice_0_5_la_LDFLAGS += -no-undefined -export-symbols goffice.def
 if WITH_NATIVE_WIN32
-libgoffice_0_5_la_LIBADD += -luuid -lhtmlhelp -lurlmon
+# libtool thinks there are undefined refs in libhtmlhelp, by pass libtool
+libgoffice_0_5_la_LDFLAGS += -Wl,-lhtmlhelp
+libgoffice_0_5_la_LIBADD += -lurlmon
 endif
 endif
 

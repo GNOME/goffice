@@ -340,6 +340,7 @@ gog_radar_area_plot_class_init (GogObjectClass *gog_klass)
 static void
 gog_radar_area_plot_init (GogPlot *plot) 
 {
+	GOG_RT_PLOT(plot)->default_style_has_fill = TRUE;
 	plot->render_before_axes = TRUE;
 }
 	

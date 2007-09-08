@@ -291,7 +291,7 @@ Plans
 	1.38.4) Plot rotation					(DONE)
 	1.38.5) Axis labels as fraction of PI			(DONE)
 	1.38.6) Display label as x° when using degrees		(DONE)
-    1.39) Histogramm plots
+    1.39) Histogramm plots					(DONE)
     	1.39.1) Initial implementation				(DONE)
     1.40) Object tree
         1.40.1) Add an icon to each objects and use a swatch	<-------->

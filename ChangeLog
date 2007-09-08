@@ -1,3 +1,11 @@
+2007-09-08  Jody Goldberg <jody@gnome.org>
+
+	* goffice/Makefile.am : use -Wl,-lhtmlhelp to avoid libtool getting
+	  irrate about no matching .dll
+
+	* plugins/plot_radar/gog-radar.c (gog_radar_area_plot_init) : 
+	  RadarArea defaults to having a fill.
+
 2007-09-08  Jean Brefort  <jean@acer>
 
 	* configure.in: applied patch from Claude Paroz. [#474037]
