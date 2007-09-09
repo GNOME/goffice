@@ -692,7 +692,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 			g_free (new_uri);
 			g_free (uri);
 			uri = NULL;
-			goto out;
+			goto loop;
 		} else {
 			g_free (uri);
 			uri = new_uri;

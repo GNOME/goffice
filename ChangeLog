@@ -1,5 +1,9 @@
 2007-09-09  Jon K Hellan  <hellan@acm.org>
 
+	* goffice/gtk/goffice-gtk.c (go_gui_get_image_save_info): Don't
+	close save as dialog after entering wrong image file extension.
+	[#420451]
+
 	* goffice/gtk/go-format-sel.c (find_builtin): Fix format selector
 	crash. [#475136]
 
