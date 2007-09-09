@@ -87,7 +87,8 @@ GOFont const *
 go_font_new_by_index (unsigned i)
 {
 	g_return_val_if_fail (i < font_array->len, NULL);
-	return go_font_ref (g_ptr_array_index (font_array, i));
+	GOFont const *font = g_ptr_array_index (font_array, i);
+	return (font)? go_font_ref (font): NULL;
 }
 
 char *

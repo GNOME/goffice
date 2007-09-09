@@ -1,3 +1,8 @@
+2007-09-09  Jean Brefort  <jean@acer>
+
+	* goffice/utils/go-font.c: (go_font_new_by_index): don't ref
+	a NULL font.
+
 2007-09-08  Jody Goldberg <jody@gnome.org>
 
 	* goffice/Makefile.am : use -Wl,-lhtmlhelp to avoid libtool getting
