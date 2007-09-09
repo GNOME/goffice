@@ -547,6 +547,8 @@ find_builtin (const char *fmtstr, int page, gboolean def)
 		return NULL;
 
 	candidates = go_format_builtins[page];
+	if (!candidates)
+		return NULL;
 
 	while (candidates[list_elem]) {
 		if (strcmp (candidates[list_elem], fmtstr) == 0)

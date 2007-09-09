@@ -1,5 +1,8 @@
 goffice 0.5.1:
 
+Jon Kåre:
+        * Fix format selector crash [#475136].
+
 Morten:
 	* Add function if a format has an hour field.
 

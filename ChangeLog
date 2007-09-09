@@ -1,3 +1,8 @@
+2007-09-09  Jon K Hellan  <hellan@acm.org>
+
+	* goffice/gtk/go-format-sel.c (find_builtin): Fix format selector
+	crash. [#475136]
+
 2007-09-09  Jean Brefort  <jean@acer>
 
 	* goffice/utils/go-font.c: (go_font_new_by_index): don't ref
