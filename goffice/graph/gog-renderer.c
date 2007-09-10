@@ -598,6 +598,7 @@ gog_renderer_stroke_serie (GogRenderer *renderer,
 {
 	GogStyle const *style;
 	GOPathOptions line_options;
+	gboolean is_outline;
 	double width;
 
 	g_return_if_fail (IS_GOG_RENDERER (renderer));
@@ -605,15 +606,18 @@ gog_renderer_stroke_serie (GogRenderer *renderer,
 	g_return_if_fail (IS_GO_PATH (path));
 
         style = renderer->cur_style;
+	is_outline = style->interesting_fields & GOG_STYLE_OUTLINE;
 	line_options = go_path_get_options (path);
 	width = _grc_line_size (renderer,
-			       style->interesting_fields & GOG_STYLE_OUTLINE ?
-			       style->outline.width : style->line.width,
-			       line_options & GO_PATH_OPTIONS_SNAP_WIDTH);
+				is_outline ?  style->outline.width : style->line.width,
+				line_options & GO_PATH_OPTIONS_SNAP_WIDTH);
 
 	if (gog_style_is_line_visible (style)) {
 		path_interpret (renderer, path, width);
-		emit_line (renderer, FALSE, go_path_get_options (path));
+		if (is_outline)
+			emit_outline (renderer, FALSE, go_path_get_options (path));
+		else
+			emit_line (renderer, FALSE, go_path_get_options (path));
 	}
 }
 

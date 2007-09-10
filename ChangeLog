@@ -1,3 +1,10 @@
+2007-09-10  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix rendering of radar area plot outline.
+
+	* goffice/graph/gog-renderer.c (gog_renderer_stroke_serie): call the
+	right emit function.
+
 2007-09-09  Jon K Hellan  <hellan@acm.org>
 
 	* goffice/gtk/goffice-gtk.c (go_gui_get_image_save_info): Don't
