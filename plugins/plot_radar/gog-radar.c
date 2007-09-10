@@ -64,7 +64,10 @@ typedef struct {
 	GogObject 	  *radial_drop_lines;
 } GogRTSeries;
 
+typedef GogRTSeries GogPolarSeries;
+
 typedef GogSeriesClass GogRTSeriesClass;
+typedef GogRTSeriesClass GogPolarSeriesClass;
 
 enum {
 	SERIES_PROP_0,
@@ -76,6 +79,7 @@ enum {
 #define GOG_IS_RT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RT_SERIES_TYPE))
 
 static GType gog_rt_series_get_type (void);
+static GType gog_polar_series_get_type (void);
 static GType gog_rt_view_get_type (void);
 
 /*-----------------------------------------------------------------------------
@@ -338,12 +342,12 @@ gog_radar_area_plot_class_init (GogObjectClass *gog_klass)
 }
 
 static void
-gog_radar_area_plot_init (GogPlot *plot) 
+gog_radar_area_plot_init (GogPlot *plot)
 {
 	GOG_RT_PLOT(plot)->default_style_has_fill = TRUE;
 	plot->render_before_axes = TRUE;
 }
-	
+
 GSF_DYNAMIC_CLASS (GogRadarAreaPlot, gog_radar_area_plot,
 	gog_radar_area_plot_class_init, gog_radar_area_plot_init,
 	GOG_RADAR_PLOT_TYPE)
@@ -382,8 +386,8 @@ gog_polar_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	default:
 		g_warning("[GogPolarPlot::axis_set_bounds] bad axis (%i)", axis);
 		break;
-	} 
-	
+	}
+
 	return NULL;
 }
 
@@ -410,6 +414,7 @@ gog_polar_plot_class_init (GogPlotClass *gog_plot_klass)
 			| GOG_STYLE_INTERPOLATION;
 	}
 
+	gog_plot_klass->series_type = gog_polar_series_get_type();
 	gog_plot_klass->axis_get_bounds	= gog_polar_plot_axis_get_bounds;
 }
 
@@ -708,6 +713,26 @@ gog_rt_series_class_init (GogStyledObjectClass *gso_klass)
 			radial_drop_lines_pre_remove,
 			NULL }
 	};
+
+	GogObjectClass *obj_klass = GOG_OBJECT_CLASS (gso_klass);
+	GogSeriesClass *series_klass = GOG_SERIES_CLASS (gso_klass);
+
+	series_parent_klass = 	g_type_class_peek_parent (gso_klass);
+	gso_klass->init_style =	gog_rt_series_init_style;
+	obj_klass->update = gog_rt_series_update;
+
+	series_klass->has_interpolation = 	TRUE;
+
+	gog_object_register_roles (obj_klass, roles, G_N_ELEMENTS (roles));
+}
+
+GSF_DYNAMIC_CLASS (GogRTSeries, gog_rt_series,
+	gog_rt_series_class_init, gog_rt_series_init,
+	GOG_SERIES_TYPE)
+
+static void
+gog_polar_series_class_init (GogObjectClass *gog_klass)
+{
 	static GogSeriesFillType const valid_fill_type_list[] = {
 		GOG_SERIES_FILL_TYPE_CENTER,
 		GOG_SERIES_FILL_TYPE_EDGE,
@@ -716,24 +741,16 @@ gog_rt_series_class_init (GogStyledObjectClass *gso_klass)
 		GOG_SERIES_FILL_TYPE_NEXT,
 		GOG_SERIES_FILL_TYPE_INVALID
 	};
-	GogObjectClass *obj_klass = GOG_OBJECT_CLASS (gso_klass);
-	GogSeriesClass *series_klass = GOG_SERIES_CLASS (gso_klass);
 
-	series_parent_klass = 	g_type_class_peek_parent (gso_klass);
-	gso_klass->init_style =	gog_rt_series_init_style;
-	obj_klass->update = gog_rt_series_update;
+	GogSeriesClass *series_klass = GOG_SERIES_CLASS (gog_klass);
 
 	series_klass->has_fill_type =		TRUE;
-	series_klass->has_interpolation = 	TRUE;
-
-	gog_object_register_roles (obj_klass, roles, G_N_ELEMENTS (roles));
-
 	series_klass->valid_fill_type_list = 	valid_fill_type_list;
 }
 
-GSF_DYNAMIC_CLASS (GogRTSeries, gog_rt_series,
-	gog_rt_series_class_init, gog_rt_series_init,
-	GOG_SERIES_TYPE)
+GSF_DYNAMIC_CLASS (GogPolarSeries, gog_polar_series,
+	gog_polar_series_class_init, NULL,
+	GOG_RT_SERIES_TYPE)
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
@@ -745,6 +762,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_polar_plot_register_type (module);
 	gog_rt_view_register_type (module);
 	gog_rt_series_register_type (module);
+	gog_polar_series_register_type (module);
 }
 
 G_MODULE_EXPORT void

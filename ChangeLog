@@ -1,5 +1,14 @@
 2007-09-10  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Don't show fill_type combo box in the radar plot series editor.
+
+	* plugins/plot_radar/gog-radar.c (gog_polar_plot_class_init): use
+	GogPolarSeries object type for series_type.
+	(gog_rt_series_class_init): don't enable fill_type here...
+	(gog_polar_series_class_init): ... but here.
+
+2007-09-10  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Fix rendering of radar area plot outline.
 
 	* goffice/graph/gog-renderer.c (gog_renderer_stroke_serie): call the
