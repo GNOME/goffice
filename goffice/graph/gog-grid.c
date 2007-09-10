@@ -87,20 +87,14 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 		case GOG_AXIS_SET_XY:
 		case GOG_AXIS_SET_XY_COLOR:
 		case GOG_AXIS_SET_XY_BUBBLE: {
-			ArtVpath path[6];
+			GOPath *path;
 
-			path[0].code = ART_MOVETO;
-			path[1].code = ART_LINETO;
-			path[2].code = ART_LINETO;
-			path[3].code = ART_LINETO;
-			path[4].code = ART_LINETO;
-			path[5].code = ART_END;
-			path[0].x = path[1].x = path[4].x = view->allocation.x;
-			path[2].x = path[3].x = path[0].x + view->allocation.w;
-			path[0].y = path[3].y = path[4].y = view->allocation.y;
-			path[1].y = path[2].y = path[0].y + view->allocation.h;
-
-			gog_renderer_draw_sharp_polygon (view->renderer, path, FALSE);
+			path = go_path_new ();
+			go_path_rectangle (path, view->allocation.x, view->allocation.y,
+					   view->allocation.w, view->allocation.h);
+			go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
+			gog_renderer_draw_shape (view->renderer, path);
+			go_path_free (path);
 			break;
 			}
 		case GOG_AXIS_SET_RADAR: {
@@ -109,8 +103,8 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 			GogChartMap *c_map;
 			GogAxisMap *map;
 			GogChartMapPolarData *parms;
-			GSList *axis_list;
 			GOPath *path;
+			GSList *axis_list;
 			double position, start, stop;
 			double x, y;
 			unsigned step_nbr, i;

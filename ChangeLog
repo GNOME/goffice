@@ -1,5 +1,12 @@
 2007-09-10  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Fix backplane rendering regression (1 pixel offset).
+
+	* goffice/graph/gog-grid.c (gog_grid_view_render): use
+	GOPath API.
+
+2007-09-10  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Don't show fill_type combo box in the radar plot series editor.
 
 	* plugins/plot_radar/gog-radar.c (gog_polar_plot_class_init): use
