@@ -32,7 +32,7 @@
 #include <string.h>
 
 
-char const *grad_dir_names[] = {
+static char const *grad_dir_names[] = {
 	"n-s",
 	"s-n",
 	"n-s-mirrored",
