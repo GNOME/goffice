@@ -1,3 +1,7 @@
+2007-09-11  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-marker.c (square_path, ...): Make static.
+
 2007-09-10  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix backplane rendering regression (1 pixel offset).

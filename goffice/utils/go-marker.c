@@ -47,21 +47,21 @@ typedef struct {
 
 #define GO_MARKER_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS((o),  GO_MARKER_TYPE, GOMarkerClass))
 
-const char square_path[] = 		"M-1,-1 L-1,1 1,1 1,-1 z";
-const char diamond_path[] =		"M0,-1 L1,0 0,1 -1,0 z";
-const char triangle_down_path[] =	"M-1,-1 L1,-1 0,1 z";
-const char triangle_up_path[] =		"M0,-1 L1,1 -1,1 z";
-const char triangle_right_path[] =	"M-1,-1 L1,0 -1,1 z";
-const char triangle_left_path[] =	"M1,-1 L-1,0 1,1 z";
-const char circle_path[] =		"M1,0 C1,0.56 0.56,1 0,1 C-0.56,1 -1,0.56 -1,0 "
+static const char square_path[] = 		"M-1,-1 L-1,1 1,1 1,-1 z";
+static const char diamond_path[] =		"M0,-1 L1,0 0,1 -1,0 z";
+static const char triangle_down_path[] =	"M-1,-1 L1,-1 0,1 z";
+static const char triangle_up_path[] =		"M0,-1 L1,1 -1,1 z";
+static const char triangle_right_path[] =	"M-1,-1 L1,0 -1,1 z";
+static const char triangle_left_path[] =	"M1,-1 L-1,0 1,1 z";
+static const char circle_path[] =		"M1,0 C1,0.56 0.56,1 0,1 C-0.56,1 -1,0.56 -1,0 "
 					"C-1,-0.56 -0.56,-1 0,-1 C0.56,-1 1,-0.56 1,0 L1,0 z";
-const char x_path[] =			"M1,1 L-1,-1 M1,-1 L-1,1";
-const char cross_path[] =		"M1,0 L-1,0 M0,1 L0,-1";
-const char asterisk_path[] =		"M0.7,0.7 L-0.7,-0.7 M0.7,-0.7 L-0.7,0.7 M1,0 L-1,0 M0,1 L0,-1";
-const char bar_path[] =			"M-1 -0.2 L 1 -0.2 L 1 0.2 L -1 0.2 z";
-const char half_bar_path[] = 		"M0,-0.2 L1,-0.2 1,0.2 0,0.2 z";
-const char butterfly_path[] =		"M-1,-1 L-1,1 0,0 1,1 1,-1 0,0 z";
-const char hourglass_path[] =		"M-1,-1 L1,-1 0,0 1,1 -1,1 0,0 z";
+static const char x_path[] =			"M1,1 L-1,-1 M1,-1 L-1,1";
+static const char cross_path[] =		"M1,0 L-1,0 M0,1 L0,-1";
+static const char asterisk_path[] =		"M0.7,0.7 L-0.7,-0.7 M0.7,-0.7 L-0.7,0.7 M1,0 L-1,0 M0,1 L0,-1";
+static const char bar_path[] =			"M-1 -0.2 L 1 -0.2 L 1 0.2 L -1 0.2 z";
+static const char half_bar_path[] = 		"M0,-0.2 L1,-0.2 1,0.2 0,0.2 z";
+static const char butterfly_path[] =		"M-1,-1 L-1,1 0,0 1,1 1,-1 0,0 z";
+static const char hourglass_path[] =		"M-1,-1 L1,-1 0,0 1,1 -1,1 0,0 z";
 
 typedef struct
 {
