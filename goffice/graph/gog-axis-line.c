@@ -1724,6 +1724,10 @@ gog_axis_base_view_point (GogView *view, double x, double y)
 		case GOG_AXIS_SET_XY:
 			pointed = xy_process (GOG_AXIS_BASE_POINT, view, NULL, plot_area, x, y);
 			break;
+		case GOG_AXIS_SET_XY_COLOR:
+			if (gog_axis_get_atype (axis_base->axis) != GOG_AXIS_COLOR)
+				pointed = xy_process (GOG_AXIS_BASE_POINT, view, NULL, plot_area, x, y);
+			break;
 		case GOG_AXIS_SET_XY_pseudo_3d:
 			if (gog_axis_get_atype (axis_base->axis) != GOG_AXIS_PSEUDO_3D)
 				pointed = xy_process (GOG_AXIS_BASE_POINT, view, NULL, plot_area, x, y);

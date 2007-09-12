@@ -1,5 +1,11 @@
 2007-09-12  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Handle GOG_AXIS_SET_COLOR axis selection.
+
+	* goffice/graph/gog-axis-line.c (gog_axis_base_view_point): here.
+
+2007-09-12  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Fix manual position of axis labels.
 
 	* goffice/graph/gog-axis.c (gog_axis_view_size_allocate): use bbox
