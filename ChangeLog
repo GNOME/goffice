@@ -1,3 +1,11 @@
+2007-09-12  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix manual position of axis labels.
+
+	* goffice/graph/gog-axis.c (gog_axis_view_size_allocate): use bbox
+	instead of view->allocation, which is not set yet when entering
+	size_allocate.
+
 2007-09-11  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-marker.c (square_path, ...): Make static.
