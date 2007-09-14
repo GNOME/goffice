@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice TRUNK\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-04 03:18+0100\n"
-"PO-Revision-Date: 2007-09-06 23:21+0930\n"
+"POT-Creation-Date: 2007-09-09 03:18+0100\n"
+"PO-Revision-Date: 2007-09-14 18:48+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -32,13 +32,11 @@ msgstr "Kiểu MIME"
 
 #: ../goffice/app/file.c:453
 msgid "The MIME type of the saver."
-msgstr ""
-"Kiểu MIME của bộ lưu."
+msgstr "Kiểu MIME của bộ lưu."
 
 #: ../goffice/app/file.c:462
 msgid "Extension"
-msgstr ""
-"Phần mở rộng"
+msgstr "Phần mở rộng"
 
 #: ../goffice/app/file.c:463
 msgid "The standard file name extension of the saver."
@@ -66,8 +64,7 @@ msgstr "Cấp định dạng"
 
 #: ../goffice/app/file.c:504
 msgid "Scope"
-msgstr ""
-"Phạm vi"
+msgstr "Phạm vi"
 
 #: ../goffice/app/file.c:505
 msgid "How much of a document is saved"
@@ -81,7 +78,8 @@ msgstr "Khả năng lưu lên tập tin cũ kiểu này bị tắt để an toà
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
-"Bạn có thể tắt tính năng an toàn này bằng cách sửa tập tin « plugin.xml » thích hợp."
+"Bạn có thể tắt tính năng an toàn này bằng cách sửa tập tin « plugin.xml » "
+"thích hợp."
 
 #: ../goffice/app/go-cmd-context.c:65
 #, c-format
@@ -125,7 +123,8 @@ msgstr "Mô-đun « %s » có danh sách quan hệ phụ thuộc không thống 
 #: ../goffice/app/go-plugin-loader-module.c:75
 #, c-format
 msgid "Module \"%s\" depends on an invalid null dependency."
-msgstr "Mô-đun « %s » phụ thuộc vào một quan hệ phụ thuộc vô giá trị không hợp lệ."
+msgstr ""
+"Mô-đun « %s » phụ thuộc vào một quan hệ phụ thuộc vô giá trị không hợp lệ."
 
 #: ../goffice/app/go-plugin-loader-module.c:80
 #, c-format
@@ -137,12 +136,13 @@ msgstr "Mô-đun « %s » phụ thuộc vào một quan hệ phụ thuộc khôn
 msgid ""
 "Module \"%s\" was built with version %s of %s, but this executable supplied "
 "version %s."
-msgstr "Mô-đun « %s » đã được xây dựng với phiên bản %s của %s, nhưng tập tin thực hiện được này cung cấp phân vùng %s."
+msgstr ""
+"Mô-đun « %s » đã được xây dựng với phiên bản %s của %s, nhưng tập tin thực "
+"hiện được này cung cấp phân vùng %s."
 
 #: ../goffice/app/go-plugin-loader-module.c:103
 msgid "Dynamic module loading is not supported in this system."
-msgstr ""
-"Không hỗ trợ khả năng nạp mô-đun một cách động trong hệ thống này."
+msgstr "Không hỗ trợ khả năng nạp mô-đun một cách động trong hệ thống này."
 
 #: ../goffice/app/go-plugin-loader-module.c:113
 #, c-format
@@ -198,8 +198,7 @@ msgstr "Trình này không hỗ trợ dịch vụ « %s »."
 #: ../goffice/app/go-plugin-service.c:132
 #: ../goffice/app/go-plugin-service.c:831
 msgid "Error while loading plugin service."
-msgstr ""
-"Gặp lỗi trong khi nạp dịch vụ phần bổ sung."
+msgstr "Gặp lỗi trong khi nạp dịch vụ phần bổ sung."
 
 #: ../goffice/app/go-plugin-service.c:140
 msgid "Initializing function inside plugin returned error."
@@ -211,8 +210,8 @@ msgstr "Hàm cleanup (làm sạch) bên trong phần bổ sung đã trả lại 
 
 #: ../goffice/app/go-plugin-service.c:168
 #: ../goffice/gtk/go-format-sel.c:68
-#: ../goffice/utils/go-format.c:3274
-#: ../goffice/utils/go-format.c:3410
+#: ../goffice/utils/go-format.c:3276
+#: ../goffice/utils/go-format.c:3412
 msgid "General"
 msgstr "Chung"
 
@@ -244,8 +243,7 @@ msgstr "Gặp lỗi khi nạp phần bổ sung để lưu."
 
 #: ../goffice/app/go-plugin-service.c:744
 msgid "Failed to load plugin for saving"
-msgstr ""
-"Lỗi nạp phần bổ sung để lưu."
+msgstr "Lỗi nạp phần bổ sung để lưu."
 
 #: ../goffice/app/go-plugin-service.c:866
 msgid "Plugin loader"
@@ -273,7 +271,9 @@ msgstr "Gặp lỗi khi đọc thông tin dịch vụ."
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
-msgstr "Cần phải nạp dịch vụ trước khi kích hoạt nó (biến PLUGIN_ALWAYS_LOAD đã được đặt) nhưng tiến trình nạp bị lỗi."
+msgstr ""
+"Cần phải nạp dịch vụ trước khi kích hoạt nó (biến PLUGIN_ALWAYS_LOAD đã được "
+"đặt) nhưng tiến trình nạp bị lỗi."
 
 #: ../goffice/app/go-plugin.c:333
 #, c-format
@@ -332,7 +332,8 @@ msgstr "Tên phần bổ sung không rõ."
 #, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
 msgstr ""
-"Không có bộ nạp nào (hoặc id của bộ nạp không hợp lệ) cho phần bổ sung với id=\"%s\"."
+"Không có bộ nạp nào (hoặc id của bộ nạp không hợp lệ) cho phần bổ sung với "
+"id=\"%s\"."
 
 #: ../goffice/app/go-plugin.c:858
 msgid "Plugin has no id."
@@ -376,8 +377,7 @@ msgstr "Gặp lỗi khi hủy kích hoạt dịch vụ phần bổ sung #%d."
 #: ../goffice/app/go-plugin.c:1101
 #: ../goffice/app/go-plugin.c:1122
 msgid "Cannot load plugin loader."
-msgstr ""
-"Không thể nạp bộ nạp phần bổ sung."
+msgstr "Không thể nạp bộ nạp phần bổ sung."
 
 #: ../goffice/app/go-plugin.c:1129
 #, c-format
@@ -456,29 +456,24 @@ msgstr "Kiểu thành phần"
 #: ../goffice/gtk/go-format-sel.c:77
 #: ../goffice/gtk/go-rotation-sel.c:140
 msgid "Text"
-msgstr ""
-"Văn bản"
+msgstr "Văn bản"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:215
 msgid "Text to render"
-msgstr ""
-"Văn bản cần vẽ"
+msgstr "Văn bản cần vẽ"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:223
 msgid "Markup"
-msgstr ""
-"Mã định dạng"
+msgstr "Mã định dạng"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:224
 msgid "Marked up text to render"
-msgstr ""
-"Văn bản có mã định dạng cần vẽ"
+msgstr "Văn bản có mã định dạng cần vẽ"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:249
 #: ../goffice/graph/gog-style.c:908
 msgid "Font"
-msgstr ""
-"Phông"
+msgstr "Phông"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:250
 msgid "Font description as a string"
@@ -490,13 +485,11 @@ msgstr "Mô tả phông"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:259
 msgid "Font description as a PangoFontDescription struct"
-msgstr ""
-"Mô tả phông chữ theo cấu trúc PangoFontDescription"
+msgstr "Mô tả phông chữ theo cấu trúc PangoFontDescription"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:267
 msgid "Font family"
-msgstr ""
-"Nhóm phông"
+msgstr "Nhóm phông"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:268
 msgid "Name of the font family, e.g. Sans, Helvetica, Times, Monospace"
@@ -507,8 +500,7 @@ msgstr ""
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:284
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:285
 msgid "Font style"
-msgstr ""
-"Kiểu phông"
+msgstr "Kiểu phông"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:294
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:295
@@ -536,8 +528,7 @@ msgstr "ĐIểm phông"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:338
 msgid "Font size in points"
-msgstr ""
-"Kích cỡ phông chữ theo điểm"
+msgstr "Kích cỡ phông chữ theo điểm"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:348
 msgid "Rise"
@@ -547,7 +538,8 @@ msgstr "Độ nâng lên"
 msgid ""
 "Offset of text above the baseline (below the baseline if rise is negative)"
 msgstr ""
-"Hiệu số của văn bản trên đường cơ bản (dưới đường cơ bản nếu độ có nâng lên âm)"
+"Hiệu số của văn bản trên đường cơ bản (dưới đường cơ bản nếu độ có nâng lên "
+"âm)"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:359
 msgid "Strikethrough"
@@ -555,24 +547,20 @@ msgstr "Gạch đè"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:360
 msgid "Whether to strike through the text"
-msgstr ""
-"Văn bản có bị gạch đè hay không"
+msgstr "Văn bản có bị gạch đè hay không"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:368
 msgid "Underline"
-msgstr ""
-"Gạch dưới"
+msgstr "Gạch dưới"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:369
 msgid "Style of underline for this text"
-msgstr ""
-"Kiểu dáng gạch dưới của văn bản"
+msgstr "Kiểu dáng gạch dưới của văn bản"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:378
 #: ../goffice/graph/gog-axis.c:1708
 msgid "Scale"
-msgstr ""
-"Tỷ lệ"
+msgstr "Tỷ lệ"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:379
 msgid "Size of font, relative to default size"
@@ -586,17 +574,15 @@ msgstr "Màu"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:440
 msgid "Text color, as string"
-msgstr ""
-"Màu văn bản theo chuỗi"
+msgstr "Màu văn bản theo chuỗi"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:448
 msgid "Text color, as a GdkColor"
-msgstr "Màu văn bản theo GdkColor)"
+msgstr "Màu văn bản theo GdkColor"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:456
 msgid "Text color, as an R/G/B/A combined integer"
-msgstr ""
-"Màu văn bản theo tổ hợp số nguyên R/G/B/A"
+msgstr "Màu văn bản theo tổ hợp số nguyên R/G/B/A"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:469
 msgid "Text width"
@@ -620,8 +606,7 @@ msgstr "Nhóm phông đã đặt"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:487
 msgid "Whether this tag affects the font family"
-msgstr ""
-"Thẻ này có tác động nhóm phông không"
+msgstr "Thẻ này có tác động nhóm phông không"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:490
 msgid "Font style set"
@@ -629,8 +614,7 @@ msgstr "Kiểu phông đã đặt"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:491
 msgid "Whether this tag affects the font style"
-msgstr ""
-"Thẻ này có tác động kiểu dáng phông không"
+msgstr "Thẻ này có tác động kiểu dáng phông không"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:494
 msgid "Font variant set"
@@ -638,8 +622,7 @@ msgstr "Biến thể phông đã đặt"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:495
 msgid "Whether this tag affects the font variant"
-msgstr ""
-"Thẻ này có tác động biến thể phông không"
+msgstr "Thẻ này có tác động biến thể phông không"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:498
 msgid "Font weight set"
@@ -647,8 +630,7 @@ msgstr "Độ đậm phông đã đặt"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:499
 msgid "Whether this tag affects the font weight"
-msgstr ""
-"Thẻ này có tác động độ đậm phông không"
+msgstr "Thẻ này có tác động độ đậm phông không"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:502
 msgid "Font stretch set"
@@ -656,8 +638,7 @@ msgstr "Độ dãn phông đã đặt"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:503
 msgid "Whether this tag affects the font stretch"
-msgstr ""
-"Thẻ này có tác động độ dãn ra phông không"
+msgstr "Thẻ này có tác động độ dãn ra phông không"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:506
 msgid "Font size set"
@@ -665,8 +646,7 @@ msgstr "Cỡ phông đã đặt"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:507
 msgid "Whether this tag affects the font size"
-msgstr ""
-"Thẻ này có tác động kích cỡ phông không"
+msgstr "Thẻ này có tác động kích cỡ phông không"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:510
 msgid "Rise set"
@@ -674,28 +654,23 @@ msgstr "Độ nâng lên đã đặt"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:511
 msgid "Whether this tag affects the rise"
-msgstr ""
-"Thẻ này có tác động độ nâng lên phông không"
+msgstr "Thẻ này có tác động độ nâng lên phông không"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:514
 msgid "Strikethrough set"
-msgstr ""
-"Gạch đè đã đặt"
+msgstr "Gạch đè đã đặt"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:515
 msgid "Whether this tag affects strikethrough"
-msgstr ""
-"Thẻ này có tác động kiểu dáng ghi đè phông không"
+msgstr "Thẻ này có tác động kiểu dáng ghi đè phông không"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:518
 msgid "Underline set"
-msgstr ""
-"Gạch dưới đã đặt"
+msgstr "Gạch dưới đã đặt"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:519
 msgid "Whether this tag affects underlining"
-msgstr ""
-"Thẻ này có tác động kiểu dáng gạch dưới phông không"
+msgstr "Thẻ này có tác động kiểu dáng gạch dưới phông không"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:522
 msgid "Scale set"
@@ -748,8 +723,7 @@ msgstr "Khoảng sau"
 #: ../goffice/drawing/god-paragraph-attributes.c:228
 #: ../goffice/graph/gog-object.c:755
 msgid "Alignment"
-msgstr ""
-"Chỉnh canh"
+msgstr "Chỉnh canh"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:233
 #: ../goffice/drawing/god-paragraph-attributes.c:234
@@ -778,8 +752,7 @@ msgstr "Bật chấm điểm"
 
 #: ../goffice/graph/gog-axis-line.c:606
 msgid "Layout"
-msgstr ""
-"Bố trí"
+msgstr "Bố trí"
 
 #: ../goffice/graph/gog-axis-line.c:634
 msgid "Axis position"
@@ -863,8 +836,7 @@ msgstr "Khoảng cách từ đường trục đến vùng vẽ đồ thị, theo
 
 #: ../goffice/graph/gog-axis-line.c:783
 msgid "Select axis"
-msgstr ""
-"Chọn trục"
+msgstr "Chọn trục"
 
 #: ../goffice/graph/gog-axis-line.c:889
 msgid "Set start bound"
@@ -925,8 +897,7 @@ msgstr "Bên _trong"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:13
 msgid "_Invert axis"
-msgstr ""
-"Đả_o trục"
+msgstr "Đả_o trục"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:14
 msgid "_Low"
@@ -942,33 +913,28 @@ msgstr "Độ _xoay:"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:17
 msgid "_Show Labels"
-msgstr ""
-"_Hiện nhãn"
+msgstr "_Hiện nhãn"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:18
 #: ../goffice/graph/gog-series-prefs.glade.h:9
 #: ../goffice/graph/gog-style-prefs.glade.h:24
 msgid "_Type:"
-msgstr ""
-"_Kiểu :"
+msgstr "_Kiểu :"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:19
 msgid "_Unit:"
-msgstr ""
-"Đơn _vị:"
+msgstr "Đơn _vị:"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:20
 msgid "at"
-msgstr ""
-"ở"
+msgstr "ở"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:21
 #: ../goffice/gtk/go-rotation-sel.glade.h:4
 #: ../plugins/plot_pie/gog-pie-prefs.glade.h:8
 #: ../plugins/plot_pie/gog-ring-prefs.glade.h:9
 msgid "degrees"
-msgstr ""
-"độ"
+msgstr "độ"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:22
 #: ../goffice/graph/gog-error-bar-prefs.glade.h:14
@@ -1008,13 +974,11 @@ msgstr "Ánh xạ tuyến"
 
 #: ../goffice/graph/gog-axis.c:730
 msgid "Log"
-msgstr ""
-"Lôga"
+msgstr "Lôga"
 
 #: ../goffice/graph/gog-axis.c:730
 msgid "Logarithm mapping"
-msgstr ""
-"Ánh xạ lôga"
+msgstr "Ánh xạ lôga"
 
 #: ../goffice/graph/gog-axis.c:1644
 #: ../goffice/graph/gog-axis.c:1653
@@ -1028,8 +992,7 @@ msgstr "Tối đ_a"
 
 #: ../goffice/graph/gog-axis.c:1646
 msgid "Categories between _ticks"
-msgstr ""
-"Phân loại giữa _vạch khấc"
+msgstr "Phân loại giữa _vạch khấc"
 
 #: ../goffice/graph/gog-axis.c:1647
 msgid "Categories between _labels"
@@ -1045,18 +1008,15 @@ msgstr "Vạch khấc _phụ"
 
 #: ../goffice/graph/gog-axis.c:1726
 msgid "Format"
-msgstr ""
-"Định dạng"
+msgstr "Định dạng"
 
 #: ../goffice/graph/gog-axis.c:1757
 msgid "MajorGrid"
-msgstr ""
-"Lưới chính"
+msgstr "Lưới chính"
 
 #: ../goffice/graph/gog-axis.c:1760
 msgid "MinorGrid"
-msgstr ""
-"Lưới phụ"
+msgstr "Lưới phụ"
 
 #: ../goffice/graph/gog-axis.c:1763
 msgid "AxisLine"
@@ -1073,13 +1033,11 @@ msgstr "Kiểu"
 
 #: ../goffice/graph/gog-axis.c:1782
 msgid "Numerical type of this axis"
-msgstr ""
-"Kiểu hành động"
+msgstr "Kiểu hành động"
 
 #: ../goffice/graph/gog-axis.c:1786
 msgid "Invert axis"
-msgstr ""
-"Đảo trục"
+msgstr "Đảo trục"
 
 #: ../goffice/graph/gog-axis.c:1787
 msgid "Scale from high to low rather than low to high"
@@ -1087,8 +1045,7 @@ msgstr "Co dãn từ cao xuống dưới, hơn là từ thấp lên cao"
 
 #: ../goffice/graph/gog-axis.c:1791
 msgid "MapName"
-msgstr ""
-"Tên mẫu"
+msgstr "Tên mẫu"
 
 #: ../goffice/graph/gog-axis.c:1792
 msgid "The name of the map for scaling"
@@ -1101,7 +1058,9 @@ msgstr "Định dạng XL đã gán"
 #: ../goffice/graph/gog-axis.c:1798
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
-msgstr "Định dạng được người dùng gán để sử dụng cho các nhãn trục không phải rời rạc (định dạng XL)"
+msgstr ""
+"Định dạng được người dùng gán để sử dụng cho các nhãn trục không phải rời "
+"rạc (định dạng XL)"
 
 #: ../goffice/graph/gog-axis.c:1803
 #: ../goffice/graph/gog-axis.c:1804
@@ -1115,8 +1074,7 @@ msgstr "Đơn vị đặt trục cục"
 
 #: ../goffice/graph/gog-chart.c:356
 msgid "Backplane"
-msgstr ""
-"Mặt phẳng ngược"
+msgstr "Mặt phẳng ngược"
 
 #: ../goffice/graph/gog-chart.c:359
 msgid "X-Axis"
@@ -1179,7 +1137,8 @@ msgstr "Vùng vẽ"
 
 #: ../goffice/graph/gog-chart.c:429
 msgid "Position and size of plot area, in percentage of chart size"
-msgstr "Vị trí và kích cỡ của vùng vẽ đồ thị, theo phần trăm kích cỡ toàn sơ đồ"
+msgstr ""
+"Vị trí và kích cỡ của vùng vẽ đồ thị, theo phần trăm kích cỡ toàn sơ đồ"
 
 #: ../goffice/graph/gog-chart.c:434
 msgid "Manual plot area"
@@ -1201,22 +1160,19 @@ msgstr "Độ cao"
 
 #: ../goffice/graph/gog-control-foocanvas.c:219
 msgid "W"
-msgstr ""
-"R"
+msgstr "R"
 
 #: ../goffice/graph/gog-control-foocanvas.c:220
 #: ../goffice/graph/gog-graph.c:325
 #: ../goffice/utils/go-image.c:485
 msgid "Width"
-msgstr ""
-"Độ rộng"
+msgstr "Độ rộng"
 
 #: ../goffice/graph/gog-control-foocanvas.c:225
 #: ../goffice/graph/gog-renderer.c:1786
 #: ../goffice/graph/gog-view.c:597
 msgid "Model"
-msgstr ""
-"Mô hình"
+msgstr "Mô hình"
 
 #: ../goffice/graph/gog-control-foocanvas.c:226
 msgid "The GogObject this object displays"
@@ -1245,8 +1201,7 @@ msgstr "<b>Loại lỗi</b>"
 
 #: ../goffice/graph/gog-error-bar-prefs.glade.h:4
 msgid "<b>Style</b>"
-msgstr ""
-"<b>Kiểu dáng</b>"
+msgstr "<b>Kiểu dáng</b>"
 
 #: ../goffice/graph/gog-error-bar-prefs.glade.h:5
 msgid "<b>Values</b>"
@@ -1266,7 +1221,8 @@ msgid ""
 "Absolute\n"
 "Relative\n"
 "Percent"
-msgstr "Không có\n"
+msgstr ""
+"Không có\n"
 "Tuyệt đối\n"
 "Tương đối\n"
 "Phần trăm"
@@ -1345,8 +1301,7 @@ msgstr "Tên sắc thái"
 
 #: ../goffice/graph/gog-graph.c:320
 msgid "The name of the theme for elements of the graph"
-msgstr ""
-"Tên của sắc thái về các yếu tố của đồ thị"
+msgstr "Tên của sắc thái về các yếu tố của đồ thị"
 
 #: ../goffice/graph/gog-graph.c:326
 msgid "Logical graph width, in points"
@@ -1362,8 +1317,7 @@ msgstr "bộ vẽ cho ô xem này"
 
 #: ../goffice/graph/gog-grid-line.c:128
 msgid "Is-minor"
-msgstr ""
-"Phụ"
+msgstr "Phụ"
 
 #: ../goffice/graph/gog-grid-line.c:129
 msgid "Are these minor grid lines"
@@ -1379,8 +1333,7 @@ msgstr "<b>Kiểu đồ thị _vẽ</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:3
 msgid "<b>_Subtype</b>"
-msgstr ""
-"<b>Kiểu _con</b>"
+msgstr "<b>Kiểu _con</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:4
 msgid "Show sample"
@@ -1389,8 +1342,7 @@ msgstr "Hiện mẫu thí dụ"
 #: ../goffice/graph/gog-guru.c:1171
 #: ../goffice/graph/gog-series.c:465
 msgid "Name"
-msgstr ""
-"Tên"
+msgstr "Tên"
 
 #: ../goffice/graph/gog-guru.c:1198
 msgid "Step 1 of 2: Select Chart Type"
@@ -1406,8 +1358,7 @@ msgstr "Tùy chỉnh đồ thị"
 
 #: ../goffice/graph/gog-guru.c:1287
 msgid "_Insert"
-msgstr ""
-"C_hèn"
+msgstr "C_hèn"
 
 #: ../goffice/graph/gog-guru.c:1349
 msgid "_Plot Type"
@@ -1423,8 +1374,7 @@ msgstr "Hỗ trợ mã định dạng kiểu HTML cơ bản"
 
 #: ../goffice/graph/gog-label.c:202
 msgid "_Text:"
-msgstr ""
-"_Văn bản:"
+msgstr "_Văn bản:"
 
 #: ../goffice/graph/gog-label.c:209
 #: ../goffice/graph/gog-series.c:506
@@ -1451,8 +1401,7 @@ msgstr "Hiển thị phương trình trên đồ thị"
 
 #: ../goffice/graph/gog-label.c:427
 msgid "Show coefficient"
-msgstr ""
-"Hiện hệ số"
+msgstr "Hiện hệ số"
 
 #: ../goffice/graph/gog-label.c:428
 msgid "Show the correlation coefficient on the graph"
@@ -1472,8 +1421,7 @@ msgstr "Đệm dải màu (điểm)"
 
 #: ../goffice/graph/gog-legend.c:213
 msgid "padding between the swatches in pts."
-msgstr ""
-"độ đệm giữa hai dải màu, theo điểm"
+msgstr "độ đệm giữa hai dải màu, theo điểm"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:2
 #: ../goffice/graph/gog-plot-prefs.glade.h:2
@@ -1496,7 +1444,8 @@ msgstr "Neo :"
 msgid ""
 "Automatic\n"
 "Manual"
-msgstr "Tự động\n"
+msgstr ""
+"Tự động\n"
 "Bằng tay"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:6
@@ -1510,8 +1459,7 @@ msgstr "Chỉnh c_anh:"
 #: ../goffice/graph/gog-object-prefs.glade.h:8
 #: ../goffice/graph/gog-plot-prefs.glade.h:6
 msgid "_Height:"
-msgstr ""
-"Độ _cao :"
+msgstr "Độ _cao :"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:9
 #: ../goffice/graph/gog-plot-prefs.glade.h:7
@@ -1583,21 +1531,18 @@ msgstr "Tô đầy"
 #: ../goffice/graph/gog-object.c:232
 #: ../plugins/plot_barcol/gog-dropbar.c:60
 msgid "Start"
-msgstr ""
-"Đầu"
+msgstr "Đầu"
 
 #: ../goffice/graph/gog-object.c:233
 #: ../plugins/plot_barcol/gog-dropbar.c:62
 msgid "End"
-msgstr ""
-"Cuối"
+msgstr "Cuối"
 
 #: ../goffice/graph/gog-object.c:234
 #: ../goffice/graph/gog-object.c:242
 #: ../goffice/graph/gog-series.c:62
 msgid "Center"
-msgstr ""
-"Ở giữa"
+msgstr "Ở giữa"
 
 #: ../goffice/graph/gog-object.c:698
 #: ../goffice/graph/gog-object.c:743
@@ -1626,8 +1571,7 @@ msgstr "Các cờ vị trí tự động la bàn"
 
 #: ../goffice/graph/gog-object.c:756
 msgid "Alignment flag"
-msgstr ""
-"Cờ chỉnh canh"
+msgstr "Cờ chỉnh canh"
 
 #: ../goffice/graph/gog-object.c:761
 #: ../goffice/graph/gog-object.c:762
@@ -1704,8 +1648,7 @@ msgstr "Trục"
 
 #: ../goffice/graph/gog-plot.c:508
 msgid "Series"
-msgstr ""
-"Dãy"
+msgstr "Dãy"
 
 #: ../goffice/graph/gog-plot.c:529
 msgid "Vary style by element"
@@ -1747,7 +1690,9 @@ msgstr "Mẹo Guru"
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
-msgstr "Danh sách định giới bằng dấu chấm phẩy chứa các lời gọi ý đối tượng nên thêm tự động trong hộp thoại Guru"
+msgstr ""
+"Danh sách định giới bằng dấu chấm phẩy chứa các lời gọi ý đối tượng nên thêm "
+"tự động trong hộp thoại Guru"
 
 #: ../goffice/graph/gog-plot.c:560
 msgid "Default interpolation"
@@ -1804,8 +1749,7 @@ msgstr "Đồ thị GogGraph bộ vẽ này hiển thị"
 
 #: ../goffice/graph/gog-renderer.c:1792
 msgid "View"
-msgstr ""
-"Xem"
+msgstr "Xem"
 
 #: ../goffice/graph/gog-renderer.c:1793
 msgid "the GogView this renderer is displaying"
@@ -1817,8 +1761,7 @@ msgstr "Độ cao thu phóng (điểm)"
 
 #: ../goffice/graph/gog-renderer.c:1799
 msgid "Global scale factor"
-msgstr ""
-"Hệ số co dãn toàn cục"
+msgstr "Hệ số co dãn toàn cục"
 
 # Name: don't translate/Tên: đừng dịch
 #: ../goffice/graph/gog-renderer.c:1804
@@ -1853,8 +1796,9 @@ msgid ""
 "Step at end\n"
 "Step at center\n"
 "Step to average"
-msgstr "Tuyến\n"
-"Chốt trục\n"
+msgstr ""
+"Tuyến\n"
+"Spline\n"
 "Bước ở đầu\n"
 "Bước ở cuối\n"
 "Bước ở giữa\n"
@@ -1915,8 +1859,7 @@ msgstr "Đường cong hồi quy"
 
 #: ../goffice/graph/gog-series.c:584
 msgid "Trend line"
-msgstr ""
-"Đường khuynh hướng"
+msgstr "Đường khuynh hướng"
 
 #: ../goffice/graph/gog-series.c:617
 msgid "Has-legend"
@@ -1952,8 +1895,7 @@ msgstr "<b>Tô đầy</b>"
 
 #: ../goffice/graph/gog-style-prefs.glade.h:2
 msgid "<b>Line</b>"
-msgstr ""
-"<b>Đường</b>"
+msgstr "<b>Đường</b>"
 
 #: ../goffice/graph/gog-style-prefs.glade.h:3
 msgid "<b>Marker</b>"
@@ -1961,8 +1903,7 @@ msgstr "<b>Dấu hiệu</b>"
 
 #: ../goffice/graph/gog-style-prefs.glade.h:4
 msgid "<b>Outline</b>"
-msgstr ""
-"<b>Nét ngoài</b>"
+msgstr "<b>Nét ngoài</b>"
 
 #: ../goffice/graph/gog-style-prefs.glade.h:5
 msgid "B_rightness:"
@@ -1979,7 +1920,8 @@ msgid ""
 "Bicolor gradient\n"
 "Unicolor gradient\n"
 "Image"
-msgstr "Không có\n"
+msgstr ""
+"Không có\n"
 "Mẫu\n"
 "Dải màu đôi\n"
 "Dải màu đơn\n"
@@ -2011,13 +1953,11 @@ msgstr "Hướn_g:"
 
 #: ../goffice/graph/gog-style-prefs.glade.h:18
 msgid "_Fill:"
-msgstr ""
-"_Tô đầy:"
+msgstr "_Tô đầy:"
 
 #: ../goffice/graph/gog-style-prefs.glade.h:19
 msgid "_Fit:"
-msgstr ""
-"_Vừa:"
+msgstr "_Vừa:"
 
 #: ../goffice/graph/gog-style-prefs.glade.h:20
 msgid "_Foreground:"
@@ -2033,22 +1973,21 @@ msgstr "_Chọn..."
 
 #: ../goffice/graph/gog-style-prefs.glade.h:23
 msgid "_Size:"
-msgstr ""
-"_Cỡ :"
+msgstr "_Cỡ :"
 
 #: ../goffice/graph/gog-style-prefs.glade.h:26
 msgid ""
 "stretched\n"
 "wallpaper"
-msgstr "dãn ra\n"
+msgstr ""
+"dãn ra\n"
 "ảnh nền"
 
 #: ../goffice/graph/gog-style.c:180
 #: ../goffice/gtk/goffice-gtk.c:455
 #, c-format
 msgid "%d x %d"
-msgstr ""
-"%d × %d"
+msgstr "%d × %d"
 
 #: ../goffice/graph/gog-style.c:629
 msgid "Start:"
@@ -2060,8 +1999,7 @@ msgstr "Cuối:"
 
 #: ../goffice/graph/gog-style.c:632
 msgid "Foreground:"
-msgstr ""
-"Cảnh gần:"
+msgstr "Cảnh gần:"
 
 #: ../goffice/graph/gog-style.c:633
 msgid "Background:"
@@ -2069,14 +2007,12 @@ msgstr "Nền:"
 
 #: ../goffice/graph/gog-style.c:841
 msgid "Markers"
-msgstr ""
-"Dấu hiệu"
+msgstr "Dấu hiệu"
 
 #: ../goffice/graph/gog-style.c:1004
 #: ../goffice/graph/gog-styled-object.c:161
 msgid "Style"
-msgstr ""
-"Kiểu dáng"
+msgstr "Kiểu dáng"
 
 #: ../goffice/graph/gog-styled-object.c:162
 msgid "A pointer to the GogStyle object"
@@ -2106,8 +2042,7 @@ msgstr "Đổi cỡ đối tượng"
 
 #: ../goffice/graph/gog-view.c:591
 msgid "Parent"
-msgstr ""
-"Cha"
+msgstr "Cha"
 
 #: ../goffice/graph/gog-view.c:592
 msgid "the GogView parent"
@@ -2119,8 +2054,7 @@ msgstr "Đối tượng GogObject ô xem này hiển thị"
 
 #: ../goffice/gtk/go-action-combo-text.c:249
 msgid "Case Sensitive"
-msgstr ""
-"Phân biệt chữ hoa/thường"
+msgstr "Phân biệt chữ hoa/thường"
 
 #: ../goffice/gtk/go-action-combo-text.c:250
 msgid "Should the text comparison be case sensitive"
@@ -2140,8 +2074,7 @@ msgstr "Vùng Trung Âu"
 
 #: ../goffice/gtk/go-charmap-sel.c:77
 msgid "Chinese"
-msgstr ""
-"Trung Quốc"
+msgstr "Trung Quốc"
 
 #: ../goffice/gtk/go-charmap-sel.c:78
 msgid "Cyrillic"
@@ -2177,8 +2110,7 @@ msgstr "Unicode"
 
 #: ../goffice/gtk/go-charmap-sel.c:86
 msgid "Vietnamese"
-msgstr ""
-"Việt"
+msgstr "Việt"
 
 #: ../goffice/gtk/go-charmap-sel.c:87
 msgid "Western"
@@ -2231,8 +2163,7 @@ msgstr "Ban-tích (ISO-8859-4)"
 
 #: ../goffice/gtk/go-charmap-sel.c:130
 msgid "Baltic (Windows-1257)"
-msgstr ""
-"Ban-tích (Windows-1257)"
+msgstr "Ban-tích (Windows-1257)"
 
 #: ../goffice/gtk/go-charmap-sel.c:131
 msgid "Celtic (ISO-8859-14)"
@@ -2244,8 +2175,7 @@ msgstr "Vùng Trung Âu (IBM-852)"
 
 #: ../goffice/gtk/go-charmap-sel.c:133
 msgid "Central European (ISO-8859-2)"
-msgstr ""
-"Vùng Trung Âu (ISO-8859-2)"
+msgstr "Vùng Trung Âu (ISO-8859-2)"
 
 #: ../goffice/gtk/go-charmap-sel.c:134
 msgid "Central European (MacCE)"
@@ -2253,8 +2183,7 @@ msgstr "Vùng Trung Âu (MacCE)"
 
 #: ../goffice/gtk/go-charmap-sel.c:135
 msgid "Central European (Windows-1250)"
-msgstr ""
-"Vùng Trung Âu (Windows-1250)"
+msgstr "Vùng Trung Âu (Windows-1250)"
 
 #: ../goffice/gtk/go-charmap-sel.c:136
 msgid "Chinese Simplified (GB18030)"
@@ -2298,8 +2227,7 @@ msgstr "Ki-rin (IBM-855)"
 
 #: ../goffice/gtk/go-charmap-sel.c:146
 msgid "Cyrillic (ISO-8859-5)"
-msgstr ""
-"Ki-rin (ISO-8859-5)"
+msgstr "Ki-rin (ISO-8859-5)"
 
 #: ../goffice/gtk/go-charmap-sel.c:147
 msgid "Cyrillic (ISO-IR-111)"
@@ -2307,8 +2235,7 @@ msgstr "Ki-rin (ISO-IR-111)"
 
 #: ../goffice/gtk/go-charmap-sel.c:148
 msgid "Cyrillic (KOI8-R)"
-msgstr ""
-"Ki-rin (KOI8-R)"
+msgstr "Ki-rin (KOI8-R)"
 
 #: ../goffice/gtk/go-charmap-sel.c:149
 msgid "Cyrillic (MacCyrillic)"
@@ -2316,8 +2243,7 @@ msgstr "Ki-rin (MacCyrillic)"
 
 #: ../goffice/gtk/go-charmap-sel.c:150
 msgid "Cyrillic (Windows-1251)"
-msgstr ""
-"Ki-rin (Windows-1251)"
+msgstr "Ki-rin (Windows-1251)"
 
 #: ../goffice/gtk/go-charmap-sel.c:151
 msgid "Russian (CP-866)"
@@ -2481,8 +2407,7 @@ msgstr "Unicode (UTF-32LE)"
 
 #: ../goffice/gtk/go-charmap-sel.c:191
 msgid "User Defined"
-msgstr ""
-"Tự xác định"
+msgstr "Tự xác định"
 
 #: ../goffice/gtk/go-charmap-sel.c:192
 msgid "Vietnamese (TCVN)"
@@ -2506,12 +2431,11 @@ msgstr "Do Thái trực quan (ISO-8859-8)"
 
 #: ../goffice/gtk/go-charmap-sel.c:197
 msgid "Western (IBM-850)"
-msgstr "Phương Tay (IBM-850)"
+msgstr "Phương Tây (IBM-850)"
 
 #: ../goffice/gtk/go-charmap-sel.c:198
 msgid "Western (ISO-8859-1)"
-msgstr ""
-"Phương Tây (ISO-8859-1)"
+msgstr "Phương Tây (ISO-8859-1)"
 
 #: ../goffice/gtk/go-charmap-sel.c:199
 msgid "Western (ISO-8859-15)"
@@ -2523,8 +2447,7 @@ msgstr "Phương Tây (MacRoman)"
 
 #: ../goffice/gtk/go-charmap-sel.c:201
 msgid "Western (Windows-1252)"
-msgstr ""
-"Phương Tây (Windows-1252)"
+msgstr "Phương Tây (Windows-1252)"
 
 #: ../goffice/gtk/go-charmap-sel.c:419
 msgid "Locale: "
@@ -2561,8 +2484,7 @@ msgstr "xanh hải quân"
 #: ../goffice/gtk/go-color-palette.c:85
 #: ../goffice/gtk/go-color-palette.c:137
 msgid "dark blue"
-msgstr ""
-"xanh sẫm"
+msgstr "xanh sẫm"
 
 #: ../goffice/gtk/go-color-palette.c:86
 msgid "purple #2"
@@ -2587,8 +2509,7 @@ msgstr "vàng kim"
 
 #: ../goffice/gtk/go-color-palette.c:92
 msgid "dark green"
-msgstr ""
-"lục thẫm"
+msgstr "lục thẫm"
 
 #: ../goffice/gtk/go-color-palette.c:93
 #: ../goffice/gtk/go-color-palette.c:143
@@ -2598,8 +2519,7 @@ msgstr "xanh xỉn"
 #: ../goffice/gtk/go-color-palette.c:94
 #: ../goffice/gtk/go-color-palette.c:144
 msgid "blue"
-msgstr ""
-"xanh"
+msgstr "xanh"
 
 #: ../goffice/gtk/go-color-palette.c:95
 msgid "dull purple"
@@ -2658,8 +2578,7 @@ msgstr "vàng"
 
 #: ../goffice/gtk/go-color-palette.c:110
 msgid "green"
-msgstr ""
-"lục"
+msgstr "lục"
 
 #: ../goffice/gtk/go-color-palette.c:111
 #: ../goffice/gtk/go-color-palette.c:140
@@ -2677,8 +2596,7 @@ msgstr "tím đỏ"
 
 #: ../goffice/gtk/go-color-palette.c:114
 msgid "light gray"
-msgstr ""
-"xám nhạt"
+msgstr "xám nhạt"
 
 #: ../goffice/gtk/go-color-palette.c:116
 #: ../goffice/gtk/go-color-palette.c:133
@@ -2705,8 +2623,7 @@ msgstr "xanh lông mòng sáng"
 #: ../goffice/gtk/go-color-palette.c:121
 #: ../goffice/gtk/go-color-palette.c:131
 msgid "light blue"
-msgstr ""
-"xanh nhạt"
+msgstr "xanh nhạt"
 
 #: ../goffice/gtk/go-color-palette.c:122
 #: ../goffice/gtk/go-color-palette.c:135
@@ -2749,8 +2666,7 @@ msgstr "Thêm mục tách rời vào trình đơn"
 
 #: ../goffice/gtk/go-combo-box.c:261
 msgid "Whether dropdowns should have a tearoff menu item"
-msgstr ""
-"Trình đơn thả xuống nên có mục trình đơn tách rời không"
+msgstr "Trình đơn thả xuống nên có mục trình đơn tách rời không"
 
 #: ../goffice/gtk/go-dock-item-grip.c:261
 msgid "Dock the toolbar"
@@ -2809,8 +2725,7 @@ msgstr "*"
 
 #: ../goffice/gtk/go-font-sel.glade.h:2
 msgid "Font style:"
-msgstr ""
-"Kiểu phông:"
+msgstr "Kiểu phông:"
 
 #: ../goffice/gtk/go-font-sel.glade.h:3
 msgid "Font:"
@@ -2822,8 +2737,7 @@ msgstr "Xem thử"
 
 #: ../goffice/gtk/go-font-sel.glade.h:5
 msgid "Size:"
-msgstr ""
-"Cỡ :"
+msgstr "Cỡ :"
 
 #: ../goffice/gtk/go-format-sel.c:69
 msgid "Number"
@@ -2843,8 +2757,7 @@ msgstr "Ngày"
 
 #: ../goffice/gtk/go-format-sel.c:73
 msgid "Time"
-msgstr ""
-"Giờ"
+msgstr "Giờ"
 
 #: ../goffice/gtk/go-format-sel.c:74
 msgid "Percentage"
@@ -2876,8 +2789,7 @@ msgstr "Định dạng số"
 
 #: ../goffice/gtk/go-format-sel.glade.h:1
 msgid "Ca_tegories:"
-msgstr ""
-"L_oại:"
+msgstr "L_oại:"
 
 #: ../goffice/gtk/go-format-sel.glade.h:2
 msgid "Deci_mal places:"
@@ -2913,8 +2825,7 @@ msgstr "Hiển thị giá trị theo số xấp xỉ phân số gần nhất."
 
 #: ../goffice/gtk/go-format-sel.glade.h:10
 msgid "Display values as percentages."
-msgstr ""
-"Hiển thị giá trị theo phần trăm."
+msgstr "Hiển thị giá trị theo phần trăm."
 
 #: ../goffice/gtk/go-format-sel.glade.h:11
 msgid "Display values with power-of-ten scaling."
@@ -2922,8 +2833,7 @@ msgstr "Hiển thị giá trị theo tỷ lệ mười lũy thừa."
 
 #: ../goffice/gtk/go-format-sel.glade.h:12
 msgid "Format c_ode:"
-msgstr ""
-"Định dạng _mã:"
+msgstr "Định dạng _mã:"
 
 #: ../goffice/gtk/go-format-sel.glade.h:13
 msgid "Negative number _format:"
@@ -2951,8 +2861,7 @@ msgstr "Xác định trực tiếp định dạng kiểu XL"
 
 #: ../goffice/gtk/go-format-sel.glade.h:19
 msgid "Use _superscript"
-msgstr ""
-"Hiển thị chữ c_ao"
+msgstr "Hiển thị chữ c_ao"
 
 #: ../goffice/gtk/go-format-sel.glade.h:20
 msgid "Use superscript for exponent (e.g. 4×10²)"
@@ -2972,8 +2881,7 @@ msgstr "Cách ghi _kỹ thuật"
 
 #: ../goffice/gtk/go-format-sel.glade.h:24
 msgid "_Format:"
-msgstr ""
-"Định _dạng:"
+msgstr "Định _dạng:"
 
 #: ../goffice/gtk/go-format-sel.glade.h:25
 msgid "_Use separator for 1000s"
@@ -3037,7 +2945,7 @@ msgstr "Tiếng Anh (Mỹ) (C)"
 
 #: ../goffice/gtk/go-locale-sel.c:103
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr "Hoà Nam Phi (af_ZA)"
+msgstr "Ha Lan Nam Phi (af_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:104
 msgid "Ethiopia/Amharic (am_ET)"
@@ -3045,13 +2953,11 @@ msgstr "Am-ha-ri (am_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:105
 msgid "United Arab Emirates (ar_AE)"
-msgstr ""
-"Các Tiểu Vương Quốc A Rập Thống Nhất (ar_AE)"
+msgstr "Các Tiểu Vương Quốc A Rập Thống Nhất (ar_AE)"
 
 #: ../goffice/gtk/go-locale-sel.c:106
 msgid "Bahrain (ar_BH)"
-msgstr ""
-"Bah-rainh (ar_BH)"
+msgstr "Bah-rainh (ar_BH)"
 
 #: ../goffice/gtk/go-locale-sel.c:107
 msgid "Algeria (ar_DZ)"
@@ -3079,8 +2985,7 @@ msgstr "Cu-ouai-th (ar_KW)"
 
 #: ../goffice/gtk/go-locale-sel.c:113
 msgid "Lebanon (ar_LB)"
-msgstr ""
-"Le-ba-non (ar_LB)"
+msgstr "Le-ba-non (ar_LB)"
 
 #: ../goffice/gtk/go-locale-sel.c:114
 msgid "Libya (ar_LY)"
@@ -3088,8 +2993,7 @@ msgstr "Li-bia (ar_LY)"
 
 #: ../goffice/gtk/go-locale-sel.c:115
 msgid "Morocco (ar_MA)"
-msgstr ""
-"Ma Rốc (ar_MA)"
+msgstr "Ma Rốc (ar_MA)"
 
 #: ../goffice/gtk/go-locale-sel.c:116
 msgid "Oman (ar_OM)"
@@ -3101,8 +3005,7 @@ msgstr "Ca-tă (ar_QA)"
 
 #: ../goffice/gtk/go-locale-sel.c:118
 msgid "Saudi Arabia (ar_SA)"
-msgstr ""
-"A Rập Xau-đi (ar_SA)"
+msgstr "A Rập Xau-đi (ar_SA)"
 
 #: ../goffice/gtk/go-locale-sel.c:119
 msgid "Sudan (ar_SD)"
@@ -3114,8 +3017,7 @@ msgstr "Xy-ri (ar_SY)"
 
 #: ../goffice/gtk/go-locale-sel.c:121
 msgid "Tunisia (ar_TN)"
-msgstr ""
-"Tu-ni-xi-a (ar_TN)"
+msgstr "Tu-ni-xi-a (ar_TN)"
 
 #: ../goffice/gtk/go-locale-sel.c:122
 msgid "Yemen (ar_YE)"
@@ -3127,18 +3029,15 @@ msgstr "A-dơ-bai-gianh (az_AZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:124
 msgid "Belarus (be_BY)"
-msgstr ""
-"Be-la-ru-xợ (be_BY)"
+msgstr "Be-la-ru-xợ (be_BY)"
 
 #: ../goffice/gtk/go-locale-sel.c:125
 msgid "Bulgaria (bg_BG)"
-msgstr ""
-"Bun-ga-ri (bg_BG)"
+msgstr "Bun-ga-ri (bg_BG)"
 
 #: ../goffice/gtk/go-locale-sel.c:126
 msgid "Bangladesh (bn_BD)"
-msgstr ""
-"Băng-la-đe-xợ (bn_BD)"
+msgstr "Băng-la-đe-xợ (bn_BD)"
 
 #: ../goffice/gtk/go-locale-sel.c:127
 msgid "India/Bengali (bn_IN)"
@@ -3158,8 +3057,7 @@ msgstr "Ca-ta-lan (ca_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:131
 msgid "Czech Republic (cs_CZ)"
-msgstr ""
-"Cộng Hoà Séc (cs_CZ)"
+msgstr "Cộng Hoà Séc (cs_CZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:132
 msgid "Great Britain/Welsh (cy_GB)"
@@ -3167,8 +3065,7 @@ msgstr "Ouen-s (cy_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:133
 msgid "Denmark (da_DK)"
-msgstr ""
-"Đan Mạch (da_DK)"
+msgstr "Đan Mạch (da_DK)"
 
 #: ../goffice/gtk/go-locale-sel.c:134
 msgid "Austria (de_AT)"
@@ -3192,8 +3089,7 @@ msgstr "Đức Lúc-xăm-buac (de_LU)"
 
 #: ../goffice/gtk/go-locale-sel.c:139
 msgid "Greece (el_GR)"
-msgstr ""
-"Hy Lạp (el_GR)"
+msgstr "Hy Lạp (el_GR)"
 
 #: ../goffice/gtk/go-locale-sel.c:140
 msgid "Australia (en_AU)"
@@ -3201,8 +3097,7 @@ msgstr "Úc (en_AU)"
 
 #: ../goffice/gtk/go-locale-sel.c:141
 msgid "Botswana (en_BW)"
-msgstr ""
-"Bốt-xoă-na (en_BW)"
+msgstr "Bốt-xoă-na (en_BW)"
 
 #: ../goffice/gtk/go-locale-sel.c:142
 msgid "Canada/English (en_CA)"
@@ -3218,8 +3113,7 @@ msgstr "Anh Hồng Kông (en_HK)"
 
 #: ../goffice/gtk/go-locale-sel.c:145
 msgid "Ireland (en_IE)"
-msgstr ""
-"Ai-len (en_IE)"
+msgstr "Ai-len (en_IE)"
 
 #: ../goffice/gtk/go-locale-sel.c:146
 msgid "India/English (en_IN)"
@@ -3227,13 +3121,11 @@ msgstr "Anh Ấn Độ (en_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:147
 msgid "New Zealand (en_NZ)"
-msgstr ""
-"Anh Niu Xi-lân (en_NZ)"
+msgstr "Anh Niu Xi-lân (en_NZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:148
 msgid "Philippines (en_PH)"
-msgstr ""
-"Phi Luật Tân (en_PH)"
+msgstr "Phi Luật Tân (en_PH)"
 
 #: ../goffice/gtk/go-locale-sel.c:149
 msgid "Singapore/English (en_SG)"
@@ -3249,8 +3141,7 @@ msgstr "Anh Nam Phi (en_ZA)"
 
 #: ../goffice/gtk/go-locale-sel.c:152
 msgid "Zimbabwe (en_ZW)"
-msgstr ""
-"Xim-ba-buê (en_ZW)"
+msgstr "Xim-ba-buê (en_ZW)"
 
 #: ../goffice/gtk/go-locale-sel.c:153
 msgid "Esperanto (eo_EO)"
@@ -3258,8 +3149,7 @@ msgstr "Etpêrantô (eo_EO)"
 
 #: ../goffice/gtk/go-locale-sel.c:154
 msgid "Argentina (es_AR)"
-msgstr ""
-"Ác-hen-ti-na (es_AR)"
+msgstr "Ác-hen-ti-na (es_AR)"
 
 #: ../goffice/gtk/go-locale-sel.c:155
 msgid "Bolivia (es_BO)"
@@ -3279,13 +3169,11 @@ msgstr "Cốt-x-tha Ri-ca (es_CR)"
 
 #: ../goffice/gtk/go-locale-sel.c:159
 msgid "Dominican Republic (es_DO)"
-msgstr ""
-"Cộng Hoà Đô-mi-ni-cạ (es_DO)"
+msgstr "Cộng Hoà Đô-mi-ni-cạ (es_DO)"
 
 #: ../goffice/gtk/go-locale-sel.c:160
 msgid "Ecuador (es_EC)"
-msgstr ""
-"Ê-cu-a-đoa (es_EC)"
+msgstr "Ê-cu-a-đoa (es_EC)"
 
 #: ../goffice/gtk/go-locale-sel.c:161
 msgid "Spain (es_ES)"
@@ -3297,8 +3185,7 @@ msgstr "Gua-tê-ma-la (es_GT)"
 
 #: ../goffice/gtk/go-locale-sel.c:163
 msgid "Honduras (es_HN)"
-msgstr ""
-"Hôn-đu-rát (es_HN)"
+msgstr "Hôn-đu-rát (es_HN)"
 
 #: ../goffice/gtk/go-locale-sel.c:164
 msgid "Mexico (es_MX)"
@@ -3310,8 +3197,7 @@ msgstr "Ni-ca-ra-gua (es_NI)"
 
 #: ../goffice/gtk/go-locale-sel.c:166
 msgid "Panama (es_PA)"
-msgstr ""
-"Pa-na-ma (es_PA)"
+msgstr "Pa-na-ma (es_PA)"
 
 #: ../goffice/gtk/go-locale-sel.c:167
 msgid "Peru (es_PE)"
@@ -3319,18 +3205,15 @@ msgstr "Pe-ru (es_PE)"
 
 #: ../goffice/gtk/go-locale-sel.c:168
 msgid "Puerto Rico (es_PR)"
-msgstr ""
-"Pu-e-tô Ri-cô (es_PR)"
+msgstr "Pu-e-tô Ri-cô (es_PR)"
 
 #: ../goffice/gtk/go-locale-sel.c:169
 msgid "Paraguay (es_PY)"
-msgstr ""
-"Pa-ra-guay (es_PY)"
+msgstr "Pa-ra-guay (es_PY)"
 
 #: ../goffice/gtk/go-locale-sel.c:170
 msgid "El Salvador (es_SV)"
-msgstr ""
-"En-xan-va-đoa (es_SV)"
+msgstr "En-xan-va-đoa (es_SV)"
 
 #: ../goffice/gtk/go-locale-sel.c:171
 msgid "United States/Spanish (es_US)"
@@ -3342,13 +3225,11 @@ msgstr "U-ru-guay (es_UY)"
 
 #: ../goffice/gtk/go-locale-sel.c:173
 msgid "Venezuela (es_VE)"
-msgstr ""
-"Vê-nê-xu-ê-la (es_VE)"
+msgstr "Vê-nê-xu-ê-la (es_VE)"
 
 #: ../goffice/gtk/go-locale-sel.c:174
 msgid "Estonia (et_EE)"
-msgstr ""
-"E-x-tô-ni-a (et_EE)"
+msgstr "E-x-tô-ni-a (et_EE)"
 
 #: ../goffice/gtk/go-locale-sel.c:175
 msgid "Spain/Basque (eu_ES)"
@@ -3364,8 +3245,7 @@ msgstr "Phần Lan (fi_FI)"
 
 #: ../goffice/gtk/go-locale-sel.c:178
 msgid "Faroe Islands (fo_FO)"
-msgstr ""
-"Quần Đảo Pha-rô (fo_FO)"
+msgstr "Quần Đảo Pha-rô (fo_FO)"
 
 #: ../goffice/gtk/go-locale-sel.c:179
 msgid "Belgium/French (fr_BE)"
@@ -3409,8 +3289,7 @@ msgstr "Cợ-rô-a-ti-a (hr_HR)"
 
 #: ../goffice/gtk/go-locale-sel.c:189
 msgid "Hungary (hu_HU)"
-msgstr ""
-"Hun-ga-ri (hu_HU)"
+msgstr "Hun-ga-ri (hu_HU)"
 
 #: ../goffice/gtk/go-locale-sel.c:190
 msgid "Armenia (hy_AM)"
@@ -3422,12 +3301,11 @@ msgstr "(i18n)"
 
 #: ../goffice/gtk/go-locale-sel.c:192
 msgid "Indonesia (id_ID)"
-msgstr "Nam Dương (id_ID)"
+msgstr "Indonesia (id_ID)"
 
 #: ../goffice/gtk/go-locale-sel.c:193
 msgid "Iceland (is_IS)"
-msgstr ""
-"Băng Đảo (is_IS)"
+msgstr "Băng Đảo (is_IS)"
 
 #: ../goffice/gtk/go-locale-sel.c:194
 msgid "(iso14651_t1)"
@@ -3455,8 +3333,7 @@ msgstr "Gi-oa-gi-a (ka_GE)"
 
 #: ../goffice/gtk/go-locale-sel.c:200
 msgid "Greenland (kl_GL)"
-msgstr ""
-"Đảo Băng (kl_GL)"
+msgstr "Đảo Băng (kl_GL)"
 
 #: ../goffice/gtk/go-locale-sel.c:201
 msgid "Korea (ko_KR)"
@@ -3476,8 +3353,7 @@ msgstr "Lát-vi-a (lv_LV)"
 
 #: ../goffice/gtk/go-locale-sel.c:205
 msgid "New Zealand/Maori (mi_NZ)"
-msgstr ""
-"Mao-ri (mi_NZ)"
+msgstr "Mao-ri (mi_NZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:206
 msgid "Macedonia (mk_MK)"
@@ -3489,8 +3365,7 @@ msgstr "Ma-ra-ti (mr_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:208
 msgid "Malaysia (ms_MY)"
-msgstr ""
-"Mã Lai (ms_MY)"
+msgstr "Mã Lai (ms_MY)"
 
 #: ../goffice/gtk/go-locale-sel.c:209
 msgid "Malta (mt_MT)"
@@ -3498,11 +3373,11 @@ msgstr "Man-tơ (mt_MT)"
 
 #: ../goffice/gtk/go-locale-sel.c:210
 msgid "Belgium/Flemish (nl_BE)"
-msgstr "Hoà Bỉ (nl_BE)"
+msgstr "Ha Lan Bỉ (nl_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:211
 msgid "The Netherlands (nl_NL)"
-msgstr "Hoà (nl_NL)"
+msgstr "Ha Lan (nl_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:212
 msgid "Norway/Nynorsk (nn_NO)"
@@ -3518,8 +3393,7 @@ msgstr "Ô-xi-tan (oc_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:215
 msgid "Poland (pl_PL)"
-msgstr ""
-"Ba Lan (pl_PL)"
+msgstr "Ba Lan (pl_PL)"
 
 #: ../goffice/gtk/go-locale-sel.c:216
 msgid "Brazil (pt_BR)"
@@ -3579,8 +3453,7 @@ msgstr "Te-lu-gu (te_IN)"
 
 #: ../goffice/gtk/go-locale-sel.c:230
 msgid "Tajikistan (tg_TJ)"
-msgstr ""
-"Ta-gí-khi-x-thanh (tg_TJ)"
+msgstr "Ta-gí-khi-x-thanh (tg_TJ)"
 
 #: ../goffice/gtk/go-locale-sel.c:231
 msgid "Thailand (th_TH)"
@@ -3612,13 +3485,11 @@ msgstr "U-cợ-rainh (uk_UA)"
 
 #: ../goffice/gtk/go-locale-sel.c:238
 msgid "Pakistan (ur_PK)"
-msgstr ""
-"Pa-ki-x-thănh (ur_PK)"
+msgstr "Pa-ki-x-thănh (ur_PK)"
 
 #: ../goffice/gtk/go-locale-sel.c:239
 msgid "Uzbekistan (uz_UZ)"
-msgstr ""
-"U-xơ-bê-ki-x-tanh (uz_UZ)"
+msgstr "U-xơ-bê-ki-x-tanh (uz_UZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:240
 msgid "Vietnam (vi_VN)"
@@ -3658,8 +3529,7 @@ msgstr "Trình đơn"
 
 #: ../goffice/gtk/go-optionmenu.c:416
 msgid "The menu of options"
-msgstr ""
-"Trình đơn các tùy chọn"
+msgstr "Trình đơn các tùy chọn"
 
 #: ../goffice/gtk/go-palette.c:437
 msgid "Custom..."
@@ -3703,15 +3573,16 @@ msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 msgstr ""
-"Phần mở rộng tập tin cho trước không khớp với kiểu tập tin đã chọn. Bạn vẫn còn có "
-"muốn dùng tên này không?"
+"Phần mở rộng tập tin cho trước không khớp với kiểu tập tin đã chọn. Bạn vẫn "
+"còn có muốn dùng tên này không?"
 
 #: ../goffice/gtk/goffice-gtk.c:882
 #, c-format
 msgid ""
 "%s\n"
 "is a directory name"
-msgstr "%s\n"
+msgstr ""
+"%s\n"
 "là tên thư mục"
 
 #: ../goffice/gtk/goffice-gtk.c:886
@@ -3719,7 +3590,8 @@ msgstr "%s\n"
 msgid ""
 "You do not have permission to save to\n"
 "%s"
-msgstr "Bạn không có quyền lưu vào\n"
+msgstr ""
+"Bạn không có quyền lưu vào\n"
 "%s"
 
 #: ../goffice/gtk/goffice-gtk.c:893
@@ -3728,7 +3600,8 @@ msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
 "\n"
 "Do you want to save over it?"
-msgstr "Tập tin tên « %s » đã có trong %s.\n"
+msgstr ""
+"Tập tin tên « %s » đã có trong %s.\n"
 "\n"
 "Bạn có muốn lưu đè lên nó không?"
 
@@ -3739,13 +3612,11 @@ msgstr "Tập tin tên « %s » đã có trong %s.\n"
 #.
 #. 2002/08/04 Updated to match iso 4217
 msgid "United Arab Emirates, Dirhams"
-msgstr ""
-"Đồng đơ-âm UAE"
+msgstr "Đồng đơ-âm UAE"
 
 #: ../goffice/utils/formats.c:323
 msgid "Afghanistan, Afghanis"
-msgstr ""
-"Đồng Ap-ga-ni"
+msgstr "Đồng Ap-ga-ni"
 
 #: ../goffice/utils/formats.c:324
 msgid "Albania, Leke"
@@ -3753,23 +3624,19 @@ msgstr "Đồng Léc An-ba-ni"
 
 #: ../goffice/utils/formats.c:325
 msgid "Armenia, Drams"
-msgstr ""
-"Đồng Đơ-ram Ac-mê-ni"
+msgstr "Đồng Đơ-ram Ac-mê-ni"
 
 #: ../goffice/utils/formats.c:326
 msgid "Netherlands Antilles, Guilders"
-msgstr ""
-"Đồng guin-đơn An-ti-li Hòa Lan"
+msgstr "Đồng guin-đơn An-ti-li Hòa Lan"
 
 #: ../goffice/utils/formats.c:327
 msgid "Angola, Kwanza"
-msgstr ""
-"Đồng Cou-ăn-xa An-gô-la"
+msgstr "Đồng Cou-ăn-xa An-gô-la"
 
 #: ../goffice/utils/formats.c:328
 msgid "Argentina, Pesos"
-msgstr ""
-"Đồng Pê-xô Á-căn-đình"
+msgstr "Đồng Pê-xô Á-căn-đình"
 
 #: ../goffice/utils/formats.c:329
 msgid "Australia, Dollars"
@@ -3781,23 +3648,19 @@ msgstr "Đồng guin-đơn A-ru-ba"
 
 #: ../goffice/utils/formats.c:331
 msgid "Azerbaijan, Manats"
-msgstr ""
-"Đồng Ma-nát Ai-xơ-bai-gianh"
+msgstr "Đồng Ma-nát Ai-xơ-bai-gianh"
 
 #: ../goffice/utils/formats.c:332
 msgid "Bosnia and Herzegovina, Convertible Marka"
-msgstr ""
-"Đồng Mác có thể chuyển đổi của Bô-x-ni-a và Héc-xê-gô-vi-na"
+msgstr "Đồng Mác có thể chuyển đổi của Bô-x-ni-a và Héc-xê-gô-vi-na"
 
 #: ../goffice/utils/formats.c:333
 msgid "Barbados, Dollars"
-msgstr ""
-"Đô-la Ba-bê-đoxơ"
+msgstr "Đô-la Ba-bê-đoxơ"
 
 #: ../goffice/utils/formats.c:334
 msgid "Bangladesh, Taka"
-msgstr ""
-"Đồng Tha-ca Bang-la-dexợ"
+msgstr "Đồng Tha-ca Bang-la-dexợ"
 
 #: ../goffice/utils/formats.c:335
 msgid "Bulgaria, Leva"
@@ -3805,23 +3668,19 @@ msgstr "Đồng Lév Bảo Gia Lơi"
 
 #: ../goffice/utils/formats.c:336
 msgid "Bahrain, Dinars"
-msgstr ""
-"Đồng Đi-nă Ba-rê-ni"
+msgstr "Đồng Đi-nă Ba-rê-ni"
 
 #: ../goffice/utils/formats.c:337
 msgid "Burundi, Francs"
-msgstr ""
-"Đồng frăng Bu-run-đi"
+msgstr "Đồng frăng Bu-run-đi"
 
 #: ../goffice/utils/formats.c:338
 msgid "Bermuda, Dollars"
-msgstr ""
-"Đô-la Bơ-mu-đa"
+msgstr "Đô-la Bơ-mu-đa"
 
 #: ../goffice/utils/formats.c:339
 msgid "Brunei Darussalam, Dollars"
-msgstr ""
-"Đô-la Bơ-ru-nei"
+msgstr "Đô-la Bơ-ru-nei"
 
 #: ../goffice/utils/formats.c:340
 msgid "Bolivia, Bolivianos"
@@ -3841,13 +3700,11 @@ msgstr "Đồng Ngun-trum Bu-tanh"
 
 #: ../goffice/utils/formats.c:344
 msgid "Botswana, Pulas"
-msgstr ""
-"Đồng Pu-la Bót-xouă-na"
+msgstr "Đồng Pu-la Bót-xouă-na"
 
 #: ../goffice/utils/formats.c:345
 msgid "Belarus, Rubles"
-msgstr ""
-"Đồng Rúp Be-la-ruxợ"
+msgstr "Đồng Rúp Be-la-ruxợ"
 
 #: ../goffice/utils/formats.c:346
 msgid "Belize, Dollars"
@@ -3863,8 +3720,7 @@ msgstr "Đồng Frăng Con-gô"
 
 #: ../goffice/utils/formats.c:349
 msgid "Switzerland, Francs"
-msgstr ""
-"Đồng Frăng Thuỵ Sĩ"
+msgstr "Đồng Frăng Thuỵ Sĩ"
 
 #: ../goffice/utils/formats.c:350
 msgid "Chile, Pesos"
@@ -3896,23 +3752,19 @@ msgstr "Đồng bảng Síp"
 
 #: ../goffice/utils/formats.c:357
 msgid "Czech Republic, Koruny"
-msgstr ""
-"Đồng Ko-ru-na Séc"
+msgstr "Đồng Ko-ru-na Séc"
 
 #: ../goffice/utils/formats.c:358
 msgid "Djibouti, Francs"
-msgstr ""
-"Đồng Frăng Gi-bou-ti"
+msgstr "Đồng Frăng Gi-bou-ti"
 
 #: ../goffice/utils/formats.c:359
 msgid "Denmark, Kroner"
-msgstr ""
-"Đồng Cơ-rô-ne Đan Mạch"
+msgstr "Đồng Cơ-rô-ne Đan Mạch"
 
 #: ../goffice/utils/formats.c:360
 msgid "Dominican Republic, Pesos"
-msgstr ""
-"Đồng Pê-sô Đo-mi-ni-ca"
+msgstr "Đồng Pê-sô Đo-mi-ni-ca"
 
 #: ../goffice/utils/formats.c:361
 msgid "Algeria, Algeria Dinars"
@@ -3932,8 +3784,7 @@ msgstr "Đồng Nac-pha Ê-ri-tơ-rê-a"
 
 #: ../goffice/utils/formats.c:365
 msgid "Ethiopia, Birr"
-msgstr ""
-"Đông Bi-rợ Ê-ti-ô-pi"
+msgstr "Đông Bi-rợ Ê-ti-ô-pi"
 
 #: ../goffice/utils/formats.c:366
 msgid "Euro Member Countries, Euro"
@@ -3949,8 +3800,7 @@ msgstr "Đồng bảng Đảo Phoa-kh-lận-đh"
 
 #: ../goffice/utils/formats.c:369
 msgid "United Kingdom, Pounds"
-msgstr ""
-"Đồng bảng Quốc Anh"
+msgstr "Đồng bảng Anh"
 
 #: ../goffice/utils/formats.c:370
 msgid "Georgia, Lari"
@@ -3966,8 +3816,7 @@ msgstr "Đồng Xê-đi Gha-na"
 
 #: ../goffice/utils/formats.c:373
 msgid "Gibraltar, Pounds"
-msgstr ""
-"Đồng bảng Gi-boa-tha"
+msgstr "Đồng bảng Gi-boa-tha"
 
 #: ../goffice/utils/formats.c:374
 msgid "Gambia, Dalasi"
@@ -3987,8 +3836,7 @@ msgstr "Đô-la Guy-a-na"
 
 #: ../goffice/utils/formats.c:378
 msgid "Hong Kong, Dollars"
-msgstr ""
-"Đô-la Hồng Kông"
+msgstr "Đô-la Hồng Kông"
 
 #: ../goffice/utils/formats.c:379
 msgid "Honduras, Lempiras"
@@ -4004,12 +3852,11 @@ msgstr "Đồng Guo-đe Ha-i-ti"
 
 #: ../goffice/utils/formats.c:382
 msgid "Hungary, Forint"
-msgstr ""
-"Đồng Pho-rin-th Hung-ga-ri"
+msgstr "Đồng Pho-rin-th Hung-ga-ri"
 
 #: ../goffice/utils/formats.c:383
 msgid "Indonesia, Rupiahs"
-msgstr "Đồng Ru-pi-a Nam Dương"
+msgstr "Đồng Ru-pi-a Indonesia"
 
 #: ../goffice/utils/formats.c:384
 msgid "Israel, New Shekels"
@@ -4017,8 +3864,7 @@ msgstr "Đồng seken Do Thái mới"
 
 #: ../goffice/utils/formats.c:385
 msgid "Isle of Man, Pounds"
-msgstr ""
-"Đồng băng Đảo Man"
+msgstr "Đồng băng Đảo Man"
 
 #: ../goffice/utils/formats.c:386
 msgid "India, Rupees"
@@ -4034,8 +3880,7 @@ msgstr "Đồng Ri-an Ba Tư"
 
 #: ../goffice/utils/formats.c:389
 msgid "Iceland, Kronur"
-msgstr ""
-"Đồng Cơ-rô-na Băng Đảo"
+msgstr "Đồng Cơ-rô-na Băng Đảo"
 
 #: ../goffice/utils/formats.c:390
 msgid "Jersey, Pounds"
@@ -4047,8 +3892,7 @@ msgstr "Đô-la Gia-mê-ca"
 
 #: ../goffice/utils/formats.c:392
 msgid "Jordan, Dinars"
-msgstr ""
-"Đồng Đi-nă Gi-oa-đanh"
+msgstr "Đồng Đi-nă Gi-oa-đanh"
 
 #: ../goffice/utils/formats.c:393
 msgid "Japan, Yen"
@@ -4060,26 +3904,23 @@ msgstr "Đồng Silinh Khi-ni-a"
 
 #: ../goffice/utils/formats.c:395
 msgid "Kyrgyzstan, Soms"
-msgstr ""
-"Đồng Xom Cư-rơ-gư-xtanh"
+msgstr "Đồng Xom Cư-rơ-gư-xtanh"
 
 #: ../goffice/utils/formats.c:396
 msgid "Cambodia, Riels"
-msgstr ""
-"Đồng Ri-en Căm Bốt"
+msgstr "Đồng Ri-en Căm Bốt"
 
 #: ../goffice/utils/formats.c:397
 msgid "Comoros, Francs"
-msgstr ""
-"Đồng Frăng Co-mo-rô"
+msgstr "Đồng Frăng Co-mo-rô"
 
 #: ../goffice/utils/formats.c:398
 msgid "Korea (North), Won"
-msgstr "Đồng Ouonh Bắc Hàn"
+msgstr "Đồng Won Bắc Hàn"
 
 #: ../goffice/utils/formats.c:399
 msgid "Korea (South), Won"
-msgstr "Đồng Ouonh Nam Hàn"
+msgstr "Đồng Won Nam Hàn"
 
 #: ../goffice/utils/formats.c:400
 msgid "Kuwait, Dinars"
@@ -4087,13 +3928,11 @@ msgstr "Đồng Đi-nă Cu-ouai-thi"
 
 #: ../goffice/utils/formats.c:401
 msgid "Cayman Islands, Dollars"
-msgstr ""
-"Đô-la Quần Đảo Cay-manh"
+msgstr "Đô-la Quần Đảo Cay-manh"
 
 #: ../goffice/utils/formats.c:402
 msgid "Kazakstan, Tenge"
-msgstr ""
-"Đồng Ten-ge Ca-xa-kh-x-thanh"
+msgstr "Đồng Ten-ge Ca-xa-kh-x-thanh"
 
 #: ../goffice/utils/formats.c:403
 msgid "Laos, Kips"
@@ -4105,8 +3944,7 @@ msgstr "Đồng Bảng Le-ba-non"
 
 #: ../goffice/utils/formats.c:405
 msgid "Sri Lanka, Rupees"
-msgstr ""
-"Đồng Ru-pi Tích Lan"
+msgstr "Đồng Ru-pi Tích Lan"
 
 #: ../goffice/utils/formats.c:406
 msgid "Liberia, Dollars"
@@ -4114,13 +3952,11 @@ msgstr "Đô-la Li-bê-ri-a"
 
 #: ../goffice/utils/formats.c:407
 msgid "Lesotho, Maloti"
-msgstr ""
-"Đồng Lo-thi Le-so-to"
+msgstr "Đồng Lo-thi Le-so-to"
 
 #: ../goffice/utils/formats.c:408
 msgid "Lithuania, Litai"
-msgstr ""
-"Đồng Li-tax Li-tu-a-ni-a"
+msgstr "Đồng Li-tax Li-tu-a-ni-a"
 
 #: ../goffice/utils/formats.c:409
 msgid "Latvia, Lati"
@@ -4132,13 +3968,11 @@ msgstr "Đồng Đi-nă Lib-i-a"
 
 #: ../goffice/utils/formats.c:411
 msgid "Morocco, Dirhams"
-msgstr ""
-"Đồng Đơ-rậm Mo-ro-cô"
+msgstr "Đồng Đơ-rậm Mo-ro-cô"
 
 #: ../goffice/utils/formats.c:412
 msgid "Moldova, Lei"
-msgstr ""
-"Đồng Leu Moc-đo-vanh"
+msgstr "Đồng Leu Moc-đo-vanh"
 
 #: ../goffice/utils/formats.c:413
 msgid "Madagascar, Malagasy Francs"
@@ -4154,8 +3988,7 @@ msgstr "Đồng Ky-ath Miến Điện"
 
 #: ../goffice/utils/formats.c:416
 msgid "Mongolia, Tugriks"
-msgstr ""
-"Đồng Tu-gơ-rikh Mông Cổ"
+msgstr "Đồng Tu-gơ-rikh Mông Cổ"
 
 #: ../goffice/utils/formats.c:417
 msgid "Macau, Patacas"
@@ -4163,18 +3996,15 @@ msgstr "Đồng Pa-ta-ca Ma-cao"
 
 #: ../goffice/utils/formats.c:418
 msgid "Mauritania, Ouguiyas"
-msgstr ""
-"Đồng Ou-gui-a Mau-ri-ta-ni-a"
+msgstr "Đồng Ou-gui-a Mau-ri-ta-ni-a"
 
 #: ../goffice/utils/formats.c:419
 msgid "Malta, Liri"
-msgstr ""
-"Đồng Li-ra Mantơ"
+msgstr "Đồng Li-ra Mantơ"
 
 #: ../goffice/utils/formats.c:420
 msgid "Mauritius, Rupees"
-msgstr ""
-"Đồng Ru-pi Mau-ri-sợx"
+msgstr "Đồng Ru-pi Mau-ri-sợx"
 
 #: ../goffice/utils/formats.c:421
 msgid "Maldives (Maldive Islands), Rufiyaa"
@@ -4190,23 +4020,19 @@ msgstr "Đồng Pê-sô Mê-hi-cô"
 
 #: ../goffice/utils/formats.c:424
 msgid "Malaysia, Ringgits"
-msgstr ""
-"Đồng Ring-git Ma-lay-si-a"
+msgstr "Đồng Ring-git Ma-lay-si-a"
 
 #: ../goffice/utils/formats.c:425
 msgid "Mozambique, Meticais"
-msgstr ""
-"Đồng Me-ti-can Mo-xam-bi-khợ"
+msgstr "Đồng Me-ti-can Mo-xam-bi-khợ"
 
 #: ../goffice/utils/formats.c:426
 msgid "Namibia, Dollars"
-msgstr ""
-"Đô-la Na-mi-bia"
+msgstr "Đô-la Na-mi-bia"
 
 #: ../goffice/utils/formats.c:427
 msgid "Nigeria, Nairas"
-msgstr ""
-"Đồng Nai-ra Ni-gie-ri-a"
+msgstr "Đồng Nai-ra Ni-gie-ri-a"
 
 #: ../goffice/utils/formats.c:428
 msgid "Nicaragua, Gold Cordobas"
@@ -4222,8 +4048,7 @@ msgstr "Đồng Ru-pi Ne-pan"
 
 #: ../goffice/utils/formats.c:431
 msgid "New Zealand, Dollars"
-msgstr ""
-"Đô-la Niu Xi-lân"
+msgstr "Đô-la Niu Xi-lân"
 
 #: ../goffice/utils/formats.c:432
 msgid "Oman, Rials"
@@ -4231,8 +4056,7 @@ msgstr "Đồng Ri-an O-ma-ni"
 
 #: ../goffice/utils/formats.c:433
 msgid "Panama, Balboa"
-msgstr ""
-"Đồng Ban-bô-a Pa-na-ma"
+msgstr "Đồng Ban-bô-a Pa-na-ma"
 
 #: ../goffice/utils/formats.c:434
 msgid "Peru, Nuevos Soles"
@@ -4240,18 +4064,15 @@ msgstr "Đồng Nu-ê-vô Son Pe-ru"
 
 #: ../goffice/utils/formats.c:435
 msgid "Papua New Guinea, Kina"
-msgstr ""
-"Đồng Khi-na Pa-pu-a Niu Ghi-nê"
+msgstr "Đồng Khi-na Pa-pu-a Niu Ghi-nê"
 
 #: ../goffice/utils/formats.c:436
 msgid "Philippines, Pesos"
-msgstr ""
-"Đồng Pê-sô Phi-li-pi-nô"
+msgstr "Đồng Pê-sô Phi-li-pi-nô"
 
 #: ../goffice/utils/formats.c:437
 msgid "Pakistan, Rupees"
-msgstr ""
-"Đồng Ru-pi Pa-ki-x-thănh"
+msgstr "Đồng Ru-pi Pa-ki-x-thănh"
 
 #: ../goffice/utils/formats.c:438
 msgid "Poland, Zlotys"
@@ -4259,8 +4080,7 @@ msgstr "Đồng Doua-ti Ba Lan"
 
 #: ../goffice/utils/formats.c:439
 msgid "Paraguay, Guarani"
-msgstr ""
-"Đồng Gua-ra-ni Pa-ra-guay"
+msgstr "Đồng Gua-ra-ni Pa-ra-guay"
 
 #: ../goffice/utils/formats.c:440
 msgid "Qatar, Rials"
@@ -4268,8 +4088,7 @@ msgstr "Đồng Ri-an Ca-tă"
 
 #: ../goffice/utils/formats.c:441
 msgid "Romania, Lei"
-msgstr ""
-"Đồng Leu Ru-ma-ni"
+msgstr "Đồng Leu Ru-ma-ni"
 
 #: ../goffice/utils/formats.c:442
 msgid "Russia, Rubles"
@@ -4281,18 +4100,15 @@ msgstr "Đồng Frăng Rou-an-đa"
 
 #: ../goffice/utils/formats.c:444
 msgid "Saudi Arabia, Riyals"
-msgstr ""
-"Đồng Ri-an Sau-đi"
+msgstr "Đồng Ri-an Sau-đi"
 
 #: ../goffice/utils/formats.c:445
 msgid "Solomon Islands, Dollars"
-msgstr ""
-"Đô-la Quần Đảo So-lo-mon"
+msgstr "Đô-la Quần Đảo So-lo-mon"
 
 #: ../goffice/utils/formats.c:446
 msgid "Seychelles, Rupees"
-msgstr ""
-"Đồng Ru-pi Xê-sen"
+msgstr "Đồng Ru-pi Xê-sen"
 
 #: ../goffice/utils/formats.c:447
 msgid "Sudan, Dinars"
@@ -4300,8 +4116,7 @@ msgstr "Đồng Đi-nă Xu-đănh"
 
 #: ../goffice/utils/formats.c:448
 msgid "Sweden, Kronor"
-msgstr ""
-"Đồng Cơ-rô-na Thuỵ Điển"
+msgstr "Đồng Cơ-rô-na Thuỵ Điển"
 
 #: ../goffice/utils/formats.c:449
 msgid "Singapore, Dollars"
@@ -4321,8 +4136,7 @@ msgstr "Đồng Co-ru-na Xlô-vác"
 
 #: ../goffice/utils/formats.c:453
 msgid "Sierra Leone, Leones"
-msgstr ""
-"Đồng Le-ô-ne"
+msgstr "Đồng Le-ô-ne"
 
 #: ../goffice/utils/formats.c:454
 msgid "Somalia, Shillings"
@@ -4334,18 +4148,15 @@ msgstr "Đồng Lui-gi-ni Xe-boa-ga"
 
 #: ../goffice/utils/formats.c:456
 msgid "Suriname, Guilders"
-msgstr ""
-"Đô-la Xu-ri-nam"
+msgstr "Đô-la Xu-ri-nam"
 
 #: ../goffice/utils/formats.c:457
 msgid "Sao Tome and Principe, Dobras"
-msgstr ""
-"Đồng Đo-b-ra Sao To-mê và Pơ-rin-xi-pê"
+msgstr "Đồng Đo-b-ra Sao To-mê và Pơ-rin-xi-pê"
 
 #: ../goffice/utils/formats.c:458
 msgid "El Salvador, Colones"
-msgstr ""
-"Đồng Co-lon En Xan-va-đoa"
+msgstr "Đồng Co-lon En Xan-va-đoa"
 
 #: ../goffice/utils/formats.c:459
 msgid "Syria, Pounds"
@@ -4353,28 +4164,23 @@ msgstr "Đồng Bảng Xi-ri"
 
 #: ../goffice/utils/formats.c:460
 msgid "Swaziland, Emalangeni"
-msgstr ""
-"Đồng Li-lan-ge-ni Xou-a-xi-lan"
+msgstr "Đồng Li-lan-ge-ni Xou-a-xi-lan"
 
 #: ../goffice/utils/formats.c:461
 msgid "Thailand, Baht"
-msgstr ""
-"Đồng Băt Thái"
+msgstr "Đồng Băt Thái"
 
 #: ../goffice/utils/formats.c:462
 msgid "Tajikistan, Rubles"
-msgstr ""
-"Đồng Ta-gíc Xo-mo-ni"
+msgstr "Đồng Ta-gíc Xo-mo-ni"
 
 #: ../goffice/utils/formats.c:463
 msgid "Turkmenistan, Manats"
-msgstr ""
-"Đồng Ma-nat Tuốc-mê-ni-xtanh"
+msgstr "Đồng Ma-nat Tuốc-mê-ni-xtanh"
 
 #: ../goffice/utils/formats.c:464
 msgid "Tunisia, Dinars"
-msgstr ""
-"Đồng Đi-nă Tu-ni-xi-a"
+msgstr "Đồng Đi-nă Tu-ni-xi-a"
 
 #: ../goffice/utils/formats.c:465
 msgid "Tonga, Pa'anga"
@@ -4382,13 +4188,11 @@ msgstr "Đồng Pa-an-ga Ton-ga"
 
 #: ../goffice/utils/formats.c:466
 msgid "Turkey, Liras"
-msgstr ""
-"Đồng Li-ra mới Thổ Nhĩ Kỳ"
+msgstr "Đồng Li-ra mới Thổ Nhĩ Kỳ"
 
 #: ../goffice/utils/formats.c:467
 msgid "Trinidad and Tobago, Dollars"
-msgstr ""
-"Đô-la Trinh-i-đat và To-ba-gô"
+msgstr "Đô-la Trinh-i-đat và To-ba-gô"
 
 #: ../goffice/utils/formats.c:468
 msgid "Tuvalu, Tuvalu Dollars"
@@ -4420,13 +4224,11 @@ msgstr "Đồng Pê-sô U-ru-guay"
 
 #: ../goffice/utils/formats.c:475
 msgid "Uzbekistan, Sums"
-msgstr ""
-"Đồng Xum U-dơ-bê-ki-xtanh"
+msgstr "Đồng Xum U-dơ-bê-ki-xtanh"
 
 #: ../goffice/utils/formats.c:476
 msgid "Venezuela, Bolivares"
-msgstr ""
-"Đồng Bo-li-vă Ve-ne-xuê-la"
+msgstr "Đồng Bo-li-vă Ve-ne-xuê-la"
 
 #: ../goffice/utils/formats.c:477
 msgid "Viet Nam, Dong"
@@ -4438,8 +4240,7 @@ msgstr "Đồng Va-tu Va-nu-a-tu"
 
 #: ../goffice/utils/formats.c:479
 msgid "Samoa, Tala"
-msgstr ""
-"Đồng Ta-la Sa-mô-a"
+msgstr "Đồng Ta-la Sa-mô-a"
 
 #: ../goffice/utils/formats.c:480
 msgid "Communaute Financiere Africaine BEAC, Francs"
@@ -4507,43 +4308,43 @@ msgstr "người dùng từ xa"
 msgid "remote"
 msgstr "từ xa"
 
-#: ../goffice/utils/go-format.c:435
+#: ../goffice/utils/go-format.c:436
 msgid "Black"
 msgstr "Đen"
 
-#: ../goffice/utils/go-format.c:436
+#: ../goffice/utils/go-format.c:437
 msgid "Blue"
 msgstr "Xanh"
 
-#: ../goffice/utils/go-format.c:437
+#: ../goffice/utils/go-format.c:438
 msgid "Cyan"
 msgstr "Xanh lông mòng"
 
-#: ../goffice/utils/go-format.c:438
+#: ../goffice/utils/go-format.c:439
 msgid "Green"
 msgstr "Lục"
 
-#: ../goffice/utils/go-format.c:439
+#: ../goffice/utils/go-format.c:440
 msgid "Magenta"
 msgstr "Đỏ tươi"
 
-#: ../goffice/utils/go-format.c:440
+#: ../goffice/utils/go-format.c:441
 msgid "Red"
 msgstr "Đỏ"
 
-#: ../goffice/utils/go-format.c:441
+#: ../goffice/utils/go-format.c:442
 msgid "White"
 msgstr "Trắng"
 
-#: ../goffice/utils/go-format.c:442
+#: ../goffice/utils/go-format.c:443
 msgid "Yellow"
 msgstr "Vàng"
 
-#: ../goffice/utils/go-format.c:3318
+#: ../goffice/utils/go-format.c:3320
 msgid "[Color"
 msgstr "[Màu"
 
-#: ../goffice/utils/go-format.c:3442
+#: ../goffice/utils/go-format.c:3444
 msgid "[Invalid]"
 msgstr "[Không hợp lệ]"
 
@@ -4577,8 +4378,7 @@ msgstr "WMF (siêu tập tin Windows)"
 
 #: ../goffice/utils/go-image.c:486
 msgid "Image width in pixels"
-msgstr ""
-"Độ rộng ảnh theo điểm ảnh"
+msgstr "Độ rộng ảnh theo điểm ảnh"
 
 #: ../goffice/utils/go-image.c:490
 msgid "Image height in pixels"
@@ -4586,8 +4386,7 @@ msgstr "Độ cao ảnh theo điểm ảnh"
 
 #: ../goffice/utils/go-image.c:494
 msgid "Pixbuf"
-msgstr ""
-"Đệm điểm ảnh"
+msgstr "Đệm điểm ảnh"
 
 #: ../goffice/utils/go-image.c:495
 msgid "GdkPixbuf object from which the GOImage is built"
@@ -4640,7 +4439,7 @@ msgstr "Gạch gạch gạch dài"
 
 #: ../goffice/utils/go-line.c:88
 msgid "Spline"
-msgstr "Chốt trục"
+msgstr "Spline"
 
 #: ../goffice/utils/go-line.c:89
 msgid "Step at start"
@@ -4680,20 +4479,19 @@ msgstr "thoi"
 
 #: ../goffice/utils/go-marker.c:81
 msgid "triangle down"
-msgstr ""
-"tam giác bên dưới"
+msgstr "tam giác hướng xuống"
 
 #: ../goffice/utils/go-marker.c:82
 msgid "triangle up"
-msgstr "tam giác bên trên"
+msgstr "tam giác hướng trên"
 
 #: ../goffice/utils/go-marker.c:83
 msgid "triangle right"
-msgstr "tam giác bên phải"
+msgstr "tam giác hướng bên phải"
 
 #: ../goffice/utils/go-marker.c:84
 msgid "triangle left"
-msgstr "tam giác bên trái"
+msgstr "tam giác hướng bên trái"
 
 #: ../goffice/utils/go-marker.c:85
 msgid "circle"
@@ -4845,8 +4643,7 @@ msgstr "Tên hạng ký tự không hợp lệ"
 
 #: ../goffice/utils/regutf8.c:40
 msgid "Trailing backslash."
-msgstr ""
-"Dấu xuyệc ngược theo sau."
+msgstr "Dấu xuyệc ngược theo sau."
 
 #: ../goffice/utils/regutf8.c:41
 msgid "Invalid back reference."
@@ -4854,8 +4651,7 @@ msgstr "Tham chiếu ngược không hợp lệ."
 
 #: ../goffice/utils/regutf8.c:42
 msgid "Unmatched left bracket."
-msgstr ""
-"Dấu ngoặc bên trái chưa khớp"
+msgstr "Dấu ngoặc bên trái chưa khớp"
 
 #: ../goffice/utils/regutf8.c:43
 msgid "Parenthesis imbalance."
@@ -4863,13 +4659,11 @@ msgstr "Dấu ngoặc thừa."
 
 #: ../goffice/utils/regutf8.c:44
 msgid "Unmatched \\{."
-msgstr ""
-"Có dấu ngoặc đơn mở « \\( » riêng lẻ."
+msgstr "Có dấu ngoặc đơn mở « \\( » riêng lẻ."
 
 #: ../goffice/utils/regutf8.c:45
 msgid "Invalid contents of \\{\\}."
-msgstr ""
-"Nội dụng « \\{\\} » không hợp lệ."
+msgstr "Nội dụng « \\{\\} » không hợp lệ."
 
 #: ../goffice/utils/regutf8.c:46
 msgid "Invalid range end."
@@ -4893,8 +4687,7 @@ msgstr "Mẫu quá lớn."
 
 #: ../goffice/utils/regutf8.c:51
 msgid "Unmatched ) or \\)"
-msgstr ""
-"Chưa khớp ký tự « ) » hay « \\) »"
+msgstr "Chưa khớp ký tự « ) » hay « \\) »"
 
 #: ../goffice/utils/regutf8.c:267
 msgid "Search string must not be empty."
@@ -4967,10 +4760,11 @@ msgstr "Chỉ khớp nguyên từ."
 
 #: ../plugins/plot_barcol/gog-1.5d.c:321
 msgid "How to group multiple series, normal, stacked, as_percentage"
-msgstr "Cách nhóm lại nhiều dãy:\n"
-" • normal		chuẩn\n"
-" • stacked	đống\n"
-" • as_percentage	theo phần trăm."
+msgstr ""
+"Cách nhóm lại nhiều dãy:\n"
+" • normal\t\tchuẩn\n"
+" • stacked\tđống\n"
+" • as_percentage\ttheo phần trăm."
 
 #: ../plugins/plot_barcol/gog-1.5d.c:326
 #: ../plugins/plot_pie/gog-pie.c:245
@@ -5015,8 +4809,7 @@ msgstr "Đường thả"
 #: ../plugins/plot_barcol/gog-1.5d.c:601
 #: ../plugins/plot_barcol/plot-types.xml.in.h:78
 msgid "Lines"
-msgstr ""
-"Đường"
+msgstr "Đường"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:630
 #: ../plugins/plot_xy/gog-xy.c:1606
@@ -5062,8 +4855,7 @@ msgstr "PlotBarCol"
 #: ../plugins/smoothing/gog-moving-avg.c:117
 #: ../plugins/smoothing/gog-exp-smooth.c:85
 msgid "Properties"
-msgstr ""
-"Thuộc tính"
+msgstr "Thuộc tính"
 
 #: ../plugins/plot_barcol/gog-barcol.c:204
 #: ../plugins/plot_barcol/gog-minmax.c:219
@@ -5150,8 +4942,7 @@ msgstr "Cực"
 
 #: ../plugins/plot_barcol/gog-minmax.c:248
 msgid "Max"
-msgstr ""
-"Đại"
+msgstr "Đại"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "Adjacent Bars"
@@ -5193,7 +4984,8 @@ msgstr "Cột kề nhau"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:33
 msgid "Adjacent horizontal bars grouped by major and minor categories."
-msgstr "Các thanh nằm ngang kề nhau, được nhóm lại theo phân loại chính và phụ."
+msgstr ""
+"Các thanh nằm ngang kề nhau, được nhóm lại theo phân loại chính và phụ."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:64
 #. No 3d yet
@@ -5297,21 +5089,29 @@ msgstr "Cực/Đại"
 msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
-msgstr "Các phân loại phụ, được xếp đống theo phần trăm tổng số phụ, theo thanh nằm ngang, được nhóm lại theo phân loại chính."
+msgstr ""
+"Các phân loại phụ, được xếp đống theo phần trăm tổng số phụ, theo thanh nằm "
+"ngang, được nhóm lại theo phân loại chính."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:83
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
-msgstr "Các phân loại phụ, được xếp đống theo phần trăm tổng số phụ, theo thanh thẳng đứng, được nhóm lại theo phân loại chính."
+msgstr ""
+"Các phân loại phụ, được xếp đống theo phần trăm tổng số phụ, theo thanh "
+"thẳng đứng, được nhóm lại theo phân loại chính."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:84
 msgid "Minor categories stacked in horizontal bars grouped by major category."
-msgstr "Các phân loại phụ, được xếp đống theo thanh nằm ngang, được nhóm lại theo phân loại chính."
+msgstr ""
+"Các phân loại phụ, được xếp đống theo thanh nằm ngang, được nhóm lại theo "
+"phân loại chính."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:85
 msgid "Minor categories stacked in vertical columns grouped by major category."
-msgstr "Các phân loại phụ, được xếp đống theo cột thẳng đứng, được nhóm lại theo phân loại chính."
+msgstr ""
+"Các phân loại phụ, được xếp đống theo cột thẳng đứng, được nhóm lại theo "
+"phân loại chính."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:86
 msgid "Percentage Areas"
@@ -5429,12 +5229,13 @@ msgstr "Cơ chế vẽ đồ thị Cực Đại"
 msgid ""
 "Horizontal\n"
 "Vertical"
-msgstr "Nằm ngang\n"
+msgstr ""
+"Nằm ngang\n"
 "Thẳng đứng"
 
 #: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:7
 msgid "_Layout"
-msgstr "_Bố trị"
+msgstr "_Bố trí"
 
 #: ../plugins/plot_boxes/gog-boxplot.c:144
 #. xgettext : the base for how to name box-plot objects
@@ -5515,15 +5316,16 @@ msgstr "Độ theo ngược chiều từ ba giờ"
 #: ../plugins/plot_pie/gog-pie-prefs.glade.h:4
 #: ../plugins/plot_pie/gog-ring-prefs.glade.h:5
 msgid "Slices start _at:"
-msgstr ""
-"Lát _bắt đầu ở :"
+msgstr "Lát _bắt đầu ở :"
 
 #: ../plugins/plot_pie/gog-pie-prefs.glade.h:5
 #: ../plugins/plot_pie/gog-ring-prefs.glade.h:6
 msgid ""
 "The default amount each slice is separated from the center measured as a "
 "percentage of the radius of the pie"
-msgstr "Số lượng mặc định phân cách mỗi lát ra trung tâm, được đo theo phần trăm bán kính hình tròn."
+msgstr ""
+"Số lượng mặc định phân cách mỗi lát ra trung tâm, được đo theo phần trăm bán "
+"kính hình tròn."
 
 #: ../plugins/plot_pie/gog-pie-prefs.glade.h:6
 #: ../plugins/plot_pie/gog-ring-prefs.glade.h:7
@@ -5539,7 +5341,9 @@ msgstr "_Màu theo lát"
 msgid ""
 "The amount this slice is separated from the center measured as a percentage "
 "of the radius of the pie"
-msgstr "Số lượng phân cách lát này ra trung tâm, được đo theo phần trăm bán kính hình tròn."
+msgstr ""
+"Số lượng phân cách lát này ra trung tâm, được đo theo phần trăm bán kính "
+"hình tròn."
 
 #: ../plugins/plot_pie/gog-pie-series.glade.h:4
 msgid "_Separation:"
@@ -5624,7 +5428,9 @@ msgstr "Nửa bánh"
 msgid ""
 "Percentage of each contributor displayed in ring for each serie with wedges "
 "of the last ring split apart."
-msgstr "Phần trăm mỗi người đóng góp, được hiển thị trong vòng cho mỗi dãy, các hình nêm của vòng cuối cùng được chia ra."
+msgstr ""
+"Phần trăm mỗi người đóng góp, được hiển thị trong vòng cho mỗi dãy, các hình "
+"nêm của vòng cuối cùng được chia ra."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:3
 msgid "Percentage of each contributor displayed in ring for each serie."
@@ -5633,7 +5439,8 @@ msgstr "Phần trăm mỗi người đóng góp, được hiển thị trong vò
 #: ../plugins/plot_pie/plot-types.xml.in.h:4
 msgid ""
 "Percentage of each contributor in a half circle with wedges split apart."
-msgstr "Phần trăm mỗi người đóng góp, trong nửa tròn với các hình nêm được chia ra."
+msgstr ""
+"Phần trăm mỗi người đóng góp, trong nửa tròn với các hình nêm được chia ra."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:5
 msgid "Percentage of each contributor in a half circle."
@@ -5712,22 +5519,22 @@ msgstr "Vẽ ra đa"
 msgid "PlotRadarArea"
 msgstr "Vẽ vùng ra đa"
 
-#: ../plugins/plot_radar/gog-radar.c:360
+#: ../plugins/plot_radar/gog-radar.c:361
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
 #. * 	PlotPolar2
 msgid "PlotPolar"
 msgstr "Vẽ cực"
 
-#: ../plugins/plot_radar/gog-radar.c:399
+#: ../plugins/plot_radar/gog-radar.c:400
 msgid "Angle"
 msgstr "Góc"
 
-#: ../plugins/plot_radar/gog-radar.c:401
+#: ../plugins/plot_radar/gog-radar.c:402
 msgid "Magnitude"
 msgstr "Độ lớn"
 
-#: ../plugins/plot_radar/gog-radar.c:701
+#: ../plugins/plot_radar/gog-radar.c:702
 msgid "Radial drop lines"
 msgstr "Đường thả toả tròn"
 
@@ -5803,8 +5610,7 @@ msgstr "Đã chuyển vị"
 
 #: ../plugins/plot_surface/gog-surface.c:523
 msgid "Transpose the plot"
-msgstr ""
-"Chuyển vị đồ thị vẽ"
+msgstr "Chuyển vị đồ thị vẽ"
 
 #: ../plugins/plot_surface/gog-surface.c:539
 #: ../plugins/plot_surface/xl-surface.c:258
@@ -5847,8 +5653,7 @@ msgstr "%s kích cỡ mặc định"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.glade.h:3
 msgid "3_d"
-msgstr ""
-"3_D"
+msgstr "3_D"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.glade.h:4
 msgid "Dia_meter"
@@ -5880,8 +5685,7 @@ msgstr "Hiển thị dấu hiệu hay bọt ở 0 khi giá trị không hợp l�
 
 #: ../plugins/plot_xy/gog-xy-series-prefs.glade.h:2
 msgid "_Use nul value instead of invalid"
-msgstr ""
-"Dùng _vô giá trị thay cho không hợp lệ"
+msgstr "Dùng _vô giá trị thay cho không hợp lệ"
 
 #: ../plugins/plot_xy/gog-xy-color-prefs.glade.h:1
 msgid "Hide data outside of color axis bounds"
@@ -5911,16 +5715,15 @@ msgstr "Kiểu dáng mặc định của dãy nên gồm đường không"
 #: ../plugins/plot_xy/gog-xy.c:349
 #: ../plugins/plot_xy/gog-xy.c:775
 msgid "Has fill by default"
-msgstr ""
-"Tô đầy theo mặc định"
+msgstr "Tô đầy theo mặc định"
 
 #: ../plugins/plot_xy/gog-xy.c:355
 msgid "Use splines"
-msgstr "Dùng chốt trục"
+msgstr "Dùng spline"
 
 #: ../plugins/plot_xy/gog-xy.c:356
 msgid "Should the plot use splines instead of linear interpolation"
-msgstr "Đồ thị vẽ nên dùng chốt trục thay vì nội suy tuyến không"
+msgstr "Đồ thị vẽ nên dùng spline (chốt trục) thay vì nội suy tuyến không"
 
 #: ../plugins/plot_xy/gog-xy.c:409
 msgid "PlotBubble"
@@ -6006,15 +5809,14 @@ msgstr "Tô màu XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:3
 msgid "Interpolate between multi-dimensional points with Bezier splines."
-msgstr "Nội suy giữa các điểm đa chiều bằng chốt trục Bézier."
+msgstr "Nội suy giữa các điểm đa chiều bằng spline Bézier."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:5
 #. really 3_1
 msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
-msgstr ""
-"Nội suy tuyến tính giữa các điểm đa chiều, kèm đánh dấu tại mỗi điểm."
+msgstr "Nội suy tuyến tính giữa các điểm đa chiều, kèm đánh dấu tại mỗi điểm."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Linearly interpolate between multi-dimensional points."
@@ -6060,8 +5862,7 @@ msgstr "XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:17
 msgid "XY Lines"
-msgstr ""
-"Đường XY"
+msgstr "Đường XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:18
 msgid "XY Points"
@@ -6069,7 +5870,7 @@ msgstr "Điểm XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:19
 msgid "XY Splines"
-msgstr "Chốt trục XY"
+msgstr "Spline XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:20
 msgid "XY Steps Center"
@@ -6217,8 +6018,7 @@ msgstr "Đường cong hồi quy tuyến"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:5
 msgid "Logarithmic"
-msgstr ""
-"Lôga"
+msgstr "Lôga"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:6
 msgid "Logarithmic regression curve"
@@ -6234,8 +6034,7 @@ msgstr "Đường cong hồi quy đa thức"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:9
 msgid "Power"
-msgstr ""
-"Lũy thừa"
+msgstr "Lũy thừa"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:10
 msgid "Power regression curve"
@@ -6270,8 +6069,7 @@ msgstr "Vừa lôga (y=a+b*ln(dấu*(x-c)))"
 
 #: ../plugins/reg_logfit/reg-types.xml.in.h:2
 msgid "Logarithmic fitting curve"
-msgstr ""
-"Đường cong vừa lôga"
+msgstr "Đường cong vừa lôga"
 
 #: ../plugins/smoothing/gog-moving-avg.c:105
 msgid "Number of values from which to calculate an average"
@@ -6279,8 +6077,7 @@ msgstr "Số giá trị từ chúng cần tính số trung bình"
 
 #: ../plugins/smoothing/gog-moving-avg.c:111
 msgid "Whether to average x values as well or use the last one"
-msgstr ""
-"Có nên tính trùng bình các giá trị X, hay dùng giá trị cuối cùng"
+msgstr "Có nên tính trùng bình các giá trị X, hay dùng giá trị cuối cùng"
 
 #: ../plugins/smoothing/gog-moving-avg.c:176
 #: ../plugins/smoothing/types.xml.in.h:2
@@ -6320,8 +6117,10 @@ msgid ""
 "Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
 "If no value or a negative (or nul) value is provided, the default will be "
 "used"
-msgstr "Chu kỳ mặc định là 10 * (xđại - xcực)/(ngiá_trị - 1)\n"
-"Không có giá trị, hay cung cấp giá trị âm (hay vô giá trị) thì dùng giá trị mặc định."
+msgstr ""
+"Chu kỳ mặc định là 10 * (xđại - xcực)/(ngiá_trị - 1)\n"
+"Không có giá trị, hay cung cấp giá trị âm (hay vô giá trị) thì dùng giá trị "
+"mặc định."
 
 #: ../plugins/smoothing/gog-exp-smooth.c:171
 #: ../plugins/smoothing/types.xml.in.h:1
@@ -6363,192 +6162,185 @@ msgstr "cơ chế lam mịn theo mũ"
 msgid "Moving average smoothed curve"
 msgstr "Đường cong mịn trung bình động"
 
-msgid "Grid"
-msgstr "Lưới"
+#~ msgid "Grid"
+#~ msgstr "Lưới"
 
-msgid "Default lines"
-msgstr "Đường mặc định"
+#~ msgid "Default lines"
+#~ msgstr "Đường mặc định"
 
-msgid "<b>Plot area position</b>"
-msgstr "<b>Vị trí vùng vẽ</b>"
+#~ msgid "<b>Plot area position</b>"
+#~ msgstr "<b>Vị trí vùng vẽ</b>"
 
-msgid "_Order"
-msgstr ""
-"_Thứ tự"
+#~ msgid "_Order"
+#~ msgstr "_Thứ tự"
 
-msgid "<b>Automatic position</b>"
-msgstr ""
-"<b>Vị trí tự động</b>"
+#~ msgid "<b>Automatic position</b>"
+#~ msgstr "<b>Vị trí tự động</b>"
 
-msgid "<b>Manual position</b>"
-msgstr "<b>Vị trí tự đặt</b>"
+#~ msgid "<b>Manual position</b>"
+#~ msgstr "<b>Vị trí tự đặt</b>"
 
-msgid "Ty_pe:"
-msgstr "_Kiểu :"
+#~ msgid "Ty_pe:"
+#~ msgstr "_Kiểu :"
 
-msgid "_Fill color:"
-msgstr ""
-"_Màu tô đầy:"
+#~ msgid "_Fill color:"
+#~ msgstr "_Màu tô đầy:"
 
-msgid "*Sun"
-msgstr "*CN"
+#~ msgid "*Sun"
+#~ msgstr "*CN"
 
-msgid "*Mon"
-msgstr "*T2"
+#~ msgid "*Mon"
+#~ msgstr "*T2"
 
-msgid "*Tue"
-msgstr "*T3"
+#~ msgid "*Tue"
+#~ msgstr "*T3"
 
-msgid "*Wed"
-msgstr "*T4"
+#~ msgid "*Wed"
+#~ msgstr "*T4"
 
-msgid "*Thu"
-msgstr "*T5"
+#~ msgid "*Thu"
+#~ msgstr "*T5"
 
-msgid "*Fri"
-msgstr "*T6"
+#~ msgid "*Fri"
+#~ msgstr "*T6"
 
-msgid "*Sat"
-msgstr "*T7"
+#~ msgid "*Sat"
+#~ msgstr "*T7"
 
-msgid "Sunday"
-msgstr "Chủ Nhật"
+#~ msgid "Sunday"
+#~ msgstr "Chủ Nhật"
 
-msgid "Monday"
-msgstr "Thứ Hai"
+#~ msgid "Monday"
+#~ msgstr "Thứ Hai"
 
-msgid "Tuesday"
-msgstr "Thứ Ba"
+#~ msgid "Tuesday"
+#~ msgstr "Thứ Ba"
 
-msgid "Wednesday"
-msgstr "Thứ Tư"
+#~ msgid "Wednesday"
+#~ msgstr "Thứ Tư"
 
-msgid "Thursday"
-msgstr "Thứ Năm"
+#~ msgid "Thursday"
+#~ msgstr "Thứ Năm"
 
-msgid "Friday"
-msgstr "Thứ Sáu"
+#~ msgid "Friday"
+#~ msgstr "Thứ Sáu"
 
-msgid "Saturday"
-msgstr "Thứ Bảy"
+#~ msgid "Saturday"
+#~ msgstr "Thứ Bảy"
 
-msgid "*Jan"
-msgstr "*Một"
+#~ msgid "*Jan"
+#~ msgstr "*Một"
 
-msgid "*Feb"
-msgstr "*Hai"
+#~ msgid "*Feb"
+#~ msgstr "*Hai"
 
-msgid "*Mar"
-msgstr "*Ba"
+#~ msgid "*Mar"
+#~ msgstr "*Ba"
 
-msgid "*Apr"
-msgstr "*Bốn"
+#~ msgid "*Apr"
+#~ msgstr "*Bốn"
 
-msgid "*May"
-msgstr "*Năm"
+#~ msgid "*May"
+#~ msgstr "*Năm"
 
-msgid "*Jun"
-msgstr "*Sáu"
+#~ msgid "*Jun"
+#~ msgstr "*Sáu"
 
-msgid "*Jul"
-msgstr "*Bảy"
+#~ msgid "*Jul"
+#~ msgstr "*Bảy"
 
-msgid "*Aug"
-msgstr "*Tám"
+#~ msgid "*Aug"
+#~ msgstr "*Tám"
 
-msgid "*Oct"
-msgstr "*Mười"
+#~ msgid "*Oct"
+#~ msgstr "*Mười"
 
-msgid "*Nov"
-msgstr "*Mười Một"
+#~ msgid "*Nov"
+#~ msgstr "*Mười Một"
 
-msgid "*Dec"
-msgstr "*Mười Hai"
+#~ msgid "*Dec"
+#~ msgstr "*Mười Hai"
 
-msgid "January"
-msgstr "Tháng Giêng"
+#~ msgid "January"
+#~ msgstr "Tháng Giêng"
 
-msgid "February"
-msgstr "Tháng Hai"
+#~ msgid "February"
+#~ msgstr "Tháng Hai"
 
-msgid "March"
-msgstr "Tháng Ba"
+#~ msgid "March"
+#~ msgstr "Tháng Ba"
 
-msgid "April"
-msgstr "Tháng Tư"
+#~ msgid "April"
+#~ msgstr "Tháng Tư"
 
-msgid "June"
-msgstr "Tháng Sáu"
+#~ msgid "June"
+#~ msgstr "Tháng Sáu"
 
-msgid "July"
-msgstr "Tháng Bảy"
+#~ msgid "July"
+#~ msgstr "Tháng Bảy"
 
-msgid "August"
-msgstr "Tháng Tám"
+#~ msgid "August"
+#~ msgstr "Tháng Tám"
 
-msgid "October"
-msgstr "Tháng Mười"
+#~ msgid "October"
+#~ msgstr "Tháng Mười"
 
-msgid "November"
-msgstr ""
-"Tháng Mười Một"
+#~ msgid "November"
+#~ msgstr "Tháng Mười Một"
 
-msgid "December"
-msgstr ""
-"Tháng Chạp"
+#~ msgid "December"
+#~ msgstr "Tháng Chạp"
 
-msgid "Automatic (%s)"
-msgstr "Tự động (%s)"
+#~ msgid "Automatic (%s)"
+#~ msgstr "Tự động (%s)"
 
-msgid "Box-Plots"
-msgstr "Vẽ hộp"
+#~ msgid "Box-Plots"
+#~ msgstr "Vẽ hộp"
 
-msgid "Excel compatibility contour plotting engine"
-msgstr "Cơ chế vẽ đường viền tương thích với Excel"
+#~ msgid "Excel compatibility contour plotting engine"
+#~ msgstr "Cơ chế vẽ đường viền tương thích với Excel"
 
-msgid "Plugin version \"%s\" is different from application \"%s\"."
-msgstr "Phiên bản phần bổ sung « %s » khác với ứng dụng « %s »."
+#~ msgid "Plugin version \"%s\" is different from application \"%s\"."
+#~ msgstr "Phiên bản phần bổ sung « %s » khác với ứng dụng « %s »."
 
-msgid "Error while saving file."
-msgstr "Gặp lỗi khi lưu tập tin."
+#~ msgid "Error while saving file."
+#~ msgstr "Gặp lỗi khi lưu tập tin."
 
-msgid "_Cross at category #"
-msgstr "Cắt chéo ở loại #"
+#~ msgid "_Cross at category #"
+#~ msgstr "Cắt chéo ở loại #"
 
-msgid "Bounds"
-msgstr "Biên"
+#~ msgid "Bounds"
+#~ msgstr "Biên"
 
-msgid "T_ype:"
-msgstr ""
-"Kiể_u :"
+#~ msgid "T_ype:"
+#~ msgstr "Kiể_u :"
 
-msgid "3D Adjacent Bars"
-msgstr "Thanh kề nhau 3D"
+#~ msgid "3D Adjacent Bars"
+#~ msgstr "Thanh kề nhau 3D"
 
-msgid "3D Adjacent Columns"
-msgstr "Cột kề nhau 3D"
+#~ msgid "3D Adjacent Columns"
+#~ msgstr "Cột kề nhau 3D"
 
-msgid "3D Percentage Bars"
-msgstr "Thanh phần trăm 3D"
+#~ msgid "3D Percentage Bars"
+#~ msgstr "Thanh phần trăm 3D"
 
-msgid "3D Percentage Columns"
-msgstr "Cột phần trăm 3D"
+#~ msgid "3D Percentage Columns"
+#~ msgstr "Cột phần trăm 3D"
 
-msgid "3D Stacked Bars"
-msgstr "Thanh xếp đống 3D"
+#~ msgid "3D Stacked Bars"
+#~ msgstr "Thanh xếp đống 3D"
 
-msgid "3D Stacked Columns"
-msgstr "Cột xếp đống 3D"
+#~ msgid "3D Stacked Columns"
+#~ msgstr "Cột xếp đống 3D"
 
-msgid "3D Pie"
-msgstr "Bánh 3D"
+#~ msgid "3D Pie"
+#~ msgstr "Bánh 3D"
 
-msgid "3D Split Pie"
-msgstr "Bánh xẻ 3D"
+#~ msgid "3D Split Pie"
+#~ msgstr "Bánh xẻ 3D"
 
-msgid "Multi-pie-bars"
-msgstr "Thanh đa bánh"
+#~ msgid "Multi-pie-bars"
+#~ msgstr "Thanh đa bánh"
 
-msgid "_Slices number:"
-msgstr ""
-"_Số lát:"
+#~ msgid "_Slices number:"
+#~ msgstr "_Số lát:"
