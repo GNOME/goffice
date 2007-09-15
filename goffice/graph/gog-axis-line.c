@@ -1525,10 +1525,10 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	gog_axis_map_get_bounds (a_map, &minimum, &maximum);
 	if (axis_base->position == GOG_AXIS_CROSS) {
 		position = gog_axis_base_get_cross_location (axis_base);
-		if (position < minimum || position > maximum) {
-			gog_chart_map_free (c_map);
-			return FALSE;
-		}
+		if (position < minimum)
+			position = start;
+		else if (position > maximum)
+			position = stop;
 	} else
 		position = axis_base->position == GOG_AXIS_AT_LOW ?  start : stop;
 

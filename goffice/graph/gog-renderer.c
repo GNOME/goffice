@@ -1305,7 +1305,7 @@ gog_renderer_update (GogRenderer *rend, double w, double h, double zoom)
 	g_return_val_if_fail (IS_GOG_RENDERER (rend), FALSE);
 	g_return_val_if_fail (IS_GOG_VIEW (rend->view), FALSE);
 
-	size_changed = rend->w != w || rend->h != h;
+	size_changed = rend->w != w || rend->h != h || rend->pixbuf == NULL;
 	if (size_changed && create_cairo) {
 		if (rend->pixbuf != NULL)
 			g_object_unref (rend->pixbuf);

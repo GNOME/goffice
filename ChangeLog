@@ -1,3 +1,10 @@
+2007-09-15  Jean Brefort  <jean@acer>
+
+	* goffice/graph/gog-axis-line.c: (xy_process): make axis lines
+	always visible.
+	* goffice/graph/gog-renderer.c: (gog_renderer_update): don't crash
+	when pixbuf is initially NULL. [#477052]
+
 2007-09-12  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Handle GOG_AXIS_SET_COLOR axis selection.

@@ -1,7 +1,10 @@
 goffice 0.5.1:
 
+Jean:
+	* Fix crash in gog_renderer_update. [#477052]
+
 Jon Kåre:
-        * Fix format selector crash [#475136].
+    * Fix format selector crash [#475136].
 	* Don't	close image save as dialog after wrong extension. [#420451]	
 
 Morten:
