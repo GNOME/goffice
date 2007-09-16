@@ -1,3 +1,16 @@
+2007-09-16  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-plot.c (gog_plot_set_axis) : split out
+	 (gog_plot_set_axis_by_id) : from here.
+
+	* goffice/graph/gog-axis-line.c (gog_axis_base_set_property) : renamed
+	  PROP_POSITION -> POSITION_STR, add added a PROP_POSITION to take the
+	  enum directly.
+	(gog_axis_base_get_property) : ditto.
+	(gog_axis_base_class_init) : ditto.
+	(xy_process) : Be smarter about label positioning when crossing.  If
+	  we're at a bound put it on the other side.
+
 2007-09-15  Jean Brefort  <jean@acer>
 
 	* goffice/graph/gog-axis-line.c: (xy_process): make axis lines

@@ -866,6 +866,32 @@ gog_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet axis_set)
 	return (axis_set == klass->axis_set);
 }
 
+/**
+ * gog_plot_set_axis:
+ * @plot : #GogPlot
+ * @axis : #GogAxis
+ *
+ * Connect @axis and @plot.
+ **/
+void
+gog_plot_set_axis (GogPlot *plot, GogAxis *axis)
+{
+	GogAxisType type;
+	g_return_if_fail (IS_GOG_PLOT (plot));
+	g_return_if_fail (IS_GOG_AXIS (axis));
+
+	type = gog_axis_get_atype (axis);
+	g_return_if_fail (type != GOG_AXIS_UNKNOWN);
+
+	if (plot->axis[type] == axis)
+		return;
+
+	if (plot->axis[type] != NULL)
+		gog_axis_del_contributor (plot->axis[type], GOG_OBJECT (plot));
+	plot->axis[type] = axis;
+	gog_axis_add_contributor (axis, GOG_OBJECT (plot));
+}
+
 static gboolean
 gog_plot_set_axis_by_id (GogPlot *plot, GogAxisType type, unsigned id)
 {
@@ -889,10 +915,7 @@ gog_plot_set_axis_by_id (GogPlot *plot, GogAxisType type, unsigned id)
 	for (ptr = axes; ptr != NULL && !found; ptr = ptr->next) {
 		axis = GOG_AXIS (ptr->data);
 		if (gog_object_get_id (GOG_OBJECT (axis)) == id) {
-			if (plot->axis[type] != NULL)
-				gog_axis_del_contributor (plot->axis[type], GOG_OBJECT (plot));
-			plot->axis[type] = axis;
-			gog_axis_add_contributor (axis, GOG_OBJECT (plot));
+			gog_plot_set_axis (plot, axis);
 			found = TRUE;
 		}
 	}		

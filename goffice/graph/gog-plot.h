@@ -66,6 +66,7 @@ gboolean   gog_plot_axis_set_is_valid	(GogPlot const *plot, GogAxisSet type);
 gboolean   gog_plot_axis_set_assign	(GogPlot *plot, GogAxisSet type);
 void	   gog_plot_axis_clear		(GogPlot *plot, GogAxisSet filter);
 GogAxis	  *gog_plot_get_axis		(GogPlot const *plot, GogAxisType type);
+void	   gog_plot_set_axis		(GogPlot *plot, GogAxis *axis);
 
 void 	   gog_plot_update_3d 		(GogPlot *plot);
 

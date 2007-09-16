@@ -130,7 +130,6 @@ gog_editor_set_store_page (GogEditor *editor, unsigned *store_page)
  * @gog_editor_get_registered_widget. The main use of this function is to 
  * provide the ability to extend a page.
  **/
-
 void
 gog_editor_register_widget (GogEditor *editor, GtkWidget *widget)
 {
@@ -145,9 +144,8 @@ gog_editor_register_widget (GogEditor *editor, GtkWidget *widget)
  * @editor: a #GogEditor
  * @name: the name of the registered widget
  *
- * Retrieves a widget previously registered using @gog_editor_register_widget.
+ * Returns: a widget previously registered using @gog_editor_register_widget.
  **/
-
 GtkWidget *
 gog_editor_get_registered_widget (GogEditor *editor, char const *name)
 {
@@ -1026,7 +1024,7 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
  * gog_object_get_parent :
  * @obj : a #GogObject
  *
- * Returns: @obj's parent, potentially NULL if it has not been added to a
+ * Returns: @obj's parent, potentially %NULL if it has not been added to a
  * 	heirarchy yet.  does not change ref-count in any way.
  **/
 GogObject *
@@ -1041,7 +1039,7 @@ gog_object_get_parent (GogObject const *obj)
  * @obj: a #GogObject
  * @t: a #GType
  *
- * Returns: @obj's parent of type @type, potentially NULL if it has not been
+ * Returns: @obj's parent of type @type, potentially %NULL if it has not been
  * added to a hierarchy yet or none of the parents are of type @type.
  **/
 GogObject *
@@ -1101,7 +1099,7 @@ gog_object_get_name (GogObject const *obj)
  *
  * Assign the new name and signals that it has changed.
  * NOTE : it _absorbs_ @name rather than copying it, and generates a new name
- * if @name == NULL
+ * if @name == %NULL
  **/
 void
 gog_object_set_name (GogObject *obj, char *name, GError **err)
@@ -1153,7 +1151,7 @@ gog_object_get_children (GogObject const *obj, GogObjectRole const *filter)
  *
  * A convenience routine to handle a unique child
  *
- * Returns: NULL and spews an error if there is more than one.
+ * Returns: %NULL and spews an error if there is more than one.
  **/
 GogObject *
 gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
@@ -1174,7 +1172,7 @@ gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
  * @role : a #char to use as a filter
  *
  * A convenience routine to handle a unique child
- * Returns: NULL and spews an error if there is more than one.
+ * Returns: %NULL and spews an error if there is more than one.
  **/
 GogObject *
 gog_object_get_child_by_name (GogObject const *obj, char const *name)
@@ -1187,7 +1185,7 @@ gog_object_get_child_by_name (GogObject const *obj, char const *name)
  * gog_object_is_deletable :
  * @obj : a #GogObject
  *
- * Can the specified @obj be deleted ?
+ * Returns: %TRUE if @obj can be deleted.
  **/
 gboolean
 gog_object_is_deletable (GogObject const *obj)
@@ -1281,8 +1279,8 @@ gog_object_possible_additions (GogObject const *parent)
 /**
  * gog_object_can_reorder :
  * @obj : #GogObject
- * @inc_ok : possibly NULL pointer.
- * @dec_ok : possibly NULL pointer.
+ * @inc_ok : optionally %NULL pointer for result.
+ * @dec_ok : optionally %NULL pointer for result.
  *
  * If @obj can move forward or backward in its parents child list
  **/
@@ -1393,7 +1391,7 @@ gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
  * Builds an object property editor, by calling GogObject::populate_editor
  * virtual functions.
  * 
- * return value: a #GtkNotebook widget
+ * Returns: a #GtkNotebook widget
  **/
 gpointer
 gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
@@ -1613,6 +1611,16 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
 	return TRUE;
 }
 
+/**
+ * gog_object_add_by_role :
+ * @parent : #GogObject
+ * @role : #GogObjectRole
+ * @child : #GogObject
+ *
+ * Absorb a ref to @child if it is non-NULL.
+ * Returns: @child or a newly created object with @role.  Callers do _not_ own
+ * 	the reference.
+ **/
 GogObject *
 gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject *child)
 {

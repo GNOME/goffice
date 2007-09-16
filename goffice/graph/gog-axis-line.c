@@ -2,7 +2,7 @@
 /*
  * gog-axis-line.c :
  *
- * Copyright (C) 2005 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
+ * Copyright (C) 2005-2007 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -53,6 +53,7 @@ static GObjectClass *gab_parent_klass;
 enum {
 	AXIS_BASE_PROP_0,
 	AXIS_BASE_PROP_POSITION,
+	AXIS_BASE_PROP_POSITION_STR,
 	AXIS_BASE_PROP_MAJOR_TICK_LABELED,
 	AXIS_BASE_PROP_MAJOR_TICK_IN,
 	AXIS_BASE_PROP_MAJOR_TICK_OUT,
@@ -79,6 +80,11 @@ gog_axis_base_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 		case AXIS_BASE_PROP_POSITION:
+			position = g_value_get_uint (value);
+			resized = (position != axis_base->position);
+			gog_axis_base_set_position (axis_base, position);
+			break;
+		case AXIS_BASE_PROP_POSITION_STR:
 			str = g_value_get_string (value);
 			if (str == NULL)
 				return;
@@ -630,8 +636,14 @@ gog_axis_base_class_init (GObjectClass *gobject_klass)
 	gog_klass->parent_changed 	= gog_axis_base_parent_changed;
 
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_POSITION,
-		g_param_spec_string ("pos-str", 
+		g_param_spec_uint ("pos", 
 			_("Axis position"),
+			_("Where to position an axis low, high, or crossing"),
+			GOG_AXIS_AT_LOW, GOG_AXIS_AUTO, GOG_AXIS_AT_LOW, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_POSITION_STR,
+		g_param_spec_string ("pos-str", 
+			_("Axis position (as a string)"),
 			_("Where to position an axis low, high, or crossing"),
 			"low", 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
@@ -1523,16 +1535,24 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 
 	gog_axis_map_get_extents (a_map, &start, &stop);
 	gog_axis_map_get_bounds (a_map, &minimum, &maximum);
-	if (axis_base->position == GOG_AXIS_CROSS) {
+	side = GO_SIDE_RIGHT;
+	switch (axis_base->position) {
+	case GOG_AXIS_CROSS :
 		position = gog_axis_base_get_cross_location (axis_base);
 		if (position < minimum)
 			position = start;
-		else if (position > maximum)
+		else if (position > maximum) {
 			position = stop;
-	} else
-		position = axis_base->position == GOG_AXIS_AT_LOW ?  start : stop;
-
-	side = axis_base->position == GOG_AXIS_AT_LOW ? GO_SIDE_RIGHT : GO_SIDE_LEFT;
+			side = GO_SIDE_LEFT;
+		}
+		break;
+	case GOG_AXIS_AT_LOW :
+		position = start;
+		break;
+	case GOG_AXIS_AT_HIGH :
+		position = stop;
+		side     = GO_SIDE_LEFT;
+	}
 
 	if (axis_type == GOG_AXIS_X) {
 		a_map = gog_chart_map_get_axis_map (c_map, 0);
