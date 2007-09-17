@@ -169,6 +169,10 @@ gog_axis_base_get_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 		case AXIS_BASE_PROP_POSITION:
+			g_value_set_uint (value, axis_base->position);
+			break;
+
+		case AXIS_BASE_PROP_POSITION_STR:
 			switch (axis_base->position) {
 				case GOG_AXIS_AT_LOW:
 					g_value_set_static_string (value, "low");
