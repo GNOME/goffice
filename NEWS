@@ -4,14 +4,14 @@ Jean:
 	* Fix crash in gog_renderer_update. [#477052]
 
 Jody:
-	* Som extensions for OOX charts.
+	* Some extensions for OOX charts.
 
 Jon Kåre:
 	* Fix format selector crash [#475136].
-	* Don't	close image save as dialog after wrong extension. [#420451]	
+	* Don't	close image save as dialog after wrong extension. [#420451]
 
 Morten:
-	* Add function if a format has an hour field.
+	* Add function to test if a format has an hour field.
 
 --------------------------------------------------------------------------
 goffice 0.5.0:
