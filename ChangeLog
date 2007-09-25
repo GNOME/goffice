@@ -1,3 +1,10 @@
+2007-09-24  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_widget_set_tooltip_text,
+	go_tool_item_set_tooltip_text): New functions.
+
+	* */*.c: switch to go_widget_set_tooltip_text.
+
 2007-09-16  Jody Goldberg <jody@gnome.org>
 
 	* goffice/graph/gog-plot.c (gog_plot_set_axis) : split out

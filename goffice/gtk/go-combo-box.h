@@ -25,7 +25,6 @@
 #define _GO_COMBO_BOX_H_
 
 #include <gtk/gtkhbox.h>
-#include <gtk/gtktooltips.h>
 
 G_BEGIN_DECLS
 
@@ -56,7 +55,7 @@ struct _GOComboBoxClass {
 
 /* public */
 GType	    go_combo_box_get_type     (void);
-void	    go_combo_box_set_tooltip  (GOComboBox *combo, GtkTooltips *tips,
+void	    go_combo_box_set_tooltip  (GOComboBox *combo, void *tips,
 				       char const *text, char const *priv_text);
 void	    go_combo_box_set_relief   (GOComboBox *combo, GtkReliefStyle relief);
 void	    go_combo_box_set_title    (GOComboBox *combo, char const *title);

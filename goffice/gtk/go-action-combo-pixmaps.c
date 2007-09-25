@@ -44,6 +44,8 @@ typedef GtkToolItemClass GOToolComboPixmapsClass;
 #define IS_GO_TOOL_COMBO_PIXMAPS(o)	(G_TYPE_CHECK_INSTANCE_TYPE (o, GO_TOOL_COMBO_PIXMAPS_TYPE))
 
 static GType go_tool_combo_pixmaps_get_type (void);
+
+#ifndef HAVE_GTK_TOOL_ITEM_SET_TOOLTIP_TEXT
 static gboolean
 go_tool_combo_pixmaps_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips,
 				   char const *tip_text,
@@ -54,10 +56,14 @@ go_tool_combo_pixmaps_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips
 				  tip_text, tip_private);
 	return TRUE;
 }
+#endif
+
 static void
 go_tool_combo_pixmaps_class_init (GtkToolItemClass *tool_item_klass)
 {
+#ifndef HAVE_GTK_TOOL_ITEM_SET_TOOLTIP_TEXT
 	tool_item_klass->set_tooltip = go_tool_combo_pixmaps_set_tooltip;
+#endif
 }
 
 static GSF_CLASS (GOToolComboPixmaps, go_tool_combo_pixmaps,

@@ -136,10 +136,9 @@ gog_lin_reg_curve_build_values (GogLinRegCurve *rc, double const *x_vals, double
 }
 
 #ifdef GOFFICE_WITH_GTK
-#include <gtk/gtktable.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtktooltips.h>
+#include <gtk/gtk.h>
+#include <goffice/gtk/goffice-gtk.h>
+
 static void
 affine_toggled_cb (GtkToggleButton *btn, GObject *obj)
 {
@@ -152,13 +151,11 @@ gog_lin_reg_curve_populate_editor (GogRegCurve *reg_curve, gpointer table)
 	int rows, columns;
 	GtkWidget *w;
 	GogLinRegCurve *lin = GOG_LIN_REG_CURVE (reg_curve);
-	GtkTooltips *tips = gtk_tooltips_new ();
 
 	g_object_get (G_OBJECT (table), "n-rows", &rows, "n-columns", &columns, NULL);
 	gtk_table_resize (table, rows + 1, columns);
 	w = gtk_check_button_new_with_label (_("Affine"));
-	gtk_tooltips_set_tip (GTK_TOOLTIPS (tips), w,
-					_("Uncheck to force zero intercept"), NULL);
+	go_widget_set_tooltip_text (w, _("Uncheck to force zero intercept"));
 	gtk_widget_show (w);
 	gtk_table_attach (table, w, 0, columns, rows, rows + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), lin->affine);

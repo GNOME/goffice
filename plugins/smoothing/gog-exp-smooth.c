@@ -38,9 +38,8 @@ static GObjectClass *exp_smooth_parent_klass;
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
-#include <gtk/gtkeventbox.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktable.h>
+#include <gtk/gtk.h>
+
 static void
 steps_changed_cb (GtkSpinButton *button, GObject *es)
 {
@@ -59,12 +58,10 @@ gog_exp_smooth_populate_editor (GogObject *obj,
 		go_plugins_get_plugin_by_id ("GOffice_smoothing"));
 	char	 *path = g_build_filename (dir, "gog-exp-smooth.glade", NULL);
 	GladeXML *gui = go_libglade_new (path, "exp-smooth-prefs", GETTEXT_PACKAGE, cc);
-	GtkTooltips *tips = gtk_tooltips_new ();
 	GtkWidget *label, *box, *w = glade_xml_get_widget (gui, "steps");
 	GtkTable *table;
 
-	gtk_tooltips_set_tip (GTK_TOOLTIPS (tips), w,
-					_("Number of interpolation steps"), NULL);
+	go_widget_set_tooltip_text (w, _("Number of interpolation steps"));
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (w), 10, G_MAXINT);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), es->steps);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (steps_changed_cb), obj);
@@ -72,10 +69,9 @@ gog_exp_smooth_populate_editor (GogObject *obj,
 	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 0, GOG_DATA_SCALAR));
 	box = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (box), w);
-	gtk_tooltips_set_tip (GTK_TOOLTIPS (tips), box,
-					_("Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
+	go_widget_set_tooltip_text (box, _("Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
 					"If no value or a negative (or nul) value is provided, the "
-					"default will be used"), NULL);
+					"default will be used"));
 	gtk_widget_show_all (box);
 	gtk_table_attach (table, box, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	label = glade_xml_get_widget (gui, "period-lbl");

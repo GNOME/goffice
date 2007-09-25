@@ -20,6 +20,7 @@
 #define _GOFFICE_GTK_H_
 
 #include <gtk/gtkmessagedialog.h>
+#include <gtk/gtktoolitem.h>
 #include <glade/glade-xml.h>
 #include <gtk/gtkfilechooser.h>
 #include <goffice/app/goffice-app.h>
@@ -84,6 +85,9 @@ gboolean   go_gtk_url_is_writeable	(GtkWindow *parent, char const *uri,
 void	   go_atk_setup_label	 	(GtkWidget *label, GtkWidget *target);
 
 void       go_dialog_guess_alternative_button_order (GtkDialog *dialog);
+
+void       go_widget_set_tooltip_text (GtkWidget *widget, const gchar *tip);
+void       go_tool_item_set_tooltip_text (GtkToolItem *item, const gchar *tip);
 
 G_END_DECLS
 

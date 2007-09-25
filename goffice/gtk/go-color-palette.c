@@ -29,7 +29,7 @@
 
 #include <goffice/goffice-config.h>
 #include "go-color-palette.h"
-#include "goffice-gtk.h"
+#include <goffice/gtk/goffice-gtk.h>
 #include <goffice/utils/go-marshalers.h>
 
 #include <goffice/utils/go-color.h>
@@ -52,7 +52,6 @@ struct _GOColorPalette {
 
 	/* only for custom colours */
 	GtkWidget   *swatches [GO_COLOR_GROUP_HISTORY_SIZE];
-	GtkTooltips *tip;
 
 	/* The table with our default color names */
 	GONamedColor const *default_set;
@@ -197,11 +196,6 @@ go_color_palette_finalize (GObject *object)
 {
 	GOColorPalette *pal = GO_COLOR_PALETTE (object);
 
-	if (pal->tip) {
-		g_object_unref (pal->tip);
-		pal->tip = NULL;
-	}
-
 	go_color_palette_set_group (pal, NULL);
 
 	(*go_color_palette_parent_class->finalize) (object);
@@ -334,8 +328,9 @@ cb_swatch_key_press (GtkBin *button, GdkEventKey *event, GOColorPalette *pal)
  * Utility function
  */
 static GtkWidget *
-go_color_palette_button_new (GOColorPalette *pal, GtkTable* table, GtkTooltips *tip,
-			     GONamedColor const * color_name, gint col, gint row)
+go_color_palette_button_new (GOColorPalette *pal, GtkTable* table,
+			     GONamedColor const *color_name,
+			     gint col, gint row)
 {
         GtkWidget *button, *swatch, *box;
 	GdkColor   gdk;
@@ -353,7 +348,7 @@ go_color_palette_button_new (GOColorPalette *pal, GtkTable* table, GtkTooltips *
 	button = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_container_add (GTK_CONTAINER (button), box);
-	gtk_tooltips_set_tip (tip, button, _(color_name->name), "");
+	go_widget_set_tooltip_text (button, _(color_name->name));
 
 	gtk_table_attach (table, button, col, col+1, row, row+1,
 		GTK_FILL, GTK_FILL, 0, 0);
@@ -424,7 +419,6 @@ go_color_palette_setup (GOColorPalette *pal,
 		     GONamedColor const *color_names)
 {
 	GtkWidget	*w, *table;
-	GtkTooltips	*tip;
 	int pos, row, col = 0;
 
 	table = gtk_table_new (cols, rows, FALSE);
@@ -438,21 +432,13 @@ go_color_palette_setup (GOColorPalette *pal,
 			G_CALLBACK (cb_default_release_event), pal);
 	}
 
-	pal->tip = tip = gtk_tooltips_new ();
-#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
-	g_object_ref_sink (pal->tip);
-#else
-	g_object_ref (pal->tip);
-	gtk_object_sink (GTK_OBJECT (pal->tip));
-#endif
-
 	for (row = 0; row < rows; row++)
 		for (col = 0; col < cols; col++) {
 			pos = row * cols + col;
 			if (color_names [pos].name == NULL)
 				goto custom_colors;
 			go_color_palette_button_new ( pal,
-				GTK_TABLE (table), GTK_TOOLTIPS (tip),
+				GTK_TABLE (table),
 				&(color_names [pos]), col, row + 1);
 		}
 
@@ -463,7 +449,7 @@ custom_colors :
 		GONamedColor color_name = { 0, N_("custom") };
 		color_name.color = pal->group->history [col];
 		pal->swatches [col] = go_color_palette_button_new (pal,
-			GTK_TABLE (table), GTK_TOOLTIPS (tip),
+			GTK_TABLE (table),
 			&color_name, col, row + 1);
 	}
 

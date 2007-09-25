@@ -74,8 +74,8 @@ gog_moving_avg_set_property (GObject *obj, guint param_id,
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktogglebutton.h>
+#include <gtk/gtk.h>
+
 static void
 span_changed_cb (GtkSpinButton *button, GObject *ma)
 {
@@ -99,16 +99,13 @@ gog_moving_avg_populate_editor (GogObject *obj,
 		go_plugins_get_plugin_by_id ("GOffice_smoothing"));
 	char	 *path = g_build_filename (dir, "gog-moving-avg.glade", NULL);
 	GladeXML *gui = go_libglade_new (path, "mv-avg-prefs", GETTEXT_PACKAGE, cc);
-	GtkTooltips *tips = gtk_tooltips_new ();
 	GtkWidget *w = glade_xml_get_widget (gui, "span");
-	gtk_tooltips_set_tip (GTK_TOOLTIPS (tips), w,
-					_("Number of values from which to calculate an average"), NULL);
+	go_widget_set_tooltip_text (w, _("Number of values from which to calculate an average"));
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (w), 2, G_MAXINT);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), ma->span);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (span_changed_cb), obj);
 	w = glade_xml_get_widget (gui, "xavg");
-	gtk_tooltips_set_tip (GTK_TOOLTIPS (tips), w,
-					_("Whether to average x values as well or use the last one"), NULL);
+	go_widget_set_tooltip_text (w, _("Whether to average x values as well or use the last one"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), ma->xavg);
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (xavg_toggled_cb), obj);
 	w = glade_xml_get_widget (gui, "mv-avg-prefs");

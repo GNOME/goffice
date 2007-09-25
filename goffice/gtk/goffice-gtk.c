@@ -1144,6 +1144,51 @@ go_cairo_set_source_pixbuf (cairo_t   *cr,
 	gdk_cairo_set_source_pixbuf (cr, pixbuf, pixbuf_x, pixbuf_y);
 }
 
+#ifndef HAVE_GTK_WIDGET_SET_TOOLTIP_TEXT
+static GtkTooltips *
+get_tooltips (GObject *obj)
+{
+	GtkTooltips *tips = g_object_get_data (obj, "-go-tips");
+
+	if (!tips) {
+		tips = gtk_tooltips_new ();
+
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
+		g_object_ref_sink (tips);
+#else
+		g_object_ref (tips);
+		gtk_object_sink (GTK_OBJECT (tips));
+#endif
+		g_object_set_data_full (obj, "-go-tips", tips,
+					(GDestroyNotify)g_object_unref);
+	}
+
+	return tips;
+}
+#endif
+
+void
+go_widget_set_tooltip_text (GtkWidget *widget, const gchar *tip)
+{
+#ifdef HAVE_GTK_WIDGET_SET_TOOLTIP_TEXT
+	gtk_widget_set_tooltip_text (widget, tip);
+#else
+	GtkTooltips *tips = get_tooltips (G_OBJECT (widget));
+	gtk_tooltips_set_tip (tips, widget, tip, NULL);
+#endif
+}
+
+void
+go_tool_item_set_tooltip_text (GtkToolItem *item, const gchar *tip)
+{
+#ifdef HAVE_GTK_TOOL_ITEM_SET_TOOLTIP_TEXT
+	gtk_tool_item_set_tooltip_text (item, tip);
+#else
+	GtkTooltips *tips = get_tooltips (G_OBJECT (item));
+	gtk_tool_item_set_tooltip (item, tips, tip, NULL);
+#endif
+}
+
 
 #ifndef HAVE_GTK_DIALOG_GET_RESPONSE_FOR_WIDGET
 /* This is public from 2.8 onwards.   */

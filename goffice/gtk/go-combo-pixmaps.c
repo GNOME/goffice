@@ -24,6 +24,7 @@
 #include <goffice/goffice-config.h>
 #include "go-combo-pixmaps.h"
 #include "go-combo-box.h"
+#include <goffice/gtk/goffice-gtk.h>
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -44,7 +45,6 @@ struct _GOComboPixmaps {
 
 	GtkWidget    *table, *preview_button;
 	GtkWidget    *preview_image;
-	GtkTooltips  *tool_tip;
 };
 
 typedef struct {
@@ -69,11 +69,6 @@ static void
 go_combo_pixmaps_finalize (GObject *object)
 {
 	GOComboPixmaps *combo = GO_COMBO_PIXMAPS (object);
-
-	if (combo->tool_tip) {
-		g_object_unref (combo->tool_tip);
-		combo->tool_tip = NULL;
-	}
 
 	if (combo->elements) {
 		g_array_free (combo->elements, TRUE);
@@ -112,14 +107,6 @@ go_combo_pixmaps_init (GOComboPixmaps *combo)
 {
 	combo->elements = g_array_new (FALSE, FALSE, sizeof (Element));
 	combo->table = gtk_table_new (1, 1, 0);
-
-	combo->tool_tip = gtk_tooltips_new ();
-#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
-	g_object_ref_sink (combo->tool_tip);
-#else
-	g_object_ref (combo->tool_tip);
-	gtk_object_sink (GTK_OBJECT (combo->tool_tip));
-#endif
 
 	combo->preview_button = gtk_toggle_button_new ();
 	combo->preview_image = gtk_image_new ();
@@ -230,8 +217,7 @@ go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 	gtk_container_add (GTK_CONTAINER (button), box);
 
 	if (tooltip != NULL)
-		gtk_tooltips_set_tip (combo->tool_tip, button,
-			tooltip, NULL);
+		go_widget_set_tooltip_text (button, tooltip);
 
 	col = combo->elements->len;
 	row = col / combo->cols;

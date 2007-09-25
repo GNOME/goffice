@@ -12,6 +12,7 @@ Jon Kåre:
 
 Morten:
 	* Add function to test if a format has an hour field.
+	* Re-enable GTK_DISABLE_DEPRECATED
 
 --------------------------------------------------------------------------
 goffice 0.5.0:

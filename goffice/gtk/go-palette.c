@@ -20,36 +20,11 @@
  */
 
 #include <goffice/goffice-config.h>
-
 #include <goffice/utils/go-image.h>
-
+#include <goffice/gtk/goffice-gtk.h>
 #include "go-palette.h"
-
-#include <gtk/gtkalignment.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkarrow.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcellview.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkdrawingarea.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkiconview.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkseparatormenuitem.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtktooltips.h>
-#include <gtk/gtktreemodel.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkvseparator.h>
-#include <gtk/gtkversion.h>
-
+#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
-
 #include <gdk/gdkkeysyms.h>
 
 #include <math.h>
@@ -93,8 +68,6 @@ struct _GOPalettePrivate {
 	GtkWidget	*custom;
 	GtkWidget	*custom_separator;
 	char		*custom_label;
-
-	GtkTooltips	*tooltips;
 };
 
 G_DEFINE_TYPE (GOPalette, go_palette, GTK_TYPE_MENU)
@@ -134,14 +107,6 @@ go_palette_init (GOPalette *palette)
 
 	priv->swatch_height = rect.height + 2;
 	priv->swatch_width = priv->swatch_height;
-
-	priv->tooltips = gtk_tooltips_new ();
-#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
-	g_object_ref_sink (priv->tooltips);
-#else
-	g_object_ref (priv->tooltips);
-	gtk_object_sink (GTK_OBJECT (priv->tooltips));
-#endif
 }
 
 static void
@@ -232,7 +197,6 @@ go_palette_finalize (GObject *object)
 
 	priv = GO_PALETTE_GET_PRIVATE (object);
 
-	g_object_unref (priv->tooltips);
 	if (priv->data && priv->destroy)
 		(priv->destroy) (priv->data);
 	g_free (priv->automatic_label);
@@ -324,7 +288,7 @@ go_palette_menu_item_new (GOPalette *palette, int index)
 		char const *tip;
 
 		tip = priv->get_tooltip (index, priv->data);
-		gtk_tooltips_set_tip (palette->priv->tooltips, item, tip, NULL);
+		go_widget_set_tooltip_text (item, tip);
 	}
 	
 	g_signal_connect (item, "activate", G_CALLBACK (cb_menu_item_activate), palette); 
