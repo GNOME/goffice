@@ -22,6 +22,7 @@
 #include <goffice/goffice-config.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-image.h>
+#include <goffice/utils/go-cairo.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 #include <gsf/gsf-impl-utils.h>
@@ -294,79 +295,35 @@ enum {
 #endif
 };
 
+#ifdef GOFFICE_WITH_GTK
 static void
 pixbuf_to_cairo (GOImage *image)
 {
-	guint i,j, rowstride;
-	guint t;
 	unsigned char *src, *dst;
 
 	g_return_if_fail (IS_GO_IMAGE (image) && image->data && image->pixbuf);
-	
-#define MULT(d,c,a,t) G_STMT_START { t = c * a + 0x7f; d = ((t >> 8) + t) >> 8; } G_STMT_END
 
 	src = gdk_pixbuf_get_pixels (image->pixbuf);
 	dst = image->data;
-	rowstride = gdk_pixbuf_get_rowstride (image->pixbuf);
 
-	for (i = 0; i < image->height; i++) {
-		for (j = 0; j < image->width; j++) {
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-			MULT(dst[0], src[2], src[3], t);
-			MULT(dst[1], src[1], src[3], t);
-			MULT(dst[2], src[0], src[3], t);
-			dst[3] = src[3];
-#else	  
-			MULT(dst[3], src[2], src[3], t);
-			MULT(dst[2], src[1], src[3], t);
-			MULT(dst[1], src[0], src[3], t);
-			dst[0] = src[3];
-#endif
-			src += 4;
-			dst += 4;
-		}
-		dst += image->rowstride - image->width * 4;
-		src += rowstride - image->width * 4;
-	}
-#undef MULT
+	g_return_if_fail (gdk_pixbuf_get_rowstride (image->pixbuf) == (int) image->rowstride);
+
+	go_cairo_convert_data_from_pixbuf (dst, src, image->width, image->height, image->rowstride);
 }
 
-#ifdef GOFFICE_WITH_GTK
 static void
 cairo_to_pixbuf (GOImage *image)
 {
-	guint i,j, rowstride;
 	unsigned char *src, *dst;
-	guint t;
-	
+
 	g_return_if_fail (IS_GO_IMAGE (image) && image->data && image->pixbuf);
 
-#define MULT(d,c,a,t) G_STMT_START { t = (a)? c * 255 / a: 0; d = t;} G_STMT_END
-
 	dst = gdk_pixbuf_get_pixels (image->pixbuf);
-	rowstride = gdk_pixbuf_get_rowstride (image->pixbuf);
 	src = image->data;
 
-	for (i = 0; i < image->height; i++) {
-		for (j = 0; j < image->width; j++) {
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-			MULT(dst[0], src[2], src[3], t);
-			MULT(dst[1], src[1], src[3], t);
-			MULT(dst[2], src[0], src[3], t);
-			dst[3] = src[3];
-#else	  
-			MULT(dst[0], src[1], src[0], t);
-			MULT(dst[1], src[2], src[0], t);
-			MULT(dst[2], src[3], src[0], t);
-			dst[3] = src[0];
-#endif
-			src += 4;
-			dst += 4;
-		}
-		dst += rowstride - image->width * 4;
-		src += image->rowstride - image->width * 4;
-	}
-#undef MULT
+	g_return_if_fail (gdk_pixbuf_get_rowstride (image->pixbuf) == (int) image->rowstride);
+
+	go_cairo_convert_data_to_pixbuf (dst, src, image->width, image->height, image->rowstride);
 }
 #endif
 

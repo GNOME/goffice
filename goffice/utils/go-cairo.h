@@ -32,8 +32,10 @@ G_BEGIN_DECLS
 
 void 	 go_cairo_emit_svg_path 		(cairo_t *cr, char const *path);
 gboolean go_cairo_surface_is_vector 		(cairo_surface_t const *surface);
-void 	 go_cairo_convert_data_to_pixbuf 	(unsigned char *data, int width, int height, int rowstride);
-void 	 go_cairo_convert_data_from_pixbuf	(unsigned char *data, int width, int height, int rowstride);
+void	 go_cairo_convert_data_to_pixbuf 	(unsigned char *dst, unsigned char const *src,
+						 int width, int height, int rowstride);
+void	 go_cairo_convert_data_from_pixbuf 	(unsigned char *dst, unsigned char const *src,
+						 int width, int height, int rowstride);
 
 G_END_DECLS
 

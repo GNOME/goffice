@@ -1,3 +1,15 @@
+2007-09-25  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Move cairo to/from pixbuf pixel data conversion from GOImage to
+	go-cairo.c.
+
+	* goffice/graph/gog-renderer.c (gog_renderer_get_pixbuf): adapt to new
+	go_cairo_convert_data_to_pixbuf signature.
+	* goffice/utils/go-cairo.c (go_cairo_convert_data_to_pixbuf),
+	(go_cairo_convert_data_from_pixbuf): handle src != dst.
+	* goffice/utils/go-image.c (pixbuf_to_cairo), (cairo_to_pixbuf): use
+	go_cairo_convert_data functions.
+
 2007-09-24  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-control-foocanvas.c

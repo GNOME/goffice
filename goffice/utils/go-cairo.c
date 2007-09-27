@@ -228,75 +228,148 @@ go_cairo_surface_is_vector (cairo_surface_t const *surface)
 		type == CAIRO_SURFACE_TYPE_PS);
 }
 
+/**
+ * go_cairo_convert_data_from_pixbuf:
+ * @src: a pointer to pixel data in pixbuf format
+ * @dst: a pointer to pixel data in cairo format
+ * @width: image width
+ * @height: image height
+ * @rowstride: data rowstride
+ *
+ * Converts the pixel data stored in @src in GDK_COLORSPACE_RGB pixbuf 
+ * format to CAIRO_FORMAT_ARGB32 cairo format and move them
+ * to @dst. If @src == @dst, pixel are converted in place.
+ **/
+
 void
-go_cairo_convert_data_from_pixbuf (unsigned char *data, int width, int height, int rowstride)
+go_cairo_convert_data_from_pixbuf (unsigned char *dst, unsigned char const *src,
+				   int width, int height, int rowstride)
 {
 	int i,j;
 	unsigned int t;
-	unsigned char a, b, c;
 
-	g_return_if_fail (data != NULL);
+	g_return_if_fail (dst != NULL);
 
 #define MULT(d,c,a,t) G_STMT_START { t = c * a + 0x7f; d = ((t >> 8) + t) >> 8; } G_STMT_END
 
-	for (i = 0; i < height; i++) {
-		for (j = 0; j < width; j++) {
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-			MULT(a, data[2], data[3], t);
-			MULT(b, data[1], data[3], t);
-			MULT(c, data[0], data[3], t);
-			data[0] = a;
-			data[1] = b;
-			data[2] = c;
-#else
-			MULT(a, data[2], data[3], t);
-			MULT(b, data[1], data[3], t);
-			MULT(c, data[0], data[3], t);
+	if (src == dst || src == NULL) {
+		unsigned char a, b, c;
 
-			data[0] = data[3];
-			data[3] = a;
-			data[2] = b;
-			data[1] = c;
+		for (i = 0; i < height; i++) {
+			for (j = 0; j < width; j++) {
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+				MULT(a, dst[2], dst[3], t);
+				MULT(b, dst[1], dst[3], t);
+				MULT(c, dst[0], dst[3], t);
+				dst[0] = a;
+				dst[1] = b;
+				dst[2] = c;
+#else
+				MULT(a, dst[2], dst[3], t);
+				MULT(b, dst[1], dst[3], t);
+				MULT(c, dst[0], dst[3], t);
+
+				dst[0] = dst[3];
+				dst[3] = a;
+				dst[2] = b;
+				dst[1] = c;
 #endif
-			data += 4;
+				dst += 4;
+			}
+			dst += rowstride - width * 4;
 		}
-		data += rowstride - width * 4;
+	} else {
+		for (i = 0; i < height; i++) {
+			for (j = 0; j < width; j++) {
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+				MULT(dst[0], src[2], src[3], t);
+				MULT(dst[1], src[1], src[3], t);
+				MULT(dst[2], src[0], src[3], t);
+				dst[3] = src[3];
+#else
+				MULT(dst[3], src[2], src[3], t);
+				MULT(dst[2], src[1], src[3], t);
+				MULT(dst[1], src[0], src[3], t);
+				dst[0] = src[3];
+#endif
+				src += 4;
+				dst += 4;
+			}
+			src += rowstride - width * 4;
+			dst += rowstride - width * 4;
+		}
 	}
 #undef MULT
 }
 
+/**
+ * go_cairo_convert_data_to_pixbuf:
+ * @src: a pointer to pixel data in cairo format
+ * @dst: a pointer to pixel data in pixbuf format
+ * @width: image width
+ * @height: image height
+ * @rowstride: data rowstride
+ *
+ * Converts the pixel data stored in @src in CAIRO_FORMAT_ARGB32 cairo format 
+ * to GDK_COLORSPACE_RGB pixbuf format and move them
+ * to @dst. If @src == @dst, pixel are converted in place.
+ **/
+
 void
-go_cairo_convert_data_to_pixbuf (unsigned char *data, int width, int height, int rowstride)
+go_cairo_convert_data_to_pixbuf (unsigned char *dst, unsigned char const *src,
+				 int width, int height, int rowstride)
 {
 	int i,j;
 	unsigned int t;
 	unsigned char a, b, c;
 
-	g_return_if_fail (data != NULL);
+	g_return_if_fail (dst != NULL);
 
 #define MULT(d,c,a,t) G_STMT_START { t = (a)? c * 255 / a: 0; d = t;} G_STMT_END
 
-	for (i = 0; i < height; i++) {
-		for (j = 0; j < width; j++) {
+	if (src == dst || src == NULL) {
+		for (i = 0; i < height; i++) {
+			for (j = 0; j < width; j++) {
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
-			MULT(a, data[2], data[3], t);
-			MULT(b, data[1], data[3], t);
-			MULT(c, data[0], data[3], t);
-			data[0] = a;
-			data[1] = b;
-			data[2] = c;
+				MULT(a, dst[2], dst[3], t);
+				MULT(b, dst[1], dst[3], t);
+				MULT(c, dst[0], dst[3], t);
+				dst[0] = a;
+				dst[1] = b;
+				dst[2] = c;
 #else
-			MULT(a, data[1], data[0], t);
-			MULT(b, data[2], data[0], t);
-			MULT(c, data[3], data[0], t);
-			data[3] = data[0];
-			data[0] = a;
-			data[1] = b;
-			data[2] = c;
+				MULT(a, dst[1], dst[0], t);
+				MULT(b, dst[2], dst[0], t);
+				MULT(c, dst[3], dst[0], t);
+				dst[3] = dst[0];
+				dst[0] = a;
+				dst[1] = b;
+				dst[2] = c;
 #endif
-			data += 4;
+				dst += 4;
+			}
+			dst += rowstride - width * 4;
 		}
-		data += rowstride - width * 4;
+	} else {
+		for (i = 0; i < height; i++) {
+			for (j = 0; j < width; j++) {
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+				MULT(dst[0], src[2], src[3], t);
+				MULT(dst[1], src[1], src[3], t);
+				MULT(dst[2], src[0], src[3], t);
+				dst[3] = src[3];
+#else
+				MULT(dst[0], src[1], src[0], t);
+				MULT(dst[1], src[2], src[0], t);
+				MULT(dst[2], src[3], src[0], t);
+				dst[3] = src[0];
+#endif
+				src += 4;
+				dst += 4;
+			}
+			src += rowstride - width * 4;
+			dst += rowstride - width * 4;
+		}
 	}
 #undef MULT
 }
