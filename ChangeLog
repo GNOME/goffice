@@ -1,5 +1,13 @@
 2007-09-25  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Use cairo for graph painting in GogControlFoocanvas. That avoids the
+	conversion from cairo to pixbuf format.
+
+	* goffice/graph/gog-control-foocanvas.c (gog_control_foocanvas_draw):
+	here.
+
+2007-09-25  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Move cairo to/from pixbuf pixel data conversion from GOImage to
 	go-cairo.c.
 
