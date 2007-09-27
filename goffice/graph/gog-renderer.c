@@ -1356,14 +1356,17 @@ gog_renderer_update (GogRenderer *rend, double w, double h)
 			rend->pixbuf = NULL;
 		}
 
-		cairo_set_operator (rend->cairo, CAIRO_OPERATOR_CLEAR);
-		cairo_paint (rend->cairo);
+		if (!size_changed) {
+			cairo_set_operator (rend->cairo, CAIRO_OPERATOR_CLEAR);
+			cairo_paint (rend->cairo);
+		}
 
 		cairo_set_operator (rend->cairo, CAIRO_OPERATOR_OVER);
 
 		cairo_set_line_join (rend->cairo, CAIRO_LINE_JOIN_ROUND);
 		cairo_set_line_cap (rend->cairo, CAIRO_LINE_CAP_ROUND);
 
+		rend->is_vector = FALSE;
 		gog_view_render	(view, NULL);
 	}
 

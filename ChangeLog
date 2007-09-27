@@ -1,5 +1,10 @@
 2007-09-25  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* goffice/graph/gog-renderer.c (gog_renderer_update): no need to clear
+	the surface when it was just created. Force is_vector to FALSE here.
+
+2007-09-25  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Restrict the drawing of the cairo surface cache to the event->region.
 
 	* goffice/graph/gog-control-foocanvas.c (gog_control_foocanvas_draw):
