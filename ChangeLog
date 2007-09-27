@@ -1,3 +1,8 @@
+2007-09-24  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/utils/go-cairo (go_cairo_convert_data_from_pixbuf),
+	(go_cairo_convert_data_to_pixbuf): new.
+
 2007-09-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/regutf8.c (go_regcomp): Add run-time check for

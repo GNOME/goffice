@@ -227,3 +227,76 @@ go_cairo_surface_is_vector (cairo_surface_t const *surface)
 		type == CAIRO_SURFACE_TYPE_PDF ||
 		type == CAIRO_SURFACE_TYPE_PS);
 }
+
+void
+go_cairo_convert_data_from_pixbuf (unsigned char *data, int width, int height, int rowstride)
+{
+	int i,j;
+	unsigned int t;
+	unsigned char a, b, c;
+
+	g_return_if_fail (data != NULL);
+
+#define MULT(d,c,a,t) G_STMT_START { t = c * a + 0x7f; d = ((t >> 8) + t) >> 8; } G_STMT_END
+
+	for (i = 0; i < height; i++) {
+		for (j = 0; j < width; j++) {
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+			MULT(a, data[2], data[3], t);
+			MULT(b, data[1], data[3], t);
+			MULT(c, data[0], data[3], t);
+			data[0] = a;
+			data[1] = b;
+			data[2] = c;
+#else
+			MULT(a, data[2], data[3], t);
+			MULT(b, data[1], data[3], t);
+			MULT(c, data[0], data[3], t);
+
+			data[0] = data[3];
+			data[3] = a;
+			data[2] = b;
+			data[1] = c;
+#endif
+			data += 4;
+		}
+		data += rowstride - width * 4;
+	}
+#undef MULT
+}
+
+void
+go_cairo_convert_data_to_pixbuf (unsigned char *data, int width, int height, int rowstride)
+{
+	int i,j;
+	unsigned int t;
+	unsigned char a, b, c;
+
+	g_return_if_fail (data != NULL);
+
+#define MULT(d,c,a,t) G_STMT_START { t = (a)? c * 255 / a: 0; d = t;} G_STMT_END
+
+	for (i = 0; i < height; i++) {
+		for (j = 0; j < width; j++) {
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+			MULT(a, data[2], data[3], t);
+			MULT(b, data[1], data[3], t);
+			MULT(c, data[0], data[3], t);
+			data[0] = a;
+			data[1] = b;
+			data[2] = c;
+#else
+			MULT(a, data[1], data[0], t);
+			MULT(b, data[2], data[0], t);
+			MULT(c, data[3], data[0], t);
+			data[3] = data[0];
+			data[0] = a;
+			data[1] = b;
+			data[2] = c;
+#endif
+			data += 4;
+		}
+		data += rowstride - width * 4;
+	}
+#undef MULT
+}
