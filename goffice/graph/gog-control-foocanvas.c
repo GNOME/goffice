@@ -126,6 +126,9 @@ gog_control_foocanvas_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 		cairo = gdk_cairo_create (drawable);
 
+		gdk_cairo_region (cairo, ev->region);
+		cairo_clip (cairo);
+
 		cairo_set_source_surface (cairo, surface, item->x1, item->y1);
 		cairo_paint (cairo);
 		cairo_destroy (cairo);
@@ -155,6 +158,7 @@ gog_control_foocanvas_update (FooCanvasItem *item,
 	foo_canvas_w2c (item->canvas, ctrl->base.xpos + ctrl->new_w, ctrl->base.ypos + ctrl->new_h, &x2, &y2);
 
 	redraw = gog_renderer_update (ctrl->renderer, x2-x1, y2-y1);
+
 	if (item->x1 != x1 || item->y1 != y1 || item->x2 != x2 || item->y2 != y2)
 		foo_canvas_update_bbox (FOO_CANVAS_ITEM (ctrl), x1, y1, x2, y2);
 	else if (redraw)

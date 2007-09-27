@@ -1,5 +1,12 @@
 2007-09-25  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Restrict the drawing of the cairo surface cache to the event->region.
+
+	* goffice/graph/gog-control-foocanvas.c (gog_control_foocanvas_draw):
+	here.
+
+2007-09-25  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Use cairo for graph painting in GogControlFoocanvas. That avoids the
 	conversion from cairo to pixbuf format.
 
