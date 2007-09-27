@@ -1,3 +1,10 @@
+2007-09-27  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix rendering of marker outline.
+
+	* goffice/utils/go-marker.c (go_marker_render): don't multiply line
+	width by scale, scaling is already done by cairo_scale.
+
 2007-09-25  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-renderer.c (gog_renderer_update): no need to clear

@@ -2,7 +2,7 @@
 /*
  * go-marker.c :
  *
- * Copyright (C) 2003-2007 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
+ * Copyright (C) 2003-2007 Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -35,7 +35,6 @@ struct _GOMarker {
 	GObject 	base;
 
 	int		size;
-	double		scale;
 	GOMarkerShape	shape;
 	GOColor		outline_color;
 	GOColor		fill_color;
@@ -54,7 +53,7 @@ static const char triangle_up_path[] =		"M0,-1 L1,1 -1,1 z";
 static const char triangle_right_path[] =	"M-1,-1 L1,0 -1,1 z";
 static const char triangle_left_path[] =	"M1,-1 L-1,0 1,1 z";
 static const char circle_path[] =		"M1,0 C1,0.56 0.56,1 0,1 C-0.56,1 -1,0.56 -1,0 "
-					"C-1,-0.56 -0.56,-1 0,-1 C0.56,-1 1,-0.56 1,0 L1,0 z";
+						"C-1,-0.56 -0.56,-1 0,-1 C0.56,-1 1,-0.56 1,0 L1,0 z";
 static const char x_path[] =			"M1,1 L-1,-1 M1,-1 L-1,1";
 static const char cross_path[] =		"M1,0 L-1,0 M0,1 L0,-1";
 static const char asterisk_path[] =		"M0.7,0.7 L-0.7,-0.7 M0.7,-0.7 L-0.7,0.7 M1,0 L-1,0 M0,1 L0,-1";
@@ -270,7 +269,7 @@ go_marker_render (GOMarker const *marker, cairo_t *cr, double x, double y, doubl
 	cairo_fill (cr);
 
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (go_marker_get_outline_color (marker)));
-	cairo_set_line_width (cr, 2.0 * scale * MARKER_OUTLINE_WIDTH);
+	cairo_set_line_width (cr, 2.0 * MARKER_OUTLINE_WIDTH);
 	go_cairo_emit_svg_path (cr, outline_path_raw);
 	cairo_stroke (cr);
 	cairo_restore (cr);
