@@ -73,6 +73,12 @@ go_regcomp (GORegexp *gor, const char *pat , int cflags)
     ((cflags & REG_ICASE) ? PCRE_CASELESS : 0) |
     ((cflags & REG_NEWLINE) ? PCRE_MULTILINE : 0);
 
+  if (&pcre_compile2 == NULL)
+    g_error ("libgoffice has been dynamically linked against a libpcre\n"
+	     "that lacks the pcre_compile2 function.  This indicates a\n"
+	     "distribution dependency problem.  Please report this at\n"
+	     "bugzilla.gnome.org and for you distribution.");
+
   gor->ppcre = r = pcre_compile2 (pat, coptions,
 				  &errorcode, &errorptr, &errorofs,
 				  NULL);

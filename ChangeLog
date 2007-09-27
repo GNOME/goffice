@@ -1,3 +1,8 @@
+2007-09-27  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/regutf8.c (go_regcomp): Add run-time check for
+	missing pcre_compile2.
+
 2007-09-24  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/goffice-gtk.c (go_widget_set_tooltip_text,
