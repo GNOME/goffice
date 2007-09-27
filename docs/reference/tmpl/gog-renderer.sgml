@@ -30,27 +30,12 @@ Multi-backend renderer
 
 @gogrenderer: the object which received the signal.
 
-<!-- ##### ARG GogRenderer:cairo ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogRenderer:is-vector ##### -->
-<para>
-
-</para>
-
 <!-- ##### ARG GogRenderer:model ##### -->
 <para>
 
 </para>
 
 <!-- ##### ARG GogRenderer:view ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogRenderer:zoom ##### -->
 <para>
 
 </para>
@@ -298,7 +283,6 @@ Multi-backend renderer
 @renderer: 
 @w: 
 @h: 
-@zoom: 
 @Returns: 
 
 

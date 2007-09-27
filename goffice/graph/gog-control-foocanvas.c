@@ -167,7 +167,7 @@ gog_control_foocanvas_update (FooCanvasItem *item,
 	foo_canvas_w2c (item->canvas, ctrl->base.xpos, ctrl->base.ypos, &x1, &y1);
 	foo_canvas_w2c (item->canvas, ctrl->base.xpos + ctrl->new_w, ctrl->base.ypos + ctrl->new_h, &x2, &y2);
 
-	redraw = gog_renderer_update (ctrl->renderer, x2-x1, y2-y1, item->canvas->pixels_per_unit);
+	redraw = gog_renderer_update (ctrl->renderer, x2-x1, y2-y1);
 	if (item->x1 != x1 || item->y1 != y1 || item->x2 != x2 || item->y2 != y2)
 		foo_canvas_update_bbox (FOO_CANVAS_ITEM (ctrl), x1, y1, x2, y2);
 	else if (redraw)

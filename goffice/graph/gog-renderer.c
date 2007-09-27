@@ -24,6 +24,7 @@
 #include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/utils/go-units.h>
+#include <goffice/utils/go-cairo.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-math.h>
@@ -57,9 +58,7 @@ enum {
 	RENDERER_PROP_0,
 	RENDERER_PROP_MODEL,
 	RENDERER_PROP_VIEW,
-	RENDERER_PROP_ZOOM,
-	RENDERER_PROP_CAIRO,
-	RENDERER_PROP_IS_VECTOR
+	RENDERER_PROP_ZOOM
 };
 enum {
 	RENDERER_SIGNAL_REQUEST_UPDATE,
@@ -75,7 +74,6 @@ struct _GogRenderer {
 	GogGraph *model;
 	GogView	 *view;
 	float	  scale, scale_x, scale_y;
-	float	  zoom;
 
 	GClosure *font_watcher;
 	gboolean  needs_update;
@@ -94,6 +92,8 @@ struct _GogRenderer {
 	gboolean	 is_vector;
 
 	cairo_t		*cairo;
+	cairo_surface_t *cairo_surface;
+
 	GdkPixbuf 	*pixbuf;
 
 	gboolean	 marker_as_surface;
@@ -1287,40 +1287,35 @@ gog_renderer_request_update (GogRenderer *renderer)
  * @renderer: a #GogRenderer
  * @w: requested width
  * @h: requested height
- * @zoom: requested zoom
  *
  * Requests a renderer update, only useful for pixbuf based renderer.
  **/
 gboolean
-gog_renderer_update (GogRenderer *rend, double w, double h, double zoom)
+gog_renderer_update (GogRenderer *rend, double w, double h)
 {
 	GogGraph *graph;
 	GogView *view;
 	GogViewAllocation allocation;
-	GOImage *image = NULL;
 	gboolean redraw = TRUE;
 	gboolean size_changed;
-	gboolean create_cairo = rend->cairo == NULL;
 
 	g_return_val_if_fail (IS_GOG_RENDERER (rend), FALSE);
 	g_return_val_if_fail (IS_GOG_VIEW (rend->view), FALSE);
 
-	size_changed = rend->w != w || rend->h != h || rend->pixbuf == NULL;
-	if (size_changed && create_cairo) {
-		if (rend->pixbuf != NULL)
-			g_object_unref (rend->pixbuf);
-		rend->pixbuf = NULL;
+	size_changed = rend->w != w || rend->h != h;
+	if (size_changed) {
+		if (rend->cairo_surface != NULL) {
+			cairo_surface_destroy (rend->cairo_surface);
+			rend->cairo_surface = NULL;
+		}
+
 		if (w == 0 || h == 0)
 			return FALSE;
+
 		rend->w = w;
 		rend->h = h;
-		rend->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, rend->w, rend->h);
-		if (rend->pixbuf == NULL) {
-			rend->w = 0;
-			rend->h = 0;
-			g_warning ("GogRendererCairo::cairo_setup: chart is too large");
-			return FALSE;
-		}
+
+		rend->cairo_surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, rend->w, rend->h);
 	}
 	if (w == 0 || h == 0)
 		return FALSE;
@@ -1333,17 +1328,12 @@ gog_renderer_update (GogRenderer *rend, double w, double h, double zoom)
 	allocation.w = w;
 	allocation.h = h;
 
-	if (create_cairo) {
-		image = go_image_new_from_pixbuf (rend->pixbuf);
-		rend->cairo = go_image_get_cairo (image);
-		rend->is_vector = FALSE;
-	}
+	rend->cairo = cairo_create (rend->cairo_surface);
 
 	if (size_changed) {
 		rend->scale_x = (graph->width >= 1.) ? (w / graph->width) : 1.;
 		rend->scale_y = (graph->height >= 1.) ? (h / graph->height) : 1.;
 		rend->scale = MIN (rend->scale_x, rend->scale_y);
-		rend->zoom  = zoom;
 
 		/* make sure we dont try to queue an update while updating */
 		rend->needs_update = TRUE;
@@ -1361,27 +1351,25 @@ gog_renderer_update (GogRenderer *rend, double w, double h, double zoom)
 	rend->needs_update = FALSE;
 
 	if (redraw) {
-		if (create_cairo) {
-			/* clear if we created it, not otherwise */
-			cairo_set_operator (rend->cairo, CAIRO_OPERATOR_CLEAR);
-			cairo_paint (rend->cairo);
+		if (rend->pixbuf) {
+			g_object_unref (rend->pixbuf);
+			rend->pixbuf = NULL;
 		}
+
+		cairo_set_operator (rend->cairo, CAIRO_OPERATOR_CLEAR);
+		cairo_paint (rend->cairo);
+
 		cairo_set_operator (rend->cairo, CAIRO_OPERATOR_OVER);
 
 		cairo_set_line_join (rend->cairo, CAIRO_LINE_JOIN_ROUND);
 		cairo_set_line_cap (rend->cairo, CAIRO_LINE_CAP_ROUND);
 
 		gog_view_render	(view, NULL);
-
-		if (create_cairo)
-			go_image_get_pixbuf (image);
 	}
 
-	if (create_cairo) {
-		g_object_unref (image);
-		cairo_destroy (rend->cairo);
-		rend->cairo = NULL;
-	}
+	cairo_destroy (rend->cairo);
+	rend->cairo = NULL;
+
 	return redraw;
 }
 
@@ -1391,12 +1379,35 @@ gog_renderer_update (GogRenderer *rend, double w, double h, double zoom)
  *
  * Returns current pixbuf buffer from a renderer that can render into a pixbuf.
  **/
-GdkPixbuf*
+
+GdkPixbuf *
 gog_renderer_get_pixbuf (GogRenderer *rend)
 {
 	g_return_val_if_fail (IS_GOG_RENDERER (rend), NULL);
 
+	if (rend->cairo_surface == NULL)
+		return NULL;
+
+	if (rend->pixbuf == NULL) {
+		int width = cairo_image_surface_get_width (rend->cairo_surface);
+		int height = cairo_image_surface_get_height (rend->cairo_surface);
+		int rowstride = cairo_image_surface_get_stride (rend->cairo_surface);
+		unsigned char *data = cairo_image_surface_get_data (rend->cairo_surface);
+
+		rend->pixbuf = gdk_pixbuf_new_from_data (data, GDK_COLORSPACE_RGB, TRUE, 8,
+							 width, height, rowstride, NULL, NULL);
+		go_cairo_convert_data_to_pixbuf (data, width, height, rowstride);
+	}
+
 	return rend->pixbuf;
+}
+
+cairo_surface_t *
+gog_renderer_get_cairo_surface (GogRenderer *rend)
+{
+	g_return_val_if_fail (IS_GOG_RENDERER (rend), NULL);
+
+	return rend->cairo_surface;
 }
 
 static gboolean
@@ -1547,7 +1558,7 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 
 			gog_renderer_update (rend,
 					     width_in_pts * x_dpi / 72.0,
-					     height_in_pts * y_dpi / 72.0, 1.0);
+					     height_in_pts * y_dpi / 72.0);
 			pixbuf = gog_renderer_get_pixbuf (rend);
 			if (pixbuf == NULL)
 				return FALSE;
@@ -1635,7 +1646,7 @@ static void
 gog_renderer_init (GogRenderer *rend)
 {
 	rend->cairo = NULL;
-	rend->pixbuf = NULL;
+	rend->cairo_surface = NULL;
 	rend->marker_surface = NULL;
 	rend->w = rend->h = 0;
 	rend->is_vector = FALSE;
@@ -1646,13 +1657,14 @@ gog_renderer_init (GogRenderer *rend)
 	rend->needs_update = FALSE;
 	rend->cur_style    = NULL;
 	rend->style_stack  = NULL;
-	rend->zoom = rend->scale = rend->scale_x = rend->scale_y = 1.;
 	rend->font_watcher = g_cclosure_new_swap (G_CALLBACK (_cb_font_removed),
 		rend, NULL);
 	go_font_cache_register (rend->font_watcher);
 
 	rend->grip_style = NULL;
 	rend->selection_style = NULL;
+
+	rend->pixbuf = NULL;
 }
 
 static void
@@ -1660,14 +1672,16 @@ gog_renderer_finalize (GObject *obj)
 {
 	GogRenderer *rend = GOG_RENDERER (obj);
 
-	if (rend->cairo != NULL){
-		cairo_destroy (rend->cairo);
-		rend->cairo = NULL;
-	}
 	if (rend->pixbuf != NULL) {
 		g_object_unref (rend->pixbuf);
 		rend->pixbuf = NULL;
 	}
+
+	if (rend->cairo_surface != NULL) {
+		cairo_surface_destroy (rend->cairo_surface);
+		rend->cairo_surface = NULL;
+	}
+
 	_free_marker_data (rend);
 
 	go_line_dash_sequence_free (rend->line_dash);
@@ -1727,22 +1741,6 @@ gog_renderer_set_property (GObject *obj, guint param_id,
 		gog_renderer_request_update (rend);
 		break;
 
-	case RENDERER_PROP_ZOOM:
-		rend->zoom = g_value_get_double (value);
-		break;
-
-	case RENDERER_PROP_CAIRO:
-		if (rend->cairo)
-			cairo_destroy (rend->cairo);
-		rend->cairo = g_value_get_pointer (value);
-		if (rend->cairo)
-			cairo_reference (rend->cairo);
-		break;
-
-	case RENDERER_PROP_IS_VECTOR:
-		rend->is_vector = g_value_get_boolean (value);
-		break;
-
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
@@ -1760,15 +1758,6 @@ gog_renderer_get_property (GObject *obj, guint param_id,
 		break;
 	case RENDERER_PROP_VIEW:
 		g_value_set_object (value, rend->view);
-		break;
-	case RENDERER_PROP_ZOOM:
-		g_value_set_double (value, rend->zoom);
-		break;
-	case RENDERER_PROP_CAIRO:
-		g_value_set_pointer (value, rend->cairo);
-		break;
-	case RENDERER_PROP_IS_VECTOR:
-		g_value_set_boolean (value, rend->is_vector);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -1797,23 +1786,6 @@ gog_renderer_class_init (GogRendererClass *renderer_klass)
 			_("the GogView this renderer is displaying"),
 			GOG_VIEW_TYPE,
 			GSF_PARAM_STATIC | G_PARAM_READABLE));
-	g_object_class_install_property (gobject_klass, RENDERER_PROP_ZOOM,
-		g_param_spec_double ("zoom",
-			_("Zoom Height Pts"),
-			_("Global scale factor"),
-			1., G_MAXDOUBLE, 1.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-	g_object_class_install_property (gobject_klass, RENDERER_PROP_CAIRO,
-		g_param_spec_pointer ("cairo",
-			_("Cairo"),
-			_("The cairo_t* this renderer uses"),
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-	g_object_class_install_property (gobject_klass, RENDERER_PROP_IS_VECTOR,
-		g_param_spec_boolean ("is-vector",
-			_("Is vector"),
-			_("Tells if the cairo surface is vectorial or raster"),
-			FALSE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	renderer_signals [RENDERER_SIGNAL_REQUEST_UPDATE] = g_signal_new ("request-update",
 		G_TYPE_FROM_CLASS (renderer_klass),

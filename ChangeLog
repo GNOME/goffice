@@ -1,5 +1,30 @@
 2007-09-24  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* goffice/graph/gog-control-foocanvas.c
+	(gog_control_foocanvas_update): remove unused gog_renderer_update zoom
+	parameter.
+	* goffice/graph/gog-graph.c (gog_graph_render_to_cairo),
+	(gog_graph_render_to_cairo_vector): ditto.
+	* goffice/gtk/go-graph-widget (update_image_rect): ditto.
+
+	Use a cairo_surface for graph image cache, instead of pixbuf. Remove
+	"cairo" and "is_vector" properties, they are internal variables. Also 
+	remove "zoom", it's unused.
+
+	* goffice/graph/gog-renderer.c (gog_renderer_update): remove unused
+	zoom parameter. Use a cairo_surface for caching.
+	(gog_renderer_get_pixbuf): keep for now, and do the conversion from
+	cairo format here.
+	(gog_renderer_get_cairo_surface): new.
+	(gog_renderer_export_image): remove unused gog_renderer_update zoom
+	parameter.
+	(gog_renderer_set_property): remove "zoom", "cairo" and "is_vector"
+	property.
+	(gog_renderer_get_property): ditto.
+	(gog_renderer_class_init): ditto.
+
+2007-09-24  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	* goffice/utils/go-cairo (go_cairo_convert_data_from_pixbuf),
 	(go_cairo_convert_data_to_pixbuf): new.
 

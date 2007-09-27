@@ -1080,7 +1080,7 @@ void gog_graph_render_to_cairo (GogGraph *graph, gpointer data, double w, double
 		"cairo", data,
 		"is-vector", FALSE,
 		NULL));
-	gog_renderer_update (rend, w, h, 1.);
+	gog_renderer_update (rend, w, h);
 	g_object_unref (rend);
 }
 
@@ -1092,7 +1092,7 @@ void gog_graph_render_to_cairo_vector (GogGraph *graph, gpointer data, double w,
 		"cairo", data,
 		"is-vector", TRUE,
 		NULL));
-	gog_renderer_update (rend, w, h, 1.);
+	gog_renderer_update (rend, w, h);
 	g_object_unref (rend);
 }
 

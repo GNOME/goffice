@@ -131,12 +131,11 @@ void  gog_renderer_push_clip 	  	(GogRenderer *rend, GOPath const *path);
 void  gog_renderer_push_clip_rectangle 	(GogRenderer *rend, double x, double y, double w, double h);
 void  gog_renderer_pop_clip       	(GogRenderer *rend);
 
-/* utilities for cairo/libart transition */
-GogRenderer 	*gog_renderer_new_for_pixbuf 	(GogGraph *graph);
-gboolean	 gog_renderer_update		(GogRenderer *renderer, double w, double h, double zoom);
+/* Utilities for cairo/libart transition */
+gboolean	 gog_renderer_update		(GogRenderer *renderer, double w, double h);
+cairo_surface_t *gog_renderer_get_cairo_surface	(GogRenderer *renderer);
 GdkPixbuf 	*gog_renderer_get_pixbuf 	(GogRenderer *renderer);
 
-GogRenderer 	*gog_renderer_new_for_format 	(GogGraph *graph, GOImageFormat format);
 gboolean 	 gog_renderer_export_image 	(GogRenderer *renderer, GOImageFormat format,
 						 GsfOutput *output, double x_dpi, double y_dpi);
 
@@ -149,6 +148,9 @@ void  gog_renderer_draw_sharp_polygon   (GogRenderer *rend, ArtVpath *path, gboo
 void  gog_renderer_draw_path      	(GogRenderer *rend, ArtVpath const *path);
 void  gog_renderer_draw_polygon   	(GogRenderer *rend, ArtVpath const *path, gboolean narrow);
 void  gog_renderer_draw_bezier_path     (GogRenderer *rend, ArtBpath const *path);
+
+GogRenderer 	*gog_renderer_new_for_pixbuf 	(GogGraph *graph);
+GogRenderer 	*gog_renderer_new_for_format 	(GogGraph *graph, GOImageFormat format);
 
 G_END_DECLS
 
