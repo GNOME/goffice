@@ -1,5 +1,36 @@
 2007-09-27  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Implementation of gog_renderer_render_to_cairo. Compared to
+	gog_renderer_update / gog_renderer_get_cairo_surface, it always redo
+	the size allocation and doesn't cache the rendering result.
+
+	Some API cleanup by removing gog_renderer_new_for_foo functions, 
+	replaced by gog_renderer_new. Restore the unused zoom parameter of
+	gog_renderer_update, in order to keep compatibility with goffice 0.4.
+
+	* goffice/graph/gog-control-foocanvas.c
+	(gog_control_foocanvas_set_property): use gog_renderer_new.
+	(gog_control_foocanvas_update): add dummy zoom parameter to
+	gog_renderer_update_call.
+	* goffice/graph/gog-graph.c (gog_graph_export_image): use
+	gog_renderer_new.
+	(gog_graph_render_to_cairo), 
+	(gog_graph_render_to_cairo_vector): ditto. Use
+	gog_renderer_render_to_cairo.
+	* goffice/graph/gog-renderer.c (gog_renderer_render_to_cairo): new.
+	(gog_renderer_export_image): use gog_renderer_render_to_cairo.
+	(gog_renderer_new): new. Replace gog_renderer_new_for_format and
+	gog_renderer_new_for_pixbuf.
+	(gog_renderer_new_for_format): removed.
+	(gog_renderer_new_for_pixbuf): keppe for gnumeric goffice 0.4
+	compatibility.
+	* goffice/gtk/go-graph-widget.c (update_image_rect): restore dummy
+	gog_renderer_update zoom parameter.
+	(go_graph_widget_set_property): use gog_renderer_new instead of
+	gog_renderer_new_for_pixbuf.
+
+2007-09-27  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Fix rendering of marker outline.
 
 	* goffice/utils/go-marker.c (go_marker_render): don't multiply line

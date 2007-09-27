@@ -1291,7 +1291,7 @@ gog_renderer_request_update (GogRenderer *renderer)
  * Requests a renderer update, only useful for pixbuf based renderer.
  **/
 gboolean
-gog_renderer_update (GogRenderer *rend, double w, double h)
+gog_renderer_update (GogRenderer *rend, double w, double h, double unused)
 {
 	GogGraph *graph;
 	GogView *view;
@@ -1441,6 +1441,47 @@ _cairo_write_func (void *closure,
 	return result ? CAIRO_STATUS_SUCCESS : CAIRO_STATUS_WRITE_ERROR;
 }
 
+gboolean
+gog_renderer_render_to_cairo (GogRenderer *renderer, cairo_t *cairo, double width, double height)
+{
+	GogViewAllocation allocation;
+	double width_in_pts, height_in_pts;
+
+	g_return_val_if_fail (IS_GOG_RENDERER (renderer), FALSE);
+	g_return_val_if_fail (IS_GOG_VIEW (renderer->view), FALSE);
+	g_return_val_if_fail (IS_GOG_GRAPH (renderer->model), FALSE);
+
+	gog_graph_force_update (renderer->model);
+	gog_graph_get_size (renderer->model, &width_in_pts, &height_in_pts);
+
+	renderer->cairo = cairo;
+	renderer->is_vector = go_cairo_surface_is_vector (cairo_get_target (cairo));
+
+	cairo_set_line_join (renderer->cairo, CAIRO_LINE_JOIN_ROUND);
+	cairo_set_line_cap (renderer->cairo, CAIRO_LINE_CAP_ROUND);
+
+	renderer->w = width;
+	renderer->h = height;
+
+	allocation.x = 0.;
+	allocation.y = 0.;
+	allocation.w = width;
+	allocation.h = height;
+
+	renderer->scale_x = (width_in_pts >= 1.) ? (width / width_in_pts) : 1.;
+	renderer->scale_y = (height_in_pts >= 1.) ? (height / height_in_pts) : 1.;
+	renderer->scale = MIN (renderer->scale_x, renderer->scale_y);
+
+	gog_view_size_allocate (renderer->view, &allocation);
+	gog_view_render	(renderer->view, NULL);
+
+	cairo_show_page (renderer->cairo);
+
+	renderer->cairo = NULL;
+
+	return cairo_status (cairo) == CAIRO_STATUS_SUCCESS;
+}
+
 /**
  * gog_renderer_export_image:
  * @renderer: a #GogRenderer
@@ -1460,10 +1501,10 @@ gboolean
 gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 			   GsfOutput *output, double x_dpi, double y_dpi)
 {
-	GogViewAllocation allocation;
 	GOImageFormatInfo const *format_info;
+	cairo_t *cairo;
 	cairo_surface_t *surface = NULL;
-	cairo_status_t status;
+	gboolean status;
 	GdkPixbuf *pixbuf, *output_pixbuf;
 	double width_in_pts, height_in_pts;
 	gboolean result;
@@ -1529,28 +1570,14 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 				default:
 					break;
 			}
-			rend->cairo = cairo_create (surface);
+
+			cairo = cairo_create (surface);
 			cairo_surface_destroy (surface);
-			cairo_set_line_join (rend->cairo, CAIRO_LINE_JOIN_ROUND);
-			cairo_set_line_cap (rend->cairo, CAIRO_LINE_CAP_ROUND);
-			rend->w = width_in_pts;
-			rend->h = height_in_pts;
-			rend->is_vector = TRUE;
+			status = gog_renderer_render_to_cairo (rend, cairo, width_in_pts, height_in_pts);
+			cairo_destroy (cairo);
 
-			allocation.x = 0.;
-			allocation.y = 0.;
-			allocation.w = width_in_pts;
-			allocation.h = height_in_pts;
-			gog_view_size_allocate (rend->view, &allocation);
-			gog_view_render	(rend->view, NULL);
+			return status;
 
-			cairo_show_page (rend->cairo);
-			status = cairo_status (rend->cairo);
-
-			cairo_destroy (rend->cairo);
-			rend->cairo = NULL;
-
-			return status == CAIRO_STATUS_SUCCESS;
 			break;
 		default:
 			format_info = go_image_get_format_info (format);
@@ -1559,9 +1586,7 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 				return FALSE;
 			}
 
-			gog_renderer_update (rend,
-					     width_in_pts * x_dpi / 72.0,
-					     height_in_pts * y_dpi / 72.0);
+			gog_renderer_update (rend, width_in_pts * x_dpi / 72.0, height_in_pts * y_dpi / 72.0, 0.0);
 			pixbuf = gog_renderer_get_pixbuf (rend);
 			if (pixbuf == NULL)
 				return FALSE;
@@ -1573,7 +1598,6 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 										   GDK_INTERP_NEAREST,
 										   255, 256, 0xffffffff,
 										   0xffffffff);
-
 			else
 				output_pixbuf = pixbuf;
 			result = gdk_pixbuf_save_to_callback (output_pixbuf,
@@ -1608,32 +1632,22 @@ gog_renderer_get_hairline_width_pts (GogRenderer const *rend)
 }
 
 /**
- * gog_renderer_new_for_pixbuf:
+ * gog_renderer_new:
  * @graph : graph model
  *
  * Creates a new renderer which can render into a pixbuf, and sets
  * @graph as its model.
  **/
 GogRenderer*
-gog_renderer_new_for_pixbuf (GogGraph *graph)
+gog_renderer_new (GogGraph *graph)
 {
 	return g_object_new (GOG_RENDERER_TYPE, "model", graph, NULL);
 }
 
-/**
- * gog_renderer_new_for_format:
- * @graph: a #GogGraph
- * @format: image format
- * 
- * Creates a new #GogRenderer which is capable of export to @format.
- *
- * returns: a new #GogRenderer.
- **/
-
-GogRenderer *
-gog_renderer_new_for_format (GogGraph *graph, GOImageFormat format)
+GogRenderer*
+gog_renderer_new_for_pixbuf (GogGraph *graph)
 {
-	return g_object_new (GOG_RENDERER_TYPE, "model", graph, NULL);
+	return gog_renderer_new (graph);
 }
 
 static void

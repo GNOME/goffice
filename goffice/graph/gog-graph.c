@@ -1063,36 +1063,25 @@ gog_graph_export_image (GogGraph *graph, GOImageFormat format, GsfOutput *output
 	g_return_val_if_fail (IS_GOG_GRAPH (graph), FALSE);
 	g_return_val_if_fail (format != GO_IMAGE_FORMAT_UNKNOWN, FALSE);
 
-	renderer = gog_renderer_new_for_format (graph, format);
-	g_return_val_if_fail (renderer != NULL, FALSE);
-
+	renderer = gog_renderer_new (graph);
 	result = gog_renderer_export_image (renderer, format, output, x_dpi, y_dpi);
 	g_object_unref (renderer);
 
 	return result;
 }
 
-void gog_graph_render_to_cairo (GogGraph *graph, gpointer data, double w, double h)
+void gog_graph_render_to_cairo (GogGraph *graph, gpointer cairo, double w, double h)
 {
-	GogRenderer *rend = GOG_RENDERER (g_object_new (
-		GOG_RENDERER_TYPE,
-		"model", graph,
-		"cairo", data,
-		"is-vector", FALSE,
-		NULL));
-	gog_renderer_update (rend, w, h);
-	g_object_unref (rend);
+	GogRenderer *renderer;
+
+	g_return_if_fail (IS_GOG_GRAPH (graph));
+
+	renderer = gog_renderer_new (graph);
+	gog_renderer_render_to_cairo (renderer, cairo, w, h);
+	g_object_unref (renderer);
 }
 
-void gog_graph_render_to_cairo_vector (GogGraph *graph, gpointer data, double w, double h)
+void gog_graph_render_to_cairo_vector (GogGraph *graph, gpointer cairo, double w, double h)
 {
-	GogRenderer *rend = GOG_RENDERER (g_object_new (
-		GOG_RENDERER_TYPE,
-		"model", graph,
-		"cairo", data,
-		"is-vector", TRUE,
-		NULL));
-	gog_renderer_update (rend, w, h);
-	g_object_unref (rend);
+	gog_graph_render_to_cairo (graph, cairo, w, h);
 }
-

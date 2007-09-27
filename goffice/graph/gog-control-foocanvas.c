@@ -57,7 +57,7 @@ gog_control_foocanvas_set_property (GObject *gobject, guint param_id,
 	case CTRL_FOO_PROP_MODEL:
 		if (ctrl->renderer != NULL)
 			g_object_unref (ctrl->renderer);
-		ctrl->renderer = gog_renderer_new_for_pixbuf (g_value_get_object (value));
+		ctrl->renderer = gog_renderer_new (g_value_get_object (value));
 		break;
 
 	case CTRL_FOO_PROP_RENDERER:
@@ -157,7 +157,7 @@ gog_control_foocanvas_update (FooCanvasItem *item,
 	foo_canvas_w2c (item->canvas, ctrl->base.xpos, ctrl->base.ypos, &x1, &y1);
 	foo_canvas_w2c (item->canvas, ctrl->base.xpos + ctrl->new_w, ctrl->base.ypos + ctrl->new_h, &x2, &y2);
 
-	redraw = gog_renderer_update (ctrl->renderer, x2-x1, y2-y1);
+	redraw = gog_renderer_update (ctrl->renderer, x2-x1, y2-y1, .0);
 
 	if (item->x1 != x1 || item->y1 != y1 || item->x2 != x2 || item->y2 != y2)
 		foo_canvas_update_bbox (FOO_CANVAS_ITEM (ctrl), x1, y1, x2, y2);

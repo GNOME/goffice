@@ -107,7 +107,7 @@ update_image_rect (GOGraphWidget *gw,
 	gw->xoffset = MAX (0, (int) (allocation.width - gw->width) / 2);
 
 	gog_graph_set_size (gw->graph, gw->width * 72. / gw->hres, gw->height * 72. / gw->vres);
-	gog_renderer_update (gw->renderer, gw->width, gw->height);
+	gog_renderer_update (gw->renderer, gw->width, gw->height, .0);
 }
 
 
@@ -280,7 +280,7 @@ go_graph_widget_set_property (GObject *obj, guint param_id,
 		break;
 	case GRAPH_WIDGET_PROP_GRAPH :
 		w->graph = (GogGraph *) g_value_dup_object (value);
-		w->renderer = gog_renderer_new_for_pixbuf (w->graph);
+		w->renderer = gog_renderer_new (w->graph);
 		g_signal_connect_swapped (w->renderer, "request_update",
 			G_CALLBACK (go_graph_widget_request_update), w);
 		break;

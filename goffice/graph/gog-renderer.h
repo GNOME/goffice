@@ -131,27 +131,30 @@ void  gog_renderer_push_clip 	  	(GogRenderer *rend, GOPath const *path);
 void  gog_renderer_push_clip_rectangle 	(GogRenderer *rend, double x, double y, double w, double h);
 void  gog_renderer_pop_clip       	(GogRenderer *rend);
 
-/* Utilities for cairo/libart transition */
-gboolean	 gog_renderer_update		(GogRenderer *renderer, double w, double h);
+
+/* Rendering with image cache */
+gboolean	 gog_renderer_update		(GogRenderer *renderer, double w, double h, double unused);
 cairo_surface_t *gog_renderer_get_cairo_surface	(GogRenderer *renderer);
 GdkPixbuf 	*gog_renderer_get_pixbuf 	(GogRenderer *renderer);
+void  		 gog_renderer_request_update 	(GogRenderer *r);
 
+/* One time rendering */
+gboolean	 gog_renderer_render_to_cairo 	(GogRenderer *renderer, cairo_t *cairo,
+						 double width, double height);
 gboolean 	 gog_renderer_export_image 	(GogRenderer *renderer, GOImageFormat format,
 						 GsfOutput *output, double x_dpi, double y_dpi);
 
-void  gog_renderer_request_update (GogRenderer *r);
+GogRenderer 	*gog_renderer_new 		(GogGraph *graph);
 
 /* Deprecated API */
-void  gog_renderer_draw_sharp_path	(GogRenderer *rend, ArtVpath *path);
-void  gog_renderer_draw_sharp_polygon   (GogRenderer *rend, ArtVpath *path, gboolean narrow);
+void  		gog_renderer_draw_sharp_path	(GogRenderer *rend, ArtVpath *path);
+void  		gog_renderer_draw_sharp_polygon (GogRenderer *rend, ArtVpath *path, gboolean narrow);
 
-void  gog_renderer_draw_path      	(GogRenderer *rend, ArtVpath const *path);
-void  gog_renderer_draw_polygon   	(GogRenderer *rend, ArtVpath const *path, gboolean narrow);
-void  gog_renderer_draw_bezier_path     (GogRenderer *rend, ArtBpath const *path);
+void  		gog_renderer_draw_path      	(GogRenderer *rend, ArtVpath const *path);
+void  		gog_renderer_draw_polygon   	(GogRenderer *rend, ArtVpath const *path, gboolean narrow);
+void  		gog_renderer_draw_bezier_path   (GogRenderer *rend, ArtBpath const *path);
 
-GogRenderer 	*gog_renderer_new_for_pixbuf 	(GogGraph *graph);
-GogRenderer 	*gog_renderer_new_for_format 	(GogGraph *graph, GOImageFormat format);
-
+GogRenderer	*gog_renderer_new_for_pixbuf 	(GogGraph *graph);
 G_END_DECLS
 
 #endif /* GOG_RENDERER_H */
