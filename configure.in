@@ -229,7 +229,7 @@ if test "x$goffice_with_gtk" = "xtrue"; then
 	CFLAGS="$CFLAGS -DGDK_PIXBUF_DISABLE_DEPRECATED"
 	CFLAGS="$CFLAGS -DGDK_DISABLE_DEPRECATED"
 	CFLAGS="$CFLAGS -DGDK_MULTIHEAD_SAFE"
-#CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED"	We need GtkTooltips
+# gtk+ handled later
 	CFLAGS="$CFLAGS -DLIBGLADE_DISABLE_DEPRECATED"
 fi
 if test "x$goffice_with_gnome" = "xtrue"; then
@@ -393,6 +393,8 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <glib/gstdio.h>]], [[(void)g_access("
                [AC_MSG_RESULT(no)])
 if test "x$goffice_with_gtk" = "xtrue" ; then
   AC_CHECK_FUNCS(gtk_dialog_get_response_for_widget)
+  AC_CHECK_FUNCS(gtk_widget_set_tooltip_text gtk_tool_item_set_tooltip_text,
+		 [CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED"])
   AC_CHECK_FUNCS(gdk_cairo_set_source_pixbuf)
 fi
 CFLAGS=$SAVE_CFLAGS
