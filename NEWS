@@ -2,6 +2,7 @@ goffice 0.5.1:
 
 Jean:
 	* Fix crash in gog_renderer_update. [#477052]
+	* Copied FFT and complex numbers code from gnumeric.
 
 Jody:
 	* Some extensions for OOX charts.
