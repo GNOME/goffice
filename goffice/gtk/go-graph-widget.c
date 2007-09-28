@@ -107,7 +107,7 @@ update_image_rect (GOGraphWidget *gw,
 	gw->xoffset = MAX (0, (int) (allocation.width - gw->width) / 2);
 
 	gog_graph_set_size (gw->graph, gw->width * 72. / gw->hres, gw->height * 72. / gw->vres);
-	gog_renderer_update (gw->renderer, gw->width, gw->height, .0);
+	gog_renderer_update (gw->renderer, gw->width, gw->height);
 }
 
 

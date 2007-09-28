@@ -133,10 +133,10 @@ void  gog_renderer_pop_clip       	(GogRenderer *rend);
 
 
 /* Rendering with image cache */
-gboolean	 gog_renderer_update		(GogRenderer *renderer, double w, double h, double unused);
+gboolean	 gog_renderer_update		(GogRenderer *renderer, double w, double h);
 cairo_surface_t *gog_renderer_get_cairo_surface	(GogRenderer *renderer);
 GdkPixbuf 	*gog_renderer_get_pixbuf 	(GogRenderer *renderer);
-void  		 gog_renderer_request_update 	(GogRenderer *r);
+void  		 gog_renderer_request_update 	(GogRenderer *renderer);
 
 /* One time rendering */
 gboolean	 gog_renderer_render_to_cairo 	(GogRenderer *renderer, cairo_t *cairo,
@@ -153,8 +153,5 @@ void  		gog_renderer_draw_sharp_polygon (GogRenderer *rend, ArtVpath *path, gboo
 void  		gog_renderer_draw_path      	(GogRenderer *rend, ArtVpath const *path);
 void  		gog_renderer_draw_polygon   	(GogRenderer *rend, ArtVpath const *path, gboolean narrow);
 void  		gog_renderer_draw_bezier_path   (GogRenderer *rend, ArtBpath const *path);
-
-GogRenderer	*gog_renderer_new_for_pixbuf 	(GogGraph *graph);
-G_END_DECLS
 
 #endif /* GOG_RENDERER_H */

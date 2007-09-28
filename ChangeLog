@@ -1,3 +1,12 @@
+2007-09-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-control-foocanvas.c
+	(gog_control_foocanvas_update): remove unused gog_renderer_update zoom
+	parameter again.
+	* goffice/gtk/go-graph-widget.c (update_image_rect): ditto.
+	* goffice/graph/gog-renderer.c (gog_renderer_update): ditto.
+	(gog_renderer_new_for_pixbuf): removed.
+
 2007-09-28  Jean Brefort <jean.brefort@normalesup.org>
 
 	* configure.in: added goffice/math directory.

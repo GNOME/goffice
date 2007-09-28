@@ -1291,7 +1291,7 @@ gog_renderer_request_update (GogRenderer *renderer)
  * Requests a renderer update, only useful for pixbuf based renderer.
  **/
 gboolean
-gog_renderer_update (GogRenderer *rend, double w, double h, double unused)
+gog_renderer_update (GogRenderer *rend, double w, double h)
 {
 	GogGraph *graph;
 	GogView *view;
@@ -1586,7 +1586,7 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 				return FALSE;
 			}
 
-			gog_renderer_update (rend, width_in_pts * x_dpi / 72.0, height_in_pts * y_dpi / 72.0, 0.0);
+			gog_renderer_update (rend, width_in_pts * x_dpi / 72.0, height_in_pts * y_dpi / 72.0);
 			pixbuf = gog_renderer_get_pixbuf (rend);
 			if (pixbuf == NULL)
 				return FALSE;
@@ -1642,12 +1642,6 @@ GogRenderer*
 gog_renderer_new (GogGraph *graph)
 {
 	return g_object_new (GOG_RENDERER_TYPE, "model", graph, NULL);
-}
-
-GogRenderer*
-gog_renderer_new_for_pixbuf (GogGraph *graph)
-{
-	return gog_renderer_new (graph);
 }
 
 static void
