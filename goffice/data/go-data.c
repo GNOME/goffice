@@ -22,7 +22,7 @@
 #include <goffice/goffice-config.h>
 #include "go-data.h"
 #include "go-data-impl.h"
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>

@@ -29,8 +29,7 @@
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-chart-map.h>
 #include <goffice/data/go-data-simple.h>
-#include <goffice/utils/go-math.h>
-#include <goffice/utils/go-rangefunc.h>
+#include <goffice/math/go-rangefunc.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>

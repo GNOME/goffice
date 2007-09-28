@@ -29,9 +29,9 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/data/go-data.h>
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
-#include <goffice/utils/go-math.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>

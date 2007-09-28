@@ -530,6 +530,7 @@ goffice/data/Makefile
 goffice/gtk/Makefile
 goffice/graph/Makefile
 goffice/drawing/Makefile
+goffice/math/Makefile
 goffice/ms-compat/Makefile
 goffice/component/Makefile
 goffice/cut-n-paste/Makefile

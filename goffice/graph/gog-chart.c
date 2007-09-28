@@ -31,7 +31,7 @@
 #include <goffice/graph/gog-grid.h>
 #include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>

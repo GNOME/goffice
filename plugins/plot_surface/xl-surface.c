@@ -27,8 +27,8 @@
 
 #include <goffice/data/go-data-simple.h>
 #include <goffice/graph/gog-axis.h>
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-format.h>
-#include <goffice/utils/go-math.h>
 
 static GogObjectClass *xl_contour_parent_klass;
 typedef GogSeries XLSurfaceSeries;

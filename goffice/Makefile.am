@@ -1,4 +1,4 @@
-SUBDIRS = utils data app graph ms-compat cut-n-paste
+SUBDIRS = utils data app graph math ms-compat cut-n-paste
 
 lib_LTLIBRARIES = libgoffice-0.5.la
 
@@ -7,6 +7,7 @@ libgoffice_0_5_la_LIBADD = 			\
 	app/libgoffice-app.la			\
 	data/libgoffice-data.la			\
 	graph/libgoffice-graph.la		\
+	math/libgoffice-math.la		\
 	ms-compat/libgoffice-ms-compat.la	\
 	$(GOFFICE_LIBS)
 
@@ -68,7 +69,8 @@ goffice.def: local.def app/local.def \
 	cut-n-paste/foocanvas/local.def \
 	component/local.def \
 	data/local.def drawing/local.def graph/local.def \
-	gtk/local.def ms-compat/local.def utils/local.def
+	gtk/local.def  math/local.def \
+	ms-compat/local.def utils/local.def
 	echo EXPORTS > $@ && \
 	cat $^ | sort >> $@
 

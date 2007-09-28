@@ -22,7 +22,7 @@
 #include <goffice/goffice-config.h>
 #include "gog-moving-avg.h"
 #include <goffice/app/go-plugin.h>
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 

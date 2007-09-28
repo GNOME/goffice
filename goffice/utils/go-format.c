@@ -39,7 +39,7 @@
 #include "go-color.h"
 #include "datetime.h"
 #include "go-glib-extras.h"
-#include "go-math.h"
+#include <goffice/math/go-math.h>
 #include <glib/gi18n-lib.h>
 
 #include <time.h>

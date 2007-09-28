@@ -25,7 +25,7 @@
 #include <goffice/graph/gog-graph.h>
 #include <goffice/data/go-data.h>
 #include <goffice/data/go-data-simple.h>
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 
 GType
 gog_dataset_get_type (void)

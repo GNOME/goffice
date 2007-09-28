@@ -31,7 +31,7 @@
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/data/go-data.h>
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 #include <glib/gi18n-lib.h>
 
 #ifdef GOFFICE_WITH_GTK

@@ -24,8 +24,8 @@
 #include <goffice/app/go-plugin.h>
 #include <goffice/data/go-data.h>
 #include <goffice/graph/gog-data-allocator.h>
-#include <goffice/utils/go-math.h>
-#include <goffice/utils/go-rangefunc.h>
+#include <goffice/math/go-math.h>
+#include <goffice/math/go-rangefunc.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 

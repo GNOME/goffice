@@ -23,7 +23,7 @@
 
 #include "go-color.h"
 #include "go-line.h"
-#include "go-math.h"
+#include <goffice/math/go-math.h>
 
 #include <string.h>
 #include <glib/gi18n-lib.h>

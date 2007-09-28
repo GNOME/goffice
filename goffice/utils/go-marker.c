@@ -22,7 +22,7 @@
 #include <goffice/goffice-config.h>
 #include "go-marker.h"
 #include "go-color.h"
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-cairo.h>
 
 #include <glib/gi18n-lib.h>

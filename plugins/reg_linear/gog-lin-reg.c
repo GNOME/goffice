@@ -28,7 +28,7 @@
 #include "gog-power-reg.h"
 #include <goffice/data/go-data.h>
 #include <goffice/graph/gog-series-impl.h>
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 #include <glib/gi18n-lib.h>
 
 #include <gsf/gsf-impl-utils.h>

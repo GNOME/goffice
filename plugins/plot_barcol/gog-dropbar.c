@@ -25,7 +25,7 @@
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>

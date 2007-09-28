@@ -23,13 +23,13 @@
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-styled-object.h>
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/go-image.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-marker.h>
-#include <goffice/utils/go-math.h>
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>

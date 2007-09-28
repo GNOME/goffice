@@ -20,7 +20,7 @@
 #include "go-rotation-sel.h"
 
 #include <goffice/gtk/goffice-gtk.h>
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
@@ -31,7 +31,6 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtklabel.h>
 #include <glib/gi18n-lib.h>
-#include <math.h>
 #include <string.h>
 
 struct _GORotationSel {

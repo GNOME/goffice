@@ -28,8 +28,8 @@
  *	Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
  */
 
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-path.h>
-#include <goffice/utils/go-math.h>
 #include <string.h>
 
 #define GO_PATH_DEFAULT_BUFFER_SIZE 64

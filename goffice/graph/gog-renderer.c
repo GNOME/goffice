@@ -23,11 +23,11 @@
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-view.h>
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-cairo.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-font.h>
-#include <goffice/utils/go-math.h>
 #include <goffice/utils/go-marker.h>
 
 #include <gsf/gsf.h>

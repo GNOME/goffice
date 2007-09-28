@@ -1,3 +1,74 @@
+2007-09-28  Jean Brefort <jean.brefort@normalesup.org>
+
+	* configure.in: added goffice/math directory.
+	* goffice/Makefile.am: ditto.
+	* goffice/data/go-data-simple.c: moved maths to goffice/math.
+	* goffice/data/go-data.c: ditto.
+	* goffice/goffice.c: ditto.
+	* goffice/graph/gog-axis-line.c: ditto.
+	* goffice/graph/gog-axis.c: ditto.
+	* goffice/graph/gog-chart-map.c: ditto.
+	* goffice/graph/gog-chart.c: ditto.
+	* goffice/graph/gog-data-set.c: ditto.
+	* goffice/graph/gog-error-bar.c: ditto.
+	* goffice/graph/gog-grid-line.c: ditto.
+	* goffice/graph/gog-grid.c: ditto.
+	* goffice/graph/gog-legend.c: ditto.
+	* goffice/graph/gog-plot.c: ditto.
+	* goffice/graph/gog-reg-curve.c: ditto.
+	* goffice/graph/gog-renderer.c: ditto.
+	* goffice/graph/gog-style.c: ditto.
+	* goffice/gtk/go-graph-widget.c: ditto.
+	* goffice/gtk/go-rotation-sel.c: ditto.
+	* goffice/math/Makefile.am: ditto.
+	* goffice/math/go-complex.c: copied code from gnumeric.
+	* goffice/math/go-complex.h: ditto.
+	* goffice/math/go-cspline.c: moved maths to goffice/math.
+	* goffice/math/go-cspline.h: ditto.
+	* goffice/math/go-fft.c: copied code from gnumeric.
+	* goffice/math/go-fft.h: ditto.
+	* goffice/math/go-math.c: moved maths to goffice/math.
+	* goffice/math/go-math.h: ditto.
+	* goffice/math/go-rangefunc.c: ditto.
+	* goffice/math/go-rangefunc.h: ditto.
+	* goffice/math/go-regression.c: ditto.
+	* goffice/math/go-regression.h: ditto.
+	* goffice/utils/Makefile.am:
+	* goffice/utils/go-cspline.c: ditto.
+	* goffice/utils/go-cspline.h: ditto.
+	* goffice/utils/go-format.c: ditto.
+	* goffice/utils/go-geometry.c: ditto.
+	* goffice/utils/go-line.c: ditto.
+	* goffice/utils/go-marker.c: ditto.
+	* goffice/utils/go-math.c: ditto.
+	* goffice/utils/go-math.h: ditto.
+	* goffice/utils/go-path.c: ditto.
+	* goffice/utils/go-rangefunc.c: ditto.
+	* goffice/utils/go-rangefunc.h: ditto.
+	* goffice/utils/go-regression.c: ditto.
+	* goffice/utils/go-regression.h: ditto.
+	* plugins/plot_barcol/gog-1.5d.c: ditto.
+	* plugins/plot_barcol/gog-barcol.c: ditto.
+	* plugins/plot_barcol/gog-dropbar.c: ditto.
+	* plugins/plot_barcol/gog-line.c: ditto.
+	* plugins/plot_boxes/gog-boxplot.c: ditto.
+	* plugins/plot_boxes/gog-histogram.c: ditto.
+	* plugins/plot_pie/gog-pie.c: ditto.
+	* plugins/plot_radar/gog-radar.c: ditto.
+	* plugins/plot_surface/gog-surface.c: ditto.
+	* plugins/plot_surface/xl-surface.c: ditto.
+	* plugins/plot_xy/gog-xy.c: ditto.
+	* plugins/reg_linear/gog-exp-reg.c: ditto.
+	* plugins/reg_linear/gog-lin-reg.c: ditto.
+	* plugins/reg_linear/gog-lin-reg.h: ditto.
+	* plugins/reg_linear/gog-log-reg.c: ditto.
+	* plugins/reg_linear/gog-polynom-reg.c: ditto.
+	* plugins/reg_linear/gog-power-reg.c: ditto.
+	* plugins/reg_logfit/gog-logfit.c: ditto.
+	* plugins/reg_logfit/gog-logfit.h: ditto.
+	* plugins/smoothing/gog-exp-smooth.c: ditto.
+	* plugins/smoothing/gog-moving-avg.c: ditto.
+
 2007-09-27  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Implementation of gog_renderer_render_to_cairo. Compared to

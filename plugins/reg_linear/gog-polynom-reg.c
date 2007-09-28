@@ -22,8 +22,8 @@
 #include <goffice/goffice-config.h>
 #include "gog-polynom-reg.h"
 #include <goffice/graph/gog-reg-curve.h>
-#include <goffice/utils/go-math.h>
-#include <goffice/utils/go-regression.h>
+#include <goffice/math/go-math.h>
+#include <goffice/math/go-regression.h>
 #include <glib/gi18n-lib.h>
 
 #include <gsf/gsf-impl-utils.h>

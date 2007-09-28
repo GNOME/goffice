@@ -18,7 +18,6 @@ libgoffice_utils_la_SOURCES =	\
 	go-path.c		\
 	go-pattern.c		\
 	go-geometry.c		\
-	go-math.c		\
 	go-undo.c		\
 	datetime.c		\
 	formats.c		\
@@ -26,10 +25,7 @@ libgoffice_utils_la_SOURCES =	\
 	regutf8.c 		\
 	\
 	go-glib-extras.c	\
-	go-libxml-extras.c	\
-	go-rangefunc.c	\
-	go-regression.c	\
-	go-cspline.c
+	go-libxml-extras.c
 
 libgoffice_utils_ladir = $(goffice_include_dir)/utils
 libgoffice_utils_la_HEADERS = 	\
@@ -47,16 +43,12 @@ libgoffice_utils_la_HEADERS = 	\
 	go-pattern.h		\
 	go-units.h		\
 	go-geometry.h		\
-	go-math.h		\
 	go-undo.h		\
 	datetime.h		\
 	go-format.h		\
 	regutf8.h 		\
 	go-glib-extras.h	\
-	go-libxml-extras.h	\
-	go-rangefunc.h	\
-	go-regression.h	\
-	go-cspline.h
+	go-libxml-extras.h
 
 CLEANFILES =			\
 	go-marshalers.h		\

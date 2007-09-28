@@ -23,7 +23,7 @@
 #define GOG_LOGFIT_H
 
 #include <goffice/graph/gog-reg-curve.h>
-#include <goffice/utils/go-regression.h>
+#include <goffice/math/go-regression.h>
 
 G_BEGIN_DECLS
 

@@ -21,9 +21,8 @@
 
 #include <goffice/goffice-config.h>
 
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-geometry.h>
-#include <math.h>
 
 #define dist(x0, y0, x1, y1) hypot((x0) - (x1),(y0) - (y1))
 

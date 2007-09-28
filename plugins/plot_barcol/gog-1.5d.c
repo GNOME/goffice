@@ -33,9 +33,9 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/data/go-data.h>
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-format.h>
-#include <goffice/utils/go-math.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>

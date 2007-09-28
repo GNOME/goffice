@@ -28,8 +28,8 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-marker.h>
-#include <goffice/utils/go-math.h>
 #include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-impl-utils.h>

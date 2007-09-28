@@ -28,8 +28,8 @@
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-theme.h>
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-format.h>
-#include <goffice/utils/go-math.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/app/module-plugin-defs.h>
 

@@ -32,8 +32,8 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/data/go-data.h>
 
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-format.h>
-#include <goffice/utils/go-math.h>
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>

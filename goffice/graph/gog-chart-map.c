@@ -20,8 +20,8 @@
  */
 
 #include <goffice/graph/gog-chart-map.h>
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-line.h>
-#include <goffice/utils/go-math.h>
 #include <goffice/utils/go-path.h>
 #include <goffice/utils/go-geometry.h>
 

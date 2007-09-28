@@ -7,7 +7,7 @@
 
 #include <goffice/goffice-config.h>
 #include "go-math.h"
-#include "go-locale.h"
+#include <goffice/utils/go-locale.h>
 #include <glib.h>
 #include <stdlib.h>
 #include <stdio.h>

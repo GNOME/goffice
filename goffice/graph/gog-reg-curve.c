@@ -32,8 +32,8 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-chart-map.h>
 #include <goffice/data/go-data.h>
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-line.h>
-#include <goffice/utils/go-math.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
