@@ -1080,8 +1080,3 @@ void gog_graph_render_to_cairo (GogGraph *graph, gpointer cairo, double w, doubl
 	gog_renderer_render_to_cairo (renderer, cairo, w, h);
 	g_object_unref (renderer);
 }
-
-void gog_graph_render_to_cairo_vector (GogGraph *graph, gpointer cairo, double w, double h)
-{
-	gog_graph_render_to_cairo (graph, cairo, w, h);
-}
