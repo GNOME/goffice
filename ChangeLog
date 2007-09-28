@@ -1,3 +1,8 @@
+2007-09-28  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/formats.c (go_format_builtins): Add extra NULL for
+	GO_FORMAT_MARKUP.  Fixes #480971.
+
 2007-09-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-graph (gog_graph_render_to_cairo): use the correct

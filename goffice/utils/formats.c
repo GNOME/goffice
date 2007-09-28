@@ -160,8 +160,9 @@ fmts_text [] = {
 	NULL,
 };
 
+/* Note: there is no entry for GO_FORMAT_UNKNOWN.  */
 char const * const * const
-go_format_builtins [] = {
+go_format_builtins[] = {
 	fmts_general,
 	fmts_number,
 	fmts_currency,
@@ -172,7 +173,8 @@ go_format_builtins [] = {
 	fmts_fraction,
 	fmts_science,
 	fmts_text,
-	NULL
+	NULL,                     /* GO_FORMAT_SPECIAL */
+	NULL                      /* GO_FORMAT_MARKUP */
 };
 
 void
