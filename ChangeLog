@@ -1,5 +1,10 @@
 2007-09-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* goffice/graph/gog-graph (gog_graph_render_to_cairo): use the correct
+	type for the cairo parameter, instead of gpointer.
+
+2007-09-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	* goffice/graph/gog-graph.c (gog_graph_render_to_cairo_vector):
 	removed. There's no need to tell if we want to render in vector mode,
 	that can be guessed from the cairo target.

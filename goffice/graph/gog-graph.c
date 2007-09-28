@@ -970,7 +970,7 @@ GogView *
 gog_graph_view_get_selection (GogGraphView *gview)
 {
 	g_return_val_if_fail (IS_GOG_GRAPH_VIEW (gview), NULL);
-	
+
 	return gview->selected_view;
 }
 
@@ -986,7 +986,7 @@ void
 gog_graph_view_set_selection (GogGraphView *gview, GogObject *gobj)
 {
 	GogView *view;
-	
+
 	g_return_if_fail (IS_GOG_GRAPH_VIEW (gview));
 	g_return_if_fail (IS_GOG_OBJECT (gobj));
 
@@ -1070,7 +1070,17 @@ gog_graph_export_image (GogGraph *graph, GOImageFormat format, GsfOutput *output
 	return result;
 }
 
-void gog_graph_render_to_cairo (GogGraph *graph, gpointer cairo, double w, double h)
+/**
+ * gog_graph_render_to_cairo:
+ * @graph: a #GogGraph
+ * @cairo: a cairo context
+ * @w: width
+ * @h: height
+ *
+ * Renders a graph using @cairo. @w and @h are the requested width an height of the rendered graph, in the current @cairo coordinate space. This function is not suited for multiple rendering of the same graph. gog_renderer_render_to cairo or gog_renderer_update/gog_renderer_get_cairo_surface should be used instead.
+ **/
+
+void gog_graph_render_to_cairo (GogGraph *graph, cairo_t *cairo, double w, double h)
 {
 	GogRenderer *renderer;
 

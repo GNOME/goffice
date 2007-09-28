@@ -30,6 +30,8 @@
 
 #include <glib-object.h>
 
+#include <cairo.h>
+
 G_BEGIN_DECLS
 
 #define GOG_GRAPH_TYPE	(gog_graph_get_type ())
@@ -68,7 +70,7 @@ void 	 gog_graph_view_set_selection   (GogGraphView *gview, GogObject *gobj);
 
 
 GSList 	 *gog_graph_get_supported_image_formats	(void);
-gboolean  gog_graph_export_image 		(GogGraph *graph, GOImageFormat format, 
+gboolean  gog_graph_export_image 		(GogGraph *graph, GOImageFormat format,
 						 GsfOutput *output, double x_dpi, double y_dpi);
 
 #ifdef GOFFICE_WITH_GTK
@@ -76,7 +78,7 @@ gboolean  gog_graph_export_image 		(GogGraph *graph, GOImageFormat format,
 void  	 gog_graph_view_handle_event 	(GogGraphView *gview, GdkEvent *event, double x_offset, double y_offset);
 #endif
 
-void gog_graph_render_to_cairo 		(GogGraph *graph, gpointer cairo, double w, double h);
+void 	 gog_graph_render_to_cairo 	(GogGraph *graph, cairo_t *cairo, double w, double h);
 
 G_END_DECLS
 
