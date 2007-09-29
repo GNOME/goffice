@@ -103,9 +103,7 @@ gog_smoothed_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogSeries *series = GOG_SERIES ((GOG_OBJECT (curve))->parent);
 	GogPlot *plot = series->plot;
 	GogChart *chart = GOG_CHART (GOG_OBJECT (plot)->parent);
-	GogAxisMap *x_map, *y_map;
 	GogChartMap *chart_map;
-	double *x, *y;
 	GogStyle *style;
 	GOPath *path;
 	unsigned i;
@@ -122,29 +120,15 @@ gog_smoothed_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 	}
 
-	x_map = gog_chart_map_get_axis_map (chart_map, 0);
-	y_map = gog_chart_map_get_axis_map (chart_map, 1);
-
 	gog_renderer_push_clip_rectangle (view->renderer, view->residual.x, view->residual.y,
 					  view->residual.w, view->residual.h);
 
-	x = g_new (double, curve->nb);
-	y = g_new (double, curve->nb);
-	for (i = 0; i < curve->nb; i++) {
-		x[i] = gog_axis_map_to_view (x_map, curve->x[i]);
-		y[i] = gog_axis_map_to_view (y_map, curve->y[i]);
-	}
-
-	path = gog_chart_map_make_path (chart_map, x, y, curve->nb, GO_LINE_INTERPOLATION_LINEAR);
+	path = gog_chart_map_make_path (chart_map, curve->x, curve->y, curve->nb, GO_LINE_INTERPOLATION_LINEAR);
 	style = GOG_STYLED_OBJECT (curve)->style;
 	gog_renderer_push_style (view->renderer, style);
 	gog_renderer_stroke_serie (view->renderer, path);
 	gog_renderer_pop_style (view->renderer);
 	go_path_free (path);
-
-	g_free (x);
-	g_free (y);
-
 	gog_renderer_pop_clip (view->renderer);
 
 	gog_chart_map_free (chart_map);

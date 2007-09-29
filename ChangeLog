@@ -1,3 +1,8 @@
+2007-09-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-smoothed-curve.c:
+	(gog_smoothed_curve_view_render): fix rendering at the right place.
+
 2007-09-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* plugins/smoothing/gog-moving-avg.glade: fix spacing.
