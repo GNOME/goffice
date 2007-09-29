@@ -1,3 +1,6 @@
+2007-09-28  Jean Brefort <jean.brefort@normalesup.org>
+	* goffice/graph/gog-renderer.h: add missing G_END_DECLS.
+
 2007-09-28  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/formats.c (go_format_builtins): Add extra NULL for

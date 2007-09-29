@@ -154,4 +154,6 @@ void  		gog_renderer_draw_path      	(GogRenderer *rend, ArtVpath const *path);
 void  		gog_renderer_draw_polygon   	(GogRenderer *rend, ArtVpath const *path, gboolean narrow);
 void  		gog_renderer_draw_bezier_path   (GogRenderer *rend, ArtBpath const *path);
 
+G_END_DECLS
+
 #endif /* GOG_RENDERER_H */
