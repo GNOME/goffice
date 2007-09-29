@@ -1,3 +1,10 @@
+2007-09-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-control-foocanvas.c (gog_control_foocanvas_draw):
+	fix the clipping region when compositing the graph cache.
+	* goffice/gtk/go-graph-widget.c (go_graph_widget_expose_event): port
+	to cairo.
+
 2007-09-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-chart-map.h: added missing G_BEGIN_DECLS/G_END_DECLS.
@@ -10,6 +17,7 @@
 	* goffice/utils/go-path.h: ditto.
 
 2007-09-29  Jean Brefort <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-renderer.h: add missing G_END_DECLS.
 
 2007-09-28  Morten Welinder  <terra@gnome.org>

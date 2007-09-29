@@ -117,18 +117,15 @@ gog_control_foocanvas_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			    GdkEventExpose *ev)
 {
 	GogControlFooCanvas *ctrl = GOG_CONTROL_FOOCANVAS (item);
+	cairo_t *cairo;
 	cairo_surface_t *surface;
 
 	surface = gog_renderer_get_cairo_surface (ctrl->renderer);
 
 	if (surface) {
-		cairo_t *cairo;
-
 		cairo = gdk_cairo_create (drawable);
-
-		gdk_cairo_region (cairo, ev->region);
+		cairo_rectangle (cairo, item->x1, item->y1, item->x2 - item->x1, item->y2 - item->y1);
 		cairo_clip (cairo);
-
 		cairo_set_source_surface (cairo, surface, item->x1, item->y1);
 		cairo_paint (cairo);
 		cairo_destroy (cairo);

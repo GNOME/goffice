@@ -130,33 +130,23 @@ static gboolean
 go_graph_widget_expose_event (GtkWidget *widget, GdkEventExpose *event)
 {
 	GOGraphWidget *w = GO_GRAPH_WIDGET (widget);
-	GdkPixbuf *pixbuf;
-	GdkRectangle display_rect, draw_rect;
-	GdkRegion *draw_region;
+	GdkDrawable *drawable = GTK_LAYOUT (widget)->bin_window;
+	cairo_t *cairo;
+	cairo_surface_t *surface;
 
 	if (event->window != GTK_LAYOUT (widget)->bin_window)
 		return FALSE;
 
-	pixbuf = gog_renderer_get_pixbuf (w->renderer);
-	display_rect.x = w->xoffset;
-	display_rect.y = w->yoffset;
-	display_rect.width  = w->width;
-	display_rect.height = w->height;
-	draw_region = gdk_region_rectangle (&display_rect);
-	gdk_region_intersect (draw_region, event->region);
-	if (!gdk_region_empty (draw_region)) {
-		gdk_region_get_clipbox (draw_region, &draw_rect);
-		gdk_draw_pixbuf (GTK_LAYOUT (widget)->bin_window, NULL, pixbuf,
-			/* pixbuf 0, 0 is at pix_rect.x, pix_rect.y */
-			     draw_rect.x - display_rect.x,
-			     draw_rect.y - display_rect.y,
-			     draw_rect.x,
-			     draw_rect.y,
-			     draw_rect.width,
-			     draw_rect.height,
-			     GDK_RGB_DITHER_NORMAL, 0, 0);
+	surface = gog_renderer_get_cairo_surface (w->renderer);
+	if (surface != NULL) {
+		cairo = gdk_cairo_create (drawable);
+		cairo_rectangle (cairo, w->xoffset, w->yoffset, w->width, w->height);
+		cairo_clip (cairo);
+		cairo_set_source_surface (cairo, surface, w->xoffset, w->yoffset);
+		cairo_paint (cairo);
+		cairo_destroy (cairo);
 	}
-	gdk_region_destroy (draw_region);
+
 	return FALSE;
 }
 
