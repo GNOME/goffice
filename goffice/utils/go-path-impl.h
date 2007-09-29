@@ -24,6 +24,8 @@
 
 #include <goffice/utils/go-path.h>
 
+G_BEGIN_DECLS
+
 typedef enum _GOPathAction {
 	GO_PATH_ACTION_MOVE_TO 		= 0,
 	GO_PATH_ACTION_LINE_TO 		= 1,
@@ -54,5 +56,7 @@ struct _GOPath {
 
 	gboolean sharp;
 };
+
+G_END_DECLS
 
 #endif

@@ -28,6 +28,8 @@
 #include <goffice/utils/go-path.h>
 #include <goffice/utils/go-line.h>
 
+G_BEGIN_DECLS
+
 typedef struct {
 	double cx, cy;
 	double rx, ry;
@@ -52,5 +54,7 @@ GOPath 		*gog_chart_map_make_close_path 	(GogChartMap *map, double const *x, dou
 						 GogSeriesFillType fill_type);
 
 GogChartMapPolarData *gog_chart_map_get_polar_parms (GogChartMap *map);
+
+G_END_DECLS
 
 #endif /* GOG_CHART_MAP_H */

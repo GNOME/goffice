@@ -22,6 +22,8 @@
 #ifndef GO_CSPLINE_H
 #define GO_CSPLINE_H
 
+G_BEGIN_DECLS
+
 struct GOCSpline {
 	double const *x, *y;
 	double *a, *b, *c;
@@ -62,4 +64,7 @@ long double *go_cspline_get_derivsl (struct GOCSplinel *sp, long double const *x
 long double *go_cspline_get_integralsl (struct GOCSplinel *sp, long double const *x, int n);
 #endif
 
+G_END_DECLS
+
 #endif
+

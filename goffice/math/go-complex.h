@@ -3,6 +3,8 @@
 
 #include <go-math.h>
 
+G_BEGIN_DECLS
+
 typedef struct {
 	double re, im;
 } go_complex;
@@ -77,4 +79,7 @@ void go_complex_tanl (go_complexl *dst, go_complexl const *src);
 
 /* ------------------------------------------------------------------------- */
 
+G_END_DECLS
+
 #endif
+

@@ -1,4 +1,15 @@
-2007-09-28  Jean Brefort <jean.brefort@normalesup.org>
+2007-09-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-chart-map.h: added missing G_BEGIN_DECLS/G_END_DECLS.
+	* goffice/graph/gog-series-lines.h: ditto.
+	* goffice/math/go-complex.h: ditto.
+	* goffice/math/go-cspline.h: ditto.
+	* goffice/math/go-fft.h: ditto.
+	* goffice/math/go-regression.h: ditto.
+	* goffice/utils/go-path-impl.h: ditto.
+	* goffice/utils/go-path.h: ditto.
+
+2007-09-29  Jean Brefort <jean.brefort@normalesup.org>
 	* goffice/graph/gog-renderer.h: add missing G_END_DECLS.
 
 2007-09-28  Morten Welinder  <terra@gnome.org>

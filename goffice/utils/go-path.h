@@ -33,6 +33,8 @@
 
 #include <glib.h>
 
+G_BEGIN_DECLS
+
 typedef enum {
 	GO_PATH_DIRECTION_FORWARD,
 	GO_PATH_DIRECTION_BACKWARD
@@ -99,5 +101,7 @@ void	go_path_interpret	(GOPath const *path,
 				 GOPathCurveToFunc *curve_to,
 				 GOPathClosePathFunc *close_path,
 				 void *closure);
+
+G_END_DECLS
 
 #endif 

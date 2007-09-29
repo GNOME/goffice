@@ -3,6 +3,8 @@
 
 #include <glib/gtypes.h>
 
+G_BEGIN_DECLS
+
 typedef enum {
 	REG_ok,
 	REG_invalid_dimensions,
@@ -156,5 +158,7 @@ RegressionResult    go_non_linear_regressionl 	(GORegressionFunctionl f,
 gboolean    go_matrix_invertl 		(long double **A, int n);
 long double go_matrix_determinantl 	(long double **A, int n);
 #endif
+
+G_END_DECLS
 
 #endif /* GO_UTILS_REGRESSION_H */
