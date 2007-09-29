@@ -1,5 +1,9 @@
 2007-09-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* plugins/smoothing/gog-moving-avg.glade: fix spacing.
+
+2007-09-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	* goffice/graph/gog-control-foocanvas.c (gog_control_foocanvas_draw):
 	fix the clipping region when compositing the graph cache.
 	* goffice/gtk/go-graph-widget.c (go_graph_widget_expose_event): port
