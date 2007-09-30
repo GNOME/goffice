@@ -33,6 +33,34 @@ Base class for object views
 
 </para>
 
+<!-- ##### STRUCT GogViewAllocation ##### -->
+<para>
+
+</para>
+
+@w: 
+@h: 
+@x: 
+@y: 
+
+<!-- ##### STRUCT GogViewPadding ##### -->
+<para>
+
+</para>
+
+@wr: 
+@hb: 
+@wl: 
+@ht: 
+
+<!-- ##### STRUCT GogViewRequisition ##### -->
+<para>
+
+</para>
+
+@w: 
+@h: 
+
 <!-- ##### FUNCTION gog_view_get_model ##### -->
 <para>
 

@@ -108,6 +108,15 @@ Base class for plots
 @visible: 
 
 
+<!-- ##### FUNCTION gog_plot_update_cardinality ##### -->
+<para>
+
+</para>
+
+@plot: 
+@index_num: 
+
+
 <!-- ##### FUNCTION gog_plot_foreach_elem ##### -->
 <para>
 
@@ -202,6 +211,15 @@ Base class for plots
 
 @plot: 
 @filter: 
+
+
+<!-- ##### FUNCTION gog_plot_set_axis ##### -->
+<para>
+
+</para>
+
+@plot: 
+@axis: 
 
 
 <!-- ##### FUNCTION gog_plot_get_axis ##### -->

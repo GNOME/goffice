@@ -42,6 +42,14 @@ Property editor build helper
 @Returns: 
 
 
+<!-- ##### FUNCTION gog_editor_free ##### -->
+<para>
+
+</para>
+
+@editor: 
+
+
 <!-- ##### FUNCTION gog_editor_add_page ##### -->
 <para>
 
@@ -70,11 +78,22 @@ Property editor build helper
 @Returns: 
 
 
-<!-- ##### FUNCTION gog_editor_free ##### -->
+<!-- ##### FUNCTION gog_editor_get_registered_widget ##### -->
 <para>
 
 </para>
 
 @editor: 
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_editor_register_widget ##### -->
+<para>
+
+</para>
+
+@editor: 
+@widget: 
 
 

@@ -280,7 +280,8 @@ go_marker_render (GOMarker const *marker, cairo_t *cr, double x, double y, doubl
  * @marker: a #GOMarker
  * @cr: a cairo context
  * @scale: current context scale
- * @center: a placeholder for the center position of the surface
+ * @width: a placeholder for the surface width
+ * @height: a placeholder for the surface height
  *
  * Creates a new cairo surface similar to the current target of @cr, and render
  * @marker on it. @center will contain the coordinate of the center of the surface.

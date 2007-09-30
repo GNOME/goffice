@@ -88,6 +88,32 @@ GogChartMap
 @Returns: 
 
 
+<!-- ##### FUNCTION gog_chart_map_make_path ##### -->
+<para>
+
+</para>
+
+@map: 
+@x: 
+@y: 
+@n_points: 
+@interpolation: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_map_make_close_path ##### -->
+<para>
+
+</para>
+
+@map: 
+@x: 
+@y: 
+@n_points: 
+@fill_type: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gog_chart_map_get_polar_parms ##### -->
 <para>
 

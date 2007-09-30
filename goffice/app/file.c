@@ -269,7 +269,7 @@ go_file_opener_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl
  * @fo          : GOFileOpener object
  * @opt_enc     : Optional encoding
  * @io_context  : Context for i/o operation
- * @wbv         : Workbook View
+ * @FIXME_FIXME_workbook_view: Workbook View
  * @input       : Gsf input stream
  *
  * Reads content of @file_name file into workbook @wbv is attached to.
@@ -610,7 +610,7 @@ go_file_saver_get_format_level (GOFileSaver const *fs)
  * go_file_saver_save:
  * @fs          : GOFileSaver object
  * @io_context  : Context for i/o operation
- * @wbv         : Workbook View
+ * @FIXME_FIXME_workbook_view: Workbook View
  * @output      : Output stream
  *
  * Saves @wbv and the workbook it is attached to into @output stream.

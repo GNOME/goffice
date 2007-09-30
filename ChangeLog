@@ -1,3 +1,12 @@
+2007-09-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Documentation fixes.
+
+2007-09-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/gtk/goffice-gtk.c: removed unused
+	go_cairo_set_source_pixbuf.
+
 2007-09-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-smoothed-curve.c:

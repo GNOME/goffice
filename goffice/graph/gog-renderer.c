@@ -1619,6 +1619,7 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
  *
  * returns the hairline width in pts.
  **/
+
 double
 gog_renderer_get_hairline_width_pts (GogRenderer const *rend)
 {

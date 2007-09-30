@@ -1,0 +1,110 @@
+<!-- ##### SECTION Title ##### -->
+GoReg
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### MACRO REG_OK ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT GORegexp ##### -->
+<para>
+
+</para>
+
+@re_nsub: 
+
+<!-- ##### TYPEDEF GORegoff ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT GORegmatch ##### -->
+<para>
+
+</para>
+
+@rm_so: 
+@rm_eo: 
+
+<!-- ##### FUNCTION go_regcomp ##### -->
+<para>
+
+</para>
+
+@preg: 
+@pattern: 
+@cflags: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_regexec ##### -->
+<para>
+
+</para>
+
+@preg: 
+@string: 
+@nmatch: 
+@pmatch: 
+@eflags: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_regerror ##### -->
+<para>
+
+</para>
+
+@errcode: 
+@preg: 
+@errbuf: 
+@errbuf_size: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_regfree ##### -->
+<para>
+
+</para>
+
+@preg: 
+
+
+<!-- ##### FUNCTION go_regexp_quote1 ##### -->
+<para>
+
+</para>
+
+@target: 
+@s: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_regexp_quote ##### -->
+<para>
+
+</para>
+
+@target: 
+@s: 
+
+

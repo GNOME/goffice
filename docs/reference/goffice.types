@@ -19,6 +19,7 @@
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/graph/gog-error-bar.h>
 #include <goffice/graph/gog-reg-curve.h>
+#include <goffice/graph/gog-smoothed-curve.h>
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-control-foocanvas.h>
@@ -47,7 +48,9 @@ gog_series_element_get_type
 gog_series_lines_get_type
 gog_error_bar_get_type
 gog_reg_eqn_get_type
+gog_trend_line_get_type
 gog_reg_curve_get_type
+gog_smoothed_curve_get_type
 gog_data_allocator_get_type
 gog_dataset_get_type
 gog_renderer_get_type

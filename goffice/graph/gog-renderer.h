@@ -93,7 +93,7 @@ double gog_renderer_pt2r_x   	  	(GogRenderer const *r, double d);
 double gog_renderer_pt2r_y   	  	(GogRenderer const *r, double d);
 double gog_renderer_pt2r   	  	(GogRenderer const *r, double d);
 
-double gog_renderer_get_hairline_width_pts	(GogRenderer const *r);
+double gog_renderer_get_hairline_width_pts	(GogRenderer const *rend);
 
 void  gog_renderer_stroke_serie    	(GogRenderer *renderer, GOPath const *path);
 void  gog_renderer_fill_serie		(GogRenderer *renderer, GOPath const *path, GOPath const *close_path);

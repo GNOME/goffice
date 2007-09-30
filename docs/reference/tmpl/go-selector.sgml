@@ -1,0 +1,114 @@
+<!-- ##### SECTION Title ##### -->
+GoSelector
+
+<!-- ##### SECTION Short_Description ##### -->
+Generic property editor with a dropdown palette
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### FUNCTION go_selector_activate ##### -->
+<para>
+
+</para>
+
+@selector: 
+
+
+<!-- ##### FUNCTION go_selector_get_active ##### -->
+<para>
+
+</para>
+
+@selector: 
+@is_auto: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_selector_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_selector_get_user_data ##### -->
+<para>
+
+</para>
+
+@selector: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_selector_new ##### -->
+<para>
+
+</para>
+
+@palette: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_selector_set_active ##### -->
+<para>
+
+</para>
+
+@selector: 
+@index: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_selector_setup_dnd ##### -->
+<para>
+
+</para>
+
+@selector: 
+@dnd_target: 
+@dnd_length: 
+@data_get: 
+@data_received: 
+@fill_icon: 
+
+
+<!-- ##### FUNCTION go_selector_update_swatch ##### -->
+<para>
+
+</para>
+
+@selector: 
+
+
+<!-- ##### FUNCTION go_gradient_selector_new ##### -->
+<para>
+
+</para>
+
+@initial_direction: 
+@default_direction: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_gradient_selector_set_colors ##### -->
+<para>
+
+</para>
+
+@selector: 
+@start: 
+@stop: 
+
+

@@ -30,13 +30,13 @@ struct GOCSpline {
 	int n;
 };
 
-enum {
+typedef enum {
 	GO_CSPLINE_NATURAL,
 	GO_CSPLINE_PARABOLIC,
 	GO_CSPLINE_CUBIC,
 	GO_CSPLINE_CLAMPED,
 	GO_CSPLINE_MAX,
-};
+} GOCSplineType;
 
 struct GOCSpline *go_cspline_init (double const *x, double const *y, int n,
 				   unsigned limits, double c0, double cn);

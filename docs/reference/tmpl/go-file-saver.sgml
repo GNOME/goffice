@@ -1,0 +1,199 @@
+<!-- ##### SECTION Title ##### -->
+GoFileSaver
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### FUNCTION go_file_saver_for_file_name ##### -->
+<para>
+
+</para>
+
+@file_name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_saver_for_id ##### -->
+<para>
+
+</para>
+
+@id: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_saver_for_mime_type ##### -->
+<para>
+
+</para>
+
+@mime_type: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_saver_get_default ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_saver_get_description ##### -->
+<para>
+
+</para>
+
+@fs: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_saver_get_extension ##### -->
+<para>
+
+</para>
+
+@fs: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_saver_get_format_level ##### -->
+<para>
+
+</para>
+
+@fs: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_saver_get_id ##### -->
+<para>
+
+</para>
+
+@fs: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_saver_get_mime_type ##### -->
+<para>
+
+</para>
+
+@fs: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_saver_get_save_scope ##### -->
+<para>
+
+</para>
+
+@fs: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_saver_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_saver_level_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_saver_new ##### -->
+<para>
+
+</para>
+
+@id: 
+@extension: 
+@description: 
+@level: 
+@save_func: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_saver_register ##### -->
+<para>
+
+</para>
+
+@fs: 
+
+
+<!-- ##### FUNCTION go_file_saver_register_as_default ##### -->
+<para>
+
+</para>
+
+@fs: 
+@priority: 
+
+
+<!-- ##### FUNCTION go_file_saver_save ##### -->
+<para>
+
+</para>
+
+@fs: 
+@io_context: 
+@FIXME_FIXME_workbook_view: 
+@output: 
+
+
+<!-- ##### FUNCTION go_file_saver_scope_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_saver_set_overwrite_files ##### -->
+<para>
+
+</para>
+
+@fs: 
+@overwrite: 
+
+
+<!-- ##### FUNCTION go_file_saver_set_save_scope ##### -->
+<para>
+
+</para>
+
+@fs: 
+@scope: 
+
+
+<!-- ##### FUNCTION go_file_saver_unregister ##### -->
+<para>
+
+</para>
+
+@fs: 
+
+

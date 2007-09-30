@@ -245,3 +245,39 @@ Master axes
 @Returns: 
 
 
+<!-- ##### FUNCTION gog_axis_get_circular_rotation ##### -->
+<para>
+
+</para>
+
+@axis: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_get_polar_perimeter ##### -->
+<para>
+
+</para>
+
+@axis: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_set_polar_unit ##### -->
+<para>
+
+</para>
+
+@axis: 
+@unit: 
+
+
+<!-- ##### FUNCTION gog_axis_get_polar_unit ##### -->
+<para>
+
+</para>
+
+@axis: 
+@Returns: 
+
+

@@ -1,0 +1,146 @@
+<!-- ##### SECTION Title ##### -->
+GoColorSelector
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### FUNCTION go_color_palette_get_current_color ##### -->
+<para>
+
+</para>
+
+@p: 
+@is_default: 
+@is_custom: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_color_palette_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_color_palette_make_menu ##### -->
+<para>
+
+</para>
+
+@no_color_label: 
+@default_color: 
+@color_group: 
+@custom_dialog_title: 
+@current_color: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_color_palette_new ##### -->
+<para>
+
+</para>
+
+@no_color_label: 
+@default_color: 
+@color_group: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_color_palette_set_allow_alpha ##### -->
+<para>
+
+</para>
+
+@p: 
+@allow_alpha: 
+
+
+<!-- ##### FUNCTION go_color_palette_set_color_to_default ##### -->
+<para>
+
+</para>
+
+@p: 
+
+
+<!-- ##### FUNCTION go_color_palette_set_current_color ##### -->
+<para>
+
+</para>
+
+@p: 
+@color: 
+
+
+<!-- ##### FUNCTION go_color_palette_set_group ##### -->
+<para>
+
+</para>
+
+@p: 
+@cg: 
+
+
+<!-- ##### FUNCTION go_color_palette_set_title ##### -->
+<para>
+
+</para>
+
+@p: 
+@title: 
+
+
+<!-- ##### FUNCTION go_color_selector_get_color ##### -->
+<para>
+
+</para>
+
+@selector: 
+@is_auto: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_color_selector_new ##### -->
+<para>
+
+</para>
+
+@initial_color: 
+@default_color: 
+@color_group: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_color_selector_set_allow_alpha ##### -->
+<para>
+
+</para>
+
+@selector: 
+@allow_alpha: 
+
+
+<!-- ##### FUNCTION go_color_selector_set_color ##### -->
+<para>
+
+</para>
+
+@selector: 
+@color: 
+@Returns: 
+
+

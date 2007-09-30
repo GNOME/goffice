@@ -2,7 +2,7 @@
 GogRenderer
 
 <!-- ##### SECTION Short_Description ##### -->
-Multi-backend renderer
+Rendering engine
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -40,12 +40,118 @@ Multi-backend renderer
 
 </para>
 
+<!-- ##### FUNCTION gog_renderer_new ##### -->
+<para>
+
+</para>
+
+@graph: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_selection_rectangle ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@rectangle: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_shape ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@path: 
+
+
+<!-- ##### FUNCTION gog_renderer_fill_serie ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@path: 
+@close_path: 
+
+
+<!-- ##### FUNCTION gog_renderer_fill_shape ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@path: 
+
+
+<!-- ##### FUNCTION gog_renderer_get_hairline_width_pts ##### -->
+<para>
+
+</para>
+
+@rend: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_push_clip_rectangle ##### -->
+<para>
+
+</para>
+
+@rend: 
+@x: 
+@y: 
+@w: 
+@h: 
+
+
+<!-- ##### FUNCTION gog_renderer_render_to_cairo ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@cairo: 
+@width: 
+@height: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_stroke_rectangle ##### -->
+<para>
+
+</para>
+
+@rend: 
+@rect: 
+
+
+<!-- ##### FUNCTION gog_renderer_stroke_serie ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@path: 
+
+
+<!-- ##### FUNCTION gog_renderer_stroke_shape ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@path: 
+
+
 <!-- ##### FUNCTION gog_renderer_request_update ##### -->
 <para>
 
 </para>
 
-@r: 
+@renderer: 
 
 
 <!-- ##### FUNCTION gog_renderer_push_style ##### -->
@@ -243,25 +349,6 @@ Multi-backend renderer
 @Returns: 
 
 
-<!-- ##### FUNCTION gog_renderer_new_for_pixbuf ##### -->
-<para>
-
-</para>
-
-@graph: 
-@Returns: 
-
-
-<!-- ##### FUNCTION gog_renderer_new_for_format ##### -->
-<para>
-
-</para>
-
-@graph: 
-@format: 
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_renderer_export_image ##### -->
 <para>
 
@@ -287,6 +374,15 @@ Multi-backend renderer
 
 
 <!-- ##### FUNCTION gog_renderer_get_pixbuf ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_get_cairo_surface ##### -->
 <para>
 
 </para>

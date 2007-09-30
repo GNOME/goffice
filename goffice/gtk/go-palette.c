@@ -328,7 +328,6 @@ go_palette_new (int n_swatches,
 		GOPaletteSwatchTooltipCallback get_tooltip,
 		gpointer data,
 		GDestroyNotify destroy)
-			
 {
 	GOPalettePrivate *priv;
 	GtkWidget *palette;

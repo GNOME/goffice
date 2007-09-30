@@ -1169,9 +1169,9 @@ gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
  *
  * gog_object_get_child_by_name :
  * @obj : a #GogObject
- * @role : a #char to use as a filter
+ * @name : a #char to use as a role name filter
  *
- * A convenience routine to handle a unique child
+ * A convenience routine to handle a unique child.
  * Returns: %NULL and spews an error if there is more than one.
  **/
 GogObject *
@@ -1879,14 +1879,15 @@ gog_object_allocate_roles (GogObjectClass *klass)
 
 /**
  * gog_object_register_roles :
- * @klass : #GogObjectClass
- * @roles : #GogObjectRole
- * @n_roles :
+ * @klass: #GogObjectClass
+ * @roles: #GogObjectRole
+ * @n_roles: number of roles
  *
  **/
+
 void
 gog_object_register_roles (GogObjectClass *klass,
-			   GogObjectRole const *roles, unsigned n_roles)
+			   GogObjectRole const *roles, unsigned int n_roles)
 {
 	unsigned i;
 

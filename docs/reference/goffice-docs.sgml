@@ -31,11 +31,13 @@
 			<xi:include href="xml/gog-object.xml"/>
 			<xi:include href="xml/gog-styled-object.xml"/>
 			<xi:include href="xml/gog-outlined-object.xml"/>
-			<xi:include href="xml/gog-persist.xml"/>
 			<xi:include href="xml/gog-plot.xml"/>
 			<xi:include href="xml/gog-series.xml"/>
+			<xi:include href="xml/gog-trend-line.xml"/>
+			<xi:include href="xml/gog-smoothed-curve.xml"/>
 			<xi:include href="xml/gog-reg-curve.xml"/>
 			<xi:include href="xml/gog-view.xml"/>
+			<xi:include href="xml/gog-persist.xml"/>
 			<xi:include href="xml/gog-data-allocator.xml"/>
 			<xi:include href="xml/gog-data-set.xml"/>
 		</chapter>
@@ -56,15 +58,17 @@
 	<part>
 		<title>Widgets</title>
 		<chapter>
-			<title>Combos</title>
+			<title>Base widgets</title>
 			<xi:include href="xml/go-combo-box.xml"/>
-			<xi:include href="xml/go-combo-color.xml"/>
 			<xi:include href="xml/go-combo-pixmaps.xml"/>
-			<xi:include href="xml/go-combo-text.xml"/>
 			<xi:include href="xml/go-optionmenu.xml"/>
+			<xi:include href="xml/go-palette.xml"/>
+			<xi:include href="xml/go-selector.xml"/>
 		</chapter>
 		<chapter>
-			<title>Property editors</title>
+			<title>Selectors</title>
+			<xi:include href="xml/go-combo-color.xml"/>
+			<xi:include href="xml/go-combo-text.xml"/>
 			<xi:include href="xml/go-charmap-sel.xml"/>
 			<xi:include href="xml/go-font-sel.xml"/>
 			<xi:include href="xml/go-format-sel.xml"/>
@@ -77,10 +81,17 @@
 		<chapter>
 			<title>Graphic object properties</title>
 			<xi:include href="xml/go-color.xml"/>
+			<xi:include href="xml/go-font.xml"/>
 			<xi:include href="xml/go-gradient.xml"/>
 			<xi:include href="xml/go-line.xml"/>
 			<xi:include href="xml/go-marker.xml"/>
 			<xi:include href="xml/go-pattern.xml"/>
+		</chapter>
+		<chapter>
+			<title>Rendering utilities</title>
+			<xi:include href="xml/go-cairo.xml"/>
+			<xi:include href="xml/go-path.xml"/>
+			<xi:include href="xml/go-geometry.xml"/>
 		</chapter>
 		<chapter>
 			<title>Data</title>
@@ -92,10 +103,18 @@
 		<chapter>
 			<title>Mathematical functions</title>
 			<xi:include href="xml/go-math.xml"/>
-			<xi:include href="xml/go-geometry.xml"/>
+			<xi:include href="xml/go-complex.xml"/>
+			<xi:include href="xml/go-fft.xml"/>
 			<xi:include href="xml/go-rangefunc.xml"/>
 			<xi:include href="xml/go-regression.xml"/>
 			<xi:include href="xml/go-units.xml"/>
+		</chapter>
+		<chapter>
+			<title>File utilities</title>
+			<xi:include href="xml/go-file.xml"/>
+			<xi:include href="xml/go-file-opener.xml"/>
+			<xi:include href="xml/go-file-saver.xml"/>
+			<xi:include href="xml/go-url.xml"/>
 		</chapter>
 		<chapter>
 			<title>Application</title>
@@ -117,11 +136,12 @@
 		</chapter>
 		<chapter>
 			<title>Miscellaneous</title>
-			<xi:include href="xml/regutf8.xml"/>
+			<xi:include href="xml/go-reg.xml"/>
 			<xi:include href="xml/go-search-replace.xml"/>
 			<xi:include href="xml/go-format.xml"/>
 			<xi:include href="xml/go-glib-extras.xml"/>
 			<xi:include href="xml/go-libxml-extras.xml"/>
+			<xi:include href="xml/go-undo.xml"/>
 		</chapter>
 	</part>
 </book>
@@ -157,7 +177,6 @@
 <xi:include href="xml/datetime.xml"/>
 <xi:include href="xml/format-impl.xml"/>
 <xi:include href="xml/go-file.xml"/>
-<xi:include href="xml/go-font.xml"/>
 <xi:include href="xml/goffice-utils.xml"/>
 <xi:include href="xml/go-marshalers.xml"/>
 <xi:include href="xml/win32-stub.xml"/>

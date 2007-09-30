@@ -189,9 +189,9 @@ gboolean gog_object_request_update	  (GogObject *obj);
 void 	 gog_object_emit_changed	  (GogObject *obj, gboolean size);
 gboolean gog_object_clear_parent	  (GogObject *obj);
 gboolean gog_object_set_parent		  (GogObject *child, GogObject *parent,
-					  GogObjectRole const *role, unsigned int id);
+					   GogObjectRole const *role, unsigned int id);
 void 	 gog_object_register_roles	  (GogObjectClass *klass,
-					   GogObjectRole const *roles, unsigned n_roles);
+					   GogObjectRole const *roles, unsigned int n_roles);
 void 	 gog_object_request_editor_update (GogObject *obj);
 
 G_END_DECLS

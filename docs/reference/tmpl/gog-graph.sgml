@@ -169,13 +169,26 @@ A collection of charts
 @Returns: 
 
 
+<!-- ##### FUNCTION gog_graph_export_image ##### -->
+<para>
+
+</para>
+
+@graph: 
+@format: 
+@output: 
+@x_dpi: 
+@y_dpi: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gog_graph_render_to_cairo ##### -->
 <para>
 
 </para>
 
 @graph: 
-@data: 
+@cairo: 
 @w: 
 @h: 
 

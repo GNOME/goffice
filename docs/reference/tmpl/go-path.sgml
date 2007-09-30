@@ -1,0 +1,187 @@
+<!-- ##### SECTION Title ##### -->
+GoPath
+
+<!-- ##### SECTION Short_Description ##### -->
+Path handling
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### FUNCTION go_path_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_path_set_options ##### -->
+<para>
+
+</para>
+
+@path: 
+@options: 
+
+
+<!-- ##### FUNCTION go_path_get_options ##### -->
+<para>
+
+</para>
+
+@path: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_path_arc ##### -->
+<para>
+
+</para>
+
+@path: 
+@cx: 
+@cy: 
+@rx: 
+@ry: 
+@th0: 
+@th1: 
+
+
+<!-- ##### FUNCTION go_path_arc_to ##### -->
+<para>
+
+</para>
+
+@path: 
+@cx: 
+@cy: 
+@rx: 
+@ry: 
+@th0: 
+@th1: 
+
+
+<!-- ##### FUNCTION go_path_clear ##### -->
+<para>
+
+</para>
+
+@path: 
+
+
+<!-- ##### FUNCTION go_path_close ##### -->
+<para>
+
+</para>
+
+@path: 
+
+
+<!-- ##### FUNCTION go_path_curve_to ##### -->
+<para>
+
+</para>
+
+@path: 
+@x0: 
+@y0: 
+@x1: 
+@y1: 
+@x2: 
+@y2: 
+
+
+<!-- ##### FUNCTION go_path_free ##### -->
+<para>
+
+</para>
+
+@path: 
+
+
+<!-- ##### FUNCTION go_path_line_to ##### -->
+<para>
+
+</para>
+
+@path: 
+@x: 
+@y: 
+
+
+<!-- ##### FUNCTION go_path_move_to ##### -->
+<para>
+
+</para>
+
+@path: 
+@x: 
+@y: 
+
+
+<!-- ##### FUNCTION go_path_pie_wedge ##### -->
+<para>
+
+</para>
+
+@path: 
+@cx: 
+@cy: 
+@rx: 
+@ry: 
+@th0: 
+@th1: 
+
+
+<!-- ##### FUNCTION go_path_rectangle ##### -->
+<para>
+
+</para>
+
+@path: 
+@x: 
+@y: 
+@width: 
+@height: 
+
+
+<!-- ##### FUNCTION go_path_ring_wedge ##### -->
+<para>
+
+</para>
+
+@path: 
+@cx: 
+@cy: 
+@rx_out: 
+@ry_out: 
+@rx_in: 
+@ry_in: 
+@th0: 
+@th1: 
+
+
+<!-- ##### FUNCTION go_path_interpret ##### -->
+<para>
+
+</para>
+
+@path: 
+@direction: 
+@move_to: 
+@line_to: 
+@curve_to: 
+@close_path: 
+@closure: 
+
+

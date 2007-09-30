@@ -1,8 +1,8 @@
 <!-- ##### SECTION Title ##### -->
-GogGuru
+GoFft
 
 <!-- ##### SECTION Short_Description ##### -->
-Graph creation guru and property editor
+
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -17,25 +17,27 @@ Graph creation guru and property editor
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### FUNCTION gog_guru ##### -->
+<!-- ##### FUNCTION go_fourier_fft ##### -->
 <para>
 
 </para>
 
-@graph: 
-@dalloc: 
-@cc: 
-@toplevel: 
-@closure: 
-@Returns: 
+@in: 
+@n: 
+@skip: 
+@fourier: 
+@inverse: 
 
 
-<!-- ##### FUNCTION gog_guru_get_help_button ##### -->
+<!-- ##### FUNCTION go_fourier_fftl ##### -->
 <para>
 
 </para>
 
-@guru: 
-@Returns: 
+@in: 
+@n: 
+@skip: 
+@fourier: 
+@inverse: 
 
 

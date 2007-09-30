@@ -1,0 +1,103 @@
+<!-- ##### SECTION Title ##### -->
+GoFile
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### FUNCTION go_file_access ##### -->
+<para>
+
+</para>
+
+@uri: 
+@mode: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_create ##### -->
+<para>
+
+</para>
+
+@uri: 
+@err: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_get_date_accessed ##### -->
+<para>
+
+</para>
+
+@uri: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_get_date_changed ##### -->
+<para>
+
+</para>
+
+@uri: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_get_date_modified ##### -->
+<para>
+
+</para>
+
+@uri: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_get_group_name ##### -->
+<para>
+
+</para>
+
+@uri: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_get_owner_name ##### -->
+<para>
+
+</para>
+
+@uri: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_open ##### -->
+<para>
+
+</para>
+
+@uri: 
+@err: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_file_split_urls ##### -->
+<para>
+
+</para>
+
+@data: 
+@Returns: 
+
+

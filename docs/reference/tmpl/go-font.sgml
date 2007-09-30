@@ -1,0 +1,177 @@
+<!-- ##### SECTION Title ##### -->
+GoFont
+
+<!-- ##### SECTION Short_Description ##### -->
+Fonts
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GOFont ##### -->
+<para>
+
+</para>
+
+@ref_count: 
+@font_index: 
+@desc: 
+@underline: 
+@strikethrough: 
+@color: 
+
+<!-- ##### FUNCTION go_font_new_by_name ##### -->
+<para>
+
+</para>
+
+@str: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_font_new_by_desc ##### -->
+<para>
+
+</para>
+
+@desc: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_font_new_by_index ##### -->
+<para>
+
+</para>
+
+@Param1: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_font_ref ##### -->
+<para>
+
+</para>
+
+@font: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_font_unref ##### -->
+<para>
+
+</para>
+
+@font: 
+
+
+<!-- ##### FUNCTION go_font_as_str ##### -->
+<para>
+
+</para>
+
+@font: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_font_cache_register ##### -->
+<para>
+
+</para>
+
+@callback: 
+
+
+<!-- ##### FUNCTION go_font_cache_unregister ##### -->
+<para>
+
+</para>
+
+@callback: 
+
+
+<!-- ##### FUNCTION go_font_eq ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
+@Returns: 
+
+
+<!-- ##### STRUCT GOFontMetrics ##### -->
+<para>
+
+</para>
+
+@digit_widths: 
+@min_digit_width: 
+@max_digit_width: 
+@avg_digit_width: 
+@hyphen_width: 
+@minus_width: 
+@plus_width: 
+@E_width: 
+@hash_width: 
+@space_width: 
+@thin_space: 
+@thin_space_width: 
+
+<!-- ##### FUNCTION go_font_metrics_new ##### -->
+<para>
+
+</para>
+
+@context: 
+@font: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_font_metrics_free ##### -->
+<para>
+
+</para>
+
+@metrics: 
+
+
+<!-- ##### FUNCTION go_fonts_init ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION go_fonts_list_families ##### -->
+<para>
+
+</para>
+
+@context: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_fonts_list_sizes ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_fonts_shutdown ##### -->
+<para>
+
+</para>
+
+
+

@@ -182,8 +182,8 @@ xy_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v)
 }
 
 static GOPath *
-make_path_linear (GogChartMap *map, 
-		  double const *x, double const *y, 
+make_path_linear (GogChartMap *map,
+		  double const *x, double const *y,
 		  int n_points, gboolean is_polar)
 {
 	GOPath *path;
@@ -208,10 +208,10 @@ make_path_linear (GogChartMap *map,
 			else if (!is_inverted && yy < yy_min)
 				yy = yy_min;
 		}
-		gog_chart_map_2D_to_view (map, 
+		gog_chart_map_2D_to_view (map,
 					  x != NULL ? x[i] : i + 1, yy,
 					  &xx, &yy);
-		if (go_finite (xx) 
+		if (go_finite (xx)
 		    && go_finite (yy)
 		    && fabs (xx) != DBL_MAX
 		    && fabs (yy) != DBL_MAX) {
@@ -219,9 +219,9 @@ make_path_linear (GogChartMap *map,
 
 			if (n_valid_points == 1)
 				go_path_move_to (path, xx, yy);
-			else 
+			else
 				go_path_line_to (path, xx, yy);
-		} else 
+		} else
 			n_valid_points = 0;
 	}
 
@@ -229,7 +229,7 @@ make_path_linear (GogChartMap *map,
 }
 
 static GOPath *
-make_path_spline (GogChartMap *map, 
+make_path_spline (GogChartMap *map,
 		  double const *x, double const *y, int n_points,
 		  gboolean is_polar)
 {
@@ -257,10 +257,10 @@ make_path_spline (GogChartMap *map,
 			else if (!is_inverted && yy < yy_min)
 				yy = yy_min;
 		}
-		gog_chart_map_2D_to_view (map, 
-					  x != NULL ? x[i] : i + 1, yy, 
+		gog_chart_map_2D_to_view (map,
+					  x != NULL ? x[i] : i + 1, yy,
 					  &u, &v);
-		if (go_finite (u) 
+		if (go_finite (u)
 		    && go_finite (v)
 		    && fabs (u) != DBL_MAX
 		    && fabs (v) != DBL_MAX
@@ -290,35 +290,35 @@ make_path_spline (GogChartMap *map,
 					angles[ii] -= (angles[ii] > angles[ii_prev]) ?
 						2. * M_PI :
 					       -2. * M_PI;
-				thetas[ii] = (angles[ii_prev] * lengths[ii] 
-					      + angles[ii] * lengths[ii_prev]) 
+				thetas[ii] = (angles[ii_prev] * lengths[ii]
+					      + angles[ii] * lengths[ii_prev])
 					/ (lengths[ii] + lengths[ii_prev]);
 				if (!go_finite (thetas[ii]))
 					thetas[ii] = 0;
 			}
 
 			if (n_valid_points == 3)
-				go_path_curve_to (path, 
+				go_path_curve_to (path,
 						  uu[ii_prev_prev],
 						  vv[ii_prev_prev],
 						  uu[ii_prev]      - lengths[ii_prev] * cos (thetas[ii]),
 						  vv[ii_prev]      - lengths[ii_prev] * sin (thetas[ii]),
 						  uu[ii_prev], vv[ii_prev]);
 			else if (n_valid_points > 3)
-				go_path_curve_to (path, 
+				go_path_curve_to (path,
 						  uu[ii_prev_prev] + lengths[ii_prev] * cos (thetas[ii_prev]),
 						  vv[ii_prev_prev] + lengths[ii_prev] * sin (thetas[ii_prev]),
 						  uu[ii_prev]      - lengths[ii_prev] * cos (thetas[ii]),
 						  vv[ii_prev]      - lengths[ii_prev] * sin (thetas[ii]),
 						  uu[ii_prev], vv[ii_prev]);
 		} else {
-			if (n_valid_points == 2) 
+			if (n_valid_points == 2)
 				go_path_line_to (path, uu[ii], vv[ii]);
-			else if (n_valid_points > 2) 
-				go_path_curve_to (path, 
+			else if (n_valid_points > 2)
+				go_path_curve_to (path,
 						  uu[ii_prev] + lengths[ii] * cos (thetas[ii]),
 						  vv[ii_prev] + lengths[ii] * sin (thetas[ii]),
-						  uu[ii], vv[ii], 
+						  uu[ii], vv[ii],
 						  uu[ii], vv[ii]);
 			n_valid_points = 0;
 		}
@@ -443,8 +443,8 @@ xy_make_close_path (GogChartMap *map, double const *x, double const *y,
 			close_path = go_path_new ();
 			gog_axis_map_get_extents (y_map, &position, NULL);
 			position = gog_axis_map_to_view (y_map, position);
-			go_path_move_to (close_path, gog_axis_map_to_view (x_map, x_start), position); 
-			go_path_line_to (close_path, gog_axis_map_to_view (x_map, x_end), position); 
+			go_path_move_to (close_path, gog_axis_map_to_view (x_map, x_start), position);
+			go_path_line_to (close_path, gog_axis_map_to_view (x_map, x_end), position);
 			break;
 		case GOG_SERIES_FILL_TYPE_LEFT:
 			close_path = go_path_new ();
@@ -457,8 +457,8 @@ xy_make_close_path (GogChartMap *map, double const *x, double const *y,
 			close_path = go_path_new ();
 			gog_axis_map_get_extents (y_map, NULL, &position);
 			position = gog_axis_map_to_view (y_map, position);
-			go_path_move_to (close_path, gog_axis_map_to_view (x_map, x_start), position); 
-			go_path_line_to (close_path, gog_axis_map_to_view (x_map, x_end), position); 
+			go_path_move_to (close_path, gog_axis_map_to_view (x_map, x_start), position);
+			go_path_line_to (close_path, gog_axis_map_to_view (x_map, x_end), position);
 			break;
 		case GOG_SERIES_FILL_TYPE_RIGHT:
 			close_path = go_path_new ();
@@ -482,9 +482,9 @@ polar_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v
 	GogChartMapPolarData *data = (GogChartMapPolarData *) map->data;
 	double r = gog_axis_map_to_view (map->axis_map[1], y);
 	double t = gog_axis_map_to_view (map->axis_map[0], x);
-	
+
 	*u = data->cx + r * data->rx * cos (t);
-	*v = data->cy + r * data->ry * sin (t);		
+	*v = data->cy + r * data->ry * sin (t);
 }
 
 static GOPath *
@@ -522,8 +522,8 @@ polar_make_path_step (GogChartMap *map, double const *x, double const *y, int n_
 		theta = gog_axis_map_to_view (map->axis_map[0], x != NULL ? x[i] : i + 1);
 		rho = gog_axis_map_to_view (map->axis_map[1], rho);
 		xx = cx + rho * rx * cos (theta);
-		yy = cy + rho * ry * sin (theta);		
-		if (go_finite (xx) 
+		yy = cy + rho * ry * sin (theta);
+		if (go_finite (xx)
 		    && go_finite (yy)
 		    && fabs (xx) != DBL_MAX
 		    && fabs (yy) != DBL_MAX) {
@@ -574,7 +574,7 @@ polar_make_path_step (GogChartMap *map, double const *x, double const *y, int n_
 }
 
 static GOPath *
-polar_make_path (GogChartMap *map, double const *x, double const *y, 
+polar_make_path (GogChartMap *map, double const *x, double const *y,
 		 int n_points, GOLineInterpolation interpolation)
 {
 	GOPath *path = NULL;
@@ -600,7 +600,7 @@ polar_make_path (GogChartMap *map, double const *x, double const *y,
 }
 
 static GOPath *
-polar_make_close_path (GogChartMap *map, double const *x, double const *y, 
+polar_make_close_path (GogChartMap *map, double const *x, double const *y,
 		 int n_points, GogSeriesFillType fill_type)
 {
 	GogChartMapPolarData *parms = map->data;
@@ -656,7 +656,7 @@ GogChartMapPolarData *
 gog_chart_map_get_polar_parms (GogChartMap *map)
 {
 	return (GogChartMapPolarData *) map->data;
-}	
+}
 
 /**
  * gog_chart_map_new:
@@ -674,7 +674,7 @@ gog_chart_map_get_polar_parms (GogChartMap *map)
  **/
 
 GogChartMap *
-gog_chart_map_new (GogChart *chart, GogViewAllocation const *area, 
+gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 		   GogAxis *axis0, GogAxis *axis1, GogAxis *axis2,
 		   gboolean fill_area)
 {
@@ -716,7 +716,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 		case GOG_AXIS_SET_XY_COLOR:
 			{
 				map->axis_map[0] = gog_axis_map_new (axis0, map->area.x, map->area.w);
-				map->axis_map[1] = gog_axis_map_new (axis1, map->area.y + map->area.h, 
+				map->axis_map[1] = gog_axis_map_new (axis1, map->area.y + map->area.h,
 								     -map->area.h);
 				map->axis_map[2] = NULL;
 
@@ -735,7 +735,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 				double minimum, maximum;
 				double z_rotation = gog_axis_get_circular_rotation (axis0) * M_PI / 180.0;
 				double perimeter;
-	
+
 				map->axis_map[0] = gog_axis_map_new (axis0, 0.0, 1.0);
 				gog_axis_map_get_bounds (map->axis_map[0], &minimum, &maximum);
 				if (gog_axis_is_discrete (axis0)) {
@@ -743,7 +743,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 					data->th1 = go_rint (maximum);
 					calc_polygon_parameters (area, data, fill_area);
 					gog_axis_map_free (map->axis_map[0]);
-					map->axis_map[0] = gog_axis_map_new (axis0, 
+					map->axis_map[0] = gog_axis_map_new (axis0,
 						- M_PI / 2.0 + z_rotation,
 						2.0 * M_PI * (maximum - minimum) / (maximum - minimum + 1));
 				} else {
@@ -876,8 +876,8 @@ gog_chart_map_free (GogChartMap *map)
  **/
 
 GOPath *
-gog_chart_map_make_path (GogChartMap *map, double const *x, double const *y, 
-			 int n_points, 
+gog_chart_map_make_path (GogChartMap *map, double const *x, double const *y,
+			 int n_points,
 			 GOLineInterpolation interpolation)
 {
 	if (map->make_path != NULL)
@@ -892,14 +892,14 @@ gog_chart_map_make_path (GogChartMap *map, double const *x, double const *y,
  * @x: x data
  * @y: y data
  * @n_points: number of points
- * @interpolation: interpolation type
+ * @fill_type: fill type
  *
- * Creates a new GOPath using @x and @y data, each valid point being connected with respect to @interpolation.
+ * Creates a new GOPath using @x and @y data, with respect to @fill_type.
  **/
 
 GOPath *
-gog_chart_map_make_close_path (GogChartMap *map, double const *x, double const *y, 
-			       int n_points, 
+gog_chart_map_make_close_path (GogChartMap *map, double const *x, double const *y,
+			       int n_points,
 			       GogSeriesFillType fill_type)
 {
 	if (map->make_close_path != NULL)

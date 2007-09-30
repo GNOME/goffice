@@ -1,8 +1,8 @@
 <!-- ##### SECTION Title ##### -->
-GogGuru
+GogSmoothedCurve
 
 <!-- ##### SECTION Short_Description ##### -->
-Graph creation guru and property editor
+Base class for smoothed curves
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -17,25 +17,9 @@ Graph creation guru and property editor
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### FUNCTION gog_guru ##### -->
+<!-- ##### STRUCT GogSmoothedCurve ##### -->
 <para>
 
 </para>
-
-@graph: 
-@dalloc: 
-@cc: 
-@toplevel: 
-@closure: 
-@Returns: 
-
-
-<!-- ##### FUNCTION gog_guru_get_help_button ##### -->
-<para>
-
-</para>
-
-@guru: 
-@Returns: 
 
 

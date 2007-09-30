@@ -1,0 +1,119 @@
+<!-- ##### SECTION Title ##### -->
+GoUndo
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### FUNCTION go_undo_binary_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_undo_binary_new ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
+@undo: 
+@fa: 
+@fb: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_undo_combine ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_undo_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_undo_group_add ##### -->
+<para>
+
+</para>
+
+@g: 
+@u: 
+
+
+<!-- ##### FUNCTION go_undo_group_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_undo_group_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_undo_unary_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_undo_unary_new ##### -->
+<para>
+
+</para>
+
+@a: 
+@undo: 
+@fa: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_undo_undo ##### -->
+<para>
+
+</para>
+
+@u: 
+
+
+<!-- ##### FUNCTION go_undo_undo_with_data ##### -->
+<para>
+
+</para>
+
+@u: 
+@data: 
+
+

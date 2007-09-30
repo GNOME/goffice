@@ -624,9 +624,9 @@ cb_menu_custom_activate (GtkWidget *button, GOMenuColor *menu)
 
 /**
  * go_color_palette_make_menu:
- * @no_color_labe :
+ * @no_color_label: color label
  * default_color: #GOColor
- * @cg : #GOColorGroup
+ * @color_group: #GOColorGroup
  * @custom_dialog_title :
  * @current_color : #GOColor
  *

@@ -65,7 +65,7 @@ struct _GOPaletteClass
 GType            go_palette_get_type 		(void) G_GNUC_CONST;
 GtkWidget 	*go_palette_new 		(int n_swatches,
 						 double swatch_width,
-						 int n_colmuns,
+						 int n_columns,
 						 GOPaletteSwatchRenderCallback swatch_render,
 						 GOPaletteSwatchTooltipCallback get_tooltip,
 						 gpointer data,

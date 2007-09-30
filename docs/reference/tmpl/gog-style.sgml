@@ -204,12 +204,33 @@ Style of graph objects
 @Returns: 
 
 
+<!-- ##### FUNCTION gog_style_is_fill_visible ##### -->
+<para>
+
+</para>
+
+@style: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gog_style_force_auto ##### -->
 <para>
 
 </para>
 
 @style: 
+
+
+<!-- ##### FUNCTION gog_style_get_editor ##### -->
+<para>
+
+</para>
+
+@style: 
+@default_style: 
+@cc: 
+@object_with_style: 
+@Returns: 
 
 
 <!-- ##### FUNCTION gog_style_populate_editor ##### -->
@@ -225,15 +246,24 @@ Style of graph objects
 @watch_for_external_change: 
 
 
-<!-- ##### FUNCTION gog_style_get_editor ##### -->
+<!-- ##### FUNCTION gog_style_create_cairo_pattern ##### -->
 <para>
 
 </para>
 
 @style: 
-@default_style: 
-@cc: 
-@object_with_style: 
+@width: 
+@height: 
+@data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_style_get_marker ##### -->
+<para>
+
+</para>
+
+@style: 
 @Returns: 
 
 

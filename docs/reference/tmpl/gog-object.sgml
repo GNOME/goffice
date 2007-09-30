@@ -251,6 +251,16 @@ Base class for all objects of graph model
 @Returns: 
 
 
+<!-- ##### FUNCTION gog_object_get_child_by_name ##### -->
+<para>
+
+</para>
+
+@obj: 
+@name: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gog_object_get_editor ##### -->
 <para>
 
@@ -288,6 +298,16 @@ Base class for all objects of graph model
 
 @parent: 
 @Returns: 
+
+
+<!-- ##### FUNCTION gog_object_register_roles ##### -->
+<para>
+
+</para>
+
+@klass: 
+@roles: 
+@n_roles: 
 
 
 <!-- ##### FUNCTION gog_object_add_by_role ##### -->
@@ -351,6 +371,16 @@ Base class for all objects of graph model
 @obj: 
 @flags: 
 @mask: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_object_is_default_position_flags ##### -->
+<para>
+
+</para>
+
+@obj: 
+@name: 
 @Returns: 
 
 
@@ -438,16 +468,6 @@ Base class for all objects of graph model
 @role: 
 @id: 
 @Returns: 
-
-
-<!-- ##### FUNCTION gog_object_register_roles ##### -->
-<para>
-
-</para>
-
-@klass: 
-@roles: 
-@Param3: 
 
 
 <!-- ##### FUNCTION gog_object_request_editor_update ##### -->

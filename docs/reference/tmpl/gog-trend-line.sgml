@@ -1,0 +1,55 @@
+<!-- ##### SECTION Title ##### -->
+GogTrendLine
+
+<!-- ##### SECTION Short_Description ##### -->
+Base class for smoothed and regression curves
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GogTrendLineType ##### -->
+<para>
+
+</para>
+
+@engine: 
+@name: 
+@description: 
+@properties: 
+
+<!-- ##### FUNCTION gog_trend_line_new_by_name ##### -->
+<para>
+
+</para>
+
+@id: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_trend_line_new_by_type ##### -->
+<para>
+
+</para>
+
+@type: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_trend_line_types ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+

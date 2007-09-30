@@ -1,0 +1,81 @@
+<!-- ##### SECTION Title ##### -->
+GOGraphWidget
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT GOGraphWidget ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ENUM GOGraphWidgetSizeMode ##### -->
+<para>
+
+</para>
+
+@GO_GRAPH_WIDGET_SIZE_MODE_FIT: 
+@GO_GRAPH_WIDGET_SIZE_MODE_FIT_WIDTH: 
+@GO_GRAPH_WIDGET_SIZE_MODE_FIT_HEIGHT: 
+@GO_GRAPH_WIDGET_SIZE_MODE_FIXED_SIZE: 
+
+<!-- ##### FUNCTION go_graph_widget_new ##### -->
+<para>
+
+</para>
+
+@graph: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_graph_widget_get_chart ##### -->
+<para>
+
+</para>
+
+@widget: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_graph_widget_get_graph ##### -->
+<para>
+
+</para>
+
+@widget: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_graph_widget_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_graph_widget_set_size_mode ##### -->
+<para>
+
+</para>
+
+@widget: 
+@size_mode: 
+@width: 
+@height: 
+
+

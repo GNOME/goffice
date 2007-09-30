@@ -1,0 +1,110 @@
+<!-- ##### SECTION Title ##### -->
+GoPalette
+
+<!-- ##### SECTION Short_Description ##### -->
+Palette widget for GoSelector
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### USER_FUNCTION GOPaletteSwatchRenderCallback ##### -->
+<para>
+
+</para>
+
+@cr: 
+@area: 
+@index: 
+@data: 
+
+
+<!-- ##### USER_FUNCTION GOPaletteSwatchTooltipCallback ##### -->
+<para>
+
+</para>
+
+@index: 
+@data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_palette_new ##### -->
+<para>
+
+</para>
+
+@n_swatches: 
+@swatch_width: 
+@n_columns: 
+@swatch_render: 
+@get_tooltip: 
+@data: 
+@destroy: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_palette_get_n_swatches ##### -->
+<para>
+
+</para>
+
+@palette: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_palette_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_palette_get_user_data ##### -->
+<para>
+
+</para>
+
+@palette: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_palette_show_automatic ##### -->
+<para>
+
+</para>
+
+@palette: 
+@index: 
+@label: 
+
+
+<!-- ##### FUNCTION go_palette_show_custom ##### -->
+<para>
+
+</para>
+
+@palette: 
+@label: 
+
+
+<!-- ##### FUNCTION go_palette_swatch_new ##### -->
+<para>
+
+</para>
+
+@palette: 
+@index: 
+@Returns: 
+
+

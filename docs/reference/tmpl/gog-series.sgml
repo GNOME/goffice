@@ -2,7 +2,7 @@
 GogSeries
 
 <!-- ##### SECTION Short_Description ##### -->
-Set of plot data
+Base class for series
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -132,5 +132,74 @@ Set of plot data
 
 @series: 
 @Returns: 
+
+
+<!-- ##### FUNCTION gog_series_get_fill_type ##### -->
+<para>
+
+</para>
+
+@series: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_series_get_fill_type_from_combo ##### -->
+<para>
+
+</para>
+
+@series: 
+@combo: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_series_get_xy_data ##### -->
+<para>
+
+</para>
+
+@series: 
+@x: 
+@y: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_series_get_xyz_data ##### -->
+<para>
+
+</para>
+
+@series: 
+@x: 
+@y: 
+@z: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_series_lines_use_markers ##### -->
+<para>
+
+</para>
+
+@lines: 
+@use_markers: 
+
+
+<!-- ##### FUNCTION gog_series_populate_fill_type_combo ##### -->
+<para>
+
+</para>
+
+@series: 
+@combo: 
+
+
+<!-- ##### FUNCTION gog_series_set_fill_type ##### -->
+<para>
+
+</para>
+
+@series: 
+@fill_type: 
 
 
