@@ -211,18 +211,6 @@ go_component_set_window (GOComponent *component, GdkWindow *window)
 		klass->set_window (component);
 }
 
-void go_component_set_pixbuf (GOComponent *component, GdkPixbuf *pixbuf)
-{
-	GOComponentClass *klass;
-
-	g_return_if_fail (IS_GO_COMPONENT (component));
-
-	klass = GO_COMPONENT_GET_CLASS(component);
-	component->pixbuf = pixbuf;
-	if (klass->set_pixbuf)
-		klass->set_pixbuf (component);
-}
-
 void
 go_component_set_data (GOComponent *component, char const *data, int length)
 {

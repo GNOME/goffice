@@ -42,7 +42,6 @@ struct _GOComponent {
 	char const *data;
 	int length;
 	GdkWindow *window;
-	GdkPixbuf *pixbuf;
 };
 
 struct _GOComponentClass {
@@ -54,7 +53,6 @@ struct _GOComponentClass {
 	void (*mime_type_set) (GOComponent* component);
 	void (*set_data) (GOComponent *component);
 	void (*set_default_size) (GOComponent* component);
-	void (*set_pixbuf) (GOComponent *component);
 	void (*set_size) (GOComponent *component);
 	void (*set_window) (GOComponent *component);
 	void (*render) (GOComponent *component, cairo_t *cr,
@@ -79,7 +77,6 @@ void go_component_set_default_size (GOComponent *component,
 				    double width, double ascent, double descent);
 gboolean go_component_needs_window (GOComponent *component);
 void go_component_set_window (GOComponent *component, GdkWindow *window);
-void go_component_set_pixbuf (GOComponent *component, GdkPixbuf *pixbuf);
 void go_component_set_data (GOComponent *component,
 			    char const *data, int length);
 gboolean go_component_get_data (GOComponent *component, gpointer *data, int *length,
