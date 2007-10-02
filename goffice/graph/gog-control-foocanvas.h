@@ -31,14 +31,18 @@ G_BEGIN_DECLS
 #define GOG_CONTROL_FOOCANVAS(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_CONTROL_FOOCANVAS_TYPE, GogControlFooCanvas))
 #define IS_GOG_CONTROL_FOOCANVAS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_CONTROL_FOOCANVAS_TYPE))
 
-typedef struct {
+typedef struct _GogControlFooCanvas GogControlFooCanvas;
+
+struct _GogControlFooCanvas {
 	FooCanvasGroup	base;
 
 	double new_h, new_w;
 
 	GogGraph *model;
 	GogRenderer *renderer;
-} GogControlFooCanvas;
+
+	gboolean use_cache;
+};
 
 typedef FooCanvasGroupClass GogControlFooCanvasClass;
 

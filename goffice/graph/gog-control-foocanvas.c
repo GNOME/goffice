@@ -119,15 +119,38 @@ gog_control_foocanvas_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	GogControlFooCanvas *ctrl = GOG_CONTROL_FOOCANVAS (item);
 	cairo_t *cairo;
 	cairo_surface_t *surface;
+	double x1, y1, x2, y2;
 
-	surface = gog_renderer_get_cairo_surface (ctrl->renderer);
+	cairo = gdk_cairo_create (drawable);
+	cairo_rectangle (cairo, item->x1, item->y1, item->x2 - item->x1, item->y2 - item->y1);
+	cairo_clip (cairo);
+	cairo_clip_extents (cairo, &x1, &y1, &x2, &y2);
 
-	if (surface) {
-		cairo = gdk_cairo_create (drawable);
-		cairo_rectangle (cairo, item->x1, item->y1, item->x2 - item->x1, item->y2 - item->y1);
-		cairo_clip (cairo);
-		cairo_set_source_surface (cairo, surface, item->x1, item->y1);
-		cairo_paint (cairo);
+	if (x2 > x1 && y2 > y1) {
+		surface = gog_renderer_get_cairo_surface (ctrl->renderer);
+
+		if (ctrl->use_cache && surface != NULL) {
+			cairo_set_source_surface (cairo, surface, item->x1, item->y1);
+			cairo_paint (cairo);
+		} else {
+			cairo_t *tmp_cairo;
+			cairo_surface_t *tmp_surface;
+
+			tmp_surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, x2 - x1, y2 - y1);
+			tmp_cairo = cairo_create (tmp_surface);
+
+			cairo_translate (tmp_cairo, item->x1 - x1, item->y1 - y1);
+			gog_renderer_render_to_cairo (ctrl->renderer, tmp_cairo,
+						      item->x2 - item->x1,
+						      item->y2 - item->y1);
+
+			cairo_destroy (tmp_cairo);
+
+			cairo_set_source_surface (cairo, tmp_surface, x1, y1);
+			cairo_paint (cairo);
+
+			cairo_surface_destroy (tmp_surface);
+		}
 		cairo_destroy (cairo);
 	}
 
@@ -141,6 +164,7 @@ gog_control_foocanvas_update (FooCanvasItem *item,
 			      double i2w_dx, double i2w_dy, gint flags)
 {
 	GogControlFooCanvas *ctrl = GOG_CONTROL_FOOCANVAS (item);
+	GdkScreen *screen;
 	gboolean redraw;
 	int x1, x2, y1, y2;
 	int orig_x1 = item->x1, orig_x2 = item->x2, orig_y1 = item->y1, orig_y2 = item->y2;
@@ -154,7 +178,19 @@ gog_control_foocanvas_update (FooCanvasItem *item,
 	foo_canvas_w2c (item->canvas, ctrl->base.xpos, ctrl->base.ypos, &x1, &y1);
 	foo_canvas_w2c (item->canvas, ctrl->base.xpos + ctrl->new_w, ctrl->base.ypos + ctrl->new_h, &x2, &y2);
 
-	redraw = gog_renderer_update (ctrl->renderer, x2-x1, y2-y1);
+	screen = gtk_widget_get_screen (GTK_WIDGET (item->canvas));
+	if (screen != NULL) {
+		int n_pixels;
+
+		n_pixels = gdk_screen_get_height (screen) * gdk_screen_get_width (screen);
+		ctrl->use_cache = abs ((x2 - x1) * (y2 - y1)) <= n_pixels;
+	} else
+		ctrl->use_cache = TRUE;
+
+	if (ctrl->use_cache)
+		redraw = gog_renderer_update (ctrl->renderer, x2-x1, y2-y1);
+	else
+		redraw = TRUE;
 
 	if (item->x1 != x1 || item->y1 != y1 || item->x2 != x2 || item->y2 != y2)
 		foo_canvas_update_bbox (FOO_CANVAS_ITEM (ctrl), x1, y1, x2, y2);
@@ -197,28 +233,28 @@ gog_control_foocanvas_class_init (GogControlFooCanvasClass *klass)
 	item_klass->point  = gog_control_foocanvas_point;
 
 	g_object_class_install_property (gobject_klass, CTRL_FOO_PROP_H,
-		 g_param_spec_double ("h", 
-			_("H"), 
+		 g_param_spec_double ("h",
+			_("H"),
 			_("Height"),
-			0, G_MAXDOUBLE, 100., 
+			0, G_MAXDOUBLE, 100.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, CTRL_FOO_PROP_W,
-		 g_param_spec_double ("w", 
-			_("W"), 
+		 g_param_spec_double ("w",
+			_("W"),
 			_("Width"),
-			0, G_MAXDOUBLE, 100., 
+			0, G_MAXDOUBLE, 100.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, CTRL_FOO_PROP_MODEL,
-		g_param_spec_object ("model", 
+		g_param_spec_object ("model",
 			_("Model"),
 			_("The GogObject this object displays"),
-			GOG_OBJECT_TYPE, 
+			GOG_OBJECT_TYPE,
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, CTRL_FOO_PROP_RENDERER,
-		g_param_spec_object ("renderer", 
+		g_param_spec_object ("renderer",
 			_("Renderer"),
 			_("The GogRenderer being displayed"),
-			GOG_RENDERER_TYPE, 
+			GOG_RENDERER_TYPE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
@@ -226,6 +262,7 @@ static void
 gog_control_foocanvas_init (GogControlFooCanvas *ctrl)
 {
 	ctrl->new_h = ctrl->new_w = 0.;
+	ctrl->use_cache = TRUE;
 }
 
 GSF_CLASS (GogControlFooCanvas, gog_control_foocanvas,
