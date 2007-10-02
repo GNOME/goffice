@@ -1,5 +1,12 @@
 2007-10-02  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* goffice/graph/gog-renderer.c: move GO_CAIRO_CLAMP from here...
+	* goffice/utils/go-cairo.h: ... to here.
+	* goffice/utils/go-path.c: use GO_CAIRO_CLAMP instead of
+	GO_PATH_CLAMP.
+
+2007-10-02  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Fix for Bug 153883 - making graphs insanely large leads to ~infinite
 	memory and cpu use.
 	The fix consists in not using the graph image cache for big graphs, and

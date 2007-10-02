@@ -27,8 +27,14 @@
 
 #include <cairo.h>
 #include <glib.h>
+#include <math.h>
 
 G_BEGIN_DECLS
+
+/* This is a workaround for a cairo bug, due to its internal
+ * handling of coordinates (16.16 fixed point). */
+#define GO_CAIRO_CLAMP(x) CLAMP((x),-15000,15000)
+#define GO_CAIRO_CLAMP_SNAP(x,even) GO_CAIRO_CLAMP(even ? floor (x + .5):floor (x) + .5)
 
 void 	 go_cairo_emit_svg_path 		(cairo_t *cr, char const *path);
 gboolean go_cairo_surface_is_vector 		(cairo_surface_t const *surface);

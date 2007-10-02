@@ -113,11 +113,6 @@ typedef struct {
 
 #define GRC_LINEAR_SCALE(w,scale) (go_sub_epsilon (w) <= 0.0 ? GOG_RENDERER_HAIRLINE_WIDTH_PTS : w) * scale
 
-/* This is a workaround for a cairo bug, due to its internal
- * handling of coordinates (16.16 fixed point). */
-#define GO_CAIRO_CLAMP(x) CLAMP((x),-15000,15000)
-#define GO_CAIRO_CLAMP_SNAP(x,even) GO_CAIRO_CLAMP(even ? floor (x + .5):floor (x) + .5)
-
 static void
 grc_path_raw (cairo_t *cr, ArtVpath *vpath, ArtBpath *bpath)
 {

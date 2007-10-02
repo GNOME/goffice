@@ -30,12 +30,10 @@
 
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-path.h>
+#include <goffice/utils/go-cairo.h>
 #include <string.h>
 
 #define GO_PATH_DEFAULT_BUFFER_SIZE 64
-/* This is a workaround for a cairo bug, due to its internal
- * handling of coordinates (16.16 fixed point). */
-#define GO_PATH_CLAMP(x) CLAMP((x),-15000,15000)
 
 typedef struct _GOPathData	 GOPathData;
 typedef struct _GOPathDataBuffer GOPathDataBuffer;
@@ -250,8 +248,8 @@ go_path_move_to (GOPath *path, double x, double y)
 {
 	GOPathPoint point;
 
-	point.x = GO_PATH_CLAMP (x);
-	point.y = GO_PATH_CLAMP (y);
+	point.x = GO_CAIRO_CLAMP (x);
+	point.y = GO_CAIRO_CLAMP (y);
 	go_path_add_points (path, GO_PATH_ACTION_MOVE_TO, &point, 1);
 }
 
@@ -260,8 +258,8 @@ go_path_line_to (GOPath *path, double x, double y)
 {
 	GOPathPoint point;
 
-	point.x = GO_PATH_CLAMP (x);
-	point.y = GO_PATH_CLAMP (y);
+	point.x = GO_CAIRO_CLAMP (x);
+	point.y = GO_CAIRO_CLAMP (y);
 	go_path_add_points (path, GO_PATH_ACTION_LINE_TO, &point, 1);
 }
 
@@ -273,12 +271,12 @@ go_path_curve_to (GOPath *path,
 {
 	GOPathPoint points[3];
 
-	points[0].x = GO_PATH_CLAMP (x0);
-	points[0].y = GO_PATH_CLAMP (y0);
-	points[1].x = GO_PATH_CLAMP (x1);
-	points[1].y = GO_PATH_CLAMP (y1);
-	points[2].x = GO_PATH_CLAMP (x2);
-	points[2].y = GO_PATH_CLAMP (y2);
+	points[0].x = GO_CAIRO_CLAMP (x0);
+	points[0].y = GO_CAIRO_CLAMP (y0);
+	points[1].x = GO_CAIRO_CLAMP (x1);
+	points[1].y = GO_CAIRO_CLAMP (y1);
+	points[2].x = GO_CAIRO_CLAMP (x2);
+	points[2].y = GO_CAIRO_CLAMP (y2);
 	go_path_add_points (path, GO_PATH_ACTION_CURVE_TO, points, 3);
 }
 
