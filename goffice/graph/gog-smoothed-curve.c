@@ -106,7 +106,6 @@ gog_smoothed_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogChartMap *chart_map;
 	GogStyle *style;
 	GOPath *path;
-	unsigned i;
 
 	if (curve->nb == 0 || curve->x == NULL || curve->y == NULL)
 		return;

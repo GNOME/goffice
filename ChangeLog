@@ -1,3 +1,8 @@
+2007-10-01  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-smoothed-curve.c (gog_smoothed_curve_view_render):
+	warning fix.
+
 2007-10-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/component/go-component.c: removed pixbuf, everything should
