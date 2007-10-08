@@ -48,7 +48,7 @@ struct _GOSelector
 
 struct _GOSelectorClass
 {
-	GtkHBoxClass parent_class;	
+	GtkHBoxClass parent_class;
 
 	/* signals */
 	void (*activate)		(GtkWidget *selector);

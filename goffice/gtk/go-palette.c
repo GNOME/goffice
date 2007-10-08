@@ -43,8 +43,6 @@ static GtkWidget       *go_palette_menu_item_new (GOPalette *palette, int index)
 static void 		cb_automatic_activate 	 (GtkWidget *item, GOPalette *palette);
 static void 		cb_custom_activate 	 (GtkWidget *item, GOPalette *palette);
 
-#define GO_PALETTE_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GO_TYPE_PALETTE, GOPalettePrivate))
-
 struct _GOPalettePrivate {
 	int		 n_swatches;
 	int 		 n_columns;
@@ -52,7 +50,7 @@ struct _GOPalettePrivate {
 	int		 swatch_width;
 	int		 swatch_height;
 
-	GOPaletteSwatchRenderCallback 	swatch_render; 
+	GOPaletteSwatchRenderCallback 	swatch_render;
 	GOPaletteSwatchTooltipCallback 	get_tooltip;
 
 	gpointer 	 data;
@@ -63,7 +61,7 @@ struct _GOPalettePrivate {
 	GtkWidget	*automatic_separator;
 	char		*automatic_label;
 	int		 automatic_index;
-	
+
 	gboolean	 show_custom;
 	GtkWidget	*custom;
 	GtkWidget	*custom_separator;
@@ -79,7 +77,7 @@ go_palette_init (GOPalette *palette)
 	PangoLayout *layout;
 	PangoRectangle rect;
 
-	priv = GO_PALETTE_GET_PRIVATE (palette);
+	priv = G_TYPE_INSTANCE_GET_PRIVATE (palette, GO_TYPE_PALETTE, GOPalettePrivate);
 
 	palette->priv = priv;
 
@@ -100,7 +98,7 @@ go_palette_init (GOPalette *palette)
 	priv->show_custom = FALSE;
 
 	priv->automatic_index = 0;
-	
+
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (palette), "A");
 	pango_layout_get_pixel_extents (layout, NULL, &rect);
 	g_object_unref (layout);
@@ -195,7 +193,7 @@ go_palette_finalize (GObject *object)
 {
 	GOPalettePrivate *priv;
 
-	priv = GO_PALETTE_GET_PRIVATE (object);
+	priv = GO_PALETTE(object)->priv;
 
 	if (priv->data && priv->destroy)
 		(priv->destroy) (priv->data);
@@ -212,9 +210,9 @@ cb_swatch_expose (GtkWidget *swatch, GdkEventExpose *event, GOPalette *palette)
 		cairo_t *cr;
 		GdkRectangle area;
 		int index;
-		
+
 #if GTK_CHECK_VERSION(2,8,0)
-		
+
 		cr = gdk_cairo_create (swatch->window);
 
 		area.x = 0;
@@ -229,8 +227,8 @@ cb_swatch_expose (GtkWidget *swatch, GdkEventExpose *event, GOPalette *palette)
 		cairo_destroy (cr);
 
 #else /* if GTK < 2.8.0 */
-	
-#warning [GOPalette:cb_swatch_expose] Use of old version of gtk (<2.8.0)	
+
+#warning [GOPalette:cb_swatch_expose] Use of old version of gtk (<2.8.0)
 
 		GdkPixbuf *pixbuf;
 		GOImage *image;
@@ -239,18 +237,18 @@ cb_swatch_expose (GtkWidget *swatch, GdkEventExpose *event, GOPalette *palette)
 		area.y = 0;
 		area.width = swatch->allocation.width;
 		area.height = swatch->allocation.height;
-		
-	       	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 
+
+		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
 					 area.width, area.height);
-	       	image = go_image_new_from_pixbuf (pixbuf);
+		image = go_image_new_from_pixbuf (pixbuf);
 		g_object_unref (pixbuf);
-		
+
 		cr = go_image_get_cairo (image);
-		
+
 		index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (swatch), "index"));
 
 		(palette->priv->swatch_render) (cr, &area, index, palette->priv->data);
-		
+
 		cairo_destroy (cr);
 		pixbuf = go_image_get_pixbuf (image);
 
@@ -427,7 +425,9 @@ GtkWidget *
 go_palette_swatch_new (GOPalette *palette, int index)
 {
 	GtkWidget *swatch;
-	
+
+	g_return_val_if_fail (GO_IS_PALETTE (palette), NULL);
+
 	swatch = gtk_drawing_area_new ();
 
 	g_object_set_data (G_OBJECT (swatch), "index", GINT_TO_POINTER (index));
@@ -452,6 +452,8 @@ go_palette_swatch_new (GOPalette *palette, int index)
 int
 go_palette_get_n_swatches (GOPalette *palette)
 {
+	g_return_val_if_fail (GO_IS_PALETTE (palette), 0);
+
 	return palette->priv->n_swatches;
 }
 

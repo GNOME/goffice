@@ -1,3 +1,12 @@
+2007-10-08  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Don't use the G_TYPE_INSTANCE_GET_PRIVATE macro in GOSelector and
+	GOPalette implementation. We already have a private pointer in the
+	public struct.
+
+	* goffice/gtk/go-palette.c: here.
+	* goffice/gtk/go-selector.c: and here.
+
 2007-10-02  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-renderer.c: move GO_CAIRO_CLAMP from here...

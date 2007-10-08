@@ -57,7 +57,7 @@ static guint 	go_selector_signals[GO_SELECTOR_LAST_SIGNAL] = {0,};
 
 static void     go_selector_finalize   		(GObject *object);
 
-static void 	go_selector_button_toggled 	(GtkWidget *button, 
+static void 	go_selector_button_toggled 	(GtkWidget *button,
 						 gpointer   data);
 static gboolean go_selector_key_press 		(GtkWidget   *widget,
 						 GdkEventKey *event,
@@ -65,11 +65,9 @@ static gboolean go_selector_key_press 		(GtkWidget   *widget,
 static void 	go_selector_popdown 		(GOSelector *selector);
 static void 	go_selector_popup		(GOSelector *selector);
 
-static void 	go_selector_set_active_internal (GOSelector *selector, 
-						 int index, 
+static void 	go_selector_set_active_internal (GOSelector *selector,
+						 int index,
 						 gboolean is_auto);
-
-#define GO_SELECTOR_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GO_TYPE_SELECTOR, GOSelectorPrivate))
 
 struct _GOSelectorPrivate {
 	GtkWidget *button;
@@ -78,7 +76,7 @@ struct _GOSelectorPrivate {
 	GtkWidget *swatch;
 	GtkWidget *separator;
 	GtkWidget *arrow;
-	
+
 	GOPalette *palette;
 
 	gboolean 	 selected_is_auto;
@@ -99,7 +97,7 @@ go_selector_init (GOSelector *selector)
 {
 	GOSelectorPrivate *priv;
 
-	priv = GO_SELECTOR_GET_PRIVATE (selector);
+	priv = G_TYPE_INSTANCE_GET_PRIVATE (selector, GO_TYPE_SELECTOR, GOSelectorPrivate);
 
 	selector->priv = priv;
 
@@ -108,17 +106,17 @@ go_selector_init (GOSelector *selector)
 	priv->selected_is_auto = FALSE;
 
 	gtk_widget_push_composite_child ();
-  
+
 	priv->button = gtk_toggle_button_new ();
 	g_signal_connect (priv->button, "toggled",
 			  G_CALLBACK (go_selector_button_toggled), selector);
-	g_signal_connect_after (priv->button, 
+	g_signal_connect_after (priv->button,
 				"key_press_event",
 				G_CALLBACK (go_selector_key_press), selector);
 	gtk_widget_show (priv->button);
 
-      	priv->box = gtk_hbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (priv->button), 
+	priv->box = gtk_hbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (priv->button),
 			   priv->box);
 	gtk_widget_show (priv->box);
 
@@ -127,7 +125,7 @@ go_selector_init (GOSelector *selector)
 	gtk_box_pack_start (GTK_BOX (priv->box),
 			    priv->alignment, TRUE, TRUE, 0);
 	gtk_widget_show (priv->alignment);
-	
+
 	priv->separator = gtk_vseparator_new ();
 	gtk_box_pack_start (GTK_BOX (priv->box),
 			    priv->separator, FALSE, FALSE, 0);
@@ -139,8 +137,8 @@ go_selector_init (GOSelector *selector)
 	gtk_widget_show (priv->arrow);
 
 	gtk_widget_pop_composite_child ();
-	
-	gtk_box_pack_start (GTK_BOX (selector), priv->button, TRUE, TRUE, 0);	
+
+	gtk_box_pack_start (GTK_BOX (selector), priv->button, TRUE, TRUE, 0);
 
 	priv->dnd_length = 0;
 	priv->dnd_type.target = NULL;
@@ -155,9 +153,9 @@ static void
 go_selector_class_init (GOSelectorClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
-	
+
 	object_class->finalize = go_selector_finalize;
-	
+
 	go_selector_signals[GO_SELECTOR_ACTIVATE] =
 		g_signal_new ("activate",
 			      G_OBJECT_CLASS_TYPE (class),
@@ -210,7 +208,7 @@ cb_palette_deactivate (GOPalette *palette, GOSelector *selector)
  * swatch render function of @palette.
  *
  * Returns: a new #GtkWidget.
- **/ 
+ **/
 GtkWidget *
 go_selector_new (GOPalette *palette)
 {
@@ -220,8 +218,8 @@ go_selector_new (GOPalette *palette)
 	selector = g_object_new (GO_TYPE_SELECTOR, NULL);
 
 	g_return_val_if_fail (GO_IS_PALETTE (palette), selector);
-	
-	priv = GO_SELECTOR_GET_PRIVATE (selector);
+
+	priv = GO_SELECTOR (selector)->priv;
 
 #if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 	g_object_ref_sink (palette);
@@ -302,17 +300,18 @@ go_selector_popup (GOSelector *selector)
 	GOSelectorPrivate *priv;
 
 	g_return_if_fail (GO_IS_SELECTOR (selector));
-	priv = GO_SELECTOR_GET_PRIVATE (selector);
+
+	priv = selector->priv;
 
 	if (!GTK_WIDGET_REALIZED (selector))
 		return;
 
 	if (GTK_WIDGET_MAPPED (priv->palette))
 		return;
-	
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button), TRUE);
 	gtk_menu_popup (GTK_MENU (priv->palette),
-			NULL, NULL, 
+			NULL, NULL,
 			go_selector_menu_position_below, selector,
 			0, 0);
 }
@@ -323,7 +322,8 @@ go_selector_popdown (GOSelector *selector)
 	GOSelectorPrivate *priv;
 
 	g_return_if_fail (GO_IS_SELECTOR (selector));
-	priv = GO_SELECTOR_GET_PRIVATE (selector);
+
+	priv = selector->priv;
 
 	gtk_menu_popdown (GTK_MENU (priv->palette));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button), FALSE);
@@ -333,10 +333,7 @@ static void
 go_selector_button_toggled (GtkWidget *button,
 				 gpointer   data)
 {
-	GOSelectorPrivate *priv;
 	GOSelector *selector = GO_SELECTOR (data);
-
-	priv = GO_SELECTOR_GET_PRIVATE (selector);
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
 		go_selector_popup (selector);
@@ -346,8 +343,8 @@ go_selector_button_toggled (GtkWidget *button,
 
 static gboolean
 go_selector_key_press (GtkWidget   *widget,
-			    GdkEventKey *event,
-			    gpointer     data)
+		       GdkEventKey *event,
+		       gpointer     data)
 {
 	GOSelector *selector = GO_SELECTOR (data);
 	GOSelectorPrivate *priv;
@@ -355,9 +352,9 @@ go_selector_key_press (GtkWidget   *widget,
 	int n_swatches, index;
 	gboolean found = FALSE;
 
-	priv = GO_SELECTOR_GET_PRIVATE (selector);
+	priv = selector->priv;
 
-	if ((event->keyval == GDK_Down || event->keyval == GDK_KP_Down) && 
+	if ((event->keyval == GDK_Down || event->keyval == GDK_KP_Down) &&
 	    state == GDK_MOD1_MASK) {
 		go_selector_popup (selector);
 		return TRUE;
@@ -368,8 +365,8 @@ go_selector_key_press (GtkWidget   *widget,
 
 	n_swatches = go_palette_get_n_swatches (GO_PALETTE (priv->palette));
 	index = 0;
-	
-	switch (event->keyval) 
+
+	switch (event->keyval)
 	{
 		case GDK_Down:
 		case GDK_KP_Down:
@@ -381,7 +378,7 @@ go_selector_key_press (GtkWidget   *widget,
 			/* else fall through */
 		case GDK_Page_Up:
 		case GDK_KP_Page_Up:
-		case GDK_Home: 
+		case GDK_Home:
 		case GDK_KP_Home:
 			if (priv->selected_index != 0) {
 				index = 0;
@@ -396,10 +393,10 @@ go_selector_key_press (GtkWidget   *widget,
 				found = TRUE;
 				break;
 			}
-			/* else fall through */      
+			/* else fall through */
 		case GDK_Page_Down:
 		case GDK_KP_Page_Down:
-		case GDK_End: 
+		case GDK_End:
 		case GDK_KP_End:
 			if (priv->selected_index != n_swatches - 1) {
 				index = n_swatches - 1;
@@ -410,7 +407,7 @@ go_selector_key_press (GtkWidget   *widget,
 			return FALSE;
 	}
 
-	if (found) 
+	if (found)
 		go_selector_set_active_internal (selector, index, FALSE);
 
 	return TRUE;
@@ -424,7 +421,7 @@ go_selector_set_active_internal (GOSelector *selector, int index, gboolean is_au
 	selector->priv->selected_index = index;
 	selector->priv->selected_is_auto = is_auto;
 
-	g_object_set_data (G_OBJECT (selector->priv->swatch), "index", 
+	g_object_set_data (G_OBJECT (selector->priv->swatch), "index",
 			   GINT_TO_POINTER (index));
 
 	go_selector_update_swatch (selector);
@@ -446,13 +443,13 @@ gboolean
 go_selector_set_active (GOSelector *selector, int index)
 {
 	int n_swatches;
-	
+
 	g_return_val_if_fail (GO_IS_SELECTOR (selector), FALSE);
-	
+
 	n_swatches = go_palette_get_n_swatches (GO_PALETTE (selector->priv->palette));
-	
-	if (index != selector->priv->selected_index && 
-	    index >= 0 && 
+
+	if (index != selector->priv->selected_index &&
+	    index >= 0 &&
 	    index < n_swatches) {
 		go_selector_set_active_internal (selector, index, FALSE);
 		return TRUE;
@@ -519,12 +516,12 @@ go_selector_activate (GOSelector *selector)
  *
  * Returns: a pointer to palette user_data.
  **/
-gpointer 	 
+gpointer
 go_selector_get_user_data (GOSelector *selector)
 {
 	g_return_val_if_fail (GO_IS_SELECTOR (selector), NULL);
 
-	return go_palette_get_user_data (GO_PALETTE (selector->priv->palette));	
+	return go_palette_get_user_data (GO_PALETTE (selector->priv->palette));
 }
 
 static void
@@ -540,7 +537,7 @@ go_selector_drag_data_received (GtkWidget        *button,
 	GOSelectorPrivate *priv = selector->priv;
 
 	if (selection_data->length != priv->dnd_length ||
-	    priv->dnd_data_received == NULL) 
+	    priv->dnd_data_received == NULL)
 		return;
 
 	(priv->dnd_data_received) (selector, selection_data->data);
@@ -581,7 +578,7 @@ go_selector_drag_data_get (GtkWidget        *button,
 		return;
 
 	data = (priv->dnd_data_get) (selector);
-	
+
 	if (data != NULL) {
 		gtk_selection_data_set (selection_data, selection_data->target,
 					8, data, priv->dnd_length);
@@ -611,7 +608,7 @@ go_selector_setup_dnd (GOSelector *selector,
 	GOSelectorPrivate *priv;
 
 	g_return_if_fail (GO_IS_SELECTOR (selector));
-	
+
 	priv = selector->priv;
 	g_return_if_fail (!priv->dnd_initialized);
 	g_return_if_fail (dnd_length > 0);
@@ -631,7 +628,7 @@ go_selector_setup_dnd (GOSelector *selector,
 	gtk_drag_source_set (priv->button,
 			     GDK_BUTTON1_MASK|GDK_BUTTON3_MASK,
 			     &priv->dnd_type, 1, GDK_ACTION_COPY);
-	
+
 	g_signal_connect (priv->button, "drag_begin",
 			  G_CALLBACK (go_selector_drag_begin), selector);
 	g_signal_connect (priv->button, "drag_data_received",
