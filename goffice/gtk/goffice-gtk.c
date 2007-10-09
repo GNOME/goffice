@@ -24,6 +24,7 @@
 #include <goffice/app/go-cmd-context.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/goffice-priv.h>
+#include <goffice/gtk/go-pixbuf.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <atk/atkrelation.h>
@@ -202,30 +203,6 @@ go_gtk_editable_enters (GtkWindow *window, GtkWidget *w)
 	g_signal_connect_swapped (G_OBJECT (w),
 		"activate",
 		G_CALLBACK (gtk_window_activate_default), window);
-}
-
-GdkPixbuf *
-go_pixbuf_intelligent_scale (GdkPixbuf *buf, guint width, guint height)
-{
-	GdkPixbuf *scaled;
-	int w, h;
-	unsigned long int ow = gdk_pixbuf_get_width (buf);
-	unsigned long int oh = gdk_pixbuf_get_height (buf);
-
-	if (ow > width || oh > height) {
-		if (ow * height > oh * width) {
-			w = width;
-			h = width * (((double)oh)/(double)ow);
-		} else {
-			h = height;
-			w = height * (((double)ow)/(double)oh);
-		}
-
-		scaled = gdk_pixbuf_scale_simple (buf, w, h, GDK_INTERP_BILINEAR);
-	} else
-		scaled = g_object_ref (buf);
-
-	return scaled;
 }
 
 void
@@ -1014,23 +991,6 @@ go_gtk_query_yes_no (GtkWindow *parent, gboolean default_answer,
 		go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
 }
 
-/**
- * go_pixbuf_new_from_file :
- * @filename :
- *
- * utility routine to create pixbufs from file @name in the goffice_icon_dir.
- *
- * Returns: a GdkPixbuf that the caller is responsible for.
- **/
-GdkPixbuf *
-go_pixbuf_new_from_file (char const *filename)
-{
-	char *path = g_build_filename (go_sys_icon_dir (), filename, NULL);
-	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (path, NULL);
-	g_free (path);
-	return pixbuf;
-}
-
 #ifndef HAVE_GTK_WIDGET_SET_TOOLTIP_TEXT
 static GtkTooltips *
 get_tooltips (GObject *obj)
@@ -1164,4 +1124,67 @@ go_dialog_guess_alternative_button_order (GtkDialog *dialog)
 								    nchildren,
 								    new_order);
 	g_free (new_order);
+}
+
+/**
+ * go_menu_position_below:
+ * @menu: a #GtkMenu
+ * @x:
+ * @y:
+ * @push_in:
+ * @user_data:
+ *
+ * Implementation of a GtkMenuPositionFunc that positions
+ * the child window under the parent one, for use with gtk_menu_popup.
+ **/
+
+void
+go_menu_position_below (GtkMenu  *menu,
+			gint     *x,
+			gint     *y,
+			gint     *push_in,
+			gpointer  user_data)
+{
+	GtkWidget *widget = GTK_WIDGET (user_data);
+	gint sx, sy;
+	GtkRequisition req;
+	GdkScreen *screen;
+	gint monitor_num;
+	GdkRectangle monitor;
+
+	gdk_window_get_origin (widget->window, &sx, &sy);
+
+	if (GTK_WIDGET_NO_WINDOW (widget))
+	{
+		sx += widget->allocation.x;
+		sy += widget->allocation.y;
+	}
+
+	gtk_widget_size_request (GTK_WIDGET (menu), &req);
+
+	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_LTR)
+		*x = sx;
+	else
+		*x = sx + widget->allocation.width - req.width;
+	*y = sy;
+
+	screen = gtk_widget_get_screen (widget);
+	monitor_num = gdk_screen_get_monitor_at_window (screen, widget->window);
+	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
+
+	if (*x < monitor.x)
+		*x = monitor.x;
+	else if (*x + req.width > monitor.x + monitor.width)
+		*x = monitor.x + monitor.width - req.width;
+
+	if (monitor.y + monitor.height - *y - widget->allocation.height >= req.height)
+		*y += widget->allocation.height;
+	else if (*y - monitor.y >= req.height)
+		*y -= req.height;
+	else if (monitor.y + monitor.height - *y - widget->allocation.height > *y - monitor.y)
+		*y += widget->allocation.height;
+	else
+		*y -= req.height;
+
+	*push_in = FALSE;
 }

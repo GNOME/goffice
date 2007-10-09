@@ -21,6 +21,7 @@
 
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtktoolitem.h>
+#include <gtk/gtkmenu.h>
 #include <glade/glade-xml.h>
 #include <gtk/gtkfilechooser.h>
 #include <goffice/app/goffice-app.h>
@@ -44,10 +45,6 @@ gulong	   go_glade_signal_connect_swapped (GladeXML *gui,
 					    gchar const *detailed_signal,
 					    GCallback	 c_handler,
 					    gpointer	 data);
-
-GdkPixbuf *go_pixbuf_new_from_file	(char const *filename);
-GdkPixbuf *go_pixbuf_intelligent_scale	(GdkPixbuf *pixbuf, 
-					 guint width, guint height);
 
 int	   go_pango_measure_string	(PangoContext *context,
 					 PangoFontDescription const *font_desc,
@@ -84,6 +81,9 @@ void       go_dialog_guess_alternative_button_order (GtkDialog *dialog);
 
 void       go_widget_set_tooltip_text (GtkWidget *widget, const gchar *tip);
 void       go_tool_item_set_tooltip_text (GtkToolItem *item, const gchar *tip);
+
+void 	   go_menu_position_below 		(GtkMenu *menu, gint *x, gint *y,
+						 gint *push_in, gpointer user_data);
 
 G_END_DECLS
 

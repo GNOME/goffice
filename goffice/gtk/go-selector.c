@@ -20,6 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
+#include <goffice/gtk/goffice-gtk.h>
 
 #include "go-selector.h"
 
@@ -240,61 +241,6 @@ go_selector_new (GOPalette *palette)
 }
 
 static void
-go_selector_menu_position_below (GtkMenu  *menu,
-				      gint     *x,
-				      gint     *y,
-				      gint     *push_in,
-				      gpointer  user_data)
-{
-	GOSelector *selector = GO_SELECTOR (user_data);
-	gint sx, sy;
-	GtkWidget *widget;
-	GtkRequisition req;
-	GdkScreen *screen;
-	gint monitor_num;
-	GdkRectangle monitor;
-
-	widget = GTK_WIDGET (selector);
-
-	gdk_window_get_origin (widget->window, &sx, &sy);
-
-	if (GTK_WIDGET_NO_WINDOW (widget))
-	{
-		sx += widget->allocation.x;
-		sy += widget->allocation.y;
-	}
-
-	gtk_widget_size_request (GTK_WIDGET (menu), &req);
-
-	if (gtk_widget_get_direction (GTK_WIDGET (selector)) == GTK_TEXT_DIR_LTR)
-		*x = sx;
-	else
-		*x = sx + widget->allocation.width - req.width;
-	*y = sy;
-
-	screen = gtk_widget_get_screen (GTK_WIDGET (selector));
-	monitor_num = gdk_screen_get_monitor_at_window (screen, 
-							GTK_WIDGET (selector)->window);
-	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
-
-	if (*x < monitor.x)
-		*x = monitor.x;
-	else if (*x + req.width > monitor.x + monitor.width)
-		*x = monitor.x + monitor.width - req.width;
-
-	if (monitor.y + monitor.height - *y - widget->allocation.height >= req.height)
-		*y += widget->allocation.height;
-	else if (*y - monitor.y >= req.height)
-		*y -= req.height;
-	else if (monitor.y + monitor.height - *y - widget->allocation.height > *y - monitor.y) 
-		*y += widget->allocation.height;
-	else
-		*y -= req.height;
-
-	*push_in = FALSE;
-}
-
-static void
 go_selector_popup (GOSelector *selector)
 {
 	GOSelectorPrivate *priv;
@@ -312,7 +258,7 @@ go_selector_popup (GOSelector *selector)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button), TRUE);
 	gtk_menu_popup (GTK_MENU (priv->palette),
 			NULL, NULL,
-			go_selector_menu_position_below, selector,
+			go_menu_position_below, selector,
 			0, 0);
 }
 

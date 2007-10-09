@@ -1,3 +1,15 @@
+2007-10-09  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Move pixbuf related function into goffice/gtk/go-pixbuf.[ch]
+
+	* goffice/gtk/goffice-gtk.c: move go_pixbuf_new_from_file and
+	go_pixbuf_intelligent_scale...
+	* goffice/gtk/go-pixbuf.[ch]: ...here.
+	(go_pixbuf_get_from_cache): new.
+
+	* goffice/gtk/go-selector.c: move go_menu_position_below...
+	* goffice/gtk/goffice-gtk.c: ...here.
+
 2007-10-08  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Don't use the G_TYPE_INSTANCE_GET_PRIVATE macro in GOSelector and

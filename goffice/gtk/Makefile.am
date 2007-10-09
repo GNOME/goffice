@@ -30,6 +30,8 @@ libgoffice_gtk_la_SOURCES =		\
 	go-marker-selector.c		\
 	go-pattern-selector.c		\
 	\
+	go-pixbuf.c			\
+	\
 	go-graph-widget.c		
 
 
@@ -63,6 +65,8 @@ libgoffice_gtk_la_HEADERS = 		\
 	go-line-selector.h		\
 	go-marker-selector.h		\
 	go-pattern-selector.h		\
+	\
+	go-pixbuf.h			\
 	\
 	go-graph-widget.h
 
