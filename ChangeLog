@@ -1,5 +1,23 @@
 2007-10-09  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Widgetization and conversion of the graph guru "add menu" to a button
+	with a popup menu.
+
+	* goffice/graph/gog-child-button.[ch]: new.
+	* goffice/graph/gog-guru.c: move code related to the add menu to
+	gog-child-button.c.
+	(get_pixbuf): removed (now in go-pixbuf as go_pixbuf_get_from_cache).
+	(cb_graph_guru_add_item), (cb_cmp_plot_type), (cb_plot_type_list),
+	(cb_graph_guru_add_plot), (cb_plot_family_menu_create),
+	(plot_type_menu_create), (cb_graph_guru_add_trend_line),
+	(cb_trend_line_type_menu_create), (trend_line_type_menu_create): removed.
+	(cb_attr_tree_selection_change): use GogChildButton.
+	(graph_guru_init_format_page): create a GogChildButton.
+	* goffice/graph/gog-guru.glade: remove the menu and convert precedence
+	menu items to button.
+
+2007-10-09  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Move pixbuf related function into goffice/gtk/go-pixbuf.[ch]
 
 	* goffice/gtk/goffice-gtk.c: move go_pixbuf_new_from_file and

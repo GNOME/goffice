@@ -73,9 +73,11 @@ libgoffice_graph_la_HEADERS = \
 
 if WITH_GTK
   libgoffice_graph_la_SOURCES += gog-control-foocanvas.c	\
-				 gog-guru.c
+				 gog-guru.c			\
+				 gog-child-button.c
   libgoffice_graph_la_HEADERS += gog-control-foocanvas.h	\
-				 gog-guru.h
+				 gog-guru.h			\
+				 gog-child-button.h
 endif
 
 gladedir = $(goffice_datadir)/glade

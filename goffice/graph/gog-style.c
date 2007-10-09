@@ -33,6 +33,7 @@
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
+#include <goffice/gtk/go-pixbuf.h>
 #include <goffice/gtk/go-font-sel.h>
 #include <goffice/gtk/go-palette.h>
 #include <goffice/gtk/go-rotation-sel.h>

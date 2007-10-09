@@ -34,6 +34,8 @@
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-control-foocanvas.h>
+#include <goffice/graph/gog-child-button.h>
+#include <goffice/gtk/go-pixbuf.h>
 #include <goffice/gtk/goffice-gtk.h>
 
 #include <glib/gi18n-lib.h>
@@ -81,8 +83,9 @@ struct _GraphGuruState {
 	GtkWidget   *button_cancel;
 	GtkWidget   *button_navigate;
 	GtkWidget   *button_ok;
+	GtkWidget   *child_button;
 	GtkNotebook *steps;
-	GtkWidget   *add_menu, *delete_button;
+	GtkWidget   *delete_button;
 
 	FooCanvasItem	  *sample_graph_item;
 
@@ -96,8 +99,9 @@ struct _GraphGuruState {
 	GraphGuruTypeSelector *type_selector;
 
 	struct {
-		GtkWidget *inc, *dec, *first, *last, *menu;
+		GtkWidget *inc_button, *dec_button, *first_button, *last_button;
 	} prec;
+
 	/* internal state */
 	int current_page, initial_page;
 	gboolean valid;
@@ -156,26 +160,6 @@ enum {
 #define FIRST_MINOR_TYPE	"first_minor_type"
 #define ROLE_KEY		"role"
 #define STATE_KEY		"plot_type"
-
-static GdkPixbuf *
-get_pixbuf (char const *image_file)
-{
-	static GHashTable *cache = NULL;
-	GdkPixbuf *pixbuf;
-
-	if (cache != NULL) {
-		pixbuf = g_hash_table_lookup (cache, image_file);
-		if (pixbuf != NULL)
-			return pixbuf;
-	} else
-		cache = g_hash_table_new_full (g_str_hash, g_str_equal,
-					       NULL, g_object_unref);
-
-	pixbuf = go_pixbuf_new_from_file (image_file);
-	g_hash_table_insert (cache, (gpointer)image_file, pixbuf);
-
-	return pixbuf;
-}
 
 static void
 get_pos (int col, int row, double *x, double *y)
@@ -415,7 +399,7 @@ cb_plot_types_init (char const *id, GogPlotType *type,
 	double x1, y1, w, h;
 	FooCanvasItem *item;
 	int col, row;
-	GdkPixbuf *image = get_pixbuf (type->sample_image_file);
+	GdkPixbuf *image = go_pixbuf_get_from_cache (type->sample_image_file);
 
 	g_return_if_fail (image != NULL);
 
@@ -470,7 +454,7 @@ cb_plot_families_init (char const *id, GogPlotFamily *family,
 
 	gtk_list_store_append (typesel->model, &iter);
 	gtk_list_store_set (typesel->model, &iter,
-		PLOT_FAMILY_TYPE_IMAGE,		get_pixbuf (family->sample_image_file),
+		PLOT_FAMILY_TYPE_IMAGE,		go_pixbuf_get_from_cache (family->sample_image_file),
 		PLOT_FAMILY_TYPE_NAME,		_(family->name),
 		PLOT_FAMILY_TYPE_CANVAS_GROUP,	group,
 		-1);
@@ -533,13 +517,6 @@ static void populate_graph_item_list (GogObject *obj, GogObject *select,
 				      gboolean insert);
 
 static void
-cb_graph_guru_add_item (GtkWidget *w, GraphGuruState *s)
-{
-	gog_object_add_by_role (s->prop_object, 
-		g_object_get_data (G_OBJECT (w), ROLE_KEY), NULL);
-}
-
-static void
 cb_graph_guru_delete_item (GraphGuruState *s)
 {
 	if (s->prop_object != NULL) {
@@ -559,11 +536,10 @@ cb_graph_guru_delete_item (GraphGuruState *s)
 static void
 update_prec_menu (GraphGuruState *s, gboolean inc_ok, gboolean dec_ok)
 {
-	gtk_widget_set_sensitive (s->prec.first,    inc_ok);
-	gtk_widget_set_sensitive (s->prec.inc,	    inc_ok);
-	gtk_widget_set_sensitive (s->prec.dec,	    dec_ok);
-	gtk_widget_set_sensitive (s->prec.last,	    dec_ok);
-	gtk_widget_set_sensitive (s->prec.menu,	    dec_ok | inc_ok);
+	gtk_widget_set_sensitive (s->prec.first_button,    inc_ok);
+	gtk_widget_set_sensitive (s->prec.inc_button,	    inc_ok);
+	gtk_widget_set_sensitive (s->prec.dec_button,	    dec_ok);
+	gtk_widget_set_sensitive (s->prec.last_button,	    dec_ok);
 }
 
 static gboolean
@@ -604,151 +580,9 @@ static void cb_prec_inc	  (GraphGuruState *s) { reorder (s, TRUE,  FALSE); }
 static void cb_prec_dec   (GraphGuruState *s) { reorder (s, FALSE, FALSE); }
 static void cb_prec_last  (GraphGuruState *s) { reorder (s, FALSE, TRUE); }
 
-struct type_menu_create {
-	GraphGuruState *state;
-	GtkWidget   *menu;
-	gboolean non_blank;
-};
-
-
-static gint
-cb_cmp_plot_type (GogPlotType const *a, GogPlotType const *b)
-{
-	if (a->row == b->row)
-		return a->col - b->col;
-	return a->row - b->row;
-}
-
-static void
-cb_plot_type_list (char const *id, GogPlotType *type, GSList **list)
-{
-	*list = g_slist_insert_sorted (*list, type,
-		(GCompareFunc) cb_cmp_plot_type);
-}
-
-static void
-cb_graph_guru_add_plot (GtkWidget *w, GraphGuruState *s)
-{
-	GogPlotType *type = g_object_get_data (G_OBJECT (w), PLOT_TYPE_KEY);
-	GogPlot *plot = gog_plot_new_by_type (type);
-	gog_object_add_by_name (GOG_OBJECT (s->prop_object),
-		"Plot", GOG_OBJECT (plot));
-	gog_plot_guru_helper (plot);
-	/* as a convenience add a series to the newly created plot */
-	gog_object_add_by_name (GOG_OBJECT (plot), "Series", NULL);
-}
-
-static void
-cb_plot_family_menu_create (char const *id, GogPlotFamily *family,
-			    struct type_menu_create *closure)
-{
-	GtkWidget *w, *menu;
-	GSList *ptr, *types = NULL;
-	GogPlotType *type;
-	GogAxisSet axis_set;
-
-	if (g_hash_table_size (family->types) <= 0)
-		return;
-
-	axis_set = gog_chart_get_axis_set (GOG_CHART (closure->state->prop_object)) 
-				& GOG_AXIS_SET_FUNDAMENTAL;
-
-	if (axis_set != GOG_AXIS_SET_FUNDAMENTAL &&
-	    (family->axis_set & GOG_AXIS_SET_FUNDAMENTAL) != axis_set)
-		return;
-
-	menu = gtk_image_menu_item_new_with_label (_(family->name));
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu),
-		gtk_image_new_from_pixbuf (
-			get_pixbuf (family->sample_image_file)));
-	gtk_menu_shell_append (GTK_MENU_SHELL (closure->menu), menu);
-	closure->non_blank = TRUE;
-
-	w = gtk_menu_new ();
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu), w);
-
-	menu = w;
-	g_hash_table_foreach (family->types,
-		(GHFunc) cb_plot_type_list, &types);
-	for (ptr = types ; ptr != NULL ; ptr = ptr->next) {
-		type = ptr->data;
-		w = gtk_image_menu_item_new_with_label (_(type->name));
-		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (w),
-			gtk_image_new_from_pixbuf (
-				get_pixbuf (type->sample_image_file)));
-		g_object_set_data (G_OBJECT (w), PLOT_TYPE_KEY, type);
-		g_signal_connect (G_OBJECT (w),
-			"activate",
-			G_CALLBACK (cb_graph_guru_add_plot), closure->state);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), w);
-	}
-	g_slist_free (types);
-}
-
-/* return TRUE if there are plot types to add */
-static GtkWidget *
-plot_type_menu_create (GraphGuruState *s)
-{
-	struct type_menu_create closure;
-	closure.state = s;
-	closure.menu = gtk_menu_new ();
-	closure.non_blank = FALSE;
-
-	g_hash_table_foreach ((GHashTable *)gog_plot_families (),
-		(GHFunc) cb_plot_family_menu_create, &closure);
-
-	if (closure.non_blank)
-		return closure.menu;
-	gtk_object_destroy (GTK_OBJECT (closure.menu));
-	return NULL;
-}
-
-
-static void
-cb_graph_guru_add_trend_line (GtkWidget *w, GraphGuruState *s)
-{
-	GogTrendLineType *type = g_object_get_data (G_OBJECT (w), TREND_LINE_TYPE_KEY);
-	GogTrendLine *line = gog_trend_line_new_by_type (type);
-	gog_object_add_by_name (GOG_OBJECT (s->prop_object),
-		"Trend line", GOG_OBJECT (line));
-}
-
-static void
-cb_trend_line_type_menu_create (char const *id, GogTrendLineType *type,
-			    struct type_menu_create *closure)
-{
-	GtkWidget *menu;
-
-	menu = gtk_menu_item_new_with_label (_(type->name));
-	g_object_set_data (G_OBJECT (menu), TREND_LINE_TYPE_KEY, type);
-	g_signal_connect (G_OBJECT (menu),
-		"activate",
-		G_CALLBACK (cb_graph_guru_add_trend_line), closure->state);
-	gtk_menu_shell_append (GTK_MENU_SHELL (closure->menu), menu);
-	closure->non_blank = TRUE;
-}
-
-static GtkWidget *
-trend_line_type_menu_create (GraphGuruState *s)
-{
-	struct type_menu_create closure;
-	closure.state = s;
-	closure.menu = gtk_menu_new ();
-	closure.non_blank = FALSE;
-
-	g_hash_table_foreach ((GHashTable *)gog_trend_line_types (),
-		(GHFunc) cb_trend_line_type_menu_create, &closure);
-
-	if (closure.non_blank)
-		return closure.menu;
-	gtk_object_destroy (GTK_OBJECT (closure.menu));
-	return NULL;
-}
-
 static void
 cb_attr_tree_selection_change (GraphGuruState *s)
 {
-	gboolean add_ok = FALSE;
 	gboolean delete_ok = FALSE;
 	gboolean inc_ok = FALSE;
 	gboolean dec_ok = FALSE;
@@ -778,51 +612,7 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 		gtk_container_remove (s->prop_container, w);
 
 	if (s->prop_object != NULL) {
-		/* Setup up the additions menu */
-		GSList *additions = gog_object_possible_additions (s->prop_object);
-		if (additions != NULL) {
-			GogObjectRole const *role;
-			GSList *ptr;
-			GtkWidget *tmp, *menu;
-
-			menu = gtk_menu_new ();
-			for (ptr = additions ; ptr != NULL ; ptr = ptr->next) {
-				role = ptr->data;
-				/* somewhat hackish, but I do not see a need
-				 * for anything more general yet */
-				if (!strcmp (role->id, "Trend line")) {
-					GtkWidget *submenu = trend_line_type_menu_create (s);
-					if (submenu != NULL) {
-						tmp = gtk_menu_item_new_with_label (_(role->id));
-						gtk_menu_item_set_submenu (GTK_MENU_ITEM (tmp), submenu);
-					} else 
-						continue;
-				} else if (!strcmp (role->id, "Plot")) {
-					GtkWidget *submenu = plot_type_menu_create (s);
-					if (submenu != NULL) {
-						tmp = gtk_menu_item_new_with_label (_(role->id));
-						gtk_menu_item_set_submenu (GTK_MENU_ITEM (tmp), submenu);
-					} else 
-						continue;
-				} else if (role->naming_conv == GOG_OBJECT_NAME_BY_ROLE) {
-					tmp = gtk_menu_item_new_with_label (_(role->id));
-					g_object_set_data (G_OBJECT (tmp), ROLE_KEY,
-						(gpointer)role);
-					g_signal_connect (G_OBJECT (tmp),
-						"activate",
-						G_CALLBACK (cb_graph_guru_add_item), s);
-				} else
-					continue;
-
-				gtk_menu_shell_append (GTK_MENU_SHELL (menu), tmp);
-
-			}
-			add_ok = (additions != NULL);
-			g_slist_free (additions);
-
-			gtk_menu_item_set_submenu (GTK_MENU_ITEM (s->add_menu), menu);
-			gtk_widget_show_all (s->add_menu);
-		}
+		gog_child_button_set_object (GOG_CHILD_BUTTON (s->child_button), s->prop_object);
 
 		/* if we ever go back to the typeselector be sure to 
 		 * add the plot to the last selected chart */
@@ -862,7 +652,6 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 	}
 
 	gtk_widget_set_sensitive (s->delete_button, delete_ok);
-	gtk_widget_set_sensitive (s->add_menu,	    add_ok);
 	update_prec_menu (s, inc_ok, dec_ok);
 }
 
@@ -1107,28 +896,34 @@ graph_guru_init_format_page (GraphGuruState *s)
 	if (s->fmt_page_initialized)
 		return;
 	s->fmt_page_initialized = TRUE;
-	s->add_menu	 = glade_xml_get_widget (s->gui, "add_menu");
-	s->delete_button = glade_xml_get_widget (s->gui, "delete");
-	s->prec.menu  = glade_xml_get_widget (s->gui, "precedence_menu");
-	s->prec.inc   = glade_xml_get_widget (s->gui, "inc_precedence");
-	s->prec.dec   = glade_xml_get_widget (s->gui, "dec_precedence");
-	s->prec.first = glade_xml_get_widget (s->gui, "first_precedence");
-	s->prec.last  = glade_xml_get_widget (s->gui, "last_precedence");
+
+	w = glade_xml_get_widget (s->gui, "menu_hbox");
+
+	s->child_button = gog_child_button_new ();
+	gtk_box_pack_start (GTK_BOX (w), s->child_button, FALSE, FALSE, 0);
+	gtk_box_reorder_child (GTK_BOX (w), s->child_button, 0);
+	gtk_widget_show (s->child_button);
+
+	s->delete_button     = glade_xml_get_widget (s->gui, "delete");
+	s->prec.inc_button   = glade_xml_get_widget (s->gui, "inc_precedence");
+	s->prec.dec_button   = glade_xml_get_widget (s->gui, "dec_precedence");
+	s->prec.first_button = glade_xml_get_widget (s->gui, "first_precedence");
+	s->prec.last_button  = glade_xml_get_widget (s->gui, "last_precedence");
 
 	g_signal_connect_swapped (G_OBJECT (s->delete_button),
 		"clicked",
 		G_CALLBACK (cb_graph_guru_delete_item), s);
-	g_signal_connect_swapped (G_OBJECT (s->prec.first),
-		"activate",
+	g_signal_connect_swapped (G_OBJECT (s->prec.first_button),
+		"clicked",
 		G_CALLBACK (cb_prec_first), s);
-	g_signal_connect_swapped (G_OBJECT (s->prec.inc),
-		"activate",
+	g_signal_connect_swapped (G_OBJECT (s->prec.inc_button),
+		"clicked",
 		G_CALLBACK (cb_prec_inc), s);
-	g_signal_connect_swapped (G_OBJECT (s->prec.dec),
-		"activate",
+	g_signal_connect_swapped (G_OBJECT (s->prec.dec_button),
+		"clicked",
 		G_CALLBACK (cb_prec_dec), s);
-	g_signal_connect_swapped (G_OBJECT (s->prec.last),
-		"activate",
+	g_signal_connect_swapped (G_OBJECT (s->prec.last_button),
+		"clicked",
 		G_CALLBACK (cb_prec_last), s);
 
 	/* Load up the sample view and make it fill the entire canvas */
@@ -1148,7 +943,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 		"event",
 		G_CALLBACK (cb_canvas_select_item), s);
 	gtk_widget_show (canvas);
-	
+
 	/* Connect to selection-changed signal of graph view */
 	g_object_get (G_OBJECT (s->sample_graph_item), "renderer", &rend, NULL);
 	g_object_get (G_OBJECT (rend), "view", &(s->graph_view), NULL);

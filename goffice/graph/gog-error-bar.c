@@ -41,8 +41,9 @@ typedef GObjectClass GogErrorBarClass;
 static GObjectClass *error_bar_parent_klass;
 
 #ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/go-color-selector.h>
 #include <goffice/gtk/goffice-gtk.h>
+#include <goffice/gtk/go-pixbuf.h>
+#include <goffice/gtk/go-color-selector.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtkcellrendererpixbuf.h>
