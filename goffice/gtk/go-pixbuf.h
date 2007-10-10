@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * goffice-gtk.h - Misc GTK+ utilities
+ * go-pixbuf.h - Misc GdkPixbuf utilities
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -24,9 +24,12 @@
 
 G_BEGIN_DECLS
 
-GdkPixbuf 	*go_pixbuf_intelligent_scale 		(GdkPixbuf *buf, guint width, guint height);
-GdkPixbuf 	*go_pixbuf_new_from_file		(char const *filename);
-GdkPixbuf 	*go_pixbuf_get_from_cache 		(char const *filename);
+GdkPixbuf 	*go_pixbuf_intelligent_scale	(GdkPixbuf *buf,
+						 guint width, guint height);
+GdkPixbuf 	*go_pixbuf_new_from_file	(char const *filename);
+GdkPixbuf 	*go_pixbuf_get_from_cache 	(char const *filename);
+GdkPixbuf	*go_pixbuf_tile			(GdkPixbuf const *src,
+						 guint w, guint h);
 
 G_END_DECLS
 
