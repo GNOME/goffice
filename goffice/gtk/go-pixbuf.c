@@ -71,8 +71,17 @@ go_pixbuf_intelligent_scale (GdkPixbuf *buf, guint width, guint height)
 GdkPixbuf *
 go_pixbuf_new_from_file (char const *filename)
 {
-	char *path = g_build_filename (go_sys_icon_dir (), filename, NULL);
-	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (path, NULL);
+	char *path;
+	GdkPixbuf *pixbuf;
+
+	g_return_val_if_fail (filename != NULL, NULL);
+
+	if (g_path_is_absolute (filename))
+		path = g_strdup (filename);
+	else
+		path = g_build_filename (go_sys_icon_dir (), filename, NULL);
+
+	pixbuf = gdk_pixbuf_new_from_file (path, NULL);
 
 	g_free (path);
 
@@ -148,7 +157,6 @@ go_pixbuf_tile (GdkPixbuf const *src, guint w, guint h)
 	left_y = h - tile_y * src_h;
 
 	dst_y = 0;
-	stripe_y;
 	dst = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (src),
 			      gdk_pixbuf_get_has_alpha (src),
 			      gdk_pixbuf_get_bits_per_sample (src),

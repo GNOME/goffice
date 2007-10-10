@@ -2,6 +2,7 @@
 
 	* goffice/gtk/go-pixbuf.c (go_pixbuf_tile): Import from Gnumeric.
 	Seems generally useful.
+	(go_pixbuf_new_from_file): Allow absolute filenames.
 
 2007-10-09  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
