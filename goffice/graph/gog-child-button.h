@@ -24,7 +24,7 @@
 #define GOG_CHILD_BUTTON_H
 
 #include <gtk/gtkhbox.h>
-#include <graph/gog-object.h>
+#include <goffice/graph/gog-object.h>
 
 G_BEGIN_DECLS
 
