@@ -189,6 +189,18 @@ goffice/gtk/go-rotation-sel.glade
 goffice/gtk/go-rotation-sel.h
 goffice/gtk/goffice-gtk.c
 goffice/gtk/goffice-gtk.h
+goffice/math/go-complex.c
+goffice/math/go-complex.h
+goffice/math/go-fft.c
+goffice/math/go-fft.h
+goffice/math/go-rangefunc.c
+goffice/math/go-rangefunc.h
+goffice/math/go-cspline.c
+goffice/math/go-cspline.h
+goffice/math/go-math.c
+goffice/math/go-math.h
+goffice/math/go-regression.c
+goffice/math/go-regression.h
 goffice/ms-compat/go-ms-parser.c
 goffice/ms-compat/go-ms-parser.h
 goffice/ms-compat/god-drawing-ms-client-handler.c
@@ -222,8 +234,6 @@ goffice/utils/go-locale.c
 goffice/utils/go-locale.h
 goffice/utils/go-marker.c
 goffice/utils/go-marker.h
-goffice/utils/go-math.c
-goffice/utils/go-math.h
 goffice/utils/go-pattern.c
 goffice/utils/go-pattern.h
 goffice/utils/go-units.h
