@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-20 18:22+0100\n"
-"PO-Revision-Date: 2007-09-26 13:41+0200\n"
+"POT-Creation-Date: 2007-09-27 22:13+0100\n"
+"PO-Revision-Date: 2007-10-15 19:21+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -428,7 +428,8 @@ msgid ""
 "%s.\n"
 "You should restart this program now."
 msgstr ""
-"Los siguientes complementos no están más en el disco pero están todavía activos:\n"
+"Los siguientes complementos no están más en el disco pero están todavía "
+"activos:\n"
 "%s\n"
 "Debería reiniciar este programa ahora."
 
@@ -709,12 +710,12 @@ msgstr "Sangrado"
 #: ../goffice/drawing/god-paragraph-attributes.c:215
 #: ../goffice/drawing/god-paragraph-attributes.c:216
 msgid "Space Before"
-msgstr ""
+msgstr "Espacio antes"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:221
 #: ../goffice/drawing/god-paragraph-attributes.c:222
 msgid "Space After"
-msgstr ""
+msgstr "Espacio después"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:227
 #: ../goffice/drawing/god-paragraph-attributes.c:228
@@ -765,95 +766,87 @@ msgstr "Posición de los ejes (como una cadena)"
 
 #: ../goffice/graph/gog-axis-line.c:656
 msgid "Major labels"
-msgstr ""
+msgstr "Etiquetas mayores"
 
 #: ../goffice/graph/gog-axis-line.c:657
 msgid "Show labels for major ticks"
-msgstr ""
+msgstr "Mostrar las etiquetas para los tics mayores"
 
 #: ../goffice/graph/gog-axis-line.c:662
-#, fuzzy
 msgid "Inside major ticks"
-msgstr "Tics ma_yores"
+msgstr "Tics mayores dentro"
 
 #: ../goffice/graph/gog-axis-line.c:663
 msgid "Major tick marks inside the chart area"
-msgstr ""
+msgstr "Las marcas de los tics mayores dentro del área del diagrama"
 
 #: ../goffice/graph/gog-axis-line.c:668
-#, fuzzy
 msgid "Outside major ticks"
-msgstr "Tics ma_yores"
+msgstr "Tics mayores fuera"
 
 #: ../goffice/graph/gog-axis-line.c:669
 msgid "Major tick marks outside the chart area"
-msgstr ""
+msgstr "Las marcas de los tics mayores fuera del área del diagrama"
 
 #: ../goffice/graph/gog-axis-line.c:674
-#, fuzzy
 msgid "Major tick size"
-msgstr "Tics ma_yores"
+msgstr "Tamaño de los tics mayores"
 
 #: ../goffice/graph/gog-axis-line.c:675
 msgid "Size of the major tick marks, in points"
-msgstr ""
+msgstr "Tamaño de las marcas de los tics mayores, en puntos"
 
 #: ../goffice/graph/gog-axis-line.c:681
-#, fuzzy
 msgid "Inside minor ticks"
-msgstr "Tics me_nores"
+msgstr "Tics menores dentro"
 
 #: ../goffice/graph/gog-axis-line.c:682
 msgid "Minor tick marks inside the chart area"
-msgstr ""
+msgstr "Las marcas de los tics menores dentro del área del diagrama"
 
 #: ../goffice/graph/gog-axis-line.c:687
-#, fuzzy
 msgid "Outside minor ticks"
-msgstr "Tics me_nores"
+msgstr "Tics menores fuera"
 
 #: ../goffice/graph/gog-axis-line.c:688
 msgid "Minor tick marks outside the axis"
-msgstr ""
+msgstr "Las marcas de los tics menores fuera del área del diagrama"
 
 #: ../goffice/graph/gog-axis-line.c:693
-#, fuzzy
 msgid "Minor tick size"
-msgstr "Tics me_nores"
+msgstr "Tamaño de los tics menores"
 
 #: ../goffice/graph/gog-axis-line.c:694
 msgid "Size of the minor tick marks, in points"
-msgstr ""
+msgstr "Tamaño de las marcas de los tics menores, en puntos"
 
 #: ../goffice/graph/gog-axis-line.c:700
 msgid "Cross axis id"
-msgstr ""
+msgstr "Cruzar el id de los ejes"
 
 #: ../goffice/graph/gog-axis-line.c:701
 msgid "Which axis to cross"
-msgstr ""
+msgstr "Qué ejes cruzar"
 
 #: ../goffice/graph/gog-axis-line.c:707
-#, fuzzy
 msgid "Axis padding"
-msgstr "Línea"
+msgstr "Separación de los ejes"
 
 #: ../goffice/graph/gog-axis-line.c:708
 msgid "Distance from axis line to plot area, in points"
 msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:799
-#, fuzzy
 msgid "Select axis"
-msgstr "Seleccione una imagen"
+msgstr "Seleccione el eje"
 
 #: ../goffice/graph/gog-axis-line.c:905
 msgid "Set start bound"
-msgstr ""
+msgstr "Establecer vinculación inicial"
 
 #: ../goffice/graph/gog-axis-line.c:916
 msgid "Set stop bound"
-msgstr ""
+msgstr "Establecer vinculación final"
 
 # Muestra o ejemplo? serrador@arrakis.es
 #: ../goffice/graph/gog-axis-prefs.glade.h:1
@@ -877,7 +870,7 @@ msgstr "<b>Tics menores</b>"
 msgid "<b>Position</b>"
 msgstr "<b>Posición</b>"
 
-#: ../goffice/graph/gog-axis-prefs.glade.h:6 ../goffice/gtk/go-palette.c:413
+#: ../goffice/graph/gog-axis-prefs.glade.h:6 ../goffice/gtk/go-palette.c:377
 msgid "Automatic"
 msgstr "Automático"
 
@@ -891,7 +884,7 @@ msgstr "_Exterior"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:9
 msgid "Padding:"
-msgstr ""
+msgstr "Separación:"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:10
 msgid "_Cross"
@@ -1184,7 +1177,7 @@ msgid "Width"
 msgstr "Anchura"
 
 #: ../goffice/graph/gog-control-foocanvas.c:225
-#: ../goffice/graph/gog-renderer.c:1790 ../goffice/graph/gog-view.c:597
+#: ../goffice/graph/gog-renderer.c:1779 ../goffice/graph/gog-view.c:597
 msgid "Model"
 msgstr "Modelo"
 
@@ -1604,9 +1597,8 @@ msgid "Anchor for manual position"
 msgstr ""
 
 #: ../goffice/graph/gog-outlined-object.c:80
-#, fuzzy
 msgid "Padding Pts"
-msgstr "Diag de tartas y anillos"
+msgstr "Puntos de separación"
 
 #: ../goffice/graph/gog-outlined-object.c:81
 msgid "Number of pts separating charts in the grid"
@@ -1776,40 +1768,16 @@ msgstr ""
 msgid "Display _regression coefficient R²"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1791
+#: ../goffice/graph/gog-renderer.c:1780
 msgid "The GogGraph this renderer displays"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1796
+#: ../goffice/graph/gog-renderer.c:1785
 msgid "View"
 msgstr "Ver"
 
-#: ../goffice/graph/gog-renderer.c:1797
+#: ../goffice/graph/gog-renderer.c:1786
 msgid "the GogView this renderer is displaying"
-msgstr ""
-
-#: ../goffice/graph/gog-renderer.c:1802
-msgid "Zoom Height Pts"
-msgstr ""
-
-#: ../goffice/graph/gog-renderer.c:1803
-msgid "Global scale factor"
-msgstr ""
-
-#: ../goffice/graph/gog-renderer.c:1808
-msgid "Cairo"
-msgstr "El Cairo"
-
-#: ../goffice/graph/gog-renderer.c:1809
-msgid "The cairo_t* this renderer uses"
-msgstr ""
-
-#: ../goffice/graph/gog-renderer.c:1813
-msgid "Is vector"
-msgstr ""
-
-#: ../goffice/graph/gog-renderer.c:1814
-msgid "Tells if the cairo surface is vectorial or raster"
 msgstr ""
 
 #: ../goffice/graph/gog-series-prefs.glade.h:1
@@ -2093,11 +2061,11 @@ msgstr ""
 msgid "The GogObject this view displays"
 msgstr ""
 
-#: ../goffice/gtk/go-action-combo-text.c:249
+#: ../goffice/gtk/go-action-combo-text.c:253
 msgid "Case Sensitive"
 msgstr "Sensible a capitalización"
 
-#: ../goffice/gtk/go-action-combo-text.c:250
+#: ../goffice/gtk/go-action-combo-text.c:254
 msgid "Should the text comparison be case sensitive"
 msgstr ""
 
@@ -2501,184 +2469,184 @@ msgstr "Dirección de conversión"
 msgid "This value determines which iconv test to perform."
 msgstr "Esta variable determina qué test de iconv realizar."
 
-#: ../goffice/gtk/go-color-palette.c:80
+#: ../goffice/gtk/go-color-palette.c:79
 msgid "black"
 msgstr "negro"
 
-#: ../goffice/gtk/go-color-palette.c:81
+#: ../goffice/gtk/go-color-palette.c:80
 msgid "light brown"
 msgstr "marrón pálido"
 
-#: ../goffice/gtk/go-color-palette.c:82
+#: ../goffice/gtk/go-color-palette.c:81
 msgid "brown gold"
 msgstr "marrón dorado"
 
-#: ../goffice/gtk/go-color-palette.c:83
+#: ../goffice/gtk/go-color-palette.c:82
 msgid "dark green #2"
 msgstr "verde oscuro nº2"
 
-#: ../goffice/gtk/go-color-palette.c:84
+#: ../goffice/gtk/go-color-palette.c:83
 msgid "navy"
 msgstr "azul marino"
 
-#: ../goffice/gtk/go-color-palette.c:85 ../goffice/gtk/go-color-palette.c:137
+#: ../goffice/gtk/go-color-palette.c:84 ../goffice/gtk/go-color-palette.c:136
 msgid "dark blue"
 msgstr "azul oscuro"
 
-#: ../goffice/gtk/go-color-palette.c:86
+#: ../goffice/gtk/go-color-palette.c:85
 msgid "purple #2"
 msgstr "púrpura nº2"
 
-#: ../goffice/gtk/go-color-palette.c:87
+#: ../goffice/gtk/go-color-palette.c:86
 msgid "very dark gray"
 msgstr "gris muy oscuro"
 
-#: ../goffice/gtk/go-color-palette.c:89 ../goffice/gtk/go-color-palette.c:142
+#: ../goffice/gtk/go-color-palette.c:88 ../goffice/gtk/go-color-palette.c:141
 msgid "dark red"
 msgstr "rojo oscuro"
 
-#: ../goffice/gtk/go-color-palette.c:90
+#: ../goffice/gtk/go-color-palette.c:89
 msgid "red-orange"
 msgstr "rojo anaranjado"
 
-#: ../goffice/gtk/go-color-palette.c:91
+#: ../goffice/gtk/go-color-palette.c:90
 msgid "gold"
 msgstr "dorado"
 
-#: ../goffice/gtk/go-color-palette.c:92
+#: ../goffice/gtk/go-color-palette.c:91
 msgid "dark green"
 msgstr "verde oscuro"
 
-#: ../goffice/gtk/go-color-palette.c:93 ../goffice/gtk/go-color-palette.c:143
+#: ../goffice/gtk/go-color-palette.c:92 ../goffice/gtk/go-color-palette.c:142
 msgid "dull blue"
 msgstr "azul mate"
 
-#: ../goffice/gtk/go-color-palette.c:94 ../goffice/gtk/go-color-palette.c:144
+#: ../goffice/gtk/go-color-palette.c:93 ../goffice/gtk/go-color-palette.c:143
 msgid "blue"
 msgstr "azul"
 
-#: ../goffice/gtk/go-color-palette.c:95
+#: ../goffice/gtk/go-color-palette.c:94
 msgid "dull purple"
 msgstr "púrpura mate"
 
-#: ../goffice/gtk/go-color-palette.c:96
+#: ../goffice/gtk/go-color-palette.c:95
 msgid "dark gray"
 msgstr "gris oscuro"
 
-#: ../goffice/gtk/go-color-palette.c:98
+#: ../goffice/gtk/go-color-palette.c:97
 msgid "red"
 msgstr "rojo"
 
-#: ../goffice/gtk/go-color-palette.c:99
+#: ../goffice/gtk/go-color-palette.c:98
 msgid "orange"
 msgstr "naranja"
 
-#: ../goffice/gtk/go-color-palette.c:100
+#: ../goffice/gtk/go-color-palette.c:99
 msgid "lime"
 msgstr "lima"
 
-#: ../goffice/gtk/go-color-palette.c:101
+#: ../goffice/gtk/go-color-palette.c:100
 msgid "dull green"
 msgstr "verde mate"
 
-#: ../goffice/gtk/go-color-palette.c:102
+#: ../goffice/gtk/go-color-palette.c:101
 msgid "dull blue #2"
 msgstr "azul mate #2"
 
-#: ../goffice/gtk/go-color-palette.c:103
+#: ../goffice/gtk/go-color-palette.c:102
 msgid "sky blue #2"
 msgstr "azul cielo #2"
 
-#: ../goffice/gtk/go-color-palette.c:104 ../goffice/gtk/go-color-palette.c:141
+#: ../goffice/gtk/go-color-palette.c:103 ../goffice/gtk/go-color-palette.c:140
 msgid "purple"
 msgstr "púrpura"
 
-#: ../goffice/gtk/go-color-palette.c:105
+#: ../goffice/gtk/go-color-palette.c:104
 msgid "gray"
 msgstr "gris"
 
-#: ../goffice/gtk/go-color-palette.c:107 ../goffice/gtk/go-color-palette.c:138
+#: ../goffice/gtk/go-color-palette.c:106 ../goffice/gtk/go-color-palette.c:137
 msgid "magenta"
 msgstr "magenta"
 
-#: ../goffice/gtk/go-color-palette.c:108
+#: ../goffice/gtk/go-color-palette.c:107
 msgid "bright orange"
 msgstr "naranja brillante"
 
-#: ../goffice/gtk/go-color-palette.c:109 ../goffice/gtk/go-color-palette.c:139
+#: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:138
 msgid "yellow"
 msgstr "amarillo"
 
-#: ../goffice/gtk/go-color-palette.c:110
+#: ../goffice/gtk/go-color-palette.c:109
 msgid "green"
 msgstr "verde"
 
-#: ../goffice/gtk/go-color-palette.c:111 ../goffice/gtk/go-color-palette.c:140
+#: ../goffice/gtk/go-color-palette.c:110 ../goffice/gtk/go-color-palette.c:139
 msgid "cyan"
 msgstr "océano"
 
-#: ../goffice/gtk/go-color-palette.c:112
+#: ../goffice/gtk/go-color-palette.c:111
 msgid "bright blue"
 msgstr "azul brillante"
 
-#: ../goffice/gtk/go-color-palette.c:113 ../goffice/gtk/go-color-palette.c:129
+#: ../goffice/gtk/go-color-palette.c:112 ../goffice/gtk/go-color-palette.c:128
 msgid "red purple"
 msgstr "rojo púrpura"
 
-#: ../goffice/gtk/go-color-palette.c:114
+#: ../goffice/gtk/go-color-palette.c:113
 msgid "light gray"
 msgstr "gris pálido"
 
-#: ../goffice/gtk/go-color-palette.c:116 ../goffice/gtk/go-color-palette.c:133
+#: ../goffice/gtk/go-color-palette.c:115 ../goffice/gtk/go-color-palette.c:132
 msgid "pink"
 msgstr "rosa"
 
-#: ../goffice/gtk/go-color-palette.c:117
+#: ../goffice/gtk/go-color-palette.c:116
 msgid "light orange"
 msgstr "naranja pálido"
 
-#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:130
+#: ../goffice/gtk/go-color-palette.c:117 ../goffice/gtk/go-color-palette.c:129
 msgid "light yellow"
 msgstr "amarillo pálido"
 
-#: ../goffice/gtk/go-color-palette.c:119
+#: ../goffice/gtk/go-color-palette.c:118
 msgid "light green"
 msgstr "verde pálido"
 
-#: ../goffice/gtk/go-color-palette.c:120
+#: ../goffice/gtk/go-color-palette.c:119
 msgid "light cyan"
 msgstr "océano pálido"
 
-#: ../goffice/gtk/go-color-palette.c:121 ../goffice/gtk/go-color-palette.c:131
+#: ../goffice/gtk/go-color-palette.c:120 ../goffice/gtk/go-color-palette.c:130
 msgid "light blue"
 msgstr "azul pálido"
 
-#: ../goffice/gtk/go-color-palette.c:122 ../goffice/gtk/go-color-palette.c:135
+#: ../goffice/gtk/go-color-palette.c:121 ../goffice/gtk/go-color-palette.c:134
 msgid "light purple"
 msgstr "púrpura pálido"
 
-#: ../goffice/gtk/go-color-palette.c:123
+#: ../goffice/gtk/go-color-palette.c:122
 msgid "white"
 msgstr "blanco"
 
 #. Disable these for now, they are mostly repeats
-#: ../goffice/gtk/go-color-palette.c:128
+#: ../goffice/gtk/go-color-palette.c:127
 msgid "purplish blue"
 msgstr "azul purpúreo"
 
-#: ../goffice/gtk/go-color-palette.c:132
+#: ../goffice/gtk/go-color-palette.c:131
 msgid "dark purple"
 msgstr "púrpura oscuro"
 
-#: ../goffice/gtk/go-color-palette.c:134
+#: ../goffice/gtk/go-color-palette.c:133
 msgid "sky blue"
 msgstr "azul cielo"
 
-#: ../goffice/gtk/go-color-palette.c:463
+#: ../goffice/gtk/go-color-palette.c:449
 msgid "custom"
 msgstr "personalizado"
 
-#: ../goffice/gtk/go-color-palette.c:470 ../goffice/gtk/go-color-palette.c:699
+#: ../goffice/gtk/go-color-palette.c:456 ../goffice/gtk/go-color-palette.c:685
 msgid "Custom Color..."
 msgstr "Color personalizado..."
 
@@ -2687,11 +2655,11 @@ msgstr "Color personalizado..."
 msgid "Custom color..."
 msgstr "Color personalizado..."
 
-#: ../goffice/gtk/go-combo-box.c:260
+#: ../goffice/gtk/go-combo-box.c:261
 msgid "Add tearoffs to menus"
 msgstr "Añadir tiradores a los menús"
 
-#: ../goffice/gtk/go-combo-box.c:261
+#: ../goffice/gtk/go-combo-box.c:262
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr "Indica si los desplegables deben tener un tirador en el menú"
 
@@ -3559,7 +3527,7 @@ msgstr "Menú"
 msgid "The menu of options"
 msgstr "El menú de opciones"
 
-#: ../goffice/gtk/go-palette.c:437
+#: ../goffice/gtk/go-palette.c:401
 #, fuzzy
 msgid "Custom..."
 msgstr "Personalizado"
@@ -4724,72 +4692,72 @@ msgstr ""
 msgid "Unmatched ) or \\)"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:267
+#: ../goffice/utils/regutf8.c:273
 msgid "Search string must not be empty."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:277
+#: ../goffice/utils/regutf8.c:283
 msgid "Replacement string must be set."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:289
+#: ../goffice/utils/regutf8.c:295
 #, c-format
 msgid "Invalid search pattern (%s)"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:313
+#: ../goffice/utils/regutf8.c:319
 msgid "Invalid $-specification in replacement."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:323
+#: ../goffice/utils/regutf8.c:329
 msgid "Invalid trailing backslash in replacement."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:800
+#: ../goffice/utils/regutf8.c:806
 msgid "Search Text"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:801
+#: ../goffice/utils/regutf8.c:807
 msgid "The text to search for"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:810
+#: ../goffice/utils/regutf8.c:816
 msgid "Replacement Text"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:811
+#: ../goffice/utils/regutf8.c:817
 msgid "The text to replace with"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:819
+#: ../goffice/utils/regutf8.c:825
 msgid "Is Regular Expression"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:820
+#: ../goffice/utils/regutf8.c:826
 msgid "Is the search text a regular expression."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:828
+#: ../goffice/utils/regutf8.c:834
 msgid "Ignore Case"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:829
+#: ../goffice/utils/regutf8.c:835
 msgid "Ignore the case of letters."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:837
+#: ../goffice/utils/regutf8.c:843
 msgid "Preserve Case"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:838
+#: ../goffice/utils/regutf8.c:844
 msgid "Preserve the case of letters."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:846
+#: ../goffice/utils/regutf8.c:852
 msgid "Match Words"
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:847
+#: ../goffice/utils/regutf8.c:853
 msgid "Match whole words only."
 msgstr ""
 
@@ -4877,8 +4845,8 @@ msgstr "GráficoBarCol"
 #: ../plugins/plot_boxes/gog-boxplot.c:113 ../plugins/plot_pie/gog-pie.c:205
 #: ../plugins/plot_pie/gog-pie.c:352 ../plugins/plot_surface/gog-surface.c:225
 #: ../plugins/plot_xy/gog-xy.c:421 ../plugins/plot_xy/gog-xy.c:697
-#: ../plugins/smoothing/gog-moving-avg.c:117
-#: ../plugins/smoothing/gog-exp-smooth.c:85
+#: ../plugins/smoothing/gog-moving-avg.c:114
+#: ../plugins/smoothing/gog-exp-smooth.c:81
 #, fuzzy
 msgid "Properties"
 msgstr "Propiedades"
@@ -4893,9 +4861,8 @@ msgstr "Porcentaje"
 #: ../plugins/plot_barcol/gog-barcol.c:205
 #: ../plugins/plot_barcol/gog-minmax.c:220
 #: ../plugins/plot_boxes/gog-boxplot.c:296
-#, fuzzy
 msgid "The padding around each group as a percentage of their width"
-msgstr "Separación entre grupos como un porcentaje del ancho de  barra/columna"
+msgstr "Separación entre grupos como un porcentaje de su ancho"
 
 #: ../plugins/plot_barcol/gog-barcol.c:210
 #, fuzzy
@@ -5444,7 +5411,7 @@ msgstr ""
 msgid "Draw 3d wedges"
 msgstr ""
 
-#: ../plugins/plot_pie/gog-pie.c:251 ../plugins/smoothing/gog-moving-avg.c:196
+#: ../plugins/plot_pie/gog-pie.c:251 ../plugins/smoothing/gog-moving-avg.c:193
 msgid "Span"
 msgstr "Expandir"
 
@@ -5500,7 +5467,9 @@ msgstr "Porcentaje de cada contribuyente mostrado en un anillo para cada serie."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:4
 msgid "Percentage of each contributor in a half circle with wedges split apart."
-msgstr "Porcentaje de cada contribuyente en medio círculo con cuñas divididas a parte."
+msgstr ""
+"Porcentaje de cada contribuyente en medio círculo con cuñas divididas a "
+"parte."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:5
 msgid "Percentage of each contributor in a half circle."
@@ -5974,31 +5943,31 @@ msgstr "Inventario de tipos de gráficas de dispersión"
 msgid "Exponential regression"
 msgstr "Regresión exponencial"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:159
-#: ../plugins/reg_linear/gog-lin-reg.c:266
+#: ../plugins/reg_linear/gog-lin-reg.c:157
+#: ../plugins/reg_linear/gog-lin-reg.c:263
 msgid "Affine"
 msgstr ""
 
-#: ../plugins/reg_linear/gog-lin-reg.c:161
+#: ../plugins/reg_linear/gog-lin-reg.c:158
 msgid "Uncheck to force zero intercept"
 msgstr ""
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Linear regression2
-#: ../plugins/reg_linear/gog-lin-reg.c:175
+#: ../plugins/reg_linear/gog-lin-reg.c:172
 msgid "Linear regression"
 msgstr ""
 
-#: ../plugins/reg_linear/gog-lin-reg.c:267
+#: ../plugins/reg_linear/gog-lin-reg.c:264
 msgid "If true, a non-zero constant is allowed"
 msgstr ""
 
-#: ../plugins/reg_linear/gog-lin-reg.c:272
+#: ../plugins/reg_linear/gog-lin-reg.c:269
 msgid "Dims"
 msgstr ""
 
-#: ../plugins/reg_linear/gog-lin-reg.c:273
+#: ../plugins/reg_linear/gog-lin-reg.c:270
 msgid "Number of x-vectors"
 msgstr "Número de vectores-x"
 
@@ -6126,31 +6095,31 @@ msgstr ""
 msgid "Logarithmic fitting curve"
 msgstr ""
 
-#: ../plugins/smoothing/gog-moving-avg.c:105
+#: ../plugins/smoothing/gog-moving-avg.c:103
 msgid "Number of values from which to calculate an average"
 msgstr ""
 
-#: ../plugins/smoothing/gog-moving-avg.c:111
+#: ../plugins/smoothing/gog-moving-avg.c:108
 msgid "Whether to average x values as well or use the last one"
 msgstr ""
 
 #. xgettext : the base for how to name moving averge smoothed curves objects
 #. * eg The 2nd one for a series will be called
 #. * 	Moving average2
-#: ../plugins/smoothing/gog-moving-avg.c:176
+#: ../plugins/smoothing/gog-moving-avg.c:173
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average"
 msgstr "Moviendo media"
 
-#: ../plugins/smoothing/gog-moving-avg.c:197
+#: ../plugins/smoothing/gog-moving-avg.c:194
 msgid "Number of averaged values"
 msgstr ""
 
-#: ../plugins/smoothing/gog-moving-avg.c:202
+#: ../plugins/smoothing/gog-moving-avg.c:199
 msgid "Average X"
 msgstr "Media X"
 
-#: ../plugins/smoothing/gog-moving-avg.c:203
+#: ../plugins/smoothing/gog-moving-avg.c:200
 msgid "Use averaged x values"
 msgstr ""
 
@@ -6162,12 +6131,12 @@ msgstr ""
 msgid "_Use averaged abscissa"
 msgstr ""
 
-#: ../plugins/smoothing/gog-exp-smooth.c:67
-#: ../plugins/smoothing/gog-exp-smooth.c:237
+#: ../plugins/smoothing/gog-exp-smooth.c:64
+#: ../plugins/smoothing/gog-exp-smooth.c:233
 msgid "Number of interpolation steps"
 msgstr ""
 
-#: ../plugins/smoothing/gog-exp-smooth.c:76
+#: ../plugins/smoothing/gog-exp-smooth.c:72
 msgid ""
 "Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
 "If no value or a negative (or nul) value is provided, the default will be "
@@ -6177,12 +6146,12 @@ msgstr ""
 #. xgettext : the base for how to name exponentially smoothed curves objects
 #. * eg The 2nd one for a series will be called
 #. * 	Exponentially smoothed curve2
-#: ../plugins/smoothing/gog-exp-smooth.c:171
+#: ../plugins/smoothing/gog-exp-smooth.c:167
 #: ../plugins/smoothing/types.xml.in.h:1
 msgid "Exponentially smoothed curve"
 msgstr ""
 
-#: ../plugins/smoothing/gog-exp-smooth.c:236
+#: ../plugins/smoothing/gog-exp-smooth.c:232
 msgid "Steps"
 msgstr "Pasos"
 
