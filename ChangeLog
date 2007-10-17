@@ -1,3 +1,13 @@
+2007-10-17  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix the behaviour of GogChildButton by showing the popup menu as soon
+	as the toggle button is pressed.
+
+	* goffice/graph/gog-child-button.c (gog_child_button_init): use the
+	button-press-event signal instead of toggled.
+	(gog_child_button_toggled_cb): renamed to
+	gog_child_button_press_event_cb. Remove the active/inactive switch.
+
 2007-10-10  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-pixbuf.c (go_pixbuf_tile): Import from Gnumeric.

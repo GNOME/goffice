@@ -42,7 +42,8 @@
 #include <string.h>
 
 static void     gog_child_button_finalize   		(GObject *object);
-static void	gog_child_button_toggled_cb		(GtkToggleButton *toggle_button,
+static void	gog_child_button_press_event_cb		(GtkToggleButton *toggle_button,
+							 GdkEventButton *event,
 							 GogChildButton *child_button);
 static void 	gog_child_button_popup 			(GogChildButton *child_button);
 static void 	gog_child_button_popdown		(GogChildButton *child_button);
@@ -83,8 +84,8 @@ gog_child_button_init (GogChildButton *child_button)
 
 	gtk_box_pack_start (GTK_BOX (child_button), child_button->toggle_button, TRUE, TRUE, 0);
 
-	g_signal_connect (G_OBJECT (child_button->toggle_button), "toggled",
-			  G_CALLBACK (gog_child_button_toggled_cb), child_button);
+	g_signal_connect (G_OBJECT (child_button->toggle_button), "button-press-event",
+			  G_CALLBACK (gog_child_button_press_event_cb), child_button);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (child_button), FALSE);
 }
@@ -369,52 +370,52 @@ cb_menu_deactivate (GtkMenu *menu, GogChildButton *child_button)
 }
 
 static void
-gog_child_button_toggled_cb (GtkToggleButton *toggle_button, GogChildButton *child_button)
+gog_child_button_press_event_cb (GtkToggleButton *toggle_button,
+				   GdkEventButton *event,
+				   GogChildButton *child_button)
 {
 	g_return_if_fail (child_button->additions != NULL);
 
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_button))) {
-		if (child_button->menu == NULL) {
-			GtkWidget *widget;
-			GogObjectRole const *role;
-			GSList *iter;
+	if (child_button->menu == NULL) {
+		GtkWidget *widget;
+		GogObjectRole const *role;
+		GSList *iter;
 
-			child_button->menu = GTK_MENU (gtk_menu_new ());
-			g_object_ref_sink (child_button->menu);
+		child_button->menu = GTK_MENU (gtk_menu_new ());
+		g_object_ref_sink (child_button->menu);
 
-			for (iter = child_button->additions ; iter != NULL ; iter = iter->next) {
-				role = iter->data;
-				if (!strcmp (role->id, "Trend line")) {
-					GtkWidget *submenu = trend_line_type_menu_create (child_button);
-					if (submenu != NULL) {
-						widget = gtk_menu_item_new_with_label (_(role->id));
-						gtk_menu_item_set_submenu (GTK_MENU_ITEM (widget), submenu);
-					} else
-						continue;
-				} else if (!strcmp (role->id, "Plot")) {
-					GtkWidget *submenu = plot_type_menu_create (child_button);
-					if (submenu != NULL) {
-						widget = gtk_menu_item_new_with_label (_(role->id));
-						gtk_menu_item_set_submenu (GTK_MENU_ITEM (widget), submenu);
-					} else
-						continue;
-				} else if (role->naming_conv == GOG_OBJECT_NAME_BY_ROLE) {
+		for (iter = child_button->additions ; iter != NULL ; iter = iter->next) {
+			role = iter->data;
+			if (!strcmp (role->id, "Trend line")) {
+				GtkWidget *submenu = trend_line_type_menu_create (child_button);
+				if (submenu != NULL) {
 					widget = gtk_menu_item_new_with_label (_(role->id));
-					g_object_set_data (G_OBJECT (widget), ROLE_KEY,
-							   (gpointer)role);
-					g_signal_connect (G_OBJECT (widget), "activate",
-							  G_CALLBACK (cb_graph_guru_add_item),
-							  child_button);
+					gtk_menu_item_set_submenu (GTK_MENU_ITEM (widget), submenu);
 				} else
 					continue;
+			} else if (!strcmp (role->id, "Plot")) {
+				GtkWidget *submenu = plot_type_menu_create (child_button);
+				if (submenu != NULL) {
+					widget = gtk_menu_item_new_with_label (_(role->id));
+					gtk_menu_item_set_submenu (GTK_MENU_ITEM (widget), submenu);
+				} else
+					continue;
+			} else if (role->naming_conv == GOG_OBJECT_NAME_BY_ROLE) {
+				widget = gtk_menu_item_new_with_label (_(role->id));
+				g_object_set_data (G_OBJECT (widget), ROLE_KEY,
+						   (gpointer)role);
+				g_signal_connect (G_OBJECT (widget), "activate",
+						  G_CALLBACK (cb_graph_guru_add_item),
+						  child_button);
+			} else
+				continue;
 
-				gtk_menu_shell_append (GTK_MENU_SHELL (child_button->menu), widget);
-				g_signal_connect (child_button->menu, "deactivate",
-						  G_CALLBACK(cb_menu_deactivate), child_button);
-			}
-			gtk_widget_show_all (GTK_WIDGET (child_button->menu));
+			gtk_menu_shell_append (GTK_MENU_SHELL (child_button->menu), widget);
+			g_signal_connect (child_button->menu, "deactivate",
+					  G_CALLBACK(cb_menu_deactivate), child_button);
 		}
-		gog_child_button_popup (child_button);
-	} else
-		gog_child_button_popdown (child_button);
+		gtk_widget_show_all (GTK_WIDGET (child_button->menu));
+	}
+
+	gog_child_button_popup (child_button);
 }
