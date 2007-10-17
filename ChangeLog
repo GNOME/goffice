@@ -1,3 +1,7 @@
+2007-10-17  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (CFLAGS): Properly handle GTK_DISABLE_DEPRECATED.
+
 2007-10-17  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix the behaviour of GogChildButton by showing the popup menu as soon
