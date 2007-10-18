@@ -1,3 +1,8 @@
+2007-10-18  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-child-button.c (gog_child_button_press_event_cb):
+	do the signal connection only once.
+
 2007-10-17  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (CFLAGS): Properly handle GTK_DISABLE_DEPRECATED.

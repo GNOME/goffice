@@ -411,9 +411,9 @@ gog_child_button_press_event_cb (GtkToggleButton *toggle_button,
 				continue;
 
 			gtk_menu_shell_append (GTK_MENU_SHELL (child_button->menu), widget);
-			g_signal_connect (child_button->menu, "deactivate",
-					  G_CALLBACK(cb_menu_deactivate), child_button);
 		}
+		g_signal_connect (child_button->menu, "deactivate",
+				  G_CALLBACK(cb_menu_deactivate), child_button);
 		gtk_widget_show_all (GTK_WIDGET (child_button->menu));
 	}
 
