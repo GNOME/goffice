@@ -1,5 +1,14 @@
 2007-10-18  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Second fix to GogChildButton behaviour regarding to consistency with
+	regular menu on fast click on the button.
+
+	* goffice/graph/gog-child-button.c (gog_child_button_popup): take
+	event button and time as parameters, and pass them to gtk_menu_popup.
+	(gog_child_button_press_event_cb): use new gog_child_button_popup API.
+
+2007-10-18  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	* goffice/graph/gog-child-button.c (gog_child_button_press_event_cb):
 	do the signal connection only once.
 

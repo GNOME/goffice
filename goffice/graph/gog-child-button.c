@@ -42,10 +42,12 @@
 #include <string.h>
 
 static void     gog_child_button_finalize   		(GObject *object);
-static void	gog_child_button_press_event_cb		(GtkToggleButton *toggle_button,
+static gboolean	gog_child_button_press_event_cb		(GtkToggleButton *toggle_button,
 							 GdkEventButton *event,
 							 GogChildButton *child_button);
-static void 	gog_child_button_popup 			(GogChildButton *child_button);
+static void 	gog_child_button_popup 			(GogChildButton *child_button,
+							 guint button,
+							 guint32 event_time);
 static void 	gog_child_button_popdown		(GogChildButton *child_button);
 static void 	gog_child_button_weak_notify 		(GogChildButton *child_button, GogObject *object);
 
@@ -178,7 +180,7 @@ gog_child_button_set_object (GogChildButton *child_button, GogObject *object)
 }
 
 static void
-gog_child_button_popup (GogChildButton *child_button)
+gog_child_button_popup (GogChildButton *child_button, guint button, guint32 event_time)
 {
 	if (!GTK_WIDGET_REALIZED (child_button))
 		return;
@@ -190,7 +192,7 @@ gog_child_button_popup (GogChildButton *child_button)
 	gtk_menu_popup (GTK_MENU (child_button->menu),
 			NULL, NULL,
 			go_menu_position_below, child_button,
-			0, 0);
+			button, event_time);
 }
 static void
 gog_child_button_popdown (GogChildButton *child_button)
@@ -369,12 +371,12 @@ cb_menu_deactivate (GtkMenu *menu, GogChildButton *child_button)
 	gog_child_button_popdown (child_button);
 }
 
-static void
+static gboolean
 gog_child_button_press_event_cb (GtkToggleButton *toggle_button,
-				   GdkEventButton *event,
-				   GogChildButton *child_button)
+				 GdkEventButton *event,
+				 GogChildButton *child_button)
 {
-	g_return_if_fail (child_button->additions != NULL);
+	g_return_val_if_fail (child_button->additions != NULL, FALSE);
 
 	if (child_button->menu == NULL) {
 		GtkWidget *widget;
@@ -415,7 +417,10 @@ gog_child_button_press_event_cb (GtkToggleButton *toggle_button,
 		g_signal_connect (child_button->menu, "deactivate",
 				  G_CALLBACK(cb_menu_deactivate), child_button);
 		gtk_widget_show_all (GTK_WIDGET (child_button->menu));
+		gtk_menu_shell_set_take_focus (GTK_MENU_SHELL (child_button->menu), TRUE);
 	}
 
-	gog_child_button_popup (child_button);
+	gog_child_button_popup (child_button, event->button, event->time);
+
+	return FALSE;
 }
