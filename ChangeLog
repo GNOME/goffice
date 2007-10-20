@@ -1,3 +1,13 @@
+2007-10-20  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Remove duplicated fill pattern creation code.
+
+	* goffice/graph/gog-renderer.c (emit_fill): use
+	gog_style_create_cairo_pattern.
+	* goffice/graph/gog-style.c (gog_style_create_cairo_pattern): width
+	and height are retrieved from the cairo context. Use
+	go_pattern_create_cairo_pattern.
+
 2007-10-18  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Second fix to GogChildButton behaviour regarding to consistency with

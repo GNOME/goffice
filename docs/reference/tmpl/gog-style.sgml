@@ -252,9 +252,7 @@ Style of graph objects
 </para>
 
 @style: 
-@width: 
-@height: 
-@data: 
+@cr: 
 @Returns: 
 
 

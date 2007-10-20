@@ -2067,6 +2067,7 @@ gog_style_set_text_angle (GogStyle *style, double angle)
 /**
  * gog_style_create_cairo_pattern:
  * @style : #GogStyle
+ * @cr: a cairo context
  *
  * Create a cairo_patern_t using the current style settings for filling.
  * A pattern will be created only if the style has the corresponding field
@@ -2075,17 +2076,12 @@ gog_style_set_text_angle (GogStyle *style, double angle)
  * return value: the pattern or NULL if it could not be created.
  **/
 cairo_pattern_t *
-gog_style_create_cairo_pattern (GogStyle const *style, double width, double height, gpointer *data)
+gog_style_create_cairo_pattern (GogStyle const *style, cairo_t *cr)
 {
 	cairo_pattern_t *cr_pattern;
-	cairo_surface_t *cr_surface;
 	cairo_matrix_t cr_matrix;
-	GOColor color;
-	GdkPixbuf *pixbuf = NULL;
 	double x[3], y[3];
-	int i, j, w, h;
-	guint8 const *pattern;
-	unsigned char *iter;
+	int w, h;
 
 	static struct { unsigned x0i, y0i, x1i, y1i; } const grad_i[GO_GRADIENT_MAX] = {
 		{0, 0, 0, 1},
@@ -2105,48 +2101,20 @@ gog_style_create_cairo_pattern (GogStyle const *style, double width, double heig
 		{1, 0, 2, 2},
 		{2, 2, 0, 1}
 	};
-	
+
 	g_return_val_if_fail (IS_GOG_STYLE (style), NULL);
 
 	if (style->fill.type == GOG_FILL_STYLE_NONE)
 		return NULL;
 
-	x[0] = y[0] = 0.;
-	x[1] = width;
-	y[1] = height;
-	*data = NULL;
+	cairo_fill_extents (cr, &x[0], &y[0], &x[1], &y[1]);
+	if (go_sub_epsilon (fabs (x[0] - x[1])) <=0.0 ||
+	    go_sub_epsilon (fabs (y[0] - y[1])) <=0.0)
+		return NULL;
+
 	switch (style->fill.type) {
 		case GOG_FILL_STYLE_PATTERN:
-			if (go_pattern_is_solid (&style->fill.pattern, &color))
-				return cairo_pattern_create_rgba (GO_COLOR_TO_CAIRO (color)); 
-			else {
-				GOColor fore = style->fill.pattern.fore;
-				GOColor back = style->fill.pattern.back;
-				int rowstride;
-
-				pattern = go_pattern_get_pattern (&style->fill.pattern);
-				pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 8, 8);
-				*data = pixbuf;
-				iter = gdk_pixbuf_get_pixels (pixbuf);
-				rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-				cr_surface = cairo_image_surface_create_for_data ( iter, 
-					CAIRO_FORMAT_ARGB32, 8, 8, rowstride);
-				for (i = 0; i < 8; i++) {
-					for (j = 0; j < 8; j++) {
-						color = pattern[i] & (1 << j) ? fore : back;
-						iter[0] = UINT_RGBA_B (color);
-						iter[1] = UINT_RGBA_G (color);
-						iter[2] = UINT_RGBA_R (color);
-						iter[3] = UINT_RGBA_A (color);
-						iter += 4;
-					}
-					iter += rowstride - 32;
-				}
-				cr_pattern = cairo_pattern_create_for_surface (cr_surface);
-				cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
-				cairo_surface_destroy (cr_surface);
-				return (cr_pattern);
-			}
+			return go_pattern_create_cairo_pattern (&style->fill.pattern, cr);
 
 		case GOG_FILL_STYLE_GRADIENT:
 			x[2] = (x[1] - x[0]) / 2.0 + x[1];
@@ -2158,28 +2126,28 @@ gog_style_create_cairo_pattern (GogStyle const *style, double width, double heig
 				y[grad_i[style->fill.gradient.dir].y1i]);
 			cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REFLECT);
 			cairo_pattern_add_color_stop_rgba (cr_pattern, 0,
-				GO_COLOR_TO_CAIRO (style->fill.pattern.back)); 
+				GO_COLOR_TO_CAIRO (style->fill.pattern.back));
 			cairo_pattern_add_color_stop_rgba (cr_pattern, 1,
 				GO_COLOR_TO_CAIRO (style->fill.pattern.fore));
-			return (cr_pattern);
+			return cr_pattern;
 
-		case GOG_FILL_STYLE_IMAGE: 
-			if (style->fill.image.image == NULL) {
-				return NULL;
-			}
+		case GOG_FILL_STYLE_IMAGE:
+			if (style->fill.image.image == NULL)
+				return cairo_pattern_create_rgba (1, 1, 1, 1);
+
 			cr_pattern = go_image_create_cairo_pattern (style->fill.image.image);
 			g_object_get (style->fill.image.image, "width", &w, "height", &h, NULL);
 			cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
 			switch (style->fill.image.type) {
 				case GOG_IMAGE_CENTERED:
-					cairo_matrix_init_translate (&cr_matrix, 
-								     -(x[1] - x[0] - w) / 2 - x[0], 
+					cairo_matrix_init_translate (&cr_matrix,
+								     -(x[1] - x[0] - w) / 2 - x[0],
 								     -(y[1] - y[0] - h) / 2 - y[0]);
 					cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
 					break;
 				case GOG_IMAGE_STRETCHED:
-					cairo_matrix_init_scale (&cr_matrix, 
-								 w / (x[1] - x[0]), 
+					cairo_matrix_init_scale (&cr_matrix,
+								 w / (x[1] - x[0]),
 								 h / (y[1] - y[0]));
 					cairo_matrix_translate (&cr_matrix, -x[0], -y[0]);
 					cairo_pattern_set_matrix (cr_pattern, &cr_matrix);

@@ -334,98 +334,23 @@ emit_outline (GogRenderer *rend, gboolean preserve, GOPathOptions options)
 static void
 emit_fill (GogRenderer *rend, gboolean preserve)
 {
-	struct { unsigned x0i, y0i, x1i, y1i; } const grad_i[GO_GRADIENT_MAX] = {
-		{0, 0, 0, 1},
-		{0, 1, 0, 0},
-		{0, 0, 0, 2},
-		{0, 2, 0, 1},
-		{0, 0, 1, 0},
-		{1, 0, 0, 0},
-		{0, 0, 2, 0},
-		{2, 0, 1, 0},
-		{0, 0, 1, 1},
-		{1, 1, 0, 0},
-		{0, 0, 2, 2},
-		{2, 2, 1, 1},
-		{1, 0, 0, 1},
-		{0, 1, 1, 0},
-		{1, 0, 2, 2},
-		{2, 2, 0, 1}
-	};
-
 	GogStyle const *style = rend->cur_style;
 	cairo_t *cr = rend->cairo;
 	cairo_pattern_t *cr_pattern = NULL;
-	cairo_matrix_t cr_matrix;
-	double x[3], y[3];
-	int w, h;
 
-	switch (style->fill.type) {
-		case GOG_FILL_STYLE_NONE:
-			if (!preserve)
-				cairo_new_path (cr);
-			return;
-			break;
-
-		case GOG_FILL_STYLE_PATTERN:
-			cr_pattern = go_pattern_create_cairo_pattern (&style->fill.pattern, cr);
-			cairo_set_source (cr, cr_pattern);
-			break;
-
-		case GOG_FILL_STYLE_GRADIENT:
-			cairo_fill_extents (cr, &x[0], &y[0], &x[1], &y[1]);
-			x[2] = (x[1] - x[0]) / 2.0 + x[1];
-			y[2] = (y[1] - y[0]) / 2.0 + y[1];
-			cr_pattern = cairo_pattern_create_linear (
-				x[grad_i[style->fill.gradient.dir].x0i],
-				y[grad_i[style->fill.gradient.dir].y0i],
-				x[grad_i[style->fill.gradient.dir].x1i],
-				y[grad_i[style->fill.gradient.dir].y1i]);
-			cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REFLECT);
-			cairo_pattern_add_color_stop_rgba (cr_pattern, 0,
-				GO_COLOR_TO_CAIRO (style->fill.pattern.back));
-			cairo_pattern_add_color_stop_rgba (cr_pattern, 1,
-				GO_COLOR_TO_CAIRO (style->fill.pattern.fore));
-			cairo_set_source (cr, cr_pattern);
-			break;
-
-		case GOG_FILL_STYLE_IMAGE:
-			if (style->fill.image.image == NULL) {
-				cairo_set_source_rgba (cr, 1, 1, 1, 1);
-				break;
-			}
-			cairo_fill_extents (cr, &x[0], &y[0], &x[1], &y[1]);
-			cr_pattern = go_image_create_cairo_pattern (style->fill.image.image);
-			g_object_get (style->fill.image.image, "width", &w, "height", &h, NULL);
-			cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
-			switch (style->fill.image.type) {
-				case GOG_IMAGE_CENTERED:
-					cairo_matrix_init_translate (&cr_matrix,
-								     -(x[1] - x[0] - w) / 2 - x[0],
-								     -(y[1] - y[0] - h) / 2 - y[0]);
-					cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
-					break;
-				case GOG_IMAGE_STRETCHED:
-					cairo_matrix_init_scale (&cr_matrix,
-								 w / (x[1] - x[0]),
-								 h / (y[1] - y[0]));
-					cairo_matrix_translate (&cr_matrix, -x[0], -y[0]);
-					cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
-					break;
-				case GOG_IMAGE_WALLPAPER:
-					break;
-			}
-			cairo_set_source (cr, cr_pattern);
-			break;
+	cr_pattern = gog_style_create_cairo_pattern (style, cr);
+	if (cr_pattern == NULL) {
+		if (!preserve)
+			cairo_new_path (cr);
+		return;
 	}
+	cairo_set_source (cr, cr_pattern);
+	cairo_pattern_destroy (cr_pattern);
 
 	if (preserve)
 		cairo_fill_preserve (cr);
 	else
 		cairo_fill (cr);
-
-	if (cr_pattern != NULL)
-		cairo_pattern_destroy (cr_pattern);
 }
 
 static void
