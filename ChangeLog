@@ -1,5 +1,12 @@
 2007-10-20  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Fix a one pixel mismatch on the size when exporting to images.
+
+	* goffice/graph/gog-renderer.c (gog_renderer_update): always use
+	rend->w and rend->h as image size.
+
+2007-10-20  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Remove duplicated fill pattern creation code.
 
 	* goffice/graph/gog-renderer.c (emit_fill): use

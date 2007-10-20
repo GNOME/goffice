@@ -1245,14 +1245,14 @@ gog_renderer_update (GogRenderer *rend, double w, double h)
 	gog_graph_force_update (graph);
 
 	allocation.x = allocation.y = 0.;
-	allocation.w = w;
-	allocation.h = h;
+	allocation.w = rend->w;
+	allocation.h = rend->h;
 
 	rend->cairo = cairo_create (rend->cairo_surface);
 
 	if (size_changed) {
-		rend->scale_x = (graph->width >= 1.) ? (w / graph->width) : 1.;
-		rend->scale_y = (graph->height >= 1.) ? (h / graph->height) : 1.;
+		rend->scale_x = (graph->width >= 1.) ? (rend->w / graph->width) : 1.;
+		rend->scale_y = (graph->height >= 1.) ? (rend->h / graph->height) : 1.;
 		rend->scale = MIN (rend->scale_x, rend->scale_y);
 
 		/* make sure we dont try to queue an update while updating */
@@ -1262,7 +1262,7 @@ gog_renderer_update (GogRenderer *rend, double w, double h)
 		gog_renderer_request_update (rend);
 		gog_view_size_allocate (view, &allocation);
 	} else
-		if (w != view->allocation.w || h != view->allocation.h)
+		if (rend->w != view->allocation.w || rend->h != view->allocation.h)
 			gog_view_size_allocate (view, &allocation);
 		else
 			redraw = gog_view_update_sizes (view);
