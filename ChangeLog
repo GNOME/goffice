@@ -1,5 +1,9 @@
 2007-10-21  Morten Welinder <terra@gnome.org>
 
+	* configure.in: post-release bump.
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
 	* Release 0.5.1
 
 2007-10-20  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
