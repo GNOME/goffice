@@ -57,7 +57,7 @@ confflags +=	--prefix=/usr \
 		--libdir=\$${prefix}/lib
 
 # Compiler, language dialect
-confflags +=    --enable-iso-c \
+confflags +=    --disable-iso-c \
                 --enable-compile-warnings=maximum
 
 # Features

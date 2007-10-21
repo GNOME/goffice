@@ -1,3 +1,16 @@
+goffice (0.5.1-1) unstable; urgency=low
+
+  * New upstream development release.
+  * Uploading to unstable as this is a prerequisite for getting gnumeric 1.7.x
+    in.
+  * [debian/rules] Switch to --disable-iso-c.
+  * [debian/control]
+    * Versioned the pcre3 build dependency as the shlibs of older versions
+      were too loose. (Closes: #441331)
+    * Added XS-Vcs-Svn, XS-Vcs-Browser.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 21 Oct 2007 19:20:18 +0200
+
 goffice (0.5.0-1) experimental; urgency=low
 
   * New upstream development release.
