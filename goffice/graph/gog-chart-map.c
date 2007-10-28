@@ -682,6 +682,9 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 	GogAxisSet axis_set;
 
 	g_return_val_if_fail (IS_GOG_CHART (chart), NULL);
+	axis_set = gog_chart_get_axis_set (chart);
+	g_return_val_if_fail (axis_set != GOG_AXIS_SET_UNKNOWN &&
+			      axis_set != GOG_AXIS_SET_NONE, NULL);
 
 	map = g_new (GogChartMap, 1);
 
@@ -690,15 +693,14 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 	map->area = *area;
 	map->data = NULL;
 	map->is_valid = FALSE;
+	map->axis_map[0] = map->axis_map[1] = map->axis_map[2] = NULL;
 
-	axis_set = gog_chart_get_axis_set (chart);
 	switch (axis_set & GOG_AXIS_SET_FUNDAMENTAL) {
 		case GOG_AXIS_SET_X:
 			{
 				XMapData *data = g_new (XMapData, 1);
 
 				map->axis_map[0] = gog_axis_map_new (axis0, map->area.x, map->area.w);
-				map->axis_map[1] = map->axis_map[2] = NULL;
 
 				data->b = area->y + area->h;
 				data->a = - area->h;
@@ -718,7 +720,6 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 				map->axis_map[0] = gog_axis_map_new (axis0, map->area.x, map->area.w);
 				map->axis_map[1] = gog_axis_map_new (axis1, map->area.y + map->area.h,
 								     -map->area.h);
-				map->axis_map[2] = NULL;
 
 				map->data = NULL;
 				map->map_2D_to_view = xy_map_2D_to_view;
@@ -758,7 +759,6 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 									     minimum - maximum);
 				}
 				map->axis_map[1] = gog_axis_map_new (axis1, 0.0, 1.0);
-				map->axis_map[2] = NULL;
 
 				map->data = data;
 				map->map_2D_to_view = polar_map_2D_to_view;
@@ -769,13 +769,8 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 					gog_axis_map_is_valid (map->axis_map[1]);
 				break;
 			}
-		case GOG_AXIS_SET_XYZ:
-		case GOG_AXIS_SET_ALL:
-		case GOG_AXIS_SET_NONE:
-		case GOG_AXIS_SET_UNKNOWN:
 		default:
-			g_warning ("[Chart::map_new] not implemented for this axis set (%i)",
-				   axis_set);
+			g_warning ("[GogChartMap::new] unimplemented for axis set %d", axis_set);
 			map->map_2D_to_view = null_map_2D;
 			break;
 	}

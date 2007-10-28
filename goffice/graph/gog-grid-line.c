@@ -267,6 +267,9 @@ gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 	unsigned int i, j;
 	gboolean stripe_started = FALSE;
 
+	if (gog_chart_get_axis_set (chart) == GOG_AXIS_SET_UNKNOWN)
+		return;
+
 	axis_list = gog_chart_get_axes (chart, GOG_AXIS_CIRCULAR);
 	if (axis_list == NULL)
 		return;
@@ -275,6 +278,7 @@ gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 
 	c_map = gog_chart_map_new (GOG_CHART (chart), plot_area,
 				   circular_axis, axis, NULL, FALSE);
+
 	parms = gog_chart_map_get_polar_parms (c_map);
 	path = go_path_new ();
 
@@ -401,10 +405,10 @@ gog_grid_line_radial_render (GogGridLine *grid_line, GogView *view,
 }
 
 static void
-gog_grid_line_circular_render (GogGridLine *grid_line, GogView *view, 
+gog_grid_line_circular_render (GogGridLine *grid_line, GogView *view,
 			       GogAxis *axis, GogAxisTick *ticks, unsigned int tick_nbr,
 			       GogChart *chart,
-			       GogViewAllocation const *plot_area, 
+			       GogViewAllocation const *plot_area,
 			       gboolean stripes)
 {
 	GogAxis *radial_axis;
@@ -418,6 +422,9 @@ gog_grid_line_circular_render (GogGridLine *grid_line, GogView *view,
 	unsigned int i;
 	gboolean stripe_started = FALSE;
 
+	if (gog_chart_get_axis_set (chart) == GOG_AXIS_SET_UNKNOWN)
+		return;
+
 	axis_list = gog_chart_get_axes (chart, GOG_AXIS_RADIAL);
 	if (axis_list == NULL)
 		return;
@@ -427,6 +434,7 @@ gog_grid_line_circular_render (GogGridLine *grid_line, GogView *view,
 
 	c_map = gog_chart_map_new (GOG_CHART (chart), plot_area,
 				   axis, radial_axis, NULL, FALSE);
+
 	parms = gog_chart_map_get_polar_parms (c_map);
 	map = gog_chart_map_get_axis_map (c_map, 1);
 	gog_axis_map_get_extents (map, &start, &stop);

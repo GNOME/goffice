@@ -260,6 +260,9 @@ gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base)
 	axis_set = gog_chart_get_axis_set (axis_base->chart);
 
 	crossed_type = GOG_AXIS_UNKNOWN;
+	if (axis_set == GOG_AXIS_SET_UNKNOWN)
+		return crossed_type;
+
 	switch (axis_set & GOG_AXIS_SET_FUNDAMENTAL) {
 		case GOG_AXIS_SET_XY:
 			if (axis_type == GOG_AXIS_X)
@@ -274,7 +277,6 @@ gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base)
 				crossed_type = GOG_AXIS_RADIAL;
 			break;
 		case GOG_AXIS_SET_X:
-		case GOG_AXIS_SET_UNKNOWN:
 			break;
 		case GOG_AXIS_SET_XYZ:
 		case GOG_AXIS_SET_ALL:
@@ -1735,6 +1737,9 @@ gog_axis_base_view_point (GogView *view, double x, double y)
 	gboolean pointed = FALSE;
 	GogViewAllocation const *plot_area;
 
+	if (axis_set == GOG_AXIS_SET_UNKNOWN)
+		return FALSE;
+
 	/* FIXME: not nice */
 	if (IS_GOG_AXIS (view->model))
 		plot_area = gog_chart_view_get_plot_area (view->parent);
@@ -1759,8 +1764,6 @@ gog_axis_base_view_point (GogView *view, double x, double y)
 		case GOG_AXIS_SET_RADAR:
 			pointed = radar_process (GOG_AXIS_BASE_POINT, view, NULL, plot_area, x, y);
 			break;
-		case GOG_AXIS_SET_UNKNOWN:
-			break;
 		default:
 			g_warning ("[AxisBaseView::point] not implemented for this axis set (%i)",
 				   axis_set);
@@ -1780,6 +1783,8 @@ gog_axis_base_view_padding_request (GogView *view, GogViewAllocation const *bbox
 	if (gog_axis_get_atype (axis_base->axis) >= GOG_AXIS_VIRTUAL)
 		return;
 	axis_set = gog_chart_get_axis_set (axis_base->chart);
+	if (axis_set == GOG_AXIS_SET_UNKNOWN)
+		return;
 
 	gog_renderer_push_style (view->renderer, style);
 
@@ -1792,8 +1797,6 @@ gog_axis_base_view_padding_request (GogView *view, GogViewAllocation const *bbox
 			break;
 		case GOG_AXIS_SET_RADAR:
 			radar_process (GOG_AXIS_BASE_PADDING_REQUEST, view, padding, bbox, 0., 0.);
-			break;
-		case GOG_AXIS_SET_UNKNOWN:
 			break;
 		default:
 			g_warning ("[AxisBaseView::padding_request] not implemented for this axis set (%i)",
@@ -1814,8 +1817,10 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	if (gog_axis_get_atype (axis_base->axis) >= GOG_AXIS_VIRTUAL)
 		return;
-
 	axis_set = gog_chart_get_axis_set (axis_base->chart);
+	if (axis_set == GOG_AXIS_SET_UNKNOWN)
+		return;
+
 	/* FIXME: not nice */
 	if (IS_GOG_AXIS (view->model))
 		plot_area = gog_chart_view_get_plot_area (view->parent);
@@ -1833,8 +1838,6 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 			break;
 		case GOG_AXIS_SET_RADAR:
 			radar_process (GOG_AXIS_BASE_RENDER, view, NULL, plot_area, 0., 0.);
-			break;
-		case GOG_AXIS_SET_UNKNOWN:
 			break;
 		default:
 			g_warning ("[AxisBaseView::render] not implemented for this axis set (%i)",

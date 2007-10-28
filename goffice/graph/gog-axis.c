@@ -891,7 +891,7 @@ gog_axis_map_to_view (GogAxisMap *map,
  * return value: %TRUE if value means something
  **/
 
-gboolean 
+gboolean
 gog_axis_map_finite (GogAxisMap *map, double value)
 {
 	return map->desc->map_finite (value);
@@ -996,7 +996,7 @@ gog_axis_auto_bound (GogAxis *axis)
 	double maximum, minimum;
 	double tmp;
 	gboolean user_defined;
-	
+
 	g_return_if_fail (IS_GOG_AXIS (axis));
 
 	minimum = axis->min_val;

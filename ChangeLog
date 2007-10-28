@@ -1,3 +1,18 @@
+2007-10-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix a crash when deleting a chart. We may be in a state where a chart
+	has axes and grid lines, but axis_set is GOG_AXIS_SET_UNKNOW.
+
+	* goffice/graph/gog-axis-line.c (gog_axis_base_get_crossed_axis_type):
+	exit early if axis_set == GOG_AXIS_SET_UNKNOW.
+	(gog_axis_base_view_point): ditto.
+	(gog_axis_base_view_padding_request): ditto.
+	(gog_axis_base_view_render): ditto.
+	* goffice/graph/gog-grid-line.c (gog_grid_line_radial_render): ditto.
+	(gog_grid_line_circular_render): ditto.
+	* goffice/graph/gog-chart-map.c (gog_chart_map_new): return NULL is
+	axis_set == GOG_AXIS_SET_UNKNOW.
+
 2007-10-21  Morten Welinder <terra@gnome.org>
 
 	* configure.in: post-release bump.
