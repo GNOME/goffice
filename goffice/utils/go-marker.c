@@ -46,21 +46,21 @@ typedef struct {
 
 #define GO_MARKER_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS((o),  GO_MARKER_TYPE, GOMarkerClass))
 
-static const char square_path[] = 		"M-1,-1 L-1,1 1,1 1,-1 z";
-static const char diamond_path[] =		"M0,-1 L1,0 0,1 -1,0 z";
-static const char triangle_down_path[] =	"M-1,-1 L1,-1 0,1 z";
-static const char triangle_up_path[] =		"M0,-1 L1,1 -1,1 z";
-static const char triangle_right_path[] =	"M-1,-1 L1,0 -1,1 z";
-static const char triangle_left_path[] =	"M1,-1 L-1,0 1,1 z";
-static const char circle_path[] =		"M1,0 C1,0.56 0.56,1 0,1 C-0.56,1 -1,0.56 -1,0 "
+static char const square_path[] = 		"M-1,-1 L-1,1 1,1 1,-1 z";
+static char const diamond_path[] =		"M0,-1 L1,0 0,1 -1,0 z";
+static char const triangle_down_path[] =	"M-1,-1 L1,-1 0,1 z";
+static char const triangle_up_path[] =		"M0,-1 L1,1 -1,1 z";
+static char const triangle_right_path[] =	"M-1,-1 L1,0 -1,1 z";
+static char const triangle_left_path[] =	"M1,-1 L-1,0 1,1 z";
+static char const circle_path[] =		"M1,0 C1,0.56 0.56,1 0,1 C-0.56,1 -1,0.56 -1,0 "
 						"C-1,-0.56 -0.56,-1 0,-1 C0.56,-1 1,-0.56 1,0 L1,0 z";
-static const char x_path[] =			"M1,1 L-1,-1 M1,-1 L-1,1";
-static const char cross_path[] =		"M1,0 L-1,0 M0,1 L0,-1";
-static const char asterisk_path[] =		"M0.7,0.7 L-0.7,-0.7 M0.7,-0.7 L-0.7,0.7 M1,0 L-1,0 M0,1 L0,-1";
-static const char bar_path[] =			"M-1 -0.2 L 1 -0.2 L 1 0.2 L -1 0.2 z";
-static const char half_bar_path[] = 		"M0,-0.2 L1,-0.2 1,0.2 0,0.2 z";
-static const char butterfly_path[] =		"M-1,-1 L-1,1 0,0 1,1 1,-1 0,0 z";
-static const char hourglass_path[] =		"M-1,-1 L1,-1 0,0 1,1 -1,1 0,0 z";
+static char const x_path[] =			"M1,1 L-1,-1 M1,-1 L-1,1";
+static char const cross_path[] =		"M1,0 L-1,0 M0,1 L0,-1";
+static char const asterisk_path[] =		"M0.7,0.7 L-0.7,-0.7 M0.7,-0.7 L-0.7,0.7 M1,0 L-1,0 M0,1 L0,-1";
+static char const bar_path[] =			"M-1 -0.2 L 1 -0.2 L 1 0.2 L -1 0.2 z";
+static char const half_bar_path[] = 		"M0,-0.2 L1,-0.2 1,0.2 0,0.2 z";
+static char const butterfly_path[] =		"M-1,-1 L-1,1 0,0 1,1 1,-1 0,0 z";
+static char const hourglass_path[] =		"M-1,-1 L1,-1 0,0 1,1 -1,1 0,0 z";
 
 typedef struct
 {
@@ -242,7 +242,6 @@ go_marker_new (void)
  *
  * Renders @marker onto the @cairo target, using @x and @y for the position.
  **/
-
 void
 go_marker_render (GOMarker const *marker, cairo_t *cr, double x, double y, double scale)
 {
@@ -286,10 +285,9 @@ go_marker_render (GOMarker const *marker, cairo_t *cr, double x, double y, doubl
  * Creates a new cairo surface similar to the current target of @cr, and render
  * @marker on it. @center will contain the coordinate of the center of the surface.
  *
- * Returns the newly created surface. This surface should be destroyed using cairo_surface_destroy
- * after use.
+ * Returns:  a newly created #cairo_surface_t. This surface should be destroyed
+ * 	using cairo_surface_destroy after use.
  **/
-
 cairo_surface_t *
 go_marker_create_cairo_surface (GOMarker const *marker, cairo_t *cr, double scale,
 				double *width, double *height)

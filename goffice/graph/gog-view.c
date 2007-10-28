@@ -735,6 +735,12 @@ gog_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
 	view->allocation_valid = view->child_allocations_valid = TRUE;
 }
 
+/**
+ * gog_view_update_sizes:
+ * @view : #GogView
+ *
+ * Returns: %TRUE if a redraw is necessary.
+ **/
 gboolean
 gog_view_update_sizes (GogView *view)
 {

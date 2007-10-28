@@ -1209,6 +1209,8 @@ gog_renderer_request_update (GogRenderer *renderer)
  * @h: requested height
  *
  * Requests a renderer update, only useful for pixbuf based renderer.
+ *
+ * Returns: %TRUE if a redraw is necessary.
  **/
 gboolean
 gog_renderer_update (GogRenderer *rend, double w, double h)
@@ -1300,9 +1302,9 @@ gog_renderer_update (GogRenderer *rend, double w, double h)
  * gog_renderer_get_pixbuf:
  * @renderer : #GogRenderer
  *
- * Returns current pixbuf buffer from a renderer that can render into a pixbuf.
+ * Returns: current pixbuf buffer from a renderer that can render into a pixbuf.
+ * 	or %NULL on error.
  **/
-
 GdkPixbuf *
 gog_renderer_get_pixbuf (GogRenderer *rend)
 {
@@ -1537,9 +1539,8 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
  * gog_renderer_get_hairline_width_pts:
  * @rend: a #GogRenderer
  *
- * returns the hairline width in pts.
+ * Returns: the hairline width in pts.
  **/
-
 double
 gog_renderer_get_hairline_width_pts (GogRenderer const *rend)
 {
@@ -1556,8 +1557,8 @@ gog_renderer_get_hairline_width_pts (GogRenderer const *rend)
  * gog_renderer_new:
  * @graph : graph model
  *
- * Creates a new renderer which can render into a pixbuf, and sets
- * @graph as its model.
+ * Returns:  a new #GogRenderer which can render into a pixbuf, and sets @graph
+ * 	as its model.
  **/
 GogRenderer*
 gog_renderer_new (GogGraph *graph)

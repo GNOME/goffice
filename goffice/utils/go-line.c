@@ -34,24 +34,23 @@ typedef struct {
 	double 		 dash[8];
 } GOLineDashDesc;
 
-static const GOLineDashDesc line_short_dot_desc = 		{2, 10,	{ 0, 2 } };
-static const GOLineDashDesc line_dot_desc = 			{2, 12,	{ 3, 3 } };
-static const GOLineDashDesc line_short_dash_desc =		{2, 9,	{ 6, 3 } };
-static const GOLineDashDesc line_short_dash_dot_desc =		{4, 12,	{ 6, 3, 0, 3 } };
-static const GOLineDashDesc line_short_dash_dot_dot_desc =    	{6, 15,	{ 6, 3, 0, 3, 0, 3 } };
-static const GOLineDashDesc line_dash_dot_dot_dot_desc =    	{8, 21,	{ 9, 3, 0, 3, 0, 3, 0, 3 } };
-static const GOLineDashDesc line_dash_dot_desc =		{4, 24,	{ 9, 6, 3, 6 } };
-static const GOLineDashDesc line_dash_dot_dot_desc =    	{6, 24,	{ 9, 3, 3, 3, 3, 3 } };
-static const GOLineDashDesc line_dash_desc =			{2, 16,	{ 12, 4 } };
-static const GOLineDashDesc line_long_dash_desc =		{2, 22,	{ 18, 4 } };
+static GOLineDashDesc const line_short_dot_desc = 		{2, 10,	{ 0, 2 } };
+static GOLineDashDesc const line_dot_desc = 			{2, 12,	{ 3, 3 } };
+static GOLineDashDesc const line_short_dash_desc =		{2, 9,	{ 6, 3 } };
+static GOLineDashDesc const line_short_dash_dot_desc =		{4, 12,	{ 6, 3, 0, 3 } };
+static GOLineDashDesc const line_short_dash_dot_dot_desc =    	{6, 15,	{ 6, 3, 0, 3, 0, 3 } };
+static GOLineDashDesc const line_dash_dot_dot_dot_desc =    	{8, 21,	{ 9, 3, 0, 3, 0, 3, 0, 3 } };
+static GOLineDashDesc const line_dash_dot_desc =		{4, 24,	{ 9, 6, 3, 6 } };
+static GOLineDashDesc const line_dash_dot_dot_desc =    	{6, 24,	{ 9, 3, 3, 3, 3, 3 } };
+static GOLineDashDesc const line_dash_desc =			{2, 16,	{ 12, 4 } };
+static GOLineDashDesc const line_long_dash_desc =		{2, 22,	{ 18, 4 } };
 
 static struct {
 	GOLineDashType type;
 	char const *label;
 	char const *name;
-	const GOLineDashDesc *dash_desc;
-} line_dashes[GO_LINE_MAX] =
-{
+	GOLineDashDesc const *dash_desc;
+} line_dashes[GO_LINE_MAX] = {
 	{ GO_LINE_NONE,			N_("None"),
 		"none",			NULL },
 	{ GO_LINE_SOLID,		N_("Solid"),
@@ -96,10 +95,9 @@ static struct {
  * go_line_dash_from_str:
  * @name: Name of the dash type
  *
- * Returns a GOLineDashType corresponding to name, or GO_LINE_NONE
- * if not found.
+ * Returns: a #GOLineDashType corresponding to name, or %GO_LINE_NONE
+ * 	if not found.
  **/
-
 GOLineDashType
 go_line_dash_from_str (char const *name)
 {
@@ -119,10 +117,9 @@ go_line_dash_from_str (char const *name)
  * go_line_dash_as_str:
  * @type: a #GOLineDashType
  *
- * Returns a pointer to the nickname of the dash type, or "none" if 
- * type is invalid. The returning string should not be freed.
+ * Returns: a pointer to the nickname of the dash type, or "none" if 
+ * 	type is invalid. The returning string should not be freed.
  **/
-
 char const *
 go_line_dash_as_str (GOLineDashType type)
 {
@@ -142,11 +139,10 @@ go_line_dash_as_str (GOLineDashType type)
  * go_line_dash_as_label:
  * @type: a #GOLineDashType
  *
- * Returns a pointer to the user readable name of the dash type,
- * or the name of GO_LINE_NONE if type is invalid. The returned
- * string should not be freed.
+ * Returns: a pointer to the user readable name of the dash type,
+ * 	or the name of %GO_LINE_NONE if type is invalid. The returned
+ * 	string should not be freed.
  **/
-
 char const *
 go_line_dash_as_label (GOLineDashType type)
 {
@@ -166,13 +162,12 @@ go_line_dash_as_label (GOLineDashType type)
  * go_line_dash_get_length:
  * @type: #GOLineDashType
  *
- * Returns the unscaled length of the dash sequence.
+ * Returns: the unscaled length of the dash sequence.
  **/
-
 double
 go_line_dash_get_length (GOLineDashType type)
 {
-	const GOLineDashDesc *dash_desc;
+	GOLineDashDesc const *dash_desc;
 
 	if (type < 0 || type >= G_N_ELEMENTS (line_dashes))
 		return 1.0;
@@ -186,17 +181,16 @@ go_line_dash_get_length (GOLineDashType type)
  * @type: a #GOLineDashType
  * @scale: dash scale
  *
- * Returns a struct containing the dash sequence corresponding to @type,
- * or NULL if type is invalid or equal to GO_LINE_NONE.
- * The lengths are scaled according to @scale.
+ * Returns: a struct containing the dash sequence corresponding to @type,
+ * 	or %NULL if type is invalid or equal to %GO_LINE_NONE.
+ * 	The lengths are scaled according to @scale.
  **/
-
 GOLineDashSequence *
 go_line_dash_get_sequence (GOLineDashType type, double scale)
 {
 	unsigned int i;
 	GOLineDashSequence *sequence = NULL;
-	const GOLineDashDesc *dash_desc;
+	GOLineDashDesc const *dash_desc;
 
 	if (type < 0 || type >= G_N_ELEMENTS (line_dashes))
 		return NULL;
@@ -220,7 +214,6 @@ go_line_dash_get_sequence (GOLineDashType type, double scale)
  *
  * Frees the dash sequence struct.
  **/
-
 void
 go_line_dash_sequence_free (GOLineDashSequence *sequence)
 {
@@ -233,10 +226,9 @@ go_line_dash_sequence_free (GOLineDashSequence *sequence)
  * go_line_interpolation_from_str:
  * @name: an interpolation type nickname
  *
- * Returns a #GOLineInterpolation corresponding to @name, or 
- * GO_LINE_INTERPOLATION_LINEAR if not found.
+ * Returns: a #GOLineInterpolation corresponding to @name, or 
+ * 	%GO_LINE_INTERPOLATION_LINEAR if not found.
  **/
-
 GOLineInterpolation
 go_line_interpolation_from_str (char const *name)
 {
@@ -256,10 +248,9 @@ go_line_interpolation_from_str (char const *name)
  * go_line_interpolation_as_str:
  * @type: an interpolation type
  *
- * Returns a pointer to the nickname of @type, or "linear" if type
- * is invalid. The returned string should not be freed.
+ * Returns: a pointer to the nickname of @type, or "linear" if type
+ * 	is invalid. The returned string should not be freed.
  **/
-
 char const *
 go_line_interpolation_as_str (GOLineInterpolation type)
 {
