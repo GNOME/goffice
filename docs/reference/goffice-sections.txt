@@ -1772,7 +1772,6 @@ go_component_new_by_mime_type
 go_component_set_default_size
 go_component_needs_window
 go_component_set_window
-go_component_set_pixbuf
 go_component_set_data
 go_component_get_data
 go_component_set_size
