@@ -10,4 +10,5 @@ Requires: glib-2.0 gobject-2.0 libgsf-1 libxml-2.0 gtk+-2.0 libglade-2.0 libart-
 Libs: -L${libdir} -lgoffice-0.5
 Libs.private: @EXTRA_LIBS@
 Cflags: -I${includedir}/libgoffice-0.5 @EXTRA_INCLUDES@
-GOffice_plugins_dir=${libdir}/goffice/@VERSION@/plugins
+
+PluginDir: ${libdir}/goffice/@VERSION@/plugins
