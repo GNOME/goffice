@@ -97,6 +97,7 @@ struct _GogObject {
 	unsigned needs_update : 1;
 	unsigned being_updated : 1;
 	unsigned explicitly_typed_role : 1; /* did we create it automaticly */
+	unsigned invisible : 1;
 };
 
 typedef struct {
@@ -169,6 +170,7 @@ void		  gog_object_can_reorder (GogObject const *obj,
 GogObject	 *gog_object_reorder	 (GogObject const *obj,
 					  gboolean inc, gboolean goto_max);
 
+void		  gog_object_set_invisible	       (GogObject *obj, gboolean invisible);
 GogObjectPosition gog_object_get_position_flags	       (GogObject const *obj, GogObjectPosition mask);
 gboolean          gog_object_set_position_flags        (GogObject *obj, GogObjectPosition flags, 
 							GogObjectPosition mask);

@@ -2,7 +2,7 @@
 /*
  * gog-object.c :
  *
- * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2007 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -252,6 +252,7 @@ enum {
 	OBJECT_PROP_POSITION_ALIGNMENT,
 	OBJECT_PROP_POSITION_IS_MANUAL,
 	OBJECT_PROP_POSITION_ANCHOR,
+	OBJECT_PROP_INVISIBLE,
 };
 
 enum {
@@ -366,6 +367,9 @@ gog_object_set_property (GObject *obj, guint param_id,
 						       position_anchor[id].flags, 
 						       GOG_POSITION_ANCHOR);
 		break;
+	case OBJECT_PROP_INVISIBLE :
+		gog_object_set_invisible (gobj, g_value_get_boolean (value));
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -424,6 +428,9 @@ gog_object_get_property (GObject *obj, guint param_id,
 				g_value_set_string (value, position_anchor[i].value);
 				break;
 			}
+		break;
+	case OBJECT_PROP_INVISIBLE :
+		g_value_set_boolean (value, gobj->invisible != 0);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -766,6 +773,12 @@ gog_object_class_init (GObjectClass *klass)
 			_("Anchor for manual position"),
 			"top-left", 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT | GOG_PARAM_POSITION));
+	g_object_class_install_property (klass, OBJECT_PROP_INVISIBLE,
+		g_param_spec_boolean ("invisible", 
+			_("Should the object be hidden"), 
+			_("Should the object be hidden"),
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_object_signals [CHILD_ADDED] = g_signal_new ("child-added",
 		G_TYPE_FROM_CLASS (klass),
@@ -827,6 +840,8 @@ gog_object_init (GogObject *obj)
 	obj->id = 0;
 	obj->needs_update = FALSE;
 	obj->being_updated = FALSE;
+	obj->explicitly_typed_role = FALSE;
+	obj->invisible = FALSE;
 	obj->manual_position.x =
 	obj->manual_position.y = 0.0;
 	obj->manual_position.w =
@@ -1378,7 +1393,7 @@ gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
 	/* Pass the sibling that precedes obj, or NULL if is the head */
 	g_signal_emit (G_OBJECT (parent),
 		gog_object_signals [CHILDREN_REORDERED], 0);
-	gog_object_emit_changed (parent, TRUE);
+	gog_object_emit_changed (parent, FALSE);
 
 	return obj_follows;
 }
@@ -1672,6 +1687,21 @@ gog_object_add_by_name (GogObject *parent,
 	g_return_val_if_fail (IS_GOG_OBJECT (parent), NULL);
 	return gog_object_add_by_role (parent,
 		gog_object_find_role_by_name (parent, role), child);
+}
+
+/**
+ * gog_object_set_invisible :
+ * @obj : #GogObject
+ * @invisible :
+ **/
+void
+gog_object_set_invisible (GogObject *obj, gboolean invisible)
+{
+	unsigned int new_val = invisible ? 1 : 0;
+	if ((!obj->invisible) != !(new_val)) {
+		obj->invisible = new_val;
+		gog_object_emit_changed (obj, TRUE);
+	}
 }
 
 /**

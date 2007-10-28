@@ -771,7 +771,8 @@ gog_view_render	(GogView *view, GogViewAllocation const *bbox)
 	g_return_if_fail (view->renderer != NULL);
 
 	/* In particular this is true for NaNs.  */
-	if (!(view->allocation.w >= 0 && view->allocation.h >= 0))
+	if (view->model->invisible ||
+	    !(view->allocation.w >= 0 && view->allocation.h >= 0))
 		return;
 
 	if (klass->clip) {

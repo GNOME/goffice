@@ -1,3 +1,9 @@
+2007-10-28  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph//gog-object.c : Add GogObject::invisible
+	* goffice/graph/gog-view.c (gog_view_render) : support it here.
+	  We can debate if it should also short circuit space allocation.
+
 2007-10-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix a crash when deleting a chart. We may be in a state where a chart
