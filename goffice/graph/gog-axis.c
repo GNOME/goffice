@@ -930,9 +930,9 @@ void
 gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
 {
 	if (map->axis->inverted)
-		return map->desc->map_bounds (map, stop, start);
+		map->desc->map_bounds (map, stop, start);
 	else
-		return map->desc->map_bounds (map, start, stop);
+		map->desc->map_bounds (map, start, stop);
 }
 
 /**
@@ -951,7 +951,7 @@ gog_axis_map_get_extents (GogAxisMap *map, double *start, double *stop)
 void
 gog_axis_map_get_bounds (GogAxisMap *map, double *minimum, double *maximum)
 {
-	return map->desc->map_bounds (map, minimum, maximum);
+	map->desc->map_bounds (map, minimum, maximum);
 }
 
 /**

@@ -33,7 +33,7 @@ go_undo_undo_with_data (GOUndo *u, gpointer data)
 void
 go_undo_undo (GOUndo *u)
 {
-	return go_undo_undo_with_data (u, NULL);
+	go_undo_undo_with_data (u, NULL);
 }
 
 /**

@@ -223,8 +223,8 @@ go_search_replace_compile (GoSearchReplace *sr)
 		tmp = NULL;
 		sr->plain_replace =
 			(sr->replace_text &&
-			 g_utf8_strchr (sr->replace_text, -1, '$') == 0 &&
-			 g_utf8_strchr (sr->replace_text, -1, '\\') == 0);
+			 g_utf8_strchr (sr->replace_text, -1, '$') == NULL &&
+			 g_utf8_strchr (sr->replace_text, -1, '\\') == NULL);
 	} else {
 		/*
 		 * Create a regular expression equivalent to the search

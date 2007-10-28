@@ -905,7 +905,7 @@ unsigned
 gog_object_get_id (GogObject const *obj)
 {
 	g_return_val_if_fail (IS_GOG_OBJECT (obj), 0);
-	g_return_val_if_fail (obj != 0, 0);
+	g_return_val_if_fail (obj != NULL, 0);
 
 	return obj->id;
 }
