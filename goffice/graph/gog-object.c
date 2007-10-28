@@ -1149,7 +1149,7 @@ gog_object_get_children (GogObject const *obj, GogObjectRole const *filter)
  * @obj : a #GogObject
  * @role : a #GogObjectRole to use as a filter
  *
- * A convenience routine to handle a unique child
+ * A convenience routine to find a unique child with @role.
  *
  * Returns: %NULL and spews an error if there is more than one.
  **/
@@ -1171,7 +1171,8 @@ gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
  * @obj : a #GogObject
  * @name : a #char to use as a role name filter
  *
- * A convenience routine to handle a unique child.
+ * A convenience routine to find a unique child with role == @name
+ *
  * Returns: %NULL and spews an error if there is more than one.
  **/
 GogObject *

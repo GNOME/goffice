@@ -12,7 +12,7 @@ Jody:
 
 Jon Kåre:
 	* Fix format selector crash [#475136].
-	* Don't	close image save as dialog after wrong extension. [#420451]
+	* Don't	close image save as dialog after wrong extension. [#420451]	
 
 Morten:
 	* Add function to test if a format has an hour field.
