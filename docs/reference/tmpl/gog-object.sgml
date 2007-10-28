@@ -470,6 +470,16 @@ Base class for all objects of graph model
 @Returns: 
 
 
+<!-- ##### FUNCTION gog_object_register_roles ##### -->
+<para>
+
+</para>
+
+@klass: 
+@roles: 
+@n_roles: 
+
+
 <!-- ##### FUNCTION gog_object_request_editor_update ##### -->
 <para>
 
