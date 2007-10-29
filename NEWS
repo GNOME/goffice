@@ -3,6 +3,9 @@ goffice 0.5.2:
 Jody:
 	* Add the ability to make a GogObject invisible.
 
+Morten:
+	* Fix moving-average problem.  [#491328]
+
 --------------------------------------------------------------------------
 goffice 0.5.1:
 

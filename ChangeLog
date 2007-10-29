@@ -1,3 +1,8 @@
+2007-10-29  Morten Welinder  <terra@gnome.org>
+
+	* plugins/smoothing/gog-moving-avg.c (gog_moving_avg_update): Fix
+	problem with overwriting memory, see #491328.
+
 2007-10-28  Jody Goldberg <jody@gnome.org>
 
 	* goffice/graph//gog-object.c : Add GogObject::invisible

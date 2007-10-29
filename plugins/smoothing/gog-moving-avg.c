@@ -144,7 +144,8 @@ gog_moving_avg_update (GogObject *obj)
 		if (!go_finite (x_vals[i]) || !go_finite (y_vals[i])) {
 			invalid = ma->span;
 			xtot = ytot = 0;
-			ma->base.x[j] = ma->base.y[j] = go_nan;
+			if (j >= 0)
+				ma->base.x[j] = ma->base.y[j] = go_nan;
 			continue;
 		}
 		if (invalid == 0) {
@@ -154,12 +155,14 @@ gog_moving_avg_update (GogObject *obj)
 			invalid --;
 		xtot += x_vals[i];
 		ytot += y_vals[i];
-		if (j < 0)
-			continue;
-		ma->base.x[j] = (ma->xavg)?
-				((invalid == 0)? xtot / ma->span: go_nan):
-				x_vals[i];
-		ma->base.y[j] = (invalid == 0)? ytot / ma->span: go_nan;
+		if (j >= 0) {
+			ma->base.x[j] = (ma->xavg)
+				? ((invalid == 0) ? xtot / ma->span: go_nan)
+				: x_vals[i];
+			ma->base.y[j] = (invalid == 0)
+				? ytot / ma->span
+				: go_nan;
+		}
 	}
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 }
