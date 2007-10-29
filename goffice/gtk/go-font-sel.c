@@ -415,10 +415,9 @@ gfs_destroy (GtkObject *object)
 		g_slist_free (gfs->family_names);
 		gfs->family_names = NULL;
 	}
-	if (gfs->font_sizes) {
-		g_slist_free (gfs->font_sizes);
-		gfs->font_sizes = NULL;
-	}
+
+	g_slist_free (gfs->font_sizes);
+	gfs->font_sizes = NULL;
 
 	gfs_parent_class->destroy (object);
 }
