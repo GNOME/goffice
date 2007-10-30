@@ -92,7 +92,7 @@ typedef struct _PluginServiceSimple PluginServiceSimple;
 /****************************************************************************/
 
 GOPluginService  *plugin_service_new (GOPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error);
-char const     *plugin_service_get_id (GOPluginService *service);
+char const     *plugin_service_get_id (const GOPluginService *service);
 char const     *plugin_service_get_description (GOPluginService *service);
 GOPlugin      *plugin_service_get_plugin (GOPluginService *service);
 gpointer	plugin_service_get_cbs (GOPluginService *service);

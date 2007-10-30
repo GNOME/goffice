@@ -1,5 +1,8 @@
 2007-10-29  Morten Welinder  <terra@gnome.org>
 
+	* goffice/app/go-plugin-loader-module.c (make_function_name): New
+	convenience function that keeps Valgrind/dlsym happy.
+
 	* goffice/gtk/go-font-sel.c (gfs_destroy): Let g_slist_free handle
 	the empty list.
 

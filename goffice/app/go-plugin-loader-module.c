@@ -240,6 +240,24 @@ go_plugin_loader_module_func_file_open (GOFileOpener const *fo, GOPluginService 
 		FIXME_FIXME_workbook_view, input);
 }
 
+static char *
+make_function_name (const GOPluginService *service, const char *suffix)
+{
+	const char *id = plugin_service_get_id (service);
+	size_t idlen = strlen (id);
+	size_t slen = strlen (suffix);
+	size_t pad = 4;
+	char *res = g_new (char, idlen + slen + pad);
+
+	/* This is concatenation with padding.  Linux dlsym seems to like
+	   to read beyond the end.  */
+	strcpy (res, id);
+	strcpy (res + idlen, suffix);
+	memset (res + idlen + slen, 0, pad);
+
+	return res;
+}
+
 static void
 go_plugin_loader_module_load_service_file_opener (GOPluginLoader *loader,
 						  GOPluginService *service,
@@ -252,11 +270,9 @@ go_plugin_loader_module_load_service_file_opener (GOPluginLoader *loader,
 	g_return_if_fail (IS_GO_PLUGIN_SERVICE_FILE_OPENER (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	func_name_file_probe = g_strconcat (
-		plugin_service_get_id (service), "_file_probe", NULL);
+	func_name_file_probe = make_function_name (service, "_file_probe");
 	g_module_symbol (loader_module->handle, func_name_file_probe, &module_func_file_probe);
-	func_name_file_open = g_strconcat (
-		plugin_service_get_id (service), "_file_open", NULL);
+	func_name_file_open = make_function_name (service, "_file_open");
 	g_module_symbol (loader_module->handle, func_name_file_open, &module_func_file_open);
 	if (module_func_file_open != NULL) {
 		PluginServiceFileOpenerCallbacks *cbs;
@@ -269,8 +285,8 @@ go_plugin_loader_module_load_service_file_opener (GOPluginLoader *loader,
 		loader_data = g_new (ServiceLoaderDataFileOpener, 1);
 		loader_data->module_func_file_probe = module_func_file_probe;
 		loader_data->module_func_file_open = module_func_file_open;
-		g_object_set_data_full (
-					G_OBJECT (service), "loader_data", loader_data, g_free);
+		g_object_set_data_full (G_OBJECT (service),
+					"loader_data", loader_data, g_free);
 	} else {
 		*ret_error = error_info_new_printf (
 			_("Module file \"%s\" has invalid format."),
@@ -320,8 +336,7 @@ go_plugin_loader_module_load_service_file_saver (GOPluginLoader *loader,
 	g_return_if_fail (IS_GO_PLUGIN_SERVICE_FILE_SAVER (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	func_name_file_save = g_strconcat (
-					   plugin_service_get_id (service), "_file_save", NULL);
+	func_name_file_save = make_function_name (service, "_file_save");
 	g_module_symbol (loader_module->handle, func_name_file_save, &module_func_file_save);
 	if (module_func_file_save != NULL) {
 		PluginServiceFileSaverCallbacks *cbs;
@@ -332,8 +347,8 @@ go_plugin_loader_module_load_service_file_saver (GOPluginLoader *loader,
 
 		loader_data = g_new (ServiceLoaderDataFileSaver, 1);
 		loader_data->module_func_file_save = module_func_file_save;
-		g_object_set_data_full (
-					G_OBJECT (service), "loader_data", loader_data, g_free);
+		g_object_set_data_full (G_OBJECT (service),
+					"loader_data", loader_data, g_free);
 	} else {
 		*ret_error = error_info_new_printf (
 			_("Module file \"%s\" has invalid format."),
@@ -386,8 +401,8 @@ go_plugin_loader_module_load_service_plugin_loader (GOPluginLoader *loader,
 	g_return_if_fail (IS_GO_PLUGIN_SERVICE_PLUGIN_LOADER (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	func_name_get_loader_type = g_strconcat (
-		plugin_service_get_id (service), "_get_loader_type", NULL);
+	func_name_get_loader_type =
+		make_function_name (service, "_get_loader_type");
 	g_module_symbol (loader_module->handle, func_name_get_loader_type,
 			 &module_func_get_loader_type);
 	if (module_func_get_loader_type != NULL) {
@@ -400,7 +415,7 @@ go_plugin_loader_module_load_service_plugin_loader (GOPluginLoader *loader,
 		loader_data = g_new (ServiceLoaderDataPluginLoader, 1);
 		loader_data->module_func_get_loader_type = module_func_get_loader_type;
 		g_object_set_data_full (G_OBJECT (service),
-			"loader_data", loader_data, g_free);
+					"loader_data", loader_data, g_free);
 	} else
 		*ret_error = error_info_new_printf (
 			_("Module doesn't contain \"%s\" function."),

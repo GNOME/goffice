@@ -1026,7 +1026,7 @@ plugin_service_new (GOPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 }
 
 char const *
-plugin_service_get_id (GOPluginService *service)
+plugin_service_get_id (const GOPluginService *service)
 {
 	g_return_val_if_fail (IS_GO_PLUGIN_SERVICE (service), NULL);
 
