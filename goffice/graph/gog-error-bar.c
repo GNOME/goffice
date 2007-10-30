@@ -511,7 +511,10 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 	g_return_val_if_fail (IS_GOG_ERROR_BAR (bar), FALSE);
 	if (!gog_series_is_valid (bar->series))
 		return FALSE;
-	value = go_data_vector_get_value (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data), index);
+	GODataVector *vec = GO_DATA_VECTOR (bar->series->values[bar->dim_i].data);
+	if (vec == NULL)
+		return FALSE;
+	value = go_data_vector_get_value (vec, index);
 	data = bar->series->values[bar->error_i].data;
 	length = (IS_GO_DATA (data)) ? go_data_vector_get_len (GO_DATA_VECTOR (data)) : 0;
 	
@@ -571,6 +574,8 @@ gog_error_bar_get_minmax (const GogErrorBar *bar, double *min, double *max)
 	}
 
 	imax = go_data_vector_get_len (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data));
+	if (imax == 0)
+		return;
 	go_data_vector_get_minmax (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data), min, max);
 	values = go_data_vector_get_values (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data));
 
