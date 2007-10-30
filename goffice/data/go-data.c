@@ -256,6 +256,8 @@ GSF_CLASS_ABSTRACT (GODataVector, go_data_vector,
 int
 go_data_vector_get_len (GODataVector *vec)
 {
+	if (!vec)
+		return 0;
 	if (! (vec->base.flags & GO_DATA_VECTOR_LEN_CACHED)) {
 		GODataVectorClass const *klass = GO_DATA_VECTOR_GET_CLASS (vec);
 
@@ -357,9 +359,11 @@ GSF_CLASS_ABSTRACT (GODataMatrix, go_data_matrix,
 GODataMatrixSize
 go_data_matrix_get_size (GODataMatrix *mat)
 {
+	static GODataMatrixSize null_size = {0, 0};
+	if (!mat)
+		return null_size;
 	if (! (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED)) {
 		GODataMatrixClass const *klass = GO_DATA_MATRIX_GET_CLASS (mat);
-		static GODataMatrixSize null_size = {0, 0};
 
 		g_return_val_if_fail (klass != NULL, null_size);
 

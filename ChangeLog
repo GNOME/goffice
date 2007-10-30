@@ -1,3 +1,11 @@
+2007-10-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data.c: (go_data_vector_get_len),
+	(go_data_matrix_get_size): return nul sizes when the vector or matrix
+	is invalid.
+	* goffice/graph/gog-error-bar.c: (gog_error_bar_get_bounds),
+	(gog_error_bar_get_minmax): don't crash when there are no data.
+
 2007-10-29  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-plugin-loader-module.c (make_function_name): New
