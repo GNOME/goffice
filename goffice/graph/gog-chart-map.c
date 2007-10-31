@@ -249,7 +249,7 @@ make_path_spline (GogChartMap *map,
 	is_inverted = gog_axis_map_is_inverted (map->axis_map[1]);
 
 	n_valid_points = 0;
-	for (i = 0; i <= n_points; i++) {
+	for (i = 0; i < n_points; i++) {
 		yy = y != NULL ? y[i] : i + 1;
 		if (is_polar) {
 			if (is_inverted && yy > yy_max)

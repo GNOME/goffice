@@ -6,6 +6,9 @@ Jody:
 Morten:
 	* Fix moving-average problem.  [#491328]
 
+Sum1:
+	* Fix ABR in spline code.  [#492158]
+
 --------------------------------------------------------------------------
 goffice 0.5.1:
 
