@@ -58,7 +58,7 @@ go_file_opener_can_probe_real (GOFileOpener const *fo, FileProbeLevel pl)
 
 static gboolean
 go_file_opener_probe_real (GOFileOpener const *fo, GsfInput *input,
-                             FileProbeLevel pl)
+			   FileProbeLevel pl)
 {
 	gboolean ret = FALSE;
 
@@ -70,17 +70,19 @@ go_file_opener_probe_real (GOFileOpener const *fo, GsfInput *input,
 }
 
 static void
-go_file_opener_open_real (GOFileOpener const *fo, gchar const *opt_enc, 
-			   IOContext *io_context,
-			   gpointer FIXME_FIXME_workbook_view,
-			   GsfInput *input)
+go_file_opener_open_real (GOFileOpener const *fo, gchar const *opt_enc,
+			  IOContext *io_context,
+			  gpointer FIXME_workbook_view,
+			  GsfInput *input)
 {
 	if (fo->open_func != NULL) {
 		if (fo->encoding_dependent)
-			((GOFileOpenerOpenFuncWithEnc)fo->open_func) 
-				(fo, opt_enc, io_context, FIXME_FIXME_workbook_view, input);
+			((GOFileOpenerOpenFuncWithEnc)fo->open_func)
+				(fo, opt_enc, io_context,
+				 FIXME_workbook_view, input);
 		else
-			fo->open_func (fo, io_context, FIXME_FIXME_workbook_view, input);
+			fo->open_func (fo, io_context,
+				       FIXME_workbook_view, input);
 	} else
 		gnumeric_io_error_unknown (io_context);
 }
@@ -114,12 +116,12 @@ GSF_CLASS (GOFileOpener, go_file_opener,
  */
 void
 go_file_opener_setup (GOFileOpener *fo, gchar const *id,
-                        gchar const *description,
-			GSList *suffixes,
-			GSList *mimes,
-		        gboolean encoding_dependent,
-                        GOFileOpenerProbeFunc probe_func,
-                        GOFileOpenerOpenFunc open_func)
+		      gchar const *description,
+		      GSList *suffixes,
+		      GSList *mimes,
+		      gboolean encoding_dependent,
+		      GOFileOpenerProbeFunc probe_func,
+		      GOFileOpenerOpenFunc open_func)
 {
 	g_return_if_fail (IS_GO_FILE_OPENER (fo));
 
@@ -147,17 +149,17 @@ go_file_opener_setup (GOFileOpener *fo, gchar const *id,
  */
 GOFileOpener *
 go_file_opener_new (gchar const *id,
-                      gchar const *description,
-		      GSList *suffixes,
-		      GSList *mimes,
-                      GOFileOpenerProbeFunc probe_func,
-                      GOFileOpenerOpenFunc open_func)
+		    gchar const *description,
+		    GSList *suffixes,
+		    GSList *mimes,
+		    GOFileOpenerProbeFunc probe_func,
+		    GOFileOpenerOpenFunc open_func)
 {
 	GOFileOpener *fo;
 
 	fo = GO_FILE_OPENER (g_object_new (TYPE_GO_FILE_OPENER, NULL));
 	go_file_opener_setup (fo, id, description, suffixes, mimes, FALSE,
-			       probe_func, open_func);
+			      probe_func, open_func);
 
 	return fo;
 }
@@ -165,29 +167,29 @@ go_file_opener_new (gchar const *id,
 /**
  * go_file_opener_new_with_enc:
  * @id          : Optional ID of the opener (or NULL)
- * @description : Description of supported file format 
+ * @description : Description of supported file format
  * @probe_func  : Optional pointer to "probe" function (or NULL)
- * @open_func   : Pointer to "open" function    
- *   
+ * @open_func   : Pointer to "open" function
+ *
  * Creates new GOFileOpener object. Optional @id will be used
  * after registering it with go_file_opener_register function.
- *      
+ *
  * Return value: newly created GOFileOpener object.
  */
 
 GOFileOpener *
 go_file_opener_new_with_enc (gchar const *id,
-		     gchar const *description,
-		     GSList *suffixes,
-		     GSList *mimes,
-		     GOFileOpenerProbeFunc probe_func,
-		     GOFileOpenerOpenFuncWithEnc open_func)
+			     gchar const *description,
+			     GSList *suffixes,
+			     GSList *mimes,
+			     GOFileOpenerProbeFunc probe_func,
+			     GOFileOpenerOpenFuncWithEnc open_func)
 {
         GOFileOpener *fo;
 
         fo = GO_FILE_OPENER (g_object_new (TYPE_GO_FILE_OPENER, NULL));
         go_file_opener_setup (fo, id, description, suffixes, mimes, TRUE,
-                               probe_func, (GOFileOpenerOpenFunc)open_func);
+			      probe_func, (GOFileOpenerOpenFunc)open_func);
         return fo;
 }
 
@@ -210,11 +212,11 @@ go_file_opener_get_description (GOFileOpener const *fo)
 	return fo->description;
 }
 
-gboolean 
+gboolean
 go_file_opener_is_encoding_dependent (GOFileOpener const *fo)
 {
         g_return_val_if_fail (IS_GO_FILE_OPENER (fo), FALSE);
-	
+
 	return fo->encoding_dependent;
 }
 
@@ -269,7 +271,7 @@ go_file_opener_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl
  * @fo          : GOFileOpener object
  * @opt_enc     : Optional encoding
  * @io_context  : Context for i/o operation
- * @FIXME_FIXME_workbook_view: Workbook View
+ * @FIXME_workbook_view: Workbook View
  * @input       : Gsf input stream
  *
  * Reads content of @file_name file into workbook @wbv is attached to.
@@ -280,13 +282,14 @@ go_file_opener_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl
  */
 void
 go_file_opener_open (GOFileOpener const *fo, gchar const *opt_enc,
-		      IOContext *io_context,
-		      gpointer FIXME_FIXME_workbook_view, GsfInput *input)
+		     IOContext *io_context,
+		     gpointer FIXME_workbook_view, GsfInput *input)
 {
 	g_return_if_fail (IS_GO_FILE_OPENER (fo));
 	g_return_if_fail (GSF_IS_INPUT (input));
 
-	GO_FILE_OPENER_METHOD (fo, open) (fo, opt_enc, io_context, FIXME_FIXME_workbook_view, input);
+	GO_FILE_OPENER_METHOD (fo, open) (fo, opt_enc, io_context,
+					  FIXME_workbook_view, input);
 }
 
 /*
@@ -415,14 +418,14 @@ go_file_saver_get_property (GObject *object, guint property_id,
 
 static void
 go_file_saver_save_real (GOFileSaver const *fs, IOContext *io_context,
-			  gconstpointer FIXME_FIXME_workbook_view, GsfOutput *output)
+			 gconstpointer FIXME_workbook_view, GsfOutput *output)
 {
 	if (fs->save_func == NULL) {
 		gnumeric_io_error_unknown (io_context);
 		return;
 	}
 
-	fs->save_func (fs, io_context, FIXME_FIXME_workbook_view, output);
+	fs->save_func (fs, io_context, FIXME_workbook_view, output);
 }
 
 static void
@@ -610,7 +613,7 @@ go_file_saver_get_format_level (GOFileSaver const *fs)
  * go_file_saver_save:
  * @fs          : GOFileSaver object
  * @io_context  : Context for i/o operation
- * @FIXME_FIXME_workbook_view: Workbook View
+ * @FIXME_workbook_view: Workbook View
  * @output      : Output stream
  *
  * Saves @wbv and the workbook it is attached to into @output stream.
@@ -621,8 +624,8 @@ go_file_saver_get_format_level (GOFileSaver const *fs)
  */
 void
 go_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
-		     gconstpointer FIXME_FIXME_workbook_view,
-		     GsfOutput *output)
+		    gconstpointer FIXME_workbook_view,
+		    GsfOutput *output)
 {
 	g_return_if_fail (IS_GO_FILE_SAVER (fs));
 	g_return_if_fail (GSF_IS_OUTPUT (output));
@@ -632,7 +635,7 @@ go_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 		/*
 		 * This is mostly bogus.  We need a proper source for the file
 		 * name, not something double-converted.
-		 */		   
+		 */
 		char *file_name = name
 			? g_filename_from_utf8 (name, -1, NULL, NULL, NULL)
 			: NULL;
@@ -660,7 +663,8 @@ go_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 		g_free (file_name);
 	}
 
-	GO_FILE_SAVER_METHOD (fs, save) (fs, io_context, FIXME_FIXME_workbook_view, output);
+	GO_FILE_SAVER_METHOD (fs, save) (fs, io_context,
+					 FIXME_workbook_view, output);
 }
 
 /**
@@ -684,36 +688,36 @@ go_file_saver_set_overwrite_files (GOFileSaver *fs, gboolean overwrite)
 GType
 go_file_saver_level_get_type (void)
 {
-  static GType etype = 0;
-  if (etype == 0) {
-	  static GEnumValue values[] = {
-		  { FILE_FL_NONE, (char*)"GO_FILE_SAVER_LEVEL_NONE", (char*)"none" },
-		  { FILE_FL_WRITE_ONLY, (char*)"GO_FILE_SAVER_LEVEL_WRITE_ONLY", (char*)"write_only" },
-		  { FILE_FL_NEW, (char*)"GO_FILE_SAVER_LEVEL_NEW", (char*)"new" },
-		  { FILE_FL_MANUAL, (char*)"GO_FILE_SAVER_LEVEL_MANUAL", (char*)"manual" },
-		  { FILE_FL_MANUAL_REMEMBER, (char*)"GO_FILE_SAVER_LEVEL_MANUAL_REMEMBER", (char*)"manual_remember" },
-		  { FILE_FL_AUTO, (char*)"GO_FILE_SAVER_LEVEL_AUTO", (char*)"auto" },
-		  { 0, NULL, NULL }
-	  };
-	  etype = g_enum_register_static ("GOFileSaverLevel", values);
-  }
-  return etype;
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue values[] = {
+			{ FILE_FL_NONE, (char*)"GO_FILE_SAVER_LEVEL_NONE", (char*)"none" },
+			{ FILE_FL_WRITE_ONLY, (char*)"GO_FILE_SAVER_LEVEL_WRITE_ONLY", (char*)"write_only" },
+			{ FILE_FL_NEW, (char*)"GO_FILE_SAVER_LEVEL_NEW", (char*)"new" },
+			{ FILE_FL_MANUAL, (char*)"GO_FILE_SAVER_LEVEL_MANUAL", (char*)"manual" },
+			{ FILE_FL_MANUAL_REMEMBER, (char*)"GO_FILE_SAVER_LEVEL_MANUAL_REMEMBER", (char*)"manual_remember" },
+			{ FILE_FL_AUTO, (char*)"GO_FILE_SAVER_LEVEL_AUTO", (char*)"auto" },
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("GOFileSaverLevel", values);
+	}
+	return etype;
 }
 
 GType
 go_file_saver_scope_get_type (void)
 {
-  static GType etype = 0;
-  if (etype == 0) {
-	  static GEnumValue values[] = {
-		  { FILE_SAVE_WORKBOOK, (char*)"GO_FILE_SAVER_SCOPE_WORKBOOK", (char*)"workbook" },
-		  { FILE_SAVE_SHEET, (char*)"GO_FILE_SAVER_SCOPE_SHEET", (char*)"sheet" },
-		  { FILE_SAVE_RANGE, (char*)"GO_FILE_SAVER_SCOPE_RANGE", (char*)"range" },
-		  { 0, NULL, NULL }
-	  };
-	  etype = g_enum_register_static ("GOFileSaverScope", values);
-  }
-  return etype;
+	static GType etype = 0;
+	if (etype == 0) {
+		static GEnumValue values[] = {
+			{ FILE_SAVE_WORKBOOK, (char*)"GO_FILE_SAVER_SCOPE_WORKBOOK", (char*)"workbook" },
+			{ FILE_SAVE_SHEET, (char*)"GO_FILE_SAVER_SCOPE_SHEET", (char*)"sheet" },
+			{ FILE_SAVE_RANGE, (char*)"GO_FILE_SAVER_SCOPE_RANGE", (char*)"range" },
+			{ 0, NULL, NULL }
+		};
+		etype = g_enum_register_static ("GOFileSaverScope", values);
+	}
+	return etype;
 }
 
 /*-------------------------------------------------------------------------- */
@@ -729,7 +733,7 @@ typedef struct {
 } DefaultFileSaver;
 
 static GHashTable *file_opener_id_hash = NULL,
-                  *file_saver_id_hash = NULL;
+	*file_saver_id_hash = NULL;
 static GList *file_opener_list = NULL, *file_opener_priority_list = NULL;
 static GList *file_saver_list = NULL, *default_file_saver_list = NULL;
 
@@ -765,11 +769,11 @@ go_file_opener_register (GOFileOpener *fo, gint priority)
 	g_return_if_fail (priority >=0 && priority <= 100);
 
 	pos = go_list_index_custom (file_opener_priority_list,
-	                           GINT_TO_POINTER (priority),
-	                           cmp_int_less_than);
+				    GINT_TO_POINTER (priority),
+				    cmp_int_less_than);
 	file_opener_priority_list = g_list_insert (
-	                            file_opener_priority_list,
-	                            GINT_TO_POINTER (priority), pos);
+		file_opener_priority_list,
+		GINT_TO_POINTER (priority), pos);
 	file_opener_list = g_list_insert (file_opener_list, fo, pos);
 	g_object_ref (G_OBJECT (fo));
 
@@ -878,8 +882,8 @@ go_file_saver_register_as_default (GOFileSaver *fs, gint priority)
 	dfs->priority = priority;
 	dfs->saver = fs;
 	default_file_saver_list = g_list_insert_sorted (
-	                          default_file_saver_list, dfs,
-	                          default_file_saver_cmp_priority);
+		default_file_saver_list, dfs,
+		default_file_saver_cmp_priority);
 }
 
 /**
