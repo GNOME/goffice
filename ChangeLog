@@ -1,3 +1,8 @@
+2007-11-01  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-chart-map.c (make_path_spline): fix the
+	fix for [#492158].
+
 2007-10-31  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/file.h: Make more stuff public so we can derive.

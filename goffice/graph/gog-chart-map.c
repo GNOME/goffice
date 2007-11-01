@@ -263,8 +263,7 @@ make_path_spline (GogChartMap *map,
 		if (go_finite (u)
 		    && go_finite (v)
 		    && fabs (u) != DBL_MAX
-		    && fabs (v) != DBL_MAX
-		    && i != n_points) {
+		    && fabs (v) != DBL_MAX) {
 			n_valid_points++;
 
 			ii = i % 3;
@@ -323,6 +322,15 @@ make_path_spline (GogChartMap *map,
 			n_valid_points = 0;
 		}
 	}
+
+	if (n_valid_points == 2)
+		go_path_line_to (path, uu[ii], vv[ii]);
+	else if (n_valid_points > 2)
+		go_path_curve_to (path,
+				  uu[ii_prev] + lengths[ii] * cos (thetas[ii]),
+				  vv[ii_prev] + lengths[ii] * sin (thetas[ii]),
+				  uu[ii], vv[ii],
+				  uu[ii], vv[ii]);
 
 	return path;
 }
