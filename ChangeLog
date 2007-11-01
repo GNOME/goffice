@@ -3,7 +3,7 @@
 	* goffice/app/file.h: Make more stuff public so we can derive.
 
 	* goffice/graph/gog-chart-map.c (make_path_spline): Fix ABR
-	reported by sym1.  [#492158]
+	reported by Sum1.  [#492158]
 
 2007-10-30  Jean Brefort  <jean.brefort@normalesup.org>
 
