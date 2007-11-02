@@ -428,8 +428,10 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
 
-		if (!gog_series_is_valid (GOG_SERIES (series)))
+		if (!gog_series_is_valid (GOG_SERIES (series))) {
+			vals[i] = NULL;
 			continue;
+		}
 
 		vals[i] = go_data_vector_get_values (
 			GO_DATA_VECTOR (series->base.values[1].data));
@@ -471,7 +473,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		sum = abs_sum = 0.0;
 		if (type == GOG_1_5D_AS_PERCENTAGE) {
 			for (i = 0; i < num_series; i++)
-				if (gog_axis_map_finite (y_map, vals[i][j-1]))
+				if (vals[i] && gog_axis_map_finite (y_map, vals[i][j-1]))
 					abs_sum += fabs (vals[i][j-1]);
 			is_null = (go_sub_epsilon (abs_sum) <= 0.);
 		} else

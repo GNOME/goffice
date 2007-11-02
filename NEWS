@@ -1,5 +1,8 @@
 goffice 0.5.2:
 
+Jean:
+	* Fix NULL pointer crash in gog_line_view_render(). [#492485]
+
 Jody:
 	* Add the ability to make a GogObject invisible.
 
