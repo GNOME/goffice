@@ -9,10 +9,13 @@
 #include <goffice/goffice-config.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-marshalers.h>
 #include <goffice/app/file.h>
+#include <goffice/app/go-doc.h>
 #include <goffice/app/file-priv.h>
 #include <goffice/app/error-info.h>
 #include <goffice/app/io-context.h>
+#include <goffice/app/go-cmd-context.h>
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output.h>
@@ -336,6 +339,13 @@ enum {
 	FS_PROP_SCOPE
 };
 
+enum {
+	FS_SET_EXPORT_OPTIONS,
+	FS_LAST_SIGNAL
+};
+
+static guint fs_signals[FS_LAST_SIGNAL];
+
 static void
 go_file_saver_set_property (GObject *object, guint property_id,
 			    GValue const *value, GParamSpec *pspec)
@@ -512,6 +522,17 @@ go_file_saver_class_init (GOFileSaverClass *klass)
 				    G_PARAM_READWRITE));
 
 	klass->save = go_file_saver_save_real;
+
+	/* class signals */
+	fs_signals[FS_SET_EXPORT_OPTIONS] =
+		g_signal_new ("set-export-options",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GOFileSaverClass, set_export_options),
+			      NULL, NULL,
+			      go__BOOLEAN__OBJECT_STRING_POINTER,
+			      G_TYPE_BOOLEAN,
+			      3, GO_DOC_TYPE, G_TYPE_STRING, G_TYPE_POINTER);
 }
 
 GSF_CLASS (GOFileSaver, go_file_saver,
@@ -608,6 +629,100 @@ go_file_saver_get_format_level (GOFileSaver const *fs)
 
 	return fs->format_level;
 }
+
+gboolean
+go_file_saver_set_export_options (GOFileSaver *fs,
+				  GODoc *doc,
+				  const char *options,
+				  GError **err)
+{
+	gboolean res = TRUE;
+
+	g_signal_emit (G_OBJECT (fs), fs_signals[FS_SET_EXPORT_OPTIONS], 0,
+		       doc, options, err, &res);
+	return res;
+}
+
+gboolean
+go_file_saver_parse_options (GOFileSaver *fs,
+			     GODoc *doc,
+			     const char *options,
+			     GError **err,
+			     gpointer user,
+			     gboolean (*handler) (GOFileSaver *fs,
+						  GODoc *doc,
+						  const char *name,
+						  const char *value,
+						  GError **err,
+						  gpointer user))
+{
+	GString *sname = g_string_new (NULL);
+	GString *svalue = g_string_new (NULL);
+	gboolean res = FALSE;
+
+	if (err) *err = NULL;
+
+	while (1) {
+		const char *p;
+
+		g_string_truncate (sname, 0);
+		g_string_truncate (svalue, 0);
+
+		while (g_unichar_isspace (g_utf8_get_char (options)))
+			options = g_utf8_next_char (options);
+
+		if (*options == 0)
+			break;
+
+		p = options;
+		while (*options == '-' ||
+		       g_unichar_isalnum (g_utf8_get_char (options)))
+			options = g_utf8_next_char (options);
+		g_string_append_len (sname, p, options - p);
+		if (p == options) {
+			/* FIXME */
+			res = TRUE;
+			break;
+		}
+
+		while (g_unichar_isspace (g_utf8_get_char (options)))
+			options = g_utf8_next_char (options);
+		if (*options != '=') {
+			/* FIXME */
+			res = TRUE;
+			break;
+		}
+		options++;
+		while (g_unichar_isspace (g_utf8_get_char (options)))
+			options = g_utf8_next_char (options);
+
+		if (*options == '"' || *options == '\'') {
+			options = go_strunescape (svalue, options);
+			if (!options) {
+				/* FIXME */
+				res = TRUE;
+				break;
+			}
+		} else {
+			p = options;
+			while (*options && !
+			       g_unichar_isspace (g_utf8_get_char (options)))
+				options = g_utf8_next_char (options);
+			g_string_append_len (svalue, p, options - p);
+		}
+
+		if (handler (fs, doc, sname->str, svalue->str, err, user)) {
+			res = TRUE;
+			break;
+		}
+	}
+
+	g_string_free (sname, TRUE);
+	g_string_free (svalue, TRUE);
+
+	return res;
+}
+
 
 /**
  * go_file_saver_save:

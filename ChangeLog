@@ -1,3 +1,9 @@
+2007-11-01  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/file.c (go_file_saver_set_export_options,
+	go_file_saver_parse_options): New functions.
+	(go_file_saver_class_init): Install new set-export-options signal.
+
 2007-11-01  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-chart-map.c (make_path_spline): fix the

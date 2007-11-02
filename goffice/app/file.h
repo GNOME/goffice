@@ -47,23 +47,6 @@ typedef struct _GOFileOpenerClass GOFileOpenerClass;
 #define TYPE_GO_FILE_OPENER             (go_file_opener_get_type ())
 #define GO_FILE_OPENER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GO_FILE_OPENER, GOFileOpener))
 #define IS_GO_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GO_FILE_OPENER))
-#define GO_FILE_OPENER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GO_FILE_OPENER, GOFileOpenerClass))
-
-struct _GOFileOpenerClass {
-	GObjectClass parent_class;
-
-	/* private */
-	gboolean  (*can_probe) (GOFileOpener const *fo,
-				FileProbeLevel pl);
-	gboolean  (*probe) (GOFileOpener const *fo,
-	                    GsfInput *input,
-	                    FileProbeLevel pl);
-	void      (*open)  (GOFileOpener const *fo,
-			    gchar const *opt_enc,
-	                    IOContext *io_context,
-	                    gpointer  fixme_fixme_workbook_view,
-	                    GsfInput *input);
-};
 
 typedef gboolean (*GOFileOpenerProbeFunc) (GOFileOpener const *fo,
 					    GsfInput *input,
@@ -77,20 +60,6 @@ typedef void     (*GOFileOpenerOpenFuncWithEnc) (GOFileOpener const *fo,
 						 IOContext *io_context,
 						 gpointer FIXME_workbook_view,
 						 GsfInput *input);
-
-struct _GOFileOpener {
-	GObject parent;
-
-	/* private */
-	gchar	*id;
-	gchar	*description;
-	GSList	*suffixes;
-	GSList	*mimes;
-	gboolean encoding_dependent;
-
-	GOFileOpenerProbeFunc probe_func;
-	GOFileOpenerOpenFunc  open_func;
-};
 
 GType go_file_opener_get_type (void);
 
@@ -133,36 +102,11 @@ typedef struct _GOFileSaverClass GOFileSaverClass;
 #define TYPE_GO_FILE_SAVER             (go_file_saver_get_type ())
 #define GO_FILE_SAVER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GO_FILE_SAVER, GOFileSaver))
 #define IS_GO_FILE_SAVER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GO_FILE_SAVER))
-#define GO_FILE_SAVER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GO_FILE_SAVER, GOFileSaverClass))
-
-struct _GOFileSaverClass {
-	GObjectClass parent_class;
-
-	/* private */
-	void (*save) (GOFileSaver const *fs,
-	              IOContext *io_context,
-	              gconstpointer wbv,
-	              GsfOutput *output);
-};
 
 typedef void (*GOFileSaverSaveFunc) (GOFileSaver const *fs,
 				     IOContext *io_context,
 				     gconstpointer FIXME_FIXME_workbook_view,
 				     GsfOutput *output);
-
-struct _GOFileSaver {
-	GObject parent;
-
-	/* private */
-	gchar                *id;
-	gchar                *mime_type;
-	gchar                *extension;
-	gchar                *description;
-	gboolean              overwrite_files;
-	FileFormatLevel       format_level;
-	FileSaveScope         save_scope;
-	GOFileSaverSaveFunc   save_func;
-};
 
 GType go_file_saver_get_type (void);
 
@@ -172,8 +116,25 @@ GOFileSaver *go_file_saver_new (char const *id,
 				FileFormatLevel level,
 				GOFileSaverSaveFunc save_func);
 
+
 void          go_file_saver_set_save_scope (GOFileSaver *fs, FileSaveScope scope);
 FileSaveScope go_file_saver_get_save_scope (GOFileSaver const *fs);
+
+gboolean     go_file_saver_set_export_options (GOFileSaver *fs,
+					       GODoc *doc,
+					       const char *options,
+					       GError **err);
+gboolean     go_file_saver_parse_options
+	(GOFileSaver *fs,
+	 GODoc *doc,
+	 const char *options,
+	 GError **err,
+	 gpointer user,
+	 gboolean (*handler) (GOFileSaver *fs,
+			      GODoc *doc,
+			      const char *name, const char *value,
+			      GError **err,
+			      gpointer user));
 
 void         go_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 				 gconstpointer FIXME_workbook_view,
