@@ -1,3 +1,10 @@
+goffice-0.4.3:
+
+Jean:
+	* Fix NULL pointer crash in gog_line_view_render(). [#492485]
+
+--------------------------------------------------------------------------
+
 goffice 0.4.2:
 
 Jody:

@@ -1,3 +1,8 @@
+2007-11-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_barcol/gog-line.c: (gog_line_view_render): don't
+	try to access invalid series data. [#492485]
+
 2007-10-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/data/go-data.c: (go_data_vector_get_len),
