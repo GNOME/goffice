@@ -10,7 +10,7 @@ Standards-Version: 3.7.2
 Package: libgoffice-0-5-dev
 Section: libdevel
 Architecture: any
-Conflicts: libgoffice-0-dev
+Conflicts: libgoffice-0-dev (<< 0.4.2-2)
 Depends: libgoffice-0-5 (= ${Source-Version}), libglib2.0-dev (>= 2.8.0), libgsf-gnome-1-dev (>= 1.14.0), libxml2-dev (>= 2.6.10-2), libgtk2.0-dev (>= 2.8.17) libglade2-dev (>= 1:2.4.0-1), libart-2.0-dev (>= 2.3.16-5), libgnomeui-dev (>= 2.14.1-1), libcairo2-dev
 Description: Document centric objects library - runtime files
  GOffice is a library of document centric objects and utilities building on

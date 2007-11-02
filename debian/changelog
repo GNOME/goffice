@@ -1,3 +1,10 @@
+goffice (0.5.1-2) unstable; urgency=low
+
+  * [debian/control] Versioned the conflict with libgoffice-0-dev to allow
+    parallel installability with a forthcoming oldlibs package.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 28 Oct 2007 13:51:43 +0100
+
 goffice (0.5.1-1) unstable; urgency=low
 
   * New upstream development release.
