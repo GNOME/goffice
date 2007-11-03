@@ -1,3 +1,8 @@
+2007-11-03  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_object_set_property): New
+	function.
+
 2007-11-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-line.c: (gog_line_view_render): don't

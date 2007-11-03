@@ -93,6 +93,10 @@ void         go_mem_chunk_foreach_leak	(GOMemChunk *chunk, GFunc cb, gpointer us
 
 void	go_object_toggle             (gpointer object,
 				      const gchar *property_name);
+gboolean go_object_set_property (GObject *obj, const char *property_name,
+				 const char *user_prop_name, const char *value,
+				 GError **err,
+				 const char *error_template);
 GSList *go_object_properties_collect (GObject *obj);
 void    go_object_properties_apply   (GObject *obj,
 				      GSList *props,

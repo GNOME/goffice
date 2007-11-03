@@ -11,6 +11,8 @@
 #include <goffice-config.h>
 #include <goffice/goffice-config.h>
 #include "go-glib-extras.h"
+#include "go-locale.h"
+#include <goffice/app/go-cmd-context.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
@@ -797,6 +799,79 @@ go_object_toggle (gpointer object, const gchar *property_name)
 	g_object_get (object, property_name, &value, NULL);
 	g_object_set (object, property_name, !value, NULL);
 }
+
+
+gboolean
+go_object_set_property (GObject *obj, const char *property_name,
+			const char *user_prop_name, const char *value,
+			GError **err,
+			const char *error_template)
+{
+	GParamSpec *pspec;
+
+	if (err) *err = NULL;
+
+	g_return_val_if_fail (G_IS_OBJECT (obj), TRUE);
+	g_return_val_if_fail (property_name != NULL, TRUE);
+	g_return_val_if_fail (user_prop_name != NULL, TRUE);
+	g_return_val_if_fail (value != NULL, TRUE);
+
+	pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (obj),
+					      property_name);
+	g_return_val_if_fail (pspec != NULL, TRUE);
+
+	if (G_IS_PARAM_SPEC_STRING (pspec)) {
+		g_object_set (obj, property_name, value, NULL);
+		return FALSE;
+	}
+
+	if (G_IS_PARAM_SPEC_BOOLEAN (pspec)) {
+		gboolean b;
+
+		if (go_utf8_collate_casefold (value, go_locale_boolean_name (TRUE)) == 0 ||
+		    go_utf8_collate_casefold (value, _("yes")) == 0 ||
+		    g_ascii_strcasecmp (value, "TRUE") == 0 ||
+		    g_ascii_strcasecmp (value, "yes") == 0 ||
+		    strcmp (value, "1") == 0)
+			b = TRUE;
+		else if (go_utf8_collate_casefold (value, go_locale_boolean_name (FALSE)) == 0 ||
+		    go_utf8_collate_casefold (value, _("no")) == 0 ||
+		    g_ascii_strcasecmp (value, "FALSE") == 0 ||
+		    g_ascii_strcasecmp (value, "no") == 0 ||
+		    strcmp (value, "0") == 0)
+			b = FALSE;
+		else
+			goto error;
+
+		g_object_set (obj, property_name, b, NULL);
+		return FALSE;
+	}
+
+	if (G_IS_PARAM_SPEC_ENUM (pspec)) {
+		GEnumClass *eclass = ((GParamSpecEnum *)pspec)->enum_class;
+		GEnumValue *ev;
+
+		ev = g_enum_get_value_by_name (eclass, value);
+		if (!ev) ev = g_enum_get_value_by_nick (eclass, value);
+
+		if (!ev)
+			goto error;
+
+		g_object_set (obj, property_name, ev->value, NULL);
+		return FALSE;
+	}
+
+	error:
+		if (err)
+			*err = g_error_new (go_error_invalid (), 0,
+					    error_template,
+					    user_prop_name,
+					    value);
+		return TRUE;
+}
+
+
+
 
 /*
  * Collect all rw properties and their values.

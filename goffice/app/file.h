@@ -81,9 +81,9 @@ GOFileOpener *go_file_opener_new_with_enc (char const *id,
 gboolean     go_file_opener_probe (GOFileOpener const *fo, GsfInput *input,
 				    FileProbeLevel pl);
 void         go_file_opener_open (GOFileOpener const *fo, gchar const *opt_enc,
-				   IOContext *io_context,
-				   gpointer  FIXME_FIXME_workbook_view,
-				   GsfInput *input);
+				  IOContext *io_context,
+				  gpointer FIXME_workbook_view,
+				  GsfInput *input);
 
 char const *go_file_opener_get_id		  (GOFileOpener const *fo);
 char const *go_file_opener_get_description	  (GOFileOpener const *fo);
