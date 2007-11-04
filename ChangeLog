@@ -1,3 +1,8 @@
+2007-11-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_xy/gog-xy.c: (gog_xy_view_render): fix xy colored
+	plots when some data are missing. [#475394]
+
 2007-11-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-line.c: (gog_line_view_render): don't

@@ -1137,9 +1137,12 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		for (i = 1 ; i <= n ; i++) {
 			x = x_vals ? *x_vals++ : i;
 			y = *y_vals++;
+			if (is_map || GOG_IS_BUBBLE_PLOT(model)) {
+				z = *z_vals++;
+				if (isnan (z) || !go_finite (z))
+					continue;
+			}
 			if (isnan (y) || isnan (x))
-				continue;
-			if (is_map && isnan (z = *z_vals++))
 				continue;
 			/* We are checking with go_finite here because isinf
 			   if not available everywhere.  Note, that NANs
@@ -1151,8 +1154,6 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			x_canvas = gog_axis_map_to_view (x_map, x);
 			y_canvas = gog_axis_map_to_view (y_map, y);
 			if (GOG_IS_BUBBLE_PLOT(model)) {
-				z = *z_vals++;
-				if (!go_finite (z)) continue;
 				if (z < 0) {
 					if (GOG_BUBBLE_PLOT(model)->show_negatives) {
 						gog_renderer_push_style (view->renderer, neg_style);
