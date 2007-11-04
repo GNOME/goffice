@@ -1,6 +1,7 @@
 goffice 0.5.2:
 
 Jean:
+	* Fix xy color scale when some data are missing. [#475394]
 	* Fix NULL pointer crash in gog_line_view_render(). [#492485]
 
 Jody:
