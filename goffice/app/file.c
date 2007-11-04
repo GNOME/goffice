@@ -643,6 +643,15 @@ go_file_saver_set_export_options (GOFileSaver *fs,
 	return res;
 }
 
+/**
+ * go_file_saver_parse_options:
+ * @fs: File saver.  (NULL allowed.)
+ * @doc: Document.  (NULL allowed.)
+ * @options: Options string.
+ * @err: Reference to store GError if parsing fails.
+ * @user: user pointer.
+ * @handler: Handler to call for each key-value pair.
+ */
 gboolean
 go_file_saver_parse_options (GOFileSaver *fs,
 			     GODoc *doc,
@@ -674,35 +683,32 @@ go_file_saver_parse_options (GOFileSaver *fs,
 		if (*options == 0)
 			break;
 
-		p = options;
-		while (*options == '-' ||
-		       g_unichar_isalnum (g_utf8_get_char (options)))
-			options = g_utf8_next_char (options);
-		g_string_append_len (sname, p, options - p);
-		if (p == options) {
-			/* FIXME */
-			res = TRUE;
-			break;
+		if (*options == '"' || *options == '\'') {
+			options = go_strunescape (sname, options);
+			if (!options)
+				goto open_string;
+		} else {
+			p = options;
+			while (strchr ("-!_.,:;|/$%#@~", *options) ||
+			       g_unichar_isalnum (g_utf8_get_char (options)))
+				options = g_utf8_next_char (options);
+			g_string_append_len (sname, p, options - p);
+			if (p == options) 
+				goto syntax;
 		}
 
 		while (g_unichar_isspace (g_utf8_get_char (options)))
 			options = g_utf8_next_char (options);
-		if (*options != '=') {
-			/* FIXME */
-			res = TRUE;
-			break;
-		}
+		if (*options != '=')
+			goto syntax;
 		options++;
 		while (g_unichar_isspace (g_utf8_get_char (options)))
 			options = g_utf8_next_char (options);
 
 		if (*options == '"' || *options == '\'') {
 			options = go_strunescape (svalue, options);
-			if (!options) {
-				/* FIXME */
-				res = TRUE;
-				break;
-			}
+			if (!options)
+				goto open_string;
 		} else {
 			p = options;
 			while (*options && !
@@ -717,10 +723,25 @@ go_file_saver_parse_options (GOFileSaver *fs,
 		}
 	}
 
+done:
 	g_string_free (sname, TRUE);
 	g_string_free (svalue, TRUE);
 
 	return res;
+
+open_string:
+	if (err)
+		*err = g_error_new (go_error_invalid (), 0,
+				    _("Quoted string not terminated"));
+	res = TRUE;
+	goto done;
+
+syntax:
+	if (err)
+		*err = g_error_new (go_error_invalid (), 0,
+				    _("Syntax error"));
+	res = TRUE;
+	goto done;
 }
 
 
