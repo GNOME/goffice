@@ -124,17 +124,6 @@ gboolean     go_file_saver_set_export_options (GOFileSaver *fs,
 					       GODoc *doc,
 					       const char *options,
 					       GError **err);
-gboolean     go_file_saver_parse_options
-	(GOFileSaver *fs,
-	 GODoc *doc,
-	 const char *options,
-	 GError **err,
-	 gpointer user,
-	 gboolean (*handler) (GOFileSaver *fs,
-			      GODoc *doc,
-			      const char *name, const char *value,
-			      GError **err,
-			      gpointer user));
 
 void         go_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 				 gconstpointer FIXME_workbook_view,

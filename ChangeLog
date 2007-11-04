@@ -1,3 +1,10 @@
+2007-11-04  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_parse_key_value): Renamed
+	from go_file_saver_parse_options and drop several unused
+	arguments.
+	* goffice/app/file.c (go_file_saver_parse_options): See above.
+	
 2007-11-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_xy/gog-xy.c: (gog_xy_view_render): fix xy colored
