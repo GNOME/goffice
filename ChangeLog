@@ -1,3 +1,7 @@
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 0.5.2
+
 2007-11-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-glib-extras.c (go_parse_key_value): Renamed
