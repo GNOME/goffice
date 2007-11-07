@@ -1,3 +1,21 @@
+2007-11-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Try to make the add button in GogGuru more useful, by populating it
+	with all item of the currently selected chart that can be
+	unambiguously added.
+
+	* goffice/graph/gog-child-button.c (build_addition_process_childs),
+	(build_addition_foreach), (addition_compare),
+	(gog_child_button_build_additions), (gog_child_button_free_additions): new.
+	(gog_child_button_set_object): use build addition functions.
+	(cb_graph_guru_add_plot): adapt to new addition list.
+	(cb_plot_family_menu_create): ditto.
+	(plot_type_menu_create): ditto.
+	(cb_graph_guru_add_trend_line): ditto.
+	(cb_trend_line_type_menu_create): ditto.
+	(trend_line_type_menu_create): ditto.
+	(gog_child_button_press_event_cb): ditto.
+
 2007-11-06  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-charmap-sel.c (cs_emphasize_label): Fix markup.
@@ -20,7 +38,7 @@
 	from go_file_saver_parse_options and drop several unused
 	arguments.
 	* goffice/app/file.c (go_file_saver_parse_options): See above.
-	
+
 2007-11-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_xy/gog-xy.c: (gog_xy_view_render): fix xy colored

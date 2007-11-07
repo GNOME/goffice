@@ -23,6 +23,7 @@
 #include "gog-child-button.h"
 
 #include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-trend-line.h>
@@ -50,6 +51,7 @@ static void 	gog_child_button_popup 			(GogChildButton *child_button,
 							 guint32 event_time);
 static void 	gog_child_button_popdown		(GogChildButton *child_button);
 static void 	gog_child_button_weak_notify 		(GogChildButton *child_button, GogObject *object);
+static void 	gog_child_button_free_additions 	(GogChildButton *child_button);
 
 struct _GogChildButton
 {
@@ -105,7 +107,7 @@ gog_child_button_finalize (GObject *object)
 {
 	GogChildButton *child_button = GOG_CHILD_BUTTON (object);
 
-	g_slist_free (child_button->additions);
+	gog_child_button_free_additions (child_button);
 	if (child_button->menu)
 		g_object_unref (child_button->menu);
 	if (child_button->object != NULL)
@@ -143,6 +145,108 @@ gog_child_button_weak_notify (GogChildButton *child_button, GogObject *object)
 	}
 }
 
+typedef struct {
+	GogObjectRole	*role;
+	GogObject	*parent;
+} Addition;
+
+typedef struct {
+	GHashTable 	*additions;
+	GogChildButton	*child_button;
+} BuildAdditionData;
+
+static void
+build_addition_process_childs (GogObject *object, BuildAdditionData *closure)
+{
+	GogObjectRole *role;
+	Addition *addition;
+	GSList *child_iter;
+	GSList *role_iter;
+	GSList *additions;
+
+	additions = gog_object_possible_additions (object);
+	for (role_iter = additions; role_iter != NULL; role_iter = role_iter->next) {
+		role = role_iter->data;
+		addition = g_hash_table_lookup (closure->additions, role->id);
+		if ( addition == NULL) {
+			addition = g_new (Addition, 1);
+			addition->role = role;
+			addition->parent = object;
+			g_hash_table_insert (closure->additions, (char *) role->id, addition);
+		} else if (closure->child_button->object == object) {
+			g_hash_table_remove (closure->additions, (char *) addition->role->id);
+			g_free (addition);
+			addition = g_new (Addition, 1);
+			addition->role = role;
+			addition->parent = object;
+			g_hash_table_insert (closure->additions, (char *) role->id, addition);
+		} else if (addition->parent != closure->child_button->object)
+			addition->parent = NULL;
+	}
+
+	if (!IS_GOG_GRAPH (object))
+		for (child_iter = object->children; child_iter != NULL; child_iter = child_iter->next)
+				build_addition_process_childs (child_iter->data, closure);
+}
+
+static void
+build_addition_foreach (char *key, Addition *addition, GSList **additions)
+{
+	if (addition->parent != NULL)
+		*additions = g_slist_append (*additions, addition);
+	else
+		g_free (addition);
+}
+
+static int
+addition_compare (void const *abstract_addition1, void const *abstract_addition2)
+{
+	Addition const *addition1 = abstract_addition1;
+	Addition const *addition2 = abstract_addition2;
+
+	return strcmp (_(addition1->role->id), _(addition2->role->id));
+}
+
+static void
+gog_child_button_build_additions (GogChildButton *child_button)
+{
+	BuildAdditionData closure;
+	GogObject *start_object;
+
+	if (child_button->additions != NULL)
+		gog_child_button_free_additions (child_button);
+	if (child_button->object == NULL)
+		return;
+
+	closure.additions = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
+	closure.child_button = child_button;
+
+	if (IS_GOG_GRAPH (child_button->object))
+		start_object = child_button->object;
+	else for (start_object = child_button->object;
+		  !IS_GOG_CHART (start_object) && start_object != NULL;
+		  start_object = start_object->parent);
+
+	build_addition_process_childs (start_object, &closure);
+
+	g_hash_table_foreach (closure.additions, (GHFunc) build_addition_foreach, &child_button->additions);
+	child_button->additions = g_slist_sort (child_button->additions, addition_compare);
+
+	g_hash_table_unref (closure.additions);
+}
+
+static void
+gog_child_button_free_additions (GogChildButton *child_button)
+{
+	GSList *iter;
+
+	for (iter = child_button->additions; iter != NULL; iter = iter->next)
+		g_free (iter->data);
+
+	g_slist_free (child_button->additions);
+	child_button->additions = NULL;
+}
+
 /**
  * gog_child_button_set_object:
  * @child_button: a #GogChildButton
@@ -160,8 +264,7 @@ gog_child_button_set_object (GogChildButton *child_button, GogObject *object)
 	if (object == child_button->object)
 		return;
 
-	g_slist_free (child_button->additions);
-	child_button->additions = NULL;
+	gog_child_button_free_additions (child_button);
 	if (child_button->menu != NULL) {
 		g_object_unref (child_button->menu);
 		child_button->menu =NULL;
@@ -174,7 +277,7 @@ gog_child_button_set_object (GogChildButton *child_button, GogObject *object)
 
 	g_object_weak_ref (G_OBJECT (object), (GWeakNotify) gog_child_button_weak_notify, child_button);
 	child_button->object = object;
-	child_button->additions = gog_object_possible_additions (object);
+	gog_child_button_build_additions (child_button);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (child_button), child_button->additions != NULL);
 }
@@ -205,13 +308,14 @@ gog_child_button_popdown (GogChildButton *child_button)
 #define PLOT_TYPE_KEY		"plot_type"
 #define TREND_LINE_TYPE_KEY	"trend_line_type"
 #define FIRST_MINOR_TYPE	"first_minor_type"
-#define ROLE_KEY		"role"
+#define ADDITION_KEY		"addition"
 #define STATE_KEY		"plot_type"
 
 typedef struct {
 	GogChildButton	*child_button;
 	GtkWidget	*menu;
 	gboolean 	 non_blank;
+	Addition *addition;
 } TypeMenuCreateData;
 
 static gint
@@ -234,9 +338,9 @@ cb_graph_guru_add_plot (GtkWidget *widget, GogChildButton *child_button)
 {
 	GogPlotType *type = g_object_get_data (G_OBJECT (widget), PLOT_TYPE_KEY);
 	GogPlot *plot = gog_plot_new_by_type (type);
+	Addition *addition = g_object_get_data (G_OBJECT (widget), ADDITION_KEY);
 
-	gog_object_add_by_name (GOG_OBJECT (child_button->object),
-				"Plot", GOG_OBJECT (plot));
+	gog_object_add_by_name (GOG_OBJECT (addition->parent), "Plot", GOG_OBJECT (plot));
 	gog_plot_guru_helper (plot);
 
 	/* as a convenience add a series to the newly created plot */
@@ -250,8 +354,7 @@ cb_plot_family_menu_create (char const *id,
 			    GogPlotFamily *family,
 			    TypeMenuCreateData *closure)
 {
-	GogChildButton *child_button = closure->child_button;
-	GogChart *chart = GOG_CHART (child_button->object);
+	GogChart *chart = GOG_CHART (closure->addition->parent);
 	GtkWidget *w, *menu;
 	GSList *ptr, *types = NULL;
 	GogPlotType *type;
@@ -285,6 +388,7 @@ cb_plot_family_menu_create (char const *id,
 		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (w),
 			gtk_image_new_from_pixbuf (
 				go_pixbuf_get_from_cache (type->sample_image_file)));
+		g_object_set_data (G_OBJECT (w), ADDITION_KEY, closure->addition);
 		g_object_set_data (G_OBJECT (w), PLOT_TYPE_KEY, type);
 		g_signal_connect (G_OBJECT (w), "activate",
 				  G_CALLBACK (cb_graph_guru_add_plot),
@@ -295,12 +399,13 @@ cb_plot_family_menu_create (char const *id,
 }
 
 static GtkWidget *
-plot_type_menu_create (GogChildButton *child_button)
+plot_type_menu_create (GogChildButton *child_button, Addition *addition)
 {
 	TypeMenuCreateData closure;
 	closure.child_button = child_button;
 	closure.menu = gtk_menu_new ();
 	closure.non_blank = FALSE;
+	closure.addition = addition;
 
 	g_hash_table_foreach ((GHashTable *)gog_plot_families (),
 		(GHFunc) cb_plot_family_menu_create, &closure);
@@ -316,8 +421,9 @@ cb_graph_guru_add_trend_line (GtkWidget *widget, GogChildButton *child_button)
 {
 	GogTrendLineType *type = g_object_get_data (G_OBJECT (widget), TREND_LINE_TYPE_KEY);
 	GogTrendLine *line = gog_trend_line_new_by_type (type);
+	Addition *addition = g_object_get_data (G_OBJECT (widget), ADDITION_KEY);
 
-	gog_object_add_by_name (GOG_OBJECT (child_button->object),
+	gog_object_add_by_name (GOG_OBJECT (addition->parent),
 				"Trend line", GOG_OBJECT (line));
 
 	gog_child_button_popdown (child_button);
@@ -332,6 +438,7 @@ cb_trend_line_type_menu_create (char const *id,
 
 	menu = gtk_menu_item_new_with_label (_(type->name));
 	g_object_set_data (G_OBJECT (menu), TREND_LINE_TYPE_KEY, type);
+	g_object_set_data (G_OBJECT (menu), ADDITION_KEY, closure->addition);
 	g_signal_connect (G_OBJECT (menu), "activate",
 			  G_CALLBACK (cb_graph_guru_add_trend_line),
 			  closure->child_button);
@@ -340,12 +447,13 @@ cb_trend_line_type_menu_create (char const *id,
 }
 
 static GtkWidget *
-trend_line_type_menu_create (GogChildButton *child_button)
+trend_line_type_menu_create (GogChildButton *child_button, Addition *addition)
 {
 	TypeMenuCreateData closure;
 	closure.child_button = child_button;
 	closure.menu = gtk_menu_new ();
 	closure.non_blank = FALSE;
+	closure.addition = addition;
 
 	g_hash_table_foreach ((GHashTable *)gog_trend_line_types (),
 		(GHFunc) cb_trend_line_type_menu_create, &closure);
@@ -359,8 +467,9 @@ trend_line_type_menu_create (GogChildButton *child_button)
 static void
 cb_graph_guru_add_item (GtkWidget *widget, GogChildButton *child_button)
 {
-	gog_object_add_by_role (child_button->object,
-				g_object_get_data (G_OBJECT (widget), ROLE_KEY), NULL);
+	Addition *addition = g_object_get_data (G_OBJECT (widget), ADDITION_KEY);
+
+	gog_object_add_by_role (addition->parent, addition->role, NULL);
 
 	gog_child_button_popdown (child_button);
 }
@@ -380,32 +489,32 @@ gog_child_button_press_event_cb (GtkToggleButton *toggle_button,
 
 	if (child_button->menu == NULL) {
 		GtkWidget *widget;
-		GogObjectRole const *role;
+		Addition *addition;
 		GSList *iter;
 
 		child_button->menu = GTK_MENU (gtk_menu_new ());
 		g_object_ref_sink (child_button->menu);
 
 		for (iter = child_button->additions ; iter != NULL ; iter = iter->next) {
-			role = iter->data;
-			if (!strcmp (role->id, "Trend line")) {
-				GtkWidget *submenu = trend_line_type_menu_create (child_button);
+			addition = iter->data;
+			if (!strcmp (addition->role->id, "Trend line")) {
+				GtkWidget *submenu = trend_line_type_menu_create (child_button, addition);
 				if (submenu != NULL) {
-					widget = gtk_menu_item_new_with_label (_(role->id));
+					widget = gtk_menu_item_new_with_label (_(addition->role->id));
 					gtk_menu_item_set_submenu (GTK_MENU_ITEM (widget), submenu);
 				} else
 					continue;
-			} else if (!strcmp (role->id, "Plot")) {
-				GtkWidget *submenu = plot_type_menu_create (child_button);
+			} else if (!strcmp (addition->role->id, "Plot")) {
+				GtkWidget *submenu = plot_type_menu_create (child_button, addition);
 				if (submenu != NULL) {
-					widget = gtk_menu_item_new_with_label (_(role->id));
+					widget = gtk_menu_item_new_with_label (_(addition->role->id));
 					gtk_menu_item_set_submenu (GTK_MENU_ITEM (widget), submenu);
 				} else
 					continue;
-			} else if (role->naming_conv == GOG_OBJECT_NAME_BY_ROLE) {
-				widget = gtk_menu_item_new_with_label (_(role->id));
-				g_object_set_data (G_OBJECT (widget), ROLE_KEY,
-						   (gpointer)role);
+			} else if (addition->role->naming_conv == GOG_OBJECT_NAME_BY_ROLE) {
+				widget = gtk_menu_item_new_with_label (_(addition->role->id));
+				g_object_set_data (G_OBJECT (widget), ADDITION_KEY,
+						   (gpointer)addition);
 				g_signal_connect (G_OBJECT (widget), "activate",
 						  G_CALLBACK (cb_graph_guru_add_item),
 						  child_button);
