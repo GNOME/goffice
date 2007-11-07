@@ -1,5 +1,10 @@
 2007-11-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* plugins/reg-lin/gog-reg-lin.c (gog_lin_reg_curve_update): return
+	silently if series isn't valid.
+
+2007-11-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Try to make the add button in GogGuru more useful, by populating it
 	with all item of the currently selected chart that can be
 	unambiguously added.

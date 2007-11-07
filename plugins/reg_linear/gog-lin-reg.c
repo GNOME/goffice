@@ -53,7 +53,8 @@ gog_lin_reg_curve_update (GogObject *obj)
 	double const *y_vals, *x_vals = NULL;
 	int used, nb;
 
-	g_return_if_fail (gog_series_is_valid (series));
+	if (!gog_series_is_valid (series))
+		return;
 
 	nb = gog_series_get_xy_data (series, &x_vals, &y_vals);
 	used = (GOG_LIN_REG_CURVE_GET_CLASS(rc))->build_values (rc, x_vals, y_vals, nb);
