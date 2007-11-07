@@ -1,5 +1,7 @@
 2007-11-06  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-charmap-sel.c (cs_emphasize_label): Fix markup.
+
 	* goffice/utils/go-format.c (go_format_month_before_day): Return
 	2, if year comes first.
 	* goffice/utils/go-locale.c (go_locale_month_before_day): Ditto.

@@ -282,7 +282,7 @@ iconv_supported (const char *to, const char *from)
 
 const char *
 go_charmap_sel_get_encoding_name (G_GNUC_UNUSED GOCharmapSel *cs,
-				    const char *encoding)
+				  const char *encoding)
 {
 	CharsetInfo const *ci;
 
@@ -336,9 +336,8 @@ cs_mnemonic_activate (GtkWidget *w, gboolean group_cycling)
 static void
 cs_emphasize_label (GtkLabel *label)
 {
-	char *text = g_strconcat ("<b>", gtk_label_get_label (label), "</b>", NULL);
-
-	gtk_label_set_use_underline (label, FALSE);
+	char *text = g_markup_printf_escaped ("<b>%s</b>",
+					      gtk_label_get_label (label));
 	gtk_label_set_use_markup (label, TRUE);
 	gtk_label_set_label (label, text);
 	g_free (text);
