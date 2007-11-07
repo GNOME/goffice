@@ -88,6 +88,8 @@ struct _GraphGuruState {
 	GtkWidget   *delete_button;
 
 	FooCanvasItem	  *sample_graph_item;
+	FooCanvasItem	  *sample_graph_frame;
+	FooCanvasItem	  *sample_graph_shadow;
 
 	GtkContainer  	  *prop_container;
 	GtkTreeSelection  *prop_selection;
@@ -854,10 +856,22 @@ cb_sample_plot_resize (FooCanvas *canvas,
 	}
 	
 	foo_canvas_item_set (state->sample_graph_item,
-		"w", width,
-		"h", height,
+		"w", width > 2 ? width - 2 : 0,
+		"h", height > 2 ? height - 2 : 0,
 		"x", x,
 		"y", y,
+		NULL);
+	foo_canvas_item_set (state->sample_graph_frame,
+		"x2", x + width - 3,
+		"y2", y + height - 3,
+		"x1", x,
+		"y1", y,
+		NULL);
+	foo_canvas_item_set (state->sample_graph_shadow,
+		"x2", x + width - 1,
+		"y2", y + height - 1,
+		"x1", x + 3,
+		"y1", y + 3,
 		NULL);
 }
 
@@ -930,18 +944,29 @@ graph_guru_init_format_page (GraphGuruState *s)
 	w = glade_xml_get_widget (s->gui, "sample-alignment");
 	canvas = foo_canvas_new ();
 	gtk_container_add (GTK_CONTAINER (w), canvas);
-	s->sample_graph_item = foo_canvas_item_new (
-		foo_canvas_root (FOO_CANVAS (canvas)), GOG_CONTROL_FOOCANVAS_TYPE,
-		"model", s->graph,
-		NULL);
+	s->sample_graph_shadow = foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (canvas)),
+						      FOO_TYPE_CANVAS_RECT,
+						      "width_pixels", 2,
+						      "outline_color_rgba", 0xa0a0a0ff,	/* grey */
+						      NULL);
+	s->sample_graph_frame = foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (canvas)),
+						     FOO_TYPE_CANVAS_RECT,
+						     "width_pixels", 1,
+						     "fill_color_rgba", 0xffffffff,	/* white */
+						     "outline_color_rgba", 0x707070ff,	/* grey */
+						     NULL);
+	s->sample_graph_item = foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (canvas)),
+						    GOG_CONTROL_FOOCANVAS_TYPE,
+						    "model", s->graph,
+						    NULL);
 	gtk_widget_add_events (canvas, GDK_POINTER_MOTION_HINT_MASK);
 	cb_sample_plot_resize (FOO_CANVAS (canvas), &canvas->allocation, s);
 	g_signal_connect (G_OBJECT (canvas),
-		"size_allocate",
-		G_CALLBACK (cb_sample_plot_resize), s);
+			  "size_allocate",
+			  G_CALLBACK (cb_sample_plot_resize), s);
 	g_signal_connect_after (G_OBJECT (canvas),
-		"event",
-		G_CALLBACK (cb_canvas_select_item), s);
+				"event",
+				G_CALLBACK (cb_canvas_select_item), s);
 	gtk_widget_show (canvas);
 
 	/* Connect to selection-changed signal of graph view */

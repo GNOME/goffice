@@ -1,5 +1,15 @@
 2007-11-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Add a frame around the graph area in the graph editor.
+
+	* goffice/graph/gog-guru.c (cb_sample_plot_resize): resize the frame.
+	(graph_guru_init_format_page): add the frame. I've tried to use the
+	color associated to the canvas widget, for a better compatibility with
+	gtk themes, but without satisfaction. The hardcoded ones seem to play
+	well with dark and clear themes.
+
+2007-11-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	* plugins/reg-lin/gog-reg-lin.c (gog_lin_reg_curve_update): return
 	silently if series isn't valid.
 
