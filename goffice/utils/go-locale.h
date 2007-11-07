@@ -37,7 +37,7 @@ char           go_locale_get_col_sep      (void);
 char           go_locale_get_row_sep      (void);
 GString const *go_locale_get_thousand     (void);
 GString const *go_locale_get_decimal      (void);
-gboolean       go_locale_month_before_day (void);
+int            go_locale_month_before_day (void);
 
 GString const *go_locale_get_date_format  (void);
 GString const *go_locale_get_time_format  (void);

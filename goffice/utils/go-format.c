@@ -282,6 +282,7 @@ struct _GOFormat {
 			unsigned int E_format    : 1;
 			unsigned int use_markup  : 1;
 			unsigned int has_date    : 1;
+			unsigned int date_ybm    : 1;  /* year, then month.  */
 			unsigned int date_mbd    : 1;  /* month, then day.  */
 			unsigned int date_dbm    : 1;  /* day, then month.  */
 			unsigned int has_time    : 1;
@@ -1048,6 +1049,7 @@ go_format_parse_sequential (const char *str, GString *prg,
 {
 	int date_decimals = 0;
 	gboolean seen_date = FALSE;
+	gboolean seen_year = FALSE;
 	gboolean seen_month = FALSE;
 	gboolean seen_day = FALSE;
 	gboolean seen_time = FALSE;
@@ -1058,6 +1060,7 @@ go_format_parse_sequential (const char *str, GString *prg,
 	gboolean seen_elapsed = FALSE;
 	gboolean m_is_minutes = FALSE;
 	gboolean seconds_trigger_minutes = TRUE;
+	gboolean date_ybm = FALSE;
 	gboolean date_mbd = FALSE;
 	gboolean date_dbm = FALSE;
 
@@ -1097,6 +1100,7 @@ go_format_parse_sequential (const char *str, GString *prg,
 			while (*str == 'y' || *str == 'Y')
 				str++, n++;
 			seen_date = TRUE;
+			seen_year = TRUE;
 			ADD_OP (n <= 2 ? OP_DATE_YEAR_2 : OP_DATE_YEAR);
 			break;
 		}
@@ -1106,6 +1110,7 @@ go_format_parse_sequential (const char *str, GString *prg,
 			while (*str == 'b' || *str == 'B')
 				str++, n++;
 			seen_date = TRUE;
+			seen_year = TRUE;
 			ADD_OP (n <= 2 ? OP_DATE_YEAR_THAI_2 : OP_DATE_YEAR_THAI);
 			break;
 		}
@@ -1113,6 +1118,7 @@ go_format_parse_sequential (const char *str, GString *prg,
 		case 'e':
 			while (*str == 'e') str++;
 			seen_date = TRUE;
+			seen_year = TRUE;
 			ADD_OP (OP_DATE_YEAR);
 			break;
 
@@ -1157,6 +1163,8 @@ go_format_parse_sequential (const char *str, GString *prg,
 					seen_month = TRUE;
 					if (seen_day)
 						date_dbm = TRUE;
+					if (seen_year && !seen_day)
+						date_ybm = TRUE;
 				}
 			}
 			break;
@@ -1276,6 +1284,7 @@ go_format_parse_sequential (const char *str, GString *prg,
 		if (seen_date) {
 			*p++ = OP_DATE_SPLIT;
 			fmt->u.number.has_date = TRUE;
+			fmt->u.number.date_ybm = date_ybm;
 			fmt->u.number.date_mbd = date_mbd;
 			fmt->u.number.date_dbm = date_dbm;
 		}
@@ -4097,15 +4106,19 @@ go_format_is_date (GOFormat const *fmt)
  * go_format_month_before_day:
  * @fmt: Format to query
  *
- * Returns: TRUE if format is a date format with month and day in that order.
- * 	    FALSE if format is a date format with day and month in that order.
- * 	    -1 otherwise.
+ * Returns:
+ *  0, if format is a date format with day and month in that order
+ *  1, if format is a date format with month and day in that order, unless
+ *  2, if format is a date with year before month before day
+ * -1, otherwise.
  **/
 int
 go_format_month_before_day (GOFormat const *fmt)
 {
 	if (go_format_is_date (fmt) != 1)
 		return -1;
+	if (fmt->u.number.date_ybm)
+		return +2;
 	if (fmt->u.number.date_mbd)
 		return +1;
 	if (fmt->u.number.date_dbm)

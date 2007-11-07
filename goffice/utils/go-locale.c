@@ -185,7 +185,7 @@ go_locale_win32_get_user_default (GString *res, unsigned int id)
 	gsize  utf8_len;
 	char *fmt_utf8 = g_convert ((gchar *)fmt_utf16, utf16_len*2,
 		 "UTF-8", "UTF-16LE", NULL, &utf8_len, &error);
-	if (NULL != fmt_utf8) 
+	if (NULL != fmt_utf8)
 		g_string_append_len (lc_date_format, fmt_utf8, utf8_len);
 	else if (NULL != error) {
 		g_warning ("error: %s", error->message);
@@ -333,12 +333,17 @@ go_locale_get_time_format (void)
  * go_locale_month_before_day :
  *
  * A quick utility routine to guess whether the default date format
- * uses day/month or month/day
+ * uses day/month or month/day.  Returns a value of the same meaning
+ * as go_format_month_before_day, i.e.,
+ *
+ * 0, if locale uses day before month
+ * 1, if locale uses month before day, unless the following applies
+ * 2, if locale uses year before month (before day)
  */
-gboolean
+int
 go_locale_month_before_day (void)
 {
-	static gboolean month_first = TRUE;
+	static int month_first = 1;
 	if (!date_order_cached) {
 		date_order_cached = TRUE;
 
@@ -347,20 +352,31 @@ go_locale_month_before_day (void)
 			TCHAR str[2];
 			GetLocaleInfo (LOCALE_USER_DEFAULT, LOCALE_IDATE, str, 2);
 			month_first = str[0] != L'1';
+			/* FIXME: Figure out if year comes first.  */
 		}
 
 #elif defined(HAVE_LANGINFO_H)
 		{
 			char const *ptr = nl_langinfo (D_FMT);
-			if (ptr)
-				while (*ptr) {
-					char c = *ptr++;
-					if (c == 'd' || c == 'D') {
-						month_first = FALSE;
-						break;
-					} else if (c == 'm')
-						break;
+			while (ptr && *ptr) {
+				char c = *ptr++;
+				switch (c) {
+				case 'd': case 'D': case 'e':
+					month_first = 0;
+					ptr = NULL;
+					break;
+				case 'm': case 'b': case 'B': case 'h':
+					month_first = 1;
+					ptr = NULL;
+					break;
+				case 'C': case 'G': case 'g':
+				case 'y': case 'Y':
+					month_first = 2;
+					ptr = NULL;
+					break;
+				default: ;
 				}
+			}
 		}
 #else
 		{
