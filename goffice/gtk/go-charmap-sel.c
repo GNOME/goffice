@@ -514,7 +514,7 @@ cs_class_init (GtkWidgetClass *widget_klass)
 		const char *aliases = ci->aliases;
 		char *autoaliases = NULL;
 
-		if (strchr (aliases, '#') == 0) {
+		if (strchr (aliases, '#') == NULL) {
 			/* Sigh.  This sucks quite a lot.  */
 			if (strncmp (aliases, "ISO-", 4) == 0) {
 				autoaliases =
