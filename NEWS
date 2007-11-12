@@ -1,5 +1,10 @@
 goffice 0.5.3:
 
+Emmanuel:
+	* Draw a frame around the graph area in graph editor.
+	* Improve legend swatch appearance.
+	* Populate the add button of the graph editor with more items.
+
 --------------------------------------------------------------------------
 goffice 0.5.2:
 
