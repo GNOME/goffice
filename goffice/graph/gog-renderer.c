@@ -431,7 +431,7 @@ path_interpret (GogRenderer 	 *rend,
 		return;
 	}
 
-	if (((int) (go_fake_ceil (line_width)) % 2 == 0) && line_width > 1.0)
+	if (((int) (go_fake_ceil (line_width)) % 2 == 0) && (line_width > 1.0 || line_width <= 0.0))
 		go_path_interpret (path, GO_PATH_DIRECTION_FORWARD,
 				   path_snap_even_move_to,
 				   path_snap_even_line_to,
@@ -576,8 +576,8 @@ _draw_shape (GogRenderer *renderer, GOPath const *path, gboolean fill, gboolean 
 	use_outline = style->interesting_fields & GOG_STYLE_OUTLINE;
 
 	line_options = go_path_get_options (path);
-	width = _grc_line_size (renderer, use_outline ? style->outline.width : style->line.width,
-				line_options & GO_PATH_OPTIONS_SNAP_WIDTH);
+	width = stroke ? _grc_line_size (renderer, use_outline ? style->outline.width : style->line.width,
+					 line_options & GO_PATH_OPTIONS_SNAP_WIDTH) : 0;
 
 	path_interpret (renderer, path, width);
 
@@ -841,25 +841,29 @@ gog_renderer_draw_bezier_path (GogRenderer *rend, ArtBpath const *path)
 static void
 _draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean fill, gboolean stroke)
 {
+	GogStyle const *style;
 	GOPath *path;
-	gboolean const narrow = (rect->w < 3.) || (rect->h < 3.);
+	gboolean narrow = (rect->w < 3.) || (rect->h < 3.);
 	double o, o_2;
 
 	g_return_if_fail (IS_GOG_RENDERER (rend));
 	g_return_if_fail (IS_GOG_STYLE (rend->cur_style));
 
+	style = rend->cur_style;
+	narrow |= !gog_style_is_outline_visible (style);
+
 	path = go_path_new ();
 	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 
 	if (!narrow) {
-		o = gog_renderer_line_size (rend, rend->cur_style->outline.width);
+		o = gog_renderer_line_size (rend, style->outline.width);
 		o_2 = o / 2.;
 	} else
 		o = o_2 = 0.;
 
 	go_path_rectangle (path, rect->x + o_2, rect->y + o_2, rect->w - o, rect->h - o);
 
-	_draw_shape (rend, path, fill, stroke);
+	_draw_shape (rend, path, fill, stroke && !narrow);
 
 	go_path_free (path);
 }
@@ -873,7 +877,13 @@ gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
 void
 gog_renderer_stroke_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
 {
-	_draw_rectangle (rend, rect, TRUE, TRUE);
+	_draw_rectangle (rend, rect, FALSE, TRUE);
+}
+
+void
+gog_renderer_fill_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
+{
+	_draw_rectangle (rend, rect, TRUE, FALSE);
 }
 
 /**

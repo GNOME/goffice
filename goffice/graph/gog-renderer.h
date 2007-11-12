@@ -104,6 +104,7 @@ void  gog_renderer_fill_shape 		(GogRenderer *renderer, GOPath const *path);
 
 void  gog_renderer_draw_rectangle	(GogRenderer *rend, GogViewAllocation const *rect);
 void  gog_renderer_stroke_rectangle 	(GogRenderer *rend, GogViewAllocation const *rect);
+void  gog_renderer_fill_rectangle 	(GogRenderer *rend, GogViewAllocation const *rect);
 
 void  gog_renderer_draw_grip	  		(GogRenderer *renderer, double x, double y);
 void  gog_renderer_draw_selection_rectangle	(GogRenderer *renderer, GogViewAllocation const *rectangle);

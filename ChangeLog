@@ -1,3 +1,22 @@
+2007-11-12  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Improve the appearance of legend swatches, by respecting the outline
+	style, avoid blurriness in case of no outline and show fill color for
+	XY and polar plots.
+
+	* goffice/graph/gog-legend.c (cb_swatch_scale): also handle the
+	GOG_STYLE_LINE case.
+	(cb_render_elements): also show fill color in case of marker + line.
+	Respect the outline appearance, rescaling the outline width in order
+	to always show the fill color.
+	* goffice/graph/gog-renderer.c (path_interpret): round coordinates
+	when line width <= 0.
+	(_draw_shape): force line width to zero when stroke is invisible.
+	(_draw_rectangle): don't ask for stroke is outline is invisible.
+	(gog_renderer_stroke_rectangle): fix stroke argument in
+	_draw_rectangle call.
+	(gog_renderer_fill_rectangle): new.
+
 2007-11-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Add a frame around the graph area in the graph editor.

@@ -373,33 +373,40 @@ static void
 cb_swatch_scale (unsigned i, GogStyle const *style, char const *name,
 		 SwatchScaleClosure *data)
 {
+	GogStyleLine const *line = NULL;
 	double size;
 	double maximum, scale;
-       
+
 	size = go_marker_get_size (style->marker.mark);
 	if (data->size_max < size)
 		data->size_max = size;
 	if (data->size_min > size)
 		data->size_min = size;
 
-	if (style->interesting_fields & GOG_STYLE_LINE &&
-	    style->line.width > data->hairline_width) {
-		if (style->line.dash_type != GO_LINE_NONE && style->line.dash_type != GO_LINE_SOLID)
-			maximum = data->line_length / (GLV_SAMPLE_DASH_LENGTH 
-						       * go_line_dash_get_length (style->line.dash_type));
-		else
-			maximum = style->line.width;
+	if (style->interesting_fields & GOG_STYLE_LINE)
+		line = &style->line;
+	else if (style->interesting_fields & GOG_STYLE_OUTLINE)
+		line = &style->outline;
 
-		if (maximum > data->line_width_max)
-			maximum = data->line_width_max;
+	if (line == NULL ||
+	    line->width <= data->hairline_width)
+		return;
 
-		if (maximum > data->hairline_width) 
-			scale = (maximum - data->hairline_width) / (style->line.width - data->hairline_width);
-		else 
-			scale = 0;
-		if (data->line_scale > scale)
-			data->line_scale = scale;
-	}
+	if (line->dash_type != GO_LINE_NONE && line->dash_type != GO_LINE_SOLID)
+		maximum = data->line_length / (GLV_SAMPLE_DASH_LENGTH
+					       * go_line_dash_get_length (line->dash_type));
+	else
+		maximum = line->width;
+
+	if (maximum > data->line_width_max)
+		maximum = data->line_width_max;
+
+	if (maximum > data->hairline_width)
+		scale = (maximum - data->hairline_width) / (line->width - data->hairline_width);
+	else
+		scale = 0;
+	if (data->line_scale > scale)
+		data->line_scale = scale;
 }
 
 typedef struct {
@@ -436,10 +443,10 @@ cb_render_elements (unsigned index, GogStyle const *base_style, char const *name
 		}
 	}
 	data->count++;
-	
+
 	if (base_style->interesting_fields & GOG_STYLE_LINE) { /* line and marker */
 		style = gog_style_dup (base_style);
-		go_marker_set_size (style->marker.mark, 
+		go_marker_set_size (style->marker.mark,
 				    go_marker_get_size (style->marker.mark) *
 				    data->swatch_scale_a + data->swatch_scale_b);
 		if (style->line.width > data->hairline_width)
@@ -449,15 +456,24 @@ cb_render_elements (unsigned index, GogStyle const *base_style, char const *name
 		half_width = 0.5 * gog_renderer_line_size (renderer, style->line.width);
 		data->line_path[0].x = data->x + half_width;
 		data->line_path[1].x = data->x + data->swatch.w * GLV_LINE_LENGTH_EM - half_width;
-		data->line_path[0].y = 
+		data->line_path[0].y =
 		data->line_path[1].y = data->y + glv->element_height / 2.;
+		if (style->interesting_fields & GOG_STYLE_FILL) {
+			rectangle.x = data->x - half_width;
+			rectangle.y = data->line_path[0].y;
+			rectangle.w = data->swatch.w * GLV_LINE_LENGTH_EM + 2.0 * half_width;
+			rectangle.h = glv->element_height / 2.0;
+			gog_renderer_fill_rectangle (renderer, &rectangle);
+		}
 		gog_renderer_draw_path (renderer, data->line_path);
-		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * GLV_LINE_LENGTH_EM * 0.5, 
+		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * GLV_LINE_LENGTH_EM * 0.5,
 					  data->line_path[0].y);
 	} else {					/* area swatch */
 		style = gog_style_dup (base_style);
-		style->outline.width = 0; 
-		style->outline.color = RGBA_BLACK;
+		if (style->outline.width > data->hairline_width)
+			style->outline.width =
+				0.5 * (data->hairline_width + style->outline.width) * data->line_scale_a +
+				data->line_scale_b;
 
 		rectangle = data->swatch;
 		rectangle.x += data->x;
