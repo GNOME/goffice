@@ -84,8 +84,8 @@ go_image_format_to_mime (char const *format)
 #endif
 	static const char* const formats[] = {
 		"svg", "image/svg,image/svg+xml",
-		"wmf", "x-wmf",
-		"emf", "x-emf",
+		"wmf", "image/x-wmf",
+		"emf", "image/x-emf",
 	};
 	
 	if (format == NULL)

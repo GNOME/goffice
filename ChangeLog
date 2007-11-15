@@ -1,3 +1,8 @@
+2007-11-15  Jon K Hellan  <hellan@acm.org>
+
+	* goffice/utils/go-image.c (go_image_format_to_mime): Fix typos in
+	mime types.
+
 2007-11-12  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Improve the appearance of legend swatches, by respecting the outline
