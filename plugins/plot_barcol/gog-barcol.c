@@ -326,7 +326,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogViewAllocation const *area;
 	GogRenderer *rend = view->renderer;
 	GogAxisMap *x_map, *y_map, *map;
-	gboolean is_vertical = ! (model->horizontal);
+	gboolean is_vertical = ! (model->horizontal), valid;
 	double **vals, sum, neg_base, pos_base, tmp;
 	double x;
 	double col_step, group_step, offset, data_scale;
@@ -436,9 +436,11 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (i >= lengths[j])
 				continue;
 			tmp = vals[j][i];
-			if (!gog_axis_map_finite (map, tmp))
-				continue;
-			if (gog_error_bar_is_visible (errors[j])) {
+			valid = TRUE;
+			if (!gog_axis_map_finite (map, tmp)) {
+				tmp = 0;
+				valid = FALSE;
+			} else if (gog_error_bar_is_visible (errors[j])) {
 				gog_error_bar_get_bounds (errors[j], i, &minus, &plus);
 			}
 			tmp *= data_scale;
@@ -458,7 +460,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			barcol_draw_rect (rend, is_vertical, x_map, y_map, &work);
 			gog_renderer_pop_style (view->renderer);
 			
-			if (gog_error_bar_is_visible (errors[j])) {
+			if (valid && gog_error_bar_is_visible (errors[j])) {
 				x = tmp > 0 ? work.x + work.w: work.x;
 				error_data[j][i].plus = plus * data_scale;
 				error_data[j][i].minus = minus * data_scale;

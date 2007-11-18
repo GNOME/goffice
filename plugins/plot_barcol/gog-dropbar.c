@@ -153,7 +153,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	double *start_vals, *end_vals;
 	double x;
 	double step, offset, group_step;
-	unsigned i, j;
+	unsigned i, j, k;
 	unsigned num_elements = gog_1_5d_model->num_elements;
 	unsigned num_series = gog_1_5d_model->num_series;
 	GSList *ptr;
@@ -225,6 +225,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 			path1[j][n].code = path2[j][n].code = ART_END;
 		} else
 			path1[j] = NULL;
+		k = 0;
 		for (i = 0; i < n; i++) {
 			x++;
 			work.x = x;
@@ -232,15 +233,23 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 			work.h = end_vals[i] - work.y;
 			if (series->has_lines) {
 				if (model->horizontal) {
-					path1[j][i].y = path2[j][i].y =
+					if (!gog_axis_map_finite (y_map, work.x + work.w / 2.) ||
+					    !gog_axis_map_finite (x_map, start_vals[i]) ||
+					    !gog_axis_map_finite (x_map, end_vals[i]))
+					continue;
+					path1[j][k].y = path2[j][k].y =
 						gog_axis_map_to_view (y_map, work.x + work.w / 2.);
-					path1[j][i].x = gog_axis_map_to_view (x_map, start_vals[i]);
-					path2[j][i].x = gog_axis_map_to_view (x_map, end_vals[i]);
+					path1[j][k].x = gog_axis_map_to_view (x_map, start_vals[i]);
+					path2[j][k].x = gog_axis_map_to_view (x_map, end_vals[i]);
 				} else {
-					path1[j][i].x = path2[j][i].x =
+					if (!gog_axis_map_finite (x_map, work.x + work.w / 2.) ||
+					    !gog_axis_map_finite (y_map, start_vals[i]) ||
+					    !gog_axis_map_finite (y_map, end_vals[i]))
+					continue;
+					path1[j][k].x = path2[j][k].x =
 						gog_axis_map_to_view (x_map, work.x + work.w / 2.);
-					path1[j][i].y = gog_axis_map_to_view (y_map, start_vals[i]);
-					path2[j][i].y = gog_axis_map_to_view (y_map, end_vals[i]);
+					path1[j][k].y = gog_axis_map_to_view (y_map, start_vals[i]);
+					path2[j][k].y = gog_axis_map_to_view (y_map, end_vals[i]);
 				}
 			}
 			gog_renderer_push_style (view->renderer, (start_vals[i] <= end_vals[i])?
@@ -248,7 +257,9 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 					barcol_draw_rect (view->renderer, model->horizontal, x_map, y_map, &work);
 			barcol_draw_rect (view->renderer, model->horizontal, x_map, y_map, &work);
 			gog_renderer_pop_style (view->renderer);
+			k++;
 		}
+		path1[j][k].code = path2[j][k].code = ART_END;
 		offset += step;
 		g_object_unref (neg_style);
 		j++;

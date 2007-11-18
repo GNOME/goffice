@@ -286,7 +286,7 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 	double *max_vals, *min_vals;
 	double x;
 	double step, offset;
-	unsigned i;
+	unsigned i, j = 0;
 	unsigned num_elements = gog_1_5d_model->num_elements;
 	unsigned num_series = gog_1_5d_model->num_series;
 	GSList *ptr;
@@ -340,15 +340,24 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 		for (i = 0; i < n; i++) {
 			x++;
 			if (is_vertical) {
-				mpath[i].x = Mpath[i].x = path[0].x = path[1].x = gog_axis_map_to_view (x_map, x);
-				mpath[i].y = path[0].y = gog_axis_map_to_view (y_map, min_vals[i]);
-				Mpath[i].y = path[1].y = gog_axis_map_to_view (y_map, max_vals[i]);
+				if (!gog_axis_map_finite (x_map, x) ||
+				    !gog_axis_map_finite (y_map, min_vals[i]) ||
+				    !gog_axis_map_finite (y_map, max_vals[i]))
+					continue;
+				mpath[j].x = Mpath[j].x = path[0].x = path[1].x = gog_axis_map_to_view (x_map, x);
+				mpath[j].y = path[0].y = gog_axis_map_to_view (y_map, min_vals[i]);
+				Mpath[j].y = path[1].y = gog_axis_map_to_view (y_map, max_vals[i]);
 			} else {
-				mpath[i].y = Mpath[i].y = path[0].y = path[1].y =  gog_axis_map_to_view (y_map, x);
-				mpath[i].x = path[0].x = gog_axis_map_to_view (x_map, min_vals[i]);
-				Mpath[i].x =path[1].x = gog_axis_map_to_view (x_map, max_vals[i]);
+				if (!gog_axis_map_finite (y_map, x) ||
+				    !gog_axis_map_finite (x_map, min_vals[i]) ||
+				    !gog_axis_map_finite (x_map, max_vals[i]))
+					continue;
+				mpath[j].y = Mpath[j].y = path[0].y = path[1].y =  gog_axis_map_to_view (y_map, x);
+				mpath[j].x = path[0].x = gog_axis_map_to_view (x_map, min_vals[i]);
+				Mpath[j].x =path[1].x = gog_axis_map_to_view (x_map, max_vals[i]);
 			}
 			gog_renderer_draw_sharp_path (view->renderer, path);
+			j++;
 		}
 		if (series->has_lines) {
 			if (!role)
@@ -357,7 +366,7 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 			lines = GOG_SERIES_LINES (
 					gog_object_get_child_by_role (GOG_OBJECT (series), role));
 			mpath[0].code = Mpath[0].code = ART_MOVETO;
-			for (i = 1; i < n; i++)
+			for (i = 1; i < j; i++)
 				mpath[i].code = Mpath[i].code = ART_LINETO;
 			mpath[n].code = Mpath[n].code = ART_END;
 			gog_renderer_push_style (view->renderer,
@@ -367,7 +376,7 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 			gog_renderer_pop_style (view->renderer);
 		}
 		if (gog_style_is_marker_visible (style))
-			for (i = 0; i < n; i++) {
+			for (i = 0; i < j; i++) {
 				gog_renderer_draw_marker (view->renderer, mpath[i].x, mpath[i].y);
 				gog_renderer_draw_marker (view->renderer, Mpath[i].x, Mpath[i].y);
 			}

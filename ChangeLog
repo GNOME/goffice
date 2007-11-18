@@ -1,5 +1,14 @@
 2007-11-18  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/plot_barcol/gog-barcol.c: (gog_barcol_view_render): fix
+	rendering when some data are invalid.
+	* plugins/plot_barcol/gog-dropbar.c: (gog_dropbar_view_render):
+	ditto.
+	* plugins/plot_barcol/gog-minmax.c: (gog_minmax_view_render):
+	ditto.
+
+2007-11-18  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_barcol/gog-barcol.c: (gog_barcol_view_render): don't
 	try to allocate 0 bytes. [#497777]
 
