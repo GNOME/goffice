@@ -344,7 +344,6 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	double plus, minus;
 	GogObjectRole const *role = NULL;
 
-
 	if (num_elements <= 0 || num_series <= 0)
 		return;
 
@@ -386,7 +385,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			error_data[i] = g_malloc (sizeof (ErrorBarData) * lengths[i]);
 		else 
 			error_data[i] = NULL;
-		if (series->has_series_lines) {
+		if (series->has_series_lines && lengths[i] > 0) {
 			if (!role)
 				role = gog_object_find_role_by_name (
 							GOG_OBJECT (series), "Series lines");

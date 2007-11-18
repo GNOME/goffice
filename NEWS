@@ -1,5 +1,8 @@
 goffice 0.5.3:
 
+Jean:
+	* Fix crash in gog_barcol_view_render. [#497777]
+
 Morten:
 	* Improve classification of date formats.
 

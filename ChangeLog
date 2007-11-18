@@ -1,3 +1,8 @@
+2007-11-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_barcol/gog-barcol.c: (gog_barcol_view_render): don't
+	try to allocate 0 bytes. [#497777]
+
 2007-11-15  Jon K Hellan  <hellan@acm.org>
 
 	* goffice/utils/go-image.c (go_image_format_to_mime): Fix typos in
