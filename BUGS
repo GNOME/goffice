@@ -299,6 +299,10 @@ Plans
 	   style modification
     1.41) Range selection
     	1.41.1) Initial implementation				<-------->
+    1.42) Win/Lose Plots (simplification of bar/col)
+    	eg up blue, down red
+    1.43) Grading regions for grid (sequence of colour bands)
+    	eg ( ..0) red, [0..1) yellow, [1..] green.
 
 Misc things to fix
 ------------------
@@ -314,3 +318,17 @@ Misc things to fix
 
 	: Markers with non solid fill color are displayed 
 	without filling for some shapes.			(FIXED)
+
+Ideas
+-----
+    - Dimension choser as label in chart
+    - Use Legend to manipulate data
+	- edit style of various series
+	- Add/remove dimensions
+    - select items in a plot
+    - Matrix feature to replicate a group of plots using different slices of
+      data.  eg XY for age x salary, with distinct chart for M and F
+    - Add 'group' button to the data editors to pull up a context menu that
+      allows for grouping / filtering
+
+    - filter/group routines from autofilter into goffice for charts and pivots

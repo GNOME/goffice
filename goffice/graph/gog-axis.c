@@ -2245,7 +2245,7 @@ gog_axis_view_padding_request (GogView *view,
 
 	label_padding.wr = label_padding.wl = label_padding.ht = label_padding.hb = 0;
 
-	axis_pos = GOG_AXIS_BASE (axis)->position;
+	axis_pos = GOG_AXIS_BASE (axis)->pos_calculated;
 
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
@@ -2255,15 +2255,18 @@ gog_axis_view_padding_request (GogView *view,
 			available.h = bbox->h;
 			gog_view_size_request (child, &available, &req);
 			if (type == GOG_AXIS_X) 
-				if (axis_pos != GOG_AXIS_AT_HIGH)
-					label_padding.hb += req.h + pad_h;
-				else 
-					label_padding.ht += req.h + pad_h;
+				switch (axis_pos) {
+				case GOG_AXIS_AT_HIGH : label_padding.ht += req.h + pad_h; break;
+				case GOG_AXIS_AT_LOW  : label_padding.hb += req.h + pad_h; break;
+				default :
+					break;
+				}
 			else  
-				if (axis_pos != GOG_AXIS_AT_HIGH)
-					label_padding.wl += req.w + pad_w;
-				else
-					label_padding.wr += req.w + pad_w;
+				switch (axis_pos) {
+				case GOG_AXIS_AT_HIGH : label_padding.wr += req.w + pad_w; break;
+				case GOG_AXIS_AT_LOW  : label_padding.wl += req.w + pad_w; break;
+				default : break;
+				}
 		}
 	}
 
@@ -2310,7 +2313,7 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	available.w = bbox->w;
 	available.h = bbox->h;
 
-	axis_pos = GOG_AXIS_BASE (axis)->position;
+	axis_pos = GOG_AXIS_BASE (axis)->pos_calculated;
 
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
@@ -2329,11 +2332,12 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 							(plot_area->w - req.w) / 2.0;
 						child_bbox.w = req.w;
 						child_bbox.h = req.h;
-						if (axis_pos != GOG_AXIS_AT_HIGH) {
-							child_bbox.y = tmp.y + tmp.h - req.h;
-						} else {
-							child_bbox.y = tmp.y;
+						switch (axis_pos) {
+						case GOG_AXIS_AT_HIGH : child_bbox.y = tmp.y;
 							tmp.y += req.h + pad_h;
+							break;
+						case GOG_AXIS_AT_LOW  : child_bbox.y = tmp.y + tmp.h - req.h; break;
+						default : break;
 						}
 						tmp.h -= req.h + pad_h;
 					} else { 
@@ -2341,12 +2345,12 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 							(plot_area->h - req.h) / 2.0;
 						child_bbox.h = req.h;
 						child_bbox.w = req.w;
-						if (axis_pos != GOG_AXIS_AT_HIGH) {
-							child_bbox.x = tmp.x;
+						switch (axis_pos) {
+						case GOG_AXIS_AT_HIGH : child_bbox.x = tmp.x + tmp.w - req.w;
+						case GOG_AXIS_AT_LOW : child_bbox.x = tmp.x;
 							tmp.x += req.w + pad_w;
-						}
-						else {
-							child_bbox.x = tmp.x + tmp.w - req.w;
+							break;
+						default : break;
 						}
 						tmp.w -= req.w + pad_w;
 					}

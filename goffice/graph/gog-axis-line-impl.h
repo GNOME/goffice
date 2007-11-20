@@ -41,7 +41,8 @@ typedef struct {
 	GogChart	*chart;
 	GogAxis		*axis;
 
-	GogAxisPosition    position;
+	GogAxisPosition    pos_user;		/* user assigned preference */
+	GogAxisPosition    pos_calculated;	/* actual position, with current AxisSet */
 	unsigned 	   crossed_axis_id;
 	GogDatasetElement  cross_location;
 	

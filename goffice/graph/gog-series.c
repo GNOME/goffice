@@ -884,8 +884,7 @@ gog_series_get_name (GogSeries const *series)
 void
 gog_series_set_name (GogSeries *series, GODataScalar *name_src, GError **err)
 {
-	gog_dataset_set_dim (GOG_DATASET (series),
-		-1, GO_DATA (name_src), NULL);
+	gog_dataset_set_dim (GOG_DATASET (series), -1, GO_DATA (name_src), err);
 }
 
 /**

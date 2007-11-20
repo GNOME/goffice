@@ -81,7 +81,7 @@ gog_axis_base_set_property (GObject *obj, guint param_id,
 	switch (param_id) {
 		case AXIS_BASE_PROP_POSITION:
 			position = g_value_get_uint (value);
-			resized = (position != axis_base->position);
+			resized = (position != axis_base->pos_user);
 			gog_axis_base_set_position (axis_base, position);
 			break;
 		case AXIS_BASE_PROP_POSITION_STR:
@@ -96,8 +96,8 @@ gog_axis_base_set_property (GObject *obj, guint param_id,
 				position = GOG_AXIS_AT_HIGH;
 			else
 				return;
-			resized = (position != axis_base->position);
-			axis_base->position = position;
+			resized = (position != axis_base->pos_user);
+			axis_base->pos_user = position;
 			break;
 		case AXIS_BASE_PROP_CROSS_AXIS_ID:
 			axis_base->crossed_axis_id = g_value_get_uint (value);
@@ -169,11 +169,11 @@ gog_axis_base_get_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 		case AXIS_BASE_PROP_POSITION:
-			g_value_set_uint (value, axis_base->position);
+			g_value_set_uint (value, axis_base->pos_user);
 			break;
 
 		case AXIS_BASE_PROP_POSITION_STR:
-			switch (axis_base->position) {
+			switch (axis_base->pos_user) {
 				case GOG_AXIS_AT_LOW:
 					g_value_set_static_string (value, "low");
 					break;
@@ -359,7 +359,7 @@ gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position)
 			position = GOG_AXIS_CROSS;
 	}
 
-	axis_base->position = position;
+	axis_base->pos_calculated = position;
 }
 
 #ifdef GOFFICE_WITH_GTK
@@ -420,7 +420,7 @@ cb_position_toggled (GtkWidget *button, AxisBasePrefs *state)
 	else
 		position = GOG_AXIS_AT_LOW;
 
-	if (position != axis_base->position)
+	if (position != axis_base->pos_user)
 		gtk_widget_set_sensitive (glade_xml_get_widget (state->gui, "padding_spinbutton"),
 					  position != GOG_AXIS_CROSS);
 
@@ -556,17 +556,17 @@ gog_axis_base_populate_editor (GogObject *gobj,
 					"state", state, (GDestroyNotify) axis_base_pref_free);
 
 		w = glade_xml_get_widget (gui, "axis_low");
-		if (axis_base->position == GOG_AXIS_AT_LOW)
+		if (axis_base->pos_user == GOG_AXIS_AT_LOW)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 		g_signal_connect (G_OBJECT (w), "toggled",
 				  G_CALLBACK (cb_position_toggled), state);
 		w = glade_xml_get_widget (gui, "axis_cross");
-		if (axis_base->position == GOG_AXIS_CROSS)
+		if (axis_base->pos_user == GOG_AXIS_CROSS)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 		g_signal_connect (G_OBJECT (w), "toggled",
 				  G_CALLBACK (cb_position_toggled), state);
 		w = glade_xml_get_widget (gui, "axis_high");
-		if (axis_base->position == GOG_AXIS_AT_HIGH)
+		if (axis_base->pos_user == GOG_AXIS_AT_HIGH)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 		g_signal_connect (G_OBJECT (w), "toggled",
 				  G_CALLBACK (cb_position_toggled), state);
@@ -584,7 +584,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), axis_base->padding);
 		g_signal_connect (G_CALLBACK (w), "value-changed",
 				  G_CALLBACK (cb_padding_changed), axis_base);
-		gtk_widget_set_sensitive (w, axis_base->position != GOG_AXIS_CROSS);
+		gtk_widget_set_sensitive (w, axis_base->pos_user != GOG_AXIS_CROSS);
 		hide_position_box = FALSE;
 	} else {
 		w = glade_xml_get_widget (gui, "padding_box");
@@ -724,7 +724,7 @@ gog_axis_base_init (GogAxisBase *gab)
 	gab->chart = NULL;
 	gab->axis = NULL;
 
-	gab->position = GOG_AXIS_AT_LOW;
+	gab->pos_user = gab->pos_calculated = GOG_AXIS_AT_LOW;
 	gab->crossed_axis_id = 0;
 
 	gab->minor.tick_in = gab->minor.tick_out = gab->major.tick_in = FALSE;
@@ -753,13 +753,13 @@ gog_axis_base_get_position (GogAxisBase *axis_base)
 {
 	g_return_val_if_fail (GOG_AXIS_BASE (axis_base) != NULL, GOG_AXIS_AT_LOW);
 
-	return axis_base->position;
+	return axis_base->pos_calculated;
 }
 
 static int
 gog_axis_base_get_padding (GogAxisBase *axis_base)
 {
-	return (axis_base->position == GOG_AXIS_CROSS ?
+	return (axis_base->pos_calculated == GOG_AXIS_CROSS ?
 		0 : axis_base->padding);
 }
 
@@ -1542,7 +1542,7 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	gog_axis_map_get_extents (a_map, &start, &stop);
 	gog_axis_map_get_bounds (a_map, &minimum, &maximum);
 	side = GO_SIDE_RIGHT;
-	switch (axis_base->position) {
+	switch (axis_base->pos_calculated) {
 	case GOG_AXIS_CROSS :
 		position = gog_axis_base_get_cross_location (axis_base);
 		if (position < minimum)
@@ -1633,15 +1633,15 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		a_map = gog_chart_map_get_axis_map (c_map, 0);
 		gog_axis_map_get_bounds (a_map, &minimum, &maximum);
 		gog_axis_map_get_extents (a_map, &start, &stop);
-		if (axis_base->position == GOG_AXIS_CROSS) {
+		if (axis_base->pos_calculated == GOG_AXIS_CROSS) {
 			position = gog_axis_base_get_cross_location (axis_base);
 			if (position < minimum || position > maximum) {
 				gog_chart_map_free (c_map);
 				return FALSE;
 			}
 		} else
-			position = axis_base->position == GOG_AXIS_AT_LOW ?  start : stop;
-		side = axis_base->position == GOG_AXIS_AT_LOW ? GO_SIDE_RIGHT : GO_SIDE_LEFT;
+			position = axis_base->pos_calculated == GOG_AXIS_AT_LOW ?  start : stop;
+		side = axis_base->pos_calculated == GOG_AXIS_AT_LOW ? GO_SIDE_RIGHT : GO_SIDE_LEFT;
 
 		a_map = gog_chart_map_get_axis_map (c_map, 1);
 		gog_axis_map_get_extents (a_map, &start, &stop);
