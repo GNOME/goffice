@@ -8,8 +8,7 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    goffice/goffice/graph/gog-graph.c uses pointers as quarks.  That cannot
-    work.
+Please fix https://bugs.launchpad.net/ubuntu/+source/gtk-doc/+bug/77138
 
 Plans
 -----

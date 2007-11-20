@@ -1294,7 +1294,7 @@
 	* goffice/graph/gog-graph.c (gog_graph_finalize) : free the new
 	  data_hash.
 	(gog_graph_init) : init the data hash.
-	(gog_graph_get_data) : use the has rather than quarks.
+	(gog_graph_get_data) : use the hash rather than quarks.
 	(gog_graph_ref_data) : ditto.
 	(gog_graph_unref_data) : ditto.
 
