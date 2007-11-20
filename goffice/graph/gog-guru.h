@@ -32,8 +32,7 @@ G_BEGIN_DECLS
 /* typedef void (*GogGuruRegister) (GogGraph *graph, gpointer user); */
 
 GtkWidget *gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
-		     GOCmdContext *cc, GtkWindow *toplevel,
-		     GClosure *closure);
+		     GOCmdContext *cc, GClosure *closure);
 
 GtkWidget *gog_guru_get_help_button (GtkWidget *guru);
 

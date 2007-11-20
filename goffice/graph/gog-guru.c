@@ -1272,15 +1272,17 @@ gog_guru_get_help_button (GtkWidget *guru)
  * @graph	: the graph to edit
  * @dalloc	: The data allocator to use for editing
  * @cc		: Where to report errors
- * @toplevel	: as a parent window.
  * @closure	:
+ *
+ * CHANGED 0.5.3
+ * 	: drop the @toplevel window argument and have the callers handle
+ * 	  widget_show and set_transient
  *
  * Returns: and shows new graph guru.
  **/
 GtkWidget *
 gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
-	  GOCmdContext *cc, GtkWindow *toplevel,
-	  GClosure *closure)
+	  GOCmdContext *cc, GClosure *closure)
 {
 	int page = (graph != NULL) ? 1 : 0;
 	GraphGuruState *state;
@@ -1331,10 +1333,6 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	/* a candidate for merging into attach guru */
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) graph_guru_state_destroy);
-
-#warning for 0.5.0 remove this and have the callers set transient and handle show, then drop the toplevel arg
-	go_gtk_nonmodal_dialog (toplevel, GTK_WINDOW (state->dialog));
-	gtk_widget_show (GTK_WIDGET (state->dialog));
 
 	return state->dialog;
 }
