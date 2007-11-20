@@ -1,5 +1,9 @@
 2007-11-19  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : post release bump
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
 	* Release 0.5.3
 
 2007-08-10  Jody Goldberg <jody@gnome.org>
