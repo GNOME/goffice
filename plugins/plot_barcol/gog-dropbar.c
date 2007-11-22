@@ -116,11 +116,19 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 			x1 += .25;
 			x0 -= .25;
 		}
+		if (fabs (y1 - y0) < .5) {
+			y1 += .25;
+			y0 -= .25;
+		}
 	} else {
 		x0 = gog_axis_map_to_view (x_map, rect->x);
 		x1 = gog_axis_map_to_view (x_map, rect->x + rect->w);
 		y0 = gog_axis_map_to_view (y_map, rect->y);
 		y1 = gog_axis_map_to_view (y_map, rect->y + rect->h);
+		if (fabs (x1 - x0) < .5) {
+			x1 += .25;
+			x0 -= .25;
+		}
 		if (fabs (y1 - y0) < .5) {
 			y1 += .25;
 			y0 -= .25;
@@ -148,7 +156,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogBarColPlot const *model = GOG_BARCOL_PLOT (view->model);
 	GogPlot1_5d const *gog_1_5d_model = GOG_PLOT1_5D (view->model);
 	GogSeries1_5d const *series;
-	GogAxisMap *x_map, *y_map;
+	GogAxisMap *x_map, *y_map, *val_map;
 	GogViewAllocation work;
 	double *start_vals, *end_vals;
 	double x;
@@ -231,25 +239,25 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 			work.x = x;
 			work.y = start_vals[i];
 			work.h = end_vals[i] - work.y;
+			val_map = (model->horizontal)? x_map: y_map;
+			if (!gog_axis_map_finite (val_map, start_vals[i]) ||
+				!gog_axis_map_finite (val_map, end_vals[i]))
+				continue;
 			if (series->has_lines) {
 				if (model->horizontal) {
-					if (!gog_axis_map_finite (y_map, work.x + work.w / 2.) ||
-					    !gog_axis_map_finite (x_map, start_vals[i]) ||
-					    !gog_axis_map_finite (x_map, end_vals[i]))
-					continue;
+					if (!gog_axis_map_finite (y_map, work.x + work.w / 2.))
+						continue;
 					path1[j][k].y = path2[j][k].y =
 						gog_axis_map_to_view (y_map, work.x + work.w / 2.);
-					path1[j][k].x = gog_axis_map_to_view (x_map, start_vals[i]);
-					path2[j][k].x = gog_axis_map_to_view (x_map, end_vals[i]);
+					path1[j][k].x = gog_axis_map_to_view (val_map, start_vals[i]);
+					path2[j][k].x = gog_axis_map_to_view (val_map, end_vals[i]);
 				} else {
-					if (!gog_axis_map_finite (x_map, work.x + work.w / 2.) ||
-					    !gog_axis_map_finite (y_map, start_vals[i]) ||
-					    !gog_axis_map_finite (y_map, end_vals[i]))
-					continue;
+					if (!gog_axis_map_finite (x_map, work.x + work.w / 2.))
+						continue;
 					path1[j][k].x = path2[j][k].x =
 						gog_axis_map_to_view (x_map, work.x + work.w / 2.);
-					path1[j][k].y = gog_axis_map_to_view (y_map, start_vals[i]);
-					path2[j][k].y = gog_axis_map_to_view (y_map, end_vals[i]);
+					path1[j][k].y = gog_axis_map_to_view (val_map, start_vals[i]);
+					path2[j][k].y = gog_axis_map_to_view (val_map, end_vals[i]);
 				}
 			}
 			gog_renderer_push_style (view->renderer, (start_vals[i] <= end_vals[i])?
@@ -259,7 +267,8 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 			gog_renderer_pop_style (view->renderer);
 			k++;
 		}
-		path1[j][k].code = path2[j][k].code = ART_END;
+		if (series->has_lines)
+			path1[j][k].code = path2[j][k].code = ART_END;
 		offset += step;
 		g_object_unref (neg_style);
 		j++;

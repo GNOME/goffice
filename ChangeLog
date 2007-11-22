@@ -1,3 +1,10 @@
+2007-11-22  Jean Brefort  <jean.brefort@normalesup.org>
+	* plugins/plot_barcol/gog-dropbar.c: (barcol_draw_rect): always
+	draw a rectangle, even if very sharp,
+	(gog_dropbar_view_render): ensure that invalid data are not used. [#498846]
+	* plugins/plot_barcol/gog-minmax.c: (gog_minmax_view_render): fix
+	index initialization.
+
 2007-11-19  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

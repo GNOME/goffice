@@ -286,7 +286,7 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 	double *max_vals, *min_vals;
 	double x;
 	double step, offset;
-	unsigned i, j = 0;
+	unsigned i, j;
 	unsigned num_elements = gog_1_5d_model->num_elements;
 	unsigned num_series = gog_1_5d_model->num_series;
 	GSList *ptr;
@@ -336,6 +336,7 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 		Mpath = g_new (ArtVpath, n + 1);
 		mpath = g_new (ArtVpath, n + 1);
 		gog_renderer_push_style (view->renderer, style);
+		j = 0;
 
 		for (i = 0; i < n; i++) {
 			x++;

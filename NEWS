@@ -1,3 +1,10 @@
+goffice 0.5.4:
+
+Jean:
+	* Fix another crash in gog_barcol_view_render. [#498846]
+
+--------------------------------------------------------------------------
+
 goffice 0.5.3:
 
 Jean:
