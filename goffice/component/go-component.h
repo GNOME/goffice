@@ -23,7 +23,7 @@
 #define GO_COMPONENT_H
 
 #include <glib-object.h>
-#include <gdk/gdkwindow.h>
+#include <gtk/gtkwindow.h>
 #include <goffice/goffice.h>
 #include <goffice/app/goffice-app.h>
 
@@ -47,7 +47,7 @@ struct _GOComponent {
 struct _GOComponentClass {
 	GObjectClass parent_class;
 
-	gboolean (*edit) (GOComponent *component);
+	GtkWindow* (*edit) (GOComponent *component);
 	gboolean (*get_data) (GOComponent *component, gpointer *data, int *length,
 			      void (**clearfunc) (gpointer), gpointer *user_data);
 	void (*mime_type_set) (GOComponent* component);
@@ -84,7 +84,7 @@ gboolean go_component_get_data (GOComponent *component, gpointer *data, int *len
 void go_component_set_size (GOComponent *component, double width, double height);
 gboolean go_component_is_resizable (GOComponent *component);
 gboolean go_component_is_editable (GOComponent *component);
-gboolean go_component_edit (GOComponent *component);
+GtkWindow* go_component_edit (GOComponent *component);
 void go_component_emit_changed (GOComponent *component);
 
 void go_component_set_command_context (GOCmdContext *cc);

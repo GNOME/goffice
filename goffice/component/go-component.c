@@ -283,17 +283,16 @@ go_component_is_editable (GOComponent *component)
 	return component->editable;
 }
 
-gboolean
-go_component_edit (GOComponent *component)
+GtkWindow *go_component_edit (GOComponent *component)
 {
 	GOComponentClass *klass;
 
-	g_return_val_if_fail (IS_GO_COMPONENT (component), FALSE);
+	g_return_val_if_fail (IS_GO_COMPONENT (component), NULL);
 
 	klass = GO_COMPONENT_GET_CLASS(component);
 	if (component->editable && klass->edit)
 		return klass->edit (component);
-	return FALSE;
+	return NULL;
 }
 
 void
