@@ -312,7 +312,7 @@ Misc things to fix
 	because at each object addition/removal in object tree,
        	an object editor is created.
 
-	: Current GogGrid object is not used for grid display.	<-------->
+	: Current GogGrid object is not used for grid display.	(FIXED)
 	We should rename it to GogBackplane, GogWall or 
 	GogBackground.
 
