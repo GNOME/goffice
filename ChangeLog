@@ -1,6 +1,12 @@
-2007-11-24  Jean Brefort  <jean.brefort@normalesup.org>
+2007-11-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
-	reviewed by: <delete if not using a buddy>
+	Fix for #500017: incorrect graph printing.
+
+	* goffice/graph/gog-renderer.c (gog_renderer_render_to_cairo): don't
+	call cairo_show_page here.
+	(gog_renderer_export_image): but here.
+
+2007-11-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/component/go-component.c: (go_component_edit):
 	* goffice/component/go-component.h:
@@ -13,6 +19,7 @@
 	(path_curve_to), (path_close_path), (gog_minmax_view_render):
 
 2007-11-22  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_barcol/gog-dropbar.c: (barcol_draw_rect): always
 	draw a rectangle, even if very sharp,
 	(gog_dropbar_view_render): ensure that invalid data are not used. [#498846]

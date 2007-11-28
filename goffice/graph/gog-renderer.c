@@ -1407,8 +1407,6 @@ gog_renderer_render_to_cairo (GogRenderer *renderer, cairo_t *cairo, double widt
 	gog_view_size_allocate (renderer->view, &allocation);
 	gog_view_render	(renderer->view, NULL);
 
-	cairo_show_page (renderer->cairo);
-
 	renderer->cairo = NULL;
 
 	return cairo_status (cairo) == CAIRO_STATUS_SUCCESS;
@@ -1506,6 +1504,9 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 			cairo = cairo_create (surface);
 			cairo_surface_destroy (surface);
 			status = gog_renderer_render_to_cairo (rend, cairo, width_in_pts, height_in_pts);
+			/* This call was needed by cairo version < 1.4. It could be safely removed
+			 * once we depend on cairo 1.4 instead of 1.2. */
+			cairo_show_page (cairo);
 			cairo_destroy (cairo);
 
 			return status;
