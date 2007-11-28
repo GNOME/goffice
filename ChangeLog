@@ -8,15 +8,9 @@
 
 2007-11-24  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/component/go-component.c: (go_component_edit):
-	* goffice/component/go-component.h:
-	* goffice/graph/gog-series-lines.c: (path_move_to),
-	(path_curve_to), (path_close_path), (gog_series_lines_stroke):
-	* goffice/graph/gog-series-lines.h:
-	* plugins/plot_barcol/gog-dropbar.c: (barcol_draw_rect),
-	(gog_dropbar_view_render):
-	* plugins/plot_barcol/gog-minmax.c: (path_move_to),
-	(path_curve_to), (path_close_path), (gog_minmax_view_render):
+	* goffice/component/go-component.c: (go_component_edit): return the
+	GtkWindow* associated with the editor, so that it can be made transient.
+	* goffice/component/go-component.h: ditto.
 
 2007-11-22  Jean Brefort  <jean.brefort@normalesup.org>
 
