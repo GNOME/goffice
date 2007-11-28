@@ -503,30 +503,31 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 {
 	double value;
 	GOData *data;
+	GODataVector *vec;
 	int length;
-	
+
 	/* -1 ensures that the bar will not be displayed if the error is not a correct one.
 		With a 0 value, it might be, because of rounding errors */
-	*min = *max = -1.; 
+	*min = *max = -1.;
 
 	g_return_val_if_fail (IS_GOG_ERROR_BAR (bar), FALSE);
 	if (!gog_series_is_valid (bar->series))
 		return FALSE;
-	GODataVector *vec = GO_DATA_VECTOR (bar->series->values[bar->dim_i].data);
+	vec = GO_DATA_VECTOR (bar->series->values[bar->dim_i].data);
 	if (vec == NULL)
 		return FALSE;
 	value = go_data_vector_get_value (vec, index);
 	data = bar->series->values[bar->error_i].data;
 	length = (IS_GO_DATA (data)) ? go_data_vector_get_len (GO_DATA_VECTOR (data)) : 0;
-	
+
 	if ((bar->type == GOG_ERROR_BAR_TYPE_NONE) || isnan (value) || !go_finite (value))
 		return FALSE;
-	
-	if (length == 1) 
+
+	if (length == 1)
 		*max = go_data_vector_get_value (GO_DATA_VECTOR (data), 0);
 	else if (length > index)
 		*max = go_data_vector_get_value (GO_DATA_VECTOR (data), index);
-	
+
 	data = bar->series->values[bar->error_i + 1].data;
 	length = (IS_GO_DATA (data))? go_data_vector_get_len (GO_DATA_VECTOR (data)): 0;
 	if (length == 0)
@@ -535,14 +536,14 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 		*min = go_data_vector_get_value (GO_DATA_VECTOR (data), 0);
 	else if (length > index)
 		*min = go_data_vector_get_value (GO_DATA_VECTOR (data), index);
-	
+
 	if (isnan (*min) || !go_finite (*min) || (*min <= 0)) {
 		*min = -1.;
 	}
 	if (isnan (*max) || !go_finite (*max) || (*max <= 0)) {
 		*max = -1.;
 	}
-	
+
 	switch (bar->type)
 	{
 	case GOG_ERROR_BAR_TYPE_RELATIVE:
