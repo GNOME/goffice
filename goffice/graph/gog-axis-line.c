@@ -97,7 +97,7 @@ gog_axis_base_set_property (GObject *obj, guint param_id,
 			else
 				return;
 			resized = (position != axis_base->pos_user);
-			axis_base->pos_user = position;
+			gog_axis_base_set_position (axis_base, position);
 			break;
 		case AXIS_BASE_PROP_CROSS_AXIS_ID:
 			axis_base->crossed_axis_id = g_value_get_uint (value);
@@ -1545,9 +1545,9 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	switch (axis_base->pos_calculated) {
 	case GOG_AXIS_CROSS :
 		position = gog_axis_base_get_cross_location (axis_base);
-		if (position < minimum)
+		if (position <= minimum)
 			position = start;
-		else if (position > maximum) {
+		else if (position >= maximum) {
 			position = stop;
 			side = GO_SIDE_LEFT;
 		}

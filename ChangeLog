@@ -1,3 +1,8 @@
+2007-11-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c: (gog_axis_base_set_property): fix setting
+	axis position as string, (xy_process): use a better test.
+
 2007-11-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix for #500017: incorrect graph printing.
