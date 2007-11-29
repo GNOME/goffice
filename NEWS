@@ -6,6 +6,9 @@ Emmanuel:
 Jean:
 	* Fix another crash in gog_barcol_view_render. [#498846]
 
+Morten:
+	* Fix format problem with simplified exponential formats.  [#500393]
+
 --------------------------------------------------------------------------
 
 goffice 0.5.3:

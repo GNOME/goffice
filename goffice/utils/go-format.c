@@ -1558,6 +1558,8 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 
 		simplify_mantissa = TRUE;
 		for (i = 0; i < pstate->tno_E; i++) {
+			if (GET_TOKEN(i).token == '.')
+				break;
 			if (GET_TOKEN(i).token == '0') {
 				simplify_mantissa = FALSE;
 				break;
