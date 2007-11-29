@@ -1,3 +1,9 @@
+2007-11-29  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_inc_precision): Handle 
+	  increase of decimals also for E.
+	  Fixes add-decimals problem from #500365.
+
 2007-11-29  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_parse_number_E): Fix

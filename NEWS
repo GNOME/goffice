@@ -1,5 +1,8 @@
 goffice 0.5.4:
 
+Andreas:
+	* Fix increase of decimals for scientific notation. [#500356]
+
 Emmanuel:
 	* Fix spurious cairo_show_page call when printing charts. [#500017]
 

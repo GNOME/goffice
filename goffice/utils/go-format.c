@@ -3530,6 +3530,17 @@ go_format_inc_precision (GOFormat const *fmt)
 			break;
 		}
 
+		case 'E': 
+			if (last_zero != -2) {
+				if (last_zero>=0)
+					g_string_insert_len (res, last_zero + 1, ".0",2);
+				else
+					g_string_append (res, ".0");
+				last_zero = -2;
+			}
+			g_string_append_c (res, t);
+			break;
+			
 		case '0':
 			if (last_zero != -2)
 				last_zero = res->len;
