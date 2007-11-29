@@ -3529,7 +3529,7 @@ go_format_inc_precision (GOFormat const *fmt)
 		}
 
 		case '0':
-			if (last_zero == -1)
+			if (last_zero != -2)
 				last_zero = res->len;
 			/* Fall through.  */
 

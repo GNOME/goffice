@@ -1,3 +1,8 @@
+2007-11-28  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_inc_precision): Actually
+	find the last zero.  Fixes add-decimals problem from #434785.
+
 2007-11-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-line.c: (gog_axis_base_set_property): fix setting
