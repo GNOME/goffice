@@ -323,6 +323,7 @@ gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position)
 
 	g_return_if_fail (GOG_AXIS_BASE (axis_base) != NULL);
 
+	axis_base->pos_user = position;
 	if (position == GOG_AXIS_AUTO) {
 		if (IS_GOG_AXIS (axis_base))
 			axis = GOG_AXIS (axis_base);
