@@ -12,8 +12,6 @@ Please fix https://bugs.launchpad.net/ubuntu/+source/gtk-doc/+bug/77138
 
 Plans
 -----
-    0) Move gnome depends into a plugin
-	0.1) egg-recent-files
     1) Format and number match rewrite
 	: When applying a currency symbol we need to store the NON-localized id.
 	: hour month and year format strings need to be internationalized.
@@ -332,3 +330,5 @@ Ideas
       allows for grouping / filtering
 
     - filter/group routines from autofilter into goffice for charts and pivots
+    - concentric ring plots that aggregate inwards and optionally fold outer
+      rings/segments.
