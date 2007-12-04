@@ -1,3 +1,8 @@
+2007-12-04  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-pango-extras.c: New file with a few
+	generally-useful functions from Gnumeric.
+
 2007-12-03  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump.  Last before 0.6
