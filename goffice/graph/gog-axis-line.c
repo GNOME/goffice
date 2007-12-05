@@ -47,6 +47,8 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
+static double gog_axis_base_get_cross_location (GogAxisBase *axis_base);
+
 static GogViewClass *gab_view_parent_klass;
 static GObjectClass *gab_parent_klass;
 
@@ -65,8 +67,6 @@ enum {
 	AXIS_BASE_PROP_CROSS_LOCATION,
 	AXIS_BASE_PROP_PADDING_PTS
 };
-
-static double gog_axis_base_get_cross_location (GogAxisBase *axis_base);
 
 static void
 gog_axis_base_set_property (GObject *obj, guint param_id,
@@ -363,6 +363,38 @@ gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position)
 	}
 
 	axis_base->position = position;
+}
+
+GogAxisPosition
+gog_axis_base_get_clamped_position (GogAxisBase *axis_base)
+{
+	GogAxisPosition axis_pos;
+
+	g_return_val_if_fail (IS_GOG_AXIS_BASE (axis_base), GOG_AXIS_AT_LOW);
+
+	axis_pos = axis_base->position;
+	if (axis_pos == GOG_AXIS_CROSS) {
+		GogAxis *cross_axis;
+		GogAxis *bound_axis;
+		double cross_location;
+		double minimum, maximum;
+
+		if (IS_GOG_AXIS (axis_base))
+			bound_axis = GOG_AXIS (axis_base);
+		else
+			bound_axis = GOG_AXIS (gog_object_get_parent (GOG_OBJECT (axis_base)));
+
+		cross_axis = gog_axis_base_get_crossed_axis (axis_base);
+		cross_location = gog_axis_base_get_cross_location (axis_base);
+		if (gog_axis_get_bounds (bound_axis, &minimum, &maximum)) {
+			if (cross_location <= minimum)
+				axis_pos = gog_axis_is_inverted (bound_axis) ? GOG_AXIS_AT_HIGH : GOG_AXIS_AT_LOW;
+			else if (cross_location >= maximum)
+				axis_pos = gog_axis_is_inverted (bound_axis) ? GOG_AXIS_AT_LOW : GOG_AXIS_AT_HIGH;
+		}
+	}
+
+	return axis_pos;
 }
 
 #ifdef GOFFICE_WITH_GTK
@@ -1549,15 +1581,9 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	gog_axis_map_get_extents (a_map, &start, &stop);
 	gog_axis_map_get_bounds (a_map, &minimum, &maximum);
 	side = GO_SIDE_RIGHT;
-	switch (axis_base->position) {
+	switch (gog_axis_base_get_clamped_position (axis_base)) {
 		case GOG_AXIS_CROSS :
 			position = gog_axis_base_get_cross_location (axis_base);
-			if (position <= minimum)
-				position = start;
-			else if (position >= maximum) {
-				position = stop;
-				side = GO_SIDE_LEFT;
-			}
 			break;
 		case GOG_AXIS_AT_LOW :
 			position = start;

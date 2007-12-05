@@ -1,5 +1,16 @@
 2007-12-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Clamp the axis position to the edges of the graph and place the axis
+	label near to the axis.
+
+	* goffice/graph/gog-axis-line.c (gog_axis_base_get_clamped_position):
+	new. Handle inverted axes.
+	(xy_process): use gog_axis_base_get_clamped_position.
+	* goffice/graph/gog-axis.c (gog_axis_view_padding_request): ditto.
+	(gog_axis_view_size_allocate): ditto.
+
+2007-12-04  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Revert axis label positioning to previous behaviour for the GOG_AXIS_CROSS
 	case (and be it the same as for the GOG_AXIS_LOW case).
 

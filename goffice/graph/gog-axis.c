@@ -2245,7 +2245,7 @@ gog_axis_view_padding_request (GogView *view,
 
 	label_padding.wr = label_padding.wl = label_padding.ht = label_padding.hb = 0;
 
-	axis_pos = GOG_AXIS_BASE (axis)->position;
+	axis_pos = gog_axis_base_get_clamped_position (GOG_AXIS_BASE (axis));
 
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
@@ -2320,7 +2320,7 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	available.w = bbox->w;
 	available.h = bbox->h;
 
-	axis_pos = GOG_AXIS_BASE (axis)->position;
+	axis_pos = gog_axis_base_get_clamped_position (GOG_AXIS_BASE (axis));
 
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;

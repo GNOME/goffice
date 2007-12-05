@@ -59,8 +59,9 @@ typedef GogStyledObjectClass GogAxisBaseClass;
 
 GType gog_axis_base_get_type (void);
 
-GogAxisPosition 	gog_axis_base_get_position (GogAxisBase *axis_base);
-void		    	gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position);
+GogAxisPosition 	gog_axis_base_get_position 	   (GogAxisBase *axis_base);
+void		    	gog_axis_base_set_position 	   (GogAxisBase *axis_base, GogAxisPosition position);
+GogAxisPosition 	gog_axis_base_get_clamped_position (GogAxisBase *axis_base);
 
 typedef struct {
 	GogView		base;
