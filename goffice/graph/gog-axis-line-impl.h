@@ -41,13 +41,12 @@ typedef struct {
 	GogChart	*chart;
 	GogAxis		*axis;
 
-	GogAxisPosition    pos_user;		/* user assigned preference */
-	GogAxisPosition    pos_calculated;	/* actual position, with current AxisSet */
+	GogAxisPosition    position;
 	unsigned 	   crossed_axis_id;
 	GogDatasetElement  cross_location;
-	
+
 	int		   padding;
-	
+
 	GogAxisTickProperties major, minor;
 	gboolean major_tick_labeled;
 } GogAxisBase;

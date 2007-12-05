@@ -1,5 +1,24 @@
 2007-12-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Don't try to distinguish between user axis position and calculated
+	axis position.
+
+	* goffice/graph/gog-axis-line.c (gog_axis_base_set_property): here.
+	(gog_axis_base_get_property): here.
+	(gog_axis_base_set_position): here.
+	(cb_position_toggled): here.
+	(gog_axis_base_populate_editor): here.
+	(gog_axis_base_init): here.
+	(gog_axis_base_get_position): here.
+	(gog_axis_base_get_padding): here.
+	(xy_process): here.
+	(radar_process): here.
+	(gog_axis_view_padding_request): here.
+	(gog_axis_view_size_allocate): and here.
+	(gog_axis_base_class_init): GOG_AXIS_AUTO is not a valid serializable position.
+
+2007-12-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Fix for #501119 – Misplacing of high Y axis label
 
 	* goffice/graph/gog-axis.c (gog_axis_view_size_allocate): add missing
