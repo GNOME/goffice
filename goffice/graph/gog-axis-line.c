@@ -375,22 +375,16 @@ gog_axis_base_get_clamped_position (GogAxisBase *axis_base)
 	axis_pos = axis_base->position;
 	if (axis_pos == GOG_AXIS_CROSS) {
 		GogAxis *cross_axis;
-		GogAxis *bound_axis;
 		double cross_location;
 		double minimum, maximum;
 
-		if (IS_GOG_AXIS (axis_base))
-			bound_axis = GOG_AXIS (axis_base);
-		else
-			bound_axis = GOG_AXIS (gog_object_get_parent (GOG_OBJECT (axis_base)));
-
 		cross_axis = gog_axis_base_get_crossed_axis (axis_base);
 		cross_location = gog_axis_base_get_cross_location (axis_base);
-		if (gog_axis_get_bounds (bound_axis, &minimum, &maximum)) {
-			if (cross_location <= minimum)
-				axis_pos = gog_axis_is_inverted (bound_axis) ? GOG_AXIS_AT_HIGH : GOG_AXIS_AT_LOW;
-			else if (cross_location >= maximum)
-				axis_pos = gog_axis_is_inverted (bound_axis) ? GOG_AXIS_AT_LOW : GOG_AXIS_AT_HIGH;
+		if (gog_axis_get_bounds (cross_axis, &minimum, &maximum)) {
+			if (go_sub_epsilon (cross_location - minimum) <= 0.0)
+				axis_pos = gog_axis_is_inverted (cross_axis) ? GOG_AXIS_AT_HIGH : GOG_AXIS_AT_LOW;
+			else if (go_add_epsilon (cross_location - maximum) >= 0.0)
+				axis_pos = gog_axis_is_inverted (cross_axis) ? GOG_AXIS_AT_LOW : GOG_AXIS_AT_HIGH;
 		}
 	}
 

@@ -1,5 +1,10 @@
 2007-12-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* goffice/graph/gog-axis-line.c (gog_axis_base_get_clamped_position):
+	the bound axis is the crossed axis.
+
+2007-12-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Fix for #501831 – Spreadsheet crashes when I change title of graph
 
 	* goffice/graph/gog-child-button.c (gog_child_button_build_additions):
