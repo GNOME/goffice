@@ -2254,18 +2254,25 @@ gog_axis_view_padding_request (GogView *view,
 			available.w = bbox->w;
 			available.h = bbox->h;
 			gog_view_size_request (child, &available, &req);
-			if (type == GOG_AXIS_X) 
+			if (type == GOG_AXIS_X)
 				switch (axis_pos) {
-				case GOG_AXIS_AT_HIGH : label_padding.ht += req.h + pad_h; break;
-				case GOG_AXIS_AT_LOW  : label_padding.hb += req.h + pad_h; break;
-				default :
-					break;
+					case GOG_AXIS_AT_HIGH:
+						label_padding.ht += req.h + pad_h;
+						break;
+					case GOG_AXIS_AT_LOW:
+					default:
+						label_padding.hb += req.h + pad_h;
+						break;
 				}
-			else  
+			else
 				switch (axis_pos) {
-				case GOG_AXIS_AT_HIGH : label_padding.wr += req.w + pad_w; break;
-				case GOG_AXIS_AT_LOW  : label_padding.wl += req.w + pad_w; break;
-				default : break;
+					case GOG_AXIS_AT_HIGH:
+						label_padding.wr += req.w + pad_w;
+						break;
+					case GOG_AXIS_AT_LOW:
+					default:
+						label_padding.wl += req.w + pad_w;
+						break;
 				}
 		}
 	}
@@ -2333,15 +2340,14 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 						child_bbox.w = req.w;
 						child_bbox.h = req.h;
 						switch (axis_pos) {
-							case GOG_AXIS_AT_LOW:
-								child_bbox.y = tmp.y + tmp.h - req.h;
-								break;
 							case GOG_AXIS_AT_HIGH:
 								child_bbox.y = tmp.y;
 								tmp.y += req.h + pad_h;
 								break;
+							case GOG_AXIS_AT_LOW:
 							default:
-							       break;
+								child_bbox.y = tmp.y + tmp.h - req.h;
+								break;
 						}
 						tmp.h -= req.h + pad_h;
 					} else {
@@ -2350,14 +2356,13 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 						child_bbox.h = req.h;
 						child_bbox.w = req.w;
 						switch (axis_pos) {
-							case GOG_AXIS_AT_LOW:
-								child_bbox.x = tmp.x;
-								tmp.x += req.w + pad_w;
-								break;
 							case GOG_AXIS_AT_HIGH:
 								child_bbox.x = tmp.x + tmp.w - req.w;
 								break;
+							case GOG_AXIS_AT_LOW:
 							default:
+								child_bbox.x = tmp.x;
+								tmp.x += req.w + pad_w;
 								break;
 						}
 						tmp.w -= req.w + pad_w;
