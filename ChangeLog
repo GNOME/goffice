@@ -1,3 +1,10 @@
+2007-12-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix for #501119 – Misplacing of high Y axis label
+
+	* goffice/graph/gog-axis.c (gog_axis_view_size_allocate): add missing
+	break.
+
 2007-12-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-line.c: (gog_axis_base_populate_editor),
