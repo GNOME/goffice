@@ -3,6 +3,12 @@ goffice 0.5.5:
 Morten:
 	* Import Pango enhancements from Gnumeric.
 
+Emmanuel:
+	* Fix a crash when selecting a graph title. [#501831]
+	* Fix axis label position. [#501000]
+	* Handle inverted axis when clamping axis position.
+	* Fix axis position warnings.
+
 --------------------------------------------------------------------------
 
 goffice 0.5.4:
