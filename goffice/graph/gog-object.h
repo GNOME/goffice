@@ -170,6 +170,7 @@ void		  gog_object_can_reorder (GogObject const *obj,
 GogObject	 *gog_object_reorder	 (GogObject const *obj,
 					  gboolean inc, gboolean goto_max);
 
+#define	  gog_object_is_visible(obj) (!((GogObject*)obj)->invisible)
 void		  gog_object_set_invisible	       (GogObject *obj, gboolean invisible);
 GogObjectPosition gog_object_get_position_flags	       (GogObject const *obj, GogObjectPosition mask);
 gboolean          gog_object_set_position_flags        (GogObject *obj, GogObjectPosition flags, 

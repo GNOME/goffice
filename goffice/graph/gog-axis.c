@@ -1707,7 +1707,7 @@ gog_axis_populate_editor (GogObject *gobj,
 			     glade_xml_get_widget (gui, "axis_pref_box"),
 			     _("Scale"));
 
-	if (gog_axis_get_atype (axis) < GOG_AXIS_VIRTUAL) {
+	if (gog_object_is_visible (axis) && gog_axis_get_atype (axis) < GOG_AXIS_VIRTUAL) {
 	    /* Style page */
 	    (GOG_OBJECT_CLASS(parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 

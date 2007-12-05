@@ -1,3 +1,12 @@
+2007-12-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c: (gog_axis_base_populate_editor),
+	(xy_process), (radar_process): hide property pages for invisible axis
+	and don't take into account for size allocation.
+	* goffice/graph/gog-axis.c: (gog_axis_populate_editor): hide property
+	pages for invisible axis
+	* goffice/graph/gog-object.h: add a gog_object_is_visible macro.
+
 2007-12-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-pango-extras.c: New file with a few

@@ -494,6 +494,8 @@ gog_axis_base_populate_editor (GogObject *gobj,
 
 	axis_base = GOG_AXIS_BASE (gobj);
 	g_return_if_fail (GOG_AXIS_BASE (axis_base) != NULL);
+	if (!gog_object_is_visible (axis_base->axis))
+		return;
 
 	gog_editor_set_store_page (editor, &axis_base_pref_page);
 
@@ -1524,12 +1526,14 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	GogViewAllocation axis_line_bbox;
 	double ax, ay, bx, by;
 	GogAxisType axis_type = gog_axis_get_atype (axis_base->axis);
-	double position;
+	double position = 0.;
 	double minimum, maximum, start, stop;
 	GOGeometrySide side;
 
 	g_return_val_if_fail (axis_type == GOG_AXIS_X ||
 			      axis_type == GOG_AXIS_Y, FALSE);
+	if (!gog_object_is_visible (axis_base->axis))
+		return FALSE;
 
 	cross_axis = gog_axis_base_get_crossed_axis (axis_base);
 	if (axis_type == GOG_AXIS_X) {
@@ -1559,6 +1563,10 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	case GOG_AXIS_AT_HIGH :
 		position = stop;
 		side     = GO_SIDE_LEFT;
+		break;
+	case GOG_AXIS_AUTO:
+		/* should not occur, just there to make gcc happy */
+		break;
 	}
 
 	if (axis_type == GOG_AXIS_X) {
@@ -1624,6 +1632,8 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 
 	g_return_val_if_fail (axis_type == GOG_AXIS_CIRCULAR ||
 			      axis_type == GOG_AXIS_RADIAL, FALSE);
+	if (!gog_object_is_visible (axis_base->axis))
+		return FALSE;
 
 	cross_axis = gog_axis_base_get_crossed_axis (axis_base);
 
