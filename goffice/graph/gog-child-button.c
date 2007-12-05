@@ -221,16 +221,20 @@ gog_child_button_build_additions (GogChildButton *child_button)
 	closure.additions = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
 	closure.child_button = child_button;
 
-	if (IS_GOG_GRAPH (child_button->object))
-		start_object = child_button->object;
-	else for (start_object = child_button->object;
-		  !IS_GOG_CHART (start_object) && start_object != NULL;
+	for (start_object = child_button->object;
+		  !IS_GOG_CHART (start_object) &&
+		  !IS_GOG_GRAPH (start_object) &&
+		  start_object != NULL;
 		  start_object = start_object->parent);
 
-	build_addition_process_childs (start_object, &closure);
+	if (start_object != NULL) {
+		build_addition_process_childs (start_object, &closure);
 
-	g_hash_table_foreach (closure.additions, (GHFunc) build_addition_foreach, &child_button->additions);
-	child_button->additions = g_slist_sort (child_button->additions, addition_compare);
+		g_hash_table_foreach (closure.additions,
+				      (GHFunc) build_addition_foreach,
+				      &child_button->additions);
+		child_button->additions = g_slist_sort (child_button->additions, addition_compare);
+	}
 
 	g_hash_table_unref (closure.additions);
 }

@@ -1,5 +1,12 @@
 2007-12-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Fix for #501831 – Spreadsheet crashes when I change title of graph
+
+	* goffice/graph/gog-child-button.c (gog_child_button_build_additions):
+	fix search of the parent object.
+
+2007-12-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Clamp the axis position to the edges of the graph and place the axis
 	label near to the axis.
 
