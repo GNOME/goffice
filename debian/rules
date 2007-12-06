@@ -95,7 +95,7 @@ configure-stamp:
 
 	rm -rf build && mkdir build
 	rm -f goffice/goffice-paths.h
-	cd build && env "CFLAGS=$(CFLAGS)" "LDFLAGS=$(LDFLAGS)" ../configure $(confflags)
+	cd build && env "CC=$(CC) $(LDFLAGS)" ../configure $(confflags)
 
 	touch configure-stamp
 

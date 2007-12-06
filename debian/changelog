@@ -1,3 +1,11 @@
+goffice (0.5.4-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/rules] Changed the way LDFLAGS is passed so -Wl,--as-needed has
+    much greater effect.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 05 Dec 2007 23:05:33 +0100
+
 goffice (0.5.3-1) unstable; urgency=low
 
   * New upstream release.
