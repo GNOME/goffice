@@ -1,3 +1,10 @@
+2007-12-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix selection rectangle style.
+
+	* goffice/graph/gog-rendere.c (gog_renderer_draw_selection_rectangle):
+	here.
+
 2007-12-05  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-axis-line.c (gog_axis_base_get_clamped_position):

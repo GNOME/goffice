@@ -933,11 +933,11 @@ gog_renderer_draw_selection_rectangle (GogRenderer *renderer, GogViewAllocation 
 		GogStyle *style;
 
 		style = gog_style_new ();
-		style->line.dash_type = GO_LINE_DOT;
-		style->line.width = 0.0;
-		style->line.color = 0x0000ffB0;
+		style->outline.dash_type = GO_LINE_DOT;
+		style->outline.width = 0.0;
+		style->outline.color = 0x0000ffB0;
 		style->fill.type = GOG_FILL_STYLE_NONE;
-		style->interesting_fields = GOG_STYLE_LINE;
+		style->interesting_fields = GOG_STYLE_OUTLINE;
 
 		renderer->selection_style = style;
 	}
