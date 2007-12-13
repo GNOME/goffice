@@ -1,3 +1,8 @@
+2007-12-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-style.h: renamed GogLineStyle::pattern to
+	pattern_unimplemented_yet to avoid confusion.
+
 2007-12-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix selection rectangle style.

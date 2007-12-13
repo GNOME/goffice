@@ -76,7 +76,8 @@ typedef struct {
 	gboolean	 auto_dash;
 	GOColor	 	 color;
 	gboolean 	 auto_color;
-	unsigned 	 pattern; /* TODO border type from gnumeric */
+	unsigned	 pattern_unimplemented_yet /* TODO: implement. Not used
+				and must not be used before implementation */
 } GogStyleLine;
 
 typedef struct {
