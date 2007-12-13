@@ -252,7 +252,7 @@ go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 		cairo_surface_destroy (cr_surface);
 #endif
 	} else {
-		unsigned int stride, i, j;
+		unsigned int stride, i, j, t;
 		unsigned char *iter;
 		guint8 const *pattern_data;
 
@@ -262,14 +262,16 @@ go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 		stride = cairo_image_surface_get_stride (cr_surface);
 		iter = cairo_image_surface_get_data (cr_surface);
 
+#define MULT(d,c,a,t) G_STMT_START { t = c * a + 0x7f; d = ((t >> 8) + t) >> 8; } G_STMT_END
+
 		if (iter != NULL) {
 			for (i = 0; i < 8; i++) {
 				for (j = 0; j < 8; j++) {
 					color = pattern_data[i] & (1 << j) ? pattern->fore : pattern->back;
-					iter[0] = UINT_RGBA_B (color);
-					iter[1] = UINT_RGBA_G (color);
-					iter[2] = UINT_RGBA_R (color);
 					iter[3] = UINT_RGBA_A (color);
+					MULT (iter[0], UINT_RGBA_B (color), iter[3], t);
+					MULT (iter[1], UINT_RGBA_G (color), iter[3], t);
+					MULT (iter[2], UINT_RGBA_R (color), iter[3], t);
 					iter += 4;
 				}
 				iter += stride - 32;

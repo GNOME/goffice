@@ -1,3 +1,10 @@
+2007-12-13  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix pattern with semi-transparent colors. 
+
+	* goffice/utils/go-pattern (go_pattern_create_cairo_pattern): cairo uses
+	premultiplied color components.
+
 2007-12-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-style.h: renamed GogLineStyle::pattern to
