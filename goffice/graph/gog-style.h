@@ -76,7 +76,7 @@ typedef struct {
 	gboolean	 auto_dash;
 	GOColor	 	 color;
 	gboolean 	 auto_color;
-	unsigned	 pattern_unimplemented_yet /* TODO: implement. Not used
+	unsigned	 pattern_unimplemented_yet; /* TODO: implement. Not used
 				and must not be used before implementation */
 } GogStyleLine;
 
