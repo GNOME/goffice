@@ -13,12 +13,12 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: goffice.HEAD.es\n"
+"Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-04 02:24+0000\n"
-"PO-Revision-Date: 2007-11-21 22:14+0100\n"
+"POT-Creation-Date: 2007-11-21 21:15+0000\n"
+"PO-Revision-Date: 2007-12-16 13:59+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Spanish <traductores@es.gnome.org>\n"
+"Language-Team: Spanish <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -77,21 +77,13 @@ msgstr "Ámbito"
 msgid "How much of a document is saved"
 msgstr "Cuánto se guarda de un documento"
 
-#: ../goffice/app/file.c:735
-msgid "Quoted string not terminated"
-msgstr ""
-
-#: ../goffice/app/file.c:742
-msgid "Syntax error"
-msgstr ""
-
-#: ../goffice/app/file.c:784
+#: ../goffice/app/file.c:682
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 "Por seguridad, se ha deshabilitado la opción de guardar sobre un archivo "
 "antiguo de este tipo."
 
-#: ../goffice/app/file.c:794
+#: ../goffice/app/file.c:692
 msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Puede desactivar esta característica en forma segura, editando el archivo "
@@ -223,7 +215,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "La función de limpieza interna del complemento ha devuelto un error."
 
 #: ../goffice/app/go-plugin-service.c:168 ../goffice/gtk/go-format-sel.c:68
-#: ../goffice/utils/go-format.c:3276 ../goffice/utils/go-format.c:3412
+#: ../goffice/utils/go-format.c:3285 ../goffice/utils/go-format.c:3421
 msgid "General"
 msgstr "General"
 
@@ -1063,7 +1055,9 @@ msgstr "Formato XL asignado"
 
 #: ../goffice/graph/gog-axis.c:1798
 msgid "The user assigned format to use for non-discrete axis labels (XL format)"
-msgstr "El formato asignado por el usuario que usar para las etiquetas no discretas de los ejes (formato XL)"
+msgstr ""
+"El formato asignado por el usuario que usar para las etiquetas no discretas "
+"de los ejes (formato XL)"
 
 #: ../goffice/graph/gog-axis.c:1803 ../goffice/graph/gog-axis.c:1804
 msgid "Rotation of circular axis"
@@ -1166,13 +1160,13 @@ msgid "Width"
 msgstr "Anchura"
 
 #: ../goffice/graph/gog-control-foocanvas.c:249
-#: ../goffice/graph/gog-renderer.c:1712 ../goffice/graph/gog-view.c:597
+#: ../goffice/graph/gog-renderer.c:1722 ../goffice/graph/gog-view.c:597
 msgid "Model"
 msgstr "Modelo"
 
 #: ../goffice/graph/gog-control-foocanvas.c:250
 msgid "The GogObject this object displays"
-msgstr ""
+msgstr "El GogObject que muestra este objeto"
 
 #: ../goffice/graph/gog-control-foocanvas.c:255
 #: ../goffice/graph/gog-graph.c:829
@@ -1180,9 +1174,8 @@ msgid "Renderer"
 msgstr "Renderizador"
 
 #: ../goffice/graph/gog-control-foocanvas.c:256
-#, fuzzy
 msgid "The GogRenderer being displayed"
-msgstr "Barra de error negativa mostrada"
+msgstr "El GogRenderer que se está mostrando"
 
 #: ../goffice/graph/gog-error-bar-prefs.glade.h:1
 msgid "(+)"
@@ -1311,7 +1304,7 @@ msgstr "el renderizador para esta vista"
 
 #: ../goffice/graph/gog-grid-line.c:128
 msgid "Is-minor"
-msgstr ""
+msgstr "Es-menor"
 
 #: ../goffice/graph/gog-grid-line.c:129
 msgid "Are these minor grid lines"
@@ -1322,9 +1315,8 @@ msgid "<b>Description</b>"
 msgstr "<b>Descripción</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:2
-#, fuzzy
 msgid "<b>_Plot type</b>"
-msgstr "<b>Patrón</b>"
+msgstr ""
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:3
 msgid "<b>_Subtype</b>"
@@ -1334,37 +1326,37 @@ msgstr "<b>_Subtipo</b>"
 msgid "Show sample"
 msgstr "Mostrar ejemplo"
 
-#: ../goffice/graph/gog-guru.c:966 ../goffice/graph/gog-series.c:465
+#: ../goffice/graph/gog-guru.c:991 ../goffice/graph/gog-series.c:465
 msgid "Name"
 msgstr "Nombre"
 
-#: ../goffice/graph/gog-guru.c:993
+#: ../goffice/graph/gog-guru.c:1018
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Paso 1 de 2: Seleccione el tipo de diagrama"
 
-#: ../goffice/graph/gog-guru.c:1001
+#: ../goffice/graph/gog-guru.c:1026
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Paso 2 de 2: Personalice su diagrama"
 
-#: ../goffice/graph/gog-guru.c:1006
+#: ../goffice/graph/gog-guru.c:1031
 msgid "Customize Chart"
 msgstr "Personalizar diagrama"
 
-#: ../goffice/graph/gog-guru.c:1082
+#: ../goffice/graph/gog-guru.c:1107
 msgid "_Insert"
 msgstr "_Insertar"
 
-#: ../goffice/graph/gog-guru.c:1144
+#: ../goffice/graph/gog-guru.c:1169
 msgid "_Plot Type"
 msgstr "Tipo de _gráfico"
 
 #: ../goffice/graph/gog-label.c:143
 msgid "Allow markup"
-msgstr ""
+msgstr "Permitir marcado"
 
 #: ../goffice/graph/gog-label.c:144
 msgid "Support basic html-ish markup"
-msgstr ""
+msgstr "Soporte de marcado HTML básico"
 
 #: ../goffice/graph/gog-label.c:202
 msgid "_Text:"
@@ -1375,7 +1367,7 @@ msgid "Data"
 msgstr "Datos"
 
 #: ../goffice/graph/gog-label.c:363 ../goffice/graph/gog-reg-curve.c:89
-#: ../plugins/plot_xy/gog-xy.c:1538
+#: ../plugins/plot_xy/gog-xy.c:1539
 msgid "Details"
 msgstr "Detalles"
 
@@ -1384,21 +1376,20 @@ msgid "Regression Equation"
 msgstr ""
 
 #: ../goffice/graph/gog-label.c:421
-#, fuzzy
 msgid "Show equation"
-msgstr "Fracción"
+msgstr "Mostrar ecuación"
 
 #: ../goffice/graph/gog-label.c:422
 msgid "Show the equation on the graph"
-msgstr ""
+msgstr "Mostrar la ecuación en el gráfico"
 
 #: ../goffice/graph/gog-label.c:427
 msgid "Show coefficient"
-msgstr ""
+msgstr "Mostrar el coeficiente"
 
 #: ../goffice/graph/gog-label.c:428
 msgid "Show the correlation coefficient on the graph"
-msgstr ""
+msgstr "Mostrar el coeficiente de correlación en el gráfico"
 
 #: ../goffice/graph/gog-legend.c:206
 msgid "Swatch Size pts"
@@ -1430,40 +1421,36 @@ msgstr "%"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:3
 msgid "Anchor:"
-msgstr ""
+msgstr "Anclaje:"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:4
 #: ../goffice/graph/gog-plot-prefs.glade.h:3
-#, fuzzy
 msgid ""
 "Automatic\n"
 "Manual"
-msgstr "Automático"
+msgstr ""
+"Automático\n"
+"Manual"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:6
-#, fuzzy
 msgid "GogObjectPrefs"
-msgstr "Objetivo"
+msgstr "GogObjectPrefs"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:7
-#, fuzzy
 msgid "_Alignment:"
 msgstr "_Alineación:"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:8
 #: ../goffice/graph/gog-plot-prefs.glade.h:6
-#, fuzzy
 msgid "_Height:"
 msgstr "A_ltura:"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:9
 #: ../goffice/graph/gog-plot-prefs.glade.h:7
-#, fuzzy
 msgid "_Object position:"
-msgstr "_Dirección:"
+msgstr "Posición del _objeto:"
 
 #: ../goffice/graph/gog-object-prefs.glade.h:10
-#, fuzzy
 msgid "_Position:"
 msgstr "_Posición:"
 
@@ -1484,17 +1471,16 @@ msgstr "Superior"
 
 #: ../goffice/graph/gog-object.c:219 ../goffice/graph/gog-object.c:238
 msgid "Top right"
-msgstr ""
+msgstr "Arriba del todo"
 
 #: ../goffice/graph/gog-object.c:220 ../goffice/graph/gog-object.c:241
 #: ../goffice/graph/gog-series.c:60
-#, fuzzy
 msgid "Right"
 msgstr "Derecha"
 
 #: ../goffice/graph/gog-object.c:221 ../goffice/graph/gog-object.c:244
 msgid "Bottom right"
-msgstr ""
+msgstr "Abajo a la derecha"
 
 #: ../goffice/graph/gog-object.c:222 ../goffice/graph/gog-object.c:243
 #: ../goffice/graph/gog-series.c:57
@@ -1503,7 +1489,7 @@ msgstr "Abajo"
 
 #: ../goffice/graph/gog-object.c:223 ../goffice/graph/gog-object.c:242
 msgid "Bottom left"
-msgstr ""
+msgstr "Abajo a la izquierda"
 
 #: ../goffice/graph/gog-object.c:224 ../goffice/graph/gog-object.c:239
 #: ../goffice/graph/gog-series.c:58
@@ -1512,45 +1498,40 @@ msgstr "Izquierda"
 
 #: ../goffice/graph/gog-object.c:225 ../goffice/graph/gog-object.c:236
 msgid "Top left"
-msgstr ""
+msgstr "A la derecha del todo"
 
 #: ../goffice/graph/gog-object.c:229
 msgid "Fill"
 msgstr "Relleno"
 
 #: ../goffice/graph/gog-object.c:230 ../plugins/plot_barcol/gog-dropbar.c:60
-#, fuzzy
 msgid "Start"
-msgstr "Iniciar"
+msgstr "Inicio"
 
 #: ../goffice/graph/gog-object.c:231 ../plugins/plot_barcol/gog-dropbar.c:62
-#, fuzzy
 msgid "End"
-msgstr "Fin"
+msgstr "Final"
 
 #: ../goffice/graph/gog-object.c:232 ../goffice/graph/gog-object.c:240
 #: ../goffice/graph/gog-series.c:62
-#, fuzzy
 msgid "Center"
 msgstr "Centro"
 
 #: ../goffice/graph/gog-object.c:703 ../goffice/graph/gog-object.c:748
-#, fuzzy
 msgid "Position"
 msgstr "Posición"
 
 #: ../goffice/graph/gog-object.c:742
-#, fuzzy
 msgid "Object ID"
-msgstr "Objetivo"
+msgstr "ID del objeto"
 
 #: ../goffice/graph/gog-object.c:743
 msgid "Object numerical ID"
-msgstr ""
+msgstr "ID numérico del objeto"
 
 #: ../goffice/graph/gog-object.c:749
 msgid "Position and size of object, in percentage of parent size"
-msgstr ""
+msgstr "Posición y tamaño del objeto, en porcentaje del tamaño del padre"
 
 #: ../goffice/graph/gog-object.c:754
 #, fuzzy
@@ -1568,7 +1549,7 @@ msgstr "Alineación"
 
 #: ../goffice/graph/gog-object.c:766 ../goffice/graph/gog-object.c:767
 msgid "Is position manual"
-msgstr ""
+msgstr "La posición es manual"
 
 #: ../goffice/graph/gog-object.c:772
 msgid "Anchor"
@@ -1576,7 +1557,7 @@ msgstr "Anclaje"
 
 #: ../goffice/graph/gog-object.c:773
 msgid "Anchor for manual position"
-msgstr ""
+msgstr "Anclaje para la posición manual"
 
 #: ../goffice/graph/gog-object.c:778 ../goffice/graph/gog-object.c:779
 msgid "Should the object be hidden"
@@ -1754,15 +1735,15 @@ msgstr ""
 msgid "Display _regression coefficient R²"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1713
+#: ../goffice/graph/gog-renderer.c:1723
 msgid "The GogGraph this renderer displays"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1718
+#: ../goffice/graph/gog-renderer.c:1728
 msgid "View"
 msgstr "Ver"
 
-#: ../goffice/graph/gog-renderer.c:1719
+#: ../goffice/graph/gog-renderer.c:1729
 msgid "the GogView this renderer is displaying"
 msgstr ""
 
@@ -2443,15 +2424,15 @@ msgstr "Occidental (MacRoman)"
 msgid "Western (Windows-1252)"
 msgstr "Occidental (Windows-1252)"
 
-#: ../goffice/gtk/go-charmap-sel.c:419
+#: ../goffice/gtk/go-charmap-sel.c:418
 msgid "Locale: "
 msgstr "Localización: "
 
-#: ../goffice/gtk/go-charmap-sel.c:459
+#: ../goffice/gtk/go-charmap-sel.c:458
 msgid "Conversion Direction"
 msgstr "Dirección de conversión"
 
-#: ../goffice/gtk/go-charmap-sel.c:460
+#: ../goffice/gtk/go-charmap-sel.c:459
 msgid "This value determines which iconv test to perform."
 msgstr "Esta variable determina qué test de iconv realizar."
 
@@ -4292,44 +4273,44 @@ msgstr ""
 msgid "remote"
 msgstr ""
 
-#: ../goffice/utils/go-format.c:436
+#: ../goffice/utils/go-format.c:437
 msgid "Black"
 msgstr "Negro"
 
-#: ../goffice/utils/go-format.c:437
+#: ../goffice/utils/go-format.c:438
 msgid "Blue"
 msgstr "Azul"
 
-#: ../goffice/utils/go-format.c:438
+#: ../goffice/utils/go-format.c:439
 msgid "Cyan"
 msgstr "Océano"
 
-#: ../goffice/utils/go-format.c:439
+#: ../goffice/utils/go-format.c:440
 msgid "Green"
 msgstr "Verde"
 
-#: ../goffice/utils/go-format.c:440
+#: ../goffice/utils/go-format.c:441
 msgid "Magenta"
 msgstr "Rosa"
 
-#: ../goffice/utils/go-format.c:441
+#: ../goffice/utils/go-format.c:442
 msgid "Red"
 msgstr "Rojo"
 
-#: ../goffice/utils/go-format.c:442
+#: ../goffice/utils/go-format.c:443
 msgid "White"
 msgstr "Blanco"
 
-#: ../goffice/utils/go-format.c:443
+#: ../goffice/utils/go-format.c:444
 msgid "Yellow"
 msgstr "Amarillo"
 
-#: ../goffice/utils/go-format.c:3320
+#: ../goffice/utils/go-format.c:3329
 #, fuzzy
 msgid "[Color"
 msgstr "_Color:"
 
-#: ../goffice/utils/go-format.c:3444
+#: ../goffice/utils/go-format.c:3453
 msgid "[Invalid]"
 msgstr ""
 
@@ -4341,6 +4322,14 @@ msgstr ""
 #, fuzzy
 msgid "no"
 msgstr "ninguno"
+
+#: ../goffice/utils/go-glib-extras.c:1032
+msgid "Quoted string not terminated"
+msgstr ""
+
+#: ../goffice/utils/go-glib-extras.c:1039
+msgid "Syntax error"
+msgstr ""
 
 #: ../goffice/utils/go-image.c:121
 msgid "SVG (vector graphics)"
@@ -4453,11 +4442,11 @@ msgstr "Septiembre"
 msgid "Step to mean"
 msgstr ""
 
-#: ../goffice/utils/go-locale.c:408
+#: ../goffice/utils/go-locale.c:424
 msgid "TRUE"
 msgstr "VERDADERO"
 
-#: ../goffice/utils/go-locale.c:409
+#: ../goffice/utils/go-locale.c:425
 msgid "FALSE"
 msgstr "FALSO"
 
@@ -4802,8 +4791,8 @@ msgstr ""
 msgid "Lines"
 msgstr "Líneas"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:630 ../plugins/plot_xy/gog-xy.c:1606
-#: ../plugins/plot_xy/gog-xy.c:1612
+#: ../plugins/plot_barcol/gog-1.5d.c:630 ../plugins/plot_xy/gog-xy.c:1607
+#: ../plugins/plot_xy/gog-xy.c:1613
 #, fuzzy
 msgid "GogErrorBar *"
 msgstr "Barras de error"
@@ -5795,27 +5784,27 @@ msgstr ""
 msgid "Hide data outside of the color axis bounds"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:1542 ../plugins/plot_xy/gog-xy.c:1605
+#: ../plugins/plot_xy/gog-xy.c:1543 ../plugins/plot_xy/gog-xy.c:1606
 msgid "X error bars"
 msgstr "Barras de error de X"
 
-#: ../plugins/plot_xy/gog-xy.c:1544 ../plugins/plot_xy/gog-xy.c:1611
+#: ../plugins/plot_xy/gog-xy.c:1545 ../plugins/plot_xy/gog-xy.c:1612
 msgid "Y error bars"
 msgstr "Barras de error de Y"
 
-#: ../plugins/plot_xy/gog-xy.c:1552
+#: ../plugins/plot_xy/gog-xy.c:1553
 msgid "Horizontal drop lines"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:1560
+#: ../plugins/plot_xy/gog-xy.c:1561
 msgid "Vertical drop lines"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:1617
+#: ../plugins/plot_xy/gog-xy.c:1618
 msgid "Invalid as zero"
 msgstr "No válido como cero"
 
-#: ../plugins/plot_xy/gog-xy.c:1618
+#: ../plugins/plot_xy/gog-xy.c:1619
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 
@@ -5938,31 +5927,31 @@ msgstr "Inventario de tipos de gráficas de dispersión"
 msgid "Exponential regression"
 msgstr "Regresión exponencial"
 
-#: ../plugins/reg_linear/gog-lin-reg.c:157
-#: ../plugins/reg_linear/gog-lin-reg.c:263
+#: ../plugins/reg_linear/gog-lin-reg.c:158
+#: ../plugins/reg_linear/gog-lin-reg.c:264
 msgid "Affine"
 msgstr ""
 
-#: ../plugins/reg_linear/gog-lin-reg.c:158
+#: ../plugins/reg_linear/gog-lin-reg.c:159
 msgid "Uncheck to force zero intercept"
 msgstr ""
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Linear regression2
-#: ../plugins/reg_linear/gog-lin-reg.c:172
+#: ../plugins/reg_linear/gog-lin-reg.c:173
 msgid "Linear regression"
 msgstr ""
 
-#: ../plugins/reg_linear/gog-lin-reg.c:264
+#: ../plugins/reg_linear/gog-lin-reg.c:265
 msgid "If true, a non-zero constant is allowed"
 msgstr ""
 
-#: ../plugins/reg_linear/gog-lin-reg.c:269
+#: ../plugins/reg_linear/gog-lin-reg.c:270
 msgid "Dims"
 msgstr ""
 
-#: ../plugins/reg_linear/gog-lin-reg.c:270
+#: ../plugins/reg_linear/gog-lin-reg.c:271
 msgid "Number of x-vectors"
 msgstr "Número de vectores-x"
 
