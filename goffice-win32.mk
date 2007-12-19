@@ -20,7 +20,7 @@ stamp-local.def: $(LIB_PUBLIC_HDRS) Makefile $(top_srcdir)/tools/dumpdef.pl
 	cat $(top_builddir)/goffice/goffice-config.h $$hdrs_list | \
 		sed -e 's/^#[ 	]*include[ 	]\+.*$$//g' | \
 		$(CPP) $(AM_CPPFLAGS) "-DGO_VAR_DECL=__declspec(dllexport)" -P - > xgen-localdef.1 && \
-	perl $(top_srcdir)/dumpdef.pl \
+	perl $(top_srcdir)/tools/dumpdef.pl \
 		xgen-localdef.1 > xgen-localdef.2 \
 	&& (cmp -s xgen-localdef.2 local.def || \
 		cp xgen-localdef.2 local.def) \
