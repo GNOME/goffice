@@ -31,7 +31,7 @@ G_BEGIN_DECLS
 
 void	   go_gtk_editable_enters (GtkWindow *window, GtkWidget *w);
 
-/* go_libglade_new deprecated in 0.4.3, will be removed in 0.5.x */
+/* go_libglade_new deprecated in 0.4.3, will be removed in 0.7.x */
 #define go_libglade_new	go_glade_new
 GladeXML  *go_glade_new		   	   (char const *gladefile, char const *root,
 					    char const *domain, GOCmdContext *cc);

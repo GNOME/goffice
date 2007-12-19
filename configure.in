@@ -555,6 +555,7 @@ plugins/smoothing/Makefile
 pixmaps/Makefile
 po/Makefile.in
 tests/Makefile
+tools/Makefile
 docs/Makefile
 docs/reference/Makefile
 docs/reference/version.xml

@@ -1,6 +1,6 @@
 # Makefile.am for goffice
 
-SUBDIRS = goffice tests pixmaps plugins po docs
+SUBDIRS = goffice tests pixmaps plugins po docs tools
 
 EXTRA_DIST = README NEWS BUGS MAINTAINERS AUTHORS \
 	goffice.mk \
