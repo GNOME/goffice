@@ -18,7 +18,7 @@ libfoocanvas_la_LIBADD = \
 	$(RENDER_LIBS)				\
 	$(LIBFOOCANVAS_LIBS)
 
-libfoocanvasincludedir = $(includedir)/libgoffice-0.5/goffice/cut-n-paste/foocanvas/
+libfoocanvasincludedir = $(includedir)/libgoffice-@GOFFICE_API_VER@/goffice/cut-n-paste/foocanvas/
 
 libfoocanvasinclude_HEADERS =			\
 	foo-canvas-line.h			\

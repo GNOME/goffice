@@ -7,7 +7,7 @@ local.def: stamp-local.def
 
 # note the [<space><tab>] in the regular expressions below
 #     some versions of sed on win32 do not support the \t escape.
-stamp-local.def: $(LIB_PUBLIC_HDRS) Makefile $(top_srcdir)/dumpdef.pl
+stamp-local.def: $(LIB_PUBLIC_HDRS) Makefile $(top_srcdir)/tools/dumpdef.pl
 	hdrs='$(LIB_PUBLIC_HDRS)'; \
 	hdrs_list=''; \
 	for hdr in $$hdrs; do \

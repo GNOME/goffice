@@ -36,6 +36,10 @@ m4_define([version_iface],
 AC_SUBST([VERSION_INFO], [version_iface:goffice_version_minor:0])
 AC_SUBST([VERSION_IFACE], [version_iface])
 
+dnl Almost like epoch.major but development versions look forward to the next
+dnl stable release.
+AC_SUBST([GOFFICE_API_VER], [0.6])
+
 dnl This one is created by autoheader, ...
 AC_CONFIG_HEADERS(goffice/goffice-config.h)
 
@@ -218,7 +222,7 @@ dnl FIXME: perhaps declare with AC_ARG_VAR?
 dnl	   If we use the initial value of a variable, we have to make it precious.
 dnl
 GOFFICE_PLUGIN_LDFLAGS="-avoid-version -no-undefined $GOFFICE_PLUGIN_LDFLAGS"
-GOFFICE_PLUGIN_LIBADD="\$(top_builddir)/goffice/libgoffice-0.5.la $GOFFICE_LIBS $GOFFICE_PLUGIN_LIBADD"
+GOFFICE_PLUGIN_LIBADD="\$(top_builddir)/goffice/libgoffice-\$(GOFFICE_API_VER).la $GOFFICE_LIBS $GOFFICE_PLUGIN_LIBADD"
 AC_SUBST(GOFFICE_PLUGIN_LDFLAGS)
 AC_SUBST(GOFFICE_PLUGIN_LIBADD)
 
@@ -529,7 +533,7 @@ GTK_DOC_CHECK([1.4])
 
 AC_CONFIG_FILES([
 Makefile
-libgoffice-0.5.pc
+libgoffice.pc
 goffice/Makefile
 goffice/app/Makefile
 goffice/utils/Makefile
