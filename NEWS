@@ -1,3 +1,9 @@
+goffice 0.6.1:
+
+Misc:
+	* Automate library, headers, and .pc versioning.
+
+--------------------------------------------------------------------------
 goffice 0.6.0:
 
 Morten:
