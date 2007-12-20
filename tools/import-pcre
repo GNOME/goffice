@@ -144,7 +144,7 @@ foreach my $filename (@EXTRA_FILES) {
     print DST "libpcre_la_SOURCES = ", join (' ', @SRC_C), "\n";
     print DST "EXTRA_DIST = ", join (' ', @EXTRA_C, @EXTRA_FILES), "\n\n";
 
-    print DST "libpcre_a_ladir = \$(includedir)/libgoffice-0.5/goffice/cut-n-paste/pcre\n";
+    print DST "libpcre_a_ladir = \$(includedir)/libgoffice-@GOFFICE_API_VER@/goffice/cut-n-paste/pcre\n";
 
     print DST "libpcre_a_la_HEADERS = ", join (' ', @SRC_H), "\n";
     print DST "noinst_HEADERS = ", join (' ', @noinst_H), "\n\n";
