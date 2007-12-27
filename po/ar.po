@@ -1,0 +1,6901 @@
+# Arabic translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
+#
+# Djihed Afifi <djihed@gmail.com> 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: goffice\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-12-27 11:13+0000\n"
+"PO-Revision-Date: 2007-12-27 11:47+0100\n"
+"Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
+"Language-Team: Arabic <doc@arabeyes.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Arabic\n"
+
+#: ../goffice/app/file.c:454
+msgid "ID"
+msgstr "هوية"
+
+#: ../goffice/app/file.c:455
+#, fuzzy
+msgid "The identifier of the saver."
+msgstr "حافظة الشاشة"
+
+#: ../goffice/app/file.c:465
+#, fuzzy
+msgid "MIME type"
+msgstr "نوع MIME:"
+
+#: ../goffice/app/file.c:466
+#, fuzzy
+msgid "The MIME type of the saver."
+msgstr "نوع MIME غير معروف"
+
+#: ../goffice/app/file.c:475
+#, fuzzy
+msgid "Extension"
+msgstr "امتداد"
+
+#: ../goffice/app/file.c:476
+#, fuzzy
+msgid "The standard file name extension of the saver."
+msgstr "خطأ في إرفاق الملف %name: امتداد غير مسموح به"
+
+#: ../goffice/app/file.c:485
+#, fuzzy
+msgid "Description"
+msgstr "الوصف"
+
+#: ../goffice/app/file.c:486
+#, fuzzy
+msgid "The description of the saver."
+msgstr "حافظة الشاشة"
+
+#: ../goffice/app/file.c:495
+#, fuzzy
+msgid "Overwrite"
+msgstr "اكتب فوقه"
+
+#: ../goffice/app/file.c:496
+#, fuzzy
+msgid "Whether the saver will overwrite files."
+msgstr "فيما إذا سعرض ملفات النسخ الإحتياطي"
+
+#: ../goffice/app/file.c:506
+#, fuzzy
+msgid "Format Level"
+msgstr "قُم بتنسيق _منخفض المستوى."
+
+#: ../goffice/app/file.c:517
+#, fuzzy
+msgid "Scope"
+msgstr "المجال"
+
+#: ../goffice/app/file.c:518
+msgid "How much of a document is saved"
+msgstr ""
+
+#: ../goffice/app/file.c:682
+msgid "Saving over old files of this type is disabled for safety."
+msgstr ""
+
+#: ../goffice/app/file.c:692
+msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
+msgstr ""
+
+#: ../goffice/app/go-cmd-context.c:65
+#, fuzzy, c-format
+msgid "Invalid %s: '%s'"
+msgstr "غير صحيح"
+
+#: ../goffice/app/go-doc.c:117
+msgid "URI"
+msgstr "عنوان"
+
+#: ../goffice/app/go-doc.c:118
+msgid "The URI associated with this document."
+msgstr ""
+
+#: ../goffice/app/go-doc.c:122
+msgid "Dirty"
+msgstr "قذر"
+
+#: ../goffice/app/go-doc.c:123
+#, fuzzy
+msgid "Whether the document has been changed."
+msgstr "تمّ تغيير هذا الحدث."
+
+#: ../goffice/app/go-object.c:51
+msgid "Objects"
+msgstr "أجسام"
+
+#: ../goffice/app/go-object.c:109
+#, c-format
+msgid "Loading plugin '%s' that contains the object '%s'"
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:56
+msgid "Module file name not given."
+msgstr "لم يُعطَ اسم ملف الوحدة."
+
+#: ../goffice/app/go-plugin-loader-module.c:67
+#, c-format
+msgid "Module \"%s\" has an inconsistent dependency list."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:75
+#, c-format
+msgid "Module \"%s\" depends on an invalid null dependency."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:80
+#, c-format
+msgid "Module \"%s\" depends on an unknown dependency '%s'."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:85
+#, c-format
+msgid "Module \"%s\" was built with version %s of %s, but this executable supplied version %s."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:103
+msgid "Dynamic module loading is not supported in this system."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:113
+#, fuzzy, c-format
+msgid "Unable to open module file \"%s\"."
+msgstr "لا يمكن فتح ملف الحالة المحفوظ '%s': %s"
+
+#: ../goffice/app/go-plugin-loader-module.c:121
+#, c-format
+msgid "Module \"%s\" doesn't contain (\"go_plugin_header\" symbol)."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:125
+#, fuzzy, c-format
+msgid "Module \"%s\" has an invalid magic number."
+msgstr "ملف XPM له عدد غير صحيح من الألوان"
+
+#: ../goffice/app/go-plugin-loader-module.c:152
+#, fuzzy, c-format
+msgid "Unable to close module file \"%s\"."
+msgstr "فشلت في غلق الملف '%s': فشل fclose(): %s"
+
+#: ../goffice/app/go-plugin-loader-module.c:292
+#: ../goffice/app/go-plugin-loader-module.c:354
+#, fuzzy, c-format
+msgid "Module file \"%s\" has invalid format."
+msgstr "يضم الملف بيانات غير سليمة."
+
+#: ../goffice/app/go-plugin-loader-module.c:295
+#: ../goffice/app/go-plugin-loader-module.c:357
+#, fuzzy, c-format
+msgid "File doesn't contain \"%s\" function."
+msgstr "لا يحتوي القالب '%s' على XXXXXX"
+
+#: ../goffice/app/go-plugin-loader-module.c:421
+#, fuzzy, c-format
+msgid "Module doesn't contain \"%s\" function."
+msgstr "لا يحتوي القالب '%s' على XXXXXX"
+
+#: ../goffice/app/go-plugin-loader.c:47
+msgid "Loader has no set_attributes method.\n"
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader.c:62
+msgid "Loader has no load_base method.\n"
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader.c:107
+#: ../goffice/app/go-plugin-loader.c:145
+#, fuzzy, c-format
+msgid "Service '%s' not supported by l."
+msgstr "لا يدعم هذا الخادم STLS"
+
+#: ../goffice/app/go-plugin-service.c:132
+#: ../goffice/app/go-plugin-service.c:831
+#, fuzzy
+msgid "Error while loading plugin service."
+msgstr "حدث خطأ عند تحميل المحفوظة."
+
+#: ../goffice/app/go-plugin-service.c:140
+msgid "Initializing function inside plugin returned error."
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:158
+msgid "Cleanup function inside plugin returned error."
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:168
+#: ../goffice/gtk/go-format-sel.c:68
+#: ../goffice/utils/go-format.c:3287
+#: ../goffice/utils/go-format.c:3423
+msgid "General"
+msgstr "عامّ"
+
+#: ../goffice/app/go-plugin-service.c:319
+msgid "File opener has no description"
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:351
+#, c-format
+msgid "File opener - %s"
+msgstr "فاتح الملف - %s"
+
+#: ../goffice/app/go-plugin-service.c:471
+#, fuzzy
+msgid "Error while reading file."
+msgstr "خطأ أثناء قراءة ملف البريد: %s"
+
+#: ../goffice/app/go-plugin-service.c:639
+msgid "File saver has no description"
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:682
+#, c-format
+msgid "File saver - %s"
+msgstr "حافظ الملف - %s"
+
+#: ../goffice/app/go-plugin-service.c:742
+msgid "Error while loading plugin for saving."
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:744
+#, fuzzy
+msgid "Failed to load plugin for saving"
+msgstr "فشل تحميل الأيقونة \"%s\" لطور الطرفيّة \"%s\": %s\n"
+
+#: ../goffice/app/go-plugin-service.c:866
+msgid "Plugin loader"
+msgstr "محمّل الملحق"
+
+#: ../goffice/app/go-plugin-service.c:890
+msgid "GObject loader"
+msgstr "محمّل GObject"
+
+#: ../goffice/app/go-plugin-service.c:997
+#, fuzzy
+msgid "No \"type\" attribute on \"service\" element."
+msgstr "لا صفة \"start_angle\" على العنصر <%s>"
+
+#: ../goffice/app/go-plugin-service.c:1003
+#, fuzzy, c-format
+msgid "Unknown service type: %s."
+msgstr "نوع خدمة غير صحيح: %s\n"
+
+#: ../goffice/app/go-plugin-service.c:1019
+#, fuzzy
+msgid "Error reading service information."
+msgstr "خطأ في قراءة معلومات الخدمة %s: %s\n"
+
+#: ../goffice/app/go-plugin-service.c:1081
+msgid "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but loading failed."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:333
+#, c-format
+msgid "File contains plugin info with invalid id (%s), expected %s."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:337
+#, fuzzy
+msgid "Couldn't read plugin info from file."
+msgstr "اسم الملفّ لقراءة معلومات العتاد منه"
+
+#: ../goffice/app/go-plugin.c:482
+#, fuzzy
+msgid "Unknown name"
+msgstr "اسم مجهول"
+
+#: ../goffice/app/go-plugin.c:577
+#, fuzzy, c-format
+msgid "Unsupported loader type \"%s\"."
+msgstr "نوع رسوم متحرّكة غير مدعوم"
+
+#: ../goffice/app/go-plugin.c:585
+#, fuzzy, c-format
+msgid "Error while preparing loader \"%s\"."
+msgstr "خطأ أثناء فتح التقويم"
+
+#: ../goffice/app/go-plugin.c:663
+#, fuzzy, c-format
+msgid "Error while reading service #%d info."
+msgstr "خطأ في قراءة معلومات الخدمة %s: %s\n"
+
+#: ../goffice/app/go-plugin.c:743
+#, fuzzy, c-format
+msgid "Can't read plugin info file (\"%s\")."
+msgstr "اسم الملفّ لقراءة معلومات العتاد منه"
+
+#: ../goffice/app/go-plugin.c:747
+#, fuzzy, c-format
+msgid "File \"%s\" is not valid plugin info file."
+msgstr "الملف '%s'  ليس صورة قرص سليمة."
+
+#: ../goffice/app/go-plugin.c:833
+#, c-format
+msgid "Errors while reading services for plugin with id=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:844
+#, c-format
+msgid "Plugin id contains invalid characters (%s)."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:848
+#, fuzzy
+msgid "Unknown plugin name."
+msgstr "Name=قابس KTorrent"
+
+#: ../goffice/app/go-plugin.c:852
+#, c-format
+msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:858
+#, fuzzy
+msgid "Plugin has no id."
+msgstr "العنصر <%s> له رقم  id غير صيح \"%s\""
+
+#: ../goffice/app/go-plugin.c:899
+#, fuzzy, c-format
+msgid "Error initializing plugin loader (\"%s\")."
+msgstr "خطأ في ابتداء مكتبة كِرْبِروس"
+
+#: ../goffice/app/go-plugin.c:930
+#: ../goffice/app/go-plugin.c:1089
+#, fuzzy
+msgid "Detected cyclic plugin dependencies."
+msgstr "لم يتم العثور على مدير صوت قابل للاستخدام"
+
+#: ../goffice/app/go-plugin.c:954
+#, c-format
+msgid "Couldn't activate plugin with id=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:960
+#: ../goffice/app/go-plugin.c:1135
+#, c-format
+msgid "Couldn't find plugin with id=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:967
+msgid "Error while activating plugin dependencies."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:981
+#, c-format
+msgid "Error while activating plugin service #%d."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1034
+#, c-format
+msgid "Error while deactivating plugin service #%d."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1101
+#: ../goffice/app/go-plugin.c:1122
+#, fuzzy
+msgid "Cannot load plugin loader."
+msgstr "لا يمكن تحميل واجهة المستخدم"
+
+#: ../goffice/app/go-plugin.c:1129
+#, c-format
+msgid "Couldn't load plugin with id=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1142
+#, fuzzy
+msgid "Error while loading plugin dependencies."
+msgstr "حدث خطأ عند تحميل المحفوظة."
+
+#: ../goffice/app/go-plugin.c:1319
+#, c-format
+msgid "Errors occurred while reading plugin informations from file \"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1438
+#, fuzzy, c-format
+msgid "Couldn't activate plugin \"%s\" (ID: %s)."
+msgstr "تعذّر إضافة هويّة المستخدم (id)"
+
+#: ../goffice/app/go-plugin.c:1473
+#, fuzzy, c-format
+msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
+msgstr "لم يمكن تعطيل البرنامج المساعد"
+
+#: ../goffice/app/go-plugin.c:1598
+#: ../goffice/app/go-plugin.c:1744
+#: ../goffice/app/go-plugin.c:1823
+msgid "Errors while reading info about available plugins."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1622
+msgid "Errors while deactivating plugins that are no longer on disk."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1643
+#, c-format
+msgid ""
+"The following plugins are no longer on disk but are still active:\n"
+"%s.\n"
+"You should restart this program now."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1767
+#: ../goffice/app/go-plugin.c:1845
+msgid "Errors while activating plugins."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1774
+#: ../goffice/app/go-plugin.c:1852
+msgid "Errors while initializing plugin system."
+msgstr ""
+
+#: ../goffice/app/io-context.c:155
+#, fuzzy
+msgid "exec-main-loop"
+msgstr "تمْ العثور على حلقة مُعتمدات."
+
+#: ../goffice/app/io-context.c:156
+msgid "Execute main loop iteration"
+msgstr ""
+
+#: ../goffice/component/go-component-factory.c:58
+#, fuzzy
+msgid "Component Engine"
+msgstr "دافعة ال_محرّك:"
+
+#: ../goffice/component/go-component-factory.c:164
+#, fuzzy
+msgid "Component Type"
+msgstr "نوع التّنبيه"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:214
+#: ../goffice/graph/gog-style.c:938
+#: ../goffice/gtk/go-format-sel.c:77
+#: ../goffice/gtk/go-rotation-sel.c:139
+msgid "Text"
+msgstr "نص"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:215
+#, fuzzy
+msgid "Text to render"
+msgstr "النص للترجمة"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:223
+#, fuzzy
+msgid "Markup"
+msgstr "تعليم"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:224
+#, fuzzy
+msgid "Marked up text to render"
+msgstr "نص معلّم للترجمة"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:249
+#: ../goffice/graph/gog-style.c:909
+msgid "Font"
+msgstr "خط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:250
+msgid "Font description as a string"
+msgstr "وصف الخط كنص"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:258
+msgid "Font description"
+msgstr "وصف الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:259
+msgid "Font description as a PangoFontDescription struct"
+msgstr "وصف الخط كبنية PangoFontDescription"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:267
+msgid "Font family"
+msgstr "عائلة الخطوط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:268
+#, fuzzy
+msgid "Name of the font family, e.g. Sans, Helvetica, Times, Monospace"
+msgstr "اسم عائلة الخطوط مثل Sans, Helvetica, Times, Monospace"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:284
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:285
+msgid "Font style"
+msgstr "أسلوب الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:294
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:295
+msgid "Font variant"
+msgstr "نوع الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:304
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:305
+msgid "Font weight"
+msgstr "وزن الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:316
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:317
+msgid "Font stretch"
+msgstr "تمديد الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:326
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:327
+msgid "Font size"
+msgstr "حجم الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:337
+msgid "Font points"
+msgstr "نقاط الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:338
+msgid "Font size in points"
+msgstr "حجم الخط بالنقاط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:348
+msgid "Rise"
+msgstr "رفع"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:349
+#, fuzzy
+msgid "Offset of text above the baseline (below the baseline if rise is negative)"
+msgstr "مقدار التغيير للنص فوق السطر الاساس (تحت السطر الاساس إذا كان الرفع سالبا)"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:359
+msgid "Strikethrough"
+msgstr "شطب"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:360
+#, fuzzy
+msgid "Whether to strike through the text"
+msgstr "فيما إذا سيشرط النص"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:368
+#, fuzzy
+msgid "Underline"
+msgstr "تسطير"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:369
+#, fuzzy
+msgid "Style of underline for this text"
+msgstr "أسلوب التسطير لهذا النص"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:378
+#: ../goffice/graph/gog-axis.c:1708
+#, fuzzy
+msgid "Scale"
+msgstr "القياس"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:379
+#, fuzzy
+msgid "Size of font, relative to default size"
+msgstr "حجم الخط، باعتبار حجم الخط اﻻفتراضي"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:439
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:447
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:455
+msgid "Color"
+msgstr "لون"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:440
+msgid "Text color, as string"
+msgstr "لون النص، كنصّ"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:448
+msgid "Text color, as a GdkColor"
+msgstr "لون النص، كـ GdkColor"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:456
+msgid "Text color, as an R/G/B/A combined integer"
+msgstr "لون النص،كعدد صحيح مجمّع لـ R/G/B/A"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:469
+msgid "Text width"
+msgstr "عرض النّص"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:470
+msgid "Width of the rendered text"
+msgstr "عرض النص المرسوم"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:477
+msgid "Text height"
+msgstr "ارتفاع النّص"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:478
+#, fuzzy
+msgid "Height of the rendered text"
+msgstr "ارتفاع النص المترجم"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:486
+msgid "Font family set"
+msgstr "ضبط عائلة الخطوط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:487
+#, fuzzy
+msgid "Whether this tag affects the font family"
+msgstr "فيما اذا كانت هذه الشارة ستؤثر في عائلة الخطوط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:490
+msgid "Font style set"
+msgstr "ضبط أسلوب الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:491
+#, fuzzy
+msgid "Whether this tag affects the font style"
+msgstr "فيما اذا كانت هذه الشارة ستؤثر في أسلوب الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:494
+#, fuzzy
+msgid "Font variant set"
+msgstr "مجموعة ضوارب الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:495
+#, fuzzy
+msgid "Whether this tag affects the font variant"
+msgstr "فيما إذا ستؤثر هذه الشارة في ضرب الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:498
+#, fuzzy
+msgid "Font weight set"
+msgstr "ضبط وزن الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:499
+#, fuzzy
+msgid "Whether this tag affects the font weight"
+msgstr "فيما إذا كانت هذه الشارة ستؤثر على وزن الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:502
+msgid "Font stretch set"
+msgstr "ضبط تمديد الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:503
+#, fuzzy
+msgid "Whether this tag affects the font stretch"
+msgstr "فيما إذا كانت هذه الشارة ستؤثر في تمديد الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:506
+msgid "Font size set"
+msgstr "ضبط حجم الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:507
+#, fuzzy
+msgid "Whether this tag affects the font size"
+msgstr "فيما اذا كانت هذه الشارة ستؤثر في حجم الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:510
+#, fuzzy
+msgid "Rise set"
+msgstr "ضبط الرفع"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:511
+#, fuzzy
+msgid "Whether this tag affects the rise"
+msgstr "فيما إذا كانت هذه الشارة ستؤثر على الرفع"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:514
+msgid "Strikethrough set"
+msgstr "ضبط التشطيب"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:515
+#, fuzzy
+msgid "Whether this tag affects strikethrough"
+msgstr "فيما إذا كانت هذه الشارة ستؤثر على التشريط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:518
+msgid "Underline set"
+msgstr "ضبط التسطير"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:519
+#, fuzzy
+msgid "Whether this tag affects underlining"
+msgstr "فيما إذا كانت هذه الشارة ستؤثر في التسطير"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:522
+msgid "Scale set"
+msgstr "ضبط القياس"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:523
+#, fuzzy
+msgid "Whether this tag affects font scaling"
+msgstr "إن كانت هذه العلامة تؤثر في تحجيم الخط"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1228
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1229
+#: ../plugins/plot_surface/gog-surface.c:535
+#: ../plugins/plot_surface/xl-surface.c:256
+#: ../plugins/plot_xy/gog-xy.c:363
+#: ../plugins/plot_xy/gog-xy.c:530
+#: ../plugins/plot_xy/gog-xy.c:790
+msgid "X"
+msgstr "س"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1235
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1236
+#: ../plugins/plot_surface/gog-surface.c:537
+#: ../plugins/plot_xy/gog-xy.c:365
+#: ../plugins/plot_xy/gog-xy.c:532
+#: ../plugins/plot_xy/gog-xy.c:792
+msgid "Y"
+msgstr "ص"
+
+#: ../goffice/drawing/god-paragraph-attributes.c:203
+#: ../goffice/drawing/god-paragraph-attributes.c:204
+msgid "Flags"
+msgstr "خيارات"
+
+#: ../goffice/drawing/god-paragraph-attributes.c:209
+#: ../goffice/drawing/god-paragraph-attributes.c:210
+msgid "Indent"
+msgstr "إزاحة"
+
+#: ../goffice/drawing/god-paragraph-attributes.c:215
+#: ../goffice/drawing/god-paragraph-attributes.c:216
+msgid "Space Before"
+msgstr "فراغ قبل"
+
+#: ../goffice/drawing/god-paragraph-attributes.c:221
+#: ../goffice/drawing/god-paragraph-attributes.c:222
+msgid "Space After"
+msgstr "فضاء بعد"
+
+#: ../goffice/drawing/god-paragraph-attributes.c:227
+#: ../goffice/drawing/god-paragraph-attributes.c:228
+#: ../goffice/graph/gog-object.c:760
+msgid "Alignment"
+msgstr "محاذاة"
+
+#: ../goffice/drawing/god-paragraph-attributes.c:233
+#: ../goffice/drawing/god-paragraph-attributes.c:234
+#, fuzzy
+msgid "Bullet Character"
+msgstr "تشفيرة الرموز"
+
+#: ../goffice/drawing/god-paragraph-attributes.c:239
+#: ../goffice/drawing/god-paragraph-attributes.c:240
+#, fuzzy
+msgid "Bullet Indent"
+msgstr "أزِح آلياً"
+
+#: ../goffice/drawing/god-paragraph-attributes.c:245
+#: ../goffice/drawing/god-paragraph-attributes.c:246
+#, fuzzy
+msgid "Bullet Size"
+msgstr "<b>حجم العرض:</b>"
+
+#: ../goffice/drawing/god-paragraph-attributes.c:251
+#: ../goffice/drawing/god-paragraph-attributes.c:252
+#, fuzzy
+msgid "Bullet Family"
+msgstr "إسم العائلة"
+
+#: ../goffice/drawing/god-paragraph-attributes.c:257
+#: ../goffice/drawing/god-paragraph-attributes.c:258
+#, fuzzy
+msgid "Bullet On"
+msgstr "استماع على:"
+
+#: ../goffice/graph/gog-axis-line.c:649
+msgid "Layout"
+msgstr "تصميم"
+
+#: ../goffice/graph/gog-axis-line.c:677
+#, fuzzy
+msgid "Axis position"
+msgstr "موقع المؤشّر"
+
+#: ../goffice/graph/gog-axis-line.c:678
+#: ../goffice/graph/gog-axis-line.c:684
+msgid "Where to position an axis low, high, or crossing"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:683
+#, fuzzy
+msgid "Axis position (as a string)"
+msgstr "لون النص، كسلسلة"
+
+#: ../goffice/graph/gog-axis-line.c:689
+#, fuzzy
+msgid "Major labels"
+msgstr "عناوين القوالب"
+
+#: ../goffice/graph/gog-axis-line.c:690
+msgid "Show labels for major ticks"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:695
+#, fuzzy
+msgid "Inside major ticks"
+msgstr "طقطقات لنقرات"
+
+#: ../goffice/graph/gog-axis-line.c:696
+msgid "Major tick marks inside the chart area"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:701
+#, fuzzy
+msgid "Outside major ticks"
+msgstr "طقطقات لنقرات"
+
+#: ../goffice/graph/gog-axis-line.c:702
+msgid "Major tick marks outside the chart area"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:707
+#, fuzzy
+msgid "Major tick size"
+msgstr "_حجم خط داشر"
+
+#: ../goffice/graph/gog-axis-line.c:708
+msgid "Size of the major tick marks, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:714
+#, fuzzy
+msgid "Inside minor ticks"
+msgstr "طقطقات لنقرات"
+
+#: ../goffice/graph/gog-axis-line.c:715
+msgid "Minor tick marks inside the chart area"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:720
+#, fuzzy
+msgid "Outside minor ticks"
+msgstr "طقطقات لنقرات"
+
+#: ../goffice/graph/gog-axis-line.c:721
+msgid "Minor tick marks outside the axis"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:726
+#, fuzzy
+msgid "Minor tick size"
+msgstr "_حجم خط داشر"
+
+#: ../goffice/graph/gog-axis-line.c:727
+msgid "Size of the minor tick marks, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:733
+#, fuzzy
+msgid "Cross axis id"
+msgstr "الهويّة الفريدة للمُصدر"
+
+#: ../goffice/graph/gog-axis-line.c:734
+#, fuzzy
+msgid "Which axis to cross"
+msgstr "إختر الصورة للإستيراد"
+
+#: ../goffice/graph/gog-axis-line.c:740
+#, fuzzy
+msgid "Axis padding"
+msgstr "الحشو الأعلى"
+
+#: ../goffice/graph/gog-axis-line.c:741
+msgid "Distance from axis line to plot area, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:832
+#, fuzzy
+msgid "Select axis"
+msgstr "محور وح_يد:"
+
+#: ../goffice/graph/gog-axis-line.c:938
+#, fuzzy
+msgid "Set start bound"
+msgstr "ابدأ خادم بيجل"
+
+#: ../goffice/graph/gog-axis-line.c:949
+#, fuzzy
+msgid "Set stop bound"
+msgstr "أوقف العملية الحالية"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:1
+#, fuzzy
+msgid "<b>Bounds</b>"
+msgstr "القفزات"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:2
+#, fuzzy
+msgid "<b>Major ticks</b>"
+msgstr "توصيلة كبيرة"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:3
+#, fuzzy
+msgid "<b>Mapping</b>"
+msgstr "تعيين"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:4
+#, fuzzy
+msgid "<b>Minor ticks</b>"
+msgstr "أخطاء صغيرة"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:5
+#, fuzzy
+msgid "<b>Position</b>"
+msgstr "<b>المكان</b>"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:6
+#: ../goffice/gtk/go-palette.c:374
+#, fuzzy
+msgid "Automatic"
+msgstr "تلقائي"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:7
+msgid "I_nside"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:8
+msgid "O_utside"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:9
+#, fuzzy
+msgid "Padding:"
+msgstr "إحاطة س"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:10
+#, fuzzy
+msgid "_Cross"
+msgstr "الصليب"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:11
+msgid "_High"
+msgstr "_عال"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:12
+msgid "_Inside"
+msgstr "دا_خل"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:13
+#, fuzzy
+msgid "_Invert axis"
+msgstr "محور وح_يد:"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:14
+#, fuzzy
+msgid "_Low"
+msgstr "منحفض"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:15
+#, fuzzy
+msgid "_Outside"
+msgstr "خارج"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:16
+#, fuzzy
+msgid "_Rotation:"
+msgstr "الدوران:"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:17
+#, fuzzy
+msgid "_Show Labels"
+msgstr "عناوين القوالب"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:18
+#: ../goffice/graph/gog-series-prefs.glade.h:9
+#: ../goffice/graph/gog-style-prefs.glade.h:24
+#, fuzzy
+msgid "_Type:"
+msgstr "ال_نوع:"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:19
+#, fuzzy
+msgid "_Unit:"
+msgstr "ال_وحدة:"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:20
+#, fuzzy
+msgid "at"
+msgstr "عند"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:21
+#: ../goffice/gtk/go-rotation-sel.glade.h:4
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:8
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:9
+#, fuzzy
+msgid "degrees"
+msgstr "درجات"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:22
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:14
+#: ../goffice/graph/gog-style-prefs.glade.h:25
+#, fuzzy
+msgid "pts"
+msgstr "نقاط"
+
+#: ../goffice/graph/gog-axis.c:75
+#, fuzzy
+msgid "Degrees"
+msgstr "الدرجات"
+
+#: ../goffice/graph/gog-axis.c:76
+#, fuzzy
+msgid "Radians"
+msgstr "راديان - وحدة قياس الزوايا"
+
+#: ../goffice/graph/gog-axis.c:77
+#, fuzzy
+msgid "Grads"
+msgstr "الخريجون"
+
+#: ../goffice/graph/gog-axis.c:711
+#, fuzzy
+msgid "Discrete"
+msgstr "منفصل"
+
+#: ../goffice/graph/gog-axis.c:711
+#, fuzzy
+msgid "Discrete mapping"
+msgstr "تخطيط الأوامر"
+
+#: ../goffice/graph/gog-axis.c:722
+#: ../goffice/utils/go-line.c:86
+#: ../plugins/reg_linear/reg-types.xml.in.h:3
+#, fuzzy
+msgid "Linear"
+msgstr "خطي"
+
+#: ../goffice/graph/gog-axis.c:722
+#, fuzzy
+msgid "Linear mapping"
+msgstr "تخطيط الأوامر"
+
+#: ../goffice/graph/gog-axis.c:730
+#, fuzzy
+msgid "Log"
+msgstr "لغ"
+
+#: ../goffice/graph/gog-axis.c:730
+#, fuzzy
+msgid "Logarithm mapping"
+msgstr "تخطيط الأوامر"
+
+#: ../goffice/graph/gog-axis.c:1644
+#: ../goffice/graph/gog-axis.c:1653
+#, fuzzy
+msgid "M_inimum"
+msgstr "الحجم اﻷ_صغر:"
+
+#: ../goffice/graph/gog-axis.c:1645
+#: ../goffice/graph/gog-axis.c:1654
+msgid "M_aximum"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1646
+#, fuzzy
+msgid "Categories between _ticks"
+msgstr "طقطقات لنقرات"
+
+#: ../goffice/graph/gog-axis.c:1647
+#, fuzzy
+msgid "Categories between _labels"
+msgstr "عناين م_فاتيح شريط الأدوات:"
+
+#: ../goffice/graph/gog-axis.c:1655
+#, fuzzy
+msgid "Ma_jor ticks"
+msgstr "طقطقات لنقرات"
+
+#: ../goffice/graph/gog-axis.c:1656
+#, fuzzy
+msgid "Mi_nor ticks"
+msgstr "طقطقات لنقرات"
+
+#: ../goffice/graph/gog-axis.c:1726
+#, fuzzy
+msgid "Format"
+msgstr "التهيئة"
+
+#: ../goffice/graph/gog-axis.c:1757
+msgid "MajorGrid"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1760
+msgid "MinorGrid"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1763
+msgid "AxisLine"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1766
+#, fuzzy
+msgid "Label"
+msgstr "تسمية"
+
+#: ../goffice/graph/gog-axis.c:1781
+#: ../plugins/plot_barcol/gog-1.5d.c:320
+#, fuzzy
+msgid "Type"
+msgstr "النّوع"
+
+#: ../goffice/graph/gog-axis.c:1782
+msgid "Numerical type of this axis"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1786
+#, fuzzy
+msgid "Invert axis"
+msgstr "محور وح_يد:"
+
+#: ../goffice/graph/gog-axis.c:1787
+msgid "Scale from high to low rather than low to high"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1791
+msgid "MapName"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1792
+#, fuzzy
+msgid "The name of the map for scaling"
+msgstr "عنوان خريطة الرادار"
+
+#: ../goffice/graph/gog-axis.c:1797
+#, fuzzy
+msgid "Assigned XL format"
+msgstr "تنسيق '%s' غير صحيح"
+
+#: ../goffice/graph/gog-axis.c:1798
+msgid "The user assigned format to use for non-discrete axis labels (XL format)"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1803
+#: ../goffice/graph/gog-axis.c:1804
+#, fuzzy
+msgid "Rotation of circular axis"
+msgstr "ترويسات متعلقة بالمحور"
+
+#: ../goffice/graph/gog-axis.c:1811
+#: ../goffice/graph/gog-axis.c:1812
+msgid "Polar axis set unit"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:356
+#, fuzzy
+msgid "Backplane"
+msgstr "لوحة الكترونية معزّزة"
+
+#: ../goffice/graph/gog-chart.c:359
+#, fuzzy
+msgid "X-Axis"
+msgstr "محور"
+
+#: ../goffice/graph/gog-chart.c:363
+#, fuzzy
+msgid "Y-Axis"
+msgstr "محور"
+
+#: ../goffice/graph/gog-chart.c:367
+#, fuzzy
+msgid "Z-Axis"
+msgstr "محور"
+
+#: ../goffice/graph/gog-chart.c:371
+#, fuzzy
+msgid "Circular-Axis"
+msgstr "محور وح_يد:"
+
+#: ../goffice/graph/gog-chart.c:375
+#, fuzzy
+msgid "Radial-Axis"
+msgstr "محور وح_يد:"
+
+#: ../goffice/graph/gog-chart.c:379
+#, fuzzy
+msgid "Pseudo-3D-Axis"
+msgstr "ترويسات متعلقة بالمحور"
+
+#: ../goffice/graph/gog-chart.c:383
+#, fuzzy
+msgid "Bubble-Axis"
+msgstr "محور وح_يد:"
+
+#: ../goffice/graph/gog-chart.c:387
+#, fuzzy
+msgid "Color-Axis"
+msgstr "محور وح_يد:"
+
+#: ../goffice/graph/gog-chart.c:391
+#, fuzzy
+msgid "Plot"
+msgstr "المؤامرة"
+
+#: ../goffice/graph/gog-chart.c:394
+#: ../goffice/graph/gog-graph.c:272
+#: ../goffice/graph/gog-legend.c:183
+#, fuzzy
+msgid "Title"
+msgstr "الإسم"
+
+#: ../goffice/graph/gog-chart.c:399
+#, fuzzy
+msgid "Legend"
+msgstr "الأسطورة"
+
+#: ../goffice/graph/gog-chart.c:422
+#, fuzzy
+msgid "Valid cardinality"
+msgstr "توقيع سليم"
+
+#: ../goffice/graph/gog-chart.c:423
+msgid "Is the charts cardinality currently valid"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:428
+#: ../goffice/graph/gog-plot.c:406
+#, fuzzy
+msgid "Plot area"
+msgstr "مساحة التبليغ"
+
+#: ../goffice/graph/gog-chart.c:429
+msgid "Position and size of plot area, in percentage of chart size"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:434
+#, fuzzy
+msgid "Manual plot area"
+msgstr "منطقة خارطة الصورة"
+
+#: ../goffice/graph/gog-chart.c:435
+#, fuzzy
+msgid "Is plot area manual"
+msgstr "مجال المنطقة هو مكتبي"
+
+#: ../goffice/graph/gog-control-foocanvas.c:237
+#, fuzzy
+msgid "H"
+msgstr "H"
+
+#: ../goffice/graph/gog-control-foocanvas.c:238
+#: ../goffice/graph/gog-graph.c:331
+#: ../goffice/utils/go-image.c:446
+#, fuzzy
+msgid "Height"
+msgstr "الإرتفاع"
+
+#: ../goffice/graph/gog-control-foocanvas.c:243
+#, fuzzy
+msgid "W"
+msgstr "W"
+
+#: ../goffice/graph/gog-control-foocanvas.c:244
+#: ../goffice/graph/gog-graph.c:325
+#: ../goffice/utils/go-image.c:442
+#, fuzzy
+msgid "Width"
+msgstr "العرض"
+
+#: ../goffice/graph/gog-control-foocanvas.c:249
+#: ../goffice/graph/gog-renderer.c:1723
+#: ../goffice/graph/gog-view.c:597
+#, fuzzy
+msgid "Model"
+msgstr "النّموذج"
+
+#: ../goffice/graph/gog-control-foocanvas.c:250
+#, fuzzy
+msgid "The GogObject this object displays"
+msgstr "رفع عروض الصورة"
+
+#: ../goffice/graph/gog-control-foocanvas.c:255
+#: ../goffice/graph/gog-graph.c:829
+#, fuzzy
+msgid "Renderer"
+msgstr "جاعل الشيء"
+
+#: ../goffice/graph/gog-control-foocanvas.c:256
+#, fuzzy
+msgid "The GogRenderer being displayed"
+msgstr "معروضة على الشاشة"
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:1
+msgid "(+)"
+msgstr ""
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:2
+msgid "(-)"
+msgstr ""
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:3
+#, fuzzy
+msgid "<b>Error category</b>"
+msgstr "أيّ فئة"
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:4
+#, fuzzy
+msgid "<b>Style</b>"
+msgstr "الأ_سلوب:"
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:5
+#, fuzzy
+msgid "<b>Values</b>"
+msgstr "القي_م:"
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:6
+#, fuzzy
+msgid "Colo_r:"
+msgstr "ألوان"
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:7
+#, fuzzy
+msgid "Dis_play:"
+msgstr "اعزف صوت"
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:8
+msgid ""
+"None\n"
+"Absolute\n"
+"Relative\n"
+"Percent"
+msgstr ""
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:12
+#, fuzzy
+msgid "_Line width:"
+msgstr "عرض خط الشبكة"
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:13
+#: ../goffice/graph/gog-object-prefs.glade.h:11
+#: ../goffice/graph/gog-plot-prefs.glade.h:8
+#, fuzzy
+msgid "_Width:"
+msgstr "ال_عرض:"
+
+#: ../goffice/graph/gog-error-bar.c:71
+#: ../goffice/utils/formats.c:309
+#: ../goffice/utils/go-line.c:54
+#, fuzzy
+msgid "None"
+msgstr "لا شيء"
+
+#: ../goffice/graph/gog-error-bar.c:72
+#, fuzzy
+msgid "Positive"
+msgstr "إيجابي"
+
+#: ../goffice/graph/gog-error-bar.c:73
+#, fuzzy
+msgid "Negative"
+msgstr "سلبي"
+
+#: ../goffice/graph/gog-error-bar.c:74
+#, fuzzy
+msgid "Both"
+msgstr "كلاهما"
+
+#. An MS Excel-ish theme
+#: ../goffice/graph/gog-graph-prefs.glade.h:1
+#: ../goffice/graph/gog-theme.c:496
+#, fuzzy
+msgid "Default"
+msgstr "الافتراضي"
+
+#: ../goffice/graph/gog-graph-prefs.glade.h:2
+#, fuzzy
+msgid "Forget user styles"
+msgstr "أنماط معرّفة من قبل المستخدم"
+
+#: ../goffice/graph/gog-graph-prefs.glade.h:3
+#: ../goffice/graph/gog-plot-prefs.glade.h:5
+msgid "GogChartPrefs"
+msgstr ""
+
+#: ../goffice/graph/gog-graph-prefs.glade.h:4
+msgid "Theme:"
+msgstr "السّمة:"
+
+#. default
+#. Cheat and assign a name here, graphs will not have parents until we
+#. * support graphs in graphs
+#: ../goffice/graph/gog-graph.c:146
+#: ../goffice/graph/gog-graph.c:351
+#, fuzzy
+msgid "Graph"
+msgstr "رسم بياني"
+
+#: ../goffice/graph/gog-graph.c:222
+#: ../goffice/graph/gog-graph.c:313
+#, fuzzy
+msgid "Theme"
+msgstr "التيمة"
+
+#: ../goffice/graph/gog-graph.c:267
+#, fuzzy
+msgid "Chart"
+msgstr "رسومي"
+
+#: ../goffice/graph/gog-graph.c:314
+#, fuzzy
+msgid "The theme for elements of the graph"
+msgstr "انتقي تيمة للمكتب"
+
+#: ../goffice/graph/gog-graph.c:319
+#, fuzzy
+msgid "Theme name"
+msgstr "اسم التيمة"
+
+#: ../goffice/graph/gog-graph.c:320
+#, fuzzy
+msgid "The name of the theme for elements of the graph"
+msgstr "<name> مخصص مرتان لهذه التيمة"
+
+#: ../goffice/graph/gog-graph.c:326
+msgid "Logical graph width, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-graph.c:332
+msgid "Logical graph heigth, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-graph.c:830
+#, fuzzy
+msgid "the renderer for this view"
+msgstr "عرض المساعدة لهذه اللعبة"
+
+#: ../goffice/graph/gog-grid-line.c:128
+#, fuzzy
+msgid "Is-minor"
+msgstr "أخطاء صغيرة"
+
+#: ../goffice/graph/gog-grid-line.c:129
+msgid "Are these minor grid lines"
+msgstr ""
+
+#: ../goffice/graph/gog-guru-type-selector.glade.h:1
+#, fuzzy
+msgid "<b>Description</b>"
+msgstr "<b>الوصف</b>"
+
+#: ../goffice/graph/gog-guru-type-selector.glade.h:2
+#, fuzzy
+msgid "<b>_Plot type</b>"
+msgstr "نوع التّنبيه"
+
+#: ../goffice/graph/gog-guru-type-selector.glade.h:3
+#, fuzzy
+msgid "<b>_Subtype</b>"
+msgstr "النوع الفرعي"
+
+#: ../goffice/graph/gog-guru-type-selector.glade.h:4
+#, fuzzy
+msgid "Show sample"
+msgstr "نسبة التردد:"
+
+#: ../goffice/graph/gog-guru.c:991
+#: ../goffice/graph/gog-series.c:465
+#, fuzzy
+msgid "Name"
+msgstr "اسم"
+
+#: ../goffice/graph/gog-guru.c:1018
+#, fuzzy
+msgid "Step 1 of 2: Select Chart Type"
+msgstr "رجاء اختر نوع الاتّصال:"
+
+#: ../goffice/graph/gog-guru.c:1026
+#, fuzzy
+msgid "Step 2 of 2: Customize Chart"
+msgstr "قراءة جزء الرسم البياني"
+
+#: ../goffice/graph/gog-guru.c:1031
+#, fuzzy
+msgid "Customize Chart"
+msgstr "مخطط مالي"
+
+#: ../goffice/graph/gog-guru.c:1107
+#, fuzzy
+msgid "_Insert"
+msgstr "_ادرج"
+
+#: ../goffice/graph/gog-guru.c:1169
+#, fuzzy
+msgid "_Plot Type"
+msgstr "نوع التّنبيه"
+
+#: ../goffice/graph/gog-label.c:143
+#, fuzzy
+msgid "Allow markup"
+msgstr "تعليم (كتلي)"
+
+#: ../goffice/graph/gog-label.c:144
+msgid "Support basic html-ish markup"
+msgstr ""
+
+#: ../goffice/graph/gog-label.c:202
+#, fuzzy
+msgid "_Text:"
+msgstr "النّ_ص:"
+
+#: ../goffice/graph/gog-label.c:209
+#: ../goffice/graph/gog-series.c:506
+#, fuzzy
+msgid "Data"
+msgstr "بيانات"
+
+#: ../goffice/graph/gog-label.c:363
+#: ../goffice/graph/gog-reg-curve.c:89
+#: ../plugins/plot_xy/gog-xy.c:1539
+#, fuzzy
+msgid "Details"
+msgstr "التفاصيل"
+
+#: ../goffice/graph/gog-label.c:382
+#, fuzzy
+msgid "Regression Equation"
+msgstr "_نسخ المعادلة"
+
+#: ../goffice/graph/gog-label.c:421
+#, fuzzy
+msgid "Show equation"
+msgstr "_نسخ المعادلة"
+
+#: ../goffice/graph/gog-label.c:422
+#, fuzzy
+msgid "Show the equation on the graph"
+msgstr "إظهار التلميحات عند البدء"
+
+#: ../goffice/graph/gog-label.c:427
+#, fuzzy
+msgid "Show coefficient"
+msgstr "اعرض شريط الأدوات"
+
+#: ../goffice/graph/gog-label.c:428
+msgid "Show the correlation coefficient on the graph"
+msgstr ""
+
+#: ../goffice/graph/gog-legend.c:206
+#, fuzzy
+msgid "Swatch Size pts"
+msgstr "_حجم خط داشر"
+
+#: ../goffice/graph/gog-legend.c:207
+#, fuzzy
+msgid "size of the swatches in pts."
+msgstr "حجم الخط بالنقاط"
+
+#: ../goffice/graph/gog-legend.c:212
+#, fuzzy
+msgid "Swatch Padding pts"
+msgstr "نمط لون توسيد رقعة الرسم:"
+
+#: ../goffice/graph/gog-legend.c:213
+msgid "padding between the swatches in pts."
+msgstr ""
+
+#: ../goffice/graph/gog-object-prefs.glade.h:2
+#: ../goffice/graph/gog-plot-prefs.glade.h:2
+#: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:2
+#: ../plugins/plot_barcol/gog-minmax-prefs.glade.h:2
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:2
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:2
+#: ../plugins/plot_pie/gog-pie-series.glade.h:2
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:2
+#, fuzzy, no-c-format
+msgid "%"
+msgstr "%"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:3
+#, fuzzy
+msgid "Anchor:"
+msgstr "مرساة"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:4
+#: ../goffice/graph/gog-plot-prefs.glade.h:3
+#, fuzzy
+msgid ""
+"Automatic\n"
+"Manual"
+msgstr "تنزيلات تلقائية"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:6
+msgid "GogObjectPrefs"
+msgstr ""
+
+#: ../goffice/graph/gog-object-prefs.glade.h:7
+#, fuzzy
+msgid "_Alignment:"
+msgstr "_محاذاة:"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:8
+#: ../goffice/graph/gog-plot-prefs.glade.h:6
+#, fuzzy
+msgid "_Height:"
+msgstr "ا_رتفاع:"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:9
+#: ../goffice/graph/gog-plot-prefs.glade.h:7
+#, fuzzy
+msgid "_Object position:"
+msgstr "موقع الجسم على الشريط"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:10
+#, fuzzy
+msgid "_Position:"
+msgstr "الدرجة"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:12
+#: ../goffice/graph/gog-plot-prefs.glade.h:9
+#, fuzzy
+msgid "_X:"
+msgstr "_س:"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:13
+#: ../goffice/graph/gog-plot-prefs.glade.h:10
+#, fuzzy
+msgid "_Y:"
+msgstr "_ص:"
+
+#: ../goffice/graph/gog-object.c:218
+#: ../goffice/graph/gog-object.c:237
+#: ../goffice/graph/gog-series.c:59
+#, fuzzy
+msgid "Top"
+msgstr "الأعلى"
+
+#: ../goffice/graph/gog-object.c:219
+#: ../goffice/graph/gog-object.c:238
+#, fuzzy
+msgid "Top right"
+msgstr "الجهة العليا اليمنى"
+
+#: ../goffice/graph/gog-object.c:220
+#: ../goffice/graph/gog-object.c:241
+#: ../goffice/graph/gog-series.c:60
+#, fuzzy
+msgid "Right"
+msgstr "اليمين"
+
+#: ../goffice/graph/gog-object.c:221
+#: ../goffice/graph/gog-object.c:244
+#, fuzzy
+msgid "Bottom right"
+msgstr "الحقّ السّفليّ"
+
+#: ../goffice/graph/gog-object.c:222
+#: ../goffice/graph/gog-object.c:243
+#: ../goffice/graph/gog-series.c:57
+#, fuzzy
+msgid "Bottom"
+msgstr "الأسفل"
+
+#: ../goffice/graph/gog-object.c:223
+#: ../goffice/graph/gog-object.c:242
+#, fuzzy
+msgid "Bottom left"
+msgstr "متروك بالقاع"
+
+#: ../goffice/graph/gog-object.c:224
+#: ../goffice/graph/gog-object.c:239
+#: ../goffice/graph/gog-series.c:58
+#, fuzzy
+msgid "Left"
+msgstr "اليسار"
+
+#: ../goffice/graph/gog-object.c:225
+#: ../goffice/graph/gog-object.c:236
+#, fuzzy
+msgid "Top left"
+msgstr "الجهة العليا اليسرى"
+
+#: ../goffice/graph/gog-object.c:229
+#, fuzzy
+msgid "Fill"
+msgstr "ملأ"
+
+#: ../goffice/graph/gog-object.c:230
+#: ../plugins/plot_barcol/gog-dropbar.c:60
+#, fuzzy
+msgid "Start"
+msgstr "إبدأ"
+
+#: ../goffice/graph/gog-object.c:231
+#: ../plugins/plot_barcol/gog-dropbar.c:62
+#, fuzzy
+msgid "End"
+msgstr "اَنْهِ"
+
+#: ../goffice/graph/gog-object.c:232
+#: ../goffice/graph/gog-object.c:240
+#: ../goffice/graph/gog-series.c:62
+#, fuzzy
+msgid "Center"
+msgstr "وسط"
+
+#: ../goffice/graph/gog-object.c:703
+#: ../goffice/graph/gog-object.c:748
+#, fuzzy
+msgid "Position"
+msgstr "الدرجة"
+
+#: ../goffice/graph/gog-object.c:742
+#, fuzzy
+msgid "Object ID"
+msgstr "رقم تعريف الكائن:"
+
+#: ../goffice/graph/gog-object.c:743
+#, fuzzy
+msgid "Object numerical ID"
+msgstr "هويّة الكائن موجودة مسبقاً"
+
+#: ../goffice/graph/gog-object.c:749
+msgid "Position and size of object, in percentage of parent size"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:754
+#, fuzzy
+msgid "Compass"
+msgstr "البوصلة"
+
+#: ../goffice/graph/gog-object.c:755
+msgid "Compass auto position flags"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:761
+#, fuzzy
+msgid "Alignment flag"
+msgstr "حالة العلم"
+
+#: ../goffice/graph/gog-object.c:766
+#: ../goffice/graph/gog-object.c:767
+#, fuzzy
+msgid "Is position manual"
+msgstr "%s - الحالة هي يدويّة.\n"
+
+#: ../goffice/graph/gog-object.c:772
+#, fuzzy
+msgid "Anchor"
+msgstr "مرساة"
+
+#: ../goffice/graph/gog-object.c:773
+#, fuzzy
+msgid "Anchor for manual position"
+msgstr "GtkAdjustment للموقع الأفقي"
+
+#: ../goffice/graph/gog-object.c:778
+#: ../goffice/graph/gog-object.c:779
+#, fuzzy
+msgid "Should the object be hidden"
+msgstr "هل تريد تنميق الملف %s؟"
+
+#: ../goffice/graph/gog-outlined-object.c:80
+#, fuzzy
+msgid "Padding Pts"
+msgstr "الحشو الأعلى"
+
+#: ../goffice/graph/gog-outlined-object.c:81
+msgid "Number of pts separating charts in the grid"
+msgstr ""
+
+#: ../goffice/graph/gog-plot-engine.c:56
+#, fuzzy
+msgid "Plot Engine"
+msgstr "دافعة ال_محرّك:"
+
+#: ../goffice/graph/gog-plot-engine.c:259
+#, fuzzy
+msgid "Plot Type"
+msgstr "نوع التّنبيه"
+
+#: ../goffice/graph/gog-plot-engine.c:343
+#, fuzzy
+msgid "Chart Theme"
+msgstr "هل أحذف السمة \"%s\" ؟"
+
+#: ../goffice/graph/gog-plot-engine.c:374
+#, fuzzy
+msgid "Regression Curve Engine"
+msgstr "محرك إكس.إم.إل-آر.بي.سي"
+
+#: ../goffice/graph/gog-plot-engine.c:529
+#, fuzzy
+msgid "Regression Curve Type"
+msgstr "نوع جهاز الخرج"
+
+#: ../goffice/graph/gog-plot.c:272
+#, fuzzy
+msgid "X axis:"
+msgstr "محور"
+
+#: ../goffice/graph/gog-plot.c:273
+#, fuzzy
+msgid "Y axis:"
+msgstr "محور"
+
+#: ../goffice/graph/gog-plot.c:274
+#, fuzzy
+msgid "Z axis:"
+msgstr "محور"
+
+#: ../goffice/graph/gog-plot.c:275
+#, fuzzy
+msgid "Circular axis:"
+msgstr "محور وح_يد:"
+
+#: ../goffice/graph/gog-plot.c:276
+#, fuzzy
+msgid "Radial axis:"
+msgstr "محور وح_يد:"
+
+#: ../goffice/graph/gog-plot.c:277
+#, fuzzy
+msgid "Type axis:"
+msgstr "محور وح_يد:"
+
+#: ../goffice/graph/gog-plot.c:278
+#, fuzzy
+msgid "Pseudo 3D axis:"
+msgstr "ترويسات متعلقة بالمحور"
+
+#: ../goffice/graph/gog-plot.c:357
+#, fuzzy
+msgid "Axes"
+msgstr "محاور"
+
+#: ../goffice/graph/gog-plot.c:508
+#, fuzzy
+msgid "Series"
+msgstr "السلسلة"
+
+#: ../goffice/graph/gog-plot.c:529
+#, fuzzy
+msgid "Vary style by element"
+msgstr "style_set مجهول \"%s\" على العنصر <%s>"
+
+#: ../goffice/graph/gog-plot.c:530
+msgid "Use a different style for each segments"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:535
+#, fuzzy
+msgid "X axis"
+msgstr "محور"
+
+#: ../goffice/graph/gog-plot.c:536
+#, fuzzy
+msgid "Reference to X axis"
+msgstr "ترويسات متعلقة بالمحور"
+
+#: ../goffice/graph/gog-plot.c:541
+#, fuzzy
+msgid "Y axis"
+msgstr "محور"
+
+#: ../goffice/graph/gog-plot.c:542
+#, fuzzy
+msgid "Reference to Y axis"
+msgstr "ترويسات متعلقة بالمحور"
+
+#: ../goffice/graph/gog-plot.c:547
+#, fuzzy
+msgid "Plot group"
+msgstr "مجموعة التقويم"
+
+#: ../goffice/graph/gog-plot.c:548
+msgid "Name of plot group if any"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:553
+#, fuzzy
+msgid "Guru hints"
+msgstr "ا_ظهر التلميحات عند بدأ التشغيل"
+
+#: ../goffice/graph/gog-plot.c:554
+msgid "Semicolon separated list of hints for automatic addition of objects in guru dialog"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:560
+#, fuzzy
+msgid "Default interpolation"
+msgstr "التوليد الافتراضي:"
+
+#: ../goffice/graph/gog-plot.c:561
+msgid "Default type of series line interpolation"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:1129
+#, fuzzy
+msgid "Move plot area"
+msgstr "منطقة خارطة الصورة"
+
+#: ../goffice/graph/gog-plot.c:1181
+#, fuzzy
+msgid "Resize plot area"
+msgstr "منطقة خارطة الصورة"
+
+#: ../goffice/graph/gog-reg-curve-prefs.glade.h:1
+#, fuzzy
+msgid "High bound:"
+msgstr "المنتقى مثبّت"
+
+#: ../goffice/graph/gog-reg-curve-prefs.glade.h:2
+#, fuzzy
+msgid "Low bound:"
+msgstr "المنتقى مثبّت"
+
+#: ../goffice/graph/gog-reg-curve-prefs.glade.h:3
+#: ../goffice/graph/gog-reg-curve.c:197
+#, fuzzy
+msgid "Skip invalid data"
+msgstr ""
+"بيانات المراسل غير صحيحة:\n"
+"\n"
+
+#: ../goffice/graph/gog-reg-curve.c:161
+#, fuzzy
+msgid "Regression Curve"
+msgstr "نوع المنحنى"
+
+#: ../goffice/graph/gog-reg-curve.c:168
+#, fuzzy
+msgid "Equation"
+msgstr "معادلة"
+
+#: ../goffice/graph/gog-reg-curve.c:196
+#, fuzzy
+msgid "Skip invalid"
+msgstr " (يونيكود غير صحيح)"
+
+#: ../goffice/graph/gog-reg-eqn-prefs.glade.h:1
+#, fuzzy
+msgid "Display _equation"
+msgstr "_نسخ المعادلة"
+
+#: ../goffice/graph/gog-reg-eqn-prefs.glade.h:2
+msgid "Display _regression coefficient R²"
+msgstr ""
+
+#: ../goffice/graph/gog-renderer.c:1724
+#, fuzzy
+msgid "The GogGraph this renderer displays"
+msgstr "رفع عروض الصورة"
+
+#: ../goffice/graph/gog-renderer.c:1729
+#, fuzzy
+msgid "View"
+msgstr "اعرض"
+
+#: ../goffice/graph/gog-renderer.c:1730
+msgid "the GogView this renderer is displaying"
+msgstr ""
+
+#: ../goffice/graph/gog-series-prefs.glade.h:1
+#, fuzzy
+msgid "<b>Interpolation</b>"
+msgstr "التوليد:"
+
+#: ../goffice/graph/gog-series-prefs.glade.h:2
+#, fuzzy
+msgid "Fill _to:"
+msgstr "عدد السطور التي ستملأ"
+
+#: ../goffice/graph/gog-series-prefs.glade.h:3
+msgid ""
+"Linear\n"
+"Spline\n"
+"Step at start\n"
+"Step at end\n"
+"Step at center\n"
+"Step to average"
+msgstr ""
+
+#: ../goffice/graph/gog-series-prefs.glade.h:10
+#, fuzzy
+msgid "content"
+msgstr "المحتوى"
+
+#: ../goffice/graph/gog-series.c:55
+#, fuzzy
+msgid "Y origin"
+msgstr "منشأ"
+
+#: ../goffice/graph/gog-series.c:56
+#, fuzzy
+msgid "X origin"
+msgstr "منشأ"
+
+#: ../goffice/graph/gog-series.c:61
+#, fuzzy
+msgid "Origin"
+msgstr "منشأ"
+
+#: ../goffice/graph/gog-series.c:63
+#, fuzzy
+msgid "Edge"
+msgstr "حافة"
+
+#: ../goffice/graph/gog-series.c:64
+#, fuzzy
+msgid "Self"
+msgstr "ذاته"
+
+#: ../goffice/graph/gog-series.c:65
+#, fuzzy
+msgid "Next series"
+msgstr "سيريز (متوالية)"
+
+#: ../goffice/graph/gog-series.c:170
+#, fuzzy
+msgid "Index:"
+msgstr "المؤشر:"
+
+#: ../goffice/graph/gog-series.c:189
+#: ../plugins/plot_pie/gog-pie.c:86
+#, fuzzy
+msgid "Settings"
+msgstr "التعيينات"
+
+#: ../goffice/graph/gog-series.c:229
+#, fuzzy
+msgid "Index"
+msgstr "فهرس"
+
+#: ../goffice/graph/gog-series.c:230
+#, fuzzy
+msgid "Index of the corresponding data element"
+msgstr "فهرس بيانات متن الرّسالة"
+
+#: ../goffice/graph/gog-series.c:570
+#, fuzzy
+msgid "Point"
+msgstr "نقطة"
+
+#: ../goffice/graph/gog-series.c:576
+#, fuzzy
+msgid "Regression curve"
+msgstr "نوع المنحنى"
+
+#: ../goffice/graph/gog-series.c:584
+#, fuzzy
+msgid "Trend line"
+msgstr "لف السّطور"
+
+#: ../goffice/graph/gog-series.c:617
+#, fuzzy
+msgid "Has-legend"
+msgstr "نوع المحتوى"
+
+#: ../goffice/graph/gog-series.c:618
+msgid "Should the series show up in legends"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:623
+#, fuzzy
+msgid "Interpolation"
+msgstr "توليد"
+
+#: ../goffice/graph/gog-series.c:624
+#, fuzzy
+msgid "Type of line interpolation"
+msgstr "خط أسمك"
+
+#: ../goffice/graph/gog-series.c:629
+#, fuzzy
+msgid "Fill type"
+msgstr "نوع ملء الطبقة"
+
+#: ../goffice/graph/gog-series.c:630
+#, fuzzy
+msgid "How to fill the area"
+msgstr "عدد السطور التي ستملأ"
+
+#: ../goffice/graph/gog-smoothed-curve.c:60
+#, fuzzy
+msgid "Smoothed Curve"
+msgstr "نوع المنحنى"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:1
+#, fuzzy
+msgid "<b>Fill</b>"
+msgstr "ملأ"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:2
+#, fuzzy
+msgid "<b>Line</b>"
+msgstr "خط"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:3
+#, fuzzy
+msgid "<b>Marker</b>"
+msgstr "تعليم"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:4
+#, fuzzy
+msgid "<b>Outline</b>"
+msgstr " حدود  الخارجية"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:5
+#, fuzzy
+msgid "B_rightness:"
+msgstr "الصواب"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:6
+#, fuzzy
+msgid "Co_lor:"
+msgstr "الل_ون:"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:7
+msgid ""
+"None\n"
+"Pattern\n"
+"Bicolor gradient\n"
+"Unicolor gradient\n"
+"Image"
+msgstr ""
+
+#: ../goffice/graph/gog-style-prefs.glade.h:12
+msgid "O_utline:"
+msgstr ""
+
+#: ../goffice/graph/gog-style-prefs.glade.h:13
+#, fuzzy
+msgid "Sha_pe:"
+msgstr "مرسام"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:14
+#, fuzzy
+msgid "Si_ze:"
+msgstr "ح_جم:"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:15
+#, fuzzy
+msgid "St_yle:"
+msgstr "أ_سلوب"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:16
+#, fuzzy
+msgid "_Background:"
+msgstr "ال_خلفية:"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:17
+#, fuzzy
+msgid "_Direction:"
+msgstr "<b>الإتجاه:</b>"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:18
+#, fuzzy
+msgid "_Fill:"
+msgstr "ملأ"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:19
+#, fuzzy
+msgid "_Fit:"
+msgstr "ملائمة"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:20
+#, fuzzy
+msgid "_Foreground:"
+msgstr "ال_واجهة الأمامية:"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:21
+#, fuzzy
+msgid "_Pattern:"
+msgstr "ال_نمط:"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:22
+#, fuzzy
+msgid "_Select..."
+msgstr "_اختر"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:23
+#, fuzzy
+msgid "_Size:"
+msgstr "ال_حجم:"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:26
+msgid ""
+"stretched\n"
+"wallpaper"
+msgstr ""
+
+#: ../goffice/graph/gog-style.c:181
+#: ../goffice/gtk/goffice-gtk.c:432
+#, fuzzy, c-format
+msgid "%d x %d"
+msgstr "%d x %d"
+
+#: ../goffice/graph/gog-style.c:630
+#, fuzzy
+msgid "Start:"
+msgstr "إبدأ"
+
+#: ../goffice/graph/gog-style.c:631
+#, fuzzy
+msgid "End:"
+msgstr "النهاية:"
+
+#: ../goffice/graph/gog-style.c:633
+#, fuzzy
+msgid "Foreground:"
+msgstr "ال_واجهة الأمامية:"
+
+#: ../goffice/graph/gog-style.c:634
+#, fuzzy
+msgid "Background:"
+msgstr "الخلفية:"
+
+#: ../goffice/graph/gog-style.c:842
+#, fuzzy
+msgid "Markers"
+msgstr "العلامات"
+
+#: ../goffice/graph/gog-style.c:1005
+#: ../goffice/graph/gog-styled-object.c:161
+#, fuzzy
+msgid "Style"
+msgstr "الأسلوب"
+
+#: ../goffice/graph/gog-styled-object.c:162
+#, fuzzy
+msgid "A pointer to the GogStyle object"
+msgstr "اقفل الجسم على الشريط"
+
+#. Guppi
+#: ../goffice/graph/gog-theme.c:619
+msgid "Guppi"
+msgstr ""
+
+#: ../goffice/graph/gog-trend-line.c:41
+#, fuzzy
+msgid "Trend Line"
+msgstr "لف السّطور"
+
+#: ../goffice/graph/gog-view.c:63
+#, fuzzy
+msgid "Select object"
+msgstr "مميّز الجسم (%s)"
+
+#: ../goffice/graph/gog-view.c:134
+#, fuzzy
+msgid "Move"
+msgstr "تحريك"
+
+#: ../goffice/graph/gog-view.c:186
+#, fuzzy
+msgid "Resize object"
+msgstr "مميّز الجسم (%s)"
+
+#: ../goffice/graph/gog-view.c:591
+#, fuzzy
+msgid "Parent"
+msgstr "أم/أب"
+
+#: ../goffice/graph/gog-view.c:592
+#, fuzzy
+msgid "the GogView parent"
+msgstr "هدف - أب"
+
+#: ../goffice/graph/gog-view.c:598
+#, fuzzy
+msgid "The GogObject this view displays"
+msgstr "رفع عروض الصورة"
+
+#: ../goffice/gtk/go-action-combo-text.c:253
+#, fuzzy
+msgid "Case Sensitive"
+msgstr "حساس لحالة الحرف"
+
+#: ../goffice/gtk/go-action-combo-text.c:254
+msgid "Should the text comparison be case sensitive"
+msgstr ""
+
+#: ../goffice/gtk/go-charmap-sel.c:74
+#, fuzzy
+msgid "Arabic"
+msgstr "عربي"
+
+#: ../goffice/gtk/go-charmap-sel.c:75
+#, fuzzy
+msgid "Baltic"
+msgstr "البلطيقيّة"
+
+#: ../goffice/gtk/go-charmap-sel.c:76
+#, fuzzy
+msgid "Central European"
+msgstr "وسط أوروبيّة"
+
+#: ../goffice/gtk/go-charmap-sel.c:77
+#, fuzzy
+msgid "Chinese"
+msgstr "الصّينيّة"
+
+#: ../goffice/gtk/go-charmap-sel.c:78
+#, fuzzy
+msgid "Cyrillic"
+msgstr "السّريليّة"
+
+#: ../goffice/gtk/go-charmap-sel.c:79
+#, fuzzy
+msgid "Greek"
+msgstr "اليونانيّة"
+
+#: ../goffice/gtk/go-charmap-sel.c:80
+#, fuzzy
+msgid "Hebrew"
+msgstr "العبريّة"
+
+#: ../goffice/gtk/go-charmap-sel.c:81
+#, fuzzy
+msgid "Indian"
+msgstr "الهندي"
+
+#: ../goffice/gtk/go-charmap-sel.c:82
+#, fuzzy
+msgid "Japanese"
+msgstr "اليابانية"
+
+#: ../goffice/gtk/go-charmap-sel.c:83
+#, fuzzy
+msgid "Korean"
+msgstr "الكوريّة"
+
+#: ../goffice/gtk/go-charmap-sel.c:84
+#, fuzzy
+msgid "Turkish"
+msgstr "التركيّة"
+
+#: ../goffice/gtk/go-charmap-sel.c:85
+#, fuzzy
+msgid "Unicode"
+msgstr "يونيكود"
+
+#: ../goffice/gtk/go-charmap-sel.c:86
+#, fuzzy
+msgid "Vietnamese"
+msgstr "فياتنامي"
+
+#: ../goffice/gtk/go-charmap-sel.c:87
+#, fuzzy
+msgid "Western"
+msgstr "غربي"
+
+#: ../goffice/gtk/go-charmap-sel.c:88
+#: ../goffice/gtk/go-locale-sel.c:71
+#, fuzzy
+msgid "Other"
+msgstr "أخرى"
+
+#: ../goffice/gtk/go-charmap-sel.c:119
+#, fuzzy
+msgid "Arabic (IBM-864)"
+msgstr "عربي (_IBM-864)"
+
+#: ../goffice/gtk/go-charmap-sel.c:120
+#, fuzzy
+msgid "Arabic (IBM-864-I)"
+msgstr "عربي (_IBM-864)"
+
+#: ../goffice/gtk/go-charmap-sel.c:121
+#, fuzzy
+msgid "Arabic (ISO-8859-6)"
+msgstr "عربي (ISO-_8859-6)"
+
+#: ../goffice/gtk/go-charmap-sel.c:122
+#, fuzzy
+msgid "Arabic (ISO-8859-6-E)"
+msgstr "عربي (ISO-_8859-6)"
+
+#: ../goffice/gtk/go-charmap-sel.c:124
+#, fuzzy
+msgid "Arabic (ISO-8859-6-I)"
+msgstr "عربي (ISO-_8859-6)"
+
+#: ../goffice/gtk/go-charmap-sel.c:125
+#, fuzzy
+msgid "Arabic (MacArabic)"
+msgstr "عربي (_MacArabic)"
+
+#: ../goffice/gtk/go-charmap-sel.c:126
+#, fuzzy
+msgid "Arabic (Windows-1256)"
+msgstr "عربي (_Windows-1256)"
+
+#: ../goffice/gtk/go-charmap-sel.c:127
+#, fuzzy
+msgid "Armenian (ARMSCII-8)"
+msgstr "_أرمني (ARMSCII-8)"
+
+#: ../goffice/gtk/go-charmap-sel.c:128
+#, fuzzy
+msgid "Baltic (ISO-8859-13)"
+msgstr "بلطيق (ISO-8859-13)"
+
+#: ../goffice/gtk/go-charmap-sel.c:129
+#, fuzzy
+msgid "Baltic (ISO-8859-4)"
+msgstr "بلطيق (ISO-8859-4)"
+
+#: ../goffice/gtk/go-charmap-sel.c:130
+#, fuzzy
+msgid "Baltic (Windows-1257)"
+msgstr "بلطيقي (_Windows-1257)"
+
+#: ../goffice/gtk/go-charmap-sel.c:131
+#, fuzzy
+msgid "Celtic (ISO-8859-14)"
+msgstr "_كلتي (ISO-8859-14)"
+
+#: ../goffice/gtk/go-charmap-sel.c:132
+#, fuzzy
+msgid "Central European (IBM-852)"
+msgstr "وسط أوروبي  (_IBM-852)"
+
+#: ../goffice/gtk/go-charmap-sel.c:133
+#, fuzzy
+msgid "Central European (ISO-8859-2)"
+msgstr "أوروبا الوسطى، ISO-8859-2"
+
+#: ../goffice/gtk/go-charmap-sel.c:134
+#, fuzzy
+msgid "Central European (MacCE)"
+msgstr "وسط أوروبي  (_MacCE)"
+
+#: ../goffice/gtk/go-charmap-sel.c:135
+#, fuzzy
+msgid "Central European (Windows-1250)"
+msgstr "وسط أوروبي  (_Windows-1250)"
+
+#: ../goffice/gtk/go-charmap-sel.c:136
+#, fuzzy
+msgid "Chinese Simplified (GB18030)"
+msgstr "صيني مبسط (_GB18030)"
+
+#: ../goffice/gtk/go-charmap-sel.c:137
+#, fuzzy
+msgid "Chinese Simplified (GB2312)"
+msgstr "صيني مبسط، EUC-CN·(GB2312)"
+
+#: ../goffice/gtk/go-charmap-sel.c:138
+#, fuzzy
+msgid "Chinese Simplified (GBK)"
+msgstr "صيني مبسط (_GB18030)"
+
+#: ../goffice/gtk/go-charmap-sel.c:139
+#, fuzzy
+msgid "Chinese Simplified (HZ)"
+msgstr "صيني مبسط (_HZ)"
+
+#: ../goffice/gtk/go-charmap-sel.c:140
+#, fuzzy
+msgid "Chinese Simplified (Windows-936)"
+msgstr "صيني مبسط، صفحة تشفيرة وينداوس 936"
+
+#: ../goffice/gtk/go-charmap-sel.c:141
+#, fuzzy
+msgid "Chinese Traditional (Big5)"
+msgstr "صيني تقليدي، BIG5"
+
+#: ../goffice/gtk/go-charmap-sel.c:142
+#, fuzzy
+msgid "Chinese Traditional (Big5-HKSCS)"
+msgstr "صيني تقليدي، BIG5-HKSCS"
+
+#: ../goffice/gtk/go-charmap-sel.c:143
+#, fuzzy
+msgid "Chinese Traditional (EUC-TW)"
+msgstr "صيني تقليدي (_EUC-TW)"
+
+#: ../goffice/gtk/go-charmap-sel.c:144
+#, fuzzy
+msgid "Croatian (MacCroatian)"
+msgstr "كرواتي (Mac_Croatian)"
+
+#: ../goffice/gtk/go-charmap-sel.c:145
+#, fuzzy
+msgid "Cyrillic (IBM-855)"
+msgstr "سيريالي (_IBM-855)"
+
+#: ../goffice/gtk/go-charmap-sel.c:146
+#, fuzzy
+msgid "Cyrillic (ISO-8859-5)"
+msgstr "سيريالي، ISO-8859-5"
+
+#: ../goffice/gtk/go-charmap-sel.c:147
+#, fuzzy
+msgid "Cyrillic (ISO-IR-111)"
+msgstr "سيريالي (IS_O-IR-111)"
+
+#: ../goffice/gtk/go-charmap-sel.c:148
+#, fuzzy
+msgid "Cyrillic (KOI8-R)"
+msgstr "سيريالي (_KOI8-R)"
+
+#: ../goffice/gtk/go-charmap-sel.c:149
+#, fuzzy
+msgid "Cyrillic (MacCyrillic)"
+msgstr "سيريالي (_MacCyrillic)"
+
+#: ../goffice/gtk/go-charmap-sel.c:150
+#, fuzzy
+msgid "Cyrillic (Windows-1251)"
+msgstr "سيريالي (_Windows-1251)"
+
+#: ../goffice/gtk/go-charmap-sel.c:151
+#, fuzzy
+msgid "Russian (CP-866)"
+msgstr "سيريالي/_روسي (CP-866)"
+
+#: ../goffice/gtk/go-charmap-sel.c:152
+#, fuzzy
+msgid "Ukrainian (KOI8-U)"
+msgstr "أوكرانية، KOI8-U"
+
+#: ../goffice/gtk/go-charmap-sel.c:153
+#, fuzzy
+msgid "Ukrainian (MacUkrainian)"
+msgstr "سرياني/اكراني"
+
+#: ../goffice/gtk/go-charmap-sel.c:154
+#, fuzzy
+msgid "English (ASCII)"
+msgstr "انجليزي (_US-ASCII)"
+
+#: ../goffice/gtk/go-charmap-sel.c:155
+#, fuzzy
+msgid "Farsi (MacFarsi)"
+msgstr "_فارسي (MacFarsi)"
+
+#: ../goffice/gtk/go-charmap-sel.c:156
+#, fuzzy
+msgid "Georgian (GEOSTD8)"
+msgstr "_جورجي (GEOSTD8)"
+
+#: ../goffice/gtk/go-charmap-sel.c:157
+#, fuzzy
+msgid "Greek (ISO-8859-7)"
+msgstr "يوناني (_ISO-8859-7)"
+
+#: ../goffice/gtk/go-charmap-sel.c:158
+#, fuzzy
+msgid "Greek (MacGreek)"
+msgstr "يوناني (_MacGreek)"
+
+#: ../goffice/gtk/go-charmap-sel.c:159
+#, fuzzy
+msgid "Greek (Windows-1253)"
+msgstr "يوناني (_Windows-1253)"
+
+#: ../goffice/gtk/go-charmap-sel.c:160
+#, fuzzy
+msgid "Gujarati (MacGujarati)"
+msgstr "كوجراتي (_MacGujarati)"
+
+#: ../goffice/gtk/go-charmap-sel.c:161
+#, fuzzy
+msgid "Gurmukhi (MacGurmukhi)"
+msgstr "غورموخي (Mac_Gurmukhi)"
+
+#: ../goffice/gtk/go-charmap-sel.c:162
+#, fuzzy
+msgid "Hebrew (IBM-862)"
+msgstr "عبري (_IBM-862)"
+
+#: ../goffice/gtk/go-charmap-sel.c:163
+#, fuzzy
+msgid "Hebrew (ISO-8859-8-E)"
+msgstr "عبري، ISO-8859-8"
+
+#: ../goffice/gtk/go-charmap-sel.c:164
+#, fuzzy
+msgid "Hebrew (ISO-8859-8-I)"
+msgstr "عبري، ISO-8859-8"
+
+#: ../goffice/gtk/go-charmap-sel.c:165
+#, fuzzy
+msgid "Hebrew (MacHebrew)"
+msgstr "عبري (_MacHebrew)"
+
+#: ../goffice/gtk/go-charmap-sel.c:166
+#, fuzzy
+msgid "Hebrew (Windows-1255)"
+msgstr "عبري (_Windows-1255)"
+
+#: ../goffice/gtk/go-charmap-sel.c:167
+#, fuzzy
+msgid "Hindi (MacDevanagari)"
+msgstr "هندي (Mac_Devanagari)"
+
+#: ../goffice/gtk/go-charmap-sel.c:168
+#, fuzzy
+msgid "Icelandic (MacIcelandic)"
+msgstr "_أيسلاندي (MacIcelandic)"
+
+#: ../goffice/gtk/go-charmap-sel.c:169
+#, fuzzy
+msgid "Japanese (EUC-JP)"
+msgstr "ياباني (_EUC-JP)"
+
+#: ../goffice/gtk/go-charmap-sel.c:170
+#, fuzzy
+msgid "Japanese (ISO-2022-JP)"
+msgstr "ياباني (_ISO-2022-JP)"
+
+#: ../goffice/gtk/go-charmap-sel.c:171
+#, fuzzy
+msgid "Japanese (Shift_JIS)"
+msgstr "ياباني (_Shift-JIS)"
+
+#: ../goffice/gtk/go-charmap-sel.c:172
+#, fuzzy
+msgid "Korean (EUC-KR)"
+msgstr "كوري (_EUC-KR)"
+
+#: ../goffice/gtk/go-charmap-sel.c:173
+#, fuzzy
+msgid "Korean (ISO-2022-KR)"
+msgstr "كوري (_ISO-2022-KR)"
+
+#: ../goffice/gtk/go-charmap-sel.c:174
+#, fuzzy
+msgid "Korean (JOHAB)"
+msgstr "كوري (_JOHAB)"
+
+#: ../goffice/gtk/go-charmap-sel.c:175
+#, fuzzy
+msgid "Korean (UHC)"
+msgstr "كوري (_UHC)"
+
+#: ../goffice/gtk/go-charmap-sel.c:176
+#, fuzzy
+msgid "Nordic (ISO-8859-10)"
+msgstr "_شمالي (ISO-8859-10)"
+
+#: ../goffice/gtk/go-charmap-sel.c:177
+#, fuzzy
+msgid "Romanian (MacRomanian)"
+msgstr "_روماني (MacRomanian)"
+
+#: ../goffice/gtk/go-charmap-sel.c:178
+#, fuzzy
+msgid "Romanian (ISO-8859-16)"
+msgstr "ر_وماني (ISO-8859-16)"
+
+#: ../goffice/gtk/go-charmap-sel.c:179
+#, fuzzy
+msgid "South European (ISO-8859-3)"
+msgstr "_جنوب اوروبي (ISO-8859-3)"
+
+#: ../goffice/gtk/go-charmap-sel.c:180
+#, fuzzy
+msgid "Thai (TIS-620)"
+msgstr "تايلاندي (TIS-_620)"
+
+#: ../goffice/gtk/go-charmap-sel.c:181
+#, fuzzy
+msgid "Turkish (IBM-857)"
+msgstr "تركي (_IBM-857)"
+
+#: ../goffice/gtk/go-charmap-sel.c:182
+#, fuzzy
+msgid "Turkish (ISO-8859-9)"
+msgstr "تركي، ISO-8859-9"
+
+#: ../goffice/gtk/go-charmap-sel.c:183
+#, fuzzy
+msgid "Turkish (MacTurkish)"
+msgstr "تركي (_MacTurkish)"
+
+#: ../goffice/gtk/go-charmap-sel.c:184
+#, fuzzy
+msgid "Turkish (Windows-1254)"
+msgstr "تركي (_Windows-1254)"
+
+#: ../goffice/gtk/go-charmap-sel.c:185
+#, fuzzy
+msgid "Unicode (UTF-7)"
+msgstr "يونيكود (UTF-_8)"
+
+#: ../goffice/gtk/go-charmap-sel.c:186
+#, fuzzy
+msgid "Unicode (UTF-8)"
+msgstr "يونيكود (UTF-8)"
+
+#: ../goffice/gtk/go-charmap-sel.c:187
+#, fuzzy
+msgid "Unicode (UTF-16BE)"
+msgstr "يونيكود (UTF-1_6 LE)"
+
+#: ../goffice/gtk/go-charmap-sel.c:188
+#, fuzzy
+msgid "Unicode (UTF-16LE)"
+msgstr "يونيكود (UTF-1_6 LE)"
+
+#: ../goffice/gtk/go-charmap-sel.c:189
+#, fuzzy
+msgid "Unicode (UTF-32BE)"
+msgstr "يونيكود (UTF-1_6 LE)"
+
+#: ../goffice/gtk/go-charmap-sel.c:190
+#, fuzzy
+msgid "Unicode (UTF-32LE)"
+msgstr "يونيكود (UTF-1_6 LE)"
+
+#: ../goffice/gtk/go-charmap-sel.c:191
+#, fuzzy
+msgid "User Defined"
+msgstr "معَرّف من طرف المستخدم"
+
+#: ../goffice/gtk/go-charmap-sel.c:192
+#, fuzzy
+msgid "Vietnamese (TCVN)"
+msgstr "فيتنامي (_TCVN)"
+
+#: ../goffice/gtk/go-charmap-sel.c:193
+#, fuzzy
+msgid "Vietnamese (VISCII)"
+msgstr "فيتنامي (_VISCII)"
+
+#: ../goffice/gtk/go-charmap-sel.c:194
+#, fuzzy
+msgid "Vietnamese (VPS)"
+msgstr "فيتنامي (_TCVN)"
+
+#: ../goffice/gtk/go-charmap-sel.c:195
+#, fuzzy
+msgid "Vietnamese (Windows-1258)"
+msgstr "فيتنامي (_Windows-1258)"
+
+#: ../goffice/gtk/go-charmap-sel.c:196
+#, fuzzy
+msgid "Visual Hebrew (ISO-8859-8)"
+msgstr "عبري _مرئي (ISO-8859-8)"
+
+#: ../goffice/gtk/go-charmap-sel.c:197
+#, fuzzy
+msgid "Western (IBM-850)"
+msgstr "غربي (_IBM-850)"
+
+#: ../goffice/gtk/go-charmap-sel.c:198
+#, fuzzy
+msgid "Western (ISO-8859-1)"
+msgstr "غربي (_ISO-8859-1)"
+
+#: ../goffice/gtk/go-charmap-sel.c:199
+#, fuzzy
+msgid "Western (ISO-8859-15)"
+msgstr "غربي (IS_O-8859-15)"
+
+#: ../goffice/gtk/go-charmap-sel.c:200
+#, fuzzy
+msgid "Western (MacRoman)"
+msgstr "غربي (_MacRoman)"
+
+#: ../goffice/gtk/go-charmap-sel.c:201
+#, fuzzy
+msgid "Western (Windows-1252)"
+msgstr "غربي (_Windows-1252)"
+
+#: ../goffice/gtk/go-charmap-sel.c:418
+#, fuzzy
+msgid "Locale: "
+msgstr "إقليم"
+
+#: ../goffice/gtk/go-charmap-sel.c:458
+#, fuzzy
+msgid "Conversion Direction"
+msgstr "اتّجاه المسح:"
+
+#: ../goffice/gtk/go-charmap-sel.c:459
+msgid "This value determines which iconv test to perform."
+msgstr ""
+
+#: ../goffice/gtk/go-color-palette.c:79
+#, fuzzy
+msgid "black"
+msgstr "أسود"
+
+#: ../goffice/gtk/go-color-palette.c:80
+#, fuzzy
+msgid "light brown"
+msgstr "بني خفيف"
+
+#: ../goffice/gtk/go-color-palette.c:81
+#, fuzzy
+msgid "brown gold"
+msgstr "بني ذهبي"
+
+#: ../goffice/gtk/go-color-palette.c:82
+#, fuzzy
+msgid "dark green #2"
+msgstr "أخضر غامق #2"
+
+#: ../goffice/gtk/go-color-palette.c:83
+#, fuzzy
+msgid "navy"
+msgstr "أزرق ليلي"
+
+#: ../goffice/gtk/go-color-palette.c:84
+#: ../goffice/gtk/go-color-palette.c:136
+#, fuzzy
+msgid "dark blue"
+msgstr "أزرق غامق"
+
+#: ../goffice/gtk/go-color-palette.c:85
+#, fuzzy
+msgid "purple #2"
+msgstr "بنفسجي #2"
+
+#: ../goffice/gtk/go-color-palette.c:86
+#, fuzzy
+msgid "very dark gray"
+msgstr "رمادي غامق جدا"
+
+#: ../goffice/gtk/go-color-palette.c:88
+#: ../goffice/gtk/go-color-palette.c:141
+#, fuzzy
+msgid "dark red"
+msgstr "أحمر غامق"
+
+#: ../goffice/gtk/go-color-palette.c:89
+#, fuzzy
+msgid "red-orange"
+msgstr "أحمر برتقالي"
+
+#: ../goffice/gtk/go-color-palette.c:90
+#, fuzzy
+msgid "gold"
+msgstr "ذهبي"
+
+#: ../goffice/gtk/go-color-palette.c:91
+#, fuzzy
+msgid "dark green"
+msgstr "أخضر غامق"
+
+#: ../goffice/gtk/go-color-palette.c:92
+#: ../goffice/gtk/go-color-palette.c:142
+#, fuzzy
+msgid "dull blue"
+msgstr "أزرق هافت"
+
+#: ../goffice/gtk/go-color-palette.c:93
+#: ../goffice/gtk/go-color-palette.c:143
+#, fuzzy
+msgid "blue"
+msgstr "أزرق"
+
+#: ../goffice/gtk/go-color-palette.c:94
+#, fuzzy
+msgid "dull purple"
+msgstr "بنفسجي هافت"
+
+#: ../goffice/gtk/go-color-palette.c:95
+#, fuzzy
+msgid "dark gray"
+msgstr "رمادي غامق جدا"
+
+#: ../goffice/gtk/go-color-palette.c:97
+#, fuzzy
+msgid "red"
+msgstr "أحمر"
+
+#: ../goffice/gtk/go-color-palette.c:98
+#, fuzzy
+msgid "orange"
+msgstr "برتقالي"
+
+#: ../goffice/gtk/go-color-palette.c:99
+#, fuzzy
+msgid "lime"
+msgstr "ليم"
+
+#: ../goffice/gtk/go-color-palette.c:100
+#, fuzzy
+msgid "dull green"
+msgstr "أخضر هافت"
+
+#: ../goffice/gtk/go-color-palette.c:101
+#, fuzzy
+msgid "dull blue #2"
+msgstr "أزرق هافت #2"
+
+#: ../goffice/gtk/go-color-palette.c:102
+#, fuzzy
+msgid "sky blue #2"
+msgstr "أزرق سماوي #2"
+
+#: ../goffice/gtk/go-color-palette.c:103
+#: ../goffice/gtk/go-color-palette.c:140
+#, fuzzy
+msgid "purple"
+msgstr "بنفسجي"
+
+#: ../goffice/gtk/go-color-palette.c:104
+#, fuzzy
+msgid "gray"
+msgstr "رمادي"
+
+#: ../goffice/gtk/go-color-palette.c:106
+#: ../goffice/gtk/go-color-palette.c:137
+#, fuzzy
+msgid "magenta"
+msgstr "أرجوانى"
+
+#: ../goffice/gtk/go-color-palette.c:107
+#, fuzzy
+msgid "bright orange"
+msgstr "برتقالي لامع"
+
+#: ../goffice/gtk/go-color-palette.c:108
+#: ../goffice/gtk/go-color-palette.c:138
+#, fuzzy
+msgid "yellow"
+msgstr "أصفر"
+
+#: ../goffice/gtk/go-color-palette.c:109
+#, fuzzy
+msgid "green"
+msgstr "أخضر"
+
+#: ../goffice/gtk/go-color-palette.c:110
+#: ../goffice/gtk/go-color-palette.c:139
+#, fuzzy
+msgid "cyan"
+msgstr "سيان"
+
+#: ../goffice/gtk/go-color-palette.c:111
+#, fuzzy
+msgid "bright blue"
+msgstr "أزرق لامع"
+
+#: ../goffice/gtk/go-color-palette.c:112
+#: ../goffice/gtk/go-color-palette.c:128
+#, fuzzy
+msgid "red purple"
+msgstr "أحمر بنفسجي"
+
+#: ../goffice/gtk/go-color-palette.c:113
+#, fuzzy
+msgid "light gray"
+msgstr "التدرج الرمادي"
+
+#: ../goffice/gtk/go-color-palette.c:115
+#: ../goffice/gtk/go-color-palette.c:132
+#, fuzzy
+msgid "pink"
+msgstr "وردي"
+
+#: ../goffice/gtk/go-color-palette.c:116
+#, fuzzy
+msgid "light orange"
+msgstr "برتقالي خفيف"
+
+#: ../goffice/gtk/go-color-palette.c:117
+#: ../goffice/gtk/go-color-palette.c:129
+#, fuzzy
+msgid "light yellow"
+msgstr "أصفر خفيف"
+
+#: ../goffice/gtk/go-color-palette.c:118
+#, fuzzy
+msgid "light green"
+msgstr "أخضر خفيف"
+
+#: ../goffice/gtk/go-color-palette.c:119
+#, fuzzy
+msgid "light cyan"
+msgstr "سياني خفيف"
+
+#: ../goffice/gtk/go-color-palette.c:120
+#: ../goffice/gtk/go-color-palette.c:130
+#, fuzzy
+msgid "light blue"
+msgstr "أزرق خفيف"
+
+#: ../goffice/gtk/go-color-palette.c:121
+#: ../goffice/gtk/go-color-palette.c:134
+#, fuzzy
+msgid "light purple"
+msgstr "بنفسجي خفيف"
+
+#: ../goffice/gtk/go-color-palette.c:122
+#, fuzzy
+msgid "white"
+msgstr "أبيض"
+
+#. Disable these for now, they are mostly repeats
+#: ../goffice/gtk/go-color-palette.c:127
+#, fuzzy
+msgid "purplish blue"
+msgstr "أزرق بنفسجي"
+
+#: ../goffice/gtk/go-color-palette.c:131
+#, fuzzy
+msgid "dark purple"
+msgstr "بنفسجي غامق"
+
+#: ../goffice/gtk/go-color-palette.c:133
+#, fuzzy
+msgid "sky blue"
+msgstr "أزرق سماوي"
+
+#: ../goffice/gtk/go-color-palette.c:449
+#, fuzzy
+msgid "custom"
+msgstr "مخصص"
+
+#: ../goffice/gtk/go-color-palette.c:456
+#: ../goffice/gtk/go-color-palette.c:685
+#, fuzzy
+msgid "Custom Color..."
+msgstr "لون مخصص:"
+
+#: ../goffice/gtk/go-color-selector.c:206
+#, fuzzy
+msgid "Custom color..."
+msgstr "لون مخصص:"
+
+#: ../goffice/gtk/go-combo-box.c:261
+#, fuzzy
+msgid "Add tearoffs to menus"
+msgstr "إضافة قاطفات للقوائم"
+
+#: ../goffice/gtk/go-combo-box.c:262
+#, fuzzy
+msgid "Whether dropdowns should have a tearoff menu item"
+msgstr "فيما إذا وجب أن يكون للقوائم النازلة عنصر قطع"
+
+#: ../goffice/gtk/go-dock-item-grip.c:261
+#, fuzzy
+msgid "Dock the toolbar"
+msgstr "إرساء شريط الأدوات"
+
+#: ../goffice/gtk/go-dock-item-grip.c:262
+#, fuzzy
+msgid "Undock the toolbar"
+msgstr "إلغاء قفل عمود الأدوات"
+
+#: ../goffice/gtk/go-dock-item.c:235
+#: ../goffice/gtk/go-dock-item.c:236
+#, fuzzy
+msgid "Shadow type"
+msgstr "نوع الظل"
+
+#: ../goffice/gtk/go-dock-item.c:246
+#: ../goffice/gtk/go-dock-item.c:247
+msgid "Orientation"
+msgstr "إتّجاه"
+
+#: ../goffice/gtk/go-dock-item.c:257
+#: ../goffice/gtk/go-dock-item.c:258
+msgid "Preferred width"
+msgstr "العرض المفضّل"
+
+#: ../goffice/gtk/go-dock-item.c:266
+#: ../goffice/gtk/go-dock-item.c:267
+msgid "Preferred height"
+msgstr "الإرتفاع المفضّل"
+
+#: ../goffice/gtk/go-font-sel.c:183
+msgid "Normal"
+msgstr "عادي"
+
+#: ../goffice/gtk/go-font-sel.c:184
+msgid "Bold"
+msgstr "سميك"
+
+#: ../goffice/gtk/go-font-sel.c:185
+msgid "Bold italic"
+msgstr "سميك مائل"
+
+#: ../goffice/gtk/go-font-sel.c:186
+msgid "Italic"
+msgstr "مائل"
+
+#. xgettext: This text is used as a sample when selecting a font
+#. * please choose a translation that would produce common
+#. * characters specific to the target alphabet.
+#: ../goffice/gtk/go-font-sel.c:473
+msgid "AaBbCcDdEe12345"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.glade.h:1
+msgid "*"
+msgstr "*"
+
+#: ../goffice/gtk/go-font-sel.glade.h:2
+#, fuzzy
+msgid "Font style:"
+msgstr "أسلوب الخط"
+
+#: ../goffice/gtk/go-font-sel.glade.h:3
+msgid "Font:"
+msgstr "خط:"
+
+#: ../goffice/gtk/go-font-sel.glade.h:4
+msgid "Preview"
+msgstr "معاينة"
+
+#: ../goffice/gtk/go-font-sel.glade.h:5
+msgid "Size:"
+msgstr "حجم:"
+
+#: ../goffice/gtk/go-format-sel.c:69
+msgid "Number"
+msgstr "عدد"
+
+#: ../goffice/gtk/go-format-sel.c:70
+msgid "Currency"
+msgstr "عملة"
+
+#: ../goffice/gtk/go-format-sel.c:71
+msgid "Accounting"
+msgstr "محاسبة"
+
+#: ../goffice/gtk/go-format-sel.c:72
+msgid "Date"
+msgstr "تاريخ"
+
+#: ../goffice/gtk/go-format-sel.c:73
+msgid "Time"
+msgstr "الوقت"
+
+#: ../goffice/gtk/go-format-sel.c:74
+msgid "Percentage"
+msgstr "نسبة مئوية"
+
+#: ../goffice/gtk/go-format-sel.c:75
+#, fuzzy
+msgid "Fraction"
+msgstr "جزء"
+
+#: ../goffice/gtk/go-format-sel.c:76
+msgid "Scientific"
+msgstr "علمي"
+
+#: ../goffice/gtk/go-format-sel.c:78
+msgid "Special"
+msgstr "خاصّ"
+
+#: ../goffice/gtk/go-format-sel.c:79
+#, fuzzy
+msgid "Custom"
+msgstr "مخصص"
+
+#: ../goffice/gtk/go-format-sel.c:1336
+#, fuzzy
+msgid "Negative Number Format"
+msgstr "شكل سيء لرقم VT \n"
+
+#: ../goffice/gtk/go-format-sel.c:1364
+#, fuzzy
+msgid "Number Formats"
+msgstr "التنسيقات المتوفّرة"
+
+#: ../goffice/gtk/go-format-sel.glade.h:1
+msgid "Ca_tegories:"
+msgstr "ال_فئات:"
+
+#: ../goffice/gtk/go-format-sel.glade.h:2
+#, fuzzy
+msgid "Deci_mal places:"
+msgstr "ملفات ومجلدات وأماكن"
+
+#: ../goffice/gtk/go-format-sel.glade.h:3
+msgid "Display amounts in traditional accounting styles."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:4
+msgid "Display and input values as strings with no interpretation."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:5
+#, fuzzy
+msgid "Display currency amounts."
+msgstr "اعرض مساعدة علامات المواقع"
+
+#: ../goffice/gtk/go-format-sel.glade.h:6
+msgid "Display dates and optionally times of day."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:7
+msgid "Display numeric values with a fixed number of decimals."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:8
+#, fuzzy
+msgid "Display times of day."
+msgstr "_موعد يستغرق يوماً بكامله"
+
+#: ../goffice/gtk/go-format-sel.glade.h:9
+msgid "Display values as closest fractional approximation."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:10
+#, fuzzy
+msgid "Display values as percentages."
+msgstr "أظهر الأزرار كأيقونات فقط"
+
+#: ../goffice/gtk/go-format-sel.glade.h:11
+msgid "Display values with power-of-ten scaling."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:12
+#, fuzzy
+msgid "Format c_ode:"
+msgstr "تنسيق الفيديو"
+
+#: ../goffice/gtk/go-format-sel.glade.h:13
+#, fuzzy
+msgid "Negative number _format:"
+msgstr "شكل سيء لرقم VT \n"
+
+#: ../goffice/gtk/go-format-sel.glade.h:14
+msgid "Preview:"
+msgstr "معاينة:"
+
+#: ../goffice/gtk/go-format-sel.glade.h:15
+#, fuzzy
+msgid "Restrict exponent to multiples of 3"
+msgstr "اقصر المربع على نوع محتوى معين"
+
+#: ../goffice/gtk/go-format-sel.glade.h:16
+msgid "S_ymbol:"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:17
+#, fuzzy
+msgid "Select an appropriate format automatically."
+msgstr "اختر الماوس الملائمة للنّظام."
+
+#: ../goffice/gtk/go-format-sel.glade.h:18
+msgid "Specify an XL-style format directly"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:19
+#, fuzzy
+msgid "Use _superscript"
+msgstr "استخدم الافترا_ضي"
+
+#: ../goffice/gtk/go-format-sel.glade.h:20
+msgid "Use superscript for exponent (e.g. 4×10²)"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:21
+msgid "When mantissa is equal to 1, only show exponent part (e.g. 10²)"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:22
+#, fuzzy
+msgid "_Don't show 1x's"
+msgstr "لا تعرض المرئيات"
+
+#: ../goffice/gtk/go-format-sel.glade.h:23
+#, fuzzy
+msgid "_Engineering notation"
+msgstr "تدوين HTML:"
+
+#: ../goffice/gtk/go-format-sel.glade.h:24
+#, fuzzy
+msgid "_Format:"
+msgstr "ال_تهيئة:"
+
+#: ../goffice/gtk/go-format-sel.glade.h:25
+#, fuzzy
+msgid "_Use separator for 1000s"
+msgstr "استعمال SSL للاتصال"
+
+#: ../goffice/gtk/go-image-save-dialog-extra.glade.h:1
+#, fuzzy
+msgid "Export settings"
+msgstr "اختر الإعدادات"
+
+#: ../goffice/gtk/go-image-save-dialog-extra.glade.h:2
+#, fuzzy
+msgid "Resolution:"
+msgstr "الإ_ستبانة:"
+
+#: ../goffice/gtk/go-image-save-dialog-extra.glade.h:3
+#, fuzzy
+msgid "_File type:"
+msgstr "_نوع الملف:"
+
+#: ../goffice/gtk/go-image-save-dialog-extra.glade.h:4
+#, fuzzy
+msgid "pixels/in"
+msgstr "الحاشية العلوية بالبكسل"
+
+#: ../goffice/gtk/go-locale-sel.c:64
+#, fuzzy
+msgid "Western Europe"
+msgstr "أوروبا الغربية"
+
+#: ../goffice/gtk/go-locale-sel.c:65
+#, fuzzy
+msgid "Eastern Europe"
+msgstr "أوروبا الشرقية"
+
+#: ../goffice/gtk/go-locale-sel.c:66
+#, fuzzy
+msgid "North America"
+msgstr "أميركا الشّماليّة"
+
+#: ../goffice/gtk/go-locale-sel.c:67
+#, fuzzy
+msgid "South & Central America"
+msgstr "أميركا الوسطى و الجنوبيّة"
+
+#: ../goffice/gtk/go-locale-sel.c:68
+msgid "Asia"
+msgstr "آسيا"
+
+#: ../goffice/gtk/go-locale-sel.c:69
+msgid "Africa"
+msgstr "إفريقيا"
+
+#: ../goffice/gtk/go-locale-sel.c:70
+msgid "Australia"
+msgstr "أستراليا"
+
+#.
+#. * The format here is "Country/Language (locale)" or just
+#. * "Country (locale)" when there is only one choice or one
+#. * very dominant language.
+#. *
+#. * Note: lots of people get very emotional over this.  Please
+#. * err on the safe side, if any.
+#.
+#: ../goffice/gtk/go-locale-sel.c:102
+#, fuzzy
+msgid "United States/English (C)"
+msgstr "انجليزي (الولايات المتحدة)"
+
+#: ../goffice/gtk/go-locale-sel.c:103
+msgid "South Africa Afrikaans (af_ZA)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:104
+msgid "Ethiopia/Amharic (am_ET)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:105
+msgid "United Arab Emirates (ar_AE)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:106
+msgid "Bahrain (ar_BH)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:107
+msgid "Algeria (ar_DZ)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:108
+msgid "Egypt (ar_EG)"
+msgstr "مصر (ar_EG)"
+
+#: ../goffice/gtk/go-locale-sel.c:109
+msgid "India/Arabic (ar_IN)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:110
+msgid "Iraq (ar_IQ)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:111
+msgid "Jordan (ar_JO)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:112
+msgid "Kuwait (ar_KW)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:113
+msgid "Lebanon (ar_LB)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:114
+msgid "Libya (ar_LY)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:115
+msgid "Morocco (ar_MA)"
+msgstr "المغرب (ar_MA)"
+
+#: ../goffice/gtk/go-locale-sel.c:116
+msgid "Oman (ar_OM)"
+msgstr "عمان (ar_OM)"
+
+#: ../goffice/gtk/go-locale-sel.c:117
+msgid "Qatar (ar_QA)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:118
+msgid "Saudi Arabia (ar_SA)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:119
+msgid "Sudan (ar_SD)"
+msgstr "السّودان (ar_SD)"
+
+#: ../goffice/gtk/go-locale-sel.c:120
+msgid "Syria (ar_SY)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:121
+msgid "Tunisia (ar_TN)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:122
+msgid "Yemen (ar_YE)"
+msgstr "اليمن (ar_YE)"
+
+#: ../goffice/gtk/go-locale-sel.c:123
+msgid "Azerbaijan (az_AZ)"
+msgstr "أذربيجان (az_AZ)"
+
+#: ../goffice/gtk/go-locale-sel.c:124
+msgid "Belarus (be_BY)"
+msgstr "بلاروس (be_BY)"
+
+#: ../goffice/gtk/go-locale-sel.c:125
+msgid "Bulgaria (bg_BG)"
+msgstr "بلغاريا (bg_BG)"
+
+#: ../goffice/gtk/go-locale-sel.c:126
+msgid "Bangladesh (bn_BD)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:127
+msgid "India/Bengali (bn_IN)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:128
+msgid "France/Breton (br_FR)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:129
+msgid "Bosnia and Herzegowina (bs_BA)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:130
+msgid "Spain/Catalan (ca_ES)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:131
+msgid "Czech Republic (cs_CZ)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:132
+msgid "Great Britain/Welsh (cy_GB)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:133
+msgid "Denmark (da_DK)"
+msgstr "الدّنمارك (da_DK)"
+
+#: ../goffice/gtk/go-locale-sel.c:134
+msgid "Austria (de_AT)"
+msgstr "النّمسا (de_AT)"
+
+#: ../goffice/gtk/go-locale-sel.c:135
+msgid "Belgium/German (de_BE)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:136
+msgid "Switzerland/German (de_CH)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:137
+msgid "Germany (de_DE)"
+msgstr "ألمانيا (de_DE)"
+
+#: ../goffice/gtk/go-locale-sel.c:138
+msgid "Luxembourg/German (de_LU)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:139
+msgid "Greece (el_GR)"
+msgstr "اليونان (el_GR)"
+
+#: ../goffice/gtk/go-locale-sel.c:140
+msgid "Australia (en_AU)"
+msgstr "أستراليا (en_AU)"
+
+#: ../goffice/gtk/go-locale-sel.c:141
+msgid "Botswana (en_BW)"
+msgstr "بتسوانا (en_BW)"
+
+#: ../goffice/gtk/go-locale-sel.c:142
+msgid "Canada/English (en_CA)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:143
+msgid "Great Britain (en_GB)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:144
+msgid "Hong Kong/English (en_HK)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:145
+msgid "Ireland (en_IE)"
+msgstr "إيرلندا (en_IE)"
+
+#: ../goffice/gtk/go-locale-sel.c:146
+msgid "India/English (en_IN)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:147
+msgid "New Zealand (en_NZ)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:148
+msgid "Philippines (en_PH)"
+msgstr "الفليبين (en_PH)"
+
+#: ../goffice/gtk/go-locale-sel.c:149
+msgid "Singapore/English (en_SG)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:150
+msgid "United States/English (en_US)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:151
+msgid "South Africa/English (en_ZA)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:152
+msgid "Zimbabwe (en_ZW)"
+msgstr "الزمبابوي (en_ZW)"
+
+#: ../goffice/gtk/go-locale-sel.c:153
+msgid "Esperanto (eo_EO)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:154
+msgid "Argentina (es_AR)"
+msgstr "أرجنتينا (es_AR)"
+
+#: ../goffice/gtk/go-locale-sel.c:155
+msgid "Bolivia (es_BO)"
+msgstr "بوليفيا (es_BO)"
+
+#: ../goffice/gtk/go-locale-sel.c:156
+msgid "Chile (es_CL)"
+msgstr "تشيلي (es_CL)"
+
+#: ../goffice/gtk/go-locale-sel.c:157
+msgid "Colombia (es_CO)"
+msgstr "كولومبيا (es_CO)"
+
+#: ../goffice/gtk/go-locale-sel.c:158
+msgid "Costa Rica (es_CR)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:159
+msgid "Dominican Republic (es_DO)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:160
+msgid "Ecuador (es_EC)"
+msgstr "إكواتور (es_EC)"
+
+#: ../goffice/gtk/go-locale-sel.c:161
+msgid "Spain (es_ES)"
+msgstr "إسبانيا (es_ES)"
+
+#: ../goffice/gtk/go-locale-sel.c:162
+msgid "Guatemala (es_GT)"
+msgstr "غواتيمالا (es_ES)"
+
+#: ../goffice/gtk/go-locale-sel.c:163
+msgid "Honduras (es_HN)"
+msgstr "هندوراس (es_HN)"
+
+#: ../goffice/gtk/go-locale-sel.c:164
+msgid "Mexico (es_MX)"
+msgstr "المكسيكو (es_MX)"
+
+#: ../goffice/gtk/go-locale-sel.c:165
+msgid "Nicaragua (es_NI)"
+msgstr "نيكاراكا (es_NI)"
+
+#: ../goffice/gtk/go-locale-sel.c:166
+msgid "Panama (es_PA)"
+msgstr "باناما (es_PA)"
+
+#: ../goffice/gtk/go-locale-sel.c:167
+msgid "Peru (es_PE)"
+msgstr "بيرو (es_PE)"
+
+#: ../goffice/gtk/go-locale-sel.c:168
+msgid "Puerto Rico (es_PR)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:169
+msgid "Paraguay (es_PY)"
+msgstr "باراغواي (es_PY)"
+
+#: ../goffice/gtk/go-locale-sel.c:170
+msgid "El Salvador (es_SV)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:171
+msgid "United States/Spanish (es_US)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:172
+msgid "Uruguay (es_UY)"
+msgstr "أوروغواي (es_PY)"
+
+#: ../goffice/gtk/go-locale-sel.c:173
+msgid "Venezuela (es_VE)"
+msgstr "فينيزويلا (es_VE)"
+
+#: ../goffice/gtk/go-locale-sel.c:174
+msgid "Estonia (et_EE)"
+msgstr "أستونيا (et_EE)"
+
+#: ../goffice/gtk/go-locale-sel.c:175
+msgid "Spain/Basque (eu_ES)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:176
+msgid "Iran (fa_IR)"
+msgstr "إيران (fa_IR)"
+
+#: ../goffice/gtk/go-locale-sel.c:177
+msgid "Finland/Finnish (fi_FI)"
+msgstr "فنلندا (fi_FI)"
+
+#: ../goffice/gtk/go-locale-sel.c:178
+msgid "Faroe Islands (fo_FO)"
+msgstr "جزر الفاراو (fo_FO)"
+
+#: ../goffice/gtk/go-locale-sel.c:179
+msgid "Belgium/French (fr_BE)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:180
+msgid "Canada/French (fr_CA)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:181
+msgid "Switzerland/French (fr_CH)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:182
+msgid "France (fr_FR)"
+msgstr "فرنسا (fr_FR)"
+
+#: ../goffice/gtk/go-locale-sel.c:183
+msgid "Ireland/Gaelic (ga_IE)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:184
+msgid "Great Britain/Scottish Gaelic (gd_GB)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:185
+msgid "Spain/Galician (gl_ES)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:186
+msgid "Great Britain/Manx Gaelic (gv_GB)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:187
+msgid "India/Hindu (hi_IN)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:188
+msgid "Croatia (hr_HR)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:189
+msgid "Hungary (hu_HU)"
+msgstr "المجرّ (hu_HU)"
+
+#: ../goffice/gtk/go-locale-sel.c:190
+msgid "Armenia (hy_AM)"
+msgstr "أرمينيا (hy_AM)"
+
+#: ../goffice/gtk/go-locale-sel.c:191
+msgid "(i18n)"
+msgstr "(i18n)"
+
+#: ../goffice/gtk/go-locale-sel.c:192
+msgid "Indonesia (id_ID)"
+msgstr "إندونيسيا (id_ID)"
+
+#: ../goffice/gtk/go-locale-sel.c:193
+#, fuzzy
+msgid "Iceland (is_IS)"
+msgstr "كما هي"
+
+#: ../goffice/gtk/go-locale-sel.c:194
+#, fuzzy
+msgid "(iso14651_t1)"
+msgstr "T1/شبكة محلية"
+
+#: ../goffice/gtk/go-locale-sel.c:195
+msgid "Switzerland/Italian (it_CH)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:196
+msgid "Italy (it_IT)"
+msgstr "إيطاليا (it_IT)"
+
+#: ../goffice/gtk/go-locale-sel.c:197
+msgid "Israel/Hebrew (iw_IL)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:198
+msgid "Japan (ja_JP)"
+msgstr "اليابان (ja_JP)"
+
+#: ../goffice/gtk/go-locale-sel.c:199
+msgid "Georgia (ka_GE)"
+msgstr "جورجيا (ka_GE)"
+
+#: ../goffice/gtk/go-locale-sel.c:200
+#, fuzzy
+msgid "Greenland (kl_GL)"
+msgstr "عدّة منافع GL (GLUT)"
+
+#: ../goffice/gtk/go-locale-sel.c:201
+#, fuzzy
+msgid "Korea (ko_KR)"
+msgstr "كوري (_EUC-KR)"
+
+#: ../goffice/gtk/go-locale-sel.c:202
+msgid "Great Britain/Cornish (kw_GB)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:203
+#, fuzzy
+msgid "Lithuania (lt_LT)"
+msgstr "Tab&lt;-"
+
+#: ../goffice/gtk/go-locale-sel.c:204
+msgid "Latvia (lv_LV)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:205
+msgid "New Zealand/Maori (mi_NZ)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:206
+msgid "Macedonia (mk_MK)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:207
+msgid "India/Marathi (mr_IN)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:208
+#, fuzzy
+msgid "Malaysia (ms_MY)"
+msgstr "يومي الثاني"
+
+#: ../goffice/gtk/go-locale-sel.c:209
+#, fuzzy
+msgid "Malta (mt_MT)"
+msgstr "جبل واشنطن"
+
+#: ../goffice/gtk/go-locale-sel.c:210
+msgid "Belgium/Flemish (nl_BE)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:211
+#, fuzzy
+msgid "The Netherlands (nl_NL)"
+msgstr "أنتيل هولندا"
+
+#: ../goffice/gtk/go-locale-sel.c:212
+msgid "Norway/Nynorsk (nn_NO)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:213
+#, fuzzy
+msgid "Norway/Bokmal (no_NO)"
+msgstr "لم يتم انتقاء أيّة تطبيقات"
+
+#: ../goffice/gtk/go-locale-sel.c:214
+msgid "France/Occitan (oc_FR)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:215
+#, fuzzy
+msgid "Poland (pl_PL)"
+msgstr "PLIP"
+
+#: ../goffice/gtk/go-locale-sel.c:216
+#, fuzzy
+msgid "Brazil (pt_BR)"
+msgstr "المصدر: ملف<br />"
+
+#: ../goffice/gtk/go-locale-sel.c:217
+#, fuzzy
+msgid "Portugal (pt_PT)"
+msgstr "تاهوما 8 نقاط"
+
+#: ../goffice/gtk/go-locale-sel.c:218
+#, fuzzy
+msgid "Romania (ro_RO)"
+msgstr "حذف السطر"
+
+#: ../goffice/gtk/go-locale-sel.c:219
+#, fuzzy
+msgid "Russia (ru_RU)"
+msgstr "الروسية (روسيا)"
+
+#: ../goffice/gtk/go-locale-sel.c:220
+msgid "Ukraine/Russian (ru_UA)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:221
+msgid "Norway/Saami (se_NO)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:222
+#, fuzzy
+msgid "Slovakia (sk_SK)"
+msgstr "أرخانجلسك"
+
+#: ../goffice/gtk/go-locale-sel.c:223
+#, fuzzy
+msgid "Slovenia (sl_SI)"
+msgstr "ح_جم عادي"
+
+#: ../goffice/gtk/go-locale-sel.c:224
+#, fuzzy
+msgid "Albania (sq_AL)"
+msgstr "أغادير ال ماسيرا"
+
+#: ../goffice/gtk/go-locale-sel.c:225
+msgid "Yugoslavia (sr_YU)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:226
+msgid "Finland/Swedish (sv_FI)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:227
+#, fuzzy
+msgid "Sweden (sv_SE)"
+msgstr "STUN خادم"
+
+#: ../goffice/gtk/go-locale-sel.c:228
+msgid "India/Tamil (ta_IN)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:229
+#, fuzzy
+msgid "India/Telugu (te_IN)"
+msgstr "اظهر النص في اﻷيقونات:"
+
+#: ../goffice/gtk/go-locale-sel.c:230
+msgid "Tajikistan (tg_TJ)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:231
+#, fuzzy
+msgid "Thailand (th_TH)"
+msgstr " نسخة)"
+
+#: ../goffice/gtk/go-locale-sel.c:232
+#, fuzzy
+msgid "Eritrea (ti_ER)"
+msgstr "NULL"
+
+#: ../goffice/gtk/go-locale-sel.c:233
+msgid "Ethiopia/Tigrinya (ti_ET)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:234
+msgid "Philippines/Tagalog (tl_PH)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:235
+#, fuzzy
+msgid "Turkey (tr_TR)"
+msgstr "الشفافية"
+
+#: ../goffice/gtk/go-locale-sel.c:236
+msgid "Russia/Tatar (tt_RU)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:237
+#, fuzzy
+msgid "Ukraine (uk_UA)"
+msgstr "المملكة المتحدة 105-مفاتيح"
+
+#: ../goffice/gtk/go-locale-sel.c:238
+msgid "Pakistan (ur_PK)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:239
+#, fuzzy
+msgid "Uzbekistan (uz_UZ)"
+msgstr "شرق أوزبكستان"
+
+#: ../goffice/gtk/go-locale-sel.c:240
+msgid "Vietnam (vi_VN)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:241
+msgid "Belgium/Walloon (wa_BE)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:242
+msgid "United States/Yiddish (yi_US)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:243
+#, fuzzy
+msgid "China (zh_CN)"
+msgstr "الإسم المتداول (CN)"
+
+#: ../goffice/gtk/go-locale-sel.c:244
+#, fuzzy
+msgid "Hong Kong/Chinese (zh_HK)"
+msgstr "صيني تقليدي (هونغ كونغ)"
+
+#: ../goffice/gtk/go-locale-sel.c:245
+msgid "Singapore/Chinese (zh_SG)"
+msgstr ""
+
+#: ../goffice/gtk/go-locale-sel.c:246
+#, fuzzy
+msgid "Taiwan (zh_TW)"
+msgstr "صيني تقليدي (_EUC-TW)"
+
+#: ../goffice/gtk/go-locale-sel.c:447
+#, fuzzy
+msgid "Current Locale: "
+msgstr "المحلّية الحالي (%s)"
+
+#: ../goffice/gtk/go-optionmenu.c:415
+#, fuzzy
+msgid "Menu"
+msgstr "قائمة"
+
+#: ../goffice/gtk/go-optionmenu.c:416
+#, fuzzy
+msgid "The menu of options"
+msgstr "قائمة الخيارات"
+
+#: ../goffice/gtk/go-palette.c:398
+msgid "Custom..."
+msgstr "مخصص:"
+
+#: ../goffice/gtk/go-rotation-sel.glade.h:1
+msgid "    "
+msgstr "    "
+
+#: ../goffice/gtk/go-rotation-sel.glade.h:2
+msgid "<b>Orientation</b>"
+msgstr "<b>الإتجاه:</b>"
+
+#: ../goffice/gtk/go-rotation-sel.glade.h:3
+msgid "A_ngle:"
+msgstr "ال_زاوية:"
+
+#: ../goffice/gtk/goffice-gtk.c:131
+#, fuzzy, c-format
+msgid "Unable to open file '%s'"
+msgstr "لا يمكن فتح ملف الحالة المحفوظ '%s': %s"
+
+#: ../goffice/gtk/goffice-gtk.c:467
+msgid "All Files"
+msgstr "كل الملفّات"
+
+#: ../goffice/gtk/goffice-gtk.c:472
+msgid "Images"
+msgstr "صور"
+
+#: ../goffice/gtk/goffice-gtk.c:516
+msgid "Select an Image"
+msgstr "اختر صورة"
+
+#: ../goffice/gtk/goffice-gtk.c:595
+msgid "Save as"
+msgstr "احفظ كـ"
+
+#: ../goffice/gtk/goffice-gtk.c:666
+msgid "The given file extension does not match the chosen file type. Do you want to use this name anyway?"
+msgstr ""
+
+#: ../goffice/gtk/goffice-gtk.c:859
+#, fuzzy, c-format
+msgid ""
+"%s\n"
+"is a directory name"
+msgstr "Ø®Ø·Ø§ ÙÙ Ø§Ø³Ù Ø§ÙØ¯ÙÙÙ"
+
+#: ../goffice/gtk/goffice-gtk.c:863
+#, fuzzy, c-format
+msgid ""
+"You do not have permission to save to\n"
+"%s"
+msgstr "ليست لديك صلاحية قراءة %s."
+
+#: ../goffice/gtk/goffice-gtk.c:870
+#, c-format
+msgid ""
+"A file called <i>%s</i> already exists in %s.\n"
+"\n"
+"Do you want to save over it?"
+msgstr ""
+
+#. The first column has three letter acronyms
+#. * for each currency.  They MUST start with '[$'
+#. * The second column has the long names of the currencies.
+#.
+#. 2002/08/04 Updated to match iso 4217
+#: ../goffice/utils/formats.c:324
+msgid "United Arab Emirates, Dirhams"
+msgstr ""
+
+#: ../goffice/utils/formats.c:325
+msgid "Afghanistan, Afghanis"
+msgstr ""
+
+#: ../goffice/utils/formats.c:326
+msgid "Albania, Leke"
+msgstr ""
+
+#: ../goffice/utils/formats.c:327
+#, fuzzy
+msgid "Armenia, Drams"
+msgstr "ارمينيا / ايل عدن"
+
+#: ../goffice/utils/formats.c:328
+msgid "Netherlands Antilles, Guilders"
+msgstr ""
+
+#: ../goffice/utils/formats.c:329
+msgid "Angola, Kwanza"
+msgstr ""
+
+#: ../goffice/utils/formats.c:330
+#, fuzzy
+msgid "Argentina, Pesos"
+msgstr "ا-ص|إسباني (الأرجنتين)"
+
+#: ../goffice/utils/formats.c:331
+#, fuzzy
+msgid "Australia, Dollars"
+msgstr "أستراليا/أدِليد"
+
+#: ../goffice/utils/formats.c:332
+#, fuzzy
+msgid "Aruba, Guilders"
+msgstr "أمريكا/أروبا"
+
+#: ../goffice/utils/formats.c:333
+#, fuzzy
+msgid "Azerbaijan, Manats"
+msgstr "تركي (أذربيجان)"
+
+#: ../goffice/utils/formats.c:334
+msgid "Bosnia and Herzegovina, Convertible Marka"
+msgstr ""
+
+#: ../goffice/utils/formats.c:335
+#, fuzzy
+msgid "Barbados, Dollars"
+msgstr "أمريكا/باربدوس"
+
+#: ../goffice/utils/formats.c:336
+msgid "Bangladesh, Taka"
+msgstr ""
+
+#: ../goffice/utils/formats.c:337
+msgid "Bulgaria, Leva"
+msgstr ""
+
+#: ../goffice/utils/formats.c:338
+#, fuzzy
+msgid "Bahrain, Dinars"
+msgstr "آسيا/البحرين"
+
+#: ../goffice/utils/formats.c:339
+msgid "Burundi, Francs"
+msgstr ""
+
+#: ../goffice/utils/formats.c:340
+#, fuzzy
+msgid "Bermuda, Dollars"
+msgstr "المحيط الأطلسي/برمودا"
+
+#: ../goffice/utils/formats.c:341
+msgid "Brunei Darussalam, Dollars"
+msgstr ""
+
+#: ../goffice/utils/formats.c:342
+#, fuzzy
+msgid "Bolivia, Bolivianos"
+msgstr "ا-ص|إسباني (بوليفيا)"
+
+#: ../goffice/utils/formats.c:343
+#, fuzzy
+msgid "Brazil, Brazil Real"
+msgstr "الإ_سم الحقيقي:"
+
+#: ../goffice/utils/formats.c:344
+msgid "Bahamas, Dollars"
+msgstr ""
+
+#: ../goffice/utils/formats.c:345
+msgid "Bhutan, Ngultrum"
+msgstr ""
+
+#: ../goffice/utils/formats.c:346
+msgid "Botswana, Pulas"
+msgstr ""
+
+#: ../goffice/utils/formats.c:347
+msgid "Belarus, Rubles"
+msgstr ""
+
+#: ../goffice/utils/formats.c:348
+#, fuzzy
+msgid "Belize, Dollars"
+msgstr "أمريكا/بليزا"
+
+#: ../goffice/utils/formats.c:349
+#, fuzzy
+msgid "Canada, Dollars"
+msgstr "ا-ص|إنكليزي (كندا)"
+
+#: ../goffice/utils/formats.c:350
+msgid "Congo/Kinshasa, Congolese Francs"
+msgstr ""
+
+#: ../goffice/utils/formats.c:351
+#, fuzzy
+msgid "Switzerland, Francs"
+msgstr "ض-ي|فرنسي (سويسرا)"
+
+#: ../goffice/utils/formats.c:352
+#, fuzzy
+msgid "Chile, Pesos"
+msgstr "شيلي/كونتيننتال"
+
+#: ../goffice/utils/formats.c:353
+#, fuzzy
+msgid "China, Yuan Renminbi"
+msgstr "ا-ص|الصين (الأراضي الرئيسية)"
+
+#: ../goffice/utils/formats.c:354
+#, fuzzy
+msgid "Colombia, Pesos"
+msgstr "ا-ص|إسباني (كولومبيا)"
+
+#: ../goffice/utils/formats.c:355
+#, fuzzy
+msgid "Costa Rica, Colones"
+msgstr "أمريكا/كوستا ريكا"
+
+#: ../goffice/utils/formats.c:356
+#, fuzzy
+msgid "Cuba, Pesos"
+msgstr "كوبا أورز"
+
+#: ../goffice/utils/formats.c:357
+#, fuzzy
+msgid "Cape Verde, Escudos"
+msgstr "المحيط الأطلسي/كاب فرد"
+
+#: ../goffice/utils/formats.c:358
+#, fuzzy
+msgid "Cyprus, Pounds"
+msgstr "ض-ي|يوناني (Cyprus)"
+
+#: ../goffice/utils/formats.c:359
+#, fuzzy
+msgid "Czech Republic, Koruny"
+msgstr "جمهورية إفريقيا الوسطى"
+
+#: ../goffice/utils/formats.c:360
+#, fuzzy
+msgid "Djibouti, Francs"
+msgstr "إفريقيا/جيبوتي"
+
+#: ../goffice/utils/formats.c:361
+#, fuzzy
+msgid "Denmark, Kroner"
+msgstr "ا-ص|إنكليزي (الدّنمارك)"
+
+#: ../goffice/utils/formats.c:362
+#, fuzzy
+msgid "Dominican Republic, Pesos"
+msgstr "جمهورية إفريقيا الوسطى"
+
+#: ../goffice/utils/formats.c:363
+msgid "Algeria, Algeria Dinars"
+msgstr ""
+
+#: ../goffice/utils/formats.c:364
+msgid "Estonia, Krooni"
+msgstr ""
+
+#: ../goffice/utils/formats.c:365
+#, fuzzy
+msgid "Egypt, Pounds"
+msgstr "ا-ص|عربي (مصر)"
+
+#: ../goffice/utils/formats.c:366
+msgid "Eritrea, Nakfa"
+msgstr ""
+
+#: ../goffice/utils/formats.c:367
+#, fuzzy
+msgid "Ethiopia, Birr"
+msgstr "أمهري (إثيوبيا)"
+
+#: ../goffice/utils/formats.c:368
+#, fuzzy
+msgid "Euro Member Countries, Euro"
+msgstr "ت_ذكر كلمة المرور"
+
+#: ../goffice/utils/formats.c:369
+#, fuzzy
+msgid "Fiji, Dollars"
+msgstr "الهادي/فيجي"
+
+#: ../goffice/utils/formats.c:370
+msgid "Falkland Islands (Malvinas), Pounds"
+msgstr ""
+
+#: ../goffice/utils/formats.c:371
+#, fuzzy
+msgid "United Kingdom, Pounds"
+msgstr "keyboard|المملكة المتّحدة"
+
+#: ../goffice/utils/formats.c:372
+#, fuzzy
+msgid "Georgia, Lari"
+msgstr "المحيط الأطلسي/جنوب جورجيا"
+
+#: ../goffice/utils/formats.c:373
+msgid "Guernsey, Pounds"
+msgstr ""
+
+#: ../goffice/utils/formats.c:374
+msgid "Ghana, Cedis"
+msgstr ""
+
+#: ../goffice/utils/formats.c:375
+#, fuzzy
+msgid "Gibraltar, Pounds"
+msgstr "أوروبا/جبل طارق"
+
+#: ../goffice/utils/formats.c:376
+msgid "Gambia, Dalasi"
+msgstr ""
+
+#: ../goffice/utils/formats.c:377
+#, fuzzy
+msgid "Guinea, Francs"
+msgstr "غينيا الإستوائيّة"
+
+#: ../goffice/utils/formats.c:378
+#, fuzzy
+msgid "Guatemala, Quetzales"
+msgstr "أمريكا/غواتمالا"
+
+#: ../goffice/utils/formats.c:379
+#, fuzzy
+msgid "Guyana, Dollars"
+msgstr "أمريكا/غيانا"
+
+#: ../goffice/utils/formats.c:380
+#, fuzzy
+msgid "Hong Kong, Dollars"
+msgstr "آسيا/هونغ كونغ"
+
+#: ../goffice/utils/formats.c:381
+msgid "Honduras, Lempiras"
+msgstr ""
+
+#: ../goffice/utils/formats.c:382
+msgid "Croatia, Kuna"
+msgstr ""
+
+#: ../goffice/utils/formats.c:383
+msgid "Haiti, Gourdes"
+msgstr ""
+
+#: ../goffice/utils/formats.c:384
+msgid "Hungary, Forint"
+msgstr ""
+
+#: ../goffice/utils/formats.c:385
+msgid "Indonesia, Rupiahs"
+msgstr ""
+
+#: ../goffice/utils/formats.c:386
+#, fuzzy
+msgid "Israel, New Shekels"
+msgstr "خواتم وقت للملفات الجديدة"
+
+#: ../goffice/utils/formats.c:387
+#, fuzzy
+msgid "Isle of Man, Pounds"
+msgstr "براسك آيل/روجرس"
+
+#: ../goffice/utils/formats.c:388
+#, fuzzy
+msgid "India, Rupees"
+msgstr "ا-ص|بنغالي (الهند)"
+
+#: ../goffice/utils/formats.c:389
+msgid "Iraq, Dinars"
+msgstr ""
+
+#: ../goffice/utils/formats.c:390
+#, fuzzy
+msgid "Iran, Rials"
+msgstr "إيران، الجمهوريّة الإسلاميّة الإيرانيّة"
+
+#: ../goffice/utils/formats.c:391
+msgid "Iceland, Kronur"
+msgstr ""
+
+#: ../goffice/utils/formats.c:392
+#, fuzzy
+msgid "Jersey, Pounds"
+msgstr "نيوجيرسي"
+
+#: ../goffice/utils/formats.c:393
+#, fuzzy
+msgid "Jamaica, Dollars"
+msgstr "أمريكا/الجمائيك"
+
+#: ../goffice/utils/formats.c:394
+msgid "Jordan, Dinars"
+msgstr ""
+
+#: ../goffice/utils/formats.c:395
+msgid "Japan, Yen"
+msgstr ""
+
+#: ../goffice/utils/formats.c:396
+msgid "Kenya, Shillings"
+msgstr ""
+
+#: ../goffice/utils/formats.c:397
+msgid "Kyrgyzstan, Soms"
+msgstr ""
+
+#: ../goffice/utils/formats.c:398
+msgid "Cambodia, Riels"
+msgstr ""
+
+#: ../goffice/utils/formats.c:399
+msgid "Comoros, Francs"
+msgstr ""
+
+#: ../goffice/utils/formats.c:400
+#, fuzzy
+msgid "Korea (North), Won"
+msgstr "عين صالح الشمال"
+
+#: ../goffice/utils/formats.c:401
+#, fuzzy
+msgid "Korea (South), Won"
+msgstr "المتجمّدة الجنوبيّة/القطب الجنوبي"
+
+#: ../goffice/utils/formats.c:402
+#, fuzzy
+msgid "Kuwait, Dinars"
+msgstr "آسيا/الكويت"
+
+#: ../goffice/utils/formats.c:403
+#, fuzzy
+msgid "Cayman Islands, Dollars"
+msgstr "جزر الكوكوس (كيلنك)"
+
+#: ../goffice/utils/formats.c:404
+msgid "Kazakstan, Tenge"
+msgstr ""
+
+#: ../goffice/utils/formats.c:405
+msgid "Laos, Kips"
+msgstr ""
+
+#: ../goffice/utils/formats.c:406
+#, fuzzy
+msgid "Lebanon, Pounds"
+msgstr "ا-ص|عربي (لبنان)"
+
+#: ../goffice/utils/formats.c:407
+msgid "Sri Lanka, Rupees"
+msgstr ""
+
+#: ../goffice/utils/formats.c:408
+msgid "Liberia, Dollars"
+msgstr ""
+
+#: ../goffice/utils/formats.c:409
+msgid "Lesotho, Maloti"
+msgstr ""
+
+#: ../goffice/utils/formats.c:410
+msgid "Lithuania, Litai"
+msgstr ""
+
+#: ../goffice/utils/formats.c:411
+msgid "Latvia, Lati"
+msgstr ""
+
+#: ../goffice/utils/formats.c:412
+msgid "Libya, Dinars"
+msgstr ""
+
+#: ../goffice/utils/formats.c:413
+msgid "Morocco, Dirhams"
+msgstr ""
+
+#: ../goffice/utils/formats.c:414
+#, fuzzy
+msgid "Moldova, Lei"
+msgstr "جمهورية مولدوفا"
+
+#: ../goffice/utils/formats.c:415
+msgid "Madagascar, Malagasy Francs"
+msgstr ""
+
+#: ../goffice/utils/formats.c:416
+msgid "Macedonia, Denars"
+msgstr ""
+
+#: ../goffice/utils/formats.c:417
+msgid "Myanmar (Burma), Kyats"
+msgstr ""
+
+#: ../goffice/utils/formats.c:418
+#, fuzzy
+msgid "Mongolia, Tugriks"
+msgstr "منغوليا الداخلية"
+
+#: ../goffice/utils/formats.c:419
+#, fuzzy
+msgid "Macau, Patacas"
+msgstr "آسيا/ماكاوو"
+
+#: ../goffice/utils/formats.c:420
+msgid "Mauritania, Ouguiyas"
+msgstr ""
+
+#: ../goffice/utils/formats.c:421
+#, fuzzy
+msgid "Malta, Liri"
+msgstr "أوروبا/مالطة"
+
+#: ../goffice/utils/formats.c:422
+#, fuzzy
+msgid "Mauritius, Rupees"
+msgstr "المحيط الهندي/موريشيوس"
+
+#: ../goffice/utils/formats.c:423
+msgid "Maldives (Maldive Islands), Rufiyaa"
+msgstr ""
+
+#: ../goffice/utils/formats.c:424
+msgid "Malawi, Kwachas"
+msgstr ""
+
+#: ../goffice/utils/formats.c:425
+#, fuzzy
+msgid "Mexico, Pesos"
+msgstr "ا-ص|إسباني (المكسيك)"
+
+#: ../goffice/utils/formats.c:426
+#, fuzzy
+msgid "Malaysia, Ringgits"
+msgstr "شبه جزيرة ماليزيا"
+
+#: ../goffice/utils/formats.c:427
+msgid "Mozambique, Meticais"
+msgstr ""
+
+#: ../goffice/utils/formats.c:428
+msgid "Namibia, Dollars"
+msgstr ""
+
+#: ../goffice/utils/formats.c:429
+#, fuzzy
+msgid "Nigeria, Nairas"
+msgstr "هوزة (نيجيريا)"
+
+#: ../goffice/utils/formats.c:430
+msgid "Nicaragua, Gold Cordobas"
+msgstr ""
+
+#: ../goffice/utils/formats.c:431
+#, fuzzy
+msgid "Norway, Krone"
+msgstr "نورواي هاوس"
+
+#: ../goffice/utils/formats.c:432
+msgid "Nepal, Nepal Rupees"
+msgstr ""
+
+#: ../goffice/utils/formats.c:433
+#, fuzzy
+msgid "New Zealand, Dollars"
+msgstr "الأنكليزية (زيلندا الجديدة)"
+
+#: ../goffice/utils/formats.c:434
+msgid "Oman, Rials"
+msgstr ""
+
+#: ../goffice/utils/formats.c:435
+#, fuzzy
+msgid "Panama, Balboa"
+msgstr "أمريكا/بنما"
+
+#: ../goffice/utils/formats.c:436
+msgid "Peru, Nuevos Soles"
+msgstr ""
+
+#: ../goffice/utils/formats.c:437
+msgid "Papua New Guinea, Kina"
+msgstr ""
+
+#: ../goffice/utils/formats.c:438
+msgid "Philippines, Pesos"
+msgstr ""
+
+#: ../goffice/utils/formats.c:439
+msgid "Pakistan, Rupees"
+msgstr ""
+
+#: ../goffice/utils/formats.c:440
+msgid "Poland, Zlotys"
+msgstr ""
+
+#: ../goffice/utils/formats.c:441
+#, fuzzy
+msgid "Paraguay, Guarani"
+msgstr "ا-ص|إسباني (بارجواي)"
+
+#: ../goffice/utils/formats.c:442
+#, fuzzy
+msgid "Qatar, Rials"
+msgstr "آسيا/قطر"
+
+#: ../goffice/utils/formats.c:443
+msgid "Romania, Lei"
+msgstr ""
+
+#: ../goffice/utils/formats.c:444
+#, fuzzy
+msgid "Russia, Rubles"
+msgstr "الروسية (روسيا)"
+
+#: ../goffice/utils/formats.c:445
+msgid "Rwanda, Rwanda Francs"
+msgstr ""
+
+#: ../goffice/utils/formats.c:446
+#, fuzzy
+msgid "Saudi Arabia, Riyals"
+msgstr "عربي (العربية السعودية)"
+
+#: ../goffice/utils/formats.c:447
+#, fuzzy
+msgid "Solomon Islands, Dollars"
+msgstr "جزر الكوكوس (كيلنك)"
+
+#: ../goffice/utils/formats.c:448
+#, fuzzy
+msgid "Seychelles, Rupees"
+msgstr "سيشيلش المطار"
+
+#: ../goffice/utils/formats.c:449
+msgid "Sudan, Dinars"
+msgstr ""
+
+#: ../goffice/utils/formats.c:450
+msgid "Sweden, Kronor"
+msgstr ""
+
+#: ../goffice/utils/formats.c:451
+#, fuzzy
+msgid "Singapore, Dollars"
+msgstr "آسيا/سنغفورة"
+
+#: ../goffice/utils/formats.c:452
+#, fuzzy
+msgid "Saint Helena, Pounds"
+msgstr "المحيط الأطلسي/سان هيلانة"
+
+#: ../goffice/utils/formats.c:453
+msgid "Slovenia, Tolars"
+msgstr ""
+
+#: ../goffice/utils/formats.c:454
+msgid "Slovakia, Koruny"
+msgstr ""
+
+#: ../goffice/utils/formats.c:455
+#, fuzzy
+msgid "Sierra Leone, Leones"
+msgstr "رويدوسو-سييرا بلانكا"
+
+#: ../goffice/utils/formats.c:456
+msgid "Somalia, Shillings"
+msgstr ""
+
+#: ../goffice/utils/formats.c:457
+msgid "Seborga, Luigini"
+msgstr ""
+
+#: ../goffice/utils/formats.c:458
+msgid "Suriname, Guilders"
+msgstr ""
+
+#: ../goffice/utils/formats.c:459
+msgid "Sao Tome and Principe, Dobras"
+msgstr ""
+
+#: ../goffice/utils/formats.c:460
+#, fuzzy
+msgid "El Salvador, Colones"
+msgstr "أمريكا/السّلفادور"
+
+#: ../goffice/utils/formats.c:461
+msgid "Syria, Pounds"
+msgstr ""
+
+#: ../goffice/utils/formats.c:462
+msgid "Swaziland, Emalangeni"
+msgstr ""
+
+#: ../goffice/utils/formats.c:463
+msgid "Thailand, Baht"
+msgstr ""
+
+#: ../goffice/utils/formats.c:464
+msgid "Tajikistan, Rubles"
+msgstr ""
+
+#: ../goffice/utils/formats.c:465
+msgid "Turkmenistan, Manats"
+msgstr ""
+
+#: ../goffice/utils/formats.c:466
+msgid "Tunisia, Dinars"
+msgstr ""
+
+#: ../goffice/utils/formats.c:467
+#, fuzzy
+msgid "Tonga, Pa'anga"
+msgstr "ت_غيير كلمة المرور"
+
+#: ../goffice/utils/formats.c:468
+msgid "Turkey, Liras"
+msgstr ""
+
+#: ../goffice/utils/formats.c:469
+msgid "Trinidad and Tobago, Dollars"
+msgstr ""
+
+#: ../goffice/utils/formats.c:470
+msgid "Tuvalu, Tuvalu Dollars"
+msgstr ""
+
+#: ../goffice/utils/formats.c:471
+#, fuzzy
+msgid "Taiwan, New Dollars"
+msgstr "خواتم وقت للملفات الجديدة"
+
+#: ../goffice/utils/formats.c:472
+#, fuzzy
+msgid "Tanzania, Shillings"
+msgstr "جمهورية تنزانيا المتّحدة"
+
+#: ../goffice/utils/formats.c:473
+msgid "Ukraine, Hryvnia"
+msgstr ""
+
+#: ../goffice/utils/formats.c:474
+msgid "Uganda, Shillings"
+msgstr ""
+
+#: ../goffice/utils/formats.c:475
+#, fuzzy
+msgid "United States of America, Dollars"
+msgstr "الاكاديميه البحرية الامريكية"
+
+#: ../goffice/utils/formats.c:476
+#, fuzzy
+msgid "Uruguay, Pesos"
+msgstr "ا-ص|إسباني (أوروجواي)"
+
+#: ../goffice/utils/formats.c:477
+#, fuzzy
+msgid "Uzbekistan, Sums"
+msgstr "شرق أوزبكستان"
+
+#: ../goffice/utils/formats.c:478
+#, fuzzy
+msgid "Venezuela, Bolivares"
+msgstr "ا-ص|إسباني (فنزويلا)"
+
+#: ../goffice/utils/formats.c:479
+msgid "Viet Nam, Dong"
+msgstr ""
+
+#: ../goffice/utils/formats.c:480
+msgid "Vanuatu, Vatu"
+msgstr ""
+
+#: ../goffice/utils/formats.c:481
+#, fuzzy
+msgid "Samoa, Tala"
+msgstr "صامُوَا الأمريكية"
+
+#: ../goffice/utils/formats.c:482
+msgid "Communaute Financiere Africaine BEAC, Francs"
+msgstr ""
+
+#: ../goffice/utils/formats.c:483
+#, fuzzy
+msgid "Silver, Ounces"
+msgstr "سلفر باي"
+
+#: ../goffice/utils/formats.c:484
+#, fuzzy
+msgid "Gold, Ounces"
+msgstr "بني ذهبي"
+
+#: ../goffice/utils/formats.c:485
+#, fuzzy
+msgid "East Caribbean Dollars"
+msgstr "شرق سنت لويس"
+
+#: ../goffice/utils/formats.c:486
+msgid "International Monetary Fund (IMF) Special Drawing Rights"
+msgstr ""
+
+#: ../goffice/utils/formats.c:487
+msgid "Communaute Financiere Africaine BCEAO, Francs"
+msgstr ""
+
+#: ../goffice/utils/formats.c:488
+msgid "Palladium, Ounces"
+msgstr ""
+
+#: ../goffice/utils/formats.c:489
+msgid "Comptoirs Francais du Pacifique Francs"
+msgstr ""
+
+#: ../goffice/utils/formats.c:490
+msgid "Platinum, Ounces"
+msgstr ""
+
+#: ../goffice/utils/formats.c:491
+msgid "Yemen, Rials"
+msgstr ""
+
+#: ../goffice/utils/formats.c:492
+#, fuzzy
+msgid "Yugoslavia, New Dinars"
+msgstr "خواتم وقت للملفات الجديدة"
+
+#: ../goffice/utils/formats.c:493
+#, fuzzy
+msgid "South Africa, Rand"
+msgstr "ا-ص|إنكليزي (جنوب أفريقيا)"
+
+#: ../goffice/utils/formats.c:494
+msgid "Zambia, Kwacha"
+msgstr ""
+
+#: ../goffice/utils/formats.c:495
+msgid "Zimbabwe, Zimbabwe Dollars"
+msgstr ""
+
+#. xgettext: generic fake user name for non-local files.
+#: ../goffice/utils/go-file.c:739
+#, fuzzy
+msgid "remote user"
+msgstr "مستخدم بعيد"
+
+#. xgettext: generic fake group name for non-local files.
+#: ../goffice/utils/go-file.c:820
+#, fuzzy
+msgid "remote"
+msgstr "عن بعد، بعيد"
+
+#: ../goffice/utils/go-format.c:437
+#, fuzzy
+msgid "Black"
+msgstr "أسود"
+
+#: ../goffice/utils/go-format.c:438
+#, fuzzy
+msgid "Blue"
+msgstr "أزرق"
+
+#: ../goffice/utils/go-format.c:439
+#, fuzzy
+msgid "Cyan"
+msgstr "أزرق"
+
+#: ../goffice/utils/go-format.c:440
+#, fuzzy
+msgid "Green"
+msgstr "أخضر"
+
+#: ../goffice/utils/go-format.c:441
+#, fuzzy
+msgid "Magenta"
+msgstr "ماجنتا"
+
+#: ../goffice/utils/go-format.c:442
+#, fuzzy
+msgid "Red"
+msgstr "أحمر"
+
+#: ../goffice/utils/go-format.c:443
+#, fuzzy
+msgid "White"
+msgstr "أبيض"
+
+#: ../goffice/utils/go-format.c:444
+#, fuzzy
+msgid "Yellow"
+msgstr "أصفر"
+
+#: ../goffice/utils/go-format.c:3331
+#, fuzzy
+msgid "[Color"
+msgstr "اللّون"
+
+#: ../goffice/utils/go-format.c:3455
+msgid "[Invalid]"
+msgstr "[غير صحيح]"
+
+#: ../goffice/utils/go-glib-extras.c:832
+msgid "yes"
+msgstr "نعم"
+
+#: ../goffice/utils/go-glib-extras.c:838
+msgid "no"
+msgstr "لا"
+
+#: ../goffice/utils/go-glib-extras.c:1032
+#, fuzzy, c-format
+msgid "Quoted string not terminated"
+msgstr "عبارة متعددة السطور بالرمز الثنائي"
+
+#: ../goffice/utils/go-glib-extras.c:1039
+#, fuzzy, c-format
+msgid "Syntax error"
+msgstr "خطأ نحوي"
+
+#: ../goffice/utils/go-image.c:121
+#, fuzzy
+msgid "SVG (vector graphics)"
+msgstr "تخصيص التّهيئة الرّسوميّة"
+
+#: ../goffice/utils/go-image.c:123
+#, fuzzy
+msgid "PNG (raster graphics)"
+msgstr "تخصيص التّهيئة الرّسوميّة"
+
+#: ../goffice/utils/go-image.c:125
+#, fuzzy
+msgid "JPEG (photograph)"
+msgstr "معلومات الرسم"
+
+#: ../goffice/utils/go-image.c:127
+#, fuzzy
+msgid "PDF (portable document format)"
+msgstr "مصنع عارض مستندات الـ PDF"
+
+#: ../goffice/utils/go-image.c:129
+#, fuzzy
+msgid "PS (postscript)"
+msgstr "مستندات PostScript"
+
+#: ../goffice/utils/go-image.c:131
+#, fuzzy
+msgid "EMF (extended metafile)"
+msgstr "مصنع ملفات نوتلس الملخصة"
+
+#: ../goffice/utils/go-image.c:133
+#, fuzzy
+msgid "WMF (windows metafile)"
+msgstr "مصنع ملفات نوتلس الملخصة"
+
+#: ../goffice/utils/go-image.c:443
+#, fuzzy
+msgid "Image width in pixels"
+msgstr "عرض النافذة بالبكسل"
+
+#: ../goffice/utils/go-image.c:447
+#, fuzzy
+msgid "Image height in pixels"
+msgstr "ارتفاع النافذة بالبكسل"
+
+#: ../goffice/utils/go-image.c:451
+#, fuzzy
+msgid "Pixbuf"
+msgstr "بكسبف"
+
+#: ../goffice/utils/go-image.c:452
+msgid "GdkPixbuf object from which the GOImage is built"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:56
+#: ../goffice/utils/go-pattern.c:41
+#, fuzzy
+msgid "Solid"
+msgstr "صلب"
+
+#: ../goffice/utils/go-line.c:58
+#, fuzzy
+msgid "Dot"
+msgstr "نقطة"
+
+#: ../goffice/utils/go-line.c:60
+#, fuzzy
+msgid "Dash dot"
+msgstr "_3 8 أو 7 نقاط"
+
+#: ../goffice/utils/go-line.c:62
+#, fuzzy
+msgid "Dash dot dot"
+msgstr "_3 8 أو 7 نقاط"
+
+#: ../goffice/utils/go-line.c:64
+#, fuzzy
+msgid "Dash dot dot dot"
+msgstr "_3 8 أو 7 نقاط"
+
+#: ../goffice/utils/go-line.c:66
+#, fuzzy
+msgid "Short dash"
+msgstr "تنقيط، خط فاصل"
+
+#: ../goffice/utils/go-line.c:68
+#, fuzzy
+msgid "Dash"
+msgstr "الوثبة"
+
+#: ../goffice/utils/go-line.c:70
+#, fuzzy
+msgid "Long dash"
+msgstr "تنقيط، خط فاصل"
+
+#: ../goffice/utils/go-line.c:72
+#, fuzzy
+msgid "Very long dash"
+msgstr "المسار طويل جداً: %s"
+
+#: ../goffice/utils/go-line.c:74
+#, fuzzy
+msgid "Long dash dash"
+msgstr "تنقيط، خط فاصل"
+
+#: ../goffice/utils/go-line.c:76
+#, fuzzy
+msgid "Long dash dash dash"
+msgstr "تنقيط، خط فاصل"
+
+#: ../goffice/utils/go-line.c:87
+#, fuzzy
+msgid "Spline"
+msgstr "المفتاح"
+
+#: ../goffice/utils/go-line.c:88
+#, fuzzy
+msgid "Step at start"
+msgstr "ابدء العدّاد عند:"
+
+#: ../goffice/utils/go-line.c:89
+#, fuzzy
+msgid "Step at end"
+msgstr "%s عند إنتهاء الموعد"
+
+#: ../goffice/utils/go-line.c:90
+#, fuzzy
+msgid "Step at center"
+msgstr "طول أزرار الخطوات عند النهايات"
+
+#: ../goffice/utils/go-line.c:91
+#, fuzzy
+msgid "Step to mean"
+msgstr "ا_ستعِد الحالة الأصلية"
+
+#: ../goffice/utils/go-locale.c:424
+#, fuzzy
+msgid "TRUE"
+msgstr "صحيح :: حقيقى"
+
+#: ../goffice/utils/go-locale.c:425
+#, fuzzy
+msgid "FALSE"
+msgstr "_خاطئ"
+
+#: ../goffice/utils/go-marker.c:77
+msgid "none"
+msgstr "لاشيء"
+
+#: ../goffice/utils/go-marker.c:78
+msgid "square"
+msgstr "مربّع"
+
+#: ../goffice/utils/go-marker.c:79
+msgid "diamond"
+msgstr "ألماس"
+
+#: ../goffice/utils/go-marker.c:80
+#, fuzzy
+msgid "triangle down"
+msgstr "تحرك لأسفل"
+
+#: ../goffice/utils/go-marker.c:81
+#, fuzzy
+msgid "triangle up"
+msgstr "تحرك لأعلى"
+
+#: ../goffice/utils/go-marker.c:82
+#, fuzzy
+msgid "triangle right"
+msgstr "استدر ي_ميناَ"
+
+#: ../goffice/utils/go-marker.c:83
+#, fuzzy
+msgid "triangle left"
+msgstr "استدر ي_ساراً"
+
+#: ../goffice/utils/go-marker.c:84
+#, fuzzy
+msgid "circle"
+msgstr "دائرة"
+
+#: ../goffice/utils/go-marker.c:85
+msgid "x"
+msgstr "س"
+
+#: ../goffice/utils/go-marker.c:86
+#, fuzzy
+msgid "cross"
+msgstr "الصليب"
+
+#: ../goffice/utils/go-marker.c:87
+#, fuzzy
+msgid "asterisk"
+msgstr "علامة النجمة (*)"
+
+#: ../goffice/utils/go-marker.c:88
+#, fuzzy
+msgid "bar"
+msgstr "شريط"
+
+#: ../goffice/utils/go-marker.c:89
+#, fuzzy
+msgid "half bar"
+msgstr "شريط البحث"
+
+#: ../goffice/utils/go-marker.c:90
+#, fuzzy
+msgid "butterfly"
+msgstr "الفراشة"
+
+#: ../goffice/utils/go-marker.c:91
+#, fuzzy
+msgid "hourglass"
+msgstr "السّاعة الرّمليّة"
+
+#: ../goffice/utils/go-pattern.c:43
+#, no-c-format
+msgid "75% Grey"
+msgstr "75% رمادي"
+
+#: ../goffice/utils/go-pattern.c:45
+#, no-c-format
+msgid "50% Grey"
+msgstr "50% رمادي"
+
+#: ../goffice/utils/go-pattern.c:47
+#, no-c-format
+msgid "25% Grey"
+msgstr "25% رمادي"
+
+#: ../goffice/utils/go-pattern.c:49
+#, no-c-format
+msgid "12.5% Grey"
+msgstr "12.5% رمادي"
+
+#: ../goffice/utils/go-pattern.c:51
+#, no-c-format
+msgid "6.25% Grey"
+msgstr "6.25% رمادي"
+
+#: ../goffice/utils/go-pattern.c:52
+#, fuzzy
+msgid "Horizontal Stripe"
+msgstr "شريط مغناطيسى"
+
+#: ../goffice/utils/go-pattern.c:53
+#, fuzzy
+msgid "Vertical Stripe"
+msgstr "شريط مغناطيسى"
+
+#: ../goffice/utils/go-pattern.c:54
+#, fuzzy
+msgid "Reverse Diagonal Stripe"
+msgstr "اقلب ترتيب القائمة"
+
+#: ../goffice/utils/go-pattern.c:55
+#, fuzzy
+msgid "Diagonal Stripe"
+msgstr "شريط مغناطيسى"
+
+#: ../goffice/utils/go-pattern.c:56
+#, fuzzy
+msgid "Diagonal Crosshatch"
+msgstr "خط قطري"
+
+#: ../goffice/utils/go-pattern.c:57
+msgid "Thick Diagonal Crosshatch"
+msgstr ""
+
+#: ../goffice/utils/go-pattern.c:58
+#, fuzzy
+msgid "Thin Horizontal Stripe"
+msgstr "موقع اللوح الأفقي"
+
+#: ../goffice/utils/go-pattern.c:59
+#, fuzzy
+msgid "Thin Vertical Stripe"
+msgstr "موقع اللوح العمودي"
+
+#: ../goffice/utils/go-pattern.c:60
+msgid "Thin Reverse Diagonal Stripe"
+msgstr ""
+
+#: ../goffice/utils/go-pattern.c:61
+msgid "Thin Diagonal Stripe"
+msgstr ""
+
+#: ../goffice/utils/go-pattern.c:62
+#, fuzzy
+msgid "Thin Horizontal Crosshatch"
+msgstr "موقع اللوح الأفقي"
+
+#: ../goffice/utils/go-pattern.c:63
+msgid "Thin Diagonal Crosshatch"
+msgstr ""
+
+#: ../goffice/utils/go-pattern.c:64
+#, fuzzy
+msgid "Foreground Solid"
+msgstr "لون صلب"
+
+#: ../goffice/utils/go-pattern.c:65
+#, fuzzy
+msgid "Small Circles"
+msgstr "خط صغير"
+
+#. Applix
+#: ../goffice/utils/go-pattern.c:66
+#, fuzzy
+msgid "Semi Circles"
+msgstr "شبه شفاف"
+
+#. Applix
+#: ../goffice/utils/go-pattern.c:67
+#, fuzzy
+msgid "Thatch"
+msgstr "القشّ"
+
+#. Applix small thatch
+#: ../goffice/utils/go-pattern.c:68
+#, fuzzy
+msgid "Large Circles"
+msgstr "خط كبير"
+
+#: ../goffice/utils/go-pattern.c:70
+#, fuzzy
+msgid "Bricks"
+msgstr "طوب"
+
+#: ../goffice/utils/regutf8.c:35
+#, fuzzy
+msgid "Pattern not found."
+msgstr "لم يعثر على النّمط"
+
+#: ../goffice/utils/regutf8.c:37
+#, fuzzy
+msgid "Invalid pattern."
+msgstr "نمط الزوارق"
+
+#: ../goffice/utils/regutf8.c:38
+#, fuzzy
+msgid "Invalid collating element."
+msgstr "العنصر <%s> له رقم  id غير صيح \"%s\""
+
+#: ../goffice/utils/regutf8.c:39
+#, fuzzy
+msgid "Invalid character class name."
+msgstr "تجاهل اسم السيمة `%s', غير سليم: %s"
+
+#: ../goffice/utils/regutf8.c:40
+#, fuzzy
+msgid "Trailing backslash."
+msgstr "Backslash"
+
+#: ../goffice/utils/regutf8.c:41
+#, fuzzy
+msgid "Invalid back reference."
+msgstr "مرجع بيانات كائن"
+
+#: ../goffice/utils/regutf8.c:42
+#, fuzzy
+msgid "Unmatched left bracket."
+msgstr "ظَلِّل القوس الموافق"
+
+#: ../goffice/utils/regutf8.c:43
+#, fuzzy
+msgid "Parenthesis imbalance."
+msgstr "هلال يساري"
+
+#: ../goffice/utils/regutf8.c:44
+#, fuzzy
+msgid "Unmatched \\{."
+msgstr "غير مطابق"
+
+#: ../goffice/utils/regutf8.c:45
+#, fuzzy
+msgid "Invalid contents of \\{\\}."
+msgstr "محتويات الرسالة غير سليمة"
+
+#: ../goffice/utils/regutf8.c:46
+#, fuzzy
+msgid "Invalid range end."
+msgstr "مُدخل غير صالح لـCylider النّهاية"
+
+#: ../goffice/utils/regutf8.c:47
+#, fuzzy
+msgid "Out of memory."
+msgstr "نفذت الذّاكرة."
+
+#: ../goffice/utils/regutf8.c:48
+#, fuzzy
+msgid "Invalid repetition operator."
+msgstr "علامة عدد صحيح (عرض)"
+
+#: ../goffice/utils/regutf8.c:49
+#, fuzzy
+msgid "Premature end of pattern."
+msgstr "وُجهت نهاية ملف سابقة لأوانها"
+
+#: ../goffice/utils/regutf8.c:50
+#, fuzzy
+msgid "Pattern is too big."
+msgstr "الملف كبير جدا."
+
+#: ../goffice/utils/regutf8.c:51
+#, fuzzy
+msgid "Unmatched ) or \\)"
+msgstr "ال_منظّم:"
+
+#: ../goffice/utils/regutf8.c:273
+#, c-format
+msgid "Search string must not be empty."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:283
+#, fuzzy, c-format
+msgid "Replacement string must be set."
+msgstr "يجب أن يُحدّد اسم الخادم."
+
+#: ../goffice/utils/regutf8.c:295
+#, fuzzy, c-format
+msgid "Invalid search pattern (%s)"
+msgstr "آخر نمط بحث في خادم مفاتيح"
+
+#: ../goffice/utils/regutf8.c:319
+#, fuzzy, c-format
+msgid "Invalid $-specification in replacement."
+msgstr "محرفٌ غير سليم \"%c\" في التّعليق"
+
+#: ../goffice/utils/regutf8.c:329
+#, c-format
+msgid "Invalid trailing backslash in replacement."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:806
+msgid "Search Text"
+msgstr "بحث عن نصّ"
+
+#: ../goffice/utils/regutf8.c:807
+#, fuzzy
+msgid "The text to search for"
+msgstr "ابحث في <b>%(name)s</b> عن <i>%(text)s</i>"
+
+#: ../goffice/utils/regutf8.c:816
+#, fuzzy
+msgid "Replacement Text"
+msgstr "نص العلامة."
+
+#: ../goffice/utils/regutf8.c:817
+#, fuzzy
+msgid "The text to replace with"
+msgstr "فشل استبدال %s مع %s: %s\n"
+
+#: ../goffice/utils/regutf8.c:825
+#, fuzzy
+msgid "Is Regular Expression"
+msgstr "بحث عن تعابير نمطيّة"
+
+#: ../goffice/utils/regutf8.c:826
+#, fuzzy
+msgid "Is the search text a regular expression."
+msgstr "نَماتْزو هو مُحرّك بحث نصّ كامل."
+
+#: ../goffice/utils/regutf8.c:834
+msgid "Ignore Case"
+msgstr "تجاهل حالة الأحرف"
+
+#: ../goffice/utils/regutf8.c:835
+#, fuzzy
+msgid "Ignore the case of letters."
+msgstr "حروف مغيرة للتباعد"
+
+#: ../goffice/utils/regutf8.c:843
+#, fuzzy
+msgid "Preserve Case"
+msgstr "حسّاس لحالة الأحرف"
+
+#: ../goffice/utils/regutf8.c:844
+#, fuzzy
+msgid "Preserve the case of letters."
+msgstr "حروف مغيرة للتباعد"
+
+#: ../goffice/utils/regutf8.c:852
+#, fuzzy
+msgid "Match Words"
+msgstr "كلمات المطابقة"
+
+#: ../goffice/utils/regutf8.c:853
+#, fuzzy
+msgid "Match whole words only."
+msgstr "طابِق ك_امل الكلمة فقط"
+
+#: ../plugins/plot_barcol/gog-1.5d.c:321
+msgid "How to group multiple series, normal, stacked, as_percentage"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-1.5d.c:326
+#: ../plugins/plot_pie/gog-pie.c:245
+#: ../plugins/plot_xy/gog-xy.c:518
+#, fuzzy
+msgid "In 3d"
+msgstr "خطوط خارجية 3د..."
+
+#: ../plugins/plot_barcol/gog-1.5d.c:327
+msgid "Placeholder to allow us to round trip pseudo 3d state"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-1.5d.c:335
+#: ../plugins/plot_barcol/gog-dropbar.c:58
+#: ../plugins/plot_barcol/gog-minmax.c:244
+#: ../plugins/plot_pie/gog-pie.c:258
+#: ../plugins/plot_radar/gog-radar.c:297
+#, fuzzy
+msgid "Labels"
+msgstr "العلامات"
+
+#: ../plugins/plot_barcol/gog-1.5d.c:337
+#: ../plugins/plot_boxes/gog-boxplot.c:314
+#: ../plugins/plot_boxes/gog-histogram.c:187
+#: ../plugins/plot_pie/gog-pie.c:260
+#: ../plugins/plot_radar/gog-radar.c:299
+msgid "Values"
+msgstr "قيم"
+
+#: ../plugins/plot_barcol/gog-1.5d.c:567
+#: ../plugins/plot_barcol/gog-1.5d.c:629
+#, fuzzy
+msgid "Error bars"
+msgstr ""
+"خطأ GConf:\n"
+"  %s"
+
+#: ../plugins/plot_barcol/gog-1.5d.c:586
+#, fuzzy
+msgid "Series lines"
+msgstr "أقصى عدد من السّطور"
+
+#: ../plugins/plot_barcol/gog-1.5d.c:593
+#: ../plugins/plot_boxes/gog-histogram.c:491
+#, fuzzy
+msgid "Drop lines"
+msgstr "أقصى عدد من السّطور"
+
+#: ../plugins/plot_barcol/gog-1.5d.c:601
+#: ../plugins/plot_barcol/plot-types.xml.in.h:78
+msgid "Lines"
+msgstr "سطور"
+
+#: ../plugins/plot_barcol/gog-1.5d.c:630
+#: ../plugins/plot_xy/gog-xy.c:1607
+#: ../plugins/plot_xy/gog-xy.c:1613
+msgid "GogErrorBar *"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:3
+msgid "How far the bars/cols overlap as a percentage of the width"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:4
+msgid "O_verlap:"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:5
+#: ../plugins/plot_barcol/gog-minmax-prefs.glade.h:3
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:5
+msgid "Separation between groups as a percentage of bar/col width"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:6
+#: ../plugins/plot_barcol/gog-minmax-prefs.glade.h:4
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:6
+#, fuzzy
+msgid "_Gap:"
+msgstr "ثَغْرة ، فَجْوة ، فراغ"
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd bar/col plot in a chart will be called
+#. * 	PlotBarCol2
+#: ../plugins/plot_barcol/gog-barcol.c:100
+msgid "PlotBarCol"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol.c:112
+#: ../plugins/plot_barcol/gog-minmax.c:195
+#: ../plugins/plot_boxes/gog-boxplot.c:112
+#: ../plugins/plot_pie/gog-pie.c:205
+#: ../plugins/plot_pie/gog-pie.c:352
+#: ../plugins/plot_surface/gog-surface.c:225
+#: ../plugins/plot_xy/gog-xy.c:421
+#: ../plugins/plot_xy/gog-xy.c:697
+#: ../plugins/smoothing/gog-moving-avg.c:114
+#: ../plugins/smoothing/gog-exp-smooth.c:81
+msgid "Properties"
+msgstr "خصائص"
+
+#: ../plugins/plot_barcol/gog-barcol.c:204
+#: ../plugins/plot_barcol/gog-minmax.c:219
+#: ../plugins/plot_boxes/gog-boxplot.c:294
+#, fuzzy
+msgid "Gap percentage"
+msgstr "التّحجيم (نسبة)"
+
+#: ../plugins/plot_barcol/gog-barcol.c:205
+#: ../plugins/plot_barcol/gog-minmax.c:220
+#: ../plugins/plot_boxes/gog-boxplot.c:295
+msgid "The padding around each group as a percentage of their width"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol.c:210
+#, fuzzy
+msgid "Overlap percentage"
+msgstr "التّحجيم (نسبة)"
+
+#: ../plugins/plot_barcol/gog-barcol.c:211
+msgid "The distance between series as a percentage of their width"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol.c:216
+#, fuzzy
+msgid "horizontal"
+msgstr "أفقي"
+
+#: ../plugins/plot_barcol/gog-barcol.c:217
+msgid "horizontal bars or vertical columns"
+msgstr ""
+
+#. xgettext : the base for how to name drop bar/col plot objects
+#. * eg The 2nd drop bar/col plot in a chart will be called
+#. * 	PlotDropBar2
+#: ../plugins/plot_barcol/gog-dropbar.c:43
+msgid "PlotDropBar"
+msgstr ""
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotLine2
+#.
+#: ../plugins/plot_barcol/gog-line.c:202
+msgid "PlotLine"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-line.c:289
+#: ../plugins/plot_barcol/gog-minmax.c:231
+#: ../plugins/plot_radar/gog-radar.c:206
+#, fuzzy
+msgid "Default markers"
+msgstr "إفتراضي الأبجدية"
+
+#: ../plugins/plot_barcol/gog-line.c:290
+#: ../plugins/plot_barcol/gog-minmax.c:232
+#: ../plugins/plot_radar/gog-radar.c:207
+#: ../plugins/plot_xy/gog-xy.c:338
+msgid "Should the default style of a series include markers"
+msgstr ""
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotArea2
+#.
+#: ../plugins/plot_barcol/gog-line.c:326
+msgid "PlotArea"
+msgstr ""
+
+#. xgettext : the base for how to name min/max line plot objects
+#. * eg The 2nd min/max line plot in a chart will be called
+#. * 	PlotMinMax2
+#: ../plugins/plot_barcol/gog-minmax.c:136
+msgid "PlotMinMax"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-minmax.c:225
+msgid "Horizontal"
+msgstr "أفقي"
+
+#: ../plugins/plot_barcol/gog-minmax.c:226
+msgid "Horizontal or vertical lines"
+msgstr "خطوط أفقية أو عموديّة"
+
+#: ../plugins/plot_barcol/gog-minmax.c:246
+#, fuzzy
+msgid "Min"
+msgstr "دقيقة"
+
+#: ../plugins/plot_barcol/gog-minmax.c:248
+#, fuzzy
+msgid "Max"
+msgstr "أقصى"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:1
+#, fuzzy
+msgid "Adjacent Bars"
+msgstr "حساب نسبة الأشرطة..."
+
+#. No 3d yet
+#. <Type _name="3D Adjacent Bars" row="2" col="1"
+#. engine="GogBarColPlot" family="Bar"
+#. _description="Adjacent horizontal 3D bars grouped by major and minor categories."
+#. sample_image_file="chart_bar_2_1.png">
+#. <property name="horizontal">True</property>
+#. <property name="type">normal</property>
+#. <property name="in_3d"/>
+#. </Type>
+#.
+#. <Type _name="3D Stacked Bars" row="2" col="2"
+#. engine="GogBarColPlot" family="Bar"
+#. _description="Minor categories stacked in horizontal 3D bars, grouped by major category."
+#. sample_image_file="chart_bar_2_2.png">
+#. <property name="horizontal">True</property>
+#. <property name="type">stacked</property>
+#. <property name="overlap_percentage">100</property>
+#. <property name="in_3d"/>
+#. </Type>
+#.
+#. <Type _name="3D Percentage Bars" row="2" col="3"
+#. engine="GogBarColPlot" family="Bar"
+#. _description="Minor categories stacked as percentages of the minor total, in 3D horizontal bars, grouped by major category."
+#. sample_image_file="chart_bar_2_3.png">
+#. <property name="horizontal">True</property>
+#. <property name="type">as_percentage</property>
+#. <property name="overlap_percentage">100</property>
+#. <property name="in_3d"/>
+#. </Type>
+#.
+#: ../plugins/plot_barcol/plot-types.xml.in.h:32
+#, fuzzy
+msgid "Adjacent Columns"
+msgstr "عدد الأعمدة:"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:33
+msgid "Adjacent horizontal bars grouped by major and minor categories."
+msgstr ""
+
+#. No 3d yet
+#. <Type _name="3D Adjacent Bars" row="2" col="1"
+#. engine="GogBarColPlot" family="Bar"
+#. _description="Adjacent horizontal 3D bars grouped by major and minor categories."
+#. sample_image_file="chart_bar_2_1.png">
+#. <property name="horizontal">True</property>
+#. <property name="type">normal</property>
+#. <property name="in_3d"/>
+#. </Type>
+#.
+#. <Type _name="3D Stacked Bars" row="2" col="2"
+#. engine="GogBarColPlot" family="Bar"
+#. _description="Minor categories stacked in horizontal 3D bars, grouped by major category."
+#. sample_image_file="chart_bar_2_2.png">
+#. <property name="horizontal">True</property>
+#. <property name="type">stacked</property>
+#. <property name="overlap_percentage">100</property>
+#. <property name="in_3d"/>
+#. </Type>
+#.
+#. <Type _name="3D Percentage Bars" row="2" col="3"
+#. engine="GogBarColPlot" family="Bar"
+#. _description="Minor categories stacked as percentages of the minor total, in 3D horizontal bars, grouped by major category."
+#. sample_image_file="chart_bar_2_3.png">
+#. <property name="horizontal">True</property>
+#. <property name="type">as_percentage</property>
+#. <property name="overlap_percentage">100</property>
+#. <property name="in_3d"/>
+#. </Type>
+#.
+#: ../plugins/plot_barcol/plot-types.xml.in.h:64
+msgid "Adjacent vertical columns grouped by major and minor categories."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:65
+#, fuzzy
+msgid "Area"
+msgstr "المنطقة"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:66
+#, fuzzy
+msgid "Area plot."
+msgstr "مساحة التبليغ"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:67
+#, fuzzy
+msgid "Areas"
+msgstr "المناطق"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:68
+#, fuzzy
+msgid "Bar"
+msgstr "عمود"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:69
+#, fuzzy
+msgid "Column"
+msgstr "العمود"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:70
+msgid "DropBar"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:71
+#, fuzzy
+msgid "Horizontal Drop Bars"
+msgstr "حساب نسبة الأشرطة..."
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:72
+#, fuzzy
+msgid "Horizontal Min Max Lines"
+msgstr "التباعد الأفقي لخطوط الشبكة"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:73
+#, fuzzy
+msgid "Horizontal drop bars."
+msgstr "حساب نسبة الأشرطة..."
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:74
+msgid "Horizontal min max lines with markers."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:75
+#, fuzzy
+msgid "Horizontal min max lines."
+msgstr "التباعد الأفقي لخطوط الشبكة"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:76
+msgid "Line"
+msgstr "خط"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:77
+#, fuzzy
+msgid "Line plot."
+msgstr "لف السّطور"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:79
+msgid "Marked Horizontal Min Max Lines"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:80
+msgid "Marked Vertical Min Max Lines"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:81
+msgid "MinMax"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:82
+msgid "Minor categories stacked as percentages of the minor total, in horizontal bars, grouped by major category."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:83
+msgid "Minor categories stacked as percentages of the minor total, in vertical columns, grouped by major category."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:84
+msgid "Minor categories stacked in horizontal bars grouped by major category."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:85
+msgid "Minor categories stacked in vertical columns grouped by major category."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:86
+#, fuzzy
+msgid "Percentage Areas"
+msgstr "التّحجيم (نسبة)"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:87
+#, fuzzy
+msgid "Percentage Bars"
+msgstr "حساب نسبة الأشرطة..."
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:88
+#, fuzzy
+msgid "Percentage Columns"
+msgstr "عدد الأعمدة:"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:89
+#, fuzzy
+msgid "Percentage Lines"
+msgstr "أقصى عدد من السّطور"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:90
+#, fuzzy
+msgid "Percentage area plot."
+msgstr "منطقة خارطة الصورة"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:91
+#, fuzzy
+msgid "Percentage line plot."
+msgstr "خط أسمك"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:92
+#, fuzzy
+msgid "Stacked Areas"
+msgstr "ملء المساحات الشفافة"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:93
+#, fuzzy
+msgid "Stacked Bars"
+msgstr "حساب نسبة الأشرطة..."
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:94
+#, fuzzy
+msgid "Stacked Columns"
+msgstr "عدد الأعمدة:"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:95
+#, fuzzy
+msgid "Stacked Lines"
+msgstr "أقصى عدد من السّطور"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:96
+#, fuzzy
+msgid "Stacked area plot."
+msgstr "منطقة خارطة الصورة"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:97
+#, fuzzy
+msgid "Stacked line plot."
+msgstr "خط أسمك"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:98
+#, fuzzy
+msgid "Unmarked Lines"
+msgstr "أقصى عدد من السّطور"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:99
+#, fuzzy
+msgid "Unmarked Percentage Lines"
+msgstr "انسخ السّطور المنتقاة"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:100
+#, fuzzy
+msgid "Unmarked Stacked Lines"
+msgstr "انسخ السّطور المنتقاة"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:101
+#, fuzzy
+msgid "Vertical Drop Bars"
+msgstr "حساب نسبة الأشرطة..."
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:102
+#, fuzzy
+msgid "Vertical Min Max Lines"
+msgstr "التباعد العامودي لخطوط الشبكة"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:103
+#, fuzzy
+msgid "Vertical drop bars."
+msgstr "حساب نسبة الأشرطة..."
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:104
+msgid "Vertical min max lines with markers."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:105
+#, fuzzy
+msgid "Vertical min max lines."
+msgstr "التباعد العامودي لخطوط الشبكة"
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:1
+#, fuzzy
+msgid "Area plotting engine"
+msgstr "محرك إكس.إم.إل-آر.بي.سي"
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:2
+msgid "Bar/Col plotting engine"
+msgstr ""
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:3
+msgid "Charting : Bar/Col/Line/Area"
+msgstr ""
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:4
+msgid "Default 1.5d plot types"
+msgstr ""
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:5
+msgid "Drop Bar/Col plotting engine"
+msgstr ""
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:6
+#, fuzzy
+msgid "Line plotting engine"
+msgstr "محرك إكس.إم.إل-آر.بي.سي"
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:7
+msgid "Line, Area, Bar and Column plots"
+msgstr ""
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:8
+msgid "Min Max plotting engine"
+msgstr ""
+
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:3
+#, fuzzy
+msgid ""
+"Horizontal\n"
+"Vertical"
+msgstr "اقلب أ_فقيا"
+
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:7
+#, fuzzy
+msgid "_Layout"
+msgstr "<b>مخطط</b>"
+
+#. xgettext : the base for how to name box-plot objects
+#. * eg The 2nd box-plot in a chart will be called
+#. * 	BoxPlot2
+#: ../plugins/plot_boxes/gog-boxplot.c:143
+#, fuzzy
+msgid "Box-Plot"
+msgstr "_صندوق البريد:"
+
+#: ../plugins/plot_boxes/gog-boxplot.c:300
+#, fuzzy
+msgid "Vertical"
+msgstr "عامودي"
+
+#: ../plugins/plot_boxes/gog-boxplot.c:301
+msgid "Whether the box-plot should be vertical instead of horizontal"
+msgstr ""
+
+#. xgettext : the base for how to name histogram-plot objects
+#. * eg The 2nd histogram-plot in a chart will be called
+#. * 	Histogram2
+#: ../plugins/plot_boxes/gog-histogram.c:71
+#: ../plugins/plot_boxes/plot-types.xml.in.h:3
+#, fuzzy
+msgid "Histogram"
+msgstr "الرسم البياني"
+
+#: ../plugins/plot_boxes/gog-histogram.c:185
+#, fuzzy
+msgid "Limits"
+msgstr "حدود"
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:1
+msgid "BoxPlot"
+msgstr ""
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:2
+msgid "HBoxPlots"
+msgstr ""
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:4
+#, fuzzy
+msgid "Histogram."
+msgstr "الرسم البياني"
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:5
+#, fuzzy
+msgid "Horizontal Box-Plot."
+msgstr "صندوق ازرار افقي"
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:6
+msgid "VBoxPlots"
+msgstr ""
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:7
+#, fuzzy
+msgid "Vertical Box-Plot."
+msgstr "صندوق أزرار عمودي"
+
+#: ../plugins/plot_boxes/plugin.xml.in.h:1
+#, fuzzy
+msgid "Box-Plots and Histograms"
+msgstr "قم بتظليل الصف و العمود و المربع الحالي"
+
+#: ../plugins/plot_boxes/plugin.xml.in.h:2
+msgid "Box-plot plotting engine"
+msgstr ""
+
+#: ../plugins/plot_boxes/plugin.xml.in.h:3
+msgid "Charting : Box-Plots/Histograms"
+msgstr ""
+
+#: ../plugins/plot_boxes/plugin.xml.in.h:4
+#, fuzzy
+msgid "Histograms plotting engine"
+msgstr "محرك إكس.إم.إل-آر.بي.سي"
+
+#: ../plugins/plot_boxes/plugin.xml.in.h:5
+#, fuzzy
+msgid "Statistics plot types"
+msgstr "كل الأنواع المدعومة"
+
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:3
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:4
+msgid "Degrees counter clockwise from 3 O'Clock"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:4
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:5
+#, fuzzy
+msgid "Slices start _at:"
+msgstr "ابدء العدّاد عند:"
+
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:5
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:6
+msgid "The default amount each slice is separated from the center measured as a percentage of the radius of the pie"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:6
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:7
+#, fuzzy
+msgid "_Slice Separation:"
+msgstr "Ø§Ø¯Ø§Ø±Ø© Ø§ÙÙØ·Ø§Ø¹"
+
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:7
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:8
+msgid "_Vary colors by slice"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie-series.glade.h:3
+msgid "The amount this slice is separated from the center measured as a percentage of the radius of the pie"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie-series.glade.h:4
+#, fuzzy
+msgid "_Separation:"
+msgstr "الإفتراق"
+
+#: ../plugins/plot_pie/gog-pie.c:106
+#: ../plugins/plot_pie/gog-pie.c:905
+#, fuzzy
+msgid "Separation"
+msgstr "الإفتراق"
+
+#: ../plugins/plot_pie/gog-pie.c:107
+msgid "Amount a slice is extended as a percentage of the radius"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:193
+msgid "PlotPie"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:233
+#, fuzzy
+msgid "Initial angle"
+msgstr "قائمة ال_زوايا"
+
+#: ../plugins/plot_pie/gog-pie.c:234
+msgid "Degrees clockwise from 12 O'Clock."
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:239
+#, fuzzy
+msgid "Default separation"
+msgstr "إفتراضي الأبجدية"
+
+#: ../plugins/plot_pie/gog-pie.c:240
+#: ../plugins/plot_pie/gog-pie.c:906
+msgid "Default amount a slice is extended as a percentage of the radius"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:246
+#, fuzzy
+msgid "Draw 3d wedges"
+msgstr "ارسم حدود الصناديق"
+
+#: ../plugins/plot_pie/gog-pie.c:251
+#: ../plugins/smoothing/gog-moving-avg.c:196
+#, fuzzy
+msgid "Span"
+msgstr "التوسيع"
+
+#: ../plugins/plot_pie/gog-pie.c:252
+msgid "Total angle used as a percentage of the full circle"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:340
+msgid "PlotRing"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:371
+#, fuzzy
+msgid "Center-size"
+msgstr "<p><center><font size=\"+4\">%1&nbsp;s</font></center></p>"
+
+#: ../plugins/plot_pie/gog-pie.c:372
+msgid "Size of the center hole as a percentage of the radius"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:531
+#, fuzzy
+msgid "Move pie"
+msgstr "الفطيرة الأمريكية"
+
+#: ../plugins/plot_pie/gog-pie.c:899
+#, fuzzy
+msgid "Initial-angle"
+msgstr "قائمة ال_زوايا"
+
+#: ../plugins/plot_pie/gog-pie.c:900
+msgid "Degrees clockwise from 12 O'Clock"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:3
+#, fuzzy
+msgid "Cen_ter size:"
+msgstr "_حجم خط داشر"
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:1
+#, fuzzy
+msgid "Half Pie"
+msgstr "الفطيرة الأمريكية"
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:2
+msgid "Percentage of each contributor displayed in ring for each serie with wedges of the last ring split apart."
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:3
+msgid "Percentage of each contributor displayed in ring for each serie."
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:4
+msgid "Percentage of each contributor in a half circle with wedges split apart."
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:5
+msgid "Percentage of each contributor in a half circle."
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:6
+msgid "Percentage of each contributor with wedges split apart."
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:7
+#, fuzzy
+msgid "Percentage of each contributor."
+msgstr "_كل اطار منفصل"
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:8
+#, fuzzy
+msgid "Pie"
+msgstr "الفطيرة"
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:9
+msgid "Ring"
+msgstr "حلقة"
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:10
+#, fuzzy
+msgid "Split Half Pie"
+msgstr "علامة نصفية مجمعة"
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:11
+#, fuzzy
+msgid "Split Pie"
+msgstr "الفطيرة الأمريكية"
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:12
+#, fuzzy
+msgid "Split Ring"
+msgstr "Token Ring"
+
+#: ../plugins/plot_pie/plugin.xml.in.h:1
+#, fuzzy
+msgid "Charting : Pie/Ring"
+msgstr "العب نغمة الرنين"
+
+#: ../plugins/plot_pie/plugin.xml.in.h:2
+#, fuzzy
+msgid "Default pie types"
+msgstr "كل الأنواع المدعومة"
+
+#: ../plugins/plot_pie/plugin.xml.in.h:3
+msgid "Pie and Ring plots"
+msgstr ""
+
+#: ../plugins/plot_pie/plugin.xml.in.h:4
+#, fuzzy
+msgid "Pie plotting engine"
+msgstr "محرك إكس.إم.إل-آر.بي.سي"
+
+#: ../plugins/plot_pie/plugin.xml.in.h:5
+#, fuzzy
+msgid "Ring plotting engine"
+msgstr "محرك إكس.إم.إل-آر.بي.سي"
+
+#: ../plugins/plot_radar/gog-radar.c:213
+#, fuzzy
+msgid "Default fill"
+msgstr "لون التّعبئة"
+
+#: ../plugins/plot_radar/gog-radar.c:214
+#: ../plugins/plot_xy/gog-xy.c:350
+#: ../plugins/plot_xy/gog-xy.c:776
+msgid "Should the default style of a series include fill"
+msgstr ""
+
+#. xgettext : the base for how to name rt plot objects
+#. * eg The 2nd rt plot in a chart will be called
+#. * 	PlotRT2
+#: ../plugins/plot_radar/gog-radar.c:250
+msgid "PlotRadar"
+msgstr ""
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotRadarArea2
+#.
+#: ../plugins/plot_radar/gog-radar.c:332
+msgid "PlotRadarArea"
+msgstr ""
+
+#. xgettext : the base for how to name rt plot objects
+#. * eg The 2nd rt plot in a chart will be called
+#. * 	PlotPolar2
+#: ../plugins/plot_radar/gog-radar.c:365
+msgid "PlotPolar"
+msgstr ""
+
+#: ../plugins/plot_radar/gog-radar.c:404
+msgid "Angle"
+msgstr "زاوية"
+
+#: ../plugins/plot_radar/gog-radar.c:406
+#, fuzzy
+msgid "Magnitude"
+msgstr "مقدار"
+
+#: ../plugins/plot_radar/gog-radar.c:707
+#, fuzzy
+msgid "Radial drop lines"
+msgstr "انسخ السّطور المنتقاة"
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:1
+#, fuzzy
+msgid "Area Radar"
+msgstr "خريطة الرادار"
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:2
+#, fuzzy
+msgid "Area radar plot."
+msgstr "فعّل خريطة ال_رادار"
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:3
+#, fuzzy
+msgid "Dotted Radar"
+msgstr "خريطة الرادار"
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:4
+#, fuzzy
+msgid "Polar"
+msgstr "قطبي"
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:5
+msgid "Polar plot."
+msgstr ""
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:6
+msgid "Radar"
+msgstr "رادار"
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:7
+msgid "Radar plot with dots."
+msgstr ""
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:8
+#, fuzzy
+msgid "Radar plot."
+msgstr "خريطة الرادار"
+
+#: ../plugins/plot_radar/plugin.xml.in.h:1
+#, fuzzy
+msgid "Charting : Polar/Radar"
+msgstr "فعّل خريطة ال_رادار"
+
+#: ../plugins/plot_radar/plugin.xml.in.h:2
+msgid "Default radar plot types"
+msgstr ""
+
+#: ../plugins/plot_radar/plugin.xml.in.h:3
+msgid "Polar and Radar plots"
+msgstr ""
+
+#: ../plugins/plot_radar/plugin.xml.in.h:4
+#, fuzzy
+msgid "Polar plotting engine"
+msgstr "محرك إكس.إم.إل-آر.بي.سي"
+
+#: ../plugins/plot_radar/plugin.xml.in.h:5
+msgid "Radar Area plotting engine"
+msgstr ""
+
+#: ../plugins/plot_radar/plugin.xml.in.h:6
+#, fuzzy
+msgid "Radar plotting engine"
+msgstr "محرك إكس.إم.إل-آر.بي.سي"
+
+#: ../plugins/plot_surface/gog-contour-prefs.glade.h:1
+#, fuzzy
+msgid "Transpose"
+msgstr "إنقل"
+
+#. xgettext : the base for how to name contour plot objects
+#.
+#: ../plugins/plot_surface/gog-surface.c:213
+msgid "PlotContour"
+msgstr ""
+
+#: ../plugins/plot_surface/gog-surface.c:522
+#, fuzzy
+msgid "Transposed"
+msgstr "منقول"
+
+#: ../plugins/plot_surface/gog-surface.c:523
+msgid "Transpose the plot"
+msgstr ""
+
+#: ../plugins/plot_surface/gog-surface.c:539
+#: ../plugins/plot_surface/xl-surface.c:258
+#: ../plugins/plot_xy/gog-xy.c:794
+#, fuzzy
+msgid "Z"
+msgstr "Z"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:1
+#, fuzzy
+msgid "Contour"
+msgstr "محيط"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:2
+msgid "Contour plot."
+msgstr ""
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:3
+#, fuzzy
+msgid "Surface"
+msgstr "السطح"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:1
+#, fuzzy
+msgid "Contour plotting engine"
+msgstr "محرك إكس.إم.إل-آر.بي.سي"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:2
+msgid "Default surface plot types"
+msgstr ""
+
+#: ../plugins/plot_surface/plugin.xml.in.h:3
+#, fuzzy
+msgid "Surface Charts"
+msgstr "مساحة مغلقة"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:4
+#, fuzzy
+msgid "Surface charts"
+msgstr "مساحة مغلقة"
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:2
+#, fuzzy, no-c-format
+msgid "% of default size"
+msgstr "الحجم الإفتراضي للعمود الجانبي"
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:3
+msgid "3_d"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:4
+#, fuzzy
+msgid "Dia_meter"
+msgstr "مقياس شدة الصوت"
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:5
+#, fuzzy
+msgid "Show _negative values"
+msgstr "غير مسموح بالقيم السالبة"
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:6
+#, fuzzy
+msgid "Sur_face"
+msgstr "وجه الخط"
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:7
+#, fuzzy
+msgid "_Bubbles scaled to"
+msgstr "ا_ستعِد الحالة الأصلية"
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:8
+#, fuzzy
+msgid "_Size represented by:"
+msgstr "رتّب قائمة الملفات بحسب حجمها"
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:9
+msgid "_Vary colors by bubble"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy-series-prefs.glade.h:1
+msgid "Show markers or bubbles at 0 when the value is invalid"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy-series-prefs.glade.h:2
+msgid "_Use nul value instead of invalid"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy-color-prefs.glade.h:1
+msgid "Hide data outside of color axis bounds"
+msgstr ""
+
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	PlotXY2
+#: ../plugins/plot_xy/gog-xy.c:265
+msgid "PlotXY"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:337
+#, fuzzy
+msgid "Has markers by default"
+msgstr "اخفي شريط القوائم افتراضا"
+
+#: ../plugins/plot_xy/gog-xy.c:343
+#: ../plugins/plot_xy/gog-xy.c:769
+#, fuzzy
+msgid "Has lines by default"
+msgstr "اخفي شريط القوائم افتراضا"
+
+#: ../plugins/plot_xy/gog-xy.c:344
+#: ../plugins/plot_xy/gog-xy.c:770
+msgid "Should the default style of a series include lines"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:349
+#: ../plugins/plot_xy/gog-xy.c:775
+#, fuzzy
+msgid "Has fill by default"
+msgstr "اخفي شريط القوائم افتراضا"
+
+#: ../plugins/plot_xy/gog-xy.c:355
+#, fuzzy
+msgid "Use splines"
+msgstr "استخدم الافترا_ضي"
+
+#: ../plugins/plot_xy/gog-xy.c:356
+msgid "Should the plot use splines instead of linear interpolation"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:409
+msgid "PlotBubble"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:506
+#, fuzzy
+msgid "Size as area"
+msgstr "حجم منطقة تداخل اللسان"
+
+#: ../plugins/plot_xy/gog-xy.c:507
+msgid "Display size as area instead of diameter"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:512
+#, fuzzy
+msgid "Show negatives"
+msgstr "اعرض شريط الأدوات"
+
+#: ../plugins/plot_xy/gog-xy.c:513
+msgid "Draw bubbles for negative values"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:519
+#, fuzzy
+msgid "Draw 3d bubbles"
+msgstr "ارسم حدود الصناديق"
+
+#: ../plugins/plot_xy/gog-xy.c:524
+#, fuzzy
+msgid "Bubble scale"
+msgstr "مقياس بيوفور"
+
+#: ../plugins/plot_xy/gog-xy.c:525
+msgid "Fraction of default radius used for display"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:534
+#: ../plugins/plot_xy/plot-types.xml.in.h:1
+#, fuzzy
+msgid "Bubble"
+msgstr "الفقّاعة"
+
+#. xgettext : the base for how to name map like plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	Map2
+#: ../plugins/plot_xy/gog-xy.c:659
+msgid "XYColor"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:781
+#, fuzzy
+msgid "hide-outliers"
+msgstr "إ_خفي أشرطة الأدوات"
+
+#: ../plugins/plot_xy/gog-xy.c:782
+msgid "Hide data outside of the color axis bounds"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:1543
+#: ../plugins/plot_xy/gog-xy.c:1606
+#, fuzzy
+msgid "X error bars"
+msgstr ""
+"خطأ GConf:\n"
+"  %s"
+
+#: ../plugins/plot_xy/gog-xy.c:1545
+#: ../plugins/plot_xy/gog-xy.c:1612
+#, fuzzy
+msgid "Y error bars"
+msgstr ""
+"خطأ GConf:\n"
+"  %s"
+
+#: ../plugins/plot_xy/gog-xy.c:1553
+#, fuzzy
+msgid "Horizontal drop lines"
+msgstr "التباعد الأفقي لخطوط الشبكة"
+
+#: ../plugins/plot_xy/gog-xy.c:1561
+#, fuzzy
+msgid "Vertical drop lines"
+msgstr "التباعد العامودي لخطوط الشبكة"
+
+#: ../plugins/plot_xy/gog-xy.c:1618
+#, fuzzy
+msgid "Invalid as zero"
+msgstr "قسمة على صفر"
+
+#: ../plugins/plot_xy/gog-xy.c:1619
+msgid "Replace invalid values by 0 when drawing markers or bubbles"
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:2
+msgid "ColoredXY"
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:3
+msgid "Interpolate between multi-dimensional points with Bezier splines."
+msgstr ""
+
+#. really 3_1
+#: ../plugins/plot_xy/plot-types.xml.in.h:5
+msgid "Linearly interpolate between multi-dimensional points,with markers at each point."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:6
+msgid "Linearly interpolate between multi-dimensional points."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:7
+#, fuzzy
+msgid "Map"
+msgstr "الخريطة"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:8
+msgid "Markers at each point."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:9
+msgid "Multi-dimensional points with circle at each point."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:10
+msgid "Multi-dimensional points with data dependent color marker at each point."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:11
+msgid "Stepped curve using the first y value."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:12
+msgid "Stepped curve using the last y value."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:13
+msgid "Stepped curve using the mean y value."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:14
+msgid "Stepped curve using the nearest y value."
+msgstr ""
+
+#. really 3_1
+#: ../plugins/plot_xy/plot-types.xml.in.h:16
+msgid "XY"
+msgstr "س ص"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:17
+msgid "XY Lines"
+msgstr "سطور س ص"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:18
+msgid "XY Points"
+msgstr "نقاط س ص"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:19
+#, fuzzy
+msgid "XY Splines"
+msgstr "برو_كسي:"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:20
+#, fuzzy
+msgid "XY Steps Center"
+msgstr "المركز الوطنى للطيران"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:21
+#, fuzzy
+msgid "XY Steps End"
+msgstr "سبب إنهاء المكالمة"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:22
+#, fuzzy
+msgid "XY Steps Mean"
+msgstr "18 خطوة فقط"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:23
+#, fuzzy
+msgid "XY Steps Start"
+msgstr "ابدأ خادم بيجل"
+
+#: ../plugins/plot_xy/plugin.xml.in.h:1
+msgid "2D colored scatter plotting engine"
+msgstr ""
+
+#: ../plugins/plot_xy/plugin.xml.in.h:2
+#, fuzzy
+msgid "2D plots"
+msgstr "سَنَدالفشل من %2d ثانية"
+
+#: ../plugins/plot_xy/plugin.xml.in.h:3
+msgid "2D scatter plotting engine"
+msgstr ""
+
+#: ../plugins/plot_xy/plugin.xml.in.h:4
+#, fuzzy
+msgid "Bubble plotting engine"
+msgstr "محرك إكس.إم.إل-آر.بي.سي"
+
+#: ../plugins/plot_xy/plugin.xml.in.h:5
+msgid "Charting : XY/Scatter/Bubble"
+msgstr ""
+
+#: ../plugins/plot_xy/plugin.xml.in.h:6
+msgid "Stock Scatter plot types"
+msgstr ""
+
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	Exponential regression2
+#: ../plugins/reg_linear/gog-exp-reg.c:63
+#, fuzzy
+msgid "Exponential regression"
+msgstr "أدخل عدد أسي"
+
+#: ../plugins/reg_linear/gog-lin-reg.c:158
+#: ../plugins/reg_linear/gog-lin-reg.c:264
+#, fuzzy
+msgid "Affine"
+msgstr "القريب :: متصل :: مرتبط"
+
+#: ../plugins/reg_linear/gog-lin-reg.c:159
+msgid "Uncheck to force zero intercept"
+msgstr ""
+
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	Linear regression2
+#: ../plugins/reg_linear/gog-lin-reg.c:173
+#, fuzzy
+msgid "Linear regression"
+msgstr "مقاطع خطية ب"
+
+#: ../plugins/reg_linear/gog-lin-reg.c:265
+msgid "If true, a non-zero constant is allowed"
+msgstr ""
+
+#: ../plugins/reg_linear/gog-lin-reg.c:270
+#, fuzzy
+msgid "Dims"
+msgstr "يخفت"
+
+#: ../plugins/reg_linear/gog-lin-reg.c:271
+#, fuzzy
+msgid "Number of x-vectors"
+msgstr "رقم ال_حساب:"
+
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	Logarithmic regression2
+#: ../plugins/reg_linear/gog-log-reg.c:94
+msgid "Logarithmic regression"
+msgstr ""
+
+#: ../plugins/reg_linear/gog-polynom-reg.c:205
+#, fuzzy
+msgid "Order:"
+msgstr "ال_ترتيب:"
+
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	Polynomial regression2
+#: ../plugins/reg_linear/gog-polynom-reg.c:224
+msgid "Polynomial regression"
+msgstr ""
+
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	Power regression2
+#: ../plugins/reg_linear/gog-power-reg.c:63
+#, fuzzy
+msgid "Power regression"
+msgstr "أغنية شعبية قوية"
+
+#: ../plugins/reg_linear/plugin.xml.in.h:1
+msgid "Exponential regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:2
+msgid "Linear regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:3
+#, fuzzy
+msgid "Linear regression curves"
+msgstr "تعديل منحنيات اللون"
+
+#: ../plugins/reg_linear/plugin.xml.in.h:4
+msgid "Linear regression curves types"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:5
+msgid "Logarithmic regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:6
+msgid "Polynomial regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:7
+msgid "Power regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:8
+#, fuzzy
+msgid "Regression curve : linear"
+msgstr "سرعة خطية ثابتة"
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:1
+#, fuzzy
+msgid "Exponential"
+msgstr "أسّي"
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:2
+#, fuzzy
+msgid "Exponential regression curve"
+msgstr "أدخل عدد أسي"
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:4
+#, fuzzy
+msgid "Linear regression curve"
+msgstr "سرعة خطية ثابتة"
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:5
+#, fuzzy
+msgid "Logarithmic"
+msgstr "لوغارثمي"
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:6
+msgid "Logarithmic regression curve"
+msgstr ""
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:7
+#, fuzzy
+msgid "Polynomial"
+msgstr "متعدّد الحدود"
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:8
+msgid "Polynomial regression curve"
+msgstr ""
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:9
+#, fuzzy
+msgid "Power"
+msgstr "الطاقة ، القدرة"
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:10
+#, fuzzy
+msgid "Power regression curve"
+msgstr "طاقة البطارية منخفضة"
+
+#. xgettext : the base for how to name logarithmic fits
+#. * eg The 2nd fit for a series will be called
+#. * 	Log fit2
+#: ../plugins/reg_logfit/gog-logfit.c:140
+#, fuzzy
+msgid "Log fit"
+msgstr "أفضل ملا_ئمة"
+
+#: ../plugins/reg_logfit/plugin.xml.in.h:1
+msgid "Logarithmic fitting curve engine"
+msgstr ""
+
+#: ../plugins/reg_logfit/plugin.xml.in.h:2
+#, fuzzy
+msgid "Logarithmic fitting curves"
+msgstr "تعديل منحنيات اللون"
+
+#: ../plugins/reg_logfit/plugin.xml.in.h:3
+msgid "Logarithmic fitting curves types"
+msgstr ""
+
+#: ../plugins/reg_logfit/plugin.xml.in.h:4
+msgid "Regression curve : logfit"
+msgstr ""
+
+#: ../plugins/reg_logfit/reg-types.xml.in.h:1
+msgid "Log Fit (y=a+b*ln(sign*(x-c)))"
+msgstr ""
+
+#: ../plugins/reg_logfit/reg-types.xml.in.h:2
+msgid "Logarithmic fitting curve"
+msgstr ""
+
+#: ../plugins/smoothing/gog-moving-avg.c:103
+msgid "Number of values from which to calculate an average"
+msgstr ""
+
+#: ../plugins/smoothing/gog-moving-avg.c:108
+msgid "Whether to average x values as well or use the last one"
+msgstr ""
+
+#. xgettext : the base for how to name moving averge smoothed curves objects
+#. * eg The 2nd one for a series will be called
+#. * 	Moving average2
+#: ../plugins/smoothing/gog-moving-avg.c:176
+#: ../plugins/smoothing/types.xml.in.h:2
+#, fuzzy
+msgid "Moving average"
+msgstr "متوسط التغير"
+
+#: ../plugins/smoothing/gog-moving-avg.c:197
+#, fuzzy
+msgid "Number of averaged values"
+msgstr "دالات رموز مرجعة لقيم أرقام"
+
+#: ../plugins/smoothing/gog-moving-avg.c:202
+#, fuzzy
+msgid "Average X"
+msgstr "ال_متوسط"
+
+#: ../plugins/smoothing/gog-moving-avg.c:203
+#, fuzzy
+msgid "Use averaged x values"
+msgstr "تغليف القيم بـ:"
+
+#: ../plugins/smoothing/gog-moving-avg.glade.h:1
+#, fuzzy
+msgid "_Span:"
+msgstr "التوسيع"
+
+#: ../plugins/smoothing/gog-moving-avg.glade.h:2
+#, fuzzy
+msgid "_Use averaged abscissa"
+msgstr "ا_ستعمل امرا مخصصا"
+
+#: ../plugins/smoothing/gog-exp-smooth.c:64
+#: ../plugins/smoothing/gog-exp-smooth.c:233
+#, fuzzy
+msgid "Number of interpolation steps"
+msgstr "18 خطوة فقط"
+
+#: ../plugins/smoothing/gog-exp-smooth.c:72
+msgid ""
+"Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
+"If no value or a negative (or nul) value is provided, the default will be used"
+msgstr ""
+
+#. xgettext : the base for how to name exponentially smoothed curves objects
+#. * eg The 2nd one for a series will be called
+#. * 	Exponentially smoothed curve2
+#: ../plugins/smoothing/gog-exp-smooth.c:167
+#: ../plugins/smoothing/types.xml.in.h:1
+#, fuzzy
+msgid "Exponentially smoothed curve"
+msgstr "معدل الشحن (منعم):"
+
+#: ../plugins/smoothing/gog-exp-smooth.c:232
+msgid "Steps"
+msgstr "خطوات"
+
+#: ../plugins/smoothing/gog-exp-smooth.glade.h:1
+#, fuzzy
+msgid "_Period:"
+msgstr "نقطة"
+
+#: ../plugins/smoothing/gog-exp-smooth.glade.h:2
+#, fuzzy
+msgid "_Steps:"
+msgstr "الخطوات"
+
+#: ../plugins/smoothing/plugin.xml.in.h:1
+msgid "Moving average smoothing engine"
+msgstr ""
+
+#: ../plugins/smoothing/plugin.xml.in.h:2
+#, fuzzy
+msgid "Smoothed curves"
+msgstr "إنحناءات جنوم"
+
+#: ../plugins/smoothing/plugin.xml.in.h:3
+#, fuzzy
+msgid "Smoothed curves types"
+msgstr "كل الأنواع المدعومة"
+
+#: ../plugins/smoothing/plugin.xml.in.h:4
+#, fuzzy
+msgid "exponential smoothing engine"
+msgstr "محرك إكس.إم.إل-آر.بي.سي"
+
+#: ../plugins/smoothing/types.xml.in.h:3
+msgid "Moving average smoothed curve"
+msgstr ""
+
