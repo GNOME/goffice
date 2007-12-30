@@ -1,3 +1,4 @@
+# translation of goffice.HEAD.po to Español
 # Spanish translation of gnumeric
 # Copyright © 1998,2003, 2007 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnumeric package.
@@ -15,10 +16,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-21 21:15+0000\n"
-"PO-Revision-Date: 2007-12-16 13:59+0100\n"
+"POT-Creation-Date: 2007-12-16 12:59+0000\n"
+"PO-Revision-Date: 2007-12-30 01:31+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Spanish <gnome-es-list@gnome.org>\n"
+"Language-Team: Español <<gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -104,7 +105,7 @@ msgstr "El URI asociado con este documento."
 
 #: ../goffice/app/go-doc.c:122
 msgid "Dirty"
-msgstr ""
+msgstr "Sucio"
 
 #: ../goffice/app/go-doc.c:123
 msgid "Whether the document has been changed."
@@ -215,7 +216,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "La función de limpieza interna del complemento ha devuelto un error."
 
 #: ../goffice/app/go-plugin-service.c:168 ../goffice/gtk/go-format-sel.c:68
-#: ../goffice/utils/go-format.c:3285 ../goffice/utils/go-format.c:3421
+#: ../goffice/utils/go-format.c:3287 ../goffice/utils/go-format.c:3423
 msgid "General"
 msgstr "General"
 
@@ -748,103 +749,103 @@ msgstr "Familia de topo"
 msgid "Bullet On"
 msgstr "Topos activados"
 
-#: ../goffice/graph/gog-axis-line.c:618
+#: ../goffice/graph/gog-axis-line.c:649
 msgid "Layout"
 msgstr "Disposición"
 
-#: ../goffice/graph/gog-axis-line.c:646
+#: ../goffice/graph/gog-axis-line.c:677
 msgid "Axis position"
 msgstr "Posición de los ejes"
 
-#: ../goffice/graph/gog-axis-line.c:647 ../goffice/graph/gog-axis-line.c:653
+#: ../goffice/graph/gog-axis-line.c:678 ../goffice/graph/gog-axis-line.c:684
 msgid "Where to position an axis low, high, or crossing"
 msgstr "Indica dónde posicionar un eje: bajo, alto o cruzado"
 
-#: ../goffice/graph/gog-axis-line.c:652
+#: ../goffice/graph/gog-axis-line.c:683
 msgid "Axis position (as a string)"
 msgstr "Posición de los ejes (como una cadena)"
 
-#: ../goffice/graph/gog-axis-line.c:658
+#: ../goffice/graph/gog-axis-line.c:689
 msgid "Major labels"
 msgstr "Etiquetas mayores"
 
-#: ../goffice/graph/gog-axis-line.c:659
+#: ../goffice/graph/gog-axis-line.c:690
 msgid "Show labels for major ticks"
 msgstr "Mostrar las etiquetas para los tics mayores"
 
-#: ../goffice/graph/gog-axis-line.c:664
+#: ../goffice/graph/gog-axis-line.c:695
 msgid "Inside major ticks"
 msgstr "Tics mayores dentro"
 
-#: ../goffice/graph/gog-axis-line.c:665
+#: ../goffice/graph/gog-axis-line.c:696
 msgid "Major tick marks inside the chart area"
 msgstr "Las marcas de los tics mayores dentro del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:670
+#: ../goffice/graph/gog-axis-line.c:701
 msgid "Outside major ticks"
 msgstr "Tics mayores fuera"
 
-#: ../goffice/graph/gog-axis-line.c:671
+#: ../goffice/graph/gog-axis-line.c:702
 msgid "Major tick marks outside the chart area"
 msgstr "Las marcas de los tics mayores fuera del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:676
+#: ../goffice/graph/gog-axis-line.c:707
 msgid "Major tick size"
 msgstr "Tamaño de los tics mayores"
 
-#: ../goffice/graph/gog-axis-line.c:677
+#: ../goffice/graph/gog-axis-line.c:708
 msgid "Size of the major tick marks, in points"
 msgstr "Tamaño de las marcas de los tics mayores, en puntos"
 
-#: ../goffice/graph/gog-axis-line.c:683
+#: ../goffice/graph/gog-axis-line.c:714
 msgid "Inside minor ticks"
 msgstr "Tics menores dentro"
 
-#: ../goffice/graph/gog-axis-line.c:684
+#: ../goffice/graph/gog-axis-line.c:715
 msgid "Minor tick marks inside the chart area"
 msgstr "Las marcas de los tics menores dentro del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:689
+#: ../goffice/graph/gog-axis-line.c:720
 msgid "Outside minor ticks"
 msgstr "Tics menores fuera"
 
-#: ../goffice/graph/gog-axis-line.c:690
+#: ../goffice/graph/gog-axis-line.c:721
 msgid "Minor tick marks outside the axis"
 msgstr "Las marcas de los tics menores fuera del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:695
+#: ../goffice/graph/gog-axis-line.c:726
 msgid "Minor tick size"
 msgstr "Tamaño de los tics menores"
 
-#: ../goffice/graph/gog-axis-line.c:696
+#: ../goffice/graph/gog-axis-line.c:727
 msgid "Size of the minor tick marks, in points"
 msgstr "Tamaño de las marcas de los tics menores, en puntos"
 
-#: ../goffice/graph/gog-axis-line.c:702
+#: ../goffice/graph/gog-axis-line.c:733
 msgid "Cross axis id"
 msgstr "Cruzar el id de los ejes"
 
-#: ../goffice/graph/gog-axis-line.c:703
+#: ../goffice/graph/gog-axis-line.c:734
 msgid "Which axis to cross"
 msgstr "Qué ejes cruzar"
 
-#: ../goffice/graph/gog-axis-line.c:709
+#: ../goffice/graph/gog-axis-line.c:740
 msgid "Axis padding"
 msgstr "Separación de los ejes"
 
-#: ../goffice/graph/gog-axis-line.c:710
+#: ../goffice/graph/gog-axis-line.c:741
 msgid "Distance from axis line to plot area, in points"
-msgstr ""
+msgstr "Distancia de la línea del eje al área de dibujado, en puntos"
 
-#: ../goffice/graph/gog-axis-line.c:801
+#: ../goffice/graph/gog-axis-line.c:832
 msgid "Select axis"
 msgstr "Seleccione el eje"
 
-#: ../goffice/graph/gog-axis-line.c:907
+#: ../goffice/graph/gog-axis-line.c:938
 msgid "Set start bound"
 msgstr "Establecer vinculación inicial"
 
-#: ../goffice/graph/gog-axis-line.c:918
+#: ../goffice/graph/gog-axis-line.c:949
 msgid "Set stop bound"
 msgstr "Establecer vinculación final"
 
@@ -1096,9 +1097,8 @@ msgid "Pseudo-3D-Axis"
 msgstr "Pseudo eje 3D"
 
 #: ../goffice/graph/gog-chart.c:383
-#, fuzzy
 msgid "Bubble-Axis"
-msgstr "Burbuja"
+msgstr ""
 
 #: ../goffice/graph/gog-chart.c:387
 msgid "Color-Axis"
@@ -1160,7 +1160,7 @@ msgid "Width"
 msgstr "Anchura"
 
 #: ../goffice/graph/gog-control-foocanvas.c:249
-#: ../goffice/graph/gog-renderer.c:1722 ../goffice/graph/gog-view.c:597
+#: ../goffice/graph/gog-renderer.c:1723 ../goffice/graph/gog-view.c:597
 msgid "Model"
 msgstr "Modelo"
 
@@ -1534,18 +1534,16 @@ msgid "Position and size of object, in percentage of parent size"
 msgstr "Posición y tamaño del objeto, en porcentaje del tamaño del padre"
 
 #: ../goffice/graph/gog-object.c:754
-#, fuzzy
 msgid "Compass"
-msgstr "_Cruzar"
+msgstr "Brújula"
 
 #: ../goffice/graph/gog-object.c:755
 msgid "Compass auto position flags"
 msgstr ""
 
 #: ../goffice/graph/gog-object.c:761
-#, fuzzy
 msgid "Alignment flag"
-msgstr "Alineación"
+msgstr "Alineación de las banderas"
 
 #: ../goffice/graph/gog-object.c:766 ../goffice/graph/gog-object.c:767
 msgid "Is position manual"
@@ -1561,7 +1559,7 @@ msgstr "Anclaje para la posición manual"
 
 #: ../goffice/graph/gog-object.c:778 ../goffice/graph/gog-object.c:779
 msgid "Should the object be hidden"
-msgstr ""
+msgstr "Si el objeto debería estar oculto"
 
 #: ../goffice/graph/gog-outlined-object.c:80
 msgid "Padding Pts"
@@ -1569,7 +1567,7 @@ msgstr "Puntos de separación"
 
 #: ../goffice/graph/gog-outlined-object.c:81
 msgid "Number of pts separating charts in the grid"
-msgstr ""
+msgstr "Número de puntos que separan las gráficas en la rejilla"
 
 #: ../goffice/graph/gog-plot-engine.c:56
 msgid "Plot Engine"
@@ -1585,48 +1583,41 @@ msgstr "Tema de diagrama"
 
 #: ../goffice/graph/gog-plot-engine.c:374
 msgid "Regression Curve Engine"
-msgstr ""
+msgstr "Motor de curvas de regresión "
 
 #: ../goffice/graph/gog-plot-engine.c:529
 msgid "Regression Curve Type"
-msgstr ""
+msgstr "Tipo de curvas de regresión"
 
 #: ../goffice/graph/gog-plot.c:272
-#, fuzzy
 msgid "X axis:"
-msgstr "Eje-X"
+msgstr "Eje X:"
 
 #: ../goffice/graph/gog-plot.c:273
-#, fuzzy
 msgid "Y axis:"
-msgstr "Eje-Y"
+msgstr "Eje Y:"
 
 #: ../goffice/graph/gog-plot.c:274
-#, fuzzy
 msgid "Z axis:"
-msgstr "Eje-Z"
+msgstr "Eje Z:"
 
 #: ../goffice/graph/gog-plot.c:275
-#, fuzzy
 msgid "Circular axis:"
 msgstr "Eje circular"
 
 #: ../goffice/graph/gog-plot.c:276
-#, fuzzy
 msgid "Radial axis:"
-msgstr "Eje radial"
+msgstr "Eje radial:"
 
 #: ../goffice/graph/gog-plot.c:277
-#, fuzzy
 msgid "Type axis:"
-msgstr "_Tipo:"
+msgstr "Tipo de eje:"
 
 #: ../goffice/graph/gog-plot.c:278
 msgid "Pseudo 3D axis:"
-msgstr ""
+msgstr "Eje pseudo 3D:"
 
 #: ../goffice/graph/gog-plot.c:357
-#, fuzzy
 msgid "Axes"
 msgstr "Ejes"
 
@@ -1636,29 +1627,27 @@ msgstr "Series"
 
 #: ../goffice/graph/gog-plot.c:529
 msgid "Vary style by element"
-msgstr ""
+msgstr "Variar el estilo por elemento"
 
 #: ../goffice/graph/gog-plot.c:530
 msgid "Use a different style for each segments"
-msgstr ""
+msgstr "Usar un estilo diferente para cada segmento"
 
 #: ../goffice/graph/gog-plot.c:535
-#, fuzzy
 msgid "X axis"
-msgstr "Eje-X"
+msgstr "Eje X"
 
 #: ../goffice/graph/gog-plot.c:536
 msgid "Reference to X axis"
-msgstr ""
+msgstr "Referencia al eje X"
 
 #: ../goffice/graph/gog-plot.c:541
-#, fuzzy
 msgid "Y axis"
-msgstr "Eje-Y"
+msgstr "Eje Y"
 
 #: ../goffice/graph/gog-plot.c:542
 msgid "Reference to Y axis"
-msgstr ""
+msgstr "Referencia al eje Y"
 
 #: ../goffice/graph/gog-plot.c:547
 #, fuzzy
@@ -1735,15 +1724,15 @@ msgstr ""
 msgid "Display _regression coefficient R²"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1723
+#: ../goffice/graph/gog-renderer.c:1724
 msgid "The GogGraph this renderer displays"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1728
+#: ../goffice/graph/gog-renderer.c:1729
 msgid "View"
 msgstr "Ver"
 
-#: ../goffice/graph/gog-renderer.c:1729
+#: ../goffice/graph/gog-renderer.c:1730
 msgid "the GogView this renderer is displaying"
 msgstr ""
 
@@ -4305,12 +4294,12 @@ msgstr "Blanco"
 msgid "Yellow"
 msgstr "Amarillo"
 
-#: ../goffice/utils/go-format.c:3329
+#: ../goffice/utils/go-format.c:3331
 #, fuzzy
 msgid "[Color"
 msgstr "_Color:"
 
-#: ../goffice/utils/go-format.c:3453
+#: ../goffice/utils/go-format.c:3455
 msgid "[Invalid]"
 msgstr ""
 
