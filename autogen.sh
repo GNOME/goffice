@@ -13,6 +13,8 @@ REQUIRED_INTLTOOL_VERSION=0.27.2
 # (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
 REQUIRED_AUTOCONF_VERSION=2.54
 
+REQUIRED_GTK_DOC_VERSION=1.9
+
 # This enforces the version for the machine where the tarball is built
 # from CVS.  This requirement might be stronger than the one in configure.in.
 #

@@ -1,3 +1,10 @@
+2008-01-05  J.H.M. Dassen (Ray) <jdassen@debian.org> 
+
+	* autogen.sh (REQUIRED_GTK_DOC_VERSION): Specify a minimum version
+	which has the right shell error handling logic in gtk-doc.make not so
+	we do not error out on "make install" when gtkdoc-rebase is unavailable
+	(in the --disable-gtk-doc case). [#506506]
+
 2007-12-20  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
