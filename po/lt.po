@@ -1,0 +1,6015 @@
+# Lithuanian translation of goffice.
+# Copyright (C) 2007 Free Software Foundation, Inc.
+# Tomas Kuliavas <tokul@users.sourceforge.net>, 2007.
+# $Id: $
+#: ../goffice/app/file.c:507
+msgid ""
+msgstr ""
+"Project-Id-Version: goffice HEAD\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-01-14 17:50+0200\n"
+"PO-Revision-Date: 2007-12-12 20:22+0200\n"
+"Last-Translator: Tomas Kuliavas <tokul@users.sourceforge.net>\n"
+"Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
+"100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: ../goffice/app/file.c:454
+msgid "ID"
+msgstr "ID"
+
+#: ../goffice/app/file.c:455
+msgid "The identifier of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:465
+msgid "MIME type"
+msgstr "MIME tipas"
+
+#: ../goffice/app/file.c:466
+msgid "The MIME type of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:475
+msgid "Extension"
+msgstr "Išplėtimas"
+
+#: ../goffice/app/file.c:476
+msgid "The standard file name extension of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:485
+msgid "Description"
+msgstr "Aprašymas"
+
+#: ../goffice/app/file.c:486
+msgid "The description of the saver."
+msgstr ""
+
+#: ../goffice/app/file.c:495
+msgid "Overwrite"
+msgstr "Perrašyti"
+
+#: ../goffice/app/file.c:496
+msgid "Whether the saver will overwrite files."
+msgstr ""
+
+#: ../goffice/app/file.c:506
+msgid "Format Level"
+msgstr ""
+
+#: ../goffice/app/file.c:517
+msgid "Scope"
+msgstr "Sritis"
+
+#: ../goffice/app/file.c:518
+msgid "How much of a document is saved"
+msgstr ""
+
+#: ../goffice/app/file.c:682
+msgid "Saving over old files of this type is disabled for safety."
+msgstr ""
+
+#: ../goffice/app/file.c:692
+msgid ""
+"You can turn this safety feature off by editing appropriate plugin.xml file."
+msgstr ""
+
+#: ../goffice/app/go-cmd-context.c:65
+#, c-format
+msgid "Invalid %s: '%s'"
+msgstr "Klaidinga %s: „%s“"
+
+#: ../goffice/app/go-doc.c:117
+msgid "URI"
+msgstr "URI"
+
+#: ../goffice/app/go-doc.c:118
+msgid "The URI associated with this document."
+msgstr ""
+
+#: ../goffice/app/go-doc.c:122
+msgid "Dirty"
+msgstr ""
+
+#: ../goffice/app/go-doc.c:123
+msgid "Whether the document has been changed."
+msgstr ""
+
+#: ../goffice/app/go-object.c:51
+msgid "Objects"
+msgstr "Objektai"
+
+#: ../goffice/app/go-object.c:109
+#, c-format
+msgid "Loading plugin '%s' that contains the object '%s'"
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:56
+msgid "Module file name not given."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:67
+#, c-format
+msgid "Module \"%s\" has an inconsistent dependency list."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:75
+#, c-format
+msgid "Module \"%s\" depends on an invalid null dependency."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:80
+#, c-format
+msgid "Module \"%s\" depends on an unknown dependency '%s'."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:85
+#, c-format
+msgid ""
+"Module \"%s\" was built with version %s of %s, but this executable supplied "
+"version %s."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:103
+msgid "Dynamic module loading is not supported in this system."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:113
+#, c-format
+msgid "Unable to open module file \"%s\"."
+msgstr "Nepavyko atidaryti modulio bylos „%s“"
+
+#: ../goffice/app/go-plugin-loader-module.c:121
+#, c-format
+msgid "Module \"%s\" doesn't contain (\"go_plugin_header\" symbol)."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:125
+#, c-format
+msgid "Module \"%s\" has an invalid magic number."
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader-module.c:152
+#, c-format
+msgid "Unable to close module file \"%s\"."
+msgstr "Nepavyko uždaryti modulio bylos „%s“"
+
+#: ../goffice/app/go-plugin-loader-module.c:292
+#: ../goffice/app/go-plugin-loader-module.c:354
+#, c-format
+msgid "Module file \"%s\" has invalid format."
+msgstr "Modulio bylos \"%s\" formatas yra netaisyklingas."
+
+#: ../goffice/app/go-plugin-loader-module.c:295
+#: ../goffice/app/go-plugin-loader-module.c:357
+#, c-format
+msgid "File doesn't contain \"%s\" function."
+msgstr "Byla neturi „%s“ funkcijos."
+
+#: ../goffice/app/go-plugin-loader-module.c:421
+#, c-format
+msgid "Module doesn't contain \"%s\" function."
+msgstr "Modulis neturi „%s“ funkcijos."
+
+#: ../goffice/app/go-plugin-loader.c:47
+msgid "Loader has no set_attributes method.\n"
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader.c:62
+msgid "Loader has no load_base method.\n"
+msgstr ""
+
+#: ../goffice/app/go-plugin-loader.c:107 ../goffice/app/go-plugin-loader.c:145
+#, c-format
+msgid "Service '%s' not supported by l."
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:132
+#: ../goffice/app/go-plugin-service.c:831
+msgid "Error while loading plugin service."
+msgstr "Įvyko klaida įkeliant priedo tarnybą."
+
+#: ../goffice/app/go-plugin-service.c:140
+msgid "Initializing function inside plugin returned error."
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:158
+msgid "Cleanup function inside plugin returned error."
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:168 ../goffice/gtk/go-format-sel.c:68
+#: ../goffice/utils/go-format.c:3287 ../goffice/utils/go-format.c:3423
+msgid "General"
+msgstr "Bendrinis"
+
+#: ../goffice/app/go-plugin-service.c:319
+msgid "File opener has no description"
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:351
+#, c-format
+msgid "File opener - %s"
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:471
+msgid "Error while reading file."
+msgstr "Įvyko klaida skaitant bylą."
+
+#: ../goffice/app/go-plugin-service.c:639
+msgid "File saver has no description"
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:682
+#, c-format
+msgid "File saver - %s"
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:742
+msgid "Error while loading plugin for saving."
+msgstr "Įvyko klaida įkeliant saugojimo priedą."
+
+#: ../goffice/app/go-plugin-service.c:744
+msgid "Failed to load plugin for saving"
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:866
+msgid "Plugin loader"
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:890
+msgid "GObject loader"
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:997
+msgid "No \"type\" attribute on \"service\" element."
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:1003
+#, c-format
+msgid "Unknown service type: %s."
+msgstr "Nežinomas tarnybos tipas: %s."
+
+#: ../goffice/app/go-plugin-service.c:1019
+msgid "Error reading service information."
+msgstr ""
+
+#: ../goffice/app/go-plugin-service.c:1081
+msgid ""
+"We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
+"loading failed."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:333
+#, c-format
+msgid "File contains plugin info with invalid id (%s), expected %s."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:337
+msgid "Couldn't read plugin info from file."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:482
+msgid "Unknown name"
+msgstr "Nežinomas vardas"
+
+#: ../goffice/app/go-plugin.c:577
+#, c-format
+msgid "Unsupported loader type \"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:585
+#, c-format
+msgid "Error while preparing loader \"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:663
+#, c-format
+msgid "Error while reading service #%d info."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:743
+#, c-format
+msgid "Can't read plugin info file (\"%s\")."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:747
+#, c-format
+msgid "File \"%s\" is not valid plugin info file."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:833
+#, c-format
+msgid "Errors while reading services for plugin with id=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:844
+#, c-format
+msgid "Plugin id contains invalid characters (%s)."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:848
+msgid "Unknown plugin name."
+msgstr "Nežinomas priedo vardas."
+
+#: ../goffice/app/go-plugin.c:852
+#, c-format
+msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:858
+msgid "Plugin has no id."
+msgstr "Priedas neturi id."
+
+#: ../goffice/app/go-plugin.c:899
+#, c-format
+msgid "Error initializing plugin loader (\"%s\")."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:930 ../goffice/app/go-plugin.c:1089
+msgid "Detected cyclic plugin dependencies."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:954
+#, c-format
+msgid "Couldn't activate plugin with id=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:960 ../goffice/app/go-plugin.c:1135
+#, c-format
+msgid "Couldn't find plugin with id=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:967
+msgid "Error while activating plugin dependencies."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:981
+#, c-format
+msgid "Error while activating plugin service #%d."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1034
+#, c-format
+msgid "Error while deactivating plugin service #%d."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1101 ../goffice/app/go-plugin.c:1122
+msgid "Cannot load plugin loader."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1129
+#, c-format
+msgid "Couldn't load plugin with id=\"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1142
+msgid "Error while loading plugin dependencies."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1319
+#, c-format
+msgid "Errors occurred while reading plugin informations from file \"%s\"."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1438
+#, c-format
+msgid "Couldn't activate plugin \"%s\" (ID: %s)."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1473
+#, c-format
+msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1598 ../goffice/app/go-plugin.c:1744
+#: ../goffice/app/go-plugin.c:1823
+msgid "Errors while reading info about available plugins."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1622
+msgid "Errors while deactivating plugins that are no longer on disk."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1643
+#, c-format
+msgid ""
+"The following plugins are no longer on disk but are still active:\n"
+"%s.\n"
+"You should restart this program now."
+msgstr ""
+
+#: ../goffice/app/go-plugin.c:1767 ../goffice/app/go-plugin.c:1845
+msgid "Errors while activating plugins."
+msgstr "Įvyko klaidos aktyvuojant priedus."
+
+#: ../goffice/app/go-plugin.c:1774 ../goffice/app/go-plugin.c:1852
+msgid "Errors while initializing plugin system."
+msgstr "Įvyko klaidos aktyvuojant priedų sistemą."
+
+#: ../goffice/app/io-context.c:155
+msgid "exec-main-loop"
+msgstr ""
+
+#: ../goffice/app/io-context.c:156
+msgid "Execute main loop iteration"
+msgstr ""
+
+#: ../goffice/component/go-component-factory.c:58
+msgid "Component Engine"
+msgstr ""
+
+#: ../goffice/component/go-component-factory.c:164
+msgid "Component Type"
+msgstr "Komponento tipas"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:214
+#: ../goffice/graph/gog-style.c:938 ../goffice/gtk/go-format-sel.c:77
+#: ../goffice/gtk/go-rotation-sel.c:139
+msgid "Text"
+msgstr "Tekstas"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:215
+msgid "Text to render"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:223
+msgid "Markup"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:224
+msgid "Marked up text to render"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:249
+#: ../goffice/graph/gog-style.c:909
+msgid "Font"
+msgstr "Šriftas"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:250
+msgid "Font description as a string"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:258
+msgid "Font description"
+msgstr "Šrifto aprašymas"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:259
+msgid "Font description as a PangoFontDescription struct"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:267
+msgid "Font family"
+msgstr "Šrifto šeima"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:268
+msgid "Name of the font family, e.g. Sans, Helvetica, Times, Monospace"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:284
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:285
+msgid "Font style"
+msgstr "Šrifto stilius"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:294
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:295
+msgid "Font variant"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:304
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:305
+msgid "Font weight"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:316
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:317
+msgid "Font stretch"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:326
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:327
+msgid "Font size"
+msgstr "Šrifto dydis"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:337
+msgid "Font points"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:338
+msgid "Font size in points"
+msgstr "Šrifto dydis punktais"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:348
+msgid "Rise"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:349
+msgid ""
+"Offset of text above the baseline (below the baseline if rise is negative)"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:359
+msgid "Strikethrough"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:360
+msgid "Whether to strike through the text"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:368
+msgid "Underline"
+msgstr "Pabrauktas"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:369
+msgid "Style of underline for this text"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:378
+#: ../goffice/graph/gog-axis.c:1708
+msgid "Scale"
+msgstr "Mastelis"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:379
+msgid "Size of font, relative to default size"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:439
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:447
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:455
+msgid "Color"
+msgstr "Spalva"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:440
+msgid "Text color, as string"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:448
+msgid "Text color, as a GdkColor"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:456
+msgid "Text color, as an R/G/B/A combined integer"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:469
+msgid "Text width"
+msgstr "Teksto plotis"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:470
+msgid "Width of the rendered text"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:477
+msgid "Text height"
+msgstr "Teksto aukštis"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:478
+msgid "Height of the rendered text"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:486
+msgid "Font family set"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:487
+msgid "Whether this tag affects the font family"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:490
+msgid "Font style set"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:491
+msgid "Whether this tag affects the font style"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:494
+msgid "Font variant set"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:495
+msgid "Whether this tag affects the font variant"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:498
+msgid "Font weight set"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:499
+msgid "Whether this tag affects the font weight"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:502
+msgid "Font stretch set"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:503
+msgid "Whether this tag affects the font stretch"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:506
+msgid "Font size set"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:507
+msgid "Whether this tag affects the font size"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:510
+msgid "Rise set"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:511
+msgid "Whether this tag affects the rise"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:514
+msgid "Strikethrough set"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:515
+msgid "Whether this tag affects strikethrough"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:518
+msgid "Underline set"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:519
+msgid "Whether this tag affects underlining"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:522
+msgid "Scale set"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:523
+msgid "Whether this tag affects font scaling"
+msgstr ""
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1228
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1229
+#: ../plugins/plot_surface/gog-surface.c:535
+#: ../plugins/plot_surface/xl-surface.c:256 ../plugins/plot_xy/gog-xy.c:363
+#: ../plugins/plot_xy/gog-xy.c:530 ../plugins/plot_xy/gog-xy.c:790
+msgid "X"
+msgstr "X"
+
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1235
+#: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1236
+#: ../plugins/plot_surface/gog-surface.c:537 ../plugins/plot_xy/gog-xy.c:365
+#: ../plugins/plot_xy/gog-xy.c:532 ../plugins/plot_xy/gog-xy.c:792
+msgid "Y"
+msgstr "Y"
+
+#: ../goffice/drawing/god-paragraph-attributes.c:203
+#: ../goffice/drawing/god-paragraph-attributes.c:204
+msgid "Flags"
+msgstr "Žymės"
+
+#: ../goffice/drawing/god-paragraph-attributes.c:209
+#: ../goffice/drawing/god-paragraph-attributes.c:210
+msgid "Indent"
+msgstr ""
+
+#: ../goffice/drawing/god-paragraph-attributes.c:215
+#: ../goffice/drawing/god-paragraph-attributes.c:216
+msgid "Space Before"
+msgstr ""
+
+#: ../goffice/drawing/god-paragraph-attributes.c:221
+#: ../goffice/drawing/god-paragraph-attributes.c:222
+msgid "Space After"
+msgstr ""
+
+#: ../goffice/drawing/god-paragraph-attributes.c:227
+#: ../goffice/drawing/god-paragraph-attributes.c:228
+#: ../goffice/graph/gog-object.c:760
+msgid "Alignment"
+msgstr "Lygiavimas"
+
+#: ../goffice/drawing/god-paragraph-attributes.c:233
+#: ../goffice/drawing/god-paragraph-attributes.c:234
+msgid "Bullet Character"
+msgstr ""
+
+#: ../goffice/drawing/god-paragraph-attributes.c:239
+#: ../goffice/drawing/god-paragraph-attributes.c:240
+msgid "Bullet Indent"
+msgstr ""
+
+#: ../goffice/drawing/god-paragraph-attributes.c:245
+#: ../goffice/drawing/god-paragraph-attributes.c:246
+msgid "Bullet Size"
+msgstr ""
+
+#: ../goffice/drawing/god-paragraph-attributes.c:251
+#: ../goffice/drawing/god-paragraph-attributes.c:252
+msgid "Bullet Family"
+msgstr ""
+
+#: ../goffice/drawing/god-paragraph-attributes.c:257
+#: ../goffice/drawing/god-paragraph-attributes.c:258
+msgid "Bullet On"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:649
+msgid "Layout"
+msgstr "Išdėstymas"
+
+#: ../goffice/graph/gog-axis-line.c:677
+msgid "Axis position"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:678 ../goffice/graph/gog-axis-line.c:684
+msgid "Where to position an axis low, high, or crossing"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:683
+msgid "Axis position (as a string)"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:689
+msgid "Major labels"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:690
+msgid "Show labels for major ticks"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:695
+msgid "Inside major ticks"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:696
+msgid "Major tick marks inside the chart area"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:701
+msgid "Outside major ticks"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:702
+msgid "Major tick marks outside the chart area"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:707
+msgid "Major tick size"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:708
+msgid "Size of the major tick marks, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:714
+msgid "Inside minor ticks"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:715
+msgid "Minor tick marks inside the chart area"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:720
+msgid "Outside minor ticks"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:721
+msgid "Minor tick marks outside the axis"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:726
+msgid "Minor tick size"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:727
+msgid "Size of the minor tick marks, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:733
+msgid "Cross axis id"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:734
+msgid "Which axis to cross"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:740
+msgid "Axis padding"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:741
+msgid "Distance from axis line to plot area, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:832
+msgid "Select axis"
+msgstr "Pasirinkite ašį"
+
+#: ../goffice/graph/gog-axis-line.c:938
+msgid "Set start bound"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-line.c:949
+msgid "Set stop bound"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:1
+msgid "<b>Bounds</b>"
+msgstr "<b>Ribos</b>"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:2
+msgid "<b>Major ticks</b>"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:3
+msgid "<b>Mapping</b>"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:4
+msgid "<b>Minor ticks</b>"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:5
+msgid "<b>Position</b>"
+msgstr "<b>Padėtis</b>"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:6 ../goffice/gtk/go-palette.c:374
+msgid "Automatic"
+msgstr "Automatinis"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:7
+msgid "I_nside"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:8
+msgid "O_utside"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:9
+msgid "Padding:"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:10
+msgid "_Cross"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:11
+msgid "_High"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:12
+msgid "_Inside"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:13
+msgid "_Invert axis"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:14
+msgid "_Low"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:15
+msgid "_Outside"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:16
+msgid "_Rotation:"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:17
+msgid "_Show Labels"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:18
+#: ../goffice/graph/gog-series-prefs.glade.h:9
+#: ../goffice/graph/gog-style-prefs.glade.h:24
+msgid "_Type:"
+msgstr "_Tipas:"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:19
+msgid "_Unit:"
+msgstr "_Vienetas:"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:20
+msgid "at"
+msgstr ""
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:21
+#: ../goffice/gtk/go-rotation-sel.glade.h:4
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:8
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:9
+msgid "degrees"
+msgstr "laipsniai"
+
+#: ../goffice/graph/gog-axis-prefs.glade.h:22
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:14
+#: ../goffice/graph/gog-style-prefs.glade.h:25
+msgid "pts"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:75
+msgid "Degrees"
+msgstr "Laipsniai"
+
+#: ../goffice/graph/gog-axis.c:76
+msgid "Radians"
+msgstr "Radianai"
+
+#: ../goffice/graph/gog-axis.c:77
+msgid "Grads"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:711
+msgid "Discrete"
+msgstr "Dalus"
+
+#: ../goffice/graph/gog-axis.c:711
+msgid "Discrete mapping"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:722 ../goffice/utils/go-line.c:86
+#: ../plugins/reg_linear/reg-types.xml.in.h:3
+msgid "Linear"
+msgstr "Linijinis"
+
+#: ../goffice/graph/gog-axis.c:722
+msgid "Linear mapping"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:730
+msgid "Log"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:730
+msgid "Logarithm mapping"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1644 ../goffice/graph/gog-axis.c:1653
+msgid "M_inimum"
+msgstr "M_inimumas"
+
+#: ../goffice/graph/gog-axis.c:1645 ../goffice/graph/gog-axis.c:1654
+msgid "M_aximum"
+msgstr "M_aksimumas"
+
+#: ../goffice/graph/gog-axis.c:1646
+msgid "Categories between _ticks"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1647
+msgid "Categories between _labels"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1655
+msgid "Ma_jor ticks"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1656
+msgid "Mi_nor ticks"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1726
+msgid "Format"
+msgstr "Formatas"
+
+#: ../goffice/graph/gog-axis.c:1757
+msgid "MajorGrid"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1760
+msgid "MinorGrid"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1763
+msgid "AxisLine"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1766
+msgid "Label"
+msgstr "Užrašas"
+
+#: ../goffice/graph/gog-axis.c:1781 ../plugins/plot_barcol/gog-1.5d.c:320
+msgid "Type"
+msgstr "Tipas"
+
+#: ../goffice/graph/gog-axis.c:1782
+msgid "Numerical type of this axis"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1786
+msgid "Invert axis"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1787
+msgid "Scale from high to low rather than low to high"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1791
+msgid "MapName"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1792
+msgid "The name of the map for scaling"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1797
+msgid "Assigned XL format"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1798
+msgid ""
+"The user assigned format to use for non-discrete axis labels (XL format)"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1803 ../goffice/graph/gog-axis.c:1804
+msgid "Rotation of circular axis"
+msgstr ""
+
+#: ../goffice/graph/gog-axis.c:1811 ../goffice/graph/gog-axis.c:1812
+msgid "Polar axis set unit"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:356
+msgid "Backplane"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:359
+msgid "X-Axis"
+msgstr "X-Ašis"
+
+#: ../goffice/graph/gog-chart.c:363
+msgid "Y-Axis"
+msgstr "Y-Ašis"
+
+#: ../goffice/graph/gog-chart.c:367
+msgid "Z-Axis"
+msgstr "Z-Ašis"
+
+#: ../goffice/graph/gog-chart.c:371
+msgid "Circular-Axis"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:375
+msgid "Radial-Axis"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:379
+msgid "Pseudo-3D-Axis"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:383
+msgid "Bubble-Axis"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:387
+msgid "Color-Axis"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:391
+msgid "Plot"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:394 ../goffice/graph/gog-graph.c:272
+#: ../goffice/graph/gog-legend.c:183
+msgid "Title"
+msgstr "Antraštė"
+
+#: ../goffice/graph/gog-chart.c:399
+msgid "Legend"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:422
+msgid "Valid cardinality"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:423
+msgid "Is the charts cardinality currently valid"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:428 ../goffice/graph/gog-plot.c:406
+msgid "Plot area"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:429
+msgid "Position and size of plot area, in percentage of chart size"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:434
+msgid "Manual plot area"
+msgstr ""
+
+#: ../goffice/graph/gog-chart.c:435
+msgid "Is plot area manual"
+msgstr ""
+
+#: ../goffice/graph/gog-control-foocanvas.c:237
+msgid "H"
+msgstr "A"
+
+#: ../goffice/graph/gog-control-foocanvas.c:238
+#: ../goffice/graph/gog-graph.c:331 ../goffice/utils/go-image.c:446
+msgid "Height"
+msgstr "Aukštis"
+
+#: ../goffice/graph/gog-control-foocanvas.c:243
+msgid "W"
+msgstr "P"
+
+#: ../goffice/graph/gog-control-foocanvas.c:244
+#: ../goffice/graph/gog-graph.c:325 ../goffice/utils/go-image.c:442
+msgid "Width"
+msgstr "Plotis"
+
+#: ../goffice/graph/gog-control-foocanvas.c:249
+#: ../goffice/graph/gog-renderer.c:1723 ../goffice/graph/gog-view.c:597
+msgid "Model"
+msgstr "Modelis"
+
+#: ../goffice/graph/gog-control-foocanvas.c:250
+msgid "The GogObject this object displays"
+msgstr ""
+
+#: ../goffice/graph/gog-control-foocanvas.c:255
+#: ../goffice/graph/gog-graph.c:829
+msgid "Renderer"
+msgstr ""
+
+#: ../goffice/graph/gog-control-foocanvas.c:256
+msgid "The GogRenderer being displayed"
+msgstr ""
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:1
+msgid "(+)"
+msgstr "(+)"
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:2
+msgid "(-)"
+msgstr "(-)"
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:3
+msgid "<b>Error category</b>"
+msgstr "<b>Klaidos kategorija</b>"
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:4
+msgid "<b>Style</b>"
+msgstr "<b>Stilius</b>"
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:5
+msgid "<b>Values</b>"
+msgstr "<b>Reikšmės</b>"
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:6
+msgid "Colo_r:"
+msgstr "Sp_alva:"
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:7
+msgid "Dis_play:"
+msgstr ""
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:8
+msgid ""
+"None\n"
+"Absolute\n"
+"Relative\n"
+"Percent"
+msgstr ""
+"Joks\n"
+"Absoliutus\n"
+"Reliatyvus\n"
+"Procentinis"
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:12
+msgid "_Line width:"
+msgstr ""
+
+#: ../goffice/graph/gog-error-bar-prefs.glade.h:13
+#: ../goffice/graph/gog-object-prefs.glade.h:11
+#: ../goffice/graph/gog-plot-prefs.glade.h:8
+msgid "_Width:"
+msgstr "_Plotis:"
+
+#: ../goffice/graph/gog-error-bar.c:71 ../goffice/utils/formats.c:309
+#: ../goffice/utils/go-line.c:54
+msgid "None"
+msgstr "Joks"
+
+#: ../goffice/graph/gog-error-bar.c:72
+msgid "Positive"
+msgstr "Teigiamas"
+
+#: ../goffice/graph/gog-error-bar.c:73
+msgid "Negative"
+msgstr "Neigiamas"
+
+#: ../goffice/graph/gog-error-bar.c:74
+msgid "Both"
+msgstr "Abu"
+
+#. An MS Excel-ish theme
+#: ../goffice/graph/gog-graph-prefs.glade.h:1 ../goffice/graph/gog-theme.c:496
+msgid "Default"
+msgstr "Įprasta"
+
+#: ../goffice/graph/gog-graph-prefs.glade.h:2
+msgid "Forget user styles"
+msgstr ""
+
+#: ../goffice/graph/gog-graph-prefs.glade.h:3
+#: ../goffice/graph/gog-plot-prefs.glade.h:5
+msgid "GogChartPrefs"
+msgstr ""
+
+#: ../goffice/graph/gog-graph-prefs.glade.h:4
+msgid "Theme:"
+msgstr "Tema:"
+
+#. default
+#. Cheat and assign a name here, graphs will not have parents until we
+#. * support graphs in graphs
+#: ../goffice/graph/gog-graph.c:146 ../goffice/graph/gog-graph.c:351
+msgid "Graph"
+msgstr ""
+
+#: ../goffice/graph/gog-graph.c:222 ../goffice/graph/gog-graph.c:313
+msgid "Theme"
+msgstr "Tema"
+
+#: ../goffice/graph/gog-graph.c:267
+msgid "Chart"
+msgstr "Diagrama"
+
+#: ../goffice/graph/gog-graph.c:314
+msgid "The theme for elements of the graph"
+msgstr ""
+
+#: ../goffice/graph/gog-graph.c:319
+msgid "Theme name"
+msgstr "Temos vardas"
+
+#: ../goffice/graph/gog-graph.c:320
+msgid "The name of the theme for elements of the graph"
+msgstr ""
+
+#: ../goffice/graph/gog-graph.c:326
+msgid "Logical graph width, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-graph.c:332
+msgid "Logical graph heigth, in points"
+msgstr ""
+
+#: ../goffice/graph/gog-graph.c:830
+msgid "the renderer for this view"
+msgstr ""
+
+#: ../goffice/graph/gog-grid-line.c:128
+msgid "Is-minor"
+msgstr ""
+
+#: ../goffice/graph/gog-grid-line.c:129
+msgid "Are these minor grid lines"
+msgstr ""
+
+#: ../goffice/graph/gog-guru-type-selector.glade.h:1
+msgid "<b>Description</b>"
+msgstr "<b>Aprašymas</b>"
+
+#: ../goffice/graph/gog-guru-type-selector.glade.h:2
+msgid "<b>_Plot type</b>"
+msgstr ""
+
+#: ../goffice/graph/gog-guru-type-selector.glade.h:3
+msgid "<b>_Subtype</b>"
+msgstr ""
+
+#: ../goffice/graph/gog-guru-type-selector.glade.h:4
+msgid "Show sample"
+msgstr ""
+
+#: ../goffice/graph/gog-guru.c:991 ../goffice/graph/gog-series.c:465
+msgid "Name"
+msgstr "Vardas"
+
+#: ../goffice/graph/gog-guru.c:1018
+msgid "Step 1 of 2: Select Chart Type"
+msgstr ""
+
+#: ../goffice/graph/gog-guru.c:1026
+msgid "Step 2 of 2: Customize Chart"
+msgstr ""
+
+#: ../goffice/graph/gog-guru.c:1031
+msgid "Customize Chart"
+msgstr ""
+
+#: ../goffice/graph/gog-guru.c:1107
+msgid "_Insert"
+msgstr "Įterpt_i"
+
+#: ../goffice/graph/gog-guru.c:1169
+msgid "_Plot Type"
+msgstr ""
+
+#: ../goffice/graph/gog-label.c:143
+msgid "Allow markup"
+msgstr ""
+
+#: ../goffice/graph/gog-label.c:144
+msgid "Support basic html-ish markup"
+msgstr ""
+
+#: ../goffice/graph/gog-label.c:202
+msgid "_Text:"
+msgstr "_Tekstas:"
+
+#: ../goffice/graph/gog-label.c:209 ../goffice/graph/gog-series.c:506
+msgid "Data"
+msgstr "Duomenys"
+
+#: ../goffice/graph/gog-label.c:363 ../goffice/graph/gog-reg-curve.c:89
+#: ../plugins/plot_xy/gog-xy.c:1539
+msgid "Details"
+msgstr ""
+
+#: ../goffice/graph/gog-label.c:382
+msgid "Regression Equation"
+msgstr ""
+
+#: ../goffice/graph/gog-label.c:421
+msgid "Show equation"
+msgstr ""
+
+#: ../goffice/graph/gog-label.c:422
+msgid "Show the equation on the graph"
+msgstr ""
+
+#: ../goffice/graph/gog-label.c:427
+msgid "Show coefficient"
+msgstr ""
+
+#: ../goffice/graph/gog-label.c:428
+msgid "Show the correlation coefficient on the graph"
+msgstr ""
+
+#: ../goffice/graph/gog-legend.c:206
+msgid "Swatch Size pts"
+msgstr ""
+
+#: ../goffice/graph/gog-legend.c:207
+msgid "size of the swatches in pts."
+msgstr ""
+
+#: ../goffice/graph/gog-legend.c:212
+msgid "Swatch Padding pts"
+msgstr ""
+
+#: ../goffice/graph/gog-legend.c:213
+msgid "padding between the swatches in pts."
+msgstr ""
+
+#: ../goffice/graph/gog-object-prefs.glade.h:2
+#: ../goffice/graph/gog-plot-prefs.glade.h:2
+#: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:2
+#: ../plugins/plot_barcol/gog-minmax-prefs.glade.h:2
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:2
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:2
+#: ../plugins/plot_pie/gog-pie-series.glade.h:2
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:2
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:3
+msgid "Anchor:"
+msgstr ""
+
+#: ../goffice/graph/gog-object-prefs.glade.h:4
+#: ../goffice/graph/gog-plot-prefs.glade.h:3
+msgid ""
+"Automatic\n"
+"Manual"
+msgstr ""
+"Automatinis\n"
+"Rankinis"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:6
+msgid "GogObjectPrefs"
+msgstr ""
+
+#: ../goffice/graph/gog-object-prefs.glade.h:7
+msgid "_Alignment:"
+msgstr "_Lygiavimas:"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:8
+#: ../goffice/graph/gog-plot-prefs.glade.h:6
+msgid "_Height:"
+msgstr "_Aukštis:"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:9
+#: ../goffice/graph/gog-plot-prefs.glade.h:7
+msgid "_Object position:"
+msgstr ""
+
+#: ../goffice/graph/gog-object-prefs.glade.h:10
+msgid "_Position:"
+msgstr "_Padėtis:"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:12
+#: ../goffice/graph/gog-plot-prefs.glade.h:9
+msgid "_X:"
+msgstr "_X:"
+
+#: ../goffice/graph/gog-object-prefs.glade.h:13
+#: ../goffice/graph/gog-plot-prefs.glade.h:10
+msgid "_Y:"
+msgstr "_Y:"
+
+#: ../goffice/graph/gog-object.c:218 ../goffice/graph/gog-object.c:237
+#: ../goffice/graph/gog-series.c:59
+msgid "Top"
+msgstr "Viršuje"
+
+#: ../goffice/graph/gog-object.c:219 ../goffice/graph/gog-object.c:238
+msgid "Top right"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:220 ../goffice/graph/gog-object.c:241
+#: ../goffice/graph/gog-series.c:60
+msgid "Right"
+msgstr "Dešinėje"
+
+#: ../goffice/graph/gog-object.c:221 ../goffice/graph/gog-object.c:244
+msgid "Bottom right"
+msgstr "Apačioje dešinėje"
+
+#: ../goffice/graph/gog-object.c:222 ../goffice/graph/gog-object.c:243
+#: ../goffice/graph/gog-series.c:57
+msgid "Bottom"
+msgstr "Apačia"
+
+#: ../goffice/graph/gog-object.c:223 ../goffice/graph/gog-object.c:242
+msgid "Bottom left"
+msgstr "Apačioje kairėje"
+
+#: ../goffice/graph/gog-object.c:224 ../goffice/graph/gog-object.c:239
+#: ../goffice/graph/gog-series.c:58
+msgid "Left"
+msgstr "Kairėje"
+
+#: ../goffice/graph/gog-object.c:225 ../goffice/graph/gog-object.c:236
+msgid "Top left"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:229
+msgid "Fill"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:230 ../plugins/plot_barcol/gog-dropbar.c:60
+msgid "Start"
+msgstr "Pradžia"
+
+#: ../goffice/graph/gog-object.c:231 ../plugins/plot_barcol/gog-dropbar.c:62
+msgid "End"
+msgstr "Pabaiga"
+
+#: ../goffice/graph/gog-object.c:232 ../goffice/graph/gog-object.c:240
+#: ../goffice/graph/gog-series.c:62
+msgid "Center"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:703 ../goffice/graph/gog-object.c:748
+msgid "Position"
+msgstr "Padėtis"
+
+#: ../goffice/graph/gog-object.c:742
+msgid "Object ID"
+msgstr "Objekto ID"
+
+#: ../goffice/graph/gog-object.c:743
+msgid "Object numerical ID"
+msgstr "Skaitmeninis objekto ID"
+
+#: ../goffice/graph/gog-object.c:749
+msgid "Position and size of object, in percentage of parent size"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:754
+msgid "Compass"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:755
+msgid "Compass auto position flags"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:761
+msgid "Alignment flag"
+msgstr "Lygiavimo žymė"
+
+#: ../goffice/graph/gog-object.c:766 ../goffice/graph/gog-object.c:767
+msgid "Is position manual"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:772
+msgid "Anchor"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:773
+msgid "Anchor for manual position"
+msgstr ""
+
+#: ../goffice/graph/gog-object.c:778 ../goffice/graph/gog-object.c:779
+msgid "Should the object be hidden"
+msgstr ""
+
+#: ../goffice/graph/gog-outlined-object.c:80
+msgid "Padding Pts"
+msgstr ""
+
+#: ../goffice/graph/gog-outlined-object.c:81
+msgid "Number of pts separating charts in the grid"
+msgstr ""
+
+#: ../goffice/graph/gog-plot-engine.c:56
+msgid "Plot Engine"
+msgstr ""
+
+#: ../goffice/graph/gog-plot-engine.c:259
+msgid "Plot Type"
+msgstr ""
+
+#: ../goffice/graph/gog-plot-engine.c:343
+msgid "Chart Theme"
+msgstr "Diagramos tema"
+
+#: ../goffice/graph/gog-plot-engine.c:374
+msgid "Regression Curve Engine"
+msgstr ""
+
+#: ../goffice/graph/gog-plot-engine.c:529
+msgid "Regression Curve Type"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:272
+msgid "X axis:"
+msgstr "X ašis:"
+
+#: ../goffice/graph/gog-plot.c:273
+msgid "Y axis:"
+msgstr "Y ašis:"
+
+#: ../goffice/graph/gog-plot.c:274
+msgid "Z axis:"
+msgstr "Z ašis:"
+
+#: ../goffice/graph/gog-plot.c:275
+msgid "Circular axis:"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:276
+msgid "Radial axis:"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:277
+msgid "Type axis:"
+msgstr "Ašies tipas:"
+
+#: ../goffice/graph/gog-plot.c:278
+msgid "Pseudo 3D axis:"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:357
+msgid "Axes"
+msgstr "Ašys"
+
+#: ../goffice/graph/gog-plot.c:508
+msgid "Series"
+msgstr "Serijos"
+
+#: ../goffice/graph/gog-plot.c:529
+msgid "Vary style by element"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:530
+msgid "Use a different style for each segments"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:535
+msgid "X axis"
+msgstr "X ašis"
+
+#: ../goffice/graph/gog-plot.c:536
+msgid "Reference to X axis"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:541
+msgid "Y axis"
+msgstr "Y ašis"
+
+#: ../goffice/graph/gog-plot.c:542
+msgid "Reference to Y axis"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:547
+msgid "Plot group"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:548
+msgid "Name of plot group if any"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:553
+msgid "Guru hints"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:554
+msgid ""
+"Semicolon separated list of hints for automatic addition of objects in guru "
+"dialog"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:560
+msgid "Default interpolation"
+msgstr "Įprastas interpoliacija"
+
+#: ../goffice/graph/gog-plot.c:561
+msgid "Default type of series line interpolation"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:1129
+msgid "Move plot area"
+msgstr ""
+
+#: ../goffice/graph/gog-plot.c:1181
+msgid "Resize plot area"
+msgstr ""
+
+#: ../goffice/graph/gog-reg-curve-prefs.glade.h:1
+msgid "High bound:"
+msgstr ""
+
+#: ../goffice/graph/gog-reg-curve-prefs.glade.h:2
+msgid "Low bound:"
+msgstr ""
+
+#: ../goffice/graph/gog-reg-curve-prefs.glade.h:3
+#: ../goffice/graph/gog-reg-curve.c:197
+msgid "Skip invalid data"
+msgstr ""
+
+#: ../goffice/graph/gog-reg-curve.c:161
+msgid "Regression Curve"
+msgstr ""
+
+#: ../goffice/graph/gog-reg-curve.c:168
+msgid "Equation"
+msgstr ""
+
+#: ../goffice/graph/gog-reg-curve.c:196
+msgid "Skip invalid"
+msgstr "Praleisti klaidingus"
+
+#: ../goffice/graph/gog-reg-eqn-prefs.glade.h:1
+msgid "Display _equation"
+msgstr ""
+
+#: ../goffice/graph/gog-reg-eqn-prefs.glade.h:2
+msgid "Display _regression coefficient R²"
+msgstr ""
+
+#: ../goffice/graph/gog-renderer.c:1724
+msgid "The GogGraph this renderer displays"
+msgstr ""
+
+#: ../goffice/graph/gog-renderer.c:1729
+msgid "View"
+msgstr "Žiūrėti"
+
+#: ../goffice/graph/gog-renderer.c:1730
+msgid "the GogView this renderer is displaying"
+msgstr ""
+
+#: ../goffice/graph/gog-series-prefs.glade.h:1
+msgid "<b>Interpolation</b>"
+msgstr "<b>Interpoliacija</b>"
+
+#: ../goffice/graph/gog-series-prefs.glade.h:2
+msgid "Fill _to:"
+msgstr ""
+
+#: ../goffice/graph/gog-series-prefs.glade.h:3
+msgid ""
+"Linear\n"
+"Spline\n"
+"Step at start\n"
+"Step at end\n"
+"Step at center\n"
+"Step to average"
+msgstr ""
+
+#: ../goffice/graph/gog-series-prefs.glade.h:10
+msgid "content"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:55
+msgid "Y origin"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:56
+msgid "X origin"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:61
+msgid "Origin"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:63
+msgid "Edge"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:64
+msgid "Self"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:65
+msgid "Next series"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:170
+msgid "Index:"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:189 ../plugins/plot_pie/gog-pie.c:86
+msgid "Settings"
+msgstr "Nustatymai"
+
+#: ../goffice/graph/gog-series.c:229
+msgid "Index"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:230
+msgid "Index of the corresponding data element"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:570
+msgid "Point"
+msgstr "Taškas"
+
+#: ../goffice/graph/gog-series.c:576
+msgid "Regression curve"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:584
+msgid "Trend line"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:617
+msgid "Has-legend"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:618
+msgid "Should the series show up in legends"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:623
+msgid "Interpolation"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:624
+msgid "Type of line interpolation"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:629
+msgid "Fill type"
+msgstr ""
+
+#: ../goffice/graph/gog-series.c:630
+msgid "How to fill the area"
+msgstr "Kaip užpildyti sritį"
+
+#: ../goffice/graph/gog-smoothed-curve.c:60
+msgid "Smoothed Curve"
+msgstr ""
+
+#: ../goffice/graph/gog-style-prefs.glade.h:1
+msgid "<b>Fill</b>"
+msgstr ""
+
+#: ../goffice/graph/gog-style-prefs.glade.h:2
+msgid "<b>Line</b>"
+msgstr "<b>Linija</b>"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:3
+msgid "<b>Marker</b>"
+msgstr ""
+
+#: ../goffice/graph/gog-style-prefs.glade.h:4
+msgid "<b>Outline</b>"
+msgstr ""
+
+#: ../goffice/graph/gog-style-prefs.glade.h:5
+msgid "B_rightness:"
+msgstr "_Ryškumas:"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:6
+msgid "Co_lor:"
+msgstr "Sp_alva:"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:7
+msgid ""
+"None\n"
+"Pattern\n"
+"Bicolor gradient\n"
+"Unicolor gradient\n"
+"Image"
+msgstr ""
+
+#: ../goffice/graph/gog-style-prefs.glade.h:12
+msgid "O_utline:"
+msgstr ""
+
+#: ../goffice/graph/gog-style-prefs.glade.h:13
+msgid "Sha_pe:"
+msgstr ""
+
+#: ../goffice/graph/gog-style-prefs.glade.h:14
+msgid "Si_ze:"
+msgstr "_Dydis:"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:15
+msgid "St_yle:"
+msgstr "St_ilius:"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:16
+msgid "_Background:"
+msgstr "_Fonas:"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:17
+msgid "_Direction:"
+msgstr "_Kryptis:"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:18
+msgid "_Fill:"
+msgstr ""
+
+#: ../goffice/graph/gog-style-prefs.glade.h:19
+msgid "_Fit:"
+msgstr ""
+
+#: ../goffice/graph/gog-style-prefs.glade.h:20
+msgid "_Foreground:"
+msgstr ""
+
+#: ../goffice/graph/gog-style-prefs.glade.h:21
+msgid "_Pattern:"
+msgstr "_Raštas:"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:22
+msgid "_Select..."
+msgstr "_Pasirinkti..."
+
+#: ../goffice/graph/gog-style-prefs.glade.h:23
+msgid "_Size:"
+msgstr "_Dydis:"
+
+#: ../goffice/graph/gog-style-prefs.glade.h:26
+msgid ""
+"stretched\n"
+"wallpaper"
+msgstr ""
+
+#: ../goffice/graph/gog-style.c:181 ../goffice/gtk/goffice-gtk.c:432
+#, c-format
+msgid "%d x %d"
+msgstr "%d x %d"
+
+#: ../goffice/graph/gog-style.c:630
+msgid "Start:"
+msgstr "Pradžia:"
+
+#: ../goffice/graph/gog-style.c:631
+msgid "End:"
+msgstr "Pabaiga:"
+
+#: ../goffice/graph/gog-style.c:633
+msgid "Foreground:"
+msgstr ""
+
+#: ../goffice/graph/gog-style.c:634
+msgid "Background:"
+msgstr "Fonas:"
+
+#: ../goffice/graph/gog-style.c:842
+msgid "Markers"
+msgstr ""
+
+#: ../goffice/graph/gog-style.c:1005 ../goffice/graph/gog-styled-object.c:161
+msgid "Style"
+msgstr "Stilius"
+
+#: ../goffice/graph/gog-styled-object.c:162
+msgid "A pointer to the GogStyle object"
+msgstr ""
+
+#. Guppi
+#: ../goffice/graph/gog-theme.c:619
+msgid "Guppi"
+msgstr ""
+
+#: ../goffice/graph/gog-trend-line.c:41
+msgid "Trend Line"
+msgstr ""
+
+#: ../goffice/graph/gog-view.c:63
+msgid "Select object"
+msgstr "Pasirinkti objektą"
+
+#: ../goffice/graph/gog-view.c:134
+msgid "Move"
+msgstr "Perkelti"
+
+#: ../goffice/graph/gog-view.c:186
+msgid "Resize object"
+msgstr "Keisti objekto dydį"
+
+#: ../goffice/graph/gog-view.c:591
+msgid "Parent"
+msgstr ""
+
+#: ../goffice/graph/gog-view.c:592
+msgid "the GogView parent"
+msgstr ""
+
+#: ../goffice/graph/gog-view.c:598
+msgid "The GogObject this view displays"
+msgstr ""
+
+#: ../goffice/gtk/go-action-combo-text.c:253
+msgid "Case Sensitive"
+msgstr "Skirti raidžių dydį"
+
+#: ../goffice/gtk/go-action-combo-text.c:254
+msgid "Should the text comparison be case sensitive"
+msgstr ""
+
+#: ../goffice/gtk/go-charmap-sel.c:74
+msgid "Arabic"
+msgstr "Arabų"
+
+#: ../goffice/gtk/go-charmap-sel.c:75
+msgid "Baltic"
+msgstr "Baltų"
+
+#: ../goffice/gtk/go-charmap-sel.c:76
+msgid "Central European"
+msgstr "Vidurio Europos"
+
+#: ../goffice/gtk/go-charmap-sel.c:77
+msgid "Chinese"
+msgstr "Kinų"
+
+#: ../goffice/gtk/go-charmap-sel.c:78
+msgid "Cyrillic"
+msgstr "Kirilica"
+
+#: ../goffice/gtk/go-charmap-sel.c:79
+msgid "Greek"
+msgstr "Graikų"
+
+#: ../goffice/gtk/go-charmap-sel.c:80
+msgid "Hebrew"
+msgstr "hebrajų"
+
+#: ../goffice/gtk/go-charmap-sel.c:81
+msgid "Indian"
+msgstr "Indų"
+
+#: ../goffice/gtk/go-charmap-sel.c:82
+msgid "Japanese"
+msgstr "Japonų"
+
+#: ../goffice/gtk/go-charmap-sel.c:83
+msgid "Korean"
+msgstr "Korėjiečių"
+
+#: ../goffice/gtk/go-charmap-sel.c:84
+msgid "Turkish"
+msgstr "Turkų"
+
+#: ../goffice/gtk/go-charmap-sel.c:85
+msgid "Unicode"
+msgstr "Unikodas"
+
+#: ../goffice/gtk/go-charmap-sel.c:86
+msgid "Vietnamese"
+msgstr "Vietnamiečių"
+
+#: ../goffice/gtk/go-charmap-sel.c:87
+msgid "Western"
+msgstr "Vakarietiškas"
+
+#: ../goffice/gtk/go-charmap-sel.c:88 ../goffice/gtk/go-locale-sel.c:71
+msgid "Other"
+msgstr "Kita"
+
+#: ../goffice/gtk/go-charmap-sel.c:119
+msgid "Arabic (IBM-864)"
+msgstr "Arabų (IBM-864)"
+
+#: ../goffice/gtk/go-charmap-sel.c:120
+msgid "Arabic (IBM-864-I)"
+msgstr "Arabų (IBM-864-I)"
+
+#: ../goffice/gtk/go-charmap-sel.c:121
+msgid "Arabic (ISO-8859-6)"
+msgstr "Arabų (ISO-8859-6)"
+
+#: ../goffice/gtk/go-charmap-sel.c:122
+msgid "Arabic (ISO-8859-6-E)"
+msgstr "Arabų (ISO-8859-6-E)"
+
+#: ../goffice/gtk/go-charmap-sel.c:124
+msgid "Arabic (ISO-8859-6-I)"
+msgstr "Arabų (ISO-8859-6-I)"
+
+#: ../goffice/gtk/go-charmap-sel.c:125
+msgid "Arabic (MacArabic)"
+msgstr "Arabų (MacArabic)"
+
+#: ../goffice/gtk/go-charmap-sel.c:126
+msgid "Arabic (Windows-1256)"
+msgstr "Arabų (Windows-1256)"
+
+#: ../goffice/gtk/go-charmap-sel.c:127
+msgid "Armenian (ARMSCII-8)"
+msgstr "Armėnų (ARMSCII-8)"
+
+#: ../goffice/gtk/go-charmap-sel.c:128
+msgid "Baltic (ISO-8859-13)"
+msgstr "Baltų (ISO-8859-13)"
+
+#: ../goffice/gtk/go-charmap-sel.c:129
+msgid "Baltic (ISO-8859-4)"
+msgstr "Baltų (ISO-8859-4)"
+
+#: ../goffice/gtk/go-charmap-sel.c:130
+msgid "Baltic (Windows-1257)"
+msgstr "Baltų (Windows-1257)"
+
+#: ../goffice/gtk/go-charmap-sel.c:131
+msgid "Celtic (ISO-8859-14)"
+msgstr "Keltų (ISO-8859-14)"
+
+#: ../goffice/gtk/go-charmap-sel.c:132
+msgid "Central European (IBM-852)"
+msgstr "Vidurio Europos (IBM-852)"
+
+#: ../goffice/gtk/go-charmap-sel.c:133
+msgid "Central European (ISO-8859-2)"
+msgstr "Vidurio Europos (ISO-8859-2)"
+
+#: ../goffice/gtk/go-charmap-sel.c:134
+msgid "Central European (MacCE)"
+msgstr "Vidurio Europos (MacCE)"
+
+#: ../goffice/gtk/go-charmap-sel.c:135
+msgid "Central European (Windows-1250)"
+msgstr "Vidurio Europos (Windows-1250)"
+
+#: ../goffice/gtk/go-charmap-sel.c:136
+msgid "Chinese Simplified (GB18030)"
+msgstr "Kinų supaprastintoji (GB18030)"
+
+#: ../goffice/gtk/go-charmap-sel.c:137
+msgid "Chinese Simplified (GB2312)"
+msgstr "Kinų supaprastintoji (GB2312)"
+
+#: ../goffice/gtk/go-charmap-sel.c:138
+msgid "Chinese Simplified (GBK)"
+msgstr "Kinų supaprastinta (GBK)"
+
+#: ../goffice/gtk/go-charmap-sel.c:139
+msgid "Chinese Simplified (HZ)"
+msgstr "Kinų supaprastintoji (HZ)"
+
+#: ../goffice/gtk/go-charmap-sel.c:140
+msgid "Chinese Simplified (Windows-936)"
+msgstr "Kinų supaprastintoji (Windows-936)"
+
+#: ../goffice/gtk/go-charmap-sel.c:141
+msgid "Chinese Traditional (Big5)"
+msgstr "Kinų tradicinė (Big5)"
+
+#: ../goffice/gtk/go-charmap-sel.c:142
+msgid "Chinese Traditional (Big5-HKSCS)"
+msgstr "Kinų tradicinė (Big5-HKSCS)"
+
+#: ../goffice/gtk/go-charmap-sel.c:143
+msgid "Chinese Traditional (EUC-TW)"
+msgstr "Kinų tradicinė (EUC-TW)"
+
+#: ../goffice/gtk/go-charmap-sel.c:144
+msgid "Croatian (MacCroatian)"
+msgstr "Kroatų (MacCroatian)"
+
+#: ../goffice/gtk/go-charmap-sel.c:145
+msgid "Cyrillic (IBM-855)"
+msgstr "Kirilica (IBM-855)"
+
+#: ../goffice/gtk/go-charmap-sel.c:146
+msgid "Cyrillic (ISO-8859-5)"
+msgstr "Kirilica (ISO-8859-5)"
+
+#: ../goffice/gtk/go-charmap-sel.c:147
+msgid "Cyrillic (ISO-IR-111)"
+msgstr "Kirilica (ISO-IR-111)"
+
+#: ../goffice/gtk/go-charmap-sel.c:148
+msgid "Cyrillic (KOI8-R)"
+msgstr "Kirilica (KOI8-R)"
+
+#: ../goffice/gtk/go-charmap-sel.c:149
+msgid "Cyrillic (MacCyrillic)"
+msgstr "Kirilica (MacCyrillic)"
+
+#: ../goffice/gtk/go-charmap-sel.c:150
+msgid "Cyrillic (Windows-1251)"
+msgstr "Kirilica (Windows-1251)"
+
+#: ../goffice/gtk/go-charmap-sel.c:151
+msgid "Russian (CP-866)"
+msgstr "Rusų (CP-866)"
+
+#: ../goffice/gtk/go-charmap-sel.c:152
+msgid "Ukrainian (KOI8-U)"
+msgstr "Ukrainiečių (KOI8-U)"
+
+#: ../goffice/gtk/go-charmap-sel.c:153
+msgid "Ukrainian (MacUkrainian)"
+msgstr "Ukrainiečių (MacUkrainian)"
+
+#: ../goffice/gtk/go-charmap-sel.c:154
+msgid "English (ASCII)"
+msgstr "Anglų (ASCII)"
+
+#: ../goffice/gtk/go-charmap-sel.c:155
+msgid "Farsi (MacFarsi)"
+msgstr "Persų (MacFarsi)"
+
+#: ../goffice/gtk/go-charmap-sel.c:156
+msgid "Georgian (GEOSTD8)"
+msgstr "Gruzinų (GEOSTD8)"
+
+#: ../goffice/gtk/go-charmap-sel.c:157
+msgid "Greek (ISO-8859-7)"
+msgstr "Graikų (ISO-8859-7)"
+
+#: ../goffice/gtk/go-charmap-sel.c:158
+msgid "Greek (MacGreek)"
+msgstr "Graikų (MacGreek)"
+
+#: ../goffice/gtk/go-charmap-sel.c:159
+msgid "Greek (Windows-1253)"
+msgstr "Graikų (Windows-1253)"
+
+#: ../goffice/gtk/go-charmap-sel.c:160
+msgid "Gujarati (MacGujarati)"
+msgstr "Gudžaratų (MacGujarati)"
+
+#: ../goffice/gtk/go-charmap-sel.c:161
+msgid "Gurmukhi (MacGurmukhi)"
+msgstr "Gurmukhi (MacGurmukhi)"
+
+#: ../goffice/gtk/go-charmap-sel.c:162
+msgid "Hebrew (IBM-862)"
+msgstr "Hebrajų (IBM-862)"
+
+#: ../goffice/gtk/go-charmap-sel.c:163
+msgid "Hebrew (ISO-8859-8-E)"
+msgstr "Hebrajų (ISO-8859-8-E)"
+
+#: ../goffice/gtk/go-charmap-sel.c:164
+msgid "Hebrew (ISO-8859-8-I)"
+msgstr "Hebrajų (ISO-8859-8-I)"
+
+#: ../goffice/gtk/go-charmap-sel.c:165
+msgid "Hebrew (MacHebrew)"
+msgstr "Hebrajų (MacHebrew)"
+
+#: ../goffice/gtk/go-charmap-sel.c:166
+msgid "Hebrew (Windows-1255)"
+msgstr "Hebrajų (Windows-1255)"
+
+#: ../goffice/gtk/go-charmap-sel.c:167
+msgid "Hindi (MacDevanagari)"
+msgstr "Hindi (MacDevanagari)"
+
+#: ../goffice/gtk/go-charmap-sel.c:168
+msgid "Icelandic (MacIcelandic)"
+msgstr "Islandų (MacIcelandic)"
+
+#: ../goffice/gtk/go-charmap-sel.c:169
+msgid "Japanese (EUC-JP)"
+msgstr "Japonų (EUC-JP)"
+
+#: ../goffice/gtk/go-charmap-sel.c:170
+msgid "Japanese (ISO-2022-JP)"
+msgstr "Japonų (ISO-2022-JP)"
+
+#: ../goffice/gtk/go-charmap-sel.c:171
+msgid "Japanese (Shift_JIS)"
+msgstr "Japonų (Shift_JIS)"
+
+#: ../goffice/gtk/go-charmap-sel.c:172
+msgid "Korean (EUC-KR)"
+msgstr "Korėjiečių (EUC-KR)"
+
+#: ../goffice/gtk/go-charmap-sel.c:173
+msgid "Korean (ISO-2022-KR)"
+msgstr "Korėjiečių (ISO-2022-KR)"
+
+#: ../goffice/gtk/go-charmap-sel.c:174
+msgid "Korean (JOHAB)"
+msgstr "Korėjiečių (JOHAB)"
+
+#: ../goffice/gtk/go-charmap-sel.c:175
+msgid "Korean (UHC)"
+msgstr "Korėjiečių (UHC)"
+
+#: ../goffice/gtk/go-charmap-sel.c:176
+msgid "Nordic (ISO-8859-10)"
+msgstr "Šiaurės Europos (ISO-8859-10)"
+
+#: ../goffice/gtk/go-charmap-sel.c:177
+msgid "Romanian (MacRomanian)"
+msgstr "Rumunų (MacRomanian)"
+
+#: ../goffice/gtk/go-charmap-sel.c:178
+msgid "Romanian (ISO-8859-16)"
+msgstr "Rumunų (ISO-8859-16)"
+
+#: ../goffice/gtk/go-charmap-sel.c:179
+msgid "South European (ISO-8859-3)"
+msgstr "Pietų Europos (ISO-8859-3)"
+
+#: ../goffice/gtk/go-charmap-sel.c:180
+msgid "Thai (TIS-620)"
+msgstr "Tajų (TIS-620)"
+
+#: ../goffice/gtk/go-charmap-sel.c:181
+msgid "Turkish (IBM-857)"
+msgstr "Turkų (IBM-857)"
+
+#: ../goffice/gtk/go-charmap-sel.c:182
+msgid "Turkish (ISO-8859-9)"
+msgstr "Turkų (ISO-8859-9)"
+
+#: ../goffice/gtk/go-charmap-sel.c:183
+msgid "Turkish (MacTurkish)"
+msgstr "Turkų (MacTurkish)"
+
+#: ../goffice/gtk/go-charmap-sel.c:184
+msgid "Turkish (Windows-1254)"
+msgstr "Turkų (Windows-1254)"
+
+#: ../goffice/gtk/go-charmap-sel.c:185
+msgid "Unicode (UTF-7)"
+msgstr "Unikodas (UTF-7)"
+
+#: ../goffice/gtk/go-charmap-sel.c:186
+msgid "Unicode (UTF-8)"
+msgstr "Unikodas (UTF-8)"
+
+#: ../goffice/gtk/go-charmap-sel.c:187
+msgid "Unicode (UTF-16BE)"
+msgstr "Unikodas (UTF-16BE)"
+
+#: ../goffice/gtk/go-charmap-sel.c:188
+msgid "Unicode (UTF-16LE)"
+msgstr "Unikodas (UTF-16LE)"
+
+#: ../goffice/gtk/go-charmap-sel.c:189
+msgid "Unicode (UTF-32BE)"
+msgstr "Unikodas (UTF-32BE)"
+
+#: ../goffice/gtk/go-charmap-sel.c:190
+msgid "Unicode (UTF-32LE)"
+msgstr "Unikodas (UTF-32LE)"
+
+#: ../goffice/gtk/go-charmap-sel.c:191
+msgid "User Defined"
+msgstr ""
+
+#: ../goffice/gtk/go-charmap-sel.c:192
+msgid "Vietnamese (TCVN)"
+msgstr "Vietnamiečių (TCVN)"
+
+#: ../goffice/gtk/go-charmap-sel.c:193
+msgid "Vietnamese (VISCII)"
+msgstr "Vietnamiečių (VISCII)"
+
+#: ../goffice/gtk/go-charmap-sel.c:194
+msgid "Vietnamese (VPS)"
+msgstr "Vietnamiečių (VPS)"
+
+#: ../goffice/gtk/go-charmap-sel.c:195
+msgid "Vietnamese (Windows-1258)"
+msgstr "Vietnamiečių (Windows-1258)"
+
+#: ../goffice/gtk/go-charmap-sel.c:196
+msgid "Visual Hebrew (ISO-8859-8)"
+msgstr "Vizualioji hebrajų (ISO-8859-8)"
+
+#: ../goffice/gtk/go-charmap-sel.c:197
+msgid "Western (IBM-850)"
+msgstr "Vakarų Europos (IBM-850)"
+
+#: ../goffice/gtk/go-charmap-sel.c:198
+msgid "Western (ISO-8859-1)"
+msgstr "Vakarų Europos (ISO-8859-1)"
+
+#: ../goffice/gtk/go-charmap-sel.c:199
+msgid "Western (ISO-8859-15)"
+msgstr "Vakarų Europos (ISO-8859-15)"
+
+#: ../goffice/gtk/go-charmap-sel.c:200
+msgid "Western (MacRoman)"
+msgstr "Vakarų Europos (MacRoman)"
+
+#: ../goffice/gtk/go-charmap-sel.c:201
+msgid "Western (Windows-1252)"
+msgstr "Vakarų Europos (Windows-1252)"
+
+#: ../goffice/gtk/go-charmap-sel.c:418
+msgid "Locale: "
+msgstr "Lokalė:"
+
+#: ../goffice/gtk/go-charmap-sel.c:458
+msgid "Conversion Direction"
+msgstr ""
+
+#: ../goffice/gtk/go-charmap-sel.c:459
+msgid "This value determines which iconv test to perform."
+msgstr ""
+
+#: ../goffice/gtk/go-color-palette.c:79
+msgid "black"
+msgstr "juoda"
+
+#: ../goffice/gtk/go-color-palette.c:80
+msgid "light brown"
+msgstr "šviesiai ruda"
+
+#: ../goffice/gtk/go-color-palette.c:81
+msgid "brown gold"
+msgstr "rusvai auksinė"
+
+#: ../goffice/gtk/go-color-palette.c:82
+msgid "dark green #2"
+msgstr "tamsiai žalia #2"
+
+#: ../goffice/gtk/go-color-palette.c:83
+msgid "navy"
+msgstr "tamsiai mėlyna"
+
+#: ../goffice/gtk/go-color-palette.c:84 ../goffice/gtk/go-color-palette.c:136
+msgid "dark blue"
+msgstr "tamsiai mėlyna"
+
+#: ../goffice/gtk/go-color-palette.c:85
+msgid "purple #2"
+msgstr "violetinė #2"
+
+#: ../goffice/gtk/go-color-palette.c:86
+msgid "very dark gray"
+msgstr "labai tamsi pilka"
+
+#: ../goffice/gtk/go-color-palette.c:88 ../goffice/gtk/go-color-palette.c:141
+msgid "dark red"
+msgstr "tamsiai raudona"
+
+#: ../goffice/gtk/go-color-palette.c:89
+msgid "red-orange"
+msgstr "raudonai oranžinė"
+
+#: ../goffice/gtk/go-color-palette.c:90
+msgid "gold"
+msgstr "auksinė"
+
+#: ../goffice/gtk/go-color-palette.c:91
+msgid "dark green"
+msgstr "tamsiai žalia"
+
+#: ../goffice/gtk/go-color-palette.c:92 ../goffice/gtk/go-color-palette.c:142
+msgid "dull blue"
+msgstr ""
+
+#: ../goffice/gtk/go-color-palette.c:93 ../goffice/gtk/go-color-palette.c:143
+msgid "blue"
+msgstr "mėlyna"
+
+#: ../goffice/gtk/go-color-palette.c:94
+msgid "dull purple"
+msgstr ""
+
+#: ../goffice/gtk/go-color-palette.c:95
+msgid "dark gray"
+msgstr "tamsiai pilka"
+
+#: ../goffice/gtk/go-color-palette.c:97
+msgid "red"
+msgstr "raudona"
+
+#: ../goffice/gtk/go-color-palette.c:98
+msgid "orange"
+msgstr "oranžinis"
+
+#: ../goffice/gtk/go-color-palette.c:99
+msgid "lime"
+msgstr ""
+
+#: ../goffice/gtk/go-color-palette.c:100
+msgid "dull green"
+msgstr ""
+
+#: ../goffice/gtk/go-color-palette.c:101
+msgid "dull blue #2"
+msgstr ""
+
+#: ../goffice/gtk/go-color-palette.c:102
+msgid "sky blue #2"
+msgstr "žydra #2"
+
+#: ../goffice/gtk/go-color-palette.c:103 ../goffice/gtk/go-color-palette.c:140
+msgid "purple"
+msgstr "violetinė"
+
+#: ../goffice/gtk/go-color-palette.c:104
+msgid "gray"
+msgstr "pilka"
+
+#: ../goffice/gtk/go-color-palette.c:106 ../goffice/gtk/go-color-palette.c:137
+msgid "magenta"
+msgstr ""
+
+#: ../goffice/gtk/go-color-palette.c:107
+msgid "bright orange"
+msgstr "ryškiai oranžinė"
+
+#: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:138
+msgid "yellow"
+msgstr "geltona"
+
+#: ../goffice/gtk/go-color-palette.c:109
+msgid "green"
+msgstr "žalia"
+
+#: ../goffice/gtk/go-color-palette.c:110 ../goffice/gtk/go-color-palette.c:139
+msgid "cyan"
+msgstr ""
+
+#: ../goffice/gtk/go-color-palette.c:111
+msgid "bright blue"
+msgstr "šviesiai mėlyna"
+
+#: ../goffice/gtk/go-color-palette.c:112 ../goffice/gtk/go-color-palette.c:128
+msgid "red purple"
+msgstr "rausvai violetinė"
+
+#: ../goffice/gtk/go-color-palette.c:113
+msgid "light gray"
+msgstr "šviesiai pilka"
+
+#: ../goffice/gtk/go-color-palette.c:115 ../goffice/gtk/go-color-palette.c:132
+msgid "pink"
+msgstr "rožinė"
+
+#: ../goffice/gtk/go-color-palette.c:116
+msgid "light orange"
+msgstr "šviesi oranžinė"
+
+#: ../goffice/gtk/go-color-palette.c:117 ../goffice/gtk/go-color-palette.c:129
+msgid "light yellow"
+msgstr "šviesiai geltona"
+
+#: ../goffice/gtk/go-color-palette.c:118
+msgid "light green"
+msgstr "šviesiai žalia"
+
+#: ../goffice/gtk/go-color-palette.c:119
+msgid "light cyan"
+msgstr ""
+
+#: ../goffice/gtk/go-color-palette.c:120 ../goffice/gtk/go-color-palette.c:130
+msgid "light blue"
+msgstr "šviesiai mėlyna"
+
+#: ../goffice/gtk/go-color-palette.c:121 ../goffice/gtk/go-color-palette.c:134
+msgid "light purple"
+msgstr "šviesiai violetinė"
+
+#: ../goffice/gtk/go-color-palette.c:122
+msgid "white"
+msgstr "balta"
+
+#. Disable these for now, they are mostly repeats
+#: ../goffice/gtk/go-color-palette.c:127
+msgid "purplish blue"
+msgstr ""
+
+#: ../goffice/gtk/go-color-palette.c:131
+msgid "dark purple"
+msgstr "tamsiai violetinė"
+
+#: ../goffice/gtk/go-color-palette.c:133
+msgid "sky blue"
+msgstr "žydra"
+
+#: ../goffice/gtk/go-color-palette.c:449
+msgid "custom"
+msgstr ""
+
+#: ../goffice/gtk/go-color-palette.c:456 ../goffice/gtk/go-color-palette.c:685
+msgid "Custom Color..."
+msgstr ""
+
+#: ../goffice/gtk/go-color-selector.c:206
+msgid "Custom color..."
+msgstr ""
+
+#: ../goffice/gtk/go-combo-box.c:261
+msgid "Add tearoffs to menus"
+msgstr ""
+
+#: ../goffice/gtk/go-combo-box.c:262
+msgid "Whether dropdowns should have a tearoff menu item"
+msgstr ""
+
+#: ../goffice/gtk/go-dock-item-grip.c:261
+msgid "Dock the toolbar"
+msgstr ""
+
+#: ../goffice/gtk/go-dock-item-grip.c:262
+msgid "Undock the toolbar"
+msgstr ""
+
+#: ../goffice/gtk/go-dock-item.c:235 ../goffice/gtk/go-dock-item.c:236
+msgid "Shadow type"
+msgstr "Šešėlio tipas"
+
+#: ../goffice/gtk/go-dock-item.c:246 ../goffice/gtk/go-dock-item.c:247
+msgid "Orientation"
+msgstr "Orientacija"
+
+#: ../goffice/gtk/go-dock-item.c:257 ../goffice/gtk/go-dock-item.c:258
+msgid "Preferred width"
+msgstr ""
+
+#: ../goffice/gtk/go-dock-item.c:266 ../goffice/gtk/go-dock-item.c:267
+msgid "Preferred height"
+msgstr ""
+
+#: ../goffice/gtk/go-font-sel.c:183
+msgid "Normal"
+msgstr "Normalus"
+
+#: ../goffice/gtk/go-font-sel.c:184
+msgid "Bold"
+msgstr "Pastorintas"
+
+#: ../goffice/gtk/go-font-sel.c:185
+msgid "Bold italic"
+msgstr "Pastorintas kursyvas"
+
+#: ../goffice/gtk/go-font-sel.c:186
+msgid "Italic"
+msgstr "Kursyvas"
+
+#. xgettext: This text is used as a sample when selecting a font
+#. * please choose a translation that would produce common
+#. * characters specific to the target alphabet.
+#: ../goffice/gtk/go-font-sel.c:473
+msgid "AaBbCcDdEe12345"
+msgstr "AaBbCcDdEe12345"
+
+#: ../goffice/gtk/go-font-sel.glade.h:1
+msgid "*"
+msgstr "*"
+
+#: ../goffice/gtk/go-font-sel.glade.h:2
+msgid "Font style:"
+msgstr "Šrifto stilius:"
+
+#: ../goffice/gtk/go-font-sel.glade.h:3
+msgid "Font:"
+msgstr "Šriftas:"
+
+#: ../goffice/gtk/go-font-sel.glade.h:4
+msgid "Preview"
+msgstr "Peržiūra"
+
+#: ../goffice/gtk/go-font-sel.glade.h:5
+msgid "Size:"
+msgstr "Dydis:"
+
+#: ../goffice/gtk/go-format-sel.c:69
+msgid "Number"
+msgstr "Skaičius"
+
+#: ../goffice/gtk/go-format-sel.c:70
+msgid "Currency"
+msgstr "Valiuta"
+
+#: ../goffice/gtk/go-format-sel.c:71
+msgid "Accounting"
+msgstr "Apskaitos"
+
+#: ../goffice/gtk/go-format-sel.c:72
+msgid "Date"
+msgstr "Data"
+
+#: ../goffice/gtk/go-format-sel.c:73
+msgid "Time"
+msgstr "Laikas"
+
+#: ../goffice/gtk/go-format-sel.c:74
+msgid "Percentage"
+msgstr "Procentai"
+
+#: ../goffice/gtk/go-format-sel.c:75
+msgid "Fraction"
+msgstr "Trupmena"
+
+#: ../goffice/gtk/go-format-sel.c:76
+msgid "Scientific"
+msgstr "Mokslinės"
+
+#: ../goffice/gtk/go-format-sel.c:78
+msgid "Special"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.c:79
+msgid "Custom"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.c:1336
+msgid "Negative Number Format"
+msgstr "Neigiamų skaičių formatas"
+
+#: ../goffice/gtk/go-format-sel.c:1364
+msgid "Number Formats"
+msgstr "Skaičių formatai"
+
+#: ../goffice/gtk/go-format-sel.glade.h:1
+msgid "Ca_tegories:"
+msgstr "Ka_tegorijos:"
+
+#: ../goffice/gtk/go-format-sel.glade.h:2
+msgid "Deci_mal places:"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:3
+msgid "Display amounts in traditional accounting styles."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:4
+msgid "Display and input values as strings with no interpretation."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:5
+msgid "Display currency amounts."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:6
+msgid "Display dates and optionally times of day."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:7
+msgid "Display numeric values with a fixed number of decimals."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:8
+msgid "Display times of day."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:9
+msgid "Display values as closest fractional approximation."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:10
+msgid "Display values as percentages."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:11
+msgid "Display values with power-of-ten scaling."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:12
+msgid "Format c_ode:"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:13
+msgid "Negative number _format:"
+msgstr "Neigiamų skaičių _formatas:"
+
+#: ../goffice/gtk/go-format-sel.glade.h:14
+msgid "Preview:"
+msgstr "Peržiūra:"
+
+#: ../goffice/gtk/go-format-sel.glade.h:15
+msgid "Restrict exponent to multiples of 3"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:16
+msgid "S_ymbol:"
+msgstr "S_imbolis:"
+
+#: ../goffice/gtk/go-format-sel.glade.h:17
+msgid "Select an appropriate format automatically."
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:18
+msgid "Specify an XL-style format directly"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:19
+msgid "Use _superscript"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:20
+msgid "Use superscript for exponent (e.g. 4×10²)"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:21
+msgid "When mantissa is equal to 1, only show exponent part (e.g. 10²)"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:22
+msgid "_Don't show 1x's"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:23
+msgid "_Engineering notation"
+msgstr ""
+
+#: ../goffice/gtk/go-format-sel.glade.h:24
+msgid "_Format:"
+msgstr "_Formatas:"
+
+#: ../goffice/gtk/go-format-sel.glade.h:25
+msgid "_Use separator for 1000s"
+msgstr ""
+
+#: ../goffice/gtk/go-image-save-dialog-extra.glade.h:1
+msgid "Export settings"
+msgstr "Eksportavimo nustatymai"
+
+#: ../goffice/gtk/go-image-save-dialog-extra.glade.h:2
+msgid "Resolution:"
+msgstr "Raiška:"
+
+#: ../goffice/gtk/go-image-save-dialog-extra.glade.h:3
+msgid "_File type:"
+msgstr "Bylos _tipas:"
+
+#: ../goffice/gtk/go-image-save-dialog-extra.glade.h:4
+msgid "pixels/in"
+msgstr "pikseliai/col"
+
+#: ../goffice/gtk/go-locale-sel.c:64
+msgid "Western Europe"
+msgstr "Vakarų Europa"
+
+#: ../goffice/gtk/go-locale-sel.c:65
+msgid "Eastern Europe"
+msgstr "Rytų Europa"
+
+#: ../goffice/gtk/go-locale-sel.c:66
+msgid "North America"
+msgstr "Šiaurės Europa"
+
+#: ../goffice/gtk/go-locale-sel.c:67
+msgid "South & Central America"
+msgstr "Pietų ir Centrinė Amerika"
+
+#: ../goffice/gtk/go-locale-sel.c:68
+msgid "Asia"
+msgstr "Azija"
+
+#: ../goffice/gtk/go-locale-sel.c:69
+msgid "Africa"
+msgstr "Afrika"
+
+#: ../goffice/gtk/go-locale-sel.c:70
+msgid "Australia"
+msgstr "Australija"
+
+#.
+#. * The format here is "Country/Language (locale)" or just
+#. * "Country (locale)" when there is only one choice or one
+#. * very dominant language.
+#. *
+#. * Note: lots of people get very emotional over this.  Please
+#. * err on the safe side, if any.
+#.
+#: ../goffice/gtk/go-locale-sel.c:102
+msgid "United States/English (C)"
+msgstr "Jungtinės Valstijos/Anglų (C)"
+
+#: ../goffice/gtk/go-locale-sel.c:103
+msgid "South Africa Afrikaans (af_ZA)"
+msgstr "Pietų Afrikos afrikanai (af_ZA)"
+
+#: ../goffice/gtk/go-locale-sel.c:104
+msgid "Ethiopia/Amharic (am_ET)"
+msgstr "Etiopija/Amharų (am_ET)"
+
+#: ../goffice/gtk/go-locale-sel.c:105
+msgid "United Arab Emirates (ar_AE)"
+msgstr "Jungtiniai Arabų Emiratai (ar_AE)"
+
+#: ../goffice/gtk/go-locale-sel.c:106
+msgid "Bahrain (ar_BH)"
+msgstr "Bahreinas (ar_BH)"
+
+#: ../goffice/gtk/go-locale-sel.c:107
+msgid "Algeria (ar_DZ)"
+msgstr "Alžyras (ar_DZ)"
+
+#: ../goffice/gtk/go-locale-sel.c:108
+msgid "Egypt (ar_EG)"
+msgstr "Egiptas (ar_EG)"
+
+#: ../goffice/gtk/go-locale-sel.c:109
+msgid "India/Arabic (ar_IN)"
+msgstr "Indija/Arabų (ar_IN)"
+
+#: ../goffice/gtk/go-locale-sel.c:110
+msgid "Iraq (ar_IQ)"
+msgstr "Irakas (ar_IQ)"
+
+#: ../goffice/gtk/go-locale-sel.c:111
+msgid "Jordan (ar_JO)"
+msgstr "Jordanija (ar_JO)"
+
+#: ../goffice/gtk/go-locale-sel.c:112
+msgid "Kuwait (ar_KW)"
+msgstr "Kuveitas (ar_KW)"
+
+#: ../goffice/gtk/go-locale-sel.c:113
+msgid "Lebanon (ar_LB)"
+msgstr "Libanas (ar_LB)"
+
+#: ../goffice/gtk/go-locale-sel.c:114
+msgid "Libya (ar_LY)"
+msgstr "Libija (ar_LY)"
+
+#: ../goffice/gtk/go-locale-sel.c:115
+msgid "Morocco (ar_MA)"
+msgstr "Marokas (ar_MA)"
+
+#: ../goffice/gtk/go-locale-sel.c:116
+msgid "Oman (ar_OM)"
+msgstr "Omanas (ar_OM)"
+
+#: ../goffice/gtk/go-locale-sel.c:117
+msgid "Qatar (ar_QA)"
+msgstr "Kataras (ar_QA)"
+
+#: ../goffice/gtk/go-locale-sel.c:118
+msgid "Saudi Arabia (ar_SA)"
+msgstr "Saudo Arabija (ar_SA)"
+
+#: ../goffice/gtk/go-locale-sel.c:119
+msgid "Sudan (ar_SD)"
+msgstr "Sudanas (ar_SD)"
+
+#: ../goffice/gtk/go-locale-sel.c:120
+msgid "Syria (ar_SY)"
+msgstr "Syrija (ar_SY)"
+
+#: ../goffice/gtk/go-locale-sel.c:121
+msgid "Tunisia (ar_TN)"
+msgstr "Tunisas (ar_TN)"
+
+#: ../goffice/gtk/go-locale-sel.c:122
+msgid "Yemen (ar_YE)"
+msgstr "Jemenas (ar_YE)"
+
+#: ../goffice/gtk/go-locale-sel.c:123
+msgid "Azerbaijan (az_AZ)"
+msgstr "Azerbaidžanas (az_AZ)"
+
+#: ../goffice/gtk/go-locale-sel.c:124
+msgid "Belarus (be_BY)"
+msgstr "Baltarusija (be_BY)"
+
+#: ../goffice/gtk/go-locale-sel.c:125
+msgid "Bulgaria (bg_BG)"
+msgstr "Bulgarija (bg_BG)"
+
+#: ../goffice/gtk/go-locale-sel.c:126
+msgid "Bangladesh (bn_BD)"
+msgstr "Bangladešas (bn_BD)"
+
+#: ../goffice/gtk/go-locale-sel.c:127
+msgid "India/Bengali (bn_IN)"
+msgstr "Indija/Bengalų (bn_IN)"
+
+#: ../goffice/gtk/go-locale-sel.c:128
+msgid "France/Breton (br_FR)"
+msgstr "Prancūzija/Bretonų (br_FR)"
+
+#: ../goffice/gtk/go-locale-sel.c:129
+msgid "Bosnia and Herzegowina (bs_BA)"
+msgstr "Bosnija ir Hercegovina (bs_BA)"
+
+#: ../goffice/gtk/go-locale-sel.c:130
+msgid "Spain/Catalan (ca_ES)"
+msgstr "Ispanija/katalonų (ca_ES)"
+
+#: ../goffice/gtk/go-locale-sel.c:131
+msgid "Czech Republic (cs_CZ)"
+msgstr "Čekija (cs_CZ)"
+
+#: ../goffice/gtk/go-locale-sel.c:132
+msgid "Great Britain/Welsh (cy_GB)"
+msgstr "Didžioji Britanija/Velsiečių (cy_GB)"
+
+#: ../goffice/gtk/go-locale-sel.c:133
+msgid "Denmark (da_DK)"
+msgstr "Danija (da_DK)"
+
+#: ../goffice/gtk/go-locale-sel.c:134
+msgid "Austria (de_AT)"
+msgstr "Austrija (de_AT)"
+
+#: ../goffice/gtk/go-locale-sel.c:135
+msgid "Belgium/German (de_BE)"
+msgstr "Belgija/vokiečių (de_BE)"
+
+#: ../goffice/gtk/go-locale-sel.c:136
+msgid "Switzerland/German (de_CH)"
+msgstr "Šveicarija/vokiečių (de_CH)"
+
+#: ../goffice/gtk/go-locale-sel.c:137
+msgid "Germany (de_DE)"
+msgstr "Vokietija (de_DE)"
+
+#: ../goffice/gtk/go-locale-sel.c:138
+msgid "Luxembourg/German (de_LU)"
+msgstr "Liuksemburgas/vokiečių (de_LU)"
+
+#: ../goffice/gtk/go-locale-sel.c:139
+msgid "Greece (el_GR)"
+msgstr "Graikija (el_GR)"
+
+#: ../goffice/gtk/go-locale-sel.c:140
+msgid "Australia (en_AU)"
+msgstr "Australija (en_AU)"
+
+#: ../goffice/gtk/go-locale-sel.c:141
+msgid "Botswana (en_BW)"
+msgstr "Botsvana (en_BW)"
+
+#: ../goffice/gtk/go-locale-sel.c:142
+msgid "Canada/English (en_CA)"
+msgstr "Kanada/anglų (en_CA)"
+
+#: ../goffice/gtk/go-locale-sel.c:143
+msgid "Great Britain (en_GB)"
+msgstr "Didžioji Britanija (en_GB)"
+
+#: ../goffice/gtk/go-locale-sel.c:144
+msgid "Hong Kong/English (en_HK)"
+msgstr "Honkongas/anglų (en_HK)"
+
+#: ../goffice/gtk/go-locale-sel.c:145
+msgid "Ireland (en_IE)"
+msgstr "Airija (en_IE)"
+
+#: ../goffice/gtk/go-locale-sel.c:146
+msgid "India/English (en_IN)"
+msgstr "Indija/Anglų (en_IN)"
+
+#: ../goffice/gtk/go-locale-sel.c:147
+msgid "New Zealand (en_NZ)"
+msgstr "Naujoji Zelandija (en_NZ)"
+
+#: ../goffice/gtk/go-locale-sel.c:148
+msgid "Philippines (en_PH)"
+msgstr "Filipinai (en_PH)"
+
+#: ../goffice/gtk/go-locale-sel.c:149
+msgid "Singapore/English (en_SG)"
+msgstr "Singapūras/anglų (en_SG)"
+
+#: ../goffice/gtk/go-locale-sel.c:150
+msgid "United States/English (en_US)"
+msgstr "Jungtinės Valstijos/anglų (en_US)"
+
+#: ../goffice/gtk/go-locale-sel.c:151
+msgid "South Africa/English (en_ZA)"
+msgstr "Pietų Afrika/anglų (en_ZA)"
+
+#: ../goffice/gtk/go-locale-sel.c:152
+msgid "Zimbabwe (en_ZW)"
+msgstr "Zimbabvė (en_ZW)"
+
+#: ../goffice/gtk/go-locale-sel.c:153
+msgid "Esperanto (eo_EO)"
+msgstr "Esperanto (eo_EO)"
+
+#: ../goffice/gtk/go-locale-sel.c:154
+msgid "Argentina (es_AR)"
+msgstr "Argentina (es_AR)"
+
+#: ../goffice/gtk/go-locale-sel.c:155
+msgid "Bolivia (es_BO)"
+msgstr "Bolivija (es_BO)"
+
+#: ../goffice/gtk/go-locale-sel.c:156
+msgid "Chile (es_CL)"
+msgstr "Čilė (es_CL)"
+
+#: ../goffice/gtk/go-locale-sel.c:157
+msgid "Colombia (es_CO)"
+msgstr "Kolumbija (es_CO)"
+
+#: ../goffice/gtk/go-locale-sel.c:158
+msgid "Costa Rica (es_CR)"
+msgstr "Kosta Rika (es_CR)"
+
+#: ../goffice/gtk/go-locale-sel.c:159
+msgid "Dominican Republic (es_DO)"
+msgstr "Dominikos respublika (es_DO)"
+
+#: ../goffice/gtk/go-locale-sel.c:160
+msgid "Ecuador (es_EC)"
+msgstr "Ekvadoras (es_EC)"
+
+#: ../goffice/gtk/go-locale-sel.c:161
+msgid "Spain (es_ES)"
+msgstr "Ispanija (es_ES)"
+
+#: ../goffice/gtk/go-locale-sel.c:162
+msgid "Guatemala (es_GT)"
+msgstr "Gvatemala (es_GT)"
+
+#: ../goffice/gtk/go-locale-sel.c:163
+msgid "Honduras (es_HN)"
+msgstr "Hondūras (es_HN)"
+
+#: ../goffice/gtk/go-locale-sel.c:164
+msgid "Mexico (es_MX)"
+msgstr "Meksika (es_MX)"
+
+#: ../goffice/gtk/go-locale-sel.c:165
+msgid "Nicaragua (es_NI)"
+msgstr "Nikaragva (es_NI)"
+
+#: ../goffice/gtk/go-locale-sel.c:166
+msgid "Panama (es_PA)"
+msgstr "Panama (es_PA)"
+
+#: ../goffice/gtk/go-locale-sel.c:167
+msgid "Peru (es_PE)"
+msgstr "Peru (es_PE)"
+
+#: ../goffice/gtk/go-locale-sel.c:168
+msgid "Puerto Rico (es_PR)"
+msgstr "Puerto Rikas (es_PR)"
+
+#: ../goffice/gtk/go-locale-sel.c:169
+msgid "Paraguay (es_PY)"
+msgstr "Paragvajus (es_PY)"
+
+#: ../goffice/gtk/go-locale-sel.c:170
+msgid "El Salvador (es_SV)"
+msgstr "Salvadoras (es_SV)"
+
+#: ../goffice/gtk/go-locale-sel.c:171
+msgid "United States/Spanish (es_US)"
+msgstr "Jungtinės Valstijos/ispanų (es_US)"
+
+#: ../goffice/gtk/go-locale-sel.c:172
+msgid "Uruguay (es_UY)"
+msgstr "Urugvajus (es_UY)"
+
+#: ../goffice/gtk/go-locale-sel.c:173
+msgid "Venezuela (es_VE)"
+msgstr "Venesuela (es_VE)"
+
+#: ../goffice/gtk/go-locale-sel.c:174
+msgid "Estonia (et_EE)"
+msgstr "Estija (et_EE)"
+
+#: ../goffice/gtk/go-locale-sel.c:175
+msgid "Spain/Basque (eu_ES)"
+msgstr "Ispanija/baskų (eu_ES)"
+
+#: ../goffice/gtk/go-locale-sel.c:176
+msgid "Iran (fa_IR)"
+msgstr "Iranas (fa_IR)"
+
+#: ../goffice/gtk/go-locale-sel.c:177
+msgid "Finland/Finnish (fi_FI)"
+msgstr "Suomija/suomių (fi_FI)"
+
+#: ../goffice/gtk/go-locale-sel.c:178
+msgid "Faroe Islands (fo_FO)"
+msgstr "Farerų salos (fo_FO)"
+
+#: ../goffice/gtk/go-locale-sel.c:179
+msgid "Belgium/French (fr_BE)"
+msgstr "Belgija/prancūzų (fr_BE)"
+
+#: ../goffice/gtk/go-locale-sel.c:180
+msgid "Canada/French (fr_CA)"
+msgstr "Kanada/prancūzų (fr_CA)"
+
+#: ../goffice/gtk/go-locale-sel.c:181
+msgid "Switzerland/French (fr_CH)"
+msgstr "Šveicarija/prancūzų (fr_CH)"
+
+#: ../goffice/gtk/go-locale-sel.c:182
+msgid "France (fr_FR)"
+msgstr "Prancūzija (fr_FR)"
+
+#: ../goffice/gtk/go-locale-sel.c:183
+msgid "Ireland/Gaelic (ga_IE)"
+msgstr "Airija/Galų (ga_IE)"
+
+#: ../goffice/gtk/go-locale-sel.c:184
+msgid "Great Britain/Scottish Gaelic (gd_GB)"
+msgstr "Didžioji Britanija/Škotijos galų (gd_GB)"
+
+#: ../goffice/gtk/go-locale-sel.c:185
+msgid "Spain/Galician (gl_ES)"
+msgstr "Ispanija/Galisų (gl_ES)"
+
+#: ../goffice/gtk/go-locale-sel.c:186
+msgid "Great Britain/Manx Gaelic (gv_GB)"
+msgstr "Didžioji Britanija/Mano galų (gv_GB)"
+
+#: ../goffice/gtk/go-locale-sel.c:187
+msgid "India/Hindu (hi_IN)"
+msgstr "Indija/Indusų (hi_IN)"
+
+#: ../goffice/gtk/go-locale-sel.c:188
+msgid "Croatia (hr_HR)"
+msgstr "Kroatija (hr_HR)"
+
+#: ../goffice/gtk/go-locale-sel.c:189
+msgid "Hungary (hu_HU)"
+msgstr "Vengrija (hu_HU)"
+
+#: ../goffice/gtk/go-locale-sel.c:190
+msgid "Armenia (hy_AM)"
+msgstr "Armėnija (hy_AM)"
+
+#: ../goffice/gtk/go-locale-sel.c:191
+msgid "(i18n)"
+msgstr "(i18n)"
+
+#: ../goffice/gtk/go-locale-sel.c:192
+msgid "Indonesia (id_ID)"
+msgstr "Indonezija (id_ID)"
+
+#: ../goffice/gtk/go-locale-sel.c:193
+msgid "Iceland (is_IS)"
+msgstr "Islandija (is_IS)"
+
+#: ../goffice/gtk/go-locale-sel.c:194
+msgid "(iso14651_t1)"
+msgstr "(iso14651_t1)"
+
+#: ../goffice/gtk/go-locale-sel.c:195
+msgid "Switzerland/Italian (it_CH)"
+msgstr "Šveicarija/Italų (it_CH)"
+
+#: ../goffice/gtk/go-locale-sel.c:196
+msgid "Italy (it_IT)"
+msgstr "Italija (it_IT)"
+
+#: ../goffice/gtk/go-locale-sel.c:197
+msgid "Israel/Hebrew (iw_IL)"
+msgstr "Izraelis/hebrajų (iw_IL)"
+
+#: ../goffice/gtk/go-locale-sel.c:198
+msgid "Japan (ja_JP)"
+msgstr "Japonija (ja_JP)"
+
+#: ../goffice/gtk/go-locale-sel.c:199
+msgid "Georgia (ka_GE)"
+msgstr "Gruzija (ka_GE)"
+
+#: ../goffice/gtk/go-locale-sel.c:200
+msgid "Greenland (kl_GL)"
+msgstr "Grenlandija (kl_GL)"
+
+#: ../goffice/gtk/go-locale-sel.c:201
+msgid "Korea (ko_KR)"
+msgstr "Korėja (ko_KR)"
+
+#: ../goffice/gtk/go-locale-sel.c:202
+msgid "Great Britain/Cornish (kw_GB)"
+msgstr "Didžioji Britanija/Kornų (kw_GB)"
+
+#: ../goffice/gtk/go-locale-sel.c:203
+msgid "Lithuania (lt_LT)"
+msgstr "Lietuva (lt_LT)"
+
+#: ../goffice/gtk/go-locale-sel.c:204
+msgid "Latvia (lv_LV)"
+msgstr "Latvija (lv_LV)"
+
+#: ../goffice/gtk/go-locale-sel.c:205
+msgid "New Zealand/Maori (mi_NZ)"
+msgstr "Naujoji Zelandija/maorių (mi_NZ)"
+
+#: ../goffice/gtk/go-locale-sel.c:206
+msgid "Macedonia (mk_MK)"
+msgstr "Makedonija (mk_MK)"
+
+#: ../goffice/gtk/go-locale-sel.c:207
+msgid "India/Marathi (mr_IN)"
+msgstr "Indija/Marati (mr_IN)"
+
+#: ../goffice/gtk/go-locale-sel.c:208
+msgid "Malaysia (ms_MY)"
+msgstr "Malaizija (ms_MY)"
+
+#: ../goffice/gtk/go-locale-sel.c:209
+msgid "Malta (mt_MT)"
+msgstr "Malta (mt_MT)"
+
+#: ../goffice/gtk/go-locale-sel.c:210
+msgid "Belgium/Flemish (nl_BE)"
+msgstr "Belgija/flamandų (nl_BE)"
+
+#: ../goffice/gtk/go-locale-sel.c:211
+msgid "The Netherlands (nl_NL)"
+msgstr "Olandija (nl_NL)"
+
+#: ../goffice/gtk/go-locale-sel.c:212
+msgid "Norway/Nynorsk (nn_NO)"
+msgstr "Norvegija/Naujoji norvegų (nn_NO)"
+
+#: ../goffice/gtk/go-locale-sel.c:213
+msgid "Norway/Bokmal (no_NO)"
+msgstr "Norvegija/Literatūrinė norvegų (no_NO)"
+
+#: ../goffice/gtk/go-locale-sel.c:214
+msgid "France/Occitan (oc_FR)"
+msgstr "Prancūzija/oksitanų (oc_FR)"
+
+#: ../goffice/gtk/go-locale-sel.c:215
+msgid "Poland (pl_PL)"
+msgstr "Lenkija (pl_PL)"
+
+#: ../goffice/gtk/go-locale-sel.c:216
+msgid "Brazil (pt_BR)"
+msgstr "Brazilija (pt_BR)"
+
+#: ../goffice/gtk/go-locale-sel.c:217
+msgid "Portugal (pt_PT)"
+msgstr "Portugalija (pt_PT)"
+
+#: ../goffice/gtk/go-locale-sel.c:218
+msgid "Romania (ro_RO)"
+msgstr "Rumunija (ro_RO)"
+
+#: ../goffice/gtk/go-locale-sel.c:219
+msgid "Russia (ru_RU)"
+msgstr "Rusija (ru_RU)"
+
+#: ../goffice/gtk/go-locale-sel.c:220
+msgid "Ukraine/Russian (ru_UA)"
+msgstr "Ukraina/rusų (ru_UA)"
+
+#: ../goffice/gtk/go-locale-sel.c:221
+msgid "Norway/Saami (se_NO)"
+msgstr "Norvegija/samių (se_NO)"
+
+#: ../goffice/gtk/go-locale-sel.c:222
+msgid "Slovakia (sk_SK)"
+msgstr "Slovakija (sk_SK)"
+
+#: ../goffice/gtk/go-locale-sel.c:223
+msgid "Slovenia (sl_SI)"
+msgstr "Slovėnija (sl_SI)"
+
+#: ../goffice/gtk/go-locale-sel.c:224
+msgid "Albania (sq_AL)"
+msgstr "Albanija (sq_AL)"
+
+#: ../goffice/gtk/go-locale-sel.c:225
+msgid "Yugoslavia (sr_YU)"
+msgstr "Jugoslavija (sr_YU)"
+
+#: ../goffice/gtk/go-locale-sel.c:226
+msgid "Finland/Swedish (sv_FI)"
+msgstr "Suomija/švedų (sv_FI)"
+
+#: ../goffice/gtk/go-locale-sel.c:227
+msgid "Sweden (sv_SE)"
+msgstr "Švedija (sv_SE)"
+
+#: ../goffice/gtk/go-locale-sel.c:228
+msgid "India/Tamil (ta_IN)"
+msgstr "Indija/tamilų (ta_IN)"
+
+#: ../goffice/gtk/go-locale-sel.c:229
+msgid "India/Telugu (te_IN)"
+msgstr "Indija/telugų (te_IN)"
+
+#: ../goffice/gtk/go-locale-sel.c:230
+msgid "Tajikistan (tg_TJ)"
+msgstr "Tadžikistanas (tg_TJ)"
+
+#: ../goffice/gtk/go-locale-sel.c:231
+msgid "Thailand (th_TH)"
+msgstr "Tailandas (th_TH)"
+
+#: ../goffice/gtk/go-locale-sel.c:232
+msgid "Eritrea (ti_ER)"
+msgstr "Eritrija (ti_ER)"
+
+#: ../goffice/gtk/go-locale-sel.c:233
+msgid "Ethiopia/Tigrinya (ti_ET)"
+msgstr "Etiopija/Tigrinija (ti_ET)"
+
+#: ../goffice/gtk/go-locale-sel.c:234
+msgid "Philippines/Tagalog (tl_PH)"
+msgstr "Filipinai/tagalogas (tl_PH)"
+
+#: ../goffice/gtk/go-locale-sel.c:235
+msgid "Turkey (tr_TR)"
+msgstr "Turkija (tr_TR)"
+
+#: ../goffice/gtk/go-locale-sel.c:236
+msgid "Russia/Tatar (tt_RU)"
+msgstr "Rusija/totorių (tt_RU)"
+
+#: ../goffice/gtk/go-locale-sel.c:237
+msgid "Ukraine (uk_UA)"
+msgstr "Ukraina (uk_UA)"
+
+#: ../goffice/gtk/go-locale-sel.c:238
+msgid "Pakistan (ur_PK)"
+msgstr "Pakistanas (ur_PK)"
+
+#: ../goffice/gtk/go-locale-sel.c:239
+msgid "Uzbekistan (uz_UZ)"
+msgstr "Uzbekistanas (uz_UZ)"
+
+#: ../goffice/gtk/go-locale-sel.c:240
+msgid "Vietnam (vi_VN)"
+msgstr "Vietnamas (vi_VN)"
+
+#: ../goffice/gtk/go-locale-sel.c:241
+msgid "Belgium/Walloon (wa_BE)"
+msgstr "Belgija/valonų (wa_BE)"
+
+#: ../goffice/gtk/go-locale-sel.c:242
+msgid "United States/Yiddish (yi_US)"
+msgstr "Jungtinės Valstijos/jidiš (yi_US)"
+
+#: ../goffice/gtk/go-locale-sel.c:243
+msgid "China (zh_CN)"
+msgstr "Kinija (zh_CN)"
+
+#: ../goffice/gtk/go-locale-sel.c:244
+msgid "Hong Kong/Chinese (zh_HK)"
+msgstr "Honkongas/kinų (zh_HK)"
+
+#: ../goffice/gtk/go-locale-sel.c:245
+msgid "Singapore/Chinese (zh_SG)"
+msgstr "Singapūras/Kinų (zh_SG)"
+
+#: ../goffice/gtk/go-locale-sel.c:246
+msgid "Taiwan (zh_TW)"
+msgstr "Taivanis (zh_TW)"
+
+#: ../goffice/gtk/go-locale-sel.c:447
+msgid "Current Locale: "
+msgstr "Esama lokalė: "
+
+#: ../goffice/gtk/go-optionmenu.c:415
+msgid "Menu"
+msgstr "Meniu"
+
+#: ../goffice/gtk/go-optionmenu.c:416
+msgid "The menu of options"
+msgstr ""
+
+#: ../goffice/gtk/go-palette.c:398
+msgid "Custom..."
+msgstr ""
+
+#: ../goffice/gtk/go-rotation-sel.glade.h:1
+msgid "    "
+msgstr "    "
+
+#: ../goffice/gtk/go-rotation-sel.glade.h:2
+msgid "<b>Orientation</b>"
+msgstr "<b>Orientacija</b>"
+
+#: ../goffice/gtk/go-rotation-sel.glade.h:3
+msgid "A_ngle:"
+msgstr "_Kampas:"
+
+#: ../goffice/gtk/goffice-gtk.c:131
+#, c-format
+msgid "Unable to open file '%s'"
+msgstr "Nepavyko atidaryti bylos „%s“"
+
+#: ../goffice/gtk/goffice-gtk.c:467
+msgid "All Files"
+msgstr "Visos bylos"
+
+#: ../goffice/gtk/goffice-gtk.c:472
+msgid "Images"
+msgstr "Paveikslai"
+
+#: ../goffice/gtk/goffice-gtk.c:516
+msgid "Select an Image"
+msgstr "Pasirinkite paveikslą"
+
+#: ../goffice/gtk/goffice-gtk.c:595
+msgid "Save as"
+msgstr "Išsaugoti kaip"
+
+#: ../goffice/gtk/goffice-gtk.c:666
+msgid ""
+"The given file extension does not match the chosen file type. Do you want to "
+"use this name anyway?"
+msgstr ""
+"Nurodytas bylos išplėtimas neatitinka pasirinkto bylos tipo. Ar tikrai "
+"norite naudoti tokį bylos vardą?"
+
+#: ../goffice/gtk/goffice-gtk.c:859
+#, c-format
+msgid ""
+"%s\n"
+"is a directory name"
+msgstr ""
+"%s\n"
+"yra katalogo pavadinimas"
+
+#: ../goffice/gtk/goffice-gtk.c:863
+#, c-format
+msgid ""
+"You do not have permission to save to\n"
+"%s"
+msgstr ""
+
+#: ../goffice/gtk/goffice-gtk.c:870
+#, c-format
+msgid ""
+"A file called <i>%s</i> already exists in %s.\n"
+"\n"
+"Do you want to save over it?"
+msgstr ""
+
+#. The first column has three letter acronyms
+#. * for each currency.  They MUST start with '[$'
+#. * The second column has the long names of the currencies.
+#.
+#. 2002/08/04 Updated to match iso 4217
+#: ../goffice/utils/formats.c:324
+msgid "United Arab Emirates, Dirhams"
+msgstr "Jungtiniai Arabų Emiratai, dirhamai"
+
+#: ../goffice/utils/formats.c:325
+msgid "Afghanistan, Afghanis"
+msgstr "Afganistanas, afganiai"
+
+#: ../goffice/utils/formats.c:326
+msgid "Albania, Leke"
+msgstr "Albanija, lekiai"
+
+#: ../goffice/utils/formats.c:327
+msgid "Armenia, Drams"
+msgstr "Armėnija, dramai"
+
+#: ../goffice/utils/formats.c:328
+msgid "Netherlands Antilles, Guilders"
+msgstr "Nyderlandų Antilai, gilderai"
+
+#: ../goffice/utils/formats.c:329
+msgid "Angola, Kwanza"
+msgstr "Angola, kvanzos"
+
+#: ../goffice/utils/formats.c:330
+msgid "Argentina, Pesos"
+msgstr "Argentina, pesai"
+
+#: ../goffice/utils/formats.c:331
+msgid "Australia, Dollars"
+msgstr "Australija, doleriai"
+
+#: ../goffice/utils/formats.c:332
+msgid "Aruba, Guilders"
+msgstr "Aruba, gilderai"
+
+#: ../goffice/utils/formats.c:333
+msgid "Azerbaijan, Manats"
+msgstr "Azerbaidžanas, manatai"
+
+#: ../goffice/utils/formats.c:334
+msgid "Bosnia and Herzegovina, Convertible Marka"
+msgstr "Bosnija ir Hercegovina, konvertuojamos markės"
+
+#: ../goffice/utils/formats.c:335
+msgid "Barbados, Dollars"
+msgstr "Barbadosas, doleriai"
+
+#: ../goffice/utils/formats.c:336
+msgid "Bangladesh, Taka"
+msgstr "Bangladešas, takos"
+
+#: ../goffice/utils/formats.c:337
+msgid "Bulgaria, Leva"
+msgstr "Bulgarija, levai"
+
+#: ../goffice/utils/formats.c:338
+msgid "Bahrain, Dinars"
+msgstr "Bahreinas, dinarai"
+
+#: ../goffice/utils/formats.c:339
+msgid "Burundi, Francs"
+msgstr "Burundis, frankai"
+
+#: ../goffice/utils/formats.c:340
+msgid "Bermuda, Dollars"
+msgstr "Bermudai, doleriai"
+
+#: ../goffice/utils/formats.c:341
+msgid "Brunei Darussalam, Dollars"
+msgstr "Brunėjaus sultonatas, doleriai"
+
+#: ../goffice/utils/formats.c:342
+msgid "Bolivia, Bolivianos"
+msgstr "Bolivija, bolivianai"
+
+#: ../goffice/utils/formats.c:343
+msgid "Brazil, Brazil Real"
+msgstr "Brazilija, Brazilijos realai"
+
+#: ../goffice/utils/formats.c:344
+msgid "Bahamas, Dollars"
+msgstr "Bahamai, doleriai"
+
+#: ../goffice/utils/formats.c:345
+msgid "Bhutan, Ngultrum"
+msgstr "Butanas, ngultrumai"
+
+#: ../goffice/utils/formats.c:346
+msgid "Botswana, Pulas"
+msgstr "Botsvana, pulai"
+
+#: ../goffice/utils/formats.c:347
+msgid "Belarus, Rubles"
+msgstr "Baltarusija, rubliai"
+
+#: ../goffice/utils/formats.c:348
+msgid "Belize, Dollars"
+msgstr "Belizas, doleriai"
+
+#: ../goffice/utils/formats.c:349
+msgid "Canada, Dollars"
+msgstr "Kanada, doleriai"
+
+#: ../goffice/utils/formats.c:350
+msgid "Congo/Kinshasa, Congolese Francs"
+msgstr "Kongo/Kinšasa, Kongo frankai"
+
+#: ../goffice/utils/formats.c:351
+msgid "Switzerland, Francs"
+msgstr "Šveicarija, frankai"
+
+#: ../goffice/utils/formats.c:352
+msgid "Chile, Pesos"
+msgstr "Čilė, pesai"
+
+#: ../goffice/utils/formats.c:353
+msgid "China, Yuan Renminbi"
+msgstr "Kinija, ženminbi Juaniai"
+
+#: ../goffice/utils/formats.c:354
+msgid "Colombia, Pesos"
+msgstr "Kolumbija, pesai"
+
+#: ../goffice/utils/formats.c:355
+msgid "Costa Rica, Colones"
+msgstr "Kosta Rika, kolonai"
+
+#: ../goffice/utils/formats.c:356
+msgid "Cuba, Pesos"
+msgstr "Kuba, pesai"
+
+#: ../goffice/utils/formats.c:357
+msgid "Cape Verde, Escudos"
+msgstr "Žaliasis Kyšulys, eskudai"
+
+#: ../goffice/utils/formats.c:358
+msgid "Cyprus, Pounds"
+msgstr "Kipras, svarai"
+
+#: ../goffice/utils/formats.c:359
+msgid "Czech Republic, Koruny"
+msgstr "Čekija, kronos"
+
+#: ../goffice/utils/formats.c:360
+msgid "Djibouti, Francs"
+msgstr "Džibutis, frankai"
+
+#: ../goffice/utils/formats.c:361
+msgid "Denmark, Kroner"
+msgstr "Danija, kronos"
+
+#: ../goffice/utils/formats.c:362
+msgid "Dominican Republic, Pesos"
+msgstr "Dominikos respublika, pesai"
+
+#: ../goffice/utils/formats.c:363
+msgid "Algeria, Algeria Dinars"
+msgstr "Alžyras, Alžyro dinarai"
+
+#: ../goffice/utils/formats.c:364
+msgid "Estonia, Krooni"
+msgstr "Estija, kronos"
+
+#: ../goffice/utils/formats.c:365
+msgid "Egypt, Pounds"
+msgstr "Egiptas, svarai"
+
+#: ../goffice/utils/formats.c:366
+msgid "Eritrea, Nakfa"
+msgstr "Eritrėja, nakfos"
+
+#: ../goffice/utils/formats.c:367
+msgid "Ethiopia, Birr"
+msgstr "Etiopija, birai"
+
+#: ../goffice/utils/formats.c:368
+msgid "Euro Member Countries, Euro"
+msgstr "Europos Bendrija, eurai"
+
+#: ../goffice/utils/formats.c:369
+msgid "Fiji, Dollars"
+msgstr "Fidžis, doleriai"
+
+#: ../goffice/utils/formats.c:370
+msgid "Falkland Islands (Malvinas), Pounds"
+msgstr "Folklendų salos (Maldivai), svarai"
+
+#: ../goffice/utils/formats.c:371
+msgid "United Kingdom, Pounds"
+msgstr "Jungtinė karalystė, svarai"
+
+#: ../goffice/utils/formats.c:372
+msgid "Georgia, Lari"
+msgstr "Gruzija, lariai"
+
+#: ../goffice/utils/formats.c:373
+msgid "Guernsey, Pounds"
+msgstr "Gernsis, svarai"
+
+#: ../goffice/utils/formats.c:374
+msgid "Ghana, Cedis"
+msgstr "Gana, cedžiai"
+
+#: ../goffice/utils/formats.c:375
+msgid "Gibraltar, Pounds"
+msgstr "Gibraltaras, svarai"
+
+#: ../goffice/utils/formats.c:376
+msgid "Gambia, Dalasi"
+msgstr "Gambija, dalasiai"
+
+#: ../goffice/utils/formats.c:377
+msgid "Guinea, Francs"
+msgstr "Gvinėja, frankai"
+
+#: ../goffice/utils/formats.c:378
+msgid "Guatemala, Quetzales"
+msgstr "Gvatemala, ketsaliai"
+
+#: ../goffice/utils/formats.c:379
+msgid "Guyana, Dollars"
+msgstr "Gajana, doleriai"
+
+#: ../goffice/utils/formats.c:380
+msgid "Hong Kong, Dollars"
+msgstr "Honkongas, doleriai"
+
+#: ../goffice/utils/formats.c:381
+msgid "Honduras, Lempiras"
+msgstr "Hondūras, lempiros"
+
+#: ../goffice/utils/formats.c:382
+msgid "Croatia, Kuna"
+msgstr "Kroatija, kunos"
+
+#: ../goffice/utils/formats.c:383
+msgid "Haiti, Gourdes"
+msgstr "Haitis, gurdai"
+
+#: ../goffice/utils/formats.c:384
+msgid "Hungary, Forint"
+msgstr "Vengrija, forintai"
+
+#: ../goffice/utils/formats.c:385
+msgid "Indonesia, Rupiahs"
+msgstr "Indonezija, rupijos"
+
+#: ../goffice/utils/formats.c:386
+msgid "Israel, New Shekels"
+msgstr "Izraelis, naujieji šekeliai"
+
+#: ../goffice/utils/formats.c:387
+msgid "Isle of Man, Pounds"
+msgstr "Mano sala, svarai"
+
+#: ../goffice/utils/formats.c:388
+msgid "India, Rupees"
+msgstr "Indija, rupijos"
+
+#: ../goffice/utils/formats.c:389
+msgid "Iraq, Dinars"
+msgstr "Irakas, dinarai"
+
+#: ../goffice/utils/formats.c:390
+msgid "Iran, Rials"
+msgstr "Iranas, rialai"
+
+#: ../goffice/utils/formats.c:391
+msgid "Iceland, Kronur"
+msgstr "Islandija, kronos"
+
+#: ../goffice/utils/formats.c:392
+msgid "Jersey, Pounds"
+msgstr "Džersis, svarai"
+
+#: ../goffice/utils/formats.c:393
+msgid "Jamaica, Dollars"
+msgstr "Jamaika, doleriai"
+
+#: ../goffice/utils/formats.c:394
+msgid "Jordan, Dinars"
+msgstr "Jordanija, dinarai"
+
+#: ../goffice/utils/formats.c:395
+msgid "Japan, Yen"
+msgstr "Japonija, jenos"
+
+#: ../goffice/utils/formats.c:396
+msgid "Kenya, Shillings"
+msgstr "Kenija, šilingai"
+
+#: ../goffice/utils/formats.c:397
+msgid "Kyrgyzstan, Soms"
+msgstr "Kirgizija, somai"
+
+#: ../goffice/utils/formats.c:398
+msgid "Cambodia, Riels"
+msgstr "Kambodža, rieliai"
+
+#: ../goffice/utils/formats.c:399
+msgid "Comoros, Francs"
+msgstr "Komorai, frankai"
+
+#: ../goffice/utils/formats.c:400
+msgid "Korea (North), Won"
+msgstr "Šiaurės Korėja, vonai"
+
+#: ../goffice/utils/formats.c:401
+msgid "Korea (South), Won"
+msgstr "Pietų Korėja, vonai"
+
+#: ../goffice/utils/formats.c:402
+msgid "Kuwait, Dinars"
+msgstr "Kuveitas, dinarai"
+
+#: ../goffice/utils/formats.c:403
+msgid "Cayman Islands, Dollars"
+msgstr "Kaimanų salos, doleriai"
+
+#: ../goffice/utils/formats.c:404
+msgid "Kazakstan, Tenge"
+msgstr "Kazachija, tengės"
+
+#: ../goffice/utils/formats.c:405
+msgid "Laos, Kips"
+msgstr "Laosas, kipai"
+
+#: ../goffice/utils/formats.c:406
+msgid "Lebanon, Pounds"
+msgstr "Libanas, svarai"
+
+#: ../goffice/utils/formats.c:407
+msgid "Sri Lanka, Rupees"
+msgstr "Šri Lanka, rupijos"
+
+#: ../goffice/utils/formats.c:408
+msgid "Liberia, Dollars"
+msgstr "Liberija, doleriai"
+
+#: ../goffice/utils/formats.c:409
+msgid "Lesotho, Maloti"
+msgstr "Lesotas, maločiai"
+
+#: ../goffice/utils/formats.c:410
+msgid "Lithuania, Litai"
+msgstr "Lietuva, litai"
+
+#: ../goffice/utils/formats.c:411
+msgid "Latvia, Lati"
+msgstr "Latvija, latai"
+
+#: ../goffice/utils/formats.c:412
+msgid "Libya, Dinars"
+msgstr "Libija, dinarai"
+
+#: ../goffice/utils/formats.c:413
+msgid "Morocco, Dirhams"
+msgstr "Marokas, dirhamai"
+
+#: ../goffice/utils/formats.c:414
+msgid "Moldova, Lei"
+msgstr "Moldova, lėjos"
+
+#: ../goffice/utils/formats.c:415
+msgid "Madagascar, Malagasy Francs"
+msgstr "Madagaskaras, Malagasio frankai"
+
+#: ../goffice/utils/formats.c:416
+msgid "Macedonia, Denars"
+msgstr "Makedonija, denarai"
+
+#: ../goffice/utils/formats.c:417
+msgid "Myanmar (Burma), Kyats"
+msgstr "Mianmaras (Birma). kiatai"
+
+#: ../goffice/utils/formats.c:418
+msgid "Mongolia, Tugriks"
+msgstr "Mongolija, tugrikai"
+
+#: ../goffice/utils/formats.c:419
+msgid "Macau, Patacas"
+msgstr "Makao, patakos"
+
+#: ../goffice/utils/formats.c:420
+msgid "Mauritania, Ouguiyas"
+msgstr "Mauritanija, augunjos"
+
+#: ../goffice/utils/formats.c:421
+msgid "Malta, Liri"
+msgstr "Malta, liros"
+
+#: ../goffice/utils/formats.c:422
+msgid "Mauritius, Rupees"
+msgstr "Mauricijus, rupijos"
+
+#: ../goffice/utils/formats.c:423
+msgid "Maldives (Maldive Islands), Rufiyaa"
+msgstr "Maldivai (Maldivų salos), rupijos"
+
+#: ../goffice/utils/formats.c:424
+msgid "Malawi, Kwachas"
+msgstr "Malavis, kvačos"
+
+#: ../goffice/utils/formats.c:425
+msgid "Mexico, Pesos"
+msgstr "Meksika, pesai"
+
+#: ../goffice/utils/formats.c:426
+msgid "Malaysia, Ringgits"
+msgstr "Malaizija, ringitai"
+
+#: ../goffice/utils/formats.c:427
+msgid "Mozambique, Meticais"
+msgstr "Mozambikas, metikalai"
+
+#: ../goffice/utils/formats.c:428
+msgid "Namibia, Dollars"
+msgstr "Namibija, doleriai"
+
+#: ../goffice/utils/formats.c:429
+msgid "Nigeria, Nairas"
+msgstr "Nigerija, nairos"
+
+#: ../goffice/utils/formats.c:430
+msgid "Nicaragua, Gold Cordobas"
+msgstr "Nikaragva, Aukso kordobos"
+
+#: ../goffice/utils/formats.c:431
+msgid "Norway, Krone"
+msgstr "Norvegija, kronos"
+
+#: ../goffice/utils/formats.c:432
+msgid "Nepal, Nepal Rupees"
+msgstr "Nepalas, Nepalo rupijos"
+
+#: ../goffice/utils/formats.c:433
+msgid "New Zealand, Dollars"
+msgstr "Naujoji Zelandija, doleriai"
+
+#: ../goffice/utils/formats.c:434
+msgid "Oman, Rials"
+msgstr "Omanas, rialai"
+
+#: ../goffice/utils/formats.c:435
+msgid "Panama, Balboa"
+msgstr "Panama, balboa"
+
+#: ../goffice/utils/formats.c:436
+msgid "Peru, Nuevos Soles"
+msgstr "Peru, Naujieji soliai"
+
+#: ../goffice/utils/formats.c:437
+msgid "Papua New Guinea, Kina"
+msgstr "Papua Naujoji Gvinėja, kinos"
+
+#: ../goffice/utils/formats.c:438
+msgid "Philippines, Pesos"
+msgstr "Filipinai, pesai"
+
+#: ../goffice/utils/formats.c:439
+msgid "Pakistan, Rupees"
+msgstr "Pakistanas, rupijos"
+
+#: ../goffice/utils/formats.c:440
+msgid "Poland, Zlotys"
+msgstr "Lenkija, zlotai"
+
+#: ../goffice/utils/formats.c:441
+msgid "Paraguay, Guarani"
+msgstr "Paragvajus, guaraniai"
+
+#: ../goffice/utils/formats.c:442
+msgid "Qatar, Rials"
+msgstr "Kataras, rialai"
+
+#: ../goffice/utils/formats.c:443
+msgid "Romania, Lei"
+msgstr "Rumunija, lėjos"
+
+#: ../goffice/utils/formats.c:444
+msgid "Russia, Rubles"
+msgstr "Rusija, rubliai"
+
+#: ../goffice/utils/formats.c:445
+msgid "Rwanda, Rwanda Francs"
+msgstr "Ruanda, Ruandos frankai"
+
+#: ../goffice/utils/formats.c:446
+msgid "Saudi Arabia, Riyals"
+msgstr "Saudo Arabija, rijaliai"
+
+#: ../goffice/utils/formats.c:447
+msgid "Solomon Islands, Dollars"
+msgstr "Saliamono salos, doleriai"
+
+#: ../goffice/utils/formats.c:448
+msgid "Seychelles, Rupees"
+msgstr "Seišeliai, rupijos"
+
+#: ../goffice/utils/formats.c:449
+msgid "Sudan, Dinars"
+msgstr "Sudanas, dinarai"
+
+#: ../goffice/utils/formats.c:450
+msgid "Sweden, Kronor"
+msgstr "Švedija, kronos"
+
+#: ../goffice/utils/formats.c:451
+msgid "Singapore, Dollars"
+msgstr "Singapūras, doleriai"
+
+#: ../goffice/utils/formats.c:452
+msgid "Saint Helena, Pounds"
+msgstr "Šv.Elenos sala, svarai"
+
+#: ../goffice/utils/formats.c:453
+msgid "Slovenia, Tolars"
+msgstr "Slovėnija, doleriai"
+
+#: ../goffice/utils/formats.c:454
+msgid "Slovakia, Koruny"
+msgstr "Slovakija, kronos"
+
+#: ../goffice/utils/formats.c:455
+msgid "Sierra Leone, Leones"
+msgstr "Siera Leonė, leoniai"
+
+#: ../goffice/utils/formats.c:456
+msgid "Somalia, Shillings"
+msgstr "Somalis, šilingai"
+
+#: ../goffice/utils/formats.c:457
+msgid "Seborga, Luigini"
+msgstr "Seborga, luidžiniai"
+
+#: ../goffice/utils/formats.c:458
+msgid "Suriname, Guilders"
+msgstr "Surinamas, gilderai"
+
+#: ../goffice/utils/formats.c:459
+msgid "Sao Tome and Principe, Dobras"
+msgstr "San Tomė ir Principė, dobros"
+
+#: ../goffice/utils/formats.c:460
+msgid "El Salvador, Colones"
+msgstr "Salvadoras, kolonai"
+
+#: ../goffice/utils/formats.c:461
+msgid "Syria, Pounds"
+msgstr "Sirija, svarai"
+
+#: ../goffice/utils/formats.c:462
+msgid "Swaziland, Emalangeni"
+msgstr "Svazilandas, lilangeniai"
+
+#: ../goffice/utils/formats.c:463
+msgid "Thailand, Baht"
+msgstr "Tailandas, batai"
+
+#: ../goffice/utils/formats.c:464
+msgid "Tajikistan, Rubles"
+msgstr "Tadžikistanas, rubliai"
+
+#: ../goffice/utils/formats.c:465
+msgid "Turkmenistan, Manats"
+msgstr "Turkmėnistanas, manatai"
+
+#: ../goffice/utils/formats.c:466
+msgid "Tunisia, Dinars"
+msgstr "Tunisas, dinarai"
+
+#: ../goffice/utils/formats.c:467
+msgid "Tonga, Pa'anga"
+msgstr "Tonga, paangos"
+
+#: ../goffice/utils/formats.c:468
+msgid "Turkey, Liras"
+msgstr "Turkija, liros"
+
+#: ../goffice/utils/formats.c:469
+msgid "Trinidad and Tobago, Dollars"
+msgstr "Trinidadas ir Tobagas, doleriai"
+
+#: ../goffice/utils/formats.c:470
+msgid "Tuvalu, Tuvalu Dollars"
+msgstr "Tuvalu, Tuvalu doleriai"
+
+#: ../goffice/utils/formats.c:471
+msgid "Taiwan, New Dollars"
+msgstr "Taivanis, naujieji doleriai"
+
+#: ../goffice/utils/formats.c:472
+msgid "Tanzania, Shillings"
+msgstr "Tanzanija, šilingai"
+
+#: ../goffice/utils/formats.c:473
+msgid "Ukraine, Hryvnia"
+msgstr "Ukraina, grivinos"
+
+#: ../goffice/utils/formats.c:474
+msgid "Uganda, Shillings"
+msgstr "Uganda, šilingai"
+
+#: ../goffice/utils/formats.c:475
+msgid "United States of America, Dollars"
+msgstr "Jungtinės Amerijos Valstijos, doleriai"
+
+#: ../goffice/utils/formats.c:476
+msgid "Uruguay, Pesos"
+msgstr "Urugvajus, pesai"
+
+#: ../goffice/utils/formats.c:477
+msgid "Uzbekistan, Sums"
+msgstr "Uzbekistanas, sumai"
+
+#: ../goffice/utils/formats.c:478
+msgid "Venezuela, Bolivares"
+msgstr "Venesuela, bolivarai"
+
+#: ../goffice/utils/formats.c:479
+msgid "Viet Nam, Dong"
+msgstr "Vietnamas, dongai"
+
+#: ../goffice/utils/formats.c:480
+msgid "Vanuatu, Vatu"
+msgstr "Vanuatu, vatai"
+
+#: ../goffice/utils/formats.c:481
+msgid "Samoa, Tala"
+msgstr "Samoa, talai"
+
+#: ../goffice/utils/formats.c:482
+msgid "Communaute Financiere Africaine BEAC, Francs"
+msgstr "Afrikos Ekonominė Bendrija BEAC, frankai"
+
+#: ../goffice/utils/formats.c:483
+msgid "Silver, Ounces"
+msgstr "Sidabras, uncijos"
+
+#: ../goffice/utils/formats.c:484
+msgid "Gold, Ounces"
+msgstr "Auksas, uncijos"
+
+#: ../goffice/utils/formats.c:485
+msgid "East Caribbean Dollars"
+msgstr "Rytų Karibų doleriai"
+
+#: ../goffice/utils/formats.c:486
+msgid "International Monetary Fund (IMF) Special Drawing Rights"
+msgstr "SDR Tarptautinis valiutos fondas"
+
+#: ../goffice/utils/formats.c:487
+msgid "Communaute Financiere Africaine BCEAO, Francs"
+msgstr "Afrikos Ekonominė Bendrija BCEAO, frankai"
+
+#: ../goffice/utils/formats.c:488
+msgid "Palladium, Ounces"
+msgstr "Paladis, uncijos"
+
+#: ../goffice/utils/formats.c:489
+msgid "Comptoirs Francais du Pacifique Francs"
+msgstr "Prancūzijos Polinezija, frankai"
+
+#: ../goffice/utils/formats.c:490
+msgid "Platinum, Ounces"
+msgstr "Platina, uncijos"
+
+#: ../goffice/utils/formats.c:491
+msgid "Yemen, Rials"
+msgstr "Jemenas, rialai"
+
+#: ../goffice/utils/formats.c:492
+msgid "Yugoslavia, New Dinars"
+msgstr "Jugoslavija, naujieji dinarai"
+
+#: ../goffice/utils/formats.c:493
+msgid "South Africa, Rand"
+msgstr "Pietų Afrika, randai"
+
+#: ../goffice/utils/formats.c:494
+msgid "Zambia, Kwacha"
+msgstr "Zambija, kvačos"
+
+#: ../goffice/utils/formats.c:495
+msgid "Zimbabwe, Zimbabwe Dollars"
+msgstr "Zimbabvė, Zimbabvės doleriai"
+
+#. xgettext: generic fake user name for non-local files.
+#: ../goffice/utils/go-file.c:739
+msgid "remote user"
+msgstr ""
+
+#. xgettext: generic fake group name for non-local files.
+#: ../goffice/utils/go-file.c:820
+msgid "remote"
+msgstr ""
+
+#: ../goffice/utils/go-format.c:437
+msgid "Black"
+msgstr "Juoda"
+
+#: ../goffice/utils/go-format.c:438
+msgid "Blue"
+msgstr "Mėlyna"
+
+#: ../goffice/utils/go-format.c:439
+msgid "Cyan"
+msgstr ""
+
+#: ../goffice/utils/go-format.c:440
+msgid "Green"
+msgstr "Žalia"
+
+#: ../goffice/utils/go-format.c:441
+msgid "Magenta"
+msgstr ""
+
+#: ../goffice/utils/go-format.c:442
+msgid "Red"
+msgstr "Raudona"
+
+#: ../goffice/utils/go-format.c:443
+msgid "White"
+msgstr "Balta"
+
+#: ../goffice/utils/go-format.c:444
+msgid "Yellow"
+msgstr "Geltona"
+
+#: ../goffice/utils/go-format.c:3331
+msgid "[Color"
+msgstr "[Spalva"
+
+#: ../goffice/utils/go-format.c:3455
+msgid "[Invalid]"
+msgstr "[Klaidinga]"
+
+#: ../goffice/utils/go-glib-extras.c:832
+msgid "yes"
+msgstr ""
+
+#: ../goffice/utils/go-glib-extras.c:838
+msgid "no"
+msgstr "ne"
+
+#: ../goffice/utils/go-glib-extras.c:1032
+#, c-format
+msgid "Quoted string not terminated"
+msgstr ""
+
+#: ../goffice/utils/go-glib-extras.c:1039
+#, c-format
+msgid "Syntax error"
+msgstr ""
+
+#: ../goffice/utils/go-image.c:121
+msgid "SVG (vector graphics)"
+msgstr "SVG (vektorinė grafika)"
+
+#: ../goffice/utils/go-image.c:123
+msgid "PNG (raster graphics)"
+msgstr "PNG (rastrinė grafika)"
+
+#: ../goffice/utils/go-image.c:125
+msgid "JPEG (photograph)"
+msgstr "JPEG (fotografijos)"
+
+#: ../goffice/utils/go-image.c:127
+msgid "PDF (portable document format)"
+msgstr "PDF (portabilus dokumentų formatas)"
+
+#: ../goffice/utils/go-image.c:129
+msgid "PS (postscript)"
+msgstr "PS (postscript)"
+
+#: ../goffice/utils/go-image.c:131
+msgid "EMF (extended metafile)"
+msgstr "EMF (išplėstinė meta byla)"
+
+#: ../goffice/utils/go-image.c:133
+msgid "WMF (windows metafile)"
+msgstr "WMF (windows meta byla)"
+
+#: ../goffice/utils/go-image.c:443
+msgid "Image width in pixels"
+msgstr "Paveikslėlio plotis pikseliais"
+
+#: ../goffice/utils/go-image.c:447
+msgid "Image height in pixels"
+msgstr "Paveikslėlio aukštis pikseliais"
+
+#: ../goffice/utils/go-image.c:451
+msgid "Pixbuf"
+msgstr ""
+
+#: ../goffice/utils/go-image.c:452
+msgid "GdkPixbuf object from which the GOImage is built"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:56 ../goffice/utils/go-pattern.c:41
+msgid "Solid"
+msgstr "Vientisas"
+
+#: ../goffice/utils/go-line.c:58
+msgid "Dot"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:60
+msgid "Dash dot"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:62
+msgid "Dash dot dot"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:64
+msgid "Dash dot dot dot"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:66
+msgid "Short dash"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:68
+msgid "Dash"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:70
+msgid "Long dash"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:72
+msgid "Very long dash"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:74
+msgid "Long dash dash"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:76
+msgid "Long dash dash dash"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:87
+msgid "Spline"
+msgstr "Kreivė"
+
+#: ../goffice/utils/go-line.c:88
+msgid "Step at start"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:89
+msgid "Step at end"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:90
+msgid "Step at center"
+msgstr ""
+
+#: ../goffice/utils/go-line.c:91
+msgid "Step to mean"
+msgstr ""
+
+#: ../goffice/utils/go-locale.c:424
+msgid "TRUE"
+msgstr "TAIP"
+
+#: ../goffice/utils/go-locale.c:425
+msgid "FALSE"
+msgstr "NE"
+
+#: ../goffice/utils/go-marker.c:77
+msgid "none"
+msgstr "joks"
+
+#: ../goffice/utils/go-marker.c:78
+msgid "square"
+msgstr "kvadratas"
+
+#: ../goffice/utils/go-marker.c:79
+msgid "diamond"
+msgstr "rombas"
+
+#: ../goffice/utils/go-marker.c:80
+msgid "triangle down"
+msgstr "trikampis žemyn"
+
+#: ../goffice/utils/go-marker.c:81
+msgid "triangle up"
+msgstr "trikampis viršun"
+
+#: ../goffice/utils/go-marker.c:82
+msgid "triangle right"
+msgstr "trikampis dešinėn"
+
+#: ../goffice/utils/go-marker.c:83
+msgid "triangle left"
+msgstr "trikampis kairėn"
+
+#: ../goffice/utils/go-marker.c:84
+msgid "circle"
+msgstr "apskritimas"
+
+#: ../goffice/utils/go-marker.c:85
+msgid "x"
+msgstr "x"
+
+#: ../goffice/utils/go-marker.c:86
+msgid "cross"
+msgstr "kryžius"
+
+#: ../goffice/utils/go-marker.c:87
+msgid "asterisk"
+msgstr "žvaigždutė"
+
+#: ../goffice/utils/go-marker.c:88
+msgid "bar"
+msgstr "vertikalus brūkšnys"
+
+#: ../goffice/utils/go-marker.c:89
+msgid "half bar"
+msgstr "pusė brūkšnio"
+
+#: ../goffice/utils/go-marker.c:90
+msgid "butterfly"
+msgstr "drugelis"
+
+#: ../goffice/utils/go-marker.c:91
+msgid "hourglass"
+msgstr "laikrodis"
+
+#: ../goffice/utils/go-pattern.c:43
+#, no-c-format
+msgid "75% Grey"
+msgstr "75% pilka"
+
+#: ../goffice/utils/go-pattern.c:45
+#, no-c-format
+msgid "50% Grey"
+msgstr "50% pilka"
+
+#: ../goffice/utils/go-pattern.c:47
+#, no-c-format
+msgid "25% Grey"
+msgstr "25% pilka"
+
+#: ../goffice/utils/go-pattern.c:49
+#, no-c-format
+msgid "12.5% Grey"
+msgstr "12.5% pilka"
+
+#: ../goffice/utils/go-pattern.c:51
+#, no-c-format
+msgid "6.25% Grey"
+msgstr "6.25% pilka"
+
+#: ../goffice/utils/go-pattern.c:52
+msgid "Horizontal Stripe"
+msgstr "Horizontali juosta"
+
+#: ../goffice/utils/go-pattern.c:53
+msgid "Vertical Stripe"
+msgstr "Vertikali juosta"
+
+#: ../goffice/utils/go-pattern.c:54
+msgid "Reverse Diagonal Stripe"
+msgstr "Atvirštinė įžambi juosta"
+
+#: ../goffice/utils/go-pattern.c:55
+msgid "Diagonal Stripe"
+msgstr "Įžambi Juosta"
+
+#: ../goffice/utils/go-pattern.c:56
+msgid "Diagonal Crosshatch"
+msgstr "Įžambus Tinklelis"
+
+#: ../goffice/utils/go-pattern.c:57
+msgid "Thick Diagonal Crosshatch"
+msgstr "Plonas įžambus tinklelis"
+
+#: ../goffice/utils/go-pattern.c:58
+msgid "Thin Horizontal Stripe"
+msgstr "Plona horizontali juosta"
+
+#: ../goffice/utils/go-pattern.c:59
+msgid "Thin Vertical Stripe"
+msgstr "Plona vertikali juosta"
+
+#: ../goffice/utils/go-pattern.c:60
+msgid "Thin Reverse Diagonal Stripe"
+msgstr "Plona atvirkštinė įžambi juosta"
+
+#: ../goffice/utils/go-pattern.c:61
+msgid "Thin Diagonal Stripe"
+msgstr "Plona įžambi juosta"
+
+#: ../goffice/utils/go-pattern.c:62
+msgid "Thin Horizontal Crosshatch"
+msgstr "Plonas horizontalus tinklelis"
+
+#: ../goffice/utils/go-pattern.c:63
+msgid "Thin Diagonal Crosshatch"
+msgstr "Plonas įžambus tinklelis"
+
+#: ../goffice/utils/go-pattern.c:64
+msgid "Foreground Solid"
+msgstr "Vientisa pagrindinė spalva"
+
+#: ../goffice/utils/go-pattern.c:65
+msgid "Small Circles"
+msgstr "Maži apskritimai"
+
+#. Applix
+#: ../goffice/utils/go-pattern.c:66
+msgid "Semi Circles"
+msgstr "Pusapskritimiai"
+
+#. Applix
+#: ../goffice/utils/go-pattern.c:67
+msgid "Thatch"
+msgstr "Audinys"
+
+#. Applix small thatch
+#: ../goffice/utils/go-pattern.c:68
+msgid "Large Circles"
+msgstr "Dideli apskritimai"
+
+#: ../goffice/utils/go-pattern.c:70
+msgid "Bricks"
+msgstr "Blokai"
+
+#: ../goffice/utils/regutf8.c:35
+msgid "Pattern not found."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:37
+msgid "Invalid pattern."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:38
+msgid "Invalid collating element."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:39
+msgid "Invalid character class name."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:40
+msgid "Trailing backslash."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:41
+msgid "Invalid back reference."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:42
+msgid "Unmatched left bracket."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:43
+msgid "Parenthesis imbalance."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:44
+msgid "Unmatched \\{."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:45
+msgid "Invalid contents of \\{\\}."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:46
+msgid "Invalid range end."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:47
+msgid "Out of memory."
+msgstr "Pritrūko atminties."
+
+#: ../goffice/utils/regutf8.c:48
+msgid "Invalid repetition operator."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:49
+msgid "Premature end of pattern."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:50
+msgid "Pattern is too big."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:51
+msgid "Unmatched ) or \\)"
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:273
+#, c-format
+msgid "Search string must not be empty."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:283
+#, c-format
+msgid "Replacement string must be set."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:295
+#, c-format
+msgid "Invalid search pattern (%s)"
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:319
+#, c-format
+msgid "Invalid $-specification in replacement."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:329
+#, c-format
+msgid "Invalid trailing backslash in replacement."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:806
+msgid "Search Text"
+msgstr "Ieškomas tekstas"
+
+#: ../goffice/utils/regutf8.c:807
+msgid "The text to search for"
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:816
+msgid "Replacement Text"
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:817
+msgid "The text to replace with"
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:825
+msgid "Is Regular Expression"
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:826
+msgid "Is the search text a regular expression."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:834
+msgid "Ignore Case"
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:835
+msgid "Ignore the case of letters."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:843
+msgid "Preserve Case"
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:844
+msgid "Preserve the case of letters."
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:852
+msgid "Match Words"
+msgstr ""
+
+#: ../goffice/utils/regutf8.c:853
+msgid "Match whole words only."
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-1.5d.c:321
+msgid "How to group multiple series, normal, stacked, as_percentage"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-1.5d.c:326 ../plugins/plot_pie/gog-pie.c:245
+#: ../plugins/plot_xy/gog-xy.c:518
+msgid "In 3d"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-1.5d.c:327
+msgid "Placeholder to allow us to round trip pseudo 3d state"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-1.5d.c:335
+#: ../plugins/plot_barcol/gog-dropbar.c:58
+#: ../plugins/plot_barcol/gog-minmax.c:244 ../plugins/plot_pie/gog-pie.c:258
+#: ../plugins/plot_radar/gog-radar.c:297
+msgid "Labels"
+msgstr "Žymės"
+
+#: ../plugins/plot_barcol/gog-1.5d.c:337
+#: ../plugins/plot_boxes/gog-boxplot.c:314
+#: ../plugins/plot_boxes/gog-histogram.c:187 ../plugins/plot_pie/gog-pie.c:260
+#: ../plugins/plot_radar/gog-radar.c:299
+msgid "Values"
+msgstr "Vertės"
+
+#: ../plugins/plot_barcol/gog-1.5d.c:567 ../plugins/plot_barcol/gog-1.5d.c:629
+msgid "Error bars"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-1.5d.c:586
+msgid "Series lines"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-1.5d.c:593
+#: ../plugins/plot_boxes/gog-histogram.c:491
+msgid "Drop lines"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-1.5d.c:601
+#: ../plugins/plot_barcol/plot-types.xml.in.h:78
+msgid "Lines"
+msgstr "Linijos"
+
+#: ../plugins/plot_barcol/gog-1.5d.c:630 ../plugins/plot_xy/gog-xy.c:1607
+#: ../plugins/plot_xy/gog-xy.c:1613
+msgid "GogErrorBar *"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:3
+msgid "How far the bars/cols overlap as a percentage of the width"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:4
+msgid "O_verlap:"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:5
+#: ../plugins/plot_barcol/gog-minmax-prefs.glade.h:3
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:5
+msgid "Separation between groups as a percentage of bar/col width"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:6
+#: ../plugins/plot_barcol/gog-minmax-prefs.glade.h:4
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:6
+msgid "_Gap:"
+msgstr ""
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd bar/col plot in a chart will be called
+#. * 	PlotBarCol2
+#: ../plugins/plot_barcol/gog-barcol.c:100
+msgid "PlotBarCol"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol.c:112
+#: ../plugins/plot_barcol/gog-minmax.c:195
+#: ../plugins/plot_boxes/gog-boxplot.c:112 ../plugins/plot_pie/gog-pie.c:205
+#: ../plugins/plot_pie/gog-pie.c:352 ../plugins/plot_surface/gog-surface.c:225
+#: ../plugins/plot_xy/gog-xy.c:421 ../plugins/plot_xy/gog-xy.c:697
+#: ../plugins/smoothing/gog-moving-avg.c:114
+#: ../plugins/smoothing/gog-exp-smooth.c:81
+msgid "Properties"
+msgstr "Savybės"
+
+#: ../plugins/plot_barcol/gog-barcol.c:204
+#: ../plugins/plot_barcol/gog-minmax.c:219
+#: ../plugins/plot_boxes/gog-boxplot.c:294
+msgid "Gap percentage"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol.c:205
+#: ../plugins/plot_barcol/gog-minmax.c:220
+#: ../plugins/plot_boxes/gog-boxplot.c:295
+msgid "The padding around each group as a percentage of their width"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol.c:210
+msgid "Overlap percentage"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol.c:211
+msgid "The distance between series as a percentage of their width"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-barcol.c:216
+msgid "horizontal"
+msgstr "horizontalus"
+
+#: ../plugins/plot_barcol/gog-barcol.c:217
+msgid "horizontal bars or vertical columns"
+msgstr ""
+
+#. xgettext : the base for how to name drop bar/col plot objects
+#. * eg The 2nd drop bar/col plot in a chart will be called
+#. * 	PlotDropBar2
+#: ../plugins/plot_barcol/gog-dropbar.c:43
+msgid "PlotDropBar"
+msgstr ""
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotLine2
+#.
+#: ../plugins/plot_barcol/gog-line.c:202
+msgid "PlotLine"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-line.c:289
+#: ../plugins/plot_barcol/gog-minmax.c:231
+#: ../plugins/plot_radar/gog-radar.c:206
+msgid "Default markers"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-line.c:290
+#: ../plugins/plot_barcol/gog-minmax.c:232
+#: ../plugins/plot_radar/gog-radar.c:207 ../plugins/plot_xy/gog-xy.c:338
+msgid "Should the default style of a series include markers"
+msgstr ""
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotArea2
+#.
+#: ../plugins/plot_barcol/gog-line.c:326
+msgid "PlotArea"
+msgstr ""
+
+#. xgettext : the base for how to name min/max line plot objects
+#. * eg The 2nd min/max line plot in a chart will be called
+#. * 	PlotMinMax2
+#: ../plugins/plot_barcol/gog-minmax.c:136
+msgid "PlotMinMax"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-minmax.c:225
+msgid "Horizontal"
+msgstr "Horizontalus"
+
+#: ../plugins/plot_barcol/gog-minmax.c:226
+msgid "Horizontal or vertical lines"
+msgstr ""
+
+#: ../plugins/plot_barcol/gog-minmax.c:246
+msgid "Min"
+msgstr "Min"
+
+#: ../plugins/plot_barcol/gog-minmax.c:248
+msgid "Max"
+msgstr "Maks"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:1
+msgid "Adjacent Bars"
+msgstr ""
+
+#. No 3d yet
+#. <Type _name="3D Adjacent Bars" row="2" col="1"
+#. engine="GogBarColPlot" family="Bar"
+#. _description="Adjacent horizontal 3D bars grouped by major and minor categories."
+#. sample_image_file="chart_bar_2_1.png">
+#. <property name="horizontal">True</property>
+#. <property name="type">normal</property>
+#. <property name="in_3d"/>
+#. </Type>
+#.
+#. <Type _name="3D Stacked Bars" row="2" col="2"
+#. engine="GogBarColPlot" family="Bar"
+#. _description="Minor categories stacked in horizontal 3D bars, grouped by major category."
+#. sample_image_file="chart_bar_2_2.png">
+#. <property name="horizontal">True</property>
+#. <property name="type">stacked</property>
+#. <property name="overlap_percentage">100</property>
+#. <property name="in_3d"/>
+#. </Type>
+#.
+#. <Type _name="3D Percentage Bars" row="2" col="3"
+#. engine="GogBarColPlot" family="Bar"
+#. _description="Minor categories stacked as percentages of the minor total, in 3D horizontal bars, grouped by major category."
+#. sample_image_file="chart_bar_2_3.png">
+#. <property name="horizontal">True</property>
+#. <property name="type">as_percentage</property>
+#. <property name="overlap_percentage">100</property>
+#. <property name="in_3d"/>
+#. </Type>
+#.
+#: ../plugins/plot_barcol/plot-types.xml.in.h:32
+msgid "Adjacent Columns"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:33
+msgid "Adjacent horizontal bars grouped by major and minor categories."
+msgstr ""
+
+#. No 3d yet
+#. <Type _name="3D Adjacent Bars" row="2" col="1"
+#. engine="GogBarColPlot" family="Bar"
+#. _description="Adjacent horizontal 3D bars grouped by major and minor categories."
+#. sample_image_file="chart_bar_2_1.png">
+#. <property name="horizontal">True</property>
+#. <property name="type">normal</property>
+#. <property name="in_3d"/>
+#. </Type>
+#.
+#. <Type _name="3D Stacked Bars" row="2" col="2"
+#. engine="GogBarColPlot" family="Bar"
+#. _description="Minor categories stacked in horizontal 3D bars, grouped by major category."
+#. sample_image_file="chart_bar_2_2.png">
+#. <property name="horizontal">True</property>
+#. <property name="type">stacked</property>
+#. <property name="overlap_percentage">100</property>
+#. <property name="in_3d"/>
+#. </Type>
+#.
+#. <Type _name="3D Percentage Bars" row="2" col="3"
+#. engine="GogBarColPlot" family="Bar"
+#. _description="Minor categories stacked as percentages of the minor total, in 3D horizontal bars, grouped by major category."
+#. sample_image_file="chart_bar_2_3.png">
+#. <property name="horizontal">True</property>
+#. <property name="type">as_percentage</property>
+#. <property name="overlap_percentage">100</property>
+#. <property name="in_3d"/>
+#. </Type>
+#.
+#: ../plugins/plot_barcol/plot-types.xml.in.h:64
+msgid "Adjacent vertical columns grouped by major and minor categories."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:65
+msgid "Area"
+msgstr "Laukas"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:66
+msgid "Area plot."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:67
+msgid "Areas"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:68
+msgid "Bar"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:69
+msgid "Column"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:70
+msgid "DropBar"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:71
+msgid "Horizontal Drop Bars"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:72
+msgid "Horizontal Min Max Lines"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:73
+msgid "Horizontal drop bars."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:74
+msgid "Horizontal min max lines with markers."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:75
+msgid "Horizontal min max lines."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:76
+msgid "Line"
+msgstr "Linija"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:77
+msgid "Line plot."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:79
+msgid "Marked Horizontal Min Max Lines"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:80
+msgid "Marked Vertical Min Max Lines"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:81
+msgid "MinMax"
+msgstr "MinMaks"
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:82
+msgid ""
+"Minor categories stacked as percentages of the minor total, in horizontal "
+"bars, grouped by major category."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:83
+msgid ""
+"Minor categories stacked as percentages of the minor total, in vertical "
+"columns, grouped by major category."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:84
+msgid "Minor categories stacked in horizontal bars grouped by major category."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:85
+msgid "Minor categories stacked in vertical columns grouped by major category."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:86
+msgid "Percentage Areas"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:87
+msgid "Percentage Bars"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:88
+msgid "Percentage Columns"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:89
+msgid "Percentage Lines"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:90
+msgid "Percentage area plot."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:91
+msgid "Percentage line plot."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:92
+msgid "Stacked Areas"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:93
+msgid "Stacked Bars"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:94
+msgid "Stacked Columns"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:95
+msgid "Stacked Lines"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:96
+msgid "Stacked area plot."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:97
+msgid "Stacked line plot."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:98
+msgid "Unmarked Lines"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:99
+msgid "Unmarked Percentage Lines"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:100
+msgid "Unmarked Stacked Lines"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:101
+msgid "Vertical Drop Bars"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:102
+msgid "Vertical Min Max Lines"
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:103
+msgid "Vertical drop bars."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:104
+msgid "Vertical min max lines with markers."
+msgstr ""
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:105
+msgid "Vertical min max lines."
+msgstr ""
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:1
+msgid "Area plotting engine"
+msgstr ""
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:2
+msgid "Bar/Col plotting engine"
+msgstr ""
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:3
+msgid "Charting : Bar/Col/Line/Area"
+msgstr ""
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:4
+msgid "Default 1.5d plot types"
+msgstr ""
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:5
+msgid "Drop Bar/Col plotting engine"
+msgstr ""
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:6
+msgid "Line plotting engine"
+msgstr "Linijų braižymo sistema"
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:7
+msgid "Line, Area, Bar and Column plots"
+msgstr ""
+
+#: ../plugins/plot_barcol/plugin.xml.in.h:8
+msgid "Min Max plotting engine"
+msgstr ""
+
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:3
+msgid ""
+"Horizontal\n"
+"Vertical"
+msgstr ""
+"Horizontalus\n"
+"Vertikalus"
+
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:7
+msgid "_Layout"
+msgstr "_Išdėstymas"
+
+#. xgettext : the base for how to name box-plot objects
+#. * eg The 2nd box-plot in a chart will be called
+#. * 	BoxPlot2
+#: ../plugins/plot_boxes/gog-boxplot.c:143
+msgid "Box-Plot"
+msgstr ""
+
+#: ../plugins/plot_boxes/gog-boxplot.c:300
+msgid "Vertical"
+msgstr ""
+
+#: ../plugins/plot_boxes/gog-boxplot.c:301
+msgid "Whether the box-plot should be vertical instead of horizontal"
+msgstr ""
+
+#. xgettext : the base for how to name histogram-plot objects
+#. * eg The 2nd histogram-plot in a chart will be called
+#. * 	Histogram2
+#: ../plugins/plot_boxes/gog-histogram.c:71
+#: ../plugins/plot_boxes/plot-types.xml.in.h:3
+msgid "Histogram"
+msgstr "Histograma"
+
+#: ../plugins/plot_boxes/gog-histogram.c:185
+msgid "Limits"
+msgstr "Ribos"
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:1
+msgid "BoxPlot"
+msgstr ""
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:2
+msgid "HBoxPlots"
+msgstr ""
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:4
+msgid "Histogram."
+msgstr "Histograma."
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:5
+msgid "Horizontal Box-Plot."
+msgstr ""
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:6
+msgid "VBoxPlots"
+msgstr ""
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:7
+msgid "Vertical Box-Plot."
+msgstr ""
+
+#: ../plugins/plot_boxes/plugin.xml.in.h:1
+msgid "Box-Plots and Histograms"
+msgstr ""
+
+#: ../plugins/plot_boxes/plugin.xml.in.h:2
+msgid "Box-plot plotting engine"
+msgstr ""
+
+#: ../plugins/plot_boxes/plugin.xml.in.h:3
+msgid "Charting : Box-Plots/Histograms"
+msgstr ""
+
+#: ../plugins/plot_boxes/plugin.xml.in.h:4
+msgid "Histograms plotting engine"
+msgstr ""
+
+#: ../plugins/plot_boxes/plugin.xml.in.h:5
+msgid "Statistics plot types"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:3
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:4
+msgid "Degrees counter clockwise from 3 O'Clock"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:4
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:5
+msgid "Slices start _at:"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:5
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:6
+msgid ""
+"The default amount each slice is separated from the center measured as a "
+"percentage of the radius of the pie"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:6
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:7
+msgid "_Slice Separation:"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie-prefs.glade.h:7
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:8
+msgid "_Vary colors by slice"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie-series.glade.h:3
+msgid ""
+"The amount this slice is separated from the center measured as a percentage "
+"of the radius of the pie"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie-series.glade.h:4
+msgid "_Separation:"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:106 ../plugins/plot_pie/gog-pie.c:905
+msgid "Separation"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:107
+msgid "Amount a slice is extended as a percentage of the radius"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:193
+msgid "PlotPie"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:233
+msgid "Initial angle"
+msgstr "Pradinis kampas"
+
+#: ../plugins/plot_pie/gog-pie.c:234
+msgid "Degrees clockwise from 12 O'Clock."
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:239
+msgid "Default separation"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:240 ../plugins/plot_pie/gog-pie.c:906
+msgid "Default amount a slice is extended as a percentage of the radius"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:246
+msgid "Draw 3d wedges"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:251 ../plugins/smoothing/gog-moving-avg.c:196
+msgid "Span"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:252
+msgid "Total angle used as a percentage of the full circle"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:340
+msgid "PlotRing"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:371
+msgid "Center-size"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:372
+msgid "Size of the center hole as a percentage of the radius"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:531
+msgid "Move pie"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:899
+msgid "Initial-angle"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-pie.c:900
+msgid "Degrees clockwise from 12 O'Clock"
+msgstr ""
+
+#: ../plugins/plot_pie/gog-ring-prefs.glade.h:3
+msgid "Cen_ter size:"
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:1
+msgid "Half Pie"
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:2
+msgid ""
+"Percentage of each contributor displayed in ring for each serie with wedges "
+"of the last ring split apart."
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:3
+msgid "Percentage of each contributor displayed in ring for each serie."
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:4
+msgid ""
+"Percentage of each contributor in a half circle with wedges split apart."
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:5
+msgid "Percentage of each contributor in a half circle."
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:6
+msgid "Percentage of each contributor with wedges split apart."
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:7
+msgid "Percentage of each contributor."
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:8
+msgid "Pie"
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:9
+msgid "Ring"
+msgstr "Žiedas"
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:10
+msgid "Split Half Pie"
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:11
+msgid "Split Pie"
+msgstr ""
+
+#: ../plugins/plot_pie/plot-types.xml.in.h:12
+msgid "Split Ring"
+msgstr ""
+
+#: ../plugins/plot_pie/plugin.xml.in.h:1
+msgid "Charting : Pie/Ring"
+msgstr ""
+
+#: ../plugins/plot_pie/plugin.xml.in.h:2
+msgid "Default pie types"
+msgstr ""
+
+#: ../plugins/plot_pie/plugin.xml.in.h:3
+msgid "Pie and Ring plots"
+msgstr ""
+
+#: ../plugins/plot_pie/plugin.xml.in.h:4
+msgid "Pie plotting engine"
+msgstr ""
+
+#: ../plugins/plot_pie/plugin.xml.in.h:5
+msgid "Ring plotting engine"
+msgstr "Žiedų braižymo sistema"
+
+#: ../plugins/plot_radar/gog-radar.c:213
+msgid "Default fill"
+msgstr "Įprastas užpildymas"
+
+#: ../plugins/plot_radar/gog-radar.c:214 ../plugins/plot_xy/gog-xy.c:350
+#: ../plugins/plot_xy/gog-xy.c:776
+msgid "Should the default style of a series include fill"
+msgstr ""
+
+#. xgettext : the base for how to name rt plot objects
+#. * eg The 2nd rt plot in a chart will be called
+#. * 	PlotRT2
+#: ../plugins/plot_radar/gog-radar.c:250
+msgid "PlotRadar"
+msgstr ""
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotRadarArea2
+#.
+#: ../plugins/plot_radar/gog-radar.c:332
+msgid "PlotRadarArea"
+msgstr ""
+
+#. xgettext : the base for how to name rt plot objects
+#. * eg The 2nd rt plot in a chart will be called
+#. * 	PlotPolar2
+#: ../plugins/plot_radar/gog-radar.c:365
+msgid "PlotPolar"
+msgstr ""
+
+#: ../plugins/plot_radar/gog-radar.c:404
+msgid "Angle"
+msgstr "Kampas"
+
+#: ../plugins/plot_radar/gog-radar.c:406
+msgid "Magnitude"
+msgstr ""
+
+#: ../plugins/plot_radar/gog-radar.c:707
+msgid "Radial drop lines"
+msgstr ""
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:1
+msgid "Area Radar"
+msgstr ""
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:2
+msgid "Area radar plot."
+msgstr ""
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:3
+msgid "Dotted Radar"
+msgstr ""
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:4
+msgid "Polar"
+msgstr ""
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:5
+msgid "Polar plot."
+msgstr ""
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:6
+msgid "Radar"
+msgstr ""
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:7
+msgid "Radar plot with dots."
+msgstr ""
+
+#: ../plugins/plot_radar/plot-types.xml.in.h:8
+msgid "Radar plot."
+msgstr ""
+
+#: ../plugins/plot_radar/plugin.xml.in.h:1
+msgid "Charting : Polar/Radar"
+msgstr ""
+
+#: ../plugins/plot_radar/plugin.xml.in.h:2
+msgid "Default radar plot types"
+msgstr ""
+
+#: ../plugins/plot_radar/plugin.xml.in.h:3
+msgid "Polar and Radar plots"
+msgstr ""
+
+#: ../plugins/plot_radar/plugin.xml.in.h:4
+msgid "Polar plotting engine"
+msgstr ""
+
+#: ../plugins/plot_radar/plugin.xml.in.h:5
+msgid "Radar Area plotting engine"
+msgstr ""
+
+#: ../plugins/plot_radar/plugin.xml.in.h:6
+msgid "Radar plotting engine"
+msgstr ""
+
+#: ../plugins/plot_surface/gog-contour-prefs.glade.h:1
+msgid "Transpose"
+msgstr ""
+
+#. xgettext : the base for how to name contour plot objects
+#.
+#: ../plugins/plot_surface/gog-surface.c:213
+msgid "PlotContour"
+msgstr ""
+
+#: ../plugins/plot_surface/gog-surface.c:522
+msgid "Transposed"
+msgstr ""
+
+#: ../plugins/plot_surface/gog-surface.c:523
+msgid "Transpose the plot"
+msgstr ""
+
+#: ../plugins/plot_surface/gog-surface.c:539
+#: ../plugins/plot_surface/xl-surface.c:258 ../plugins/plot_xy/gog-xy.c:794
+msgid "Z"
+msgstr "Z"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:1
+msgid "Contour"
+msgstr "Kontūras"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:2
+msgid "Contour plot."
+msgstr ""
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:3
+msgid "Surface"
+msgstr ""
+
+#: ../plugins/plot_surface/plugin.xml.in.h:1
+msgid "Contour plotting engine"
+msgstr "Kontūrų braižymo sistema"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:2
+msgid "Default surface plot types"
+msgstr ""
+
+#: ../plugins/plot_surface/plugin.xml.in.h:3
+msgid "Surface Charts"
+msgstr ""
+
+#: ../plugins/plot_surface/plugin.xml.in.h:4
+msgid "Surface charts"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:2
+#, no-c-format
+msgid "% of default size"
+msgstr "% nuo normalaus dydžio"
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:3
+msgid "3_d"
+msgstr "3_d"
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:4
+msgid "Dia_meter"
+msgstr "Dia_metras"
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:5
+msgid "Show _negative values"
+msgstr "Rodyti _neigiamas reikšmes"
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:6
+msgid "Sur_face"
+msgstr "_Paviršius"
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:7
+msgid "_Bubbles scaled to"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:8
+msgid "_Size represented by:"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-bubble-prefs.glade.h:9
+msgid "_Vary colors by bubble"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy-series-prefs.glade.h:1
+msgid "Show markers or bubbles at 0 when the value is invalid"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy-series-prefs.glade.h:2
+msgid "_Use nul value instead of invalid"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy-color-prefs.glade.h:1
+msgid "Hide data outside of color axis bounds"
+msgstr ""
+
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	PlotXY2
+#: ../plugins/plot_xy/gog-xy.c:265
+msgid "PlotXY"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:337
+msgid "Has markers by default"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:343 ../plugins/plot_xy/gog-xy.c:769
+msgid "Has lines by default"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:344 ../plugins/plot_xy/gog-xy.c:770
+msgid "Should the default style of a series include lines"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:349 ../plugins/plot_xy/gog-xy.c:775
+msgid "Has fill by default"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:355
+msgid "Use splines"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:356
+msgid "Should the plot use splines instead of linear interpolation"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:409
+msgid "PlotBubble"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:506
+msgid "Size as area"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:507
+msgid "Display size as area instead of diameter"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:512
+msgid "Show negatives"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:513
+msgid "Draw bubbles for negative values"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:519
+msgid "Draw 3d bubbles"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:524
+msgid "Bubble scale"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:525
+msgid "Fraction of default radius used for display"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:534 ../plugins/plot_xy/plot-types.xml.in.h:1
+msgid "Bubble"
+msgstr ""
+
+#. xgettext : the base for how to name map like plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	Map2
+#: ../plugins/plot_xy/gog-xy.c:659
+msgid "XYColor"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:781
+msgid "hide-outliers"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:782
+msgid "Hide data outside of the color axis bounds"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:1543 ../plugins/plot_xy/gog-xy.c:1606
+msgid "X error bars"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:1545 ../plugins/plot_xy/gog-xy.c:1612
+msgid "Y error bars"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:1553
+msgid "Horizontal drop lines"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:1561
+msgid "Vertical drop lines"
+msgstr ""
+
+#: ../plugins/plot_xy/gog-xy.c:1618
+msgid "Invalid as zero"
+msgstr "Klaidingi lygūs nuliui"
+
+#: ../plugins/plot_xy/gog-xy.c:1619
+msgid "Replace invalid values by 0 when drawing markers or bubbles"
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:2
+msgid "ColoredXY"
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:3
+msgid "Interpolate between multi-dimensional points with Bezier splines."
+msgstr ""
+
+#. really 3_1
+#: ../plugins/plot_xy/plot-types.xml.in.h:5
+msgid ""
+"Linearly interpolate between multi-dimensional points,with markers at each "
+"point."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:6
+msgid "Linearly interpolate between multi-dimensional points."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:7
+msgid "Map"
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:8
+msgid "Markers at each point."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:9
+msgid "Multi-dimensional points with circle at each point."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:10
+msgid ""
+"Multi-dimensional points with data dependent color marker at each point."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:11
+msgid "Stepped curve using the first y value."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:12
+msgid "Stepped curve using the last y value."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:13
+msgid "Stepped curve using the mean y value."
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:14
+msgid "Stepped curve using the nearest y value."
+msgstr ""
+
+#. really 3_1
+#: ../plugins/plot_xy/plot-types.xml.in.h:16
+msgid "XY"
+msgstr "XY"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:17
+msgid "XY Lines"
+msgstr "XY Linijos"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:18
+msgid "XY Points"
+msgstr "XY Taškai"
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:19
+msgid "XY Splines"
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:20
+msgid "XY Steps Center"
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:21
+msgid "XY Steps End"
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:22
+msgid "XY Steps Mean"
+msgstr ""
+
+#: ../plugins/plot_xy/plot-types.xml.in.h:23
+msgid "XY Steps Start"
+msgstr ""
+
+#: ../plugins/plot_xy/plugin.xml.in.h:1
+msgid "2D colored scatter plotting engine"
+msgstr ""
+
+#: ../plugins/plot_xy/plugin.xml.in.h:2
+msgid "2D plots"
+msgstr ""
+
+#: ../plugins/plot_xy/plugin.xml.in.h:3
+msgid "2D scatter plotting engine"
+msgstr ""
+
+#: ../plugins/plot_xy/plugin.xml.in.h:4
+msgid "Bubble plotting engine"
+msgstr ""
+
+#: ../plugins/plot_xy/plugin.xml.in.h:5
+msgid "Charting : XY/Scatter/Bubble"
+msgstr ""
+
+#: ../plugins/plot_xy/plugin.xml.in.h:6
+msgid "Stock Scatter plot types"
+msgstr ""
+
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	Exponential regression2
+#: ../plugins/reg_linear/gog-exp-reg.c:63
+msgid "Exponential regression"
+msgstr "Eksponentinė regresija"
+
+#: ../plugins/reg_linear/gog-lin-reg.c:158
+#: ../plugins/reg_linear/gog-lin-reg.c:264
+msgid "Affine"
+msgstr ""
+
+#: ../plugins/reg_linear/gog-lin-reg.c:159
+msgid "Uncheck to force zero intercept"
+msgstr ""
+
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	Linear regression2
+#: ../plugins/reg_linear/gog-lin-reg.c:173
+msgid "Linear regression"
+msgstr "Linijinė regresija"
+
+#: ../plugins/reg_linear/gog-lin-reg.c:265
+msgid "If true, a non-zero constant is allowed"
+msgstr ""
+
+#: ../plugins/reg_linear/gog-lin-reg.c:270
+msgid "Dims"
+msgstr ""
+
+#: ../plugins/reg_linear/gog-lin-reg.c:271
+msgid "Number of x-vectors"
+msgstr "x-vektorių kiekis"
+
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	Logarithmic regression2
+#: ../plugins/reg_linear/gog-log-reg.c:94
+msgid "Logarithmic regression"
+msgstr "Logaritminė regresija"
+
+#: ../plugins/reg_linear/gog-polynom-reg.c:205
+msgid "Order:"
+msgstr ""
+
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	Polynomial regression2
+#: ../plugins/reg_linear/gog-polynom-reg.c:224
+msgid "Polynomial regression"
+msgstr "Polinominė regresija"
+
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	Power regression2
+#: ../plugins/reg_linear/gog-power-reg.c:63
+msgid "Power regression"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:1
+msgid "Exponential regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:2
+msgid "Linear regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:3
+msgid "Linear regression curves"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:4
+msgid "Linear regression curves types"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:5
+msgid "Logarithmic regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:6
+msgid "Polynomial regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:7
+msgid "Power regression curve engine"
+msgstr ""
+
+#: ../plugins/reg_linear/plugin.xml.in.h:8
+msgid "Regression curve : linear"
+msgstr ""
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:1
+msgid "Exponential"
+msgstr "Eksponentinis"
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:2
+msgid "Exponential regression curve"
+msgstr ""
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:4
+msgid "Linear regression curve"
+msgstr ""
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:5
+msgid "Logarithmic"
+msgstr "Logaritminis"
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:6
+msgid "Logarithmic regression curve"
+msgstr ""
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:7
+msgid "Polynomial"
+msgstr "Polinominė"
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:8
+msgid "Polynomial regression curve"
+msgstr ""
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:9
+msgid "Power"
+msgstr ""
+
+#: ../plugins/reg_linear/reg-types.xml.in.h:10
+msgid "Power regression curve"
+msgstr ""
+
+#. xgettext : the base for how to name logarithmic fits
+#. * eg The 2nd fit for a series will be called
+#. * 	Log fit2
+#: ../plugins/reg_logfit/gog-logfit.c:140
+msgid "Log fit"
+msgstr ""
+
+#: ../plugins/reg_logfit/plugin.xml.in.h:1
+msgid "Logarithmic fitting curve engine"
+msgstr ""
+
+#: ../plugins/reg_logfit/plugin.xml.in.h:2
+msgid "Logarithmic fitting curves"
+msgstr ""
+
+#: ../plugins/reg_logfit/plugin.xml.in.h:3
+msgid "Logarithmic fitting curves types"
+msgstr ""
+
+#: ../plugins/reg_logfit/plugin.xml.in.h:4
+msgid "Regression curve : logfit"
+msgstr ""
+
+#: ../plugins/reg_logfit/reg-types.xml.in.h:1
+msgid "Log Fit (y=a+b*ln(sign*(x-c)))"
+msgstr ""
+
+#: ../plugins/reg_logfit/reg-types.xml.in.h:2
+msgid "Logarithmic fitting curve"
+msgstr ""
+
+#: ../plugins/smoothing/gog-moving-avg.c:103
+msgid "Number of values from which to calculate an average"
+msgstr ""
+
+#: ../plugins/smoothing/gog-moving-avg.c:108
+msgid "Whether to average x values as well or use the last one"
+msgstr ""
+
+#. xgettext : the base for how to name moving averge smoothed curves objects
+#. * eg The 2nd one for a series will be called
+#. * 	Moving average2
+#: ../plugins/smoothing/gog-moving-avg.c:176
+#: ../plugins/smoothing/types.xml.in.h:2
+msgid "Moving average"
+msgstr ""
+
+#: ../plugins/smoothing/gog-moving-avg.c:197
+msgid "Number of averaged values"
+msgstr ""
+
+#: ../plugins/smoothing/gog-moving-avg.c:202
+msgid "Average X"
+msgstr ""
+
+#: ../plugins/smoothing/gog-moving-avg.c:203
+msgid "Use averaged x values"
+msgstr ""
+
+#: ../plugins/smoothing/gog-moving-avg.glade.h:1
+msgid "_Span:"
+msgstr ""
+
+#: ../plugins/smoothing/gog-moving-avg.glade.h:2
+msgid "_Use averaged abscissa"
+msgstr ""
+
+#: ../plugins/smoothing/gog-exp-smooth.c:64
+#: ../plugins/smoothing/gog-exp-smooth.c:233
+msgid "Number of interpolation steps"
+msgstr ""
+
+#: ../plugins/smoothing/gog-exp-smooth.c:72
+msgid ""
+"Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
+"If no value or a negative (or nul) value is provided, the default will be "
+"used"
+msgstr ""
+
+#. xgettext : the base for how to name exponentially smoothed curves objects
+#. * eg The 2nd one for a series will be called
+#. * 	Exponentially smoothed curve2
+#: ../plugins/smoothing/gog-exp-smooth.c:167
+#: ../plugins/smoothing/types.xml.in.h:1
+msgid "Exponentially smoothed curve"
+msgstr ""
+
+#: ../plugins/smoothing/gog-exp-smooth.c:232
+msgid "Steps"
+msgstr "Žingsniai"
+
+#: ../plugins/smoothing/gog-exp-smooth.glade.h:1
+msgid "_Period:"
+msgstr "Per_iodas:"
+
+#: ../plugins/smoothing/gog-exp-smooth.glade.h:2
+msgid "_Steps:"
+msgstr "_Žingsniai:"
+
+#: ../plugins/smoothing/plugin.xml.in.h:1
+msgid "Moving average smoothing engine"
+msgstr ""
+
+#: ../plugins/smoothing/plugin.xml.in.h:2
+msgid "Smoothed curves"
+msgstr ""
+
+#: ../plugins/smoothing/plugin.xml.in.h:3
+msgid "Smoothed curves types"
+msgstr ""
+
+#: ../plugins/smoothing/plugin.xml.in.h:4
+msgid "exponential smoothing engine"
+msgstr "eksponentinio glotninimo sistema"
+
+#: ../plugins/smoothing/types.xml.in.h:3
+msgid "Moving average smoothed curve"
+msgstr ""
+
+#~ msgid "Cairo"
+#~ msgstr "Cairo"
