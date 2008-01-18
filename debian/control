@@ -19,11 +19,13 @@ Description: Document centric objects library - runtime files
  .
  These are the files needed when building applications that use GOffice.
 
-Package: libgoffice-0-6-dbg
+Package: libgoffice-dbg
 Section: libdevel
 Priority: extra
 Architecture: any
 Depends: libgoffice-0-6 (= ${Source-Version})
+Conflicts: libgoffice-0-6-dbg
+Replaces: libgoffice-0-6-dbg
 Description: Document centric objects library - debugging files
  GOffice is a library of document centric objects and utilities building on
  top of GLib and Gtk+.
