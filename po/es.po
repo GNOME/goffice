@@ -1,6 +1,6 @@
 # translation of goffice.HEAD.po to Español
 # Spanish translation of gnumeric
-# Copyright © 1998,2003, 2007 Free Software Foundation, Inc.
+# Copyright © 1998,2003, 2007, 2008 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnumeric package.
 #
 #
@@ -11,13 +11,13 @@
 # Germán Poo Caamaño <gpoo@ubiobio.cl>, 2001.
 # Juan Manuel García Molina <juanma_gm@wanadoo.es>, 2002.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2004, 2005.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-16 12:59+0000\n"
-"PO-Revision-Date: 2007-12-30 01:31+0100\n"
+"POT-Creation-Date: 2007-12-30 01:13+0000\n"
+"PO-Revision-Date: 2008-01-21 20:10+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <<gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1669,23 +1669,20 @@ msgid ""
 msgstr ""
 
 #: ../goffice/graph/gog-plot.c:560
-#, fuzzy
 msgid "Default interpolation"
-msgstr "_Separación de rodajas:"
+msgstr "Interpolación predeterminada"
 
 #: ../goffice/graph/gog-plot.c:561
 msgid "Default type of series line interpolation"
 msgstr ""
 
 #: ../goffice/graph/gog-plot.c:1129
-#, fuzzy
 msgid "Move plot area"
-msgstr "GráficoÁrea"
+msgstr "Mover el área del gráfico"
 
 #: ../goffice/graph/gog-plot.c:1181
-#, fuzzy
 msgid "Resize plot area"
-msgstr "GráficoÁrea"
+msgstr "Redimensionar el área del gráfico"
 
 #: ../goffice/graph/gog-reg-curve-prefs.glade.h:1
 #, fuzzy
@@ -3493,7 +3490,6 @@ msgid "    "
 msgstr "    "
 
 #: ../goffice/gtk/go-rotation-sel.glade.h:2
-#, fuzzy
 msgid "<b>Orientation</b>"
 msgstr "<b>Orientación</b>"
 
@@ -4295,22 +4291,20 @@ msgid "Yellow"
 msgstr "Amarillo"
 
 #: ../goffice/utils/go-format.c:3331
-#, fuzzy
 msgid "[Color"
-msgstr "_Color:"
+msgstr "[Color"
 
 #: ../goffice/utils/go-format.c:3455
 msgid "[Invalid]"
-msgstr ""
+msgstr "[No válido]"
 
 #: ../goffice/utils/go-glib-extras.c:832
 msgid "yes"
-msgstr ""
+msgstr "sí"
 
 #: ../goffice/utils/go-glib-extras.c:838
-#, fuzzy
 msgid "no"
-msgstr "ninguno"
+msgstr "no"
 
 #: ../goffice/utils/go-glib-extras.c:1032
 msgid "Quoted string not terminated"
@@ -4318,43 +4312,43 @@ msgstr ""
 
 #: ../goffice/utils/go-glib-extras.c:1039
 msgid "Syntax error"
-msgstr ""
+msgstr "Error de sintaxis"
 
 #: ../goffice/utils/go-image.c:121
 msgid "SVG (vector graphics)"
-msgstr ""
+msgstr "SVG (gráfico vectorial)"
 
 #: ../goffice/utils/go-image.c:123
 msgid "PNG (raster graphics)"
-msgstr ""
+msgstr "PNG (gráfico raster)"
 
 #: ../goffice/utils/go-image.c:125
 msgid "JPEG (photograph)"
-msgstr ""
+msgstr "JPEG (fotografía)"
 
 #: ../goffice/utils/go-image.c:127
 msgid "PDF (portable document format)"
-msgstr ""
+msgstr "PDF (formato de documento portable)"
 
 #: ../goffice/utils/go-image.c:129
 msgid "PS (postscript)"
-msgstr ""
+msgstr "PS (postscript)"
 
 #: ../goffice/utils/go-image.c:131
 msgid "EMF (extended metafile)"
-msgstr ""
+msgstr "EMF (meta archivo extendido)"
 
 #: ../goffice/utils/go-image.c:133
 msgid "WMF (windows metafile)"
-msgstr ""
+msgstr "WMF (meta archivo de windows)"
 
 #: ../goffice/utils/go-image.c:443
 msgid "Image width in pixels"
-msgstr ""
+msgstr "Anchura de la imagen en píxeles"
 
 #: ../goffice/utils/go-image.c:447
 msgid "Image height in pixels"
-msgstr ""
+msgstr "Altura de la imagen en píxeles"
 
 #: ../goffice/utils/go-image.c:451
 msgid "Pixbuf"
@@ -4410,7 +4404,6 @@ msgid "Long dash dash dash"
 msgstr ""
 
 #: ../goffice/utils/go-line.c:87
-#, fuzzy
 msgid "Spline"
 msgstr "Spline"
 
@@ -4500,27 +4493,27 @@ msgid "hourglass"
 msgstr "reloj de arena"
 
 #: ../goffice/utils/go-pattern.c:43
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "75% Grey"
-msgstr "Gris 75% "
+msgstr "Gris 75%"
 
 #: ../goffice/utils/go-pattern.c:45
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "50% Grey"
 msgstr "Gris 50%"
 
 #: ../goffice/utils/go-pattern.c:47
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "25% Grey"
 msgstr "Gris 25%"
 
 #: ../goffice/utils/go-pattern.c:49
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "12.5% Grey"
 msgstr "Gris 12.5%"
 
 #: ../goffice/utils/go-pattern.c:51
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "6.25% Grey"
 msgstr "Gris 6.25%"
 
@@ -4601,12 +4594,11 @@ msgstr "Ladrillos"
 
 #: ../goffice/utils/regutf8.c:35
 msgid "Pattern not found."
-msgstr ""
+msgstr "No se encontró el patrón."
 
 #: ../goffice/utils/regutf8.c:37
-#, fuzzy
 msgid "Invalid pattern."
-msgstr "El patrón de búsqueda no es válido."
+msgstr "Patrón no válido."
 
 #: ../goffice/utils/regutf8.c:38
 msgid "Invalid collating element."
@@ -4614,7 +4606,7 @@ msgstr ""
 
 #: ../goffice/utils/regutf8.c:39
 msgid "Invalid character class name."
-msgstr ""
+msgstr "El nombre de la clase del carácter no es válido."
 
 #: ../goffice/utils/regutf8.c:40
 msgid "Trailing backslash."
@@ -4638,7 +4630,7 @@ msgstr ""
 
 #: ../goffice/utils/regutf8.c:45
 msgid "Invalid contents of \\{\\}."
-msgstr ""
+msgstr "Contenido de \\ {\\} no válido."
 
 #: ../goffice/utils/regutf8.c:46
 #, fuzzy
@@ -4647,19 +4639,19 @@ msgstr "El patrón de búsqueda no es válido."
 
 #: ../goffice/utils/regutf8.c:47
 msgid "Out of memory."
-msgstr ""
+msgstr "Sin memoria."
 
 #: ../goffice/utils/regutf8.c:48
 msgid "Invalid repetition operator."
-msgstr ""
+msgstr "Operador de repetición no válido."
 
 #: ../goffice/utils/regutf8.c:49
 msgid "Premature end of pattern."
-msgstr ""
+msgstr "Fin de patrón prematuro."
 
 #: ../goffice/utils/regutf8.c:50
 msgid "Pattern is too big."
-msgstr ""
+msgstr "El patrón es demasiado grande."
 
 #: ../goffice/utils/regutf8.c:51
 msgid "Unmatched ) or \\)"
@@ -4667,16 +4659,16 @@ msgstr ""
 
 #: ../goffice/utils/regutf8.c:273
 msgid "Search string must not be empty."
-msgstr ""
+msgstr "La cadena de búsqueda no debe estar vacía."
 
 #: ../goffice/utils/regutf8.c:283
 msgid "Replacement string must be set."
-msgstr ""
+msgstr "Se debe establecer la cadena de reemplazo."
 
 #: ../goffice/utils/regutf8.c:295
 #, c-format
 msgid "Invalid search pattern (%s)"
-msgstr ""
+msgstr "Patrón de búsqueda no válido (%s)"
 
 #: ../goffice/utils/regutf8.c:319
 msgid "Invalid $-specification in replacement."
@@ -4688,11 +4680,11 @@ msgstr ""
 
 #: ../goffice/utils/regutf8.c:806
 msgid "Search Text"
-msgstr ""
+msgstr "Buscar texto"
 
 #: ../goffice/utils/regutf8.c:807
 msgid "The text to search for"
-msgstr ""
+msgstr "El texto que buscar"
 
 #: ../goffice/utils/regutf8.c:816
 msgid "Replacement Text"
@@ -4704,11 +4696,11 @@ msgstr ""
 
 #: ../goffice/utils/regutf8.c:825
 msgid "Is Regular Expression"
-msgstr ""
+msgstr "Es una expresión regular"
 
 #: ../goffice/utils/regutf8.c:826
 msgid "Is the search text a regular expression."
-msgstr ""
+msgstr "El texto que buscar es una expresión regular."
 
 #: ../goffice/utils/regutf8.c:834
 msgid "Ignore Case"
@@ -4741,7 +4733,7 @@ msgstr ""
 #: ../plugins/plot_barcol/gog-1.5d.c:326 ../plugins/plot_pie/gog-pie.c:245
 #: ../plugins/plot_xy/gog-xy.c:518
 msgid "In 3d"
-msgstr ""
+msgstr "En 3D"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:327
 msgid "Placeholder to allow us to round trip pseudo 3d state"
@@ -4820,7 +4812,6 @@ msgstr "GráficoBarCol"
 #: ../plugins/plot_xy/gog-xy.c:421 ../plugins/plot_xy/gog-xy.c:697
 #: ../plugins/smoothing/gog-moving-avg.c:114
 #: ../plugins/smoothing/gog-exp-smooth.c:81
-#, fuzzy
 msgid "Properties"
 msgstr "Propiedades"
 
@@ -4838,23 +4829,20 @@ msgid "The padding around each group as a percentage of their width"
 msgstr "Separación entre grupos como un porcentaje de su ancho"
 
 #: ../plugins/plot_barcol/gog-barcol.c:210
-#, fuzzy
 msgid "Overlap percentage"
-msgstr "Porcentaje"
+msgstr "Porcentaje de superposición"
 
 #: ../plugins/plot_barcol/gog-barcol.c:211
-#, fuzzy
 msgid "The distance between series as a percentage of their width"
-msgstr "Separación entre grupos como un porcentaje del ancho de  barra/columna"
+msgstr "La distancia entre series como porcentaje de su anchura"
 
 #: ../plugins/plot_barcol/gog-barcol.c:216
-#, fuzzy
 msgid "horizontal"
-msgstr "Línea horizontal"
+msgstr "horizontal"
 
 #: ../plugins/plot_barcol/gog-barcol.c:217
 msgid "horizontal bars or vertical columns"
-msgstr ""
+msgstr "barras horizontales o columnas verticales"
 
 #. xgettext : the base for how to name drop bar/col plot objects
 #. * eg The 2nd drop bar/col plot in a chart will be called
@@ -4875,9 +4863,8 @@ msgstr "GráficoLínea"
 #: ../plugins/plot_barcol/gog-line.c:289
 #: ../plugins/plot_barcol/gog-minmax.c:231
 #: ../plugins/plot_radar/gog-radar.c:206
-#, fuzzy
 msgid "Default markers"
-msgstr "Predeterminado"
+msgstr "Marcadores predeterminados"
 
 #: ../plugins/plot_barcol/gog-line.c:290
 #: ../plugins/plot_barcol/gog-minmax.c:232
@@ -4902,22 +4889,18 @@ msgid "PlotMinMax"
 msgstr "GráficoLínea"
 
 #: ../plugins/plot_barcol/gog-minmax.c:225
-#, fuzzy
 msgid "Horizontal"
 msgstr "Horizontal"
 
 #: ../plugins/plot_barcol/gog-minmax.c:226
-#, fuzzy
 msgid "Horizontal or vertical lines"
-msgstr "Línea horizontal"
+msgstr "Líneas horizontales o verticales"
 
 #: ../plugins/plot_barcol/gog-minmax.c:246
-#, fuzzy
 msgid "Min"
-msgstr "Mín"
+msgstr "Min"
 
 #: ../plugins/plot_barcol/gog-minmax.c:248
-#, fuzzy
 msgid "Max"
 msgstr "Máx"
 
@@ -5064,7 +5047,7 @@ msgstr "Líneas de porcentajes no marcadas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:81
 msgid "MinMax"
-msgstr ""
+msgstr "MinMáx"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:82
 msgid ""
@@ -5212,11 +5195,12 @@ msgid "Min Max plotting engine"
 msgstr "Motor de dibujo de líneas"
 
 #: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:3
-#, fuzzy
 msgid ""
 "Horizontal\n"
 "Vertical"
-msgstr "Línea horizontal"
+msgstr ""
+"Horizontal\n"
+"Vertical"
 
 #: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:7
 msgid "_Layout"
@@ -5231,7 +5215,6 @@ msgid "Box-Plot"
 msgstr "Gráfico"
 
 #: ../plugins/plot_boxes/gog-boxplot.c:300
-#, fuzzy
 msgid "Vertical"
 msgstr "Vertical"
 
@@ -5299,9 +5282,8 @@ msgid "Histograms plotting engine"
 msgstr "Histogramas del motor de dibujo"
 
 #: ../plugins/plot_boxes/plugin.xml.in.h:5
-#, fuzzy
 msgid "Statistics plot types"
-msgstr "Inventario de tipos de gráficas de dispersión"
+msgstr "Estadísticas de los tipos de gráficos"
 
 #: ../plugins/plot_pie/gog-pie-prefs.glade.h:3
 #: ../plugins/plot_pie/gog-ring-prefs.glade.h:4
@@ -5364,14 +5346,12 @@ msgid "Initial angle"
 msgstr "Ángulo inicial"
 
 #: ../plugins/plot_pie/gog-pie.c:234
-#, fuzzy
 msgid "Degrees clockwise from 12 O'Clock."
-msgstr "Grados contando en el sentido de las agujas del reloj desde las 3 en punto"
+msgstr "Grados en el sentido de las agujas del reloj desde las 12 en punto"
 
 #: ../plugins/plot_pie/gog-pie.c:239
-#, fuzzy
 msgid "Default separation"
-msgstr "_Separación de rodajas:"
+msgstr "Separación predeterminada"
 
 #: ../plugins/plot_pie/gog-pie.c:240 ../plugins/plot_pie/gog-pie.c:906
 #, fuzzy
@@ -5411,12 +5391,11 @@ msgstr ""
 
 #: ../plugins/plot_pie/gog-pie.c:899
 msgid "Initial-angle"
-msgstr ""
+msgstr "Ángulo inicial"
 
 #: ../plugins/plot_pie/gog-pie.c:900
-#, fuzzy
 msgid "Degrees clockwise from 12 O'Clock"
-msgstr "Grados contando en el sentido de las agujas del reloj desde las 3 en punto"
+msgstr "Grados en el sentido de las agujas del reloj desde las 12 en punto"
 
 #: ../plugins/plot_pie/gog-ring-prefs.glade.h:3
 msgid "Cen_ter size:"
@@ -5553,7 +5532,7 @@ msgstr "Radar de puntos"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:4
 msgid "Polar"
-msgstr ""
+msgstr "Polar"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:5
 msgid "Polar plot."
@@ -5573,7 +5552,7 @@ msgstr "Gráfica de radar."
 
 #: ../plugins/plot_radar/plugin.xml.in.h:1
 msgid "Charting : Polar/Radar"
-msgstr ""
+msgstr "Gráfico: Polar/Radar"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:2
 msgid "Default radar plot types"
@@ -5728,11 +5707,11 @@ msgstr "GráficoBurbuja"
 
 #: ../plugins/plot_xy/gog-xy.c:506
 msgid "Size as area"
-msgstr ""
+msgstr "Tamaño como área"
 
 #: ../plugins/plot_xy/gog-xy.c:507
 msgid "Display size as area instead of diameter"
-msgstr ""
+msgstr "Mostrar el tamaño como área en lugar de diámetro"
 
 #: ../plugins/plot_xy/gog-xy.c:512
 msgid "Show negatives"
@@ -5744,7 +5723,7 @@ msgstr "Dibujar burbujas para los valores negativos"
 
 #: ../plugins/plot_xy/gog-xy.c:519
 msgid "Draw 3d bubbles"
-msgstr ""
+msgstr "Dibujar burbujas 3D"
 
 #: ../plugins/plot_xy/gog-xy.c:524
 msgid "Bubble scale"
@@ -5763,7 +5742,7 @@ msgstr "Burbuja"
 #. * 	Map2
 #: ../plugins/plot_xy/gog-xy.c:659
 msgid "XYColor"
-msgstr ""
+msgstr "Color XY"
 
 #: ../plugins/plot_xy/gog-xy.c:781
 msgid "hide-outliers"
@@ -5919,7 +5898,7 @@ msgstr "Regresión exponencial"
 #: ../plugins/reg_linear/gog-lin-reg.c:158
 #: ../plugins/reg_linear/gog-lin-reg.c:264
 msgid "Affine"
-msgstr ""
+msgstr "Afín"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:159
 msgid "Uncheck to force zero intercept"
@@ -5930,7 +5909,7 @@ msgstr ""
 #. * 	Linear regression2
 #: ../plugins/reg_linear/gog-lin-reg.c:173
 msgid "Linear regression"
-msgstr ""
+msgstr "Regresión lineal"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:265
 msgid "If true, a non-zero constant is allowed"
@@ -5999,7 +5978,7 @@ msgstr ""
 
 #: ../plugins/reg_linear/plugin.xml.in.h:8
 msgid "Regression curve : linear"
-msgstr ""
+msgstr "Curva de regresión: lineal"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:1
 msgid "Exponential"
@@ -6007,11 +5986,11 @@ msgstr "Exponencial"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:2
 msgid "Exponential regression curve"
-msgstr ""
+msgstr "Curva de regresión exponencial"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:4
 msgid "Linear regression curve"
-msgstr ""
+msgstr "Curva de regresión lineal"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:5
 msgid "Logarithmic"
@@ -6019,7 +5998,7 @@ msgstr "Logarítmico"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:6
 msgid "Logarithmic regression curve"
-msgstr ""
+msgstr "Curva de regresión logarítmica"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:7
 msgid "Polynomial"
@@ -6027,7 +6006,7 @@ msgstr "Polinómico"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:8
 msgid "Polynomial regression curve"
-msgstr ""
+msgstr "Curva de regresión polinómica"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:9
 msgid "Power"
@@ -6107,7 +6086,7 @@ msgstr ""
 #: ../plugins/smoothing/gog-exp-smooth.c:64
 #: ../plugins/smoothing/gog-exp-smooth.c:233
 msgid "Number of interpolation steps"
-msgstr ""
+msgstr "Número de pasos de la interpolación"
 
 #: ../plugins/smoothing/gog-exp-smooth.c:72
 msgid ""
@@ -6122,7 +6101,7 @@ msgstr ""
 #: ../plugins/smoothing/gog-exp-smooth.c:167
 #: ../plugins/smoothing/types.xml.in.h:1
 msgid "Exponentially smoothed curve"
-msgstr ""
+msgstr "Curva suavizada exponencialmente"
 
 #: ../plugins/smoothing/gog-exp-smooth.c:232
 msgid "Steps"
