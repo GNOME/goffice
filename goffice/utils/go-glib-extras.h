@@ -103,12 +103,14 @@ void    go_object_properties_apply   (GObject *obj,
 				      gboolean changed_only);
 void    go_object_properties_free    (GSList *props);
 
+typedef gboolean (*GOParseKeyValueFunc) (const char *name,
+		  const char *value,
+		  GError **err,
+		  gpointer user);
+
 gboolean go_parse_key_value (const char *options,
 			     GError **err,
-			     gboolean (*handler) (const char *name,
-						  const char *value,
-						  GError **err,
-						  gpointer user),
+			     GOParseKeyValueFunc	func,
 			     gpointer user);
 
 G_END_DECLS
