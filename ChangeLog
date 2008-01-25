@@ -1,5 +1,9 @@
 2008-01-24  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-format.c (go_format_execute): For
+	OP_DATE_SPLIT, make sure to set day/month/year/weekday even in the
+	error case.  Fixes #511435.
+
 	* autogen.sh: Replace last change with a final test for the actual
 	bug in question.
 

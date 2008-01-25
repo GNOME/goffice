@@ -2187,16 +2187,14 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 					      date_conv);
 			if (!g_date_valid (&date)) {
 				res = GO_FORMAT_NUMBER_DATE_ERROR;
-				break;
+				g_date_set_dmy (&date, 1, 1, 1900);
 			}
 			year = g_date_get_year (&date);
-			if (year > 9999) {
-				res = GO_FORMAT_NUMBER_DATE_ERROR;
-				break;
-			}
 			month = g_date_get_month (&date);
 			day = g_date_get_day (&date);
 			weekday = g_date_get_weekday (&date);
+			if (year > 9999)
+				res = GO_FORMAT_NUMBER_DATE_ERROR;
 			break;
 		}
 

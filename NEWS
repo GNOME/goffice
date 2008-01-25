@@ -3,6 +3,9 @@ goffice 0.6.1:
 Misc:
 	* Automate library, headers, and .pc versioning.
 
+Morten:
+	* Fix critical for bogus dates.  [#511435]
+
 --------------------------------------------------------------------------
 goffice 0.6.0:
 
