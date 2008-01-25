@@ -13,8 +13,6 @@ REQUIRED_INTLTOOL_VERSION=0.27.2
 # (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
 REQUIRED_AUTOCONF_VERSION=2.54
 
-REQUIRED_GTK_DOC_VERSION=1.9
-
 # This enforces the version for the machine where the tarball is built
 # from CVS.  This requirement might be stronger than the one in configure.in.
 #
@@ -38,8 +36,8 @@ test -z "$srcdir" && srcdir=.
 (test -f $srcdir/configure.in	\
   && test -d $srcdir/goffice	\
   && test -f $srcdir/goffice/goffice.h) || {
-    echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
-    echo " top-level goffice directory"
+    echo -n "**Error**: Directory "\'$srcdir\'" does not look like the" 1>&2
+    echo " top-level goffice directory" 1>&2
     exit 1
 }
 
@@ -55,11 +53,19 @@ for dir in $PATH ; do
 done
 
 if test -z "$gnome_autogen" ; then
-  echo "You need to install the gnome-common module and make"
-  echo "sure the gnome-autogen.sh script is in your \$PATH."
+  echo "You need to install the gnome-common module and make" 1>&2
+  echo "sure the gnome-autogen.sh script is in your \$PATH." 1>&2
   exit 1
 fi
 
 GNOME_DATADIR="$gnome_datadir"
 
 . $gnome_autogen
+
+if grep 'which gtkdoc-rebase >/dev/null &&' $srcdir/gtk-doc.make >/dev/null 2>&1; then
+    echo '----------------------------------------------------' 1>&2
+    echo "Your gtk-doc has a dependency problem.  Upgrade." 1>&2
+    echo "See http://bugzilla.gnome.org/show_bug.cgi?id=506506" 1>&2
+    echo '----------------------------------------------------' 1>&2
+    exit 1
+fi
