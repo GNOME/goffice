@@ -235,8 +235,10 @@ gog_plot1_5d_update (GogObject *obj)
 		for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, i++) {
 			series = ptr->data;
 			/* we are guaranteed that at least 1 series is valid above */
-			if (!gog_series_is_valid (GOG_SERIES (series)))
+			if (!gog_series_is_valid (GOG_SERIES (series))) {
+				lengths[i] = 0;
 				continue;
+			}
 			vals[i] = go_data_vector_get_values (
 				GO_DATA_VECTOR (series->base.values[1].data));
 			g_object_get (G_OBJECT (series), "errors", errors + i, NULL);

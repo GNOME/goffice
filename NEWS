@@ -1,3 +1,9 @@
+goffice 0.6.2:
+
+Jean:
+	* Set Lentgh to 0 for invalid series in 1.5d plots. Fixes #514642.
+
+--------------------------------------------------------------------------
 goffice 0.6.1:
 
 Misc:

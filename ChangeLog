@@ -1,3 +1,8 @@
+2008-02-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_barcol/gog-1.5d.c: (gog_plot1_5d_update): set
+	lentgh to 0 for invalid series. Fixes #514642.
+
 2008-01-24  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_execute): For
