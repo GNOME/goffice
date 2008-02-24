@@ -219,7 +219,7 @@ gog_line_update_stacked_and_percentage (GogPlot1_5d *model,
 			tmp = vals[j][i];
 			if (!go_finite (tmp))
 				continue;
-		if (gog_error_bar_is_visible (errors[j])) {
+			if (gog_error_bar_is_visible (errors[j])) {
 				gog_error_bar_get_bounds (errors[j], i, &errminus, &errplus);
 				errminus = errminus > 0. ? errminus: 0.;
 				errplus = errplus > 0. ? errplus : 0.;

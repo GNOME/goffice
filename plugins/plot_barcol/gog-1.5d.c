@@ -156,14 +156,12 @@ gog_plot1_5d_update (GogObject *obj)
 	GogPlot1_5dClass *klass = GOG_PLOT1_5D_GET_CLASS (obj);
 	GogSeries1_5d const *series;
 	unsigned i, num_elements, num_series;
-	double **vals, minima, maxima;
+	double minima, maxima;
 	double old_minima, old_maxima;
-	unsigned *lengths;
 	GSList *ptr;
 	GOData *index_dim = NULL;
 	GogPlot *plot_that_labeled_axis;
 	GogAxis *axis;
-	GogErrorBar **errors;
 	gboolean index_changed = FALSE;
 
 	old_minima =  model->minima;
@@ -228,11 +226,12 @@ gog_plot1_5d_update (GogObject *obj)
 	if (num_elements <= 0 || num_series <= 0)
 		model->minima = model->maxima = 0.;
 	else if (model->type != GOG_1_5D_NORMAL) {
-		vals = g_alloca (num_series * sizeof (double *));
-		errors = g_alloca (num_series * sizeof (GogErrorBar *));
-		lengths = g_alloca (num_series * sizeof (unsigned));
+		double **vals = g_new0 (double *, num_series);
+		GogErrorBar **errors = g_new0 (GogErrorBar *, num_series);
+		unsigned *lengths = g_new0 (unsigned, num_series);
+
 		i = 0;
-		for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, i++) {
+		for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 			series = ptr->data;
 			/* we are guaranteed that at least 1 series is valid above */
 			if (!gog_series_is_valid (GOG_SERIES (series))) {
@@ -246,10 +245,16 @@ gog_plot1_5d_update (GogObject *obj)
 				g_object_unref (errors[i]);
 			lengths[i] = go_data_vector_get_len (
 				GO_DATA_VECTOR (series->base.values[1].data));
+
+			i++;
 		}
 
 		if (klass->update_stacked_and_percentage)
 			klass->update_stacked_and_percentage (model, vals, errors, lengths);
+
+		g_free (vals);
+		g_free (errors);
+		g_free (lengths);
 	}
 
 	if (old_minima != model->minima || old_maxima != model->maxima)
