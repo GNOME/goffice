@@ -1496,7 +1496,6 @@ x_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	GogAxisType axis_type = gog_axis_get_atype (axis_base->axis);
 	GogChartMap *c_map;
 	GogAxisMap *a_map;
-	GogViewAllocation tmp = *plot_area;
 	GogViewAllocation axis_line_bbox;
 	double ax, ay, bx, by;
 	double start, stop;
@@ -1525,10 +1524,10 @@ x_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 							     view->renderer, ax, ay, bx - ax, by - ay, 
 							     GO_SIDE_RIGHT, -1.,
 							     axis_base->major_tick_labeled);
-			padding->wl = MAX (0., tmp.x - axis_line_bbox.x);
-			padding->ht = MAX (0., tmp.y - axis_line_bbox.y);
-			padding->wr = MAX (0., axis_line_bbox.x + axis_line_bbox.w - tmp.x - tmp.w);
-			padding->hb = MAX (0., axis_line_bbox.y + axis_line_bbox.h - tmp.y - tmp.h);
+			padding->wl = MAX (0., plot_area->x - axis_line_bbox.x);
+			padding->ht = MAX (0., plot_area->y - axis_line_bbox.y);
+			padding->wr = MAX (0., axis_line_bbox.x + axis_line_bbox.w - plot_area->x - plot_area->w);
+			padding->hb = MAX (0., axis_line_bbox.y + axis_line_bbox.h - plot_area->y - plot_area->h);
 			break;
 
 		case GOG_AXIS_BASE_POINT:
@@ -1550,7 +1549,6 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	GogAxis *cross_axis;
 	GogChartMap *c_map;
 	GogAxisMap *a_map;
-	GogViewAllocation tmp = *plot_area;
 	GogViewAllocation axis_line_bbox;
 	double ax, ay, bx, by;
 	GogAxisType axis_type = gog_axis_get_atype (axis_base->axis);
@@ -1619,10 +1617,10 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 			axis_line_bbox = axis_line_get_bbox (GOG_AXIS_BASE (view->model),
 							     view->renderer, ax, ay, bx - ax, by - ay, side, -1.,
 							     axis_base->major_tick_labeled);
-			padding->wl = MAX (0., tmp.x - axis_line_bbox.x);
-			padding->ht = MAX (0., tmp.y - axis_line_bbox.y);
-			padding->wr = MAX (0., axis_line_bbox.x + axis_line_bbox.w - tmp.x - tmp.w);
-			padding->hb = MAX (0., axis_line_bbox.y + axis_line_bbox.h - tmp.y - tmp.h);
+			padding->wl = MAX (0., plot_area->x - axis_line_bbox.x);
+			padding->ht = MAX (0., plot_area->y - axis_line_bbox.y);
+			padding->wr = MAX (0., axis_line_bbox.x + axis_line_bbox.w - plot_area->x - plot_area->w);
+			padding->hb = MAX (0., axis_line_bbox.y + axis_line_bbox.h - plot_area->y - plot_area->h);
 			break;
 
 		case GOG_AXIS_BASE_POINT:
@@ -1646,7 +1644,6 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	GogAxisMap *a_map;
 	GogAxisType axis_type = gog_axis_get_atype (axis_base->axis);
 	GogChartMapPolarData *parms;
-	GogViewAllocation tmp = *area;
 	GogViewAllocation bbox;
 	GOGeometrySide side;
 	double start, stop, minimum, maximum;
@@ -1710,10 +1707,10 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 					view->renderer, parms->cx, parms->cy,
 					bx - parms->cx, by - parms->cy, side, -1.,
 					axis_base->major_tick_labeled);
-				padding->wl = MAX (0., tmp.x - bbox.x);
-				padding->ht = MAX (0., tmp.y - bbox.y);
-				padding->wr = MAX (0., bbox.x + bbox.w - tmp.x - tmp.w);
-				padding->hb = MAX (0., bbox.y + bbox.h - tmp.y - tmp.h);
+				padding->wl = MAX (0., area->x - bbox.x);
+				padding->ht = MAX (0., area->y - bbox.y);
+				padding->wr = MAX (0., bbox.x + bbox.w - area->x - area->w);
+				padding->hb = MAX (0., bbox.y + bbox.h - area->y - area->h);
 				break;
 			case GOG_AXIS_BASE_POINT:
 				if (gog_axis_is_discrete (cross_axis))
@@ -1750,10 +1747,10 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 			case GOG_AXIS_BASE_PADDING_REQUEST:
 				bbox = axis_circle_get_bbox (axis_base, view->renderer, c_map,
 							     axis_base->major_tick_labeled);
-				padding->wl = MAX (0., tmp.x - bbox.x);
-				padding->ht = MAX (0., tmp.y - bbox.y);
-				padding->wr = MAX (0., bbox.x + bbox.w - tmp.x - tmp.w);
-				padding->hb = MAX (0., bbox.y + bbox.h - tmp.y - tmp.h);
+				padding->wl = MAX (0., area->x - bbox.x);
+				padding->ht = MAX (0., area->y - bbox.y);
+				padding->wr = MAX (0., bbox.x + bbox.w - area->x - area->w);
+				padding->hb = MAX (0., bbox.y + bbox.h - area->y - area->h);
 				break;
 			case GOG_AXIS_BASE_POINT:
 				point = axis_circle_point (x, y, parms->cx, parms->cy, parms->rx, parms->th1);

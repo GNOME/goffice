@@ -1,3 +1,8 @@
+2008-02-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c: (x_process), (xy_process),
+	(radar_process): remove the unuseful tmp.
+
 2008-02-23  Morten Welinder  <terra@gnome.org>
 
 	* plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_update): Fix array
