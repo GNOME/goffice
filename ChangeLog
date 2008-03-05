@@ -1,3 +1,11 @@
+2008-03-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c: (gog_axis_base_get_crossed_axis),
+	(gog_axis_base_get_clamped_position): do not draw axes when no axis
+	is defined.
+	* goffice/graph/gog-renderer.c: (gog_renderer_update): do not attempt
+	to render with negative width or height. Partially fixes #519788.
+
 2008-02-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-line.c: (x_process), (xy_process),

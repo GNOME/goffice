@@ -298,9 +298,11 @@ gog_axis_base_get_crossed_axis (GogAxisBase *axis_base)
 	GogAxis *crossed_axis = NULL;
 	GSList *axes, *ptr;
 	gboolean found = FALSE;
+	GogAxisType axis_type = gog_axis_base_get_crossed_axis_type (axis_base);
 
-	axes = gog_chart_get_axes (axis_base->chart,
-		gog_axis_base_get_crossed_axis_type (axis_base));
+	if (axis_type == GOG_AXIS_UNKNOWN)
+		return NULL;
+	axes = gog_chart_get_axes (axis_base->chart, axis_type);
 	g_return_val_if_fail (axes != NULL, NULL);
 
 	for (ptr = axes; ptr != NULL && !found; ptr = ptr->next) {
@@ -379,6 +381,8 @@ gog_axis_base_get_clamped_position (GogAxisBase *axis_base)
 		double minimum, maximum;
 
 		cross_axis = gog_axis_base_get_crossed_axis (axis_base);
+		if (cross_axis == NULL)
+			return GOG_AXIS_AUTO;
 		cross_location = gog_axis_base_get_cross_location (axis_base);
 		if (gog_axis_get_bounds (cross_axis, &minimum, &maximum)) {
 			if (go_sub_epsilon (cross_location - minimum) <= 0.0)

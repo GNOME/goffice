@@ -1231,6 +1231,8 @@ gog_renderer_update (GogRenderer *rend, double w, double h)
 	gboolean redraw = TRUE;
 	gboolean size_changed;
 
+	if (w <= 0 || h <= 0)
+		return FALSE;
 	g_return_val_if_fail (IS_GOG_RENDERER (rend), FALSE);
 	g_return_val_if_fail (IS_GOG_VIEW (rend->view), FALSE);
 
@@ -1249,8 +1251,6 @@ gog_renderer_update (GogRenderer *rend, double w, double h)
 
 		rend->cairo_surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, rend->w, rend->h);
 	}
-	if (w == 0 || h == 0)
-		return FALSE;
 
 	view = rend->view;
 	graph = GOG_GRAPH (view->model);
