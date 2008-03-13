@@ -4018,6 +4018,21 @@ go_format_unref (GOFormat *gf)
 
 #ifdef DEFINE_COMMON
 /**
+ * go_format_is_invalid
+ * @fmt: Format to query
+ *
+ * Returns: TRUE if, and if only, the format is invalid
+ **/
+gboolean
+go_format_is_invalid (GOFormat const *fmt)
+{
+	g_return_val_if_fail (fmt != NULL, TRUE);
+	return fmt->typ == GO_FMT_INVALID;
+}
+#endif
+
+#ifdef DEFINE_COMMON
+/**
  * go_format_is_general
  * @fmt: Format to query
  *
@@ -4029,6 +4044,7 @@ go_format_unref (GOFormat *gf)
 gboolean
 go_format_is_general (GOFormat const *fmt)
 {
+	g_return_val_if_fail (fmt != NULL, FALSE);
 	return fmt->typ == GO_FMT_NUMBER && fmt->u.number.is_general;
 }
 #endif
@@ -4044,6 +4060,7 @@ go_format_is_general (GOFormat const *fmt)
 gboolean
 go_format_is_markup (GOFormat const *fmt)
 {
+	g_return_val_if_fail (fmt != NULL, FALSE);
 	return fmt->typ == GO_FMT_MARKUP;
 }
 #endif
@@ -4059,6 +4076,7 @@ go_format_is_markup (GOFormat const *fmt)
 gboolean
 go_format_is_text (GOFormat const *fmt)
 {
+	g_return_val_if_fail (fmt != NULL, FALSE);
 	return fmt->typ == GO_FMT_TEXT;
 }
 #endif
@@ -4126,6 +4144,8 @@ go_format_is_date (GOFormat const *fmt)
 int
 go_format_month_before_day (GOFormat const *fmt)
 {
+	g_return_val_if_fail (fmt != NULL, -1);
+
 	if (go_format_is_date (fmt) != 1)
 		return -1;
 	if (fmt->u.number.date_ybm)
@@ -4150,6 +4170,8 @@ go_format_month_before_day (GOFormat const *fmt)
 gboolean
 go_format_has_hour (GOFormat const *fmt)
 {
+	g_return_val_if_fail (fmt != NULL, FALSE);
+
 	return (fmt->typ == GO_FMT_NUMBER &&
 		fmt->u.number.has_time &&
 		fmt->u.number.has_hour);

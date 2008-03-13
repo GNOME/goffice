@@ -100,6 +100,7 @@ const char* go_format_as_XL	   	(GOFormat const *fmt);
 GOFormat *go_format_ref		 	(GOFormat *fmt);
 void      go_format_unref		(GOFormat *fmt);
 
+gboolean  go_format_is_invalid          (GOFormat const *fmt);
 gboolean  go_format_is_general          (GOFormat const *fmt);
 gboolean  go_format_is_markup           (GOFormat const *fmt);
 gboolean  go_format_is_text             (GOFormat const *fmt);

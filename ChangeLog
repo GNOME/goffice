@@ -1,3 +1,7 @@
+2008-03-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_is_invalid): New function.
+
 2008-03-06  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Post release bump.
