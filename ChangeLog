@@ -1,3 +1,8 @@
+2008-03-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/math/go-complex.h: fixed go-math.h inclusion.
+	* goffice/utils/go-image.h: include goffice-features.h.
+
 2008-03-12  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_is_invalid): New function.

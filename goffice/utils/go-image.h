@@ -20,6 +20,7 @@
 #define GO_IMAGE_H
 
 #include <glib-object.h>
+#include <goffice/goffice-features.h>
 #include <goffice/utils/goffice-utils.h>
 #include <cairo.h>
 

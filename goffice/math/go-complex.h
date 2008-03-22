@@ -1,7 +1,7 @@
 #ifndef GOFFICE_COMPLEX_H
 #define GOFFICE_COMPLEX_H
 
-#include <go-math.h>
+#include "go-math.h"
 
 G_BEGIN_DECLS
 
