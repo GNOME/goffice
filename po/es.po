@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-11 03:31+0000\n"
-"PO-Revision-Date: 2008-03-16 13:47+0100\n"
+"POT-Creation-Date: 2008-03-16 12:48+0000\n"
+"PO-Revision-Date: 2008-03-30 14:42+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1871,9 +1871,8 @@ msgstr ""
 "Imagen"
 
 #: ../goffice/graph/gog-style-prefs.glade.h:12
-#, fuzzy
 msgid "O_utline:"
-msgstr "Color del _borde exterior:"
+msgstr "C_ontorno:"
 
 #: ../goffice/graph/gog-style-prefs.glade.h:13
 msgid "Sha_pe:"
@@ -4607,9 +4606,8 @@ msgid "Invalid contents of \\{\\}."
 msgstr "Contenido de \\ {\\} no válido."
 
 #: ../goffice/utils/regutf8.c:46
-#, fuzzy
 msgid "Invalid range end."
-msgstr "El patrón de búsqueda no es válido."
+msgstr "Rango final no válido."
 
 #: ../goffice/utils/regutf8.c:47
 msgid "Out of memory."
@@ -4736,9 +4734,8 @@ msgid "Error bars"
 msgstr "Barras de error"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:593
-#, fuzzy
 msgid "Series lines"
-msgstr "Series"
+msgstr "Líneas de series"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:600
 #: ../plugins/plot_boxes/gog-histogram.c:491
@@ -4796,9 +4793,8 @@ msgstr "Propiedades"
 #: ../plugins/plot_barcol/gog-barcol.c:204
 #: ../plugins/plot_barcol/gog-minmax.c:219
 #: ../plugins/plot_boxes/gog-boxplot.c:294
-#, fuzzy
 msgid "Gap percentage"
-msgstr "Porcentaje"
+msgstr "Porcentaje del hueco"
 
 #: ../plugins/plot_barcol/gog-barcol.c:205
 #: ../plugins/plot_barcol/gog-minmax.c:220
@@ -5168,9 +5164,8 @@ msgid "Line, Area, Bar and Column plots"
 msgstr "Diagramas de línea, área, barras y columnas"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:8
-#, fuzzy
 msgid "Min Max plotting engine"
-msgstr "Motor de dibujo de líneas"
+msgstr "Motor de dibujado mín. máx."
 
 #: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:3
 msgid ""
@@ -5755,7 +5750,7 @@ msgstr ""
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
 msgid "ColoredXY"
-msgstr ""
+msgstr "XYColoreado"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:3
 msgid "Interpolate between multi-dimensional points with Bezier splines."
@@ -5823,23 +5818,23 @@ msgstr "Puntos XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:19
 msgid "XY Splines"
-msgstr ""
+msgstr "Splines XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:20
 msgid "XY Steps Center"
-msgstr ""
+msgstr "Centro de los pasos XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:21
 msgid "XY Steps End"
-msgstr ""
+msgstr "Final de los pasos XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:22
 msgid "XY Steps Mean"
-msgstr ""
+msgstr "Media de los pasos XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:23
 msgid "XY Steps Start"
-msgstr ""
+msgstr "Inicio de los pasos XY"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:1
 msgid "2D colored scatter plotting engine"
@@ -5879,7 +5874,7 @@ msgstr "Afín"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:159
 msgid "Uncheck to force zero intercept"
-msgstr ""
+msgstr "Desmarcar para forzar la interceptación en cero"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -5890,7 +5885,7 @@ msgstr "Regresión lineal"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:265
 msgid "If true, a non-zero constant is allowed"
-msgstr ""
+msgstr "Si es «true» se permite una constante distinta de cero"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:270
 msgid "Dims"
@@ -5916,42 +5911,42 @@ msgstr "Orden:"
 #. * 	Polynomial regression2
 #: ../plugins/reg_linear/gog-polynom-reg.c:224
 msgid "Polynomial regression"
-msgstr ""
+msgstr "Regresión polinómica"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Power regression2
 #: ../plugins/reg_linear/gog-power-reg.c:63
 msgid "Power regression"
-msgstr ""
+msgstr "Regresión en potencia"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:1
 msgid "Exponential regression curve engine"
-msgstr ""
+msgstr "Motor de curvas de regresión exponencial"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:2
 msgid "Linear regression curve engine"
-msgstr ""
+msgstr "Motor de curvas de regresión lineal"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:3
 msgid "Linear regression curves"
-msgstr ""
+msgstr "Curvas de regresión lineal"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:4
 msgid "Linear regression curves types"
-msgstr ""
+msgstr "Tipos de curvas de regresión lineal"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:5
 msgid "Logarithmic regression curve engine"
-msgstr ""
+msgstr "Motor de curvas de regresión logarítmicas"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:6
 msgid "Polynomial regression curve engine"
-msgstr ""
+msgstr "Motor de curvas de regresión polinómicas"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:7
 msgid "Power regression curve engine"
-msgstr ""
+msgstr "Motor de curvas de regresión en potencia"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:8
 msgid "Regression curve : linear"
@@ -5991,46 +5986,46 @@ msgstr "Potencia"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:10
 msgid "Power regression curve"
-msgstr ""
+msgstr "Curva de regresión en potencia"
 
 #. xgettext : the base for how to name logarithmic fits
 #. * eg The 2nd fit for a series will be called
 #. * 	Log fit2
 #: ../plugins/reg_logfit/gog-logfit.c:140
 msgid "Log fit"
-msgstr ""
+msgstr "Ajustado logarítmico"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:1
 msgid "Logarithmic fitting curve engine"
-msgstr ""
+msgstr "Motor de curvas de ajustado logarítmico"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:2
 msgid "Logarithmic fitting curves"
-msgstr ""
+msgstr "Curvas de ajustado logarítmico"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:3
 msgid "Logarithmic fitting curves types"
-msgstr ""
+msgstr "Tipos de curvas de ajustado logarítmico"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:4
 msgid "Regression curve : logfit"
-msgstr ""
+msgstr "Curva de regresión: ajustado logarítmico"
 
 #: ../plugins/reg_logfit/reg-types.xml.in.h:1
 msgid "Log Fit (y=a+b*ln(sign*(x-c)))"
-msgstr ""
+msgstr "Log ajustado (y=a+b*ln(sign*(x-c)))"
 
 #: ../plugins/reg_logfit/reg-types.xml.in.h:2
 msgid "Logarithmic fitting curve"
-msgstr ""
+msgstr "Curva de ajustado logarítmico"
 
 #: ../plugins/smoothing/gog-moving-avg.c:103
 msgid "Number of values from which to calculate an average"
-msgstr ""
+msgstr "Número de valores con los que calcular la media"
 
 #: ../plugins/smoothing/gog-moving-avg.c:108
 msgid "Whether to average x values as well or use the last one"
-msgstr ""
+msgstr "Indica si se deben usar los valores x promediados o el último"
 
 #. xgettext : the base for how to name moving averge smoothed curves objects
 #. * eg The 2nd one for a series will be called
@@ -6042,7 +6037,7 @@ msgstr "Moviendo media"
 
 #: ../plugins/smoothing/gog-moving-avg.c:197
 msgid "Number of averaged values"
-msgstr ""
+msgstr "Número de valores medios"
 
 #: ../plugins/smoothing/gog-moving-avg.c:202
 msgid "Average X"
@@ -6050,7 +6045,7 @@ msgstr "Media X"
 
 #: ../plugins/smoothing/gog-moving-avg.c:203
 msgid "Use averaged x values"
-msgstr ""
+msgstr "Usar valores x medios"
 
 #: ../plugins/smoothing/gog-moving-avg.glade.h:1
 msgid "_Span:"
@@ -6058,7 +6053,7 @@ msgstr ""
 
 #: ../plugins/smoothing/gog-moving-avg.glade.h:2
 msgid "_Use averaged abscissa"
-msgstr ""
+msgstr "_Usar abscisa promediada"
 
 #: ../plugins/smoothing/gog-exp-smooth.c:64
 #: ../plugins/smoothing/gog-exp-smooth.c:233
