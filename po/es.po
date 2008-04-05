@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-16 12:48+0000\n"
-"PO-Revision-Date: 2008-03-30 14:42+0200\n"
+"POT-Creation-Date: 2008-03-30 13:48+0100\n"
+"PO-Revision-Date: 2008-04-05 15:10+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1539,7 +1539,7 @@ msgstr "Brújula"
 
 #: ../goffice/graph/gog-object.c:755
 msgid "Compass auto position flags"
-msgstr ""
+msgstr "Autoposicionar los señaladores de la brújula"
 
 #: ../goffice/graph/gog-object.c:761
 msgid "Alignment flag"
@@ -1650,23 +1650,24 @@ msgid "Reference to Y axis"
 msgstr "Referencia al eje Y"
 
 #: ../goffice/graph/gog-plot.c:547
-#, fuzzy
 msgid "Plot group"
-msgstr "Tipo de gráfico"
+msgstr "Grupo de dibujo"
 
 #: ../goffice/graph/gog-plot.c:548
 msgid "Name of plot group if any"
-msgstr ""
+msgstr "Nombre del grupo de dibujo si lo hay"
 
 #: ../goffice/graph/gog-plot.c:553
 msgid "Guru hints"
-msgstr ""
+msgstr "Consejos de gurú"
 
 #: ../goffice/graph/gog-plot.c:554
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
 msgstr ""
+"Lista de los consejos de gurú separados por punto y coma para la adición automática de objetos "
+"en el diálogo de gurú"
 
 #: ../goffice/graph/gog-plot.c:560
 msgid "Default interpolation"
@@ -1800,9 +1801,8 @@ msgid "Regression curve"
 msgstr "Curva de regresión"
 
 #: ../goffice/graph/gog-series.c:584
-#, fuzzy
 msgid "Trend line"
-msgstr "Series"
+msgstr "Línea de tendencia"
 
 #: ../goffice/graph/gog-series.c:617
 msgid "Has-legend"
@@ -1965,9 +1965,8 @@ msgid "Guppi"
 msgstr "Guppi"
 
 #: ../goffice/graph/gog-trend-line.c:41
-#, fuzzy
 msgid "Trend Line"
-msgstr "Series"
+msgstr "Línea de tendencia"
 
 #: ../goffice/graph/gog-view.c:63
 msgid "Select object"
@@ -2799,7 +2798,7 @@ msgstr "_No mostrar los 1x"
 
 #: ../goffice/gtk/go-format-sel.glade.h:23
 msgid "_Engineering notation"
-msgstr ""
+msgstr "Notación de _ingeniería"
 
 #: ../goffice/gtk/go-format-sel.glade.h:24
 msgid "_Format:"
@@ -4281,7 +4280,7 @@ msgstr "no"
 #: ../goffice/utils/go-glib-extras.c:1032
 #, c-format
 msgid "Quoted string not terminated"
-msgstr ""
+msgstr "Falta la comilla de finalización"
 
 #: ../goffice/utils/go-glib-extras.c:1039
 #, c-format
@@ -4389,9 +4388,8 @@ msgid "Step at end"
 msgstr ""
 
 #: ../goffice/utils/go-line.c:90
-#, fuzzy
 msgid "Step at center"
-msgstr "Septiembre"
+msgstr ""
 
 #: ../goffice/utils/go-line.c:91
 msgid "Step to mean"
@@ -4680,31 +4678,31 @@ msgstr "El texto que buscar es una expresión regular."
 
 #: ../goffice/utils/regutf8.c:834
 msgid "Ignore Case"
-msgstr ""
+msgstr "Ignorar capitalización"
 
 #: ../goffice/utils/regutf8.c:835
 msgid "Ignore the case of letters."
-msgstr ""
+msgstr "Ignorar la capitalización de las letras."
 
 #: ../goffice/utils/regutf8.c:843
 msgid "Preserve Case"
-msgstr ""
+msgstr "Conservar capitación"
 
 #: ../goffice/utils/regutf8.c:844
 msgid "Preserve the case of letters."
-msgstr ""
+msgstr "Conservar la capitalización de las letras."
 
 #: ../goffice/utils/regutf8.c:852
 msgid "Match Words"
-msgstr ""
+msgstr "Coincidir con las palabras"
 
 #: ../goffice/utils/regutf8.c:853
 msgid "Match whole words only."
-msgstr ""
+msgstr "Coincidir sólo con la palabra completa."
 
 #: ../plugins/plot_barcol/gog-1.5d.c:328
 msgid "How to group multiple series, normal, stacked, as_percentage"
-msgstr ""
+msgstr "Cómo agrupar series múltiples, normal, apilados, como porcentaje"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:333 ../plugins/plot_pie/gog-pie.c:245
 #: ../plugins/plot_xy/gog-xy.c:518
@@ -4749,9 +4747,8 @@ msgstr "Líneas"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:637 ../plugins/plot_xy/gog-xy.c:1607
 #: ../plugins/plot_xy/gog-xy.c:1613
-#, fuzzy
 msgid "GogErrorBar *"
-msgstr "Barras de error"
+msgstr "Barra de error Gog *"
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:3
 msgid "How far the bars/cols overlap as a percentage of the width"
@@ -4822,9 +4819,8 @@ msgstr "barras horizontales o columnas verticales"
 #. * eg The 2nd drop bar/col plot in a chart will be called
 #. * 	PlotDropBar2
 #: ../plugins/plot_barcol/gog-dropbar.c:43
-#, fuzzy
 msgid "PlotDropBar"
-msgstr "GráficoBarCol"
+msgstr ""
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -4858,9 +4854,8 @@ msgstr "GráficoÁrea"
 #. * eg The 2nd min/max line plot in a chart will be called
 #. * 	PlotMinMax2
 #: ../plugins/plot_barcol/gog-minmax.c:136
-#, fuzzy
 msgid "PlotMinMax"
-msgstr "GráficoLínea"
+msgstr "Dibujar mín./máx."
 
 #: ../plugins/plot_barcol/gog-minmax.c:225
 msgid "Horizontal"
@@ -4979,28 +4974,24 @@ msgid "DropBar"
 msgstr ""
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:71
-#, fuzzy
 msgid "Horizontal Drop Bars"
-msgstr "Línea horizontal"
+msgstr ""
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:72
-#, fuzzy
 msgid "Horizontal Min Max Lines"
-msgstr "Línea horizontal"
+msgstr "Líneas mín. máx. horizontales"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:73
-#, fuzzy
 msgid "Horizontal drop bars."
-msgstr "Línea horizontal"
+msgstr ""
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:74
 msgid "Horizontal min max lines with markers."
-msgstr ""
+msgstr "Líneas mín. máx. horizontales con marcadores."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:75
-#, fuzzy
 msgid "Horizontal min max lines."
-msgstr "Línea horizontal"
+msgstr "Líneas mín. máx. horizontales."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:76
 msgid "Line"
@@ -5012,12 +5003,11 @@ msgstr "Gráfico de líneas."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:79
 msgid "Marked Horizontal Min Max Lines"
-msgstr ""
+msgstr "Líneas mín. máx. horizontales marcadas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:80
-#, fuzzy
 msgid "Marked Vertical Min Max Lines"
-msgstr "Líneas de porcentajes no marcadas"
+msgstr "Líneas mín. máx verticales marcadas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:81
 msgid "MinMax"
@@ -5113,22 +5103,20 @@ msgid "Unmarked Stacked Lines"
 msgstr "Líneas apiladas no marcadas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:101
-#, fuzzy
 msgid "Vertical Drop Bars"
-msgstr "Línea vertical"
+msgstr ""
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:102
 msgid "Vertical Min Max Lines"
-msgstr ""
+msgstr "Líneas mín. máx. verticales"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:103
-#, fuzzy
 msgid "Vertical drop bars."
-msgstr "Línea vertical"
+msgstr ""
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:104
 msgid "Vertical min max lines with markers."
-msgstr ""
+msgstr "Líneas mín. máx. verticales con marcadores."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:105
 msgid "Vertical min max lines."
@@ -5151,9 +5139,8 @@ msgid "Default 1.5d plot types"
 msgstr "Tipos de gráficas preestablecidas para 1.5d"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:5
-#, fuzzy
 msgid "Drop Bar/Col plotting engine"
-msgstr "Motor de dibujo de barras/columnas"
+msgstr ""
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:6
 msgid "Line plotting engine"
@@ -5183,9 +5170,8 @@ msgstr "_Distribución"
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
 #: ../plugins/plot_boxes/gog-boxplot.c:143
-#, fuzzy
 msgid "Box-Plot"
-msgstr "Gráfico"
+msgstr "Diagrama de cajas"
 
 #: ../plugins/plot_boxes/gog-boxplot.c:300
 msgid "Vertical"
@@ -5193,7 +5179,7 @@ msgstr "Vertical"
 
 #: ../plugins/plot_boxes/gog-boxplot.c:301
 msgid "Whether the box-plot should be vertical instead of horizontal"
-msgstr ""
+msgstr "Indica si el diagrama de cajas debería ser vertical en lugar de horizontal"
 
 #. xgettext : the base for how to name histogram-plot objects
 #. * eg The 2nd histogram-plot in a chart will be called
@@ -5208,47 +5194,40 @@ msgid "Limits"
 msgstr "Límites"
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:1
-#, fuzzy
 msgid "BoxPlot"
-msgstr "Gráfico"
+msgstr "Diagrama de cajas"
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:2
-#, fuzzy
 msgid "HBoxPlots"
-msgstr "Gráfico"
+msgstr "Diagrama de cajas horizontal"
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:4
 msgid "Histogram."
 msgstr "Histograma."
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:5
-#, fuzzy
 msgid "Horizontal Box-Plot."
-msgstr "Línea horizontal"
+msgstr "Diagrama de cajas horizontal."
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:6
-#, fuzzy
 msgid "VBoxPlots"
-msgstr "Gráfico"
+msgstr "Diagrama de cajas vertical"
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:7
-#, fuzzy
 msgid "Vertical Box-Plot."
-msgstr "Gráfico"
+msgstr "Diagrama de cajas vertical."
 
 #: ../plugins/plot_boxes/plugin.xml.in.h:1
 msgid "Box-Plots and Histograms"
-msgstr ""
+msgstr "Diagramas de cajas e histogramas"
 
 #: ../plugins/plot_boxes/plugin.xml.in.h:2
-#, fuzzy
 msgid "Box-plot plotting engine"
-msgstr "Motor de dibujo de barras/columnas"
+msgstr "Motor de dibujado del diagrama de cajas"
 
 #: ../plugins/plot_boxes/plugin.xml.in.h:3
-#, fuzzy
 msgid "Charting : Box-Plots/Histograms"
-msgstr "Gráficas: Diagramas radiales"
+msgstr ""
 
 #: ../plugins/plot_boxes/plugin.xml.in.h:4
 msgid "Histograms plotting engine"
@@ -5304,11 +5283,8 @@ msgid "Separation"
 msgstr "Separación"
 
 #: ../plugins/plot_pie/gog-pie.c:107
-#, fuzzy
 msgid "Amount a slice is extended as a percentage of the radius"
 msgstr ""
-"La cantidad preestablecida que cada rodaja está separada del centro, medido "
-"como un porcentaje del radio de la tarta"
 
 #: ../plugins/plot_pie/gog-pie.c:193
 msgid "PlotPie"
@@ -5327,11 +5303,8 @@ msgid "Default separation"
 msgstr "Separación predeterminada"
 
 #: ../plugins/plot_pie/gog-pie.c:240 ../plugins/plot_pie/gog-pie.c:906
-#, fuzzy
 msgid "Default amount a slice is extended as a percentage of the radius"
 msgstr ""
-"La cantidad preestablecida que cada rodaja está separada del centro, medido "
-"como un porcentaje del radio de la tarta"
 
 #: ../plugins/plot_pie/gog-pie.c:246
 msgid "Draw 3d wedges"
@@ -5343,7 +5316,7 @@ msgstr "Expandir"
 
 #: ../plugins/plot_pie/gog-pie.c:252
 msgid "Total angle used as a percentage of the full circle"
-msgstr ""
+msgstr "Ángulo total usado como porcentaje del círculo completo"
 
 #: ../plugins/plot_pie/gog-pie.c:340
 msgid "PlotRing"
