@@ -90,8 +90,15 @@ double go_coupdaysnc (GDate const *settle, GDate const *mat,
 
 int gnm_date_convention_base (GODateConventions const *conv);
 
+const GODateConventions *go_date_conv_from_str (const char *s);
+gboolean go_date_conv_equal (const GODateConventions *a, const GODateConventions *b);
+double go_date_conv_translate (double f,
+			       const GODateConventions *src,
+			       const GODateConventions *dst);
+
 char *go_date_weekday_name (GDateWeekday wd, gboolean abbrev);
 char *go_date_month_name (GDateMonth m, gboolean abbrev);
+
 
 G_END_DECLS
 

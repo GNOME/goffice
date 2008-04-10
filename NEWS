@@ -5,6 +5,7 @@ Jean:
 
 Morten:
 	* Add go_format_is_invalid.
+	* Improve date convention framework.
 
 --------------------------------------------------------------------------
 goffice 0.6.2:

@@ -11,6 +11,7 @@
 
 #include <goffice/goffice-config.h>
 #include "datetime.h"
+#include <goffice/math/go-math.h>
 
 #include <math.h>
 #include <string.h>
@@ -498,6 +499,56 @@ gnm_date_convention_base (GODateConventions const *conv)
 {
 	g_return_val_if_fail (conv != NULL, 1900);
 	return conv->use_1904 ? 1904 : 1900;
+}
+
+const GODateConventions *
+go_date_conv_from_str (const char *s)
+{
+	static const GODateConventions apple1904 = { TRUE };
+	static const GODateConventions lotus1900 = { FALSE };
+
+	g_return_val_if_fail (s != NULL, NULL);
+
+	if (strcmp (s, "Apple:1904") == 0)
+		return &apple1904;
+
+	if (strcmp (s, "Lotus:1900") == 0)
+		return &lotus1900;
+
+	return NULL;
+}
+
+gboolean
+go_date_conv_equal (const GODateConventions *a, const GODateConventions *b)
+{
+	g_return_val_if_fail (a != NULL, FALSE);
+	g_return_val_if_fail (b != NULL, FALSE);
+
+	return a->use_1904 == b->use_1904;
+}
+
+double
+go_date_conv_translate (double f,
+			const GODateConventions *src,
+			const GODateConventions *dst)
+{
+	g_return_val_if_fail (src != NULL, f);
+	g_return_val_if_fail (dst != NULL, f);
+
+	if (!go_finite (f) || go_date_conv_equal (src, dst))
+		return f;
+
+	if (dst->use_1904) {
+		if (f < date_serial_19000228 + 1)
+			f += 1;
+		f -= 1462;
+	} else {
+		f += 1462;
+		if (f < date_serial_19000228 + 2)
+			f -= 1;
+	}
+
+	return f;
 }
 
 /* ------------------------------------------------------------------------- */

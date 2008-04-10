@@ -1,3 +1,8 @@
+2008-04-10  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/datetime.c (go_date_conv_from_str,
+	go_date_conv_equal, go_date_conv_translate): New functions.
+
 2008-04-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_boxes/gog-boxplot.c: skip invalid data. [#527249]
