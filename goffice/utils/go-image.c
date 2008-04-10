@@ -56,6 +56,8 @@ go_mime_to_image_format (char const *mime_type)
 		"text/xml-svg", "svg",
 		"image/x-wmf", "wmf",
 		"image/x-emf", "emf",
+		"application/pdf", "pdf",
+		"application/postscript", "ps",
 	};
 
 	for (i = 0; i < G_N_ELEMENTS (exceptions); i += 2)
@@ -86,6 +88,8 @@ go_image_format_to_mime (char const *format)
 		"svg", "image/svg,image/svg+xml",
 		"wmf", "image/x-wmf",
 		"emf", "image/x-emf",
+		"pdf", "application/pdf",
+		"ps", "application/postscript",
 	};
 	
 	if (format == NULL)

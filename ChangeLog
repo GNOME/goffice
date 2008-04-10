@@ -1,3 +1,8 @@
+2008-04-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-image.c: (go_mime_to_image_format),
+	(go_image_format_to_mime): add support for pdf and ps.
+
 2008-04-10  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/datetime.c (go_date_conv_from_str,
