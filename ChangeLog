@@ -1,3 +1,7 @@
+2008-04-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_boxes/gog-boxplot.c: skip invalid data. [#527249]
+
 2008-03-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/math/go-complex.h: fixed go-math.h inclusion.

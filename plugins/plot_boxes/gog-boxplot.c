@@ -30,6 +30,7 @@
 #include <goffice/graph/gog-chart-map.h>
 #include <goffice/data/go-data-simple.h>
 #include <goffice/math/go-rangefunc.h>
+#include <goffice/math/go-math.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>
@@ -498,11 +499,13 @@ gog_box_plot_series_update (GogObject *obj)
 	series->base.num_elements = len;
 	if (len > 0) {
 		double *svals = g_new (double, len), x;
-		int n;
-		memcpy (svals, vals, len * sizeof (double));
-		go_range_fractile_inter_nonconst (svals, len, &series->vals[0], 0);
+		int n, max = 0;
+		for (n = 0; n < len; n++)
+			if (go_finite (vals[n]))
+				svals[max++] = vals[n];
+		go_range_fractile_inter_nonconst (svals, max, &series->vals[0], 0);
 		for (x = 0.25,n = 1; n < 5; n++, x+= 0.25)
-			go_range_fractile_inter_sorted (svals, len, &series->vals[n], x);
+			go_range_fractile_inter_sorted (svals, max, &series->vals[n], x);
 		g_free (svals);
 	}
 	/* queue plot for redraw */
