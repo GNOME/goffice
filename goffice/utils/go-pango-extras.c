@@ -5,7 +5,6 @@
  *    Morten Welinder (terra@gnome.org)
  */
 
-#include <goffice-config.h>
 #include <goffice/goffice-config.h>
 #include "go-pango-extras.h"
 

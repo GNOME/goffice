@@ -8,7 +8,6 @@
  *    Zbigniew Chyla (cyba@gnome.pl)
  *    Morten Welinder (terra@gnome.org)
  */
-#include <goffice-config.h>
 #include <goffice/goffice-config.h>
 #include "go-glib-extras.h"
 #include "go-locale.h"
