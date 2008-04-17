@@ -6,6 +6,7 @@ EXTRA_DIST = README NEWS BUGS MAINTAINERS AUTHORS \
 	goffice.mk \
 	goffice-plugins.mk \
 	libgoffice.pc.in \
+	acinclude.m4		\
 	intltool-extract.in	\
 	intltool-update.in	\
 	intltool-merge.in

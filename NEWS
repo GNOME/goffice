@@ -3,6 +3,9 @@ goffice 0.6.3:
 Jean:
 	* Don't try to use invalide data in box-plots. [#527249]
 
+Jody:
+	* Enable the use of dolt.
+
 Morten:
 	* Add go_format_is_invalid.
 	* Improve date convention framework.
