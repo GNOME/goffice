@@ -2,6 +2,7 @@ goffice 0.6.3:
 
 Jean:
 	* Don't try to use invalide data in box-plots. [#527249]
+	* Add EPS export for charts if cairo supports.
 
 Jody:
 	* Enable the use of dolt.

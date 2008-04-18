@@ -1450,6 +1450,7 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 	gog_graph_get_size (rend->model, &width_in_pts, &height_in_pts);
 
 	switch (format) {
+		case GO_IMAGE_FORMAT_EPS:
 		case GO_IMAGE_FORMAT_PDF:
 		case GO_IMAGE_FORMAT_PS:
 		case GO_IMAGE_FORMAT_SVG:
@@ -1495,6 +1496,21 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 					break;
 #else
 					g_warning ("[GogRendererCairo::export_image] cairo SVG backend missing");
+					return FALSE;
+#endif
+				case GO_IMAGE_FORMAT_EPS:
+					rend->marker_as_surface = FALSE;
+#ifdef HAVE_CAIRO_PS_SURFACE_SET_EPS
+					surface = cairo_ps_surface_create_for_stream
+						(_cairo_write_func,
+						 output, width_in_pts, height_in_pts);
+					cairo_ps_surface_set_eps (surface, TRUE);
+#ifdef HAVE_CAIRO_SURFACE_SET_FALLBACK_RESOLUTION
+					cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
+#endif
+					break;
+#else
+					g_warning ("[GogRendererCairo::export_image] cairo EPS backend missing");
 					return FALSE;
 #endif
 				default:

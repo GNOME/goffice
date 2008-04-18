@@ -1,3 +1,11 @@
+2008-04-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: add a test for cairo_ps_surface_set_eps.
+	* goffice/graph/gog-graph.c:
+	(gog_graph_get_supported_image_formats): add EPS if cairo supports it.
+	* goffice/graph/gog-renderer.c: (gog_renderer_export_image): ditto.
+	* goffice/utils/go-image.h: ditto.
+
 2008-04-16  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Use dolt when possible.

@@ -1019,6 +1019,9 @@ GSList *
 gog_graph_get_supported_image_formats (void)
 {
 	static GOImageFormat supported_formats[] = {
+#ifdef HAVE_CAIRO_PS_SURFACE_SET_EPS
+		GO_IMAGE_FORMAT_EPS,
+#endif
 #ifdef GOG_RENDERER_CAIRO_WITH_PS
 		GO_IMAGE_FORMAT_PS,
 #endif

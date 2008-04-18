@@ -382,7 +382,7 @@ fi
 
 SAVE_LIBS=$LIBS
 LIBS="$GOFFICE_LIBS $LIBS"
-AC_CHECK_FUNCS(cairo_surface_set_fallback_resolution)
+AC_CHECK_FUNCS(cairo_surface_set_fallback_resolution cairo_ps_surface_set_eps)
 LIBS=$SAVE_LIBS
 
 SAVE_CFLAGS=$CFLAGS
