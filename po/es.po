@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-30 13:48+0100\n"
-"PO-Revision-Date: 2008-04-05 15:10+0200\n"
+"POT-Creation-Date: 2008-04-05 14:11+0100\n"
+"PO-Revision-Date: 2008-04-20 17:38+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1666,8 +1666,8 @@ msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
 msgstr ""
-"Lista de los consejos de gurú separados por punto y coma para la adición automática de objetos "
-"en el diálogo de gurú"
+"Lista de los consejos de gurú separados por punto y coma para la adición "
+"automática de objetos en el diálogo de gurú"
 
 #: ../goffice/graph/gog-plot.c:560
 msgid "Default interpolation"
@@ -4597,7 +4597,7 @@ msgstr ""
 
 #: ../goffice/utils/regutf8.c:44
 msgid "Unmatched \\{."
-msgstr ""
+msgstr "Falta un \\{"
 
 #: ../goffice/utils/regutf8.c:45
 msgid "Invalid contents of \\{\\}."
@@ -4625,7 +4625,7 @@ msgstr "El patrón es demasiado grande."
 
 #: ../goffice/utils/regutf8.c:51
 msgid "Unmatched ) or \\)"
-msgstr ""
+msgstr "Falta un ) o \\)"
 
 #: ../goffice/utils/regutf8.c:273
 #, c-format
@@ -5284,7 +5284,7 @@ msgstr "Separación"
 
 #: ../plugins/plot_pie/gog-pie.c:107
 msgid "Amount a slice is extended as a percentage of the radius"
-msgstr ""
+msgstr "Cantidad que una rodaja se extiende como porcentaje del radio"
 
 #: ../plugins/plot_pie/gog-pie.c:193
 msgid "PlotPie"
@@ -5304,11 +5304,11 @@ msgstr "Separación predeterminada"
 
 #: ../plugins/plot_pie/gog-pie.c:240 ../plugins/plot_pie/gog-pie.c:906
 msgid "Default amount a slice is extended as a percentage of the radius"
-msgstr ""
+msgstr "Cantidad predeterminada que una rodaja se extiende como porcentaje del radio"
 
 #: ../plugins/plot_pie/gog-pie.c:246
 msgid "Draw 3d wedges"
-msgstr ""
+msgstr "Dibujar cuñas 3D"
 
 #: ../plugins/plot_pie/gog-pie.c:251 ../plugins/smoothing/gog-moving-avg.c:196
 msgid "Span"
@@ -5332,7 +5332,7 @@ msgstr "Tamaño del agujero central como porcentaje del radio"
 
 #: ../plugins/plot_pie/gog-pie.c:531
 msgid "Move pie"
-msgstr ""
+msgstr "Mover tarta"
 
 #: ../plugins/plot_pie/gog-pie.c:899
 msgid "Initial-angle"
@@ -5609,11 +5609,11 @@ msgstr ""
 
 #: ../plugins/plot_xy/gog-xy-series-prefs.glade.h:2
 msgid "_Use nul value instead of invalid"
-msgstr ""
+msgstr "_Usar valor nulo en lugar de no válido"
 
 #: ../plugins/plot_xy/gog-xy-color-prefs.glade.h:1
 msgid "Hide data outside of color axis bounds"
-msgstr ""
+msgstr "Ocultar datos fuera de las vinculaciones de color de los ejes"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -5624,11 +5624,11 @@ msgstr "GráficoXY"
 
 #: ../plugins/plot_xy/gog-xy.c:337
 msgid "Has markers by default"
-msgstr ""
+msgstr "Tiene marcadores de forma predeterminada"
 
 #: ../plugins/plot_xy/gog-xy.c:343 ../plugins/plot_xy/gog-xy.c:769
 msgid "Has lines by default"
-msgstr ""
+msgstr "Tiene lineas de forma predeterminada"
 
 #: ../plugins/plot_xy/gog-xy.c:344 ../plugins/plot_xy/gog-xy.c:770
 msgid "Should the default style of a series include lines"
