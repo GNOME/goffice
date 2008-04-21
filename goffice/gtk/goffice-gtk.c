@@ -185,6 +185,18 @@ go_glade_signal_connect_swapped (GladeXML	*gui,
 	return g_signal_connect_swapped (w, detailed_signal, c_handler, data);
 }
 
+
+/*
+ * A variant of gtk_window_activate_default that does not end up reactivating
+ * the widget that [Enter] was pressed in.
+ */
+static void
+cb_activate_default (GtkWindow *window)
+{
+	if (window->default_widget && GTK_WIDGET_IS_SENSITIVE (window->default_widget))
+		gtk_widget_activate (window->default_widget);
+}
+
 /**
  * go_gtk_editable_enters:
  * @window:
@@ -202,7 +214,7 @@ go_gtk_editable_enters (GtkWindow *window, GtkWidget *w)
 	g_return_if_fail (GTK_IS_WINDOW (window));
 	g_signal_connect_swapped (G_OBJECT (w),
 		"activate",
-		G_CALLBACK (gtk_window_activate_default), window);
+		G_CALLBACK (cb_activate_default), window);
 }
 
 void

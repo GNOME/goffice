@@ -10,6 +10,7 @@ Jody:
 Morten:
 	* Add go_format_is_invalid.
 	* Improve date convention framework.
+	* Fix problem with [Enter] causing infinite recursion.
 
 --------------------------------------------------------------------------
 goffice 0.6.2:

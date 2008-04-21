@@ -1,3 +1,8 @@
+2008-04-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_editable_enters): Avoid
+	infinite recursion if default widget is not sensitive.
+
 2008-04-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: add a test for cairo_ps_surface_set_eps.
