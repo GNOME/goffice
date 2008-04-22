@@ -132,6 +132,8 @@ static GOImageFormatInfo const image_format_infos[GO_IMAGE_FORMAT_UNKNOWN] = {
 		(char *) "pdf", FALSE, FALSE, TRUE},
 	{GO_IMAGE_FORMAT_PS,  (char *) "ps",   (char *) N_("PS (postscript)"), 		 
 		(char *) "ps",  FALSE, TRUE, TRUE},
+	{GO_IMAGE_FORMAT_EPS,  (char *) "ps",   (char *) N_("EPS (encapsulated postscript)"), 		 
+		(char *) "eps",  FALSE, TRUE, TRUE},
 	{GO_IMAGE_FORMAT_EMF, (char *) "emf",  (char *) N_("EMF (extended metafile)"),
 		(char *) "emf", FALSE, FALSE, TRUE},
 	{GO_IMAGE_FORMAT_WMF, (char *) "wmf",  (char *) N_("WMF (windows metafile)"), 

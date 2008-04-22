@@ -24,7 +24,6 @@
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/app/goffice-app.h>
 #include <glib-object.h>
-#include <libart_lgpl/art_rect.h>
 
 G_BEGIN_DECLS
 
