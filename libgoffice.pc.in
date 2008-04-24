@@ -11,4 +11,4 @@ Libs: -L${libdir} -lgoffice-@GOFFICE_API_VER@
 Libs.private: @EXTRA_LIBS@
 Cflags: -I${includedir}/libgoffice-@GOFFICE_API_VER@ @EXTRA_INCLUDES@
 
-PluginDir: ${libdir}/goffice/@VERSION@/plugins
+PluginDir=${libdir}/goffice/@VERSION@/plugins

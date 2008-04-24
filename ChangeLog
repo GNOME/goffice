@@ -1,3 +1,8 @@
+2008-04-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* libgoffice.pc.in: fixed the plugins dir definition so tht it can
+	be used.
+
 2008-04-22  Jody Goldberg <jody@gnome.org>
 
 	* goffice/utils/go-image.c (image_format_infos) : add "eps" to go with
