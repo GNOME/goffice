@@ -682,6 +682,7 @@ gog_series_dataset_set_dim (GogDataset *set, int dim_i,
 	GogGraph *graph = gog_object_get_graph (GOG_OBJECT (series));
 
 	g_return_if_fail (IS_GOG_PLOT (series->plot));
+	g_return_if_fail (dim_i < -1);
 
 	if (dim_i < 0) {
 		char *name = NULL;
@@ -697,6 +698,8 @@ gog_series_dataset_set_dim (GogDataset *set, int dim_i,
 	/* clone shared dimensions into other series in the plot, and
 	 * invalidate if necessary */
 	desc = &series->plot->desc.series;
+	g_return_if_fail (dim_i < (int) desc->num_dim);
+
 	if (desc->dim[dim_i].is_shared) {
 		GSList *ptr = series->plot->series;
 
