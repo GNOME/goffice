@@ -52,8 +52,6 @@ IGNORE_HFILES=	\
 		libfoocanvas.h				\
 		foo-canvas-i18n.h			\
 		foo-canvas-marshal.h			\
-		pcre.h					\
-		pcre_internal.h				\
 		ucp.h
 	
 HTML_IMAGES=

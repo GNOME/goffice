@@ -1,3 +1,9 @@
+2008-04-25  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/regutf8.c (go_regexec): New glib (i.e., non-pcre)
+	implementation when glib has the right functions.  Patch from
+	Hiroyuki Ikezoe, see bug #482319.
+
 2008-04-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-series.c: (gog_series_dataset_set_dim): check

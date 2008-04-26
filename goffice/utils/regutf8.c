@@ -7,7 +7,9 @@
 
 #include <goffice/goffice-config.h>
 #include "regutf8.h"
+#ifndef HAVE_G_REGEX_ERROR_STRAY_BACKSLASH
 #include <pcre.h>
+#endif
 #include "go-glib-extras.h"
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -18,152 +20,238 @@
 void
 go_regfree (GORegexp *gor)
 {
-  if (gor->ppcre) {
-    pcre_free (gor->ppcre);
-    gor->ppcre = NULL;
-  }
+	if (gor->ppcre) {
+#ifdef HAVE_G_REGEX_ERROR_STRAY_BACKSLASH
+		g_regex_unref (gor->ppcre);
+#else
+		pcre_free (gor->ppcre);
+#endif
+		gor->ppcre = NULL;
+	}
 }
 
 size_t
 go_regerror (int errcode, const GORegexp *gor, char *dst, size_t dstsize)
 {
-  const char *err;
-  size_t errlen;
+	const char *err;
+	size_t errlen;
 
-  switch (errcode) {
-  case REG_NOERROR: err = "?"; break;
-  case REG_NOMATCH: err = _("Pattern not found."); break;
-  default:
-  case REG_BADPAT: err = _("Invalid pattern."); break;
-  case REG_ECOLLATE: err = _("Invalid collating element."); break;
-  case REG_ECTYPE: err = _("Invalid character class name."); break;
-  case REG_EESCAPE: err = _("Trailing backslash."); break;
-  case REG_ESUBREG: err = _("Invalid back reference."); break;
-  case REG_EBRACK: err = _("Unmatched left bracket."); break;
-  case REG_EPAREN: err = _("Parenthesis imbalance."); break;
-  case REG_EBRACE: err = _("Unmatched \\{."); break;
-  case REG_BADBR: err = _("Invalid contents of \\{\\}."); break;
-  case REG_ERANGE: err = _("Invalid range end."); break;
-  case REG_ESPACE: err = _("Out of memory."); break;
-  case REG_BADRPT: err = _("Invalid repetition operator."); break;
-  case REG_EEND: err = _("Premature end of pattern."); break;
-  case REG_ESIZE: err = _("Pattern is too big."); break;
-  case REG_ERPAREN: err = _("Unmatched ) or \\)"); break;
-  };
+	switch (errcode) {
+	case REG_NOERROR: err = "?"; break;
+	case REG_NOMATCH: err = _("Pattern not found."); break;
+	default:
+	case REG_BADPAT: err = _("Invalid pattern."); break;
+	case REG_ECOLLATE: err = _("Invalid collating element."); break;
+	case REG_ECTYPE: err = _("Invalid character class name."); break;
+	case REG_EESCAPE: err = _("Trailing backslash."); break;
+	case REG_ESUBREG: err = _("Invalid back reference."); break;
+	case REG_EBRACK: err = _("Unmatched left bracket."); break;
+	case REG_EPAREN: err = _("Parenthesis imbalance."); break;
+	case REG_EBRACE: err = _("Unmatched \\{."); break;
+	case REG_BADBR: err = _("Invalid contents of \\{\\}."); break;
+	case REG_ERANGE: err = _("Invalid range end."); break;
+	case REG_ESPACE: err = _("Out of memory."); break;
+	case REG_BADRPT: err = _("Invalid repetition operator."); break;
+	case REG_EEND: err = _("Premature end of pattern."); break;
+	case REG_ESIZE: err = _("Pattern is too big."); break;
+	case REG_ERPAREN: err = _("Unmatched ) or \\)"); break;
+	};
 
-  errlen = strlen (err);
-  if (dstsize > 0) {
-    size_t copylen = MIN (errlen, dstsize - 1);
-    memcpy (dst, err, copylen);
-    dst[copylen] = 0;
-  }
+	errlen = strlen (err);
+	if (dstsize > 0) {
+		size_t copylen = MIN (errlen, dstsize - 1);
+		memcpy (dst, err, copylen);
+		dst[copylen] = 0;
+	}
 
-  return errlen;
+	return errlen;
 }
 
 int
 go_regcomp (GORegexp *gor, const char *pat , int cflags)
 {
-  const char *errorptr;
-  int errorofs, errorcode;
-  pcre *r;
-  int coptions =
-    PCRE_UTF8 |
-    PCRE_NO_UTF8_CHECK |
-    ((cflags & REG_ICASE) ? PCRE_CASELESS : 0) |
-    ((cflags & REG_NEWLINE) ? PCRE_MULTILINE : 0);
+#ifdef HAVE_G_REGEX_ERROR_STRAY_BACKSLASH
+	GError *error = NULL;
+	GRegex *r;
+	int coptions =
+		((cflags & REG_ICASE) ? G_REGEX_CASELESS : 0) |
+		((cflags & REG_NEWLINE) ? G_REGEX_MULTILINE : 0);
 
-  if (&pcre_compile2 == NULL)
-    g_error ("libgoffice has been dynamically linked against a libpcre\n"
-	     "that lacks the pcre_compile2 function.  This indicates a\n"
-	     "distribution dependency problem.  Please report this at\n"
-	     "bugzilla.gnome.org and for you distribution.");
+	gor->ppcre = r = g_regex_new (pat, coptions, 0, &error);
 
-  gor->ppcre = r = pcre_compile2 (pat, coptions,
-				  &errorcode, &errorptr, &errorofs,
-				  NULL);
+	if (r == NULL) {
+		/* 10, 19, 22 and 37 are not handled by GRegex. */
+		switch (error->code) {
+		case G_REGEX_ERROR_STRAY_BACKSLASH:
+		case G_REGEX_ERROR_MISSING_CONTROL_CHAR:
+		case G_REGEX_ERROR_UNRECOGNIZED_ESCAPE:
+		/* case 37: */
+			return REG_EESCAPE;
+		case G_REGEX_ERROR_QUANTIFIERS_OUT_OF_ORDER:
+		case G_REGEX_ERROR_QUANTIFIER_TOO_BIG:
+			return REG_EBRACE;
+		case G_REGEX_ERROR_UNTERMINATED_CHARACTER_CLASS:
+			return REG_EBRACK;
+		case G_REGEX_ERROR_INVALID_ESCAPE_IN_CHARACTER_CLASS:
+		case G_REGEX_ERROR_UNKNOWN_POSIX_CLASS_NAME:
+			return REG_ECTYPE;
+		case G_REGEX_ERROR_RANGE_OUT_OF_ORDER:
+			return REG_ERANGE;
+		case G_REGEX_ERROR_NOTHING_TO_REPEAT:
+		/* case 10: */
+			return REG_BADRPT;
+		case G_REGEX_ERROR_UNMATCHED_PARENTHESIS:
+		case G_REGEX_ERROR_UNTERMINATED_COMMENT:
+		/* case 22: */
+			return REG_EPAREN;
+		case G_REGEX_ERROR_INEXISTENT_SUBPATTERN_REFERENCE:
+			return REG_ESUBREG;
+		case G_REGEX_ERROR_EXPRESSION_TOO_LARGE:
+		/* case 19: */
+			return REG_ESIZE;
+		case G_REGEX_ERROR_MEMORY_ERROR:
+			return REG_ESPACE;
+		default:
+			return REG_BADPAT;
+		}
+	} else {
+		gor->re_nsub = g_regex_get_capture_count (r);
+		gor->nosub = (cflags & REG_NOSUB) != 0;
+		return 0;
+	}
+#else
+	const char *errorptr;
+	int errorofs, errorcode;
+	pcre *r;
+	int coptions =
+		PCRE_UTF8 |
+		PCRE_NO_UTF8_CHECK |
+		((cflags & REG_ICASE) ? PCRE_CASELESS : 0) |
+		((cflags & REG_NEWLINE) ? PCRE_MULTILINE : 0);
 
-  if (r == NULL) {
-    switch (errorcode) {
-    case 1: case 2: case 3: case 37: return REG_EESCAPE;
-    case 4: case 5: return REG_EBRACE;
-    case 6: return REG_EBRACK;
-    case 7: case 30: return REG_ECTYPE;
-    case 8: return REG_ERANGE;
-    case 9: case 10: return REG_BADRPT;
-    case 14: case 18: case 22: return REG_EPAREN;
-    case 15: return REG_ESUBREG;
-    case 19: case 20: return REG_ESIZE;
-    case 21: return REG_ESPACE;
-    default: return REG_BADPAT;
-    }
-  } else {
-    gor->re_nsub = pcre_info (r, NULL, NULL);
-    gor->nosub = (cflags & REG_NOSUB) != 0;
-    return 0;
-  }
+	if (&pcre_compile2 == NULL) {
+		g_error ("libgoffice has been dynamically linked against a libpcre\n"
+				"that lacks the pcre_compile2 function.  This indicates a\n"
+				"distribution dependency problem.  Please report this at\n"
+				"bugzilla.gnome.org and for you distribution.");
+	}
+
+	gor->ppcre = r = pcre_compile2 (pat, coptions,
+			&errorcode, &errorptr, &errorofs,
+			NULL);
+
+	if (r == NULL) {
+		switch (errorcode) {
+		case 1: case 2: case 3: case 37: return REG_EESCAPE;
+		case 4: case 5: return REG_EBRACE;
+		case 6: return REG_EBRACK;
+		case 7: case 30: return REG_ECTYPE;
+		case 8: return REG_ERANGE;
+		case 9: case 10: return REG_BADRPT;
+		case 14: case 18: case 22: return REG_EPAREN;
+		case 15: return REG_ESUBREG;
+		case 19: case 20: return REG_ESIZE;
+		case 21: return REG_ESPACE;
+		default: return REG_BADPAT;
+		}
+	} else {
+		gor->re_nsub = pcre_info (r, NULL, NULL);
+		gor->nosub = (cflags & REG_NOSUB) != 0;
+		return 0;
+	}
+#endif
+	return 0;
 }
 
 int
 go_regexec (const GORegexp *gor, const char *txt,
 	    size_t nmatch, GORegmatch *pmatch, int eflags)
 {
-  size_t txtlen = strlen (txt);
-  int eoptions =
-    ((eflags & REG_NOTBOL) ? PCRE_NOTBOL : 0) |
-    ((eflags & REG_NOTEOL) ? PCRE_NOTEOL : 0);
-  int res;
-  int *offsets, *allocated;
-  int offsetcount;
+#ifdef HAVE_G_REGEX_ERROR_STRAY_BACKSLASH
+	int eoptions =
+		((eflags & REG_NOTBOL) ? G_REGEX_MATCH_NOTBOL : 0) |
+		((eflags & REG_NOTEOL) ? G_REGEX_MATCH_NOTEOL : 0);
+	size_t i = 0;
+	gboolean matched;
+	GMatchInfo *match_info = NULL;
 
-  /* We need to totally ignore nmatch and pmatch in this case.  */
-  if (gor->nosub)
-    nmatch = 0;
+	/* We need to totally ignore nmatch and pmatch in this case.  */
+	if (gor->nosub)
+		nmatch = 0;
 
-  if (nmatch > 0) {
-    /* Paranoia.  */
-    if (nmatch >= G_MAXINT / sizeof (int) / 3)
-      return REG_ESPACE;
+	/* Paranoia.  */
+	if (nmatch >= G_MAXINT / (2 * sizeof (GORegmatch)))
+		return REG_ESPACE;
 
-    offsetcount = nmatch * 3;
-    offsets = allocated = g_try_new (int, offsetcount);
-    if (!offsets)
-      return REG_ESPACE;
-  } else {
-    offsets = allocated = NULL;
-    offsetcount = 0;
-  }
+	matched = g_regex_match (gor->ppcre, txt, eoptions,
+				 nmatch ? &match_info : NULL);
 
-  res = pcre_exec (gor->ppcre, NULL, txt, txtlen, 0, eoptions,
-		   offsets, offsetcount);
-  if (res >= 0) {
-    int i;
+	for (i = 0; matched && i < nmatch; i++) {
+		gint start_pos = -1, end_pos = -1;
+		g_match_info_fetch_pos (match_info, i, &start_pos, &end_pos);
+		pmatch[i].rm_so = start_pos;
+		pmatch[i].rm_eo = end_pos;
+	}
+	if (match_info)
+		g_match_info_free (match_info);
 
-    if (res == 0) res = nmatch;
+	return matched ? REG_NOERROR : REG_NOMATCH;
+#else
+	size_t txtlen = strlen (txt);
+	int eoptions =
+		((eflags & REG_NOTBOL) ? PCRE_NOTBOL : 0) |
+		((eflags & REG_NOTEOL) ? PCRE_NOTEOL : 0);
+	int res;
+	int *offsets, *allocated;
+	int offsetcount;
+	if (gor->nosub)
+		nmatch = 0;
 
-    for (i = 0; i < res; i++) {
-      pmatch[i].rm_so = offsets[i * 2];
-      pmatch[i].rm_eo = offsets[i * 2 + 1];
-    }
-    for (; i < (int)nmatch; i++) {
-      pmatch[i].rm_so = -1;
-      pmatch[i].rm_eo = -1;
-    }
-    g_free (allocated);
-    return REG_NOERROR;
-  }
+	if (nmatch > 0) {
+		/* Paranoia.  */
+		if (nmatch >= G_MAXINT / sizeof (int) / 3)
+			return REG_ESPACE;
 
-  g_free (allocated);
-  switch (res) {
-  case PCRE_ERROR_NOMATCH:
-    return REG_NOMATCH;
-  case PCRE_ERROR_BADUTF8:
-  case PCRE_ERROR_BADUTF8_OFFSET:
-    /* POSIX doesn't seem to foresee this kind of error.  */
-    return REG_BADPAT;
-  default:
-    return REG_ESPACE;
-  }
+		offsetcount = nmatch * 3;
+		offsets = allocated = g_try_new (int, offsetcount);
+		if (!offsets)
+			return REG_ESPACE;
+	} else {
+		offsets = allocated = NULL;
+		offsetcount = 0;
+	}
+
+	res = pcre_exec (gor->ppcre, NULL, txt, txtlen, 0, eoptions,
+			offsets, offsetcount);
+	if (res >= 0) {
+		int i;
+
+		if (res == 0) res = nmatch;
+
+		for (i = 0; i < res; i++) {
+			pmatch[i].rm_so = offsets[i * 2];
+			pmatch[i].rm_eo = offsets[i * 2 + 1];
+		}
+		for (; i < (int)nmatch; i++) {
+			pmatch[i].rm_so = -1;
+			pmatch[i].rm_eo = -1;
+		}
+		g_free (allocated);
+		return REG_NOERROR;
+	}
+
+	g_free (allocated);
+	switch (res) {
+	case PCRE_ERROR_NOMATCH:
+		return REG_NOMATCH;
+	case PCRE_ERROR_BADUTF8:
+	case PCRE_ERROR_BADUTF8_OFFSET:
+		/* POSIX doesn't seem to foresee this kind of error.  */
+		return REG_BADPAT;
+	default:
+		return REG_ESPACE;
+	}
+#endif
 }
 
 /* ------------------------------------------------------------------------- */

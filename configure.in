@@ -179,18 +179,6 @@ AC_CHECK_LIB(Xrender, XRenderFindFormat,
 	[AC_SUBST(RENDER_LIBS, "")],
 	[-lXext])
 
-dnl Check for working pcre
-AC_CHECK_HEADER(pcre.h,[], AC_MSG_ERROR([Header files for PCRE were not found]))
-AC_CHECK_LIB(pcre,pcre_compile2,[], AC_MSG_ERROR([The PCRE library is missing or too old]))
-AC_MSG_CHECKING([for UTF-8 support in pcre])
-if (pcretest -C 2>&1) | grep -i "^ *UTF-8 support" >/dev/null; then
-    AC_MSG_RESULT(yes)
-    LIBS="$LIBS -lpcre"
-    EXTRA_LIBS="$EXTRA_LIBS -lpcre"
-else
-    AC_MSG_ERROR([The installed PCRE library is not configured for UTF-8 support.])
-fi
-
 dnl *****************************
 AC_MSG_CHECKING([for Win32 platform])
 with_win32=no
@@ -383,6 +371,7 @@ fi
 SAVE_LIBS=$LIBS
 LIBS="$GOFFICE_LIBS $LIBS"
 AC_CHECK_FUNCS(cairo_surface_set_fallback_resolution cairo_ps_surface_set_eps)
+AC_CHECK_FUNCS(g_file_new_for_commandline_arg g_file_new_for_uri)
 LIBS=$SAVE_LIBS
 
 SAVE_CFLAGS=$CFLAGS
@@ -399,6 +388,13 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <glib/gstdio.h>]], [[(void)g_access("
                [AC_DEFINE(HAVE_G_ACCESS, 1, [Define if g_access is available as macro or function])
                 AC_MSG_RESULT(yes)],
                [AC_MSG_RESULT(no)])
+AC_MSG_CHECKING([for G_REGEX_ERROR_STRAY_BACKSLASH])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <glib/gregex.h>]], [[GRegexError error=G_REGEX_ERROR_STRAY_BACKSLASH;]])],
+               [AC_DEFINE(HAVE_G_REGEX_ERROR_STRAY_BACKSLASH, 1, [Define if g_access is available as macro or function])
+	        glib_has_G_REGEX_ERROR_STRAY_BACKSLASH=yes
+                AC_MSG_RESULT(yes)],
+               [AC_MSG_RESULT(no)
+	        glib_has_G_REGEX_ERROR_STRAY_BACKSLASH=no])
 if test "x$goffice_with_gtk" = "xtrue" ; then
   AC_CHECK_FUNCS(gtk_dialog_get_response_for_widget)
   AC_CHECK_FUNCS(gtk_widget_set_tooltip_text gtk_tool_item_set_tooltip_text,
@@ -409,6 +405,20 @@ CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
 if test $gtk_disable_deprecated = yes; then
   CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED"
+fi
+
+if test "x$glib_has_G_REGEX_ERROR_STRAY_BACKSLASH" = "xno"; then
+  dnl Check for working pcre
+  AC_CHECK_HEADER(pcre.h,[], AC_MSG_ERROR([Header files for PCRE were not found]))
+  AC_CHECK_LIB(pcre,pcre_compile2,[], AC_MSG_ERROR([The PCRE library is missing or too old]))
+  AC_MSG_CHECKING([for UTF-8 support in pcre])
+  if (pcretest -C 2>&1) | grep -i "^ *UTF-8 support" >/dev/null; then
+      AC_MSG_RESULT(yes)
+      LIBS="$LIBS -lpcre"
+      EXTRA_LIBS="$EXTRA_LIBS -lpcre"
+  else
+      AC_MSG_ERROR([The installed PCRE library is not configured for UTF-8 support.])
+  fi
 fi
 
 
