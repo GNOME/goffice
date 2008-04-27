@@ -1,3 +1,8 @@
+2008-04-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-series.c: (gog_series_dataset_set_dim):
+	fixed typo.
+
 2008-04-25  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/regutf8.c (go_regexec): New glib (i.e., non-pcre)
