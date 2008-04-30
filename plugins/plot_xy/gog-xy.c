@@ -38,6 +38,11 @@
 #include <goffice/utils/go-line.h>
 #include <goffice/app/module-plugin-defs.h>
 
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
+#include <gtk/gtk.h>
+#endif
+
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
@@ -660,15 +665,12 @@ gog_xy_color_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 }
 
 #ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/goffice-gtk.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkcombobox.h>
-
 static void
 hide_outliers_toggled_cb (GtkToggleButton *btn, GObject *obj)
 {
 	g_object_set (obj, "hide-outliers", gtk_toggle_button_get_active (btn), NULL);
 }
+#endif
 
 static void 
 gog_xy_color_plot_populate_editor (GogObject *obj,
@@ -676,7 +678,7 @@ gog_xy_color_plot_populate_editor (GogObject *obj,
 				   GogDataAllocator *dalloc,
 				   GOCmdContext *cc)
 {
-	GtkWidget *w;
+#ifdef GOFFICE_WITH_GTK
 	GladeXML *gui;
 	char const *dir;
 	char *path;
@@ -687,7 +689,7 @@ gog_xy_color_plot_populate_editor (GogObject *obj,
 	g_free (path);
 
 	if (gui != NULL) {
-		w = glade_xml_get_widget (gui, "hide-outliers");
+		GtkWidget *w = glade_xml_get_widget (gui, "hide-outliers");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 				(GOG_XY_COLOR_PLOT (obj))->hide_outliers);
 		g_signal_connect (G_OBJECT (w),
@@ -697,9 +699,9 @@ gog_xy_color_plot_populate_editor (GogObject *obj,
 		gog_editor_add_page (editor, w, _("Properties"));
 	}
 
+#endif
 	(GOG_OBJECT_CLASS(map_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }
-#endif
 
 static void
 gog_xy_color_plot_set_property (GObject *obj, guint param_id,

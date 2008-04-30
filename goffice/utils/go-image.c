@@ -289,6 +289,8 @@ struct _GOImage {
 	cairo_t *cairo;
 #ifdef GOFFICE_WITH_GTK
 	GdkPixbuf *pixbuf;
+#else
+	void *pixbuf;
 #endif
 };
 
@@ -301,10 +303,10 @@ enum {
 #endif
 };
 
-#ifdef GOFFICE_WITH_GTK
 static void
 pixbuf_to_cairo (GOImage *image)
 {
+#ifdef GOFFICE_WITH_GTK
 	unsigned char *src, *dst;
 
 	g_return_if_fail (IS_GO_IMAGE (image) && image->data && image->pixbuf);
@@ -315,8 +317,10 @@ pixbuf_to_cairo (GOImage *image)
 	g_return_if_fail (gdk_pixbuf_get_rowstride (image->pixbuf) == (int) image->rowstride);
 
 	go_cairo_convert_data_from_pixbuf (dst, src, image->width, image->height, image->rowstride);
+#endif
 }
 
+#ifdef GOFFICE_WITH_GTK
 static void
 cairo_to_pixbuf (GOImage *image)
 {
@@ -426,12 +430,10 @@ go_image_get_property (GObject *obj, guint param_id,
 static void
 go_image_finalize (GObject *obj)
 {
-	GOImage *image = GO_IMAGE	(obj);
+	GOImage *image = GO_IMAGE (obj);
 	g_free (image->data);
-#ifdef GOFFICE_WITH_GTK
 	if (image->pixbuf)
 		g_object_unref (image->pixbuf);
-#endif
 	(parent_klass->finalize) (obj);
 }
 

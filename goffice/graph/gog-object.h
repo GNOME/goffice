@@ -24,6 +24,9 @@
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/app/goffice-app.h>
 #include <glib-object.h>
+#ifdef GOFFICE_WITH_GTK
+#include <gtk/gtk.h>
+#endif
 
 G_BEGIN_DECLS
 
@@ -41,9 +44,8 @@ typedef struct {
 GogEditor	*gog_editor_new 		  (void);
 void 		 gog_editor_free 		  (GogEditor *editor);
 void		 gog_editor_add_page 		  (GogEditor *editor, gpointer widget, char const *label);
-#ifdef GOFFICE_WITH_GTK
-#include <gtk/gtkwidget.h>
 void 		 gog_editor_set_store_page  	  (GogEditor *editor, unsigned *store_page);
+#ifdef GOFFICE_WITH_GTK
 void 		 gog_editor_register_widget 	  (GogEditor *editor, GtkWidget *widget);
 GtkWidget  	*gog_editor_get_registered_widget (GogEditor *editor, char const *name);
 GtkWidget 	*gog_editor_get_notebook 	  (GogEditor *editor);

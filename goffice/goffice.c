@@ -107,7 +107,9 @@ libgoffice_init (void)
 	/* keep trigger happy linkers from leaving things out */
 	plugin_services_init ();
 	gog_plugin_services_init ();
+#ifdef GOFFICE_HAVE_GTK
 	goc_plugin_services_init ();
+#endif
 	(void) GOG_GRAPH_TYPE;
 	(void) GOG_CHART_TYPE;
 	(void) GOG_PLOT_TYPE;
@@ -135,7 +137,9 @@ libgoffice_shutdown (void)
 {
 	gog_themes_shutdown ();
 	go_fonts_shutdown ();
+#ifdef GOFFICE_HAVE_GTK
 	goc_plugin_services_shutdown ();
+#endif
 	gog_plugin_services_shutdown ();
 	go_currency_date_format_shutdown ();
 	go_number_format_shutdown ();

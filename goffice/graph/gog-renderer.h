@@ -21,6 +21,7 @@
 #ifndef GOG_RENDERER_H
 #define GOG_RENDERER_H
 
+#include <goffice/goffice-features.h>
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/utils/go-geometry.h>
 #include <goffice/utils/go-image.h>
@@ -30,13 +31,12 @@
 #include <gsf/gsf.h>
 #include <libart_lgpl/libart.h>
 
-#if 1 /* def GOFFICE_WITH_GTK breaks without goffice-config.h included */
+#ifdef GOFFICE_WITH_GTK
 #include <gtk/gtkenums.h>
 #include <goffice/gtk/goffice-gtk.h>
 #include <gdk/gdk.h>
 #else
-/* VILE HACK VILE HACK VILE HACK */
-typedef struct HACK_GdkPixbuf GdkPixbuf;
+typedef struct _GdkPixbuf GdkPixbuf;
 typedef enum
 {
   GTK_ANCHOR_CENTER,
@@ -57,7 +57,6 @@ typedef enum
   GTK_ANCHOR_W		= GTK_ANCHOR_WEST,
   GTK_ANCHOR_E		= GTK_ANCHOR_EAST
 } GtkAnchorType;
-/* VILE HACK VILE HACK VILE HACK */
 #endif
 
 #include <cairo.h>

@@ -1,3 +1,8 @@
+2008-04-30  Morten Welinder  <terra@gnome.org>
+
+	* */*.[ch]: Make things compile --without-gtk.  Docs still do not
+	work right.
+
 2008-04-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-series.c: (gog_series_dataset_set_dim):
