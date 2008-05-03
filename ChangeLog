@@ -1,3 +1,10 @@
+2008-05-02  Jody Goldberg <jody@gnome.org>
+
+	* goffice/utils/go-locale.c (go_locale_win32_get_user_default) : fix
+	  typo on win32 that always set lc_date_format, and never
+	  lc_time_format.
+	(go_locale_get_time_format): ditto.
+
 2008-04-30  Morten Welinder  <terra@gnome.org>
 
 	* */*.[ch]: Make things compile --without-gtk.  Docs still do not

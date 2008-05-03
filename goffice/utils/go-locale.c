@@ -186,7 +186,7 @@ go_locale_win32_get_user_default (GString *res, unsigned int id)
 	char *fmt_utf8 = g_convert ((gchar *)fmt_utf16, utf16_len*2,
 		 "UTF-8", "UTF-16LE", NULL, &utf8_len, &error);
 	if (NULL != fmt_utf8)
-		g_string_append_len (lc_date_format, fmt_utf8, utf8_len);
+		g_string_append_len (res, fmt_utf8, utf8_len);
 	else if (NULL != error) {
 		g_warning ("error: %s", error->message);
 		g_error_free (error);
@@ -273,7 +273,7 @@ go_locale_get_time_format (void)
 			lc_time_format = g_string_new (NULL);
 
 #if defined(G_OS_WIN32)
-		go_locale_win32_get_user_default (lc_date_format, LOCALE_STIME);
+		go_locale_win32_get_user_default (lc_time_format, LOCALE_STIME);
 #elif defined(HAVE_LANGINFO_H)
 		{
 			char const *fmt = nl_langinfo (T_FMT);

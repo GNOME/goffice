@@ -9,6 +9,7 @@ Jean:
 
 Jody:
 	* Enable the use of dolt.
+	* Fix formats on win32.
 
 Morten:
 	* Add go_format_is_invalid.
