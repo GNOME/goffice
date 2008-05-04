@@ -31,7 +31,6 @@
 #include <goffice/utils/go-format.h>
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
-#include <libart_lgpl/libart.h>
 
 #define GOG_HISTOGRAM_PLOT_SERIES_TYPE	(gog_histogram_plot_series_get_type ())
 #define GOG_HISTOGRAM_PLOT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_HISTOGRAM_PLOT_SERIES_TYPE, GogHistogramPlotSeries))
