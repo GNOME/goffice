@@ -3,11 +3,13 @@ Sat,  5 Mar 2005 12:14:32 +0100.
 
 It was downloaded from ftp://ftp.gnome.org/pub/GNOME/sources/goffice
 
-Copyright:
-
 Upstream Authors: Jody Goldberg <jody@gnome.org> e.a.
 
 Contributors to goffice are listed in the file 'AUTHORS'.
+
+Copyright:
+
+Copyright (C) 2003-2008 Jody Goldberg (jody@gnome.org) and others.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of version 2 of the GNU General Public License as published
