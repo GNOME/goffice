@@ -865,13 +865,17 @@ go_data_matrix_val_load_values (GODataMatrix *mat)
 static double
 go_data_matrix_val_get_value (GODataMatrix *mat, unsigned i, unsigned j)
 {
-	return mat->values[i * mat->size.columns + j];
+	GODataMatrixVal const *val = (GODataMatrixVal const *)mat;
+
+	return val->val[i * val->size.columns + j];
 }
 
 static char *
 go_data_matrix_val_get_str (GODataMatrix *mat, unsigned i, unsigned j)
 {
-	return g_strdup_printf ("%g", mat->values[i * mat->size.columns + j]);
+	GODataMatrixVal const *val = (GODataMatrixVal const *)mat;
+
+	return g_strdup_printf ("%g", val->val[i * val->size.columns + j]);
 }
 
 static char *

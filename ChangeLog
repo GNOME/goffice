@@ -1,3 +1,9 @@
+2008-05-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data-simple.c: (go_data_matrix_val_get_value),
+	(go_data_matrix_val_get_str): do not crash if called before the
+	values are loaded. Patch from Hiroyuki Ikezoe, see bug #532105.
+
 2008-05-04  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
