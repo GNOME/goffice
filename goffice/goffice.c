@@ -40,6 +40,7 @@
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/app/go-plugin-service.h>
+#include <goffice/app/go-conf.h>
 #include <goffice/component/go-component-factory.h>
 #include <gsf/gsf-utils.h>
 
@@ -73,7 +74,7 @@ go_sys_lib_dir (void)
 }
 
 void
-libgoffice_init (void)
+libgoffice_init ()
 {
 	static gboolean initialized = FALSE;
 
@@ -100,6 +101,7 @@ libgoffice_init (void)
 
 	bindtextdomain (GETTEXT_PACKAGE, libgoffice_locale_dir);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	go_conf_init ();
 	go_fonts_init ();
 	go_math_init ();
 	gsf_init ();
@@ -107,7 +109,7 @@ libgoffice_init (void)
 	/* keep trigger happy linkers from leaving things out */
 	plugin_services_init ();
 	gog_plugin_services_init ();
-#ifdef GOFFICE_HAVE_GTK
+#ifdef GOFFICE_WITH_GTK
 	goc_plugin_services_init ();
 #endif
 	(void) GOG_GRAPH_TYPE;
@@ -137,12 +139,13 @@ libgoffice_shutdown (void)
 {
 	gog_themes_shutdown ();
 	go_fonts_shutdown ();
-#ifdef GOFFICE_HAVE_GTK
+#ifdef GOFFICE_WITH_GTK
 	goc_plugin_services_shutdown ();
 #endif
 	gog_plugin_services_shutdown ();
 	go_currency_date_format_shutdown ();
 	go_number_format_shutdown ();
+	go_conf_shutdown ();
 #ifdef G_OS_WIN32
 	/* const_cast, we created these above */
 	g_free ((char *)libgoffice_data_dir);
