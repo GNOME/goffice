@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-05 14:11+0100\n"
-"PO-Revision-Date: 2008-04-20 17:38+0200\n"
+"POT-Creation-Date: 2008-04-22 10:52+0000\n"
+"PO-Revision-Date: 2008-05-10 15:02+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1146,7 +1146,7 @@ msgid "H"
 msgstr "H"
 
 #: ../goffice/graph/gog-control-foocanvas.c:238
-#: ../goffice/graph/gog-graph.c:331 ../goffice/utils/go-image.c:446
+#: ../goffice/graph/gog-graph.c:331 ../goffice/utils/go-image.c:452
 msgid "Height"
 msgstr "Altura"
 
@@ -1155,12 +1155,12 @@ msgid "W"
 msgstr "O"
 
 #: ../goffice/graph/gog-control-foocanvas.c:244
-#: ../goffice/graph/gog-graph.c:325 ../goffice/utils/go-image.c:442
+#: ../goffice/graph/gog-graph.c:325 ../goffice/utils/go-image.c:448
 msgid "Width"
 msgstr "Anchura"
 
 #: ../goffice/graph/gog-control-foocanvas.c:249
-#: ../goffice/graph/gog-renderer.c:1723 ../goffice/graph/gog-view.c:597
+#: ../goffice/graph/gog-renderer.c:1739 ../goffice/graph/gog-view.c:597
 msgid "Model"
 msgstr "Modelo"
 
@@ -1718,15 +1718,15 @@ msgstr "Mostrar _ecuación"
 msgid "Display _regression coefficient R²"
 msgstr "Mostrar el coeficiente de _regresión R²"
 
-#: ../goffice/graph/gog-renderer.c:1724
+#: ../goffice/graph/gog-renderer.c:1740
 msgid "The GogGraph this renderer displays"
 msgstr "la GogGraph que este renderizador muestra"
 
-#: ../goffice/graph/gog-renderer.c:1729
+#: ../goffice/graph/gog-renderer.c:1745
 msgid "View"
 msgstr "Ver"
 
-#: ../goffice/graph/gog-renderer.c:1730
+#: ../goffice/graph/gog-renderer.c:1746
 msgid "the GogView this renderer is displaying"
 msgstr "la GogView que está mostrando este renderizador"
 
@@ -1926,7 +1926,7 @@ msgstr ""
 "tapiz\n"
 "estirado"
 
-#: ../goffice/graph/gog-style.c:181 ../goffice/gtk/goffice-gtk.c:432
+#: ../goffice/graph/gog-style.c:181 ../goffice/gtk/goffice-gtk.c:444
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
@@ -3473,23 +3473,23 @@ msgstr "Á_ngulo:"
 msgid "Unable to open file '%s'"
 msgstr "Es imposible abrir el archivo «%s»"
 
-#: ../goffice/gtk/goffice-gtk.c:467
+#: ../goffice/gtk/goffice-gtk.c:479
 msgid "All Files"
 msgstr "Todos los archivos"
 
-#: ../goffice/gtk/goffice-gtk.c:472
+#: ../goffice/gtk/goffice-gtk.c:484
 msgid "Images"
 msgstr "Imágenes"
 
-#: ../goffice/gtk/goffice-gtk.c:516
+#: ../goffice/gtk/goffice-gtk.c:528
 msgid "Select an Image"
 msgstr "Seleccione una imagen"
 
-#: ../goffice/gtk/goffice-gtk.c:595
+#: ../goffice/gtk/goffice-gtk.c:607
 msgid "Save as"
 msgstr "Guardar como"
 
-#: ../goffice/gtk/goffice-gtk.c:666
+#: ../goffice/gtk/goffice-gtk.c:678
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3497,7 +3497,7 @@ msgstr ""
 "La extensión de archivo dada no coincide con el tipo de archivo elegido. "
 "¿Quiere usar este nombre de todas formas?"
 
-#: ../goffice/gtk/goffice-gtk.c:859
+#: ../goffice/gtk/goffice-gtk.c:871
 #, c-format
 msgid ""
 "%s\n"
@@ -3506,7 +3506,7 @@ msgstr ""
 "%s\n"
 "es un nombre de directorio"
 
-#: ../goffice/gtk/goffice-gtk.c:863
+#: ../goffice/gtk/goffice-gtk.c:875
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3515,7 +3515,7 @@ msgstr ""
 "No tiene permisos para guardar a\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:870
+#: ../goffice/gtk/goffice-gtk.c:882
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -4269,65 +4269,69 @@ msgstr "[Color"
 msgid "[Invalid]"
 msgstr "[No válido]"
 
-#: ../goffice/utils/go-glib-extras.c:832
+#: ../goffice/utils/go-glib-extras.c:831
 msgid "yes"
 msgstr "sí"
 
-#: ../goffice/utils/go-glib-extras.c:838
+#: ../goffice/utils/go-glib-extras.c:837
 msgid "no"
 msgstr "no"
 
-#: ../goffice/utils/go-glib-extras.c:1032
+#: ../goffice/utils/go-glib-extras.c:1031
 #, c-format
 msgid "Quoted string not terminated"
 msgstr "Falta la comilla de finalización"
 
-#: ../goffice/utils/go-glib-extras.c:1039
+#: ../goffice/utils/go-glib-extras.c:1038
 #, c-format
 msgid "Syntax error"
 msgstr "Error de sintaxis"
 
-#: ../goffice/utils/go-image.c:121
+#: ../goffice/utils/go-image.c:125
 msgid "SVG (vector graphics)"
 msgstr "SVG (gráfico vectorial)"
 
-#: ../goffice/utils/go-image.c:123
+#: ../goffice/utils/go-image.c:127
 msgid "PNG (raster graphics)"
 msgstr "PNG (gráfico raster)"
 
-#: ../goffice/utils/go-image.c:125
+#: ../goffice/utils/go-image.c:129
 msgid "JPEG (photograph)"
 msgstr "JPEG (fotografía)"
 
-#: ../goffice/utils/go-image.c:127
+#: ../goffice/utils/go-image.c:131
 msgid "PDF (portable document format)"
 msgstr "PDF (formato de documento portable)"
 
-#: ../goffice/utils/go-image.c:129
+#: ../goffice/utils/go-image.c:133
 msgid "PS (postscript)"
 msgstr "PS (postscript)"
 
-#: ../goffice/utils/go-image.c:131
+#: ../goffice/utils/go-image.c:135
+msgid "EPS (encapsulated postscript)"
+msgstr "EPS (postscript encapsulado)"
+
+#: ../goffice/utils/go-image.c:137
 msgid "EMF (extended metafile)"
 msgstr "EMF (meta archivo extendido)"
 
-#: ../goffice/utils/go-image.c:133
+#: ../goffice/utils/go-image.c:139
 msgid "WMF (windows metafile)"
 msgstr "WMF (meta archivo de windows)"
 
-#: ../goffice/utils/go-image.c:443
+#: ../goffice/utils/go-image.c:449
 msgid "Image width in pixels"
 msgstr "Anchura de la imagen en píxeles"
 
-#: ../goffice/utils/go-image.c:447
+#: ../goffice/utils/go-image.c:453
 msgid "Image height in pixels"
 msgstr "Altura de la imagen en píxeles"
 
-#: ../goffice/utils/go-image.c:451
+#: ../goffice/utils/go-image.c:457
 msgid "Pixbuf"
 msgstr "Pixbuf"
 
-#: ../goffice/utils/go-image.c:452
+#: ../goffice/utils/go-image.c:458
 msgid "GdkPixbuf object from which the GOImage is built"
 msgstr ""
 
@@ -4585,11 +4589,11 @@ msgstr ""
 
 #: ../goffice/utils/regutf8.c:41
 msgid "Invalid back reference."
-msgstr ""
+msgstr "Referencia de vuelta no válida."
 
 #: ../goffice/utils/regutf8.c:42
 msgid "Unmatched left bracket."
-msgstr ""
+msgstr "Falta un paréntesis izquierdo."
 
 #: ../goffice/utils/regutf8.c:43
 msgid "Parenthesis imbalance."
@@ -4721,7 +4725,7 @@ msgid "Labels"
 msgstr "Etiquetas"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:344
-#: ../plugins/plot_boxes/gog-boxplot.c:314
+#: ../plugins/plot_boxes/gog-boxplot.c:315
 #: ../plugins/plot_boxes/gog-histogram.c:187 ../plugins/plot_pie/gog-pie.c:260
 #: ../plugins/plot_radar/gog-radar.c:299
 msgid "Values"
@@ -4779,7 +4783,7 @@ msgstr "GráficoBarCol"
 
 #: ../plugins/plot_barcol/gog-barcol.c:112
 #: ../plugins/plot_barcol/gog-minmax.c:195
-#: ../plugins/plot_boxes/gog-boxplot.c:112 ../plugins/plot_pie/gog-pie.c:205
+#: ../plugins/plot_boxes/gog-boxplot.c:113 ../plugins/plot_pie/gog-pie.c:205
 #: ../plugins/plot_pie/gog-pie.c:352 ../plugins/plot_surface/gog-surface.c:225
 #: ../plugins/plot_xy/gog-xy.c:421 ../plugins/plot_xy/gog-xy.c:697
 #: ../plugins/smoothing/gog-moving-avg.c:114
@@ -4789,13 +4793,13 @@ msgstr "Propiedades"
 
 #: ../plugins/plot_barcol/gog-barcol.c:204
 #: ../plugins/plot_barcol/gog-minmax.c:219
-#: ../plugins/plot_boxes/gog-boxplot.c:294
+#: ../plugins/plot_boxes/gog-boxplot.c:295
 msgid "Gap percentage"
 msgstr "Porcentaje del hueco"
 
 #: ../plugins/plot_barcol/gog-barcol.c:205
 #: ../plugins/plot_barcol/gog-minmax.c:220
-#: ../plugins/plot_boxes/gog-boxplot.c:295
+#: ../plugins/plot_boxes/gog-boxplot.c:296
 msgid "The padding around each group as a percentage of their width"
 msgstr "Separación entre grupos como un porcentaje de su ancho"
 
@@ -4840,7 +4844,7 @@ msgstr "Marcadores predeterminados"
 #: ../plugins/plot_barcol/gog-minmax.c:232
 #: ../plugins/plot_radar/gog-radar.c:207 ../plugins/plot_xy/gog-xy.c:338
 msgid "Should the default style of a series include markers"
-msgstr ""
+msgstr "Si el estilo predeterminado de unas series incluye marcadores"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -5169,15 +5173,15 @@ msgstr "_Distribución"
 #. xgettext : the base for how to name box-plot objects
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
-#: ../plugins/plot_boxes/gog-boxplot.c:143
+#: ../plugins/plot_boxes/gog-boxplot.c:144
 msgid "Box-Plot"
 msgstr "Diagrama de cajas"
 
-#: ../plugins/plot_boxes/gog-boxplot.c:300
+#: ../plugins/plot_boxes/gog-boxplot.c:301
 msgid "Vertical"
 msgstr "Vertical"
 
-#: ../plugins/plot_boxes/gog-boxplot.c:301
+#: ../plugins/plot_boxes/gog-boxplot.c:302
 msgid "Whether the box-plot should be vertical instead of horizontal"
 msgstr "Indica si el diagrama de cajas debería ser vertical en lugar de horizontal"
 
@@ -5427,7 +5431,7 @@ msgstr "Rellenado predeterminado"
 #: ../plugins/plot_radar/gog-radar.c:214 ../plugins/plot_xy/gog-xy.c:350
 #: ../plugins/plot_xy/gog-xy.c:776
 msgid "Should the default style of a series include fill"
-msgstr ""
+msgstr "Si el estilo predeterminado de unas series incluye relleno"
 
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
@@ -5521,7 +5525,7 @@ msgstr "Motor de dibujo de radares"
 
 #: ../plugins/plot_surface/gog-contour-prefs.glade.h:1
 msgid "Transpose"
-msgstr ""
+msgstr "Transponer"
 
 #. xgettext : the base for how to name contour plot objects
 #.
@@ -5531,11 +5535,11 @@ msgstr "Contorno de ploteo"
 
 #: ../plugins/plot_surface/gog-surface.c:522
 msgid "Transposed"
-msgstr ""
+msgstr "Transpuesto"
 
 #: ../plugins/plot_surface/gog-surface.c:523
 msgid "Transpose the plot"
-msgstr ""
+msgstr "Transponer el gráfico"
 
 #: ../plugins/plot_surface/gog-surface.c:539
 #: ../plugins/plot_surface/xl-surface.c:258 ../plugins/plot_xy/gog-xy.c:794
@@ -5632,11 +5636,11 @@ msgstr "Tiene lineas de forma predeterminada"
 
 #: ../plugins/plot_xy/gog-xy.c:344 ../plugins/plot_xy/gog-xy.c:770
 msgid "Should the default style of a series include lines"
-msgstr ""
+msgstr "Si el estilo predeterminado de series incluye líneas"
 
 #: ../plugins/plot_xy/gog-xy.c:349 ../plugins/plot_xy/gog-xy.c:775
 msgid "Has fill by default"
-msgstr ""
+msgstr "Tiene relleno de forma predeterminada"
 
 #: ../plugins/plot_xy/gog-xy.c:355
 msgid "Use splines"
@@ -5644,7 +5648,7 @@ msgstr "Usar splines"
 
 #: ../plugins/plot_xy/gog-xy.c:356
 msgid "Should the plot use splines instead of linear interpolation"
-msgstr ""
+msgstr "Si el gráfico debería usar splines en lugar de interpolación lineal"
 
 #: ../plugins/plot_xy/gog-xy.c:409
 msgid "PlotBubble"
