@@ -55,6 +55,7 @@ typedef struct _GogRegEqn	GogRegEqn;
 typedef struct _GogTrendLineType	GogTrendLineType;
 typedef struct _GogSeriesLines GogSeriesLines;
 typedef struct _GogSmoothedCurve	GogSmoothedCurve;
+typedef struct _Gog3DBox	Gog3DBox;
 
 /* formating */
 typedef struct _GogTheme	GogTheme;

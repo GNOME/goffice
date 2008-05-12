@@ -22,6 +22,8 @@
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-chart-impl.h>
 #include <goffice/graph/gog-chart-map.h>
+#include <goffice/graph/gog-chart-map-3d.h>
+#include <goffice/graph/gog-3d-box.h>
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-style.h>
@@ -32,6 +34,7 @@
 #include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/math/go-math.h>
+#include <goffice/math/go-matrix3x3.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -80,7 +83,6 @@ gog_axis_set_from_str (char const *str)
 }
 
 /*****************************************************************************/
-
 enum {
 	CHART_PROP_0,
 	CHART_PROP_CARDINALITY_VALID,
@@ -351,6 +353,8 @@ static gboolean bubble_axis_can_add (GogObject const *parent) { return axis_can_
 static void bubble_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_BUBBLE); }
 static gboolean color_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_COLOR); }
 static void color_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_COLOR); }
+static gboolean role_3d_box_can_add	(GogObject const *parent) {return FALSE;}
+static gboolean role_3d_box_can_remove	(GogObject const *parent) {return FALSE;}
 
 static GogObjectRole const roles[] = {
 	{ N_("Backplane"), "GogGrid",	0,
@@ -400,7 +404,10 @@ static GogObjectRole const roles[] = {
 	  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL, 
 	  GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER, 
 	  GOG_OBJECT_NAME_BY_ROLE,
-	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } }
+	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
+	{ N_("3D-Box"), "Gog3DBox",	0,
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  role_3d_box_can_add, role_3d_box_can_remove, NULL, NULL, NULL, NULL, { -1 } }
 };
 
 static void
@@ -760,6 +767,144 @@ gog_chart_get_grid (GogChart const *chart)
 	return GOG_GRID (chart->grid);
 }
 
+gboolean
+gog_chart_is_3d (GogChart const *chart)
+{
+	return chart->axis_set == GOG_AXIS_SET_XYZ;
+}
+
+static void
+gog_chart_3d_process (GogChart *chart, GogViewAllocation const *bbox)
+{
+	/* A XYZ axis set in supposed. If new sets (cylindrical, spherical or
+	other are added, we'll need to change this code */
+	GogViewAllocation tmp = *bbox;
+	GogAxis *axisX, *axisY, *axisZ;
+	GSList *axes;
+	double xmin, xmax, ymin, ymax, zmin, zmax;
+	double o[3], x[3], y[3], z[3], tg, d;
+	Gog3DBox *box;
+	GogObject *obj = gog_object_get_child_by_name (GOG_OBJECT (chart), "3D-Box");
+
+	if (!obj) {
+		obj = g_object_new (GOG_3D_BOX_TYPE, NULL);
+		gog_object_add_by_name (GOG_OBJECT (chart), "3D-Box", obj);
+	}
+	box = GOG_3D_BOX (obj);
+
+	/* Only use the first of the axes. */
+	axes = gog_chart_get_axes (chart, GOG_AXIS_X);
+	axisX = GOG_AXIS (axes->data);
+	g_slist_free (axes);
+	gog_axis_get_bounds (axisX, &xmin, &xmax);
+	axes = gog_chart_get_axes (chart, GOG_AXIS_Y);
+	axisY = GOG_AXIS (axes->data);
+	g_slist_free (axes);
+	gog_axis_get_bounds (axisY, &ymin, &ymax);
+	axes = gog_chart_get_axes (chart, GOG_AXIS_Z);
+	axisZ = GOG_AXIS (axes->data);
+	g_slist_free (axes);
+	gog_axis_get_bounds (axisZ, &zmin, &zmax);
+	/* define the 3d box */
+	/* FIXME: take axes into account */
+	box->dz = tmp.h;
+	if (ymax - ymin > xmax - xmin) {
+		box->dy = tmp.w;
+		box->dx = (xmax - xmin) / (ymax - ymin) * tmp.w;
+	} else {
+		box->dx = tmp.w;
+		box->dy = (ymax - ymin) / (xmax - xmin) * tmp.w;
+	}
+
+	/* now compute the position of each vertex, ignoring the fov */
+	go_matrix3x3_transform (&box->mat, -box->dx, -box->dy, -box->dz, o, o + 1, o + 2);
+	go_matrix3x3_transform (&box->mat, box->dx, -box->dy, -box->dz, x, x + 1, x + 2);
+	go_matrix3x3_transform (&box->mat, -box->dx, box->dy, -box->dz, y, y + 1, y + 2);
+	go_matrix3x3_transform (&box->mat, -box->dx, -box->dy, box->dz, z, z + 1, z + 2);
+	/* for each diagonal, we need to take the vertex closer to the view point */
+	if (o[1] > 0) {
+		o[0] = -o[0];
+		o[1] = -o[1];
+		o[2] = -o[2];
+	}
+	if (x[1] > 0) {
+		x[0] = -x[0];
+		x[1] = -x[1];
+		x[2] = -x[2];
+	}
+	if (y[1] > 0) {
+		y[0] = -y[0];
+		y[1] = -y[1];
+		y[2] = -y[2];
+	}
+	if (z[1] > 0) {
+		z[0] = -z[0];
+		z[1] = -z[1];
+		z[2] = -z[2];
+	}
+	/* if the fov is positive, calculate the position of the viewpoint */
+	if (box->fov > 0.) {
+		tg = tan (box->fov / 2.);
+		box->r = -sqrt (o[0] * o[0] + o[2] * o[2]) / tg + o[1];
+		d = -sqrt (x[0] * x[0] + x[2] * x[2]) / tg + x[1];
+		if (d < box->r)
+			box->r = d;
+		d = -sqrt (y[0] * y[0] + y[2] * y[2]) / tg + y[1];
+		if (d < box->r)
+			box->r = d;
+		d = -sqrt (z[0] *z[0] + z[2] * z[2]) / tg + z[1];
+		if (d < box->r)
+			box->r = d;
+		/* also calculate the reduction factor we need to make things fit in the bbox */
+		xmax = fabs (o[0]) * (1. + o[1] / box->r);
+		zmax = fabs (o[2]) * (1. + o[1] / box->r);
+		d = fabs (x[0]) * (1. + x[1] / box->r);
+		if (d > xmax)
+			xmax = d;
+		d = fabs (x[2]) * (1. + x[1] / box->r);
+		if (d > zmax)
+			zmax = d;
+		d = fabs (y[0]) * (1. + y[1] / box->r);
+		if (d > xmax)
+			xmax = d;
+		d = fabs (y[2]) * (1. + y[1] / box->r);
+		if (d > zmax)
+			zmax = d;
+		d = fabs (z[0]) * (1. + z[1] / box->r);
+		if (d > xmax)
+			xmax = d;
+		d = fabs (z[2]) * (1. + z[1] / box->r);
+		if (d > zmax)
+			zmax = d;
+	} else {
+	    /* calculate the reduction factor we need to make things fit in the bbox */
+		xmax = fabs (o[0]);
+		zmax = fabs (o[2]);
+		d = fabs (x[0]);
+		if (d > xmax)
+			xmax = d;
+		d = fabs (x[2]);
+		if (d > zmax)
+			zmax = d;
+		d = fabs (y[0]);
+		if (d > xmax)
+			xmax = d;
+		d = fabs (y[2]);
+		if (d > zmax)
+			zmax = d;
+		d = fabs (z[0]);
+		if (d > xmax)
+			xmax = d;
+		d = fabs (z[2]);
+		if (d > zmax)
+			zmax = d;
+	}
+	/* use d and tg as x and z ratios, respectively */
+	d = xmax / tmp.w;
+	tg = zmax / tmp.h;
+	box->ratio = (d > tg)? d: tg;
+}
+
 /*********************************************************************/
 
 typedef struct {
@@ -823,6 +968,10 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 		if (GOG_POSITION_IS_SPECIAL (child->model->position))
 			gog_view_size_allocate (child, plot_area);
 	}
+
+	/* special treatment for 3d charts */
+	if (gog_chart_is_3d (chart))
+	    gog_chart_3d_process (chart, plot_area);
 }
 
 static void
@@ -896,24 +1045,38 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList *ptr;
 	GogView *child_view;
 	gboolean grid_line_rendered = FALSE;
+	GogChart *chart = GOG_CHART (gog_view_get_model (view));
 
 	cview_parent_klass->render (view, bbox);
 
-	/* KLUDGE: render grid lines before axis */
-	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
-		child_view = ptr->data;
-		if (!grid_line_rendered && IS_GOG_AXIS (child_view->model)) {
-			grid_line_render (ptr, bbox);
-			plot_render (view, bbox);
-			grid_line_rendered = TRUE;
+	if (gog_chart_is_3d (chart)) {
+		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
+			child_view = ptr->data;
+			if (!IS_GOG_AXIS (child_view->model) && !IS_GOG_PLOT (child_view->model)) 
+			    gog_view_render	(ptr->data, bbox);
 		}
-		if (IS_GOG_PLOT (child_view->model)) {
-		    if (!GOG_PLOT (child_view->model)->render_before_axes)
-			gog_view_render	(ptr->data, bbox);
-		} else
-			gog_view_render	(ptr->data, bbox);
+		/* now render plot and axes */
+		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
+			child_view = ptr->data;
+			if (IS_GOG_PLOT (child_view->model)) 
+			    gog_view_render	(ptr->data, bbox);
+		}
+	} else {
+		/* KLUDGE: render grid lines before axis */
+		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
+			child_view = ptr->data;
+			if (!grid_line_rendered && IS_GOG_AXIS (child_view->model)) {
+				grid_line_render (ptr, bbox);
+				plot_render (view, bbox);
+				grid_line_rendered = TRUE;
+			}
+			if (IS_GOG_PLOT (child_view->model)) {
+			    if (!GOG_PLOT (child_view->model)->render_before_axes)
+				gog_view_render	(ptr->data, bbox);
+			} else
+				gog_view_render	(ptr->data, bbox);
+		}
 	}
-
 }
 
 static void

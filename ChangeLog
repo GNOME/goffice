@@ -1,5 +1,75 @@
 2008-05-12  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/data/go-data.c: (go_data_vector_increasing),
+	(go_data_vector_decreasing), (go_data_vector_vary_uniformly):
+	new functions.
+	* goffice/data/go-data.h: ditto.
+	* goffice/goffice.c: (libgoffice_init): add initial 3d plots support.
+	* goffice/graph/Makefile.am: ditto.
+	* goffice/graph/goffice-graph.h: ditto.
+	* goffice/graph/gog-3d-box.c: (gog_3d_box_class_init),
+	(gog_3d_box_init): ditto.
+	* goffice/graph/gog-3d-box.h: ditto.
+	* goffice/graph/gog-axis-line.c: (xyz_process),
+	(gog_axis_base_view_point), (gog_axis_base_view_padding_request):
+	* goffice/graph/gog-axis.c: (gog_axis_view_size_allocate): ditto.
+	* goffice/graph/gog-chart-impl.h: ditto.
+	* goffice/graph/gog-chart-map-3d.c: (null_map_3D),
+	(xyz_map_3D_to_view), (gog_chart_map_3d_new),
+	(gog_chart_map_3d_to_view), (gog_chart_map_3d_is_valid),
+	(gog_chart_map_3d_free): ditto.
+	* goffice/graph/gog-chart-map-3d.h: ditto.
+	* goffice/graph/gog-chart.c: (role_3d_box_can_add),
+	(role_3d_box_can_remove), (gog_chart_is_3d),
+	(gog_chart_3d_process), (gog_chart_view_size_allocate),
+	(gog_chart_view_render): ditto.
+	* goffice/graph/gog-chart.h: ditto.
+	* goffice/math/Makefile.am: ditto.
+	* goffice/math/go-matrix3x3.c: (go_matrix3x3_transform),
+	(go_matrix3x3_from_euler): ditto.
+	* goffice/math/go-matrix3x3.h: ditto.
+	* goffice/math/go-rangefunc.c: (go_range_decreasing),
+	(go_range_vary_uniformly): new functions.
+	* goffice/math/go-rangefunc.h: ditto.
+	* plugins/plot_surface/Makefile.am: new surface plot type.
+	* plugins/plot_surface/gog-contour-prefs.c: ditto.
+	* plugins/plot_surface/gog-contour-prefs.glade: ditto.
+	* plugins/plot_surface/gog-contour.c: ditto.
+	(gog_contour_plot_build_matrix), (gog_contour_plot_type_name),
+	(gog_contour_plot_foreach_elem), (gog_contour_plot_class_init),
+	(gog_contour_plot_init), (gog_contour_view_render),
+	(gog_contour_view_class_init): ditto.
+	* plugins/plot_surface/gog-contour.h: ditto.
+	* plugins/plot_surface/gog-surface.c: ditto.
+	(gog_surface_plot_build_matrix), (gog_surface_plot_type_name),
+	(gog_surface_plot_class_init), (gog_surface_plot_init),
+	(gog_surface_view_render), (gog_surface_view_class_init):
+	* plugins/plot_surface/gog-surface.h:
+	* plugins/plot_surface/gog-xyz-prefs.c:
+	* plugins/plot_surface/gog-xyz-prefs.glade:
+	* plugins/plot_surface/gog-xyz.c: (gog_xyz_plot_build_matrix),
+	(gog_xyz_plot_update_3d), (gog_xyz_plot_populate_editor),
+	(gog_xyz_plot_clear_formats), (gog_xyz_plot_update),
+	(gog_xyz_plot_axis_get_bounds), (gog_xyz_plot_finalize),
+	(gog_xyz_plot_set_property), (gog_xyz_plot_get_property),
+	(gog_xyz_plot_class_init), (gog_xyz_plot_init),
+	(gog_xyz_series_update), (gog_xyz_series_init_style),
+	(gog_xyz_series_class_init), (go_plugin_init),
+	(go_plugin_shutdown): ditto.
+	* plugins/plot_surface/gog-xyz.h: ditto.
+	* plugins/plot_surface/plot-types.xml.in: ditto.
+	* plugins/plot_surface/plugin.xml.in: ditto.
+	* plugins/plot_surface/xl-surface.c: (xl_labels_init),
+	(xl_xyz_series_update), (xl_xyz_series_init_style),
+	(xl_xyz_series_class_init), (xl_xyz_plot_update), (get_y_vector),
+	(xl_xyz_plot_axis_get_bounds), (xl_contour_plot_build_matrix),
+	(xl_contour_plot_finalize), (xl_contour_plot_class_init),
+	(xl_surface_plot_build_matrix), (xl_surface_plot_finalize),
+	(xl_surface_plot_class_init): ditto.
+	* plugins/plot_surface/xl-surface.h: ditto.
+
+2008-05-12  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-series-lines.c: use GOPath instead of ArtVpath.
 	* goffice/graph/gog-series-lines.h: ditto.
 	* plugins/plot_barcol/gog-barcol.c: (gog_barcol_view_render):

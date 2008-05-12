@@ -6,7 +6,8 @@ libgoffice_math_la_SOURCES =	\
 	go-regression.c	\
 	go-cspline.c	\
 	go-complex.c	\
-	go-fft.c
+	go-fft.c		\
+	go-matrix3x3.c
 
 libgoffice_math_ladir = $(goffice_include_dir)/math
 libgoffice_math_la_HEADERS = 	\
@@ -15,7 +16,8 @@ libgoffice_math_la_HEADERS = 	\
 	go-regression.h	\
 	go-cspline.h	\
 	go-complex.h	\
-	go-fft.h
+	go-fft.h		\
+	go-matrix3x3.h
 
 include $(top_srcdir)/goffice.mk
 

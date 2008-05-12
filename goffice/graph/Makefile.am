@@ -11,6 +11,8 @@ libgoffice_graph_la_SOURCES = \
 	gog-chart.c			\
 	\
 	gog-chart-map.c			\
+	gog-chart-map-3d.c			\
+	gog-3d-box.c			\
 	\
 	gog-axis.c			\
 	gog-axis-line.c			\
@@ -48,6 +50,8 @@ libgoffice_graph_la_HEADERS = \
 	gog-chart.h			\
 	gog-chart-impl.h		\
 	gog-chart-map.h			\
+	gog-chart-map-3d.h			\
+	gog-3d-box.h			\
 	gog-axis.h			\
 	gog-axis-line.h			\
 	gog-axis-line-impl.h		\

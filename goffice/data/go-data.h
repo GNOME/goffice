@@ -63,6 +63,9 @@ double	*go_data_vector_get_values (GODataVector *vec);
 double	 go_data_vector_get_value  (GODataVector *vec, unsigned i);
 char	*go_data_vector_get_str    (GODataVector *vec, unsigned i);
 void	 go_data_vector_get_minmax (GODataVector *vec, double *min, double *max);
+gboolean go_data_vector_increasing (GODataVector *vec);
+gboolean go_data_vector_decreasing (GODataVector *vec);
+gboolean go_data_vector_vary_uniformly (GODataVector *vec);
 
 /*************************************************************************/
 

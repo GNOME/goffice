@@ -233,3 +233,19 @@ SUFFIX(go_range_increasing) (DOUBLE const *xs, int n)
 			return 0;
 	return 1;
 }
+
+int
+SUFFIX(go_range_decreasing) (DOUBLE const *xs, int n)
+{
+	int i;
+	for (i = 1; i < n; i++)
+		if (xs[i - 1] <= xs[i])
+			return 0;
+	return 1;
+}
+
+int
+SUFFIX(go_range_vary_uniformly) (DOUBLE const *xs, int n)
+{
+	return SUFFIX(go_range_increasing) (xs, n) || SUFFIX(go_range_decreasing) (xs, n);
+}

@@ -35,6 +35,7 @@
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-error-bar.h>
 #include <goffice/graph/gog-series-lines.h>
+#include <goffice/graph/gog-3d-box.h>
 #include <goffice/data/go-data-simple.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-format.h>
@@ -126,6 +127,7 @@ libgoffice_init ()
 	(void) GOG_SERIES_LINES_TYPE;
 	(void) GO_DATA_SCALAR_VAL_TYPE;
 	(void) GO_DATA_SCALAR_STR_TYPE;
+	(void) GOG_3D_BOX_TYPE;
 	gog_themes_init	();
 	go_number_format_init ();
 	go_currency_date_format_init ();

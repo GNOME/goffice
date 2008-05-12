@@ -1766,6 +1766,20 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 }
 
 static gboolean
+xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
+	    GogViewAllocation const *plot_area, double x, double y)
+{
+    GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
+    GogAxisType axis_type = gog_axis_get_atype (axis_base->axis);
+    g_return_val_if_fail (axis_type == GOG_AXIS_X ||
+			  axis_type == GOG_AXIS_Y ||
+			  axis_type == GOG_AXIS_Z, FALSE);
+
+    return TRUE;
+
+}
+
+static gboolean
 gog_axis_base_view_point (GogView *view, double x, double y)
 {
 	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
@@ -1800,6 +1814,9 @@ gog_axis_base_view_point (GogView *view, double x, double y)
 		case GOG_AXIS_SET_RADAR:
 			pointed = radar_process (GOG_AXIS_BASE_POINT, view, NULL, plot_area, x, y);
 			break;
+		case GOG_AXIS_SET_XYZ:
+			xyz_process (GOG_AXIS_BASE_PADDING_REQUEST, view, NULL, plot_area, x, y);
+			break;
 		default:
 			g_warning ("[AxisBaseView::point] not implemented for this axis set (%i)",
 				   axis_set);
@@ -1833,6 +1850,8 @@ gog_axis_base_view_padding_request (GogView *view, GogViewAllocation const *bbox
 			break;
 		case GOG_AXIS_SET_RADAR:
 			radar_process (GOG_AXIS_BASE_PADDING_REQUEST, view, padding, bbox, 0., 0.);
+			break;
+		case GOG_AXIS_SET_XYZ:
 			break;
 		default:
 			g_warning ("[AxisBaseView::padding_request] not implemented for this axis set (%i)",

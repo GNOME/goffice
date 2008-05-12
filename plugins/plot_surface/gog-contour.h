@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-surface.h
+ * gog-contour.h
  *
- * Copyright (C) 2004-2005 Jean Brefort (jean.brefort@normalesup.org)
+ * Copyright (C) 2004-2007 Jean Brefort (jean.brefort@normalesup.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -19,8 +19,8 @@
  * USA
  */
 
-#ifndef GOG_SURFACE_H
-#define GOG_SURFACE_H
+#ifndef GOG_CONTOUR_H
+#define GOG_CONTOUR_H
 
 #include "gog-xyz.h"
 
@@ -28,23 +28,23 @@ G_BEGIN_DECLS
 
 /*-----------------------------------------------------------------------------
  *
- * GogSurfacePlot
+ * GogContourPlot
  *
  *-----------------------------------------------------------------------------
  */
 
-typedef GogXYZPlot GogSurfacePlot;
-typedef GogXYZPlotClass GogSurfacePlotClass;
- 
-#define GOG_SURFACE_PLOT_TYPE	(gog_surface_plot_get_type ())
-#define GOG_SURFACE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_SURFACE_PLOT_TYPE, GogSurfacePlot))
-#define GOG_IS_SURFACE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SURFACE_PLOT_TYPE))
+typedef GogXYZPlot GogContourPlot;
+typedef GogXYZPlotClass GogContourPlotClass;
 
-GType gog_surface_plot_get_type (void);
-void  gog_surface_plot_register_type   (GTypeModule *module);
+#define GOG_CONTOUR_PLOT_TYPE	(gog_contour_plot_get_type ())
+#define GOG_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_CONTOUR_PLOT_TYPE, GogContourPlot))
+#define GOG_IS_PLOT_CONTOUR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_CONTOUR_PLOT_TYPE))
 
-void  gog_surface_view_register_type   (GTypeModule *module);
+GType gog_contour_plot_get_type (void);
+void  gog_contour_plot_register_type   (GTypeModule *module);
+
+void  gog_contour_view_register_type   (GTypeModule *module);
 
 G_END_DECLS
 
-#endif /* GOG_SURFACE_H */
+#endif /* GOG_CONTOUR_H */

@@ -23,6 +23,7 @@
 #include "go-data.h"
 #include "go-data-impl.h"
 #include <goffice/math/go-math.h>
+#include <goffice/math/go-rangefunc.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -332,6 +333,30 @@ go_data_vector_get_minmax (GODataVector *vec, double *min, double *max)
 		*min = vec->minimum;
 	if (max != NULL)
 		*max = vec->maximum;
+}
+
+gboolean
+go_data_vector_increasing (GODataVector *vec)
+{
+	double *data = go_data_vector_get_values (vec);
+	int length = go_data_vector_get_len (vec);
+	return go_range_increasing (data, length);
+}
+
+gboolean
+go_data_vector_decreasing (GODataVector *vec)
+{
+	double *data = go_data_vector_get_values (vec);
+	int length = go_data_vector_get_len (vec);
+	return go_range_decreasing (data, length);
+}
+
+gboolean
+go_data_vector_vary_uniformly (GODataVector *vec)
+{
+	double *data = go_data_vector_get_values (vec);
+	int length = go_data_vector_get_len (vec);
+	return go_range_vary_uniformly (data, length);
 }
 
 /*************************************************************************/

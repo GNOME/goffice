@@ -18,6 +18,16 @@
 				<description>Excel (TM) compatibility contour plotting engine</description>
 			</information>
 		</service>
+		<service type="plot_engine" id="GogSurfacePlot">
+			<information>
+				<_description>Surface plotting engine</_description>
+			</information>
+		</service>
+		<service type="plot_engine" id="XLSurfacePlot">
+			<information>
+				<description>Excel (TM) compatibility surface plotting engine</description>
+			</information>
+		</service>
 		<service type="plot_type" id="surface">
 			<file>plot-types.xml</file>
 			<information>

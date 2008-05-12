@@ -7,4 +7,9 @@
 		_description="Contour plot."
 		sample_image_file="chart_contour_1_1.png">
 	</Type>
+	<Type _name="Surface" row="2" col="1"
+		engine="GogSurfacePlot" family="Surface"
+		_description="Surface plot."
+		sample_image_file="chart_surface_2_1.png">
+	</Type>
 </Types>

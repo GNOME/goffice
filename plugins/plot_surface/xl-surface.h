@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * xl-contour.h
+ * xl-surface.h
  *
  * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -19,12 +19,16 @@
  * USA
  */
 
-#ifndef XL_CONTOUR_H
-#define XL_CONTOUR_H
+#ifndef XL_SURFACE_H
+#define XL_SURFACE_H
 
+#include "gog-contour.h"
 #include "gog-surface.h"
 
 G_BEGIN_DECLS
+
+void  xl_y_labels_register_type (GTypeModule *plugin);
+void  xl_xyz_series_register_type (GTypeModule *plugin);
 
 /*-----------------------------------------------------------------------------
  *
@@ -33,19 +37,31 @@ G_BEGIN_DECLS
  *-----------------------------------------------------------------------------
  */
 
-typedef struct {
-	GogContourPlot base;
-	char const **y_labels;
-} XLContourPlot;
+typedef GogContourPlot XlContourPlot;
 
 #define XL_CONTOUR_PLOT_TYPE	(xl_contour_plot_get_type ())
-#define XL_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), XL_CONTOUR_PLOT_TYPE, XLContourPlot))
+#define XL_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), XL_CONTOUR_PLOT_TYPE, XlContourPlot))
 #define XL_PLOT_CONTOUR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), XL_CONTOUR_PLOT_TYPE))
 
 GType xl_contour_plot_get_type (void);
 void  xl_contour_plot_register_type (GTypeModule *plugin);
-void  xl_surface_series_register_type (GTypeModule *plugin);
+
+/*-----------------------------------------------------------------------------
+ *
+ * XLSurfacePlot
+ *
+ *-----------------------------------------------------------------------------
+ */
+
+typedef GogSurfacePlot XlSurfacePlot;
+
+#define XL_SURFACE_PLOT_TYPE	(xl_surface_plot_get_type ())
+#define XL_SURFACE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), XL_SURFACE_PLOT_TYPE, XlSurfacePlot))
+#define XL_PLOT_SURFACE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), XL_SURFACE_PLOT_TYPE))
+
+GType xl_surface_plot_get_type (void);
+void  xl_surface_plot_register_type (GTypeModule *plugin);
 
 G_END_DECLS
 
-#endif /* XL_CONTOUR_H */
+#endif /* XL_SURFACE_H */

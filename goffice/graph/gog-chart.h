@@ -29,7 +29,7 @@
 G_BEGIN_DECLS
 
 GogAxisSet gog_axis_set_from_str (char const *str);
-	
+
 #define GOG_CHART_TYPE	(gog_chart_get_type ())
 #define GOG_CHART(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_CHART_TYPE, GogChart))
 #define IS_GOG_CHART(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_CHART_TYPE))
@@ -59,6 +59,8 @@ GogGrid *gog_chart_get_grid	     (GogChart const *chart);
 
 /* View utils */
 GogViewAllocation const *gog_chart_view_get_plot_area (GogView const *view);
+
+gboolean gog_chart_is_3d 	(GogChart const *chart);
 
 G_END_DECLS
 

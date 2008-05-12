@@ -2317,6 +2317,9 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
 	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
 
+	if (gog_chart_is_3d (GOG_CHART (gog_object_get_parent (view->model))))
+	    return;
+
 	available.w = bbox->w;
 	available.h = bbox->h;
 

@@ -7,6 +7,10 @@ surface_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
 surface_la_LIBADD = $(GOFFICE_PLUGIN_LIBADD) 
 
 surface_la_SOURCES = \
+	gog-xyz.c		\
+	gog-xyz.h		\
+	gog-contour.c		\
+	gog-contour.h		\
 	gog-surface.c		\
 	gog-surface.h		\
 	xl-surface.c		\
@@ -18,8 +22,8 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@
 
 if WITH_GTK
-dist_glade_DATA = gog-contour-prefs.glade
-surface_la_SOURCES += gog-contour-prefs.c
+dist_glade_DATA = gog-xyz-prefs.glade
+surface_la_SOURCES += gog-xyz-prefs.c
 endif
 
 # do not use the intl-tool stuff to merge the text back
