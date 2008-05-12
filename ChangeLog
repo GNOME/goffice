@@ -1,5 +1,10 @@
 2008-05-12  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/goffice.c: (libgoffice_init): call go_conf_init,
+	(libgoffice_shutdown): call go_conf_shutdown.
+
+2008-05-12  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/data/go-data.c: (go_data_vector_increasing),
 	(go_data_vector_decreasing), (go_data_vector_vary_uniformly):
 	new functions.
