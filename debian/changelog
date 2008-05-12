@@ -1,3 +1,10 @@
+goffice (0.7.0~pre-1) UNRELEASED; urgency=low
+
+  * SVN trunk.
+  * [debian/*] Adjusted to soname change.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 05 May 2008 08:09:18 +0200
+
 goffice (0.6.3-1) unstable; urgency=low
 
   * New upstream stable release. 
