@@ -26,6 +26,7 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-path.h>
 #include <goffice/app/go-plugin.h>
 
 #include <glib/gi18n-lib.h>
@@ -275,6 +276,27 @@ GSF_DYNAMIC_CLASS (GogMinMaxPlot, gog_minmax_plot,
 typedef GogPlotView		GogMinMaxView;
 typedef GogPlotViewClass	GogMinMaxViewClass;
 
+
+static void
+path_move_to (void *closure, GOPathPoint const *point)
+{
+	gog_renderer_draw_marker (GOG_RENDERER (closure), point->x, point->y);
+}
+
+static void
+path_curve_to (void *closure,
+	       GOPathPoint const *point0,
+	       GOPathPoint const *point1,
+	       GOPathPoint const *point2)
+{
+	gog_renderer_draw_marker (GOG_RENDERER (closure), point2->x, point2->y);
+}
+
+static void
+path_close_path (void *closure)
+{
+}
+
 static void
 gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 {
@@ -284,17 +306,18 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogAxisMap *x_map, *y_map;
 	gboolean is_vertical = ! (model->horizontal);
 	double *max_vals, *min_vals;
-	double x;
+	double x, xmapped, minmapped, maxmapped;
 	double step, offset;
 	unsigned i, j;
 	unsigned num_elements = gog_1_5d_model->num_elements;
 	unsigned num_series = gog_1_5d_model->num_series;
 	GSList *ptr;
 	unsigned n, tmp;
-	ArtVpath path[3], *Mpath, *mpath;
+	GOPath *path, *Mpath, *mpath;
 	GogObjectRole const *role = NULL;
 	GogSeriesLines *lines;
 	GogStyle * style;
+	gboolean prec_valid;
 
 	if (num_elements <= 0 || num_series <= 0)
 		return;
@@ -313,9 +336,9 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	step = 1. / (num_series + model->gap_percentage / 100.);
 	offset = - step * (num_series - 1) / 2.;
-	path[0].code = ART_MOVETO;
-	path[1].code = ART_LINETO;
-	path[2].code = ART_END;
+
+	path = go_path_new ();
+	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 
 	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
@@ -333,31 +356,58 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 			GO_DATA_VECTOR (series->base.values[2].data));
 		if (n > tmp)
 			n = tmp;
-		Mpath = g_new (ArtVpath, n + 1);
-		mpath = g_new (ArtVpath, n + 1);
+		mpath = go_path_new ();
+		Mpath = go_path_new ();
+		go_path_set_options (mpath, GO_PATH_OPTIONS_SHARP);
+		go_path_set_options (Mpath, GO_PATH_OPTIONS_SHARP);
 		gog_renderer_push_style (view->renderer, style);
 		j = 0;
+		prec_valid = FALSE;
 
 		for (i = 0; i < n; i++) {
 			x++;
 			if (is_vertical) {
 				if (!gog_axis_map_finite (x_map, x) ||
 				    !gog_axis_map_finite (y_map, min_vals[i]) ||
-				    !gog_axis_map_finite (y_map, max_vals[i]))
+				    !gog_axis_map_finite (y_map, max_vals[i])) {
+					prec_valid = FALSE;
 					continue;
-				mpath[j].x = Mpath[j].x = path[0].x = path[1].x = gog_axis_map_to_view (x_map, x);
-				mpath[j].y = path[0].y = gog_axis_map_to_view (y_map, min_vals[i]);
-				Mpath[j].y = path[1].y = gog_axis_map_to_view (y_map, max_vals[i]);
+				    }
+				xmapped = gog_axis_map_to_view (x_map, x);
+				minmapped = gog_axis_map_to_view (y_map, min_vals[i]);
+				maxmapped = gog_axis_map_to_view (y_map, max_vals[i]);
+				go_path_move_to (path, xmapped, minmapped);
+				go_path_line_to (path, xmapped, maxmapped);
+				if (prec_valid) {
+					go_path_line_to (mpath, xmapped, minmapped);
+					go_path_line_to (Mpath, xmapped, maxmapped);
+				} else {
+					go_path_move_to (mpath, xmapped, minmapped);
+					go_path_move_to (Mpath, xmapped, maxmapped);
+				}
 			} else {
 				if (!gog_axis_map_finite (y_map, x) ||
 				    !gog_axis_map_finite (x_map, min_vals[i]) ||
-				    !gog_axis_map_finite (x_map, max_vals[i]))
+				    !gog_axis_map_finite (x_map, max_vals[i])) {
+					prec_valid = FALSE;
 					continue;
-				mpath[j].y = Mpath[j].y = path[0].y = path[1].y =  gog_axis_map_to_view (y_map, x);
-				mpath[j].x = path[0].x = gog_axis_map_to_view (x_map, min_vals[i]);
-				Mpath[j].x =path[1].x = gog_axis_map_to_view (x_map, max_vals[i]);
+				}
+				xmapped = gog_axis_map_to_view (y_map, x);
+				minmapped = gog_axis_map_to_view (x_map, min_vals[i]);
+				maxmapped = gog_axis_map_to_view (x_map, max_vals[i]);
+				go_path_move_to (path, minmapped, xmapped);
+				go_path_line_to (path, maxmapped, xmapped);
+				if (prec_valid) {
+					go_path_line_to (mpath, minmapped, xmapped);
+					go_path_line_to (Mpath, maxmapped, xmapped);
+				} else {
+					go_path_move_to (mpath, minmapped, xmapped);
+					go_path_move_to (Mpath, maxmapped, xmapped);
+				}
 			}
-			gog_renderer_draw_sharp_path (view->renderer, path);
+			gog_renderer_stroke_serie (view->renderer, path);
+			go_path_clear (path);
+			prec_valid = TRUE;
 			j++;
 		}
 		if (series->has_lines) {
@@ -366,27 +416,34 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 							GOG_OBJECT (series), "Lines");
 			lines = GOG_SERIES_LINES (
 					gog_object_get_child_by_role (GOG_OBJECT (series), role));
-			mpath[0].code = Mpath[0].code = ART_MOVETO;
-			for (i = 1; i < j; i++)
-				mpath[i].code = Mpath[i].code = ART_LINETO;
-			mpath[n].code = Mpath[n].code = ART_END;
 			gog_renderer_push_style (view->renderer,
 				gog_styled_object_get_style (GOG_STYLED_OBJECT (lines)));
-			gog_series_lines_render (lines, view->renderer, bbox, mpath, TRUE);
-			gog_series_lines_render (lines, view->renderer, bbox, Mpath, FALSE);
+			gog_series_lines_stroke (lines, view->renderer, bbox, mpath, TRUE);
+			gog_series_lines_stroke (lines, view->renderer, bbox, Mpath, FALSE);
 			gog_renderer_pop_style (view->renderer);
 		}
 		if (gog_style_is_marker_visible (style))
 			for (i = 0; i < j; i++) {
-				gog_renderer_draw_marker (view->renderer, mpath[i].x, mpath[i].y);
-				gog_renderer_draw_marker (view->renderer, Mpath[i].x, Mpath[i].y);
+				go_path_interpret (mpath, GO_PATH_DIRECTION_FORWARD,
+						   path_move_to,
+						   path_move_to,
+						   path_curve_to,
+						   path_close_path,
+						   view->renderer);
+				go_path_interpret (Mpath, GO_PATH_DIRECTION_FORWARD,
+						   path_move_to,
+						   path_move_to,
+						   path_curve_to,
+						   path_close_path,
+						   view->renderer);
 			}
 		gog_renderer_pop_style (view->renderer);
-		g_free (Mpath);
-		g_free (mpath);
+		go_path_free (Mpath);
+		go_path_free (mpath);
 		offset += step;
 	}
 
+	go_path_free (path);
 	gog_axis_map_free (x_map);
 	gog_axis_map_free (y_map);
 }

@@ -24,6 +24,7 @@
 
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-styled-object.h>
+#include <goffice/utils/go-path.h>
 #include <libart_lgpl/libart.h>
 
 G_BEGIN_DECLS
@@ -33,8 +34,8 @@ G_BEGIN_DECLS
 #define IS_GOG_SERIES_LINES(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SERIES_LINES_TYPE))
 
 GType 	gog_series_lines_get_type 	(void);
-void 	gog_series_lines_render 	(GogSeriesLines *lines, GogRenderer *rend, 
-					 GogViewAllocation const *bbox, ArtVpath *path, gboolean invert);
+void 	gog_series_lines_stroke 	(GogSeriesLines *lines, GogRenderer *rend, 
+					 GogViewAllocation const *bbox, GOPath *path, gboolean invert);
 void	gog_series_lines_use_markers (GogSeriesLines *lines, gboolean use_markers);
 
 G_END_DECLS

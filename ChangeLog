@@ -1,5 +1,16 @@
 2008-05-12  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-series-lines.c: use GOPath instead of ArtVpath.
+	* goffice/graph/gog-series-lines.h: ditto.
+	* plugins/plot_barcol/gog-barcol.c: (gog_barcol_view_render):
+	* plugins/plot_barcol/gog-dropbar.c: (barcol_draw_rect),
+	(gog_dropbar_view_render): ditto.
+	* plugins/plot_barcol/gog-line.c: (gog_line_view_render): ditto.
+	* plugins/plot_barcol/gog-minmax.c: (path_move_to),
+	(path_curve_to), (path_close_path), (gog_minmax_view_render): ditto.
+
+2008-05-12  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/app/Makefile.am:
 	* goffice/app/go-conf-gconf.c: copied from gnumeric.
 	* goffice/app/go-conf-keyfile.c: ditto.

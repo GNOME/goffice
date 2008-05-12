@@ -74,11 +74,30 @@ GSF_CLASS (GogSeriesLines, gog_series_lines,
 	   gog_series_lines_class_init, NULL,
 	   GOG_STYLED_OBJECT_TYPE)
 
-void
-gog_series_lines_render (GogSeriesLines *lines, GogRenderer *rend, GogViewAllocation const *bbox, ArtVpath *path, gboolean invert)
+static void
+path_move_to (void *closure, GOPathPoint const *point)
+{
+	gog_renderer_draw_marker (GOG_RENDERER (closure), point->x, point->y);
+}
+
+static void
+path_curve_to (void *closure,
+	       GOPathPoint const *point0,
+	       GOPathPoint const *point1,
+	       GOPathPoint const *point2)
+{
+	gog_renderer_draw_marker (GOG_RENDERER (closure), point2->x, point2->y);
+}
+
+static void
+path_close_path (void *closure)
+{
+}
+
+void gog_series_lines_stroke (GogSeriesLines *lines, GogRenderer *rend, 
+		GogViewAllocation const *bbox, GOPath *path, gboolean invert)
 {
 	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (lines));
-	int i = 0;
 
 	if (invert) {
 		GOMarker *marker;
@@ -93,12 +112,14 @@ gog_series_lines_render (GogSeriesLines *lines, GogRenderer *rend, GogViewAlloca
 		go_marker_set_fill_color (marker, color ^ 0xffffff00);
 	}
 	gog_renderer_push_style (rend, style);
-	gog_renderer_draw_sharp_path (rend, path);
+	gog_renderer_stroke_serie (rend, path);
 	if ((style->interesting_fields & GOG_STYLE_MARKER) != 0)
-		while (path[i].code != ART_END) {
-			gog_renderer_draw_marker (rend, path[i].x, path[i].y);
-			i++;
-		}
+		go_path_interpret (path, GO_PATH_DIRECTION_FORWARD,
+				   path_move_to,
+				   path_move_to,
+				   path_curve_to,
+				   path_close_path,
+				   rend);
 	gog_renderer_pop_style (rend);
 	if (invert)
 		g_object_unref (style);

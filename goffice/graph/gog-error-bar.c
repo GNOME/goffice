@@ -700,7 +700,7 @@ void gog_error_bar_render (const GogErrorBar *bar,
 			path[3].code = ART_LINETO;
 			n = 4;
 		} else
-		n = 2;
+			n = 2;
 		path[n].code = ART_MOVETO;
 		path[n + 1].code = ART_LINETO;
 		path[n + 2].code = ART_END;

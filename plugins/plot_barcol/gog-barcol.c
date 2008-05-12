@@ -338,7 +338,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	ErrorBarData **error_data;
 	GogErrorBar **errors;
 	GogSeriesLines **lines;
-	ArtVpath **paths;
+	GOPath **paths;
 	GSList *ptr;
 	unsigned *lengths;
 	double plus, minus;
@@ -368,7 +368,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	errors = g_alloca (num_series * sizeof (GogErrorBar *));
 	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
 	lines = g_alloca (num_series * sizeof (GogSeriesLines *));
-	paths = g_alloca (num_series * sizeof (ArtVpath *));
+	paths = g_alloca (num_series * sizeof (GOPath *));
 	
 	i = 0;
 	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
@@ -391,12 +391,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 							GOG_OBJECT (series), "Series lines");
 			lines[i] = GOG_SERIES_LINES (
 					gog_object_get_child_by_role (GOG_OBJECT (series), role));
-			paths[i] = g_new (ArtVpath, lengths[i] * 2 - 1);
-			for (j = 0; j < lengths[i] - 1; j++) {
-				paths[i][j * 2].code = ART_MOVETO;
-				paths[i][j * 2 + 1].code = ART_LINETO;
-			}
-			paths[i][j * 2].code = ART_END;
+			paths[i] = go_path_new ();
 		} else
 			lines[i] = NULL;
 		i++;
@@ -476,18 +471,22 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 				x = tmp > 0 ? work.x + work.w: work.x;
 				if (is_vertical) {
 					if (i > 0) {
-						paths[j][i * 2 - 1].x = gog_axis_map_to_view (x_map, work.y);
-						paths[j][i * 2 - 1].y = gog_axis_map_to_view (y_map, x);
+						go_path_line_to (paths[j],
+								 gog_axis_map_to_view (x_map, work.y),
+								 gog_axis_map_to_view (y_map, x));
 					}
-					paths[j][i * 2].x = gog_axis_map_to_view (x_map, work.y + work.h);
-					paths[j][i * 2].y = gog_axis_map_to_view (y_map, x);
+					go_path_move_to (paths[j],
+							 gog_axis_map_to_view (x_map, work.y + work.h),
+							 gog_axis_map_to_view (y_map, x));
 				} else {
 					if (i > 0) {
-						paths[j][i * 2 - 1].x = gog_axis_map_to_view (x_map, x);
-						paths[j][i * 2 - 1].y = gog_axis_map_to_view (y_map, work.y);
+						go_path_line_to (paths[j],
+								 gog_axis_map_to_view (x_map, x),
+								 gog_axis_map_to_view (y_map, work.y));
 					}
-					paths[j][i * 2].x = gog_axis_map_to_view (x_map, x);
-					paths[j][i * 2].y = gog_axis_map_to_view (y_map, work.y + work.h);
+					go_path_move_to (paths[j],
+							 gog_axis_map_to_view (x_map, x),
+							 gog_axis_map_to_view (y_map, work.y + work.h));
 				}
 			}
 		}
@@ -507,8 +506,8 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	/* Draw series lines if any */
 	for (i = 0; i < num_series; i++)
 		if (lines[i] != NULL) {
-			gog_series_lines_render (lines[i], view->renderer, bbox, paths[i], FALSE);
-			g_free (paths[i]);
+			gog_series_lines_stroke (lines[i], view->renderer, bbox, paths[i], FALSE);
+			go_path_free (paths[i]);
 		}
 
 	gog_chart_map_free (chart_map);

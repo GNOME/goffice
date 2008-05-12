@@ -104,50 +104,37 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 		  GogAxisMap *y_map,
 		  GogViewAllocation const *rect)
 {
-	ArtVpath path[6];
-	double x0, x1, y0, y1;
+	GogViewAllocation r;
 
 	if (flip) {
-		x0 = gog_axis_map_to_view (x_map, rect->y);
-		x1 = gog_axis_map_to_view (x_map, rect->y + rect->h);
-		y0 = gog_axis_map_to_view (y_map, rect->x);
-		y1 = gog_axis_map_to_view (y_map, rect->x + rect->w);
-		if (fabs (x1 - x0) < .5) {
-			x1 += .25;
-			x0 -= .25;
+		r.x = gog_axis_map_to_view (x_map, rect->y);
+		r.w = gog_axis_map_to_view (x_map, rect->y + rect->h) - r.x;
+		r.y = gog_axis_map_to_view (y_map, rect->x);
+		r.h = gog_axis_map_to_view (y_map, rect->x + rect->w) - r.y;
+		if (fabs (r.w) < 1.) {
+			r.w += 1.;
+			r.x -= .5;
 		}
-		if (fabs (y1 - y0) < .5) {
-			y1 += .25;
-			y0 -= .25;
+		if (fabs (r.h) < 1.) {
+			r.h += 1.;
+			r.y -= .5;
 		}
 	} else {
-		x0 = gog_axis_map_to_view (x_map, rect->x);
-		x1 = gog_axis_map_to_view (x_map, rect->x + rect->w);
-		y0 = gog_axis_map_to_view (y_map, rect->y);
-		y1 = gog_axis_map_to_view (y_map, rect->y + rect->h);
-		if (fabs (x1 - x0) < .5) {
-			x1 += .25;
-			x0 -= .25;
+		r.x = gog_axis_map_to_view (x_map, rect->x);
+		r.w = gog_axis_map_to_view (x_map, rect->x + rect->w) - r.x;
+		r.y = gog_axis_map_to_view (y_map, rect->y);
+		r.h = gog_axis_map_to_view (y_map, rect->y + rect->h) - r.y;
+		if (fabs (r.w) < 1.) {
+			r.w += 1.;
+			r.x -= .5;
 		}
-		if (fabs (y1 - y0) < .5) {
-			y1 += .25;
-			y0 -= .25;
+		if (fabs (r.h) < 1.) {
+			r.h += 1.;
+			r.y -= .5;
 		}
 	}
 
-	path[0].x = path[3].x = path[4].x = x0;
-	path[1].x = path[2].x = x1;
-	path[0].y = path[1].y = path[4].y = y0;
-	path[2].y = path[3].y = y1;
-	path[0].code = ART_MOVETO;
-	path[1].code = ART_LINETO;
-	path[2].code = ART_LINETO;
-	path[3].code = ART_LINETO;
-	path[4].code = ART_LINETO;
-	path[5].code = ART_END;
-	
-	gog_renderer_draw_sharp_polygon (rend, path, 
-					 fabs (x1 - x0) < 3. || fabs (y1 - y0) < 3.);
+	gog_renderer_draw_rectangle (rend, &r);
 }
 
 static void
@@ -159,7 +146,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogAxisMap *x_map, *y_map, *val_map;
 	GogViewAllocation work;
 	double *start_vals, *end_vals;
-	double x;
+	double x, xmapped;
 	double step, offset, group_step;
 	unsigned i, j, k;
 	unsigned num_elements = gog_1_5d_model->num_elements;
@@ -167,9 +154,10 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList *ptr;
 	unsigned n, tmp;
 	GogStyle *neg_style;
-	ArtVpath **path1, **path2;
+	GOPath **path1, **path2;
 	GogObjectRole const *role = NULL;
 	GogSeriesLines **lines;
+	gboolean prec_valid;
 
 	if (num_elements <= 0 || num_series <= 0)
 		return;
@@ -188,8 +176,8 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	/* lines, if any will be rendered after the bars, so we build the paths
 	and render them at the end */
-	path1    = g_alloca (num_series * sizeof (ArtVpath *));
-	path2    = g_alloca (num_series * sizeof (ArtVpath *));
+	path1    = g_alloca (num_series * sizeof (GOPath *));
+	path2    = g_alloca (num_series * sizeof (GOPath *));
 	lines    = g_alloca (num_series * sizeof (GogSeriesLines *));
 	j = 0;
 	step = 1. - model->overlap_percentage / 100.;
@@ -203,6 +191,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 		series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
+		prec_valid = FALSE;
 		neg_style = gog_style_dup ((GOG_STYLED_OBJECT (series))->style);
 		neg_style->outline.color ^= 0xffffff00;
 		neg_style->fill.pattern.back ^= 0xffffff00;
@@ -225,12 +214,10 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 							GOG_OBJECT (series), "Lines");
 			lines[j] = GOG_SERIES_LINES (
 					gog_object_get_child_by_role (GOG_OBJECT (series), role));
-			path1[j] = g_new (ArtVpath, n + 1);
-			path2[j] = g_new (ArtVpath, n + 1);
-			path1[j][0].code = path2[j][0].code = ART_MOVETO;
-			for (i = 1; i < n; i++)
-				path1[j][i].code =path2[j][i].code = ART_LINETO;
-			path1[j][n].code = path2[j][n].code = ART_END;
+			path1[j] = go_path_new ();
+			path2[j] = go_path_new ();
+			go_path_set_options (path1[j], GO_PATH_OPTIONS_SHARP);
+			go_path_set_options (path2[j], GO_PATH_OPTIONS_SHARP);
 		} else
 			path1[j] = NULL;
 		k = 0;
@@ -241,34 +228,46 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 			work.h = end_vals[i] - work.y;
 			val_map = (model->horizontal)? x_map: y_map;
 			if (!gog_axis_map_finite (val_map, start_vals[i]) ||
-				!gog_axis_map_finite (val_map, end_vals[i]))
+				!gog_axis_map_finite (val_map, end_vals[i])) {						prec_valid = FALSE;
+				prec_valid = FALSE;
 				continue;
+				}
 			if (series->has_lines) {
 				if (model->horizontal) {
-					if (!gog_axis_map_finite (y_map, work.x + work.w / 2.))
+					xmapped = gog_axis_map_to_view (y_map, work.x + work.w / 2.);
+					if (!gog_axis_map_finite (y_map, work.x + work.w / 2.)) {
+						prec_valid = FALSE;
 						continue;
-					path1[j][k].y = path2[j][k].y =
-						gog_axis_map_to_view (y_map, work.x + work.w / 2.);
-					path1[j][k].x = gog_axis_map_to_view (val_map, start_vals[i]);
-					path2[j][k].x = gog_axis_map_to_view (val_map, end_vals[i]);
+					}
+					if (prec_valid) {
+						go_path_line_to (path1[j], gog_axis_map_to_view (val_map, start_vals[i]), xmapped);
+						go_path_line_to (path2[j], gog_axis_map_to_view (val_map, end_vals[i]), xmapped);
+					} else {
+						go_path_move_to (path1[j], gog_axis_map_to_view (val_map, start_vals[i]), xmapped);
+						go_path_move_to (path2[j], gog_axis_map_to_view (val_map, end_vals[i]), xmapped);
+					}
 				} else {
-					if (!gog_axis_map_finite (x_map, work.x + work.w / 2.))
+					xmapped = gog_axis_map_to_view (x_map, work.x + work.w / 2.);
+					if (!gog_axis_map_finite (x_map, work.x + work.w / 2.)) {
+						prec_valid = FALSE;
 						continue;
-					path1[j][k].x = path2[j][k].x =
-						gog_axis_map_to_view (x_map, work.x + work.w / 2.);
-					path1[j][k].y = gog_axis_map_to_view (val_map, start_vals[i]);
-					path2[j][k].y = gog_axis_map_to_view (val_map, end_vals[i]);
+					}
+					if (prec_valid) {
+						go_path_line_to (path1[j], xmapped, gog_axis_map_to_view (val_map, start_vals[i]));
+						go_path_line_to (path2[j], xmapped, gog_axis_map_to_view (val_map, end_vals[i]));
+					} else {
+						go_path_move_to (path1[j], xmapped, gog_axis_map_to_view (val_map, start_vals[i]));
+						go_path_move_to (path2[j], xmapped, gog_axis_map_to_view (val_map, end_vals[i]));
+					}
 				}
+				prec_valid = TRUE;
 			}
 			gog_renderer_push_style (view->renderer, (start_vals[i] <= end_vals[i])?
 						GOG_STYLED_OBJECT (series)->style: neg_style);
 					barcol_draw_rect (view->renderer, model->horizontal, x_map, y_map, &work);
 			barcol_draw_rect (view->renderer, model->horizontal, x_map, y_map, &work);
 			gog_renderer_pop_style (view->renderer);
-			k++;
 		}
-		if (series->has_lines)
-			path1[j][k].code = path2[j][k].code = ART_END;
 		offset += step;
 		g_object_unref (neg_style);
 		j++;
@@ -277,11 +276,11 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (path1[j] != NULL) {
 			gog_renderer_push_style (view->renderer,
 				gog_styled_object_get_style (GOG_STYLED_OBJECT (lines[j])));
-			gog_series_lines_render (lines[j], view->renderer, bbox, path1[j], TRUE);
-			gog_series_lines_render (lines[j], view->renderer, bbox, path2[j], FALSE);
+			gog_series_lines_stroke (lines[j], view->renderer, bbox, path1[j], TRUE);
+			gog_series_lines_stroke (lines[j], view->renderer, bbox, path2[j], FALSE);
 			gog_renderer_pop_style (view->renderer);
-			g_free (path2[j]);
-			g_free (path1[j]);
+			go_path_free (path2[j]);
+			go_path_free (path1[j]);
 		}
 
 	gog_axis_map_free (x_map);

@@ -379,7 +379,8 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	ErrorBarData **error_data;
 	GogStyle **styles;
 	unsigned *lengths;
-	ArtVpath **path, **drop_paths;
+	ArtVpath **path;
+	GOPath **drop_paths;
 	GogErrorBar **errors;
 	GogObjectRole const *role = NULL;
 	GogSeriesLines **lines;
@@ -457,13 +458,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 							GOG_OBJECT (series), "Drop lines");
 			lines[i] = GOG_SERIES_LINES (
 					gog_object_get_child_by_role (GOG_OBJECT (series), role));
-			drop_paths [i] = g_malloc (sizeof (ArtVpath) * (num_elements * 2 + 1));
-			for (j = 0; j < num_elements; j++) {
-				drop_paths[i][2 * j].code = ART_MOVETO;
-				drop_paths[i][2 * j + 1].code = ART_LINETO;
-				drop_paths[i][2 * j + 1].y = drop_lines_y_zero; 
-			}
-			drop_paths[i][2 * j].code = ART_END;
+			drop_paths [i] = go_path_new ();
 		} else
 			lines[i] = NULL;
 		i++;
@@ -565,8 +560,8 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 					break;
 			}
 			if (lines[i]) {
-				drop_paths[i][2 * j - 2].x = drop_paths[i][2 * j - 1].x = path[i][j].x;
-				drop_paths[i][2 * j - 2].y = path[i][j].y;
+				go_path_move_to (drop_paths[i], path[i][j].x, path[i][j].y);
+				go_path_line_to (drop_paths[i], path[i][j].x, drop_lines_y_zero);
 			}
 
 		}
@@ -628,9 +623,9 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (lines[i] != NULL) {
 			gog_renderer_push_style (view->renderer,
 				gog_styled_object_get_style (GOG_STYLED_OBJECT (lines[i])));
-			gog_series_lines_render (lines[i], view->renderer, bbox, drop_paths[i], FALSE);
+			gog_series_lines_stroke (lines[i], view->renderer, bbox, drop_paths[i], FALSE);
 			gog_renderer_pop_style (view->renderer);
-			g_free (drop_paths[i]);
+			go_path_free (drop_paths[i]);
 		}
 
 	/*Now draw error bars */
