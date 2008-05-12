@@ -40,6 +40,7 @@
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-font.h>
+#include <goffice/app/go-conf.h>
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/component/go-component-factory.h>
 #include <gsf/gsf-utils.h>
