@@ -16,7 +16,8 @@ libgoffice_app_la_SOURCES = \
 	file.c				\
 	error-info.c			\
 	io-context.c			\
-	go-cmd-context.c
+	go-cmd-context.c		\
+	go-conf.c
 
 libgoffice_app_ladir = $(goffice_include_dir)/app
 libgoffice_app_la_api_headers = 	\
@@ -36,7 +37,9 @@ libgoffice_app_la_api_headers = 	\
 	io-context.h			\
 	io-context-priv.h		\
 	go-cmd-context.h		\
-	go-cmd-context-impl.h
+	go-cmd-context-impl.h	\
+	go-conf.h
+
 libgoffice_app_la_HEADERS = 	\
 	$(libgoffice_app_la_api_headers) \
 	module-plugin-defs.h
@@ -51,7 +54,10 @@ UNUSED = \
 	go-service.h \
 	go-service-impl.h
 
-EXTRA_DIST = $(UNUSED)
+EXTRA_DIST = $(UNUSED)		\
+	go-conf-gconf.c			\
+	go-conf-keyfile.c		\
+	go-conf-win32.c
 
 include $(top_srcdir)/goffice.mk
 

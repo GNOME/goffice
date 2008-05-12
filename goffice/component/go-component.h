@@ -26,6 +26,7 @@
 #include <gtk/gtkwindow.h>
 #include <goffice/goffice.h>
 #include <goffice/app/goffice-app.h>
+#include <goffice/component/goffice-component.h>
 
 G_BEGIN_DECLS
 
