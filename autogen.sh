@@ -62,7 +62,8 @@ GNOME_DATADIR="$gnome_datadir"
 
 . $gnome_autogen
 
-if grep 'which gtkdoc-rebase >/dev/null &&' $srcdir/gtk-doc.make >/dev/null 2>&1; then
+if grep 'which gtkdoc-rebase >/dev/null &&' $srcdir/gtk-doc.make >/dev/null 2>&1 &&	\
+   grep '[^-]installfiles=`echo $(srcdir)/html/*`;' $srcdir/gtk-doc.make >/dev/null 2>&1; then
     echo '----------------------------------------------------' 1>&2
     echo "Your gtk-doc has a dependency problem.  Upgrade." 1>&2
     echo "See http://bugzilla.gnome.org/show_bug.cgi?id=506506" 1>&2

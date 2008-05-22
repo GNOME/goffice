@@ -23,15 +23,3 @@ Droplines
 </para>
 
 
-<!-- ##### FUNCTION gog_series_lines_render ##### -->
-<para>
-
-</para>
-
-@lines: 
-@rend: 
-@bbox: 
-@path: 
-@invert: 
-
-
