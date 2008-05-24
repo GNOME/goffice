@@ -1,3 +1,8 @@
+2008-05-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-plot-engine.c: fixed services (de)activation.
+	* goffice/graph/gog-plot-engine.h: ditto.
+
 2008-05-11  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.6.4
