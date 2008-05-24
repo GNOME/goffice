@@ -123,7 +123,7 @@ GType gog_plot_type_service_get_type (void);
 typedef struct {
 	PluginServiceSimple	base;
 
-	GSList	*families, *types;
+	GSList	*families, *types, *paths;
 } GogPlotTypeService;
 
 typedef struct{
@@ -234,6 +234,7 @@ gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorIn
 {
 	char    *path;
 	xmlNode *ptr;
+	GSList *paths = NULL;
 
 	for (ptr = tree->xmlChildrenNode; ptr != NULL; ptr = ptr->next)
 		if (0 == xmlStrcmp (ptr->name, "file") &&
@@ -245,12 +246,49 @@ gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorIn
 				g_free (path);
 				path = tmp;
 			}
-			if (pending_plot_type_files == NULL)
-				pending_plot_type_files = g_hash_table_new_full (
-					g_str_hash, g_str_equal, g_free, g_object_unref);
-			g_object_ref (service);
-			g_hash_table_replace (pending_plot_type_files, path, service);
+			paths = g_slist_append (paths, path);
 		}
+	GOG_PLOT_TYPE_SERVICE (service)->paths = paths;
+}
+
+static void
+gog_plot_type_service_activate (GOPluginService *service, ErrorInfo **ret_error)
+{
+	GSList *l = GOG_PLOT_TYPE_SERVICE (service)->paths;
+	if (l && pending_plot_type_files == NULL)
+		pending_plot_type_files = g_hash_table_new_full (
+			g_str_hash, g_str_equal, g_free, g_object_unref);
+	while (l) {
+		g_object_ref (service);
+		g_hash_table_replace (pending_plot_type_files, g_strdup (l->data), service);
+		l = l->next;
+	}
+	service->is_active = TRUE;
+}
+
+static void
+gog_plot_type_service_deactivate (GOPluginService *service, ErrorInfo **ret_error)
+{
+	GogPlotTypeService *plot_service = GOG_PLOT_TYPE_SERVICE (service);
+	GSList *l = plot_service->families;
+	while (l) {
+		gog_plot_family_unregister ((GogPlotFamily *) l->data);
+		l = l->next;
+	}
+	g_slist_free (plot_service->families);
+	plot_service->families = NULL;
+
+	g_slist_free (plot_service->types);
+	plot_service->types = NULL;
+
+	if (pending_plot_type_files) {
+		l = plot_service->paths;
+		while (l) {
+		    g_hash_table_remove (pending_plot_type_files, l->data);
+		    l = l->next;
+	    }
+	}
+	service->is_active = FALSE;
 }
 
 static char *
@@ -275,6 +313,12 @@ gog_plot_type_service_finalize (GObject *obj)
 	g_slist_free (service->types);
 	service->types = NULL;
 
+	for (ptr = service->paths ; ptr != NULL ; ptr = ptr->next) {
+		g_hash_table_remove (pending_engines, ptr->data);
+	}
+	g_slist_free (service->paths);
+	service->paths = NULL;
+
 	(plot_type_parent_klass->finalize) (obj);
 }
 
@@ -285,6 +329,7 @@ gog_plot_type_service_init (GObject *obj)
 
 	service->families = NULL;
 	service->types = NULL;
+	service->paths = NULL;
 }
 
 static void
@@ -296,6 +341,8 @@ gog_plot_type_service_class_init (GObjectClass *gobject_klass)
 	gobject_klass->finalize		= gog_plot_type_service_finalize;
 	ps_class->read_xml		= gog_plot_type_service_read_xml;
 	ps_class->get_description	= gog_plot_type_service_get_description;
+	ps_class->activate		= gog_plot_type_service_activate;
+	ps_class->deactivate		= gog_plot_type_service_deactivate;
 }
 
 GSF_CLASS (GogPlotTypeService, gog_plot_type_service,
@@ -440,7 +487,7 @@ GType gog_trend_line_service_get_type (void);
 typedef struct {
 	PluginServiceSimple	base;
 
-	GSList	*types;
+	GSList	*types, *paths;
 } GogTrendLineService;
 typedef PluginServiceSimpleClass GogTrendLineServiceClass;
 
@@ -504,6 +551,7 @@ gog_trend_line_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorI
 {
 	char    *path;
 	xmlNode *ptr;
+	GSList *paths = NULL;
 
 	for (ptr = tree->xmlChildrenNode; ptr != NULL; ptr = ptr->next)
 		if (0 == xmlStrcmp (ptr->name, "file") &&
@@ -515,12 +563,46 @@ gog_trend_line_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorI
 				g_free (path);
 				path = tmp;
 			}
-			if (pending_trend_line_type_files == NULL)
-				pending_trend_line_type_files = g_hash_table_new_full (
-					g_str_hash, g_str_equal, g_free, g_object_unref);
-			g_object_ref (service);
-			g_hash_table_replace (pending_trend_line_type_files, path, service);
+			paths = g_slist_append (paths, path);
 		}
+	GOG_TREND_LINE_SERVICE (service)->paths = paths;
+}
+
+static void
+gog_trend_line_service_activate (GOPluginService *service, ErrorInfo **ret_error)
+{
+	GSList *l = GOG_TREND_LINE_SERVICE (service)->paths;
+	if (l && pending_trend_line_type_files == NULL)
+		pending_trend_line_type_files = g_hash_table_new_full (
+			g_str_hash, g_str_equal, g_free, g_object_unref);
+	while (l) {
+		g_object_ref (service);
+		g_hash_table_replace (pending_trend_line_type_files, l->data, service);
+		l = l->next;
+	}
+	service->is_active = TRUE;
+}
+
+static void
+gog_trend_line_service_deactivate (GOPluginService *service, ErrorInfo **ret_error)
+{
+	GogTrendLineService *line_service = GOG_TREND_LINE_SERVICE (service);
+	GSList *l = line_service->types;
+	while (l) {
+		g_hash_table_remove (trend_line_types, ((GogTrendLineType *) l->data)->name);
+		l = l->next;
+	}
+	g_slist_free (line_service->types);
+	line_service->types = NULL;
+
+	if (pending_trend_line_type_files) {
+		l = line_service->paths;
+		while (l) {
+		    g_hash_table_remove (pending_trend_line_type_files, l->data);
+		    l = l->next;
+	    }
+	}
+	service->is_active = FALSE;
 }
 
 static char *
@@ -542,6 +624,8 @@ gog_trend_line_service_class_init (GOPluginServiceClass *ps_class)
 {
 	ps_class->read_xml	  = gog_trend_line_service_read_xml;
 	ps_class->get_description = gog_trend_line_service_get_description;
+	ps_class->activate	  = gog_trend_line_service_activate;
+	ps_class->deactivate	  = gog_trend_line_service_deactivate;
 }
 
 GSF_CLASS (GogTrendLineService, gog_trend_line_service,
@@ -591,6 +675,10 @@ gog_plot_type_free (GogPlotType *type)
 	g_free (type->sample_image_file);
 	g_free (type->description);
 	g_free (type->engine);
+	if (type->properties) {
+		g_hash_table_destroy (type->properties);
+		type->properties = NULL;
+	}
 	g_free (type);
 }
 
@@ -644,6 +732,12 @@ gog_plot_family_register (char const *name, char const *sample_image_file,
 	return res;
 }
 
+void
+gog_plot_family_unregister (GogPlotFamily *family)
+{
+	g_hash_table_remove (plot_families, family->name);
+}
+
 GogPlotType *
 gog_plot_type_register (GogPlotFamily *family, int col, int row,
 		       char const *name, char const *sample_image_file,
@@ -676,6 +770,10 @@ gog_trend_line_type_free (GogTrendLineType *type)
 	g_free (type->description);
 	g_free (type->engine);
 	g_free (type);
+	if (type->properties) {
+		g_hash_table_destroy (type->properties);
+		type->properties = NULL;
+	}
 }
 
 static void
