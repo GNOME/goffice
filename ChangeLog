@@ -1,3 +1,23 @@
+2008-05-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-renderer.c: (_draw_circle),
+	(gog_renderer_draw_circle), (gog_renderer_stroke_circle),
+	(gog_renderer_fill_circle): new utilities.
+	* goffice/graph/gog-renderer.h: ditto.
+	* pixmaps/Makefile.am: add new pixmaps for box-plots
+	excluding outliers.
+	* plugins/plot_boxes/gog-boxplot-prefs.glade: add new properties.
+	* plugins/plot_boxes/gog-boxplot.c: (cb_outliers_changed),
+	(cb_ratio_changed), (gog_box_plot_pref),
+	(gog_box_plot_set_property), (gog_box_plot_get_property),
+	(gog_box_plot_class_init), (gog_box_plot_init),
+	(gog_box_plot_view_render), (gog_box_plot_series_update),
+	(gog_box_plot_series_finalize), (gog_box_plot_series_class_init):
+	ditto, fixes #534642.
+	* plugins/plot_boxes/plot-types.xml.in: new boxplots sub-types.
+	* plugins/plot_xy/gog-xy.c: (gog_xy_view_render): use
+	gog_renderer_draw_circle for bubbles.
+
 2008-05-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-plot-engine.c: fixed services (de)activation.

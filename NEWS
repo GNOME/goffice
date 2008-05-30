@@ -1,3 +1,11 @@
+goffice-0.7.0:
+
+Jean:
+	* New boxplot feature requested: exclude outliers. [#534642]
+	* Moved GOConf code from gnumeric to goffice.
+	* Fixed plot types activation/deactivation issues.
+
+--------------------------------------------------------------------------
 goffice 0.6.3:
 
 Hiroyuki Ikezoe:

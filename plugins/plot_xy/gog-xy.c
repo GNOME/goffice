@@ -831,19 +831,6 @@ GSF_DYNAMIC_CLASS (GogXYColorPlot, gog_xy_color_plot,
 typedef GogPlotView		GogXYView;
 typedef GogPlotViewClass	GogXYViewClass;
 
-#define MAX_ARC_SEGMENTS 64
-
-static void
-bubble_draw_circle (GogView *view, double x, double y, double radius)
-{
-	GOPath *path;
-
-	path = go_path_new ();
-	go_path_pie_wedge (path, x, y, radius, radius, 0, 2 * M_PI);
-	gog_renderer_draw_shape (view->renderer, path);
-	go_path_free (path);
-}
-
 static GOColor
 get_map_color (double z, gboolean hide_outliers)
 {
@@ -1110,7 +1097,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				if (z < 0) {
 					if (GOG_BUBBLE_PLOT(model)->show_negatives) {
 						gog_renderer_push_style (view->renderer, neg_style);
-						bubble_draw_circle (view, x_canvas, y_canvas, 
+						gog_renderer_draw_circle (view->renderer, x_canvas, y_canvas, 
 								    ((size_as_area) ? 
 								     sqrt (- z / zmax) :
 								    - z / zmax) * rmax);
@@ -1120,7 +1107,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					if (model->base.vary_style_by_element)
 						gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
 									model->base.index_num + i - 1, FALSE);
-					bubble_draw_circle (view, x_canvas, y_canvas, 
+					gog_renderer_draw_circle (view->renderer, x_canvas, y_canvas, 
 							    ((size_as_area) ?
 							    sqrt (z / zmax) :
 							    z / zmax) * rmax);

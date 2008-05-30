@@ -15,6 +15,21 @@
 		<property name="vertical">true</property>
 		<property name="guru-hints">backplane</property>
 	</Type>
+	<Type _name="HBoxPlotOutliers" row="2" col="1"
+		engine="GogBoxPlot" family="BoxPlot"
+		_description="Horizontal Box-Plot showing outliers."
+		sample_image_file="chart_boxplot_2_1.png">
+		<property name="outliers">true</property>
+		<property name="guru-hints">backplane</property>
+	</Type>
+	<Type _name="VBoxPlotOutliers" row="2" col="2"
+		engine="GogBoxPlot" family="BoxPlot"
+		_description="Vertical Box-Plot showing outliers."
+		sample_image_file="chart_boxplot_2_2.png">
+		<property name="outliers">true</property>
+		<property name="vertical">true</property>
+		<property name="guru-hints">backplane</property>
+	</Type>
 	<Family _name="Histogram"	sample_image_file="hist.xpm" axis_set="xy"/>
 	<Type _name="Histogram" row="1" col="1"
 		engine="GogHistogramPlot" family="Histogram"
