@@ -379,7 +379,7 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_RADIUS_RATIO,
 		g_param_spec_double ("radius-ratio", 
 			_("Radius ratio"),
-			_("The ratio between the radius of the circles representing outliers and the rectangls widths"),
+			_("The ratio between the radius of the circles representing outliers and the rectangle width"),
 			0., 0.5, 0.125, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
