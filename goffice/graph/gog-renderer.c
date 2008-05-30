@@ -829,6 +829,54 @@ gog_renderer_draw_bezier_path (GogRenderer *rend, ArtBpath const *path)
 	grc_draw_path (rend, NULL, path, FALSE);
 }
 
+static void
+_draw_circle (GogRenderer *rend, double x, double y, double r, gboolean fill, gboolean stroke)
+{
+	GogStyle const *style;
+	GOPath *path;
+	gboolean narrow = r < 1.5;
+	double o, o_2;
+
+	g_return_if_fail (IS_GOG_RENDERER (rend));
+	g_return_if_fail (IS_GOG_STYLE (rend->cur_style));
+
+	style = rend->cur_style;
+	narrow |= !gog_style_is_outline_visible (style);
+
+	path = go_path_new ();
+	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
+
+	if (!narrow) {
+		o = gog_renderer_line_size (rend, style->outline.width);
+		o_2 = o / 2.;
+	} else
+		o = o_2 = 0.;
+
+	go_path_arc (path, x, y, r, r, 0, 2 * M_PI);
+
+	_draw_shape (rend, path, fill, stroke && !narrow);
+
+	go_path_free (path);
+}
+
+void
+gog_renderer_draw_circle (GogRenderer *rend, double x, double y, double r)
+{
+	_draw_circle (rend, x, y, r, TRUE, TRUE);
+}
+
+void
+gog_renderer_stroke_circle (GogRenderer *rend, double x, double y, double r)
+{
+	_draw_circle (rend, x, y, r, FALSE, TRUE);
+}
+
+void
+gog_renderer_fill_circle (GogRenderer *rend, double x, double y, double r)
+{
+	_draw_circle (rend, x, y, r, TRUE, FALSE);
+}
+
 /**
  * gog_renderer_draw_rectangle:
  * @rend: a #GogRenderer

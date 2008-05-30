@@ -35,6 +35,7 @@ dist_icon_DATA = \
 	chart_colored_1_1.png \
 	chart_contour_1_1.png \
 	chart_boxplot_1_1.png	chart_boxplot_1_2.png \
+	chart_boxplot_2_1.png	chart_boxplot_2_2.png \
 	chart_dropbar_1_1.png	chart_dropbar_1_2.png \
 	chart_minmax_1_1.png	chart_minmax_1_2.png \
 	chart_minmax_2_1.png	chart_minmax_2_2.png \

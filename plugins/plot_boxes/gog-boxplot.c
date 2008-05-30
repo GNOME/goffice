@@ -31,6 +31,7 @@
 #include <goffice/data/go-data-simple.h>
 #include <goffice/math/go-rangefunc.h>
 #include <goffice/math/go-math.h>
+#include <goffice/utils/go-marker.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>
@@ -45,8 +46,9 @@ struct _GogBoxPlot {
 	unsigned  num_series;
 	double min, max;
 	int gap_percentage;
-	gboolean vertical;
+	gboolean vertical, outliers;
 	char const **names;
+	double radius_ratio;
 };
 
 static GogObjectClass *gog_box_plot_parent_klass;
@@ -58,6 +60,7 @@ static GType gog_box_plot_view_get_type (void);
 #include <glade/glade-xml.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtkspinbutton.h>
+#include <gtk/gtktogglebutton.h>
 #include <gtk/gtkenums.h>
 
 static void
@@ -70,6 +73,36 @@ static void
 cb_layout_changed (GtkComboBox *box, GObject *boxplot)
 {
 	g_object_set (boxplot, "vertical", gtk_combo_box_get_active (box), NULL);
+}
+
+static void
+cb_outliers_changed (GtkToggleButton *btn, GObject *boxplot)
+{
+	GladeXML *gui = GLADE_XML (g_object_get_data (G_OBJECT (btn), "state"));
+	GtkWidget *w;
+	gboolean outliers = gtk_toggle_button_get_active (btn);
+	if (outliers) {
+		w = glade_xml_get_widget (gui, "diameter-label");
+		gtk_widget_show (w);
+		w = glade_xml_get_widget (gui, "diameter");
+		gtk_widget_show (w);
+		w = glade_xml_get_widget (gui, "diam-pc-label");
+		gtk_widget_show (w);
+	} else {
+		w = glade_xml_get_widget (gui, "diameter-label");
+		gtk_widget_hide (w);
+		w = glade_xml_get_widget (gui, "diameter");
+		gtk_widget_hide (w);
+		w = glade_xml_get_widget (gui, "diam-pc-label");
+		gtk_widget_hide (w);
+	}
+	g_object_set (boxplot, "outliers", outliers, NULL);
+}
+
+static void
+cb_ratio_changed (GtkAdjustment *adj, GObject *boxplot)
+{
+	g_object_set (boxplot, "radius-ratio", adj->value / 200., NULL);
 }
 
 static gpointer
@@ -97,6 +130,25 @@ gog_box_plot_pref (GogObject *obj,
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), boxplot->vertical);
 	g_signal_connect (w, "changed", G_CALLBACK (cb_layout_changed), boxplot);
 
+	w = glade_xml_get_widget (gui, "show-outliers");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), boxplot->outliers);
+	g_object_set_data (G_OBJECT (w), "state", gui);
+	g_signal_connect (w, "toggled", G_CALLBACK (cb_outliers_changed), boxplot);
+
+	w = glade_xml_get_widget (gui, "diameter");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), boxplot->radius_ratio * 200.);
+	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
+		"value_changed",
+		G_CALLBACK (cb_ratio_changed), boxplot);
+
+	if (!boxplot->outliers) {
+		gtk_widget_hide (w);
+		w = glade_xml_get_widget (gui, "diameter-label");
+		gtk_widget_hide (w);
+		w = glade_xml_get_widget (gui, "diam-pc-label");
+		gtk_widget_hide (w);
+	}
+
 	w = glade_xml_get_widget (gui, "gog_box_plot_prefs");
 	g_object_set_data_full (G_OBJECT (w),
 		"state", gui, (GDestroyNotify)g_object_unref);
@@ -120,12 +172,16 @@ enum {
 	BOX_PLOT_PROP_0,
 	BOX_PLOT_PROP_GAP_PERCENTAGE,
 	BOX_PLOT_PROP_VERTICAL,
+	BOX_PLOT_PROP_OUTLIERS,
+	BOX_PLOT_PROP_RADIUS_RATIO,
 };
 
 typedef struct {
 	GogSeries base;
 	int	 gap_percentage;
 	double vals[5];
+	double *svals; //sorted data
+	int nb_valid;
 } GogBoxPlotSeries;
 typedef GogSeriesClass GogBoxPlotSeriesClass;
 
@@ -161,8 +217,14 @@ gog_box_plot_set_property (GObject *obj, guint param_id,
 		if (boxplot->base.axis[1])
 			gog_axis_bound_changed (boxplot->base.axis[1], GOG_OBJECT (boxplot));
 		break;
+	case BOX_PLOT_PROP_OUTLIERS:
+		boxplot->outliers = g_value_get_boolean (value);
+		break;
+	case BOX_PLOT_PROP_RADIUS_RATIO:
+		boxplot->radius_ratio = g_value_get_double (value);
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		 return; /* NOTE : RETURN */
+		return; /* NOTE : RETURN */
 	}
 	gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
 }
@@ -180,8 +242,14 @@ gog_box_plot_get_property (GObject *obj, guint param_id,
 	case BOX_PLOT_PROP_VERTICAL:
 		g_value_set_boolean (value, boxplot->vertical);
 		break;
+	case BOX_PLOT_PROP_OUTLIERS:
+		g_value_set_boolean (value, boxplot->outliers);
+		break;
+	case BOX_PLOT_PROP_RADIUS_RATIO:
+		g_value_set_double (value, boxplot->radius_ratio);
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		 break;
+		break;
 	}
 }
 
@@ -302,6 +370,18 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 			_("Whether the box-plot should be vertical instead of horizontal"),
 			FALSE, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_OUTLIERS,
+		g_param_spec_boolean ("outliers", 
+			_("Outliers"),
+			_("Whether outliers should be taken into account and displayed"),
+			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_RADIUS_RATIO,
+		g_param_spec_double ("radius-ratio", 
+			_("Radius ratio"),
+			_("The ratio between the radius of the circles representing outliers and the rectangls widths"),
+			0., 0.5, 0.125, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_box_plot_type_name;
 	gog_object_klass->view_type	= gog_box_plot_view_get_type ();
@@ -330,6 +410,7 @@ static void
 gog_box_plot_init (GogBoxPlot *model)
 {
 	model->gap_percentage = 150;
+	model->radius_ratio = 0.125;
 }
 
 GSF_DYNAMIC_CLASS (GogBoxPlot, gog_box_plot,
@@ -394,14 +475,62 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (!gog_series_is_valid (GOG_SERIES (series)) ||
 			!go_data_vector_get_len (GO_DATA_VECTOR (series->base.values[0].data)))
 			continue;
-		style = GOG_STYLED_OBJECT (series)->style;
+		style = gog_style_dup (GOG_STYLED_OBJECT (series)->style);
+		y = gog_axis_map_to_view (ser_map, num_ser);
 		gog_renderer_push_style (view->renderer, style);
-		min = gog_axis_map_to_view (map, series->vals[0]);
+		if (model->outliers) {
+			double l1, l2, m1, m2, d, r = 2. * hrect * model->radius_ratio;
+			int i = 0;
+		    	style->outline = style->line;
+			d = series->vals[3] - series->vals[1];
+			l1 = series->vals[1] - d * 1.5;
+			l2 = series->vals[1] - d * 3.;
+			m1 = series->vals[3] + d * 1.5;
+			m2 = series->vals[3] + d * 3.;
+			while (series->svals[i] < l1) {
+				/* display the outlier as a mark */
+				d = gog_axis_map_to_view (map, series->svals[i]);
+				if (model->vertical) {
+					if (series->svals[i] < l2)
+						gog_renderer_stroke_circle (view->renderer, y, d, r);
+					else
+						gog_renderer_draw_circle (view->renderer, y, d, r);
+				} else {
+					if (series->svals[i] < l2)
+						gog_renderer_stroke_circle (view->renderer, d, y, r);
+					else
+						gog_renderer_draw_circle (view->renderer, d, y, r);
+				}
+				i++;
+			}
+			min = series->svals[i];
+			i = series->nb_valid - 1;
+			while (series->svals[i] > m1) {
+				/* display the outlier as a mark */
+				d = gog_axis_map_to_view (map, series->svals[i]);
+				if (model->vertical) {
+					if (series->svals[i] > m2)
+						gog_renderer_stroke_circle (view->renderer, y, d, r);
+					else
+						gog_renderer_draw_circle (view->renderer, y, d, r);
+				} else {
+					if (series->svals[i] > m2)
+						gog_renderer_stroke_circle (view->renderer, d, y, r);
+					else
+						gog_renderer_draw_circle (view->renderer, d, y, r);
+				}
+				i--;
+			}
+			max = series->svals[i];
+		} else {
+			min = series->vals[0];
+			max = series->vals[4];
+		}
+		min = gog_axis_map_to_view (map, min);
 		qu1 = gog_axis_map_to_view (map, series->vals[1]);
 		med = gog_axis_map_to_view (map, series->vals[2]);
 		qu3 = gog_axis_map_to_view (map, series->vals[3]);
-		max = gog_axis_map_to_view (map, series->vals[4]);
-		y = gog_axis_map_to_view (ser_map, num_ser);
+		max = gog_axis_map_to_view (map, max);
 		if (model->vertical) {
 			path[2].code = ART_LINETO;
 			path[0].y = path[3].y = path[4].y = qu1;
@@ -463,6 +592,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 		gog_renderer_draw_sharp_path (view->renderer, path);
 		gog_renderer_pop_style (view->renderer);
+		g_object_unref (style);
 		num_ser++;
 	}
 	gog_chart_map_free (chart_map);
@@ -491,6 +621,9 @@ gog_box_plot_series_update (GogObject *obj)
 	GogBoxPlotSeries *series = GOG_BOX_PLOT_SERIES (obj);
 	unsigned old_num = series->base.num_elements;
 
+	g_free (series->svals);
+	series->svals = NULL;
+
 	if (series->base.values[0].data != NULL) {
 		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data));
 		len = go_data_vector_get_len 
@@ -498,15 +631,16 @@ gog_box_plot_series_update (GogObject *obj)
 	}
 	series->base.num_elements = len;
 	if (len > 0) {
-		double *svals = g_new (double, len), x;
+		double x;
 		int n, max = 0;
+		series->svals = g_new (double, len);
 		for (n = 0; n < len; n++)
 			if (go_finite (vals[n]))
-				svals[max++] = vals[n];
-		go_range_fractile_inter_nonconst (svals, max, &series->vals[0], 0);
+				series->svals[max++] = vals[n];
+		go_range_fractile_inter_nonconst (series->svals, max, &series->vals[0], 0);
 		for (x = 0.25,n = 1; n < 5; n++, x+= 0.25)
-			go_range_fractile_inter_sorted (svals, max, &series->vals[n], x);
-		g_free (svals);
+			go_range_fractile_inter_sorted (series->svals, max, &series->vals[n], x);
+		series->nb_valid = max;
 	}
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
@@ -526,11 +660,20 @@ gog_box_plot_series_init_style (GogStyledObject *gso, GogStyle *style)
 }
 
 static void
+gog_box_plot_series_finalize (GObject *obj)
+{
+	g_free (GOG_BOX_PLOT_SERIES (obj)->svals);
+	((GObjectClass *) gog_box_plot_series_parent_klass)->finalize (obj);
+}
+
+static void
 gog_box_plot_series_class_init (GogObjectClass *obj_klass)
 {
+	GObjectClass *object_class = (GObjectClass *) obj_klass;
 	GogStyledObjectClass *gso_klass = (GogStyledObjectClass*) obj_klass;
 
 	gog_box_plot_series_parent_klass = g_type_class_peek_parent (obj_klass);
+	object_class->finalize = gog_box_plot_series_finalize;
 	obj_klass->update = gog_box_plot_series_update;
 	gso_klass->init_style = gog_box_plot_series_init_style;
 }
