@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-22 10:52+0000\n"
-"PO-Revision-Date: 2008-05-10 15:02+0200\n"
+"POT-Creation-Date: 2008-05-30 18:38+0000\n"
+"PO-Revision-Date: 2008-05-31 10:57+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -685,16 +685,17 @@ msgstr "Si esta etiqueta afecta al escalado de tipografías"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1228
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1229
-#: ../plugins/plot_surface/gog-surface.c:535
-#: ../plugins/plot_surface/xl-surface.c:256 ../plugins/plot_xy/gog-xy.c:363
-#: ../plugins/plot_xy/gog-xy.c:530 ../plugins/plot_xy/gog-xy.c:790
+#: ../plugins/plot_surface/gog-xyz.c:325
+#: ../plugins/plot_surface/xl-surface.c:328
+#: ../plugins/plot_surface/xl-surface.c:415 ../plugins/plot_xy/gog-xy.c:368
+#: ../plugins/plot_xy/gog-xy.c:535 ../plugins/plot_xy/gog-xy.c:792
 msgid "X"
 msgstr "X"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1235
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1236
-#: ../plugins/plot_surface/gog-surface.c:537 ../plugins/plot_xy/gog-xy.c:365
-#: ../plugins/plot_xy/gog-xy.c:532 ../plugins/plot_xy/gog-xy.c:792
+#: ../plugins/plot_surface/gog-xyz.c:327 ../plugins/plot_xy/gog-xy.c:370
+#: ../plugins/plot_xy/gog-xy.c:537 ../plugins/plot_xy/gog-xy.c:794
 msgid "Y"
 msgstr "Y"
 
@@ -1068,76 +1069,80 @@ msgstr "Rotación del eje circular"
 msgid "Polar axis set unit"
 msgstr "Unidad del eje polar"
 
-#: ../goffice/graph/gog-chart.c:356
+#: ../goffice/graph/gog-chart.c:360
 msgid "Backplane"
-msgstr ""
+msgstr "Panel de fondo"
 
-#: ../goffice/graph/gog-chart.c:359
+#: ../goffice/graph/gog-chart.c:363
 msgid "X-Axis"
 msgstr "Eje-X"
 
-#: ../goffice/graph/gog-chart.c:363
+#: ../goffice/graph/gog-chart.c:367
 msgid "Y-Axis"
 msgstr "Eje-Y"
 
-#: ../goffice/graph/gog-chart.c:367
+#: ../goffice/graph/gog-chart.c:371
 msgid "Z-Axis"
 msgstr "Eje-Z"
 
-#: ../goffice/graph/gog-chart.c:371
+#: ../goffice/graph/gog-chart.c:375
 msgid "Circular-Axis"
 msgstr "Eje circular"
 
-#: ../goffice/graph/gog-chart.c:375
+#: ../goffice/graph/gog-chart.c:379
 msgid "Radial-Axis"
 msgstr "Eje radial"
 
-#: ../goffice/graph/gog-chart.c:379
+#: ../goffice/graph/gog-chart.c:383
 msgid "Pseudo-3D-Axis"
 msgstr "Pseudo eje 3D"
 
-#: ../goffice/graph/gog-chart.c:383
-msgid "Bubble-Axis"
-msgstr ""
-
 #: ../goffice/graph/gog-chart.c:387
+msgid "Bubble-Axis"
+msgstr "Burbuja-Eje"
+
+#: ../goffice/graph/gog-chart.c:391
 msgid "Color-Axis"
 msgstr "Color-del-eje"
 
-#: ../goffice/graph/gog-chart.c:391
+#: ../goffice/graph/gog-chart.c:395
 msgid "Plot"
 msgstr "Gráfico"
 
-#: ../goffice/graph/gog-chart.c:394 ../goffice/graph/gog-graph.c:272
+#: ../goffice/graph/gog-chart.c:398 ../goffice/graph/gog-graph.c:272
 #: ../goffice/graph/gog-legend.c:183
 msgid "Title"
 msgstr "Título"
 
-#: ../goffice/graph/gog-chart.c:399
+#: ../goffice/graph/gog-chart.c:403
 msgid "Legend"
 msgstr "Leyenda"
 
-#: ../goffice/graph/gog-chart.c:422
+#: ../goffice/graph/gog-chart.c:408
+msgid "3D-Box"
+msgstr "Caja-3D"
+
+#: ../goffice/graph/gog-chart.c:429
 msgid "Valid cardinality"
 msgstr "Cardinalidad válida"
 
-#: ../goffice/graph/gog-chart.c:423
+#: ../goffice/graph/gog-chart.c:430
 msgid "Is the charts cardinality currently valid"
 msgstr "Si la cardinalidad de los gráficos es válida actualmente"
 
-#: ../goffice/graph/gog-chart.c:428 ../goffice/graph/gog-plot.c:406
+#: ../goffice/graph/gog-chart.c:435 ../goffice/graph/gog-plot.c:406
 msgid "Plot area"
 msgstr "Área de dibujado"
 
-#: ../goffice/graph/gog-chart.c:429
+#: ../goffice/graph/gog-chart.c:436
 msgid "Position and size of plot area, in percentage of chart size"
 msgstr "Posición y tamaño del área de dibujado, en porcentaje del tamaño del gráfico"
 
-#: ../goffice/graph/gog-chart.c:434
+#: ../goffice/graph/gog-chart.c:441
 msgid "Manual plot area"
 msgstr "Área de dibujado manual"
 
-#: ../goffice/graph/gog-chart.c:435
+#: ../goffice/graph/gog-chart.c:442
 msgid "Is plot area manual"
 msgstr "Si el área de dibujado es manual"
 
@@ -1146,7 +1151,7 @@ msgid "H"
 msgstr "H"
 
 #: ../goffice/graph/gog-control-foocanvas.c:238
-#: ../goffice/graph/gog-graph.c:331 ../goffice/utils/go-image.c:452
+#: ../goffice/graph/gog-graph.c:331 ../goffice/utils/go-image.c:454
 msgid "Height"
 msgstr "Altura"
 
@@ -1155,12 +1160,12 @@ msgid "W"
 msgstr "O"
 
 #: ../goffice/graph/gog-control-foocanvas.c:244
-#: ../goffice/graph/gog-graph.c:325 ../goffice/utils/go-image.c:448
+#: ../goffice/graph/gog-graph.c:325 ../goffice/utils/go-image.c:450
 msgid "Width"
 msgstr "Anchura"
 
 #: ../goffice/graph/gog-control-foocanvas.c:249
-#: ../goffice/graph/gog-renderer.c:1739 ../goffice/graph/gog-view.c:597
+#: ../goffice/graph/gog-renderer.c:1793 ../goffice/graph/gog-view.c:597
 msgid "Model"
 msgstr "Modelo"
 
@@ -1367,7 +1372,7 @@ msgid "Data"
 msgstr "Datos"
 
 #: ../goffice/graph/gog-label.c:363 ../goffice/graph/gog-reg-curve.c:89
-#: ../plugins/plot_xy/gog-xy.c:1539
+#: ../plugins/plot_xy/gog-xy.c:1528
 msgid "Details"
 msgstr "Detalles"
 
@@ -1573,19 +1578,19 @@ msgstr "Número de puntos que separan las gráficas en la rejilla"
 msgid "Plot Engine"
 msgstr "Motor de gráficos"
 
-#: ../goffice/graph/gog-plot-engine.c:259
+#: ../goffice/graph/gog-plot-engine.c:297
 msgid "Plot Type"
 msgstr "Tipo de gráfico"
 
-#: ../goffice/graph/gog-plot-engine.c:343
+#: ../goffice/graph/gog-plot-engine.c:390
 msgid "Chart Theme"
 msgstr "Tema de diagrama"
 
-#: ../goffice/graph/gog-plot-engine.c:374
+#: ../goffice/graph/gog-plot-engine.c:421
 msgid "Regression Curve Engine"
 msgstr "Motor de curvas de regresión "
 
-#: ../goffice/graph/gog-plot-engine.c:529
+#: ../goffice/graph/gog-plot-engine.c:611
 msgid "Regression Curve Type"
 msgstr "Tipo de curvas de regresión"
 
@@ -1718,15 +1723,15 @@ msgstr "Mostrar _ecuación"
 msgid "Display _regression coefficient R²"
 msgstr "Mostrar el coeficiente de _regresión R²"
 
-#: ../goffice/graph/gog-renderer.c:1740
+#: ../goffice/graph/gog-renderer.c:1794
 msgid "The GogGraph this renderer displays"
 msgstr "la GogGraph que este renderizador muestra"
 
-#: ../goffice/graph/gog-renderer.c:1745
+#: ../goffice/graph/gog-renderer.c:1799
 msgid "View"
 msgstr "Ver"
 
-#: ../goffice/graph/gog-renderer.c:1746
+#: ../goffice/graph/gog-renderer.c:1800
 msgid "the GogView this renderer is displaying"
 msgstr "la GogView que está mostrando este renderizador"
 
@@ -4319,19 +4324,19 @@ msgstr "EMF (meta archivo extendido)"
 msgid "WMF (windows metafile)"
 msgstr "WMF (meta archivo de windows)"
 
-#: ../goffice/utils/go-image.c:449
+#: ../goffice/utils/go-image.c:451
 msgid "Image width in pixels"
 msgstr "Anchura de la imagen en píxeles"
 
-#: ../goffice/utils/go-image.c:453
+#: ../goffice/utils/go-image.c:455
 msgid "Image height in pixels"
 msgstr "Altura de la imagen en píxeles"
 
-#: ../goffice/utils/go-image.c:457
+#: ../goffice/utils/go-image.c:459
 msgid "Pixbuf"
 msgstr "Pixbuf"
 
-#: ../goffice/utils/go-image.c:458
+#: ../goffice/utils/go-image.c:460
 msgid "GdkPixbuf object from which the GOImage is built"
 msgstr ""
 
@@ -4567,140 +4572,140 @@ msgstr "Grandes círculos"
 msgid "Bricks"
 msgstr "Ladrillos"
 
-#: ../goffice/utils/regutf8.c:35
+#: ../goffice/utils/regutf8.c:41
 msgid "Pattern not found."
 msgstr "No se encontró el patrón."
 
-#: ../goffice/utils/regutf8.c:37
+#: ../goffice/utils/regutf8.c:43
 msgid "Invalid pattern."
 msgstr "Patrón no válido."
 
-#: ../goffice/utils/regutf8.c:38
+#: ../goffice/utils/regutf8.c:44
 msgid "Invalid collating element."
-msgstr ""
+msgstr "Elemento de recopilación no válido."
 
-#: ../goffice/utils/regutf8.c:39
+#: ../goffice/utils/regutf8.c:45
 msgid "Invalid character class name."
 msgstr "El nombre de la clase del carácter no es válido."
 
-#: ../goffice/utils/regutf8.c:40
+#: ../goffice/utils/regutf8.c:46
 msgid "Trailing backslash."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:41
+#: ../goffice/utils/regutf8.c:47
 msgid "Invalid back reference."
 msgstr "Referencia de vuelta no válida."
 
-#: ../goffice/utils/regutf8.c:42
+#: ../goffice/utils/regutf8.c:48
 msgid "Unmatched left bracket."
 msgstr "Falta un paréntesis izquierdo."
 
-#: ../goffice/utils/regutf8.c:43
+#: ../goffice/utils/regutf8.c:49
 msgid "Parenthesis imbalance."
-msgstr ""
+msgstr "Desequilibrio de paréntesis."
 
-#: ../goffice/utils/regutf8.c:44
+#: ../goffice/utils/regutf8.c:50
 msgid "Unmatched \\{."
 msgstr "Falta un \\{"
 
-#: ../goffice/utils/regutf8.c:45
+#: ../goffice/utils/regutf8.c:51
 msgid "Invalid contents of \\{\\}."
 msgstr "Contenido de \\ {\\} no válido."
 
-#: ../goffice/utils/regutf8.c:46
+#: ../goffice/utils/regutf8.c:52
 msgid "Invalid range end."
 msgstr "Rango final no válido."
 
-#: ../goffice/utils/regutf8.c:47
+#: ../goffice/utils/regutf8.c:53
 msgid "Out of memory."
 msgstr "Sin memoria."
 
-#: ../goffice/utils/regutf8.c:48
+#: ../goffice/utils/regutf8.c:54
 msgid "Invalid repetition operator."
 msgstr "Operador de repetición no válido."
 
-#: ../goffice/utils/regutf8.c:49
+#: ../goffice/utils/regutf8.c:55
 msgid "Premature end of pattern."
 msgstr "Fin de patrón prematuro."
 
-#: ../goffice/utils/regutf8.c:50
+#: ../goffice/utils/regutf8.c:56
 msgid "Pattern is too big."
 msgstr "El patrón es demasiado grande."
 
-#: ../goffice/utils/regutf8.c:51
+#: ../goffice/utils/regutf8.c:57
 msgid "Unmatched ) or \\)"
 msgstr "Falta un ) o \\)"
 
-#: ../goffice/utils/regutf8.c:273
+#: ../goffice/utils/regutf8.c:361
 #, c-format
 msgid "Search string must not be empty."
 msgstr "La cadena de búsqueda no debe estar vacía."
 
-#: ../goffice/utils/regutf8.c:283
+#: ../goffice/utils/regutf8.c:371
 #, c-format
 msgid "Replacement string must be set."
 msgstr "Se debe establecer la cadena de reemplazo."
 
-#: ../goffice/utils/regutf8.c:295
+#: ../goffice/utils/regutf8.c:383
 #, c-format
 msgid "Invalid search pattern (%s)"
 msgstr "Patrón de búsqueda no válido (%s)"
 
-#: ../goffice/utils/regutf8.c:319
+#: ../goffice/utils/regutf8.c:407
 #, c-format
 msgid "Invalid $-specification in replacement."
-msgstr ""
+msgstr "$-specification no válida al reemplazar."
 
-#: ../goffice/utils/regutf8.c:329
+#: ../goffice/utils/regutf8.c:417
 #, c-format
 msgid "Invalid trailing backslash in replacement."
 msgstr ""
 
-#: ../goffice/utils/regutf8.c:806
+#: ../goffice/utils/regutf8.c:894
 msgid "Search Text"
 msgstr "Buscar texto"
 
-#: ../goffice/utils/regutf8.c:807
+#: ../goffice/utils/regutf8.c:895
 msgid "The text to search for"
 msgstr "El texto que buscar"
 
-#: ../goffice/utils/regutf8.c:816
+#: ../goffice/utils/regutf8.c:904
 msgid "Replacement Text"
 msgstr "Texto de reemplazo"
 
-#: ../goffice/utils/regutf8.c:817
+#: ../goffice/utils/regutf8.c:905
 msgid "The text to replace with"
 msgstr "El texto con el que reemplazar"
 
-#: ../goffice/utils/regutf8.c:825
+#: ../goffice/utils/regutf8.c:913
 msgid "Is Regular Expression"
 msgstr "Es una expresión regular"
 
-#: ../goffice/utils/regutf8.c:826
+#: ../goffice/utils/regutf8.c:914
 msgid "Is the search text a regular expression."
 msgstr "El texto que buscar es una expresión regular."
 
-#: ../goffice/utils/regutf8.c:834
+#: ../goffice/utils/regutf8.c:922
 msgid "Ignore Case"
 msgstr "Ignorar capitalización"
 
-#: ../goffice/utils/regutf8.c:835
+#: ../goffice/utils/regutf8.c:923
 msgid "Ignore the case of letters."
 msgstr "Ignorar la capitalización de las letras."
 
-#: ../goffice/utils/regutf8.c:843
+#: ../goffice/utils/regutf8.c:931
 msgid "Preserve Case"
 msgstr "Conservar capitación"
 
-#: ../goffice/utils/regutf8.c:844
+#: ../goffice/utils/regutf8.c:932
 msgid "Preserve the case of letters."
 msgstr "Conservar la capitalización de las letras."
 
-#: ../goffice/utils/regutf8.c:852
+#: ../goffice/utils/regutf8.c:940
 msgid "Match Words"
 msgstr "Coincidir con las palabras"
 
-#: ../goffice/utils/regutf8.c:853
+#: ../goffice/utils/regutf8.c:941
 msgid "Match whole words only."
 msgstr "Coincidir sólo con la palabra completa."
 
@@ -4709,7 +4714,7 @@ msgid "How to group multiple series, normal, stacked, as_percentage"
 msgstr "Cómo agrupar series múltiples, normal, apilados, como porcentaje"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:333 ../plugins/plot_pie/gog-pie.c:245
-#: ../plugins/plot_xy/gog-xy.c:518
+#: ../plugins/plot_xy/gog-xy.c:523
 msgid "In 3d"
 msgstr "En 3D"
 
@@ -4719,14 +4724,14 @@ msgstr ""
 
 #: ../plugins/plot_barcol/gog-1.5d.c:342
 #: ../plugins/plot_barcol/gog-dropbar.c:58
-#: ../plugins/plot_barcol/gog-minmax.c:244 ../plugins/plot_pie/gog-pie.c:258
+#: ../plugins/plot_barcol/gog-minmax.c:245 ../plugins/plot_pie/gog-pie.c:258
 #: ../plugins/plot_radar/gog-radar.c:297
 msgid "Labels"
 msgstr "Etiquetas"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:344
-#: ../plugins/plot_boxes/gog-boxplot.c:315
-#: ../plugins/plot_boxes/gog-histogram.c:187 ../plugins/plot_pie/gog-pie.c:260
+#: ../plugins/plot_boxes/gog-boxplot.c:395
+#: ../plugins/plot_boxes/gog-histogram.c:186 ../plugins/plot_pie/gog-pie.c:260
 #: ../plugins/plot_radar/gog-radar.c:299
 msgid "Values"
 msgstr "Valores"
@@ -4740,7 +4745,7 @@ msgid "Series lines"
 msgstr "Líneas de series"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:600
-#: ../plugins/plot_boxes/gog-histogram.c:491
+#: ../plugins/plot_boxes/gog-histogram.c:490
 msgid "Drop lines"
 msgstr ""
 
@@ -4749,8 +4754,8 @@ msgstr ""
 msgid "Lines"
 msgstr "Líneas"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:637 ../plugins/plot_xy/gog-xy.c:1607
-#: ../plugins/plot_xy/gog-xy.c:1613
+#: ../plugins/plot_barcol/gog-1.5d.c:637 ../plugins/plot_xy/gog-xy.c:1596
+#: ../plugins/plot_xy/gog-xy.c:1602
 msgid "GogErrorBar *"
 msgstr "Barra de error Gog *"
 
@@ -4770,7 +4775,7 @@ msgstr "Separación entre grupos como un porcentaje del ancho de  barra/columna"
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:6
 #: ../plugins/plot_barcol/gog-minmax-prefs.glade.h:4
-#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:6
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:8
 msgid "_Gap:"
 msgstr "_Hueco:"
 
@@ -4782,24 +4787,24 @@ msgid "PlotBarCol"
 msgstr "GráficoBarCol"
 
 #: ../plugins/plot_barcol/gog-barcol.c:112
-#: ../plugins/plot_barcol/gog-minmax.c:195
-#: ../plugins/plot_boxes/gog-boxplot.c:113 ../plugins/plot_pie/gog-pie.c:205
-#: ../plugins/plot_pie/gog-pie.c:352 ../plugins/plot_surface/gog-surface.c:225
-#: ../plugins/plot_xy/gog-xy.c:421 ../plugins/plot_xy/gog-xy.c:697
+#: ../plugins/plot_barcol/gog-minmax.c:196
+#: ../plugins/plot_boxes/gog-boxplot.c:165 ../plugins/plot_pie/gog-pie.c:205
+#: ../plugins/plot_pie/gog-pie.c:352 ../plugins/plot_surface/gog-xyz.c:96
+#: ../plugins/plot_xy/gog-xy.c:426 ../plugins/plot_xy/gog-xy.c:699
 #: ../plugins/smoothing/gog-moving-avg.c:114
 #: ../plugins/smoothing/gog-exp-smooth.c:81
 msgid "Properties"
 msgstr "Propiedades"
 
 #: ../plugins/plot_barcol/gog-barcol.c:204
-#: ../plugins/plot_barcol/gog-minmax.c:219
-#: ../plugins/plot_boxes/gog-boxplot.c:295
+#: ../plugins/plot_barcol/gog-minmax.c:220
+#: ../plugins/plot_boxes/gog-boxplot.c:363
 msgid "Gap percentage"
 msgstr "Porcentaje del hueco"
 
 #: ../plugins/plot_barcol/gog-barcol.c:205
-#: ../plugins/plot_barcol/gog-minmax.c:220
-#: ../plugins/plot_boxes/gog-boxplot.c:296
+#: ../plugins/plot_barcol/gog-minmax.c:221
+#: ../plugins/plot_boxes/gog-boxplot.c:364
 msgid "The padding around each group as a percentage of their width"
 msgstr "Separación entre grupos como un porcentaje de su ancho"
 
@@ -4835,14 +4840,14 @@ msgid "PlotLine"
 msgstr "GráficoLínea"
 
 #: ../plugins/plot_barcol/gog-line.c:289
-#: ../plugins/plot_barcol/gog-minmax.c:231
+#: ../plugins/plot_barcol/gog-minmax.c:232
 #: ../plugins/plot_radar/gog-radar.c:206
 msgid "Default markers"
 msgstr "Marcadores predeterminados"
 
 #: ../plugins/plot_barcol/gog-line.c:290
-#: ../plugins/plot_barcol/gog-minmax.c:232
-#: ../plugins/plot_radar/gog-radar.c:207 ../plugins/plot_xy/gog-xy.c:338
+#: ../plugins/plot_barcol/gog-minmax.c:233
+#: ../plugins/plot_radar/gog-radar.c:207 ../plugins/plot_xy/gog-xy.c:343
 msgid "Should the default style of a series include markers"
 msgstr "Si el estilo predeterminado de unas series incluye marcadores"
 
@@ -4857,23 +4862,23 @@ msgstr "GráficoÁrea"
 #. xgettext : the base for how to name min/max line plot objects
 #. * eg The 2nd min/max line plot in a chart will be called
 #. * 	PlotMinMax2
-#: ../plugins/plot_barcol/gog-minmax.c:136
+#: ../plugins/plot_barcol/gog-minmax.c:137
 msgid "PlotMinMax"
 msgstr "Dibujar mín./máx."
 
-#: ../plugins/plot_barcol/gog-minmax.c:225
+#: ../plugins/plot_barcol/gog-minmax.c:226
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: ../plugins/plot_barcol/gog-minmax.c:226
+#: ../plugins/plot_barcol/gog-minmax.c:227
 msgid "Horizontal or vertical lines"
 msgstr "Líneas horizontales o verticales"
 
-#: ../plugins/plot_barcol/gog-minmax.c:246
+#: ../plugins/plot_barcol/gog-minmax.c:247
 msgid "Min"
 msgstr "Min"
 
-#: ../plugins/plot_barcol/gog-minmax.c:248
+#: ../plugins/plot_barcol/gog-minmax.c:249
 msgid "Max"
 msgstr "Máx"
 
@@ -5166,34 +5171,60 @@ msgstr ""
 "Horizontal\n"
 "Vertical"
 
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:6
+msgid "_Diameter/width:"
+msgstr "_Diámetro/anchura:"
+
 #: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:7
+msgid "_Exclude and show outliers"
+msgstr ""
+
+#: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:9
 msgid "_Layout"
 msgstr "_Distribución"
 
 #. xgettext : the base for how to name box-plot objects
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
-#: ../plugins/plot_boxes/gog-boxplot.c:144
+#: ../plugins/plot_boxes/gog-boxplot.c:200
 msgid "Box-Plot"
 msgstr "Diagrama de cajas"
 
-#: ../plugins/plot_boxes/gog-boxplot.c:301
+#: ../plugins/plot_boxes/gog-boxplot.c:369
 msgid "Vertical"
 msgstr "Vertical"
 
-#: ../plugins/plot_boxes/gog-boxplot.c:302
+#: ../plugins/plot_boxes/gog-boxplot.c:370
 msgid "Whether the box-plot should be vertical instead of horizontal"
 msgstr "Indica si el diagrama de cajas debería ser vertical en lugar de horizontal"
+
+#: ../plugins/plot_boxes/gog-boxplot.c:375
+msgid "Outliers"
+msgstr ""
+
+#: ../plugins/plot_boxes/gog-boxplot.c:376
+msgid "Whether outliers should be taken into account and displayed"
+msgstr ""
+
+#: ../plugins/plot_boxes/gog-boxplot.c:381
+msgid "Radius ratio"
+msgstr ""
+
+#: ../plugins/plot_boxes/gog-boxplot.c:382
+msgid ""
+"The ratio between the radius of the circles representing outliers and the "
+"rectangle width"
+msgstr ""
 
 #. xgettext : the base for how to name histogram-plot objects
 #. * eg The 2nd histogram-plot in a chart will be called
 #. * 	Histogram2
-#: ../plugins/plot_boxes/gog-histogram.c:71
-#: ../plugins/plot_boxes/plot-types.xml.in.h:3
+#: ../plugins/plot_boxes/gog-histogram.c:70
+#: ../plugins/plot_boxes/plot-types.xml.in.h:4
 msgid "Histogram"
 msgstr "Histograma"
 
-#: ../plugins/plot_boxes/gog-histogram.c:185
+#: ../plugins/plot_boxes/gog-histogram.c:184
 msgid "Limits"
 msgstr "Límites"
 
@@ -5202,22 +5233,38 @@ msgid "BoxPlot"
 msgstr "Diagrama de cajas"
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:2
+msgid "HBoxPlotOutliers"
+msgstr ""
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:3
 msgid "HBoxPlots"
 msgstr "Diagrama de cajas horizontal"
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:4
+#: ../plugins/plot_boxes/plot-types.xml.in.h:5
 msgid "Histogram."
 msgstr "Histograma."
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:5
+#: ../plugins/plot_boxes/plot-types.xml.in.h:6
+msgid "Horizontal Box-Plot showing outliers."
+msgstr ""
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:7
 msgid "Horizontal Box-Plot."
 msgstr "Diagrama de cajas horizontal."
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:6
+#: ../plugins/plot_boxes/plot-types.xml.in.h:8
+msgid "VBoxPlotOutliers"
+msgstr ""
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:9
 msgid "VBoxPlots"
 msgstr "Diagrama de cajas vertical"
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:7
+#: ../plugins/plot_boxes/plot-types.xml.in.h:10
+msgid "Vertical Box-Plot showing outliers."
+msgstr ""
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:11
 msgid "Vertical Box-Plot."
 msgstr "Diagrama de cajas vertical."
 
@@ -5428,8 +5475,8 @@ msgstr "Motor de dibujo de anillos"
 msgid "Default fill"
 msgstr "Rellenado predeterminado"
 
-#: ../plugins/plot_radar/gog-radar.c:214 ../plugins/plot_xy/gog-xy.c:350
-#: ../plugins/plot_xy/gog-xy.c:776
+#: ../plugins/plot_radar/gog-radar.c:214 ../plugins/plot_xy/gog-xy.c:355
+#: ../plugins/plot_xy/gog-xy.c:778
 msgid "Should the default style of a series include fill"
 msgstr "Si el estilo predeterminado de unas series incluye relleno"
 
@@ -5523,28 +5570,35 @@ msgstr "Motor de dibujo de áreas de radar"
 msgid "Radar plotting engine"
 msgstr "Motor de dibujo de radares"
 
-#: ../plugins/plot_surface/gog-contour-prefs.glade.h:1
-msgid "Transpose"
-msgstr "Transponer"
-
 #. xgettext : the base for how to name contour plot objects
 #.
-#: ../plugins/plot_surface/gog-surface.c:213
+#: ../plugins/plot_surface/gog-contour.c:123
 msgid "PlotContour"
-msgstr "Contorno de ploteo"
+msgstr "Contorno"
 
-#: ../plugins/plot_surface/gog-surface.c:522
+#. xgettext : the base for how to name surface plot objects
+#.
+#: ../plugins/plot_surface/gog-surface.c:66
+msgid "PlotSurface"
+msgstr "Superficie"
+
+#: ../plugins/plot_surface/gog-xyz.c:312
 msgid "Transposed"
 msgstr "Transpuesto"
 
-#: ../plugins/plot_surface/gog-surface.c:523
+#: ../plugins/plot_surface/gog-xyz.c:313
 msgid "Transpose the plot"
 msgstr "Transponer el gráfico"
 
-#: ../plugins/plot_surface/gog-surface.c:539
-#: ../plugins/plot_surface/xl-surface.c:258 ../plugins/plot_xy/gog-xy.c:794
+#: ../plugins/plot_surface/gog-xyz.c:329
+#: ../plugins/plot_surface/xl-surface.c:330
+#: ../plugins/plot_surface/xl-surface.c:417 ../plugins/plot_xy/gog-xy.c:796
 msgid "Z"
 msgstr "Z"
+
+#: ../plugins/plot_surface/gog-xyz-prefs.glade.h:1
+msgid "Transpose"
+msgstr "Transponer"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:1
 msgid "Contour"
@@ -5557,6 +5611,10 @@ msgstr "Gráfico de contorno."
 #: ../plugins/plot_surface/plot-types.xml.in.h:3
 msgid "Surface"
 msgstr "Superficie"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:4
+msgid "Surface plot."
+msgstr "Dibujo de superficie."
 
 #: ../plugins/plot_surface/plugin.xml.in.h:1
 msgid "Contour plotting engine"
@@ -5573,6 +5631,10 @@ msgstr "Diagramas de superficie"
 #: ../plugins/plot_surface/plugin.xml.in.h:4
 msgid "Surface charts"
 msgstr "Diagramas de superficie"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:5
+msgid "Surface plotting engine"
+msgstr "Motor de dibujo de superficies."
 
 #: ../plugins/plot_xy/gog-bubble-prefs.glade.h:2
 #, no-c-format
@@ -5609,7 +5671,7 @@ msgstr "_Variar colores por burbuja"
 
 #: ../plugins/plot_xy/gog-xy-series-prefs.glade.h:1
 msgid "Show markers or bubbles at 0 when the value is invalid"
-msgstr ""
+msgstr "Mostrar marcadores o burbujas a 0 cuando el valor no es válido"
 
 #: ../plugins/plot_xy/gog-xy-series-prefs.glade.h:2
 msgid "_Use nul value instead of invalid"
@@ -5622,108 +5684,108 @@ msgstr "Ocultar datos fuera de las vinculaciones de color de los ejes"
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: ../plugins/plot_xy/gog-xy.c:265
+#: ../plugins/plot_xy/gog-xy.c:270
 msgid "PlotXY"
 msgstr "GráficoXY"
 
-#: ../plugins/plot_xy/gog-xy.c:337
+#: ../plugins/plot_xy/gog-xy.c:342
 msgid "Has markers by default"
 msgstr "Tiene marcadores de forma predeterminada"
 
-#: ../plugins/plot_xy/gog-xy.c:343 ../plugins/plot_xy/gog-xy.c:769
+#: ../plugins/plot_xy/gog-xy.c:348 ../plugins/plot_xy/gog-xy.c:771
 msgid "Has lines by default"
 msgstr "Tiene lineas de forma predeterminada"
 
-#: ../plugins/plot_xy/gog-xy.c:344 ../plugins/plot_xy/gog-xy.c:770
+#: ../plugins/plot_xy/gog-xy.c:349 ../plugins/plot_xy/gog-xy.c:772
 msgid "Should the default style of a series include lines"
 msgstr "Si el estilo predeterminado de series incluye líneas"
 
-#: ../plugins/plot_xy/gog-xy.c:349 ../plugins/plot_xy/gog-xy.c:775
+#: ../plugins/plot_xy/gog-xy.c:354 ../plugins/plot_xy/gog-xy.c:777
 msgid "Has fill by default"
 msgstr "Tiene relleno de forma predeterminada"
 
-#: ../plugins/plot_xy/gog-xy.c:355
+#: ../plugins/plot_xy/gog-xy.c:360
 msgid "Use splines"
 msgstr "Usar splines"
 
-#: ../plugins/plot_xy/gog-xy.c:356
+#: ../plugins/plot_xy/gog-xy.c:361
 msgid "Should the plot use splines instead of linear interpolation"
 msgstr "Si el gráfico debería usar splines en lugar de interpolación lineal"
 
-#: ../plugins/plot_xy/gog-xy.c:409
+#: ../plugins/plot_xy/gog-xy.c:414
 msgid "PlotBubble"
 msgstr "GráficoBurbuja"
 
-#: ../plugins/plot_xy/gog-xy.c:506
+#: ../plugins/plot_xy/gog-xy.c:511
 msgid "Size as area"
 msgstr "Tamaño como área"
 
-#: ../plugins/plot_xy/gog-xy.c:507
+#: ../plugins/plot_xy/gog-xy.c:512
 msgid "Display size as area instead of diameter"
 msgstr "Mostrar el tamaño como área en lugar de diámetro"
 
-#: ../plugins/plot_xy/gog-xy.c:512
+#: ../plugins/plot_xy/gog-xy.c:517
 msgid "Show negatives"
 msgstr "Mostrar negativos"
 
-#: ../plugins/plot_xy/gog-xy.c:513
+#: ../plugins/plot_xy/gog-xy.c:518
 msgid "Draw bubbles for negative values"
 msgstr "Dibujar burbujas para los valores negativos"
 
-#: ../plugins/plot_xy/gog-xy.c:519
+#: ../plugins/plot_xy/gog-xy.c:524
 msgid "Draw 3d bubbles"
 msgstr "Dibujar burbujas 3D"
 
-#: ../plugins/plot_xy/gog-xy.c:524
+#: ../plugins/plot_xy/gog-xy.c:529
 msgid "Bubble scale"
 msgstr "Escala de las burbujas"
 
-#: ../plugins/plot_xy/gog-xy.c:525
+#: ../plugins/plot_xy/gog-xy.c:530
 msgid "Fraction of default radius used for display"
-msgstr ""
+msgstr "Fracción del radio predeterminado que usar para mostrar"
 
-#: ../plugins/plot_xy/gog-xy.c:534 ../plugins/plot_xy/plot-types.xml.in.h:1
+#: ../plugins/plot_xy/gog-xy.c:539 ../plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
 msgstr "Burbuja"
 
 #. xgettext : the base for how to name map like plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Map2
-#: ../plugins/plot_xy/gog-xy.c:659
+#: ../plugins/plot_xy/gog-xy.c:664
 msgid "XYColor"
 msgstr "Color XY"
 
-#: ../plugins/plot_xy/gog-xy.c:781
+#: ../plugins/plot_xy/gog-xy.c:783
 msgid "hide-outliers"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:782
+#: ../plugins/plot_xy/gog-xy.c:784
 msgid "Hide data outside of the color axis bounds"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:1543 ../plugins/plot_xy/gog-xy.c:1606
+#: ../plugins/plot_xy/gog-xy.c:1532 ../plugins/plot_xy/gog-xy.c:1595
 msgid "X error bars"
 msgstr "Barras de error de X"
 
-#: ../plugins/plot_xy/gog-xy.c:1545 ../plugins/plot_xy/gog-xy.c:1612
+#: ../plugins/plot_xy/gog-xy.c:1534 ../plugins/plot_xy/gog-xy.c:1601
 msgid "Y error bars"
 msgstr "Barras de error de Y"
 
-#: ../plugins/plot_xy/gog-xy.c:1553
+#: ../plugins/plot_xy/gog-xy.c:1542
 msgid "Horizontal drop lines"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:1561
+#: ../plugins/plot_xy/gog-xy.c:1550
 msgid "Vertical drop lines"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:1618
+#: ../plugins/plot_xy/gog-xy.c:1607
 msgid "Invalid as zero"
 msgstr "No válido como cero"
 
-#: ../plugins/plot_xy/gog-xy.c:1619
+#: ../plugins/plot_xy/gog-xy.c:1608
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
-msgstr ""
+msgstr "Reemplazar los valores no válidos por 0 al dibujar marcadores o burbujas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
 msgid "ColoredXY"
@@ -6043,6 +6105,9 @@ msgid ""
 "If no value or a negative (or nul) value is provided, the default will be "
 "used"
 msgstr ""
+"El periodo predeterminado es 10 * (xmax - xmin)/(nvalues - 1)\n"
+"Si no se proporciona ningún valor o si se proporciona un valor negativo (o nulo), "
+"entonces se usará el valor predeterminado"
 
 #. xgettext : the base for how to name exponentially smoothed curves objects
 #. * eg The 2nd one for a series will be called
