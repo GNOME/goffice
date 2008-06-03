@@ -1,3 +1,8 @@
+2008-06-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-marker.c: (go_marker_render): set dashes to NULL,
+	fixes #536276.
+
 2008-05-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-renderer.c: (_draw_circle),

@@ -269,6 +269,7 @@ go_marker_render (GOMarker const *marker, cairo_t *cr, double x, double y, doubl
 
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (go_marker_get_outline_color (marker)));
 	cairo_set_line_width (cr, 2.0 * MARKER_OUTLINE_WIDTH);
+	cairo_set_dash (cr, NULL, 0, 0.);
 	go_cairo_emit_svg_path (cr, outline_path_raw);
 	cairo_stroke (cr);
 	cairo_restore (cr);
