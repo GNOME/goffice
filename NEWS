@@ -4,6 +4,7 @@ Jean:
 	* New boxplot feature requested: exclude outliers. [#534642]
 	* Moved GOConf code from gnumeric to goffice.
 	* Fixed plot types activation/deactivation issues.
+	* Always use full lines when drawing markers. [#536276]
 
 --------------------------------------------------------------------------
 goffice 0.6.3:
@@ -12,7 +13,7 @@ Hiroyuki Ikezoe:
 	* Switch from pcre to glib regexp handling.  [#482319]
 
 Jean:
-	* Don't try to use invalide data in box-plots. [#527249]
+	* Don't try to use invalid data in box-plots. [#527249]
 	* Add EPS export for charts if cairo supports.
 
 Jody:
