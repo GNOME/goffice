@@ -350,9 +350,9 @@ go_menu_pixmaps_add_element (GOMenuPixmaps *menu,
 	row = col / menu->cols;
 	col = col % menu->cols;
 
-	button = gtk_image_menu_item_new_with_label (" ");
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (button),
-		gtk_image_new_from_pixbuf ((GdkPixbuf *)pixbuf));
+	button = gtk_menu_item_new ();
+	gtk_container_add (GTK_CONTAINER (button), 
+		gtk_image_new_from_pixbuf (pixbuf));
 	g_object_unref ((GdkPixbuf *)pixbuf);
 	g_object_set_data (G_OBJECT (button),
 		"ItemID", GINT_TO_POINTER (id));

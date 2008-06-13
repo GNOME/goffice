@@ -6,6 +6,10 @@ Jean:
 	* Fixed plot types activation/deactivation issues.
 	* Always use full lines when drawing markers. [#536276]
 
+Rob Staudinger:
+	* Use plain menu items for toolbar overflow image menu item proxies, 
+	so they are displayed correctly with gtk-menu-images=0. [#537541]
+
 --------------------------------------------------------------------------
 goffice 0.6.3:
 
