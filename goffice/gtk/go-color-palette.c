@@ -573,9 +573,16 @@ make_colored_menu_item (char const *label, GOColor c)
 		COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
 	gdk_pixbuf_fill (pixbuf, c);
 
-	button = gtk_image_menu_item_new_with_label (label);
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (button),
-		gtk_image_new_from_pixbuf (pixbuf));
+	if (label && 0 == strcmp (label, " ")) {
+		/* color buttons are created with a label of " " */
+		button = gtk_menu_item_new ();
+		gtk_container_add (GTK_CONTAINER (button), 
+			gtk_image_new_from_pixbuf (pixbuf));
+	} else {
+		button = gtk_image_menu_item_new_with_label (label);
+		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (button),
+			gtk_image_new_from_pixbuf (pixbuf));
+	}
 	g_object_unref (pixbuf);
 	gtk_widget_show_all (button);
 

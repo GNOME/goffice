@@ -1,3 +1,10 @@
+2008-06-13  Rob Staudinger  <robert.staudinger@gmail.com>
+
+	* goffice/gtk/go-color-palette.c (make_colored_menu_item): Use plain 
+	menu items for toolbar overflow image menu item proxies, so they are 
+	displayed correctly with gtk-menu-images=0, fixes #537541.
+	* goffice/gtk/go-combo-pixmaps.c (go_menu_pixmaps_add_element): ditto.
+
 2008-06-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-marker.c: (go_marker_render): set dashes to NULL,
