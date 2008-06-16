@@ -469,6 +469,7 @@ go_conf_get_value_as_str (GOConfNode *node, gchar const *key)
 	return val;
 }
 
+#if 0
 gboolean
 go_conf_set_value_from_str (GOConfNode *node, gchar const *key, gchar const *val_str)
 {
@@ -481,6 +482,7 @@ go_conf_set_value_from_str (GOConfNode *node, gchar const *key, gchar const *val
 	g_free (real_key);
 	return TRUE;
 }
+#endif
 
 void
 go_conf_sync (GOConfNode *node)
