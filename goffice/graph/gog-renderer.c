@@ -1093,8 +1093,8 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
 	pango_layout_set_font_description (layout, style->font.font->desc);
 	pango_layout_get_size (layout, &iw, &ih);
 
-	obr.w = rend->scale * (iw / (double)PANGO_SCALE);
-	obr.h = rend->scale * (ih / (double)PANGO_SCALE);
+	obr.w = rend->scale * ((double) iw + (double) PANGO_SCALE / 2.0) / (double) PANGO_SCALE;
+	obr.h = rend->scale * ((double) ih + (double) PANGO_SCALE / 2.0) /(double) PANGO_SCALE;
 	obr.alpha = -style->text_layout.angle * M_PI / 180.0;
 	obr.x = pos->x;
 	obr.y = pos->y;

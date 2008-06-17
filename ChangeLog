@@ -1,3 +1,8 @@
+2008-06-17  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_text) : Use the same
+	  size handling as get_text_OBR. [#442773]
+
 2008-06-13  Rob Staudinger <robert.staudinger@gmail.com>
 
 	* goffice/gtk/go-color-palette.c (make_colored_menu_item): Use plain 
