@@ -1,3 +1,14 @@
+2008-06-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-style.c: (gog_style_create_cairo_pattern): fixed
+	gradients coordinates.
+	* goffice/gtk/go-gradient-selector.c:
+	(go_gradient_swatch_render_func): ditto.
+	* plugins/plot_xy/gog-xy.c: (gog_xy_view_render),
+	(gog_xy_series_element_init_style),
+	(gog_xy_series_element_class_init), (gog_xy_series_class_init),
+	(go_plugin_init): add singleton support to scatter plots.
+
 2008-06-17  Jody Goldberg <jody@gnome.org>
 
 	* goffice/graph/gog-renderer.c (gog_renderer_draw_text) : Use the same

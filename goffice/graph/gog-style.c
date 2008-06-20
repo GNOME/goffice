@@ -2117,8 +2117,8 @@ gog_style_create_cairo_pattern (GogStyle const *style, cairo_t *cr)
 			return go_pattern_create_cairo_pattern (&style->fill.pattern, cr);
 
 		case GOG_FILL_STYLE_GRADIENT:
-			x[2] = (x[1] - x[0]) / 2.0 + x[1];
-			y[2] = (y[1] - y[0]) / 2.0 + y[1];
+			x[2] = (x[1] - x[0]) / 2.0 + x[0];
+			y[2] = (y[1] - y[0]) / 2.0 + y[0];
 			cr_pattern = cairo_pattern_create_linear (
 				x[grad_i[style->fill.gradient.dir].x0i],
 				y[grad_i[style->fill.gradient.dir].y0i],

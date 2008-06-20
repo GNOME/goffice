@@ -882,6 +882,9 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	MarkerData **markers;
 	unsigned *num_markers;
 
+	GogSeriesElement *gse;
+	GList const *overrides;
+
 	for (num_series = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, num_series++);
 	if (num_series < 1)
 		return;
@@ -1073,6 +1076,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		y_margin_min = view->allocation.y - margin;
 		y_margin_max = view->allocation.y + view->allocation.h + margin;
 
+		overrides = gog_series_get_overrides (GOG_SERIES (series));
 		k = 0;
 		for (i = 1 ; i <= n ; i++) {
 			x = x_vals ? *x_vals++ : i;
@@ -1104,13 +1108,23 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 						gog_renderer_pop_style (view->renderer);
 					} else continue;
 				} else {
-					if (model->base.vary_style_by_element)
+					gse = NULL;
+					if ((overrides != NULL) &&
+					   	(GOG_SERIES_ELEMENT (overrides->data)->index == i - 1)) {
+							gse = GOG_SERIES_ELEMENT (overrides->data);
+							overrides = overrides->next;
+							gog_renderer_push_style (view->renderer,
+								gog_styled_object_get_style (
+									GOG_STYLED_OBJECT (gse)));
+					} else if (model->base.vary_style_by_element)
 						gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
 									model->base.index_num + i - 1, FALSE);
 					gog_renderer_draw_circle (view->renderer, x_canvas, y_canvas, 
 							    ((size_as_area) ?
 							    sqrt (z / zmax) :
 							    z / zmax) * rmax);
+					if (gse)
+						gog_renderer_pop_style (view->renderer);
 				}
 			}
 
@@ -1166,11 +1180,21 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	if (!GOG_IS_BUBBLE_PLOT (model))
 		for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
+			overrides = gog_series_get_overrides (GOG_SERIES (series));
 				if (markers[j] != NULL) {
 					series = ptr->data;
+					overrides = gog_series_get_overrides (GOG_SERIES (series));
 					style = GOG_STYLED_OBJECT (series)->style;
 					gog_renderer_push_style (view->renderer, style);
 					for (k = 0; k < num_markers[j]; k++) {
+						gse = NULL;
+						if ((overrides != NULL) &&
+							(GOG_SERIES_ELEMENT (overrides->data)->index == k)) {
+								gse = GOG_SERIES_ELEMENT (overrides->data);
+								overrides = overrides->next;
+								style = gog_styled_object_get_style (GOG_STYLED_OBJECT (gse));
+								gog_renderer_push_style (view->renderer, style);
+						}
 						if (is_map) {
 							go_marker_set_outline_color
 								(style->marker.mark,markers[j][k].color);
@@ -1183,6 +1207,10 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 									  markers[j][k].y);
 						if (is_map)
 							gog_renderer_pop_style (view->renderer);
+						if (gse) {
+							gog_renderer_pop_style (view->renderer);
+							style = GOG_STYLED_OBJECT (series)->style;
+						}
 					}
 					gog_renderer_pop_style (view->renderer);
 					g_free (markers[j]);
@@ -1308,6 +1336,43 @@ vert_drop_lines_pre_remove (GogObject *parent, GogObject *child)
 	GogXYSeries *series = GOG_XY_SERIES (parent);
 	series->vdroplines = NULL;
 }
+
+/****************************************************************************/
+
+typedef GogSeriesElement GogXYSeriesElement;
+typedef GogSeriesElementClass GogXYSeriesElementClass;
+#define GOG_XY_SERIES_ELEMENT_TYPE	(gog_xy_series_element_get_type ())
+#define GOG_XY_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XY_SERIES_ELEMENT_TYPE, GogXYSeriesElement))
+#define IS_GOG_XY_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XY_SERIES_ELEMENT_TYPE))
+GType gog_xy_series_element_get_type (void);
+
+static void
+gog_xy_series_element_init_style (GogStyledObject *gso, GogStyle *style)
+{
+	GogSeries const *series = GOG_SERIES (GOG_OBJECT (gso)->parent);
+	GogStyle *parent_style;
+
+	g_return_if_fail (series != NULL);
+
+	parent_style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
+	if (parent_style->interesting_fields & GOG_STYLE_MARKER)
+		style->interesting_fields = GOG_STYLE_MARKER;
+	else
+		style->interesting_fields = parent_style->interesting_fields;
+	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
+		style, GOG_OBJECT (gso), GOG_SERIES_ELEMENT (gso)->index, FALSE);
+}
+
+static void
+gog_xy_series_element_class_init (GogXYSeriesElementClass *klass)
+{
+	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
+	style_klass->init_style	    	= gog_xy_series_element_init_style;
+}
+
+GSF_DYNAMIC_CLASS (GogXYSeriesElement, gog_xy_series_element,
+	gog_xy_series_element_class_init, NULL,
+	GOG_SERIES_ELEMENT_TYPE)
 
 /****************************************************************************/
 
@@ -1587,6 +1652,7 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 
 	series_klass->has_interpolation = TRUE;
 	series_klass->has_fill_type	= TRUE;
+	series_klass->series_element_type = GOG_XY_SERIES_ELEMENT_TYPE;
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
@@ -1627,6 +1693,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_xy_view_register_type (module);
 	gog_xy_series_view_register_type (module);
 	gog_xy_series_register_type (module);
+	gog_xy_series_element_register_type (module);
 }
 
 G_MODULE_EXPORT void
