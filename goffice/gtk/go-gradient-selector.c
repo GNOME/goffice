@@ -64,8 +64,8 @@ go_gradient_swatch_render_func (cairo_t *cr,
 	y[0] = area->y;
 	x[1] = area->x + area->width;
 	y[1] = area->y + area->height;
-	x[2] = (x[1] - x[0]) / 2.0 + x[1];
-	y[2] = (y[1] - y[0]) / 2.0 + y[1];
+	x[2] = (x[1] - x[0]) / 2.0 + x[0];
+	y[2] = (y[1] - y[0]) / 2.0 + y[0];
 	cr_pattern = cairo_pattern_create_linear (x[grad_i[index].x0i], 
 						  y[grad_i[index].y0i],
 						  x[grad_i[index].x1i],

@@ -1,3 +1,10 @@
+2008-06-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-style.c: (gog_style_create_cairo_pattern): fixed
+	gradients coordinates.
+	* goffice/gtk/go-gradient-selector.c:
+	(go_gradient_swatch_render_func): ditto.
+
 2008-06-13  Rob Staudinger  <robert.staudinger@gmail.com>
 
 	* goffice/gtk/go-color-palette.c (make_colored_menu_item): Use plain 
