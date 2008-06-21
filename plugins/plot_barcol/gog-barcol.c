@@ -35,6 +35,42 @@
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
+/******************************************************************************/
+
+typedef GogSeriesElement GogBarColSeriesElement;
+typedef GogSeriesElementClass GogBarColSeriesElementClass;
+
+#define GOG_BARCOL_SERIES_ELEMENT_TYPE	(gog_barcol_series_element_get_type ())
+#define GOG_BARCOL_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_BARCOL_SERIES_ELEMENT_TYPE, GogBarColSeriesElement))
+#define GOG_IS_BARCOL_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_BARCOL_SERIES_ELEMENT_TYPE))
+GType gog_barcol_series_element_get_type (void);
+
+GSF_DYNAMIC_CLASS (GogBarColSeriesElement, gog_barcol_series_element,
+	NULL, NULL,
+	GOG_SERIES_ELEMENT_TYPE)
+
+/******************************************************************************/
+
+typedef GogSeries1_5d GogBarColSeries;
+typedef GogSeries1_5dClass GogBarColSeriesClass;
+
+#define GOG_BARCOL_SERIES_TYPE	(gog_barcol_series_eget_type ())
+#define GOG_BARCOL_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_BARCOL_SERIES_TYPE, GogBarColSeries))
+#define GOG_IS_BARCOL_SERIEST(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_BARCOL_SERIES_TYPE))
+GType gog_barcol_series_get_type (void);
+
+static void
+gog_barcol_series_class_init (GogSeriesClass *series_klass)
+{
+	series_klass->series_element_type = GOG_BARCOL_SERIES_ELEMENT_TYPE;
+}
+
+GSF_DYNAMIC_CLASS (GogBarColSeries, gog_barcol_series,
+	gog_barcol_series_class_init, NULL,
+	GOG_SERIES1_5D_TYPE)
+
+/******************************************************************************/
+
 enum {
 	BARCOL_PROP_0,
 	BARCOL_PROP_GAP_PERCENTAGE,
@@ -223,6 +259,7 @@ gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	gog_object_klass->view_type	= gog_barcol_view_get_type ();
 
 	plot_klass->desc.series.style_fields	= GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+	plot_klass->series_type = gog_barcol_series_get_type ();
 	plot_klass->axis_get_bounds   		= gog_barcol_axis_get_bounds;
 
 	gog_plot_1_5d_klass->swap_x_and_y = gog_barcol_swap_x_and_y;
@@ -343,6 +380,8 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	unsigned *lengths;
 	double plus, minus;
 	GogObjectRole const *role = NULL;
+	GogSeriesElement *gse;
+	GList const *overrides;
 
 	if (num_elements <= 0 || num_series <= 0)
 		return;
@@ -424,8 +463,9 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 
 		pos_base = neg_base = 0.0;
+		ptr = gog_1_5d_model->base.series;
 		for (j = 0 ; j < num_series ; j++) {
-			
+			overrides = gog_series_get_overrides (GOG_SERIES (ptr->data));
 			work.y = (double) j * col_step + (double) i - offset + 1.0;
 			
 			if (i >= lengths[j])
@@ -451,7 +491,16 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 					neg_base += tmp;
 			}
 
-			gog_renderer_push_style (view->renderer, styles[j]);
+			gse = NULL;
+			if ((overrides != NULL) &&
+				(GOG_SERIES_ELEMENT (overrides->data)->index == i - 1)) {
+					gse = GOG_SERIES_ELEMENT (overrides->data);
+					overrides = overrides->next;
+					gog_renderer_push_style (view->renderer,
+						gog_styled_object_get_style (
+							GOG_STYLED_OBJECT (gse)));
+			} else
+				gog_renderer_push_style (view->renderer, styles[j]);
 			barcol_draw_rect (rend, is_vertical, x_map, y_map, &work);
 			gog_renderer_pop_style (view->renderer);
 			
@@ -489,6 +538,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 							 gog_axis_map_to_view (y_map, work.y + work.h));
 				}
 			}
+			ptr = ptr->next;
 		}
 	}
 	/*Now draw error bars and clean*/

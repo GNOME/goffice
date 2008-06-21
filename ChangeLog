@@ -1,5 +1,12 @@
 2008-06-21  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/plot_barcol/gog-1.5d.c: add singleton formatting support to
+	bars/columns plots. [#517488]
+	* plugins/plot_barcol/gog-barcol.c: ditto.
+	* plugins/plot_barcol/gog-barcol.h: ditto.
+
+2008-06-21  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/math/go-matrix3x3.c:
 	(go_matrix3x3_from_euler_transposed), (go_matrix3x3_to_euler),
 	(go_matrix3x3_multiply): add missing functions.

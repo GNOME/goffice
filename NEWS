@@ -5,7 +5,7 @@ Jean:
 	* Moved GOConf code from gnumeric to goffice.
 	* Fixed plot types activation/deactivation issues.
 	* Always use full lines when drawing markers. [#536276]
-	* Add singleton support to scatter plots.
+	* Add singleton support to scatter and bars/columns plots.
 
 Jody:
 	* Fix X axis text clipping on win32. [#442773]
