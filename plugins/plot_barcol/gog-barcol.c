@@ -493,7 +493,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 
 			gse = NULL;
 			if ((overrides != NULL) &&
-				(GOG_SERIES_ELEMENT (overrides->data)->index == i - 1)) {
+				(GOG_SERIES_ELEMENT (overrides->data)->index == i)) {
 					gse = GOG_SERIES_ELEMENT (overrides->data);
 					overrides = overrides->next;
 					gog_renderer_push_style (view->renderer,
