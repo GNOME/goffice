@@ -77,19 +77,6 @@ dist_glade_DATA = \
 	go-format-sel.glade 			\
 	go-image-save-dialog-extra.glade
 
-# This list should be empty when we reach a stable phase.
-UNUSED = \
-	go-dock.c \
-	go-dock.h \
-	go-dock-band.c \
-	go-dock-band.h \
-	go-dock-item.c \
-	go-dock-item.h \
-	go-dock-item-grip.c \
-	go-dock-item-grip.h \
-	go-dock-layout.c \
-	go-dock-layout.h
-
 EXTRA_DIST = $(UNUSED)
 
 include $(top_srcdir)/goffice.mk

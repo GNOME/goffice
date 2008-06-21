@@ -18,9 +18,9 @@
  * Library General Public License for more details.
  *
  * You should have received a copy of the GNU Library General Public
- * License along with the Gnome Library; see the file COPYING.LIB.  If
- * not, write to the Free Software Foundation, Inc., 51 Franklin St,
- * Fifth Floor, Boston, MA  02110-1301 USA.
+ * License along with the Gnome Library; see the file COPYING.LIB.  If not,
+ * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  */
 /*
   @NOTATION@
@@ -104,11 +104,11 @@ enum {
 };
 
 #define FOO_TYPE_CANVAS_ITEM            (foo_canvas_item_get_type ())
-#define FOO_CANVAS_ITEM(obj)            (GTK_CHECK_CAST ((obj), FOO_TYPE_CANVAS_ITEM, FooCanvasItem))
-#define FOO_CANVAS_ITEM_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS_ITEM, FooCanvasItemClass))
-#define FOO_IS_CANVAS_ITEM(obj)         (GTK_CHECK_TYPE ((obj), FOO_TYPE_CANVAS_ITEM))
-#define FOO_IS_CANVAS_ITEM_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS_ITEM))
-#define FOO_CANVAS_ITEM_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), FOO_TYPE_CANVAS_ITEM, FooCanvasItemClass))
+#define FOO_CANVAS_ITEM(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FOO_TYPE_CANVAS_ITEM, FooCanvasItem))
+#define FOO_CANVAS_ITEM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS_ITEM, FooCanvasItemClass))
+#define FOO_IS_CANVAS_ITEM(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FOO_TYPE_CANVAS_ITEM))
+#define FOO_IS_CANVAS_ITEM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS_ITEM))
+#define FOO_CANVAS_ITEM_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FOO_TYPE_CANVAS_ITEM, FooCanvasItemClass))
 
 
 struct _FooCanvasItem {
@@ -307,11 +307,11 @@ void foo_canvas_item_request_redraw (FooCanvasItem *item);
 
 
 #define FOO_TYPE_CANVAS_GROUP            (foo_canvas_group_get_type ())
-#define FOO_CANVAS_GROUP(obj)            (GTK_CHECK_CAST ((obj), FOO_TYPE_CANVAS_GROUP, FooCanvasGroup))
-#define FOO_CANVAS_GROUP_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS_GROUP, FooCanvasGroupClass))
-#define FOO_IS_CANVAS_GROUP(obj)         (GTK_CHECK_TYPE ((obj), FOO_TYPE_CANVAS_GROUP))
-#define FOO_IS_CANVAS_GROUP_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS_GROUP))
-#define FOO_CANVAS_GROUP_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), FOO_TYPE_CANVAS_GROUP, FooCanvasGroupClass))
+#define FOO_CANVAS_GROUP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FOO_TYPE_CANVAS_GROUP, FooCanvasGroup))
+#define FOO_CANVAS_GROUP_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS_GROUP, FooCanvasGroupClass))
+#define FOO_IS_CANVAS_GROUP(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FOO_TYPE_CANVAS_GROUP))
+#define FOO_IS_CANVAS_GROUP_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS_GROUP))
+#define FOO_CANVAS_GROUP_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FOO_TYPE_CANVAS_GROUP, FooCanvasGroupClass))
 
 
 struct _FooCanvasGroup {
@@ -337,11 +337,11 @@ GType foo_canvas_group_get_type (void) G_GNUC_CONST;
 
 
 #define FOO_TYPE_CANVAS            (foo_canvas_get_type ())
-#define FOO_CANVAS(obj)            (GTK_CHECK_CAST ((obj), FOO_TYPE_CANVAS, FooCanvas))
-#define FOO_CANVAS_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS, FooCanvasClass))
-#define FOO_IS_CANVAS(obj)         (GTK_CHECK_TYPE ((obj), FOO_TYPE_CANVAS))
-#define FOO_IS_CANVAS_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS))
-#define FOO_CANVAS_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), FOO_TYPE_CANVAS, FooCanvasClass))
+#define FOO_CANVAS(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FOO_TYPE_CANVAS, FooCanvas))
+#define FOO_CANVAS_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS, FooCanvasClass))
+#define FOO_IS_CANVAS(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FOO_TYPE_CANVAS))
+#define FOO_IS_CANVAS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS))
+#define FOO_CANVAS_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FOO_TYPE_CANVAS, FooCanvasClass))
 
 
 struct _FooCanvas {

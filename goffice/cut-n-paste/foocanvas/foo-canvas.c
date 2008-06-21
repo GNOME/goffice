@@ -21,9 +21,9 @@
  * Library General Public License for more details.
  *
  * You should have received a copy of the GNU Library General Public
- * License along with the Gnome Library; see the file COPYING.LIB.  If
- * not, write to the Free Software Foundation, Inc., 51 Franklin St,
- * Fifth Floor, Boston, MA  02110-1301 USA.
+ * License along with the Gnome Library; see the file COPYING.LIB.  If not,
+ * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  */
 /*
   @NOTATION@
@@ -101,7 +101,7 @@ enum {
 	ITEM_LAST_SIGNAL
 };
 
-static void foo_canvas_item_class_init     (FooCanvasItemClass *class);
+static void foo_canvas_item_class_init     (FooCanvasItemClass *klass);
 static void foo_canvas_item_init           (FooCanvasItem      *item);
 static int  emit_event                       (FooCanvas *canvas, GdkEvent *event);
 
@@ -1091,6 +1091,9 @@ foo_canvas_item_get_bounds (FooCanvasItem *item, double *x1, double *y1, double 
 void
 foo_canvas_item_request_update (FooCanvasItem *item)
 {
+	if (NULL == item->canvas)
+		return;
+
 	g_return_if_fail (!item->canvas->doing_update);
 
 	if (item->object.flags & FOO_CANVAS_ITEM_NEED_UPDATE)
@@ -1135,7 +1138,7 @@ enum {
 };
 
 
-static void foo_canvas_group_class_init  (FooCanvasGroupClass *class);
+static void foo_canvas_group_class_init  (FooCanvasGroupClass *klass);
 static void foo_canvas_group_init        (FooCanvasGroup      *group);
 static void foo_canvas_group_set_property(GObject               *object,
 					    guint                  param_id,
@@ -1207,17 +1210,17 @@ foo_canvas_group_get_type (void)
 
 /* Class initialization function for FooCanvasGroupClass */
 static void
-foo_canvas_group_class_init (FooCanvasGroupClass *class)
+foo_canvas_group_class_init (FooCanvasGroupClass *klass)
 {
 	GObjectClass *gobject_class;
 	GtkObjectClass *object_class;
 	FooCanvasItemClass *item_class;
 
-	gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
-	item_class = (FooCanvasItemClass *) class;
+	gobject_class = (GObjectClass *) klass;
+	object_class = (GtkObjectClass *) klass;
+	item_class = (FooCanvasItemClass *) klass;
 
-	group_parent_class = gtk_type_class (foo_canvas_item_get_type ());
+	group_parent_class = g_type_class_peek_parent (klass);
 
 	gobject_class->set_property = foo_canvas_group_set_property;
 	gobject_class->get_property = foo_canvas_group_get_property;
@@ -1684,7 +1687,7 @@ group_remove (FooCanvasGroup *group, FooCanvasItem *item)
 			/* Unparent the child */
 
 			item->parent = NULL;
-			item->canvas = NULL;
+			/* item->canvas = NULL; */
 			g_object_unref (G_OBJECT (item));
 
 			/* Remove it from the list */
@@ -1707,7 +1710,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static void foo_canvas_class_init          (FooCanvasClass *class);
+static void foo_canvas_class_init          (FooCanvasClass *klass);
 static void foo_canvas_init                (FooCanvas      *canvas);
 static void foo_canvas_destroy             (GtkObject        *object);
 static void foo_canvas_map                 (GtkWidget        *widget);
@@ -2018,7 +2021,7 @@ foo_canvas_class_init (FooCanvasClass *klass)
 	object_class  = (GtkObjectClass *) klass;
 	widget_class  = (GtkWidgetClass *) klass;
 
-	canvas_parent_class = gtk_type_class (gtk_layout_get_type ());
+	canvas_parent_class = g_type_class_peek_parent (klass);
 
 	gobject_class->set_property = foo_canvas_set_property;
 	gobject_class->get_property = foo_canvas_get_property;
@@ -2372,12 +2375,12 @@ scroll_to (FooCanvas *canvas, int cx, int cy, gboolean redraw)
 	}
 
 	/* Signal GtkLayout that it should do a redraw. */
-	if (redraw) {
-	if (changed_x)
-		g_signal_emit_by_name (G_OBJECT (canvas->layout.hadjustment), "value_changed");
-	if (changed_y)
-		g_signal_emit_by_name (G_OBJECT (canvas->layout.vadjustment), "value_changed");
-}
+ 	if (redraw) {
+		if (changed_x)
+			g_signal_emit_by_name (G_OBJECT (canvas->layout.hadjustment), "value_changed");
+		if (changed_y)
+			g_signal_emit_by_name (G_OBJECT (canvas->layout.vadjustment), "value_changed");
+	}
 }
 
 /* Size allocation handler for the canvas */
@@ -2533,14 +2536,14 @@ emit_event (FooCanvas *canvas, GdkEvent *event)
 	finished = FALSE;
 
 	while (item && !finished) {
-		g_object_ref (G_OBJECT (item));
+		g_object_ref (GTK_OBJECT (item));
 
 		g_signal_emit (
 		       G_OBJECT (item), item_signals[ITEM_EVENT], 0,
 			&ev, &finished);
 
 		parent = item->parent;
-		g_object_unref (G_OBJECT (item));
+		g_object_unref (GTK_OBJECT (item));
 
 		item = parent;
 	}
@@ -3955,11 +3958,11 @@ foo_canvas_item_accessible_factory_get_type (void)
 
 /* Class initialization function for FooCanvasItemClass */
 static void
-foo_canvas_item_class_init (FooCanvasItemClass *class)
+foo_canvas_item_class_init (FooCanvasItemClass *klass)
 {
-	GObjectClass *gobject_class = (GObjectClass *) class;
+	GObjectClass *gobject_class = (GObjectClass *) klass;
 
-	item_parent_class = gtk_type_class (gtk_object_get_type ());
+	item_parent_class = g_type_class_peek_parent (klass);
 
 	gobject_class->set_property = foo_canvas_item_set_property;
 	gobject_class->get_property = foo_canvas_item_get_property;
@@ -3979,7 +3982,7 @@ foo_canvas_item_class_init (FooCanvasItemClass *class)
 
 	item_signals[ITEM_EVENT] =
 		g_signal_new ("event",
-			      G_TYPE_FROM_CLASS (class),
+			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (FooCanvasItemClass, event),
 			      boolean_handled_accumulator, NULL,
@@ -3987,11 +3990,11 @@ foo_canvas_item_class_init (FooCanvasItemClass *class)
 			      G_TYPE_BOOLEAN, 1,
 			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	class->realize = foo_canvas_item_realize;
-	class->unrealize = foo_canvas_item_unrealize;
-	class->map = foo_canvas_item_map;
-	class->unmap = foo_canvas_item_unmap;
-	class->update = foo_canvas_item_update;
+	klass->realize = foo_canvas_item_realize;
+	klass->unrealize = foo_canvas_item_unrealize;
+	klass->map = foo_canvas_item_map;
+	klass->unmap = foo_canvas_item_unmap;
+	klass->update = foo_canvas_item_update;
 
 	atk_registry_set_factory_type (atk_get_default_registry (),
                                        FOO_TYPE_CANVAS_ITEM,

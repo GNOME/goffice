@@ -20,9 +20,9 @@
  * Library General Public License for more details.
  *
  * You should have received a copy of the GNU Library General Public
- * License along with the Gnome Library; see the file COPYING.LIB.  If
- * not, write to the Free Software Foundation, Inc., 51 Franklin St,
- * Fifth Floor, Boston, MA  02110-1301 USA.
+ * License along with the Gnome Library; see the file COPYING.LIB.  If not,
+ * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  */
 /*
   @NOTATION@
@@ -69,7 +69,7 @@ enum {
 };
 
 
-static void foo_canvas_re_class_init (FooCanvasREClass *class);
+static void foo_canvas_re_class_init (FooCanvasREClass *klass);
 static void foo_canvas_re_init       (FooCanvasRE      *re);
 static void foo_canvas_re_destroy    (GtkObject          *object);
 static void foo_canvas_re_set_property (GObject              *object,
@@ -130,17 +130,17 @@ foo_canvas_re_get_type (void)
 }
 
 static void
-foo_canvas_re_class_init (FooCanvasREClass *class)
+foo_canvas_re_class_init (FooCanvasREClass *klass)
 {
 	GObjectClass *gobject_class;
 	GtkObjectClass *object_class;
 	FooCanvasItemClass *item_class;
 
-	gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
-	item_class = (FooCanvasItemClass *) class;
+	gobject_class = (GObjectClass *) klass;
+	object_class = (GtkObjectClass *) klass;
+	item_class = (FooCanvasItemClass *) klass;
 
-	re_parent_class = g_type_class_peek_parent (class);
+	re_parent_class = g_type_class_peek_parent (klass);
 
 	gobject_class->set_property = foo_canvas_re_set_property;
 	gobject_class->get_property = foo_canvas_re_get_property;
@@ -751,7 +751,7 @@ foo_canvas_re_bounds (FooCanvasItem *item, double *x1, double *y1, double *x2, d
 /* Rectangle item */
 
 
-static void foo_canvas_rect_class_init (FooCanvasRectClass *class);
+static void foo_canvas_rect_class_init (FooCanvasRectClass *klass);
 static void foo_canvas_rect_init (FooCanvasRect *rect);
 static void foo_canvas_rect_finalize (GObject *object);
 static void foo_canvas_rect_realize  (FooCanvasItem *item);
@@ -799,20 +799,20 @@ foo_canvas_rect_get_type (void)
 }
 
 static void
-foo_canvas_rect_class_init (FooCanvasRectClass *class)
+foo_canvas_rect_class_init (FooCanvasRectClass *klass)
 {
 	FooCanvasItemClass *item_class;
 
-	rect_parent_class = g_type_class_peek_parent (class);
+	rect_parent_class = g_type_class_peek_parent (klass);
 
-	item_class = (FooCanvasItemClass *) class;
+	item_class = (FooCanvasItemClass *) klass;
 
 	item_class->draw = foo_canvas_rect_draw;
 	item_class->point = foo_canvas_rect_point;
 	item_class->update = foo_canvas_rect_update;
 	item_class->realize = foo_canvas_rect_realize;
 
-	G_OBJECT_CLASS (class)->finalize = foo_canvas_rect_finalize;
+	G_OBJECT_CLASS (klass)->finalize = foo_canvas_rect_finalize;
 
 }
 
@@ -1228,7 +1228,7 @@ foo_canvas_rect_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, gint 
 /* Ellipse item */
 
 
-static void foo_canvas_ellipse_class_init (FooCanvasEllipseClass *class);
+static void foo_canvas_ellipse_class_init (FooCanvasEllipseClass *klass);
 
 static void   foo_canvas_ellipse_draw   (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expose);
 static double foo_canvas_ellipse_point  (FooCanvasItem *item, double x, double y, int cx, int cy,
@@ -1264,11 +1264,11 @@ foo_canvas_ellipse_get_type (void)
 }
 
 static void
-foo_canvas_ellipse_class_init (FooCanvasEllipseClass *class)
+foo_canvas_ellipse_class_init (FooCanvasEllipseClass *klass)
 {
 	FooCanvasItemClass *item_class;
 
-	item_class = (FooCanvasItemClass *) class;
+	item_class = (FooCanvasItemClass *) klass;
 
 	item_class->draw = foo_canvas_ellipse_draw;
 	item_class->point = foo_canvas_ellipse_point;

@@ -17,9 +17,9 @@
  * Library General Public License for more details.
  *
  * You should have received a copy of the GNU Library General Public
- * License along with the Gnome Library; see the file COPYING.LIB.  If
- * not, write to the Free Software Foundation, Inc., 51 Franklin St,
- * Fifth Floor, Boston, MA  02110-1301 USA.
+ * License along with the Gnome Library; see the file COPYING.LIB.  If not,
+ * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  */
 /*
   @NOTATION@
@@ -71,11 +71,11 @@ G_BEGIN_DECLS
  */
 
 #define FOO_TYPE_CANVAS_POLYGON            (foo_canvas_polygon_get_type ())
-#define FOO_CANVAS_POLYGON(obj)            (GTK_CHECK_CAST ((obj), FOO_TYPE_CANVAS_POLYGON, FooCanvasPolygon))
-#define FOO_CANVAS_POLYGON_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS_POLYGON, FooCanvasPolygonClass))
-#define FOO_IS_CANVAS_POLYGON(obj)         (GTK_CHECK_TYPE ((obj), FOO_TYPE_CANVAS_POLYGON))
-#define FOO_IS_CANVAS_POLYGON_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS_POLYGON))
-#define FOO_CANVAS_POLYGON_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), FOO_TYPE_CANVAS_POLYGON, FooCanvasPolygonClass))
+#define FOO_CANVAS_POLYGON(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FOO_TYPE_CANVAS_POLYGON, FooCanvasPolygon))
+#define FOO_CANVAS_POLYGON_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS_POLYGON, FooCanvasPolygonClass))
+#define FOO_IS_CANVAS_POLYGON(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FOO_TYPE_CANVAS_POLYGON))
+#define FOO_IS_CANVAS_POLYGON_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS_POLYGON))
+#define FOO_CANVAS_POLYGON_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FOO_TYPE_CANVAS_POLYGON, FooCanvasPolygonClass))
 
 
 typedef struct _FooCanvasPolygon FooCanvasPolygon;
@@ -115,7 +115,7 @@ struct _FooCanvasPolygonClass {
 
 
 /* Standard Gtk function */
-GtkType foo_canvas_polygon_get_type (void) G_GNUC_CONST;
+GType foo_canvas_polygon_get_type (void) G_GNUC_CONST;
 
 
 G_END_DECLS

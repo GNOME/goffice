@@ -21,9 +21,9 @@
  * Library General Public License for more details.
  *
  * You should have received a copy of the GNU Library General Public
- * License along with the Gnome Library; see the file COPYING.LIB.  If
- * not, write to the Free Software Foundation, Inc., 51 Franklin St,
- * Fifth Floor, Boston, MA  02110-1301 USA.
+ * License along with the Gnome Library; see the file COPYING.LIB.  If not,
+ * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  */
 /*
   @NOTATION@
@@ -38,7 +38,7 @@
  */
 
 #include <math.h>
-#include <gtk/gtksignal.h>
+#include <glib-object.h>
 #include "foo-canvas-widget.h"
 
 enum {
@@ -53,7 +53,7 @@ enum {
 };
 
 
-static void foo_canvas_widget_class_init (FooCanvasWidgetClass *class);
+static void foo_canvas_widget_class_init (FooCanvasWidgetClass *klass);
 static void foo_canvas_widget_init       (FooCanvasWidget      *witem);
 static void foo_canvas_widget_destroy    (GtkObject              *object);
 static void foo_canvas_widget_get_property (GObject            *object,
@@ -79,43 +79,20 @@ static void foo_canvas_widget_unmap (FooCanvasItem *item);
 
 static FooCanvasItemClass *parent_class;
 
-
-GtkType
-foo_canvas_widget_get_type (void)
-{
-	static GtkType witem_type = 0;
-
-	if (!witem_type) {
-		/* FIXME: Convert to gobject style.  */
-		static const GtkTypeInfo witem_info = {
-			(char *)"FooCanvasWidget",
-			sizeof (FooCanvasWidget),
-			sizeof (FooCanvasWidgetClass),
-			(GtkClassInitFunc) foo_canvas_widget_class_init,
-			(GtkObjectInitFunc) foo_canvas_widget_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		witem_type = gtk_type_unique (foo_canvas_item_get_type (), &witem_info);
-	}
-
-	return witem_type;
-}
+G_DEFINE_TYPE (FooCanvasWidget, foo_canvas_widget, FOO_TYPE_CANVAS_ITEM)
 
 static void
-foo_canvas_widget_class_init (FooCanvasWidgetClass *class)
+foo_canvas_widget_class_init (FooCanvasWidgetClass *klass)
 {
 	GObjectClass *gobject_class;
 	GtkObjectClass *object_class;
 	FooCanvasItemClass *item_class;
 
-	gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
-	item_class = (FooCanvasItemClass *) class;
+	gobject_class = (GObjectClass *) klass;
+	object_class = (GtkObjectClass *) klass;
+	item_class = (FooCanvasItemClass *) klass;
 
-	parent_class = gtk_type_class (foo_canvas_item_get_type ());
+	parent_class = g_type_class_peek_parent (klass);
 
 	gobject_class->set_property = foo_canvas_widget_set_property;
 	gobject_class->get_property = foo_canvas_widget_get_property;

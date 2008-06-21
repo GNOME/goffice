@@ -18,9 +18,9 @@
  * Library General Public License for more details.
  *
  * You should have received a copy of the GNU Library General Public
- * License along with the Gnome Library; see the file COPYING.LIB.  If
- * not, write to the Free Software Foundation, Inc., 51 Franklin St,
- * Fifth Floor, Boston, MA  02110-1301 USA.
+ * License along with the Gnome Library; see the file COPYING.LIB.  If not,
+ * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  */
 /*
   @NOTATION@
@@ -98,11 +98,11 @@ G_BEGIN_DECLS
  */
 
 #define FOO_TYPE_CANVAS_TEXT            (foo_canvas_text_get_type ())
-#define FOO_CANVAS_TEXT(obj)            (GTK_CHECK_CAST ((obj), FOO_TYPE_CANVAS_TEXT, FooCanvasText))
-#define FOO_CANVAS_TEXT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS_TEXT, FooCanvasTextClass))
-#define FOO_IS_CANVAS_TEXT(obj)         (GTK_CHECK_TYPE ((obj), FOO_TYPE_CANVAS_TEXT))
-#define FOO_IS_CANVAS_TEXT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS_TEXT))
-#define FOO_CANVAS_TEXT_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), FOO_TYPE_CANVAS_TEXT, FooCanvasTextClass))
+#define FOO_CANVAS_TEXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FOO_TYPE_CANVAS_TEXT, FooCanvasText))
+#define FOO_CANVAS_TEXT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS_TEXT, FooCanvasTextClass))
+#define FOO_IS_CANVAS_TEXT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FOO_TYPE_CANVAS_TEXT))
+#define FOO_IS_CANVAS_TEXT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS_TEXT))
+#define FOO_CANVAS_TEXT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FOO_TYPE_CANVAS_TEXT, FooCanvasTextClass))
 
 
 typedef struct _FooCanvasText FooCanvasText;
@@ -162,7 +162,7 @@ struct _FooCanvasTextClass {
 
 
 /* Standard Gtk function */
-GtkType foo_canvas_text_get_type (void) G_GNUC_CONST;
+GType foo_canvas_text_get_type (void) G_GNUC_CONST;
 
 
 G_END_DECLS

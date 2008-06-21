@@ -17,9 +17,9 @@
  * Library General Public License for more details.
  *
  * You should have received a copy of the GNU Library General Public
- * License along with the Gnome Library; see the file COPYING.LIB.  If
- * not, write to the Free Software Foundation, Inc., 51 Franklin St,
- * Fifth Floor, Boston, MA  02110-1301 USA.
+ * License along with the Gnome Library; see the file COPYING.LIB.  If not,
+ * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  */
 /*
   @NOTATION@
@@ -67,11 +67,11 @@ G_BEGIN_DECLS
 
 
 #define FOO_TYPE_CANVAS_RE            (foo_canvas_re_get_type ())
-#define FOO_CANVAS_RE(obj)            (GTK_CHECK_CAST ((obj), FOO_TYPE_CANVAS_RE, FooCanvasRE))
-#define FOO_CANVAS_RE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS_RE, FooCanvasREClass))
-#define FOO_IS_CANVAS_RE(obj)         (GTK_CHECK_TYPE ((obj), FOO_TYPE_CANVAS_RE))
-#define FOO_IS_CANVAS_RE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS_RE))
-#define FOO_CANVAS_RE_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), FOO_TYPE_CANVAS_RE, FooCanvasREClass))
+#define FOO_CANVAS_RE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FOO_TYPE_CANVAS_RE, FooCanvasRE))
+#define FOO_CANVAS_RE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS_RE, FooCanvasREClass))
+#define FOO_IS_CANVAS_RE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FOO_TYPE_CANVAS_RE))
+#define FOO_IS_CANVAS_RE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS_RE))
+#define FOO_CANVAS_RE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FOO_TYPE_CANVAS_RE, FooCanvasREClass))
 
 
 typedef struct _FooCanvasRE      FooCanvasRE;
@@ -117,11 +117,11 @@ GType foo_canvas_re_get_type (void) G_GNUC_CONST;
 
 
 #define FOO_TYPE_CANVAS_RECT            (foo_canvas_rect_get_type ())
-#define FOO_CANVAS_RECT(obj)            (GTK_CHECK_CAST ((obj), FOO_TYPE_CANVAS_RECT, FooCanvasRect))
-#define FOO_CANVAS_RECT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS_RECT, FooCanvasRectClass))
-#define FOO_IS_CANVAS_RECT(obj)         (GTK_CHECK_TYPE ((obj), FOO_TYPE_CANVAS_RECT))
-#define FOO_IS_CANVAS_RECT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS_RECT))
-#define FOO_CANVAS_RECT_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), FOO_TYPE_CANVAS_RECT, FooCanvasRectClass))
+#define FOO_CANVAS_RECT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FOO_TYPE_CANVAS_RECT, FooCanvasRect))
+#define FOO_CANVAS_RECT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS_RECT, FooCanvasRectClass))
+#define FOO_IS_CANVAS_RECT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FOO_TYPE_CANVAS_RECT))
+#define FOO_IS_CANVAS_RECT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS_RECT))
+#define FOO_CANVAS_RECT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FOO_TYPE_CANVAS_RECT, FooCanvasRectClass))
 
 
 typedef struct _FooCanvasRect FooCanvasRect;
@@ -148,11 +148,11 @@ GType foo_canvas_rect_get_type (void) G_GNUC_CONST;
 
 
 #define FOO_TYPE_CANVAS_ELLIPSE            (foo_canvas_ellipse_get_type ())
-#define FOO_CANVAS_ELLIPSE(obj)            (GTK_CHECK_CAST ((obj), FOO_TYPE_CANVAS_ELLIPSE, FooCanvasEllipse))
-#define FOO_CANVAS_ELLIPSE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS_ELLIPSE, FooCanvasEllipseClass))
-#define FOO_IS_CANVAS_ELLIPSE(obj)         (GTK_CHECK_TYPE ((obj), FOO_TYPE_CANVAS_ELLIPSE))
-#define FOO_IS_CANVAS_ELLIPSE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS_ELLIPSE))
-#define FOO_CANVAS_ELLIPSE_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), FOO_TYPE_CANVAS_ELLIPSE, FooCanvasEllipseClass))
+#define FOO_CANVAS_ELLIPSE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FOO_TYPE_CANVAS_ELLIPSE, FooCanvasEllipse))
+#define FOO_CANVAS_ELLIPSE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FOO_TYPE_CANVAS_ELLIPSE, FooCanvasEllipseClass))
+#define FOO_IS_CANVAS_ELLIPSE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FOO_TYPE_CANVAS_ELLIPSE))
+#define FOO_IS_CANVAS_ELLIPSE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FOO_TYPE_CANVAS_ELLIPSE))
+#define FOO_CANVAS_ELLIPSE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FOO_TYPE_CANVAS_ELLIPSE, FooCanvasEllipseClass))
 
 
 typedef struct _FooCanvasEllipse FooCanvasEllipse;

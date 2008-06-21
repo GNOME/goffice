@@ -72,7 +72,7 @@ enum {
 #define GO_COMBO_STACK(o)	G_TYPE_CHECK_INSTANCE_CAST (o, GO_COMBO_STACK_TYPE, GOComboStack)
 #define IS_GO_COMBO_STACK(o)	G_TYPE_CHECK_INSTANCE_TYPE (o, GO_COMBO_STACK_TYPE)
 
-static GtkType go_combo_stack_get_type   (void);
+static GType go_combo_stack_get_type   (void);
 static guint go_combo_stack_signals [LAST_SIGNAL] = { 0, };
 
 static void

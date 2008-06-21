@@ -21,9 +21,9 @@
  * Library General Public License for more details.
  *
  * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
- * USA.
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  */
 
 #include <math.h>
@@ -93,7 +93,7 @@ enum {
 	PROP_POINT_IGNORES_ALPHA
 };
 
-static void foo_canvas_pixbuf_class_init (FooCanvasPixbufClass *class);
+static void foo_canvas_pixbuf_class_init (FooCanvasPixbufClass *klass);
 static void foo_canvas_pixbuf_init (FooCanvasPixbuf *cpb);
 static void foo_canvas_pixbuf_destroy (GtkObject *object);
 static void foo_canvas_pixbuf_set_property (GObject *object,
@@ -118,53 +118,19 @@ static void foo_canvas_pixbuf_bounds    (FooCanvasItem *item,
 
 static FooCanvasItemClass *parent_class;
 
-
-
-/**
- * foo_canvas_pixbuf_get_type:
- * @void:
- *
- * Registers the #FooCanvasPixbuf class if necessary, and returns the type ID
- * associated to it.
- *
- * Return value: The type ID of the #FooCanvasPixbuf class.
- **/
-GtkType
-foo_canvas_pixbuf_get_type (void)
-{
-	static GtkType canvas_pixbuf_type = 0;
-
-	if (!canvas_pixbuf_type) {
-		/* FIXME: Convert to gobject style.  */
-		static const GtkTypeInfo canvas_pixbuf_info = {
-			(char *)"FooCanvasPixbuf",
-			sizeof (FooCanvasPixbuf),
-			sizeof (FooCanvasPixbufClass),
-			(GtkClassInitFunc) foo_canvas_pixbuf_class_init,
-			(GtkObjectInitFunc) foo_canvas_pixbuf_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		canvas_pixbuf_type = gtk_type_unique (foo_canvas_item_get_type (),
-						      &canvas_pixbuf_info);
-	}
-
-	return canvas_pixbuf_type;
-}
+G_DEFINE_TYPE (FooCanvasPixbuf, foo_canvas_pixbuf, FOO_TYPE_CANVAS_ITEM)
 
 /* Class initialization function for the pixbuf canvas item */
 static void
-foo_canvas_pixbuf_class_init (FooCanvasPixbufClass *class)
+foo_canvas_pixbuf_class_init (FooCanvasPixbufClass *klass)
 {
         GObjectClass *gobject_class;
 	GtkObjectClass *object_class;
 	FooCanvasItemClass *item_class;
 
-        gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
-	item_class = (FooCanvasItemClass *) class;
+        gobject_class = (GObjectClass *) klass;
+	object_class = (GtkObjectClass *) klass;
+	item_class = (FooCanvasItemClass *) klass;
 
 	parent_class = gtk_type_class (foo_canvas_item_get_type ());
 
