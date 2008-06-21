@@ -28,6 +28,7 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-theme.h>
 #include <goffice/data/go-data.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-color.h>
@@ -49,6 +50,39 @@ enum {
 };
 
 /*****************************************************************************/
+
+typedef GogSeriesElement GogLineSeriesElement;
+typedef GogSeriesElementClass GogLineSeriesElementClass;
+
+#define GOG_LINE_SERIES_ELEMENT_TYPE	(gog_line_series_element_get_type ())
+#define GOG_LINE_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LINE_SERIES_ELEMENT_TYPE, GogLinelSeriesElement))
+#define GOG_IS_LINE_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LINE_SERIES_ELEMENT_TYPE))
+GType gog_line_series_element_get_type (void);
+
+static void
+gog_line_series_element_init_style (GogStyledObject *gso, GogStyle *style)
+{
+	GogSeries const *series = GOG_SERIES (GOG_OBJECT (gso)->parent);
+
+	g_return_if_fail (series != NULL);
+
+	style->interesting_fields = GOG_STYLE_MARKER;
+	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
+		style, GOG_OBJECT (gso), GOG_SERIES_ELEMENT (gso)->index, FALSE);
+}
+
+static void
+gog_line_series_element_class_init (GogLineSeriesElementClass *klass)
+{
+	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
+	style_klass->init_style	    	= gog_line_series_element_init_style;
+}
+
+GSF_DYNAMIC_CLASS (GogLineSeriesElement, gog_line_series_element,
+	gog_line_series_element_class_init, NULL,
+	GOG_SERIES_ELEMENT_TYPE)
+
+/******************************************************************************/
 
 typedef GogView		GogLineSeriesView;
 typedef GogViewClass	GogLineSeriesViewClass;
@@ -177,6 +211,7 @@ gog_line_series_class_init (GogStyledObjectClass *gso_klass)
 	gog_klass->view_type = gog_line_series_view_get_type ();
 	gog_klass->update = gog_line_series_update;
 	series_klass->get_xy_data = gog_line_series_get_xy_data;
+	series_klass->series_element_type = GOG_LINE_SERIES_ELEMENT_TYPE;
 }
 
 GSF_DYNAMIC_CLASS (GogLineSeries, gog_line_series,
@@ -391,6 +426,9 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	GogAxisMap *x_map, *y_map;
 
+	GogSeriesElement *gse;
+	GList const *overrides;
+
 	is_area_plot = GOG_IS_PLOT_AREA (model);
 
 	if (num_elements <= 0 || num_series <= 0)
@@ -431,6 +469,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		if (!gog_series_is_valid (GOG_SERIES (series))) {
 			vals[i] = NULL;
+			lengths[i] = 0;
 			continue;
 		}
 
@@ -650,21 +689,44 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		y_margin_min = view->allocation.y - margin;
 		y_margin_max = view->allocation.y + view->allocation.h + margin;
 
+		ptr = model->base.series;
 		for (i = 0; i < num_series; i++) {
+			overrides = gog_series_get_overrides (GOG_SERIES (ptr->data));
 			if (lengths[i] == 0)
 				continue;
 
-			gog_renderer_push_style (view->renderer, styles[i]);
+				gog_renderer_push_style (view->renderer, styles[i]);
 
 			for (j = 0; j < lengths[i]; j++) {
+				gse = NULL;
+				if ((overrides != NULL) &&
+					(GOG_SERIES_ELEMENT (overrides->data)->index == j - 1)) {
+						gse = GOG_SERIES_ELEMENT (overrides->data);
+						overrides = overrides->next;
+						gog_renderer_push_style (view->renderer,
+							gog_styled_object_get_style (
+								GOG_STYLED_OBJECT (gse)));
+				} else
 				x = path[i][j + 1].x;
 				y = path[i][j + 1].y;
+				gse = NULL;
+				if ((overrides != NULL) &&
+					(GOG_SERIES_ELEMENT (overrides->data)->index == j)) {
+						gse = GOG_SERIES_ELEMENT (overrides->data);
+						overrides = overrides->next;
+						gog_renderer_push_style (view->renderer,
+							gog_styled_object_get_style (
+								GOG_STYLED_OBJECT (gse)));
+				}
 				if (x_margin_min <= x && x <= x_margin_max &&
 				    y_margin_min <= y && y <= y_margin_max &&
 				    path[i][j + 1].code != ART_MOVETO_OPEN) 
 					gog_renderer_draw_marker (view->renderer, x, y);
+				if (gse)
+					gog_renderer_pop_style (view->renderer);
 			}
 			gog_renderer_pop_style (view->renderer);
+			ptr = ptr->next;
 		}
 	}
 

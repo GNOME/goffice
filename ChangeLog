@@ -1,6 +1,13 @@
 2008-06-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-1.5d.c: add singleton formatting support to
+	line plots.
+	* plugins/plot_barcol/gog-barcol.c: ditto.
+	* plugins/plot_barcol/gog-line.c: ditto.
+
+2008-06-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_barcol/gog-1.5d.c: add singleton formatting support to
 	bars/columns plots. [#517488]
 	* plugins/plot_barcol/gog-barcol.c: ditto.
 	* plugins/plot_barcol/gog-barcol.h: ditto.
