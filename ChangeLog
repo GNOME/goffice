@@ -1,3 +1,10 @@
+2008-06-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/math/go-matrix3x3.c:
+	(go_matrix3x3_from_euler_transposed), (go_matrix3x3_to_euler),
+	(go_matrix3x3_multiply): add missing functions.
+	* goffice/math/go-matrix3x3.h: ditto.
+
 2008-06-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-style.c: (gog_style_create_cairo_pattern): fixed

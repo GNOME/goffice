@@ -30,10 +30,19 @@ typedef struct {
 } GOMatrix3x3;
 
 void go_matrix3x3_transform (GOMatrix3x3 *mat,
-				gdouble xo, gdouble yo, gdouble zo,
-				gdouble *x, gdouble *y, gdouble *z);
+				double xo, double yo, double zo,
+				double *x, double *y, double *z);
 
 void go_matrix3x3_from_euler (GOMatrix3x3 *mat,
-				gdouble Psi, gdouble Theta, gdouble Phi);
+				double Psi, double Theta, double Phi);
+
+void go_matrix3x3_from_euler_transposed (GOMatrix3x3 *mat,
+				double Psi, double Theta, double Phi);
+
+void go_matrix3x3_to_euler (GOMatrix3x3 const *mat,
+				double *Psi, double *Theta, double *Phi);
+
+void go_matrix3x3_multiply (GOMatrix3x3 *dest,
+				GOMatrix3x3 const *src1, GOMatrix3x3 const *src2);
 
 #endif /* GO_MATRIX3X3_H */
