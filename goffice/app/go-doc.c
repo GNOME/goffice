@@ -284,12 +284,6 @@ go_doc_update_meta_data (GODoc *doc)
 	g_signal_emit (G_OBJECT (doc), signals [METADATA_UPDATE], 0);
 }
 
-char const *
-go_doc_choose_image (GODoc *doc, char const *cur_id)
-{
-	return NULL;
-}
-
 GOImage *
 go_doc_get_image (GODoc *doc, char const *id)
 {
@@ -335,4 +329,16 @@ GHashTable *
 go_doc_get_images (GODoc *doc) {
 	g_return_val_if_fail (doc, NULL);
 	return doc->images;
+}
+
+static void
+init_func (gpointer key, gpointer value, gpointer data)
+{
+	go_image_init_save ((GOImage*) value);
+}
+
+void
+go_doc_init_write (GODoc *doc)
+{
+	g_hash_table_foreach (doc->images, init_func, NULL);
 }

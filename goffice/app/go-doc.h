@@ -63,10 +63,10 @@ gboolean go_doc_sendto		(GODoc *doc, GOIOContext *cc);
 /* put into GODoc (as properties) */
 
 /* Images related functions */
-char const	*go_doc_choose_image	(GODoc *doc, char const *cur_id);
 GOImage		*go_doc_get_image	(GODoc *doc, char const *id);
 GOImage		*go_doc_add_image	(GODoc *doc, char const *id, GOImage *image);
 GHashTable	*go_doc_get_images	(GODoc *doc);
+void		 go_doc_init_write	(GODoc *doc);
 
 G_END_DECLS
 
