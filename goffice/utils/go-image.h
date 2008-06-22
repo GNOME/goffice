@@ -22,6 +22,7 @@
 #include <glib-object.h>
 #include <goffice/goffice-features.h>
 #include <goffice/utils/goffice-utils.h>
+#include <gsf/gsf-libxml.h>
 #include <cairo.h>
 
 #ifdef GOFFICE_WITH_GTK
@@ -75,12 +76,18 @@ cairo_pattern_t *go_image_create_cairo_pattern 	(GOImage *image);
 #ifdef GOFFICE_WITH_GTK
 GOImage 	*go_image_new_from_pixbuf 	(GdkPixbuf *pixbuf);
 GdkPixbuf 	*go_image_get_pixbuf 		(GOImage *image);
+GdkPixbuf 	*go_image_get_thumbnail		(GOImage *image);
 #endif
 
 GOImage 	*go_image_new_from_file 	(const char *filename, GError **error);
 guint8 		*go_image_get_pixels 		(GOImage *image);
 int 		 go_image_get_rowstride 	(GOImage *image);
 void 		 go_image_fill 			(GOImage *image, GOColor color);
+
+void		 go_image_set_name		(GOImage *image, char const *name);
+char const	*go_image_get_name 		(GOImage *image);
+
+gboolean	 go_image_same_pixbuf		(GOImage *first, GOImage *second);
 
 G_END_DECLS
 

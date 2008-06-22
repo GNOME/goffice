@@ -32,8 +32,8 @@ libgoffice_gtk_la_SOURCES =		\
 	\
 	go-pixbuf.c			\
 	\
-	go-graph-widget.c		
-
+	go-graph-widget.c	\
+	go-image-sel.c
 
 libgoffice_gtk_ladir = $(goffice_include_dir)/gtk
 libgoffice_gtk_la_HEADERS = 		\
@@ -68,14 +68,16 @@ libgoffice_gtk_la_HEADERS = 		\
 	\
 	go-pixbuf.h			\
 	\
-	go-graph-widget.h
+	go-graph-widget.h	\
+	go-image-sel.h
 
 gladedir = $(goffice_datadir)/glade
 dist_glade_DATA = \
 	go-rotation-sel.glade			\
 	go-font-sel.glade 			\
 	go-format-sel.glade 			\
-	go-image-save-dialog-extra.glade
+	go-image-save-dialog-extra.glade	\
+	go-image-sel.glade
 
 EXTRA_DIST = $(UNUSED)
 

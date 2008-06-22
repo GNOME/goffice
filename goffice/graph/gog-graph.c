@@ -20,6 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
+#include <goffice/app/go-doc.h>
 #include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-chart-impl.h>
 #include <goffice/graph/gog-renderer.h>
@@ -48,7 +49,8 @@ enum {
 	GRAPH_PROP_THEME,
 	GRAPH_PROP_THEME_NAME,
 	GRAPH_PROP_WIDTH,
-	GRAPH_PROP_HEIGHT
+	GRAPH_PROP_HEIGHT,
+	GRAPH_PROP_DOCUMENT
 };
 
 enum {
@@ -85,6 +87,18 @@ gog_graph_set_property (GObject *obj, guint param_id,
 		gog_graph_set_size (graph, graph->width, 
 				    g_value_get_double (value));
 		break;
+	case GRAPH_PROP_DOCUMENT: {
+		GObject *obj = g_value_get_object (value);
+/*		if (graph->doc) {
+			g_object_unref (graph->doc);
+			graph->doc = NULL;
+		}
+		if (IS_GO_DOC (obj))
+			graph->doc = (GODoc *) g_object_ref (obj);*/
+		if (IS_GO_DOC (obj))
+			graph->doc = (GODoc *) obj;
+		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -109,6 +123,9 @@ gog_graph_get_property (GObject *obj, guint param_id,
 		break;
 	case GRAPH_PROP_HEIGHT:
 		g_value_set_double (value, graph->height);
+		break;
+	case GRAPH_PROP_DOCUMENT:
+		g_value_set_object (value, graph->doc);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -332,6 +349,12 @@ gog_graph_class_init (GogGraphClass *klass)
 			_("Logical graph heigth, in points"),
 			0.0, G_MAXDOUBLE, GOG_GRAPH_DEFAULT_HEIGHT,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, GRAPH_PROP_DOCUMENT,
+		g_param_spec_object ("document", 
+			_("Document"),
+			_("the document for this graph"),
+			GO_DOC_TYPE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 static void
@@ -460,6 +483,7 @@ GogGraph *
 gog_graph_dup (GogGraph const *graph)
 {
 	GogObject *res = gog_object_dup (GOG_OBJECT (graph), NULL, NULL);
+	GOG_GRAPH (res)->doc = graph->doc;
 	return GOG_GRAPH (res);
 }
 

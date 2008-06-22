@@ -32,6 +32,7 @@ struct _GODoc {
 	GsfDocMetaData	*meta_data;
 	gboolean	 modified;
 	gboolean	 pristine;
+	GHashTable	*images;
 };
 
 typedef struct {

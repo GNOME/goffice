@@ -1356,7 +1356,7 @@ gog_xy_series_element_init_style (GogStyledObject *gso, GogStyle *style)
 
 	parent_style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
 	if (parent_style->interesting_fields & GOG_STYLE_MARKER)
-		style->interesting_fields = GOG_STYLE_MARKER;
+		style->interesting_fields = parent_style->interesting_fields & (GOG_STYLE_MARKER | GOG_STYLE_MARKER_NO_COLOR);
 	else
 		style->interesting_fields = parent_style->interesting_fields;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),

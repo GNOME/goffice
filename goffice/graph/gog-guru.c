@@ -23,6 +23,7 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice-priv.h>
 
+#include <goffice/app/go-doc-control.h>
 #include <goffice/graph/gog-guru.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-graph.h>
@@ -1311,6 +1312,14 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 		state->graph = g_object_new (GOG_GRAPH_TYPE, NULL);
 		state->chart = GOG_CHART (gog_object_add_by_name (
 				GOG_OBJECT (state->graph), "Chart", NULL));
+		if (IS_GO_DOC_CONTROL (dalloc))
+			g_object_set (state->graph,
+						  "document", go_doc_control_get_doc (GO_DOC_CONTROL (dalloc)),
+						  NULL);
+		else if (IS_GO_DOC_CONTROL (cc))
+			g_object_set (state->graph,
+						  "document", go_doc_control_get_doc (GO_DOC_CONTROL (cc)),
+						  NULL);
 	}
 
 	if (state->graph == NULL || graph_guru_init (state)) {

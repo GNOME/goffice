@@ -109,7 +109,6 @@ struct _GogStyle {
 		struct {
 			GogImageType	 type;
 			GOImage	 *image;
-			char		*filename;
 		} image;
 	} fill;
 	GogStyleMark marker;
@@ -136,7 +135,6 @@ void	   gog_style_set_font_desc		(GogStyle *style,
 						 PangoFontDescription *desc);
 void	   gog_style_set_font			(GogStyle *style, GOFont const *font);
 void	   gog_style_set_fill_brightness	(GogStyle *style, float brightness);
-void	   gog_style_set_fill_image_filename	(GogStyle *style, char *filename);
 void	   gog_style_set_text_angle     	(GogStyle *style, double angle);
 
 gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);

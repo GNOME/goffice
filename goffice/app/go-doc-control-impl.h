@@ -31,6 +31,8 @@ struct _GODocControl {
 	struct {
 		gpointer dummy;
 	} state[GO_DOC_CONTROL_STATE_MAX];
+
+	GODoc		*doc;
 };
 
 typedef struct {

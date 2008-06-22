@@ -42,6 +42,8 @@ struct _GogGraph {
 	guint	  idle_handler;
 
 	GHashTable *data_refs;
+
+	GODoc *doc;
 };
 
 typedef struct {

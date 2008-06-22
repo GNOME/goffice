@@ -22,6 +22,7 @@
 #define GO_DOC_H
 
 #include <goffice/app/goffice-app.h>
+#include <goffice/utils/go-image.h>
 #include <glib-object.h>
 #include <gsf/gsf.h>
 
@@ -60,6 +61,12 @@ gboolean go_doc_sendto		(GODoc *doc, GOIOContext *cc);
 #endif
 
 /* put into GODoc (as properties) */
+
+/* Images related functions */
+char const	*go_doc_choose_image	(GODoc *doc, char const *cur_id);
+GOImage		*go_doc_get_image	(GODoc *doc, char const *id);
+GOImage		*go_doc_add_image	(GODoc *doc, char const *id, GOImage *image);
+GHashTable	*go_doc_get_images	(GODoc *doc);
 
 G_END_DECLS
 

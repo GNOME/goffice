@@ -42,6 +42,7 @@
 #include <goffice/gtk/go-line-selector.h>
 #include <goffice/gtk/go-marker-selector.h>
 #include <goffice/gtk/go-pattern-selector.h>
+#include <goffice/gtk/go-image-sel.h>
 
 #include <glade/glade-xml.h>
 #include <gtk/gtkcheckbutton.h>
@@ -115,6 +116,7 @@ typedef struct {
 	struct {
 		GtkWidget *selector;
 	} marker;
+	GODoc *doc;
 } StylePrefState;
 
 static void
@@ -462,7 +464,7 @@ static void
 cb_fill_background_color (GOSelector *selector, StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	
+
 	style->fill.pattern.back = go_color_selector_get_color (selector, 
 								&style->fill.auto_back);
 	set_style (state);
@@ -514,35 +516,17 @@ fill_color_init (StylePrefState *state)
 /************************************************************************/
 
 static void
-cb_image_file_select (GtkWidget *cc, StylePrefState *state)
+cb_image_select (GtkWidget *cc, StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	char *filename, *uri, *old_uri;
 	GtkWidget *w;
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_IMAGE == style->fill.type);
 
-	filename = style->fill.image.filename;
-	old_uri = filename ? go_filename_to_uri (filename) : NULL;
-	uri = go_gtk_select_image (GTK_WINDOW (gtk_widget_get_toplevel (cc)),
-				   old_uri);
-	g_free (old_uri);
-	if (uri == NULL)
-		return;
-	filename = go_filename_from_uri (uri);
-	g_free (uri);
-	if (filename == NULL) {
-		g_warning ("Sorry -- cannot handle URIs here right now.");
-		return;
-	}
-/* FIXME FIXME FIXME Handle URIs here. */
-
-	gog_style_set_fill_image_filename (style, filename);
-
-	w = glade_xml_get_widget (state->gui, "fill_image_sample");
-	g_object_set_data (G_OBJECT (w), "filename",
-			   style->fill.image.filename);
+	w = go_image_sel_new (state->doc, NULL, &style->fill.image.image);
+	gtk_window_set_transient_for (GTK_WINDOW (w), GTK_WINDOW (gtk_widget_get_toplevel (cc)));
+	gtk_dialog_run (GTK_DIALOG (w));
 
 	gog_style_set_image_preview (style->fill.image.image, state);
 	set_style (state);
@@ -567,7 +551,7 @@ fill_image_init (StylePrefState *state)
 	w = glade_xml_get_widget (state->gui, "fill_image_select_picture");
 	g_signal_connect (G_OBJECT (w),
 		"clicked",
-		G_CALLBACK (cb_image_file_select), state);
+		G_CALLBACK (cb_image_select), state);
 
 	sample = glade_xml_get_widget (state->gui, "fill_image_sample");
 	gtk_widget_set_size_request (sample, HSCALE + 10, VSCALE + 10);
@@ -582,8 +566,6 @@ fill_image_init (StylePrefState *state)
 		state->fill.image.image = style->fill.image.image;
 		if (state->fill.image.image)
 			g_object_ref (state->fill.image.image);
-		g_object_set_data (G_OBJECT (sample), "filename",
-				   style->fill.image.filename);
 	} else
 		gtk_combo_box_set_active (GTK_COMBO_BOX (type), 0);
 	g_signal_connect (G_OBJECT (type),
@@ -670,7 +652,8 @@ fill_init (StylePrefState *state, gboolean enable, GogEditor *editor)
 	fill_color_init (state);
 	fill_pattern_init (state);
 	fill_gradient_init (state);
-	fill_image_init (state);
+	if (state->doc != NULL)
+		fill_image_init (state);
 	fill_update_selectors (state);
 
 	state->fill.notebook = glade_xml_get_widget (state->gui, "fill_notebook");
@@ -686,8 +669,11 @@ fill_init (StylePrefState *state, gboolean enable, GogEditor *editor)
 				type = FILL_TYPE_GRADIENT_BICOLOR;
 			break;
 		case GOG_FILL_STYLE_IMAGE:
-			type = FILL_TYPE_IMAGE;
-			break;
+			if (state->doc != NULL) {
+				type = FILL_TYPE_IMAGE;
+				break;
+			} else
+				state->style->fill.type = GOG_FILL_STYLE_NONE;
 		case GOG_FILL_STYLE_NONE:
 		default:
 			type = FILL_TYPE_NONE;
@@ -696,6 +682,8 @@ fill_init (StylePrefState *state, gboolean enable, GogEditor *editor)
 	fill_update_visibilies (type, state);
 
 	w = glade_xml_get_widget (state->gui, "fill_type_menu");
+	if (state->doc == NULL)
+		gtk_combo_box_remove_text (GTK_COMBO_BOX (w), FILL_TYPE_IMAGE);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), type);
 	g_signal_connect (G_OBJECT (w),
 		"changed",
@@ -762,6 +750,8 @@ cb_marker_size_changed (GtkAdjustment *adj, StylePrefState *state)
 	go_marker_set_size (state->style->marker.mark, adj->value);
 	set_style (state);
 }
+
+static void gog_style_pref_state_free (StylePrefState *state);
 
 static void
 marker_init (StylePrefState *state, gboolean enable, GogEditor *editor, GOCmdContext *cc)
@@ -840,6 +830,10 @@ marker_init (StylePrefState *state, gboolean enable, GogEditor *editor, GOCmdCon
 	w = glade_xml_get_widget (gui, "gog_style_marker_prefs");
 
 	gog_editor_add_page (editor, w, _("Markers"));
+	g_object_unref (gui);
+	if (state->gui == NULL)
+		g_object_set_data_full (G_OBJECT (w),
+			"state", state, (GDestroyNotify) gog_style_pref_state_free);
 }
 
 /************************************************************************/
@@ -958,7 +952,10 @@ gog_style_pref_state_free (StylePrefState *state)
 	}
 	g_object_unref (state->style);
 	g_object_unref (state->default_style);
-	g_object_unref (state->gui);
+	if (state->gui)
+		g_object_unref (state->gui);
+	if (state->doc)
+		g_object_unref (state->doc);
 	if (state->font_gui != NULL)
 		g_object_unref (state->font_gui);
 	if (state->fill.image.image != NULL)
@@ -978,35 +975,43 @@ gog_style_populate_editor (GogStyle *style,
 	GtkWidget *w;
 	GladeXML *gui;
 	StylePrefState *state;
+	GogGraph *graph;
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (default_style != NULL);
 
 	enable = style->interesting_fields;
 
-	gui = go_libglade_new ("gog-style-prefs.glade", "gog_style_prefs", GETTEXT_PACKAGE, cc);
-	if (gui == NULL)
-		return;
-
 	g_object_ref (style);
 	g_object_ref (default_style);
 
 	state = g_new0 (StylePrefState, 1);
-	state->gui = gui;
+	state->gui = NULL;
 	state->font_gui = NULL;
 	state->style = style;
 	state->default_style = default_style;
 	state->object_with_style = object_with_style;
 	state->enable_edit = FALSE;
 
-	w = glade_xml_get_widget (gui, "gog_style_prefs");
-	g_object_set_data_full (G_OBJECT (w),
-		"state", state, (GDestroyNotify) gog_style_pref_state_free);
-	gog_editor_add_page (editor, w, _("Style"));
+	graph = gog_object_get_graph (GOG_OBJECT (object_with_style));
+	g_object_get (graph, "document", &state->doc, NULL);
 
-	outline_init 	 (state, enable & GOG_STYLE_OUTLINE, editor);
-	line_init    	 (state, enable & GOG_STYLE_LINE, editor);
-	fill_init    	 (state, enable & GOG_STYLE_FILL, editor);
+	if ((enable & (GOG_STYLE_OUTLINE | GOG_STYLE_LINE | GOG_STYLE_FILL)) != 0) {
+		gui = go_libglade_new ("gog-style-prefs.glade", "gog_style_prefs", GETTEXT_PACKAGE, cc);
+		if (gui == NULL) {
+			g_free (state);
+			return;
+		}
+		state->gui = gui;
+		w = glade_xml_get_widget (gui, "gog_style_prefs");
+		g_object_set_data_full (G_OBJECT (w),
+			"state", state, (GDestroyNotify) gog_style_pref_state_free);
+		gog_editor_add_page (editor, w, _("Style"));
+
+		outline_init 	 (state, enable & GOG_STYLE_OUTLINE, editor);
+		line_init    	 (state, enable & GOG_STYLE_LINE, editor);
+		fill_init    	 (state, enable & GOG_STYLE_FILL, editor);
+	}
 	marker_init  	 (state, enable & GOG_STYLE_MARKER, editor, cc);
 	font_init    	 (state, enable & GOG_STYLE_FONT, editor, cc);
 	text_layout_init (state, enable & GOG_STYLE_TEXT_LAYOUT, editor, cc);
@@ -1084,7 +1089,6 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 	if (GOG_FILL_STYLE_IMAGE == dst->fill.type) {
 		if (dst->fill.image.image != NULL)
 			g_object_unref (dst->fill.image.image);
-		g_free (dst->fill.image.filename);
 	}
 
 	if (src->font.font != NULL)
@@ -1101,8 +1105,8 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 	dst->marker.mark = go_marker_dup (src->marker.mark);
 	dst->font    = src->font;
 
-	if (GOG_FILL_STYLE_IMAGE == dst->fill.type)
-		dst->fill.image.filename = g_strdup (dst->fill.image.filename);
+	if (GOG_FILL_STYLE_IMAGE == dst->fill.type && src->fill.image.image)
+		dst->fill.image.image = g_object_ref (src->fill.image.image);
 
 	dst->text_layout = src->text_layout;
 
@@ -2020,31 +2024,6 @@ gog_style_set_fill_brightness (GogStyle *style, float brightness)
 	style->fill.pattern.fore = (brightness < 50.)
 		? UINT_INTERPOLATE(style->fill.pattern.back, RGBA_WHITE, 1. - brightness / 50.)
 		: UINT_INTERPOLATE(style->fill.pattern.back, RGBA_BLACK, brightness / 50. - 1.);
-}
-
-/**
- * gog_style_set_fill_image_filename :
- * @style : #GogStyle
- * @filename :
- *
- * absorb the string and eventually free it.
- **/
-void
-gog_style_set_fill_image_filename (GogStyle *style, char *filename)
-{
-	g_return_if_fail (IS_GOG_STYLE (style));
-
-	if (style->fill.type == GOG_FILL_STYLE_IMAGE) {
-		if (style->fill.image.image != NULL)
-			g_object_unref (style->fill.image.image);
-		g_free (style->fill.image.filename);
-	} else {
-		style->fill.type = GOG_FILL_STYLE_IMAGE;
-		style->fill.image.type = GOG_IMAGE_CENTERED;
-	}
-
-	style->fill.image.filename = filename;
-	style->fill.image.image = go_image_new_from_file (filename, NULL);
 }
 
 /**

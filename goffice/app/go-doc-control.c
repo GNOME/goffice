@@ -35,6 +35,18 @@ go_doc_control_init (GODocControl *obj)
 {
 }
 
+GODoc *
+go_doc_control_get_doc (GODocControl *dc)
+{
+	return dc->doc;
+}
+
+void
+go_doc_control_set_doc (GODocControl *dc, GODoc *doc)
+{
+	dc->doc = doc;
+}
+
 GSF_CLASS (GODocControl, go_doc_control,
 	   go_doc_control_class_init, go_doc_control_init,
 	   G_TYPE_OBJECT)

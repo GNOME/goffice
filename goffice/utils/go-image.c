@@ -58,6 +58,9 @@ go_mime_to_image_format (char const *mime_type)
 		"image/x-emf", "emf",
 		"application/pdf", "pdf",
 		"application/postscript", "ps",
+#ifdef HAVE_CAIRO_PS_SURFACE_SET_EPS
+		"image/x-eps", "eps",
+#endif
 	};
 
 	for (i = 0; i < G_N_ELEMENTS (exceptions); i += 2)
@@ -90,6 +93,9 @@ go_image_format_to_mime (char const *format)
 		"emf", "image/x-emf",
 		"pdf", "application/pdf",
 		"ps", "application/postscript",
+#ifdef HAVE_CAIRO_PS_SURFACE_SET_EPS
+		"eps", "image/x-eps",
+#endif
 	};
 	
 	if (format == NULL)
@@ -132,12 +138,17 @@ static GOImageFormatInfo const image_format_infos[GO_IMAGE_FORMAT_UNKNOWN] = {
 		(char *) "pdf", FALSE, FALSE, TRUE},
 	{GO_IMAGE_FORMAT_PS,  (char *) "ps",   (char *) N_("PS (postscript)"), 		 
 		(char *) "ps",  FALSE, TRUE, TRUE},
-	{GO_IMAGE_FORMAT_EPS,  (char *) "ps",   (char *) N_("EPS (encapsulated postscript)"), 		 
-		(char *) "eps",  FALSE, TRUE, TRUE},
 	{GO_IMAGE_FORMAT_EMF, (char *) "emf",  (char *) N_("EMF (extended metafile)"),
 		(char *) "emf", FALSE, FALSE, TRUE},
 	{GO_IMAGE_FORMAT_WMF, (char *) "wmf",  (char *) N_("WMF (windows metafile)"), 
-		(char *) "wmf", FALSE, FALSE, TRUE}
+		(char *) "wmf", FALSE, FALSE, TRUE},
+#ifdef HAVE_CAIRO_PS_SURFACE_SET_EPS
+	{GO_IMAGE_FORMAT_EPS,  (char *) "eps",   (char *) N_("EPS (encapsulated postscript)"), 		 
+		(char *) "eps",  FALSE, TRUE, TRUE},
+#else
+	{GO_IMAGE_FORMAT_EPS,  (char *) "",   (char *) "", 		 
+		(char *) "",  FALSE, FALSE, FALSE},
+#endif
 };
 
 static void
@@ -288,10 +299,11 @@ struct _GOImage {
 	gboolean target_cairo;
 	cairo_t *cairo;
 #ifdef GOFFICE_WITH_GTK
-	GdkPixbuf *pixbuf;
+	GdkPixbuf *pixbuf, *thumbnail;
 #else
 	void *pixbuf;
 #endif
+	char *name;
 };
 
 enum {
@@ -378,6 +390,10 @@ go_image_set_property (GObject *obj, guint param_id,
 			image->height = gdk_pixbuf_get_height (pixbuf);
 			image->rowstride = gdk_pixbuf_get_rowstride (pixbuf);
 			image->target_cairo = FALSE;
+			if (image->thumbnail) {
+				g_object_unref (image->thumbnail);
+				image->thumbnail = NULL;
+			}
 		}
 		break;
 #endif
@@ -432,8 +448,13 @@ go_image_finalize (GObject *obj)
 {
 	GOImage *image = GO_IMAGE (obj);
 	g_free (image->data);
+#ifdef GOFFICE_WITH_GTK
 	if (image->pixbuf)
 		g_object_unref (image->pixbuf);
+	if (image->thumbnail)
+		g_object_unref (image->thumbnail);
+#endif
+	g_free (image->name);
 	(parent_klass->finalize) (obj);
 }
 
@@ -543,6 +564,29 @@ go_image_get_pixbuf (GOImage *image)
 	}
 	return image->pixbuf;
 }
+
+#define THUMBNAIL_SIZE 64
+GdkPixbuf *
+go_image_get_thumbnail (GOImage *image)
+{
+	g_return_val_if_fail (image != NULL, NULL);
+	if (!image->pixbuf)
+		return NULL; /* we might build the pixbuf if necessary */
+	if (!image->thumbnail) {
+		int w, h;
+		if (image->width <= THUMBNAIL_SIZE && image->height <= THUMBNAIL_SIZE)
+			return image->pixbuf;
+		if (image->width >= image->height) {
+			w = THUMBNAIL_SIZE;
+			h = THUMBNAIL_SIZE * image->height / image->width;
+		} else {
+			h = THUMBNAIL_SIZE;
+			w = THUMBNAIL_SIZE * image->width / image->height;
+		}
+		image->thumbnail = gdk_pixbuf_scale_simple (image->pixbuf, w, h, GDK_INTERP_HYPER);
+	}
+	return image->thumbnail;
+}
 #endif
 
 GOImage *
@@ -597,4 +641,50 @@ go_image_fill (GOImage *image, GOColor color)
 			*((guint32*) dst) = val;
 		dst += image->rowstride - image->width * 4;
 	}
+}
+
+void
+go_image_set_name (GOImage *image, char const *name)
+{
+	g_free (image->name);
+	image->name = (name)? g_strdup (name): NULL;
+}
+
+char const *
+go_image_get_name (GOImage *image)
+{
+	return image->name;
+}
+
+gboolean
+go_image_same_pixbuf (GOImage *first, GOImage *second)
+{
+#ifdef GOFFICE_WITH_GTK
+	void *pixels1, *pixels2;
+	int size;
+	g_return_val_if_fail (IS_GO_IMAGE (first), FALSE);
+	g_return_val_if_fail (IS_GO_IMAGE (second), FALSE);
+	if (!first->pixbuf || !second->pixbuf)
+		return FALSE;
+	if (gdk_pixbuf_get_n_channels (first->pixbuf) != gdk_pixbuf_get_n_channels (second->pixbuf))
+		return FALSE;
+	if (gdk_pixbuf_get_colorspace (first->pixbuf) != gdk_pixbuf_get_colorspace (second->pixbuf))
+		return FALSE;
+	if (gdk_pixbuf_get_bits_per_sample (first->pixbuf) != gdk_pixbuf_get_bits_per_sample (second->pixbuf))
+		return FALSE;
+	if (gdk_pixbuf_get_has_alpha (first->pixbuf) != gdk_pixbuf_get_has_alpha (second->pixbuf))
+		return FALSE;
+	if (gdk_pixbuf_get_width (first->pixbuf) != gdk_pixbuf_get_width (second->pixbuf))
+		return FALSE;
+	if (gdk_pixbuf_get_height (first->pixbuf) != gdk_pixbuf_get_height (second->pixbuf))
+		return FALSE;
+	if (gdk_pixbuf_get_rowstride (first->pixbuf) != gdk_pixbuf_get_rowstride (second->pixbuf))
+		return FALSE;
+	pixels1 = gdk_pixbuf_get_pixels (first->pixbuf);
+	pixels2 = gdk_pixbuf_get_pixels (second->pixbuf);
+	size = gdk_pixbuf_get_rowstride (first->pixbuf) * gdk_pixbuf_get_height (first->pixbuf);
+	return !memcmp (pixels1, pixels2, size);
+#else
+	return FALSE;
+#endif
 }

@@ -90,6 +90,10 @@ go_doc_finalize (GObject *obj)
 	g_free (doc->uri);
 	doc->uri = NULL;
 
+	if (doc->images)
+		g_hash_table_destroy (doc->images);
+	doc->images = NULL;
+
 	go_doc_parent_class->finalize (obj);
 }
 
@@ -278,4 +282,57 @@ go_doc_update_meta_data (GODoc *doc)
 
 	/* update linked properties and automatic content */
 	g_signal_emit (G_OBJECT (doc), signals [METADATA_UPDATE], 0);
+}
+
+char const *
+go_doc_choose_image (GODoc *doc, char const *cur_id)
+{
+	return NULL;
+}
+
+GOImage *
+go_doc_get_image (GODoc *doc, char const *id)
+{
+	return (doc->images != NULL)?
+		(GOImage *) g_hash_table_lookup (doc->images, id):
+		NULL;
+}
+
+GOImage *
+go_doc_add_image (GODoc *doc, char const *id, GOImage *image)
+{
+	GHashTableIter iter;
+	char const *key;
+	GOImage *img;
+	int i = 0;
+	char *new_id;
+
+	if (doc->images == NULL)
+		doc->images = g_hash_table_new_full (g_str_hash, g_str_equal,
+						     g_free, g_object_unref);
+	/* check if the image is already there */
+	g_hash_table_iter_init (&iter, doc->images);
+	while (g_hash_table_iter_next (&iter, (void**) &key, (void**) &img))
+		if (go_image_same_pixbuf (image, img))
+			return img;
+	/* now check if the id is not a duplicate */
+	if (g_hash_table_lookup (doc->images, id)) {
+		while (1) {
+			new_id = g_strdup_printf ("%s(%d)", id, i++);
+			if (g_hash_table_lookup (doc->images, new_id))
+				g_free (new_id);
+			else
+				break;
+		}
+	} else
+		new_id = g_strdup (id);
+	go_image_set_name (image, new_id),
+	g_hash_table_insert (doc->images, new_id, g_object_ref (image));
+	return image;
+}
+
+GHashTable *
+go_doc_get_images (GODoc *doc) {
+	g_return_val_if_fail (doc, NULL);
+	return doc->images;
 }

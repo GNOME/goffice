@@ -38,6 +38,9 @@ typedef enum {
 
 GType go_doc_control_get_type (void);
 
+GODoc *go_doc_control_get_doc (GODocControl *dc);
+void   go_doc_control_set_doc (GODocControl *dc, GODoc *doc);
+
 G_END_DECLS
 
 #endif /* GO_DOC_CONTROL_H */

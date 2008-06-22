@@ -1,3 +1,36 @@
+2008-06-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-doc-control-impl.h: add a GODoc member.
+	* goffice/app/go-doc-control.c: (go_doc_control_get_doc),
+	(go_doc_control_set_doc): ditto.
+	* goffice/app/go-doc-control.h: ditto.
+	* goffice/app/go-doc-impl.h: ad an images hash table.
+	* goffice/app/go-doc.c: (go_doc_finalize), (go_doc_choose_image),
+	(go_doc_get_image), (go_doc_add_image), (go_doc_get_images):
+	* goffice/app/go-doc.h: ditto.
+	* goffice/graph/gog-graph-impl.h: ad a GODoc member.
+	* goffice/graph/gog-graph.c: (gog_graph_set_property),
+	(gog_graph_get_property), (gog_graph_class_init), (gog_graph_dup): ditto.
+	* goffice/graph/gog-guru.c: (gog_guru): ditto.
+	* goffice/graph/gog-style.c: (cb_image_select), (fill_image_init),
+	(fill_init), (marker_init), (gog_style_pref_state_free),
+	(gog_style_populate_editor), (gog_style_assign): remove image filename
+	after pushing images to the GODoc level, and don't show the Style page
+	when empty.
+	* goffice/graph/gog-style.h: ditto.
+	* goffice/gtk/Makefile.am: add an image selector.
+	* goffice/gtk/go-image-sel.c: ditto.
+	* goffice/gtk/go-image-sel.h: ditto.
+	* goffice/gtk/go-image-sel.glade: ditto.
+	* goffice/utils/go-image.c: (go_mime_to_image_format),
+	(go_image_format_to_mime), (go_image_set_property),
+	(go_image_finalize), (go_image_get_thumbnail), (go_image_set_name),
+	(go_image_get_name), (go_image_same_pixbuf): add support for images in
+	GODoc.
+	* goffice/utils/go-image.h: ditto.
+	* plugins/plot_xy/gog-xy.c: (gog_xy_series_element_init_style): add
+	the MARKER_NO_COLOR flag for colored XY plots.
+
 2008-06-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-1.5d.c: add singleton formatting support to
