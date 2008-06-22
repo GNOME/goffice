@@ -554,7 +554,7 @@ gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 	}
 }
 
-#define BUBBLE_MAX_RADIUS_RATIO 12.
+#define BUBBLE_MAX_RADIUS_RATIO 12.	/* 4 * MAX(bubble-scale) */
 static void
 gog_bubble_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max)
 {
