@@ -39,6 +39,11 @@ A collection of charts
 @goggraph: the object which received the signal.
 @arg1: 
 
+<!-- ##### ARG GogGraph:document ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG GogGraph:height-pts ##### -->
 <para>
 

@@ -80,16 +80,6 @@ Base class for plots
 @Returns: 
 
 
-<!-- ##### FUNCTION gog_plot_make_similar ##### -->
-<para>
-
-</para>
-
-@dst: 
-@src: 
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_plot_request_cardinality_update ##### -->
 <para>
 

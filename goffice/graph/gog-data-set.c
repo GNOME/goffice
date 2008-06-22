@@ -143,8 +143,12 @@ cb_dataset_dim_changed (GOData *data, GogDatasetElement *elem)
 
 /**
  * gog_dataset_set_dim_internal :
+ * @set : #GogDataset
+ * @dim_i : the index
+ * @val : #GOData
+ * @graph : #GogGraph
  * 
- * and internal routine to handle signal setup and teardown
+ * an internal routine to handle signal setup and teardown
  **/
 void
 gog_dataset_set_dim_internal (GogDataset *set, int dim_i,

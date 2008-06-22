@@ -828,10 +828,10 @@ gog_series_has_legend (GogSeries const *series)
 /**
  * gog_series_set_index :
  * @series: #GogSeries
- * @ind:
- * @is_manual:
+ * @ind: >= 0 assigns a new index, < 0 resets to auto
+ * @is_manual: gboolean
  *
- * If @index >= 0 attempt to assign the new index.  Auto
+ * If @ind >= 0 attempt to assign the new index.  Auto
  * indicies (@is_manual == FALSE) will not override the current
  * index if it is manual.  An @index < 0, will reset the index to
  * automatic and potentially queue a revaluation of the parent
@@ -893,7 +893,7 @@ gog_series_set_name (GogSeries *series, GODataScalar *name_src, GError **err)
 /**
  * gog_series_set_dim :
  * @series : #GogSeries
- * @dim_i :
+ * @dim_i : Which dimension
  * @val   : #GOData
  * @err : optional #Gerror pointer
  *

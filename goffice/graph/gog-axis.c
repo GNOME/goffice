@@ -830,7 +830,7 @@ gog_axis_map_new (GogAxis *axis, double offset, double length)
 /**
  * gog_axis_map :
  * @map : a #GogAxisMap
- * value : value to map to plot space.
+ * @value : value to map to plot space.
  * 
  * Converts @value to plot coordinates. A value in [0,1.0] range means a data 
  * within axis bounds.
@@ -901,11 +901,10 @@ gog_axis_map_finite (GogAxisMap *map, double value)
  * gog_axis_map_get_baseline :
  * @map : a #GogAxisMap
  *
- * Gets the baseline for @map, in view coordinates,
- * clipped to offset and offset+length, where offset and length
- * are the parameters of gog_axis_map_new.
+ * Returns: the baseline for @map, in view coordinates,
+ * 	clipped to offset and offset+length, where offset and length
+ * 	are the parameters of gog_axis_map_new.
  **/
-
 double
 gog_axis_map_get_baseline (GogAxisMap *map)
 {
@@ -958,9 +957,8 @@ gog_axis_map_get_bounds (GogAxisMap *map, double *minimum, double *maximum)
  * gog_axis_map_is_inverted:
  * @map: a #GogAxisMap
  *
- * Accessor to the axis is_inverted property.
+ * Returns: %TRUE is the axis is inverted;
  **/
-
 gboolean
 gog_axis_map_is_inverted (GogAxisMap *map)
 {
@@ -1939,10 +1937,10 @@ gog_axis_is_inverted (GogAxis const *axis)
 /**
  * gog_axis_get_bounds :
  * @axis : #GogAxis
- * @minima : result
- * @maxima : result
+ * @minima : non-NULL storage for result
+ * @maxima : non-NULL storage for result
  *
- * return TRUE if the bounds stored in @minima and @maxima are sane
+ * Returns: %TRUE if the bounds stored in @minima and @maxima are sane
  **/
 gboolean
 gog_axis_get_bounds (GogAxis const *axis, double *minima, double *maxima)

@@ -97,7 +97,7 @@ GSF_CLASS_ABSTRACT (GOData, go_data,
  * go_data_dup : 
  * @src : #GOData
  *
- * A deep copy of @src.
+ * Returns: A deep copy of @src.
  **/
 GOData *
 go_data_dup (GOData const *src)
@@ -158,10 +158,10 @@ go_data_preferred_fmt (GOData const *dat)
  * go_data_as_str :
  * @dat : #GOData
  *
- * Return a string representation of the data source that the caller is
- * responsible for freeing
- *
  * NOTE : This is the _source_ not the content.
+ *
+ * Returns: a string representation of the data source that the caller is
+ * 	responsible for freeing
  **/
 char *
 go_data_as_str (GOData const *dat)
@@ -174,11 +174,11 @@ go_data_as_str (GOData const *dat)
 /**
  * go_data_from_str :
  * @dat : #GOData
- * @str :
+ * @str : string to parse
  *
  * De-serializes the source information returned from go_data_as_str.
  *
- * Returns: FALSE on error.
+ * Returns: %FALSE on error.
  **/
 gboolean
 go_data_from_str (GOData *dat, char const *str)

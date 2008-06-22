@@ -310,14 +310,14 @@ go_combo_text_get_entry (GoComboText *ct)
 
 /**
  * go_combo_text_set_text :
- * @ct :
+ * @ct : #GoComboText
  * @text : the label for the new item
  * @start : where to begin the search in the list.
  *
- * return TRUE if the item is found in the list.
+ * Returns: %TRUE if the item is found in the list.
  */
 gboolean
-go_combo_text_set_text (GoComboText *ct, const gchar *text,
+go_combo_text_set_text (GoComboText *ct, gchar const *text,
 			GoComboTextSearch start)
 {
 	gboolean found = FALSE, result;

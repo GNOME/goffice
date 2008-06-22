@@ -41,11 +41,12 @@ go_undo_undo (GOUndo *u)
  * @a: optional first undo operation
  * @b: optional last undo operation
  *
- * Combines two undo operations and returns the combination.  This function
- * takes ownership of the argument references and gives ownership of the
- * result to the caller.  Either argument may be NULL in which case the
+ * This function takes ownership of the argument references and gives ownership
+ * of the result to the caller.  Either argument may be NULL in which case the
  * other is returned.
- */
+ *
+ * Returns: the combination of two undo operations.
+ **/
 GOUndo *
 go_undo_combine (GOUndo *a, GOUndo *b)
 {

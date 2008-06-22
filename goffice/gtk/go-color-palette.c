@@ -388,30 +388,32 @@ go_color_palette_set_title (GOColorPalette *pal, char const *title)
 
 /**
  * go_color_palette_set_group :
+ * @p : #GOColorPalette
  * @cg : #GOColorGroup
  *
- * Absorb the reference to the group
- */
+ * Absorbs the reference to the group
+ **/
 void
-go_color_palette_set_group (GOColorPalette *pal, GOColorGroup *cg)
+go_color_palette_set_group (GOColorPalette *p, GOColorGroup *cg)
 {
-	if (pal->group == cg)
+	if (p->group == cg)
 		return;
 
-	if (pal->group) {
+	if (p->group) {
 		g_signal_handlers_disconnect_by_func (
-			G_OBJECT (pal->group),
-			G_CALLBACK (cb_history_changed), pal);
-		g_object_unref (G_OBJECT (pal->group));
-		pal->group = NULL;
+			G_OBJECT (p->group),
+			G_CALLBACK (cb_history_changed), p);
+		g_object_unref (G_OBJECT (p->group));
+		p->group = NULL;
 	}
 	if (cg != NULL) {
-		pal->group = cg;
+		p->group = cg;
 		g_signal_connect_swapped (G_OBJECT (cg),
 			"history-changed",
-			G_CALLBACK (cb_history_changed), pal);
+			G_CALLBACK (cb_history_changed), p);
 	}
 }
+
 static GtkWidget *
 go_color_palette_setup (GOColorPalette *pal,
 		     char const *no_color_label,
@@ -496,10 +498,18 @@ go_color_palette_set_allow_alpha (GOColorPalette *pal, gboolean allow_alpha)
 	pal->allow_alpha = allow_alpha;
 }
 
+/**
+ * go_color_palette_new:
+ * @no_color_label: color label
+ * @default_color: #GOColor
+ * @cg: #GOColorGroup
+ *
+ * Returns: A new palette
+ **/
 GtkWidget *
 go_color_palette_new (char const *no_color_label,
-		   GOColor default_color,
-		   GOColorGroup *cg)
+		      GOColor default_color,
+		      GOColorGroup *cg)
 {
 	GOColorPalette *pal;
 	int const cols = 8;
@@ -632,13 +642,13 @@ cb_menu_custom_activate (GtkWidget *button, GOMenuColor *menu)
 /**
  * go_color_palette_make_menu:
  * @no_color_label: color label
- * default_color: #GOColor
- * @color_group: #GOColorGroup
- * @custom_dialog_title :
+ * @default_color: #GOColor
+ * @cg: #GOColorGroup
+ * @custom_dialog_title : optional string
  * @current_color : #GOColor
  *
- * Create a submenu with a palette of colours.  Caller is responsible for
- * creating an item to point to the submenu.
+ * Returns:  a submenu with a palette of colours.  Caller is responsible for
+ * 	creating an item to point to the submenu.
  **/
 GtkWidget *
 go_color_palette_make_menu (char const *no_color_label,

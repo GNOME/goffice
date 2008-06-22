@@ -429,7 +429,7 @@ go_action_combo_stack_push (GOActionComboStack *a,
 /**
  * go_action_combo_stack_pop :
  * @act : #GOActionComboStack
- * @n :
+ * @n : count
  *
  * Shorten list @act by removing @n off the top (or fewer if the list is
  * shorter)
@@ -453,7 +453,7 @@ go_action_combo_stack_pop (GOActionComboStack *a, unsigned n)
 /**
  * go_action_combo_stack_truncate :
  * @act : #GOActionComboStack
- * @n : 
+ * @n : maximum length
  *
  * Ensure that list @act is no longer than @n, dropping any extra off the
  * bottom.

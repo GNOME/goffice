@@ -158,7 +158,9 @@ go_locale_get_thousand (void)
  *
  * Play with the default logic so that things come out nicely for the default
  * case.
- */
+ *
+ * Returns: A string with the default currency
+ **/
 GString const *
 go_locale_get_currency (gboolean *precedes, gboolean *space_sep)
 {

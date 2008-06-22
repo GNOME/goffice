@@ -48,15 +48,13 @@
 
 /**
  * go_gtk_button_new_with_stock
+ * @text : button label
+ * @stock_id : id for stock icon
  *
- * Code from gedit
- *
+ * FROM : gedit
  * Creates a new GtkButton with custom label and stock image.
  *
- * text : button label
- * stock_id : id for stock icon
- *
- * return : newly created button
+ * Returns: newly created button
  **/
 GtkWidget*
 go_gtk_button_new_with_stock (char const *text, char const* stock_id)
@@ -76,13 +74,13 @@ go_gtk_button_new_with_stock (char const *text, char const* stock_id)
  * @stock_id: stock icon id
  * @response_id: respond id when button clicked
  *
+ * FROM : gedit
  * Creates and adds a button with stock image to the action area of an existing dialog.
- * Code from gedit
  * 
- * return : newly created button
+ * Returns: newly created button
  **/
 GtkWidget*
-go_gtk_dialog_add_button (GtkDialog *dialog, const gchar* text, const gchar* stock_id,
+go_gtk_dialog_add_button (GtkDialog *dialog, char const* text, char const* stock_id,
 			  gint response_id)
 {
 	GtkWidget *button;
@@ -106,11 +104,13 @@ go_gtk_dialog_add_button (GtkDialog *dialog, const gchar* text, const gchar* sto
 /**
  * go_glade_new :
  * @gcc : #GOCmdContext
- * @gladefile :
+ * @gladefile : the name of the file load
  *
  * Simple utility to open glade files
  *
  * 0.4.3 : renamed from go_libglade_new
+ *
+ * Returns: a new #GladeXML or NULL
  **/
 GladeXML *
 go_glade_new (char const *gladefile, char const *root,
@@ -140,12 +140,14 @@ go_glade_new (char const *gladefile, char const *root,
 /**
  * go_glade_signal_connect :
  * @gui : #GladeXML
- * @instance_name :
- * @detailed_signal :
+ * @instance_name : widget name
+ * @detailed_signal : signal name
  * @c_handle : #GCallback
- * @data :
+ * @data : arbitrary
  *
  * Convenience wrapper around g_signal_connect for glade.
+ *
+ * Returns: The signal id
  **/
 gulong
 go_glade_signal_connect	(GladeXML	*gui,
@@ -164,12 +166,14 @@ go_glade_signal_connect	(GladeXML	*gui,
 /**
  * go_glade_signal_connect :
  * @gui : #GladeXML
- * @instance_name :
- * @detailed_signal :
+ * @instance_name : widget name
+ * @detailed_signal : signal name
  * @c_handle : #GCallback
- * @data :
+ * @data : arbitary
  *
  * Convenience wrapper around g_signal_connect_swapped for glade.
+ *
+ * Returns: The signal id
  **/
 gulong
 go_glade_signal_connect_swapped (GladeXML	*gui,
@@ -185,7 +189,6 @@ go_glade_signal_connect_swapped (GladeXML	*gui,
 	return g_signal_connect_swapped (w, detailed_signal, c_handler, data);
 }
 
-
 /*
  * A variant of gtk_window_activate_default that does not end up reactivating
  * the widget that [Enter] was pressed in.
@@ -199,8 +202,8 @@ cb_activate_default (GtkWindow *window)
 
 /**
  * go_gtk_editable_enters:
- * @window:
- * @w: 
+ * @window: #GtkWindow
+ * @w:  #GtkWidget
  *
  * Normally if there's an editable widget (such as #GtkEntry) in your
  * dialog, pressing Enter will activate the editable rather than the
@@ -217,6 +220,12 @@ go_gtk_editable_enters (GtkWindow *window, GtkWidget *w)
 		G_CALLBACK (cb_activate_default), window);
 }
 
+/**
+ * go_gtk_widget_disable_focus :
+ * @w : #GtkWidget
+ *
+ * Convenience wrapper to disable focus on a container and it's children.
+ **/
 void
 go_gtk_widget_disable_focus (GtkWidget *w)
 {
@@ -226,8 +235,18 @@ go_gtk_widget_disable_focus (GtkWidget *w)
 	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
 }
 
+/**
+ * go_pango_measure_string :
+ * @context : #PangoContext
+ * @font_desc : #PangoFontDescription
+ * @str : The text to measure.
+ *
+ * A utility function to measure text.
+ *
+ * Returns: the pixel length of @str according to @context.
+ **/
 int
-go_pango_measure_string (PangoContext *context, const PangoFontDescription *font_desc, const char *str)
+go_pango_measure_string (PangoContext *context, PangoFontDescription const *font_desc, char const *str)
 {
 	PangoLayout *layout = pango_layout_new (context);
 	int width;
@@ -260,7 +279,7 @@ cb_parent_mapped (GtkWidget *parent, GtkWindow *window)
  * one.  The function duplicates the positioning functionality in
  * gnome_dialog_set_parent, but does not require the transient window to be
  * a GnomeDialog.
- */
+ **/
 void
 go_gtk_window_set_transient (GtkWindow *toplevel, GtkWindow *window)
 {
@@ -296,6 +315,14 @@ cb_non_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
 	return FALSE;
 }
 
+/**
+ * go_gtk_nonmodal_dialog :
+ * @toplevel : #GtkWindow
+ * @dialog : #GtkWindow
+ *
+ * Utility to set @dialog as a transient of @toplevel
+ * and to set up a handler for <ESC>
+ **/
 void
 go_gtk_nonmodal_dialog (GtkWindow *toplevel, GtkWindow *dialog)
 {
@@ -331,6 +358,15 @@ gu_delete_handler (GtkDialog *dialog,
 	return TRUE; /* Do not destroy */
 }
 
+/**
+ * go_gtk_file_sel_dialog :
+ * @toplevel : #GtkWindow
+ * @w : #GtkWidget
+ *
+ * Runs a modal dialog to select a file.
+ *
+ * Returns: %TRUE if a file was selected.
+ **/
 gboolean
 go_gtk_file_sel_dialog (GtkWindow *toplevel, GtkWidget *w)
 {
@@ -367,7 +403,7 @@ filter_images (const GtkFileFilterInfo *filter_info, gpointer data)
 
 	if (filter_info->display_name) {
 		GSList *l;
-		const char *ext = strrchr (filter_info->display_name, '.');
+		char const *ext = strrchr (filter_info->display_name, '.');
 		if (!ext) return FALSE;
 		ext++;
 
@@ -511,9 +547,9 @@ gui_image_chooser_new (gboolean is_save)
 }
 
 char *
-go_gtk_select_image (GtkWindow *toplevel, const char *initial)
+go_gtk_select_image (GtkWindow *toplevel, char const *initial)
 {
-	const char *key = "go_gtk_select_image";
+	char const *key = "go_gtk_select_image";
 	char *uri = NULL;
 	GtkFileChooser *fsel;
 
@@ -589,7 +625,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 	GtkWidget *resolution_table;
 	GladeXML *gui;
 	SaveInfoState *state;
-	const char *key = "go_gui_get_image_save_info";
+	char const *key = "go_gui_get_image_save_info";
 	char *uri = NULL;
 
 	state = g_object_get_data (G_OBJECT (toplevel), key);
@@ -841,7 +877,7 @@ go_gtk_help_button_init (GtkWidget *w, char const *data_dir, char const *app, ch
  * go_gtk_url_is_writeable:
  * @parent : #GtkWindow
  * @uri : the uri to test.
- * @overwrite_by_default :
+ * @overwrite_by_default : gboolean
  *
  * Check if it makes sense to try saving.
  * If it's an existing file and writable for us, ask if we want to overwrite.
@@ -850,6 +886,8 @@ go_gtk_help_button_init (GtkWidget *w, char const *data_dir, char const *app, ch
  *
  * FIXME: The message boxes should really be children of the file selector,
  * not the workbook.
+ *
+ * Returns: %TRUE if @url is writable
  **/
 gboolean
 go_gtk_url_is_writeable (GtkWindow *parent, char const *uri,
@@ -902,9 +940,13 @@ go_gtk_url_is_writeable (GtkWindow *parent, char const *uri,
 
 /**
  * go_gtk_dialog_run
+ * @dialog : #GtkDialog
+ * @parent : #GtkWindow
  *
  * Pop up a dialog as child of a window.
- */
+ *
+ * Returns: result ID.
+ **/
 gint
 go_gtk_dialog_run (GtkDialog *dialog, GtkWindow *parent)
 {
@@ -941,7 +983,7 @@ go_gtk_dialog_run (GtkDialog *dialog, GtkWindow *parent)
  */
 void
 go_gtk_notice_dialog (GtkWindow *parent, GtkMessageType type,
-		      const gchar *format, ...)
+		      char const *format, ...)
 {
 	va_list args;
 	gchar *msg;
@@ -957,7 +999,7 @@ go_gtk_notice_dialog (GtkWindow *parent, GtkMessageType type,
 
 void
 go_gtk_notice_nonmodal_dialog (GtkWindow *parent, GtkWidget **ref,
-			       GtkMessageType type, const gchar *format, ...)
+			       GtkMessageType type, char const *format, ...)
 {
 	va_list args;
 	gchar *msg;
@@ -983,7 +1025,7 @@ go_gtk_notice_nonmodal_dialog (GtkWindow *parent, GtkWidget **ref,
 
 gboolean
 go_gtk_query_yes_no (GtkWindow *parent, gboolean default_answer,
-		     const gchar *format, ...)
+		     char const *format, ...)
 {
 	va_list args;
 	gchar *msg;
@@ -1027,7 +1069,7 @@ get_tooltips (GObject *obj)
 #endif
 
 void
-go_widget_set_tooltip_text (GtkWidget *widget, const gchar *tip)
+go_widget_set_tooltip_text (GtkWidget *widget, char const *tip)
 {
 #ifdef HAVE_GTK_WIDGET_SET_TOOLTIP_TEXT
 	gtk_widget_set_tooltip_text (widget, tip);
@@ -1038,7 +1080,7 @@ go_widget_set_tooltip_text (GtkWidget *widget, const gchar *tip)
 }
 
 void
-go_tool_item_set_tooltip_text (GtkToolItem *item, const gchar *tip)
+go_tool_item_set_tooltip_text (GtkToolItem *item, char const *tip)
 {
 #ifdef HAVE_GTK_TOOL_ITEM_SET_TOOLTIP_TEXT
 	gtk_tool_item_set_tooltip_text (item, tip);
@@ -1054,9 +1096,9 @@ go_tool_item_set_tooltip_text (GtkToolItem *item, const gchar *tip)
 static gint
 gtk_dialog_get_response_for_widget (GtkDialog *dialog, GtkWidget *widget)
 {
-	const struct {
+	struct {
 		gint response_id;
-	} *rd = g_object_get_data (G_OBJECT (widget),
+	} const *rd = g_object_get_data (G_OBJECT (widget),
 				   "gtk-dialog-response-data");
 	if (!rd)
 		return GTK_RESPONSE_NONE;
@@ -1068,7 +1110,7 @@ gtk_dialog_get_response_for_widget (GtkDialog *dialog, GtkWidget *widget)
 
 /**
  * go_dialog_guess_alternative_button_order:
- * @dialog :
+ * @dialog : #GtkDialog
  *
  * This function inspects the buttons in the dialog and comes up
  * with a reasonable alternative dialog order.
@@ -1141,15 +1183,14 @@ go_dialog_guess_alternative_button_order (GtkDialog *dialog)
 /**
  * go_menu_position_below:
  * @menu: a #GtkMenu
- * @x:
- * @y:
- * @push_in:
- * @user_data:
+ * @x: non-NULL storage for the X coordinate of the menu
+ * @y: non-NULL storage for the Y coordinate of the menu
+ * @push_in: non-NULL storage for the push-in distance
+ * @user_data: arbitrary
  *
  * Implementation of a GtkMenuPositionFunc that positions
  * the child window under the parent one, for use with gtk_menu_popup.
  **/
-
 void
 go_menu_position_below (GtkMenu  *menu,
 			gint     *x,

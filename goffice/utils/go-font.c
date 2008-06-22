@@ -47,7 +47,8 @@ go_font_free (GOFont *font)
  * go_font_new_by_desc:
  * @desc : #PangoFontDescription
  *
- * Aborbs @desc and returns a ref to a font that matches it.
+ * NOTE : Absorbs @desc.
+ * Returns: a ref to a font that matches @desc.
  **/
 GOFont const *
 go_font_new_by_desc (PangoFontDescription *desc)

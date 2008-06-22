@@ -495,8 +495,8 @@ GSF_CLASS_FULL (GogErrorBar, gog_error_bar,
  * -> negative_error in @min.
  * If one of the errors is not valid or not defined, its value is set to -1.0.
  *
- * Return value : FALSE if the @bar->type is GOG_ERROR_BAR_TYPE_NONE or if the value is not valid,
- * TRUE otherwise.
+ * Returns: %FALSE if the @bar->type is %GOG_ERROR_BAR_TYPE_NONE or if the value is not valid,
+ * 	%TRUE otherwise.
  **/
 gboolean
 gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double *max)

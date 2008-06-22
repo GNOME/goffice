@@ -410,11 +410,11 @@ map_area_series_solid_guppi (GogStyle *style, unsigned ind)
 /**
  * gog_theme_registry_add:
  * @theme: a #GogTheme
+ * @is_default : bool
  *
  * Keep a pointer to @theme in graph theme registry. 
  * This function does not add a reference to @theme.
  **/ 
-
 void
 gog_theme_registry_add (GogTheme *theme, gboolean is_default)
 {
@@ -437,9 +437,8 @@ gog_theme_registry_add (GogTheme *theme, gboolean is_default)
  * gog_theme_registry_lookup:
  * @name: a theme name
  *
- * Retrieves a #GogTheme from theme registry. 
+ * Returns: a #GogTheme from theme registry. 
  **/ 
-
 GogTheme *
 gog_theme_registry_lookup (char const *name)
 {

@@ -362,6 +362,10 @@ go_graph_widget_init (GOGraphWidget *w)
 
 /**
  * go_graph_widget_set_size_mode :
+ * @widget : #GOGraphWidget
+ * @size_mode : #GOGraphWidgetSizeMode
+ * @width : in pixels
+ * @height : in pixels
  *
  * Sets the size mode of the #GOGraphWidget.
  * It is used to determine the size and position of the drawn
@@ -389,7 +393,7 @@ go_graph_widget_init (GOGraphWidget *w)
  * GO_GRAPH_WIDGET_SIZE_MODE_FIT_FIXED_SIZE, no aspect ratio set.
  * The graph will occupy the area specified by width/height,
  * its aspect ratio will be determined by height/width.
- */
+ **/
 void
 go_graph_widget_set_size_mode (GOGraphWidget         *widget,
 			       GOGraphWidgetSizeMode  size_mode,
@@ -413,6 +417,7 @@ go_graph_widget_set_size_mode (GOGraphWidget         *widget,
 
 /**
  * go_graph_widget_new :
+ * @graph : #GogGraph
  * 
  * Creates a new #GOGraphWidget with an embedded #GogGraph.
  * If graph is NULL, the graph will be auto-created, and a

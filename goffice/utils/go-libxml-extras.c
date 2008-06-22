@@ -23,13 +23,15 @@
 
 /**
  * go_xml_parse_file :
- * @filename:
+ * @filename: the locale path to a file to parse.
  *
  * Like xmlParseFile, but faster.  Does not accept compressed files.
  * See http://bugzilla.gnome.org/show_bug.cgi?id=168414
  *
  * Note: this reads the entire file into memory and should therefore
  * not be used for user-supplied files.
+ *
+ * Returns: A libxml2 xmlDocPtr or %NULL.
  **/
 xmlDocPtr
 go_xml_parse_file (char const *filename)

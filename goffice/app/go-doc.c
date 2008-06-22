@@ -220,12 +220,12 @@ go_doc_is_dirty (GODoc const *doc)
 
 /**
  * go_doc_is_pristine:
- * @doc:
+ * @doc: #GODoc
  *
- *   This checks to see if the doc has ever been
+ * This checks to see if the doc has ever been
  * used ( approximately )
  *
- * Return value: TRUE if we can discard this doc.
+ * Return value: %TRUE if we can discard this doc.
  **/
 gboolean
 go_doc_is_pristine (GODoc const *doc)
@@ -334,7 +334,7 @@ go_doc_get_images (GODoc *doc) {
 static void
 init_func (gpointer key, gpointer value, gpointer data)
 {
-	go_image_init_save ((GOImage*) value);
+	//go_image_init_save ((GOImage*) value);
 }
 
 void

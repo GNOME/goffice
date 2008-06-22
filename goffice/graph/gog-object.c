@@ -46,11 +46,10 @@
 /**
  * gog_editor_new:
  *
- * Creates a new GogEditor object, which is used to store a 
- * collection of property edition widgets (pages). The returned 
- * object must be freed using @gog_editor_free.
+ * Returns: a new GogEditor object, which is used to store a collection of
+ * 	property edition widgets (pages). The returned object must be freed
+ * 	using @gog_editor_free.
  **/
-
 GogEditor *
 gog_editor_new (void)
 {
@@ -165,9 +164,8 @@ cb_switch_page (G_GNUC_UNUSED GtkNotebook *n, G_GNUC_UNUSED GtkNotebookPage *p,
  * gog_editor_get_notebook:
  * @editor: a #GogEditor
  *
- * Buils a GtkNotebook from the widget collection stored in @editor.
+ * Returns: a GtkNotebook from the widget collection stored in @editor.
  **/
-
 GtkWidget *
 gog_editor_get_notebook (GogEditor *editor)
 {
@@ -1098,6 +1096,8 @@ gog_object_get_theme (GogObject const *obj)
  * @obj : a #GogObject
  *
  * No need to free the result
+ *
+ * Returns: a name.
  **/
 char const *
 gog_object_get_name (GogObject const *obj)
@@ -1109,7 +1109,7 @@ gog_object_get_name (GogObject const *obj)
 /**
  * gog_object_set_name :
  * @obj : #GogObject
- * @name :
+ * @name : The new name for @obj
  * @err : #GError
  *
  * Assign the new name and signals that it has changed.
@@ -1141,7 +1141,8 @@ gog_object_set_name (GogObject *obj, char *name, GError **err)
  * @obj : a #GogObject
  * @filter : an optional #GogObjectRole to use as a filter
  *
- * The list needs to be Freed
+ * Returns: A list of @obj's Children.  Caller must free the list, but not the
+ * 		children.
  **/
 GSList *
 gog_object_get_children (GogObject const *obj, GogObjectRole const *filter)
@@ -1549,6 +1550,8 @@ gog_object_request_editor_update (GogObject *obj)
  *
  * Does _not_ unref the child, which in effect adds a ref by freeing up the ref
  * previously associated with the parent.
+ *
+ * Returns: %TRUE on success.
  **/
 gboolean
 gog_object_clear_parent (GogObject *obj)
@@ -1588,6 +1591,8 @@ gog_object_clear_parent (GogObject *obj)
  * @role: a static string that can be sent to @parent::add
  *
  * Absorbs a ref to @child
+ *
+ * Returns: %TRUE on success
  **/
 gboolean
 gog_object_set_parent (GogObject *child, GogObject *parent,
@@ -1709,8 +1714,8 @@ gog_object_set_invisible (GogObject *obj, gboolean invisible)
  * @obj : #GogObject
  * @mask : #GogObjectPosition
  *
- * Retrieve position flags of GogObject @obj, masked by @mask.
- */
+ * Returns: @obj's position flags, masked by @mask.
+ **/
 GogObjectPosition
 gog_object_get_position_flags (GogObject const *obj, GogObjectPosition mask)
 {

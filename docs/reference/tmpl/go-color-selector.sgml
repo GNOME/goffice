@@ -43,7 +43,7 @@ GoColorSelector
 
 @no_color_label: 
 @default_color: 
-@color_group: 
+@cg: 
 @custom_dialog_title: 
 @current_color: 
 @Returns: 
@@ -56,7 +56,7 @@ GoColorSelector
 
 @no_color_label: 
 @default_color: 
-@color_group: 
+@cg: 
 @Returns: 
 
 

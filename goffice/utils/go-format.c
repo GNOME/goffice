@@ -3836,11 +3836,10 @@ go_format_parse_markup (char *str)
 #ifdef DEFINE_COMMON
 /**
  * go_format_new_from_XL :
+ * @str: XL descriptor in UTF-8 encoding.
  *
- * Looks up and potentially creates a GOFormat from the supplied string in
- * XL format.
- *
- * @descriptor_string: XL descriptor in UTF-8 encoding.
+ * Returns: Looks up and potentially creates a GOFormat from the supplied
+ * 	string in XL format.
  **/
 GOFormat *
 go_format_new_from_XL (char const *str)
@@ -3885,11 +3884,13 @@ go_format_new_from_XL (char const *str)
 /**
  * go_format_new_markup :
  * @markup : #PangoAttrList
- * @add_ref :
+ * @add_ref : boolean
  *
- * Create a MARKUP format.  If @add_ref is FALSE absorb the reference to
- * @markup, otherwise add a reference.
- */
+ * If @add_ref is FALSE absorb the reference to @markup, otherwise add a
+ * reference.
+ *
+ * Returns: A new format.
+ **/
 GOFormat *
 go_format_new_markup (PangoAttrList *markup, gboolean add_ref)
 {
@@ -3944,6 +3945,7 @@ go_format_eq (GOFormat const *a, GOFormat const *b)
  *
  * Adds a reference to a GOFormat.
  *
+ * Returns: @gf
  **/
 GOFormat *
 go_format_ref (GOFormat *gf)

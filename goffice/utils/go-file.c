@@ -59,7 +59,7 @@
  * Convert an escaped URI into a filename.
  */
 char *
-go_filename_from_uri (const char *uri)
+go_filename_from_uri (char const *uri)
 {
 #ifdef GOFFICE_WITH_GNOME
 	return gnome_vfs_get_local_path_from_uri (uri);
@@ -72,7 +72,7 @@ go_filename_from_uri (const char *uri)
  * Convert a filename into an escaped URI.
  */
 char *
-go_filename_to_uri (const char *filename)
+go_filename_to_uri (char const *filename)
 {
 	char *simp, *uri;
 
@@ -90,7 +90,7 @@ go_filename_to_uri (const char *filename)
 }
 
 char *
-go_filename_simplify (const char *filename, GODotDot dotdot,
+go_filename_simplify (char const *filename, GODotDot dotdot,
 		      gboolean make_absolute)
 {
 	char *simp, *p, *q;
@@ -197,7 +197,7 @@ go_filename_simplify (const char *filename, GODotDot dotdot,
  * Simplify a potentially non-local path using only slashes.
  */
 static char *
-simplify_path (const char *uri)
+simplify_path (char const *uri)
 {
 	char *simp, *p, *q;
 
@@ -234,9 +234,9 @@ simplify_path (const char *uri)
 }
 
 static char *
-simplify_host_path (const char *uri, size_t hstart)
+simplify_host_path (char const *uri, size_t hstart)
 {
-	const char *slash = strchr (uri + hstart, '/');
+	char const *slash = strchr (uri + hstart, '/');
 	char *simp, *psimp;
 	size_t pstart;
 
@@ -253,7 +253,7 @@ simplify_host_path (const char *uri, size_t hstart)
 }
 
 char *
-go_url_simplify (const char *uri)
+go_url_simplify (char const *uri)
 {
 	char *simp, *p;
 
@@ -287,7 +287,7 @@ go_url_simplify (const char *uri)
  * More or less the same as gnome_vfs_uri_make_full_from_relative.
  */
 char *
-go_url_resolve_relative (const char *ref_uri, const char *rel_uri)
+go_url_resolve_relative (char const *ref_uri, char const *rel_uri)
 {
 	char *simp, *uri;
 
@@ -323,10 +323,10 @@ go_url_resolve_relative (const char *ref_uri, const char *rel_uri)
 /* ------------------------------------------------------------------------- */
 
 static char *
-make_rel (const char *uri, const char *ref_uri,
-	  const char *uri_host, const char *slash)
+make_rel (char const *uri, char const *ref_uri,
+	  char const *uri_host, char const *slash)
 {
-	const char *p, *q;
+	char const *p, *q;
 	int n;
 	GString *res;
 
@@ -364,7 +364,7 @@ make_rel (const char *uri, const char *ref_uri,
 }
 
 char *
-go_url_make_relative (const char *uri, const char *ref_uri)
+go_url_make_relative (char const *uri, char const *ref_uri)
 {
 	int i;
 
@@ -404,7 +404,7 @@ go_url_make_relative (const char *uri, const char *ref_uri)
 /* ------------------------------------------------------------------------- */
 
 static gboolean
-is_fd_uri (const char *uri, int *fd)
+is_fd_uri (char const *uri, int *fd)
 {
 	unsigned long ul;
 	char *end;
@@ -430,7 +430,7 @@ is_fd_uri (const char *uri, int *fd)
  * encoding) to an escaped URI.
  */
 char *
-go_shell_arg_to_uri (const char *arg)
+go_shell_arg_to_uri (char const *arg)
 {
 	gchar *tmp;
 	int fd;
@@ -472,13 +472,13 @@ go_shell_arg_to_uri (const char *arg)
 
 /**
  * go_basename_from_uri:
- * @uri :
+ * @uri : The uri
  *
  * Decode the final path component.  Returns as UTF-8 encoded suitable
  * for display.
  **/
 char *
-go_basename_from_uri (const char *uri)
+go_basename_from_uri (char const *uri)
 {
 	char *res;
 
@@ -504,14 +504,14 @@ go_basename_from_uri (const char *uri)
 
 /**
  * go_dirname_from_uri:
- * @uri :
+ * @uri : target
  * @brief: if TRUE, hide "file://" if present.
  *
  * Decode the all but the final path component.  Returns as UTF-8 encoded
  * suitable for display.
  **/
 char *
-go_dirname_from_uri (const char *uri, gboolean brief)
+go_dirname_from_uri (char const *uri, gboolean brief)
 {
 	char *dirname_utf8, *dirname;
 
@@ -541,7 +541,7 @@ go_dirname_from_uri (const char *uri, gboolean brief)
 /* ------------------------------------------------------------------------- */
 
 static GsfInput *
-open_plain_file (const char *path, GError **err)
+open_plain_file (char const *path, GError **err)
 {
 	GsfInput *input = gsf_input_mmap_new (path, NULL);
 	if (input != NULL)
@@ -553,10 +553,11 @@ open_plain_file (const char *path, GError **err)
 
 /**
  * go_file_open :
- * @uri :
+ * @uri : target uri
  * @err : #GError
  *
  * Try all available methods to open a file or return an error
+ * Returns: non-%NULL on success
  **/
 GsfInput *
 go_file_open (char const *uri, GError **err)
@@ -639,10 +640,10 @@ go_file_create (char const *uri, GError **err)
 /* Adapted from gtkfilechooserdefault.c.  Unfortunately it is static there.  */
 
 GSList *
-go_file_split_urls (const char *data)
+go_file_split_urls (char const *data)
 {
   GSList *uris;
-  const char *p, *q;
+  char const *p, *q;
 
   uris = NULL;
 
@@ -697,7 +698,7 @@ go_file_get_owner_name (char const *uri)
 	gboolean islocal = FALSE;
 #ifdef HAVE_PWD_H
 	struct passwd *password_info;
-	const char *name;
+	char const *name;
 	gsize namelen;
 	char *nameutf8;
 #endif
@@ -778,7 +779,7 @@ go_file_get_group_name (char const *uri)
 	gboolean islocal = FALSE;
 #ifdef HAVE_GRP_H
 	struct group *group_info;
-	const char *name;
+	char const *name;
 	char *nameutf8;
 #endif
 
@@ -1112,8 +1113,8 @@ go_url_decode (gchar const *text)
 gchar*
 go_url_encode (gchar const *text, int type)
 {
-	const char *good;
-	static const char hex[16] = "0123456789ABCDEF";
+	char const *good;
+	static char const hex[16] = "0123456789ABCDEF";
 	GString* result;
 
 	g_return_val_if_fail (text != NULL, NULL);

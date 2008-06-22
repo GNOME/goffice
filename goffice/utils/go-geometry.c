@@ -52,8 +52,7 @@ go_geometry_cartesian_to_polar (double x, double y, double *rho, double *theta)
  * @w: extent of segment 
  * @h: extent of segment
  *
- * Computes the distance between a point and a segment.
- *
+ * Returns: the distance between a point and a segment.
  **/
 double
 go_geometry_point_to_segment (double xp, double yp, double xs, double ys, double w, double h)

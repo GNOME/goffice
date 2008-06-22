@@ -203,10 +203,9 @@ go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height
  * @pattern: a #GOPattern
  * @cr: a cairo context
  *
- * Creates a cairo pattern object corresponding to @pattern parameters. The returned
- * surface must be freed after use, using cairo_pattern_destroy.
+ * Returns: a cairo pattern object corresponding to @pattern parameters. The returned
+ * 	surface must be freed after use, using cairo_pattern_destroy.
  **/
-
 cairo_pattern_t *
 go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 {

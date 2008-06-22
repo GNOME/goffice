@@ -223,11 +223,6 @@ graph_typeselect_minor (GraphGuruTypeSelector *typesel, FooCanvasItem *item)
 	gog_object_add_by_name (GOG_OBJECT (s->chart),
 		"Plot", GOG_OBJECT (s->plot = plot));
 	gog_plot_guru_helper (plot);
-#if 0
-	if (s->original_plot != NULL &&
-	    !gog_plot_make_similar (s->plot, s->original_plot))
-		return;
-#endif
 
 	if (s->dalloc != NULL)
 		gog_data_allocator_allocate (s->dalloc, s->plot);

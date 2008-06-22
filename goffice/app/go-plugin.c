@@ -419,7 +419,7 @@ static GSF_CLASS (GOPluginTypeModule, go_plugin_type_module,
  * go_plugin_get_type_module :
  * @plugin : #GOPlugin
  *
- * Return the GTypeModule associated with the plugin creating it if necessary.
+ * Returns: the GTypeModule associated with the plugin creating it if necessary.
  **/
 GTypeModule *
 go_plugin_get_type_module (GOPlugin *plugin)
@@ -1697,10 +1697,15 @@ go_plugins_set_dirs (GSList *plugin_dirs)
 /**
  * go_plugins_init:
  * @context     : #GOCmdContext used to report errors
+ * @known_states : A list of known states (defined how ?)
+ * @active_plugins: A list of active plugins
+ * @plugin_dirs :a list of directories to search for plugins
+ * @activate_new_plugins : activate plugins we have no seen before.
+ * @default_loader_type : importer to use by default.
  *
  * Initializes the plugin subsystem. Don't call this function more than
  * once.
- */
+ **/
 void
 go_plugins_init (GOCmdContext *context,
 		 GSList const *known_states,
@@ -1782,15 +1787,19 @@ go_plugins_init (GOCmdContext *context,
 /**
  * go_plugins_add:
  * @context     : #GOCmdContext used to report errors
+ * @known_states : A list of known states (defined how ?)
+ * @active_plugins: A list of active plugins
+ * @plugin_dirs :a list of directories to search for plugins
+ * @default_loader_type : importer to use by default.
  *
  * Adds new plugins to currently used plugins.
- */
+ **/
 void
 go_plugins_add (GOCmdContext *context,
-		 GSList const *known_states,
-		 GSList const *active_plugins,
-		 GSList *plugin_dirs,
-		 GType  default_loader_type)
+		GSList const *known_states,
+		GSList const *active_plugins,
+		GSList *plugin_dirs,
+		GType  default_loader_type)
 {
 	GSList *error_list = NULL;
 	ErrorInfo *error;

@@ -343,10 +343,8 @@ go_search_replace_compile (GoSearchReplace *sr)
  * @repl: Check replacement part too.
  * @err: Location to store error message.
  *
- * Checks that validity of the search-and-replace data and returns TRUE
- * on success.
+ * Returns: %TRUE if  search-and-replace data is valid.
  **/
-
 gboolean
 go_search_replace_verify (GoSearchReplace *sr, gboolean repl, GError **err)
 {

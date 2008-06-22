@@ -46,10 +46,10 @@ GType      go_color_palette_get_type (void);
 
 GtkWidget *go_color_palette_new	      (char const *no_color_label,
 				       GOColor default_color,
-				       GOColorGroup *color_group);
+				       GOColorGroup *cg);
 GtkWidget *go_color_palette_make_menu (char const *no_color_label,
 				       GOColor default_color,
-				       GOColorGroup *color_group,
+				       GOColorGroup *cg,
 				       char const *custom_dialog_title,
 				       GOColor current_color);
 

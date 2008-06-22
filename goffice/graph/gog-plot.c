@@ -598,26 +598,16 @@ gog_plot_new_by_type (GogPlotType const *type)
 	return res;
 }
 
-/**
- * gog_plot_make_similar :
- * @dst :
- * @src :
- *
- * As much as possible have @dst use similar formatting and data allocation to
- * @src.
- *
- * return TRUE on failue
+/****************************************************************
+ * convenience routines
  **/
-gboolean
-gog_plot_make_similar (GogPlot *dst, GogPlot const *src)
-{
-	g_return_val_if_fail (IS_GOG_PLOT (dst), TRUE);
-	g_return_val_if_fail (IS_GOG_PLOT (src), TRUE);
 
-	return FALSE;
-}
-
-/* convenience routines */
+/**
+ * gog_plot_new_series :
+ * @plot : #GogPlot
+ *
+ * Returns: a new GogSeries of a type consistent with @plot.
+ **/
 GogSeries *
 gog_plot_new_series (GogPlot *plot)
 {
@@ -793,7 +783,7 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
  * gog_plot_get_series :
  * @plot : #GogPlot
  *
- * A list of the series in @plot.  Do not modify or free the list.
+ * Returns: A list of the series in @plot.  Do not modify or free the list.
  **/
 GSList const *
 gog_plot_get_series (GogPlot const *plot)
@@ -815,6 +805,8 @@ gog_plot_get_series (GogPlot const *plot)
  * the lookup too if so desired.
  *
  * Caller is responsible for unrefing ::fmt.
+ *
+ * Returns: The data providing the bound (does not add a ref)
  **/
 GOData *
 gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,

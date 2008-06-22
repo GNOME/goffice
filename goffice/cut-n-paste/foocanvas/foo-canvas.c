@@ -2176,7 +2176,6 @@ foo_canvas_destroy (GtkObject *object)
 
 /**
  * foo_canvas_new:
- * @void:
  *
  * Creates a new empty canvas.  If you wish to use the
  * &FooCanvasImage item inside this canvas, then you must push the gdk_imlib

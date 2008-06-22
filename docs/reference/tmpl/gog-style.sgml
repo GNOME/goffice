@@ -149,15 +149,6 @@ Style of graph objects
 @brightness: 
 
 
-<!-- ##### FUNCTION gog_style_set_fill_image_filename ##### -->
-<para>
-
-</para>
-
-@style: 
-@filename: 
-
-
 <!-- ##### FUNCTION gog_style_set_text_angle ##### -->
 <para>
 

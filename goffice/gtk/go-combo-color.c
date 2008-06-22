@@ -239,8 +239,10 @@ color_table_setup (GOComboColor *cc,
 }
 
 /* go_combo_color_get_color:
+ * @cc:  #GOComboColor
+ * @is_default : non-NULL storage for whether the current colour is the default.
  *
- * Return current color
+ * Returns: current GOColor
  */
 GOColor
 go_combo_color_get_color (GOComboColor *cc, gboolean *is_default)
@@ -271,10 +273,9 @@ go_combo_color_set_color_gdk (GOComboColor *cc, GdkColor *color)
 
 /**
  * go_combo_color_set_color :
- * @cc: a #GOComboColor
+ * @cc:  #GOComboColor
  * @color: a #GOColor
  **/
-
 void
 go_combo_color_set_color (GOComboColor *cc, GOColor c)
 {
@@ -283,7 +284,7 @@ go_combo_color_set_color (GOComboColor *cc, GOColor c)
 
 /**
  * go_combo_color_set_instant_apply :
- * @cc:     The combo
+ * @cc:  #GOComboColor
  * @active: Whether instant apply should be active or not
  *
  * Turn instant apply behaviour on or off. Instant apply means that pressing
@@ -301,7 +302,7 @@ go_combo_color_set_instant_apply (GOComboColor *cc, gboolean active)
 /**
  * go_combo_color_set_allow_alpha :
  * @cc : #GOComboColor
- * @allow_alpha : 
+ * @allow_alpha : Support alpha layer
  *
  * Should the custom colour selector allow the use of opacity.
  **/
@@ -313,7 +314,7 @@ go_combo_color_set_allow_alpha (GOComboColor *cc, gboolean allow_alpha)
 
 /**
  * go_combo_color_set_color_to_default :
- * @cc:  The combo
+ * @cc:  #GOComboColor
  *
  * Set the color of the combo to the default color. Causes the color_changed
  * signal to be emitted.
@@ -330,10 +331,14 @@ go_combo_color_set_color_to_default (GOComboColor *cc)
  * go_combo_color_new :
  * @icon: optionally NULL.
  * @no_color_label: FIXME
+ * @default_color : The colour to use a the default
+ * @color_group : #GOColorGroup
  *
  * Default constructor. Pass an optional icon and an optional label for the
  * no/auto color button.
- */
+ *
+ * Returns: The newly constructed combo.
+ **/
 GtkWidget *
 go_combo_color_new (GdkPixbuf *icon, char const *no_color_label,
 		    GOColor default_color,

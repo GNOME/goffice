@@ -389,7 +389,9 @@ GSF_CLASS (GogGraph, gog_graph,
  *
  * Check the layout of the chart grid and ensure that there are no empty
  * cols or rows, and resize as necessary
- */
+ *
+ * Returns: %TRUE if anything changed.
+ **/
 gboolean
 gog_graph_validate_chart_layout (GogGraph *graph)
 {
@@ -477,7 +479,7 @@ gog_graph_num_rows (GogGraph const *graph)
  * gog_graph_dup :
  * @graph : #GogGraph
  *
- * A convenience wrapper to make a deep copy of @graph.
+ * Returns: a deep copy of @graph.
  **/
 GogGraph *
 gog_graph_dup (GogGraph const *graph)
@@ -547,9 +549,9 @@ gog_graph_get_data (GogGraph const *graph)
  * @graph : #GogGraph
  * @dat : #GOData
  *
- * If @dat or something equivalent to it already exists in the graph use that.
- * Otherwaise use @dat.  Adds a gobject ref to the target and increments a
- * count of the number of refs made from this #GogGraph.
+ * Returns: @dat or something equivalent to it that already exists in the graph.
+ * 	Otherwise use @dat.  Adds a gobject ref to the target and increments a
+ *	 count of the number of refs made from this #GogGraph.
  **/
 GOData *
 gog_graph_ref_data (GogGraph *graph, GOData *dat)
@@ -917,9 +919,11 @@ update_action (GogGraphView *view, GogTool *tool, double x, double y)
  * gog_graph_view_handle_event:
  * @gview : #GogGraphView
  * @event : #GdkEvent
+ * @x_offset : in pixels
+ * @y_offset : in pixels
  *
  * Handle events.
- */
+ **/
 void
 gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event, 
 			     double x_offset, double y_offset)

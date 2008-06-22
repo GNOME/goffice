@@ -875,9 +875,8 @@ gog_chart_map_free (GogChartMap *map)
  * @n_points: number of points
  * @interpolation: interpolation type
  *
- * Creates a new GOPath using @x and @y data, each valid point being connected with respect to @interpolation.
+ * Returns: a new GOPath using @x and @y data, each valid point being connected with respect to @interpolation.
  **/
-
 GOPath *
 gog_chart_map_make_path (GogChartMap *map, double const *x, double const *y,
 			 int n_points,
@@ -897,9 +896,8 @@ gog_chart_map_make_path (GogChartMap *map, double const *x, double const *y,
  * @n_points: number of points
  * @fill_type: fill type
  *
- * Creates a new GOPath using @x and @y data, with respect to @fill_type.
+ * Returns: a new GOPath using @x and @y data, with respect to @fill_type.
  **/
-
 GOPath *
 gog_chart_map_make_close_path (GogChartMap *map, double const *x, double const *y,
 			       int n_points,

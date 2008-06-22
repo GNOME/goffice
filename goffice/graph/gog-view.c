@@ -940,8 +940,11 @@ gog_view_get_toolkit (GogView *view)
 /**
  * gog_view_get_tool_at_point:
  * @view : #GogView
+ * @x : in coords
+ * @y : in coords
+ * @gobj : non-%NULL storage.
  * 
- * Find tool under cursor for a given view.
+ * Returns: tool under cursor for a given view, or %NULL
  **/
 GogTool *
 gog_view_get_tool_at_point (GogView *view, double x, double y, GogObject **gobj)

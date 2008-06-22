@@ -532,8 +532,9 @@ gog_chart_set_position (GogChart *chart,
  * @chart : #GogChart
  * @plot_area  : #GogViewAllocation
  *
- * Stores plot area in plot_area, in fraction of chart size, and returns
- * TRUE if plot area position is manual.
+ * Stores plot area in plot_area, in fraction of chart size.
+ *
+ * Returns: %TRUE if plot area position is manual.
  **/
 gboolean
 gog_chart_get_plot_area (GogChart *chart, GogViewAllocation *plot_area)
