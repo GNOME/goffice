@@ -9,6 +9,7 @@ Jean:
 
 Jody:
 	* Fix X axis text clipping on win32. [#442773]
+	* Tune bubble size calc to be closer to other implementions.
 
 Rob Staudinger:
 	* Use plain menu items for toolbar overflow image menu item proxies, 
