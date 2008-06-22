@@ -30,6 +30,13 @@
 	(gog_xy_series_element_class_init), (gog_xy_series_class_init),
 	(go_plugin_init): add singleton support to scatter plots.
 
+2008-06-18  Jody Goldberg <jody@gnome.org>
+
+	* plugins/plot_xy/gog-xy.c (MAX_RADIUS_RATIO) : tweak to match the
+	  wallenbach mouse example.
+	(gog_bubble_plot_class_init) : increase the bubble-scale limit to 300%
+	* plugins/plot_xy/gog-bubble-prefs.glade : ditto.
+
 2008-06-17  Jody Goldberg <jody@gnome.org>
 
 	* goffice/graph/gog-renderer.c (gog_renderer_draw_text) : Use the same

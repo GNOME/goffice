@@ -528,7 +528,7 @@ gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 		g_param_spec_float ("bubble-scale", 
 			_("Bubble scale"),
 			_("Fraction of default radius used for display"),
-			0., 2., 1.,
+			0., 3., 1.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	{
 		static GogSeriesDimDesc dimensions[] = {
@@ -554,7 +554,7 @@ gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 	}
 }
 
-#define BUBBLE_MAX_RADIUS_RATIO 8.
+#define BUBBLE_MAX_RADIUS_RATIO 12.
 static void
 gog_bubble_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max)
 {
