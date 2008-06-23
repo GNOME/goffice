@@ -292,23 +292,42 @@ go_doc_get_image (GODoc *doc, char const *id)
 		NULL;
 }
 
+struct check_for_pixbuf {
+	GOImage *src_image;
+	GOImage *dst_image;
+};
+
+static void
+check_for_pixbuf (gpointer key, gpointer img_, gpointer user)
+{
+	GOImage *img = img_;
+	struct check_for_pixbuf *cl = user;
+
+	if (cl->dst_image == NULL) {
+		if (go_image_same_pixbuf (cl->src_image, img))
+			cl->dst_image = img;
+	}
+}
+
 GOImage *
 go_doc_add_image (GODoc *doc, char const *id, GOImage *image)
 {
-	GHashTableIter iter;
-	char const *key;
 	GOImage *img;
 	int i = 0;
 	char *new_id;
+	struct check_for_pixbuf cl;
 
 	if (doc->images == NULL)
 		doc->images = g_hash_table_new_full (g_str_hash, g_str_equal,
 						     g_free, g_object_unref);
+
 	/* check if the image is already there */
-	g_hash_table_iter_init (&iter, doc->images);
-	while (g_hash_table_iter_next (&iter, (void**) &key, (void**) &img))
-		if (go_image_same_pixbuf (image, img))
-			return img;
+	cl.src_image = image;
+	cl.dst_image = NULL;
+	g_hash_table_foreach (doc->images, check_for_pixbuf, &img);
+	if (cl.dst_image)
+		return cl.dst_image;
+
 	/* now check if the id is not a duplicate */
 	if (g_hash_table_lookup (doc->images, id)) {
 		while (1) {

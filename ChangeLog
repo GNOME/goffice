@@ -1,3 +1,8 @@
+2008-06-23  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-doc.c (go_doc_add_image): Rewrite to avoid
+	GHashTableIter.
+
 2008-06-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-doc-control-impl.h: add a GODoc member.
