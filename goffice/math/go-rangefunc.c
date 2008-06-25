@@ -219,6 +219,12 @@ SUFFIX(go_range_median_inter) (DOUBLE const *xs, int n, DOUBLE *res)
 }
 
 int
+SUFFIX(go_range_median_inter_sorted) (DOUBLE const *xs, int n, DOUBLE *res)
+{
+	return SUFFIX(go_range_fractile_inter_sorted) (xs, n, res, 0.5);
+}
+
+int
 SUFFIX(go_range_median_inter_nonconst) (DOUBLE *xs, int n, DOUBLE *res)
 {
 	return SUFFIX(go_range_fractile_inter_nonconst) (xs, n, res, 0.5);

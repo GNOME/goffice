@@ -16,6 +16,7 @@ int go_range_fractile_inter_nonconst (double *xs, int n, double *res, double f);
 int go_range_fractile_inter_sorted (double const *xs, int n, double *res, double f);
 int go_range_median_inter (double const *xs, int n, double *res);
 int go_range_median_inter_nonconst (double *xs, int n, double *res);
+int go_range_median_inter_sorted (double const *xs, int n, double *res);
 int go_range_increasing (double const *xs, int n);
 int go_range_decreasing (double const *xs, int n);
 int go_range_vary_uniformly (double const *xs, int n);
@@ -33,6 +34,7 @@ int go_range_fractile_inter_nonconstl (long double *xs, int n, long double *res,
 int go_range_fractile_inter_sortedl (long double const *xs, int n, long double *res, long double f);
 int go_range_median_interl (long double const *xs, int n, long double *res);
 int go_range_median_inter_nonconstl (long double *xs, int n, long double *res);
+int go_range_median_inter_sortedl (long double const *xs, int n, long double *res);
 int go_range_increasingl (long double const *xs, int n);
 int go_range_decreasingl (long double const *xs, int n);
 int go_range_vary_uniformlyl (long double const *xs, int n);
