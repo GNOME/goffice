@@ -11,7 +11,7 @@ EXTRA_DIST = README NEWS BUGS MAINTAINERS AUTHORS \
 	intltool-update.in	\
 	intltool-merge.in
 
-DISTCLEANFILES = intltool-extract intltool-merge intltool-update doltcompile
+DISTCLEANFILES = intltool-extract intltool-merge intltool-update doltcompile doltlibtool
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
 

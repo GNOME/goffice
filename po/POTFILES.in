@@ -162,16 +162,6 @@ goffice/gtk/go-combo-pixmaps.c
 goffice/gtk/go-combo-pixmaps.h
 goffice/gtk/go-combo-text.c
 goffice/gtk/go-combo-text.h
-goffice/gtk/go-dock-band.c
-goffice/gtk/go-dock-band.h
-goffice/gtk/go-dock-item-grip.c
-goffice/gtk/go-dock-item-grip.h
-goffice/gtk/go-dock-item.c
-goffice/gtk/go-dock-item.h
-goffice/gtk/go-dock-layout.c
-goffice/gtk/go-dock-layout.h
-goffice/gtk/go-dock.c
-goffice/gtk/go-dock.h
 goffice/gtk/go-font-sel.c
 goffice/gtk/go-font-sel.glade
 goffice/gtk/go-font-sel.h
@@ -179,6 +169,7 @@ goffice/gtk/go-format-sel.c
 goffice/gtk/go-format-sel.glade
 goffice/gtk/go-format-sel.h
 goffice/gtk/go-image-save-dialog-extra.glade
+goffice/gtk/go-image-sel.glade
 goffice/gtk/go-locale-sel.c
 goffice/gtk/go-locale-sel.h
 goffice/gtk/go-optionmenu.c
