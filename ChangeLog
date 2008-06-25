@@ -1,5 +1,9 @@
 2008-06-25  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : post release bump
+
+2008-06-25  Jody Goldberg <jody@gnome.org>
+
 	* Release 0.7.0
 
 2008-06-24  Morten Welinder  <terra@gnome.org>
