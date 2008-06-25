@@ -1,3 +1,8 @@
+2008-06-25  Halton Huo <halton.huo@sun.com>
+
+	* configure.in: adapt suncc not installed under /opt/SUNWspro,
+	fixes #539930
+
 2008-06-25  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

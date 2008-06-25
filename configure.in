@@ -440,7 +440,12 @@ AC_C_LONG_DOUBLE
 if test $ac_cv_c_long_double = yes; then
     have_mandatory_funcs=yes
     need_sunmath=0
-    sunmathlinkstuff='-L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath'
+    ss_cc=`which $CC`
+    ss_dir=`dirname $ss_cc`"/.."
+    if test ! -f $ss_dir/lib/libsunmath.so; then
+        ss_dir="/opt/SUNWspro"
+    fi
+    sunmathlinkstuff="-L$ss_dir/lib -R$ss_dir/lib -lsunmath"
     for ldfunc in fabsl logl log10l ceill floorl powl isnanl finitel; do
 	    AC_CHECK_FUNC($ldfunc,
 		  ,
@@ -452,12 +457,12 @@ if test $ac_cv_c_long_double = yes; then
 			  [ if test $need_sunmath = 0; then
 				# FIXME: better idea?
 				LDFLAGS="$LDFLAGS $sunmathlinkstuff"
-				sunmathinclude=`ls -d /opt/SUNWspro/*/include/cc | sed '$!d'`
+				sunmathinclude=`ls -d $ss_dir/*/include/cc | sed '$!d'`
 				CPPFLAGS="$CPPFLAGS -I$sunmathinclude"
 			    fi
 			    need_sunmath=1 ],
 			  [have_mandatory_funcs=no],
-			  [-L/opt/SUNWspro/lib $GOFFICE_LIBS])])])
+			  [-L$ss_dir/lib $GOFFICE_LIBS])])])
     done
     if test $need_sunmath = 1; then
 	EXTRA_LIBS="$EXTRA_LIBS $sunmathlinkstuff"
@@ -467,6 +472,8 @@ if test $ac_cv_c_long_double = yes; then
 			 [AC_MSG_WARN([Long doubles require the $ac_header header.])
 			  have_mandatory_funcs=no])
     fi
+    unset ss_cc
+    unset ss_dir
     unset need_sunmath
     unset sunmathlinkstuff
     unset sunmathinclude
