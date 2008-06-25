@@ -2,10 +2,17 @@ Source: goffice
 Section: libs
 Priority: optional
 Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
-Build-Depends: debhelper (>= 4.2.21), dh-buildinfo, gtk-doc-tools (>= 1.4), libxml-parser-perl, libglib2.0-dev (>= 2.16.0), libgsf-1-dev (>= 1.14.0), libxml2-dev (>= 2.6.10-2), libpango1.0-dev (>= 1.12.1-2), libgtk2.0-dev (>= 2.8.17), libglade2-dev (>= 1:2.4.0-1), libart-2.0-dev (>= 2.3.16-5), libgconf2-dev (>= 2.6.2-1), libgnomeui-dev (>= 2.14.1-1), libgsf-gnome-1-dev (>= 1.14.0), libxrender-dev, libxext-dev, libcairo2-dev (>= 1.2.0)
+Build-Depends: debhelper (>= 4.2.21), dh-buildinfo,
+ gtk-doc-tools (>= 1.4), libxml-parser-perl,
+ libglib2.0-dev (>= 2.16.0), libgsf-1-dev (>= 1.14.0),
+ libxml2-dev (>= 2.6.10-2), libpango1.0-dev (>= 1.12.1-2),
+ libgtk2.0-dev (>= 2.8.17), libglade2-dev (>= 1:2.4.0-1),
+ libart-2.0-dev (>= 2.3.16-5), libgconf2-dev (>= 2.6.2-1),
+ libgnomeui-dev (>= 2.14.1-1), libgsf-gnome-1-dev (>= 1.14.0),
+ libxrender-dev, libxext-dev, libcairo2-dev (>= 1.2.0)
 Vcs-Svn: svn://svn.gnome.org/svn/goffice/trunk
 Vcs-Browser: http://svn.gnome.org/viewcvs/goffice/trunk/
-Standards-Version: 3.7.3
+Standards-Version: 3.8.0
 
 Package: libgoffice-0-8-dev
 Section: libdevel
