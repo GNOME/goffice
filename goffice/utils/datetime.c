@@ -134,12 +134,14 @@ time_t
 datetime_serial_to_timet (int serial, GODateConventions const *conv)
 {
 	GDate gd;
-	struct tm tm;
 
 	datetime_serial_to_g (&gd, serial, conv);
-	g_date_to_struct_tm (&gd, &tm);
-
-	return mktime (&tm);
+	if (g_date_valid (&gd)) {
+		struct tm tm;
+		g_date_to_struct_tm (&gd, &tm);
+		return mktime (&tm);
+	} else
+		return -1;
 }
 
 /* ------------------------------------------------------------------------- */
