@@ -1,4 +1,10 @@
-goffice-0.7.0:
+goffice 0.7.1:
+
+Morten:
+	* Work around valgrind bug.
+
+--------------------------------------------------------------------------
+goffice 0.7.0:
 
 Jean:
 	* New boxplot feature requested: exclude outliers. [#534642]

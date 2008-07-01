@@ -40,6 +40,37 @@ double go_nan;
 double go_pinf;
 double go_ninf;
 
+#ifdef GOFFICE_WITH_LONG_DOUBLE
+static gboolean
+running_under_buggy_valgrind (void)
+{
+	long double one = atof ("1");
+	if (one * LDBL_MIN > (long double)0)
+		return FALSE;
+
+	/*
+	 * We get here is long double fails to satisfy a requirement of
+	 * C99, namely that LDBL_MIN is positive.  That is probably
+	 * valgrind mapping long doubles to doubles.
+	 *
+	 * Chances are that go_pinfl/go_ninf/go_nanl are fine, but that
+	 * finitel fails.  Perform alternate tests.
+	 */
+
+	if (!(go_pinfl > DBL_MAX && !isnanl (go_pinfl) && isnanl (go_pinfl - go_pinfl)))
+		return FALSE;
+
+	if (!(-go_ninfl > DBL_MAX && !isnanl (go_ninfl) && isnanl (go_ninfl - go_ninfl)))
+		return FALSE;
+
+	if (!isnanl (go_nanl) && !(go_nanl >= 0) && !(go_nanl <= 0))
+		return FALSE;
+
+	/* finitel must be hosed.  Blame valgrind.  */
+	return TRUE;
+}
+#endif
+
 void
 go_math_init (void)
 {
@@ -136,14 +167,18 @@ go_math_init (void)
 	if (!(isnanl (go_nanl) &&
 	      go_pinfl > 0 && !finitel (go_pinfl) &&
 	      go_ninfl < 0 && !finitel (go_ninfl))) {
-		g_error ("Failed to generate long double NaN/+Inf/-Inf.\n"
-			 "    go_nanl=%.20Lg\n"
-			 "    go_pinfl=%.20Lg\n"
-			 "    go_ninfl=%.20Lg\n"
-			 "Please report at %s",
-			 go_nanl, go_pinfl, go_ninfl,
-			 bug_url);
-		abort ();
+		if (running_under_buggy_valgrind ()) {
+			g_warning ("Running under buggy valgrind, see http://bugs.kde.org/show_bug.cgi?id=164298");
+		} else {
+			g_error ("Failed to generate long double NaN/+Inf/-Inf.\n"
+				 "    go_nanl=%.20Lg\n"
+				 "    go_pinfl=%.20Lg\n"
+				 "    go_ninfl=%.20Lg\n"
+				 "Please report at %s",
+				 go_nanl, go_pinfl, go_ninfl,
+				 bug_url);
+			abort ();
+		}
 	}
 #endif
 
