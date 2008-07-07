@@ -74,6 +74,8 @@ goffice/goffice-priv.h
 goffice/goffice.c
 goffice/goffice.h
 goffice/graph/goffice-graph.h
+goffice/graph/gog-3d-box-prefs.glade
+goffice/graph/gog-3d-box.c
 goffice/graph/gog-axis-line.c
 goffice/graph/gog-axis-prefs.glade
 goffice/graph/gog-axis.c
@@ -139,6 +141,7 @@ goffice/graph/gog-theme.h
 goffice/graph/gog-trend-line.c
 goffice/graph/gog-view.c
 goffice/graph/gog-view.h
+goffice/gtk/go-3d-rotation-sel.glade
 goffice/gtk/go-action-combo-color.c
 goffice/gtk/go-action-combo-color.h
 goffice/gtk/go-action-combo-pixmaps.c
