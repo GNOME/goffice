@@ -96,7 +96,8 @@ dist_glade_DATA = \
 	gog-error-bar-prefs.glade	\
 	gog-reg-curve-prefs.glade	\
 	gog-reg-eqn-prefs.glade		\
-	gog-series-prefs.glade
+	gog-series-prefs.glade		\
+	gog-3d-box-prefs.glade
 
 include $(top_srcdir)/goffice.mk
 

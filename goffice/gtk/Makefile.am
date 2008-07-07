@@ -8,6 +8,7 @@ libgoffice_gtk_la_SOURCES =		\
 	go-rotation-sel.c	 	\
 	go-charmap-sel.c		\
 	go-locale-sel.c			\
+	go-3d-rotation-sel.c		\
 	\
 	go-optionmenu.c			\
 	go-combo-box.c			\
@@ -44,6 +45,7 @@ libgoffice_gtk_la_HEADERS = 		\
 	go-rotation-sel.h	 	\
 	go-charmap-sel.h		\
 	go-locale-sel.h			\
+	go-3d-rotation-sel.h		\
 	\
 	go-optionmenu.h			\
 	go-combo-box.h			\
@@ -76,6 +78,7 @@ dist_glade_DATA = \
 	go-rotation-sel.glade			\
 	go-font-sel.glade 			\
 	go-format-sel.glade 			\
+ 	go-3d-rotation-sel.glade		\
 	go-image-save-dialog-extra.glade	\
 	go-image-sel.glade
 

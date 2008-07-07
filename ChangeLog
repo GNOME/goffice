@@ -1,3 +1,28 @@
+2008-07-07  Mariusz Adamski  <mariusz.adamski@gmail.com>
+
+	* goffice/graph/Makefile.am: add new glade file.
+	* goffice/graph/gog-3d-box-prefs.glade: new glade file for setting
+	the 3d view.
+	* goffice/graph/gog-3d-box.c: ditto and make the settings persistant.
+	* goffice/gtk/Makefile.am: new 3d related widget
+	* goffice/gtk/go-3d-rotation-sel.c: ditto.
+	* goffice/gtk/go-3d-rotation-sel.glade: ditto.
+	* goffice/gtk/go-3d-rotation-sel.h: ditto.
+
+2008-07-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* goffice/graph/Makefile.am:
+	* goffice/graph/gog-3d-box.c: (cb_g3d_update), (cb_matrix_changed),
+	(cb_fov_changed), (cb_box_psi_changed), (cb_box_theta_changed),
+	(cb_box_phi_changed), (cb_g3d_change_psi), (cb_g3d_change_theta),
+	(cb_g3d_change_phi), (gog_3d_box_populate_editor),
+	(gog_3d_box_set_property), (gog_3d_box_get_property),
+	(gog_3d_box_class_init), (gog_3d_box_init):
+	* goffice/gtk/Makefile.am:
+	* plugins/plot_surface/gog-surface.c: (gog_surface_view_render):
+
 2008-06-30  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-math.c (go_math_init): Check for buggy
