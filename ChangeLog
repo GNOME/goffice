@@ -1,3 +1,8 @@
+2008-07-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-surface.c: (gog_surface_view_render): fixed a
+	rendering order (not sure it still works in all cases).
+
 2008-07-07  Mariusz Adamski  <mariusz.adamski@gmail.com>
 
 	* goffice/graph/Makefile.am: add new glade file.

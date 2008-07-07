@@ -25,6 +25,7 @@
 #include <goffice/data/go-data.h>
 #include <goffice/graph/gog-chart-map-3d.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-path.h>
 
 #include <glib/gi18n-lib.h>
@@ -109,13 +110,13 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogChartMap3D *chart_map;
 	GogChart *chart = GOG_CHART (view->model->parent);
 	GogViewAllocation const *area;
-	int i, imax, j, jmax, max, istep, jstep, jstart, iend, jend;
+	int i, imax, j, jmax, max, istep, istart, jstep, jstart, iend, jend;
 	double x[2], y[2], z[3], x0, y0, x1, y1;
 	GogRenderer *rend = view->renderer;
 	GogStyle *style;
 	double *data;
 	GODataVector *x_vec = NULL, *y_vec = NULL;
-	gboolean xdiscrete, ydiscrete;
+	gboolean xdiscrete, ydiscrete, j_first;
 	GOPath *path;
 	gboolean cw;
 
@@ -156,7 +157,7 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (xdiscrete) {
 		x[0] = 0.;
 		x[1] = 1.;
-	}else {
+	} else {
 		x_vec = GO_DATA_VECTOR (series->values[(plot->transposed)? 1: 0].data);
 		x[0] = go_data_vector_get_value (x_vec, 0);
 		x[1] = go_data_vector_get_value (x_vec, 1);
@@ -166,23 +167,25 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (ydiscrete) {
 		y[0] = 0.;
 		y[1] = 1.;
-	}else {
+	} else {
 		y_vec = GO_DATA_VECTOR (series->values[(plot->transposed)? 0: 1].data);
 		y[0] = go_data_vector_get_value (y_vec, 0);
 		y[1] = go_data_vector_get_value (y_vec, 1);
 	}
 	gog_chart_map_3d_to_view (chart_map, x[0], y[0], data[0], NULL, NULL, z + 1); 
 	gog_chart_map_3d_to_view (chart_map, x[1], y[0], data[0], NULL, NULL, z + 2);
+	z[0] = fabs (z[2] > z[1]);
 	if (z[2] > z[1]) {
-		i = imax - 1;
+		istart = imax - 1;
 		iend = 0;
 		istep = -1;
 	} else {
-		i = 1;
+		istart = 1;
 		iend = imax;
 		istep = 1;
 	}
 	gog_chart_map_3d_to_view (chart_map, x[0], y[1], data[0], NULL, NULL, z + 2);
+	j_first = fabs (z[2] > z[1]) > z[0];
 	if (z[2] > z[1]) {
 		jstart = jmax - 1;
 		jend = 0;
@@ -193,40 +196,74 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 		jend = jmax;
 	}
 	gog_renderer_push_style (rend, style);
-	for (; i != iend; i +=istep)
-		for (j = jstart; j != jend; j += jstep) {
-			path = go_path_new ();
-			if (xdiscrete) {
-				x0 = i;
-				x1 = i + 1;
-			} else {
-				x0 = go_data_vector_get_value (x_vec, i - 1);
-				x1 = go_data_vector_get_value (x_vec, i);
+	if (j_first)
+		for (j = jstart; j != jend; j += jstep) 
+			for (i = istart; i != iend; i +=istep) {
+				path = go_path_new ();
+				if (xdiscrete) {
+					x0 = i;
+					x1 = i + 1;
+				} else {
+					x0 = go_data_vector_get_value (x_vec, i - 1);
+					x1 = go_data_vector_get_value (x_vec, i);
+				}
+				if (ydiscrete) {
+					y0 = j;
+					y1 = j + 1;
+				} else {
+					y0 = go_data_vector_get_value (y_vec, j - 1);
+					y1 = go_data_vector_get_value (y_vec, j);
+				}
+				gog_chart_map_3d_to_view (chart_map, x0, y0,
+							  data[(j - 1) * imax + i - 1], x, y, NULL);
+				go_path_move_to (path, *x, *y);
+				gog_chart_map_3d_to_view (chart_map, x1, y0,
+							  data[(j - 1) * imax + i], x, y, NULL);
+				go_path_line_to (path, *x, *y);
+				gog_chart_map_3d_to_view (chart_map, x1, y1,
+							  data[j * imax + i], x, y, NULL);
+				go_path_line_to (path, *x, *y);
+				gog_chart_map_3d_to_view (chart_map, x0, y1,
+							  data[j * imax + i - 1], x, y, NULL);
+				go_path_line_to (path, *x, *y);
+				go_path_close (path);
+				gog_renderer_draw_shape (rend, path);
+				go_path_free (path);
 			}
-			if (ydiscrete) {
-				y0 = j;
-				y1 = j + 1;
-			} else {
-				y0 = go_data_vector_get_value (y_vec, j - 1);
-				y1 = go_data_vector_get_value (y_vec, j);
+	else
+		for (i = istart; i != iend; i +=istep)
+			for (j = jstart; j != jend; j += jstep) {
+				path = go_path_new ();
+				if (xdiscrete) {
+					x0 = i;
+					x1 = i + 1;
+				} else {
+					x0 = go_data_vector_get_value (x_vec, i - 1);
+					x1 = go_data_vector_get_value (x_vec, i);
+				}
+				if (ydiscrete) {
+					y0 = j;
+					y1 = j + 1;
+				} else {
+					y0 = go_data_vector_get_value (y_vec, j - 1);
+					y1 = go_data_vector_get_value (y_vec, j);
+				}
+				gog_chart_map_3d_to_view (chart_map, x0, y0,
+							  data[(j - 1) * imax + i - 1], x, y, NULL);
+				go_path_move_to (path, *x, *y);
+				gog_chart_map_3d_to_view (chart_map, x1, y0,
+							  data[(j - 1) * imax + i], x, y, NULL);
+				go_path_line_to (path, *x, *y);
+				gog_chart_map_3d_to_view (chart_map, x1, y1,
+							  data[j * imax + i], x, y, NULL);
+				go_path_line_to (path, *x, *y);
+				gog_chart_map_3d_to_view (chart_map, x0, y1,
+							  data[j * imax + i - 1], x, y, NULL);
+				go_path_line_to (path, *x, *y);
+				go_path_close (path);
+				gog_renderer_draw_shape (rend, path);
+				go_path_free (path);
 			}
-			gog_chart_map_3d_to_view (chart_map, x0, y0,
-						  data[(j - 1) * imax + i - 1], x, y, NULL);
-			go_path_move_to (path, *x, *y);
-			gog_chart_map_3d_to_view (chart_map, x1, y0,
-						  data[(j - 1) * imax + i], x, y, NULL);
-			go_path_line_to (path, *x, *y);
-			gog_chart_map_3d_to_view (chart_map, x1, y1,
-						  data[j * imax + i], x, y, NULL);
-			go_path_line_to (path, *x, *y);
-			gog_chart_map_3d_to_view (chart_map, x0, y1,
-						  data[j * imax + i - 1], x, y, NULL);
-			go_path_line_to (path, *x, *y);
-			go_path_close (path);
-			gog_renderer_draw_shape (rend, path);
-			go_path_free (path);
-			//break;
-		}
 	gog_renderer_pop_style (rend);
 	gog_chart_map_3d_free (chart_map);
 }
