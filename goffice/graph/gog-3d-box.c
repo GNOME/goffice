@@ -283,32 +283,33 @@ gog_3d_box_class_init (Gog3DBoxClass *klass)
 	gobject_klass->set_property = gog_3d_box_set_property;
 	gobject_klass->get_property = gog_3d_box_get_property;
 	
+	/* Using 3.141593 instead of M_PI to avoid rounding errors */
 	g_object_class_install_property (gobject_klass, BOX3D_PROP_PSI,
 		g_param_spec_double ("psi", 
 			"Psi",
 			_("Euler angle psi"),
-			0.0, 2 * M_PI, 70. / 180. * M_PI, 
+			0.0, 2 * 3.141593, 70. / 180. * M_PI, 
 			G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE
 			| GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX3D_PROP_THETA,
 		g_param_spec_double ("theta", 
 			"Theta",
 			_("Euler angle theta"),
-			0.0, 2 * M_PI, 10. / 180. * M_PI, 
+			0.0, 3.141593, 10. / 180. * M_PI, 
 			G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE
 			| GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX3D_PROP_PHI,
 		g_param_spec_double ("phi", 
 			"Phi",
 			_("Euler angle phi"),
-			0.0, 2 * M_PI, 270. / 180. * M_PI, 
+			0.0, 2 * 3.141593, 270. / 180. * M_PI, 
 			G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE
 			| GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX3D_PROP_FOV,
 		g_param_spec_double ("fov", 
 			"FoV",
 			_("Field of view"),
-			0.0, M_PI + 0.000001, 10. / 180. * M_PI, /* add 0.000001 to max to avoid rounding errors */
+			0.0, 3.141593, 10. / 180. * M_PI,
 			G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE
 			| GOG_PARAM_PERSISTENT));
 

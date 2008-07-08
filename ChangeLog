@@ -1,3 +1,10 @@
+2008-07-08  Mariusz Adamski  <mariusz.adamski@gmail.com>
+
+	* goffice/graph/gog-3d-box-prefs.glade: fixed limits.
+	* goffice/graph/gog-3d-box.c: (gog_3d_box_class_init): fixed maximums
+	for all properties.
+	* goffice/gtk/go-3d-rotation-sel.glade: fixed limits.
+
 2008-07-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-3d-box.c: (gog_3d_box_class_init): add 0.000001
