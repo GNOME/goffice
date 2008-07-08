@@ -308,7 +308,7 @@ gog_3d_box_class_init (Gog3DBoxClass *klass)
 		g_param_spec_double ("fov", 
 			"FoV",
 			_("Field of view"),
-			0.0, M_PI, 10. / 180. * M_PI, 
+			0.0, M_PI + 0.000001, 10. / 180. * M_PI, /* add 0.000001 to max to avoid rounding errors */
 			G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE
 			| GOG_PARAM_PERSISTENT));
 

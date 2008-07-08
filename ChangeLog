@@ -1,3 +1,11 @@
+2008-07-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-3d-box.c: (gog_3d_box_class_init): add 0.000001
+	to max fov value to avoid rouding errors.
+	* plugins/plot_surface/gog-surface.c: fixed gog_surface_view_render
+	for some border cases with large fov value (might also allow the use
+	of cylindrical or spherical coordinates).
+
 2008-07-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix keyboard activation of the add menu in the graph guru.

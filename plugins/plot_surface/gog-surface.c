@@ -102,6 +102,21 @@ GSF_DYNAMIC_CLASS (GogSurfacePlot, gog_surface_plot,
 typedef GogPlotView		GogSurfaceView;
 typedef GogPlotViewClass	GogSurfaceViewClass;
 
+typedef struct {
+	GOPath *path;
+	double distance;
+} GogSurfaceTile;
+
+static int
+tile_cmp (GogSurfaceTile *t1, GogSurfaceTile *t2)
+{
+	if (t1->distance > t2->distance)
+		return -1;
+	if (t1->distance == t2->distance)
+		return 0;
+	return 1;
+}
+
 static void
 gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 {
@@ -110,15 +125,16 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogChartMap3D *chart_map;
 	GogChart *chart = GOG_CHART (view->model->parent);
 	GogViewAllocation const *area;
-	int i, imax, j, jmax, max, istep, istart, jstep, jstart, iend, jend;
-	double x[2], y[2], z[3], x0, y0, x1, y1;
+	int i, imax, j, jmax, max, nbvalid;
+	double x, y, z, x0, y0, x1, y1;
 	GogRenderer *rend = view->renderer;
 	GogStyle *style;
 	double *data;
 	GODataVector *x_vec = NULL, *y_vec = NULL;
-	gboolean xdiscrete, ydiscrete, j_first;
-	GOPath *path;
+	gboolean xdiscrete, ydiscrete;
 	gboolean cw;
+	GSList *tiles = NULL, *cur;
+	GogSurfaceTile *tile;
 
 	if (plot->base.series == NULL)
 		return;
@@ -151,119 +167,97 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 	else
 		data = gog_xyz_plot_build_matrix (plot, &cw);
 
-	/* check the drawing order */
+	/* Build the tiles list */
 	xdiscrete = gog_axis_is_discrete (plot->base.axis[0]) ||
 			series->values[(plot->transposed)? 1: 0].data == NULL;
-	if (xdiscrete) {
-		x[0] = 0.;
-		x[1] = 1.;
-	} else {
+	if (!xdiscrete)
 		x_vec = GO_DATA_VECTOR (series->values[(plot->transposed)? 1: 0].data);
-		x[0] = go_data_vector_get_value (x_vec, 0);
-		x[1] = go_data_vector_get_value (x_vec, 1);
-	}
 	ydiscrete = gog_axis_is_discrete (plot->base.axis[1]) ||
 			series->values[(plot->transposed)? 0: 1].data == NULL;
-	if (ydiscrete) {
-		y[0] = 0.;
-		y[1] = 1.;
-	} else {
+	if (!ydiscrete)
 		y_vec = GO_DATA_VECTOR (series->values[(plot->transposed)? 0: 1].data);
-		y[0] = go_data_vector_get_value (y_vec, 0);
-		y[1] = go_data_vector_get_value (y_vec, 1);
-	}
-	gog_chart_map_3d_to_view (chart_map, x[0], y[0], data[0], NULL, NULL, z + 1); 
-	gog_chart_map_3d_to_view (chart_map, x[1], y[0], data[0], NULL, NULL, z + 2);
-	z[0] = fabs (z[2] > z[1]);
-	if (z[2] > z[1]) {
-		istart = imax - 1;
-		iend = 0;
-		istep = -1;
-	} else {
-		istart = 1;
-		iend = imax;
-		istep = 1;
-	}
-	gog_chart_map_3d_to_view (chart_map, x[0], y[1], data[0], NULL, NULL, z + 2);
-	j_first = fabs (z[2] > z[1]) > z[0];
-	if (z[2] > z[1]) {
-		jstart = jmax - 1;
-		jend = 0;
-		jstep = -1;
-	} else {
-		jstart = 1;
-		jstep = 1;
-		jend = jmax;
-	}
+	for (i = 1; i < imax; i++)
+		for (j = 1; j < jmax; j++) {
+			tile = g_new0 (GogSurfaceTile, 1);
+			tile->path = go_path_new ();
+			if (xdiscrete) {
+				x0 = i;
+				x1 = i + 1;
+			} else {
+				x0 = go_data_vector_get_value (x_vec, i - 1);
+				x1 = go_data_vector_get_value (x_vec, i);
+			}
+			if (ydiscrete) {
+				y0 = j;
+				y1 = j + 1;
+			} else {
+				y0 = go_data_vector_get_value (y_vec, j - 1);
+				y1 = go_data_vector_get_value (y_vec, j);
+			}
+			nbvalid = 0;
+			z = data[(j - 1) * imax + i - 1];
+			if (!isnan (z) && go_finite (z)) {
+				gog_chart_map_3d_to_view (chart_map, x0, y0, z, &x, &y, &z);
+				go_path_move_to (tile->path, x, y);
+				nbvalid = 1;
+				tile->distance = z;
+			}
+			z = data[(j - 1) * imax + i];
+			if (!isnan (z) && go_finite (z)) {
+				gog_chart_map_3d_to_view (chart_map, x1, y0, z, &x, &y, &z);
+				if (nbvalid)
+					go_path_line_to (tile->path, x, y);
+				else
+					go_path_move_to (tile->path, x, y);
+				nbvalid++;
+				tile->distance += z;
+			}
+			z = data[j * imax + i];
+			if (!isnan (z) && go_finite (z)) {
+				gog_chart_map_3d_to_view (chart_map, x1, y1, z, &x, &y, &z);
+				if (nbvalid)
+					go_path_line_to (tile->path, x, y);
+				else
+					go_path_move_to (tile->path, x, y);
+				nbvalid++;
+				tile->distance += z;
+			}
+			z = data[j * imax + i - 1];
+			if (!isnan (z) && go_finite (z)) {
+				gog_chart_map_3d_to_view (chart_map, x0, y1, z, &x, &y, &z);
+				if (nbvalid)
+					go_path_line_to (tile->path, x, y);
+				else
+					go_path_move_to (tile->path, x, y);
+				nbvalid++;
+				tile->distance += z;
+			}
+			if (nbvalid) {
+				go_path_close (tile->path);
+				tile->distance /= nbvalid;
+				tiles = g_slist_prepend (tiles, tile);
+			} else {
+				go_path_free (tile->path);
+				g_free (tile);
+			}
+		}
+
+	/* Sort the tiles */
+	tiles = g_slist_sort (tiles, (GCompareFunc) tile_cmp);
+
+	/* Render the tiles and free memory */
+	cur = tiles;
 	gog_renderer_push_style (rend, style);
-	if (j_first)
-		for (j = jstart; j != jend; j += jstep) 
-			for (i = istart; i != iend; i +=istep) {
-				path = go_path_new ();
-				if (xdiscrete) {
-					x0 = i;
-					x1 = i + 1;
-				} else {
-					x0 = go_data_vector_get_value (x_vec, i - 1);
-					x1 = go_data_vector_get_value (x_vec, i);
-				}
-				if (ydiscrete) {
-					y0 = j;
-					y1 = j + 1;
-				} else {
-					y0 = go_data_vector_get_value (y_vec, j - 1);
-					y1 = go_data_vector_get_value (y_vec, j);
-				}
-				gog_chart_map_3d_to_view (chart_map, x0, y0,
-							  data[(j - 1) * imax + i - 1], x, y, NULL);
-				go_path_move_to (path, *x, *y);
-				gog_chart_map_3d_to_view (chart_map, x1, y0,
-							  data[(j - 1) * imax + i], x, y, NULL);
-				go_path_line_to (path, *x, *y);
-				gog_chart_map_3d_to_view (chart_map, x1, y1,
-							  data[j * imax + i], x, y, NULL);
-				go_path_line_to (path, *x, *y);
-				gog_chart_map_3d_to_view (chart_map, x0, y1,
-							  data[j * imax + i - 1], x, y, NULL);
-				go_path_line_to (path, *x, *y);
-				go_path_close (path);
-				gog_renderer_draw_shape (rend, path);
-				go_path_free (path);
-			}
-	else
-		for (i = istart; i != iend; i +=istep)
-			for (j = jstart; j != jend; j += jstep) {
-				path = go_path_new ();
-				if (xdiscrete) {
-					x0 = i;
-					x1 = i + 1;
-				} else {
-					x0 = go_data_vector_get_value (x_vec, i - 1);
-					x1 = go_data_vector_get_value (x_vec, i);
-				}
-				if (ydiscrete) {
-					y0 = j;
-					y1 = j + 1;
-				} else {
-					y0 = go_data_vector_get_value (y_vec, j - 1);
-					y1 = go_data_vector_get_value (y_vec, j);
-				}
-				gog_chart_map_3d_to_view (chart_map, x0, y0,
-							  data[(j - 1) * imax + i - 1], x, y, NULL);
-				go_path_move_to (path, *x, *y);
-				gog_chart_map_3d_to_view (chart_map, x1, y0,
-							  data[(j - 1) * imax + i], x, y, NULL);
-				go_path_line_to (path, *x, *y);
-				gog_chart_map_3d_to_view (chart_map, x1, y1,
-							  data[j * imax + i], x, y, NULL);
-				go_path_line_to (path, *x, *y);
-				gog_chart_map_3d_to_view (chart_map, x0, y1,
-							  data[j * imax + i - 1], x, y, NULL);
-				go_path_line_to (path, *x, *y);
-				go_path_close (path);
-				gog_renderer_draw_shape (rend, path);
-				go_path_free (path);
-			}
+	while (cur) {
+		tile = (GogSurfaceTile *) cur->data;
+		gog_renderer_draw_shape (rend, tile->path);
+		go_path_free (tile->path);
+		g_free (tile);
+
+		cur = cur->next;
+	}
+	g_slist_free (tiles);
+
 	gog_renderer_pop_style (rend);
 	gog_chart_map_3d_free (chart_map);
 }
