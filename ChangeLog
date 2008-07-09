@@ -1,3 +1,9 @@
+2008-07-08  Jody Goldberg <jody@gnome.org>
+
+	* plugins/plot_surface/plugin.xml.in : rename to match the naming
+	  convention.
+	* plugins/smoothing/plugin.xml.in : ditto.
+
 2008-07-08  Mariusz Adamski  <mariusz.adamski@gmail.com>
 
 	* goffice/graph/gog-3d-box-prefs.glade: fixed limits.
