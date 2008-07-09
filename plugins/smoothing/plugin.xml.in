@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="GOffice_smoothing">
 	<information>
-		<_name>Smoothed curves</_name>
+		<_name>Charting : Trends and Curves</_name>
 		<_description>Smoothed curves</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">

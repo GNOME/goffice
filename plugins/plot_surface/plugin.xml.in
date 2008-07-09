@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="GOffice_plot_surface">
 	<information>
-		<_name>Surface Charts</_name>
+		<_name>Charting : Surfaces</_name>
 		<_description>Surface charts</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
