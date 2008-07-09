@@ -147,7 +147,7 @@ typedef enum {
 	GOG_MS_DIM_LOW,	/* we made it up for hi-lo*/
 	GOG_MS_DIM_HIGH,	/* we made it up for hi-lo */
 	GOG_MS_DIM_EXTRA1,	/* we made it up for other uses */
-	GOG_MS_DIM_EXTRA2,	/* we made it up for other uses */
+	GOG_MS_DIM_EXTRA2	/* we made it up for other uses */
 } GogMSDimType;
 
 typedef enum {
