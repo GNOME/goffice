@@ -1,3 +1,11 @@
+2008-07-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/component/go-component-factory.c:
+	(go_component_type_service_read_xml): fix a memory leak.
+	* goffice/graph/gog-chart-map-3d.c: (xyz_map_3D_to_view):
+	fix projection code for non nul FoV.
+	* goffice/graph/gog-chart.c: (gog_chart_3d_process): ditto.
+
 2008-07-08  Jody Goldberg <jody@gnome.org>
 
 	* plugins/plot_surface/plugin.xml.in : rename to match the naming

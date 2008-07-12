@@ -857,24 +857,24 @@ gog_chart_3d_process (GogChart *chart, GogViewAllocation const *bbox)
 		if (d < box->r)
 			box->r = d;
 		/* also calculate the reduction factor we need to make things fit in the bbox */
-		xmax = fabs (o[0]) * (1. + o[1] / box->r);
-		zmax = fabs (o[2]) * (1. + o[1] / box->r);
-		d = fabs (x[0]) * (1. + x[1] / box->r);
+		xmax = fabs (o[0]) / (1. - o[1] / box->r);
+		zmax = fabs (o[2]) / (1. - o[1] / box->r);
+		d = fabs (x[0]) / (1. - x[1] / box->r);
 		if (d > xmax)
 			xmax = d;
-		d = fabs (x[2]) * (1. + x[1] / box->r);
+		d = fabs (x[2]) / (1. - x[1] / box->r);
 		if (d > zmax)
 			zmax = d;
-		d = fabs (y[0]) * (1. + y[1] / box->r);
+		d = fabs (y[0]) / (1. - y[1] / box->r);
 		if (d > xmax)
 			xmax = d;
-		d = fabs (y[2]) * (1. + y[1] / box->r);
+		d = fabs (y[2]) / (1. - y[1] / box->r);
 		if (d > zmax)
 			zmax = d;
-		d = fabs (z[0]) * (1. + z[1] / box->r);
+		d = fabs (z[0]) / (1. - z[1] / box->r);
 		if (d > xmax)
 			xmax = d;
-		d = fabs (z[2]) * (1. + z[1] / box->r);
+		d = fabs (z[2]) / (1. - z[1] / box->r);
 		if (d > zmax)
 			zmax = d;
 	} else {

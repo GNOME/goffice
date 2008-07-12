@@ -49,16 +49,16 @@ xyz_map_3D_to_view (GogChartMap3D *map, double x, double y, double z, double *u,
 	z = gog_axis_map_to_view (map->axis_map[2], z);
 	go_matrix3x3_transform (&box->mat, x, y, z, &x, &y, &z);
 	if (box->fov > 0.) {
-	    x *= (1. + y / box->r) / box->ratio;
-	    z *= (1. + y / box->r) / box->ratio;
+	    x /= (1. - y / box->r) * box->ratio;
+	    z /= (1. - y / box->r) * box->ratio;
 	} else {
 	    x /= box->ratio;
 	    z /= box->ratio;
 	}
 	if (u)
-	    *u = map->area.x + map->area.w / 2. * (1. + x / box->dx);
+	    *u = map->area.x + map->area.w / 2. * (1. + x / map->area.w);
 	if (v)
-	    *v = map->area.y + map->area.h / 2. * (1. - z / box->dz);
+	    *v = map->area.y + map->area.h / 2. * (1. - z / map->area.h);
 	if (w)
 	    *w = y;
 }
