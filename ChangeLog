@@ -1,3 +1,14 @@
+2008-07-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix keyboard activation of the add menu in the graph guru.
+
+	* goffice/graph/gog-child-button.c (gog_child_button_init): connect to
+	toggled signal.
+	(ensure_menu): new, to be shared by toggled in button-press signal
+	handlers.
+	(gog_child_button_toggled_cb): new.
+	(gog_child_button_press_event_cb): new.
+
 2008-07-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-plot-engine.c:

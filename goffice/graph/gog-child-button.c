@@ -36,6 +36,7 @@
 #include <gtk/gtktogglebutton.h>
 
 #include <gdk/gdkpixbuf.h>
+#include <gdk/gdkkeysyms.h>
 
 #include <glib/gi18n-lib.h>
 #include <glib/ghash.h>
@@ -43,6 +44,8 @@
 #include <string.h>
 
 static void     gog_child_button_finalize   		(GObject *object);
+static gboolean	gog_child_button_toggled_cb		(GtkToggleButton *toggle_button,
+							 GogChildButton *child_button);
 static gboolean	gog_child_button_press_event_cb		(GtkToggleButton *toggle_button,
 							 GdkEventButton *event,
 							 GogChildButton *child_button);
@@ -62,6 +65,8 @@ struct _GogChildButton
 
 	GogObject 	*object;
 	GSList 		*additions;
+
+	gboolean	 button_handling_in_progress;
 };
 
 struct _GogChildButtonClass
@@ -77,6 +82,7 @@ gog_child_button_init (GogChildButton *child_button)
 	child_button->object = NULL;
 	child_button->additions = NULL;
 	child_button->menu = NULL;
+	child_button->button_handling_in_progress = FALSE;
 
 	gtk_widget_push_composite_child ();
 
@@ -88,6 +94,8 @@ gog_child_button_init (GogChildButton *child_button)
 
 	gtk_box_pack_start (GTK_BOX (child_button), child_button->toggle_button, TRUE, TRUE, 0);
 
+	g_signal_connect (G_OBJECT (child_button->toggle_button), "toggled",
+			  G_CALLBACK (gog_child_button_toggled_cb), child_button);
 	g_signal_connect (G_OBJECT (child_button->toggle_button), "button-press-event",
 			  G_CALLBACK (gog_child_button_press_event_cb), child_button);
 
@@ -295,7 +303,10 @@ gog_child_button_popup (GogChildButton *child_button, guint button, guint32 even
 	if (GTK_WIDGET_MAPPED (child_button->menu))
 		return;
 
+	child_button->button_handling_in_progress = TRUE;
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (child_button->toggle_button), TRUE);
+	child_button->button_handling_in_progress = FALSE;
+
 	gtk_menu_popup (GTK_MENU (child_button->menu),
 			NULL, NULL,
 			go_menu_position_below, child_button,
@@ -484,13 +495,9 @@ cb_menu_deactivate (GtkMenu *menu, GogChildButton *child_button)
 	gog_child_button_popdown (child_button);
 }
 
-static gboolean
-gog_child_button_press_event_cb (GtkToggleButton *toggle_button,
-				 GdkEventButton *event,
-				 GogChildButton *child_button)
+static void
+ensure_menu (GogChildButton *child_button)
 {
-	g_return_val_if_fail (child_button->additions != NULL, FALSE);
-
 	if (child_button->menu == NULL) {
 		GtkWidget *widget;
 		Addition *addition;
@@ -532,6 +539,31 @@ gog_child_button_press_event_cb (GtkToggleButton *toggle_button,
 		gtk_widget_show_all (GTK_WIDGET (child_button->menu));
 		gtk_menu_shell_set_take_focus (GTK_MENU_SHELL (child_button->menu), TRUE);
 	}
+}
+
+static gboolean
+gog_child_button_toggled_cb (GtkToggleButton *toggle_button,
+		      GogChildButton *child_button)
+{
+	g_return_val_if_fail (child_button->additions != NULL, FALSE);
+
+	if (gtk_toggle_button_get_active (toggle_button) &&
+	    !child_button->button_handling_in_progress) {
+		ensure_menu (child_button);
+		gog_child_button_popup (child_button, 0, 0);
+	}
+
+	return FALSE;
+}
+
+static gboolean
+gog_child_button_press_event_cb (GtkToggleButton *toggle_button,
+				 GdkEventButton *event,
+				 GogChildButton *child_button)
+{
+	g_return_val_if_fail (child_button->additions != NULL, FALSE);
+
+	ensure_menu (child_button);
 
 	gog_child_button_popup (child_button, event->button, event->time);
 
