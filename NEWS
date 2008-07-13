@@ -1,5 +1,8 @@
 goffice 0.7.1:
 
+Jean:
+	* Fix plot engines memory leaks. [#542506]
+
 Morten:
 	* Work around valgrind bug.
 
