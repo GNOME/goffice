@@ -1,3 +1,10 @@
+2008-07-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-plot-engine.c:
+	(gog_plot_type_service_finalize),
+	(gog_trend_line_service_finalize),
+	(gog_trend_line_service_class_init): fix memory leaks. [#542506]
+
 2008-06-30  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-math.c (go_math_init): Check for buggy

@@ -297,24 +297,28 @@ gog_plot_type_service_get_description (GOPluginService *service)
 	return g_strdup (_("Plot Type"));
 }
 
+static void gog_plot_family_free (GogPlotFamily *family);
+static void gog_plot_type_free (GogPlotType *type);
+
 static void
 gog_plot_type_service_finalize (GObject *obj)
 {
 	GogPlotTypeService *service = GOG_PLOT_TYPE_SERVICE (obj);
 	GSList *ptr;
 
-	for (ptr = service->families ; ptr != NULL ; ptr = ptr->next) {
-	}
+	for (ptr = service->families ; ptr != NULL ; ptr = ptr->next)
+		gog_plot_family_free ((GogPlotFamily *) ptr->data);
 	g_slist_free (service->families);
 	service->families = NULL;
 
-	for (ptr = service->types ; ptr != NULL ; ptr = ptr->next) {
-	}
+	/* plot types are freed by gog_plot_family_free, so no need to
+	free anything but the list here */
 	g_slist_free (service->types);
 	service->types = NULL;
 
 	for (ptr = service->paths ; ptr != NULL ; ptr = ptr->next) {
 		g_hash_table_remove (pending_engines, ptr->data);
+		g_free (ptr->data);
 	}
 	g_slist_free (service->paths);
 	service->paths = NULL;
@@ -611,6 +615,28 @@ gog_trend_line_service_get_description (GOPluginService *service)
 	return g_strdup (_("Regression Curve Type"));
 }
 
+static void gog_trend_line_type_free (GogTrendLineType *type);
+
+static void
+gog_trend_line_service_finalize (GObject *obj)
+{
+	GogTrendLineService *service = GOG_TREND_LINE_SERVICE (obj);
+	GSList *ptr;
+
+	for (ptr = service->types ; ptr != NULL ; ptr = ptr->next)
+		gog_trend_line_type_free ((GogTrendLineType *) ptr->data);
+	g_slist_free (service->types);
+	service->types = NULL;
+
+	for (ptr = service->paths ; ptr != NULL ; ptr = ptr->next) {
+		g_free (ptr->data);
+	}
+	g_slist_free (service->paths);
+	service->paths = NULL;
+
+	(plot_type_parent_klass->finalize) (obj);
+}
+
 static void
 gog_trend_line_service_init (GObject *obj)
 {
@@ -620,8 +646,11 @@ gog_trend_line_service_init (GObject *obj)
 }
 
 static void
-gog_trend_line_service_class_init (GOPluginServiceClass *ps_class)
+gog_trend_line_service_class_init (GObjectClass *gobject_klass)
 {
+	GOPluginServiceClass *ps_class = GPS_CLASS (gobject_klass);
+
+	gobject_klass->finalize	  = gog_trend_line_service_finalize;
 	ps_class->read_xml	  = gog_trend_line_service_read_xml;
 	ps_class->get_description = gog_trend_line_service_get_description;
 	ps_class->activate	  = gog_trend_line_service_activate;

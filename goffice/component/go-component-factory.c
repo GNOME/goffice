@@ -121,8 +121,7 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 					       (GDestroyNotify)
 					       go_mime_type_free);
 	for (ptr = tree->xmlChildrenNode; ptr != NULL; ptr = ptr->next)
-		if (0 == xmlStrcmp (ptr->name, "mime_type"))
-		{
+		if (0 == xmlStrcmp (ptr->name, "mime_type")) {
 			char *name = xmlGetProp (ptr, "name");
 			char *priority = xmlGetProp (ptr, "priority");
 			char *support_clipboard = xmlGetProp (ptr, "clipboard");
@@ -133,7 +132,7 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 			for (i = 4; i >= 0; i--)
 				if (!strcmp (priority, GOPriorityName[i]))
 					break;
-			g_free (priority);
+			xmlFree (priority);
 
 /* FIXME FIXME FIXME the code should take into account that a plugin might be deactivated ! */
 			if (mime_type == NULL) {
@@ -149,12 +148,14 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 				g_hash_table_replace (mime_types, name,
 						      mime_type);
 			} else if (i > mime_type->priority) {
-				g_free (name);
+				xmlFree (name);
 				g_free (mime_type->component_type_name);
 				mime_type->component_type_name =
 					g_strdup (service->id);
 				mime_type->priority = i;
 			}
+			if (support_clipboard)
+				xmlFree (support_clipboard);
 		}
 }
 
