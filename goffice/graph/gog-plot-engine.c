@@ -628,9 +628,6 @@ gog_trend_line_service_finalize (GObject *obj)
 	g_slist_free (service->types);
 	service->types = NULL;
 
-	for (ptr = service->paths ; ptr != NULL ; ptr = ptr->next) {
-		g_free (ptr->data);
-	}
 	g_slist_free (service->paths);
 	service->paths = NULL;
 
