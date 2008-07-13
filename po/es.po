@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-25 10:51+0000\n"
-"PO-Revision-Date: 2008-06-28 00:01+0200\n"
+"POT-Creation-Date: 2008-07-09 02:46+0000\n"
+"PO-Revision-Date: 2008-07-13 22:41+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -749,6 +749,47 @@ msgstr "Familia de topo"
 #: ../goffice/drawing/god-paragraph-attributes.c:258
 msgid "Bullet On"
 msgstr "Topos activados"
+
+# Muestra o ejemplo? serrador@arrakis.es
+#: ../goffice/graph/gog-3d-box-prefs.glade.h:1
+msgid "<b>Euler angles</b>"
+msgstr "   Ángulos de Euler</b>           <b>"
+
+#: ../goffice/graph/gog-3d-box-prefs.glade.h:2
+msgid "Phi:"
+msgstr "Phi:"
+
+#: ../goffice/graph/gog-3d-box-prefs.glade.h:3
+msgid "Psi:"
+msgstr "Psi:"
+
+#: ../goffice/graph/gog-3d-box-prefs.glade.h:4
+msgid "Theta:"
+msgstr "Theta:"
+
+#: ../goffice/graph/gog-3d-box.c:165
+msgid "Rotation"
+msgstr "Rotación"
+
+#: ../goffice/graph/gog-3d-box.c:221
+msgid "Advanced"
+msgstr "Avanzado"
+
+#: ../goffice/graph/gog-3d-box.c:290
+msgid "Euler angle psi"
+msgstr "Ángulo psi de Euler"
+
+#: ../goffice/graph/gog-3d-box.c:297
+msgid "Euler angle theta"
+msgstr "Ángulo theta de Euler"
+
+#: ../goffice/graph/gog-3d-box.c:304
+msgid "Euler angle phi"
+msgstr "Ángulo phi de Euler"
+
+#: ../goffice/graph/gog-3d-box.c:311
+msgid "Field of view"
+msgstr "Campo de visión"
 
 #: ../goffice/graph/gog-axis-line.c:653
 msgid "Layout"
@@ -1688,7 +1729,7 @@ msgstr "Interpolación predeterminada"
 
 #: ../goffice/graph/gog-plot.c:561
 msgid "Default type of series line interpolation"
-msgstr ""
+msgstr "Tipo predeterminado de series de líneas de interpolación"
 
 #: ../goffice/graph/gog-plot.c:1121
 msgid "Move plot area"
@@ -2005,6 +2046,10 @@ msgstr "el padre GogView"
 #: ../goffice/graph/gog-view.c:598
 msgid "The GogObject this view displays"
 msgstr "El GogObject que muestra esta vista"
+
+#: ../goffice/gtk/go-3d-rotation-sel.glade.h:1
+msgid "<b>Rotation</b>"
+msgstr "<b>Rotación</b>"
 
 #: ../goffice/gtk/go-action-combo-text.c:253
 msgid "Case Sensitive"
@@ -5583,7 +5628,7 @@ msgstr "Contorno"
 
 #. xgettext : the base for how to name surface plot objects
 #.
-#: ../plugins/plot_surface/gog-surface.c:66
+#: ../plugins/plot_surface/gog-surface.c:67
 msgid "PlotSurface"
 msgstr "Superficie"
 
@@ -5622,16 +5667,16 @@ msgid "Surface plot."
 msgstr "Dibujo de superficie."
 
 #: ../plugins/plot_surface/plugin.xml.in.h:1
+msgid "Charting : Surfaces"
+msgstr "Gráfico: Superficies"
+
+#: ../plugins/plot_surface/plugin.xml.in.h:2
 msgid "Contour plotting engine"
 msgstr "Motor de dibujo de contornos"
 
-#: ../plugins/plot_surface/plugin.xml.in.h:2
+#: ../plugins/plot_surface/plugin.xml.in.h:3
 msgid "Default surface plot types"
 msgstr "Tipos de gráficas de superficie predeterminadas"
-
-#: ../plugins/plot_surface/plugin.xml.in.h:3
-msgid "Surface Charts"
-msgstr "Diagramas de superficie"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:4
 msgid "Surface charts"
@@ -6135,18 +6180,22 @@ msgid "_Steps:"
 msgstr "Pa_sos"
 
 #: ../plugins/smoothing/plugin.xml.in.h:1
+msgid "Charting : Trends and Curves"
+msgstr "Gráfico: Tendencias y curvas"
+
+#: ../plugins/smoothing/plugin.xml.in.h:2
 msgid "Moving average smoothing engine"
 msgstr "Moviendo la media del motor de suavizado"
 
-#: ../plugins/smoothing/plugin.xml.in.h:2
+#: ../plugins/smoothing/plugin.xml.in.h:3
 msgid "Smoothed curves"
 msgstr "Curvas suavizadas"
 
-#: ../plugins/smoothing/plugin.xml.in.h:3
+#: ../plugins/smoothing/plugin.xml.in.h:4
 msgid "Smoothed curves types"
 msgstr "Tipos de curvas suavizadas"
 
-#: ../plugins/smoothing/plugin.xml.in.h:4
+#: ../plugins/smoothing/plugin.xml.in.h:5
 msgid "exponential smoothing engine"
 msgstr "motor de suavizado exponencial"
 
