@@ -73,6 +73,10 @@ typedef struct {
 
 	gboolean   (*supports_vary_style_by_element) (GogPlot const *plot);
 
+	/* %TRUE if the plot prefers to display series in reverse order for
+	 * legends (e.g. stacked plots want top element to be the last series) */
+	gboolean   (*enum_in_reverse) (GogPlot const *plot);
+
 	void       (*foreach_elem)    	(GogPlot *plot, gboolean only_visible,
 					 GogEnumFunc handler, gpointer data);
 

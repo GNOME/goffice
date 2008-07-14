@@ -710,6 +710,13 @@ gog_plot_get_cardinality (GogPlot *plot, unsigned *full, unsigned *visible)
 		*visible = plot->visible_cardinality;
 }
 
+static gboolean
+gog_plot_enum_in_reverse (GogPlot const *plot)
+{
+	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+	return klass != NULL && klass->enum_in_reverse && (klass->enum_in_reverse) (plot);
+}
+
 void
 gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 		       GogEnumFunc func, gpointer data)
@@ -738,13 +745,22 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 		return;
 
 	if (!plot->vary_style_by_element) {
+		GSList *tmp = NULL;
+
 		unsigned i = plot->index_num;
+
+		if (gog_plot_enum_in_reverse (plot))
+			ptr = tmp = g_slist_reverse (g_slist_copy (ptr));
+
 		for (; ptr != NULL ; ptr = ptr->next)
 			if (!only_visible || gog_series_has_legend (ptr->data)) {
 				func (i, gog_styled_object_get_style (ptr->data),
 				      gog_object_get_name (ptr->data), data);
 				i++;
 			}
+
+		g_slist_free (tmp);
+
 		return;
 	}
 

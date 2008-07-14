@@ -1,3 +1,13 @@
+2008-07-14  Jody Goldberg <jody@gnome.org>
+
+	* goffice/graph/gog-plot.c (gog_plot_enum_in_reverse) : new.
+	(gog_plot_foreach_elem) : Legends are the only things that use this,
+	  add a hook to allow a plot to decide what order to walk the list of
+	  series. [#540719]
+
+	* plugins/plot_barcol/gog-1.5d.c (gog_1_5d_enum_in_reverse) : stacked
+	  and percentage plots prefer to list the series in reverse order.
+
 2008-07-14  Mariusz Adamski  <mariusz.adamski@gmail.com>
 
 	* goffice/graph/gog-3d-box.c: display3D axes and limit FoV to 90.

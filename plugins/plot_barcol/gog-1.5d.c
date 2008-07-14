@@ -310,6 +310,12 @@ gog_1_5d_supports_vary_style_by_element (GogPlot const *plot)
 	GogPlot1_5d *gog_1_5d = GOG_PLOT1_5D (plot);
 	return gog_1_5d->type == GOG_1_5D_NORMAL;
 }
+static gboolean
+gog_1_5d_enum_in_reverse (GogPlot const *plot)
+{
+	GogPlot1_5d *gog_1_5d = GOG_PLOT1_5D (plot);
+	return gog_1_5d->type != GOG_1_5D_NORMAL; /* stacked or percentage */
+}
 
 static void
 gog_plot1_5d_class_init (GogPlotClass *plot_klass)
@@ -358,6 +364,7 @@ gog_plot1_5d_class_init (GogPlotClass *plot_klass)
 	plot_klass->axis_get_bounds   	= gog_plot1_5d_axis_get_bounds;
 	plot_klass->axis_set	      	= GOG_AXIS_SET_XY;
 	plot_klass->supports_vary_style_by_element = gog_1_5d_supports_vary_style_by_element;
+	plot_klass->enum_in_reverse	= gog_1_5d_enum_in_reverse;
 }
 
 static void
