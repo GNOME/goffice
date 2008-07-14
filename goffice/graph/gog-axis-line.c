@@ -25,6 +25,7 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-chart-map.h>
+#include <goffice/graph/gog-chart-map-3d.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
@@ -280,8 +281,8 @@ gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base)
 				crossed_type = GOG_AXIS_RADIAL;
 			break;
 		case GOG_AXIS_SET_X:
-			break;
 		case GOG_AXIS_SET_XYZ:
+			break;
 		case GOG_AXIS_SET_ALL:
 		case GOG_AXIS_SET_NONE:
 		default:
@@ -614,6 +615,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 
 	if (axis_type == GOG_AXIS_X ||
 	    axis_type == GOG_AXIS_Y ||
+	    axis_type == GOG_AXIS_Z ||
 	    axis_type == GOG_AXIS_RADIAL) {
 		w = glade_xml_get_widget (gui, "padding_spinbutton");
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), axis_base->padding);
@@ -812,7 +814,8 @@ gog_tool_bound_is_valid_axis (GogView *view)
 	GogAxisType type = gog_axis_get_atype (axis_base->axis);
 
 	return (type == GOG_AXIS_X ||
-		type == GOG_AXIS_Y);
+		type == GOG_AXIS_Y ||
+		type == GOG_AXIS_Z);
 
 }
 
@@ -1769,14 +1772,207 @@ static gboolean
 xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	    GogViewAllocation const *plot_area, double x, double y)
 {
-    GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
-    GogAxisType axis_type = gog_axis_get_atype (axis_base->axis);
-    g_return_val_if_fail (axis_type == GOG_AXIS_X ||
-			  axis_type == GOG_AXIS_Y ||
-			  axis_type == GOG_AXIS_Z, FALSE);
+	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
+	GogAxisBaseView *axis_base_view = GOG_AXIS_BASE_VIEW (view);
+	GogAxisType axis_type = gog_axis_get_atype (axis_base->axis);
+	GogAxis *axis1, *axis2;
+	GogChartMap3D *c_map;
+	GogAxisMap *a_map;
+	GogViewAllocation axis_line_bbox;
+	GSList *axes;
+	GogAxisType perp_axis;
+	double ax, ay, az, bx, by, bz, ox, oy, dist, tmp;
+	double xposition, yposition, zposition;
+	double start, stop;
+	double *px[] = {&ax, &ax, &bx, &bx, &ax, &ax, &bx, &bx};
+	double *py[] = {&ay, &by, &by, &ay, &ay, &by, &by, &ay};
+	double *pz[] = {&az, &az, &az, &az, &bz, &bz, &bz, &bz};
+	double rx[8], ry[8], rz[8];
 
-    return TRUE;
+	/* Note: Anti-clockwise order in each face,
+	 * important for calculating normals */
+	const int faces[] = {
+		3, 2, 1, 0, /* Bottom */
+		4, 5, 6, 7, /* Top */
+		0, 1, 5, 4, /* Left */
+		2, 3, 7, 6, /* Right */
+		1, 2, 6, 5, /* Front */
+		0, 4, 7, 3  /* Back */
+	};
+	int i, vertex = 0, base = 0;
+	GOGeometrySide side = GO_SIDE_LEFT;
 
+	g_return_val_if_fail (axis_type == GOG_AXIS_X ||
+	                      axis_type == GOG_AXIS_Y ||
+	                      axis_type == GOG_AXIS_Z, FALSE);
+
+	if (!gog_object_is_visible (axis_base->axis))
+		return FALSE;
+
+	if (axis_type == GOG_AXIS_X) {
+		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_Y);
+		axis1 = GOG_AXIS (axes->data);
+		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_Z);
+		axis2 = GOG_AXIS (axes->data);
+		c_map = gog_chart_map_3d_new (axis_base->chart, plot_area,
+			axis_base->axis, axis1, axis2);
+	} else if (axis_type == GOG_AXIS_Y) {
+		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_Z);
+		axis1 = GOG_AXIS (axes->data);
+		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_X);
+		axis2 = GOG_AXIS (axes->data);
+		c_map = gog_chart_map_3d_new (axis_base->chart, plot_area,
+			axis2, axis_base->axis, axis1);
+	} else {
+		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_X);
+		axis1 = GOG_AXIS (axes->data);
+		axes  = gog_chart_get_axes (axis_base->chart, GOG_AXIS_Y);
+		axis2 = GOG_AXIS (axes->data);
+		c_map = gog_chart_map_3d_new (axis_base->chart, plot_area,
+			axis1, axis2, axis_base->axis);
+	}
+
+	a_map = gog_chart_map_3d_get_axis_map (c_map, 0);
+	gog_axis_map_get_bounds (a_map, &ax, &bx);
+	a_map = gog_chart_map_3d_get_axis_map (c_map, 1);
+	gog_axis_map_get_bounds (a_map, &ay, &by);
+	a_map = gog_chart_map_3d_get_axis_map (c_map, 2);
+	gog_axis_map_get_bounds (a_map, &az, &bz);
+
+	/* Projecting vertices */
+	for (i = 0; i < 8; ++i)
+		gog_chart_map_3d_to_view (c_map, *px[i], *py[i], *pz[i],
+		                          &rx[i], &ry[i], &rz[i]);
+
+	/* Determining base plane */
+	dist  = ry[0] + ry[1] + ry[2] + ry[3];
+	for (i = 4; i < 24; i += 4) {
+		tmp = ry[faces[i]] + ry[faces[i + 1]]
+		    + ry[faces[i + 2]] + ry[faces[i + 3]];
+		if (tmp > dist) {
+			dist = tmp;
+			base = i;
+		}
+	}
+	if (base == 0 || base == 4)
+		perp_axis = GOG_AXIS_Z;
+	else if (base == 8 || base == 12)
+		perp_axis = GOG_AXIS_X;
+	else
+		perp_axis = GOG_AXIS_Y;
+
+	/* Position of the centre of the base plane */
+	ox = 0.25 * (rx[faces[base]] + rx[faces[base + 1]]
+	   + rx[faces[base + 2]] + rx[faces[base + 3]]);
+	oy = 0.25 * dist;
+
+	/* Choosing the most distant vertex with respect to the centre
+	 * of the base plane */
+	dist = (rx[faces[base]] - ox);
+	tmp  = (ry[faces[base]] - oy);
+	dist = dist * dist + tmp * tmp;
+	for (i = 1; i < 4; ++i) {
+		double dx = rx[faces[base + i]] - ox;
+		double dy = ry[faces[base + i]] - oy;
+		tmp = dx * dx + dy * dy;
+		if (tmp > dist) {
+			dist = tmp;
+			vertex = i;
+		}
+	}
+
+	if (axis_type != perp_axis) {
+		/* Here we're choosing one of the nearest neighbours
+		 * of the vertex previously chosen */
+		int pvtx = (vertex + 3) % 4; /* Previous vertex */
+		int nvtx = (vertex + 1) % 4; /* Next vertex */
+		int prev = faces[base + pvtx];
+		int next = faces[base + nvtx];
+		int curr = faces[base + vertex];
+		tmp = (rx[next] - rx[curr]) * (ry[prev] - ry[curr])
+		    - (ry[next] - ry[curr]) * (rx[prev] - rx[curr]);
+		/* If normal is negative, we're choosing vertex which
+		 * is closer to the screen */
+		if ((tmp < 0 && rz[prev] < rz[next])
+		    || (tmp > 0 && rz[prev] > rz[next]))
+			vertex = pvtx;
+		else
+			vertex = nvtx;
+	}
+
+	if (axis_type == GOG_AXIS_Z) {
+		xposition = *px[faces[base + vertex]];
+		yposition = *py[faces[base + vertex]];
+
+		a_map = gog_chart_map_3d_get_axis_map (c_map, 2);
+		gog_axis_map_get_extents (a_map, &start, &stop);
+		gog_chart_map_3d_to_view (c_map, xposition, yposition, start,
+		                          &ax, &ay, NULL);
+		gog_chart_map_3d_to_view (c_map, xposition, yposition, stop,
+		                          &bx, &by, NULL);
+	} else if (axis_type == GOG_AXIS_X) {
+		yposition = *py[faces[base + vertex]];
+		zposition = *pz[faces[base + vertex]];
+
+		a_map = gog_chart_map_3d_get_axis_map (c_map, 0);
+		gog_axis_map_get_extents (a_map, &start, &stop);
+		gog_chart_map_3d_to_view (c_map, start, yposition, zposition,
+		                          &ax, &ay, NULL);
+		gog_chart_map_3d_to_view (c_map, stop, yposition, zposition,
+		                          &bx, &by, NULL);
+	} else {
+		zposition = *pz[faces[base + vertex]];
+		xposition = *px[faces[base + vertex]];
+
+		a_map = gog_chart_map_3d_get_axis_map (c_map, 1);
+		gog_axis_map_get_extents (a_map, &start, &stop);
+		gog_chart_map_3d_to_view (c_map, xposition, start, zposition,
+		                          &ax, &ay, NULL);
+		gog_chart_map_3d_to_view (c_map, xposition, stop, zposition,
+		                          &bx, &by, NULL);
+	}
+
+	if (axis_type == perp_axis) {
+		/* Calculating cross-product of two planar vectors
+		 * to determine "chirality" of the projected axis */
+		tmp = (ax - 0.5 * plot_area->w) * (by - ay)
+		    - (ay - 0.5 * plot_area->h) * (bx - ax);
+	} else {
+		/* Same here, but relative to the centre of the base,
+		 * except for a special case, when its 0 */
+		if ((ax == bx && ax == ox) || (ay == by && ay == oy))
+			tmp = (ax - 0.5 * plot_area->w) * (by - ay)
+			    - (ay - 0.5 * plot_area->h) * (bx - ax);
+		else
+			tmp = (ax - ox) * (by - ay) - (ay - oy) * (bx - ax);
+	}
+	side = (tmp > 0)? GO_SIDE_LEFT : GO_SIDE_RIGHT;
+
+	gog_chart_map_3d_free (c_map);
+
+	switch (action) {
+		case GOG_AXIS_BASE_RENDER:
+			axis_line_render (axis_base, axis_base_view,
+					  view->renderer, 
+					  ax, ay, bx - ax , by - ay, side, -1.,
+					  axis_base->major_tick_labeled, TRUE);
+			break;
+		case GOG_AXIS_BASE_PADDING_REQUEST:
+			axis_line_bbox = axis_line_get_bbox (axis_base,
+				view->renderer, ax, ay, bx - ax, by - ay,
+				side, -1., axis_base->major_tick_labeled);
+			padding->wl = MAX (0., plot_area->x - axis_line_bbox.x);
+			padding->ht = MAX (0., plot_area->y - axis_line_bbox.y);
+			padding->wr = MAX (0., axis_line_bbox.x + axis_line_bbox.w
+			                   - plot_area->x - plot_area->w);
+			padding->hb = MAX (0., axis_line_bbox.y + axis_line_bbox.h
+			                   - plot_area->y - plot_area->h);
+			break;
+		case GOG_AXIS_BASE_POINT:
+			break;
+	}
+
+	return FALSE;
 }
 
 static gboolean
@@ -1815,7 +2011,7 @@ gog_axis_base_view_point (GogView *view, double x, double y)
 			pointed = radar_process (GOG_AXIS_BASE_POINT, view, NULL, plot_area, x, y);
 			break;
 		case GOG_AXIS_SET_XYZ:
-			xyz_process (GOG_AXIS_BASE_PADDING_REQUEST, view, NULL, plot_area, x, y);
+			xyz_process (GOG_AXIS_BASE_POINT, view, NULL, plot_area, x, y);
 			break;
 		default:
 			g_warning ("[AxisBaseView::point] not implemented for this axis set (%i)",
@@ -1852,6 +2048,8 @@ gog_axis_base_view_padding_request (GogView *view, GogViewAllocation const *bbox
 			radar_process (GOG_AXIS_BASE_PADDING_REQUEST, view, padding, bbox, 0., 0.);
 			break;
 		case GOG_AXIS_SET_XYZ:
+			xyz_process (GOG_AXIS_BASE_PADDING_REQUEST, view,
+			             padding, bbox, 0., 0.);
 			break;
 		default:
 			g_warning ("[AxisBaseView::padding_request] not implemented for this axis set (%i)",
@@ -1893,6 +2091,9 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 			break;
 		case GOG_AXIS_SET_RADAR:
 			radar_process (GOG_AXIS_BASE_RENDER, view, NULL, plot_area, 0., 0.);
+			break;
+		case GOG_AXIS_SET_XYZ:
+			xyz_process (GOG_AXIS_BASE_RENDER, view, NULL, plot_area, 0., 0.);
 			break;
 		default:
 			g_warning ("[AxisBaseView::render] not implemented for this axis set (%i)",

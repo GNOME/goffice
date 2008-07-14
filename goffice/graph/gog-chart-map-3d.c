@@ -142,6 +142,27 @@ gog_chart_map_3d_to_view (GogChartMap3D *map, double x, double y, double z, doub
 }
 
 /**
+ * gog_chart_map_3d_get_axis_map:
+ * @map: a #GogChartMap3D
+ * @index: axis index
+ *
+ * Convenience function which returns one of the associated axis_map.
+ *
+ * Valid values are in range [0..2].
+ *
+ * returns: a #GogAxisMap.
+ **/
+
+GogAxisMap *
+gog_chart_map_3d_get_axis_map (GogChartMap3D *map, unsigned int i)
+{
+	g_return_val_if_fail (map != NULL, NULL);
+	g_return_val_if_fail (i < 3, NULL);
+
+	return map->axis_map[i];
+}
+
+/**
  * gog_chart_map_3d_is_valid:
  * @map: a #GogChartMap3D
  *

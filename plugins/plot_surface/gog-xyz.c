@@ -182,7 +182,7 @@ gog_xyz_plot_update (GogObject *obj)
 	go_data_matrix_get_minmax (mat, &tmp_min, &tmp_max);
 	if ((tmp_min != model->z.minima)
 			|| (tmp_max != model->z.maxima)) {
-		model->z.minima = tmp_min;
+		model->z.minima = tmp_min - 0.5 * fabs (tmp_max - tmp_min);
 		model->z.maxima = tmp_max;
 		gog_axis_bound_changed (
 			model->base.axis[GOG_XYZ_PLOT_GET_CLASS (model)->third_axis],

@@ -1,3 +1,12 @@
+2008-07-14  Mariusz Adamski  <mariusz.adamski@gmail.com>
+
+	* goffice/graph/gog-3d-box.c: display3D axes and limit FoV to 90.
+	* goffice/graph/gog-axis-line.c: ditto.
+	* goffice/graph/gog-chart-map-3d.c: ditto.
+	* goffice/graph/gog-chart-map-3d.h: ditto.
+	* goffice/gtk/go-3d-rotation-sel.glade: ditto.
+	* plugins/plot_surface/gog-xyz.c: ditto.
+
 2008-07-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-plot-engine.c:

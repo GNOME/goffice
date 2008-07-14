@@ -35,6 +35,7 @@ typedef struct _GogChartMap3D GogChartMap3D;
 GogChartMap3D 	*gog_chart_map_3d_new 		(GogChart *chart, GogViewAllocation const *area,
 						 GogAxis *axis0, GogAxis *axis1, GogAxis *axis2);
 void 		 gog_chart_map_3d_to_view	(GogChartMap3D *map, double x, double y, double z, double *u, double *v, double *w);
+GogAxisMap	*gog_chart_map_3d_get_axis_map 	(GogChartMap3D *map, unsigned int index);
 gboolean	 gog_chart_map_3d_is_valid 	(GogChartMap3D *map);
 void		 gog_chart_map_3d_free 		(GogChartMap3D *map);
 

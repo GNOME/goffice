@@ -941,6 +941,10 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	} else
 		*plot_area = view->residual;
 
+	/* special treatment for 3d charts */
+	if (gog_chart_is_3d (chart))
+		gog_chart_3d_process (chart, plot_area);
+
 	tmp = *plot_area;
 	gog_view_padding_request (view, plot_area, &padding);
 	
@@ -969,10 +973,6 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 		if (GOG_POSITION_IS_SPECIAL (child->model->position))
 			gog_view_size_allocate (child, plot_area);
 	}
-
-	/* special treatment for 3d charts */
-	if (gog_chart_is_3d (chart))
-	    gog_chart_3d_process (chart, plot_area);
 }
 
 static void
@@ -1054,13 +1054,20 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 			child_view = ptr->data;
 			if (!IS_GOG_AXIS (child_view->model) && !IS_GOG_PLOT (child_view->model)) 
-			    gog_view_render	(ptr->data, bbox);
+				gog_view_render	(ptr->data, bbox);
 		}
 		/* now render plot and axes */
 		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 			child_view = ptr->data;
+			if (!IS_GOG_AXIS (child_view->model)) continue;
+				gog_view_render (ptr->data, bbox);
+		}
+		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
+			child_view = ptr->data;
+			if (IS_GOG_AXIS (child_view->model))
+				continue;
 			if (IS_GOG_PLOT (child_view->model)) 
-			    gog_view_render	(ptr->data, bbox);
+				gog_view_render	(ptr->data, bbox);
 		}
 	} else {
 		/* KLUDGE: render grid lines before axis */
