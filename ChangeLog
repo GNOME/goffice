@@ -1,3 +1,9 @@
+2008-07-19  Mariusz Adamski  <mariusz.adamski@gmail.com>
+
+	* goffice/graph/gog-axis-line.c: (xyz_process): fix a padding issue.
+	* goffice/graph/gog-chart.c: (gog_chart_view_3d_process),
+	(gog_chart_view_size_allocate): implemented padding for 3d axes.
+
 2008-07-14  Jody Goldberg <jody@gnome.org>
 
 	* goffice/graph/gog-plot.c (gog_plot_enum_in_reverse) : new.

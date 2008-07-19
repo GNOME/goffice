@@ -774,8 +774,10 @@ gog_chart_is_3d (GogChart const *chart)
 	return chart->axis_set == GOG_AXIS_SET_XYZ;
 }
 
+/*********************************************************************/
+
 static void
-gog_chart_3d_process (GogChart *chart, GogViewAllocation const *bbox)
+gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 {
 	/* A XYZ axis set in supposed. If new sets (cylindrical, spherical or
 	other are added, we'll need to change this code */
@@ -785,7 +787,11 @@ gog_chart_3d_process (GogChart *chart, GogViewAllocation const *bbox)
 	double xmin, xmax, ymin, ymax, zmin, zmax;
 	double o[3], x[3], y[3], z[3], tg, d;
 	Gog3DBox *box;
+	GogChart *chart = GOG_CHART (gog_view_get_model (view));
 	GogObject *obj = gog_object_get_child_by_name (GOG_OBJECT (chart), "3D-Box");
+	GSList *ptr;
+	GogView *child;
+	GogViewPadding padding;
 
 	if (!obj) {
 		obj = g_object_new (GOG_3D_BOX_TYPE, NULL);
@@ -904,9 +910,40 @@ gog_chart_3d_process (GogChart *chart, GogViewAllocation const *bbox)
 	d = xmax / tmp.w;
 	tg = zmax / tmp.h;
 	box->ratio = (d > tg)? d: tg;
-}
 
-/*********************************************************************/
+	gog_view_padding_request (view, bbox, &padding);
+	
+	if (!chart->is_plot_area_manual) {
+		bbox->x += padding.wl;
+		bbox->w -= padding.wl + padding.wr;
+		bbox->y += padding.ht;
+		bbox->h -= padding.ht + padding.hb;
+	} else {
+		tmp.x -= padding.wl;
+		tmp.w += padding.wl + padding.wr;
+		tmp.y -= padding.ht;
+		tmp.h += padding.ht + padding.hb;
+	}
+
+	/* Recalculating ratio */
+	d = xmax / bbox->w;
+	tg = zmax / bbox->h;
+	box->ratio = (d > tg)? d: tg;
+
+	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+		child = ptr->data;
+		if (GOG_POSITION_IS_PADDING (child->model->position)) {
+			gog_view_size_allocate (child, &tmp);
+		}
+	}
+
+	/* by default, overlay all GOG_POSITION_SPECIAL children in residual */
+	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+		child = ptr->data;
+		if (GOG_POSITION_IS_SPECIAL (child->model->position))
+			gog_view_size_allocate (child, bbox);
+	}
+}
 
 typedef struct {
 	GogOutlinedView base;
@@ -942,8 +979,10 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 		*plot_area = view->residual;
 
 	/* special treatment for 3d charts */
-	if (gog_chart_is_3d (chart))
-		gog_chart_3d_process (chart, plot_area);
+	if (gog_chart_is_3d (chart)) {
+		gog_chart_view_3d_process (view, plot_area);
+		return;
+	}
 
 	tmp = *plot_area;
 	gog_view_padding_request (view, plot_area, &padding);

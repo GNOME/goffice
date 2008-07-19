@@ -1875,7 +1875,10 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		double dx = rx[faces[base + i]] - ox;
 		double dy = ry[faces[base + i]] - oy;
 		tmp = dx * dx + dy * dy;
-		if (tmp > dist) {
+
+		/* Adding 1e-5 to ensure this inequality remains true
+		 * after changing the ratio */
+		if (tmp > dist + 1e-5) {
 			dist = tmp;
 			vertex = i;
 		}
