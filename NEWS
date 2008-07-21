@@ -2,6 +2,7 @@ goffice 0.7.1:
 
 Jean:
 	* Fix plot engines memory leaks. [#542506]
+	* Fix gog_style_font_sax_save() writes unescaped font name. [#543986]
 
 Jody:
 	* Reverse legend ordering for stacked 1.5d plots.

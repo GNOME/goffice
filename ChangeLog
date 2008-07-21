@@ -1,3 +1,9 @@
+2008-07-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-style.c: (gog_style_font_sax_save): use
+	gsf_xml_out_add_cstr instead of gsf_xml_out_add_cstr_unchecked.
+	[#543986]
+
 2008-07-19  Mariusz Adamski  <mariusz.adamski@gmail.com>
 
 	* goffice/graph/gog-axis-line.c: (xyz_process): fix a padding issue.
@@ -87,8 +93,6 @@
 	* goffice/gtk/go-3d-rotation-sel.h: ditto.
 
 2008-07-07  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
 
 	* goffice/graph/Makefile.am:
 	* goffice/graph/gog-3d-box.c: (cb_g3d_update), (cb_matrix_changed),
