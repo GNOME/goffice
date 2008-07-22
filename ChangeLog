@@ -1,3 +1,7 @@
+2008-07-08  Jody Goldberg <jody@gnome.org>
+
+	* autogen.sh : back port updated gtk-doc check.
+
 2008-07-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix keyboard activation of the add menu in the graph guru.
