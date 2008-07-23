@@ -1601,7 +1601,7 @@ gog_style_font_sax_save (GsfXMLOut *output, GogStyle const *style)
 	gsf_xml_out_start_element (output, "font");
 	go_xml_out_add_color (output, "color", style->font.color);
 	str = go_font_as_str (style->font.font);
-	gsf_xml_out_add_cstr_unchecked (output, "font", str);
+	gsf_xml_out_add_cstr (output, "font", str);
 	g_free (str);
 	gsf_xml_out_add_bool (output, "auto-scale", style->font.auto_scale);
 	gsf_xml_out_end_element (output);
