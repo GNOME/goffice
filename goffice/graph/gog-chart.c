@@ -1098,8 +1098,10 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 		/* now render plot and axes */
 		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 			child_view = ptr->data;
-			if (!IS_GOG_AXIS (child_view->model)) continue;
-				gog_view_render (ptr->data, bbox);
+			if (!IS_GOG_AXIS (child_view->model))
+				continue;
+			gog_view_render (ptr->data, bbox);
+			grid_line_render (ptr, bbox);
 		}
 		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 			child_view = ptr->data;

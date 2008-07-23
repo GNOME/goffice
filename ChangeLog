@@ -1,3 +1,9 @@
+2008-07-23  Mariusz Adamski  <mariusz.adamski@gmail.com>
+
+	* goffice/graph/gog-axis.c: implemented axes grigs for 3d plots.
+	* goffice/graph/gog-chart.c: ditto.
+	* goffice/graph/gog-grid-line.c: ditto.
+
 2008-07-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-style.c: (gog_style_font_sax_save): use

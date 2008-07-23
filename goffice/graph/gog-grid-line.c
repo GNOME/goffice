@@ -23,6 +23,7 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-chart-map.h>
+#include <goffice/graph/gog-chart-map-3d.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-renderer.h>
@@ -248,6 +249,295 @@ gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
 
 	go_path_free (path);
 	gog_axis_map_free (map);
+}
+
+static void
+gog_grid_line_xyz_render (GogGridLine *grid_line, GogView *view,
+			  GogAxis *axis, GogAxisTick *ticks, unsigned int tick_nbr,
+			  GogChart *chart, GogViewAllocation const *plot_area,
+			  gboolean stripes)
+{
+	GogAxisMap *a_map = NULL;
+	GogAxisType axis_type = gog_axis_get_atype (axis);
+	GOPath *path;
+	unsigned int i, j;
+	gboolean stripe_started = FALSE;
+	GogAxis *axis1, *axis2;
+	GSList *axes;
+	GogChartMap3D *c_map;
+	double ax, ay, az, bx, by, bz;
+	double *px[] = {&ax, &ax, &bx, &bx, &ax, &ax, &bx, &bx};
+	double *py[] = {&ay, &by, &by, &ay, &ay, &by, &by, &ay};
+	double *pz[] = {&az, &az, &az, &az, &bz, &bz, &bz, &bz};
+	double rx[8], ry[8], rz[8];
+
+	/* Note: Anti-clockwise order in each face,
+	 * important for calculating normals */
+	const int faces[] = {
+		3, 2, 1, 0, /* Bottom */
+		4, 5, 6, 7, /* Top */
+		0, 1, 5, 4, /* Left */
+		2, 3, 7, 6, /* Right */
+		1, 2, 6, 5, /* Front */
+		0, 4, 7, 3  /* Back */
+	};
+	const int xfaces[] = {0, 4, 16, 20};
+	const int yfaces[] = {0, 4, 8, 12};
+	const int zfaces[] = {8, 12, 16, 20};
+	int fv[] = {0, 0, 0, 0, 0, 0};
+
+	g_return_if_fail (axis_type == GOG_AXIS_X ||
+	                  axis_type == GOG_AXIS_Y ||
+	                  axis_type == GOG_AXIS_Z);
+
+	if (axis_type == GOG_AXIS_X) {
+		axes  = gog_chart_get_axes (chart, GOG_AXIS_Y);
+		axis1 = GOG_AXIS (axes->data);
+		axes  = gog_chart_get_axes (chart, GOG_AXIS_Z);
+		axis2 = GOG_AXIS (axes->data);
+		c_map = gog_chart_map_3d_new (chart, plot_area,
+			axis, axis1, axis2);
+	} else if (axis_type == GOG_AXIS_Y) {
+		axes  = gog_chart_get_axes (chart, GOG_AXIS_Z);
+		axis1 = GOG_AXIS (axes->data);
+		axes  = gog_chart_get_axes (chart, GOG_AXIS_X);
+		axis2 = GOG_AXIS (axes->data);
+		c_map = gog_chart_map_3d_new (chart, plot_area,
+			axis2, axis, axis1);
+	} else {
+		axes  = gog_chart_get_axes (chart, GOG_AXIS_X);
+		axis1 = GOG_AXIS (axes->data);
+		axes  = gog_chart_get_axes (chart, GOG_AXIS_Y);
+		axis2 = GOG_AXIS (axes->data);
+		c_map = gog_chart_map_3d_new (chart, plot_area,
+			axis1, axis2, axis);
+	}
+
+	a_map = gog_chart_map_3d_get_axis_map (c_map, 0);
+	gog_axis_map_get_bounds (a_map, &ax, &bx);
+	a_map = gog_chart_map_3d_get_axis_map (c_map, 1);
+	gog_axis_map_get_bounds (a_map, &ay, &by);
+	a_map = gog_chart_map_3d_get_axis_map (c_map, 2);
+	gog_axis_map_get_bounds (a_map, &az, &bz);
+
+	/* Projecting vertices */
+	for (i = 0; i < 8; ++i)
+		gog_chart_map_3d_to_view (c_map, *px[i], *py[i], *pz[i],
+		                          &rx[i], &ry[i], &rz[i]);
+
+	/* Determining visibility of each face */
+	for (i = 0; i < 24; i += 4) {
+		int A = faces[i];
+		int B = faces[i + 1];
+		int C = faces[i + 3];
+		double tmp = (rx[B] - rx[A]) * (ry[C] - ry[A])
+		           - (ry[B] - ry[A]) * (rx[C] - rx[A]);
+		if (tmp < 0)
+			fv[i / 4] = 1;
+	}
+
+	path = go_path_new ();
+	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
+
+	switch (axis_type) {
+	case GOG_AXIS_X:
+		for (j = 0; j < 4; ++j) {
+			double x1, x2, y1, y2;
+			int face = xfaces[j];
+			int inc;
+			if (fv[face / 4] == 0)
+				continue;
+			inc = (*py[faces[face]] != *py[faces[face + 1]]
+			       || *pz[faces[face]] != *pz[faces[face + 1]])?
+			      1 : 3;
+			if (stripes) {
+				for (i = 0; i < tick_nbr; i++) {
+					if (!((ticks[i].type == GOG_AXIS_TICK_MAJOR
+					       && !grid_line->is_minor)
+					      || grid_line->is_minor))
+						continue;
+					gog_chart_map_3d_to_view (c_map,
+						ticks[i].position,
+						*py[faces[face]],
+						*pz[faces[face]],
+						&x1, &y1, NULL);
+					gog_chart_map_3d_to_view (c_map,
+						ticks[i].position,
+						*py[faces[face + inc]],
+						*pz[faces[face + inc]],
+						&x2, &y2, NULL);
+					if (stripe_started) {
+						go_path_line_to (path, x2, y2);
+						go_path_line_to (path, x1, y1);
+						go_path_close (path);
+						gog_renderer_fill_shape (view->renderer,
+							path);
+						go_path_clear (path);
+						stripe_started = FALSE;
+					} else {
+						go_path_move_to (path, x1, y1);
+						go_path_line_to (path, x2, y2);
+						stripe_started = TRUE;
+					}
+				}
+			} else {
+				for (i = 0; i < tick_nbr; ++i) {
+					if (!((ticks[i].type == GOG_AXIS_TICK_MAJOR 
+					       && !grid_line->is_minor) ||
+					      (ticks[i].type == GOG_AXIS_TICK_MINOR
+					       && grid_line->is_minor)))
+						continue;
+					gog_chart_map_3d_to_view (c_map,
+						ticks[i].position,
+						*py[faces[face]],
+						*pz[faces[face]],
+						&x1, &y1, NULL);
+					gog_chart_map_3d_to_view (c_map,
+						ticks[i].position,
+						*py[faces[face + inc]],
+						*pz[faces[face + inc]],
+						&x2, &y2, NULL);
+					go_path_move_to (path, x1, y1);
+					go_path_line_to (path, x2, y2);
+				}
+			}
+		}
+		gog_renderer_stroke_shape (view->renderer, path);
+		break;
+	case GOG_AXIS_Y:
+		for (j = 0; j < 4; ++j) {
+			double x1, x2, y1, y2;
+			int face = yfaces[j];
+			int inc;
+			if (fv[face / 4] == 0)
+				continue;
+			inc = (*px[faces[face]] != *px[faces[face + 1]]
+			       || *pz[faces[face]] != *pz[faces[face + 1]])?
+			      1 : 3;
+			if (stripes) {
+				for (i = 0; i < tick_nbr; i++) {
+					if (!((ticks[i].type == GOG_AXIS_TICK_MAJOR
+					       && !grid_line->is_minor)
+					      || grid_line->is_minor))
+						continue;
+					gog_chart_map_3d_to_view (c_map,
+						*px[faces[face]],
+						ticks[i].position,
+						*pz[faces[face]],
+						&x1, &y1, NULL);
+					gog_chart_map_3d_to_view (c_map,
+						*px[faces[face + inc]],
+						ticks[i].position,
+						*pz[faces[face + inc]],
+				 		&x2, &y2, NULL);
+					if (stripe_started) {
+						go_path_line_to (path, x2, y2);
+						go_path_line_to (path, x1, y1);
+						go_path_close (path);
+						gog_renderer_fill_shape (view->renderer,
+							path);
+						go_path_clear (path);
+						stripe_started = FALSE;
+					} else {
+						go_path_move_to (path, x1, y1);
+						go_path_line_to (path, x2, y2);
+						stripe_started = TRUE;
+					}
+				}
+			} else {
+				for (i = 0; i < tick_nbr; ++i) {
+					if (!((ticks[i].type == GOG_AXIS_TICK_MAJOR 
+					       && !grid_line->is_minor) ||
+					      (ticks[i].type == GOG_AXIS_TICK_MINOR
+					       && grid_line->is_minor)))
+						continue;
+					gog_chart_map_3d_to_view (c_map,
+						*px[faces[face]],
+						ticks[i].position,
+						*pz[faces[face]],
+						&x1, &y1, NULL);
+					gog_chart_map_3d_to_view (c_map,
+						*px[faces[face + inc]],
+						ticks[i].position,
+						*pz[faces[face + inc]],
+				 		&x2, &y2, NULL);
+					go_path_move_to (path, x1, y1);
+					go_path_line_to (path, x2, y2);
+				}
+			}
+		}
+		gog_renderer_stroke_shape (view->renderer, path);
+		break;
+	case GOG_AXIS_Z:
+		for (j = 0; j < 4; ++j) {
+			double x1, x2, y1, y2;
+			int face = zfaces[j];
+			int inc;
+			if (fv[face / 4] == 0)
+				continue;
+			inc = (*px[faces[face]] != *px[faces[face + 1]]
+			       || *py[faces[face]] != *py[faces[face + 1]])?
+			      1 : 3;
+			if (stripes) {
+				for (i = 0; i < tick_nbr; i++) {
+					if (!((ticks[i].type == GOG_AXIS_TICK_MAJOR
+					       && !grid_line->is_minor)
+					      || grid_line->is_minor))
+						continue;
+					gog_chart_map_3d_to_view (c_map,
+						*px[faces[face]],
+						*py[faces[face]],
+						ticks[i].position,
+						&x1, &y1, NULL);
+					gog_chart_map_3d_to_view (c_map,
+						*px[faces[face + inc]],
+						*py[faces[face + inc]],
+						ticks[i].position,
+						&x2, &y2, NULL);
+					if (stripe_started) {
+						go_path_line_to (path, x2, y2);
+						go_path_line_to (path, x1, y1);
+						go_path_close (path);
+						gog_renderer_fill_shape (view->renderer,
+							path);
+						go_path_clear (path);
+						stripe_started = FALSE;
+					} else {
+						go_path_move_to (path, x1, y1);
+						go_path_line_to (path, x2, y2);
+						stripe_started = TRUE;
+					}
+				}
+			} else {
+				for (i = 0; i < tick_nbr; ++i) {
+					if (!((ticks[i].type == GOG_AXIS_TICK_MAJOR 
+					       && !grid_line->is_minor) ||
+					      (ticks[i].type == GOG_AXIS_TICK_MINOR
+					       && grid_line->is_minor)))
+						continue;
+					gog_chart_map_3d_to_view (c_map,
+						*px[faces[face]],
+						*py[faces[face]],
+						ticks[i].position,
+						&x1, &y1, NULL);
+					gog_chart_map_3d_to_view (c_map,
+						*px[faces[face + inc]],
+						*py[faces[face + inc]],
+						ticks[i].position,
+						&x2, &y2, NULL);
+					go_path_move_to (path, x1, y1);
+					go_path_line_to (path, x2, y2);
+				}
+			}
+		}
+		gog_renderer_stroke_shape (view->renderer, path);
+		break;
+	default:
+		break;
+	}
+
+	go_path_free (path);
+	gog_chart_map_3d_free (c_map);
 }
 
 static void
@@ -529,28 +819,34 @@ gog_grid_line_view_render (GogView *view, gboolean stripes)
 
 	if ((!stripes && gog_style_is_line_visible (style)) ||
 	    (stripes && (style->fill.type != GOG_FILL_STYLE_NONE))) {
-		switch (axis_type) {
-			case GOG_AXIS_X:
-			case GOG_AXIS_Y:
-				gog_grid_line_xy_render (grid_line, view,
-							 axis, ticks, tick_nbr,
-							 plot_area, stripes);
-				break;
+		if (gog_chart_get_axis_set (chart) == GOG_AXIS_SET_XYZ) {
+			gog_grid_line_xyz_render (grid_line, view, axis,
+			                          ticks, tick_nbr, chart,
+			                          plot_area, stripes);
+		} else {
+			switch (axis_type) {
+				case GOG_AXIS_X:
+				case GOG_AXIS_Y:
+					gog_grid_line_xy_render (grid_line, view,
+								 axis, ticks, tick_nbr,
+								 plot_area, stripes);
+					break;
 
-			case GOG_AXIS_RADIAL: 
-				gog_grid_line_radial_render (grid_line, view, 
-							     axis, ticks, tick_nbr,
-							     chart, plot_area, stripes);
-				break;
+				case GOG_AXIS_RADIAL: 
+					gog_grid_line_radial_render (grid_line, view, 
+								     axis, ticks, tick_nbr,
+								     chart, plot_area, stripes);
+					break;
 					      
-			case GOG_AXIS_CIRCULAR: 
-				gog_grid_line_circular_render (grid_line, view, 
-							       axis, ticks, tick_nbr,
-							       chart, plot_area, stripes);
-				break;
+				case GOG_AXIS_CIRCULAR: 
+					gog_grid_line_circular_render (grid_line, view, 
+								       axis, ticks, tick_nbr,
+								       chart, plot_area, stripes);
+					break;
 
-			default:
-				break;
+				default:
+					break;
+			}
 		}
 	}
 

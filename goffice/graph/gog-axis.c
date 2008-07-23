@@ -1077,7 +1077,8 @@ role_grid_line_major_can_add (GogObject const *parent)
 	GogAxis *axis = GOG_AXIS (parent);
 	GogAxisType type = gog_axis_get_atype (axis);
 	
-	return ((type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_RADIAL || 
+	return ((type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_Z
+		 || type == GOG_AXIS_RADIAL ||
 		 (type == GOG_AXIS_CIRCULAR && !gog_axis_is_discrete (axis))) &&
 		gog_axis_get_grid_line (GOG_AXIS (parent), TRUE) == NULL);
 }
@@ -1089,7 +1090,7 @@ role_grid_line_minor_can_add (GogObject const *parent)
 	GogAxisType type = gog_axis_get_atype (axis);
 	
 	return (!gog_axis_is_discrete (GOG_AXIS (parent)) &&
-		(type == GOG_AXIS_X || type == GOG_AXIS_Y || 
+		(type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_Z ||
 		 type == GOG_AXIS_RADIAL || type == GOG_AXIS_CIRCULAR) &&
 		gog_axis_get_grid_line (GOG_AXIS (parent), FALSE) == NULL);
 }
@@ -1132,7 +1133,8 @@ role_label_can_add (GogObject const *parent)
 	GogAxisType type = gog_axis_get_atype (GOG_AXIS (parent));
 	
 	return (type == GOG_AXIS_X ||
-		type == GOG_AXIS_Y);
+		type == GOG_AXIS_Y ||
+		type == GOG_AXIS_Z);
 }
 
 /**
