@@ -305,10 +305,45 @@ role_grid_pre_remove (GogObject *parent, GogObject *grid)
 }
 
 static gboolean
+xy_grid_3d_can_add (GogObject const *parent)
+{
+	return (GOG_CHART (parent)->axis_set == GOG_AXIS_SET_XYZ &&
+		NULL == gog_object_get_child_by_name (parent, "XY-Backplane"));
+}
+
+static gboolean
+yz_grid_3d_can_add (GogObject const *parent)
+{
+	return (GOG_CHART (parent)->axis_set == GOG_AXIS_SET_XYZ &&
+		NULL == gog_object_get_child_by_name (parent, "YZ-Backplane"));
+}
+
+static gboolean
+zx_grid_3d_can_add (GogObject const *parent)
+{
+	return (GOG_CHART (parent)->axis_set == GOG_AXIS_SET_XYZ &&
+		NULL == gog_object_get_child_by_name (parent, "ZX-Backplane"));
+}
+
+static void
+grid_3d_post_add (GogObject *child, GogGridType t)
+{
+	g_object_set (G_OBJECT (child), "type", (int)t, NULL);
+}
+
+static void xy_grid_3d_post_add    (GogObject *parent, GogObject *child)
+{ grid_3d_post_add (child, GOG_GRID_XY); }
+static void yz_grid_3d_post_add    (GogObject *parent, GogObject *child)
+{ grid_3d_post_add (child, GOG_GRID_YZ); }
+static void zx_grid_3d_post_add    (GogObject *parent, GogObject *child)
+{ grid_3d_post_add (child, GOG_GRID_ZX); }
+
+static gboolean
 axis_can_add (GogObject const *parent, GogAxisType t)
 {
 	GogChart *chart = GOG_CHART (parent);
-	if (chart->axis_set == GOG_AXIS_SET_UNKNOWN)
+	if (chart->axis_set == GOG_AXIS_SET_UNKNOWN
+	    || chart->axis_set == GOG_AXIS_SET_XYZ)
 		return FALSE;
 	return (chart->axis_set & (1 << t)) != 0;
 }
@@ -360,6 +395,18 @@ static GogObjectRole const roles[] = {
 	{ N_("Backplane"), "GogGrid",	0,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  role_grid_can_add, NULL, NULL, role_grid_post_add, role_grid_pre_remove, NULL, { -1 } },
+	{ N_("XY-Backplane"), "GogGrid",	0,
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  xy_grid_3d_can_add, NULL, NULL, xy_grid_3d_post_add, NULL, NULL,
+	  { GOG_GRID_XY } },
+	{ N_("YZ-Backplane"), "GogGrid",	0,
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  yz_grid_3d_can_add, NULL, NULL, yz_grid_3d_post_add, NULL, NULL,
+	  { GOG_GRID_YZ } },
+	{ N_("ZX-Backplane"), "GogGrid",	0,
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  zx_grid_3d_can_add, NULL, NULL, zx_grid_3d_post_add, NULL, NULL,
+	  { GOG_GRID_ZX } },
 	{ N_("X-Axis"), "GogAxis",	1,
 	  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
 	  x_axis_can_add, axis_can_remove, NULL, x_axis_post_add, axis_pre_remove, NULL,

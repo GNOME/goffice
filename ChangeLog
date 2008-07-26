@@ -1,3 +1,15 @@
+2008-07-26  Mariusz Adamski  <mariusz.adamski@gmail.com>
+
+	* goffice/graph/gog-chart.c: (xy_grid_3d_can_add),
+	(yz_grid_3d_can_add), (zx_grid_3d_can_add), (grid_3d_post_add),
+	(xy_grid_3d_post_add), (yz_grid_3d_post_add),
+	(zx_grid_3d_post_add), (axis_can_add): implement 3d backplanes.
+	* goffice/graph/gog-grid.c: (gog_grid_get_gtype),
+	(gog_grid_set_gtype), (gog_grid_set_property),
+	(gog_grid_get_property), (gog_grid_class_init), (gog_grid_init),
+	(gog_grid_view_xyz_render), (gog_grid_view_render): ditto.
+	* goffice/graph/gog-grid.h: ditto.
+
 2008-07-23  Mariusz Adamski  <mariusz.adamski@gmail.com>
 
 	* goffice/graph/gog-axis.c: implemented axes grigs for 3d plots.

@@ -7,6 +7,10 @@ Jean:
 Jody:
 	* Reverse legend ordering for stacked 1.5d plots.
 
+Mariusz Adamski:
+	* Added support for 3d plot axes and backplanes.
+	* Implemented a user interface for 3d projection settings.
+
 Morten:
 	* Work around valgrind bug.
 

@@ -26,11 +26,22 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GOG_GRID_UNKNOWN = -1,
+	GOG_GRID_XY,
+	GOG_GRID_YZ,
+	GOG_GRID_ZX,
+	GOG_GRID_TYPES
+} GogGridType;
+
 #define GOG_GRID_TYPE	(gog_grid_get_type ())
 #define GOG_GRID(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRID_TYPE, GogGrid))
 #define IS_GOG_GRID(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRID_TYPE))
 
 GType gog_grid_get_type (void);
+
+GogGridType	gog_grid_get_gtype (GogGrid const *grid);
+void		gog_grid_set_gtype (GogGrid *grid, GogGridType type);
 
 G_END_DECLS
 
