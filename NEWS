@@ -13,6 +13,7 @@ Mariusz Adamski:
 
 Morten:
 	* Work around valgrind bug.
+	* Fix date format problem.  [#545016]
 
 --------------------------------------------------------------------------
 goffice 0.7.0:

@@ -361,10 +361,10 @@ go_format_get_family (GOFormat const *fmt)
 	case GO_FMT_NUMBER:
 		if (fmt->u.number.is_general)
 			return GO_FORMAT_GENERAL;
-		if (fmt->u.number.has_time)
-			return GO_FORMAT_TIME;
 		if (fmt->u.number.has_date)
 			return GO_FORMAT_DATE;
+		if (fmt->u.number.has_time)
+			return GO_FORMAT_TIME;
 		if (fmt->u.number.fraction)
 			return GO_FORMAT_FRACTION;
 		if (fmt->u.number.E_format)

@@ -1,3 +1,9 @@
+2008-07-27  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_get_family): If a number
+	format has both a date and a time part, it's a date format.  Fixes
+	#545016.
+
 2008-07-26  Mariusz Adamski  <mariusz.adamski@gmail.com>
 
 	* goffice/graph/gog-chart.c: (xy_grid_3d_can_add),
