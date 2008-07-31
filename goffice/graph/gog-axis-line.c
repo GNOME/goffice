@@ -971,7 +971,8 @@ static GogTool gog_axis_tool_stop_bound = {
 typedef enum {
 	GOG_AXIS_BASE_RENDER,
 	GOG_AXIS_BASE_POINT,
-	GOG_AXIS_BASE_PADDING_REQUEST
+	GOG_AXIS_BASE_PADDING_REQUEST,
+	GOG_AXIS_BASE_LABEL_POSITION_REQUEST,
 } GogAxisBaseAction;
 
 static gboolean
@@ -1542,6 +1543,8 @@ x_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 						x, y, ax, ay, bx - ax, by - ay,
 						GO_SIDE_RIGHT);
 			break;
+		default:
+			break;
 	}
 
 	return FALSE;
@@ -1634,6 +1637,8 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 			return axis_line_point (GOG_AXIS_BASE (view->model), view->renderer,
 						x, y, ax, ay, bx - ax, by - ay,
 						side);
+			break;
+		default:
 			break;
 	}
 
@@ -1738,6 +1743,8 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 								 side);
 				}
 				break;
+			default:
+				break;
 		}
 		gog_chart_map_free (c_map);
 	} else {
@@ -1762,6 +1769,8 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 			case GOG_AXIS_BASE_POINT:
 				point = axis_circle_point (x, y, parms->cx, parms->cy, parms->rx, parms->th1);
 				break;
+			default:
+				break;
 		}
 		gog_chart_map_free (c_map);
 	}
@@ -1781,6 +1790,8 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	GogViewAllocation axis_line_bbox;
 	GSList *axes;
 	GogAxisType perp_axis;
+	GOGeometryOBR obr;
+	GogAxisTick *ticks;
 	double ax, ay, az, bx, by, bz, ox, oy, dist, tmp;
 	double xposition, yposition, zposition;
 	double start, stop;
@@ -1788,6 +1799,8 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	double *py[] = {&ay, &by, &by, &ay, &ay, &by, &by, &ay};
 	double *pz[] = {&az, &az, &az, &az, &bz, &bz, &bz, &bz};
 	double rx[8], ry[8], rz[8];
+	double major_tick_len, minor_tick_len, tick_len;
+	double label_w, label_h;
 
 	/* Note: Anti-clockwise order in each face,
 	 * important for calculating normals */
@@ -1799,7 +1812,7 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		1, 2, 6, 5, /* Front */
 		0, 4, 7, 3  /* Back */
 	};
-	int i, vertex = 0, base = 0;
+	int i, tick_nbr, vertex = 0, base = 0;
 	GOGeometrySide side = GO_SIDE_LEFT;
 
 	g_return_val_if_fail (axis_type == GOG_AXIS_X ||
@@ -1973,6 +1986,63 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 			break;
 		case GOG_AXIS_BASE_POINT:
 			break;
+		case GOG_AXIS_BASE_LABEL_POSITION_REQUEST:
+			/* Calculating unit vector perpendicular to the
+			 * axis projection */
+			if (side == GO_SIDE_RIGHT) {
+				ox = -(by - ay);
+				oy = bx - ax;
+			} else {
+				ox = by - ay;
+				oy = -(bx - ax);
+			}
+			tmp = sqrt (ox * ox + oy * oy);
+			ox *= 1. / tmp;
+			oy *= 1. / tmp;
+
+			/* Axis centre; we'll return it along with offset
+			 * int the GogViewPadding structure */
+			padding->wl = 0.5 * (ax + bx);
+			padding->ht = 0.5 * (ay + by);
+
+			/* Calculating axis label offset */
+			dist = gog_axis_base_get_padding (axis_base);
+			padding->wl += gog_renderer_pt2r_x (view->renderer,
+				dist * ox);
+			padding->ht += gog_renderer_pt2r_y (view->renderer,
+				dist * oy);
+
+			minor_tick_len = gog_renderer_pt2r (view->renderer,
+				axis_base->minor.size_pts);
+			major_tick_len = gog_renderer_pt2r (view->renderer,
+				axis_base->major.size_pts);
+			tick_len = axis_base->major.tick_out ? major_tick_len :
+				(axis_base->minor.tick_out ? minor_tick_len : 0.);
+
+			tick_nbr = gog_axis_get_ticks (axis_base->axis, &ticks);
+
+			gog_renderer_get_text_OBR (view->renderer,
+				"0", TRUE, &obr);
+			tick_len += fabs (obr.w * ox);
+			if (axis_base->major_tick_labeled) {
+				label_w = label_h = 0;
+				for (i = 0; i < tick_nbr; i++) {
+					if (ticks[i].label == NULL)
+						continue;
+					gog_renderer_get_text_OBR (view->renderer,
+						ticks[i].label, TRUE, &obr);
+					if (obr.w > label_w)
+						label_w = obr.w;
+					if (obr.h > label_h)
+						label_h = obr.h;
+				}
+				tick_len += hypot (label_w, label_h);
+			}
+			padding->wr = tick_len * ox;
+			padding->hb = tick_len * oy;
+			break;	
+		default:
+			break;
 	}
 
 	return FALSE;
@@ -2115,6 +2185,43 @@ gog_axis_base_build_toolkit (GogView *view)
 	view->toolkit = g_slist_prepend (view->toolkit, &gog_axis_tool_start_bound);
 	view->toolkit = g_slist_prepend (view->toolkit, &gog_axis_tool_stop_bound);
 #endif
+}
+
+void
+gog_axis_base_view_label_position_request (GogView *view,
+                                           GogViewAllocation const *bbox,
+					   GogViewAllocation *pos)
+{
+	GogAxisSet axis_set;
+	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
+	GogStyle *style = axis_base->base.style;
+	GogViewPadding padding;
+
+	if (gog_axis_get_atype (axis_base->axis) >= GOG_AXIS_VIRTUAL)
+		return;
+	axis_set = gog_chart_get_axis_set (axis_base->chart);
+	if (axis_set == GOG_AXIS_SET_UNKNOWN)
+		return;
+
+	gog_renderer_push_style (view->renderer, style);
+
+	switch (axis_set & GOG_AXIS_SET_FUNDAMENTAL) {
+		case GOG_AXIS_SET_XYZ:
+			xyz_process (GOG_AXIS_BASE_LABEL_POSITION_REQUEST, view,
+			             &padding, bbox, 0., 0.);
+			break;
+		default:
+			g_warning ("[AxisBaseView::label_position_request] not implemented for this axis set (%i)",
+				   axis_set);
+			break;
+	}
+
+	gog_renderer_pop_style (view->renderer);
+
+	pos->x = padding.wl;
+	pos->y = padding.ht;
+	pos->w = padding.wr;
+	pos->h = padding.hb;
 }
 
 static void

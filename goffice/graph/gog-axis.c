@@ -2302,6 +2302,33 @@ gog_axis_view_padding_request (GogView *view,
 }
 
 static void
+gog_axis_view_size_allocate_3d (GogView *view, GogView *child,
+                                GogViewAllocation const *plot_area)
+{
+	GogViewPadding padding;
+	GogViewAllocation child_bbox;
+	GogViewAllocation label_pos;
+	GogViewRequisition req, available;
+
+	gog_view_padding_request (child, plot_area, &padding);
+	gog_view_size_request (child, &available, &req);
+	gog_axis_base_view_label_position_request (view, plot_area, &label_pos);
+	
+	child_bbox.x = label_pos.x + label_pos.w;
+	if (label_pos.w < 0)
+		child_bbox.x -= req.w;
+	child_bbox.y = label_pos.y + label_pos.h;
+	if (label_pos.h < 0)
+		child_bbox.y -= req.h;
+
+	child_bbox.w = req.w;
+	child_bbox.h = req.h;
+	
+	gog_view_size_allocate (child, &child_bbox);
+
+}
+
+static void
 gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 {
 	GSList *ptr;
@@ -2314,11 +2341,9 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	GogViewRequisition req, available;
 	GogObjectPosition pos;
 	GogAxisPosition axis_pos;
+	GogChart *chart = GOG_CHART (gog_object_get_parent (view->model));
 	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
 	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
-
-	if (gog_chart_is_3d (GOG_CHART (gog_object_get_parent (view->model))))
-	    return;
 
 	available.w = bbox->w;
 	available.h = bbox->h;
@@ -2336,6 +2361,11 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 		} else {
 			if (GOG_POSITION_IS_SPECIAL (pos)) {
 				if (IS_GOG_LABEL (child->model)) {
+					if (gog_chart_is_3d (chart)) {
+						gog_axis_view_size_allocate_3d (view,
+							child, plot_area);
+						return;
+					}
 					gog_view_size_request (child, &available, &req);
 					if (type == GOG_AXIS_X) {
 						child_bbox.x = plot_area->x +

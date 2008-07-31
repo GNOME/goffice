@@ -22,6 +22,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-label.h>
 #include <goffice/graph/gog-outlined-object.h>
@@ -121,10 +122,13 @@ gog_text_init_style (GogStyledObject *gso, GogStyle *style)
 	 * in GogTheme, but it's not possible without breaking graph persistence
 	 * compatibility */
 	parent = gog_object_get_parent (GOG_OBJECT (gso));
-	if (IS_GOG_AXIS (parent) &&
-	    gog_axis_get_atype (GOG_AXIS (parent)) == GOG_AXIS_Y &&
-	    style->text_layout.auto_angle) 
-		style->text_layout.angle = 90.0;
+	if (IS_GOG_AXIS (parent)) {
+		GogChart *chart = GOG_CHART (gog_object_get_parent (parent));
+		if (!gog_chart_is_3d (chart)
+		    && gog_axis_get_atype (GOG_AXIS (parent)) == GOG_AXIS_Y
+		    && style->text_layout.auto_angle) 
+			style->text_layout.angle = 90.0;
+	}
 }
 
 static void

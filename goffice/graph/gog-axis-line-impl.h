@@ -77,6 +77,9 @@ typedef GogViewClass	GogAxisBaseViewClass;
 #define IS_GOG_AXIS_BASE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_AXIS_BASE_VIEW_TYPE))
 
 GType gog_axis_base_view_get_type (void);
+void gog_axis_base_view_label_position_request (GogView *view,
+			                        GogViewAllocation const *bbox,
+						GogViewAllocation *pos);
 
 G_END_DECLS
 
