@@ -44,6 +44,32 @@ static gulong gog_styled_object_signals [LAST_SIGNAL] = { 0, };
 static GObjectClass *parent_klass;
 
 static void
+gog_styled_object_document_changed (GogObject *obj, GODoc *doc)
+{
+	GogStyledObject *gso = GOG_STYLED_OBJECT (obj);
+	GogStyle *style = gso->style;
+	if ((style->interesting_fields & GOG_STYLE_FILL) &&
+	    (style->fill.type == GOG_FILL_STYLE_IMAGE) &&
+	    (style->fill.image.image != NULL)) {
+		GOImage *image;
+		char *id = g_strdup (go_image_get_name (style->fill.image.image));
+		/* remove the (nnn) modifier if any */
+		int i = strlen (id) - 1;
+		if (id[i] == ')') {
+			i--;
+			while (id[i] >= '0' && id[i] <= '9')
+				i--;
+			if (id[i] == '(')
+				id[i] = 0;
+		}
+		image = go_doc_add_image (doc, id, style->fill.image.image);
+		g_free (id);
+		g_object_unref (style->fill.image.image);
+		style->fill.image.image = image;
+	}
+}
+
+static void
 gog_styled_object_set_property (GObject *obj, guint param_id,
 				GValue const *value, GParamSpec *pspec)
 {
@@ -154,6 +180,7 @@ gog_styled_object_class_init (GogObjectClass *gog_klass)
 	gobject_klass->finalize	    = gog_styled_object_finalize;
 	gog_klass->populate_editor  = styled_object_populate_editor;
 	gog_klass->parent_changed   = gog_styled_object_parent_changed;
+	gog_klass->document_changed = gog_styled_object_document_changed;
 	style_klass->init_style	    = gog_styled_object_init_style;
 
 	g_object_class_install_property (gobject_klass, STYLED_OBJECT_PROP_STYLE,

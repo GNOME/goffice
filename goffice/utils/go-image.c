@@ -25,6 +25,7 @@
 #include <goffice/utils/go-cairo.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
+#include <gsf/gsf-utils.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
@@ -571,7 +572,9 @@ go_image_get_thumbnail (GOImage *image)
 {
 	g_return_val_if_fail (image != NULL, NULL);
 	if (!image->pixbuf)
-		return NULL; /* we might build the pixbuf if necessary */
+		go_image_get_pixbuf (image);
+	if (!image->pixbuf)
+		return NULL;
 	if (!image->thumbnail) {
 		int w, h;
 		if (image->width <= THUMBNAIL_SIZE && image->height <= THUMBNAIL_SIZE)
@@ -664,6 +667,10 @@ go_image_same_pixbuf (GOImage *first, GOImage *second)
 	int size;
 	g_return_val_if_fail (IS_GO_IMAGE (first), FALSE);
 	g_return_val_if_fail (IS_GO_IMAGE (second), FALSE);
+	if (!first->pixbuf)
+		go_image_get_pixbuf (first);
+	if (!second->pixbuf)
+		go_image_get_pixbuf (second);
 	if (!first->pixbuf || !second->pixbuf)
 		return FALSE;
 	if (gdk_pixbuf_get_n_channels (first->pixbuf) != gdk_pixbuf_get_n_channels (second->pixbuf))
@@ -688,3 +695,41 @@ go_image_same_pixbuf (GOImage *first, GOImage *second)
 	return FALSE;
 #endif
 }
+
+void
+go_image_save (GOImage *image, GsfXMLOut *output)
+{
+	g_return_if_fail (IS_GO_IMAGE (image) && image->name);
+	gsf_xml_out_start_element (output, "GOImage");
+	gsf_xml_out_add_cstr (output, "name", image->name);
+	gsf_xml_out_add_int (output, "width", image->width);
+	gsf_xml_out_add_int (output, "height", image->height);
+	gsf_xml_out_add_int (output, "rowstride", image->rowstride);
+	gsf_xml_out_add_base64 (output, NULL,
+			go_image_get_pixels (image), image->height * image->rowstride);
+	gsf_xml_out_end_element (output);
+}
+
+void
+go_image_load_attrs (GOImage *image, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	xmlChar const **attr;
+	g_return_if_fail (image != NULL);
+	for (attr = attrs; attr != NULL && attr[0] && attr[1] ; attr += 2)
+		if (0 == strcmp (attr[0], "width"))
+			image->width = strtol (attr[1], NULL, 10);
+		else if (0 == strcmp (attr[0], "height"))
+			image->height= strtol (attr[1], NULL, 10);
+		else if (0 == strcmp (attr[0], "rowstride"))
+			image->rowstride = strtol (attr[1], NULL, 10);
+}
+
+void
+go_image_load_data (GOImage *image, GsfXMLIn *xin)
+{
+	int length;
+	length = gsf_base64_decode_simple (xin->content->str, strlen(xin->content->str));
+	image->data = g_memdup (xin->content->str, length);
+	image->target_cairo = TRUE;
+}
+

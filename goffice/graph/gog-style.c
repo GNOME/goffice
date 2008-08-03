@@ -21,6 +21,7 @@
  */
 
 #include <goffice/goffice-config.h>
+#include <goffice/app/go-doc.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/math/go-math.h>
@@ -1399,7 +1400,8 @@ gog_style_fill_sax_save (GsfXMLOut *output, GogStyle const *style)
 		/* FIXME : type is not a good characterization */
 		gsf_xml_out_add_cstr_unchecked (output, "type",
 			image_tiling_as_str (style->fill.image.type));
-/* TODO save the pixels */
+		gsf_xml_out_add_cstr (output, "name", go_image_get_name (style->fill.image.image));
+		go_doc_save_image ((GODoc *) g_object_get_data (G_OBJECT (gsf_xml_out_get_output (output)), "document"), go_image_get_name (style->fill.image.image));
 		gsf_xml_out_end_element (output);
 		break;
 	default:
@@ -1717,13 +1719,15 @@ static void
 gog_style_sax_load_fill_image (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GogStyle *style = GOG_STYLE (xin->user_state);
+	GODoc *doc = (GODoc *) g_object_get_data (G_OBJECT (gsf_xml_in_get_input (xin)), "document");
 	g_return_if_fail (style->fill.type == GOG_FILL_STYLE_IMAGE);
+	g_return_if_fail (IS_GO_DOC (doc));
 	/* TODO: load the pixels */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "type")) {
 			style->fill.image.type = str_as_image_tiling (attrs[1]);
-			break;
-		}
+		} else if (0 == strcmp (attrs[0], "name"))
+			style->fill.image.image = g_object_ref (go_doc_image_fetch (doc, attrs[1]));
 }
 
 static void
@@ -1843,7 +1847,7 @@ gog_style_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs
 					 &gog_style_sax_load_fill_gradient, NULL),
 		GSF_XML_IN_NODE 	(STYLE_FILL, FILL_IMAGE, 
 					 -1, "image", 
-					 GSF_XML_CONTENT, 
+					 GSF_XML_NO_CONTENT, 
 					 &gog_style_sax_load_fill_image, NULL),
 		GSF_XML_IN_NODE 	(STYLE, STYLE_MARKER,	
 					 -1, "marker", 
@@ -2116,6 +2120,11 @@ gog_style_create_cairo_pattern (GogStyle const *style, cairo_t *cr)
 				return cairo_pattern_create_rgba (1, 1, 1, 1);
 
 			cr_pattern = go_image_create_cairo_pattern (style->fill.image.image);
+			if (cr_pattern == NULL) {
+				/* don't reference anymore an invalid image */
+				((GogStyle *) style)->fill.image.image = NULL;
+				return cairo_pattern_create_rgba (1, 1, 1, 1);
+			}
 			g_object_get (style->fill.image.image, "width", &w, "height", &h, NULL);
 			cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
 			switch (style->fill.image.type) {

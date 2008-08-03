@@ -371,7 +371,7 @@ fi
 SAVE_LIBS=$LIBS
 LIBS="$GOFFICE_LIBS $LIBS"
 AC_CHECK_FUNCS(cairo_surface_set_fallback_resolution cairo_ps_surface_set_eps)
-AC_CHECK_FUNCS(g_file_new_for_commandline_arg g_file_new_for_uri)
+AC_CHECK_FUNCS(g_file_new_for_commandline_arg g_file_new_for_uri g_hash_table_iter_init)
 LIBS=$SAVE_LIBS
 
 SAVE_CFLAGS=$CFLAGS

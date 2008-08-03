@@ -33,6 +33,7 @@ struct _GODoc {
 	gboolean	 modified;
 	gboolean	 pristine;
 	GHashTable	*images;
+	GHashTable	*imagebuf; /* used when loading/saving images */
 };
 
 typedef struct {

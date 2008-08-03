@@ -89,14 +89,18 @@ gog_graph_set_property (GObject *obj, guint param_id,
 		break;
 	case GRAPH_PROP_DOCUMENT: {
 		GObject *obj = g_value_get_object (value);
+		if ((GODoc *) obj == graph->doc)
+			break;
 /*		if (graph->doc) {
 			g_object_unref (graph->doc);
 			graph->doc = NULL;
 		}
 		if (IS_GO_DOC (obj))
 			graph->doc = (GODoc *) g_object_ref (obj);*/
-		if (IS_GO_DOC (obj))
+		if (IS_GO_DOC (obj)) {
 			graph->doc = (GODoc *) obj;
+			gog_object_document_changed (GOG_OBJECT (graph), graph->doc);
+		}
 		break;
 	}
 

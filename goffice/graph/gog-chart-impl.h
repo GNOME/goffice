@@ -29,8 +29,6 @@
 
 G_BEGIN_DECLS
 
-typedef struct _GogChart3dParms GogChart3dParms;
-
 struct _GogChart {
 	GogOutlinedObject	 base;
 
@@ -47,7 +45,6 @@ struct _GogChart {
 
 	GogViewAllocation plot_area;
 	gboolean	  is_plot_area_manual;
-	GogChart3dParms *p3d;
 };
 typedef GogOutlinedObjectClass GogChartClass;
 

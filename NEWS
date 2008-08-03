@@ -1,6 +1,7 @@
 goffice 0.7.1:
 
 Jean:
+	* Serialize images used as background in charts. [#348780]
 	* Fix plot engines memory leaks. [#542506]
 	* Fix gog_style_font_sax_save() writes unescaped font name. [#543986]
 

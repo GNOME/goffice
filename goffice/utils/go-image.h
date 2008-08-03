@@ -89,6 +89,10 @@ char const	*go_image_get_name 		(GOImage *image);
 
 gboolean	 go_image_same_pixbuf		(GOImage *first, GOImage *second);
 
+void		 go_image_save			(GOImage *image, GsfXMLOut *output);
+void		 go_image_load_attrs		(GOImage *image, GsfXMLIn *xin, xmlChar const **attrs);
+void		 go_image_load_data		(GOImage *image, GsfXMLIn *xin);
+
 G_END_DECLS
 
 #endif /* GO_IMAGE_H */

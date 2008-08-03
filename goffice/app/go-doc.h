@@ -66,7 +66,13 @@ gboolean go_doc_sendto		(GODoc *doc, GOIOContext *cc);
 GOImage		*go_doc_get_image	(GODoc *doc, char const *id);
 GOImage		*go_doc_add_image	(GODoc *doc, char const *id, GOImage *image);
 GHashTable	*go_doc_get_images	(GODoc *doc);
-void		 go_doc_init_write	(GODoc *doc);
+void		 go_doc_init_write	(GODoc *doc, GsfXMLOut *output);
+void		 go_doc_write		(GODoc *doc, GsfXMLOut *output);
+void		 go_doc_save_image	(GODoc *doc, char const *id);
+void		 go_doc_init_read	(GODoc *doc, GsfInput *input);
+void		 go_doc_read		(GODoc *doc, GsfXMLIn *xin, xmlChar const **attrs);
+void		 go_doc_end_read	(GODoc *doc);
+GOImage		*go_doc_image_fetch 	(GODoc *doc, char const *id);
 
 G_END_DECLS
 

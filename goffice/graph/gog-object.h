@@ -119,6 +119,7 @@ typedef struct {
 					 GogEditor *editor,
 					 GogDataAllocator *dalloc, 
 					 GOCmdContext *cc);
+	void	     (*document_changed)(GogObject *obj, GODoc *doc);
 
 	/* signals */
 	void (*changed)		(GogObject *obj, gboolean size);
@@ -197,6 +198,8 @@ gboolean gog_object_set_parent		  (GogObject *child, GogObject *parent,
 void 	 gog_object_register_roles	  (GogObjectClass *klass,
 					   GogObjectRole const *roles, unsigned int n_roles);
 void 	 gog_object_request_editor_update (GogObject *obj);
+
+void	 gog_object_document_changed	  (GogObject *obj, GODoc *doc);
 
 G_END_DECLS
 

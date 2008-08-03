@@ -1,5 +1,46 @@
 2008-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* configure.in: add a test for g_hash_table_iter_init.
+	* goffice/app/go-doc-impl.h: serialize images in charts. [#348780]
+	* goffice/app/go-doc.c: ditto.
+	* goffice/app/go-doc.h: ditto.
+	* goffice/graph/gog-chart-impl.h: removed unused 3d params.
+	* goffice/graph/gog-graph.c: serialize images in charts.
+	* goffice/graph/gog-object.c: ditto.
+	* goffice/graph/gog-object.h:ditto.
+	* goffice/graph/gog-style.c: ditto.
+	* goffice/graph/gog-styled-object.c: ditto.
+	* goffice/utils/go-image.c: ditto.
+	* goffice/utils/go-image.h: ditto.
+
+2008-08-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* configure.in:
+	* goffice/app/go-doc-impl.h:
+	* goffice/app/go-doc.c: (go_doc_add_image), (go_doc_init_write),
+	(go_doc_init_read), (save_image_cb), (go_doc_write),
+	(go_doc_save_image), (load_image), (load_image_data),
+	(go_doc_read), (go_doc_end_read), (go_doc_image_fetch):
+	* goffice/app/go-doc.h:
+	* goffice/graph/gog-chart-impl.h:
+	* goffice/graph/gog-graph.c: (gog_graph_set_property):
+	* goffice/graph/gog-object.c: (gog_object_document_changed):
+	* goffice/graph/gog-object.h:
+	* goffice/graph/gog-style.c: (gog_style_fill_sax_save),
+	(gog_style_sax_load_fill_image), (gog_style_persist_prep_sax),
+	(gog_style_create_cairo_pattern):
+	* goffice/graph/gog-styled-object.c:
+	(gog_styled_object_document_changed),
+	(gog_styled_object_class_init):
+	* goffice/utils/go-image.c: (go_image_get_thumbnail),
+	(go_image_same_pixbuf), (go_image_save), (go_image_load_attrs),
+	(go_image_load_data):
+	* goffice/utils/go-image.h:
+
+2008-08-03  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* pixmaps/Makefile.am: create a new contour plots family.
 	* pixmaps/contour.xpm: ditto.
 	* plugins/plot_surface/plot-types.xml.in: ditto.

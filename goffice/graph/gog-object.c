@@ -1937,3 +1937,13 @@ gog_object_register_roles (GogObjectClass *klass,
 			(gpointer )roles[i].id, (gpointer) (roles + i));
 	}
 }
+
+void
+gog_object_document_changed (GogObject *obj, GODoc *doc)
+{
+	GSList *ptr;
+	if (GOG_OBJECT_GET_CLASS (obj)->document_changed != NULL)
+		GOG_OBJECT_GET_CLASS (obj)->document_changed (obj, doc);
+	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
+		gog_object_document_changed (GOG_OBJECT (ptr->data), doc);
+}

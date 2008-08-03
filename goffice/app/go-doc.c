@@ -26,7 +26,10 @@
 
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-libxml.h>
 #include <glib/gi18n.h>
+
+#include <string.h>
 
 enum {
 	PROP_0,
@@ -292,6 +295,7 @@ go_doc_get_image (GODoc *doc, char const *id)
 		NULL;
 }
 
+#ifndef HAVE_G_HASH_TABLE_ITER_INIT
 struct check_for_pixbuf {
 	GOImage *src_image;
 	GOImage *dst_image;
@@ -308,6 +312,7 @@ check_for_pixbuf (gpointer key, gpointer img_, gpointer user)
 			cl->dst_image = img;
 	}
 }
+#endif
 
 GOImage *
 go_doc_add_image (GODoc *doc, char const *id, GOImage *image)
@@ -315,19 +320,33 @@ go_doc_add_image (GODoc *doc, char const *id, GOImage *image)
 	GOImage *img;
 	int i = 0;
 	char *new_id;
+#ifdef HAVE_G_HASH_TABLE_ITER_INIT
+	GHashTableIter iter; 	 
+	char const *key;
+#else
 	struct check_for_pixbuf cl;
+#endif
 
 	if (doc->images == NULL)
 		doc->images = g_hash_table_new_full (g_str_hash, g_str_equal,
 						     g_free, g_object_unref);
 
 	/* check if the image is already there */
+#ifdef HAVE_G_HASH_TABLE_ITER_INIT
+	g_hash_table_iter_init (&iter, doc->images);
+	while (g_hash_table_iter_next (&iter, (void**) &key, (void**) &img))
+		if (go_image_same_pixbuf (image, img))
+			return img;
+#else
 	cl.src_image = image;
 	cl.dst_image = NULL;
 	g_hash_table_foreach (doc->images, check_for_pixbuf, &img);
 	if (cl.dst_image)
 		return cl.dst_image;
+#endif
 
+	if (!id || !*id)
+		id = _("Image");
 	/* now check if the id is not a duplicate */
 	if (g_hash_table_lookup (doc->images, id)) {
 		while (1) {
@@ -350,14 +369,128 @@ go_doc_get_images (GODoc *doc) {
 	return doc->images;
 }
 
-static void
-init_func (gpointer key, gpointer value, gpointer data)
+void
+go_doc_init_write (GODoc *doc, GsfXMLOut *output)
 {
-	//go_image_init_save ((GOImage*) value);
+	if (doc->imagebuf != NULL)
+		g_critical ("Images buffer should be NULL");
+	doc->imagebuf = g_hash_table_new (g_str_hash, g_str_equal);
+	g_object_set_data (G_OBJECT (gsf_xml_out_get_output (output)), "document", doc);
 }
 
 void
-go_doc_init_write (GODoc *doc)
+go_doc_init_read (GODoc *doc, GsfInput *input)
 {
-	g_hash_table_foreach (doc->images, init_func, NULL);
+	if (doc->imagebuf != NULL)
+		g_critical ("Images buffer should be NULL");
+	doc->imagebuf = g_hash_table_new (g_str_hash, g_str_equal);
+	g_object_set_data (G_OBJECT (input), "document", doc);
+}
+
+static void
+save_image_cb (gpointer key, gpointer img_, gpointer user)
+{
+	go_image_save ((GOImage *) img_, (GsfXMLOut *) user);
+}
+
+void
+go_doc_write (GODoc *doc, GsfXMLOut *output)
+{
+	gsf_xml_out_start_element (output, "GODoc");
+	g_hash_table_foreach (doc->imagebuf, save_image_cb, output);
+	gsf_xml_out_end_element (output);
+	g_hash_table_destroy (doc->imagebuf);
+	doc->imagebuf = NULL;
+}
+
+void
+go_doc_save_image (GODoc *doc, char const *id)
+{
+	if (!doc)
+		return;
+	if (!g_hash_table_lookup (doc->imagebuf, id)) {
+		GOImage *image = g_hash_table_lookup (doc->images, id);
+		if (image)
+			g_hash_table_insert (doc->imagebuf, (gpointer) id, image);
+	}
+}
+
+static void
+load_image (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GODoc *doc = GO_DOC (xin->user_state);
+	GOImage *image;
+	xmlChar const **attr = 	attrs;
+	while (*attr && strcmp (*attr, "name"))
+		attr += 2;
+	if (!attr)
+		return;
+	image = (GOImage *) g_hash_table_lookup (doc->imagebuf, attr[1]);
+	if (!image) /* this should not occur, but if it does, we might want to load the image? */
+		return;
+	go_image_load_attrs (image, xin, attrs);
+	g_object_set_data (G_OBJECT (doc), "new image", image);
+}
+
+static void
+load_image_data (GsfXMLIn *xin, GsfXMLBlob *unknown)
+{
+	GODoc *doc = GO_DOC (xin->user_state);
+	GOImage *image = GO_IMAGE (g_object_get_data (G_OBJECT (doc), "new image")), *real;
+	g_return_if_fail (image != NULL);
+	go_image_load_data (image, xin);
+	real = go_doc_add_image (doc, go_image_get_name (image), image);
+	g_hash_table_remove (doc->imagebuf, (gpointer) go_image_get_name (image));
+	/* We have an issue if the image already existed and this can happen on pasting
+	 or if one day, we implement merging two documents (import a workbook as new sheets
+	 in an existing workbook). At the moment, I don't see any way to tell the clients
+	 to reference the image stored in the document instead of the one created by
+	 go_doc_image_fetch, so let's just make certain they share the same id. Anyway
+	 this should not happen very often (may be with a company logo?) and it is not so harmful
+	 since the duplicationwill not survive serialization. (Jean)
+	*/
+	if (real == image)
+		g_object_unref (image);
+	else
+		go_image_set_name (image, go_image_get_name (real));
+	g_object_set_data (G_OBJECT (doc), "new image", NULL);
+
+}
+
+void
+go_doc_read (GODoc *doc, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static GsfXMLInNode const dtd[] = {
+		GSF_XML_IN_NODE 	(DOC, DOC, 
+					 -1, "GODoc", 
+					 FALSE, NULL, NULL),
+		GSF_XML_IN_NODE 	(DOC, IMAGE,
+					 -1, "GOImage", 
+					 GSF_XML_CONTENT, 
+					 &load_image, &load_image_data),
+		GSF_XML_IN_NODE_END
+	};
+	static GsfXMLInDoc *xmldoc = NULL;
+	if (NULL == xmldoc)
+		xmldoc = gsf_xml_in_doc_new (dtd, NULL);
+	gsf_xml_in_push_state (xin, xmldoc, doc, NULL, attrs);
+}
+
+void
+go_doc_end_read	(GODoc *doc)
+{
+	g_hash_table_destroy (doc->imagebuf);
+	doc->imagebuf = NULL;
+}
+
+GOImage*
+go_doc_image_fetch (GODoc *doc, char const *id)
+{
+	GOImage *image = g_hash_table_lookup (doc->imagebuf, id);
+	if (!image) {
+		image = g_object_new (GO_IMAGE_TYPE, NULL);
+		go_image_set_name (image, id);
+		g_hash_table_insert (doc->imagebuf, (gpointer) go_image_get_name (image), image);
+	}
+	return image;
 }
