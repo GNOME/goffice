@@ -126,7 +126,7 @@ gog_text_init_style (GogStyledObject *gso, GogStyle *style)
 		GogChart *chart = GOG_CHART (gog_object_get_parent (parent));
 		if (!gog_chart_is_3d (chart)
 		    && gog_axis_get_atype (GOG_AXIS (parent)) == GOG_AXIS_Y
-		    && style->text_layout.auto_angle) 
+		    && style->text_layout.auto_angle)
 			style->text_layout.angle = 90.0;
 	}
 }

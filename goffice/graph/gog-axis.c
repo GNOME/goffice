@@ -2227,6 +2227,57 @@ typedef GogAxisBaseViewClass	GogAxisViewClass;
 static GogViewClass *aview_parent_klass;
 
 static void
+gog_axis_view_padding_request_3d (GogView *view, GogView *child,
+                                  GogViewAllocation const *plot_area,
+				  GogViewPadding *label_padding)
+{
+	GogViewAllocation child_bbox;
+	GogViewAllocation label_pos;
+	GogViewAllocation tmp = *plot_area;
+	GogViewRequisition req, available;
+	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (child->model));
+	double angle;
+
+	gog_axis_base_view_label_position_request (view, plot_area, &label_pos);
+	if (style->text_layout.auto_angle) {
+		angle = atan2 (label_pos.w, label_pos.h) * 180. / M_PI;
+		if (angle < 0.)
+			angle += 180.;
+		style->text_layout.angle = (angle > 45. && angle < 135.)? 90. : 0.;
+	}
+
+	available.w = plot_area->w;
+	available.h = plot_area->h;
+	
+	gog_view_size_request (child, &available, &req);
+	
+	if (req.w == 0 || req.h == 0)
+		return;
+
+	child_bbox.x = label_pos.x + label_pos.w;
+	if (label_pos.w < 0)
+		child_bbox.x -= req.w;
+	child_bbox.y = label_pos.y + label_pos.h;
+	if (label_pos.h < 0)
+		child_bbox.y -= req.h;
+
+	child_bbox.w = req.w;
+	child_bbox.h = req.h;
+
+	tmp.x -= label_padding->wl;
+	tmp.w += label_padding->wl + label_padding->wr;
+	tmp.y -= label_padding->hb;
+	tmp.h += label_padding->hb + label_padding->ht;
+	
+	label_padding->wl += MAX (0, tmp.x - child_bbox.x);
+	label_padding->ht += MAX (0, tmp.y - child_bbox.y);
+	label_padding->wr += MAX (0, child_bbox.x + child_bbox.w
+				  - tmp.x - tmp.w);
+	label_padding->hb += MAX (0, child_bbox.y + child_bbox.h
+				  - tmp.y - tmp.h);
+}
+
+static void
 gog_axis_view_padding_request (GogView *view, 
 			       GogViewAllocation const *bbox,
 			       GogViewPadding *padding) 
@@ -2239,6 +2290,7 @@ gog_axis_view_padding_request (GogView *view,
 	GogViewAllocation tmp = *bbox;
 	GogViewRequisition req, available;
 	GogViewPadding label_padding, child_padding;
+	GogChart *chart = GOG_CHART (gog_object_get_parent (view->model));
 	GSList *ptr;
 	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
 	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
@@ -2251,36 +2303,50 @@ gog_axis_view_padding_request (GogView *view,
 		child = ptr->data;
 		pos = child->model->position;
 		if (IS_GOG_LABEL (child->model) && !(pos & GOG_POSITION_MANUAL)) {
-			available.w = bbox->w;
-			available.h = bbox->h;
-			gog_view_size_request (child, &available, &req);
-			if (type == GOG_AXIS_X)
-				switch (axis_pos) {
-					case GOG_AXIS_AT_HIGH:
-						label_padding.ht += req.h + pad_h;
-						break;
-					case GOG_AXIS_AT_LOW:
-					default:
-						label_padding.hb += req.h + pad_h;
-						break;
-				}
-			else
-				switch (axis_pos) {
-					case GOG_AXIS_AT_HIGH:
-						label_padding.wr += req.w + pad_w;
-						break;
-					case GOG_AXIS_AT_LOW:
-					default:
-						label_padding.wl += req.w + pad_w;
-						break;
-				}
+			if (gog_chart_is_3d (chart)) {
+				gog_axis_view_padding_request_3d (view, child,
+					bbox, &label_padding);
+			} else {
+				available.w = bbox->w;
+				available.h = bbox->h;
+				gog_view_size_request (child, &available, &req);
+				if (type == GOG_AXIS_X)
+					switch (axis_pos) {
+						case GOG_AXIS_AT_HIGH:
+							label_padding.ht += req.h + pad_h;
+							break;
+						case GOG_AXIS_AT_LOW:
+						default:
+							label_padding.hb += req.h + pad_h;
+							break;
+					}
+				else
+					switch (axis_pos) {
+						case GOG_AXIS_AT_HIGH:
+							label_padding.wr += req.w + pad_w;
+							break;
+						case GOG_AXIS_AT_LOW:
+						default:
+							label_padding.wl += req.w + pad_w;
+							break;
+					}
+			}
 		}
 	}
 
-	tmp.x += label_padding.wl;
-	tmp.w -= label_padding.wl + label_padding.wr;
-	tmp.y += label_padding.hb;
-	tmp.h -= label_padding.hb + label_padding.ht;
+	if (gog_chart_is_3d (chart)) {
+		/* For 3d chart we have to calculate how much more padding
+		 * is needed for the axis itself */
+		tmp.x -= label_padding.wl;
+		tmp.w += label_padding.wl + label_padding.wr;
+		tmp.y -= label_padding.hb;
+		tmp.h += label_padding.hb + label_padding.ht;
+	} else {
+		tmp.x += label_padding.wl;
+		tmp.w -= label_padding.wl + label_padding.wr;
+		tmp.y += label_padding.hb;
+		tmp.h -= label_padding.hb + label_padding.ht;
+	}
 
 	(aview_parent_klass->padding_request) (view, &tmp, padding);
 
@@ -2305,12 +2371,10 @@ static void
 gog_axis_view_size_allocate_3d (GogView *view, GogView *child,
                                 GogViewAllocation const *plot_area)
 {
-	GogViewPadding padding;
 	GogViewAllocation child_bbox;
 	GogViewAllocation label_pos;
 	GogViewRequisition req, available;
 
-	gog_view_padding_request (child, plot_area, &padding);
 	gog_view_size_request (child, &available, &req);
 	gog_axis_base_view_label_position_request (view, plot_area, &label_pos);
 	
@@ -2325,7 +2389,6 @@ gog_axis_view_size_allocate_3d (GogView *view, GogView *child,
 	child_bbox.h = req.h;
 	
 	gog_view_size_allocate (child, &child_bbox);
-
 }
 
 static void

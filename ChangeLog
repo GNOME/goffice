@@ -1,3 +1,11 @@
+2008-08-03  Mariusz Adamski  <mariusz.adamski@gmail.com>
+
+	* goffice/graph/gog-axis.c: (gog_axis_view_padding_request_3d),
+	(gog_axis_view_padding_request), (gog_axis_view_size_allocate_3d):
+	a more consistent auto angle for 3D axis labels.
+	* goffice/graph/gog-style.c: (gog_style_text_layout_sax_save): don't
+	save the label angle when it is automatic.
+
 2008-07-31  Mariusz Adamski  <mariusz.adamski@gmail.com>
 
 	* goffice/graph/gog-axis-line-impl.h: add 3d axis labels positioning.

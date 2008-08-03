@@ -1627,7 +1627,8 @@ static void
 gog_style_text_layout_sax_save (GsfXMLOut *output, GogStyle const *style)
 {
 	gsf_xml_out_start_element (output, "text_layout");
-	gsf_xml_out_add_float (output, "angle", style->text_layout.angle, 6);
+	if (!style->text_layout.auto_angle)
+		gsf_xml_out_add_float (output, "angle", style->text_layout.angle, 6);
 	gsf_xml_out_end_element (output);
 }
 
