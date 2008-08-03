@@ -682,7 +682,7 @@ gog_axis_base_class_init (GObjectClass *gobject_klass)
 		g_param_spec_uint ("pos",
 			_("Axis position"),
 			_("Where to position an axis low, high, or crossing"),
-			GOG_AXIS_AT_LOW, GOG_AXIS_CROSS, GOG_AXIS_AT_LOW,
+			GOG_AXIS_AT_LOW, GOG_AXIS_AUTO, GOG_AXIS_AT_LOW,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_POSITION_STR,
 		g_param_spec_string ("pos-str", 

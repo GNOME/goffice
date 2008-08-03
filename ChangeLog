@@ -1,5 +1,10 @@
 2008-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-axis-line.c: (gog_axis_base_class_init): fixed
+	"pos" property maximum.
+
+2008-08-03  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* configure.in: add a test for g_hash_table_iter_init.
 	* goffice/app/go-doc-impl.h: serialize images in charts. [#348780]
 	* goffice/app/go-doc.c: ditto.
@@ -14,8 +19,6 @@
 	* goffice/utils/go-image.h: ditto.
 
 2008-08-03  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
 
 	* configure.in:
 	* goffice/app/go-doc-impl.h:
