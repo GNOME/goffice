@@ -48,6 +48,7 @@ dist_icon_DATA = \
 	bubble.xpm	\
 	color.xpm	\
 	column.xpm	\
+	contour.xpm	\
 	doughnut.xpm	\
 	dropbar.xpm	\
 	hist.xpm	\

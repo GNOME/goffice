@@ -1,3 +1,9 @@
+2008-08-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* pixmaps/Makefile.am: create a new contour plots family.
+	* pixmaps/contour.xpm: ditto.
+	* plugins/plot_surface/plot-types.xml.in: ditto.
+
 2008-08-03  Mariusz Adamski  <mariusz.adamski@gmail.com>
 
 	* goffice/graph/gog-axis.c: (gog_axis_view_padding_request_3d),
