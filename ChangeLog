@@ -1,3 +1,8 @@
+2008-01-05  J.H.M. Dassen (Ray) <jdassen@debian.org> 
+
+	* goffice/graph/gog-styled-object.c: Include <string.h> for strlen and
+	<goffice/app/go-doc.h> for go_doc_add_image.
+
 2008-08-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis-line.c: (gog_axis_base_class_init): fixed

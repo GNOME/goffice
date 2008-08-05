@@ -24,9 +24,11 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-graph.h>
+#include <goffice/app/go-doc.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
+#include <string.h>
 
 enum {
 	STYLED_OBJECT_PROP_0,
