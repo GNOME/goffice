@@ -698,15 +698,6 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				gog_renderer_push_style (view->renderer, styles[i]);
 
 			for (j = 0; j < lengths[i]; j++) {
-				gse = NULL;
-				if ((overrides != NULL) &&
-					(GOG_SERIES_ELEMENT (overrides->data)->index == j - 1)) {
-						gse = GOG_SERIES_ELEMENT (overrides->data);
-						overrides = overrides->next;
-						gog_renderer_push_style (view->renderer,
-							gog_styled_object_get_style (
-								GOG_STYLED_OBJECT (gse)));
-				} else
 				x = path[i][j + 1].x;
 				y = path[i][j + 1].y;
 				gse = NULL;
