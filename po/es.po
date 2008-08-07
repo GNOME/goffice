@@ -4,7 +4,6 @@
 # This file is distributed under the same license as the gnumeric package.
 #
 #
-#: ../goffice/app/file.c:512
 # Alfonso  Pedereño García-LaPuya, 2002.
 # Federico Mena Quintero,Pregonero <federico@casiopea.quartic.org>, 1998.
 # Pablo Saratxaga <pablo@mandrakesoft.com>, 1999-2000.
@@ -12,16 +11,17 @@
 # Juan Manuel García Molina <juanma_gm@wanadoo.es>, 2002.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2004, 2005.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008.
+#: ../goffice/app/file.c:512
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-09 02:46+0000\n"
-"PO-Revision-Date: 2008-07-13 22:41+0200\n"
+"POT-Creation-Date: 2008-08-03 18:08+0000\n"
+"PO-Revision-Date: 2008-08-07 14:09+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type:  text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
@@ -85,7 +85,8 @@ msgstr ""
 "antiguo de este tipo."
 
 #: ../goffice/app/file.c:697
-msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid ""
+"You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Puede desactivar esta característica en forma segura, editando el archivo "
 "plugin.xml apropiado."
@@ -95,21 +96,25 @@ msgstr ""
 msgid "Invalid %s: '%s'"
 msgstr "%s inválido: «%s»"
 
-#: ../goffice/app/go-doc.c:121
+#: ../goffice/app/go-doc.c:124
 msgid "URI"
 msgstr "URI"
 
-#: ../goffice/app/go-doc.c:122
+#: ../goffice/app/go-doc.c:125
 msgid "The URI associated with this document."
 msgstr "El URI asociado con este documento."
 
-#: ../goffice/app/go-doc.c:126
+#: ../goffice/app/go-doc.c:129
 msgid "Dirty"
 msgstr "Sucio"
 
-#: ../goffice/app/go-doc.c:127
+#: ../goffice/app/go-doc.c:130
 msgid "Whether the document has been changed."
 msgstr "Indica si el documento ha cambiado."
+
+#: ../goffice/app/go-doc.c:349
+msgid "Image"
+msgstr "Imagen"
 
 #: ../goffice/app/go-object.c:51
 msgid "Objects"
@@ -454,12 +459,12 @@ msgstr "Ejecutar la iteración del lazo principal"
 msgid "Component Engine"
 msgstr "Motor de componentes"
 
-#: ../goffice/component/go-component-factory.c:164
+#: ../goffice/component/go-component-factory.c:165
 msgid "Component Type"
 msgstr "Tipo de componente"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:182
-#: ../goffice/graph/gog-style.c:932 ../goffice/gtk/go-format-sel.c:77
+#: ../goffice/graph/gog-style.c:933 ../goffice/gtk/go-format-sel.c:77
 #: ../goffice/gtk/go-rotation-sel.c:139
 msgid "Text"
 msgstr "Texto"
@@ -477,7 +482,7 @@ msgid "Marked up text to render"
 msgstr "Texto resaltado a renderizar"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:217
-#: ../goffice/graph/gog-style.c:903
+#: ../goffice/graph/gog-style.c:904
 msgid "Font"
 msgstr "Tipografía"
 
@@ -499,7 +504,8 @@ msgstr "Familia tipográfica"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:236
 msgid "Name of the font family, e.g. Sans, Helvetica, Times, Monospace"
-msgstr "Nombre de la familia tipográfica, ej. Sans, Helvética, Times, Monospace"
+msgstr ""
+"Nombre de la familia tipográfica, ej. Sans, Helvética, Times, Monospace"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:252
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:253
@@ -539,7 +545,8 @@ msgid "Rise"
 msgstr "Elevar"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:317
-msgid "Offset of text above the baseline (below the baseline if rise is negative)"
+msgid ""
+"Offset of text above the baseline (below the baseline if rise is negative)"
 msgstr ""
 "Desplazamiento del texto sobre la línea base (por debajo de la línea base la "
 "elevación es negativa)"
@@ -561,7 +568,7 @@ msgid "Style of underline for this text"
 msgstr "Estilo de subrayado de este texto"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:346
-#: ../goffice/graph/gog-axis.c:1706
+#: ../goffice/graph/gog-axis.c:1708
 msgid "Scale"
 msgstr "Escala"
 
@@ -791,103 +798,103 @@ msgstr "Ángulo phi de Euler"
 msgid "Field of view"
 msgstr "Campo de visión"
 
-#: ../goffice/graph/gog-axis-line.c:653
+#: ../goffice/graph/gog-axis-line.c:655
 msgid "Layout"
 msgstr "Disposición"
 
-#: ../goffice/graph/gog-axis-line.c:681
+#: ../goffice/graph/gog-axis-line.c:683
 msgid "Axis position"
 msgstr "Posición de los ejes"
 
-#: ../goffice/graph/gog-axis-line.c:682 ../goffice/graph/gog-axis-line.c:688
+#: ../goffice/graph/gog-axis-line.c:684 ../goffice/graph/gog-axis-line.c:690
 msgid "Where to position an axis low, high, or crossing"
 msgstr "Indica dónde posicionar un eje: bajo, alto o cruzado"
 
-#: ../goffice/graph/gog-axis-line.c:687
+#: ../goffice/graph/gog-axis-line.c:689
 msgid "Axis position (as a string)"
 msgstr "Posición de los ejes (como una cadena)"
 
-#: ../goffice/graph/gog-axis-line.c:693
+#: ../goffice/graph/gog-axis-line.c:695
 msgid "Major labels"
 msgstr "Etiquetas mayores"
 
-#: ../goffice/graph/gog-axis-line.c:694
+#: ../goffice/graph/gog-axis-line.c:696
 msgid "Show labels for major ticks"
 msgstr "Mostrar las etiquetas para los tics mayores"
 
-#: ../goffice/graph/gog-axis-line.c:699
+#: ../goffice/graph/gog-axis-line.c:701
 msgid "Inside major ticks"
 msgstr "Tics mayores dentro"
 
-#: ../goffice/graph/gog-axis-line.c:700
+#: ../goffice/graph/gog-axis-line.c:702
 msgid "Major tick marks inside the chart area"
 msgstr "Las marcas de los tics mayores dentro del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:705
+#: ../goffice/graph/gog-axis-line.c:707
 msgid "Outside major ticks"
 msgstr "Tics mayores fuera"
 
-#: ../goffice/graph/gog-axis-line.c:706
+#: ../goffice/graph/gog-axis-line.c:708
 msgid "Major tick marks outside the chart area"
 msgstr "Las marcas de los tics mayores fuera del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:711
+#: ../goffice/graph/gog-axis-line.c:713
 msgid "Major tick size"
 msgstr "Tamaño de los tics mayores"
 
-#: ../goffice/graph/gog-axis-line.c:712
+#: ../goffice/graph/gog-axis-line.c:714
 msgid "Size of the major tick marks, in points"
 msgstr "Tamaño de las marcas de los tics mayores, en puntos"
 
-#: ../goffice/graph/gog-axis-line.c:718
+#: ../goffice/graph/gog-axis-line.c:720
 msgid "Inside minor ticks"
 msgstr "Tics menores dentro"
 
-#: ../goffice/graph/gog-axis-line.c:719
+#: ../goffice/graph/gog-axis-line.c:721
 msgid "Minor tick marks inside the chart area"
 msgstr "Las marcas de los tics menores dentro del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:724
+#: ../goffice/graph/gog-axis-line.c:726
 msgid "Outside minor ticks"
 msgstr "Tics menores fuera"
 
-#: ../goffice/graph/gog-axis-line.c:725
+#: ../goffice/graph/gog-axis-line.c:727
 msgid "Minor tick marks outside the axis"
 msgstr "Las marcas de los tics menores fuera del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:730
+#: ../goffice/graph/gog-axis-line.c:732
 msgid "Minor tick size"
 msgstr "Tamaño de los tics menores"
 
-#: ../goffice/graph/gog-axis-line.c:731
+#: ../goffice/graph/gog-axis-line.c:733
 msgid "Size of the minor tick marks, in points"
 msgstr "Tamaño de las marcas de los tics menores, en puntos"
 
-#: ../goffice/graph/gog-axis-line.c:737
+#: ../goffice/graph/gog-axis-line.c:739
 msgid "Cross axis id"
 msgstr "Cruzar el id de los ejes"
 
-#: ../goffice/graph/gog-axis-line.c:738
+#: ../goffice/graph/gog-axis-line.c:740
 msgid "Which axis to cross"
 msgstr "Qué ejes cruzar"
 
-#: ../goffice/graph/gog-axis-line.c:744
+#: ../goffice/graph/gog-axis-line.c:746
 msgid "Axis padding"
 msgstr "Separación de los ejes"
 
-#: ../goffice/graph/gog-axis-line.c:745
+#: ../goffice/graph/gog-axis-line.c:747
 msgid "Distance from axis line to plot area, in points"
 msgstr "Distancia de la línea del eje al área de dibujado, en puntos"
 
-#: ../goffice/graph/gog-axis-line.c:836
+#: ../goffice/graph/gog-axis-line.c:839
 msgid "Select axis"
 msgstr "Seleccione el eje"
 
-#: ../goffice/graph/gog-axis-line.c:942
+#: ../goffice/graph/gog-axis-line.c:945
 msgid "Set start bound"
 msgstr "Establecer vinculación inicial"
 
-#: ../goffice/graph/gog-axis-line.c:953
+#: ../goffice/graph/gog-axis-line.c:956
 msgid "Set stop bound"
 msgstr "Establecer vinculación final"
 
@@ -1024,166 +1031,181 @@ msgstr "Log"
 msgid "Logarithm mapping"
 msgstr "Mapeo logarítmico"
 
-#: ../goffice/graph/gog-axis.c:1642 ../goffice/graph/gog-axis.c:1651
+#: ../goffice/graph/gog-axis.c:1644 ../goffice/graph/gog-axis.c:1653
 msgid "M_inimum"
 msgstr "Mí_nimo"
 
-#: ../goffice/graph/gog-axis.c:1643 ../goffice/graph/gog-axis.c:1652
+#: ../goffice/graph/gog-axis.c:1645 ../goffice/graph/gog-axis.c:1654
 msgid "M_aximum"
 msgstr "M_áximo"
 
-#: ../goffice/graph/gog-axis.c:1644
+#: ../goffice/graph/gog-axis.c:1646
 msgid "Categories between _ticks"
 msgstr "Categorías entre _tics"
 
-#: ../goffice/graph/gog-axis.c:1645
+#: ../goffice/graph/gog-axis.c:1647
 msgid "Categories between _labels"
 msgstr "Categorías entre _etiquetas"
 
-#: ../goffice/graph/gog-axis.c:1653
+#: ../goffice/graph/gog-axis.c:1655
 msgid "Ma_jor ticks"
 msgstr "Tics ma_yores"
 
-#: ../goffice/graph/gog-axis.c:1654
+#: ../goffice/graph/gog-axis.c:1656
 msgid "Mi_nor ticks"
 msgstr "Tics me_nores"
 
-#: ../goffice/graph/gog-axis.c:1724
+#: ../goffice/graph/gog-axis.c:1726
 msgid "Format"
 msgstr "Formato"
 
-#: ../goffice/graph/gog-axis.c:1755
+#: ../goffice/graph/gog-axis.c:1757
 msgid "MajorGrid"
 msgstr "RejillaMayor"
 
-#: ../goffice/graph/gog-axis.c:1758
+#: ../goffice/graph/gog-axis.c:1760
 msgid "MinorGrid"
 msgstr "RejillaMenor"
 
-#: ../goffice/graph/gog-axis.c:1761
+#: ../goffice/graph/gog-axis.c:1763
 msgid "AxisLine"
 msgstr "LíneaDelEje"
 
-#: ../goffice/graph/gog-axis.c:1764
+#: ../goffice/graph/gog-axis.c:1766
 msgid "Label"
 msgstr "Etiqueta"
 
-#: ../goffice/graph/gog-axis.c:1779 ../plugins/plot_barcol/gog-1.5d.c:327
+#: ../goffice/graph/gog-axis.c:1781 ../goffice/graph/gog-grid.c:115
+#: ../plugins/plot_barcol/gog-1.5d.c:333
 msgid "Type"
 msgstr "Tipo"
 
-#: ../goffice/graph/gog-axis.c:1780
+#: ../goffice/graph/gog-axis.c:1782
 msgid "Numerical type of this axis"
 msgstr "Tipo numérico de este eje"
 
-#: ../goffice/graph/gog-axis.c:1784
+#: ../goffice/graph/gog-axis.c:1786
 msgid "Invert axis"
 msgstr "Invertir eje"
 
-#: ../goffice/graph/gog-axis.c:1785
+#: ../goffice/graph/gog-axis.c:1787
 msgid "Scale from high to low rather than low to high"
 msgstr "Escalar de grande a pequeño en lugar de de pequeño a grande"
 
-#: ../goffice/graph/gog-axis.c:1789
+#: ../goffice/graph/gog-axis.c:1791
 msgid "MapName"
 msgstr "NombreDelMapa"
 
-#: ../goffice/graph/gog-axis.c:1790
+#: ../goffice/graph/gog-axis.c:1792
 msgid "The name of the map for scaling"
 msgstr "El nombre del mapa que escalar"
 
-#: ../goffice/graph/gog-axis.c:1795
+#: ../goffice/graph/gog-axis.c:1797
 msgid "Assigned XL format"
 msgstr "Formato XL asignado"
 
-#: ../goffice/graph/gog-axis.c:1796
-msgid "The user assigned format to use for non-discrete axis labels (XL format)"
+#: ../goffice/graph/gog-axis.c:1798
+msgid ""
+"The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
 "El formato asignado por el usuario que usar para las etiquetas no discretas "
 "de los ejes (formato XL)"
 
-#: ../goffice/graph/gog-axis.c:1801 ../goffice/graph/gog-axis.c:1802
+#: ../goffice/graph/gog-axis.c:1803 ../goffice/graph/gog-axis.c:1804
 msgid "Rotation of circular axis"
 msgstr "Rotación del eje circular"
 
-#: ../goffice/graph/gog-axis.c:1809 ../goffice/graph/gog-axis.c:1810
+#: ../goffice/graph/gog-axis.c:1811 ../goffice/graph/gog-axis.c:1812
 msgid "Polar axis set unit"
 msgstr "Unidad del eje polar"
 
-#: ../goffice/graph/gog-chart.c:360
+#: ../goffice/graph/gog-chart.c:395
 msgid "Backplane"
 msgstr "Panel de fondo"
 
-#: ../goffice/graph/gog-chart.c:363
+#: ../goffice/graph/gog-chart.c:398
+msgid "XY-Backplane"
+msgstr "Panel de fondo XY"
+
+#: ../goffice/graph/gog-chart.c:402
+msgid "YZ-Backplane"
+msgstr "Panel de fondo YZ"
+
+#: ../goffice/graph/gog-chart.c:406
+msgid "ZX-Backplane"
+msgstr "Panel de fondo ZX"
+
+#: ../goffice/graph/gog-chart.c:410
 msgid "X-Axis"
 msgstr "Eje-X"
 
-#: ../goffice/graph/gog-chart.c:367
+#: ../goffice/graph/gog-chart.c:414
 msgid "Y-Axis"
 msgstr "Eje-Y"
 
-#: ../goffice/graph/gog-chart.c:371
+#: ../goffice/graph/gog-chart.c:418
 msgid "Z-Axis"
 msgstr "Eje-Z"
 
-#: ../goffice/graph/gog-chart.c:375
+#: ../goffice/graph/gog-chart.c:422
 msgid "Circular-Axis"
 msgstr "Eje circular"
 
-#: ../goffice/graph/gog-chart.c:379
+#: ../goffice/graph/gog-chart.c:426
 msgid "Radial-Axis"
 msgstr "Eje radial"
 
-#: ../goffice/graph/gog-chart.c:383
+#: ../goffice/graph/gog-chart.c:430
 msgid "Pseudo-3D-Axis"
 msgstr "Pseudo eje 3D"
 
-#: ../goffice/graph/gog-chart.c:387
+#: ../goffice/graph/gog-chart.c:434
 msgid "Bubble-Axis"
 msgstr "Burbuja-Eje"
 
-#: ../goffice/graph/gog-chart.c:391
+#: ../goffice/graph/gog-chart.c:438
 msgid "Color-Axis"
 msgstr "Color-del-eje"
 
-#: ../goffice/graph/gog-chart.c:395
+#: ../goffice/graph/gog-chart.c:442
 msgid "Plot"
 msgstr "Gráfico"
 
-#: ../goffice/graph/gog-chart.c:398 ../goffice/graph/gog-graph.c:289
+#: ../goffice/graph/gog-chart.c:445 ../goffice/graph/gog-graph.c:293
 #: ../goffice/graph/gog-legend.c:183
 msgid "Title"
 msgstr "Título"
 
-#: ../goffice/graph/gog-chart.c:403
+#: ../goffice/graph/gog-chart.c:450
 msgid "Legend"
 msgstr "Leyenda"
 
-#: ../goffice/graph/gog-chart.c:408
+#: ../goffice/graph/gog-chart.c:455
 msgid "3D-Box"
 msgstr "Caja-3D"
 
-#: ../goffice/graph/gog-chart.c:429
+#: ../goffice/graph/gog-chart.c:476
 msgid "Valid cardinality"
 msgstr "Cardinalidad válida"
 
-#: ../goffice/graph/gog-chart.c:430
+#: ../goffice/graph/gog-chart.c:477
 msgid "Is the charts cardinality currently valid"
 msgstr "Si la cardinalidad de los gráficos es válida actualmente"
 
-#: ../goffice/graph/gog-chart.c:435 ../goffice/graph/gog-plot.c:406
+#: ../goffice/graph/gog-chart.c:482 ../goffice/graph/gog-plot.c:406
 msgid "Plot area"
 msgstr "Área de dibujado"
 
-#: ../goffice/graph/gog-chart.c:436
+#: ../goffice/graph/gog-chart.c:483
 msgid "Position and size of plot area, in percentage of chart size"
-msgstr "Posición y tamaño del área de dibujado, en porcentaje del tamaño del gráfico"
+msgstr ""
+"Posición y tamaño del área de dibujado, en porcentaje del tamaño del gráfico"
 
-#: ../goffice/graph/gog-chart.c:441
+#: ../goffice/graph/gog-chart.c:488
 msgid "Manual plot area"
 msgstr "Área de dibujado manual"
 
-#: ../goffice/graph/gog-chart.c:442
+#: ../goffice/graph/gog-chart.c:489
 msgid "Is plot area manual"
 msgstr "Si el área de dibujado es manual"
 
@@ -1192,7 +1214,7 @@ msgid "H"
 msgstr "H"
 
 #: ../goffice/graph/gog-control-foocanvas.c:238
-#: ../goffice/graph/gog-graph.c:348 ../goffice/utils/go-image.c:475
+#: ../goffice/graph/gog-graph.c:352 ../goffice/utils/go-image.c:476
 msgid "Height"
 msgstr "Altura"
 
@@ -1201,7 +1223,7 @@ msgid "W"
 msgstr "O"
 
 #: ../goffice/graph/gog-control-foocanvas.c:244
-#: ../goffice/graph/gog-graph.c:342 ../goffice/utils/go-image.c:471
+#: ../goffice/graph/gog-graph.c:346 ../goffice/utils/go-image.c:472
 msgid "Width"
 msgstr "Anchura"
 
@@ -1215,7 +1237,7 @@ msgid "The GogObject this object displays"
 msgstr "El GogObject que muestra este objeto"
 
 #: ../goffice/graph/gog-control-foocanvas.c:255
-#: ../goffice/graph/gog-graph.c:855
+#: ../goffice/graph/gog-graph.c:859
 msgid "Renderer"
 msgstr "Renderizador"
 
@@ -1312,57 +1334,61 @@ msgstr "Tema:"
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/graph/gog-graph.c:163 ../goffice/graph/gog-graph.c:374
+#: ../goffice/graph/gog-graph.c:167 ../goffice/graph/gog-graph.c:378
 msgid "Graph"
 msgstr "Gráfico"
 
-#: ../goffice/graph/gog-graph.c:239 ../goffice/graph/gog-graph.c:330
+#: ../goffice/graph/gog-graph.c:243 ../goffice/graph/gog-graph.c:334
 msgid "Theme"
 msgstr "Tema"
 
-#: ../goffice/graph/gog-graph.c:284
+#: ../goffice/graph/gog-graph.c:288
 msgid "Chart"
 msgstr "Diagrama"
 
-#: ../goffice/graph/gog-graph.c:331
+#: ../goffice/graph/gog-graph.c:335
 msgid "The theme for elements of the graph"
 msgstr "El tema para los elementos del gráfico"
 
-#: ../goffice/graph/gog-graph.c:336
+#: ../goffice/graph/gog-graph.c:340
 msgid "Theme name"
 msgstr "Nombre del tema"
 
-#: ../goffice/graph/gog-graph.c:337
+#: ../goffice/graph/gog-graph.c:341
 msgid "The name of the theme for elements of the graph"
 msgstr "El nombre del tema para los elementos del gráfico"
 
-#: ../goffice/graph/gog-graph.c:343
+#: ../goffice/graph/gog-graph.c:347
 msgid "Logical graph width, in points"
 msgstr "Anchura del gráfico lógico, en puntos"
 
-#: ../goffice/graph/gog-graph.c:349
+#: ../goffice/graph/gog-graph.c:353
 msgid "Logical graph heigth, in points"
 msgstr "Altura del gráfico lógico, en puntos"
 
-#: ../goffice/graph/gog-graph.c:354
+#: ../goffice/graph/gog-graph.c:358
 msgid "Document"
 msgstr "Documento"
 
-#: ../goffice/graph/gog-graph.c:355
+#: ../goffice/graph/gog-graph.c:359
 msgid "the document for this graph"
 msgstr "el documento para esta gráfica"
 
-#: ../goffice/graph/gog-graph.c:856
+#: ../goffice/graph/gog-graph.c:860
 msgid "the renderer for this view"
 msgstr "el renderizador para esta vista"
 
-#: ../goffice/graph/gog-grid-line.c:128
+#: ../goffice/graph/gog-grid-line.c:129
 msgid "Is-minor"
 msgstr "Es-menor"
 
-#: ../goffice/graph/gog-grid-line.c:129
+#: ../goffice/graph/gog-grid-line.c:130
 msgid "Are these minor grid lines"
 msgstr "Son esas líneas de la rejilla menor"
+
+#: ../goffice/graph/gog-grid.c:116
+msgid "Numerical type of this backplane"
+msgstr "Tipo numérico de este panel de fondo"
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:1
 msgid "<b>Description</b>"
@@ -1404,44 +1430,44 @@ msgstr "_Insertar"
 msgid "_Plot Type"
 msgstr "Tipo de _gráfico"
 
-#: ../goffice/graph/gog-label.c:143
+#: ../goffice/graph/gog-label.c:147
 msgid "Allow markup"
 msgstr "Permitir marcado"
 
-#: ../goffice/graph/gog-label.c:144
+#: ../goffice/graph/gog-label.c:148
 msgid "Support basic html-ish markup"
 msgstr "Soporte de marcado HTML básico"
 
-#: ../goffice/graph/gog-label.c:202
+#: ../goffice/graph/gog-label.c:206
 msgid "_Text:"
 msgstr "_Texto:"
 
-#: ../goffice/graph/gog-label.c:209 ../goffice/graph/gog-series.c:506
+#: ../goffice/graph/gog-label.c:213 ../goffice/graph/gog-series.c:506
 msgid "Data"
 msgstr "Datos"
 
-#: ../goffice/graph/gog-label.c:363 ../goffice/graph/gog-reg-curve.c:89
+#: ../goffice/graph/gog-label.c:367 ../goffice/graph/gog-reg-curve.c:89
 #: ../plugins/plot_xy/gog-xy.c:1593
 msgid "Details"
 msgstr "Detalles"
 
-#: ../goffice/graph/gog-label.c:382
+#: ../goffice/graph/gog-label.c:386
 msgid "Regression Equation"
 msgstr "Ecuación de regresión"
 
-#: ../goffice/graph/gog-label.c:421
+#: ../goffice/graph/gog-label.c:425
 msgid "Show equation"
 msgstr "Mostrar ecuación"
 
-#: ../goffice/graph/gog-label.c:422
+#: ../goffice/graph/gog-label.c:426
 msgid "Show the equation on the graph"
 msgstr "Mostrar la ecuación en el gráfico"
 
-#: ../goffice/graph/gog-label.c:427
+#: ../goffice/graph/gog-label.c:431
 msgid "Show coefficient"
 msgstr "Mostrar el coeficiente"
 
-#: ../goffice/graph/gog-label.c:428
+#: ../goffice/graph/gog-label.c:432
 msgid "Show the correlation coefficient on the graph"
 msgstr "Mostrar el coeficiente de correlación en el gráfico"
 
@@ -1631,15 +1657,15 @@ msgstr "Motor de gráficos"
 msgid "Plot Type"
 msgstr "Tipo de gráfico"
 
-#: ../goffice/graph/gog-plot-engine.c:390
+#: ../goffice/graph/gog-plot-engine.c:394
 msgid "Chart Theme"
 msgstr "Tema de diagrama"
 
-#: ../goffice/graph/gog-plot-engine.c:421
+#: ../goffice/graph/gog-plot-engine.c:425
 msgid "Regression Curve Engine"
 msgstr "Motor de curvas de regresión "
 
-#: ../goffice/graph/gog-plot-engine.c:611
+#: ../goffice/graph/gog-plot-engine.c:615
 msgid "Regression Curve Type"
 msgstr "Tipo de curvas de regresión"
 
@@ -1731,11 +1757,11 @@ msgstr "Interpolación predeterminada"
 msgid "Default type of series line interpolation"
 msgstr "Tipo predeterminado de series de líneas de interpolación"
 
-#: ../goffice/graph/gog-plot.c:1121
+#: ../goffice/graph/gog-plot.c:1137
 msgid "Move plot area"
 msgstr "Mover el área del gráfico"
 
-#: ../goffice/graph/gog-plot.c:1173
+#: ../goffice/graph/gog-plot.c:1189
 msgid "Resize plot area"
 msgstr "Redimensionar el área del gráfico"
 
@@ -1981,36 +2007,36 @@ msgstr ""
 "tapiz\n"
 "estirado"
 
-#: ../goffice/graph/gog-style.c:183 ../goffice/gtk/goffice-gtk.c:480
+#: ../goffice/graph/gog-style.c:184 ../goffice/gtk/goffice-gtk.c:480
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: ../goffice/graph/gog-style.c:612
+#: ../goffice/graph/gog-style.c:613
 msgid "Start:"
 msgstr "Inicio:"
 
-#: ../goffice/graph/gog-style.c:613
+#: ../goffice/graph/gog-style.c:614
 msgid "End:"
 msgstr "Fin:"
 
-#: ../goffice/graph/gog-style.c:615
+#: ../goffice/graph/gog-style.c:616
 msgid "Foreground:"
 msgstr "Primer plano:"
 
-#: ../goffice/graph/gog-style.c:616
+#: ../goffice/graph/gog-style.c:617
 msgid "Background:"
 msgstr "Fondo:"
 
-#: ../goffice/graph/gog-style.c:832
+#: ../goffice/graph/gog-style.c:833
 msgid "Markers"
 msgstr "Marcadores"
 
-#: ../goffice/graph/gog-style.c:1009 ../goffice/graph/gog-styled-object.c:161
+#: ../goffice/graph/gog-style.c:1010 ../goffice/graph/gog-styled-object.c:188
 msgid "Style"
 msgstr "Estilo"
 
-#: ../goffice/graph/gog-styled-object.c:162
+#: ../goffice/graph/gog-styled-object.c:189
 msgid "A pointer to the GogStyle object"
 msgstr "Un puntero al objeto GogStyle"
 
@@ -2825,7 +2851,8 @@ msgstr "Usar superíndice para el exponente (ej. 4×10²)"
 
 #: ../goffice/gtk/go-format-sel.glade.h:21
 msgid "When mantissa is equal to 1, only show exponent part (e.g. 10²)"
-msgstr "Cuando la mantisa es igual a 1, mostrar sólo la parte del exponente (ej, 10²)"
+msgstr ""
+"Cuando la mantisa es igual a 1, mostrar sólo la parte del exponente (ej, 10²)"
 
 #: ../goffice/gtk/go-format-sel.glade.h:22
 msgid "_Don't show 1x's"
@@ -4342,53 +4369,53 @@ msgstr "Falta la comilla de finalización"
 msgid "Syntax error"
 msgstr "Error de sintaxis"
 
-#: ../goffice/utils/go-image.c:131
+#: ../goffice/utils/go-image.c:132
 msgid "SVG (vector graphics)"
 msgstr "SVG (gráfico vectorial)"
 
-#: ../goffice/utils/go-image.c:133
+#: ../goffice/utils/go-image.c:134
 msgid "PNG (raster graphics)"
 msgstr "PNG (gráfico raster)"
 
-#: ../goffice/utils/go-image.c:135
+#: ../goffice/utils/go-image.c:136
 msgid "JPEG (photograph)"
 msgstr "JPEG (fotografía)"
 
-#: ../goffice/utils/go-image.c:137
+#: ../goffice/utils/go-image.c:138
 msgid "PDF (portable document format)"
 msgstr "PDF (formato de documento portable)"
 
-#: ../goffice/utils/go-image.c:139
+#: ../goffice/utils/go-image.c:140
 msgid "PS (postscript)"
 msgstr "PS (postscript)"
 
-#: ../goffice/utils/go-image.c:141
+#: ../goffice/utils/go-image.c:142
 msgid "EMF (extended metafile)"
 msgstr "EMF (meta archivo extendido)"
 
-#: ../goffice/utils/go-image.c:143
+#: ../goffice/utils/go-image.c:144
 msgid "WMF (windows metafile)"
 msgstr "WMF (meta archivo de windows)"
 
-#: ../goffice/utils/go-image.c:146
+#: ../goffice/utils/go-image.c:147
 msgid "EPS (encapsulated postscript)"
 msgstr "EPS (postscript encapsulado)"
 
-#: ../goffice/utils/go-image.c:472
+#: ../goffice/utils/go-image.c:473
 msgid "Image width in pixels"
 msgstr "Anchura de la imagen en píxeles"
 
-#: ../goffice/utils/go-image.c:476
+#: ../goffice/utils/go-image.c:477
 msgid "Image height in pixels"
 msgstr "Altura de la imagen en píxeles"
 
-#: ../goffice/utils/go-image.c:480
+#: ../goffice/utils/go-image.c:481
 msgid "Pixbuf"
 msgstr "Pixbuf"
 
-#: ../goffice/utils/go-image.c:481
+#: ../goffice/utils/go-image.c:482
 msgid "GdkPixbuf object from which the GOImage is built"
-msgstr ""
+msgstr "Obejto GdkPixbuf desde el que se construye GOImage"
 
 #: ../goffice/utils/go-line.c:56 ../goffice/utils/go-pattern.c:41
 msgid "Solid"
@@ -4759,59 +4786,60 @@ msgstr "Coincidir con las palabras"
 msgid "Match whole words only."
 msgstr "Coincidir sólo con la palabra completa."
 
-#: ../plugins/plot_barcol/gog-1.5d.c:328
+#: ../plugins/plot_barcol/gog-1.5d.c:334
 msgid "How to group multiple series, normal, stacked, as_percentage"
 msgstr "Cómo agrupar series múltiples, normal, apilados, como porcentaje"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:333 ../plugins/plot_pie/gog-pie.c:245
+#: ../plugins/plot_barcol/gog-1.5d.c:339 ../plugins/plot_pie/gog-pie.c:245
 #: ../plugins/plot_xy/gog-xy.c:523
 msgid "In 3d"
 msgstr "En 3D"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:334
+#: ../plugins/plot_barcol/gog-1.5d.c:340
 msgid "Placeholder to allow us to round trip pseudo 3d state"
 msgstr ""
 
-#: ../plugins/plot_barcol/gog-1.5d.c:342
+#: ../plugins/plot_barcol/gog-1.5d.c:348
 #: ../plugins/plot_barcol/gog-dropbar.c:58
 #: ../plugins/plot_barcol/gog-minmax.c:245 ../plugins/plot_pie/gog-pie.c:258
 #: ../plugins/plot_radar/gog-radar.c:297
 msgid "Labels"
 msgstr "Etiquetas"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:344
+#: ../plugins/plot_barcol/gog-1.5d.c:350
 #: ../plugins/plot_boxes/gog-boxplot.c:395
 #: ../plugins/plot_boxes/gog-histogram.c:186 ../plugins/plot_pie/gog-pie.c:260
 #: ../plugins/plot_radar/gog-radar.c:299
 msgid "Values"
 msgstr "Valores"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:574 ../plugins/plot_barcol/gog-1.5d.c:636
+#: ../plugins/plot_barcol/gog-1.5d.c:581 ../plugins/plot_barcol/gog-1.5d.c:643
 msgid "Error bars"
 msgstr "Barras de error"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:593
+#: ../plugins/plot_barcol/gog-1.5d.c:600
 msgid "Series lines"
 msgstr "Líneas de series"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:600
+#: ../plugins/plot_barcol/gog-1.5d.c:607
 #: ../plugins/plot_boxes/gog-histogram.c:490
 msgid "Drop lines"
 msgstr ""
 
-#: ../plugins/plot_barcol/gog-1.5d.c:608
+#: ../plugins/plot_barcol/gog-1.5d.c:615
 #: ../plugins/plot_barcol/plot-types.xml.in.h:78
 msgid "Lines"
 msgstr "Líneas"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:637 ../plugins/plot_xy/gog-xy.c:1662
+#: ../plugins/plot_barcol/gog-1.5d.c:644 ../plugins/plot_xy/gog-xy.c:1662
 #: ../plugins/plot_xy/gog-xy.c:1668
 msgid "GogErrorBar *"
 msgstr "Barra de error Gog *"
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:3
 msgid "How far the bars/cols overlap as a percentage of the width"
-msgstr "Hasta donde las barras/columnas se superponen como un porcentaje del ancho"
+msgstr ""
+"Hasta donde las barras/columnas se superponen como un porcentaje del ancho"
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:4
 msgid "O_verlap:"
@@ -4972,7 +5000,8 @@ msgstr "Columnas adyacentes"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:33
 msgid "Adjacent horizontal bars grouped by major and minor categories."
-msgstr "Barras horizontales adyacentes agrupadas por categorías mayores y menores."
+msgstr ""
+"Barras horizontales adyacentes agrupadas por categorías mayores y menores."
 
 #. No 3d yet
 #. <Type _name="3D Adjacent Bars" row="2" col="1"
@@ -5006,7 +5035,8 @@ msgstr "Barras horizontales adyacentes agrupadas por categorías mayores y menor
 #.
 #: ../plugins/plot_barcol/plot-types.xml.in.h:64
 msgid "Adjacent vertical columns grouped by major and minor categories."
-msgstr "Columnas verticales adyacentes agrupadas por categorías mayores y menores."
+msgstr ""
+"Columnas verticales adyacentes agrupadas por categorías mayores y menores."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:65
 msgid "Area"
@@ -5246,7 +5276,8 @@ msgstr "Vertical"
 
 #: ../plugins/plot_boxes/gog-boxplot.c:370
 msgid "Whether the box-plot should be vertical instead of horizontal"
-msgstr "Indica si el diagrama de cajas debería ser vertical en lugar de horizontal"
+msgstr ""
+"Indica si el diagrama de cajas debería ser vertical en lugar de horizontal"
 
 #: ../plugins/plot_boxes/gog-boxplot.c:375
 msgid "Outliers"
@@ -5258,7 +5289,7 @@ msgstr ""
 
 #: ../plugins/plot_boxes/gog-boxplot.c:381
 msgid "Radius ratio"
-msgstr ""
+msgstr "Tasa del radio"
 
 #: ../plugins/plot_boxes/gog-boxplot.c:382
 msgid ""
@@ -5341,7 +5372,8 @@ msgstr "Estadísticas de los tipos de gráficos"
 #: ../plugins/plot_pie/gog-pie-prefs.glade.h:3
 #: ../plugins/plot_pie/gog-ring-prefs.glade.h:4
 msgid "Degrees counter clockwise from 3 O'Clock"
-msgstr "Grados contando en el sentido de las agujas del reloj desde las 3 en punto"
+msgstr ""
+"Grados contando en el sentido de las agujas del reloj desde las 3 en punto"
 
 #: ../plugins/plot_pie/gog-pie-prefs.glade.h:4
 #: ../plugins/plot_pie/gog-ring-prefs.glade.h:5
@@ -5405,7 +5437,8 @@ msgstr "Separación predeterminada"
 
 #: ../plugins/plot_pie/gog-pie.c:240 ../plugins/plot_pie/gog-pie.c:906
 msgid "Default amount a slice is extended as a percentage of the radius"
-msgstr "Cantidad predeterminada que una rodaja se extiende como porcentaje del radio"
+msgstr ""
+"Cantidad predeterminada que una rodaja se extiende como porcentaje del radio"
 
 #: ../plugins/plot_pie/gog-pie.c:246
 msgid "Draw 3d wedges"
@@ -5461,10 +5494,12 @@ msgstr ""
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:3
 msgid "Percentage of each contributor displayed in ring for each serie."
-msgstr "Porcentaje de cada contribuyente mostrado en un anillo para cada serie."
+msgstr ""
+"Porcentaje de cada contribuyente mostrado en un anillo para cada serie."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:4
-msgid "Percentage of each contributor in a half circle with wedges split apart."
+msgid ""
+"Percentage of each contributor in a half circle with wedges split apart."
 msgstr ""
 "Porcentaje de cada contribuyente en medio círculo con cuñas divididas a "
 "parte."
@@ -5835,7 +5870,8 @@ msgstr "No válido como cero"
 
 #: ../plugins/plot_xy/gog-xy.c:1674
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
-msgstr "Reemplazar los valores no válidos por 0 al dibujar marcadores o burbujas"
+msgstr ""
+"Reemplazar los valores no válidos por 0 al dibujar marcadores o burbujas"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
 msgid "ColoredXY"
@@ -5871,7 +5907,8 @@ msgid "Multi-dimensional points with circle at each point."
 msgstr "Puntos multidimensionales con un círculo en cada punto."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:10
-msgid "Multi-dimensional points with data dependent color marker at each point."
+msgid ""
+"Multi-dimensional points with data dependent color marker at each point."
 msgstr ""
 "Puntos multidimensionales con información dependiente de un marcador de "
 "color en cada punto."
@@ -6202,4 +6239,3 @@ msgstr "motor de suavizado exponencial"
 #: ../plugins/smoothing/types.xml.in.h:3
 msgid "Moving average smoothed curve"
 msgstr "Moviendo la media de la curva suavizada"
-
