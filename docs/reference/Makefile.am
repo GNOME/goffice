@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-DOC_MODULE=goffice
+DOC_MODULE=goffice-@GOFFICE_API_VER@
 
 DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.sgml
 
