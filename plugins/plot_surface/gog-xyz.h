@@ -38,11 +38,13 @@ typedef struct {
 	
 	unsigned rows, columns;
 	gboolean transposed;
+	gboolean data_xyz;
 	struct {
 		double minima, maxima;
 		GOFormat *fmt;
 	} x, y, z;
 	double *plotted_data;
+	GODataVector *x_vals, *y_vals;
 } GogXYZPlot;
 
 #define GOG_XYZ_PLOT_TYPE	(gog_xyz_plot_get_type ())
@@ -57,11 +59,15 @@ typedef struct {
 	GogAxisType third_axis;
 
 	double * (*build_matrix) (GogXYZPlot const *plot, gboolean *cardinality_changed);
+	GODataVector * (*get_x_vals) (GogXYZPlot *plot);
+	GODataVector * (*get_y_vals) (GogXYZPlot *plot);
 } GogXYZPlotClass;
 
 #define GOG_XYZ_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_XYZ_PLOT_TYPE, GogXYZPlotClass))
 
 double *gog_xyz_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_changed);
+GODataVector *gog_xyz_plot_get_x_vals (GogXYZPlot *plot);
+GODataVector *gog_xyz_plot_get_y_vals (GogXYZPlot *plot);
 
 typedef struct {
 	GogSeries base;

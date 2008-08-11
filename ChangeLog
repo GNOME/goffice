@@ -1,3 +1,20 @@
+2008-08-11  Mariusz Adamski  <mariusz.adamski@gmail.com>
+
+	* pixmaps/Makefile.am: add new pixmaps for surface plots.
+	* pixmaps/chart_surface_2_2.png: ditto.
+	* pixmaps/chart_surface_2_2.svg: ditto.
+	* plugins/plot_surface/Makefile.am: add surface plots based on xyz data
+	averaged on a grid.
+	* plugins/plot_surface/gog-surface.c: ditto.
+	* plugins/plot_surface/gog-xyz-surface-prefs.c:
+	* plugins/plot_surface/gog-xyz-surface-prefs.glade:
+	* plugins/plot_surface/gog-xyz-surface.c: ditto.
+	* plugins/plot_surface/gog-xyz-surface.h: ditto.
+	* plugins/plot_surface/gog-xyz.c: ditto.
+	* plugins/plot_surface/gog-xyz.h: ditto.
+	* plugins/plot_surface/plot-types.xml.in: ditto.
+	* plugins/plot_surface/plugin.xml.in: ditto.
+
 2008-08-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* docs/reference/Makefile.am: add API version to DOC_MODULE. [#522096]

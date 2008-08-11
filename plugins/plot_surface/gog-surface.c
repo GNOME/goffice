@@ -120,7 +120,7 @@ tile_cmp (GogSurfaceTile *t1, GogSurfaceTile *t2)
 static void
 gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 {
-	GogSurfacePlot const *plot = GOG_SURFACE_PLOT (view->model);
+	GogSurfacePlot *plot = GOG_SURFACE_PLOT (view->model);
 	GogSeries const *series;
 	GogChartMap3D *chart_map;
 	GogChart *chart = GOG_CHART (view->model->parent);
@@ -168,14 +168,12 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 		data = gog_xyz_plot_build_matrix (plot, &cw);
 
 	/* Build the tiles list */
+	x_vec = gog_xyz_plot_get_x_vals (plot);
+	y_vec = gog_xyz_plot_get_y_vals (plot);
 	xdiscrete = gog_axis_is_discrete (plot->base.axis[0]) ||
-			series->values[(plot->transposed)? 1: 0].data == NULL;
-	if (!xdiscrete)
-		x_vec = GO_DATA_VECTOR (series->values[(plot->transposed)? 1: 0].data);
+			x_vec == NULL;
 	ydiscrete = gog_axis_is_discrete (plot->base.axis[1]) ||
-			series->values[(plot->transposed)? 0: 1].data == NULL;
-	if (!ydiscrete)
-		y_vec = GO_DATA_VECTOR (series->values[(plot->transposed)? 0: 1].data);
+			y_vec == NULL;
 	for (i = 1; i < imax; i++)
 		for (j = 1; j < jmax; j++) {
 			tile = g_new0 (GogSurfaceTile, 1);

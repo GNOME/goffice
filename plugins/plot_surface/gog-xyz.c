@@ -23,9 +23,11 @@
 #include "gog-xyz.h"
 #include "gog-contour.h"
 #include "gog-surface.h"
+#include "gog-xyz-surface.h"
 #include "xl-surface.h"
 #include <goffice/app/module-plugin-defs.h>
 #include <goffice/data/go-data.h>
+#include <goffice/data/go-data-simple.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-format.h>
@@ -91,13 +93,62 @@ gog_xyz_plot_populate_editor (GogObject *item,
 				  G_GNUC_UNUSED GogDataAllocator *dalloc,
 				  GOCmdContext *cc)
 {
-	gog_editor_add_page (editor,
-			     gog_xyz_plot_pref (GOG_XYZ_PLOT (item), cc),
-			     _("Properties"));
+	if (!GOG_XYZ_PLOT (item)->data_xyz) 
+		gog_editor_add_page (editor,
+				     gog_xyz_plot_pref (GOG_XYZ_PLOT (item), cc),
+				     _("Properties"));
 
 	(GOG_OBJECT_CLASS (plot_xyz_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
 #endif
+
+GODataVector *
+gog_xyz_plot_get_x_vals (GogXYZPlot *plot)
+{
+	double inc;
+	double *vals;
+	unsigned i, imax;
+	if (plot->data_xyz) {
+		if (plot->x_vals == NULL) {
+			imax = plot->columns;
+			inc = (plot->x.maxima - plot->x.minima) / (imax - 1);
+			vals = g_new (double, imax);
+			for (i = 0; i < imax; ++i)
+				vals[i] = plot->x.minima + i * inc;
+			plot->x_vals = GO_DATA_VECTOR (go_data_vector_val_new (vals,
+				imax, NULL));
+		}
+		return plot->x_vals;
+	} else {
+		GogSeries *series = GOG_SERIES (plot->base.series->data);
+		return GO_DATA_VECTOR (series->values[(plot->transposed)?
+						      1: 0].data);
+	}
+}
+
+GODataVector *
+gog_xyz_plot_get_y_vals (GogXYZPlot *plot)
+{
+	double inc;
+	double *vals;
+	unsigned i, imax;
+	if (plot->data_xyz) {
+		if (plot->y_vals == NULL) {
+			imax = plot->rows;
+			inc = (plot->y.maxima - plot->y.minima) / (imax - 1);
+			vals = g_new (double, imax);
+			for (i = 0; i < imax; ++i)
+				vals[i] = plot->y.minima + i * inc;
+			plot->y_vals = GO_DATA_VECTOR (go_data_vector_val_new (vals,
+				imax, NULL));
+		}
+		return plot->y_vals;
+	} else {
+		GogSeries *series = GOG_SERIES (plot->base.series->data);
+		return GO_DATA_VECTOR (series->values[(plot->transposed)?
+						      0: 1].data);
+	}
+}
 
 static void
 gog_xyz_plot_clear_formats (GogXYZPlot *plot)
@@ -127,6 +178,12 @@ gog_xyz_plot_update (GogObject *obj)
 
 	if (model->base.series == NULL)
 		return;
+
+	if (model->data_xyz) {
+		if (plot_xyz_parent_klass->update)
+			plot_xyz_parent_klass->update (obj);
+		return;
+	}
 
 	series = GOG_XYZ_SERIES (model->base.series->data);
 	if (!gog_series_is_valid (GOG_SERIES (series)))
@@ -251,6 +308,10 @@ gog_xyz_plot_finalize (GObject *obj)
 	GogXYZPlot *plot = GOG_XYZ_PLOT (obj);
 	gog_xyz_plot_clear_formats (plot);
 	g_free (plot->plotted_data);
+	if (plot->x_vals != NULL)
+		g_object_unref (plot->x_vals);
+	if (plot->y_vals != NULL)
+		g_object_unref (plot->y_vals);
 	G_OBJECT_CLASS (plot_xyz_parent_klass)->finalize (obj);
 }
 
@@ -262,6 +323,9 @@ gog_xyz_plot_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case XYZ_PROP_TRANSPOSED :
+		/* Transposed property have no meaning when data set is XYZ */
+		if (plot->data_xyz)
+			return;
 		if (!plot->transposed != !g_value_get_boolean (value)) {
 			plot->transposed = g_value_get_boolean (value);
 			if (NULL != plot->base.axis[GOG_AXIS_X])
@@ -303,6 +367,9 @@ gog_xyz_plot_class_init (GogXYZPlotClass *klass)
 	GogObjectClass *gog_object_klass = (GogObjectClass *) klass;
 
 	plot_xyz_parent_klass = g_type_class_peek_parent (klass);
+
+	klass->get_x_vals = gog_xyz_plot_get_x_vals;
+	klass->get_y_vals = gog_xyz_plot_get_y_vals;
 
 	gobject_klass->finalize     = gog_xyz_plot_finalize;
 	gobject_klass->set_property = gog_xyz_plot_set_property;
@@ -347,10 +414,13 @@ gog_xyz_plot_init (GogXYZPlot *xyz)
 {
 	xyz->rows = xyz->columns = 0;
 	xyz->transposed = FALSE;
+	xyz->data_xyz = FALSE;
 	xyz->x.minima = xyz->x.maxima = xyz->y.minima
 		= xyz->y.maxima = xyz->z.minima = xyz->z.maxima = go_nan;
 	xyz->x.fmt = xyz->y.fmt = xyz->z.fmt = NULL;
 	xyz->plotted_data = NULL;
+	xyz->x_vals = NULL;
+	xyz->y_vals = NULL;
 }
 
 GSF_DYNAMIC_CLASS_ABSTRACT (GogXYZPlot, gog_xyz_plot,
@@ -371,29 +441,36 @@ gog_xyz_series_update (GogObject *obj)
 	int length;
 	size.rows = 0;
 	size.columns = 0;
-	if (series->base.values[2].data != NULL) {
-		old_size.rows = series->rows;
-		old_size.columns = series->columns;
-		mat = GO_DATA_MATRIX (series->base.values[2].data);
-		go_data_matrix_get_values (mat);
-		size = go_data_matrix_get_size (mat);
+
+	if (GOG_XYZ_PLOT (series->base.plot)->data_xyz) {
+		const double *x_vals, *y_vals, *z_vals = NULL;
+		series->base.num_elements = gog_series_get_xyz_data (GOG_SERIES (series), 
+								     &x_vals, &y_vals, &z_vals);
+	} else {
+		if (series->base.values[2].data != NULL) {
+			old_size.rows = series->rows;
+			old_size.columns = series->columns;
+			mat = GO_DATA_MATRIX (series->base.values[2].data);
+			go_data_matrix_get_values (mat);
+			size = go_data_matrix_get_size (mat);
+		}
+		if (series->base.values[0].data != NULL) {
+			vec = GO_DATA_VECTOR (series->base.values[0].data);
+			go_data_vector_get_values (vec);
+			length = go_data_vector_get_len (vec);
+			if (length < size.columns)
+				size.columns = length;
+		}
+		if (series->base.values[1].data != NULL) {
+			vec = GO_DATA_VECTOR (series->base.values[1].data);
+			go_data_vector_get_values (vec);
+			length = go_data_vector_get_len (vec);
+			if (length < size.rows)
+				size.rows = length;
+		}
+		series->rows = size.rows;
+		series->columns = size.columns;
 	}
-	if (series->base.values[0].data != NULL) {
-		vec = GO_DATA_VECTOR (series->base.values[0].data);
-		go_data_vector_get_values (vec);
-		length = go_data_vector_get_len (vec);
-		if (length < size.columns)
-			size.columns = length;
-	}
-	if (series->base.values[1].data != NULL) {
-		vec = GO_DATA_VECTOR (series->base.values[1].data);
-		go_data_vector_get_values (vec);
-		length = go_data_vector_get_len (vec);
-		if (length < size.rows)
-			size.rows = length;
-	}
-	series->rows = size.rows;
-	series->columns = size.columns;
 
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
@@ -435,6 +512,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_contour_view_register_type (module);
 	gog_surface_plot_register_type (module);
 	gog_surface_view_register_type (module);
+	gog_xyz_surface_plot_register_type (module);
 	gog_xyz_series_register_type (module);
 	xl_y_labels_register_type (module);
 	xl_xyz_series_register_type (module);

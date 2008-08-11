@@ -13,6 +13,8 @@ surface_la_SOURCES = \
 	gog-contour.h		\
 	gog-surface.c		\
 	gog-surface.h		\
+	gog-xyz-surface.c	\
+	gog-xyz-survace.h	\
 	xl-surface.c		\
 	xl-surface.h
 
@@ -22,8 +24,13 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@
 
 if WITH_GTK
-dist_glade_DATA = gog-xyz-prefs.glade
-surface_la_SOURCES += gog-xyz-prefs.c
+dist_glade_DATA = \
+	gog-xyz-prefs.glade	\
+	gog-xyz-surface-prefs.glade
+	
+surface_la_SOURCES += \
+	gog-xyz-prefs.c		\
+	gog-xyz-surface-prefs.c
 endif
 
 # do not use the intl-tool stuff to merge the text back

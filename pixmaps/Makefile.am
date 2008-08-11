@@ -40,7 +40,7 @@ dist_icon_DATA = \
 	chart_minmax_1_1.png	chart_minmax_1_2.png \
 	chart_minmax_2_1.png	chart_minmax_2_2.png \
 	chart_histogram_1_1.png \
-	chart_surface_2_1.png \
+	chart_surface_2_1.png	chart_surface_2_2.png \
 	\
 	area.xpm 	\
 	bar.xpm		\
