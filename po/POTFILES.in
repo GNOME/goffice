@@ -273,6 +273,10 @@ plugins/plot_surface/gog-xyz.c
 plugins/plot_surface/gog-xyz.h
 plugins/plot_surface/gog-xyz-prefs.c
 plugins/plot_surface/gog-xyz-prefs.glade
+plugins/plot_surface/gog-xyz-surface.c
+plugins/plot_surface/gog-xyz-surface.h
+plugins/plot_surface/gog-xyz-surface-prefs.c
+plugins/plot_surface/gog-xyz-surface-prefs.glade
 plugins/plot_surface/plot-types.xml.in
 plugins/plot_surface/plugin.xml.in
 plugins/plot_surface/xl-surface.c
