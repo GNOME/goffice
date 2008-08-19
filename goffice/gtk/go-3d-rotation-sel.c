@@ -360,8 +360,12 @@ g3d_init (GO3DRotationSel *g3d)
 	                  NULL);
 
 	g3d->fovscale = GTK_RANGE (glade_xml_get_widget (g3d->gui, "fovscale"));
-	g_signal_connect (G_OBJECT (g3d->fovscale), "button-release-event",
-	                  G_CALLBACK (cb_fov_changed), g3d);
+	g_object_connect (G_OBJECT (g3d->fovscale),
+	                  "signal::button-release-event",
+	                  G_CALLBACK (cb_fov_changed), g3d,
+			  "signal::key-release-event",
+			  G_CALLBACK (cb_fov_changed), g3d,
+			  NULL);
 	w = glade_xml_get_widget (g3d->gui, "toplevel");
 	gtk_box_pack_start (GTK_BOX (g3d), w, TRUE, TRUE, 0);
 	gtk_widget_show_all (GTK_WIDGET (g3d));

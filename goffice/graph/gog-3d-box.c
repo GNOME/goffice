@@ -168,25 +168,18 @@ gog_3d_box_populate_editor (GogObject *gobj,
 	if (gui == NULL)
 		return;
 
-	g_signal_connect (G_OBJECT (g3d),
-	                  "expose-event",
-	                  G_CALLBACK (cb_g3d_update),
-	                  GOG_3D_BOX (gobj));
-	g_signal_connect (G_OBJECT (g3d),
-	                  "matrix-changed",
-	                  G_CALLBACK (cb_matrix_changed),
-	                  GOG_3D_BOX (gobj));
-	g_signal_connect (G_OBJECT (g3d),
-	                  "fov-changed",
-			  G_CALLBACK (cb_fov_changed),
-	                  GOG_3D_BOX (gobj));
-	
+	g_object_connect (G_OBJECT (g3d),
+		"signal::expose-event",   G_CALLBACK (cb_g3d_update), gobj,
+		"signal::matrix-changed", G_CALLBACK (cb_matrix_changed), gobj,
+		"signal::fov-changed",    G_CALLBACK (cb_fov_changed), gobj,
+		NULL);
+
 	w = glade_xml_get_widget (gui, "psi_scale");
 	gtk_range_set_value (GTK_RANGE (w), box->psi * 180 / M_PI);
-	g_signal_connect (G_OBJECT (w),
-	                  "button-release-event",
-	                   G_CALLBACK (cb_box_psi_changed),
-	                   GOG_3D_BOX (gobj));
+	g_object_connect (G_OBJECT (w),
+		"signal::button-release-event", G_CALLBACK (cb_box_psi_changed), gobj,
+		"signal::key-release-event",    G_CALLBACK (cb_box_psi_changed), gobj,
+		NULL);
 	g_signal_connect (G_OBJECT (g3d),
 	                  "psi-changed",
 	                  G_CALLBACK (cb_g3d_change_psi),
@@ -194,10 +187,10 @@ gog_3d_box_populate_editor (GogObject *gobj,
 
 	w = glade_xml_get_widget (gui, "theta_scale");
 	gtk_range_set_value (GTK_RANGE (w), box->theta * 180 / M_PI);
-	g_signal_connect (G_OBJECT (w),
-	                  "button-release-event",
-	                  G_CALLBACK (cb_box_theta_changed),
-	                  GOG_3D_BOX (gobj));
+	g_object_connect (G_OBJECT (w),
+		"signal::button-release-event", G_CALLBACK (cb_box_theta_changed), gobj,
+		"signal::key-release-event",    G_CALLBACK (cb_box_theta_changed), gobj,
+		NULL);
 	g_signal_connect (G_OBJECT (g3d),
 	                  "theta-changed",
 	                  G_CALLBACK (cb_g3d_change_theta),
@@ -205,10 +198,10 @@ gog_3d_box_populate_editor (GogObject *gobj,
 
 	w = glade_xml_get_widget (gui, "phi_scale");
 	gtk_range_set_value (GTK_RANGE (w), box->phi * 180 / M_PI);
-	g_signal_connect (G_OBJECT (w),
-	                  "button-release-event",
-	                  G_CALLBACK (cb_box_phi_changed),
-	                  GOG_3D_BOX (gobj));
+	g_object_connect (G_OBJECT (w),
+		"signal::button-release-event", G_CALLBACK (cb_box_phi_changed), gobj,
+		"signal::key-release-event",    G_CALLBACK (cb_box_phi_changed), gobj,
+		NULL);
 	g_signal_connect (G_OBJECT (g3d),
 	                  "phi-changed",
 	                  G_CALLBACK (cb_g3d_change_phi),

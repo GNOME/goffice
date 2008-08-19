@@ -345,6 +345,7 @@ gog_grid_line_xyz_render (GogGridLine *grid_line, GogView *view,
 			double x1, x2, y1, y2;
 			int face = xfaces[j];
 			int inc;
+			stripe_started = FALSE;
 			if (fv[face / 4] == 0)
 				continue;
 			inc = (*py[faces[face]] != *py[faces[face + 1]]
@@ -380,6 +381,24 @@ gog_grid_line_xyz_render (GogGridLine *grid_line, GogView *view,
 						stripe_started = TRUE;
 					}
 				}
+				if (stripe_started) {
+					gog_chart_map_3d_to_view (c_map,
+						bx,
+						*py[faces[face]],
+						*pz[faces[face]],
+						&x1, &y1, NULL);
+					gog_chart_map_3d_to_view (c_map,
+						bx,
+						*py[faces[face + inc]],
+						*pz[faces[face + inc]],
+						&x2, &y2, NULL);
+					go_path_line_to (path, x2, y2);
+					go_path_line_to (path, x1, y1);
+					go_path_close (path);
+					gog_renderer_fill_shape (view->renderer,
+						path);
+					go_path_clear (path);
+				}
 			} else {
 				for (i = 0; i < tick_nbr; ++i) {
 					if (!((ticks[i].type == GOG_AXIS_TICK_MAJOR 
@@ -409,6 +428,7 @@ gog_grid_line_xyz_render (GogGridLine *grid_line, GogView *view,
 			double x1, x2, y1, y2;
 			int face = yfaces[j];
 			int inc;
+			stripe_started = FALSE;
 			if (fv[face / 4] == 0)
 				continue;
 			inc = (*px[faces[face]] != *px[faces[face + 1]]
@@ -444,6 +464,24 @@ gog_grid_line_xyz_render (GogGridLine *grid_line, GogView *view,
 						stripe_started = TRUE;
 					}
 				}
+				if (stripe_started) {
+					gog_chart_map_3d_to_view (c_map,
+						*px[faces[face]],
+						by,
+						*pz[faces[face]],
+						&x1, &y1, NULL);
+					gog_chart_map_3d_to_view (c_map,
+						*px[faces[face + inc]],
+						by,
+						*pz[faces[face + inc]],
+						&x2, &y2, NULL);
+					go_path_line_to (path, x2, y2);
+					go_path_line_to (path, x1, y1);
+					go_path_close (path);
+					gog_renderer_fill_shape (view->renderer,
+						path);
+					go_path_clear (path);
+				}
 			} else {
 				for (i = 0; i < tick_nbr; ++i) {
 					if (!((ticks[i].type == GOG_AXIS_TICK_MAJOR 
@@ -473,6 +511,7 @@ gog_grid_line_xyz_render (GogGridLine *grid_line, GogView *view,
 			double x1, x2, y1, y2;
 			int face = zfaces[j];
 			int inc;
+			stripe_started = FALSE;
 			if (fv[face / 4] == 0)
 				continue;
 			inc = (*px[faces[face]] != *px[faces[face + 1]]
@@ -507,6 +546,24 @@ gog_grid_line_xyz_render (GogGridLine *grid_line, GogView *view,
 						go_path_line_to (path, x2, y2);
 						stripe_started = TRUE;
 					}
+				}
+				if (stripe_started) {
+					gog_chart_map_3d_to_view (c_map,
+						*px[faces[face]],
+						*py[faces[face]],
+						bz,
+						&x1, &y1, NULL);
+					gog_chart_map_3d_to_view (c_map,
+						*px[faces[face + inc]],
+						*py[faces[face + inc]],
+						bz,
+						&x2, &y2, NULL);
+					go_path_line_to (path, x2, y2);
+					go_path_line_to (path, x1, y1);
+					go_path_close (path);
+					gog_renderer_fill_shape (view->renderer,
+						path);
+					go_path_clear (path);
 				}
 			} else {
 				for (i = 0; i < tick_nbr; ++i) {
