@@ -30,34 +30,11 @@
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-format.h>
 
-typedef struct {
-	char const **y_labels;
-} XlYLabels;
-
-typedef GTypeInterface XlYLabelsClass;
-
-#define XL_Y_LABELS_TYPE		(xl_y_labels_get_type ())
-#define XL_Y_LABELS(o)			(G_TYPE_CHECK_INSTANCE_CAST ((o), XL_Y_LABELS_TYPE, XlYLabels))
-//#define IS_XL_Y_LABELS(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), XL_Y_LABELS_TYPE))
-//#define XL_Y_LABELS_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), XL_Y_LABELS_TYPE, XlYLabelsClass))
-//#define IS_XL_Y_LABELS_CLASS(k)		(G_TYPE_CHECK_CLASS_TYPE ((k), XL_Y_LABELS))
-//#define XL_Y_LABELS_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), XL_Y_LABELS, XlYLabelsClass))
-
-GSF_DYNAMIC_CLASS (XlYLabels, xl_y_labels, NULL, NULL, G_TYPE_INTERFACE);
-
-static void
-xl_labels_init (XlYLabels *labels)
-{
-	labels->y_labels = NULL;
-}
-
-/*****************************************************************************/
-
-typedef GogSeries XlXYZSeries;
-typedef GogSeriesClass XlXYZSeriesClass;
+typedef GogSeries XLXYZSeries;
+typedef GogSeriesClass XLXYZSeriesClass;
 
 #define XL_XYZ_SERIES_TYPE	(xl_xyz_series_get_type ())
-#define XL_XYZ_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), XL_XYZ_SERIES_TYPE, XlXYZSeries))
+#define XL_XYZ_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), XL_XYZ_SERIES_TYPE, XLXYZSeries))
 #define XL_IS_XYZ_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), XL_XYZ_SERIES_TYPE))
 
 static GType xl_xyz_series_get_type (void);
@@ -67,7 +44,7 @@ static GogStyledObjectClass *series_parent_klass;
 static void
 xl_xyz_series_update (GogObject *obj)
 {
-	XlXYZSeries *series = XL_XYZ_SERIES (obj);
+	XLXYZSeries *series = XL_XYZ_SERIES (obj);
 	int x_len = 0, z_len = 0;
 
 	if (series->values[1].data != NULL)
@@ -104,7 +81,7 @@ xl_xyz_series_class_init (GogStyledObjectClass *gso_klass)
 }
 
 
-GSF_DYNAMIC_CLASS (XlXYZSeries, xl_xyz_series,
+GSF_DYNAMIC_CLASS (XLXYZSeries, xl_xyz_series,
 	xl_xyz_series_class_init, NULL,
 	GOG_SERIES_TYPE)
 
@@ -114,7 +91,7 @@ static void
 xl_xyz_plot_update (GogObject *obj)
 {
 	GogXYZPlot * model = GOG_XYZ_PLOT(obj);
-	XlXYZSeries * series;
+	XLXYZSeries * series;
 	double zmin =  DBL_MAX, zmax = -DBL_MAX, tmp_min, tmp_max;
 	GSList *ptr;
 	model->rows = 0;
@@ -172,24 +149,25 @@ xl_xyz_plot_update (GogObject *obj)
 static GODataVector *
 get_y_vector (GogPlot *plot)
 {
-	GogXYZPlot *xyz = GOG_XYZ_PLOT (plot);
-	XlYLabels *labels = XL_Y_LABELS (plot);
 	GSList *ptr;
 	int i;
+	char const ***y_labels = (GOG_IS_PLOT_CONTOUR (plot))?
+				&(XL_CONTOUR_PLOT (plot)->y_labels):
+				&(XL_SURFACE_PLOT (plot)->y_labels);
 
-	g_free (labels->y_labels);
-	labels->y_labels = g_new0 (char const *, xyz->rows);
+	g_free (*y_labels);
+	*y_labels = g_new0 (char const *, GOG_XYZ_PLOT (plot)->rows);
 
 	for (ptr = plot->series, i = 0 ; ptr != NULL ; ptr = ptr->next, i++) {
-		XlXYZSeries *series = ptr->data;
+		XLXYZSeries *series = ptr->data;
 
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
-		labels->y_labels[i] = go_data_scalar_get_str (GO_DATA_SCALAR (
+		(*y_labels) [i] = go_data_scalar_get_str (GO_DATA_SCALAR (
 				series->values[-1].data));
 	}
 
-	return GO_DATA_VECTOR (go_data_vector_str_new (labels->y_labels, i, NULL));
+	return GO_DATA_VECTOR (go_data_vector_str_new (*y_labels, i, NULL));
 }
 
 static GOData *
@@ -201,7 +179,7 @@ xl_xyz_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	GOFormat *fmt;
 
 	if (axis == GOG_AXIS_X) {
-		XlXYZSeries *series = XL_XYZ_SERIES (plot->series->data);
+		XLXYZSeries *series = XL_XYZ_SERIES (plot->series->data);
 		vec = GO_DATA_VECTOR (series->values[0].data);
 		fmt = xyz->x.fmt;
 	} else if (axis == GOG_AXIS_Y) {
@@ -232,7 +210,7 @@ xl_xyz_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 
 static GogObjectClass *xl_contour_parent_klass;
 
-typedef GogContourPlotClass XlContourPlotClass;
+typedef GogContourPlotClass XLContourPlotClass;
 
 static double *
 xl_contour_plot_build_matrix (GogXYZPlot const *plot,
@@ -303,8 +281,8 @@ xl_contour_plot_build_matrix (GogXYZPlot const *plot,
 static void
 xl_contour_plot_finalize (GObject *obj)
 {
-	XlYLabels *labels = XL_Y_LABELS (obj);
-	g_free (labels->y_labels);
+	XLContourPlot *plot = XL_CONTOUR_PLOT (obj);
+	g_free (plot->y_labels);
 	G_OBJECT_CLASS (xl_contour_parent_klass)->finalize (obj);
 }
 
@@ -341,16 +319,21 @@ xl_contour_plot_class_init (GogContourPlotClass *klass)
 	klass->build_matrix = xl_contour_plot_build_matrix;
 }
 
-GSF_DYNAMIC_CLASS_FULL (XlContourPlot, xl_contour_plot,
-		NULL, NULL, xl_contour_plot_class_init, NULL,
-		NULL, GOG_CONTOUR_PLOT_TYPE, 0,
-		GSF_INTERFACE (xl_labels_init, XL_Y_LABELS_TYPE))
+static void
+xl_contour_plot_init (XLContourPlot *contour)
+{
+	contour->y_labels = NULL;
+}
+
+GSF_DYNAMIC_CLASS (XLContourPlot, xl_contour_plot,
+	xl_contour_plot_class_init, xl_contour_plot_init,
+	GOG_CONTOUR_PLOT_TYPE)
 
 /*****************************************************************************/
 
 static GogObjectClass *xl_surface_parent_klass;
 
-typedef GogSurfacePlotClass XlSurfacePlotClass;
+typedef GogSurfacePlotClass XLSurfacePlotClass;
 
 static double *
 xl_surface_plot_build_matrix (GogXYZPlot const *plot,
@@ -390,8 +373,8 @@ xl_surface_plot_build_matrix (GogXYZPlot const *plot,
 static void
 xl_surface_plot_finalize (GObject *obj)
 {
-	XlYLabels *labels = XL_Y_LABELS (obj);
-	g_free (labels->y_labels);
+	XLSurfacePlot *plot = XL_SURFACE_PLOT (obj);
+	g_free (plot->y_labels);
 	G_OBJECT_CLASS (xl_surface_parent_klass)->finalize (obj);
 }
 
@@ -428,8 +411,13 @@ xl_surface_plot_class_init (GogSurfacePlotClass *klass)
 	klass->build_matrix = xl_surface_plot_build_matrix;
 }
 
-GSF_DYNAMIC_CLASS_FULL (XlSurfacePlot, xl_surface_plot,
-		NULL, NULL, xl_surface_plot_class_init, NULL,
-		NULL, GOG_SURFACE_PLOT_TYPE, 0,
-		GSF_INTERFACE (xl_labels_init, XL_Y_LABELS_TYPE))
+static void
+xl_surface_plot_init (XLSurfacePlot *contour)
+{
+	contour->y_labels = NULL;
+}
+
+GSF_DYNAMIC_CLASS (XLSurfacePlot, xl_surface_plot,
+	xl_surface_plot_class_init, xl_surface_plot_init,
+	GOG_SURFACE_PLOT_TYPE)
 

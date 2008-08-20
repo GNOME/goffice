@@ -514,7 +514,6 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_surface_view_register_type (module);
 	gog_xyz_surface_plot_register_type (module);
 	gog_xyz_series_register_type (module);
-	xl_y_labels_register_type (module);
 	xl_xyz_series_register_type (module);
 	xl_contour_plot_register_type (module);
 	xl_surface_plot_register_type (module);

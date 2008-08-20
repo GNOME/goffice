@@ -1,3 +1,14 @@
+2008-08-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-xyz.c: (go_plugin_init): 
+	* plugins/plot_surface/xl-surface.c: (xl_xyz_series_update),
+	(xl_xyz_plot_update), (get_y_vector),
+	(xl_xyz_plot_axis_get_bounds), (xl_contour_plot_finalize),
+	(xl_contour_plot_init), (xl_surface_plot_finalize),
+	(xl_surface_plot_init):
+	* plugins/plot_surface/xl-surface.h:
+	* tests/Makefile.am:
+
 2008-08-19  Mariusz Adamski  <mariusz.adamski@gmail.com>
 
 	* goffice/graph/gog-3d-box.c: (gog_3d_box_populate_editor):	made Euler

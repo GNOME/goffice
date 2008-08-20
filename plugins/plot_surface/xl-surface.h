@@ -37,10 +37,13 @@ void  xl_xyz_series_register_type (GTypeModule *plugin);
  *-----------------------------------------------------------------------------
  */
 
-typedef GogContourPlot XlContourPlot;
+typedef struct {
+	GogContourPlot base;
+	char const **y_labels;
+} XLContourPlot;
 
 #define XL_CONTOUR_PLOT_TYPE	(xl_contour_plot_get_type ())
-#define XL_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), XL_CONTOUR_PLOT_TYPE, XlContourPlot))
+#define XL_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), XL_CONTOUR_PLOT_TYPE, XLContourPlot))
 #define XL_PLOT_CONTOUR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), XL_CONTOUR_PLOT_TYPE))
 
 GType xl_contour_plot_get_type (void);
@@ -53,10 +56,13 @@ void  xl_contour_plot_register_type (GTypeModule *plugin);
  *-----------------------------------------------------------------------------
  */
 
-typedef GogSurfacePlot XlSurfacePlot;
+typedef struct {
+	GogSurfacePlot base;
+	char const **y_labels;
+} XLSurfacePlot;
 
 #define XL_SURFACE_PLOT_TYPE	(xl_surface_plot_get_type ())
-#define XL_SURFACE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), XL_SURFACE_PLOT_TYPE, XlSurfacePlot))
+#define XL_SURFACE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), XL_SURFACE_PLOT_TYPE, XLSurfacePlot))
 #define XL_PLOT_SURFACE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), XL_SURFACE_PLOT_TYPE))
 
 GType xl_surface_plot_get_type (void);
