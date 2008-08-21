@@ -45,7 +45,7 @@ typedef struct {
 #define IS_GO_PERSIST_CLASS(k)	 (G_TYPE_CHECK_CLASS_TYPE ((k), GO_PERSIST_TYPE))
 #define GO_PERSIST_GET_CLASS(o)	 (G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_PERSIST_TYPE, GOPersistClass))
 
-GType gog_persist_get_type (void);
+GType go_persist_get_type (void);
 
 gboolean go_persist_dom_load (GOPersist *gp, xmlNode *node);
 void     go_persist_sax_save (GOPersist const *gp, GsfXMLOut *output);
