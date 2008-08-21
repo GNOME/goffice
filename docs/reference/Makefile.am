@@ -25,6 +25,11 @@ IGNORE_HFILES=	\
 		goffice-features.h      		\
 		goffice-paths.h				\
 		io-context-priv.h       		\
+		go-app.h       				\
+		go-conf.h       				\
+		go-object.h       			\
+		go-service.h       			\
+		go-service-impl.h      			\
 		god-anchor.h				\
 		god-default-attributes.h		\
 		god-drawing-group.h			\

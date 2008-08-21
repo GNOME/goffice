@@ -321,7 +321,7 @@ cb_non_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
  * @dialog : #GtkWindow
  *
  * Utility to set @dialog as a transient of @toplevel
- * and to set up a handler for <ESC>
+ * and to set up a handler for "Escape"
  **/
 void
 go_gtk_nonmodal_dialog (GtkWindow *toplevel, GtkWindow *dialog)

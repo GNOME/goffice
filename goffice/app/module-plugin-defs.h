@@ -8,8 +8,8 @@
 G_BEGIN_DECLS
 
 typedef struct {
-	char const * const key;		/* object being versioned */
-	char const * const version;	/* version id (strict equality is required) */
+	char const *key;		/* object being versioned */
+	char const *version;	/* version id (strict equality is required) */
 } GOPluginModuleDepend;
 typedef struct {
 	guint32 const magic_number;

@@ -105,7 +105,7 @@ gog_pie_series_element_class_init (GogPieSeriesElementClass *klass)
 		g_param_spec_float ("separation", 
 			_("Separation"),
 			_("Amount a slice is extended as a percentage of the radius"),
-			0, G_MAXFLOAT, 0.,
+			0, 1000, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 

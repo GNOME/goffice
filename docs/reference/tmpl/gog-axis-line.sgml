@@ -17,73 +17,6 @@ Slave axes
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogAxisLine ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### STRUCT GogAxisBase ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### ARG GogAxisBase:cross-axis-id ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxisBase:major-tick-in ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxisBase:major-tick-labeled ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxisBase:major-tick-out ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxisBase:major-tick-size-pts ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxisBase:minor-tick-in ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxisBase:minor-tick-out ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxisBase:minor-tick-size-pts ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxisBase:padding-pts ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxisBase:pos ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxisBase:pos-str ##### -->
-<para>
-
-</para>
-
 <!-- ##### ENUM GogAxisPosition ##### -->
 <para>
 
@@ -102,4 +35,35 @@ Slave axes
 @GOG_AXIS_TICK_NONE: 
 @GOG_AXIS_TICK_MAJOR: 
 @GOG_AXIS_TICK_MINOR: 
+
+<!-- ##### MACRO GOG_AXIS_LINE_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_AXIS_LINE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_AXIS_LINE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_axis_line_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
 

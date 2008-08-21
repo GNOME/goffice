@@ -17,12 +17,6 @@ Error bars
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogErrorBar ##### -->
-<para>
-
-</para>
-
-
 <!-- ##### ENUM GogErrorBarType ##### -->
 <para>
 
@@ -42,6 +36,43 @@ Error bars
 @GOG_ERROR_BAR_DISPLAY_POSITIVE: 
 @GOG_ERROR_BAR_DISPLAY_NEGATIVE: 
 @GOG_ERROR_BAR_DISPLAY_BOTH: 
+
+<!-- ##### STRUCT GogErrorBar ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GOG_ERROR_BAR_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_ERROR_BAR ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_ERROR_BAR ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_error_bar_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
 
 <!-- ##### FUNCTION gog_error_bar_dup ##### -->
 <para>

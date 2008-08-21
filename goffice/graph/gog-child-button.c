@@ -262,18 +262,17 @@ gog_child_button_free_additions (GogChildButton *child_button)
 /**
  * gog_child_button_set_object:
  * @child_button: a #GogChildButton
- * @object: a #GogObject
+ * @gog_object: a #GogObject
  *
  * Sets the current object with which @child_button operates.
  */
-
 void
-gog_child_button_set_object (GogChildButton *child_button, GogObject *object)
+gog_child_button_set_object (GogChildButton *child_button, GogObject *gog_object)
 {
 	g_return_if_fail (GOG_IS_CHILD_BUTTON (child_button));
-	g_return_if_fail (IS_GOG_OBJECT (object));
+	g_return_if_fail (IS_GOG_OBJECT (gog_object));
 
-	if (object == child_button->object)
+	if (gog_object == child_button->object)
 		return;
 
 	gog_child_button_free_additions (child_button);
@@ -287,8 +286,8 @@ gog_child_button_set_object (GogChildButton *child_button, GogObject *object)
 		child_button->object = NULL;
 	}
 
-	g_object_weak_ref (G_OBJECT (object), (GWeakNotify) gog_child_button_weak_notify, child_button);
-	child_button->object = object;
+	g_object_weak_ref (G_OBJECT (gog_object), (GWeakNotify) gog_child_button_weak_notify, child_button);
+	child_button->object = gog_object;
 	gog_child_button_build_additions (child_button);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (child_button), child_button->additions != NULL);

@@ -17,50 +17,15 @@ Master axes
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogAxis ##### -->
+<!-- ##### ENUM GogAxisPolarUnit ##### -->
 <para>
 
 </para>
 
-
-<!-- ##### ARG GogAxis:assigned-format-string-XL ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxis:circular-rotation ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxis:invert-axis ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxis:map-name ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxis:polar-unit ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogAxis:type ##### -->
-<para>
-
-</para>
-
-<!-- ##### STRUCT GogAxisTick ##### -->
-<para>
-
-</para>
-
-@position: 
-@type: 
-@label: 
+@GOG_AXIS_POLAR_UNIT_DEGREES: 
+@GOG_AXIS_POLAR_UNIT_RADIANS: 
+@GOG_AXIS_POLAR_UNIT_GRADS: 
+@GOG_AXIS_POLAR_UNIT_MAX: 
 
 <!-- ##### ENUM GogAxisElemType ##### -->
 <para>
@@ -73,6 +38,158 @@ Master axes
 @GOG_AXIS_ELEM_MINOR_TICK: 
 @GOG_AXIS_ELEM_CROSS_POINT: 
 @GOG_AXIS_ELEM_MAX_ENTRY: 
+
+<!-- ##### STRUCT GogAxisTick ##### -->
+<para>
+
+</para>
+
+@position: 
+@type: 
+@label: 
+
+<!-- ##### STRUCT GogAxisMap ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gog_axis_map_new ##### -->
+<para>
+
+</para>
+
+@axis: 
+@offset: 
+@length: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_map ##### -->
+<para>
+
+</para>
+
+@map: 
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_map_to_view ##### -->
+<para>
+
+</para>
+
+@map: 
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_map_from_view ##### -->
+<para>
+
+</para>
+
+@map: 
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_map_finite ##### -->
+<para>
+
+</para>
+
+@map: 
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_map_get_baseline ##### -->
+<para>
+
+</para>
+
+@map: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_map_get_extents ##### -->
+<para>
+
+</para>
+
+@map: 
+@start: 
+@stop: 
+
+
+<!-- ##### FUNCTION gog_axis_map_get_bounds ##### -->
+<para>
+
+</para>
+
+@map: 
+@minimum: 
+@maximum: 
+
+
+<!-- ##### FUNCTION gog_axis_map_free ##### -->
+<para>
+
+</para>
+
+@map: 
+
+
+<!-- ##### FUNCTION gog_axis_map_is_valid ##### -->
+<para>
+
+</para>
+
+@map: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_map_is_inverted ##### -->
+<para>
+
+</para>
+
+@map: 
+@Returns: 
+
+
+<!-- ##### MACRO GOG_AXIS_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_AXIS ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_AXIS ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_axis_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
 
 <!-- ##### FUNCTION gog_axis_get_atype ##### -->
 <para>
@@ -245,7 +362,16 @@ Master axes
 @Returns: 
 
 
-<!-- ##### FUNCTION gog_axis_get_circular_rotation ##### -->
+<!-- ##### FUNCTION gog_axis_set_polar_unit ##### -->
+<para>
+
+</para>
+
+@axis: 
+@unit: 
+
+
+<!-- ##### FUNCTION gog_axis_get_polar_unit ##### -->
 <para>
 
 </para>
@@ -263,16 +389,7 @@ Master axes
 @Returns: 
 
 
-<!-- ##### FUNCTION gog_axis_set_polar_unit ##### -->
-<para>
-
-</para>
-
-@axis: 
-@unit: 
-
-
-<!-- ##### FUNCTION gog_axis_get_polar_unit ##### -->
+<!-- ##### FUNCTION gog_axis_get_circular_rotation ##### -->
 <para>
 
 </para>

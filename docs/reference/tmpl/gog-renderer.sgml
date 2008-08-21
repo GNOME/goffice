@@ -17,296 +17,107 @@ GogRenderer
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogRenderer ##### -->
+<!-- ##### STRUCT GdkPixbuf ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### SIGNAL GogRenderer::request-update ##### -->
+<!-- ##### ENUM GtkAnchorType ##### -->
 <para>
 
 </para>
 
-@gogrenderer: the object which received the signal.
+@GTK_ANCHOR_CENTER: 
+@GTK_ANCHOR_NORTH: 
+@GTK_ANCHOR_NORTH_WEST: 
+@GTK_ANCHOR_NORTH_EAST: 
+@GTK_ANCHOR_SOUTH: 
+@GTK_ANCHOR_SOUTH_WEST: 
+@GTK_ANCHOR_SOUTH_EAST: 
+@GTK_ANCHOR_WEST: 
+@GTK_ANCHOR_EAST: 
+@GTK_ANCHOR_N: 
+@GTK_ANCHOR_NW: 
+@GTK_ANCHOR_NE: 
+@GTK_ANCHOR_S: 
+@GTK_ANCHOR_SW: 
+@GTK_ANCHOR_SE: 
+@GTK_ANCHOR_W: 
+@GTK_ANCHOR_E: 
 
-<!-- ##### ARG GogRenderer:model ##### -->
+<!-- ##### MACRO GOG_RENDERER_CAIRO_WITH_SVG ##### -->
 <para>
 
 </para>
 
-<!-- ##### ARG GogRenderer:view ##### -->
+
+
+<!-- ##### MACRO GOG_RENDERER_CAIRO_WITH_PDF ##### -->
 <para>
 
 </para>
 
-<!-- ##### FUNCTION gog_renderer_new ##### -->
+
+
+<!-- ##### MACRO GOG_RENDERER_CAIRO_WITH_PS ##### -->
 <para>
 
 </para>
 
-@graph: 
+
+
+<!-- ##### MACRO GOG_RENDERER_HAIRLINE_WIDTH_PTS ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_RENDERER_GRIP_SIZE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_RENDERER_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_RENDERER ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_RENDERER ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO GOG_RENDERER_GET_CLASS ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_renderer_get_type ##### -->
+<para>
+
+</para>
+
 @Returns: 
-
-
-<!-- ##### FUNCTION gog_renderer_draw_selection_rectangle ##### -->
-<para>
-
-</para>
-
-@renderer: 
-@rectangle: 
-
-
-<!-- ##### FUNCTION gog_renderer_draw_shape ##### -->
-<para>
-
-</para>
-
-@renderer: 
-@path: 
-
-
-<!-- ##### FUNCTION gog_renderer_fill_serie ##### -->
-<para>
-
-</para>
-
-@renderer: 
-@path: 
-@close_path: 
-
-
-<!-- ##### FUNCTION gog_renderer_fill_shape ##### -->
-<para>
-
-</para>
-
-@renderer: 
-@path: 
-
-
-<!-- ##### FUNCTION gog_renderer_get_hairline_width_pts ##### -->
-<para>
-
-</para>
-
-@rend: 
-@Returns: 
-
-
-<!-- ##### FUNCTION gog_renderer_push_clip_rectangle ##### -->
-<para>
-
-</para>
-
-@rend: 
-@x: 
-@y: 
-@w: 
-@h: 
-
-
-<!-- ##### FUNCTION gog_renderer_render_to_cairo ##### -->
-<para>
-
-</para>
-
-@renderer: 
-@cairo: 
-@width: 
-@height: 
-@Returns: 
-
-
-<!-- ##### FUNCTION gog_renderer_stroke_rectangle ##### -->
-<para>
-
-</para>
-
-@rend: 
-@rect: 
-
-
-<!-- ##### FUNCTION gog_renderer_stroke_serie ##### -->
-<para>
-
-</para>
-
-@renderer: 
-@path: 
-
-
-<!-- ##### FUNCTION gog_renderer_stroke_shape ##### -->
-<para>
-
-</para>
-
-@renderer: 
-@path: 
-
-
-<!-- ##### FUNCTION gog_renderer_request_update ##### -->
-<para>
-
-</para>
-
-@renderer: 
-
-
-<!-- ##### FUNCTION gog_renderer_push_style ##### -->
-<para>
-
-</para>
-
-@rend: 
-@style: 
-
-
-<!-- ##### FUNCTION gog_renderer_pop_style ##### -->
-<para>
-
-</para>
-
-@rend: 
-
-
-<!-- ##### FUNCTION gog_renderer_push_clip ##### -->
-<para>
-
-</para>
-
-@rend: 
-@path: 
-
-
-<!-- ##### FUNCTION gog_renderer_pop_clip ##### -->
-<para>
-
-</para>
-
-@rend: 
-
-
-<!-- ##### FUNCTION gog_renderer_draw_sharp_path ##### -->
-<para>
-
-</para>
-
-@rend: 
-@path: 
-
-
-<!-- ##### FUNCTION gog_renderer_draw_sharp_polygon ##### -->
-<para>
-
-</para>
-
-@rend: 
-@path: 
-@narrow: 
-
-
-<!-- ##### FUNCTION gog_renderer_draw_path ##### -->
-<para>
-
-</para>
-
-@rend: 
-@path: 
-
-
-<!-- ##### FUNCTION gog_renderer_draw_polygon ##### -->
-<para>
-
-</para>
-
-@rend: 
-@path: 
-@narrow: 
-
-
-<!-- ##### FUNCTION gog_renderer_draw_rectangle ##### -->
-<para>
-
-</para>
-
-@rend: 
-@rect: 
-
-
-<!-- ##### FUNCTION gog_renderer_draw_bezier_path ##### -->
-<para>
-
-</para>
-
-@rend: 
-@path: 
-
-
-<!-- ##### FUNCTION gog_renderer_draw_text ##### -->
-<para>
-
-</para>
-
-@rend: 
-@text: 
-@pos: 
-@anchor: 
-@use_markup: 
-
-
-<!-- ##### FUNCTION gog_renderer_draw_marker ##### -->
-<para>
-
-</para>
-
-@rend: 
-@x: 
-@y: 
-
-
-<!-- ##### FUNCTION gog_renderer_draw_grip ##### -->
-<para>
-
-</para>
-
-@renderer: 
-@x: 
-@y: 
-
-
-<!-- ##### MACRO gog_renderer_in_grip ##### -->
-<para>
-
-</para>
-
-@x: 
-@y: 
-@grip_x: 
-@grip_y: 
-
-
-<!-- ##### FUNCTION gog_renderer_get_text_OBR ##### -->
-<para>
-
-</para>
-
-@rend: 
-@text: 
-@use_markup: 
-@obr: 
-
-
-<!-- ##### FUNCTION gog_renderer_get_text_AABR ##### -->
-<para>
-
-</para>
-
-@rend: 
-@text: 
-@use_markup: 
-@aabr: 
 
 
 <!-- ##### FUNCTION gog_renderer_line_size ##### -->
@@ -349,17 +160,239 @@ GogRenderer
 @Returns: 
 
 
-<!-- ##### FUNCTION gog_renderer_export_image ##### -->
+<!-- ##### FUNCTION gog_renderer_get_hairline_width_pts ##### -->
+<para>
+
+</para>
+
+@rend: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_stroke_serie ##### -->
 <para>
 
 </para>
 
 @renderer: 
-@format: 
-@output: 
-@x_dpi: 
-@y_dpi: 
-@Returns: 
+@path: 
+
+
+<!-- ##### FUNCTION gog_renderer_fill_serie ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@path: 
+@close_path: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_shape ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@path: 
+
+
+<!-- ##### FUNCTION gog_renderer_stroke_shape ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@path: 
+
+
+<!-- ##### FUNCTION gog_renderer_fill_shape ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@path: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_circle ##### -->
+<para>
+
+</para>
+
+@rend: 
+@x: 
+@y: 
+@r: 
+
+
+<!-- ##### FUNCTION gog_renderer_stroke_circle ##### -->
+<para>
+
+</para>
+
+@rend: 
+@x: 
+@y: 
+@r: 
+
+
+<!-- ##### FUNCTION gog_renderer_fill_circle ##### -->
+<para>
+
+</para>
+
+@rend: 
+@x: 
+@y: 
+@r: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_rectangle ##### -->
+<para>
+
+</para>
+
+@rend: 
+@rect: 
+
+
+<!-- ##### FUNCTION gog_renderer_stroke_rectangle ##### -->
+<para>
+
+</para>
+
+@rend: 
+@rect: 
+
+
+<!-- ##### FUNCTION gog_renderer_fill_rectangle ##### -->
+<para>
+
+</para>
+
+@rend: 
+@rect: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_grip ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@x: 
+@y: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_selection_rectangle ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@rectangle: 
+
+
+<!-- ##### MACRO gog_renderer_in_grip ##### -->
+<para>
+
+</para>
+
+@x: 
+@y: 
+@grip_x: 
+@grip_y: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_marker ##### -->
+<para>
+
+</para>
+
+@rend: 
+@x: 
+@y: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_text ##### -->
+<para>
+
+</para>
+
+@rend: 
+@text: 
+@pos: 
+@anchor: 
+@use_markup: 
+
+
+<!-- ##### FUNCTION gog_renderer_get_text_OBR ##### -->
+<para>
+
+</para>
+
+@rend: 
+@text: 
+@use_markup: 
+@obr: 
+
+
+<!-- ##### FUNCTION gog_renderer_get_text_AABR ##### -->
+<para>
+
+</para>
+
+@rend: 
+@text: 
+@use_markup: 
+@aabr: 
+
+
+<!-- ##### FUNCTION gog_renderer_push_style ##### -->
+<para>
+
+</para>
+
+@rend: 
+@style: 
+
+
+<!-- ##### FUNCTION gog_renderer_pop_style ##### -->
+<para>
+
+</para>
+
+@rend: 
+
+
+<!-- ##### FUNCTION gog_renderer_push_clip ##### -->
+<para>
+
+</para>
+
+@rend: 
+@path: 
+
+
+<!-- ##### FUNCTION gog_renderer_push_clip_rectangle ##### -->
+<para>
+
+</para>
+
+@rend: 
+@x: 
+@y: 
+@w: 
+@h: 
+
+
+<!-- ##### FUNCTION gog_renderer_pop_clip ##### -->
+<para>
+
+</para>
+
+@rend: 
 
 
 <!-- ##### FUNCTION gog_renderer_update ##### -->
@@ -373,6 +406,15 @@ GogRenderer
 @Returns: 
 
 
+<!-- ##### FUNCTION gog_renderer_get_cairo_surface ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gog_renderer_get_pixbuf ##### -->
 <para>
 
@@ -382,12 +424,92 @@ GogRenderer
 @Returns: 
 
 
-<!-- ##### FUNCTION gog_renderer_get_cairo_surface ##### -->
+<!-- ##### FUNCTION gog_renderer_request_update ##### -->
 <para>
 
 </para>
 
 @renderer: 
+
+
+<!-- ##### FUNCTION gog_renderer_render_to_cairo ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@cairo: 
+@width: 
+@height: 
 @Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_export_image ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@format: 
+@output: 
+@x_dpi: 
+@y_dpi: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_new ##### -->
+<para>
+
+</para>
+
+@graph: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_sharp_path ##### -->
+<para>
+
+</para>
+
+@rend: 
+@path: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_sharp_polygon ##### -->
+<para>
+
+</para>
+
+@rend: 
+@path: 
+@narrow: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_path ##### -->
+<para>
+
+</para>
+
+@rend: 
+@path: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_polygon ##### -->
+<para>
+
+</para>
+
+@rend: 
+@path: 
+@narrow: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_bezier_path ##### -->
+<para>
+
+</para>
+
+@rend: 
+@path: 
 
 

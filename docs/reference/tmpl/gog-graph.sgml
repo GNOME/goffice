@@ -17,52 +17,36 @@ A collection of charts
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogGraph ##### -->
+<!-- ##### MACRO GOG_GRAPH_TYPE ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### SIGNAL GogGraph::add-data ##### -->
+
+<!-- ##### MACRO GOG_GRAPH ##### -->
 <para>
 
 </para>
 
-@goggraph: the object which received the signal.
-@arg1: 
+@o: 
 
-<!-- ##### SIGNAL GogGraph::remove-data ##### -->
+
+<!-- ##### MACRO IS_GOG_GRAPH ##### -->
 <para>
 
 </para>
 
-@goggraph: the object which received the signal.
-@arg1: 
+@o: 
 
-<!-- ##### ARG GogGraph:document ##### -->
+
+<!-- ##### FUNCTION gog_graph_get_type ##### -->
 <para>
 
 </para>
 
-<!-- ##### ARG GogGraph:height-pts ##### -->
-<para>
+@Returns: 
 
-</para>
-
-<!-- ##### ARG GogGraph:theme ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogGraph:theme-name ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogGraph:width-pts ##### -->
-<para>
-
-</para>
 
 <!-- ##### FUNCTION gog_graph_validate_chart_layout ##### -->
 <para>
@@ -166,6 +150,55 @@ A collection of charts
 @height: 
 
 
+<!-- ##### MACRO GOG_GRAPH_VIEW_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_GRAPH_VIEW ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_GRAPH_VIEW ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_graph_view_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_graph_view_get_selection ##### -->
+<para>
+
+</para>
+
+@gview: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_graph_view_set_selection ##### -->
+<para>
+
+</para>
+
+@gview: 
+@gobj: 
+
+
 <!-- ##### FUNCTION gog_graph_get_supported_image_formats ##### -->
 <para>
 
@@ -187,23 +220,6 @@ A collection of charts
 @Returns: 
 
 
-<!-- ##### FUNCTION gog_graph_render_to_cairo ##### -->
-<para>
-
-</para>
-
-@graph: 
-@cairo: 
-@w: 
-@h: 
-
-
-<!-- ##### STRUCT GogGraphView ##### -->
-<para>
-
-</para>
-
-
 <!-- ##### FUNCTION gog_graph_view_handle_event ##### -->
 <para>
 
@@ -215,21 +231,14 @@ A collection of charts
 @y_offset: 
 
 
-<!-- ##### FUNCTION gog_graph_view_get_selection ##### -->
+<!-- ##### FUNCTION gog_graph_render_to_cairo ##### -->
 <para>
 
 </para>
 
-@gview: 
-@Returns: 
-
-
-<!-- ##### FUNCTION gog_graph_view_set_selection ##### -->
-<para>
-
-</para>
-
-@gview: 
-@gobj: 
+@graph: 
+@cairo: 
+@w: 
+@h: 
 
 

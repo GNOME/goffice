@@ -122,7 +122,6 @@
 			<xi:include href="xml/go-cmd-context.xml"/>
 			<xi:include href="xml/go-doc-control.xml"/>
 			<xi:include href="xml/go-doc.xml"/>
-			<xi:include href="xml/go-object.xml"/>
 			<xi:include href="xml/go-plugin.xml"/>
 			<xi:include href="xml/go-plugin-loader.xml"/>
 			<xi:include href="xml/go-plugin-loader-module.xml"/>

@@ -17,12 +17,6 @@ GogChartMap
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogChartMap ##### -->
-<para>
-
-</para>
-
-
 <!-- ##### STRUCT GogChartMapPolarData ##### -->
 <para>
 
@@ -35,6 +29,12 @@ GogChartMap
 @th0: 
 @th1: 
 
+<!-- ##### STRUCT GogChartMap ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### FUNCTION gog_chart_map_new ##### -->
 <para>
 
@@ -46,23 +46,6 @@ GogChartMap
 @axis1: 
 @axis2: 
 @fill_area: 
-@Returns: 
-
-
-<!-- ##### FUNCTION gog_chart_map_free ##### -->
-<para>
-
-</para>
-
-@map: 
-
-
-<!-- ##### FUNCTION gog_chart_map_is_valid ##### -->
-<para>
-
-</para>
-
-@map: 
 @Returns: 
 
 
@@ -86,6 +69,23 @@ GogChartMap
 @map: 
 @index: 
 @Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_map_is_valid ##### -->
+<para>
+
+</para>
+
+@map: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_map_free ##### -->
+<para>
+
+</para>
+
+@map: 
 
 
 <!-- ##### FUNCTION gog_chart_map_make_path ##### -->

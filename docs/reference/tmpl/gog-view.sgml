@@ -17,6 +17,69 @@ Base class for object views
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### STRUCT GogToolAction ##### -->
+<para>
+
+</para>
+
+@start_x: 
+@start_y: 
+@view: 
+@tool: 
+@data: 
+
+<!-- ##### STRUCT GogTool ##### -->
+<para>
+
+</para>
+
+@name: 
+@cursor_type: 
+@point: 
+@render: 
+@init: 
+@move: 
+@double_click: 
+@destroy: 
+
+<!-- ##### FUNCTION gog_tool_action_new ##### -->
+<para>
+
+</para>
+
+@view: 
+@tool: 
+@x: 
+@y: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_tool_action_move ##### -->
+<para>
+
+</para>
+
+@action: 
+@x: 
+@y: 
+
+
+<!-- ##### FUNCTION gog_tool_action_double_click ##### -->
+<para>
+
+</para>
+
+@action: 
+
+
+<!-- ##### FUNCTION gog_tool_action_free ##### -->
+<para>
+
+</para>
+
+@action: 
+
+
 <!-- ##### STRUCT GogView ##### -->
 <para>
 
@@ -33,33 +96,60 @@ Base class for object views
 
 </para>
 
-<!-- ##### STRUCT GogViewAllocation ##### -->
+<!-- ##### MACRO GOG_VIEW_TYPE ##### -->
 <para>
 
 </para>
 
-@w: 
-@h: 
-@x: 
-@y: 
 
-<!-- ##### STRUCT GogViewPadding ##### -->
+
+<!-- ##### MACRO GOG_VIEW ##### -->
 <para>
 
 </para>
 
-@wr: 
-@hb: 
-@wl: 
-@ht: 
+@o: 
 
-<!-- ##### STRUCT GogViewRequisition ##### -->
+
+<!-- ##### MACRO IS_GOG_VIEW ##### -->
 <para>
 
 </para>
 
-@w: 
-@h: 
+@o: 
+
+
+<!-- ##### MACRO GOG_VIEW_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+
+<!-- ##### MACRO IS_GOG_VIEW_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+
+<!-- ##### MACRO GOG_VIEW_GET_CLASS ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_view_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
 
 <!-- ##### FUNCTION gog_view_get_model ##### -->
 <para>

@@ -17,12 +17,70 @@ Path handling
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### ENUM GOPathDirection ##### -->
+<para>
+
+</para>
+
+@GO_PATH_DIRECTION_FORWARD: 
+@GO_PATH_DIRECTION_BACKWARD: 
+
+<!-- ##### ENUM GOPathOptions ##### -->
+<para>
+
+</para>
+
+@GO_PATH_OPTIONS_SNAP_COORDINATES: 
+@GO_PATH_OPTIONS_SNAP_WIDTH: 
+@GO_PATH_OPTIONS_SHARP: 
+
+<!-- ##### STRUCT GOPathPoint ##### -->
+<para>
+
+</para>
+
+@x: 
+@y: 
+
+<!-- ##### STRUCT GOPath ##### -->
+<para>
+
+</para>
+
+@data_buffer_head: 
+@data_buffer_tail: 
+@sharp: 
+
+<!-- ##### MACRO IS_GO_PATH ##### -->
+<para>
+
+</para>
+
+@x: 
+
+
 <!-- ##### FUNCTION go_path_new ##### -->
 <para>
 
 </para>
 
 @Returns: 
+
+
+<!-- ##### FUNCTION go_path_clear ##### -->
+<para>
+
+</para>
+
+@path: 
+
+
+<!-- ##### FUNCTION go_path_free ##### -->
+<para>
+
+</para>
+
+@path: 
 
 
 <!-- ##### FUNCTION go_path_set_options ##### -->
@@ -41,6 +99,78 @@ Path handling
 
 @path: 
 @Returns: 
+
+
+<!-- ##### FUNCTION go_path_move_to ##### -->
+<para>
+
+</para>
+
+@path: 
+@x: 
+@y: 
+
+
+<!-- ##### FUNCTION go_path_line_to ##### -->
+<para>
+
+</para>
+
+@path: 
+@x: 
+@y: 
+
+
+<!-- ##### FUNCTION go_path_curve_to ##### -->
+<para>
+
+</para>
+
+@path: 
+@x0: 
+@y0: 
+@x1: 
+@y1: 
+@x2: 
+@y2: 
+
+
+<!-- ##### FUNCTION go_path_close ##### -->
+<para>
+
+</para>
+
+@path: 
+
+
+<!-- ##### FUNCTION go_path_ring_wedge ##### -->
+<para>
+
+</para>
+
+@path: 
+@cx: 
+@cy: 
+@rx_out: 
+@ry_out: 
+@rx_in: 
+@ry_in: 
+@th0: 
+@th1: 
+
+
+<!-- ##### FUNCTION go_path_pie_wedge ##### -->
+<para>
+
+</para>
+
+@path: 
+@cx: 
+@cy: 
+@rx: 
+@ry: 
+@th0: 
+@th1: 
 
 
 <!-- ##### FUNCTION go_path_arc ##### -->
@@ -71,78 +201,6 @@ Path handling
 @th1: 
 
 
-<!-- ##### FUNCTION go_path_clear ##### -->
-<para>
-
-</para>
-
-@path: 
-
-
-<!-- ##### FUNCTION go_path_close ##### -->
-<para>
-
-</para>
-
-@path: 
-
-
-<!-- ##### FUNCTION go_path_curve_to ##### -->
-<para>
-
-</para>
-
-@path: 
-@x0: 
-@y0: 
-@x1: 
-@y1: 
-@x2: 
-@y2: 
-
-
-<!-- ##### FUNCTION go_path_free ##### -->
-<para>
-
-</para>
-
-@path: 
-
-
-<!-- ##### FUNCTION go_path_line_to ##### -->
-<para>
-
-</para>
-
-@path: 
-@x: 
-@y: 
-
-
-<!-- ##### FUNCTION go_path_move_to ##### -->
-<para>
-
-</para>
-
-@path: 
-@x: 
-@y: 
-
-
-<!-- ##### FUNCTION go_path_pie_wedge ##### -->
-<para>
-
-</para>
-
-@path: 
-@cx: 
-@cy: 
-@rx: 
-@ry: 
-@th0: 
-@th1: 
-
-
 <!-- ##### FUNCTION go_path_rectangle ##### -->
 <para>
 
@@ -153,22 +211,6 @@ Path handling
 @y: 
 @width: 
 @height: 
-
-
-<!-- ##### FUNCTION go_path_ring_wedge ##### -->
-<para>
-
-</para>
-
-@path: 
-@cx: 
-@cy: 
-@rx_out: 
-@ry_out: 
-@rx_in: 
-@ry_in: 
-@th0: 
-@th1: 
 
 
 <!-- ##### FUNCTION go_path_interpret ##### -->

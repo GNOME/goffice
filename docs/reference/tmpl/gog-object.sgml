@@ -17,6 +17,112 @@ Base class for all objects of graph model
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### STRUCT GogEditorPage ##### -->
+<para>
+
+</para>
+
+@label: 
+@widget: 
+
+<!-- ##### STRUCT GogEditor ##### -->
+<para>
+
+</para>
+
+@store_page: 
+@pages: 
+@registered_widgets: 
+
+<!-- ##### FUNCTION gog_editor_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_editor_free ##### -->
+<para>
+
+</para>
+
+@editor: 
+
+
+<!-- ##### FUNCTION gog_editor_add_page ##### -->
+<para>
+
+</para>
+
+@editor: 
+@widget: 
+@label: 
+
+
+<!-- ##### FUNCTION gog_editor_set_store_page ##### -->
+<para>
+
+</para>
+
+@editor: 
+@store_page: 
+
+
+<!-- ##### FUNCTION gog_editor_register_widget ##### -->
+<para>
+
+</para>
+
+@editor: 
+@widget: 
+
+
+<!-- ##### FUNCTION gog_editor_get_registered_widget ##### -->
+<para>
+
+</para>
+
+@editor: 
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_editor_get_notebook ##### -->
+<para>
+
+</para>
+
+@editor: 
+@Returns: 
+
+
+<!-- ##### ENUM GogObjectNamingConv ##### -->
+<para>
+
+</para>
+
+@GOG_OBJECT_NAME_BY_ROLE: 
+@GOG_OBJECT_NAME_BY_TYPE: 
+@GOG_OBJECT_NAME_MANUALLY: 
+
+<!-- ##### STRUCT GogObjectRole ##### -->
+<para>
+
+</para>
+
+@id: 
+@is_a_typename: 
+@allowable_positions: 
+@default_position: 
+@naming_conv: 
+@can_add: 
+@can_remove: 
+@allocate: 
+@post_add: 
+@pre_remove: 
+@post_remove: 
+
 <!-- ##### STRUCT GogObject ##### -->
 <para>
 
@@ -111,6 +217,53 @@ Base class for all objects of graph model
 
 </para>
 
+<!-- ##### MACRO GOG_OBJECT_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_OBJECT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_OBJECT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO GOG_OBJECT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+
+<!-- ##### MACRO IS_GOG_OBJECT_CLASS ##### -->
+<para>
+
+</para>
+
+@k: 
+
+
+<!-- ##### MACRO GOG_OBJECT_GET_CLASS ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
 <!-- ##### MACRO GOG_PARAM_PERSISTENT ##### -->
 <para>
 
@@ -125,6 +278,21 @@ Base class for all objects of graph model
 
 
 
+<!-- ##### MACRO GOG_PARAM_POSITION ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION gog_object_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
 <!-- ##### USER_FUNCTION GogDataDuplicator ##### -->
 <para>
 
@@ -133,32 +301,6 @@ Base class for all objects of graph model
 @src: 
 @dst: 
 
-
-<!-- ##### ENUM GogObjectNamingConv ##### -->
-<para>
-
-</para>
-
-@GOG_OBJECT_NAME_BY_ROLE: 
-@GOG_OBJECT_NAME_BY_TYPE: 
-@GOG_OBJECT_NAME_MANUALLY: 
-
-<!-- ##### STRUCT GogObjectRole ##### -->
-<para>
-
-</para>
-
-@id: 
-@is_a_typename: 
-@allowable_positions: 
-@default_position: 
-@naming_conv: 
-@can_add: 
-@can_remove: 
-@allocate: 
-@post_add: 
-@pre_remove: 
-@post_remove: 
 
 <!-- ##### FUNCTION gog_object_dup ##### -->
 <para>
@@ -305,16 +447,6 @@ Base class for all objects of graph model
 @Returns: 
 
 
-<!-- ##### FUNCTION gog_object_register_roles ##### -->
-<para>
-
-</para>
-
-@klass: 
-@roles: 
-@n_roles: 
-
-
 <!-- ##### FUNCTION gog_object_add_by_role ##### -->
 <para>
 
@@ -356,6 +488,23 @@ Base class for all objects of graph model
 @inc: 
 @goto_max: 
 @Returns: 
+
+
+<!-- ##### MACRO gog_object_is_visible ##### -->
+<para>
+
+</para>
+
+@obj: 
+
+
+<!-- ##### FUNCTION gog_object_set_invisible ##### -->
+<para>
+
+</para>
+
+@obj: 
+@invisible: 
 
 
 <!-- ##### FUNCTION gog_object_get_position_flags ##### -->
@@ -475,11 +624,30 @@ Base class for all objects of graph model
 @Returns: 
 
 
+<!-- ##### FUNCTION gog_object_register_roles ##### -->
+<para>
+
+</para>
+
+@klass: 
+@roles: 
+@n_roles: 
+
+
 <!-- ##### FUNCTION gog_object_request_editor_update ##### -->
 <para>
 
 </para>
 
 @obj: 
+
+
+<!-- ##### FUNCTION gog_object_document_changed ##### -->
+<para>
+
+</para>
+
+@obj: 
+@doc: 
 
 

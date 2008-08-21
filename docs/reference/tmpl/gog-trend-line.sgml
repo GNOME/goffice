@@ -17,15 +17,48 @@ Base class for smoothed and regression curves
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogTrendLineType ##### -->
+<!-- ##### TYPEDEF GogTrendLine ##### -->
 <para>
 
 </para>
 
-@engine: 
-@name: 
-@description: 
-@properties: 
+
+<!-- ##### TYPEDEF GogTrendLineClass ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GOG_TREND_LINE_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_TREND_LINE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_TREND_LINE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_trend_line_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
 
 <!-- ##### FUNCTION gog_trend_line_new_by_name ##### -->
 <para>
@@ -42,14 +75,6 @@ Base class for smoothed and regression curves
 </para>
 
 @type: 
-@Returns: 
-
-
-<!-- ##### FUNCTION gog_trend_line_types ##### -->
-<para>
-
-</para>
-
 @Returns: 
 
 

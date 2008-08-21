@@ -1763,20 +1763,6 @@ go_cmd_context_progress_message_set
 </SECTION>
 
 <SECTION>
-<FILE>go-object</FILE>
-<TITLE>GoObject</TITLE>
-go_object_new
-go_object_new_valist
-GO_SERVICE_OBJECT_TYPE
-GO_SERVICE_OBJECT
-IS_GO_SERVICE_OBJECT
-GOServiceObject
-go_service_object_get_type
-go_service_object_primary_type
-go_service_object_interfaces
-</SECTION>
-
-<SECTION>
 <FILE>go-plugin</FILE>
 GO_PLUGIN_TYPE
 GO_PLUGIN

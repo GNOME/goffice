@@ -17,17 +17,6 @@ Plot and regression curve plugin management
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogPlotFamily ##### -->
-<para>
-
-</para>
-
-@name: 
-@sample_image_file: 
-@priority: 
-@axis_set: 
-@types: 
-
 <!-- ##### STRUCT GogPlotType ##### -->
 <para>
 
@@ -41,6 +30,17 @@ Plot and regression curve plugin management
 @col: 
 @row: 
 @properties: 
+
+<!-- ##### STRUCT GogPlotFamily ##### -->
+<para>
+
+</para>
+
+@name: 
+@sample_image_file: 
+@priority: 
+@axis_set: 
+@types: 
 
 <!-- ##### FUNCTION gog_plot_families ##### -->
 <para>
@@ -71,6 +71,14 @@ Plot and regression curve plugin management
 @Returns: 
 
 
+<!-- ##### FUNCTION gog_plot_family_unregister ##### -->
+<para>
+
+</para>
+
+@family: 
+
+
 <!-- ##### FUNCTION gog_plot_type_register ##### -->
 <para>
 
@@ -83,6 +91,24 @@ Plot and regression curve plugin management
 @sample_image_file: 
 @description: 
 @engine: 
+@Returns: 
+
+
+<!-- ##### STRUCT GogTrendLineType ##### -->
+<para>
+
+</para>
+
+@engine: 
+@name: 
+@description: 
+@properties: 
+
+<!-- ##### FUNCTION gog_trend_line_types ##### -->
+<para>
+
+</para>
+
 @Returns: 
 
 

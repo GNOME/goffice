@@ -17,33 +17,43 @@ A set of axes and a collection of plots
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogChart ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### ARG GogChart:cardinality-valid ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogChart:is-plot-area-manual ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogChart:plot-area ##### -->
-<para>
-
-</para>
-
 <!-- ##### FUNCTION gog_axis_set_from_str ##### -->
 <para>
 
 </para>
 
 @str: 
+@Returns: 
+
+
+<!-- ##### MACRO GOG_CHART_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_CHART ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_CHART ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_chart_get_type ##### -->
+<para>
+
+</para>
+
 @Returns: 
 
 
@@ -183,6 +193,15 @@ A set of axes and a collection of plots
 </para>
 
 @view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_chart_is_3d ##### -->
+<para>
+
+</para>
+
+@chart: 
 @Returns: 
 
 

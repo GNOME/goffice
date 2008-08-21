@@ -17,9 +17,55 @@ Droplines
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogSeriesLines ##### -->
+<!-- ##### MACRO GOG_SERIES_LINES_TYPE ##### -->
 <para>
 
 </para>
+
+
+
+<!-- ##### MACRO GOG_SERIES_LINES ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_SERIES_LINES ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_series_lines_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_series_lines_stroke ##### -->
+<para>
+
+</para>
+
+@lines: 
+@rend: 
+@bbox: 
+@path: 
+@invert: 
+
+
+<!-- ##### FUNCTION gog_series_lines_use_markers ##### -->
+<para>
+
+</para>
+
+@lines: 
+@use_markers: 
 
 

@@ -17,7 +17,56 @@ GOGraphWidget
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### MACRO GO_GRAPH_WIDGET_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GO_GRAPH_WIDGET ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GO_GRAPH_WIDGET ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
 <!-- ##### STRUCT GOGraphWidget ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG GOGraphWidget:aspect-ratio ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GOGraphWidget:graph ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GOGraphWidget:hres ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG GOGraphWidget:vres ##### -->
+<para>
+
+</para>
+
+<!-- ##### STRUCT GOGraphWidgetClass ##### -->
 <para>
 
 </para>
@@ -33,38 +82,20 @@ GOGraphWidget
 @GO_GRAPH_WIDGET_SIZE_MODE_FIT_HEIGHT: 
 @GO_GRAPH_WIDGET_SIZE_MODE_FIXED_SIZE: 
 
+<!-- ##### FUNCTION go_graph_widget_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
 <!-- ##### FUNCTION go_graph_widget_new ##### -->
 <para>
 
 </para>
 
 @graph: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_graph_widget_get_chart ##### -->
-<para>
-
-</para>
-
-@widget: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_graph_widget_get_graph ##### -->
-<para>
-
-</para>
-
-@widget: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_graph_widget_get_type ##### -->
-<para>
-
-</para>
-
 @Returns: 
 
 
@@ -77,5 +108,23 @@ GOGraphWidget
 @size_mode: 
 @width: 
 @height: 
+
+
+<!-- ##### FUNCTION go_graph_widget_get_graph ##### -->
+<para>
+
+</para>
+
+@widget: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_graph_widget_get_chart ##### -->
+<para>
+
+</para>
+
+@widget: 
+@Returns: 
 
 

@@ -40,12 +40,6 @@ Graph theme management
 @o: 
 
 
-<!-- ##### STRUCT GogTheme ##### -->
-<para>
-
-</para>
-
-
 <!-- ##### FUNCTION gog_theme_get_type ##### -->
 <para>
 

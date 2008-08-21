@@ -17,16 +17,36 @@ Grid lines
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogGridLine ##### -->
+<!-- ##### MACRO GOG_GRID_LINE_TYPE ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### ARG GogGridLine:is-minor ##### -->
+
+<!-- ##### MACRO GOG_GRID_LINE ##### -->
 <para>
 
 </para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_GRID_LINE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_grid_line_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
 
 <!-- ##### FUNCTION gog_grid_line_is_minor ##### -->
 <para>
@@ -35,5 +55,27 @@ Grid lines
 
 @ggl: 
 @Returns: 
+
+
+<!-- ##### TYPEDEF GogGridLineView ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gog_grid_line_view_render_stripes ##### -->
+<para>
+
+</para>
+
+@view: 
+
+
+<!-- ##### FUNCTION gog_grid_line_view_render_lines ##### -->
+<para>
+
+</para>
+
+@view: 
 
 
