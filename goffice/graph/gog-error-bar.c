@@ -30,6 +30,7 @@
 #include <goffice/data/go-data-impl.h>
 #include <goffice/data/go-data.h>
 #include <goffice/math/go-math.h>
+#include <goffice/utils/go-persist.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>
@@ -360,7 +361,7 @@ gog_error_bar_class_init (GogErrorBarClass *klass)
 }
 
 static gboolean
-gog_error_bar_persist_dom_load (GogPersist *gp, xmlNode *node)
+gog_error_bar_persist_dom_load (GOPersist *gp, xmlNode *node)
 {
 	GogErrorBar *bar = GOG_ERROR_BAR (gp);
 
@@ -405,7 +406,7 @@ gog_error_bar_persist_dom_load (GogPersist *gp, xmlNode *node)
 }
 
 static void
-gog_error_bar_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
+gog_error_bar_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
 {
 	GogErrorBar *bar = GOG_ERROR_BAR (gp);
 	char const *str;
@@ -437,7 +438,7 @@ gog_error_bar_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
 }
 
 static void
-gog_error_bar_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
+gog_error_bar_persist_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GogErrorBar *bar = GOG_ERROR_BAR (gog_xml_read_state_get_obj (xin));
 
@@ -470,7 +471,7 @@ gog_error_bar_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **a
 }
 
 static void
-gog_error_bar_persist_init (GogPersistClass *iface)
+gog_error_bar_persist_init (GOPersistClass *iface)
 {
 	iface->dom_load = gog_error_bar_persist_dom_load;
 	iface->prep_sax = gog_error_bar_persist_prep_sax;
@@ -480,7 +481,7 @@ gog_error_bar_persist_init (GogPersistClass *iface)
 GSF_CLASS_FULL (GogErrorBar, gog_error_bar,
 		NULL, NULL, gog_error_bar_class_init, NULL,
 		gog_error_bar_init, G_TYPE_OBJECT, 0,
-		GSF_INTERFACE (gog_error_bar_persist_init, GOG_PERSIST_TYPE))
+		GSF_INTERFACE (gog_error_bar_persist_init, GO_PERSIST_TYPE))
 
 
 /**

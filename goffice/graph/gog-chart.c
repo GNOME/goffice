@@ -35,6 +35,7 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/math/go-math.h>
 #include <goffice/math/go-matrix3x3.h>
+#include <goffice/utils/go-persist.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -482,13 +483,13 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 				     _("Plot area"),
 				     _("Position and size of plot area, in percentage of chart size"),
 				     "0 0 1 1", 
-				     GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+				     GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, CHART_PROP_PLOT_AREA_IS_MANUAL,
 		g_param_spec_boolean ("is-plot-area-manual", 
 				      _("Manual plot area"), 
 				      _("Is plot area manual"),
 				      FALSE, 
-				      GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_klass->view_type = gog_chart_view_get_type ();
 	gog_klass->update    = gog_chart_update;

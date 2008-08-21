@@ -28,6 +28,7 @@
 #include <goffice/data/go-data.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-persist.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>
@@ -106,7 +107,7 @@ gog_pie_series_element_class_init (GogPieSeriesElementClass *klass)
 			_("Separation"),
 			_("Amount a slice is extended as a percentage of the radius"),
 			0, 1000, 0.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
 GSF_DYNAMIC_CLASS (GogPieSeriesElement, gog_pie_series_element,
@@ -233,13 +234,13 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 			_("Initial angle"),
 			_("Degrees clockwise from 12 O'Clock."),
 			0, G_MAXFLOAT, 0.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_DEFAULT_SEPARATION,
 		g_param_spec_float ("default-separation", 
 			_("Default separation"),
 			_("Default amount a slice is extended as a percentage of the radius"),
 			0, G_MAXFLOAT, 0.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_IN_3D,
 		g_param_spec_boolean ("in-3d", 
 			_("In 3d"),
@@ -251,7 +252,7 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 			_("Span"),
 			_("Total angle used as a percentage of the full circle"),
 			10., 100., 100.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	{
 		static GogSeriesDimDesc dimensions[] = {

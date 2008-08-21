@@ -33,6 +33,7 @@
 #include <goffice/graph/gog-reg-curve.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/data/go-data.h>
+#include <goffice/utils/go-persist.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -147,7 +148,7 @@ gog_text_class_init (GogTextClass *klass)
 			_("Allow markup"),
 			_("Support basic html-ish markup"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_klass->view_type		= gog_text_view_get_type ();
 	style_klass->init_style 	= gog_text_init_style;
@@ -425,13 +426,13 @@ gog_reg_eqn_class_init (GogObjectClass *gog_klass)
 			_("Show equation"),
 			_("Show the equation on the graph"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, REG_EQN_SHOW_R2,
 		g_param_spec_boolean ("show-r2", 
 			_("Show coefficient"),
 			_("Show the correlation coefficient on the graph"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
 static void

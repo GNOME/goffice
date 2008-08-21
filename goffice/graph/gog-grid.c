@@ -29,6 +29,7 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/utils/go-persist.h>
 
 #include <goffice/math/go-math.h>
 
@@ -116,7 +117,7 @@ gog_grid_class_init (GObjectClass *gobject_klass)
 			_("Numerical type of this backplane"),
 			GOG_GRID_UNKNOWN, GOG_GRID_TYPES, GOG_GRID_UNKNOWN, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE
-			| GOG_PARAM_PERSISTENT));
+			| GO_PARAM_PERSISTENT));
 
 	gog_klass->view_type	= gog_grid_view_get_type ();
 	style_klass->init_style = gog_grid_init_style;

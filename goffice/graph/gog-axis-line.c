@@ -31,6 +31,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/math/go-math.h>
+#include <goffice/utils/go-persist.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -689,64 +690,64 @@ gog_axis_base_class_init (GObjectClass *gobject_klass)
 			_("Axis position (as a string)"),
 			_("Where to position an axis low, high, or crossing"),
 			"low", 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MAJOR_TICK_LABELED,
 		g_param_spec_boolean ("major-tick-labeled", 
 			_("Major labels"),
 			_("Show labels for major ticks"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MAJOR_TICK_IN,
 		g_param_spec_boolean ("major-tick-in", 
 			_("Inside major ticks"),
 			_("Major tick marks inside the chart area"),
 			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MAJOR_TICK_OUT,
 		g_param_spec_boolean ("major-tick-out", 
 			_("Outside major ticks"),
 			_("Major tick marks outside the chart area"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MAJOR_TICK_SIZE_PTS,
 		g_param_spec_int ("major-tick-size-pts", 
 			_("Major tick size"),
 			_("Size of the major tick marks, in points"),
 			0, 20, 4, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MINOR_TICK_IN,
 		g_param_spec_boolean ("minor-tick-in", 
 			_("Inside minor ticks"),
 			_("Minor tick marks inside the chart area"),
 			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MINOR_TICK_OUT,
 		g_param_spec_boolean ("minor-tick-out", 
 			_("Outside minor ticks"),
 			_("Minor tick marks outside the axis"),
 			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MINOR_TICK_SIZE_PTS,
 		g_param_spec_int ("minor-tick-size-pts", 
 			_("Minor tick size"),
 			_("Size of the minor tick marks, in points"),
 			0, 15, 2, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_CROSS_AXIS_ID,
 		g_param_spec_uint ("cross-axis-id", 
 			_("Cross axis id"),
 			_("Which axis to cross"),
 			0, G_MAXUINT, 0, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_PADDING_PTS,
 		g_param_spec_int ("padding-pts", 
 			_("Axis padding"),
 			_("Distance from axis line to plot area, in points"),
 			-G_MAXINT, G_MAXINT, 0, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor	= gog_axis_base_populate_editor;

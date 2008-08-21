@@ -28,6 +28,7 @@
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-path.h>
+#include <goffice/utils/go-persist.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
@@ -235,13 +236,13 @@ gog_xyz_surface_plot_class_init (GogXYZPlotClass *klass)
 			_("Rows"),
 			_("Number of rows"),
 			2, 1000, 10, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, XYZ_SURFACE_PROP_COLUMNS,
 		g_param_spec_uint ("columns", 
 			_("Columns"),
 			_("Number of columns"),
 			2, 1000, 10, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_xyz_surface_plot_type_name;
 	gog_object_klass->update	= gog_xyz_surface_plot_update;

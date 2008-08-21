@@ -30,6 +30,7 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-persist.h>
 #include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -206,13 +207,13 @@ gog_legend_class_init (GogLegendClass *klass)
 			_("Swatch Size pts"),
 			_("size of the swatches in pts."),
 			0, G_MAXDOUBLE, 0, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, LEGEND_SWATCH_PADDING_PTS,
 		g_param_spec_double ("swatch-padding-pts", 
 			_("Swatch Padding pts"),
 			_("padding between the swatches in pts."),
 			0, G_MAXDOUBLE, 0, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
 static void

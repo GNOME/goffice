@@ -27,6 +27,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-error-bar.h>
 #include <goffice/data/go-data.h>
+#include <goffice/utils/go-persist.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -229,7 +230,7 @@ gog_series_element_class_init (GogSeriesElementClass *klass)
 			_("Index"),
 			_("Index of the corresponding data element"),
 			0, G_MAXINT, 0,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
 }
 
 GSF_CLASS (GogSeriesElement, gog_series_element,
@@ -617,19 +618,19 @@ gog_series_class_init (GogSeriesClass *klass)
 			_("Has-legend"),
 			_("Should the series show up in legends"),
 			TRUE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
         g_object_class_install_property (gobject_klass, SERIES_PROP_INTERPOLATION,
 		 g_param_spec_string ("interpolation",
 			_("Interpolation"),
 			_("Type of line interpolation"),
 			"linear",
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_FILL_TYPE,
 		g_param_spec_string ("fill-type", 
 			_("Fill type"),
 			_("How to fill the area"),
 			"invalid",
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	klass->valid_fill_type_list = NULL;
 

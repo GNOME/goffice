@@ -27,6 +27,7 @@
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-persist.h>
 
 #include <string.h>
 #include <stdlib.h>
@@ -37,45 +38,6 @@
 
 #define GOG_BACKPLANE_OLD_ROLE_NAME	"Grid"
 #define GOG_BACKPLANE_NEW_ROLE_NAME	"Backplane"
-
-GType
-gog_persist_get_type (void)
-{
-	static GType gog_persist_type = 0;
-
-	if (!gog_persist_type) {
-		static GTypeInfo const gog_persist_info = {
-			sizeof (GogPersistClass),	/* class_size */
-			NULL,		/* base_init */
-			NULL,		/* base_finalize */
-		};
-
-		gog_persist_type = g_type_register_static (G_TYPE_INTERFACE,
-			"GogPersist", &gog_persist_info, 0);
-	}
-
-	return gog_persist_type;
-}
-
-gboolean
-gog_persist_dom_load (GogPersist *gp, xmlNode *node)
-{
-	g_return_val_if_fail (IS_GOG_PERSIST (gp), FALSE);
-	return GOG_PERSIST_GET_CLASS (gp)->dom_load (gp, node);
-}
-
-void
-gog_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
-{
-	g_return_if_fail (IS_GOG_PERSIST (gp));
-	GOG_PERSIST_GET_CLASS (gp)->sax_save (gp, output);
-}
-void
-gog_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
-{
-	g_return_if_fail (IS_GOG_PERSIST (gp));
-	GOG_PERSIST_GET_CLASS (gp)->prep_sax (gp, xin, attrs);
-}
 
 static void
 gog_object_set_arg_full (char const *name, char const *val, GogObject *obj, xmlNode *xml_node)
@@ -115,8 +77,8 @@ gog_object_set_arg_full (char const *name, char const *val, GogObject *obj, xmlN
 			xmlFree (type_name);
 			if (type != 0) {
 				val_obj = g_object_new (type, NULL);
-				if (IS_GOG_PERSIST (val_obj) &&
-				    gog_persist_dom_load (GOG_PERSIST (val_obj), xml_node)) {
+				if (IS_GO_PERSIST (val_obj) &&
+				    go_persist_dom_load (GO_PERSIST (val_obj), xml_node)) {
 					g_value_set_object (&res, val_obj);
 					success = TRUE;
 				}
@@ -197,10 +159,10 @@ gog_object_write_property_sax (GogObject const *obj, GParamSpec *pspec, GsfXMLOu
 	case G_TYPE_OBJECT:
 		val_obj = g_value_get_object (&value);
 		if (val_obj != NULL) {
-			if (IS_GOG_PERSIST (val_obj)) {
+			if (IS_GO_PERSIST (val_obj)) {
 				gsf_xml_out_start_element (output, "property");
 				gsf_xml_out_add_cstr_unchecked (output, "name", pspec->name);
-				gog_persist_sax_save (GOG_PERSIST (val_obj), output);
+				go_persist_sax_save (GO_PERSIST (val_obj), output);
 				gsf_xml_out_end_element (output); /* </property> */
 			} else
 				g_warning ("How are we supposed to persist this ??");
@@ -300,13 +262,13 @@ gog_object_write_xml_sax (GogObject const *obj, GsfXMLOut *output)
 	/* properties */
 	props = g_object_class_list_properties (G_OBJECT_GET_CLASS (obj), &n);
 	while (n-- > 0)
-		if (props[n]->flags & GOG_PARAM_PERSISTENT)
+		if (props[n]->flags & GO_PARAM_PERSISTENT)
 			gog_object_write_property_sax (obj, props[n], output);
 
 	g_free (props);
 
-	if (IS_GOG_PERSIST (obj))	/* anything special for this class */
-		gog_persist_sax_save (GOG_PERSIST (obj), output);
+	if (IS_GO_PERSIST (obj))	/* anything special for this class */
+		go_persist_sax_save (GO_PERSIST (obj), output);
 	if (IS_GOG_DATASET (obj))	/* convenience to save data */
 		gog_dataset_sax_save (GOG_DATASET (obj), output);
 
@@ -356,8 +318,8 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 
 	res->explicitly_typed_role = explicitly_typed_role;
 
-	if (IS_GOG_PERSIST (res))
-		gog_persist_dom_load (GOG_PERSIST (res), node);
+	if (IS_GO_PERSIST (res))
+		go_persist_dom_load (GO_PERSIST (res), node);
 	if (IS_GOG_DATASET (res))	/* convenience to save data */
 		gog_dataset_dom_load (GOG_DATASET (res), node);
 
@@ -516,8 +478,8 @@ gogo_prop_start (GsfXMLIn *xin, xmlChar const **attrs)
 		state->obj_stack = g_slist_prepend (state->obj_stack, state->obj);
 		state->obj = obj;
 		state->prop_pushed_obj = TRUE;
-		if (IS_GOG_PERSIST (obj))
-			gog_persist_prep_sax (GOG_PERSIST (obj), xin, attrs);
+		if (IS_GO_PERSIST (obj))
+			go_persist_prep_sax (GO_PERSIST (obj), xin, attrs);
 	}
 }
 
@@ -603,8 +565,8 @@ gogo_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 	if (res != NULL) {
 		res->explicitly_typed_role = (type != NULL);
-		if (IS_GOG_PERSIST (res))
-			gog_persist_prep_sax (GOG_PERSIST (res), xin, attrs);
+		if (IS_GO_PERSIST (res))
+			go_persist_prep_sax (GO_PERSIST (res), xin, attrs);
 	}
 
 	state->obj_stack = g_slist_prepend (state->obj_stack, state->obj);

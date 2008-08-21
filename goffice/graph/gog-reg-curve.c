@@ -34,6 +34,7 @@
 #include <goffice/data/go-data.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-line.h>
+#include <goffice/utils/go-persist.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
@@ -196,7 +197,7 @@ gog_reg_curve_class_init (GogObjectClass *gog_klass)
 			_("Skip invalid"),
 			_("Skip invalid data"), 
 			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
 static void

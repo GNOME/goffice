@@ -21,10 +21,11 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-3d-box.h>
+#include <goffice/graph/gog-chart.h>
 #include <goffice/math/go-math.h>
+#include <goffice/utils/go-persist.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
-#include <goffice/graph/gog-chart.h>
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
@@ -283,28 +284,28 @@ gog_3d_box_class_init (Gog3DBoxClass *klass)
 			_("Euler angle psi"),
 			0, 360, 70, 
 			G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE
-			| GOG_PARAM_PERSISTENT));
+			| GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX3D_PROP_THETA,
 		g_param_spec_int ("theta", 
 			"Theta",
 			_("Euler angle theta"),
 			0, 360, 10, 
 			G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE
-			| GOG_PARAM_PERSISTENT));
+			| GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX3D_PROP_PHI,
 		g_param_spec_int ("phi", 
 			"Phi",
 			_("Euler angle phi"),
 			0, 360, 270, 
 			G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE
-			| GOG_PARAM_PERSISTENT));
+			| GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX3D_PROP_FOV,
 		g_param_spec_int ("fov", 
 			"FoV",
 			_("Field of view"),
 			0, 90, 10,
 			G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE
-			| GOG_PARAM_PERSISTENT));
+			| GO_PARAM_PERSISTENT));
 
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor = gog_3d_box_populate_editor;

@@ -24,6 +24,7 @@
 #include <goffice/graph/gog-graph-impl.h> /* for gog_graph_request_update */
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/data/go-data.h>
+#include <goffice/utils/go-persist.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -740,43 +741,43 @@ gog_object_class_init (GObjectClass *klass)
 			_("Object ID"), 
 			_("Object numerical ID"),
 			0, G_MAXINT, 0,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION,
 		g_param_spec_string ("position", 
 			_("Position"), 
 			_("Position and size of object, in percentage of parent size"),
 			"0 0 1 1", 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE|GO_PARAM_PERSISTENT));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_COMPASS,
 		g_param_spec_string ("compass", 
 			_("Compass"),
 			_("Compass auto position flags"),
 			"top", 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT | GOG_PARAM_POSITION));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_POSITION));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_ALIGNMENT,
 		g_param_spec_string ("alignment", 
 			_("Alignment"),
 			_("Alignment flag"),
 			"fill",
-		       	GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT | GOG_PARAM_POSITION));
+		       	GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_POSITION));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_IS_MANUAL,
 		g_param_spec_boolean ("is-position-manual", 
 			_("Is position manual"), 
 			_("Is position manual"),
 			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_ANCHOR,
 		g_param_spec_string ("anchor", 
 			_("Anchor"),
 			_("Anchor for manual position"),
 			"top-left", 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT | GOG_PARAM_POSITION));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_POSITION));
 	g_object_class_install_property (klass, OBJECT_PROP_INVISIBLE,
 		g_param_spec_boolean ("invisible", 
 			_("Should the object be hidden"), 
 			_("Should the object be hidden"),
 			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_signals [CHILD_ADDED] = g_signal_new ("child-added",
 		G_TYPE_FROM_CLASS (klass),
@@ -1010,7 +1011,7 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
 	/* properties */
 	props = g_object_class_list_properties (G_OBJECT_GET_CLASS (src), &n);
 	while (n-- > 0)
-		if (props[n]->flags & GOG_PARAM_PERSISTENT) {
+		if (props[n]->flags & GO_PARAM_PERSISTENT) {
 			g_value_init (&val, props[n]->value_type);
 			g_object_get_property (G_OBJECT (src), props[n]->name, &val);
 			g_object_set_property (G_OBJECT (dst), props[n]->name, &val);

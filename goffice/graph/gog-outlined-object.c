@@ -26,6 +26,7 @@
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/utils/go-persist.h>
 #include <goffice/utils/go-units.h>
 
 #include <glib/gi18n-lib.h>
@@ -80,7 +81,7 @@ gog_outlined_object_class_init (GObjectClass *gobject_klass)
 			_("Padding Pts"),
 			_("Number of pts separating charts in the grid"),
 			0, G_MAXDOUBLE, 0, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
 static void

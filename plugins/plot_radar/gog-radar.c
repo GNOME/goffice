@@ -34,6 +34,7 @@
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-persist.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>
@@ -206,14 +207,14 @@ gog_rt_plot_class_init (GogPlotClass *gog_plot_klass)
 			_("Default markers"),
 			_("Should the default style of a series include markers"),
 			FALSE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass,
 		PLOT_PROP_DEFAULT_STYLE_HAS_FILL,
 		g_param_spec_boolean ("default-style-has-fill",
 			_("Default fill"),
 			_("Should the default style of a series include fill"),
 			FALSE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	/* Fill in GogPlotClass methods */
 	gog_plot_klass->desc.num_series_min = 1;

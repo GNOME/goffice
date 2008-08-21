@@ -26,6 +26,7 @@
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/math/go-math.h>
 #include <goffice/math/go-rangefunc.h>
+#include <goffice/utils/go-persist.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
@@ -232,7 +233,7 @@ gog_exp_smooth_class_init (GogSmoothedCurveClass *curve_klass)
 			_("Steps"),
 			_("Number of interpolation steps"), 
 			10, G_MAXINT, 100,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
 static void

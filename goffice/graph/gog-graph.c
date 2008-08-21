@@ -27,6 +27,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/data/go-data.h>
+#include <goffice/utils/go-persist.h>
 #include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -340,19 +341,19 @@ gog_graph_class_init (GogGraphClass *klass)
 			_("Theme name"),
 			_("The name of the theme for elements of the graph"),
 			"default", 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_WIDTH,
 		g_param_spec_double ("width-pts", 
 			_("Width"),
 			_("Logical graph width, in points"),
 			0.0, G_MAXDOUBLE, GOG_GRAPH_DEFAULT_WIDTH,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_HEIGHT,
 		g_param_spec_double ("height-pts", 
 			_("Height"),
 			_("Logical graph heigth, in points"),
 			0.0, G_MAXDOUBLE, GOG_GRAPH_DEFAULT_HEIGHT,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_DOCUMENT,
 		g_param_spec_object ("document", 
 			_("Document"),

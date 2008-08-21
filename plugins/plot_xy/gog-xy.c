@@ -36,6 +36,7 @@
 #include <goffice/utils/go-format.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-line.h>
+#include <goffice/utils/go-persist.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #ifdef GOFFICE_WITH_GTK
@@ -342,25 +343,25 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 			_("Has markers by default"),
 			_("Should the default style of a series include markers"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES,
 		g_param_spec_boolean ("default-style-has-lines", 
 			_("Has lines by default"),
 			_("Should the default style of a series include lines"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DEFAULT_STYLE_HAS_FILL,
 		g_param_spec_boolean ("default-style-has-fill", 
 			_("Has fill by default"),
 			_("Should the default style of a series include fill"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_USE_SPLINES,
 		g_param_spec_boolean ("use-splines",
 			_("Use splines"),
 			_("Should the plot use splines instead of linear interpolation"),
 			FALSE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	gog_klass->type_name	= gog_xy_plot_type_name;
 
 	{
@@ -511,25 +512,25 @@ gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 			_("Size as area"),
 			_("Display size as area instead of diameter"),
 			TRUE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_SHOW_NEGATIVES,
 		g_param_spec_boolean ("show-negatives", 
 			_("Show negatives"),
 			_("Draw bubbles for negative values"),
 			FALSE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_IN_3D,
 		g_param_spec_boolean ("in-3d", 
 			_("In 3d"),
 			_("Draw 3d bubbles"),
 			FALSE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_SCALE,
 		g_param_spec_float ("bubble-scale", 
 			_("Bubble scale"),
 			_("Fraction of default radius used for display"),
 			0., 3., 1.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	{
 		static GogSeriesDimDesc dimensions[] = {
 			{ N_("X"), GOG_SERIES_SUGGESTED, FALSE,
@@ -771,19 +772,19 @@ gog_xy_color_plot_class_init (GogPlotClass *plot_klass)
 			_("Has lines by default"),
 			_("Should the default style of a series include lines"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_FILL,
 		g_param_spec_boolean ("default-style-has-fill", 
 			_("Has fill by default"),
 			_("Should the default style of a series include fill"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_HIDE_OUTLIERS,
 		g_param_spec_boolean  ("hide-outliers", 
 			_("hide-outliers"),
 			_("Hide data outside of the color axis bounds"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	gog_klass->type_name		= gog_xy_color_plot_type_name;
 	gog_klass->update		= gog_xy_color_plot_update;
 	gog_klass->populate_editor	= gog_xy_color_plot_populate_editor;
@@ -1661,19 +1662,19 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 			_("X error bars"),
 			_("GogErrorBar *"),
 			GOG_ERROR_BAR_TYPE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_YERRORS,
 		g_param_spec_object ("y-errors", 
 			_("Y error bars"),
 			_("GogErrorBar *"),
 			GOG_ERROR_BAR_TYPE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_INVALID_AS_ZERO,
 		g_param_spec_boolean ("invalid-as-zero", 
 			_("Invalid as zero"),
 			_("Replace invalid values by 0 when drawing markers or bubbles"),
 			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	series_klass->valid_fill_type_list = valid_fill_type_list;
 }

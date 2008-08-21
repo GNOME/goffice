@@ -31,6 +31,7 @@
 #include <goffice/graph/gog-chart.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/go-persist.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
@@ -379,7 +380,7 @@ gog_xyz_plot_class_init (GogXYZPlotClass *klass)
 			_("Transposed"),
 			_("Transpose the plot"),
 			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE|GO_PARAM_PERSISTENT));
 
 	/* Fill in GOGObject superclass values */
 	gog_object_klass->update	= gog_xyz_plot_update;

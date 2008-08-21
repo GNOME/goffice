@@ -25,6 +25,7 @@
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/app/go-doc.h>
+#include <goffice/utils/go-persist.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
@@ -190,7 +191,7 @@ gog_styled_object_class_init (GogObjectClass *gog_klass)
 			_("Style"),
 			_("A pointer to the GogStyle object"),
 			GOG_STYLE_TYPE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
 static void

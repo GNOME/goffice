@@ -32,6 +32,7 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/data/go-data.h>
 #include <goffice/math/go-math.h>
+#include <goffice/utils/go-persist.h>
 #include <glib/gi18n-lib.h>
 
 #ifdef GOFFICE_WITH_GTK
@@ -529,25 +530,25 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 			_("Vary style by element"),
 			_("Use a different style for each segments"),
 			FALSE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_X,
 		g_param_spec_uint ("x-axis", 
 			_("X axis"), 
 			_("Reference to X axis"),
 			0, G_MAXINT, 0,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_Y,
 		g_param_spec_uint ("y-axis", 
 			_("Y axis"), 
 			_("Reference to Y axis"),
 			0, G_MAXINT, 0,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_GROUP,
 		g_param_spec_string ("plot-group", 
 			_("Plot group"), 
 			_("Name of plot group if any"),
 			NULL, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_GURU_HINTS,
 		g_param_spec_string ("guru-hints", 
 			_("Guru hints"), 
@@ -560,7 +561,7 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 			_("Default interpolation"),
 			_("Default type of series line interpolation"),
 			"linear",
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_klass->children_reordered = gog_plot_children_reordered;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));

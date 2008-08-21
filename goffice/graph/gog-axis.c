@@ -36,6 +36,7 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/go-persist.h>
 #include <goffice/data/go-data-simple.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -1786,18 +1787,18 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 		g_param_spec_boolean ("invert-axis", _("Invert axis"),
 			_("Scale from high to low rather than low to high"),
 			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_MAP,
 		g_param_spec_string ("map-name", _("MapName"),
 			_("The name of the map for scaling"),
 			"linear", 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_ASSIGNED_FORMAT_STR_XL,
 		g_param_spec_string ("assigned-format-string-XL", 
 			_("Assigned XL format"),
 			_("The user assigned format to use for non-discrete axis labels (XL format)"),
 			"General", 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_CIRCULAR_ROTATION,
 		g_param_spec_double ("circular-rotation", 
 			_("Rotation of circular axis"), 
@@ -1805,13 +1806,13 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 			GOG_AXIS_CIRCULAR_ROTATION_MIN, 
 			GOG_AXIS_CIRCULAR_ROTATION_MAX,
 			0.0, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_POLAR_UNIT,
 		g_param_spec_string ("polar-unit", 
 			_("Polar axis set unit"), 
 			_("Polar axis set unit"), 
 			polar_units[GOG_AXIS_POLAR_UNIT_DEGREES].name,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 

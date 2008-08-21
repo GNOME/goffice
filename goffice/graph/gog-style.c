@@ -31,6 +31,7 @@
 #include <goffice/utils/go-image.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-persist.h>
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
@@ -1635,7 +1636,7 @@ gog_style_text_layout_sax_save (GsfXMLOut *output, GogStyle const *style)
 }
 
 static gboolean
-gog_style_persist_dom_load (GogPersist *gp, xmlNode *node)
+gog_style_persist_dom_load (GOPersist *gp, xmlNode *node)
 {
 	GogStyle *style = GOG_STYLE (gp);
 	xmlNode *ptr;
@@ -1797,7 +1798,7 @@ gog_style_sax_load_text_layout (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-gog_style_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
+gog_style_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
 {
 	GogStyle const *style = GOG_STYLE (gp);
 
@@ -1819,7 +1820,7 @@ gog_style_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
 }
 
 static void
-gog_style_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
+gog_style_persist_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static GsfXMLInNode const dtd[] = {
 		GSF_XML_IN_NODE 	(STYLE, STYLE, 
@@ -1871,7 +1872,7 @@ gog_style_persist_prep_sax (GogPersist *gp, GsfXMLIn *xin, xmlChar const **attrs
 }
 
 static void
-gog_style_persist_init (GogPersistClass *iface)
+gog_style_persist_init (GOPersistClass *iface)
 {
 	iface->dom_load = gog_style_persist_dom_load;
 	iface->prep_sax = gog_style_persist_prep_sax;
@@ -1881,7 +1882,7 @@ gog_style_persist_init (GogPersistClass *iface)
 GSF_CLASS_FULL (GogStyle, gog_style,
 		NULL, NULL, gog_style_class_init, NULL,
 		gog_style_init, G_TYPE_OBJECT, 0,
-		GSF_INTERFACE (gog_style_persist_init, GOG_PERSIST_TYPE))
+		GSF_INTERFACE (gog_style_persist_init, GO_PERSIST_TYPE))
 
 gboolean
 gog_style_is_different_size (GogStyle const *a, GogStyle const *b)

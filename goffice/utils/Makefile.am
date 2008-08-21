@@ -26,7 +26,8 @@ libgoffice_utils_la_SOURCES =	\
 	\
 	go-glib-extras.c	\
 	go-libxml-extras.c	\
-	go-pango-extras.c
+	go-pango-extras.c	\
+	go-persist.c
 
 libgoffice_utils_ladir = $(goffice_include_dir)/utils
 libgoffice_utils_la_HEADERS = 	\
@@ -50,7 +51,8 @@ libgoffice_utils_la_HEADERS = 	\
 	regutf8.h 		\
 	go-glib-extras.h	\
 	go-libxml-extras.h	\
-	go-pango-extras.h
+	go-pango-extras.h	\
+	go-persist.h
 
 CLEANFILES =			\
 	go-marshalers.h		\

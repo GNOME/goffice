@@ -29,6 +29,7 @@
 #include <goffice/data/go-data.h>
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/math/go-math.h>
+#include <goffice/utils/go-persist.h>
 #include <glib/gi18n-lib.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -264,13 +265,13 @@ gog_lin_reg_curve_class_init (GogRegCurveClass *reg_curve_klass)
 			_("Affine"),
 			_("If true, a non-zero constant is allowed"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, REG_LIN_REG_CURVE_PROP_DIMS,
 		g_param_spec_uint ("dims", 
 			_("Dims"),
 			_("Number of x-vectors"),
 		       	1, 10, 1, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE|GO_PARAM_PERSISTENT));
 }
 
 static void
