@@ -27,6 +27,7 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-path.h>
+#include <goffice/utils/go-persist.h>
 #include <goffice/app/go-plugin.h>
 
 #include <glib/gi18n-lib.h>
@@ -220,19 +221,19 @@ gog_minmax_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 			_("Gap percentage"),
 			_("The padding around each group as a percentage of their width"),
 			0, 500, 150, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, MINMAX_PROP_HORIZONTAL,
 		g_param_spec_boolean ("horizontal", 
 			_("Horizontal"),
 			_("Horizontal or vertical lines"),
 			FALSE,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, MINMAX_PROP_DEFAULT_STYLE_HAS_MARKERS,
 		g_param_spec_boolean ("default-style-has-markers", 
 			_("Default markers"),
 			_("Should the default style of a series include markers"),
 			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_minmax_plot_type_name;
 	gog_object_klass->view_type	= gog_minmax_view_get_type ();

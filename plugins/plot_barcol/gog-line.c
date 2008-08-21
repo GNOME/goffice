@@ -33,6 +33,7 @@
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-persist.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
@@ -324,7 +325,7 @@ gog_line_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 			_("Default markers"),
 			_("Should the default style of a series include markers"),
 			TRUE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_klass->type_name	= gog_line_plot_type_name;
 	gog_klass->view_type	= gog_line_view_get_type ();

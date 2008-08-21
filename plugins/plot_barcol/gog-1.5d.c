@@ -36,6 +36,7 @@
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/go-persist.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>
@@ -333,13 +334,13 @@ gog_plot1_5d_class_init (GogPlotClass *plot_klass)
 			_("Type"),
 			_("How to group multiple series, normal, stacked, as_percentage"),
 			"normal", 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_1_5D_PROP_IN_3D,
 		g_param_spec_boolean ("in-3d", 
 			_("In 3d"),
 			_("Placeholder to allow us to round trip pseudo 3d state"),
 			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_klass->update	= gog_plot1_5d_update;
 
@@ -643,7 +644,7 @@ gog_series1_5d_class_init (GogObjectClass *obj_klass)
 			_("Error bars"),
 			_("GogErrorBar *"),
 			GOG_ERROR_BAR_TYPE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
 static void

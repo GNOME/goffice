@@ -32,6 +32,7 @@
 #include <goffice/math/go-rangefunc.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-persist.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>
@@ -363,25 +364,25 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 			_("Gap percentage"),
 			_("The padding around each group as a percentage of their width"),
 			0, 500, 150, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_VERTICAL,
 		g_param_spec_boolean ("vertical", 
 			_("Vertical"),
 			_("Whether the box-plot should be vertical instead of horizontal"),
 			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_OUTLIERS,
 		g_param_spec_boolean ("outliers", 
 			_("Outliers"),
 			_("Whether outliers should be taken into account and displayed"),
 			FALSE, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_RADIUS_RATIO,
 		g_param_spec_double ("radius-ratio", 
 			_("Radius ratio"),
 			_("The ratio between the radius of the circles representing outliers and the rectangle width"),
 			0., 0.5, 0.125, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_box_plot_type_name;
 	gog_object_klass->view_type	= gog_box_plot_view_get_type ();

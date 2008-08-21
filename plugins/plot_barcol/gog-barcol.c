@@ -31,6 +31,7 @@
 #include <goffice/data/go-data.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-persist.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
@@ -240,19 +241,19 @@ gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 			_("Gap percentage"),
 			_("The padding around each group as a percentage of their width"),
 			0, 500, 150, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_OVERLAP_PERCENTAGE,
 		g_param_spec_int ("overlap-percentage", 
 			_("Overlap percentage"),
 			_("The distance between series as a percentage of their width"),
 			-100, 100, 0, 
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_HORIZONTAL,
 		g_param_spec_boolean ("horizontal", 
 			_("horizontal"),
 			_("horizontal bars or vertical columns"),
 			FALSE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_barcol_plot_type_name;
 	gog_object_klass->populate_editor	= gog_barcol_plot_populate_editor;
