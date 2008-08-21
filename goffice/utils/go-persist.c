@@ -42,20 +42,20 @@ go_persist_get_type (void)
 }
 
 gboolean
-gog_persist_dom_load (GOPersist *gp, xmlNode *node)
+go_persist_dom_load (GOPersist *gp, xmlNode *node)
 {
 	g_return_val_if_fail (IS_GO_PERSIST (gp), FALSE);
 	return GO_PERSIST_GET_CLASS (gp)->dom_load (gp, node);
 }
 
 void
-gog_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
+go_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
 {
 	g_return_if_fail (IS_GO_PERSIST (gp));
 	GO_PERSIST_GET_CLASS (gp)->sax_save (gp, output);
 }
 void
-gog_persist_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
+go_persist_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 {
 	g_return_if_fail (IS_GO_PERSIST (gp));
 	GO_PERSIST_GET_CLASS (gp)->prep_sax (gp, xin, attrs);
