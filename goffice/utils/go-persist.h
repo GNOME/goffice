@@ -38,7 +38,7 @@ typedef struct {
 	void     (*sax_save) (GOPersist const *gp, GsfXMLOut *output);
 } GOPersistClass;
 
-#define GO_PERSIST_TYPE		 (gog_persist_get_type ())
+#define GO_PERSIST_TYPE		 (go_persist_get_type ())
 #define GO_PERSIST(o)		 (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_PERSIST_TYPE, GOPersist))
 #define IS_GO_PERSIST(o)	 (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_PERSIST_TYPE))
 #define GO_PERSIST_CLASS(k)	 (G_TYPE_CHECK_CLASS_CAST ((k), GO_PERSIST_TYPE, GOPersistClass))
