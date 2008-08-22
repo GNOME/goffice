@@ -1,3 +1,10 @@
+2008-08-22  Halton Huo <halton.huo@sun.com>
+
+	Fix bug #547408: Add go-demo for testing more charts
+	* tests/Makefile.am: Add go-demo.c and go-demo.glade fro go-demo
+	* tests/go-demo.c: (added)
+	* tests/go-demo.glade: (added)
+
 2008-08-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* all files: renamed GOG_PARAM_PERSISTENT to GO_PARAM_PERSISTENT and

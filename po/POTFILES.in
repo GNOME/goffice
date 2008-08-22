@@ -306,3 +306,4 @@ plugins/smoothing/gog-exp-smooth.c
 plugins/smoothing/gog-exp-smooth.glade
 plugins/smoothing/plugin.xml.in
 plugins/smoothing/types.xml.in
+tests/go-demo.glade
