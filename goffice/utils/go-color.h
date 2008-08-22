@@ -29,8 +29,6 @@
 #include <glib.h>
 #include <goffice/goffice-features.h>
 #include <goffice/utils/goffice-utils.h>
-#include <libart_lgpl/art_render.h>
-#include <libart_lgpl/art_svp.h>
 #include <pango/pango.h>
 
 #ifdef GOFFICE_WITH_GTK
@@ -120,11 +118,6 @@ UINT_TO_RGB((i), ((guchar*)p), ((guchar*)p)+1, ((guchar*)p)+2)
 #define DOUBLE_RGBA_A(x) (double)UINT_RGBA_A(x)/255.0
 
 #define GO_COLOR_TO_CAIRO(x) DOUBLE_RGBA_R(x),DOUBLE_RGBA_G(x),DOUBLE_RGBA_B(x),DOUBLE_RGBA_A(x)
-
-void go_color_to_artpix  (ArtPixMaxDepth *res, GOColor rgba);
-void go_color_render_svp (GOColor color, ArtSVP const *svp,
-			  int x0, int y0, int x1, int y1,
-			  art_u8 *buf, int rowstride);
 
 gboolean  go_color_from_str (char const *str, GOColor *res);
 gchar    *go_color_as_str   (GOColor color);

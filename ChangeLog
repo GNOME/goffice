@@ -1,3 +1,10 @@
+2008-08-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-color.c: removed obsolete libart related code.
+	* goffice/utils/go-color.h: ditto.
+	* goffice/utils/go-gradient.c: ditto.
+	* goffice/utils/go-gradient.h: ditto.
+
 2008-08-22  Halton Huo <halton.huo@sun.com>
 
 	Fix bug #547408: Add go-demo for testing more charts
