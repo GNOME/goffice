@@ -2,7 +2,7 @@
 
 DOC_MODULE=goffice-@GOFFICE_API_VER@
 
-DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.sgml
+DOC_MAIN_SGML_FILE=goffice-docs.sgml
 
 DOC_SOURCE_DIR=../../goffice
 
@@ -52,7 +52,15 @@ IGNORE_HFILES=	\
 		libfoocanvas.h				\
 		foo-canvas-i18n.h			\
 		foo-canvas-marshal.h			\
-		ucp.h
+		ucp.h						\
+		go-dock.h					\
+		go-dock-band.h				\
+		go-dock-item.h				\
+		go-dock-item-grip.h			\
+		go-dock-layout.hs			\
+		go-app.h					\
+		go-object.h					\
+		go-service.h
 	
 HTML_IMAGES=
 

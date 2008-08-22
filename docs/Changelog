@@ -1,3 +1,7 @@
+2008-08-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/Makefile.am: fixed DOC_MAIN_SGML_FILE.
+
 2007-08-21  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* reference/Makefile.am: Follow library name change.
