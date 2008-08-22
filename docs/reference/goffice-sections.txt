@@ -95,13 +95,8 @@ gog_outlined_view_get_type
 </SECTION>
 
 <SECTION>
-<FILE>gog-persist</FILE>
-<INCLUDE>goffice/graph/gog-object-xml.h</INCLUDE>
-<TITLE>GogPersist</TITLE>
-GogPersist
-gog_persist_dom_load
-gog_persist_sax_save
-gog_persist_prep_sax
+<FILE>gog-object-xml</FILE>
+<TITLE>GogObject XML support</TITLE>
 <SUBSECTION>
 gog_object_set_arg
 gog_object_write_xml_sax
@@ -111,15 +106,6 @@ gog_object_sax_push_parser
 GogObjectSaxHandler
 go_xml_out_add_color
 gog_xml_read_state_get_obj
-<SUBSECTION Standard>
-GOG_PERSIST_TYPE
-GOG_PERSIST
-IS_GOG_PERSIST
-GOG_PERSIST_CLASS
-IS_GOG_PERSIST_CLASS
-GOG_PERSIST_GET_CLASS
-<SUBSECTION Private>
-gog_persist_get_type
 </SECTION>
 
 <SECTION>
@@ -1304,6 +1290,25 @@ go_image_fill
 </SECTION>
 
 <SECTION>
+<FILE>go-persist</FILE>
+<TITLE>GOPersist</TITLE>
+GOPersist
+go_persist_dom_load
+go_persist_sax_save
+go_persist_prep_sax
+GO_PARAM_PERSISTENT
+<SUBSECTION Standard>
+GO_PERSIST_TYPE
+GO_PERSIST
+IS_GO_PERSIST
+GO_PERSIST_CLASS
+IS_GO_PERSIST_CLASS
+GO_PERSIST_GET_CLASS
+<SUBSECTION Private>
+go_persist_get_type
+</SECTION>
+
+<SECTION>
 <FILE>go-units</FILE>
 <TITLE>Units</TITLE>
 PT_PER_IN
@@ -1383,8 +1388,6 @@ PIXEL_BLACK
 PIXEL_WHITE
 PIXEL_GREY
 PIXEL_GREYA
-go_color_to_artpix
-go_color_render_svp
 go_color_from_str
 go_color_as_str
 go_color_to_pango
@@ -1421,7 +1424,6 @@ go_fonts_shutdown
 GOGradientDirection
 go_gradient_dir_from_str
 go_gradient_dir_as_str
-go_gradient_setup
 </SECTION>
 
 <SECTION>

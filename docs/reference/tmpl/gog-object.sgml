@@ -264,13 +264,6 @@ Base class for all objects of graph model
 @o: 
 
 
-<!-- ##### MACRO GOG_PARAM_PERSISTENT ##### -->
-<para>
-
-</para>
-
-
-
 <!-- ##### MACRO GOG_PARAM_FORCE_SAVE ##### -->
 <para>
 
