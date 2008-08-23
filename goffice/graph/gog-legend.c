@@ -30,6 +30,7 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-path.h>
 #include <goffice/utils/go-persist.h>
 #include <goffice/utils/go-units.h>
 
@@ -417,7 +418,6 @@ typedef struct {
 	double element_step_x, element_step_y;
 	double block_step_x, block_step_y;
 	GogViewAllocation swatch;
-	ArtVpath line_path[3];
 	double swatch_scale_a, swatch_scale_b;
 	double line_scale_a, line_scale_b;
 	double hairline_width;
@@ -432,7 +432,8 @@ cb_render_elements (unsigned index, GogStyle const *base_style, char const *name
 	GogRenderer *renderer = view->renderer;
 	GogStyle *style = NULL;
 	GogViewAllocation pos, rectangle;
-	double half_width;
+	double half_width, y;
+	GOPath *line_path;
 
 	if (data->count > 0) {
 		if ((data->count % glv->element_per_blocks) != 0) {
@@ -455,20 +456,20 @@ cb_render_elements (unsigned index, GogStyle const *base_style, char const *name
 
 		gog_renderer_push_style (renderer, style);
 		half_width = 0.5 * gog_renderer_line_size (renderer, style->line.width);
-		data->line_path[0].x = data->x + half_width;
-		data->line_path[1].x = data->x + data->swatch.w * GLV_LINE_LENGTH_EM - half_width;
-		data->line_path[0].y =
-		data->line_path[1].y = data->y + glv->element_height / 2.;
+		line_path = go_path_new ();
+		y = data->y + glv->element_height / 2.;
+		go_path_move_to (line_path, data->x + half_width, y);
+		go_path_line_to (line_path, data->x + data->swatch.w * GLV_LINE_LENGTH_EM - half_width, y);
 		if (style->interesting_fields & GOG_STYLE_FILL) {
 			rectangle.x = data->x - half_width;
-			rectangle.y = data->line_path[0].y;
+			rectangle.y = y;
 			rectangle.w = data->swatch.w * GLV_LINE_LENGTH_EM + 2.0 * half_width;
 			rectangle.h = glv->element_height / 2.0;
 			gog_renderer_fill_rectangle (renderer, &rectangle);
 		}
-		gog_renderer_draw_path (renderer, data->line_path);
-		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * GLV_LINE_LENGTH_EM * 0.5,
-					  data->line_path[0].y);
+		gog_renderer_stroke_serie (renderer, line_path);
+		go_path_free (line_path);
+		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * GLV_LINE_LENGTH_EM * 0.5, y);
 	} else {					/* area swatch */
 		style = gog_style_dup (base_style);
 		if (style->outline.width > data->hairline_width)
@@ -547,11 +548,11 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 
 	data.hairline_width = hairline_width;
 
-	if (glv->uses_lines) {
+/*	if (glv->uses_lines) {
 		data.line_path[0].code = ART_MOVETO;
 		data.line_path[1].code = ART_LINETO;
 		data.line_path[2].code = ART_END;
-	}
+	}*/
 	
 	data.count = 0;
 	data.view = v;

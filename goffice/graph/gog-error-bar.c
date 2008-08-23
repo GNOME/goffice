@@ -30,6 +30,7 @@
 #include <goffice/data/go-data-impl.h>
 #include <goffice/data/go-data.h>
 #include <goffice/math/go-math.h>
+#include <goffice/utils/go-path.h>
 #include <goffice/utils/go-persist.h>
 #include <gsf/gsf-impl-utils.h>
 
@@ -336,6 +337,7 @@ gog_error_bar_init (GogErrorBar* bar)
 	bar->display = GOG_ERROR_BAR_DISPLAY_BOTH;
 	bar->width = 5.;
 	bar->style = gog_style_new ();
+	bar->style->interesting_fields = GOG_STYLE_LINE;
 	bar->style->line.color = RGBA_BLACK;
 	bar->style->line.width = 1.;
 }
@@ -638,8 +640,7 @@ void gog_error_bar_render (const GogErrorBar *bar,
 			   double plus,
 			   gboolean horizontal)
 {
-	ArtVpath path [7];
-	int n;
+	GOPath *path;
 	double x_start, y_start, x_end, y_end;
 	double line_width, width;
 	gboolean start = plus > .0 && bar ->display & GOG_ERROR_BAR_DISPLAY_POSITIVE,
@@ -679,13 +680,9 @@ void gog_error_bar_render (const GogErrorBar *bar,
 	x = gog_axis_map_to_view (x_map, x);
 	y = gog_axis_map_to_view (y_map, y);
 
-	path[0].code = ART_MOVETO;
-	path[1].code = ART_LINETO;
-	path[0].x = x_start;
-	path[1].x = x_end;
-	path[0].y = path[1].y = y_start;
-	path[0].y = y_start;
-	path[1].y = y_end;
+	path = go_path_new ();
+	go_path_move_to (path, x_start, y_start);
+	go_path_line_to (path, x_end, y_end);
 
 	if (horizontal) {
 		width = gog_renderer_pt2r_y (rend, bar->width) / 2.;
@@ -696,44 +693,31 @@ void gog_error_bar_render (const GogErrorBar *bar,
 	}
 
 	if ((2. * width) > line_width) {
-		if (start && end) {
-			path[2].code = ART_MOVETO;
-			path[3].code = ART_LINETO;
-			n = 4;
-		} else
-			n = 2;
-		path[n].code = ART_MOVETO;
-		path[n + 1].code = ART_LINETO;
-		path[n + 2].code = ART_END;
 		if (horizontal) {
 			if (start) {
-				path[2].x =path[3].x = x_start;
-				path[2].y = y - width;
-				path[3].y = y + width;
+				go_path_move_to (path, x_start, y - width);
+				go_path_line_to (path, x_start, y + width);
 			}
 			if (end) {
-				path[n].x =path[n+1].x = x_end;
-				path[n].y = y - width;
-				path[n+1].y = y + width;
+				go_path_move_to (path, x_end, y - width);
+				go_path_line_to (path, x_end, y + width);
 			}
 		} else {
 			if (start) {
-				path[2].x = x - width;
-				path[3].x = x + width;
-				path[2].y =path[3].y = y_start;
+				go_path_move_to (path, x - width, y_start);
+				go_path_line_to (path, x + width, y_start);
 			}
 			if (end) {
-				path[n].x = x - width;
-				path[n+1].x = x + width;
-				path[n].y =path[n+1].y = y_end;
+				go_path_move_to (path, x - width, y_end);
+				go_path_line_to (path, x + width, y_end);
 			}
 		}
-	} else
-		path[2].code = ART_END;
+	}
 
 	gog_renderer_push_style (rend, bar->style);
-	gog_renderer_draw_sharp_path (rend, path);
+	gog_renderer_stroke_serie (rend, path);
 	gog_renderer_pop_style (rend);
+	go_path_free (path);
 }
 
 gboolean

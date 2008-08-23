@@ -1,3 +1,10 @@
+2008-08-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-error-bar.c: (gog_error_bar_init),
+	(gog_error_bar_render): use GOPath instead of ArtVpath.
+	* goffice/graph/gog-legend.c: (cb_render_elements),
+	(gog_legend_view_render): ditto.
+
 2008-08-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-color.c: removed obsolete libart related code.
