@@ -14,7 +14,7 @@ surface_la_SOURCES = \
 	gog-surface.c		\
 	gog-surface.h		\
 	gog-xyz-surface.c	\
-	gog-xyz-survace.h	\
+	gog-xyz-surface.h	\
 	xl-surface.c		\
 	xl-surface.h
 
@@ -27,7 +27,7 @@ if WITH_GTK
 dist_glade_DATA = \
 	gog-xyz-prefs.glade	\
 	gog-xyz-surface-prefs.glade
-	
+
 surface_la_SOURCES += \
 	gog-xyz-prefs.c		\
 	gog-xyz-surface-prefs.c
