@@ -303,7 +303,7 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 		  GogAxisMap *y_map,
 		  GogViewAllocation const *rect)
 {
-	ArtVpath path[6];
+	GOPath *path = go_path_new ();
 	double x0, x1, y0, y1;
 
 	if (flip) {
@@ -330,19 +330,14 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 		y1 = gog_axis_map_to_view (y_map, rect->y + rect->h);
 	}
 
-	path[0].x = path[3].x = path[4].x = x0;
-	path[1].x = path[2].x = x1;
-	path[0].y = path[1].y = path[4].y = y0;
-	path[2].y = path[3].y = y1;
-	path[0].code = ART_MOVETO;
-	path[1].code = ART_LINETO;
-	path[2].code = ART_LINETO;
-	path[3].code = ART_LINETO;
-	path[4].code = ART_LINETO;
-	path[5].code = ART_END;
+	go_path_move_to (path, x0, y0);
+	go_path_line_to (path, x1, y0);
+	go_path_line_to (path, x1, y1);
+	go_path_line_to (path, x0, y1);
+	go_path_close (path);
 	
-	gog_renderer_draw_sharp_polygon (rend, path, 
-					 fabs (x1 - x0) < 3. || fabs (y1 - y0) < 3.);
+	gog_renderer_fill_serie (rend, path, NULL);
+	gog_renderer_stroke_serie (rend, path);
 }
 
 typedef struct {
