@@ -15,6 +15,7 @@ Mariusz Adamski:
 Morten:
 	* Work around valgrind bug.
 	* Fix date format problem.  [#545016]
+	* Fix interpretation of "[red];[blue]".  [#549249]
 
 --------------------------------------------------------------------------
 goffice 0.7.0:

@@ -1,3 +1,9 @@
+2008-08-25  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_preparse): In some
+	circumstances, an empty format is like "General".  Fixes #549249.
+	Prepare for negative date values, but do not activate.  [#509720]
+
 2008-08-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-barcol.c: (barcol_draw_rect): use GOPath

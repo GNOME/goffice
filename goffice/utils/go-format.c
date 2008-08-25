@@ -53,6 +53,7 @@
 #define OBSERVE_XL_EXPONENT_1
 #define ALLOW_EE_MARKUP
 #define ALLOW_PI_SLASH
+#undef ALLOW_NEGATIVE_TIMES
 
 /* ------------------------------------------------------------------------- */
 
@@ -118,7 +119,7 @@ typedef enum {
 	OP_FILL,		/* unichar */
 	OP_LOCALE,		/* locale langstr */
 	/* ------------------------------- */
-	OP_DATE_ROUND,		/* decimals */
+	OP_DATE_ROUND,		/* decimals seen_elapsed */
 	OP_DATE_SPLIT,
 	OP_DATE_YEAR,
 	OP_DATE_YEAR_2,
@@ -808,6 +809,18 @@ go_format_preparse (const char *str, GOFormatParseState *pstate)
 			if (has_general && (is_number || is_text))
 				goto error;
 
+			if (ntokens == 0 &&
+			    (pstate->have_color || pstate->have_cond) &&
+			    !pstate->have_locale) {
+				/* Pretend to have seen "General" */
+				has_general = TRUE;
+				g_array_set_size (pstate->tokens, tno + 1);
+				GET_TOKEN(tno).tstr = tstr;
+				GET_TOKEN(tno).token = TOK_GENERAL;
+				GET_TOKEN(tno).tt = TT_ALLOWED_IN_DATE;
+				ntokens++;
+			}
+
 			pstate->is_date = is_date;
 			pstate->is_number = is_number;
 			pstate->has_general = has_general;
@@ -1279,8 +1292,8 @@ go_format_parse_sequential (const char *str, GString *prg,
 		return fmt;
 	} else {
 		GOFormat *fmt = go_format_create (GO_FMT_NUMBER, NULL);
-		guchar splits[4] = { OP_DATE_ROUND, date_decimals };
-		guchar *p = splits + 2;
+		guchar splits[5] = { OP_DATE_ROUND, date_decimals, seen_elapsed };
+		guchar *p = splits + 3;
 		if (seen_date) {
 			*p++ = OP_DATE_SPLIT;
 			fmt->u.number.has_date = TRUE;
@@ -2038,6 +2051,15 @@ fill_with_char (GString *str, PangoLayout *layout, gsize fill_pos,
 
 #endif
 
+
+#define INSERT_MINUS(pos) do {							\
+	if (unicode_minus)							\
+		g_string_insert_len (dst, (pos), unicode_minus_utf8, 3);	\
+	else									\
+		g_string_insert_c (dst, (pos), '-');				\
+} while (0)
+
+
 static GOFormatNumberError
 SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			   const GOFormatMeasure measure,
@@ -2077,7 +2099,6 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 	int special_mantissa = INT_MAX;
 #endif
 	char *oldlocale = NULL;
-
 
 	memset (&fraction, 0, sizeof (fraction));
 
@@ -2168,15 +2189,28 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		case OP_DATE_ROUND: {
 			int date_decimals = *prg++;
+			gboolean seen_elapsed = *prg++;
 			DOUBLE unit = SUFFIX(go_pow10)(date_decimals);
+#ifdef ALLOW_NEGATIVE_TIMES
+			gboolean isneg = (val < 0);
+#else
+			gboolean isneg = FALSE;
+#endif
 
-			valsecs = SUFFIX(floor)(SUFFIX(go_add_epsilon) (val) * (unit * 86400) + 0.5);
+			valsecs = SUFFIX(floor)(SUFFIX(go_add_epsilon)(SUFFIX(fabs)(val)) * (unit * 86400) + 0.5);
 			if (date_decimals) {
-				DOUBLE f = SUFFIX(fmod) (valsecs, unit);
+				DOUBLE vs = (seen_elapsed || !isneg) ? valsecs : 0 - valsecs;
+				DOUBLE f = SUFFIX(fmod) (vs, unit);
+#ifdef ALLOW_NEGATIVE_TIMES
+				if (f < 0)
+					f += unit;
+#endif
 				sprintf (fsecond, "%0*.0" FORMAT_f,
 					 date_decimals, f);
 				valsecs = SUFFIX(floor)(valsecs / unit);
 			}
+			if (isneg)
+				valsecs = 0 - valsecs;
 			break;
 		}
 
@@ -2268,15 +2302,17 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		case OP_TIME_SPLIT_12:
 		case OP_TIME_SPLIT_24: {
 			int secs = (int)SUFFIX(fmod)(valsecs, 86400);
-			int h = secs / 3600;
+#ifdef ALLOW_NEGATIVE_TIMES
+			if (secs < 0)
+				secs += 86400;
+#endif
+			hour = secs / 3600;
 			minute = (secs / 60) % 60;
 			second = secs % 60;
 			if (op == OP_TIME_SPLIT_12) {
-				ispm = (h >= 12);
-				if (ispm) h -= 12;
-				hour = h ? h : 12;
-			} else {
-				hour = h;
+				ispm = (hour >= 12);
+				if (ispm) hour -= 12;
+				if (hour == 0) hour = 12;
 			}
 			break;
 		}
@@ -2284,7 +2320,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 		case OP_TIME_SPLIT_ELAPSED_HOUR:
 		case OP_TIME_SPLIT_ELAPSED_MINUTE:
 		case OP_TIME_SPLIT_ELAPSED_SECOND: {
-			DOUBLE s = valsecs;
+			DOUBLE s = SUFFIX(fabs)(valsecs);
 
 			if (op == OP_TIME_SPLIT_ELAPSED_SECOND)
 				second = s;
@@ -2314,6 +2350,10 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		case OP_TIME_HOUR_N: {
 			int n = *prg++;
+#ifdef ALLOW_NEGATIVE_TIMES
+			if (valsecs < 0)
+				INSERT_MINUS(-1);
+#endif
 			g_string_append_printf (dst, "%0*.0" FORMAT_f, n, hour);
 			break;
 		}
@@ -2341,6 +2381,10 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		case OP_TIME_MINUTE_N: {
 			int n = *prg++;
+#ifdef ALLOW_NEGATIVE_TIMES
+			if (valsecs < 0)
+				INSERT_MINUS(-1);
+#endif
 			g_string_append_printf (dst, "%0*.0" FORMAT_f, n, minute);
 			break;
 		}
@@ -2357,6 +2401,10 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		case OP_TIME_SECOND_N: {
 			int n = *prg++;
+#ifdef ALLOW_NEGATIVE_TIMES
+			if (valsecs < 0)
+				INSERT_MINUS(-1);
+#endif
 			g_string_append_printf (dst, "%0*.0" FORMAT_f, n, second);
 			break;
 		}
@@ -2503,24 +2551,13 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			if (numtxt->str[0] == '-') {
 				g_string_erase (numtxt, 0, 1);
 				dotpos--;
-				if (unicode_minus)
-					g_string_insert_len (dst, numpos,
-							     unicode_minus_utf8,
-							     3);
-				else
-					g_string_insert_c (dst, numpos, '-');
+				INSERT_MINUS(numpos);
 			}
 			break;
 
 		case OP_NUM_VAL_SIGN:
-			if (val < 0) {
-				if (unicode_minus)
-					g_string_insert_len (dst, numpos,
-							     unicode_minus_utf8,
-							     3);
-				else
-					g_string_insert_c (dst, numpos, '-');
-			}
+			if (val < 0)
+				INSERT_MINUS(numpos);
 			break;
 
 		case OP_NUM_MOVETO_ONES: {
@@ -2626,12 +2663,8 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 			if (exponent >= 0) {
 				if (forced)
 					g_string_insert_c (dst, numpos, '+');
-			} else if (unicode_minus)
-				g_string_insert_len (dst, numpos,
-						     unicode_minus_utf8,
-						     3);
-			else
-				g_string_insert_c (dst, numpos, '-');
+			} else
+				INSERT_MINUS(numpos);
 			break;
 		}
 
@@ -3088,9 +3121,11 @@ SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
 
 		case GO_FMT_NUMBER:
 			if (val < 0) {
+#ifndef ALLOW_NEGATIVE_TIMES
 				if (fmt->u.number.has_date ||
 				    fmt->u.number.has_time)
 					return GO_FORMAT_NUMBER_DATE_ERROR;
+#endif
 				if (inhibit)
 					val = SUFFIX(fabs)(val);
 			}
