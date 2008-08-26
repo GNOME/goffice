@@ -25,7 +25,6 @@
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/utils/go-path.h>
-#include <libart_lgpl/libart.h>
 
 G_BEGIN_DECLS
 

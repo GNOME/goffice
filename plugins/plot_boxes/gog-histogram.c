@@ -29,6 +29,7 @@
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/go-path.h>
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
@@ -197,8 +198,16 @@ gog_histogram_plot_class_init (GogPlotClass *gog_plot_klass)
 	plot_klass->axis_get_bounds   		= gog_histogram_plot_axis_get_bounds;
 }
 
+static void
+gog_histogram_plot_init (GogHistogramPlot *hist)
+{
+	GogPlot *plot = GOG_PLOT (hist);
+
+	plot->render_before_axes = TRUE;
+}
+
 GSF_DYNAMIC_CLASS (GogHistogramPlot, gog_histogram_plot,
-	gog_histogram_plot_class_init, NULL,
+	gog_histogram_plot_class_init, gog_histogram_plot_init,
 	GOG_PLOT_TYPE)
 
 /*****************************************************************************/
@@ -214,9 +223,9 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogAxisMap *x_map, *y_map;
 	GogViewAllocation const *area;
 	GogHistogramPlotSeries const *series;
-	double *x_vals = NULL, *y_vals, curx, cury;
+	double *x_vals = NULL, *y_vals, curx, cury, y0;
 	unsigned i, j, nb;
-	ArtVpath *path ;
+	GOPath *path ;
 	GSList *ptr;
 	GogStyle *style;
 
@@ -246,65 +255,50 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	y_vals = (x_vals)? series->y: go_data_vector_get_values (
 		GO_DATA_VECTOR (series->base.values[1].data));
 
-	path = art_new (ArtVpath, nb);
-	path[0].code = ART_MOVETO;
-	curx = path[0].x = gog_axis_map_to_view (x_map, ((x_vals)? x_vals[0]: 0.));
-	path[0].y = gog_axis_map_get_baseline (y_map);
+	path = go_path_new ();
+	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
+	curx = gog_axis_map_to_view (x_map, ((x_vals)? x_vals[0]: 0.));
+	go_path_move_to (path, curx, y0 = gog_axis_map_get_baseline (y_map));
 	for (i = 0, j = 1; i < series->base.num_elements; i++) {
-		path[j].code = ART_LINETO;
-		path[j].x = curx;
-		cury = path[j++].y = gog_axis_map_to_view (y_map, y_vals[i]);
-		path[j].code = ART_LINETO;
-		curx = path[j].x = gog_axis_map_to_view (x_map, ((x_vals)? x_vals[i+1]: 0.));
-		path[j++].y = cury;
+		cury = gog_axis_map_to_view (y_map, y_vals[i]);
+		go_path_line_to (path, curx, cury);
+		curx = gog_axis_map_to_view (x_map, ((x_vals)? x_vals[i+1]: 0.));
+		go_path_line_to (path, curx, cury);
 	}
-	path[j].code = ART_LINETO;
-	path[j].x = curx;
-	path[j++].y = path[0].y;
-	path[j].code = ART_LINETO;
-	path[j].x = path[0].x;
-	path[j++].y = path[0].y;
-	path[j].code = ART_END;
+	go_path_line_to (path, curx, y0);
 	gog_renderer_push_style (view->renderer, style);
-	gog_renderer_draw_sharp_polygon (view->renderer, path, FALSE);
+	gog_renderer_fill_shape (view->renderer, path);
 
 	if (series->droplines) {
-		ArtVpath droppath[3];
-		droppath[0].code = ART_MOVETO;
-		droppath[1].code = ART_LINETO;
-		droppath[2].code = ART_END;
+		GOPath *drop_path = go_path_new ();
+		go_path_set_options (drop_path, GO_PATH_OPTIONS_SHARP);
 		gog_renderer_push_style (view->renderer,
 			gog_styled_object_get_style (GOG_STYLED_OBJECT (series->droplines)));
+		cury = y0;
 		for (i = 1; i < series->base.num_elements; i++) {
-			droppath[0].x = droppath[1].x =
-				gog_axis_map_to_view (x_map, ((x_vals)? x_vals[i]: 0.));
+			curx = gog_axis_map_to_view (x_map, ((x_vals)? x_vals[i]: 0.));
 			if (y_vals[i-1] * y_vals[i] > 0.) {
-				droppath[0].y = path[0].y;
+				go_path_move_to (drop_path, curx, y0);
 				if (y_vals[i] > 0.)
-					droppath[1].y = gog_axis_map_to_view (y_map,
+					cury = gog_axis_map_to_view (y_map,
 						MIN (y_vals[i-1], y_vals[i]));
 				else
-					droppath[1].y = gog_axis_map_to_view (y_map,
+					cury = gog_axis_map_to_view (y_map,
 						MAX (y_vals[i-1], y_vals[i]));
+				
 			} else {
-				droppath[0].y = gog_axis_map_to_view (y_map, y_vals[i-1]);
-				droppath[1].y = gog_axis_map_to_view (y_map, y_vals[i]);
+				go_path_move_to (drop_path, curx, cury);
+				cury = gog_axis_map_to_view (y_map, y_vals[i]);
 			}
-			gog_renderer_draw_path (view->renderer, droppath);
+			go_path_line_to (drop_path, curx, cury);
 		}
+		gog_renderer_stroke_serie (view->renderer, drop_path);
+		go_path_free (drop_path);
 		gog_renderer_pop_style (view->renderer);
 	}
-/*	int nb = series->base.num_elements - 1;
-	x = g_new (double, nb);
-	y = g_new (double, nb);
-
-	g_free (x);
-	g_free (y);*/
-	j--;
-	path[j].code = ART_END;
-	gog_renderer_draw_path (view->renderer, path);
+	gog_renderer_stroke_shape (view->renderer, path);
 	gog_renderer_pop_style (view->renderer);
-	art_free (path);
+	go_path_free (path);
 	/* Now render children */
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
 		gog_view_render	(ptr->data, bbox);

@@ -32,6 +32,7 @@
 #include <goffice/math/go-rangefunc.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-path.h>
 #include <goffice/utils/go-persist.h>
 #include <goffice/app/module-plugin-defs.h>
 
@@ -433,7 +434,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogBoxPlotSeries const *series;
 	double hrect, hser, y, hbar;
 	double min, qu1, med, qu3, max;
-	ArtVpath	path[6];
+	GOPath *path;
 	GSList *ptr;
 	GogStyle *style;
 	int num_ser = 1;
@@ -465,12 +466,9 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 	hrect /= 2.;
 	hbar = hrect / 2.;
-	path[0].code = ART_MOVETO;
-	path[1].code = ART_LINETO;
-	path[3].code = ART_LINETO;
-	path[4].code = ART_LINETO;
-	path[5].code = ART_END;
 		
+	path = go_path_new ();
+	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (series)) ||
@@ -533,69 +531,51 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		qu3 = gog_axis_map_to_view (map, series->vals[3]);
 		max = gog_axis_map_to_view (map, max);
 		if (model->vertical) {
-			path[2].code = ART_LINETO;
-			path[0].y = path[3].y = path[4].y = qu1;
-			path[1].y = path[2].y = qu3;
-			path[0].x = path[1].x = path[4].x = y - hrect;
-			path[2].x = path[3].x = y + hrect;
-			gog_renderer_draw_sharp_polygon (view->renderer, path, TRUE);
-			path[2].code = ART_END;
-			path[0].x = y + hbar;
-			path[1].x = y - hbar;
-			path[0].y = path[1].y = min;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[0].y = path[1].y = max;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[0].x = path[1].x = y;
-			path[0].y = qu3;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[0].y = min;
-			path[1].y = qu1;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[0].y = path[1].y = med;
-			path[0].x = y + hrect;
-			path[1].x = y - hrect;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[2].code = ART_LINETO;
-			path[0].y = path[3].y = path[4].y = qu1;
-			path[1].y = path[2].y = qu3;
-			path[0].x = path[1].x = path[4].x = y - hrect;
-			path[2].x = path[3].x = y + hrect;
+			go_path_move_to (path, y - hrect, qu1);
+			go_path_line_to (path, y - hrect, qu3);
+			go_path_line_to (path, y + hrect, qu3);
+			go_path_line_to (path, y + hrect, qu1);
+			go_path_close (path);
+			gog_renderer_draw_shape (view->renderer, path);
+			go_path_clear (path);
+			go_path_move_to (path, y + hbar, min);
+			go_path_line_to (path, y - hbar, min);
+			go_path_move_to (path, y + hbar, max);
+			go_path_line_to (path, y - hbar, max);
+			go_path_move_to (path, y, max);
+			go_path_line_to (path, y, qu3);
+			go_path_move_to (path, y, min);
+			go_path_line_to (path, y, qu1);
+			go_path_move_to (path, y - hrect, med);
+			go_path_line_to (path, y + hrect, med);
+			gog_renderer_stroke_shape (view->renderer, path);
+			go_path_clear (path);
 		} else {
-			path[2].code = ART_LINETO;
-			path[0].x = path[3].x = path[4].x = qu1;
-			path[1].x = path[2].x = qu3;
-			path[0].y = path[1].y = path[4].y = y - hrect;
-			path[2].y = path[3].y = y + hrect;
-			gog_renderer_draw_sharp_polygon (view->renderer, path, TRUE);
-			path[2].code = ART_END;
-			path[0].y = y + hbar;
-			path[1].y = y - hbar;
-			path[0].x = path[1].x = min;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[0].x = path[1].x = max;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[0].y = path[1].y = y;
-			path[0].x = qu3;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[0].x = min;
-			path[1].x = qu1;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[0].x = path[1].x = med;
-			path[0].y = y + hrect;
-			path[1].y = y - hrect;
-			gog_renderer_draw_sharp_path (view->renderer, path);
-			path[2].code = ART_LINETO;
-			path[0].x = path[3].x = path[4].x = qu1;
-			path[1].x = path[2].x = qu3;
-			path[0].y = path[1].y = path[4].y = y - hrect;
-			path[2].y = path[3].y = y + hrect;
+			go_path_move_to (path, qu1, y - hrect);
+			go_path_line_to (path, qu3, y - hrect);
+			go_path_line_to (path, qu3, y + hrect);
+			go_path_line_to (path, qu1, y + hrect);
+			go_path_close (path);
+			gog_renderer_draw_shape (view->renderer, path);
+			go_path_clear (path);
+			go_path_move_to (path, min, y + hbar);
+			go_path_line_to (path, min, y - hbar);
+			go_path_move_to (path, max, y + hbar);
+			go_path_line_to (path, max, y - hbar);
+			go_path_move_to (path, max, y);
+			go_path_line_to (path, qu3, y);
+			go_path_move_to (path, min, y);
+			go_path_line_to (path, qu1, y);
+			go_path_move_to (path, med, y - hrect);
+			go_path_line_to (path, med, y + hrect);
+			gog_renderer_stroke_shape (view->renderer, path);
+			go_path_clear (path);
 		}
-		gog_renderer_draw_sharp_path (view->renderer, path);
 		gog_renderer_pop_style (view->renderer);
 		g_object_unref (style);
 		num_ser++;
 	}
+	go_path_free (path);
 	gog_chart_map_free (chart_map);
 }
 

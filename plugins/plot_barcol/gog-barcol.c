@@ -335,9 +335,10 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 	go_path_line_to (path, x1, y1);
 	go_path_line_to (path, x0, y1);
 	go_path_close (path);
-	
-	gog_renderer_fill_serie (rend, path, NULL);
-	gog_renderer_stroke_serie (rend, path);
+	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
+
+	gog_renderer_draw_shape (rend, path);
+	go_path_free (path);
 }
 
 typedef struct {

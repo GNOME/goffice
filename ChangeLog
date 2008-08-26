@@ -1,3 +1,13 @@
+2008-08-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-series-lines.h: do not include libart.h.
+	* plugins/plot_barcol/gog-barcol.c: (barcol_draw_rect): fixed snap.
+	* plugins/plot_boxes/gog-boxplot.c: (gog_box_plot_view_render):
+	use GOPath instead of ArtVpath.
+	* plugins/plot_boxes/gog-histogram.c:
+	(gog_histogram_plot_init): draw before the axis.
+	(gog_histogram_plot_view_render): use GOPath instead of ArtVpath.
+
 2008-08-25  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_preparse): In some
