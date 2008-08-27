@@ -110,7 +110,6 @@ goffice_gtk_reqs="
 goffice_gnome_reqs="
 	gconf-2.0
 	libgnomeui-2.0		>= 2.0.0
-	libgsf-gnome-1		>= 1.12.2
 "
 
 dnl *******************
