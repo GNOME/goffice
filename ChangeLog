@@ -1,4 +1,7 @@
 2008-08-27  Jean Brefort  <jean.brefort@normalesup.org>
+	* libgoffice.pc.in: removed libart there too.
+
+2008-08-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c: (map_log_to_view): update a comment.
 	* goffice/gtk/go-line-selector.c: removed obsolete libart header.
