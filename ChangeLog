@@ -1,4 +1,10 @@
 2008-08-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: do not request libgsf-gnome anymore.
+	* goffice/utils/go-file.c: Use gio from glib. [#522458]
+	* goffice/utils/go-file.h: ditto.
+
+2008-08-27  Jean Brefort  <jean.brefort@normalesup.org>
 	* libgoffice.pc.in: removed libart there too.
 
 2008-08-27  Jean Brefort  <jean.brefort@normalesup.org>

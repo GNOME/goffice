@@ -94,7 +94,7 @@ gboolean go_url_check_extension (gchar const *uri,
 				 gchar **new_uri);
 gchar	*go_get_mime_type	(gchar const *uri);
 gchar	*go_get_mime_type_for_data	(gconstpointer data, int data_size);
-gchar const	*go_mime_type_get_description	(gchar const *mime_type);
+gchar	*go_mime_type_get_description	(gchar const *mime_type);
 
 G_END_DECLS
 
