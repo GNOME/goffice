@@ -255,12 +255,12 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	int z[4];
 	int z0 = 0, z1 = 0, z2 = 0, z3 = 0, zmin, zmax, nans, nan = 0;
 	int k, kmax, r = 0, s, h;
-	unsigned i, imax, j, jmax, l, lmax, p;
+	unsigned i, imax, j, jmax;
 	GogRenderer *rend = view->renderer;
 	GogStyle *style;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
 	double x0, x1, y0, y1;
-	ArtVpath *path, *lines;
+	GOPath *path, *lines;
 	GOColor *color;
 	gboolean cw;
 	double *data;
@@ -323,7 +323,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	cw = (x1 > x0) == (y1 > y0);
 
 	style = gog_style_new ();
-	path = art_new (ArtVpath, 10);
+	path = go_path_new ();
 	/* build the colors table */
 	color = g_new0 (GOColor, max);
 	if (max < 2)
@@ -346,17 +346,16 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	style->outline.dash_type = GO_LINE_SOLID;
 	style->outline.auto_dash = FALSE;
 	style->outline.auto_color = FALSE;
-	style->outline.width = 0.5;
+	style->outline.width = 1.; /* seems a lower value shows grid effects */
 	style->outline.color = RGBA_BLACK;
 
-	lines = art_new (ArtVpath, lmax = 64);
-	l = 0;
+	lines = go_path_new ();
 
 	for (j = 1; j < jmax; j++) {
 		if (xdiscrete) {
 			x0 = gog_axis_map_to_view (x_map, j);
 			x1 = gog_axis_map_to_view (x_map, j + 1);
-		}else {
+		} else {
 			x0 = gog_axis_map_to_view (x_map, go_data_vector_get_value (x_vec, j - 1));
 			x1 = gog_axis_map_to_view (x_map, go_data_vector_get_value (x_vec, j));
 		}
@@ -365,7 +364,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (ydiscrete) {
 				y0 = gog_axis_map_to_view (y_map, i);
 				y1 = gog_axis_map_to_view (y_map, i + 1);
-			}else {
+			} else {
 				y0 = gog_axis_map_to_view (y_map, go_data_vector_get_value (y_vec, i - 1));
 				y1 = gog_axis_map_to_view (y_map, go_data_vector_get_value (y_vec, i));
 			}
@@ -473,17 +472,12 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 				style->outline.color = color[zmin];
 				style->fill.pattern.back = color[zmin];
 				gog_renderer_push_style (rend, style);
-				path[0].code = ART_MOVETO;
-				for (k = 0; k < s; ) {
-					path[k].x = x[k];
-					path[k].y = y[k];
-					path[++k].code = ART_LINETO;
-				}
-				path[k].x = x[0];
-				path[k].y = y[0];
-				path[k + 1].code = ART_END;
+				go_path_move_to (path, x[0], y[0]);
+				for (k = 1; k < s; k++)
+					go_path_line_to (path, x[k], y[k]);
 				/* narrow parameter is TRUE below to avoid border effects */
-				gog_renderer_draw_polygon (rend, path, FALSE);
+				gog_renderer_draw_shape (rend, path);
+				go_path_clear (path);
 				gog_renderer_pop_style (rend);
 			} else {
 				kmax = 3 - nans;
@@ -493,7 +487,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 					/* first find the most probable altitude of the saddle point */
 					int zn, zx;
 					gboolean crossing = FALSE, up = FALSE, odd;
-					double xl[8], yl[8];
+					double xl[8], yl[8], xc = 0., yc = 0.;
 					/* crossing is TRUE if the saddle point occurs at a slices border */
 					zn = MAX (z[0], z[2]);
 					if (zval[1] > zval[3])
@@ -525,48 +519,42 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						style->outline.color = color[k];
 						style->fill.pattern.back = color[k];
 						k++;
-						path[0].code = ART_MOVETO;
-						path[1].code = ART_LINETO;
-						path[2].code = ART_LINETO;
-						path[3].code = ART_LINETO;
-						path[4].code = ART_END;
-						path[0].x = path[3].x = x[0];
-						path[0].y = path[3].y = y[0];
-						if ((l + 3) >= lmax)
-							lines = art_renew (lines, ArtVpath, lmax += 64);
-						lines[l].code = ART_MOVETO_OPEN;
+						go_path_move_to (path, x[0], y[0]);
 						t = (k - zval[0]) / (zval[3] - zval[0]);
-						xl[7] = lines[l].x = path[1].x = x[0] + t * (x[3] - x[0]);
-						yl[7] = lines[l++].y = path[1].y = y[0] + t * (y[3] - y[0]);
-						lines[l].code = ART_LINETO;
+						xl[7] = x[0] + t * (x[3] - x[0]);
+						yl[7] = y[0] + t * (y[3] - y[0]);
+						go_path_line_to (path, xl[7], yl[7]);
+						go_path_move_to (lines, xl[7], yl[7]);
 						t = (k - zval[0]) / (zval[1] - zval[0]);
-						xl[0] = lines[l].x = path[2].x = x[0] + t * (x[1] - x[0]);
-						yl[0] = lines[l++].y = path[2].y = y[0] + t * (y[1] - y[0]);
+						xl[0] = x[0] + t * (x[1] - x[0]);
+						yl[0] = y[0] + t * (y[1] - y[0]);
+						go_path_line_to (path, xl[0], yl[0]);
+						go_path_line_to (lines, xl[0], yl[0]);
 						gog_renderer_push_style (rend, style);
-						gog_renderer_draw_polygon (rend, path, FALSE);
+						gog_renderer_draw_shape (rend, path);
+						go_path_clear (path);
 						gog_renderer_pop_style (rend);
-						path[4].code = ART_LINETO;
-						path[5].code = ART_END;
 						while (k < zn) {
 							style->outline.color = color[k];
 							style->fill.pattern.back = color[k];
 							k++;
-							path[0].x = path[4].x = xl[7];
-							path[0].y = path[4].y = yl[7];
-							path[3].x = xl[0];
-							path[3].y = yl[0];
-							if ((l + 3) >= lmax)
-								lines = art_renew (lines, ArtVpath, lmax += 64);
-							lines[l].code = ART_MOVETO_OPEN;
+							go_path_move_to (path, xl[7], yl[7]);
+							xc = xl[0];
+							yc = yl[0];
 							t = (k - zval[0]) / (zval[3] - zval[0]);
-							xl[7] = lines[l].x = path[1].x = x[0] + t * (x[3] - x[0]);
-							yl[7] = lines[l++].y = path[1].y = y[0] + t * (y[3] - y[0]);
-							lines[l].code = ART_LINETO;
+							xl[7] = x[0] + t * (x[3] - x[0]);
+							yl[7]  = y[0] + t * (y[3] - y[0]);
+							go_path_line_to (path, xl[7], yl[7]);
+							go_path_move_to (lines, xl[7], yl[7]);
 							t = (k - zval[0]) / (zval[1] - zval[0]);
-							xl[0] = lines[l].x = path[2].x = x[0] + t * (x[1] - x[0]);
-							yl[0] = lines[l++].y = path[2].y = y[0] + t * (y[1] - y[0]);
+							xl[0] = x[0] + t * (x[1] - x[0]);
+							yl[0] =y[0] + t * (y[1] - y[0]);
+							go_path_line_to (path, xl[7], yl[7]);
+							go_path_line_to (lines, xl[7], yl[7]);
+							go_path_line_to (path, xc, yc);
 							gog_renderer_push_style (rend, style);
-							gog_renderer_draw_polygon (rend, path, FALSE);
+							gog_renderer_draw_shape (rend, path);
+							go_path_clear (path);
 							gog_renderer_pop_style (rend);
 						}
 					} else
@@ -576,48 +564,42 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						style->outline.color = color[k];
 						style->fill.pattern.back = color[k];
 						k++;
-						path[0].code = ART_MOVETO;
-						path[1].code = ART_LINETO;
-						path[2].code = ART_LINETO;
-						path[3].code = ART_LINETO;
-						path[4].code = ART_END;
-						path[0].x = path[3].x = x[2];
-						path[0].y = path[3].y = y[2];
-						if ((l + 3) >= lmax)
-							lines = art_renew (lines, ArtVpath, lmax += 64);
-						lines[l].code = ART_MOVETO_OPEN;
+						go_path_move_to (path, x[2], y[2]);
 						t = (k - zval[2]) / (zval[1] - zval[2]);
-						xl[3] = lines[l].x = path[1].x = x[2] + t * (x[1] - x[2]);
-						yl[3] = lines[l++].y = path[1].y = y[2] + t * (y[1] - y[2]);
-						lines[l].code = ART_LINETO;
+						xl[3] = x[2] + t * (x[1] - x[2]);
+						yl[3] = y[2] + t * (y[1] - y[2]);
+						go_path_line_to (path, xl[3], yl[3]);
+						go_path_move_to (lines, xl[3], yl[3]);
 						t = (k - zval[2]) / (zval[3] - zval[2]);
-						xl[4] = lines[l].x = path[2].x = x[2] + t * (x[3] - x[2]);
-						yl[4] = lines[l++].y = path[2].y = y[2] + t * (y[3] - y[2]);
+						xl[4] = x[2] + t * (x[3] - x[2]);
+						yl[4] = y[2] + t * (y[3] - y[2]);
+						go_path_line_to (path, xl[4], yl[4]);
+						go_path_line_to (lines, xl[4], yl[4]);
 						gog_renderer_push_style (rend, style);
-						gog_renderer_draw_polygon (rend, path, FALSE);
+						gog_renderer_draw_shape (rend, path);
+						go_path_clear (path);
 						gog_renderer_pop_style (rend);
-						path[4].code = ART_LINETO;
-						path[5].code = ART_END;
 						while (k < zn) {
 							style->outline.color = color[k];
 							style->fill.pattern.back = color[k];
 							k++;
-							path[0].x = path[4].x = xl[3];
-							path[0].y = path[4].y = yl[3];
-							path[3].x = xl[4];
-							path[3].y = yl[4];
-							if ((l + 3) >= lmax)
-								lines = art_renew (lines, ArtVpath, lmax += 64);
-							lines[l].code = ART_MOVETO_OPEN;
+							go_path_move_to (path, xl[3], yl[3]);
+							xc = xl[4];
+							yc = yl[4];
 							t = (k - zval[2]) / (zval[1] - zval[2]);
-							xl[3] = lines[l].x = path[1].x = x[2] + t * (x[1] - x[2]);
-							yl[3] = lines[l++].y = path[1].y = y[2] + t * (y[1] - y[2]);
-							lines[l].code = ART_LINETO;
+							xl[3] = x[2] + t * (x[1] - x[2]);
+							yl[3] = y[2] + t * (y[1] - y[2]);
+							go_path_line_to (path, xl[3], yl[3]);
+							go_path_move_to (lines, xl[3], yl[3]);
 							t = (k - zval[2]) / (zval[3] - zval[2]);
-							xl[4] = lines[l].x = path[2].x = x[2] + t * (x[3] - x[2]);
-							yl[4] = lines[l++].y = path[2].y = y[2] + t * (y[3] - y[2]);
+							xl[4] = x[2] + t * (x[3] - x[2]);
+							yl[4] = y[2] + t * (y[3] - y[2]);
+							go_path_line_to (path, xl[4], yl[4]);
+							go_path_line_to (lines, xl[4], yl[4]);
+							go_path_line_to (path, xc, yc);
 							gog_renderer_push_style (rend, style);
-							gog_renderer_draw_polygon (rend, path, FALSE);
+							gog_renderer_draw_shape (rend, path);
+							go_path_clear (path);
 							gog_renderer_pop_style (rend);
 						}
 					} else
@@ -627,50 +609,44 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 					if (zval[1] == k)
 						k--;
 					if (k > zx) {
-						path[0].code = ART_MOVETO;
-						path[1].code = ART_LINETO;
-						path[2].code = ART_LINETO;
-						path[3].code = ART_LINETO;
-						path[4].code = ART_END;
-						path[0].x = path[3].x = x[1];
-						path[0].y = path[3].y = y[1];
-						if ((l + 3) >= lmax)
-							lines = art_renew (lines, ArtVpath, lmax += 64);
-						lines[l].code = ART_MOVETO_OPEN;
+						go_path_move_to (path, x[1], y[1]);
 						t = (k - zval[1]) / (zval[0] - zval[1]);
-						xl[1] = lines[l].x = path[1].x = x[1] + t * (x[0] - x[1]);
-						yl[1] = lines[l++].y = path[1].y = y[1] + t * (y[0] - y[1]);
-						lines[l].code = ART_LINETO;
+						xl[1] = x[1] + t * (x[0] - x[1]);
+						yl[1] = y[1] + t * (y[0] - y[1]);
+						go_path_line_to (path, xl[1], yl[1]);
+						go_path_move_to (lines, xl[1], yl[1]);
 						t = (k - zval[1]) / (zval[2] - zval[1]);
-						xl[2] = lines[l].x = path[2].x = x[1] + t * (x[2] - x[1]);
-						yl[2] = lines[l++].y = path[2].y = y[1] + t * (y[2] - y[1]);
+						xl[2] = x[1] + t * (x[2] - x[1]);
+						yl[2] = y[1] + t * (y[2] - y[1]);
+						go_path_line_to (path, xl[2], yl[2]);
+						go_path_line_to (lines, xl[2], yl[2]);
 						style->outline.color = color[k];
 						style->fill.pattern.back = color[k];
 						gog_renderer_push_style (rend, style);
-						gog_renderer_draw_polygon (rend, path, FALSE);
+						gog_renderer_draw_shape (rend, path);
+						go_path_clear (path);
 						gog_renderer_pop_style (rend);
-						path[4].code = ART_LINETO;
-						path[5].code = ART_END;
 						k--;
 						while (k > zx) {
-							path[0].x = path[4].x = xl[1];
-							path[0].y = path[4].y = yl[1];
-							path[3].x = xl[2];
-							path[3].y = yl[2];
-							if ((l + 3) >= lmax)
-								lines = art_renew (lines, ArtVpath, lmax += 64);
-							lines[l].code = ART_MOVETO_OPEN;
+							go_path_move_to (path, xl[1], yl[1]);
+							xc = xl[2];
+							yc = yl[2];
 							t = (k - zval[1]) / (zval[0] - zval[1]);
-							xl[1] = lines[l].x = path[1].x = x[1] + t * (x[0] - x[1]);
-							yl[1] = lines[l++].y = path[1].y = y[1] + t * (y[0] - y[1]);
-							lines[l].code = ART_LINETO;
+							xl[1] = x[1] + t * (x[0] - x[1]);
+							yl[1] = y[1] + t * (y[0] - y[1]);
+							go_path_line_to (path, xl[1], yl[1]);
+							go_path_move_to (lines, xl[1], yl[1]);
 							t = (k - zval[1]) / (zval[2] - zval[1]);
-							xl[2] = lines[l].x = path[2].x = x[1] + t * (x[2] - x[1]);
-							yl[2] = lines[l++].y = path[2].y = y[1] + t * (y[2] - y[1]);
+							xl[2] = x[1] + t * (x[2] - x[1]);
+							yl[2] = y[1] + t * (y[2] - y[1]);
+							go_path_line_to (path, xl[2], yl[2]);
+							go_path_line_to (lines, xl[2], yl[2]);
+							go_path_line_to (path, xc, yc);
 							style->outline.color = color[k];
 							style->fill.pattern.back = color[k];
 							gog_renderer_push_style (rend, style);
-							gog_renderer_draw_polygon (rend, path, FALSE);
+							gog_renderer_draw_shape (rend, path);
+							go_path_clear (path);
 							gog_renderer_pop_style (rend);
 							k--;
 						}
@@ -680,50 +656,44 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 					if (zval[3] == k)
 						k--;
 					if (k > zx) {
-						path[0].code = ART_MOVETO;
-						path[1].code = ART_LINETO;
-						path[2].code = ART_LINETO;
-						path[3].code = ART_LINETO;
-						path[4].code = ART_END;
-						path[0].x = path[3].x = x[3];
-						path[0].y = path[3].y = y[3];
-						if ((l + 3) >= lmax)
-							lines = art_renew (lines, ArtVpath, lmax += 64);
-						lines[l].code = ART_MOVETO_OPEN;
+						go_path_move_to (path, x[3], y[3]);
 						t = (k - zval[3]) / (zval[2] - zval[3]);
-						xl[5] = lines[l].x = path[1].x = x[3] + t * (x[2] - x[3]);
-						yl[5] = lines[l++].y = path[1].y = y[3] + t * (y[2] - y[3]);
-						lines[l].code = ART_LINETO;
+						xl[5] = x[3] + t * (x[2] - x[3]);
+						yl[5] = y[3] + t * (y[2] - y[3]);
+						go_path_line_to (path, xl[5], yl[5]);
+						go_path_move_to (lines, xl[5], yl[5]);
 						t = (k - zval[3]) / (zval[0] - zval[3]);
-						xl[6] = lines[l].x = path[2].x = x[3] + t * (x[0] - x[3]);
-						yl[6] = lines[l++].y = path[2].y = y[3] + t * (y[0] - y[3]);
+						xl[6] = x[3] + t * (x[0] - x[3]);
+						yl[6] = y[3] + t * (y[0] - y[3]);
+						go_path_line_to (path, xl[6], yl[6]);
+						go_path_line_to (lines, xl[6], yl[6]);
 						style->outline.color = color[k];
 						style->fill.pattern.back = color[k];
 						gog_renderer_push_style (rend, style);
-						gog_renderer_draw_polygon (rend, path, FALSE);
+						gog_renderer_draw_shape (rend, path);
+						go_path_clear (path);
 						gog_renderer_pop_style (rend);
-						path[4].code = ART_LINETO;
-						path[5].code = ART_END;
 						k--;
 						while (k > zx) {
-							path[0].x = path[4].x = xl[5];
-							path[0].y = path[4].y = yl[5];
-							path[3].x = xl[6];
-							path[3].y = yl[6];
-							if ((l + 3) >= lmax)
-								lines = art_renew (lines, ArtVpath, lmax += 64);
-							lines[l].code = ART_MOVETO_OPEN;
+							go_path_move_to (path, xl[5], yl[5]);
+							xc = xl[6];
+							yc = yl[6];
 							t = (k - zval[3]) / (zval[2] - zval[3]);
-							xl[5] = lines[l].x = path[1].x = x[3] + t * (x[2] - x[3]);
-							yl[5] = lines[l++].y = path[1].y = y[3] + t * (y[2] - y[3]);
-							lines[l].code = ART_LINETO;
+							xl[5] = x[3] + t * (x[2] - x[3]);
+							yl[5] = y[3] + t * (y[2] - y[3]);
+							go_path_line_to (path, xl[5], yl[5]);
+							go_path_move_to (lines, xl[5], yl[5]);
 							t = (k - zval[3]) / (zval[0] - zval[3]);
-							xl[6] = lines[l].x = path[2].x = x[3] + t * (x[0] - x[3]);
-							yl[6] = lines[l++].y = path[2].y = y[3] + t * (y[0] - y[3]);
+							xl[6] = x[3] + t * (x[0] - x[3]);
+							yl[6] = y[3] + t * (y[0] - y[3]);
+							go_path_line_to (path, xl[6], yl[6]);
+							go_path_line_to (lines, xl[6], yl[6]);
+							go_path_line_to (path, xc, yc);
 							style->outline.color = color[k];
 							style->fill.pattern.back = color[k];
 							gog_renderer_push_style (rend, style);
-							gog_renderer_draw_polygon (rend, path, FALSE);
+							gog_renderer_draw_shape (rend, path);
+							go_path_clear (path);
 							gog_renderer_pop_style (rend);
 							k--;
 						}
@@ -732,27 +702,17 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 					/* middle values slices */
 					if (odd) {
 						if (crossing) {
-							double xb[4], yb[4], xc, yc;
+							double xb[4], yb[4];
 							for (k = 0; k < 4; k++) {
 								s = (k + 1) % 4;
 								t =  (zx - zval[s]) / (zval[k] - zval[s]);
 								xb[k] = x[s] + t * (x[k] - x[s]);
 								yb[k] = y[s] + t * (y[k] - y[s]);
 							}
-							if ((l + 5) >= lmax)
-								lines = art_renew (lines, ArtVpath, lmax += 64);
-							lines[l].code = ART_MOVETO_OPEN;
-							lines[l].x = xb[0];
-							lines[l++].y = yb[0];
-							lines[l].code = ART_LINETO;
-							lines[l].x = xb[2];
-							lines[l++].y = yb[2];
-							lines[l].code = ART_MOVETO_OPEN;
-							lines[l].x = xb[1];
-							lines[l++].y = yb[1];
-							lines[l].code = ART_LINETO;
-							lines[l].x = xb[3];
-							lines[l++].y = yb[3];
+							go_path_move_to (lines, xb[0], yb[0]);
+							go_path_line_to (lines, xb[2], yb[2]);
+							go_path_move_to (lines, xb[1], yb[1]);
+							go_path_line_to (lines, xb[3], yb[3]);
 							/* calculate the coordinates xc and yc of crossing point */
 							t = ((xb[1] - xb[0]) * (yb[3] - yb[1])
 								+ (xb[1] - xb[3]) * (yb[1] - yb[0])) /
@@ -761,265 +721,205 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							xc = xb[0] + t * (xb[2] - xb[0]);
 							yc = yb[0] + t * (yb[2] - yb[0]);
 							/* fill */
-							path[0].code = ART_MOVETO;
-							path[1].code = ART_LINETO;
-							path[2].code = ART_LINETO;
-							path[3].code = ART_LINETO;
-							path[4].code = ART_LINETO;
-							if (xl[0] < 0.) {
-								path[4].x = path[0].x = x[0];
-								path[4].y = path[0].y = y[0];
-								path[5].code = ART_END;
-							} else {
-								path[5].x = path[0].x = xl[7];
-								path[5].y = path[0].y = yl[7];
-								path[4].x = xl[0];
-								path[4].y = yl[0];
-								path[5].code = ART_LINETO;
-								path[6].code = ART_END;
-							}
-							path[1].x = xb[3];
-							path[1].y = yb[3];
-							path[2].x = xc;
-							path[2].y = yc;
-							path[3].x = xb[0];
-							path[3].y = yb[0];
+							if (xl[0] < 0.)
+								go_path_move_to (path, x[0], y[0]);
+							else
+								go_path_move_to (path, xl[7], yl[7]);
+							go_path_line_to (path, xb[3], yb[3]);
+							go_path_line_to (path, xc, yc);
+							go_path_line_to (path, xb[0], yb[0]);
+							if (xl[0] >= 0.)
+								go_path_line_to (path, xl[0], yl[0]);
 							style->outline.color = color[zn];
 							style->fill.pattern.back = color[zn];
 							gog_renderer_push_style (rend, style);
-							gog_renderer_draw_polygon (rend, path, FALSE);
-							if (xl[2] < 0.) {
-								path[4].x = path[0].x = x[2];
-								path[4].y = path[0].y = y[2];
-								path[5].code = ART_END;
-							} else {
-								path[5].x = path[0].x = xl[3];
-								path[5].y = path[0].y = yl[3];
-								path[4].x = xl[4];
-								path[4].y = yl[4];
-								path[5].code = ART_LINETO;
-								path[6].code = ART_END;
-							}
-							path[1].x = xb[1];
-							path[1].y = yb[1];
-							path[3].x = xb[2];
-							path[3].y = yb[2];
-							gog_renderer_draw_polygon (rend, path, FALSE);
+							gog_renderer_draw_shape (rend, path);
+							go_path_clear (path);
+							if (xl[4] < 0.)
+								go_path_move_to (path, x[2], y[2]);
+							else
+								go_path_move_to (path, xl[3], yl[3]);
+							go_path_line_to (path, xb[1], yb[1]);
+							go_path_line_to (path, xc, yc);
+							go_path_line_to (path, xb[2], yb[2]);
+							if (xl[4] >= 0.)
+								go_path_line_to (path, xl[4], yl[4]);
+							gog_renderer_draw_shape (rend, path);
+							go_path_clear (path);
 							gog_renderer_pop_style (rend);
-							if (xl[2] < 0.) {
-								path[4].x = path[0].x = x[1];
-								path[4].y = path[0].y = y[1];
-								path[5].code = ART_END;
-							} else {
-								path[5].x = path[0].x = xl[1];
-								path[5].y = path[0].y = yl[1];
-								path[4].x = xl[2];
-								path[4].y = yl[2];
-								path[5].code = ART_LINETO;
-								path[6].code = ART_END;
-							}
-							path[1].x = xb[0];
-							path[1].y = yb[0];
-							path[3].x = xb[1];
-							path[3].y = yb[1];
+							if (xl[2] < 0.)
+								go_path_move_to (path, x[1], y[1]);
+							else
+								go_path_move_to (path, xl[1], yl[1]);
+							go_path_line_to (path, xb[0], yb[0]);
+							go_path_line_to (path, xc, yc);
+							go_path_line_to (path, xb[1], yb[1]);
+							if (xl[2] >= 0.)
+								go_path_line_to (path, xl[2], yl[2]);
 							style->outline.color = color[zx];
 							style->fill.pattern.back = color[zx];
 							gog_renderer_push_style (rend, style);
-							gog_renderer_draw_polygon (rend, path, FALSE);
-							if (xl[6] < 0.) {
-								path[4].x = path[0].x = x[3];
-								path[4].y = path[0].y = y[3];
-								path[5].code = ART_END;
-							} else {
-								path[5].x = path[0].x = xl[5];
-								path[5].y = path[0].y = yl[5];
-								path[4].x = xl[6];
-								path[4].y = yl[6];
-								path[5].code = ART_LINETO;
-								path[6].code = ART_END;
-							}
-							path[1].x = xb[2];
-							path[1].y = yb[2];
-							path[3].x = xb[3];
-							path[3].y = yb[3];
-							gog_renderer_draw_polygon (rend, path, FALSE);
+							gog_renderer_draw_shape (rend, path);
+							go_path_clear (path);
+							if (xl[6] < 0.)
+								go_path_move_to (path, x[3], y[3]);
+							else
+								go_path_move_to (path, xl[5], yl[5]);
+							go_path_line_to (path, xb[2], yb[2]);
+							go_path_line_to (path, xc, yc);
+							go_path_line_to (path, xb[3], yb[3]);
+							if (xl[6] >= 0.)
+								go_path_line_to (path, xl[6], yl[6]);
+							gog_renderer_draw_shape (rend, path);
+							go_path_clear (path);
 							gog_renderer_pop_style (rend);
 						} else {
 							if (up) {
 								/* saddle point is in the lower slice */
 								/* draw the upper slices */
-								path[0].code = ART_MOVETO;
-								path[1].code = ART_LINETO;
-								path[2].code = ART_LINETO;
-								path[3].code = ART_LINETO;
-								if (xl[1] < 0.) {
-									path[4].code = ART_END;
-									path[0].x = path[3].x = x[1];
-									path[0].y = path[3].y = y[1];
-								} else {
-									path[4].code = ART_LINETO;
-									path[5].code = ART_END;
-									path[0].x = path[4].x = xl[1];
-									path[0].y = path[4].y = yl[1];
-									path[3].x = xl[2];
-									path[3].y = yl[2];
+								if (xl[1] < 0.)
+									go_path_move_to (path, x[1], y[1]);
+								else {
+									go_path_move_to (path, xl[1], yl[1]);
+									xc = xl[2];
+									xc = yl[2];
 								}
-								if ((l + 5) >= lmax)
-									lines = art_renew (lines, ArtVpath, lmax += 64);
-								lines[l].code = ART_MOVETO_OPEN;
 								t = (zx - zval[1]) / (zval[0] - zval[1]);
-								xl[1] = lines[l].x = path[1].x = x[1] + t * (x[0] - x[1]);
-								yl[1] = lines[l++].y = path[1].y = y[1] + t * (y[0] - y[1]);
-								lines[l].code = ART_LINETO;
+								xl[1] = x[1] + t * (x[0] - x[1]);
+								yl[1] = y[1] + t * (y[0] - y[1]);
+								go_path_move_to (lines, xl[1], yl[1]);
+								go_path_line_to (path, xl[1], yl[1]);
 								t = (zx - zval[1]) / (zval[2] - zval[1]);
-								xl[2] = lines[l].x = path[2].x = x[1] + t * (x[2] - x[1]);
-								yl[2] = lines[l++].y = path[2].y = y[1] + t * (y[2] - y[1]);
+								xl[2] = x[1] + t * (x[2] - x[1]);
+								yl[2] = y[1] + t * (y[2] - y[1]);
+								go_path_line_to (lines, xl[2], yl[2]);
+								go_path_line_to (path, xl[2], yl[2]);
+								if (xl[1] >= 0.)
+									go_path_line_to (path, xc, yc);
 								style->outline.color = color[zx];
 								style->fill.pattern.back = color[zx];
 								gog_renderer_push_style (rend, style);
-								gog_renderer_draw_polygon (rend, path, FALSE);
-								if (xl[5] < 0.) {
-									path[4].code = ART_END;
-									path[0].x = path[3].x = x[3];
-									path[0].y = path[3].y = y[3];
-								} else {
-									path[4].code = ART_LINETO;
-									path[5].code = ART_END;
-									path[0].x = path[4].x = xl[5];
-									path[0].y = path[4].y = yl[5];
-									path[3].x = xl[6];
-									path[3].y = yl[6];
+								gog_renderer_draw_shape (rend, path);
+								go_path_clear (path);
+								if (xl[5] < 0.)
+									go_path_move_to (path, x[3], y[3]);
+								else {
+									go_path_move_to (path, xl[5], yl[5]);
+									xc = xl[6];
+									xc = yl[6];
 								}
-								if ((l + 5) >= lmax)
-									lines = art_renew (lines, ArtVpath, lmax += 64);
-								lines[l].code = ART_MOVETO_OPEN;
 								t = (zx - zval[3]) / (zval[2] - zval[3]);
-								xl[5] = lines[l].x = path[1].x = x[3] + t * (x[2] - x[3]);
-								yl[5] = lines[l++].y = path[1].y = y[3] + t * (y[2] - y[3]);
-								lines[l].code = ART_LINETO;
+								xl[5] = x[3] + t * (x[2] - x[3]);
+								yl[5] = y[3] + t * (y[2] - y[3]);
+								go_path_move_to (lines, xl[5], yl[5]);
+								go_path_line_to (path, xl[5], yl[5]);
 								t = (zx - zval[3]) / (zval[0] - zval[3]);
-								xl[6] = lines[l].x = path[2].x = x[3] + t * (x[0] - x[3]);
-								yl[6] = lines[l++].y = path[2].y = y[3] + t * (y[0] - y[3]);
-								gog_renderer_draw_polygon (rend, path, FALSE);
+								xl[6] = x[3] + t * (x[0] - x[3]);
+								yl[6] = y[3] + t * (y[0] - y[3]);
+								go_path_line_to (lines, xl[6], yl[6]);
+								go_path_line_to (path, xl[6], yl[6]);
+								if (xl[1] >= 0.)
+									go_path_line_to (path, xc, yc);
+								gog_renderer_draw_shape (rend, path);
+								go_path_clear (path);
 								gog_renderer_pop_style (rend);
 							} else {
 								/* saddle point is in the upper slice */
-								path[0].code = ART_MOVETO;
-								path[1].code = ART_LINETO;
-								path[2].code = ART_LINETO;
-								path[3].code = ART_LINETO;
-								if (xl[0] < 0.) {
-									path[4].code = ART_END;
-									path[0].x = path[3].x = x[0];
-									path[0].y = path[3].y = y[0];
-								} else {
-									path[4].code = ART_LINETO;
-									path[5].code = ART_END;
-									path[0].x = path[4].x = xl[7];
-									path[0].y = path[4].y = yl[7];
-									path[3].x = xl[0];
-									path[3].y = yl[0];
+								if (xl[0] < 0.)
+									go_path_move_to (path, x[0], y[0]);
+								else {
+									go_path_move_to (path, xl[7], yl[7]);
+									xc = xl[0];
+									xc = yl[0];
 								}
-								if ((l + 5) >= lmax)
-									lines = art_renew (lines, ArtVpath, lmax += 64);
-								lines[l].code = ART_MOVETO_OPEN;
 								t = (k - zval[0]) / (zval[3] - zval[0]);
-								xl[7] = lines[l].x = path[1].x = x[0] + t * (x[3] - x[0]);
-								yl[7] = lines[l++].y = path[1].y = y[0] + t * (y[3] - y[0]);
-								lines[l].code = ART_LINETO;
+								xl[7] = x[0] + t * (x[3] - x[0]);
+								yl[7] = y[0] + t * (y[3] - y[0]);
+								go_path_move_to (lines, xl[7], yl[7]);
+								go_path_line_to (path, xl[7], yl[7]);
 								t = (k - zval[0]) / (zval[1] - zval[0]);
-								xl[0] = lines[l].x = path[2].x = x[0] + t * (x[1] - x[0]);
-								yl[0] = lines[l++].y = path[2].y = y[0] + t * (y[1] - y[0]);
+								xl[0] = x[0] + t * (x[1] - x[0]);
+								yl[0] = y[0] + t * (y[1] - y[0]);
+								go_path_line_to (lines, xl[0], yl[0]);
+								go_path_line_to (path, xl[0], yl[0]);
+								if (xl[1] >= 0.)
+									go_path_line_to (path, xc, yc);
 								style->outline.color = color[zn];
 								style->fill.pattern.back = color[zn];
 								gog_renderer_push_style (rend, style);
-								gog_renderer_draw_polygon (rend, path, FALSE);
-								if (xl[4] < 0.) {
-									path[4].code = ART_END;
-									path[0].x = path[3].x = x[2];
-									path[0].y = path[3].y = y[2];
-								} else {
-									path[4].code = ART_LINETO;
-									path[5].code = ART_END;
-									path[0].x = path[4].x = xl[3];
-									path[0].y = path[4].y = yl[3];
-									path[3].x = xl[4];
-									path[3].y = yl[4];
+								gog_renderer_draw_shape (rend, path);
+								go_path_clear (path);
+								if (xl[4] < 0.)
+									go_path_move_to (path, x[2], y[2]);
+								else {
+									go_path_move_to (path, xl[3], yl[3]);
+									xc = xl[4];
+									xc = yl[4];
 								}
-								lines[l].code = ART_MOVETO_OPEN;
 								t = (k - zval[2]) / (zval[1] - zval[2]);
-								xl[3] = lines[l].x = path[1].x = x[2] + t * (x[1] - x[2]);
-								yl[3] = lines[l++].y = path[1].y = y[2] + t * (y[1] - y[2]);
-								lines[l].code = ART_LINETO;
+								xl[3] = x[2] + t * (x[1] - x[2]);
+								yl[3] = y[2] + t * (y[1] - y[2]);
+								go_path_move_to (lines, xl[3], yl[3]);
+								go_path_line_to (path, xl[3], yl[3]);
 								t = (k - zval[2]) / (zval[3] - zval[2]);
-								xl[4] = lines[l].x = path[2].x = x[2] + t * (x[3] - x[2]);
-								yl[4] = lines[l++].y = path[2].y = y[2] + t * (y[3] - y[2]);
-								gog_renderer_draw_polygon (rend, path, FALSE);
+								xl[4] = x[2] + t * (x[3] - x[2]);
+								yl[4] = y[2] + t * (y[3] - y[2]);
+								go_path_line_to (lines, xl[4], yl[4]);
+								go_path_line_to (path, xl[4], yl[4]);
+								if (xl[1] >= 0.)
+									go_path_line_to (path, xc, yc);
+								gog_renderer_draw_shape (rend, path);
+								go_path_clear (path);
 								gog_renderer_pop_style (rend);
 								zn = zx;
 							}
 							/* draw the saddle containing slice */
 							k = 0;
 							for (s = 0; s < 8; s++) {
-								path[k].code = (k)? ART_LINETO: ART_MOVETO;
 								if (xl[s] < 0.) {
 									if (s == 7)
 										break;
 									else if (s > 0)
 										s++;
 									r = s / 2;
-									path[k].x = x[r];
-									path[k++].y = y[r];
-								} else {
-									path[k].x = xl[s];
-									path[k++].y = yl[s];
-								}
+									go_path_line_to (path, x[r], y[r]);
+								} else
+									go_path_line_to (path, xl[s], yl[s]);
 							}
-							path[k].code = ART_LINETO;
-							path[k].x = path[0].x;
-							path[k++].y = path[0].y;
-							path[k].code = ART_END;
 							style->outline.color = color[zn];
 							style->fill.pattern.back = color[zn];
 							gog_renderer_push_style (rend, style);
-							gog_renderer_draw_polygon (rend, path, FALSE);
+							gog_renderer_draw_shape (rend, path);
+							go_path_clear (path);
 							gog_renderer_pop_style (rend);
 						}
 					} else {
 						k = 0;
 						for (s = 0; s < 8; s++) {
-							path[k].code = (k)? ART_LINETO: ART_MOVETO;
 							if (xl[s] < 0.) {
 								if (s == 7)
 									break;
 								else if (s > 0)
 									s++;
 								r = s / 2;
-								path[k].x = x[r];
-								path[k++].y = y[r];
-							} else {
-								path[k].x = xl[s];
-								path[k++].y = yl[s];
-							}
+								go_path_line_to (path, x[r], y[r]);
+							} else
+								go_path_line_to (path, xl[s], yl[s]);
 						}
-						path[k].code = ART_LINETO;
-						path[k].x = path[0].x;
-						path[k++].y = path[0].y;
-						path[k].code = ART_END;
 						style->outline.color = color[zx];
 						style->fill.pattern.back = color[zx];
 						gog_renderer_push_style (rend, style);
-						gog_renderer_draw_polygon (rend, path, FALSE);
+						gog_renderer_draw_shape (rend, path);
+						go_path_clear (path);
 						gog_renderer_pop_style (rend);
 					}
 				} else {
 					/* no saddle point visible */
-					if ((l + (zmax - zmin) * 2 + 1) >= lmax)
-						lines = art_renew (lines, ArtVpath, lmax += 64);
-					path[0].code = ART_MOVETO;
-					path[0].x = x[0];
-					path[0].y = y[0];
-					p = 1;
+					double lastx, lasty, x0 = 0., y0 = 0., x1 = 0., y1 = 0.;
+					go_path_move_to (path, x[0], y[0]);
+					lastx = x[0];
+					lasty = y[0];
+					go_path_move_to (path, lastx, lasty);
 					k = 1;
 					s = 0;
 					r = kmax;
@@ -1028,11 +928,11 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						style->fill.pattern.back = color[zmin];
 						gog_renderer_push_style (rend, style);
 						while (z[k] <= zmin && k < kmax) {
-							if (fabs (path[p-1].x - x[k]) > CONTOUR_EPSILON ||
-								fabs (path[p-1].y - y[k]) > CONTOUR_EPSILON) {
-								path[p].code = ART_LINETO;
-								path[p].x = x[k];
-								path[p++].y = y[k++];
+							if (fabs (lastx - x[k]) > CONTOUR_EPSILON ||
+								fabs (lasty - y[k]) > CONTOUR_EPSILON) {
+								lastx = x[k];
+								lasty = y[k];
+								go_path_line_to (path, lastx, lasty);
 							} else
 								k++;	
 						}
@@ -1040,96 +940,88 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							r--;
 						zmin++;
 						t = (zmin - zval[k - 1]) / (zval[k] - zval[k - 1]);
-						path[p].code = ART_LINETO;
-						lines[l].code = ART_MOVETO_OPEN;
-						lines[l].x = path[p].x = x[k - 1] + t * (x[k] - x[k - 1]);
-						lines[l++].y = path[p].y = y[k - 1] + t * (y[k] - y[k - 1]);
-						if (fabs (path[p-1].x - path[p].x) > CONTOUR_EPSILON ||
-							fabs (path[p-1].y - path[p].y) > CONTOUR_EPSILON)
-							p++;
-						path[p].code = ART_LINETO;
-						lines[l].code = ART_LINETO;
+						x0 = x[k - 1] + t * (x[k] - x[k - 1]);
+						y0 = y[k - 1] + t * (y[k] - y[k - 1]);
+						go_path_move_to (lines, x0, y0);
+						if (fabs (lastx - x0) > CONTOUR_EPSILON ||
+							fabs (lasty - y0) > CONTOUR_EPSILON) {
+							go_path_line_to (path, x0, y0);
+							lastx = x0;
+							lasty = y0;
+						}
 						if (r < kmax) {
 							t = (zmin - zval[r]) / (zval[r + 1] - zval[r]);
-							lines[l].x = path[p].x = x[r] + t * (x[r + 1] - x[r]);
-							lines[l++].y = path[p].y = y[r] + t * (y[r + 1] - y[r]);
+							x1 = x[r] + t * (x[r + 1] - x[r]);
+							y1 = y[r] + t * (y[r + 1] - y[r]);
 						} else {
 							t = (zmin - zval[r]) / (zval[0] - zval[r]);
-							lines[l].x = path[p].x = x[r] + t * (x[0] - x[r]);
-							lines[l++].y = path[p].y = y[r] + t * (y[0] - y[r]);
+							x1 = x[r] + t * (x[0] - x[r]);
+							y1 = y[r] + t * (y[0] - y[r]);
 						}
-						if (fabs (path[p-1].x - path[p].x) > CONTOUR_EPSILON ||
-							fabs (path[p-1].y - path[p].y) > CONTOUR_EPSILON)
-							p++;
+						go_path_line_to (lines, x1, y1);
+						if (fabs (lastx - x1) > CONTOUR_EPSILON ||
+							fabs (lasty - y1) > CONTOUR_EPSILON) {
+							go_path_line_to (path, x1, y1);
+							lastx = x1;
+							lasty = y1;
+						}
 						if (s == 0) {
 							for (h = r + 1; h <= kmax; h++) {
-								if (fabs (path[p-1].x - x[h]) > CONTOUR_EPSILON ||
-									fabs (path[p-1].y - y[h]) > CONTOUR_EPSILON) {
-									path[p].code = ART_LINETO;
-									path[p].x = x[h];
-									path[p++].y = y[h];
+								if (fabs (lastx - x[h]) > CONTOUR_EPSILON ||
+									fabs (lasty - y[h]) > CONTOUR_EPSILON) {
+									lastx = x[h];
+									lasty = y[h];
+									go_path_line_to (path, lastx, lasty);
 								}
 							}
 						} else {
 							for (h = r + 1; h < s; h++) {
-								if (fabs (path[p-1].x - x[h]) > CONTOUR_EPSILON ||
-									fabs (path[p-1].y - y[h]) > CONTOUR_EPSILON) {
-									path[p].code = ART_LINETO;
-									path[p].x = x[h];
-									path[p++].y = y[h];
+								if (fabs (lastx - x[h]) > CONTOUR_EPSILON ||
+									fabs (lasty - y[h]) > CONTOUR_EPSILON) {
+									lastx = x[h];
+									lasty = y[h];
+									go_path_line_to (path, lastx, lasty);
 								}
 							}
 						}
 						s = r + 1;
-						if (fabs (path[p-1].x - path[0].x) > CONTOUR_EPSILON ||
-							fabs (path[p-1].y -path[0].y) > CONTOUR_EPSILON) {
-							path[p].code = ART_LINETO;
-							path[p].x = path[0].x;
-							path[p++].y = path[0].y;
-						} else {
-							/* use the exact values so that the polygon is closed */
-							path[p-1].x = path[0].x;
-							path[p-1].y = path[0].y;
-						}
-						path[p].code = ART_END;
-						gog_renderer_draw_polygon (rend, path, FALSE);
+						gog_renderer_draw_shape (rend, path);
+						go_path_clear (path);
 						gog_renderer_pop_style (rend);
-						path[0].x = lines[l - 1].x;
-						path[0].y = lines[l - 1].y;
-						path[1].x = lines[l - 2].x;
-						path[1].y = lines[l - 2].y;
-						p = (fabs (path[0].x - path[1].x) > CONTOUR_EPSILON ||
-							fabs (path[0].y - path[1].y) > CONTOUR_EPSILON)?
-							2: 1;
+						go_path_move_to (path, x1, y1);
+						if (fabs (x1 - x0) > CONTOUR_EPSILON ||
+							fabs (y1 - y0) > CONTOUR_EPSILON) {
+							go_path_line_to (path, x0, y0);
+							lastx = x0;
+							lasty = y0;
+						} else {
+							lastx = x1;
+							lasty = y1;
+						}
 					}
-					if (fabs (path[0].x - path[1].x) < CONTOUR_EPSILON
-						&& fabs (path[0].y - path[1].y) < CONTOUR_EPSILON)
+					if (fabs (x0 - x1) < CONTOUR_EPSILON
+						&& fabs (y0 - y1) < CONTOUR_EPSILON)
 						continue;
 					while (k < s) {
-						path[p].code = ART_LINETO;
-						path[p].x = x[k];
-						path[p++].y = y[k++];
+						go_path_line_to (path, x[k], y[k]);
+						k++;
 					}
-					path[p].code = ART_LINETO;
-					path[p].x = path[0].x;
-					path[p++].y = path[0].y;
-					path[p].code = ART_END;
 					style->outline.color = color[zmin];
 					style->fill.pattern.back = color[zmin];
 					gog_renderer_push_style (rend, style);
-					gog_renderer_draw_polygon (rend, path, FALSE);
+					gog_renderer_draw_shape (rend, path);
+					go_path_clear (path);
 					gog_renderer_pop_style (rend);
 				}
 			}
 		}
 	}
-	lines[l].code = ART_END;
 	gog_renderer_push_style (rend, GOG_STYLED_OBJECT (series)->style);
-	gog_renderer_draw_path  (rend, lines);
+	gog_renderer_stroke_serie (rend, lines);
 	gog_renderer_pop_style (rend);
 	gog_renderer_pop_clip (rend);
-	art_free (lines);
-	art_free (path);
+	go_path_free (lines);
+	go_path_free (path);
 	g_object_unref (style);
 	gog_axis_map_free (x_map);
 	gog_axis_map_free (y_map);

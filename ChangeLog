@@ -1,3 +1,12 @@
+2008-08-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: do not request libart anymore.
+	* goffice/graph/gog-renderer.c: removed ArtVpath and ArtBpath related
+	deprecated API.
+	* goffice/graph/gog-renderer.h: ditto.
+	* plugins/plot_surface/gog-contour.c: (gog_contour_view_render): use
+	GOPath instead of ArtVpath.
+
 2008-08-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-series-lines.h: do not include libart.h.

@@ -29,7 +29,6 @@
 #include <glib-object.h>
 
 #include <gsf/gsf.h>
-#include <libart_lgpl/libart.h>
 
 #ifdef GOFFICE_WITH_GTK
 #include <gtk/gtkenums.h>
@@ -149,14 +148,6 @@ gboolean 	 gog_renderer_export_image 	(GogRenderer *renderer, GOImageFormat form
 						 GsfOutput *output, double x_dpi, double y_dpi);
 
 GogRenderer 	*gog_renderer_new 		(GogGraph *graph);
-
-/* Deprecated API */
-void  		gog_renderer_draw_sharp_path	(GogRenderer *rend, ArtVpath *path);
-void  		gog_renderer_draw_sharp_polygon (GogRenderer *rend, ArtVpath *path, gboolean narrow);
-
-void  		gog_renderer_draw_path      	(GogRenderer *rend, ArtVpath const *path);
-void  		gog_renderer_draw_polygon   	(GogRenderer *rend, ArtVpath const *path, gboolean narrow);
-void  		gog_renderer_draw_bezier_path   (GogRenderer *rend, ArtBpath const *path);
 
 G_END_DECLS
 

@@ -4,6 +4,7 @@ Jean:
 	* Serialize images used as background in charts. [#348780]
 	* Fix plot engines memory leaks. [#542506]
 	* Fix gog_style_font_sax_save() writes unescaped font name. [#543986]
+	* Relaced remaining libart calls.
 
 Jody:
 	* Reverse legend ordering for stacked 1.5d plots.
