@@ -1,5 +1,10 @@
 2008-08-27  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-axis.c: (map_log_to_view): update a comment.
+	* goffice/gtk/go-line-selector.c: removed obsolete libart header.
+
+2008-08-27  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* configure.in: do not request libart anymore.
 	* goffice/graph/gog-renderer.c: removed ArtVpath and ArtBpath related
 	deprecated API.

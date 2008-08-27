@@ -23,7 +23,6 @@
 
 #include "go-line-selector.h"
 
-#include <libart_lgpl/libart.h>
 #include <glib/gi18n-lib.h>
 
 static void

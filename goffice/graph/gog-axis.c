@@ -561,7 +561,7 @@ map_log_to_view (GogAxisMap *map, double value)
 	double result;
 	
 	if (value <= 0.) 
-		/* Make libart happy */
+		/* Make libart happy, do we still need it? */
 		result = map->axis->inverted ? -DBL_MAX : DBL_MAX;
 	else
 		result = map->axis->inverted ? 
