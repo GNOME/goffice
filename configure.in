@@ -92,8 +92,9 @@ PKG_PROG_PKG_CONFIG
 dnl *****************************
 goffice_reqs="
 	glib-2.0		>= 2.8.0
-	gobject-2.0		>= 2.6.3
-	gmodule-2.0		>= 2.6.3
+	gobject-2.0		>= 2.16.0
+	gmodule-2.0		>= 2.16.0
+	gio-2.0			>= 2.16.0
 	libgsf-1		>= 1.13.3
 	libxml-2.0		>= 2.4.12
 	pango			>= 1.8.1
@@ -370,6 +371,7 @@ SAVE_LIBS=$LIBS
 LIBS="$GOFFICE_LIBS $LIBS"
 AC_CHECK_FUNCS(cairo_surface_set_fallback_resolution cairo_ps_surface_set_eps)
 AC_CHECK_FUNCS(g_file_new_for_commandline_arg g_file_new_for_uri g_hash_table_iter_init)
+AC_CHECK_FUNCS(g_content_type_from_mime_type)
 LIBS=$SAVE_LIBS
 
 SAVE_CFLAGS=$CFLAGS
