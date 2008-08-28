@@ -1144,7 +1144,7 @@ go_mime_type_get_description (gchar const *mime_type)
 	char *content_type = g_content_type_from_mime_type (mime_type);
 	char *description = NULL;
 	if (content_type) {
-		descrition = g_content_type_get_description (content_type);
+		description = g_content_type_get_description (content_type);
 		g_free (content_type);
 	}
 	return (description)? description: g_strdup (mime_type);
