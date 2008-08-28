@@ -17,13 +17,28 @@ Requirements
 
 You need:				Debian package name
 	glib		>= 2.8.0	libglib2.0-dev
+	gobject-2.0	>= 2.16.0	libglib2.0-dev
+	gmodule-2.0	>= 2.16.0	libglib2.0-dev
+	gio-2.0		>= 2.16.0	libglib2.0-dev
 	gtk+		>= 2.6.0	libgtk2.0-dev
-	pango		>= 1.8.1	libpango1.0-dev
-	libgsf		>= 1.13.3	libgsf-1-dev
 	libglade	>= 2.3.6	libglade2-dev
+	pango		>= 1.8.1	libpango1.0-dev
+	libgsf		>= 1.14.9	libgsf-1-dev
 	gnome-xml   	>= 2.4.12	libxml2-dev
 	NOTE: gnome-xml is also known as libxml
 	libart   	>= 2.3.11	libart-2.0-dev
+	pango		>= 1.8.1        libpango1.0-dev
+	pangocairo	>= 1.8.1        libpango1.0-dev
+	cairo		>= 1.2.0        libcairo2-dev
+	cairo-svg	>= 1.2.0        libcairo2-dev
+	cairo-pdf	>= 1.2.0        libcairo2-dev
+	cairo-ps	>= 1.2.0        libcairo2-dev
+
+For GNOME support you need:
+
+	gconf-2.0                       libgconf2-dev
+	libgnomeui-2.0	>= 2.0.0        libgnomeui-dev
+
 
 Mailing lists
 -------------
