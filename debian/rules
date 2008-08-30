@@ -85,11 +85,12 @@ source-updates:
 		install -p $$tf $$file && \
 		rm -f $$tf ; \
 	done
-	rm -rf autom4te.cache configure-stamp
+	rm -rf autom4te.cache config-stamp
 
-configure: configure-stamp
-configure-stamp:
+configure: config-stamp
+config-stamp:
 	dh_testdir
+	dh_prep
 	if ! test -r debian/$(pruntime).install ; then \
 		echo "Packaging files are not set up for base library name $(pruntime). Aborting." ; \
 		exit 1 ; \
@@ -101,10 +102,10 @@ configure-stamp:
 	rm -f goffice/goffice-paths.h
 	cd build && env "CC=$(CC) $(LDFLAGS)" ../configure $(confflags)
 
-	touch configure-stamp
+	touch config-stamp
 
 build: build-stamp
-build-stamp:  configure-stamp
+build-stamp:  config-stamp
 	dh_testdir
 
 	$(MAKE) -C build
@@ -114,11 +115,10 @@ build-stamp:  configure-stamp
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f configure-stamp build-stamp
+	rm -f config-stamp build-stamp
 
 	-$(MAKE) -C build distclean
 	rm -rf build
-	rm -f config.cache config.status
 	-find -type f -name 'Makefile.am' | sed -e 's/\.am$$//' | xargs rm -f
 
 	# Update config.{sub,guess} from autotools-dev, if possible.
@@ -138,7 +138,6 @@ clean:
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k 
 	dh_installdirs
 
 	# Install the package into debian/tmp

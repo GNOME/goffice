@@ -1,3 +1,21 @@
+goffice (0.7.1) experimental; urgency=low
+
+  * New upstream development release.
+  * [debian/control]
+    * Updated debhelper build dependency.
+    * Removed libart and libgsf-gnome build dependencies and
+      libgoffice-0-8-dev runtime dependencies as per configure.in changes.
+    * Updated libgsf build dependency as per configure.in .
+    * Brought libgoffice-0-8-dev runtime dependencies in sync with build
+      dependencies.
+  * [debian/compat] Updated to current debhelper compatibility level.
+  * [debian/clean] New.
+  * [debian/rules]
+    * Use "dh_prep" instead of "dh_clean -k".
+    * Removed some cleanup that's now handled by debian/clean.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 30 Aug 2008 16:34:52 +0200
+
 goffice (0.7.0-1) experimental; urgency=low
 
   * New upstream development release.
