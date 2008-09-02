@@ -17,9 +17,65 @@ Titles &amp; axis labels
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogLabel ##### -->
+<!-- ##### MACRO GOG_LABEL_TYPE ##### -->
 <para>
 
 </para>
+
+
+
+<!-- ##### MACRO GOG_LABEL ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_LABEL ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_label_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### MACRO GOG_REG_EQN_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_REG_EQN ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_REG_EQN ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_reg_eqn_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
 
 

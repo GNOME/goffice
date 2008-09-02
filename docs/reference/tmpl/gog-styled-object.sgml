@@ -29,13 +29,62 @@ functionnalities used for drawing object on graph canvas.
 
 </para>
 
-@gogstyledobject: the object which received the signal.
-@arg1: 
+@: 
+@: 
 
 <!-- ##### ARG GogStyledObject:style ##### -->
 <para>
 
 </para>
+
+<!-- ##### MACRO GOG_STYLED_OBJECT_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_STYLED_OBJECT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_STYLED_OBJECT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO GOG_STYLED_OBJECT_GET_CLASS ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_styled_object_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_styled_object_set_style ##### -->
+<para>
+
+</para>
+
+@gso: 
+@style: 
+@Returns: 
+
 
 <!-- ##### FUNCTION gog_styled_object_get_style ##### -->
 <para>
@@ -55,14 +104,12 @@ functionnalities used for drawing object on graph canvas.
 @Returns: 
 
 
-<!-- ##### FUNCTION gog_styled_object_set_style ##### -->
+<!-- ##### FUNCTION gog_styled_object_style_changed ##### -->
 <para>
 
 </para>
 
 @gso: 
-@style: 
-@Returns: 
 
 
 <!-- ##### FUNCTION gog_styled_object_apply_theme ##### -->
@@ -72,13 +119,5 @@ functionnalities used for drawing object on graph canvas.
 
 @gso: 
 @style: 
-
-
-<!-- ##### FUNCTION gog_styled_object_style_changed ##### -->
-<para>
-
-</para>
-
-@gso: 
 
 

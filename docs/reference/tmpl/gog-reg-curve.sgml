@@ -28,6 +28,37 @@ Base class for regression curves
 
 </para>
 
+<!-- ##### MACRO GOG_REG_CURVE_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_REG_CURVE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_REG_CURVE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_reg_curve_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
 <!-- ##### FUNCTION gog_reg_curve_get_equation ##### -->
 <para>
 

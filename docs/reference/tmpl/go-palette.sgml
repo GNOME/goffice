@@ -38,6 +38,41 @@ Palette widget for GoSelector
 @Returns: 
 
 
+<!-- ##### STRUCT GOPalettePrivate ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT GOPalette ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SIGNAL GOPalette::activate ##### -->
+<para>
+
+</para>
+
+@gopalette: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL GOPalette::automatic-activate ##### -->
+<para>
+
+</para>
+
+@gopalette: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL GOPalette::custom-activate ##### -->
+<para>
+
+</para>
+
+@gopalette: the object which received the signal.
+
 <!-- ##### FUNCTION go_palette_new ##### -->
 <para>
 
@@ -50,32 +85,6 @@ Palette widget for GoSelector
 @get_tooltip: 
 @data: 
 @destroy: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_palette_get_n_swatches ##### -->
-<para>
-
-</para>
-
-@palette: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_palette_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
-<!-- ##### FUNCTION go_palette_get_user_data ##### -->
-<para>
-
-</para>
-
-@palette: 
 @Returns: 
 
 
@@ -98,6 +107,15 @@ Palette widget for GoSelector
 @label: 
 
 
+<!-- ##### FUNCTION go_palette_get_user_data ##### -->
+<para>
+
+</para>
+
+@palette: 
+@Returns: 
+
+
 <!-- ##### FUNCTION go_palette_swatch_new ##### -->
 <para>
 
@@ -105,6 +123,15 @@ Palette widget for GoSelector
 
 @palette: 
 @index: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_palette_get_n_swatches ##### -->
+<para>
+
+</para>
+
+@palette: 
 @Returns: 
 
 

@@ -17,42 +17,6 @@ Base class for plots
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogPlot ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### ARG GogPlot:guru-hints ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogPlot:interpolation ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogPlot:plot-group ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogPlot:vary-style-by-element ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogPlot:x-axis ##### -->
-<para>
-
-</para>
-
-<!-- ##### ARG GogPlot:y-axis ##### -->
-<para>
-
-</para>
-
 <!-- ##### STRUCT GogPlotBoundInfo ##### -->
 <para>
 
@@ -61,6 +25,37 @@ Base class for plots
 @is_discrete: 
 @center_on_ticks: 
 @fmt: 
+
+<!-- ##### MACRO GOG_PLOT_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_PLOT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_PLOT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_plot_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
 
 <!-- ##### FUNCTION gog_plot_new_by_type ##### -->
 <para>
@@ -98,6 +93,15 @@ Base class for plots
 @plot: 
 
 
+<!-- ##### FUNCTION gog_plot_update_cardinality ##### -->
+<para>
+
+</para>
+
+@plot: 
+@index_num: 
+
+
 <!-- ##### FUNCTION gog_plot_get_cardinality ##### -->
 <para>
 
@@ -106,15 +110,6 @@ Base class for plots
 @plot: 
 @full: 
 @visible: 
-
-
-<!-- ##### FUNCTION gog_plot_update_cardinality ##### -->
-<para>
-
-</para>
-
-@plot: 
-@index_num: 
 
 
 <!-- ##### FUNCTION gog_plot_foreach_elem ##### -->
@@ -213,15 +208,6 @@ Base class for plots
 @filter: 
 
 
-<!-- ##### FUNCTION gog_plot_set_axis ##### -->
-<para>
-
-</para>
-
-@plot: 
-@axis: 
-
-
 <!-- ##### FUNCTION gog_plot_get_axis ##### -->
 <para>
 
@@ -230,6 +216,15 @@ Base class for plots
 @plot: 
 @type: 
 @Returns: 
+
+
+<!-- ##### FUNCTION gog_plot_set_axis ##### -->
+<para>
+
+</para>
+
+@plot: 
+@axis: 
 
 
 <!-- ##### FUNCTION gog_plot_update_3d ##### -->
@@ -246,11 +241,5 @@ Base class for plots
 </para>
 
 @plot: 
-
-
-<!-- ##### TYPEDEF GogPlotView ##### -->
-<para>
-
-</para>
 
 

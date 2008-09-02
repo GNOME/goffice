@@ -17,10 +17,35 @@ Style of graph objects
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogStyle ##### -->
+<!-- ##### MACRO GOG_STYLE_TYPE ##### -->
 <para>
 
 </para>
+
+
+
+<!-- ##### MACRO GOG_STYLE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_STYLE ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_style_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
 
 
 <!-- ##### ENUM GogStyleFlag ##### -->
@@ -78,6 +103,12 @@ Style of graph objects
 @auto_outline_color: 
 @auto_fill_color: 
 
+<!-- ##### STRUCT GogStyle ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### FUNCTION gog_style_new ##### -->
 <para>
 
@@ -111,6 +142,15 @@ Style of graph objects
 
 @dst: 
 @src: 
+
+
+<!-- ##### FUNCTION gog_style_get_marker ##### -->
+<para>
+
+</para>
+
+@style: 
+@Returns: 
 
 
 <!-- ##### FUNCTION gog_style_set_marker ##### -->
@@ -221,18 +261,6 @@ Style of graph objects
 @style: 
 
 
-<!-- ##### FUNCTION gog_style_get_editor ##### -->
-<para>
-
-</para>
-
-@style: 
-@default_style: 
-@cc: 
-@object_with_style: 
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_style_populate_editor ##### -->
 <para>
 
@@ -246,6 +274,18 @@ Style of graph objects
 @watch_for_external_change: 
 
 
+<!-- ##### FUNCTION gog_style_get_editor ##### -->
+<para>
+
+</para>
+
+@style: 
+@default_style: 
+@cc: 
+@object_with_style: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gog_style_create_cairo_pattern ##### -->
 <para>
 
@@ -253,15 +293,6 @@ Style of graph objects
 
 @style: 
 @cr: 
-@Returns: 
-
-
-<!-- ##### FUNCTION gog_style_get_marker ##### -->
-<para>
-
-</para>
-
-@style: 
 @Returns: 
 
 

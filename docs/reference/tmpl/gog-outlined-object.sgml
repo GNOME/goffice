@@ -28,12 +28,94 @@ Base class for all objects displayed in a frame
 
 </para>
 
+<!-- ##### TYPEDEF GogOutlinedObjectClass ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GOG_OUTLINED_OBJECT_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_OUTLINED_OBJECT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_OUTLINED_OBJECT ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_outlined_object_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
 <!-- ##### FUNCTION gog_outlined_object_get_pad ##### -->
 <para>
 
 </para>
 
 @goo: 
+@Returns: 
+
+
+<!-- ##### TYPEDEF GogOutlinedView ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO GOG_OUTLINED_VIEW_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_OUTLINED_VIEW ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_OUTLINED_VIEW ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO GOG_OUTLINED_VIEW_GET_CLASS ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_outlined_view_get_type ##### -->
+<para>
+
+</para>
+
 @Returns: 
 
 

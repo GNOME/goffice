@@ -17,9 +17,34 @@ Chart backplane
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogGrid ##### -->
+<!-- ##### MACRO GOG_GRID_TYPE ##### -->
 <para>
 
 </para>
+
+
+
+<!-- ##### MACRO GOG_GRID ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_GRID ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### FUNCTION gog_grid_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
 
 

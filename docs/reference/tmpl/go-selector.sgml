@@ -17,12 +17,32 @@ Generic property editor with a dropdown palette
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### FUNCTION go_selector_activate ##### -->
+<!-- ##### STRUCT GOSelectorPrivate ##### -->
 <para>
 
 </para>
 
-@selector: 
+
+<!-- ##### STRUCT GOSelector ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SIGNAL GOSelector::activate ##### -->
+<para>
+
+</para>
+
+@goselector: the object which received the signal.
+
+<!-- ##### FUNCTION go_selector_new ##### -->
+<para>
+
+</para>
+
+@palette: 
+@Returns: 
 
 
 <!-- ##### FUNCTION go_selector_get_active ##### -->
@@ -32,32 +52,6 @@ Generic property editor with a dropdown palette
 
 @selector: 
 @is_auto: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_selector_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
-<!-- ##### FUNCTION go_selector_get_user_data ##### -->
-<para>
-
-</para>
-
-@selector: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_selector_new ##### -->
-<para>
-
-</para>
-
-@palette: 
 @Returns: 
 
 
@@ -71,6 +65,58 @@ Generic property editor with a dropdown palette
 @Returns: 
 
 
+<!-- ##### FUNCTION go_selector_update_swatch ##### -->
+<para>
+
+</para>
+
+@selector: 
+
+
+<!-- ##### FUNCTION go_selector_activate ##### -->
+<para>
+
+</para>
+
+@selector: 
+
+
+<!-- ##### FUNCTION go_selector_get_user_data ##### -->
+<para>
+
+</para>
+
+@selector: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION GOSelectorDndDataReceived ##### -->
+<para>
+
+</para>
+
+@selector: 
+@data: 
+
+
+<!-- ##### USER_FUNCTION GOSelectorDndDataGet ##### -->
+<para>
+
+</para>
+
+@selector: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION GOSelectorDndFillIcon ##### -->
+<para>
+
+</para>
+
+@selector: 
+@pixbuf: 
+
+
 <!-- ##### FUNCTION go_selector_setup_dnd ##### -->
 <para>
 
@@ -82,33 +128,5 @@ Generic property editor with a dropdown palette
 @data_get: 
 @data_received: 
 @fill_icon: 
-
-
-<!-- ##### FUNCTION go_selector_update_swatch ##### -->
-<para>
-
-</para>
-
-@selector: 
-
-
-<!-- ##### FUNCTION go_gradient_selector_new ##### -->
-<para>
-
-</para>
-
-@initial_direction: 
-@default_direction: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_gradient_selector_set_colors ##### -->
-<para>
-
-</para>
-
-@selector: 
-@start: 
-@stop: 
 
 

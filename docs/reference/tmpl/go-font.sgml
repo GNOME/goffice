@@ -17,6 +17,24 @@ Fonts
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### STRUCT GOFontMetrics ##### -->
+<para>
+
+</para>
+
+@digit_widths: 
+@min_digit_width: 
+@max_digit_width: 
+@avg_digit_width: 
+@hyphen_width: 
+@minus_width: 
+@plus_width: 
+@E_width: 
+@hash_width: 
+@space_width: 
+@thin_space: 
+@thin_space_width: 
+
 <!-- ##### STRUCT GOFont ##### -->
 <para>
 
@@ -29,15 +47,6 @@ Fonts
 @strikethrough: 
 @color: 
 
-<!-- ##### FUNCTION go_font_new_by_name ##### -->
-<para>
-
-</para>
-
-@str: 
-@Returns: 
-
-
 <!-- ##### FUNCTION go_font_new_by_desc ##### -->
 <para>
 
@@ -47,12 +56,30 @@ Fonts
 @Returns: 
 
 
+<!-- ##### FUNCTION go_font_new_by_name ##### -->
+<para>
+
+</para>
+
+@str: 
+@Returns: 
+
+
 <!-- ##### FUNCTION go_font_new_by_index ##### -->
 <para>
 
 </para>
 
 @i: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_font_as_str ##### -->
+<para>
+
+</para>
+
+@font: 
 @Returns: 
 
 
@@ -73,31 +100,6 @@ Fonts
 @font: 
 
 
-<!-- ##### FUNCTION go_font_as_str ##### -->
-<para>
-
-</para>
-
-@font: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_font_cache_register ##### -->
-<para>
-
-</para>
-
-@callback: 
-
-
-<!-- ##### FUNCTION go_font_cache_unregister ##### -->
-<para>
-
-</para>
-
-@callback: 
-
-
 <!-- ##### FUNCTION go_font_eq ##### -->
 <para>
 
@@ -108,23 +110,22 @@ Fonts
 @Returns: 
 
 
-<!-- ##### STRUCT GOFontMetrics ##### -->
+<!-- ##### FUNCTION go_fonts_list_families ##### -->
 <para>
 
 </para>
 
-@digit_widths: 
-@min_digit_width: 
-@max_digit_width: 
-@avg_digit_width: 
-@hyphen_width: 
-@minus_width: 
-@plus_width: 
-@E_width: 
-@hash_width: 
-@space_width: 
-@thin_space: 
-@thin_space_width: 
+@context: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_fonts_list_sizes ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
 
 <!-- ##### FUNCTION go_font_metrics_new ##### -->
 <para>
@@ -144,28 +145,27 @@ Fonts
 @metrics: 
 
 
+<!-- ##### FUNCTION go_font_cache_register ##### -->
+<para>
+
+</para>
+
+@callback: 
+
+
+<!-- ##### FUNCTION go_font_cache_unregister ##### -->
+<para>
+
+</para>
+
+@callback: 
+
+
 <!-- ##### FUNCTION go_fonts_init ##### -->
 <para>
 
 </para>
 
-
-
-<!-- ##### FUNCTION go_fonts_list_families ##### -->
-<para>
-
-</para>
-
-@context: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_fonts_list_sizes ##### -->
-<para>
-
-</para>
-
-@Returns: 
 
 
 <!-- ##### FUNCTION go_fonts_shutdown ##### -->

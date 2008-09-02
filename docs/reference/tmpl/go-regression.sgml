@@ -17,27 +17,6 @@ Regressions
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### MACRO LOGFIT_C_ACCURACY ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO LOGFIT_C_STEP_FACTOR ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO LOGFIT_C_RANGE_FACTOR ##### -->
-<para>
-
-</para>
-
-
-
 <!-- ##### ENUM RegressionResult ##### -->
 <para>
 
@@ -50,115 +29,6 @@ Regressions
 @REG_near_singular_good: 
 @REG_near_singular_bad: 
 @REG_singular: 
-
-<!-- ##### FUNCTION go_linear_regression ##### -->
-<para>
-
-</para>
-
-@xss: 
-@dim: 
-@ys: 
-@n: 
-@affine: 
-@res: 
-@stat: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_exponential_regression ##### -->
-<para>
-
-</para>
-
-@xss: 
-@dim: 
-@ys: 
-@n: 
-@affine: 
-@res: 
-@stat: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_logarithmic_regression ##### -->
-<para>
-
-</para>
-
-@xss: 
-@dim: 
-@ys: 
-@n: 
-@affine: 
-@res: 
-@stat: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_non_linear_regression ##### -->
-<para>
-
-</para>
-
-@f: 
-@xvals: 
-@par: 
-@yvals: 
-@sigmas: 
-@x_dim: 
-@p_dim: 
-@chi: 
-@errors: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_power_regression ##### -->
-<para>
-
-</para>
-
-@xss: 
-@dim: 
-@ys: 
-@n: 
-@affine: 
-@res: 
-@stat: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_logarithmic_fit ##### -->
-<para>
-
-</para>
-
-@xs: 
-@ys: 
-@n: 
-@res: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_matrix_invert ##### -->
-<para>
-
-</para>
-
-@A: 
-@n: 
-@Returns: 
-
-
-<!-- ##### FUNCTION go_matrix_determinant ##### -->
-<para>
-
-</para>
-
-@A: 
-@n: 
-@Returns: 
-
 
 <!-- ##### STRUCT go_regression_stat_t ##### -->
 <para>
@@ -197,5 +67,295 @@ Regressions
 </para>
 
 @regression_stat: 
+
+
+<!-- ##### FUNCTION go_linear_regression ##### -->
+<para>
+
+</para>
+
+@xss: 
+@dim: 
+@ys: 
+@n: 
+@affine: 
+@res: 
+@stat: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_exponential_regression ##### -->
+<para>
+
+</para>
+
+@xss: 
+@dim: 
+@ys: 
+@n: 
+@affine: 
+@res: 
+@stat: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_power_regression ##### -->
+<para>
+
+</para>
+
+@xss: 
+@dim: 
+@ys: 
+@n: 
+@affine: 
+@res: 
+@stat: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_logarithmic_regression ##### -->
+<para>
+
+</para>
+
+@xss: 
+@dim: 
+@ys: 
+@n: 
+@affine: 
+@res: 
+@stat: 
+@Returns: 
+
+
+<!-- ##### MACRO LOGFIT_C_ACCURACY ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO LOGFIT_C_STEP_FACTOR ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO LOGFIT_C_RANGE_FACTOR ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION go_logarithmic_fit ##### -->
+<para>
+
+</para>
+
+@xs: 
+@ys: 
+@n: 
+@res: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION GORegressionFunction ##### -->
+<para>
+
+</para>
+
+@x: 
+@params: 
+@f: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_non_linear_regression ##### -->
+<para>
+
+</para>
+
+@f: 
+@xvals: 
+@par: 
+@yvals: 
+@sigmas: 
+@x_dim: 
+@p_dim: 
+@chi: 
+@errors: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_matrix_invert ##### -->
+<para>
+
+</para>
+
+@A: 
+@n: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_matrix_determinant ##### -->
+<para>
+
+</para>
+
+@A: 
+@n: 
+@Returns: 
+
+
+<!-- ##### STRUCT go_regression_stat_tl ##### -->
+<para>
+
+</para>
+
+@se: 
+@t: 
+@sqr_r: 
+@adj_sqr_r: 
+@se_y: 
+@F: 
+@df_reg: 
+@df_resid: 
+@df_total: 
+@ss_reg: 
+@ss_resid: 
+@ss_total: 
+@ms_reg: 
+@ms_resid: 
+@ybar: 
+@xbar: 
+@var: 
+
+<!-- ##### FUNCTION go_regression_stat_newl ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION go_regression_stat_destroyl ##### -->
+<para>
+
+</para>
+
+@regression_stat: 
+
+
+<!-- ##### FUNCTION go_linear_regressionl ##### -->
+<para>
+
+</para>
+
+@xss: 
+@dim: 
+@ys: 
+@n: 
+@affine: 
+@res: 
+@stat: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_exponential_regressionl ##### -->
+<para>
+
+</para>
+
+@xss: 
+@dim: 
+@ys: 
+@n: 
+@affine: 
+@res: 
+@stat: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_power_regressionl ##### -->
+<para>
+
+</para>
+
+@xss: 
+@dim: 
+@ys: 
+@n: 
+@affine: 
+@res: 
+@stat: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_logarithmic_regressionl ##### -->
+<para>
+
+</para>
+
+@xss: 
+@dim: 
+@ys: 
+@n: 
+@affine: 
+@res: 
+@stat: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_logarithmic_fitl ##### -->
+<para>
+
+</para>
+
+@xs: 
+@ys: 
+@n: 
+@res: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION GORegressionFunctionl ##### -->
+<para>
+
+</para>
+
+@x: 
+@params: 
+@f: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_non_linear_regressionl ##### -->
+<para>
+
+</para>
+
+@f: 
+@xvals: 
+@par: 
+@yvals: 
+@sigmas: 
+@x_dim: 
+@p_dim: 
+@chi: 
+@errors: 
+@Returns: 
+
+
+<!-- ##### FUNCTION go_matrix_invertl ##### -->
+<para>
+
+</para>
+
+@A: 
+@n: 
+@Returns: 
 
 

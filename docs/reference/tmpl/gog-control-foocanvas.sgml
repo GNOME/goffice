@@ -17,6 +17,29 @@ Graph in a foocanvas item
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### MACRO GOG_CONTROL_FOOCANVAS_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO GOG_CONTROL_FOOCANVAS ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
+<!-- ##### MACRO IS_GOG_CONTROL_FOOCANVAS ##### -->
+<para>
+
+</para>
+
+@o: 
+
+
 <!-- ##### STRUCT GogControlFooCanvas ##### -->
 <para>
 
@@ -42,4 +65,18 @@ Graph in a foocanvas item
 <para>
 
 </para>
+
+<!-- ##### TYPEDEF GogControlFooCanvasClass ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION gog_control_foocanvas_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
 
