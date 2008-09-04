@@ -287,10 +287,10 @@ go_url_resolve_relative (char const *ref_uri, char const *rel_uri)
 
 	len = strlen (ref_uri);
 
-	/* FIXME: This doesn't work if rel_uri starts with a slash.  */
+	/* FIXME: This doesn't work if ref_uri starts with a slash.  */
 
 	uri = g_new (char, len + strlen (rel_uri) + 1);
-	memcpy (uri, rel_uri, len + 1);
+	memcpy (uri, ref_uri, len + 1);
 	while (len > 0 && uri[len - 1] != '/')
 		len--;
 	if (len == 0) {
