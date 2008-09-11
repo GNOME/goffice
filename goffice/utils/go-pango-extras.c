@@ -188,6 +188,10 @@ cb_unset2 (PangoAttribute *attr, gpointer _data)
 
 /**
  * go_pango_attr_list_unset:
+ * @list : #PangoAttrList
+ * @start : starting character index
+ * @end : last character index
+ * @type : #PangoAttrType
  *
  * See http://bugzilla.gnome.org/show_bug.cgi?id=163679
  **/
