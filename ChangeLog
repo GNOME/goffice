@@ -1,3 +1,8 @@
+2008-09-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* pixmaps/dist.xpm: new pixmap for the distribution related plot
+	family.
+
 2008-09-11  Jody Goldberg <jody@gnome.org>
 
 	* goffice/app/go-doc.c (load_image) : Check for missing "name"
