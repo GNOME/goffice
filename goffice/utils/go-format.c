@@ -3398,6 +3398,7 @@ go_format_str_delocalize (char const *str)
 		case TOK_GENERAL:
 			/* Oops.  Pretend we saw only "G".  */
 			str = token + 1;
+			/* Fall through */
 		default:
 		regular:
 			/* Tokenizer doesn't know translated "General".  */
