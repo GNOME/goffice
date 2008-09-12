@@ -1,3 +1,7 @@
+2008-09-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* import-R: copied and partly adapted from gnumeric.
+
 2008-08-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.7.1

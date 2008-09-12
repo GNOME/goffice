@@ -1,0 +1,265 @@
+#!/usr/bin/perl -w
+# -----------------------------------------------------------------------------
+
+use strict;
+
+my @files =
+    ("ftrunc.c",
+	 "dnorm.c",
+     "pnorm.c",
+     "qnorm.c",
+     "dlnorm.c",
+     "plnorm.c",
+     "qlnorm.c",
+     "dweibull.c",
+     "pweibull.c",
+     "qweibull.c",
+     "dcauchy.c",
+     "pcauchy.c",
+     "qcauchy.c",
+    );
+
+my $mathfunc = $ARGV[0];
+my $dir = $ARGV[1];
+my $subdir = "src/nmath";
+
+unless (defined ($mathfunc) && -r $mathfunc &&
+	defined ($dir) && -d "$dir/$subdir") {
+    print STDERR "Usage: $0 mathfunc.c R-directory\n";
+    exit 1;
+}
+
+
+my ($prefix,$span1,$span2,$postfix) = &read_mathfunc ($mathfunc);
+
+print $prefix;
+print "\n";
+print "/* The following source code was imported from the R project.  */\n";
+print "/* It was automatically transformed by $0.  */\n";
+print "\n";
+
+my $cleandefs = &import_file ("$dir/$subdir/dpq.h");
+print $span1;
+print $cleandefs;
+
+print "\n";
+print "/* The following source code was imported from the R project.  */\n";
+print "/* It was automatically transformed by $0.  */\n";
+print "\n";
+
+&import_file ("$dir/$subdir/dpq.h");
+
+print $span2;
+print "\n";
+print "/* The following source code was imported from the R project.  */\n";
+print "/* It was automatically transformed by $0.  */\n";
+print "\n";
+
+foreach my $file (@files) {
+    print "/* Imported $subdir/$file from R.  */\n";
+    my $cleandefs = &import_file ("$dir/$subdir/$file");
+	print $cleandefs;
+    print "\n";
+    print "/* ", ('-' x 72), " */\n";
+}
+print $postfix;
+
+# -----------------------------------------------------------------------------
+
+sub import_file {
+    my ($filename) = @_;
+
+    my %defines = ();
+    my $incomment = 0; # Stupid.
+	my $cleandefs = '';
+
+    local (*FIL);
+    open (*FIL, "<$filename") or
+	die "$0: Cannot read $filename: $!\n";
+  LINE:
+    while (<FIL>) {
+	if (/^\s*\#\s*ifndef\s+GOFFICE_VERSION\b/ ... /^\s*\#\s*endif\b.*\bGOFFICE_VERSION\b/) {
+	    next;
+	}
+
+	if (/^\s*\#\s*define\s+([a-zA-Z0-9_]+)/) {
+	    $defines{$1} = 1;
+	} elsif (/^\s*\#\s*undef\s+([a-zA-Z0-9_]+)/) {
+	    delete $defines{$1};
+	} elsif (/^\s*\#\s*include\s+/) {
+	    # Ignore for now.
+	    next LINE;
+	}
+
+ 	$_ .= <FIL> if /^static\s+double\s*$/;
+
+	s/\s+$//;
+	if ($incomment) {
+	    $incomment = 0 if m|\*/|;
+	} else {
+	    s/\bdouble\b/DOUBLE/g;
+	    s/\bRboolean\b/gboolean/g;
+
+	    s/^(\s*)(const\s+DOUBLE\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\[\s*\d+\s*\]\s*=)/$1static $2/;
+
+	    # Improve precision of "log(1-x)".
+	    s/\blog\s*\(\s*1\s*-\s*([a-zA-Z0-9_]+)\s*\)/SUFFIX (go_log1p) (-$1)/g;
+
+	    # Improve precision of "log(1+x)".
+	    s/\blog\s*\(\s*1\s*\+\s*/SUFFIX (go_log1p) \(/g;
+
+	    s/\bISNAN\b/SUFFIX (isnan) /g;
+	    s/\bR_(finite|FINITE)\b/SUFFIX (go_finite)/g;
+	    s/\b(sqrt|exp|log|pow|log1p|expm1|fabs|floor|ceil|sin|sinh|tan)(\s|$|\()/SUFFIX ($1) $2/g;
+
+	    s/\bSUFFIX (floor) \s*\(\s*([a-z]+)\s*\+\s*1e-7\s*\)/SUFFIX (go_fake_floor) ($1)/;
+
+	    # Constants.
+	    s/\b(M_LN2|M_PI|M_PI_2|M_SQRT2|M_2PI)\b/$1goffice/g;
+	    s/\bDBL_(EPSILON|MIN|MAX)/GO_$1/g;
+	    s/([-+]?\d*\.(\d{5,})([eE][-+]?\d+)?)/GO_const \($1\)/g;
+	    s@(\d)\s*/\s*(\d+\.\d*)@$1 / GO_const \($2\)@g;
+
+	    # Fix constant quotients.
+	    s~([-+]?\d+\.\d*)(\s*/\s*)([-+e0-9.]+)~GO_const\($1\)$2$3~;
+
+	    # These are made static.
+	    s/^double\s+(pbeta_both|stirlerr|bd0|dpois_raw|chebyshev_eval|lgammacor|lbeta|pbeta_raw|dbinom_raw)/static DOUBLE $1/;
+	    s/^int\s+(chebyshev_init)/static int $1/;
+
+	    # Fix a bug...
+	    s/\(\(-37\.5193 < x\) \|\| \(x < 8\.2924\)\)/((-37.5193 < x) && (x < 8.2924))/;
+
+	    # Optimization given our stupid gammafn.
+	    s|> 10|< 10| if /p and q are small: p <= q > 10/;
+	    s|gnm_log\(gammafn\(p\) \* \(gammafn\(q\) / gammafn\(p \+ q\)\)\)|gnm_lgamma (p) + gnm_lgamma (q) - gnm_lgamma (p + q)|;
+
+	    s/dnorm4/SUFFIX (go_dnorm) /g;
+	    s/pnorm5/SUFFIX (go_pnorm) /g;
+	    s/pnorm_both/SUFFIX (go_pnorm_both) /g;
+	    s/qnorm5/SUFFIX (go_qnorm) /g;
+	    s/dlnorm/SUFFIX (go_dlnorm) /g;
+	    s/plnorm/SUFFIX (go_plnorm) /g;
+	    s/qlnorm/SUFFIX (go_qlnorm) /g;
+		s/\bpnorm\b/SUFFIX (go_pnorm) /g;
+	    s/\bqnorm\b/SUFFIX (go_qnorm) /g;
+		s/\bdweibull\b/SUFFIX (go_dweibull) /g;
+	    s/\bpweibull\b/SUFFIX (go_pweibull) /g;
+	    s/\bqweibull\b/SUFFIX (go_qweibull) /g;
+		s/\bdcauchy\b/SUFFIX (go_dcauchy) /g;
+	    s/\bpcauchy\b/SUFFIX (go_pcauchy) /g;
+	    s/\bqcauchy\b/SUFFIX (go_qcauchy) /g;
+
+	    s/\b(trunc|ftrunc)\b/SUFFIX (go_trunc) /g;
+	    s/\b(lgammafn|lgamma)\b/gnm_lgamma/g;
+	    s/\bML_NAN\b/SUFFIX (go_nan)/g;
+	    s/\bML_VALID\b/\!SUFFIX (isnan) /g;
+	    s/\bML_NEGINF\b/SUFFIX (go_ninf)/g;
+	    s/\bML_POSINF\b/SUFFIX (go_pinf)/g;
+
+	    if ($filename !~ /\bpgamma\.c$/) {
+		# Improve precision of "lgammagnum(x+1)".
+		s/\bgnm_lgamma\s*\(([^()]+)\s*\+\s*1(\.0*)?\s*\)/lgamma1p ($1)/;
+		s/\bgamma_cody\s*\(1\.\s*\+\s*([^()]+)\s*\)/gnm_exp(lgamma1p ($1))/;
+	    }
+	    s/\bR_Log1_Exp\b/swap_log_tail/g;
+
+	    if ($filename =~ m|/bessel_i\.c$|) {
+		s/\bgamma_cody\(empal\)/gnm_exp(lgamma1p(nu))/;
+	    }
+
+	    if (/^(static\s+)?(DOUBLE|int)\s+(chebyshev_init)\s*\(/ .. /^\}/) {
+		next unless s/^(static\s+)?(DOUBLE|int)\s+([a-zA-Z0-9_]+)\s*\(.*//;
+		$_ = "/* Definition of function $3 removed.  */";
+	    }
+
+	    # Somewhat risky.
+	    s/\%([-0-9.]*)([efgEFG])/\%$1\" GO_FORMAT_$2 \"/g;
+
+	    s/int give_log/gboolean give_log/g;
+	    s/int log_p/gboolean log_p/g;
+	    s/int lower_tail/gboolean lower_tail/g;
+
+	    # Fix pbinom
+	    s/\bpbeta\s*\(1\s*-\s*([^,]*),\s*([^,]*),\s*([^,]*),\s*([^,]*),\s*([^,]*)\)/pbeta ($1, $3, $2, !$4, $5)/;
+
+	    # Fix pt.
+	    if ($filename =~ m|/pt\.c$|) {
+		s/(n > 4e5)/0 && $1/;
+		if (/(^.*\s*=\s*)pbeta\s*(\(.*\);)/) {
+		    $_ = "$1 (n > x * x)\n" .
+			"\t? pbeta (x * x / (n + x * x), 0.5, n / 2, /*lower_tail*/0, log_p)\n" .
+			"\t: pbeta $2";
+		}
+	    }
+
+
+	    if ($filename =~ m|/qbeta\.c$| && /xinbta = 0\.5;/) {
+		s/0\.5/(xinbta < lower) ? SUFFIX (sqrt) (lower) : 1 - SUFFIX (sqrt) (lower)/;
+	    }
+
+	    $incomment = 1 if m|/\*$|;
+	}
+
+	print "$_\n";
+    }
+    close (*FIL);
+
+    if (keys %defines) {
+	$cleandefs .= "/* Cleaning up done by $0:  */\n";
+	foreach my $def (sort keys %defines) {
+	    $cleandefs .= "#undef $def\n";
+	}
+    }
+
+	return ($cleandefs);
+}
+
+# -----------------------------------------------------------------------------
+
+sub read_mathfunc {
+    my ($filename) = @_;
+
+    my $prefix = '';
+	my $span1 = '';
+	my $span2 = '';
+    my $postfix = '';
+
+    local (*FIL);
+    open (*FIL, "<$filename") or
+	die "$0: Cannot read $filename: $!\n";
+    my $state = 'pre';
+    while (<FIL>) {
+	if ($state eq 'pre') {
+	    $prefix .= $_;
+	    $state = 'mid0' if m"--- BEGIN MAGIC R HEADER 1 MARKER ---";
+	}
+	if ($state eq 'mid0') {
+	    $state = 'span1' if m"--- END MAGIC R HEADER 1 MARKER ---";
+	}
+	if ($state eq 'span1') {
+	    $span1 .= $_;
+	    $state = 'mid1' if m"--- BEGIN MAGIC R HEADER 2 MARKER ---";
+	}
+	if ($state eq 'mid1') {
+	    $state = 'span2' if m"--- END MAGIC R HEADER 2 MARKER ---";
+	}
+	if ($state eq 'span2') {
+	    $span2 .= $_;
+	    $state = 'mid2' if m"--- BEGIN MAGIC R SOURCE MARKER ---";
+	}
+	if ($state eq 'mid2') {
+	    $state = 'post' if m"--- END MAGIC R SOURCE MARKER ---";
+	}
+	if ($state eq 'post') {
+	    $postfix .= $_;
+	}
+    }
+    close (*FIL);
+
+    die "$0: wrong set of magic markers in $filename.\n" if $state ne 'post';
+
+    return ($prefix,$span1,$span2,$postfix);
+}
+
+# -----------------------------------------------------------------------------
