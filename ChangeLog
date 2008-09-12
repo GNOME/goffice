@@ -1,5 +1,27 @@
 2008-09-12  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/goffice.c: (libgoffice_init): init distributions.
+	* goffice/math/Makefile.am: support distributions.
+	* goffice/math/go-R.c: ditto.
+	* goffice/math/go-R.h: ditto.
+	* goffice/math/go-distribution.c: ditto.
+	* goffice/math/go-distribution.h: ditto.
+	* goffice/math/go-rangefunc.c: renamed range_sort to go_range_sort
+	and make it public.
+	* goffice/math/go-rangefunc.h: ditto.
+	* pixmaps/Makefile.am: add new pixmaps.
+	* pixmaps/chart_prob_1_1.svg: implement probablility plots. [#500168]
+	* plugins/plot_boxes/Makefile.am: ditto (and renamed the plugin).
+	* plugins/plot_boxes/go-distribution-prefs.c: ditto.
+	* plugins/plot_boxes/go-distribution-prefs.h: ditto.
+	* plugins/plot_boxes/gog-boxplot.c: moved some code to plugin.c.
+	* plugins/plot_boxes/gog-probability-plot.c: implement probablility plots.
+	* plugins/plot_boxes/gog-probability-plot.h: ditto.
+	* plugins/plot_boxes/plot-types.xml.in: ditto.
+	* plugins/plot_boxes/plugin.xml.in: ditto.
+
+2008-09-12  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* pixmaps/dist.xpm: new pixmap for the distribution related plot
 	family.
 

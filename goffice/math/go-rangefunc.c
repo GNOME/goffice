@@ -162,8 +162,8 @@ SUFFIX(float_compare) (DOUBLE const *a, DOUBLE const *b)
 		return 1;
 }
 
-static DOUBLE *
-SUFFIX(range_sort) (DOUBLE const *xs, int n)
+DOUBLE *
+SUFFIX(go_range_sort) (DOUBLE const *xs, int n)
 {
 	if (n <= 0)
 		return NULL;
@@ -199,7 +199,7 @@ SUFFIX(go_range_fractile_inter_sorted) (DOUBLE const *xs, int n, DOUBLE *res, DO
 int
 SUFFIX(go_range_fractile_inter) (DOUBLE const *xs, int n, DOUBLE *res, DOUBLE f)
 {
-	DOUBLE *ys = SUFFIX(range_sort) (xs, n);
+	DOUBLE *ys = SUFFIX(go_range_sort) (xs, n);
 	int error = SUFFIX(go_range_fractile_inter_sorted) (ys, n, res, f);
 	g_free (ys);
 	return error;

@@ -41,17 +41,17 @@ dist_icon_DATA = \
 	chart_minmax_2_1.png	chart_minmax_2_2.png \
 	chart_histogram_1_1.png \
 	chart_surface_2_1.png	chart_surface_2_2.png \
+	chart_prob_1_1.png \
 	\
 	area.xpm 	\
 	bar.xpm		\
-	boxplot.xpm		\
 	bubble.xpm	\
 	color.xpm	\
 	column.xpm	\
 	contour.xpm	\
+	dist.xpm	\
 	doughnut.xpm	\
 	dropbar.xpm	\
-	hist.xpm	\
 	linegraph.xpm	\
 	minmax.xpm	\
 	pie.xpm		\

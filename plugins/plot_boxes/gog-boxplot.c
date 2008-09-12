@@ -34,13 +34,10 @@
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-path.h>
 #include <goffice/utils/go-persist.h>
-#include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
-
-GOFFICE_PLUGIN_MODULE_HEADER;
 
 struct _GogBoxPlot {
 	GogPlot	base;
@@ -662,27 +659,3 @@ gog_box_plot_series_class_init (GogObjectClass *obj_klass)
 GSF_DYNAMIC_CLASS (GogBoxPlotSeries, gog_box_plot_series,
 	gog_box_plot_series_class_init, NULL,
 	GOG_SERIES_TYPE)
-
-/* Plugin initialization */
-void  gog_histogram_plot_register_type (GTypeModule *module);
-void  gog_histogram_plot_series_register_type (GTypeModule *module);
-void  gog_histogram_plot_view_register_type (GTypeModule *module);
-void  gog_histogram_series_view_register_type (GTypeModule *module);
-
-G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
-{
-	GTypeModule *module = go_plugin_get_type_module (plugin);
-	gog_box_plot_register_type (module);
-	gog_box_plot_view_register_type (module);
-	gog_box_plot_series_register_type (module);
-	gog_histogram_plot_register_type (module);
-	gog_histogram_plot_view_register_type (module);
-	gog_histogram_plot_series_register_type (module);
-	gog_histogram_series_view_register_type (module);
-}
-
-G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
-{
-}

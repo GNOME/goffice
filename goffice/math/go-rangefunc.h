@@ -20,6 +20,7 @@ int go_range_median_inter_sorted (double const *xs, int n, double *res);
 int go_range_increasing (double const *xs, int n);
 int go_range_decreasing (double const *xs, int n);
 int go_range_vary_uniformly (double const *xs, int n);
+double *go_range_sort (double const *xs, int n);
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 int go_range_suml (long double const *xs, int n, long double *res);
@@ -38,6 +39,7 @@ int go_range_median_inter_sortedl (long double const *xs, int n, long double *re
 int go_range_increasingl (long double const *xs, int n);
 int go_range_decreasingl (long double const *xs, int n);
 int go_range_vary_uniformlyl (long double const *xs, int n);
+long double *go_range_sortl (long double const *xs, int n);
 #endif
 
 G_END_DECLS

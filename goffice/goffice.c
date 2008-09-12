@@ -37,6 +37,7 @@
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/graph/gog-3d-box.h>
 #include <goffice/data/go-data-simple.h>
+#include <goffice/math/go-distribution.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-font.h>
@@ -133,6 +134,7 @@ libgoffice_init ()
 	gog_themes_init	();
 	go_number_format_init ();
 	go_currency_date_format_init ();
+	go_distributions_init ();
 	initialized = TRUE;
 }
 

@@ -1,5 +1,8 @@
 goffice 0.7.2:
 
+Jean:
+	* Implement probability plots for some common distributions. [#500168]
+
 Morten:
 	* Fix go_url_resolve_relative.  [#550898]
 
