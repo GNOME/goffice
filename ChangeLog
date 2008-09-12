@@ -1,3 +1,8 @@
+2008-09-11  Jody Goldberg <jody@gnome.org>
+
+	* goffice/app/go-doc.c (load_image) : Check for missing "name"
+	  attribute not no attributes at all. [Coverity 196]
+
 2008-09-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-file.c (go_url_resolve_relative): Fix

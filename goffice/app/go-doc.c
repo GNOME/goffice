@@ -423,7 +423,7 @@ load_image (GsfXMLIn *xin, xmlChar const **attrs)
 	xmlChar const **attr = 	attrs;
 	while (*attr && strcmp (*attr, "name"))
 		attr += 2;
-	if (!attr)
+	if (!*attr)
 		return;
 	image = (GOImage *) g_hash_table_lookup (doc->imagebuf, attr[1]);
 	if (!image) /* this should not occur, but if it does, we might want to load the image? */

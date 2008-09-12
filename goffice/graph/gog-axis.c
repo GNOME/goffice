@@ -734,11 +734,11 @@ static const GogAxisMapDesc map_descs[] =
 
 #ifdef GOFFICE_WITH_GTK
 static void
-gog_axis_map_set_by_num (GogAxis *axis, unsigned num)
+gog_axis_map_set_by_num (GogAxis *axis, gint num)
 {
 	g_return_if_fail (IS_GOG_AXIS (axis));
 
-	if (num >= 0 && num < G_N_ELEMENTS (map_descs))
+	if (num >= 0 && num < (gint)G_N_ELEMENTS (map_descs))
 		g_object_set (G_OBJECT (axis), "map-name", map_descs[num].name, NULL);
 	else
 		g_object_set (G_OBJECT (axis), "map-name", "", NULL);
