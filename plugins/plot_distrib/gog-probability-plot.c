@@ -284,7 +284,6 @@ gog_probability_plot_init (GogProbabilityPlot *plot)
 static void
 gog_probability_plot_dataset_dims (GogDataset const *set, int *first, int *last)
 {
-	GogProbabilityPlot const *plot = GOG_PROBABILITY_PLOT (set);
 	*first = 0;
 	*last = 1;
 }

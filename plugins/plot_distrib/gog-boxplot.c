@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-boxplot.h"
+#include <goffice/app/go-plugin.h>
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>

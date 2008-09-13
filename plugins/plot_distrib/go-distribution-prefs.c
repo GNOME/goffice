@@ -93,7 +93,6 @@ go_distribution_pref_new (GObject *obj, GogDataAllocator *dalloc, G_GNUC_UNUSED 
 {
 	GtkListStore *model;
 	GtkCellRenderer *renderer;
-	GtkTreeViewColumn *column;
 	GtkTreeIter iter;
 	GParamSpec **props;
 	int n, i, j;
