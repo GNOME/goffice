@@ -1,3 +1,8 @@
+2008-09-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* POTFILES.in: renamed plot_boxes to plot_distrib.
+	* POTFILES.skip: ditto.
+
 2008-09-12  Jean Brefort <jean.brefort@normalesup.org>
 
 	* POTFILES.in: Added new files.
