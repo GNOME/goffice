@@ -1,5 +1,35 @@
 2008-09-13  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/app/go-doc.c: (load_image):
+	* goffice/graph/gog-axis-line.c:
+	(gog_axis_base_view_label_position_request): initialize padding
+	[Coverity 242].
+	* goffice/graph/gog-legend.c: (cb_render_elements): add a test to
+	hopefully fix Coverity 199.
+	* goffice/graph/gog-object.c: (gog_object_dup): add a test to
+	hopefully fix Coverity 72.
+	* goffice/graph/gog-plot.c: (gog_plot_populate_editor): add missing
+	labels [Coverity 154].
+	* goffice/gtk/goffice-gtk.c: (go_gui_get_image_save_info): add a test
+	to hopefully fix Coverity 71.
+	* goffice/math/go-R.c: fix file name in license.
+	* goffice/math/go-R.h: ditto.
+	* goffice/math/go-distribution.c: ditto.
+	* goffice/utils/go-pattern.c: (go_pattern_get_svg_path): don't check
+	in an unsigned number is positive [Coverity 134].
+	* goffice/utils/go-undo.c: (go_undo_group_undo): [Coverity 188].
+	* plugins/plot_distrib/gog-boxplot.c: fix file name in license.
+	* plugins/plot_distrib/gog-boxplot.h: ditto.
+	* plugins/plot_distrib/gog-probability-plot.c:
+	(gog_probability_plot_class_init): fix the comment for the second
+	shapr property.
+	* plugins/plot_radar/gog-radar.c: (gog_rt_view_render): add a few
+	parenthesis in the hope to fix Coverity 73.
+	* plugins/plot_surface/gog-xyz-surface.c:
+	(gog_xyz_surface_plot_build_matrix): removed an invalid test [Coverity 135].
+
+2008-09-13  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* configure.in: renamed plot_boxes to plot_distrib.
 	* plugins/Makefile.am: ditto.
 	* plugins/plot_boxes/.gitignore: ditto.

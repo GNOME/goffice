@@ -159,7 +159,7 @@ go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height
 	xmlDocPtr  doc;
 	xmlNodePtr ptr;
 
-	g_return_val_if_fail (pattern->pattern >= 0 || pattern->pattern < GO_PATTERN_MAX, NULL);
+	g_return_val_if_fail (pattern->pattern < GO_PATTERN_MAX, NULL);
 
 	path = g_build_filename (go_sys_data_dir(), "patterns", "svg-patterns.xml", NULL);
 	doc = go_xml_parse_file (path);

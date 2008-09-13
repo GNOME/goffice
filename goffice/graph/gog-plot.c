@@ -269,14 +269,15 @@ gog_plot_populate_editor (GogObject *obj,
 			  G_GNUC_UNUSED GogDataAllocator *dalloc,
 			  GOCmdContext *cc)
 {
-	static const char *axis_labels[7] = { 
+	static const char *axis_labels[GOG_AXIS_TYPES] = { 
 		N_("X axis:"), 
 		N_("Y axis:"), 
 		N_("Z axis:"), 
 		N_("Circular axis:"), 
 		N_("Radial axis:"), 
-		N_("Type axis:"), 
-		N_("Pseudo 3D axis:")
+		N_("Pseudo 3D axis:"), 
+		N_("Color axis:"), 
+		N_("Bubble axis:")
 	};
 	
 	GtkWidget *w;

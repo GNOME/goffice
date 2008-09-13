@@ -1007,6 +1007,8 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
 	if (new_parent)
 		dst = gog_object_add_by_role (new_parent, src->role, dst);
 
+	g_return_val_if_fail (GOG_OBJECT (dst) != NULL, NULL);
+
 	dst->position = src->position;
 	/* properties */
 	props = g_object_class_list_properties (G_OBJECT_GET_CLASS (src), &n);

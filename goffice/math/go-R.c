@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-pnorm.h
+ * go-R.c
  *
  * Copyright (C) 2008 Jean Brefort (jean.brefort@normalesup.org)
  *

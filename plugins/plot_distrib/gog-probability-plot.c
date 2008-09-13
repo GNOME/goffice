@@ -246,7 +246,7 @@ gog_probability_plot_class_init (GogPlotClass *gog_plot_klass)
 	g_object_class_install_property (gobject_klass, PROBABILITY_PLOT_PROP_SHAPE_PARAM2,
 		g_param_spec_string ("param2", 
 			_("Second shape parameter"),
-			_("Name of the first shape parameter if any"),
+			_("Name of the second shape parameter if any"),
 			"none", 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 

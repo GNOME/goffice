@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-pnorm.h
+ * go-R.h
  *
  * Copyright (C) 2008 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -20,8 +20,8 @@
  * USA
  */
 
-#ifndef GO_PNORM_H
-#define GO_PNORM_H
+#ifndef GO_R_H
+#define GO_R_H
 
 double go_trunc (double);
 double go_dnorm (double x, double mu, double sigma, gboolean give_log);
@@ -57,4 +57,4 @@ long double go_qcauchyl (long double p, long double location, long double scale,
 
 #endif
 
-#endif /* GO_PNORM_H */
+#endif /* GO_R_H */

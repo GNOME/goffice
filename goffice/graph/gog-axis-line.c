@@ -2196,7 +2196,7 @@ gog_axis_base_view_label_position_request (GogView *view,
 	GogAxisSet axis_set;
 	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
 	GogStyle *style = axis_base->base.style;
-	GogViewPadding padding;
+	GogViewPadding padding = {0};
 
 	if (gog_axis_get_atype (axis_base->axis) >= GOG_AXIS_VIRTUAL)
 		return;

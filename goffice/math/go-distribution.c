@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-probability-plot.c
+ * go-distribution.c
  *
  * Copyright (C) 2007-2008 Jean Brefort (jean.brefort@normalesup.org)
  *

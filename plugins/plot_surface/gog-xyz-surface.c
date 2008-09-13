@@ -70,7 +70,7 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality
 		index = i * jmax + j;
 		/* Watch out not to fall beyond array limits; however,
 		 * its unlikely and shouldn't happen normally */
-		if (G_LIKELY (index >= 0 && index < n)) {
+		if (G_LIKELY (index < n)) {
 			data[index] += z_vals[k];
 			grid[index]++;
 		}

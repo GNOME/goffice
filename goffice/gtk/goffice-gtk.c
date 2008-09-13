@@ -730,7 +730,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 		goto loop;
 	}
  out:
-	if (uri != NULL) {
+	if (uri != NULL && ret_format != NULL) {
 		g_free (state->uri);
 		state->uri = g_strdup (uri);
 		state->format = *ret_format;

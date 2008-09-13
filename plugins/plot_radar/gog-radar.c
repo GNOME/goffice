@@ -556,7 +556,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 				gog_styled_object_get_style (GOG_STYLED_OBJECT (series->radial_drop_lines)));
 			drop_path = go_path_new ();
 			for (i = 0; i < series->base.num_elements; i++) {
-				gog_chart_map_2D_to_view (chart_map, c_vals != NULL ? c_vals[i] : i+1,
+				gog_chart_map_2D_to_view (chart_map, ((c_vals != NULL) ? c_vals[i] : i+1),
 							  r_vals[i], &theta, &rho);
 				if (   go_finite (theta) 
 				    && go_finite (rho) 

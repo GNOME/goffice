@@ -448,6 +448,7 @@ cb_render_elements (unsigned index, GogStyle const *base_style, char const *name
 
 	if (base_style->interesting_fields & GOG_STYLE_LINE) { /* line and marker */
 		style = gog_style_dup (base_style);
+		g_return_if_fail (style != NULL);
 		go_marker_set_size (style->marker.mark,
 				    go_marker_get_size (style->marker.mark) *
 				    data->swatch_scale_a + data->swatch_scale_b);
