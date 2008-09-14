@@ -1,5 +1,16 @@
 2008-09-14  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-graph.c: (gog_graph_set_property): [Coverity 187]
+	* goffice/graph/gog-grid-line.c: (gog_grid_line_xy_render): [Coverity 52]
+	* goffice/graph/gog-guru.c: (populate_graph_item_list): [Coverity 20]
+	* goffice/graph/gog-renderer.c: (gog_renderer_export_image): [Coverity 40]
+	* goffice/gtk/go-format-sel.c: (fmt_dialog_enable_widgets): [Coverity 18]
+	* goffice/gtk/go-image-sel.c: (ok_button_clicked_cb): [Coverity 19]
+	* goffice/utils/datetime.c: (datetime_weeknum): [Coverity 27]
+	* goffice/utils/go-pattern.c: (go_pattern_get_svg_path): [Coverity 17]
+
+2008-09-14  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/gtk/go-image-sel.c: (cb_file_image_select): don't test
 	before g_free.
 	* goffice/gtk/goffice-gtk.c: (go_help_display): applied patch

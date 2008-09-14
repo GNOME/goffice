@@ -209,7 +209,7 @@ datetime_g_years_between (GDate const *date1, GDate const *date2)
 int
 datetime_weeknum (GDate const *date, int method)
 {
-	int res;
+	int res = -1;
 
 	g_return_val_if_fail (g_date_valid (date), -1);
 	g_return_val_if_fail (method == WEEKNUM_METHOD_SUNDAY ||
@@ -224,7 +224,6 @@ datetime_weeknum (GDate const *date, int method)
 		res = g_date_get_monday_week_of_year (date); break;
 	case WEEKNUM_METHOD_ISO:
 		res = g_date_get_iso8601_week_of_year (date); break;
-	default: res = -1;
 	}
 
 	return res;

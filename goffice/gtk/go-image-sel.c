@@ -140,11 +140,12 @@ ok_button_clicked_cb (GtkWidget *cc, GOImageSelState *state)
 		GtkTreePath *path = l->data;
 		GtkTreeIter iter;
 		char *name;
-		gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), &iter, path);
-		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter, 1, &name, -1);
-		if (name) {
-			*(state->result) = go_doc_get_image (state->doc, name);
-			g_free (name);
+		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), &iter, path)) {
+			gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter, 1, &name, -1);
+			if (name) {
+				*(state->result) = go_doc_get_image (state->doc, name);
+				g_free (name);
+			}
 		}
 		g_list_foreach (l, (GFunc) gtk_tree_path_free, NULL);
 		g_list_free (l);

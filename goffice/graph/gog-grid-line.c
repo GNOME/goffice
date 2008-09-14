@@ -160,19 +160,7 @@ gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
 	switch (axis_type) {
 		case GOG_AXIS_X:
 			map = gog_axis_map_new (axis, plot_area->x, plot_area->w);
-			break;
-		case GOG_AXIS_Y:
-			map = gog_axis_map_new (axis, plot_area->y +plot_area->h, -plot_area->h);
-			break;
-		default:
-			return;
-	}
-
-	path = go_path_new ();
-	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
-
-	switch (axis_type) {
-		case GOG_AXIS_X:
+			path = go_path_new ();
 			if (stripes) {
 				rect.y = plot_area->y;
 				rect.h = plot_area->h;
@@ -206,8 +194,12 @@ gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
 					}
 				gog_renderer_stroke_shape (view->renderer, path);
 			}
+			go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 			break;
 		case GOG_AXIS_Y:
+			map = gog_axis_map_new (axis, plot_area->y +plot_area->h, -plot_area->h);
+			path = go_path_new ();
+			go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 			if (stripes) {
 				rect.x = plot_area->x;
 				rect.w = plot_area->w;
@@ -244,7 +236,7 @@ gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
 			}
 			break;
 		default:
-			break;
+			return;
 	}
 
 	go_path_free (path);

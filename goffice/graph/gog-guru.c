@@ -752,13 +752,12 @@ populate_graph_item_list (GogObject *obj, GogObject *select, GraphGuruState *s,
 	if (insert) {
 		GogObject *gparent = gog_object_get_parent (obj);
 		gint i = g_slist_index (gparent->children, obj);
-		if (i > 0) {
-			GtkTreeIter sibling;
-			gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (s->prop_model),
-				&sibling, parent, i-1);
-			gtk_tree_store_insert_after (s->prop_model, &iter,
-				parent, &sibling);
-		} else
+		GtkTreeIter sibling;
+		if (i > 0 && gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (s->prop_model),
+													&sibling, parent, i-1))
+				gtk_tree_store_insert_after (s->prop_model, &iter,
+					parent, &sibling);
+		else
 			gtk_tree_store_prepend (s->prop_model, &iter, parent);
 	} else
 		gtk_tree_store_append (s->prop_model, &iter, parent);

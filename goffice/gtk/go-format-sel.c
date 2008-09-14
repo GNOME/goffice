@@ -744,9 +744,10 @@ stays:
 				format_entry_set_text (gfs, tmp);
 				g_free (tmp);
 			} else if (select.stamp == 0)
-				gtk_tree_model_get_iter_first (
+				if (!gtk_tree_model_get_iter_first (
 					GTK_TREE_MODEL (gfs->format.formats.model),
-					&select);
+					&select))
+					break;
 
 			if (select.stamp != 0) {
 				GtkTreePath *path = gtk_tree_model_get_path (

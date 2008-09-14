@@ -1271,72 +1271,63 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 
 	switch (format) {
 		case GO_IMAGE_FORMAT_EPS:
-		case GO_IMAGE_FORMAT_PDF:
-		case GO_IMAGE_FORMAT_PS:
-		case GO_IMAGE_FORMAT_SVG:
-			rend->scale = 1.0;
-			switch (format) {
-				case GO_IMAGE_FORMAT_PDF:
-					rend->marker_as_surface = FALSE;
-#ifdef CAIRO_HAS_PDF_SURFACE
-					surface = cairo_pdf_surface_create_for_stream
-						(_cairo_write_func,
-						 output, width_in_pts, height_in_pts);
-#ifdef HAVE_CAIRO_SURFACE_SET_FALLBACK_RESOLUTION
-					cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
-#endif
-					break;
-#else
-					g_warning ("[GogRendererCairo::export_image] cairo PDF backend missing");
-					return FALSE;
-#endif
-				case GO_IMAGE_FORMAT_PS:
-					rend->marker_as_surface = FALSE;
-#ifdef CAIRO_HAS_PS_SURFACE
-					surface = cairo_ps_surface_create_for_stream
-						(_cairo_write_func,
-						 output, width_in_pts, height_in_pts);
-#ifdef HAVE_CAIRO_SURFACE_SET_FALLBACK_RESOLUTION
-					cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
-#endif
-					break;
-#else
-					g_warning ("[GogRendererCairo::export_image] cairo PS backend missing");
-					return FALSE;
-#endif
-				case GO_IMAGE_FORMAT_SVG:
-					rend->marker_as_surface = TRUE;
-#ifdef CAIRO_HAS_SVG_SURFACE
-					surface = cairo_svg_surface_create_for_stream
-						(_cairo_write_func,
-						 output, width_in_pts, height_in_pts);
-#ifdef HAVE_CAIRO_SURFACE_SET_FALLBACK_RESOLUTION
-					cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
-#endif
-					break;
-#else
-					g_warning ("[GogRendererCairo::export_image] cairo SVG backend missing");
-					return FALSE;
-#endif
-				case GO_IMAGE_FORMAT_EPS:
-					rend->marker_as_surface = FALSE;
+			rend->marker_as_surface = FALSE;
 #ifdef HAVE_CAIRO_PS_SURFACE_SET_EPS
-					surface = cairo_ps_surface_create_for_stream
-						(_cairo_write_func,
-						 output, width_in_pts, height_in_pts);
-					cairo_ps_surface_set_eps (surface, TRUE);
+			surface = cairo_ps_surface_create_for_stream
+				(_cairo_write_func,
+				 output, width_in_pts, height_in_pts);
+			cairo_ps_surface_set_eps (surface, TRUE);
 #ifdef HAVE_CAIRO_SURFACE_SET_FALLBACK_RESOLUTION
-					cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
+			cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
 #endif
-					break;
+			goto do_export_vectorial;
 #else
-					g_warning ("[GogRendererCairo::export_image] cairo EPS backend missing");
-					return FALSE;
+			g_warning ("[GogRendererCairo::export_image] cairo EPS backend missing");
+			return FALSE;
 #endif
-				default:
-					break;
-			}
-
+		case GO_IMAGE_FORMAT_PDF:
+			rend->marker_as_surface = FALSE;
+#ifdef CAIRO_HAS_PDF_SURFACE
+			surface = cairo_pdf_surface_create_for_stream
+				(_cairo_write_func,
+				 output, width_in_pts, height_in_pts);
+#ifdef HAVE_CAIRO_SURFACE_SET_FALLBACK_RESOLUTION
+			cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
+#endif
+			goto do_export_vectorial;
+#else
+			g_warning ("[GogRendererCairo::export_image] cairo PDF backend missing");
+			return FALSE;
+#endif
+		case GO_IMAGE_FORMAT_PS:
+			rend->marker_as_surface = FALSE;
+#ifdef CAIRO_HAS_PS_SURFACE
+			surface = cairo_ps_surface_create_for_stream
+				(_cairo_write_func,
+				 output, width_in_pts, height_in_pts);
+#ifdef HAVE_CAIRO_SURFACE_SET_FALLBACK_RESOLUTION
+			cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
+#endif
+			goto do_export_vectorial;
+#else
+			g_warning ("[GogRendererCairo::export_image] cairo PS backend missing");
+			return FALSE;
+#endif
+		case GO_IMAGE_FORMAT_SVG:
+			rend->marker_as_surface = TRUE;
+#ifdef CAIRO_HAS_SVG_SURFACE
+			surface = cairo_svg_surface_create_for_stream
+				(_cairo_write_func,
+				 output, width_in_pts, height_in_pts);
+#ifdef HAVE_CAIRO_SURFACE_SET_FALLBACK_RESOLUTION
+			cairo_surface_set_fallback_resolution (surface, x_dpi, y_dpi);
+#endif
+#else
+			g_warning ("[GogRendererCairo::export_image] cairo SVG backend missing");
+			return FALSE;
+#endif
+do_export_vectorial:
+			rend->scale = 1.0;
 			cairo = cairo_create (surface);
 			cairo_surface_destroy (surface);
 			status = gog_renderer_render_to_cairo (rend, cairo, width_in_pts, height_in_pts);

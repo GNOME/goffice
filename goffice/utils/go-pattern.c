@@ -175,13 +175,16 @@ go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height
 		    ptr->name &&
 		    !strcmp ((char *)ptr->name, "pattern"))
 		{
+			double value;
 			name = xmlGetProp (ptr, CC2XML ("name"));
 			if (name != NULL) {
 				if (strcmp ((char *)name, go_patterns [pattern->pattern].str) == 0) {
-					if (width != NULL)
-						xml_node_get_double (ptr, "width", width);
-					if (height != NULL)
-						xml_node_get_double (ptr, "height", height);
+					if (width != NULL && 
+						xml_node_get_double (ptr, "width", &value))
+					    *width = value;
+					if (height != NULL &&
+						xml_node_get_double (ptr, "height", &value))
+					    *height = value;
 					svg_path = xmlGetProp (ptr, CC2XML ("d"));
 					break;
 				}
