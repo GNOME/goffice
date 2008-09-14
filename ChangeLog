@@ -1,3 +1,11 @@
+2008-09-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/goffice-gtk.c: (go_help_display): applied patch
+	from Hib Eris to fix a crash in non-gnome apps using goffice
+	with gnome. [#551128]
+	* plugins/plot_surface/gog-surface.c: (gog_contour_view_render):
+	fixed a bad index.
+
 2008-09-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-file.c (go_url_resolve_relative): Backport fix

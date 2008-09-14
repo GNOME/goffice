@@ -1127,7 +1127,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							style->fill.pattern.back = color[zn];
 							gog_renderer_push_style (rend, style);
 							gog_renderer_draw_polygon (rend, path, FALSE);
-							if (xl[2] < 0.) {
+							if (xl[4] < 0.) {
 								path[4].x = path[0].x = x[2];
 								path[4].y = path[0].y = y[2];
 								path[5].code = ART_END;
