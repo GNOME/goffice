@@ -814,10 +814,6 @@ go_file_get_date (char const *uri, GOFileDateType type)
 		tm = (time_t) g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_CHANGED);
 		break;
 	}
-	if (error)
-		g_free (error);
-	else {
-	}
 		
 	if (info)
 		g_object_unref (info);

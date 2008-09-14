@@ -51,8 +51,7 @@ struct _GOImageSelState {
 static void
 cb_file_image_select (GtkWidget *cc, GOImageSelState *state)
 {
-	if (state->uri)
-		g_free (state->uri);
+	g_free (state->uri);
 
 	state->uri = go_gtk_select_image (GTK_WINDOW (gtk_widget_get_toplevel (cc)),
 				   NULL);

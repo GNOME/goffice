@@ -1,5 +1,9 @@
 goffice 0.7.2:
 
+Hib Eris:
+	Fix crash in go_help_display when non gnome applications use
+	goffice with gnome. [#551128]
+
 Jean:
 	* Implement probability plots for some common distributions. [#500168]
 

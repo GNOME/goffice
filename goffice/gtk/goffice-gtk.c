@@ -788,9 +788,7 @@ typedef struct {
 static void
 go_help_display (CBHelpPaths const *paths)
 {
-#ifdef GOFFICE_WITH_GNOME
-	gnome_help_display (paths->app, paths->link, NULL);
-#elif defined(G_OS_WIN32)
+#if defined(G_OS_WIN32)
 	static GHashTable* context_help_map = NULL;
 	guint id;
 
@@ -844,6 +842,12 @@ go_help_display (CBHelpPaths const *paths)
 		g_free (path);
 	}
 #else
+#ifdef GOFFICE_WITH_GNOME
+	if (gnome_program_get () != NULL) {
+		gnome_help_display (paths->app, paths->link, NULL);
+		return;
+	}
+#endif
 	go_gtk_notice_dialog (NULL, GTK_MESSAGE_ERROR,
 			      "TODO : launch help browser for %s", paths->link);
 #endif

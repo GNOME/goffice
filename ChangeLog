@@ -1,6 +1,16 @@
+2008-09-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-image-sel.c: (cb_file_image_select): don't test
+	before g_free.
+	* goffice/gtk/goffice-gtk.c: (go_help_display): applied patch
+	from Hib Eris to fix a crash in non-gnome apps using goffice
+	with gnome. [#551128]
+	* goffice/utils/go-file.c: (go_file_get_date): don't free the error twice.
+
 2008-09-13  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/app/go-doc.c: (load_image):
+	* goffice/app/go-doc.c: (load_image): check attr != NULL before
+	deferencing [Coverity 196].
 	* goffice/graph/gog-axis-line.c:
 	(gog_axis_base_view_label_position_request): initialize padding
 	[Coverity 242].
