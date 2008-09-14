@@ -16,12 +16,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-22 03:19+0000\n"
-"PO-Revision-Date: 2008-08-25 10:04+0200\n"
+"POT-Creation-Date: 2008-09-12 20:40+0000\n"
+"PO-Revision-Date: 2008-09-14 14:09+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type:  text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
@@ -221,7 +221,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "La función de limpieza interna del complemento ha devuelto un error."
 
 #: ../goffice/app/go-plugin-service.c:168 ../goffice/gtk/go-format-sel.c:68
-#: ../goffice/utils/go-format.c:3285 ../goffice/utils/go-format.c:3421
+#: ../goffice/utils/go-format.c:3320 ../goffice/utils/go-format.c:3457
 msgid "General"
 msgstr "General"
 
@@ -568,7 +568,8 @@ msgid "Style of underline for this text"
 msgstr "Estilo de subrayado de este texto"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:346
-#: ../goffice/graph/gog-axis.c:1709
+#: ../goffice/graph/gog-axis.c:1709 ../goffice/math/go-distribution.c:162
+#: ../goffice/math/go-distribution.c:163
 msgid "Scale"
 msgstr "Escala"
 
@@ -1175,7 +1176,7 @@ msgid "Plot"
 msgstr "Gráfico"
 
 #: ../goffice/graph/gog-chart.c:446 ../goffice/graph/gog-graph.c:294
-#: ../goffice/graph/gog-legend.c:184
+#: ../goffice/graph/gog-legend.c:185
 msgid "Title"
 msgstr "Título"
 
@@ -1231,7 +1232,7 @@ msgid "Width"
 msgstr "Anchura"
 
 #: ../goffice/graph/gog-control-foocanvas.c:249
-#: ../goffice/graph/gog-renderer.c:1793 ../goffice/graph/gog-view.c:597
+#: ../goffice/graph/gog-renderer.c:1561 ../goffice/graph/gog-view.c:597
 msgid "Model"
 msgstr "Modelo"
 
@@ -1299,20 +1300,20 @@ msgstr "Anchura de la _línea:"
 msgid "_Width:"
 msgstr "_Anchura:"
 
-#: ../goffice/graph/gog-error-bar.c:72 ../goffice/utils/formats.c:309
+#: ../goffice/graph/gog-error-bar.c:73 ../goffice/utils/formats.c:309
 #: ../goffice/utils/go-line.c:54
 msgid "None"
 msgstr "Ninguno"
 
-#: ../goffice/graph/gog-error-bar.c:73
+#: ../goffice/graph/gog-error-bar.c:74
 msgid "Positive"
 msgstr "Positivo"
 
-#: ../goffice/graph/gog-error-bar.c:74
+#: ../goffice/graph/gog-error-bar.c:75
 msgid "Negative"
 msgstr "Negativo"
 
-#: ../goffice/graph/gog-error-bar.c:75
+#: ../goffice/graph/gog-error-bar.c:76
 msgid "Both"
 msgstr "Ambos"
 
@@ -1474,19 +1475,19 @@ msgstr "Mostrar el coeficiente"
 msgid "Show the correlation coefficient on the graph"
 msgstr "Mostrar el coeficiente de correlación en el gráfico"
 
-#: ../goffice/graph/gog-legend.c:207
+#: ../goffice/graph/gog-legend.c:208
 msgid "Swatch Size pts"
 msgstr "Tamaño del reloj (pts)"
 
-#: ../goffice/graph/gog-legend.c:208
+#: ../goffice/graph/gog-legend.c:209
 msgid "size of the swatches in pts."
 msgstr "tamaño de los relojes en pts."
 
-#: ../goffice/graph/gog-legend.c:213
+#: ../goffice/graph/gog-legend.c:214
 msgid "Swatch Padding pts"
 msgstr "Separación del reloj (pts)"
 
-#: ../goffice/graph/gog-legend.c:214
+#: ../goffice/graph/gog-legend.c:215
 msgid "padding between the swatches in pts."
 msgstr "separación entre los relojes en pts."
 
@@ -1801,15 +1802,15 @@ msgstr "Mostrar _ecuación"
 msgid "Display _regression coefficient R²"
 msgstr "Mostrar el coeficiente de _regresión R²"
 
-#: ../goffice/graph/gog-renderer.c:1794
+#: ../goffice/graph/gog-renderer.c:1562
 msgid "The GogGraph this renderer displays"
 msgstr "la GogGraph que este renderizador muestra"
 
-#: ../goffice/graph/gog-renderer.c:1799
+#: ../goffice/graph/gog-renderer.c:1567
 msgid "View"
 msgstr "Ver"
 
-#: ../goffice/graph/gog-renderer.c:1800
+#: ../goffice/graph/gog-renderer.c:1568
 msgid "the GogView this renderer is displaying"
 msgstr "la GogView que está mostrando este renderizador"
 
@@ -2687,7 +2688,7 @@ msgstr "Añadir tiradores a los menús"
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr "Indica si los desplegables deben tener un tirador en el menú"
 
-#: ../goffice/gtk/go-font-sel.c:183
+#: ../goffice/gtk/go-font-sel.c:183 ../goffice/math/go-distribution.c:64
 msgid "Normal"
 msgstr "Normal"
 
@@ -3617,6 +3618,34 @@ msgstr ""
 "\n"
 "¿Desea sobreescribirlo?"
 
+#: ../goffice/math/go-distribution.c:65
+msgid "Uniform"
+msgstr "Uniforme"
+
+#: ../goffice/math/go-distribution.c:66
+msgid "Cauchy"
+msgstr "Cauchy"
+
+#: ../goffice/math/go-distribution.c:67
+msgid "Weibull"
+msgstr "Weibull"
+
+#: ../goffice/math/go-distribution.c:68
+msgid "Lognormal"
+msgstr "Lognormal"
+
+#: ../goffice/math/go-distribution.c:154 ../goffice/math/go-distribution.c:155
+msgid "Location"
+msgstr "Ubicación"
+
+#: ../goffice/math/go-distribution.c:705 ../goffice/math/go-distribution.c:817
+msgid "Shape"
+msgstr "Forma"
+
+#: ../goffice/math/go-distribution.c:706 ../goffice/math/go-distribution.c:818
+msgid "Shape factor"
+msgstr "Factor de forma"
+
 #. The first column has three letter acronyms
 #. * for each currency.  They MUST start with '[$'
 #. * The second column has the long names of the currencies.
@@ -4310,53 +4339,43 @@ msgstr "Zambia, Kwacha"
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabwe, dólar de Zimbabwe"
 
-#. xgettext: generic fake user name for non-local files.
-#: ../goffice/utils/go-file.c:740
-msgid "remote user"
-msgstr "usuario remoto"
-
-#. xgettext: generic fake group name for non-local files.
-#: ../goffice/utils/go-file.c:821
-msgid "remote"
-msgstr "remoto"
-
-#: ../goffice/utils/go-format.c:437
+#: ../goffice/utils/go-format.c:438
 msgid "Black"
 msgstr "Negro"
 
-#: ../goffice/utils/go-format.c:438
+#: ../goffice/utils/go-format.c:439
 msgid "Blue"
 msgstr "Azul"
 
-#: ../goffice/utils/go-format.c:439
+#: ../goffice/utils/go-format.c:440
 msgid "Cyan"
 msgstr "Océano"
 
-#: ../goffice/utils/go-format.c:440
+#: ../goffice/utils/go-format.c:441
 msgid "Green"
 msgstr "Verde"
 
-#: ../goffice/utils/go-format.c:441
+#: ../goffice/utils/go-format.c:442
 msgid "Magenta"
 msgstr "Rosa"
 
-#: ../goffice/utils/go-format.c:442
+#: ../goffice/utils/go-format.c:443
 msgid "Red"
 msgstr "Rojo"
 
-#: ../goffice/utils/go-format.c:443
+#: ../goffice/utils/go-format.c:444
 msgid "White"
 msgstr "Blanco"
 
-#: ../goffice/utils/go-format.c:444
+#: ../goffice/utils/go-format.c:445
 msgid "Yellow"
 msgstr "Amarillo"
 
-#: ../goffice/utils/go-format.c:3329
+#: ../goffice/utils/go-format.c:3364
 msgid "[Color"
 msgstr "[Color"
 
-#: ../goffice/utils/go-format.c:3453
+#: ../goffice/utils/go-format.c:3489
 msgid "[Invalid]"
 msgstr "[No válido]"
 
@@ -4816,9 +4835,11 @@ msgid "Labels"
 msgstr "Etiquetas"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:351
-#: ../plugins/plot_boxes/gog-boxplot.c:396
-#: ../plugins/plot_boxes/gog-histogram.c:186 ../plugins/plot_pie/gog-pie.c:261
-#: ../plugins/plot_radar/gog-radar.c:300 ../tests/go-demo.glade.h:35
+#: ../plugins/plot_boxes/gog-boxplot.c:394
+#: ../plugins/plot_boxes/gog-histogram.c:187
+#: ../plugins/plot_boxes/gog-probability-plot.c:259
+#: ../plugins/plot_pie/gog-pie.c:261 ../plugins/plot_radar/gog-radar.c:300
+#: ../tests/go-demo.glade.h:35
 msgid "Values"
 msgstr "Valores"
 
@@ -4831,7 +4852,7 @@ msgid "Series lines"
 msgstr "Líneas de series"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:608
-#: ../plugins/plot_boxes/gog-histogram.c:490
+#: ../plugins/plot_boxes/gog-histogram.c:484
 msgid "Drop lines"
 msgstr ""
 
@@ -4877,7 +4898,7 @@ msgstr "GráficoBarCol"
 
 #: ../plugins/plot_barcol/gog-barcol.c:149
 #: ../plugins/plot_barcol/gog-minmax.c:197
-#: ../plugins/plot_boxes/gog-boxplot.c:166 ../plugins/plot_pie/gog-pie.c:206
+#: ../plugins/plot_boxes/gog-boxplot.c:164 ../plugins/plot_pie/gog-pie.c:206
 #: ../plugins/plot_pie/gog-pie.c:353 ../plugins/plot_surface/gog-xyz.c:100
 #: ../plugins/plot_surface/gog-xyz-surface.c:107
 #: ../plugins/plot_xy/gog-xy.c:427 ../plugins/plot_xy/gog-xy.c:700
@@ -4888,13 +4909,13 @@ msgstr "Propiedades"
 
 #: ../plugins/plot_barcol/gog-barcol.c:241
 #: ../plugins/plot_barcol/gog-minmax.c:221
-#: ../plugins/plot_boxes/gog-boxplot.c:364
+#: ../plugins/plot_boxes/gog-boxplot.c:362
 msgid "Gap percentage"
 msgstr "Porcentaje del hueco"
 
 #: ../plugins/plot_barcol/gog-barcol.c:242
 #: ../plugins/plot_barcol/gog-minmax.c:222
-#: ../plugins/plot_boxes/gog-boxplot.c:365
+#: ../plugins/plot_boxes/gog-boxplot.c:363
 msgid "The padding around each group as a percentage of their width"
 msgstr "Separación entre grupos como un porcentaje de su ancho"
 
@@ -5255,6 +5276,15 @@ msgstr "Diagramas de línea, área, barras y columnas"
 msgid "Min Max plotting engine"
 msgstr "Motor de dibujado mín. máx."
 
+#: ../plugins/plot_boxes/go-distribution-prefs.c:62
+#: ../plugins/plot_boxes/go-distribution-prefs.c:141
+msgid ":"
+msgstr ":"
+
+#: ../plugins/plot_boxes/go-distribution-prefs.c:102
+msgid "Distribution:"
+msgstr "Distribución:"
+
 #: ../plugins/plot_boxes/gog-boxplot-prefs.glade.h:3
 msgid ""
 "Horizontal\n"
@@ -5278,32 +5308,32 @@ msgstr "_Distribución"
 #. xgettext : the base for how to name box-plot objects
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
-#: ../plugins/plot_boxes/gog-boxplot.c:201
+#: ../plugins/plot_boxes/gog-boxplot.c:199
 msgid "Box-Plot"
 msgstr "Diagrama de cajas"
 
-#: ../plugins/plot_boxes/gog-boxplot.c:370
+#: ../plugins/plot_boxes/gog-boxplot.c:368
 msgid "Vertical"
 msgstr "Vertical"
 
-#: ../plugins/plot_boxes/gog-boxplot.c:371
+#: ../plugins/plot_boxes/gog-boxplot.c:369
 msgid "Whether the box-plot should be vertical instead of horizontal"
 msgstr ""
 "Indica si el diagrama de cajas debería ser vertical en lugar de horizontal"
 
-#: ../plugins/plot_boxes/gog-boxplot.c:376
+#: ../plugins/plot_boxes/gog-boxplot.c:374
 msgid "Outliers"
 msgstr ""
 
-#: ../plugins/plot_boxes/gog-boxplot.c:377
+#: ../plugins/plot_boxes/gog-boxplot.c:375
 msgid "Whether outliers should be taken into account and displayed"
 msgstr ""
 
-#: ../plugins/plot_boxes/gog-boxplot.c:382
+#: ../plugins/plot_boxes/gog-boxplot.c:380
 msgid "Radius ratio"
 msgstr "Tasa del radio"
 
-#: ../plugins/plot_boxes/gog-boxplot.c:383
+#: ../plugins/plot_boxes/gog-boxplot.c:381
 msgid ""
 "The ratio between the radius of the circles representing outliers and the "
 "rectangle width"
@@ -5312,74 +5342,113 @@ msgstr ""
 #. xgettext : the base for how to name histogram-plot objects
 #. * eg The 2nd histogram-plot in a chart will be called
 #. * 	Histogram2
-#: ../plugins/plot_boxes/gog-histogram.c:70
-#: ../plugins/plot_boxes/plot-types.xml.in.h:4
+#: ../plugins/plot_boxes/gog-histogram.c:71
+#: ../plugins/plot_boxes/plot-types.xml.in.h:3
 msgid "Histogram"
 msgstr "Histograma"
 
-#: ../plugins/plot_boxes/gog-histogram.c:184
+#: ../plugins/plot_boxes/gog-histogram.c:185
 msgid "Limits"
 msgstr "Límites"
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:1
-msgid "BoxPlot"
-msgstr "Diagrama de cajas"
+#: ../plugins/plot_boxes/gog-probability-plot.c:60
+#: ../plugins/plot_boxes/gog-probability-plot.c:236
+msgid "Distribution"
+msgstr "Distribución"
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:2
+#. xgettext : the base for how to name probability-plot objects
+#. * eg The 2nd probability-plot in a chart will be called
+#. * 	ProbabilityPlot2
+#: ../plugins/plot_boxes/gog-probability-plot.c:116
+#: ../plugins/plot_boxes/plot-types.xml.in.h:8
+msgid "ProbabilityPlot"
+msgstr "Gráfica de probabilidad"
+
+#: ../plugins/plot_boxes/gog-probability-plot.c:237
+msgid "A pointer to the GODistribution used by this plot"
+msgstr "Un puntero al GODistribution usado por esta gráfica"
+
+#: ../plugins/plot_boxes/gog-probability-plot.c:242
+msgid "Shape parameter"
+msgstr "Parámetro de forma"
+
+#: ../plugins/plot_boxes/gog-probability-plot.c:243
+#: ../plugins/plot_boxes/gog-probability-plot.c:249
+msgid "Name of the first shape parameter if any"
+msgstr "Nombre de la primera forma si existe"
+
+#: ../plugins/plot_boxes/gog-probability-plot.c:248
+msgid "Second shape parameter"
+msgstr "Segundo parámetro de forma"
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:1
 msgid "HBoxPlotOutliers"
 msgstr ""
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:3
+#: ../plugins/plot_boxes/plot-types.xml.in.h:2
 msgid "HBoxPlots"
 msgstr "Diagrama de cajas horizontal"
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:5
+#: ../plugins/plot_boxes/plot-types.xml.in.h:4
 msgid "Histogram."
 msgstr "Histograma."
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:6
+#: ../plugins/plot_boxes/plot-types.xml.in.h:5
 msgid "Horizontal Box-Plot showing outliers."
 msgstr ""
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:7
+#: ../plugins/plot_boxes/plot-types.xml.in.h:6
 msgid "Horizontal Box-Plot."
 msgstr "Diagrama de cajas horizontal."
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:8
+#: ../plugins/plot_boxes/plot-types.xml.in.h:7
+msgid "Probability plot."
+msgstr "Gráfica de probabilidad."
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:9
+msgid "Statistics"
+msgstr "Estadísticas"
+
+#: ../plugins/plot_boxes/plot-types.xml.in.h:10
 msgid "VBoxPlotOutliers"
 msgstr ""
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:9
+#: ../plugins/plot_boxes/plot-types.xml.in.h:11
 msgid "VBoxPlots"
 msgstr "Diagrama de cajas vertical"
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:10
+#: ../plugins/plot_boxes/plot-types.xml.in.h:12
 msgid "Vertical Box-Plot showing outliers."
 msgstr ""
 
-#: ../plugins/plot_boxes/plot-types.xml.in.h:11
+#: ../plugins/plot_boxes/plot-types.xml.in.h:13
 msgid "Vertical Box-Plot."
 msgstr "Diagrama de cajas vertical."
 
 #: ../plugins/plot_boxes/plugin.xml.in.h:1
-msgid "Box-Plots and Histograms"
-msgstr "Diagramas de cajas e histogramas"
-
-#: ../plugins/plot_boxes/plugin.xml.in.h:2
 msgid "Box-plot plotting engine"
 msgstr "Motor de dibujado del diagrama de cajas"
 
-#: ../plugins/plot_boxes/plugin.xml.in.h:3
-msgid "Charting : Box-Plots/Histograms"
-msgstr ""
+#: ../plugins/plot_boxes/plugin.xml.in.h:2
+msgid "Charting : distribution related plots"
+msgstr "Gŕaficas: gráficas de distribución relacionadas"
 
-#: ../plugins/plot_boxes/plugin.xml.in.h:4
+#: ../plugins/plot_boxes/plugin.xml.in.h:3
 msgid "Histograms plotting engine"
 msgstr "Histogramas del motor de dibujo"
+
+#: ../plugins/plot_boxes/plugin.xml.in.h:4
+msgid "Probability plots engine"
+msgstr "Motor de gráficas de probabilidad"
 
 #: ../plugins/plot_boxes/plugin.xml.in.h:5
 msgid "Statistics plot types"
 msgstr "Estadísticas de los tipos de gráficos"
+
+#: ../plugins/plot_boxes/plugin.xml.in.h:6
+msgid "box-blots, histograms, and other distribution related plots"
+msgstr ""
+"gráficas de caja, histogramas y otras gráficas de distribución relacionadas"
 
 #: ../plugins/plot_pie/gog-pie-prefs.glade.h:3
 #: ../plugins/plot_pie/gog-ring-prefs.glade.h:4
@@ -5901,7 +5970,7 @@ msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:785
 msgid "Hide data outside of the color axis bounds"
-msgstr ""
+msgstr "Ocultar datos fuera de los límites de los ejes de color"
 
 #: ../plugins/plot_xy/gog-xy.c:1598 ../plugins/plot_xy/gog-xy.c:1662
 msgid "X error bars"
@@ -6460,3 +6529,15 @@ msgstr "sexto"
 #: ../tests/go-demo.glade.h:43
 msgid "third"
 msgstr "tercero"
+
+#~ msgid "remote user"
+#~ msgstr "usuario remoto"
+
+#~ msgid "remote"
+#~ msgstr "remoto"
+
+#~ msgid "BoxPlot"
+#~ msgstr "Diagrama de cajas"
+
+#~ msgid "Box-Plots and Histograms"
+#~ msgstr "Diagramas de cajas e histogramas"
