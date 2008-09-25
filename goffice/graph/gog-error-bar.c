@@ -509,7 +509,6 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 	GODataVector *vec;
 	int length;
 
-printf("index=%d\n",index);
 	/* -1 ensures that the bar will not be displayed if the error is not a correct one.
 		With a 0 value, it might be, because of rounding errors */
 	*min = *max = -1.;
