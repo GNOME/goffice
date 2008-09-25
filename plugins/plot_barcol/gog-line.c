@@ -526,7 +526,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (vals[i] && gog_axis_map_finite (y_map, vals[i][j])) {
 				value = vals[i][j];
 				if (gog_error_bar_is_visible (errors[i])) {
-					gog_error_bar_get_bounds (errors[i], j - 1, &minus, &plus);
+					gog_error_bar_get_bounds (errors[i], j, &minus, &plus);
 				}
 			} else if (type == GOG_1_5D_NORMAL && !is_area_plot) {
 				value = go_nan;
@@ -542,7 +542,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			sum += value;
 
 			if (gog_error_bar_is_visible (errors[i])) 
-				error_data[i][j].x = j;
+				error_data[i][j].x = j + 1;
 
 			switch (type) {
 				case GOG_1_5D_NORMAL :
