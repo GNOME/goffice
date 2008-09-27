@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-12 20:40+0000\n"
-"PO-Revision-Date: 2008-09-14 14:09+0200\n"
+"PO-Revision-Date: 2008-09-27 13:34+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3632,7 +3632,7 @@ msgstr "Weibull"
 
 #: ../goffice/math/go-distribution.c:68
 msgid "Lognormal"
-msgstr "Lognormal"
+msgstr "Logaritmo normal"
 
 #: ../goffice/math/go-distribution.c:154 ../goffice/math/go-distribution.c:155
 msgid "Location"
@@ -5366,7 +5366,7 @@ msgstr "Gráfica de probabilidad"
 
 #: ../plugins/plot_boxes/gog-probability-plot.c:237
 msgid "A pointer to the GODistribution used by this plot"
-msgstr "Un puntero al GODistribution usado por esta gráfica"
+msgstr "Un puntero a la GODistribution usada en esta gráfica"
 
 #: ../plugins/plot_boxes/gog-probability-plot.c:242
 msgid "Shape parameter"
@@ -5375,7 +5375,7 @@ msgstr "Parámetro de forma"
 #: ../plugins/plot_boxes/gog-probability-plot.c:243
 #: ../plugins/plot_boxes/gog-probability-plot.c:249
 msgid "Name of the first shape parameter if any"
-msgstr "Nombre de la primera forma si existe"
+msgstr "Nombre del primer parámetro si existe"
 
 #: ../plugins/plot_boxes/gog-probability-plot.c:248
 msgid "Second shape parameter"
@@ -5403,7 +5403,7 @@ msgstr "Diagrama de cajas horizontal."
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:7
 msgid "Probability plot."
-msgstr "Gráfica de probabilidad."
+msgstr "Gráfica de probabilidad"
 
 #: ../plugins/plot_boxes/plot-types.xml.in.h:9
 msgid "Statistics"
@@ -5431,7 +5431,7 @@ msgstr "Motor de dibujado del diagrama de cajas"
 
 #: ../plugins/plot_boxes/plugin.xml.in.h:2
 msgid "Charting : distribution related plots"
-msgstr "Gŕaficas: gráficas de distribución relacionadas"
+msgstr ""
 
 #: ../plugins/plot_boxes/plugin.xml.in.h:3
 msgid "Histograms plotting engine"
@@ -5448,7 +5448,6 @@ msgstr "Estadísticas de los tipos de gráficos"
 #: ../plugins/plot_boxes/plugin.xml.in.h:6
 msgid "box-blots, histograms, and other distribution related plots"
 msgstr ""
-"gráficas de caja, histogramas y otras gráficas de distribución relacionadas"
 
 #: ../plugins/plot_pie/gog-pie-prefs.glade.h:3
 #: ../plugins/plot_pie/gog-ring-prefs.glade.h:4
@@ -5678,7 +5677,7 @@ msgstr "Magnitud"
 
 #: ../plugins/plot_radar/gog-radar.c:708
 msgid "Radial drop lines"
-msgstr ""
+msgstr "Líneas deslizantes radiales"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:1
 msgid "Area Radar"
@@ -5982,11 +5981,11 @@ msgstr "Barras de error de Y"
 
 #: ../plugins/plot_xy/gog-xy.c:1608
 msgid "Horizontal drop lines"
-msgstr ""
+msgstr "Líneas deslizantes horizontales"
 
 #: ../plugins/plot_xy/gog-xy.c:1616
 msgid "Vertical drop lines"
-msgstr ""
+msgstr "Líneas deslizantes verticales"
 
 #: ../plugins/plot_xy/gog-xy.c:1674
 msgid "Invalid as zero"
@@ -6299,7 +6298,7 @@ msgstr "Usar valores x medios"
 
 #: ../plugins/smoothing/gog-moving-avg.glade.h:1
 msgid "_Span:"
-msgstr ""
+msgstr "_Separación:"
 
 #: ../plugins/smoothing/gog-moving-avg.glade.h:2
 msgid "_Use averaged abscissa"
