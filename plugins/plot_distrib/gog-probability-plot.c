@@ -433,9 +433,12 @@ gog_probability_plot_series_update (GogObject *obj)
 	if (series->base.num_elements > 0) {
 		series->y = g_new0 (double, series->base.num_elements);
 		series->y[0] = go_distribution_get_ppf (dist, 1. - mn);
-		for (i = 1; i < series->base.num_elements - 1; i++)
-			series->y[i] = go_distribution_get_ppf (dist, (i + .6825) / d);
-		series->y[i] = go_distribution_get_ppf (dist, mn);
+		if (series->base.num_elements > 1) {
+			for (i = 1; i < series->base.num_elements - 1; i++)
+				series->y[i] = go_distribution_get_ppf (dist, (i + .6825) / d);
+			series->y[i] = go_distribution_get_ppf (dist, mn);
+		}
+			
 	} else
 		series->y = NULL;
 

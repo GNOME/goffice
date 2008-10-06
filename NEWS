@@ -6,6 +6,7 @@ Hib Eris:
 
 Jean:
 	* Implement probability plots for some common distributions. [#500168]
+	* Fix invalid write in gog_probability_plot_series_update. [#555161]
 
 Morten:
 	* Fix go_url_resolve_relative.  [#550898]
