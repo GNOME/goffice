@@ -4,6 +4,11 @@
 	(gog_probability_plot_series_update): don't write a second in
 	an array of size 1. [#555161]
 
+2008-10-08  Jody Goldberg <jody@gnome.org>
+
+	* goffice/cut-n-paste/foocanvas/foo-canvas.c (foo_canvas_crossing) :
+	  simplistic patch to repair gtk-2.14 related breakage.
+
 2008-09-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-error-bar.c: (gog_error_bar_get_bounds):

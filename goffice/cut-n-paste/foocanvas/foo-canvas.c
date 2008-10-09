@@ -2815,7 +2815,8 @@ foo_canvas_crossing (GtkWidget *widget, GdkEventCrossing *event)
 
 	canvas = FOO_CANVAS (widget);
 
-	if (event->window != canvas->layout.bin_window)
+	if (event->window != canvas->layout.bin_window ||
+	    NULL != canvas->grabbed_item)
 		return FALSE;
 
 	canvas->state = event->state;
