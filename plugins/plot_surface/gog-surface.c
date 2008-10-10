@@ -150,6 +150,14 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (imax ==0 || jmax == 0)
 		return;
 	area = gog_chart_view_get_plot_area (view->parent);
+
+	if (plot->plotted_data)
+		data = plot->plotted_data;
+	else
+		data = gog_xyz_plot_build_matrix (plot, &cw);
+	if (data == NULL)
+		return;
+
 	chart_map = gog_chart_map_3d_new (chart, area,
 				       GOG_PLOT (plot)->axis[GOG_AXIS_X],
 				       GOG_PLOT (plot)->axis[GOG_AXIS_Y],
@@ -161,11 +169,6 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 
 
 	style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
-
-	if (plot->plotted_data)
-		data = plot->plotted_data;
-	else
-		data = gog_xyz_plot_build_matrix (plot, &cw);
 
 	/* Build the tiles list */
 	x_vec = gog_xyz_plot_get_x_vals (plot);

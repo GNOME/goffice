@@ -7,6 +7,7 @@ Hib Eris:
 Jean:
 	* Implement probability plots for some common distributions. [#500168]
 	* Fix invalid write in gog_probability_plot_series_update. [#555161]
+	* Fix Null pointer crash in gog_contour_view_render. [#555757]
 
 Jody:
 	* Patch foocanvas to work around behaviour change in gtk 2.14.
