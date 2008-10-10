@@ -4,6 +4,9 @@ Hib Eris:
 	Fix crash in go_help_display when non gnome applications use
 	goffice with gnome. [#551128]
 
+Jean:
+	* Fix Null pointer crash in gog_contour_view_render. [#555757]
+
 Morten:
 	* Fix go_url_resolve_relative.  [#550898]
 

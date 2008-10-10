@@ -620,6 +620,13 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (imax ==0 || jmax == 0)
 		return;
 
+	if (plot->plotted_data)
+		data = plot->plotted_data;
+	else
+		data = gog_contour_plot_build_matrix (plot, &cw);
+	if (!data)
+		return;
+
 	x_map = gog_axis_map_new (plot->base.axis[0], 
 				  view->residual.x , view->residual.w);
 	y_map = gog_axis_map_new (plot->base.axis[1], 
@@ -632,11 +639,6 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_axis_map_free (y_map);
 		return;
 	}
-
-	if (plot->plotted_data)
-		data = plot->plotted_data;
-	else
-		data = gog_contour_plot_build_matrix (plot, &cw);
 
 	/* Set cw to ensure that polygons will allways be drawn clockwise */
 	xdiscrete = gog_axis_is_discrete (plot->base.axis[0]) ||

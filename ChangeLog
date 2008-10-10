@@ -1,3 +1,8 @@
+2008-10-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-surface.c: (gog_contour_view_render): do
+	not try to access NULL data. [#555757]
+
 2008-09-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/goffice-gtk.c: (go_help_display): applied patch
