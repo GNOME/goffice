@@ -1,3 +1,8 @@
+2008-10-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-file.c: (go_get_mime_type): do not unref a
+	NULL GObject*.
+
 2008-10-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/gog-contour.c: (gog_contour_view_render): do

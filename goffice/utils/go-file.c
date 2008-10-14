@@ -1094,7 +1094,8 @@ go_get_mime_type (gchar const *uri)
 		mime_type = g_content_type_get_mime_type (content_type);
 		g_free (content_type);
 	}
-	g_object_unref (info);
+	if (info)
+		g_object_unref (info);
 	if (mime_type)
 		return mime_type;
 	return g_strdup ("application/octet-stream");
