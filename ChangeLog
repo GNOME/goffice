@@ -1,3 +1,8 @@
+2008-10-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/math/go-distribution.c: fixed compilation for both with
+	and without long double.
+
 2008-10-14  Jody Goldberg <jody@gnome.org>
 
 	* goffice/graph/gog-style.c (gog_style_fill_sax_save) : add some

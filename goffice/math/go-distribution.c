@@ -34,8 +34,11 @@
 #define DOUBLE double
 #define SUFFIX(_n) _n
 
+#define DISTRIBUTION_FIRST_PATH
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 #include "go-distribution.c"
+#define DISTRIBUTION_LAST_PATH
+#undef DISTRIBUTION_FIRST_PATH
 #undef DOUBLE
 #undef SUFFIX
 
@@ -44,11 +47,13 @@
 #endif
 #define DOUBLE long double
 #define SUFFIX(_n) _n ## l
+#else
+#define DISTRIBUTION_LAST_PATH
 #endif
 
 #endif
 
-#ifndef DISTRIBUTION_FIRST_PATH
+#ifdef DISTRIBUTION_FIRST_PATH
 
 enum {
 	DIST_PROP_0,
@@ -310,7 +315,7 @@ go_distribution_scale (GODistribution *dist, double location, double scale)
 	dist->scale = scale;
 }
 
-#endif /* DISTRIBUTION_FIRST_PATH */
+#endif /* DISTRIBUTION_LAST_PATH */
 
 DOUBLE
 SUFFIX (go_distribution_get_density) (GODistribution *dist, DOUBLE x)
@@ -408,7 +413,7 @@ SUFFIX (go_distribution_get_inverse_survival) (GODistribution *dist, DOUBLE x)
 /*****************************************************************************/
 /*                        Normal distribution                              */
 /*****************************************************************************/
-#ifndef DISTRIBUTION_FIRST_PATH
+#ifdef DISTRIBUTION_FIRST_PATH
 
 typedef struct {
 	GODistribution base;
@@ -443,7 +448,7 @@ SUFFIX (go_normal_get_ppf) (GODistribution *dist, DOUBLE x)
 	return SUFFIX (go_qnorm) (x, dist->location, dist->scale, TRUE, FALSE);
 }
 
-#ifdef DISTRIBUTION_FIRST_PATH
+#ifdef DISTRIBUTION_LAST_PATH
 
 static void
 go_dist_normal_class_init (GObjectClass *klass)
@@ -469,12 +474,12 @@ GSF_CLASS (GODistNormal, go_dist_normal,
 	   go_dist_normal_class_init, go_dist_normal_init,
 	   GO_DISTRIBUTION_TYPE)
 
-#endif /* DISTRIBUTION_FIRST_PATH */
+#endif /* DISTRIBUTION_LAST_PATH */
 
 /*****************************************************************************/
 /*                        Uniform distribution                              */
 /*****************************************************************************/
-#ifndef DISTRIBUTION_FIRST_PATH
+#ifdef DISTRIBUTION_FIRST_PATH
 
 typedef struct {
 	GODistribution base;
@@ -516,7 +521,7 @@ SUFFIX (go_uniform_get_ppf) (GODistribution *dist, DOUBLE x)
 	return x * dist->scale + dist->location;
 }
 
-#ifdef DISTRIBUTION_FIRST_PATH
+#ifdef DISTRIBUTION_LAST_PATH
 
 static void
 go_dist_uniform_class_init (GObjectClass *klass)
@@ -542,12 +547,12 @@ GSF_CLASS (GODistUniform, go_dist_uniform,
 	   go_dist_uniform_class_init, go_dist_uniform_init,
 	   GO_DISTRIBUTION_TYPE)
 
-#endif /* DISTRIBUTION_FIRST_PATH */
+#endif /* DISTRIBUTION_LAST_PATH */
 
 /*****************************************************************************/
 /*                        Cauchy distribution                              */
 /*****************************************************************************/
-#ifndef DISTRIBUTION_FIRST_PATH
+#ifdef DISTRIBUTION_FIRST_PATH
 
 typedef struct {
 	GODistribution base;
@@ -582,7 +587,7 @@ SUFFIX (go_cauchy_get_ppf) (GODistribution *dist, DOUBLE x)
 	return SUFFIX (go_qcauchy) (x, dist->location, dist->scale, TRUE, FALSE);
 }
 
-#ifdef DISTRIBUTION_FIRST_PATH
+#ifdef DISTRIBUTION_LAST_PATH
 
 static void
 go_dist_cauchy_class_init (GObjectClass *klass)
@@ -608,12 +613,12 @@ GSF_CLASS (GODistCauchy, go_dist_cauchy,
 	   go_dist_cauchy_class_init, go_dist_cauchy_init,
 	   GO_DISTRIBUTION_TYPE)
 
-#endif /* DISTRIBUTION_FIRST_PATH */
+#endif /* DISTRIBUTION_LAST_PATH */
 
 /*****************************************************************************/
 /*                        Weibull distribution                              */
 /*****************************************************************************/
-#ifndef DISTRIBUTION_FIRST_PATH
+#ifdef DISTRIBUTION_FIRST_PATH
 
 typedef struct {
 	GODistribution base;
@@ -653,7 +658,7 @@ SUFFIX (go_weibull_get_ppf) (GODistribution *dist, DOUBLE x)
 	return SUFFIX (go_qweibull) (x, GO_DIST_WEIBULL (dist)->shape, dist->scale, TRUE, FALSE) + dist->location;
 }
 
-#ifdef DISTRIBUTION_FIRST_PATH
+#ifdef DISTRIBUTION_LAST_PATH
 
 static void
 go_dist_weibull_set_property (GObject *obj, guint param_id,
@@ -662,7 +667,7 @@ go_dist_weibull_set_property (GObject *obj, guint param_id,
 	GODistWeibull *dist = GO_DIST_WEIBULL (obj);
 
 	switch (param_id) {
-	case LNORM_PROP_SHAPE:
+	case WEIBULL_PROP_SHAPE:
 		dist->shape = g_value_get_double (value);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -677,7 +682,7 @@ go_dist_weibull_get_property (GObject *obj, guint param_id,
 	GODistWeibull *dist = GO_DIST_WEIBULL (obj);
 
 	switch (param_id) {
-	case LNORM_PROP_SHAPE:
+	case WEIBULL_PROP_SHAPE:
 		g_value_set_double (value, dist->shape);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -720,12 +725,12 @@ GSF_CLASS (GODistWeibull, go_dist_weibull,
 	   go_dist_weibull_class_init, go_dist_weibull_init,
 	   GO_DISTRIBUTION_TYPE)
 
-#endif /* DISTRIBUTION_FIRST_PATH */
+#endif /* DISTRIBUTION_LAST_PATH */
 
 /*****************************************************************************/
 /*                        Lognormal distribution                              */
 /*****************************************************************************/
-#ifndef DISTRIBUTION_FIRST_PATH
+#ifdef DISTRIBUTION_FIRST_PATH
 
 typedef struct {
 	GODistribution base;
@@ -765,7 +770,7 @@ SUFFIX (go_log_normal_get_ppf) (GODistribution *dist, DOUBLE x)
 	return SUFFIX (go_qlnorm) (x, 0., GO_DIST_LOG_NORMAL (dist)->shape, TRUE, FALSE) * dist->scale + dist->location;
 }
 
-#ifdef DISTRIBUTION_FIRST_PATH
+#ifdef DISTRIBUTION_LAST_PATH
 
 static void
 go_dist_log_normal_set_property (GObject *obj, guint param_id,
@@ -832,9 +837,13 @@ GSF_CLASS (GODistLogNormal, go_dist_log_normal,
 	   go_dist_log_normal_class_init, go_dist_log_normal_init,
 	   GO_DISTRIBUTION_TYPE)
 
-#endif /* DISTRIBUTION_FIRST_PATH */
+#endif /* DISTRIBUTION_LAST_PATH */
 
-#ifndef DISTRIBUTION_FIRST_PATH
+/*****************************************************************************/
+/*                        Global functions                                   */
+/*****************************************************************************/
+
+#ifndef DISTRIBUTION_LAST_PATH
 
 GODistribution*
 go_distribution_new (GODistributionType type)
@@ -877,6 +886,4 @@ go_distributions_init ()
 	go_dist_log_normal_get_type ();
 }
 
-#define DISTRIBUTION_FIRST_PATH
-
-#endif /* DISTRIBUTION_FIRST_PATH */
+#endif /* DISTRIBUTION_LAST_PATH */
