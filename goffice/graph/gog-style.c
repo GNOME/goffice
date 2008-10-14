@@ -1397,6 +1397,11 @@ gog_style_fill_sax_save (GsfXMLOut *output, GogStyle const *style)
 		gog_style_gradient_sax_save (output, style);
 		break;
 	case GOG_FILL_STYLE_IMAGE:
+		if (NULL == style->fill.image.image) {
+			g_warning ("droping fill with missing image");
+			break;
+		}
+
 		gsf_xml_out_start_element (output, "image");
 		/* FIXME : type is not a good characterization */
 		gsf_xml_out_add_cstr_unchecked (output, "type",

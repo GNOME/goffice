@@ -50,6 +50,12 @@
 
 #include <libintl.h>
 
+#ifdef G_OS_WIN32
+#define STRICT
+#include <windows.h>	// pickup HMODULE
+#undef STRICT
+#endif
+
 int goffice_graph_debug_level = 0;
 
 static char const *libgoffice_data_dir   = GOFFICE_DATADIR;
@@ -85,10 +91,17 @@ libgoffice_init ()
 
 #ifdef G_OS_WIN32
 	{
+	gchar *dir;
+
 #define S(s)	#s
-	gchar *dir = g_win32_get_package_installation_directory (NULL, (char *)
-		"libgoffice-" S(GO_VERSION_EPOCH) "-" S(GO_VERSION_MAJOR) ".dll");
+	char const *module_name = 
+		"libgoffice-" S(GO_VERSION_EPOCH) "-" S(GO_VERSION_MAJOR) ".dll";
 #undef S
+	wchar_t *wc_module_name = g_utf8_to_utf16 (module_name, -1, NULL, NULL, NULL);
+	HMODULE hmodule = GetModuleHandleW (wc_module_name);
+	g_free (wc_module_name);
+	dir = g_win32_get_package_installation_directory_of_module (hmodule);
+
 	libgoffice_data_dir = g_build_filename (dir,
 		"share", "goffice", GOFFICE_VERSION, NULL);
 	libgoffice_icon_dir = g_build_filename (dir,

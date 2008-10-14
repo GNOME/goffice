@@ -50,7 +50,6 @@ typedef struct _GODistribution GODistribution;
 GType go_distribution_get_type (void);
 
 GODistribution *go_distribution_new (GODistributionType type);
-GODistribution *go_distribution_new_by_name (char const *name);
 GODistributionType go_distribution_get_distribution_type (GODistribution *dist);
 char const *go_distribution_get_distribution_name (GODistribution *dist);
 

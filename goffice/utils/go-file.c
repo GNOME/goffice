@@ -691,6 +691,7 @@ go_get_file_permissions (char const *uri)
 		file_permissions->owner_write   = ((mode & S_IWUSR) != 0);
 		file_permissions->owner_execute = ((mode & S_IXUSR) != 0);
 
+#ifndef G_OS_WIN32
 		/* Group  Permissions */
 		file_permissions->group_read    = ((mode & S_IRGRP) != 0);
 		file_permissions->group_write   = ((mode & S_IWGRP) != 0);
@@ -700,6 +701,14 @@ go_get_file_permissions (char const *uri)
 		file_permissions->others_read    = ((mode & S_IROTH) != 0);
 		file_permissions->others_write   = ((mode & S_IWOTH) != 0);
 		file_permissions->others_execute = ((mode & S_IXOTH) != 0);
+#else
+		file_permissions->group_read    =
+		file_permissions->group_write   =
+		file_permissions->group_execute =
+		file_permissions->others_read    =
+		file_permissions->others_write   =
+		file_permissions->others_execute = FALSE;
+#endif /* G_OS_WIN32 */
 	}
 		
 	if (info)
@@ -726,6 +735,7 @@ go_set_file_permissions (char const *uri, GOFilePermissions * file_permissions)
 	if (file_permissions->owner_execute == TRUE)
 		permissions |= S_IXUSR;
 
+#ifndef G_OS_WIN32
 	/* Set group permissions */
 	if (file_permissions->group_read == TRUE)
 		permissions |= S_IRGRP;
@@ -745,6 +755,7 @@ go_set_file_permissions (char const *uri, GOFilePermissions * file_permissions)
 
 	if (file_permissions->others_execute == TRUE)
 		permissions |= S_IXOTH;
+#endif
 
 	/* Try setting unix mode */
 	g_file_set_attribute_uint32 (file,

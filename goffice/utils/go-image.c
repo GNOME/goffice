@@ -656,6 +656,7 @@ go_image_set_name (GOImage *image, char const *name)
 char const *
 go_image_get_name (GOImage *image)
 {
+	g_return_val_if_fail (IS_GO_IMAGE (image), NULL);
 	return image->name;
 }
 
