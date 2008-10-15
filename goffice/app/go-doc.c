@@ -396,9 +396,11 @@ save_image_cb (gpointer key, gpointer img_, gpointer user)
 void
 go_doc_write (GODoc *doc, GsfXMLOut *output)
 {
-	gsf_xml_out_start_element (output, "GODoc");
-	g_hash_table_foreach (doc->imagebuf, save_image_cb, output);
-	gsf_xml_out_end_element (output);
+	if (g_hash_table_size (doc->imagebuf) > 0) {
+		gsf_xml_out_start_element (output, "GODoc");
+		g_hash_table_foreach (doc->imagebuf, save_image_cb, output);
+		gsf_xml_out_end_element (output);
+	}
 	g_hash_table_destroy (doc->imagebuf);
 	doc->imagebuf = NULL;
 }

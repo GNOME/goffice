@@ -1,3 +1,8 @@
+2008-10-14  Jody Goldberg <jody@gnome.org>
+
+	* /gnome/src/goffice/goffice/app/go-doc.c (go_doc_write) : only
+	  generate a GODoc node if there is something to put in.
+
 2008-10-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/math/go-distribution.c: fixed compilation for both with
