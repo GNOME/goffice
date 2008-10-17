@@ -37,7 +37,6 @@
 #define DISTRIBUTION_FIRST_PATH
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 #include "go-distribution.c"
-#define DISTRIBUTION_LAST_PATH
 #undef DISTRIBUTION_FIRST_PATH
 #undef DOUBLE
 #undef SUFFIX
@@ -47,9 +46,8 @@
 #endif
 #define DOUBLE long double
 #define SUFFIX(_n) _n ## l
-#else
-#define DISTRIBUTION_LAST_PATH
 #endif
+#define DISTRIBUTION_LAST_PATH
 
 #endif
 
@@ -843,7 +841,7 @@ GSF_CLASS (GODistLogNormal, go_dist_log_normal,
 /*                        Global functions                                   */
 /*****************************************************************************/
 
-#ifndef DISTRIBUTION_LAST_PATH
+#ifdef DISTRIBUTION_LAST_PATH
 
 GODistribution*
 go_distribution_new (GODistributionType type)
