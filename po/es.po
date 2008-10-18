@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-08 13:31+0000\n"
-"PO-Revision-Date: 2008-10-12 16:39+0200\n"
+"POT-Creation-Date: 2008-10-12 14:40+0000\n"
+"PO-Revision-Date: 2008-10-18 15:46+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4699,7 +4699,7 @@ msgstr "El nombre de la clase del carácter no es válido."
 
 #: ../goffice/utils/regutf8.c:46
 msgid "Trailing backslash."
-msgstr ""
+msgstr "Barra inversa al final."
 
 #: ../goffice/utils/regutf8.c:47
 msgid "Invalid back reference."
@@ -4768,7 +4768,7 @@ msgstr "$-specification no válida al reemplazar."
 #: ../goffice/utils/regutf8.c:415
 #, c-format
 msgid "Invalid trailing backslash in replacement."
-msgstr ""
+msgstr "La barra inversa del final en el reemplazamiento no es válida."
 
 #: ../goffice/utils/regutf8.c:892
 msgid "Search Text"
@@ -4858,7 +4858,7 @@ msgstr "Líneas de series"
 #: ../plugins/plot_barcol/gog-1.5d.c:608
 #: ../plugins/plot_distrib/gog-histogram.c:484
 msgid "Drop lines"
-msgstr ""
+msgstr "Líneas deslizantes"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:616
 #: ../plugins/plot_barcol/plot-types.xml.in.h:78
@@ -4944,7 +4944,7 @@ msgstr "barras horizontales o columnas verticales"
 #. * 	PlotDropBar2
 #: ../plugins/plot_barcol/gog-dropbar.c:43
 msgid "PlotDropBar"
-msgstr ""
+msgstr "Dibujar barra deslizante"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -5097,11 +5097,11 @@ msgstr "Columna"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:70
 msgid "DropBar"
-msgstr ""
+msgstr "Barra deslizante"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:71
 msgid "Horizontal Drop Bars"
-msgstr ""
+msgstr "Barras deslizantes horizontales"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:72
 msgid "Horizontal Min Max Lines"
@@ -5109,7 +5109,7 @@ msgstr "Líneas mín. máx. horizontales"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:73
 msgid "Horizontal drop bars."
-msgstr ""
+msgstr "Barras deslizantes horizontales."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:74
 msgid "Horizontal min max lines with markers."
@@ -5230,7 +5230,7 @@ msgstr "Líneas apiladas no marcadas"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:101
 msgid "Vertical Drop Bars"
-msgstr ""
+msgstr "Barras deslizantes verticales"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:102
 msgid "Vertical Min Max Lines"
@@ -5238,7 +5238,7 @@ msgstr "Líneas mín. máx. verticales"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:103
 msgid "Vertical drop bars."
-msgstr ""
+msgstr "Barras deslizantes verticales."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:104
 msgid "Vertical min max lines with markers."
@@ -5266,7 +5266,7 @@ msgstr "Tipos de gráficas preestablecidas para 1.5d"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:5
 msgid "Drop Bar/Col plotting engine"
-msgstr ""
+msgstr "Motor de dibujado de barras/columnas deslizantes"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:6
 msgid "Line plotting engine"
