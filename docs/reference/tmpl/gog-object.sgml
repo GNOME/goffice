@@ -123,74 +123,6 @@ Base class for all objects of graph model
 @pre_remove: 
 @post_remove: 
 
-<!-- ##### FUNCTION gog_object_set_arg ##### -->
-<para>
-
-</para>
-
-@name: 
-@val: 
-@obj: 
-
-
-<!-- ##### FUNCTION go_xml_out_add_color ##### -->
-<para>
-
-</para>
-
-@out: 
-@id: 
-@c: 
-
-
-<!-- ##### FUNCTION gog_object_write_xml_sax ##### -->
-<para>
-
-</para>
-
-@obj: 
-@output: 
-
-
-<!-- ##### FUNCTION gog_object_new_from_xml ##### -->
-<para>
-
-</para>
-
-@parent: 
-@node: 
-@Returns: 
-
-
-<!-- ##### USER_FUNCTION GogObjectSaxHandler ##### -->
-<para>
-
-</para>
-
-@obj: 
-@user_data: 
-
-
-<!-- ##### FUNCTION gog_object_sax_push_parser ##### -->
-<para>
-
-</para>
-
-@xin: 
-@attrs: 
-@handler: 
-@user_data: 
-
-
-<!-- ##### FUNCTION gog_xml_read_state_get_obj ##### -->
-<para>
-
-</para>
-
-@xin: 
-@Returns: 
-
-
 <!-- ##### STRUCT GogObject ##### -->
 <para>
 
@@ -202,53 +134,53 @@ Base class for all objects of graph model
 
 </para>
 
-@gogobject: the object which received the signal.
-@arg1: 
+@: 
+@: 
 
 <!-- ##### SIGNAL GogObject::child-added ##### -->
 <para>
 
 </para>
 
-@gogobject: the object which received the signal.
-@arg1: 
+@: 
+@: 
 
 <!-- ##### SIGNAL GogObject::child-name-changed ##### -->
 <para>
 
 </para>
 
-@gogobject: the object which received the signal.
-@arg1: 
+@: 
+@: 
 
 <!-- ##### SIGNAL GogObject::child-removed ##### -->
 <para>
 
 </para>
 
-@gogobject: the object which received the signal.
-@arg1: 
+@: 
+@: 
 
 <!-- ##### SIGNAL GogObject::children-reordered ##### -->
 <para>
 
 </para>
 
-@gogobject: the object which received the signal.
+@: 
 
 <!-- ##### SIGNAL GogObject::name-changed ##### -->
 <para>
 
 </para>
 
-@gogobject: the object which received the signal.
+@: 
 
 <!-- ##### SIGNAL GogObject::update-editor ##### -->
 <para>
 
 </para>
 
-@gogobject: the object which received the signal.
+@: 
 
 <!-- ##### ARG GogObject:alignment ##### -->
 <para>
@@ -710,5 +642,53 @@ Base class for all objects of graph model
 
 @obj: 
 @doc: 
+
+
+<!-- ##### FUNCTION gog_object_write_xml_sax ##### -->
+<para>
+
+</para>
+
+@obj: 
+@output: 
+
+
+<!-- ##### FUNCTION gog_object_new_from_xml ##### -->
+<para>
+
+</para>
+
+@parent: 
+@node: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION GogObjectSaxHandler ##### -->
+<para>
+
+</para>
+
+@obj: 
+@user_data: 
+
+
+<!-- ##### FUNCTION gog_object_sax_push_parser ##### -->
+<para>
+
+</para>
+
+@xin: 
+@attrs: 
+@handler: 
+@user_data: 
+
+
+<!-- ##### FUNCTION gog_xml_read_state_get_obj ##### -->
+<para>
+
+</para>
+
+@xin: 
+@Returns: 
 
 

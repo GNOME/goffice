@@ -1,5 +1,9 @@
 2008-10-17  Jody Goldberg <jody@gnome.org>
 
+	* Release 0.7.2
+
+2008-10-17  Jody Goldberg <jody@gnome.org>
+
 	* goffice/math/go-distribution.c : minor build fix for win32.
 	    *
 2008-10-14  Jody Goldberg <jody@gnome.org>
