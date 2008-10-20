@@ -1,7 +1,7 @@
 goffice 0.7.2:
 
 Hib Eris:
-	Fix crash in go_help_display when non gnome applications use
+	* Fix crash in go_help_display when non gnome applications use
 	goffice with gnome. [#551128]
 
 Jean:
