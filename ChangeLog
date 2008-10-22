@@ -1,3 +1,8 @@
+2008-10-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/math/go-cspline.c: (go_cspline_destroy): return without freeing
+	if the argument is NULL. [#557442]
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

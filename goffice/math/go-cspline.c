@@ -202,6 +202,7 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 */
 void SUFFIX(go_cspline_destroy) (struct SUFFIX(GOCSpline) *sp)
 {
+	g_return_if_fail (sp);
 	g_free (sp->a);
 	g_free (sp->b);
 	g_free (sp->c);
