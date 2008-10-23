@@ -187,6 +187,7 @@ go_action_combo_color_create_tool_item (GtkAction *a)
 	tool->combo = (GOComboColor *)go_combo_color_new (icon,
 		caction->default_val_label, caction->default_val,
 		caction->color_group);
+	if (icon) g_object_unref (icon);
 
 	go_combo_color_set_instant_apply (GO_COMBO_COLOR (tool->combo), TRUE);
 	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);

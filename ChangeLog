@@ -1,3 +1,8 @@
+2008-10-23  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-action-combo-color.c
+	(go_action_combo_color_create_tool_item): Plug leak.
+
 2008-10-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/math/go-cspline.c: (go_cspline_destroy): return without freeing
