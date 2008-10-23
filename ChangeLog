@@ -1,3 +1,8 @@
+2008-10-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/math/go-cspline.c: (go_cspline_destroy): return without freeing
+	if the argument is NULL. [#557442]
+
 2008-10-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/gog-surface.c: (gog_contour_view_render): do
