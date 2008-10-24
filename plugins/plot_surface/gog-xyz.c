@@ -285,7 +285,7 @@ gog_xyz_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	}
 	if (bounds->fmt == NULL && fmt != NULL)
 		bounds->fmt = go_format_ref (fmt);
-	if (go_finite (min)) {
+	if (go_finite (min) && vec) {
 		bounds->logical.minima = bounds->val.minima = min;
 		bounds->logical.maxima = bounds->val.maxima = max;
 		bounds->is_discrete = FALSE;
