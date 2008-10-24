@@ -1,5 +1,11 @@
 2008-10-24  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/plot_surface/xl-surface.c: (get_y_vector): add labels if none
+	is given,
+	(xl_contour_plot_class_init): use GOG_SEIRES_SUGGESTED for categories.
+
+2008-10-24  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_surface/gog-xyz.c: (gog_xyz_plot_axis_get_bounds):
 	make things work when there is no data for an axis.
 

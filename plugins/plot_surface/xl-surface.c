@@ -163,11 +163,12 @@ get_y_vector (GogPlot *plot)
 
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
-		(*y_labels) [i] = go_data_scalar_get_str (GO_DATA_SCALAR (
-				series->values[-1].data));
+		(*y_labels) [i] = (series->values[-1].data)?
+				g_strdup (go_data_scalar_get_str (GO_DATA_SCALAR (series->values[-1].data))):
+				g_strdup_printf("S%d", i + 1); /* excel like labels */
 	}
 
-	return GO_DATA_VECTOR (go_data_vector_str_new (*y_labels, i, NULL));
+	return GO_DATA_VECTOR (go_data_vector_str_new (*y_labels, i, g_free));
 }
 
 static GOData *
@@ -303,7 +304,7 @@ xl_contour_plot_class_init (GogContourPlotClass *klass)
 
 	{
 		static GogSeriesDimDesc dimensions[] = {
-			{ N_("X"), GOG_SERIES_REQUIRED, FALSE,
+			{ N_("X"), GOG_SERIES_SUGGESTED, FALSE,
 			  GOG_DIM_LABEL, GOG_MS_DIM_CATEGORIES },
 			{ N_("Z"), GOG_SERIES_REQUIRED, FALSE,
 			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
