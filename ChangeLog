@@ -1,3 +1,10 @@
+2008-10-24  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-combo-text.c (go_combo_text_init): Plug leak.
+
+	* goffice/gtk/go-color-palette.c (go_color_palette_set_group):
+	Balance references.
+
 2008-10-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/xl-surface.c: (get_y_vector): add labels if none

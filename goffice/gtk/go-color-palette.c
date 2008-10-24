@@ -407,6 +407,7 @@ go_color_palette_set_group (GOColorPalette *p, GOColorGroup *cg)
 		p->group = NULL;
 	}
 	if (cg != NULL) {
+		g_object_ref (cg);
 		p->group = cg;
 		g_signal_connect_swapped (G_OBJECT (cg),
 			"history-changed",
