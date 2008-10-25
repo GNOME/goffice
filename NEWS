@@ -17,6 +17,7 @@ Halton Huo:
 
 Morten:
 	* Fix go_url_resolve_relative.  [#550898]
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 goffice 0.7.1:

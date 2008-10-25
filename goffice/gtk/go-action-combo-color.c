@@ -111,7 +111,7 @@ static GSF_CLASS (GOToolComboColor, go_tool_combo_color,
 struct _GOActionComboColor {
 	GtkAction	 base;
 	GOColorGroup 	*color_group;
-	char const 	*default_val_label;
+	char		*default_val_label;
 	GOColor		 default_val, current_color;
 };
 typedef struct {
@@ -235,6 +235,7 @@ go_action_combo_color_finalize (GObject *obj)
 	GOActionComboColor *color = (GOActionComboColor *)obj;
 	if (color->color_group != NULL)
 		g_object_unref (color->color_group);
+	g_free (color->default_val_label);
 
 	combo_color_parent->finalize (obj);
 }

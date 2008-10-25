@@ -1,5 +1,8 @@
 2008-10-25  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-action-combo-color.c (go_action_combo_color_finalize):
+	Plug leak.
+
 	* configure.in (long double): Add --without-long-double option.
 	Fixes #557045.  Patch by Halton Huo.
 
