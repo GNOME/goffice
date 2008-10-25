@@ -180,6 +180,7 @@ static void
 go_combo_box_popup_hide_unconditional (GOComboBox *combo_box)
 {
 	gboolean popup_info_destroyed = FALSE;
+	GObject *pdc;
 
 	g_return_if_fail (combo_box != NULL);
 	g_return_if_fail (IS_GO_COMBO_BOX (combo_box));
@@ -197,10 +198,10 @@ go_combo_box_popup_hide_unconditional (GOComboBox *combo_box)
 	gdk_display_pointer_ungrab (gtk_widget_get_display (combo_box->priv->toplevel),
 				    GDK_CURRENT_TIME);
 
-	g_object_ref (combo_box->priv->popdown_container);
+	pdc = g_object_ref (combo_box->priv->popdown_container);
 	g_signal_emit (combo_box,
 		       go_combo_box_signals [POP_DOWN_DONE], 0,
-		       combo_box->priv->popdown_container, &popup_info_destroyed);
+		       pdc, &popup_info_destroyed);
 
 	if (popup_info_destroyed){
 		gtk_container_remove (
@@ -208,7 +209,7 @@ go_combo_box_popup_hide_unconditional (GOComboBox *combo_box)
 			combo_box->priv->popdown_container);
 		combo_box->priv->popdown_container = NULL;
 	}
-	g_object_unref (combo_box->priv->popdown_container);
+	g_object_unref (pdc);
 	set_arrow_state (combo_box, FALSE);
 }
 
