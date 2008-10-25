@@ -436,8 +436,13 @@ GOFFICE_CHECK_FUNC(acosh)
 GOFFICE_CHECK_FUNC(atanh)
 
 float_msg=no
-AC_C_LONG_DOUBLE
-if test $ac_cv_c_long_double = yes; then
+AC_ARG_WITH(long-double,
+        [  --without-long-double   disable support for long double],
+        , [ with_long_double=yes])
+
+if test "x$with_long_double" = "xyes"; then
+  AC_C_LONG_DOUBLE
+  if test $ac_cv_c_long_double = yes; then
     have_mandatory_funcs=yes
     need_sunmath=0
     ss_cc=`which $CC`
@@ -518,6 +523,7 @@ if test $ac_cv_c_long_double = yes; then
 	AC_MSG_WARN([Long double support disabled because of library problems])
     fi
     unset have_mandatory_funcs
+  fi
 fi
 AC_SUBST(EXTRA_LIBS)
 AC_SUBST(EXTRA_INCLUDES)

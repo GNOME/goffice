@@ -12,6 +12,9 @@ Jean:
 Jody:
 	* Patch foocanvas to work around behaviour change in gtk 2.14.
 
+Halton Huo:
+	* Add --without-long-double option.  [#557045]
+
 Morten:
 	* Fix go_url_resolve_relative.  [#550898]
 
