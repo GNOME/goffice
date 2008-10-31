@@ -1,3 +1,13 @@
+goffice 0.7.3:
+
+Jean:
+	* Fixed various regressions in contour plots.
+	* Add XYZ series based contour plots.
+
+Morten:
+	* Plug leaks.
+
+--------------------------------------------------------------------------
 goffice 0.7.2:
 
 Hib Eris:
@@ -17,7 +27,6 @@ Halton Huo:
 
 Morten:
 	* Fix go_url_resolve_relative.  [#550898]
-	* Plug leaks.
 
 --------------------------------------------------------------------------
 goffice 0.7.1:

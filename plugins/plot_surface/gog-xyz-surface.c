@@ -41,7 +41,10 @@ enum {
 	XYZ_SURFACE_PROP_COLUMNS
 };
 
+static GogObjectClass *plot_xyz_contour_parent_klass;
 static GogObjectClass *plot_xyz_surface_parent_klass;
+
+#define EPSILON 1e-13
 
 static double *
 gog_xyz_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_changed)
@@ -80,9 +83,78 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality
 		if (grid[k] != 0)
 			data[k] /= grid[k];
 
-	*cardinality_changed = FALSE;
+	if (GOG_IS_PLOT_CONTOUR (plot)) {
+		GogAxisMap *map;
+		GogAxisTick *zticks;
+		GogAxis *axis = plot->base.axis[GOG_AXIS_PSEUDO_3D];
+		unsigned nticks;
+		double *x, val, minimum, maximum, slope, offset = 0.;
+		unsigned max;
+
+	if (!gog_axis_get_bounds (axis, &minimum, &maximum)) {
+			g_free (grid);
+			g_free (data);
+			return NULL;
+		}
+		nticks = gog_axis_get_ticks (axis, &zticks);
+		map = gog_axis_map_new (axis, 0, 1);
+		x = g_new (double, nticks);
+		for (i = j = 0; i < nticks; i++)
+			if (zticks[i].type == GOG_AXIS_TICK_MAJOR) {
+				x[j++] = gog_axis_map_to_view (map, zticks[i].position);
+			}
+		max = --j;
+		if (x[1] > x[0]) {
+			if (x[0] > EPSILON) {
+				offset = 1.;
+				max++;
+			}
+			if (x[j] < 1. - EPSILON)
+				max++;
+			slope = 1 / (x[1] - x[0]);
+		} else {
+			offset = j;
+			if (x[0] < 1. - EPSILON)
+				max++;
+			if (x[j] > EPSILON) {
+				max++;
+				offset += 1.;
+			}
+			slope = 1 / (x[0] - x[1]);
+		}
+		for (k = 0; k < n; ++k) {
+			val = gog_axis_map_to_view (map, data[k]);
+			if (fabs (val) == DBL_MAX)
+				val = go_nan;
+			else {
+				val = offset + slope * (val - x[0]);
+				if (val < 0)
+					val = (val < -EPSILON)? go_nan: 0.;
+			}
+			data[k] = val;
+		}
+		if (series->num_elements != max) {
+			series->num_elements = max;
+			*cardinality_changed = TRUE;
+		}
+		gog_axis_map_free (map);
+		g_free (x);
+		if (max < 2) { /* this might happen with bad 3d axis configuration */
+			g_free (data);
+			data = NULL;
+		}
+	} else
+		*cardinality_changed = FALSE;
 	g_free (grid);
 	return data;
+}
+
+static char const *
+gog_xyz_contour_plot_type_name (G_GNUC_UNUSED GogObject const *item)
+{
+	/* xgettext : the base for how to name surface plot objects
+	*/
+	return N_("PlotXYZContour");
 }
 
 static char const *
@@ -93,20 +165,22 @@ gog_xyz_surface_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotXYZSurface");
 }
 
-
 #ifdef GOFFICE_WITH_GTK
-extern gpointer gog_xyz_surface_plot_pref (GogXYZSurfacePlot *plot, GOCmdContext *cc);
+extern gpointer gog_xyz_surface_plot_pref (GogXYZPlot *plot, GOCmdContext *cc);
 static void
 gog_xyz_surface_plot_populate_editor (GogObject *item,
 				  GogEditor *editor,
 				  G_GNUC_UNUSED GogDataAllocator *dalloc,
 				  GOCmdContext *cc)
 {
-	gog_editor_add_page (editor,
-			     gog_xyz_surface_plot_pref (GOG_XYZ_SURFACE_PLOT (item), cc),
-			     _("Properties"));
+	GogObjectClass *klass = (GOG_IS_PLOT_CONTOUR (item))?
+				plot_xyz_contour_parent_klass:
+				plot_xyz_surface_parent_klass;
 
-	(GOG_OBJECT_CLASS (plot_xyz_surface_parent_klass)->populate_editor) (item, editor, dalloc, cc);
+	gog_editor_add_page (editor,
+			     gog_xyz_surface_plot_pref (GOG_XYZ_PLOT (item), cc),
+			     _("Properties"));
+	(GOG_OBJECT_CLASS (klass)->populate_editor) (item, editor, dalloc, cc);
 }
 #endif
 
@@ -116,6 +190,9 @@ gog_xyz_surface_plot_update (GogObject *obj)
 	GogXYZPlot *model = GOG_XYZ_PLOT(obj);
 	GogXYZSeries *series;
 	double tmp_min, tmp_max;
+	GogObjectClass *klass = (GOG_IS_PLOT_CONTOUR (obj))?
+				plot_xyz_contour_parent_klass:
+				plot_xyz_surface_parent_klass;
 
 	if (model->base.series == NULL)
 		return;
@@ -158,11 +235,11 @@ gog_xyz_surface_plot_update (GogObject *obj)
 		model->z.fmt = go_data_preferred_fmt (series->base.values[2].data);
 	model->z.minima = tmp_min;
 	model->z.maxima = tmp_max;
-	gog_axis_bound_changed (model->base.axis[GOG_AXIS_Z], GOG_OBJECT (model));
+	gog_axis_bound_changed (model->base.axis[((GOG_IS_PLOT_CONTOUR (model))? GOG_AXIS_PSEUDO_3D: GOG_AXIS_Z)], GOG_OBJECT (model));
 
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
-	if (plot_xyz_surface_parent_klass->update)
-		plot_xyz_surface_parent_klass->update (obj);
+	if (klass->update)
+		klass->update (obj);
 }
 
 static void
@@ -221,13 +298,11 @@ gog_xyz_surface_plot_get_property (GObject *obj, guint param_id,
 }
 
 static void
-gog_xyz_surface_plot_class_init (GogXYZPlotClass *klass)
+common_init_class (GogXYZPlotClass *klass)
 {
 	GogPlotClass *gog_plot_klass = (GogPlotClass*) klass;
 	GObjectClass *gobject_klass = (GObjectClass *) klass;
 	GogObjectClass *gog_object_klass = (GogObjectClass *) klass;
-
-	plot_xyz_surface_parent_klass = g_type_class_peek_parent (klass);
 
 	gobject_klass->set_property = gog_xyz_surface_plot_set_property;
 	gobject_klass->get_property = gog_xyz_surface_plot_get_property;
@@ -244,7 +319,6 @@ gog_xyz_surface_plot_class_init (GogXYZPlotClass *klass)
 			2, 1000, 10, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
-	gog_object_klass->type_name	= gog_xyz_surface_plot_type_name;
 	gog_object_klass->update	= gog_xyz_surface_plot_update;
 
 #ifdef GOFFICE_WITH_GTK
@@ -268,16 +342,33 @@ gog_xyz_surface_plot_class_init (GogXYZPlotClass *klass)
 }
 
 static void
-gog_xyz_surface_plot_init (GogXYZSurfacePlot *surface)
+gog_xyz_contour_plot_class_init (GogXYZPlotClass *klass)
 {
-	GogXYZPlot *xyz = GOG_XYZ_PLOT (surface);
+	plot_xyz_contour_parent_klass = g_type_class_peek_parent (klass);
+	GOG_OBJECT_CLASS (klass)->type_name = gog_xyz_contour_plot_type_name;
+	common_init_class (klass);
+}
 
+static void
+gog_xyz_surface_plot_class_init (GogXYZPlotClass *klass)
+{
+	plot_xyz_surface_parent_klass = g_type_class_peek_parent (klass);
+	GOG_OBJECT_CLASS (klass)->type_name = gog_xyz_surface_plot_type_name;
+	common_init_class (klass);
+}
+
+static void
+gog_xyz_surface_plot_init (GogXYZPlot *xyz)
+{
 	xyz->data_xyz = TRUE;
 	xyz->rows = 10;
 	xyz->columns = 10;
 }
 
+GSF_DYNAMIC_CLASS (GogXYZContourPlot, gog_xyz_contour_plot,
+	gog_xyz_contour_plot_class_init, gog_xyz_surface_plot_init,
+	GOG_CONTOUR_PLOT_TYPE)
+
 GSF_DYNAMIC_CLASS (GogXYZSurfacePlot, gog_xyz_surface_plot,
 	gog_xyz_surface_plot_class_init, gog_xyz_surface_plot_init,
 	GOG_SURFACE_PLOT_TYPE)
-

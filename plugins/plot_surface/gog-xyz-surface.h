@@ -22,9 +22,28 @@
 #ifndef GOG_XYZ_SURFACE_H
 #define GOG_XYZ_SURFACE_H
 
+#include "gog-contour.h"
 #include "gog-surface.h"
 
 G_BEGIN_DECLS
+
+/*-----------------------------------------------------------------------------
+ *
+ * GogXYZContourPlot
+ *
+ *-----------------------------------------------------------------------------
+ */
+
+typedef GogContourPlot GogXYZContourPlot;
+typedef GogContourPlotClass GogXYZContourPlotClass;
+
+#define GOG_XYZ_CONTOUR_PLOT_TYPE	(gog_xyz_contour_plot_get_type ())
+#define GOG_XYZ_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XYZ_CONTOUR_PLOT_TYPE, GogXYZContourPlot))
+#define GOG_IS_XYZ_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XYZ_CONTOUR_PLOT_TYPE))
+
+GType gog_xyz_contour_plot_get_type (void);
+
+void  gog_xyz_contour_plot_register_type   (GTypeModule *module);
 
 /*-----------------------------------------------------------------------------
  *

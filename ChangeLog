@@ -1,3 +1,14 @@
+2008-10-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* pixmaps/Makefile.am: add new icon for GogXYZContourPlot.
+	* pixmaps/chart_contour_2_1.png: new icon.
+	* pixmaps/chart_contour_2_1.svg: ditto.
+	* plugins/plot_surface/gog-contour.c: fixed various regressions.
+	* plugins/plot_surface/gog-xyz-surface.c: add GogXYZContourPlot.
+	* plugins/plot_surface/gog-xyz-surface.h: ditto.
+	* plugins/plot_surface/gog-xyz.c: ditto.
+	* plugins/plot_surface/plot-types.xml.in: ditto.
+
 2008-10-25  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-action-combo-color.c (go_action_combo_color_finalize):

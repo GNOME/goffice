@@ -33,7 +33,7 @@ dist_icon_DATA = \
 	chart_scatter_4_4.png \
 	chart_bubble_1_1.png \
 	chart_colored_1_1.png \
-	chart_contour_1_1.png \
+	chart_contour_1_1.png chart_contour_2_1.png \
 	chart_boxplot_1_1.png	chart_boxplot_1_2.png \
 	chart_boxplot_2_1.png	chart_boxplot_2_2.png \
 	chart_dropbar_1_1.png	chart_dropbar_1_2.png \

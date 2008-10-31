@@ -8,6 +8,11 @@
 		_description="Contour plot."
 		sample_image_file="chart_contour_1_1.png">
 	</Type>
+	<Type _name="XYZSurface" row="1" col="2"
+		engine="GogXYZContourPlot" family="Contour"
+		_description="Builds a contour from a set of points with three coordinates"
+		sample_image_file="chart_contour_2_1.png">
+	</Type>
 	<Type _name="Surface" row="1" col="1"
 		engine="GogSurfacePlot" family="Surface"
 		_description="Surface plot."
