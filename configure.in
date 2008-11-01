@@ -159,7 +159,7 @@ if test "x$goffice_with_gtk" = "xtrue" ; then
 	SAVE_LIBS=$LIBS
 	CFLAGS="$CFLAGS $TK_CFLAGS"
 	LIBS="$GTK_LIBS $LIBS"
-	AC_CHECK_FUNC ([gtk_show_uri],[have_gtk_show_uri=yes],[have_gtk_show_uri=false])
+	AC_CHECK_FUNC([gtk_show_uri],[have_gtk_show_uri=yes],[have_gtk_show_uri=false])
 	CFLAGS=$SAVE_CFLAGS
 	LIBS=$SAVE_LIBS
 	if test "x$have_gtk_show_uri" = xyes; then
