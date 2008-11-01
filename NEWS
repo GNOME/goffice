@@ -1,5 +1,7 @@
 goffice 0.7.3:
 
+ATTENTION PACKAGERS: goffice no longer depends on libgnome and libgnomeui.
+
 Halton Huo:
 	* Add --without-long-double option.  [#557045]
 
