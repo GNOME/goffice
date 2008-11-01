@@ -1,5 +1,12 @@
 2008-11-01  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* configure.in: drop the libgnome related code. [#558709]
+	* goffice/goffice-features.h.in: ditto.
+	* goffice/gtk/goffice-gtk.c: (go_help_display): ditto.
+	* goffice/utils/go-file.c: (go_url_show): ditto.
+
+2008-11-01  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* configure.in: add GOFFICE_WITH_GCONF and use gtk_show_uri when present.
 	[#558709]
 	* goffice/app/go-conf.c: ditto.

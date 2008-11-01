@@ -57,7 +57,4 @@
 /* Define if GOffice uses Gtk+ */
 #undef GOFFICE_WITH_GTK
 
-/* Define if GOffice uses Gnome */
-#undef GOFFICE_WITH_GNOME
-
 #endif /* GOFFICE_FEATURES_H */

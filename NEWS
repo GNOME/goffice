@@ -6,7 +6,7 @@ Halton Huo:
 Jean:
 	* Fixed various regressions in contour plots.
 	* Add XYZ series based contour plots.
-	* Use gtk_show_uri when present (see #558709).
+	* Drop the libgome dependency. [#558709]
 
 Morten:
 	* Plug leaks.

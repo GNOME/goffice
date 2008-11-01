@@ -31,9 +31,7 @@
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-input-gio.h>
 #include <gsf/gsf-output-gio.h>
-#ifdef GOFFICE_WITH_GNOME
-#include <libgnome/gnome-url.h>
-#elif defined G_OS_WIN32
+#ifdef G_OS_WIN32
 #include <urlmon.h>
 #include <io.h>
 #endif
@@ -922,104 +920,21 @@ go_url_encode (gchar const *text, int type)
 	return g_string_free (result, FALSE);
 }
 
-#ifndef HAVE_GTK_SHOW_URI
-#ifndef GOFFICE_WITH_GNOME
-#ifndef G_OS_WIN32
-static char *
-check_program (char const *prog)
-{
-	if (NULL == prog)
-		return NULL;
-	if (g_path_is_absolute (prog)) {
-		if (!g_file_test (prog, G_FILE_TEST_IS_EXECUTABLE))
-			return NULL;
-	} else if (!g_find_program_in_path (prog))
-		return NULL;
-	return g_strdup (prog);
-}
-#endif
-#endif
-#endif
-
 GError *
 go_url_show (gchar const *url)
 {
-#ifdef HAVE_GTK_SHOW_URI
-	GError *err = NULL;
-	gtk_show_uri (NULL, url, GDK_CURRENT_TIME, &error);
-	return error;
-#elif defined(G_OS_WIN32)
+#ifdef G_OS_WIN32
 	ShellExecute (NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 
 	return NULL;
 #else
 	GError *err = NULL;
-#ifdef GOFFICE_WITH_GNOME
-	gnome_url_show (url, &err);
-	return err;
+#ifdef HAVE_GTK_SHOW_URI
+	GError *err = NULL;
+	gtk_show_uri (NULL, url, GDK_CURRENT_TIME, &error);
+	return error;
 #else
-	guint8 *browser = NULL;
-	guint8 *clean_url = NULL;
-
-	/* 1) Check BROWSER env var */
-	browser = check_program (getenv ("BROWSER"));
-
-	if (browser == NULL) {
-		static char const * const browsers[] = {
-			"sensible-browser",	/* debian */
-			"epiphany",		/* primary gnome */
-			"galeon",		/* secondary gnome */
-			"encompass",
-			"firefox",
-			"mozilla-firebird",
-			"mozilla",
-			"netscape",
-			"konqueror",
-			"xterm -e w3m",
-			"xterm -e lynx",
-			"xterm -e links"
-		};
-		unsigned i;
-		for (i = 0 ; i < G_N_ELEMENTS (browsers) ; i++)
-			if (NULL != (browser = check_program (browsers[i])))
-				break;
-  	}
-
-	if (browser != NULL) {
-		gint    argc;
-		gchar **argv = NULL;
-		char   *cmd_line = g_strconcat (browser, " %1", NULL);
-
-		if (g_shell_parse_argv (cmd_line, &argc, &argv, &err)) {
-			/* check for '%1' in an argument and substitute the url
-			 * otherwise append it */
-			gint i;
-			char *tmp;
-
-			for (i = 1 ; i < argc ; i++)
-				if (NULL != (tmp = strstr (argv[i], "%1"))) {
-					*tmp = '\0';
-					tmp = g_strconcat (argv[i],
-						(clean_url != NULL) ? (char const *)clean_url : url,
-						tmp+2, NULL);
-					g_free (argv[i]);
-					argv[i] = tmp;
-					break;
-				}
-
-			/* there was actually a %1, drop the one we added */
-			if (i != argc-1) {
-				g_free (argv[argc-1]);
-				argv[argc-1] = NULL;
-			}
-			g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
-				NULL, NULL, NULL, &err);
-			g_strfreev (argv);
-		}
-		g_free (cmd_line);
-	}
-	g_free (browser);
-	g_free (clean_url);
+	g_app_info_launch_default_for_uri (url, NULL, &err);
 	return err;
 #endif
 #endif

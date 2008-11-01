@@ -779,9 +779,7 @@ typedef struct {
 	char const *link;
 } CBHelpPaths;
 
-#ifdef GOFFICE_WITH_GNOME
-#include <libgnome/gnome-help.h>
-#elif defined(G_OS_WIN32)
+#ifdef G_OS_WIN32
 #include <windows.h>
 #include <htmlhelp.h>
 #endif
@@ -842,21 +840,10 @@ go_help_display (CBHelpPaths const *paths)
 		g_free (path);
 	}
 #else
-#ifdef HAVE_GTK_SHOW_URI
-	char *uri = g_strconcat ("ghelp://", paths->app, "#", paths->link, NULL);
-	gtk_show_uri (NULL, uri, GDK_CURRENT_TIME, NULL);
+	char *uri = g_strconcat ("ghelp:", paths->app, "#", paths->link, NULL);
+	go_url_show (uri);
 	g_free (uri);
 	return;
-#else
-#ifdef GOFFICE_WITH_GNOME
-	if (gnome_program_get () != NULL) {
-		gnome_help_display (paths->app, paths->link, NULL);
-		return;
-	}
-#endif
-#endif
-	go_gtk_notice_dialog (NULL, GTK_MESSAGE_ERROR,
-			      "TODO : launch help browser for %s", paths->link);
 #endif
 }
 

@@ -108,9 +108,6 @@ goffice_gtk_reqs="
 	gtk+-2.0		>= 2.6.0
 	libglade-2.0		>= 2.3.6
 "
-goffice_gnome_reqs="
-	libgnomeui-2.0		>= 2.0.0
-"
 
 dnl *******************
 dnl Should we use gconf ?
@@ -146,7 +143,6 @@ else
 	PKG_CHECK_MODULES(GTK, [$goffice_gtk_reqs])
 fi
 
-goffice_with_gnome=$goffice_with_gtk
 if test "x$goffice_with_gtk" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_GTK, 1, [Define if UI is built])
 	goffice_reqs="$goffice_reqs $goffice_gtk_reqs"
@@ -164,35 +160,10 @@ if test "x$goffice_with_gtk" = "xtrue" ; then
 	LIBS=$SAVE_LIBS
 	if test "x$have_gtk_show_uri" = xyes; then
 		AC_DEFINE(HAVE_GTK_SHOW_URI, 1, [Define to 1 if you have the `have_gtk_show_uri' function.])
-		goffice_with_gnome=false
-	else
-
-		dnl ************************************
-		dnl Are the GNOME extensions available ?
-		dnl ************************************
-
-		goffice_with_gnome=true
-		AC_ARG_WITH(gnome,
-			[  --{with,without}-gnome  Use GNOME extensions],
-			[if test "x$withval" = xno; then
-				goffice_with_gnome=false
-				ui_msg="Gtk+ (Gnome disabled by request)"
-			fi]
-		)
-		if test "x$goffice_with_gnome" = "xtrue"; then
-			PKG_CHECK_MODULES(GNOME, [$goffice_gnome_reqs],
-				[ui_msg="Gnome"],
-				[ui_msg="Gtk (missing gnome dependencies)" ; goffice_with_gnome=false])
-		fi
-
-		if test "x$goffice_with_gnome" = "xtrue"; then
-			AC_DEFINE(GOFFICE_WITH_GNOME, 1, [Define if GNOME extensions are available])
-			goffice_reqs="$goffice_reqs $goffice_gnome_reqs"
-		fi
 	fi
 fi
+
 AM_CONDITIONAL(WITH_GTK,   $goffice_with_gtk)
-AM_CONDITIONAL(WITH_GNOME, $goffice_with_gnome)
 
 AC_DEFINE(GOFFICE_WITH_CAIRO, 1, [Goffice uses Cairo])
 
