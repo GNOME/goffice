@@ -38,7 +38,7 @@
 #define d(code)
 #endif
 
-#ifdef GOFFICE_WITH_GNOME
+#ifdef GOFFICE_WITH_GCONF
 #include "go-conf-gconf.c"
 #elif defined G_OS_WIN32
 #include "go-conf-win32.c"

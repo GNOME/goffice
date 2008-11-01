@@ -922,6 +922,7 @@ go_url_encode (gchar const *text, int type)
 	return g_string_free (result, FALSE);
 }
 
+#ifndef HAVE_GTK_SHOW_URI
 #ifndef GOFFICE_WITH_GNOME
 #ifndef G_OS_WIN32
 static char *
@@ -938,11 +939,16 @@ check_program (char const *prog)
 }
 #endif
 #endif
+#endif
 
 GError *
 go_url_show (gchar const *url)
 {
-#ifdef G_OS_WIN32
+#ifdef HAVE_GTK_SHOW_URI
+	GError *err = NULL;
+	gtk_show_uri (NULL, url, GDK_CURRENT_TIME, &error);
+	return error;
+#elif defined(G_OS_WIN32)
 	ShellExecute (NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 
 	return NULL;
@@ -1087,7 +1093,7 @@ go_get_mime_type (gchar const *uri)
 	 */
 	return g_strdup ("text/plain");
 #else
-	GFile *file = g_vfs_get_file_for_uri (g_vfs_get_default (), uri);
+	GFile *file = g_file_new_for_uri (uri);
 	GError *error = NULL;
 	gchar *content_type = NULL, *mime_type = NULL;
 	GFileInfo *info = g_file_query_info (file,

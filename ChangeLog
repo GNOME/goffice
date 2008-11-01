@@ -1,3 +1,13 @@
+2008-11-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: add GOFFICE_WITH_GCONF and use gtk_show_uri when present.
+	[#558709]
+	* goffice/app/go-conf.c: ditto.
+	* goffice/goffice-features.h.in: ditto.
+	* goffice/gtk/goffice-gtk.c: (go_help_display): ditto.
+	* goffice/utils/go-file.c: (go_url_show): ditto,
+	(go_get_mime_type): simplify.
+
 2008-10-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* pixmaps/Makefile.am: add new icon for GogXYZContourPlot.
@@ -31,7 +41,7 @@
 
 	* plugins/plot_surface/xl-surface.c: (get_y_vector): add labels if none
 	is given,
-	(xl_contour_plot_class_init): use GOG_SEIRES_SUGGESTED for categories.
+	(xl_contour_plot_class_init): use GOG_SERIES_SUGGESTED for categories.
 
 2008-10-24  Jean Brefort  <jean.brefort@normalesup.org>
 

@@ -51,6 +51,9 @@
 /* Define if Goffice uses Cairo */
 #undef GOFFICE_WITH_CAIRO
 
+/* Define if GOffice uses GConf */
+#undef GOFFICE_WITH_GCONF
+
 /* Define if GOffice uses Gtk+ */
 #undef GOFFICE_WITH_GTK
 
