@@ -1,5 +1,9 @@
 2008-11-01  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-file.c: (go_url_show): removed duplicated GError*.
+
+2008-11-01  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* configure.in: drop the libgnome related code. [#558709]
 	* goffice/goffice-features.h.in: ditto.
 	* goffice/gtk/goffice-gtk.c: (go_help_display): ditto.

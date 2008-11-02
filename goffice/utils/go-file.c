@@ -35,7 +35,9 @@
 #include <urlmon.h>
 #include <io.h>
 #endif
-
+#ifdef HAVE_GTK_SHOW_URI
+#include <gtk/gtk.h>
+#endif
 #include <string.h>
 #include <stdlib.h>
 #ifdef HAVE_UNISTD_H
@@ -927,16 +929,14 @@ go_url_show (gchar const *url)
 	ShellExecute (NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 
 	return NULL;
-#else
-	GError *err = NULL;
-#ifdef HAVE_GTK_SHOW_URI
-	GError *err = NULL;
+#elif defined(HAVE_GTK_SHOW_URI)
+	GError *error = NULL;
 	gtk_show_uri (NULL, url, GDK_CURRENT_TIME, &error);
 	return error;
 #else
-	g_app_info_launch_default_for_uri (url, NULL, &err);
+	GError *error = NULL;
+	g_app_info_launch_default_for_uri (url, NULL, &error);
 	return err;
-#endif
 #endif
 }
 
