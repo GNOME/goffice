@@ -936,7 +936,7 @@ go_url_show (gchar const *url)
 #else
 	GError *error = NULL;
 	g_app_info_launch_default_for_uri (url, NULL, &error);
-	return err;
+	return error;
 #endif
 }
 
