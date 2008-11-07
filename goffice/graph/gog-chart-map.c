@@ -20,6 +20,7 @@
  */
 
 #include <goffice/graph/gog-chart-map.h>
+#include <goffice/math/go-cspline.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-path.h>
@@ -234,12 +235,12 @@ make_path_spline (GogChartMap *map,
 		  gboolean is_polar)
 {
 	GOPath *path;
-	int i, ii = 0, ii_prev = 0, ii_prev_prev, n_valid_points = 0;
-	double angles[3], lengths[3], thetas[3];
-	double uu[3], vv[3];
+	int i, n_valid_points = 0;
+	double *uu, *vv, *tt;
 	double u, v;
 	double yy, yy_min, yy_max;
 	gboolean is_inverted;
+	struct GOCSpline *splinex, *spliney;
 
 	path = go_path_new ();
 	if (n_points < 1)
@@ -248,6 +249,9 @@ make_path_spline (GogChartMap *map,
 	gog_axis_map_get_bounds (map->axis_map[1], &yy_min, &yy_max);
 	is_inverted = gog_axis_map_is_inverted (map->axis_map[1]);
 
+	uu = g_new (double, n_points);
+	vv = g_new (double, n_points);
+	tt = g_new (double, n_points);
 	n_valid_points = 0;
 	for (i = 0; i < n_points; i++) {
 		yy = y != NULL ? y[i] : i + 1;
@@ -264,74 +268,79 @@ make_path_spline (GogChartMap *map,
 		    && go_finite (v)
 		    && fabs (u) != DBL_MAX
 		    && fabs (v) != DBL_MAX) {
+			uu[n_valid_points] = u;
+			vv[n_valid_points] = v;
+			tt[n_valid_points] = n_valid_points;
 			n_valid_points++;
-
-			ii = i % 3;
-			ii_prev = (i - 1) % 3;
-			ii_prev_prev = (i - 2) % 3;
-
-			uu[ii] = u;
-			vv[ii] = v;
-
-			if (n_valid_points == 1) {
-				go_path_move_to (path, u, v);
-				angles[ii] = 0;
-				lengths[ii] = 0;
-			}
-
-			if (n_valid_points > 1) {
-				go_geometry_cartesian_to_polar (u - uu[ii_prev],
-								v - vv[ii_prev],
-								&lengths[ii],
-								&angles[ii]);
-				lengths[ii] /= 4.0;
-				if (fabs (angles[ii] - angles[ii_prev]) > M_PI)
-					angles[ii] -= (angles[ii] > angles[ii_prev]) ?
-						2. * M_PI :
-					       -2. * M_PI;
-				thetas[ii] = (angles[ii_prev] * lengths[ii]
-					      + angles[ii] * lengths[ii_prev])
-					/ (lengths[ii] + lengths[ii_prev]);
-				if (!go_finite (thetas[ii]))
-					thetas[ii] = 0;
-			}
-
-			if (n_valid_points == 3)
-				go_path_curve_to (path,
-						  uu[ii_prev_prev],
-						  vv[ii_prev_prev],
-						  uu[ii_prev]      - lengths[ii_prev] * cos (thetas[ii]),
-						  vv[ii_prev]      - lengths[ii_prev] * sin (thetas[ii]),
-						  uu[ii_prev], vv[ii_prev]);
-			else if (n_valid_points > 3)
-				go_path_curve_to (path,
-						  uu[ii_prev_prev] + lengths[ii_prev] * cos (thetas[ii_prev]),
-						  vv[ii_prev_prev] + lengths[ii_prev] * sin (thetas[ii_prev]),
-						  uu[ii_prev]      - lengths[ii_prev] * cos (thetas[ii]),
-						  vv[ii_prev]      - lengths[ii_prev] * sin (thetas[ii]),
-						  uu[ii_prev], vv[ii_prev]);
 		} else {
 			if (n_valid_points == 2)
-				go_path_line_to (path, uu[ii], vv[ii]);
-			else if (n_valid_points > 2)
-				go_path_curve_to (path,
-						  uu[ii_prev] + lengths[ii] * cos (thetas[ii]),
-						  vv[ii_prev] + lengths[ii] * sin (thetas[ii]),
-						  uu[ii], vv[ii],
-						  uu[ii], vv[ii]);
+				go_path_line_to (path, uu[1], vv[1]);
+			else if (n_valid_points > 2) {
+				/* evaluate the spline */
+				splinex = go_cspline_init (tt, uu, n_valid_points, GO_CSPLINE_NATURAL, 0., 0.);
+				spliney = go_cspline_init (tt, vv, n_valid_points, GO_CSPLINE_NATURAL, 0., 0.);
+				if (splinex && spliney) {
+					double x0, x1, x2, x3, y0, y1, y2, y3;
+					path = go_path_new ();
+					x0 = uu[0];
+					y0 = vv[0];
+					go_path_move_to (path, x0, y0);
+					for (i = 1; i < splinex->n; i++) {
+						x3 = uu[i];
+						y3 = vv[i];
+						x1 = x0 + splinex->c[i-1] / 3.;
+						x2 = x0 + 2. * splinex->c[i-1] / 3. + splinex->b[i-1] / 3.;
+						y1 = y0 + spliney->c[i-1] / 3.;
+						y2 = y0 + 2. * spliney->c[i-1] / 3. + spliney->b[i-1] / 3.;
+						go_path_curve_to (path, x1, y1, x2, y2, x3, y3);
+						x0 = x3;
+						y0 = y3;
+					}
+					go_cspline_destroy (splinex);
+					go_cspline_destroy (spliney);
+				} else if (splinex)
+					go_cspline_destroy (splinex);
+				else if (spliney)
+					go_cspline_destroy (spliney);
+			}
 			n_valid_points = 0;
 		}
 	}
-
 	if (n_valid_points == 2)
-		go_path_line_to (path, uu[ii], vv[ii]);
-	else if (n_valid_points > 2)
-		go_path_curve_to (path,
-				  uu[ii_prev] + lengths[ii] * cos (thetas[ii]),
-				  vv[ii_prev] + lengths[ii] * sin (thetas[ii]),
-				  uu[ii], vv[ii],
-				  uu[ii], vv[ii]);
+		go_path_line_to (path, uu[1], vv[1]);
+	else if (n_valid_points > 2) {
+		/* evaluate the spline */
+		splinex = go_cspline_init (tt, uu, n_valid_points, GO_CSPLINE_NATURAL, 0., 0.);
+		spliney = go_cspline_init (tt, vv, n_valid_points, GO_CSPLINE_NATURAL, 0., 0.);
+		if (splinex && spliney) {
+			double x0, x1, x2, x3, y0, y1, y2, y3;
+			path = go_path_new ();
+			x0 = uu[0];
+			y0 = vv[0];
+			go_path_move_to (path, x0, y0);
+			for (i = 1; i < splinex->n; i++) {
+				x3 = uu[i];
+				y3 = vv[i];
+				x1 = x0 + splinex->c[i-1] / 3.;
+				x2 = x0 + 2. * splinex->c[i-1] / 3. + splinex->b[i-1] / 3.;
+				y1 = y0 + spliney->c[i-1] / 3.;
+				y2 = y0 + 2. * spliney->c[i-1] / 3. + spliney->b[i-1] / 3.;
+				go_path_curve_to (path, x1, y1, x2, y2, x3, y3);
+				x0 = x3;
+				y0 = y3;
+			}
+			go_cspline_destroy (splinex);
+			go_cspline_destroy (spliney);
+		} else if (splinex)
+			go_cspline_destroy (splinex);
+		else if (spliney)
+			go_cspline_destroy (spliney);
+			
+	}
 
+	g_free (uu);
+	g_free (vv);
+	g_free (tt);
 	return path;
 }
 

@@ -9,6 +9,7 @@ Jean:
 	* Fixed various regressions in contour plots.
 	* Add XYZ series based contour plots.
 	* Drop the libgome dependency. [#558709]
+	* Made spline interpolation really use Bezier cubic splines.
 
 Morten:
 	* Plug leaks.

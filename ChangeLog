@@ -1,3 +1,7 @@
+2008-11-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-chart-map.c: (make_path_spline): use true splines.
+
 2008-11-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-file.c: (go_url_show): removed duplicated GError*.
