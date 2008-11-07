@@ -122,8 +122,7 @@ go_distribution_pref_new (GObject *obj, GogDataAllocator *dalloc, G_GNUC_UNUSED 
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (w), renderer,
 					"text", 0,
 					NULL);
-	renderer = gtk_cell_renderer_text_new ();
-	for (i =0 ; i < GO_DISTRIBUTION_MAX; i++) {
+	for (i = 0; i < GO_DISTRIBUTION_MAX; i++) {
 		gtk_list_store_append (model, &iter);
 		gtk_list_store_set (model, &iter, 0, _(go_distribution_type_to_string (i)), 1, i, -1);
 		if (i == dist_type)
