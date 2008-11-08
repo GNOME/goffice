@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-12 14:40+0000\n"
-"PO-Revision-Date: 2008-10-18 15:46+0200\n"
+"POT-Creation-Date: 2008-11-07 14:05+0100\n"
+"PO-Revision-Date: 2008-11-08 16:02+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -568,8 +568,8 @@ msgid "Style of underline for this text"
 msgstr "Estilo de subrayado de este texto"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:346
-#: ../goffice/graph/gog-axis.c:1709 ../goffice/math/go-distribution.c:162
-#: ../goffice/math/go-distribution.c:163
+#: ../goffice/graph/gog-axis.c:1709 ../goffice/math/go-distribution.c:165
+#: ../goffice/math/go-distribution.c:166
 msgid "Scale"
 msgstr "Escala"
 
@@ -694,9 +694,9 @@ msgstr "Si esta etiqueta afecta al escalado de tipografías"
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1231
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1232
 #: ../plugins/plot_surface/gog-xyz.c:393
-#: ../plugins/plot_surface/gog-xyz-surface.c:256
-#: ../plugins/plot_surface/xl-surface.c:306
-#: ../plugins/plot_surface/xl-surface.c:398 ../plugins/plot_xy/gog-xy.c:369
+#: ../plugins/plot_surface/gog-xyz-surface.c:330
+#: ../plugins/plot_surface/xl-surface.c:307
+#: ../plugins/plot_surface/xl-surface.c:399 ../plugins/plot_xy/gog-xy.c:369
 #: ../plugins/plot_xy/gog-xy.c:536 ../plugins/plot_xy/gog-xy.c:793
 msgid "X"
 msgstr "X"
@@ -704,7 +704,7 @@ msgstr "X"
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1238
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas.c:1239
 #: ../plugins/plot_surface/gog-xyz.c:395
-#: ../plugins/plot_surface/gog-xyz-surface.c:258
+#: ../plugins/plot_surface/gog-xyz-surface.c:332
 #: ../plugins/plot_xy/gog-xy.c:371 ../plugins/plot_xy/gog-xy.c:538
 #: ../plugins/plot_xy/gog-xy.c:795
 msgid "Y"
@@ -2091,11 +2091,11 @@ msgstr "El GogObject que muestra esta vista"
 msgid "<b>Rotation</b>"
 msgstr "<b>Rotación</b>"
 
-#: ../goffice/gtk/go-action-combo-text.c:253
+#: ../goffice/gtk/go-action-combo-text.c:254
 msgid "Case Sensitive"
 msgstr "Sensible a capitalización"
 
-#: ../goffice/gtk/go-action-combo-text.c:254
+#: ../goffice/gtk/go-action-combo-text.c:255
 msgid "Should the text comparison be case sensitive"
 msgstr "Si la comparación de texto debería coincidir con la capitalización"
 
@@ -2672,11 +2672,11 @@ msgstr "púrpura oscuro"
 msgid "sky blue"
 msgstr "azul cielo"
 
-#: ../goffice/gtk/go-color-palette.c:451
+#: ../goffice/gtk/go-color-palette.c:452
 msgid "custom"
 msgstr "personalizado"
 
-#: ../goffice/gtk/go-color-palette.c:458 ../goffice/gtk/go-color-palette.c:702
+#: ../goffice/gtk/go-color-palette.c:459 ../goffice/gtk/go-color-palette.c:703
 msgid "Custom Color..."
 msgstr "Color personalizado..."
 
@@ -2684,15 +2684,15 @@ msgstr "Color personalizado..."
 msgid "Custom color..."
 msgstr "Color personalizado..."
 
-#: ../goffice/gtk/go-combo-box.c:261
+#: ../goffice/gtk/go-combo-box.c:262
 msgid "Add tearoffs to menus"
 msgstr "Añadir tiradores a los menús"
 
-#: ../goffice/gtk/go-combo-box.c:262
+#: ../goffice/gtk/go-combo-box.c:263
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr "Indica si los desplegables deben tener un tirador en el menú"
 
-#: ../goffice/gtk/go-font-sel.c:183 ../goffice/math/go-distribution.c:64
+#: ../goffice/gtk/go-font-sel.c:183 ../goffice/math/go-distribution.c:67
 msgid "Normal"
 msgstr "Normal"
 
@@ -3593,7 +3593,7 @@ msgstr ""
 "La extensión de archivo dada no coincide con el tipo de archivo elegido. "
 "¿Quiere usar este nombre de todas formas?"
 
-#: ../goffice/gtk/goffice-gtk.c:913
+#: ../goffice/gtk/goffice-gtk.c:907
 #, c-format
 msgid ""
 "%s\n"
@@ -3602,7 +3602,7 @@ msgstr ""
 "%s\n"
 "es un nombre de directorio"
 
-#: ../goffice/gtk/goffice-gtk.c:917
+#: ../goffice/gtk/goffice-gtk.c:911
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3611,7 +3611,7 @@ msgstr ""
 "No tiene permisos para guardar a\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:924
+#: ../goffice/gtk/goffice-gtk.c:918
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -3622,31 +3622,31 @@ msgstr ""
 "\n"
 "¿Desea sobreescribirlo?"
 
-#: ../goffice/math/go-distribution.c:65
+#: ../goffice/math/go-distribution.c:68
 msgid "Uniform"
 msgstr "Uniforme"
 
-#: ../goffice/math/go-distribution.c:66
+#: ../goffice/math/go-distribution.c:69
 msgid "Cauchy"
 msgstr "Cauchy"
 
-#: ../goffice/math/go-distribution.c:67
+#: ../goffice/math/go-distribution.c:70
 msgid "Weibull"
 msgstr "Weibull"
 
-#: ../goffice/math/go-distribution.c:68
+#: ../goffice/math/go-distribution.c:71
 msgid "Lognormal"
 msgstr "Logaritmo normal"
 
-#: ../goffice/math/go-distribution.c:154 ../goffice/math/go-distribution.c:155
+#: ../goffice/math/go-distribution.c:157 ../goffice/math/go-distribution.c:158
 msgid "Location"
 msgstr "Ubicación"
 
-#: ../goffice/math/go-distribution.c:705 ../goffice/math/go-distribution.c:817
+#: ../goffice/math/go-distribution.c:708 ../goffice/math/go-distribution.c:820
 msgid "Shape"
 msgstr "Forma"
 
-#: ../goffice/math/go-distribution.c:706 ../goffice/math/go-distribution.c:818
+#: ../goffice/math/go-distribution.c:709 ../goffice/math/go-distribution.c:821
 msgid "Shape factor"
 msgstr "Factor de forma"
 
@@ -4904,7 +4904,7 @@ msgstr "GráficoBarCol"
 #: ../plugins/plot_barcol/gog-minmax.c:197
 #: ../plugins/plot_distrib/gog-boxplot.c:165 ../plugins/plot_pie/gog-pie.c:206
 #: ../plugins/plot_pie/gog-pie.c:353 ../plugins/plot_surface/gog-xyz.c:100
-#: ../plugins/plot_surface/gog-xyz-surface.c:107
+#: ../plugins/plot_surface/gog-xyz-surface.c:182
 #: ../plugins/plot_xy/gog-xy.c:427 ../plugins/plot_xy/gog-xy.c:700
 #: ../plugins/smoothing/gog-moving-avg.c:115
 #: ../plugins/smoothing/gog-exp-smooth.c:82
@@ -5281,7 +5281,7 @@ msgid "Min Max plotting engine"
 msgstr "Motor de dibujado mín. máx."
 
 #: ../plugins/plot_distrib/go-distribution-prefs.c:62
-#: ../plugins/plot_distrib/go-distribution-prefs.c:140
+#: ../plugins/plot_distrib/go-distribution-prefs.c:139
 msgid ":"
 msgstr ":"
 
@@ -5744,7 +5744,7 @@ msgstr "Motor de dibujo de radares"
 
 #. xgettext : the base for how to name contour plot objects
 #.
-#: ../plugins/plot_surface/gog-contour.c:123
+#: ../plugins/plot_surface/gog-contour.c:128
 msgid "PlotContour"
 msgstr "Contorno"
 
@@ -5763,9 +5763,9 @@ msgid "Transpose the plot"
 msgstr "Transponer el gráfico"
 
 #: ../plugins/plot_surface/gog-xyz.c:397
-#: ../plugins/plot_surface/gog-xyz-surface.c:260
-#: ../plugins/plot_surface/xl-surface.c:308
-#: ../plugins/plot_surface/xl-surface.c:400 ../plugins/plot_xy/gog-xy.c:797
+#: ../plugins/plot_surface/gog-xyz-surface.c:334
+#: ../plugins/plot_surface/xl-surface.c:309
+#: ../plugins/plot_surface/xl-surface.c:401 ../plugins/plot_xy/gog-xy.c:797
 msgid "Z"
 msgstr "Z"
 
@@ -5775,23 +5775,29 @@ msgstr "Transponer"
 
 #. xgettext : the base for how to name surface plot objects
 #.
-#: ../plugins/plot_surface/gog-xyz-surface.c:93
+#: ../plugins/plot_surface/gog-xyz-surface.c:157
+msgid "PlotXYZContour"
+msgstr "DibujarContornoXYZ"
+
+#. xgettext : the base for how to name surface plot objects
+#.
+#: ../plugins/plot_surface/gog-xyz-surface.c:165
 msgid "PlotXYZSurface"
 msgstr "DibujarSuperficieXYZ"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:236
+#: ../plugins/plot_surface/gog-xyz-surface.c:311
 msgid "Rows"
 msgstr "Filas"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:237
+#: ../plugins/plot_surface/gog-xyz-surface.c:312
 msgid "Number of rows"
 msgstr "Número de filas"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:242
+#: ../plugins/plot_surface/gog-xyz-surface.c:317
 msgid "Columns"
 msgstr "Columnas"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:243
+#: ../plugins/plot_surface/gog-xyz-surface.c:318
 msgid "Number of columns"
 msgstr "Número de columnas"
 
@@ -5804,26 +5810,30 @@ msgid "_Rows:"
 msgstr "_Filas:"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:1
+msgid "Builds a contour from a set of points with three coordinates"
+msgstr "Construye un contorno desde un juego de puntos con tres coordenadas"
+
+#: ../plugins/plot_surface/plot-types.xml.in.h:2
 msgid "Builds a surface from a set of points with three coordinates"
 msgstr "Construye una superficie desde un juego de puntos con tres coordenadas"
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:2
+#: ../plugins/plot_surface/plot-types.xml.in.h:3
 msgid "Contour"
 msgstr "Contorno"
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:3
+#: ../plugins/plot_surface/plot-types.xml.in.h:4
 msgid "Contour plot."
 msgstr "Gráfico de contorno."
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:4
+#: ../plugins/plot_surface/plot-types.xml.in.h:5
 msgid "Surface"
 msgstr "Superficie"
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:5
+#: ../plugins/plot_surface/plot-types.xml.in.h:6
 msgid "Surface plot."
 msgstr "Dibujo de superficie."
 
-#: ../plugins/plot_surface/plot-types.xml.in.h:6
+#: ../plugins/plot_surface/plot-types.xml.in.h:7
 msgid "XYZSurface"
 msgstr "SuperficieXYZ"
 
