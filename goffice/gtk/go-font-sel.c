@@ -357,8 +357,9 @@ gfs_init (GOFontSel *gfs)
 
 	gfs->modifications = pango_attr_list_new ();
 
-	gtk_box_pack_start_defaults (GTK_BOX (gfs),
-		glade_xml_get_widget (gfs->gui, "toplevel-table"));
+	gtk_box_pack_start (GTK_BOX (gfs), 
+		glade_xml_get_widget (gfs->gui, "toplevel-table"), 
+		TRUE, TRUE, 0);
 	gfs->font_name_entry  = glade_xml_get_widget (gfs->gui, "font-name-entry");
 	gfs->font_style_entry = glade_xml_get_widget (gfs->gui, "font-style-entry");
 	gfs->font_size_entry  = glade_xml_get_widget (gfs->gui, "font-size-entry");
