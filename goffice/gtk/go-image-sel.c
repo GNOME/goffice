@@ -80,7 +80,7 @@ cb_image_add (GtkWidget *cc, GOImageSelState *state)
 	image = go_image_new_from_file (filename, &error);
 	g_free (filename);
 	if (error) {
-		g_warning (error->message);
+		g_warning ("%s", error->message);
 		g_error_free (error);
 		error = NULL;
 	}

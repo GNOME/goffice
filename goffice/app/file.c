@@ -687,7 +687,7 @@ go_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 			const char *msg = _("Saving over old files of this type is disabled for safety.");
 
 			if (!gsf_output_error (output))
-				gsf_output_set_error (output, 0, msg);
+				gsf_output_set_error (output, 0, "%s", msg);
 
 			g_free (file_name);
 
