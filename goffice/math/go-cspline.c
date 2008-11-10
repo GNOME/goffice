@@ -48,26 +48,35 @@
 
 #endif
 
-/*
-Creates a spline structure, and computes the coefficients associated with the
-polynoms.
-Arguments are:
-x: the given abscissas, theymust be given in increasing order
-y: the given ordinates
-n: the number of valid (x, y) pairs
-limits: how the limits must be treated, four values are allowed:
-	GO_CSPLINE_NATURAL: first and least second derivatives are 0.
-	GO_CSPLINE_PARABOLIC: the curve will be a parabole arc outside of the limits.
-	GO_CSPLINE_CUBIC: the curve will be cubic outside of the limits.
-	GO_CSPLINE_CLAMPED: the first and last derivatives are imposed.
-c0, cn: the first and last derivatives when using clamped splines, not used in the
-other limit types.
-*/
+/**
+ * go_cspline_init:
+ * @x: the x values
+ * @y: the y values
+ * @n: the number of x and y values
+ * @limits: how the limits must be treated, four values are allowed:
+ *	GO_CSPLINE_NATURAL: first and least second derivatives are 0.
+ *	GO_CSPLINE_PARABOLIC: the curve will be a parabole arc outside of the limits.
+ *	GO_CSPLINE_CUBIC: the curve will be cubic outside of the limits.
+ *	GO_CSPLINE_CLAMPED: the first and last derivatives are imposed.
+ * @c0: the first derivative when using clamped splines, not used in the
+ *      other limit types.
+ * @cn: the first derivative when using clamped splines, not used in the
+ *      other limit types.
+ *
+ * Creates a spline structure, and computes the coefficients associated with the
+ * polynoms. The ith polynome (between x[i-1] and x[i] is:
+ * y(x) = y[i-1] + (c[i-1] + (b[i-1] + a[i] * (x - x[i-1])) * (x - x[i-1])) * (x - x[i-1])
+ * where a[i-1], b[i-1], c[i-1], x[i-1] and y[i-1] are the corresponding
+ * members of the new structure.
+ *
+ * Returns: a newly created struct GOCSpline instance which should be
+ * destroyed by a call to go_bezier_spline_destroy.
+ */
 struct SUFFIX(GOCSpline) *
 SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 			 unsigned limits, DOUBLE c0, DOUBLE cn)
 {
-	DOUBLE *d1, *d2, *d3, *d4, *s, *h;
+	DOUBLE *d1, *d2, *d3, *d4, h;
 	struct SUFFIX(GOCSpline) *sp;
 	double dx1 = 0., dy1 = 0., dx2 = 0., dy2 = 0., dxn1 = 0., dxn2 = 0.;
 	int nm1, nm2, i, j, first, last;
@@ -83,21 +92,18 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 	sp->a = (DOUBLE*) g_new0 (DOUBLE, nm1);
 	sp->b = (DOUBLE*) g_new (DOUBLE, nm1);
 	sp->c = (DOUBLE*) g_new (DOUBLE, nm1);
-	i = n + 1;
-	d1 = (DOUBLE*) g_new0 (DOUBLE, i);
-	d2 = (DOUBLE*) g_new0 (DOUBLE, i);
-	d3 = (DOUBLE*) g_new0 (DOUBLE, i);
-	d4 = (DOUBLE*) g_new0 (DOUBLE, i);
-	s = (DOUBLE*) g_new0 (DOUBLE, i);
-	h = (DOUBLE*) g_new0 (DOUBLE, i);
+	d1 = (DOUBLE*) g_new0 (DOUBLE, n);
+	d2 = (DOUBLE*) g_new0 (DOUBLE, n);
+	d3 = (DOUBLE*) g_new0 (DOUBLE, n);
+	d4 = (DOUBLE*) g_new0 (DOUBLE, n);
 
   /* --- COMPUTE FOR N-2 ROWS --- */
 	nm2 = n - 2; 
 	dx1 = x[1] - x[0]; 
-	dy1 = (y[1] - y[0]) / dx1 * 6.0;
+	dy1 = (y[1] - y[0]) / dx1 * 3.0;
 	for ( i = 1; i <= nm2; ++i ) { 
 		dx2 = x[i + 1] - x[i];
-		dy2 = (y[i + 1] - y[i]) / dx2 * 6.0;
+		dy2 = (y[i + 1] - y[i]) / dx2 * 3.0;
 		d1[i] = dx1;
 		d2[i] = 2.0 * (dx1 + dx2);
 		d3[i] = dx2;
@@ -129,18 +135,16 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 	case GO_CSPLINE_CLAMPED : /* Derivative end conditions */
 		dx1 = x[1] - x[0]; 
 		dy1 = (y[1] - y[0]) / dx1;
-		s[0] = c0; 
-		s[nm1] = cn;
-		d1[0] = 2.0 * dx1;
-		d2[0] = dx1; 
-		d3[0] = 0.0;
-		d4[0] = (dy1 - s[1]) * 6;
+		d1[0] = 0.0;
+		d2[0] = 2.0 * dx1; 
+		d3[0] = dx1;
+		d4[0] = (dy1 - c0) * 3.0;
 		dx1 = x[nm1] - x[nm2]; 
 		dy1 = (y[nm1] - y[nm2]) / dx1;
 		d1[nm1] = dx1; 
 		d2[nm1] = 2.0 * dx1;
 		d3[nm1] = 0.0;
-		d4[nm1] = (s[n] - dy1) * 6.0;
+		d4[nm1] = (cn - dy1) * 3.0;
 		first = 1; last = n-1;  
 		break;
 }
@@ -157,23 +161,19 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 	for (j = last - 1; j >= first - 1; --j )
 		d4[j] = (d4[j] - d3[j] * d4[j + 1]) / d2[j];
 
-	/* --- NOW PUT THE VALUES INTO THE S VECTOR --- */
-	for ( i = first - 1; i <= last; ++i )
-		s[i] = d4[i];
-
 	/* --- TAKE CARE OF SPECIAL END CONDITIONS  FOR S VECTOR --- */
 	switch (limits) {
 	case GO_CSPLINE_NATURAL :  
-		s[0] = 0.0; 
-		s[nm1] = 0.0;
+		d4[0] = 0.0; 
+		d4[nm1] = 0.0;
 		break;
 	case GO_CSPLINE_PARABOLIC :  
-		s[0] = s[1]; 
-		s[nm1] = s[nm2];
+		d4[0] = d4[1]; 
+		d4[nm1] = d4[nm2];
 		break;
 	case GO_CSPLINE_CUBIC :  
-		s[0] = ((dx1 + dx2) * s[1] - dx1 * s[2]) / dx2;
-		s[nm1] = ((dx2 + dxn1) * s[nm2] - dxn1 * s[nm2 - 1]) / dx2;
+		d4[0] = ((dx1 + dx2) * d4[1] - dx1 * d4[2]) / dx2;
+		d4[nm1] = ((dxn2 + dxn1) * d4[nm2] - dxn1 * d4[nm2 - 1]) / dxn2;
 		break;
 	case GO_CSPLINE_CLAMPED :  /* already taken care of */;
 		break;
@@ -181,25 +181,26 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 
 	/* --- GENERATE THE COEFFICIENTS OF THE POLYNOMIALS --- */
 	for ( i = 0; i < nm1; ++i ) {
-		h[i] = x[i+1] - x[i];
-		sp->a[i] = (s[i + 1] - s[i]) / (6.0 * h[i]);
-		sp->b[i] = s[i] / 2.0;
-		sp->c[i] = ((y[i + 1] - y[i]) / h[i]) -
-					((2.0* h[i] * s[i] + h[i] * s[i + 1]) / 6.0);
+		h = x[i+1] - x[i];
+		sp->a[i] = (d4[i + 1] - d4[i]) / (3.0 * h);
+		sp->b[i] = d4[i];
+		sp->c[i] = ((y[i + 1] - y[i]) / h) -
+					((2.0 * d4[i] + d4[i + 1]) * h / 3.0);
 	}
 
 	g_free (d1);
 	g_free (d2);
 	g_free (d3);
 	g_free (d4);
-	g_free (s);
-	g_free (h);
 	return sp;
 }
 
-/*
-	Frees the spline structure when done.
-*/
+/**
+ * go_cspline_destroy:
+ * @sp: a spline structure returned by go_cspline_init.
+ *	
+ * Frees the spline structure when done.
+ */
 void SUFFIX(go_cspline_destroy) (struct SUFFIX(GOCSpline) *sp)
 {
 	g_return_if_fail (sp);
@@ -209,10 +210,14 @@ void SUFFIX(go_cspline_destroy) (struct SUFFIX(GOCSpline) *sp)
 	g_free (sp);
 }
 
-/*
-Returns the interpolated value for x.
-sp must be a spine structure as returned by SUFFIX(go_cspline_init)
-*/
+/**
+ * go_cspline_get_value:
+ * @sp: a spline structure returned by go_cspline_init.
+ *
+ * sp must be a valid spline structure as returned by go_cspline_init.
+ *
+ * Returns: the interpolated value for x, or 0 if an error occurred.
+ */
 DOUBLE SUFFIX(go_cspline_get_value) (struct SUFFIX(GOCSpline) *sp, DOUBLE x)
 {
 	DOUBLE dx;
@@ -242,10 +247,14 @@ DOUBLE SUFFIX(go_cspline_get_value) (struct SUFFIX(GOCSpline) *sp, DOUBLE x)
 	return sp->y[j] + dx * (sp->c[j] + dx * (sp->b[j] + dx * sp->a[j]));
 }
 
-/*
-Returns the interpolated derivative at x.
-sp must be a spine structure as returned by SUFFIX(go_cspline_init)
-*/
+/**
+ * go_cspline_get_deriv:
+ * @sp: a spline structure returned by go_cspline_init.
+ *
+ * sp must be a valid spline structure as returned by go_cspline_init.
+ *
+ * Returns: the interpolated derivative at x, or 0 if an error occurred.
+ */
 DOUBLE SUFFIX(go_cspline_get_deriv) (struct SUFFIX(GOCSpline) *sp, DOUBLE x)
 {
 	DOUBLE dx;
@@ -275,11 +284,19 @@ DOUBLE SUFFIX(go_cspline_get_deriv) (struct SUFFIX(GOCSpline) *sp, DOUBLE x)
 	return sp->c[j] + dx * (2 * sp->b[j] + dx * 3 * sp->a[j]);
 }
 
-/*
-Returns an array of the n interpolated values at the n values stored in x.
-The x values must be in increasing order.
-sp must be a spine structure as returned by SUFFIX(go_cspline_init)
-*/
+/**
+ * go_cspline_get_values:
+ * @sp: a spline structure returned by go_cspline_init.
+ * @x: a vector a values at which interpolation is requested.
+ * @n: the number of interpolation requested.
+ *
+ * sp must be a valid spline structure as returned by go_cspline_init.
+ * The x values must be sorted in increasing order.
+ *
+ * Returns: a newly allocated array of interpolated values which should
+ * be destroyed by a call to g_free when not anymore needed, or NULL if
+ * an error occurred.
+ */
 DOUBLE *SUFFIX(go_cspline_get_values) (struct SUFFIX(GOCSpline) *sp, DOUBLE const *x, int n)
 {
 	DOUBLE *res, dx;
@@ -301,11 +318,19 @@ DOUBLE *SUFFIX(go_cspline_get_values) (struct SUFFIX(GOCSpline) *sp, DOUBLE cons
 	return res;
 }
 
-/*
-Returns an array of the n interpolated derivatives at the n values stored in x.
-The x values must be in increasing order.
-sp must be a spine structure as returned by SUFFIX(go_cspline_init)
-*/
+/**
+ * go_cspline_get_derivs:
+ * @sp: a spline structure returned by go_cspline_init.
+ * @x: a vector a values at which interpolation is requested.
+ * @n: the number of interpolation requested.
+ *
+ * sp must be a valid spline structure as returned by go_cspline_init.
+ * The x values must be sorted in increasing order.
+ *
+ * Returns: a newly allocated array of the n interpolated derivatives which
+ * should be destroyed by a call to g_free when not anymore needed, or NULL if
+ * an error occurred.
+ */
 DOUBLE *SUFFIX(go_cspline_get_derivs) (struct SUFFIX(GOCSpline) *sp, DOUBLE const *x, int n)
 {
 	DOUBLE *res, dx;
@@ -327,12 +352,19 @@ DOUBLE *SUFFIX(go_cspline_get_derivs) (struct SUFFIX(GOCSpline) *sp, DOUBLE cons
 	return res;
 }
 
-/*
-Returns an array of the n-1 integrals on the intervals between two consecutive
-values stored in x.
-The x values must be in increasing order.
-sp must be a spine structure as returned by SUFFIX(go_cspline_init)
-*/
+/**
+ * go_cspline_get_integrals:
+ * @sp: a spline structure returned by go_cspline_init.
+ * @x: a vector a values at which interpolation is requested.
+ * @n: the number of interpolation requested.
+ *
+ * sp must be a valid spline structure as returned by go_cspline_init.
+ * The x values must be sorted in increasing order.
+ *
+ * Returns: a newly allocated array of the n-1 integrals on the intervals
+ * between two consecutive values stored in x. which should be destroyed by
+ * a call to g_free when not anymore needed, or NULL if  an error occurred.
+ */
 DOUBLE *SUFFIX(go_cspline_get_integrals) (struct SUFFIX(GOCSpline) *sp, DOUBLE const *x, int n)
 {
 	DOUBLE *res, start, end, sum;

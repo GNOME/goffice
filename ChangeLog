@@ -1,8 +1,11 @@
 2008-11-10  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/math/go-cspline.c: (go_cspline_init): fixed evaluation for
+	cubic and clamped limits.
+
+2008-11-10  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-graph.c: (gog_graph_set_property): fixed typo.
-	* goffice/math/go-cspline.c: (go_cspline_init): fixed evaluation
-	in cubic end and clamped cases.
 
 2008-11-10  Jean Brefort  <jean.brefort@normalesup.org>
 
