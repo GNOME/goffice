@@ -1,5 +1,12 @@
 2008-11-11  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/math/go-cspline.c: (go_cspline_init): don't use cast with
+	g_new.
+	* goffice/utils/go-bezier.c: (go_bezier_spline_init): create a struct,
+	not a pointer to a struct, and don't cast.
+
+2008-11-11  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-chart.c: set title priority to 0. [#152675]
 	* goffice/graph/gog-graph.c: (gog_graph_class_init): ditto.
 

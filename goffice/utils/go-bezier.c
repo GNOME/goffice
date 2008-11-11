@@ -70,7 +70,7 @@ go_bezier_spline_init (double const *x, double const *y, int n, gboolean closed)
 	*/
 
 	/* Create and initialize the structure */
-	sp = (struct GOBezierSpline *) g_new0 (struct GOBezierSpline *, 1);
+	sp = g_new0 (struct GOBezierSpline, 1);
 	i = (closed)? 3 * n: 3 * n - 2;
 	sp->x = g_new (double, i);
 	sp->y = g_new (double, i);

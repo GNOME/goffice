@@ -679,7 +679,7 @@ gog_plot_update_cardinality (GogPlot *plot, int index_num)
 			gog_series_set_index (series, i++, FALSE);
 			if (!gog_series_has_legend (series))
 				no_legend++;
-		}
+		}			
 	}
 
 	plot->full_cardinality =

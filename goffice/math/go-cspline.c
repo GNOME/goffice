@@ -85,7 +85,7 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 	if (limits >= GO_CSPLINE_MAX || !SUFFIX(go_range_increasing) (x, n) || n < 3)
 		return NULL;
 	nm1 = n - 1;
-	sp = (struct SUFFIX(GOCSpline)*) g_new0 (struct SUFFIX(GOCSpline), 1);
+	sp = g_new0 (struct SUFFIX(GOCSpline), 1);
 	sp->n = n;
 	sp->x = x;
 	sp->y = y;
