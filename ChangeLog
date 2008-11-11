@@ -1,5 +1,10 @@
 2008-11-11  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-chart.c: set title priority to 0. [#152675]
+	* goffice/graph/gog-graph.c: (gog_graph_class_init): ditto.
+
+2008-11-11  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-chart-map.c: (make_path_linear),
 	(make_path_spline), (make_path_cspline), (xy_make_path_step),
 	(xy_make_path), (polar_make_path_step), (polar_make_path),
