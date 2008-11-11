@@ -22,7 +22,7 @@
 
 #include "goffice-config.h"
 #include "go-bezier.h"
-#include <math/go-math.h>
+#include <goffice/math/go-math.h>
 
 /**
  * go_bezier_spline_init:
