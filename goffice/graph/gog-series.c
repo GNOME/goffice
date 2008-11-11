@@ -265,6 +265,7 @@ enum {
 	SERIES_PROP_0,
 	SERIES_PROP_HAS_LEGEND,
 	SERIES_PROP_INTERPOLATION,
+	SERIES_PROP_INTERPOLATION_SKIP_INVALID,
 	SERIES_PROP_FILL_TYPE
 };
 
@@ -348,6 +349,9 @@ gog_series_set_property (GObject *obj, guint param_id,
 	case SERIES_PROP_INTERPOLATION:
 		series->interpolation = go_line_interpolation_from_str (g_value_get_string (value));
 		break;
+	case SERIES_PROP_INTERPOLATION_SKIP_INVALID:
+		series->interpolation_skip_invalid = g_value_get_boolean (value);
+		break;
 	case SERIES_PROP_FILL_TYPE:
 		name = g_value_get_string (value);
 		for (i = 0; i < G_N_ELEMENTS (_fill_type_infos); i++)
@@ -374,6 +378,9 @@ gog_series_get_property (GObject *obj, guint param_id,
 		break;
 	case SERIES_PROP_INTERPOLATION:
 		g_value_set_string (value, go_line_interpolation_as_str (series->interpolation));
+		break;
+	case SERIES_PROP_INTERPOLATION_SKIP_INVALID:
+		g_value_set_boolean (value, series->interpolation_skip_invalid);
 		break;
 	case SERIES_PROP_FILL_TYPE:
 		g_value_set_string (value, _fill_type_infos[series->fill_type].name);
@@ -417,7 +424,19 @@ cb_show_in_legend (GtkToggleButton *b, GObject *series)
 static void
 cb_line_interpolation_changed (GtkComboBox *box, GogSeries *series)
 {
+	GtkWidget *widget = GTK_WIDGET (g_object_get_data (G_OBJECT(box), "skip-button"));
 	series->interpolation = gtk_combo_box_get_active (box);
+	gtk_widget_set_sensitive (widget, !go_line_interpolation_auto_skip (series->interpolation));
+	widget = GTK_WIDGET (g_object_get_data (G_OBJECT(box), "fill-type"));
+	if (widget)
+		gtk_widget_set_sensitive (widget, !go_line_interpolation_auto_skip (series->interpolation));
+	gog_object_emit_changed (GOG_OBJECT (series), FALSE);
+}
+
+static void
+cb_line_interpolation_skip_changed (GtkToggleButton *btn, GogSeries *series)
+{
+	series->interpolation_skip_invalid = gtk_toggle_button_get_active (btn);
 	gog_object_emit_changed (GOG_OBJECT (series), FALSE);
 }
 
@@ -444,6 +463,7 @@ gog_series_populate_editor (GogObject *gobj,
 	GogDataset *set = GOG_DATASET (gobj);
 	GogSeriesDesc const *desc;
 	GogDataType data_type;
+	GtkComboBox *combo = NULL;
 
 	g_return_if_fail (series->plot != NULL);
 
@@ -515,12 +535,35 @@ gog_series_populate_editor (GogObject *gobj,
 
 		gui = go_libglade_new ("gog-series-prefs.glade", "interpolation_prefs", GETTEXT_PACKAGE, cc);
 		if (gui != NULL) {
+			int i;
+			GogAxisSet set = gog_plot_axis_set_pref (gog_series_get_plot (series));
 			widget = glade_xml_get_widget (gui, "interpolation_prefs");
 			gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
-			widget = glade_xml_get_widget (gui, "interpolation_combo");
-			gtk_combo_box_set_active (GTK_COMBO_BOX (widget), series->interpolation);
-			g_signal_connect (widget, "changed",
+			widget = glade_xml_get_widget (gui, "interpolation-table");
+			/* create an interpolation type combo and populate it */
+			combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
+			if (set & GOG_AXIS_RADIAL)
+				for (i = 0; i < GO_LINE_INTERPOLATION_MAX; i++) {
+					if (go_line_interpolation_supports_radial (i))
+						gtk_combo_box_append_text (combo, _(go_line_interpolation_as_label (i)));
+				}
+			else
+				for (i = 0; i < GO_LINE_INTERPOLATION_MAX; i++)
+					gtk_combo_box_append_text (combo, _(go_line_interpolation_as_label (i)));
+			gtk_combo_box_set_active (combo, series->interpolation);
+			g_signal_connect (combo, "changed",
 					  G_CALLBACK (cb_line_interpolation_changed), series);
+			gtk_table_attach (GTK_TABLE (widget), GTK_WIDGET (combo), 1, 2,
+					  0, 1, (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
+					  (GtkAttachOptions) (GTK_FILL | GTK_EXPAND), 0, 0);
+			gtk_widget_show_all (widget);
+			widget = glade_xml_get_widget (gui, "interpolation-skip-invalid");
+			g_object_set_data (G_OBJECT (combo), "skip-button", widget); 
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), series->interpolation_skip_invalid);
+			if (go_line_interpolation_auto_skip (series->interpolation))
+				gtk_widget_set_sensitive (widget, FALSE);
+			g_signal_connect (widget, "toggled",
+					  G_CALLBACK (cb_line_interpolation_skip_changed), series);
 			g_object_set_data_full (G_OBJECT (widget), "gui", gui,
 						(GDestroyNotify) g_object_unref);
 		}
@@ -537,6 +580,10 @@ gog_series_populate_editor (GogObject *gobj,
 			gog_series_populate_fill_type_combo (GOG_SERIES (series), GTK_COMBO_BOX (widget));
 			g_signal_connect (G_OBJECT (widget), "changed",
 					  G_CALLBACK (cb_fill_type_changed), series);
+			if (combo)
+				g_object_set_data (G_OBJECT (combo), "fill-type", widget);
+			if (series->interpolation == GO_LINE_INTERPOLATION_CLOSED_SPLINE)
+				gtk_widget_set_sensitive (widget, FALSE);
 			widget = glade_xml_get_widget (gui, "fill_type_prefs");
 			gtk_box_pack_start (GTK_BOX (box), widget, TRUE, TRUE, 0);
 			g_object_set_data_full (G_OBJECT (widget), "gui", gui,
@@ -624,6 +671,12 @@ gog_series_class_init (GogSeriesClass *klass)
 			_("Interpolation"),
 			_("Type of line interpolation"),
 			"linear",
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, SERIES_PROP_INTERPOLATION_SKIP_INVALID,
+		g_param_spec_boolean ("interpolation-skip-invalid", 
+			_("Interpolation skip invalid"),
+			_("Should the series interpolation ignore the invalid data"),
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_FILL_TYPE,
 		g_param_spec_string ("fill-type", 

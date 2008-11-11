@@ -45,6 +45,11 @@ typedef enum {
 typedef enum {
 	GO_LINE_INTERPOLATION_LINEAR,
 	GO_LINE_INTERPOLATION_SPLINE,
+	GO_LINE_INTERPOLATION_CLOSED_SPLINE,
+	GO_LINE_INTERPOLATION_CUBIC_SPLINE,
+	GO_LINE_INTERPOLATION_PARABOLIC_CUBIC_SPLINE,
+	GO_LINE_INTERPOLATION_CUBIC_CUBIC_SPLINE,
+/*	GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE,*/
 	GO_LINE_INTERPOLATION_STEP_START,
 	GO_LINE_INTERPOLATION_STEP_END,
 	GO_LINE_INTERPOLATION_STEP_CENTER_X,
@@ -67,6 +72,9 @@ void 		  	 go_line_dash_sequence_free	(GOLineDashSequence *sequence);
 
 GOLineInterpolation	 go_line_interpolation_from_str		(char const *name);
 char const 		*go_line_interpolation_as_str		(GOLineInterpolation type);
+char const 		*go_line_interpolation_as_label		(GOLineInterpolation type);
+gboolean		 go_line_interpolation_supports_radial  (GOLineInterpolation type);
+gboolean		 go_line_interpolation_auto_skip	(GOLineInterpolation type);
 
 G_END_DECLS
 

@@ -27,7 +27,8 @@ libgoffice_utils_la_SOURCES =	\
 	go-glib-extras.c	\
 	go-libxml-extras.c	\
 	go-pango-extras.c	\
-	go-persist.c
+	go-persist.c	\
+	go-bezier.c
 
 libgoffice_utils_ladir = $(goffice_include_dir)/utils
 libgoffice_utils_la_HEADERS = 	\
@@ -52,7 +53,8 @@ libgoffice_utils_la_HEADERS = 	\
 	go-glib-extras.h	\
 	go-libxml-extras.h	\
 	go-pango-extras.h	\
-	go-persist.h
+	go-persist.h	\
+	go-bezier.h
 
 CLEANFILES =			\
 	go-marshalers.h		\

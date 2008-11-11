@@ -504,7 +504,8 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 			path = next_path;
 		else
 			path = gog_chart_map_make_path (chart_map, c_vals,r_vals, series->base.num_elements,
-							series->base.interpolation);
+							series->base.interpolation,
+							series->base.interpolation_skip_invalid, NULL);
 
 		next_path = NULL;
 
@@ -512,7 +513,9 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 			go_path_close (path);
 			gog_renderer_fill_serie (view->renderer, path, NULL);
 		} else {
-			if (series->base.fill_type != GOG_SERIES_FILL_TYPE_NEXT) {
+			if (series->base.interpolation == GO_LINE_INTERPOLATION_CLOSED_SPLINE)
+				gog_renderer_fill_serie	(view->renderer, path, NULL);
+			else if (series->base.fill_type != GOG_SERIES_FILL_TYPE_NEXT) {
 				GOPath *close_path;
 
 				close_path = gog_chart_map_make_close_path (chart_map, c_vals, r_vals,
@@ -539,7 +542,8 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 
 						next_path = gog_chart_map_make_path
 							(chart_map, next_x_vals, next_y_vals,
-							 next_n_points, next_series->base.interpolation);
+							 next_n_points, next_series->base.interpolation,
+							 series->base.interpolation_skip_invalid, NULL);
 
 					}
 				}

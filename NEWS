@@ -10,6 +10,7 @@ Jean:
 	* Add XYZ series based contour plots.
 	* Drop the libgome dependency. [#558709]
 	* Made spline interpolation really use Bezier cubic splines.
+	* Add closed Bezier and cubic spline interpolation.
 
 Morten:
 	* Plug leaks.

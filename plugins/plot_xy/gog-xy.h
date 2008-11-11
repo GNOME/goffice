@@ -92,8 +92,9 @@ typedef struct {
 	GogErrorBar 	  *x_errors;
 	GogErrorBar 	  *y_errors;
 	GogObject 	  *hdroplines;
-       	GogObject	  *vdroplines;
+    GogObject	  *vdroplines;
 	gboolean 	   invalid_as_zero;
+	double		   clamped_derivs[2]; /* start and and slopes for clamped cubic splines */
 } GogXYSeries;
 
 #define GOG_XY_SERIES_TYPE	(gog_xy_series_get_type ())

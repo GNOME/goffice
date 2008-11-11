@@ -22,6 +22,8 @@
 #include <goffice/graph/gog-chart-map.h>
 #include <goffice/math/go-cspline.h>
 #include <goffice/math/go-math.h>
+#include <goffice/math/go-rangefunc.h>
+#include <goffice/utils/go-bezier.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-path.h>
 #include <goffice/utils/go-geometry.h>
@@ -35,7 +37,7 @@ struct _GogChartMap {
 
 	void 	 (*map_2D_to_view) 	(GogChartMap *map, double x, double y, double *u, double *v);
 	GOPath  *(*make_path)	   	(GogChartMap *map, double const *x, double const *y, int n_points,
-					 GOLineInterpolation interpolation);
+					 GOLineInterpolation interpolation, gboolean skip_invalid, gpointer data);
 	GOPath  *(*make_close_path)	(GogChartMap *map, double const *x, double const *y, int n_points,
 					 GogSeriesFillType fill_type);
 };
@@ -185,7 +187,7 @@ xy_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v)
 static GOPath *
 make_path_linear (GogChartMap *map,
 		  double const *x, double const *y,
-		  int n_points, gboolean is_polar)
+		  int n_points, gboolean is_polar, gboolean skip_invalid)
 {
 	GOPath *path;
 	int i, n_valid_points = 0;
@@ -222,7 +224,7 @@ make_path_linear (GogChartMap *map,
 				go_path_move_to (path, xx, yy);
 			else
 				go_path_line_to (path, xx, yy);
-		} else
+		} else if (!skip_invalid)
 			n_valid_points = 0;
 	}
 
@@ -232,7 +234,7 @@ make_path_linear (GogChartMap *map,
 static GOPath *
 make_path_spline (GogChartMap *map,
 		  double const *x, double const *y, int n_points,
-		  gboolean is_polar)
+		  gboolean is_polar, gboolean closed, gboolean skip_invalid)
 {
 	GOPath *path;
 	int i, n_valid_points = 0;
@@ -240,7 +242,8 @@ make_path_spline (GogChartMap *map,
 	double u, v;
 	double yy, yy_min, yy_max;
 	gboolean is_inverted;
-	struct GOCSpline *splinex, *spliney;
+	//struct GOCSpline *splinex, *spliney;
+	struct GOBezierSpline *spline;
 
 	path = go_path_new ();
 	if (n_points < 1)
@@ -273,69 +276,28 @@ make_path_spline (GogChartMap *map,
 			tt[n_valid_points] = n_valid_points;
 			n_valid_points++;
 		} else {
-			if (n_valid_points == 2)
+			if (closed || skip_invalid)
+				continue;
+			if (n_valid_points == 2) {
+				go_path_move_to (path, uu[0], vv[0]);
 				go_path_line_to (path, uu[1], vv[1]);
-			else if (n_valid_points > 2) {
+			} else if (n_valid_points > 2) {
 				/* evaluate the spline */
-				splinex = go_cspline_init (tt, uu, n_valid_points, GO_CSPLINE_NATURAL, 0., 0.);
-				spliney = go_cspline_init (tt, vv, n_valid_points, GO_CSPLINE_NATURAL, 0., 0.);
-				if (splinex && spliney) {
-					double x0, x1, x2, x3, y0, y1, y2, y3;
-					path = go_path_new ();
-					x0 = uu[0];
-					y0 = vv[0];
-					go_path_move_to (path, x0, y0);
-					for (i = 1; i < splinex->n; i++) {
-						x3 = uu[i];
-						y3 = vv[i];
-						x1 = x0 + splinex->c[i-1] / 3.;
-						x2 = x0 + 2. * splinex->c[i-1] / 3. + splinex->b[i-1] / 3.;
-						y1 = y0 + spliney->c[i-1] / 3.;
-						y2 = y0 + 2. * spliney->c[i-1] / 3. + spliney->b[i-1] / 3.;
-						go_path_curve_to (path, x1, y1, x2, y2, x3, y3);
-						x0 = x3;
-						y0 = y3;
-					}
-					go_cspline_destroy (splinex);
-					go_cspline_destroy (spliney);
-				} else if (splinex)
-					go_cspline_destroy (splinex);
-				else if (spliney)
-					go_cspline_destroy (spliney);
+				spline = go_bezier_spline_init (uu, vv, n_valid_points, closed);
+				path = go_bezier_spline_to_path (spline);
+				go_bezier_spline_destroy (spline);
 			}
 			n_valid_points = 0;
 		}
 	}
-	if (n_valid_points == 2)
+	if (n_valid_points == 2) {
+		go_path_move_to (path, uu[0], vv[0]);
 		go_path_line_to (path, uu[1], vv[1]);
-	else if (n_valid_points > 2) {
+	} else if (n_valid_points > 2) {
 		/* evaluate the spline */
-		splinex = go_cspline_init (tt, uu, n_valid_points, GO_CSPLINE_NATURAL, 0., 0.);
-		spliney = go_cspline_init (tt, vv, n_valid_points, GO_CSPLINE_NATURAL, 0., 0.);
-		if (splinex && spliney) {
-			double x0, x1, x2, x3, y0, y1, y2, y3;
-			path = go_path_new ();
-			x0 = uu[0];
-			y0 = vv[0];
-			go_path_move_to (path, x0, y0);
-			for (i = 1; i < splinex->n; i++) {
-				x3 = uu[i];
-				y3 = vv[i];
-				x1 = x0 + splinex->c[i-1] / 3.;
-				x2 = x0 + 2. * splinex->c[i-1] / 3. + splinex->b[i-1] / 3.;
-				y1 = y0 + spliney->c[i-1] / 3.;
-				y2 = y0 + 2. * spliney->c[i-1] / 3. + spliney->b[i-1] / 3.;
-				go_path_curve_to (path, x1, y1, x2, y2, x3, y3);
-				x0 = x3;
-				y0 = y3;
-			}
-			go_cspline_destroy (splinex);
-			go_cspline_destroy (spliney);
-		} else if (splinex)
-			go_cspline_destroy (splinex);
-		else if (spliney)
-			go_cspline_destroy (spliney);
-			
+		spline = go_bezier_spline_init (uu, vv, n_valid_points, closed);
+		path = go_bezier_spline_to_path (spline);
+		go_bezier_spline_destroy (spline);
 	}
 
 	g_free (uu);
@@ -345,8 +307,104 @@ make_path_spline (GogChartMap *map,
 }
 
 static GOPath *
+make_path_cspline (GogChartMap *map,
+		  double const *x, double const *y, int n_points,
+		  gboolean is_polar, GOCSplineType type, gboolean skip_invalid,
+		  gpointer data)
+{
+	GOPath *path;
+	int i, n_valid_points = 0;
+	double *uu, *vv, u, v;
+	double p0, p1; /* clamped derivatives */
+	struct GOCSpline *spline;
+
+	path = go_path_new ();
+	if (n_points < 1 || !go_range_increasing (x, n_points))
+		return path;
+
+	uu = g_new (double, n_points);
+	vv = g_new (double, n_points);
+	n_valid_points = 0;
+
+	if (type == GO_CSPLINE_CLAMPED && data != NULL) {
+		p0 = ((double*) data)[0];
+		p1 = ((double*) data)[1];
+	} else
+		p0 = p1 = 0.;
+
+	for (i = 0; i < n_points; i++) {
+		gog_chart_map_2D_to_view (map,
+					  x != NULL ? x[i] : i + 1, y != NULL ? y[i] : i + 1,
+					  &u, &v);
+		if (go_finite (u)
+		    && go_finite (v)
+		    && fabs (u) != DBL_MAX
+		    && fabs (v) != DBL_MAX) {
+			uu[n_valid_points] = u;
+			vv[n_valid_points] = v;
+			n_valid_points++;
+		} else {
+			if (skip_invalid || type == GO_CSPLINE_CLAMPED)
+				continue;
+			if (n_valid_points == 2)
+				go_path_line_to (path, uu[1], vv[1]);
+			else if (n_valid_points > 2) {
+				/* evaluate the spline */
+				spline = go_cspline_init (uu, vv, n_valid_points, type, p0, p1);
+				if (spline) {
+					double x0, x1, x2, x3, y0, y1, y2, y3;
+					x0 = uu[0];
+					y0 = vv[0];
+					go_path_move_to (path, x0, y0);
+					for (i = 1; i < spline->n; i++) {
+						x3 = uu[i];
+						y3 = vv[i];
+						u = x3 - x0;
+						x1 = (2. * x0 + x3) / 3.;
+						x2 = (x0 + 2. * x3) / 3.;
+						y1 = y0 + spline->c[i-1] / 3. * u;
+						y2 = y0 + (2. * spline->c[i-1] + spline->b[i-1] * u) / 3. * u;
+						go_path_curve_to (path, x1, y1, x2, y2, x3, y3);
+						x0 = x3;
+						y0 = y3;
+					}
+					go_cspline_destroy (spline);
+				}
+			}
+		}
+	}
+	if (n_valid_points == 2) {
+		go_path_move_to (path, uu[0], vv[0]);
+		go_path_line_to (path, uu[1], vv[1]);
+	} else if (n_valid_points > 2) {
+		spline = go_cspline_init (uu, vv, n_valid_points, type, p0, p1);
+		if (spline) {
+			double x0, x1, x2, x3, y0, y1, y2, y3;
+			x0 = uu[0];
+			y0 = vv[0];
+			go_path_move_to (path, x0, y0);
+			for (i = 1; i < spline->n; i++) {
+				x3 = uu[i];
+				y3 = vv[i];
+				u = x3 - x0;
+				x1 = (2. * x0 + x3) / 3.;
+				x2 = (x0 + 2. * x3) / 3.;
+				y1 = y0 + spline->c[i-1] / 3. * u;
+				y2 = y0 + (2. * spline->c[i-1] + spline->b[i-1] * u) / 3. * u;
+				go_path_curve_to (path, x1, y1, x2, y2, x3, y3);
+				x0 = x3;
+				y0 = y3;
+			}
+			go_cspline_destroy (spline);
+		}
+	}
+
+	return path;
+}
+
+static GOPath *
 xy_make_path_step (GogChartMap *map, double const *x, double const *y, int n_points,
-		   GOLineInterpolation interpolation)
+		   GOLineInterpolation interpolation, gboolean skip_invalid)
 {
 	GOPath *path;
 	int i, n_valid_points = 0;
@@ -392,7 +450,7 @@ xy_make_path_step (GogChartMap *map, double const *x, double const *y, int n_poi
 			go_path_line_to (path, xx, yy);
 			last_xx = xx;
 			last_yy = yy;
-		} else 
+		} else if (!skip_invalid)
 			n_valid_points = 0;
 	}
 
@@ -403,22 +461,37 @@ xy_make_path_step (GogChartMap *map, double const *x, double const *y, int n_poi
 
 static GOPath *
 xy_make_path (GogChartMap *map, double const *x, double const *y, 
-	      int n_points, GOLineInterpolation interpolation)
+	      int n_points, GOLineInterpolation interpolation, gboolean skip_invalid, gpointer data)
 {
 	GOPath *path = NULL;
 
 	switch (interpolation) {
 		case GO_LINE_INTERPOLATION_LINEAR:
-			path = make_path_linear (map, x, y, n_points, FALSE);
+			path = make_path_linear (map, x, y, n_points, FALSE, skip_invalid);
 			break;
 		case GO_LINE_INTERPOLATION_SPLINE:
-			path = make_path_spline (map, x, y, n_points, FALSE);
+			path = make_path_spline (map, x, y, n_points, FALSE, FALSE, skip_invalid);
 			break;
+		case GO_LINE_INTERPOLATION_CLOSED_SPLINE:
+			path = make_path_spline (map, x, y, n_points, TRUE, TRUE, skip_invalid);
+			break;
+		case GO_LINE_INTERPOLATION_CUBIC_SPLINE:
+			path = make_path_cspline (map, x, y, n_points, TRUE, GO_CSPLINE_NATURAL, skip_invalid, data);
+			break;
+		case GO_LINE_INTERPOLATION_PARABOLIC_CUBIC_SPLINE:
+			path = make_path_cspline (map, x, y, n_points, TRUE, GO_CSPLINE_PARABOLIC, skip_invalid, data);
+			break;
+		case GO_LINE_INTERPOLATION_CUBIC_CUBIC_SPLINE:
+			path = make_path_cspline (map, x, y, n_points, TRUE, GO_CSPLINE_CUBIC, skip_invalid, data);
+			break;
+/*		case GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE:
+			path = make_path_cspline (map, x, y, n_points, TRUE, GO_CSPLINE_CLAMPED, skip_invalid, data);
+			break;*/
 		case GO_LINE_INTERPOLATION_STEP_START:
 		case GO_LINE_INTERPOLATION_STEP_END:
 		case GO_LINE_INTERPOLATION_STEP_CENTER_X:
 		case GO_LINE_INTERPOLATION_STEP_CENTER_Y:
-			path = xy_make_path_step (map, x, y, n_points, interpolation);
+			path = xy_make_path_step (map, x, y, n_points, interpolation, skip_invalid);
 			break;
 		default:
 			g_assert_not_reached ();
@@ -506,7 +579,7 @@ polar_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v
 
 static GOPath *
 polar_make_path_step (GogChartMap *map, double const *x, double const *y, int n_points,
-		      GOLineInterpolation interpolation)
+		      GOLineInterpolation interpolation, gboolean skip_invalid)
 {
 	GogChartMapPolarData *polar_parms;
 	GOPath *path;
@@ -583,7 +656,7 @@ polar_make_path_step (GogChartMap *map, double const *x, double const *y, int n_
 			last_yy = yy;
 			last_theta = theta;
 			last_rho = rho;
-		} else
+		} else if (!skip_invalid)
 			n_valid_points = 0;
 	}
 
@@ -592,22 +665,25 @@ polar_make_path_step (GogChartMap *map, double const *x, double const *y, int n_
 
 static GOPath *
 polar_make_path (GogChartMap *map, double const *x, double const *y,
-		 int n_points, GOLineInterpolation interpolation)
+		 int n_points, GOLineInterpolation interpolation, gboolean skip_invalid, gpointer data)
 {
 	GOPath *path = NULL;
 
 	switch (interpolation) {
 		case GO_LINE_INTERPOLATION_LINEAR:
-			path = make_path_linear (map, x, y, n_points, TRUE);
+			path = make_path_linear (map, x, y, n_points, TRUE, skip_invalid);
 			break;
 		case GO_LINE_INTERPOLATION_SPLINE:
-			path = make_path_spline (map, x, y, n_points, TRUE);
+			path = make_path_spline (map, x, y, n_points, TRUE, FALSE, skip_invalid);
+			break;
+		case GO_LINE_INTERPOLATION_CLOSED_SPLINE:
+			path = make_path_spline (map, x, y, n_points, TRUE, TRUE, skip_invalid);
 			break;
 		case GO_LINE_INTERPOLATION_STEP_START:
 		case GO_LINE_INTERPOLATION_STEP_END:
 		case GO_LINE_INTERPOLATION_STEP_CENTER_X:
 		case GO_LINE_INTERPOLATION_STEP_CENTER_Y:
-			path = polar_make_path_step (map, x, y, n_points, interpolation);
+			path = polar_make_path_step (map, x, y, n_points, interpolation, skip_invalid);
 			break;
 		default:
 			g_assert_not_reached ();
@@ -883,16 +959,17 @@ gog_chart_map_free (GogChartMap *map)
  * @y: y data
  * @n_points: number of points
  * @interpolation: interpolation type
+ * @skip_invalid: whether to ignore invalid data or interrupt the interpolation
  *
  * Returns: a new GOPath using @x and @y data, each valid point being connected with respect to @interpolation.
  **/
 GOPath *
 gog_chart_map_make_path (GogChartMap *map, double const *x, double const *y,
 			 int n_points,
-			 GOLineInterpolation interpolation)
+			 GOLineInterpolation interpolation, gboolean skip_invalid, gpointer data)
 {
 	if (map->make_path != NULL)
-		return (map->make_path) (map, x, y, n_points, interpolation);
+		return (map->make_path) (map, x, y, n_points, interpolation, skip_invalid, data);
 
 	return NULL;
 }

@@ -122,7 +122,7 @@ gog_smoothed_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_renderer_push_clip_rectangle (view->renderer, view->residual.x, view->residual.y,
 					  view->residual.w, view->residual.h);
 
-	path = gog_chart_map_make_path (chart_map, curve->x, curve->y, curve->nb, GO_LINE_INTERPOLATION_LINEAR);
+	path = gog_chart_map_make_path (chart_map, curve->x, curve->y, curve->nb, GO_LINE_INTERPOLATION_LINEAR, FALSE, NULL);
 	style = GOG_STYLED_OBJECT (curve)->style;
 	gog_renderer_push_style (view->renderer, style);
 	gog_renderer_stroke_serie (view->renderer, path);

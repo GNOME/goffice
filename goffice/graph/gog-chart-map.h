@@ -47,8 +47,8 @@ gboolean	 gog_chart_map_is_valid 	(GogChartMap *map);
 void		 gog_chart_map_free 		(GogChartMap *map);
 
 GOPath 		*gog_chart_map_make_path 	(GogChartMap *map, double const *x, double const *y, 
-						 int n_points, 
-						 GOLineInterpolation interpolation);
+						 int n_points, GOLineInterpolation interpolation,
+						 gboolean skip_invalid, gpointer data);
 GOPath 		*gog_chart_map_make_close_path 	(GogChartMap *map, double const *x, double const *y, 
 						 int n_points, 
 						 GogSeriesFillType fill_type);

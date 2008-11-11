@@ -88,6 +88,7 @@ struct _GogSeries {
 	GList		  *overrides;  /* GogSeriesElement (individual points) */
 
 	GOLineInterpolation	interpolation;
+	gboolean interpolation_skip_invalid;
 };
 
 typedef struct {

@@ -329,7 +329,7 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 		y[i] = gog_reg_curve_get_value_at (rc, x[i]);
 	}
 
-	path = gog_chart_map_make_path (chart_map, x, y, rc->ninterp + 1, GO_LINE_INTERPOLATION_SPLINE);
+	path = gog_chart_map_make_path (chart_map, x, y, rc->ninterp + 1, GO_LINE_INTERPOLATION_CUBIC_SPLINE, FALSE, NULL);
 	style = GOG_STYLED_OBJECT (rc)->style;
 	gog_renderer_push_style (view->renderer, style);
 	gog_renderer_stroke_serie (view->renderer, path);

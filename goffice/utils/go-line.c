@@ -81,14 +81,32 @@ static struct {
 	GOLineInterpolation type;
 	char const *label;
 	char const *name;
+	gboolean supports_radial;
+	gboolean auto_skip;
 } line_interpolations[GO_LINE_INTERPOLATION_MAX] =
 {
-	{ GO_LINE_INTERPOLATION_LINEAR,		N_("Linear"), 		"linear" },
-	{ GO_LINE_INTERPOLATION_SPLINE,		N_("Spline"),		"spline" },
-	{ GO_LINE_INTERPOLATION_STEP_START,	N_("Step at start"), 	"step-start" },
-	{ GO_LINE_INTERPOLATION_STEP_END,	N_("Step at end"),	"step-end" },
-	{ GO_LINE_INTERPOLATION_STEP_CENTER_X,	N_("Step at center"),	"step-center-x" },
-	{ GO_LINE_INTERPOLATION_STEP_CENTER_Y,	N_("Step to mean"),	"step-center-y" }
+	{ GO_LINE_INTERPOLATION_LINEAR,			N_("Linear"),
+		"linear",		TRUE,  FALSE },
+	{ GO_LINE_INTERPOLATION_SPLINE,			N_("Bezier cubic spline"),
+		"spline",		TRUE,  FALSE },
+	{ GO_LINE_INTERPOLATION_CLOSED_SPLINE,		N_("Closed Bezier cubic spline"),
+		"closed-spline",	TRUE,  TRUE },
+	{ GO_LINE_INTERPOLATION_CUBIC_SPLINE,		N_("Natural cubic spline"),
+		"cspline",		FALSE, FALSE },
+	{ GO_LINE_INTERPOLATION_PARABOLIC_CUBIC_SPLINE,	N_("Cubic spline with parabolic extrapolation"),
+		"parabolic-cspline",	FALSE, FALSE },
+	{ GO_LINE_INTERPOLATION_CUBIC_CUBIC_SPLINE,	N_("Cubic spline with cubic extrapolation"),
+		"cubic-cspline",	FALSE, FALSE },
+/*	{ GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE,   N_("Clamped cubic spline"),
+		"clamped-cspline",	FALSE, TRUE },*/
+	{ GO_LINE_INTERPOLATION_STEP_START,		N_("Step at start"),
+		"step-start",		TRUE,  FALSE },
+	{ GO_LINE_INTERPOLATION_STEP_END,		N_("Step at end"),
+		"step-end",		TRUE,  FALSE },
+	{ GO_LINE_INTERPOLATION_STEP_CENTER_X,		N_("Step at center"),
+		"step-center-x",	TRUE,  FALSE },
+	{ GO_LINE_INTERPOLATION_STEP_CENTER_Y,		N_("Step to mean"),
+		"step-center-y",	TRUE,  FALSE }
 };
 
 /**
@@ -264,4 +282,67 @@ go_line_interpolation_as_str (GOLineInterpolation type)
 		}
 	}
 	return ret;
+}
+
+/**
+ * go_line_interpolation_as_label:
+ * @type: an interpolation type
+ *
+ * Returns: a pointer to the label of @type, or the name of
+ * %GO_LINE_INTERPOLATION_LINEAR if type is invalid.
+ * The returned string should not be freed.
+ **/
+char const *
+go_line_interpolation_as_label (GOLineInterpolation type)
+{
+	unsigned i;
+	char const *ret = _("Linear");
+
+	for (i = 0; i < G_N_ELEMENTS (line_interpolations); i++) {
+		if (line_interpolations[i].type == type) {
+			ret = _(line_interpolations[i].label);
+			break;
+		}
+	}
+	return ret;
+}
+
+/**
+ * go_line_interpolation_as_str:
+ * @type: an interpolation type
+ *
+ * Returns: TRUE if the line interpolation type can be used with radial
+ * axes set, FALSE it it can't.
+ **/
+gboolean
+go_line_interpolation_supports_radial (GOLineInterpolation type)
+{
+	unsigned i;
+
+	for (i = 0; i < G_N_ELEMENTS (line_interpolations); i++) {
+		if (line_interpolations[i].type == type) {
+			return line_interpolations[i].supports_radial;
+		}
+	}
+	return FALSE;
+}
+
+/**
+ * go_line_interpolation_as_str:
+ * @type: an interpolation type
+ *
+ * Returns: TRUE if the line interpolation type forces skipping invalid
+ * data, FALSE if it is only optional.
+ **/
+gboolean
+go_line_interpolation_auto_skip	(GOLineInterpolation type)
+{
+	unsigned i;
+
+	for (i = 0; i < G_N_ELEMENTS (line_interpolations); i++) {
+		if (line_interpolations[i].type == type) {
+			return line_interpolations[i].auto_skip;
+		}
+	}
+	return FALSE;
 }

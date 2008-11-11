@@ -1,3 +1,34 @@
+2008-11-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-chart-map.c: (make_path_linear),
+	(make_path_spline), (make_path_cspline), (xy_make_path_step),
+	(xy_make_path), (polar_make_path_step), (polar_make_path),
+	(gog_chart_map_make_path): add new spline interpolation modes.
+	* goffice/graph/gog-chart-map.h: ditto.
+	* goffice/graph/gog-reg-curve.c: (gog_reg_curve_view_render): use
+	natural cubic splines instead of Bezier splines.
+	* goffice/graph/gog-series-impl.h: allow interpolation over invalid
+	data.
+	* goffice/graph/gog-series-prefs.glade: add new spline interpolation
+	modes and allow interpolation over invalid data.
+	* goffice/graph/gog-series.c: (gog_series_set_property),
+	(gog_series_get_property), (cb_line_interpolation_changed),
+	(cb_line_interpolation_skip_changed), (gog_series_populate_editor),
+	(gog_series_class_init): ditto.
+	* goffice/graph/gog-smoothed-curve.c: 
+	(gog_smoothed_curve_view_render): update after gog_chart_map_make_path
+	signature change.
+	* goffice/utils/Makefile.am: add bezier splines evaluation.
+	* goffice/utils/go-line.c: (go_line_interpolation_as_label),
+	(go_line_interpolation_supports_radial),
+	(go_line_interpolation_auto_skip): add new spline interpolation modes.
+	* goffice/utils/go-line.h: ditto.
+	* plugins/plot_radar/gog-radar.c: (gog_rt_view_render): update after
+	gog_chart_map_make_path signature change.
+	* plugins/plot_xy/gog-xy.c: (gog_xy_view_render): add new spline
+	interpolation modes.
+	* plugins/plot_xy/gog-xy.h: ditto.
+
 2008-11-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/math/go-cspline.c: (go_cspline_init): fixed evaluation for
