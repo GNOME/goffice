@@ -15,9 +15,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-07 14:05+0100\n"
-"PO-Revision-Date: 2008-11-08 16:02+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=libgoffice&amp;component=general\n"
+"POT-Creation-Date: 2008-11-11 09:58+0000\n"
+"PO-Revision-Date: 2008-11-15 00:47+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -972,7 +973,7 @@ msgid "_Show Labels"
 msgstr "Mo_strar etiquetas"
 
 #: ../goffice/graph/gog-axis-prefs.glade.h:18
-#: ../goffice/graph/gog-series-prefs.glade.h:9
+#: ../goffice/graph/gog-series-prefs.glade.h:4
 #: ../goffice/graph/gog-style-prefs.glade.h:24
 msgid "_Type:"
 msgstr "_Tipo:"
@@ -1018,8 +1019,8 @@ msgstr "Discreto"
 msgid "Discrete mapping"
 msgstr "Mapeo discreto"
 
-#: ../goffice/graph/gog-axis.c:723 ../goffice/utils/go-line.c:86
-#: ../plugins/reg_linear/reg-types.xml.in.h:3
+#: ../goffice/graph/gog-axis.c:723 ../goffice/utils/go-line.c:88
+#: ../goffice/utils/go-line.c:299 ../plugins/reg_linear/reg-types.xml.in.h:3
 msgid "Linear"
 msgstr "Lineal"
 
@@ -1410,7 +1411,7 @@ msgstr "<b>_Subtipo</b>"
 msgid "Show sample"
 msgstr "Mostrar ejemplo"
 
-#: ../goffice/graph/gog-guru.c:986 ../goffice/graph/gog-series.c:466
+#: ../goffice/graph/gog-guru.c:986 ../goffice/graph/gog-series.c:486
 msgid "Name"
 msgstr "Nombre"
 
@@ -1446,12 +1447,12 @@ msgstr "Soporte de marcado HTML básico"
 msgid "_Text:"
 msgstr "_Texto:"
 
-#: ../goffice/graph/gog-label.c:214 ../goffice/graph/gog-series.c:507
+#: ../goffice/graph/gog-label.c:214 ../goffice/graph/gog-series.c:527
 msgid "Data"
 msgstr "Datos"
 
 #: ../goffice/graph/gog-label.c:368 ../goffice/graph/gog-reg-curve.c:90
-#: ../plugins/plot_xy/gog-xy.c:1594
+#: ../plugins/plot_xy/gog-xy.c:1600
 msgid "Details"
 msgstr "Detalles"
 
@@ -1827,22 +1828,10 @@ msgid "Fill _to:"
 msgstr "Rellenar _hasta:"
 
 #: ../goffice/graph/gog-series-prefs.glade.h:3
-msgid ""
-"Linear\n"
-"Spline\n"
-"Step at start\n"
-"Step at end\n"
-"Step at center\n"
-"Step to average"
-msgstr ""
-"Lineal\n"
-"Spline\n"
-"Paso al inicio\n"
-"Paso al final\n"
-"Paso al centro\n"
-"Paso a la media"
+msgid "S_kip invalid data"
+msgstr "Sal_tar datos no válidos"
 
-#: ../goffice/graph/gog-series-prefs.glade.h:10
+#: ../goffice/graph/gog-series-prefs.glade.h:5
 msgid "content"
 msgstr "contenido"
 
@@ -1886,39 +1875,47 @@ msgstr "Índice"
 msgid "Index of the corresponding data element"
 msgstr "Índice del elemento de datos correspondiente"
 
-#: ../goffice/graph/gog-series.c:571
+#: ../goffice/graph/gog-series.c:618
 msgid "Point"
 msgstr "Punto"
 
-#: ../goffice/graph/gog-series.c:577
+#: ../goffice/graph/gog-series.c:624
 msgid "Regression curve"
 msgstr "Curva de regresión"
 
-#: ../goffice/graph/gog-series.c:585
+#: ../goffice/graph/gog-series.c:632
 msgid "Trend line"
 msgstr "Línea de tendencia"
 
-#: ../goffice/graph/gog-series.c:618
+#: ../goffice/graph/gog-series.c:665
 msgid "Has-legend"
 msgstr "Tiene leyenda"
 
-#: ../goffice/graph/gog-series.c:619
+#: ../goffice/graph/gog-series.c:666
 msgid "Should the series show up in legends"
 msgstr "Si las series deberían mostrarse en leyendas"
 
-#: ../goffice/graph/gog-series.c:624
+#: ../goffice/graph/gog-series.c:671
 msgid "Interpolation"
 msgstr "Interpolación"
 
-#: ../goffice/graph/gog-series.c:625
+#: ../goffice/graph/gog-series.c:672
 msgid "Type of line interpolation"
 msgstr "Tipo de línea de interpolación"
 
-#: ../goffice/graph/gog-series.c:630
+#: ../goffice/graph/gog-series.c:677
+msgid "Interpolation skip invalid"
+msgstr "El salto de interpolación no es válido"
+
+#: ../goffice/graph/gog-series.c:678
+msgid "Should the series interpolation ignore the invalid data"
+msgstr "Si las series de interpolación deberían ignorar los datos no válidos"
+
+#: ../goffice/graph/gog-series.c:683
 msgid "Fill type"
 msgstr "Tipo de rellenado"
 
-#: ../goffice/graph/gog-series.c:631
+#: ../goffice/graph/gog-series.c:684
 msgid "How to fill the area"
 msgstr "Cómo rellenar el área"
 
@@ -2711,7 +2708,7 @@ msgstr "Cursiva"
 #. xgettext: This text is used as a sample when selecting a font
 #. * please choose a translation that would produce common
 #. * characters specific to the target alphabet.
-#: ../goffice/gtk/go-font-sel.c:473
+#: ../goffice/gtk/go-font-sel.c:474
 msgid "AaBbCcDdEe12345"
 msgstr "ÁáÉéÍíÓóÚúÜüÑñ12345"
 
@@ -4493,23 +4490,41 @@ msgstr "Guión largo guión"
 msgid "Long dash dash dash"
 msgstr "Guión largo guión guión"
 
-#: ../goffice/utils/go-line.c:87
-msgid "Spline"
-msgstr "Spline"
+#: ../goffice/utils/go-line.c:90
+msgid "Bezier cubic spline"
+msgstr "Splin cúbico de Beizer"
 
-#: ../goffice/utils/go-line.c:88
+#: ../goffice/utils/go-line.c:92
+msgid "Closed Bezier cubic spline"
+msgstr "Splin cúbico de cerrado Beizer"
+
+#: ../goffice/utils/go-line.c:94
+msgid "Natural cubic spline"
+msgstr "Splin cúbico natural"
+
+#: ../goffice/utils/go-line.c:96
+msgid "Cubic spline with parabolic extrapolation"
+msgstr "Splin cúbico con extrapolación parabólica"
+
+#: ../goffice/utils/go-line.c:98
+msgid "Cubic spline with cubic extrapolation"
+msgstr "Splin cúbico con extrapolación cúbica"
+
+#. { GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE,   N_("Clamped cubic spline"),
+#. "clamped-cspline",	FALSE, TRUE },
+#: ../goffice/utils/go-line.c:102
 msgid "Step at start"
 msgstr "Paso al inicio"
 
-#: ../goffice/utils/go-line.c:89
+#: ../goffice/utils/go-line.c:104
 msgid "Step at end"
 msgstr "Paso al final"
 
-#: ../goffice/utils/go-line.c:90
+#: ../goffice/utils/go-line.c:106
 msgid "Step at center"
 msgstr "Paso al centro"
 
-#: ../goffice/utils/go-line.c:91
+#: ../goffice/utils/go-line.c:108
 msgid "Step to mean"
 msgstr "Paso a la media"
 
@@ -4865,8 +4880,8 @@ msgstr "Líneas deslizantes"
 msgid "Lines"
 msgstr "Líneas"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:645 ../plugins/plot_xy/gog-xy.c:1663
-#: ../plugins/plot_xy/gog-xy.c:1669
+#: ../plugins/plot_barcol/gog-1.5d.c:645 ../plugins/plot_xy/gog-xy.c:1669
+#: ../plugins/plot_xy/gog-xy.c:1675
 msgid "GogErrorBar *"
 msgstr "Barra de error Gog *"
 
@@ -5682,7 +5697,7 @@ msgstr "Ángulo"
 msgid "Magnitude"
 msgstr "Magnitud"
 
-#: ../plugins/plot_radar/gog-radar.c:708
+#: ../plugins/plot_radar/gog-radar.c:712
 msgid "Radial drop lines"
 msgstr "Líneas deslizantes radiales"
 
@@ -5988,27 +6003,27 @@ msgstr ""
 msgid "Hide data outside of the color axis bounds"
 msgstr "Ocultar datos fuera de los límites de los ejes de color"
 
-#: ../plugins/plot_xy/gog-xy.c:1598 ../plugins/plot_xy/gog-xy.c:1662
+#: ../plugins/plot_xy/gog-xy.c:1604 ../plugins/plot_xy/gog-xy.c:1668
 msgid "X error bars"
 msgstr "Barras de error de X"
 
-#: ../plugins/plot_xy/gog-xy.c:1600 ../plugins/plot_xy/gog-xy.c:1668
+#: ../plugins/plot_xy/gog-xy.c:1606 ../plugins/plot_xy/gog-xy.c:1674
 msgid "Y error bars"
 msgstr "Barras de error de Y"
 
-#: ../plugins/plot_xy/gog-xy.c:1608
+#: ../plugins/plot_xy/gog-xy.c:1614
 msgid "Horizontal drop lines"
 msgstr "Líneas deslizantes horizontales"
 
-#: ../plugins/plot_xy/gog-xy.c:1616
+#: ../plugins/plot_xy/gog-xy.c:1622
 msgid "Vertical drop lines"
 msgstr "Líneas deslizantes verticales"
 
-#: ../plugins/plot_xy/gog-xy.c:1674
+#: ../plugins/plot_xy/gog-xy.c:1680
 msgid "Invalid as zero"
 msgstr "No válido como cero"
 
-#: ../plugins/plot_xy/gog-xy.c:1675
+#: ../plugins/plot_xy/gog-xy.c:1681
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 "Reemplazar los valores no válidos por 0 al dibujar marcadores o burbujas"
@@ -6545,6 +6560,24 @@ msgstr "sexto"
 #: ../tests/go-demo.glade.h:43
 msgid "third"
 msgstr "tercero"
+
+#~ msgid ""
+#~ "Linear\n"
+#~ "Spline\n"
+#~ "Step at start\n"
+#~ "Step at end\n"
+#~ "Step at center\n"
+#~ "Step to average"
+#~ msgstr ""
+#~ "Lineal\n"
+#~ "Spline\n"
+#~ "Paso al inicio\n"
+#~ "Paso al final\n"
+#~ "Paso al centro\n"
+#~ "Paso a la media"
+
+#~ msgid "Spline"
+#~ msgstr "Spline"
 
 #~ msgid "Type axis:"
 #~ msgstr "Tipo de eje:"
