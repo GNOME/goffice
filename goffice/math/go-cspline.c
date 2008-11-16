@@ -89,13 +89,13 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 	sp->n = n;
 	sp->x = x;
 	sp->y = y;
-	sp->a = (DOUBLE*) g_new0 (DOUBLE, nm1);
-	sp->b = (DOUBLE*) g_new (DOUBLE, nm1);
-	sp->c = (DOUBLE*) g_new (DOUBLE, nm1);
-	d1 = (DOUBLE*) g_new0 (DOUBLE, n);
-	d2 = (DOUBLE*) g_new0 (DOUBLE, n);
-	d3 = (DOUBLE*) g_new0 (DOUBLE, n);
-	d4 = (DOUBLE*) g_new0 (DOUBLE, n);
+	sp->a = g_new0 (DOUBLE, nm1);
+	sp->b = g_new (DOUBLE, nm1);
+	sp->c = g_new (DOUBLE, nm1);
+	d1 =  g_new0 (DOUBLE, n);
+	d2 = g_new0 (DOUBLE, n);
+	d3 = g_new0 (DOUBLE, n);
+	d4 = g_new0 (DOUBLE, n);
 
   /* --- COMPUTE FOR N-2 ROWS --- */
 	nm2 = n - 2; 

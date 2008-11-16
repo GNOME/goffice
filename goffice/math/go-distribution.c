@@ -101,8 +101,6 @@ typedef struct {
 	double (*get_cumulative) (GODistribution *dist, double x);
 	double (*get_ppf) (GODistribution *dist, double x);
 
-	GtkWidget * (*get_property_page) (GODistribution *dist);
-
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 	long double (*get_densityl) (GODistribution *dist, long double x);
 	long double (*get_cumulativel) (GODistribution *dist, long double x);
@@ -292,19 +290,6 @@ GSF_CLASS_FULL (GODistribution, go_distribution, NULL,
 	NULL, go_distribution_class_init, NULL, go_distribution_init,
 	G_TYPE_OBJECT, G_TYPE_FLAG_ABSTRACT,
 	GSF_INTERFACE (go_distribution_persist_init, GO_PERSIST_TYPE))
-	
-GtkWidget *
-go_distribution_get_property_page (GODistribution *dist)
-{
-	GODistributionClass *go_dist_klass;
-
-	g_return_val_if_fail (GO_DISTRIBUTION (dist), NULL);
-
-	go_dist_klass = GO_DISTRIBUTION_GET_CLASS (dist);
-	if (go_dist_klass->get_property_page != NULL)
-		return go_dist_klass->get_property_page (dist);
-	return NULL;
-}
 
 void
 go_distribution_scale (GODistribution *dist, double location, double scale)

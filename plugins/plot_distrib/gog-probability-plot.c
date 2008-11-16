@@ -22,7 +22,9 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-probability-plot.h"
+#ifdef GOFFICE_WITH_GTK
 #include "go-distribution-prefs.h"
+#endif
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-renderer.h>

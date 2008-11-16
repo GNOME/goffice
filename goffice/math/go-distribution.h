@@ -24,7 +24,6 @@
 #define GO_DISTRIBUTION_H
 
 #include <glib-object.h>
-#include <gtk/gtkwidget.h>
 
 G_BEGIN_DECLS
 
@@ -60,8 +59,6 @@ double go_distribution_get_hazard (GODistribution *dist, double x);
 double go_distribution_get_cumulative_hazard (GODistribution *dist, double x);
 double go_distribution_get_survival (GODistribution *dist, double x);
 double go_distribution_get_inverse_survival (GODistribution *dist, double x);
-
-GtkWidget *go_distribution_get_property_page (GODistribution *dist);
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 long double go_distribution_get_densityl (GODistribution *dist, long double x);

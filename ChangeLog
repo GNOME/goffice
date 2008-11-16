@@ -1,3 +1,11 @@
+2008-11-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/math/go-spline.c: removed unnecessary casts.
+	* goffice/math/go-distribution.c: removed unused gtk dependent function.
+	* goffice/math/go-distribution.h: ditto.
+	* plugins/plot_distrib/gog-probability-plot.c: fixed compilation without
+	gtk.
+
 2008-11-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/math/go-cspline.c: (go_cspline_init): don't use cast with
