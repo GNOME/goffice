@@ -669,6 +669,7 @@ go_get_file_permissions (char const *uri)
 					     G_FILE_QUERY_INFO_NONE, NULL, &error);
 	if (error) {
 		g_error_free (error);
+		error = NULL;
 	   	info = g_file_query_info (file,
 					    	     G_FILE_ATTRIBUTE_ACCESS_CAN_READ","G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE","G_FILE_ATTRIBUTE_ACCESS_CAN_EXECUTE,
 						     G_FILE_QUERY_INFO_NONE, NULL, &error);

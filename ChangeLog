@@ -1,3 +1,8 @@
+2008-11-20  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_get_file_permissions): Fix memory
+	corruption.  Probably fixes #561708.
+
 2008-11-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/math/go-spline.c: removed unnecessary casts.

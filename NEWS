@@ -14,6 +14,7 @@ Jean:
 
 Morten:
 	* Plug leaks.
+	* Fix memory corruption issue.  [#561708]
 
 --------------------------------------------------------------------------
 goffice 0.7.2:
