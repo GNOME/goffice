@@ -328,7 +328,7 @@ make_path_cspline (GogChartMap *map,
 	GOPath *path;
 	int i, n_valid_points = 0;
 	double *uu, *vv, u, v;
-	double p0, p1; /* clamped derivatives */
+	double p0 = 0., p1 = 0.; /* clamped derivatives */
 	struct GOCSpline *spline;
 
 	path = go_path_new ();
@@ -338,16 +338,6 @@ make_path_cspline (GogChartMap *map,
 	uu = g_new (double, n_points);
 	vv = g_new (double, n_points);
 	n_valid_points = 0;
-
-	if (type == GO_CSPLINE_CLAMPED && data != NULL) {
-		p0 = gog_chart_map_2D_derivative_to_view (map, ((double*) data)[0],
-							  x != NULL ? x[i] : i + 1,
-							  y != NULL ? y[i] : i + 1);
-		p1 = gog_chart_map_2D_derivative_to_view (map, ((double*) data)[1],
-							  x != NULL ? x[i] : i + 1,
-							  y != NULL ? y[i] : i + 1);
-	} else
-		p0 = p1 = 0.;
 
 	for (i = 0; i < n_points; i++) {
 		gog_chart_map_2D_to_view (map,
@@ -394,6 +384,11 @@ make_path_cspline (GogChartMap *map,
 		go_path_move_to (path, uu[0], vv[0]);
 		go_path_line_to (path, uu[1], vv[1]);
 	} else if (n_valid_points > 2) {
+		if (type == GO_CSPLINE_CLAMPED && data != NULL) {
+			p0 = gog_chart_map_2D_derivative_to_view (map, ((double*) data)[0], uu[0], vv[0]);
+			p1 = gog_chart_map_2D_derivative_to_view (map, ((double*) data)[1],
+								  uu[n_valid_points - 1], vv[n_valid_points - 1]);
+		}
 		spline = go_cspline_init (uu, vv, n_valid_points, type, p0, p1);
 		if (spline) {
 			double x0, x1, x2, x3, y0, y1, y2, y3;
@@ -911,7 +906,7 @@ gog_chart_map_2D_to_view (GogChartMap *map, double x, double y, double *u, doubl
 
 
 /**
- * gog_chart_map_2D_to_view:
+ * gog_chart_map_2D_derivative_to_view:
  * @map: a #GogChartMap
  * @deriv: the slope in data space
  * @x: data x value
