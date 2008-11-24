@@ -1,3 +1,18 @@
+2008-11-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c: add support for clamped splines.
+	* goffice/graph/gog-axis.h: ditto.
+	* goffice/graph/gog-chart-map.c: ditto.
+	* goffice/graph/gog-chart-map.h: ditto.
+	* goffice/graph/gog-series-impl.h: ditto.
+	* goffice/graph/gog-series-prefs.glade: ditto.
+	* goffice/graph/gog-series.c: ditto.
+	* goffice/graph/gog-series.h: ditto.
+	* goffice/utils/go-line.c: ditto.
+	* goffice/utils/go-line.h: ditto.
+	* plugins/plot_xy/gog-xy.c: ditto.
+	* plugins/plot_xy/gog-xy.h: ditto.
+
 2008-11-20  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-file.c (go_get_file_permissions): Fix memory

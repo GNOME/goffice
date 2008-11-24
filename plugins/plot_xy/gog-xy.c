@@ -31,6 +31,7 @@
 #include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/data/go-data.h>
+#include <goffice/data/go-data-simple.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-format.h>
@@ -1383,16 +1384,106 @@ GSF_DYNAMIC_CLASS (GogXYSeriesElement, gog_xy_series_element,
 
 /****************************************************************************/
 
+typedef struct {
+	GogObject base;
+	GogXYSeries *series;
+	GogDatasetElement *derivs;
+} GogXYInterpolationClamps;
+
+typedef GogObjectClass GogXYInterpolationClampsClass;
+
+#define GOG_XY_INTERPOLATION_CLAMPS_TYPE	(gog_xy_interpolation_clamps_get_type ())
+#define GOG_XY_INTERPOLATION_CLAMPS(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XY_INTERPOLATION_CLAMPS_TYPE, GogXYInterpolationClamps))
+#define GOG_IS_XY_INTERPOLATION_CLAMPS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XY_INTERPOLATION_CLAMPS_TYPE))
+GType gog_xy_interpolation_clamps_get_type (void);
+
+static GObjectClass *interp_parent_klass;
+
+static void
+gog_xy_interpolation_clamps_dataset_dims (GogDataset const *set, int *first, int *last)
+{
+	*first = 0;
+	*last = 1;
+}
+
+static GogDatasetElement *
+gog_xy_interpolation_clamps_dataset_get_elem (GogDataset const *set, int dim_i)
+{
+	GogXYInterpolationClamps *clamps = GOG_XY_INTERPOLATION_CLAMPS (set);
+	g_return_val_if_fail (2 > dim_i, NULL);
+	g_return_val_if_fail (dim_i >= 0, NULL);
+	return clamps->derivs + dim_i;
+}
+
+static void
+gog_xy_interpolation_clamps_dataset_dim_changed (GogDataset *set, int dim_i)
+{
+	GogXYInterpolationClamps *clamps = GOG_XY_INTERPOLATION_CLAMPS (set);
+	clamps->series->clamped_derivs[dim_i] = (IS_GO_DATA_SCALAR ((clamps->derivs + dim_i)->data))?
+		go_data_scalar_get_value (GO_DATA_SCALAR ((clamps->derivs + dim_i)->data)): 0.;
+	gog_object_request_update (GOG_OBJECT (clamps->series));
+}
+
+static void
+gog_xy_interpolation_clamps_dataset_init (GogDatasetClass *iface)
+{
+	iface->get_elem	   = gog_xy_interpolation_clamps_dataset_get_elem;
+	iface->dims	   = gog_xy_interpolation_clamps_dataset_dims;
+	iface->dim_changed = gog_xy_interpolation_clamps_dataset_dim_changed;
+}
+
+static void
+gog_xy_interpolation_clamps_finalize (GObject *obj)
+{
+	GogXYInterpolationClamps *clamps = GOG_XY_INTERPOLATION_CLAMPS (obj);
+	if (clamps->derivs != NULL) {
+		gog_dataset_finalize (GOG_DATASET (obj));
+		g_free (clamps->derivs);
+		clamps->derivs = NULL;
+	}
+	(*interp_parent_klass->finalize) (obj);
+}
+
+static void
+gog_xy_interpolation_clamps_class_init (GObjectClass *klass)
+{
+	interp_parent_klass = g_type_class_peek_parent (klass);
+	klass->finalize	    = gog_xy_interpolation_clamps_finalize;
+}
+
+static void
+gog_xy_interpolation_clamps_init (GogXYInterpolationClamps *clamps)
+{
+	clamps->derivs = g_new0 (GogDatasetElement, 2);
+}
+
+GSF_CLASS_FULL (GogXYInterpolationClamps, gog_xy_interpolation_clamps,
+		NULL, NULL, gog_xy_interpolation_clamps_class_init, NULL,
+		gog_xy_interpolation_clamps_init, GOG_OBJECT_TYPE, 0,
+		GSF_INTERFACE (gog_xy_interpolation_clamps_dataset_init, GOG_DATASET_TYPE))
+
+/****************************************************************************/
+
 typedef GogSeriesClass GogXYSeriesClass;
 
 enum {
 	SERIES_PROP_0,
 	SERIES_PROP_XERRORS,
 	SERIES_PROP_YERRORS,
-	SERIES_PROP_INVALID_AS_ZERO
+	SERIES_PROP_INVALID_AS_ZERO,
+	SERIES_PROP_CLAMP0,
+	SERIES_PROP_CLAMP1
 };
 
 static GogStyledObjectClass *series_parent_klass;
+
+static GogDataset *
+gog_xy_series_get_interpolation_params (GogSeries const *series)
+{
+	GogXYSeries *xy = GOG_XY_SERIES (series);
+	g_return_val_if_fail (xy, NULL);
+	return xy->interpolation_props;
+}
 
 static void
 gog_xy_series_update (GogObject *obj)
@@ -1432,6 +1523,10 @@ gog_xy_series_init (GObject *obj)
 	(GOG_SERIES (series))->acceptable_children = GOG_SERIES_ACCEPT_TREND_LINE;
 	series->x_errors = series->y_errors = NULL;
 	series->hdroplines = series->vdroplines = NULL;
+	series->interpolation_props = g_object_new (GOG_XY_INTERPOLATION_CLAMPS_TYPE, NULL);
+	GOG_XY_INTERPOLATION_CLAMPS (series->interpolation_props)->series = series;
+	gog_dataset_set_dim (series->interpolation_props, 0, go_data_scalar_val_new (0.), NULL);
+	gog_dataset_set_dim (series->interpolation_props, 1, go_data_scalar_val_new (0.), NULL);
 }
 
 static void
@@ -1447,6 +1542,11 @@ gog_xy_series_finalize (GObject *obj)
 	if (series->y_errors != NULL) {
 		g_object_unref (series->y_errors); 
 		series->y_errors = NULL;
+	}
+
+	if (series->interpolation_props != NULL) {
+		g_object_unref (series->interpolation_props);
+		series->interpolation_props = NULL;
 	}
 
 	G_OBJECT_CLASS (series_parent_klass)->finalize (obj);
@@ -1534,6 +1634,14 @@ gog_xy_series_set_property (GObject *obj, guint param_id,
 		series->invalid_as_zero = g_value_get_boolean (value);
 		gog_object_request_update (GOG_OBJECT (series));
 		break;
+	case SERIES_PROP_CLAMP0:
+		gog_dataset_set_dim (series->interpolation_props, 0,
+				     go_data_scalar_val_new (g_value_get_double (value)), NULL);
+		break;
+	case SERIES_PROP_CLAMP1:
+		gog_dataset_set_dim (series->interpolation_props, 1,
+				     go_data_scalar_val_new (g_value_get_double (value)), NULL);
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
@@ -1554,6 +1662,12 @@ gog_xy_series_get_property (GObject *obj, guint param_id,
 		break;
 	case SERIES_PROP_INVALID_AS_ZERO:
 		g_value_set_boolean (value, series->invalid_as_zero);
+		break;
+	case SERIES_PROP_CLAMP0:
+		g_value_set_double (value, series->clamped_derivs[0]);
+		break;
+	case SERIES_PROP_CLAMP1:
+		g_value_set_double (value, series->clamped_derivs[1]);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -1660,6 +1774,7 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 	series_klass->has_interpolation = TRUE;
 	series_klass->has_fill_type	= TRUE;
 	series_klass->series_element_type = GOG_XY_SERIES_ELEMENT_TYPE;
+	series_klass->get_interpolation_params = gog_xy_series_get_interpolation_params;
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
@@ -1680,6 +1795,18 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 			_("Invalid as zero"),
 			_("Replace invalid values by 0 when drawing markers or bubbles"),
 			FALSE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, SERIES_PROP_CLAMP0,
+		g_param_spec_double ("clamp0", 
+			_("Clamp at start"),
+			_("Slope at start of the interpolated curve when using clamped spline interpolation"),
+			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, SERIES_PROP_CLAMP1,
+		g_param_spec_double ("clamp1", 
+			_("Clamp at end"),
+			_("Slope at end of the interpolated curve when using clamped spline interpolation"),
+			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	series_klass->valid_fill_type_list = valid_fill_type_list;

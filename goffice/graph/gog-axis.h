@@ -56,6 +56,7 @@ typedef struct _GogAxisMap GogAxisMap;
 GogAxisMap*   gog_axis_map_new	 	  (GogAxis *axis, double offset, double length);
 double	      gog_axis_map 		  (GogAxisMap *map, double value);
 double	      gog_axis_map_to_view	  (GogAxisMap *map, double value);
+double	      gog_axis_map_derivative_to_view (GogAxisMap *map, double value);
 double	      gog_axis_map_from_view	  (GogAxisMap *map, double value);
 gboolean      gog_axis_map_finite	  (GogAxisMap *map, double value);
 double	      gog_axis_map_get_baseline	  (GogAxisMap *map);

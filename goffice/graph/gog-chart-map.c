@@ -36,6 +36,7 @@ struct _GogChartMap {
 	gboolean		 is_valid;
 
 	void 	 (*map_2D_to_view) 	(GogChartMap *map, double x, double y, double *u, double *v);
+	double 	 (*map_2D_derivative_to_view) (GogChartMap *map, double deriv, double x, double y);
 	GOPath  *(*make_path)	   	(GogChartMap *map, double const *x, double const *y, int n_points,
 					 GOLineInterpolation interpolation, gboolean skip_invalid, gpointer data);
 	GOPath  *(*make_close_path)	(GogChartMap *map, double const *x, double const *y, int n_points,
@@ -184,6 +185,18 @@ xy_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v)
 	*v = gog_axis_map_to_view (map->axis_map[1], y);
 }
 
+static double
+xy_map_2D_derivative_to_view (GogChartMap *map, double deriv, double x, double y)
+{
+	double d;
+	d = gog_axis_map_derivative_to_view (map->axis_map[0], x);
+	if (isnan (d))
+		return go_nan;
+	deriv /= d;
+	d = gog_axis_map_derivative_to_view (map->axis_map[1], y);
+	return (isnan (d))? go_nan: deriv * d;
+}
+
 static GOPath *
 make_path_linear (GogChartMap *map,
 		  double const *x, double const *y,
@@ -327,8 +340,12 @@ make_path_cspline (GogChartMap *map,
 	n_valid_points = 0;
 
 	if (type == GO_CSPLINE_CLAMPED && data != NULL) {
-		p0 = ((double*) data)[0];
-		p1 = ((double*) data)[1];
+		p0 = gog_chart_map_2D_derivative_to_view (map, ((double*) data)[0],
+							  x != NULL ? x[i] : i + 1,
+							  y != NULL ? y[i] : i + 1);
+		p1 = gog_chart_map_2D_derivative_to_view (map, ((double*) data)[1],
+							  x != NULL ? x[i] : i + 1,
+							  y != NULL ? y[i] : i + 1);
 	} else
 		p0 = p1 = 0.;
 
@@ -484,9 +501,9 @@ xy_make_path (GogChartMap *map, double const *x, double const *y,
 		case GO_LINE_INTERPOLATION_CUBIC_CUBIC_SPLINE:
 			path = make_path_cspline (map, x, y, n_points, TRUE, GO_CSPLINE_CUBIC, skip_invalid, data);
 			break;
-/*		case GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE:
+		case GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE:
 			path = make_path_cspline (map, x, y, n_points, TRUE, GO_CSPLINE_CLAMPED, skip_invalid, data);
-			break;*/
+			break;
 		case GO_LINE_INTERPOLATION_STEP_START:
 		case GO_LINE_INTERPOLATION_STEP_END:
 		case GO_LINE_INTERPOLATION_STEP_CENTER_X:
@@ -799,6 +816,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 				data->a = - area->h;
 
 				map->map_2D_to_view = x_map_2D_to_view;
+				map->map_2D_derivative_to_view = NULL;
 				map->make_path = NULL;
 				map->make_close_path = NULL;
 				map->data = data;
@@ -816,6 +834,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 
 				map->data = NULL;
 				map->map_2D_to_view = xy_map_2D_to_view;
+				map->map_2D_derivative_to_view = xy_map_2D_derivative_to_view;
 				map->make_path = xy_make_path;
 				map->make_close_path = xy_make_close_path;
 
@@ -855,6 +874,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 
 				map->data = data;
 				map->map_2D_to_view = polar_map_2D_to_view;
+				map->map_2D_derivative_to_view = NULL;
 				map->make_path = polar_make_path;
 				map->make_close_path = polar_make_close_path;
 
@@ -865,6 +885,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 		default:
 			g_warning ("[GogChartMap::new] unimplemented for axis set %d", axis_set);
 			map->map_2D_to_view = null_map_2D;
+			map->map_2D_derivative_to_view = NULL;
 			break;
 	}
 
@@ -886,6 +907,26 @@ void
 gog_chart_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v)
 {
 	(map->map_2D_to_view) (map, x, y, u, v);
+}
+
+
+/**
+ * gog_chart_map_2D_to_view:
+ * @map: a #GogChartMap
+ * @deriv: the slope in data space
+ * @x: data x value
+ * @y: data y value
+ *
+ * Converts a 2D slope from data space to canvas space. It is only implemented
+ for xy maps.
+ * Returns: the slope in canvas space or go_nan.
+ **/
+
+double
+gog_chart_map_2D_derivative_to_view (GogChartMap *map, double deriv, double x, double y)
+{
+	return (map->map_2D_derivative_to_view)?
+		map->map_2D_derivative_to_view (map, deriv, x, y): go_nan;
 }
 
 /**

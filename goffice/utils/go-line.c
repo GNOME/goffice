@@ -97,8 +97,8 @@ static struct {
 		"parabolic-cspline",	FALSE, FALSE },
 	{ GO_LINE_INTERPOLATION_CUBIC_CUBIC_SPLINE,	N_("Cubic spline with cubic extrapolation"),
 		"cubic-cspline",	FALSE, FALSE },
-/*	{ GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE,   N_("Clamped cubic spline"),
-		"clamped-cspline",	FALSE, TRUE },*/
+	{ GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE,   N_("Clamped cubic spline"),
+		"clamped-cspline",	FALSE, TRUE },
 	{ GO_LINE_INTERPOLATION_STEP_START,		N_("Step at start"),
 		"step-start",		TRUE,  FALSE },
 	{ GO_LINE_INTERPOLATION_STEP_END,		N_("Step at end"),

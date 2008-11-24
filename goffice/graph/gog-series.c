@@ -424,10 +424,16 @@ cb_show_in_legend (GtkToggleButton *b, GObject *series)
 static void
 cb_line_interpolation_changed (GtkComboBox *box, GogSeries *series)
 {
+	GladeXML *gui = g_object_get_data (G_OBJECT (box), "gui");
 	GtkWidget *widget = GTK_WIDGET (g_object_get_data (G_OBJECT(box), "skip-button"));
+	GtkWidget *table = glade_xml_get_widget (gui, "clamps-table");
 	series->interpolation = gtk_combo_box_get_active (box);
 	gtk_widget_set_sensitive (widget, !go_line_interpolation_auto_skip (series->interpolation));
 	widget = GTK_WIDGET (g_object_get_data (G_OBJECT(box), "fill-type"));
+	if (series->interpolation == GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE)
+		gtk_widget_show (table);
+	else
+		gtk_widget_hide (table);
 	if (widget)
 		gtk_widget_set_sensitive (widget, !go_line_interpolation_auto_skip (series->interpolation));
 	gog_object_emit_changed (GOG_OBJECT (series), FALSE);
@@ -537,6 +543,7 @@ gog_series_populate_editor (GogObject *gobj,
 		if (gui != NULL) {
 			int i;
 			GogAxisSet set = gog_plot_axis_set_pref (gog_series_get_plot (series));
+			GogDataset *clamp_set = gog_series_get_interpolation_params (series);
 			widget = glade_xml_get_widget (gui, "interpolation_prefs");
 			gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
 			widget = glade_xml_get_widget (gui, "interpolation-table");
@@ -564,7 +571,19 @@ gog_series_populate_editor (GogObject *gobj,
 				gtk_widget_set_sensitive (widget, FALSE);
 			g_signal_connect (widget, "toggled",
 					  G_CALLBACK (cb_line_interpolation_skip_changed), series);
-			g_object_set_data_full (G_OBJECT (widget), "gui", gui,
+			if (set) {
+				GtkWidget *w;
+				widget = glade_xml_get_widget (gui, "clamps-table");
+				w = GTK_WIDGET (gog_data_allocator_editor (dalloc, clamp_set, 0, GOG_DATA_SCALAR));
+				gtk_widget_show (w);
+				gtk_table_attach (GTK_TABLE (widget), w, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+				w = GTK_WIDGET (gog_data_allocator_editor (dalloc, clamp_set, 1, GOG_DATA_SCALAR));
+				gtk_widget_show (w);
+				gtk_table_attach (GTK_TABLE (widget), w, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+				if (series->interpolation != GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE)
+					gtk_widget_hide (widget);
+			}
+			g_object_set_data_full (G_OBJECT (combo), "gui", gui,
 						(GDestroyNotify) g_object_unref);
 		}
 	}
@@ -1173,3 +1192,15 @@ gog_series_get_fill_type_from_combo (GogSeries const *series, GtkComboBox *combo
 	return series_klass->valid_fill_type_list[gtk_combo_box_get_active (combo)];
 }
 #endif
+
+GogDataset *
+gog_series_get_interpolation_params (GogSeries const *series)
+{
+	GogSeriesClass *series_klass;
+
+	g_return_val_if_fail (IS_GOG_SERIES (series), NULL);
+	series_klass = GOG_SERIES_GET_CLASS (series);
+	return (series_klass->get_interpolation_params)?
+			series_klass->get_interpolation_params (series):
+			NULL;
+}

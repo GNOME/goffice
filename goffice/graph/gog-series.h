@@ -78,6 +78,8 @@ unsigned	  gog_series_get_xyz_data  	(GogSeries const *series,
 GogSeriesFillType gog_series_get_fill_type 	(GogSeries const *series);
 void 		  gog_series_set_fill_type 	(GogSeries *series, GogSeriesFillType fill_type);
 
+GogDataset   *gog_series_get_interpolation_params (GogSeries const *series);
+
 #ifdef GOFFICE_WITH_GTK
 #include <gtk/gtkcombobox.h>
 

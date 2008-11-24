@@ -149,6 +149,7 @@ struct _GogAxisMap {
 struct _GogAxisMapDesc {
 	double 		(*map) 		 (GogAxisMap *map, double value);
 	double 		(*map_to_view)   (GogAxisMap *map, double value);
+	double 		(*map_derivative_to_view)   (GogAxisMap *map, double value);
 	double 		(*map_from_view) (GogAxisMap *map, double value);
 	gboolean	(*map_finite)    (double value);
 	double		(*map_baseline)  (GogAxisMap *map);
@@ -214,6 +215,16 @@ map_discrete_to_view (GogAxisMap *map, double value)
 	return map->axis->inverted ? 
 		(data->min + data->max - value) * data->a + data->b :
 		value * data->a + data->b;
+}
+
+static double
+map_discrete_derivative_to_view (GogAxisMap *map, double value)
+{
+	/* WARNING: does this makes sense? */
+	MapData *data = map->data;
+
+	return map->axis->inverted ? -data->a: data->a;
+
 }
 
 static double
@@ -349,6 +360,15 @@ map_linear_to_view (GogAxisMap *map, double value)
 	return map->axis->inverted ? 
 		(data->min + data->max - value) * data->a + data->b :
 		value * data->a + data->b;
+}
+
+static double
+map_linear_derivative_to_view (GogAxisMap *map, double value)
+{
+	MapData *data = map->data;
+
+	return map->axis->inverted ? -data->a: data->a;
+
 }
 
 static double
@@ -572,6 +592,18 @@ map_log_to_view (GogAxisMap *map, double value)
 }
 
 static double
+map_log_derivative_to_view (GogAxisMap *map, double value)
+{
+	MapLogData *data = map->data;
+
+	if (value <= 0.)
+		return go_nan;
+	return map->axis->inverted ? data->a_inv / value:
+		data->a / value;
+
+}
+
+static double
 map_log_from_view (GogAxisMap *map, double value)
 {
 	MapLogData *data = map->data;
@@ -704,7 +736,7 @@ map_log_calc_ticks (GogAxis *axis)
 
 static const GogAxisMapDesc map_desc_discrete = 
 {
-	map_discrete,			map_discrete_to_view,
+	map_discrete,			map_discrete_to_view,   map_discrete_derivative_to_view,
 	map_discrete_from_view,		go_finite,
 	map_baseline,			map_bounds,
 	map_discrete_init,		NULL,
@@ -715,7 +747,7 @@ static const GogAxisMapDesc map_desc_discrete =
 static const GogAxisMapDesc map_descs[] = 
 {
 	{
-		map_linear,		map_linear_to_view,
+		map_linear,		map_linear_to_view,     map_linear_derivative_to_view,
 		map_linear_from_view,   go_finite,
 		map_baseline,		map_bounds,
 		map_linear_init, 	NULL,	
@@ -723,7 +755,7 @@ static const GogAxisMapDesc map_descs[] =
 		N_("Linear"),		N_("Linear mapping")
 	},
 	{
-		map_log,		map_log_to_view,
+		map_log,		map_log_to_view,	map_log_derivative_to_view,
 		map_log_from_view,	map_log_finite,
 		map_log_baseline,	map_log_bounds,
 		map_log_init,		NULL,	
@@ -880,6 +912,21 @@ gog_axis_map_to_view (GogAxisMap *map,
 		      double value)
 {
 	return map->desc->map_to_view (map, value);
+}
+
+/**
+ * gog_axis_map_to_view :
+ * @map : a #GogAxisMap
+ * @value : value to map to canvas space
+ *
+ * Returns: the derivative of the mapping expression at value.
+ **/
+
+double 
+gog_axis_map_derivative_to_view (GogAxisMap *map,
+		      double value)
+{
+	return map->desc->map_derivative_to_view (map, value);
 }
 
 /**
