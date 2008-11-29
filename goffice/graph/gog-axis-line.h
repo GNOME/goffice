@@ -22,9 +22,19 @@
 #ifndef GOG_AXIS_BASE_H
 #define GOG_AXIS_BASE_H
 
+#include <goffice/graph/goffice-graph.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
+
+#define GOG_AXIS_BASE_TYPE	(gog_axis_base_get_type ())
+#define GOG_AXIS_BASE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_AXIS_BASE_TYPE, GogAxisBase))
+#define IS_GOG_AXIS_BASE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_AXIS_BASE_TYPE))
+
+GType gog_axis_base_get_type (void);
+
+GogAxis *gog_axis_base_get_crossed_axis (GogAxisBase *axis_base);
+double gog_axis_base_get_cross_location (GogAxisBase *axis_base);
 
 typedef enum {
 	GOG_AXIS_AT_LOW,
@@ -32,6 +42,8 @@ typedef enum {
 	GOG_AXIS_AT_HIGH,
 	GOG_AXIS_AUTO
 } GogAxisPosition;
+
+GogAxisPosition gog_axis_base_get_clamped_position (GogAxisBase *axis_base);
 
 typedef enum {
 	GOG_AXIS_TICK_NONE,

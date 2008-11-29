@@ -909,12 +909,10 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		hide_outliers = GOG_XY_COLOR_PLOT (model)->hide_outliers;
 	}
 
-	/* Draw drop lines from point to axis start. To change this behaviour
-	 * and draw drop lines from point to zero, we can use gog_axis_map_get_baseline:
-	 * x_bottom = gog_axis_map_get_baseline (x_map); 
-	 * What we really want is to draw drop lines from point to
+	/* What we really want is to draw drop lines from point to
 	 * a selected axis. But for this purpose, we need a GogAxisBase selector in
-	 * GogSeriesLine, which doesn't really know what it's supposed to do with it. */
+	 * GogSeriesLines (we might actually need GogDropLines. For now just let
+	 * the drop lines go the the axis. */
 
 	gog_axis_map_get_extents (x_map, &x_left, &x_right);
 	x_left = gog_axis_map_to_view (x_map, x_left);
@@ -1007,8 +1005,32 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		if (series->hdroplines) {
 			GOPath *drop_path;
-			double y_drop;
-
+			double y_drop, x_target;
+			GogAxis *axis = GOG_PLOT (model)->axis[GOG_AXIS_Y];
+			GogAxisPosition pos = gog_axis_base_get_clamped_position (GOG_AXIS_BASE (axis));
+			switch (pos) {
+			case GOG_AXIS_AT_LOW:
+				x_target = gog_axis_map_is_inverted (x_map)? x_right: x_left;
+				break;
+			case GOG_AXIS_CROSS: {
+				GogChartMap *c_map;
+				GogAxisMap *a_map;
+				c_map = gog_chart_map_new (chart, area, axis,
+						gog_axis_base_get_crossed_axis (GOG_AXIS_BASE (axis)),
+						NULL, FALSE);
+				a_map = gog_chart_map_get_axis_map (c_map, 1);
+				x_target = gog_axis_map_to_view (a_map, gog_axis_base_get_cross_location (GOG_AXIS_BASE (axis)));
+				gog_chart_map_free (c_map);
+				break;
+			}
+			case GOG_AXIS_AT_HIGH:
+				x_target = gog_axis_map_is_inverted (x_map)? x_left: x_right;
+				break;
+			default:
+				/* this should not occur */
+				x_target = gog_axis_map_to_view (x_map, 0);
+				break;
+			}
 			gog_renderer_push_style (view->renderer,
 				gog_styled_object_get_style (GOG_STYLED_OBJECT (series->hdroplines)));
 			drop_path = go_path_new ();
@@ -1020,7 +1042,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				if (!gog_axis_map_finite (x_map, x))
 					continue;
 				y_drop = gog_axis_map_to_view (y_map, y_vals[i]);
-				go_path_move_to (drop_path, x_left, y_drop);
+				go_path_move_to (drop_path, x_target, y_drop);
 				go_path_line_to (drop_path, gog_axis_map_to_view (x_map, x), y_drop);
 			}
 			gog_renderer_stroke_serie (view->renderer, drop_path);
@@ -1030,8 +1052,32 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		if (series->vdroplines) {
 			GOPath *drop_path;
-			double x_drop;
-
+			double x_drop, y_target;
+			GogAxis *axis = GOG_PLOT (model)->axis[GOG_AXIS_X];
+			GogAxisPosition pos = gog_axis_base_get_clamped_position (GOG_AXIS_BASE (axis));
+			switch (pos) {
+			case GOG_AXIS_AT_LOW:
+				y_target = gog_axis_map_is_inverted (y_map)? y_top: y_bottom;
+				break;
+			case GOG_AXIS_CROSS: {
+				GogChartMap *c_map;
+				GogAxisMap *a_map;
+				c_map = gog_chart_map_new (chart, area, axis,
+						gog_axis_base_get_crossed_axis (GOG_AXIS_BASE (axis)),
+						NULL, FALSE);
+				a_map = gog_chart_map_get_axis_map (c_map, 1);
+				y_target = gog_axis_map_to_view (a_map, gog_axis_base_get_cross_location (GOG_AXIS_BASE (axis)));
+				gog_chart_map_free (c_map);
+				break;
+			}
+			case GOG_AXIS_AT_HIGH:
+				y_target = gog_axis_map_is_inverted (y_map)? y_bottom: y_top;
+				break;
+			default:
+				/* this should not occur */
+				y_target = gog_axis_map_to_view (y_map, 0);
+				break;
+			}
 			gog_renderer_push_style (view->renderer,
 				gog_styled_object_get_style (GOG_STYLED_OBJECT (series->vdroplines)));
 			drop_path = go_path_new ();
@@ -1043,7 +1089,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				if (!gog_axis_map_finite (x_map, x))
 					continue;
 				x_drop = gog_axis_map_to_view (x_map, x);
-				go_path_move_to (drop_path, x_drop, y_bottom);
+				go_path_move_to (drop_path, x_drop, y_target);
 				go_path_line_to (drop_path, x_drop, gog_axis_map_to_view (y_map, y_vals[i]));
 			}
 			gog_renderer_stroke_serie (view->renderer, drop_path);

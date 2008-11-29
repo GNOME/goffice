@@ -35,7 +35,7 @@ typedef struct  {
 		int size_pts;
 } GogAxisTickProperties;
 
-typedef struct {
+struct _GogAxisBase {
 	GogStyledObject	 base;
 
 	GogChart	*chart;
@@ -49,15 +49,9 @@ typedef struct {
 
 	GogAxisTickProperties major, minor;
 	gboolean major_tick_labeled;
-} GogAxisBase;
+};
 
 typedef GogStyledObjectClass GogAxisBaseClass;
-
-#define GOG_AXIS_BASE_TYPE	(gog_axis_base_get_type ())
-#define GOG_AXIS_BASE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_AXIS_BASE_TYPE, GogAxisBase))
-#define IS_GOG_AXIS_BASE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_AXIS_BASE_TYPE))
-
-GType gog_axis_base_get_type (void);
 
 GogAxisPosition 	gog_axis_base_get_position 	   (GogAxisBase *axis_base);
 void		    	gog_axis_base_set_position 	   (GogAxisBase *axis_base, GogAxisPosition position);

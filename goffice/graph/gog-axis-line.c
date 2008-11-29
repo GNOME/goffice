@@ -49,8 +49,6 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
-static double gog_axis_base_get_cross_location (GogAxisBase *axis_base);
-
 static GogViewClass *gab_view_parent_klass;
 static GObjectClass *gab_parent_klass;
 
@@ -294,7 +292,7 @@ gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base)
 	return crossed_type;
 }
 
-static GogAxis *
+GogAxis *
 gog_axis_base_get_crossed_axis (GogAxisBase *axis_base)
 {
 	GogAxis *crossed_axis = NULL;
@@ -772,7 +770,7 @@ gog_axis_base_init (GogAxisBase *gab)
 	gab->minor.size_pts = 2;
 }
 
-static double
+double
 gog_axis_base_get_cross_location (GogAxisBase *axis_base)
 {
 	GOData *data;

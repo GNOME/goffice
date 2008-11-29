@@ -11,6 +11,7 @@ Jean:
 	* Drop the libgome dependency. [#558709]
 	* Made spline interpolation really use Bezier cubic splines.
 	* Add closed Bezier and cubic spline interpolation.
+	* Make drop lines go to the axis instead of chart bottom (or left).
 
 Morten:
 	* Plug leaks.

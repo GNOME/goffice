@@ -427,7 +427,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogObjectRole const *role = NULL;
 	GogSeriesLines **lines;
 
-	double y_zero, drop_lines_y_zero;
+	double y_zero, y_top, drop_lines_y_min, drop_lines_y_max;
 	double abs_sum, sum, value, x, y = 0.;
 	gboolean is_null, is_area_plot;
 
@@ -457,9 +457,13 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	/* Draw drop lines from point to axis start. See comment in
 	 * GogXYPlotView::render */
 
-	gog_axis_map_get_extents (y_map, &drop_lines_y_zero, NULL); 
-	drop_lines_y_zero = gog_axis_map_to_view (y_map, drop_lines_y_zero);
-	y_zero = gog_axis_map_get_baseline (y_map); 
+	gog_axis_map_get_extents (y_map, &drop_lines_y_min, &drop_lines_y_max); 
+	drop_lines_y_min = gog_axis_map_to_view (y_map, drop_lines_y_min);
+	drop_lines_y_max = gog_axis_map_to_view (y_map, drop_lines_y_max);
+	gog_axis_map_get_extents (y_map, &y_zero, &y_top);
+	y_zero = gog_axis_map_to_view (y_map, y_zero);
+	y_top = gog_axis_map_to_view (y_map, y_top);
+//	y_zero = gog_axis_map_get_baseline (y_map); 
 
 	vals    = g_alloca (num_series * sizeof (double *));
 	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
@@ -599,8 +603,34 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				points[i][j].y = y;
 			}
 			if (lines[i]) {
+				double y_target;
+				GogAxis *axis = GOG_PLOT (model)->axis[GOG_AXIS_X];
+				GogAxisPosition pos = gog_axis_base_get_clamped_position (GOG_AXIS_BASE (axis));
+				switch (pos) {
+				case GOG_AXIS_AT_LOW:
+					y_target = gog_axis_map_is_inverted (y_map)? y_top: y_zero;
+					break;
+				case GOG_AXIS_CROSS: {
+					GogChartMap *c_map;
+					GogAxisMap *a_map;
+					c_map = gog_chart_map_new (chart, area, axis,
+							gog_axis_base_get_crossed_axis (GOG_AXIS_BASE (axis)),
+							NULL, FALSE);
+					a_map = gog_chart_map_get_axis_map (c_map, 1);
+					y_target = gog_axis_map_to_view (a_map, gog_axis_base_get_cross_location (GOG_AXIS_BASE (axis)));
+					gog_chart_map_free (c_map);
+					break;
+				}
+				case GOG_AXIS_AT_HIGH:
+					y_target = gog_axis_map_is_inverted (y_map)? y_zero: y_top;
+					break;
+				default:
+					/* this should not occur */
+					y_target = gog_axis_map_to_view (y_map, 0);
+					break;
+				}
 				go_path_move_to (drop_paths[i], x, y);
-				go_path_line_to (drop_paths[i], x, drop_lines_y_zero);
+				go_path_line_to (drop_paths[i], x, y_target);
 			}
 
 		}

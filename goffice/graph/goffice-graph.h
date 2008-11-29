@@ -45,6 +45,7 @@ typedef struct _GogSeriesDimDesc GogSeriesDimDesc; /* dimension of a series */
 typedef struct _GogLegend	GogLegend;
 typedef struct _GogLabel	GogLabel;
 typedef struct _GogStyledObject	GogStyledObject;
+typedef struct _GogAxisBase GogAxisBase;
 typedef struct _GogAxis		GogAxis;
 typedef struct _GogAxisLine	GogAxisLine;
 typedef struct _GogGrid		GogGrid;

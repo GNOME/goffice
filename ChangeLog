@@ -1,3 +1,13 @@
+2008-11-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/goffice-graph.h: make GogAxisBase public, at least a bit.
+	* goffice/graph/gog-axis-line-impl.h: ditto.
+	* goffice/graph/gog-axis-line.c: ditto.
+	* goffice/graph/gog-axis-line.h: ditto.
+	* plugins/plot_barcol/gog-line.c: make drop lines go to the axis instead
+	of bottom (or left when horizontal).
+	* plugins/plot_xy/gog-xy.c: ditto.
+
 2008-11-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-axis.c: add support for clamped splines.
