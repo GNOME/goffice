@@ -9,6 +9,7 @@ Jean:
 
 Morten:
 	* Fix go_url_resolve_relative.  [#550898]
+	* Fix problem with formats like "0.0E-00".  [#563601]
 
 --------------------------------------------------------------------------
 goffice 0.6.5:
