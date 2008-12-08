@@ -1,6 +1,7 @@
 goffice 0.7.3:
 
 ATTENTION PACKAGERS: goffice no longer depends on libgnome and libgnomeui.
+ATTENTION PACKAGERS: goffice no longer depends on gnome-vfs.
 
 Halton Huo:
 	* Add --without-long-double option.  [#557045]
@@ -16,6 +17,7 @@ Jean:
 Morten:
 	* Plug leaks.
 	* Fix memory corruption issue.  [#561708]
+	* Fix problem with formats like "0.0E-00".  [#563601]
 
 --------------------------------------------------------------------------
 goffice 0.7.2:

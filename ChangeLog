@@ -1,3 +1,8 @@
+2008-12-08  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_parse_number_E): Handle
+	E-00 as well as E+00.
+
 2008-11-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/goffice-graph.h: make GogAxisBase public, at least a bit.

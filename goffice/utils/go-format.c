@@ -1554,6 +1554,11 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 	if (tno_exp_start >= tno_end)
 		return NULL;
 	switch (GET_TOKEN (pstate->tno_E + 1).token) {
+	case '-':
+		use_markup = FALSE;
+		simplify_mantissa = FALSE;
+		pstate->forced_exponent_sign = FALSE;
+		break;
 	case '+':
 		use_markup = FALSE;
 		simplify_mantissa = FALSE;
