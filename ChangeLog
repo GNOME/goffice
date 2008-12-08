@@ -1,5 +1,8 @@
 2008-12-08  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/go-combo-box.c (go_combo_box_realize): Set cursor in
+	a realize handler, not at init time.
+
 	* goffice/utils/go-format.c (go_format_parse_number_E): Handle
 	E-00 as well as E+00.
 

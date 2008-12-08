@@ -247,6 +247,21 @@ go_combo_box_style_set (GtkWidget *widget,
 }
 
 static void
+go_combo_box_realize (GtkWidget *widget)
+{
+	GOComboBox *combo = (GOComboBox *)widget;
+	GdkCursor *cursor;
+
+	cursor = gdk_cursor_new_for_display (gtk_widget_get_display (widget),
+					     GDK_TOP_LEFT_ARROW);
+	gtk_widget_realize (combo->priv->popup);
+	gdk_window_set_cursor (combo->priv->popup->window, cursor);
+	gdk_cursor_unref (cursor);
+
+	((GtkWidgetClass *)go_combo_box_parent_class)->realize (widget);
+}
+
+static void
 go_combo_box_class_init (GObjectClass *object_class)
 {
 	GtkWidgetClass *widget_class = (GtkWidgetClass *)object_class;
@@ -254,6 +269,7 @@ go_combo_box_class_init (GObjectClass *object_class)
 
 	object_class->finalize = go_combo_box_finalize;
 	widget_class->mnemonic_activate = go_combo_box_mnemonic_activate;
+	widget_class->realize = go_combo_box_realize;
 	((GtkObjectClass *)object_class)->destroy = go_combo_box_destroy;
 
 	gtk_widget_class_install_style_property
@@ -519,7 +535,6 @@ static void
 go_combo_box_init (GOComboBox *combo_box)
 {
 	GtkWidget *arrow;
-	GdkCursor *cursor;
 
 	combo_box->priv = g_new0 (GOComboBoxPrivate, 1);
 	combo_box->priv->updating_buttons = FALSE;
@@ -547,26 +562,17 @@ go_combo_box_init (GOComboBox *combo_box)
 	 */
 
 	combo_box->priv->toplevel = gtk_window_new (GTK_WINDOW_POPUP);
-#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
-	g_object_ref_sink (combo_box->priv->toplevel);
-#else
 	g_object_ref (combo_box->priv->toplevel);
-	gtk_object_sink (GTK_OBJECT (combo_box->priv->toplevel));
-#endif
 	g_object_set (G_OBJECT (combo_box->priv->toplevel),
-		"allow-shrink",	FALSE,
-		"allow-grow",	TRUE,
-		NULL);
+		      "allow-shrink", FALSE,
+		      "allow-grow", TRUE,
+		      "type-hint", GDK_WINDOW_TYPE_HINT_COMBO,
+		      NULL);
 
 	combo_box->priv->popup = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (combo_box->priv->toplevel),
 			   combo_box->priv->popup);
 	gtk_widget_show (combo_box->priv->popup);
-
-	gtk_widget_realize (combo_box->priv->popup);
-	cursor = gdk_cursor_new_for_display (gtk_widget_get_display (GTK_WIDGET (combo_box)), GDK_TOP_LEFT_ARROW);
-	gdk_window_set_cursor (combo_box->priv->popup->window, cursor);
-	gdk_cursor_unref (cursor);
 
 	combo_box->priv->torn_off = FALSE;
 	combo_box->priv->tearoff_window = NULL;
