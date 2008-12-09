@@ -56,6 +56,10 @@
 #undef STRICT
 #endif
 
+#ifdef GOFFICE_WITH_GMATHML
+#include <goffice/graph/gog-equation.h>
+#endif
+
 int goffice_graph_debug_level = 0;
 
 static char const *libgoffice_data_dir   = GOFFICE_DATADIR;
@@ -138,6 +142,9 @@ libgoffice_init ()
 	(void) GOG_LABEL_TYPE;
 	(void) GOG_GRID_TYPE;
 	(void) GOG_GRID_LINE_TYPE;
+#ifdef GOFFICE_WITH_GMATHML
+	(void) GOG_EQUATION_TYPE;
+#endif
 	(void) GOG_ERROR_BAR_TYPE;
 	(void) GOG_REG_EQN_TYPE;
 	(void) GOG_SERIES_LINES_TYPE;

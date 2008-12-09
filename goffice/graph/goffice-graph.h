@@ -51,6 +51,7 @@ typedef struct _GogAxisLine	GogAxisLine;
 typedef struct _GogGrid		GogGrid;
 typedef struct _GogGridLine	GogGridLine;
 typedef struct _GogErrorBar	GogErrorBar;
+typedef struct _GogEquation	GogEquation;
 typedef struct _GogRegCurve	GogRegCurve;
 typedef struct _GogRegEqn	GogRegEqn;
 typedef struct _GogTrendLineType	GogTrendLineType;

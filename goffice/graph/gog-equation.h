@@ -1,0 +1,40 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * gog-equation.h : 
+ *
+ * Copyright (C) 2008 Emmanuel Pacaud <emmanuel@gnome.org>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+
+#ifndef GOG_EQUATION_H
+#define GOG_EQUATION_H
+
+#include <goffice/graph/goffice-graph.h>
+#include <glib-object.h>
+
+G_BEGIN_DECLS
+
+#define GOG_EQUATION_TYPE		(gog_equation_get_type ())
+#define GOG_EQUATION(o)			(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_EQUATION_TYPE, GogEquation))
+#define IS_GOG_EQUATION(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_EQUATION_TYPE))
+#define GOG_EQUATION_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_EQUATION_TYPE, GogEquationClass))
+
+GType gog_equation_get_type (void);
+
+G_END_DECLS
+
+#endif /* GOG_EQUATION_H */
+

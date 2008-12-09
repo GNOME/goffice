@@ -109,11 +109,28 @@ goffice_gtk_reqs="
 	libglade-2.0		>= 2.3.6
 "
 
+dnl ***********************
+dnl Should we use gmathml ?
+dnl ***********************
+
+goffice_with_gmathml=false
+AC_ARG_WITH(gtk, [  --with-gmathml          Build with gmathml use])
+if test "x$with_gmathml" = xyes; then
+	PKG_CHECK_MODULES(GMathml, gmathml >= 0.0.1)
+	goffice_with_gmathml=true
+fi
+if test "x$goffice_with_gmathml" = "xtrue" ; then
+	AC_DEFINE(GOFFICE_WITH_GMATHML, 1, [Define if GMathml is used])
+	goffice_reqs="$goffice_reqs gmathml >= 0.0.1 "
+fi
+
+AM_CONDITIONAL(GOFFICE_WITH_GMATHML, $goffice_with_gmathml)
+
 dnl *******************
 dnl Should we use gconf ?
 dnl *******************
 goffice_with_gconf=true
-AC_ARG_WITH(gtk, [  --without-gconf           Build without gconf use])
+AC_ARG_WITH(gtk, [  --without-gconf         Build without gconf use])
 if test "x$with_gconf" = xno; then
 	ui_msg="None (Gconf disabled by request)"
 	goffice_with_gconf=false

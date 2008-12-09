@@ -42,6 +42,10 @@
 #include <string.h>
 #include <math.h>
 
+#ifdef GOFFICE_WITH_GMATHML
+#include <goffice/graph/gog-equation.h>
+#endif
+
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtkcombobox.h>
@@ -453,6 +457,13 @@ static GogObjectRole const roles[] = {
 	  GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER, 
 	  GOG_OBJECT_NAME_BY_ROLE,
 	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
+#ifdef GOFFICE_WITH_GMATHML
+	{ N_("Equation"), "GogEquation",	11,
+	  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL,
+	  GOG_POSITION_S|GOG_POSITION_ALIGN_CENTER,
+	  GOG_OBJECT_NAME_BY_ROLE,
+	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
+#endif
 	{ N_("3D-Box"), "Gog3DBox",	1,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  role_3d_box_can_add, role_3d_box_can_remove, NULL, NULL, NULL, NULL, { -1 } }

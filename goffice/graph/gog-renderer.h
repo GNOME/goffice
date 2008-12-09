@@ -58,6 +58,10 @@ typedef enum
 } GtkAnchorType;
 #endif
 
+#ifdef GOFFICE_WITH_GMATHML
+#include <gmathmlview.h>
+#endif
+
 #include <cairo.h>
 #ifdef CAIRO_HAS_SVG_SURFACE
 #define GOG_RENDERER_CAIRO_WITH_SVG
@@ -148,6 +152,11 @@ gboolean 	 gog_renderer_export_image 	(GogRenderer *renderer, GOImageFormat form
 						 GsfOutput *output, double x_dpi, double y_dpi);
 
 GogRenderer 	*gog_renderer_new 		(GogGraph *graph);
+
+#ifdef GOFFICE_WITH_GMATHML
+void		 gog_renderer_draw_equation	(GogRenderer *renderer, GMathmlView *mathml_view,
+						 double x, double y);
+#endif
 
 G_END_DECLS
 

@@ -6,6 +6,20 @@
 	* goffice/utils/go-format.c (go_format_parse_number_E): Handle
 	E-00 as well as E+00.
 
+2008-12-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Add an optional dependency to GMathml, for equation support. It's
+	disabled by default.
+
+	* configure.in: gmathml check.
+	* goffice/goffice.c: Declare GogEquationType.
+	* goffice/graph/Makefile.am: Conditionally build gog-equation.[ch]
+	* goffice/graph/gog-equation.[ch]: new.
+	* goffice/graph/gog-equation-prefs.c: new.
+	* goffice/graph/gog-chart.c: add GogEquation to the possible chart
+	children.
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_equation): new.
+
 2008-11-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/goffice-graph.h: make GogAxisBase public, at least a bit.

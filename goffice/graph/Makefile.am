@@ -99,6 +99,12 @@ dist_glade_DATA = \
 	gog-series-prefs.glade		\
 	gog-3d-box-prefs.glade
 
+if GOFFICE_WITH_GMATHML
+  libgoffice_graph_la_SOURCES += gog-equation.c
+  libgoffice_graph_la_HEADERS += gog-equation.h
+  dist_glade_DATA += gog-equation-prefs.glade
+endif
+
 include $(top_srcdir)/goffice.mk
 
 LIB_PUBLIC_HDRS = $(libgoffice_graph_la_HEADERS)

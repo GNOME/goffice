@@ -1392,6 +1392,29 @@ gog_renderer_get_hairline_width_pts (GogRenderer const *rend)
 
 	return 1.0 / rend->scale;
 }
+#ifdef GOFFICE_WITH_GMATHML
+
+void
+gog_renderer_draw_equation (GogRenderer *renderer, GMathmlView *mathml_view, double x, double y)
+{
+	cairo_t *cairo;
+
+	g_return_if_fail (IS_GOG_RENDERER (renderer));
+	g_return_if_fail (GMATHML_IS_VIEW (mathml_view));
+
+	cairo = renderer->cairo;
+
+	cairo_save (cairo);
+
+	cairo_scale (cairo, renderer->scale_x, renderer->scale_y);
+
+	gmathml_view_set_cairo (mathml_view, cairo);
+	gmathml_view_render (mathml_view, x / renderer->scale_x, y / renderer->scale_y);
+
+	cairo_restore (cairo);
+}
+
+#endif
 
 /**
  * gog_renderer_new:
