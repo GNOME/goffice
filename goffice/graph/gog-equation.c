@@ -61,9 +61,13 @@ GType gog_equation_view_get_type (void);
 #ifdef GOFFICE_WITH_GTK
 
 static void
-cb_equation_entry_changed (GtkEntry *entry, GogEquation *equation)
+cb_equation_buffer_changed (GtkTextBuffer *buffer, GogEquation *equation)
 {
-	g_object_set (G_OBJECT (equation), "itex", gtk_entry_get_text (entry), NULL);
+	GtkTextIter start;
+	GtkTextIter end;
+
+	gtk_text_buffer_get_bounds (buffer, &start, &end);
+	g_object_set (G_OBJECT (equation), "itex", gtk_text_buffer_get_text (buffer, &start, &end, FALSE), NULL);
 }
 static void
 cb_inline_mode_check_toggled (GtkToggleButton *button, GogEquation *equation)
@@ -80,13 +84,15 @@ gog_equation_populate_editor (GogObject *obj,
 	GogEquation *equation = GOG_EQUATION (obj);
 	GladeXML *gui;
 	GtkWidget *widget;
+	GtkTextBuffer *buffer;
 
 	gui = go_libglade_new ("gog-equation-prefs.glade", "gog_equation_prefs", GETTEXT_PACKAGE, cc);
 	g_return_if_fail (gui != NULL);
 
-	widget = glade_xml_get_widget (gui, "equation_entry");
-	gtk_entry_set_text (GTK_ENTRY (widget), equation->itex);
-	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (cb_equation_entry_changed), obj);
+	widget = glade_xml_get_widget (gui, "equation_text");
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
+	gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), equation->itex, -1);
+	g_signal_connect (G_OBJECT (buffer), "changed", G_CALLBACK (cb_equation_buffer_changed), obj);
 
 	widget = glade_xml_get_widget (gui, "compact_mode_check");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), equation->inline_mode);
@@ -107,25 +113,60 @@ gog_equation_update (GogObject *obj)
 {
 	GogEquation *equation = GOG_EQUATION (obj);
 	GMathmlDocument *mathml;
-	char *itex;
-	size_t size;
+	GString *itex;
+	char *itex_iter;
+	char *prev_char = '\0';
+	size_t size_utf8;
 	unsigned int i;
+	int n_unclosed_braces = 0;
+	int j;
 	gboolean is_blank = TRUE;
+	gboolean add_dash = FALSE;
 
-	size = equation->itex != NULL ? strlen(equation->itex) : 0;
-	for (i = 0; i < size; i++) {
-		if (equation->itex[i] != ' ') {
-		    is_blank = FALSE;
-		    break;
+	if (equation->itex != NULL && !g_utf8_validate (equation->itex, -1, NULL)) {
+		g_free (equation->itex);
+		equation->itex = NULL;
+	}
+
+	if (equation->itex != NULL) {
+		size_utf8 = g_utf8_strlen (equation->itex, -1);
+
+		if (size_utf8 > 0) {
+			for (i = 0, itex_iter = equation->itex;
+			     i < size_utf8;
+			     i++, itex_iter = g_utf8_next_char (itex_iter)) {
+				if (*itex_iter != ' ') {
+					is_blank = FALSE;
+
+					if (*itex_iter == '{' && *prev_char != '\\')
+						n_unclosed_braces++;
+					else if (*itex_iter == '}' && *prev_char != '\\')
+						n_unclosed_braces--;
+				}
+
+				prev_char = itex_iter;
+			}
+			if (prev_char != NULL && (*prev_char == '^' || *prev_char == '_'))
+				add_dash = TRUE;
+
 		}
 	}
 
 	if (equation->inline_mode)
-		itex = g_strdup_printf ("$%s$", equation->itex);
+		itex = g_string_new ("$");
 	else
-		itex = g_strdup_printf ("$$%s$$", equation->itex);
+		itex = g_string_new ("$$");
+	g_string_append (itex, equation->itex);
+	if (add_dash)
+		g_string_append_c (itex, '-');
+	for (j = 0; j < n_unclosed_braces; j++)
+		g_string_append_c (itex, '}');
+	if (equation->inline_mode)
+		itex = g_string_append (itex, "$");
+	else
+		itex = g_string_append (itex, "$$");
 
-	mathml = gmathml_document_new_from_itex (itex);
+	mathml = gmathml_document_new_from_itex (itex->str);
 
 	/* Keep the last valid mathml document if the itex -> mathml conversion fails.
 	 * It keep the equation from disappearing when the current equation entry is not a
@@ -139,7 +180,7 @@ gog_equation_update (GogObject *obj)
 	} else
 		g_object_unref (mathml);
 
-	g_free (itex);
+	g_string_free (itex, TRUE);
 }
 
 static void

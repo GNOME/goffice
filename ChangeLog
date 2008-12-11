@@ -1,3 +1,14 @@
+2008-12-11  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Use a GtkTextView for the equation expression.
+
+	* goffice/graph/gog-equation-prefs.glade: use a GtkTextView.
+	* goffice/graph/gog-equation.c (cb_equation_buffer_changed): replaces
+	cb_equation_entry_changed.
+	(gog_equation_populate_editor): use a GtkTextView.
+	(gog_equation_update): try to fix the user entered expression in order
+	to have a valid mathml tree.
+
 2008-12-08  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-combo-box.c (go_combo_box_realize): Set cursor in
