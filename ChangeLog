@@ -1,5 +1,9 @@
 2008-12-13  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Avoid non-zero page size warnings in all glade files.
+
+2008-12-13  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Actually use the parent styled_object properties.
 
 	* goffice/graph/gog-equation.c (_update_equation_style): new.

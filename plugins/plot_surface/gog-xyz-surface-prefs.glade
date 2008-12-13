@@ -46,7 +46,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="tooltip" translatable="yes">Separation between groups as a percentage of bar/col width</property>
-            <property name="adjustment">10 2 1000 1 10 10</property>
+            <property name="adjustment">10 2 1000 1 10 0</property>
             <property name="climb_rate">10</property>
             <property name="snap_to_ticks">True</property>
             <property name="numeric">True</property>
@@ -63,7 +63,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="tooltip" translatable="yes">How far the bars/cols overlap as a percentage of the width</property>
-            <property name="adjustment">10 2 1000 1 10 10</property>
+            <property name="adjustment">10 2 1000 1 10 0</property>
             <property name="climb_rate">0.10000000000000001</property>
             <property name="snap_to_ticks">True</property>
             <property name="numeric">True</property>
