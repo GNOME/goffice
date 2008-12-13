@@ -229,11 +229,11 @@ gog_styled_object_set_style (GogStyledObject *gso,
 
 	/* which fields are we interested in for this object */
 	gog_styled_object_apply_theme (gso, style);
-	gog_styled_object_style_changed (gso);
 	resize = gog_style_is_different_size (gso->style, style);
 	if (gso->style != NULL)
 		g_object_unref (gso->style);
 	gso->style = style;
+	gog_styled_object_style_changed (gso);
 
 	return resize;
 }

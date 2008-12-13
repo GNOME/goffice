@@ -1,3 +1,12 @@
+2008-12-13  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Move the style-changed emission after the style have been applied to
+	the styled object. Makes the new style availabe to the signal
+	callbacks.
+
+	* goffice/graph/gog-styled-object.c (gog_styled_object_set_style):
+	here.
+
 2008-12-11  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Use a GtkTextView for the equation expression.
