@@ -121,7 +121,12 @@ _update_equation_style (GogEquation *equation, const GogStyle *style)
 		return;
 
 	math_element = gmathml_document_get_math_element (equation->mathml);
+	if (math_element == NULL)
+		return;
+
 	math_style = gmathml_math_element_get_default_style (math_element);
+	if (math_style == NULL)
+		return;
 
 	math_style->math_color.red = DOUBLE_RGBA_R (style->font.color);
 	math_style->math_color.green = DOUBLE_RGBA_G (style->font.color);

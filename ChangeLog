@@ -1,5 +1,11 @@
 2008-12-13  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Avoid a crash when the equation expression is empty.
+
+	* goffice/graph/gog-equation.c (_update_equation_style): here.
+
+2008-12-13  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Avoid non-zero page size warnings in all glade files.
 
 2008-12-13  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
