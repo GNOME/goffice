@@ -1,5 +1,12 @@
 2008-12-13  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Don't access mathml root element style field directly. That fixes
+	the font sizes of the equation.
+
+	* goffice/graph/gog-equation.c (_update_equation_style): here.
+
+2008-12-13  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Avoid a crash when the equation expression is empty.
 
 	* goffice/graph/gog-equation.c (_update_equation_style): here.

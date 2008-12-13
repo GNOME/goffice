@@ -128,31 +128,32 @@ _update_equation_style (GogEquation *equation, const GogStyle *style)
 	if (math_style == NULL)
 		return;
 
-	math_style->math_color.red = DOUBLE_RGBA_R (style->font.color);
-	math_style->math_color.green = DOUBLE_RGBA_G (style->font.color);
-	math_style->math_color.blue = DOUBLE_RGBA_B (style->font.color);
-	math_style->math_color.alpha = DOUBLE_RGBA_A (style->font.color);
+	gmathml_style_set_math_color (math_style,
+				      DOUBLE_RGBA_R (style->font.color),
+				      DOUBLE_RGBA_G (style->font.color),
+				      DOUBLE_RGBA_B (style->font.color),
+				      DOUBLE_RGBA_A (style->font.color));
 
 	font_description = style->font.font->desc;
 	if (font_description != NULL) {
-		g_free (math_style->math_family);
-		math_style->math_family = g_strdup (pango_font_description_get_family (font_description));
-
-		math_style->math_size.value =
-			pango_units_to_double (pango_font_description_get_size (font_description));
-		math_style->math_size.unit = GMATHML_UNIT_PT;
+		GMathmlVariant math_variant;
 
 		if (pango_font_description_get_weight (font_description) >= PANGO_WEIGHT_BOLD) {
 			if (pango_font_description_get_style (font_description) == PANGO_STYLE_NORMAL)
-				math_style->math_variant = GMATHML_VARIANT_BOLD;
+				math_variant = GMATHML_VARIANT_BOLD;
 			else
-				math_style->math_variant = GMATHML_VARIANT_BOLD_ITALIC;
+				math_variant = GMATHML_VARIANT_BOLD_ITALIC;
 		} else {
 			if (pango_font_description_get_style (font_description) == PANGO_STYLE_NORMAL)
-				math_style->math_variant = GMATHML_VARIANT_NORMAL;
+				math_variant = GMATHML_VARIANT_NORMAL;
 			else
-				math_style->math_variant = GMATHML_VARIANT_ITALIC;
+				math_variant = GMATHML_VARIANT_ITALIC;
 		}
+
+		gmathml_style_set_math_family (math_style, pango_font_description_get_family (font_description));
+		gmathml_style_set_math_size_pt
+			(math_style, pango_units_to_double (pango_font_description_get_size (font_description)));
+		gmathml_style_set_math_variant (math_style, math_variant);
 	}
 
 	gmathml_math_element_set_default_style (math_element, math_style);
