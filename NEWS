@@ -2,6 +2,14 @@ goffice 0.7.3:
 
 ATTENTION PACKAGERS: goffice no longer depends on libgnome and libgnomeui.
 ATTENTION PACKAGERS: goffice no longer depends on gnome-vfs.
+ATTENTION PACKAGERS: please don't ship goffice with equation enabled.
+
+Emmanuel:
+	* Experimental support for equation using gmathml. Disabled by default,
+       	as no release of gmathml exists yet. Source code of gmathml can
+       	retrieved using the following command:
+
+	git clone http://people.freedesktop.org/~emmanuel/gmathml.git
 
 Halton Huo:
 	* Add --without-long-double option.  [#557045]
