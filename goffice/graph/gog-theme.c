@@ -609,6 +609,19 @@ gog_themes_init	(void)
 	gog_theme_add_element (theme, style,
 		NULL, "GogRegEqn", NULL);
 
+#ifdef GOFFICE_WITH_GMATHML
+	/* Equations */
+	style = gog_style_new ();
+	style->outline.dash_type = GO_LINE_NONE;
+	style->outline.width = 0; /* hairline */
+	style->outline.color = RGBA_BLACK;
+	style->fill.type = GOG_FILL_STYLE_NONE;
+	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
+	gog_style_set_font_desc (style, pango_font_description_from_string ("Sans 10"));
+	gog_theme_add_element (theme, style,
+		NULL, "GogEquation", NULL);
+#endif
+
 	/* series lines */
 	style = gog_style_new ();
 	gog_theme_add_element (theme, style,
@@ -725,6 +738,19 @@ gog_themes_init	(void)
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style,
 		NULL, "GogRegEqn", NULL);
+
+#ifdef GOFFICE_WITH_GMATHML
+	/* Equations */
+	style = gog_style_new ();
+	style->outline.dash_type = GO_LINE_NONE;
+	style->outline.width = 0; /* hairline */
+	style->outline.color = RGBA_BLACK;
+	style->fill.type = GOG_FILL_STYLE_NONE;
+	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
+	gog_style_set_font_desc (style, pango_font_description_from_string ("Sans 10"));
+	gog_theme_add_element (theme, style,
+		NULL, "GogEquation", NULL);
+#endif
 
 	/* series lines */
 	style = gog_style_new ();
