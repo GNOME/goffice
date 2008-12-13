@@ -1,5 +1,16 @@
 2008-12-13  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Actually use the parent styled_object properties.
+
+	* goffice/graph/gog-equation.c (_update_equation_style): new.
+	(gog_equation_style_changed): new.
+	(gog_equation_init_style): we don't need text_layout properties.
+	(gog_equation_view_size_request): propagates to the parent
+	size_request method.
+	(gog_equation_view_render): propagates to the parent render method.
+
+2008-12-13  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Define the theme properties for the GogEquation objects.
 
 	* goffice/graph/gog-theme.c: here.

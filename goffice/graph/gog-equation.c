@@ -21,6 +21,7 @@
 
 #include <gmathmldocument.h>
 #include <gmathmlparser.h>
+#include <gmathmlmathelement.h>
 
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-outlined-object.h>
@@ -28,6 +29,7 @@
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-equation.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-color.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -109,6 +111,49 @@ gog_equation_populate_editor (GogObject *obj,
 #endif
 
 static void
+_update_equation_style (GogEquation *equation, const GogStyle *style)
+{
+	GMathmlStyle *math_style;
+	GMathmlMathElement *math_element;
+	PangoFontDescription *font_description;
+
+	if (equation->mathml == NULL)
+		return;
+
+	math_element = gmathml_document_get_math_element (equation->mathml);
+	math_style = gmathml_math_element_get_default_style (math_element);
+
+	math_style->math_color.red = DOUBLE_RGBA_R (style->font.color);
+	math_style->math_color.green = DOUBLE_RGBA_G (style->font.color);
+	math_style->math_color.blue = DOUBLE_RGBA_B (style->font.color);
+	math_style->math_color.alpha = DOUBLE_RGBA_A (style->font.color);
+
+	font_description = style->font.font->desc;
+	if (font_description != NULL) {
+		g_free (math_style->math_family);
+		math_style->math_family = g_strdup (pango_font_description_get_family (font_description));
+
+		math_style->math_size.value =
+			pango_units_to_double (pango_font_description_get_size (font_description));
+		math_style->math_size.unit = GMATHML_UNIT_PT;
+
+		if (pango_font_description_get_weight (font_description) >= PANGO_WEIGHT_BOLD) {
+			if (pango_font_description_get_style (font_description) == PANGO_STYLE_NORMAL)
+				math_style->math_variant = GMATHML_VARIANT_BOLD;
+			else
+				math_style->math_variant = GMATHML_VARIANT_BOLD_ITALIC;
+		} else {
+			if (pango_font_description_get_style (font_description) == PANGO_STYLE_NORMAL)
+				math_style->math_variant = GMATHML_VARIANT_NORMAL;
+			else
+				math_style->math_variant = GMATHML_VARIANT_ITALIC;
+		}
+	}
+
+	gmathml_math_element_set_default_style (math_element, math_style);
+}
+
+static void
 gog_equation_update (GogObject *obj)
 {
 	GogEquation *equation = GOG_EQUATION (obj);
@@ -177,6 +222,9 @@ gog_equation_update (GogObject *obj)
 			g_object_unref (equation->mathml);
 
 		equation->mathml = mathml;
+
+		_update_equation_style (equation,
+					gog_styled_object_get_style (GOG_STYLED_OBJECT (equation)));
 	} else
 		g_object_unref (mathml);
 
@@ -228,13 +276,18 @@ gog_equation_get_property (GObject *obj, guint param_id,
 }
 
 static void
+gog_equation_style_changed (GogStyledObject *gso, GogStyle const *new_style)
+{
+	_update_equation_style (GOG_EQUATION (gso), new_style);
+}
+
+static void
 gog_equation_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	style->interesting_fields =
 		GOG_STYLE_OUTLINE |
 		GOG_STYLE_FILL |
-		GOG_STYLE_FONT |
-		GOG_STYLE_TEXT_LAYOUT;
+		GOG_STYLE_FONT;
 
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 				style, GOG_OBJECT (gso), 0, FALSE);
@@ -255,13 +308,14 @@ gog_equation_class_init (GogEquationClass *klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) klass;
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
-	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
+	GogStyledObjectClass *styled_klass = (GogStyledObjectClass *) klass;
 
 	equation_parent_klass = g_type_class_peek_parent (klass);
 
 	gobject_klass->finalize     = gog_equation_finalize;
 	gobject_klass->set_property = gog_equation_set_property;
 	gobject_klass->get_property = gog_equation_get_property;
+	styled_klass->style_changed = gog_equation_style_changed;
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor  = gog_equation_populate_editor;
 #endif
@@ -281,7 +335,7 @@ gog_equation_class_init (GogEquationClass *klass)
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_klass->view_type		= gog_equation_view_get_type ();
-	style_klass->init_style 	= gog_equation_init_style;
+	styled_klass->init_style 	= gog_equation_init_style;
 }
 
 static void
@@ -333,6 +387,8 @@ gog_equation_view_size_request (GogView *view,
 
 	requisition->w = gog_renderer_pt2r_x (view->renderer, width);
 	requisition->h = gog_renderer_pt2r_y (view->renderer, height);
+
+	equation_view_parent_klass->size_request (view, available, requisition);
 }
 
 static void
@@ -342,6 +398,8 @@ gog_equation_view_render (GogView *view,
 	GogEquation *equation;
 	GogEquationView *equation_view;
 
+	equation_view_parent_klass->render (view, bbox);
+
 	equation = GOG_EQUATION (view->model);
 	equation_view = GOG_EQUATION_VIEW (view);
 
@@ -349,9 +407,8 @@ gog_equation_view_render (GogView *view,
 		return;
 
 	gmathml_view_set_document (equation_view->mathml_view, equation->mathml);
-
 	gog_renderer_draw_equation (view->renderer, equation_view->mathml_view,
-				    view->allocation.x, view->allocation.y);
+				    view->residual.x, view->residual.y);
 }
 
 static void
