@@ -33,7 +33,7 @@
 #include <glib-object.h>
 #include <goffice/gtk/go-color-group.h>
 #include <goffice/utils/go-color.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

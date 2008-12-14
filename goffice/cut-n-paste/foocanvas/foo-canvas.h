@@ -39,8 +39,8 @@
 #ifndef FOO_CANVAS_H
 #define FOO_CANVAS_H
 
-#include <gtk/gtklayout.h>
-#include <gdk/gdkevents.h>
+#include <gtk/gtk.h>
+#include <gdk/gdk.h>
 #include <stdarg.h>
 
 G_BEGIN_DECLS

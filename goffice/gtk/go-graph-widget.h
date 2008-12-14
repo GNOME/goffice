@@ -22,7 +22,7 @@
 #define _GO_GRAPH_WIDGET_H_
 
 #include <glib-object.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-graph.h>
 

@@ -25,7 +25,7 @@
 
 #include <goffice/app/go-app.h>
 #include <goffice/utils/go-image.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

@@ -12,9 +12,6 @@
 #include "go-rangefunc.h"
 #include "go-math.h"
 
-#include <glib/gmem.h>
-#include <glib/gmessages.h>
-
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>

@@ -71,7 +71,7 @@ go_color_to_pango (GOColor color, gboolean is_fore)
 }
 
 #ifdef GOFFICE_WITH_GTK
-#include <gdk/gdkcolor.h>
+#include <gdk/gdk.h>
 
 GdkColor *
 go_color_to_gdk	(GOColor color, GdkColor *res)

@@ -19,7 +19,7 @@
 #ifndef _GO_ROTATION_SEL_H_
 #define _GO_ROTATION_SEL_H_
 
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <goffice/utils/goffice-utils.h>
 
 G_BEGIN_DECLS

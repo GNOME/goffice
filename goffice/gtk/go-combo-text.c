@@ -8,15 +8,6 @@
 #include "go-combo-box.h"
 #include <goffice/utils/go-marshalers.h>
 
-#include <gtk/gtksignal.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkscrolledwindow.h>
-
 #include <gsf/gsf-impl-utils.h>
 
 struct _GoComboText {

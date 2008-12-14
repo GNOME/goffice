@@ -24,7 +24,7 @@
 #ifndef _GO_COMBO_BOX_H_
 #define _GO_COMBO_BOX_H_
 
-#include <gtk/gtkhbox.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

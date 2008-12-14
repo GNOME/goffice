@@ -46,13 +46,6 @@ static GObjectClass *error_bar_parent_klass;
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/gtk/go-pixbuf.h>
 #include <goffice/gtk/go-color-selector.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkcellrendererpixbuf.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtklabel.h>
 #include <glade/glade-xml.h>
 
 typedef struct {

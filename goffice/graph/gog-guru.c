@@ -46,23 +46,7 @@
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkviewport.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcellrendererpixbuf.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkliststore.h>
+#include <gtk/gtk.h>
 #include <string.h>
 
 typedef struct _GraphGuruState		GraphGuruState;

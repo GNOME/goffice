@@ -27,6 +27,9 @@ Morten:
 	* Fix memory corruption issue.  [#561708]
 	* Fix problem with formats like "0.0E-00".  [#563601]
 
+Pedro Fragoso:
+	* Clean up glib includes.   [#564021]
+
 --------------------------------------------------------------------------
 goffice 0.7.2:
 

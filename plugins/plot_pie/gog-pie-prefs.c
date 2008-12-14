@@ -24,8 +24,6 @@
 
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktogglebutton.h>
 
 GtkWidget *gog_pie_series_element_pref   (GogPieSeriesElement *element, GOCmdContext *cc);
 

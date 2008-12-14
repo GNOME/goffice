@@ -22,8 +22,6 @@
 #ifndef GO_SELECTOR_H
 #define GO_SELECTOR_H
 
-#include <gtk/gtkhbox.h>
-
 #include <goffice/gtk/go-palette.h>
 
 G_BEGIN_DECLS

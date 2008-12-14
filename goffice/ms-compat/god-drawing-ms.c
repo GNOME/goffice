@@ -27,7 +27,7 @@
 #include <goffice/ms-compat/god-image-ms.h>
 #include <goffice/drawing/god-property-table.h>
 #include <goffice/drawing/god-shape.h>
-#include <glib/gmacros.h>
+#include <glib.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>

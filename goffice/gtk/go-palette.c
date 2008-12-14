@@ -23,7 +23,6 @@
 #include <goffice/utils/go-image.h>
 #include <goffice/gtk/goffice-gtk.h>
 #include "go-palette.h"
-#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 

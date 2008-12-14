@@ -24,27 +24,6 @@
 
 #include "go-selector.h"
 
-#include <gtk/gtkalignment.h>
-#include <gtk/gtkarrow.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcellview.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkdnd.h>
-#include <gtk/gtkdrawingarea.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkiconview.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkseparatormenuitem.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtktreemodel.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkvseparator.h>
-#include <gtk/gtkversion.h>
-
 #include <glib/gi18n-lib.h>
 
 #include <gdk/gdkkeysyms.h>

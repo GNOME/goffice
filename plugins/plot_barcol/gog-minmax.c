@@ -33,6 +33,10 @@
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
+#endif
+
 enum {
 	MINMAX_PROP_0,
 	MINMAX_PROP_GAP_PERCENTAGE,
@@ -159,8 +163,6 @@ gog_minmax_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 }
 
 #ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/goffice-gtk.h>
-#include <gtk/gtkspinbutton.h>
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *minmax)
 {

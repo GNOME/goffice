@@ -47,16 +47,6 @@
 #include <goffice/gtk/go-image-sel.h>
 
 #include <glade/glade-xml.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkrange.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtksizegroup.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 #endif
 

@@ -30,7 +30,7 @@
 
 #include <cairo.h>
 #include <pango/pangocairo.h>
-#include <gdk/gdkcairo.h>
+#include <gdk/gdk.h>
 
 static GdkPixbuf *
 get_pixbuf (GodDrawing *drawing,

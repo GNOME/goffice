@@ -1,7 +1,7 @@
 #ifndef GO_UTILS_REGRESSION_H
 #define GO_UTILS_REGRESSION_H
 
-#include <glib/gtypes.h>
+#include <glib.h>
 
 G_BEGIN_DECLS
 

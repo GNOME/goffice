@@ -558,7 +558,7 @@ gog_series1_5d_get_property (GObject *obj, guint param_id,
 }
 
 #ifdef GOFFICE_WITH_GTK
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 static void 
 gog_series1_5d_populate_editor (GogObject *obj,
 				GogEditor *editor,

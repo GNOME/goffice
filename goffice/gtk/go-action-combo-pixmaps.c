@@ -24,12 +24,6 @@
 #include "go-combo-box.h"
 #include "goffice-gtk.h"
 
-#include <gtk/gtkaction.h>
-#include <gtk/gtktoolitem.h>
-#include <gtk/gtktoolbar.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkwidget.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 

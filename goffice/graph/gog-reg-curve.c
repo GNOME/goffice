@@ -40,8 +40,6 @@
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtktable.h>
 #endif
 
 #define GOG_REG_CURVE_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_REG_CURVE_TYPE, GogRegCurveClass))

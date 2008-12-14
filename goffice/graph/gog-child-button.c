@@ -31,15 +31,12 @@
 #include <goffice/gtk/go-pixbuf.h>
 #include <goffice/goffice-config.h>
 
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtktogglebutton.h>
+#include <gtk/gtk.h>
 
 #include <gdk/gdkpixbuf.h>
 #include <gdk/gdkkeysyms.h>
 
 #include <glib/gi18n-lib.h>
-#include <glib/ghash.h>
 
 #include <string.h>
 

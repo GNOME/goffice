@@ -17,7 +17,7 @@
 #include <glib.h>
 #include <goffice/drawing/god-drawing.h>
 #include <goffice/drawing/god-anchor.h>
-#include <gdk/gdkdrawable.h>
+#include <gdk/gdk.h>
 
 G_BEGIN_DECLS
 

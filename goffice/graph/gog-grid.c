@@ -38,7 +38,7 @@
 #include <gsf/gsf-impl-utils.h>
 
 #ifdef GOFFICE_WITH_GTK
-#include <gtk/gtkcombobox.h>
+#include <gtk/gtk.h>
 #endif
 
 struct _GogGrid {

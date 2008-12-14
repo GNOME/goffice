@@ -38,10 +38,7 @@
 #include "go-color-palette.h"
 
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkwindow.h>
-#include <gdk/gdkcolor.h>
+#include <gdk/gdk.h>
 
 struct _GOComboColor {
 	GOComboBox     combo_box;

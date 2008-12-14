@@ -23,7 +23,7 @@
 
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/app/goffice-app.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

@@ -24,10 +24,6 @@
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
 
-#include <gtk/gtkradiobutton.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkspinbutton.h>
-
 #include <string.h>
 
 GtkWidget *gog_bubble_plot_pref   (GogBubblePlot *bubble, GOCmdContext *cc);

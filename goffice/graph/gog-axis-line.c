@@ -37,13 +37,6 @@
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
-#include <goffice/gtk/goffice-gtk.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktogglebutton.h>
 #endif
 
 #include <glib/gi18n-lib.h>

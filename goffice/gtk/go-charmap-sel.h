@@ -25,7 +25,7 @@
 #define _GO_CHARMAP_SEL_H_
 
 #include <glib-object.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

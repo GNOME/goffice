@@ -24,7 +24,6 @@
 
 #include <goffice/utils/go-line.h>
 #include <goffice/gtk/go-selector.h>
-#include <gtk/gtkwidget.h>
 
 G_BEGIN_DECLS
 

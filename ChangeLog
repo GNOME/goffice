@@ -1,3 +1,8 @@
+2008-12-14  Morten Welinder  <terra@gnome.org>
+
+	* */*.c: Clean up glib includes.  Patch from Pedro Fragoso.  Fixes
+	#564021.
+
 2008-12-13  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Don't access mathml root element style field directly. That fixes
@@ -40,6 +45,94 @@
 
 	* goffice/graph/gog-styled-object.c (gog_styled_object_set_style):
 	here.
+
+2008-12-12  Pedro Fragoso  <ember@ubuntu.com>
+
+	* goffice/app/goffice-app.h:
+	* goffice/app/io-context.c:
+	* goffice/component/go-component.h:
+	* goffice/cut-n-paste/foocanvas/foo-canvas.h:
+	* goffice/drawing/god-drawing-renderer-cairo.c:
+	* goffice/drawing/god-drawing-renderer-gdk.h:
+	* goffice/drawing/god-drawing-view.h:
+	* goffice/graph/gog-axis-line.c:
+	* goffice/graph/gog-axis.c:
+	* goffice/graph/gog-chart.c:
+	* goffice/graph/gog-child-button.c:
+	* goffice/graph/gog-child-button.h:
+	* goffice/graph/gog-error-bar.c:
+	* goffice/graph/gog-graph.c:
+	* goffice/graph/gog-grid.c:
+	* goffice/graph/gog-guru.c:
+	* goffice/graph/gog-guru.h:
+	* goffice/graph/gog-label.c:
+	* goffice/graph/gog-object.c:
+	* goffice/graph/gog-plot.c:
+	* goffice/graph/gog-reg-curve.c:
+	* goffice/graph/gog-renderer.h:
+	* goffice/graph/gog-series.c:
+	* goffice/graph/gog-series.h:
+	* goffice/graph/gog-style.c:
+	* goffice/gtk/go-3d-rotation-sel.c:
+	* goffice/gtk/go-3d-rotation-sel.h:
+	* goffice/gtk/go-action-combo-color.c:
+	* goffice/gtk/go-action-combo-pixmaps.c:
+	* goffice/gtk/go-action-combo-stack.c:
+	* goffice/gtk/go-action-combo-text.c:
+	* goffice/gtk/go-charmap-sel.c:
+	* goffice/gtk/go-charmap-sel.h:
+	* goffice/gtk/go-color-palette.c:
+	* goffice/gtk/go-color-palette.h:
+	* goffice/gtk/go-color-selector.c:
+	* goffice/gtk/go-color-selector.h:
+	* goffice/gtk/go-combo-box.c:
+	* goffice/gtk/go-combo-box.h:
+	* goffice/gtk/go-combo-color.c:
+	* goffice/gtk/go-combo-color.h:
+	* goffice/gtk/go-combo-pixmaps.c:
+	* goffice/gtk/go-combo-pixmaps.h:
+	* goffice/gtk/go-combo-text.c:
+	* goffice/gtk/go-combo-text.h:
+	* goffice/gtk/go-font-sel.c:
+	* goffice/gtk/go-font-sel.h:
+	* goffice/gtk/go-format-sel.c:
+	* goffice/gtk/go-format-sel.h:
+	* goffice/gtk/go-gradient-selector.h:
+	* goffice/gtk/go-graph-widget.c:
+	* goffice/gtk/go-graph-widget.h:
+	* goffice/gtk/go-image-sel.c:
+	* goffice/gtk/go-image-sel.h:
+	* goffice/gtk/go-line-selector.h:
+	* goffice/gtk/go-locale-sel.c:
+	* goffice/gtk/go-locale-sel.h:
+	* goffice/gtk/go-marker-selector.h:
+	* goffice/gtk/go-palette.c:
+	* goffice/gtk/go-palette.h:
+	* goffice/gtk/go-pattern-selector.h:
+	* goffice/gtk/go-pixbuf.h:
+	* goffice/gtk/go-rotation-sel.c:
+	* goffice/gtk/go-rotation-sel.h:
+	* goffice/gtk/go-selector.c:
+	* goffice/gtk/go-selector.h:
+	* goffice/gtk/goffice-gtk.h:
+	* goffice/math/go-cspline.c:
+	* goffice/math/go-math.h:
+	* goffice/math/go-matrix3x3.h:
+	* goffice/math/go-rangefunc.c:
+	* goffice/math/go-rangefunc.h:
+	* goffice/math/go-regression.c:
+	* goffice/math/go-regression.h:
+	* goffice/ms-compat/go-ms-parser.c:
+	* goffice/ms-compat/god-drawing-ms.c:
+	* goffice/utils/go-color.c:
+	* goffice/utils/go-color.h:
+	* plugins/plot_barcol/gog-1.5d.c:
+	* plugins/plot_barcol/gog-barcol-prefs.c:
+	* plugins/plot_distrib/gog-boxplot.c:
+	* plugins/plot_pie/gog-pie-prefs.c:
+	* plugins/plot_radar/gog-radar.c:
+	* plugins/reg_linear/gog-polynom-reg.c:
+	GNOME Goal: Clean up GLib and GTK+ includes (Closes: #564021)
 
 2008-12-11  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 

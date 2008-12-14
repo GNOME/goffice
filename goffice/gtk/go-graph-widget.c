@@ -20,7 +20,6 @@
 
 #include <goffice-config.h>
 #include "go-graph-widget.h"
-#include <gtk/gtklayout.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-renderer.h>

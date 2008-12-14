@@ -29,7 +29,6 @@
 #include <goffice/utils/go-marshalers.h>
 #include <goffice/gtk/goffice-gtk.h>
 
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
 

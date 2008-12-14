@@ -25,13 +25,6 @@
 #include "go-color-palette.h"
 #include "goffice-gtk.h"
 
-#include <gtk/gtkaction.h>
-#include <gtk/gtktoolitem.h>
-#include <gtk/gtkicontheme.h>
-#include <gtk/gtkiconfactory.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtktoolbar.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>

@@ -31,7 +31,6 @@
 #include <gsf/gsf.h>
 
 #ifdef GOFFICE_WITH_GTK
-#include <gtk/gtkenums.h>
 #include <goffice/gtk/goffice-gtk.h>
 #include <gdk/gdk.h>
 #else

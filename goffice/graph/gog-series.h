@@ -81,7 +81,7 @@ void 		  gog_series_set_fill_type 	(GogSeries *series, GogSeriesFillType fill_ty
 GogDataset   *gog_series_get_interpolation_params (GogSeries const *series);
 
 #ifdef GOFFICE_WITH_GTK
-#include <gtk/gtkcombobox.h>
+#include <gtk/gtk.h>
 
 void 		  gog_series_populate_fill_type_combo 	(GogSeries const *series, GtkComboBox *combo);
 GogSeriesFillType gog_series_get_fill_type_from_combo 	(GogSeries const *series, GtkComboBox *combo);

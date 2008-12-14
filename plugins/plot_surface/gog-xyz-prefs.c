@@ -24,8 +24,6 @@
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
 
-#include <gtk/gtktogglebutton.h>
-
 #include <string.h>
 
 GtkWidget *gog_xyz_plot_pref   (GogXYZPlot *plot, GOCmdContext *cc);

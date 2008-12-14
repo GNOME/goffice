@@ -27,8 +27,7 @@
 #include <goffice/gtk/go-color-group.h>
 
 #include <glib/gi18n-lib.h>
-#include <gtk/gtkcolorsel.h>
-#include <gtk/gtkcolorseldialog.h>
+#include <gtk/gtk.h>
 
 extern GONamedColor default_color_set [];
 

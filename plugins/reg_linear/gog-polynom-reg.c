@@ -183,9 +183,7 @@ gog_polynom_reg_curve_get_equation (GogRegCurve *curve)
 }
 
 #ifdef GOFFICE_WITH_GTK
-#include <gtk/gtklabel.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkspinbutton.h>
+#include <gtk/gtk.h>
 static void
 order_changed_cb (GtkSpinButton *btn, GObject *obj)
 {

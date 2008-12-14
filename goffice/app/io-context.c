@@ -17,7 +17,7 @@
 #include <goffice/utils/go-file.h>
 #include <gsf/gsf-impl-utils.h>
 #ifdef GOFFICE_WITH_GTK
-#include <gtk/gtkmain.h>
+#include <gtk/gtk.h>
 #endif
 #include <glib/gi18n-lib.h>
 

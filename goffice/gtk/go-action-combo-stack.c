@@ -23,20 +23,6 @@
 #include "go-combo-box.h"
 #include "goffice-gtk.h"
 
-#include <gtk/gtkaction.h>
-#include <gtk/gtktoolitem.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkcontainer.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkscrolledwindow.h>
-
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <stdio.h>

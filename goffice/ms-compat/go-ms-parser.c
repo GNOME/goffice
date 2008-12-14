@@ -23,7 +23,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/ms-compat/go-ms-parser.h>
-#include <glib/gmacros.h>
+#include <glib.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
 

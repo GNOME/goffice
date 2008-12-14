@@ -27,12 +27,6 @@
 #include "go-charmap-sel.h"
 #include "go-optionmenu.h"
 #include <goffice/utils/go-glib-extras.h>
-#include <gtk/gtkcheckmenuitem.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkseparatormenuitem.h>
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>

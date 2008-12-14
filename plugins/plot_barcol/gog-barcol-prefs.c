@@ -24,8 +24,6 @@
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
 
-#include <gtk/gtkspinbutton.h>
-
 GtkWidget *gog_barcol_plot_pref (GogBarColPlot *plot, GOCmdContext *cc);
 
 static void

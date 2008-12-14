@@ -24,8 +24,6 @@
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
 
-#include <gtk/gtktogglebutton.h>
-
 #include <string.h>
 
 GtkWidget *gog_xyz_surface_plot_pref   (GogXYZSurfacePlot *plot, GOCmdContext *cc);

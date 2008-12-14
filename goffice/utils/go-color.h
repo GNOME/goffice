@@ -32,7 +32,7 @@
 #include <pango/pango.h>
 
 #ifdef GOFFICE_WITH_GTK
-#include <gdk/gdktypes.h>
+#include <gdk/gdk.h>
 #endif
 
 G_BEGIN_DECLS

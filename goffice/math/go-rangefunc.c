@@ -8,7 +8,6 @@
 
 #include <goffice/goffice-config.h>
 #include "go-rangefunc.h"
-#include <glib/gmem.h>
 
 #include <math.h>
 #include <stdlib.h>

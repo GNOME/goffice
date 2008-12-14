@@ -44,8 +44,6 @@
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkcombobox.h>
 #endif
 
 typedef struct {

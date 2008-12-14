@@ -25,7 +25,6 @@
 #include "goffice-gtk.h"
 #include <goffice/utils/go-glib-extras.h>
 
-#include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 

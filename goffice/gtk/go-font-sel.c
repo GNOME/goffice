@@ -14,14 +14,6 @@
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/utils/go-color.h>
 
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkentry.h>
-
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
 

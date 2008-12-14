@@ -23,7 +23,7 @@
 #ifndef GO_MATRIX3X3_H
 #define GO_MATRIX3X3_H
 
-#include <glib/gtypes.h>
+#include <glib.h>
 
 typedef struct {
 	gdouble a11, a12, a13, a21, a22, a23, a31, a32, a33;

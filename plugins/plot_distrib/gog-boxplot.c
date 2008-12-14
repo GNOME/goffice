@@ -58,10 +58,6 @@ static GType gog_box_plot_view_get_type (void);
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
 #include <glade/glade-xml.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkenums.h>
 
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *boxplot)

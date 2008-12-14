@@ -2,7 +2,7 @@
 #ifndef _GO_COMBO_TEXT_H_
 #define _GO_COMBO_TEXT_H_
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

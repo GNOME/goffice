@@ -1,6 +1,6 @@
 #ifndef GO_RANGEFUNC_H
 #define GO_RANGEFUNC_H
-#include <glib/gmacros.h>
+#include <glib.h>
 
 G_BEGIN_DECLS
 

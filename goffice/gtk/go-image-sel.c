@@ -25,10 +25,6 @@
 #include <goffice/app/go-doc.h>
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/utils/go-file.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkfilechooserbutton.h>
-#include <gtk/gtkiconview.h>
-#include <gtk/gtktable.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 

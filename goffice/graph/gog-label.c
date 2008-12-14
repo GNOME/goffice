@@ -40,12 +40,6 @@
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
-#include <gtk/gtkalignment.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktogglebutton.h>
 #endif
 
 static GType gog_text_view_get_type (void);

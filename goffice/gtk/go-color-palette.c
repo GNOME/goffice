@@ -33,9 +33,8 @@
 #include <goffice/utils/go-marshalers.h>
 
 #include <goffice/utils/go-color.h>
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-#include <gdk/gdkcolor.h>
+#include <gdk/gdk.h>
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 

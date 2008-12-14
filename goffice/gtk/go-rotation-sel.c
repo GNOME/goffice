@@ -27,9 +27,6 @@
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtklabel.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 

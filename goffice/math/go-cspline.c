@@ -26,8 +26,6 @@
 #include <goffice/goffice-config.h>
 #include "go-rangefunc.h"
 #include "go-cspline.h"
-#include <glib/gmem.h>
-#include <glib/gmessages.h>
 
 #ifndef DOUBLE
 

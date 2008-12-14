@@ -20,7 +20,7 @@
 #ifndef GO_PIXBUF_H
 #define GO_PIXBUF_H
 
-#include <gdk/gdkpixbuf.h>
+#include <gdk/gdk.h>
 
 G_BEGIN_DECLS
 

@@ -48,9 +48,6 @@
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktogglebutton.h>
 #endif
 
 static const struct {

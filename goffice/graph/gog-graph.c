@@ -37,9 +37,7 @@
 #include <stdlib.h>
 
 #ifdef GOFFICE_WITH_GTK
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkliststore.h>
+#include <gtk/gtk.h>
 #endif
 
 #define GOG_GRAPH_DEFAULT_WIDTH 	GO_CM_TO_PT (12.0)
@@ -912,7 +910,7 @@ update_action (GogGraphView *view, GogTool *tool, double x, double y)
 }
 
 #ifdef GOFFICE_WITH_GTK
-#include <gdk/gdkcursor.h>
+#include <gdk/gdk.h>
 
 /**
  * gog_graph_view_handle_event:

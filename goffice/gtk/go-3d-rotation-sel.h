@@ -19,7 +19,7 @@
 #ifndef _GO_3D_ROTATION_SEL_H_
 #define _GO_3D_ROTATION_SEL_H_
 
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <goffice/utils/goffice-utils.h>
 #include <goffice/math/go-matrix3x3.h>
 

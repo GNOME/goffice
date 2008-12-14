@@ -19,11 +19,8 @@
 #ifndef _GOFFICE_GTK_H_
 #define _GOFFICE_GTK_H_
 
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtktoolitem.h>
-#include <gtk/gtkmenu.h>
+#include <gtk/gtk.h>
 #include <glade/glade-xml.h>
-#include <gtk/gtkfilechooser.h>
 #include <goffice/app/goffice-app.h>
 #include <goffice/utils/go-image.h>
 

@@ -3,7 +3,7 @@
 
 #include <math.h>
 #include <goffice/goffice-features.h>
-#include <glib/gmacros.h>
+#include <glib.h>
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS

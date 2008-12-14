@@ -22,7 +22,7 @@
 #ifndef GO_PALETTE_H
 #define GO_PALETTE_H
 
-#include <gtk/gtkmenu.h>
+#include <gtk/gtk.h>
 #include <cairo.h>
 
 G_BEGIN_DECLS
