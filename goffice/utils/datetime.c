@@ -86,7 +86,7 @@ datetime_serial_to_g (GDate *res, int serial, GODateConventions const *conv)
 		if (serial > date_serial_max_1900)
 			return;
 		if (serial == date_serial_19000228 + 1)
-			g_warning ("Request for date 19000229.");
+			return;
 		g_date_set_julian (res, serial + date_origin_1900 - 1);
 	} else
 		g_date_set_julian (res, serial + date_origin_1900);
