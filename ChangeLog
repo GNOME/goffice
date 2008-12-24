@@ -1,3 +1,9 @@
+2008-12-24  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Avoid a warning when equation->itex string is NULL.
+
+	* goffice/graph/gog-equation.c (gog_equation_populate_editor): here.
+
 2008-12-15  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/datetime.c (datetime_serial_to_g): Simply return

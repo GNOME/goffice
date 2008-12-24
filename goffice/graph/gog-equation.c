@@ -93,7 +93,7 @@ gog_equation_populate_editor (GogObject *obj,
 
 	widget = glade_xml_get_widget (gui, "equation_text");
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
-	gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), equation->itex, -1);
+	gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), equation->itex != NULL ? equation->itex: "", -1);
 	g_signal_connect (G_OBJECT (buffer), "changed", G_CALLBACK (cb_equation_buffer_changed), obj);
 
 	widget = glade_xml_get_widget (gui, "compact_mode_check");
