@@ -401,6 +401,11 @@ is_fd_uri (char const *uri, int *fd)
 		return FALSE;  /* Space, for example.  */
 
 	ul = strtoul (uri, &end, 10);
+
+	/* Accept a terminating slash because go_shell_arg_to_uri will add
+	   one. */
+	if (*end == '/') end++;
+
 	if (*end != 0 || ul > INT_MAX)
 		return FALSE;
 

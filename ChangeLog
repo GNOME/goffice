@@ -1,3 +1,7 @@
+2008-12-24  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (is_fd_uri): Allow terminating slash.
+
 2008-12-24  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Avoid a warning when equation->itex string is NULL.
