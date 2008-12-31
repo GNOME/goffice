@@ -70,6 +70,7 @@ void	   gog_plot_set_axis		(GogPlot *plot, GogAxis *axis);
 void 	   gog_plot_update_3d 		(GogPlot *plot);
 
 void	   gog_plot_guru_helper		(GogPlot *plot);
+void	   gog_plot_clear_series	(GogPlot *plot);
 
 G_END_DECLS
 

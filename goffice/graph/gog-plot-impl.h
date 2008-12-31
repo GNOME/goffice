@@ -32,7 +32,7 @@
 G_BEGIN_DECLS
 
 struct _GogPlotDesc {
-	unsigned  num_series_min, num_series_max;
+	unsigned  num_series_max;
 	unsigned  num_axis;
 	GogSeriesDesc series;
 };

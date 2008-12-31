@@ -359,7 +359,6 @@ gog_plot1_5d_class_init (GogPlotClass *plot_klass)
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
 	}
-	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->series_type = gog_series1_5d_get_type ();
 	plot_klass->axis_get_bounds   	= gog_plot1_5d_axis_get_bounds;

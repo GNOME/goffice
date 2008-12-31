@@ -215,7 +215,6 @@ gog_rt_plot_class_init (GogPlotClass *gog_plot_klass)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	/* Fill in GogPlotClass methods */
-	gog_plot_klass->desc.num_series_min = 1;
 	gog_plot_klass->desc.num_series_max = G_MAXINT;
 	gog_plot_klass->series_type = gog_rt_series_get_type();
 

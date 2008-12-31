@@ -80,13 +80,6 @@ role_series_can_add (GogObject const *parent)
 	return g_slist_length (plot->series) < plot->desc.num_series_max;
 }
 
-static gboolean
-role_series_can_remove (GogObject const *child)
-{
-	GogPlot const *plot = GOG_PLOT (child->parent);
-	return g_slist_length (plot->series) > plot->desc.num_series_min;
-}
-
 static GogObject *
 role_series_allocate (GogObject *plot)
 {
@@ -502,7 +495,7 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 	static GogObjectRole const roles[] = {
 		{ N_("Series"), "GogSeries",	0,
 		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  role_series_can_add, role_series_can_remove,
+		  role_series_can_add, NULL,
 		  role_series_allocate,
 		  role_series_post_add, role_series_pre_remove, NULL },
 	};
@@ -1053,6 +1046,15 @@ gog_plot_guru_helper (GogPlot *plot)
 	}
 
 	g_strfreev (hints);
+}
+
+void gog_plot_clear_series (GogPlot *plot)
+{
+	while (plot->series) {
+		GogObject *gobj = GOG_OBJECT (plot->series->data);
+		gog_object_clear_parent (gobj);
+		g_object_unref (gobj);
+	}
 }
 
 /*****************************************************************************/

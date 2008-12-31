@@ -1,3 +1,26 @@
+2008-12-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-guru-type-selector.glade: implement the insertion
+	of an application specific custom widget.
+	* goffice/graph/gog-guru.c: (graph_guru_type_selector_new),
+	(gog_guru_add_custom_widget): ditto.
+	* goffice/graph/gog-guru.h: ditto.
+	* goffice/graph/gog-plot-impl.h: remove series minimum number.
+	* goffice/graph/gog-plot.c: (gog_plot_class_init),
+	(gog_plot_clear_series): ditto.
+	* goffice/graph/gog-plot.h: ditto.
+	* plugins/plot_barcol/gog-1.5d.c: (gog_plot1_5d_class_init): ditto.
+	* plugins/plot_distrib/gog-boxplot.c: (gog_box_plot_class_init): ditto.
+	* plugins/plot_distrib/gog-histogram.c: ditto.
+	(gog_histogram_plot_class_init):
+	* plugins/plot_distrib/gog-probability-plot.c: ditto.
+	(gog_probability_plot_class_init):
+	* plugins/plot_pie/gog-pie.c: (gog_pie_plot_class_init),
+	(gog_ring_plot_class_init): ditto.
+	* plugins/plot_radar/gog-radar.c: (gog_rt_plot_class_init): ditto.
+	* plugins/plot_surface/gog-xyz.c: (gog_xyz_plot_class_init): ditto.
+	* plugins/plot_xy/gog-xy.c: (gog_2d_plot_class_init): ditto.
+
 2008-12-30  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (set_more_warnings): Add -Wformat-security.

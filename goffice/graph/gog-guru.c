@@ -1126,6 +1126,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	typesel->current_type = NULL;
 	typesel->sample_graph_item = NULL;
 	typesel->max_priority_so_far = -1;
+	s->type_selector = typesel;
 
 	selector = glade_xml_get_widget (gui, "type_selector");
 
@@ -1322,4 +1323,16 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 		"state", state, (GDestroyNotify) graph_guru_state_destroy);
 
 	return state->dialog;
+}
+
+void
+gog_guru_add_custom_widget (GtkWidget *guru, GtkWidget *custom)
+{
+	GraphGuruState *state = g_object_get_data (G_OBJECT (guru), "state");
+	GtkBox *box = GTK_BOX (gtk_widget_get_parent (gtk_widget_get_parent (state->type_selector->canvas)));
+	if (custom) {
+		gtk_box_pack_start (GTK_BOX (box), custom, FALSE, TRUE, 0);
+		g_object_set_data (G_OBJECT (custom), "graph", state->graph);
+		gtk_widget_show_all (custom);
+	}
 }

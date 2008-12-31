@@ -233,7 +233,6 @@ gog_2d_plot_class_init (GogPlotClass *plot_klass)
 	gog_klass->update	= gog_2d_plot_update;
 	gog_klass->view_type	= gog_xy_view_get_type ();
 
-	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->series_type  	= gog_xy_series_get_type ();
 	plot_klass->axis_set	      	= GOG_AXIS_SET_XY;

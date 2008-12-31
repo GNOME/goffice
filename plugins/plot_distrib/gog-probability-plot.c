@@ -264,7 +264,6 @@ gog_probability_plot_class_init (GogPlotClass *gog_plot_klass)
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
 	}
-	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = 1;
 	plot_klass->series_type = gog_probability_plot_series_get_type ();
 	plot_klass->axis_set = GOG_AXIS_SET_XY;

@@ -403,7 +403,6 @@ gog_xyz_plot_class_init (GogXYZPlotClass *klass)
 	}
 
 	/* Fill in GogPlotClass methods */
-	gog_plot_klass->desc.num_series_min = 1;
 	gog_plot_klass->desc.num_series_max = 1;
 	gog_plot_klass->series_type = gog_xyz_series_get_type();
 	gog_plot_klass->axis_get_bounds	= gog_xyz_plot_axis_get_bounds;
