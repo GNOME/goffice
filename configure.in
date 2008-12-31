@@ -274,7 +274,9 @@ ifdef([GNOME_COMPILE_WARNINGS],
 )
 set_more_warnings=yes
 if test "$GCC" = "yes" -a "x$set_more_warnings" != "xno"; then
-	for option in -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings -Wdeclaration-after-statement -Wmissing-noreturn -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wformat -Wmissing-format-attribute -Wno-pointer-sign; do
+	for option in -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings -Wdeclaration-after-statement -Wmissing-noreturn -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wformat -Wmissing-format-attribute -Wno-pointer-sign -Wformat-security; do
+		# Note: we cannot use -Werror=format-security until the fix
+		# for bug 536980 gets deployed.
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])

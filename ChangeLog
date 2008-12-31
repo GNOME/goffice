@@ -1,3 +1,7 @@
+2008-12-30  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (set_more_warnings): Add -Wformat-security.
+
 2008-12-24  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-file.c (is_fd_uri): Allow terminating slash.

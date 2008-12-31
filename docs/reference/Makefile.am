@@ -57,7 +57,7 @@ IGNORE_HFILES=	\
 		foo-canvas-i18n.h			\
 		foo-canvas-marshal.h			\
 		ucp.h
-	
+
 HTML_IMAGES=
 
 content_files = \
