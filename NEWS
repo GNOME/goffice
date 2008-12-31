@@ -21,6 +21,8 @@ Jean:
 	* Made spline interpolation really use Bezier cubic splines.
 	* Add closed Bezier and cubic spline interpolation.
 	* Make drop lines go to the axis instead of chart bottom (or left).
+	* Make possible to add an application specific custom widget to the
+	graph editor.
 
 Morten:
 	* Plug leaks.
