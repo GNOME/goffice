@@ -2,7 +2,7 @@
 /*
  * gog-equation.c
  *
- * Copyright (C) 2008 Emmanuel Pacaud <emmanuel@gnome.org>
+ * Copyright (C) 2008-2009 Emmanuel Pacaud <emmanuel@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -87,6 +87,7 @@ gog_equation_populate_editor (GogObject *obj,
 	GladeXML *gui;
 	GtkWidget *widget;
 	GtkTextBuffer *buffer;
+	static guint equation_pref_page = 0;
 
 	gui = go_libglade_new ("gog-equation-prefs.glade", "gog_equation_prefs", GETTEXT_PACKAGE, cc);
 	g_return_if_fail (gui != NULL);
@@ -106,6 +107,8 @@ gog_equation_populate_editor (GogObject *obj,
 	gog_editor_add_page (editor, widget, _("Equation"));
 
 	(GOG_OBJECT_CLASS(equation_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
+
+	gog_editor_set_store_page (editor, &equation_pref_page);
 }
 
 #endif

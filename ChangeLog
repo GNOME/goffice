@@ -1,3 +1,8 @@
+2008-01-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-equation.c (gog_equation_populate_editor):
+	remember last active preference page.
+
 2008-12-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-guru-type-selector.glade: implement the insertion
