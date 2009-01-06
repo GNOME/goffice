@@ -42,7 +42,9 @@
 #include <string.h>
 
 #ifdef HAVE_RENDER
+#ifdef HAVE_GDK_X11_DRAWABLE_GET_XDISPLAY
 #include <gdk/gdkx.h>
+#endif
 #include <X11/extensions/Xrender.h>
 #endif
 
@@ -844,6 +846,7 @@ foo_canvas_rect_realize  (FooCanvasItem *item)
 
 	priv = FOO_CANVAS_RECT (item)->priv;
 
+#ifdef HAVE_GDK_X11_DRAWABLE_GET_XDISPLAY
 	dpy = gdk_x11_drawable_get_xdisplay (GTK_WIDGET (item->canvas)->window);
 	priv->use_render = XRenderQueryExtension (dpy, &event_base, &error_base);
 
@@ -856,6 +859,10 @@ foo_canvas_rect_realize  (FooCanvasItem *item)
 
 		priv->format = XRenderFindVisualFormat (dpy, visual);
 	}
+#else
+	priv->use_render = FALSE;
+	priv->format = NULL;
+#endif
 #endif
 
 	if (FOO_CANVAS_ITEM_CLASS (rect_parent_class)->realize) {
@@ -888,7 +895,7 @@ render_rect_alpha (FooCanvasRect *rect,
 	b = (rgba >> 8) & 0xff;
 	a = (rgba >> 0) & 0xff;
 
-#ifdef HAVE_RENDER
+#if defined(HAVE_RENDER) && defined(HAVE_GDK_X11_DRAWABLE_GET_XDISPLAY)
 	/* Every visual is not guaranteed to have a matching
 	 * XRenderPictFormat. So make sure that format is not null before
 	 * trying to render using Xrender calls.

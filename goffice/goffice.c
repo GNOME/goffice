@@ -120,6 +120,7 @@ libgoffice_init ()
 
 	bindtextdomain (GETTEXT_PACKAGE, libgoffice_locale_dir);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	g_type_init ();
 	go_conf_init ();
 	go_fonts_init ();
 	go_math_init ();
