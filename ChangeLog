@@ -1,3 +1,8 @@
+2008-01-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* goffice/graph/gog-equation.c (gog_equation_update): don't crash when
+	on equation string == "{".
+
 2009-01-06  Morten Welinder  <terra@gnome.org>
 
 	* goffice/goffice.c (libgoffice_init): Call g_type_init early as

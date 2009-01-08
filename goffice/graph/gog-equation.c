@@ -192,9 +192,9 @@ gog_equation_update (GogObject *obj)
 				if (*itex_iter != ' ') {
 					is_blank = FALSE;
 
-					if (*itex_iter == '{' && *prev_char != '\\')
+					if (*itex_iter == '{' && (prev_char == NULL || *prev_char != '\\'))
 						n_unclosed_braces++;
-					else if (*itex_iter == '}' && *prev_char != '\\')
+					else if (*itex_iter == '}' && (prev_char != NULL || *prev_char != '\\'))
 						n_unclosed_braces--;
 				}
 
