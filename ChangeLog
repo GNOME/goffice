@@ -1,3 +1,10 @@
+2009-01-11  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_url_is_writeable): Undo
+	incorrect fix for "goffice-gtk.c:925: warning: format not a string
+	literal and no format arguments".  For now, let gcc issue the
+	false warning.
+
 2008-01-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* goffice/graph/gog-equation.c (gog_equation_update): don't crash when
