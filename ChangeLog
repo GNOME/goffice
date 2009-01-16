@@ -1,3 +1,8 @@
+2009-01-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-guru.c: (graph_typeselect_minor): return if the
+	item is the sample graph. [#567931]
+
 2009-01-11  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/goffice-gtk.c (go_gtk_url_is_writeable): Undo

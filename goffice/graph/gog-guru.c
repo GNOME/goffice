@@ -173,7 +173,7 @@ graph_typeselect_minor (GraphGuruTypeSelector *typesel, FooCanvasItem *item)
 	gboolean enable_next_button;
 	GogPlot *plot;
 
-	if (typesel->current_minor_item == item)
+	if (typesel->current_minor_item == item || typesel->sample_graph_item == item)
 		return;
 
 	type = g_object_get_data (G_OBJECT (item), PLOT_TYPE_KEY);
