@@ -562,7 +562,7 @@ gog_series_populate_editor (GogObject *gobj,
 				gtk_widget_set_sensitive (widget, FALSE);
 			g_signal_connect (widget, "toggled",
 					  G_CALLBACK (cb_line_interpolation_skip_changed), series);
-			if (set) {
+			if (clamp_set) {
 				GtkWidget *w;
 				widget = glade_xml_get_widget (gui, "clamps-table");
 				w = GTK_WIDGET (gog_data_allocator_editor (dalloc, clamp_set, 0, GOG_DATA_SCALAR));

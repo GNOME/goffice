@@ -1,3 +1,8 @@
+2009-01-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-series.c: (gog_series_populate_editor): fixed a
+	wrong test. [#568932]
+
 2009-01-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-guru.c: (graph_typeselect_minor): return if the
