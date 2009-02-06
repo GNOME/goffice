@@ -1,3 +1,21 @@
+2009-02-06  Tor Lillqvist  <tml@iki.fi>
+
+	Bug 570095 - [Win32] Make goffice build without urlmon and
+	htmlhelp headers and libs
+
+	Unfortunately, MinGW doesn't come with headers and libraries for
+	urlmon and htmlhelp. So to make it easier to build goffice with
+	MinGW, just include the very minimal declarations needed inline,
+	and look up the two functions used at run-time.
+
+	* goffice/utils/go-file.c (find_mime_from_data): Look up
+	FindMimeFromData from urlmon.dll.
+
+	* goffice/gtk/goffice-gtk.c (html_help): Look up HtmlHelp from
+	hhctrl.ocx.
+
+	* goffice/Makefile.am: Drop -lurlmon and -lhtmlhelp.
+
 2009-01-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-series.c: (gog_series_populate_editor): fixed a

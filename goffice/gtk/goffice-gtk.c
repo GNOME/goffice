@@ -781,7 +781,30 @@ typedef struct {
 
 #ifdef G_OS_WIN32
 #include <windows.h>
-#include <htmlhelp.h>
+
+typedef HWND (* WINAPI HtmlHelpA_t) (HWND hwndCaller,
+				     LPCSTR pszFile,
+				     UINT uCommand,
+				     DWORD_PTR dwData);
+#define HH_HELP_CONTEXT 0x000F
+
+static HtmlHelpA_t
+html_help (void)
+{
+	HMODULE hhctrl;
+	static HtmlHelpA_t result = NULL;
+	static gboolean beenhere = FALSE;
+
+	if (!beenhere) {
+		hhctrl = LoadLibrary ("hhctrl.ocx");
+		if (hhctrl != NULL)
+			result = (HtmlHelpA_t) GetProcAddress (hhctrl, "HtmlHelpA");
+		beenhere = TRUE;
+	}
+
+	return result;
+}
+
 #endif
 static void
 go_help_display (CBHelpPaths const *paths)
@@ -835,8 +858,9 @@ go_help_display (CBHelpPaths const *paths)
 		gchar *path = g_build_filename (paths->data_dir, "doc", "C", chmfile, NULL);
 
 		g_free (chmfile);
-		if (!HtmlHelp (GetDesktopWindow (), path, HH_HELP_CONTEXT, id))
-			go_gtk_notice_dialog (NULL, GTK_MESSAGE_ERROR, "Failed to spawn HtmlHelp");
+		if (html_help () == NULL ||
+		    !(html_help ()) (GetDesktopWindow (), path, HH_HELP_CONTEXT, id))
+			go_gtk_notice_dialog (NULL, GTK_MESSAGE_ERROR, "Failed to load HtmlHelp");
 		g_free (path);
 	}
 #else

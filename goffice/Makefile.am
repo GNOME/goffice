@@ -24,11 +24,6 @@ libgoffice_@GOFFICE_API_VER@_la_LDFLAGS = -version-info $(VERSION_INFO)
 if WITH_WIN32
 libgoffice_@GOFFICE_API_VER@_la_DEPENDENCIES = goffice.def
 libgoffice_@GOFFICE_API_VER@_la_LDFLAGS += -no-undefined -export-symbols goffice.def
-if WITH_NATIVE_WIN32
-# libtool thinks there are undefined refs in libhtmlhelp, by pass libtool
-libgoffice_@GOFFICE_API_VER@_la_LDFLAGS += -Wl,-lhtmlhelp
-libgoffice_@GOFFICE_API_VER@_la_LIBADD += -lurlmon
-endif
 endif
 
 BUILT_SOURCES =	goffice-paths.h

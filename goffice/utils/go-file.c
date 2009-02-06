@@ -32,7 +32,7 @@
 #include <gsf/gsf-input-gio.h>
 #include <gsf/gsf-output-gio.h>
 #ifdef G_OS_WIN32
-#include <urlmon.h>
+#include <windows.h>
 #include <io.h>
 #endif
 #ifdef HAVE_GTK_SHOW_URI
@@ -50,6 +50,36 @@
 #include <grp.h>
 #endif
 #include <time.h>
+
+#ifdef G_OS_WIN32
+typedef HRESULT (* STDCALL FindMimeFromData_t) (LPBC pBC,
+						LPCWSTR pwzUrl,
+						LPVOID pBuffer,
+						DWORD cbSize,
+						LPCWSTR pwzMimeProposed,
+						DWORD dwMimeFlags,
+						LPWSTR *ppwzMimeOut,
+						DWORD dwReserved);
+#define FMFD_ENABLEMIMESNIFFING 2
+
+static FindMimeFromData_t
+find_mime_from_data (void)
+{
+	HMODULE urlmon;
+	static FindMimeFromData_t result = NULL;
+	static gboolean beenhere = FALSE;
+
+	if (!beenhere) {
+		urlmon = LoadLibrary ("urlmon.dll");
+		if (urlmon != NULL)
+			result = (FindMimeFromData_t) GetProcAddress (urlmon, "FindMimeFromData");
+		beenhere = TRUE;
+	}
+
+	return result;
+}
+
+#endif
 /* ------------------------------------------------------------------------- */
 
 /*
@@ -997,10 +1027,10 @@ go_get_mime_type (gchar const *uri)
 
 	wuri = g_utf8_to_utf16 (uri, -1, NULL, NULL, NULL);
 	if (wuri &&
-	    FindMimeFromData (NULL, wuri,
-			      NULL, 0,
-			      NULL, FMFD_ENABLEMIMESNIFFING, &mime_type, 0) == NOERROR)
-	{
+	    find_mime_from_data () &&
+	    (find_mime_from_data ()) (NULL, wuri,
+				      NULL, 0,
+				      NULL, FMFD_ENABLEMIMESNIFFING, &mime_type, 0) == NOERROR)	{
 		g_free (wuri);
 		return g_utf16_to_utf8 (mime_type, -1, NULL, NULL, NULL);
 	}
@@ -1047,10 +1077,10 @@ go_get_mime_type_for_data (gconstpointer data, int data_size)
 	/* Do we really need that? */
 	LPWSTR mime_type;
 
-	if (FindMimeFromData (NULL, NULL,
-			      (LPVOID)data, data_size,
-			      NULL, FMFD_ENABLEMIMESNIFFING, &mime_type, 0) == NOERROR)
-	{
+	if (find_mime_from_data () &&
+	    (find_mime_from_data ()) (NULL, NULL,
+				      (LPVOID)data, data_size,
+				      NULL, FMFD_ENABLEMIMESNIFFING, &mime_type, 0) == NOERROR)	{
 		return g_utf16_to_utf8 (mime_type, -1, NULL, NULL, NULL);
 	}
 
