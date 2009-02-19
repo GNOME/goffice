@@ -1,3 +1,8 @@
+2009-02-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_barcol/gog-1.5d.c: (gog_plot1_5d_update): don't set
+	a value to an invalid length variable. [#572354]
+
 2009-02-06  Tor Lillqvist  <tml@iki.fi>
 
 	Bug 570095 - [Win32] Make goffice build without urlmon and

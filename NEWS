@@ -24,6 +24,7 @@ Jean:
 	* Make possible to add an application specific custom widget to the
 	graph editor.
 	* Fixed critical in graph_typeselect_minor. [#567931]
+	* Fixed crash when adding series to bar chart. [#572354]
 
 Morten:
 	* Plug leaks.
