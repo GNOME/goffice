@@ -1,3 +1,9 @@
+goffice 0.6.7:
+
+Jean:
+	* Fixed crash when adding series to bar chart. [#572354]
+	
+--------------------------------------------------------------------------
 goffice 0.6.6:
 
 Hib Eris:

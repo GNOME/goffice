@@ -235,7 +235,6 @@ gog_plot1_5d_update (GogObject *obj)
 			series = ptr->data;
 			/* we are guaranteed that at least 1 series is valid above */
 			if (!gog_series_is_valid (GOG_SERIES (series))) {
-				lengths[i] = 0;
 				continue;
 			}
 			vals[i] = go_data_vector_get_values (
