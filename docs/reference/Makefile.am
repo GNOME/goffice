@@ -58,6 +58,11 @@ IGNORE_HFILES=	\
 		foo-canvas-marshal.h			\
 		ucp.h
 
+if GOFFICE_WITH_GMATHML
+else
+IGNORE_HFILES += gog-equation.h
+endif
+
 HTML_IMAGES=
 
 content_files = \

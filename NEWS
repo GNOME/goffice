@@ -32,6 +32,7 @@ Morten:
 	* Fix problem with formats like "0.0E-00".  [#563601]
 	* Put the old 29-Feb-1900 problem to rest.
 	* Fix fd://<n> uris after lobognomification.
+	* Fix doc build with respect to the mathml stuff.  [#572483]
 
 Pedro Fragoso:
 	* Clean up glib includes.   [#564021]
