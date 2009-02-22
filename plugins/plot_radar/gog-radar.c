@@ -506,45 +506,47 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		next_path = NULL;
 
-		if (!is_polar) {
-			go_path_close (path);
-			gog_renderer_fill_serie (view->renderer, path, NULL);
-		} else {
-			if (series->base.interpolation == GO_LINE_INTERPOLATION_CLOSED_SPLINE)
-				gog_renderer_fill_serie	(view->renderer, path, NULL);
-			else if (series->base.fill_type != GOG_SERIES_FILL_TYPE_NEXT) {
-				GOPath *close_path;
-
-				close_path = gog_chart_map_make_close_path (chart_map, c_vals, r_vals,
-									    series->base.num_elements,
-									    series->base.fill_type);
-				gog_renderer_fill_serie (view->renderer, path, close_path);
-				if (close_path != NULL)
-					go_path_free (close_path);
+		if (path) {
+			if (!is_polar) {
+				go_path_close (path);
+				gog_renderer_fill_serie (view->renderer, path, NULL);
 			} else {
-				if (ptr->next != NULL) {
-					GogRTSeries *next_series;
+				if (series->base.interpolation == GO_LINE_INTERPOLATION_CLOSED_SPLINE)
+					gog_renderer_fill_serie	(view->renderer, path, NULL);
+				else if (series->base.fill_type != GOG_SERIES_FILL_TYPE_NEXT) {
+					GOPath *close_path;
 
-					next_series = ptr->next->data;
-					if (gog_series_is_valid (GOG_SERIES (next_series))) {
-						GogStyle *next_style;
-						const double *next_x_vals, *next_y_vals;
-						unsigned int next_n_points;
+					close_path = gog_chart_map_make_close_path (chart_map, c_vals, r_vals,
+										    series->base.num_elements,
+										    series->base.fill_type);
+					gog_renderer_fill_serie (view->renderer, path, close_path);
+					if (close_path != NULL)
+						go_path_free (close_path);
+				} else {
+					if (ptr->next != NULL) {
+						GogRTSeries *next_series;
 
-						next_n_points = gog_series_get_xy_data
-							(GOG_SERIES (next_series),
-							 &next_x_vals, &next_y_vals);
-						next_style = gog_styled_object_get_style
-							(GOG_STYLED_OBJECT (next_series));
+						next_series = ptr->next->data;
+						if (gog_series_is_valid (GOG_SERIES (next_series))) {
+							GogStyle *next_style;
+							const double *next_x_vals, *next_y_vals;
+							unsigned int next_n_points;
 
-						next_path = gog_chart_map_make_path
-							(chart_map, next_x_vals, next_y_vals,
-							 next_n_points, next_series->base.interpolation,
-							 series->base.interpolation_skip_invalid, NULL);
+							next_n_points = gog_series_get_xy_data
+								(GOG_SERIES (next_series),
+								 &next_x_vals, &next_y_vals);
+							next_style = gog_styled_object_get_style
+								(GOG_STYLED_OBJECT (next_series));
 
+							next_path = gog_chart_map_make_path
+								(chart_map, next_x_vals, next_y_vals,
+								 next_n_points, next_series->base.interpolation,
+								 series->base.interpolation_skip_invalid, NULL);
+
+						}
 					}
+					gog_renderer_fill_serie (view->renderer, path, next_path);
 				}
-				gog_renderer_fill_serie (view->renderer, path, next_path);
 			}
 		}
 
@@ -571,8 +573,10 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 			gog_renderer_pop_style (view->renderer);
 		}
 
-		gog_renderer_stroke_serie (view->renderer, path);
-		go_path_free (path);
+		if (path) {
+			gog_renderer_stroke_serie (view->renderer, path);
+			go_path_free (path);
+		}
 
 		if (is_polar)
 			gog_renderer_pop_clip (view->renderer);

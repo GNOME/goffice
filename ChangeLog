@@ -1,3 +1,12 @@
+2009-02-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-chart-map.c: (polar_make_path): return a NULL path
+	for cubic splines interpolation (should not happen).
+	* goffice/graph/gog-series.c: (gog_series_populate_editor): fix radial
+	axis test when populating interpolation combo box. [#572698]
+	* plugins/plot_radar/gog-radar.c: (gog_rt_view_render): avoid criticals
+	when a path is NULL (anyway this should not happen).
+
 2009-02-19  Morten Welinder  <terra@gnome.org>
 
 	* docs/reference/Makefile.am (IGNORE_HFILES): Ignore gog-equation

@@ -691,6 +691,12 @@ polar_make_path (GogChartMap *map, double const *x, double const *y,
 		case GO_LINE_INTERPOLATION_CLOSED_SPLINE:
 			path = make_path_spline (map, x, y, n_points, TRUE, TRUE, skip_invalid);
 			break;
+		case GO_LINE_INTERPOLATION_CUBIC_SPLINE:
+		case GO_LINE_INTERPOLATION_PARABOLIC_CUBIC_SPLINE:
+		case GO_LINE_INTERPOLATION_CUBIC_CUBIC_SPLINE:
+		case GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE:
+			/* Not supported in polar plots */
+			break;
 		case GO_LINE_INTERPOLATION_STEP_START:
 		case GO_LINE_INTERPOLATION_STEP_END:
 		case GO_LINE_INTERPOLATION_STEP_CENTER_X:

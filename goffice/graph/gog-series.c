@@ -540,7 +540,7 @@ gog_series_populate_editor (GogObject *gobj,
 			widget = glade_xml_get_widget (gui, "interpolation-table");
 			/* create an interpolation type combo and populate it */
 			combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
-			if (set & GOG_AXIS_RADIAL)
+			if (set & 1 << GOG_AXIS_RADIAL)
 				for (i = 0; i < GO_LINE_INTERPOLATION_MAX; i++) {
 					if (go_line_interpolation_supports_radial (i))
 						gtk_combo_box_append_text (combo, _(go_line_interpolation_as_label (i)));
