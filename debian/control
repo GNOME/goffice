@@ -8,7 +8,6 @@ Build-Depends: debhelper (>= 7.0.0), dh-buildinfo,
  libxml2-dev (>= 2.6.10-2), libpango1.0-dev (>= 1.12.1-2),
  libgtk2.0-dev (>= 2.8.17), libglade2-dev (>= 1:2.4.0-1),
  libgconf2-dev (>= 2.6.2-1),
- libgnomeui-dev (>= 2.14.1-1),
  libxrender-dev, libxext-dev, libcairo2-dev (>= 1.2.0)
 Vcs-Svn: svn://svn.gnome.org/svn/goffice/trunk
 Vcs-Browser: http://svn.gnome.org/viewcvs/goffice/trunk/
@@ -19,7 +18,7 @@ Section: libdevel
 Architecture: any
 Conflicts: libgoffice-0-dev (<< 0.4.2-2), libgoffice-0-5-dev
 Replaces: libgoffice-0-5-dev
-Depends: libgoffice-0-8 (= ${Source-Version}), libglib2.0-dev (>= 2.16.0), libxml2-dev (>= 2.6.10-2), libgtk2.0-dev (>= 2.8.17), libglade2-dev (>= 1:2.4.0-1), libgnomeui-dev (>= 2.14.1-1), libcairo2-dev (>= 1.2.0)
+Depends: libgoffice-0-8 (= ${Source-Version}), libglib2.0-dev (>= 2.16.0), libxml2-dev (>= 2.6.10-2), libgtk2.0-dev (>= 2.8.17), libglade2-dev (>= 1:2.4.0-1), libcairo2-dev (>= 1.2.0)
 Description: Document centric objects library - runtime files
  GOffice is a library of document centric objects and utilities building on
  top of GLib and Gtk+.
