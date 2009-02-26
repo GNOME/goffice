@@ -671,8 +671,10 @@ foo_canvas_pixbuf_update (FooCanvasItem *item,
 
 			if (priv->pixbuf_scaled)
 				g_object_unref (priv->pixbuf_scaled);
-			if (gdk_pixbuf_get_width (priv->pixbuf) != w ||
-			    gdk_pixbuf_get_height (priv->pixbuf) != h)
+			if (w <= 0 || h <= 0)
+				priv->pixbuf_scaled = NULL;
+			else if (gdk_pixbuf_get_width (priv->pixbuf) != w ||
+				 gdk_pixbuf_get_height (priv->pixbuf) != h)
 				priv->pixbuf_scaled = gdk_pixbuf_scale_simple (
 					priv->pixbuf, w, h, priv->interp_type);
 			else

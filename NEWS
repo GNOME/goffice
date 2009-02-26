@@ -1,5 +1,8 @@
 goffice 0.7.4:
 
+Morten:
+	* Fix a pixbuf scaling problem in foocanvas.
+
 --------------------------------------------------------------------------
 goffice 0.7.3:
 

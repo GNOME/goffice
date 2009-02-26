@@ -1,3 +1,9 @@
+2009-02-26  Morten Welinder  <terra@gnome.org>
+
+	* goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.c (foo_canvas_pixbuf_update):
+	If the resulting size is 0 pixels, don't try to scale the pixbuf.
+	Avoids critical on image insert in Gnumeric.
+
 2009-02-22  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post release bump
