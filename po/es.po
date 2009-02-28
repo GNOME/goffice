@@ -2,8 +2,6 @@
 # Spanish translation of gnumeric
 # Copyright © 1998,2003, 2007, 2008 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnumeric package.
-#
-#
 # Alfonso  Pedereño García-LaPuya, 2002.
 # Federico Mena Quintero,Pregonero <federico@casiopea.quartic.org>, 1998.
 # Pablo Saratxaga <pablo@mandrakesoft.com>, 1999-2000.
@@ -11,20 +9,21 @@
 # Juan Manuel García Molina <juanma_gm@wanadoo.es>, 2002.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2004, 2005.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008.
-#: ../goffice/app/file.c:512
+# Jorge González <jorgegonz@svn.gnome.org>, 2009.
+# Chihau Chau <chihau@gmail.com>, 2009.
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&amp;component=general\n"
-"POT-Creation-Date: 2008-11-24 07:45+0000\n"
-"PO-Revision-Date: 2008-11-30 12:53+0100\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"POT-Creation-Date: 2008-11-30 11:54+0000\n"
+"PO-Revision-Date: 2009-02-16 04:41-0300\n"
+"Last-Translator: Chihau Chau <chihau@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: ../goffice/app/file.c:459
@@ -803,103 +802,103 @@ msgstr "Ángulo phi de Euler"
 msgid "Field of view"
 msgstr "Campo de visión"
 
-#: ../goffice/graph/gog-axis-line.c:656
+#: ../goffice/graph/gog-axis-line.c:654
 msgid "Layout"
 msgstr "Disposición"
 
-#: ../goffice/graph/gog-axis-line.c:684
+#: ../goffice/graph/gog-axis-line.c:682
 msgid "Axis position"
 msgstr "Posición de los ejes"
 
-#: ../goffice/graph/gog-axis-line.c:685 ../goffice/graph/gog-axis-line.c:691
+#: ../goffice/graph/gog-axis-line.c:683 ../goffice/graph/gog-axis-line.c:689
 msgid "Where to position an axis low, high, or crossing"
 msgstr "Indica dónde posicionar un eje: bajo, alto o cruzado"
 
-#: ../goffice/graph/gog-axis-line.c:690
+#: ../goffice/graph/gog-axis-line.c:688
 msgid "Axis position (as a string)"
 msgstr "Posición de los ejes (como una cadena)"
 
-#: ../goffice/graph/gog-axis-line.c:696
+#: ../goffice/graph/gog-axis-line.c:694
 msgid "Major labels"
 msgstr "Etiquetas mayores"
 
-#: ../goffice/graph/gog-axis-line.c:697
+#: ../goffice/graph/gog-axis-line.c:695
 msgid "Show labels for major ticks"
 msgstr "Mostrar las etiquetas para los tics mayores"
 
-#: ../goffice/graph/gog-axis-line.c:702
+#: ../goffice/graph/gog-axis-line.c:700
 msgid "Inside major ticks"
 msgstr "Tics mayores dentro"
 
-#: ../goffice/graph/gog-axis-line.c:703
+#: ../goffice/graph/gog-axis-line.c:701
 msgid "Major tick marks inside the chart area"
 msgstr "Las marcas de los tics mayores dentro del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:708
+#: ../goffice/graph/gog-axis-line.c:706
 msgid "Outside major ticks"
 msgstr "Tics mayores fuera"
 
-#: ../goffice/graph/gog-axis-line.c:709
+#: ../goffice/graph/gog-axis-line.c:707
 msgid "Major tick marks outside the chart area"
 msgstr "Las marcas de los tics mayores fuera del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:714
+#: ../goffice/graph/gog-axis-line.c:712
 msgid "Major tick size"
 msgstr "Tamaño de los tics mayores"
 
-#: ../goffice/graph/gog-axis-line.c:715
+#: ../goffice/graph/gog-axis-line.c:713
 msgid "Size of the major tick marks, in points"
 msgstr "Tamaño de las marcas de los tics mayores, en puntos"
 
-#: ../goffice/graph/gog-axis-line.c:721
+#: ../goffice/graph/gog-axis-line.c:719
 msgid "Inside minor ticks"
 msgstr "Tics menores dentro"
 
-#: ../goffice/graph/gog-axis-line.c:722
+#: ../goffice/graph/gog-axis-line.c:720
 msgid "Minor tick marks inside the chart area"
 msgstr "Las marcas de los tics menores dentro del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:727
+#: ../goffice/graph/gog-axis-line.c:725
 msgid "Outside minor ticks"
 msgstr "Tics menores fuera"
 
-#: ../goffice/graph/gog-axis-line.c:728
+#: ../goffice/graph/gog-axis-line.c:726
 msgid "Minor tick marks outside the axis"
 msgstr "Las marcas de los tics menores fuera del área del diagrama"
 
-#: ../goffice/graph/gog-axis-line.c:733
+#: ../goffice/graph/gog-axis-line.c:731
 msgid "Minor tick size"
 msgstr "Tamaño de los tics menores"
 
-#: ../goffice/graph/gog-axis-line.c:734
+#: ../goffice/graph/gog-axis-line.c:732
 msgid "Size of the minor tick marks, in points"
 msgstr "Tamaño de las marcas de los tics menores, en puntos"
 
-#: ../goffice/graph/gog-axis-line.c:740
+#: ../goffice/graph/gog-axis-line.c:738
 msgid "Cross axis id"
 msgstr "Cruzar el id de los ejes"
 
-#: ../goffice/graph/gog-axis-line.c:741
+#: ../goffice/graph/gog-axis-line.c:739
 msgid "Which axis to cross"
 msgstr "Qué ejes cruzar"
 
-#: ../goffice/graph/gog-axis-line.c:747
+#: ../goffice/graph/gog-axis-line.c:745
 msgid "Axis padding"
 msgstr "Separación de los ejes"
 
-#: ../goffice/graph/gog-axis-line.c:748
+#: ../goffice/graph/gog-axis-line.c:746
 msgid "Distance from axis line to plot area, in points"
 msgstr "Distancia de la línea del eje al área de dibujado, en puntos"
 
-#: ../goffice/graph/gog-axis-line.c:840
+#: ../goffice/graph/gog-axis-line.c:838
 msgid "Select axis"
 msgstr "Seleccione el eje"
 
-#: ../goffice/graph/gog-axis-line.c:946
+#: ../goffice/graph/gog-axis-line.c:944
 msgid "Set start bound"
 msgstr "Establecer vinculación inicial"
 
-#: ../goffice/graph/gog-axis-line.c:957
+#: ../goffice/graph/gog-axis-line.c:955
 msgid "Set stop bound"
 msgstr "Establecer vinculación final"
 
@@ -1452,7 +1451,7 @@ msgid "Data"
 msgstr "Datos"
 
 #: ../goffice/graph/gog-label.c:368 ../goffice/graph/gog-reg-curve.c:90
-#: ../plugins/plot_xy/gog-xy.c:1714
+#: ../plugins/plot_xy/gog-xy.c:1760
 msgid "Details"
 msgstr "Detalles"
 
@@ -4520,7 +4519,7 @@ msgstr "Splin cúbico con extrapolación cúbica"
 
 #: ../goffice/utils/go-line.c:100
 msgid "Clamped cubic spline"
-msgstr ""
+msgstr "Spline cúbico sujeto"
 
 #: ../goffice/utils/go-line.c:102
 msgid "Step at start"
@@ -4890,8 +4889,8 @@ msgstr "Líneas deslizantes"
 msgid "Lines"
 msgstr "Líneas"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:645 ../plugins/plot_xy/gog-xy.c:1784
-#: ../plugins/plot_xy/gog-xy.c:1790
+#: ../plugins/plot_barcol/gog-1.5d.c:645 ../plugins/plot_xy/gog-xy.c:1830
+#: ../plugins/plot_xy/gog-xy.c:1836
 msgid "GogErrorBar *"
 msgstr "Barra de error Gog *"
 
@@ -5352,7 +5351,7 @@ msgstr ""
 
 #: ../plugins/plot_distrib/gog-boxplot.c:375
 msgid "Outliers"
-msgstr ""
+msgstr "Valores atípicos"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:376
 msgid "Whether outliers should be taken into account and displayed"
@@ -6007,52 +6006,52 @@ msgstr "Color XY"
 
 #: ../plugins/plot_xy/gog-xy.c:785
 msgid "hide-outliers"
-msgstr ""
+msgstr "ocultar-valores-atípicos"
 
 #: ../plugins/plot_xy/gog-xy.c:786
 msgid "Hide data outside of the color axis bounds"
 msgstr "Ocultar datos fuera de los límites de los ejes de color"
 
-#: ../plugins/plot_xy/gog-xy.c:1718 ../plugins/plot_xy/gog-xy.c:1783
+#: ../plugins/plot_xy/gog-xy.c:1764 ../plugins/plot_xy/gog-xy.c:1829
 msgid "X error bars"
 msgstr "Barras de error de X"
 
-#: ../plugins/plot_xy/gog-xy.c:1720 ../plugins/plot_xy/gog-xy.c:1789
+#: ../plugins/plot_xy/gog-xy.c:1766 ../plugins/plot_xy/gog-xy.c:1835
 msgid "Y error bars"
 msgstr "Barras de error de Y"
 
-#: ../plugins/plot_xy/gog-xy.c:1728
+#: ../plugins/plot_xy/gog-xy.c:1774
 msgid "Horizontal drop lines"
 msgstr "Líneas deslizantes horizontales"
 
-#: ../plugins/plot_xy/gog-xy.c:1736
+#: ../plugins/plot_xy/gog-xy.c:1782
 msgid "Vertical drop lines"
 msgstr "Líneas deslizantes verticales"
 
-#: ../plugins/plot_xy/gog-xy.c:1795
+#: ../plugins/plot_xy/gog-xy.c:1841
 msgid "Invalid as zero"
 msgstr "No válido como cero"
 
-#: ../plugins/plot_xy/gog-xy.c:1796
+#: ../plugins/plot_xy/gog-xy.c:1842
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 "Reemplazar los valores no válidos por 0 al dibujar marcadores o burbujas"
 
-#: ../plugins/plot_xy/gog-xy.c:1801
+#: ../plugins/plot_xy/gog-xy.c:1847
 msgid "Clamp at start"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:1802
+#: ../plugins/plot_xy/gog-xy.c:1848
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:1807
+#: ../plugins/plot_xy/gog-xy.c:1853
 msgid "Clamp at end"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:1808
+#: ../plugins/plot_xy/gog-xy.c:1854
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
@@ -6200,7 +6199,7 @@ msgstr "Si es «true» se permite una constante distinta de cero"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:271
 msgid "Dims"
-msgstr ""
+msgstr "Dims"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:272
 msgid "Number of x-vectors"
