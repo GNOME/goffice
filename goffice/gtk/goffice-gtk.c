@@ -1265,3 +1265,25 @@ go_menu_position_below (GtkMenu  *menu,
 
 	*push_in = FALSE;
 }
+
+/**
+ * go_gtk_url_show:
+ * @url: the url to show
+ * @screen: screen to show the uri on or %NULL for the default screen
+ *
+ * This function is a simple convenience wrapper for #gtk_show_uri.
+ *
+ * Returns: %NULL on sucess, or a newly allocated #GError if something
+ * went wrong.
+ **/
+GError *
+go_gtk_url_show (gchar const *url, GdkScreen *screen)
+{
+#if defined(HAVE_GTK_SHOW_URI)
+	GError *error = NULL;
+	gtk_show_uri (screen, url, GDK_CURRENT_TIME, &error);
+	return error;
+#else
+	return go_url_show (url);
+#endif
+}

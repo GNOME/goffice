@@ -1,3 +1,8 @@
+2009-03-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/goffice-gtk.c: new go_gtk_show_url function. [#559021]
+	* goffice/gtk/goffice-gtk.h: ditto.
+
 2009-02-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.c (foo_canvas_pixbuf_update):

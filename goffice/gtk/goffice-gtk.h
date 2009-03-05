@@ -82,6 +82,8 @@ void       go_tool_item_set_tooltip_text (GtkToolItem *item, const gchar *tip);
 void 	   go_menu_position_below 		(GtkMenu *menu, gint *x, gint *y,
 						 gint *push_in, gpointer user_data);
 
+GError	  *go_gtk_url_show (gchar const *url, GdkScreen *screen);
+
 G_END_DECLS
 
 #endif /* _GOFFICE_GTK_H_ */
