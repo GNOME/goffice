@@ -659,7 +659,7 @@ _draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean fill
 {
 	GogStyle const *style;
 	GOPath *path;
-	gboolean narrow = (rect->w < 3.) || (rect->h < 3.);
+	gboolean narrow = (fabs (rect->w) < 3.) || (fabs (rect->h) < 3.);
 	double o, o_2;
 
 	g_return_if_fail (IS_GOG_RENDERER (rend));
