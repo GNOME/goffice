@@ -1,3 +1,10 @@
+2009-03-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_distrib/gog-histogram.c: don't show a marker in the
+	legend. [#574340]
+	* plugins/plot_pie/gog-pie.c: (gog_pie_view_render): skip points when
+	the datum is skipped. [#574348]
+
 2009-02-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-1.5d.c: (gog_plot1_5d_update): don't set

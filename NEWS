@@ -2,6 +2,8 @@ goffice 0.6.7:
 
 Jean:
 	* Fixed crash when adding series to bar chart. [#572354]
+	* Don't display markers in histogram legend. [#574340]
+	* Skip points corresponding to invalid valies in pie charts. [#574348]
 	
 --------------------------------------------------------------------------
 goffice 0.6.6:
