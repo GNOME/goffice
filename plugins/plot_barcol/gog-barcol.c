@@ -378,7 +378,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	double plus, minus;
 	GogObjectRole const *role = NULL;
 	GogSeriesElement *gse;
-	GList const *overrides;
+	GList const **overrides;
 
 	if (num_elements <= 0 || num_series <= 0)
 		return;
@@ -405,6 +405,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
 	lines = g_alloca (num_series * sizeof (GogSeriesLines *));
 	paths = g_alloca (num_series * sizeof (GOPath *));
+	overrides = g_alloca (num_series * sizeof (GSList *));
 	
 	i = 0;
 	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
@@ -417,6 +418,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			GO_DATA_VECTOR (series->base.values[1].data));
 		styles[i] = GOG_STYLED_OBJECT (series)->style;
 		errors[i] = series->errors;
+		overrides[i] = gog_series_get_overrides (GOG_SERIES (series));
 		if (gog_error_bar_is_visible (series->errors)) 
 			error_data[i] = g_malloc (sizeof (ErrorBarData) * lengths[i]);
 		else 
@@ -462,7 +464,6 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		pos_base = neg_base = 0.0;
 		ptr = gog_1_5d_model->base.series;
 		for (j = 0 ; j < num_series ; j++) {
-			overrides = gog_series_get_overrides (GOG_SERIES (ptr->data));
 			work.y = (double) j * col_step + (double) i - offset + 1.0;
 			
 			if (i >= lengths[j])
@@ -489,10 +490,10 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 
 			gse = NULL;
-			if ((overrides != NULL) &&
-				(GOG_SERIES_ELEMENT (overrides->data)->index == i)) {
-					gse = GOG_SERIES_ELEMENT (overrides->data);
-					overrides = overrides->next;
+			if ((overrides[j] != NULL) &&
+				(GOG_SERIES_ELEMENT (overrides[j]->data)->index == i)) {
+					gse = GOG_SERIES_ELEMENT (overrides[j]->data);
+					overrides[j] = overrides[j]->next;
 					gog_renderer_push_style (view->renderer,
 						gog_styled_object_get_style (
 							GOG_STYLED_OBJECT (gse)));

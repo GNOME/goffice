@@ -193,7 +193,7 @@ gog_histogram_plot_class_init (GogPlotClass *gog_plot_klass)
 	plot_klass->desc.num_series_max = 1;
 	plot_klass->series_type = gog_histogram_plot_series_get_type ();
 	plot_klass->axis_set = GOG_AXIS_SET_XY;
-	plot_klass->desc.series.style_fields	= GOG_STYLE_LINE | GOG_STYLE_FILL;
+	plot_klass->desc.series.style_fields	= GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
 	plot_klass->axis_get_bounds   		= gog_histogram_plot_axis_get_bounds;
 }
 
@@ -445,14 +445,6 @@ gog_histogram_plot_series_update (GogObject *obj)
 }
 
 static void
-gog_histogram_plot_series_init_style (GogStyledObject *gso, GogStyle *style)
-{
-	((GogStyledObjectClass*) gog_histogram_plot_series_parent_klass)->init_style (gso, style);
-
-	style->outline.dash_type = GO_LINE_NONE;
-}
-
-static void
 gog_histogram_plot_series_finalize (GObject *obj)
 {
 	GogHistogramPlotSeries *series = GOG_HISTOGRAM_PLOT_SERIES (obj);
@@ -500,7 +492,6 @@ gog_histogram_plot_series_class_init (GogObjectClass *obj_klass)
 	gog_histogram_plot_series_parent_klass = g_type_class_peek_parent (obj_klass);
 	obj_klass->update = gog_histogram_plot_series_update;
 	gog_klass->view_type	= gog_histogram_series_view_get_type ();
-	gso_klass->init_style = gog_histogram_plot_series_init_style;
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 

@@ -727,8 +727,12 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		overrides = gog_series_get_overrides (GOG_SERIES (series));
 		for (k = 0 ; k < series->base.num_elements; k++) {
 			len = fabs (vals[k]) * scale;
-			if (!go_finite (len) || len < 1e-3)
+			if (!go_finite (len) || len < 1e-3) {
+				if ((overrides != NULL) &&
+				    (GOG_SERIES_ELEMENT (overrides->data)->index == k))
+					overrides = overrides->next;
 				continue;
+			}
 
 			gpse = NULL;
 			if ((overrides != NULL) &&
