@@ -105,12 +105,25 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 		  GogViewAllocation const *rect)
 {
 	GogViewAllocation r;
+	double t;
 
 	if (flip) {
 		r.x = gog_axis_map_to_view (x_map, rect->y);
-		r.w = gog_axis_map_to_view (x_map, rect->y + rect->h) - r.x;
+		t = gog_axis_map_to_view (x_map, rect->y + rect->h);
+		if (t > r.x)
+			r.w = t - r.x;
+		else {
+			r.w = r.x - t;
+			r.x = t;
+		}
 		r.y = gog_axis_map_to_view (y_map, rect->x);
-		r.h = gog_axis_map_to_view (y_map, rect->x + rect->w) - r.y;
+		t = gog_axis_map_to_view (y_map, rect->x + rect->w);
+		if (t > r.y)
+			r.h = t - r.y;
+		else {
+			r.h = r.y - t;
+			r.y = t;
+		}
 		if (fabs (r.w) < 1.) {
 			r.w += 1.;
 			r.x -= .5;
@@ -121,9 +134,21 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 		}
 	} else {
 		r.x = gog_axis_map_to_view (x_map, rect->x);
-		r.w = gog_axis_map_to_view (x_map, rect->x + rect->w) - r.x;
+		t = gog_axis_map_to_view (x_map, rect->x + rect->w);
+		if (t > r.x)
+			r.w = t - r.x;
+		else {
+			r.w = r.x - t;
+			r.x = t;
+		}
 		r.y = gog_axis_map_to_view (y_map, rect->y);
-		r.h = gog_axis_map_to_view (y_map, rect->y + rect->h) - r.y;
+		t = gog_axis_map_to_view (y_map, rect->y + rect->h);
+		if (t > r.y)
+			r.h = t - r.y;
+		else {
+			r.h = r.y - t;
+			r.y = t;
+		}
 		if (fabs (r.w) < 1.) {
 			r.w += 1.;
 			r.x -= .5;
@@ -133,7 +158,6 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 			r.y -= .5;
 		}
 	}
-
 	gog_renderer_draw_rectangle (rend, &r);
 }
 
