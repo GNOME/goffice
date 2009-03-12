@@ -1,3 +1,8 @@
+2009-03-12  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (surfaces_reqs): Move cairo backends here, so we
+	don't link against them.
+
 2009-03-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-renderer.c: (_draw_rectangle): revert previous

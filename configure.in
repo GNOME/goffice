@@ -100,14 +100,19 @@ goffice_reqs="
 	pango			>= 1.8.1
 	pangocairo		>= 1.8.1
 	cairo			>= 1.2.0
-	cairo-svg		>= 1.2.0
-	cairo-pdf		>= 1.2.0
-	cairo-ps		>= 1.2.0
 "
 goffice_gtk_reqs="
 	gtk+-2.0		>= 2.6.0
 	libglade-2.0		>= 2.3.6
 "
+
+surfaces_reqs="
+	cairo-ps		>= 1.2.0
+	cairo-pdf		>= 1.2.0
+	cairo-svg		>= 1.2.0
+"
+
+PKG_CHECK_MODULES(surfaces, $surfaces_reqs)
 
 dnl ***********************
 dnl Should we use gmathml ?
@@ -143,6 +148,7 @@ fi
 if test "x$goffice_with_gconf" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_GCONF, 1, [Define if GConf is used])
 	goffice_reqs="$goffice_reqs gconf-2.0"
+	EXTRA_DEPS="$EXTRA_DEPS gconf-2.0"
 fi
 
 dnl *******************
@@ -186,6 +192,7 @@ AC_DEFINE(GOFFICE_WITH_CAIRO, 1, [Goffice uses Cairo])
 
 EXTRA_LIBS=
 EXTRA_INCLUDES=
+EXTRA_DEPS=
 
 dnl ****************************
 dnl now that we have selected out libraries the whole collection in one
@@ -195,11 +202,24 @@ dnl ****************************
 PKG_CHECK_MODULES(GOFFICE, $goffice_reqs)
 
 dnl  Checks for Xft/XRender
+have_xrender=no
+xrender_libs="-lXrender -lXext"
 AC_CHECK_LIB(Xrender, XRenderFindFormat, 
-	[AC_SUBST(RENDER_LIBS, "-lXrender -lXext")
-	 AC_DEFINE(HAVE_RENDER, 1, [Define if libXrender is available.])],
-	[AC_SUBST(RENDER_LIBS, "")],
+	[have_xrender=yes
+	 dnl See if we really need that -lXext
+	 AC_CHECK_LIB(Xrender, XRenderQueryVersion,
+		      [xrender_libs="-lXrender"],
+		      [],
+		      [])],
+	[],
 	[-lXext])
+if test $have_xrender = yes; then
+  AC_SUBST(RENDER_LIBS, $xrender_libs)
+  AC_DEFINE(HAVE_RENDER, 1, [Define if libXrender is available.])
+else
+  AC_SUBST(RENDER_LIBS, "")
+fi
+unset xrender_libs
 
 dnl *****************************
 AC_MSG_CHECKING([for Win32 platform])
@@ -552,6 +572,7 @@ if test "x$with_long_double" = "xyes"; then
 fi
 AC_SUBST(EXTRA_LIBS)
 AC_SUBST(EXTRA_INCLUDES)
+AC_SUBST(EXTRA_DEPS)
 
 dnl ******************
 dnl * Config defaults
