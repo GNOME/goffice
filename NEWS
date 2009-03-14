@@ -6,6 +6,7 @@ Jean:
 	* Skip points corresponding to invalid valies in pie charts. [#574348]
 	* Correctly use all points defined in bar/columns plot series. [#574349]
 	* Avoid unused direct shlib deps.  [#572910]
+	* Set a default family when none is given. [#575318]
 
 Morten:
 	* Fix a pixbuf scaling problem in foocanvas.

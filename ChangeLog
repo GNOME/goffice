@@ -1,3 +1,8 @@
+2009-03-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-style.c: (gog_style_sax_load_font): set
+	a default family when none is given. [#575318]
+
 2009-03-12  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (surfaces_reqs): Move cairo backends here, so we

@@ -1778,8 +1778,11 @@ gog_style_sax_load_font (GsfXMLIn *xin, xmlChar const **attrs)
 			go_color_from_str (attrs[1], &style->font.color);
 		else if (0 == strcmp (attrs[0], "font")) {
 			PangoFontDescription *desc = pango_font_description_from_string (attrs[1]);
-			if (desc != NULL)
+			if (desc != NULL) {
+				if (pango_font_description_get_family (desc) == NULL)
+					pango_font_description_set_family_static (desc, "Sans");
 				gog_style_set_font_desc (style, desc);
+			}
 		} else if (bool_sax_prop ("auto-scale", attrs[0], attrs[1], &style->font.auto_scale))
 			;
 }
