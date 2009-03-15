@@ -413,6 +413,7 @@ go_format_is_simple (GOFormat const *fmt)
 
 static GOFormat *default_percentage_fmt;
 static GOFormat *default_money_fmt;
+static GOFormat *default_accounting_fmt;
 static GOFormat *default_date_fmt;
 static GOFormat *default_time_fmt;
 static GOFormat *default_date_time_fmt;
@@ -3254,6 +3255,11 @@ go_number_format_shutdown (void)
 		default_money_fmt = NULL;
 	}
 
+	if (default_accounting_fmt) {
+		go_format_unref (default_accounting_fmt);
+		default_accounting_fmt = NULL;
+	}
+
 	if (default_date_fmt) {
 		go_format_unref (default_date_fmt);
 		default_date_fmt = NULL;
@@ -4385,5 +4391,16 @@ go_format_default_money (void)
 		default_money_fmt = go_format_new_from_XL (
 			go_format_builtins[GO_FORMAT_CURRENCY][2]);
 	return default_money_fmt;
+}
+#endif
+
+#ifdef DEFINE_COMMON
+GOFormat *
+go_format_default_accounting (void)
+{
+	if (!default_accounting_fmt)
+		default_accounting_fmt = go_format_new_from_XL (
+			go_format_builtins[GO_FORMAT_ACCOUNTING][2]);
+	return default_accounting_fmt;
 }
 #endif

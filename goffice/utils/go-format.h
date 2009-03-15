@@ -92,6 +92,7 @@ GOFormat *go_format_default_time	(void);
 GOFormat *go_format_default_date_time	(void);
 GOFormat *go_format_default_percentage	(void);
 GOFormat *go_format_default_money	(void);
+GOFormat *go_format_default_accounting  (void);
 
 char     *go_format_str_localize        (char const *str);
 char	 *go_format_str_delocalize	(char const *str);
