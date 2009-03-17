@@ -213,6 +213,9 @@ typedef enum {
 	TOK_CONDITION,		/* [>0]		*/
 	TOK_LOCALE,		/* [$txt-F800]	*/
 
+	TOK_DECIMAL,            /* Decimal sep  */
+	TOK_THOUSAND,           /* Thousand sep */
+
 	TOK_ERROR
 } GOFormatToken;
 
@@ -320,6 +323,8 @@ typedef struct {
 	gboolean have_cond;
 
 	GOColor color;
+	int color_n;
+	gboolean color_named;
 	gboolean have_color;
 
 	GOFormatLocale locale;
@@ -613,18 +618,55 @@ go_format_parse_condition (const char *str, GOFormatCondition *cond)
 }
 
 static GOFormatToken
-go_format_token (char const **pstr, GOFormatTokenType *ptt)
+go_format_token2 (char const **pstr, GOFormatTokenType *ptt, gboolean localized)
 {
+	const GString *decimal = go_locale_get_decimal ();
+	const GString *comma = go_locale_get_thousand ();
 	const char *str = *pstr;
 	GOFormatTokenType tt =
 		TT_ALLOWED_IN_DATE | TT_ALLOWED_IN_NUMBER | TT_ALLOWED_IN_TEXT;
 	int t;
 	int len = 1;
+	const char *general = "General";
+	size_t general_len = 7;
+
+	if (localized) {
+		general = _(general);
+		general_len = strlen (general);
+	}
 
 	if (str == NULL)
 		goto error;
 
 	t = *(guchar *)str;
+
+	/* "Ascii" is probably wrong for localized, but it is not clear what to do.  */
+	if (g_ascii_strncasecmp (str, general, general_len) == 0) {
+		t = TOK_GENERAL;
+		tt = TT_ALLOWED_IN_DATE;
+		len = general_len;
+		goto got_token;
+	}
+
+	if (localized
+	    ? strncmp (str, decimal->str, decimal->len) == 0
+	    : *str == '.') {
+		t = TOK_DECIMAL;
+		if (localized)
+			len = decimal->len;
+		tt = TT_ALLOWED_IN_DATE | TT_ALLOWED_IN_NUMBER | TT_STARTS_NUMBER;
+		goto got_token;
+	}
+
+	if (localized
+	    ? strncmp (str, comma->str, comma->len) == 0
+	    : *str == ',') {
+		t = TOK_THOUSAND;
+		if (localized)
+			len = comma->len;
+		goto got_token;
+	}
+
 	switch (t) {
 	case 0:
 		len = 0; /* Note: str not advanced.  */
@@ -633,13 +675,6 @@ go_format_token (char const **pstr, GOFormatTokenType *ptt)
 		break;
 
 	case 'g': case 'G':
-		if (g_ascii_strncasecmp (str + 1, "General" + 1, 7 - 1) == 0) {
-			t = TOK_GENERAL;
-			tt = TT_ALLOWED_IN_DATE;
-			len = 7;
-			break;
-		}
-		/* Fall through.  */
 	case 'd': case 'D':
 	case 'y': case 'Y':
 	case 'b': case 'B':
@@ -715,7 +750,6 @@ go_format_token (char const **pstr, GOFormatTokenType *ptt)
 		break;
 
 	case '0':
-	case '.':
 	case '/':
 		tt = TT_ALLOWED_IN_DATE | TT_ALLOWED_IN_NUMBER | TT_STARTS_NUMBER;
 		break;
@@ -772,36 +806,43 @@ go_format_token (char const **pstr, GOFormatTokenType *ptt)
 		break;
 	}
 
-	if (ptt)
-		*ptt = tt;
+ got_token:
+	*ptt = tt;
 	*pstr = str + len;
 	return t;
 
  error:
-	if (ptt)
-		*ptt = TT_ERROR;
+	*ptt = TT_ERROR;
 	return TOK_ERROR;
+}
+
+static GOFormatToken
+go_format_token (char const **pstr, GOFormatTokenType *ptt)
+{
+	return go_format_token2 (pstr, ptt, FALSE);
 }
 
 #define GET_TOKEN(_i) g_array_index (pstate->tokens, GOFormatParseItem, _i)
 
 static const char *
-go_format_preparse (const char *str, GOFormatParseState *pstate)
+go_format_preparse (const char *str, GOFormatParseState *pstate,
+		    gboolean all_tokens, gboolean is_localized)
 {
-	gboolean ntokens = 0;  /* Excluding cond,color,locale */
+	gboolean ntokens = 0;  /* Excluding cond,color,locale unless all_tokens.  */
 	gboolean is_date = FALSE;
 	gboolean is_number = FALSE;
 	gboolean is_text = FALSE;
 	gboolean has_general = FALSE;
 
-	g_array_set_size (pstate->tokens, 0);
+	pstate->tokens =
+		g_array_new (FALSE, FALSE, sizeof (GOFormatParseItem));
 	pstate->tno_slash = -1;
 	pstate->tno_E = -1;
 
 	while (1) {
 		GOFormatTokenType tt;
 		const char *tstr = str;
-		int t = go_format_token (&str, &tt);
+		int t = go_format_token2 (&str, &tt, is_localized);
 		int tno = pstate->tokens->len;
 
 		if (tt & TT_TERMINATES_SINGLE) {
@@ -875,13 +916,19 @@ go_format_preparse (const char *str, GOFormatParseState *pstate)
 			    !go_format_parse_condition (tstr, &pstate->cond))
 				goto error;
 			pstate->have_cond = TRUE;
+			if (all_tokens)
+				ntokens++;
 			break;
 
 		case TOK_COLOR:
 			if (pstate->have_color ||
-			    !go_format_parse_color (tstr, &pstate->color, NULL, NULL))
+			    !go_format_parse_color (tstr, &pstate->color,
+						    &pstate->color_n,
+						    &pstate->color_named))
 				goto error;
 			pstate->have_color = TRUE;
+			if (all_tokens)
+				ntokens++;
 			break;
 
 		case TOK_LOCALE:
@@ -889,6 +936,8 @@ go_format_preparse (const char *str, GOFormatParseState *pstate)
 			    !go_format_parse_locale (tstr, &pstate->locale, NULL))
 				goto error;
 			pstate->have_locale = TRUE;
+			if (all_tokens)
+				ntokens++;
 			break;
 
 		case TOK_REPEATED_CHAR:
@@ -986,6 +1035,11 @@ handle_common_token (const char *tstr, GOFormatToken t, GString *prg)
 		tstr += len + 2;
 		break;
 	}
+
+	case TOK_DECIMAL:
+	case TOK_THOUSAND:
+		ADD_OP2 (OP_CHAR, *tstr);
+		break;
 
 	case TOK_CHAR:
 		ADD_OPuc (OP_CHAR, g_utf8_get_char (tstr));
@@ -1217,7 +1271,7 @@ go_format_parse_sequential (const char *str, GString *prg,
 			ADD_OP (OP_TIME_AMPM);
 			break;
 
-		case '.':
+		case TOK_DECIMAL:
 			if (*str == '0') {
 				int n = 0;
 				seen_time = TRUE;
@@ -1347,7 +1401,7 @@ comma_is_thousands (const char *str)
 			return TRUE;
 		case 0:
 		case ';':
-		case '.':
+		case TOK_DECIMAL:
 			return FALSE;
 		}
 	}
@@ -1378,7 +1432,7 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 			tno_numstart = i;
 
 		switch (ti->token) {
-		case '.':
+		case TOK_DECIMAL:
 			if (!whole_part)
 				break;
 			dot_pos = i;
@@ -1401,7 +1455,7 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 				scale += 2;
 			break;
 
-		case ',':
+		case TOK_THOUSAND:
 			if (tno_numstart != -1 && E_part != 2) {
 				if (comma_is_thousands (ti->tstr)) {
 					if (whole_part)
@@ -1482,7 +1536,7 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 			else
 				ADD_OP2 (OP_NUM_DIGIT_1, ti->token);
 			break;
-		case ',':
+		case TOK_THOUSAND:
 			if (frac_part == 3)
 				ADD_OP2 (OP_CHAR, ',');
 			break;
@@ -1506,7 +1560,7 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 			case '#':
 				ADD_OP2 (OP_NUM_DECIMAL_1, ti->token);
 				break;
-			case ',':
+			case TOK_THOUSAND:
 				break;
 			default:
 				handle_common_token (ti->tstr, ti->token, prg);
@@ -1577,7 +1631,7 @@ go_format_parse_number_E (GOFormatParseState *pstate)
 
 		simplify_mantissa = TRUE;
 		for (i = 0; i < pstate->tno_E; i++) {
-			if (GET_TOKEN(i).token == '.')
+			if (GET_TOKEN(i).token == TOK_DECIMAL)
 				break;
 			if (GET_TOKEN(i).token == '0') {
 				simplify_mantissa = FALSE;
@@ -1739,7 +1793,7 @@ go_format_parse_number_fraction (GOFormatParseState *pstate)
 
 	for (i = tno_denom; i < tno_end; i++) {
 		const GOFormatParseItem *ti = &GET_TOKEN(i);
-		if (ti->token == ',')
+		if (ti->token == TOK_THOUSAND)
 			return NULL;
 		if (ti->token == TOK_CONDITION ||
 		    ti->token == TOK_LOCALE ||
@@ -1851,10 +1905,7 @@ go_format_parse (const char *str)
 		GOFormat *fmt = NULL;;
 
 		memset (&state, 0, sizeof (state));
-		state.tokens =
-			g_array_new (FALSE, FALSE, sizeof (GOFormatParseItem));
-
-		tail = go_format_preparse (str, &state);
+		tail = go_format_preparse (str, &state, FALSE, FALSE);
 		if (!tail) {
 			g_array_free (state.tokens, TRUE);
 			goto bail;
@@ -3296,25 +3347,133 @@ go_number_format_shutdown (void)
 
 #ifdef DEFINE_COMMON
 
-static GOFormat *
-make_frobbed_format (char *str, const GOFormat *fmt)
-{
-	GOFormat *res;
+#undef DEBUG_LOCALIZATION
 
-	if (strcmp (str, fmt->format) == 0)
-		res = NULL;
-	else {
-		res = go_format_new_from_XL (str);
-		if (res->typ == GO_FMT_INVALID) {
-			go_format_unref (res);
-			res = NULL;
+/**
+ * go_format_str_localize:
+ * @str : A *valid* format string
+ *
+ * Localizes the given format string, i.e., changes decimal dots to the locale's
+ * notion of that and performs other such transformations.
+ *
+ * Returns NULL if the format is not valid.
+ **/
+char *
+go_format_str_localize (char const *str)
+{
+	GString *res;
+	GString const *comma = go_locale_get_thousand ();
+	GString const *decimal = go_locale_get_decimal ();
+
+	g_return_val_if_fail (str != NULL, NULL);
+
+#ifdef DEBUG_LOCALIZATION
+	g_printerr ("Localize in : [%s]\n", str);
+#endif
+
+	res = g_string_new (NULL);
+	while (1) {
+		GOFormatParseState state;
+		const GOFormatParseState *pstate = &state;
+		const char *tail;
+		unsigned tno;
+
+		memset (&state, 0, sizeof (state));
+		tail = go_format_preparse (str, &state, TRUE, FALSE);
+		if (!tail) {
+			g_array_free (state.tokens, TRUE);
+			g_string_free (res, TRUE);
+			return NULL;
 		}
+
+		for (tno = 0; tno < state.tokens->len; tno++) {
+			const GOFormatParseItem *ti = &GET_TOKEN(tno);
+			const char *tstr = ti->tstr;
+			const char *end = (tno + 1 == state.tokens->len)
+				? tail
+				: GET_TOKEN(tno + 1).tstr;
+
+			switch (ti->token) {
+			case TOK_ERROR:
+				g_array_free (state.tokens, TRUE);
+				g_string_free (res, TRUE);
+				return NULL;
+			case TOK_GENERAL:
+				g_string_append (res, _("General"));
+				break;
+			case TOK_CONDITION:
+				while (tstr != end) {
+					if (*tstr == '.') {
+						go_string_append_gstring (res, decimal);
+						tstr++;
+					} else if (strncmp (tstr, decimal->str, decimal->len) == 0) {
+						/* 1000,00 becomes 1000\,00 */
+						g_string_append_c (res, '\\');
+						g_string_append_c (res, *tstr++);
+					} else
+						g_string_append_c (res, *tstr++);
+				}
+				break;
+
+			case TOK_COLOR:
+				g_string_append_c (res, '[');
+				if (state.color_named)
+					g_string_append (res, _(format_colors[state.color_n].name));
+				else
+					g_string_append_printf (res, "Color%d", state.color_n);
+				g_string_append_c (res, ']');
+				break;
+
+			case TOK_DECIMAL:
+				if (state.is_number ||
+				    (state.is_date && *end == '0'))
+					go_string_append_gstring (res, decimal);
+				else
+					goto regular;
+				break;
+
+			case TOK_THOUSAND:
+				if (!state.is_number)
+					goto regular;
+				go_string_append_gstring (res, comma);
+				break;
+
+			default:
+				if (strncmp (tstr, decimal->str, decimal->len) == 0 ||
+				    (state.is_number &&
+				     strncmp (tstr, comma->str, comma->len) == 0)) {
+					/* In particular, neither "." nor ","  */
+					g_string_append_c (res, '\\');
+				}
+
+			regular:
+				g_string_append_len (res, tstr, end - tstr);
+			}
+		}
+
+		g_array_free (state.tokens, TRUE);
+
+		str = tail;
+		if (*str == 0)
+			break;
+		g_string_append_c (res, *str++);
 	}
 
-	g_free (str);
-	return res;
+#ifdef DEBUG_LOCALIZATION
+	g_printerr ("Localize out: [%s]\n", res->str);
+#endif
+	return g_string_free (res, FALSE);
 }
 
+/**
+ * go_format_str_delocalize:
+ * @str : A *valid* localized format string
+ *
+ * De-localizes the given format string, i.e., changes locale's decimal separators to
+ * dots and performs other such transformations.
+ *
+ * Returns NULL if the format is not valid.
+ **/
 char *
 go_format_str_delocalize (char const *str)
 {
@@ -3327,198 +3486,141 @@ go_format_str_delocalize (char const *str)
 	gboolean comma_needs_quoting =
 		strcmp (comma->str, ".") == 0 ||
 		strcmp (comma->str, ",") == 0;
-	gboolean decimal_is_dot = strcmp (decimal->str, ".") == 0;
-	const char *tgeneral = _("General");
-	gsize tgeneral_len = strlen (tgeneral);
 
 	g_return_val_if_fail (str != NULL, NULL);
 
+#ifdef DEBUG_LOCALIZATION
+	g_printerr ("Delocalize in : [%s]\n", str);
+#endif
+
 	res = g_string_new (NULL);
 	while (1) {
-		const char *token = str;
-		GOFormatTokenType tt;
-		int t = go_format_token (&str, &tt);
+		GOFormatParseState state;
+		const GOFormatParseState *pstate = &state;
+		const char *tail;
+		unsigned tno;
 
-		switch (t) {
-		case TOK_ERROR:
-			g_string_append (res, token);
-			/* Fall through */
-		case 0:
-			return g_string_free (res, FALSE);
-
-		case '\\':
-			if ((strncmp (token + 1, decimal->str, decimal->len) == 0 && !decimal_needs_quoting) ||
-			    (strncmp (str + 1, comma->str, comma->len) == 0 && !comma_needs_quoting))
-				token++;
-			g_string_append_len (res, token, str - token);
-			break;
-
-		case TOK_CONDITION:
-			if (decimal_is_dot)
-				goto regular;
-
-			while (token != str) {
-				if (strncmp (token, decimal->str, decimal->len) == 0) {
-					g_string_append_c (res, '.');
-					token += decimal->len;
-				} else if (*token == '.')  {
-					/* 1000.00 becomes 1000\.00 */
-					g_string_append_c (res, '\\');
-					g_string_append_c (res, *token++);
-				} else
-					g_string_append_c (res, *token++);
-			}
-			break;
-
-		case TOK_COLOR: {
-			int i;
-			const char *tcolor = _("[Color");
-			gsize tcolor_len = strlen (tcolor);
-
-			/*
-			 * FIXME: German has both "Cyan" and "Zyan" for the
-			 * same color.
-			 */
-			for (i = G_N_ELEMENTS (format_colors); --i >= 0;) {
-				const char *name = format_colors[i].name;
-				const char *tname = _(name);
-				gsize len = strlen (tname);
-				/* FIXME: "ascii" is surely wrong.  */
-				if (g_ascii_strncasecmp (token + 1, tname, len) == 0) {
-					g_string_append_c (res, '[');
-					g_string_append (res, name);
-					g_string_append_c (res, ']');
-					break;
-				}
-			}
-			if (i >= 0)
-				break;
-
-			/* FIXME: "ascii" is surely wrong.  */
-			if (g_ascii_strncasecmp (token, tcolor, tcolor_len) == 0) {
-				g_string_append (res, "[Color");
-				token += tcolor_len;
-				g_string_append_len (res, token, str - token);
-				break;
-			}
-
-			g_string_append (res, "[Invalid]");
-			break;
+		memset (&state, 0, sizeof (state));
+		tail = go_format_preparse (str, &state, TRUE, TRUE);
+		if (!tail) {
+			g_array_free (state.tokens, TRUE);
+			g_string_free (res, TRUE);
+			return NULL;
 		}
 
-		case TOK_GENERAL:
-			/* Oops.  Pretend we saw only "G".  */
-			str = token + 1;
-			/* Fall through */
-		default:
-		regular:
-			/* Tokenizer doesn't know translated "General".  */
-			if (strncmp (token, tgeneral, tgeneral_len) == 0) {
+		for (tno = 0; tno < state.tokens->len; tno++) {
+			const GOFormatParseItem *ti = &GET_TOKEN(tno);
+			const char *tstr = ti->tstr;
+			const char *end = (tno + 1 == state.tokens->len)
+				? tail
+				: GET_TOKEN(tno + 1).tstr;
+
+			switch (ti->token) {
+			case TOK_ERROR:
+				g_array_free (state.tokens, TRUE);
+				g_string_free (res, TRUE);
+				return NULL;
+			case TOK_GENERAL:
 				g_string_append (res, "General");
-				str = token + tgeneral_len;
 				break;
-			}
-
-			if (strncmp (token, decimal->str, decimal->len) == 0) {
-				str = token + decimal->len;
-				g_string_append_c (res, '.');
+			case TOK_CONDITION:
+				while (tstr != end) {
+					if (strncmp (tstr, decimal->str, decimal->len) == 0) {
+						g_string_append_c (res, '.');
+						tstr += decimal->len;
+					} else if (*tstr == '.') {
+						/* 1000.00 becomes 1000\.00 */
+						g_string_append_c (res, '\\');
+						g_string_append_c (res, *tstr++);
+					} else
+						g_string_append_c (res, *tstr++);
+				}
 				break;
-			}
 
-			if (strncmp (token, comma->str, comma->len) == 0) {
-				str = token + comma->len;
+			case TOK_COLOR:
+				g_string_append_c (res, '[');
+				if (state.color_named)
+					g_string_append (res, format_colors[state.color_n].name);
+				else
+					g_string_append_printf (res, "Color%d", state.color_n);
+				g_string_append_c (res, ']');
+				break;
+
+			case '\\':
+				if ((strncmp (tstr + 1, decimal->str, decimal->len) == 0 && !decimal_needs_quoting) ||
+				    (strncmp (str + 1, comma->str, comma->len) == 0 && !comma_needs_quoting))
+					tstr++;
+				g_string_append_len (res, tstr, str - tstr);
+				break;
+
+			case TOK_DECIMAL:
+				if (state.is_number ||
+				    (state.is_date && *end == '0'))
+					g_string_append_c (res, '.');
+				else
+					goto regular;
+				break;
+
+			case TOK_THOUSAND:
+				if (!state.is_number)
+					goto regular;
 				g_string_append_c (res, ',');
 				break;
-			}
 
-			g_string_append_len (res, token, str - token);
+			default:
+				if (*tstr == '.' &&
+				    (state.is_number || (state.is_date && *str == '0')))
+					g_string_append_c (res, '\\');
+				else if (*tstr == ',' && state.is_number)
+					g_string_append_c (res, '\\');
+				/* Fall through.  */
+
+			regular:
+				g_string_append_len (res, tstr, end - tstr);
+			}
 		}
+
+		g_array_free (state.tokens, TRUE);
+
+		str = tail;
+		if (*str == 0)
+			break;
+		g_string_append_c (res, *str++);
 	}
+
+#ifdef DEBUG_LOCALIZATION
+	g_printerr ("Delocalize out: [%s]\n", res->str);
+#endif
+	return g_string_free (res, FALSE);
 }
 
-char *
-go_format_str_localize (char const *str)
+static GOFormat *
+make_frobbed_format (char *str, const GOFormat *fmt)
 {
-	GString *res;
-	GString const *comma = go_locale_get_thousand ();
-	GString const *decimal = go_locale_get_decimal ();
-	gboolean decimal_is_dot = strcmp (decimal->str, ".") == 0;
+	GOFormat *res;
 
-	g_return_val_if_fail (str != NULL, NULL);
-
-	res = g_string_new (NULL);
-	while (1) {
-		const char *token = str;
-		GOFormatTokenType tt;
-		int t = go_format_token (&str, &tt);
-
-		switch (t) {
-		case TOK_ERROR:
-			g_string_append (res, token);
-			/* Fall through */
-		case 0:
-			return g_string_free (res, FALSE);
-		case '.':
-			go_string_append_gstring (res, decimal);
-			break;
-		case ',':
-			go_string_append_gstring (res, comma);
-			break;
-		case TOK_GENERAL:
-			g_string_append (res, _("General"));
-			break;
-		case TOK_CONDITION:
-			if (decimal_is_dot)
-				goto regular;
-
-			while (token != str) {
-				if (*token == '.') {
-					go_string_append_gstring (res, decimal);
-					token++;
-				} else if (strncmp (token, decimal->str, decimal->len) == 0) {
-					/* 1000,00 becomes 1000\,00 */
-					g_string_append_c (res, '\\');
-					g_string_append_c (res, *token++);
-				} else
-					g_string_append_c (res, *token++);
-			}
-			break;
-
-		case TOK_COLOR: {
-			int n;
-			GOColor color;
-			gboolean named;
-
-			if (go_format_parse_color (token, &color, &n, &named)) {
-				g_string_append_c (res, '[');
-				if (named)
-					g_string_append (res, _(format_colors[n].name));
-				else
-					g_string_append_printf (res, "Color%d", n);
-				g_string_append_c (res, ']');
-			} else
-				g_string_append (res, _("[Invalid]"));
-
-			break;
-		}
-
-		default:
-		regular:
-			if (strncmp (token, decimal->str, decimal->len) == 0 ||
-			    strncmp (token, comma->str, comma->len) == 0) {
-				/* In particular, neither "." nor ","  */
-				g_string_append_c (res, '\\');
-			}
-			g_string_append_len (res, token, str - token);
+	if (strcmp (str, fmt->format) == 0)
+		res = NULL;
+	else {
+#if 0
+		g_printerr ("Frob: [%s] -> [%s]\n", fmt->format, str);
+#endif
+		res = go_format_new_from_XL (str);
+		if (res->typ == GO_FMT_INVALID) {
+			go_format_unref (res);
+			res = NULL;
 		}
 	}
+
+	g_free (str);
+	return res;
 }
 
 /**
  * go_format_inc_precision :
  * @fmt : #GOFormat
  *
- * Increaseds the displayed precision for @fmt by one digit.
+ * Increases the displayed precision for @fmt by one digit.
  *
  * Returns: NULL if the new format would not change things
  **/
@@ -3530,7 +3632,7 @@ go_format_inc_precision (GOFormat const *fmt)
 	gssize last_zero = -1;
 
 	while (1) {
-		const char *token = str;
+		const char *tstr = str;
 		GOFormatTokenType tt;
 		int t = go_format_token (&str, &tt);
 
@@ -3541,7 +3643,7 @@ go_format_inc_precision (GOFormat const *fmt)
 
 		case 0:
 		case ';':
-			g_string_append_len (res, token, str - token);
+			g_string_append_len (res, tstr, str - tstr);
 			if (last_zero >= 0)
 				g_string_insert_len (res, last_zero + 1,
 						     ".0", 2);
@@ -3562,9 +3664,9 @@ go_format_inc_precision (GOFormat const *fmt)
 			last_zero = -2;
 			break;
 
-		case '.': {
+		case TOK_DECIMAL: {
 			int n = 0;
-			g_string_append_c (res, t);
+			g_string_append_c (res, *tstr);
 			while (*str == '0') {
 				g_string_append_c (res, *str++);
 				n++;
@@ -3592,7 +3694,7 @@ go_format_inc_precision (GOFormat const *fmt)
 			/* Fall through.  */
 
 		default:
-			g_string_append_len (res, token, str - token);
+			g_string_append_len (res, tstr, str - tstr);
 		}
 	}
 }
@@ -3612,7 +3714,7 @@ go_format_dec_precision (GOFormat const *fmt)
 	const char *str = fmt->format;
 
 	while (1) {
-		const char *token = str;
+		const char *tstr = str;
 		GOFormatTokenType tt;
 		int t = go_format_token (&str, &tt);
 
@@ -3624,7 +3726,7 @@ go_format_dec_precision (GOFormat const *fmt)
 		case 0:
 			return make_frobbed_format (g_string_free (res, FALSE), fmt);
 
-		case '.':
+		case TOK_DECIMAL:
 			if (str[0] == '0') {
 				if (str[1] == '0')
 					g_string_append_c (res, '.');
@@ -3634,7 +3736,7 @@ go_format_dec_precision (GOFormat const *fmt)
 			/* Fall through */
 
 		default:
-			g_string_append_len (res, token, str - token);
+			g_string_append_len (res, tstr, str - tstr);
 		}
 	}
 }
@@ -3653,7 +3755,7 @@ go_format_toggle_1000sep (GOFormat const *fmt)
 	str = fmt->format;
 
 	while (1) {
-		const char *token = str;
+		const char *tstr = str;
 		GOFormatTokenType tt;
 		int t = go_format_token (&str, &tt);
 
@@ -3691,8 +3793,8 @@ go_format_toggle_1000sep (GOFormat const *fmt)
 			numstart = -1;
 			break;
 
-		case ',':
-			if (numstart != -1 && comma_is_thousands (token)) {
+		case TOK_THOUSAND:
+			if (numstart != -1 && comma_is_thousands (tstr)) {
 				if (commapos != -1)
 					g_string_erase (res, commapos, 1);
 				commapos = res->len;
@@ -3711,7 +3813,7 @@ go_format_toggle_1000sep (GOFormat const *fmt)
 			break;
 		}
 
-		g_string_append_len (res, token, str - token);
+		g_string_append_len (res, tstr, str - tstr);
 	}
 }
 #endif

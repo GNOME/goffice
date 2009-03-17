@@ -1,3 +1,20 @@
+2009-03-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-format-sel.c (cb_format_entry_changed): Handle
+	failing go_format_str_delocalize.
+
+	* goffice/utils/go-format.c (go_format_str_localize,
+	go_format_str_delocalize): Redo based on go_format_preparse.  This
+	way we understand the formats better and don't translate the dots
+	in, for example, "dd.mm.yyyy".
+	(go_format_preparse): Take extra argument for keeping all tokens
+	and for tokenizing localized.  Caller changed.
+	(GOFormatParseState): Add extra fields for colours.
+	(go_format_preparse): Populated those fields.
+	(go_format_token2): Add extra parameter for tokenizing localized.
+	Return decimal and thousands separator as special tokens.  All
+	callers changed.
+
 2009-03-15  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_default_accounting): New

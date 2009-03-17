@@ -855,6 +855,8 @@ cb_format_entry_changed (GtkEditable *w, GOFormatSel *gfs)
 		return;
 
 	fmt = go_format_str_delocalize (gtk_entry_get_text (GTK_ENTRY (w)));
+	if (!fmt)
+		fmt = g_strdup ("*");
 	cur_fmt = go_format_as_XL (gfs->format.spec);
 
 	if (strcmp (cur_fmt, fmt)) {

@@ -10,6 +10,7 @@ Jean:
 
 Morten:
 	* Fix a pixbuf scaling problem in foocanvas.
+	* Improve handling of localized formats.
 
 --------------------------------------------------------------------------
 goffice 0.7.3:
