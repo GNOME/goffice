@@ -1,3 +1,10 @@
+2009-03-18  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-format-sel.c (fmt_dialog_init_fmt_list): Select a
+	magic format if just the magic agrees.
+
+	* goffice/utils/go-format.c (go_format_get_magic): New function.
+
 2009-03-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (cb_format_entry_changed): Handle

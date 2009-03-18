@@ -273,7 +273,8 @@ struct _GOFormat {
 	unsigned int typ : 8;
 	unsigned int ref_count : 24;
 	GOColor color;
-	unsigned int has_fill;
+	unsigned char has_fill;
+	GOFormatMagic magic;
 	char *format;
 	union {
 		struct {
@@ -1902,7 +1903,8 @@ go_format_parse (const char *str)
 		GOFormatCondition *condition;
 		const char *tail;
 		GOFormatParseState state;
-		GOFormat *fmt = NULL;;
+		GOFormat *fmt = NULL;
+		gboolean is_magic = FALSE;
 
 		memset (&state, 0, sizeof (state));
 		tail = go_format_preparse (str, &state, FALSE, FALSE);
@@ -1918,16 +1920,18 @@ go_format_parse (const char *str)
 		if (!state.have_cond)
 			condition->implicit = TRUE;
 
-		if (state.locale.locale == 0xf800) {
+		if (state.locale.locale == GO_FORMAT_MAGIC_SYSDATE) {
 			const GString *dfmt = go_locale_get_date_format ();
 			fmt = go_format_parse_sequential (dfmt->str, NULL, &state);
 			/* Make the upcoming switch do nothing.  */
 			state.typ = GO_FMT_INVALID;
-		} else if (state.locale.locale == 0xf400) {
+			is_magic = TRUE;
+		} else if (state.locale.locale == GO_FORMAT_MAGIC_SYSTIME) {
 			const GString *tfmt = go_locale_get_time_format ();
 			fmt = go_format_parse_sequential (tfmt->str, NULL, &state);
 			/* Make the upcoming switch do nothing.  */
 			state.typ = GO_FMT_INVALID;
+			is_magic = TRUE;
 		}
 
 		switch (state.typ) {
@@ -1967,6 +1971,7 @@ go_format_parse (const char *str)
 		fmt->format = g_strndup (str, tail - str);
 		fmt->has_fill = state.fill_char != 0;
 		fmt->color = state.color;
+		if (is_magic) fmt->magic = state.locale.locale;
 
 		if (go_format_is_text (fmt)) {
 			/* Only one text format.  */
@@ -4326,6 +4331,23 @@ go_format_has_hour (GOFormat const *fmt)
 	return (fmt->typ == GO_FMT_NUMBER &&
 		fmt->u.number.has_time &&
 		fmt->u.number.has_hour);
+}
+#endif
+
+
+#ifdef DEFINE_COMMON
+/**
+ * go_format_get_magic:
+ * @fmt: Format to query
+ *
+ * Returns: a non-zero magic code for certain formats, such as system date.
+ **/
+GOFormatMagic
+go_format_get_magic (GOFormat const *fmt)
+{
+	g_return_val_if_fail (fmt != NULL, GO_FORMAT_MAGIC_NONE);
+
+	return fmt->magic;
 }
 #endif
 

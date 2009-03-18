@@ -520,18 +520,28 @@ static void
 fmt_dialog_init_fmt_list (GOFormatSel *gfs, char const *const *formats,
 			  GtkTreeIter *select)
 {
-	GtkTreeIter iter;
-	char *fmt;
-	const char *cur_fmt = go_format_as_XL (gfs->format.spec);
+	GOFormatMagic cur_magic = go_format_get_magic (gfs->format.spec);
 
 	for (; *formats; formats++) {
+		GtkTreeIter iter;
+		char *fmt = go_format_str_localize (*formats);
+		GOFormat *f = go_format_new_from_XL (*formats);
+		GOFormatMagic magic = go_format_get_magic (f);
+		gboolean found;
+
 		gtk_list_store_append (gfs->format.formats.model, &iter);
-		fmt = go_format_str_localize (*formats);
 		gtk_list_store_set (gfs->format.formats.model, &iter,
 				    0, fmt, -1);
 		g_free (fmt);
 
-		if (!strcmp (*formats, cur_fmt))
+		/* Magic formats are fully defined by their magic.  */
+		found = cur_magic
+			? (cur_magic == magic)
+			: go_format_eq (f, gfs->format.spec);
+
+		go_format_unref (f);
+
+		if (found)
 			*select = iter;
 	}
 }
