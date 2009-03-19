@@ -3358,10 +3358,10 @@ go_number_format_shutdown (void)
  * go_format_str_localize:
  * @str : A *valid* format string
  *
- * Localizes the given format string, i.e., changes decimal dots to the locale's
- * notion of that and performs other such transformations.
+ * Localizes the given format string, i.e., changes decimal dots to the
+ * locale's notion of that and performs other such transformations.
  *
- * Returns NULL if the format is not valid.
+ * Returns: a localized format string, or NULL if the format was not valid.
  **/
 char *
 go_format_str_localize (char const *str)
@@ -3474,10 +3474,10 @@ go_format_str_localize (char const *str)
  * go_format_str_delocalize:
  * @str : A *valid* localized format string
  *
- * De-localizes the given format string, i.e., changes locale's decimal separators to
- * dots and performs other such transformations.
+ * De-localizes the given format string, i.e., changes locale's decimal
+ * separators to dots and performs other such transformations.
  *
- * Returns NULL if the format is not valid.
+ * Returns: a non-local format string, or NULL if the format was not valid.
  **/
 char *
 go_format_str_delocalize (char const *str)
