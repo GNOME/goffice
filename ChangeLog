@@ -1,3 +1,10 @@
+2009-03-19  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_magic_fmt_str): Use
+	go_locale_24h.
+
+	* goffice/utils/go-locale.c (go_locale_24h): New function.
+
 2009-03-18  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (fmt_dialog_init_fmt_list): Select a

@@ -49,6 +49,8 @@ static GString *lc_time_format = NULL;
 
 static gboolean date_order_cached = FALSE;
 
+static gboolean locale_is_24h_cached = FALSE;
+
 static gboolean boolean_cached = FALSE;
 static char const *lc_TRUE = NULL;
 static char const *lc_FALSE = NULL;
@@ -60,6 +62,7 @@ go_setlocale (int category, char const *val)
 	date_format_cached = FALSE;
 	time_format_cached = FALSE;
 	date_order_cached = FALSE;
+	locale_is_24h_cached = FALSE;
 	boolean_cached = FALSE;
 	return setlocale (category, val);
 }
@@ -287,6 +290,7 @@ go_locale_get_time_format (void)
 				case 'l': g_string_append (lc_time_format, "h"); break; /* Approx */
 				case 'M': g_string_append (lc_time_format, "mm"); break;
 				case 'p': g_string_append (lc_time_format, "AM/PM"); break;
+				case 'P': g_string_append (lc_time_format, "am/pm"); break;
 				case 'r': g_string_append (lc_time_format, "hh:mm:ss AM/PM"); break;
 				case 'S': g_string_append (lc_time_format, "ss"); break;
 				case 'T': g_string_append (lc_time_format, "hh:mm:ss"); break;
@@ -393,6 +397,31 @@ go_locale_month_before_day (void)
 
 	return month_first;
 }
+
+/**
+ * go_locale_24h :
+ *
+ * Returns: TRUE if the locale uses a 24h clock, FALSE otherwise.
+ */
+gboolean
+go_locale_24h (void)
+{
+	static gboolean locale_is_24h;
+
+	if (!locale_is_24h_cached) {
+		const GString *tf = go_locale_get_time_format ();
+
+		/* Crude.  Figure out how to ask properly.  */
+		locale_is_24h = !(strstr (tf->str, "AM/PM") ||
+				  strstr (tf->str, "am/pm") ||
+				  strstr (tf->str, "A/P") ||
+				  strstr (tf->str, "a/p"));
+		locale_is_24h_cached = TRUE;
+	}
+
+	return locale_is_24h;
+}
+
 
 /* Use comma as the arg separator unless the decimal point is a
  * comma, in which case use a semi-colon

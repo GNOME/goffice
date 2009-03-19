@@ -422,12 +422,6 @@ go_format_is_simple (GOFormat const *fmt)
 static char *
 go_format_magic_fmt_str (GOFormatMagic m)
 {
-	const GString *tf = go_locale_get_time_format ();
-	gboolean ampm = (strstr (tf->str, "AM/PM") ||
-			 strstr (tf->str, "am/pm") ||
-			 strstr (tf->str, "A/P") ||
-			 strstr (tf->str, "a/p"));
-
 	switch (m) {
 	default:
 		return NULL;
@@ -466,10 +460,10 @@ go_format_magic_fmt_str (GOFormatMagic m)
 		const char *fmt = _("*Long Time Format");
 		if (fmt[0] && fmt[0] != '*')
 			return g_strdup (fmt);
-		if (ampm)
-			return g_strdup ("h:mm:ss AM/PM");
-		else
+		if (go_locale_24h ())
 			return g_strdup ("hh:mm:ss");
+		else
+			return g_strdup ("h:mm:ss AM/PM");
 		break;
 	}
 
@@ -478,10 +472,10 @@ go_format_magic_fmt_str (GOFormatMagic m)
 		const char *fmt = _("*Medium Time Format");
 		if (fmt[0] && fmt[0] != '*')
 			return g_strdup (fmt);
-		if (ampm)
-			return g_strdup ("h:mm AM/PM");
-		else
+		if (go_locale_24h ())
 			return g_strdup ("hh:mm");
+		else
+			return g_strdup ("h:mm AM/PM");
 		break;
 	}
 
