@@ -416,6 +416,85 @@ go_format_is_simple (GOFormat const *fmt)
 	return (fmt->typ != GO_FMT_COND);
 }
 
+/*
+ * This function returns the format string to be used for a magic format.
+ */
+static char *
+go_format_magic_fmt_str (GOFormatMagic m)
+{
+	const GString *tf = go_locale_get_time_format ();
+	gboolean ampm = (strstr (tf->str, "AM/PM") ||
+			 strstr (tf->str, "am/pm") ||
+			 strstr (tf->str, "A/P") ||
+			 strstr (tf->str, "a/p"));
+
+	switch (m) {
+	default:
+		return NULL;
+
+	case GO_FORMAT_MAGIC_LONG_DATE: {
+		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
+		const char *fmt = _("*Long Date Format");
+		if (fmt[0] && fmt[0] != '*')
+			return g_strdup (fmt);
+		return g_strdup ("dddd, mmmm dd, yyyy");
+	}
+
+	case GO_FORMAT_MAGIC_MEDIUM_DATE: {
+		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
+		const char *fmt = _("*Medium Date Format");
+		if (fmt[0] && fmt[0] != '*')
+			return g_strdup (fmt);
+		return g_strdup ("d-mmm-yyyy");  /* Excel has yy only.  */
+	}
+
+	case GO_FORMAT_MAGIC_SHORT_DATE: {
+		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
+		const char *fmt = _("*Short Date Format");
+		if (fmt[0] && fmt[0] != '*')
+			return g_strdup (fmt);
+		switch (go_locale_month_before_day ()) {
+		case 0: return g_strdup ("d/m/yy");
+		default:
+		case 1: return g_strdup ("m/d/yy");
+		case 2: return g_strdup ("yy/m/d");
+		}
+	}
+
+	case GO_FORMAT_MAGIC_LONG_TIME: {
+		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
+		const char *fmt = _("*Long Time Format");
+		if (fmt[0] && fmt[0] != '*')
+			return g_strdup (fmt);
+		if (ampm)
+			return g_strdup ("h:mm:ss AM/PM");
+		else
+			return g_strdup ("hh:mm:ss");
+		break;
+	}
+
+	case GO_FORMAT_MAGIC_MEDIUM_TIME: {
+		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
+		const char *fmt = _("*Medium Time Format");
+		if (fmt[0] && fmt[0] != '*')
+			return g_strdup (fmt);
+		if (ampm)
+			return g_strdup ("h:mm AM/PM");
+		else
+			return g_strdup ("hh:mm");
+		break;
+	}
+
+	case GO_FORMAT_MAGIC_SHORT_TIME: {
+		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
+		const char *fmt = _("*Short Time Format");
+		if (fmt[0] && fmt[0] != '*')
+			return g_strdup (fmt);
+		return g_strdup ("hh:mm");
+	}
+	}
+}
+
 
 static GOFormat *default_percentage_fmt;
 static GOFormat *default_money_fmt;
@@ -628,7 +707,7 @@ go_format_token2 (char const **pstr, GOFormatTokenType *ptt, gboolean localized)
 		TT_ALLOWED_IN_DATE | TT_ALLOWED_IN_NUMBER | TT_ALLOWED_IN_TEXT;
 	int t;
 	int len = 1;
-	const char *general = "General";
+	const char *general = N_("General");
 	size_t general_len = 7;
 
 	if (localized) {
@@ -1905,6 +1984,7 @@ go_format_parse (const char *str)
 		GOFormatParseState state;
 		GOFormat *fmt = NULL;
 		gboolean is_magic = FALSE;
+		char *magic_fmt_str;
 
 		memset (&state, 0, sizeof (state));
 		tail = go_format_preparse (str, &state, FALSE, FALSE);
@@ -1920,18 +2000,13 @@ go_format_parse (const char *str)
 		if (!state.have_cond)
 			condition->implicit = TRUE;
 
-		if (state.locale.locale == GO_FORMAT_MAGIC_SYSDATE) {
-			const GString *dfmt = go_locale_get_date_format ();
-			fmt = go_format_parse_sequential (dfmt->str, NULL, &state);
+		magic_fmt_str = go_format_magic_fmt_str (state.locale.locale);
+		if (magic_fmt_str) {
+			is_magic = TRUE;
 			/* Make the upcoming switch do nothing.  */
 			state.typ = GO_FMT_INVALID;
-			is_magic = TRUE;
-		} else if (state.locale.locale == GO_FORMAT_MAGIC_SYSTIME) {
-			const GString *tfmt = go_locale_get_time_format ();
-			fmt = go_format_parse_sequential (tfmt->str, NULL, &state);
-			/* Make the upcoming switch do nothing.  */
-			state.typ = GO_FMT_INVALID;
-			is_magic = TRUE;
+			fmt = go_format_parse_sequential (magic_fmt_str, NULL, &state);
+			g_free (magic_fmt_str);
 		}
 
 		switch (state.typ) {
@@ -4348,6 +4423,56 @@ go_format_get_magic (GOFormat const *fmt)
 	g_return_val_if_fail (fmt != NULL, GO_FORMAT_MAGIC_NONE);
 
 	return fmt->magic;
+}
+#endif
+
+
+#ifdef DEFINE_COMMON
+GOFormat *
+go_format_new_magic (GOFormatMagic m)
+{
+	const char *suffix;
+	char *s;
+	GOFormat *res;
+
+	/*
+	 * Note: the format strings here are actually fixed and do not relate
+	 * to how these formats are rendered.
+	 */
+
+	switch (m) {
+	default:
+		return NULL;
+
+	case GO_FORMAT_MAGIC_LONG_DATE:
+		suffix = "dddd, mmmm dd, yyyy";
+		break;
+
+	case GO_FORMAT_MAGIC_MEDIUM_DATE:
+		suffix = "d-mmm-yy";
+		break;
+
+	case GO_FORMAT_MAGIC_SHORT_DATE:
+		suffix = "m/d/yy";
+		break;
+
+	case GO_FORMAT_MAGIC_LONG_TIME:
+		suffix = "h:mm:ss AM/PM";
+		break;
+
+	case GO_FORMAT_MAGIC_MEDIUM_TIME:
+		suffix = "h:mm AM/PM";
+		break;
+
+	case GO_FORMAT_MAGIC_SHORT_TIME:
+		suffix = "hh:mm";
+		break;
+	}
+
+	s = g_strdup_printf ("[$-%x]%s", (unsigned)m, suffix);
+	res = go_format_new_from_XL (s);
+	g_free (s);
+	return res;
 }
 #endif
 

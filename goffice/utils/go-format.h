@@ -52,9 +52,13 @@ typedef enum {
 } GOFormatFamily;
 
 typedef enum {
-	GO_FORMAT_MAGIC_NONE    = 0,
-	GO_FORMAT_MAGIC_SYSDATE = 0xf800,
-	GO_FORMAT_MAGIC_SYSTIME = 0xf400
+	GO_FORMAT_MAGIC_NONE            = 0,
+	GO_FORMAT_MAGIC_LONG_DATE       = 0xf800,    /* Official */
+	GO_FORMAT_MAGIC_MEDIUM_DATE     = 0xfd01,
+	GO_FORMAT_MAGIC_SHORT_DATE      = 0xfd02,
+	GO_FORMAT_MAGIC_LONG_TIME       = 0xf400,    /* Official */
+	GO_FORMAT_MAGIC_MEDIUM_TIME     = 0xfd11,
+	GO_FORMAT_MAGIC_SHORT_TIME      = 0xfd12
 } GOFormatMagic;
 
 typedef enum {
@@ -116,7 +120,9 @@ int       go_format_is_date             (GOFormat const *fmt);
 
 int       go_format_month_before_day    (GOFormat const *fmt);
 gboolean  go_format_has_hour            (GOFormat const *fmt);
+
 GOFormatMagic go_format_get_magic       (GOFormat const *fmt);
+GOFormat *go_format_new_magic           (GOFormatMagic m);
 
 const GOFormat *go_format_specialize          (GOFormat const *fmt,
 					       double val, char type,
