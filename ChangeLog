@@ -1,3 +1,8 @@
+2009-03-20  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-locale.c (go_locale_get_time_format,
+	go_locale_get_date_format): Make more robust.
+
 2009-03-19  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_magic_fmt_str): Use

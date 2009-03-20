@@ -214,7 +214,22 @@ go_locale_get_date_format (void)
 #elif defined(HAVE_LANGINFO_H)
 		{
 			char const *fmt = nl_langinfo (D_FMT);
+			/* It appears that sometimes we don't get the %s in the
+			 * format as we're supposed to.  */
+			const char *first_percent = strchr (fmt, '%');
+			if (first_percent)
+				fmt = first_percent;
+
 			while (*fmt) {
+				if (first_percent) {
+					if (*fmt != '%') {
+						g_string_append_c (lc_date_format, *fmt);
+						fmt++;
+						continue;
+					}
+					fmt++;
+				}
+
 				switch (*fmt) {
 				case 'a': g_string_append (lc_date_format, "ddd"); break;
 				case 'A': g_string_append (lc_date_format, "dddd"); break;
@@ -230,12 +245,9 @@ go_locale_get_date_format (void)
 				case 'y': g_string_append (lc_date_format, "yy"); break;
 				case 'Y': g_string_append (lc_date_format, "yyyy"); break;
 				case '%':
-					/*
-					 * Docs say we get things in strftime format,
-					 * but I don't seem to get the '%'s. Hence we
-					 * ignore '%'s.
-					 */
-					break;
+					if (!first_percent)
+						break;
+					/* Fall through.  */
 				default:
 					if (g_ascii_isalpha (*fmt))
 						g_warning ("Unhandled locale date code '%c'", *fmt);
@@ -283,7 +295,22 @@ go_locale_get_time_format (void)
 #elif defined(HAVE_LANGINFO_H)
 		{
 			char const *fmt = nl_langinfo (T_FMT);
+			/* It appears that sometimes we don't get the %s in the
+			 * format as we're supposed to.  */
+			const char *first_percent = strchr (fmt, '%');
+			if (first_percent)
+				fmt = first_percent;
+
 			while (*fmt) {
+				if (first_percent) {
+					if (*fmt != '%') {
+						g_string_append_c (lc_time_format, *fmt);
+						fmt++;
+						continue;
+					}
+					fmt++;
+				}
+
 				switch (*fmt) {
 				case 'H': g_string_append (lc_time_format, "hh"); break;
 				case 'I': g_string_append (lc_time_format, "hh"); break;
@@ -296,13 +323,15 @@ go_locale_get_time_format (void)
 				case 'S': g_string_append (lc_time_format, "ss"); break;
 				case 'T': g_string_append (lc_time_format, "hh:mm:ss"); break;
 				case 't': g_string_append (lc_time_format, "\t"); break;
-				case '%':
-					/*
-					 * Docs say we get things in strftime format,
-					 * but I don't seem to get the '%'s. Hence we
-					 * ignore '%'s.
-					 */
+
+				case 'z': case 'Z':
+					/* Ignore these time-zone related items.  */
 					break;
+
+				case '%':
+					if (!first_percent)
+						break;
+					/* Fall through.  */
 				default:
 					if (g_ascii_isalpha (*fmt))
 						g_warning ("Unhandled locale time code '%c'", *fmt);
@@ -310,6 +339,17 @@ go_locale_get_time_format (void)
 						g_string_append_c (lc_time_format, *fmt);
 				}
 				fmt++;
+			}
+
+			/* Since we ignore some stuff, sometimes we get trailing
+			   whitespace.  Kill it.  */
+			while (lc_time_format->len > 0) {
+				const char *s = lc_time_format->str + lc_time_format->len;
+				const char *p = g_utf8_prev_char (s);
+				if (!g_unichar_isspace (g_utf8_get_char (p)))
+					break;
+				g_string_truncate (lc_time_format,
+						   p - lc_time_format->str);
 			}
 		}
 #endif
