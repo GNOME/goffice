@@ -30,6 +30,7 @@
 #ifdef G_OS_WIN32
 #  include <windows.h>
 #endif
+#include <string.h>
 
 /*
  * Points to the locale information for number display.  All strings are
