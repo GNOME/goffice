@@ -455,6 +455,19 @@ go_format_magic_fmt_str (GOFormatMagic m)
 		}
 	}
 
+	case GO_FORMAT_MAGIC_SHORT_DATETIME: {
+		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
+		const char *fmt = _("*Short Date/Time Format");
+		if (fmt[0] && fmt[0] != '*')
+			return g_strdup (fmt);
+		else {
+			char *d = go_format_magic_fmt_str (GO_FORMAT_MAGIC_SHORT_DATE);
+			char *res = g_strconcat (d, " h:mm", NULL);
+			g_free (d);
+			return res;
+		}
+	}
+
 	case GO_FORMAT_MAGIC_LONG_TIME: {
 		/* xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml */
 		const char *fmt = _("*Long Time Format");
@@ -4448,6 +4461,10 @@ go_format_new_magic (GOFormatMagic m)
 
 	case GO_FORMAT_MAGIC_SHORT_DATE:
 		suffix = "m/d/yy";
+		break;
+
+	case GO_FORMAT_MAGIC_SHORT_DATETIME:
+		suffix = "m/d/yy h:mm";
 		break;
 
 	case GO_FORMAT_MAGIC_LONG_TIME:

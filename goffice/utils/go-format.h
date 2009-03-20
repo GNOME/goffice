@@ -54,11 +54,12 @@ typedef enum {
 typedef enum {
 	GO_FORMAT_MAGIC_NONE            = 0,
 	GO_FORMAT_MAGIC_LONG_DATE       = 0xf800,    /* Official */
-	GO_FORMAT_MAGIC_MEDIUM_DATE     = 0xfd01,
-	GO_FORMAT_MAGIC_SHORT_DATE      = 0xfd02,
+	GO_FORMAT_MAGIC_MEDIUM_DATE     = 0xf8f1,
+	GO_FORMAT_MAGIC_SHORT_DATE      = 0xf8f2,
+	GO_FORMAT_MAGIC_SHORT_DATETIME  = 0xf8fa,
 	GO_FORMAT_MAGIC_LONG_TIME       = 0xf400,    /* Official */
-	GO_FORMAT_MAGIC_MEDIUM_TIME     = 0xfd11,
-	GO_FORMAT_MAGIC_SHORT_TIME      = 0xfd12
+	GO_FORMAT_MAGIC_MEDIUM_TIME     = 0xf4f1,
+	GO_FORMAT_MAGIC_SHORT_TIME      = 0xf4f2
 } GOFormatMagic;
 
 typedef enum {
