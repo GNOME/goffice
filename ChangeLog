@@ -1,3 +1,7 @@
+2009-03-22  Morten Welinder <terra@gnome.org>
+
+	* Release 0.7.4
+
 2009-03-20  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-locale.c (go_locale_get_time_format,
