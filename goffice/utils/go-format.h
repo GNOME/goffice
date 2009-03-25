@@ -118,6 +118,7 @@ gboolean  go_format_is_markup           (GOFormat const *fmt);
 gboolean  go_format_is_text             (GOFormat const *fmt);
 gboolean  go_format_is_var_width        (GOFormat const *fmt);
 int       go_format_is_date             (GOFormat const *fmt);
+int       go_format_is_time             (GOFormat const *fmt);
 
 int       go_format_month_before_day    (GOFormat const *fmt);
 gboolean  go_format_has_hour            (GOFormat const *fmt);

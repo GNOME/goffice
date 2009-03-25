@@ -292,6 +292,7 @@ struct _GOFormat {
 			unsigned int date_dbm    : 1;  /* day, then month.  */
 			unsigned int has_time    : 1;
 			unsigned int has_hour    : 1;
+			unsigned int has_elapsed : 1;
 			unsigned int fraction    : 1;
 			unsigned int scale_is_2  : 1;
 			unsigned int has_general : 1;
@@ -1460,6 +1461,7 @@ go_format_parse_sequential (const char *str, GString *prg,
 			*p++ = op;
 			fmt->u.number.has_time = TRUE;
 			fmt->u.number.has_hour = seen_hour;
+			fmt->u.number.has_elapsed = seen_elapsed;
 		}
 		if (pstate->has_general) {
 			ADD_OP (OP_NUM_GENERAL_DO);
@@ -4365,6 +4367,27 @@ go_format_is_date (GOFormat const *fmt)
 {
 	g_return_val_if_fail (fmt != NULL, -1);
 	return fmt->typ == GO_FMT_NUMBER && fmt->u.number.has_date;
+}
+#endif
+
+#ifdef DEFINE_COMMON
+/**
+ * go_format_is_time:
+ * @fmt: Format to query
+ *
+ * Returns:
+ *   +2 if the format is a time format with elapsed hour/minute/second
+ *   +1 if the format is any other time format
+ *    0 if the format is not a time format
+ *   -1	if the format is inconsistent.
+ **/
+int
+go_format_is_time (GOFormat const *fmt)
+{
+	g_return_val_if_fail (fmt != NULL, -1);
+	if (go_format_get_family (fmt) != GO_FORMAT_TIME)
+		return 0;
+	return fmt->u.number.has_elapsed ? +2 : +1;
 }
 #endif
 
