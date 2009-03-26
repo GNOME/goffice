@@ -122,6 +122,7 @@ int       go_format_is_time             (GOFormat const *fmt);
 
 int       go_format_month_before_day    (GOFormat const *fmt);
 gboolean  go_format_has_hour            (GOFormat const *fmt);
+gboolean  go_format_has_minute          (GOFormat const *fmt);
 
 GOFormatMagic go_format_get_magic       (GOFormat const *fmt);
 GOFormat *go_format_new_magic           (GOFormatMagic m);

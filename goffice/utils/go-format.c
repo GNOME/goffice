@@ -292,6 +292,7 @@ struct _GOFormat {
 			unsigned int date_dbm    : 1;  /* day, then month.  */
 			unsigned int has_time    : 1;
 			unsigned int has_hour    : 1;
+			unsigned int has_minute  : 1;
 			unsigned int has_elapsed : 1;
 			unsigned int fraction    : 1;
 			unsigned int scale_is_2  : 1;
@@ -1461,6 +1462,7 @@ go_format_parse_sequential (const char *str, GString *prg,
 			*p++ = op;
 			fmt->u.number.has_time = TRUE;
 			fmt->u.number.has_hour = seen_hour;
+			fmt->u.number.has_minute = seen_minute;
 			fmt->u.number.has_elapsed = seen_elapsed;
 		}
 		if (pstate->has_general) {
@@ -4436,6 +4438,26 @@ go_format_has_hour (GOFormat const *fmt)
 	return (fmt->typ == GO_FMT_NUMBER &&
 		fmt->u.number.has_time &&
 		fmt->u.number.has_hour);
+}
+#endif
+
+
+#ifdef DEFINE_COMMON
+/**
+ * go_format_has_minute:
+ * @fmt: Format to query
+ *
+ * Returns: TRUE if format is a number format with a minute specifier
+ * 	    FALSE otherwise.
+ **/
+gboolean
+go_format_has_minute (GOFormat const *fmt)
+{
+	g_return_val_if_fail (fmt != NULL, FALSE);
+
+	return (fmt->typ == GO_FMT_NUMBER &&
+		fmt->u.number.has_time &&
+		fmt->u.number.has_minute);
 }
 #endif
 

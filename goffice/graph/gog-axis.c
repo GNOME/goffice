@@ -78,8 +78,8 @@ struct _GogAxis {
 	GogAxisType	 type;
 	GSList		*contributors;
 
-	GogDatasetElement source [GOG_AXIS_ELEM_CROSS_POINT];
-	double		  auto_bound [GOG_AXIS_ELEM_CROSS_POINT];
+	GogDatasetElement source[GOG_AXIS_ELEM_CROSS_POINT];
+	double		  auto_bound[GOG_AXIS_ELEM_CROSS_POINT];
 	gboolean inverted; /* apply to all map type */
 
 	double		min_val, max_val;
@@ -124,6 +124,15 @@ create_invalid_axis_ticks (double min, double max)
 	ticks[1].label = g_strdup ("##");
 
 	return ticks;
+}
+
+static GOFormat *
+get_axis_format (GogAxis const *axis)
+{
+	if (axis->assigned_format &&
+	    !go_format_is_general (axis->assigned_format))
+		return axis->assigned_format;
+	return axis->format;
 }
 
 /*****************************************************************************/
@@ -233,16 +242,16 @@ map_discrete_auto_bound (GogAxis *axis,
 			 double *bound)
 {
 	if ((maximum - minimum) > GOG_AXIS_DISCRETE_AUTO_MAX_MAJOR_TICK_NBR) 
-		bound [GOG_AXIS_ELEM_MAJOR_TICK] = 
-		bound [GOG_AXIS_ELEM_MINOR_TICK] =
+		bound[GOG_AXIS_ELEM_MAJOR_TICK] = 
+		bound[GOG_AXIS_ELEM_MINOR_TICK] =
 			go_fake_ceil ((maximum - minimum + 1.0) / 
 			      (double) GOG_AXIS_DISCRETE_AUTO_MAX_MAJOR_TICK_NBR); 
 	else
-		bound [GOG_AXIS_ELEM_MAJOR_TICK] = 
-		bound [GOG_AXIS_ELEM_MINOR_TICK] = 1.;
+		bound[GOG_AXIS_ELEM_MAJOR_TICK] = 
+		bound[GOG_AXIS_ELEM_MINOR_TICK] = 1.;
 
-	bound [GOG_AXIS_ELEM_MIN] = minimum;
-	bound [GOG_AXIS_ELEM_MAX] = maximum;
+	bound[GOG_AXIS_ELEM_MIN] = minimum;
+	bound[GOG_AXIS_ELEM_MAX] = maximum;
 }
 
 static void
@@ -393,16 +402,91 @@ map_bounds (GogAxisMap *map, double *minimum, double *maximum)
 }
 
 static void
+map_polar_auto_bound (GogAxis *axis, double minimum, double maximum, double *bound)
+{
+	bound[GOG_AXIS_ELEM_MIN] = polar_units[axis->polar_unit].auto_minimum;
+	bound[GOG_AXIS_ELEM_MAX] = polar_units[axis->polar_unit].auto_maximum;
+	bound[GOG_AXIS_ELEM_MAJOR_TICK] = polar_units[axis->polar_unit].auto_major;
+	bound[GOG_AXIS_ELEM_MINOR_TICK] = polar_units[axis->polar_unit].auto_minor;
+}
+
+static void
+map_time_auto_bound (GogAxis *axis, double minimum, double maximum, double *bound)
+{
+	enum { U_Second, U_Minute, U_Hour, U_Day } u;
+	static const double invunits[4] = { 24* 60 * 60, 24 * 60, 24, 1 };
+	GOFormat *fmt = gog_axis_get_format (axis);
+	int is_time = go_format_is_time (fmt);
+	double range = fabs (maximum - minimum);
+	double iu, step;
+
+	if (go_format_has_hour (fmt))
+		u = U_Hour;
+	else if (go_format_has_minute (fmt))
+		u = U_Minute;
+	else
+		u = U_Second;
+
+retry:
+	iu = invunits[u];
+	step = pow (10, go_fake_floor (log10 (range * iu)));
+
+	if (is_time == 1) {
+		switch (u) {
+		case U_Hour:
+			if (step == 10) {
+				/* Step=10 is unusually bad... */
+				if (range <= 24)
+					step = 4;
+				else
+					step = 24;
+				break;
+			}
+			/* Fall through */
+		case U_Minute:
+		case U_Second:
+			if (step >= 100) {
+				u++;
+				goto retry;
+			} else if (step < 0.10001 && u != U_Second) {
+				u--;
+				goto retry;
+			}
+			break;
+		case U_Day:
+		default:
+			break;
+		}
+	} else {
+		/* ??? */
+	}
+	if (range * iu / step < 3)
+		step /= 2;
+
+	step /= iu;
+
+	bound[GOG_AXIS_ELEM_MIN] = step * go_fake_floor (minimum / step);
+	bound[GOG_AXIS_ELEM_MAX] = step * go_fake_ceil (maximum / step);
+	bound[GOG_AXIS_ELEM_MAJOR_TICK] = step;
+	bound[GOG_AXIS_ELEM_MINOR_TICK] = step / 2;
+
+#if 0
+	g_printerr ("min=%g (%g)  max=%g (%g) step=%g (%g)\n",
+		    minimum, bound[GOG_AXIS_ELEM_MIN],
+		    maximum, bound[GOG_AXIS_ELEM_MAX],
+		    step, bound[GOG_AXIS_ELEM_MAJOR_TICK]);
+#endif
+}
+
+static void
 map_linear_auto_bound (GogAxis *axis, double minimum, double maximum, double *bound)
 {
 	double step, range, mant;
 	int expon;
+	GOFormat *fmt;
 
 	if (gog_axis_get_atype (axis) == GOG_AXIS_CIRCULAR) {
-		bound[GOG_AXIS_ELEM_MIN] = polar_units[axis->polar_unit].auto_minimum;
-		bound[GOG_AXIS_ELEM_MAX] = polar_units[axis->polar_unit].auto_maximum;
-		bound[GOG_AXIS_ELEM_MAJOR_TICK] = polar_units[axis->polar_unit].auto_major;
-		bound[GOG_AXIS_ELEM_MINOR_TICK] = polar_units[axis->polar_unit].auto_minor;
+		map_polar_auto_bound (axis, minimum, maximum, bound);
 		return;
 	}	
 
@@ -422,36 +506,42 @@ map_linear_auto_bound (GogAxis *axis, double minimum, double maximum, double *bo
 		range = fabs (maximum - minimum);
 	}
 
-	step  = pow (10, go_fake_floor (log10 (range)));
-	if (range/step < 1.6)
+	fmt = gog_axis_get_format (axis);
+	if (fmt && go_format_is_time (fmt) > 0) {
+		map_time_auto_bound (axis, minimum, maximum, bound);
+		return;
+	}
+
+	step = pow (10, go_fake_floor (log10 (range)));
+	if (range / step < 1.6)
 		step /= 5.;	/* .2 .4 .6 */
-	else if (range/step < 3)
+	else if (range / step < 3)
 		step /= 2.;	/* 0 5 10 */
-	else if (range/step > 8)
+	else if (range / step > 8)
 		step *= 2.;	/* 2 4 6 */
 
 	/* we want the bounds to be loose so jump up a step if we get too close */
 	mant = frexp (minimum / step, &expon);
-	bound [GOG_AXIS_ELEM_MIN] = step * floor (ldexp (mant - DBL_EPSILON, expon));
+	bound[GOG_AXIS_ELEM_MIN] = step * floor (ldexp (mant - DBL_EPSILON, expon));
 	mant = frexp (maximum / step, &expon);
-	bound [GOG_AXIS_ELEM_MAX] = step * ceil (ldexp (mant + DBL_EPSILON, expon));
-	bound [GOG_AXIS_ELEM_MAJOR_TICK] = step;
-	bound [GOG_AXIS_ELEM_MINOR_TICK] = step / 5.;
+	bound[GOG_AXIS_ELEM_MAX] = step * ceil (ldexp (mant + DBL_EPSILON, expon));
+	bound[GOG_AXIS_ELEM_MAJOR_TICK] = step;
+	bound[GOG_AXIS_ELEM_MINOR_TICK] = step / 5.;
 
 	/* pull to zero if its nearby (do not pull both directions to 0) */
-	if (bound [GOG_AXIS_ELEM_MIN] > 0 &&
-	    (bound [GOG_AXIS_ELEM_MIN] - 10. * step) < 0)
-		bound [GOG_AXIS_ELEM_MIN] = 0;
-	else if (bound [GOG_AXIS_ELEM_MAX] < 0 &&
-	    (bound [GOG_AXIS_ELEM_MAX] + 10. * step) > 0)
-		bound [GOG_AXIS_ELEM_MAX] = 0;
+	if (bound[GOG_AXIS_ELEM_MIN] > 0 &&
+	    (bound[GOG_AXIS_ELEM_MIN] - 10. * step) < 0)
+		bound[GOG_AXIS_ELEM_MIN] = 0;
+	else if (bound[GOG_AXIS_ELEM_MAX] < 0 &&
+	    (bound[GOG_AXIS_ELEM_MAX] + 10. * step) > 0)
+		bound[GOG_AXIS_ELEM_MAX] = 0;
 
 	/* The epsilon shift can pull us away from a zero we want to
-	 * keep (eg percentage bars withno negative elements) */
-	if (bound [GOG_AXIS_ELEM_MIN] < 0 && minimum >= 0.)
-		bound [GOG_AXIS_ELEM_MIN] = 0;
-	else if (bound [GOG_AXIS_ELEM_MAX] > 0 && maximum <= 0.)
-		bound [GOG_AXIS_ELEM_MAX] = 0;
+	 * keep (eg percentage bars with no negative elements) */
+	if (bound[GOG_AXIS_ELEM_MIN] < 0 && minimum >= 0.)
+		bound[GOG_AXIS_ELEM_MIN] = 0;
+	else if (bound[GOG_AXIS_ELEM_MAX] > 0 && maximum <= 0.)
+		bound[GOG_AXIS_ELEM_MAX] = 0;
 }
 
 static void
@@ -493,13 +583,8 @@ map_linear_calc_ticks (GogAxis *axis)
 		ratio = ticks[i].position / major_tick;
 		if (fabs (ratio - go_rint (ratio)) < 1E-3) {
 			ticks[i].type = GOG_AXIS_TICK_MAJOR;
-			if (axis->assigned_format == NULL || 
-			    go_format_is_general (axis->assigned_format))
-				ticks[i].label = go_format_value (axis->format, 
-								  ticks[i].position);
-			else
-				ticks[i].label = go_format_value (axis->assigned_format, 
-								  ticks[i].position);
+			ticks[i].label = go_format_value (get_axis_format (axis), 
+							  ticks[i].position);
 		}
 		else {
 			ticks[i].type = GOG_AXIS_TICK_MINOR;
@@ -645,10 +730,10 @@ map_log_auto_bound (GogAxis *axis, double minimum, double maximum, double *bound
 	step = go_fake_ceil ((maximum - minimum + 1.0) / 
 		     (double) GOG_AXIS_LOG_AUTO_MAX_MAJOR_TICK_NBR); 
 
-	bound [GOG_AXIS_ELEM_MIN] = pow ( 10.0, minimum);
-	bound [GOG_AXIS_ELEM_MAX] = pow ( 10.0, maximum);
-	bound [GOG_AXIS_ELEM_MAJOR_TICK] = step;
-	bound [GOG_AXIS_ELEM_MINOR_TICK] = 8;
+	bound[GOG_AXIS_ELEM_MIN] = pow ( 10.0, minimum);
+	bound[GOG_AXIS_ELEM_MAX] = pow ( 10.0, maximum);
+	bound[GOG_AXIS_ELEM_MAJOR_TICK] = step;
+	bound[GOG_AXIS_ELEM_MINOR_TICK] = 8;
 }
 
 static void
@@ -690,13 +775,8 @@ map_log_calc_ticks (GogAxis *axis)
 			ticks[count].position = position;
 			if (i % major_label == 0) {
 				ticks[count].type = GOG_AXIS_TICK_MAJOR;
-				if (axis->assigned_format == NULL || 
-				    go_format_is_general (axis->assigned_format))
-					ticks[count].label = go_format_value (axis->format,
-									      ticks[count].position);
-				else
-					ticks[count].label = go_format_value (axis->assigned_format, 
-									      ticks[count].position);
+				ticks[count].label = go_format_value (get_axis_format (axis),
+								      ticks[count].position);
 				count++;
 			}
 			else {
@@ -854,7 +934,7 @@ gog_axis_map_new (GogAxis *axis, double offset, double length)
  * @map : a #GogAxisMap
  * @value : value to map to plot space.
  * 
- * Converts @value to plot coordinates. A value in [0,1.0] range means a data 
+ * Converts @value to plot coordinates. A value in[0,1.0] range means a data 
  * within axis bounds.
  *
  * Returns: mapped value.
@@ -1192,8 +1272,8 @@ gog_axis_set_format (GogAxis *axis, GOFormat *fmt)
 		go_format_unref (fmt);
 		return FALSE;
 	}
-	if (axis->assigned_format != NULL)
-		go_format_unref (axis->assigned_format);
+
+	go_format_unref (axis->assigned_format);
 	axis->assigned_format = fmt;
 
 	gog_object_request_update (GOG_OBJECT (axis));
@@ -1249,10 +1329,8 @@ gog_axis_set_property (GObject *obj, guint param_id,
 		break;
 	case AXIS_PROP_ASSIGNED_FORMAT_STR_XL : {
 		char const *str = g_value_get_string (value);
-		resized = gog_axis_set_format (axis, (str != NULL)
-			? go_format_new_from_XL (str)
-			: NULL);
-		calc_ticks = resized;
+		GOFormat *newfmt = str ? go_format_new_from_XL (str) : NULL;
+		resized = calc_ticks = gog_axis_set_format (axis, newfmt);
 		break;
 	}
 	case AXIS_PROP_CIRCULAR_ROTATION:
@@ -1335,14 +1413,8 @@ gog_axis_finalize (GObject *obj)
 		/* this is for information only, no ref */
 		axis->plot_that_supplied_labels = NULL;
 	}
-	if (axis->assigned_format != NULL) {
-		go_format_unref (axis->assigned_format);
-		axis->assigned_format = NULL;
-	}
-	if (axis->format != NULL) {
-		go_format_unref (axis->format);
-		axis->format = NULL;
-	}
+	go_format_unref (axis->assigned_format);
+	go_format_unref (axis->format);
 
 	gog_axis_set_ticks (axis, 0, NULL);
 
@@ -1371,7 +1443,7 @@ gog_axis_get_entry (GogAxis const *axis, GogAxisElemType i, gboolean *user_defin
 	g_return_val_if_fail (i >= GOG_AXIS_ELEM_MIN && i < GOG_AXIS_ELEM_MAX_ENTRY, go_nan);
 
 	if (i != GOG_AXIS_ELEM_CROSS_POINT)
-		dat = axis->source [i].data;
+		dat = axis->source[i].data;
 	else 
 		dat = GOG_AXIS_BASE (axis)->cross_location.data;
 
@@ -1385,7 +1457,7 @@ gog_axis_get_entry (GogAxis const *axis, GogAxisElemType i, gboolean *user_defin
 	}
 
 	if (i != GOG_AXIS_ELEM_CROSS_POINT)
-		return axis->auto_bound [i];
+		return axis->auto_bound[i];
 	else
 		return 0.;
 }
@@ -1395,8 +1467,8 @@ gog_axis_update (GogObject *obj)
 {
 	GSList *ptr;
 	GogAxis *axis = GOG_AXIS (obj);
-	double old_min = axis->auto_bound [GOG_AXIS_ELEM_MIN];
-	double old_max = axis->auto_bound [GOG_AXIS_ELEM_MAX];
+	double old_min = axis->auto_bound[GOG_AXIS_ELEM_MIN];
+	double old_max = axis->auto_bound[GOG_AXIS_ELEM_MAX];
 	GOData *labels;
 	GogPlotBoundInfo bounds;
 
@@ -1411,10 +1483,8 @@ gog_axis_update (GogObject *obj)
 	axis->min_val  =  DBL_MAX;
 	axis->max_val  = -DBL_MAX;
 	axis->min_contrib = axis->max_contrib = NULL;
-	if (axis->format != NULL) {
-		go_format_unref (axis->format);
-		axis->format = NULL;
-	}
+	go_format_unref (axis->format);
+	axis->format = NULL;
 
 	/* everything else is initialized in gog_plot_get_axis_bounds */
 	bounds.fmt = NULL;
@@ -1456,16 +1526,16 @@ gog_axis_update (GogObject *obj)
 	gog_axis_auto_bound (axis);
 
 	if (go_finite (axis->logical_min_val) &&
-	    axis->auto_bound [GOG_AXIS_ELEM_MIN] < axis->logical_min_val)
-		axis->auto_bound [GOG_AXIS_ELEM_MIN] = axis->logical_min_val;
+	    axis->auto_bound[GOG_AXIS_ELEM_MIN] < axis->logical_min_val)
+		axis->auto_bound[GOG_AXIS_ELEM_MIN] = axis->logical_min_val;
 	if (go_finite (axis->logical_max_val) &&
-	    axis->auto_bound [GOG_AXIS_ELEM_MAX] > axis->logical_max_val)
-		axis->auto_bound [GOG_AXIS_ELEM_MAX] = axis->logical_max_val;
+	    axis->auto_bound[GOG_AXIS_ELEM_MAX] > axis->logical_max_val)
+		axis->auto_bound[GOG_AXIS_ELEM_MAX] = axis->logical_max_val;
 
 	gog_axis_calc_ticks (axis);
 
-	if (old_min != axis->auto_bound [GOG_AXIS_ELEM_MIN] ||
-	    old_max != axis->auto_bound [GOG_AXIS_ELEM_MAX])
+	if (old_min != axis->auto_bound[GOG_AXIS_ELEM_MIN] ||
+	    old_max != axis->auto_bound[GOG_AXIS_ELEM_MAX])
 		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
 }
 
@@ -1515,7 +1585,7 @@ elem_toggle_data_free (ElemToggleData *data)
 static void
 set_to_auto_value (ElemToggleData *closure)
 {
-	double bound = GOG_AXIS (closure->set)->auto_bound [closure->dim];
+	double bound = GOG_AXIS (closure->set)->auto_bound[closure->dim];
 
 	if (go_finite (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
 		char *str = g_strdup_printf ("%g", bound);
@@ -1563,7 +1633,7 @@ make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 {
 	ElemToggleData *info;
 	GtkWidget *editor = gog_data_allocator_editor (dalloc, set, dim, GOG_DATA_SCALAR);
-	char *txt = g_strconcat (_(dim_name [dim]), ":", NULL);
+	char *txt = g_strconcat (_(dim_name[dim]), ":", NULL);
 	GtkWidget *toggle = gtk_check_button_new_with_mnemonic (txt);
 	g_free (txt);
 
@@ -1750,15 +1820,13 @@ gog_axis_populate_editor (GogObject *gobj,
 
 	    /* Format page */
 	    if (!axis->is_discrete) {
+		    GOFormat *fmt = get_axis_format (axis);
 		    w = go_format_sel_new_full (TRUE);
 		    state->format_selector = w;
 
-		    if (axis->assigned_format != NULL && !go_format_is_general (axis->assigned_format))
+		    if (fmt)
 			    go_format_sel_set_style_format (GO_FORMAT_SEL (w),
-				    axis->assigned_format);
-		    else if (axis->format != NULL)
-			    go_format_sel_set_style_format (GO_FORMAT_SEL (w),
-				    axis->format);
+							    fmt);
 
 		    gog_editor_add_page (editor, w, _("Format"));
 

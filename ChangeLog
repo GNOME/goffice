@@ -1,6 +1,13 @@
 2009-03-25  Morten Welinder  <terra@gnome.org>
 
-	* goffice/utils/go-format.c (go_format_is_time): New function.
+	* goffice/graph/gog-axis.c (map_polar_auto_bound): Split from
+	map_linear_auto_bound.
+	(map_time_auto_bound): New function.
+	(map_linear_auto_bound): Call map_polar_auto_bound or
+	map_time_auto_bound as appropriate.
+
+	* goffice/utils/go-format.c (go_format_is_time,
+	go_format_has_minute): New functions.
 
 2009-03-22  Morten Welinder  <terra@gnome.org>
 
