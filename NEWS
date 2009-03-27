@@ -2,6 +2,7 @@ goffice 0.7.5:
 
 Jean:
 	* Fixed gconf and gmathml propagation to pc file. [#576497]
+	* Added a new plot type: GogColorPolarPlot.
 
 Morten:
 	* Add new go_format_is_time function.
