@@ -100,14 +100,18 @@ goffice_reqs="
 	pangocairo		>= 1.8.1
 	libart-2.0		>= 2.3.11
 	cairo			>= 1.2.0
+	cairo-svg		>= 1.2.0
+	cairo-pdf		>= 1.2.0
+	cairo-ps		>= 1.2.0
 "
 goffice_gtk_reqs="
 	gtk+-2.0		>= 2.6.0
 	libglade-2.0		>= 2.3.6
 "
 goffice_gnome_reqs="
-	gnome-vfs-2.0
-	libgnome-2.0
+	gconf-2.0
+	libgnomeui-2.0		>= 2.0.0
+	libgsf-gnome-1		>= 1.12.2
 "
 
 dnl *******************
@@ -170,7 +174,7 @@ PKG_CHECK_MODULES(GOFFICE, $goffice_reqs)
 
 dnl  Checks for Xft/XRender
 AC_CHECK_LIB(Xrender, XRenderFindFormat, 
-	[AC_SUBST(RENDER_LIBS, "-lXrender")
+	[AC_SUBST(RENDER_LIBS, "-lXrender -lXext")
 	 AC_DEFINE(HAVE_RENDER, 1, [Define if libXrender is available.])],
 	[AC_SUBST(RENDER_LIBS, "")],
 	[-lXext])
