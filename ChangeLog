@@ -1,7 +1,9 @@
 2009-03-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c: Introduce subclassing of axis map
-	descriptors and use it for time and polar axes.
+	descriptors.
+	(map_date_calc_ticks, map_date_auto_bound): New functions.
+	(map_linear_subclass): Subclass polar, time, and date axes.
 
 2009-03-27  Jean Brefort  <jean.brefort@normalesup.org>
 

@@ -7,6 +7,7 @@ Jean:
 Morten:
 	* Add new go_format_is_time function.
 	* Pick sane bounds for time-formatted axes.  [Part of #574681]
+	* Pick sane bounds for date-formatted axes.  [Part of #574681]
 
 --------------------------------------------------------------------------
 goffice 0.7.4:

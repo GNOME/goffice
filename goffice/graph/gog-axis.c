@@ -36,6 +36,7 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/datetime.h>
 #include <goffice/utils/go-persist.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/data/go-data-simple.h>
@@ -49,6 +50,9 @@
 #endif
 
 #include <string.h>
+
+/* It's not important that this is accurate.  */
+#define DAYS_IN_YEAR 365.25
 
 /* this should be per model */
 #define PAD_HACK	4	/* pts */
@@ -107,7 +111,7 @@ struct _GogAxis {
 #define TICK_LABEL_PAD_VERT	0
 #define TICK_LABEL_PAD_HORIZ	1
 
-#define GOG_AXIS_MAX_TICK_NBR				1000
+#define GOG_AXIS_MAX_TICK_NBR				500
 #define GOG_AXIS_LOG_AUTO_MAX_MAJOR_TICK_NBR 		8
 #define GOG_AXIS_DISCRETE_AUTO_MAX_MAJOR_TICK_NBR 	20
 
@@ -135,6 +139,27 @@ get_axis_format (GogAxis const *axis)
 	    !go_format_is_general (axis->assigned_format))
 		return axis->assigned_format;
 	return axis->format;
+}
+
+static char *
+axis_format_value (GogAxis *axis, double val)
+{
+	/* FIXME: Date convention.  */
+	return go_format_value (get_axis_format (axis), val);
+}
+
+static gboolean
+split_date (GogAxis *axis, double val, GDate *date)
+{
+	GODateConventions const *date_conv = NULL;  /* FIXME */
+
+	if (fabs (val) >= G_MAXINT) {
+		g_date_clear (date, 1);
+		return TRUE;
+	}
+
+	datetime_serial_to_g (date, (int)val, date_conv);
+	return !g_date_valid (date);
 }
 
 /*****************************************************************************/
@@ -472,7 +497,7 @@ retry:
 			break;
 		}
 	} else {
-		/* ??? */
+		/* This is the elapsed-time case.  */
 	}
 	if (range * iu / step < 3)
 		step /= 2;
@@ -483,6 +508,94 @@ retry:
 	bound[GOG_AXIS_ELEM_MAX] = step * go_fake_ceil (maximum / step);
 	bound[GOG_AXIS_ELEM_MAJOR_TICK] = step;
 	bound[GOG_AXIS_ELEM_MINOR_TICK] = step / 2;
+
+#if 0
+	g_printerr ("min=%g (%g)  max=%g (%g) step=%g (%g)\n",
+		    minimum, bound[GOG_AXIS_ELEM_MIN],
+		    maximum, bound[GOG_AXIS_ELEM_MAX],
+		    step, bound[GOG_AXIS_ELEM_MAJOR_TICK]);
+#endif
+}
+
+static void
+map_date_auto_bound (GogAxis *axis, double minimum, double maximum, double *bound)
+{
+	double range, step, minor_step;
+	GDate min_date, max_date;
+	GODateConventions const *date_conv = NULL;  /* FIXME */
+	int years;
+
+	minimum = go_fake_floor (minimum);
+	maximum = go_fake_ceil (maximum);
+
+	while (split_date (axis, minimum, &min_date)) {
+		minimum = 1;
+	}
+
+	while (minimum > maximum ||
+	       split_date (axis, maximum, &max_date)) {
+		maximum = minimum;
+	}
+
+	if (minimum == maximum) {
+		if (minimum > 1)
+			while (split_date (axis, --maximum, &max_date))
+				/* Nothing */;
+		else
+			while (split_date (axis, ++maximum, &max_date))
+				/* Nothing */;
+	}
+
+	range = maximum - minimum;
+	years = g_date_get_year (&max_date) - g_date_get_year (&min_date);
+
+	if (range <= 60) {
+		step = 1;
+		minor_step = 1;
+	} else if (years < 2) {
+		g_date_set_day (&min_date, 1);
+		minimum = datetime_g_to_serial (&min_date, date_conv);
+
+		if (g_date_get_year (&max_date) < 9999 ||
+		    g_date_get_month (&max_date) < 12) {
+			g_date_set_day (&max_date, 1);
+			g_date_add_months (&max_date, 1);
+		}
+		maximum = datetime_g_to_serial (&max_date, date_conv);
+
+		step = 30;
+		minor_step = (range <= 180 ? 1 : step);
+	} else {
+		int N = 1, y;
+
+		while (years > 20 * N) {
+			N *= 10;
+		}
+
+		g_date_set_day (&min_date, 1);
+		g_date_set_month (&min_date, 1);
+		y = g_date_get_year (&min_date) / N * N;
+		if (g_date_valid_dmy (1, 1, y))
+			g_date_set_year (&min_date, y);
+
+		y = (g_date_get_year (&max_date) + N - 1) / N * N;
+		if (g_date_valid_dmy (1, 1, y)) {
+			g_date_set_day (&max_date, 1);
+			g_date_set_month (&max_date, 1);
+			g_date_set_year (&max_date, y);
+		}
+
+		minimum = datetime_g_to_serial (&min_date, date_conv);
+		maximum = datetime_g_to_serial (&max_date, date_conv);
+		range = maximum - minimum;
+		step = DAYS_IN_YEAR * N;
+		minor_step = step / (N == 1 ? 12 : 10);
+	}
+
+	bound[GOG_AXIS_ELEM_MIN] = minimum;
+	bound[GOG_AXIS_ELEM_MAX] = maximum;
+	bound[GOG_AXIS_ELEM_MAJOR_TICK] = step;
+	bound[GOG_AXIS_ELEM_MINOR_TICK] = minor_step;
 
 #if 0
 	g_printerr ("min=%g (%g)  max=%g (%g) step=%g (%g)\n",
@@ -550,50 +663,177 @@ static void
 map_linear_calc_ticks (GogAxis *axis)
 {
 	GogAxisTick *ticks;
-	double maximum, minimum, start;
-	double tick_step;
-	double major_tick, minor_tick, ratio;
-	int tick_nbr, i;
+	double maximum, minimum;
+	double major_tick, minor_tick;
+	int t, maj_i, maj_N, min_i, min_N, N;
+	double maj_step, min_step;
+	double range, ratio;
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum)) {
 		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0));
 		return;
 	}
+	range = maximum - minimum;
 
 	major_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
-	minor_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL);
-	if (major_tick <= 0.) major_tick = maximum - minimum;
-	if (minor_tick <= 0.) minor_tick = maximum - minimum;
-	if (minor_tick < major_tick) {
-		minor_tick = major_tick / go_rint (major_tick / minor_tick);
-		tick_step = minor_tick;
-	} else
-		tick_step = major_tick;
+	if (major_tick <= 0.) major_tick = range;
+	ratio = go_fake_floor (range / major_tick);
+	maj_N = (ratio >= G_MAXINT ? GOG_AXIS_MAX_TICK_NBR : (int)ratio);
+	maj_step = range / maj_N;
 
-	start = go_fake_ceil (minimum / tick_step) * tick_step;
-	tick_nbr = go_fake_floor ((maximum - start) / tick_step + 1.0);
-	if (tick_nbr < 1 || tick_nbr > GOG_AXIS_MAX_TICK_NBR) {
+	minor_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL);
+	if (minor_tick <= 0.) minor_tick = maj_step;
+	ratio = go_fake_floor (maj_step / minor_tick);
+	min_N = (ratio >= G_MAXINT ? 1 : (int)ratio);
+	min_step = maj_step / min_N;
+
+	/*
+	 * We used to round minimum to nearest maj_step, but that is very
+	 * wrong:
+	 *
+	 * 1. It is bogus for dates
+	 * 2. All the mapping functions fail to take it into account
+	 */
+
+	N = 0;
+	while (1) {
+		double Nd = (double)maj_N * min_N + 1;
+		if (Nd <= GOG_AXIS_MAX_TICK_NBR) {
+			N = Nd;
+			break;
+		}
+
+		/* Too many.  Now what?  */
+		if (min_N > 1) {
+			/*  Drop minor ticks.  */
+			min_N = 1;
+		} else {
+			/* Brutal.  */
+			maj_N = 1;
+		}
+	}
+	if (N < 1) {
 		gog_axis_set_ticks (axis, 0, NULL);
 		return;
 	}
-	ticks = g_new0 (GogAxisTick, tick_nbr);
 
-	for (i = 0; i < tick_nbr; i++) {
-		ticks[i].position = start + (double) i * tick_step;
-		if (fabs (ticks[i].position) < tick_step * 1e-10)
-			ticks[i].position = 0.0;
-		ratio = ticks[i].position / major_tick;
-		if (fabs (ratio - go_rint (ratio)) < 1E-3) {
-			ticks[i].type = GOG_AXIS_TICK_MAJOR;
-			ticks[i].label = go_format_value (get_axis_format (axis),
-							  ticks[i].position);
-		}
-		else {
-			ticks[i].type = GOG_AXIS_TICK_MINOR;
-			ticks[i].label = NULL;
+	ticks = g_new0 (GogAxisTick, N);
+
+	t = 0;
+	for (maj_i = 0; ; maj_i++) {
+		double maj_pos = minimum + maj_i * maj_step;
+
+		ticks[t].position = maj_pos;
+		ticks[t].type = GOG_AXIS_TICK_MAJOR;
+		ticks[t].label = axis_format_value (axis, maj_pos);
+		t++;
+
+		if (maj_i == maj_N)
+			break;
+
+		for (min_i = 1; min_i < min_N; min_i++) {
+			double min_pos = maj_pos + min_i * min_step;
+
+			ticks[t].position = min_pos;
+			ticks[t].type = GOG_AXIS_TICK_MINOR;
+			ticks[t].label = NULL;
+			t++;
+
 		}
 	}
-	gog_axis_set_ticks (axis, tick_nbr, ticks);
+
+	if (t != N)
+		g_critical ("[GogAxisMap::linear_calc_ticks] wrong allocation size");
+	gog_axis_set_ticks (axis, t, ticks);
+}
+
+static gboolean
+add_months (GDate *d, int n)
+{
+	int m = (65535 - g_date_get_year (d)) * 12 +
+		(12 - g_date_get_month (d));
+
+	if (n > m)
+		return FALSE;
+
+	g_date_add_months (d, n);
+	return TRUE;
+}
+
+static void
+map_date_calc_ticks (GogAxis *axis)
+{
+	GogAxisTick *ticks;
+	double major_tick, minor_tick;
+	double minimum, maximum, range, maj_months, min_months;
+	int t, N, maj_i, min_i, maj_N, min_N;
+	GDate min_date;
+	GODateConventions const *date_conv = NULL;  /* FIXME */
+
+	if (!gog_axis_get_bounds (axis, &minimum, &maximum) ||
+	    split_date (axis, minimum, &min_date)) {
+		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0));
+		return;
+	}
+	range = maximum - minimum;
+
+	major_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
+	minor_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL);
+
+	if (major_tick <= 1) {
+		map_linear_calc_ticks (axis);
+		return;		
+	}
+
+	maj_months = go_fake_round (major_tick / (DAYS_IN_YEAR / 12));
+	maj_months = CLAMP (maj_months, 1, G_MAXINT / 12);
+	maj_N = 1 + (int)ceil (range / (maj_months * (DAYS_IN_YEAR / 12)));
+
+	min_months = go_fake_round (minor_tick / (DAYS_IN_YEAR / 12));
+	min_months = CLAMP (min_months, 1, maj_months);
+	min_N = (int)(maj_months / min_months);
+
+	N = maj_N * min_N + 1;
+
+	ticks = g_new0 (GogAxisTick, N);
+
+	t = 0;
+	for (maj_i = 0; t < N; maj_i++) {
+		GDate maj_d = min_date;
+		double maj_pos;
+
+		if (!add_months (&maj_d, maj_i * maj_months))
+			break;
+		maj_pos = datetime_g_to_serial (&maj_d, date_conv);
+		if (maj_pos > maximum)
+			break;
+
+		ticks[t].position = maj_pos;
+		ticks[t].type = GOG_AXIS_TICK_MAJOR;
+		ticks[t].label = axis_format_value (axis, maj_pos);
+		t++;
+
+		if (maj_i == maj_N)
+			break;
+
+		for (min_i = 1; min_i < min_N; min_i++) {
+			GDate min_d = maj_d;
+			double min_pos;
+
+			if (!add_months (&min_d, min_i * min_months))
+				break;
+			min_pos = datetime_g_to_serial (&min_d, date_conv);
+			if (min_pos > maximum)
+				break;
+
+			ticks[t].position = min_pos;
+			ticks[t].type = GOG_AXIS_TICK_MINOR;
+			ticks[t].label = NULL;
+			t++;
+		}
+	}
+
+	gog_axis_set_ticks (axis, t, ticks);
 }
 
 static const GogAxisMapDesc *
@@ -624,6 +864,19 @@ map_linear_subclass (GogAxis *axis, const GogAxisMapDesc *desc)
 		}
 
 		return &map_desc_time;
+	}
+
+	if (fmt && go_format_is_date (fmt) > 0) {
+		static GogAxisMapDesc map_desc_date;
+
+		if (!map_desc_date.auto_bound) {
+			map_desc_date = *desc;
+			map_desc_date.auto_bound = map_date_auto_bound;
+			map_desc_date.calc_ticks = map_date_calc_ticks;
+			map_desc_date.subclass = NULL;
+		}
+
+		return &map_desc_date;
 	}
 
 	return NULL;
@@ -809,11 +1062,10 @@ map_log_calc_ticks (GogAxis *axis)
 			ticks[count].position = position;
 			if (i % major_label == 0) {
 				ticks[count].type = GOG_AXIS_TICK_MAJOR;
-				ticks[count].label = go_format_value (get_axis_format (axis),
-								      ticks[count].position);
+				ticks[count].label = axis_format_value
+					(axis, position);
 				count++;
-			}
-			else {
+			} else {
 				ticks[count].type = GOG_AXIS_TICK_MINOR;
 				ticks[count].label = NULL;
 				count++;
@@ -836,7 +1088,7 @@ map_log_calc_ticks (GogAxis *axis)
 	ticks = g_renew (GogAxisTick, ticks, count);
 	gog_axis_set_ticks (axis, count, ticks);
 }
-
+ 
 /*****************************************************************************/
 
 static const GogAxisMapDesc map_desc_discrete =
@@ -986,8 +1238,6 @@ gog_axis_map_new (GogAxis *axis, double offset, double length)
 	map->axis = axis;
 	map->data = NULL;
 	map->is_valid = FALSE;
-
-	g_printerr ("New axis map %s for %p\n", map->desc->name, axis);
 
 	if (map->desc->init != NULL)
 		map->is_valid = map->desc->init (map, offset, length);
