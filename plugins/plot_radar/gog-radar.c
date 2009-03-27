@@ -34,6 +34,7 @@
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-line.h>
 #include <goffice/utils/go-persist.h>
 #include <goffice/app/module-plugin-defs.h>
 
@@ -64,9 +65,11 @@ typedef struct {
 } GogRTSeries;
 
 typedef GogRTSeries GogPolarSeries;
+typedef GogRTSeries GogColorPolarSeries;
 
 typedef GogSeriesClass GogRTSeriesClass;
 typedef GogRTSeriesClass GogPolarSeriesClass;
+typedef GogRTSeriesClass GogColorPolarSeriesClass;
 
 enum {
 	SERIES_PROP_0,
@@ -79,6 +82,7 @@ enum {
 
 static GType gog_rt_series_get_type (void);
 static GType gog_polar_series_get_type (void);
+static GType gog_color_polar_series_get_type (void);
 static GType gog_rt_view_get_type (void);
 
 /*-----------------------------------------------------------------------------
@@ -422,8 +426,237 @@ GSF_DYNAMIC_CLASS (GogPolarPlot, gog_polar_plot,
 
 /*****************************************************************************/
 
+typedef GogPolarPlotClass GogColorPolarPlotClass;
+
+static GogObjectClass *color_parent_klass;
+
+enum {
+	GOG_COLOR_POLAR_PROP_0,
+	GOG_COLOR_POLAR_PROP_HIDE_OUTLIERS,
+};
+
+#ifdef GOFFICE_WITH_GTK
+static void
+hide_outliers_toggled_cb (GtkToggleButton *btn, GObject *obj)
+{
+	g_object_set (obj, "hide-outliers", gtk_toggle_button_get_active (btn), NULL);
+}
+#endif
+
+static void 
+gog_color_polar_plot_populate_editor (GogObject *obj,
+				   GogEditor *editor,
+				   GogDataAllocator *dalloc,
+				   GOCmdContext *cc)
+{
+#ifdef GOFFICE_WITH_GTK
+	GtkBuilder *gui;
+	char const *dir;
+	char *path;
+
+	dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_radar"));
+	path = g_build_filename (dir, "gog-color-polar-prefs.xml", NULL);
+	gui = go_xml_builder_new (path, GETTEXT_PACKAGE, cc);
+	g_free (path);
+
+	if (gui != NULL) {
+		GtkWidget *w = GTK_WIDGET (gtk_builder_get_object (gui, "hide-outliers"));
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+				(GOG_COLOR_POLAR_PLOT (obj))->hide_outliers);
+		g_signal_connect (G_OBJECT (w),
+			"toggled",
+			G_CALLBACK (hide_outliers_toggled_cb), obj);
+		w = GTK_WIDGET (gtk_builder_get_object (gui, "gog-color-polar-prefs"));
+		gtk_widget_unparent (w);
+		g_object_ref (w);
+		gog_editor_add_page (editor, w, _("Properties"));
+		g_object_unref (gui);
+	}
+
+#endif
+	(GOG_OBJECT_CLASS (color_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
+}
+
+static void
+gog_color_polar_plot_set_property (GObject *obj, guint param_id,
+		     GValue const *value, GParamSpec *pspec)
+{
+	GogColorPolarPlot *plot = GOG_COLOR_POLAR_PLOT (obj);
+	switch (param_id) {
+	case GOG_COLOR_POLAR_PROP_HIDE_OUTLIERS:
+		plot->hide_outliers = g_value_get_boolean (value);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+
+	/* none of the attributes triggers a size change yet.
+	 * When we add data labels we'll need it */
+	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+}
+
+static void
+gog_color_polar_plot_get_property (GObject *obj, guint param_id,
+		     GValue *value, GParamSpec *pspec)
+{
+	GogColorPolarPlot *plot = GOG_COLOR_POLAR_PLOT (obj);
+	switch (param_id) {
+	case GOG_COLOR_POLAR_PROP_HIDE_OUTLIERS:
+		g_value_set_boolean (value, plot->hide_outliers);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static char const *
+gog_color_polar_plot_type_name (G_GNUC_UNUSED GogObject const *item)
+{
+	/* xgettext : the base for how to name rt plot objects
+	 * eg The 2nd rt plot in a chart will be called
+	 * 	PlotColoredPolar2 */
+	return N_("PlotColorPolar");
+}
+
+static void
+gog_color_polar_plot_update (GogObject *obj)
+{
+	GogColorPolarPlot *model = GOG_COLOR_POLAR_PLOT (obj);
+	GogSeries const *series = NULL;
+	double z_min, z_max, tmp_min, tmp_max;
+	GSList *ptr;
+
+	z_min = DBL_MAX;
+	z_max = -DBL_MAX;
+	for (ptr = model->base.base.series ; ptr != NULL ; ptr = ptr->next) {
+		series = ptr->data;
+		if (!gog_series_is_valid (GOG_SERIES (series)))
+			continue;
+
+		go_data_vector_get_minmax (GO_DATA_VECTOR (
+			series->values[2].data), &tmp_min, &tmp_max);
+		if (z_min > tmp_min) z_min = tmp_min;
+		if (z_max < tmp_max) z_max = tmp_max;
+	}
+	if (model->z.minima != z_min || model->z.maxima != z_max) {
+		model->z.minima = z_min;
+		model->z.maxima = z_max;
+		gog_axis_bound_changed (model->base.base.axis[GOG_AXIS_COLOR], GOG_OBJECT (model));
+	}
+	color_parent_klass->update (obj);
+}
+
+static GOData *
+gog_color_polar_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis, 
+				GogPlotBoundInfo * bounds)
+{
+	GogRTPlot *rt = GOG_RT_PLOT (plot);
+
+	switch (axis) {
+	case GOG_AXIS_CIRCULAR:
+		bounds->val.minima = bounds->logical.minima= -G_MAXDOUBLE;
+		bounds->val.maxima = bounds->logical.maxima=  G_MAXDOUBLE;
+		bounds->is_discrete    = FALSE;
+		break;
+	case GOG_AXIS_RADIAL:
+		bounds->val.minima = bounds->logical.minima = 0.;
+		bounds->val.maxima = rt->r.maxima;
+		bounds->logical.maxima = go_nan;
+		bounds->is_discrete = FALSE;
+		break;
+	case GOG_AXIS_COLOR: {
+		GogColorPolarPlot *model = GOG_COLOR_POLAR_PLOT (plot);
+
+		bounds->val.minima = model->z.minima;
+		bounds->val.maxima = model->z.maxima;
+		bounds->is_discrete = model->z.minima > model->z.maxima ||
+			!go_finite (model->z.minima) ||
+			!go_finite (model->z.maxima);
+		return NULL;
+	}
+	default:
+		g_warning("[GogColorPolarPlot::axis_set_bounds] bad axis (%i)", axis);
+		break;
+	}
+
+	return NULL;
+}
+
+static void
+gog_color_polar_plot_class_init (GogPlotClass *gog_plot_klass)
+{
+	GogObjectClass *gog_object_klass = (GogObjectClass *) gog_plot_klass;
+	GObjectClass *gobject_klass = (GObjectClass *) gog_plot_klass;
+
+	color_parent_klass = g_type_class_peek_parent (gog_plot_klass);
+	gog_object_klass->update = gog_color_polar_plot_update;
+	gog_object_klass->populate_editor = gog_color_polar_plot_populate_editor;
+
+	gobject_klass->set_property = gog_color_polar_plot_set_property;
+	gobject_klass->get_property = gog_color_polar_plot_get_property;
+	g_object_class_install_property (gobject_klass, GOG_COLOR_POLAR_PROP_HIDE_OUTLIERS,
+		g_param_spec_boolean  ("hide-outliers", 
+			_("hide-outliers"),
+			_("Hide data outside of the color axis bounds"),
+			TRUE, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	/* Fill in GOGObject superclass values */
+	gog_object_klass->type_name	= gog_color_polar_plot_type_name;
+
+	{
+		static GogSeriesDimDesc dimensions[] = {
+			{ N_("Angle"), GOG_SERIES_SUGGESTED, FALSE,
+			  GOG_DIM_INDEX, GOG_MS_DIM_CATEGORIES },
+			{ N_("Magnitude"), GOG_SERIES_REQUIRED, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			{ N_("Z"), GOG_SERIES_REQUIRED, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_EXTRA1 }
+		};
+		gog_plot_klass->desc.series.dim = dimensions;
+		gog_plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
+		gog_plot_klass->desc.series.style_fields = GOG_STYLE_LINE 
+			| GOG_STYLE_MARKER
+			| GOG_STYLE_INTERPOLATION
+			| GOG_STYLE_MARKER_NO_COLOR;
+	}
+
+	gog_plot_klass->series_type     = gog_color_polar_series_get_type();
+	gog_plot_klass->axis_get_bounds	= gog_color_polar_plot_axis_get_bounds;
+	gog_plot_klass->axis_set	= GOG_AXIS_SET_RADAR | (1 << GOG_AXIS_COLOR);
+}
+
+static void
+gog_color_polar_plot_init (GogColorPolarPlot *plot)
+{
+	plot->hide_outliers = TRUE;
+}
+
+GSF_DYNAMIC_CLASS (GogColorPolarPlot, gog_color_polar_plot,
+	gog_color_polar_plot_class_init, gog_color_polar_plot_init,
+	GOG_POLAR_PLOT_TYPE)
+
+/*****************************************************************************/
+
 typedef GogPlotView		GogRTView;
 typedef GogPlotViewClass	GogRTViewClass;
+
+static GOColor
+get_map_color (double z, gboolean hide_outliers)
+{
+	if (hide_outliers && (z < 0. || z > 6.))
+		return 0;
+	if (z <= 0.)
+		return RGBA_BLUE;
+	if (z <= 1.)
+		return RGBA_BLUE + ((int) (z * 255.) << 16);
+	if (z <= 2.)
+		return RGBA_GREEN + ((int) ((2. - z) * 255) << 8);
+	if (z <= 4.)
+		return RGBA_GREEN + ((int) ((z / 2. - 1.) * 255) << 24);
+	if (z <= 6.)
+		return RGBA_RED + ((int) ((3. - z / 2.) * 255) << 16);
+	return RGBA_RED;
+}
 
 static void
 gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
@@ -431,7 +664,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogRTPlot const *model = GOG_RT_PLOT (view->model);
 	GogAxis *r_axis, *c_axis;
 	GogChart *chart = GOG_CHART (view->model->parent);
-	GogAxisMap *r_map, *c_map;
+	GogAxisMap *r_map, *c_map, *z_map = NULL;
 	GogChartMap *chart_map;
 	GogChartMapPolarData *parms;
 	GogViewAllocation const *area;
@@ -440,6 +673,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	double th0, theta_min, theta_max, theta = 0;
 	double rho_min, rho_max, rho;
 	gboolean const is_polar = GOG_IS_PLOT_POLAR (model);
+	gboolean is_map = GOG_IS_PLOT_COLOR_POLAR (model), hide_outliers = TRUE;
 
 	r_axis = GOG_PLOT (model)->axis[GOG_AXIS_RADIAL];
 	c_axis = GOG_PLOT (model)->axis[GOG_AXIS_CIRCULAR];
@@ -454,6 +688,11 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	c_map = gog_chart_map_get_axis_map (chart_map, 0);
 	r_map = gog_chart_map_get_axis_map (chart_map, 1);
 	parms = gog_chart_map_get_polar_parms (chart_map);
+
+	if (is_map) {
+		z_map = gog_axis_map_new (GOG_PLOT (model)->axis[GOG_AXIS_COLOR], 0, 6);
+		hide_outliers = GOG_COLOR_POLAR_PLOT (model)->hide_outliers;
+	}
 
 	gog_axis_map_get_bounds (c_map, &theta_min, &theta_max);
 	th0 = theta_min;
@@ -471,11 +710,11 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	for (ptr = model->base.series; ptr != NULL; ptr = ptr->next) {
 
 		GogRTSeries *series = GOG_RT_SERIES (ptr->data);
-		GogStyle *style;
+		GogStyle *style, *color_style = NULL;
 		GOPath *path;
 		unsigned count;
-		double *r_vals, *c_vals;
-		double x, y;
+		double *r_vals, *c_vals, *z_vals = NULL;
+		double x, y, z = 0;
 
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
@@ -486,6 +725,10 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		r_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
 		c_vals = is_polar ?  go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data)) : NULL;
+		if (is_map) {
+			z_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[2].data));
+			color_style = gog_style_dup (style);
+		}
 
 		if (is_polar) {
 			GOPath *clip_path;
@@ -585,6 +828,11 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 			for (count = 0; count < series->base.num_elements; count++) {
 				rho = (!is_polar || (go_add_epsilon (r_vals[count] - rho_min) >= 0.0)) ?
 					r_vals[count] : rho_min;
+				if (is_map) {
+					z = *z_vals++;
+					if (isnan (z) || !go_finite (z))
+						continue;
+				}
 				gog_chart_map_2D_to_view (chart_map, 
 							  is_polar ? c_vals[count] : count + 1, rho,
 							  &x, &y);
@@ -597,14 +845,29 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 				      go_add_epsilon ((theta_max - theta_min) 
 						      - fmod (theta_max - theta, 2 * M_PI)) >= 0.0 &&
 				      go_add_epsilon ((theta_max - theta_min) 
-						      - fmod (theta - theta_min, 2 * M_PI)) >= 0.0))
-					gog_renderer_draw_marker (view->renderer, x, y);
+						      - fmod (theta - theta_min, 2 * M_PI)) >= 0.0)) {
+					if (is_map) {
+						GOColor color = (gog_axis_map_finite (z_map, z))?
+							get_map_color (gog_axis_map_to_view (z_map, z), hide_outliers):
+							0;
+						go_marker_set_fill_color (color_style->marker.mark, color);
+						go_marker_set_outline_color (color_style->marker.mark, color);
+						gog_renderer_push_style (view->renderer, color_style);
+						gog_renderer_draw_marker (view->renderer, x, y);
+						gog_renderer_pop_style (view->renderer);
+					} else
+						gog_renderer_draw_marker (view->renderer, x, y);
+				}
 			}
 		}
 
 		gog_renderer_pop_style (view->renderer);
+		if (is_map)
+			g_object_unref (color_style);
 	}
 	gog_chart_map_free (chart_map);
+	if (is_map)
+		gog_axis_map_free (z_map);
 
 	if (next_path != NULL)
 		go_path_free (next_path);
@@ -736,6 +999,8 @@ GSF_DYNAMIC_CLASS (GogRTSeries, gog_rt_series,
 	gog_rt_series_class_init, gog_rt_series_init,
 	GOG_SERIES_TYPE)
 
+/*****************************************************************************/
+
 static void
 gog_polar_series_class_init (GogObjectClass *gog_klass)
 {
@@ -758,6 +1023,49 @@ GSF_DYNAMIC_CLASS (GogPolarSeries, gog_polar_series,
 	gog_polar_series_class_init, NULL,
 	GOG_RT_SERIES_TYPE)
 
+/*****************************************************************************/
+
+static void
+gog_color_polar_series_init_style (GogStyledObject *gso, GogStyle *style)
+{
+	series_parent_klass->init_style (gso, style);
+	style->fill.type = GOG_FILL_STYLE_NONE;
+	if (style->line.auto_dash)
+		style->line.dash_type = GO_LINE_NONE;
+}
+
+static void
+gog_color_polar_series_update (GogObject *obj)
+{
+	const double *a_vals, *r_vals, *z_vals = NULL;
+	GogRTSeries *series = GOG_RT_SERIES (obj);
+	unsigned old_num = series->base.num_elements;
+
+	series->base.num_elements = gog_series_get_xyz_data (GOG_SERIES (series), 
+								     &a_vals, &r_vals, &z_vals);
+
+	/* queue plot for redraw */
+	gog_object_request_update (GOG_OBJECT (series->base.plot));
+	if (old_num != series->base.num_elements)
+		gog_plot_request_cardinality_update (series->base.plot);
+
+	if (series_parent_klass->base.update)
+		series_parent_klass->base.update (obj); /* do not call gog_rt_series_update */
+}
+
+static void
+gog_color_polar_series_class_init (GogObjectClass *gog_klass)
+{
+	GogStyledObjectClass *gso_klass = (GogStyledObjectClass *) gog_klass;
+
+	gog_klass->update = gog_color_polar_series_update;
+	gso_klass->init_style =	gog_color_polar_series_init_style;
+}
+
+GSF_DYNAMIC_CLASS (GogColorPolarSeries, gog_color_polar_series,
+	gog_color_polar_series_class_init, NULL,
+	GOG_RT_SERIES_TYPE)
+
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
@@ -766,9 +1074,11 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_radar_plot_register_type (module);
 	gog_radar_area_plot_register_type (module);
 	gog_polar_plot_register_type (module);
+	gog_color_polar_plot_register_type (module);
 	gog_rt_view_register_type (module);
 	gog_rt_series_register_type (module);
 	gog_polar_series_register_type (module);
+	gog_color_polar_series_register_type (module);
 }
 
 G_MODULE_EXPORT void

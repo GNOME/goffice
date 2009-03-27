@@ -29,4 +29,10 @@
 		sample_image_file="chart_polar_1_1.png">
 		<property name="guru-hints">major-grid;backplane</property>
 	</Type>
+	<Type _name="Colored Polar" row="2" col="1"
+		engine="GogColorPolarPlot" family="Polar"
+		_description="Polar plot with colored marks."
+		sample_image_file="chart_color_polar_1_1.png">
+		<property name="guru-hints">major-grid;backplane</property>
+	</Type>
 </Types>

@@ -189,6 +189,48 @@ go_glade_signal_connect_swapped (GladeXML	*gui,
 	return g_signal_connect_swapped (w, detailed_signal, c_handler, data);
 }
 
+/**
+ * go_xml_builder_new :
+ * @gcc : #GOCmdContext
+ * @gladefile : the name of the file load
+ *
+ * Simple utility to open ui files
+ *
+ * Returns: a new #GtkBuilder or NULL
+ **/
+GtkBuilder *
+go_xml_builder_new (char const *uifile,
+	      char const *domain, GOCmdContext *gcc)
+{
+	GtkBuilder *gui;
+	char *f;
+	GError *error = NULL;
+
+	g_return_val_if_fail (uifile != NULL, NULL);
+
+	if (!g_path_is_absolute (uifile))
+		f = g_build_filename (go_sys_data_dir (), "glade", uifile, NULL);
+	else
+		f = g_strdup (uifile);
+
+	gui = gtk_builder_new ();
+	gtk_builder_set_translation_domain (gui, domain);
+	gtk_builder_add_from_file (gui, f, &error);
+	if (gui == NULL && gcc != NULL) {
+		char *msg;
+		if (error) {
+			msg = g_strdup (error->message);
+			g_error_free (error);
+		} else
+			msg = g_strdup_printf (_("Unable to open file '%s'"), f);
+		go_cmd_context_error_system (gcc, msg);
+		g_free (msg);
+	}
+	g_free (f);
+
+	return gui;
+}
+
 /*
  * A variant of gtk_window_activate_default that does not end up reactivating
  * the widget that [Enter] was pressed in.

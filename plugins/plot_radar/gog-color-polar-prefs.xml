@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--Generated with glade3 3.4.5 on Fri Mar 27 12:29:54 2009 -->
+<interface>
+  <object class="GtkWindow" id="window1">
+    <child>
+      <object class="GtkTable" id="gog-color-polar-prefs">
+        <property name="visible">True</property>
+        <property name="border_width">12</property>
+        <property name="column_spacing">12</property>
+        <property name="row_spacing">6</property>
+        <child>
+          <object class="GtkCheckButton" id="hide-outliers">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">Hide data outside of color axis bounds</property>
+            <property name="draw_indicator">True</property>
+          </object>
+          <packing>
+            <property name="x_options"/>
+            <property name="y_options"/>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

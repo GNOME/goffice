@@ -1002,10 +1002,10 @@ gog_plot_guru_helper_add_grid_line (GogPlot *plot, gboolean major)
 	GogAxisType type;
 
 	for (type = 0; type < GOG_AXIS_TYPES; type++) {
-		if (((type & (GOG_AXIS_X | 
-			    GOG_AXIS_Y | 
-			    GOG_AXIS_CIRCULAR | 
-			    GOG_AXIS_RADIAL)) != 0) &&
+		if ((((type == GOG_AXIS_X) | 
+		      (type == GOG_AXIS_Y) | 
+		      (type == GOG_AXIS_CIRCULAR) | 
+		      (type == GOG_AXIS_RADIAL))) &&
 		    plot->axis[type] != NULL &&
 		    gog_axis_get_grid_line (plot->axis[type], major) == NULL)
 		{

@@ -698,6 +698,7 @@ gog_xy_color_plot_populate_editor (GogObject *obj,
 			G_CALLBACK (hide_outliers_toggled_cb), obj);
 		w = glade_xml_get_widget (gui, "gog-xy-color-prefs");
 		gog_editor_add_page (editor, w, _("Properties"));
+		g_object_unref (gui);
 	}
 
 #endif

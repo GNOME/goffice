@@ -23,6 +23,11 @@
 				<_description>Polar plotting engine</_description>
 			</information>
 		</service>
+		<service type="plot_engine" id="GogColorPolarPlot">
+			<information>
+				<_description>Polar plotting engine with coloured marks</_description>
+			</information>
+		</service>
 		<service type="plot_type" id="radar">
 			<file>plot-types.xml</file>
 			<information>

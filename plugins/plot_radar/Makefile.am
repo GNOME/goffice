@@ -1,6 +1,6 @@
 goffice_graph_radardir = $(goffice_plugindir)/plot_radar
 xmldir	 = $(goffice_graph_radardir)
-gladedir = $(goffice_graph_radardir)
+uidir = $(goffice_graph_radardir)
 
 goffice_graph_radar_LTLIBRARIES = radar.la
 radar_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
@@ -12,6 +12,8 @@ radar_la_SOURCES = \
 
 xml_in_files = plugin.xml.in plot-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
+
+ui_DATA = gog-color-polar-prefs.xml
 
 @INTLTOOL_XML_RULE@
 

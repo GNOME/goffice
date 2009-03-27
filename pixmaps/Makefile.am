@@ -17,6 +17,7 @@ dist_icon_DATA = \
 	chart_pyramid_3_1.png \
 	chart_radar_1_1.png chart_radar_1_2.png chart_radar_1_3.png \
 	chart_polar_1_1.png \
+	chart_color_polar_1_1.png \
 	chart_stock_1_1.png	chart_stock_1_2.png \
 	chart_stock_2_1.png	chart_stock_2_2.png \
 	chart_line_1_1.png	chart_line_1_2.png	chart_line_1_3.png	\

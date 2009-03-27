@@ -43,6 +43,10 @@ gulong	   go_glade_signal_connect_swapped (GladeXML *gui,
 					    GCallback	 c_handler,
 					    gpointer	 data);
 
+GtkBuilder *go_xml_builder_new (char const *uifile,
+						char const *domain, GOCmdContext *gcc);
+
+
 int	   go_pango_measure_string	(PangoContext *context,
 					 PangoFontDescription const *font_desc,
 					 char const *str);

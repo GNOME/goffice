@@ -1,5 +1,36 @@
 2009-03-27  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-plot.c: (gog_plot_guru_helper_add_grid_line): fixed
+	axis type test.
+	* goffice/gtk/goffice-gtk.c: (go_xml_builder_new): new GtkBuilder
+	support function.
+	* goffice/gtk/goffice-gtk.h: ditto.
+	* pixmaps/Makefile.am: added new pixmaps.
+	* pixmaps/chart_color_polar_1_1.png: new pixmap.
+	* pixmaps/chart_color_polar_1_1.svg: ditto.
+	* plugins/plot_radar/Makefile.am: added ui file.
+	* plugins/plot_radar/gog-color-polar-prefs.glade: new glade file.
+	* plugins/plot_radar/gog-color-polar-prefs.xml: the same as a ui file.
+	* plugins/plot_radar/gog-radar.c: (hide_outliers_toggled_cb),
+	(gog_color_polar_plot_populate_editor),
+	(gog_color_polar_plot_set_property),
+	(gog_color_polar_plot_get_property),
+	(gog_color_polar_plot_type_name), (gog_color_polar_plot_update),
+	(gog_color_polar_plot_axis_get_bounds),
+	(gog_color_polar_plot_class_init), (gog_color_polar_plot_init),
+	(get_map_color), (gog_rt_view_render),
+	(gog_color_polar_series_init_style),
+	(gog_color_polar_series_update),
+	(gog_color_polar_series_class_init), (go_plugin_init): add support for
+	the new GogColorPolarPlot plot type.
+	* plugins/plot_radar/gog-radar.h: ditto.
+	* plugins/plot_radar/plot-types.xml.in: ditto.
+	* plugins/plot_radar/plugin.xml.in: ditto.
+	* plugins/plot_xy/gog-xy.c: (gog_xy_color_plot_populate_editor): fixed a
+	memory leak.
+
+2009-03-27  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* configure.in: Fixed gconf and gmathml propagation to pc file. [#576497]
 
 2009-03-25  Morten Welinder  <terra@gnome.org>
