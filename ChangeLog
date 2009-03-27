@@ -1,3 +1,8 @@
+2009-03-27  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis.c: Introduce subclassing of axis map
+	descriptors and use it for time and polar axes.
+
 2009-03-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-plot.c: (gog_plot_guru_helper_add_grid_line): fixed
