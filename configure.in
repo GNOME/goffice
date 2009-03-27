@@ -114,12 +114,14 @@ surfaces_reqs="
 
 PKG_CHECK_MODULES(surfaces, $surfaces_reqs)
 
+EXTRA_DEPS=
+
 dnl ***********************
 dnl Should we use gmathml ?
 dnl ***********************
 
 goffice_with_gmathml=false
-AC_ARG_WITH(gtk, [  --with-gmathml          Build with gmathml use])
+AC_ARG_WITH(gmathml, [  --with-gmathml          Build with gmathml use])
 if test "x$with_gmathml" = xyes; then
 	PKG_CHECK_MODULES(GMathml, gmathml >= 0.0.1)
 	goffice_with_gmathml=true
@@ -127,6 +129,7 @@ fi
 if test "x$goffice_with_gmathml" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_GMATHML, 1, [Define if GMathml is used])
 	goffice_reqs="$goffice_reqs gmathml >= 0.0.1 "
+	EXTRA_DEPS="$EXTRA_DEPS gmathml"
 fi
 
 AM_CONDITIONAL(GOFFICE_WITH_GMATHML, $goffice_with_gmathml)
@@ -135,14 +138,13 @@ dnl *******************
 dnl Should we use gconf ?
 dnl *******************
 goffice_with_gconf=true
-AC_ARG_WITH(gtk, [  --without-gconf         Build without gconf use])
+AC_ARG_WITH(gconf, [  --without-gconf         Build without gconf use])
 if test "x$with_gconf" = xno; then
 	ui_msg="None (Gconf disabled by request)"
 	goffice_with_gconf=false
 else
 	dnl We shouldn't silently default to --without-gconf.
 	dnl If the requirements are not met, fail.
-	ui_msg="Gtk"
 	PKG_CHECK_MODULES(GCONF, gconf-2.0)
 fi
 if test "x$goffice_with_gconf" = "xtrue" ; then
@@ -192,7 +194,6 @@ AC_DEFINE(GOFFICE_WITH_CAIRO, 1, [Goffice uses Cairo])
 
 EXTRA_LIBS=
 EXTRA_INCLUDES=
-EXTRA_DEPS=
 
 dnl ****************************
 dnl now that we have selected out libraries the whole collection in one

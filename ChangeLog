@@ -1,3 +1,7 @@
+2009-03-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: Fixed gconf and gmathml propagation to pc file. [#576497]
+
 2009-03-25  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (map_polar_auto_bound): Split from

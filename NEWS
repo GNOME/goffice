@@ -1,5 +1,8 @@
 goffice 0.7.5:
 
+Jean:
+	* Fixed gconf and gmathml propagation to pc file. [#576497]
+
 Morten:
 	* Add new go_format_is_time function.
 	* Pick sane bounds for time-formatted axes.  [Part of #574681]
