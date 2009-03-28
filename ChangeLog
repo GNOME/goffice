@@ -1,6 +1,8 @@
 2009-03-28  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (make_dim_editor): Simplify.
+	(map_linear_calc_ticks): Make sure we get zero and not almost-zero
+	when we need to.
 
 2009-03-27  Morten Welinder  <terra@gnome.org>
 

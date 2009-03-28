@@ -667,6 +667,7 @@ map_linear_calc_ticks (GogAxis *axis)
 	int t, maj_i, maj_N, min_i, min_N, N;
 	double maj_step, min_step;
 	double range, ratio;
+	double zero_threshold;
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum)) {
 		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0));
@@ -685,6 +686,8 @@ map_linear_calc_ticks (GogAxis *axis)
 	ratio = go_fake_floor (maj_step / minor_tick);
 	min_N = (ratio >= G_MAXINT ? 1 : (int)ratio);
 	min_step = maj_step / min_N;
+
+	zero_threshold = maj_step * DBL_EPSILON;
 
 	/*
 	 * We used to round minimum to nearest maj_step, but that is very
@@ -721,6 +724,8 @@ map_linear_calc_ticks (GogAxis *axis)
 	t = 0;
 	for (maj_i = 0; ; maj_i++) {
 		double maj_pos = minimum + maj_i * maj_step;
+		if (fabs (maj_pos) < maj_i * zero_threshold)
+			maj_pos = 0;
 
 		ticks[t].position = maj_pos;
 		ticks[t].type = GOG_AXIS_TICK_MAJOR;
