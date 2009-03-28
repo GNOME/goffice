@@ -804,7 +804,7 @@ gog_plot_get_series (GogPlot const *plot)
  *
  * Queries @plot for its axis preferences for @axis and stores the results in
  * @bounds.  All elements of @bounds are initialized to sane values before the
- * query _ACCEPT_ ::fmt.  The caller is responsible for initializing it.  This
+ * query _EXCEPT_ ::fmt.  The caller is responsible for initializing it.  This
  * is done so that once on plot has selected a format the others need not do
  * the lookup too if so desired.
  *
@@ -827,6 +827,8 @@ gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
 	bounds->logical.minima = go_nan;
 	bounds->is_discrete = FALSE;
 	bounds->center_on_ticks = TRUE;
+	bounds->date_conv = NULL;
+
 	if (klass->axis_get_bounds == NULL)
 		return NULL;
 	return (klass->axis_get_bounds) (plot, axis, bounds);

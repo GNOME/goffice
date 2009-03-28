@@ -35,6 +35,9 @@ typedef struct {
 	gboolean is_discrete;
 	gboolean center_on_ticks;
 	GOFormat *fmt;
+
+	/* Note: apart from NULL, don't expect anything here yet.  */
+	const GODateConventions *date_conv;
 } GogPlotBoundInfo;
 
 #define GOG_PLOT_TYPE	(gog_plot_get_type ())

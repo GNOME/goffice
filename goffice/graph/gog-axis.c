@@ -99,6 +99,8 @@ struct _GogAxis {
 	GogAxisMapDesc const 	*map_desc;
 	GogAxisMapDesc const 	*actual_map_desc;
 
+	const GODateConventions *date_conv;
+
 	GogAxisPolarUnit	 polar_unit;
 	double			 circular_rotation;
 
@@ -151,14 +153,12 @@ axis_format_value (GogAxis *axis, double val)
 static gboolean
 split_date (GogAxis *axis, double val, GDate *date)
 {
-	GODateConventions const *date_conv = NULL;  /* FIXME */
-
 	if (fabs (val) >= G_MAXINT) {
 		g_date_clear (date, 1);
 		return TRUE;
 	}
 
-	datetime_serial_to_g (date, (int)val, date_conv);
+	datetime_serial_to_g (date, (int)val, axis->date_conv);
 	return !g_date_valid (date);
 }
 
@@ -522,7 +522,6 @@ map_date_auto_bound (GogAxis *axis, double minimum, double maximum, double *boun
 {
 	double range, step, minor_step;
 	GDate min_date, max_date;
-	GODateConventions const *date_conv = NULL;  /* FIXME */
 	int years;
 
 	minimum = go_fake_floor (minimum);
@@ -554,14 +553,14 @@ map_date_auto_bound (GogAxis *axis, double minimum, double maximum, double *boun
 		minor_step = 1;
 	} else if (years < 2) {
 		g_date_set_day (&min_date, 1);
-		minimum = datetime_g_to_serial (&min_date, date_conv);
+		minimum = datetime_g_to_serial (&min_date, axis->date_conv);
 
 		if (g_date_get_year (&max_date) < 9999 ||
 		    g_date_get_month (&max_date) < 12) {
 			g_date_set_day (&max_date, 1);
 			g_date_add_months (&max_date, 1);
 		}
-		maximum = datetime_g_to_serial (&max_date, date_conv);
+		maximum = datetime_g_to_serial (&max_date, axis->date_conv);
 
 		step = 30;
 		minor_step = (range <= 180 ? 1 : step);
@@ -585,8 +584,8 @@ map_date_auto_bound (GogAxis *axis, double minimum, double maximum, double *boun
 			g_date_set_year (&max_date, y);
 		}
 
-		minimum = datetime_g_to_serial (&min_date, date_conv);
-		maximum = datetime_g_to_serial (&max_date, date_conv);
+		minimum = datetime_g_to_serial (&min_date, axis->date_conv);
+		maximum = datetime_g_to_serial (&max_date, axis->date_conv);
 		range = maximum - minimum;
 		step = DAYS_IN_YEAR * N;
 		minor_step = step / (N == 1 ? 12 : 10);
@@ -699,7 +698,7 @@ map_linear_calc_ticks (GogAxis *axis)
 	while (1) {
 		double Nd = (double)maj_N * min_N + 1;
 		if (Nd <= GOG_AXIS_MAX_TICK_NBR) {
-			N = Nd;
+			N = (int)Nd;
 			break;
 		}
 
@@ -748,6 +747,18 @@ map_linear_calc_ticks (GogAxis *axis)
 }
 
 static gboolean
+add_days (GDate *d, int n)
+{
+	int m = 23936166 - g_date_get_julian (d);  /* 31-Dec-65535 */
+
+	if (n > m)
+		return FALSE;
+
+	g_date_add_days (d, n);
+	return TRUE;
+}
+
+static gboolean
 add_months (GDate *d, int n)
 {
 	int m = (65535 - g_date_get_year (d)) * 12 +
@@ -768,7 +779,8 @@ map_date_calc_ticks (GogAxis *axis)
 	double minimum, maximum, range, maj_months, min_months;
 	int t, N, maj_i, min_i, maj_N, min_N;
 	GDate min_date;
-	GODateConventions const *date_conv = NULL;  /* FIXME */
+	gboolean minor_is_days;
+	int min_days = 0;
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum) ||
 	    split_date (axis, minimum, &min_date)) {
@@ -790,10 +802,32 @@ map_date_calc_ticks (GogAxis *axis)
 	maj_N = 1 + (int)ceil (range / (maj_months * (DAYS_IN_YEAR / 12)));
 
 	min_months = go_fake_round (minor_tick / (DAYS_IN_YEAR / 12));
-	min_months = CLAMP (min_months, 1, maj_months);
-	min_N = (int)(maj_months / min_months);
+	min_months = CLAMP (min_months, 0, maj_months);
+	minor_is_days = (min_months == 0);
+	if (minor_is_days) {
+		min_days = (int)CLAMP (minor_tick, 1, 31);
+		min_N = 31 * maj_months / min_days;
+	} else
+		min_N = (int)(maj_months / min_months);
 
-	N = maj_N * min_N + 1;
+	N = 0;
+	while (1) {
+		double Nd = (double)maj_N * min_N + 1;
+		if (Nd <= GOG_AXIS_MAX_TICK_NBR) {
+			N = (int)Nd;
+			break;
+		}
+
+		/* Too many.  Now what?  */
+		if (min_N > 1) {
+			/*  Drop minor ticks.  */
+			min_N = 1;
+		} else {
+			/* Brutal.  */
+			maj_months *= maj_N;
+			maj_N = 1;
+		}
+	}
 
 	ticks = g_new0 (GogAxisTick, N);
 
@@ -802,9 +836,9 @@ map_date_calc_ticks (GogAxis *axis)
 		GDate maj_d = min_date;
 		double maj_pos;
 
-		if (!add_months (&maj_d, maj_i * maj_months))
+		if (!add_months (&maj_d, maj_i * (int)maj_months))
 			break;
-		maj_pos = datetime_g_to_serial (&maj_d, date_conv);
+		maj_pos = datetime_g_to_serial (&maj_d, axis->date_conv);
 		if (maj_pos > maximum)
 			break;
 
@@ -820,9 +854,21 @@ map_date_calc_ticks (GogAxis *axis)
 			GDate min_d = maj_d;
 			double min_pos;
 
-			if (!add_months (&min_d, min_i * min_months))
-				break;
-			min_pos = datetime_g_to_serial (&min_d, date_conv);
+			if (minor_is_days) {
+				int mths;
+				if (!add_days (&min_d, min_i * min_days))
+					break;
+				mths = 12 * (g_date_get_year (&min_d) -
+					     g_date_get_year (&maj_d)) +
+					(g_date_get_month (&min_d) -
+					 g_date_get_month (&maj_d));
+				if (mths >= (int)maj_months)
+					break;
+			} else {
+				if (!add_months (&min_d, min_i * (int)min_months))
+					break;
+			}
+			min_pos = datetime_g_to_serial (&min_d, axis->date_conv);
 			if (min_pos > maximum)
 				break;
 
@@ -1830,17 +1876,21 @@ gog_axis_update (GogObject *obj)
 		axis->plot_that_supplied_labels = NULL;
 	}
 	axis->is_discrete = TRUE;
-	axis->min_val  =  DBL_MAX;
-	axis->max_val  = -DBL_MAX;
+	axis->min_val = +DBL_MAX;
+	axis->max_val = -DBL_MAX;
 	axis->min_contrib = axis->max_contrib = NULL;
 	go_format_unref (axis->format);
 	axis->format = NULL;
+	axis->date_conv = NULL;
 
-	/* everything else is initialized in gog_plot_get_axis_bounds */
+	/* Everything else is initialized in gog_plot_get_axis_bounds */
 	bounds.fmt = NULL;
+
 	for (ptr = axis->contributors ; ptr != NULL ; ptr = ptr->next) {
 		labels = gog_plot_get_axis_bounds (GOG_PLOT (ptr->data),
 						   axis->type, &bounds);
+		if (bounds.date_conv)
+			axis->date_conv = bounds.date_conv;
 
 		/* value dimensions have more information than index dimensions.
 		 * At least thats what I am guessing today*/
