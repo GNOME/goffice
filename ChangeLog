@@ -1,3 +1,7 @@
+2009-03-28  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis.c (make_dim_editor): Simplify.
+
 2009-03-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c: Introduce subclassing of axis map

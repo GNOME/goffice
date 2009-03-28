@@ -2031,11 +2031,11 @@ cb_update_dim_editor (GogObject *gobj, ElemToggleData *closure)
 
 static void
 make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
-		 GogDataAllocator *dalloc, char const * const *dim_name)
+		 GogDataAllocator *dalloc, char const *dim_name)
 {
 	ElemToggleData *info;
 	GtkWidget *editor = gog_data_allocator_editor (dalloc, set, dim, GOG_DATA_SCALAR);
-	char *txt = g_strconcat (_(dim_name[dim]), ":", NULL);
+	char *txt = g_strconcat (dim_name, ":", NULL);
 	GtkWidget *toggle = gtk_check_button_new_with_mnemonic (txt);
 	g_free (txt);
 
@@ -2156,7 +2156,8 @@ gog_axis_populate_editor (GogObject *gobj,
 			N_("Categories between _labels")
 		};
 		for (i = GOG_AXIS_ELEM_MIN; i < GOG_AXIS_ELEM_CROSS_POINT ; i++)
-			make_dim_editor (set, table, i, dalloc, dim_names);
+			make_dim_editor (set, table, i, dalloc,
+					 _(dim_names[i]));
 	} else {
 		static char const * const dim_names[] = {
 			N_("M_inimum"),
@@ -2166,7 +2167,8 @@ gog_axis_populate_editor (GogObject *gobj,
 		};
 
 		for (i = GOG_AXIS_ELEM_MIN; i < GOG_AXIS_ELEM_CROSS_POINT ; i++)
-			make_dim_editor (set, table, i, dalloc, dim_names);
+			make_dim_editor (set, table, i, dalloc,
+					 _(dim_names[i]));
 	}
 	gtk_widget_show_all (GTK_WIDGET (table));
 
