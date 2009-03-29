@@ -663,10 +663,9 @@ map_linear_calc_ticks (GogAxis *axis)
 {
 	GogAxisTick *ticks;
 	double maximum, minimum;
-	double major_tick, minor_tick;
-	int t, maj_i, maj_N, min_i, min_N, N;
 	double maj_step, min_step;
-	double range, ratio;
+	int t, maj_i, maj_N, min_i, min_N, N;
+	double range;
 	double zero_threshold;
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum)) {
@@ -675,17 +674,34 @@ map_linear_calc_ticks (GogAxis *axis)
 	}
 	range = maximum - minimum;
 
-	major_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
-	if (major_tick <= 0.) major_tick = range;
-	ratio = go_fake_floor (range / major_tick);
-	maj_N = (ratio >= G_MAXINT ? GOG_AXIS_MAX_TICK_NBR : (int)ratio);
-	maj_step = range / maj_N;
+	maj_step = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
+	if (maj_step <= 0.) maj_step = range;
+	while (1) {
+		double ratio = go_fake_floor (range / maj_step);
+		if (ratio >= 10 * GOG_AXIS_MAX_TICK_NBR)
+			maj_step *= 10;
+		else if (ratio >= GOG_AXIS_MAX_TICK_NBR)
+				maj_step *= 2;
+		else {
+			maj_N = (int)ratio;
+			break;
+		}
+	}
 
-	minor_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL);
-	if (minor_tick <= 0.) minor_tick = maj_step;
-	ratio = go_fake_floor (maj_step / minor_tick);
-	min_N = (ratio >= G_MAXINT ? 1 : (int)ratio);
-	min_step = maj_step / min_N;
+	min_step = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL);
+	if (min_step <= 0.) min_step = maj_step;
+	while (1) {
+		double ratio = go_fake_floor (maj_step / min_step);
+		double Nd = maj_N * ratio;
+		if (Nd >= 10 * GOG_AXIS_MAX_TICK_NBR)
+			min_step *= 10;
+		else if (Nd >= GOG_AXIS_MAX_TICK_NBR)
+			min_step *= 2;
+		else {
+			min_N = (int)ratio;
+			break;
+		}
+	}
 
 	zero_threshold = maj_step * DBL_EPSILON;
 
@@ -697,28 +713,11 @@ map_linear_calc_ticks (GogAxis *axis)
 	 * 2. All the mapping functions fail to take it into account
 	 */
 
-	N = 0;
-	while (1) {
-		double Nd = (double)maj_N * min_N + 1;
-		if (Nd <= GOG_AXIS_MAX_TICK_NBR) {
-			N = (int)Nd;
-			break;
-		}
-
-		/* Too many.  Now what?  */
-		if (min_N > 1) {
-			/*  Drop minor ticks.  */
-			min_N = 1;
-		} else {
-			/* Brutal.  */
-			maj_N = 1;
-		}
-	}
+	N = maj_N * min_N + 1;
 	if (N < 1) {
 		gog_axis_set_ticks (axis, 0, NULL);
 		return;
 	}
-
 	ticks = g_new0 (GogAxisTick, N);
 
 	t = 0;

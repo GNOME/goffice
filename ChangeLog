@@ -1,3 +1,9 @@
+2009-03-29  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis.c (map_linear_calc_ticks): Make sure the
+	major step is a multiple of what was asked for, notably when a
+	crazy maximum has been picked.
+
 2009-03-28  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (make_dim_editor): Simplify.
