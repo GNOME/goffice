@@ -662,10 +662,11 @@ static void
 map_linear_calc_ticks (GogAxis *axis)
 {
 	GogAxisTick *ticks;
-	double maximum, minimum;
+	double maximum, minimum, start, range;
 	double maj_step, min_step;
-	int t, maj_i, maj_N, min_i, min_N, N;
-	double range;
+	int t, N;
+	int maj_i, maj_N; /* Ticks for -1,....,maj_N     */
+	int min_i, min_N; /* Ticks for 1,....,(min_N-1) */
 	double zero_threshold;
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum)) {
@@ -678,10 +679,11 @@ map_linear_calc_ticks (GogAxis *axis)
 	if (maj_step <= 0.) maj_step = range;
 	while (1) {
 		double ratio = go_fake_floor (range / maj_step);
-		if (ratio >= 10 * GOG_AXIS_MAX_TICK_NBR)
+		double Nd = (ratio + 1);  /* Correct if no minor */
+		if (Nd >= 10 * GOG_AXIS_MAX_TICK_NBR)
 			maj_step *= 10;
-		else if (ratio >= GOG_AXIS_MAX_TICK_NBR)
-				maj_step *= 2;
+		else if (Nd > GOG_AXIS_MAX_TICK_NBR)
+			maj_step *= 2;
 		else {
 			maj_N = (int)ratio;
 			break;
@@ -692,13 +694,13 @@ map_linear_calc_ticks (GogAxis *axis)
 	if (min_step <= 0.) min_step = maj_step;
 	while (1) {
 		double ratio = go_fake_floor (maj_step / min_step);
-		double Nd = maj_N * ratio;
+		double Nd = (maj_N + 2) * ratio;
 		if (Nd >= 10 * GOG_AXIS_MAX_TICK_NBR)
 			min_step *= 10;
-		else if (Nd >= GOG_AXIS_MAX_TICK_NBR)
+		else if (Nd > GOG_AXIS_MAX_TICK_NBR)
 			min_step *= 2;
 		else {
-			min_N = (int)ratio;
+			min_N = MAX (1, (int)ratio);
 			break;
 		}
 	}
@@ -706,46 +708,56 @@ map_linear_calc_ticks (GogAxis *axis)
 	zero_threshold = maj_step * DBL_EPSILON;
 
 	/*
-	 * We used to round minimum to nearest maj_step, but that is very
-	 * wrong:
+	 * We now have the steps we have.  It is time to align the steps
+	 * so they hit round numbers (where round is relative to the step
+	 * size).  We do this by rounding up the minimum.
 	 *
-	 * 1. It is bogus for dates
-	 * 2. All the mapping functions fail to take it into account
+	 * Due to this rounding we start the major tick counting at
+	 * index -1 although we do not put a major tick there. This way,
+	 * we have room for minor ticks before the first major tick.
+	 *
+	 * The last major tick goes at index N.  There may be minor ticks
+	 * after that.
 	 */
+	start = go_fake_ceil (minimum / maj_step) * maj_step;
 
-	N = maj_N * min_N + 1;
-	if (N < 1) {
-		gog_axis_set_ticks (axis, 0, NULL);
-		return;
-	}
+	N = (maj_N + 2) * min_N;
 	ticks = g_new0 (GogAxisTick, N);
 
 	t = 0;
-	for (maj_i = 0; ; maj_i++) {
-		double maj_pos = minimum + maj_i * maj_step;
+	for (maj_i = -1; maj_i <= maj_N; maj_i++) {
+		/*
+		 * Always calculate based on start to avoid a build-up of
+		 * rounding errors.
+		 */
+		double maj_pos = start + maj_i * maj_step;
 		if (fabs (maj_pos) < maj_i * zero_threshold)
 			maj_pos = 0;
 
-		ticks[t].position = maj_pos;
-		ticks[t].type = GOG_AXIS_TICK_MAJOR;
-		ticks[t].label = axis_format_value (axis, maj_pos);
-		t++;
-
-		if (maj_i == maj_N)
-			break;
+		if (maj_i >= 0) {
+			g_assert (t < N);
+			ticks[t].position = maj_pos;
+			ticks[t].type = GOG_AXIS_TICK_MAJOR;
+			ticks[t].label = axis_format_value (axis, maj_pos);
+			t++;
+		}
 
 		for (min_i = 1; min_i < min_N; min_i++) {
 			double min_pos = maj_pos + min_i * min_step;
+			if (min_pos < minimum)
+				continue;
+			if (min_pos > maximum)
+				break;
 
+			g_assert (t < N);
 			ticks[t].position = min_pos;
 			ticks[t].type = GOG_AXIS_TICK_MINOR;
 			ticks[t].label = NULL;
 			t++;
-
 		}
 	}
 
-	if (t != N)
+	if (t > N)
 		g_critical ("[GogAxisMap::linear_calc_ticks] wrong allocation size");
 	gog_axis_set_ticks (axis, t, ticks);
 }
