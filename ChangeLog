@@ -1,3 +1,9 @@
+2009-03-30  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis.c (map_linear_calc_ticks): Drop final
+	major tick if it goes beyond the maximum which can happen after we
+	align the grid.
+
 2009-03-29  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (map_linear_calc_ticks): Make sure the

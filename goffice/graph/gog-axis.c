@@ -705,10 +705,11 @@ map_linear_calc_ticks (GogAxis *axis)
 		}
 	}
 
-	zero_threshold = maj_step * DBL_EPSILON;
+	/* This is the error on the stepping per step.  */
+	zero_threshold = maj_step / 2 * DBL_EPSILON;
 
 	/*
-	 * We now have the steps we have.  It is time to align the steps
+	 * We now have the steps we want.  It is time to align the steps
 	 * so they hit round numbers (where round is relative to the step
 	 * size).  We do this by rounding up the minimum.
 	 *
@@ -718,8 +719,13 @@ map_linear_calc_ticks (GogAxis *axis)
 	 *
 	 * The last major tick goes at index N.  There may be minor ticks
 	 * after that.
+	 *
+	 * Also due to the rounding, we may have room for one less major
+	 * tick.
 	 */
 	start = go_fake_ceil (minimum / maj_step) * maj_step;
+	if (start + maj_N * (maj_step - zero_threshold) > maximum)
+		maj_N--;
 
 	N = (maj_N + 2) * min_N;
 	ticks = g_new0 (GogAxisTick, N);
