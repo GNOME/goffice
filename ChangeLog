@@ -1,3 +1,9 @@
+2009-03-31  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis.c (map_linear_calc_ticks): When we
+	determine whether to drop a major tick due to alignment, use a
+	more stable method.
+
 2009-03-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-line.c: (gog_line_view_render): fix area

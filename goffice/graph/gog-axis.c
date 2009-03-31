@@ -721,11 +721,11 @@ map_linear_calc_ticks (GogAxis *axis)
 	 * after that.
 	 *
 	 * Also due to the rounding, we may have room for one less major
-	 * tick.
+	 * tick.  Recomputing maj_N seems to be the most numerically
+	 * stable way of figuring that out.
 	 */
 	start = go_fake_ceil (minimum / maj_step) * maj_step;
-	if (start + maj_N * (maj_step - zero_threshold) > maximum)
-		maj_N--;
+	maj_N = go_fake_floor ((maximum - start) / maj_step);
 
 	N = (maj_N + 2) * min_N;
 	ticks = g_new0 (GogAxisTick, N);
