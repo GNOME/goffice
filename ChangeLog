@@ -1,3 +1,8 @@
+2009-03-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_barcol/gog-line.c: (gog_line_view_render): fix area
+	plots rendering.
+
 2009-03-30  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (map_linear_calc_ticks): Drop final
