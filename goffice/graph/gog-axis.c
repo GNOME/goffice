@@ -662,12 +662,11 @@ static void
 map_linear_calc_ticks (GogAxis *axis)
 {
 	GogAxisTick *ticks;
-	double maximum, minimum, start, range;
+	double maximum, minimum, start_i, range;
 	double maj_step, min_step;
 	int t, N;
 	int maj_i, maj_N; /* Ticks for -1,....,maj_N     */
 	int min_i, min_N; /* Ticks for 1,....,(min_N-1) */
-	double zero_threshold;
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum)) {
 		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0));
@@ -705,9 +704,6 @@ map_linear_calc_ticks (GogAxis *axis)
 		}
 	}
 
-	/* This is the error on the stepping per step.  */
-	zero_threshold = maj_step / 2 * DBL_EPSILON;
-
 	/*
 	 * We now have the steps we want.  It is time to align the steps
 	 * so they hit round numbers (where round is relative to the step
@@ -724,8 +720,8 @@ map_linear_calc_ticks (GogAxis *axis)
 	 * tick.  Recomputing maj_N seems to be the most numerically
 	 * stable way of figuring that out.
 	 */
-	start = go_fake_ceil (minimum / maj_step) * maj_step;
-	maj_N = go_fake_floor ((maximum - start) / maj_step);
+	start_i = go_fake_ceil (minimum / maj_step);
+	maj_N = (int)(go_fake_floor (maximum / maj_step) - start_i);
 
 	N = (maj_N + 2) * min_N;
 	ticks = g_new0 (GogAxisTick, N);
@@ -734,11 +730,11 @@ map_linear_calc_ticks (GogAxis *axis)
 	for (maj_i = -1; maj_i <= maj_N; maj_i++) {
 		/*
 		 * Always calculate based on start to avoid a build-up of
-		 * rounding errors.
+		 * rounding errors.  Note, that the left factor is an
+		 * integer, so we will get precisely zero when we need
+		 * to.
 		 */
-		double maj_pos = start + maj_i * maj_step;
-		if (fabs (maj_pos) < maj_i * zero_threshold)
-			maj_pos = 0;
+		double maj_pos = (start_i + maj_i) * maj_step;
 
 		if (maj_i >= 0) {
 			g_assert (t < N);

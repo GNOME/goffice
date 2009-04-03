@@ -1,3 +1,8 @@
+2009-04-03  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis.c (map_linear_calc_ticks): Take N...  We
+	got hit by excess precision on x86.
+
 2009-04-02  Jody Goldberg <jody@gnome.org>
 
 	* goffice/app/file.c (go_file_saver_for_mime_type) : search the
