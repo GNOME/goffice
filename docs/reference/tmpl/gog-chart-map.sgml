@@ -98,6 +98,8 @@ GogChartMap
 @y: 
 @n_points: 
 @interpolation: 
+@skip_invalid: 
+@data: 
 @Returns: 
 
 

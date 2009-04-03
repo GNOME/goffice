@@ -29,8 +29,8 @@ functionnalities used for drawing object on graph canvas.
 
 </para>
 
-@: 
-@: 
+@gogstyledobject: the object which received the signal.
+@arg1: 
 
 <!-- ##### ARG GogStyledObject:style ##### -->
 <para>
