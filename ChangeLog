@@ -1,3 +1,9 @@
+2009-04-02  Jody Goldberg <jody@gnome.org>
+
+	* goffice/app/file.c (go_file_saver_for_mime_type) : search the
+	  default list first.
+	(go_file_saver_for_file_name) : ditto.
+
 2009-03-31  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (map_linear_calc_ticks): When we

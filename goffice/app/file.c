@@ -996,11 +996,16 @@ go_file_saver_for_mime_type (gchar const *mime_type)
 {
 	GList *l;
 
-	for (l = file_saver_list; l != NULL; l = l->next) {
-		if (!strcmp (go_file_saver_get_mime_type (l->data), mime_type)) {
-			return (l->data);
-		}
-	}
+	g_return_val_if_fail (mime_type != NULL, NULL);
+
+	for (l = default_file_saver_list ; l != NULL; l = l->next)
+		if (!strcmp (go_file_saver_get_mime_type (((DefaultFileSaver *)(l->data))->saver), mime_type))
+			return ((DefaultFileSaver *)(l->data))->saver;
+
+	for (l = file_saver_list; l != NULL; l = l->next)
+		if (!strcmp (go_file_saver_get_mime_type (l->data), mime_type))
+			return l->data;
+
 	return (NULL);
 }
 
@@ -1018,6 +1023,10 @@ go_file_saver_for_file_name (char const *file_name)
 {
 	GList *l;
 	char const *extension = gsf_extension_pointer (file_name);
+
+	for (l = default_file_saver_list ; l != NULL; l = l->next)
+		if (!strcmp (go_file_saver_get_extension (((DefaultFileSaver *)(l->data))->saver), extension))
+			return ((DefaultFileSaver *)(l->data))->saver;
 
 	for (l = file_saver_list; l != NULL; l = l->next)
 		if (!strcmp (go_file_saver_get_extension (l->data), extension))

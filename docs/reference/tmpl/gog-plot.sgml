@@ -25,6 +25,7 @@ Base class for plots
 @is_discrete: 
 @center_on_ticks: 
 @fmt: 
+@date_conv: 
 
 <!-- ##### MACRO GOG_PLOT_TYPE ##### -->
 <para>

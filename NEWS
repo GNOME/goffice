@@ -4,6 +4,9 @@ Jean:
 	* Fixed gconf and gmathml propagation to pc file. [#576497]
 	* Added a new plot type: GogColorPolarPlot.
 
+Jody:
+	* Use priority when looking up savers by extension or mime.
+
 Morten:
 	* Add new go_format_is_time function.
 	* Pick sane bounds for time-formatted axes.  [Part of #574681]
