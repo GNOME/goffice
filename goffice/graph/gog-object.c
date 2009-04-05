@@ -772,6 +772,14 @@ gog_object_class_init (GObjectClass *klass)
 			FALSE, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
+	/**
+	 * GogObject::child-added:
+	 * @object: the object on which the signal is emitted
+	 * @child: The new #GogObject whose parent is @object
+	 *
+	 * The ::child-added signal is emitted AFTER the child has been added
+	 * and AFTER the parent-changed signal has been called for it.
+	 **/
 	gog_object_signals [CHILD_ADDED] = g_signal_new ("child-added",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
@@ -779,6 +787,14 @@ gog_object_class_init (GObjectClass *klass)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE,	1, G_TYPE_OBJECT);
+	/**
+	 * GogObject::child-removed:
+	 * @object: the object on which the signal is emitted
+	 * @child: The new #GogObject whose parent is @object
+	 *
+	 * The ::child-removed signal is emitted BEFORE the child has been
+	 * added and BEFORE the parent-changed signal has been called for it.
+	 **/
 	gog_object_signals [CHILD_REMOVED] = g_signal_new ("child-removed",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,

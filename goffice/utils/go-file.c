@@ -889,9 +889,14 @@ go_file_get_date_changed (char const *uri)
 
 /* ------------------------------------------------------------------------- */
 
-/*
- * go_url_decode: decode the result of go_url_encode.
- */
+/**
+ * go_url_decode:
+ * @test :
+ *
+ * Decode the result of go_url_encode.
+ *
+ * Returns: a decoded string which the caller is responsible for freeing.
+ **/
 gchar*
 go_url_decode (gchar const *text)
 {
@@ -921,8 +926,14 @@ go_url_decode (gchar const *text)
 }
 
 /**
- * go_url_encode: url-encode a string according to RFC 2368.
- */
+ * go_url_encode:
+ * @text :
+ * @type :
+ *
+ * url-encode a string according to RFC 2368.
+ *
+ * Returns: an encoded string which the caller is responsible for freeing.
+ **/
 gchar*
 go_url_encode (gchar const *text, int type)
 {

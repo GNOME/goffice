@@ -1,4 +1,5 @@
-/**
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
  * go-format-sel.h: A widget to select a format
  *
  * This program is free software; you can redistribute it and/or modify
@@ -14,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- **/
+ */
 
 #ifndef _GO_FORMAT_SEL_H_
 #define _GO_FORMAT_SEL_H_

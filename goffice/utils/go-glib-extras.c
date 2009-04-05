@@ -772,9 +772,11 @@ go_destroy_password (char *passwd)
 
 
 /**
- * go_object_toggle: toggle a boolean object property.
+ * go_object_toggle:
  * @object : #GObject
  * @property_name : name
+ *
+ * Toggle a boolean object property.
  **/
 void
 go_object_toggle (gpointer object, const gchar *property_name)

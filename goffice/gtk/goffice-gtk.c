@@ -656,7 +656,7 @@ cb_format_combo_changed (GtkComboBox *combo, GtkWidget *expander)
  **/
 char *
 go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
-			 GOImageFormat *ret_format, double *resolution)
+			    GOImageFormat *ret_format, double *resolution)
 {
 	GOImageFormat format;
 	GOImageFormatInfo const *format_info;

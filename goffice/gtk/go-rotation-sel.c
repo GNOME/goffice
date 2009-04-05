@@ -1,5 +1,5 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/**
+/*
  * go-rotation-sel.c: A widget to select a text orientation
  *
  * This program is free software; you can redistribute it and/or modify
@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- **/
+ */
 #include <goffice/goffice-config.h>
 #include "go-rotation-sel.h"
 

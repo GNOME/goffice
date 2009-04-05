@@ -178,9 +178,8 @@ add_image_cb (char const *key, GOImage *image, GOImageSelState *state)
 
 /**
  * go_image_sel_new
- * @app		: The app owning the image collection
- * @image	: 
- *
+ * @doc		: The #GODoc owning the image collection
+ * @image	:  #GOImage
  * 
  * Returns: and shows new image selector.
  **/

@@ -2,7 +2,7 @@
 #ifndef GOD_DRAWING_RENDERER_CAIRO_H
 #define GOD_DRAWING_RENDERER_CAIRO_H
 
-/**
+/*
  * god-drawing-renderer-cairo.h: MS Office Graphic Object support
  *
  * Author:
@@ -11,7 +11,7 @@
  *    Christopher James Lahey <clahey@ximian.com>
  *
  * (C) 1998-2003 Michael Meeks, Jody Goldberg, Chris Lahey
- **/
+ */
 
 #include <goffice/drawing/god-drawing.h>
 #include <cairo.h>

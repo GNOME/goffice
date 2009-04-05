@@ -1,5 +1,5 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/**
+/*
  * go-action-combo-text.h: A custom GOActionCombo to handle lists of text
  *
  * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- **/
+ */
 
 #ifndef _GO_ACTION_COMBO_TEXT_H_
 #define _GO_ACTION_COMBO_TEXT_H_

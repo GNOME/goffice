@@ -1,5 +1,5 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/**
+/*
  * go-format-sel.c: A widget to select a format
  *
  * Copyright (C) 2006-2007 Morten Welinder (terra@gnome.org)
@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- **/
+ */
 
 #include <goffice/goffice-config.h>
 #include "go-format-sel.h"

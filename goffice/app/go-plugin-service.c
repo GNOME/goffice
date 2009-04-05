@@ -1147,6 +1147,10 @@ plugin_services_shutdown (void)
 }
 
 /**
+ * plugin_service_define:
+ * @type_str :  char const *
+ * @ctor : #GOPluginServiceCreate
+ *
  * Allow the definition of new service types
  **/
 void

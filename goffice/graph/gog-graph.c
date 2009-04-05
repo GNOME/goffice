@@ -304,6 +304,13 @@ gog_graph_class_init (GogGraphClass *klass)
 	
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
+	/**
+	 * GogGraph::add-data:
+	 * @graph: the object on which the signal is emitted
+	 * @data: The new #GOData being added to @graph
+	 *
+	 * The ::add-data signal is emitted BEFORE @data has been added.
+	 **/
 	gog_graph_signals [GRAPH_ADD_DATA] = g_signal_new ("add-data",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
@@ -313,6 +320,13 @@ gog_graph_class_init (GogGraphClass *klass)
 		G_TYPE_NONE,
 		1, G_TYPE_OBJECT);
 
+	/**
+	 * GogGraph::remove-data:
+	 * @graph: the object on which the signal is emitted
+	 * @data: The new #GOData being removed to @graph
+	 *
+	 * The ::remove-data signal is emitted BEFORE @data has been removed.
+	 **/
 	gog_graph_signals [GRAPH_REMOVE_DATA] = g_signal_new ("remove-data",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,

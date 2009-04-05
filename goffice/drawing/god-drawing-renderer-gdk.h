@@ -2,7 +2,7 @@
 #ifndef GOD_DRAWING_RENDERER_GDK_H
 #define GOD_DRAWING_RENDERER_GDK_H
 
-/**
+/*
  * god-drawing-renderer-gdk.h: MS Office Graphic Object support
  *
  * Author:
@@ -11,7 +11,7 @@
  *    Christopher James Lahey <clahey@ximian.com>
  *
  * (C) 1998-2003 Michael Meeks, Jody Goldberg, Chris Lahey
- **/
+ */
 
 #include <glib-object.h>
 #include <glib.h>

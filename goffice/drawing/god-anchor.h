@@ -1,5 +1,5 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/**
+/*
  * god-anchor.h: MS Office Graphic Object support
  *
  * Author:
@@ -8,7 +8,7 @@
  *    Christopher James Lahey <clahey@ximian.com>
  *
  * (C) 1998-2003 Michael Meeks, Jody Goldberg, Chris Lahey
- **/
+ */
 
 #ifndef GOD_ANCHOR_H
 #define GOD_ANCHOR_H

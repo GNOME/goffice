@@ -199,15 +199,15 @@ go_path_free (GOPath *path)
 }
 
 /**
- * FIXME go_path_set_sharp:
+ * go_path_set_options:
  * @path: a #GOPath
- * @sharp: TRUE for trying to keep line sharp
+ * @options: #GOPathOptions
  *
- * Sets the sharp flag for all elements of @path. If @sharp
- * is TRUE, rendering will try to keep line sharp, for example
- * by aligning straight 1 pixel width lines on half pixels.
+ * Change the rendering options for @path using
+ *	%GO_PATH_OPTIONS_SNAP_COORDINATES
+ *	%GO_PATH_OPTIONS_SNAP_WIDTH
+ *	%GO_PATH_OPTIONS_SHARP
  **/
-
 void
 go_path_set_options (GOPath *path, GOPathOptions options)
 {
