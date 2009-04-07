@@ -1043,7 +1043,7 @@ gog_style_get_editor (GogStyle *style,
 GogStyle *
 gog_style_new (void)
 {
-	return g_object_new (GOG_STYLE_TYPE, NULL);
+	return g_object_new (GOG_TYPE_STYLE, NULL);
 }
 
 /**
@@ -1059,7 +1059,7 @@ gog_style_dup (GogStyle const *src)
 {
 	GogStyle *dst;
 
-	g_return_val_if_fail (IS_GOG_STYLE (src), NULL);
+	g_return_val_if_fail (GOG_IS_STYLE (src), NULL);
 
 	dst = gog_style_new ();
 	gog_style_assign (dst, src);
@@ -1072,8 +1072,8 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 	if (src == dst)
 		return;
 
-	g_return_if_fail (IS_GOG_STYLE (src));
-	g_return_if_fail (IS_GOG_STYLE (dst));
+	g_return_if_fail (GOG_IS_STYLE (src));
+	g_return_if_fail (GOG_IS_STYLE (dst));
 
 	if (GOG_FILL_STYLE_IMAGE == src->fill.type &&
 	    src->fill.image.image != NULL)
@@ -1120,8 +1120,8 @@ gog_style_apply_theme (GogStyle *dst, GogStyle const *src)
 	if (src == dst)
 		return;
 
-	g_return_if_fail (IS_GOG_STYLE (src));
-	g_return_if_fail (IS_GOG_STYLE (dst));
+	g_return_if_fail (GOG_IS_STYLE (src));
+	g_return_if_fail (GOG_IS_STYLE (dst));
 
 	if (dst->outline.auto_dash)
 		dst->outline.dash_type = src->outline.dash_type;
@@ -1717,7 +1717,7 @@ gog_style_sax_load_fill_image (GsfXMLIn *xin, xmlChar const **attrs)
 	GogStyle *style = GOG_STYLE (xin->user_state);
 	GODoc *doc = (GODoc *) g_object_get_data (G_OBJECT (gsf_xml_in_get_input (xin)), "document");
 	g_return_if_fail (style->fill.type == GOG_FILL_STYLE_IMAGE);
-	g_return_if_fail (IS_GO_DOC (doc));
+	g_return_if_fail (GO_IS_DOC (doc));
 	/* TODO: load the pixels */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "type")) {
@@ -1880,7 +1880,7 @@ gog_style_persist_init (GOPersistClass *iface)
 GSF_CLASS_FULL (GogStyle, gog_style,
 		NULL, NULL, gog_style_class_init, NULL,
 		gog_style_init, G_TYPE_OBJECT, 0,
-		GSF_INTERFACE (gog_style_persist_init, GO_PERSIST_TYPE))
+		GSF_INTERFACE (gog_style_persist_init, GO_TYPE_PERSIST))
 
 gboolean
 gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
@@ -1898,7 +1898,7 @@ gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
 gboolean
 gog_style_is_marker_visible (GogStyle const *style)
 {
-	g_return_val_if_fail (IS_GOG_STYLE (style), FALSE);
+	g_return_val_if_fail (GOG_IS_STYLE (style), FALSE);
 
 	/* FIXME FIXME FIXME TODO : make this smarter */
 	return (style->interesting_fields & GOG_STYLE_MARKER) &&
@@ -1908,7 +1908,7 @@ gog_style_is_marker_visible (GogStyle const *style)
 gboolean
 gog_style_is_outline_visible (GogStyle const *style)
 {
-	g_return_val_if_fail (IS_GOG_STYLE (style), FALSE);
+	g_return_val_if_fail (GOG_IS_STYLE (style), FALSE);
 
 	/* FIXME FIXME FIXME make this smarter */
 	return UINT_RGBA_A (style->outline.color) > 0 && 
@@ -1918,7 +1918,7 @@ gog_style_is_outline_visible (GogStyle const *style)
 gboolean
 gog_style_is_line_visible (GogStyle const *style)
 {
-	g_return_val_if_fail (IS_GOG_STYLE (style), FALSE);
+	g_return_val_if_fail (GOG_IS_STYLE (style), FALSE);
 
 	/* FIXME FIXME FIXME TODO : make this smarter */
 	return UINT_RGBA_A (style->line.color) > 0 && 
@@ -1928,7 +1928,7 @@ gog_style_is_line_visible (GogStyle const *style)
 gboolean 
 gog_style_is_fill_visible (const GogStyle *style)
 {
-	g_return_val_if_fail (IS_GOG_STYLE (style), FALSE);
+	g_return_val_if_fail (GOG_IS_STYLE (style), FALSE);
 
 	return (style->fill.type != GOG_FILL_STYLE_NONE);
 }
@@ -1936,7 +1936,7 @@ gog_style_is_fill_visible (const GogStyle *style)
 void
 gog_style_force_auto (GogStyle *style)
 {
-	g_return_if_fail (IS_GOG_STYLE (style));
+	g_return_if_fail (GOG_IS_STYLE (style));
 
 	if (style->marker.mark != NULL)
 		g_object_unref (G_OBJECT (style->marker.mark));
@@ -1965,8 +1965,8 @@ gog_style_force_auto (GogStyle *style)
 void
 gog_style_set_marker (GogStyle *style, GOMarker *marker)
 {
-	g_return_if_fail (IS_GOG_STYLE (style));
-	g_return_if_fail (IS_GO_MARKER (marker));
+	g_return_if_fail (GOG_IS_STYLE (style));
+	g_return_if_fail (GO_IS_MARKER (marker));
 
 	if (style->marker.mark != marker) {
 		if (style->marker.mark != NULL)
@@ -1986,7 +1986,7 @@ gog_style_set_marker (GogStyle *style, GOMarker *marker)
 GOMarker const *
 gog_style_get_marker (GogStyle *style) 
 {
-	g_return_val_if_fail (IS_GOG_STYLE (style), NULL);
+	g_return_val_if_fail (GOG_IS_STYLE (style), NULL);
 
 	return style->marker.mark;
 }
@@ -1996,7 +1996,7 @@ gog_style_set_font_desc (GogStyle *style, PangoFontDescription *desc)
 {
 	GOFont const *font;
 
-	g_return_if_fail (IS_GOG_STYLE (style));
+	g_return_if_fail (GOG_IS_STYLE (style));
 
 	font = go_font_new_by_desc (desc);
 	if (font != NULL) {
@@ -2008,7 +2008,7 @@ gog_style_set_font_desc (GogStyle *style, PangoFontDescription *desc)
 void
 gog_style_set_font (GogStyle *style, GOFont const *font)
 {
-	g_return_if_fail (IS_GOG_STYLE (style));
+	g_return_if_fail (GOG_IS_STYLE (style));
 
 	if (font != NULL) {
 		go_font_unref (style->font.font);
@@ -2019,7 +2019,7 @@ gog_style_set_font (GogStyle *style, GOFont const *font)
 void
 gog_style_set_fill_brightness (GogStyle *style, float brightness)
 {
-	g_return_if_fail (IS_GOG_STYLE (style));
+	g_return_if_fail (GOG_IS_STYLE (style));
 	g_return_if_fail (style->fill.type == GOG_FILL_STYLE_GRADIENT);
 
 	brightness = CLAMP (brightness, 0, 100.0);
@@ -2041,7 +2041,7 @@ gog_style_set_fill_brightness (GogStyle *style, float brightness)
 void
 gog_style_set_text_angle (GogStyle *style, double angle)
 {
-	g_return_if_fail (IS_GOG_STYLE (style));
+	g_return_if_fail (GOG_IS_STYLE (style));
 
 	style->text_layout.angle = CLAMP (angle, -180.0, 180.0);
 	style->text_layout.auto_angle = FALSE;
@@ -2085,7 +2085,7 @@ gog_style_create_cairo_pattern (GogStyle const *style, cairo_t *cr)
 		{2, 2, 0, 1}
 	};
 
-	g_return_val_if_fail (IS_GOG_STYLE (style), NULL);
+	g_return_val_if_fail (GOG_IS_STYLE (style), NULL);
 
 	if (style->fill.type == GOG_FILL_STYLE_NONE)
 		return NULL;

@@ -78,9 +78,9 @@ void go_regfree (GORegexp * preg);
 
 /* -------------------------------------------------------------------------- */
 
-#define GO_SEARCH_REPLACE_TYPE        (go_search_replace_get_type ())
-#define GO_SEARCH_REPLACE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_SEARCH_REPLACE_TYPE, GoSearchReplace))
-#define GO_IS_SEARCH_REPLACE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_SEARCH_REPLACE_TYPE))
+#define GO_TYPE_SEARCH_REPLACE        (go_search_replace_get_type ())
+#define GO_SEARCH_REPLACE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_SEARCH_REPLACE, GOSearchReplace))
+#define GO_IS_SEARCH_REPLACE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_SEARCH_REPLACE))
 
 typedef struct _GoSearchReplace {
 	GObject base;
@@ -97,20 +97,20 @@ typedef struct _GoSearchReplace {
 
 	/*< private >*/
 	gboolean plain_replace;
-} GoSearchReplace;
+} GOSearchReplace;
 
 typedef struct {
 	GObjectClass g_object_class;
-} GoSearchReplaceClass;
+} GOSearchReplaceClass;
 
 
 GQuark           go_search_replace_error_quark (void);
 GType            go_search_replace_get_type (void);
 
-gboolean         go_search_replace_verify (GoSearchReplace *sr, gboolean repl, GError **err);
+gboolean         go_search_replace_verify (GOSearchReplace *sr, gboolean repl, GError **err);
 
-gboolean         go_search_match_string (GoSearchReplace *sr, const char *src);
-char *           go_search_replace_string (GoSearchReplace *sr, const char *src);
+gboolean         go_search_match_string (GOSearchReplace *sr, const char *src);
+char *           go_search_replace_string (GOSearchReplace *sr, const char *src);
 
 const char *go_regexp_quote1 (GString *target, const char *s);
 void go_regexp_quote (GString *target, const char *s);

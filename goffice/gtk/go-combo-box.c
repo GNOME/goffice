@@ -182,7 +182,7 @@ go_combo_box_popup_hide_unconditional (GOComboBox *combo_box)
 	GObject *pdc;
 
 	g_return_if_fail (combo_box != NULL);
-	g_return_if_fail (IS_GO_COMBO_BOX (combo_box));
+	g_return_if_fail (GO_IS_COMBO_BOX (combo_box));
 
 	gtk_widget_hide (combo_box->priv->toplevel);
 	gtk_widget_hide (combo_box->priv->popup);
@@ -601,7 +601,7 @@ GSF_CLASS (GOComboBox, go_combo_box,
 /* protected */ void
 go_combo_box_set_display (GOComboBox *combo_box, GtkWidget *display_widget)
 {
-	g_return_if_fail (IS_GO_COMBO_BOX (combo_box));
+	g_return_if_fail (GO_IS_COMBO_BOX (combo_box));
 	g_return_if_fail (GTK_IS_WIDGET (display_widget));
 
 	if (combo_box->priv->display_widget != NULL &&
@@ -636,7 +636,7 @@ go_combo_set_tearoff_state (GOComboBox *combo,
 			     gboolean  torn_off)
 {
 	g_return_if_fail (combo != NULL);
-	g_return_if_fail (IS_GO_COMBO_BOX (combo));
+	g_return_if_fail (GO_IS_COMBO_BOX (combo));
 
 	if (combo->priv->torn_off != torn_off) {
 		combo->priv->torn_off = torn_off;
@@ -696,7 +696,7 @@ go_combo_box_construct (GOComboBox *combo,
 	GtkWidget *tearable;
 	GtkWidget *vbox;
 
-	g_return_if_fail (IS_GO_COMBO_BOX (combo));
+	g_return_if_fail (GO_IS_COMBO_BOX (combo));
 	g_return_if_fail (GTK_IS_WIDGET (display_widget));
 
 	GTK_BOX (combo)->spacing = 0;
@@ -750,7 +750,7 @@ void
 go_combo_box_set_title (GOComboBox *combo, char const *title)
 {
 	GOComboBoxClass *klass = G_TYPE_INSTANCE_GET_CLASS (combo,
-		GO_COMBO_BOX_TYPE, GOComboBoxClass);
+		GO_TYPE_COMBO_BOX, GOComboBoxClass);
 
 	g_return_if_fail (klass != NULL);
 
@@ -777,7 +777,7 @@ go_combo_box_get_title (GOComboBox *combo)
 void
 go_combo_box_set_tearable (GOComboBox *combo, gboolean tearable)
 {
-	g_return_if_fail (IS_GO_COMBO_BOX (combo));
+	g_return_if_fail (GO_IS_COMBO_BOX (combo));
 
 	if (tearable){
 		gtk_widget_show (combo->priv->tearable);
@@ -790,7 +790,7 @@ go_combo_box_set_tearable (GOComboBox *combo, gboolean tearable)
 void
 go_combo_box_set_relief (GOComboBox *combo, GtkReliefStyle relief)
 {
-	g_return_if_fail (IS_GO_COMBO_BOX (combo));
+	g_return_if_fail (GO_IS_COMBO_BOX (combo));
 
 	gtk_button_set_relief (GTK_BUTTON (combo->priv->arrow_button), relief);
 	if (GTK_IS_BUTTON (combo->priv->display_widget))

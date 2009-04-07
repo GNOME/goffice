@@ -37,9 +37,9 @@ G_BEGIN_DECLS
 typedef GogContourPlot GogXYZContourPlot;
 typedef GogContourPlotClass GogXYZContourPlotClass;
 
-#define GOG_XYZ_CONTOUR_PLOT_TYPE	(gog_xyz_contour_plot_get_type ())
-#define GOG_XYZ_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XYZ_CONTOUR_PLOT_TYPE, GogXYZContourPlot))
-#define GOG_IS_XYZ_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XYZ_CONTOUR_PLOT_TYPE))
+#define GOG_TYPE_XYZ_CONTOUR_PLOT	(gog_xyz_contour_plot_get_type ())
+#define GOG_XYZ_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XYZ_CONTOUR_PLOT, GogXYZContourPlot))
+#define GOG_IS_XYZ_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XYZ_CONTOUR_PLOT))
 
 GType gog_xyz_contour_plot_get_type (void);
 
@@ -55,9 +55,9 @@ void  gog_xyz_contour_plot_register_type   (GTypeModule *module);
 typedef GogSurfacePlot GogXYZSurfacePlot;
 typedef GogSurfacePlotClass GogXYZSurfacePlotClass;
 
-#define GOG_XYZ_SURFACE_PLOT_TYPE	(gog_xyz_surface_plot_get_type ())
-#define GOG_XYZ_SURFACE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XYZ_SURFACE_PLOT_TYPE, GogXYZSurfacePlot))
-#define GOG_IS_XYZ_SURFACE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XYZ_SURFACE_PLOT_TYPE))
+#define GOG_TYPE_XYZ_SURFACE_PLOT	(gog_xyz_surface_plot_get_type ())
+#define GOG_XYZ_SURFACE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XYZ_SURFACE_PLOT, GogXYZSurfacePlot))
+#define GOG_IS_XYZ_SURFACE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XYZ_SURFACE_PLOT))
 
 GType gog_xyz_surface_plot_get_type (void);
 

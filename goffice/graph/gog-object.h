@@ -132,12 +132,12 @@ typedef struct {
 	void (*update_editor)	   (GogObject *obj);
 } GogObjectClass;
 
-#define GOG_OBJECT_TYPE		(gog_object_get_type ())
-#define GOG_OBJECT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_OBJECT_TYPE, GogObject))
-#define IS_GOG_OBJECT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_OBJECT_TYPE))
-#define GOG_OBJECT_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_OBJECT_TYPE, GogObjectClass))
-#define IS_GOG_OBJECT_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_OBJECT_TYPE))
-#define GOG_OBJECT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_OBJECT_TYPE, GogObjectClass))
+#define GOG_TYPE_OBJECT		(gog_object_get_type ())
+#define GOG_OBJECT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_OBJECT, GogObject))
+#define GOG_IS_OBJECT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_OBJECT))
+#define GOG_OBJECT_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_TYPE_OBJECT, GogObjectClass))
+#define GOG_IS_OBJECT_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_TYPE_OBJECT))
+#define GOG_OBJECT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_OBJECT, GogObjectClass))
 
 #define GOG_PARAM_FORCE_SAVE	(1 << (G_PARAM_USER_SHIFT+1))	/* even if the value == default */
 #define GOG_PARAM_POSITION	(1 << (G_PARAM_USER_SHIFT+2))	/* position parameters */

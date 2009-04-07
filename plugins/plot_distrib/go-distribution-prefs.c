@@ -105,7 +105,7 @@ go_distribution_pref_new (GObject *obj, GogDataAllocator *dalloc, G_GNUC_UNUSED 
 	prefs->dalloc = dalloc;
 	prefs->table = GTK_TABLE (res);
 	g_object_get (obj, "distribution", &dist, NULL);
-	g_return_val_if_fail (IS_GO_DISTRIBUTION (dist), NULL);
+	g_return_val_if_fail (GO_IS_DISTRIBUTION (dist), NULL);
 
 	dist_type = go_distribution_get_distribution_type (dist);
 	g_object_set (res, "border-width", 12, "row-spacing", 12, "column-spacing", 24, NULL);

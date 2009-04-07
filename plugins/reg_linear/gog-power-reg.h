@@ -29,9 +29,9 @@ G_BEGIN_DECLS
 typedef GogLinRegCurve GogPowerRegCurve;
 typedef GogLinRegCurveClass GogPowerRegCurveClass;
 
-#define GOG_POWER_REG_CURVE_TYPE	(gog_power_reg_curve_get_type ())
-#define GOG_POWER_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_POWER_REG_CURVE_TYPE, GogPowerRegCurve))
-#define GOG_IS_POWER_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_POWER_REG_CURVE_TYPE))
+#define GOG_TYPE_POWER_REG_CURVE	(gog_power_reg_curve_get_type ())
+#define GOG_POWER_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_POWER_REG_CURVE, GogPowerRegCurve))
+#define GOG_IS_POWER_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_POWER_REG_CURVE))
 
 GType gog_power_reg_curve_get_type (void);
 void  gog_power_reg_curve_register_type (GTypeModule *module);

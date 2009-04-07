@@ -39,7 +39,7 @@ god_anchor_new (void)
 {
 	GodAnchor *anchor;
 
-	anchor = g_object_new (GOD_ANCHOR_TYPE, NULL);
+	anchor = g_object_new (GOD_TYPE_ANCHOR, NULL);
 
 	return anchor;
 }

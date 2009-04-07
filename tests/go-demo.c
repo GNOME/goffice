@@ -36,7 +36,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/gtk/go-graph-widget.h>
 
-typedef struct _GoDemoPrivate GoDemoPrivate;
+typedef struct _GoDemoPrivate GODemoPrivate;
 struct _GoDemoPrivate {
 	GtkWidget *toplevel;
 	GladeXML  *xml;
@@ -87,7 +87,7 @@ on_quit (GtkMenuItem *menuitem, gpointer user_data)
 static void
 btn_regen_clicked (GtkButton *button, gpointer user_data)
 {
-	GoDemoPrivate *priv = (GoDemoPrivate *)user_data;
+	GODemoPrivate *priv = (GODemoPrivate *)user_data;
 	int i;
 	/* get data from widgets */
 	for (i = 0; i < 6; i++) {
@@ -124,7 +124,7 @@ setup_page (GtkNotebook *notebook, const gchar *service_id)
 	/* Get the embedded graph */
 	graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (w));
 	/* Add a title */
-	label = (GogLabel *) g_object_new (GOG_LABEL_TYPE, NULL);
+	label = (GogLabel *) g_object_new (GOG_TYPE_LABEL, NULL);
 	data = go_data_scalar_str_new (service_id, FALSE);
 	gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 	gog_object_add_by_name (GOG_OBJECT (graph), "Title", GOG_OBJECT (label));
@@ -307,7 +307,7 @@ insert_minmax_data (GogPlot *plot)
 }
 
 static void
-init_data_widgets (GoDemoPrivate *priv)
+init_data_widgets (GODemoPrivate *priv)
 {
 	int i;
 	char *wname = NULL;
@@ -453,14 +453,14 @@ int
 main (int argc, char *argv[])
 {
 	GtkWidget *window;
-	GoDemoPrivate *priv;
+	GODemoPrivate *priv;
 	const gchar *glade_file;
 
 	gtk_init (&argc, &argv);
 	/* Initialize libgoffice */
 	libgoffice_init ();
 	/* Initialize plugins manager */
-	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
+	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_resize (GTK_WINDOW (window), 800, 800);
@@ -468,7 +468,7 @@ main (int argc, char *argv[])
 	gtk_window_set_title (GTK_WINDOW (window), "GOffice demo");
 	g_signal_connect (window, "destroy", gtk_main_quit, NULL);
 
-	priv = g_new0 (GoDemoPrivate, 1);
+	priv = g_new0 (GODemoPrivate, 1);
 #define GO_DEMO_GLADE  "go-demo.glade"
 	glade_file = "./" GO_DEMO_GLADE;
 	if (!g_file_test (glade_file, G_FILE_TEST_EXISTS))

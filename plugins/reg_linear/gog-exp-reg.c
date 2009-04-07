@@ -79,4 +79,4 @@ gog_exp_reg_curve_class_init (GogRegCurveClass *reg_curve_klass)
 
 GSF_DYNAMIC_CLASS (GogExpRegCurve, gog_exp_reg_curve,
 	gog_exp_reg_curve_class_init, NULL,
-	GOG_LIN_REG_CURVE_TYPE)
+	GOG_TYPE_LIN_REG_CURVE)

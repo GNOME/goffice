@@ -30,9 +30,9 @@ G_BEGIN_DECLS
 
 GogAxisSet gog_axis_set_from_str (char const *str);
 
-#define GOG_CHART_TYPE	(gog_chart_get_type ())
-#define GOG_CHART(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_CHART_TYPE, GogChart))
-#define IS_GOG_CHART(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_CHART_TYPE))
+#define GOG_TYPE_CHART	(gog_chart_get_type ())
+#define GOG_CHART(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_CHART, GogChart))
+#define GOG_IS_CHART(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_CHART))
 
 GType gog_chart_get_type (void);
 

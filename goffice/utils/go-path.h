@@ -60,7 +60,7 @@ typedef void (GOPathClosePathFunc) 	(void *closure);
 
 typedef struct _GOPath GOPath;
 
-#define IS_GO_PATH(x) ((x) != NULL)
+#define GO_IS_PATH(x) ((x) != NULL)
 
 GOPath *go_path_new 	      	(void);
 void 	go_path_clear	      	(GOPath *path);

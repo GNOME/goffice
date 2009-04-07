@@ -190,7 +190,7 @@ gog_styled_object_class_init (GogObjectClass *gog_klass)
 		g_param_spec_object ("style", 
 			_("Style"),
 			_("A pointer to the GogStyle object"),
-			GOG_STYLE_TYPE, 
+			GOG_TYPE_STYLE, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
@@ -202,7 +202,7 @@ gog_styled_object_init (GogStyledObject *gso)
 
 GSF_CLASS (GogStyledObject, gog_styled_object,
 	   gog_styled_object_class_init, gog_styled_object_init,
-	   GOG_OBJECT_TYPE)
+	   GOG_TYPE_OBJECT)
 
 /**
  * gog_styled_object_set_style:
@@ -221,7 +221,7 @@ gog_styled_object_set_style (GogStyledObject *gso,
 {
 	gboolean resize;
 
-	g_return_val_if_fail (IS_GOG_STYLED_OBJECT (gso), FALSE);
+	g_return_val_if_fail (GOG_IS_STYLED_OBJECT (gso), FALSE);
 
 	if (gso->style == style)
 		return FALSE;
@@ -249,7 +249,7 @@ gog_styled_object_set_style (GogStyledObject *gso,
 GogStyle *
 gog_styled_object_get_style (GogStyledObject *gso)
 {
-	g_return_val_if_fail (IS_GOG_STYLED_OBJECT (gso), NULL);
+	g_return_val_if_fail (GOG_IS_STYLED_OBJECT (gso), NULL);
 	return gso->style;
 }
 

@@ -40,7 +40,7 @@ go_file_opener_finalize (GObject *obj)
 {
 	GOFileOpener *fo;
 
-	g_return_if_fail (IS_GO_FILE_OPENER (obj));
+	g_return_if_fail (GO_IS_FILE_OPENER (obj));
 
 	fo = GO_FILE_OPENER (obj);
 	g_free (fo->id);
@@ -128,7 +128,7 @@ go_file_opener_setup (GOFileOpener *fo, gchar const *id,
 		      GOFileOpenerProbeFunc probe_func,
 		      GOFileOpenerOpenFunc open_func)
 {
-	g_return_if_fail (IS_GO_FILE_OPENER (fo));
+	g_return_if_fail (GO_IS_FILE_OPENER (fo));
 
 	fo->id = g_strdup (id);
 	fo->description = g_strdup (description);
@@ -207,7 +207,7 @@ go_file_opener_new_with_enc (gchar const *id,
 gchar const *
 go_file_opener_get_id (GOFileOpener const *fo)
 {
-	g_return_val_if_fail (IS_GO_FILE_OPENER (fo), NULL);
+	g_return_val_if_fail (GO_IS_FILE_OPENER (fo), NULL);
 
 	return fo->id;
 }
@@ -215,7 +215,7 @@ go_file_opener_get_id (GOFileOpener const *fo)
 gchar const *
 go_file_opener_get_description (GOFileOpener const *fo)
 {
-	g_return_val_if_fail (IS_GO_FILE_OPENER (fo), NULL);
+	g_return_val_if_fail (GO_IS_FILE_OPENER (fo), NULL);
 
 	return fo->description;
 }
@@ -223,7 +223,7 @@ go_file_opener_get_description (GOFileOpener const *fo)
 gboolean
 go_file_opener_is_encoding_dependent (GOFileOpener const *fo)
 {
-        g_return_val_if_fail (IS_GO_FILE_OPENER (fo), FALSE);
+        g_return_val_if_fail (GO_IS_FILE_OPENER (fo), FALSE);
 
 	return fo->encoding_dependent;
 }
@@ -231,7 +231,7 @@ go_file_opener_is_encoding_dependent (GOFileOpener const *fo)
 gboolean
 go_file_opener_can_probe (GOFileOpener const *fo, FileProbeLevel pl)
 {
-	g_return_val_if_fail (IS_GO_FILE_OPENER (fo), FALSE);
+	g_return_val_if_fail (GO_IS_FILE_OPENER (fo), FALSE);
 
 	return GO_FILE_OPENER_METHOD (fo, can_probe) (fo, pl);
 }
@@ -239,13 +239,13 @@ go_file_opener_can_probe (GOFileOpener const *fo, FileProbeLevel pl)
 GSList const *
 go_file_opener_get_suffixes (GOFileOpener const *fo)
 {
-	g_return_val_if_fail (IS_GO_FILE_OPENER (fo), NULL);
+	g_return_val_if_fail (GO_IS_FILE_OPENER (fo), NULL);
 	return fo->suffixes;
 }
 GSList const *
 go_file_opener_get_mimes (GOFileOpener const *fo)
 {
-	g_return_val_if_fail (IS_GO_FILE_OPENER (fo), NULL);
+	g_return_val_if_fail (GO_IS_FILE_OPENER (fo), NULL);
 	return fo->mimes;
 }
 
@@ -263,7 +263,7 @@ go_file_opener_get_mimes (GOFileOpener const *fo)
 gboolean
 go_file_opener_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	g_return_val_if_fail (IS_GO_FILE_OPENER (fo), FALSE);
+	g_return_val_if_fail (GO_IS_FILE_OPENER (fo), FALSE);
 	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
 
 #if 0
@@ -293,7 +293,7 @@ go_file_opener_open (GOFileOpener const *fo, gchar const *opt_enc,
 		     IOContext *io_context,
 		     gpointer FIXME_workbook_view, GsfInput *input)
 {
-	g_return_if_fail (IS_GO_FILE_OPENER (fo));
+	g_return_if_fail (GO_IS_FILE_OPENER (fo));
 	g_return_if_fail (GSF_IS_INPUT (input));
 
 	GO_FILE_OPENER_METHOD (fo, open) (fo, opt_enc, io_context,
@@ -322,7 +322,7 @@ go_file_saver_finalize (GObject *obj)
 {
 	GOFileSaver *fs;
 
-	g_return_if_fail (IS_GO_FILE_SAVER (obj));
+	g_return_if_fail (GO_IS_FILE_SAVER (obj));
 
 	fs = GO_FILE_SAVER (obj);
 	g_free (fs->id);
@@ -510,7 +510,7 @@ go_file_saver_class_init (GOFileSaverClass *klass)
 		 g_param_spec_enum ("format-level",
 				    _("Format Level"),
 				    _(""),
-				    GO_FILE_SAVER_LEVEL_TYPE,
+				    GO_TYPE_FILE_SAVER_LEVEL,
 				    FILE_FL_NEW,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
@@ -521,7 +521,7 @@ go_file_saver_class_init (GOFileSaverClass *klass)
 		 g_param_spec_enum ("scope",
 				    _("Scope"),
 				    _("How much of a document is saved"),
-				    GO_FILE_SAVER_SCOPE_TYPE,
+				    GO_TYPE_FILE_SAVER_SCOPE,
 				    FILE_SAVE_WORKBOOK,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
@@ -537,7 +537,7 @@ go_file_saver_class_init (GOFileSaverClass *klass)
 			      NULL, NULL,
 			      go__BOOLEAN__OBJECT_STRING_POINTER,
 			      G_TYPE_BOOLEAN,
-			      3, GO_DOC_TYPE, G_TYPE_STRING, G_TYPE_POINTER);
+			      3, GO_TYPE_DOC, G_TYPE_STRING, G_TYPE_POINTER);
 }
 
 GSF_CLASS (GOFileSaver, go_file_saver,
@@ -581,7 +581,7 @@ go_file_saver_new (gchar const *id,
 void
 go_file_saver_set_save_scope (GOFileSaver *fs, FileSaveScope scope)
 {
-	g_return_if_fail (IS_GO_FILE_SAVER (fs));
+	g_return_if_fail (GO_IS_FILE_SAVER (fs));
 	g_return_if_fail (scope < FILE_SAVE_LAST);
 
 	fs->save_scope = scope;
@@ -590,7 +590,7 @@ go_file_saver_set_save_scope (GOFileSaver *fs, FileSaveScope scope)
 FileSaveScope
 go_file_saver_get_save_scope (GOFileSaver const *fs)
 {
-	g_return_val_if_fail (IS_GO_FILE_SAVER (fs), FILE_SAVE_WORKBOOK);
+	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), FILE_SAVE_WORKBOOK);
 
 	return fs->save_scope;
 }
@@ -598,7 +598,7 @@ go_file_saver_get_save_scope (GOFileSaver const *fs)
 gchar const *
 go_file_saver_get_id (GOFileSaver const *fs)
 {
-	g_return_val_if_fail (IS_GO_FILE_SAVER (fs), NULL);
+	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), NULL);
 
 	return fs->id;
 }
@@ -606,7 +606,7 @@ go_file_saver_get_id (GOFileSaver const *fs)
 gchar const *
 go_file_saver_get_mime_type (GOFileSaver const *fs)
 {
-	g_return_val_if_fail (IS_GO_FILE_SAVER (fs), NULL);
+	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), NULL);
 
 	return fs->mime_type;
 }
@@ -614,7 +614,7 @@ go_file_saver_get_mime_type (GOFileSaver const *fs)
 gchar const *
 go_file_saver_get_extension (GOFileSaver const *fs)
 {
-	g_return_val_if_fail (IS_GO_FILE_SAVER (fs), NULL);
+	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), NULL);
 
 	return fs->extension;
 }
@@ -622,7 +622,7 @@ go_file_saver_get_extension (GOFileSaver const *fs)
 gchar const *
 go_file_saver_get_description (GOFileSaver const *fs)
 {
-	g_return_val_if_fail (IS_GO_FILE_SAVER (fs), NULL);
+	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), NULL);
 
 	return fs->description;
 }
@@ -630,7 +630,7 @@ go_file_saver_get_description (GOFileSaver const *fs)
 FileFormatLevel
 go_file_saver_get_format_level (GOFileSaver const *fs)
 {
-	g_return_val_if_fail (IS_GO_FILE_SAVER (fs), FILE_FL_NEW);
+	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), FILE_FL_NEW);
 
 	return fs->format_level;
 }
@@ -666,7 +666,7 @@ go_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 		    gconstpointer FIXME_workbook_view,
 		    GsfOutput *output)
 {
-	g_return_if_fail (IS_GO_FILE_SAVER (fs));
+	g_return_if_fail (GO_IS_FILE_SAVER (fs));
 	g_return_if_fail (GSF_IS_OUTPUT (output));
 
 	if (GSF_IS_OUTPUT_STDIO (output)) {
@@ -719,7 +719,7 @@ go_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 void
 go_file_saver_set_overwrite_files (GOFileSaver *fs, gboolean overwrite)
 {
-	g_return_if_fail (IS_GO_FILE_SAVER (fs));
+	g_return_if_fail (GO_IS_FILE_SAVER (fs));
 
 	fs->overwrite_files = overwrite;
 }
@@ -804,7 +804,7 @@ go_file_opener_register (GOFileOpener *fo, gint priority)
 	gint pos;
 	gchar const *id;
 
-	g_return_if_fail (IS_GO_FILE_OPENER (fo));
+	g_return_if_fail (GO_IS_FILE_OPENER (fo));
 	g_return_if_fail (priority >=0 && priority <= 100);
 
 	pos = go_list_index_custom (file_opener_priority_list,
@@ -839,7 +839,7 @@ go_file_opener_unregister (GOFileOpener *fo)
 	GList *l;
 	gchar const *id;
 
-	g_return_if_fail (IS_GO_FILE_OPENER (fo));
+	g_return_if_fail (GO_IS_FILE_OPENER (fo));
 
 	pos = g_list_index (file_opener_list, fo);
 	g_return_if_fail (pos != -1);
@@ -882,7 +882,7 @@ go_file_saver_register (GOFileSaver *fs)
 {
 	gchar const *id;
 
-	g_return_if_fail (IS_GO_FILE_SAVER (fs));
+	g_return_if_fail (GO_IS_FILE_SAVER (fs));
 
 	file_saver_list = g_list_prepend (file_saver_list, fs);
 	g_object_ref (G_OBJECT (fs));
@@ -912,7 +912,7 @@ go_file_saver_register_as_default (GOFileSaver *fs, gint priority)
 {
 	DefaultFileSaver *dfs;
 
-	g_return_if_fail (IS_GO_FILE_SAVER (fs));
+	g_return_if_fail (GO_IS_FILE_SAVER (fs));
 	g_return_if_fail (priority >=0 && priority <= 100);
 
 	go_file_saver_register (fs);
@@ -939,7 +939,7 @@ go_file_saver_unregister (GOFileSaver *fs)
 	GList *l;
 	gchar const *id;
 
-	g_return_if_fail (IS_GO_FILE_SAVER (fs));
+	g_return_if_fail (GO_IS_FILE_SAVER (fs));
 
 	l = g_list_find (file_saver_list, fs);
 	g_return_if_fail (l != NULL);

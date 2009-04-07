@@ -33,9 +33,9 @@ typedef struct {
 } GogExpSmooth;
 typedef GogSmoothedCurveClass GogExpSmoothClass;
 
-#define GOG_EXP_SMOOTH_TYPE	(gog_exp_smooth_get_type ())
-#define GOG_EXP_SMOOTH(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_EXP_SMOOTH_TYPE, GogExpSmooth))
-#define GOG_IS_EXP_SMOOTH(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_EXP_SMOOTH_TYPE))
+#define GOG_TYPE_EXP_SMOOTH	(gog_exp_smooth_get_type ())
+#define GOG_EXP_SMOOTH(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_EXP_SMOOTH, GogExpSmooth))
+#define GOG_IS_EXP_SMOOTH(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_EXP_SMOOTH))
 
 GType gog_exp_smooth_get_type (void);
 void gog_exp_smooth_register_type (GTypeModule *module);

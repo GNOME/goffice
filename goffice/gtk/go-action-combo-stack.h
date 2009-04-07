@@ -26,9 +26,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_ACTION_COMBO_STACK_TYPE  (go_action_combo_stack_get_type ())
-#define GO_ACTION_COMBO_STACK(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_ACTION_COMBO_STACK_TYPE, GOActionComboStack))
-#define IS_GO_ACTION_COMBO_STACK(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_ACTION_COMBO_STACK_TYPE))
+#define GO_TYPE_ACTION_COMBO_STACK  (go_action_combo_stack_get_type ())
+#define GO_ACTION_COMBO_STACK(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_ACTION_COMBO_STACK, GOActionComboStack))
+#define GO_IS_ACTION_COMBO_STACK(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_ACTION_COMBO_STACK))
 
 typedef struct _GOActionComboStack	GOActionComboStack;
 

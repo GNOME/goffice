@@ -24,9 +24,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_ROTATION_SEL_TYPE	(go_rotation_sel_get_type ())
-#define GO_ROTATION_SEL(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), GO_ROTATION_SEL_TYPE, GORotationSel))
-#define IS_GO_ROTATION_SEL(obj)	(G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_ROTATION_SEL_TYPE))
+#define GO_TYPE_ROTATION_SEL	(go_rotation_sel_get_type ())
+#define GO_ROTATION_SEL(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), GO_TYPE_ROTATION_SEL, GORotationSel))
+#define GO_IS_ROTATION_SEL(obj)	(G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_TYPE_ROTATION_SEL))
 
 typedef struct _GORotationSel GORotationSel;
 

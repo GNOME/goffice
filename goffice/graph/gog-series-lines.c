@@ -72,7 +72,7 @@ gog_series_lines_class_init (GogObjectClass *klass)
 
 GSF_CLASS (GogSeriesLines, gog_series_lines,
 	   gog_series_lines_class_init, NULL,
-	   GOG_STYLED_OBJECT_TYPE)
+	   GOG_TYPE_STYLED_OBJECT)
 
 static void
 path_move_to (void *closure, GOPathPoint const *point)

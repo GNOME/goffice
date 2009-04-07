@@ -34,9 +34,9 @@
 
 G_BEGIN_DECLS
 
-#define GOG_GRAPH_TYPE	(gog_graph_get_type ())
-#define GOG_GRAPH(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRAPH_TYPE, GogGraph))
-#define IS_GOG_GRAPH(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRAPH_TYPE))
+#define GOG_TYPE_GRAPH	(gog_graph_get_type ())
+#define GOG_GRAPH(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_GRAPH, GogGraph))
+#define GOG_IS_GRAPH(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_GRAPH))
 
 GType gog_graph_get_type (void);
 
@@ -59,9 +59,9 @@ void      gog_graph_unref_data    (GogGraph *graph, GOData *dat);
 void	  gog_graph_get_size 	  (GogGraph *graph, double *width, double *height);
 void      gog_graph_set_size      (GogGraph *graph, double width, double height);
 
-#define GOG_GRAPH_VIEW_TYPE	(gog_graph_view_get_type ())
-#define GOG_GRAPH_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRAPH_VIEW_TYPE, GogGraphView))
-#define IS_GOG_GRAPH_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRAPH_VIEW_TYPE))
+#define GOG_TYPE_GRAPH_VIEW	(gog_graph_view_get_type ())
+#define GOG_GRAPH_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_GRAPH_VIEW, GogGraphView))
+#define GOG_IS_GRAPH_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_GRAPH_VIEW))
 
 GType gog_graph_view_get_type (void);
 

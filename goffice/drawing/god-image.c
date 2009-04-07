@@ -66,7 +66,7 @@ god_image_new (void)
 {
 	GodImage *image;
 
-	image = g_object_new (GOD_IMAGE_TYPE, NULL);
+	image = g_object_new (GOD_TYPE_IMAGE, NULL);
 
 	return image;
 }

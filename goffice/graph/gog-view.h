@@ -94,12 +94,12 @@ typedef struct {
 	void	 (*build_toolkit)		(GogView *view);
 } GogViewClass;
 
-#define GOG_VIEW_TYPE		(gog_view_get_type ())
-#define GOG_VIEW(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_VIEW_TYPE, GogView))
-#define IS_GOG_VIEW(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_VIEW_TYPE))
-#define GOG_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_VIEW_TYPE, GogViewClass))
-#define IS_GOG_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_VIEW_TYPE))
-#define GOG_VIEW_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_VIEW_TYPE, GogViewClass))
+#define GOG_TYPE_VIEW		(gog_view_get_type ())
+#define GOG_VIEW(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_VIEW, GogView))
+#define GOG_IS_VIEW(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_VIEW))
+#define GOG_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_TYPE_VIEW, GogViewClass))
+#define GOG_IS_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_TYPE_VIEW))
+#define GOG_VIEW_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_VIEW, GogViewClass))
 
 GType      gog_view_get_type (void);
 

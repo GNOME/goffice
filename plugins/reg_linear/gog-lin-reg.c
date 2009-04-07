@@ -36,7 +36,7 @@
 
 GOFFICE_PLUGIN_MODULE_HEADER;
 
-#define GOG_LIN_REG_CURVE_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_LIN_REG_CURVE_TYPE, GogLinRegCurveClass))
+#define GOG_LIN_REG_CURVE_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_LIN_REG_CURVE, GogLinRegCurveClass))
 
 static GogObjectClass *gog_lin_reg_curve_parent_klass;
 
@@ -287,7 +287,7 @@ gog_lin_reg_curve_init (GogLinRegCurve *model)
 
 GSF_DYNAMIC_CLASS (GogLinRegCurve, gog_lin_reg_curve,
 	gog_lin_reg_curve_class_init, gog_lin_reg_curve_init,
-	GOG_REG_CURVE_TYPE)
+	GOG_TYPE_REG_CURVE)
 
 /* Plugin initialization */
 

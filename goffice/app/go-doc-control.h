@@ -26,9 +26,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_DOC_CONTROL_TYPE	    (go_doc_control_get_type ())
-#define GO_DOC_CONTROL(o)	    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_DOC_CONTROL_TYPE, GODocControl))
-#define IS_GO_DOC_CONTROL(o)	    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_DOC_CONTROL_TYPE))
+#define GO_TYPE_DOC_CONTROL	    (go_doc_control_get_type ())
+#define GO_DOC_CONTROL(o)	    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_DOC_CONTROL, GODocControl))
+#define GO_IS_DOC_CONTROL(o)	    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_DOC_CONTROL))
 
 typedef enum {
 	GO_DOC_CONTROL_STATE_NORMAL = 0,

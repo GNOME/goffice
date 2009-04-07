@@ -357,7 +357,7 @@ gog_equation_init (GogEquation *equation)
 
 GSF_CLASS (GogEquation, gog_equation,
 	   gog_equation_class_init, gog_equation_init,
-	   GOG_OUTLINED_OBJECT_TYPE);
+	   GOG_TYPE_OUTLINED_OBJECT);
 
 typedef struct {
 	GogOutlinedView		 base;
@@ -367,9 +367,9 @@ typedef struct {
 
 typedef GogOutlinedViewClass	GogEquationViewClass;
 
-#define GOG_EQUATION_VIEW_TYPE	(gog_equation_view_get_type ())
-#define GOG_EQUATION_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_EQUATION_VIEW_TYPE, GogEquationView))
-#define IS_GOG_EQUATION_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_EQUATION_VIEW_TYPE))
+#define GOG_TYPE_EQUATION_VIEW	(gog_equation_view_get_type ())
+#define GOG_EQUATION_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_EQUATION_VIEW, GogEquationView))
+#define GOG_IS_EQUATION_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_EQUATION_VIEW))
 
 static GogViewClass *equation_view_parent_klass;
 
@@ -452,5 +452,5 @@ gog_equation_view_init (GObject *object)
 
 GSF_CLASS (GogEquationView, gog_equation_view,
 	   gog_equation_view_class_init, gog_equation_view_init,
-	   GOG_OUTLINED_VIEW_TYPE)
+	   GOG_TYPE_OUTLINED_VIEW)
 

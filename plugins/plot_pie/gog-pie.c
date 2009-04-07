@@ -112,7 +112,7 @@ gog_pie_series_element_class_init (GogPieSeriesElementClass *klass)
 
 GSF_DYNAMIC_CLASS (GogPieSeriesElement, gog_pie_series_element,
 	gog_pie_series_element_class_init, NULL /*gog_pie_series_element_init*/,
-	GOG_SERIES_ELEMENT_TYPE)
+	GOG_TYPE_SERIES_ELEMENT)
 
 /*****************************************************************************/
 
@@ -278,7 +278,7 @@ gog_pie_plot_init (GogPiePlot *pie)
 
 GSF_DYNAMIC_CLASS (GogPiePlot, gog_pie_plot,
 	gog_pie_plot_class_init, gog_pie_plot_init,
-	GOG_PLOT_TYPE)
+	GOG_TYPE_PLOT)
 
 static void
 gog_pie_plot_set_default_separation (GogPiePlot *pie, double separation)
@@ -385,7 +385,7 @@ gog_ring_plot_init (GogRingPlot *ring)
 
 GSF_DYNAMIC_CLASS (GogRingPlot, gog_ring_plot,
 	gog_ring_plot_class_init, gog_ring_plot_init,
-	GOG_PIE_PLOT_TYPE)
+	GOG_TYPE_PIE_PLOT)
 
 /*****************************************************************************/
 
@@ -804,7 +804,7 @@ gog_pie_view_class_init (GogViewClass *view_klass)
 
 GSF_DYNAMIC_CLASS (GogPieView, gog_pie_view,
 	gog_pie_view_class_init, NULL,
-	GOG_PLOT_VIEW_TYPE)
+	GOG_TYPE_PLOT_VIEW)
 
 /*****************************************************************************/
 
@@ -892,7 +892,7 @@ gog_pie_series_class_init (GObjectClass *gobject_klass)
 
 	series_parent_klass = g_type_class_peek_parent (gobject_klass);
 	gog_klass->update = gog_pie_series_update;
-	series_klass->series_element_type = GOG_PIE_SERIES_ELEMENT_TYPE;
+	series_klass->series_element_type = GOG_TYPE_PIE_SERIES_ELEMENT;
 
 	gobject_klass->set_property = gog_pie_series_set_property;
 	gobject_klass->get_property = gog_pie_series_get_property;
@@ -913,7 +913,7 @@ gog_pie_series_class_init (GObjectClass *gobject_klass)
 
 GSF_DYNAMIC_CLASS (GogPieSeries, gog_pie_series,
 	   gog_pie_series_class_init, NULL,
-	   GOG_SERIES_TYPE)
+	   GOG_TYPE_SERIES)
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)

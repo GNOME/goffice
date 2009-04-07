@@ -27,9 +27,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_ACTION_COMBO_COLOR_TYPE  (go_action_combo_color ())
-#define GO_ACTION_COMBO_COLOR(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_ACTION_COMBO_COLOR_TYPE, GOActionComboColor))
-#define IS_GO_ACTION_COMBO_COLOR(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_ACTION_COMBO_COLOR_TYPE))
+#define GO_TYPE_ACTION_COMBO_COLOR  (go_action_combo_color ())
+#define GO_ACTION_COMBO_COLOR(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_ACTION_COMBO_COLOR, GOActionComboColor))
+#define GO_IS_ACTION_COMBO_COLOR(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_ACTION_COMBO_COLOR))
 
 typedef struct _GOActionComboColor	 GOActionComboColor;
 

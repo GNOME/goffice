@@ -29,9 +29,9 @@ G_BEGIN_DECLS
 typedef GogLinRegCurve GogLogRegCurve;
 typedef GogLinRegCurveClass GogLogRegCurveClass;
 
-#define GOG_LOG_REG_CURVE_TYPE	(gog_log_reg_curve_get_type ())
-#define GOG_LOG_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LOG_REG_CURVE_TYPE, GogLogRegCurve))
-#define GOG_IS_LOG_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LOG_REG_CURVE_TYPE))
+#define GOG_TYPE_LOG_REG_CURVE	(gog_log_reg_curve_get_type ())
+#define GOG_LOG_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_LOG_REG_CURVE, GogLogRegCurve))
+#define GOG_IS_LOG_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_LOG_REG_CURVE))
 
 GType gog_log_reg_curve_get_type (void);
 void  gog_log_reg_curve_register_type (GTypeModule *module);

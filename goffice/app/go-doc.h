@@ -28,9 +28,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_DOC_TYPE	    (go_doc_get_type ())
-#define GO_DOC(o)	    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_DOC_TYPE, GODoc))
-#define IS_GO_DOC(o)	    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_DOC_TYPE))
+#define GO_TYPE_DOC	    (go_doc_get_type ())
+#define GO_DOC(o)	    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_DOC, GODoc))
+#define GO_IS_DOC(o)	    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_DOC))
 
 GType go_doc_get_type (void);
 

@@ -29,9 +29,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_MARKER_TYPE	  	(go_marker_get_type ())
-#define GO_MARKER(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_MARKER_TYPE, GOMarker))
-#define IS_GO_MARKER(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_MARKER_TYPE))
+#define GO_TYPE_MARKER	  	(go_marker_get_type ())
+#define GO_MARKER(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_TYPE_MARKER, GOMarker))
+#define GO_IS_MARKER(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_TYPE_MARKER))
 
 typedef enum {
 	GO_MARKER_NONE,

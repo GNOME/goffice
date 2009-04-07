@@ -215,4 +215,4 @@ gog_moving_avg_init (GogMovingAvg *model)
 
 GSF_DYNAMIC_CLASS (GogMovingAvg, gog_moving_avg,
 	gog_moving_avg_class_init, gog_moving_avg_init,
-	GOG_SMOOTHED_CURVE_TYPE)
+	GOG_TYPE_SMOOTHED_CURVE)

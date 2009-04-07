@@ -77,7 +77,7 @@ gog_object_set_arg_full (char const *name, char const *val, GogObject *obj, xmlN
 			xmlFree (type_name);
 			if (type != 0) {
 				val_obj = g_object_new (type, NULL);
-				if (IS_GO_PERSIST (val_obj) &&
+				if (GO_IS_PERSIST (val_obj) &&
 				    go_persist_dom_load (GO_PERSIST (val_obj), xml_node)) {
 					g_value_set_object (&res, val_obj);
 					success = TRUE;
@@ -159,7 +159,7 @@ gog_object_write_property_sax (GogObject const *obj, GParamSpec *pspec, GsfXMLOu
 	case G_TYPE_OBJECT:
 		val_obj = g_value_get_object (&value);
 		if (val_obj != NULL) {
-			if (IS_GO_PERSIST (val_obj)) {
+			if (GO_IS_PERSIST (val_obj)) {
 				gsf_xml_out_start_element (output, "property");
 				gsf_xml_out_add_cstr_unchecked (output, "name", pspec->name);
 				go_persist_sax_save (GO_PERSIST (val_obj), output);
@@ -245,7 +245,7 @@ gog_object_write_xml_sax (GogObject const *obj, GsfXMLOut *output)
 	GParamSpec **props;
 	GSList	    *ptr;
 
-	g_return_if_fail (IS_GOG_OBJECT (obj));
+	g_return_if_fail (GOG_IS_OBJECT (obj));
 
 	gsf_xml_out_start_element (output, "GogObject");
 
@@ -267,9 +267,9 @@ gog_object_write_xml_sax (GogObject const *obj, GsfXMLOut *output)
 
 	g_free (props);
 
-	if (IS_GO_PERSIST (obj))	/* anything special for this class */
+	if (GO_IS_PERSIST (obj))	/* anything special for this class */
 		go_persist_sax_save (GO_PERSIST (obj), output);
-	if (IS_GOG_DATASET (obj))	/* convenience to save data */
+	if (GOG_IS_DATASET (obj))	/* convenience to save data */
 		gog_dataset_sax_save (GOG_DATASET (obj), output);
 
 	/* the children */
@@ -318,9 +318,9 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 
 	res->explicitly_typed_role = explicitly_typed_role;
 
-	if (IS_GO_PERSIST (res))
+	if (GO_IS_PERSIST (res))
 		go_persist_dom_load (GO_PERSIST (res), node);
-	if (IS_GOG_DATASET (res))	/* convenience to save data */
+	if (GOG_IS_DATASET (res))	/* convenience to save data */
 		gog_dataset_dom_load (GOG_DATASET (res), node);
 
 	for (ptr = node->xmlChildrenNode ; ptr != NULL ; ptr = ptr->next) {
@@ -370,7 +370,7 @@ gogo_dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL == state->obj)
 		return;
 
-	g_return_if_fail (IS_GOG_DATASET (state->obj));
+	g_return_if_fail (GOG_IS_DATASET (state->obj));
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "id"))
@@ -410,7 +410,7 @@ gogo_dim_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 	if (NULL == state->obj)
 		return;
 
-	g_return_if_fail (IS_GOG_DATASET (state->obj));
+	g_return_if_fail (GOG_IS_DATASET (state->obj));
 
 	if (NULL != state->dimension) {
 		if (go_data_from_str (state->dimension, xin->content->str))
@@ -478,7 +478,7 @@ gogo_prop_start (GsfXMLIn *xin, xmlChar const **attrs)
 		state->obj_stack = g_slist_prepend (state->obj_stack, state->obj);
 		state->obj = obj;
 		state->prop_pushed_obj = TRUE;
-		if (IS_GO_PERSIST (obj))
+		if (GO_IS_PERSIST (obj))
 			go_persist_prep_sax (GO_PERSIST (obj), xin, attrs);
 	}
 }
@@ -565,7 +565,7 @@ gogo_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 	if (res != NULL) {
 		res->explicitly_typed_role = (type != NULL);
-		if (IS_GO_PERSIST (res))
+		if (GO_IS_PERSIST (res))
 			go_persist_prep_sax (GO_PERSIST (res), xin, attrs);
 	}
 

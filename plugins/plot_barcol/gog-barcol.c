@@ -41,29 +41,29 @@
 typedef GogSeriesElement GogBarColSeriesElement;
 typedef GogSeriesElementClass GogBarColSeriesElementClass;
 
-#define GOG_BARCOL_SERIES_ELEMENT_TYPE	(gog_barcol_series_element_get_type ())
-#define GOG_BARCOL_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_BARCOL_SERIES_ELEMENT_TYPE, GogBarColSeriesElement))
-#define GOG_IS_BARCOL_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_BARCOL_SERIES_ELEMENT_TYPE))
+#define GOG_TYPE_BARCOL_SERIES_ELEMENT	(gog_barcol_series_element_get_type ())
+#define GOG_BARCOL_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_BARCOL_SERIES_ELEMENT, GogBarColSeriesElement))
+#define GOG_IS_BARCOL_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_BARCOL_SERIES_ELEMENT))
 GType gog_barcol_series_element_get_type (void);
 
 GSF_DYNAMIC_CLASS (GogBarColSeriesElement, gog_barcol_series_element,
 	NULL, NULL,
-	GOG_SERIES_ELEMENT_TYPE)
+	GOG_TYPE_SERIES_ELEMENT)
 
 /******************************************************************************/
 
 typedef GogSeries1_5d GogBarColSeries;
 typedef GogSeries1_5dClass GogBarColSeriesClass;
 
-#define GOG_BARCOL_SERIES_TYPE	(gog_barcol_series_eget_type ())
-#define GOG_BARCOL_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_BARCOL_SERIES_TYPE, GogBarColSeries))
-#define GOG_IS_BARCOL_SERIEST(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_BARCOL_SERIES_TYPE))
+#define GOG_TYPE_BARCOL_SERIES	(gog_barcol_series_eget_type ())
+#define GOG_BARCOL_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_BARCOL_SERIES, GogBarColSeries))
+#define GOG_IS_BARCOL_SERIEST(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_BARCOL_SERIES))
 GType gog_barcol_series_get_type (void);
 
 static void
 gog_barcol_series_class_init (GogSeriesClass *series_klass)
 {
-	series_klass->series_element_type = GOG_BARCOL_SERIES_ELEMENT_TYPE;
+	series_klass->series_element_type = GOG_TYPE_BARCOL_SERIES_ELEMENT;
 }
 
 GSF_DYNAMIC_CLASS (GogBarColSeries, gog_barcol_series,
@@ -570,4 +570,4 @@ gog_barcol_view_class_init (GogViewClass *view_klass)
 
 GSF_DYNAMIC_CLASS (GogBarColView, gog_barcol_view,
 	gog_barcol_view_class_init, NULL,
-	GOG_PLOT_VIEW_TYPE)
+	GOG_TYPE_PLOT_VIEW)

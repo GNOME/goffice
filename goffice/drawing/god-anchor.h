@@ -19,12 +19,12 @@
 
 G_BEGIN_DECLS
 
-#define GOD_ANCHOR_TYPE		(god_anchor_get_type ())
-#define GOD_ANCHOR(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOD_ANCHOR_TYPE, GodAnchor))
-#define GOD_ANCHOR_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOD_ANCHOR_TYPE, GodAnchorClass))
-#define GOD_ANCHOR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS((o), GOD_ANCHOR_TYPE, GodAnchorClass))
-#define IS_GOD_ANCHOR(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOD_ANCHOR_TYPE))
-#define IS_GOD_ANCHOR_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOD_ANCHOR_TYPE))
+#define GOD_TYPE_ANCHOR		(god_anchor_get_type ())
+#define GOD_ANCHOR(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOD_TYPE_ANCHOR, GodAnchor))
+#define GOD_ANCHOR_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOD_TYPE_ANCHOR, GodAnchorClass))
+#define GOD_ANCHOR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS((o), GOD_TYPE_ANCHOR, GodAnchorClass))
+#define GOD_IS_ANCHOR(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOD_TYPE_ANCHOR))
+#define GOD_IS_ANCHOR_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOD_TYPE_ANCHOR))
 
 typedef struct GodAnchorPrivate_ GodAnchorPrivate;
 

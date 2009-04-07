@@ -42,9 +42,9 @@ GODistributionType go_distribution_type_from_string (char const *name);
 
 typedef struct _GODistribution GODistribution;
 
-#define GO_DISTRIBUTION_TYPE	  	(go_distribution_get_type ())
-#define GO_DISTRIBUTION(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_DISTRIBUTION_TYPE, GODistribution))
-#define IS_GO_DISTRIBUTION(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_DISTRIBUTION_TYPE))
+#define GO_TYPE_DISTRIBUTION	  	(go_distribution_get_type ())
+#define GO_DISTRIBUTION(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_TYPE_DISTRIBUTION, GODistribution))
+#define GO_IS_DISTRIBUTION(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_TYPE_DISTRIBUTION))
 
 GType go_distribution_get_type (void);
 

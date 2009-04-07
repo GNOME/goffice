@@ -67,14 +67,14 @@ gog_grid_init_style (GogStyledObject *gso, GogStyle *style)
 GogGridType
 gog_grid_get_gtype (GogGrid const *grid)
 {
-	g_return_val_if_fail (IS_GOG_GRID (grid), GOG_GRID_UNKNOWN);
+	g_return_val_if_fail (GOG_IS_GRID (grid), GOG_GRID_UNKNOWN);
 	return grid->type;
 }
 
 void
 gog_grid_set_gtype (GogGrid *grid, GogGridType type)
 {
-	g_return_if_fail (IS_GOG_GRID (grid));
+	g_return_if_fail (GOG_IS_GRID (grid));
 	grid->type = type;
 }
 
@@ -131,16 +131,16 @@ gog_grid_init (GogGrid *grid)
 
 GSF_CLASS (GogGrid, gog_grid,
 	   gog_grid_class_init, gog_grid_init,
-	   GOG_STYLED_OBJECT_TYPE)
+	   GOG_TYPE_STYLED_OBJECT)
 
 /************************************************************************/
 
 typedef GogView		GogGridView;
 typedef GogViewClass	GogGridViewClass;
 
-#define GOG_GRID_VIEW_TYPE	(gog_grid_view_get_type ())
-#define GOG_GRID_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRID_VIEW_TYPE, GogGridView))
-#define IS_GOG_GRID_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRID_VIEW_TYPE))
+#define GOG_TYPE_GRID_VIEW	(gog_grid_view_get_type ())
+#define GOG_GRID_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_GRID_VIEW, GogGridView))
+#define GOG_IS_GRID_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_GRID_VIEW))
 
 
 static void
@@ -344,4 +344,4 @@ gog_grid_view_class_init (GogGridViewClass *gview_klass)
 
 static GSF_CLASS (GogGridView, gog_grid_view,
 	   gog_grid_view_class_init, NULL,
-	   GOG_VIEW_TYPE)
+	   GOG_TYPE_VIEW)

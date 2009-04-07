@@ -29,9 +29,9 @@ G_BEGIN_DECLS
 typedef struct _GogBoxPlot GogBoxPlot;
 typedef GogPlotClass GogBoxPlotClass;
 
-#define GOG_BOX_PLOT_TYPE	(gog_box_plot_get_type ())
-#define GOG_BOX_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_BOX_PLOT_TYPE, GogBoxPlot))
-#define GOG_IS_BOX_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_BOX_PLOT_TYPE))
+#define GOG_TYPE_BOX_PLOT	(gog_box_plot_get_type ())
+#define GOG_BOX_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_BOX_PLOT, GogBoxPlot))
+#define GOG_IS_BOX_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_BOX_PLOT))
 
 GType gog_box_plot_get_type (void);
 

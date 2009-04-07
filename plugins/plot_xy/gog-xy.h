@@ -69,21 +69,21 @@ typedef struct {
 
 GType gog_2d_plot_get_type (void);
 
-#define GOG_XY_PLOT_TYPE	(gog_xy_plot_get_type ())
-#define GOG_XY_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XY_PLOT_TYPE, GogXYPlot))
-#define GOG_IS_XY_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XY_PLOT_TYPE))
+#define GOG_TYPE_XY_PLOT	(gog_xy_plot_get_type ())
+#define GOG_XY_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XY_PLOT, GogXYPlot))
+#define GOG_IS_XY_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XY_PLOT))
 
 GType gog_xy_plot_get_type (void);
 
-#define GOG_BUBBLE_PLOT_TYPE	(gog_bubble_plot_get_type ())
-#define GOG_BUBBLE_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_BUBBLE_PLOT_TYPE, GogBubblePlot))
-#define GOG_IS_BUBBLE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_BUBBLE_PLOT_TYPE))
+#define GOG_TYPE_BUBBLE_PLOT	(gog_bubble_plot_get_type ())
+#define GOG_BUBBLE_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_BUBBLE_PLOT, GogBubblePlot))
+#define GOG_IS_BUBBLE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_BUBBLE_PLOT))
 
 GType gog_bubble_plot_get_type (void);
 
-#define GOG_XY_COLOR_PLOT_TYPE	(gog_xy_color_plot_get_type ())
-#define GOG_XY_COLOR_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XY_COLOR_PLOT_TYPE, GogXYColorPlot))
-#define GOG_IS_XY_COLOR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XY_COLOR_PLOT_TYPE))
+#define GOG_TYPE_XY_COLOR_PLOT	(gog_xy_color_plot_get_type ())
+#define GOG_XY_COLOR_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XY_COLOR_PLOT, GogXYColorPlot))
+#define GOG_IS_XY_COLOR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XY_COLOR_PLOT))
 
 GType gog_xy_color_plot_get_type (void);
 
@@ -98,9 +98,9 @@ typedef struct {
 	GogDataset	  *interpolation_props;
 } GogXYSeries;
 
-#define GOG_XY_SERIES_TYPE	(gog_xy_series_get_type ())
-#define GOG_XY_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XY_SERIES_TYPE, GogXYSeries))
-#define GOG_IS_XY_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XY_SERIES_TYPE))
+#define GOG_TYPE_XY_SERIES	(gog_xy_series_get_type ())
+#define GOG_XY_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XY_SERIES, GogXYSeries))
+#define GOG_IS_XY_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XY_SERIES))
 
 G_END_DECLS
 

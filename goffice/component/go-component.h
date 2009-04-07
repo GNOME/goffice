@@ -65,9 +65,9 @@ struct _GOComponentClass {
 
 typedef struct _GOComponentClass GOComponentClass;
 
-#define GO_COMPONENT_TYPE	(go_component_get_type ())
-#define GO_COMPONENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_COMPONENT_TYPE, GOComponent))
-#define IS_GO_COMPONENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_COMPONENT_TYPE))
+#define GO_TYPE_COMPONENT	(go_component_get_type ())
+#define GO_COMPONENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_COMPONENT, GOComponent))
+#define GO_IS_COMPONENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_COMPONENT))
 
 #define GOC_PARAM_PERSISTENT	(1 << (G_PARAM_USER_SHIFT+0))
 

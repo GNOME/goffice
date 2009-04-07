@@ -38,12 +38,12 @@ typedef struct {
 	void     (*sax_save) (GOPersist const *gp, GsfXMLOut *output);
 } GOPersistClass;
 
-#define GO_PERSIST_TYPE		 (go_persist_get_type ())
-#define GO_PERSIST(o)		 (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_PERSIST_TYPE, GOPersist))
-#define IS_GO_PERSIST(o)	 (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_PERSIST_TYPE))
-#define GO_PERSIST_CLASS(k)	 (G_TYPE_CHECK_CLASS_CAST ((k), GO_PERSIST_TYPE, GOPersistClass))
-#define IS_GO_PERSIST_CLASS(k)	 (G_TYPE_CHECK_CLASS_TYPE ((k), GO_PERSIST_TYPE))
-#define GO_PERSIST_GET_CLASS(o)	 (G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_PERSIST_TYPE, GOPersistClass))
+#define GO_TYPE_PERSIST		 (go_persist_get_type ())
+#define GO_PERSIST(o)		 (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_PERSIST, GOPersist))
+#define GO_IS_PERSIST(o)	 (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_PERSIST))
+#define GO_PERSIST_CLASS(k)	 (G_TYPE_CHECK_CLASS_CAST ((k), GO_TYPE_PERSIST, GOPersistClass))
+#define GO_IS_PERSIST_CLASS(k)	 (G_TYPE_CHECK_CLASS_TYPE ((k), GO_TYPE_PERSIST))
+#define GO_PERSIST_GET_CLASS(o)	 (G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_TYPE_PERSIST, GOPersistClass))
 
 GType go_persist_get_type (void);
 

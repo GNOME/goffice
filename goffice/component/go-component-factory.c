@@ -37,9 +37,9 @@ static GSList *refd_plugins = NULL;
 /***************************************************************************/
 /* Support component engines in plugins */
 
-#define GO_COMPONENT_ENGINE_SERVICE_TYPE  (go_component_engine_service_get_type ())
-#define GO_COMPONENT_ENGINE_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_COMPONENT_ENGINE_SERVICE_TYPE, GOComponentEngineService))
-#define IS_GO_COMPONENT_ENGINE_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_COMPONENT_ENGINE_SERVICE_TYPE))
+#define GO_TYPE_COMPONENT_ENGINE_SERVICE  (go_component_engine_service_get_type ())
+#define GO_COMPONENT_ENGINE_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_COMPONENT_ENGINE_SERVICE, GOComponentEngineService))
+#define GO_IS_COMPONENT_ENGINE_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_COMPONENT_ENGINE_SERVICE))
 
 static GType go_component_engine_service_get_type (void);
 
@@ -73,12 +73,12 @@ go_component_engine_service_class_init (PluginServiceGObjectLoaderClass *
 
 GSF_CLASS (GOComponentEngineService, go_component_engine_service,
 	   go_component_engine_service_class_init, NULL,
-	   GO_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE)
+	   GO_TYPE_PLUGIN_SERVICE_GOBJECT_LOADER)
 /***************************************************************************/
 /* Use a plugin service to define where to find plot types */
-#define GO_COMPONENT_TYPE_SERVICE_TYPE  (go_component_type_service_get_type ())
-#define GO_COMPONENT_TYPE_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_COMPONENT_TYPE_SERVICE_TYPE, GOComponentTypeService))
-#define IS_GO_COMPONENT_TYPE_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_COMPONENT_TYPE_SERVICE_TYPE))
+#define GO_TYPE_COMPONENT_TYPE_SERVICE  (go_component_type_service_get_type ())
+#define GO_COMPONENT_TYPE_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_COMPONENT_TYPE_SERVICE, GOComponentTypeService))
+#define GO_IS_COMPONENT_TYPE_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_COMPONENT_TYPE_SERVICE))
 GType go_component_type_service_get_type (void);
 
 typedef struct
@@ -203,7 +203,7 @@ go_component_type_service_class_init (GObjectClass * gobject_klass)
 
 GSF_CLASS (GOComponentTypeService, go_component_type_service,
 	   go_component_type_service_class_init,
-	   go_component_type_service_init, GO_PLUGIN_SERVICE_SIMPLE_TYPE)
+	   go_component_type_service_init, GO_TYPE_PLUGIN_SERVICE_SIMPLE)
 /***************************************************************************/
      void goc_plugin_services_init (void)
 {

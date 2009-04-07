@@ -25,7 +25,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 
-#define GO_COMPONENT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_COMPONENT_TYPE, GOComponentClass))
+#define GO_COMPONENT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_COMPONENT, GOComponentClass))
 
 enum {
 	COMPONENT_PROP_0,
@@ -173,7 +173,7 @@ go_component_set_default_size (GOComponent *component, double width, double asce
 {
 	GOComponentClass *klass;
 
-	g_return_if_fail (IS_GO_COMPONENT (component));
+	g_return_if_fail (GO_IS_COMPONENT (component));
 
 	klass = GO_COMPONENT_GET_CLASS(component);
 	component->default_width = width;
@@ -194,7 +194,7 @@ go_component_set_default_size (GOComponent *component, double width, double asce
 gboolean
 go_component_needs_window (GOComponent *component)
 {
-	g_return_val_if_fail (IS_GO_COMPONENT (component), FALSE);
+	g_return_val_if_fail (GO_IS_COMPONENT (component), FALSE);
 	return component->needs_window;
 }
 
@@ -203,7 +203,7 @@ go_component_set_window (GOComponent *component, GdkWindow *window)
 {
 	GOComponentClass *klass;
 
-	g_return_if_fail (IS_GO_COMPONENT (component));
+	g_return_if_fail (GO_IS_COMPONENT (component));
 
 	klass = GO_COMPONENT_GET_CLASS(component);
 	component->window = window;
@@ -216,7 +216,7 @@ go_component_set_data (GOComponent *component, char const *data, int length)
 {
 	GOComponentClass *klass;
 
-	g_return_if_fail (IS_GO_COMPONENT (component));
+	g_return_if_fail (GO_IS_COMPONENT (component));
 
 	component->data = data;
 	component->length = length;
@@ -232,7 +232,7 @@ go_component_get_data (GOComponent *component, gpointer *data, int *length,
 {
 	GOComponentClass *klass;
 
-	g_return_val_if_fail (IS_GO_COMPONENT (component), FALSE);
+	g_return_val_if_fail (GO_IS_COMPONENT (component), FALSE);
 
 	klass = GO_COMPONENT_GET_CLASS(component);
 	if (klass->get_data)
@@ -245,7 +245,7 @@ go_component_set_size (GOComponent *component, double width, double height)
 {
 	GOComponentClass *klass;
 
-	g_return_if_fail (IS_GO_COMPONENT (component));
+	g_return_if_fail (GO_IS_COMPONENT (component));
 
 	if (!component->resizable)
 		return;
@@ -262,7 +262,7 @@ go_component_render (GOComponent *component, cairo_t *cr,
 {
 	GOComponentClass *klass;
 
-	g_return_if_fail (IS_GO_COMPONENT (component));
+	g_return_if_fail (GO_IS_COMPONENT (component));
 
 	klass = GO_COMPONENT_GET_CLASS(component);
 	if (klass->render)
@@ -272,14 +272,14 @@ go_component_render (GOComponent *component, cairo_t *cr,
 gboolean
 go_component_is_resizable (GOComponent *component)
 {
-	g_return_val_if_fail (IS_GO_COMPONENT (component), FALSE);
+	g_return_val_if_fail (GO_IS_COMPONENT (component), FALSE);
 	return component->resizable;
 }
 
 gboolean
 go_component_is_editable (GOComponent *component)
 {
-	g_return_val_if_fail (IS_GO_COMPONENT (component), FALSE);
+	g_return_val_if_fail (GO_IS_COMPONENT (component), FALSE);
 	return component->editable;
 }
 
@@ -287,7 +287,7 @@ GtkWindow *go_component_edit (GOComponent *component)
 {
 	GOComponentClass *klass;
 
-	g_return_val_if_fail (IS_GO_COMPONENT (component), NULL);
+	g_return_val_if_fail (GO_IS_COMPONENT (component), NULL);
 
 	klass = GO_COMPONENT_GET_CLASS(component);
 	if (component->editable && klass->edit)
@@ -298,7 +298,7 @@ GtkWindow *go_component_edit (GOComponent *component)
 void
 go_component_emit_changed (GOComponent *component)
 {
-	g_return_if_fail (IS_GO_COMPONENT (component));
+	g_return_if_fail (GO_IS_COMPONENT (component));
 
 	g_signal_emit (G_OBJECT (component),
 		go_component_signals [CHANGED], 0);

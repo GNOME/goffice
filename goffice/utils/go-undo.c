@@ -24,9 +24,9 @@ go_undo_undo_with_data (GOUndo *u, gpointer data)
 {
 	GOUndoClass *uc;
 
-	g_return_if_fail (IS_GO_UNDO (u));
+	g_return_if_fail (GO_IS_UNDO (u));
 
-	uc = G_TYPE_INSTANCE_GET_CLASS (u, GO_UNDO_TYPE, GOUndoClass);
+	uc = G_TYPE_INSTANCE_GET_CLASS (u, GO_TYPE_UNDO, GOUndoClass);
 	uc->undo (u, data);
 }
 
@@ -50,14 +50,14 @@ go_undo_undo (GOUndo *u)
 GOUndo *
 go_undo_combine (GOUndo *a, GOUndo *b)
 {
-	g_return_val_if_fail (a == NULL || IS_GO_UNDO (a), NULL);
-	g_return_val_if_fail (b == NULL || IS_GO_UNDO (b), NULL);
+	g_return_val_if_fail (a == NULL || GO_IS_UNDO (a), NULL);
+	g_return_val_if_fail (b == NULL || GO_IS_UNDO (b), NULL);
 
 	if (!a)
 		return b;
 	else if (!b)
 		return a;
-	else if (IS_GO_UNDO_GROUP (a)) {
+	else if (GO_IS_UNDO_GROUP (a)) {
 		go_undo_group_add (GO_UNDO_GROUP (a), b);
 		return a;
 	} else {
@@ -118,20 +118,20 @@ go_undo_group_class_init (GObjectClass *gobject_class)
 }
 
 GSF_CLASS (GOUndoGroup, go_undo_group,
-	   go_undo_group_class_init, go_undo_group_init, GO_UNDO_TYPE)
+	   go_undo_group_class_init, go_undo_group_init, GO_TYPE_UNDO)
 
 GOUndoGroup *
 go_undo_group_new (void)
 {
-	return g_object_new (GO_UNDO_GROUP_TYPE, NULL);
+	return g_object_new (GO_TYPE_UNDO_GROUP, NULL);
 }
 
 /* Takes ownership of u. */
 void
 go_undo_group_add (GOUndoGroup *ug, GOUndo *u)
 {
-	g_return_if_fail (IS_GO_UNDO_GROUP (ug));
-	g_return_if_fail (IS_GO_UNDO (u));
+	g_return_if_fail (GO_IS_UNDO_GROUP (ug));
+	g_return_if_fail (GO_IS_UNDO (u));
 	g_ptr_array_add (ug->undos, u);
 }
 
@@ -171,13 +171,13 @@ go_undo_binary_class_init (GObjectClass *gobject_class)
 
 
 GSF_CLASS (GOUndoBinary, go_undo_binary,
-	   go_undo_binary_class_init, NULL, GO_UNDO_TYPE)
+	   go_undo_binary_class_init, NULL, GO_TYPE_UNDO)
 
 GOUndo *
 go_undo_binary_new (gpointer a, gpointer b, GOUndoBinaryFunc undo,
 		    GFreeFunc fa, GFreeFunc fb)
 {
-	GOUndoBinary *ua = g_object_new (GO_UNDO_BINARY_TYPE, NULL);
+	GOUndoBinary *ua = g_object_new (GO_TYPE_UNDO_BINARY, NULL);
 	ua->a = a;
 	ua->b = b;
 	ua->undo = undo;
@@ -220,12 +220,12 @@ go_undo_unary_class_init (GObjectClass *gobject_class)
 
 
 GSF_CLASS (GOUndoUnary, go_undo_unary,
-	   go_undo_unary_class_init, NULL, GO_UNDO_TYPE)
+	   go_undo_unary_class_init, NULL, GO_TYPE_UNDO)
 
 GOUndo *
 go_undo_unary_new (gpointer a, GOUndoUnaryFunc undo, GFreeFunc fa)
 {
-	GOUndoUnary *ua = g_object_new (GO_UNDO_UNARY_TYPE, NULL);
+	GOUndoUnary *ua = g_object_new (GO_TYPE_UNDO_UNARY, NULL);
 	ua->a = a;
 	ua->undo = undo;
 	ua->disposea = fa;

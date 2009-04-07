@@ -279,20 +279,20 @@ GSF_CLASS (GORotationSel, go_rotation_sel,
 GtkWidget *
 go_rotation_sel_new (void)
 {
-	return g_object_new (GO_ROTATION_SEL_TYPE, NULL);
+	return g_object_new (GO_TYPE_ROTATION_SEL, NULL);
 }
 
 int
 go_rotation_sel_get_rotation (GORotationSel const *grs)
 {
-	g_return_val_if_fail (IS_GO_ROTATION_SEL (grs), 0);
+	g_return_val_if_fail (GO_IS_ROTATION_SEL (grs), 0);
 	return grs->angle;
 }
 
 void
 go_rotation_sel_set_rotation (GORotationSel *grs, int angle)
 {
-	g_return_if_fail (IS_GO_ROTATION_SEL (grs));
+	g_return_if_fail (GO_IS_ROTATION_SEL (grs));
 	if (grs->angle != angle) {
 		grs->angle = angle;
 		gtk_spin_button_set_value (grs->rotate_spinner, grs->angle);

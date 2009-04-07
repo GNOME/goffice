@@ -46,9 +46,9 @@ typedef struct {
 					double const *y_vals, int n);
 } GogLinRegCurveClass;
 
-#define GOG_LIN_REG_CURVE_TYPE	(gog_lin_reg_curve_get_type ())
-#define GOG_LIN_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LIN_REG_CURVE_TYPE, GogLinRegCurve))
-#define GOG_IS_LIN_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LIN_REG_CURVE_TYPE))
+#define GOG_TYPE_LIN_REG_CURVE	(gog_lin_reg_curve_get_type ())
+#define GOG_LIN_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_LIN_REG_CURVE, GogLinRegCurve))
+#define GOG_IS_LIN_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_LIN_REG_CURVE))
 
 GType gog_lin_reg_curve_get_type (void);
 void  gog_lin_reg_curve_register_type (GTypeModule *module);

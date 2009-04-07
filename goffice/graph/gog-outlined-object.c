@@ -92,12 +92,12 @@ gog_outlined_object_init (GogOutlinedObject *goo)
 
 GSF_CLASS (GogOutlinedObject, gog_outlined_object,
 	   gog_outlined_object_class_init, gog_outlined_object_init,
-	   GOG_STYLED_OBJECT_TYPE)
+	   GOG_TYPE_STYLED_OBJECT)
 
 double
 gog_outlined_object_get_pad (GogOutlinedObject const *goo)
 {
-	g_return_val_if_fail (IS_GOG_OUTLINED_OBJECT (goo), 0.);
+	g_return_val_if_fail (GOG_IS_OUTLINED_OBJECT (goo), 0.);
 	return goo->padding_pts;
 }
 
@@ -173,4 +173,4 @@ gog_outlined_view_class_init (GogOutlinedViewClass *oview_klass)
 
 GSF_CLASS (GogOutlinedView, gog_outlined_view,
 	   gog_outlined_view_class_init, NULL,
-	   GOG_VIEW_TYPE)
+	   GOG_TYPE_VIEW)

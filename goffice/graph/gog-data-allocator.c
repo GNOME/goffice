@@ -54,7 +54,7 @@ gog_data_allocator_get_type (void)
 void
 gog_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot)
 {
-	g_return_if_fail (IS_GOG_DATA_ALLOCATOR (dalloc));
+	g_return_if_fail (GOG_IS_DATA_ALLOCATOR (dalloc));
 	GOG_DATA_ALLOCATOR_GET_CLASS (dalloc)->allocate (dalloc, plot);
 }
 
@@ -72,7 +72,7 @@ gpointer
 gog_data_allocator_editor (GogDataAllocator *dalloc, GogDataset *set,
 			   int dim_i, GogDataType data_type)
 {
-	g_return_val_if_fail (IS_GOG_DATA_ALLOCATOR (dalloc), NULL);
+	g_return_val_if_fail (GOG_IS_DATA_ALLOCATOR (dalloc), NULL);
 	return GOG_DATA_ALLOCATOR_GET_CLASS (dalloc)->editor (dalloc, set,
 							      dim_i, data_type);
 }

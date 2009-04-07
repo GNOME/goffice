@@ -46,7 +46,7 @@ typedef struct {
 					 GOCmdContext *cc);
 } GogSeriesElementClass;
 
-#define GOG_SERIES_ELEMENT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_SERIES_ELEMENT_TYPE, GogSeriesElementClass))
+#define GOG_SERIES_ELEMENT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_SERIES_ELEMENT, GogSeriesElementClass))
 
 typedef enum {
 	GOG_SERIES_REQUIRED,  /* it must be there */
@@ -108,9 +108,9 @@ typedef struct {
 	GogDataset *(*get_interpolation_params) (GogSeries const *series);
 } GogSeriesClass;
 
-#define GOG_SERIES_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_SERIES_TYPE, GogSeriesClass))
-#define IS_GOG_SERIES_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_SERIES_TYPE))
-#define GOG_SERIES_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_SERIES_TYPE, GogSeriesClass))
+#define GOG_SERIES_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_TYPE_SERIES, GogSeriesClass))
+#define GOG_IS_SERIES_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_TYPE_SERIES))
+#define GOG_SERIES_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_SERIES, GogSeriesClass))
 
 /* protected */
 void gog_series_check_validity   (GogSeries *series);

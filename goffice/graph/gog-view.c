@@ -201,7 +201,7 @@ gog_tool_action_new (GogView *view, GogTool *tool, double x, double y)
 {
 	GogToolAction *action;
 
-	g_return_val_if_fail (IS_GOG_VIEW (view), NULL);
+	g_return_val_if_fail (GOG_IS_VIEW (view), NULL);
 	g_return_val_if_fail (tool != NULL, NULL);
 
 	action = g_new0 (GogToolAction, 1);
@@ -590,13 +590,13 @@ gog_view_class_init (GogViewClass *view_klass)
 		g_param_spec_object ("parent", 
 			_("Parent"),
 			_("the GogView parent"),
-			GOG_VIEW_TYPE,
+			GOG_TYPE_VIEW,
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, GOG_VIEW_PROP_MODEL,
 		g_param_spec_object ("model", 
 			_("Model"),
 			_("The GogObject this view displays"),
-			GOG_OBJECT_TYPE,
+			GOG_TYPE_OBJECT,
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 }
 
@@ -631,7 +631,7 @@ gog_view_get_model (GogView const *view)
 void
 gog_view_queue_redraw (GogView *view)
 {
-	g_return_if_fail (IS_GOG_VIEW (view));
+	g_return_if_fail (GOG_IS_VIEW (view));
 	g_return_if_fail (view->renderer != NULL);
 
 	gog_renderer_request_update (view->renderer);
@@ -648,7 +648,7 @@ gog_view_queue_redraw (GogView *view)
 void
 gog_view_queue_resize (GogView *view)
 {
-	g_return_if_fail (IS_GOG_VIEW (view));
+	g_return_if_fail (GOG_IS_VIEW (view));
 	g_return_if_fail (view->renderer != NULL);
 
 	gog_renderer_request_update (view->renderer);
@@ -744,7 +744,7 @@ gog_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
 gboolean
 gog_view_update_sizes (GogView *view)
 {
-	g_return_val_if_fail (IS_GOG_VIEW (view), TRUE);
+	g_return_val_if_fail (GOG_IS_VIEW (view), TRUE);
 	g_return_val_if_fail (!view->being_updated, TRUE);
 
 	if (!view->allocation_valid)
@@ -864,8 +864,8 @@ gog_view_find_child_view  (GogView const *container, GogObject const *target_mod
 	GogObject const *obj, *old_target;
 	GSList *ptr;
 
-	g_return_val_if_fail (IS_GOG_VIEW (container), NULL);
-	g_return_val_if_fail (IS_GOG_OBJECT (target_model), NULL);
+	g_return_val_if_fail (GOG_IS_VIEW (container), NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (target_model), NULL);
 
 	/* @container is a view for @target_models parent */
 	obj = target_model;
@@ -907,7 +907,7 @@ gog_view_render_toolkit (GogView *view)
 	GogTool *tool;
 	GSList const *ptr;
 	
-	g_return_if_fail (IS_GOG_VIEW (view));
+	g_return_if_fail (GOG_IS_VIEW (view));
 
 	for (ptr = gog_view_get_toolkit (view); ptr != NULL; ptr = ptr->next) {
 		tool = ptr->data;
@@ -926,7 +926,7 @@ gog_view_render_toolkit (GogView *view)
 GSList const *
 gog_view_get_toolkit (GogView *view)
 {
-	g_return_val_if_fail (IS_GOG_VIEW (view), NULL);
+	g_return_val_if_fail (GOG_IS_VIEW (view), NULL);
 
 	if  (view->toolkit == NULL) {
 		GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
@@ -989,7 +989,7 @@ gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, 
 	GSList const *ptr;
 	GSList *list;
 	
-	g_return_val_if_fail (IS_GOG_VIEW (view), NULL);
+	g_return_val_if_fail (GOG_IS_VIEW (view), NULL);
 
 	/* walk the list in reverse */
 	list = g_slist_reverse (g_slist_copy (view->children));

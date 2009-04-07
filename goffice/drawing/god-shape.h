@@ -20,11 +20,11 @@
 
 G_BEGIN_DECLS
 
-#define GOD_SHAPE_TYPE		(god_shape_get_type ())
-#define GOD_SHAPE(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOD_SHAPE_TYPE, GodShape))
-#define GOD_SHAPE_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOD_SHAPE_TYPE, GodShapeClass))
-#define IS_GOD_SHAPE(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOD_SHAPE_TYPE))
-#define IS_GOD_SHAPE_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOD_SHAPE_TYPE))
+#define GOD_TYPE_SHAPE		(god_shape_get_type ())
+#define GOD_SHAPE(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOD_TYPE_SHAPE, GodShape))
+#define GOD_SHAPE_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOD_TYPE_SHAPE, GodShapeClass))
+#define GOD_IS_SHAPE(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOD_TYPE_SHAPE))
+#define GOD_IS_SHAPE_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOD_TYPE_SHAPE))
 
 typedef struct GodShapePrivate_ GodShapePrivate;
 

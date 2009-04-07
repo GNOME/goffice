@@ -24,11 +24,11 @@ struct _GoComboText {
 typedef struct {
 	GOComboBoxClass	base;
 
-	gboolean (* selection_changed)	(GoComboText *ct, GtkTreeSelection *selection);
-	gboolean (* entry_changed)	(GoComboText *ct, char const *new_str);
-} GoComboTextClass;
+	gboolean (* selection_changed)	(GOComboText *ct, GtkTreeSelection *selection);
+	gboolean (* entry_changed)	(GOComboText *ct, char const *new_str);
+} GOComboTextClass;
 
-#define GO_COMBO_TEXT_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, go_combo_text_get_type (), GoComboTextClass)
+#define GO_COMBO_TEXT_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, go_combo_text_get_type (), GOComboTextClass)
 
 enum {
 	SELECTION_CHANGED,
@@ -44,7 +44,7 @@ static guint combo_text_signals [LAST_SIGNAL] = { 0 };
  * result to FALSE if there is no handler.
  */
 static gboolean
-go_signal_emit (GoComboText *ct, int signal,
+go_signal_emit (GOComboText *ct, int signal,
 		gconstpointer arg, int default_ret)
 {
 	gboolean result;
@@ -83,7 +83,7 @@ static void
 cb_list_changed (GtkTreeView *list, gpointer data)
 {
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (list);
-	GoComboText *ct = GO_COMBO_TEXT (data);
+	GOComboText *ct = GO_COMBO_TEXT (data);
 	GtkEntry *entry = GTK_ENTRY (ct->entry);
 	gboolean accept_change;
 	GtkTreeModel *store;
@@ -108,7 +108,7 @@ cb_list_changed (GtkTreeView *list, gpointer data)
 
 static void
 cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
-			GoComboText *ct)
+			GOComboText *ct)
 {
 	GtkRequisition list_req;
 	int mon_width, mon_height;
@@ -159,7 +159,7 @@ cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
 }
 
 static void
-cb_screen_changed (GoComboText *ct, GdkScreen *previous_screen)
+cb_screen_changed (GOComboText *ct, GdkScreen *previous_screen)
 {
 	GtkWidget *w = GTK_WIDGET (ct);
 	GdkScreen *screen = gtk_widget_has_screen (w)
@@ -173,7 +173,7 @@ cb_screen_changed (GoComboText *ct, GdkScreen *previous_screen)
 }
 
 static void
-go_combo_text_init (GoComboText *ct)
+go_combo_text_init (GOComboText *ct)
 {
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
@@ -231,7 +231,7 @@ static void
 go_combo_text_destroy (GtkObject *object)
 {
 	GtkObjectClass *parent;
-	GoComboText *ct = GO_COMBO_TEXT (object);
+	GOComboText *ct = GO_COMBO_TEXT (object);
 
 	if (ct->list != NULL) {
 		g_signal_handlers_disconnect_by_func (G_OBJECT (ct),
@@ -239,7 +239,7 @@ go_combo_text_destroy (GtkObject *object)
 		ct->list = NULL;
 	}
 
-	parent = g_type_class_peek (GO_COMBO_BOX_TYPE);
+	parent = g_type_class_peek (GO_TYPE_COMBO_BOX);
 	if (parent && parent->destroy)
 		(*parent->destroy) (object);
 }
@@ -252,14 +252,14 @@ go_combo_text_class_init (GtkObjectClass *klass)
 	combo_text_signals [SELECTION_CHANGED] = g_signal_new ("selection_changed",
 		GO_TYPE_COMBO_TEXT,
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (GoComboTextClass, selection_changed),
+		G_STRUCT_OFFSET (GOComboTextClass, selection_changed),
 		NULL, NULL,
 		go__BOOLEAN__POINTER,
 		G_TYPE_BOOLEAN, 1, G_TYPE_POINTER);
 	combo_text_signals [ENTRY_CHANGED] = g_signal_new ("entry_changed",
 		GO_TYPE_COMBO_TEXT,
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (GoComboTextClass, entry_changed),
+		G_STRUCT_OFFSET (GOComboTextClass, entry_changed),
 		NULL, NULL,
 		go__BOOLEAN__POINTER,
 		G_TYPE_BOOLEAN, 1, G_TYPE_POINTER);
@@ -272,7 +272,7 @@ go_combo_text_class_init (GtkObjectClass *klass)
 GtkWidget*
 go_combo_text_new (GCompareFunc cmp_func)
 {
-	GoComboText *ct;
+	GOComboText *ct;
 
 	if (cmp_func == NULL)
 		cmp_func = &g_str_equal;
@@ -288,29 +288,29 @@ go_combo_text_glade_new (void)
 	return go_combo_text_new (NULL);
 }
 
-GSF_CLASS (GoComboText, go_combo_text,
+GSF_CLASS (GOComboText, go_combo_text,
 	   go_combo_text_class_init, go_combo_text_init,
-	   GO_COMBO_BOX_TYPE)
+	   GO_TYPE_COMBO_BOX)
 
 GtkWidget *
-go_combo_text_get_entry (GoComboText *ct)
+go_combo_text_get_entry (GOComboText *ct)
 {
-	g_return_val_if_fail (IS_GO_COMBO_TEXT (ct), NULL);
+	g_return_val_if_fail (GO_IS_COMBO_TEXT (ct), NULL);
 
 	return ct->entry;
 }
 
 /**
  * go_combo_text_set_text :
- * @ct : #GoComboText
+ * @ct : #GOComboText
  * @text : the label for the new item
  * @start : where to begin the search in the list.
  *
  * Returns: %TRUE if the item is found in the list.
  */
 gboolean
-go_combo_text_set_text (GoComboText *ct, gchar const *text,
-			GoComboTextSearch start)
+go_combo_text_set_text (GOComboText *ct, gchar const *text,
+			GOComboTextSearch start)
 {
 	gboolean found = FALSE, result;
 	GtkTreeView *list;
@@ -319,7 +319,7 @@ go_combo_text_set_text (GoComboText *ct, gchar const *text,
 	GtkTreeSelection *selection;
 	char *label;
 
-	g_return_val_if_fail (IS_GO_COMBO_TEXT (ct), FALSE);
+	g_return_val_if_fail (GO_IS_COMBO_TEXT (ct), FALSE);
 	g_return_val_if_fail (text != NULL, FALSE);
 
 	list = GTK_TREE_VIEW (ct->list);
@@ -381,12 +381,12 @@ go_combo_text_set_text (GoComboText *ct, gchar const *text,
  **/
 
 void
-go_combo_text_add_item (GoComboText *ct, char const *label)
+go_combo_text_add_item (GOComboText *ct, char const *label)
 {
 	GtkListStore *store;
 	GtkTreeIter iter;
 
-	g_return_if_fail (IS_GO_COMBO_TEXT (ct));
+	g_return_if_fail (GO_IS_COMBO_TEXT (ct));
 	g_return_if_fail (label != NULL);
 
 	store = GTK_LIST_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (ct->list)));

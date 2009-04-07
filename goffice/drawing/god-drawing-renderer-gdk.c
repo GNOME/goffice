@@ -46,7 +46,7 @@ god_drawing_renderer_gdk_new (void)
 {
 	GodDrawingRendererGdk *renderer;
 
-	renderer = g_object_new (GOD_DRAWING_RENDERER_GDK_TYPE, NULL);
+	renderer = g_object_new (GOD_TYPE_DRAWING_RENDERER_GDK, NULL);
 
 	return renderer;
 }

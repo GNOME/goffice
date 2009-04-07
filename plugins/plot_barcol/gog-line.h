@@ -29,18 +29,18 @@ G_BEGIN_DECLS
 typedef struct _GogLinePlot	GogLinePlot;
 typedef GogPlot1_5dClass	GogLinePlotClass;
 
-#define GOG_LINE_PLOT_TYPE	(gog_line_plot_get_type ())
-#define GOG_LINE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LINE_PLOT_TYPE, GogLinePlot))
-#define GOG_IS_PLOT_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LINE_PLOT_TYPE))
+#define GOG_TYPE_LINE_PLOT	(gog_line_plot_get_type ())
+#define GOG_LINE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_LINE_PLOT, GogLinePlot))
+#define GOG_IS_PLOT_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_LINE_PLOT))
 
 GType gog_line_plot_get_type (void);
 void  gog_line_plot_register_type (GTypeModule *module);
 
 /*************************************************************************/
 
-#define GOG_AREA_PLOT_TYPE	(gog_area_plot_get_type ())
-#define GOG_AREA_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_AREA_PLOT_TYPE, GogAreaPlot))
-#define GOG_IS_PLOT_AREA(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_AREA_PLOT_TYPE))
+#define GOG_TYPE_AREA_PLOT	(gog_area_plot_get_type ())
+#define GOG_AREA_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_AREA_PLOT, GogAreaPlot))
+#define GOG_IS_PLOT_AREA(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_AREA_PLOT))
 
 typedef GogLinePlot		GogAreaPlot;
 typedef GogLinePlotClass	GogAreaPlotClass;

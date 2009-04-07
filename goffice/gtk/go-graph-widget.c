@@ -399,7 +399,7 @@ go_graph_widget_set_size_mode (GOGraphWidget         *widget,
 			       int                    width,
 			       int                    height)
 {
-	g_return_if_fail (IS_GO_GRAPH_WIDGET (widget));
+	g_return_if_fail (GO_IS_GRAPH_WIDGET (widget));
 	g_return_if_fail (size_mode >= GO_GRAPH_WIDGET_SIZE_MODE_FIT &&
 			  size_mode <= GO_GRAPH_WIDGET_SIZE_MODE_FIXED_SIZE);
 	g_return_if_fail (!(width >= 0 && height < 0));
@@ -433,11 +433,11 @@ go_graph_widget_new (GogGraph *graph)
 	if (graph == NULL) {
 		self_owned = TRUE;
 
-		graph = (GogGraph *) g_object_new (GOG_GRAPH_TYPE, NULL);
+		graph = (GogGraph *) g_object_new (GOG_TYPE_GRAPH, NULL);
 		gog_object_add_by_name (GOG_OBJECT (graph), "Chart", NULL);
 	}
 
-	ret = GTK_WIDGET (g_object_new (GO_GRAPH_WIDGET_TYPE, "graph", graph, NULL));
+	ret = GTK_WIDGET (g_object_new (GO_TYPE_GRAPH_WIDGET, "graph", graph, NULL));
 	go_graph_widget_set_size_mode (GO_GRAPH_WIDGET (ret), GO_GRAPH_WIDGET_SIZE_MODE_FIT, -1, -1);
 
 	if (self_owned)
@@ -459,7 +459,7 @@ GSF_CLASS (GOGraphWidget, go_graph_widget,
 GogGraph *
 go_graph_widget_get_graph (GOGraphWidget *widget)
 {
-	g_return_val_if_fail (IS_GO_GRAPH_WIDGET (widget), NULL);
+	g_return_val_if_fail (GO_IS_GRAPH_WIDGET (widget), NULL);
 	return widget->graph;
 }
 
@@ -472,7 +472,7 @@ go_graph_widget_get_graph (GOGraphWidget *widget)
 GogChart *
 go_graph_widget_get_chart (GOGraphWidget *widget)
 {
-	g_return_val_if_fail (IS_GO_GRAPH_WIDGET (widget), NULL);
+	g_return_val_if_fail (GO_IS_GRAPH_WIDGET (widget), NULL);
 	return (GogChart *) gog_object_get_child_by_name (
 						GOG_OBJECT (widget->graph), "Chart");
 }

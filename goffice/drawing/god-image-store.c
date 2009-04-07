@@ -52,7 +52,7 @@ god_image_store_new (void)
 {
 	GodImageStore *shape;
 
-	shape = g_object_new (GOD_IMAGE_STORE_TYPE, NULL);
+	shape = g_object_new (GOD_TYPE_IMAGE_STORE, NULL);
 
 	return shape;
 }

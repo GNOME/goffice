@@ -425,7 +425,7 @@ gog_xyz_plot_init (GogXYZPlot *xyz)
 
 GSF_DYNAMIC_CLASS_ABSTRACT (GogXYZPlot, gog_xyz_plot,
 	gog_xyz_plot_class_init, gog_xyz_plot_init,
-	GOG_PLOT_TYPE)
+	GOG_TYPE_PLOT)
 
 /*****************************************************************************/
 
@@ -499,7 +499,7 @@ gog_xyz_series_class_init (GogStyledObjectClass *gso_klass)
 
 GSF_DYNAMIC_CLASS (GogXYZSeries, gog_xyz_series,
 	gog_xyz_series_class_init, NULL,
-	GOG_SERIES_TYPE)
+	GOG_TYPE_SERIES)
 
 /*****************************************************************************/
 

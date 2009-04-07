@@ -30,9 +30,9 @@ typedef GogStyledObject  GogTrendLine;
 
 typedef GogStyledObjectClass GogTrendLineClass;
 
-#define GOG_TREND_LINE_TYPE	(gog_trend_line_get_type ())
-#define GOG_TREND_LINE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TREND_LINE_TYPE, GogTrendLine))
-#define IS_GOG_TREND_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TREND_LINE_TYPE))
+#define GOG_TYPE_TREND_LINE	(gog_trend_line_get_type ())
+#define GOG_TREND_LINE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_TREND_LINE, GogTrendLine))
+#define GOG_IS_TREND_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_TREND_LINE))
 
 GType gog_trend_line_get_type (void);
 

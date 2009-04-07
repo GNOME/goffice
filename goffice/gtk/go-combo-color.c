@@ -173,7 +173,7 @@ go_combo_color_set_title (GOComboBox *combo, char const *title)
 static void
 go_combo_color_class_init (GObjectClass *gobject_class)
 {
-	go_combo_color_parent_class = g_type_class_ref (GO_COMBO_BOX_TYPE);
+	go_combo_color_parent_class = g_type_class_ref (GO_TYPE_COMBO_BOX);
 
 	GO_COMBO_BOX_CLASS (gobject_class)->set_title = go_combo_color_set_title;
 
@@ -198,7 +198,7 @@ go_combo_color_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GOComboColor, go_combo_color,
 	   go_combo_color_class_init, go_combo_color_init,
-	   GO_COMBO_BOX_TYPE)
+	   GO_TYPE_COMBO_BOX)
 
 static void
 cb_palette_color_changed (GOColorPalette *P, GOColor color,
@@ -244,7 +244,7 @@ color_table_setup (GOComboColor *cc,
 GOColor
 go_combo_color_get_color (GOComboColor *cc, gboolean *is_default)
 {
-	g_return_val_if_fail (IS_GO_COMBO_COLOR (cc), RGBA_BLACK);
+	g_return_val_if_fail (GO_IS_COMBO_COLOR (cc), RGBA_BLACK);
 	return go_color_palette_get_current_color (cc->palette, is_default, NULL);
 }
 
@@ -260,7 +260,7 @@ void
 go_combo_color_set_color_gdk (GOComboColor *cc, GdkColor *color)
 {
 /* FIXME FIXME FIXME convert to GOColor */
-	g_return_if_fail (IS_GO_COMBO_COLOR (cc));
+	g_return_if_fail (GO_IS_COMBO_COLOR (cc));
 
 	if (color != NULL)
 		go_color_palette_set_current_color (cc->palette, GDK_TO_UINT (*color));
@@ -291,7 +291,7 @@ go_combo_color_set_color (GOComboColor *cc, GOColor c)
 void
 go_combo_color_set_instant_apply (GOComboColor *cc, gboolean active)
 {
-	g_return_if_fail (IS_GO_COMBO_COLOR (cc));
+	g_return_if_fail (GO_IS_COMBO_COLOR (cc));
 
 	cc->instant_apply = active;
 }
@@ -319,7 +319,7 @@ go_combo_color_set_allow_alpha (GOComboColor *cc, gboolean allow_alpha)
 void
 go_combo_color_set_color_to_default (GOComboColor *cc)
 {
-	g_return_if_fail (IS_GO_COMBO_COLOR (cc));
+	g_return_if_fail (GO_IS_COMBO_COLOR (cc));
 
 	go_color_palette_set_color_to_default (cc->palette);
 }
@@ -344,7 +344,7 @@ go_combo_color_new (GdkPixbuf *icon, char const *no_color_label,
 	GOColor     color;
 	gboolean    is_default;
 	GdkPixbuf  *pixbuf = NULL;
-	GOComboColor *cc = g_object_new (GO_COMBO_COLOR_TYPE, NULL);
+	GOComboColor *cc = g_object_new (GO_TYPE_COMBO_COLOR, NULL);
 
         cc->default_color = default_color;
 	if (icon != NULL &&

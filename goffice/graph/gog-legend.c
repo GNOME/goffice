@@ -227,7 +227,7 @@ gog_legend_init (GogLegend *legend)
 
 GSF_CLASS (GogLegend, gog_legend,
 	   gog_legend_class_init, gog_legend_init,
-	   GOG_OUTLINED_OBJECT_TYPE)
+	   GOG_TYPE_OUTLINED_OBJECT)
 
 #define	GLV_ELEMENT_HEIGHT_EM		1.2	/* Legend element height, in font size */
 #define GLV_LINE_WIDTH_MAX_DEFAULT_EM	0.5	/* Maximum sample line width, in font size */
@@ -254,9 +254,9 @@ typedef struct {
 
 typedef GogOutlinedViewClass	GogLegendViewClass;
 
-#define GOG_LEGEND_VIEW_TYPE	(gog_legend_view_get_type ())
-#define GOG_LEGEND_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LEGEND_VIEW_TYPE, GogLegendView))
-#define IS_GOG_LEGEND_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LEGEND_VIEW_TYPE))
+#define GOG_TYPE_LEGEND_VIEW	(gog_legend_view_get_type ())
+#define GOG_LEGEND_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_LEGEND_VIEW, GogLegendView))
+#define GOG_IS_LEGEND_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_LEGEND_VIEW))
 
 static GogViewClass *lview_parent_klass;
 
@@ -592,4 +592,4 @@ gog_legend_view_class_init (GogLegendViewClass *gview_klass)
 
 static GSF_CLASS (GogLegendView, gog_legend_view,
 		  gog_legend_view_class_init, NULL,
-		  GOG_OUTLINED_VIEW_TYPE)
+		  GOG_TYPE_OUTLINED_VIEW)

@@ -542,7 +542,7 @@ end_container (GSList *stack, GsfInput *input, GError **err, gpointer user_data)
 		{
 			ShapeParseState *parse_state = STACK_TOP->parse_state;
 			GodShape *shape;
-			shape = g_object_new (GOD_SHAPE_TYPE, NULL);
+			shape = g_object_new (GOD_TYPE_SHAPE, NULL);
 			if (parse_state->prop_table) {
 				god_shape_set_prop_table (shape, parse_state->prop_table);
 				g_object_unref (parse_state->prop_table);

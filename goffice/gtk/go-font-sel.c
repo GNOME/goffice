@@ -441,7 +441,7 @@ GSF_CLASS (GOFontSel, go_font_sel,
 GtkWidget *
 go_font_sel_new (void)
 {
-	return g_object_new (GO_FONT_SEL_TYPE, NULL);
+	return g_object_new (GO_TYPE_FONT_SEL, NULL);
 }
 
 void
@@ -458,7 +458,7 @@ go_font_sel_editable_enters (GOFontSel *gfs, GtkWindow *dialog)
 void
 go_font_sel_set_sample_text (GOFontSel *gfs, char const *text)
 {
-	g_return_if_fail (IS_GO_FONT_SEL (gfs));
+	g_return_if_fail (GO_IS_FONT_SEL (gfs));
 	foo_canvas_item_set (gfs->font_preview_text,
 		/* xgettext: This text is used as a sample when selecting a font
 		 * please choose a translation that would produce common
@@ -470,7 +470,7 @@ go_font_sel_set_sample_text (GOFontSel *gfs, char const *text)
 GOFont const *
 go_font_sel_get_font (GOFontSel const *gfs)
 {
-	g_return_val_if_fail (IS_GO_FONT_SEL (gfs), NULL);
+	g_return_val_if_fail (GO_IS_FONT_SEL (gfs), NULL);
 	return gfs->current;
 }
 
@@ -540,7 +540,7 @@ go_font_sel_set_color (GOFontSel *gfs, GOColor c)
 void
 go_font_sel_set_font (GOFontSel *gfs, GOFont const *font)
 {
-	g_return_if_fail (IS_GO_FONT_SEL (gfs));
+	g_return_if_fail (GO_IS_FONT_SEL (gfs));
 
 	go_font_sel_set_name (gfs, pango_font_description_get_family (font->desc));
 	go_font_sel_set_style (gfs,

@@ -25,9 +25,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_FORMAT_SEL_TYPE	(go_format_sel_get_type ())
-#define GO_FORMAT_SEL(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), GO_FORMAT_SEL_TYPE, GOFormatSel))
-#define IS_GO_FORMAT_SEL(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_FORMAT_SEL_TYPE))
+#define GO_TYPE_FORMAT_SEL	(go_format_sel_get_type ())
+#define GO_FORMAT_SEL(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), GO_TYPE_FORMAT_SEL, GOFormatSel))
+#define GO_IS_FORMAT_SEL(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_TYPE_FORMAT_SEL))
 typedef struct _GOFormatSel	GOFormatSel;
 
 GType		go_format_sel_get_type	(void);

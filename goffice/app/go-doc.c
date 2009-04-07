@@ -131,13 +131,13 @@ go_doc_class_init (GObjectClass *object_class)
 			FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	signals [METADATA_UPDATE] = g_signal_new ("metadata-update",
-		GO_DOC_TYPE,	G_SIGNAL_RUN_LAST,
+		GO_TYPE_DOC,	G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GODocClass, meta_data.update),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE,	0, G_TYPE_NONE);
 	signals [METADATA_CHANGED] = g_signal_new ("metadata-changed",
-		GO_DOC_TYPE,	G_SIGNAL_RUN_LAST,
+		GO_TYPE_DOC,	G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GODocClass, meta_data.changed),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
@@ -179,7 +179,7 @@ go_doc_set_uri (GODoc *doc, char const *uri)
 char const *
 go_doc_get_uri (GODoc const *doc)
 {
-	g_return_val_if_fail (IS_GO_DOC (doc), NULL);
+	g_return_val_if_fail (GO_IS_DOC (doc), NULL);
 	return doc->uri;
 }
 
@@ -194,7 +194,7 @@ go_doc_get_uri (GODoc const *doc)
 void
 go_doc_set_dirty (GODoc *doc, gboolean is_dirty)
 {
-	g_return_if_fail (IS_GO_DOC (doc));
+	g_return_if_fail (GO_IS_DOC (doc));
 
 	is_dirty = !!is_dirty;
 	if (is_dirty == doc->modified)
@@ -216,7 +216,7 @@ go_doc_set_dirty (GODoc *doc, gboolean is_dirty)
 gboolean
 go_doc_is_dirty (GODoc const *doc)
 {
-	g_return_val_if_fail (IS_GO_DOC (doc), FALSE);
+	g_return_val_if_fail (GO_IS_DOC (doc), FALSE);
 
 	return doc->modified;
 }
@@ -233,7 +233,7 @@ go_doc_is_dirty (GODoc const *doc)
 gboolean
 go_doc_is_pristine (GODoc const *doc)
 {
-	g_return_val_if_fail (IS_GO_DOC (doc), FALSE);
+	g_return_val_if_fail (GO_IS_DOC (doc), FALSE);
 
 #if 0
 	if (doc->names ||
@@ -247,7 +247,7 @@ go_doc_is_pristine (GODoc const *doc)
 GsfDocMetaData *
 go_doc_get_meta_data (GODoc const *doc)
 {
-	g_return_val_if_fail (IS_GO_DOC (doc), NULL);
+	g_return_val_if_fail (GO_IS_DOC (doc), NULL);
 	return doc->meta_data;
 }
 
@@ -261,7 +261,7 @@ go_doc_get_meta_data (GODoc const *doc)
 void
 go_doc_set_meta_data (GODoc *doc, GsfDocMetaData *data)
 {
-	g_return_if_fail (IS_GO_DOC (doc));
+	g_return_if_fail (GO_IS_DOC (doc));
 
 	g_object_ref (data);
 	g_object_unref (doc->meta_data);
@@ -281,7 +281,7 @@ go_doc_set_meta_data (GODoc *doc, GsfDocMetaData *data)
 void
 go_doc_update_meta_data (GODoc *doc)
 {
-	g_return_if_fail (IS_GO_DOC (doc));
+	g_return_if_fail (GO_IS_DOC (doc));
 
 	/* update linked properties and automatic content */
 	g_signal_emit (G_OBJECT (doc), signals [METADATA_UPDATE], 0);
@@ -490,7 +490,7 @@ go_doc_image_fetch (GODoc *doc, char const *id)
 {
 	GOImage *image = g_hash_table_lookup (doc->imagebuf, id);
 	if (!image) {
-		image = g_object_new (GO_IMAGE_TYPE, NULL);
+		image = g_object_new (GO_TYPE_IMAGE, NULL);
 		go_image_set_name (image, id);
 		g_hash_table_insert (doc->imagebuf, (gpointer) go_image_get_name (image), image);
 	}

@@ -341,7 +341,7 @@ cb_sample_pressed (GraphGuruTypeSelector *typesel)
 	if (typesel->sample_graph_item == NULL) {
 		GtkAllocation *size = &GTK_WIDGET (typesel->canvas)->allocation;
 		typesel->sample_graph_item = foo_canvas_item_new (typesel->graph_group,
-			GOG_CONTROL_FOOCANVAS_TYPE,
+			GOG_TYPE_CONTROL_FOOCANVAS,
 			"model", typesel->state->graph,
 			NULL);
 		cb_typesel_sample_plot_resize (FOO_CANVAS (typesel->canvas),
@@ -599,9 +599,9 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 		/* if we ever go back to the typeselector be sure to 
 		 * add the plot to the last selected chart */
 		s->chart = (GogChart *)
-			gog_object_get_parent_typed (obj, GOG_CHART_TYPE);
+			gog_object_get_parent_typed (obj, GOG_TYPE_CHART);
 		s->plot = (GogPlot *)
-			gog_object_get_parent_typed (obj, GOG_PLOT_TYPE);
+			gog_object_get_parent_typed (obj, GOG_TYPE_PLOT);
 
 		if (s->plot == NULL) {
 			if (s->chart == NULL && s->graph != NULL) {
@@ -935,7 +935,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 						     "outline_color_rgba", 0x707070ff,	/* grey */
 						     NULL);
 	s->sample_graph_item = foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (canvas)),
-						    GOG_CONTROL_FOOCANVAS_TYPE,
+						    GOG_TYPE_CONTROL_FOOCANVAS,
 						    "model", s->graph,
 						    NULL);
 	gtk_widget_add_events (canvas, GDK_POINTER_MOTION_HINT_MASK);
@@ -1040,7 +1040,7 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *s)
 			NULL : s->register_closure->data;
 		
 		instance_and_params[0].g_type = 0;
-		g_value_init (&instance_and_params[0], GOG_GRAPH_TYPE);
+		g_value_init (&instance_and_params[0], GOG_TYPE_GRAPH);
 		g_value_set_instance (&instance_and_params[0], s->graph);
 
 		instance_and_params[1].g_type = 0;
@@ -1281,21 +1281,21 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	g_closure_ref (closure);
 
 	if (graph != NULL) {
-		g_return_val_if_fail (IS_GOG_GRAPH (graph), NULL);
+		g_return_val_if_fail (GOG_IS_GRAPH (graph), NULL);
 
 		state->graph = gog_graph_dup (graph);
 		state->chart = NULL;
 		state->plot  = NULL;
 	} else {
 		state->plot = NULL;
-		state->graph = g_object_new (GOG_GRAPH_TYPE, NULL);
+		state->graph = g_object_new (GOG_TYPE_GRAPH, NULL);
 		state->chart = GOG_CHART (gog_object_add_by_name (
 				GOG_OBJECT (state->graph), "Chart", NULL));
-		if (IS_GO_DOC_CONTROL (dalloc))
+		if (GO_IS_DOC_CONTROL (dalloc))
 			g_object_set (state->graph,
 						  "document", go_doc_control_get_doc (GO_DOC_CONTROL (dalloc)),
 						  NULL);
-		else if (IS_GO_DOC_CONTROL (cc))
+		else if (GO_IS_DOC_CONTROL (cc))
 			g_object_set (state->graph,
 						  "document", go_doc_control_get_doc (GO_DOC_CONTROL (cc)),
 						  NULL);

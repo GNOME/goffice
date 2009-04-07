@@ -27,9 +27,9 @@
 
 G_BEGIN_DECLS
 
-#define GOG_AXIS_BASE_TYPE	(gog_axis_base_get_type ())
-#define GOG_AXIS_BASE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_AXIS_BASE_TYPE, GogAxisBase))
-#define IS_GOG_AXIS_BASE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_AXIS_BASE_TYPE))
+#define GOG_TYPE_AXIS_BASE	(gog_axis_base_get_type ())
+#define GOG_AXIS_BASE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_AXIS_BASE, GogAxisBase))
+#define GOG_IS_AXIS_BASE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_AXIS_BASE))
 
 GType gog_axis_base_get_type (void);
 
@@ -51,9 +51,9 @@ typedef enum {
 	GOG_AXIS_TICK_MINOR
 } GogAxisTickTypes;
 
-#define GOG_AXIS_LINE_TYPE	(gog_axis_line_get_type ())
-#define GOG_AXIS_LINE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_AXIS_LINE_TYPE, GogAxisLine))
-#define IS_GOG_AXIS_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_AXIS_LINE_TYPE))
+#define GOG_TYPE_AXIS_LINE	(gog_axis_line_get_type ())
+#define GOG_AXIS_LINE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_AXIS_LINE, GogAxisLine))
+#define GOG_IS_AXIS_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_AXIS_LINE))
 
 GType gog_axis_line_get_type (void);
 

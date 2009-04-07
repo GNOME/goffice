@@ -84,17 +84,17 @@ typedef struct {
 	void	   (*guru_helper)	(GogPlot *plot, char const *hint);
 } GogPlotClass;
 
-#define GOG_PLOT_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOG_PLOT_TYPE, GogPlotClass))
-#define IS_GOG_PLOT_CLASS(k)		(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_PLOT_TYPE))
-#define GOG_PLOT_ITEM_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_PLOT_TYPE, GogPlotClass))
+#define GOG_PLOT_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOG_TYPE_PLOT, GogPlotClass))
+#define GOG_IS_PLOT_CLASS(k)		(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_TYPE_PLOT))
+#define GOG_PLOT_ITEM_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_PLOT, GogPlotClass))
 
 /* protected */
 
 /*****************************************************************************/
 
-#define GOG_PLOT_VIEW_TYPE	(gog_plot_view_get_type ())
-#define GOG_PLOT_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PLOT_VIEW_TYPE, GogPlotView))
-#define IS_GOG_PLOT_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PLOT_VIEW_TYPE))
+#define GOG_TYPE_PLOT_VIEW	(gog_plot_view_get_type ())
+#define GOG_PLOT_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_PLOT_VIEW, GogPlotView))
+#define GOG_IS_PLOT_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_PLOT_VIEW))
 
 typedef GogView		GogPlotView;
 typedef GogViewClass	GogPlotViewClass;

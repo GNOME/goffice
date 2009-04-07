@@ -33,9 +33,9 @@ typedef struct {
 } GOToolComboPixmaps;
 typedef GtkToolItemClass GOToolComboPixmapsClass;
 
-#define GO_TOOL_COMBO_PIXMAPS_TYPE	(go_tool_combo_pixmaps_get_type ())
-#define GO_TOOL_COMBO_PIXMAPS(o)	(G_TYPE_CHECK_INSTANCE_CAST (o, GO_TOOL_COMBO_PIXMAPS_TYPE, GOToolComboPixmaps))
-#define IS_GO_TOOL_COMBO_PIXMAPS(o)	(G_TYPE_CHECK_INSTANCE_TYPE (o, GO_TOOL_COMBO_PIXMAPS_TYPE))
+#define GO_TYPE_TOOL_COMBO_PIXMAPS	(go_tool_combo_pixmaps_get_type ())
+#define GO_TOOL_COMBO_PIXMAPS(o)	(G_TYPE_CHECK_INSTANCE_CAST (o, GO_TYPE_TOOL_COMBO_PIXMAPS, GOToolComboPixmaps))
+#define GO_IS_TOOL_COMBO_PIXMAPS(o)	(G_TYPE_CHECK_INSTANCE_TYPE (o, GO_TYPE_TOOL_COMBO_PIXMAPS))
 
 static GType go_tool_combo_pixmaps_get_type (void);
 
@@ -83,7 +83,7 @@ make_icon (GtkAction *a, const char *stock_id, GtkWidget *tool)
 
 	if (stock_id == NULL)
 		return NULL;
-	if (IS_GO_TOOL_COMBO_PIXMAPS (tool)) {
+	if (GO_IS_TOOL_COMBO_PIXMAPS (tool)) {
 		if (tool->parent)
 			size = gtk_toolbar_get_icon_size (GTK_TOOLBAR (tool->parent));
 		else {
@@ -129,7 +129,7 @@ cb_selection_changed (GOComboPixmaps *combo, int id, GOActionComboPixmaps *pacti
 	paction->updating_proxies = TRUE;
 	ptr = gtk_action_get_proxies (GTK_ACTION (paction));
 	for ( ; ptr != NULL ; ptr = ptr->next)
-		if (IS_GO_COMBO_PIXMAPS (ptr->data) &&
+		if (GO_IS_COMBO_PIXMAPS (ptr->data) &&
 		    go_combo_pixmaps_get_selected (ptr->data, NULL) != id)
 			go_combo_pixmaps_select_id (ptr->data, id);
 	paction->updating_proxies = FALSE;
@@ -141,7 +141,7 @@ static GtkWidget *
 go_action_combo_pixmaps_create_tool_item (GtkAction *a)
 {
 	GOActionComboPixmaps *paction = (GOActionComboPixmaps *)a;
-	GOToolComboPixmaps *tool = g_object_new (GO_TOOL_COMBO_PIXMAPS_TYPE, NULL);
+	GOToolComboPixmaps *tool = g_object_new (GO_TYPE_TOOL_COMBO_PIXMAPS, NULL);
 	GOActionComboPixmapsElement const *el = paction->elements;
 
 	tool->combo = go_combo_pixmaps_new (paction->ncols);
@@ -240,7 +240,7 @@ go_action_combo_pixmaps_new (char const *name,
 int
 go_action_combo_pixmaps_get_selected (GOActionComboPixmaps *paction, int *indx)
 {
-	g_return_val_if_fail (IS_GO_ACTION_COMBO_PIXMAPS (paction), 0);
+	g_return_val_if_fail (GO_IS_ACTION_COMBO_PIXMAPS (paction), 0);
 
 	return paction->selected_id;
 }
@@ -253,7 +253,7 @@ go_action_combo_pixmaps_select_id (GOActionComboPixmaps *paction, int id)
 
 	paction->selected_id = id;
 	for ( ; ptr != NULL ; ptr = ptr->next)
-		if (IS_GO_TOOL_COMBO_PIXMAPS (ptr->data))
+		if (GO_IS_TOOL_COMBO_PIXMAPS (ptr->data))
 			res |= go_combo_pixmaps_select_id (
 				GO_TOOL_COMBO_PIXMAPS (ptr->data)->combo, id);
 

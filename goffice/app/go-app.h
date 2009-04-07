@@ -26,9 +26,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_APP_TYPE	    (go_app_get_type ())
-#define GO_APP(o)	    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_APP_TYPE, GOApp))
-#define IS_GO_APP(o)	    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_APP_TYPE))
+#define GO_TYPE_APP	    (go_app_get_type ())
+#define GO_APP(o)	    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_APP, GOApp))
+#define GO_IS_APP(o)	    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_APP))
 
 GType go_app_get_type (void);
 

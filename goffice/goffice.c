@@ -132,25 +132,25 @@ libgoffice_init ()
 #ifdef GOFFICE_WITH_GTK
 	goc_plugin_services_init ();
 #endif
-	(void) GOG_GRAPH_TYPE;
-	(void) GOG_CHART_TYPE;
-	(void) GOG_PLOT_TYPE;
-	(void) GOG_SERIES_TYPE;
-	(void) GOG_SERIES_ELEMENT_TYPE;
-	(void) GOG_LEGEND_TYPE;
-	(void) GOG_AXIS_TYPE;
-	(void) GOG_AXIS_LINE_TYPE;
-	(void) GOG_LABEL_TYPE;
-	(void) GOG_GRID_TYPE;
-	(void) GOG_GRID_LINE_TYPE;
+	(void) GOG_TYPE_GRAPH;
+	(void) GOG_TYPE_CHART;
+	(void) GOG_TYPE_PLOT;
+	(void) GOG_TYPE_SERIES;
+	(void) GOG_TYPE_SERIES_ELEMENT;
+	(void) GOG_TYPE_LEGEND;
+	(void) GOG_TYPE_AXIS;
+	(void) GOG_TYPE_AXIS_LINE;
+	(void) GOG_TYPE_LABEL;
+	(void) GOG_TYPE_GRID;
+	(void) GOG_TYPE_GRID_LINE;
 #ifdef GOFFICE_WITH_GMATHML
-	(void) GOG_EQUATION_TYPE;
+	(void) GOG_TYPE_EQUATION;
 #endif
-	(void) GOG_ERROR_BAR_TYPE;
-	(void) GOG_REG_EQN_TYPE;
-	(void) GOG_SERIES_LINES_TYPE;
-	(void) GO_DATA_SCALAR_VAL_TYPE;
-	(void) GO_DATA_SCALAR_STR_TYPE;
+	(void) GOG_TYPE_ERROR_BAR;
+	(void) GOG_TYPE_REG_EQN;
+	(void) GOG_TYPE_SERIES_LINES;
+	(void) GO_TYPE_DATA_SCALAR_VAL;
+	(void) GO_TYPE_DATA_SCALAR_STR;
 	(void) GOG_3D_BOX_TYPE;
 	gog_themes_init	();
 	go_number_format_init ();

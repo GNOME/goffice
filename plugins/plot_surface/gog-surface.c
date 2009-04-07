@@ -95,7 +95,7 @@ gog_surface_plot_init (GogSurfacePlot *surface)
 
 GSF_DYNAMIC_CLASS (GogSurfacePlot, gog_surface_plot,
 	gog_surface_plot_class_init, gog_surface_plot_init,
-	GOG_XYZ_PLOT_TYPE)
+	GOG_TYPE_XYZ_PLOT)
 
 /*****************************************************************************/
 
@@ -271,4 +271,4 @@ gog_surface_view_class_init (GogViewClass *view_klass)
 
 GSF_DYNAMIC_CLASS (GogSurfaceView, gog_surface_view,
 	gog_surface_view_class_init, NULL,
-	GOG_PLOT_VIEW_TYPE)
+	GOG_TYPE_PLOT_VIEW)

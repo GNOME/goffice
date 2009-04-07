@@ -180,7 +180,7 @@ plugin_service_general_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (PluginServiceGeneral, plugin_service_general,
            plugin_service_general_class_init, plugin_service_general_init,
-           GO_PLUGIN_SERVICE_TYPE)
+           GO_TYPE_PLUGIN_SERVICE)
 
 /****************************************************************************/
 
@@ -248,7 +248,7 @@ plugin_service_file_opener_finalize (GObject *obj)
 		service_file_opener->opener = NULL;
 	}
 
-	parent_class = g_type_class_peek (GO_PLUGIN_SERVICE_TYPE);
+	parent_class = g_type_class_peek (GO_TYPE_PLUGIN_SERVICE);
 	parent_class->finalize (obj);
 }
 
@@ -365,7 +365,7 @@ plugin_service_file_opener_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (PluginServiceFileOpener, plugin_service_file_opener,
            plugin_service_file_opener_class_init, plugin_service_file_opener_init,
-           GO_PLUGIN_SERVICE_TYPE)
+           GO_TYPE_PLUGIN_SERVICE)
 
 
 /** GOPluginFileOpener class **/
@@ -373,7 +373,7 @@ GSF_CLASS (PluginServiceFileOpener, plugin_service_file_opener,
 #define TYPE_GO_PLUGIN_FILE_OPENER             (go_plugin_file_opener_get_type ())
 #define GO_PLUGIN_FILE_OPENER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GO_PLUGIN_FILE_OPENER, GOPluginFileOpener))
 #define GO_PLUGIN_FILE_OPENER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GO_PLUGIN_FILE_OPENER, GOPluginFileOpenerClass))
-#define IS_GO_PLUGIN_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GO_PLUGIN_FILE_OPENER))
+#define GO_IS_PLUGIN_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GO_PLUGIN_FILE_OPENER))
 
 GType go_plugin_file_opener_get_type (void);
 
@@ -576,7 +576,7 @@ plugin_service_file_saver_finalize (GObject *obj)
 	if (service_file_saver->saver != NULL)
 		g_object_unref (service_file_saver->saver);
 
-	parent_class = g_type_class_peek (GO_PLUGIN_SERVICE_TYPE);
+	parent_class = g_type_class_peek (GO_TYPE_PLUGIN_SERVICE);
 	parent_class->finalize (obj);
 }
 
@@ -623,14 +623,14 @@ plugin_service_file_saver_read_xml (GOPluginService *service, xmlNode *tree, Err
 		psfs->description = description;
 
 		(void)xml_node_get_enum (tree, "format_level",
-					 GO_FILE_SAVER_LEVEL_TYPE, &level);
+					 GO_TYPE_FILE_SAVER_LEVEL, &level);
 		psfs->format_level = (FileFormatLevel)level;
 
 		if (!xml_node_get_int (tree, "default_saver_priority", &(psfs->default_saver_priority)))
 			psfs->default_saver_priority = -1;
 
 		(void)xml_node_get_enum (tree, "save_scope",
-					 GO_FILE_SAVER_SCOPE_TYPE, &scope);
+					 GO_TYPE_FILE_SAVER_SCOPE, &scope);
 		psfs->save_scope = (FileSaveScope)scope;
 
 		if (!xml_node_get_bool (tree, "overwrite_files", &(psfs->overwrite_files)))
@@ -696,7 +696,7 @@ plugin_service_file_saver_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (PluginServiceFileSaver, plugin_service_file_saver,
            plugin_service_file_saver_class_init, plugin_service_file_saver_init,
-           GO_PLUGIN_SERVICE_TYPE)
+           GO_TYPE_PLUGIN_SERVICE)
 
 
 /** GOPluginFileSaver class **/
@@ -704,7 +704,7 @@ GSF_CLASS (PluginServiceFileSaver, plugin_service_file_saver,
 #define TYPE_GO_PLUGIN_FILE_SAVER             (go_plugin_file_saver_get_type ())
 #define GO_PLUGIN_FILE_SAVER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GO_PLUGIN_FILE_SAVER, GOPluginFileSaver))
 #define GO_PLUGIN_FILE_SAVER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GO_PLUGIN_FILE_SAVER, GOPluginFileSaverClass))
-#define IS_GO_PLUGIN_FILE_SAVER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GO_PLUGIN_FILE_SAVER))
+#define GO_IS_PLUGIN_FILE_SAVER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GO_PLUGIN_FILE_SAVER))
 
 GType go_plugin_file_saver_get_type (void);
 
@@ -878,7 +878,7 @@ plugin_service_plugin_loader_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (PluginServicePluginLoader, plugin_service_plugin_loader,
            plugin_service_plugin_loader_class_init, plugin_service_plugin_loader_init,
-           GO_PLUGIN_SERVICE_TYPE)
+           GO_TYPE_PLUGIN_SERVICE)
 
 /**************************************************************************
  * PluginServiceGObjectLoader
@@ -912,7 +912,7 @@ plugin_service_gobject_loader_class_init (PluginServiceGObjectLoaderClass *gobj_
 
 GSF_CLASS (PluginServiceGObjectLoader, plugin_service_gobject_loader,
            plugin_service_gobject_loader_class_init, NULL,
-           GO_PLUGIN_SERVICE_SIMPLE_TYPE)
+           GO_TYPE_PLUGIN_SERVICE_SIMPLE)
 
 /**************************************************************************
  * PluginServiceSimple
@@ -942,14 +942,14 @@ plugin_service_simple_class_init (GObjectClass *gobject_class)
 GSF_CLASS (PluginServiceSimple, plugin_service_simple,
            plugin_service_simple_class_init,
 	   NULL,
-           GO_PLUGIN_SERVICE_TYPE)
+           GO_TYPE_PLUGIN_SERVICE)
 
 /* ---------------------------------------------------------------------- */
 
 void
 plugin_service_load (GOPluginService *service, ErrorInfo **ret_error)
 {
-	g_return_if_fail (IS_GO_PLUGIN_SERVICE (service));
+	g_return_if_fail (GO_IS_PLUGIN_SERVICE (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 
@@ -965,7 +965,7 @@ plugin_service_unload (GOPluginService *service, ErrorInfo **ret_error)
 {
 	ErrorInfo *error = NULL;
 
-	g_return_if_fail (IS_GO_PLUGIN_SERVICE (service));
+	g_return_if_fail (GO_IS_PLUGIN_SERVICE (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	if (!service->is_loaded) {
@@ -987,7 +987,7 @@ plugin_service_new (GOPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 	ErrorInfo *service_error = NULL;
 	GOPluginServiceCreate ctor;
 
-	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (GO_IS_PLUGIN (plugin), NULL);
 	g_return_val_if_fail (tree != NULL, NULL);
 	g_return_val_if_fail (strcmp (tree->name, "service") == 0, NULL);
 
@@ -1028,7 +1028,7 @@ plugin_service_new (GOPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 char const *
 plugin_service_get_id (const GOPluginService *service)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN_SERVICE (service), NULL);
+	g_return_val_if_fail (GO_IS_PLUGIN_SERVICE (service), NULL);
 
 	return service->id;
 }
@@ -1036,7 +1036,7 @@ plugin_service_get_id (const GOPluginService *service)
 char const *
 plugin_service_get_description (GOPluginService *service)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN_SERVICE (service), NULL);
+	g_return_val_if_fail (GO_IS_PLUGIN_SERVICE (service), NULL);
 
 	if (service->saved_description == NULL) {
 		service->saved_description = GPS_GET_CLASS (service)->get_description (service);
@@ -1048,7 +1048,7 @@ plugin_service_get_description (GOPluginService *service)
 GOPlugin *
 plugin_service_get_plugin (GOPluginService *service)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN_SERVICE (service), NULL);
+	g_return_val_if_fail (GO_IS_PLUGIN_SERVICE (service), NULL);
 
 	return service->plugin;
 }
@@ -1056,7 +1056,7 @@ plugin_service_get_plugin (GOPluginService *service)
 gpointer
 plugin_service_get_cbs (GOPluginService *service)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN_SERVICE (service), NULL);
+	g_return_val_if_fail (GO_IS_PLUGIN_SERVICE (service), NULL);
 	g_return_val_if_fail (service->cbs_ptr != NULL, NULL);
 
 	return service->cbs_ptr;
@@ -1065,7 +1065,7 @@ plugin_service_get_cbs (GOPluginService *service)
 void
 plugin_service_activate (GOPluginService *service, ErrorInfo **ret_error)
 {
-	g_return_if_fail (IS_GO_PLUGIN_SERVICE (service));
+	g_return_if_fail (GO_IS_PLUGIN_SERVICE (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	if (service->is_active) {
@@ -1090,7 +1090,7 @@ plugin_service_activate (GOPluginService *service, ErrorInfo **ret_error)
 void
 plugin_service_deactivate (GOPluginService *service, ErrorInfo **ret_error)
 {
-	g_return_if_fail (IS_GO_PLUGIN_SERVICE (service));
+	g_return_if_fail (GO_IS_PLUGIN_SERVICE (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	if (!service->is_active) {

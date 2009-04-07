@@ -13,9 +13,9 @@ G_BEGIN_DECLS
  * Define PLUGIN_ALWAYS_LOAD to disable loading on demand feature
  */
 
-#define GO_PLUGIN_TYPE	(go_plugin_get_type ())
-#define GO_PLUGIN(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_PLUGIN_TYPE, GOPlugin))
-#define IS_GO_PLUGIN(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_PLUGIN_TYPE))
+#define GO_TYPE_PLUGIN	(go_plugin_get_type ())
+#define GO_PLUGIN(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_PLUGIN, GOPlugin))
+#define GO_IS_PLUGIN(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_PLUGIN))
 
 GType	go_plugin_get_type (void);
 

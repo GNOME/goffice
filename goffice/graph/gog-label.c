@@ -61,10 +61,10 @@ typedef struct {
 	char *(*get_str)    (GogText *text);
 } GogTextClass;
 
-#define GOG_TEXT_TYPE		(gog_text_get_type ())
-#define GOG_TEXT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TEXT_TYPE, GogText))
-#define IS_GOG_TEXT(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TEXT_TYPE))
-#define GOG_TEXT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TEXT_TYPE, GogTextClass))
+#define GOG_TYPE_TEXT		(gog_text_get_type ())
+#define GOG_TEXT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_TEXT, GogText))
+#define GOG_IS_TEXT(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_TEXT))
+#define GOG_TEXT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_TEXT, GogTextClass))
 
 static GType gog_text_get_type (void);
 
@@ -117,7 +117,7 @@ gog_text_init_style (GogStyledObject *gso, GogStyle *style)
 	 * in GogTheme, but it's not possible without breaking graph persistence
 	 * compatibility */
 	parent = gog_object_get_parent (GOG_OBJECT (gso));
-	if (IS_GOG_AXIS (parent)) {
+	if (GOG_IS_AXIS (parent)) {
 		GogChart *chart = GOG_CHART (gog_object_get_parent (parent));
 		if (!gog_chart_is_3d (chart)
 		    && gog_axis_get_atype (GOG_AXIS (parent)) == GOG_AXIS_Y
@@ -159,7 +159,7 @@ gog_text_get_str (GogText *text)
 {
 	GogTextClass *klass;
 	
-	g_return_val_if_fail (IS_GOG_TEXT (text), NULL);
+	g_return_val_if_fail (GOG_IS_TEXT (text), NULL);
 	
        	klass = GOG_TEXT_GET_CLASS (text);
 
@@ -171,7 +171,7 @@ gog_text_get_str (GogText *text)
 
 GSF_CLASS_ABSTRACT (GogText, gog_text,
 		    gog_text_class_init, gog_text_init,
-		    GOG_OUTLINED_OBJECT_TYPE);
+		    GOG_TYPE_OUTLINED_OBJECT);
 
 /************************************************************************/
 
@@ -217,7 +217,7 @@ gog_label_get_str (GogText *text)
 {
 	GogLabel *label = GOG_LABEL (text);
 	
-	g_return_val_if_fail (IS_GOG_LABEL (label), NULL);
+	g_return_val_if_fail (GOG_IS_LABEL (label), NULL);
 
 	if (label->text.data != NULL)
 		return g_strdup (go_data_scalar_get_str (GO_DATA_SCALAR (label->text.data)));
@@ -276,8 +276,8 @@ gog_label_dataset_init (GogDatasetClass *iface)
 
 GSF_CLASS_FULL (GogLabel, gog_label,
 		NULL, NULL, gog_label_class_init, NULL,
-		NULL, GOG_TEXT_TYPE, 0,
-		GSF_INTERFACE (gog_label_dataset_init, GOG_DATASET_TYPE))
+		NULL, GOG_TYPE_TEXT, 0,
+		GSF_INTERFACE (gog_label_dataset_init, GOG_TYPE_DATASET))
 
 /************************************************************************/
 	
@@ -438,16 +438,16 @@ gog_reg_eqn_init (GogRegEqn *reg_eqn)
 
 GSF_CLASS (GogRegEqn, gog_reg_eqn,
 	   gog_reg_eqn_class_init, gog_reg_eqn_init,
-	   GOG_TEXT_TYPE)
+	   GOG_TYPE_TEXT)
 
 /************************************************************************/
 
 typedef GogOutlinedView		GogTextView;
 typedef GogOutlinedViewClass	GogTextViewClass;
 
-#define GOG_LABEL_VIEW_TYPE	(gog_label_view_get_type ())
-#define GOG_LABEL_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LABEL_VIEW_TYPE, GogLabelView))
-#define IS_GOG_LABEL_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LABEL_VIEW_TYPE))
+#define GOG_TYPE_LABEL_VIEW	(gog_label_view_get_type ())
+#define GOG_LABEL_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_LABEL_VIEW, GogLabelView))
+#define GOG_IS_LABEL_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_LABEL_VIEW))
 
 static GogViewClass *text_view_parent_klass;
 
@@ -515,4 +515,4 @@ gog_text_view_class_init (GogTextViewClass *gview_klass)
 
 GSF_CLASS (GogTextView, gog_text_view,
 	   gog_text_view_class_init, NULL,
-	   GOG_OUTLINED_VIEW_TYPE)
+	   GOG_TYPE_OUTLINED_VIEW)

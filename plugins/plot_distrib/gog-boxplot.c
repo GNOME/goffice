@@ -181,9 +181,9 @@ typedef struct {
 } GogBoxPlotSeries;
 typedef GogSeriesClass GogBoxPlotSeriesClass;
 
-#define GOG_BOX_PLOT_SERIES_TYPE	(gog_box_plot_series_get_type ())
-#define GOG_BOX_PLOT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_BOX_PLOT_SERIES_TYPE, GogBoxPlotSeries))
-#define IS_GOG_BOX_PLOT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_BOX_PLOT_SERIES_TYPE))
+#define GOG_TYPE_BOX_PLOT_SERIES	(gog_box_plot_series_get_type ())
+#define GOG_BOX_PLOT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_BOX_PLOT_SERIES, GogBoxPlotSeries))
+#define GOG_IS_BOX_PLOT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_BOX_PLOT_SERIES))
 
 GType gog_box_plot_series_get_type (void);
 
@@ -410,7 +410,7 @@ gog_box_plot_init (GogBoxPlot *model)
 
 GSF_DYNAMIC_CLASS (GogBoxPlot, gog_box_plot,
 	gog_box_plot_class_init, gog_box_plot_init,
-	GOG_PLOT_TYPE)
+	GOG_TYPE_PLOT)
 
 /*****************************************************************************/
 typedef GogPlotView		GogBoxPlotView;
@@ -581,7 +581,7 @@ gog_box_plot_view_class_init (GogViewClass *view_klass)
 
 GSF_DYNAMIC_CLASS (GogBoxPlotView, gog_box_plot_view,
 	gog_box_plot_view_class_init, NULL,
-	GOG_PLOT_VIEW_TYPE)
+	GOG_TYPE_PLOT_VIEW)
 
 /*****************************************************************************/
 
@@ -654,4 +654,4 @@ gog_box_plot_series_class_init (GogObjectClass *obj_klass)
 
 GSF_DYNAMIC_CLASS (GogBoxPlotSeries, gog_box_plot_series,
 	gog_box_plot_series_class_init, NULL,
-	GOG_SERIES_TYPE)
+	GOG_TYPE_SERIES)

@@ -68,9 +68,9 @@ gboolean      gog_axis_map_is_inverted 	  (GogAxisMap *map);
 
 /*****************************************************************************/
 
-#define GOG_AXIS_TYPE	(gog_axis_get_type ())
-#define GOG_AXIS(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_AXIS_TYPE, GogAxis))
-#define IS_GOG_AXIS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_AXIS_TYPE))
+#define GOG_TYPE_AXIS	(gog_axis_get_type ())
+#define GOG_AXIS(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_AXIS, GogAxis))
+#define GOG_IS_AXIS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_AXIS))
 
 GType gog_axis_get_type (void);
 

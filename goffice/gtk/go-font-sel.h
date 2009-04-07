@@ -24,9 +24,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_FONT_SEL_TYPE	(go_font_sel_get_type ())
-#define GO_FONT_SEL(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), GO_FONT_SEL_TYPE, GOFontSel))
-#define IS_GO_FONT_SEL(obj)	(G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_FONT_SEL_TYPE))
+#define GO_TYPE_FONT_SEL	(go_font_sel_get_type ())
+#define GO_FONT_SEL(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), GO_TYPE_FONT_SEL, GOFontSel))
+#define GO_IS_FONT_SEL(obj)	(G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_TYPE_FONT_SEL))
 
 typedef struct _GOFontSel GOFontSel;
 

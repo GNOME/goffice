@@ -35,9 +35,9 @@
 #include <math.h>
 #include <string.h>
 
-#define GOG_PROBABILITY_PLOT_SERIES_TYPE	(gog_probability_plot_series_get_type ())
-#define GOG_PROBABILITY_PLOT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PROBABILITY_PLOT_SERIES_TYPE, GogProbabilityPlotSeries))
-#define IS_GOG_PROBABILITY_PLOT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PROBABILITY_PLOT_SERIES_TYPE))
+#define GOG_TYPE_PROBABILITY_PLOT_SERIES	(gog_probability_plot_series_get_type ())
+#define GOG_PROBABILITY_PLOT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_PROBABILITY_PLOT_SERIES, GogProbabilityPlotSeries))
+#define GOG_IS_PROBABILITY_PLOT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_PROBABILITY_PLOT_SERIES))
 
 typedef struct {
 	GogSeries base;
@@ -237,7 +237,7 @@ gog_probability_plot_class_init (GogPlotClass *gog_plot_klass)
 		g_param_spec_object ("distribution", 
 			_("Distribution"),
 			_("A pointer to the GODistribution used by this plot"),
-			GO_DISTRIBUTION_TYPE, 
+			GO_TYPE_DISTRIBUTION, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PROBABILITY_PLOT_PROP_SHAPE_PARAM1,
 		g_param_spec_string ("param1", 
@@ -341,8 +341,8 @@ gog_probability_plot_dataset_init (GogDatasetClass *iface)
 
 GSF_DYNAMIC_CLASS_FULL (GogProbabilityPlot, gog_probability_plot,
 	NULL, NULL, gog_probability_plot_class_init, NULL,
-	gog_probability_plot_init, GOG_PLOT_TYPE, 0,
-	GSF_INTERFACE (gog_probability_plot_dataset_init, GOG_DATASET_TYPE))
+	gog_probability_plot_init, GOG_TYPE_PLOT, 0,
+	GSF_INTERFACE (gog_probability_plot_dataset_init, GOG_TYPE_DATASET))
 
 /************************************************,*****************************/
 typedef GogPlotView		GogProbabilityPlotView;
@@ -402,7 +402,7 @@ gog_probability_plot_view_class_init (GogViewClass *view_klass)
 
 GSF_DYNAMIC_CLASS (GogProbabilityPlotView, gog_probability_plot_view,
 	gog_probability_plot_view_class_init, NULL,
-	GOG_PLOT_VIEW_TYPE)
+	GOG_TYPE_PLOT_VIEW)
 
 /****************************************************************************/
 
@@ -478,4 +478,4 @@ gog_probability_plot_series_class_init (GogObjectClass *obj_klass)
 
 GSF_DYNAMIC_CLASS (GogProbabilityPlotSeries, gog_probability_plot_series,
 	gog_probability_plot_series_class_init, NULL,
-	GOG_SERIES_TYPE)
+	GOG_TYPE_SERIES)

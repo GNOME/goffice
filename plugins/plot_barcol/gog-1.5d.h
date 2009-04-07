@@ -60,7 +60,7 @@ typedef struct {
 
 #define GOG_PLOT1_5D_TYPE		(gog_plot1_5d_get_type ())
 #define GOG_PLOT1_5D(o)			(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PLOT1_5D_TYPE, GogPlot1_5d))
-#define IS_GOG_PLOT1_5D(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PLOT1_5D_TYPE))
+#define GOG_IS_PLOT1_5D(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PLOT1_5D_TYPE))
 #define GOG_PLOT1_5D_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOG_PLOT1_5D_TYPE, GogPlot1_5dClass))
 #define GOG_PLOT1_5D_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_PLOT1_5D_TYPE, GogPlot1_5dClass))
 
@@ -83,7 +83,7 @@ typedef GogSeriesClass GogSeries1_5dClass;
 
 #define GOG_SERIES1_5D_TYPE	(gog_series1_5d_get_type ())
 #define GOG_SERIES1_5D(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_SERIES1_5D_TYPE, GogSeries1_5d))
-#define IS_GOG_SERIES1_5D(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SERIES1_5D_TYPE))
+#define GOG_IS_SERIES1_5D(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SERIES1_5D_TYPE))
 
 GType gog_series1_5d_get_type (void);
 void  gog_series1_5d_register_type (GTypeModule *module);

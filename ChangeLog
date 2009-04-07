@@ -1,3 +1,15 @@
+2009-04-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Naming consistency fix.
+
+	/\bGo([A-Z])/GO$1/
+	/\bIS_GO_/GO_IS_/
+	/\bIS_GOG_/GOG_IS_/
+	/\bIS_GOD_/GOD_IS_/
+	/\bGO_([A-Z,_]*)_TYPE\b/GO_TYPE_$1/
+	/\bGOG_([A-Z,_]*)_TYPE\b/GOG_TYPE_$1/
+	/\bGOD_([A-Z,_]*)_TYPE\b/GOD_TYPE_$1/
+
 2009-04-03  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (map_linear_calc_ticks): Take N...  We

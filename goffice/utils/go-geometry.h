@@ -75,7 +75,7 @@ GOGeometrySide 		go_geometry_calc_label_anchor 	(GOGeometryOBR *obr, double alph
 GOGeometrySide		go_geometry_calc_label_position	(GOGeometryOBR *obr, double alpha, double offset,
 							 GOGeometrySide side, GOGeometrySide anchor);
 
-#define  GO_DIRECTION_TYPE (go_direction_get_type())
+#define  GO_TYPE_DIRECTION (go_direction_get_type())
 GType    go_direction_get_type	    (void) G_GNUC_CONST;
 gboolean go_direction_is_horizontal (GODirection d);
 gboolean go_direction_is_forward    (GODirection d);

@@ -41,7 +41,7 @@ struct _Gog3DBox {
 
 #define GOG_3D_BOX_TYPE		(gog_3d_box_get_type ())
 #define GOG_3D_BOX(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_3D_BOX_TYPE, Gog3DBox))
-#define IS_GOG_3D_BOX(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_3D_BOX_TYPE))
+#define GOG_IS_3D_BOX(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_3D_BOX_TYPE))
 
 GType 	gog_3d_box_get_type 	(void);
 

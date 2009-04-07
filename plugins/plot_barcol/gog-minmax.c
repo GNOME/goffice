@@ -460,4 +460,4 @@ gog_minmax_view_class_init (GogViewClass *view_klass)
 
 GSF_DYNAMIC_CLASS (GogMinMaxView, gog_minmax_view,
 	gog_minmax_view_class_init, NULL,
-	GOG_PLOT_VIEW_TYPE)
+	GOG_TYPE_PLOT_VIEW)

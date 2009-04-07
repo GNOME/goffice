@@ -31,9 +31,9 @@ G_BEGIN_DECLS
 typedef GogBarColPlot GogDropBarPlot;
 typedef GogPlot1_5dClass GogDropBarPlotClass;
 
-#define GOG_DROPBAR_PLOT_TYPE	(gog_dropbar_plot_get_type ())
-#define GOG_DROPBAR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_DROPBAR_PLOT_TYPE, GogDropBarPlot))
-#define GOG_IS_PLOT_DROPBAR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_DROPBAR_PLOT_TYPE))
+#define GOG_TYPE_DROPBAR_PLOT	(gog_dropbar_plot_get_type ())
+#define GOG_DROPBAR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_DROPBAR_PLOT, GogDropBarPlot))
+#define GOG_IS_PLOT_DROPBAR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_DROPBAR_PLOT))
 
 GType gog_dropbar_plot_get_type (void);
 void  gog_dropbar_plot_register_type (GTypeModule *module);

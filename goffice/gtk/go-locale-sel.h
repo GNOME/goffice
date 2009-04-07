@@ -27,9 +27,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_LOCALE_SEL_TYPE        (go_locale_sel_get_type ())
-#define GO_LOCALE_SEL(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), GO_LOCALE_SEL_TYPE, GOLocaleSel))
-#define IS_GO_LOCALE_SEL(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_LOCALE_SEL_TYPE))
+#define GO_TYPE_LOCALE_SEL        (go_locale_sel_get_type ())
+#define GO_LOCALE_SEL(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), GO_TYPE_LOCALE_SEL, GOLocaleSel))
+#define GO_IS_LOCALE_SEL(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_TYPE_LOCALE_SEL))
 
 typedef struct _GOLocaleSel GOLocaleSel;
 

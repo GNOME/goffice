@@ -54,9 +54,9 @@ enum {
 	KEY_COL
 };
 
-#define GO_COMBO_STACK_TYPE	(go_combo_stack_get_type ())
-#define GO_COMBO_STACK(o)	G_TYPE_CHECK_INSTANCE_CAST (o, GO_COMBO_STACK_TYPE, GOComboStack)
-#define IS_GO_COMBO_STACK(o)	G_TYPE_CHECK_INSTANCE_TYPE (o, GO_COMBO_STACK_TYPE)
+#define GO_TYPE_COMBO_STACK	(go_combo_stack_get_type ())
+#define GO_COMBO_STACK(o)	G_TYPE_CHECK_INSTANCE_CAST (o, GO_TYPE_COMBO_STACK, GOComboStack)
+#define GO_IS_COMBO_STACK(o)	G_TYPE_CHECK_INSTANCE_TYPE (o, GO_TYPE_COMBO_STACK)
 
 static GType go_combo_stack_get_type   (void);
 static guint go_combo_stack_signals [LAST_SIGNAL] = { 0, };
@@ -214,7 +214,7 @@ go_combo_stack_class_init (GObjectClass *klass)
 
 GSF_CLASS (GOComboStack, go_combo_stack,
 	   go_combo_stack_class_init, go_combo_stack_init,
-	   GO_COMBO_BOX_TYPE)
+	   GO_TYPE_COMBO_BOX)
 
 /**************************************************************************/
 
@@ -224,9 +224,9 @@ typedef struct {
 } GOToolComboStack;
 typedef GtkToolItemClass GOToolComboStackClass;
 
-#define GO_TOOL_COMBO_STACK_TYPE	(go_tool_combo_stack_get_type ())
-#define GO_TOOL_COMBO_STACK(o)		(G_TYPE_CHECK_INSTANCE_CAST (o, GO_TOOL_COMBO_STACK_TYPE, GOToolComboStack))
-#define IS_GO_TOOL_COMBO_STACK(o)	(G_TYPE_CHECK_INSTANCE_TYPE (o, GO_TOOL_COMBO_STACK_TYPE))
+#define GO_TYPE_TOOL_COMBO_STACK	(go_tool_combo_stack_get_type ())
+#define GO_TOOL_COMBO_STACK(o)		(G_TYPE_CHECK_INSTANCE_CAST (o, GO_TYPE_TOOL_COMBO_STACK, GOToolComboStack))
+#define GO_IS_TOOL_COMBO_STACK(o)	(G_TYPE_CHECK_INSTANCE_TYPE (o, GO_TYPE_TOOL_COMBO_STACK))
 
 static GType go_tool_combo_stack_get_type (void);
 
@@ -290,13 +290,13 @@ go_action_combo_stack_create_tool_item (GtkAction *a)
 	GOActionComboStack *saction = (GOActionComboStack *)a;
 	GtkWidget *image;
 	GtkTreeView *tree_view;
-	GOToolComboStack *tool = g_object_new (GO_TOOL_COMBO_STACK_TYPE, NULL);
+	GOToolComboStack *tool = g_object_new (GO_TYPE_TOOL_COMBO_STACK, NULL);
 	char *stock_id;
 	gboolean is_sensitive = gtk_tree_model_iter_n_children (saction->model, NULL) > 0;
 	GtkIconSize size;
 	GtkSettings *settings;
 
-	tool->combo = g_object_new (GO_COMBO_STACK_TYPE, NULL);
+	tool->combo = g_object_new (GO_TYPE_COMBO_STACK, NULL);
 	tree_view = GTK_TREE_VIEW (tool->combo->list);
 	gtk_tree_view_set_model (tree_view, saction->model);
 	gtk_tree_view_set_headers_visible (tree_view, FALSE);

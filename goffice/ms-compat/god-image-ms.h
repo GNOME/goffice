@@ -19,12 +19,12 @@
 
 G_BEGIN_DECLS
 
-#define GOD_IMAGE_MS_TYPE		(god_image_ms_get_type ())
-#define GOD_IMAGE_MS(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOD_IMAGE_MS_TYPE, GodImageMs))
-#define GOD_IMAGE_MS_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOD_IMAGE_MS_TYPE, GodImageMsClass))
-#define GOD_IMAGE_MS_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS((o), GOD_IMAGE_MS_TYPE, GodImageMsClass))
-#define IS_GOD_IMAGE_MS(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOD_IMAGE_MS_TYPE))
-#define IS_GOD_IMAGE_MS_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOD_IMAGE_MS_TYPE))
+#define GOD_TYPE_IMAGE_MS		(god_image_ms_get_type ())
+#define GOD_IMAGE_MS(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOD_TYPE_IMAGE_MS, GodImageMs))
+#define GOD_IMAGE_MS_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOD_TYPE_IMAGE_MS, GodImageMsClass))
+#define GOD_IMAGE_MS_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS((o), GOD_TYPE_IMAGE_MS, GodImageMsClass))
+#define GOD_IS_IMAGE_MS(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOD_TYPE_IMAGE_MS))
+#define GOD_IS_IMAGE_MS_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOD_TYPE_IMAGE_MS))
 
 typedef struct GodImageMsPrivate_ GodImageMsPrivate;
 

@@ -280,7 +280,7 @@ god_property_table_new (void)
 {
 	GodPropertyTable *prop_table;
 
-	prop_table = g_object_new (GOD_PROPERTY_TABLE_TYPE, NULL);
+	prop_table = g_object_new (GOD_TYPE_PROPERTY_TABLE, NULL);
 
 	return prop_table;
 }

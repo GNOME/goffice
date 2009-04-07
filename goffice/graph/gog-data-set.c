@@ -97,9 +97,9 @@ gog_dataset_set_dim (GogDataset *set, int dim_i, GOData *val, GError **err)
 {
 	GogDatasetClass *klass;
 
-	g_return_if_fail (val == NULL || IS_GO_DATA (val));
+	g_return_if_fail (val == NULL || GO_IS_DATA (val));
 
-	if (set == NULL || !IS_GOG_DATASET (set)) {
+	if (set == NULL || !GOG_IS_DATASET (set)) {
 		g_warning ("gog_dataset_set_dim called with invalid GogDataset");
 		goto done;
 	}
@@ -236,13 +236,13 @@ gog_dataset_dup_to_simple (GogDataset const *src, GogDataset *dst)
 		dst_dat = NULL;
 		/* for scalar and vector data, try to transform to values first
 		if we find non finite, use strings */
-		if (IS_GO_DATA_SCALAR (src_dat)) {
+		if (GO_IS_DATA_SCALAR (src_dat)) {
 			char const *str = go_data_scalar_get_str (GO_DATA_SCALAR (src_dat));
 			char *end;
 			double d =  g_strtod (str, &end);
 			dst_dat =(*end == 0)? go_data_scalar_val_new (d):
 						go_data_scalar_str_new (g_strdup (str), TRUE);
-		} else if (IS_GO_DATA_VECTOR (src_dat)) {
+		} else if (GO_IS_DATA_VECTOR (src_dat)) {
 			gboolean as_values = TRUE;
 			GODataVector *vec = GO_DATA_VECTOR (src_dat);
 			double *d = go_data_vector_get_values (vec);
@@ -263,7 +263,7 @@ gog_dataset_dup_to_simple (GogDataset const *src, GogDataset *dst)
 					str[i] = go_data_vector_get_str (vec, i);
 				dst_dat = go_data_vector_str_new ((char const* const*) str, n, g_free);
 			}
-		} else if (IS_GO_DATA_MATRIX (src_dat)) {
+		} else if (GO_IS_DATA_MATRIX (src_dat)) {
 			/* only values are supported so don't care */
 			GODataMatrix *mat = GO_DATA_MATRIX (src_dat);
 			GODataMatrixSize size = go_data_matrix_get_size (mat);

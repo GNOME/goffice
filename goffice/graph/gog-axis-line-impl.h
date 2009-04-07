@@ -66,9 +66,9 @@ typedef struct {
 
 typedef GogViewClass	GogAxisBaseViewClass;
 
-#define GOG_AXIS_BASE_VIEW_TYPE		(gog_axis_base_view_get_type ())
-#define GOG_AXIS_BASE_VIEW(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_AXIS_BASE_VIEW_TYPE, GogAxisBaseView))
-#define IS_GOG_AXIS_BASE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_AXIS_BASE_VIEW_TYPE))
+#define GOG_TYPE_AXIS_BASE_VIEW		(gog_axis_base_view_get_type ())
+#define GOG_AXIS_BASE_VIEW(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_AXIS_BASE_VIEW, GogAxisBaseView))
+#define GOG_IS_AXIS_BASE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_AXIS_BASE_VIEW))
 
 GType gog_axis_base_view_get_type (void);
 void gog_axis_base_view_label_position_request (GogView *view,

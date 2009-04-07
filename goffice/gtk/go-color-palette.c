@@ -516,7 +516,7 @@ go_color_palette_new (char const *no_color_label,
 	int const rows = 6;
 	GONamedColor const *color_names = default_color_set;
 
-	pal = g_object_new (GO_COLOR_PALETTE_TYPE, NULL);
+	pal = g_object_new (GO_TYPE_COLOR_PALETTE, NULL);
 
 	pal->default_set   = color_names;
 	pal->default_color = default_color;

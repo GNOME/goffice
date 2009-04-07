@@ -59,7 +59,7 @@ main (int argc, char *argv[])
 	/* Initialize libgoffice */
 	libgoffice_init ();
 	/* Initialize plugins manager */
-	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
+	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_resize (GTK_WINDOW (window), 300, 340);
@@ -80,7 +80,7 @@ main (int argc, char *argv[])
 	/* Get the embedded graph */
 	graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (w));
 	/* Add a title */
-	label = (GogLabel *) g_object_new (GOG_LABEL_TYPE, NULL);
+	label = (GogLabel *) g_object_new (GOG_TYPE_LABEL, NULL);
 	data = go_data_scalar_str_new (title, FALSE);
 	gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 	gog_object_add_by_name (GOG_OBJECT (graph), "Title", GOG_OBJECT (label));

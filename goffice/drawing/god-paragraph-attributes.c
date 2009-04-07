@@ -63,7 +63,7 @@ god_paragraph_attributes_new (void)
 {
 	GodParagraphAttributes *paragraph;
 
-	paragraph = g_object_new (GOD_PARAGRAPH_ATTRIBUTES_TYPE, NULL);
+	paragraph = g_object_new (GOD_TYPE_PARAGRAPH_ATTRIBUTES, NULL);
 
 	return paragraph;
 }

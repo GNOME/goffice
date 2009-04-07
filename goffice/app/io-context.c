@@ -160,14 +160,14 @@ io_context_class_init (GObjectClass *klass)
 GSF_CLASS_FULL (IOContext, io_context,
 		NULL, NULL, io_context_class_init, NULL,
 		io_context_init, G_TYPE_OBJECT, 0,
-		GSF_INTERFACE (io_context_gnm_cmd_context_init, GO_CMD_CONTEXT_TYPE))
+		GSF_INTERFACE (io_context_gnm_cmd_context_init, GO_TYPE_CMD_CONTEXT))
 
 IOContext *
 gnumeric_io_context_new (GOCmdContext *cc)
 {
 	IOContext *ioc;
 
-	g_return_val_if_fail (IS_GO_CMD_CONTEXT (cc), NULL);
+	g_return_val_if_fail (GO_IS_CMD_CONTEXT (cc), NULL);
 
 	ioc = g_object_new (TYPE_IO_CONTEXT, NULL);
 	/* The cc is optional for subclasses, but mandatory in this class. */

@@ -90,7 +90,7 @@ gog_graph_set_property (GObject *obj, guint param_id,
 		GObject *object = g_value_get_object (value);
 		if ((GODoc *) object == graph->doc)
 			break;
-		if (IS_GO_DOC (object)) {
+		if (GO_IS_DOC (object)) {
 			graph->doc = (GODoc *) object;
 			gog_object_document_changed (GOG_OBJECT (graph), graph->doc);
 		}
@@ -340,7 +340,7 @@ gog_graph_class_init (GogGraphClass *klass)
 		g_param_spec_object ("theme", 
 			_("Theme"),
 			_("The theme for elements of the graph"),
-			GOG_THEME_TYPE, 
+			GOG_TYPE_THEME, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_THEME_NAME,
 		g_param_spec_string ("theme-name", 
@@ -364,7 +364,7 @@ gog_graph_class_init (GogGraphClass *klass)
 		g_param_spec_object ("document", 
 			_("Document"),
 			_("the document for this graph"),
-			GO_DOC_TYPE, 
+			GO_TYPE_DOC, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
@@ -392,7 +392,7 @@ gog_graph_init (GogGraph *graph)
 
 GSF_CLASS (GogGraph, gog_graph,
 	   gog_graph_class_init, gog_graph_init,
-	   GOG_OUTLINED_OBJECT_TYPE)
+	   GOG_TYPE_OUTLINED_OBJECT)
 
 /**
  * gog_graph_validate_chart_layout :
@@ -411,7 +411,7 @@ gog_graph_validate_chart_layout (GogGraph *graph)
 	unsigned i, max_col, max_row;
 	gboolean changed = FALSE;
 
-	g_return_val_if_fail (IS_GOG_GRAPH (graph), FALSE);
+	g_return_val_if_fail (GOG_IS_GRAPH (graph), FALSE);
 
 	/* There won't be many of charts so we do the right thing */
 
@@ -475,14 +475,14 @@ gog_graph_validate_chart_layout (GogGraph *graph)
 unsigned
 gog_graph_num_cols (GogGraph const *graph)
 {
-	g_return_val_if_fail (IS_GOG_GRAPH (graph), 1);
+	g_return_val_if_fail (GOG_IS_GRAPH (graph), 1);
 	return graph->num_cols;
 }
 
 unsigned
 gog_graph_num_rows (GogGraph const *graph)
 {
-	g_return_val_if_fail (IS_GOG_GRAPH (graph), 1);
+	g_return_val_if_fail (GOG_IS_GRAPH (graph), 1);
 	return graph->num_rows;
 }
 
@@ -503,7 +503,7 @@ gog_graph_dup (GogGraph const *graph)
 GogTheme *
 gog_graph_get_theme (GogGraph const *graph)
 {
-	g_return_val_if_fail (IS_GOG_GRAPH (graph), NULL);
+	g_return_val_if_fail (GOG_IS_GRAPH (graph), NULL);
 	return graph->theme;
 }
 
@@ -515,7 +515,7 @@ apply_theme (GogObject *object, GogTheme const *theme, gboolean force_auto)
 	for (ptr = object->children; ptr !=  NULL; ptr = ptr->next)
 		apply_theme (ptr->data, theme, force_auto);		
 
-	if (IS_GOG_STYLED_OBJECT (object)) {
+	if (GOG_IS_STYLED_OBJECT (object)) {
 		GogStyledObject *styled_object = (GogStyledObject *) object;
 		GogStyle *style;
 
@@ -533,8 +533,8 @@ apply_theme (GogObject *object, GogTheme const *theme, gboolean force_auto)
 void
 gog_graph_set_theme (GogGraph *graph, GogTheme *theme)
 {
-	g_return_if_fail (IS_GOG_GRAPH (graph));
-	g_return_if_fail (IS_GOG_THEME (theme));
+	g_return_if_fail (GOG_IS_GRAPH (graph));
+	g_return_if_fail (GOG_IS_THEME (theme));
 
 	graph->theme = theme;
 
@@ -551,7 +551,7 @@ gog_graph_set_theme (GogGraph *graph, GogTheme *theme)
 GSList *
 gog_graph_get_data (GogGraph const *graph)
 {
-	g_return_val_if_fail (IS_GOG_GRAPH (graph), NULL);
+	g_return_val_if_fail (GOG_IS_GRAPH (graph), NULL);
 	return graph->data;
 }
 
@@ -573,8 +573,8 @@ gog_graph_ref_data (GogGraph *graph, GOData *dat)
 	if (dat == NULL)
 		return NULL;
 
-	g_return_val_if_fail (IS_GOG_GRAPH (graph), dat);
-	g_return_val_if_fail (IS_GO_DATA (dat), dat);
+	g_return_val_if_fail (GOG_IS_GRAPH (graph), dat);
+	g_return_val_if_fail (GO_IS_DATA (dat), dat);
 
 	/* Does it already exist in the graph ? */
 	res = g_hash_table_lookup (graph->data_refs, dat);
@@ -620,14 +620,14 @@ gog_graph_unref_data (GogGraph *graph, GOData *dat)
 	if (dat == NULL)
 		return;
 
-	g_return_if_fail (IS_GO_DATA (dat));
+	g_return_if_fail (GO_IS_DATA (dat));
 
 	g_object_unref (dat);
 
 	if (graph == NULL)
 		return;
 
-	g_return_if_fail (IS_GOG_GRAPH (graph));
+	g_return_if_fail (GOG_IS_GRAPH (graph));
 
 	/* once we've been destroyed the list is gone */
 	if (graph->data == NULL)
@@ -673,7 +673,7 @@ gog_graph_request_update (GogGraph *graph)
 	if (G_OBJECT (graph)->ref_count <= 0)
 		return FALSE;
 
-	g_return_val_if_fail (IS_GOG_GRAPH (graph), FALSE);
+	g_return_val_if_fail (GOG_IS_GRAPH (graph), FALSE);
 
 	if (graph->idle_handler == 0) { /* higher priority than canvas */
 		graph->idle_handler = g_idle_add_full (G_PRIORITY_HIGH_IDLE,
@@ -710,7 +710,7 @@ gog_graph_force_update (GogGraph *graph)
 void
 gog_graph_get_size (GogGraph *graph, double *width, double *height)
 {
-	g_return_if_fail (IS_GOG_GRAPH (graph));
+	g_return_if_fail (GOG_IS_GRAPH (graph));
 
 	if (width != NULL)
 		*width = graph->width;
@@ -728,7 +728,7 @@ gog_graph_get_size (GogGraph *graph, double *width, double *height)
 void
 gog_graph_set_size (GogGraph *graph, double width, double height)
 {
-	g_return_if_fail (IS_GOG_GRAPH (graph));
+	g_return_if_fail (GOG_IS_GRAPH (graph));
 
 	if (width != graph->width || height != graph->height) {
 		graph->height = height;
@@ -764,9 +764,9 @@ typedef struct {
 	void (*selection_changed) (GogGraphView *view, GogObject *gobj);
 } GogGraphViewClass;
 
-#define GOG_GRAPH_VIEW_TYPE	(gog_graph_view_get_type ())
-#define GOG_GRAPH_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRAPH_VIEW_TYPE, GogGraphView))
-#define IS_GOG_GRAPH_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRAPH_VIEW_TYPE))
+#define GOG_TYPE_GRAPH_VIEW	(gog_graph_view_get_type ())
+#define GOG_GRAPH_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_GRAPH_VIEW, GogGraphView))
+#define GOG_IS_GRAPH_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_GRAPH_VIEW))
 
 enum {
 	GRAPH_VIEW_PROP_0,
@@ -865,7 +865,7 @@ gog_graph_view_class_init (GogGraphViewClass *gview_klass)
 		g_param_spec_object ("renderer", 
 			_("Renderer"),
 			_("the renderer for this view"),
-			GOG_RENDERER_TYPE, 
+			GOG_TYPE_RENDERER, 
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	
 	gog_graph_view_signals [GRAPH_VIEW_SELECTION_CHANGED] = g_signal_new ("selection-changed",
@@ -891,7 +891,7 @@ gog_graph_view_init (GogGraphView *view)
 
 GSF_CLASS (GogGraphView, gog_graph_view,
 	   gog_graph_view_class_init, gog_graph_view_init,
-	   GOG_OUTLINED_VIEW_TYPE)
+	   GOG_TYPE_OUTLINED_VIEW)
 
 #ifdef GOFFICE_WITH_GTK
 static void
@@ -1008,7 +1008,7 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 GogView *
 gog_graph_view_get_selection (GogGraphView *gview)
 {
-	g_return_val_if_fail (IS_GOG_GRAPH_VIEW (gview), NULL);
+	g_return_val_if_fail (GOG_IS_GRAPH_VIEW (gview), NULL);
 
 	return gview->selected_view;
 }
@@ -1026,8 +1026,8 @@ gog_graph_view_set_selection (GogGraphView *gview, GogObject *gobj)
 {
 	GogView *view;
 
-	g_return_if_fail (IS_GOG_GRAPH_VIEW (gview));
-	g_return_if_fail (IS_GOG_OBJECT (gobj));
+	g_return_if_fail (GOG_IS_GRAPH_VIEW (gview));
+	g_return_if_fail (GOG_IS_OBJECT (gobj));
 
 	if (gview->selected_object == gobj)
 		return;
@@ -1102,7 +1102,7 @@ gog_graph_export_image (GogGraph *graph, GOImageFormat format, GsfOutput *output
 	GogRenderer *renderer;
 	gboolean result;
 
-	g_return_val_if_fail (IS_GOG_GRAPH (graph), FALSE);
+	g_return_val_if_fail (GOG_IS_GRAPH (graph), FALSE);
 	g_return_val_if_fail (format != GO_IMAGE_FORMAT_UNKNOWN, FALSE);
 
 	renderer = gog_renderer_new (graph);
@@ -1126,7 +1126,7 @@ void gog_graph_render_to_cairo (GogGraph *graph, cairo_t *cairo, double w, doubl
 {
 	GogRenderer *renderer;
 
-	g_return_if_fail (IS_GOG_GRAPH (graph));
+	g_return_if_fail (GOG_IS_GRAPH (graph));
 
 	renderer = gog_renderer_new (graph);
 	gog_renderer_render_to_cairo (renderer, cairo, w, h);

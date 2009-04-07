@@ -255,4 +255,4 @@ gog_polynom_reg_curve_init (GogLinRegCurve *model)
 
 GSF_DYNAMIC_CLASS (GogPolynomRegCurve, gog_polynom_reg_curve,
 	gog_polynom_reg_curve_class_init, gog_polynom_reg_curve_init,
-	GOG_LIN_REG_CURVE_TYPE)
+	GOG_TYPE_LIN_REG_CURVE)

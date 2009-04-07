@@ -43,7 +43,7 @@ god_text_model_new (void)
 {
 	GodTextModel *text;
 
-	text = g_object_new (GOD_TEXT_MODEL_TYPE, NULL);
+	text = g_object_new (GOD_TYPE_TEXT_MODEL, NULL);
 
 	return text;
 }

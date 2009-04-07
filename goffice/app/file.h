@@ -22,7 +22,7 @@ typedef enum {
 	FILE_FL_LAST
 } FileFormatLevel;
 GType go_file_saver_level_get_type (void);
-#define GO_FILE_SAVER_LEVEL_TYPE (go_file_saver_level_get_type ())
+#define GO_TYPE_FILE_SAVER_LEVEL (go_file_saver_level_get_type ())
 
 /*
  * FileSaveScope specifies what information file saver can save in a file.
@@ -36,7 +36,7 @@ typedef enum {
 	FILE_SAVE_LAST
 } FileSaveScope;
 GType go_file_saver_scope_get_type (void);
-#define GO_FILE_SAVER_SCOPE_TYPE (go_file_saver_scope_get_type ())
+#define GO_TYPE_FILE_SAVER_SCOPE (go_file_saver_scope_get_type ())
 
 /*
  * GOFileOpener
@@ -46,7 +46,7 @@ typedef struct _GOFileOpenerClass GOFileOpenerClass;
 
 #define TYPE_GO_FILE_OPENER             (go_file_opener_get_type ())
 #define GO_FILE_OPENER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GO_FILE_OPENER, GOFileOpener))
-#define IS_GO_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GO_FILE_OPENER))
+#define GO_IS_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GO_FILE_OPENER))
 
 typedef gboolean (*GOFileOpenerProbeFunc) (GOFileOpener const *fo,
 					    GsfInput *input,
@@ -101,7 +101,7 @@ typedef struct _GOFileSaverClass GOFileSaverClass;
 
 #define TYPE_GO_FILE_SAVER             (go_file_saver_get_type ())
 #define GO_FILE_SAVER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GO_FILE_SAVER, GOFileSaver))
-#define IS_GO_FILE_SAVER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GO_FILE_SAVER))
+#define GO_IS_FILE_SAVER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GO_FILE_SAVER))
 
 typedef void (*GOFileSaverSaveFunc) (GOFileSaver const *fs,
 				     IOContext *io_context,

@@ -226,7 +226,7 @@ gog_series_element_class_init (GogSeriesElementClass *klass)
 
 GSF_CLASS (GogSeriesElement, gog_series_element,
 	   gog_series_element_class_init, NULL /*gog_series_element_init*/,
-	   GOG_STYLED_OBJECT_TYPE)
+	   GOG_TYPE_STYLED_OBJECT)
 
 /*****************************************************************************/
 
@@ -277,7 +277,7 @@ role_series_element_allocate (GogObject *series)
 	GogObject *gse;
 
 	if (type == 0)
-		type = GOG_SERIES_ELEMENT_TYPE;
+		type = GOG_TYPE_SERIES_ELEMENT;
 
 	gse = g_object_new (type, NULL);
 	if (gse != NULL)
@@ -745,7 +745,7 @@ gog_series_dataset_set_dim (GogDataset *set, int dim_i,
 	GogSeries *series = GOG_SERIES (set);
 	GogGraph *graph = gog_object_get_graph (GOG_OBJECT (series));
 
-	g_return_if_fail (IS_GOG_PLOT (series->plot));
+	g_return_if_fail (GOG_IS_PLOT (series->plot));
 	g_return_if_fail (dim_i >= -1);
 
 	if (dim_i < 0) {
@@ -820,8 +820,8 @@ gog_series_dataset_init (GogDatasetClass *iface)
 
 GSF_CLASS_FULL (GogSeries, gog_series,
 		NULL, NULL, gog_series_class_init, NULL,
-		gog_series_init, GOG_STYLED_OBJECT_TYPE, 0,
-		GSF_INTERFACE (gog_series_dataset_init, GOG_DATASET_TYPE))
+		gog_series_init, GOG_TYPE_STYLED_OBJECT, 0,
+		GSF_INTERFACE (gog_series_dataset_init, GOG_TYPE_DATASET))
 
 /**
  * gog_series_get_plot :
@@ -832,7 +832,7 @@ GSF_CLASS_FULL (GogSeries, gog_series,
 GogPlot *
 gog_series_get_plot (GogSeries const *series)
 {
-	g_return_val_if_fail (IS_GOG_SERIES (series), NULL);
+	g_return_val_if_fail (GOG_IS_SERIES (series), NULL);
 	return series->plot;
 }
 
@@ -845,7 +845,7 @@ gog_series_get_plot (GogSeries const *series)
 gboolean
 gog_series_is_valid (GogSeries const *series)
 {
-	g_return_val_if_fail (IS_GOG_SERIES (series), FALSE);
+	g_return_val_if_fail (GOG_IS_SERIES (series), FALSE);
 	return series->is_valid;
 }
 
@@ -863,8 +863,8 @@ gog_series_check_validity (GogSeries *series)
 	unsigned i;
 	GogSeriesDesc const *desc;
 
-	g_return_if_fail (IS_GOG_SERIES (series));
-	g_return_if_fail (IS_GOG_PLOT (series->plot));
+	g_return_if_fail (GOG_IS_SERIES (series));
+	g_return_if_fail (GOG_IS_PLOT (series->plot));
 
 	desc = &series->plot->desc.series;
 	for (i = series->plot->desc.series.num_dim; i-- > 0; )
@@ -885,7 +885,7 @@ gog_series_check_validity (GogSeries *series)
 gboolean
 gog_series_has_legend (GogSeries const *series)
 {
-	g_return_val_if_fail (IS_GOG_SERIES (series), FALSE);
+	g_return_val_if_fail (GOG_IS_SERIES (series), FALSE);
 	return series->has_legend;
 }
 
@@ -904,7 +904,7 @@ gog_series_has_legend (GogSeries const *series)
 void
 gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
 {
-	g_return_if_fail (IS_GOG_SERIES (series));
+	g_return_if_fail (GOG_IS_SERIES (series));
 
 	if (ind < 0) {
 		if (series->manual_index && series->plot != NULL)
@@ -935,7 +935,7 @@ gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
 GODataScalar *
 gog_series_get_name (GogSeries const *series)
 {
-	g_return_val_if_fail (IS_GOG_SERIES (series), NULL);
+	g_return_val_if_fail (GOG_IS_SERIES (series), NULL);
 	return GO_DATA_SCALAR (series->values[-1].data);
 }
 
@@ -993,7 +993,7 @@ gog_series_get_valid_element_index (GogSeries const *series, int old_index, int 
 	int index;
 	GList *ptr;
 
-	g_return_val_if_fail (IS_GOG_SERIES (series), -1);
+	g_return_val_if_fail (GOG_IS_SERIES (series), -1);
 
 	if ((desired_index >= (int) series->num_elements) ||
 	    (desired_index < 0))
@@ -1029,7 +1029,7 @@ gog_series_get_element (GogSeries const *series, int index)
 	GList *ptr;
 	GogSeriesElement *element;
 
-	g_return_val_if_fail (IS_GOG_SERIES (series), NULL);
+	g_return_val_if_fail (GOG_IS_SERIES (series), NULL);
 
 	for (ptr = series->overrides; ptr != NULL; ptr = ptr->next) {
 		element = GOG_SERIES_ELEMENT (ptr->data);
@@ -1126,7 +1126,7 @@ gog_series_get_xyz_data (GogSeries const  *series,
 GogSeriesFillType
 gog_series_get_fill_type (GogSeries const *series)
 {
-	g_return_val_if_fail (IS_GOG_SERIES (series), GOG_SERIES_FILL_TYPE_INVALID);
+	g_return_val_if_fail (GOG_IS_SERIES (series), GOG_SERIES_FILL_TYPE_INVALID);
 
 	return series->fill_type;
 }
@@ -1136,7 +1136,7 @@ gog_series_set_fill_type (GogSeries *series, GogSeriesFillType fill_type)
 {
 	GogSeriesClass *series_klass;
 
-	g_return_if_fail (IS_GOG_SERIES (series));
+	g_return_if_fail (GOG_IS_SERIES (series));
 	if (series->fill_type == fill_type)
 		return;
 	g_return_if_fail (fill_type >= 0 && fill_type < GOG_SERIES_FILL_TYPE_INVALID);
@@ -1156,7 +1156,7 @@ gog_series_populate_fill_type_combo (GogSeries const *series, GtkComboBox *combo
 	GogSeriesFillType fill_type;
 	unsigned int i;
 
-	g_return_if_fail (IS_GOG_SERIES (series));
+	g_return_if_fail (GOG_IS_SERIES (series));
 	series_klass = GOG_SERIES_GET_CLASS (series);
 	g_return_if_fail (series_klass->valid_fill_type_list != NULL);
 
@@ -1176,7 +1176,7 @@ gog_series_get_fill_type_from_combo (GogSeries const *series, GtkComboBox *combo
 {
 	GogSeriesClass *series_klass;
 
-	g_return_val_if_fail (IS_GOG_SERIES (series), GOG_SERIES_FILL_TYPE_INVALID);
+	g_return_val_if_fail (GOG_IS_SERIES (series), GOG_SERIES_FILL_TYPE_INVALID);
 	series_klass = GOG_SERIES_GET_CLASS (series);
 	g_return_val_if_fail (series_klass->valid_fill_type_list != NULL, GOG_SERIES_FILL_TYPE_INVALID);
 
@@ -1189,7 +1189,7 @@ gog_series_get_interpolation_params (GogSeries const *series)
 {
 	GogSeriesClass *series_klass;
 
-	g_return_val_if_fail (IS_GOG_SERIES (series), NULL);
+	g_return_val_if_fail (GOG_IS_SERIES (series), NULL);
 	series_klass = GOG_SERIES_GET_CLASS (series);
 	return (series_klass->get_interpolation_params)?
 			series_klass->get_interpolation_params (series):

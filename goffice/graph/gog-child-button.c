@@ -189,7 +189,7 @@ build_addition_process_childs (GogObject *object, BuildAdditionData *closure)
 			addition->parent = NULL;
 	}
 
-	if (!IS_GOG_GRAPH (object))
+	if (!GOG_IS_GRAPH (object))
 		for (child_iter = object->children; child_iter != NULL; child_iter = child_iter->next)
 				build_addition_process_childs (child_iter->data, closure);
 }
@@ -227,8 +227,8 @@ gog_child_button_build_additions (GogChildButton *child_button)
 	closure.child_button = child_button;
 
 	for (start_object = child_button->object;
-		  !IS_GOG_CHART (start_object) &&
-		  !IS_GOG_GRAPH (start_object) &&
+		  !GOG_IS_CHART (start_object) &&
+		  !GOG_IS_GRAPH (start_object) &&
 		  start_object != NULL;
 		  start_object = start_object->parent);
 
@@ -267,7 +267,7 @@ void
 gog_child_button_set_object (GogChildButton *child_button, GogObject *gog_object)
 {
 	g_return_if_fail (GOG_IS_CHILD_BUTTON (child_button));
-	g_return_if_fail (IS_GOG_OBJECT (gog_object));
+	g_return_if_fail (GOG_IS_OBJECT (gog_object));
 
 	if (gog_object == child_button->object)
 		return;

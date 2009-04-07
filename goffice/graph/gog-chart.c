@@ -204,7 +204,7 @@ gog_chart_children_reordered (GogObject *obj)
 	GogChart *chart = GOG_CHART (obj);
 
 	for (ptr = obj->children; ptr != NULL ; ptr = ptr->next)
-		if (IS_GOG_PLOT (ptr->data))
+		if (GOG_IS_PLOT (ptr->data))
 			accum = g_slist_prepend (accum, ptr->data);
 	g_slist_free (chart->plots);
 	chart->plots = g_slist_reverse (accum);
@@ -224,7 +224,7 @@ role_plot_post_add (GogObject *parent, GogObject *plot)
 		int i = GOG_AXIS_VIRTUAL, j = 1 << GOG_AXIS_VIRTUAL;
 		for (; i < GOG_AXIS_TYPES; i++, j <<= 1)
 			if ((axis_set & j) != 0 && (chart->axis_set & j) == 0) {
-				GogObject *axis = GOG_OBJECT (g_object_new (GOG_AXIS_TYPE, "type", i, NULL));
+				GogObject *axis = GOG_OBJECT (g_object_new (GOG_TYPE_AXIS, "type", i, NULL));
 				chart->axis_set |= j;
 				switch (i) {
 				case GOG_AXIS_PSEUDO_3D:
@@ -526,7 +526,7 @@ gog_chart_init (GogChart *chart)
 
 GSF_CLASS (GogChart, gog_chart,
 	   gog_chart_class_init, gog_chart_init,
-	   GOG_OUTLINED_OBJECT_TYPE)
+	   GOG_TYPE_OUTLINED_OBJECT)
 
 /**
  * gog_chart_get_position :
@@ -568,7 +568,7 @@ void
 gog_chart_set_position (GogChart *chart,
 			unsigned int x, unsigned int y, unsigned int cols, unsigned int rows)
 {
-	g_return_if_fail (IS_GOG_CHART (chart));
+	g_return_if_fail (GOG_IS_CHART (chart));
 
 	if (chart->x == x && chart->y == y &&
 	    chart->cols == cols && chart->rows == rows)
@@ -641,7 +641,7 @@ gog_chart_get_cardinality (GogChart *chart, unsigned *full, unsigned *visible)
 	GSList *ptr;
 	unsigned tmp_full, tmp_visible;
 
-	g_return_if_fail (IS_GOG_CHART (chart));
+	g_return_if_fail (GOG_IS_CHART (chart));
 
 	if (!chart->cardinality_valid) {
 		chart->cardinality_valid = TRUE;
@@ -663,7 +663,7 @@ gog_chart_get_cardinality (GogChart *chart, unsigned *full, unsigned *visible)
 void
 gog_chart_request_cardinality_update (GogChart *chart)
 {
-	g_return_if_fail (IS_GOG_CHART (chart));
+	g_return_if_fail (GOG_IS_CHART (chart));
 	
 	if (chart->cardinality_valid) {
 		chart->cardinality_valid = FALSE;
@@ -677,7 +677,7 @@ gog_chart_foreach_elem (GogChart *chart, gboolean only_visible,
 {
 	GSList *ptr;
 
-	g_return_if_fail (IS_GOG_CHART (chart));
+	g_return_if_fail (GOG_IS_CHART (chart));
 	g_return_if_fail (chart->cardinality_valid);
 
 	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
@@ -687,14 +687,14 @@ gog_chart_foreach_elem (GogChart *chart, gboolean only_visible,
 GSList *
 gog_chart_get_plots (GogChart const *chart)
 {
-	g_return_val_if_fail (IS_GOG_CHART (chart), NULL);
+	g_return_val_if_fail (GOG_IS_CHART (chart), NULL);
 	return chart->plots;
 }
 
 GogAxisSet
 gog_chart_get_axis_set (GogChart const *chart)
 {
-	g_return_val_if_fail (IS_GOG_CHART (chart), GOG_AXIS_SET_UNKNOWN);
+	g_return_val_if_fail (GOG_IS_CHART (chart), GOG_AXIS_SET_UNKNOWN);
 	return chart->axis_set;
 }
 
@@ -703,7 +703,7 @@ gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type)
 {
 	GSList *ptr;
 
-	g_return_val_if_fail (IS_GOG_CHART (chart), FALSE);
+	g_return_val_if_fail (GOG_IS_CHART (chart), FALSE);
 
 	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
 		if (!gog_plot_axis_set_is_valid (ptr->data, type))
@@ -730,7 +730,7 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 	GSList  *ptr;
 	GogAxisType type;
 
-	g_return_val_if_fail (IS_GOG_CHART (chart), FALSE);
+	g_return_val_if_fail (GOG_IS_CHART (chart), FALSE);
 
 	if (chart->axis_set == axis_set)
 		return TRUE;
@@ -758,7 +758,7 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ) {
 		axis = ptr->data;
 		ptr = ptr->next; /* list may change under us */
-		if (IS_GOG_AXIS (axis)) {
+		if (GOG_IS_AXIS (axis)) {
 			type = -1;
 			g_object_get (G_OBJECT (axis), "type", &type, NULL);
 			if (type < 0 || type >= GOG_AXIS_TYPES) {
@@ -791,11 +791,11 @@ gog_chart_get_axes (GogChart const *chart, GogAxisType target)
 	GogAxis *axis;
 	int type;
 
-	g_return_val_if_fail (IS_GOG_CHART (chart), NULL);
+	g_return_val_if_fail (GOG_IS_CHART (chart), NULL);
 
 	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ptr = ptr->next) {
 		axis = ptr->data;
-		if (IS_GOG_AXIS (axis)) {
+		if (GOG_IS_AXIS (axis)) {
 			type = -1;
 			g_object_get (G_OBJECT (axis), "type", &type, NULL);
 			if (type < 0 || type >= GOG_AXIS_TYPES) {
@@ -820,7 +820,7 @@ gog_chart_get_axes (GogChart const *chart, GogAxisType target)
 GogGrid  *
 gog_chart_get_grid (GogChart const *chart)
 {
-	g_return_val_if_fail (IS_GOG_CHART (chart), NULL);
+	g_return_val_if_fail (GOG_IS_CHART (chart), NULL);
 	return GOG_GRID (chart->grid);
 }
 
@@ -1008,9 +1008,9 @@ typedef struct {
 } GogChartView;
 typedef GogOutlinedViewClass	GogChartViewClass;
 
-#define GOG_CHART_VIEW_TYPE	(gog_chart_view_get_type ())
-#define GOG_CHART_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_CHART_VIEW_TYPE, GogChartView))
-#define IS_GOG_CHART_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_CHART_VIEW_TYPE))
+#define GOG_TYPE_CHART_VIEW	(gog_chart_view_get_type ())
+#define GOG_CHART_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_CHART_VIEW, GogChartView))
+#define GOG_IS_CHART_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_CHART_VIEW))
 
 static GogViewClass *cview_parent_klass;
 
@@ -1085,10 +1085,10 @@ grid_line_render (GSList *start_ptr, GogViewAllocation const *bbox)
 
 	for (ptr = start_ptr; ptr != NULL; ptr = ptr->next) {
 		child_view = ptr->data;
-		if (IS_GOG_AXIS (child_view->model)) {
+		if (GOG_IS_AXIS (child_view->model)) {
 			for (child_ptr = child_view->children; child_ptr != NULL; child_ptr = child_ptr->next) {
 				axis_child_view = child_ptr->data;
-				if (IS_GOG_GRID_LINE (axis_child_view->model)) {
+				if (GOG_IS_GRID_LINE (axis_child_view->model)) {
 					if (gog_grid_line_is_minor (GOG_GRID_LINE (axis_child_view->model)))
 						minor_grid_lines = g_slist_prepend (minor_grid_lines, 
 										    axis_child_view);
@@ -1129,7 +1129,7 @@ plot_render (GogView *view, GogViewAllocation const *bbox)
 	/* Render some plots before axes */
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 		child_view = ptr->data;
-		if (IS_GOG_PLOT (child_view->model) && 
+		if (GOG_IS_PLOT (child_view->model) && 
 		    GOG_PLOT (child_view->model)->render_before_axes)
 			gog_view_render	(ptr->data, bbox);
 	}
@@ -1148,34 +1148,34 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (gog_chart_is_3d (chart)) {
 		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 			child_view = ptr->data;
-			if (!IS_GOG_AXIS (child_view->model) && !IS_GOG_PLOT (child_view->model)) 
+			if (!GOG_IS_AXIS (child_view->model) && !GOG_IS_PLOT (child_view->model)) 
 				gog_view_render	(ptr->data, bbox);
 		}
 		/* now render plot and axes */
 		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 			child_view = ptr->data;
-			if (!IS_GOG_AXIS (child_view->model))
+			if (!GOG_IS_AXIS (child_view->model))
 				continue;
 			gog_view_render (ptr->data, bbox);
 			grid_line_render (ptr, bbox);
 		}
 		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 			child_view = ptr->data;
-			if (IS_GOG_AXIS (child_view->model))
+			if (GOG_IS_AXIS (child_view->model))
 				continue;
-			if (IS_GOG_PLOT (child_view->model)) 
+			if (GOG_IS_PLOT (child_view->model)) 
 				gog_view_render	(ptr->data, bbox);
 		}
 	} else {
 		/* KLUDGE: render grid lines before axis */
 		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 			child_view = ptr->data;
-			if (!grid_line_rendered && IS_GOG_AXIS (child_view->model)) {
+			if (!grid_line_rendered && GOG_IS_AXIS (child_view->model)) {
 				grid_line_render (ptr, bbox);
 				plot_render (view, bbox);
 				grid_line_rendered = TRUE;
 			}
-			if (IS_GOG_PLOT (child_view->model)) {
+			if (GOG_IS_PLOT (child_view->model)) {
 			    if (!GOG_PLOT (child_view->model)->render_before_axes)
 				gog_view_render	(ptr->data, bbox);
 			} else
@@ -1200,12 +1200,12 @@ gog_chart_view_class_init (GogChartViewClass *gview_klass)
 
 static GSF_CLASS (GogChartView, gog_chart_view,
 		  gog_chart_view_class_init, gog_chart_view_init,
-		  GOG_OUTLINED_VIEW_TYPE)
+		  GOG_TYPE_OUTLINED_VIEW)
 
 GogViewAllocation const *
 gog_chart_view_get_plot_area (GogView const *view)
 {
-	g_return_val_if_fail (IS_GOG_CHART_VIEW (view), NULL);
+	g_return_val_if_fail (GOG_IS_CHART_VIEW (view), NULL);
 
 	return &(GOG_CHART_VIEW (view)->plot_area);
 }

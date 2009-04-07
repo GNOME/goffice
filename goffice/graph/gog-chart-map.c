@@ -792,7 +792,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 	GogChartMap *map;
 	GogAxisSet axis_set;
 
-	g_return_val_if_fail (IS_GOG_CHART (chart), NULL);
+	g_return_val_if_fail (GOG_IS_CHART (chart), NULL);
 	axis_set = gog_chart_get_axis_set (chart);
 	g_return_val_if_fail (axis_set != GOG_AXIS_SET_UNKNOWN &&
 			      axis_set != GOG_AXIS_SET_NONE, NULL);

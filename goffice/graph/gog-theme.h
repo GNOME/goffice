@@ -26,9 +26,9 @@
 
 G_BEGIN_DECLS
 
-#define GOG_THEME_TYPE	(gog_theme_get_type ())
-#define GOG_THEME(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_THEME_TYPE, GogTheme))
-#define IS_GOG_THEME(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_THEME_TYPE))
+#define GOG_TYPE_THEME	(gog_theme_get_type ())
+#define GOG_THEME(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_THEME, GogTheme))
+#define GOG_IS_THEME(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_THEME))
 
 GType gog_theme_get_type (void);
 

@@ -39,7 +39,7 @@ god_image_ms_new (void)
 {
 	GodImage *image;
 
-	image = g_object_new (GOD_IMAGE_MS_TYPE, NULL);
+	image = g_object_new (GOD_TYPE_IMAGE_MS, NULL);
 
 	return image;
 }
@@ -91,4 +91,4 @@ god_image_ms_class_init (GodImageMsClass *class)
 
 GSF_CLASS (GodImageMs, god_image_ms,
 	   god_image_ms_class_init, god_image_ms_init,
-	   GOD_IMAGE_TYPE)
+	   GOD_TYPE_IMAGE)

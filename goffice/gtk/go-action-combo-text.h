@@ -26,9 +26,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_ACTION_COMBO_TEXT_TYPE  (go_action_combo_text_get_type ())
-#define GO_ACTION_COMBO_TEXT(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_ACTION_COMBO_TEXT_TYPE, GOActionComboText))
-#define IS_GO_ACTION_COMBO_TEXT(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_ACTION_COMBO_TEXT_TYPE))
+#define GO_TYPE_ACTION_COMBO_TEXT  (go_action_combo_text_get_type ())
+#define GO_ACTION_COMBO_TEXT(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_ACTION_COMBO_TEXT, GOActionComboText))
+#define GO_IS_ACTION_COMBO_TEXT(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_ACTION_COMBO_TEXT))
 
 typedef struct _GOActionComboText	 GOActionComboText;
 typedef enum {		/* begin the search from : */

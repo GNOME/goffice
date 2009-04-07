@@ -44,7 +44,7 @@ typedef struct {
 	GObjectClass	base;
 } GOMarkerClass;
 
-#define GO_MARKER_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS((o),  GO_MARKER_TYPE, GOMarkerClass))
+#define GO_MARKER_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS((o),  GO_TYPE_MARKER, GOMarkerClass))
 
 static char const square_path[] = 		"M-1,-1 L-1,1 1,1 1,-1 z";
 static char const diamond_path[] =		"M0,-1 L1,0 0,1 -1,0 z";
@@ -143,7 +143,7 @@ go_marker_get_shape (GOMarker const *marker)
 void
 go_marker_set_shape (GOMarker *marker, GOMarkerShape shape)
 {
-	g_return_if_fail (IS_GO_MARKER (marker));
+	g_return_if_fail (GO_IS_MARKER (marker));
 
 	if (marker->shape == shape)
 		return;
@@ -159,7 +159,7 @@ go_marker_get_outline_color (GOMarker const *marker)
 void
 go_marker_set_outline_color (GOMarker *marker, GOColor color)
 {
-	g_return_if_fail (IS_GO_MARKER (marker));
+	g_return_if_fail (GO_IS_MARKER (marker));
 	if (marker->outline_color == color)
 		return;
 	marker->outline_color = color;
@@ -174,7 +174,7 @@ go_marker_get_fill_color (GOMarker const *marker)
 void
 go_marker_set_fill_color (GOMarker *marker, GOColor color)
 {
-	g_return_if_fail (IS_GO_MARKER (marker));
+	g_return_if_fail (GO_IS_MARKER (marker));
 	if (marker->fill_color == color)
 		return;
 	marker->fill_color = color;
@@ -195,7 +195,7 @@ go_marker_get_outline_width (GOMarker const *marker)
 void
 go_marker_set_size (GOMarker *marker, int size)
 {
-	g_return_if_fail (IS_GO_MARKER (marker));
+	g_return_if_fail (GO_IS_MARKER (marker));
 	g_return_if_fail (size >= 0);
 	if (marker->size == size)
 		return;
@@ -229,7 +229,7 @@ go_marker_dup (GOMarker const *src)
 GOMarker *
 go_marker_new (void)
 {
-	return g_object_new (GO_MARKER_TYPE, NULL);
+	return g_object_new (GO_TYPE_MARKER, NULL);
 }
 
 /**
@@ -298,7 +298,7 @@ go_marker_create_cairo_surface (GOMarker const *marker, cairo_t *cr, double scal
 	cairo_surface_t *current_cr_surface;
 	double half_size, offset;
 
-	g_return_val_if_fail (IS_GO_MARKER (marker), NULL);
+	g_return_val_if_fail (GO_IS_MARKER (marker), NULL);
 	g_return_val_if_fail (cr != NULL, NULL);
 
 	current_cr_surface = cairo_get_target (cr);

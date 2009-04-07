@@ -226,7 +226,7 @@ gog_axis_base_parent_changed (GogObject *child, gboolean was_set)
 	GogAxisBase *axis_base = GOG_AXIS_BASE (child);
 
 	if (was_set) {
-		if (IS_GOG_AXIS (child))
+		if (GOG_IS_AXIS (child))
 			axis_base->axis = GOG_AXIS (child);
 		else
 			axis_base->axis = GOG_AXIS (child->parent);
@@ -322,7 +322,7 @@ gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position)
 	g_return_if_fail (GOG_AXIS_BASE (axis_base) != NULL);
 
 	if (position == GOG_AXIS_AUTO) {
-		if (IS_GOG_AXIS (axis_base))
+		if (GOG_IS_AXIS (axis_base))
 			axis = GOG_AXIS (axis_base);
 		else
 			axis = GOG_AXIS (gog_object_get_parent (GOG_OBJECT (axis_base)));
@@ -337,7 +337,7 @@ gog_axis_base_set_position (GogAxisBase *axis_base, GogAxisPosition position)
 			lines = gog_object_get_children (GOG_OBJECT (aptr->data), NULL);
 			lines = g_slist_prepend (lines, aptr->data);
 			for (lptr = lines; lptr != NULL; lptr = lptr->next) {
-				if (lptr->data == axis_base || !IS_GOG_AXIS_BASE (lptr->data))
+				if (lptr->data == axis_base || !GOG_IS_AXIS_BASE (lptr->data))
 					continue;
 				position = gog_axis_base_get_position (GOG_AXIS_BASE (lptr->data));
 				if (position == GOG_AXIS_AT_HIGH )
@@ -365,7 +365,7 @@ gog_axis_base_get_clamped_position (GogAxisBase *axis_base)
 {
 	GogAxisPosition axis_pos;
 
-	g_return_val_if_fail (IS_GOG_AXIS_BASE (axis_base), GOG_AXIS_AT_LOW);
+	g_return_val_if_fail (GOG_IS_AXIS_BASE (axis_base), GOG_AXIS_AT_LOW);
 
 	axis_pos = axis_base->position;
 	if (axis_pos == GOG_AXIS_CROSS) {
@@ -456,7 +456,7 @@ cb_position_toggled (GtkWidget *button, AxisBasePrefs *state)
 			lines = gog_object_get_children (GOG_OBJECT (aptr->data), NULL);
 			lines = g_slist_prepend (lines, aptr->data);
 			for (lptr = lines; lptr != NULL; lptr = lptr->next) {
-				if (lptr->data == axis_base || !IS_GOG_AXIS_BASE (lptr->data))
+				if (lptr->data == axis_base || !GOG_IS_AXIS_BASE (lptr->data))
 					continue;
 				if (position == gog_axis_base_get_position (GOG_AXIS_BASE (lptr->data))) {
 					gog_axis_base_set_position (GOG_AXIS_BASE (lptr->data),
@@ -771,7 +771,7 @@ gog_axis_base_get_cross_location (GogAxisBase *axis_base)
 	g_return_val_if_fail (GOG_AXIS_BASE (axis_base) != NULL, 0.);
 
 	data = axis_base->cross_location.data;
-	if (data != NULL && IS_GO_DATA_SCALAR (data))
+	if (data != NULL && GO_IS_DATA_SCALAR (data))
 		return go_data_scalar_get_value (GO_DATA_SCALAR (data));
 
 	return 0.;
@@ -794,7 +794,7 @@ gog_axis_base_get_padding (GogAxisBase *axis_base)
 
 GSF_CLASS_ABSTRACT (GogAxisBase, gog_axis_base,
 		    gog_axis_base_class_init, gog_axis_base_init,
-		    GOG_STYLED_OBJECT_TYPE);
+		    GOG_TYPE_STYLED_OBJECT);
 
 /************************************************************************/
 static gboolean gog_axis_base_view_point (GogView *view, double x, double y);
@@ -2052,7 +2052,7 @@ gog_axis_base_view_point (GogView *view, double x, double y)
 		return FALSE;
 
 	/* FIXME: not nice */
-	if (IS_GOG_AXIS (view->model))
+	if (GOG_IS_AXIS (view->model))
 		plot_area = gog_chart_view_get_plot_area (view->parent);
 	else
 		plot_area = gog_chart_view_get_plot_area (view->parent->parent);
@@ -2140,7 +2140,7 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 
 	/* FIXME: not nice */
-	if (IS_GOG_AXIS (view->model))
+	if (GOG_IS_AXIS (view->model))
 		plot_area = gog_chart_view_get_plot_area (view->parent);
 	else
 		plot_area = gog_chart_view_get_plot_area (view->parent->parent);
@@ -2230,7 +2230,7 @@ gog_axis_base_view_class_init (GogAxisBaseViewClass *gview_klass)
 
 GSF_CLASS (GogAxisBaseView, gog_axis_base_view,
 	   gog_axis_base_view_class_init, NULL,
-	   GOG_VIEW_TYPE)
+	   GOG_TYPE_VIEW)
 
 /*****************************************************************************/
 /*****************************************************************************/
@@ -2283,5 +2283,5 @@ gog_axis_line_dataset_init (GogDatasetClass *iface)
 
 GSF_CLASS_FULL (GogAxisLine, gog_axis_line,
 		NULL, NULL, gog_axis_line_class_init, NULL,
-		NULL /*init*/, GOG_AXIS_BASE_TYPE, 0,
-		GSF_INTERFACE (gog_axis_line_dataset_init, GOG_DATASET_TYPE))
+		NULL /*init*/, GOG_TYPE_AXIS_BASE, 0,
+		GSF_INTERFACE (gog_axis_line_dataset_init, GOG_TYPE_DATASET))

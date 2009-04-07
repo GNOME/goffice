@@ -27,15 +27,15 @@
 
 G_BEGIN_DECLS
 
-#define GOG_LABEL_TYPE	(gog_label_get_type ())
-#define GOG_LABEL(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LABEL_TYPE, GogLabel))
-#define IS_GOG_LABEL(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LABEL_TYPE))
+#define GOG_TYPE_LABEL	(gog_label_get_type ())
+#define GOG_LABEL(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_LABEL, GogLabel))
+#define GOG_IS_LABEL(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_LABEL))
 
 GType gog_label_get_type (void);
 
-#define GOG_REG_EQN_TYPE	(gog_reg_eqn_get_type ())
-#define GOG_REG_EQN(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_REG_EQN_TYPE, GogRegEqn))
-#define IS_GOG_REG_EQN(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_REG_EQN_TYPE))
+#define GOG_TYPE_REG_EQN	(gog_reg_eqn_get_type ())
+#define GOG_REG_EQN(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_REG_EQN, GogRegEqn))
+#define GOG_IS_REG_EQN(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_REG_EQN))
 
 GType gog_reg_eqn_get_type (void);
 

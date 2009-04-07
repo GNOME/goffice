@@ -72,7 +72,7 @@ god_shape_new (void)
 {
 	GodShape *shape;
 
-	shape = g_object_new (GOD_SHAPE_TYPE, NULL);
+	shape = g_object_new (GOD_TYPE_SHAPE, NULL);
 
 	return shape;
 }

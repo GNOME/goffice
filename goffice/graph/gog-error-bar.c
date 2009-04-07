@@ -160,7 +160,7 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 	} else {
 		GtkWidget *table = glade_xml_get_widget (gui, "values_table");
 		if (!editor->bar) {
-			editor->bar = g_object_new (GOG_ERROR_BAR_TYPE, NULL);
+			editor->bar = g_object_new (GOG_TYPE_ERROR_BAR, NULL);
 			editor->bar->style->line.color = editor->color;
 			editor->bar->style->line.width = editor->line_width;
 			editor->bar->width = editor->width;
@@ -213,7 +213,7 @@ gog_error_bar_prefs (GogSeries *series,
 	GogErrorBarEditor *editor;
 	unsigned int i;
 
-	g_return_val_if_fail (IS_GOG_SERIES (series), NULL);
+	g_return_val_if_fail (GOG_IS_SERIES (series), NULL);
 
 	editor = g_new0 (GogErrorBarEditor, 1);
 	editor->series = series;
@@ -476,7 +476,7 @@ gog_error_bar_persist_init (GOPersistClass *iface)
 GSF_CLASS_FULL (GogErrorBar, gog_error_bar,
 		NULL, NULL, gog_error_bar_class_init, NULL,
 		gog_error_bar_init, G_TYPE_OBJECT, 0,
-		GSF_INTERFACE (gog_error_bar_persist_init, GO_PERSIST_TYPE))
+		GSF_INTERFACE (gog_error_bar_persist_init, GO_TYPE_PERSIST))
 
 
 /**
@@ -506,7 +506,7 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 		With a 0 value, it might be, because of rounding errors */
 	*min = *max = -1.;
 
-	g_return_val_if_fail (IS_GOG_ERROR_BAR (bar), FALSE);
+	g_return_val_if_fail (GOG_IS_ERROR_BAR (bar), FALSE);
 	if (!gog_series_is_valid (bar->series))
 		return FALSE;
 	vec = GO_DATA_VECTOR (bar->series->values[bar->dim_i].data);
@@ -514,7 +514,7 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 		return FALSE;
 	value = go_data_vector_get_value (vec, index);
 	data = bar->series->values[bar->error_i].data;
-	length = (IS_GO_DATA (data)) ? go_data_vector_get_len (GO_DATA_VECTOR (data)) : 0;
+	length = (GO_IS_DATA (data)) ? go_data_vector_get_len (GO_DATA_VECTOR (data)) : 0;
 
 	if ((bar->type == GOG_ERROR_BAR_TYPE_NONE) || isnan (value) || !go_finite (value))
 		return FALSE;
@@ -525,7 +525,7 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 		*max = go_data_vector_get_value (GO_DATA_VECTOR (data), index);
 
 	data = bar->series->values[bar->error_i + 1].data;
-	length = (IS_GO_DATA (data))? go_data_vector_get_len (GO_DATA_VECTOR (data)): 0;
+	length = (GO_IS_DATA (data))? go_data_vector_get_len (GO_DATA_VECTOR (data)): 0;
 	if (length == 0)
 		*min = *max; /* use same values for + and - */
 	else if (length == 1)
@@ -563,7 +563,7 @@ gog_error_bar_get_minmax (const GogErrorBar *bar, double *min, double *max)
 	int i, imax;
 	double tmp_min, tmp_max, plus, minus;
 	
-	g_return_if_fail (IS_GOG_ERROR_BAR (bar));
+	g_return_if_fail (GOG_IS_ERROR_BAR (bar));
 
 	if (!gog_series_is_valid (bar->series)) {
 		*min = DBL_MAX;
@@ -594,9 +594,9 @@ gog_error_bar_dup		(GogErrorBar const *bar)
 {
 	GogErrorBar* dbar;
 
-	g_return_val_if_fail (IS_GOG_ERROR_BAR (bar), NULL);
+	g_return_val_if_fail (GOG_IS_ERROR_BAR (bar), NULL);
 
-	dbar = g_object_new (GOG_ERROR_BAR_TYPE, NULL);
+	dbar = g_object_new (GOG_TYPE_ERROR_BAR, NULL);
 	dbar->type = bar->type;
 	dbar->series = bar->series;
 	dbar->dim_i = bar->dim_i;

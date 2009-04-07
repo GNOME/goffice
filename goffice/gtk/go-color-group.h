@@ -46,9 +46,9 @@ typedef struct {
         GOColor	history[GO_COLOR_GROUP_HISTORY_SIZE];
 } GOColorGroup;
 
-#define GO_COLOR_GROUP_TYPE     (go_color_group_get_type ())
-#define GO_COLOR_GROUP(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), GO_COLOR_GROUP_TYPE, GOColorGroup))
-#define IS_GO_COLOR_GROUP(obj)  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GO_COLOR_GROUP_TYPE))
+#define GO_TYPE_COLOR_GROUP     (go_color_group_get_type ())
+#define GO_COLOR_GROUP(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), GO_TYPE_COLOR_GROUP, GOColorGroup))
+#define GO_IS_COLOR_GROUP(obj)  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GO_TYPE_COLOR_GROUP))
 
 GType         go_color_group_get_type  (void);
 GOColorGroup *go_color_group_find      (char const *name, gpointer context);

@@ -42,7 +42,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
-#define GOG_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_PLOT_TYPE, GogPlotClass))
+#define GOG_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_PLOT, GogPlotClass))
 
 enum {
 	PLOT_PROP_0,
@@ -87,7 +87,7 @@ role_series_allocate (GogObject *plot)
 	GType type = klass->series_type;
 
 	if (type == 0)
-		type = GOG_SERIES_TYPE;
+		type = GOG_TYPE_SERIES;
 	return g_object_new (type, NULL);
 }
 
@@ -481,7 +481,7 @@ gog_plot_children_reordered (GogObject *obj)
 	GogPlot *plot = GOG_PLOT (obj);
 
 	for (ptr = obj->children; ptr != NULL ; ptr = ptr->next)
-		if (IS_GOG_SERIES (ptr->data))
+		if (GOG_IS_SERIES (ptr->data))
 			accum = g_slist_prepend (accum, ptr->data);
 	g_slist_free (plot->series);
 	plot->series = g_slist_reverse (accum);
@@ -570,7 +570,7 @@ gog_plot_init (GogPlot *plot, GogPlotClass const *derived_plot_klass)
 
 GSF_CLASS_ABSTRACT (GogPlot, gog_plot,
 		    gog_plot_class_init, gog_plot_init,
-		    GOG_OBJECT_TYPE)
+		    GOG_TYPE_OBJECT)
 
 GogPlot *
 gog_plot_new_by_type (GogPlotType const *type)
@@ -601,7 +601,7 @@ gog_plot_new_series (GogPlot *plot)
 {
 	GogObject *res;
 
-	g_return_val_if_fail (IS_GOG_PLOT (plot), NULL);
+	g_return_val_if_fail (GOG_IS_PLOT (plot), NULL);
 
 	res = gog_object_add_by_name (GOG_OBJECT (plot), "Series", NULL);
 	return res ? GOG_SERIES (res) : NULL;
@@ -609,7 +609,7 @@ gog_plot_new_series (GogPlot *plot)
 GogPlotDesc const *
 gog_plot_description (GogPlot const *plot)
 {
-	g_return_val_if_fail (IS_GOG_PLOT (plot), NULL);
+	g_return_val_if_fail (GOG_IS_PLOT (plot), NULL);
 	return &plot->desc;
 }
 
@@ -623,7 +623,7 @@ gog_plot_get_chart (GogPlot const *plot)
 void
 gog_plot_request_cardinality_update (GogPlot *plot)
 {
-	g_return_if_fail (IS_GOG_PLOT (plot));
+	g_return_if_fail (GOG_IS_PLOT (plot));
 
 	if (plot->cardinality_valid) {
 		GogChart *chart = gog_plot_get_chart (plot);
@@ -649,7 +649,7 @@ gog_plot_update_cardinality (GogPlot *plot, int index_num)
 	gboolean   is_valid;
 	unsigned   size = 0, no_legend = 0, i;
 
-	g_return_if_fail (IS_GOG_PLOT (plot));
+	g_return_if_fail (GOG_IS_PLOT (plot));
 
 	plot->cardinality_valid = TRUE;
 	plot->index_num = i = index_num;
@@ -687,7 +687,7 @@ gog_plot_update_cardinality (GogPlot *plot, int index_num)
 void
 gog_plot_get_cardinality (GogPlot *plot, unsigned *full, unsigned *visible)
 {
-	g_return_if_fail (IS_GOG_PLOT (plot));
+	g_return_if_fail (GOG_IS_PLOT (plot));
 
 	if (!plot->cardinality_valid)
 		g_warning ("[GogPlot::get_cardinality] Invalid cardinality");
@@ -719,7 +719,7 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
 	GList *overrides;
 
-	g_return_if_fail (IS_GOG_PLOT (plot));
+	g_return_if_fail (GOG_IS_PLOT (plot));
 	if (!plot->cardinality_valid)
 		gog_plot_get_cardinality (plot, NULL, NULL);
 
@@ -792,7 +792,7 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 GSList const *
 gog_plot_get_series (GogPlot const *plot)
 {
-	g_return_val_if_fail (IS_GOG_PLOT (plot), NULL);
+	g_return_val_if_fail (GOG_IS_PLOT (plot), NULL);
 	return plot->series;
 }
 
@@ -875,8 +875,8 @@ void
 gog_plot_set_axis (GogPlot *plot, GogAxis *axis)
 {
 	GogAxisType type;
-	g_return_if_fail (IS_GOG_PLOT (plot));
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_PLOT (plot));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 
 	type = gog_axis_get_atype (axis);
 	g_return_if_fail (type != GOG_AXIS_UNKNOWN);
@@ -901,7 +901,7 @@ gog_plot_set_axis_by_id (GogPlot *plot, GogAxisType type, unsigned id)
 	if (id == 0)
 		return FALSE;
 
-	g_return_val_if_fail (IS_GOG_PLOT (plot), FALSE);
+	g_return_val_if_fail (GOG_IS_PLOT (plot), FALSE);
 	g_return_val_if_fail (GOG_OBJECT (plot)->parent != NULL, FALSE);
 
 	chart = gog_plot_get_chart (plot);
@@ -962,7 +962,7 @@ gog_plot_axis_clear (GogPlot *plot, GogAxisSet filter)
 {
 	GogAxisType type;
 
-	g_return_if_fail (IS_GOG_PLOT (plot));
+	g_return_if_fail (GOG_IS_PLOT (plot));
 
 	for (type = 0 ; type < GOG_AXIS_TYPES ; type++)
 		if (plot->axis[type] != NULL && ((1 << type) & filter)) {
@@ -982,7 +982,7 @@ gog_plot_get_axis_id (GogPlot const *plot, GogAxisType type)
 GogAxis	*
 gog_plot_get_axis (GogPlot const *plot, GogAxisType type)
 {
-	g_return_val_if_fail (IS_GOG_PLOT (plot), NULL);
+	g_return_val_if_fail (GOG_IS_PLOT (plot), NULL);
 	g_return_val_if_fail (type < GOG_AXIS_TYPES, NULL);
 	g_return_val_if_fail (GOG_AXIS_UNKNOWN < type, NULL);
 	return plot->axis[type];
@@ -992,7 +992,7 @@ void
 gog_plot_update_3d (GogPlot *plot)
 {
 	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
-	g_return_if_fail (IS_GOG_PLOT (plot));
+	g_return_if_fail (GOG_IS_PLOT (plot));
 
 	if (klass->update_3d)
 		klass->update_3d (plot);
@@ -1025,7 +1025,7 @@ gog_plot_guru_helper (GogPlot *plot)
 	char *hint;
 	unsigned i;
 
-	g_return_if_fail (IS_GOG_PLOT (plot));
+	g_return_if_fail (GOG_IS_PLOT (plot));
 	klass = GOG_PLOT_GET_CLASS (plot);
 
 	if (plot->guru_hints == NULL)
@@ -1221,4 +1221,4 @@ gog_plot_view_class_init (GogPlotViewClass *pview_klass)
 
 GSF_CLASS_ABSTRACT (GogPlotView, gog_plot_view,
 		    gog_plot_view_class_init, NULL,
-		    GOG_VIEW_TYPE)
+		    GOG_TYPE_VIEW)

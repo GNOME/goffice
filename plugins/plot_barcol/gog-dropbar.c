@@ -78,7 +78,7 @@ gog_dropbar_plot_init (GogPlot1_5d *plot)
 
 GSF_DYNAMIC_CLASS (GogDropBarPlot, gog_dropbar_plot,
 	gog_dropbar_plot_class_init, gog_dropbar_plot_init,
-	GOG_BARCOL_PLOT_TYPE)
+	GOG_TYPE_BARCOL_PLOT)
 
 /*****************************************************************************/
 typedef GogPlotView		GogDropBarView;
@@ -320,4 +320,4 @@ gog_dropbar_view_class_init (GogViewClass *view_klass)
 
 GSF_DYNAMIC_CLASS (GogDropBarView, gog_dropbar_view,
 	gog_dropbar_view_class_init, NULL,
-	GOG_PLOT_VIEW_TYPE)
+	GOG_TYPE_PLOT_VIEW)

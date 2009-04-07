@@ -42,7 +42,7 @@
 #include <goffice/gtk/goffice-gtk.h>
 #endif
 
-#define GOG_REG_CURVE_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_REG_CURVE_TYPE, GogRegCurveClass))
+#define GOG_REG_CURVE_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_REG_CURVE, GogRegCurveClass))
 
 static GObjectClass *reg_curve_parent_klass;
 
@@ -237,8 +237,8 @@ gog_reg_curve_dataset_init (GogDatasetClass *iface)
 
 GSF_CLASS_FULL (GogRegCurve, gog_reg_curve,
 	   NULL, NULL, gog_reg_curve_class_init, NULL,
-	   gog_reg_curve_init, GOG_TREND_LINE_TYPE, G_TYPE_FLAG_ABSTRACT,
-		GSF_INTERFACE (gog_reg_curve_dataset_init, GOG_DATASET_TYPE))
+	   gog_reg_curve_init, GOG_TYPE_TREND_LINE, G_TYPE_FLAG_ABSTRACT,
+		GSF_INTERFACE (gog_reg_curve_dataset_init, GOG_TYPE_DATASET))
 
 static double
 gog_reg_curve_get_value_at (GogRegCurve *reg_curve, double x)
@@ -282,9 +282,9 @@ gog_reg_curve_get_bounds (GogRegCurve *reg_curve, double *xmin, double *xmax)
 typedef GogView		GogRegCurveView;
 typedef GogViewClass	GogRegCurveViewClass;
 
-#define GOG_REG_CURVE_VIEW_TYPE	(gog_reg_curve_view_get_type ())
-#define GOG_REG_CURVE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_REG_CURVE_VIEW_TYPE, GogRegCurveView))
-#define IS_GOG_REG_CURVE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_REG_CURVE_VIEW_TYPE))
+#define GOG_TYPE_REG_CURVE_VIEW	(gog_reg_curve_view_get_type ())
+#define GOG_REG_CURVE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_REG_CURVE_VIEW, GogRegCurveView))
+#define GOG_IS_REG_CURVE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_REG_CURVE_VIEW))
 
 static GogViewClass *reg_curve_view_parent_klass;
 
@@ -367,4 +367,4 @@ gog_reg_curve_view_class_init (GogRegCurveViewClass *gview_klass)
 
 static GSF_CLASS (GogRegCurveView, gog_reg_curve_view,
 		  gog_reg_curve_view_class_init, NULL,
-		  GOG_VIEW_TYPE)
+		  GOG_TYPE_VIEW)

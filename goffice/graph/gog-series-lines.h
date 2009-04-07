@@ -28,9 +28,9 @@
 
 G_BEGIN_DECLS
 
-#define GOG_SERIES_LINES_TYPE		(gog_series_lines_get_type ())
-#define GOG_SERIES_LINES(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_SERIES_LINES_TYPE, GogSeriesLines))
-#define IS_GOG_SERIES_LINES(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SERIES_LINES_TYPE))
+#define GOG_TYPE_SERIES_LINES		(gog_series_lines_get_type ())
+#define GOG_SERIES_LINES(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_SERIES_LINES, GogSeriesLines))
+#define GOG_IS_SERIES_LINES(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_SERIES_LINES))
 
 GType 	gog_series_lines_get_type 	(void);
 void 	gog_series_lines_stroke 	(GogSeriesLines *lines, GogRenderer *rend, 

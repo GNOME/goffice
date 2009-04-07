@@ -363,7 +363,7 @@ locales_changed_cb (GOOptionMenu *optionmenu, GOLocaleSel *ls)
 {
 	char * locale;
 
-	g_return_if_fail (IS_GO_LOCALE_SEL (ls));
+	g_return_if_fail (GO_IS_LOCALE_SEL (ls));
 	g_return_if_fail (optionmenu == ls->locales);
 
 	locale = go_locale_sel_get_locale (ls);
@@ -379,7 +379,7 @@ set_menu_to_default (GOLocaleSel *ls, gint item)
 {
 	GSList sel = { GINT_TO_POINTER (item - 1), NULL};
 
-	g_return_if_fail (ls != NULL && IS_GO_LOCALE_SEL (ls));
+	g_return_if_fail (ls != NULL && GO_IS_LOCALE_SEL (ls));
 
 	go_option_menu_set_history (ls->locales, &sel);
 }
@@ -484,7 +484,7 @@ ls_class_init (GtkWidgetClass *widget_klass)
 
 	ls_signals[LOCALE_CHANGED] =
 		g_signal_new ("locale_changed",
-			      GO_LOCALE_SEL_TYPE,
+			      GO_TYPE_LOCALE_SEL,
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GOLocaleSelClass, locale_changed),
 			      NULL, NULL,
@@ -525,7 +525,7 @@ GSF_CLASS (GOLocaleSel, go_locale_sel,
 GtkWidget *
 go_locale_sel_new (void)
 {
-	return g_object_new (GO_LOCALE_SEL_TYPE, NULL);
+	return g_object_new (GO_TYPE_LOCALE_SEL, NULL);
 }
 
 gchar *
@@ -545,7 +545,7 @@ go_locale_sel_get_locale (GOLocaleSel *ls)
 		g_strfreev (parts);
 	}
 
- 	g_return_val_if_fail (IS_GO_LOCALE_SEL (ls), cur_locale_cp);
+ 	g_return_val_if_fail (GO_IS_LOCALE_SEL (ls), cur_locale_cp);
 
  	selection = GTK_MENU_ITEM (go_option_menu_get_history (ls->locales));
 	locale = (char const *) g_object_get_data (G_OBJECT (selection),
@@ -599,7 +599,7 @@ go_locale_sel_set_locale (GOLocaleSel *ls, const char *locale)
 	struct cb_find_entry cl;
 	LocaleInfo const *ci;
 
-	g_return_val_if_fail (IS_GO_LOCALE_SEL (ls), FALSE);
+	g_return_val_if_fail (GO_IS_LOCALE_SEL (ls), FALSE);
 	g_return_val_if_fail (locale != NULL, FALSE);
 
 	ci = g_hash_table_lookup (locale_hash, locale);
@@ -631,7 +631,7 @@ go_locale_sel_set_locale (GOLocaleSel *ls, const char *locale)
 void
 go_locale_sel_set_sensitive (GOLocaleSel *ls, gboolean sensitive)
 {
-	g_return_if_fail (IS_GO_LOCALE_SEL (ls));
+	g_return_if_fail (GO_IS_LOCALE_SEL (ls));
 
 	gtk_widget_set_sensitive (GTK_WIDGET (ls->locales), sensitive);
 }

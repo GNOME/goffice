@@ -76,9 +76,9 @@ enum {
 	SERIES_PROP_FILL_TYPE
 };
 
-#define GOG_RT_SERIES_TYPE	(gog_rt_series_get_type ())
-#define GOG_RT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RT_SERIES_TYPE, GogRTSeries))
-#define GOG_IS_RT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RT_SERIES_TYPE))
+#define GOG_TYPE_RT_SERIES	(gog_rt_series_get_type ())
+#define GOG_RT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_RT_SERIES, GogRTSeries))
+#define GOG_IS_RT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_RT_SERIES))
 
 static GType gog_rt_series_get_type (void);
 static GType gog_polar_series_get_type (void);
@@ -237,7 +237,7 @@ gog_rt_plot_init (GogRTPlot *rt)
 
 GSF_DYNAMIC_CLASS (GogRTPlot, gog_rt_plot,
 	   gog_rt_plot_class_init, gog_rt_plot_init,
-	   GOG_PLOT_TYPE)
+	   GOG_TYPE_PLOT)
 
 /*****************************************************************************/
 
@@ -311,13 +311,13 @@ gog_radar_plot_class_init (GogPlotClass *gog_plot_klass)
 
 GSF_DYNAMIC_CLASS (GogRadarPlot, gog_radar_plot,
 	gog_radar_plot_class_init, NULL,
-	GOG_RT_PLOT_TYPE)
+	GOG_TYPE_RT_PLOT)
 
 /*****************************************************************************/
 
-#define GOG_RADAR_AREA_PLOT_TYPE  (gog_radar_area_plot_get_type ())
-#define GOG_RADAR_AREA_PLOT(o)	  (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RADAR_AREA_PLOT_TYPE, GogRadarAreaPlot))
-#define GOG_IS_PLOT_RADAR_AREA(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RADAR_AREA_PLOT_TYPE))
+#define GOG_TYPE_RADAR_AREA_PLOT  (gog_radar_area_plot_get_type ())
+#define GOG_RADAR_AREA_PLOT(o)	  (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_RADAR_AREA_PLOT, GogRadarAreaPlot))
+#define GOG_IS_PLOT_RADAR_AREA(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_RADAR_AREA_PLOT))
 
 typedef GogRadarPlot		GogRadarAreaPlot;
 typedef GogRadarPlotClass	GogRadarAreaPlotClass;
@@ -352,7 +352,7 @@ gog_radar_area_plot_init (GogPlot *plot)
 
 GSF_DYNAMIC_CLASS (GogRadarAreaPlot, gog_radar_area_plot,
 	gog_radar_area_plot_class_init, gog_radar_area_plot_init,
-	GOG_RADAR_PLOT_TYPE)
+	GOG_TYPE_RADAR_PLOT)
 
 /*****************************************************************************/
 
@@ -422,7 +422,7 @@ gog_polar_plot_class_init (GogPlotClass *gog_plot_klass)
 
 GSF_DYNAMIC_CLASS (GogPolarPlot, gog_polar_plot,
 	gog_polar_plot_class_init, NULL,
-	GOG_RT_PLOT_TYPE)
+	GOG_TYPE_RT_PLOT)
 
 /*****************************************************************************/
 
@@ -633,7 +633,7 @@ gog_color_polar_plot_init (GogColorPolarPlot *plot)
 
 GSF_DYNAMIC_CLASS (GogColorPolarPlot, gog_color_polar_plot,
 	gog_color_polar_plot_class_init, gog_color_polar_plot_init,
-	GOG_POLAR_PLOT_TYPE)
+	GOG_TYPE_POLAR_PLOT)
 
 /*****************************************************************************/
 
@@ -882,7 +882,7 @@ gog_rt_view_class_init (GogViewClass *view_klass)
 
 GSF_DYNAMIC_CLASS (GogRTView, gog_rt_view,
 	gog_rt_view_class_init, NULL,
-	GOG_PLOT_VIEW_TYPE)
+	GOG_TYPE_PLOT_VIEW)
 
 /*****************************************************************************/
 
@@ -997,7 +997,7 @@ gog_rt_series_class_init (GogStyledObjectClass *gso_klass)
 
 GSF_DYNAMIC_CLASS (GogRTSeries, gog_rt_series,
 	gog_rt_series_class_init, gog_rt_series_init,
-	GOG_SERIES_TYPE)
+	GOG_TYPE_SERIES)
 
 /*****************************************************************************/
 
@@ -1021,7 +1021,7 @@ gog_polar_series_class_init (GogObjectClass *gog_klass)
 
 GSF_DYNAMIC_CLASS (GogPolarSeries, gog_polar_series,
 	gog_polar_series_class_init, NULL,
-	GOG_RT_SERIES_TYPE)
+	GOG_TYPE_RT_SERIES)
 
 /*****************************************************************************/
 
@@ -1064,7 +1064,7 @@ gog_color_polar_series_class_init (GogObjectClass *gog_klass)
 
 GSF_DYNAMIC_CLASS (GogColorPolarSeries, gog_color_polar_series,
 	gog_color_polar_series_class_init, NULL,
-	GOG_RT_SERIES_TYPE)
+	GOG_TYPE_RT_SERIES)
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)

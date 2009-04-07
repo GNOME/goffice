@@ -36,9 +36,9 @@ G_BEGIN_DECLS
 typedef GogXYZPlot GogContourPlot;
 typedef GogXYZPlotClass GogContourPlotClass;
 
-#define GOG_CONTOUR_PLOT_TYPE	(gog_contour_plot_get_type ())
-#define GOG_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_CONTOUR_PLOT_TYPE, GogContourPlot))
-#define GOG_IS_PLOT_CONTOUR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_CONTOUR_PLOT_TYPE))
+#define GOG_TYPE_CONTOUR_PLOT	(gog_contour_plot_get_type ())
+#define GOG_CONTOUR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_CONTOUR_PLOT, GogContourPlot))
+#define GOG_IS_PLOT_CONTOUR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_CONTOUR_PLOT))
 
 GType gog_contour_plot_get_type (void);
 void  gog_contour_plot_register_type   (GTypeModule *module);

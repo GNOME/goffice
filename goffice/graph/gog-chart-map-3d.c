@@ -86,7 +86,7 @@ gog_chart_map_3d_new (GogChart *chart, GogViewAllocation const *area,
 	GogAxisSet axis_set;
 	Gog3DBox *box;
 
-	g_return_val_if_fail (IS_GOG_CHART (chart), NULL);
+	g_return_val_if_fail (GOG_IS_CHART (chart), NULL);
 
 	map = g_new (GogChartMap3D, 1);
 	

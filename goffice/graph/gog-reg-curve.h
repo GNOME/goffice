@@ -50,9 +50,9 @@ typedef struct {
 	void 		(*populate_editor) (GogRegCurve *reg_curve, gpointer table);
 } GogRegCurveClass;
 
-#define GOG_REG_CURVE_TYPE	(gog_reg_curve_get_type ())
-#define GOG_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_REG_CURVE_TYPE, GogRegCurve))
-#define IS_GOG_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_REG_CURVE_TYPE))
+#define GOG_TYPE_REG_CURVE	(gog_reg_curve_get_type ())
+#define GOG_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_REG_CURVE, GogRegCurve))
+#define GOG_IS_REG_CURVE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_REG_CURVE))
 
 GType gog_reg_curve_get_type (void);
 

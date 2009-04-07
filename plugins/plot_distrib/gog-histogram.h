@@ -36,9 +36,9 @@ typedef struct {
 } GogHistogramPlot;
 typedef GogPlotClass GogHistogramPlotClass;
 
-#define GOG_HISTOGRAM_PLOT_TYPE	(gog_histogram_plot_get_type ())
-#define GOG_HISTOGRAM_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_HISTOGRAM_PLOT_TYPE, GogHistogramPlot))
-#define GOG_IS_HISTOGRAM_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_HISTOGRAM_PLOT_TYPE))
+#define GOG_TYPE_HISTOGRAM_PLOT	(gog_histogram_plot_get_type ())
+#define GOG_HISTOGRAM_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_HISTOGRAM_PLOT, GogHistogramPlot))
+#define GOG_IS_HISTOGRAM_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_HISTOGRAM_PLOT))
 
 GType gog_histogram_plot_get_type (void);
 

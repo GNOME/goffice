@@ -161,7 +161,7 @@ go_plugin_loader_module_unload_base (GOPluginLoader *loader, ErrorInfo **ret_err
 static void
 go_plugin_loader_module_init (GOPluginLoaderModule *loader_module)
 {
-	g_return_if_fail (IS_GO_PLUGIN_LOADER_MODULE (loader_module));
+	g_return_if_fail (GO_IS_PLUGIN_LOADER_MODULE (loader_module));
 
 	loader_module->module_file_name = NULL;
 	loader_module->handle = NULL;
@@ -197,7 +197,7 @@ go_plugin_loader_init (GOPluginLoaderClass *go_plugin_loader_class)
 GSF_CLASS_FULL (GOPluginLoaderModule, go_plugin_loader_module,
 	   NULL, NULL, go_plugin_loader_module_class_init, NULL,
 	   go_plugin_loader_module_init, G_TYPE_OBJECT, 0,
-	   GSF_INTERFACE (go_plugin_loader_init, GO_PLUGIN_LOADER_TYPE))
+	   GSF_INTERFACE (go_plugin_loader_init, GO_TYPE_PLUGIN_LOADER))
 
 /*
  * Service - file_opener
@@ -217,7 +217,7 @@ go_plugin_loader_module_func_file_probe (GOFileOpener const *fo, GOPluginService
 {
 	ServiceLoaderDataFileOpener *loader_data;
 
-	g_return_val_if_fail (IS_GO_PLUGIN_SERVICE_FILE_OPENER (service), FALSE);
+	g_return_val_if_fail (GO_IS_PLUGIN_SERVICE_FILE_OPENER (service), FALSE);
 	g_return_val_if_fail (input != NULL, FALSE);
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -232,7 +232,7 @@ go_plugin_loader_module_func_file_open (GOFileOpener const *fo, GOPluginService 
 {
 	ServiceLoaderDataFileOpener *loader_data;
 
-	g_return_if_fail (IS_GO_PLUGIN_SERVICE_FILE_OPENER (service));
+	g_return_if_fail (GO_IS_PLUGIN_SERVICE_FILE_OPENER (service));
 	g_return_if_fail (input != NULL);
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -267,7 +267,7 @@ go_plugin_loader_module_load_service_file_opener (GOPluginLoader *loader,
 	gchar *func_name_file_probe, *func_name_file_open;
 	gpointer module_func_file_probe = NULL, module_func_file_open = NULL;
 
-	g_return_if_fail (IS_GO_PLUGIN_SERVICE_FILE_OPENER (service));
+	g_return_if_fail (GO_IS_PLUGIN_SERVICE_FILE_OPENER (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	func_name_file_probe = make_function_name (service, "_file_probe");
@@ -316,7 +316,7 @@ go_plugin_loader_module_func_file_save (GOFileSaver const *fs, GOPluginService *
 {
 	ServiceLoaderDataFileSaver *loader_data;
 
-	g_return_if_fail (IS_GO_PLUGIN_SERVICE_FILE_SAVER (service));
+	g_return_if_fail (GO_IS_PLUGIN_SERVICE_FILE_SAVER (service));
 	g_return_if_fail (GSF_IS_OUTPUT (output));
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -333,7 +333,7 @@ go_plugin_loader_module_load_service_file_saver (GOPluginLoader *loader,
 	gchar *func_name_file_save;
 	gpointer module_func_file_save = NULL;
 
-	g_return_if_fail (IS_GO_PLUGIN_SERVICE_FILE_SAVER (service));
+	g_return_if_fail (GO_IS_PLUGIN_SERVICE_FILE_SAVER (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	func_name_file_save = make_function_name (service, "_file_save");
@@ -376,7 +376,7 @@ go_plugin_loader_module_func_get_loader_type (GOPluginService *service,
 	ErrorInfo *error = NULL;
 	GType loader_type;
 
-	g_return_val_if_fail (IS_GO_PLUGIN_SERVICE_PLUGIN_LOADER (service), 0);
+	g_return_val_if_fail (GO_IS_PLUGIN_SERVICE_PLUGIN_LOADER (service), 0);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
@@ -398,7 +398,7 @@ go_plugin_loader_module_load_service_plugin_loader (GOPluginLoader *loader,
 	gchar *func_name_get_loader_type;
 	gpointer module_func_get_loader_type = NULL;
 
-	g_return_if_fail (IS_GO_PLUGIN_SERVICE_PLUGIN_LOADER (service));
+	g_return_if_fail (GO_IS_PLUGIN_SERVICE_PLUGIN_LOADER (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	func_name_get_loader_type =

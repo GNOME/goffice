@@ -47,9 +47,9 @@ typedef struct {
 	GODataVector *x_vals, *y_vals;
 } GogXYZPlot;
 
-#define GOG_XYZ_PLOT_TYPE	(gog_xyz_plot_get_type ())
-#define GOG_XYZ_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XYZ_PLOT_TYPE, GogXYZPlot))
-#define GOG_IS_PLOT_XYZ(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XYZ_PLOT_TYPE))
+#define GOG_TYPE_XYZ_PLOT	(gog_xyz_plot_get_type ())
+#define GOG_XYZ_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XYZ_PLOT, GogXYZPlot))
+#define GOG_IS_PLOT_XYZ(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XYZ_PLOT))
 
 GType gog_xyz_plot_get_type (void);
 
@@ -63,7 +63,7 @@ typedef struct {
 	GODataVector * (*get_y_vals) (GogXYZPlot *plot);
 } GogXYZPlotClass;
 
-#define GOG_XYZ_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_XYZ_PLOT_TYPE, GogXYZPlotClass))
+#define GOG_XYZ_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_XYZ_PLOT, GogXYZPlotClass))
 
 double *gog_xyz_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_changed);
 GODataVector *gog_xyz_plot_get_x_vals (GogXYZPlot *plot);
@@ -76,9 +76,9 @@ typedef struct {
 } GogXYZSeries;
 typedef GogSeriesClass GogXYZSeriesClass;
 
-#define GOG_XYZ_SERIES_TYPE	(gog_xyz_series_get_type ())
-#define GOG_XYZ_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XYZ_SERIES_TYPE, GogXYZSeries))
-#define GOG_IS_XYZ_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XYZ_SERIES_TYPE))
+#define GOG_TYPE_XYZ_SERIES	(gog_xyz_series_get_type ())
+#define GOG_XYZ_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XYZ_SERIES, GogXYZSeries))
+#define GOG_IS_XYZ_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XYZ_SERIES))
 
 GType gog_xyz_series_get_type (void);
 

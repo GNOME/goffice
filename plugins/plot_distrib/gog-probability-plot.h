@@ -44,9 +44,9 @@ typedef struct {
 	} shape_params[2];
 } GogProbabilityPlot;
 
-#define GOG_PROBABILITY_PLOT_TYPE	(gog_probability_plot_get_type ())
-#define GOG_PROBABILITY_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PROBABILITY_PLOT_TYPE, GogProbabilityPlot))
-#define GOG_IS_PROBABILITY_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PROBABILITY_PLOT_TYPE))
+#define GOG_TYPE_PROBABILITY_PLOT	(gog_probability_plot_get_type ())
+#define GOG_PROBABILITY_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_PROBABILITY_PLOT, GogProbabilityPlot))
+#define GOG_IS_PROBABILITY_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_PROBABILITY_PLOT))
 
 GType gog_probability_plot_get_type (void);
 

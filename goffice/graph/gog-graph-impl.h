@@ -54,8 +54,8 @@ typedef struct {
 	void (*remove_data) (GogGraph *graph, GOData *input);
 } GogGraphClass;
 
-#define GOG_GRAPH_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_GRAPH_TYPE, GogGraphClass))
-#define IS_GOG_GRAPH_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_GRAPH_TYPE))
+#define GOG_GRAPH_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_TYPE_GRAPH, GogGraphClass))
+#define GOG_IS_GRAPH_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_TYPE_GRAPH))
 
 /* protected */
 gboolean gog_graph_request_update (GogGraph *graph);

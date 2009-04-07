@@ -12,7 +12,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
-#define GCC_CLASS(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_CMD_CONTEXT_TYPE, GOCmdContextClass))
+#define GCC_CLASS(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_TYPE_CMD_CONTEXT, GOCmdContextClass))
 
 static GError *
 format_message (GQuark id, char const *message)
@@ -24,14 +24,14 @@ format_message (GQuark id, char const *message)
 void
 go_cmd_context_error (GOCmdContext *context, GError *err)
 {
-	g_return_if_fail (IS_GO_CMD_CONTEXT (context));
+	g_return_if_fail (GO_IS_CMD_CONTEXT (context));
 	GCC_CLASS (context)->error.error (context, err);
 }
 
 void
 go_cmd_context_error_info (GOCmdContext *context, ErrorInfo *stack)
 {
-	g_return_if_fail (IS_GO_CMD_CONTEXT (context));
+	g_return_if_fail (GO_IS_CMD_CONTEXT (context));
 	GCC_CLASS (context)->error.error_info (context, stack);
 }
 
@@ -103,7 +103,7 @@ go_error_invalid (void)
 void
 go_cmd_context_progress_set (GOCmdContext *context, gfloat f)
 {
-	g_return_if_fail (IS_GO_CMD_CONTEXT (context));
+	g_return_if_fail (GO_IS_CMD_CONTEXT (context));
 
 	GCC_CLASS (context)->progress_set (context, f);
 }
@@ -111,7 +111,7 @@ go_cmd_context_progress_set (GOCmdContext *context, gfloat f)
 void
 go_cmd_context_progress_message_set (GOCmdContext *context, gchar const *msg)
 {
-	g_return_if_fail (IS_GO_CMD_CONTEXT (context));
+	g_return_if_fail (GO_IS_CMD_CONTEXT (context));
 
 	if (msg == NULL)
 		msg = " ";
@@ -121,7 +121,7 @@ go_cmd_context_progress_message_set (GOCmdContext *context, gchar const *msg)
 char *
 go_cmd_context_get_password (GOCmdContext *cc, char const *filename)
 {
-	g_return_val_if_fail (IS_GO_CMD_CONTEXT (cc), NULL);
+	g_return_val_if_fail (GO_IS_CMD_CONTEXT (cc), NULL);
 
 	return GCC_CLASS (cc)->get_password (cc, filename);
 }
@@ -129,7 +129,7 @@ go_cmd_context_get_password (GOCmdContext *cc, char const *filename)
 void
 go_cmd_context_set_sensitive (GOCmdContext *cc, gboolean sensitive)
 {
-	g_return_if_fail (IS_GO_CMD_CONTEXT (cc));
+	g_return_if_fail (GO_IS_CMD_CONTEXT (cc));
 
 	GCC_CLASS (cc)->set_sensitive (cc, sensitive);
 }

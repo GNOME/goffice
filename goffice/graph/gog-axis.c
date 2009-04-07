@@ -1197,7 +1197,7 @@ static const GogAxisMapDesc *map_descs[] = {
 static void
 gog_axis_map_set_by_num (GogAxis *axis, gint num)
 {
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 
 	if (num >= 0 && num < (gint)G_N_ELEMENTS (map_descs))
 		g_object_set (G_OBJECT (axis), "map-name", map_descs[num]->name, NULL);
@@ -1210,7 +1210,7 @@ gog_axis_map_populate_combo (GogAxis *axis, GtkComboBox *combo)
 {
 	unsigned i;
 
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 
 	for (i = 0; i < G_N_ELEMENTS (map_descs); i++) {
 		const char *thisname = map_descs[i]->name;
@@ -1244,7 +1244,7 @@ gog_axis_map_set (GogAxis *axis, char const *name)
 {
 	unsigned i, map = 0;
 
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 
 	if (name != NULL)
 		for (i = 0; i < G_N_ELEMENTS(map_descs); i++) {
@@ -1293,7 +1293,7 @@ gog_axis_map_new (GogAxis *axis, double offset, double length)
 {
 	GogAxisMap *map;
 
-	g_return_val_if_fail (IS_GOG_AXIS (axis), NULL);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), NULL);
 
 	map = g_new0 (GogAxisMap, 1);
 
@@ -1501,7 +1501,7 @@ gog_axis_auto_bound (GogAxis *axis)
 	double tmp;
 	gboolean user_defined;
 
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 
 	minimum = axis->min_val;
 	maximum = axis->max_val;
@@ -1527,7 +1527,7 @@ gog_axis_set_ticks (GogAxis *axis, int tick_nbr, GogAxisTick *ticks)
 {
 	unsigned i;
 
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 
 	if (axis->ticks != NULL) {
 		for (i = 0; i < axis->tick_nbr; i++)
@@ -1543,7 +1543,7 @@ gog_axis_set_ticks (GogAxis *axis, int tick_nbr, GogAxisTick *ticks)
 static void
 gog_axis_calc_ticks (GogAxis *axis)
 {
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 
 	if (axis->actual_map_desc->calc_ticks)
 		axis->actual_map_desc->calc_ticks (axis);
@@ -1654,7 +1654,7 @@ role_label_can_add (GogObject const *parent)
 gboolean
 gog_axis_set_format (GogAxis *axis, GOFormat *fmt)
 {
-	g_return_val_if_fail (IS_GOG_AXIS (axis), FALSE);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), FALSE);
 
 	if (go_format_eq (fmt, axis->assigned_format)) {
 		go_format_unref (fmt);
@@ -1679,7 +1679,7 @@ gog_axis_set_format (GogAxis *axis, GOFormat *fmt)
 GOFormat *
 gog_axis_get_format (GogAxis const *axis)
 {
-	g_return_val_if_fail (IS_GOG_AXIS (axis), NULL);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), NULL);
 	return axis->assigned_format;
 }
 
@@ -1705,7 +1705,7 @@ gog_axis_set_atype (GogAxis *axis, GogAxisType new_type)
 GogAxisType
 gog_axis_get_atype (GogAxis const *axis)
 {
-	g_return_val_if_fail (IS_GOG_AXIS (axis), GOG_AXIS_UNKNOWN);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), GOG_AXIS_UNKNOWN);
 	return axis->type;
 }
 
@@ -1853,7 +1853,7 @@ gog_axis_get_entry (GogAxis const *axis, GogAxisElemType i, gboolean *user_defin
 	if (user_defined)
 		*user_defined = FALSE;
 
-	g_return_val_if_fail (IS_GOG_AXIS (axis), go_nan);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), go_nan);
 	g_return_val_if_fail (i >= GOG_AXIS_ELEM_MIN && i < GOG_AXIS_ELEM_MAX_ENTRY, go_nan);
 
 	if (i != GOG_AXIS_ELEM_CROSS_POINT)
@@ -1861,7 +1861,7 @@ gog_axis_get_entry (GogAxis const *axis, GogAxisElemType i, gboolean *user_defin
 	else
 		dat = GOG_AXIS_BASE (axis)->cross_location.data;
 
-	if (dat != NULL && IS_GO_DATA_SCALAR (dat)) {
+	if (dat != NULL && GO_IS_DATA_SCALAR (dat)) {
 		double tmp = go_data_scalar_get_value (GO_DATA_SCALAR (dat));
 		if (go_finite (tmp)) {
 			if (user_defined)
@@ -2103,7 +2103,7 @@ gog_axis_populate_polar_unit_combo (GogAxis *axis, GtkComboBox *combo)
 {
 	unsigned i, id = 0;
 
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 
 	for (i = 0; i < G_N_ELEMENTS (polar_units); i++) {
 		gtk_combo_box_append_text (combo, _(polar_units[i].name));
@@ -2412,8 +2412,8 @@ gog_axis_dataset_init (GogDatasetClass *iface)
 
 GSF_CLASS_FULL (GogAxis, gog_axis,
 		NULL, NULL, gog_axis_class_init, NULL,
-		gog_axis_init, GOG_AXIS_BASE_TYPE, 0,
-		GSF_INTERFACE (gog_axis_dataset_init, GOG_DATASET_TYPE))
+		gog_axis_init, GOG_TYPE_AXIS_BASE, 0,
+		GSF_INTERFACE (gog_axis_dataset_init, GOG_TYPE_DATASET))
 
 
 /**
@@ -2425,7 +2425,7 @@ GSF_CLASS_FULL (GogAxis, gog_axis,
 gboolean
 gog_axis_is_center_on_ticks (GogAxis const *axis)
 {
-	g_return_val_if_fail (IS_GOG_AXIS (axis), FALSE);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), FALSE);
 	return axis->center_on_ticks;
 }
 
@@ -2439,7 +2439,7 @@ gog_axis_is_center_on_ticks (GogAxis const *axis)
 gboolean
 gog_axis_is_discrete (GogAxis const *axis)
 {
-	g_return_val_if_fail (IS_GOG_AXIS (axis), FALSE);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), FALSE);
 	return axis->is_discrete;
 }
 
@@ -2452,7 +2452,7 @@ gog_axis_is_discrete (GogAxis const *axis)
 gboolean
 gog_axis_is_inverted (GogAxis const *axis)
 {
-	g_return_val_if_fail (IS_GOG_AXIS (axis), FALSE);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), FALSE);
 	return axis->inverted;
 }
 
@@ -2467,7 +2467,7 @@ gog_axis_is_inverted (GogAxis const *axis)
 gboolean
 gog_axis_get_bounds (GogAxis const *axis, double *minima, double *maxima)
 {
-	g_return_val_if_fail (IS_GOG_AXIS (axis), FALSE);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), FALSE);
 	g_return_val_if_fail (minima != NULL, FALSE);
 	g_return_val_if_fail (maxima != NULL, FALSE);
 
@@ -2489,7 +2489,7 @@ gog_axis_get_bounds (GogAxis const *axis, double *minima, double *maxima)
 void
 gog_axis_set_bounds (GogAxis *axis, double minimum, double maximum)
 {
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 
 	if (go_finite (minimum)) {
 		gog_dataset_set_dim (GOG_DATASET (axis), GOG_AXIS_ELEM_MIN,
@@ -2513,7 +2513,7 @@ gog_axis_set_bounds (GogAxis *axis, double minimum, double maximum)
 void
 gog_axis_set_extents (GogAxis *axis, double start, double stop)
 {
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 
 	if (axis->inverted)
 		gog_axis_set_bounds (axis, stop, start);
@@ -2534,7 +2534,7 @@ gog_axis_set_extents (GogAxis *axis, double start, double stop)
 unsigned
 gog_axis_get_ticks (GogAxis *axis, GogAxisTick **ticks)
 {
-	g_return_val_if_fail (IS_GOG_AXIS (axis), 0);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), 0);
 	g_return_val_if_fail (ticks != NULL, 0);
 
 	*ticks = axis->ticks;
@@ -2552,7 +2552,7 @@ gog_axis_get_ticks (GogAxis *axis, GogAxisTick **ticks)
 GOData *
 gog_axis_get_labels (GogAxis const *axis, GogPlot **plot_that_labeled_axis)
 {
-	g_return_val_if_fail (IS_GOG_AXIS (axis), NULL);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), NULL);
 
 	if (axis->is_discrete) {
 		if (plot_that_labeled_axis != NULL)
@@ -2574,7 +2574,7 @@ gog_axis_get_labels (GogAxis const *axis, GogPlot **plot_that_labeled_axis)
 void
 gog_axis_add_contributor (GogAxis *axis, GogObject *contrib)
 {
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 	g_return_if_fail (g_slist_find (axis->contributors, contrib) == NULL);
 
 	axis->contributors = g_slist_prepend (axis->contributors, contrib);
@@ -2594,7 +2594,7 @@ gog_axis_del_contributor (GogAxis *axis, GogObject *contrib)
 {
 	gboolean update = FALSE;
 
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 	g_return_if_fail (g_slist_find (axis->contributors, contrib) != NULL);
 
 	if (axis->min_contrib == contrib) {
@@ -2617,7 +2617,7 @@ gog_axis_clear_contributors (GogAxis *axis)
 	GSList *ptr, *list;
 	GogAxisSet filter;
 
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 
 	filter = 1 << axis->type;
 	list = g_slist_copy (axis->contributors);
@@ -2629,7 +2629,7 @@ gog_axis_clear_contributors (GogAxis *axis)
 GSList const *
 gog_axis_contributors (GogAxis *axis)
 {
-	g_return_val_if_fail (IS_GOG_AXIS (axis), NULL);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), NULL);
 
 	return axis->contributors;
 }
@@ -2642,7 +2642,7 @@ gog_axis_contributors (GogAxis *axis)
 void
 gog_axis_bound_changed (GogAxis *axis, GogObject *contrib)
 {
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 
 	gog_object_request_update (GOG_OBJECT (axis));
 }
@@ -2683,7 +2683,7 @@ gog_axis_get_grid_line (GogAxis *axis, gboolean major)
 void
 gog_axis_set_polar_unit (GogAxis *axis, GogAxisPolarUnit unit)
 {
-	g_return_if_fail (IS_GOG_AXIS (axis));
+	g_return_if_fail (GOG_IS_AXIS (axis));
 
 	axis->polar_unit = CLAMP (unit, 0, GOG_AXIS_POLAR_UNIT_MAX - 1);
 }
@@ -2699,7 +2699,7 @@ gog_axis_set_polar_unit (GogAxis *axis, GogAxisPolarUnit unit)
 GogAxisPolarUnit
 gog_axis_get_polar_unit (GogAxis *axis)
 {
-	g_return_val_if_fail (IS_GOG_AXIS (axis), 0);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), 0);
 
 	return axis->polar_unit;
 }
@@ -2716,7 +2716,7 @@ gog_axis_get_polar_unit (GogAxis *axis)
 double
 gog_axis_get_polar_perimeter (GogAxis *axis)
 {
-	g_return_val_if_fail (IS_GOG_AXIS (axis), 0.0);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), 0.0);
 
 	return polar_units[axis->polar_unit].perimeter;
 }
@@ -2730,7 +2730,7 @@ gog_axis_get_polar_perimeter (GogAxis *axis)
 double
 gog_axis_get_circular_rotation (GogAxis *axis)
 {
-	g_return_val_if_fail (IS_GOG_AXIS (axis), 0.0);
+	g_return_val_if_fail (GOG_IS_AXIS (axis), 0.0);
 
 	return axis->circular_rotation;
 }
@@ -2740,9 +2740,9 @@ gog_axis_get_circular_rotation (GogAxis *axis)
 typedef GogAxisBaseView		GogAxisView;
 typedef GogAxisBaseViewClass	GogAxisViewClass;
 
-#define GOG_AXIS_VIEW_TYPE	(gog_axis_view_get_type ())
-#define GOG_AXIS_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_AXIS_VIEW_TYPE, GogAxisView))
-#define IS_GOG_AXIS_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_AXIS_VIEW_TYPE))
+#define GOG_TYPE_AXIS_VIEW	(gog_axis_view_get_type ())
+#define GOG_AXIS_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_AXIS_VIEW, GogAxisView))
+#define GOG_IS_AXIS_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_AXIS_VIEW))
 
 static GogViewClass *aview_parent_klass;
 
@@ -2822,7 +2822,7 @@ gog_axis_view_padding_request (GogView *view,
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
 		pos = child->model->position;
-		if (IS_GOG_LABEL (child->model) && !(pos & GOG_POSITION_MANUAL)) {
+		if (GOG_IS_LABEL (child->model) && !(pos & GOG_POSITION_MANUAL)) {
 			if (gog_chart_is_3d (chart)) {
 				gog_axis_view_padding_request_3d (view, child,
 					bbox, &label_padding);
@@ -2936,14 +2936,14 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
 		pos = child->model->position;
-		if (IS_GOG_LABEL (child->model) && (pos & GOG_POSITION_MANUAL)) {
+		if (GOG_IS_LABEL (child->model) && (pos & GOG_POSITION_MANUAL)) {
 			gog_view_size_request (child, &available, &req);
 			child_bbox = gog_object_get_manual_allocation (gog_view_get_model (child),
 								       bbox, &req);
 			gog_view_size_allocate (child, &child_bbox);
 		} else {
 			if (GOG_POSITION_IS_SPECIAL (pos)) {
-				if (IS_GOG_LABEL (child->model)) {
+				if (GOG_IS_LABEL (child->model)) {
 					if (gog_chart_is_3d (chart)) {
 						gog_axis_view_size_allocate_3d (view,
 							child, plot_area);
@@ -3003,7 +3003,7 @@ gog_axis_view_render (GogView *view, GogViewAllocation const *bbox)
 	 * before in gog_chart_view since we don't want to render them
 	 * over axis. */
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
-		if (!IS_GOG_GRID_LINE (GOG_VIEW (ptr->data)->model))
+		if (!GOG_IS_GRID_LINE (GOG_VIEW (ptr->data)->model))
 			gog_view_render	(ptr->data, bbox);
 	}
 }
@@ -3021,4 +3021,4 @@ gog_axis_view_class_init (GogAxisViewClass *gview_klass)
 
 static GSF_CLASS (GogAxisView, gog_axis_view,
 		  gog_axis_view_class_init, NULL,
-		  GOG_AXIS_BASE_VIEW_TYPE)
+		  GOG_TYPE_AXIS_BASE_VIEW)

@@ -43,7 +43,7 @@ god_default_attributes_new (void)
 {
 	GodDefaultAttributes *default_attributes;
 
-	default_attributes = g_object_new (GOD_DEFAULT_ATTRIBUTES_TYPE, NULL);
+	default_attributes = g_object_new (GOD_TYPE_DEFAULT_ATTRIBUTES, NULL);
 
 	return default_attributes;
 }

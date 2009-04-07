@@ -274,5 +274,5 @@ gog_exp_smooth_dataset_init (GogDatasetClass *iface)
 
 GSF_DYNAMIC_CLASS_FULL (GogExpSmooth, gog_exp_smooth,
 	 NULL, NULL, gog_exp_smooth_class_init, NULL,
-	gog_exp_smooth_init, GOG_SMOOTHED_CURVE_TYPE, 0,
-	GSF_INTERFACE (gog_exp_smooth_dataset_init, GOG_DATASET_TYPE))
+	gog_exp_smooth_init, GOG_TYPE_SMOOTHED_CURVE, 0,
+	GSF_INTERFACE (gog_exp_smooth_dataset_init, GOG_TYPE_DATASET))

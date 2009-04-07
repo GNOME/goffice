@@ -26,9 +26,9 @@
 
 G_BEGIN_DECLS
 
-#define GOG_LEGEND_TYPE		(gog_legend_get_type ())
-#define GOG_LEGEND(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LEGEND_TYPE, GogLegend))
-#define IS_GOG_LEGEND(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LEGEND_TYPE))
+#define GOG_TYPE_LEGEND		(gog_legend_get_type ())
+#define GOG_LEGEND(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_LEGEND, GogLegend))
+#define GOG_IS_LEGEND(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_LEGEND))
 
 GType gog_legend_get_type (void);
 

@@ -85,7 +85,7 @@ GODistributionType go_distribution_type_from_string (char const *name)
 	return GO_DISTRIBUTION_INVALID;
 }
 
-#define GO_DISTRIBUTION_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_DISTRIBUTION_TYPE, GODistributionClass))
+#define GO_DISTRIBUTION_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_DISTRIBUTION, GODistributionClass))
 
 struct _GODistribution {
 	GObject	base;
@@ -289,7 +289,7 @@ go_distribution_persist_init (GOPersistClass *iface)
 GSF_CLASS_FULL (GODistribution, go_distribution, NULL,
 	NULL, go_distribution_class_init, NULL, go_distribution_init,
 	G_TYPE_OBJECT, G_TYPE_FLAG_ABSTRACT,
-	GSF_INTERFACE (go_distribution_persist_init, GO_PERSIST_TYPE))
+	GSF_INTERFACE (go_distribution_persist_init, GO_TYPE_PERSIST))
 
 void
 go_distribution_scale (GODistribution *dist, double location, double scale)
@@ -403,9 +403,9 @@ typedef struct {
 	
 } GODistNormal;
 
-#define GO_DIST_NORMAL_TYPE	  	(go_dist_normal_get_type ())
-#define GO_DIST_NORMAL(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_DIST_NORMAL_TYPE, GODistNormal))
-#define IS_GO_DIST_NORMAL(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_DIST_NORMAL_TYPE))
+#define GO_TYPE_DIST_NORMAL	  	(go_dist_normal_get_type ())
+#define GO_DIST_NORMAL(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_TYPE_DIST_NORMAL, GODistNormal))
+#define GO_IS_DIST_NORMAL(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_TYPE_DIST_NORMAL))
 
 GType go_dist_normal_get_type (void);
 
@@ -455,7 +455,7 @@ go_dist_normal_init (GODistribution *dist)
 
 GSF_CLASS (GODistNormal, go_dist_normal,
 	   go_dist_normal_class_init, go_dist_normal_init,
-	   GO_DISTRIBUTION_TYPE)
+	   GO_TYPE_DISTRIBUTION)
 
 #endif /* DISTRIBUTION_LAST_PATH */
 
@@ -469,9 +469,9 @@ typedef struct {
 	
 } GODistUniform;
 
-#define GO_DIST_UNIFORM_TYPE	  	(go_dist_uniform_get_type ())
-#define GO_DIST_UNIFORM(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_DIST_UNIFORM_TYPE, GODistUniform))
-#define IS_GO_DIST_UNIFORM(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_DIST_UNIFORM_TYPE))
+#define GO_TYPE_DIST_UNIFORM	  	(go_dist_uniform_get_type ())
+#define GO_DIST_UNIFORM(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_TYPE_DIST_UNIFORM, GODistUniform))
+#define GO_IS_DIST_UNIFORM(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_TYPE_DIST_UNIFORM))
 
 GType go_dist_uniform_get_type (void);
 
@@ -528,7 +528,7 @@ go_dist_uniform_init (GODistribution *dist)
 
 GSF_CLASS (GODistUniform, go_dist_uniform,
 	   go_dist_uniform_class_init, go_dist_uniform_init,
-	   GO_DISTRIBUTION_TYPE)
+	   GO_TYPE_DISTRIBUTION)
 
 #endif /* DISTRIBUTION_LAST_PATH */
 
@@ -542,9 +542,9 @@ typedef struct {
 	
 } GODistCauchy;
 
-#define GO_DIST_CAUCHY_TYPE	  	(go_dist_cauchy_get_type ())
-#define GO_DIST_CAUCHY(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_DIST_CAUCHY_TYPE, GODistCauchy))
-#define IS_GO_DIST_CAUCHY(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_DIST_CAUCHY_TYPE))
+#define GO_TYPE_DIST_CAUCHY	  	(go_dist_cauchy_get_type ())
+#define GO_DIST_CAUCHY(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_TYPE_DIST_CAUCHY, GODistCauchy))
+#define GO_IS_DIST_CAUCHY(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_TYPE_DIST_CAUCHY))
 
 GType go_dist_cauchy_get_type (void);
 
@@ -594,7 +594,7 @@ go_dist_cauchy_init (GODistribution *dist)
 
 GSF_CLASS (GODistCauchy, go_dist_cauchy,
 	   go_dist_cauchy_class_init, go_dist_cauchy_init,
-	   GO_DISTRIBUTION_TYPE)
+	   GO_TYPE_DISTRIBUTION)
 
 #endif /* DISTRIBUTION_LAST_PATH */
 
@@ -608,9 +608,9 @@ typedef struct {
 	double shape;
 } GODistWeibull;
 
-#define GO_DIST_WEIBULL_TYPE	  	(go_dist_weibull_get_type ())
-#define GO_DIST_WEIBULL(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_DIST_WEIBULL_TYPE, GODistWeibull))
-#define IS_GO_DIST_WEIBULL(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_DIST_WEIBULL_TYPE))
+#define GO_TYPE_DIST_WEIBULL	  	(go_dist_weibull_get_type ())
+#define GO_DIST_WEIBULL(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_TYPE_DIST_WEIBULL, GODistWeibull))
+#define GO_IS_DIST_WEIBULL(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_TYPE_DIST_WEIBULL))
 
 GType go_dist_weibull_get_type (void);
 
@@ -706,7 +706,7 @@ go_dist_weibull_init (GODistWeibull *dist)
 
 GSF_CLASS (GODistWeibull, go_dist_weibull,
 	   go_dist_weibull_class_init, go_dist_weibull_init,
-	   GO_DISTRIBUTION_TYPE)
+	   GO_TYPE_DISTRIBUTION)
 
 #endif /* DISTRIBUTION_LAST_PATH */
 
@@ -720,9 +720,9 @@ typedef struct {
 	double shape;
 } GODistLogNormal;
 
-#define GO_DIST_LOG_NORMAL_TYPE	  	(go_dist_log_normal_get_type ())
-#define GO_DIST_LOG_NORMAL(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_DIST_LOG_NORMAL_TYPE, GODistLogNormal))
-#define IS_GO_DIST_LOG_NORMAL(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_DIST_LOG_NORMAL_TYPE))
+#define GO_TYPE_DIST_LOG_NORMAL	  	(go_dist_log_normal_get_type ())
+#define GO_DIST_LOG_NORMAL(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_TYPE_DIST_LOG_NORMAL, GODistLogNormal))
+#define GO_IS_DIST_LOG_NORMAL(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_TYPE_DIST_LOG_NORMAL))
 
 GType go_dist_log_normal_get_type (void);
 
@@ -818,7 +818,7 @@ go_dist_log_normal_init (GODistLogNormal *dist)
 
 GSF_CLASS (GODistLogNormal, go_dist_log_normal,
 	   go_dist_log_normal_class_init, go_dist_log_normal_init,
-	   GO_DISTRIBUTION_TYPE)
+	   GO_TYPE_DISTRIBUTION)
 
 #endif /* DISTRIBUTION_LAST_PATH */
 
@@ -833,15 +833,15 @@ go_distribution_new (GODistributionType type)
 {
 	switch (type) {
 	case GO_DISTRIBUTION_NORMAL:
-		return (GODistribution *) g_object_new (GO_DIST_NORMAL_TYPE, NULL);
+		return (GODistribution *) g_object_new (GO_TYPE_DIST_NORMAL, NULL);
 	case GO_DISTRIBUTION_UNIFORM:
-		return (GODistribution *) g_object_new (GO_DIST_UNIFORM_TYPE, NULL);
+		return (GODistribution *) g_object_new (GO_TYPE_DIST_UNIFORM, NULL);
 	case GO_DISTRIBUTION_CAUCHY:
-		return (GODistribution *) g_object_new (GO_DIST_CAUCHY_TYPE, NULL);
+		return (GODistribution *) g_object_new (GO_TYPE_DIST_CAUCHY, NULL);
 	case GO_DISTRIBUTION_WEIBULL:
-		return (GODistribution *) g_object_new (GO_DIST_WEIBULL_TYPE, NULL);
+		return (GODistribution *) g_object_new (GO_TYPE_DIST_WEIBULL, NULL);
 	case GO_DISTRIBUTION_LOGNORMAL:
-		return (GODistribution *) g_object_new (GO_DIST_LOG_NORMAL_TYPE, NULL);
+		return (GODistribution *) g_object_new (GO_TYPE_DIST_LOG_NORMAL, NULL);
 	default:
 		return NULL;
 	}

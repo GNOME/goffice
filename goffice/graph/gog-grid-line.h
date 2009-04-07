@@ -27,9 +27,9 @@
 
 G_BEGIN_DECLS
 
-#define GOG_GRID_LINE_TYPE	(gog_grid_line_get_type ())
-#define GOG_GRID_LINE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRID_LINE_TYPE, GogGridLine))
-#define IS_GOG_GRID_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRID_LINE_TYPE))
+#define GOG_TYPE_GRID_LINE	(gog_grid_line_get_type ())
+#define GOG_GRID_LINE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_GRID_LINE, GogGridLine))
+#define GOG_IS_GRID_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_GRID_LINE))
 
 GType gog_grid_line_get_type (void);
 

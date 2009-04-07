@@ -378,7 +378,7 @@ gog_plot1_5d_init (GogPlot1_5d *plot)
 
 GSF_DYNAMIC_CLASS_ABSTRACT (GogPlot1_5d, gog_plot1_5d,
 	gog_plot1_5d_class_init, gog_plot1_5d_init,
-	GOG_PLOT_TYPE)
+	GOG_TYPE_PLOT)
 
 /*****************************************************************************/
 
@@ -641,7 +641,7 @@ gog_series1_5d_class_init (GogObjectClass *obj_klass)
 		g_param_spec_object ("errors", 
 			_("Error bars"),
 			_("GogErrorBar *"),
-			GOG_ERROR_BAR_TYPE, 
+			GOG_TYPE_ERROR_BAR, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
@@ -659,7 +659,7 @@ gog_series1_5d_init (GObject *obj)
 
 GSF_DYNAMIC_CLASS (GogSeries1_5d, gog_series1_5d,
 	gog_series1_5d_class_init, gog_series1_5d_init,
-	GOG_SERIES_TYPE)
+	GOG_TYPE_SERIES)
 
 /* Plugin initialization */
 

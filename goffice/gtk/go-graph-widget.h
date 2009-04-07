@@ -28,9 +28,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_GRAPH_WIDGET_TYPE	(go_graph_widget_get_type ())
-#define GO_GRAPH_WIDGET(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_GRAPH_WIDGET_TYPE, GOGraphWidget))
-#define IS_GO_GRAPH_WIDGET(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_GRAPH_WIDGET_TYPE))
+#define GO_TYPE_GRAPH_WIDGET	(go_graph_widget_get_type ())
+#define GO_GRAPH_WIDGET(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_GRAPH_WIDGET, GOGraphWidget))
+#define GO_IS_GRAPH_WIDGET(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_GRAPH_WIDGET))
 
 typedef struct _GOGraphWidget      GOGraphWidget;
 typedef struct _GOGraphWidgetClass GOGraphWidgetClass;

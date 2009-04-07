@@ -237,7 +237,7 @@ gog_contour_plot_init (GogContourPlot *contour)
 
 GSF_DYNAMIC_CLASS (GogContourPlot, gog_contour_plot,
 	gog_contour_plot_class_init, gog_contour_plot_init,
-	GOG_XYZ_PLOT_TYPE)
+	GOG_TYPE_XYZ_PLOT)
 
 /*****************************************************************************/
 
@@ -1041,4 +1041,4 @@ gog_contour_view_class_init (GogViewClass *view_klass)
 
 GSF_DYNAMIC_CLASS (GogContourView, gog_contour_view,
 	gog_contour_view_class_init, NULL,
-	GOG_PLOT_VIEW_TYPE)
+	GOG_TYPE_PLOT_VIEW)

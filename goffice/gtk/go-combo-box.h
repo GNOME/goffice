@@ -28,10 +28,10 @@
 
 G_BEGIN_DECLS
 
-#define GO_COMBO_BOX_TYPE	(go_combo_box_get_type())
-#define GO_COMBO_BOX(o)		G_TYPE_CHECK_INSTANCE_CAST ((o), GO_COMBO_BOX_TYPE, GOComboBox)
-#define IS_GO_COMBO_BOX(o)	G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_COMBO_BOX_TYPE)
-#define GO_COMBO_BOX_CLASS(k)	G_TYPE_CHECK_CLASS_CAST ((k), GO_COMBO_BOX_TYPE, GOComboBoxClass)
+#define GO_TYPE_COMBO_BOX	(go_combo_box_get_type())
+#define GO_COMBO_BOX(o)		G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_COMBO_BOX, GOComboBox)
+#define GO_IS_COMBO_BOX(o)	G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_COMBO_BOX)
+#define GO_COMBO_BOX_CLASS(k)	G_TYPE_CHECK_CLASS_CAST ((k), GO_TYPE_COMBO_BOX, GOComboBoxClass)
 
 typedef struct _GOComboBox	  GOComboBox;
 typedef struct _GOComboBoxPrivate GOComboBoxPrivate;

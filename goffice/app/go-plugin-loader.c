@@ -15,7 +15,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
-#define PL_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_PLUGIN_LOADER_TYPE, GOPluginLoaderClass))
+#define PL_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_TYPE_PLUGIN_LOADER, GOPluginLoaderClass))
 
 gboolean
 go_plugin_loader_is_base_loaded (GOPluginLoader *loader)
@@ -38,7 +38,7 @@ void
 go_plugin_loader_set_attributes (GOPluginLoader *loader, GHashTable *attrs,
 				 ErrorInfo **err)
 {
-	g_return_if_fail (IS_GO_PLUGIN_LOADER (loader));
+	g_return_if_fail (GO_IS_PLUGIN_LOADER (loader));
 
 	GO_INIT_RET_ERROR_INFO (err);
 	if (PL_GET_CLASS (loader)->set_attributes)
@@ -52,7 +52,7 @@ go_plugin_loader_load_base (GOPluginLoader *loader, ErrorInfo **err)
 {
 	GOPluginLoaderClass *go_plugin_loader_class;
 
-	g_return_if_fail (IS_GO_PLUGIN_LOADER (loader));
+	g_return_if_fail (GO_IS_PLUGIN_LOADER (loader));
 	g_return_if_fail (!go_plugin_loader_is_base_loaded (loader));
 
 	go_plugin_loader_class = PL_GET_CLASS (loader);
@@ -69,7 +69,7 @@ go_plugin_loader_unload_base (GOPluginLoader *loader, ErrorInfo **err)
 {
 	GOPluginLoaderClass *go_plugin_loader_class;
 
-	g_return_if_fail (IS_GO_PLUGIN_LOADER (loader));
+	g_return_if_fail (GO_IS_PLUGIN_LOADER (loader));
 
 	go_plugin_loader_class = PL_GET_CLASS (loader);
 	if (go_plugin_loader_class->unload_base != NULL) {
@@ -85,8 +85,8 @@ go_plugin_loader_load_service (GOPluginLoader *l, GOPluginService *s, ErrorInfo 
 	GOPluginLoaderClass *klass;
 	void (*load_service_method) (GOPluginLoader *, GOPluginService *, ErrorInfo **) = NULL;
 
-	g_return_if_fail (IS_GO_PLUGIN_LOADER (l));
-	g_return_if_fail (IS_GO_PLUGIN_SERVICE (s));
+	g_return_if_fail (GO_IS_PLUGIN_LOADER (l));
+	g_return_if_fail (GO_IS_PLUGIN_SERVICE (s));
 	g_return_if_fail (go_plugin_loader_is_base_loaded (l));
 
 	GO_INIT_RET_ERROR_INFO (err);
@@ -95,13 +95,13 @@ go_plugin_loader_load_service (GOPluginLoader *l, GOPluginService *s, ErrorInfo 
 	if (klass->service_load && (klass->service_load) (l, s, err))
 		return;
 
-	if (IS_GO_PLUGIN_SERVICE_FILE_OPENER (s)) {
+	if (GO_IS_PLUGIN_SERVICE_FILE_OPENER (s)) {
 		load_service_method = klass->load_service_file_opener;
-	} else if (IS_GO_PLUGIN_SERVICE_FILE_SAVER (s)) {
+	} else if (GO_IS_PLUGIN_SERVICE_FILE_SAVER (s)) {
 		load_service_method = klass->load_service_file_saver;
-	} else if (IS_GO_PLUGIN_SERVICE_PLUGIN_LOADER (s)) {
+	} else if (GO_IS_PLUGIN_SERVICE_PLUGIN_LOADER (s)) {
 		load_service_method = klass->load_service_plugin_loader;
-	} else if (IS_GO_PLUGIN_SERVICE_SIMPLE (s)) {
+	} else if (GO_IS_PLUGIN_SERVICE_SIMPLE (s)) {
 		load_service_method = NULL;
 	} else {
 		*err = error_info_new_printf (_("Service '%s' not supported by l."),
@@ -124,8 +124,8 @@ go_plugin_loader_unload_service (GOPluginLoader *l, GOPluginService *s, ErrorInf
 	void (*unload_service_method) (GOPluginLoader *, GOPluginService *, ErrorInfo **) = NULL;
 	ErrorInfo *error = NULL;
 
-	g_return_if_fail (IS_GO_PLUGIN_LOADER (l));
-	g_return_if_fail (IS_GO_PLUGIN_SERVICE (s));
+	g_return_if_fail (GO_IS_PLUGIN_LOADER (l));
+	g_return_if_fail (GO_IS_PLUGIN_SERVICE (s));
 
 	GO_INIT_RET_ERROR_INFO (err);
 
@@ -133,13 +133,13 @@ go_plugin_loader_unload_service (GOPluginLoader *l, GOPluginService *s, ErrorInf
 	if (klass->service_unload && (klass->service_unload) (l, s, err))
 		return;
 
-	if (IS_GO_PLUGIN_SERVICE_FILE_OPENER (s)) {
+	if (GO_IS_PLUGIN_SERVICE_FILE_OPENER (s)) {
 		unload_service_method = klass->unload_service_file_opener;
-	} else if (IS_GO_PLUGIN_SERVICE_FILE_SAVER (s)) {
+	} else if (GO_IS_PLUGIN_SERVICE_FILE_SAVER (s)) {
 		unload_service_method = klass->unload_service_file_saver;
-	} else if (IS_GO_PLUGIN_SERVICE_PLUGIN_LOADER (s)) {
+	} else if (GO_IS_PLUGIN_SERVICE_PLUGIN_LOADER (s)) {
 		unload_service_method = klass->unload_service_plugin_loader;
-	} else if (IS_GO_PLUGIN_SERVICE_SIMPLE (s)) {
+	} else if (GO_IS_PLUGIN_SERVICE_SIMPLE (s)) {
 		unload_service_method = NULL;
 	} else
 		*err = error_info_new_printf (_("Service '%s' not supported by l."),

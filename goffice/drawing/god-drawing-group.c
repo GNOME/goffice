@@ -47,7 +47,7 @@ god_drawing_group_new (void)
 {
 	GodDrawingGroup *drawing_group;
 
-	drawing_group = g_object_new (GOD_DRAWING_GROUP_TYPE, NULL);
+	drawing_group = g_object_new (GOD_TYPE_DRAWING_GROUP, NULL);
 
 	return drawing_group;
 }

@@ -83,16 +83,16 @@ gog_smoothed_curve_init (GogSmoothedCurve *curve)
 
 GSF_CLASS (GogSmoothedCurve, gog_smoothed_curve,
 	   gog_smoothed_curve_class_init, gog_smoothed_curve_init,
-	   GOG_TREND_LINE_TYPE)
+	   GOG_TYPE_TREND_LINE)
 
 /****************************************************************************/
 
 typedef GogView		GogSmoothedCurveView;
 typedef GogViewClass	GogSmoothedCurveViewClass;
 
-#define GOG_SMOOTHED_CURVE_VIEW_TYPE	(gog_smoothed_curve_view_get_type ())
-#define GOG_SMOOTHED_CURVE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_SMOOTHED_CURVE_VIEW_TYPE, GogSmoothedCurveView))
-#define IS_GOG_SMOOTHED_CURVE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SMOOTHED_CURVE_VIEW_TYPE))
+#define GOG_TYPE_SMOOTHED_CURVE_VIEW	(gog_smoothed_curve_view_get_type ())
+#define GOG_SMOOTHED_CURVE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_SMOOTHED_CURVE_VIEW, GogSmoothedCurveView))
+#define GOG_IS_SMOOTHED_CURVE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_SMOOTHED_CURVE_VIEW))
 
 /*static GogViewClass *smoothed_curve_view_parent_klass; */
 
@@ -143,4 +143,4 @@ gog_smoothed_curve_view_class_init (GogSmoothedCurveViewClass *gview_klass)
 
 static GSF_CLASS (GogSmoothedCurveView, gog_smoothed_curve_view,
 		  gog_smoothed_curve_view_class_init, NULL,
-		  GOG_VIEW_TYPE)
+		  GOG_TYPE_VIEW)

@@ -31,9 +31,9 @@ typedef  GogRegCurve GogLogFitCurve;
 
 typedef GogRegCurveClass GogLogFitCurveClass;
 
-#define GOG_LOG_FIT_CURVE_TYPE	(gog_log_fit_curve_get_type ())
-#define GOG_LOG_FIT_CURVE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LOG_FIT_CURVE_TYPE, GogLogFitCurve))
-#define GOG_IS_LOG_FIT_CURVE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LOG_FIT_CURVE_TYPE))
+#define GOG_TYPE_LOG_FIT_CURVE	(gog_log_fit_curve_get_type ())
+#define GOG_LOG_FIT_CURVE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_LOG_FIT_CURVE, GogLogFitCurve))
+#define GOG_IS_LOG_FIT_CURVE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_LOG_FIT_CURVE))
 
 GType gog_log_fit_curve_get_type (void);
 

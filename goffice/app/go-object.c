@@ -63,19 +63,19 @@ go_service_object_class_init (GObjectClass *gobj_class)
 
 GSF_CLASS (GOServiceObject, go_service_object,
            go_service_object_class_init, NULL,
-           GO_SERVICE_TYPE)
+           GO_TYPE_SERVICE)
 
 char const *
 go_service_object_primary_type (GOServiceObject const *service)
 {
-	g_return_val_if_fail (IS_GO_SERVICE_OBJECT (service), NULL);
+	g_return_val_if_fail (GO_IS_SERVICE_OBJECT (service), NULL);
 	return service->primary_type;
 }
 
 GSList const *
 go_service_object_interfaces (GOServiceObject const *service)
 {
-	g_return_val_if_fail (IS_GO_SERVICE_OBJECT (service), NULL);
+	g_return_val_if_fail (GO_IS_SERVICE_OBJECT (service), NULL);
 	return service->interfaces;
 }
 

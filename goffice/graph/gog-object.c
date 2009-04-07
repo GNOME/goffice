@@ -287,7 +287,7 @@ gog_object_parent_changed (GogObject *child, gboolean was_set)
 		(*klass->parent_changed) (ptr->data, was_set);
 	}
 
-	if (IS_GOG_DATASET (child))
+	if (GOG_IS_DATASET (child))
 		gog_dataset_parent_changed (GOG_DATASET (child), was_set);
 }
 
@@ -912,7 +912,7 @@ gog_object_generate_name (GogObject *obj)
 unsigned
 gog_object_get_id (GogObject const *obj)
 {
-	g_return_val_if_fail (IS_GOG_OBJECT (obj), 0);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), 0);
 	g_return_val_if_fail (obj != NULL, 0);
 
 	return obj->id;
@@ -947,7 +947,7 @@ gog_object_set_id (GogObject *obj, unsigned id)
 	GSList *ptr;
 	GogObject *child;
 
-	g_return_if_fail (IS_GOG_OBJECT (obj));
+	g_return_if_fail (GOG_IS_OBJECT (obj));
 
 	if (id == 0) {
 		gog_object_generate_id (obj);
@@ -1030,7 +1030,7 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
 		}
 	g_free (props);
 
-	if (IS_GOG_DATASET (src)) {	/* convenience to save data */
+	if (GOG_IS_DATASET (src)) {	/* convenience to save data */
 		if (datadup)
 			datadup (GOG_DATASET (src), GOG_DATASET (dst));
 		else
@@ -1055,7 +1055,7 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
 GogObject *
 gog_object_get_parent (GogObject const *obj)
 {
-	g_return_val_if_fail (IS_GOG_OBJECT (obj), NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
 	return obj->parent;
 }
 
@@ -1070,7 +1070,7 @@ gog_object_get_parent (GogObject const *obj)
 GogObject *
 gog_object_get_parent_typed (GogObject const *obj, GType t)
 {
-	g_return_val_if_fail (IS_GOG_OBJECT (obj), NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
 
 	for (; obj != NULL ; obj = obj->parent)
 		if (G_TYPE_CHECK_INSTANCE_TYPE (obj, t))
@@ -1087,10 +1087,10 @@ gog_object_get_parent_typed (GogObject const *obj, GType t)
 GogGraph *
 gog_object_get_graph (GogObject const *obj)
 {
-	g_return_val_if_fail (IS_GOG_OBJECT (obj), NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
 
 	for (; obj != NULL ; obj = obj->parent)
-		if (IS_GOG_GRAPH (obj))
+		if (GOG_IS_GRAPH (obj))
 			return GOG_GRAPH (obj);
 	return NULL;
 }
@@ -1114,7 +1114,7 @@ gog_object_get_theme (GogObject const *obj)
 char const *
 gog_object_get_name (GogObject const *obj)
 {
-	g_return_val_if_fail (IS_GOG_OBJECT (obj), NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
 	return (obj->user_name != NULL && *obj->user_name != '\0') ? obj->user_name : obj->auto_name;
 }
 
@@ -1133,7 +1133,7 @@ gog_object_set_name (GogObject *obj, char *name, GError **err)
 {
 	GogObject *tmp;
 
-	g_return_if_fail (IS_GOG_OBJECT (obj));
+	g_return_if_fail (GOG_IS_OBJECT (obj));
 
 	if (obj->user_name == name)
 		return;
@@ -1161,7 +1161,7 @@ gog_object_get_children (GogObject const *obj, GogObjectRole const *filter)
 {
 	GSList *ptr, *res = NULL;
 
-	g_return_val_if_fail (IS_GOG_OBJECT (obj), NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
 
 	if (filter == NULL)
 		return g_slist_copy (obj->children);
@@ -1219,9 +1219,9 @@ gog_object_get_child_by_name (GogObject const *obj, char const *name)
 gboolean
 gog_object_is_deletable (GogObject const *obj)
 {
-	g_return_val_if_fail (IS_GOG_OBJECT (obj), FALSE);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), FALSE);
 
-	if (IS_GOG_GRAPH (obj))
+	if (GOG_IS_GRAPH (obj))
 		return FALSE;
 
 	return obj->role == NULL || obj->role->can_remove == NULL ||
@@ -1319,7 +1319,7 @@ gog_object_can_reorder (GogObject const *obj, gboolean *inc_ok, gboolean *dec_ok
 	GogObject const *parent;
 	GSList *ptr;
 
-	g_return_if_fail (IS_GOG_OBJECT (obj));
+	g_return_if_fail (GOG_IS_OBJECT (obj));
 
 	if (inc_ok != NULL)
 		*inc_ok = FALSE;
@@ -1367,7 +1367,7 @@ gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
 	GogObject *parent, *obj_follows;
 	GSList **ptr, *tmp;
 
-	g_return_val_if_fail (IS_GOG_OBJECT (obj), NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
 
 	if (obj->parent == NULL || gog_object_get_graph (obj) == NULL)
 		return NULL;
@@ -1531,7 +1531,7 @@ gog_object_emit_changed (GogObject *obj, gboolean resize)
 	if (gog_klass->use_parent_as_proxy) {
 		obj = obj->parent;
 		if (obj != NULL) {
-			g_return_if_fail (IS_GOG_OBJECT (obj));
+			g_return_if_fail (GOG_IS_OBJECT (obj));
 			gog_object_emit_changed (obj, resize);
 		}
 		return;
@@ -1701,7 +1701,7 @@ GogObject *
 gog_object_add_by_name (GogObject *parent,
 			char const *role, GogObject *child)
 {
-	g_return_val_if_fail (IS_GOG_OBJECT (parent), NULL);
+	g_return_val_if_fail (GOG_IS_OBJECT (parent), NULL);
 	return gog_object_add_by_role (parent,
 		gog_object_find_role_by_name (parent, role), child);
 }
@@ -1731,7 +1731,7 @@ gog_object_set_invisible (GogObject *obj, gboolean invisible)
 GogObjectPosition
 gog_object_get_position_flags (GogObject const *obj, GogObjectPosition mask)
 {
-	g_return_val_if_fail (IS_GOG_OBJECT (obj), GOG_POSITION_SPECIAL & mask);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), GOG_POSITION_SPECIAL & mask);
 	return obj->position & mask;
 }
 
@@ -1748,7 +1748,7 @@ gog_object_get_position_flags (GogObject const *obj, GogObjectPosition mask)
 gboolean
 gog_object_set_position_flags (GogObject *obj, GogObjectPosition flags, GogObjectPosition mask)
 {
-	g_return_val_if_fail (IS_GOG_OBJECT (obj), FALSE);
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), FALSE);
 
 	if (obj->role == NULL)
 		return FALSE;

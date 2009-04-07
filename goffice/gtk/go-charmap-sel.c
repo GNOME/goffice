@@ -300,7 +300,7 @@ get_locale_encoding_name (GOCharmapSel *cs)
 static void
 encodings_changed_cb (GOOptionMenu *optionmenu, GOCharmapSel *cs)
 {
-	g_return_if_fail (IS_GO_CHARMAP_SEL (cs));
+	g_return_if_fail (GO_IS_CHARMAP_SEL (cs));
 	g_return_if_fail (optionmenu == cs->encodings);
 
 	g_signal_emit (G_OBJECT (cs),
@@ -314,7 +314,7 @@ set_menu_to_default (GOCharmapSel *cs, gint item)
 {
 	GSList sel = { GINT_TO_POINTER (item - 1), NULL};
 
-	g_return_if_fail (cs != NULL && IS_GO_CHARMAP_SEL (cs));
+	g_return_if_fail (cs != NULL && GO_IS_CHARMAP_SEL (cs));
 
 	go_option_menu_set_history (cs->encodings, &sel);
 }
@@ -439,7 +439,7 @@ cs_class_init (GtkWidgetClass *widget_klass)
 
 	cs_signals[CHARMAP_CHANGED] =
 		g_signal_new ("charmap_changed",
-			      GO_CHARMAP_SEL_TYPE,
+			      GO_TYPE_CHARMAP_SEL,
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GOCharmapSelClass, charmap_changed),
 			      NULL, NULL,
@@ -558,7 +558,7 @@ GSF_CLASS (GOCharmapSel, go_charmap_sel,
 GtkWidget *
 go_charmap_sel_new (GOCharmapSelTestDirection test)
 {
-	return g_object_new (GO_CHARMAP_SEL_TYPE, "TestDirection", test, NULL);
+	return g_object_new (GO_TYPE_CHARMAP_SEL, "TestDirection", test, NULL);
 }
 
 gchar const *
@@ -570,7 +570,7 @@ go_charmap_sel_get_encoding (GOCharmapSel *cs)
 
 	g_get_charset (&locale_encoding);
 
- 	g_return_val_if_fail (IS_GO_CHARMAP_SEL (cs), locale_encoding);
+ 	g_return_val_if_fail (GO_IS_CHARMAP_SEL (cs), locale_encoding);
 
  	selection = GTK_MENU_ITEM (go_option_menu_get_history (cs->encodings));
 	encoding = (char const *) g_object_get_data (G_OBJECT (selection),
@@ -624,7 +624,7 @@ go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc)
 	struct cb_find_entry cl;
 	CharsetInfo const *ci;
 
-	g_return_val_if_fail (IS_GO_CHARMAP_SEL (cs), FALSE);
+	g_return_val_if_fail (GO_IS_CHARMAP_SEL (cs), FALSE);
 	g_return_val_if_fail (enc != NULL, FALSE);
 
 	ci = g_hash_table_lookup (encoding_hash, enc);

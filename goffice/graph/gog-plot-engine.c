@@ -39,9 +39,9 @@ static GSList *refd_plugins;
 /***************************************************************************/
 /* Support plot engines in plugins */
 
-#define GOG_PLOT_ENGINE_SERVICE_TYPE  (gog_plot_engine_service_get_type ())
-#define GOG_PLOT_ENGINE_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PLOT_ENGINE_SERVICE_TYPE, GogPlotEngineService))
-#define IS_GOG_PLOT_ENGINE_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PLOT_ENGINE_SERVICE_TYPE))
+#define GOG_TYPE_PLOT_ENGINE_SERVICE  (gog_plot_engine_service_get_type ())
+#define GOG_PLOT_ENGINE_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_PLOT_ENGINE_SERVICE, GogPlotEngineService))
+#define GOG_IS_PLOT_ENGINE_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_PLOT_ENGINE_SERVICE))
 
 static GType gog_plot_engine_service_get_type (void);
 
@@ -69,7 +69,7 @@ gog_plot_engine_service_class_init (PluginServiceGObjectLoaderClass *gobj_loader
 
 GSF_CLASS (GogPlotEngineService, gog_plot_engine_service,
            gog_plot_engine_service_class_init, NULL,
-           GO_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE)
+           GO_TYPE_PLUGIN_SERVICE_GOBJECT_LOADER)
 
 GogPlot *
 gog_plot_new_by_name (char const *id)
@@ -114,9 +114,9 @@ gog_plot_new_by_name (char const *id)
 /***************************************************************************/
 /* Use a plugin service to define where to find plot types */
 
-#define GOG_PLOT_TYPE_SERVICE_TYPE  (gog_plot_type_service_get_type ())
-#define GOG_PLOT_TYPE_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PLOT_TYPE_SERVICE_TYPE, GogPlotTypeService))
-#define IS_GOG_PLOT_TYPE_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PLOT_TYPE_SERVICE_TYPE))
+#define GOG_TYPE_PLOT_TYPE_SERVICE  (gog_plot_type_service_get_type ())
+#define GOG_PLOT_TYPE_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_PLOT_TYPE_SERVICE, GogPlotTypeService))
+#define GOG_IS_PLOT_TYPE_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_PLOT_TYPE_SERVICE))
 
 GType gog_plot_type_service_get_type (void);
 
@@ -351,14 +351,14 @@ gog_plot_type_service_class_init (GObjectClass *gobject_klass)
 
 GSF_CLASS (GogPlotTypeService, gog_plot_type_service,
            gog_plot_type_service_class_init, gog_plot_type_service_init,
-           GO_PLUGIN_SERVICE_SIMPLE_TYPE)
+           GO_TYPE_PLUGIN_SERVICE_SIMPLE)
 
 /***************************************************************************/
 /* Use a plugin service to define themes */
 
-#define GOG_THEME_SERVICE_TYPE  (gog_theme_service_get_type ())
-#define GOG_THEME_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_THEME_SERVICE_TYPE, GogThemeService))
-#define IS_GOG_THEME_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_THEME_SERVICE_TYPE))
+#define GOG_TYPE_THEME_SERVICE  (gog_theme_service_get_type ())
+#define GOG_THEME_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_THEME_SERVICE, GogThemeService))
+#define GOG_IS_THEME_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_THEME_SERVICE))
 
 GType gog_theme_service_get_type (void);
 
@@ -403,14 +403,14 @@ gog_theme_service_class_init (GOPluginServiceClass *ps_class)
 
 GSF_CLASS (GogThemeService, gog_theme_service,
            gog_theme_service_class_init, NULL,
-           GO_PLUGIN_SERVICE_SIMPLE_TYPE)
+           GO_TYPE_PLUGIN_SERVICE_SIMPLE)
 
 /***************************************************************************/
 /* Support regression curves engines in plugins */
 
-#define GOG_TREND_LINE_ENGINE_SERVICE_TYPE  (gog_trend_line_engine_service_get_type ())
-#define GOG_TREND_LINE_ENGINE_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TREND_LINE_ENGINE_SERVICE_TYPE, GogTrendLineEngineService))
-#define IS_GOG_TREND_LINE_ENGINE_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TREND_LINE_ENGINE_SERVICE_TYPE))
+#define GOG_TYPE_TREND_LINE_ENGINE_SERVICE  (gog_trend_line_engine_service_get_type ())
+#define GOG_TREND_LINE_ENGINE_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_TREND_LINE_ENGINE_SERVICE, GogTrendLineEngineService))
+#define GOG_IS_TREND_LINE_ENGINE_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_TREND_LINE_ENGINE_SERVICE))
 
 static GType gog_trend_line_engine_service_get_type (void);
 
@@ -438,7 +438,7 @@ gog_trend_line_engine_service_class_init (PluginServiceGObjectLoaderClass *gobj_
 
 GSF_CLASS (GogTrendLineEngineService, gog_trend_line_engine_service,
            gog_trend_line_engine_service_class_init, NULL,
-           GO_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE)
+           GO_TYPE_PLUGIN_SERVICE_GOBJECT_LOADER)
 
 GogTrendLine *
 gog_trend_line_new_by_name (char const *id)
@@ -482,9 +482,9 @@ gog_trend_line_new_by_name (char const *id)
 /***************************************************************************/
 /* Use a plugin service to define regression curves types */
 
-#define GOG_TREND_LINE_SERVICE_TYPE		(gog_trend_line_service_get_type ())
-#define GOG_TREND_LINE_SERVICE(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TREND_LINE_SERVICE_TYPE, GogTrendLineService))
-#define IS_GOG_TREND_LINE_SERVICE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TREND_LINE_SERVICE_TYPE))
+#define GOG_TYPE_TREND_LINE_SERVICE		(gog_trend_line_service_get_type ())
+#define GOG_TREND_LINE_SERVICE(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_TREND_LINE_SERVICE, GogTrendLineService))
+#define GOG_IS_TREND_LINE_SERVICE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_TREND_LINE_SERVICE))
 
 GType gog_trend_line_service_get_type (void);
 
@@ -656,7 +656,7 @@ gog_trend_line_service_class_init (GObjectClass *gobject_klass)
 
 GSF_CLASS (GogTrendLineService, gog_trend_line_service,
            gog_trend_line_service_class_init, gog_trend_line_service_init,
-           GO_PLUGIN_SERVICE_SIMPLE_TYPE)
+           GO_TYPE_PLUGIN_SERVICE_SIMPLE)
 
 /***************************************************************************/
 

@@ -324,4 +324,4 @@ gog_3d_box_init (Gog3DBox *box)
 
 GSF_CLASS (Gog3DBox, gog_3d_box,
 	   gog_3d_box_class_init, gog_3d_box_init,
-	   GOG_OBJECT_TYPE)
+	   GOG_TYPE_OBJECT)

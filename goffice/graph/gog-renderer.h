@@ -81,10 +81,10 @@ G_BEGIN_DECLS
 
 #define GOG_RENDERER_GRIP_SIZE	4
 
-#define GOG_RENDERER_TYPE	  (gog_renderer_get_type ())
-#define GOG_RENDERER(o)           (G_TYPE_CHECK_INSTANCE_CAST((o), GOG_RENDERER_TYPE, GogRenderer))
-#define IS_GOG_RENDERER(o)        (G_TYPE_CHECK_INSTANCE_TYPE((o), GOG_RENDERER_TYPE))
-#define GOG_RENDERER_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), GOG_RENDERER_TYPE, GogRendererClass))
+#define GOG_TYPE_RENDERER	  (gog_renderer_get_type ())
+#define GOG_RENDERER(o)           (G_TYPE_CHECK_INSTANCE_CAST((o), GOG_TYPE_RENDERER, GogRenderer))
+#define GOG_IS_RENDERER(o)        (G_TYPE_CHECK_INSTANCE_TYPE((o), GOG_TYPE_RENDERER))
+#define GOG_RENDERER_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), GOG_TYPE_RENDERER, GogRendererClass))
 
 GType gog_renderer_get_type            (void);
 

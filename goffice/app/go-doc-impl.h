@@ -46,9 +46,9 @@ typedef struct {
 	} meta_data;
 } GODocClass;
 
-#define GO_DOC_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST ((k), GO_DOC_TYPE, GODocClass))
-#define IS_GO_DOC_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), GO_DOC_TYPE))
-#define GO_DOC_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), GO_DOC_TYPE, GODocClass))
+#define GO_DOC_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST ((k), GO_TYPE_DOC, GODocClass))
+#define GO_IS_DOC_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), GO_TYPE_DOC))
+#define GO_DOC_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_DOC, GODocClass))
 
 G_END_DECLS
 

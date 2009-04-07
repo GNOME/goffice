@@ -41,9 +41,9 @@ typedef struct {
 
 } GogSmoothedCurveClass;
 
-#define GOG_SMOOTHED_CURVE_TYPE	(gog_smoothed_curve_get_type ())
-#define GOG_SMOOTHED_CURVE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_SMOOTHED_CURVE_TYPE, GogSmoothedCurve))
-#define IS_GOG_SMOOTHED_CURVE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SMOOTHED_CURVE_TYPE))
+#define GOG_TYPE_SMOOTHED_CURVE	(gog_smoothed_curve_get_type ())
+#define GOG_SMOOTHED_CURVE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_SMOOTHED_CURVE, GogSmoothedCurve))
+#define GOG_IS_SMOOTHED_CURVE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_SMOOTHED_CURVE))
 
 GType gog_smoothed_curve_get_type (void);
 

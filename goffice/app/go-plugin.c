@@ -210,7 +210,7 @@ go_plugin_new_from_xml (gchar const *dir_name, ErrorInfo **ret_error)
 	ErrorInfo *error;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	plugin = g_object_new (GO_PLUGIN_TYPE, NULL);
+	plugin = g_object_new (GO_TYPE_PLUGIN, NULL);
 	go_plugin_read (plugin, dir_name, &error);
 	if (error == NULL) {
 		plugin->has_full_info = TRUE;
@@ -226,7 +226,7 @@ go_plugin_new_from_xml (gchar const *dir_name, ErrorInfo **ret_error)
 static GOPlugin *
 go_plugin_new_with_id_and_dir_name_only (gchar const *id, gchar const *dir_name)
 {
-	GOPlugin *plugin = g_object_new (GO_PLUGIN_TYPE, NULL);
+	GOPlugin *plugin = g_object_new (GO_TYPE_PLUGIN, NULL);
 	plugin->id = g_strdup (id);
 	plugin->dir_name = g_strdup (dir_name);
 	plugin->has_full_info = FALSE;
@@ -372,7 +372,7 @@ go_plugin_read_full_info_if_needed (GOPlugin *plugin)
 gchar const *
 go_plugin_get_textdomain (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (GO_IS_PLUGIN (plugin), NULL);
 
 	if (plugin->saved_textdomain == NULL) {
 		plugin->saved_textdomain = g_strconcat ("gnumeric__", plugin->id, NULL);
@@ -390,7 +390,7 @@ go_plugin_get_textdomain (GOPlugin *plugin)
 gboolean
 go_plugin_is_active (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (plugin), FALSE);
+	g_return_val_if_fail (GO_IS_PLUGIN (plugin), FALSE);
 
 	if (!plugin->has_full_info) {
 		return FALSE;
@@ -424,7 +424,7 @@ static GSF_CLASS (GOPluginTypeModule, go_plugin_type_module,
 GTypeModule *
 go_plugin_get_type_module (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (GO_IS_PLUGIN (plugin), NULL);
 	g_return_val_if_fail (plugin->is_active, NULL);
 
 	if (NULL == plugin->type_module) {
@@ -444,7 +444,7 @@ go_plugin_get_type_module (GOPlugin *plugin)
 gchar const *
 go_plugin_get_dir_name (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (GO_IS_PLUGIN (plugin), NULL);
 
 	return plugin->dir_name;
 }
@@ -460,7 +460,7 @@ go_plugin_get_dir_name (GOPlugin *plugin)
 gchar const *
 go_plugin_get_id (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (GO_IS_PLUGIN (plugin), NULL);
 
 	return plugin->id;
 }
@@ -476,7 +476,7 @@ go_plugin_get_id (GOPlugin *plugin)
 gchar const *
 go_plugin_get_name (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (GO_IS_PLUGIN (plugin), NULL);
 
 	if (!go_plugin_read_full_info_if_needed (plugin)) {
 		return _("Unknown name");
@@ -494,7 +494,7 @@ go_plugin_get_name (GOPlugin *plugin)
 gchar const *
 go_plugin_get_description (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (GO_IS_PLUGIN (plugin), NULL);
 
 	if (!go_plugin_read_full_info_if_needed (plugin)) {
 		return NULL;
@@ -511,7 +511,7 @@ go_plugin_get_description (GOPlugin *plugin)
 gboolean
 go_plugin_is_loaded (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (plugin), FALSE);
+	g_return_val_if_fail (GO_IS_PLUGIN (plugin), FALSE);
 	return	plugin->has_full_info &&
 		plugin->loader != NULL &&
 		go_plugin_loader_is_base_loaded (plugin->loader);
@@ -730,7 +730,7 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, ErrorInfo **ret_error)
 	GHashTable *loader_attrs;
 	gboolean require_explicit_enabling = FALSE;
 
-	g_return_if_fail (IS_GO_PLUGIN (plugin));
+	g_return_if_fail (GO_IS_PLUGIN (plugin));
 	g_return_if_fail (dir_name != NULL);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
@@ -875,7 +875,7 @@ plugin_get_loader_if_needed (GOPlugin *plugin, ErrorInfo **ret_error)
 	GType loader_type;
 	ErrorInfo *error = NULL;
 
-	g_return_if_fail (IS_GO_PLUGIN (plugin));
+	g_return_if_fail (GO_IS_PLUGIN (plugin));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	if (!go_plugin_read_full_info_if_needed_error_info (plugin, ret_error)) {
@@ -922,7 +922,7 @@ go_plugin_activate (GOPlugin *plugin, ErrorInfo **ret_error)
 	gint i;
 	static GSList *activate_stack = NULL;
 
-	g_return_if_fail (IS_GO_PLUGIN (plugin));
+	g_return_if_fail (GO_IS_PLUGIN (plugin));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	if (g_slist_find (activate_stack, plugin) != NULL) {
@@ -1012,7 +1012,7 @@ go_plugin_deactivate (GOPlugin *plugin, ErrorInfo **ret_error)
 	GSList *l;
 	gint i;
 
-	g_return_if_fail (IS_GO_PLUGIN (plugin));
+	g_return_if_fail (GO_IS_PLUGIN (plugin));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	if (!plugin->has_full_info || !plugin->is_active) {
@@ -1065,7 +1065,7 @@ go_plugin_deactivate (GOPlugin *plugin, ErrorInfo **ret_error)
 gboolean
 go_plugin_can_deactivate (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (plugin), FALSE);
+	g_return_val_if_fail (GO_IS_PLUGIN (plugin), FALSE);
 
 	if (!plugin->is_active) {
 		return FALSE;
@@ -1165,7 +1165,7 @@ go_plugin_load_base (GOPlugin *plugin, ErrorInfo **ret_error)
 void
 go_plugin_load_service (GOPlugin *plugin, GOPluginService *service, ErrorInfo **ret_error)
 {
-	g_return_if_fail (IS_GO_PLUGIN (plugin));
+	g_return_if_fail (GO_IS_PLUGIN (plugin));
 	g_return_if_fail (service != NULL);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
@@ -1188,7 +1188,7 @@ go_plugin_load_service (GOPlugin *plugin, GOPluginService *service, ErrorInfo **
 void
 go_plugin_unload_service (GOPlugin *plugin, GOPluginService *service, ErrorInfo **ret_error)
 {
-	g_return_if_fail (IS_GO_PLUGIN (plugin));
+	g_return_if_fail (GO_IS_PLUGIN (plugin));
 	g_return_if_fail (plugin->loader != NULL);
 	g_return_if_fail (service != NULL);
 
@@ -1206,7 +1206,7 @@ go_plugin_unload_service (GOPlugin *plugin, GOPluginService *service, ErrorInfo 
 void
 go_plugin_use_ref (GOPlugin *plugin)
 {
-	g_return_if_fail (IS_GO_PLUGIN (plugin));
+	g_return_if_fail (GO_IS_PLUGIN (plugin));
 	g_return_if_fail (plugin->is_active);
 
 	plugin->use_refcount++;
@@ -1222,7 +1222,7 @@ go_plugin_use_ref (GOPlugin *plugin)
 void
 go_plugin_use_unref (GOPlugin *plugin)
 {
-	g_return_if_fail (IS_GO_PLUGIN (plugin));
+	g_return_if_fail (GO_IS_PLUGIN (plugin));
 	g_return_if_fail (plugin->is_active);
 	g_return_if_fail (plugin->use_refcount > 0);
 
@@ -1263,7 +1263,7 @@ go_plugin_get_dependencies_ids (GOPlugin *plugin)
 GSList *
 go_plugin_get_services (GOPlugin *plugin)
 {
-	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (GO_IS_PLUGIN (plugin), NULL);
 
 	return plugin->services;
 }
@@ -1539,7 +1539,7 @@ go_plugins_get_plugin_by_id (gchar const *plugin_id)
 void
 go_plugin_db_mark_plugin_for_deactivation (GOPlugin *plugin, gboolean mark)
 {
-	g_return_if_fail (IS_GO_PLUGIN (plugin));
+	g_return_if_fail (GO_IS_PLUGIN (plugin));
 
 	if (mark) {
 		if (plugins_marked_for_deactivation_hash == NULL) {

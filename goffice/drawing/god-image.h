@@ -23,11 +23,11 @@
 
 G_BEGIN_DECLS
 
-#define GOD_IMAGE_TYPE		(god_image_get_type ())
-#define GOD_IMAGE(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOD_IMAGE_TYPE, GodImage))
-#define GOD_IMAGE_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOD_IMAGE_TYPE, GodImageClass))
-#define IS_GOD_IMAGE(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOD_IMAGE_TYPE))
-#define IS_GOD_IMAGE_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOD_IMAGE_TYPE))
+#define GOD_TYPE_IMAGE		(god_image_get_type ())
+#define GOD_IMAGE(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOD_TYPE_IMAGE, GodImage))
+#define GOD_IMAGE_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOD_TYPE_IMAGE, GodImageClass))
+#define GOD_IS_IMAGE(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOD_TYPE_IMAGE))
+#define GOD_IS_IMAGE_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOD_TYPE_IMAGE))
 
 typedef struct GodImagePrivate_ GodImagePrivate;
 

@@ -38,9 +38,9 @@ typedef struct {
 } GogMinMaxPlot;
 typedef GogPlot1_5dClass	GogMinMaxPlotClass;
 
-#define GOG_MINMAX_PLOT_TYPE	(gog_minmax_plot_get_type ())
-#define GOG_MINMAX_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_MINMAX_PLOT_TYPE, GogMinMaxPlot))
-#define GOG_IS_PLOT_MINMAX(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_MINMAX_PLOT_TYPE))
+#define GOG_TYPE_MINMAX_PLOT	(gog_minmax_plot_get_type ())
+#define GOG_MINMAX_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_MINMAX_PLOT, GogMinMaxPlot))
+#define GOG_IS_PLOT_MINMAX(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_MINMAX_PLOT))
 
 GType gog_minmax_plot_get_type (void);
 void  gog_minmax_plot_register_type (GTypeModule *module);

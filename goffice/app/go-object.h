@@ -31,9 +31,9 @@ gpointer go_object_new_valist (char const *type, char const *first_prop,
 
 /*****************************************************************************/
 
-#define GO_SERVICE_OBJECT_TYPE  (go_service_object_get_type ())
-#define GO_SERVICE_OBJECT(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_SERVICE_OBJECT_TYPE, GOServiceObject))
-#define IS_GO_SERVICE_OBJECT(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_SERVICE_OBJECT_TYPE))
+#define GO_TYPE_SERVICE_OBJECT  (go_service_object_get_type ())
+#define GO_SERVICE_OBJECT(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_SERVICE_OBJECT, GOServiceObject))
+#define GO_IS_SERVICE_OBJECT(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_SERVICE_OBJECT))
 typedef struct _GOServiceObject	GOServiceObject;
 GType go_service_object_get_type (void);
 

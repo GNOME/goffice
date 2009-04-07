@@ -30,13 +30,13 @@
 
 typedef struct {
 	GtkToolItem	 base;
-	GoComboText	*combo; /* container has a ref, not us */
+	GOComboText	*combo; /* container has a ref, not us */
 } GOToolComboText;
 typedef GtkToolItemClass GOToolComboTextClass;
 
-#define GO_TOOL_COMBO_TEXT_TYPE		(go_tool_combo_text_get_type ())
-#define GO_TOOL_COMBO_TEXT(o)		(G_TYPE_CHECK_INSTANCE_CAST (o, GO_TOOL_COMBO_TEXT_TYPE, GOToolComboText))
-#define IS_GO_TOOL_COMBO_TEXT(o)	(G_TYPE_CHECK_INSTANCE_TYPE (o, GO_TOOL_COMBO_TEXT_TYPE))
+#define GO_TYPE_TOOL_COMBO_TEXT		(go_tool_combo_text_get_type ())
+#define GO_TOOL_COMBO_TEXT(o)		(G_TYPE_CHECK_INSTANCE_CAST (o, GO_TYPE_TOOL_COMBO_TEXT, GOToolComboText))
+#define GO_IS_TOOL_COMBO_TEXT(o)	(G_TYPE_CHECK_INSTANCE_TYPE (o, GO_TYPE_TOOL_COMBO_TEXT))
 
 static GType go_tool_combo_text_get_type (void);
 #if 0
@@ -116,7 +116,7 @@ g_strcase_equal (gconstpointer s1, gconstpointer s2)
 }
 
 static gboolean
-cb_entry_changed (GoComboText *ct, char const *text, GOActionComboText *taction)
+cb_entry_changed (GOComboText *ct, char const *text, GOActionComboText *taction)
 {
 	set_entry_val (taction, text);
 	gtk_action_activate (GTK_ACTION (taction));
@@ -127,11 +127,11 @@ static GtkWidget *
 go_action_combo_text_create_tool_item (GtkAction *act)
 {
 	GOActionComboText *taction = GO_ACTION_COMBO_TEXT (act);
-	GOToolComboText *tool = g_object_new (GO_TOOL_COMBO_TEXT_TYPE, NULL);
+	GOToolComboText *tool = g_object_new (GO_TYPE_TOOL_COMBO_TEXT, NULL);
 	GSList *ptr;
 	int w = -1;
 
-	tool->combo = (GoComboText *)go_combo_text_new (taction->case_sensitive ? NULL : g_strcase_equal);
+	tool->combo = (GOComboText *)go_combo_text_new (taction->case_sensitive ? NULL : g_strcase_equal);
 	if (taction->largest_elem != NULL)
 		w = g_utf8_strlen (taction->largest_elem, -1);
 
@@ -296,6 +296,6 @@ go_action_combo_text_set_entry (GOActionComboText *taction, char const *text,
 
 	set_entry_val (taction, text);
 	for ( ; ptr != NULL ; ptr = ptr->next)
-		if (IS_GO_TOOL_COMBO_TEXT (ptr->data))
+		if (GO_IS_TOOL_COMBO_TEXT (ptr->data))
 			go_combo_text_set_text (GO_TOOL_COMBO_TEXT (ptr->data)->combo, text, dir);
 }

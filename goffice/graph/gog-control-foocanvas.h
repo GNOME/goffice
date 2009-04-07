@@ -27,9 +27,9 @@
 
 G_BEGIN_DECLS
 
-#define GOG_CONTROL_FOOCANVAS_TYPE	(gog_control_foocanvas_get_type ())
-#define GOG_CONTROL_FOOCANVAS(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_CONTROL_FOOCANVAS_TYPE, GogControlFooCanvas))
-#define IS_GOG_CONTROL_FOOCANVAS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_CONTROL_FOOCANVAS_TYPE))
+#define GOG_TYPE_CONTROL_FOOCANVAS	(gog_control_foocanvas_get_type ())
+#define GOG_CONTROL_FOOCANVAS(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_CONTROL_FOOCANVAS, GogControlFooCanvas))
+#define GOG_IS_CONTROL_FOOCANVAS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_CONTROL_FOOCANVAS))
 
 typedef struct _GogControlFooCanvas GogControlFooCanvas;
 

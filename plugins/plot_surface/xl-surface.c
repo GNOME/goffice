@@ -83,7 +83,7 @@ xl_xyz_series_class_init (GogStyledObjectClass *gso_klass)
 
 GSF_DYNAMIC_CLASS (XLXYZSeries, xl_xyz_series,
 	xl_xyz_series_class_init, NULL,
-	GOG_SERIES_TYPE)
+	GOG_TYPE_SERIES)
 
 /*****************************************************************************/
 
@@ -328,7 +328,7 @@ xl_contour_plot_init (XLContourPlot *contour)
 
 GSF_DYNAMIC_CLASS (XLContourPlot, xl_contour_plot,
 	xl_contour_plot_class_init, xl_contour_plot_init,
-	GOG_CONTOUR_PLOT_TYPE)
+	GOG_TYPE_CONTOUR_PLOT)
 
 /*****************************************************************************/
 
@@ -420,5 +420,5 @@ xl_surface_plot_init (XLSurfacePlot *contour)
 
 GSF_DYNAMIC_CLASS (XLSurfacePlot, xl_surface_plot,
 	xl_surface_plot_class_init, xl_surface_plot_init,
-	GOG_SURFACE_PLOT_TYPE)
+	GOG_TYPE_SURFACE_PLOT)
 

@@ -367,8 +367,8 @@ gog_xyz_surface_plot_init (GogXYZPlot *xyz)
 
 GSF_DYNAMIC_CLASS (GogXYZContourPlot, gog_xyz_contour_plot,
 	gog_xyz_contour_plot_class_init, gog_xyz_surface_plot_init,
-	GOG_CONTOUR_PLOT_TYPE)
+	GOG_TYPE_CONTOUR_PLOT)
 
 GSF_DYNAMIC_CLASS (GogXYZSurfacePlot, gog_xyz_surface_plot,
 	gog_xyz_surface_plot_class_init, gog_xyz_surface_plot_init,
-	GOG_SURFACE_PLOT_TYPE)
+	GOG_TYPE_SURFACE_PLOT)

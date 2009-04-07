@@ -19,11 +19,11 @@
 
 G_BEGIN_DECLS
 
-#define GOD_DRAWING_TYPE	(god_drawing_get_type ())
-#define GOD_DRAWING(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOD_DRAWING_TYPE, GodDrawing))
-#define GOD_DRAWING_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOD_DRAWING_TYPE, GodDrawingClass))
-#define IS_GOD_DRAWING(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOD_DRAWING_TYPE))
-#define IS_GOD_DRAWING_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOD_DRAWING_TYPE))
+#define GOD_TYPE_DRAWING	(god_drawing_get_type ())
+#define GOD_DRAWING(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOD_TYPE_DRAWING, GodDrawing))
+#define GOD_DRAWING_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOD_TYPE_DRAWING, GodDrawingClass))
+#define GOD_IS_DRAWING(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOD_TYPE_DRAWING))
+#define GOD_IS_DRAWING_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOD_TYPE_DRAWING))
 
 typedef struct GodDrawingPrivate_ GodDrawingPrivate;
 

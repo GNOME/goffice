@@ -105,8 +105,8 @@ typedef struct {
 	void (*request_update) (GogRenderer *renderer);
 } GogRendererClass;
 
-#define GOG_RENDERER_CLASS(k)	 (G_TYPE_CHECK_CLASS_CAST ((k), GOG_RENDERER_TYPE, GogRendererClass))
-#define IS_GOG_RENDERER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GOG_RENDERER_TYPE))
+#define GOG_RENDERER_CLASS(k)	 (G_TYPE_CHECK_CLASS_CAST ((k), GOG_TYPE_RENDERER, GogRendererClass))
+#define GOG_IS_RENDERER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GOG_TYPE_RENDERER))
 
 #define GRC_LINEAR_SCALE(w,scale) (go_sub_epsilon (w) <= 0.0 ? GOG_RENDERER_HAIRLINE_WIDTH_PTS : w) * scale
 
@@ -438,9 +438,9 @@ gog_renderer_stroke_serie (GogRenderer *renderer,
 	gboolean is_outline;
 	double width;
 
-	g_return_if_fail (IS_GOG_RENDERER (renderer));
+	g_return_if_fail (GOG_IS_RENDERER (renderer));
 	g_return_if_fail (renderer->cur_style != NULL);
-	g_return_if_fail (IS_GO_PATH (path));
+	g_return_if_fail (GO_IS_PATH (path));
 
         style = renderer->cur_style;
 	is_outline = style->interesting_fields & GOG_STYLE_OUTLINE;
@@ -465,9 +465,9 @@ gog_renderer_fill_serie (GogRenderer *renderer,
 {
 	GogStyle const *style;
 
-	g_return_if_fail (IS_GOG_RENDERER (renderer));
+	g_return_if_fail (GOG_IS_RENDERER (renderer));
 	g_return_if_fail (renderer->cur_style != NULL);
-	g_return_if_fail (IS_GO_PATH (path));
+	g_return_if_fail (GO_IS_PATH (path));
 
 	style = renderer->cur_style;
 
@@ -485,9 +485,9 @@ _draw_shape (GogRenderer *renderer, GOPath const *path, gboolean fill, gboolean 
 	double width;
 	gboolean use_outline;
 
-	g_return_if_fail (IS_GOG_RENDERER (renderer));
+	g_return_if_fail (GOG_IS_RENDERER (renderer));
 	g_return_if_fail (renderer->cur_style != NULL);
-	g_return_if_fail (IS_GO_PATH (path));
+	g_return_if_fail (GO_IS_PATH (path));
 
         style = renderer->cur_style;
 	use_outline = style->interesting_fields & GOG_STYLE_OUTLINE;
@@ -541,8 +541,8 @@ gog_renderer_fill_shape (GogRenderer *renderer, GOPath const *path)
 void
 gog_renderer_push_clip (GogRenderer *rend, GOPath const *path)
 {
-	g_return_if_fail (IS_GOG_RENDERER (rend));
-	g_return_if_fail (IS_GO_PATH (path));
+	g_return_if_fail (GOG_IS_RENDERER (rend));
+	g_return_if_fail (GO_IS_PATH (path));
 
 	cairo_save (rend->cairo);
 
@@ -592,7 +592,7 @@ gog_renderer_push_clip_rectangle (GogRenderer *rend, double x, double y, double 
 void
 gog_renderer_pop_clip (GogRenderer *rend)
 {
-	g_return_if_fail (IS_GOG_RENDERER (rend));
+	g_return_if_fail (GOG_IS_RENDERER (rend));
 
 	cairo_restore (rend->cairo);
 }
@@ -605,8 +605,8 @@ _draw_circle (GogRenderer *rend, double x, double y, double r, gboolean fill, gb
 	gboolean narrow = r < 1.5;
 	double o, o_2;
 
-	g_return_if_fail (IS_GOG_RENDERER (rend));
-	g_return_if_fail (IS_GOG_STYLE (rend->cur_style));
+	g_return_if_fail (GOG_IS_RENDERER (rend));
+	g_return_if_fail (GOG_IS_STYLE (rend->cur_style));
 
 	style = rend->cur_style;
 	narrow |= !gog_style_is_outline_visible (style);
@@ -662,8 +662,8 @@ _draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean fill
 	gboolean narrow = (rect->w < 3.) || (rect->h < 3.);
 	double o, o_2;
 
-	g_return_if_fail (IS_GOG_RENDERER (rend));
-	g_return_if_fail (IS_GOG_STYLE (rend->cur_style));
+	g_return_if_fail (GOG_IS_RENDERER (rend));
+	g_return_if_fail (GOG_IS_STYLE (rend->cur_style));
 
 	style = rend->cur_style;
 	narrow |= !gog_style_is_outline_visible (style);
@@ -791,7 +791,7 @@ gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
 {
 	cairo_surface_t *surface;
 
-	g_return_if_fail (IS_GOG_RENDERER (rend));
+	g_return_if_fail (GOG_IS_RENDERER (rend));
 	g_return_if_fail (rend->cur_style != NULL);
 
 	if (rend->is_vector && !rend->marker_as_surface) {
@@ -842,7 +842,7 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
 	GogStyle const *style;
 	int iw, ih;
 
-	g_return_if_fail (IS_GOG_RENDERER (rend));
+	g_return_if_fail (GOG_IS_RENDERER (rend));
 	g_return_if_fail (rend->cur_style != NULL);
 	g_return_if_fail (text != NULL);
 
@@ -916,7 +916,7 @@ gog_renderer_get_text_OBR (GogRenderer *rend, char const *text,
 	PangoRectangle logical;
 	cairo_t *cairo = rend->cairo;
 
-	g_return_if_fail (IS_GOG_RENDERER (rend));
+	g_return_if_fail (GOG_IS_RENDERER (rend));
 	g_return_if_fail (rend->cur_style != NULL);
 	g_return_if_fail (text != NULL);
 	g_return_if_fail (obr != NULL);
@@ -983,8 +983,8 @@ _free_marker_data (GogRenderer *rend)
 void
 gog_renderer_push_style (GogRenderer *rend, GogStyle const *style)
 {
-	g_return_if_fail (IS_GOG_RENDERER (rend));
-	g_return_if_fail (IS_GOG_STYLE (style));
+	g_return_if_fail (GOG_IS_RENDERER (rend));
+	g_return_if_fail (GOG_IS_STYLE (style));
 
 	if (rend->cur_style != NULL)
 		rend->style_stack = g_slist_prepend (
@@ -1000,8 +1000,8 @@ gog_renderer_push_style (GogRenderer *rend, GogStyle const *style)
 void
 gog_renderer_pop_style (GogRenderer *rend)
 {
-	g_return_if_fail (IS_GOG_RENDERER (rend));
-	g_return_if_fail (IS_GOG_STYLE (rend->cur_style));
+	g_return_if_fail (GOG_IS_RENDERER (rend));
+	g_return_if_fail (GOG_IS_STYLE (rend->cur_style));
 
 	g_object_unref ((gpointer)rend->cur_style);
 	if (rend->style_stack != NULL) {
@@ -1019,7 +1019,7 @@ gog_renderer_pop_style (GogRenderer *rend)
 void
 gog_renderer_request_update (GogRenderer *renderer)
 {
-	g_return_if_fail (IS_GOG_RENDERER (renderer));
+	g_return_if_fail (GOG_IS_RENDERER (renderer));
 
 	if (renderer->needs_update)
 		return;
@@ -1049,8 +1049,8 @@ gog_renderer_update (GogRenderer *rend, double w, double h)
 
 	if (w <= 0 || h <= 0)
 		return FALSE;
-	g_return_val_if_fail (IS_GOG_RENDERER (rend), FALSE);
-	g_return_val_if_fail (IS_GOG_VIEW (rend->view), FALSE);
+	g_return_val_if_fail (GOG_IS_RENDERER (rend), FALSE);
+	g_return_val_if_fail (GOG_IS_VIEW (rend->view), FALSE);
 
 	size_changed = rend->w != w || rend->h != h;
 	if (size_changed) {
@@ -1134,7 +1134,7 @@ gog_renderer_update (GogRenderer *rend, double w, double h)
 GdkPixbuf *
 gog_renderer_get_pixbuf (GogRenderer *rend)
 {
-	g_return_val_if_fail (IS_GOG_RENDERER (rend), NULL);
+	g_return_val_if_fail (GOG_IS_RENDERER (rend), NULL);
 
 	if (rend->cairo_surface == NULL)
 		return NULL;
@@ -1158,7 +1158,7 @@ gog_renderer_get_pixbuf (GogRenderer *rend)
 cairo_surface_t *
 gog_renderer_get_cairo_surface (GogRenderer *rend)
 {
-	g_return_val_if_fail (IS_GOG_RENDERER (rend), NULL);
+	g_return_val_if_fail (GOG_IS_RENDERER (rend), NULL);
 
 	return rend->cairo_surface;
 }
@@ -1199,9 +1199,9 @@ gog_renderer_render_to_cairo (GogRenderer *renderer, cairo_t *cairo, double widt
 	GogViewAllocation allocation;
 	double width_in_pts, height_in_pts;
 
-	g_return_val_if_fail (IS_GOG_RENDERER (renderer), FALSE);
-	g_return_val_if_fail (IS_GOG_VIEW (renderer->view), FALSE);
-	g_return_val_if_fail (IS_GOG_GRAPH (renderer->model), FALSE);
+	g_return_val_if_fail (GOG_IS_RENDERER (renderer), FALSE);
+	g_return_val_if_fail (GOG_IS_VIEW (renderer->view), FALSE);
+	g_return_val_if_fail (GOG_IS_GRAPH (renderer->model), FALSE);
 
 	gog_graph_force_update (renderer->model);
 	gog_graph_get_size (renderer->model, &width_in_pts, &height_in_pts);
@@ -1259,7 +1259,7 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 	double width_in_pts, height_in_pts;
 	gboolean result;
 
-	g_return_val_if_fail (IS_GOG_RENDERER (rend), FALSE);
+	g_return_val_if_fail (GOG_IS_RENDERER (rend), FALSE);
 
 	if (x_dpi <= 0.)
 		x_dpi = 96.;
@@ -1384,7 +1384,7 @@ do_export_vectorial:
 double
 gog_renderer_get_hairline_width_pts (GogRenderer const *rend)
 {
-	g_return_val_if_fail (IS_GOG_RENDERER (rend), GOG_RENDERER_HAIRLINE_WIDTH_PTS);
+	g_return_val_if_fail (GOG_IS_RENDERER (rend), GOG_RENDERER_HAIRLINE_WIDTH_PTS);
 
 	if (rend->is_vector
 	    || go_sub_epsilon (rend->scale) <= 0.0)
@@ -1399,7 +1399,7 @@ gog_renderer_draw_equation (GogRenderer *renderer, GMathmlView *mathml_view, dou
 {
 	cairo_t *cairo;
 
-	g_return_if_fail (IS_GOG_RENDERER (renderer));
+	g_return_if_fail (GOG_IS_RENDERER (renderer));
 	g_return_if_fail (GMATHML_IS_VIEW (mathml_view));
 
 	cairo = renderer->cairo;
@@ -1426,13 +1426,13 @@ gog_renderer_draw_equation (GogRenderer *renderer, GMathmlView *mathml_view, dou
 GogRenderer*
 gog_renderer_new (GogGraph *graph)
 {
-	return g_object_new (GOG_RENDERER_TYPE, "model", graph, NULL);
+	return g_object_new (GOG_TYPE_RENDERER, "model", graph, NULL);
 }
 
 static void
 _cb_font_removed (GogRenderer *rend, GOFont const *font)
 {
-	g_return_if_fail (IS_GOG_RENDERER (rend));
+	g_return_if_fail (GOG_IS_RENDERER (rend));
 
 	gog_debug (0, g_warning ("notify a '%s' that %p is invalid",
 				 G_OBJECT_TYPE_NAME (rend), font););
@@ -1574,13 +1574,13 @@ gog_renderer_class_init (GogRendererClass *renderer_klass)
 		g_param_spec_object ("model",
 			_("Model"),
 			_("The GogGraph this renderer displays"),
-			GOG_GRAPH_TYPE,
+			GOG_TYPE_GRAPH,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, RENDERER_PROP_VIEW,
 		g_param_spec_object ("view",
 			_("View"),
 			_("the GogView this renderer is displaying"),
-			GOG_VIEW_TYPE,
+			GOG_TYPE_VIEW,
 			GSF_PARAM_STATIC | G_PARAM_READABLE));
 
 	renderer_signals [RENDERER_SIGNAL_REQUEST_UPDATE] = g_signal_new ("request-update",

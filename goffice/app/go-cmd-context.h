@@ -26,9 +26,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_CMD_CONTEXT_TYPE        (go_cmd_context_get_type ())
-#define GO_CMD_CONTEXT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_CMD_CONTEXT_TYPE, GOCmdContext))
-#define IS_GO_CMD_CONTEXT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_CMD_CONTEXT_TYPE))
+#define GO_TYPE_CMD_CONTEXT        (go_cmd_context_get_type ())
+#define GO_CMD_CONTEXT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_CMD_CONTEXT, GOCmdContext))
+#define GO_IS_CMD_CONTEXT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_CMD_CONTEXT))
 
 GType  go_cmd_context_get_type (void);
 

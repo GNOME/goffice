@@ -21,12 +21,12 @@
 
 G_BEGIN_DECLS
 
-#define GOD_TEXT_MODEL_TYPE		(god_text_model_get_type ())
-#define GOD_TEXT_MODEL(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOD_TEXT_MODEL_TYPE, GodTextModel))
-#define GOD_TEXT_MODEL_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOD_TEXT_MODEL_TYPE, GodTextModelClass))
-#define GOD_TEXT_MODEL_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS((o), GOD_TEXT_MODEL_TYPE, GodTextModelClass))
-#define IS_GOD_TEXT_MODEL(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOD_TEXT_MODEL_TYPE))
-#define IS_GOD_TEXT_MODEL_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOD_TEXT_MODEL_TYPE))
+#define GOD_TYPE_TEXT_MODEL		(god_text_model_get_type ())
+#define GOD_TEXT_MODEL(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOD_TYPE_TEXT_MODEL, GodTextModel))
+#define GOD_TEXT_MODEL_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOD_TYPE_TEXT_MODEL, GodTextModelClass))
+#define GOD_TEXT_MODEL_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS((o), GOD_TYPE_TEXT_MODEL, GodTextModelClass))
+#define GOD_IS_TEXT_MODEL(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOD_TYPE_TEXT_MODEL))
+#define GOD_IS_TEXT_MODEL_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOD_TYPE_TEXT_MODEL))
 
 typedef struct GodTextModelPrivate GodTextModelPrivate;
 typedef struct GodTextModel GodTextModel;

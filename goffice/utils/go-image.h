@@ -64,9 +64,9 @@ GSList 			*go_image_get_formats_with_pixbuf_saver (void);
  * GOImage object *
  ******************/
 
-#define GO_IMAGE_TYPE	(go_image_get_type ())
-#define GO_IMAGE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_IMAGE_TYPE, GOImage))
-#define IS_GO_IMAGE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_IMAGE_TYPE))
+#define GO_TYPE_IMAGE	(go_image_get_type ())
+#define GO_IMAGE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_IMAGE, GOImage))
+#define GO_IS_IMAGE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_IMAGE))
 
 GType go_image_get_type (void);
 

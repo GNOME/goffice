@@ -27,10 +27,10 @@
 
 G_BEGIN_DECLS
 
-#define GOG_EQUATION_TYPE		(gog_equation_get_type ())
-#define GOG_EQUATION(o)			(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_EQUATION_TYPE, GogEquation))
-#define IS_GOG_EQUATION(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_EQUATION_TYPE))
-#define GOG_EQUATION_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_EQUATION_TYPE, GogEquationClass))
+#define GOG_TYPE_EQUATION		(gog_equation_get_type ())
+#define GOG_EQUATION(o)			(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_EQUATION, GogEquation))
+#define GOG_IS_EQUATION(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_EQUATION))
+#define GOG_EQUATION_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_EQUATION, GogEquationClass))
 
 GType gog_equation_get_type (void);
 

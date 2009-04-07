@@ -36,9 +36,9 @@ typedef struct {
 } GogBarColPlot;
 typedef GogPlot1_5dClass GogBarColPlotClass;
 
-#define GOG_BARCOL_PLOT_TYPE	(gog_barcol_plot_get_type ())
-#define GOG_BARCOL_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_BARCOL_PLOT_TYPE, GogBarColPlot))
-#define GOG_IS_PLOT_BARCOL(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_BARCOL_PLOT_TYPE))
+#define GOG_TYPE_BARCOL_PLOT	(gog_barcol_plot_get_type ())
+#define GOG_BARCOL_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_BARCOL_PLOT, GogBarColPlot))
+#define GOG_IS_PLOT_BARCOL(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_BARCOL_PLOT))
 
 GType gog_barcol_plot_get_type (void);
 void  gog_barcol_plot_register_type (GTypeModule *module);

@@ -36,9 +36,9 @@
 
 G_BEGIN_DECLS
 
-#define GOG_STYLE_TYPE	(gog_style_get_type ())
-#define GOG_STYLE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_STYLE_TYPE, GogStyle))
-#define IS_GOG_STYLE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_STYLE_TYPE))
+#define GOG_TYPE_STYLE	(gog_style_get_type ())
+#define GOG_STYLE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_STYLE, GogStyle))
+#define GOG_IS_STYLE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_STYLE))
 
 GType gog_style_get_type (void);
 

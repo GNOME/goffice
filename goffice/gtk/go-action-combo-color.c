@@ -35,9 +35,9 @@ typedef struct {
 } GOToolComboColor;
 typedef GtkToolItemClass GOToolComboColorClass;
 
-#define GO_TOOL_COMBO_COLOR_TYPE	(go_tool_combo_color_get_type ())
-#define GO_TOOL_COMBO_COLOR(o)		(G_TYPE_CHECK_INSTANCE_CAST (o, GO_TOOL_COMBO_COLOR_TYPE, GOToolComboColor))
-#define IS_GO_TOOL_COMBO_COLOR(o)	(G_TYPE_CHECK_INSTANCE_TYPE (o, GO_TOOL_COMBO_COLOR_TYPE))
+#define GO_TYPE_TOOL_COMBO_COLOR	(go_tool_combo_color_get_type ())
+#define GO_TOOL_COMBO_COLOR(o)		(G_TYPE_CHECK_INSTANCE_CAST (o, GO_TYPE_TOOL_COMBO_COLOR, GOToolComboColor))
+#define GO_IS_TOOL_COMBO_COLOR(o)	(G_TYPE_CHECK_INSTANCE_TYPE (o, GO_TYPE_TOOL_COMBO_COLOR))
 
 static GType go_tool_combo_color_get_type (void);
 
@@ -75,7 +75,7 @@ make_icon (GtkAction *a, GtkWidget *tool)
 	g_object_get (a, "stock-id", &stock_id, NULL);
 	if (stock_id == NULL)
 		return NULL;
-	if (IS_GO_TOOL_COMBO_COLOR (tool)) {
+	if (GO_IS_TOOL_COMBO_COLOR (tool)) {
 		if (tool->parent)
 			size = gtk_toolbar_get_icon_size (GTK_TOOLBAR (tool->parent));
 		else
@@ -170,7 +170,7 @@ static GtkWidget *
 go_action_combo_color_create_tool_item (GtkAction *a)
 {
 	GOActionComboColor *caction = (GOActionComboColor *)a;
-	GOToolComboColor *tool = g_object_new (GO_TOOL_COMBO_COLOR_TYPE, NULL);
+	GOToolComboColor *tool = g_object_new (GO_TYPE_TOOL_COMBO_COLOR, NULL);
 	char *title;
 
 	/* FIXME: We probably should re-do this when tool changes screen or
@@ -298,6 +298,6 @@ go_action_combo_color_set_color (GOActionComboColor *a, GOColor color)
 
 	a->current_color = color;
 	for ( ; ptr != NULL ; ptr = ptr->next)
-		if (IS_GO_TOOL_COMBO_COLOR (ptr->data))
+		if (GO_IS_TOOL_COMBO_COLOR (ptr->data))
 			go_combo_color_set_color (GO_TOOL_COMBO_COLOR (ptr->data)->combo, color);
 }

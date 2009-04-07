@@ -39,7 +39,7 @@ god_drawing_view_new (void)
 {
 	GodDrawingView *view;
 
-	view = g_object_new (GOD_DRAWING_VIEW_TYPE, NULL);
+	view = g_object_new (GOD_TYPE_DRAWING_VIEW, NULL);
 
 	return view;
 }

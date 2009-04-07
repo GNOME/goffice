@@ -42,10 +42,10 @@ typedef struct {
 	void (*style_changed) (GogStyledObject *obj, GogStyle const *new_style);
 } GogStyledObjectClass;
 
-#define GOG_STYLED_OBJECT_TYPE	(gog_styled_object_get_type ())
-#define GOG_STYLED_OBJECT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_STYLED_OBJECT_TYPE, GogStyledObject))
-#define IS_GOG_STYLED_OBJECT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_STYLED_OBJECT_TYPE))
-#define GOG_STYLED_OBJECT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_STYLED_OBJECT_TYPE, GogStyledObjectClass))
+#define GOG_TYPE_STYLED_OBJECT	(gog_styled_object_get_type ())
+#define GOG_STYLED_OBJECT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_STYLED_OBJECT, GogStyledObject))
+#define GOG_IS_STYLED_OBJECT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_STYLED_OBJECT))
+#define GOG_STYLED_OBJECT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_STYLED_OBJECT, GogStyledObjectClass))
 
 GType     gog_styled_object_get_type (void);
 

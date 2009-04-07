@@ -7,9 +7,9 @@ G_BEGIN_DECLS
 
 /* ------------------------------------------------------------------------- */
 
-#define GO_UNDO_TYPE	    (go_undo_get_type ())
-#define GO_UNDO(o)	    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_UNDO_TYPE, GOUndo))
-#define IS_GO_UNDO(o)	    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_UNDO_TYPE))
+#define GO_TYPE_UNDO	    (go_undo_get_type ())
+#define GO_UNDO(o)	    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_UNDO, GOUndo))
+#define GO_IS_UNDO(o)	    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_UNDO))
 
 GType go_undo_get_type (void);
 
@@ -35,9 +35,9 @@ GOUndo *go_undo_combine (GOUndo *a, GOUndo *b);
 /* ------------------------------------------------------------------------- */
 /* Compound operations.  */
 
-#define GO_UNDO_GROUP_TYPE  (go_undo_group_get_type ())
-#define GO_UNDO_GROUP(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_UNDO_GROUP_TYPE, GOUndoGroup))
-#define IS_GO_UNDO_GROUP(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_UNDO_GROUP_TYPE))
+#define GO_TYPE_UNDO_GROUP  (go_undo_group_get_type ())
+#define GO_UNDO_GROUP(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_UNDO_GROUP, GOUndoGroup))
+#define GO_IS_UNDO_GROUP(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_UNDO_GROUP))
 
 GType go_undo_group_get_type (void);
 
@@ -58,9 +58,9 @@ void go_undo_group_add (GOUndoGroup *g, GOUndo *u);
 
 /* ------------------------------------------------------------------------- */
 
-#define GO_UNDO_BINARY_TYPE  (go_undo_binary_get_type ())
-#define GO_UNDO_BINARY(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_UNDO_BINARY_TYPE, GOUndoBinary))
-#define IS_GO_UNDO_BINARY(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_UNDO_BINARY_TYPE))
+#define GO_TYPE_UNDO_BINARY  (go_undo_binary_get_type ())
+#define GO_UNDO_BINARY(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_UNDO_BINARY, GOUndoBinary))
+#define GO_IS_UNDO_BINARY(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_UNDO_BINARY))
 
 GType go_undo_binary_get_type (void);
 
@@ -86,9 +86,9 @@ GOUndo *go_undo_binary_new (gpointer a, gpointer b, GOUndoBinaryFunc undo,
 
 /* ------------------------------------------------------------------------- */
 
-#define GO_UNDO_UNARY_TYPE  (go_undo_unary_get_type ())
-#define GO_UNDO_UNARY(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_UNDO_UNARY_TYPE, GOUndoUnary))
-#define IS_GO_UNDO_UNARY(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_UNDO_UNARY_TYPE))
+#define GO_TYPE_UNDO_UNARY  (go_undo_unary_get_type ())
+#define GO_UNDO_UNARY(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_UNDO_UNARY, GOUndoUnary))
+#define GO_IS_UNDO_UNARY(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_UNDO_UNARY))
 
 GType go_undo_unary_get_type (void);
 

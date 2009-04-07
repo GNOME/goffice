@@ -55,9 +55,9 @@ enum {
 typedef GogSeriesElement GogLineSeriesElement;
 typedef GogSeriesElementClass GogLineSeriesElementClass;
 
-#define GOG_LINE_SERIES_ELEMENT_TYPE	(gog_line_series_element_get_type ())
-#define GOG_LINE_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LINE_SERIES_ELEMENT_TYPE, GogLinelSeriesElement))
-#define GOG_IS_LINE_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LINE_SERIES_ELEMENT_TYPE))
+#define GOG_TYPE_LINE_SERIES_ELEMENT	(gog_line_series_element_get_type ())
+#define GOG_LINE_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_LINE_SERIES_ELEMENT, GogLinelSeriesElement))
+#define GOG_IS_LINE_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_LINE_SERIES_ELEMENT))
 GType gog_line_series_element_get_type (void);
 
 static void
@@ -81,16 +81,16 @@ gog_line_series_element_class_init (GogLineSeriesElementClass *klass)
 
 GSF_DYNAMIC_CLASS (GogLineSeriesElement, gog_line_series_element,
 	gog_line_series_element_class_init, NULL,
-	GOG_SERIES_ELEMENT_TYPE)
+	GOG_TYPE_SERIES_ELEMENT)
 
 /******************************************************************************/
 
 typedef GogView		GogLineSeriesView;
 typedef GogViewClass	GogLineSeriesViewClass;
 
-#define GOG_LINE_SERIES_VIEW_TYPE	(gog_line_series_view_get_type ())
-#define GOG_LINE_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LINE_SERIES_VIEW_TYPE, GogLineSeriesView))
-#define IS_GOG_LINE_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LINE_SERIES_VIEW_TYPE))
+#define GOG_TYPE_LINE_SERIES_VIEW	(gog_line_series_view_get_type ())
+#define GOG_LINE_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_LINE_SERIES_VIEW, GogLineSeriesView))
+#define GOG_IS_LINE_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_LINE_SERIES_VIEW))
 
 static void
 gog_line_series_view_render (GogView *view, GogViewAllocation const *bbox)
@@ -120,7 +120,7 @@ gog_line_series_view_class_init (GogLineSeriesViewClass *gview_klass)
 
 GSF_DYNAMIC_CLASS (GogLineSeriesView, gog_line_series_view,
 	gog_line_series_view_class_init, NULL,
-	GOG_VIEW_TYPE)
+	GOG_TYPE_VIEW)
 
 /*****************************************************************************/
 
@@ -133,9 +133,9 @@ typedef GogSeries1_5dClass	GogLineSeriesClass;
 static GogStyledObjectClass *series_parent_klass;
 
 GType gog_line_series_get_type (void);
-#define GOG_LINE_SERIES_TYPE	(gog_line_series_get_type ())
-#define GOG_LINE_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LINE_SERIES_TYPE, GogLineSeries))
-#define IS_GOG_LINE_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LINE_SERIES_TYPE))
+#define GOG_TYPE_LINE_SERIES	(gog_line_series_get_type ())
+#define GOG_LINE_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_LINE_SERIES, GogLineSeries))
+#define GOG_IS_LINE_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_LINE_SERIES))
 
 static void
 gog_line_series_init_style (GogStyledObject *gso, GogStyle *style)
@@ -175,7 +175,7 @@ gog_line_series_update (GogObject *obj)
 	}
 	/* update children */
 	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
-		if (!IS_GOG_SERIES_LINES (ptr->data))
+		if (!GOG_IS_SERIES_LINES (ptr->data))
 			gog_object_request_update (GOG_OBJECT (ptr->data));
 }
 
@@ -212,7 +212,7 @@ gog_line_series_class_init (GogStyledObjectClass *gso_klass)
 	gog_klass->view_type = gog_line_series_view_get_type ();
 	gog_klass->update = gog_line_series_update;
 	series_klass->get_xy_data = gog_line_series_get_xy_data;
-	series_klass->series_element_type = GOG_LINE_SERIES_ELEMENT_TYPE;
+	series_klass->series_element_type = GOG_TYPE_LINE_SERIES_ELEMENT;
 }
 
 GSF_DYNAMIC_CLASS (GogLineSeries, gog_line_series,
@@ -223,7 +223,7 @@ static void
 child_added_cb (GogLinePlot *plot, GogObject *obj)
 {
 	/* we only accept regression curves for not stacked plots */
-	if (IS_GOG_SERIES (obj) && plot->base.type == GOG_1_5D_NORMAL)
+	if (GOG_IS_SERIES (obj) && plot->base.type == GOG_1_5D_NORMAL)
 		(GOG_SERIES (obj))->acceptable_children =
 					GOG_SERIES_ACCEPT_TREND_LINE;
 }
@@ -382,7 +382,7 @@ gog_area_plot_init (GogPlot *plot)
 
 GSF_DYNAMIC_CLASS (GogAreaPlot, gog_area_plot,
 	gog_area_plot_class_init, gog_area_plot_init,
-	GOG_LINE_PLOT_TYPE)
+	GOG_TYPE_LINE_PLOT)
 
 /*****************************************************************************/
 
@@ -763,4 +763,4 @@ gog_line_view_class_init (GogViewClass *view_klass)
 
 GSF_DYNAMIC_CLASS (GogLineView, gog_line_view,
 	gog_line_view_class_init, NULL,
-	GOG_PLOT_VIEW_TYPE)
+	GOG_TYPE_PLOT_VIEW)

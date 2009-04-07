@@ -72,7 +72,7 @@ go_color_group_class_init (GOColorGroupClass *klass)
 	go_color_group_parent_class = g_type_class_peek (G_TYPE_OBJECT);
 	go_color_group_signals [HISTORY_CHANGED] =
 		g_signal_new ("history-changed",
-			GO_COLOR_GROUP_TYPE,
+			GO_TYPE_COLOR_GROUP,
 			G_SIGNAL_RUN_LAST,
 			G_STRUCT_OFFSET (GOColorGroupClass, history_changed),
 			NULL, NULL,
@@ -203,7 +203,7 @@ void
 go_color_group_add_color (GOColorGroup *cg, GOColor c)
 {
 	unsigned i;
-	g_return_if_fail (IS_GO_COLOR_GROUP (cg));
+	g_return_if_fail (GO_IS_COLOR_GROUP (cg));
 
 	for (i = GO_COLOR_GROUP_HISTORY_SIZE - 1 ; i > 0; i--)
 		if (cg->history[i] == c)

@@ -27,9 +27,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_ACTION_COMBO_PIXMAPS_TYPE  (go_action_combo_pixmaps_get_type ())
-#define GO_ACTION_COMBO_PIXMAPS(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_ACTION_COMBO_PIXMAPS_TYPE, GOActionComboPixmaps))
-#define IS_GO_ACTION_COMBO_PIXMAPS(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_ACTION_COMBO_PIXMAPS_TYPE))
+#define GO_TYPE_ACTION_COMBO_PIXMAPS  (go_action_combo_pixmaps_get_type ())
+#define GO_ACTION_COMBO_PIXMAPS(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_ACTION_COMBO_PIXMAPS, GOActionComboPixmaps))
+#define GO_IS_ACTION_COMBO_PIXMAPS(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_ACTION_COMBO_PIXMAPS))
 
 typedef struct _GOActionComboPixmaps	 GOActionComboPixmaps;
 typedef struct {

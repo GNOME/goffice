@@ -45,12 +45,12 @@ typedef struct {
 	void (*dim_changed) (GogDataset *set, int dim_i);
 } GogDatasetClass;
 
-#define GOG_DATASET_TYPE		(gog_dataset_get_type ())
-#define GOG_DATASET(o)			(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_DATASET_TYPE, GogDataset))
-#define IS_GOG_DATASET(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_DATASET_TYPE))
-#define GOG_DATASET_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOG_DATASET_TYPE, GogDatasetClass))
-#define IS_GOG_DATASET_CLASS(k)		(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_DATASET_TYPE))
-#define GOG_DATASET_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), GOG_DATASET_TYPE, GogDatasetClass))
+#define GOG_TYPE_DATASET		(gog_dataset_get_type ())
+#define GOG_DATASET(o)			(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_DATASET, GogDataset))
+#define GOG_IS_DATASET(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_DATASET))
+#define GOG_DATASET_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOG_TYPE_DATASET, GogDatasetClass))
+#define GOG_IS_DATASET_CLASS(k)		(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_TYPE_DATASET))
+#define GOG_DATASET_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), GOG_TYPE_DATASET, GogDatasetClass))
 
 GType gog_dataset_get_type (void);
 

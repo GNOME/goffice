@@ -248,7 +248,7 @@ gog_2d_plot_init (Gog2DPlot *plot2d)
 
 GSF_DYNAMIC_CLASS (Gog2DPlot, gog_2d_plot,
 	gog_2d_plot_class_init, gog_2d_plot_init,
-	GOG_PLOT_TYPE)
+	GOG_TYPE_PLOT)
 
 enum {
 	GOG_XY_PROP_0,
@@ -260,7 +260,7 @@ enum {
 
 static GogObjectClass *xy_parent_klass;
 
-#define GOG_XY_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_XY_PLOT_TYPE, GogXYPlotClass))
+#define GOG_XY_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_XY_PLOT, GogXYPlotClass))
 
 static char const *
 gog_xy_plot_type_name (G_GNUC_UNUSED GogObject const *item)
@@ -405,7 +405,7 @@ GSF_DYNAMIC_CLASS (GogXYPlot, gog_xy_plot,
 
 static GogObjectClass *bubble_parent_klass;
 
-#define GOG_BUBBLE_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_BUBBLE_PLOT_TYPE, GogBubblePlotClass))
+#define GOG_BUBBLE_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_BUBBLE_PLOT, GogBubblePlotClass))
 
 static void gog_bubble_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max);
 
@@ -595,7 +595,7 @@ enum {
 
 static GogObjectClass *map_parent_klass;
 
-#define GOG_XY_COLOR_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_XY_COLOR_PLOT_TYPE, GogXYColorPlotClass))
+#define GOG_XY_COLOR_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_XY_COLOR_PLOT, GogXYColorPlotClass))
 
 static void
 gog_xy_color_plot_clear_formats (GogXYColorPlot *map)
@@ -1302,16 +1302,16 @@ gog_xy_view_class_init (GogViewClass *view_klass)
 
 GSF_DYNAMIC_CLASS (GogXYView, gog_xy_view,
 	gog_xy_view_class_init, NULL,
-	GOG_PLOT_VIEW_TYPE)
+	GOG_TYPE_PLOT_VIEW)
 
 /*****************************************************************************/
 
 typedef GogView		GogXYSeriesView;
 typedef GogViewClass	GogXYSeriesViewClass;
 
-#define GOG_XY_SERIES_VIEW_TYPE	(gog_xy_series_view_get_type ())
-#define GOG_XY_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XY_SERIES_VIEW_TYPE, GogXYSeriesView))
-#define IS_GOG_XY_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XY_SERIES_VIEW_TYPE))
+#define GOG_TYPE_XY_SERIES_VIEW	(gog_xy_series_view_get_type ())
+#define GOG_XY_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XY_SERIES_VIEW, GogXYSeriesView))
+#define GOG_IS_XY_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XY_SERIES_VIEW))
 
 static void
 gog_xy_series_view_render (GogView *view, GogViewAllocation const *bbox)
@@ -1341,7 +1341,7 @@ gog_xy_series_view_class_init (GogXYSeriesViewClass *gview_klass)
 
 GSF_DYNAMIC_CLASS (GogXYSeriesView, gog_xy_series_view,
 	gog_xy_series_view_class_init, NULL,
-	GOG_VIEW_TYPE)
+	GOG_TYPE_VIEW)
 
 /*****************************************************************************/
 
@@ -1395,9 +1395,9 @@ vert_drop_lines_pre_remove (GogObject *parent, GogObject *child)
 
 typedef GogSeriesElement GogXYSeriesElement;
 typedef GogSeriesElementClass GogXYSeriesElementClass;
-#define GOG_XY_SERIES_ELEMENT_TYPE	(gog_xy_series_element_get_type ())
-#define GOG_XY_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XY_SERIES_ELEMENT_TYPE, GogXYSeriesElement))
-#define IS_GOG_XY_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XY_SERIES_ELEMENT_TYPE))
+#define GOG_TYPE_XY_SERIES_ELEMENT	(gog_xy_series_element_get_type ())
+#define GOG_XY_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XY_SERIES_ELEMENT, GogXYSeriesElement))
+#define GOG_IS_XY_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XY_SERIES_ELEMENT))
 GType gog_xy_series_element_get_type (void);
 
 static void
@@ -1426,7 +1426,7 @@ gog_xy_series_element_class_init (GogXYSeriesElementClass *klass)
 
 GSF_DYNAMIC_CLASS (GogXYSeriesElement, gog_xy_series_element,
 	gog_xy_series_element_class_init, NULL,
-	GOG_SERIES_ELEMENT_TYPE)
+	GOG_TYPE_SERIES_ELEMENT)
 
 /****************************************************************************/
 
@@ -1438,9 +1438,9 @@ typedef struct {
 
 typedef GogObjectClass GogXYInterpolationClampsClass;
 
-#define GOG_XY_INTERPOLATION_CLAMPS_TYPE	(gog_xy_interpolation_clamps_get_type ())
-#define GOG_XY_INTERPOLATION_CLAMPS(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XY_INTERPOLATION_CLAMPS_TYPE, GogXYInterpolationClamps))
-#define GOG_IS_XY_INTERPOLATION_CLAMPS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XY_INTERPOLATION_CLAMPS_TYPE))
+#define GOG_TYPE_XY_INTERPOLATION_CLAMPS	(gog_xy_interpolation_clamps_get_type ())
+#define GOG_XY_INTERPOLATION_CLAMPS(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_XY_INTERPOLATION_CLAMPS, GogXYInterpolationClamps))
+#define GOG_IS_XY_INTERPOLATION_CLAMPS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_XY_INTERPOLATION_CLAMPS))
 GType gog_xy_interpolation_clamps_get_type (void);
 
 static GObjectClass *interp_parent_klass;
@@ -1465,7 +1465,7 @@ static void
 gog_xy_interpolation_clamps_dataset_dim_changed (GogDataset *set, int dim_i)
 {
 	GogXYInterpolationClamps *clamps = GOG_XY_INTERPOLATION_CLAMPS (set);
-	clamps->series->clamped_derivs[dim_i] = (IS_GO_DATA_SCALAR ((clamps->derivs + dim_i)->data))?
+	clamps->series->clamped_derivs[dim_i] = (GO_IS_DATA_SCALAR ((clamps->derivs + dim_i)->data))?
 		go_data_scalar_get_value (GO_DATA_SCALAR ((clamps->derivs + dim_i)->data)): 0.;
 	gog_object_request_update (GOG_OBJECT (clamps->series));
 }
@@ -1505,8 +1505,8 @@ gog_xy_interpolation_clamps_init (GogXYInterpolationClamps *clamps)
 
 GSF_CLASS_FULL (GogXYInterpolationClamps, gog_xy_interpolation_clamps,
 		NULL, NULL, gog_xy_interpolation_clamps_class_init, NULL,
-		gog_xy_interpolation_clamps_init, GOG_OBJECT_TYPE, 0,
-		GSF_INTERFACE (gog_xy_interpolation_clamps_dataset_init, GOG_DATASET_TYPE))
+		gog_xy_interpolation_clamps_init, GOG_TYPE_OBJECT, 0,
+		GSF_INTERFACE (gog_xy_interpolation_clamps_dataset_init, GOG_TYPE_DATASET))
 
 /****************************************************************************/
 
@@ -1548,7 +1548,7 @@ gog_xy_series_update (GogObject *obj)
 
 	/* update children */
 	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
-		if (!IS_GOG_SERIES_LINES (ptr->data))
+		if (!GOG_IS_SERIES_LINES (ptr->data))
 			gog_object_request_update (GOG_OBJECT (ptr->data));
 
 	/* queue plot for redraw */
@@ -1569,7 +1569,7 @@ gog_xy_series_init (GObject *obj)
 	(GOG_SERIES (series))->acceptable_children = GOG_SERIES_ACCEPT_TREND_LINE;
 	series->x_errors = series->y_errors = NULL;
 	series->hdroplines = series->vdroplines = NULL;
-	series->interpolation_props = g_object_new (GOG_XY_INTERPOLATION_CLAMPS_TYPE, NULL);
+	series->interpolation_props = g_object_new (GOG_TYPE_XY_INTERPOLATION_CLAMPS, NULL);
 	GOG_XY_INTERPOLATION_CLAMPS (series->interpolation_props)->series = series;
 	gog_dataset_set_dim (series->interpolation_props, 0, go_data_scalar_val_new (0.), NULL);
 	gog_dataset_set_dim (series->interpolation_props, 1, go_data_scalar_val_new (0.), NULL);
@@ -1819,7 +1819,7 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 
 	series_klass->has_interpolation = TRUE;
 	series_klass->has_fill_type	= TRUE;
-	series_klass->series_element_type = GOG_XY_SERIES_ELEMENT_TYPE;
+	series_klass->series_element_type = GOG_TYPE_XY_SERIES_ELEMENT;
 	series_klass->get_interpolation_params = gog_xy_series_get_interpolation_params;
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
@@ -1828,13 +1828,13 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 		g_param_spec_object ("x-errors", 
 			_("X error bars"),
 			_("GogErrorBar *"),
-			GOG_ERROR_BAR_TYPE, 
+			GOG_TYPE_ERROR_BAR, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_YERRORS,
 		g_param_spec_object ("y-errors", 
 			_("Y error bars"),
 			_("GogErrorBar *"),
-			GOG_ERROR_BAR_TYPE, 
+			GOG_TYPE_ERROR_BAR, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_INVALID_AS_ZERO,
 		g_param_spec_boolean ("invalid-as-zero", 
@@ -1860,7 +1860,7 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 
 GSF_DYNAMIC_CLASS (GogXYSeries, gog_xy_series,
 	gog_xy_series_class_init, gog_xy_series_init,
-	GOG_SERIES_TYPE)
+	GOG_TYPE_SERIES)
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)

@@ -43,14 +43,14 @@ typedef enum {
 	GOG_SERIES_FILL_TYPE_INVALID
 } GogSeriesFillType;
 
-#define GOG_SERIES_ELEMENT_TYPE	(gog_series_element_get_type ())
-#define GOG_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_SERIES_ELEMENT_TYPE, GogSeriesElement))
-#define IS_GOG_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SERIES_ELEMENT_TYPE))
+#define GOG_TYPE_SERIES_ELEMENT	(gog_series_element_get_type ())
+#define GOG_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_SERIES_ELEMENT, GogSeriesElement))
+#define GOG_IS_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_SERIES_ELEMENT))
 GType gog_series_element_get_type (void);
 
-#define GOG_SERIES_TYPE		(gog_series_get_type ())
-#define GOG_SERIES(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_SERIES_TYPE, GogSeries))
-#define IS_GOG_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SERIES_TYPE))
+#define GOG_TYPE_SERIES		(gog_series_get_type ())
+#define GOG_SERIES(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_SERIES, GogSeries))
+#define GOG_IS_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_SERIES))
 
 GType gog_series_get_type (void);
 gboolean      gog_series_is_valid   (GogSeries const *series);

@@ -34,9 +34,9 @@ typedef enum {
 	GOG_GRID_TYPES
 } GogGridType;
 
-#define GOG_GRID_TYPE	(gog_grid_get_type ())
-#define GOG_GRID(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRID_TYPE, GogGrid))
-#define IS_GOG_GRID(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRID_TYPE))
+#define GOG_TYPE_GRID	(gog_grid_get_type ())
+#define GOG_GRID(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_GRID, GogGrid))
+#define GOG_IS_GRID(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_GRID))
 
 GType gog_grid_get_type (void);
 

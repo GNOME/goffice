@@ -40,7 +40,7 @@ god_drawing_new (void)
 {
 	GodDrawing *drawing;
 
-	drawing = g_object_new (GOD_DRAWING_TYPE, NULL);
+	drawing = g_object_new (GOD_TYPE_DRAWING, NULL);
 
 	return drawing;
 }

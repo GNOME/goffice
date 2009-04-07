@@ -39,9 +39,9 @@ enum {
 
 static GObjectClass *parent_klass;
 
-#define GOG_CONTROL_FOOCANVAS_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST ((k), GOG_CONTROL_FOOCANVAS_TYPE, GogControlFooCanvasClass))
-#define IS_GOG_CONTROL_FOOCANVAS_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), GOG_CONTROL_FOOCANVAS_TYPE))
-#define GOG_CONTROL_FOOCANVAS_GET_CLASS(k) (G_TYPE_INSTANCE_GET_CLASS ((k), GOG_CONTROL_FOOCANVAS_TYPE, GogControlFooCanvasClass))
+#define GOG_CONTROL_FOOCANVAS_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST ((k), GOG_TYPE_CONTROL_FOOCANVAS, GogControlFooCanvasClass))
+#define GOG_IS_CONTROL_FOOCANVAS_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), GOG_TYPE_CONTROL_FOOCANVAS))
+#define GOG_CONTROL_FOOCANVAS_GET_CLASS(k) (G_TYPE_INSTANCE_GET_CLASS ((k), GOG_TYPE_CONTROL_FOOCANVAS, GogControlFooCanvasClass))
 
 static void
 gog_control_foocanvas_set_property (GObject *gobject, guint param_id,
@@ -248,13 +248,13 @@ gog_control_foocanvas_class_init (GogControlFooCanvasClass *klass)
 		g_param_spec_object ("model",
 			_("Model"),
 			_("The GogObject this object displays"),
-			GOG_OBJECT_TYPE,
+			GOG_TYPE_OBJECT,
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, CTRL_FOO_PROP_RENDERER,
 		g_param_spec_object ("renderer",
 			_("Renderer"),
 			_("The GogRenderer being displayed"),
-			GOG_RENDERER_TYPE,
+			GOG_TYPE_RENDERER,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 

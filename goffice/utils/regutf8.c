@@ -283,7 +283,7 @@ go_search_replace_error_quark (void)
 /* ------------------------------------------------------------------------- */
 
 static void
-kill_compiled (GoSearchReplace *sr)
+kill_compiled (GOSearchReplace *sr)
 {
 	if (sr->comp_search) {
 		go_regfree (sr->comp_search);
@@ -295,7 +295,7 @@ kill_compiled (GoSearchReplace *sr)
 /* ------------------------------------------------------------------------- */
 
 static int
-go_search_replace_compile (GoSearchReplace *sr)
+go_search_replace_compile (GOSearchReplace *sr)
 {
 	const char *pattern;
 	char *tmp;
@@ -346,7 +346,7 @@ go_search_replace_compile (GoSearchReplace *sr)
  * Returns: %TRUE if  search-and-replace data is valid.
  **/
 gboolean
-go_search_replace_verify (GoSearchReplace *sr, gboolean repl, GError **err)
+go_search_replace_verify (GOSearchReplace *sr, gboolean repl, GError **err)
 {
 	int comp_err;
 	g_return_val_if_fail (sr != NULL, err ? ((*err = NULL), FALSE) : FALSE);
@@ -541,7 +541,7 @@ inspect_case (const char *p, const char *pend)
 
 
 static char *
-calculate_replacement (GoSearchReplace *sr, const char *src, const GORegmatch *pm)
+calculate_replacement (GOSearchReplace *sr, const char *src, const GORegmatch *pm)
 {
 	char *res;
 
@@ -625,7 +625,7 @@ calculate_replacement (GoSearchReplace *sr, const char *src, const GORegmatch *p
 /* ------------------------------------------------------------------------- */
 
 gboolean
-go_search_match_string (GoSearchReplace *sr, const char *src)
+go_search_match_string (GOSearchReplace *sr, const char *src)
 {
 	int flags = 0;
 
@@ -672,7 +672,7 @@ go_search_match_string (GoSearchReplace *sr, const char *src)
  * Returns NULL if nothing changed, or a g_malloc string otherwise.
  */
 char *
-go_search_replace_string (GoSearchReplace *sr, const char *src)
+go_search_replace_string (GOSearchReplace *sr, const char *src)
 {
 	int nmatch;
 	GORegmatch *pmatch;
@@ -773,7 +773,7 @@ go_search_replace_init (GObject *obj)
 static void
 go_search_replace_finalize (GObject *obj)
 {
-	GoSearchReplace *sr = (GoSearchReplace *)obj;
+	GOSearchReplace *sr = (GOSearchReplace *)obj;
 
 	kill_compiled (sr);
 	g_free (sr->search_text);
@@ -790,7 +790,7 @@ go_search_replace_get_property (GObject     *object,
 				GValue      *value,
 				GParamSpec  *pspec)
 {
-	GoSearchReplace *sr = (GoSearchReplace *)object;
+	GOSearchReplace *sr = (GOSearchReplace *)object;
 
 	switch (property_id) {
 	case PROP_SEARCH_TEXT:
@@ -820,7 +820,7 @@ go_search_replace_get_property (GObject     *object,
 /* ------------------------------------------------------------------------- */
 
 static void
-go_search_replace_set_search_text (GoSearchReplace *sr, const char *text)
+go_search_replace_set_search_text (GOSearchReplace *sr, const char *text)
 {
 	char *text_copy = g_strdup (text);
 	g_free (sr->search_text);
@@ -829,7 +829,7 @@ go_search_replace_set_search_text (GoSearchReplace *sr, const char *text)
 }
 
 static void
-go_search_replace_set_replace_text (GoSearchReplace *sr, const char *text)
+go_search_replace_set_replace_text (GOSearchReplace *sr, const char *text)
 {
 	char *text_copy = g_strdup (text);
 	g_free (sr->replace_text);
@@ -843,7 +843,7 @@ go_search_replace_set_property (GObject      *object,
 				GValue const *value,
 				GParamSpec   *pspec)
 {
-	GoSearchReplace *sr = (GoSearchReplace *)object;
+	GOSearchReplace *sr = (GOSearchReplace *)object;
 
 	switch (property_id) {
 	case PROP_SEARCH_TEXT:
@@ -944,5 +944,5 @@ go_search_replace_class_init (GObjectClass *gobject_class)
 
 /* ------------------------------------------------------------------------- */
 
-GSF_CLASS (GoSearchReplace, go_search_replace,
+GSF_CLASS (GOSearchReplace, go_search_replace,
 	   go_search_replace_class_init, go_search_replace_init, G_TYPE_OBJECT)

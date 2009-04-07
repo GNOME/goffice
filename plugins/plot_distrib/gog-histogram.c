@@ -33,9 +33,9 @@
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
-#define GOG_HISTOGRAM_PLOT_SERIES_TYPE	(gog_histogram_plot_series_get_type ())
-#define GOG_HISTOGRAM_PLOT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_HISTOGRAM_PLOT_SERIES_TYPE, GogHistogramPlotSeries))
-#define IS_GOG_HISTOGRAM_PLOT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_HISTOGRAM_PLOT_SERIES_TYPE))
+#define GOG_TYPE_HISTOGRAM_PLOT_SERIES	(gog_histogram_plot_series_get_type ())
+#define GOG_HISTOGRAM_PLOT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_HISTOGRAM_PLOT_SERIES, GogHistogramPlotSeries))
+#define GOG_IS_HISTOGRAM_PLOT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_HISTOGRAM_PLOT_SERIES))
 
 typedef struct {
 	GogSeries base;
@@ -207,7 +207,7 @@ gog_histogram_plot_init (GogHistogramPlot *hist)
 
 GSF_DYNAMIC_CLASS (GogHistogramPlot, gog_histogram_plot,
 	gog_histogram_plot_class_init, gog_histogram_plot_init,
-	GOG_PLOT_TYPE)
+	GOG_TYPE_PLOT)
 
 /*****************************************************************************/
 typedef GogPlotView		GogHistogramPlotView;
@@ -327,16 +327,16 @@ gog_histogram_plot_view_class_init (GogViewClass *view_klass)
 
 GSF_DYNAMIC_CLASS (GogHistogramPlotView, gog_histogram_plot_view,
 	gog_histogram_plot_view_class_init, NULL,
-	GOG_PLOT_VIEW_TYPE)
+	GOG_TYPE_PLOT_VIEW)
 
 /*****************************************************************************/
 
 typedef GogView		GogHistogramSeriesView;
 typedef GogViewClass	GogHistogramSeriesViewClass;
 
-#define GOG_HISTOGRAM_SERIES_VIEW_TYPE	(gog_histogram_series_view_get_type ())
-#define GOG_HISTOGRAM_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_HISTOGRAM_SERIES_VIEW_TYPE, GogHistogramSeriesView))
-#define IS_GOG_HISTOGRAM_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_HISTOGRAM_SERIES_VIEW_TYPE))
+#define GOG_TYPE_HISTOGRAM_SERIES_VIEW	(gog_histogram_series_view_get_type ())
+#define GOG_HISTOGRAM_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_HISTOGRAM_SERIES_VIEW, GogHistogramSeriesView))
+#define GOG_IS_HISTOGRAM_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_HISTOGRAM_SERIES_VIEW))
 
 static void
 gog_histogram_series_view_render (GogView *view, GogViewAllocation const *bbox)
@@ -366,7 +366,7 @@ gog_histogram_series_view_class_init (GogHistogramSeriesViewClass *gview_klass)
 
 GSF_DYNAMIC_CLASS (GogHistogramSeriesView, gog_histogram_series_view,
 	gog_histogram_series_view_class_init, NULL,
-	GOG_VIEW_TYPE)
+	GOG_TYPE_VIEW)
 
 /*****************************************************************************/
 
@@ -432,7 +432,7 @@ gog_histogram_plot_series_update (GogObject *obj)
 
 	/* update children */
 	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
-		if (!IS_GOG_SERIES_LINES (ptr->data))
+		if (!GOG_IS_SERIES_LINES (ptr->data))
 			gog_object_request_update (GOG_OBJECT (ptr->data));
 
 	/* queue plot for redraw */
@@ -508,4 +508,4 @@ gog_histogram_plot_series_init (GObject *obj)
 
 GSF_DYNAMIC_CLASS (GogHistogramPlotSeries, gog_histogram_plot_series,
 	gog_histogram_plot_series_class_init, gog_histogram_plot_series_init,
-	GOG_SERIES_TYPE)
+	GOG_TYPE_SERIES)

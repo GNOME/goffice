@@ -322,7 +322,7 @@ pixbuf_to_cairo (GOImage *image)
 #ifdef GOFFICE_WITH_GTK
 	unsigned char *src, *dst;
 
-	g_return_if_fail (IS_GO_IMAGE (image) && image->data && image->pixbuf);
+	g_return_if_fail (GO_IS_IMAGE (image) && image->data && image->pixbuf);
 
 	src = gdk_pixbuf_get_pixels (image->pixbuf);
 	dst = image->data;
@@ -339,7 +339,7 @@ cairo_to_pixbuf (GOImage *image)
 {
 	unsigned char *src, *dst;
 
-	g_return_if_fail (IS_GO_IMAGE (image) && image->data && image->pixbuf);
+	g_return_if_fail (GO_IS_IMAGE (image) && image->data && image->pixbuf);
 
 	dst = gdk_pixbuf_get_pixels (image->pixbuf);
 	src = image->data;
@@ -494,7 +494,7 @@ go_image_get_cairo (GOImage *image)
 	cairo_surface_t *surface ;
 	cairo_t *cairo;
 
-	g_return_val_if_fail (IS_GO_IMAGE (image), NULL);
+	g_return_val_if_fail (GO_IS_IMAGE (image), NULL);
 	if (image->data == NULL && image->pixbuf == NULL)
 		return NULL;
 	if (image->data == NULL) {
@@ -521,7 +521,7 @@ cairo_pattern_t *go_image_create_cairo_pattern (GOImage *image)
 	cairo_surface_t *surface ;
 	cairo_pattern_t *pat;
 
-	g_return_val_if_fail (IS_GO_IMAGE (image), NULL);
+	g_return_val_if_fail (GO_IS_IMAGE (image), NULL);
 	if (image->data == NULL && image->pixbuf == NULL)
 		return NULL;
 	if (image->data == NULL) {
@@ -546,7 +546,7 @@ cairo_pattern_t *go_image_create_cairo_pattern (GOImage *image)
 GOImage *
 go_image_new_from_pixbuf (GdkPixbuf *pixbuf)
 {
-	return g_object_new (GO_IMAGE_TYPE, "pixbuf", pixbuf, NULL);
+	return g_object_new (GO_TYPE_IMAGE, "pixbuf", pixbuf, NULL);
 }
 
 GdkPixbuf *
@@ -598,7 +598,7 @@ go_image_new_from_file (const char *filename, GError **error)
 #ifdef GOFFICE_WITH_GTK
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (filename, error);
 	if (pixbuf) {
-		GOImage *image = g_object_new (GO_IMAGE_TYPE,
+		GOImage *image = g_object_new (GO_TYPE_IMAGE,
 					       "pixbuf", pixbuf,
 					       NULL);
 		g_object_unref (pixbuf);
@@ -656,7 +656,7 @@ go_image_set_name (GOImage *image, char const *name)
 char const *
 go_image_get_name (GOImage *image)
 {
-	g_return_val_if_fail (IS_GO_IMAGE (image), NULL);
+	g_return_val_if_fail (GO_IS_IMAGE (image), NULL);
 	return image->name;
 }
 
@@ -666,8 +666,8 @@ go_image_same_pixbuf (GOImage *first, GOImage *second)
 #ifdef GOFFICE_WITH_GTK
 	void *pixels1, *pixels2;
 	int size;
-	g_return_val_if_fail (IS_GO_IMAGE (first), FALSE);
-	g_return_val_if_fail (IS_GO_IMAGE (second), FALSE);
+	g_return_val_if_fail (GO_IS_IMAGE (first), FALSE);
+	g_return_val_if_fail (GO_IS_IMAGE (second), FALSE);
 	if (!first->pixbuf)
 		go_image_get_pixbuf (first);
 	if (!second->pixbuf)
@@ -700,7 +700,7 @@ go_image_same_pixbuf (GOImage *first, GOImage *second)
 void
 go_image_save (GOImage *image, GsfXMLOut *output)
 {
-	g_return_if_fail (IS_GO_IMAGE (image) && image->name);
+	g_return_if_fail (GO_IS_IMAGE (image) && image->name);
 	gsf_xml_out_start_element (output, "GOImage");
 	gsf_xml_out_add_cstr (output, "name", image->name);
 	gsf_xml_out_add_int (output, "width", image->width);

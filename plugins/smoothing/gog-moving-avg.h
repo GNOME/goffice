@@ -33,9 +33,9 @@ typedef struct {
 } GogMovingAvg;
 typedef GogSmoothedCurveClass GogMovingAvgClass;
 
-#define GOG_MOVING_AVG_TYPE	(gog_moving_avg_get_type ())
-#define GOG_MOVING_AVG(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_MOVING_AVG_TYPE, GogMovingAvg))
-#define GOG_IS_MOVING_AVG(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_MOVING_AVG_TYPE))
+#define GOG_TYPE_MOVING_AVG	(gog_moving_avg_get_type ())
+#define GOG_MOVING_AVG(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_MOVING_AVG, GogMovingAvg))
+#define GOG_IS_MOVING_AVG(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_MOVING_AVG))
 
 GType gog_moving_avg_get_type (void);
 void gog_moving_avg_register_type (GTypeModule *module);

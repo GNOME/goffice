@@ -33,9 +33,9 @@ typedef struct  {
 	double separation;
 } GogPieSeriesElement;
 
-#define GOG_PIE_SERIES_ELEMENT_TYPE	(gog_pie_series_element_get_type ())
-#define GOG_PIE_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PIE_SERIES_ELEMENT_TYPE, GogPieSeriesElement))
-#define IS_GOG_PIE_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PIE_SERIES_ELEMENT_TYPE))
+#define GOG_TYPE_PIE_SERIES_ELEMENT	(gog_pie_series_element_get_type ())
+#define GOG_PIE_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_PIE_SERIES_ELEMENT, GogPieSeriesElement))
+#define GOG_IS_PIE_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_PIE_SERIES_ELEMENT))
 
 GType gog_pie_series_element_get_type (void);
 
@@ -48,9 +48,9 @@ typedef struct {
 	gboolean in_3d;
 } GogPiePlot;
 
-#define GOG_PIE_PLOT_TYPE	(gog_pie_plot_get_type ())
-#define GOG_PIE_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PIE_PLOT_TYPE, GogPiePlot))
-#define GOG_IS_PIE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PIE_PLOT_TYPE))
+#define GOG_TYPE_PIE_PLOT	(gog_pie_plot_get_type ())
+#define GOG_PIE_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_PIE_PLOT, GogPiePlot))
+#define GOG_IS_PIE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_PIE_PLOT))
 
 GType gog_pie_plot_get_type (void);
 
@@ -60,9 +60,9 @@ typedef struct {
 	float	 center_size;
 } GogRingPlot;
 
-#define GOG_RING_PLOT_TYPE	(gog_ring_plot_get_type ())
-#define GOG_RING_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RING_PLOT_TYPE, GogRingPlot))
-#define GOG_IS_RING_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RING_PLOT_TYPE))
+#define GOG_TYPE_RING_PLOT	(gog_ring_plot_get_type ())
+#define GOG_RING_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_RING_PLOT, GogRingPlot))
+#define GOG_IS_RING_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_RING_PLOT))
 
 GType gog_ring_plot_get_type (void);
 
@@ -76,9 +76,9 @@ typedef struct {
 	float	*extensions;
 } GogPieSeries;
 
-#define GOG_PIE_SERIES_TYPE	(gog_pie_series_get_type ())
-#define GOG_PIE_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PIE_SERIES_TYPE, GogPieSeries))
-#define GOG_IS_PIE_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PIE_SERIES_TYPE))
+#define GOG_TYPE_PIE_SERIES	(gog_pie_series_get_type ())
+#define GOG_PIE_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_PIE_SERIES, GogPieSeries))
+#define GOG_IS_PIE_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_PIE_SERIES))
 
 GType gog_pie_series_get_type (void);
 

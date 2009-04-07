@@ -29,9 +29,9 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
-#define GO_DATA_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GO_DATA_TYPE, GODataClass))
-#define IS_GO_DATA_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_DATA_TYPE))
-#define GO_DATA_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_DATA_TYPE, GODataClass))
+#define GO_DATA_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GO_TYPE_DATA, GODataClass))
+#define GO_IS_DATA_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_TYPE_DATA))
+#define GO_DATA_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_DATA, GODataClass))
 
 enum {
 	CHANGED,
@@ -209,13 +209,13 @@ go_data_emit_changed (GOData *dat)
 
 /*************************************************************************/
 
-#define GO_DATA_SCALAR_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GO_DATA_SCALAR_TYPE, GODataScalarClass))
-#define IS_GO_DATA_SCALAR_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_DATA_SCALAR_TYPE))
-#define GO_DATA_SCALAR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_DATA_SCALAR_TYPE, GODataScalarClass))
+#define GO_DATA_SCALAR_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GO_TYPE_DATA_SCALAR, GODataScalarClass))
+#define GO_IS_DATA_SCALAR_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_TYPE_DATA_SCALAR))
+#define GO_DATA_SCALAR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_DATA_SCALAR, GODataScalarClass))
 
 GSF_CLASS_ABSTRACT (GODataScalar, go_data_scalar,
 		    NULL, NULL,
-		    GO_DATA_TYPE)
+		    GO_TYPE_DATA)
 
 double
 go_data_scalar_get_value (GODataScalar *scalar)
@@ -235,9 +235,9 @@ go_data_scalar_get_str (GODataScalar *scalar)
 
 /*************************************************************************/
 
-#define GO_DATA_VECTOR_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GO_DATA_VECTOR_TYPE, GODataVectorClass))
-#define IS_GO_DATA_VECTOR_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_DATA_VECTOR_TYPE))
-#define GO_DATA_VECTOR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_DATA_VECTOR_TYPE, GODataVectorClass))
+#define GO_DATA_VECTOR_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GO_TYPE_DATA_VECTOR, GODataVectorClass))
+#define GO_IS_DATA_VECTOR_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_TYPE_DATA_VECTOR))
+#define GO_DATA_VECTOR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_DATA_VECTOR, GODataVectorClass))
 
 static void
 go_data_vector_emit_changed (GOData *data)
@@ -252,7 +252,7 @@ go_data_vector_class_init (GODataClass *klass)
 
 GSF_CLASS_ABSTRACT (GODataVector, go_data_vector,
 		    go_data_vector_class_init, NULL,
-		    GO_DATA_TYPE)
+		    GO_TYPE_DATA)
 
 int
 go_data_vector_get_len (GODataVector *vec)
@@ -361,9 +361,9 @@ go_data_vector_vary_uniformly (GODataVector *vec)
 
 /*************************************************************************/
 
-#define GO_DATA_MATRIX_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GO_DATA_MATRIX_TYPE, GODataMatrixClass))
-#define IS_GO_DATA_MATRIX_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_DATA_MATRIX_TYPE))
-#define GO_DATA_MATRIX_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_DATA_MATRIX_TYPE, GODataMatrixClass))
+#define GO_DATA_MATRIX_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GO_TYPE_DATA_MATRIX, GODataMatrixClass))
+#define GO_IS_DATA_MATRIX_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_TYPE_DATA_MATRIX))
+#define GO_DATA_MATRIX_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_DATA_MATRIX, GODataMatrixClass))
 
 static void
 go_data_matrix_emit_changed (GOData *data)
@@ -379,7 +379,7 @@ go_data_matrix_class_init (GODataClass *klass)
 
 GSF_CLASS_ABSTRACT (GODataMatrix, go_data_matrix,
 		    go_data_matrix_class_init, NULL,
-		    GO_DATA_TYPE)
+		    GO_TYPE_DATA)
 
 GODataMatrixSize
 go_data_matrix_get_size (GODataMatrix *mat)

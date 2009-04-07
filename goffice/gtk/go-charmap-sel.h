@@ -29,9 +29,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_CHARMAP_SEL_TYPE        (go_charmap_sel_get_type ())
-#define GO_CHARMAP_SEL(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), GO_CHARMAP_SEL_TYPE, GOCharmapSel))
-#define IS_GO_CHARMAP_SEL(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_CHARMAP_SEL_TYPE))
+#define GO_TYPE_CHARMAP_SEL        (go_charmap_sel_get_type ())
+#define GO_CHARMAP_SEL(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), GO_TYPE_CHARMAP_SEL, GOCharmapSel))
+#define GO_IS_CHARMAP_SEL(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_TYPE_CHARMAP_SEL))
 
 typedef struct _GOCharmapSel GOCharmapSel;
 

@@ -40,9 +40,9 @@ typedef struct {
 	const GODateConventions *date_conv;
 } GogPlotBoundInfo;
 
-#define GOG_PLOT_TYPE	(gog_plot_get_type ())
-#define GOG_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PLOT_TYPE, GogPlot))
-#define IS_GOG_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PLOT_TYPE))
+#define GOG_TYPE_PLOT	(gog_plot_get_type ())
+#define GOG_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_PLOT, GogPlot))
+#define GOG_IS_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_PLOT))
 
 GType	  gog_plot_get_type (void);
 GogPlot  *gog_plot_new_by_type	(GogPlotType const *type);

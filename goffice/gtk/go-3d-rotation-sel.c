@@ -445,28 +445,28 @@ go_3d_rotation_sel_get_matrix (GO3DRotationSel const *g3d, GOMatrix3x3 *mat)
 double
 go_3d_rotation_sel_get_psi (GO3DRotationSel const *g3d)
 {
-	g_return_val_if_fail (IS_GO_3D_ROTATION_SEL (g3d), 0);
+	g_return_val_if_fail (GO_IS_3D_ROTATION_SEL (g3d), 0);
 	return g3d->psi;
 }
 
 double
 go_3d_rotation_sel_get_theta (GO3DRotationSel const *g3d)
 {
-	g_return_val_if_fail (IS_GO_3D_ROTATION_SEL (g3d), 0);
+	g_return_val_if_fail (GO_IS_3D_ROTATION_SEL (g3d), 0);
 	return g3d->theta;
 }
 
 double
 go_3d_rotation_sel_get_phi (GO3DRotationSel const *g3d)
 {
-	g_return_val_if_fail (IS_GO_3D_ROTATION_SEL (g3d), 0);
+	g_return_val_if_fail (GO_IS_3D_ROTATION_SEL (g3d), 0);
 	return g3d->phi;
 }
 
 double
 go_3d_rotation_sel_get_fov (GO3DRotationSel const *g3d)
 {
-	g_return_val_if_fail (IS_GO_3D_ROTATION_SEL (g3d), 0);
+	g_return_val_if_fail (GO_IS_3D_ROTATION_SEL (g3d), 0);
 	return g3d->fov;
 }
 

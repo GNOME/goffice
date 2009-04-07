@@ -63,7 +63,7 @@ enum {
 gboolean
 gog_grid_line_is_minor (GogGridLine *ggl)
 {
-	g_return_val_if_fail (IS_GOG_GRID_LINE (ggl), FALSE);
+	g_return_val_if_fail (GOG_IS_GRID_LINE (ggl), FALSE);
 
 	return ggl->is_minor;
 }
@@ -134,15 +134,15 @@ gog_grid_line_class_init (GogGridLineClass *klass)
 
 GSF_CLASS (GogGridLine, gog_grid_line,
 	   gog_grid_line_class_init, NULL,
-	   GOG_STYLED_OBJECT_TYPE)
+	   GOG_TYPE_STYLED_OBJECT)
 
 /************************************************************************/
 
 typedef GogViewClass	GogGridLineViewClass;
 
-#define GOG_GRID_LINE_VIEW_TYPE		(gog_grid_line_view_get_type ())
-#define GOG_GRID_LINE_VIEW(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRID_LINE_VIEW_TYPE, GogGridLineView))
-#define IS_GOG_GRID_LINE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRID_LINE_VIEW_TYPE))
+#define GOG_TYPE_GRID_LINE_VIEW		(gog_grid_line_view_get_type ())
+#define GOG_GRID_LINE_VIEW(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_GRID_LINE_VIEW, GogGridLineView))
+#define GOG_IS_GRID_LINE_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_GRID_LINE_VIEW))
 
 static void
 gog_grid_line_xy_render (GogGridLine *grid_line, GogView *view,
@@ -916,4 +916,4 @@ gog_grid_line_view_render_lines (GogView *view)
 
 static GSF_CLASS (GogGridLineView, gog_grid_line_view,
 	   NULL /* gog_grid_line_view_class_init */, NULL,
-	   GOG_VIEW_TYPE)
+	   GOG_TYPE_VIEW)

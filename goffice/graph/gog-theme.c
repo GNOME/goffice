@@ -235,7 +235,7 @@ gog_theme_fillin_style (GogTheme const *theme,
 GogTheme *
 gog_theme_new (char const *name)
 {
-	GogTheme *theme = g_object_new (GOG_THEME_TYPE, NULL);
+	GogTheme *theme = g_object_new (GOG_TYPE_THEME, NULL);
 	theme->name = g_strdup (name);
 	return theme;
 }
@@ -296,7 +296,7 @@ gog_theme_add_element (GogTheme *theme, GogStyle *style,
 char const *
 gog_theme_get_name (GogTheme const *theme)
 {
-	g_return_val_if_fail (IS_GOG_THEME (theme), "");
+	g_return_val_if_fail (GOG_IS_THEME (theme), "");
 	return theme->name;
 }
 
@@ -418,7 +418,7 @@ map_area_series_solid_guppi (GogStyle *style, unsigned ind)
 void
 gog_theme_registry_add (GogTheme *theme, gboolean is_default)
 {
-	g_return_if_fail (IS_GOG_THEME (theme));
+	g_return_if_fail (GOG_IS_THEME (theme));
 
 	/* TODO: Check for duplicated names and for already
 	 * registered themes */

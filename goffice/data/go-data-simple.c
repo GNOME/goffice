@@ -130,12 +130,12 @@ go_data_scalar_val_class_init (GObjectClass *gobject_klass)
 
 GSF_CLASS (GODataScalarVal, go_data_scalar_val,
 	   go_data_scalar_val_class_init, NULL,
-	   GO_DATA_SCALAR_TYPE)
+	   GO_TYPE_DATA_SCALAR)
 
 GOData *
 go_data_scalar_val_new (double val)
 {
-	GODataScalarVal *res = g_object_new (GO_DATA_SCALAR_VAL_TYPE, NULL);
+	GODataScalarVal *res = g_object_new (GO_TYPE_DATA_SCALAR_VAL, NULL);
 	res->val = val;
 	return GO_DATA (res);
 }
@@ -241,12 +241,12 @@ go_data_scalar_str_init (GObject *obj)
 
 GSF_CLASS (GODataScalarStr, go_data_scalar_str,
 	   go_data_scalar_str_class_init, go_data_scalar_str_init,
-	   GO_DATA_SCALAR_TYPE)
+	   GO_TYPE_DATA_SCALAR)
 
 GOData *
 go_data_scalar_str_new (char const *str, gboolean needs_free)
 {
-	GODataScalarStr *res = g_object_new (GO_DATA_SCALAR_STR_TYPE, NULL);
+	GODataScalarStr *res = g_object_new (GO_TYPE_DATA_SCALAR_STR, NULL);
 	res->str	= str;
 	res->needs_free = needs_free;
 	return GO_DATA (res);
@@ -445,12 +445,12 @@ go_data_vector_val_class_init (GObjectClass *gobject_klass)
 
 GSF_CLASS (GODataVectorVal, go_data_vector_val,
 	   go_data_vector_val_class_init, NULL,
-	   GO_DATA_VECTOR_TYPE)
+	   GO_TYPE_DATA_VECTOR)
 
 GOData *
 go_data_vector_val_new (double *val, unsigned n, GDestroyNotify notify)
 {
-	GODataVectorVal *res = g_object_new (GO_DATA_VECTOR_VAL_TYPE, NULL);
+	GODataVectorVal *res = g_object_new (GO_TYPE_DATA_VECTOR_VAL, NULL);
 	res->val = val;
 	res->n = n;
 	res->notify = notify;
@@ -717,12 +717,12 @@ go_data_vector_str_init (GObject *obj)
 
 GSF_CLASS (GODataVectorStr, go_data_vector_str,
 	   go_data_vector_str_class_init, go_data_vector_str_init,
-	   GO_DATA_VECTOR_TYPE)
+	   GO_TYPE_DATA_VECTOR)
 
 GOData *
 go_data_vector_str_new (char const * const *str, unsigned n, GDestroyNotify notify)
 {
-	GODataVectorStr *res = g_object_new (GO_DATA_VECTOR_STR_TYPE, NULL);
+	GODataVectorStr *res = g_object_new (GO_TYPE_DATA_VECTOR_STR, NULL);
 	res->str = str;
 	res->n	 = n;
 	res->notify = notify;
@@ -996,12 +996,12 @@ go_data_matrix_val_class_init (GObjectClass *gobject_klass)
 
 GSF_CLASS (GODataMatrixVal, go_data_matrix_val,
 	   go_data_matrix_val_class_init, NULL,
-	   GO_DATA_MATRIX_TYPE)
+	   GO_TYPE_DATA_MATRIX)
 
 GOData *
 go_data_matrix_val_new (double *val, unsigned rows, unsigned columns, GDestroyNotify   notify)
 {
-	GODataMatrixVal *res = g_object_new (GO_DATA_MATRIX_VAL_TYPE, NULL);
+	GODataMatrixVal *res = g_object_new (GO_TYPE_DATA_MATRIX_VAL, NULL);
 	res->val = val;
 	res->size.rows = rows;
 	res->size.columns = columns;

@@ -27,9 +27,9 @@
 
 G_BEGIN_DECLS
 
-#define GO_DATA_TYPE	(go_data_get_type ())
-#define GO_DATA(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_DATA_TYPE, GOData))
-#define IS_GO_DATA(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_DATA_TYPE))
+#define GO_TYPE_DATA	(go_data_get_type ())
+#define GO_DATA(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_DATA, GOData))
+#define GO_IS_DATA(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_DATA))
 
 GType go_data_get_type (void);
 GOData	 *go_data_dup		(GOData const *src);
@@ -41,9 +41,9 @@ void	  go_data_emit_changed  (GOData *dat);
 
 /*************************************************************************/
 
-#define GO_DATA_SCALAR_TYPE	(go_data_scalar_get_type ())
-#define GO_DATA_SCALAR(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_DATA_SCALAR_TYPE, GODataScalar))
-#define IS_GO_DATA_SCALAR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_DATA_SCALAR_TYPE))
+#define GO_TYPE_DATA_SCALAR	(go_data_scalar_get_type ())
+#define GO_DATA_SCALAR(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_DATA_SCALAR, GODataScalar))
+#define GO_IS_DATA_SCALAR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_DATA_SCALAR))
 
 GType go_data_scalar_get_type (void);
 
@@ -52,9 +52,9 @@ char const *go_data_scalar_get_str    (GODataScalar *val);
 
 /*************************************************************************/
 
-#define GO_DATA_VECTOR_TYPE	(go_data_vector_get_type ())
-#define GO_DATA_VECTOR(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_DATA_VECTOR_TYPE, GODataVector))
-#define IS_GO_DATA_VECTOR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_DATA_VECTOR_TYPE))
+#define GO_TYPE_DATA_VECTOR	(go_data_vector_get_type ())
+#define GO_DATA_VECTOR(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_DATA_VECTOR, GODataVector))
+#define GO_IS_DATA_VECTOR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_DATA_VECTOR))
 
 GType go_data_vector_get_type (void);
 
@@ -69,9 +69,9 @@ gboolean go_data_vector_vary_uniformly (GODataVector *vec);
 
 /*************************************************************************/
 
-#define GO_DATA_MATRIX_TYPE	(go_data_matrix_get_type ())
-#define GO_DATA_MATRIX(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_DATA_MATRIX_TYPE, GODataMatrix))
-#define IS_GO_DATA_MATRIX(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_DATA_MATRIX_TYPE))
+#define GO_TYPE_DATA_MATRIX	(go_data_matrix_get_type ())
+#define GO_DATA_MATRIX(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_DATA_MATRIX, GODataMatrix))
+#define GO_IS_DATA_MATRIX(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_DATA_MATRIX))
 
 GType go_data_matrix_get_type (void);
 

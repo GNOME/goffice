@@ -162,7 +162,7 @@ go_path_clear (GOPath *path)
 {
 	GOPathDataBuffer *buffer;
 
-	g_return_if_fail (IS_GO_PATH (path));
+	g_return_if_fail (GO_IS_PATH (path));
 
 	if (path->data_buffer_head == NULL)
 		return;
@@ -211,7 +211,7 @@ go_path_free (GOPath *path)
 void
 go_path_set_options (GOPath *path, GOPathOptions options)
 {
-	g_return_if_fail (IS_GO_PATH (path));
+	g_return_if_fail (GO_IS_PATH (path));
 
 	path->options = options;
 }
@@ -219,7 +219,7 @@ go_path_set_options (GOPath *path, GOPathOptions options)
 GOPathOptions
 go_path_get_options (GOPath const *path)
 {
-	g_return_val_if_fail (IS_GO_PATH (path), 0);
+	g_return_val_if_fail (GO_IS_PATH (path), 0);
 
 	return path->options;
 }
@@ -231,7 +231,7 @@ go_path_add_points (GOPath *path, GOPathAction action,
 	GOPathDataBuffer *buffer = path->data_buffer_tail;
 	int i;
 
-	g_return_if_fail (IS_GO_PATH (path));
+	g_return_if_fail (GO_IS_PATH (path));
 
 	if (buffer->n_actions + 1 > GO_PATH_DEFAULT_BUFFER_SIZE
 	    || buffer->n_points + n_points > GO_PATH_DEFAULT_BUFFER_SIZE)
@@ -300,7 +300,7 @@ _ring_wedge (GOPath *path,
 	gboolean fill;
 	gboolean draw_in, ellipse = FALSE;
 
-	g_return_if_fail (IS_GO_PATH (path));
+	g_return_if_fail (GO_IS_PATH (path));
 
 	if (rx_out < rx_in) {
 		r = rx_out;

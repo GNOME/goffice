@@ -165,7 +165,7 @@ gog_log_fit_curve_init (GogRegCurve *model)
 
 GSF_DYNAMIC_CLASS (GogLogFitCurve, gog_log_fit_curve,
 	gog_log_fit_curve_class_init, gog_log_fit_curve_init,
-	GOG_REG_CURVE_TYPE)
+	GOG_TYPE_REG_CURVE)
 
 /* Plugin initialization */
 

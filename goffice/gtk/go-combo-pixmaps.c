@@ -128,7 +128,7 @@ go_combo_pixmaps_init (GOComboPixmaps *combo)
 static void
 go_combo_pixmaps_class_init (GObjectClass *gobject_class)
 {
-	go_combo_pixmaps_parent_class = g_type_class_ref (GO_COMBO_BOX_TYPE);
+	go_combo_pixmaps_parent_class = g_type_class_ref (GO_TYPE_COMBO_BOX);
 	gobject_class->finalize = go_combo_pixmaps_finalize;
 
 	go_combo_pixmaps_signals [CHANGED] =
@@ -143,7 +143,7 @@ go_combo_pixmaps_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GOComboPixmaps, go_combo_pixmaps,
 	   go_combo_pixmaps_class_init, go_combo_pixmaps_init,
-	   GO_COMBO_BOX_TYPE)
+	   GO_TYPE_COMBO_BOX)
 
 GOComboPixmaps *
 go_combo_pixmaps_new (int ncols)
@@ -152,7 +152,7 @@ go_combo_pixmaps_new (int ncols)
 
 	g_return_val_if_fail (ncols > 0, NULL);
 
-	combo = g_object_new (GO_COMBO_PIXMAPS_TYPE, NULL);
+	combo = g_object_new (GO_TYPE_COMBO_PIXMAPS, NULL);
 	combo->cols = ncols;
 	return combo;
 }
@@ -201,7 +201,7 @@ go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 	Element tmp;
 	int col, row;
 
-	g_return_if_fail (IS_GO_COMBO_PIXMAPS (combo));
+	g_return_if_fail (GO_IS_COMBO_PIXMAPS (combo));
 
 	/* Wrap inside a vbox with a border so that we can see the focus indicator */
 	box = gtk_vbox_new (FALSE, 0);
@@ -241,7 +241,7 @@ go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 gboolean
 go_combo_pixmaps_select_index (GOComboPixmaps *combo, int i)
 {
-	g_return_val_if_fail (IS_GO_COMBO_PIXMAPS (combo), FALSE);
+	g_return_val_if_fail (GO_IS_COMBO_PIXMAPS (combo), FALSE);
 	g_return_val_if_fail (0 <= i, FALSE);
 	g_return_val_if_fail (i < (int)combo->elements->len, FALSE);
 
@@ -257,7 +257,7 @@ go_combo_pixmaps_select_id (GOComboPixmaps *combo, int id)
 {
 	unsigned i;
 
-	g_return_val_if_fail (IS_GO_COMBO_PIXMAPS (combo), FALSE);
+	g_return_val_if_fail (GO_IS_COMBO_PIXMAPS (combo), FALSE);
 
 	for (i = 0 ; i < combo->elements->len ; i++)
 		if (g_array_index (combo->elements, Element, i).id == id)
@@ -277,7 +277,7 @@ go_combo_pixmaps_get_selected (GOComboPixmaps const *combo, int *index)
 {
 	Element *el;
 
-	g_return_val_if_fail (IS_GO_COMBO_PIXMAPS (combo), 0);
+	g_return_val_if_fail (GO_IS_COMBO_PIXMAPS (combo), 0);
 	el = &g_array_index (combo->elements, Element, combo->selected_index);
 
 	if (index != NULL)
@@ -288,7 +288,7 @@ go_combo_pixmaps_get_selected (GOComboPixmaps const *combo, int *index)
 GtkWidget *
 go_combo_pixmaps_get_preview (GOComboPixmaps const *combo)
 {
-	g_return_val_if_fail (IS_GO_COMBO_PIXMAPS (combo), NULL);
+	g_return_val_if_fail (GO_IS_COMBO_PIXMAPS (combo), NULL);
 	return combo->preview_button;
 }
 

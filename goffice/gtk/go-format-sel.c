@@ -1164,7 +1164,7 @@ set_format_category_menu_from_style (GOFormatSel *gfs)
 {
 	GOFormatFamily page;
 
-	g_return_if_fail (IS_GO_FORMAT_SEL (gfs));
+	g_return_if_fail (GO_IS_FORMAT_SEL (gfs));
 
 	/* Attempt to extract general parameters from the current format */
 	page = study_format (gfs);
@@ -1254,7 +1254,7 @@ nfs_init (GOFormatSel *gfs)
 
 	GtkWidget *tmp;
 	GtkTreeViewColumn *column;
-	GoComboText *combo;
+	GOComboText *combo;
 	char const *name;
 	int i;
 	GOFormatFamily page;
@@ -1507,7 +1507,7 @@ go_format_sel_new_full (gboolean use_markup)
 {
 	GOFormatSel *gfs;
 
-	gfs = g_object_new (GO_FORMAT_SEL_TYPE, NULL);
+	gfs = g_object_new (GO_TYPE_FORMAT_SEL, NULL);
 
 	if (gfs != NULL)
 		gfs->show_format_with_markup = use_markup;
@@ -1534,7 +1534,7 @@ go_format_sel_new (void)
 void
 go_format_sel_set_focus (GOFormatSel *gfs)
 {
-	g_return_if_fail (IS_GO_FORMAT_SEL (gfs));
+	g_return_if_fail (GO_IS_FORMAT_SEL (gfs));
 
 	gtk_widget_grab_focus (GTK_WIDGET (gfs->format.menu));
 }
@@ -1543,9 +1543,9 @@ void
 go_format_sel_set_style_format (GOFormatSel *gfs,
 				GOFormat *style_format)
 {
-	GoComboText *combo;
+	GOComboText *combo;
 
-	g_return_if_fail (IS_GO_FORMAT_SEL (gfs));
+	g_return_if_fail (GO_IS_FORMAT_SEL (gfs));
 	g_return_if_fail (style_format != NULL);
 
 	go_format_ref (style_format);
@@ -1570,7 +1570,7 @@ void
 go_format_sel_set_dateconv (GOFormatSel *gfs,
 			    GODateConventions const *date_conv)
 {
-	g_return_if_fail (IS_GO_FORMAT_SEL (gfs));
+	g_return_if_fail (GO_IS_FORMAT_SEL (gfs));
 	g_return_if_fail (date_conv != NULL);
 
 	/* FIXME is it safe ? */
@@ -1583,21 +1583,21 @@ go_format_sel_set_dateconv (GOFormatSel *gfs,
 GOFormat *
 go_format_sel_get_fmt (GOFormatSel *gfs)
 {
-	g_return_val_if_fail (IS_GO_FORMAT_SEL (gfs), NULL);
+	g_return_val_if_fail (GO_IS_FORMAT_SEL (gfs), NULL);
 	return gfs->format.spec;
 }
 
 GODateConventions const *
 go_format_sel_get_dateconv (GOFormatSel *gfs)
 {
-	g_return_val_if_fail (IS_GO_FORMAT_SEL (gfs), NULL);
+	g_return_val_if_fail (GO_IS_FORMAT_SEL (gfs), NULL);
 	return gfs->date_conv;
 }
 
 void
 go_format_sel_show_preview (GOFormatSel *gfs)
 {
-	g_return_if_fail (IS_GO_FORMAT_SEL (gfs));
+	g_return_if_fail (GO_IS_FORMAT_SEL (gfs));
 	gtk_widget_show (gfs->format.preview_box);
 	draw_format_preview (gfs, TRUE);
 }
@@ -1605,7 +1605,7 @@ go_format_sel_show_preview (GOFormatSel *gfs)
 void
 go_format_sel_hide_preview (GOFormatSel *gfs)
 {
-	g_return_if_fail (IS_GO_FORMAT_SEL (gfs));
+	g_return_if_fail (GO_IS_FORMAT_SEL (gfs));
 	gtk_widget_hide (gfs->format.preview_box);
 }
 
@@ -1613,7 +1613,7 @@ void
 go_format_sel_editable_enters (GOFormatSel *gfs,
 			       GtkWindow *window)
 {
-	g_return_if_fail (IS_GO_FORMAT_SEL (gfs));
+	g_return_if_fail (GO_IS_FORMAT_SEL (gfs));
 	go_gtk_editable_enters (window, gfs->format.widget[F_DECIMAL_SPIN]);
 	go_gtk_editable_enters (window, gfs->format.widget[F_ENTRY]);
 }

@@ -52,7 +52,7 @@ gog_trend_line_class_init (GogObjectClass *gog_klass)
 
 GSF_CLASS (GogTrendLine, gog_trend_line,
 	   gog_trend_line_class_init, NULL,
-	   GOG_STYLED_OBJECT_TYPE)
+	   GOG_TYPE_STYLED_OBJECT)
 
 GogTrendLine *
 gog_trend_line_new_by_type (GogTrendLineType const *type)

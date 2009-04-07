@@ -55,9 +55,9 @@ struct  _GogErrorBar{
 	GogStyle* style;
 };
 
-#define GOG_ERROR_BAR_TYPE		(gog_error_bar_get_type ())
-#define GOG_ERROR_BAR(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_ERROR_BAR_TYPE, GogErrorBar))
-#define IS_GOG_ERROR_BAR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_ERROR_BAR_TYPE))
+#define GOG_TYPE_ERROR_BAR		(gog_error_bar_get_type ())
+#define GOG_ERROR_BAR(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_ERROR_BAR, GogErrorBar))
+#define GOG_IS_ERROR_BAR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_ERROR_BAR))
 
 GType gog_error_bar_get_type (void);
 
