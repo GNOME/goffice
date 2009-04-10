@@ -25,6 +25,7 @@
 #include <glib-object.h>
 #include <goffice/utils/goffice-utils.h>
 #include <libxml/tree.h>
+#include <gsf/gsf-libxml.h>
 
 G_BEGIN_DECLS
 
@@ -46,6 +47,8 @@ void       xml_node_set_enum    (xmlNodePtr node, char const *name, GType etype,
 xmlNode *e_xml_get_child_by_name	 (xmlNode const *tree, char const *name);
 xmlNode *e_xml_get_child_by_name_no_lang (xmlNode const *tree, char const *name);
 xmlNode *e_xml_get_child_by_name_by_lang (xmlNode const *tree, char const *name);
+
+void	   go_xml_out_add_color (GsfXMLOut *out, char const *id, GOColor c);
 
 G_END_DECLS
 

@@ -52,7 +52,7 @@ struct  _GogErrorBar{
 	int error_i;
 	GogErrorBarDisplay display;
 	float width;
-	GogStyle* style;
+	GOStyle* style;
 };
 
 #define GOG_TYPE_ERROR_BAR		(gog_error_bar_get_type ())

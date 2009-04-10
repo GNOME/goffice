@@ -22,6 +22,8 @@
 #define GOG_THEME_H
 
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/graph/goffice-graph.h>
+#include <goffice/utils/go-style.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
@@ -35,7 +37,7 @@ GType gog_theme_get_type (void);
 GogTheme   *gog_theme_new        	(char const *name);
 GogTheme   *gog_theme_new_from_file     (char const *name, char const *file);
 char const *gog_theme_get_name 		(GogTheme const *theme);
-void 	    gog_theme_fillin_style    	(GogTheme const *theme, GogStyle *style,
+void 	    gog_theme_fillin_style    	(GogTheme const *theme, GOStyle *style,
 				         GogObject const *obj, int ind,
 				         gboolean complete_overwrite);
 

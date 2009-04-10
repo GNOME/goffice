@@ -28,7 +28,10 @@ libgoffice_utils_la_SOURCES =	\
 	go-libxml-extras.c	\
 	go-pango-extras.c	\
 	go-persist.c	\
-	go-bezier.c
+	go-bezier.c		\
+	go-editor.c		\
+	go-style.c		\
+	go-styled-object.c
 
 libgoffice_utils_ladir = $(goffice_include_dir)/utils
 libgoffice_utils_la_HEADERS = 	\
@@ -54,7 +57,14 @@ libgoffice_utils_la_HEADERS = 	\
 	go-libxml-extras.h	\
 	go-pango-extras.h	\
 	go-persist.h	\
-	go-bezier.h
+	go-bezier.h		\
+	go-editor.h		\
+	go-style.h		\
+	go-styled-object.h
+
+gladedir = $(goffice_datadir)/glade
+dist_glade_DATA = \
+	go-style-prefs.glade
 
 CLEANFILES =			\
 	go-marshalers.h		\

@@ -23,7 +23,6 @@
 #include "gog-xy.h"
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-error-bar.h>
@@ -38,6 +37,8 @@
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #ifdef GOFFICE_WITH_GTK
@@ -382,10 +383,10 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 		};
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		plot_klass->desc.series.style_fields = GOG_STYLE_LINE 
-			| GOG_STYLE_FILL 
-			| GOG_STYLE_MARKER 
-			| GOG_STYLE_INTERPOLATION;
+		plot_klass->desc.series.style_fields = GO_STYLE_LINE 
+			| GO_STYLE_FILL 
+			| GO_STYLE_MARKER 
+			| GO_STYLE_INTERPOLATION;
 	}
 }
 
@@ -418,11 +419,11 @@ gog_bubble_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 extern gpointer gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc);
 static void
 gog_bubble_plot_populate_editor (GogObject *obj, 
-				 GogEditor *editor,
+				 GOEditor *editor,
 				 G_GNUC_UNUSED GogDataAllocator *dalloc,
 			GOCmdContext *cc)
 {
-	gog_editor_add_page (editor,
+	go_editor_add_page (editor,
 			     gog_bubble_plot_pref (GOG_BUBBLE_PLOT (obj), cc),
 			     _("Properties"));
 
@@ -551,7 +552,7 @@ gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 		};
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		plot_klass->desc.series.style_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+		plot_klass->desc.series.style_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
 	}
 }
 
@@ -675,7 +676,7 @@ hide_outliers_toggled_cb (GtkToggleButton *btn, GObject *obj)
 
 static void 
 gog_xy_color_plot_populate_editor (GogObject *obj,
-				   GogEditor *editor,
+				   GOEditor *editor,
 				   GogDataAllocator *dalloc,
 				   GOCmdContext *cc)
 {
@@ -697,7 +698,7 @@ gog_xy_color_plot_populate_editor (GogObject *obj,
 			"toggled",
 			G_CALLBACK (hide_outliers_toggled_cb), obj);
 		w = glade_xml_get_widget (gui, "gog-xy-color-prefs");
-		gog_editor_add_page (editor, w, _("Properties"));
+		go_editor_add_page (editor, w, _("Properties"));
 		g_object_unref (gui);
 	}
 
@@ -809,8 +810,8 @@ gog_xy_color_plot_class_init (GogPlotClass *plot_klass)
 		};
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER
-			| GOG_STYLE_INTERPOLATION |GOG_STYLE_MARKER_NO_COLOR;
+		plot_klass->desc.series.style_fields = GO_STYLE_LINE | GO_STYLE_MARKER
+			| GO_STYLE_INTERPOLATION |GO_STYLE_MARKER_NO_COLOR;
 	}
 	plot_klass->axis_set	      	= GOG_AXIS_SET_XY_COLOR;
 	plot_klass->axis_get_bounds   	= gog_xy_color_plot_axis_get_bounds;
@@ -867,8 +868,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogXYSeries const *series = NULL;
 	unsigned i ,j ,k ,n;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
-	GogStyle *neg_style = NULL;
-	GogStyle *style = NULL;
+	GOStyle *neg_style = NULL;
+	GOStyle *style = NULL;
 	GogViewAllocation const *area;
 	GOPath *path = NULL, *next_path = NULL;
 	GSList *ptr;
@@ -944,14 +945,14 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (n < 1)
 			continue;
 
-		style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
+		style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
 
-		show_marks = gog_style_is_marker_visible (style);
-		show_lines = gog_style_is_line_visible (style);
-		show_fill = gog_style_is_fill_visible (style);
+		show_marks = go_style_is_marker_visible (style);
+		show_lines = go_style_is_line_visible (style);
+		show_fill = go_style_is_fill_visible (style);
 
 		if (model->base.vary_style_by_element)
-			style = gog_style_dup (style);
+			style = go_style_dup (style);
 		gog_renderer_push_style (view->renderer, style);
 
 		if ((show_lines || show_fill) && !GOG_IS_BUBBLE_PLOT (model)) {
@@ -981,15 +982,15 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 					next_series = ptr->next->data;
 					if (gog_series_is_valid (GOG_SERIES (next_series))) {
-						GogStyle *next_style;
+						GOStyle *next_style;
 						const double *next_x_vals, *next_y_vals;
 						unsigned int next_n_points;
 
 						next_n_points = gog_series_get_xy_data
 							(GOG_SERIES (next_series),
 							 &next_x_vals, &next_y_vals);
-						next_style = gog_styled_object_get_style
-							(GOG_STYLED_OBJECT (next_series));
+						next_style = go_styled_object_get_style
+							(GO_STYLED_OBJECT (next_series));
 
 						next_path = gog_chart_map_make_path
 							(chart_map, next_x_vals, next_y_vals,
@@ -1032,7 +1033,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				break;
 			}
 			gog_renderer_push_style (view->renderer,
-				gog_styled_object_get_style (GOG_STYLED_OBJECT (series->hdroplines)));
+				go_styled_object_get_style (GO_STYLED_OBJECT (series->hdroplines)));
 			drop_path = go_path_new ();
 			go_path_set_options (drop_path, GO_PATH_OPTIONS_SHARP);
 			for (i = 0; i < n; i++) {
@@ -1079,7 +1080,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				break;
 			}
 			gog_renderer_push_style (view->renderer,
-				gog_styled_object_get_style (GOG_STYLED_OBJECT (series->vdroplines)));
+				go_styled_object_get_style (GO_STYLED_OBJECT (series->vdroplines)));
 			drop_path = go_path_new ();
 			go_path_set_options (drop_path, GO_PATH_OPTIONS_SHARP);
 			for (i = 0; i < n; i++) {
@@ -1114,8 +1115,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (show_negatives) {
 				zmin = fabs (zmin);
 				if (zmin > zmax) zmax = zmin;
-				neg_style = gog_style_dup (GOG_STYLED_OBJECT (series)->style);
-				neg_style->fill.type = GOG_FILL_STYLE_PATTERN;
+				neg_style = go_style_dup (GOG_STYLED_OBJECT (series)->style);
+				neg_style->fill.type = GO_STYLE_FILL_PATTERN;
 				neg_style->fill.pattern.pattern = GO_PATTERN_SOLID;
 				neg_style->fill.pattern.back = RGBA_WHITE;
 			}
@@ -1168,8 +1169,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 							gse = GOG_SERIES_ELEMENT (overrides->data);
 							overrides = overrides->next;
 							gog_renderer_push_style (view->renderer,
-								gog_styled_object_get_style (
-									GOG_STYLED_OBJECT (gse)));
+								go_styled_object_get_style (
+									GO_STYLED_OBJECT (gse)));
 					} else if (model->base.vary_style_by_element)
 						gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
 									model->base.index_num + i - 1, FALSE);
@@ -1246,7 +1247,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 							(GOG_SERIES_ELEMENT (overrides->data)->index == k)) {
 								gse = GOG_SERIES_ELEMENT (overrides->data);
 								overrides = overrides->next;
-								style = gog_styled_object_get_style (GOG_STYLED_OBJECT (gse));
+								style = go_styled_object_get_style (GO_STYLED_OBJECT (gse));
 								gog_renderer_push_style (view->renderer, style);
 						}
 						if (is_map) {
@@ -1401,16 +1402,16 @@ typedef GogSeriesElementClass GogXYSeriesElementClass;
 GType gog_xy_series_element_get_type (void);
 
 static void
-gog_xy_series_element_init_style (GogStyledObject *gso, GogStyle *style)
+gog_xy_series_element_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	GogSeries const *series = GOG_SERIES (GOG_OBJECT (gso)->parent);
-	GogStyle *parent_style;
+	GOStyle *parent_style;
 
 	g_return_if_fail (series != NULL);
 
-	parent_style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
-	if (parent_style->interesting_fields & GOG_STYLE_MARKER)
-		style->interesting_fields = parent_style->interesting_fields & (GOG_STYLE_MARKER | GOG_STYLE_MARKER_NO_COLOR);
+	parent_style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
+	if (parent_style->interesting_fields & GO_STYLE_MARKER)
+		style->interesting_fields = parent_style->interesting_fields & (GO_STYLE_MARKER | GO_STYLE_MARKER_NO_COLOR);
 	else
 		style->interesting_fields = parent_style->interesting_fields;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
@@ -1599,7 +1600,7 @@ gog_xy_series_finalize (GObject *obj)
 }
 
 static void
-gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
+gog_xy_series_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	GogSeries *series = GOG_SERIES (gso);
 
@@ -1618,7 +1619,7 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 			style->line.dash_type = GO_LINE_NONE;
 
 		if (!plot->default_style_has_fill && style->fill.auto_type)
-			style->fill.type = GOG_FILL_STYLE_NONE;
+			style->fill.type = GO_STYLE_FILL_NONE;
 
 		if (plot->use_splines)
 			series->interpolation = GO_LINE_INTERPOLATION_SPLINE;
@@ -1628,7 +1629,7 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 			style->line.dash_type = GO_LINE_NONE;
 
 		if (!plot->default_style_has_fill && style->fill.auto_type)
-			style->fill.type = GOG_FILL_STYLE_NONE;
+			style->fill.type = GO_STYLE_FILL_NONE;
 	}
 }
 
@@ -1729,7 +1730,7 @@ invalid_toggled_cb (GtkToggleButton *btn, GObject *obj)
 
 static void
 gog_xy_series_populate_editor (GogObject *obj,
-			       GogEditor *editor,
+			       GOEditor *editor,
 			       GogDataAllocator *dalloc,
 			       GOCmdContext *cc)
 {
@@ -1757,13 +1758,13 @@ gog_xy_series_populate_editor (GogObject *obj,
 		g_object_set_data_full (G_OBJECT (w),
 			"state", gui, (GDestroyNotify)g_object_unref);
 
-		gog_editor_add_page (editor, w, _("Details"));
+		go_editor_add_page (editor, w, _("Details"));
 	}
 
 	w = gog_error_bar_prefs (GOG_SERIES (obj), "x-errors", TRUE, dalloc, cc);
-	gog_editor_add_page (editor, w, _("X error bars"));
+	go_editor_add_page (editor, w, _("X error bars"));
 	w = gog_error_bar_prefs (GOG_SERIES (obj), "y-errors", FALSE, dalloc, cc);
-	gog_editor_add_page (editor, w, _("Y error bars"));
+	go_editor_add_page (editor, w, _("Y error bars"));
 }
 #endif
 

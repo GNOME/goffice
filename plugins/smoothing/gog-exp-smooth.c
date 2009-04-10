@@ -49,7 +49,7 @@ steps_changed_cb (GtkSpinButton *button, GObject *es)
 
 static void
 gog_exp_smooth_populate_editor (GogObject *obj, 
-				GogEditor *editor,
+				GOEditor *editor,
 				GogDataAllocator *dalloc,
 				GOCmdContext *cc)
 {
@@ -79,7 +79,7 @@ gog_exp_smooth_populate_editor (GogObject *obj,
 	g_object_set (G_OBJECT (label), "mnemonic-widget", w, NULL);
 	g_object_set_data_full (G_OBJECT (table),
 		"state", gui, (GDestroyNotify) g_object_unref);
-	gog_editor_add_page (editor, table, _("Properties"));
+	go_editor_add_page (editor, table, _("Properties"));
 
 	(GOG_OBJECT_CLASS (exp_smooth_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }

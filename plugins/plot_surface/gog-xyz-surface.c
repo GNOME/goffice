@@ -169,7 +169,7 @@ gog_xyz_surface_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 extern gpointer gog_xyz_surface_plot_pref (GogXYZPlot *plot, GOCmdContext *cc);
 static void
 gog_xyz_surface_plot_populate_editor (GogObject *item,
-				  GogEditor *editor,
+				  GOEditor *editor,
 				  G_GNUC_UNUSED GogDataAllocator *dalloc,
 				  GOCmdContext *cc)
 {
@@ -177,7 +177,7 @@ gog_xyz_surface_plot_populate_editor (GogObject *item,
 				plot_xyz_contour_parent_klass:
 				plot_xyz_surface_parent_klass;
 
-	gog_editor_add_page (editor,
+	go_editor_add_page (editor,
 			     gog_xyz_surface_plot_pref (GOG_XYZ_PLOT (item), cc),
 			     _("Properties"));
 	(GOG_OBJECT_CLASS (klass)->populate_editor) (item, editor, dalloc, cc);

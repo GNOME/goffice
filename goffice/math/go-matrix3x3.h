@@ -25,6 +25,8 @@
 
 #include <glib.h>
 
+G_BEGIN_DECLS
+
 typedef struct {
 	gdouble a11, a12, a13, a21, a22, a23, a31, a32, a33;
 } GOMatrix3x3;
@@ -44,5 +46,7 @@ void go_matrix3x3_to_euler (GOMatrix3x3 const *mat,
 
 void go_matrix3x3_multiply (GOMatrix3x3 *dest,
 				GOMatrix3x3 const *src1, GOMatrix3x3 const *src2);
+
+G_END_DECLS
 
 #endif /* GO_MATRIX3X3_H */

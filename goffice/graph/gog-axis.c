@@ -23,8 +23,6 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-axis-line-impl.h>
 #include <goffice/graph/gog-grid-line.h>
-#include <goffice/graph/gog-styled-object.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-data-allocator.h>
@@ -39,6 +37,8 @@
 #include <goffice/utils/datetime.h>
 #include <goffice/utils/go-persist.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 #include <goffice/data/go-data-simple.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -2139,7 +2139,7 @@ cb_rotation_changed (GtkSpinButton *spin, GogAxis *axis)
 
 static void
 gog_axis_populate_editor (GogObject *gobj,
-			  GogEditor *editor,
+			  GOEditor *editor,
 			  GogDataAllocator *dalloc,
 			  GOCmdContext *cc)
 {
@@ -2232,7 +2232,7 @@ gog_axis_populate_editor (GogObject *gobj,
 					 G_CALLBACK (cb_axis_toggle_changed), axis, 0);
 	}
 
-	gog_editor_add_page (editor,
+	go_editor_add_page (editor,
 			     glade_xml_get_widget (gui, "axis_pref_box"),
 			     _("Scale"));
 
@@ -2250,7 +2250,7 @@ gog_axis_populate_editor (GogObject *gobj,
 			    go_format_sel_set_style_format (GO_FORMAT_SEL (w),
 							    fmt);
 
-		    gog_editor_add_page (editor, w, _("Format"));
+		    go_editor_add_page (editor, w, _("Format"));
 
 		    gtk_widget_show (w);
 		    g_signal_connect (G_OBJECT (w),
@@ -2261,16 +2261,16 @@ gog_axis_populate_editor (GogObject *gobj,
 	g_object_set_data_full (G_OBJECT (w), "state", state,
 				(GDestroyNotify)gog_axis_pref_state_free);
 
-	gog_editor_set_store_page (editor, &axis_pref_page);
+	go_editor_set_store_page (editor, &axis_pref_page);
 }
 #endif
 
 static void
-gog_axis_init_style (GogStyledObject *gso, GogStyle *style)
+gog_axis_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	if (gog_axis_get_atype (GOG_AXIS (gso)) != GOG_AXIS_PSEUDO_3D)
-		style->interesting_fields = GOG_STYLE_LINE | GOG_STYLE_FONT |
-			GOG_STYLE_TEXT_LAYOUT;
+		style->interesting_fields = GO_STYLE_LINE | GO_STYLE_FONT |
+			GO_STYLE_TEXT_LAYOUT;
 	else
 		style->interesting_fields = 0;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
@@ -2755,7 +2755,7 @@ gog_axis_view_padding_request_3d (GogView *view, GogView *child,
 	GogViewAllocation label_pos;
 	GogViewAllocation tmp = *plot_area;
 	GogViewRequisition req, available;
-	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (child->model));
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (child->model));
 	double angle;
 
 	gog_axis_base_view_label_position_request (view, plot_area, &label_pos);

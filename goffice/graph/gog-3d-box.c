@@ -151,7 +151,7 @@ cb_g3d_change_phi (GO3DRotationSel *g3d, int angle, GObject *gobj)
 
 static void
 gog_3d_box_populate_editor (GogObject *gobj, 
-			  GogEditor *editor, 
+			  GOEditor *editor, 
 			  GogDataAllocator *dalloc, 
 			  GOCmdContext *cc)
 {
@@ -163,7 +163,7 @@ gog_3d_box_populate_editor (GogObject *gobj,
 	g3d = go_3d_rotation_sel_new ();
 	go_3d_rotation_sel_set_matrix (GO_3D_ROTATION_SEL (g3d), &box->mat);
 	go_3d_rotation_sel_set_fov (GO_3D_ROTATION_SEL (g3d), box->fov);
-	gog_editor_add_page (editor, g3d, _("Rotation"));
+	go_editor_add_page (editor, g3d, _("Rotation"));
 
 	gui = go_libglade_new ("gog-3d-box-prefs.glade", "gog_3d_box_prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
@@ -212,7 +212,7 @@ gog_3d_box_populate_editor (GogObject *gobj,
 	g_object_set_data_full (G_OBJECT (w),
 		"state", gui, (GDestroyNotify)g_object_unref);
 	
-	gog_editor_add_page (editor, w, _("Advanced"));
+	go_editor_add_page (editor, w, _("Advanced"));
 }
 
 #endif

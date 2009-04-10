@@ -23,6 +23,8 @@
 #ifndef GO_R_H
 #define GO_R_H
 
+G_BEGIN_DECLS
+
 double go_trunc (double);
 double go_dnorm (double x, double mu, double sigma, gboolean give_log);
 double go_pnorm (double x, double mu, double sigma, gboolean lower_tail, gboolean log_p);
@@ -56,5 +58,7 @@ long double go_pcauchyl (long double x, long double location, long double scale,
 long double go_qcauchyl (long double p, long double location, long double scale, gboolean lower_tail, gboolean log_p);
 
 #endif
+
+G_END_DECLS
 
 #endif /* GO_R_H */

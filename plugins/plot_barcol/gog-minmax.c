@@ -28,6 +28,7 @@
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-path.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-styled-object.h>
 #include <goffice/app/go-plugin.h>
 
 #include <glib/gi18n-lib.h>
@@ -54,7 +55,7 @@ typedef GogSeries1_5dClass	GogMinMaxSeriesClass;
 static GogStyledObjectClass *series_parent_klass;
 
 static void
-gog_minmax_series_init_style (GogStyledObject *gso, GogStyle *style)
+gog_minmax_series_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	GogSeries *series = GOG_SERIES (gso);
 	GogMinMaxPlot const *plot;
@@ -65,11 +66,11 @@ gog_minmax_series_init_style (GogStyledObject *gso, GogStyle *style)
 
 	plot = GOG_MINMAX_PLOT (series->plot);
 	if (!plot->default_style_has_markers) {
-		style->disable_theming |= GOG_STYLE_MARKER;
+		style->disable_theming |= GO_STYLE_MARKER;
 		if (style->marker.auto_shape) {
 			GOMarker *m = go_marker_new ();
 			go_marker_set_shape (m, GO_MARKER_NONE);
-			gog_style_set_marker (style, m);
+			go_style_set_marker (style, m);
 		}
 	}
 }
@@ -171,7 +172,7 @@ cb_gap_changed (GtkAdjustment *adj, GObject *minmax)
 
 static void
 gog_minmax_plot_populate_editor (GogObject *item,
-				 GogEditor *editor,
+				 GOEditor *editor,
 				 G_GNUC_UNUSED GogDataAllocator *dalloc,
 				 GOCmdContext *cc)
 {
@@ -196,7 +197,7 @@ gog_minmax_plot_populate_editor (GogObject *item,
 	g_object_set_data_full (G_OBJECT (w),
 		"state", gui, (GDestroyNotify)g_object_unref);
 
-	gog_editor_add_page (editor, w, _("Properties"));
+	go_editor_add_page (editor, w, _("Properties"));
 	(GOG_OBJECT_CLASS(gog_minmax_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
 #endif
@@ -255,7 +256,7 @@ gog_minmax_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
 	}
-	plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER;
+	plot_klass->desc.series.style_fields = GO_STYLE_LINE | GO_STYLE_MARKER;
 	plot_klass->axis_get_bounds   		= gog_minmax_axis_get_bounds;
 	plot_klass->series_type = gog_minmax_series_get_type ();
 
@@ -319,7 +320,7 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 	GOPath *path, *Mpath, *mpath;
 	GogObjectRole const *role = NULL;
 	GogSeriesLines *lines;
-	GogStyle * style;
+	GOStyle * style;
 	gboolean prec_valid;
 
 	if (num_elements <= 0 || num_series <= 0)
@@ -347,7 +348,7 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 		series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
-		style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
+		style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
 		x = offset;
 		min_vals = go_data_vector_get_values (
 			GO_DATA_VECTOR (series->base.values[1].data));
@@ -420,12 +421,12 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 			lines = GOG_SERIES_LINES (
 					gog_object_get_child_by_role (GOG_OBJECT (series), role));
 			gog_renderer_push_style (view->renderer,
-				gog_styled_object_get_style (GOG_STYLED_OBJECT (lines)));
+				go_styled_object_get_style (GO_STYLED_OBJECT (lines)));
 			gog_series_lines_stroke (lines, view->renderer, bbox, mpath, TRUE);
 			gog_series_lines_stroke (lines, view->renderer, bbox, Mpath, FALSE);
 			gog_renderer_pop_style (view->renderer);
 		}
-		if (gog_style_is_marker_visible (style))
+		if (go_style_is_marker_visible (style))
 			for (i = 0; i < j; i++) {
 				go_path_interpret (mpath, GO_PATH_DIRECTION_FORWARD,
 						   path_move_to,

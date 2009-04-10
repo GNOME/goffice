@@ -30,6 +30,7 @@
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-path.h>
+#include <goffice/utils/go-styled-object.h>
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
@@ -193,7 +194,7 @@ gog_histogram_plot_class_init (GogPlotClass *gog_plot_klass)
 	plot_klass->desc.num_series_max = 1;
 	plot_klass->series_type = gog_histogram_plot_series_get_type ();
 	plot_klass->axis_set = GOG_AXIS_SET_XY;
-	plot_klass->desc.series.style_fields	= GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+	plot_klass->desc.series.style_fields	= GO_STYLE_OUTLINE | GO_STYLE_FILL;
 	plot_klass->axis_get_bounds   		= gog_histogram_plot_axis_get_bounds;
 }
 
@@ -226,7 +227,7 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	unsigned i, j, nb;
 	GOPath *path ;
 	GSList *ptr;
-	GogStyle *style;
+	GOStyle *style;
 
 	if (model->base.series == NULL)
 		return;
@@ -272,7 +273,7 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		GOPath *drop_path = go_path_new ();
 		go_path_set_options (drop_path, GO_PATH_OPTIONS_SHARP);
 		gog_renderer_push_style (view->renderer,
-			gog_styled_object_get_style (GOG_STYLED_OBJECT (series->droplines)));
+			go_styled_object_get_style (GO_STYLED_OBJECT (series->droplines)));
 		cury = y0;
 		for (i = 1; i < series->base.num_elements; i++) {
 			curx = gog_axis_map_to_view (x_map, ((x_vals)? x_vals[i]: 0.));
@@ -482,9 +483,8 @@ gog_histogram_plot_series_class_init (GogObjectClass *obj_klass)
 			NULL },
 	};
 	GogSeriesClass *series_klass = (GogSeriesClass*) obj_klass;
-	GogStyledObjectClass *gso_klass = (GogStyledObjectClass*) obj_klass;
-	GogObjectClass *gog_klass = (GogObjectClass *)gso_klass;
-	GObjectClass *gobject_klass = (GObjectClass *) gso_klass;
+	GogObjectClass *gog_klass = (GogObjectClass *)obj_klass;
+	GObjectClass *gobject_klass = (GObjectClass *) obj_klass;
 
 	series_parent_klass = g_type_class_peek_parent (obj_klass);
 	gobject_klass->finalize		= gog_histogram_plot_series_finalize;

@@ -304,3 +304,11 @@ e_xml_get_child_by_name_by_lang (xmlNode const *parent, gchar const *name)
 
 	return best_node;
 }
+
+void
+go_xml_out_add_color (GsfXMLOut *output, char const *id, GOColor c)
+{
+	char *str = go_color_as_str (c);
+	gsf_xml_out_add_cstr_unchecked (output, id, str);
+	g_free (str);
+}

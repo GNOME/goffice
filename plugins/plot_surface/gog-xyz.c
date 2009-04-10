@@ -90,12 +90,12 @@ gog_xyz_plot_update_3d (GogPlot *plot)
 extern gpointer gog_xyz_plot_pref (GogXYZPlot *plot, GOCmdContext *cc);
 static void
 gog_xyz_plot_populate_editor (GogObject *item,
-				  GogEditor *editor,
+				  GOEditor *editor,
 				  G_GNUC_UNUSED GogDataAllocator *dalloc,
 				  GOCmdContext *cc)
 {
 	if (!GOG_XYZ_PLOT (item)->data_xyz) 
-		gog_editor_add_page (editor,
+		go_editor_add_page (editor,
 				     gog_xyz_plot_pref (GOG_XYZ_PLOT (item), cc),
 				     _("Properties"));
 
@@ -399,7 +399,7 @@ gog_xyz_plot_class_init (GogXYZPlotClass *klass)
 		};
 		gog_plot_klass->desc.series.dim = dimensions;
 		gog_plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		gog_plot_klass->desc.series.style_fields = GOG_STYLE_LINE;
+		gog_plot_klass->desc.series.style_fields = GO_STYLE_LINE;
 	}
 
 	/* Fill in GogPlotClass methods */
@@ -481,7 +481,7 @@ gog_xyz_series_update (GogObject *obj)
 }
 
 static void
-gog_xyz_series_init_style (GogStyledObject *gso, GogStyle *style)
+gog_xyz_series_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	series_parent_klass->init_style (gso, style);
 }

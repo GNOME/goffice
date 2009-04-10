@@ -26,6 +26,7 @@
 #include <goffice/utils/go-geometry.h>
 #include <goffice/utils/go-image.h>
 #include <goffice/utils/go-path.h>
+#include <goffice/utils/go-style.h>
 #include <glib-object.h>
 
 #include <gsf/gsf.h>
@@ -73,7 +74,6 @@ typedef enum
 #endif
 
 G_BEGIN_DECLS
-
 /* We need to define an hair line width for the svg and gnome_print renderer. 
  * 0.5 pt is approx. the dot size of a 150 dpi printer, if the plot is 
  * printed at scale 1:1 */
@@ -130,7 +130,7 @@ void  gog_renderer_get_text_OBR   (GogRenderer *rend, char const *text,
 void  gog_renderer_get_text_AABR  (GogRenderer *rend, char const *text,
 				   gboolean use_markup, GOGeometryAABR *aabr);
 
-void  gog_renderer_push_style     	(GogRenderer *rend, GogStyle const *style);
+void  gog_renderer_push_style     	(GogRenderer *rend, GOStyle const *style);
 void  gog_renderer_pop_style      	(GogRenderer *rend);
 
 void  gog_renderer_push_clip 	  	(GogRenderer *rend, GOPath const *path);

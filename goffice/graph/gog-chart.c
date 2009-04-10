@@ -26,7 +26,7 @@
 #include <goffice/graph/gog-3d-box.h>
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-graph-impl.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-axis-line-impl.h>
@@ -186,7 +186,7 @@ gog_chart_get_property (GObject *obj, guint param_id,
 
 static void
 gog_chart_populate_editor (GogObject *gobj, 
-			   GogEditor *editor, 
+			   GOEditor *editor, 
 			   G_GNUC_UNUSED GogDataAllocator *dalloc, 
 			   GOCmdContext *cc)
 {
@@ -194,7 +194,7 @@ gog_chart_populate_editor (GogObject *gobj,
 
 	(GOG_OBJECT_CLASS(chart_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
-	gog_editor_set_store_page (editor, &chart_pref_page);
+	go_editor_set_store_page (editor, &chart_pref_page);
 }
 
 static void

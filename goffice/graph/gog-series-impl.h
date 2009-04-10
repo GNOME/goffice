@@ -26,7 +26,7 @@
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
@@ -42,7 +42,7 @@ typedef struct {
 
 	/* Virtuals */
 	gpointer (*gse_populate_editor) (GogObject *gobj,
-					 GogEditor *editor,
+					 GOEditor *editor,
 					 GOCmdContext *cc);
 } GogSeriesElementClass;
 

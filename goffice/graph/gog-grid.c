@@ -24,8 +24,8 @@
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-chart-map-3d.h>
-#include <goffice/graph/gog-styled-object.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-styled-object.h>
+#include <goffice/utils/go-style.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-renderer.h>
@@ -57,9 +57,9 @@ enum {
 };
 
 static void
-gog_grid_init_style (GogStyledObject *gso, GogStyle *style)
+gog_grid_init_style (GogStyledObject *gso, GOStyle *style)
 {
-	style->interesting_fields = GOG_STYLE_FILL | GOG_STYLE_OUTLINE;
+	style->interesting_fields = GO_STYLE_FILL | GO_STYLE_OUTLINE;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, FALSE);
 }

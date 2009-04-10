@@ -26,7 +26,6 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/data/go-data.h>
@@ -34,6 +33,8 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
@@ -61,13 +62,13 @@ typedef GogSeriesElementClass GogLineSeriesElementClass;
 GType gog_line_series_element_get_type (void);
 
 static void
-gog_line_series_element_init_style (GogStyledObject *gso, GogStyle *style)
+gog_line_series_element_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	GogSeries const *series = GOG_SERIES (GOG_OBJECT (gso)->parent);
 
 	g_return_if_fail (series != NULL);
 
-	style->interesting_fields = GOG_STYLE_MARKER;
+	style->interesting_fields = GO_STYLE_MARKER;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), GOG_SERIES_ELEMENT (gso)->index, FALSE);
 }
@@ -138,7 +139,7 @@ GType gog_line_series_get_type (void);
 #define GOG_IS_LINE_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_LINE_SERIES))
 
 static void
-gog_line_series_init_style (GogStyledObject *gso, GogStyle *style)
+gog_line_series_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	GogSeries *series = GOG_SERIES (gso);
 	GogLinePlot const *plot;
@@ -150,11 +151,11 @@ gog_line_series_init_style (GogStyledObject *gso, GogStyle *style)
 	plot = GOG_LINE_PLOT (series->plot);
 
 	if (!plot->default_style_has_markers) {
-		style->disable_theming |= GOG_STYLE_MARKER;
+		style->disable_theming |= GO_STYLE_MARKER;
 		if (style->marker.auto_shape) {
 			GOMarker *m = go_marker_new ();
 			go_marker_set_shape (m, GO_MARKER_NONE);
-			gog_style_set_marker (style, m);
+			go_style_set_marker (style, m);
 		}
 	}
 }
@@ -330,7 +331,7 @@ gog_line_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	gog_klass->type_name	= gog_line_plot_type_name;
 	gog_klass->view_type	= gog_line_view_get_type ();
 
-	plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER;
+	plot_klass->desc.series.style_fields = GO_STYLE_LINE | GO_STYLE_MARKER;
 	plot_klass->series_type = gog_line_series_get_type ();
 
 	gog_plot_1_5d_klass->update_stacked_and_percentage =
@@ -367,7 +368,7 @@ gog_area_plot_class_init (GogObjectClass *gog_klass)
 {
 	GogPlotClass *plot_klass = (GogPlotClass *) gog_klass;
 
-	plot_klass->desc.series.style_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+	plot_klass->desc.series.style_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
 	plot_klass->series_type = gog_series1_5d_get_type ();
 
 	gog_klass->type_name	= gog_area_plot_type_name;
@@ -418,7 +419,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	double **vals;
 	ErrorBarData **error_data;
-	GogStyle **styles;
+	GOStyle **styles;
 	unsigned *lengths;
 	GOPath **paths;
 	GOPath **drop_paths;
@@ -468,7 +469,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	vals    = g_alloca (num_series * sizeof (double *));
 	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
 	lengths = g_alloca (num_series * sizeof (unsigned));
-	styles  = g_alloca (num_series * sizeof (GogStyle *));
+	styles  = g_alloca (num_series * sizeof (GOStyle *));
 	paths	= g_alloca (num_series * sizeof (GOPath *));
 	if (!is_area_plot)
 		points  = g_alloca (num_series * sizeof (Point *));
@@ -668,7 +669,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	for (i = 0; i < num_series; i++)
 		if (lines[i] != NULL) {
 			gog_renderer_push_style (view->renderer,
-				gog_styled_object_get_style (GOG_STYLED_OBJECT (lines[i])));
+				go_styled_object_get_style (GO_STYLED_OBJECT (lines[i])));
 			gog_series_lines_stroke (lines[i], view->renderer, bbox, drop_paths[i], FALSE);
 			gog_renderer_pop_style (view->renderer);
 			go_path_free (drop_paths[i]);
@@ -714,8 +715,8 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 						gse = GOG_SERIES_ELEMENT (overrides->data);
 						overrides = overrides->next;
 						gog_renderer_push_style (view->renderer,
-							gog_styled_object_get_style (
-								GOG_STYLED_OBJECT (gse)));
+							go_styled_object_get_style (
+								GO_STYLED_OBJECT (gse)));
 				}
 				if (x_margin_min <= x && x <= x_margin_max &&
 				    y_margin_min <= y && y <= y_margin_max) 

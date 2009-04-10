@@ -35,171 +35,6 @@
 #include <goffice/gtk/goffice-gtk.h>
 #endif
 
-/*****************************************************************************/
-
-/**
- * gog_editor_new:
- *
- * Returns: a new GogEditor object, which is used to store a collection of
- * 	property edition widgets (pages). The returned object must be freed
- * 	using @gog_editor_free.
- **/
-GogEditor *
-gog_editor_new (void)
-{
-	GogEditor *editor = g_new (GogEditor, 1);
-
-	editor->store_page = NULL;
-	editor->pages = NULL;
-	g_datalist_init (&editor->registered_widgets);
-
-	return editor;
-}
-
-/**
- * gog_editor_free:
- * @editor: a #GogEditor
- *
- * Frees a GogEditor object.
- **/
-
-void
-gog_editor_free (GogEditor *editor)
-{
-	g_slist_foreach (editor->pages, (GFunc) g_free, NULL);
-	g_slist_free (editor->pages);
-	g_datalist_clear (&editor->registered_widgets);
-
-	g_free (editor);
-}
-
-/**
- * gog_editor_add_page:
- * @editor: a #GogEditor
- * @widget: property edition widget
- * @label: a label identifying the widget
- *
- * Adds a page to @editor.
- */
-
-void
-gog_editor_add_page (GogEditor *editor, gpointer widget, char const *label)
-{
-	GogEditorPage *page;
-
-	g_return_if_fail (editor != NULL);
-	page = g_new (GogEditorPage, 1);
-
-	page->widget = widget;
-	page->label = label;
-
-	editor->pages = g_slist_prepend (editor->pages, page);
-}
-
-/**
- * gog_editor_set_store_page:
- * @editor: a #GogEditor
- * @store_page: placeholder for the last selected page
- *
- * Sets a placeholder for storing the last active editor page.
- **/
-
-void
-gog_editor_set_store_page (GogEditor *editor, unsigned *store_page)
-{
-	g_return_if_fail (editor != NULL);
-
-	editor->store_page = store_page;
-}
-
-#ifdef GOFFICE_WITH_GTK
-
-/**
- * gog_editor_register_widget:
- * @editor: a #GogEditor
- * @widget: a #GtkWidget
- * 
- * Registers a widget that then can be retrieved later using 
- * @gog_editor_get_registered_widget. The main use of this function is to 
- * provide the ability to extend a page.
- **/
-void
-gog_editor_register_widget (GogEditor *editor, GtkWidget *widget)
-{
-	g_return_if_fail (editor != NULL);
-	g_return_if_fail (GTK_IS_WIDGET (widget));
-
-	g_datalist_set_data (&editor->registered_widgets, gtk_widget_get_name (widget), widget);
-}
-
-/**
- * gog_editor_get_registered_widget:
- * @editor: a #GogEditor
- * @name: the name of the registered widget
- *
- * Returns: a widget previously registered using @gog_editor_register_widget.
- **/
-GtkWidget *
-gog_editor_get_registered_widget (GogEditor *editor, char const *name)
-{
-	g_return_val_if_fail (editor != NULL, NULL);
-
-	return g_datalist_get_data (&editor->registered_widgets, name);
-}
-
-static void
-cb_switch_page (G_GNUC_UNUSED GtkNotebook *n, G_GNUC_UNUSED GtkNotebookPage *p,
-		guint page_num, guint *store_page)
-{
-		*store_page = page_num;
-}
-
-/**
- * gog_editor_get_notebook:
- * @editor: a #GogEditor
- *
- * Returns: a GtkNotebook from the widget collection stored in @editor.
- **/
-GtkWidget *
-gog_editor_get_notebook (GogEditor *editor)
-{
-	GtkWidget *notebook;
-	GogEditorPage *page;
-	GSList *ptr;
-	unsigned page_count = 0;
-
-	notebook = gtk_notebook_new ();
-	if (editor->pages != NULL) {
-		for (ptr = editor->pages; ptr != NULL; ptr = ptr->next) {
-			page = (GogEditorPage *) ptr->data;
-			gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
-						   GTK_WIDGET (page->widget),
-						   gtk_label_new (page->label));
-			gtk_widget_show (page->widget);
-			page_count ++;
-		}
-	} else {
-		/* Display a blank page */
-		GtkWidget *label =  gtk_label_new (NULL);
-		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
-					   label, NULL);
-		gtk_widget_show (label);
-		page_count = 1;
-	}
-
-	if (editor->store_page != NULL) {
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), *editor->store_page);
-		g_signal_connect (G_OBJECT (notebook),
-				  "switch_page",
-				  G_CALLBACK (cb_switch_page), editor->store_page);
-	} else
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
-
-	return notebook;
-}
-
-#endif
-
 typedef struct {
 	char const *label;
 	char const *value;
@@ -530,7 +365,7 @@ cb_update_editor (GogObject *gobj, ObjectPrefState *state)
 
 static void
 gog_object_populate_editor (GogObject *gobj, 
-			    GogEditor *editor, 
+			    GOEditor *editor, 
 			    G_GNUC_UNUSED GogDataAllocator *dalloc, 
 			    GOCmdContext *cc)
 {
@@ -692,7 +527,7 @@ gog_object_populate_editor (GogObject *gobj,
 	w = glade_xml_get_widget (gui, "gog_object_prefs");
 	g_object_set_data_full (G_OBJECT (w), "state", state, 
 				(GDestroyNotify) object_pref_state_free);  
-	gog_editor_add_page (editor, w, _("Position"));
+	go_editor_add_page (editor, w, _("Position"));
 }
 #endif
 
@@ -1428,12 +1263,12 @@ gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
 {
 #ifdef GOFFICE_WITH_GTK
 	GtkWidget *notebook;
-	GogEditor *editor;
+	GOEditor *editor;
 	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (obj);
 
 	g_return_val_if_fail (klass != NULL, NULL);
 
-	editor = gog_editor_new ();
+	editor = go_editor_new ();
 	if (klass->populate_editor) {
 		/* If there are pending updates do them before creating the editor
 		 * to avoid expensive widget changes later */
@@ -1441,9 +1276,9 @@ gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
 		(*klass->populate_editor) (obj, editor, dalloc, cc);
 	}
 
-	notebook = gog_editor_get_notebook (editor);
+	notebook = go_editor_get_notebook (editor);
 
-	gog_editor_free (editor);
+	go_editor_free (editor);
 
 	return notebook;
 #else

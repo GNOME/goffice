@@ -29,13 +29,14 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-theme.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/data/go-data.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>
@@ -179,11 +180,11 @@ gog_rt_plot_guru_helper (GogPlot *plot, char const *hint)
 {
 	if (strcmp (hint, "circular-no-line") == 0) {
 		GogAxis *axis = gog_plot_get_axis (plot, GOG_AXIS_CIRCULAR);
-		GogStyle *style;
+		GOStyle *style;
 
 		g_return_if_fail (GOG_AXIS (axis) != NULL);
 
-		style = gog_styled_object_get_style (GOG_STYLED_OBJECT (axis));
+		style = go_styled_object_get_style (GO_STYLED_OBJECT (axis));
 		style->line.dash_type = GO_LINE_NONE;
 		style->line.auto_dash = FALSE;
 	};
@@ -303,7 +304,7 @@ gog_radar_plot_class_init (GogPlotClass *gog_plot_klass)
 		};
 		gog_plot_klass->desc.series.dim = dimensions;
 		gog_plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		gog_plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER;
+		gog_plot_klass->desc.series.style_fields = GO_STYLE_LINE | GO_STYLE_MARKER;
 	}
 
 	gog_plot_klass->axis_get_bounds	= gog_radar_plot_axis_get_bounds;
@@ -338,7 +339,7 @@ gog_radar_area_plot_class_init (GogObjectClass *gog_klass)
 {
 	GogPlotClass *plot_klass = (GogPlotClass *) gog_klass;
 
-	plot_klass->desc.series.style_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+	plot_klass->desc.series.style_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
 
 	gog_klass->type_name	= gog_radar_area_plot_type_name;
 }
@@ -410,10 +411,10 @@ gog_polar_plot_class_init (GogPlotClass *gog_plot_klass)
 		};
 		gog_plot_klass->desc.series.dim = dimensions;
 		gog_plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		gog_plot_klass->desc.series.style_fields = GOG_STYLE_LINE 
-			| GOG_STYLE_FILL 
-			| GOG_STYLE_MARKER
-			| GOG_STYLE_INTERPOLATION;
+		gog_plot_klass->desc.series.style_fields = GO_STYLE_LINE 
+			| GO_STYLE_FILL 
+			| GO_STYLE_MARKER
+			| GO_STYLE_INTERPOLATION;
 	}
 
 	gog_plot_klass->series_type = gog_polar_series_get_type();
@@ -445,7 +446,7 @@ hide_outliers_toggled_cb (GtkToggleButton *btn, GObject *obj)
 
 static void 
 gog_color_polar_plot_populate_editor (GogObject *obj,
-				   GogEditor *editor,
+				   GOEditor *editor,
 				   GogDataAllocator *dalloc,
 				   GOCmdContext *cc)
 {
@@ -469,7 +470,7 @@ gog_color_polar_plot_populate_editor (GogObject *obj,
 		w = GTK_WIDGET (gtk_builder_get_object (gui, "gog-color-polar-prefs"));
 		gtk_widget_unparent (w);
 		g_object_ref (w);
-		gog_editor_add_page (editor, w, _("Properties"));
+		go_editor_add_page (editor, w, _("Properties"));
 		g_object_unref (gui);
 	}
 
@@ -614,10 +615,10 @@ gog_color_polar_plot_class_init (GogPlotClass *gog_plot_klass)
 		};
 		gog_plot_klass->desc.series.dim = dimensions;
 		gog_plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		gog_plot_klass->desc.series.style_fields = GOG_STYLE_LINE 
-			| GOG_STYLE_MARKER
-			| GOG_STYLE_INTERPOLATION
-			| GOG_STYLE_MARKER_NO_COLOR;
+		gog_plot_klass->desc.series.style_fields = GO_STYLE_LINE 
+			| GO_STYLE_MARKER
+			| GO_STYLE_INTERPOLATION
+			| GO_STYLE_MARKER_NO_COLOR;
 	}
 
 	gog_plot_klass->series_type     = gog_color_polar_series_get_type();
@@ -710,7 +711,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	for (ptr = model->base.series; ptr != NULL; ptr = ptr->next) {
 
 		GogRTSeries *series = GOG_RT_SERIES (ptr->data);
-		GogStyle *style, *color_style = NULL;
+		GOStyle *style, *color_style = NULL;
 		GOPath *path;
 		unsigned count;
 		double *r_vals, *c_vals, *z_vals = NULL;
@@ -727,7 +728,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 		c_vals = is_polar ?  go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data)) : NULL;
 		if (is_map) {
 			z_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[2].data));
-			color_style = gog_style_dup (style);
+			color_style = go_style_dup (style);
 		}
 
 		if (is_polar) {
@@ -771,15 +772,15 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 
 						next_series = ptr->next->data;
 						if (gog_series_is_valid (GOG_SERIES (next_series))) {
-							GogStyle *next_style;
+							GOStyle *next_style;
 							const double *next_x_vals, *next_y_vals;
 							unsigned int next_n_points;
 
 							next_n_points = gog_series_get_xy_data
 								(GOG_SERIES (next_series),
 								 &next_x_vals, &next_y_vals);
-							next_style = gog_styled_object_get_style
-								(GOG_STYLED_OBJECT (next_series));
+							next_style = go_styled_object_get_style
+								(GO_STYLED_OBJECT (next_series));
 
 							next_path = gog_chart_map_make_path
 								(chart_map, next_x_vals, next_y_vals,
@@ -799,7 +800,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 			unsigned int i;
 
 			gog_renderer_push_style (view->renderer,
-				gog_styled_object_get_style (GOG_STYLED_OBJECT (series->radial_drop_lines)));
+				go_styled_object_get_style (GO_STYLED_OBJECT (series->radial_drop_lines)));
 			drop_path = go_path_new ();
 			for (i = 0; i < series->base.num_elements; i++) {
 				gog_chart_map_2D_to_view (chart_map, ((c_vals != NULL) ? c_vals[i] : i+1),
@@ -824,7 +825,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (is_polar)
 			gog_renderer_pop_clip (view->renderer);
 
-		if (gog_style_is_marker_visible (style)) {
+		if (go_style_is_marker_visible (style)) {
 			for (count = 0; count < series->base.num_elements; count++) {
 				rho = (!is_polar || (go_add_epsilon (r_vals[count] - rho_min) >= 0.0)) ?
 					r_vals[count] : rho_min;
@@ -951,7 +952,7 @@ gog_rt_series_init (GObject *obj)
 }
 
 static void
-gog_rt_series_init_style (GogStyledObject *gso, GogStyle *style)
+gog_rt_series_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	GogSeries *series = GOG_SERIES (gso);
 	GogRTPlot const *plot;
@@ -966,7 +967,7 @@ gog_rt_series_init_style (GogStyledObject *gso, GogStyle *style)
 		go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 
 	if (!plot->default_style_has_fill && style->fill.auto_type)
-		style->fill.type = GOG_FILL_STYLE_NONE;
+		style->fill.type = GO_STYLE_FILL_NONE;
 }
 
 static void
@@ -1026,10 +1027,10 @@ GSF_DYNAMIC_CLASS (GogPolarSeries, gog_polar_series,
 /*****************************************************************************/
 
 static void
-gog_color_polar_series_init_style (GogStyledObject *gso, GogStyle *style)
+gog_color_polar_series_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	series_parent_klass->init_style (gso, style);
-	style->fill.type = GOG_FILL_STYLE_NONE;
+	style->fill.type = GO_STYLE_FILL_NONE;
 	if (style->line.auto_dash)
 		style->line.dash_type = GO_LINE_NONE;
 }

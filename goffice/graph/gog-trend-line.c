@@ -21,16 +21,17 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-trend-line.h"
+#include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/gog-plot-engine.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
+#include <goffice/utils/go-style.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
 static void
-gog_trend_line_init_style (GogStyledObject *gso, GogStyle *style)
+gog_trend_line_init_style (GogStyledObject *gso, GOStyle *style)
 {
-	style->interesting_fields = GOG_STYLE_LINE;
+	style->interesting_fields = GO_STYLE_LINE;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, FALSE);
 }

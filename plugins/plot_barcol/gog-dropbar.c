@@ -26,6 +26,7 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/math/go-math.h>
+#include <goffice/utils/go-styled-object.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
@@ -177,7 +178,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	unsigned num_series = gog_1_5d_model->num_series;
 	GSList *ptr;
 	unsigned n, tmp;
-	GogStyle *neg_style;
+	GOStyle *neg_style;
 	GOPath **path1, **path2;
 	GogObjectRole const *role = NULL;
 	GogSeriesLines **lines;
@@ -216,7 +217,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 		prec_valid = FALSE;
-		neg_style = gog_style_dup ((GOG_STYLED_OBJECT (series))->style);
+		neg_style = go_style_dup ((GOG_STYLED_OBJECT (series))->style);
 		neg_style->outline.color ^= 0xffffff00;
 		neg_style->fill.pattern.back ^= 0xffffff00;
 		neg_style->fill.pattern.fore ^= 0xffffff00;
@@ -299,7 +300,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	for (j = 0; j < num_series; j++)
 		if (path1[j] != NULL) {
 			gog_renderer_push_style (view->renderer,
-				gog_styled_object_get_style (GOG_STYLED_OBJECT (lines[j])));
+				go_styled_object_get_style (GO_STYLED_OBJECT (lines[j])));
 			gog_series_lines_stroke (lines[j], view->renderer, bbox, path1[j], TRUE);
 			gog_series_lines_stroke (lines[j], view->renderer, bbox, path2[j], FALSE);
 			gog_renderer_pop_style (view->renderer);

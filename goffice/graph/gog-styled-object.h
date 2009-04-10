@@ -23,23 +23,24 @@
 
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-object.h>
+#include <goffice/utils/goffice-utils.h>
 
 G_BEGIN_DECLS
 
 struct _GogStyledObject {
 	GogObject	base;
 
-	GogStyle	*style;
+	GOStyle	*style;
 };
 
 typedef struct {
 	GogObjectClass base;
 
 	/* virtual */
-	void	  (*init_style)     	(GogStyledObject *obj, GogStyle *style);
+	void	  (*init_style)     	(GogStyledObject *obj, GOStyle *style);
 
 	/* signal */
-	void (*style_changed) (GogStyledObject *obj, GogStyle const *new_style);
+	void (*style_changed) (GogStyledObject *obj, GOStyle const *new_style);
 } GogStyledObjectClass;
 
 #define GOG_TYPE_STYLED_OBJECT	(gog_styled_object_get_type ())
@@ -48,12 +49,6 @@ typedef struct {
 #define GOG_STYLED_OBJECT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_STYLED_OBJECT, GogStyledObjectClass))
 
 GType     gog_styled_object_get_type (void);
-
-gboolean  gog_styled_object_set_style 	   (GogStyledObject *gso, GogStyle *style);
-GogStyle *gog_styled_object_get_style	   (GogStyledObject *gso);
-GogStyle *gog_styled_object_get_auto_style (GogStyledObject *gso);
-void	  gog_styled_object_style_changed  (GogStyledObject *gso);
-void	  gog_styled_object_apply_theme	   (GogStyledObject *gso, GogStyle *style);
 
 G_END_DECLS
 

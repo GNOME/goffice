@@ -30,7 +30,6 @@
 G_BEGIN_DECLS
 
 void	   gog_object_set_arg	   (char const *name, char const *val, GogObject *obj);
-void	   go_xml_out_add_color (GsfXMLOut *out, char const *id, GOColor c);
 void	   gog_object_write_xml_sax(GogObject const *obj, GsfXMLOut *output);
 
 /* deprecated as soon as sax import works */

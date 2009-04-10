@@ -55,11 +55,11 @@ static GogObjectClass *probability_plot_parent_klass;
 #ifdef GOFFICE_WITH_GTK
 static void
 gog_probability_plot_populate_editor (GogObject *item,
-			      GogEditor *editor,
+			      GOEditor *editor,
 			      GogDataAllocator *dalloc,
 			      GOCmdContext *cc)
 {
-	gog_editor_add_page (editor, go_distribution_pref_new (G_OBJECT (item), dalloc, cc), _("Distribution"));
+	go_editor_add_page (editor, go_distribution_pref_new (G_OBJECT (item), dalloc, cc), _("Distribution"));
 	
 	(GOG_OBJECT_CLASS(probability_plot_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
@@ -267,7 +267,7 @@ gog_probability_plot_class_init (GogPlotClass *gog_plot_klass)
 	plot_klass->desc.num_series_max = 1;
 	plot_klass->series_type = gog_probability_plot_series_get_type ();
 	plot_klass->axis_set = GOG_AXIS_SET_XY;
-	plot_klass->desc.series.style_fields	= GOG_STYLE_MARKER;
+	plot_klass->desc.series.style_fields	= GO_STYLE_MARKER;
 	plot_klass->axis_get_bounds   		= gog_probability_plot_axis_get_bounds;
 #ifdef GOFFICE_WITH_GTK
 	gog_object_klass->populate_editor = gog_probability_plot_populate_editor;
@@ -358,7 +358,7 @@ gog_probability_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogViewAllocation const *area;
 	GogProbabilityPlotSeries const *series;
 	unsigned i, nb;
-	GogStyle *style;
+	GOStyle *style;
 
 	if (model->base.series == NULL)
 		return;
@@ -466,8 +466,7 @@ gog_probability_plot_series_finalize (GObject *obj)
 static void
 gog_probability_plot_series_class_init (GogObjectClass *obj_klass)
 {
-	GogStyledObjectClass *gso_klass = (GogStyledObjectClass*) obj_klass;
-	GObjectClass *gobject_klass = (GObjectClass *) gso_klass;
+	GObjectClass *gobject_klass = (GObjectClass *) obj_klass;
 
 	series_parent_klass = g_type_class_peek_parent (obj_klass);
 	gobject_klass->finalize		= gog_probability_plot_series_finalize;

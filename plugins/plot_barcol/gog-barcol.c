@@ -26,12 +26,13 @@
 #include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-series-lines.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/data/go-data.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
@@ -140,11 +141,11 @@ gog_barcol_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 extern gpointer gog_barcol_plot_pref (GogBarColPlot *barcol, GOCmdContext *cc);
 static void
 gog_barcol_plot_populate_editor (GogObject *item,
-				 GogEditor *editor,
+				 GOEditor *editor,
 			G_GNUC_UNUSED GogDataAllocator *dalloc,
 			GOCmdContext *cc)
 {
-	gog_editor_add_page (editor,
+	go_editor_add_page (editor,
 			     gog_barcol_plot_pref (GOG_BARCOL_PLOT (item), cc),
 			     _("Properties"));
 	(GOG_OBJECT_CLASS(gog_barcol_parent_klass)->populate_editor) (item, editor, dalloc, cc);
@@ -259,7 +260,7 @@ gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	gog_object_klass->populate_editor	= gog_barcol_plot_populate_editor;
 	gog_object_klass->view_type	= gog_barcol_view_get_type ();
 
-	plot_klass->desc.series.style_fields	= GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+	plot_klass->desc.series.style_fields	= GO_STYLE_OUTLINE | GO_STYLE_FILL;
 	plot_klass->series_type = gog_barcol_series_get_type ();
 	plot_klass->axis_get_bounds   		= gog_barcol_axis_get_bounds;
 
@@ -368,7 +369,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	unsigned num_elements = gog_1_5d_model->num_elements;
 	unsigned num_series = gog_1_5d_model->num_series;
 	GogPlot1_5dType const type = gog_1_5d_model->type;
-	GogStyle **styles;
+	GOStyle **styles;
 	ErrorBarData **error_data;
 	GogErrorBar **errors;
 	GogSeriesLines **lines;
@@ -400,7 +401,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	vals = g_alloca (num_series * sizeof (double *));
 	lengths = g_alloca (num_series * sizeof (unsigned));
-	styles = g_alloca (num_series * sizeof (GogStyle *));
+	styles = g_alloca (num_series * sizeof (GOStyle *));
 	errors = g_alloca (num_series * sizeof (GogErrorBar *));
 	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
 	lines = g_alloca (num_series * sizeof (GogSeriesLines *));
@@ -495,8 +496,8 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 					gse = GOG_SERIES_ELEMENT (overrides[j]->data);
 					overrides[j] = overrides[j]->next;
 					gog_renderer_push_style (view->renderer,
-						gog_styled_object_get_style (
-							GOG_STYLED_OBJECT (gse)));
+						go_styled_object_get_style (
+							GO_STYLED_OBJECT (gse)));
 			} else
 				gog_renderer_push_style (view->renderer, styles[j]);
 			barcol_draw_rect (rend, is_vertical, x_map, y_map, &work);

@@ -134,7 +134,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 {
 	unsigned i, j, nticks;
 	char *label;
-	GogStyle *style = gog_style_new ();
+	GOStyle *style = go_style_new ();
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
 	GogAxis *axis = plot->axis[GOG_AXIS_PSEUDO_3D];
 	GOColor *color;
@@ -163,10 +163,10 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 	}
 	g_object_unref (style);
 
-	style = gog_style_new ();
-	style->interesting_fields = GOG_STYLE_FILL;
-	style->disable_theming = GOG_STYLE_ALL;
-	style->fill.type = GOG_FILL_STYLE_PATTERN;
+	style = go_style_new ();
+	style->interesting_fields = GO_STYLE_FILL;
+	style->disable_theming = GO_STYLE_ALL;
+	style->fill.type = GO_STYLE_FILL_PATTERN;
 	style->fill.pattern.pattern = GO_PATTERN_SOLID;
 
 	if (gog_axis_is_inverted (axis)) {
@@ -259,7 +259,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	int k, kmax, r = 0, s, h;
 	unsigned i, imax, j, jmax;
 	GogRenderer *rend = view->renderer;
-	GogStyle *style;
+	GOStyle *style;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
 	double x0, x1, y0, y1;
 	GOPath *path, *lines;
@@ -326,7 +326,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 	cw = (x1 > x0) == (y1 > y0);
 
-	style = gog_style_new ();
+	style = go_style_new ();
 	path = go_path_new ();
 	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 	/* build the colors table */
@@ -343,10 +343,10 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_renderer_push_clip_rectangle (rend, view->residual.x, view->residual.y,
 					  view->residual.w, view->residual.h);
 
-	style = gog_style_new ();
-	style->interesting_fields = GOG_STYLE_FILL | GOG_STYLE_OUTLINE;
-	style->disable_theming = GOG_STYLE_ALL;
-	style->fill.type = GOG_FILL_STYLE_PATTERN;
+	style = go_style_new ();
+	style->interesting_fields = GO_STYLE_FILL | GO_STYLE_OUTLINE;
+	style->disable_theming = GO_STYLE_ALL;
+	style->fill.type = GO_STYLE_FILL_PATTERN;
 	style->fill.pattern.pattern = GO_PATTERN_SOLID;
 
 	lines = go_path_new ();

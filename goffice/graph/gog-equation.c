@@ -25,11 +25,14 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-outlined-object.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-equation.h>
 #include <goffice/utils/go-persist.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -79,7 +82,7 @@ cb_inline_mode_check_toggled (GtkToggleButton *button, GogEquation *equation)
 
 static void
 gog_equation_populate_editor (GogObject *obj,
-			      GogEditor *editor,
+			      GOEditor *editor,
 			      G_GNUC_UNUSED GogDataAllocator *dalloc,
 			      GOCmdContext *cc)
 {
@@ -104,17 +107,17 @@ gog_equation_populate_editor (GogObject *obj,
 
 	widget = glade_xml_get_widget (gui, "gog_equation_prefs");
 
-	gog_editor_add_page (editor, widget, _("Equation"));
+	go_editor_add_page (editor, widget, _("Equation"));
 
 	(GOG_OBJECT_CLASS(equation_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 
-	gog_editor_set_store_page (editor, &equation_pref_page);
+	go_editor_set_store_page (editor, &equation_pref_page);
 }
 
 #endif
 
 static void
-_update_equation_style (GogEquation *equation, const GogStyle *style)
+_update_equation_style (GogEquation *equation, const GOStyle *style)
 {
 	GMathmlStyle *math_style;
 	GMathmlMathElement *math_element;
@@ -233,7 +236,7 @@ gog_equation_update (GogObject *obj)
 		equation->mathml = mathml;
 
 		_update_equation_style (equation,
-					gog_styled_object_get_style (GOG_STYLED_OBJECT (equation)));
+					go_styled_object_get_style (GO_STYLED_OBJECT (equation)));
 	} else
 		g_object_unref (mathml);
 
@@ -285,18 +288,18 @@ gog_equation_get_property (GObject *obj, guint param_id,
 }
 
 static void
-gog_equation_style_changed (GogStyledObject *gso, GogStyle const *new_style)
+gog_equation_style_changed (GogStyledObject *gso, GOStyle const *new_style)
 {
 	_update_equation_style (GOG_EQUATION (gso), new_style);
 }
 
 static void
-gog_equation_init_style (GogStyledObject *gso, GogStyle *style)
+gog_equation_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	style->interesting_fields =
-		GOG_STYLE_OUTLINE |
-		GOG_STYLE_FILL |
-		GOG_STYLE_FONT;
+		GO_STYLE_OUTLINE |
+		GO_STYLE_FILL |
+		GO_STYLE_FONT;
 
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 				style, GOG_OBJECT (gso), 0, FALSE);

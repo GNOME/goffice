@@ -25,13 +25,13 @@
 #include "gog-plot-impl.h"
 #include "gog-object-xml.h"
 #include "gog-data-allocator.h"
-#include "gog-style.h"
 #include "gog-renderer.h"
 #include <goffice/data/go-data-impl.h>
 #include <goffice/data/go-data.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-path.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-style.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>
@@ -329,8 +329,8 @@ gog_error_bar_init (GogErrorBar* bar)
 	bar->type = GOG_ERROR_BAR_TYPE_NONE;
 	bar->display = GOG_ERROR_BAR_DISPLAY_BOTH;
 	bar->width = 5.;
-	bar->style = gog_style_new ();
-	bar->style->interesting_fields = GOG_STYLE_LINE;
+	bar->style = go_style_new ();
+	bar->style->interesting_fields = GO_STYLE_LINE;
 	bar->style->line.color = RGBA_BLACK;
 	bar->style->line.width = 1.;
 }
@@ -604,7 +604,7 @@ gog_error_bar_dup		(GogErrorBar const *bar)
 	dbar->display = bar->display;
 	dbar->width = bar->width;
 	if (dbar->style) g_object_unref (dbar->style);
-	dbar->style = gog_style_dup (bar->style);
+	dbar->style = go_style_dup (bar->style);
 	return dbar;
 }
 

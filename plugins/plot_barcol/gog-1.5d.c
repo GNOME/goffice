@@ -31,7 +31,7 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 #include <goffice/data/go-data.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-color.h>
@@ -559,7 +559,7 @@ gog_series1_5d_get_property (GObject *obj, guint param_id,
 #include <gtk/gtk.h>
 static void 
 gog_series1_5d_populate_editor (GogObject *obj,
-				GogEditor *editor,
+				GOEditor *editor,
 				GogDataAllocator *dalloc,
 				GOCmdContext *cc)
 {
@@ -577,7 +577,7 @@ gog_series1_5d_populate_editor (GogObject *obj,
 	else
 		g_object_get (G_OBJECT (series->plot), "horizontal", &horizontal, NULL);
 	error_page = gog_error_bar_prefs (series, "errors", horizontal, dalloc, cc);
-	gog_editor_add_page (editor, error_page, _("Error bars"));
+	go_editor_add_page (editor, error_page, _("Error bars"));
 }
 #endif
 

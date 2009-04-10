@@ -27,6 +27,7 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-path.h>
+#include <goffice/utils/go-styled-object.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
@@ -79,7 +80,7 @@ gog_surface_plot_class_init (GogSurfacePlotClass *klass)
 
 	/* Fill in GogPlotClass methods */
 	gog_plot_klass->axis_set = GOG_AXIS_SET_XYZ;
-	gog_plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_FILL;
+	gog_plot_klass->desc.series.style_fields = GO_STYLE_LINE | GO_STYLE_FILL;
 
 	gog_xyz_plot_klass->third_axis = GOG_AXIS_Z;
 	gog_xyz_plot_klass->build_matrix = gog_surface_plot_build_matrix;
@@ -128,7 +129,7 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 	int i, imax, j, jmax, max, nbvalid;
 	double x, y, z, x0, y0, x1, y1;
 	GogRenderer *rend = view->renderer;
-	GogStyle *style;
+	GOStyle *style;
 	double *data;
 	GODataVector *x_vec = NULL, *y_vec = NULL;
 	gboolean xdiscrete, ydiscrete;
@@ -168,7 +169,7 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 
 
-	style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
+	style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
 
 	/* Build the tiles list */
 	x_vec = gog_xyz_plot_get_x_vals (plot);

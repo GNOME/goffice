@@ -65,7 +65,7 @@ xl_xyz_series_update (GogObject *obj)
 }
 
 static void
-xl_xyz_series_init_style (GogStyledObject *gso, GogStyle *style)
+xl_xyz_series_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	series_parent_klass->init_style (gso, style);
 }

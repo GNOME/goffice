@@ -24,11 +24,12 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-theme.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/data/go-data.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <glib/gi18n-lib.h>
@@ -80,11 +81,11 @@ gog_pie_series_element_get_property (GObject *obj, guint param_id,
 extern gpointer gog_pie_series_element_pref (GogPieSeriesElement *element, GOCmdContext *cc);
 static gpointer
 gog_pie_series_element_populate_editor (GogObject *gobj,
-					GogEditor *editor,
+					GOEditor *editor,
 					GOCmdContext *cc)
 {
 	GtkWidget *widget = gog_pie_series_element_pref (GOG_PIE_SERIES_ELEMENT (gobj), cc);
-	gog_editor_add_page (editor, widget, _("Settings"));
+	go_editor_add_page (editor, widget, _("Settings"));
 	return widget;
 }
 #endif
@@ -197,11 +198,11 @@ gog_pie_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 extern gpointer gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc);
 static void
 gog_pie_plot_populate_editor (GogObject *item, 
-			      GogEditor *editor,
+			      GOEditor *editor,
 			      G_GNUC_UNUSED GogDataAllocator *dalloc,
 			      GOCmdContext *cc)
 {
-	gog_editor_add_page (editor, 
+	go_editor_add_page (editor, 
 			     gog_pie_plot_pref (GOG_PIE_PLOT (item), cc),
 			     _("Properties"));
 
@@ -263,7 +264,7 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 		};
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		plot_klass->desc.series.style_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+		plot_klass->desc.series.style_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
 	}
 	plot_klass->desc.num_series_max = 1;
 	plot_klass->series_type  = gog_pie_series_get_type ();
@@ -343,11 +344,11 @@ gog_ring_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 extern gpointer gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc);
 static void
 gog_ring_plot_populate_editor (GogObject *item,
-			       GogEditor *editor,
+			       GOEditor *editor,
 		      G_GNUC_UNUSED GogDataAllocator *dalloc,
 		      GOCmdContext *cc)
 {
-	gog_editor_add_page (editor,
+	go_editor_add_page (editor,
 			     gog_ring_plot_pref (GOG_RING_PLOT (item), cc),
 			     _("Properties"));
 }
@@ -374,7 +375,7 @@ gog_ring_plot_class_init (GogPiePlotClass *pie_plot_klass)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	plot_klass->desc.num_series_max = G_MAXINT;
-	plot_klass->desc.series.style_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+	plot_klass->desc.series.style_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
 }
 
 static void
@@ -557,7 +558,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	unsigned elem, k;
 	GOPath *path;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
-	GogStyle *style;
+	GOStyle *style;
 	GSList *ptr;
 	unsigned num_series = 0;
 	unsigned index;
@@ -583,7 +584,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	separation_max = .0;
 	outline_width_max = .0;
-	if ((style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series))))
+	if ((style = go_styled_object_get_style (GO_STYLED_OBJECT (series))))
 		outline_width_max = gog_renderer_line_size (view->renderer, style->outline.width);
 	for (overrides = gog_series_get_overrides (GOG_SERIES (series));
 	     overrides != NULL;
@@ -591,7 +592,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		separation = GOG_PIE_SERIES_ELEMENT (overrides->data)->separation;
 		if (separation_max < separation)
 			separation_max = separation;
-		style = gog_styled_object_get_style (GOG_STYLED_OBJECT (overrides->data));
+		style = go_styled_object_get_style (GO_STYLED_OBJECT (overrides->data));
 		if (outline_width_max < style->outline.width)
 			outline_width_max = style->outline.width;
 	}
@@ -721,7 +722,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		style = GOG_STYLED_OBJECT (series)->style;
 		if (model->base.vary_style_by_element)
-			style = gog_style_dup (style);
+			style = go_style_dup (style);
 		gog_renderer_push_style (view->renderer, style);
 
 		overrides = gog_series_get_overrides (GOG_SERIES (series));
@@ -740,8 +741,8 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 				gpse = GOG_PIE_SERIES_ELEMENT (overrides->data);
 				overrides = overrides->next;
 				gog_renderer_push_style (view->renderer,
-					gog_styled_object_get_style (
-						GOG_STYLED_OBJECT (gpse)));
+					go_styled_object_get_style (
+						GO_STYLED_OBJECT (gpse)));
 			} else if (model->base.vary_style_by_element)
 				gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
 							model->base.index_num + k, FALSE);

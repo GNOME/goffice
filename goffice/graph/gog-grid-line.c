@@ -27,8 +27,8 @@
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-style.h>
-#include <goffice/graph/gog-styled-object.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/data/go-data.h>
@@ -69,9 +69,9 @@ gog_grid_line_is_minor (GogGridLine *ggl)
 }
 
 static void
-gog_grid_line_init_style (GogStyledObject *gso, GogStyle *style)
+gog_grid_line_init_style (GogStyledObject *gso, GOStyle *style)
 {
-	style->interesting_fields = GOG_STYLE_LINE | GOG_STYLE_FILL;
+	style->interesting_fields = GO_STYLE_LINE | GO_STYLE_FILL;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, FALSE);
 }
@@ -843,7 +843,7 @@ gog_grid_line_view_render (GogView *view, gboolean stripes)
 	GogAxis *axis;
 	GogChart *chart;
 	GogView *chart_view;
-	GogStyle *style;
+	GOStyle *style;
 	GogAxisType axis_type;
 	GogAxisTick *ticks;
 	unsigned tick_nbr;
@@ -863,11 +863,11 @@ gog_grid_line_view_render (GogView *view, gboolean stripes)
 		return;
 
 	plot_area = gog_chart_view_get_plot_area (chart_view);
-	style = gog_styled_object_get_style (GOG_STYLED_OBJECT (grid_line));
+	style = go_styled_object_get_style (GO_STYLED_OBJECT (grid_line));
 	gog_renderer_push_style (view->renderer, style);
 
-	if ((!stripes && gog_style_is_line_visible (style)) ||
-	    (stripes && (style->fill.type != GOG_FILL_STYLE_NONE))) {
+	if ((!stripes && go_style_is_line_visible (style)) ||
+	    (stripes && (style->fill.type != GO_STYLE_FILL_NONE))) {
 		if (gog_chart_get_axis_set (chart) == GOG_AXIS_SET_XYZ) {
 			gog_grid_line_xyz_render (grid_line, view, axis,
 			                          ticks, tick_nbr, chart,

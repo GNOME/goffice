@@ -21,7 +21,6 @@ libgoffice_graph_la_SOURCES = \
 	gog-grid.c			\
 	gog-grid-line.c			\
 	\
-	gog-style.c			\
 	gog-theme.c			\
 	\
 	gog-plot.c			\
@@ -59,7 +58,6 @@ libgoffice_graph_la_HEADERS = \
 	gog-label.h			\
 	gog-grid.h			\
 	gog-grid-line.h			\
-	gog-style.h			\
 	gog-theme.h			\
 	gog-plot.h			\
 	gog-plot-impl.h			\
@@ -91,7 +89,6 @@ dist_glade_DATA = \
 	gog-object-prefs.glade		\
 	gog-graph-prefs.glade		\
 	gog-plot-prefs.glade		\
-	gog-style-prefs.glade		\
 	gog-axis-prefs.glade		\
 	gog-error-bar-prefs.glade	\
 	gog-reg-curve-prefs.glade	\

@@ -2,6 +2,7 @@ plugins/plot_barcol/plot-types.xml
 plugins/plot_distrib/plot-types.xml
 plugins/plot_pie/plot-types.xml
 plugins/plot_radar/plot-types.xml
+plugins/plot_radar/gog-color-polar-prefs.glade
 plugins/plot_surface/plot-types.xml
 plugins/plot_xy/plot-types.xml
 plugins/reg_linear/reg-types.xml

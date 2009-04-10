@@ -26,7 +26,7 @@
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-label.h>
 #include <goffice/graph/gog-outlined-object.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
@@ -104,12 +104,12 @@ gog_text_get_property (GObject *obj, guint param_id,
 }
 
 static void
-gog_text_init_style (GogStyledObject *gso, GogStyle *style)
+gog_text_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	GogObject *parent;
 
-	style->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL | 
-		GOG_STYLE_FONT | GOG_STYLE_TEXT_LAYOUT;
+	style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL | 
+		GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, FALSE);
 	
@@ -188,7 +188,7 @@ static GObjectClass *label_parent_klass;
 #ifdef GOFFICE_WITH_GTK
 static void
 gog_label_populate_editor (GogObject *gobj, 
-			   GogEditor *editor, 
+			   GOEditor *editor, 
 			   GogDataAllocator *dalloc, 
 			   GOCmdContext *cc)
 {
@@ -205,10 +205,10 @@ gog_label_populate_editor (GogObject *gobj,
 	gtk_container_add (GTK_CONTAINER (alignment), hbox);
 	gtk_widget_show_all (alignment);
 
-	gog_editor_add_page (editor, alignment, _("Data"));
+	go_editor_add_page (editor, alignment, _("Data"));
 	
 	(GOG_OBJECT_CLASS(label_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
-	gog_editor_set_store_page (editor, &label_pref_page);
+	go_editor_set_store_page (editor, &label_pref_page);
 }
 #endif
 
@@ -345,7 +345,7 @@ cb_text_visibility_changed (GtkToggleButton *button, GogObject *gobj)
 
 static void
 gog_reg_eqn_populate_editor (GogObject *gobj, 
-			     GogEditor *editor, 
+			     GOEditor *editor, 
 			     GogDataAllocator *dalloc, 
 			     GOCmdContext *cc)
 {
@@ -357,7 +357,7 @@ gog_reg_eqn_populate_editor (GogObject *gobj,
 	if (gui == NULL)
 		return;
 
-	gog_editor_add_page (editor, 
+	go_editor_add_page (editor, 
 			     glade_xml_get_widget (gui, "reg-eqn-prefs"),
 			     _("Details"));
 
@@ -477,14 +477,14 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogText *text = GOG_TEXT (view->model);
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (text);
-	GogStyle *style = text->base.base.style;
+	GOStyle *style = text->base.base.style;
 	char *str = gog_text_get_str (text);
 
 	gog_renderer_push_style (view->renderer, style);
 	if (str != NULL) {
 		double outline = gog_renderer_line_size (view->renderer, 
 							 goo->base.style->outline.width);
-		if (style->fill.type != GOG_FILL_STYLE_NONE || outline > 0.) {
+		if (style->fill.type != GO_STYLE_FILL_NONE || outline > 0.) {
 			GogViewAllocation rect;
 			GOGeometryAABR aabr;
 			double pad_x = gog_renderer_pt2r_x (view->renderer, goo->padding_pts);

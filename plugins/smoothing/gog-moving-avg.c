@@ -91,7 +91,7 @@ xavg_toggled_cb (GtkToggleButton *button, GObject *ma)
 
 static void
 gog_moving_avg_populate_editor (GogObject *obj, 
-				GogEditor *editor,
+				GOEditor *editor,
 				GogDataAllocator *dalloc,
 				GOCmdContext *cc)
 {
@@ -112,7 +112,7 @@ gog_moving_avg_populate_editor (GogObject *obj,
 	w = glade_xml_get_widget (gui, "mv-avg-prefs");
 	g_object_set_data_full (G_OBJECT (w),
 		"state", gui, (GDestroyNotify) g_object_unref);
-	gog_editor_add_page (editor, w, _("Properties"));
+	go_editor_add_page (editor, w, _("Properties"));
 
 	(GOG_OBJECT_CLASS (moving_avg_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }

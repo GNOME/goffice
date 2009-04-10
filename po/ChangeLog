@@ -1,3 +1,8 @@
+2009-04-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* POTFILES.in: updated file list.
+	* POTFILES.skip: ditto.
+
 2009-03-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* POTFILES.in: add new ui file.

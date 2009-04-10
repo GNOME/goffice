@@ -23,9 +23,11 @@
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-series-impl.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 #include "gog-series-lines.h"
 
 #include <gsf/gsf-impl-utils.h>
@@ -39,11 +41,11 @@ struct _GogSeriesLines {
 };
 
 static void
-gog_series_lines_init_style (GogStyledObject *gso, GogStyle *style)
+gog_series_lines_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	style->interesting_fields = (GOG_SERIES_LINES (gso)->use_markers)
-		? GOG_STYLE_LINE | GOG_STYLE_MARKER
-		: GOG_STYLE_LINE;
+		? GO_STYLE_LINE | GO_STYLE_MARKER
+		: GO_STYLE_LINE;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, FALSE);
 }
@@ -97,13 +99,13 @@ path_close_path (void *closure)
 void gog_series_lines_stroke (GogSeriesLines *lines, GogRenderer *rend, 
 		GogViewAllocation const *bbox, GOPath *path, gboolean invert)
 {
-	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (lines));
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (lines));
 
 	if (invert) {
 		GOMarker *marker;
 		GOColor color;
 		
-		style = gog_style_dup (style);
+		style = go_style_dup (style);
 		style->line.color ^= 0xffffff00;
 		marker = style->marker.mark;
 		color = go_marker_get_outline_color (marker);
@@ -113,7 +115,7 @@ void gog_series_lines_stroke (GogSeriesLines *lines, GogRenderer *rend,
 	}
 	gog_renderer_push_style (rend, style);
 	gog_renderer_stroke_serie (rend, path);
-	if ((style->interesting_fields & GOG_STYLE_MARKER) != 0)
+	if ((style->interesting_fields & GO_STYLE_MARKER) != 0)
 		go_path_interpret (path, GO_PATH_DIRECTION_FORWARD,
 				   path_move_to,
 				   path_move_to,

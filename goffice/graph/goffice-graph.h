@@ -61,7 +61,6 @@ typedef struct _Gog3DBox	Gog3DBox;
 
 /* formating */
 typedef struct _GogTheme	GogTheme;
-typedef struct _GogStyle	GogStyle;
 typedef GSList 			GogSeriesElementStyleList;
 
 /* Data */
@@ -85,7 +84,7 @@ typedef struct {
 	double wl, ht;
 } GogViewPadding;
 
-typedef void (*GogEnumFunc) (unsigned i, GogStyle *style,
+typedef void (*GogEnumFunc) (unsigned i, gpointer style,
 			     char const *name, gpointer data);
 
 typedef enum {

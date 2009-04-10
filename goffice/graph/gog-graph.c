@@ -24,10 +24,11 @@
 #include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-chart-impl.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-styled-object.h>
 #include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -189,7 +190,7 @@ cb_force_theme (GtkButton *button, GogGraph *graph)
 
 static void
 gog_graph_populate_editor (GogObject *gobj, 
-			   GogEditor *editor, 
+			   GOEditor *editor, 
 			   G_GNUC_UNUSED GogDataAllocator *dalloc, 
 			   GOCmdContext *cc)
 {
@@ -233,12 +234,12 @@ gog_graph_populate_editor (GogObject *gobj,
 		box = glade_xml_get_widget (gui, "gog_graph_prefs");
 		g_object_set_data_full (G_OBJECT (box), "gui", gui,
 					(GDestroyNotify)g_object_unref);
-		gog_editor_add_page (editor, box, _("Theme"));
+		go_editor_add_page (editor, box, _("Theme"));
 
 		g_slist_free (theme_names);	
 	}	     
 
-	gog_editor_set_store_page (editor, &graph_pref_page);
+	go_editor_set_store_page (editor, &graph_pref_page);
 }
 #endif
 
@@ -385,7 +386,7 @@ gog_graph_init (GogGraph *graph)
 	GOG_OBJECT (graph)->user_name = g_strdup (_("Graph"));
 	gog_theme_fillin_style (graph->theme,
 		gso->style, GOG_OBJECT (graph), 0, TRUE);
-	gog_styled_object_apply_theme (gso, gso->style);
+	go_styled_object_apply_theme (GO_STYLED_OBJECT (gso), gso->style);
 
 	graph->data_refs = g_hash_table_new (g_direct_hash, g_direct_equal);
 }
@@ -515,17 +516,17 @@ apply_theme (GogObject *object, GogTheme const *theme, gboolean force_auto)
 	for (ptr = object->children; ptr !=  NULL; ptr = ptr->next)
 		apply_theme (ptr->data, theme, force_auto);		
 
-	if (GOG_IS_STYLED_OBJECT (object)) {
-		GogStyledObject *styled_object = (GogStyledObject *) object;
-		GogStyle *style;
+	if (GO_IS_STYLED_OBJECT (object)) {
+		GOStyledObject *styled_object = (GOStyledObject *) object;
+		GOStyle *style;
 
-		style = gog_styled_object_get_style (styled_object);
+		style = go_styled_object_get_style (styled_object);
 		if (force_auto) 
 			/* FIXME: Some style settings are not themed yet,
 			 * such as font or fill type. */
-			gog_style_force_auto (style);
-		gog_styled_object_apply_theme (styled_object, style);
-		gog_styled_object_style_changed (styled_object);
+			go_style_force_auto (style);
+		go_styled_object_apply_theme (styled_object, style);
+		go_styled_object_style_changed (styled_object);
 		gog_object_emit_changed (object, TRUE);
 	}
 }

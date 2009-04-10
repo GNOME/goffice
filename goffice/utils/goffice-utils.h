@@ -26,14 +26,16 @@
 
 G_BEGIN_DECLS
 
-typedef guint32				GOColor;
+typedef guint32					GOColor;
 typedef struct _GOFont			GOFont;
-typedef struct _GOFontMetrics		GOFontMetrics;
+typedef struct _GOFontMetrics	GOFontMetrics;
 typedef struct _GOPattern		GOPattern;
 typedef struct _GOMarker		GOMarker;
 typedef struct _GOFormat		GOFormat;
 typedef struct _GODateConventions	GODateConventions;
-typedef struct _GOImage		GOImage;
+typedef struct _GOImage			GOImage;
+typedef struct _GOStyle			GOStyle;
+typedef struct _GOStyledObject	GOStyledObject;
 
 /* rename this */
 typedef struct _GOMemChunk		GOMemChunk;

@@ -25,7 +25,7 @@
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-chart-map.h>
@@ -154,11 +154,11 @@ gog_box_plot_pref (GogObject *obj,
 
 static void
 gog_box_plot_populate_editor (GogObject *item,
-			      GogEditor *editor,
+			      GOEditor *editor,
 			      G_GNUC_UNUSED GogDataAllocator *dalloc,
 			      GOCmdContext *cc)
 {
-	gog_editor_add_page (editor, gog_box_plot_pref (item, dalloc, cc), _("Properties"));
+	go_editor_add_page (editor, gog_box_plot_pref (item, dalloc, cc), _("Properties"));
 	
 	(GOG_OBJECT_CLASS(gog_box_plot_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
@@ -397,7 +397,7 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->series_type = gog_box_plot_series_get_type ();
 	plot_klass->axis_set = GOG_AXIS_SET_XY;
-	plot_klass->desc.series.style_fields	= GOG_STYLE_LINE | GOG_STYLE_FILL;
+	plot_klass->desc.series.style_fields	= GO_STYLE_LINE | GO_STYLE_FILL;
 	plot_klass->axis_get_bounds   		= gog_box_plot_axis_get_bounds;
 }
 
@@ -429,7 +429,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	double min, qu1, med, qu3, max;
 	GOPath *path;
 	GSList *ptr;
-	GogStyle *style;
+	GOStyle *style;
 	int num_ser = 1;
 
 	area = gog_chart_view_get_plot_area (view->parent);
@@ -467,7 +467,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (!gog_series_is_valid (GOG_SERIES (series)) ||
 			!go_data_vector_get_len (GO_DATA_VECTOR (series->base.values[0].data)))
 			continue;
-		style = gog_style_dup (GOG_STYLED_OBJECT (series)->style);
+		style = go_style_dup (GOG_STYLED_OBJECT (series)->style);
 		y = gog_axis_map_to_view (ser_map, num_ser);
 		gog_renderer_push_style (view->renderer, style);
 		if (model->outliers) {
@@ -626,7 +626,7 @@ gog_box_plot_series_update (GogObject *obj)
 }
 
 static void
-gog_box_plot_series_init_style (GogStyledObject *gso, GogStyle *style)
+gog_box_plot_series_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	((GogStyledObjectClass*) gog_box_plot_series_parent_klass)->init_style (gso, style);
 

@@ -24,10 +24,12 @@
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-theme.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 #include <goffice/graph/gog-error-bar.h>
 #include <goffice/data/go-data.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -80,8 +82,8 @@ static void
 gog_series_element_set_index (GogSeriesElement *gse, int ind)
 {
 	gse->index = ind;
-	gog_styled_object_apply_theme (&gse->base, gse->base.style);
-	gog_styled_object_style_changed (&gse->base);
+	go_styled_object_apply_theme (GO_STYLED_OBJECT (gse), gse->base.style);
+	go_styled_object_style_changed (GO_STYLED_OBJECT (gse));
 }
 
 static void
@@ -145,7 +147,7 @@ cb_index_changed (GtkSpinButton *spin_button, GogSeriesElement *element)
 
 static void
 gog_series_element_populate_editor (GogObject *gobj,
-				    GogEditor *editor,
+				    GOEditor *editor,
 			   GogDataAllocator *dalloc,
 			   GOCmdContext *cc)
 {
@@ -178,21 +180,21 @@ gog_series_element_populate_editor (GogObject *gobj,
 	gtk_widget_show_all (vbox);
 
 	if (gse_vbox == NULL)
-		gog_editor_add_page (editor, vbox, _("Settings"));
+		go_editor_add_page (editor, vbox, _("Settings"));
 
-	gog_editor_set_store_page (editor, &series_element_pref_page);
+	go_editor_set_store_page (editor, &series_element_pref_page);
 }
 #endif
 
 static void
-gog_series_element_init_style (GogStyledObject *gso, GogStyle *style)
+gog_series_element_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	GogSeries const *series = GOG_SERIES (GOG_OBJECT (gso)->parent);
-	GogStyle *parent_style;
+	GOStyle *parent_style;
 
 	g_return_if_fail (series != NULL);
 
-	parent_style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
+	parent_style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
 	style->interesting_fields = parent_style->interesting_fields;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), GOG_SERIES_ELEMENT (gso)->index, FALSE);
@@ -290,8 +292,8 @@ static void
 role_series_element_post_add (GogObject *parent, GogObject *child)
 {
 	GogSeries *series = GOG_SERIES (parent);
-	gog_styled_object_set_style (GOG_STYLED_OBJECT (child),
-		gog_styled_object_get_style (GOG_STYLED_OBJECT (parent)));
+	go_styled_object_set_style (GO_STYLED_OBJECT (child),
+		go_styled_object_get_style (GO_STYLED_OBJECT (parent)));
 	series->overrides = g_list_insert_sorted (series->overrides, child,
 		(GCompareFunc) element_compare);
 }
@@ -446,7 +448,7 @@ cb_fill_type_changed (GtkComboBox *combo, GObject *obj)
 
 static void
 gog_series_populate_editor (GogObject *gobj,
-			    GogEditor *editor,
+			    GOEditor *editor,
 		   GogDataAllocator *dalloc,
 		   GOCmdContext *cc)
 {
@@ -521,11 +523,11 @@ gog_series_populate_editor (GogObject *gobj,
 		0, 2, row, row+1, GTK_FILL, 0, 0, 0);
 	gtk_widget_show_all (GTK_WIDGET (table));
 
-	gog_editor_add_page (editor, GTK_WIDGET (table), _("Data"));
+	go_editor_add_page (editor, GTK_WIDGET (table), _("Data"));
 
 	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
-	box = gog_editor_get_registered_widget (editor, "line_box");
+	box = go_editor_get_registered_widget (editor, "line_box");
 	if (series_class->has_interpolation && box != NULL) {
 		GladeXML *gui;
 		GtkWidget *widget;
@@ -579,7 +581,7 @@ gog_series_populate_editor (GogObject *gobj,
 		}
 	}
 
-	box = gog_editor_get_registered_widget (editor, "fill_extension_box");
+	box = go_editor_get_registered_widget (editor, "fill_extension_box");
 	if (series_class->has_fill_type && box != NULL) {
 		GladeXML *gui;
 		GtkWidget *widget;
@@ -601,7 +603,7 @@ gog_series_populate_editor (GogObject *gobj,
 		}
 	}
 
-	gog_editor_set_store_page (editor, &series_pref_page);
+	go_editor_set_store_page (editor, &series_pref_page);
 }
 #endif
 
@@ -613,7 +615,7 @@ gog_series_update (GogObject *obj)
 }
 
 static void
-gog_series_init_style (GogStyledObject *gso, GogStyle *style)
+gog_series_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	GogSeries const *series = (GogSeries const *)gso;
 	style->interesting_fields = series->plot->desc.series.style_fields;
@@ -919,8 +921,8 @@ gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
 		return;
 
 	series->index = ind;
-	gog_styled_object_apply_theme (&series->base, series->base.style);
-	gog_styled_object_style_changed (GOG_STYLED_OBJECT (series));
+	go_styled_object_apply_theme (GO_STYLED_OBJECT (series), series->base.style);
+	go_styled_object_style_changed (GO_STYLED_OBJECT (series));
 }
 
 /**

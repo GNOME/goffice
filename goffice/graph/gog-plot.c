@@ -25,7 +25,6 @@
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object-xml.h>
@@ -33,6 +32,8 @@
 #include <goffice/data/go-data.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 #include <glib/gi18n-lib.h>
 
 #ifdef GOFFICE_WITH_GTK
@@ -251,7 +252,7 @@ cb_update_editor (GogObject *gobj, PlotPrefState *state)
 
 static void
 gog_plot_populate_editor (GogObject *obj,
-			  GogEditor *editor,
+			  GOEditor *editor,
 			  G_GNUC_UNUSED GogDataAllocator *dalloc,
 			  GOCmdContext *cc)
 {
@@ -342,7 +343,7 @@ gog_plot_populate_editor (GogObject *obj,
 			gtk_table_set_row_spacings (GTK_TABLE (table), 6);
 			gtk_container_set_border_width (GTK_CONTAINER (table), 12);
 			gtk_widget_show_all (table);
-			gog_editor_add_page (editor, table, _("Axes"));
+			go_editor_add_page (editor, table, _("Axes"));
 		}
 		else
 			g_object_unref (G_OBJECT (table));
@@ -391,7 +392,7 @@ gog_plot_populate_editor (GogObject *obj,
 	w = glade_xml_get_widget (gui, "gog_plot_prefs");
 	g_object_set_data_full (G_OBJECT (w), "state", state, 
 				(GDestroyNotify) plot_pref_state_free);  
-	gog_editor_add_page (editor, w, _("Plot area"));
+	go_editor_add_page (editor, w, _("Plot area"));
 
 	state->update_editor_handler = g_signal_connect (G_OBJECT (plot), 
 							 "update-editor", 
@@ -711,7 +712,7 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 {
 	GSList *ptr;
 	GogSeries const *series;
-	GogStyle *style, *tmp_style;
+	GOStyle *style, *tmp_style;
 	GODataVector *labels;
 	unsigned i, n, num_labels = 0;
 	char *label = NULL;
@@ -742,7 +743,7 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 
 		for (; ptr != NULL ; ptr = ptr->next)
 			if (!only_visible || gog_series_has_legend (ptr->data)) {
-				func (i, gog_styled_object_get_style (ptr->data),
+				func (i, go_styled_object_get_style (ptr->data),
 				      gog_object_get_name (ptr->data), data);
 				i++;
 			}
@@ -758,7 +759,7 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 		labels = GO_DATA_VECTOR (series->values[0].data);
 		num_labels = go_data_vector_get_len (labels);
 	}
-	style = gog_style_dup (series->base.style);
+	style = go_style_dup (series->base.style);
 	n = only_visible ? plot->visible_cardinality : plot->full_cardinality;
 	for (overrides = series->overrides, i = 0; i < n ; i++) {
 		if (overrides != NULL &&

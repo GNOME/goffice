@@ -21,7 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-outlined-object.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-view.h>
@@ -113,9 +113,9 @@ gog_outlined_view_size_request (GogView *v,
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (v->model);
 	double outline = gog_renderer_line_size (v->renderer, 
 						 goo->base.style->outline.width);
-	double is_outline_visible = gog_style_is_outline_visible (goo->base.style);
+	double is_outline_visible = go_style_is_outline_visible (goo->base.style);
 
-	if (goo->base.style->fill.type != GOG_FILL_STYLE_NONE || is_outline_visible) {
+	if (goo->base.style->fill.type != GO_STYLE_FILL_NONE || is_outline_visible) {
 		req->w += outline * 2 + 
 			gog_renderer_pt2r_y (v->renderer, goo->padding_pts);
 		req->h += outline * 2 + 
@@ -130,10 +130,10 @@ gog_outlined_view_size_allocate (GogView *v, GogViewAllocation const *a)
 	GogViewAllocation res = *a;
 	double outline = gog_renderer_line_size (v->renderer, 
 						 goo->base.style->outline.width);
-	double is_outline_visible = gog_style_is_outline_visible (goo->base.style);
+	double is_outline_visible = go_style_is_outline_visible (goo->base.style);
 
 	/* We only need internal padding if there is an outline or a pattern */
-	if (goo->base.style->fill.type != GOG_FILL_STYLE_NONE || is_outline_visible) {
+	if (goo->base.style->fill.type != GO_STYLE_FILL_NONE || is_outline_visible) {
 		double pad_x = gog_renderer_pt2r_x (v->renderer, goo->padding_pts);
 		double pad_y = gog_renderer_pt2r_y (v->renderer, goo->padding_pts);
 		res.x += outline + pad_x/2;

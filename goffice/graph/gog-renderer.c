@@ -19,10 +19,10 @@
  * USA
  */
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-view.h>
+#include <goffice/graph/gog-renderer.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-cairo.h>
@@ -75,14 +75,14 @@ struct _GogRenderer {
 	GClosure *font_watcher;
 	gboolean  needs_update;
 
-	GogStyle const *cur_style;
+	GOStyle const *cur_style;
 	GSList   *style_stack;
 
 	GOLineDashSequence 	*line_dash;
 	GOLineDashSequence 	*outline_dash;
 
-	GogStyle 	*grip_style;
-	GogStyle 	*selection_style;
+	GOStyle 	*grip_style;
+	GOStyle 	*selection_style;
 
 	int 		 w, h;
 
@@ -185,11 +185,11 @@ gog_renderer_pt2r (GogRenderer const *rend, double d)
 static void
 emit_line (GogRenderer *rend, gboolean preserve, GOPathOptions options)
 {
-	GogStyle const *style = rend->cur_style;
+	GOStyle const *style = rend->cur_style;
 	cairo_t *cr = rend->cairo;
 	double width;
 
-	if (!gog_style_is_line_visible (style)) {
+	if (!go_style_is_line_visible (style)) {
 		if (!preserve)
 			cairo_new_path (cr);
 		return;
@@ -218,11 +218,11 @@ emit_line (GogRenderer *rend, gboolean preserve, GOPathOptions options)
 static void
 emit_outline (GogRenderer *rend, gboolean preserve, GOPathOptions options)
 {
-	GogStyle const *style = rend->cur_style;
+	GOStyle const *style = rend->cur_style;
 	cairo_t *cr = rend->cairo;
 	double width;
 
-	if (!gog_style_is_outline_visible (style)) {
+	if (!go_style_is_outline_visible (style)) {
 		if (!preserve)
 			cairo_new_path (cr);
 		return;
@@ -251,11 +251,11 @@ emit_outline (GogRenderer *rend, gboolean preserve, GOPathOptions options)
 static void
 emit_fill (GogRenderer *rend, gboolean preserve)
 {
-	GogStyle const *style = rend->cur_style;
+	GOStyle const *style = rend->cur_style;
 	cairo_t *cr = rend->cairo;
 	cairo_pattern_t *cr_pattern = NULL;
 
-	cr_pattern = gog_style_create_cairo_pattern (style, cr);
+	cr_pattern = go_style_create_cairo_pattern (style, cr);
 	if (cr_pattern == NULL) {
 		if (!preserve)
 			cairo_new_path (cr);
@@ -433,7 +433,7 @@ void
 gog_renderer_stroke_serie (GogRenderer *renderer,
 			   GOPath const *path)
 {
-	GogStyle const *style;
+	GOStyle const *style;
 	GOPathOptions line_options;
 	gboolean is_outline;
 	double width;
@@ -443,13 +443,13 @@ gog_renderer_stroke_serie (GogRenderer *renderer,
 	g_return_if_fail (GO_IS_PATH (path));
 
         style = renderer->cur_style;
-	is_outline = style->interesting_fields & GOG_STYLE_OUTLINE;
+	is_outline = style->interesting_fields & GO_STYLE_OUTLINE;
 	line_options = go_path_get_options (path);
 	width = _grc_line_size (renderer,
 				is_outline ?  style->outline.width : style->line.width,
 				line_options & GO_PATH_OPTIONS_SNAP_WIDTH);
 
-	if (gog_style_is_line_visible (style)) {
+	if (go_style_is_line_visible (style)) {
 		path_interpret (renderer, path, width);
 		if (is_outline)
 			emit_outline (renderer, FALSE, go_path_get_options (path));
@@ -463,7 +463,7 @@ gog_renderer_fill_serie (GogRenderer *renderer,
 			 GOPath const *path,
 			 GOPath const *close_path)
 {
-	GogStyle const *style;
+	GOStyle const *style;
 
 	g_return_if_fail (GOG_IS_RENDERER (renderer));
 	g_return_if_fail (renderer->cur_style != NULL);
@@ -471,7 +471,7 @@ gog_renderer_fill_serie (GogRenderer *renderer,
 
 	style = renderer->cur_style;
 
-	if (gog_style_is_fill_visible (style)) {
+	if (go_style_is_fill_visible (style)) {
 		fill_path_interpret (renderer, path, close_path);
 		emit_fill (renderer, FALSE);
 	}
@@ -480,7 +480,7 @@ gog_renderer_fill_serie (GogRenderer *renderer,
 static void
 _draw_shape (GogRenderer *renderer, GOPath const *path, gboolean fill, gboolean stroke)
 {
-	GogStyle const *style;
+	GOStyle const *style;
 	GOPathOptions line_options;
 	double width;
 	gboolean use_outline;
@@ -490,7 +490,7 @@ _draw_shape (GogRenderer *renderer, GOPath const *path, gboolean fill, gboolean 
 	g_return_if_fail (GO_IS_PATH (path));
 
         style = renderer->cur_style;
-	use_outline = style->interesting_fields & GOG_STYLE_OUTLINE;
+	use_outline = style->interesting_fields & GO_STYLE_OUTLINE;
 
 	line_options = go_path_get_options (path);
 	width = stroke ? _grc_line_size (renderer, use_outline ? style->outline.width : style->line.width,
@@ -600,16 +600,16 @@ gog_renderer_pop_clip (GogRenderer *rend)
 static void
 _draw_circle (GogRenderer *rend, double x, double y, double r, gboolean fill, gboolean stroke)
 {
-	GogStyle const *style;
+	GOStyle const *style;
 	GOPath *path;
 	gboolean narrow = r < 1.5;
 	double o, o_2;
 
 	g_return_if_fail (GOG_IS_RENDERER (rend));
-	g_return_if_fail (GOG_IS_STYLE (rend->cur_style));
+	g_return_if_fail (GO_IS_STYLE (rend->cur_style));
 
 	style = rend->cur_style;
-	narrow |= !gog_style_is_outline_visible (style);
+	narrow |= !go_style_is_outline_visible (style);
 
 	path = go_path_new ();
 	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
@@ -657,16 +657,16 @@ gog_renderer_fill_circle (GogRenderer *rend, double x, double y, double r)
 static void
 _draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean fill, gboolean stroke)
 {
-	GogStyle const *style;
+	GOStyle const *style;
 	GOPath *path;
 	gboolean narrow = (rect->w < 3.) || (rect->h < 3.);
 	double o, o_2;
 
 	g_return_if_fail (GOG_IS_RENDERER (rend));
-	g_return_if_fail (GOG_IS_STYLE (rend->cur_style));
+	g_return_if_fail (GO_IS_STYLE (rend->cur_style));
 
 	style = rend->cur_style;
-	narrow |= !gog_style_is_outline_visible (style);
+	narrow |= !go_style_is_outline_visible (style);
 
 	path = go_path_new ();
 	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
@@ -717,16 +717,16 @@ gog_renderer_draw_grip (GogRenderer *renderer, double x, double y)
 	GogViewAllocation rectangle;
 
 	if (renderer->grip_style == NULL) {
-		GogStyle *style;
+		GOStyle *style;
 
-		style = gog_style_new ();
+		style = go_style_new ();
 		style->outline.dash_type = GO_LINE_SOLID;
 		style->outline.width = 0.0;
 		style->outline.color =
 		style->fill.pattern.back = 0xff000080;
 		style->fill.pattern.pattern = GO_PATTERN_SOLID;
-		style->fill.type = GOG_FILL_STYLE_PATTERN;
-		style->interesting_fields = GOG_STYLE_FILL | GOG_STYLE_OUTLINE;
+		style->fill.type = GO_STYLE_FILL_PATTERN;
+		style->interesting_fields = GO_STYLE_FILL | GO_STYLE_OUTLINE;
 
 		renderer->grip_style = style;
 	}
@@ -746,14 +746,14 @@ void
 gog_renderer_draw_selection_rectangle (GogRenderer *renderer, GogViewAllocation const *rectangle)
 {
 	if (renderer->selection_style == NULL) {
-		GogStyle *style;
+		GOStyle *style;
 
-		style = gog_style_new ();
+		style = go_style_new ();
 		style->outline.dash_type = GO_LINE_DOT;
 		style->outline.width = 0.0;
 		style->outline.color = 0x0000ffB0;
-		style->fill.type = GOG_FILL_STYLE_NONE;
-		style->interesting_fields = GOG_STYLE_OUTLINE;
+		style->fill.type = GO_STYLE_FILL_NONE;
+		style->interesting_fields = GO_STYLE_OUTLINE;
 
 		renderer->selection_style = style;
 	}
@@ -839,7 +839,7 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
 	cairo_t *cairo = rend->cairo;
 	GOGeometryOBR obr;
 	GOGeometryAABR aabr;
-	GogStyle const *style;
+	GOStyle const *style;
 	int iw, ih;
 
 	g_return_if_fail (GOG_IS_RENDERER (rend));
@@ -910,7 +910,7 @@ void
 gog_renderer_get_text_OBR (GogRenderer *rend, char const *text,
 			   gboolean use_markup, GOGeometryOBR *obr)
 {
-	GogStyle const *style;
+	GOStyle const *style;
 	PangoLayout *layout;
 	PangoContext *context;
 	PangoRectangle logical;
@@ -981,10 +981,10 @@ _free_marker_data (GogRenderer *rend)
 }
 
 void
-gog_renderer_push_style (GogRenderer *rend, GogStyle const *style)
+gog_renderer_push_style (GogRenderer *rend, GOStyle const *style)
 {
 	g_return_if_fail (GOG_IS_RENDERER (rend));
-	g_return_if_fail (GOG_IS_STYLE (style));
+	g_return_if_fail (GO_IS_STYLE (style));
 
 	if (rend->cur_style != NULL)
 		rend->style_stack = g_slist_prepend (
@@ -1001,7 +1001,7 @@ void
 gog_renderer_pop_style (GogRenderer *rend)
 {
 	g_return_if_fail (GOG_IS_RENDERER (rend));
-	g_return_if_fail (GOG_IS_STYLE (rend->cur_style));
+	g_return_if_fail (GO_IS_STYLE (rend->cur_style));
 
 	g_object_unref ((gpointer)rend->cur_style);
 	if (rend->style_stack != NULL) {

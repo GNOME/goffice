@@ -23,7 +23,7 @@
 #include <goffice/graph/gog-reg-curve.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-plot-engine.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-series-impl.h>
@@ -54,9 +54,9 @@ enum {
 };
 
 static void
-gog_reg_curve_init_style (GogStyledObject *gso, GogStyle *style)
+gog_reg_curve_init_style (GogStyledObject *gso, GOStyle *style)
 {
-	style->interesting_fields = GOG_STYLE_LINE;
+	style->interesting_fields = GO_STYLE_LINE;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, FALSE);
 }
@@ -70,7 +70,7 @@ skip_invalid_toggled_cb (GtkToggleButton* btn, GObject *obj)
 
 static void
 gog_reg_curve_populate_editor (GogObject	*gobj, 
-			       GogEditor	*editor, 
+			       GOEditor	*editor, 
 			       GogDataAllocator	*dalloc, 
 			       GOCmdContext	*cc)
 {
@@ -83,7 +83,7 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 	if (gui == NULL)
 		return;
 
-	gog_editor_add_page (editor, 
+	go_editor_add_page (editor, 
 			     glade_xml_get_widget (gui, "reg-curve-prefs"),
 			     _("Details"));
 
@@ -297,7 +297,7 @@ gog_reg_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogChart *chart = GOG_CHART (GOG_OBJECT (plot)->parent);
 	GogAxisMap *x_map, *y_map;
 	GogChartMap *chart_map;
-	GogStyle *style;
+	GOStyle *style;
 	GOPath *path;
 	GSList *ptr;
 	double *x, *y;

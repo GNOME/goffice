@@ -27,7 +27,7 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-series-impl.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-view.h>
 #include <gsf/gsf-impl-utils.h>
@@ -38,9 +38,9 @@ static GType gog_smoothed_curve_view_get_type (void);
 static GObjectClass *smoothed_curve_parent_klass;
 
 static void
-gog_smoothed_curve_init_style (GogStyledObject *gso, GogStyle *style)
+gog_smoothed_curve_init_style (GogStyledObject *gso, GOStyle *style)
 {
-	style->interesting_fields = GOG_STYLE_LINE;
+	style->interesting_fields = GO_STYLE_LINE;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, FALSE);
 }
@@ -104,7 +104,7 @@ gog_smoothed_curve_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogPlot *plot = series->plot;
 	GogChart *chart = GOG_CHART (GOG_OBJECT (plot)->parent);
 	GogChartMap *chart_map;
-	GogStyle *style;
+	GOStyle *style;
 	GOPath *path;
 
 	if (curve->nb == 0 || curve->x == NULL || curve->y == NULL)

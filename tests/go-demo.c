@@ -33,7 +33,8 @@
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 #include <goffice/gtk/go-graph-widget.h>
 
 typedef struct _GoDemoPrivate GODemoPrivate;
@@ -113,7 +114,7 @@ setup_page (GtkNotebook *notebook, const gchar *service_id)
 	GogLabel *label;
 	GogPlot *plot;
 	GOData *data;
-	GogStyle *style;
+	GOStyle *style;
 	PangoFontDescription *desc;
 
 	child = gtk_vbox_new (FALSE, 0);
@@ -129,9 +130,9 @@ setup_page (GtkNotebook *notebook, const gchar *service_id)
 	gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 	gog_object_add_by_name (GOG_OBJECT (graph), "Title", GOG_OBJECT (label));
 	/* Change the title font */
-	style = gog_styled_object_get_style (GOG_STYLED_OBJECT (label));
+	style = go_styled_object_get_style (GO_STYLED_OBJECT (label));
 	desc = pango_font_description_from_string ("Sans bold 16");
-	gog_style_set_font_desc (style, desc);
+	go_style_set_font_desc (style, desc);
 	/* Get the chart created by the widget initialization */
 	chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (w));
 	/* Create a plot and add it to the chart */

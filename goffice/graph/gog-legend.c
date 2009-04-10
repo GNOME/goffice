@@ -25,9 +25,10 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-styled-object.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-path.h>
@@ -160,20 +161,20 @@ gog_legend_update (GogObject *obj)
 
 static void
 gog_legend_populate_editor (GogObject *gobj, 
-			    GogEditor *editor, 
+			    GOEditor *editor, 
 			    GogDataAllocator *dalloc, 
 			    GOCmdContext *cc)
 {
 	static guint legend_pref_page = 0;
 
 	(GOG_OBJECT_CLASS(parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
-	gog_editor_set_store_page (editor, &legend_pref_page);
+	go_editor_set_store_page (editor, &legend_pref_page);
 }
 
 static void
-gog_legend_init_style (GogStyledObject *gso, GogStyle *style)
+gog_legend_init_style (GogStyledObject *gso, GOStyle *style)
 {
-	style->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL | GOG_STYLE_FONT;
+	style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL | GO_STYLE_FONT;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, FALSE);
 }
@@ -261,7 +262,7 @@ typedef GogOutlinedViewClass	GogLegendViewClass;
 static GogViewClass *lview_parent_klass;
 
 static void
-cb_size_elements (unsigned i, GogStyle const *style, 
+cb_size_elements (unsigned i, GOStyle const *style, 
 		  char const *name, GogLegendView *glv)
 {
 	GogView *view = GOG_VIEW (glv);
@@ -273,7 +274,7 @@ cb_size_elements (unsigned i, GogStyle const *style,
 		glv->element_width = aabr.w;
 	if (glv->element_height < aabr.h)
 		glv->element_height = aabr.h;
-	if (!glv->uses_lines && (style->interesting_fields & GOG_STYLE_LINE)) 
+	if (!glv->uses_lines && (style->interesting_fields & GO_STYLE_LINE)) 
 		glv->uses_lines = TRUE;
 }
 
@@ -286,7 +287,7 @@ gog_legend_view_size_request (GogView *v,
 	GogLegendView *glv = GOG_LEGEND_VIEW (v);
 	GogLegend *l = GOG_LEGEND (v->model);
 	GogViewRequisition child_req, residual, frame_req;
-	GogStyle *style;
+	GOStyle *style;
 	double available_space, element_size;
 	unsigned num_elements;
 
@@ -316,7 +317,7 @@ gog_legend_view_size_request (GogView *v,
 		return;
 	}
 
-	style = gog_styled_object_get_style (GOG_STYLED_OBJECT (l));
+	style = go_styled_object_get_style (GO_STYLED_OBJECT (l));
 	gog_renderer_push_style (v->renderer, style);
 	
 	glv->font_size = pango_font_description_get_size (style->font.font->desc) / PANGO_SCALE;
@@ -372,10 +373,10 @@ typedef struct {
 } SwatchScaleClosure;
 
 static void
-cb_swatch_scale (unsigned i, GogStyle const *style, char const *name,
+cb_swatch_scale (unsigned i, GOStyle const *style, char const *name,
 		 SwatchScaleClosure *data)
 {
-	GogStyleLine const *line = NULL;
+	GOStyleLine const *line = NULL;
 	double size;
 	double maximum, scale;
 
@@ -385,9 +386,9 @@ cb_swatch_scale (unsigned i, GogStyle const *style, char const *name,
 	if (data->size_min > size)
 		data->size_min = size;
 
-	if (style->interesting_fields & GOG_STYLE_LINE)
+	if (style->interesting_fields & GO_STYLE_LINE)
 		line = &style->line;
-	else if (style->interesting_fields & GOG_STYLE_OUTLINE)
+	else if (style->interesting_fields & GO_STYLE_OUTLINE)
 		line = &style->outline;
 
 	if (line == NULL ||
@@ -424,13 +425,13 @@ typedef struct {
 } RenderClosure;
 
 static void
-cb_render_elements (unsigned index, GogStyle const *base_style, char const *name,
+cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
 		    RenderClosure *data)
 {
 	GogView const *view = data->view;
 	GogLegendView *glv = GOG_LEGEND_VIEW (view);
 	GogRenderer *renderer = view->renderer;
-	GogStyle *style = NULL;
+	GOStyle *style = NULL;
 	GogViewAllocation pos, rectangle;
 	double half_width, y;
 	GOPath *line_path;
@@ -446,8 +447,8 @@ cb_render_elements (unsigned index, GogStyle const *base_style, char const *name
 	}
 	data->count++;
 
-	if (base_style->interesting_fields & GOG_STYLE_LINE) { /* line and marker */
-		style = gog_style_dup (base_style);
+	if (base_style->interesting_fields & GO_STYLE_LINE) { /* line and marker */
+		style = go_style_dup (base_style);
 		g_return_if_fail (style != NULL);
 		go_marker_set_size (style->marker.mark,
 				    go_marker_get_size (style->marker.mark) *
@@ -461,7 +462,7 @@ cb_render_elements (unsigned index, GogStyle const *base_style, char const *name
 		y = data->y + glv->element_height / 2.;
 		go_path_move_to (line_path, data->x + half_width, y);
 		go_path_line_to (line_path, data->x + data->swatch.w * GLV_LINE_LENGTH_EM - half_width, y);
-		if (style->interesting_fields & GOG_STYLE_FILL) {
+		if (style->interesting_fields & GO_STYLE_FILL) {
 			rectangle.x = data->x - half_width;
 			rectangle.y = y;
 			rectangle.w = data->swatch.w * GLV_LINE_LENGTH_EM + 2.0 * half_width;
@@ -472,7 +473,7 @@ cb_render_elements (unsigned index, GogStyle const *base_style, char const *name
 		go_path_free (line_path);
 		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * GLV_LINE_LENGTH_EM * 0.5, y);
 	} else {					/* area swatch */
-		style = gog_style_dup (base_style);
+		style = go_style_dup (base_style);
 		if (style->outline.width > data->hairline_width)
 			style->outline.width =
 				0.5 * (data->hairline_width + style->outline.width) * data->line_scale_a +
@@ -501,7 +502,7 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 {
 	GogLegendView *glv = GOG_LEGEND_VIEW (v);
 	GogLegend *l = GOG_LEGEND (v->model);
-	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (l));
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (l));
 	RenderClosure data;
 	SwatchScaleClosure swatch_data;
 	double swatch_size_min;

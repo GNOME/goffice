@@ -28,7 +28,7 @@
 #include <goffice/graph/gog-chart-map-3d.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-persist.h>
@@ -490,7 +490,7 @@ cb_padding_changed (GtkSpinButton *spin, GObject *axis_base)
 
 static void
 gog_axis_base_populate_editor (GogObject *gobj,
-			       GogEditor *editor,
+			       GOEditor *editor,
 			       GogDataAllocator *dalloc,
 			       GOCmdContext *cc)
 {
@@ -522,7 +522,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 	if (!gog_object_is_visible (axis_base->axis))
 		return;
 
-	gog_editor_set_store_page (editor, &axis_base_pref_page);
+	go_editor_set_store_page (editor, &axis_base_pref_page);
 
 	axis_type = gog_axis_get_atype (axis_base->axis);
 	if (axis_type == GOG_AXIS_PSEUDO_3D) {
@@ -642,7 +642,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		gtk_widget_hide (w);
 	}
 
-	gog_editor_add_page (editor,
+	go_editor_add_page (editor,
 			     glade_xml_get_widget (gui, "axis_base_pref_box"),
 			     _("Layout"));
 
@@ -651,9 +651,9 @@ gog_axis_base_populate_editor (GogObject *gobj,
 #endif
 
 static void
-gog_axis_base_init_style (GogStyledObject *gso, GogStyle *style)
+gog_axis_base_init_style (GogStyledObject *gso, GOStyle *style)
 {
-	style->interesting_fields = GOG_STYLE_LINE | GOG_STYLE_FONT;
+	style->interesting_fields = GO_STYLE_LINE | GO_STYLE_FONT;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, FALSE);
 }
@@ -993,7 +993,7 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	GogAxisMap *map = NULL;
 	GogAxisTick *ticks;
 	GOGeometryAABR total_bbox, bbox;
-	GogStyle *style = axis_base->base.style;
+	GOStyle *style = axis_base->base.style;
 	GOGeometryAABR txt_aabr;
 	GOGeometryOBR txt_obr;
 	GOGeometryOBR *obrs = NULL;
@@ -1012,7 +1012,7 @@ axis_line_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	cos_alpha = side == GO_SIDE_LEFT ? - sin (axis_angle) : + sin (axis_angle);
 	sin_alpha = side == GO_SIDE_LEFT ? + cos (axis_angle) : - cos (axis_angle);
 
-	is_line_visible = gog_style_is_line_visible (style);
+	is_line_visible = go_style_is_line_visible (style);
 	line_width = gog_renderer_line_size (renderer, style->line.width) / 2;
 
 	minor_tick_len = gog_renderer_pt2r (renderer, axis_base->minor.size_pts);
@@ -1106,7 +1106,7 @@ axis_line_render (GogAxisBase *axis_base,
 {
 	GogAxisMap *map = NULL;
 	GogAxisTick *ticks;
-	GogStyle *style = axis_base->base.style;
+	GOStyle *style = axis_base->base.style;
 	GOGeometryOBR zero_obr;
 	GOGeometryOBR *obrs = NULL;
 	GOGeometrySide label_anchor = GO_SIDE_AUTO;
@@ -1136,7 +1136,7 @@ axis_line_render (GogAxisBase *axis_base,
 	axis_base_view->x_stop = x + w;
 	axis_base_view->y_stop = y + h;
 
-	is_line_visible = gog_style_is_line_visible (style);
+	is_line_visible = go_style_is_line_visible (style);
 	line_width = gog_renderer_line_size (renderer, style->line.width) / 2;
 
 	if (is_line_visible)
@@ -1325,7 +1325,7 @@ axis_circle_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 	gog_renderer_get_text_OBR (renderer, "0", TRUE, &txt_obr);
 	label_padding = txt_obr.w;
 
-	draw_ticks = gog_style_is_line_visible (axis_base->base.style) &&
+	draw_ticks = go_style_is_line_visible (axis_base->base.style) &&
 		(axis_base->major.tick_out || axis_base->minor.tick_out);
 
 	map = gog_chart_map_get_axis_map (c_map, 1);
@@ -1397,7 +1397,7 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 		go_path_arc (path, parms->cx, parms->cy, parms->rx, parms->ry,
 			     -parms->th1, -parms->th0);
 
-	is_line_visible = gog_style_is_line_visible (axis_base->base.style);
+	is_line_visible = go_style_is_line_visible (axis_base->base.style);
 	draw_major = axis_base->major.tick_in || axis_base->major.tick_out;
 	draw_minor = axis_base->minor.tick_in || axis_base->minor.tick_out;
 
@@ -2092,7 +2092,7 @@ gog_axis_base_view_padding_request (GogView *view, GogViewAllocation const *bbox
 {
 	GogAxisSet axis_set;
 	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
-	GogStyle *style = axis_base->base.style;
+	GOStyle *style = axis_base->base.style;
 
 	if (gog_axis_get_atype (axis_base->axis) >= GOG_AXIS_VIRTUAL)
 		return;
@@ -2130,7 +2130,7 @@ gog_axis_base_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogAxisSet axis_set;
 	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
-	GogStyle *style = axis_base->base.style;
+	GOStyle *style = axis_base->base.style;
 	GogViewAllocation const *plot_area;
 
 	if (gog_axis_get_atype (axis_base->axis) >= GOG_AXIS_VIRTUAL)
@@ -2186,7 +2186,7 @@ gog_axis_base_view_label_position_request (GogView *view,
 {
 	GogAxisSet axis_set;
 	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
-	GogStyle *style = axis_base->base.style;
+	GOStyle *style = axis_base->base.style;
 	GogViewPadding padding = {0};
 
 	if (gog_axis_get_atype (axis_base->axis) >= GOG_AXIS_VIRTUAL)

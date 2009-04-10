@@ -460,14 +460,14 @@ gogo_prop_start (GsfXMLIn *xin, xmlChar const **attrs)
 		GogObject *obj;
 
 		if (NULL == type_str) {
-			g_warning ("missing type for property property `%s' of class `%s'",
+			g_warning ("missing type for property `%s' of class `%s'",
 				   prop_str, G_OBJECT_TYPE_NAME (state->obj));
 			return;
 		}
 
 		type = g_type_from_name (type_str);
 		if (0 == type) {
-			g_warning ("unknown type '%s' for property property `%s' of class `%s'",
+			g_warning ("unknown type '%s' for property `%s' of class `%s'",
 				   type_str, prop_str, G_OBJECT_TYPE_NAME (state->obj));
 			return;
 		}
@@ -616,12 +616,4 @@ gog_object_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
 	state->user_data = user_data;
 	gsf_xml_in_push_state (xin, doc, state,
 		(GsfXMLInExtDtor) go_sax_parser_done, attrs);
-}
-
-void
-go_xml_out_add_color (GsfXMLOut *output, char const *id, GOColor c)
-{
-	char *str = go_color_as_str (c);
-	gsf_xml_out_add_cstr_unchecked (output, id, str);
-	g_free (str);
 }
