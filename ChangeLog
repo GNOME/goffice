@@ -1,3 +1,12 @@
+2009-04-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* Makefile.am: add --with-gmathml to DISTCHECK_CONFIGURE_FLAGS so
+	that gtk-doc succeeds.
+	* docs/reference/goffice-docs.sgml: moved style related documentation
+	to utilities.
+	* docs/reference/goffice-sections.txt: update names.
+	* plugins/plot_radar/Makefile.am: add ui_DATA to EXTRA_DIST.
+
 2009-04-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* All files: moved GogStyle code to utils and renamed it GOStyle.

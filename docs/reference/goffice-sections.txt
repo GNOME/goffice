@@ -46,11 +46,11 @@ gog_object_clear_parent
 gog_object_set_parent
 gog_object_request_editor_update
 <SUBSECTION Standard>
-GOG_OBJECT_TYPE
+GOG_TYPE_OBJECT
 GOG_OBJECT
-IS_GOG_OBJECT
+GOG_IS_OBJECT
 GOG_OBJECT_CLASS
-IS_GOG_OBJECT_CLASS
+GOG_IS_OBJECT_CLASS
 GOG_OBJECT_GET_CLASS
 <SUBSECTION Private>
 gog_object_get_type
@@ -61,15 +61,10 @@ gog_object_get_type
 <TITLE>GogStyledObject</TITLE>
 <INCLUDE>goffice/graph/gog-styled-object.h</INCLUDE>
 GogStyledObject
-gog_styled_object_get_style
-gog_styled_object_get_auto_style
-gog_styled_object_set_style
-gog_styled_object_apply_theme
-gog_styled_object_style_changed
 <SUBSECTION Standard>
-GOG_STYLED_OBJECT_TYPE
+GOG_TYPE_STYLED_OBJECT
 GOG_STYLED_OBJECT
-IS_GOG_STYLED_OBJECT
+GOG_IS_STYLED_OBJECT
 GOG_STYLED_OBJECT_GET_CLASS
 <SUBSECTION Private>
 gog_styled_object_get_type
@@ -81,13 +76,13 @@ gog_styled_object_get_type
 GogOutlinedObject
 gog_outlined_object_get_pad
 <SUBSECTION Standard>
-GOG_OUTLINED_OBJECT_TYPE
+GOG_TYPE_OUTLINED_OBJECT
 GOG_OUTLINED_OBJECT
-IS_GOG_OUTLINED_OBJECT
+GOG_IS_OUTLINED_OBJECT
 GogOutlinedObjectClass
-GOG_OUTLINED_VIEW_TYPE
+GOG_TYPE_OUTLINED_VIEW
 GOG_OUTLINED_VIEW
-IS_GOG_OUTLINED_VIEW
+GOG_IS_OUTLINED_VIEW
 GOG_OUTLINED_VIEW_GET_CLASS
 <SUBSECTION Private>
 gog_outlined_object_get_type
@@ -130,11 +125,11 @@ gog_view_get_tool_at_point
 gog_view_get_view_at_point
 gog_view_size_child_request
 <SUBSECTION Standard>
-GOG_VIEW_TYPE
+GOG_TYPE_VIEW
 GOG_VIEW
-IS_GOG_VIEW
+GOG_IS_VIEW
 GOG_VIEW_CLASS
-IS_GOG_VIEW_CLASS
+GOG_IS_VIEW_CLASS
 GOG_VIEW_GET_CLASS
 GogViewClass
 <SUBSECTION Private>
@@ -165,14 +160,14 @@ gog_graph_view_handle_event
 gog_graph_view_get_selection
 gog_graph_view_set_selection
 <SUBSECTION Private>
-GOG_GRAPH_TYPE
+GOG_TYPE_GRAPH
 GOG_GRAPH
-IS_GOG_GRAPH
+GOG_IS_GRAPH
 GOG_GRAPH_CLASS
-IS_GOG_GRAPH_CLASS
-GOG_GRAPH_VIEW_TYPE
+GOG_IS_GRAPH_CLASS
+GOG_TYPE_GRAPH_VIEW
 GOG_GRAPH_VIEW
-IS_GOG_GRAPH_VIEW
+GOG_IS_GRAPH_VIEW
 <SUBSECTION Private>
 gog_graph_view_get_type
 gog_graph_get_type
@@ -201,12 +196,12 @@ gog_chart_get_grid
 <SUBSECTION>
 gog_chart_view_get_plot_area
 <SUBSECTION Standard>
-GOG_CHART_TYPE
+GOG_TYPE_CHART
 GOG_CHART
-IS_GOG_CHART
+GOG_IS_CHART
 GogChartClass
 GOG_CHART_CLASS
-IS_GOG_CHART_CLASS
+GOG_IS_CHART_CLASS
 <SUBSECTION Private>
 gog_chart_get_type
 </SECTION>
@@ -216,9 +211,9 @@ gog_chart_get_type
 <TITLE>GogLegend</TITLE>
 GogLegend
 <SUBSECTION Standard>
-GOG_LEGEND_TYPE
+GOG_TYPE_LEGEND
 GOG_LEGEND
-IS_GOG_LEGEND
+GOG_IS_LEGEND
 <SUBSECTION Private>
 gog_legend_get_type
 </SECTION>
@@ -228,9 +223,9 @@ gog_legend_get_type
 <TITLE>GogGrid</TITLE>
 GogGrid
 <SUBSECTION Standard>
-GOG_GRID_TYPE
+GOG_TYPE_GRID
 GOG_GRID
-IS_GOG_GRID
+GOG_IS_GRID
 <SUBSECTION Private>
 gog_grid_get_type
 </SECTION>
@@ -264,9 +259,9 @@ gog_axis_get_polar_perimeter
 gog_axis_set_polar_unit
 gog_axis_get_polar_unit
 <SUBSECTION Standard>
-GOG_AXIS_TYPE
+GOG_TYPE_AXIS
 GOG_AXIS
-IS_GOG_AXIS
+GOG_IS_AXIS
 <SUBSECTION Private>
 gog_axis_get_type
 </SECTION>
@@ -279,23 +274,23 @@ GogAxisBase
 GogAxisPosition
 GogAxisTickTypes
 <SUBSECTION Standard>
-GOG_AXIS_LINE_TYPE
+GOG_TYPE_AXIS_LINE
 GOG_AXIS_LINE
-IS_GOG_AXIS_LINE
+GOG_IS_AXIS_LINE
 <SUBSECTION Private>
 gog_axis_line_get_type
 GogAxisBaseClass
-GOG_AXIS_BASE_TYPE
+GOG_TYPE_AXIS_BASE
 GOG_AXIS_BASE
-IS_GOG_AXIS_BASE
+GOG_IS_AXIS_BASE
 gog_axis_base_get_type
 gog_axis_base_get_position
 gog_axis_base_set_position
 GogAxisBaseView
 GogAxisBaseViewClass
-GOG_AXIS_BASE_VIEW_TYPE
+GOG_TYPE_AXIS_BASE_VIEW
 GOG_AXIS_BASE_VIEW
-IS_GOG_AXIS_BASE_VIEW
+GOG_IS_AXIS_BASE_VIEW
 gog_axis_base_view_get_type
 </SECTION>
 
@@ -305,9 +300,9 @@ gog_axis_base_view_get_type
 GogGridLine
 gog_grid_line_is_minor
 <SUBSECTION Standard>
-GOG_GRID_LINE_TYPE
+GOG_TYPE_GRID_LINE
 GOG_GRID_LINE
-IS_GOG_GRID_LINE
+GOG_IS_GRID_LINE
 <SUBSECTION Private>
 gog_grid_line_get_type
 gog_grid_line_view_render_lines
@@ -341,17 +336,17 @@ gog_plot_guru_helper
 <SUBSECTION>
 GogPlotView
 <SUBSECTION Standard>
-GOG_PLOT_TYPE
+GOG_TYPE_PLOT
 GOG_PLOT
-IS_GOG_PLOT
+GOG_IS_PLOT
 <SUBSECTION Private>
 GogPlotDesc
 GOG_PLOT_CLASS
-IS_GOG_PLOT_CLASS
+GOG_IS_PLOT_CLASS
 GOG_PLOT_ITEM_GET_CLASS
-GOG_PLOT_VIEW_TYPE
+GOG_TYPE_PLOT_VIEW
 GOG_PLOT_VIEW
-IS_GOG_PLOT_VIEW
+GOG_IS_PLOT_VIEW
 GogPlotViewClass
 gog_plot_view_get_type
 gog_plot_get_type
@@ -379,17 +374,17 @@ gog_series_lines_use_markers
 gog_series_populate_fill_type_combo
 gog_series_set_fill_type
 <SUBSECTION Standard>
-GOG_SERIES_TYPE
+GOG_TYPE_SERIES
 GOG_SERIES
-IS_GOG_SERIES
+GOG_IS_SERIES
 GogSeriesClass
 GOG_SERIES_CLASS
-IS_GOG_SERIES_CLASS
+GOG_IS_SERIES_CLASS
 GOG_SERIES_GET_CLASS
 
-GOG_SERIES_ELEMENT_TYPE
+GOG_TYPE_SERIES_ELEMENT
 GOG_SERIES_ELEMENT
-IS_GOG_SERIES_ELEMENT
+GOG_IS_SERIES_ELEMENT
 GogSeriesElementClass
 GOG_SERIES_ELEMENT_GET_CLASS
 <SUBSECTION Private>
@@ -407,9 +402,9 @@ gog_series_get_element
 <TITLE>GogSeriesLines</TITLE>
 GogSeriesLines
 <SUBSECTION Standard>
-GOG_SERIES_LINES_TYPE
+GOG_TYPE_SERIES_LINES
 GOG_SERIES_LINES
-IS_GOG_SERIES_LINES
+GOG_IS_SERIES_LINES
 <SUBSECTION Private>
 gog_series_lines_get_type
 </SECTION>
@@ -432,7 +427,7 @@ gog_trend_line_get_type
 <TITLE>GogSmoothedCurve</TITLE>
 GogSmoothedCurve
 <SUBSECTION Standard>
-IS_GOG_SMOOTHED_CURVE
+GOG_IS_SMOOTHED_CURVE
 GogSmoothedCurveClass
 <SUBSECTION Private>
 gog_smoothed_curve_get_type
@@ -451,9 +446,9 @@ gog_error_bar_get_minmax
 gog_error_bar_render
 gog_error_bar_is_visible
 <SUBSECTION Standard>
-GOG_ERROR_BAR_TYPE
+GOG_TYPE_ERROR_BAR
 GOG_ERROR_BAR
-IS_GOG_ERROR_BAR
+GOG_IS_ERROR_BAR
 <SUBSECTION Private>
 gog_error_bar_get_type
 </SECTION>
@@ -466,9 +461,9 @@ gog_reg_curve_get_equation
 gog_reg_curve_get_R2
 gog_reg_curve_get_bounds
 <SUBSECTION Standard>
-GOG_REG_CURVE_TYPE
+GOG_TYPE_REG_CURVE
 GOG_REG_CURVE
-IS_GOG_REG_CURVE
+GOG_IS_REG_CURVE
 <SUBSECTION Private>
 gog_reg_curve_get_type
 </SECTION>
@@ -478,21 +473,21 @@ gog_reg_curve_get_type
 <TITLE>GogLabel</TITLE>
 GogLabel
 <SUBSECTION Standard>
-GOG_LABEL_TYPE
+GOG_TYPE_LABEL
 GOG_LABEL
-IS_GOG_LABEL
+GOG_IS_LABEL
 <SUBSECTION Private>
 gog_label_get_type
 </SECTION>
 
 <SECTION>
-<FILE>gog-reg-eqn</FILE>
+<FILE>gog-label</FILE>
 <TITLE>GogRegEqn</TITLE>
 GogRegEqn
 <SUBSECTION Standard>
-GOG_REG_EQN_TYPE
+GOG_TYPE_REG_EQN
 GOG_REG_EQN
-IS_GOG_REG_EQN
+GOG_IS_REG_EQN
 <SUBSECTION Private>
 gog_reg_eqn_get_type
 </SECTION>
@@ -541,9 +536,9 @@ gog_renderer_get_pixbuf
 gog_renderer_get_cairo_surface
 <SUBSECTION Standard>
 GOG_RENDERER_GRIP_SIZE
-GOG_RENDERER_TYPE
+GOG_TYPE_RENDERER
 GOG_RENDERER
-IS_GOG_RENDERER
+GOG_IS_RENDERER
 <SUBSECTION Private>
 gog_renderer_get_type
 </SECTION>
@@ -579,7 +574,7 @@ go_cairo_convert_data_from_pixbuf
 
 <SECTION>
 <FILE>go-path</FILE>
-<TITLE>GoPath</TITLE>
+<TITLE>GOPath</TITLE>
 go_path_new
 go_path_set_options
 go_path_get_options
@@ -614,11 +609,11 @@ GogDataAllocator
 gog_data_allocator_allocate
 gog_data_allocator_editor
 <SUBSECTION Standard>
-GOG_DATA_ALLOCATOR_TYPE
+GOG_TYPE_DATA_ALLOCATOR
 GOG_DATA_ALLOCATOR
-IS_GOG_DATA_ALLOCATOR
+GOG_IS_DATA_ALLOCATOR
 GOG_DATA_ALLOCATOR_CLASS
-IS_GOG_DATA_ALLOCATOR_CLASS
+GOG_IS_DATA_ALLOCATOR_CLASS
 GOG_DATA_ALLOCATOR_GET_CLASS
 <SUBSECTION Private>
 gog_data_allocator_get_type
@@ -638,11 +633,11 @@ gog_dataset_get_elem
 gog_dataset_set_dim_internal
 gog_dataset_dup_to_simple
 <SUBSECTION Standard>
-GOG_DATASET_TYPE
+GOG_TYPE_DATASET
 GOG_DATASET
-IS_GOG_DATASET
+GOG_IS_DATASET
 GOG_DATASET_CLASS
-IS_GOG_DATASET_CLASS
+GOG_IS_DATASET_CLASS
 GOG_DATASET_GET_CLASS
 <SUBSECTION Private>
 gog_dataset_get_type
@@ -654,9 +649,9 @@ gog_dataset_get_type
 <FILE>gog-control-foocanvas</FILE>
 <TITLE>GogControlFooCanvas</TITLE>
 <SUBSECTION Standard>
-GOG_CONTROL_FOOCANVAS_TYPE
+GOG_TYPE_CONTROL_FOOCANVAS
 GOG_CONTROL_FOOCANVAS
-IS_GOG_CONTROL_FOOCANVAS
+GOG_IS_CONTROL_FOOCANVAS
 GogControlFooCanvas
 GogControlFooCanvasClass
 <SUBSECTION Private>
@@ -709,47 +704,11 @@ gog_plugin_services_shutdown
 </SECTION>
 
 <SECTION>
-<FILE>gog-style</FILE>
-<TITLE>GogStyle</TITLE>
-GogStyle
-GogStyleFlag
-GogFillStyle
-GogImageType
-GogStyleLine
-GogStyleMark
-gog_style_new
-gog_style_dup
-gog_style_assign
-gog_style_apply_theme
-gog_style_set_marker
-gog_style_set_font_desc
-gog_style_set_font
-gog_style_set_fill_brightness
-gog_style_set_text_angle
-gog_style_is_different_size
-gog_style_is_marker_visible
-gog_style_is_line_visible
-gog_style_is_outline_visible
-gog_style_is_fill_visible
-gog_style_force_auto
-gog_style_get_editor
-gog_style_populate_editor
-gog_style_create_cairo_pattern
-gog_style_get_marker
-<SUBSECTION Standard>
-GOG_STYLE_TYPE
-GOG_STYLE
-IS_GOG_STYLE
-<SUBSECTION Private>
-gog_style_get_type
-</SECTION>
-
-<SECTION>
 <FILE>gog-theme</FILE>
 <TITLE>GogTheme</TITLE>
-GOG_THEME_TYPE
+GOG_TYPE_THEME
 GOG_THEME
-IS_GOG_THEME
+GOG_IS_THEME
 GogTheme
 gog_theme_get_type
 gog_theme_new
@@ -802,11 +761,11 @@ gog_axis_map_is_inverted
 
 <SECTION>
 <FILE>go-combo-box</FILE>
-<TITLE>GoComboBox</TITLE>
+<TITLE>GOComboBox</TITLE>
 GOComboBox
-GO_COMBO_BOX_TYPE
+GO_TYPE_COMBO_BOX
 GO_COMBO_BOX
-IS_GO_COMBO_BOX
+GO_IS_COMBO_BOX
 GO_COMBO_BOX_CLASS
 GOComboBoxPrivate
 go_combo_box_get_type
@@ -826,10 +785,10 @@ GOComboBoxClass
 
 <SECTION>
 <FILE>go-combo-color</FILE>
-<TITLE>GoComboColor</TITLE>
-GO_COMBO_COLOR_TYPE
+<TITLE>GOComboColor</TITLE>
+GO_TYPE_COMBO_COLOR
 GO_COMBO_COLOR
-IS_GO_COMBO_COLOR
+GO_IS_COMBO_COLOR
 GO_COMBO_COLOR_CLASS
 GOComboColor
 go_combo_color_get_type
@@ -844,10 +803,10 @@ go_combo_color_set_instant_apply
 
 <SECTION>
 <FILE>go-combo-pixmaps</FILE>
-<TITLE>GoComboPixmaps</TITLE>
-GO_COMBO_PIXMAPS_TYPE
+<TITLE>GOComboPixmaps</TITLE>
+GO_TYPE_COMBO_PIXMAPS
 GO_COMBO_PIXMAPS
-IS_GO_COMBO_PIXMAPS
+GO_IS_COMBO_PIXMAPS
 GOComboPixmaps
 GOMenuPixmaps
 go_combo_pixmaps_get_type
@@ -863,12 +822,12 @@ go_menu_pixmaps_add_element
 
 <SECTION>
 <FILE>go-combo-text</FILE>
-<TITLE>GoComboText</TITLE>
+<TITLE>GOComboText</TITLE>
 GO_TYPE_COMBO_TEXT
 GO_COMBO_TEXT
-IS_GO_COMBO_TEXT
-GoComboText
-GoComboTextSearch
+GO_IS_COMBO_TEXT
+GOComboText
+GOComboTextSearch
 go_combo_text_get_type
 go_combo_text_new
 go_combo_text_glade_new
@@ -879,10 +838,10 @@ go_combo_text_add_item
 
 <SECTION>
 <FILE>go-charmap-sel</FILE>
-<TITLE>GoCharmapSel</TITLE>
-GO_CHARMAP_SEL_TYPE
+<TITLE>GOCharmapSel</TITLE>
+GO_TYPE_CHARMAP_SEL
 GO_CHARMAP_SEL
-IS_GO_CHARMAP_SEL
+GO_IS_CHARMAP_SEL
 GOCharmapSel
 GOCharmapSelTestDirection
 go_charmap_sel_get_type
@@ -894,9 +853,9 @@ go_charmap_sel_get_encoding_name
 
 <SECTION>
 <FILE>go-action-combo-pixmaps</FILE>
-GO_ACTION_COMBO_PIXMAPS_TYPE
+GO_TYPE_ACTION_COMBO_PIXMAPS
 GO_ACTION_COMBO_PIXMAPS
-IS_GO_ACTION_COMBO_PIXMAPS
+GO_IS_ACTION_COMBO_PIXMAPS
 GOActionComboPixmaps
 GOActionComboPixmapsElement
 go_action_combo_pixmaps_get_type
@@ -907,9 +866,9 @@ go_action_combo_pixmaps_select_id
 
 <SECTION>
 <FILE>go-action-combo-color</FILE>
-GO_ACTION_COMBO_COLOR_TYPE
+GO_TYPE_ACTION_COMBO_COLOR
 GO_ACTION_COMBO_COLOR
-IS_GO_ACTION_COMBO_COLOR
+GO_IS_ACTION_COMBO_COLOR
 GOActionComboColor
 go_action_combo_color_get_type
 go_action_combo_color_new
@@ -922,9 +881,9 @@ go_action_combo_color_set_color
 <FILE>go-color-group</FILE>
 GO_COLOR_GROUP_HISTORY_SIZE
 GOColorGroup
-GO_COLOR_GROUP_TYPE
+GO_TYPE_COLOR_GROUP
 GO_COLOR_GROUP
-IS_GO_COLOR_GROUP
+GO_IS_COLOR_GROUP
 go_color_group_get_type
 go_color_group_find
 go_color_group_fetch
@@ -933,10 +892,10 @@ go_color_group_add_color
 
 <SECTION>
 <FILE>go-font-sel</FILE>
-<TITLE>GoFontSel</TITLE>
-GO_FONT_SEL_TYPE
+<TITLE>GOFontSel</TITLE>
+GO_TYPE_FONT_SEL
 GO_FONT_SEL
-IS_GO_FONT_SEL
+GO_IS_FONT_SEL
 GOFontSel
 go_font_sel_get_type
 go_font_sel_new
@@ -948,10 +907,10 @@ go_font_sel_set_sample_text
 
 <SECTION>
 <FILE>go-format-sel</FILE>
-<TITLE>GoFormatSel</TITLE>
-GO_FORMAT_SEL_TYPE
+<TITLE>GOFormatSel</TITLE>
+GO_TYPE_FORMAT_SEL
 GO_FORMAT_SEL
-IS_GO_FORMAT_SEL
+GO_IS_FORMAT_SEL
 GOFormatSel
 go_format_sel_get_type
 go_format_sel_new
@@ -968,10 +927,10 @@ go_format_sel_format_classification
 
 <SECTION>
 <FILE>go-locale-sel</FILE>
-<TITLE>GoLocaleSel</TITLE>
-GO_LOCALE_SEL_TYPE
+<TITLE>GOLocaleSel</TITLE>
+GO_TYPE_LOCALE_SEL
 GO_LOCALE_SEL
-IS_GO_LOCALE_SEL
+GO_IS_LOCALE_SEL
 GOLocaleSel
 go_locale_sel_get_type
 go_locale_sel_new
@@ -983,10 +942,10 @@ go_locale_sel_get_locale_name
 
 <SECTION>
 <FILE>go-rotation-sel</FILE>
-<TITLE>GoRotationSel</TITLE>
-GO_ROTATION_SEL_TYPE
+<TITLE>GORotationSel</TITLE>
+GO_TYPE_ROTATION_SEL
 GO_ROTATION_SEL
-IS_GO_ROTATION_SEL
+GO_IS_ROTATION_SEL
 GORotationSel
 go_rotation_sel_get_type
 go_rotation_sel_new
@@ -996,7 +955,7 @@ go_rotation_sel_get_rotation
 
 <SECTION>
 <FILE>go-optionmenu</FILE>
-<TITLE>GoOptionMenu</TITLE>
+<TITLE>GOOptionMenu</TITLE>
 go_option_menu_new
 go_option_menu_set_menu
 go_option_menu_set_history
@@ -1013,7 +972,7 @@ GO_OPTION_MENU_GET_CLASS
 
 <SECTION>
 <FILE>go-graph-widget</FILE>
-<TITLE>GoGraphWidget</TITLE>
+<TITLE>GOGraphWidget</TITLE>
 GOGraphWidget
 GOGraphWidgetSizeMode
 go_graph_widget_new
@@ -1027,7 +986,7 @@ GOGraphWidgetClass
 
 <SECTION>
 <FILE>go-palette</FILE>
-<TITLE>GoPalette</TITLE>
+<TITLE>GOPalette</TITLE>
 GOPaletteSwatchRenderCallback
 GOPaletteSwatchTooltipCallback
 go_palette_new
@@ -1045,7 +1004,7 @@ GOPalettePrivate
 
 <SECTION>
 <FILE>go-selector</FILE>
-<TITLE>GoSelector</TITLE>
+<TITLE>GOSelector</TITLE>
 go_selector_activate
 go_selector_get_active
 go_selector_get_type
@@ -1060,7 +1019,7 @@ go_gradient_selector_set_colors
 
 <SECTION>
 <FILE>go-color-selector</FILE>
-<TITLE>GoColorSelector</TITLE>
+<TITLE>GOColorSelector</TITLE>
 go_color_palette_get_current_color
 go_color_palette_get_type
 go_color_palette_make_menu
@@ -1082,7 +1041,7 @@ go_color_selector_set_color
 
 <SECTION>
 <FILE>go-math</FILE>
-<TITLE>GoMath</TITLE>
+<TITLE>GOMath</TITLE>
 go_math_init
 go_continued_fraction
 go_stern_brocot
@@ -1107,14 +1066,14 @@ isnan
 
 <SECTION>
 <FILE>go-fft</FILE>
-<TITLE>GoFft</TITLE>
+<TITLE>GOFft</TITLE>
 go_fourier_fft
 go_fourier_fftl
 </SECTION>
 
 <SECTION>
 <FILE>go-complex</FILE>
-<TITLE>GoComplex</TITLE>
+<TITLE>GOComplex</TITLE>
 go_complex
 go_complexl
 go_complex_add
@@ -1166,7 +1125,7 @@ go_complex_zero_pl
 
 <SECTION>
 <FILE>go-range</FILE>
-<TITLE>GoRange</TITLE>
+<TITLE>GORange</TITLE>
 go_range_sum
 go_range_sumsq
 go_range_average
@@ -1197,7 +1156,7 @@ go_range_median_interl
 
 <SECTION>
 <FILE>go-regression</FILE>
-<TITLE>GoRegression</TITLE>
+<TITLE>GORegression</TITLE>
 LOGFIT_C_ACCURACY
 LOGFIT_C_STEP_FACTOR
 LOGFIT_C_RANGE_FACTOR
@@ -1233,7 +1192,7 @@ go_regression_stat_tl
 
 <SECTION>
 <FILE>go-geometry</FILE>
-<TITLE>GoGeometry</TITLE>
+<TITLE>GOGeometry</TITLE>
 <INCLUDE>goffice/graph/go-geometry.h</INCLUDE>
 GO_GEOMETRY_ANGLE_TOLERANCE
 GOGeometrySide
@@ -1275,9 +1234,9 @@ go_image_format_to_mime
 go_image_get_format_info
 go_image_get_format_from_name
 go_image_get_formats_with_pixbuf_saver
-GO_IMAGE_TYPE
+GO_TYPE_IMAGE
 GO_IMAGE
-IS_GO_IMAGE
+GO_IS_IMAGE
 go_image_get_type
 go_image_get_cairo
 go_image_create_cairo_pattern
@@ -1298,11 +1257,11 @@ go_persist_sax_save
 go_persist_prep_sax
 GO_PARAM_PERSISTENT
 <SUBSECTION Standard>
-GO_PERSIST_TYPE
+GO_TYPE_PERSIST
 GO_PERSIST
-IS_GO_PERSIST
+GO_IS_PERSIST
 GO_PERSIST_CLASS
-IS_GO_PERSIST_CLASS
+GO_IS_PERSIST_CLASS
 GO_PERSIST_GET_CLASS
 <SUBSECTION Private>
 go_persist_get_type
@@ -1345,7 +1304,7 @@ GORect
 
 <SECTION>
 <FILE>go-color</FILE>
-<TITLE>GoColor</TITLE>
+<TITLE>GOColor</TITLE>
 GDK_TO_UINT
 RGB_TO_UINT
 RGB_TO_RGBA
@@ -1396,7 +1355,7 @@ go_color_to_gdk
 
 <SECTION>
 <FILE>go-font</FILE>
-<TITLE>GoFont</TITLE>
+<TITLE>GOFont</TITLE>
 GOFont
 go_font_new_by_name
 go_font_new_by_desc
@@ -1420,7 +1379,7 @@ go_fonts_shutdown
 
 <SECTION>
 <FILE>go-gradient</FILE>
-<TITLE>GoGradient</TITLE>
+<TITLE>GOGradient</TITLE>
 GOGradientDirection
 go_gradient_dir_from_str
 go_gradient_dir_as_str
@@ -1428,7 +1387,7 @@ go_gradient_dir_as_str
 
 <SECTION>
 <FILE>go-line</FILE>
-<TITLE>GoLine</TITLE>
+<TITLE>GOLine</TITLE>
 GOLineDashType
 GOLineDashSequence
 go_line_dash_from_str
@@ -1445,10 +1404,10 @@ go_line_interpolation_as_str
 
 <SECTION>
 <FILE>go-marker</FILE>
-<TITLE>GoMarker</TITLE>
-GO_MARKER_TYPE
+<TITLE>GOMarker</TITLE>
+GO_TYPE_MARKER
 GO_MARKER
-IS_GO_MARKER
+GO_IS_MARKER
 GOMarkerShape
 go_marker_new
 go_marker_dup
@@ -1473,7 +1432,7 @@ go_marker_selector_set_colors
 
 <SECTION>
 <FILE>go-pattern</FILE>
-<TITLE>GoPattern</TITLE>
+<TITLE>GOPattern</TITLE>
 GOPattern
 GOPatternType
 go_pattern_from_str
@@ -1489,7 +1448,7 @@ go_pattern_selector_set_colors
 
 <SECTION>
 <FILE>go-reg</FILE>
-<TITLE>GoReg</TITLE>
+<TITLE>GOReg</TITLE>
 REG_OK
 GORegexp
 GORegoff
@@ -1504,13 +1463,13 @@ go_regexp_quote
 
 <SECTION>
 <FILE>go-search-replace</FILE>
-<TITLE>GoSearchReplace</TITLE>
+<TITLE>GOSearchReplace</TITLE>
 go_search_replace_error_quark
 go_search_replace_verify
 go_search_match_string
 go_search_replace_string
 <SUBSECTION Standard>
-GO_SEARCH_REPLACE_TYPE
+GO_TYPE_SEARCH_REPLACE
 GO_SEARCH_REPLACE
 GO_IS_SEARCH_REPLACE
 go_search_replace_get_type
@@ -1518,7 +1477,7 @@ go_search_replace_get_type
 
 <SECTION>
 <FILE>go-format</FILE>
-<TITLE>GoFormat</TITLE>
+<TITLE>GOFormat</TITLE>
 GOFormat
 GOFormatFamily
 GOFormatNumberError
@@ -1573,7 +1532,7 @@ go_currency_date_format_shutdown
 
 <SECTION>
 <FILE>go-glib-extras</FILE>
-<TITLE>GoGlibExtras</TITLE>
+<TITLE>GOGlibExtras</TITLE>
 GOMapFunc
 go_ptr_array_insert
 go_hash_keys
@@ -1624,7 +1583,7 @@ go_object_properties_free
 
 <SECTION>
 <FILE>go-libxml-extras</FILE>
-<TITLE>GoLibxmlExtras</TITLE>
+<TITLE>GOLibxmlExtras</TITLE>
 go_xml_parse_file
 xml_node_get_cstr
 xml_node_set_cstr
@@ -1644,25 +1603,84 @@ e_xml_get_child_by_name_by_lang
 </SECTION>
 
 <SECTION>
+<FILE>go-style</FILE>
+<TITLE>GOStyle</TITLE>
+<INCLUDE>goffice/utils/go-style.h</INCLUDE>
+GOStyle
+GOStyleFlag
+GOStyleFill
+GOImageType
+GOStyleLine
+GOStyleMark
+go_style_new
+go_style_dup
+go_style_assign
+go_style_apply_theme
+go_style_set_marker
+go_style_set_font_desc
+go_style_set_font
+go_style_set_fill_brightness
+go_style_set_text_angle
+go_style_is_different_size
+go_style_is_marker_visible
+go_style_is_line_visible
+go_style_is_outline_visible
+go_style_is_fill_visible
+go_style_force_auto
+go_style_get_editor
+go_style_populate_editor
+go_style_create_cairo_pattern
+go_style_get_marker
+<SUBSECTION Standard>
+GO_TYPE_STYLE
+GO_STYLE
+GO_IS_STYLE
+<SUBSECTION Private>
+gog_style_get_type
+</SECTION>
+
+<SECTION>
+<FILE>go-styled-object</FILE>
+<TITLE>GOStyledObject</TITLE>
+<INCLUDE>goffice/utils/go-styled-object.h</INCLUDE>
+GOStyledObject
+go_styled_object_get_style
+go_styled_object_get_auto_style
+go_styled_object_set_style
+go_styled_object_apply_theme
+go_styled_object_style_changed
+go_styled_object_get_document
+<SUBSECTION Standard>
+GO_TYPE_STYLED_OBJECT
+GO_STYLED_OBJECT
+GO_IS_STYLED_OBJECT
+GO_STYLED_OBJECT_CLASS
+GO_IS_STYLED_OBJECT_CLASS
+GO_STYLED_OBJECT_GET_CLASS
+<SUBSECTION Private>
+go_styled_object_get_type
+</SECTION>
+
+<SECTION>
 <FILE>go-doc-control</FILE>
 <TITLE>GODocControl</TITLE>
-GO_DOC_CONTROL_TYPE
+GO_TYPE_DOC_CONTROL
 GO_DOC_CONTROL
-IS_GO_DOC_CONTROL
+GO_IS_DOC_CONTROL
 GODocControlState
 go_doc_control_get_type
 <SUBSECTION Private>
 GO_DOC_CONTROL_CLASS
-IS_GO_DOC_CONTROL_CLASS
+GO_IS_DOC_CONTROL_CLASS
 GO_DOC_CONTROL_GET_CLASS
 </SECTION>
 
 <SECTION>
 <FILE>go-doc</FILE>
 <TITLE>GODoc</TITLE>
-GO_DOC_TYPE
+GO_TYPE_DOC
 GO_DOC
-IS_GO_DOC
+GO_IS_DOC
 go_doc_get_type
 go_doc_new_from_input
 go_doc_new_from_uri
@@ -1679,16 +1697,16 @@ go_doc_set_uri
 go_doc_update_meta_data
 <SUBSECTION Private>
 GO_DOC_CLASS
-IS_GO_DOC_CLASS
+GO_IS_DOC_CLASS
 GO_DOC_GET_CLASS
 </SECTION>
 
 <SECTION>
 <FILE>go-app</FILE>
-<TITLE>GoApp</TITLE>
-GO_APP_TYPE
+<TITLE>GOApp</TITLE>
+GO_TYPE_APP
 GO_APP
-IS_GO_APP
+GO_IS_APP
 go_app_get_type
 go_app_get_plugin
 go_app_sys_lib_dir
@@ -1701,9 +1719,9 @@ go_app_sys_glade_dir
 <FILE>go-component</FILE>
 <TITLE>GOComponent</TITLE>
 GOComponent
-GO_COMPONENT_TYPE
+GO_TYPE_COMPONENT
 GO_COMPONENT
-IS_GO_COMPONENT
+GO_IS_COMPONENT
 GOC_PARAM_PERSISTENT
 go_component_get_type
 go_component_new_by_mime_type
@@ -1724,7 +1742,7 @@ go_component_render
 
 <SECTION>
 <FILE>go-component-factory</FILE>
-<TITLE>GoComponentFactory</TITLE>
+<TITLE>GOComponentFactory</TITLE>
 GOMimePriority
 GOComponentType
 go_components_get_mime_types
@@ -1739,10 +1757,10 @@ goc_plugin_services_shutdown
 
 <SECTION>
 <FILE>go-cmd-context</FILE>
-<TITLE>GoCmdContext</TITLE>
-GO_CMD_CONTEXT_TYPE
+<TITLE>GOCmdContext</TITLE>
+GO_TYPE_CMD_CONTEXT
 GO_CMD_CONTEXT
-IS_GO_CMD_CONTEXT
+GO_IS_CMD_CONTEXT
 go_cmd_context_get_type
 go_cmd_context_error
 go_cmd_context_get_password
@@ -1759,16 +1777,16 @@ go_error_invalid
 <SUBSECTION Private>
 error
 GO_CMD_CONTEXT_CLASS
-IS_GO_CMD_CONTEXT_CLASS
+GO_IS_CMD_CONTEXT_CLASS
 go_cmd_context_progress_set
 go_cmd_context_progress_message_set
 </SECTION>
 
 <SECTION>
 <FILE>go-plugin</FILE>
-GO_PLUGIN_TYPE
+GO_TYPE_PLUGIN
 GO_PLUGIN
-IS_GO_PLUGIN
+GO_IS_PLUGIN
 go_plugin_init
 go_plugin_shutdown
 go_plugin_get_type
@@ -1808,11 +1826,11 @@ go_plugin_db_deactivate_plugin_list
 <SECTION>
 <FILE>go-plugin-loader</FILE>
 <TITLE>GOPluginLoader</TITLE>
-GO_PLUGIN_LOADER_TYPE
+GO_TYPE_PLUGIN_LOADER
 GO_PLUGIN_LOADER
-IS_GO_PLUGIN_LOADER
+GO_IS_PLUGIN_LOADER
 GO_PLUGIN_LOADER_CLASS
-IS_GO_PLUGIN_LOADER_CLASS
+GO_IS_PLUGIN_LOADER_CLASS
 go_plugin_loader_get_type
 go_plugin_loader_set_attributes
 go_plugin_loader_get_plugin
@@ -1826,12 +1844,12 @@ go_plugin_loader_is_base_loaded
 
 <SECTION>
 <FILE>go-plugin-loader-module</FILE>
-<TITLE>GoPluginLoaderModule</TITLE>
-GO_PLUGIN_LOADER_MODULE_TYPE
+<TITLE>GOPluginLoaderModule</TITLE>
+GO_TYPE_PLUGIN_LOADER_MODULE
 GO_PLUGIN_LOADER_MODULE
-IS_GO_PLUGIN_LOADER_MODULE
+GO_IS_PLUGIN_LOADER_MODULE
 GO_PLUGIN_LOADER_MODULE_CLASS
-IS_GO_PLUGIN_LOADER_MODULE_CLASS
+GO_IS_PLUGIN_LOADER_MODULE_CLASS
 GOPluginLoaderModule
 GOPluginLoaderModuleClass
 go_plugin_loader_module_get_type
@@ -1841,43 +1859,43 @@ go_plugin_loader_module_register_version
 <SECTION>
 <FILE>go-plugin-service</FILE>
 <TITLE>GOPluginService</TITLE>
-GO_PLUGIN_SERVICE_TYPE
+GO_TYPE_PLUGIN_SERVICE
 GO_PLUGIN_SERVICE
-IS_GO_PLUGIN_SERVICE
+GO_IS_PLUGIN_SERVICE
 plugin_service_get_type
-GO_PLUGIN_SERVICE_GENERAL_TYPE
+GO_TYPE_PLUGIN_SERVICE_GENERAL
 GO_PLUGIN_SERVICE_GENERAL
-IS_GO_PLUGIN_SERVICE_GENERAL
+GO_IS_PLUGIN_SERVICE_GENERAL
 plugin_service_general_get_type
 PluginServiceGeneral
 PluginServiceGeneralCallbacks
-GO_PLUGIN_SERVICE_FILE_OPENER_TYPE
+GO_TYPE_PLUGIN_SERVICE_FILE_OPENER
 GO_PLUGIN_SERVICE_FILE_OPENER
-IS_GO_PLUGIN_SERVICE_FILE_OPENER
+GO_IS_PLUGIN_SERVICE_FILE_OPENER
 plugin_service_file_opener_get_type
 PluginServiceFileOpener
 PluginServiceFileOpenerCallbacks
-GO_PLUGIN_SERVICE_FILE_SAVER_TYPE
+GO_TYPE_PLUGIN_SERVICE_FILE_SAVER
 GO_PLUGIN_SERVICE_FILE_SAVER
-IS_GO_PLUGIN_SERVICE_FILE_SAVER
+GO_IS_PLUGIN_SERVICE_FILE_SAVER
 plugin_service_file_saver_get_type
 PluginServiceFileSaver
 PluginServiceFileSaverCallbacks
-GO_PLUGIN_SERVICE_PLUGIN_LOADER_TYPE
+GO_TYPE_PLUGIN_SERVICE_PLUGIN_LOADER
 GO_PLUGIN_SERVICE_PLUGIN_LOADER
-IS_GO_PLUGIN_SERVICE_PLUGIN_LOADER
+GO_IS_PLUGIN_SERVICE_PLUGIN_LOADER
 plugin_service_plugin_loader_get_type
 PluginServicePluginLoader
 PluginServicePluginLoaderCallbacks
 plugin_service_plugin_loader_generate_type
-GO_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE
+GO_TYPE_PLUGIN_SERVICE_GOBJECT_LOADER
 GO_PLUGIN_SERVICE_GOBJECT_LOADER
-IS_GO_PLUGIN_SERVICE_GOBJECT_LOADER
+GO_IS_PLUGIN_SERVICE_GOBJECT_LOADER
 plugin_service_gobject_loader_get_type
 PluginServiceGObjectLoader
-GO_PLUGIN_SERVICE_SIMPLE_TYPE
+GO_TYPE_PLUGIN_SERVICE_SIMPLE
 GO_PLUGIN_SERVICE_SIMPLE
-IS_GO_PLUGIN_SERVICE_SIMPLE
+GO_IS_PLUGIN_SERVICE_SIMPLE
 plugin_service_simple_get_type
 PluginServiceSimple
 plugin_service_new
@@ -1903,14 +1921,14 @@ GPS_GOBJECT_LOADER_GET_CLASS
 <SECTION>
 <FILE>go-service</FILE>
 <TITLE>GOService</TITLE>
-GO_SERVICE_TYPE
+GO_TYPE_SERVICE
 GO_SERVICE
-IS_GO_SERVICE
+GO_IS_SERVICE
 go_service_get_type
 go_service_get_plugin
-GO_SERVICE_SIMPLE_TYPE
+GO_TYPE_SERVICE_SIMPLE
 GO_SERVICE_SIMPLE
-IS_GO_SERVICE_SIMPLE
+GO_IS_SERVICE_SIMPLE
 GOServiceSimple
 go_service_simple_get_type
 <SUBSECTION Private>
@@ -1929,9 +1947,9 @@ go_data_as_str
 go_data_from_str
 go_data_emit_changed
 <SUBSECTION Standard>
-GO_DATA_TYPE
+GO_TYPE_DATA
 GO_DATA
-IS_GO_DATA
+GO_IS_DATA
 <SUBSECTION Private>
 go_data_get_type
 GODataFlags
@@ -1952,15 +1970,15 @@ go_data_scalar_val_new
 go_data_scalar_str_new
 go_data_scalar_str_set_str
 <SUBSECTION Standard>
-GO_DATA_SCALAR_TYPE
+GO_TYPE_DATA_SCALAR
 GO_DATA_SCALAR
-IS_GO_DATA_SCALAR
-GO_DATA_SCALAR_VAL_TYPE
+GO_IS_DATA_SCALAR
+GO_TYPE_DATA_SCALAR_VAL
 GO_DATA_SCALAR_VAL
-IS_GO_DATA_SCALAR_VAL
-GO_DATA_SCALAR_STR_TYPE
+GO_IS_DATA_SCALAR_VAL
+GO_TYPE_DATA_SCALAR_STR
 GO_DATA_SCALAR_STR
-IS_GO_DATA_SCALAR_STR
+GO_IS_DATA_SCALAR_STR
 <SUBSECTION Private>
 go_data_scalar_get_type
 go_data_scalar_val_get_type
@@ -1986,15 +2004,15 @@ go_data_vector_str_new
 go_data_vector_str_set_translate_func
 go_data_vector_str_set_translation_domain
 <SUBSECTION Standard>
-GO_DATA_VECTOR_TYPE
+GO_TYPE_DATA_VECTOR
 GO_DATA_VECTOR
-IS_GO_DATA_VECTOR
-GO_DATA_VECTOR_VAL_TYPE
+GO_IS_DATA_VECTOR
+GO_TYPE_DATA_VECTOR_VAL
 GO_DATA_VECTOR_VAL
-IS_GO_DATA_VECTOR_VAL
-GO_DATA_VECTOR_STR_TYPE
+GO_IS_DATA_VECTOR_VAL
+GO_TYPE_DATA_VECTOR_STR
 GO_DATA_VECTOR_STR
-IS_GO_DATA_VECTOR_STR
+GO_IS_DATA_VECTOR_STR
 <SUBSECTION Private>
 go_data_vector_get_type
 go_data_vector_val_get_type
@@ -2016,12 +2034,12 @@ go_data_matrix_get_minmax
 <SUBSECTION>
 go_data_matrix_val_new
 <SUBSECTION Standard>
-GO_DATA_MATRIX_TYPE
+GO_TYPE_DATA_MATRIX
 GO_DATA_MATRIX
-IS_GO_DATA_MATRIX
-GO_DATA_MATRIX_VAL_TYPE
+GO_IS_DATA_MATRIX
+GO_TYPE_DATA_MATRIX_VAL
 GO_DATA_MATRIX_VAL
-IS_GO_DATA_MATRIX_VAL
+GO_IS_DATA_MATRIX_VAL
 <SUBSECTION Private>
 go_data_matrix_get_type
 go_data_matrix_val_get_type
@@ -2030,7 +2048,7 @@ go_data_matrix_val_get_type
 
 <SECTION>
 <FILE>go-url</FILE>
-<TITLE>GoUrl</TITLE>
+<TITLE>GOUrl</TITLE>
 go_url_check_extension
 go_url_decode
 go_url_encode
@@ -2042,7 +2060,7 @@ go_url_simplify
 
 <SECTION>
 <FILE>go-undo</FILE>
-<TITLE>GoUndo</TITLE>
+<TITLE>GOUndo</TITLE>
 go_undo_binary_get_type
 go_undo_binary_new
 go_undo_combine
@@ -2058,7 +2076,7 @@ go_undo_undo_with_data
 
 <SECTION>
 <FILE>go-file</FILE>
-<TITLE>GoFile</TITLE>
+<TITLE>GOFile</TITLE>
 go_file_access
 go_file_create
 go_file_get_date_accessed
@@ -2072,7 +2090,7 @@ go_file_split_urls
 
 <SECTION>
 <FILE>go-file-opener</FILE>
-<TITLE>GoFileOpener</TITLE>
+<TITLE>GOFileOpener</TITLE>
 go_file_opener_can_probe
 go_file_opener_for_id
 go_file_opener_get_description
@@ -2092,7 +2110,7 @@ go_file_opener_unregister
 
 <SECTION>
 <FILE>go-file-saver</FILE>
-<TITLE>GoFileSaver</TITLE>
+<TITLE>GOFileSaver</TITLE>
 go_file_saver_for_file_name
 go_file_saver_for_id
 go_file_saver_for_mime_type

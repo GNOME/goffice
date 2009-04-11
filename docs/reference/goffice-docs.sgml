@@ -48,7 +48,6 @@
 			<xi:include href="xml/gog-editor.xml"/>
 			<xi:include href="xml/gog-tool.xml"/>
 			<xi:include href="xml/gog-plot-engine.xml"/>
-			<xi:include href="xml/gog-style.xml"/>
 			<xi:include href="xml/gog-theme.xml"/>
 			<xi:include href="xml/gog-chart-map.xml"/>
 			<xi:include href="xml/gog-axis-map.xml"/>
@@ -85,6 +84,8 @@
 			<xi:include href="xml/go-line.xml"/>
 			<xi:include href="xml/go-marker.xml"/>
 			<xi:include href="xml/go-pattern.xml"/>
+			<xi:include href="xml/go-style.xml"/>
+			<xi:include href="xml/go-styled-object.xml"/>
 		</chapter>
 		<chapter>
 			<title>Rendering utilities</title>

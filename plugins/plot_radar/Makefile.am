@@ -22,7 +22,7 @@ ui_DATA = gog-color-polar-prefs.xml
 plot-types.xml : plot-types.xml.in
 	cp $< $@
 
-EXTRA_DIST = $(xml_in_files)
+EXTRA_DIST = $(xml_in_files) $(ui_DATA)
 DISTCLEANFILES = $(xml_in_files:.xml.in=.xml)
 
 include $(top_srcdir)/goffice-plugins.mk
