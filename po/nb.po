@@ -5,7 +5,7 @@
 #: ../goffice/app/file.c:512
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.2.5\n"
+"Project-Id-Version: goffice 0.9.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-11 14:27+0200\n"
 "PO-Revision-Date: 2009-04-11 14:44+0200\n"
