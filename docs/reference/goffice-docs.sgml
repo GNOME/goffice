@@ -45,7 +45,6 @@
 			<xi:include href="xml/gog-renderer.xml"/>
 			<xi:include href="xml/gog-control-foocanvas.xml"/>
 			<xi:include href="xml/gog-guru.xml"/>
-			<xi:include href="xml/gog-editor.xml"/>
 			<xi:include href="xml/gog-tool.xml"/>
 			<xi:include href="xml/gog-plot-engine.xml"/>
 			<xi:include href="xml/gog-theme.xml"/>
@@ -79,6 +78,7 @@
 		<chapter>
 			<title>Graphic object properties</title>
 			<xi:include href="xml/go-color.xml"/>
+			<xi:include href="xml/go-editor.xml"/>
 			<xi:include href="xml/go-font.xml"/>
 			<xi:include href="xml/go-gradient.xml"/>
 			<xi:include href="xml/go-line.xml"/>

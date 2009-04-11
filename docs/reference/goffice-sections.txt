@@ -481,8 +481,9 @@ gog_label_get_type
 </SECTION>
 
 <SECTION>
-<FILE>gog-label</FILE>
+<FILE>gog-reg-eq</FILE>
 <TITLE>GogRegEqn</TITLE>
+<INCLUDE>goffice/graph/gog-label.h</INCLUDE>
 GogRegEqn
 <SUBSECTION Standard>
 GOG_TYPE_REG_EQN
@@ -666,17 +667,17 @@ gog_guru_get_help_button
 </SECTION>
 
 <SECTION>
-<FILE>gog-editor</FILE>
-<TITLE>GogEditor</TITLE>
-GogEditor
-GogEditorPage
-gog_editor_new
-gog_editor_free
-gog_editor_add_page
-gog_editor_set_store_page
-gog_editor_get_notebook
-gog_editor_get_registered_widget
-gog_editor_register_widget
+<FILE>go-editor</FILE>
+<TITLE>GOEditor</TITLE>
+GOEditor
+GOEditorPage
+go_editor_new
+go_editor_free
+go_editor_add_page
+go_editor_set_store_page
+go_editor_get_notebook
+go_editor_get_registered_widget
+go_editor_register_widget
 </SECTION>
 
 <SECTION>
