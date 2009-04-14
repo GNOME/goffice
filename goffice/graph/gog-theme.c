@@ -608,7 +608,7 @@ gog_themes_init	(void)
 	gog_theme_add_element (theme, style,
 		NULL, "GogRegEqn", NULL);
 
-#ifdef GOFFICE_WITH_GMATHML
+#ifdef GOFFICE_WITH_LASEM
 	/* Equations */
 	style = go_style_new ();
 	style->outline.dash_type = GO_LINE_NONE;
@@ -738,7 +738,7 @@ gog_themes_init	(void)
 	gog_theme_add_element (theme, style,
 		NULL, "GogRegEqn", NULL);
 
-#ifdef GOFFICE_WITH_GMATHML
+#ifdef GOFFICE_WITH_LASEM
 	/* Equations */
 	style = go_style_new ();
 	style->outline.dash_type = GO_LINE_NONE;

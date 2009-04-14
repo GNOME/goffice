@@ -56,7 +56,7 @@
 #undef STRICT
 #endif
 
-#ifdef GOFFICE_WITH_GMATHML
+#ifdef GOFFICE_WITH_LASEM
 #include <goffice/graph/gog-equation.h>
 #endif
 
@@ -143,7 +143,7 @@ libgoffice_init ()
 	(void) GOG_TYPE_LABEL;
 	(void) GOG_TYPE_GRID;
 	(void) GOG_TYPE_GRID_LINE;
-#ifdef GOFFICE_WITH_GMATHML
+#ifdef GOFFICE_WITH_LASEM
 	(void) GOG_TYPE_EQUATION;
 #endif
 	(void) GOG_TYPE_ERROR_BAR;

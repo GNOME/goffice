@@ -58,7 +58,7 @@ IGNORE_HFILES=	\
 		foo-canvas-marshal.h			\
 		ucp.h
 
-if GOFFICE_WITH_GMATHML
+if GOFFICE_WITH_LASEM
 else
 IGNORE_HFILES += gog-equation.h
 endif

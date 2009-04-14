@@ -1392,15 +1392,16 @@ gog_renderer_get_hairline_width_pts (GogRenderer const *rend)
 
 	return 1.0 / rend->scale;
 }
-#ifdef GOFFICE_WITH_GMATHML
+
+#ifdef GOFFICE_WITH_LASEM
 
 void
-gog_renderer_draw_equation (GogRenderer *renderer, GMathmlView *mathml_view, double x, double y)
+gog_renderer_draw_equation (GogRenderer *renderer, LsmMathmlView *mathml_view, double x, double y)
 {
 	cairo_t *cairo;
 
 	g_return_if_fail (GOG_IS_RENDERER (renderer));
-	g_return_if_fail (GMATHML_IS_VIEW (mathml_view));
+	g_return_if_fail (LSM_IS_MATHML_VIEW (mathml_view));
 
 	cairo = renderer->cairo;
 
@@ -1408,8 +1409,8 @@ gog_renderer_draw_equation (GogRenderer *renderer, GMathmlView *mathml_view, dou
 
 	cairo_scale (cairo, renderer->scale_x, renderer->scale_y);
 
-	gmathml_view_set_cairo (mathml_view, cairo);
-	gmathml_view_render (mathml_view, x / renderer->scale_x, y / renderer->scale_y);
+	lsm_dom_view_set_cairo (LSM_DOM_VIEW (mathml_view), cairo);
+	lsm_dom_view_render (LSM_DOM_VIEW (mathml_view), x / renderer->scale_x, y / renderer->scale_y);
 
 	cairo_restore (cairo);
 }

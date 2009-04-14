@@ -58,8 +58,8 @@ typedef enum
 } GtkAnchorType;
 #endif
 
-#ifdef GOFFICE_WITH_GMATHML
-#include <gmathmlview.h>
+#ifdef GOFFICE_WITH_LASEM
+#include <lsmmathmlview.h>
 #endif
 
 #include <cairo.h>
@@ -152,8 +152,8 @@ gboolean 	 gog_renderer_export_image 	(GogRenderer *renderer, GOImageFormat form
 
 GogRenderer 	*gog_renderer_new 		(GogGraph *graph);
 
-#ifdef GOFFICE_WITH_GMATHML
-void		 gog_renderer_draw_equation	(GogRenderer *renderer, GMathmlView *mathml_view,
+#ifdef GOFFICE_WITH_LASEM
+void		 gog_renderer_draw_equation	(GogRenderer *renderer, LsmMathmlView *mathml_view,
 						 double x, double y);
 #endif
 

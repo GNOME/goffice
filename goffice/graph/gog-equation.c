@@ -19,9 +19,9 @@
  * USA
  */
 
-#include <gmathmldocument.h>
-#include <gmathmlparser.h>
-#include <gmathmlmathelement.h>
+#include <lsmmathmldocument.h>
+#include <lsmdomparser.h>
+#include <lsmmathmlmathelement.h>
 
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-outlined-object.h>
@@ -52,7 +52,7 @@ struct _GogEquation {
 
 	char *itex;
 	gboolean inline_mode;
-	GMathmlDocument *mathml;
+	LsmMathmlDocument *mathml;
 };
 
 typedef struct {
@@ -119,22 +119,22 @@ gog_equation_populate_editor (GogObject *obj,
 static void
 _update_equation_style (GogEquation *equation, const GOStyle *style)
 {
-	GMathmlStyle *math_style;
-	GMathmlMathElement *math_element;
+	LsmMathmlStyle *math_style;
+	LsmMathmlMathElement *math_element;
 	PangoFontDescription *font_description;
 
 	if (equation->mathml == NULL)
 		return;
 
-	math_element = gmathml_document_get_math_element (equation->mathml);
+	math_element = lsm_mathml_document_get_root_element (equation->mathml);
 	if (math_element == NULL)
 		return;
 
-	math_style = gmathml_math_element_get_default_style (math_element);
+	math_style = lsm_mathml_math_element_get_default_style (math_element);
 	if (math_style == NULL)
 		return;
 
-	gmathml_style_set_math_color (math_style,
+	lsm_mathml_style_set_math_color (math_style,
 				      DOUBLE_RGBA_R (style->font.color),
 				      DOUBLE_RGBA_G (style->font.color),
 				      DOUBLE_RGBA_B (style->font.color),
@@ -142,34 +142,34 @@ _update_equation_style (GogEquation *equation, const GOStyle *style)
 
 	font_description = style->font.font->desc;
 	if (font_description != NULL) {
-		GMathmlVariant math_variant;
+		LsmMathmlVariant math_variant;
 
 		if (pango_font_description_get_weight (font_description) >= PANGO_WEIGHT_BOLD) {
 			if (pango_font_description_get_style (font_description) == PANGO_STYLE_NORMAL)
-				math_variant = GMATHML_VARIANT_BOLD;
+				math_variant = LSM_MATHML_VARIANT_BOLD;
 			else
-				math_variant = GMATHML_VARIANT_BOLD_ITALIC;
+				math_variant = LSM_MATHML_VARIANT_BOLD_ITALIC;
 		} else {
 			if (pango_font_description_get_style (font_description) == PANGO_STYLE_NORMAL)
-				math_variant = GMATHML_VARIANT_NORMAL;
+				math_variant = LSM_MATHML_VARIANT_NORMAL;
 			else
-				math_variant = GMATHML_VARIANT_ITALIC;
+				math_variant = LSM_MATHML_VARIANT_ITALIC;
 		}
 
-		gmathml_style_set_math_family (math_style, pango_font_description_get_family (font_description));
-		gmathml_style_set_math_size_pt
+		lsm_mathml_style_set_math_family (math_style, pango_font_description_get_family (font_description));
+		lsm_mathml_style_set_math_size_pt
 			(math_style, pango_units_to_double (pango_font_description_get_size (font_description)));
-		gmathml_style_set_math_variant (math_style, math_variant);
+		lsm_mathml_style_set_math_variant (math_style, math_variant);
 	}
 
-	gmathml_math_element_set_default_style (math_element, math_style);
+	lsm_mathml_math_element_set_default_style (math_element, math_style);
 }
 
 static void
 gog_equation_update (GogObject *obj)
 {
 	GogEquation *equation = GOG_EQUATION (obj);
-	GMathmlDocument *mathml;
+	LsmMathmlDocument *mathml;
 	GString *itex;
 	char *itex_iter;
 	char *prev_char = '\0';
@@ -223,22 +223,24 @@ gog_equation_update (GogObject *obj)
 	else
 		itex = g_string_append (itex, "$$");
 
-	mathml = gmathml_document_new_from_itex (itex->str);
+	mathml = lsm_mathml_document_new_from_itex (itex->str);
 
 	/* Keep the last valid mathml document if the itex -> mathml conversion fails.
 	 * It keep the equation from disappearing when the current equation entry is not a
 	 * well formed itex expression. */
 
-	if (gmathml_document_get_math_element (mathml) != NULL || is_blank) {
-		if (equation->mathml != NULL)
-			g_object_unref (equation->mathml);
+	if (mathml != NULL) {
+		if (lsm_mathml_document_get_root_element (mathml) != NULL || is_blank) {
+			if (equation->mathml != NULL)
+				g_object_unref (equation->mathml);
 
-		equation->mathml = mathml;
+			equation->mathml = mathml;
 
-		_update_equation_style (equation,
-					go_styled_object_get_style (GO_STYLED_OBJECT (equation)));
-	} else
-		g_object_unref (mathml);
+			_update_equation_style (equation,
+						go_styled_object_get_style (GO_STYLED_OBJECT (equation)));
+		} else
+			g_object_unref (mathml);
+	}
 
 	g_string_free (itex, TRUE);
 }
@@ -365,7 +367,7 @@ GSF_CLASS (GogEquation, gog_equation,
 typedef struct {
 	GogOutlinedView		 base;
 
-	GMathmlView 		*mathml_view;
+	LsmMathmlView 		*mathml_view;
 } GogEquationView;
 
 typedef GogOutlinedViewClass	GogEquationViewClass;
@@ -394,8 +396,9 @@ gog_equation_view_size_request (GogView *view,
 		return;
 	}
 
-	gmathml_view_set_document (equation_view->mathml_view, equation->mathml);
-	gmathml_view_measure (equation_view->mathml_view, &width, &height);
+	lsm_dom_view_set_document (LSM_DOM_VIEW (equation_view->mathml_view),
+				   LSM_DOM_DOCUMENT (equation->mathml));
+	lsm_dom_view_measure (LSM_DOM_VIEW (equation_view->mathml_view), &width, &height);
 
 	requisition->w = gog_renderer_pt2r_x (view->renderer, width);
 	requisition->h = gog_renderer_pt2r_y (view->renderer, height);
@@ -418,7 +421,8 @@ gog_equation_view_render (GogView *view,
 	if (equation->mathml == NULL)
 		return;
 
-	gmathml_view_set_document (equation_view->mathml_view, equation->mathml);
+	lsm_dom_view_set_document (LSM_DOM_VIEW (equation_view->mathml_view),
+				   LSM_DOM_DOCUMENT (equation->mathml));
 	gog_renderer_draw_equation (view->renderer, equation_view->mathml_view,
 				    view->residual.x, view->residual.y);
 }
@@ -450,7 +454,7 @@ gog_equation_view_init (GObject *object)
 {
 	GogEquationView *view = GOG_EQUATION_VIEW (object);
 
-	view->mathml_view = gmathml_view_new (NULL, NULL);
+	view->mathml_view = lsm_mathml_view_new (NULL);
 }
 
 GSF_CLASS (GogEquationView, gog_equation_view,

@@ -13,7 +13,7 @@ EXTRA_DIST = README NEWS BUGS MAINTAINERS AUTHORS \
 
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update doltcompile doltlibtool
 
-DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --with-gmathml
+DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --with-lasem
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libgoffice-@GOFFICE_API_VER@.pc

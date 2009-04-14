@@ -42,7 +42,7 @@
 #include <string.h>
 #include <math.h>
 
-#ifdef GOFFICE_WITH_GMATHML
+#ifdef GOFFICE_WITH_LASEM
 #include <goffice/graph/gog-equation.h>
 #endif
 
@@ -454,7 +454,7 @@ static GogObjectRole const roles[] = {
 	  GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER, 
 	  GOG_OBJECT_NAME_BY_ROLE,
 	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
-#ifdef GOFFICE_WITH_GMATHML
+#ifdef GOFFICE_WITH_LASEM
 	{ N_("Equation"), "GogEquation",	11,
 	  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL,
 	  GOG_POSITION_S|GOG_POSITION_ALIGN_CENTER,
