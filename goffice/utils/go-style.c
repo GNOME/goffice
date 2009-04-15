@@ -1021,19 +1021,17 @@ go_style_populate_editor (GOStyle *style,
 
 gpointer
 go_style_get_editor (GOStyle *style,
-		  GOStyle *default_style,
-		  GOCmdContext *cc,
-		  GObject *object_with_style)
+		     GOStyle *default_style,
+		     GOCmdContext *cc,
+		     GObject *object_with_style)
 {
 	GtkWidget *notebook;
 	GOEditor *editor = go_editor_new ();
 
-printf("editor=%p\n",editor);
 	go_style_populate_editor (style, editor, default_style, cc, 
 				   object_with_style, FALSE);
 
 	notebook = go_editor_get_notebook (editor);
-printf("notebook=%p\n",notebook);
 	go_editor_free (editor);
 	gtk_widget_show (notebook);
 	return notebook;
