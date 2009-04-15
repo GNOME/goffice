@@ -1,3 +1,7 @@
+2009-04-15  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-error-bar.c: Add missing include.
+
 2009-04-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* Makefile.am: add --with-gmathml to DISTCHECK_CONFIGURE_FLAGS so

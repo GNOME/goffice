@@ -32,6 +32,7 @@
 #include <goffice/utils/go-path.h>
 #include <goffice/utils/go-persist.h>
 #include <goffice/utils/go-style.h>
+#include <goffice/utils/go-libxml-extras.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>
