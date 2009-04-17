@@ -12,6 +12,8 @@ config.status
 config.sub
 configure
 depcomp
+doltcompile
+doltlibtool
 gtk-doc.make
 install-sh
 intl
@@ -19,7 +21,7 @@ intltool-extract*
 intltool-merge*
 intltool-modules
 intltool-update*
-libgoffice-*.pc
+libgoffice*.pc
 libtool
 ltconfig
 ltmain.sh
