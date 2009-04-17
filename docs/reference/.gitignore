@@ -1,7 +1,6 @@
 *.bak
 html
 xml
-tmpl
 Makefile
 Makefile.in
 *.stamp
