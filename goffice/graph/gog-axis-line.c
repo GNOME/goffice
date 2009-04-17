@@ -530,7 +530,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		return;
 	}
 
-	gui = go_libglade_new ("gog-axis-prefs.glade", "axis_base_pref_box", GETTEXT_PACKAGE, cc);
+	gui = go_glade_new ("gog-axis-prefs.glade", "axis_base_pref_box", GETTEXT_PACKAGE, cc);
 	if (gui == NULL) {
 		(GOG_OBJECT_CLASS(gab_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 		return;

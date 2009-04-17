@@ -43,7 +43,7 @@ void	    go_action_combo_text_add_item  (GOActionComboText       *a,
 void        go_action_combo_text_set_width (GOActionComboText       *a,
 					    char const *largest_elem);
 char const *go_action_combo_text_get_entry (GOActionComboText const *a);
-void	    go_action_combo_text_set_entry (GOActionComboText       *a,
+void	    go_action_combo_text_set_entry (GOActionComboText *taction,
 					    char const *text,
 					    GOActionComboTextSearchDir dir);
 

@@ -434,7 +434,7 @@ go_coup_cd (GDate *result, GDate const *settlement, GDate const *maturity,
  **/
 double
 go_coupdays (GDate const *settlement, GDate const *maturity,
-	  GnmCouponConvention const *conv)
+	     GnmCouponConvention const *conv)
 {
 	GDate prev, next;
 
@@ -479,16 +479,13 @@ go_coupdaybs (GDate const *settlement, GDate const *maturity,
  * go_coupdaysnc :
  * @settlement :
  * @maturity :
- * @freq :
- * @basis :
- * @eom :
  *
  * Returns: the number of days from the settlement date to the next
  * coupon date.
  **/
 double
 go_coupdaysnc (GDate const *settlement, GDate const *maturity,
-	    GnmCouponConvention const *conv)
+	       GnmCouponConvention const *conv)
 {
 	GDate next_coupon;
 	go_coup_cd (&next_coupon, settlement, maturity, conv->freq, conv->eom, TRUE);

@@ -103,8 +103,10 @@ go_gtk_dialog_add_button (GtkDialog *dialog, char const* text, char const* stock
 
 /**
  * go_glade_new :
- * @gcc : #GOCmdContext
  * @gladefile : the name of the file load
+ * @root :
+ * @domain :
+ * @gcc : #GOCmdContext
  *
  * Simple utility to open glade files
  *
@@ -142,7 +144,7 @@ go_glade_new (char const *gladefile, char const *root,
  * @gui : #GladeXML
  * @instance_name : widget name
  * @detailed_signal : signal name
- * @c_handle : #GCallback
+ * @c_handler : #GCallback
  * @data : arbitrary
  *
  * Convenience wrapper around g_signal_connect for glade.
@@ -164,11 +166,11 @@ go_glade_signal_connect	(GladeXML	*gui,
 }
 
 /**
- * go_glade_signal_connect :
+ * go_glade_signal_connect_swapped :
  * @gui : #GladeXML
  * @instance_name : widget name
  * @detailed_signal : signal name
- * @c_handle : #GCallback
+ * @c_handler : #GCallback
  * @data : arbitary
  *
  * Convenience wrapper around g_signal_connect_swapped for glade.
@@ -191,8 +193,9 @@ go_glade_signal_connect_swapped (GladeXML	*gui,
 
 /**
  * go_xml_builder_new :
+ * @uifile : the name of the file load
+ * @domain :
  * @gcc : #GOCmdContext
- * @gladefile : the name of the file load
  *
  * Simple utility to open ui files
  *
@@ -200,7 +203,7 @@ go_glade_signal_connect_swapped (GladeXML	*gui,
  **/
 GtkBuilder *
 go_xml_builder_new (char const *uifile,
-	      char const *domain, GOCmdContext *gcc)
+		    char const *domain, GOCmdContext *gcc)
 {
 	GtkBuilder *gui;
 	char *f;
@@ -684,7 +687,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 
 	g_object_set (G_OBJECT (fsel), "title", _("Save as"), NULL);
 
-	gui = go_libglade_new ("go-image-save-dialog-extra.glade", 
+	gui = go_glade_new ("go-image-save-dialog-extra.glade", 
 			       "image_save_dialog_extra", 
 			       GETTEXT_PACKAGE, NULL);
 	if (gui != NULL) {

@@ -199,7 +199,7 @@ gog_graph_populate_editor (GogObject *gobj,
 	GSList *theme_names;
 	static guint graph_pref_page = 0;
 
-	gui = go_libglade_new ("gog-graph-prefs.glade", "gog_graph_prefs", GETTEXT_PACKAGE, cc);
+	gui = go_glade_new ("gog-graph-prefs.glade", "gog_graph_prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

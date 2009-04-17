@@ -48,7 +48,7 @@ gog_xyz_surface_plot_pref (GogXYZSurfacePlot *plot, GOCmdContext *cc)
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_plot_surface"));
 	char	 *path = g_build_filename (dir, "gog-xyz-surface-prefs.glade", NULL);
-	GladeXML *gui = go_libglade_new (path, "gog_xyz_surface_prefs", GETTEXT_PACKAGE, cc);
+	GladeXML *gui = go_glade_new (path, "gog_xyz_surface_prefs", GETTEXT_PACKAGE, cc);
 
 	g_free (path);
         if (gui == NULL)

@@ -213,7 +213,7 @@ grs_init (GORotationSel *grs)
 {
 	GtkWidget *w;
 
-	grs->gui = go_libglade_new ("go-rotation-sel.glade", "toplevel", GETTEXT_PACKAGE, NULL);
+	grs->gui = go_glade_new ("go-rotation-sel.glade", "toplevel", GETTEXT_PACKAGE, NULL);
 	if (grs->gui == NULL)
 		return;
 

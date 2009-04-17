@@ -165,7 +165,7 @@ gog_3d_box_populate_editor (GogObject *gobj,
 	go_3d_rotation_sel_set_fov (GO_3D_ROTATION_SEL (g3d), box->fov);
 	go_editor_add_page (editor, g3d, _("Rotation"));
 
-	gui = go_libglade_new ("gog-3d-box-prefs.glade", "gog_3d_box_prefs", GETTEXT_PACKAGE, cc);
+	gui = go_glade_new ("gog-3d-box-prefs.glade", "gog_3d_box_prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

@@ -326,7 +326,7 @@ g3d_init (GO3DRotationSel *g3d)
 {
 	GtkWidget *w;
 
-	g3d->gui = go_libglade_new ("go-3d-rotation-sel.glade", "toplevel",
+	g3d->gui = go_glade_new ("go-3d-rotation-sel.glade", "toplevel",
 		GETTEXT_PACKAGE, NULL);
 	if (g3d->gui == NULL)
 		return;

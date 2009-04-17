@@ -386,7 +386,7 @@ gog_object_populate_editor (GogObject *gobj,
 	if (!(allowable_positions & (GOG_POSITION_MANUAL | GOG_POSITION_COMPASS)))
 		return;	
 
-	gui = go_libglade_new ("gog-object-prefs.glade", "gog_object_prefs", GETTEXT_PACKAGE, cc);
+	gui = go_glade_new ("gog-object-prefs.glade", "gog_object_prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

@@ -79,7 +79,7 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 	GladeXML *gui;
 	GogDataset *set = GOG_DATASET (gobj);
 
-	gui = go_libglade_new ("gog-reg-curve-prefs.glade", "reg-curve-prefs", GETTEXT_PACKAGE, cc);
+	gui = go_glade_new ("gog-reg-curve-prefs.glade", "reg-curve-prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

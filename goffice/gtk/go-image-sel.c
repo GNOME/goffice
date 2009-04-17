@@ -199,7 +199,7 @@ go_image_sel_new (GODoc *doc, GOCmdContext *cc, GOImage **image)
 	state->doc = doc;
 	state->cc = cc;
 	state->result = image;
-	state->gui = go_libglade_new ("go-image-sel.glade", NULL, GETTEXT_PACKAGE, state->cc);
+	state->gui = go_glade_new ("go-image-sel.glade", NULL, GETTEXT_PACKAGE, state->cc);
         if (state->gui == NULL) {
 		g_free (state);
                 return NULL;

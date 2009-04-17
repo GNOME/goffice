@@ -92,7 +92,7 @@ gog_equation_populate_editor (GogObject *obj,
 	GtkTextBuffer *buffer;
 	static guint equation_pref_page = 0;
 
-	gui = go_libglade_new ("gog-equation-prefs.glade", "gog_equation_prefs", GETTEXT_PACKAGE, cc);
+	gui = go_glade_new ("gog-equation-prefs.glade", "gog_equation_prefs", GETTEXT_PACKAGE, cc);
 	g_return_if_fail (gui != NULL);
 
 	widget = glade_xml_get_widget (gui, "equation_text");

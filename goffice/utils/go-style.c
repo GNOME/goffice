@@ -758,7 +758,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 	if (!enable)
 		return;
 
-	gui = go_libglade_new ("go-style-prefs.glade", "go_style_marker_prefs", GETTEXT_PACKAGE, cc);
+	gui = go_glade_new ("go-style-prefs.glade", "go_style_marker_prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
@@ -871,7 +871,7 @@ font_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmdContext
 
 	g_return_if_fail (style->font.font != NULL);
 
-	gui = go_libglade_new ("go-style-prefs.glade", "go_style_font_prefs", GETTEXT_PACKAGE, cc);
+	gui = go_glade_new ("go-style-prefs.glade", "go_style_font_prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
@@ -989,7 +989,7 @@ go_style_populate_editor (GOStyle *style,
 		go_styled_object_get_document (GO_STYLED_OBJECT (object_with_style)): NULL;
 
 	if ((enable & (GO_STYLE_OUTLINE | GO_STYLE_LINE | GO_STYLE_FILL)) != 0) {
-		gui = go_libglade_new ("go-style-prefs.glade", "go_style_prefs", GETTEXT_PACKAGE, cc);
+		gui = go_glade_new ("go-style-prefs.glade", "go_style_prefs", GETTEXT_PACKAGE, cc);
 		if (gui == NULL) {
 			g_free (state);
 			return;

@@ -1117,7 +1117,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	GtkWidget *selector;
 	GladeXML *gui;
 
-	gui = go_libglade_new ("gog-guru-type-selector.glade", "type_selector", GETTEXT_PACKAGE, s->cc);
+	gui = go_glade_new ("gog-guru-type-selector.glade", "type_selector", GETTEXT_PACKAGE, s->cc);
 
 	typesel = g_new0 (GraphGuruTypeSelector, 1);
 	typesel->state = s;
@@ -1217,7 +1217,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 static gboolean
 graph_guru_init (GraphGuruState *s)
 {
-	s->gui = go_libglade_new ("gog-guru.glade", NULL, GETTEXT_PACKAGE, s->cc);
+	s->gui = go_glade_new ("gog-guru.glade", NULL, GETTEXT_PACKAGE, s->cc);
         if (s->gui == NULL)
                 return TRUE;
 

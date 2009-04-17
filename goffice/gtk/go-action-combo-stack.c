@@ -395,10 +395,10 @@ check_sensitivity (GOActionComboStack *saction, unsigned old_count)
  * @key : a key value to id the pushe item
  **/
 void
-go_action_combo_stack_push (GOActionComboStack *a,
+go_action_combo_stack_push (GOActionComboStack *act,
 			    char const *label, gpointer key)
 {
-	GOActionComboStack *saction = GO_ACTION_COMBO_STACK (a);
+	GOActionComboStack *saction = GO_ACTION_COMBO_STACK (act);
 	GtkTreeIter iter;
 	unsigned old_count = gtk_tree_model_iter_n_children (saction->model, NULL);
 
@@ -421,9 +421,9 @@ go_action_combo_stack_push (GOActionComboStack *a,
  * shorter)
  **/
 void
-go_action_combo_stack_pop (GOActionComboStack *a, unsigned n)
+go_action_combo_stack_pop (GOActionComboStack *act, unsigned n)
 {
-	GOActionComboStack *saction = GO_ACTION_COMBO_STACK (a);
+	GOActionComboStack *saction = GO_ACTION_COMBO_STACK (act);
 	GtkTreeIter iter;
 	unsigned old_count = gtk_tree_model_iter_n_children (saction->model, NULL);
 
@@ -445,13 +445,15 @@ go_action_combo_stack_pop (GOActionComboStack *a, unsigned n)
  * bottom.
  **/
 void
-go_action_combo_stack_truncate (GOActionComboStack *a, unsigned n)
+go_action_combo_stack_truncate (GOActionComboStack *act, unsigned n)
 {
-	GOActionComboStack *saction = GO_ACTION_COMBO_STACK (a);
+	GOActionComboStack *saction = GO_ACTION_COMBO_STACK (act);
 	GtkTreeIter iter;
-	unsigned old_count = gtk_tree_model_iter_n_children (saction->model, NULL);
+	unsigned old_count;
 
 	g_return_if_fail (saction != NULL);
+
+	old_count = gtk_tree_model_iter_n_children (saction->model, NULL);
 
 	if (gtk_tree_model_iter_nth_child (saction->model, &iter, NULL, n))
 		while (gtk_list_store_remove (GTK_LIST_STORE (saction->model), &iter))

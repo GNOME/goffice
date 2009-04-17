@@ -353,7 +353,7 @@ gog_reg_eqn_populate_editor (GogObject *gobj,
 	GladeXML *gui;
 	GogRegEqn *reg_eqn = GOG_REG_EQN (gobj);
 
-	gui = go_libglade_new ("gog-reg-eqn-prefs.glade", "reg-eqn-prefs", GETTEXT_PACKAGE, cc);
+	gui = go_glade_new ("gog-reg-eqn-prefs.glade", "reg-eqn-prefs", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

@@ -343,7 +343,7 @@ gfs_init (GOFontSel *gfs)
 {
 	GtkWidget *w;
 
-	gfs->gui = go_libglade_new ("go-font-sel.glade", "toplevel-table", GETTEXT_PACKAGE, NULL);
+	gfs->gui = go_glade_new ("go-font-sel.glade", "toplevel-table", GETTEXT_PACKAGE, NULL);
 	if (gfs->gui == NULL)
                 return;
 

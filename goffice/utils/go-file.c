@@ -891,7 +891,7 @@ go_file_get_date_changed (char const *uri)
 
 /**
  * go_url_decode:
- * @test :
+ * @text :
  *
  * Decode the result of go_url_encode.
  *

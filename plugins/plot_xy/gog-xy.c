@@ -687,7 +687,7 @@ gog_xy_color_plot_populate_editor (GogObject *obj,
 
 	dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
 	path = g_build_filename (dir, "gog-xy-color-prefs.glade", NULL);
-	gui = go_libglade_new (path, "gog-xy-color-prefs", GETTEXT_PACKAGE, cc);
+	gui = go_glade_new (path, "gog-xy-color-prefs", GETTEXT_PACKAGE, cc);
 	g_free (path);
 
 	if (gui != NULL) {
@@ -1739,7 +1739,7 @@ gog_xy_series_populate_editor (GogObject *obj,
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
 	char *path = g_build_filename (dir, "gog-xy-series-prefs.glade", NULL);
-	GladeXML *gui = go_libglade_new (path, "gog_xy_series_prefs", GETTEXT_PACKAGE, cc);
+	GladeXML *gui = go_glade_new (path, "gog_xy_series_prefs", GETTEXT_PACKAGE, cc);
 
 	g_free (path);
 

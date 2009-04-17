@@ -283,7 +283,7 @@ gog_plot_populate_editor (GogObject *obj,
 	gboolean is_plot_area_manual;
 
 	g_return_if_fail (chart != NULL);
-	gui = go_libglade_new ("gog-plot-prefs.glade", "gog_plot_prefs", GETTEXT_PACKAGE, cc);
+	gui = go_glade_new ("gog-plot-prefs.glade", "gog_plot_prefs", GETTEXT_PACKAGE, cc);
 	g_return_if_fail (gui != NULL);
 
 	state = g_new  (PlotPrefState, 1);

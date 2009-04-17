@@ -1266,7 +1266,7 @@ nfs_init (GOFormatSel *gfs)
 	gfs->show_format_with_markup = FALSE;
 	gfs->locale = NULL;
 
-	gfs->gui = go_libglade_new ("go-format-sel.glade", NULL, GETTEXT_PACKAGE, NULL);
+	gfs->gui = go_glade_new ("go-format-sel.glade", NULL, GETTEXT_PACKAGE, NULL);
 	if (gfs->gui == NULL)
 		return;
 

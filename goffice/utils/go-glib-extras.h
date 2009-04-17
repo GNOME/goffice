@@ -110,7 +110,7 @@ typedef gboolean (*GOParseKeyValueFunc) (const char *name,
 
 gboolean go_parse_key_value (const char *options,
 			     GError **err,
-			     GOParseKeyValueFunc	func,
+			     GOParseKeyValueFunc handler,
 			     gpointer user);
 
 G_END_DECLS

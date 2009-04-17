@@ -532,7 +532,7 @@ gog_series_populate_editor (GogObject *gobj,
 		GladeXML *gui;
 		GtkWidget *widget;
 
-		gui = go_libglade_new ("gog-series-prefs.glade", "interpolation_prefs", GETTEXT_PACKAGE, cc);
+		gui = go_glade_new ("gog-series-prefs.glade", "interpolation_prefs", GETTEXT_PACKAGE, cc);
 		if (gui != NULL) {
 			int i;
 			GogAxisSet set = gog_plot_axis_set_pref (gog_series_get_plot (series));
@@ -586,7 +586,7 @@ gog_series_populate_editor (GogObject *gobj,
 		GladeXML *gui;
 		GtkWidget *widget;
 
-		gui = go_libglade_new ("gog-series-prefs.glade", "fill_type_prefs", GETTEXT_PACKAGE, cc);
+		gui = go_glade_new ("gog-series-prefs.glade", "fill_type_prefs", GETTEXT_PACKAGE, cc);
 		if (gui != NULL) {
 			widget = glade_xml_get_widget (gui, "fill_type_combo");
 			gog_series_populate_fill_type_combo (GOG_SERIES (series), GTK_COMBO_BOX (widget));

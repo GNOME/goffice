@@ -181,7 +181,7 @@ gog_minmax_plot_populate_editor (GogObject *item,
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_plot_barcol"));
 	char	 *path = g_build_filename (dir, "gog-minmax-prefs.glade", NULL);
-	GladeXML *gui = go_libglade_new (path, "gog_minmax_prefs", GETTEXT_PACKAGE, cc);
+	GladeXML *gui = go_glade_new (path, "gog_minmax_prefs", GETTEXT_PACKAGE, cc);
 
 	g_free (path);
 	if (gui == NULL)

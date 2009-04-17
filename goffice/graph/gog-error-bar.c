@@ -233,7 +233,7 @@ gog_error_bar_prefs (GogSeries *series,
 	}
 	set = GOG_DATASET (series);
 
-	gui = go_libglade_new ("gog-error-bar-prefs.glade", "gog_error_bar_prefs", GETTEXT_PACKAGE, cc);
+	gui = go_glade_new ("gog-error-bar-prefs.glade", "gog_error_bar_prefs", GETTEXT_PACKAGE, cc);
 
 	/* Style properties */
 

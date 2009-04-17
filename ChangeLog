@@ -1,5 +1,10 @@
 2009-04-17  Morten Welinder  <terra@gnome.org>
 
+	* goffice/gtk/goffice-gtk.c (go_libglade_new): Actually remove
+	this alias as threatened.  All internal users fixed.
+
+	* */*.c: Doc fixes to please gtk-doc.
+
         * goffice/graph/gog-axis.c (map_date_auto_bound): Fix problem with
         upper bound when step is in years and maximum in not on January 1.
 

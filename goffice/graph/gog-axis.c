@@ -2159,7 +2159,7 @@ gog_axis_populate_editor (GogObject *gobj,
 	GogDataset *set = GOG_DATASET (gobj);
 	GladeXML *gui;
 
-	gui = go_libglade_new ("gog-axis-prefs.glade", "axis_pref_box", GETTEXT_PACKAGE, cc);
+	gui = go_glade_new ("gog-axis-prefs.glade", "axis_pref_box", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 

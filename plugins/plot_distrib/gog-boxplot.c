@@ -110,7 +110,7 @@ gog_box_plot_pref (GogObject *obj,
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_plot_boxes"));
 	char	 *path = g_build_filename (dir, "gog-boxplot-prefs.glade", NULL);
-	GladeXML *gui = go_libglade_new (path, "gog_box_plot_prefs", GETTEXT_PACKAGE, cc);
+	GladeXML *gui = go_glade_new (path, "gog_box_plot_prefs", GETTEXT_PACKAGE, cc);
 
 	g_free (path);
         if (gui == NULL)

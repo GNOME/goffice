@@ -28,10 +28,10 @@ G_BEGIN_DECLS
 
 void	   go_gtk_editable_enters (GtkWindow *window, GtkWidget *w);
 
-/* go_libglade_new deprecated in 0.4.3, will be removed in 0.7.x */
-#define go_libglade_new	go_glade_new
-GladeXML  *go_glade_new		   	   (char const *gladefile, char const *root,
-					    char const *domain, GOCmdContext *cc);
+GladeXML  *go_glade_new		   	   (char const *gladefile,
+					    char const *root,
+					    char const *domain,
+					    GOCmdContext *gcc);
 gulong	   go_glade_signal_connect	   (GladeXML *gui,
 					    gchar const *instance_name,
 					    gchar const *detailed_signal,
@@ -70,8 +70,10 @@ void	   go_gtk_help_button_init	(GtkWidget *w, char const *data_dir,
 void       go_gtk_nonmodal_dialog	(GtkWindow *toplevel, GtkWindow *dialog);
 gboolean   go_gtk_file_sel_dialog	(GtkWindow *toplevel, GtkWidget *w);
 char	  *go_gtk_select_image		(GtkWindow *toplevel, const char *initial);
-char      *go_gui_get_image_save_info 	(GtkWindow *toplevel, GSList *supported_formats,
-					 GOImageFormat *ret_format, double *dpi);
+char      *go_gui_get_image_save_info 	(GtkWindow *toplevel,
+					 GSList *supported_formats,
+					 GOImageFormat *ret_format,
+					 double *resolution);
 
 gboolean   go_gtk_url_is_writeable	(GtkWindow *parent, char const *uri,
 					 gboolean overwrite_by_default);

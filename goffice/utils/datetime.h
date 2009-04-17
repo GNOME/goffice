@@ -79,13 +79,13 @@ typedef struct {
 	GODateConventions const *date_conv;
 } GnmCouponConvention;
 
-void	  go_coup_cd    (GDate *res, GDate const *settle, GDate const *mat,
+void   go_coup_cd    (GDate *res, GDate const *settle, GDate const *mat,
 		      int freq, gboolean eom, gboolean next);
-double go_coupdays   (GDate const *settle, GDate const *mat,
+double go_coupdays   (GDate const *settlement, GDate const *maturity,
 		      GnmCouponConvention const *conv);
-double go_coupdaybs  (GDate const *settle, GDate const *mat,
+double go_coupdaybs  (GDate const *settlement, GDate const *maturity,
 		      GnmCouponConvention const *conv);
-double go_coupdaysnc (GDate const *settle, GDate const *mat,
+double go_coupdaysnc (GDate const *settlement, GDate const *maturity,
 		      GnmCouponConvention const *conv);
 
 int gnm_date_convention_base (GODateConventions const *conv);

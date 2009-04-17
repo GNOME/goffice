@@ -99,7 +99,7 @@ gog_moving_avg_populate_editor (GogObject *obj,
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_smoothing"));
 	char	 *path = g_build_filename (dir, "gog-moving-avg.glade", NULL);
-	GladeXML *gui = go_libglade_new (path, "mv-avg-prefs", GETTEXT_PACKAGE, cc);
+	GladeXML *gui = go_glade_new (path, "mv-avg-prefs", GETTEXT_PACKAGE, cc);
 	GtkWidget *w = glade_xml_get_widget (gui, "span");
 	go_widget_set_tooltip_text (w, _("Number of values from which to calculate an average"));
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (w), 2, G_MAXINT);
