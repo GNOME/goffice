@@ -1,8 +1,11 @@
 Makefile.in
 Makefile
 .deps
+.libs
 *.gladep
 *.lo
 *.loT
+*.o
 pie-demo
+go-demo
 *.def
