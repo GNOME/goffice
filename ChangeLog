@@ -1,3 +1,8 @@
+2009-04-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_radar/Makefile.am: add the glade fil to EXTRA_DIST since
+	it is used as a source for the xml file.
+
 2009-04-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/formats.c (fmts_date, fmts_time): Auto-generate
