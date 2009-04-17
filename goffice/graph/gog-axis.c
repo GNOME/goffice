@@ -565,7 +565,7 @@ map_date_auto_bound (GogAxis *axis, double minimum, double maximum, double *boun
 		step = 30;
 		minor_step = (range <= 180 ? 1 : step);
 	} else {
-		int N = 1, y;
+		int N = 1, y, maxy;
 
 		while (years > 20 * N) {
 			N *= 10;
@@ -577,12 +577,16 @@ map_date_auto_bound (GogAxis *axis, double minimum, double maximum, double *boun
 		if (g_date_valid_dmy (1, 1, y))
 			g_date_set_year (&min_date, y);
 
-		y = (g_date_get_year (&max_date) + N - 1) / N * N;
-		if (g_date_valid_dmy (1, 1, y)) {
-			g_date_set_day (&max_date, 1);
-			g_date_set_month (&max_date, 1);
-			g_date_set_year (&max_date, y);
-		}
+		maxy = g_date_get_year (&max_date);
+		y = (maxy + N - 1) / N * N;
+		/* Make sure we are not going backwards. */
+		if (y == maxy &&
+		    (g_date_get_day (&max_date) != 1 ||
+		     g_date_get_month (&max_date) != 1))
+			y += N;
+
+		if (g_date_valid_dmy (1, 1, y))
+			g_date_set_dmy (&max_date, 1, 1, y);
 
 		minimum = datetime_g_to_serial (&min_date, axis->date_conv);
 		maximum = datetime_g_to_serial (&max_date, axis->date_conv);
