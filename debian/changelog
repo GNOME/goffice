@@ -1,3 +1,10 @@
+goffice (0.7.5~pre-1) experimental; urgency=low
+
+  * SVN trunk
+  * [debian/libgoffice-0-8-dev.links] Update.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 29 Mar 2009 20:14:53 +0200
+
 goffice (0.7.4-1) unstable; urgency=low
 
   * New upstream development release.
