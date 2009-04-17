@@ -1,3 +1,9 @@
+2009-04-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/formats.c (fmts_date, fmts_time): Auto-generate
+	all.  Add magic formats.  Note, that the dialog does, but should
+	not, display the magic formats literally.
+
 2009-04-15  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-error-bar.c: Add missing include.

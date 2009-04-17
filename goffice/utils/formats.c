@@ -59,72 +59,12 @@ fmts_accounting [] = {
 	NULL
 };
 
-/*****************************************************************/
-/* Some are generated						 */
-/* WARNING WARNING WARNING : do not reorder these !! 		 */
-/* the generated versions and the excel plugin assume this order */
-static char const *
-fmts_date [] = {
-	"m/d/yy",		/* 0 */
-	"m/d/yyyy",		/* 1 */
-	"d-mmm-yy",		/* 2 */
-	"d-mmm-yyyy",		/* 3 */
-	"d-mmm",		/* 4 */
-	"d-mm",			/* 5 */
-	"mmm/d",		/* 6 */
-	"mm/d",			/* 7 */
-	"mm/dd/yy",		/* 8 */
-	"mm/dd/yyyy",		/* 9 */
-	"mmm/dd/yy",		/* 10 */
-	"mmm/dd/yyyy",		/* 11 */
-	"mmm/ddd/yy",		/* 12 */
-	"mmm/ddd/yyyy",		/* 13 */
-	"mm/ddd/yy",		/* 14 */
-	"mm/ddd/yyyy",		/* 15 */
-	"mmm-yy",		/* 16 */
-	"mmm-yyyy",		/* 17 */
-	"mmmm-yy",		/* 18 */
-	"mmmm-yyyy",		/* 19 */
-	"m/d/yy h:mm",		/* 20 */
-	"m/d/yyyy h:mm",	/* 21 */
-	"yyyy/mm/d",		/* 22 */
-	"yyyy/mmm/d",		/* 23 */
-	"yyyy/mm/dd",		/* 24 */
-	"yyyy/mmm/dd",		/* 25 */
-	"yyyy-mm-d",		/* 26 */
-	"yyyy-mmm-d",		/* 27 */
-	"yyyy-mm-dd",		/* 28 */
-	"yyyy-mmm-dd",		/* 29 */
-	"yy",			/* 30 */
-	"yyyy",			/* 31 */
-	"mmmmm",		/* 32 stored as custom in xls */
-	"mmmmm-yy",		/* 33 stored as custom in xls */
-	NULL
-};
+/* All are generated.  */
+static char const *fmts_date[50];
+static gunichar date_sep;
+static char const *fmts_time[50];
 
 /*****************************************************/
-
-/* Some are generated */
-static char const *
-fmts_time [] = {
-	"h:mm AM/PM",
-	"h:mm:ss AM/PM",
-	"h:mm",
-	"h:mm:ss",
-	"m/d/yy h:mm",
-	"[h]:mm",		/* keep this before mm:ss so that 24:00 will */
-	"[h]:mm:ss",		/* match an hour based format (bug #86338)   */
-	"mm:ss",
-	"mm:ss.0",
-	"[mm]:ss",
-	"[ss]",
-
-	/* iso 8601 (zulu time only for now) */
-	"yyyy-mm-dd\"T\"hh:mm\"Z\"",
-	"yyyy-mm-dd\"T\"hh:mm:ss\"Z\"",
-	"yyyy-mm-dd\"T\"hh:mm:ss.0\"Z\"",
-	NULL
-};
 
 static char const * const
 fmts_percentage [] = {
@@ -177,12 +117,91 @@ go_format_builtins[] = {
 	NULL                      /* GO_FORMAT_MARKUP */
 };
 
+static void
+add_dt_format (GHashTable *dt_hash, gboolean timep, guint *N, const char *fmt)
+{
+	char *fmt2;
+
+	if (g_hash_table_lookup (dt_hash, fmt))
+		return;
+
+	if (timep)
+		g_assert (*N + 1 < G_N_ELEMENTS (fmts_time));
+	else
+		g_assert (*N + 1 < G_N_ELEMENTS (fmts_date));
+	fmt2 = g_strdup (fmt);
+	(timep ? fmts_time : fmts_date)[*N] = fmt2;
+	g_hash_table_insert (dt_hash, fmt2, fmt2);
+	(*N)++;
+	(timep ? fmts_time : fmts_date)[*N] = NULL;	
+}
+
+static void
+add_frobbed_date_format (GHashTable *dt_hash, guint *N, const char *fmt)
+{
+	GString *s = g_string_new (NULL);
+
+	while (*fmt) {
+		if (*fmt == '/') {
+			g_string_append_unichar (s, date_sep);
+		} else
+			g_string_append_c (s, *fmt);
+		fmt++;
+	}
+
+	add_dt_format (dt_hash, FALSE, N, s->str);
+	g_string_free (s, TRUE);
+}
+
+static void
+add_dmy_formats (GHashTable *dt_hash, guint *N)
+{
+	add_frobbed_date_format (dt_hash, N, "dd/mm/yyyy");
+	add_frobbed_date_format (dt_hash, N, "dd/mm");
+}
+
+static void
+add_mdy_formats (GHashTable *dt_hash, guint *N)
+{
+	add_frobbed_date_format (dt_hash, N, "m/d/yyyy");
+	add_frobbed_date_format (dt_hash, N, "m/d");
+}
+
+/* Very hacky.  Sorry.  */
+static gunichar
+guess_date_sep (void)
+{
+	const GString *df = go_locale_get_date_format();
+	const char *s;
+
+	for (s = df->str; *s; s++) {
+		switch (*s) {
+		case 'd': case 'm': case 'y':
+			while (g_ascii_isalpha (*s))
+				s++;
+			while (g_unichar_isspace (g_utf8_get_char (s)))
+				s = g_utf8_next_char (s);
+			if (*s != ',' &&
+			    g_unichar_ispunct (g_utf8_get_char (s)))
+				return g_utf8_get_char (s);
+			break;
+		default:
+			; /* Nothing */
+		}
+	}
+
+	return '/';
+}
+
 void
 go_currency_date_format_init (void)
 {
 	gboolean precedes, space_sep;
 	char const *curr = go_locale_get_currency (&precedes, &space_sep)->str;
 	char *pre, *post, *pre_rep, *post_rep;
+	GHashTable *dt_hash;
+	GOFormat *fmt;
+	guint N;
 
 	/*
 	 *  1. "$*  "	Yes, it is needed (because we use match[])
@@ -239,49 +258,93 @@ go_currency_date_format_init (void)
 
 	g_free (*pre ? pre : post);
 
-	if (!go_locale_month_before_day ()) {
-		fmts_date [0]  = "d/m/yy";
-		fmts_date [1]  = "d/m/yyyy";
-		fmts_date [2]  = "mmm-d-yy";
-		fmts_date [3]  = "mmm-d-yyyy";
-		fmts_date [4]  = "mmm-d";
-		fmts_date [5]  = "mm-d";
-		fmts_date [6]  = "d/mmm";
-		fmts_date [7]  = "d/mm";
-		fmts_date [8]  = "dd/mm/yy";
-		fmts_date [9]  = "dd/mm/yyyy";
-		fmts_date [10] = "dd/mmm/yy";
-		fmts_date [11] = "dd/mmm/yyyy";
-		fmts_date [12] = "ddd/mmm/yy";
-		fmts_date [13] = "ddd/mmm/yyyy";
-		fmts_date [14] = "ddd/mm/yy";
-		fmts_date [15] = "ddd/mm/yyyy";
-		fmts_date [20] = "d/m/yy h:mm";
-		fmts_date [21] = "d/m/yyyy h:mm";
+	/* ---------------------------------------- */
 
-		fmts_time [4]  = "d/m/yy h:mm";
-	} else {
-		fmts_date [0]  = "m/d/yy";
-		fmts_date [1]  = "m/d/yyyy";
-		fmts_date [2]  = "d-mmm-yy";
-		fmts_date [3]  = "d-mmm-yyyy";
-		fmts_date [4]  = "d-mmm";
-		fmts_date [5]  = "d-mm";
-		fmts_date [6]  = "mmm/d";
-		fmts_date [7]  = "mm/d";
-		fmts_date [8]  = "mm/dd/yy";
-		fmts_date [9]  = "mm/dd/yyyy";
-		fmts_date [10] = "mmm/dd/yy";
-		fmts_date [11] = "mmm/dd/yyyy";
-		fmts_date [12] = "mmm/ddd/yy";
-		fmts_date [13] = "mmm/ddd/yyyy";
-		fmts_date [14] = "mm/ddd/yy";
-		fmts_date [15] = "mm/ddd/yyyy";
-		fmts_date [20] = "m/d/yy h:mm";
-		fmts_date [21] = "m/d/yyyy h:mm";
+	date_sep = guess_date_sep ();
+	dt_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	N = 0;
 
-		fmts_time [4]  = "m/d/yy h:mm";
+	fmt = go_format_new_magic (GO_FORMAT_MAGIC_LONG_DATE);
+	if (fmt) {
+		add_dt_format (dt_hash, FALSE, &N, go_format_as_XL (fmt));
+		go_format_unref (fmt);
 	}
+	fmt = go_format_new_magic (GO_FORMAT_MAGIC_MEDIUM_DATE);
+	if (fmt) {
+		add_dt_format (dt_hash, FALSE, &N, go_format_as_XL (fmt));
+		go_format_unref (fmt);
+	}
+	fmt = go_format_new_magic (GO_FORMAT_MAGIC_SHORT_DATE);
+	if (fmt) {
+		add_dt_format (dt_hash, FALSE, &N, go_format_as_XL (fmt));
+		go_format_unref (fmt);
+	}
+
+	switch (go_locale_month_before_day ()) {
+	case 0:
+		add_dmy_formats (dt_hash, &N);
+		break;
+	default:
+	case 1:
+		add_mdy_formats (dt_hash, &N);
+		break;
+	case 2:
+		add_dt_format (dt_hash, FALSE, &N, "yyyy/mm/dd");
+		add_mdy_formats (dt_hash, &N);
+		break;
+	}
+
+	/* Make sure these exist no matter what.  */
+	add_dt_format (dt_hash, FALSE, &N, "m/d/yyyy");
+	add_dt_format (dt_hash, FALSE, &N, "m/d/yy");
+	add_dt_format (dt_hash, FALSE, &N, "dd/mm/yyyy");
+	add_dt_format (dt_hash, FALSE, &N, "dd/mm/yy");
+	add_dt_format (dt_hash, FALSE, &N, "d-mmm-yyyy");
+
+	fmt = go_format_new_magic (GO_FORMAT_MAGIC_SHORT_DATETIME);
+	if (fmt) {
+		add_dt_format (dt_hash, FALSE, &N, go_format_as_XL (fmt));
+		go_format_unref (fmt);
+	}
+
+	g_hash_table_destroy (dt_hash);
+
+	/* ---------------------------------------- */
+
+	dt_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	N = 0;
+
+	fmt = go_format_new_magic (GO_FORMAT_MAGIC_LONG_TIME);
+	if (fmt) {
+		add_dt_format (dt_hash, TRUE, &N, go_format_as_XL (fmt));
+		go_format_unref (fmt);
+	}
+	fmt = go_format_new_magic (GO_FORMAT_MAGIC_MEDIUM_TIME);
+	if (fmt) {
+		add_dt_format (dt_hash, TRUE, &N, go_format_as_XL (fmt));
+		go_format_unref (fmt);
+	}
+	fmt = go_format_new_magic (GO_FORMAT_MAGIC_SHORT_TIME);
+	if (fmt) {
+		add_dt_format (dt_hash, TRUE, &N, go_format_as_XL (fmt));
+		go_format_unref (fmt);
+	}
+
+	/* Must-have formats.  */
+	add_dt_format (dt_hash, TRUE, &N, "h:mm AM/PM");
+	add_dt_format (dt_hash, TRUE, &N, "h:mm:ss AM/PM");
+	add_dt_format (dt_hash, TRUE, &N, "hh:mm");
+	add_dt_format (dt_hash, TRUE, &N, "hh:mm:ss");
+	add_dt_format (dt_hash, TRUE, &N, "h:mm:ss");
+
+	/* Elapsed time.  */
+	add_dt_format (dt_hash, TRUE, &N, "[h]:mm:ss");
+	add_dt_format (dt_hash, TRUE, &N, "[mm]:ss");
+
+	/* ISO 8601 (zulu time only for now) */
+	add_dt_format (dt_hash, TRUE, &N, "yyyy-mm-dd\"T\"hh:mm:ss\"Z\"");
+
+	g_hash_table_destroy (dt_hash);
 }
 
 void
@@ -302,6 +365,16 @@ go_currency_date_format_shutdown (void)
 	fmts_accounting [0] = NULL;
 	g_free ((char *)(fmts_accounting[2]));
 	fmts_accounting[2] = NULL;
+
+	for (i = 0; fmts_date[i]; i++) {
+		g_free ((char*)(fmts_date[i]));
+		fmts_date[i] = NULL;
+	}
+
+	for (i = 0; fmts_time[i]; i++) {
+		g_free ((char*)(fmts_time[i]));
+		fmts_time[i] = NULL;
+	}
 }
 
 GOFormatCurrency const go_format_currencies[] =
