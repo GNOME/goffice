@@ -93,7 +93,7 @@ gog_contour_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_cha
 	for (i = 0; i < plot->rows; i++)
 		for (j = 0; j < plot->columns; j++) {
 			val = gog_axis_map_to_view (map,
-					go_data_get_matrix_value (mat, j, i));
+					go_data_get_matrix_value (mat, i, j));
 			if (fabs (val) == DBL_MAX)
 				val = go_nan;
 			else {
@@ -365,8 +365,8 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 				y0 = gog_axis_map_to_view (y_map, i);
 				y1 = gog_axis_map_to_view (y_map, i + 1);
 			} else {
-				y0 = gog_axis_map_to_view (y_map, go_data_vector_get_value (y_vec, i - 1));
-				y1 = gog_axis_map_to_view (y_map, go_data_vector_get_value (y_vec, i));
+				y0 = gog_axis_map_to_view (y_map, go_data_get_vector_value (y_vec, i - 1));
+				y1 = gog_axis_map_to_view (y_map, go_data_get_vector_value (y_vec, i));
 			}
 			nans = 0;
 			nan = 4;

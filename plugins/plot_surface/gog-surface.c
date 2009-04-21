@@ -50,7 +50,7 @@ gog_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_cha
 
 	for (i = 0; i < plot->rows; i++)
 		for (j = 0; j < plot->columns; j++) {
-			val = go_data_get_matrix_value (mat, j, i);
+			val = go_data_get_matrix_value (mat, i, j);
 			if (plot->transposed)
 				data[j * plot->rows + i] = val;
 			else
