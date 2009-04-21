@@ -26,8 +26,8 @@
 
 G_BEGIN_DECLS
 
-/* Data */
 typedef struct _GOData		 GOData;
+
 typedef struct _GODataScalar	 GODataScalar;
 typedef struct _GODataVector	 GODataVector;
 typedef struct _GODataMatrix	 GODataMatrix;

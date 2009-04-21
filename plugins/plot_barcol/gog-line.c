@@ -186,7 +186,7 @@ gog_line_series_get_xy_data (GogSeries const *series,
 {
 	GogLineSeries *line_ser = GOG_LINE_SERIES (series);
 	*x = line_ser->x;
-	*y = go_data_vector_get_values (GO_DATA_VECTOR (series->values[1].data));
+	*y = go_data_get_values (series->values[1].data);
 	return series->num_elements;
 }
 
@@ -487,10 +487,8 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			continue;
 		}
 
-		vals[i] = go_data_vector_get_values (
-			GO_DATA_VECTOR (series->base.values[1].data));
-		lengths[i] = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[1].data));
+		vals[i] = go_data_get_values (series->base.values[1].data);
+		lengths[i] = go_data_get_vector_size (series->base.values[1].data);
 		styles[i] = GOG_STYLED_OBJECT (series)->style;
 
 		paths[i] = go_path_new ();

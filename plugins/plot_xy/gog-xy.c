@@ -100,30 +100,26 @@ gog_2d_plot_update (GogObject *obj)
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 
-		go_data_vector_get_minmax (GO_DATA_VECTOR (
-			series->base.values[1].data), &tmp_min, &tmp_max);
+		go_data_get_bounds (series->base.values[1].data, &tmp_min, &tmp_max);
 		if (y_min > tmp_min) y_min = tmp_min;
 		if (y_max < tmp_max) y_max = tmp_max;
 		if (model->y.fmt == NULL)
 			model->y.fmt = go_data_preferred_fmt (series->base.values[1].data);
 
 		if (series->base.values[0].data != NULL) {
-			go_data_vector_get_minmax (GO_DATA_VECTOR (
-				series->base.values[0].data), &tmp_min, &tmp_max);
+			go_data_get_bounds (series->base.values[0].data, &tmp_min, &tmp_max);
 
 			if (!go_finite (tmp_min) || !go_finite (tmp_max) ||
 			    tmp_min > tmp_max) {
 				tmp_min = 0;
-				tmp_max = go_data_vector_get_len (
-					GO_DATA_VECTOR (series->base.values[1].data));
+				tmp_max = go_data_get_vector_size (series->base.values[1].data);
 
 				is_discrete = TRUE;
 			} else if (model->x.fmt == NULL)
 				model->x.fmt = go_data_preferred_fmt (series->base.values[0].data);
 		} else {
 			tmp_min = 0;
-			tmp_max = go_data_vector_get_len (
-				GO_DATA_VECTOR (series->base.values[1].data));
+			tmp_max = go_data_get_vector_size (series->base.values[1].data);
 			is_discrete = TRUE;
 		}
 
@@ -623,8 +619,7 @@ gog_xy_color_plot_update (GogObject *obj)
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 
-		go_data_vector_get_minmax (GO_DATA_VECTOR (
-			series->base.values[2].data), &tmp_min, &tmp_max);
+		go_data_get_bounds (series->base.values[2].data, &tmp_min, &tmp_max);
 		if (z_min > tmp_min) z_min = tmp_min;
 		if (z_max < tmp_max) z_max = tmp_max;
 		if (model->z.fmt == NULL)
@@ -1105,7 +1100,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		if (GOG_IS_BUBBLE_PLOT (model)) {
 			double zmin;
-			go_data_vector_get_minmax (GO_DATA_VECTOR (series->base.values[2].data), &zmin, &zmax);
+			go_data_get_bounds (series->base.values[2].data, &zmin, &zmax);
 			show_negatives = GOG_BUBBLE_PLOT (view->model)->show_negatives;
 			if ((! go_finite (zmax)) || (!show_negatives && (zmax <= 0))) continue;
 			rmax = MIN (view->residual.w, view->residual.h) / BUBBLE_MAX_RADIUS_RATIO
@@ -1466,8 +1461,8 @@ static void
 gog_xy_interpolation_clamps_dataset_dim_changed (GogDataset *set, int dim_i)
 {
 	GogXYInterpolationClamps *clamps = GOG_XY_INTERPOLATION_CLAMPS (set);
-	clamps->series->clamped_derivs[dim_i] = (GO_IS_DATA_SCALAR ((clamps->derivs + dim_i)->data))?
-		go_data_scalar_get_value (GO_DATA_SCALAR ((clamps->derivs + dim_i)->data)): 0.;
+	clamps->series->clamped_derivs[dim_i] = (GO_IS_DATA ((clamps->derivs + dim_i)->data))?
+		go_data_get_scalar_value ((clamps->derivs + dim_i)->data): 0.;
 	gog_object_request_update (GOG_OBJECT (clamps->series));
 }
 

@@ -55,7 +55,7 @@ gog_contour_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_cha
 	unsigned nticks;
 	double *x, val;
 	GogSeries *series = GOG_SERIES (plot->base.series->data);
-	GODataMatrix *mat = GO_DATA_MATRIX (series->values[2].data);
+	GOData *mat = series->values[2].data;
 	unsigned n = plot->rows * plot->columns;
 	double *data, minimum, maximum, slope, offset = 0.;
 	unsigned max;
@@ -93,7 +93,7 @@ gog_contour_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_cha
 	for (i = 0; i < plot->rows; i++)
 		for (j = 0; j < plot->columns; j++) {
 			val = gog_axis_map_to_view (map,
-					go_data_matrix_get_value (mat, i, j));
+					go_data_get_matrix_value (mat, j, i));
 			if (fabs (val) == DBL_MAX)
 				val = go_nan;
 			else {
@@ -250,7 +250,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogXYZPlot const *plot = GOG_XYZ_PLOT (view->model);
 	GogSeries const *series;
-	GODataVector *x_vec = NULL, *y_vec = NULL;
+	GOData *x_vec = NULL, *y_vec = NULL;
 	GogAxisMap *x_map, *y_map;
 	double zval0, zval1, zval2 = 0., zval3, t;
 	double x[4], y[4], zval[4];
@@ -311,8 +311,8 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 		x1 = gog_axis_map_to_view (x_map, 1.);
 	} else {
 		x_vec = gog_xyz_plot_get_x_vals (GOG_XYZ_PLOT (plot));
-		x0 = gog_axis_map_to_view (x_map, go_data_vector_get_value (x_vec, 0));
-		x1 = gog_axis_map_to_view (x_map, go_data_vector_get_value (x_vec, 1));
+		x0 = gog_axis_map_to_view (x_map, go_data_get_vector_value (x_vec, 0));
+		x1 = gog_axis_map_to_view (x_map, go_data_get_vector_value (x_vec, 1));
 	}
 	ydiscrete = gog_axis_is_discrete (plot->base.axis[1]) ||
 			series->values[(plot->transposed)? 0: 1].data == NULL;
@@ -321,8 +321,8 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 		y1 = gog_axis_map_to_view (y_map, 1.);
 	} else {
 		y_vec = gog_xyz_plot_get_y_vals (GOG_XYZ_PLOT (plot));
-		y0 = gog_axis_map_to_view (y_map, go_data_vector_get_value (y_vec, 0));
-		y1 = gog_axis_map_to_view (y_map, go_data_vector_get_value (y_vec, 1));
+		y0 = gog_axis_map_to_view (y_map, go_data_get_vector_value (y_vec, 0));
+		y1 = gog_axis_map_to_view (y_map, go_data_get_vector_value (y_vec, 1));
 	}
 	cw = (x1 > x0) == (y1 > y0);
 
@@ -350,16 +350,16 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	style->fill.pattern.pattern = GO_PATTERN_SOLID;
 
 	lines = go_path_new ();
-	
+
 	for (j = 1; j < jmax; j++) {
 		if (xdiscrete) {
 			x0 = gog_axis_map_to_view (x_map, j);
 			x1 = gog_axis_map_to_view (x_map, j + 1);
 		} else {
-			x0 = gog_axis_map_to_view (x_map, go_data_vector_get_value (x_vec, j - 1));
-			x1 = gog_axis_map_to_view (x_map, go_data_vector_get_value (x_vec, j));
+			x0 = gog_axis_map_to_view (x_map, go_data_get_vector_value (x_vec, j - 1));
+			x1 = gog_axis_map_to_view (x_map, go_data_get_vector_value (x_vec, j));
 		}
-		
+
 		for (i = 1; i < imax; i++) {
 			if (ydiscrete) {
 				y0 = gog_axis_map_to_view (y_map, i);

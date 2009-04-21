@@ -407,22 +407,20 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	lines = g_alloca (num_series * sizeof (GogSeriesLines *));
 	paths = g_alloca (num_series * sizeof (GOPath *));
 	overrides = g_alloca (num_series * sizeof (GSList *));
-	
+
 	i = 0;
 	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
-		vals[i] = go_data_vector_get_values (
-			GO_DATA_VECTOR (series->base.values[1].data));
-		lengths[i] = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[1].data));
+		vals[i] = go_data_get_values (series->base.values[1].data);
+		lengths[i] = go_data_get_vector_size (series->base.values[1].data);
 		styles[i] = GOG_STYLED_OBJECT (series)->style;
 		errors[i] = series->errors;
 		overrides[i] = gog_series_get_overrides (GOG_SERIES (series));
-		if (gog_error_bar_is_visible (series->errors)) 
+		if (gog_error_bar_is_visible (series->errors))
 			error_data[i] = g_malloc (sizeof (ErrorBarData) * lengths[i]);
-		else 
+		else
 			error_data[i] = NULL;
 		if (series->has_series_lines && lengths[i] > 0) {
 			if (!role)

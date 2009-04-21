@@ -753,8 +753,7 @@ gog_series_dataset_set_dim (GogDataset *set, int dim_i,
 	if (dim_i < 0) {
 		char *name = NULL;
 		if (NULL != series->values[-1].data)
-			name = g_strdup (go_data_scalar_get_str (
-				GO_DATA_SCALAR (series->values[-1].data)));
+			name = go_data_get_scalar_string (series->values[-1].data);
 		gog_object_set_name (GOG_OBJECT (series), name, err);
 		return;
 	}
@@ -805,9 +804,9 @@ gog_series_dataset_dim_changed (GogDataset *set, int dim_i)
 		gog_object_request_update (GOG_OBJECT (set));
 	} else {
 		GOData *name_src = series->values[-1].data;
-		char const *name = (name_src != NULL)
-			? go_data_scalar_get_str (GO_DATA_SCALAR (name_src)) : NULL;
-		gog_object_set_name (GOG_OBJECT (set), g_strdup (name), NULL);
+		char *name = (name_src != NULL)
+			? go_data_get_scalar_string (name_src) : NULL;
+		gog_object_set_name (GOG_OBJECT (set), name, NULL);
 	}
 }
 
@@ -934,11 +933,12 @@ gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
  *
  * return value: a #GODataScalar, without added reference.
  **/
-GODataScalar *
+GOData *
 gog_series_get_name (GogSeries const *series)
 {
 	g_return_val_if_fail (GOG_IS_SERIES (series), NULL);
-	return GO_DATA_SCALAR (series->values[-1].data);
+
+	return series->values[-1].data;
 }
 
 /**
@@ -1045,7 +1045,7 @@ gog_series_get_element (GogSeries const *series, int index)
 static unsigned int
 gog_series_get_data (GogSeries const *series, int *indices, double **data, int n_vectors)
 {
-	GODataVector *vector;
+	GOData *vector;
 	int i, n_points = 0, vector_n_points;
 	int first, last;
 	int index;
@@ -1059,9 +1059,9 @@ gog_series_get_data (GogSeries const *series, int *indices, double **data, int n
 	for (i = 0; i < n_vectors; i++) {
 		index = indices != NULL ? indices[i] : i;
 		if (index >= first && index <= last &&
-		    (vector = GO_DATA_VECTOR (series->values[index].data)) != NULL) {
-			data[i] = go_data_vector_get_values (vector);
-			vector_n_points = go_data_vector_get_len (vector);
+		    (vector = series->values[index].data) != NULL) {
+			data[i] = go_data_get_values (vector);
+			vector_n_points = go_data_get_vector_size (vector);
 			if (!is_set) {
 				is_set = TRUE;
 				n_points = vector_n_points;

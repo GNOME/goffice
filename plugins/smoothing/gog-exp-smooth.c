@@ -125,8 +125,7 @@ gog_exp_smooth_update (GogObject *obj)
 	go_range_min (x, n, &xmin);
 	go_range_max (x, n, &xmax);
 	if (es->period->data != NULL)
-		period = go_data_scalar_get_value (
-			GO_DATA_SCALAR (es->period->data));
+		period = go_data_get_scalar_value (es->period->data);
 	if (period <= 0.)
 		period = 10. * (xmax - xmin) / (n - 1);
 
@@ -141,7 +140,7 @@ gog_exp_smooth_update (GogObject *obj)
 		nb = (unsigned) ceil ((x[i] - xmin) / delta - epsilon);
 		t = pow (2., (x[i] - xmin - nb * delta) / period);
 		incr[nb] += t * y[i];
-		w[nb] += t;		
+		w[nb] += t;
 	}
 	r = pow (2., -delta / period);
 	t = u = 0.;

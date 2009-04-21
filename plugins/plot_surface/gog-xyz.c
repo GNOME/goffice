@@ -103,7 +103,7 @@ gog_xyz_plot_populate_editor (GogObject *item,
 }
 #endif
 
-GODataVector *
+GOData *
 gog_xyz_plot_get_x_vals (GogXYZPlot *plot)
 {
 	double inc;
@@ -116,18 +116,16 @@ gog_xyz_plot_get_x_vals (GogXYZPlot *plot)
 			vals = g_new (double, imax);
 			for (i = 0; i < imax; ++i)
 				vals[i] = plot->x.minima + i * inc;
-			plot->x_vals = GO_DATA_VECTOR (go_data_vector_val_new (vals,
-				imax, NULL));
+			plot->x_vals = GO_DATA (go_data_vector_val_new (vals, imax, NULL));
 		}
 		return plot->x_vals;
 	} else {
 		GogSeries *series = GOG_SERIES (plot->base.series->data);
-		return GO_DATA_VECTOR (series->values[(plot->transposed)?
-						      1: 0].data);
+		return series->values[(plot->transposed)?  1: 0].data;
 	}
 }
 
-GODataVector *
+GOData *
 gog_xyz_plot_get_y_vals (GogXYZPlot *plot)
 {
 	double inc;
@@ -140,14 +138,12 @@ gog_xyz_plot_get_y_vals (GogXYZPlot *plot)
 			vals = g_new (double, imax);
 			for (i = 0; i < imax; ++i)
 				vals[i] = plot->y.minima + i * inc;
-			plot->y_vals = GO_DATA_VECTOR (go_data_vector_val_new (vals,
-				imax, NULL));
+			plot->y_vals = GO_DATA (go_data_vector_val_new (vals, imax, NULL));
 		}
 		return plot->y_vals;
 	} else {
 		GogSeries *series = GOG_SERIES (plot->base.series->data);
-		return GO_DATA_VECTOR (series->values[(plot->transposed)?
-						      0: 1].data);
+		return series->values[(plot->transposed)?  0: 1].data;
 	}
 }
 
@@ -173,8 +169,8 @@ gog_xyz_plot_update (GogObject *obj)
 {
 	GogXYZPlot * model = GOG_XYZ_PLOT(obj);
 	GogXYZSeries * series;
-	GODataVector *vec;
-	GODataMatrix *mat;
+	GOData *vec;
+	GOData *mat;
 	double tmp_min, tmp_max;
 
 	if (model->base.series == NULL)
@@ -190,11 +186,11 @@ gog_xyz_plot_update (GogObject *obj)
 	if (!gog_series_is_valid (GOG_SERIES (series)))
 		return;
 
-	if ((vec = GO_DATA_VECTOR (series->base.values[0].data)) != NULL) {
+	if ((vec = series->base.values[0].data) != NULL) {
 		if (model->x.fmt == NULL)
 			model->x.fmt = go_data_preferred_fmt (series->base.values[0].data);
-		if (go_data_vector_vary_uniformly (vec))
-			go_data_vector_get_minmax (vec, &tmp_min, &tmp_max);
+		if (go_data_is_varying_uniformly (vec))
+			go_data_get_bounds (vec, &tmp_min, &tmp_max);
 		else
 			tmp_min = tmp_max = go_nan;
 	} else {
@@ -212,11 +208,11 @@ gog_xyz_plot_update (GogObject *obj)
 				GOG_OBJECT (model));
 	}
 
-	if ((vec = GO_DATA_VECTOR (series->base.values[1].data)) != NULL) {
+	if ((vec = series->base.values[1].data) != NULL) {
 		if (model->y.fmt == NULL)
 			model->y.fmt = go_data_preferred_fmt (series->base.values[1].data);
-		if (go_data_vector_vary_uniformly (vec))
-			go_data_vector_get_minmax (vec, &tmp_min, &tmp_max);
+		if (go_data_is_varying_uniformly (vec))
+			go_data_get_bounds (vec, &tmp_min, &tmp_max);
 		else
 			tmp_min = tmp_max = go_nan;
 	} else {
@@ -236,8 +232,8 @@ gog_xyz_plot_update (GogObject *obj)
 
 	g_free (model->plotted_data);
 	model->plotted_data = NULL;
-	mat = GO_DATA_MATRIX (series->base.values[2].data);
-	go_data_matrix_get_minmax (mat, &tmp_min, &tmp_max);
+	mat = series->base.values[2].data;
+	go_data_get_bounds (mat, &tmp_min, &tmp_max);
 	if ((tmp_min != model->z.minima)
 			|| (tmp_max != model->z.maxima)) {
 		model->z.minima = tmp_min;
@@ -259,7 +255,7 @@ gog_xyz_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 {
 	GogXYZSeries *series;
 	GogXYZPlot *xyz = GOG_XYZ_PLOT (plot);
-	GODataVector *vec = NULL;
+	GOData *vec = NULL;
 	double min, max;
 	GOFormat *fmt;
 	if (!plot->series)
@@ -267,12 +263,12 @@ gog_xyz_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	series = GOG_XYZ_SERIES (plot->series->data);
 	if ((axis == GOG_AXIS_Y && xyz->transposed) ||
 		(axis == GOG_AXIS_X && !xyz->transposed)) {
-		vec = GO_DATA_VECTOR (series->base.values[0].data);
+		vec = series->base.values[0].data;
 		fmt = xyz->x.fmt;
 		min = xyz->x.minima;
 		max = xyz->x.maxima;
 	} else if (axis == GOG_AXIS_X || axis == GOG_AXIS_Y) {
-		vec = GO_DATA_VECTOR (series->base.values[1].data);
+		vec = series->base.values[1].data;
 		fmt = xyz->y.fmt;
 		min = xyz->y.minima;
 		max = xyz->y.maxima;
@@ -436,8 +432,8 @@ gog_xyz_series_update (GogObject *obj)
 {
 	GogXYZSeries *series = GOG_XYZ_SERIES (obj);
 	GODataMatrixSize size, old_size;
-	GODataMatrix *mat;
-	GODataVector *vec;
+	GOData *mat;
+	GOData *vec;
 	int length;
 	size.rows = 0;
 	size.columns = 0;
@@ -450,21 +446,21 @@ gog_xyz_series_update (GogObject *obj)
 		if (series->base.values[2].data != NULL) {
 			old_size.rows = series->rows;
 			old_size.columns = series->columns;
-			mat = GO_DATA_MATRIX (series->base.values[2].data);
-			go_data_matrix_get_values (mat);
-			size = go_data_matrix_get_size (mat);
+			mat = series->base.values[2].data;
+			go_data_get_values (mat);
+			go_data_get_matrix_size (mat, &size.columns, &size.rows);
 		}
 		if (series->base.values[0].data != NULL) {
-			vec = GO_DATA_VECTOR (series->base.values[0].data);
-			go_data_vector_get_values (vec);
-			length = go_data_vector_get_len (vec);
+			vec = series->base.values[0].data;
+			go_data_get_values (vec);
+			length = go_data_get_vector_size (vec);
 			if (length < size.columns)
 				size.columns = length;
 		}
 		if (series->base.values[1].data != NULL) {
-			vec = GO_DATA_VECTOR (series->base.values[1].data);
-			go_data_vector_get_values (vec);
-			length = go_data_vector_get_len (vec);
+			vec = series->base.values[1].data;
+			go_data_get_values (vec);
+			length = go_data_get_vector_size (vec);
 			if (length < size.rows)
 				size.rows = length;
 		}

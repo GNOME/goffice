@@ -314,7 +314,7 @@ gog_probability_plot_dataset_dim_changed (GogDataset *set, int dim_i)
 		GValue value = {0};
 		g_value_init (&value, G_TYPE_DOUBLE);
 		if (plot->shape_params[dim_i].elem->data)
-			g_value_set_double (&value, go_data_scalar_get_value (GO_DATA_SCALAR (plot->shape_params[dim_i].elem->data)));
+			g_value_set_double (&value, go_data_get_scalar_value (plot->shape_params[dim_i].elem->data));
 		else
 			g_param_value_set_default (spec, &value);
 		g_param_value_validate (spec, &value);
@@ -422,9 +422,8 @@ gog_probability_plot_series_update (GogObject *obj)
 	g_free (series->x);
 	series->x = NULL;
 	if (series->base.values[0].data != NULL) {
-		x_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data));
-		series->base.num_elements = go_data_vector_get_len 
-			(GO_DATA_VECTOR (series->base.values[0].data));
+		x_vals = go_data_get_values (series->base.values[0].data);
+		series->base.num_elements = go_data_get_vector_size (series->base.values[0].data);
 		if (x_vals)
 			series->x = go_range_sort (x_vals, series->base.num_elements);
 	}
@@ -439,7 +438,7 @@ gog_probability_plot_series_update (GogObject *obj)
 				series->y[i] = go_distribution_get_ppf (dist, (i + .6825) / d);
 			series->y[i] = go_distribution_get_ppf (dist, mn);
 		}
-			
+
 	} else
 		series->y = NULL;
 

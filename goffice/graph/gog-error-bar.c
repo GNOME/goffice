@@ -500,7 +500,7 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 {
 	double value;
 	GOData *data;
-	GODataVector *vec;
+	GOData *vec;
 	int length;
 
 	/* -1 ensures that the bar will not be displayed if the error is not a correct one.
@@ -510,29 +510,29 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 	g_return_val_if_fail (GOG_IS_ERROR_BAR (bar), FALSE);
 	if (!gog_series_is_valid (bar->series))
 		return FALSE;
-	vec = GO_DATA_VECTOR (bar->series->values[bar->dim_i].data);
+	vec = bar->series->values[bar->dim_i].data;
 	if (vec == NULL || index < 0)
 		return FALSE;
-	value = go_data_vector_get_value (vec, index);
+	value = go_data_get_vector_value (vec, index);
 	data = bar->series->values[bar->error_i].data;
-	length = (GO_IS_DATA (data)) ? go_data_vector_get_len (GO_DATA_VECTOR (data)) : 0;
+	length = (GO_IS_DATA (data)) ? go_data_get_vector_size (data) : 0;
 
 	if ((bar->type == GOG_ERROR_BAR_TYPE_NONE) || isnan (value) || !go_finite (value))
 		return FALSE;
 
 	if (length == 1)
-		*max = go_data_vector_get_value (GO_DATA_VECTOR (data), 0);
+		*max = go_data_get_vector_value (data, 0);
 	else if (length > index)
-		*max = go_data_vector_get_value (GO_DATA_VECTOR (data), index);
+		*max = go_data_get_vector_value (data, index);
 
 	data = bar->series->values[bar->error_i + 1].data;
-	length = (GO_IS_DATA (data))? go_data_vector_get_len (GO_DATA_VECTOR (data)): 0;
+	length = (GO_IS_DATA (data))? go_data_get_vector_size (data): 0;
 	if (length == 0)
 		*min = *max; /* use same values for + and - */
 	else if (length == 1)
-		*min = go_data_vector_get_value (GO_DATA_VECTOR (data), 0);
+		*min = go_data_get_vector_value (data, 0);
 	else if (length > index)
-		*min = go_data_vector_get_value (GO_DATA_VECTOR (data), index);
+		*min = go_data_get_vector_value (data, index);
 
 	if (isnan (*min) || !go_finite (*min) || (*min <= 0)) {
 		*min = -1.;
@@ -572,11 +572,11 @@ gog_error_bar_get_minmax (const GogErrorBar *bar, double *min, double *max)
 		return;
 	}
 
-	imax = go_data_vector_get_len (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data));
+	imax = go_data_get_vector_size (bar->series->values[bar->dim_i].data);
 	if (imax == 0)
 		return;
-	go_data_vector_get_minmax (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data), min, max);
-	values = go_data_vector_get_values (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data));
+	go_data_get_bounds (bar->series->values[bar->dim_i].data, min, max);
+	values = go_data_get_values (bar->series->values[bar->dim_i].data);
 
 	for (i = 0; i < imax; i++) {
 		if  (gog_error_bar_get_bounds (bar, i, &minus, &plus)) {

@@ -48,11 +48,9 @@ xl_xyz_series_update (GogObject *obj)
 	int x_len = 0, z_len = 0;
 
 	if (series->values[1].data != NULL)
-		z_len = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->values[1].data));
+		z_len = go_data_get_vector_size (series->values[1].data);
 	if (series->values[0].data != NULL)
-		x_len = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->values[0].data));
+		x_len = go_data_get_vector_size (series->values[0].data);
 	else
 		x_len = z_len;
 	series->num_elements = MIN (x_len, z_len);
@@ -108,16 +106,13 @@ xl_xyz_plot_update (GogObject *obj)
 	/* for first series, num_elements is used for zaxis, so we
 	can't use it to evaluate model->columns */
 	if (series->values[1].data != NULL) {
-		model->columns = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->values[1].data));
+		model->columns = go_data_get_vector_size (series->values[1].data);
 		if (series->values[0].data != NULL)
-				model->rows = go_data_vector_get_len (
-				GO_DATA_VECTOR (series->values[0].data));
+			model->rows = go_data_get_vector_size (series->values[0].data);
 		if (model->rows < model->columns)
 			model->columns = model->rows;
 	} else if (series->values[0].data != NULL)
-		model->columns = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->values[0].data));
+		model->columns = go_data_get_vector_size (series->values[0].data);
 	model->rows = 1;
 
 	for (ptr = ptr->next; ptr != NULL; ptr = ptr->next) {
@@ -127,8 +122,7 @@ xl_xyz_plot_update (GogObject *obj)
 		if (series->num_elements > model->columns)
 			model->columns = series->num_elements;
 		model->rows++;
-		go_data_vector_get_minmax (GO_DATA_VECTOR (
-			series->values[1].data), &tmp_min, &tmp_max);
+		go_data_get_bounds (series->values[1].data, &tmp_min, &tmp_max);
 		if (zmin > tmp_min) zmin = tmp_min;
 		if (zmax < tmp_max) zmax = tmp_max;
 	}
@@ -146,7 +140,7 @@ xl_xyz_plot_update (GogObject *obj)
 	gog_axis_bound_changed (model->base.axis[GOG_AXIS_Y], obj);
 }
 
-static GODataVector *
+static GOData *
 get_y_vector (GogPlot *plot)
 {
 	GSList *ptr;
@@ -164,24 +158,24 @@ get_y_vector (GogPlot *plot)
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 		(*y_labels) [i] = (series->values[-1].data)?
-				g_strdup (go_data_scalar_get_str (GO_DATA_SCALAR (series->values[-1].data))):
+				go_data_get_scalar_string (series->values[-1].data):
 				g_strdup_printf("S%d", i + 1); /* excel like labels */
 	}
 
-	return GO_DATA_VECTOR (go_data_vector_str_new (*y_labels, i, g_free));
+	return GO_DATA (go_data_vector_str_new (*y_labels, i, g_free));
 }
 
 static GOData *
-xl_xyz_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis, 
-				GogPlotBoundInfo * bounds)
+xl_xyz_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
+			     GogPlotBoundInfo * bounds)
 {
 	GogXYZPlot *xyz = GOG_XYZ_PLOT (plot);
-	GODataVector *vec = NULL;
+	GOData *vec = NULL;
 	GOFormat *fmt;
 
 	if (axis == GOG_AXIS_X) {
 		XLXYZSeries *series = XL_XYZ_SERIES (plot->series->data);
-		vec = GO_DATA_VECTOR (series->values[0].data);
+		vec = series->values[0].data;
 		fmt = xyz->x.fmt;
 	} else if (axis == GOG_AXIS_Y) {
 		if (!xyz->rows)
@@ -224,7 +218,7 @@ xl_contour_plot_build_matrix (GogXYZPlot const *plot,
 	unsigned nticks;
 	double x[2], val;
 	GogSeries *series = NULL;
-	GODataVector *vec;
+	GOData *vec;
 	unsigned n = plot->rows * plot->columns;
 	double *data, minimum, maximum;
 	unsigned max;
@@ -247,12 +241,12 @@ xl_contour_plot_build_matrix (GogXYZPlot const *plot,
 		series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
-		vec = GO_DATA_VECTOR (series->values[1].data);
-		length = go_data_vector_get_len (vec);
+		vec = series->values[1].data;
+		length = go_data_get_vector_size (vec);
 		for (j = 0; j < plot->columns; j++) {
 			/* The vector might be too short, excel is so ugly ;-) */
 			val = (j < length)? gog_axis_map_to_view (map,
-					go_data_vector_get_value (vec, j)): 0.;
+					go_data_get_vector_value (vec, j)): 0.;
 			/* This is an excel compatible plot, so let's be compatible */
 			if (val == go_nan || !go_finite (val))
 				val = 0.;
@@ -343,7 +337,7 @@ xl_surface_plot_build_matrix (GogXYZPlot const *plot,
 	unsigned i, j, length;
 	double val;
 	GogSeries *series = NULL;
-	GODataVector *vec;
+	GOData *vec;
 	unsigned n = plot->rows * plot->columns;
 	double *data;
 	GSList *ptr;
@@ -353,11 +347,11 @@ xl_surface_plot_build_matrix (GogXYZPlot const *plot,
 		series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
-		vec = GO_DATA_VECTOR (series->values[1].data);
-		length = go_data_vector_get_len (vec);
+		vec = series->values[1].data;
+		length = go_data_get_vector_size (vec);
 		for (j = 0; j < plot->columns; j++) {
 			/* The vector might be too short, excel is so ugly ;-) */
-			val = (j < length)? go_data_vector_get_value (vec, j): 0.;
+			val = (j < length)? go_data_get_vector_value (vec, j): 0.;
 			/* This is an excel compatible plot, so let's be compatible */
 			if (val == go_nan || !go_finite (val))
 				val = 0.;

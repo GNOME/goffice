@@ -189,12 +189,10 @@ gog_plot1_5d_update (GogObject *obj)
 			if (gog_error_bar_is_visible (series->errors))
 				gog_error_bar_get_minmax (series->errors, &minima, &maxima);
 			else
-				go_data_vector_get_minmax (GO_DATA_VECTOR (
-					series->base.values[1].data), &minima, &maxima);
+				go_data_get_bounds (series->base.values[1].data, &minima, &maxima);
 			if (series->base.plot->desc.series.num_dim == 3) {
 				double tmp_min, tmp_max;
-				go_data_vector_get_minmax (GO_DATA_VECTOR (
-					series->base.values[2].data), &tmp_min, &tmp_max);
+				go_data_get_bounds (series->base.values[2].data, &tmp_min, &tmp_max);
 				if (minima > tmp_min )
 					minima = tmp_min;
 				if (maxima < tmp_max)
@@ -238,13 +236,11 @@ gog_plot1_5d_update (GogObject *obj)
 			if (!gog_series_is_valid (GOG_SERIES (series))) {
 				continue;
 			}
-			vals[i] = go_data_vector_get_values (
-				GO_DATA_VECTOR (series->base.values[1].data));
+			vals[i] = go_data_get_values (series->base.values[1].data);
 			g_object_get (G_OBJECT (series), "errors", errors + i, NULL);
 			if (errors[i])
 				g_object_unref (errors[i]);
-			lengths[i] = go_data_vector_get_len (
-				GO_DATA_VECTOR (series->base.values[1].data));
+			lengths[i] = go_data_get_vector_size (series->base.values[1].data);
 
 			i++;
 		}
@@ -487,18 +483,16 @@ gog_series1_5d_update (GogObject *obj)
 	unsigned old_num = series->base.num_elements;
 
 	if (series->base.values[1].data != NULL) {
-		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
-		len = go_data_vector_get_len 
-			(GO_DATA_VECTOR (series->base.values[1].data));
+		vals = go_data_get_values (series->base.values[1].data);
+		len = go_data_get_vector_size (series->base.values[1].data);
 	}
 	series->base.num_elements = len;
 
 	if (series->base.plot->desc.series.num_dim == 3) {
 		int tmp = 0;
 		if (series->base.values[2].data != NULL) {
-			vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[2].data));
-			tmp = go_data_vector_get_len 
-				(GO_DATA_VECTOR (series->base.values[2].data));
+			vals = go_data_get_values (series->base.values[2].data);
+			tmp = go_data_get_vector_size (series->base.values[2].data);
 		}
 		if (tmp < len)
 			len = tmp;

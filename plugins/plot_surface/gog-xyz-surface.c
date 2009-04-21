@@ -201,36 +201,33 @@ gog_xyz_surface_plot_update (GogObject *obj)
 	if (!gog_series_is_valid (GOG_SERIES (series)))
 		return;
 	
-	go_data_vector_get_minmax (GO_DATA_VECTOR (
-		series->base.values[0].data), &tmp_min, &tmp_max);
+	go_data_get_bounds (series->base.values[0].data, &tmp_min, &tmp_max);
 	if (!go_finite (tmp_min) || !go_finite (tmp_max) ||
 	    tmp_min > tmp_max) {
 		tmp_min = 0;
-		tmp_max = go_data_vector_get_len (GO_DATA_VECTOR (series->base.values[0].data));
+		tmp_max = go_data_get_vector_size (series->base.values[0].data);
 	} else if (model->x.fmt == NULL)
 		model->x.fmt = go_data_preferred_fmt (series->base.values[0].data);
 	model->x.minima = tmp_min;
 	model->x.maxima = tmp_max;
 	gog_axis_bound_changed (model->base.axis[GOG_AXIS_X], GOG_OBJECT (model));
 
-	go_data_vector_get_minmax (GO_DATA_VECTOR (series->base.values[1].data),
-	                           &tmp_min, &tmp_max);
+	go_data_get_bounds (series->base.values[1].data, &tmp_min, &tmp_max);
 	if (!go_finite (tmp_min) || !go_finite (tmp_max) ||
 	    tmp_min > tmp_max) {
 		tmp_min = 0;
-		tmp_max = go_data_vector_get_len (GO_DATA_VECTOR (series->base.values[1].data));
+		tmp_max = go_data_get_vector_size (series->base.values[1].data);
 	} else if (model->y.fmt == NULL)
 		model->y.fmt = go_data_preferred_fmt (series->base.values[1].data);
 	model->y.minima = tmp_min;
 	model->y.maxima = tmp_max;
 	gog_axis_bound_changed (model->base.axis[GOG_AXIS_Y], GOG_OBJECT (model));
 
-	go_data_vector_get_minmax (GO_DATA_VECTOR (series->base.values[2].data),
-	                           &tmp_min, &tmp_max);
+	go_data_get_bounds (series->base.values[2].data, &tmp_min, &tmp_max);
 	if (!go_finite (tmp_min) || !go_finite (tmp_max) ||
 	    tmp_min > tmp_max) {
 		tmp_min = 0;
-		tmp_max = go_data_vector_get_len (GO_DATA_VECTOR (series->base.values[2].data));
+		tmp_max = go_data_get_vector_size (series->base.values[2].data);
 	} else if (model->z.fmt == NULL)
 		model->z.fmt = go_data_preferred_fmt (series->base.values[2].data);
 	model->z.minima = tmp_min;

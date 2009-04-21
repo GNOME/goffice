@@ -350,14 +350,10 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 			continue;
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
 		x = offset;
-		min_vals = go_data_vector_get_values (
-			GO_DATA_VECTOR (series->base.values[1].data));
-		n = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[1].data));
-		max_vals = go_data_vector_get_values (
-			GO_DATA_VECTOR (series->base.values[2].data));
-		tmp = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[2].data));
+		min_vals = go_data_get_values (series->base.values[1].data);
+		n = go_data_get_vector_size (series->base.values[1].data);
+		max_vals = go_data_get_values (series->base.values[2].data);
+		tmp = go_data_get_vector_size (series->base.values[2].data);
 		if (n > tmp)
 			n = tmp;
 		mpath = go_path_new ();

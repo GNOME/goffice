@@ -156,8 +156,7 @@ gog_rt_plot_update (GogObject *obj)
 
 		if (num_elements < series->base.num_elements)
 			num_elements = series->base.num_elements;
-		go_data_vector_get_minmax (GO_DATA_VECTOR (
-			series->base.values[1].data), &tmp_min, &tmp_max);
+		go_data_get_bounds (series->base.values[1].data, &tmp_min, &tmp_max);
 		if (val_min > tmp_min) val_min = tmp_min;
 		if (val_max < tmp_max) val_max = tmp_max;
 	}
@@ -534,8 +533,7 @@ gog_color_polar_plot_update (GogObject *obj)
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 
-		go_data_vector_get_minmax (GO_DATA_VECTOR (
-			series->values[2].data), &tmp_min, &tmp_max);
+		go_data_get_bounds (series->values[2].data, &tmp_min, &tmp_max);
 		if (z_min > tmp_min) z_min = tmp_min;
 		if (z_max < tmp_max) z_max = tmp_max;
 	}
@@ -724,10 +722,10 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		gog_renderer_push_style (view->renderer, style);
 
-		r_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
-		c_vals = is_polar ?  go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data)) : NULL;
+		r_vals = go_data_get_values (series->base.values[1].data);
+		c_vals = is_polar ?  go_data_get_values (series->base.values[0].data) : NULL;
 		if (is_map) {
-			z_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[2].data));
+			z_vals = go_data_get_values (series->base.values[2].data);
 			color_style = go_style_dup (style);
 		}
 
@@ -923,9 +921,8 @@ gog_rt_series_update (GogObject *obj)
 	unsigned len = 0;
 
 	if (series->base.values[1].data != NULL) {
-		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
-		len = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[1].data));
+		vals = go_data_get_values (series->base.values[1].data);
+		len = go_data_get_vector_size (series->base.values[1].data);
 	}
 	series->base.num_elements = len;
 

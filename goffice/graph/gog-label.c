@@ -220,7 +220,7 @@ gog_label_get_str (GogText *text)
 	g_return_val_if_fail (GOG_IS_LABEL (label), NULL);
 
 	if (label->text.data != NULL)
-		return g_strdup (go_data_scalar_get_str (GO_DATA_SCALAR (label->text.data)));
+		return go_data_get_scalar_string (label->text.data);
 	
 	return NULL;
 }

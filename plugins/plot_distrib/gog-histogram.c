@@ -87,7 +87,7 @@ gog_histogram_plot_update (GogObject *obj)
 	g_free (series->x);
 	series->x = g_new (double, series->base.num_elements);
 	if (series->base.values[0].data != NULL) {
-		x_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data));
+		x_vals = go_data_get_values (series->base.values[0].data);
 		x_min = x_vals[0];
 		x_max = x_vals[series->base.num_elements];
 		if (model->x.fmt == NULL)
@@ -111,7 +111,7 @@ gog_histogram_plot_update (GogObject *obj)
 	if (series->base.values[1].data != NULL) {
 		if (x_vals) {
 			series->y = g_new (double, series->base.num_elements);
-			y_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
+			y_vals = go_data_get_values (series->base.values[1].data);
 			for (i = 0; i < series->base.num_elements; i++)
 				if (go_finite (y_vals[i])) {
 					series->y[i] = val = y_vals[i] / (x_vals[i+1] - x_vals[i]);
@@ -122,8 +122,7 @@ gog_histogram_plot_update (GogObject *obj)
 				} else
 					series->y[i] = 0.;
 		} else
-			go_data_vector_get_minmax (
-				GO_DATA_VECTOR (series->base.values[1].data), &y_min, &y_max);
+			go_data_get_bounds (series->base.values[1].data, &y_min, &y_max);
 		if (model->y.fmt == NULL)
 			model->y.fmt = go_data_preferred_fmt (series->base.values[1].data);
 	}
@@ -250,10 +249,8 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	y_map = gog_chart_map_get_axis_map (chart_map, 1);
 
 	if (series->base.values[0].data)
-		x_vals = go_data_vector_get_values (
-			GO_DATA_VECTOR (series->base.values[0].data));
-	y_vals = (x_vals)? series->y: go_data_vector_get_values (
-		GO_DATA_VECTOR (series->base.values[1].data));
+		x_vals = go_data_get_values (series->base.values[0].data);
+	y_vals = (x_vals)? series->y: go_data_get_values (series->base.values[1].data);
 
 	path = go_path_new ();
 	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
@@ -409,14 +406,12 @@ gog_histogram_plot_series_update (GogObject *obj)
 	GSList *ptr;
 
 	if (series->base.values[1].data != NULL) {
-		y_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
-		y_len = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[1].data));
+		y_vals = go_data_get_values (series->base.values[1].data);
+		y_len = go_data_get_vector_size (series->base.values[1].data);
 	}
 	if (series->base.values[0].data != NULL) {
-		x_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data));
-		max = go_data_vector_get_len 
-			(GO_DATA_VECTOR (series->base.values[0].data));
+		x_vals = go_data_get_values (series->base.values[0].data);
+		max = go_data_get_vector_size (series->base.values[0].data);
 		if (max > 0 && go_finite (x_vals[0])) {
 			cur = x_vals[0];
 			for (i = 1; i< max; i++) {
@@ -463,9 +458,10 @@ gog_histogram_plot_series_get_xy_data (GogSeries const *series,
 					double const **x, double const **y)
 {
 	GogHistogramPlotSeries *hist_ser = GOG_HISTOGRAM_PLOT_SERIES (series);
+
 	*x = hist_ser->x;
-	*y = (hist_ser->y)? hist_ser->y:
-		go_data_vector_get_values (GO_DATA_VECTOR (series->values[1].data));
+	*y = (hist_ser->y)? hist_ser->y: go_data_get_values (series->values[1].data);
+
 	return series->num_elements;
 }
 

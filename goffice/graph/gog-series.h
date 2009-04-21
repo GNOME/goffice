@@ -55,7 +55,7 @@ GType gog_series_element_get_type (void);
 GType gog_series_get_type (void);
 gboolean      gog_series_is_valid   (GogSeries const *series);
 gboolean      gog_series_has_legend (GogSeries const *series);
-GODataScalar *gog_series_get_name   (GogSeries const *series);
+GOData       *gog_series_get_name   (GogSeries const *series);
 GogPlot	     *gog_series_get_plot   (GogSeries const *series);
 void	      gog_series_set_name   (GogSeries *series,
 				     GODataScalar *name_src, GError **err);

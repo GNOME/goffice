@@ -713,7 +713,7 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 	GSList *ptr;
 	GogSeries const *series;
 	GOStyle *style, *tmp_style;
-	GODataVector *labels;
+	GOData *labels;
 	unsigned i, n, num_labels = 0;
 	char *label = NULL;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
@@ -756,8 +756,8 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 	series = ptr->data; /* start with the first */
 	labels = NULL;
 	if (series->values[0].data != NULL) {
-		labels = GO_DATA_VECTOR (series->values[0].data);
-		num_labels = go_data_vector_get_len (labels);
+		labels = series->values[0].data;
+		num_labels = go_data_get_vector_size (labels);
 	}
 	style = go_style_dup (series->base.style);
 	n = only_visible ? plot->visible_cardinality : plot->full_cardinality;
@@ -772,8 +772,7 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 		gog_theme_fillin_style (theme, tmp_style, GOG_OBJECT (series),
 			plot->index_num + i, FALSE);
 		if (labels != NULL)
- 			label = (i < num_labels)
- 				? go_data_vector_get_str (labels, i) : g_strdup ("");
+			label = (i < num_labels) ? go_data_get_vector_string (labels, i) : g_strdup ("");
 		else
 			label = NULL;
 		if (label == NULL)

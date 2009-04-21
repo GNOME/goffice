@@ -771,8 +771,8 @@ gog_axis_base_get_cross_location (GogAxisBase *axis_base)
 	g_return_val_if_fail (GOG_AXIS_BASE (axis_base) != NULL, 0.);
 
 	data = axis_base->cross_location.data;
-	if (data != NULL && GO_IS_DATA_SCALAR (data))
-		return go_data_scalar_get_value (GO_DATA_SCALAR (data));
+	if (GO_IS_DATA (data))
+		return go_data_get_scalar_value (data);
 
 	return 0.;
 }

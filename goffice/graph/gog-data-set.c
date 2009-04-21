@@ -226,6 +226,7 @@ gog_dataset_parent_changed (GogDataset *set, gboolean was_set)
 void
 gog_dataset_dup_to_simple (GogDataset const *src, GogDataset *dst)
 {
+#if 0
 	gint	     n, last;
 	GOData *src_dat, *dst_dat;
 	gog_dataset_dims (src, &n, &last);
@@ -272,4 +273,5 @@ gog_dataset_dup_to_simple (GogDataset const *src, GogDataset *dst)
 		}
 		gog_dataset_set_dim (dst, n, dst_dat, NULL);
 	}
+#endif
 }

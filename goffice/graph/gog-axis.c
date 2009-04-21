@@ -92,7 +92,7 @@ struct _GogAxis {
 	gpointer	min_contrib, max_contrib; /* NULL means use the manual sources */
 	gboolean	is_discrete;
 	gboolean	center_on_ticks;
-	GODataVector   *labels;
+	GOData         *labels;
 	GogPlot	       *plot_that_supplied_labels;
 	GOFormat       *format, *assigned_format;
 
@@ -335,8 +335,8 @@ map_discrete_calc_ticks (GogAxis *axis)
 		index = ticks[j].position - 1;
 		ticks[j].type = GOG_AXIS_TICK_NONE;
 		if (axis->labels != NULL) {
-			if (index < go_data_vector_get_len (axis->labels) && index >= 0) {
-				char *label = go_data_vector_get_str (axis->labels, index);
+			if (index < (int) go_data_get_vector_size (axis->labels) && index >= 0) {
+				char *label = go_data_get_vector_string (axis->labels, index);
 				ticks[j].label = g_markup_escape_text (label, -1);
 				g_free (label);
 			} else
@@ -1865,8 +1865,8 @@ gog_axis_get_entry (GogAxis const *axis, GogAxisElemType i, gboolean *user_defin
 	else
 		dat = GOG_AXIS_BASE (axis)->cross_location.data;
 
-	if (dat != NULL && GO_IS_DATA_SCALAR (dat)) {
-		double tmp = go_data_scalar_get_value (GO_DATA_SCALAR (dat));
+	if (GO_IS_DATA (dat)) {
+		double tmp = go_data_get_scalar_value (dat);
 		if (go_finite (tmp)) {
 			if (user_defined)
 				*user_defined = TRUE;
@@ -1920,7 +1920,7 @@ gog_axis_update (GogObject *obj)
 			axis->is_discrete = FALSE;
 		else if (axis->labels == NULL && labels != NULL) {
 			g_object_ref (labels);
-			axis->labels = GO_DATA_VECTOR (labels);
+			axis->labels = labels;
 			axis->plot_that_supplied_labels = GOG_PLOT (ptr->data);
 		}
 		axis->center_on_ticks = bounds.center_on_ticks;
@@ -2497,11 +2497,11 @@ gog_axis_set_bounds (GogAxis *axis, double minimum, double maximum)
 
 	if (go_finite (minimum)) {
 		gog_dataset_set_dim (GOG_DATASET (axis), GOG_AXIS_ELEM_MIN,
-				     go_data_scalar_val_new (minimum), NULL);
+				     GO_DATA (go_data_scalar_val_new (minimum)), NULL);
 	}
 	if (go_finite (maximum)) {
 		gog_dataset_set_dim (GOG_DATASET (axis), GOG_AXIS_ELEM_MAX,
-				     go_data_scalar_val_new (maximum), NULL);
+				     GO_DATA (go_data_scalar_val_new (maximum)), NULL);
 	}
 }
 

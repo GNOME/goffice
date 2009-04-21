@@ -37,6 +37,7 @@ struct _GOData {
 	GObject		base;
 	gint32		flags; /* dunno what to do with these yet */
 };
+
 typedef struct {
 	GObjectClass base;
 

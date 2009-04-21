@@ -419,7 +419,7 @@ find_element (GogView *view, double cx, double cy, double x, double y,
 	if (theta < 0)
 		theta += 1.;
 
-	vals = go_data_vector_get_values (GO_DATA_VECTOR ((*series)->base.values[1].data));
+	vals = go_data_get_values ((*series)->base.values[1].data);
 	scale = 1 / (*series)->total;
 	for (*index = 0 ; *index < (*series)->base.num_elements; (*index)++) {
 		len = fabs (vals[*index]) * scale;
@@ -718,7 +718,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		theta = (model->initial_angle + series->initial_angle) * M_PI / 180. - M_PI / 2.;
 
 		scale = 2 * M_PI / 100 * model->span / series->total;
-		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
+		vals = go_data_get_values (series->base.values[1].data);
 
 		style = GOG_STYLED_OBJECT (series)->style;
 		if (model->base.vary_style_by_element)
@@ -865,9 +865,8 @@ gog_pie_series_update (GogObject *obj)
 	unsigned old_num = series->base.num_elements;
 
 	if (series->base.values[1].data != NULL) {
-		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
-		len = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[1].data));
+		vals = go_data_get_values (series->base.values[1].data);
+		len = go_data_get_vector_size (series->base.values[1].data);
 	}
 	series->base.num_elements = len;
 

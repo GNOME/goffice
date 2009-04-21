@@ -263,7 +263,7 @@ gog_box_plot_update (GogObject *obj)
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = GOG_BOX_PLOT_SERIES (ptr->data);
 		if (!gog_series_is_valid (GOG_SERIES (series)) ||
-			!go_data_vector_get_len (GO_DATA_VECTOR (series->base.values[0].data)))
+			!go_data_get_vector_size (series->base.values[0].data))
 			continue;
 		num_series++;
 		if (series->vals[0] < min)
@@ -300,7 +300,7 @@ gog_box_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 
 	if ((axis == GOG_AXIS_X && model->vertical) ||
 			(axis == GOG_AXIS_Y && !model->vertical)) {
-		GODataScalar *s;
+		GOData *s;
 		GogSeries *series;
 		GSList *ptr;
 		int n = 0;
@@ -309,11 +309,11 @@ gog_box_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 			for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 				series = GOG_SERIES (ptr->data);
 				if (!gog_series_is_valid (GOG_SERIES (series)) ||
-					!go_data_vector_get_len (GO_DATA_VECTOR (series->values[0].data)))
+					!go_data_get_vector_size (series->values[0].data))
 					continue;
 				s = gog_series_get_name (series);
 				if (s) {
-					model->names[n] = go_data_scalar_get_str (s);
+					model->names[n] = go_data_get_scalar_string (s);
 					has_names = TRUE;
 				}
 				n++;
@@ -322,8 +322,8 @@ gog_box_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		bounds->val.maxima = model->num_series + .5;
 		bounds->is_discrete = TRUE;
 		bounds->center_on_ticks = FALSE;
-		return has_names? go_data_vector_str_new (model->names, n, NULL): NULL;
-		
+		return has_names? GO_DATA (go_data_vector_str_new (model->names, n, g_free)): NULL;
+
 	} else {
 		bounds->val.minima = model->min;
 		bounds->val.maxima = model->max;
@@ -459,13 +459,13 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 	hrect /= 2.;
 	hbar = hrect / 2.;
-		
+
 	path = go_path_new ();
 	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (series)) ||
-			!go_data_vector_get_len (GO_DATA_VECTOR (series->base.values[0].data)))
+			!go_data_get_vector_size (series->base.values[0].data))
 			continue;
 		style = go_style_dup (GOG_STYLED_OBJECT (series)->style);
 		y = gog_axis_map_to_view (ser_map, num_ser);
@@ -473,7 +473,7 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (model->outliers) {
 			double l1, l2, m1, m2, d, r = 2. * hrect * model->radius_ratio;
 			int i = 0;
-		    	style->outline = style->line;
+			style->outline = style->line;
 			d = series->vals[3] - series->vals[1];
 			l1 = series->vals[1] - d * 1.5;
 			l2 = series->vals[1] - d * 3.;
@@ -599,9 +599,8 @@ gog_box_plot_series_update (GogObject *obj)
 	series->svals = NULL;
 
 	if (series->base.values[0].data != NULL) {
-		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data));
-		len = go_data_vector_get_len 
-			(GO_DATA_VECTOR (series->base.values[0].data));
+		vals = go_data_get_values (series->base.values[0].data);
+		len = go_data_get_vector_size (series->base.values[0].data);
 	}
 	series->base.num_elements = len;
 	if (len > 0) {

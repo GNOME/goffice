@@ -42,7 +42,7 @@ gog_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_cha
 	unsigned i, j;
 	double val;
 	GogSeries *series = GOG_SERIES (plot->base.series->data);
-	GODataMatrix *mat = GO_DATA_MATRIX (series->values[2].data);
+	GOData *mat = series->values[2].data;
 	unsigned n = plot->rows * plot->columns;
 	double *data;
 
@@ -50,7 +50,7 @@ gog_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality_cha
 
 	for (i = 0; i < plot->rows; i++)
 		for (j = 0; j < plot->columns; j++) {
-			val = go_data_matrix_get_value (mat, i, j);
+			val = go_data_get_matrix_value (mat, j, i);
 			if (plot->transposed)
 				data[j * plot->rows + i] = val;
 			else
@@ -131,7 +131,7 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogRenderer *rend = view->renderer;
 	GOStyle *style;
 	double *data;
-	GODataVector *x_vec = NULL, *y_vec = NULL;
+	GOData *x_vec = NULL, *y_vec = NULL;
 	gboolean xdiscrete, ydiscrete;
 	gboolean cw;
 	GSList *tiles = NULL, *cur;
@@ -186,15 +186,15 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 				x0 = i;
 				x1 = i + 1;
 			} else {
-				x0 = go_data_vector_get_value (x_vec, i - 1);
-				x1 = go_data_vector_get_value (x_vec, i);
+				x0 = go_data_get_vector_value (x_vec, i - 1);
+				x1 = go_data_get_vector_value (x_vec, i);
 			}
 			if (ydiscrete) {
 				y0 = j;
 				y1 = j + 1;
 			} else {
-				y0 = go_data_vector_get_value (y_vec, j - 1);
-				y1 = go_data_vector_get_value (y_vec, j);
+				y0 = go_data_get_vector_value (y_vec, j - 1);
+				y1 = go_data_get_vector_value (y_vec, j);
 			}
 			nbvalid = 0;
 			z = data[(j - 1) * imax + i - 1];

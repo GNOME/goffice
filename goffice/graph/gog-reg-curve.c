@@ -262,15 +262,13 @@ void
 gog_reg_curve_get_bounds (GogRegCurve *reg_curve, double *xmin, double *xmax)
 {
 	if (reg_curve->bounds[0].data) {
-		*xmin = go_data_scalar_get_value (
-			GO_DATA_SCALAR (reg_curve->bounds[0].data));
+		*xmin = go_data_get_scalar_value (reg_curve->bounds[0].data);
 		if (*xmin == go_nan || !go_finite (*xmin))
 			*xmin = -DBL_MAX;
 	} else
 		*xmin = -DBL_MAX;
 	if (reg_curve->bounds[1].data) {
-		*xmax = go_data_scalar_get_value (
-			GO_DATA_SCALAR (reg_curve->bounds[1].data));
+		*xmax = go_data_get_scalar_value (reg_curve->bounds[1].data);
 		if (*xmax == go_nan || !go_finite (*xmax))
 			*xmax = DBL_MAX;
 	} else
