@@ -30,8 +30,7 @@ G_BEGIN_DECLS
 typedef enum {
 	GO_DATA_CACHE_IS_VALID =	1 << 0,
 	GO_DATA_IS_EDITABLE =		1 << 1,
-	GO_DATA_VECTOR_LEN_CACHED =	1 << 2,
-	GO_DATA_MATRIX_SIZE_CACHED = GO_DATA_VECTOR_LEN_CACHED
+	GO_DATA_SIZE_CACHED =		1 << 2
 } GODataFlags;
 
 struct _GOData {
@@ -41,12 +40,19 @@ struct _GOData {
 typedef struct {
 	GObjectClass base;
 
-	GOData	  *(*dup)	    (GOData const *src);
-	gboolean   (*eq)	    (GOData const *a, GOData const *b);
-	GOFormat  *(*preferred_fmt) (GOData const *dat);
-	char      *(*as_str)	    (GOData const *dat);
-	gboolean   (*from_str)	    (GOData *dat, char const *str);
-	void	   (*emit_changed)  (GOData *dat);
+	GOData *	(*dup)	    		(GOData const *src);
+	gboolean 	(*eq)	    		(GOData const *a, GOData const *b);
+	GOFormat *	(*preferred_fmt) 	(GOData const *dat);
+	char *		(*as_str)	    	(GOData const *dat);
+	gboolean   	(*from_str)	    	(GOData *dat, char const *str);
+	void	   	(*emit_changed)  	(GOData *dat);
+
+	unsigned int	(*get_n_sizes)		(GOData *data);
+	void		(*get_sizes)		(GOData *data, unsigned int *sizes);
+	double *	(*get_values)		(GOData *data);
+	void		(*get_bounds)		(GOData *data, double *minimum, double *maximum);
+	double		(*get_value)		(GOData *data, unsigned int *positions);
+	char *		(*get_string)		(GOData *data, unsigned int *positions);
 
 	/* signals */
 	void (*changed)	(GOData *dat);
@@ -54,14 +60,17 @@ typedef struct {
 
 struct _GODataScalar {
 	GOData base;
+
+	double value;
 };
 
 typedef struct {
 	GODataClass base;
 	double       (*get_value)  (GODataScalar *scalar);
 	char const  *(*get_str)	   (GODataScalar *scalar);
-/*	PangoLayout *(get_fmt_str) (GODataScalar *scalar); */
 } GODataScalarClass;
+
+#define GO_DATA_VECTOR_LEN_CACHED GO_DATA_SIZE_CACHED
 
 struct _GODataVector {
 	GOData base;
@@ -77,8 +86,9 @@ typedef struct {
 	void	 (*load_values) (GODataVector *vec);
 	double	 (*get_value)   (GODataVector *vec, unsigned i);
 	char	*(*get_str)	(GODataVector *vec, unsigned i);
-/*	PangoLayout *(get_fmt_str)  (GODataVector *vec, unsigned i); */
 } GODataVectorClass;
+
+#define	GO_DATA_MATRIX_SIZE_CACHED GO_DATA_SIZE_CACHED
 
 struct _GODataMatrix {
 	GOData base;
@@ -95,7 +105,6 @@ typedef struct {
 	void	 (*load_values) (GODataMatrix *vec);
 	double	 (*get_value)   (GODataMatrix *mat, unsigned i, unsigned j);
 	char	*(*get_str)	(GODataMatrix *mat, unsigned i, unsigned j);
-/*	PangoLayout *(get_fmt_str)  (GODataMatrix *mat, unsigned i, unsigned j); */
 } GODataMatrixClass;
 
 G_END_DECLS

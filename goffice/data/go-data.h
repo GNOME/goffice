@@ -18,6 +18,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
+
 #ifndef GO_DATA_H
 #define GO_DATA_H
 
@@ -31,13 +32,32 @@ G_BEGIN_DECLS
 #define GO_DATA(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_DATA, GOData))
 #define GO_IS_DATA(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_DATA))
 
-GType go_data_get_type (void);
-GOData	 *go_data_dup		(GOData const *src);
-gboolean  go_data_eq		(GOData const *a, GOData const *b);
-GOFormat *go_data_preferred_fmt (GOData const *dat);
-char     *go_data_as_str	(GOData const *dat);
-gboolean  go_data_from_str	(GOData *dat, char const *str);
-void	  go_data_emit_changed  (GOData *dat);
+GType 		go_data_get_type 		(void);
+GOData *	go_data_dup			(GOData const *src);
+gboolean  	go_data_eq			(GOData const *a, GOData const *b);
+GOFormat *	go_data_preferred_fmt 		(GOData const *dat);
+char *		go_data_as_str			(GOData const *dat);
+gboolean  	go_data_from_str		(GOData *dat, char const *str);
+void	  	go_data_emit_changed  		(GOData *dat);
+
+double *	go_data_get_values		(GOData *data);
+void		go_data_get_bounds		(GOData *data, double *minimum, double *maximum);
+gboolean	go_data_is_increasing		(GOData *data);
+gboolean	go_data_is_decreasing		(GOData *data);
+gboolean	go_data_is_varying_uniformly	(GOData *data);
+
+unsigned int	go_data_get_n_values		(GOData *data);
+
+unsigned int	go_data_get_vector_size 	(GOData *data);
+void		go_data_get_matrix_size		(GOData *data, unsigned int *n_rows, unsigned int *n_columns);
+
+double		go_data_get_scalar_value	(GOData *data);
+double		go_data_get_vector_value 	(GOData *data, unsigned int column);
+double		go_data_get_matrix_value 	(GOData *data, unsigned int row, unsigned int column);
+
+char *		go_data_get_scalar_string	(GOData *data);
+char *		go_data_get_vector_string	(GOData *data, unsigned int column);
+char *		go_data_get_matrix_string	(GOData *data, unsigned int row, unsigned int column);
 
 /*************************************************************************/
 

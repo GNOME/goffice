@@ -207,14 +207,347 @@ go_data_emit_changed (GOData *dat)
 	g_signal_emit (G_OBJECT (dat), go_data_signals [CHANGED], 0);
 }
 
+typedef enum {
+	GO_DATA_VARIATION_CHECK_INCREASING,
+	GO_DATA_VARIATION_CHECK_DECREASING,
+	GO_DATA_VARIATION_CHECK_UNIFORMLY
+} GODataVariationCheck;
+
+static gboolean
+go_data_check_variation (GOData *data, GODataVariationCheck check)
+{
+	double *values;
+	unsigned int n_values;
+
+	g_return_val_if_fail (GO_IS_DATA (data), FALSE);
+
+	values = go_data_get_values (data);
+	if (values == NULL)
+		return FALSE;
+
+	n_values = go_data_get_n_values (data);
+	if (n_values < 1)
+		return FALSE;
+
+	switch (check) {
+		case GO_DATA_VARIATION_CHECK_UNIFORMLY:
+			return go_range_vary_uniformly (values, n_values);
+		case GO_DATA_VARIATION_CHECK_INCREASING:
+			return go_range_increasing (values, n_values);
+		default:
+			return go_range_decreasing (values, n_values);
+	}
+}
+
+gboolean
+go_data_is_increasing (GOData *data)
+{
+	return go_data_check_variation (data, GO_DATA_VARIATION_CHECK_INCREASING);
+}
+
+gboolean
+go_data_is_decreasing (GOData *data)
+{
+	return go_data_check_variation (data, GO_DATA_VARIATION_CHECK_DECREASING);
+}
+
+gboolean
+go_data_is_varying_uniformly (GOData *data)
+{
+	return go_data_check_variation (data, GO_DATA_VARIATION_CHECK_UNIFORMLY);
+}
+
+unsigned int
+go_data_get_n_values (GOData *data)
+{
+	GODataClass const *data_class;
+	unsigned int n_values;
+	unsigned int n_sizes;
+	unsigned int *sizes;
+	unsigned int i;
+
+	g_return_val_if_fail (GO_IS_DATA (data), 0);
+
+	data_class = GO_DATA_GET_CLASS (data);
+	g_return_val_if_fail (data_class->get_n_sizes != NULL, 0);
+
+	n_sizes = data_class->get_n_sizes (data);
+	if (n_sizes < 1)
+		return 1;
+
+	sizes = g_newa (unsigned int, n_sizes);
+
+	g_return_val_if_fail (data_class->get_sizes != NULL, 0);
+
+	data_class->get_sizes (data, sizes);
+
+	n_values = 1;
+	for (i = 0; i < n_sizes; i++)
+		n_values *= sizes[i];
+
+	return n_values;
+}
+
+static void
+go_data_get_sizes (GOData *data, unsigned int n_sizes, unsigned int *sizes)
+{
+	GODataClass const *data_class;
+	unsigned int actual_n_sizes;
+	unsigned int i;
+
+	g_return_if_fail (n_sizes > 0);
+	g_return_if_fail (sizes != NULL);
+
+	data_class = GO_DATA_GET_CLASS (data);
+
+	g_return_if_fail (data_class->get_n_sizes != NULL);
+
+	actual_n_sizes = data_class->get_n_sizes (data);
+	if (actual_n_sizes > n_sizes) {
+		unsigned int *actual_sizes;
+
+		actual_sizes = g_newa (unsigned int, actual_n_sizes);
+		data_class->get_sizes (data, actual_sizes);
+
+		memcpy (sizes, actual_sizes, sizeof (unsigned int) * n_sizes);
+	} else {
+		data_class->get_sizes (data, sizes);
+
+		for (i = actual_n_sizes; i < n_sizes; i++)
+			sizes[i] = 1;
+	}
+}
+
+unsigned int
+go_data_get_vector_size (GOData *data)
+{
+	unsigned int size;
+
+	g_return_val_if_fail (GO_IS_DATA (data), 0);
+
+	go_data_get_sizes (data, 1, &size);
+
+	return size;
+}
+
+void
+go_data_get_matrix_size (GOData *data, unsigned int *n_columns, unsigned int *n_rows)
+{
+	unsigned int sizes[2];
+
+	if (!GO_IS_DATA (data)) {
+		if (n_columns != NULL)
+			*n_columns = 0;
+
+		if (n_rows != NULL)
+			*n_rows = 0;
+
+		g_return_if_fail (GO_IS_DATA (data));
+	}
+
+	go_data_get_sizes (data, 2, sizes);
+
+	if (n_columns != NULL)
+		*n_columns = sizes[0];
+
+	if (n_rows != NULL)
+		*n_rows = sizes[1];
+}
+
+double *
+go_data_get_values (GOData *data)
+{
+	GODataClass const *data_class;
+
+	g_return_val_if_fail (GO_IS_DATA (data), NULL);
+
+	data_class = GO_DATA_GET_CLASS (data);
+
+	g_return_val_if_fail (data_class->get_values != NULL, NULL);
+
+	return data_class->get_values (data);
+}
+
+void
+go_data_get_bounds (GOData *data, double *minimum, double *maximum)
+{
+	GODataClass const *data_class;
+	double dummy;
+
+	g_return_if_fail (GO_IS_DATA (data));
+	g_return_if_fail (minimum != NULL && maximum != NULL);
+
+	if (maximum == NULL)
+		maximum = &dummy;
+	else if (minimum == NULL)
+		minimum = &dummy;
+
+	data_class = GO_DATA_GET_CLASS (data);
+
+	g_return_if_fail (data_class->get_bounds != NULL);
+
+	data_class->get_bounds (data, minimum, maximum);
+}
+
+static double
+go_data_get_value (GOData *data, unsigned int n_positions, unsigned int *positions)
+{
+	GODataClass const *data_class;
+	unsigned int i;
+	unsigned int n_sizes;
+
+	g_return_val_if_fail (GO_IS_DATA (data), go_nan);
+	g_return_val_if_fail (n_positions < 1 || positions != NULL, go_nan);
+
+	data_class = GO_DATA_GET_CLASS (data);
+
+	n_sizes = data_class->get_n_sizes (data);
+
+	if (n_sizes > n_positions) {
+		unsigned int *actual_positions;
+
+		actual_positions = g_newa (unsigned int, n_sizes);
+		memcpy (actual_positions, positions, n_positions * sizeof (unsigned int));
+
+		for (i = n_positions; i < n_sizes; i++)
+			actual_positions[i] = 0;
+
+		return data_class->get_value (data, actual_positions);
+	} else
+		return data_class->get_value (data, positions);
+}
+
+double
+go_data_get_scalar_value (GOData *data)
+{
+	return go_data_get_value (data, 0, NULL);
+}
+
+double
+go_data_get_vector_value (GOData *data, unsigned int column)
+{
+	return go_data_get_value (data, 1, &column);
+}
+
+double
+go_data_get_matrix_value (GOData *data, unsigned int column, unsigned int row)
+{
+	unsigned int positions[2];
+
+	positions[0] = column;
+	positions[1] = row;
+
+	return go_data_get_value (data, 2, positions);
+}
+
+static char *
+go_data_get_string (GOData *data, unsigned int n_positions, unsigned int *positions)
+{
+	GODataClass const *data_class;
+	unsigned int i;
+	unsigned int n_sizes;
+
+	g_return_val_if_fail (GO_IS_DATA (data), NULL);
+	g_return_val_if_fail (n_positions < 1 || positions != NULL, NULL);
+
+	data_class = GO_DATA_GET_CLASS (data);
+
+	n_sizes = data_class->get_n_sizes (data);
+
+	if (n_sizes > n_positions) {
+		unsigned int *actual_positions;
+
+		actual_positions = g_newa (unsigned int, n_sizes);
+		memcpy (actual_positions, positions, n_positions * sizeof (unsigned int));
+
+		for (i = n_positions; i < n_sizes; i++)
+			actual_positions[i] = 0;
+
+		return data_class->get_string (data, actual_positions);
+	} else
+		return data_class->get_string (data, positions);
+}
+
+char *
+go_data_get_scalar_string (GOData *data)
+{
+	return go_data_get_string (data, 0, NULL);
+}
+
+char *
+go_data_get_vector_string (GOData *data, unsigned int column)
+{
+	return go_data_get_string (data, 1, &column);
+}
+
+char *
+go_data_get_matrix_string (GOData *data, unsigned int column, unsigned int row)
+{
+	unsigned int positions[2];
+
+	positions[0] = column;
+	positions[1] = row;
+
+	return go_data_get_string (data, 2, positions);
+}
+
 /*************************************************************************/
 
 #define GO_DATA_SCALAR_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GO_TYPE_DATA_SCALAR, GODataScalarClass))
 #define GO_IS_DATA_SCALAR_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_TYPE_DATA_SCALAR))
 #define GO_DATA_SCALAR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_DATA_SCALAR, GODataScalarClass))
 
+static unsigned int
+_data_scalar_get_n_sizes (GOData *data)
+{
+	return 1;
+}
+
+static double *
+_data_scalar_get_values (GOData *data)
+{
+	GODataScalar *scalar = (GODataScalar *) data;
+
+	go_data_scalar_get_value (scalar);
+
+	return &scalar->value;
+}
+
+static void
+_data_scalar_get_bounds (GOData *data, double *minimum, double *maximum)
+{
+	GODataScalar *scalar = (GODataScalar *) data;
+
+	go_data_scalar_get_value (scalar);
+
+	*minimum = scalar->value;
+	*maximum = scalar->value;
+}
+
+static double
+_data_scalar_get_value (GOData *data, unsigned int *positions)
+{
+	return go_data_scalar_get_value ((GODataScalar *) data);
+}
+
+static char *
+_data_scalar_get_string (GOData *data, unsigned int *positions)
+{
+	return g_strdup (go_data_scalar_get_str ((GODataScalar *) data));
+}
+
+static void
+go_data_scalar_class_init (GODataClass *data_class)
+{
+	data_class->get_n_sizes = 	_data_scalar_get_n_sizes;
+	data_class->get_values =	_data_scalar_get_values;
+	data_class->get_bounds =	_data_scalar_get_bounds;
+	data_class->get_value =		_data_scalar_get_value;
+	data_class->get_string =	_data_scalar_get_string;
+}
+
 GSF_CLASS_ABSTRACT (GODataScalar, go_data_scalar,
-		    NULL, NULL,
+		    go_data_scalar_class_init, NULL,
 		    GO_TYPE_DATA)
 
 double
@@ -222,7 +555,9 @@ go_data_scalar_get_value (GODataScalar *scalar)
 {
 	GODataScalarClass const *klass = GO_DATA_SCALAR_GET_CLASS (scalar);
 	g_return_val_if_fail (klass != NULL, 0.); /* TODO : make this a nan */
-	return (*klass->get_value) (scalar);
+	scalar->value = (*klass->get_value) (scalar);
+
+	return scalar->value;
 }
 
 char const *
@@ -240,14 +575,59 @@ go_data_scalar_get_str (GODataScalar *scalar)
 #define GO_DATA_VECTOR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_DATA_VECTOR, GODataVectorClass))
 
 static void
-go_data_vector_emit_changed (GOData *data)
+_data_vector_emit_changed (GOData *data)
 {
 	data->flags &= ~(GO_DATA_CACHE_IS_VALID | GO_DATA_VECTOR_LEN_CACHED);
 }
-static void
-go_data_vector_class_init (GODataClass *klass)
+
+static unsigned int
+_data_vector_get_n_sizes (GOData *data)
 {
-	klass->emit_changed = go_data_vector_emit_changed;
+	return 1;
+}
+
+static void
+_data_vector_get_sizes (GOData *data, unsigned int *sizes)
+{
+	GODataVector *vector = (GODataVector *) data;
+
+	sizes[0] = vector->len;
+}
+
+static double *
+_data_vector_get_values (GOData *data)
+{
+	return go_data_vector_get_values ((GODataVector *) data);
+}
+
+static void
+_data_vector_get_bounds (GOData *data, double *minimum, double *maximum)
+{
+	go_data_vector_get_minmax ((GODataVector *) data, minimum, maximum);
+}
+
+static double
+_data_vector_get_value (GOData *data, unsigned int *positions)
+{
+	return go_data_vector_get_value ((GODataVector *) data, positions[0]);
+}
+
+static char *
+_data_vector_get_string (GOData *data, unsigned int *positions)
+{
+	return go_data_vector_get_str ((GODataVector *) data, positions[0]);
+}
+
+static void
+go_data_vector_class_init (GODataClass *data_class)
+{
+	data_class->emit_changed = 	_data_vector_emit_changed;
+	data_class->get_n_sizes = 	_data_vector_get_n_sizes;
+	data_class->get_sizes =		_data_vector_get_sizes;
+	data_class->get_values =	_data_vector_get_values;
+	data_class->get_bounds =	_data_vector_get_bounds;
+	data_class->get_value =		_data_vector_get_value;
+	data_class->get_string =	_data_vector_get_string;
 }
 
 GSF_CLASS_ABSTRACT (GODataVector, go_data_vector,
@@ -366,15 +746,60 @@ go_data_vector_vary_uniformly (GODataVector *vec)
 #define GO_DATA_MATRIX_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_DATA_MATRIX, GODataMatrixClass))
 
 static void
-go_data_matrix_emit_changed (GOData *data)
+_data_matrix_emit_changed (GOData *data)
 {
 	data->flags &= ~(GO_DATA_CACHE_IS_VALID | GO_DATA_MATRIX_SIZE_CACHED);
 }
 
-static void
-go_data_matrix_class_init (GODataClass *klass)
+static unsigned int
+_data_matrix_get_n_sizes (GOData *data)
 {
-	klass->emit_changed = go_data_matrix_emit_changed;
+	return 2;
+}
+
+static void
+_data_matrix_get_sizes (GOData *data, unsigned int *sizes)
+{
+	GODataMatrix *matrix = (GODataMatrix *) data;
+
+	sizes[0] = matrix->size.columns;
+	sizes[1] = matrix->size.rows;
+}
+
+static double *
+_data_matrix_get_values (GOData *data)
+{
+	return go_data_matrix_get_values ((GODataMatrix *) data);
+}
+
+static void
+_data_matrix_get_bounds (GOData *data, double *minimum, double *maximum)
+{
+	go_data_matrix_get_minmax ((GODataMatrix *) data, minimum, maximum);
+}
+
+static double
+_data_matrix_get_value (GOData *data, unsigned int *positions)
+{
+	return go_data_matrix_get_value ((GODataMatrix *) data, positions[0], positions[1]);
+}
+
+static char *
+_data_matrix_get_string (GOData *data, unsigned int *positions)
+{
+	return go_data_matrix_get_str ((GODataMatrix *) data, positions[0], positions[1]);
+}
+
+static void
+go_data_matrix_class_init (GODataClass *data_class)
+{
+	data_class->emit_changed = 	_data_matrix_emit_changed;
+	data_class->get_n_sizes = 	_data_matrix_get_n_sizes;
+	data_class->get_sizes =		_data_matrix_get_sizes;
+	data_class->get_values =	_data_matrix_get_values;
+	data_class->get_bounds =	_data_matrix_get_bounds;
+	data_class->get_value =		_data_matrix_get_value;
+	data_class->get_string =	_data_matrix_get_string;
 }
 
 GSF_CLASS_ABSTRACT (GODataMatrix, go_data_matrix,
