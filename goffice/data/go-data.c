@@ -591,7 +591,7 @@ _data_vector_get_sizes (GOData *data, unsigned int *sizes)
 {
 	GODataVector *vector = (GODataVector *) data;
 
-	sizes[0] = vector->len;
+	sizes[0] = go_data_vector_get_len (vector);
 }
 
 static double *
@@ -761,9 +761,12 @@ static void
 _data_matrix_get_sizes (GOData *data, unsigned int *sizes)
 {
 	GODataMatrix *matrix = (GODataMatrix *) data;
+	GODataMatrixSize size;
 
-	sizes[0] = matrix->size.columns;
-	sizes[1] = matrix->size.rows;
+	size = go_data_matrix_get_size (matrix);
+
+	sizes[0] = size.columns;
+	sizes[1] = size.rows;
 }
 
 static double *
