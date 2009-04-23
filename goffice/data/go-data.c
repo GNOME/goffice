@@ -330,7 +330,7 @@ go_data_get_vector_size (GOData *data)
 }
 
 void
-go_data_get_matrix_size (GOData *data, unsigned int *n_columns, unsigned int *n_rows)
+go_data_get_matrix_size (GOData *data, unsigned int *n_rows, unsigned int *n_columns)
 {
 	unsigned int sizes[2];
 
@@ -422,7 +422,7 @@ go_data_get_vector_value (GOData *data, unsigned int column)
 }
 
 double
-go_data_get_matrix_value (GOData *data, unsigned int column, unsigned int row)
+go_data_get_matrix_value (GOData *data, unsigned int row, unsigned int column)
 {
 	unsigned int coordinates[2];
 
@@ -466,7 +466,7 @@ go_data_get_vector_string (GOData *data, unsigned int column)
 }
 
 char *
-go_data_get_matrix_string (GOData *data, unsigned int column, unsigned int row)
+go_data_get_matrix_string (GOData *data, unsigned int row, unsigned int column)
 {
 	unsigned int coordinates[2];
 
@@ -769,13 +769,13 @@ _data_matrix_get_bounds (GOData *data, double *minimum, double *maximum)
 static double
 _data_matrix_get_value (GOData *data, unsigned int *coordinates)
 {
-	return go_data_matrix_get_value ((GODataMatrix *) data, coordinates[0], coordinates[1]);
+	return go_data_matrix_get_value ((GODataMatrix *) data, coordinates[1], coordinates[0]);
 }
 
 static char *
 _data_matrix_get_string (GOData *data, unsigned int *coordinates)
 {
-	return go_data_matrix_get_str ((GODataMatrix *) data, coordinates[0], coordinates[1]);
+	return go_data_matrix_get_str ((GODataMatrix *) data, coordinates[1], coordinates[0]);
 }
 
 static void

@@ -440,7 +440,7 @@ gog_xyz_series_update (GogObject *obj)
 
 	if (GOG_XYZ_PLOT (series->base.plot)->data_xyz) {
 		const double *x_vals, *y_vals, *z_vals = NULL;
-		series->base.num_elements = gog_series_get_xyz_data (GOG_SERIES (series), 
+		series->base.num_elements = gog_series_get_xyz_data (GOG_SERIES (series),
 								     &x_vals, &y_vals, &z_vals);
 	} else {
 		if (series->base.values[2].data != NULL) {
@@ -448,7 +448,7 @@ gog_xyz_series_update (GogObject *obj)
 			old_size.columns = series->columns;
 			mat = series->base.values[2].data;
 			go_data_get_values (mat);
-			go_data_get_matrix_size (mat, &size.columns, &size.rows);
+			go_data_get_matrix_size (mat, &size.rows, &size.columns);
 		}
 		if (series->base.values[0].data != NULL) {
 			vec = series->base.values[0].data;
