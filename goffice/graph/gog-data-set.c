@@ -226,52 +226,86 @@ gog_dataset_parent_changed (GogDataset *set, gboolean was_set)
 void
 gog_dataset_dup_to_simple (GogDataset const *src, GogDataset *dst)
 {
-#if 0
-	gint	     n, last;
+	gint n, last;
 	GOData *src_dat, *dst_dat;
+
 	gog_dataset_dims (src, &n, &last);
+
 	for ( ; n <= last ; n++) {
+		unsigned int n_dimensions;
+
 		src_dat = gog_dataset_get_dim (src, n);
 		if (src_dat == NULL)
 			continue;
 		dst_dat = NULL;
+
+		n_dimensions = go_data_get_n_dimensions (src_dat);
+
 		/* for scalar and vector data, try to transform to values first
 		if we find non finite, use strings */
-		if (GO_IS_DATA_SCALAR (src_dat)) {
-			char const *str = go_data_scalar_get_str (GO_DATA_SCALAR (src_dat));
-			char *end;
-			double d =  g_strtod (str, &end);
-			dst_dat =(*end == 0)? go_data_scalar_val_new (d):
+
+		switch (n_dimensions) {
+			case 0:
+				{
+					char *str;
+					char *end;
+					double d;
+
+					str = go_data_get_scalar_string (src_dat);
+					d =  g_strtod (str, &end);
+
+					dst_dat = (*end == 0) ?
+						go_data_scalar_val_new (d):
 						go_data_scalar_str_new (g_strdup (str), TRUE);
-		} else if (GO_IS_DATA_VECTOR (src_dat)) {
-			gboolean as_values = TRUE;
-			GODataVector *vec = GO_DATA_VECTOR (src_dat);
-			double *d = go_data_vector_get_values (vec);
-			int i, n = go_data_vector_get_len (vec);
-			for (i = 0; i < n; i++)
-				if (!go_finite (d[i])) {
-					as_values = FALSE;
-					break;
+
+					g_free (str);
 				}
-			if (as_values)
-				/* we don't need to duplicate, since this is used only for
-				short lived objects */
-				dst_dat = go_data_vector_val_new (d, n, NULL);
-			else {
-				char **str = g_new (char*, n + 1);
-				str[n] = NULL;
-				for (i = 0; i < n; i++)
-					str[i] = go_data_vector_get_str (vec, i);
-				dst_dat = go_data_vector_str_new ((char const* const*) str, n, g_free);
-			}
-		} else if (GO_IS_DATA_MATRIX (src_dat)) {
-			/* only values are supported so don't care */
-			GODataMatrix *mat = GO_DATA_MATRIX (src_dat);
-			GODataMatrixSize size = go_data_matrix_get_size (mat);
-			dst_dat = go_data_matrix_val_new (go_data_matrix_get_values (mat),
-									size.rows, size.columns, NULL);
+				break;
+			case 1:
+				{
+					double *d;
+					int i, n;
+					gboolean as_values = TRUE;
+
+					d = go_data_get_values (src_dat);
+					n = go_data_get_vector_size (src_dat);
+
+					for (i = 0; i < n; i++)
+						if (!go_finite (d[i])) {
+							as_values = FALSE;
+							break;
+						}
+
+					if (as_values)
+						/* we don't need to duplicate, since this is used only for
+						   short lived objects */
+						dst_dat = go_data_vector_val_new (d, n, NULL);
+					else {
+						char **str = g_new (char*, n + 1);
+						str[n] = NULL;
+						for (i = 0; i < n; i++)
+							str[i] = go_data_get_vector_string (src_dat, i);
+
+						dst_dat = go_data_vector_str_new ((char const* const*) str,
+										  n, g_free);
+					}
+				}
+				break;
+			case 2:
+				{
+					/* only values are supported so don't care */
+					GODataMatrixSize size;
+
+					go_data_get_matrix_size (src_dat, &size.rows, &size.columns);
+
+					dst_dat = go_data_matrix_val_new (go_data_get_values (src_dat),
+									  size.rows, size.columns, NULL);
+				}
+				break;
+			default:
+				g_warning ("[GogDataSet::dup_to_simple] Source with invalid number of dimensions (%d)",
+					   n_dimensions);
 		}
 		gog_dataset_set_dim (dst, n, dst_dat, NULL);
 	}
-#endif
 }
