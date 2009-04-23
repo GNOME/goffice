@@ -262,58 +262,58 @@ go_data_get_n_values (GOData *data)
 {
 	GODataClass const *data_class;
 	unsigned int n_values;
-	unsigned int n_sizes;
+	unsigned int n_dimensions;
 	unsigned int *sizes;
 	unsigned int i;
 
 	g_return_val_if_fail (GO_IS_DATA (data), 0);
 
 	data_class = GO_DATA_GET_CLASS (data);
-	g_return_val_if_fail (data_class->get_n_sizes != NULL, 0);
+	g_return_val_if_fail (data_class->get_n_dimensions != NULL, 0);
 
-	n_sizes = data_class->get_n_sizes (data);
-	if (n_sizes < 1)
+	n_dimensions = data_class->get_n_dimensions (data);
+	if (n_dimensions < 1)
 		return 1;
 
-	sizes = g_newa (unsigned int, n_sizes);
+	sizes = g_newa (unsigned int, n_dimensions);
 
 	g_return_val_if_fail (data_class->get_sizes != NULL, 0);
 
 	data_class->get_sizes (data, sizes);
 
 	n_values = 1;
-	for (i = 0; i < n_sizes; i++)
+	for (i = 0; i < n_dimensions; i++)
 		n_values *= sizes[i];
 
 	return n_values;
 }
 
 static void
-go_data_get_sizes (GOData *data, unsigned int n_sizes, unsigned int *sizes)
+go_data_get_sizes (GOData *data, unsigned int n_dimensions, unsigned int *sizes)
 {
 	GODataClass const *data_class;
-	unsigned int actual_n_sizes;
+	unsigned int actual_n_dimensions;
 	unsigned int i;
 
-	g_return_if_fail (n_sizes > 0);
+	g_return_if_fail (n_dimensions > 0);
 	g_return_if_fail (sizes != NULL);
 
 	data_class = GO_DATA_GET_CLASS (data);
 
-	g_return_if_fail (data_class->get_n_sizes != NULL);
+	g_return_if_fail (data_class->get_n_dimensions != NULL);
 
-	actual_n_sizes = data_class->get_n_sizes (data);
-	if (actual_n_sizes > n_sizes) {
+	actual_n_dimensions = data_class->get_n_dimensions (data);
+	if (actual_n_dimensions > n_dimensions) {
 		unsigned int *actual_sizes;
 
-		actual_sizes = g_newa (unsigned int, actual_n_sizes);
+		actual_sizes = g_newa (unsigned int, actual_n_dimensions);
 		data_class->get_sizes (data, actual_sizes);
 
-		memcpy (sizes, actual_sizes, sizeof (unsigned int) * n_sizes);
+		memcpy (sizes, actual_sizes, sizeof (unsigned int) * n_dimensions);
 	} else {
 		data_class->get_sizes (data, sizes);
 
-		for (i = actual_n_sizes; i < n_sizes; i++)
+		for (i = actual_n_dimensions; i < n_dimensions; i++)
 			sizes[i] = 1;
 	}
 }
@@ -390,31 +390,31 @@ go_data_get_bounds (GOData *data, double *minimum, double *maximum)
 }
 
 static double
-go_data_get_value (GOData *data, unsigned int n_positions, unsigned int *positions)
+go_data_get_value (GOData *data, unsigned int n_coordinates, unsigned int *coordinates)
 {
 	GODataClass const *data_class;
 	unsigned int i;
-	unsigned int n_sizes;
+	unsigned int n_dimensions;
 
 	g_return_val_if_fail (GO_IS_DATA (data), go_nan);
-	g_return_val_if_fail (n_positions < 1 || positions != NULL, go_nan);
+	g_return_val_if_fail (n_coordinates < 1 || coordinates != NULL, go_nan);
 
 	data_class = GO_DATA_GET_CLASS (data);
 
-	n_sizes = data_class->get_n_sizes (data);
+	n_dimensions = data_class->get_n_dimensions (data);
 
-	if (n_sizes > n_positions) {
-		unsigned int *actual_positions;
+	if (n_dimensions > n_coordinates) {
+		unsigned int *actual_coordinates;
 
-		actual_positions = g_newa (unsigned int, n_sizes);
-		memcpy (actual_positions, positions, n_positions * sizeof (unsigned int));
+		actual_coordinates = g_newa (unsigned int, n_dimensions);
+		memcpy (actual_coordinates, coordinates, n_coordinates * sizeof (unsigned int));
 
-		for (i = n_positions; i < n_sizes; i++)
-			actual_positions[i] = 0;
+		for (i = n_coordinates; i < n_dimensions; i++)
+			actual_coordinates[i] = 0;
 
-		return data_class->get_value (data, actual_positions);
+		return data_class->get_value (data, actual_coordinates);
 	} else
-		return data_class->get_value (data, positions);
+		return data_class->get_value (data, coordinates);
 }
 
 double
@@ -432,40 +432,40 @@ go_data_get_vector_value (GOData *data, unsigned int column)
 double
 go_data_get_matrix_value (GOData *data, unsigned int column, unsigned int row)
 {
-	unsigned int positions[2];
+	unsigned int coordinates[2];
 
-	positions[0] = column;
-	positions[1] = row;
+	coordinates[0] = column;
+	coordinates[1] = row;
 
-	return go_data_get_value (data, 2, positions);
+	return go_data_get_value (data, 2, coordinates);
 }
 
 static char *
-go_data_get_string (GOData *data, unsigned int n_positions, unsigned int *positions)
+go_data_get_string (GOData *data, unsigned int n_coordinates, unsigned int *coordinates)
 {
 	GODataClass const *data_class;
 	unsigned int i;
-	unsigned int n_sizes;
+	unsigned int n_dimensions;
 
 	g_return_val_if_fail (GO_IS_DATA (data), NULL);
-	g_return_val_if_fail (n_positions < 1 || positions != NULL, NULL);
+	g_return_val_if_fail (n_coordinates < 1 || coordinates != NULL, NULL);
 
 	data_class = GO_DATA_GET_CLASS (data);
 
-	n_sizes = data_class->get_n_sizes (data);
+	n_dimensions = data_class->get_n_dimensions (data);
 
-	if (n_sizes > n_positions) {
-		unsigned int *actual_positions;
+	if (n_dimensions > n_coordinates) {
+		unsigned int *actual_coordinates;
 
-		actual_positions = g_newa (unsigned int, n_sizes);
-		memcpy (actual_positions, positions, n_positions * sizeof (unsigned int));
+		actual_coordinates = g_newa (unsigned int, n_dimensions);
+		memcpy (actual_coordinates, coordinates, n_coordinates * sizeof (unsigned int));
 
-		for (i = n_positions; i < n_sizes; i++)
-			actual_positions[i] = 0;
+		for (i = n_coordinates; i < n_dimensions; i++)
+			actual_coordinates[i] = 0;
 
-		return data_class->get_string (data, actual_positions);
+		return data_class->get_string (data, actual_coordinates);
 	} else
-		return data_class->get_string (data, positions);
+		return data_class->get_string (data, coordinates);
 }
 
 char *
@@ -483,12 +483,12 @@ go_data_get_vector_string (GOData *data, unsigned int column)
 char *
 go_data_get_matrix_string (GOData *data, unsigned int column, unsigned int row)
 {
-	unsigned int positions[2];
+	unsigned int coordinates[2];
 
-	positions[0] = column;
-	positions[1] = row;
+	coordinates[0] = column;
+	coordinates[1] = row;
 
-	return go_data_get_string (data, 2, positions);
+	return go_data_get_string (data, 2, coordinates);
 }
 
 /*************************************************************************/
@@ -498,7 +498,7 @@ go_data_get_matrix_string (GOData *data, unsigned int column, unsigned int row)
 #define GO_DATA_SCALAR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_DATA_SCALAR, GODataScalarClass))
 
 static unsigned int
-_data_scalar_get_n_sizes (GOData *data)
+_data_scalar_get_n_dimensions (GOData *data)
 {
 	return 0;
 }
@@ -539,7 +539,7 @@ _data_scalar_get_string (GOData *data, unsigned int *coordinates)
 static void
 go_data_scalar_class_init (GODataClass *data_class)
 {
-	data_class->get_n_sizes = 	_data_scalar_get_n_sizes;
+	data_class->get_n_dimensions = 	_data_scalar_get_n_dimensions;
 	data_class->get_values =	_data_scalar_get_values;
 	data_class->get_bounds =	_data_scalar_get_bounds;
 	data_class->get_value =		_data_scalar_get_value;
@@ -581,7 +581,7 @@ _data_vector_emit_changed (GOData *data)
 }
 
 static unsigned int
-_data_vector_get_n_sizes (GOData *data)
+_data_vector_get_n_dimensions (GOData *data)
 {
 	return 1;
 }
@@ -607,22 +607,22 @@ _data_vector_get_bounds (GOData *data, double *minimum, double *maximum)
 }
 
 static double
-_data_vector_get_value (GOData *data, unsigned int *positions)
+_data_vector_get_value (GOData *data, unsigned int *coordinates)
 {
-	return go_data_vector_get_value ((GODataVector *) data, positions[0]);
+	return go_data_vector_get_value ((GODataVector *) data, coordinates[0]);
 }
 
 static char *
-_data_vector_get_string (GOData *data, unsigned int *positions)
+_data_vector_get_string (GOData *data, unsigned int *coordinates)
 {
-	return go_data_vector_get_str ((GODataVector *) data, positions[0]);
+	return go_data_vector_get_str ((GODataVector *) data, coordinates[0]);
 }
 
 static void
 go_data_vector_class_init (GODataClass *data_class)
 {
 	data_class->emit_changed = 	_data_vector_emit_changed;
-	data_class->get_n_sizes = 	_data_vector_get_n_sizes;
+	data_class->get_n_dimensions = 	_data_vector_get_n_dimensions;
 	data_class->get_sizes =		_data_vector_get_sizes;
 	data_class->get_values =	_data_vector_get_values;
 	data_class->get_bounds =	_data_vector_get_bounds;
@@ -752,7 +752,7 @@ _data_matrix_emit_changed (GOData *data)
 }
 
 static unsigned int
-_data_matrix_get_n_sizes (GOData *data)
+_data_matrix_get_n_dimensions (GOData *data)
 {
 	return 2;
 }
@@ -782,22 +782,22 @@ _data_matrix_get_bounds (GOData *data, double *minimum, double *maximum)
 }
 
 static double
-_data_matrix_get_value (GOData *data, unsigned int *positions)
+_data_matrix_get_value (GOData *data, unsigned int *coordinates)
 {
-	return go_data_matrix_get_value ((GODataMatrix *) data, positions[0], positions[1]);
+	return go_data_matrix_get_value ((GODataMatrix *) data, coordinates[0], coordinates[1]);
 }
 
 static char *
-_data_matrix_get_string (GOData *data, unsigned int *positions)
+_data_matrix_get_string (GOData *data, unsigned int *coordinates)
 {
-	return go_data_matrix_get_str ((GODataMatrix *) data, positions[0], positions[1]);
+	return go_data_matrix_get_str ((GODataMatrix *) data, coordinates[0], coordinates[1]);
 }
 
 static void
 go_data_matrix_class_init (GODataClass *data_class)
 {
 	data_class->emit_changed = 	_data_matrix_emit_changed;
-	data_class->get_n_sizes = 	_data_matrix_get_n_sizes;
+	data_class->get_n_dimensions = 	_data_matrix_get_n_dimensions;
 	data_class->get_sizes =		_data_matrix_get_sizes;
 	data_class->get_values =	_data_matrix_get_values;
 	data_class->get_bounds =	_data_matrix_get_bounds;

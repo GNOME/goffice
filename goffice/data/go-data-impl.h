@@ -48,12 +48,12 @@ typedef struct {
 	gboolean   	(*from_str)	    	(GOData *dat, char const *str);
 	void	   	(*emit_changed)  	(GOData *dat);
 
-	unsigned int	(*get_n_sizes)		(GOData *data);
+	unsigned int	(*get_n_dimensions)	(GOData *data);
 	void		(*get_sizes)		(GOData *data, unsigned int *sizes);
 	double *	(*get_values)		(GOData *data);
 	void		(*get_bounds)		(GOData *data, double *minimum, double *maximum);
-	double		(*get_value)		(GOData *data, unsigned int *positions);
-	char *		(*get_string)		(GOData *data, unsigned int *positions);
+	double		(*get_value)		(GOData *data, unsigned int *coordinates);
+	char *		(*get_string)		(GOData *data, unsigned int *coordinates);
 
 	/* signals */
 	void (*changed)	(GOData *dat);
