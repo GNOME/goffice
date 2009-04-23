@@ -258,6 +258,19 @@ go_data_is_varying_uniformly (GOData *data)
 }
 
 unsigned int
+go_data_get_n_dimensions (GOData *data)
+{
+	GODataClass const *data_class;
+
+	g_return_val_if_fail (GO_IS_DATA (data), 0);
+
+	data_class = GO_DATA_GET_CLASS (data);
+	g_return_val_if_fail (data_class->get_n_dimensions != NULL, 0);
+
+	return data_class->get_n_dimensions (data);
+}
+
+unsigned int
 go_data_get_n_values (GOData *data)
 {
 	GODataClass const *data_class;

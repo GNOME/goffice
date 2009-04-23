@@ -46,6 +46,7 @@ gboolean	go_data_is_increasing		(GOData *data);
 gboolean	go_data_is_decreasing		(GOData *data);
 gboolean	go_data_is_varying_uniformly	(GOData *data);
 
+unsigned int 	go_data_get_n_dimensions 	(GOData *data);
 unsigned int	go_data_get_n_values		(GOData *data);
 
 unsigned int	go_data_get_vector_size 	(GOData *data);
