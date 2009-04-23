@@ -293,7 +293,6 @@ go_data_get_sizes (GOData *data, unsigned int n_dimensions, unsigned int *sizes)
 {
 	GODataClass const *data_class;
 	unsigned int actual_n_dimensions;
-	unsigned int i;
 
 	g_return_if_fail (n_dimensions > 0);
 	g_return_if_fail (sizes != NULL);
@@ -303,19 +302,19 @@ go_data_get_sizes (GOData *data, unsigned int n_dimensions, unsigned int *sizes)
 	g_return_if_fail (data_class->get_n_dimensions != NULL);
 
 	actual_n_dimensions = data_class->get_n_dimensions (data);
-	if (actual_n_dimensions > n_dimensions) {
-		unsigned int *actual_sizes;
+	if (actual_n_dimensions != n_dimensions) {
+		unsigned int i;
 
-		actual_sizes = g_newa (unsigned int, actual_n_dimensions);
-		data_class->get_sizes (data, actual_sizes);
+		g_warning ("[GOData::get_sizes] Number of dimension mismatch (requested %d - actual %d)",
+			   n_dimensions, actual_n_dimensions);
 
-		memcpy (sizes, actual_sizes, sizeof (unsigned int) * n_dimensions);
-	} else {
-		data_class->get_sizes (data, sizes);
+		for (i = 0; i < n_dimensions; i++)
+			sizes[i] = 0;
 
-		for (i = actual_n_dimensions; i < n_dimensions; i++)
-			sizes[i] = 1;
+		return;
 	}
+
+	data_class->get_sizes (data, sizes);
 }
 
 unsigned int
@@ -393,28 +392,21 @@ static double
 go_data_get_value (GOData *data, unsigned int n_coordinates, unsigned int *coordinates)
 {
 	GODataClass const *data_class;
-	unsigned int i;
 	unsigned int n_dimensions;
 
 	g_return_val_if_fail (GO_IS_DATA (data), go_nan);
-	g_return_val_if_fail (n_coordinates < 1 || coordinates != NULL, go_nan);
 
 	data_class = GO_DATA_GET_CLASS (data);
 
 	n_dimensions = data_class->get_n_dimensions (data);
+	if (n_dimensions != n_coordinates) {
+		g_warning ("[GOData::get_value] Wrong number of coordinates (given %d - needed %d)",
+			   n_coordinates, n_dimensions);
 
-	if (n_dimensions > n_coordinates) {
-		unsigned int *actual_coordinates;
+		return go_nan;
+	}
 
-		actual_coordinates = g_newa (unsigned int, n_dimensions);
-		memcpy (actual_coordinates, coordinates, n_coordinates * sizeof (unsigned int));
-
-		for (i = n_coordinates; i < n_dimensions; i++)
-			actual_coordinates[i] = 0;
-
-		return data_class->get_value (data, actual_coordinates);
-	} else
-		return data_class->get_value (data, coordinates);
+	return data_class->get_value (data, coordinates);
 }
 
 double
@@ -444,28 +436,21 @@ static char *
 go_data_get_string (GOData *data, unsigned int n_coordinates, unsigned int *coordinates)
 {
 	GODataClass const *data_class;
-	unsigned int i;
 	unsigned int n_dimensions;
 
 	g_return_val_if_fail (GO_IS_DATA (data), NULL);
-	g_return_val_if_fail (n_coordinates < 1 || coordinates != NULL, NULL);
 
 	data_class = GO_DATA_GET_CLASS (data);
 
 	n_dimensions = data_class->get_n_dimensions (data);
+	if (n_dimensions != n_coordinates) {
+		g_warning ("[GOData::get_string] Wrong number of coordinates (given %d - needed %d)",
+			   n_coordinates, n_dimensions);
 
-	if (n_dimensions > n_coordinates) {
-		unsigned int *actual_coordinates;
+		return NULL;
+	}
 
-		actual_coordinates = g_newa (unsigned int, n_dimensions);
-		memcpy (actual_coordinates, coordinates, n_coordinates * sizeof (unsigned int));
-
-		for (i = n_coordinates; i < n_dimensions; i++)
-			actual_coordinates[i] = 0;
-
-		return data_class->get_string (data, actual_coordinates);
-	} else
-		return data_class->get_string (data, coordinates);
+	return data_class->get_string (data, coordinates);
 }
 
 char *
