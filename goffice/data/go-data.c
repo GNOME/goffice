@@ -500,7 +500,7 @@ go_data_get_matrix_string (GOData *data, unsigned int column, unsigned int row)
 static unsigned int
 _data_scalar_get_n_sizes (GOData *data)
 {
-	return 1;
+	return 0;
 }
 
 static double *
@@ -525,13 +525,13 @@ _data_scalar_get_bounds (GOData *data, double *minimum, double *maximum)
 }
 
 static double
-_data_scalar_get_value (GOData *data, unsigned int *positions)
+_data_scalar_get_value (GOData *data, unsigned int *coordinates)
 {
 	return go_data_scalar_get_value ((GODataScalar *) data);
 }
 
 static char *
-_data_scalar_get_string (GOData *data, unsigned int *positions)
+_data_scalar_get_string (GOData *data, unsigned int *coordinates)
 {
 	return g_strdup (go_data_scalar_get_str ((GODataScalar *) data));
 }
