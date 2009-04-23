@@ -1,3 +1,14 @@
+2009-04-23  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Enable the creation of multidimensional GOData derived objects, and
+	their use for the graph data sources.
+
+	That means, in graphs, all the GOData area accessed via the generic
+	GOData API, not by cast to GODataScalar, GODataVector and GODataMatrix.
+	It's still required that the underlying object has the requested dimension,
+	i.e. a call to go_data_get_vector_value should use a GOData object with
+	n_dimensions == 1.
+
 2009-04-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/goffice-gtk.c (go_libglade_new): Actually remove
@@ -5,8 +16,8 @@
 
 	* */*.c: Doc fixes to please gtk-doc.
 
-        * goffice/graph/gog-axis.c (map_date_auto_bound): Fix problem with
-        upper bound when step is in years and maximum in not on January 1.
+	* goffice/graph/gog-axis.c (map_date_auto_bound): Fix problem with
+	upper bound when step is in years and maximum in not on January 1.
 
 2009-04-17  Jean Brefort  <jean.brefort@normalesup.org>
 
@@ -35,7 +46,7 @@
 2009-04-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* All files: moved GogStyle code to utils and renamed it GOStyle.
-	
+
 2009-04-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Naming consistency fix.
