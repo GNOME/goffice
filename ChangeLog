@@ -1,3 +1,7 @@
+2009-04-25  Morten Welinder <terra@gnome.org>
+
+	* Release 0.7.5
+
 2009-04-23  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Enable the creation of multidimensional GOData derived objects, and
