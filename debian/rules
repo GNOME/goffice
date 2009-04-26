@@ -117,7 +117,9 @@ clean:
 	dh_testroot
 	rm -f config-stamp build-stamp
 
-	-$(MAKE) -C build distclean
+	if test -d build && test -f build/Makefile ; then \
+		$(MAKE) -C build distclean; \
+	fi
 	rm -rf build
 	-find -type f -name 'Makefile.am' | sed -e 's/\.am$$//' | xargs rm -f
 
@@ -196,7 +198,6 @@ endif
 	dh_installman
 	dh_gconf
 	dh_scrollkeeper
-	dh_desktop
 ifeq ($(DH_OPTIONS),-s)
 	rm -rvf $(CURDIR)/debian/$(pdbg)/usr/share/doc/$(pdbg)
 endif
