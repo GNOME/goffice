@@ -1,3 +1,9 @@
+goffice 0.7.6:
+
+Jean:
+	* Fixed segfault during documentation generation. [#580296]
+
+--------------------------------------------------------------------------
 goffice 0.7.5:
 
 Jean:

@@ -276,7 +276,7 @@ go_conf_get_long_desc  (GOConfNode *node, gchar const *key)
 }
 
 GType
-go_conf_get_type (GOConfNode *node, gchar const *key)
+go_conf_get_node_type (GOConfNode *node, gchar const *key)
 {
 	GConfSchema *schema = get_schema (node, key);
 	GType t;
@@ -300,7 +300,7 @@ go_conf_get_value_as_str (GOConfNode *node, gchar const *key)
 {
 	gchar *value_string;
 
-	switch (go_conf_get_type (node, key)) {
+	switch (go_conf_get_node_type (node, key)) {
 	case G_TYPE_STRING:
 		value_string = go_conf_get_string (node, key);
 		break;
@@ -379,7 +379,7 @@ go_conf_get_str_list (GOConfNode *node, gchar const *key)
 gboolean
 go_conf_set_value_from_str (GOConfNode *node, gchar const *key, gchar const *val_str)
 {
-	switch (go_conf_get_type (node, key)) {
+	switch (go_conf_get_node_type (node, key)) {
 	case G_TYPE_STRING:
 		go_conf_set_string (node, key, val_str);
 		break;

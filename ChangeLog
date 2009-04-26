@@ -1,5 +1,14 @@
 2009-04-26  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/app/go-conf-gconf.c: renamed go_conf_get_type
+	go_conf_get_node_type to avoid a build failure during docs generation.
+	[#580296]
+	* goffice/app/go-conf-keyfile.c: ditto.
+	* goffice/app/go-conf-win32.c: ditto.
+	* goffice/app/go-conf.h: ditto.
+
+2009-04-26  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* configure.in: Post release bump.
 	
 2009-04-25  Morten Welinder <terra@gnome.org>
