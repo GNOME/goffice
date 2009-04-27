@@ -417,7 +417,7 @@ go_conf_get_long_desc  (GOConfNode *node, gchar const *key)
 }
 
 GType
-go_conf_get_node_type (GOConfNode *node, gchar const *key)
+go_conf_node_get_key_type (GOConfNode *node, gchar const *key)
 {
 	gchar **groups;
 	gchar *real_key;

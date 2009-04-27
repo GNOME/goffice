@@ -1,3 +1,8 @@
+2009-04-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-conf-*: use go_conf_node_get_key_type which looks
+	ways better than go_conf_get_node_type.
+
 2009-04-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-conf-gconf.c: renamed go_conf_get_type
