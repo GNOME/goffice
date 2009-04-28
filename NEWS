@@ -3,6 +3,9 @@ goffice 0.7.6:
 Jean:
 	* Fixed segfault during documentation generation. [#580296]
 
+Morten:
+	* Improve log axes' tick calculation.  [#375756]
+
 --------------------------------------------------------------------------
 goffice 0.7.5:
 

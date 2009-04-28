@@ -1095,66 +1095,115 @@ static void
 map_log_calc_ticks (GogAxis *axis)
 {
 	GogAxisTick *ticks;
-	double maximum, minimum;
-	double position;
-	int major_tick, minor_tick, major_label, start_tick;
-	int tick_nbr, i, j;
-	int count;
+	double maximum, minimum, lminimum, lmaximum, start_i, lrange;
+	double maj_step, min_step;
+	gboolean base10;
+	int t, N;
+	int maj_i, maj_N; /* Ticks for -1,....,maj_N     */
+	int min_i, min_N; /* Ticks for 1,....,(min_N-1) */
 
-	major_label = go_rint (gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL));
-	minor_tick = go_rint (gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL) + 1.0);
-
-	if (!gog_axis_get_bounds (axis, &minimum, &maximum) || major_label < 1) {
-		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (1.0, 10.0));
-		return;
-	}
-	if (minimum <= 0.0) {
+	if (!gog_axis_get_bounds (axis, &minimum, &maximum) ||
+	    minimum <= 0.0) {
 		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (1.0, 10.0));
 		return;
 	}
 
-	start_tick = go_fake_floor (log10 (minimum));
-	tick_nbr = major_tick = go_fake_ceil (go_fake_ceil (log10 (maximum)) -
-					      go_fake_floor (log10 (minimum)) + 1.0);
-	tick_nbr *= minor_tick;
-	if (tick_nbr < 1 || tick_nbr > GOG_AXIS_MAX_TICK_NBR) {
-		gog_axis_set_ticks (axis, 0, NULL);
-		return;
-	}
-	ticks = g_new0 (GogAxisTick, tick_nbr);
+	lminimum = log10 (minimum);
+	lmaximum = log10 (maximum);
+	lrange = lmaximum - lminimum;
 
-	count = 0;
-	for (i = 0; i < major_tick; i++) {
-		position = pow (10.0, i + start_tick);
-		if (position >= go_sub_epsilon (minimum) && go_sub_epsilon (position) <= maximum) {
-			ticks[count].position = position;
-			if (i % major_label == 0) {
-				ticks[count].type = GOG_AXIS_TICK_MAJOR;
-				ticks[count].label = axis_format_value
-					(axis, position);
-				count++;
+	/* This is log10(factor) between major ticks.  */
+	maj_step = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
+	if (!(maj_step > 0))
+		maj_step = 1;
+	while (1) {
+		double ratio = go_fake_floor (lrange / maj_step);
+		double Nd = (ratio + 1);  /* Correct if no minor */
+		if (Nd > GOG_AXIS_MAX_TICK_NBR)
+			maj_step *= 2;
+		else {
+			maj_N = (int)ratio;
+			break;
+		}
+	}
+	base10 = (maj_step >= 1 && maj_step == floor (maj_step));
+
+	/*
+	 * This is the number of subticks we want strictly between
+	 * each major tick.
+	 */
+	min_step = go_fake_floor (gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL));
+	if (min_step < 0) {
+		min_N = 1;
+	} else if (base10) {
+		double mf = pow (10, maj_step);
+		if (min_step >= mf - 2 && maj_N * (mf - 1) <= GOG_AXIS_MAX_TICK_NBR)
+			min_N = (int)mf - 1;
+		else
+			min_N = 1;
+	} else {
+		while ((min_step + 1) * maj_N > GOG_AXIS_MAX_TICK_NBR)
+			min_step = floor (min_step / 2);
+		min_N = 1 + (int)min_step;
+	}
+	min_step = maj_step / min_N;
+
+	start_i = go_fake_ceil (lminimum / maj_step);
+	maj_N = (int)(go_fake_floor (lmaximum / maj_step) - start_i);
+
+#if 0
+	g_printerr ("lmin=%g  lmax=%g  maj_N=%d  maj_step=%g  start_i=%g\n",
+		    lminimum, lmaximum, maj_N, maj_step, start_i);
+#endif
+
+	N = (maj_N + 2) * min_N;
+	ticks = g_new0 (GogAxisTick, N);
+
+	t = 0;
+	for (maj_i = -1; maj_i <= maj_N; maj_i++) {
+		/*
+		 * Always calculate based on start to avoid a build-up of
+		 * rounding errors.  Note, that the left factor is an
+		 * integer, so we will get precisely zero when we need
+		 * to.
+		 */
+		double maj_lpos = (start_i + maj_i) * maj_step;
+		double maj_pos = pow (10, maj_lpos);
+
+		if (maj_i >= 0) {
+			g_assert (t < N);
+			ticks[t].position = maj_pos;
+			ticks[t].type = GOG_AXIS_TICK_MAJOR;
+			ticks[t].label = axis_format_value (axis, maj_pos);
+			t++;
+		}
+
+		for (min_i = 1; min_i < min_N; min_i++) {
+			double min_pos;
+
+			if (base10) {
+				min_pos = maj_pos * (1 + min_i);
 			} else {
-				ticks[count].type = GOG_AXIS_TICK_MINOR;
-				ticks[count].label = NULL;
-				count++;
+				double min_lpos = maj_lpos + min_i * min_step;
+				min_pos = pow (10, min_lpos);
 			}
-		}
-		for (j = 1; j < minor_tick; j++) {
-			position = pow (10.0, i + start_tick) * (9.0 / (double)minor_tick * (double) j + 1.0);
-			if (position >= go_sub_epsilon (minimum) && go_sub_epsilon (position) <= maximum) {
-				ticks[count].position = position;
-				ticks[count].type = GOG_AXIS_TICK_MINOR;
-				ticks[count].label = NULL;
-				count++;
-			}
+
+			if (min_pos < minimum)
+				continue;
+			if (min_pos > maximum)
+				break;
+
+			g_assert (t < N);
+			ticks[t].position = min_pos;
+			ticks[t].type = GOG_AXIS_TICK_MINOR;
+			ticks[t].label = NULL;
+			t++;
 		}
 	}
 
-	if (count > tick_nbr)
-		g_critical ("[GogAxisMap::log_calc_ticks] wrong memory allocation size");
-
-	ticks = g_renew (GogAxisTick, ticks, count);
-	gog_axis_set_ticks (axis, count, ticks);
+	if (t > N)
+		g_critical ("[GogAxisMap::log_calc_ticks] wrong allocation size");
+	gog_axis_set_ticks (axis, t, ticks);
 }
  
 /*****************************************************************************/
