@@ -34,37 +34,6 @@ Base class for all objects displayed in a frame
 </para>
 
 
-<!-- ##### MACRO GOG_OUTLINED_OBJECT_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GOG_OUTLINED_OBJECT ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GOG_OUTLINED_OBJECT ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gog_outlined_object_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_outlined_object_get_pad ##### -->
 <para>
 
@@ -80,7 +49,7 @@ Base class for all objects displayed in a frame
 </para>
 
 
-<!-- ##### MACRO GOG_OUTLINED_VIEW_TYPE ##### -->
+<!-- ##### MACRO GOG_TYPE_OUTLINED_VIEW ##### -->
 <para>
 
 </para>
@@ -95,7 +64,7 @@ Base class for all objects displayed in a frame
 @o: 
 
 
-<!-- ##### MACRO IS_GOG_OUTLINED_VIEW ##### -->
+<!-- ##### MACRO GOG_IS_OUTLINED_VIEW ##### -->
 <para>
 
 </para>

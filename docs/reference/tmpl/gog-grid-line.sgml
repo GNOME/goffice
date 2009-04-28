@@ -17,37 +17,6 @@ Grid lines
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### MACRO GOG_GRID_LINE_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GOG_GRID_LINE ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GOG_GRID_LINE ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gog_grid_line_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_grid_line_is_minor ##### -->
 <para>
 

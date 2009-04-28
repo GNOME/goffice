@@ -61,6 +61,18 @@ GogChartMap
 @v: 
 
 
+<!-- ##### FUNCTION gog_chart_map_2D_derivative_to_view ##### -->
+<para>
+
+</para>
+
+@map: 
+@deriv: 
+@x: 
+@y: 
+@Returns: 
+
+
 <!-- ##### FUNCTION gog_chart_map_get_axis_map ##### -->
 <para>
 

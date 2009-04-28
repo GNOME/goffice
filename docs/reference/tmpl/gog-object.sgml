@@ -17,86 +17,6 @@ Base class for all objects of graph model
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### STRUCT GogEditorPage ##### -->
-<para>
-
-</para>
-
-@label: 
-@widget: 
-
-<!-- ##### STRUCT GogEditor ##### -->
-<para>
-
-</para>
-
-@store_page: 
-@pages: 
-@registered_widgets: 
-
-<!-- ##### FUNCTION gog_editor_new ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
-<!-- ##### FUNCTION gog_editor_free ##### -->
-<para>
-
-</para>
-
-@editor: 
-
-
-<!-- ##### FUNCTION gog_editor_add_page ##### -->
-<para>
-
-</para>
-
-@editor: 
-@widget: 
-@label: 
-
-
-<!-- ##### FUNCTION gog_editor_set_store_page ##### -->
-<para>
-
-</para>
-
-@editor: 
-@store_page: 
-
-
-<!-- ##### FUNCTION gog_editor_register_widget ##### -->
-<para>
-
-</para>
-
-@editor: 
-@widget: 
-
-
-<!-- ##### FUNCTION gog_editor_get_registered_widget ##### -->
-<para>
-
-</para>
-
-@editor: 
-@name: 
-@Returns: 
-
-
-<!-- ##### FUNCTION gog_editor_get_notebook ##### -->
-<para>
-
-</para>
-
-@editor: 
-@Returns: 
-
-
 <!-- ##### ENUM GogObjectNamingConv ##### -->
 <para>
 
@@ -135,7 +55,18 @@ Base class for all objects of graph model
 </para>
 
 @: 
-@: 
+@:
+
+@gogobject: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL GogObject::child-added ##### -->
+<para>
+
+</para>
+
+@gogobject: the object which received the signal.
+@arg1: 
 
 <!-- ##### SIGNAL GogObject::child-name-changed ##### -->
 <para>
@@ -143,28 +74,45 @@ Base class for all objects of graph model
 </para>
 
 @: 
-@: 
+@:
+
+@gogobject: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL GogObject::child-removed ##### -->
+<para>
+
+</para>
+
+@gogobject: the object which received the signal.
+@arg1: 
 
 <!-- ##### SIGNAL GogObject::children-reordered ##### -->
 <para>
 
 </para>
 
-@: 
+@:
+
+@gogobject: the object which received the signal.
 
 <!-- ##### SIGNAL GogObject::name-changed ##### -->
 <para>
 
 </para>
 
-@: 
+@:
+
+@gogobject: the object which received the signal.
 
 <!-- ##### SIGNAL GogObject::update-editor ##### -->
 <para>
 
 </para>
 
-@: 
+@:
+
+@gogobject: the object which received the signal.
 
 <!-- ##### ARG GogObject:alignment ##### -->
 <para>
@@ -201,53 +149,6 @@ Base class for all objects of graph model
 
 </para>
 
-<!-- ##### MACRO GOG_OBJECT_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GOG_OBJECT ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GOG_OBJECT ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO GOG_OBJECT_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### MACRO IS_GOG_OBJECT_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### MACRO GOG_OBJECT_GET_CLASS ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### MACRO GOG_PARAM_FORCE_SAVE ##### -->
 <para>
 
@@ -260,14 +161,6 @@ Base class for all objects of graph model
 
 </para>
 
-
-
-<!-- ##### FUNCTION gog_object_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
 
 
 <!-- ##### USER_FUNCTION GogDataDuplicator ##### -->
@@ -626,53 +519,5 @@ Base class for all objects of graph model
 
 @obj: 
 @doc: 
-
-
-<!-- ##### FUNCTION gog_object_write_xml_sax ##### -->
-<para>
-
-</para>
-
-@obj: 
-@output: 
-
-
-<!-- ##### FUNCTION gog_object_new_from_xml ##### -->
-<para>
-
-</para>
-
-@parent: 
-@node: 
-@Returns: 
-
-
-<!-- ##### USER_FUNCTION GogObjectSaxHandler ##### -->
-<para>
-
-</para>
-
-@obj: 
-@user_data: 
-
-
-<!-- ##### FUNCTION gog_object_sax_push_parser ##### -->
-<para>
-
-</para>
-
-@xin: 
-@attrs: 
-@handler: 
-@user_data: 
-
-
-<!-- ##### FUNCTION gog_xml_read_state_get_obj ##### -->
-<para>
-
-</para>
-
-@xin: 
-@Returns: 
 
 

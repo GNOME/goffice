@@ -96,61 +96,6 @@ Base class for object views
 
 </para>
 
-<!-- ##### MACRO GOG_VIEW_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GOG_VIEW ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GOG_VIEW ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO GOG_VIEW_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### MACRO IS_GOG_VIEW_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### MACRO GOG_VIEW_GET_CLASS ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gog_view_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_view_get_model ##### -->
 <para>
 

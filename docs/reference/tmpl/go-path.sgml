@@ -51,14 +51,6 @@ Path handling
 @data_buffer_tail: 
 @sharp: 
 
-<!-- ##### MACRO IS_GO_PATH ##### -->
-<para>
-
-</para>
-
-@x: 
-
-
 <!-- ##### FUNCTION go_path_new ##### -->
 <para>
 

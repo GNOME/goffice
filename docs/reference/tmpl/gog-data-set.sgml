@@ -27,61 +27,6 @@ A data set interface
 @dim_i: 
 @handler: 
 
-<!-- ##### MACRO GOG_DATASET_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GOG_DATASET ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GOG_DATASET ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO GOG_DATASET_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### MACRO IS_GOG_DATASET_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### MACRO GOG_DATASET_GET_CLASS ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gog_dataset_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_dataset_dims ##### -->
 <para>
 

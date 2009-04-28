@@ -17,29 +17,6 @@ GOGraphWidget
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### MACRO GO_GRAPH_WIDGET_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GO_GRAPH_WIDGET ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GO_GRAPH_WIDGET ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
 <!-- ##### STRUCT GOGraphWidget ##### -->
 <para>
 
@@ -81,14 +58,6 @@ GOGraphWidget
 @GO_GRAPH_WIDGET_SIZE_MODE_FIT_WIDTH: 
 @GO_GRAPH_WIDGET_SIZE_MODE_FIT_HEIGHT: 
 @GO_GRAPH_WIDGET_SIZE_MODE_FIXED_SIZE: 
-
-<!-- ##### FUNCTION go_graph_widget_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
 
 <!-- ##### FUNCTION go_graph_widget_new ##### -->
 <para>

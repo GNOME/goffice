@@ -28,37 +28,6 @@ Chart backplane
 @GOG_GRID_ZX: 
 @GOG_GRID_TYPES: 
 
-<!-- ##### MACRO GOG_GRID_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GOG_GRID ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GOG_GRID ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gog_grid_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_grid_get_gtype ##### -->
 <para>
 

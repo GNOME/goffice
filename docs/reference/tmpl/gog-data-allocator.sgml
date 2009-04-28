@@ -17,61 +17,6 @@ A data allocation interface
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### MACRO GOG_DATA_ALLOCATOR_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GOG_DATA_ALLOCATOR ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GOG_DATA_ALLOCATOR ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO GOG_DATA_ALLOCATOR_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### MACRO IS_GOG_DATA_ALLOCATOR_CLASS ##### -->
-<para>
-
-</para>
-
-@k: 
-
-
-<!-- ##### MACRO GOG_DATA_ALLOCATOR_GET_CLASS ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gog_data_allocator_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_data_allocator_allocate ##### -->
 <para>
 

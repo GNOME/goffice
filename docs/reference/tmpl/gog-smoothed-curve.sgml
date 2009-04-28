@@ -23,34 +23,3 @@ Base class for smoothed curves
 </para>
 
 
-<!-- ##### MACRO GOG_SMOOTHED_CURVE_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GOG_SMOOTHED_CURVE ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GOG_SMOOTHED_CURVE ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gog_smoothed_curve_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-

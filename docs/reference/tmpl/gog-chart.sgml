@@ -26,37 +26,6 @@ A set of axes and a collection of plots
 @Returns: 
 
 
-<!-- ##### MACRO GOG_CHART_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GOG_CHART ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GOG_CHART ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gog_chart_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_chart_get_position ##### -->
 <para>
 

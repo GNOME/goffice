@@ -17,37 +17,6 @@ GoUndo
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### MACRO GO_UNDO_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GO_UNDO ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GO_UNDO ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION go_undo_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### STRUCT GOUndo ##### -->
 <para>
 
@@ -81,7 +50,7 @@ GoUndo
 @Returns: 
 
 
-<!-- ##### MACRO GO_UNDO_GROUP_TYPE ##### -->
+<!-- ##### MACRO GO_TYPE_UNDO_GROUP ##### -->
 <para>
 
 </para>
@@ -96,7 +65,7 @@ GoUndo
 @o: 
 
 
-<!-- ##### MACRO IS_GO_UNDO_GROUP ##### -->
+<!-- ##### MACRO GO_IS_UNDO_GROUP ##### -->
 <para>
 
 </para>
@@ -135,7 +104,7 @@ GoUndo
 @u: 
 
 
-<!-- ##### MACRO GO_UNDO_BINARY_TYPE ##### -->
+<!-- ##### MACRO GO_TYPE_UNDO_BINARY ##### -->
 <para>
 
 </para>
@@ -150,7 +119,7 @@ GoUndo
 @o: 
 
 
-<!-- ##### MACRO IS_GO_UNDO_BINARY ##### -->
+<!-- ##### MACRO GO_IS_UNDO_BINARY ##### -->
 <para>
 
 </para>
@@ -195,7 +164,7 @@ GoUndo
 @Returns: 
 
 
-<!-- ##### MACRO GO_UNDO_UNARY_TYPE ##### -->
+<!-- ##### MACRO GO_TYPE_UNDO_UNARY ##### -->
 <para>
 
 </para>
@@ -210,7 +179,7 @@ GoUndo
 @o: 
 
 
-<!-- ##### MACRO IS_GO_UNDO_UNARY ##### -->
+<!-- ##### MACRO GO_IS_UNDO_UNARY ##### -->
 <para>
 
 </para>

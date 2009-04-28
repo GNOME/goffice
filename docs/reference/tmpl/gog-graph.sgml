@@ -17,37 +17,6 @@ A collection of charts
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### MACRO GOG_GRAPH_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GOG_GRAPH ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GOG_GRAPH ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gog_graph_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_graph_validate_chart_layout ##### -->
 <para>
 
@@ -150,7 +119,7 @@ A collection of charts
 @height: 
 
 
-<!-- ##### MACRO GOG_GRAPH_VIEW_TYPE ##### -->
+<!-- ##### MACRO GOG_TYPE_GRAPH_VIEW ##### -->
 <para>
 
 </para>
@@ -165,7 +134,7 @@ A collection of charts
 @o: 
 
 
-<!-- ##### MACRO IS_GOG_GRAPH_VIEW ##### -->
+<!-- ##### MACRO GOG_IS_GRAPH_VIEW ##### -->
 <para>
 
 </para>

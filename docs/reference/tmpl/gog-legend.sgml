@@ -17,34 +17,3 @@ Chart legend
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### MACRO GOG_LEGEND_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GOG_LEGEND ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GOG_LEGEND ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gog_legend_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-

@@ -81,45 +81,6 @@ GogRenderer
 
 
 
-<!-- ##### MACRO GOG_RENDERER_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GOG_RENDERER ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GOG_RENDERER ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO GOG_RENDERER_GET_CLASS ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gog_renderer_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_renderer_line_size ##### -->
 <para>
 
@@ -464,5 +425,16 @@ GogRenderer
 
 @graph: 
 @Returns: 
+
+
+<!-- ##### FUNCTION gog_renderer_draw_equation ##### -->
+<para>
+
+</para>
+
+@renderer: 
+@mathml_view: 
+@x: 
+@y: 
 
 

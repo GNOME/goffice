@@ -17,6 +17,24 @@ Slave axes
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### FUNCTION gog_axis_base_get_crossed_axis ##### -->
+<para>
+
+</para>
+
+@axis_base: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gog_axis_base_get_cross_location ##### -->
+<para>
+
+</para>
+
+@axis_base: 
+@Returns: 
+
+
 <!-- ##### ENUM GogAxisPosition ##### -->
 <para>
 
@@ -27,6 +45,15 @@ Slave axes
 @GOG_AXIS_AT_HIGH: 
 @GOG_AXIS_AUTO: 
 
+<!-- ##### FUNCTION gog_axis_base_get_clamped_position ##### -->
+<para>
+
+</para>
+
+@axis_base: 
+@Returns: 
+
+
 <!-- ##### ENUM GogAxisTickTypes ##### -->
 <para>
 
@@ -36,7 +63,7 @@ Slave axes
 @GOG_AXIS_TICK_MAJOR: 
 @GOG_AXIS_TICK_MINOR: 
 
-<!-- ##### MACRO GOG_AXIS_LINE_TYPE ##### -->
+<!-- ##### MACRO GOG_TYPE_AXIS_LINE ##### -->
 <para>
 
 </para>
@@ -51,7 +78,7 @@ Slave axes
 @o: 
 
 
-<!-- ##### MACRO IS_GOG_AXIS_LINE ##### -->
+<!-- ##### MACRO GOG_IS_AXIS_LINE ##### -->
 <para>
 
 </para>

@@ -27,37 +27,6 @@ Base class for plots
 @fmt: 
 @date_conv: 
 
-<!-- ##### MACRO GOG_PLOT_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GOG_PLOT ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GOG_PLOT ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gog_plot_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
 <!-- ##### FUNCTION gog_plot_new_by_type ##### -->
 <para>
 
@@ -227,6 +196,14 @@ Base class for plots
 
 
 <!-- ##### FUNCTION gog_plot_guru_helper ##### -->
+<para>
+
+</para>
+
+@plot: 
+
+
+<!-- ##### FUNCTION gog_plot_clear_series ##### -->
 <para>
 
 </para>

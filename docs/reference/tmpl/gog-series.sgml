@@ -35,38 +35,7 @@ Base class for series
 @GOG_SERIES_FILL_TYPE_NEXT: 
 @GOG_SERIES_FILL_TYPE_INVALID: 
 
-<!-- ##### MACRO GOG_SERIES_ELEMENT_TYPE ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO GOG_SERIES_ELEMENT ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### MACRO IS_GOG_SERIES_ELEMENT ##### -->
-<para>
-
-</para>
-
-@o: 
-
-
-<!-- ##### FUNCTION gog_series_element_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-
-<!-- ##### MACRO GOG_SERIES_TYPE ##### -->
+<!-- ##### MACRO GOG_TYPE_SERIES ##### -->
 <para>
 
 </para>
@@ -81,7 +50,7 @@ Base class for series
 @o: 
 
 
-<!-- ##### MACRO IS_GOG_SERIES ##### -->
+<!-- ##### MACRO GOG_IS_SERIES ##### -->
 <para>
 
 </para>
@@ -221,6 +190,15 @@ Base class for series
 
 @series: 
 @fill_type: 
+
+
+<!-- ##### FUNCTION gog_series_get_interpolation_params ##### -->
+<para>
+
+</para>
+
+@series: 
+@Returns: 
 
 
 <!-- ##### FUNCTION gog_series_populate_fill_type_combo ##### -->
