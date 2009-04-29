@@ -36,8 +36,8 @@ GType 		go_data_get_type 		(void);
 GOData *	go_data_dup			(GOData const *src);
 gboolean  	go_data_eq			(GOData const *a, GOData const *b);
 GOFormat *	go_data_preferred_fmt 		(GOData const *dat);
-char *		go_data_as_str			(GOData const *dat);
-gboolean  	go_data_from_str		(GOData *dat, char const *str);
+char *		go_data_serialize		(GOData const *dat, gpointer user);
+gboolean  	go_data_unserialize		(GOData *dat, char const *str, gpointer user);
 void	  	go_data_emit_changed  		(GOData *dat);
 
 double *	go_data_get_values		(GOData *data);

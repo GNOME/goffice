@@ -72,13 +72,13 @@ go_data_scalar_val_eq (GOData const *a, GOData const *b)
 }
 
 static char *
-go_data_scalar_val_as_str (GOData const *dat)
+go_data_scalar_val_serialize (GOData const *dat, gpointer user)
 {
 	return g_strdup (go_data_scalar_get_str (GO_DATA_SCALAR (dat)));
 }
 
 static gboolean
-go_data_scalar_val_from_str (GOData *dat, char const *str)
+go_data_scalar_val_unserialize (GOData *dat, char const *str, gpointer user)
 {
 	GODataScalarVal *sval = (GODataScalarVal *)dat;
 	double tmp;
@@ -118,14 +118,14 @@ go_data_scalar_val_class_init (GObjectClass *gobject_klass)
 	GODataClass *godata_klass = (GODataClass *) gobject_klass;
 	GODataScalarClass *scalar_klass = (GODataScalarClass *) gobject_klass;
 
-	scalar_val_parent_klass = g_type_class_peek_parent (gobject_klass);
-	gobject_klass->finalize = go_data_scalar_val_finalize;
-	godata_klass->dup	= go_data_scalar_val_dup;
-	godata_klass->eq	= go_data_scalar_val_eq;
-	godata_klass->as_str	= go_data_scalar_val_as_str;
-	godata_klass->from_str	= go_data_scalar_val_from_str;
-	scalar_klass->get_value	= go_data_scalar_val_get_value;
-	scalar_klass->get_str	= go_data_scalar_val_get_str;
+	scalar_val_parent_klass   = g_type_class_peek_parent (gobject_klass);
+	gobject_klass->finalize   = go_data_scalar_val_finalize;
+	godata_klass->dup	  = go_data_scalar_val_dup;
+	godata_klass->eq	  = go_data_scalar_val_eq;
+	godata_klass->serialize	  = go_data_scalar_val_serialize;
+	godata_klass->unserialize = go_data_scalar_val_unserialize;
+	scalar_klass->get_value	  = go_data_scalar_val_get_value;
+	scalar_klass->get_str	  = go_data_scalar_val_get_str;
 }
 
 GSF_CLASS (GODataScalarVal, go_data_scalar_val,
@@ -182,14 +182,14 @@ go_data_scalar_str_eq (GOData const *a, GOData const *b)
 }
 
 static char *
-go_data_scalar_str_as_str (GOData const *dat)
+go_data_scalar_str_serialize (GOData const *dat, gpointer user)
 {
 	GODataScalarStr const *str = (GODataScalarStr const *)dat;
 	return g_strdup (str->str);
 }
 
 static gboolean
-go_data_scalar_str_from_str (GOData *dat, char const *string)
+go_data_scalar_str_unserialize (GOData *dat, char const *string, gpointer user)
 {
 	GODataScalarStr *str = (GODataScalarStr *)dat;
 
@@ -225,8 +225,8 @@ go_data_scalar_str_class_init (GObjectClass *gobject_klass)
 	gobject_klass->finalize	= go_data_scalar_str_finalize;
 	godata_klass->dup	= go_data_scalar_str_dup;
 	godata_klass->eq	= go_data_scalar_str_eq;
-	godata_klass->as_str	= go_data_scalar_str_as_str;
-	godata_klass->from_str	= go_data_scalar_str_from_str;
+	godata_klass->serialize	= go_data_scalar_str_serialize;
+	godata_klass->unserialize	= go_data_scalar_str_unserialize;
 	scalar_klass->get_value	= go_data_scalar_str_get_value;
 	scalar_klass->get_str	= go_data_scalar_str_get_str;
 }
@@ -357,7 +357,7 @@ go_data_vector_val_get_str (GODataVector *vec, unsigned i)
 }
 
 static char *
-go_data_vector_val_as_str (GOData const *dat)
+go_data_vector_val_serialize (GOData const *dat, gpointer user)
 {
 	GODataVectorVal *vec = GO_DATA_VECTOR_VAL (dat);
 	GString *str;
@@ -379,7 +379,7 @@ go_data_vector_val_as_str (GOData const *dat)
 }
 
 static gboolean
-go_data_vector_val_from_str (GOData *dat, char const *str)
+go_data_vector_val_unserialize (GOData *dat, char const *str, gpointer user)
 {
 	GODataVectorVal *vec = GO_DATA_VECTOR_VAL (dat);
 	char sep, *end = (char*) str;
@@ -435,8 +435,8 @@ go_data_vector_val_class_init (GObjectClass *gobject_klass)
 	gobject_klass->finalize = go_data_vector_val_finalize;
 	godata_klass->dup	= go_data_vector_val_dup;
 	godata_klass->eq	= go_data_vector_val_eq;
-	godata_klass->as_str	= go_data_vector_val_as_str;
-	godata_klass->from_str	= go_data_vector_val_from_str;
+	godata_klass->serialize	= go_data_vector_val_serialize;
+	godata_klass->unserialize	= go_data_vector_val_unserialize;
 	vector_klass->load_len    = go_data_vector_val_load_len;
 	vector_klass->load_values = go_data_vector_val_load_values;
 	vector_klass->get_value   = go_data_vector_val_get_value;
@@ -527,7 +527,7 @@ go_data_vector_str_eq (GOData const *a, GOData const *b)
 }
 
 static char *
-go_data_vector_str_as_str (GOData const *dat)
+go_data_vector_str_serialize (GOData const *dat, gpointer user)
 {
 	GODataVectorStr *vec = GO_DATA_VECTOR_STR (dat);
 	GString *str;
@@ -552,7 +552,7 @@ go_data_vector_str_as_str (GOData const *dat)
 }
 
 static gboolean
-go_data_vector_str_from_str (GOData *dat, char const *str)
+go_data_vector_str_unserialize (GOData *dat, char const *str, gpointer user)
 {
 	GODataVectorStr *vec = GO_DATA_VECTOR_STR (dat);
 	char sep, *cur = (char*) str, *end, *val;
@@ -695,8 +695,8 @@ go_data_vector_str_class_init (GObjectClass *gobject_klass)
 	gobject_klass->finalize	= go_data_vector_str_finalize;
 	godata_klass->dup	= go_data_vector_str_dup;
 	godata_klass->eq	= go_data_vector_str_eq;
-	godata_klass->as_str	= go_data_vector_str_as_str;
-	godata_klass->from_str	= go_data_vector_str_from_str;
+	godata_klass->serialize	= go_data_vector_str_serialize;
+	godata_klass->unserialize	= go_data_vector_str_unserialize;
 	vector_klass->load_len    = go_data_vector_str_load_len;
 	vector_klass->load_values = go_data_vector_str_load_values;
 	vector_klass->get_value   = go_data_vector_str_get_value;
@@ -879,7 +879,7 @@ go_data_matrix_val_get_str (GODataMatrix *mat, unsigned i, unsigned j)
 }
 
 static char *
-go_data_matrix_val_as_str (GOData const *dat)
+go_data_matrix_val_serialize (GOData const *dat, gpointer user)
 {
 	GODataMatrixVal *mat = GO_DATA_MATRIX_VAL (dat);
 	GString *str;
@@ -912,7 +912,7 @@ go_data_matrix_val_as_str (GOData const *dat)
 }
 
 static gboolean
-go_data_matrix_val_from_str (GOData *dat, char const *str)
+go_data_matrix_val_unserialize (GOData *dat, char const *str, gpointer user)
 {
 	GODataMatrixVal *mat = GO_DATA_MATRIX_VAL (dat);
 	char row_sep, col_sep, *end = (char*) str;
@@ -986,9 +986,9 @@ go_data_matrix_val_class_init (GObjectClass *gobject_klass)
 	gobject_klass->finalize = go_data_matrix_val_finalize;
 	godata_klass->dup	= go_data_matrix_val_dup;
 	godata_klass->eq	= go_data_matrix_val_eq;
-	godata_klass->as_str	= go_data_matrix_val_as_str;
-	godata_klass->from_str	= go_data_matrix_val_from_str;
-	matrix_klass->load_size    = go_data_matrix_val_load_size;
+	godata_klass->serialize	= go_data_matrix_val_serialize;
+	godata_klass->unserialize = go_data_matrix_val_unserialize;
+	matrix_klass->load_size   = go_data_matrix_val_load_size;
 	matrix_klass->load_values = go_data_matrix_val_load_values;
 	matrix_klass->get_value   = go_data_matrix_val_get_value;
 	matrix_klass->get_str     = go_data_matrix_val_get_str;

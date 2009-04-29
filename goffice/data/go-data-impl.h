@@ -44,8 +44,8 @@ typedef struct {
 	GOData *	(*dup)	    		(GOData const *src);
 	gboolean 	(*eq)	    		(GOData const *a, GOData const *b);
 	GOFormat *	(*preferred_fmt) 	(GOData const *dat);
-	char *		(*as_str)	    	(GOData const *dat);
-	gboolean   	(*from_str)	    	(GOData *dat, char const *str);
+	char *		(*serialize)	    	(GOData const *dat, gpointer user);
+	gboolean   	(*unserialize)	    	(GOData *dat, char const *str, gpointer user);
 	void	   	(*emit_changed)  	(GOData *dat);
 
 	unsigned int	(*get_n_dimensions)	(GOData *data);

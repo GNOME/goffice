@@ -1,3 +1,14 @@
+2009-04-29  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-object-xml.h (gog_object_new_from_xml,
+	gog_object_sax_push_parser): Add user pointer argument for
+	serialization.  All callers changed.
+
+	* goffice/data/go-data.c (go_data_serialize): Rename from
+	go_data_as_str.  Add user pointer argument.  All callers changed.
+	(go_data_unserialize): Rename from go_data_from_str.  Add user
+	pointer argument.  All callers changed.
+	
 2009-04-28  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (map_log_calc_ticks): Handle

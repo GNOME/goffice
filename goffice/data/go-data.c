@@ -44,10 +44,11 @@ static gulong go_data_signals [LAST_SIGNAL] = { 0, };
 static GOData *
 go_data_dup_real (GOData const *src)
 {
-	char   *str = go_data_as_str (src);
+	gpointer user = NULL;  /* FIXME? */
+	char   *str = go_data_serialize (src, user);
 	GOData *dst = g_object_new (G_OBJECT_TYPE (src), NULL);
 	if (dst != NULL)
-		go_data_from_str (dst, str);
+		go_data_unserialize (dst, str, user);
 	g_free (str);
 
 	return dst;
@@ -155,37 +156,40 @@ go_data_preferred_fmt (GOData const *dat)
 }
 
 /**
- * go_data_as_str :
+ * go_data_serialize :
  * @dat : #GOData
+ * @user : a gpointer describing the context.
  *
- * NOTE : This is the _source_ not the content.
+ * NOTE : This is the _source_ not the content.  (I.e., this refers to the
+ * expression, not its current value.)
  *
  * Returns: a string representation of the data source that the caller is
  * 	responsible for freeing
  **/
 char *
-go_data_as_str (GOData const *dat)
+go_data_serialize (GOData const *dat, gpointer user)
 {
 	GODataClass const *klass = GO_DATA_GET_CLASS (dat);
 	g_return_val_if_fail (klass != NULL, NULL);
-	return (*klass->as_str) (dat);
+	return (*klass->serialize) (dat, user);
 }
 
 /**
- * go_data_from_str :
+ * go_data_unserialize :
  * @dat : #GOData
  * @str : string to parse
+ * @user : a gpointer describing the context.
  *
- * De-serializes the source information returned from go_data_as_str.
+ * De-serializes the source information returned from go_data_serialize.
  *
  * Returns: %FALSE on error.
  **/
 gboolean
-go_data_from_str (GOData *dat, char const *str)
+go_data_unserialize (GOData *dat, char const *str, gpointer user)
 {
 	GODataClass const *klass = GO_DATA_GET_CLASS (dat);
 	g_return_val_if_fail (klass != NULL, FALSE);
-	return (*klass->from_str) (dat, str);
+	return (*klass->unserialize) (dat, str, user);
 }
 
 /**

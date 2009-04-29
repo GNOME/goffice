@@ -177,7 +177,7 @@ gog_object_write_property_sax (GogObject const *obj, GParamSpec *pspec, GsfXMLOu
 }
 
 static void
-gog_dataset_dom_load (GogDataset *set, xmlNode *node)
+gog_dataset_dom_load (GogDataset *set, xmlNode *node, gpointer user)
 {
 	xmlNode *ptr;
 	xmlChar *id, *val, *type;
@@ -200,7 +200,7 @@ gog_dataset_dom_load (GogDataset *set, xmlNode *node)
 			if (id != NULL && type != NULL && val != NULL) {
 				unsigned dim_id = strtoul (id, NULL, 0);
 				GOData *dat = g_object_new (g_type_from_name (type), NULL);
-				if (dat != NULL && go_data_from_str (dat, val))
+				if (dat != NULL && go_data_unserialize (dat, val, user))
 					gog_dataset_set_dim (set, dim_id, dat, NULL);
 			}
 
@@ -212,7 +212,7 @@ gog_dataset_dom_load (GogDataset *set, xmlNode *node)
 }
 
 static void
-gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output)
+gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output, gpointer user)
 {
 	GOData  *dat;
 	char    *tmp;
@@ -229,7 +229,7 @@ gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output)
 		gsf_xml_out_add_int (output, "id", i);
 		gsf_xml_out_add_cstr (output, "type", 
 			G_OBJECT_TYPE_NAME (dat));
-		tmp = go_data_as_str (dat);
+		tmp = go_data_serialize (dat, user);
 		gsf_xml_out_add_cstr (output, NULL, tmp);
 		g_free (tmp);
 		gsf_xml_out_end_element (output); /* </dimension> */
@@ -239,7 +239,7 @@ gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output)
 }
 
 void
-gog_object_write_xml_sax (GogObject const *obj, GsfXMLOut *output)
+gog_object_write_xml_sax (GogObject const *obj, GsfXMLOut *output, gpointer user)
 {
 	guint	     n;
 	GParamSpec **props;
@@ -270,17 +270,17 @@ gog_object_write_xml_sax (GogObject const *obj, GsfXMLOut *output)
 	if (GO_IS_PERSIST (obj))	/* anything special for this class */
 		go_persist_sax_save (GO_PERSIST (obj), output);
 	if (GOG_IS_DATASET (obj))	/* convenience to save data */
-		gog_dataset_sax_save (GOG_DATASET (obj), output);
+		gog_dataset_sax_save (GOG_DATASET (obj), output, user);
 
 	/* the children */
 	for (ptr = obj->children; ptr != NULL ; ptr = ptr->next)
-		gog_object_write_xml_sax (ptr->data, output);
+		gog_object_write_xml_sax (ptr->data, output, user);
 
 	gsf_xml_out_end_element (output); /* </GogObject> */
 }
 
 GogObject *
-gog_object_new_from_xml (GogObject *parent, xmlNode *node)
+gog_object_new_from_xml (GogObject *parent, xmlNode *node, gpointer user)
 {
 	xmlChar   *role, *name, *val, *type_name;
 	xmlNode   *ptr;
@@ -321,7 +321,7 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 	if (GO_IS_PERSIST (res))
 		go_persist_dom_load (GO_PERSIST (res), node);
 	if (GOG_IS_DATASET (res))	/* convenience to save data */
-		gog_dataset_dom_load (GOG_DATASET (res), node);
+		gog_dataset_dom_load (GOG_DATASET (res), node, user);
 
 	for (ptr = node->xmlChildrenNode ; ptr != NULL ; ptr = ptr->next) {
 		if (xmlIsBlankNode (ptr) || ptr->name == NULL)
@@ -337,7 +337,7 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 			xmlFree (val);
 			xmlFree (name);
 		} else if (!strcmp (ptr->name, "GogObject"))
-			gog_object_new_from_xml (res, ptr);
+			gog_object_new_from_xml (res, ptr, user);
 	}
 	return res;
 }
@@ -350,8 +350,9 @@ typedef struct {
 	GOData		*dimension;
 	unsigned	 dimension_id;
 
-	GogObjectSaxHandler	handler;
-	gpointer		user_data;
+	GogObjectSaxHandler handler;
+	gpointer user_data;
+	gpointer user_unserialize;
 } GogXMLReadState;
 
 GogObject *
@@ -413,7 +414,9 @@ gogo_dim_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 	g_return_if_fail (GOG_IS_DATASET (state->obj));
 
 	if (NULL != state->dimension) {
-		if (go_data_from_str (state->dimension, xin->content->str))
+		if (go_data_unserialize (state->dimension,
+					 xin->content->str,
+					 state->user_unserialize))
 			gog_dataset_set_dim (GOG_DATASET (state->obj),
 				state->dimension_id, state->dimension, NULL);
 		else
@@ -596,6 +599,7 @@ go_sax_parser_done (GsfXMLIn *xin, GogXMLReadState *state)
 void
 gog_object_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
 			    GogObjectSaxHandler	handler,
+			    gpointer            user_unserialize,
 			    gpointer		user_data)
 {
 	static GsfXMLInNode const dtd[] = {
@@ -614,6 +618,7 @@ gog_object_sax_push_parser (GsfXMLIn *xin, xmlChar const **attrs,
 	state = g_new0 (GogXMLReadState, 1);
 	state->handler = handler;
 	state->user_data = user_data;
+	state->user_unserialize = user_unserialize;
 	gsf_xml_in_push_state (xin, doc, state,
 		(GsfXMLInExtDtor) go_sax_parser_done, attrs);
 }
