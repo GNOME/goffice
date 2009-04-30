@@ -32,6 +32,16 @@
 #include <errno.h>
 #include <stdlib.h>
 
+static char *
+render_val (double val, GOFormat const *fmt)
+{
+	if (fmt)
+		return go_format_value (fmt, val);
+	else
+		return g_strdup_printf ("%g", val);
+}
+
+
 struct _GODataScalarVal {
 	GODataScalar	 base;
 	double		 val;
@@ -74,6 +84,7 @@ go_data_scalar_val_eq (GOData const *a, GOData const *b)
 static char *
 go_data_scalar_val_serialize (GOData const *dat, gpointer user)
 {
+	/* FIXME: shouldn't use _get_str.  */
 	return g_strdup (go_data_scalar_get_str (GO_DATA_SCALAR (dat)));
 }
 
@@ -106,9 +117,10 @@ static char const *
 go_data_scalar_val_get_str (GODataScalar *dat)
 {
 	GODataScalarVal *sval = (GODataScalarVal *)dat;
+	GOFormat const *fmt = NULL;
 
 	if (sval->str == NULL)
-		sval->str = g_strdup_printf ("%g", sval->val);
+		sval->str = render_val (sval->val, fmt);
 	return sval->str;
 }
 
@@ -352,8 +364,10 @@ static char *
 go_data_vector_val_get_str (GODataVector *vec, unsigned i)
 {
 	GODataVectorVal const *val = (GODataVectorVal const *)vec;
+	GOFormat const *fmt = NULL;
+
 	g_return_val_if_fail (val != NULL && val->val != NULL && i < val->n, NULL);
-	return g_strdup_printf ("%g", val->val[i]);
+	return render_val (val->val[i], fmt);
 }
 
 static char *
@@ -874,8 +888,9 @@ static char *
 go_data_matrix_val_get_str (GODataMatrix *mat, unsigned i, unsigned j)
 {
 	GODataMatrixVal const *val = (GODataMatrixVal const *)mat;
+	GOFormat const *fmt = NULL;
 
-	return g_strdup_printf ("%g", val->val[i * val->size.columns + j]);
+	return render_val (val->val[i * val->size.columns + j], fmt);
 }
 
 static char *
