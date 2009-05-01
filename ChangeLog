@@ -1,3 +1,8 @@
+2008-10-08  Jody Goldberg <jody@gnome.org>
+
+	* goffice/cut-n-paste/foocanvas/foo-canvas.c (foo_canvas_crossing) :
+	  simplistic patch to repair gtk-2.14 related breakage.
+
 2009-03-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_distrib/gog-histogram.c: don't show a marker in the
