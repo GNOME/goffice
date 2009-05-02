@@ -1,3 +1,9 @@
+2009-05-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-styled-object.c (gog_style_new): have it back to fix
+	some compatibility issues.
+	* goffice/graph/gog-styled-object.h: ditto.
+
 2009-04-29  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-object-xml.h (gog_object_new_from_xml,

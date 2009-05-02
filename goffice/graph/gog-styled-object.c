@@ -292,3 +292,10 @@ GSF_CLASS_FULL (GogStyledObject, gog_styled_object, NULL, NULL,
 	   gog_styled_object_class_init, NULL, gog_styled_object_init,
 	   GOG_TYPE_OBJECT, 0,
 	   GSF_INTERFACE (gog_styled_object_so_init, GO_TYPE_STYLED_OBJECT))
+
+
+GOStyle *
+gog_style_new (void)
+{
+	return g_object_new (gog_style_get_type (), NULL);
+}
