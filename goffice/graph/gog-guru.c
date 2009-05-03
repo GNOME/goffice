@@ -1238,7 +1238,9 @@ graph_guru_init (GraphGuruState *s)
  *
  * Quick utility to allow application specific help.  Required until we clean
  * up the relationship between goffice and gnumeric to decide which parts of
- * the hlpe live where.
+ * the help live where.
+ *
+ * Returns: #GtkWidget associated with the gurus help button.
  **/
 GtkWidget *
 gog_guru_get_help_button (GtkWidget *guru)
@@ -1252,13 +1254,13 @@ gog_guru_get_help_button (GtkWidget *guru)
  * @graph	: the graph to edit
  * @dalloc	: The data allocator to use for editing
  * @cc		: Where to report errors
- * @closure	:
+ * @closure	: #GClosure
  *
  * CHANGED 0.5.3
  * 	: drop the @toplevel window argument and have the callers handle
  * 	  widget_show and set_transient
  *
- * Returns: and shows new graph guru.
+ * Returns: the dialog, and shows new graph guru.
  **/
 GtkWidget *
 gog_guru (GogGraph *graph, GogDataAllocator *dalloc,

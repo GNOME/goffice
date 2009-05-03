@@ -464,6 +464,8 @@ go_shell_arg_to_uri (char const *arg)
  *
  * Decode the final path component.  Returns as UTF-8 encoded suitable
  * for display.
+ *
+ * Returns: a string that the caller is responsible for freeing.
  **/
 char *
 go_basename_from_uri (char const *uri)
@@ -481,6 +483,8 @@ go_basename_from_uri (char const *uri)
  *
  * Decode the all but the final path component.  Returns as UTF-8 encoded
  * suitable for display.
+ *
+ * Returns: dirname which the caller is responsible for freeing.
  **/
 char *
 go_dirname_from_uri (char const *uri, gboolean brief)
@@ -891,7 +895,7 @@ go_file_get_date_changed (char const *uri)
 
 /**
  * go_url_decode:
- * @text :
+ * @text : constant buffer to decode.
  *
  * Decode the result of go_url_encode.
  *
@@ -927,8 +931,8 @@ go_url_decode (gchar const *text)
 
 /**
  * go_url_encode:
- * @text :
- * @type :
+ * @text : The constant text to be encoded
+ * @type : 0 : mailto, 1: file or http
  *
  * url-encode a string according to RFC 2368.
  *

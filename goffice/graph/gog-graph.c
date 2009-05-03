@@ -666,6 +666,8 @@ cb_graph_idle (GogGraph *graph)
  * @graph : #GogGraph
  *
  * queue an update if one had not already be queued.
+ *
+ * Returns: %TRUE if a handler has been added.
  **/
 gboolean
 gog_graph_request_update (GogGraph *graph)

@@ -104,8 +104,8 @@ go_gtk_dialog_add_button (GtkDialog *dialog, char const* text, char const* stock
 /**
  * go_glade_new :
  * @gladefile : the name of the file load
- * @root :
- * @domain :
+ * @root : Name of the root object
+ * @domain : The translation domain
  * @gcc : #GOCmdContext
  *
  * Simple utility to open glade files
@@ -194,7 +194,7 @@ go_glade_signal_connect_swapped (GladeXML	*gui,
 /**
  * go_xml_builder_new :
  * @uifile : the name of the file load
- * @domain :
+ * @domain : the translation domain
  * @gcc : #GOCmdContext
  *
  * Simple utility to open ui files

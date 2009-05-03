@@ -54,9 +54,6 @@ Base class for all objects of graph model
 
 </para>
 
-@: 
-@:
-
 @gogobject: the object which received the signal.
 @arg1: 
 
@@ -72,9 +69,6 @@ Base class for all objects of graph model
 <para>
 
 </para>
-
-@: 
-@:
 
 @gogobject: the object which received the signal.
 @arg1: 
@@ -92,8 +86,6 @@ Base class for all objects of graph model
 
 </para>
 
-@:
-
 @gogobject: the object which received the signal.
 
 <!-- ##### SIGNAL GogObject::name-changed ##### -->
@@ -101,16 +93,12 @@ Base class for all objects of graph model
 
 </para>
 
-@:
-
 @gogobject: the object which received the signal.
 
 <!-- ##### SIGNAL GogObject::update-editor ##### -->
 <para>
 
 </para>
-
-@:
 
 @gogobject: the object which received the signal.
 

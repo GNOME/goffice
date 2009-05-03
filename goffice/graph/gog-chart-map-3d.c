@@ -131,10 +131,10 @@ gog_chart_map_3d_new (GogChart *chart, GogViewAllocation const *area,
  * @z: data y value
  * @u: placeholder for x converted value
  * @v: placeholder for y converted value
+ * @w: placeholder for z converted value
  *
  * Converts a 3D coordinate from data space to canvas space.
  **/
-
 void
 gog_chart_map_3d_to_view (GogChartMap3D *map, double x, double y, double z, double *u, double *v, double *w)
 {
