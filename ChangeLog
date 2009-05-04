@@ -1,3 +1,10 @@
+2009-05-04  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (handle_common_token): Dump currency
+	string into the program as a string, not a sequence of characters.
+	Fixes #581307.
+	(go_format_dump_program): New function.
+
 2009-05-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-styled-object.c (gog_style_new): have it back to fix

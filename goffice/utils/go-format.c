@@ -104,6 +104,7 @@
 
 /* ------------------------------------------------------------------------- */
 
+#define DEBUG_PROGRAMS
 #undef DEBUG_REF_COUNT
 
 /***************************************************************************/
@@ -157,7 +158,7 @@ typedef enum {
 	OP_NUM_SCALE,		/* orders */
 	OP_NUM_ENABLE_THOUSANDS,
 	OP_NUM_DISABLE_THOUSANDS,
-	OP_NUM_PRINTF_E,	/* prec */
+	OP_NUM_PRINTF_E,	/* prec wd */
 	OP_NUM_PRINTF_F,	/* prec */
 	OP_NUM_SIGN,
 	OP_NUM_VAL_SIGN,
@@ -1156,11 +1157,13 @@ handle_common_token (const char *tstr, GOFormatToken t, GString *prg)
 		g_return_if_fail (ok);
 
 		tstr += 2;
-		for (; nchars > 0; nchars--) {
-			gunichar uc = g_utf8_get_char (tstr);
-			tstr = g_utf8_next_char (tstr);
-			ADD_OP (OP_CHAR);
-			g_string_append_unichar (prg, uc);
+		if (nchars > 0) {
+			const char *next =
+				g_utf8_offset_to_pointer (tstr, nchars);
+			ADD_OP (OP_STRING);
+			g_string_append_len (prg, tstr, next - tstr);
+			g_string_append_c (prg, '\0');
+			tstr = next;
 		}
 
 		lang = gsf_msole_language_for_lid (locale.locale & 0xffff);
@@ -1519,7 +1522,7 @@ go_format_parse_number_new_1 (GString *prg, GOFormatParseState *pstate,
 	for (i = tno_start; i < tno_end; i++) {
 		const GOFormatParseItem *ti = &GET_TOKEN(i);
 
-		if (tno_numstart == - 1 && (ti->tt & TT_STARTS_NUMBER))
+		if (tno_numstart == -1 && (ti->tt & TT_STARTS_NUMBER))
 			tno_numstart = i;
 
 		switch (ti->token) {
@@ -1987,7 +1990,7 @@ go_format_parse (const char *str)
 	gboolean has_text_format = FALSE;
 
 #if 0
-	g_print ("Parse: [%s]\n", str0);
+	g_printerr ("Parse: [%s]\n", str0);
 #endif
 	while (1) {
 		GOFormatCondition *condition;
@@ -2137,7 +2140,188 @@ go_format_parse (const char *str)
 #undef ADD_OP2
 #undef ADD_OP3
 
+#ifdef DEBUG_PROGRAMS
+#define REGULAR(op) case op: g_printerr ("%s\n", #op); break
+static void
+go_format_dump_program (const guchar *prg)
+{
+	const guchar *next;
+	size_t len;
 
+	while (1) {
+		GOFormatOp op = *prg++;
+
+		switch (op) {
+		case OP_END:
+			g_printerr ("OP_END\n");
+			return;
+		case OP_CHAR:
+			next = g_utf8_next_char (prg);
+			len = next - prg;
+			g_printerr ("OP_CHAR '%-.*s'\n",
+				    (int)len, prg);
+			prg = next;
+			break;
+		case OP_CHAR_INVISIBLE:
+			next = g_utf8_next_char (prg);
+			len = next - prg;
+			g_printerr ("OP_CHAR_INVISIBLE '%-.*s'\n",
+				    (int)len, prg);
+			prg = next;
+			break;
+		case OP_STRING:
+			len = strlen (prg);
+			g_printerr ("OP_STRING \"%s\"\n", prg);
+			prg += len + 1;
+			break;
+		case OP_FILL:
+			next = g_utf8_next_char (prg);
+			len = next - prg;
+			g_printerr ("OP_FILL '%-.*s'\n", (int)len, prg);
+			prg = next;
+			break;
+		case OP_LOCALE: {
+			GOFormatLocale locale;
+			const char *lang;
+			memcpy (&locale, prg, sizeof (locale));
+			prg += sizeof (locale);
+			lang = (const char *)prg;
+			prg += strlen (lang) + 1;
+			g_printerr ("OP_LOCALE -- \"%s\"\n", lang);
+			break;
+		}
+		case OP_DATE_ROUND:
+			g_printerr ("OP_DATE_ROUND %d %d\n", prg[0], prg[1]);
+			prg += 2;
+			break;
+		case OP_TIME_HOUR_N:
+			g_printerr ("OP_TIME_HOUR_N %d\n", prg[0]);
+			prg += 1;
+			break;
+		case OP_TIME_AP:
+			g_printerr ("OP_TIME_AP '%c' '%c'\n", prg[0], prg[1]);
+			prg += 2;
+			break;
+		case OP_TIME_MINUTE_N:
+			g_printerr ("OP_TIME_MINUTE_N %d\n", prg[0]);
+			prg += 1;
+			break;
+		case OP_TIME_SECOND_N:
+			g_printerr ("OP_TIME_SECOND_N %d\n", prg[0]);
+			prg += 1;
+			break;
+		case OP_NUM_SCALE:
+			g_printerr ("OP_NUM_SCALE %d\n", (signed char)(prg[0]));
+			prg += 1;
+			break;
+		case OP_NUM_PRINTF_E:
+			g_printerr ("OP_NUM_PRINTF_E %d %d\n", prg[0], prg[1]);
+			prg += 2;
+			break;
+		case OP_NUM_PRINTF_F:
+			g_printerr ("OP_NUM_PRINTF_F %d\n", prg[0]);
+			prg += 1;
+			break;
+		case OP_NUM_DIGIT_1:
+			g_printerr ("OP_NUM_DIGIT_1 '%c'\n", prg[0]);
+			prg += 1;
+			break;
+		case OP_NUM_DECIMAL_1:
+			g_printerr ("OP_NUM_DECIMAL_1 '%c'\n", prg[0]);
+			prg += 1;
+			break;
+		case OP_NUM_DIGIT_1_0:
+			g_printerr ("OP_NUM_DIGIT_1_0 '%c'\n", prg[0]);
+			prg += 1;
+			break;
+		case OP_NUM_EXPONENT_SIGN:	/* forced-p */
+			g_printerr ("OP_NUM_EXPONENT_SIGN %d\n", prg[0]);
+			prg += 1;
+			break;
+		case OP_NUM_FRACTION: {
+			gboolean wp = *prg++;
+			gboolean explicit_denom = *prg++;
+
+			if (explicit_denom) {
+				double plaind; /* Plain double */
+				memcpy (&plaind, prg, sizeof (plaind));
+				prg += sizeof (plaind);
+
+				g_printerr ("OP_NUM_FRACTION %d %d %g\n", wp, explicit_denom, plaind);
+			} else {
+				int digits = *prg++;
+
+				g_printerr ("OP_NUM_FRACTION %d %d %d\n", wp, explicit_denom, digits);
+			}
+			break;
+		}
+
+		REGULAR(OP_CHAR_REPEAT);
+		REGULAR(OP_DATE_SPLIT);
+		REGULAR(OP_DATE_YEAR);
+		REGULAR(OP_DATE_YEAR_2);
+		REGULAR(OP_DATE_YEAR_THAI);
+		REGULAR(OP_DATE_YEAR_THAI_2);
+		REGULAR(OP_DATE_MONTH);
+		REGULAR(OP_DATE_MONTH_2);
+		REGULAR(OP_DATE_MONTH_NAME);
+		REGULAR(OP_DATE_MONTH_NAME_1);
+		REGULAR(OP_DATE_MONTH_NAME_3);
+		REGULAR(OP_DATE_DAY);
+		REGULAR(OP_DATE_DAY_2);
+		REGULAR(OP_DATE_WEEKDAY);
+		REGULAR(OP_DATE_WEEKDAY_3);
+		REGULAR(OP_TIME_SPLIT_24);
+		REGULAR(OP_TIME_SPLIT_12);
+		REGULAR(OP_TIME_SPLIT_ELAPSED_HOUR);
+		REGULAR(OP_TIME_SPLIT_ELAPSED_MINUTE);
+		REGULAR(OP_TIME_SPLIT_ELAPSED_SECOND);
+		REGULAR(OP_TIME_HOUR);
+		REGULAR(OP_TIME_HOUR_2);
+		REGULAR(OP_TIME_AMPM);
+		REGULAR(OP_TIME_MINUTE);
+		REGULAR(OP_TIME_MINUTE_2);
+		REGULAR(OP_TIME_SECOND);
+		REGULAR(OP_TIME_SECOND_2);
+		REGULAR(OP_TIME_SECOND_DECIMAL_START);
+		REGULAR(OP_TIME_SECOND_DECIMAL_DIGIT);
+		REGULAR(OP_NUM_ENABLE_THOUSANDS);
+		REGULAR(OP_NUM_DISABLE_THOUSANDS);
+		REGULAR(OP_NUM_SIGN);
+		REGULAR(OP_NUM_VAL_SIGN);
+		REGULAR(OP_NUM_MOVETO_ONES);
+		REGULAR(OP_NUM_MOVETO_DECIMALS);
+		REGULAR(OP_NUM_REST_WHOLE);
+		REGULAR(OP_NUM_APPEND_MODE);
+		REGULAR(OP_NUM_DECIMAL_POINT);
+		REGULAR(OP_NUM_DENUM_DIGIT_Q);
+		REGULAR(OP_NUM_EXPONENT_1);
+		REGULAR(OP_NUM_VAL_EXPONENT);
+#ifdef ALLOW_EE_MARKUP
+		REGULAR(OP_NUM_MARK_MANTISSA);
+		REGULAR(OP_NUM_SIMPLIFY_MANTISSA);
+		REGULAR(OP_NUM_SIMPLIFY_EXPONENT);
+#endif
+		REGULAR(OP_NUM_FRACTION_WHOLE);
+		REGULAR(OP_NUM_FRACTION_NOMINATOR);
+		REGULAR(OP_NUM_FRACTION_DENOMINATOR);
+		REGULAR(OP_NUM_FRACTION_BLANK);
+#ifdef ALLOW_PI_SLASH
+		REGULAR(OP_NUM_FRACTION_SCALE_PI);
+		REGULAR(OP_NUM_FRACTION_SIMPLIFY_PI);
+#endif
+		REGULAR(OP_NUM_GENERAL_MARK);
+		REGULAR(OP_NUM_GENERAL_DO);
+		REGULAR(OP_STR_APPEND_SVAL);
+
+		default:
+			g_printerr ("???\n");
+			return;
+		}
+	}
+}
+#undef REGULAR
+#endif
 
 static void
 append_i2 (GString *dst, int i)
@@ -3277,6 +3461,10 @@ SUFFIX(go_format_value_gstring) (PangoLayout *layout, GString *str,
 				if (inhibit)
 					val = SUFFIX(fabs)(val);
 			}
+#ifdef DEBUG_PROGRAMS
+			g_printerr ("Executing %s\n", fmt->format);
+			go_format_dump_program (fmt->u.number.program);
+#endif
 			return SUFFIX(go_format_execute)
 				(layout, str,
 				 measure, metrics,
