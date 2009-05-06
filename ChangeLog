@@ -1,3 +1,7 @@
+2009-05-06  Morten Welinder <terra@gnome.org>
+
+	* Release 0.7.6
+
 2009-05-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (handle_common_token): Dump currency
