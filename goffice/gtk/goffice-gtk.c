@@ -983,24 +983,19 @@ go_gtk_url_is_writeable (GtkWindow *parent, char const *uri,
 	} else if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
 		char *dirname = go_dirname_from_uri (uri, TRUE);
 		char *basename = go_basename_from_uri (uri);
-		char *msg = g_markup_printf_escaped (
-			_("A file called <i>%s</i> already exists in %s.\n\n"
-			  "Do you want to save over it?"),
-			basename, dirname);
-		/* gcc complains over this, but the format seems right and
-		   is not supposed to be constant.  Using "%s" is wrong.  */
 		GtkWidget *dialog = gtk_message_dialog_new_with_markup (parent,
 			 GTK_DIALOG_DESTROY_WITH_PARENT,
 			 GTK_MESSAGE_WARNING,
 			 GTK_BUTTONS_OK_CANCEL,
-			 msg);
+			 _("A file called <i>%s</i> already exists in %s.\n\n"
+			   "Do you want to save over it?"),
+			 basename, dirname);
 		gtk_dialog_set_default_response (GTK_DIALOG (dialog),
 			overwrite_by_default ? GTK_RESPONSE_OK : GTK_RESPONSE_CANCEL);
 		result = GTK_RESPONSE_OK ==
 			go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
 		g_free (dirname);
 		g_free (basename);
-		g_free (msg);
 	}
 
 	g_free (filename);

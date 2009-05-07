@@ -1,3 +1,8 @@
+2009-05-07  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_url_is_writeable): Avoid a
+	warning and further reports like #580409.
+
 2009-05-06  Morten Welinder  <mwelinder@gmail.com>
 
 	* configure.in: Post-release bump.
