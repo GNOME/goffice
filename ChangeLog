@@ -1,3 +1,11 @@
+2009-05-07  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (cb_attrs_as_string): store the full
+	  pango-weight. We apply a linear adjustment so that earlier
+	  versions that read an int see the correct 0 for normal and
+	  1 for bold and we will read old files correctly.
+	(go_format_parse_markup): read the full pango-weight
+
 2009-05-07  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/goffice-gtk.c (go_gtk_url_is_writeable): Avoid a

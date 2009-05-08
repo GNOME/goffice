@@ -4124,8 +4124,10 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 			(((PangoAttrInt *)a)->value == PANGO_STYLE_ITALIC) ? 1 : 0);
 		break;
 	case PANGO_ATTR_WEIGHT :
-		g_string_append_printf (accum, "[bold=%d",
-			(((PangoAttrInt *)a)->value >= PANGO_WEIGHT_BOLD) ? 1 : 0);
+		/* We are scaling the weight so that earlier versions that used only 0/1 */
+		/* can still read the new formats and we can read the old ones. */
+		g_string_append_printf (accum, "[bold=%.3f",
+					(((PangoAttrInt *)a)->value - 399.)/300.);
 		break;
 	case PANGO_ATTR_STRIKETHROUGH :
 		g_string_append_printf (accum, "[strikethrough=%d",
@@ -4202,7 +4204,7 @@ go_format_parse_markup (char *str)
 			if (0 == strncmp (str, "size", 4))
 				a = pango_attr_size_new (atoi (val));
 			else if (0 == strncmp (str, "bold", 4))
-				a = pango_attr_weight_new (atoi (val) ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
+				a = pango_attr_weight_new ((int)(atof (val) * 300. + 399.));
 			else if (0 == strncmp (str, "rise", 4))
 				a = pango_attr_rise_new (atoi (val));
 			break;

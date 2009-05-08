@@ -1,5 +1,8 @@
 goffice 0.7.7:
 
+Andreas:
+	* Modified serialization of pango markup to support all weights
+
 --------------------------------------------------------------------------
 goffice 0.7.6:
 
