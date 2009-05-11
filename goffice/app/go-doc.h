@@ -34,6 +34,7 @@ G_BEGIN_DECLS
 
 GType go_doc_get_type (void);
 
+void     go_doc_set_pristine             (GODoc *doc, gboolean pristine);
 gboolean go_doc_is_pristine		 (GODoc const *doc);
 void	 go_doc_set_dirty		 (GODoc *doc, gboolean is_dirty);
 gboolean go_doc_is_dirty		 (GODoc const *doc);

@@ -3,6 +3,9 @@ goffice 0.7.7:
 Andreas:
 	* Modified serialization of pango markup to support all weights
 
+Morten:
+	* Add "pristine" as GODoc property.
+
 --------------------------------------------------------------------------
 goffice 0.7.6:
 

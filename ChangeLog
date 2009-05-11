@@ -1,3 +1,9 @@
+2009-05-11  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-doc.c (go_doc_set_pristine): New function.
+	(go_doc_get_property, go_doc_set_property, go_doc_class_init):
+	Make "pristine" an object property.
+
 2009-05-07  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (cb_attrs_as_string): store the full

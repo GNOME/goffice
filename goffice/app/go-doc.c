@@ -3,6 +3,7 @@
  * go-doc.c : A GOffice Document
  *
  * Copyright (C) 2004-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2008-2009 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -34,7 +35,8 @@
 enum {
 	PROP_0,
 	PROP_URI,
-	PROP_DIRTY
+	PROP_DIRTY,
+	PROP_PRISTINE
 };
 enum {
 	METADATA_CHANGED,
@@ -58,6 +60,11 @@ go_doc_get_property (GObject *obj, guint property_id,
 	case PROP_DIRTY:
 		g_value_set_boolean (value, go_doc_is_dirty (doc));
 		break;
+
+	case PROP_PRISTINE:
+		g_value_set_boolean (value, go_doc_is_pristine (doc));
+		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
 		break;
@@ -74,9 +81,15 @@ go_doc_set_property (GObject *obj, guint property_id,
 	case PROP_URI:
 		go_doc_set_uri (doc, g_value_get_string (value));
 		break;
-	case PROP_DIRTY:
+
+ 	case PROP_DIRTY:
 		go_doc_set_dirty (doc, g_value_get_boolean (value));
 		break;
+
+ 	case PROP_PRISTINE:
+		go_doc_set_pristine (doc, g_value_get_boolean (value));
+		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
 		break;
@@ -126,8 +139,13 @@ go_doc_class_init (GObjectClass *object_class)
 			NULL, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
         g_object_class_install_property (object_class, PROP_DIRTY,
-		 g_param_spec_boolean ("dirty",	_("Dirty"),
+		 g_param_spec_boolean ("dirty", _("Dirty"),
 			_("Whether the document has been changed."),
+			FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+        g_object_class_install_property (object_class, PROP_PRISTINE,
+		 g_param_spec_boolean ("pristine", _("Pristine"),
+			_("Whether the document is unchanged since it was created."),
 			FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	signals [METADATA_UPDATE] = g_signal_new ("metadata-update",
@@ -201,7 +219,7 @@ go_doc_set_dirty (GODoc *doc, gboolean is_dirty)
 		return;
 
 	/* Dirtiness changed so no longer pristine.  */
-	doc->pristine = FALSE;
+	go_doc_set_pristine (doc, FALSE);
 
 	doc->modified = is_dirty;
 	g_object_notify (G_OBJECT (doc), "dirty");
@@ -222,6 +240,28 @@ go_doc_is_dirty (GODoc const *doc)
 }
 
 /**
+ * go_doc_set_pristine:
+ * @doc: #GODoc
+ * @pristine: a gboolean.
+ *
+ * Sets the indication of whether this document is unchanged since it was
+ * created.  Note: if both "dirty" and "pristine" are being set, set
+ * "pristine" last.
+ **/
+void
+go_doc_set_pristine (GODoc *doc, gboolean pristine)
+{
+	g_return_if_fail (GO_IS_DOC (doc));
+
+	pristine = !!pristine;
+	if (pristine == doc->pristine)
+		return;
+
+	doc->pristine = pristine;
+	g_object_notify (G_OBJECT (doc), "pristine");
+}
+
+/**
  * go_doc_is_pristine:
  * @doc: #GODoc
  *
@@ -234,13 +274,6 @@ gboolean
 go_doc_is_pristine (GODoc const *doc)
 {
 	g_return_val_if_fail (GO_IS_DOC (doc), FALSE);
-
-#if 0
-	if (doc->names ||
-	    (doc->file_format_level > FILE_FL_NEW))
-		return FALSE;
-#endif
-
 	return doc->pristine;
 }
 
