@@ -683,7 +683,7 @@ gog_series_class_init (GogSeriesClass *klass)
 			_("Interpolation"),
 			_("Type of line interpolation"),
 			"linear",
-			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_INTERPOLATION_SKIP_INVALID,
 		g_param_spec_boolean ("interpolation-skip-invalid", 
 			_("Interpolation skip invalid"),

@@ -1,3 +1,8 @@
+2009-05-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-series.c (gog_series_class_init): always save
+	interpolation mode. [#582054]
+
 2009-05-11  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-doc.c (go_doc_set_pristine): New function.
