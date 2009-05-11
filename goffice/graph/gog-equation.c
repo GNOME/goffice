@@ -398,7 +398,7 @@ gog_equation_view_size_request (GogView *view,
 
 	lsm_dom_view_set_document (LSM_DOM_VIEW (equation_view->mathml_view),
 				   LSM_DOM_DOCUMENT (equation->mathml));
-	lsm_dom_view_measure (LSM_DOM_VIEW (equation_view->mathml_view), &width, &height);
+	lsm_dom_view_get_size (LSM_DOM_VIEW (equation_view->mathml_view), &width, &height);
 
 	requisition->w = gog_renderer_pt2r_x (view->renderer, width);
 	requisition->h = gog_renderer_pt2r_y (view->renderer, height);

@@ -123,12 +123,12 @@ dnl ***********************
 goffice_with_lasem=false
 AC_ARG_WITH(lasem, [  --with-lasem          Build with lasem use])
 if test "x$with_lasem" = xyes; then
-	PKG_CHECK_MODULES(Lasem, lasem >= 0.0.1)
+	PKG_CHECK_MODULES(Lasem, lasem >= 0.1.1)
 	goffice_with_lasem=true
 fi
 if test "x$goffice_with_lasem" = "xtrue" ; then
 	AC_DEFINE(GOFFICE_WITH_LASEM, 1, [Define if Lasem is used])
-	goffice_reqs="$goffice_reqs lasem >= 0.0.1 "
+	goffice_reqs="$goffice_reqs lasem >= 0.1.1 "
 	EXTRA_DEPS="$EXTRA_DEPS lasem"
 fi
 

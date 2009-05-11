@@ -1,3 +1,11 @@
+2009-05-11  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Bump lasem version requirement to 0.1.1. Adapt to the API change.
+
+	* configure.in: here.
+	* goffice/graph/gog-equation.c: use lsm_dom_view_get_size instead of
+	lsm_dom_view_measure.
+
 2009-05-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-series.c (gog_series_class_init): always save
