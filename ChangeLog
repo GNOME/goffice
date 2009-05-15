@@ -1,3 +1,8 @@
+2009-05-25  Morten Welinder  <terra@gnome.org>
+
+	* Backport 8773a2b60351e7f2d88a77ccbe479da8b6f300c2 for OSX
+	compilation.
+
 2008-10-08  Jody Goldberg <jody@gnome.org>
 
 	* goffice/cut-n-paste/foocanvas/foo-canvas.c (foo_canvas_crossing) :

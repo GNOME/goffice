@@ -399,7 +399,7 @@ if test "x$goffice_with_gtk" = "xtrue" ; then
   AC_CHECK_FUNCS(gtk_dialog_get_response_for_widget)
   AC_CHECK_FUNCS(gtk_widget_set_tooltip_text gtk_tool_item_set_tooltip_text,
 		 [test $gtk_disable_deprecated = no || gtk_disable_deprecated=yes])
-  AC_CHECK_FUNCS(gdk_cairo_set_source_pixbuf)
+  AC_CHECK_FUNCS(gdk_cairo_set_source_pixbuf gdk_x11_drawable_get_xdisplay)
 fi
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
