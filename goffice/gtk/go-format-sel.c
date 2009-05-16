@@ -1547,11 +1547,10 @@ go_format_sel_set_style_format (GOFormatSel *gfs,
 
 	g_return_if_fail (GO_IS_FORMAT_SEL (gfs));
 	g_return_if_fail (style_format != NULL);
+	g_return_if_fail (!go_format_is_markup (style_format));
 
 	go_format_ref (style_format);
-
 	go_format_unref (gfs->format.spec);
-
 	gfs->format.spec = style_format;
 
 	study_format (gfs);
