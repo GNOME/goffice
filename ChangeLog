@@ -1,5 +1,9 @@
 2009-05-16  Morten Welinder  <terra@gnome.org>
 
+	* goffice/data/go-data-simple.c (go_data_vector_val_serialize,
+	go_data_vector_str_serialize, go_data_matrix_val_serialize):
+	Simplify.
+
 	* goffice/gtk/go-format-sel.c (go_format_sel_set_style_format):
 	Don't accept markup formats.
 

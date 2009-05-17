@@ -21,7 +21,7 @@
 #include <goffice/goffice-config.h>
 #include "go-data-simple.h"
 #include "go-data-impl.h"
-#include <goffice/utils/go-format.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-locale.h>
 #include <goffice/math/go-math.h>
 
@@ -238,7 +238,7 @@ go_data_scalar_str_class_init (GObjectClass *gobject_klass)
 	godata_klass->dup	= go_data_scalar_str_dup;
 	godata_klass->eq	= go_data_scalar_str_eq;
 	godata_klass->serialize	= go_data_scalar_str_serialize;
-	godata_klass->unserialize	= go_data_scalar_str_unserialize;
+	godata_klass->unserialize = go_data_scalar_str_unserialize;
 	scalar_klass->get_value	= go_data_scalar_str_get_value;
 	scalar_klass->get_str	= go_data_scalar_str_get_str;
 }
@@ -367,6 +367,7 @@ go_data_vector_val_get_str (GODataVector *vec, unsigned i)
 	GOFormat const *fmt = NULL;
 
 	g_return_val_if_fail (val != NULL && val->val != NULL && i < val->n, NULL);
+
 	return render_val (val->val[i], fmt);
 }
 
@@ -374,20 +375,19 @@ static char *
 go_data_vector_val_serialize (GOData const *dat, gpointer user)
 {
 	GODataVectorVal *vec = GO_DATA_VECTOR_VAL (dat);
+	GOFormat const *fmt = NULL;
 	GString *str;
-	char sep, sz[G_ASCII_DTOSTR_BUF_SIZE];
+	char sep;
 	unsigned i;
 
-	if (vec->n ==0)
-		return g_strdup ("");
-
 	sep = go_locale_get_col_sep ();
-	g_snprintf (sz, sizeof (sz), "%g", vec->val[0]);
-	str = g_string_new (sz);
-	for (i = 1; i < vec->n; i++) {
-		g_string_append_c (str, sep);
-		g_snprintf (sz, sizeof (sz), "%g", vec->val[i]);
-		g_string_append (str, sz);
+	str = g_string_new (NULL);
+
+	for (i = 0; i < vec->n; i++) {
+		char *s = render_val (vec->val[i], fmt);
+		if (i) g_string_append_c (str, sep);
+		g_string_append (str, s);
+		g_free (s);
 	}
 	return g_string_free (str, FALSE);
 }
@@ -544,24 +544,15 @@ static char *
 go_data_vector_str_serialize (GOData const *dat, gpointer user)
 {
 	GODataVectorStr *vec = GO_DATA_VECTOR_STR (dat);
-	GString *str;
-	char sep;
+	GString *str= g_string_new (NULL);
+	char sep = go_locale_get_col_sep ();
 	int i;
 
-	sep = go_locale_get_col_sep ();
-	if (vec->n ==0)
-		return g_strdup ("");
-
-	str = g_string_new ("");
-	g_string_append_c (str, '\"');
-	g_string_append (str, vec->str[0]);
-	g_string_append_c (str, '\"');
-	for (i = 1; i < vec->n; i++) {
-		g_string_append_c (str, sep);
-		g_string_append_c (str, '\"');
-		g_string_append (str, vec->str[i]);
-		g_string_append_c (str, '\"');
+	for (i = 0; i < vec->n; i++) {
+		if (i) g_string_append_c (str, sep);
+		go_strescape (str, vec->str[i]);
 	}
+
 	return g_string_free (str, FALSE);
 }
 
@@ -897,32 +888,24 @@ static char *
 go_data_matrix_val_serialize (GOData const *dat, gpointer user)
 {
 	GODataMatrixVal *mat = GO_DATA_MATRIX_VAL (dat);
+	GOFormat const *fmt = NULL;
 	GString *str;
-	char row_sep, col_sep, sz[G_ASCII_DTOSTR_BUF_SIZE];
-	int i, j;
+	int c, r;
+	char col_sep = go_locale_get_col_sep ();
+	char row_sep = go_locale_get_row_sep ();
 
-	if (mat->size.rows == 0 || mat->size.columns == 0)
-		return g_strdup ("");
-
-	col_sep = go_locale_get_col_sep ();
-	row_sep = go_locale_get_row_sep ();
-	g_snprintf (sz, sizeof (sz), "%g", mat->val[0]);
-	str = g_string_new (sz);
-	for (j = 1; j < mat->size.columns; j++) {
-		g_string_append_c (str, col_sep);
-		g_snprintf (sz, sizeof (sz), "%g", mat->val[j]);
-		g_string_append (str, sz);
-	}
-	for (i = 1; i < mat->size.rows; i++) {
-		g_string_append_c (str, row_sep);
-		g_snprintf (sz, sizeof (sz), "%g", mat->val[i * mat->size.columns]);
-		g_string_append (str, sz);
-		for (j = 1; j < mat->size.columns; j++) {
-			g_string_append_c (str, col_sep);
-			g_snprintf (sz, sizeof (sz), "%g", mat->val[i * mat->size.columns + j]);
-			g_string_append (str, sz);
+	str = g_string_new (NULL);
+	for (r = 0; r < mat->size.rows; r++) {
+		if (r) g_string_append_c (str, row_sep);
+		for (c = 0; c < mat->size.columns; c++) {
+			double val = mat->val[r * mat->size.columns + c];
+			char *s = render_val (val, fmt);
+			if (c) g_string_append_c (str, col_sep);
+			g_string_append (str, s);
+			g_free (s);
 		}
 	}
+
 	return g_string_free (str, FALSE);
 }
 

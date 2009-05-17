@@ -23,6 +23,7 @@
 
 #include <goffice/data/goffice-data.h>
 #include <goffice/data/go-data.h>
+#include <goffice/utils/go-format.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
