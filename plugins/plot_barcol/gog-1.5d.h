@@ -47,7 +47,9 @@ typedef struct {
 	unsigned int support_drop_lines : 1;
 	unsigned int support_lines : 1;
 	GOFormat *fmt;
+	GODateConventions const *date_conv;
 } GogPlot1_5d;
+
 typedef struct {
 	GogPlotClass	base;
 

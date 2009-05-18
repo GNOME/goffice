@@ -33,6 +33,7 @@ typedef struct {
 	struct {
 		double minima, maxima;
 		GOFormat *fmt;
+		GODateConventions const *date_conv;
 	} x, y;
 } Gog2DPlot;
 
@@ -60,6 +61,7 @@ typedef struct {
 	struct {
 		double minima, maxima;
 		GOFormat *fmt;
+		GODateConventions const *date_conv;
 	} z;
 } GogXYColorPlot;
 

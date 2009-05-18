@@ -189,6 +189,7 @@ gog_xyz_plot_update (GogObject *obj)
 	if ((vec = series->base.values[0].data) != NULL) {
 		if (model->x.fmt == NULL)
 			model->x.fmt = go_data_preferred_fmt (series->base.values[0].data);
+		model->x.date_conv = go_data_date_conv (series->base.values[0].data);
 		if (go_data_is_varying_uniformly (vec))
 			go_data_get_bounds (vec, &tmp_min, &tmp_max);
 		else
@@ -211,6 +212,7 @@ gog_xyz_plot_update (GogObject *obj)
 	if ((vec = series->base.values[1].data) != NULL) {
 		if (model->y.fmt == NULL)
 			model->y.fmt = go_data_preferred_fmt (series->base.values[1].data);
+		model->y.date_conv = go_data_date_conv (series->base.values[1].data);
 		if (go_data_is_varying_uniformly (vec))
 			go_data_get_bounds (vec, &tmp_min, &tmp_max);
 		else
@@ -267,14 +269,20 @@ gog_xyz_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		fmt = xyz->x.fmt;
 		min = xyz->x.minima;
 		max = xyz->x.maxima;
+		if (xyz->x.date_conv)
+			bounds->date_conv = xyz->x.date_conv;
 	} else if (axis == GOG_AXIS_X || axis == GOG_AXIS_Y) {
 		vec = series->base.values[1].data;
 		fmt = xyz->y.fmt;
 		min = xyz->y.minima;
 		max = xyz->y.maxima;
+		if (xyz->y.date_conv)
+			bounds->date_conv = xyz->y.date_conv;
 	} else {
 		if (bounds->fmt == NULL && xyz->z.fmt != NULL)
 			bounds->fmt = go_format_ref (xyz->z.fmt);
+		if (xyz->z.date_conv)
+			bounds->date_conv = xyz->z.date_conv;
 		bounds->val.minima = xyz->z.minima;
 		bounds->val.maxima = xyz->z.maxima;
 		return NULL;

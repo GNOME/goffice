@@ -92,6 +92,7 @@ gog_histogram_plot_update (GogObject *obj)
 		x_max = x_vals[series->base.num_elements];
 		if (model->x.fmt == NULL)
 			model->x.fmt = go_data_preferred_fmt (series->base.values[0].data);
+		model->x.date_conv = go_data_date_conv (series->base.values[0].data);
 		for (i = 0; i < series->base.num_elements; i++)
 			series->x[i] = (x_vals[i] + x_vals[i+1]) / 2;
 	} else {
@@ -125,6 +126,7 @@ gog_histogram_plot_update (GogObject *obj)
 			go_data_get_bounds (series->base.values[1].data, &y_min, &y_max);
 		if (model->y.fmt == NULL)
 			model->y.fmt = go_data_preferred_fmt (series->base.values[1].data);
+		model->y.date_conv = go_data_date_conv (series->base.values[1].data);
 	}
 	if (y_min > y_max)
 		y_min = y_max = go_nan;
@@ -148,11 +150,15 @@ gog_histogram_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		bounds->val.maxima = model->x.maxima;
 		if (bounds->fmt == NULL && model->x.fmt != NULL)
 			bounds->fmt = go_format_ref (model->x.fmt);
+		if (model->x.date_conv)
+			bounds->date_conv = model->x.date_conv;
 	} else {
 		bounds->val.minima = model->y.minima;
 		bounds->val.maxima = model->y.maxima;
 		if (bounds->fmt == NULL && model->y.fmt != NULL)
 			bounds->fmt = go_format_ref (model->y.fmt);
+		if (model->y.date_conv)
+			bounds->date_conv = model->y.date_conv;
 	}
 	bounds->is_discrete = FALSE;
 	return NULL;

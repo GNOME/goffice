@@ -105,6 +105,7 @@ gog_2d_plot_update (GogObject *obj)
 		if (y_max < tmp_max) y_max = tmp_max;
 		if (model->y.fmt == NULL)
 			model->y.fmt = go_data_preferred_fmt (series->base.values[1].data);
+		model->y.date_conv = go_data_date_conv (series->base.values[1].data);
 
 		if (series->base.values[0].data != NULL) {
 			go_data_get_bounds (series->base.values[0].data, &tmp_min, &tmp_max);
@@ -117,6 +118,8 @@ gog_2d_plot_update (GogObject *obj)
 				is_discrete = TRUE;
 			} else if (model->x.fmt == NULL)
 				model->x.fmt = go_data_preferred_fmt (series->base.values[0].data);
+
+			model->x.date_conv = go_data_date_conv (series->base.values[0].data);
 		} else {
 			tmp_min = 0;
 			tmp_max = go_data_get_vector_size (series->base.values[1].data);
@@ -188,6 +191,8 @@ gog_2d_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 			!go_finite (model->x.maxima);
 		if (bounds->fmt == NULL && model->x.fmt != NULL)
 			bounds->fmt = go_format_ref (model->x.fmt);
+		if (model->x.date_conv)
+			bounds->date_conv = model->x.date_conv;
 
 		for (ptr = plot->series; ptr != NULL ; ptr = ptr->next)
 			if (gog_series_is_valid (GOG_SERIES (ptr->data)))
@@ -200,6 +205,8 @@ gog_2d_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		bounds->val.maxima = model->y.maxima;
 		if (bounds->fmt == NULL && model->y.fmt != NULL)
 			bounds->fmt = go_format_ref (model->y.fmt);
+		if (model->y.date_conv)
+			bounds->date_conv = model->y.date_conv;
 	}
 	return NULL;
 }
@@ -624,6 +631,7 @@ gog_xy_color_plot_update (GogObject *obj)
 		if (z_max < tmp_max) z_max = tmp_max;
 		if (model->z.fmt == NULL)
 			model->z.fmt = go_data_preferred_fmt (series->base.values[2].data);
+		model->z.date_conv = go_data_date_conv (series->base.values[2].data);
 	}
 	if (model->z.minima != z_min || model->z.maxima != z_max) {
 		model->z.minima = z_min;
@@ -647,6 +655,8 @@ gog_xy_color_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 			!go_finite (model->z.maxima);
 		if (bounds->fmt == NULL && model->z.fmt != NULL)
 			bounds->fmt = go_format_ref (model->z.fmt);
+		if (model->z.date_conv)
+			bounds->date_conv = model->z.date_conv;
 		return NULL;
 	}
 	return GOG_PLOT_CLASS (map_parent_klass)->axis_get_bounds (plot, axis, bounds);

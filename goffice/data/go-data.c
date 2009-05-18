@@ -151,9 +151,26 @@ go_data_preferred_fmt (GOData const *dat)
 	GODataClass const *klass = GO_DATA_GET_CLASS (dat);
 	g_return_val_if_fail (klass != NULL, NULL);
 	if (klass->preferred_fmt)
-		return (*klass->preferred_fmt) (dat);
+		return klass->preferred_fmt (dat);
 	return NULL;
 }
+
+/**
+ * go_data_date_conv :
+ * @dat : #GOData
+ *
+ * Returns: the date conventions used by the data, or NULL if not determined.
+ **/
+GODateConventions const *
+go_data_date_conv (GOData const *dat)
+{
+	GODataClass const *klass = GO_DATA_GET_CLASS (dat);
+	g_return_val_if_fail (klass != NULL, NULL);
+	if (klass->date_conv)
+		return klass->date_conv (dat);
+	return NULL;
+}
+
 
 /**
  * go_data_serialize :

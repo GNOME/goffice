@@ -36,7 +36,6 @@ typedef struct {
 	gboolean center_on_ticks;
 	GOFormat *fmt;
 
-	/* Note: apart from NULL, don't expect anything here yet.  */
 	const GODateConventions *date_conv;
 } GogPlotBoundInfo;
 

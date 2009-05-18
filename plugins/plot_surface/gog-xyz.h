@@ -42,6 +42,7 @@ typedef struct {
 	struct {
 		double minima, maxima;
 		GOFormat *fmt;
+		GODateConventions const *date_conv;
 	} x, y, z;
 	double *plotted_data;
 	GOData *x_vals, *y_vals;

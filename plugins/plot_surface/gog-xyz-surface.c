@@ -208,6 +208,7 @@ gog_xyz_surface_plot_update (GogObject *obj)
 		tmp_max = go_data_get_vector_size (series->base.values[0].data);
 	} else if (model->x.fmt == NULL)
 		model->x.fmt = go_data_preferred_fmt (series->base.values[0].data);
+	model->x.date_conv = go_data_date_conv (series->base.values[0].data);
 	model->x.minima = tmp_min;
 	model->x.maxima = tmp_max;
 	gog_axis_bound_changed (model->base.axis[GOG_AXIS_X], GOG_OBJECT (model));
@@ -219,6 +220,7 @@ gog_xyz_surface_plot_update (GogObject *obj)
 		tmp_max = go_data_get_vector_size (series->base.values[1].data);
 	} else if (model->y.fmt == NULL)
 		model->y.fmt = go_data_preferred_fmt (series->base.values[1].data);
+	model->y.date_conv = go_data_date_conv (series->base.values[1].data);
 	model->y.minima = tmp_min;
 	model->y.maxima = tmp_max;
 	gog_axis_bound_changed (model->base.axis[GOG_AXIS_Y], GOG_OBJECT (model));
@@ -230,6 +232,7 @@ gog_xyz_surface_plot_update (GogObject *obj)
 		tmp_max = go_data_get_vector_size (series->base.values[2].data);
 	} else if (model->z.fmt == NULL)
 		model->z.fmt = go_data_preferred_fmt (series->base.values[2].data);
+	model->z.date_conv = go_data_date_conv (series->base.values[2].data);
 	model->z.minima = tmp_min;
 	model->z.maxima = tmp_max;
 	gog_axis_bound_changed (model->base.axis[((GOG_IS_PLOT_CONTOUR (model))? GOG_AXIS_PSEUDO_3D: GOG_AXIS_Z)], GOG_OBJECT (model));

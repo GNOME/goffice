@@ -205,6 +205,7 @@ gog_plot1_5d_update (GogObject *obj)
 		}
 		if (model->fmt == NULL)
 			model->fmt = go_data_preferred_fmt (series->base.values[1].data);
+		model->date_conv = go_data_date_conv (series->base.values[1].data);
 		index_dim = GOG_SERIES (series)->values[0].data;
 	}
 	axis = gog_plot1_5d_get_index_axis (model);
@@ -281,6 +282,10 @@ gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 			}
 		} else if (bounds->fmt == NULL && model->fmt != NULL)
 			bounds->fmt = go_format_ref (model->fmt);
+
+		if (model->date_conv)
+			bounds->date_conv = model->date_conv;
+
 		return NULL;
 	} else if (axis == gog_axis_get_atype (gog_plot1_5d_get_index_axis (model))) {
 		GSList *ptr;
@@ -366,6 +371,7 @@ static void
 gog_plot1_5d_init (GogPlot1_5d *plot)
 {
 	plot->fmt = NULL;
+	plot->date_conv = NULL;
 	plot->in_3d = FALSE;
 	plot->support_series_lines = FALSE;
 	plot->support_drop_lines = FALSE;

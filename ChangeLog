@@ -1,3 +1,9 @@
+2009-05-18  Morten Welinder  <terra@gnome.org>
+
+	* goffice/data/go-data-impl.h (GODataClass): New member date_conv.
+	* goffice/data/go-data.c (go_data_date_conv): New function.
+	* plugins/plot_*/*.c: track date conventions from data as formats.
+
 2009-05-16  Morten Welinder  <terra@gnome.org>
 
 	* goffice/data/go-data-simple.c (go_data_vector_val_serialize,
