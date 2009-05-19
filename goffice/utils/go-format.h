@@ -109,8 +109,8 @@ char     *go_format_str_localize        (char const *str);
 char	 *go_format_str_delocalize	(char const *str);
 const char* go_format_as_XL	   	(GOFormat const *fmt);
 
-GOFormat *go_format_ref		 	(GOFormat *fmt);
-void      go_format_unref		(GOFormat *fmt);
+GOFormat *go_format_ref		 	(GOFormat const *fmt);
+void      go_format_unref		(GOFormat const *fmt);
 
 gboolean  go_format_is_invalid          (GOFormat const *fmt);
 gboolean  go_format_is_general          (GOFormat const *fmt);

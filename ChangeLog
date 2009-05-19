@@ -1,3 +1,11 @@
+2009-05-19  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_ref, go_format_unref):
+	Constify.
+
+	* goffice/gtk/go-format-sel.c (go_format_sel_get_fmt,
+	go_format_sel_set_style_format): Constify.
+
 2009-05-18  Morten Welinder  <terra@gnome.org>
 
 	* goffice/data/go-data-impl.h (GODataClass): New member date_conv.

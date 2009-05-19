@@ -140,7 +140,7 @@ struct  _GOFormatSel {
 		} formats;
 
 		gulong          entry_changed_id;
-		GOFormat	*spec;
+		GOFormat const	*spec;
 		gint		current_type;
 		int		num_decimals;
 		int		negative_format;
@@ -371,7 +371,7 @@ static void
 draw_format_preview (GOFormatSel *gfs, gboolean regen_format)
 {
 	char *preview;
-	GOFormat *sf = NULL;
+	GOFormat const *sf = NULL;
 	GOColor c = 0;
 	GdkColor gdk_color;
 	gsize len;
@@ -1541,7 +1541,7 @@ go_format_sel_set_focus (GOFormatSel *gfs)
 
 void
 go_format_sel_set_style_format (GOFormatSel *gfs,
-				GOFormat *style_format)
+				GOFormat const *style_format)
 {
 	GOComboText *combo;
 
@@ -1579,7 +1579,7 @@ go_format_sel_set_dateconv (GOFormatSel *gfs,
 	draw_format_preview (gfs, TRUE);
 }
 
-GOFormat *
+GOFormat const *
 go_format_sel_get_fmt (GOFormatSel *gfs)
 {
 	g_return_val_if_fail (GO_IS_FORMAT_SEL (gfs), NULL);

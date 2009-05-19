@@ -4378,8 +4378,10 @@ go_format_eq (GOFormat const *a, GOFormat const *b)
  * Returns: @gf
  **/
 GOFormat *
-go_format_ref (GOFormat *gf)
+go_format_ref (GOFormat const *gf_)
 {
+	GOFormat *gf = (GOFormat *)gf_;
+
 	g_return_val_if_fail (gf != NULL, NULL);
 
 	gf->ref_count++;
@@ -4403,8 +4405,10 @@ go_format_ref (GOFormat *gf)
  *
  **/
 void
-go_format_unref (GOFormat *gf)
+go_format_unref (GOFormat const *gf_)
 {
+	GOFormat *gf = (GOFormat *)gf_;
+
 	if (gf == NULL)
 		return;
 

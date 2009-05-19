@@ -36,11 +36,11 @@ GtkWidget * 	go_format_sel_new_full	(gboolean use_markup);
 
 void		go_format_sel_set_focus (GOFormatSel *gfs);
 void		go_format_sel_set_style_format (GOFormatSel *gfs,
-						GOFormat *style_format);
+						GOFormat const *style_format);
 void		go_format_sel_set_locale (GOFormatSel *gfs, 
 					  char const *locale);
 
-GOFormat *go_format_sel_get_fmt		(GOFormatSel *gfs);
+GOFormat const *go_format_sel_get_fmt	(GOFormatSel *gfs);
 
 GODateConventions const *
 	  go_format_sel_get_dateconv	(GOFormatSel *gfs);
