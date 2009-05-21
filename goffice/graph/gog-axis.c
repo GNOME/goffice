@@ -89,7 +89,7 @@ struct _GogAxis {
 
 	double		min_val, max_val;
 	double		logical_min_val, logical_max_val;
-	gpointer	min_contrib, max_contrib; /* NULL means use the manual sources */
+	GogObject	*min_contrib, *max_contrib; /* NULL means use the manual sources */
 	gboolean	is_discrete;
 	gboolean	center_on_ticks;
 	GOData         *labels;
@@ -182,17 +182,23 @@ struct _GogAxisMapDesc {
 	gboolean 	(*init) 	 (GogAxisMap *map, double offset, double length);
 	void		(*destroy) 	 (GogAxisMap *map);
 
-	/* Refine the description, for example by picking a new auto_bound method
-	   based on format.  */
+	/*
+	 * Refine the description, for example by picking a new auto_bound
+	 * method based on format.
+	 */
 	const GogAxisMapDesc* (*subclass) (GogAxis *axis, const GogAxisMapDesc *desc);
 
-	/* Calculate graph bounds and tick sizes based on data minimum and maximum.  */
+	/*
+	 * Calculate graph bounds and tick sizes based on data minimum and
+	 * maximum.
+	 */
 	void		(*auto_bound) 	 (GogAxis *axis,
 					  double minimum, double maximum,
 					  double *bound);
 
 	void		(*calc_ticks) 	 (GogAxis *axis);
 
+	GOFormat *      (*get_dim_format)(GogAxis *axis, unsigned dim);
 
 	char const	*name;
 	char const	*description;
@@ -904,6 +910,37 @@ map_date_calc_ticks (GogAxis *axis)
 	gog_axis_set_ticks (axis, t, ticks);
 }
 
+static GOFormat *
+map_time_get_dim_format (GogAxis *axis, unsigned dim)
+{
+	switch (dim) {
+	case GOG_AXIS_ELEM_MIN:
+	case GOG_AXIS_ELEM_MAX:
+	case GOG_AXIS_ELEM_MAJOR_TICK:
+	case GOG_AXIS_ELEM_MINOR_TICK:
+		return go_format_new_from_XL ("[hh]:mm:ss");
+
+	default:
+		return NULL;
+	}
+}
+
+static GOFormat *
+map_date_get_dim_format (GogAxis *axis, unsigned dim)
+{
+	switch (dim) {
+	case GOG_AXIS_ELEM_MIN:
+	case GOG_AXIS_ELEM_MAX:
+		return go_format_new_magic (GO_FORMAT_MAGIC_MEDIUM_DATE);
+
+	case GOG_AXIS_ELEM_MAJOR_TICK:
+	case GOG_AXIS_ELEM_MINOR_TICK:
+		/* In units of days, so default is fine.  */
+	default:
+		return NULL;
+	}
+}
+
 static const GogAxisMapDesc *
 map_linear_subclass (GogAxis *axis, const GogAxisMapDesc *desc)
 {
@@ -928,6 +965,7 @@ map_linear_subclass (GogAxis *axis, const GogAxisMapDesc *desc)
 		if (!map_desc_time.auto_bound) {
 			map_desc_time = *desc;
 			map_desc_time.auto_bound = map_time_auto_bound;
+			map_desc_time.get_dim_format = map_time_get_dim_format;
 			map_desc_time.subclass = NULL;
 		}
 
@@ -941,6 +979,7 @@ map_linear_subclass (GogAxis *axis, const GogAxisMapDesc *desc)
 			map_desc_date = *desc;
 			map_desc_date.auto_bound = map_date_auto_bound;
 			map_desc_date.calc_ticks = map_date_calc_ticks;
+			map_desc_date.get_dim_format = map_date_get_dim_format;
 			map_desc_date.subclass = NULL;
 		}
 
@@ -1216,6 +1255,7 @@ static const GogAxisMapDesc map_desc_discrete =
 	map_discrete_init,		NULL,
 	NULL,
 	map_discrete_auto_bound,	map_discrete_calc_ticks,
+	NULL,
 	N_("Discrete"),			N_("Discrete mapping")
 };
 
@@ -1227,6 +1267,7 @@ static const GogAxisMapDesc map_desc_linear =
 	map_linear_init, 	NULL,
 	map_linear_subclass,
 	map_linear_auto_bound, 	map_linear_calc_ticks,
+	NULL,
 	N_("Linear"),		N_("Linear mapping")
 };
 
@@ -1238,6 +1279,7 @@ static const GogAxisMapDesc map_desc_log =
 	map_log_init,		NULL,
 	NULL,
 	map_log_auto_bound, 	map_log_calc_ticks,
+	NULL,
 	N_("Log"),		N_("Logarithm mapping")
 };
 
@@ -1609,6 +1651,17 @@ gog_axis_calc_ticks (GogAxis *axis)
 	}
 }
 
+static GOFormat *
+gog_axis_get_dim_format (GogAxis *axis, unsigned dim)
+{
+	g_return_val_if_fail (GOG_IS_AXIS (axis), NULL);
+
+	if (!axis->actual_map_desc->get_dim_format)
+		return NULL;
+
+	return axis->actual_map_desc->get_dim_format (axis, dim);
+}
+
 /************************************************************************/
 
 typedef GogAxisBaseClass GogAxisClass;
@@ -1936,7 +1989,6 @@ gog_axis_update (GogObject *obj)
 	GogAxis *axis = GOG_AXIS (obj);
 	double old_min = axis->auto_bound[GOG_AXIS_ELEM_MIN];
 	double old_max = axis->auto_bound[GOG_AXIS_ELEM_MAX];
-	GOData *labels;
 	GogPlotBoundInfo bounds;
 
 	gog_debug (0, g_warning ("axis::update"););
@@ -1958,8 +2010,11 @@ gog_axis_update (GogObject *obj)
 	bounds.fmt = NULL;
 
 	for (ptr = axis->contributors ; ptr != NULL ; ptr = ptr->next) {
-		labels = gog_plot_get_axis_bounds (GOG_PLOT (ptr->data),
-						   axis->type, &bounds);
+		GogPlot *plot = GOG_PLOT (ptr->data);
+		GogObject *ploto = GOG_OBJECT (plot);
+		GOData *labels;
+
+		labels = gog_plot_get_axis_bounds (plot, axis->type, &bounds);
 		if (bounds.date_conv)
 			axis->date_conv = bounds.date_conv;
 
@@ -1970,15 +2025,15 @@ gog_axis_update (GogObject *obj)
 		else if (axis->labels == NULL && labels != NULL) {
 			g_object_ref (labels);
 			axis->labels = labels;
-			axis->plot_that_supplied_labels = GOG_PLOT (ptr->data);
+			axis->plot_that_supplied_labels = plot;
 		}
 		axis->center_on_ticks = bounds.center_on_ticks;
 
 		if (axis->min_val > bounds.val.minima) {
 			axis->min_val = bounds.val.minima;
 			axis->logical_min_val = bounds.logical.minima;
-			axis->min_contrib = ptr->data;
-		} else if (axis->min_contrib == ptr->data) {
+			axis->min_contrib = ploto;
+		} else if (axis->min_contrib == ploto) {
 			axis->min_contrib = NULL;
 			axis->min_val = bounds.val.minima;
 		}
@@ -1986,8 +2041,8 @@ gog_axis_update (GogObject *obj)
 		if (axis->max_val < bounds.val.maxima) {
 			axis->max_val = bounds.val.maxima;
 			axis->logical_max_val = bounds.logical.maxima;
-			axis->max_contrib = ptr->data;
-		} else if (axis->max_contrib == ptr->data) {
+			axis->max_contrib = ploto;
+		} else if (axis->max_contrib == ploto) {
 			axis->max_contrib = NULL;
 			axis->max_val = bounds.val.maxima;
 		}
@@ -2058,15 +2113,12 @@ elem_toggle_data_free (ElemToggleData *data)
 static void
 set_to_auto_value (ElemToggleData *closure)
 {
-	double bound = GOG_AXIS (closure->set)->auto_bound[closure->dim];
+	GogAxis *axis = GOG_AXIS (closure->set);
+	double bound = axis->auto_bound[closure->dim];
+	GODateConventions const *date_conv = axis->date_conv;
 
-	if (go_finite (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
-		char *str = g_strdup_printf ("%g", bound);
-		g_object_set (closure->editor, "text", str, NULL);
-		g_free (str);
-	} else
-		g_object_set (closure->editor, "text", "", NULL);
-
+	gog_data_editor_set_value_double (GOG_DATA_EDITOR (closure->editor),
+					  bound, date_conv);
 }
 
 static void
@@ -2105,10 +2157,20 @@ make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 		 GogDataAllocator *dalloc, char const *dim_name)
 {
 	ElemToggleData *info;
-	GtkWidget *editor = gog_data_allocator_editor (dalloc, set, dim, GOG_DATA_SCALAR);
-	char *txt = g_strconcat (dim_name, ":", NULL);
-	GtkWidget *toggle = gtk_check_button_new_with_mnemonic (txt);
+	GogDataEditor *deditor = gog_data_allocator_editor (dalloc, set, dim, GOG_DATA_SCALAR);
+	GtkWidget *editor = GTK_WIDGET (deditor);
+	char *txt;
+	GtkWidget *toggle;
+	GogAxis *axis = GOG_AXIS (set);
+	GOFormat const *fmt;
+
+	txt = g_strconcat (dim_name, ":", NULL);
+	toggle = gtk_check_button_new_with_mnemonic (txt);
 	g_free (txt);
+
+	fmt = gog_axis_get_dim_format (axis, dim);
+	gog_data_editor_set_format (deditor, fmt);
+	go_format_unref (fmt);
 
 	info = g_new0 (ElemToggleData, 1);
 	info->editor = editor;
@@ -2544,13 +2606,22 @@ gog_axis_set_bounds (GogAxis *axis, double minimum, double maximum)
 {
 	g_return_if_fail (GOG_IS_AXIS (axis));
 
+	/*
+	 * ???????
+	 * This sets a new dim instead of using the one embedded in the
+	 * axis.  Is that really right?
+	 * --MW 20090515
+	 */
+
 	if (go_finite (minimum)) {
+		GOData *data = GO_DATA (go_data_scalar_val_new (minimum));
 		gog_dataset_set_dim (GOG_DATASET (axis), GOG_AXIS_ELEM_MIN,
-				     GO_DATA (go_data_scalar_val_new (minimum)), NULL);
+				     data, NULL);
 	}
 	if (go_finite (maximum)) {
+		GOData *data = GO_DATA (go_data_scalar_val_new (maximum));
 		gog_dataset_set_dim (GOG_DATASET (axis), GOG_AXIS_ELEM_MAX,
-				     GO_DATA (go_data_scalar_val_new (maximum)), NULL);
+				     data, NULL);
 	}
 }
 

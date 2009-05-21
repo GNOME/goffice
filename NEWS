@@ -6,6 +6,8 @@ Andreas:
 Morten:
 	* Add "pristine" as GODoc property.
 	* Properly handle date conventions in graphs.
+	* Support formatted editing of graph limits that are dates and
+	  times.  [#574681]
 
 --------------------------------------------------------------------------
 goffice 0.7.6:

@@ -1,3 +1,22 @@
+2009-05-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis.c (map_time_get_dim_format): New
+	functions.  Use an elapsed-time format for all dimensions.
+	(map_date_get_dim_format): New function.  Use a date format for
+	minimum and maximum only.
+	(map_linear_subclass): Hook up map_time_get_dim_format and
+	map_date_get_dim_format.
+	(struct _GogAxisMapDesc): Add new get_dim_format method.
+	(set_to_auto_value): Use new gog_data_editor_set_value_double.
+	(make_dim_editor): Use format on editor.
+
+	* goffice/graph/gog-data-allocator.h (GogDataEditor): new
+	interface for the editor returned by
+	GogDataAllocatorClass::editor.
+	(GogDataAllocatorClass): use GogDataEditor* as return type for
+	editor.
+	(gog_data_allocator_editor): Ditto.  All caller changed.
+
 2009-05-19  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_ref, go_format_unref):

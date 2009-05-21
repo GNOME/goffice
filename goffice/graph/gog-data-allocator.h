@@ -23,16 +23,42 @@
 #define GOG_DATA_ALLOCATOR_H
 
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/utils/go-format.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
 
+#define GOG_TYPE_DATA_EDITOR		(gog_data_editor_get_type ())
+#define GOG_DATA_EDITOR(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_DATA_EDITOR, GogDataEditor))
+#define GOG_IS_DATA_EDITOR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_DATA_EDITOR))
+#define GOG_DATA_EDITOR_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_TYPE_DATA_EDITOR, GogDataEditorClass))
+#define GOG_IS_DATA_EDITOR_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_TYPE_DATA_EDITOR))
+#define GOG_DATA_EDITOR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), GOG_TYPE_DATA_EDITOR, GogDataEditorClass))
+
+GType gog_data_editor_get_type (void);
+
 typedef struct {
 	GTypeInterface		   base;
 
-	void	 (*allocate) (GogDataAllocator *a, GogPlot *plot);
-	gpointer (*editor)   (GogDataAllocator *a, GogDataset *set,
-			      int dim_i, GogDataType data_type);
+	void     (*set_format)       (GogDataEditor *editor,
+				      GOFormat const *fmt);
+	void     (*set_value_double) (GogDataEditor *editor, double val,
+				      GODateConventions const *date_conv);
+} GogDataEditorClass;
+
+void gog_data_editor_set_format (GogDataEditor *editor,
+				 GOFormat const *fmt);
+void gog_data_editor_set_value_double (GogDataEditor *editor, double val,
+				       GODateConventions const *date_conv);
+
+
+
+typedef struct {
+	GTypeInterface		   base;
+
+	void	        (*allocate) (GogDataAllocator *a, GogPlot *plot);
+	GogDataEditor * (*editor)   (GogDataAllocator *a, GogDataset *set,
+				     int dim_i, GogDataType data_type);
 } GogDataAllocatorClass;
 
 #define GOG_TYPE_DATA_ALLOCATOR		(gog_data_allocator_get_type ())
@@ -45,8 +71,9 @@ typedef struct {
 GType gog_data_allocator_get_type (void);
 
 void	 gog_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot);
-gpointer gog_data_allocator_editor   (GogDataAllocator *dalloc, GogDataset *set,
-				      int dim_i, GogDataType data_type);
+GogDataEditor *gog_data_allocator_editor (GogDataAllocator *dalloc,
+					  GogDataset *set,
+					  int dim_i, GogDataType data_type);
 
 G_END_DECLS
 

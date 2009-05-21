@@ -386,9 +386,10 @@ gog_series_get_property (GObject *obj, guint param_id,
 
 #ifdef GOFFICE_WITH_GTK
 static unsigned
-make_dim_editor (GtkTable *table, unsigned row, GtkWidget *editor,
+make_dim_editor (GtkTable *table, unsigned row, GogDataEditor *deditor,
 		 char const *name, GogSeriesPriority priority, gboolean is_shared)
 {
+	GtkWidget *editor = GTK_WIDGET (deditor);
 	char *txt = g_strdup_printf (
 		((priority != GOG_SERIES_REQUIRED) ? "(_%s):" : "_%s:"), _(name));
 	GtkWidget *label = gtk_label_new_with_mnemonic (txt);

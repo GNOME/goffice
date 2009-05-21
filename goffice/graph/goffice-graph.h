@@ -64,6 +64,7 @@ typedef struct _GogTheme	GogTheme;
 typedef GSList 			GogSeriesElementStyleList;
 
 /* Data */
+typedef struct _GogDataEditor    GogDataEditor;
 typedef struct _GogDataAllocator GogDataAllocator;
 typedef struct _GogDataset	 GogDataset;
 

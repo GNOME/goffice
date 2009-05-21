@@ -494,26 +494,17 @@ gog_axis_base_populate_editor (GogObject *gobj,
 			       GogDataAllocator *dalloc,
 			       GOCmdContext *cc)
 {
-	static char const *toggle_props[] = {
+	static char const * const toggle_props[] = {
 		"major-tick-labeled",
 		"major-tick-out",
 		"major-tick-in",
 		"minor-tick-out",
 		"minor-tick-in"
 	};
-	GogAxis *crossed_axis;
 	GogAxisBase *axis_base;
 	GladeXML *gui;
-	GtkListStore *store;
-	GtkTreeIter iter;
-	GtkWidget *combo, *data_editor, *container, *w;
-	GtkCellRenderer *cell;
-	GSList *axes, *ptr;
-	AxisBasePrefs *state;
 	GogAxisType crossed_axis_type, axis_type;
 	static guint axis_base_pref_page = 0;
-	unsigned axis_count;
-	unsigned crossed_axis_id;
 	unsigned i;
 	gboolean hide_position_box = TRUE;
 
@@ -539,6 +530,14 @@ gog_axis_base_populate_editor (GogObject *gobj,
 	crossed_axis_type = gog_axis_base_get_crossed_axis_type (axis_base);
 	if (crossed_axis_type != GOG_AXIS_UNKNOWN &&
 	    axis_type != GOG_AXIS_CIRCULAR) {
+		GtkListStore *store;
+		GogDataEditor *deditor;
+		GtkWidget *combo, *container, *w;
+		GSList *axes, *ptr;
+		unsigned axis_count;
+		GtkCellRenderer *cell;
+		AxisBasePrefs *state;
+
 		store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_UINT);
 		combo = glade_xml_get_widget (gui, "cross_axis_combo");
 		gtk_combo_box_set_model (GTK_COMBO_BOX (combo), GTK_TREE_MODEL (store));
@@ -552,6 +551,10 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		axes = gog_chart_get_axes (axis_base->chart, crossed_axis_type);
 		axis_count = 0;
 		for (ptr = axes; ptr != NULL; ptr = ptr->next) {
+			GtkTreeIter iter;
+			GogAxis *crossed_axis;
+			unsigned crossed_axis_id;
+
 			crossed_axis = GOG_AXIS (ptr->data);
 			crossed_axis_id = gog_object_get_id (GOG_OBJECT (crossed_axis));
 			gtk_list_store_prepend (store, &iter);
@@ -567,10 +570,12 @@ gog_axis_base_populate_editor (GogObject *gobj,
 			gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
 		g_slist_free (axes);
 
-		data_editor = gog_data_allocator_editor (dalloc, GOG_DATASET (axis_base),
-							 GOG_AXIS_ELEM_CROSS_POINT, GOG_DATA_SCALAR);
+		deditor = gog_data_allocator_editor
+			(dalloc, GOG_DATASET (axis_base),
+			 GOG_AXIS_ELEM_CROSS_POINT, GOG_DATA_SCALAR);
 		container = glade_xml_get_widget (gui, "cross_location_alignment");
-		gtk_container_add (GTK_CONTAINER (container), data_editor);
+		gtk_container_add (GTK_CONTAINER (container),
+				   GTK_WIDGET (deditor));
 		gtk_widget_show_all (container);
 
 		state = g_new (AxisBasePrefs, 1);
@@ -578,7 +583,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		state->gui = gui;
 		g_signal_connect (G_OBJECT (combo), "changed",
 				  G_CALLBACK (cb_cross_axis_changed), state);
-		g_signal_connect (G_OBJECT (data_editor), "changed",
+		g_signal_connect (G_OBJECT (deditor), "changed",
 				  G_CALLBACK (cb_cross_location_changed), state);
 		g_object_set_data_full (G_OBJECT (combo),
 					"state", state, (GDestroyNotify) axis_base_pref_free);
@@ -601,7 +606,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 
 		hide_position_box = FALSE;
 	} else {
-		w = glade_xml_get_widget (gui, "cross_box");
+		GtkWidget *w = glade_xml_get_widget (gui, "cross_box");
 		gtk_widget_hide (w);
 	}
 
@@ -609,26 +614,25 @@ gog_axis_base_populate_editor (GogObject *gobj,
 	    axis_type == GOG_AXIS_Y ||
 	    axis_type == GOG_AXIS_Z ||
 	    axis_type == GOG_AXIS_RADIAL) {
-		w = glade_xml_get_widget (gui, "padding_spinbutton");
+		GtkWidget *w = glade_xml_get_widget (gui, "padding_spinbutton");
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), axis_base->padding);
 		g_signal_connect (G_CALLBACK (w), "value-changed",
 				  G_CALLBACK (cb_padding_changed), axis_base);
 		gtk_widget_set_sensitive (w, axis_base->position != GOG_AXIS_CROSS);
 		hide_position_box = FALSE;
 	} else {
-		w = glade_xml_get_widget (gui, "padding_box");
+		GtkWidget *w = glade_xml_get_widget (gui, "padding_box");
 		gtk_widget_hide (w);
 	}
 
 	if (hide_position_box) {
-		w = glade_xml_get_widget (gui, "position_box");
+		GtkWidget *w = glade_xml_get_widget (gui, "position_box");
 		gtk_widget_hide (w);
 	}
 
 	for (i = 0; i < G_N_ELEMENTS (toggle_props) ; i++) {
 		gboolean cur_val;
-
-		w = glade_xml_get_widget (gui, toggle_props[i]);
+		GtkWidget *w = glade_xml_get_widget (gui, toggle_props[i]);
 		g_object_get (G_OBJECT (gobj), toggle_props[i], &cur_val, NULL);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), cur_val);
 		g_signal_connect_object (G_OBJECT (w),

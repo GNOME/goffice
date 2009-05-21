@@ -195,13 +195,15 @@ gog_label_populate_editor (GogObject *gobj,
 	static guint label_pref_page = 0;
 	GtkWidget *hbox = gtk_hbox_new (FALSE, 12);
 	GtkWidget *alignment = gtk_alignment_new (0, 0, 1, 0);
+	GtkWidget *editor_widget =
+		GTK_WIDGET
+		(gog_data_allocator_editor (dalloc, GOG_DATASET (gobj),
+					    0, GOG_DATA_SCALAR));
 
 	gtk_container_set_border_width (GTK_CONTAINER (alignment), 12);
 	gtk_box_pack_start (GTK_BOX (hbox), 
 		gtk_label_new_with_mnemonic (_("_Text:")), FALSE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), 
-		gog_data_allocator_editor (dalloc, GOG_DATASET (gobj), 0, GOG_DATA_SCALAR),
-		TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), editor_widget, TRUE, TRUE, 0);
 	gtk_container_add (GTK_CONTAINER (alignment), hbox);
 	gtk_widget_show_all (alignment);
 
