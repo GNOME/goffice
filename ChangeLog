@@ -1,3 +1,13 @@
+2009-05-22  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-calendar-button.c: New file.
+
+	* goffice/gtk/go-combo-box.c (cb_state_change,
+	go_combo_box_set_display, go_combo_box_construct): Handle NULL
+	display_widget.
+
+	* goffice/gtk/Makefile.am: Add go-calendar-button.c
+
 2009-05-21  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (map_time_get_dim_format): New

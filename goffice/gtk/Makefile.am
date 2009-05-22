@@ -23,6 +23,7 @@ libgoffice_gtk_la_SOURCES =		\
 	go-action-combo-stack.c 	\
 	go-action-combo-text.c	\
 	\
+	go-calendar-button.c		\
 	go-palette.c			\
 	go-selector.c			\
 	go-color-selector.c		\
@@ -60,6 +61,7 @@ libgoffice_gtk_la_HEADERS = 		\
 	go-action-combo-stack.h 	\
 	go-action-combo-text.h		\
 	\
+	go-calendar-button.h		\
 	go-palette.h			\
 	go-selector.h			\
 	go-color-selector.h		\
@@ -78,7 +80,7 @@ dist_glade_DATA = \
 	go-rotation-sel.glade			\
 	go-font-sel.glade 			\
 	go-format-sel.glade 			\
- 	go-3d-rotation-sel.glade		\
+	go-3d-rotation-sel.glade		\
 	go-image-save-dialog-extra.glade	\
 	go-image-sel.glade
 

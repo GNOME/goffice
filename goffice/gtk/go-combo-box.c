@@ -526,8 +526,10 @@ go_combo_box_button_press (GtkWidget *widget, GdkEventButton *event, GOComboBox 
 static void
 cb_state_change (GtkWidget *widget, GtkStateType old_state, GOComboBox *combo_box)
 {
-	GtkStateType const new_state = GTK_WIDGET_STATE(widget);
-	gtk_widget_set_state (combo_box->priv->display_widget, new_state);
+	GtkStateType const new_state = GTK_WIDGET_STATE (widget);
+	if (combo_box->priv->display_widget)
+		gtk_widget_set_state (combo_box->priv->display_widget,
+				      new_state);
 }
 
 static void
@@ -602,16 +604,19 @@ GSF_CLASS (GOComboBox, go_combo_box,
 go_combo_box_set_display (GOComboBox *combo_box, GtkWidget *display_widget)
 {
 	g_return_if_fail (GO_IS_COMBO_BOX (combo_box));
-	g_return_if_fail (GTK_IS_WIDGET (display_widget));
+	g_return_if_fail (!display_widget || GTK_IS_WIDGET (display_widget));
 
-	if (combo_box->priv->display_widget != NULL &&
-	    combo_box->priv->display_widget != display_widget)
+	if (display_widget == combo_box->priv->display_widget)
+		return;
+
+	if (combo_box->priv->display_widget)
 		gtk_container_remove (GTK_CONTAINER (combo_box),
 				      combo_box->priv->display_widget);
-
 	combo_box->priv->display_widget = display_widget;
 
-	gtk_box_pack_start (GTK_BOX (combo_box), display_widget, TRUE, TRUE, 0);
+	if (display_widget)
+		gtk_box_pack_start (GTK_BOX (combo_box), display_widget,
+				    FALSE, TRUE, 0);
 }
 
 static gboolean
@@ -697,7 +702,6 @@ go_combo_box_construct (GOComboBox *combo,
 	GtkWidget *vbox;
 
 	g_return_if_fail (GO_IS_COMBO_BOX (combo));
-	g_return_if_fail (GTK_IS_WIDGET (display_widget));
 
 	GTK_BOX (combo)->spacing = 0;
 	GTK_BOX (combo)->homogeneous = FALSE;
