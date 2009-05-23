@@ -52,6 +52,7 @@ void go_graph_widget_set_size_mode (GOGraphWidget         *widget,
 
 GogGraph *go_graph_widget_get_graph (GOGraphWidget *widget);
 GogChart *go_graph_widget_get_chart (GOGraphWidget *widget);
+GogRenderer *go_graph_widget_get_renderer (GOGraphWidget *widget);
 
 G_END_DECLS
 

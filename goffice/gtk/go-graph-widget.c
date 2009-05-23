@@ -476,3 +476,15 @@ go_graph_widget_get_chart (GOGraphWidget *widget)
 	return (GogChart *) gog_object_get_child_by_name (
 						GOG_OBJECT (widget->graph), "Chart");
 }
+
+/**
+ * go_graph_widget_get_renderer :
+ * @widget : #GOGraphWidget
+ * 
+ * Returns: the #GogRenderer used by the widget.
+ **/
+GogRenderer *go_graph_widget_get_renderer (GOGraphWidget *widget)
+{
+	g_return_val_if_fail (GO_IS_GRAPH_WIDGET (widget), NULL);
+	return widget->renderer;
+}

@@ -1,3 +1,9 @@
+2009-05-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-graph-widget.c (go_graph_widget_get_renderer): new
+	utility function.
+	* goffice/gtk/go-graph-widget.h: ditto.
+
 2009-05-22  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-calendar-button.c: New file.
