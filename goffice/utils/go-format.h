@@ -27,6 +27,7 @@
 #include <pango/pango-attributes.h>
 #include <pango/pango-layout.h>
 #include <glib.h>
+#include <gsf/gsf-libxml.h>
 
 #include <glib-object.h>
 
@@ -171,6 +172,16 @@ gboolean go_format_eq			(GOFormat const *a, GOFormat const *b);
 GOFormat *go_format_inc_precision	(GOFormat const *fmt);
 GOFormat *go_format_dec_precision	(GOFormat const *fmt);
 GOFormat *go_format_toggle_1000sep	(GOFormat const *fmt);
+
+/******************* GOFormat ODF Support ********************************/
+
+char *go_format_odf_style_map (GOFormat const **conditional_format, 
+			       GOFormat const *fmt, int i);
+gboolean go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt, 
+				  char const *name);
+
+
+/*************************************************************************/
 
 typedef struct {
 	gchar const *symbol;

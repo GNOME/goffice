@@ -4903,3 +4903,56 @@ go_format_default_accounting (void)
 	return default_accounting_fmt;
 }
 #endif
+
+
+/********************* GOFormat ODF Support ***********************/
+
+#ifdef DEFINE_COMMON
+char *
+go_format_odf_style_map (GOFormat const **conditional_format, GOFormat const *fmt, int i)
+{
+	char const *format_string = NULL;
+
+	g_return_val_if_fail (fmt != NULL, NULL);
+	g_return_val_if_fail (fmt->typ == GO_FMT_COND, NULL);
+
+	if (i >= fmt->u.cond.n)
+		return NULL;
+
+	if (conditional_format != NULL)
+		*conditional_format = fmt->u.cond.conditions[i].fmt;
+
+	switch (fmt->u.cond.conditions[i].op) {
+	case GO_FMT_COND_EQ:
+		format_string = "value()=%f";
+		break;
+	case GO_FMT_COND_NE:
+		format_string = "value()!=%f";
+		break;
+	case GO_FMT_COND_LT:
+		format_string = "value()<%f";
+		break;
+	case GO_FMT_COND_LE:
+		format_string = "value()<=%f";
+		break;
+	case GO_FMT_COND_GT:
+		format_string = "value()>%f";
+		break;
+	case GO_FMT_COND_GE:
+		format_string = "value()>=%f";
+		break;
+	default:
+		return NULL;
+	}
+	return g_strdup_printf (format_string, fmt->u.cond.conditions[i].val);
+	
+}
+#endif
+
+#ifdef DEFINE_COMMON
+gboolean
+go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name)
+{
+	return FALSE;
+}
+#endif
