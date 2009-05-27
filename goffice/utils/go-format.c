@@ -4985,7 +4985,7 @@ fill_accumulator (GString *accum, const guchar *prg)
 	}
 }
 
-static
+static void
 go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, gboolean time_only)
 {
 	const guchar *prg = fmt->u.number.program;
