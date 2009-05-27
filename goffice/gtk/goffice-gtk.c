@@ -192,7 +192,7 @@ go_glade_signal_connect_swapped (GladeXML	*gui,
 }
 
 /**
- * go_xml_builder_new :
+ * go_gtk_builder_new :
  * @uifile : the name of the file load
  * @domain : the translation domain
  * @gcc : #GOCmdContext
@@ -202,7 +202,7 @@ go_glade_signal_connect_swapped (GladeXML	*gui,
  * Returns: a new #GtkBuilder or NULL
  **/
 GtkBuilder *
-go_xml_builder_new (char const *uifile,
+go_gtk_builder_new (char const *uifile,
 		    char const *domain, GOCmdContext *gcc)
 {
 	GtkBuilder *gui;
@@ -212,12 +212,13 @@ go_xml_builder_new (char const *uifile,
 	g_return_val_if_fail (uifile != NULL, NULL);
 
 	if (!g_path_is_absolute (uifile))
-		f = g_build_filename (go_sys_data_dir (), "glade", uifile, NULL);
+		f = g_build_filename (go_sys_data_dir (), "ui", uifile, NULL);
 	else
 		f = g_strdup (uifile);
 
 	gui = gtk_builder_new ();
-	gtk_builder_set_translation_domain (gui, domain);
+	if (domain)
+		gtk_builder_set_translation_domain (gui, domain);
 	gtk_builder_add_from_file (gui, f, &error);
 	if (gui == NULL && gcc != NULL) {
 		char *msg;
@@ -232,6 +233,58 @@ go_xml_builder_new (char const *uifile,
 	g_free (f);
 
 	return gui;
+}
+
+/**
+ * go_gtk_builder_signal_connect :
+ * @gui : #GtkBuilder
+ * @instance_name : widget name
+ * @detailed_signal : signal name
+ * @c_handler : #GCallback
+ * @data : arbitrary
+ *
+ * Convenience wrapper around g_signal_connect for GtkBuilder.
+ *
+ * Returns: The signal id
+ **/
+gulong
+go_gtk_builder_signal_connect	(GtkBuilder	*gui,
+			 gchar const	*instance_name,
+			 gchar const	*detailed_signal,
+			 GCallback	 c_handler,
+			 gpointer	 data)
+{
+	GObject *obj;
+	g_return_val_if_fail (gui != NULL, 0);
+	obj = gtk_builder_get_object (gui, instance_name);
+	g_return_val_if_fail (obj != NULL, 0);
+	return g_signal_connect (obj, detailed_signal, c_handler, data);
+}
+
+/**
+ * go_xml_builder_signal_connect_swapped :
+ * @gui : #GtkBuilder
+ * @instance_name : widget name
+ * @detailed_signal : signal name
+ * @c_handler : #GCallback
+ * @data : arbitary
+ *
+ * Convenience wrapper around g_signal_connect_swapped for GtkBuilder.
+ *
+ * Returns: The signal id
+ **/
+gulong
+go_gtk_builder_signal_connect_swapped (GtkBuilder	*gui,
+				 gchar const	*instance_name,
+				 gchar const	*detailed_signal,
+				 GCallback	 c_handler,
+				 gpointer	 data)
+{
+	GObject *obj;
+	g_return_val_if_fail (gui != NULL, 0);
+	obj = gtk_builder_get_object (gui, instance_name);
+	g_return_val_if_fail (obj != NULL, 0);
+	return g_signal_connect_swapped (obj, detailed_signal, c_handler, data);
 }
 
 /*

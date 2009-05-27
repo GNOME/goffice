@@ -43,9 +43,18 @@ gulong	   go_glade_signal_connect_swapped (GladeXML *gui,
 					    GCallback	 c_handler,
 					    gpointer	 data);
 
-GtkBuilder *go_xml_builder_new (char const *uifile,
+GtkBuilder *go_gtk_builder_new (char const *uifile,
 						char const *domain, GOCmdContext *gcc);
-
+gulong	    go_gtk_builder_signal_connect	(GtkBuilder	*gui,
+						gchar const	*instance_name,
+						gchar const	*detailed_signal,
+						GCallback	 c_handler,
+						gpointer	 data);
+gulong	    go_gtk_builder_signal_connect_swapped (GtkBuilder *gui,
+						gchar const	*instance_name,
+						gchar const	*detailed_signal,
+						GCallback	 c_handler,
+						gpointer	 data);
 
 int	   go_pango_measure_string	(PangoContext *context,
 					 PangoFontDescription const *font_desc,

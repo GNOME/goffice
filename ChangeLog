@@ -1,3 +1,13 @@
+2009-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/goffice-gtk.c (go_gtk_builder_new): renamed for more
+	consistency,
+	(go_gtk_builder_signal_connect),
+	(go_gtk_builder_signal_connect_swapped): new functions.
+	* goffice/gtk/goffice-gtk.h: ditto.
+	* plugins/plot_radar/gog-radar.c
+	(gog_color_polar_plot_populate_editor): use go_gtk_builder_new.
+
 2009-05-26  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_odf_style_map): new
