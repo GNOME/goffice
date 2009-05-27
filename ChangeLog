@@ -1,3 +1,13 @@
+2009-05-27  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (fill_accumulator): new
+	(go_format_output_date_to_odf): new
+	(odf_add_bool): new
+	(go_format_output_fraction_to_odf): new stub
+	(go_format_output_scientific_number_to_odf): new stub
+	(go_format_output_number_to_odf): new stub
+	(go_format_output_to_odf): implement
+
 2009-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/goffice-gtk.c (go_gtk_builder_new): renamed for more

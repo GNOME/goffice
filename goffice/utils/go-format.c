@@ -4907,6 +4907,11 @@ go_format_default_accounting (void)
 
 /********************* GOFormat ODF Support ***********************/
 
+#define STYLE	 "style:"
+#define FOSTYLE	 "fo:"
+#define NUMBER   "number:"
+
+
 #ifdef DEFINE_COMMON
 char *
 go_format_odf_style_map (GOFormat const **conditional_format, GOFormat const *fmt, int i)
@@ -4950,9 +4955,351 @@ go_format_odf_style_map (GOFormat const **conditional_format, GOFormat const *fm
 #endif
 
 #ifdef DEFINE_COMMON
+
+static const guchar *
+fill_accumulator (GString *accum, const guchar *prg)
+{
+	g_string_erase (accum, 0, -1);
+
+	while (1) {
+		switch (*prg) {
+		case OP_CHAR: {
+			const guchar *next;
+			prg++;
+			next = g_utf8_next_char (prg);
+			g_string_append_len (accum, prg, next - prg);
+			prg = next;
+			break;
+		}
+		case OP_STRING: {
+			size_t len;
+			prg++;
+			len = strlen (prg);
+			g_string_append (accum, prg);
+			prg += len + 1;
+			break;
+		}
+		default:
+			return prg;
+		}
+	}
+}
+
+static
+go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, gboolean time_only)
+{
+	const guchar *prg = fmt->u.number.program;
+	GString *accum = g_string_new (NULL);
+
+	gsf_xml_out_start_element (xout, time_only ? NUMBER "time_style" 
+				   : NUMBER "date-style");
+	gsf_xml_out_add_cstr (xout, STYLE "name", name);
+	gsf_xml_out_add_cstr (xout, NUMBER "format-source", "fixed");
+	
+	while (1) {
+		GOFormatOp op = *prg++;
+
+		switch (op) {
+		case OP_END:
+			gsf_xml_out_end_element (xout); /* </number:date-style or time-style> */
+			g_string_free (accum, TRUE);
+			return;
+
+		case OP_STRING:
+		case OP_CHAR:
+			prg = fill_accumulator (accum, prg - 1);
+			gsf_xml_out_simple_element (xout, NUMBER "text", accum->str);
+			break;
+
+		case OP_CHAR_INVISIBLE:
+		case OP_FILL:
+			prg = g_utf8_next_char (prg);
+			break;
+
+		case OP_LOCALE: {
+			prg += sizeof (GOFormatLocale);
+			prg += strlen ((const char *)prg) + 1;
+			break;
+		}
+
+		case OP_DATE_ROUND:
+			prg += 2;
+			break;
+
+		case OP_DATE_YEAR:
+			if (time_only) break;
+			gsf_xml_out_start_element (xout, NUMBER "year");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
+			gsf_xml_out_add_cstr (xout, NUMBER "calendar", "gregorian");
+			gsf_xml_out_end_element (xout); /* </number:year> */
+			break;
+
+		case OP_DATE_YEAR_2:
+			if (time_only) break;
+			gsf_xml_out_start_element (xout, NUMBER "year");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+			gsf_xml_out_add_cstr (xout, NUMBER "calendar", "gregorian");
+			gsf_xml_out_end_element (xout); /* </number:year> */
+			break;
+
+		case OP_DATE_YEAR_THAI:
+			if (time_only) break;
+			gsf_xml_out_start_element (xout, NUMBER "year");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
+			gsf_xml_out_add_cstr (xout, NUMBER "calendar", "buddhist");
+			gsf_xml_out_end_element (xout); /* </number:year> */
+			break;
+
+		case OP_DATE_YEAR_THAI_2:
+			if (time_only) break;
+			gsf_xml_out_start_element (xout, NUMBER "year");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+			gsf_xml_out_add_cstr (xout, NUMBER "calendar", "buddhist");
+			gsf_xml_out_end_element (xout); /* </number:year> */
+			break;
+
+		case OP_DATE_MONTH:
+			if (time_only) break;
+			gsf_xml_out_start_element (xout, NUMBER "month");
+			gsf_xml_out_add_cstr (xout, NUMBER "possessive-form", "false");
+			gsf_xml_out_add_cstr (xout, NUMBER "textual", "false");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+			gsf_xml_out_end_element (xout); /* </number:month> */
+			break;
+
+		case OP_DATE_MONTH_2:
+			if (time_only) break;
+			gsf_xml_out_start_element (xout, NUMBER "month");
+			gsf_xml_out_add_cstr (xout, NUMBER "possessive-form", "false");
+			gsf_xml_out_add_cstr (xout, NUMBER "textual", "false");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
+			gsf_xml_out_end_element (xout); /* </number:month> */
+			break;
+
+		case OP_DATE_MONTH_NAME:
+			if (time_only) break;
+			gsf_xml_out_start_element (xout, NUMBER "month");
+			gsf_xml_out_add_cstr (xout, NUMBER "possessive-form", "false");
+			gsf_xml_out_add_cstr (xout, NUMBER "textual", "true");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
+			gsf_xml_out_end_element (xout); /* </number:month> */
+			break;
+
+		case OP_DATE_MONTH_NAME_1:   /* ODF does not support single letter abbreviation */
+		case OP_DATE_MONTH_NAME_3:
+			if (time_only) break;
+			gsf_xml_out_start_element (xout, NUMBER "month");
+			gsf_xml_out_add_cstr (xout, NUMBER "possessive-form", "false");
+			gsf_xml_out_add_cstr (xout, NUMBER "textual", "true");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+			gsf_xml_out_end_element (xout); /* </number:month> */
+			break;
+
+		case OP_DATE_DAY:
+			if (time_only) break;
+			gsf_xml_out_start_element (xout, NUMBER "day");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+			gsf_xml_out_end_element (xout); /* </number:day> */
+			break;
+
+		case OP_DATE_DAY_2:
+			if (time_only) break;
+			gsf_xml_out_start_element (xout, NUMBER "day");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
+			gsf_xml_out_end_element (xout); /* </number:day> */
+			break;
+
+		case OP_DATE_WEEKDAY:
+			if (time_only) break;
+			gsf_xml_out_start_element (xout, NUMBER "day-of-week");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
+			gsf_xml_out_end_element (xout); /* </number:day-of-week> */
+			break;
+
+		case OP_DATE_WEEKDAY_3:
+			if (time_only) break;
+			gsf_xml_out_start_element (xout, NUMBER "day-of-week");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+			gsf_xml_out_end_element (xout); /* </number:day-of-week> */
+			break;
+
+		case OP_TIME_HOUR:
+			gsf_xml_out_start_element (xout, NUMBER "hours");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+			gsf_xml_out_end_element (xout); /* </number:hours> */
+			break;
+
+		case OP_TIME_HOUR_N: 
+			prg++;
+			/* break;  fall through */
+		case OP_TIME_HOUR_2:
+			gsf_xml_out_start_element (xout, NUMBER "hours");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
+			gsf_xml_out_end_element (xout); /* </number:hours> */
+			break;
+
+		case OP_TIME_AP:
+			prg++;
+			prg++;
+			/* break;  fall through */
+		case OP_TIME_AMPM:
+			gsf_xml_out_simple_element (xout, NUMBER "am-pm", NULL);
+			break;
+
+		case OP_TIME_MINUTE:
+			gsf_xml_out_start_element (xout, NUMBER "minutes");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+			gsf_xml_out_end_element (xout); /* </number:minutes> */
+			break;
+
+		case OP_TIME_MINUTE_N:
+			prg++;
+			/* break;  fall through */
+		case OP_TIME_MINUTE_2:
+			gsf_xml_out_start_element (xout, NUMBER "minutes");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
+			gsf_xml_out_end_element (xout); /* </number:minutes> */
+			break;
+
+		case OP_TIME_SECOND:
+			gsf_xml_out_start_element (xout, NUMBER "seconds");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+			gsf_xml_out_end_element (xout); /* </number:seconds> */
+			break;
+
+		case OP_TIME_SECOND_N:
+			prg++;
+		case OP_TIME_SECOND_2:
+			gsf_xml_out_start_element (xout, NUMBER "seconds");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
+			gsf_xml_out_end_element (xout); /* </number:seconds> */
+			break;
+
+		case OP_TIME_SECOND_DECIMAL_START:
+			/* Reset to start of decimal string.  */
+/* 			date_dec_ptr = fsecond; */
+/* 			go_string_append_gstring (dst, decimal); */
+			break;
+
+		case OP_TIME_SECOND_DECIMAL_DIGIT:
+/* 			g_string_append_c (dst, *date_dec_ptr++); */
+			break;
+
+		default:
+			break;
+		}
+	}
+}
+
+static void
+odf_add_bool (GsfXMLOut *xout, char const *id, gboolean val)
+{
+	gsf_xml_out_add_cstr_unchecked (xout, id, val ? "true" : "false");
+}
+
+static void
+go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name)
+{
+/* FIXME: we are using default of ?? at this time */
+	gsf_xml_out_start_element (xout, NUMBER "number-style");
+	gsf_xml_out_add_cstr (xout, STYLE "name", name);
+	gsf_xml_out_start_element (xout, NUMBER "fraction");
+/* 	gsf_xml_out_add_int (xout, NUMBER "denominator-value", 1); */
+	odf_add_bool (xout, NUMBER "grouping", FALSE);
+	gsf_xml_out_add_int (xout, NUMBER "min-denominator-digits", 3);
+	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 0);
+	gsf_xml_out_add_int (xout, NUMBER "min-numerator-digits", 1);
+	gsf_xml_out_end_element (xout); /* </number:fraction> */
+	gsf_xml_out_end_element (xout); /* </number:number-style> */
+}
+
+static void
+go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name)
+{
+/* FIXME: we are using default of "0.00E+00" at this time */
+	gsf_xml_out_start_element (xout, NUMBER "number-style");
+	gsf_xml_out_add_cstr (xout, STYLE "name", name);
+	gsf_xml_out_start_element (xout, NUMBER "scientific-number");
+	gsf_xml_out_add_int (xout, NUMBER "decimal-places", 2);
+	odf_add_bool (xout, NUMBER "grouping", FALSE);
+	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 1);
+	gsf_xml_out_add_int (xout, NUMBER "min-exponent-digits", 2);
+	gsf_xml_out_end_element (xout); /* </number:scientific-number> */
+	gsf_xml_out_end_element (xout); /* </number:number-style> */
+}
+
+static void
+go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, gboolean percentage)
+{
+	if (percentage) {
+/* FIXME: we are using default of "0.00%" at this time */
+		gsf_xml_out_start_element (xout, NUMBER "percentage-style");
+		gsf_xml_out_add_cstr (xout, STYLE "name", name);
+		gsf_xml_out_start_element (xout, NUMBER "number");
+		gsf_xml_out_add_int (xout, NUMBER "decimal-places", 2);
+/* 	gsf_xml_out_add_cstr (xout, NUMBER "decimal-replacement", ); */
+		gsf_xml_out_add_int (xout, NUMBER "display-factor", 1);
+		odf_add_bool (xout, NUMBER "grouping", FALSE);
+		gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 1);
+		gsf_xml_out_end_element (xout); /* </number:number> */
+		gsf_xml_out_simple_element(xout, NUMBER "text", "%");
+		gsf_xml_out_end_element (xout); /* </number:percentage-style> */
+	} else {
+/* FIXME: we are using default of "#,##0.00" at this time */
+		gsf_xml_out_start_element (xout, NUMBER "number-style");
+		gsf_xml_out_add_cstr (xout, STYLE "name", name);
+		gsf_xml_out_start_element (xout, NUMBER "number");
+		gsf_xml_out_add_int (xout, NUMBER "decimal-places", 2);
+/* 	gsf_xml_out_add_cstr (xout, NUMBER "decimal-replacement", ); */
+		gsf_xml_out_add_int (xout, NUMBER "display-factor", 1);
+		odf_add_bool (xout, NUMBER "grouping", TRUE);
+		gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 1);
+		gsf_xml_out_end_element (xout); /* </number:number> */
+		gsf_xml_out_end_element (xout); /* </number:number-style> */
+	}
+}
+
+#endif
+
+#ifdef DEFINE_COMMON
 gboolean
 go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name)
 {
-	return FALSE;
+	gboolean pp = TRUE, result = TRUE;
+	
+	if ((fmt == NULL) || (fmt->typ != GO_FMT_NUMBER))
+		return FALSE;
+
+	g_object_get (G_OBJECT (xout), "pretty-print", &pp, NULL);
+	/* We need to switch off pretty printing since number:text preserves whitespace */
+	g_object_set (G_OBJECT (xout), "pretty-print", FALSE, NULL);
+
+	switch (go_format_get_family (fmt)) {
+	case GO_FORMAT_GENERAL:
+		result = FALSE;
+		break;
+	case GO_FORMAT_DATE:
+		go_format_output_date_to_odf (xout, fmt, name, FALSE);
+		break;
+	case GO_FORMAT_TIME:
+		go_format_output_date_to_odf (xout, fmt, name, TRUE);
+		break;
+	case GO_FORMAT_FRACTION:
+		go_format_output_fraction_to_odf (xout, fmt, name);
+		break;
+	case GO_FORMAT_SCIENTIFIC:
+		go_format_output_scientific_number_to_odf (xout, fmt, name);
+		break;
+	case GO_FORMAT_PERCENTAGE:
+		go_format_output_number_to_odf (xout, fmt, name, TRUE);
+		break;
+	default:
+		go_format_output_number_to_odf (xout, fmt, name, FALSE);
+		break;
+	}
+
+	g_object_set (G_OBJECT (xout), "pretty-print", pp, NULL);
+
+	return result;
 }
 #endif
