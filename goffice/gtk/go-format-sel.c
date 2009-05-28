@@ -214,58 +214,6 @@ generate_number (GString *dst,
 	if (postfix) g_string_free (postfix, TRUE);
 }
 
-static void
-generate_accounting (GString *dst,
-		     int num_decimals,
-		     int symbol)
-{
-	GString *num = g_string_new (NULL);
-	GString *sym = g_string_new (NULL);
-	GString *q = g_string_new (NULL);
-
-	gboolean precedes = go_format_currencies[symbol].precedes;
-	gboolean has_space = go_format_currencies[symbol].has_space;
-	const char *symstr = go_format_currencies[symbol].symbol;
-	const char *quote = symstr[0] != '[' ? "\"" : "";
-
-	go_format_generate_number_str (num, num_decimals, TRUE,
-				       FALSE, FALSE, NULL, NULL);
-	go_string_append_c_n (q, '?', num_decimals);
-
-	if (precedes) {
-		g_string_append (sym, quote);
-		g_string_append (sym, symstr);
-		g_string_append (sym, quote);
-		g_string_append (sym, "* ");
-		if (has_space) g_string_append_c (sym, ' ');
-
-		g_string_append_printf
-			(dst,
-			 "_(%s%s_);_(%s(%s);_(%s\"-\"%s_);_(@_)",
-			 sym->str, num->str,
-			 sym->str, num->str,
-			 sym->str, q->str);
-	} else {
-		g_string_append (sym, "* ");
-		if (has_space) g_string_append_c (sym, ' ');
-		g_string_append (sym, quote);
-		g_string_append (sym, symstr);
-		g_string_append (sym, quote);
-
-		g_string_append_printf
-			(dst,
-			 "_(%s%s_);_((%s)%s;_(\"-\"%s%s_);_(@_)",
-			 num->str, sym->str,
-			 num->str, sym->str,
-			 q->str, sym->str);
-	}
-
-	g_string_free (num, TRUE);
-	g_string_free (q, TRUE);
-	g_string_free (sym, TRUE);
-}
-
-
 static char *
 generate_format (GOFormatSel *gfs, GOFormatFamily page)
 {
@@ -295,9 +243,9 @@ generate_format (GOFormatSel *gfs, GOFormatFamily page)
 				 gfs->format.negative_paren);
 		break;
 	case GO_FORMAT_ACCOUNTING:
-		generate_accounting (fmt,
-				     gfs->format.num_decimals,
-				     gfs->format.currency_index);
+		go_format_generate_accounting_str
+			(fmt, gfs->format.num_decimals,
+			 go_format_currencies + gfs->format.currency_index);
 		break;
 	case GO_FORMAT_PERCENTAGE:
 		go_format_generate_number_str

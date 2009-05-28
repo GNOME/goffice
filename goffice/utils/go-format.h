@@ -69,6 +69,13 @@ typedef enum {
 	GO_FORMAT_NUMBER_DATE_ERROR
 } GOFormatNumberError;
 
+typedef struct {
+	gchar const *symbol;
+	gchar const *description;
+	gboolean precedes;
+	gboolean has_space;
+} GOFormatCurrency;
+
 /*************************************************************************/
 
 typedef int (*GOFormatMeasure) (const GString *str, PangoLayout *layout);
@@ -118,6 +125,9 @@ void  go_format_generate_scientific_str (GString *dst,
 					 int exponent_step,
 					 gboolean use_markup,
 					 gboolean simplify_mantissa);
+void  go_format_generate_accounting_str (GString *dst,
+					 int num_decimals,
+					 GOFormatCurrency const *currency);
 
 char     *go_format_str_localize        (char const *str);
 char	 *go_format_str_delocalize	(char const *str);
@@ -195,13 +205,6 @@ gboolean go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 
 /*************************************************************************/
-
-typedef struct {
-	gchar const *symbol;
-	gchar const *description;
-	gboolean precedes;
-	gboolean has_space;
-} GOFormatCurrency;
 
 /* Indexed by GOFormatFamily */
 GO_VAR_DECL char const * const * const go_format_builtins [];

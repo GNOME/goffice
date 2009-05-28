@@ -4912,6 +4912,11 @@ go_format_default_accounting (void)
  * @thousands_sep: if true, use a thousands separator.
  * @negative_red: if true, make negative values red.
  * @negative_paren: if true, enclose negative values in parentheses.
+ * @prefix: optional string to place before number part of the format
+ * @postfix: optional string to place after number part of the format
+ *
+ * Generates a format string for a number format with the given
+ * parameters and appends it to @dst.
  **/
 void
 go_format_generate_number_str (GString *dst,
@@ -4965,6 +4970,9 @@ go_format_generate_number_str (GString *dst,
  * @exponent_step: pick exponent divisible by them.  Typically 1 or 3.
  * @use_markup: if true, use pango markup for exponent.
  * @simplify_mantissa: if true, avoid pointless "1*" mantissas.
+ *
+ * Generates a format string for a scientific format with the given
+ * parameters and appends it to @dst.
  **/
 void
 go_format_generate_scientific_str (GString *dst,
@@ -4989,7 +4997,71 @@ go_format_generate_scientific_str (GString *dst,
 	else
 		g_string_append (dst, "E+00");
 }
+#endif
 
+#ifdef DEFINE_COMMON
+/**
+ * go_format_generate_accounting_str:
+ * @dst: GString to append format string to.
+ * @num_decimals: number of decimals.
+ * @currency: optional currency descriptor.
+ *
+ * Generates a format string for an accounting format with the given
+ * parameters and appends it to @dst.
+ **/
+void
+go_format_generate_accounting_str (GString *dst,
+				   int num_decimals,
+				   GOFormatCurrency const *currency)
+{
+	GString *num = g_string_new (NULL);
+	GString *sym = g_string_new (NULL);
+	GString *q = g_string_new (NULL);
+	const char *symstr;
+	const char *quote;
+
+	if (!currency)
+		currency = &go_format_currencies[0];
+
+	symstr = currency->symbol;
+	quote = symstr[0] != '[' ? "\"" : "";
+
+	go_format_generate_number_str (num, num_decimals, TRUE,
+				       FALSE, FALSE, NULL, NULL);
+	go_string_append_c_n (q, '?', num_decimals);
+
+	if (currency->precedes) {
+		g_string_append (sym, quote);
+		g_string_append (sym, symstr);
+		g_string_append (sym, quote);
+		g_string_append (sym, "* ");
+		if (currency->has_space) g_string_append_c (sym, ' ');
+
+		g_string_append_printf
+			(dst,
+			 "_(%s%s_);_(%s(%s);_(%s\"-\"%s_);_(@_)",
+			 sym->str, num->str,
+			 sym->str, num->str,
+			 sym->str, q->str);
+	} else {
+		g_string_append (sym, "* ");
+		if (currency->has_space) g_string_append_c (sym, ' ');
+		g_string_append (sym, quote);
+		g_string_append (sym, symstr);
+		g_string_append (sym, quote);
+
+		g_string_append_printf
+			(dst,
+			 "_(%s%s_);_((%s)%s;_(\"-\"%s%s_);_(@_)",
+			 num->str, sym->str,
+			 num->str, sym->str,
+			 q->str, sym->str);
+	}
+
+	g_string_free (num, TRUE);
+	g_string_free (q, TRUE);
+	g_string_free (sym, TRUE);
+}
 #endif
 
 /********************* GOFormat ODF Support ***********************/
