@@ -196,67 +196,30 @@ guess_date_sep (void)
 void
 go_currency_date_format_init (void)
 {
-	gboolean precedes, space_sep;
-	char const *curr = go_locale_get_currency (&precedes, &space_sep)->str;
-	char *pre, *post, *pre_rep, *post_rep;
+	GOFormatCurrency const *currency = go_format_locale_currency ();
 	GHashTable *dt_hash;
 	GOFormat *fmt;
 	guint N;
+	int i;
 
-	/*
-	 *  1. "$*  "	Yes, it is needed (because we use match[])
-	 *  2. "$*  "	This one is like \1, but doesn't have the \{0,1\}
-	 *  3. "$"
-	 *  4. "#,##0.00"
-	 *  5. ".00"
-	 *  6. "*  $"	Same here.
-	 *  7. "*  $"
-	 *  8. "$"
-	 */
-
-	if (precedes) {
-		post_rep = post = (char *)"";
-		pre_rep = (char *)"* ";
-		pre = g_strconcat ("\"", curr,
-				   (space_sep ? "\" " : "\""), NULL);
-	} else {
-		pre_rep = pre = (char *)"";
-		post_rep = (char *)"* ";
-		post = g_strconcat ((space_sep ? " \"" : "\""),
-				    curr, "\"", NULL);
+	for (i = 0; i < 6; i++) {
+		int num_decimals = (i >= 3) ? 2 : 0;
+		gboolean negative_red = (i % 3 == 2);
+		gboolean negative_paren = (i % 3 >= 1);
+		GString *str = g_string_new (NULL);
+		go_format_generate_currency_str (str, num_decimals, TRUE,
+						 negative_red, negative_paren,
+						 currency, FALSE);
+		fmts_currency[i] = g_string_free (str, FALSE);
 	}
 
-	fmts_currency [0] = g_strdup_printf (
-		"%s#,##0%s",
-		pre, post);
-	fmts_currency [1] = g_strdup_printf (
-		"%s#,##0%s_);(%s#,##0%s)",
-		pre, post, pre, post);
-	fmts_currency [2] = g_strdup_printf (
-		"%s#,##0%s_);[Red](%s#,##0%s)",
-		pre, post, pre, post);
-	fmts_currency [3] = g_strdup_printf (
-		"%s#,##0.00%s",
-		pre, post);
-	fmts_currency [4] = g_strdup_printf (
-		"%s#,##0.00%s_);(%s#,##0.00%s)",
-		pre, post, pre, post);
-	fmts_currency [5] = g_strdup_printf (
-		"%s#,##0.00%s_);[Red](%s#,##0.00%s)",
-		pre, post, pre, post);
-
-	fmts_accounting [0] = g_strdup_printf (
-		"_(%s%s#,##0%s%s_);_(%s%s(#,##0)%s%s;_(%s%s\"-\"%s%s_);_(@_)",
-		pre, pre_rep, post_rep, post,
-		pre, pre_rep, post_rep, post,
-		pre, pre_rep, post_rep, post);
-	fmts_accounting [2] = g_strdup_printf (
-		"_(%s%s#,##0.00%s%s_);_(%s%s(#,##0.00)%s%s;_(%s%s\"-\"??%s%s_);_(@_)",
-		pre, pre_rep, post_rep, post,
-		pre, pre_rep, post_rep, post,
-		pre, pre_rep, post_rep, post);
-
-	g_free (*pre ? pre : post);
+	for (i = 0; i < 4; i += 2) {
+		int num_decimals = (i >= 2) ? 2 : 0;
+		GString *str = g_string_new (NULL);
+		go_format_generate_accounting_str (str, num_decimals,
+						   currency);
+		fmts_accounting[i] = g_string_free (str, FALSE);
+	}
 
 	/* ---------------------------------------- */
 
