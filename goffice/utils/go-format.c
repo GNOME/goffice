@@ -5064,6 +5064,65 @@ go_format_generate_accounting_str (GString *dst,
 }
 #endif
 
+#ifdef DEFINE_COMMON
+/**
+ * go_format_generate_currency_str:
+ * @dst: GString to append format string to.
+ * @num_decimals: number of decimals.
+ * @thousands_sep: if true, use a thousands separator.
+ * @negative_red: if true, make negative values red.
+ * @negative_paren: if true, enclose negative values in parentheses.
+ * @currency: currency descriptor.
+ * @force_quoted: if true, make sure the currency symbol is quoted.
+ *
+ * Generates a format string for a currency format with the given
+ * parameters and appends it to @dst.
+ **/
+void
+go_format_generate_currency_str (GString *dst,
+				 int num_decimals,
+				 gboolean thousands_sep,
+				 gboolean negative_red,
+				 gboolean negative_paren,
+				 GOFormatCurrency const *currency,
+				 gboolean force_quoted)
+{
+	GString *prefix = NULL;
+	GString *postfix = NULL;
+	gboolean extra_quotes;
+
+	if (!currency)
+		currency = &go_format_currencies[0];
+
+	extra_quotes = (force_quoted &&
+			currency->symbol[0] != '"' &&
+			currency->symbol[0] != 0);
+
+	if (currency->precedes) {
+		prefix = g_string_new (NULL);
+		if (extra_quotes) g_string_append_c (prefix, '"');
+		g_string_append (prefix, currency->symbol);
+		if (extra_quotes) g_string_append_c (prefix, '"');
+		if (currency->has_space) g_string_append_c (prefix, ' ');
+	} else {
+		postfix = g_string_new (NULL);
+		if (currency->has_space)
+			g_string_append_c (postfix, ' ');
+		if (extra_quotes) g_string_append_c (postfix, '"');
+		g_string_append (postfix, currency->symbol);
+		if (extra_quotes) g_string_append_c (postfix, '"');
+	}
+
+	go_format_generate_number_str (dst, num_decimals, thousands_sep,
+				       negative_red, negative_paren,
+				       prefix ? prefix->str : NULL,
+				       postfix ? postfix->str : NULL);
+
+	if (prefix) g_string_free (prefix, TRUE);
+	if (postfix) g_string_free (postfix, TRUE);
+}
+#endif
+
 /********************* GOFormat ODF Support ***********************/
 
 #define STYLE	 "style:"

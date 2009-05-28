@@ -172,48 +172,6 @@ static guint go_format_sel_signals [LAST_SIGNAL] = { 0 };
 
 static void format_entry_set_text (GOFormatSel *gfs, const gchar *text);
 
-static void
-generate_number (GString *dst,
-		 int num_decimals,
-		 gboolean thousands_sep,
-		 int symbol,
-		 gboolean force_quoted,
-		 gboolean negative_red, gboolean negative_paren)
-{
-	GString *prefix = NULL;
-	GString *postfix = NULL;
-
-	if (symbol != 0) {
-		gboolean precedes = go_format_currencies[symbol].precedes;
-		gboolean has_space = go_format_currencies[symbol].has_space;
-		const char *symstr = go_format_currencies[symbol].symbol;
-		gboolean extra_quotes = (force_quoted && symstr[0] != '"');
-
-		if (precedes) {
-			prefix = g_string_new (NULL);
-			if (extra_quotes) g_string_append_c (prefix, '"');
-			g_string_append (prefix, symstr);
-			if (extra_quotes) g_string_append_c (prefix, '"');
-			if (has_space) g_string_append_c (prefix, ' ');
-		} else {
-			postfix = g_string_new (NULL);
-			if (has_space)
-				g_string_append_c (postfix, ' ');
-			if (extra_quotes) g_string_append_c (postfix, '"');
-			g_string_append (postfix, symstr);
-			if (extra_quotes) g_string_append_c (postfix, '"');
-		}
-	}
-
-	go_format_generate_number_str (dst, num_decimals, thousands_sep,
-				       negative_red, negative_paren,
-				       prefix ? prefix->str : NULL,
-				       postfix ? postfix->str : NULL);
-
-	if (prefix) g_string_free (prefix, TRUE);
-	if (postfix) g_string_free (postfix, TRUE);
-}
-
 static char *
 generate_format (GOFormatSel *gfs, GOFormatFamily page)
 {
@@ -234,13 +192,14 @@ generate_format (GOFormatSel *gfs, GOFormatFamily page)
 			 NULL, NULL);
 		break;
 	case GO_FORMAT_CURRENCY:
-		generate_number (fmt,
-				 gfs->format.num_decimals,
-				 gfs->format.use_separator,
-				 gfs->format.currency_index,
-				 gfs->format.force_quoted,
-				 gfs->format.negative_red,
-				 gfs->format.negative_paren);
+		go_format_generate_currency_str
+			(fmt,
+			 gfs->format.num_decimals,
+			 gfs->format.use_separator,
+			 gfs->format.negative_red,
+			 gfs->format.negative_paren,
+			 go_format_currencies + gfs->format.currency_index,
+			 gfs->format.force_quoted);
 		break;
 	case GO_FORMAT_ACCOUNTING:
 		go_format_generate_accounting_str
@@ -340,12 +299,21 @@ fillin_negative_samples (GOFormatSel *gfs)
 		gboolean negative_red = (i & 1) != 0;
 		gboolean negative_paren = (i & 2) != 0;
 
-		generate_number (fmtstr,
+		if (page == GO_FORMAT_NUMBER)
+			go_format_generate_number_str
+				(fmtstr, gfs->format.num_decimals,
+				 gfs->format.use_separator,
+				 negative_red, negative_paren,
+				 NULL, NULL);
+		else
+			go_format_generate_currency_str
+				(fmtstr,
 				 gfs->format.num_decimals,
 				 gfs->format.use_separator,
-				 page == GO_FORMAT_NUMBER ? 0 : gfs->format.currency_index,
-				 gfs->format.force_quoted,
-				 negative_red, negative_paren);
+				 negative_red, negative_paren,
+				 go_format_currencies + gfs->format.currency_index,
+				 gfs->format.force_quoted);
+
 		fmt = go_format_new_from_XL (fmtstr->str);
 		g_string_free (fmtstr, TRUE);
 		buf = go_format_value (fmt, -3210.123456789);
