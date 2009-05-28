@@ -1,3 +1,8 @@
+2009-05-28  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_locale_currency): New
+	function.
+
 2009-05-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (generate_number): Simplify using

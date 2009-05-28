@@ -5123,6 +5123,51 @@ go_format_generate_currency_str (GString *dst,
 }
 #endif
 
+#ifdef DEFINE_COMMON
+GOFormatCurrency const *
+go_format_locale_currency (void)
+{
+	static GOFormatCurrency currency;
+	const char *symbol;
+	gboolean precedes, has_space;
+	int i;
+
+	symbol = go_locale_get_currency (&precedes, &has_space)->str;
+
+#if 0
+	g_printerr ("go_format_locale_currency: looking for [%s] %d %d\n", symbol, precedes, has_space);
+#endif
+
+	for (i = 1; go_format_currencies[i].symbol; i++) {
+		const GOFormatCurrency *c = go_format_currencies + i;
+		size_t clen;
+
+		if (c->precedes != precedes)
+			continue;
+		if (c->has_space != has_space)
+			continue;
+
+		if (strcmp (symbol, c->symbol) == 0)
+			return c;
+
+		clen = strlen (c->symbol);
+		if (clen == 3 + strlen (symbol) &&
+		    c->symbol[0] == '[' && c->symbol[1] == '$' &&
+		    c->symbol[clen - 1] == ']' &&
+		    g_ascii_strncasecmp (c->symbol + 1, symbol, clen - 3) == 0)
+			return c;
+	}
+
+	currency.has_space = has_space;
+	currency.precedes = precedes;
+	currency.symbol = symbol;
+	currency.description = NULL;
+	return &currency;
+}
+
+#endif
+
+
 /********************* GOFormat ODF Support ***********************/
 
 #define STYLE	 "style:"

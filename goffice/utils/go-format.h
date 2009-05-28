@@ -217,6 +217,8 @@ gboolean go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 GO_VAR_DECL char const * const * const go_format_builtins [];
 GO_VAR_DECL GOFormatCurrency     const go_format_currencies [];
 
+GOFormatCurrency const *go_format_locale_currency (void);
+
 /*************************************************************************/
 
 void go_number_format_init (void);
