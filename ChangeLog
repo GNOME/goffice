@@ -1,8 +1,13 @@
 2009-05-28  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-format.c (go_format_generate_accounting_str):
+	Improve quoting.
+
 	* goffice/utils/formats.c (go_currency_date_format_init): Simplify
 	using go_format_locale_currency, go_format_generate_currency_str,
 	and go_format_generate_accounting_str.
+	(go_currency_date_format_init): Generate all members of
+	fmts_accounting.
 
 	* goffice/utils/go-format.c (go_format_locale_currency): New
 	function.

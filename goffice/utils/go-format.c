@@ -354,6 +354,11 @@ typedef struct {
 #define UNICODE_PI 0x03c0
 #define UNICODE_TIMES 0x00D7
 #define UNICODE_MINUS 0x2212
+#define UNICODE_EURO 0x20ac
+#define UNICODE_POUNDS1 0x00a3
+#define UNICODE_POUNDS2 0x20a4
+#define UNICODE_YEN 0x00a5
+#define UNICODE_YEN_WIDE 0xffe5
 
 GOFormatFamily
 go_format_get_family (GOFormat const *fmt)
@@ -5018,13 +5023,27 @@ go_format_generate_accounting_str (GString *dst,
 	GString *sym = g_string_new (NULL);
 	GString *q = g_string_new (NULL);
 	const char *symstr;
-	const char *quote;
+	const char *quote = "\"";
 
 	if (!currency)
 		currency = &go_format_currencies[0];
 
 	symstr = currency->symbol;
-	quote = symstr[0] != '[' ? "\"" : "";
+	switch (g_utf8_get_char (symstr)) {
+	case '$':
+	case UNICODE_POUNDS1:
+	case UNICODE_YEN:
+	case UNICODE_EURO:
+		if ((g_utf8_next_char (symstr))[0])
+			break;  /* Something follows.  */
+		/* Fall through.  */
+	case 0:
+	case '[':
+		quote = "";
+		break;
+	default:
+		break;
+	}
 
 	go_format_generate_number_str (num, num_decimals, TRUE,
 				       FALSE, FALSE, NULL, NULL);

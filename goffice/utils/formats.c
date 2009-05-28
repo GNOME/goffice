@@ -53,9 +53,9 @@ fmts_currency [] = {
 static char const *
 fmts_accounting [] = {
 	NULL, /* "_($* #,##0_);_($* (#,##0);_($* \"-\"_);_(@_)", */
-	"_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)",
+	NULL, /* "_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)", */
 	NULL, /* "_($* #,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)", */
-	"_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)",
+	NULL, /* "_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)", */
 	NULL
 };
 
@@ -213,11 +213,12 @@ go_currency_date_format_init (void)
 		fmts_currency[i] = g_string_free (str, FALSE);
 	}
 
-	for (i = 0; i < 4; i += 2) {
+	for (i = 0; i < 4; i++) {
 		int num_decimals = (i >= 2) ? 2 : 0;
+		gboolean no_currency = (i & 1);
 		GString *str = g_string_new (NULL);
-		go_format_generate_accounting_str (str, num_decimals,
-						   currency);
+		go_format_generate_accounting_str
+			(str, num_decimals, no_currency ? NULL : currency);
 		fmts_accounting[i] = g_string_free (str, FALSE);
 	}
 
@@ -321,13 +322,14 @@ go_currency_date_format_shutdown (void)
 	int i;
 
 	for (i = 0; i < 6; i++) {
-		g_free ((char *)(fmts_currency [i]));
-		fmts_currency [i] = NULL;
+		g_free ((char *)(fmts_currency[i]));
+		fmts_currency[i] = NULL;
 	}
-	g_free ((char *)(fmts_accounting[0]));
-	fmts_accounting [0] = NULL;
-	g_free ((char *)(fmts_accounting[2]));
-	fmts_accounting[2] = NULL;
+
+	for (i = 0; i < 4; i++) {
+		g_free ((char *)(fmts_accounting[i]));
+		fmts_accounting[i] = NULL;
+	}
 
 	for (i = 0; fmts_date[i]; i++) {
 		g_free ((char*)(fmts_date[i]));
