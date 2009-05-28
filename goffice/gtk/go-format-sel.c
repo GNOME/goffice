@@ -143,7 +143,8 @@ struct  _GOFormatSel {
 		GOFormat const	*spec;
 		gint		current_type;
 		int		num_decimals;
-		int		negative_format;
+		gboolean        negative_red;
+		gboolean        negative_paren;
 		int		currency_index;
 		gboolean        force_quoted;
 		gboolean	use_separator;
@@ -177,60 +178,40 @@ generate_number (GString *dst,
 		 gboolean thousands_sep,
 		 int symbol,
 		 gboolean force_quoted,
-		 int negative_fmt)
+		 gboolean negative_red, gboolean negative_paren)
 {
-	gboolean precedes = go_format_currencies[symbol].precedes;
-	gboolean has_space = go_format_currencies[symbol].has_space;
-	const char *symstr = go_format_currencies[symbol].symbol;
-	gboolean extra_quotes = (force_quoted && symstr[0] != '"');
+	GString *prefix = NULL;
+	GString *postfix = NULL;
 
-	/* Currency */
-	if (symbol != 0 && precedes) {
-		if (extra_quotes) g_string_append_c (dst, '"');
-		g_string_append (dst, symstr);
-		if (extra_quotes) g_string_append_c (dst, '"');
-		if (has_space) g_string_append_c (dst, ' ');
+	if (symbol != 0) {
+		gboolean precedes = go_format_currencies[symbol].precedes;
+		gboolean has_space = go_format_currencies[symbol].has_space;
+		const char *symstr = go_format_currencies[symbol].symbol;
+		gboolean extra_quotes = (force_quoted && symstr[0] != '"');
+
+		if (precedes) {
+			prefix = g_string_new (NULL);
+			if (extra_quotes) g_string_append_c (prefix, '"');
+			g_string_append (prefix, symstr);
+			if (extra_quotes) g_string_append_c (prefix, '"');
+			if (has_space) g_string_append_c (prefix, ' ');
+		} else {
+			postfix = g_string_new (NULL);
+			if (has_space)
+				g_string_append_c (postfix, ' ');
+			if (extra_quotes) g_string_append_c (postfix, '"');
+			g_string_append (postfix, symstr);
+			if (extra_quotes) g_string_append_c (postfix, '"');
+		}
 	}
 
-	if (thousands_sep)
-		g_string_append (dst, "#,##0");
-	else
-		g_string_append_c (dst, '0');
+	go_format_generate_number_str (dst, num_decimals, thousands_sep,
+				       negative_red, negative_paren,
+				       prefix ? prefix->str : NULL,
+				       postfix ? postfix->str : NULL);
 
-	if (num_decimals > 0) {
-		g_string_append_c (dst, '.');
-		go_string_append_c_n (dst, '0', num_decimals);
-	}
-
-	/* Currency */
-	if (symbol != 0 && !precedes) {
-		if (has_space)
-			g_string_append_c (dst, ' ');
-		if (extra_quotes) g_string_append_c (dst, '"');
-		g_string_append (dst, symstr);
-		if (extra_quotes) g_string_append_c (dst, '"');
-	}
-
-	/* There are negatives */
-	if (negative_fmt > 0) {
-		size_t prelen = dst->len;
-
-		switch (negative_fmt) {
-		case 1 : g_string_append (dst, ";[Red]");
-			break;
-		case 2 : g_string_append (dst, "_);(");
-			break;
-		case 3 : g_string_append (dst, "_);[Red](");
-			break;
-		default :
-			g_assert_not_reached ();
-		};
-
-		g_string_append_len (dst, dst->str, prelen);
-
-		if (negative_fmt >= 2)
-			g_string_append_c (dst, ')');
-	}
+	if (prefix) g_string_free (prefix, TRUE);
+	if (postfix) g_string_free (postfix, TRUE);
 }
 
 static void
@@ -247,7 +228,8 @@ generate_accounting (GString *dst,
 	const char *symstr = go_format_currencies[symbol].symbol;
 	const char *quote = symstr[0] != '[' ? "\"" : "";
 
-	generate_number (num, num_decimals, TRUE, 0, FALSE, 0);
+	go_format_generate_number_str (num, num_decimals, TRUE,
+				       FALSE, FALSE, NULL, NULL);
 	go_string_append_c_n (q, '?', num_decimals);
 
 	if (precedes) {
@@ -283,30 +265,6 @@ generate_accounting (GString *dst,
 	g_string_free (sym, TRUE);
 }
 
-static void
-generate_scientific (GString *dst,
-		     int num_decimals,
-		     int exponent_step,
-		     gboolean use_markup,
-		     gboolean simplify_mantissa)
-{
-	go_string_append_c_n (dst, '#', MAX (0, exponent_step - 1));
-	if (simplify_mantissa)
-		g_string_append_c (dst, '#');
-	else
-		g_string_append_c (dst, '0');
-
-	if (num_decimals > 0) {
-		g_string_append_c (dst, '.');
-		go_string_append_c_n (dst, '0', num_decimals);
-	}
-
-	if (use_markup)
-		g_string_append (dst, "EE0");
-	else
-		g_string_append (dst, "E+00");
-}
-
 
 static char *
 generate_format (GOFormatSel *gfs, GOFormatFamily page)
@@ -319,12 +277,13 @@ generate_format (GOFormatSel *gfs, GOFormatFamily page)
 		g_string_append (fmt, go_format_builtins[page][0]);
 		break;
 	case GO_FORMAT_NUMBER:
-		generate_number (fmt,
-				 gfs->format.num_decimals,
-				 gfs->format.use_separator,
-				 0,
-				 FALSE,
-				 gfs->format.negative_format);
+		go_format_generate_number_str
+			(fmt,
+			 gfs->format.num_decimals,
+			 gfs->format.use_separator,
+			 gfs->format.negative_red,
+			 gfs->format.negative_paren,
+			 NULL, NULL);
 		break;
 	case GO_FORMAT_CURRENCY:
 		generate_number (fmt,
@@ -332,7 +291,8 @@ generate_format (GOFormatSel *gfs, GOFormatFamily page)
 				 gfs->format.use_separator,
 				 gfs->format.currency_index,
 				 gfs->format.force_quoted,
-				 gfs->format.negative_format);
+				 gfs->format.negative_red,
+				 gfs->format.negative_paren);
 		break;
 	case GO_FORMAT_ACCOUNTING:
 		generate_accounting (fmt,
@@ -340,15 +300,17 @@ generate_format (GOFormatSel *gfs, GOFormatFamily page)
 				     gfs->format.currency_index);
 		break;
 	case GO_FORMAT_PERCENTAGE:
-		generate_number (fmt, gfs->format.num_decimals, FALSE, 0, FALSE, 0);
-		g_string_append_c (fmt, '%');
+		go_format_generate_number_str
+			(fmt, gfs->format.num_decimals,
+			 FALSE, FALSE, FALSE, NULL, "%");
 		break;
 	case GO_FORMAT_SCIENTIFIC:
-		generate_scientific (fmt,
-				     gfs->format.num_decimals,
-				     gfs->format.exponent_step,
-				     gfs->format.use_markup,
-				     gfs->format.simplify_mantissa);
+		go_format_generate_scientific_str
+			(fmt,
+			 gfs->format.num_decimals,
+			 gfs->format.exponent_step,
+			 gfs->format.use_markup,
+			 gfs->format.simplify_mantissa);
 		break;
 	default:
 		break;
@@ -414,8 +376,7 @@ fillin_negative_samples (GOFormatSel *gfs)
 {
 	GOFormatFamily const page = gfs->format.current_type;
 	int i;
-	GtkTreeIter  iter;
-	GtkTreePath *path;
+	GtkTreeIter iter;
 	gboolean more;
 	SETUP_LOCALE_SWITCH;
 
@@ -428,13 +389,15 @@ fillin_negative_samples (GOFormatSel *gfs)
 		GString *fmtstr = g_string_new (NULL);
 		GOFormat *fmt;
 		char *buf;
+		gboolean negative_red = (i & 1) != 0;
+		gboolean negative_paren = (i & 2) != 0;
 
 		generate_number (fmtstr,
 				 gfs->format.num_decimals,
 				 gfs->format.use_separator,
 				 page == GO_FORMAT_NUMBER ? 0 : gfs->format.currency_index,
 				 gfs->format.force_quoted,
-				 i);
+				 negative_red, negative_paren);
 		fmt = go_format_new_from_XL (fmtstr->str);
 		g_string_free (fmtstr, TRUE);
 		buf = go_format_value (fmt, -3210.123456789);
@@ -443,21 +406,23 @@ fillin_negative_samples (GOFormatSel *gfs)
 		if (!more)
 			gtk_list_store_append (gfs->format.negative_types.model, &iter);
 		gtk_list_store_set (gfs->format.negative_types.model, &iter,
-				    0, i,
-				    1, buf,
-				    2, (i % 2) ? "red" : NULL,
+				    0, negative_red,
+				    1, negative_paren,
+				    2, buf,
+				    3, negative_red ? "red" : NULL,
 				    -1);
+		if (gfs->format.negative_red == negative_red &&
+		    gfs->format.negative_paren == negative_paren)
+			gtk_tree_selection_select_iter
+				(gfs->format.negative_types.selection,
+				 &iter);
+
 		if (more)
 			more = gtk_tree_model_iter_next (GTK_TREE_MODEL (gfs->format.negative_types.model),
 							 &iter);
 
 		g_free (buf);
 	}
-
-	path = gtk_tree_path_new ();
-	gtk_tree_path_append_index (path, gfs->format.negative_format);
-	gtk_tree_selection_select_path (gfs->format.negative_types.selection, path);
-	gtk_tree_path_free (path);
 
 	END_LOCALE_SWITCH;
 }
@@ -942,14 +907,18 @@ static void
 cb_format_negative_form_selected (GtkTreeSelection *selection, GOFormatSel *gfs)
 {
 	GtkTreeIter iter;
-	int type;
+	int negative_red, negative_paren;
 
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (gfs->format.negative_types.model),
-			    &iter, 0, &type, -1);
-	gfs->format.negative_format = type;
+			    &iter,
+			    0, &negative_red,
+			    1, &negative_paren,
+			    -1);
+	gfs->format.negative_red = negative_red;
+	gfs->format.negative_paren = negative_paren;
 	draw_format_preview (gfs, TRUE);
 }
 
@@ -1044,7 +1013,8 @@ study_format (GOFormatSel *gfs)
 	GOFormatFamily typ = go_format_get_family (fmt);
 
 	gfs->format.num_decimals = 0;	
-	gfs->format.negative_format = 0;
+	gfs->format.negative_red = FALSE;
+	gfs->format.negative_paren = FALSE;
 	gfs->format.currency_index = 0;
 	gfs->format.force_quoted = FALSE;
 	gfs->format.use_separator = FALSE;
@@ -1070,9 +1040,8 @@ study_format (GOFormatSel *gfs)
 				gfs->format.num_decimals++;
 		}
 
-		gfs->format.negative_format =
-			(strstr (str, ";[Red]") ? 1 : 0) +
-			(strstr (str, "_);") ? 2 : 0);
+		gfs->format.negative_red = (strstr (str, ";[Red]") != NULL);
+		gfs->format.negative_paren = (strstr (str, "_);") != NULL);
 
 		if (str[0] == '_' && str[1] == '(') {
 			const char *start = str + 2;
@@ -1338,18 +1307,21 @@ nfs_init (GOFormatSel *gfs)
 	gtk_widget_hide (gfs->format.preview_box);
 
 	/* setup the structure of the negative type list */
-	gfs->format.negative_types.model = gtk_list_store_new (3,
-							       G_TYPE_INT,
-							       G_TYPE_STRING,
-							       G_TYPE_STRING);
+	gfs->format.negative_types.model =
+		gtk_list_store_new (4,
+				    G_TYPE_BOOLEAN, /* red */
+				    G_TYPE_BOOLEAN, /* paren */
+				    G_TYPE_STRING,  /* format text */
+				    G_TYPE_STRING); /* colour */
 	gfs->format.negative_types.view = GTK_TREE_VIEW (gfs->format.widget[F_NEGATIVE]);
 	gtk_tree_view_set_model (gfs->format.negative_types.view,
 				 GTK_TREE_MODEL (gfs->format.negative_types.model));
-	column = gtk_tree_view_column_new_with_attributes (_("Negative Number Format"),
-							   gtk_cell_renderer_text_new (),
-							   "text",		1,
-							   "foreground",	2,
-							   NULL);
+	column = gtk_tree_view_column_new_with_attributes
+		(_("Negative Number Format"),
+		 gtk_cell_renderer_text_new (),
+		 "text", 2,
+		 "foreground", 3,
+		 NULL);
 	gtk_tree_view_append_column (gfs->format.negative_types.view, column);
 	gfs->format.negative_types.selection =
 		gtk_tree_view_get_selection (gfs->format.negative_types.view);

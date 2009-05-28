@@ -4904,6 +4904,93 @@ go_format_default_accounting (void)
 }
 #endif
 
+#ifdef DEFINE_COMMON
+/**
+ * go_format_generate_number_str:
+ * @dst: GString to append format string to.
+ * @num_decimals: number of decimals
+ * @thousands_sep: if true, use a thousands separator.
+ * @negative_red: if true, make negative values red.
+ * @negative_paren: if true, enclose negative values in parentheses.
+ **/
+void
+go_format_generate_number_str (GString *dst,
+			       int num_decimals,
+			       gboolean thousands_sep,
+			       gboolean negative_red,
+			       gboolean negative_paren,
+			       const char *prefix, const char *postfix)
+{
+	size_t init_len = dst->len;
+	size_t plain_len;
+
+	if (prefix)
+		g_string_append (dst, prefix);
+
+	if (thousands_sep)
+		g_string_append (dst, "#,##0");
+	else
+		g_string_append_c (dst, '0');
+
+	if (num_decimals > 0) {
+		g_string_append_c (dst, '.');
+		go_string_append_c_n (dst, '0', num_decimals);
+	}
+
+	if (postfix)
+		g_string_append (dst, postfix);
+
+	plain_len = dst->len - init_len;
+
+	if (negative_paren)
+		g_string_append (dst, "_)");
+	if (negative_paren || negative_red)
+		g_string_append_c (dst, ';');
+	if (negative_red)
+		g_string_append (dst, "[Red]");
+	if (negative_paren)
+		g_string_append (dst, "(");
+	if (negative_paren || negative_red)
+		g_string_append_len (dst, dst->str + init_len, plain_len);
+	if (negative_paren)
+		g_string_append (dst, ")");
+}
+#endif
+
+#ifdef DEFINE_COMMON
+/**
+ * go_format_generate_scientific_str:
+ * @dst: GString to append format string to.
+ * @num_decimals: number of decimals
+ * @exponent_step: pick exponent divisible by them.  Typically 1 or 3.
+ * @use_markup: if true, use pango markup for exponent.
+ * @simplify_mantissa: if true, avoid pointless "1*" mantissas.
+ **/
+void
+go_format_generate_scientific_str (GString *dst,
+				   int num_decimals,
+				   int exponent_step,
+				   gboolean use_markup,
+				   gboolean simplify_mantissa)
+{
+	go_string_append_c_n (dst, '#', MAX (0, exponent_step - 1));
+	if (simplify_mantissa)
+		g_string_append_c (dst, '#');
+	else
+		g_string_append_c (dst, '0');
+
+	if (num_decimals > 0) {
+		g_string_append_c (dst, '.');
+		go_string_append_c_n (dst, '0', num_decimals);
+	}
+
+	if (use_markup)
+		g_string_append (dst, "EE0");
+	else
+		g_string_append (dst, "E+00");
+}
+
+#endif
 
 /********************* GOFormat ODF Support ***********************/
 

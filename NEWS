@@ -3,6 +3,9 @@ goffice 0.7.8:
 Andreas:
 	* Add some odf GOFormat output utilities.	
 
+Morten:
+	* Add functions to generate number formats.
+
 --------------------------------------------------------------------------
 goffice 0.7.7:
 

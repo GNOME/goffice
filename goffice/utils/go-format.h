@@ -106,6 +106,19 @@ GOFormat *go_format_default_percentage	(void);
 GOFormat *go_format_default_money	(void);
 GOFormat *go_format_default_accounting  (void);
 
+void      go_format_generate_number_str (GString *dst,
+					 int num_decimals,
+					 gboolean thousands_sep,
+					 gboolean negative_red,
+					 gboolean negative_paren,
+					 const char *prefix,
+					 const char *postfix);
+void  go_format_generate_scientific_str (GString *dst,
+					 int num_decimals,
+					 int exponent_step,
+					 gboolean use_markup,
+					 gboolean simplify_mantissa);
+
 char     *go_format_str_localize        (char const *str);
 char	 *go_format_str_delocalize	(char const *str);
 const char* go_format_as_XL	   	(GOFormat const *fmt);

@@ -1,3 +1,17 @@
+2009-05-27  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-format-sel.c (generate_number): Simplify using
+	go_format_generate_number_str.
+	(generate_accounting, generate_format): Use
+	go_format_generate_number_str and
+	go_format_generate_scientific_str.
+	(fillin_negative_samples): Select using iterator, not path.
+	(nfs_init): Split negative_type into negative_red and
+	negative_paren in the negative-types model.
+
+	* goffice/utils/go-format.c (go_format_generate_number_str,
+	go_format_generate_scientific_str): New functions.
+
 2009-05-27  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (fill_accumulator): new
