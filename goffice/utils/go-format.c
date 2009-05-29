@@ -5143,47 +5143,250 @@ go_format_generate_currency_str (GString *dst,
 #endif
 
 #ifdef DEFINE_COMMON
+static const GOFormatCurrency *
+find_currency (char const *ptr, gsize len, gboolean precedes)
+{
+	int i;
+	gboolean has_space;
+	gboolean quoted;
+
+	if (len <= 0)
+		return 0;
+
+	if (precedes) {
+		has_space = ptr[len - 1] == ' ';
+		if (has_space)
+			len--;
+	} else {
+		has_space = ptr[0] == ' ';
+		if (has_space)
+			len--, ptr++;
+	}
+
+	quoted = len > 2 && ptr[0] == '\"' && ptr[len - 1] == '\"';
+
+	for (i = 1; go_format_currencies[i].symbol; i++) {
+		const GOFormatCurrency *ci = go_format_currencies + i;
+
+		if (ci->precedes != precedes)
+			continue;
+
+		if (strncmp (ci->symbol, ptr, len) == 0) {
+			return ci;
+		}
+
+		/* Allow quoting of things that aren't [$FOO] */
+		if (quoted && ci->symbol[0] != '[' &&
+		    strncmp (ci->symbol, ptr + 1, len - 2) == 0) {
+			return ci;
+		}
+	}
+
+	return NULL;
+}
+#endif
+
+#ifdef DEFINE_COMMON
+void
+go_format_generate_str (GString *dst, GOFormatDetails const *details)
+{
+	switch (details->family) {
+	case GO_FORMAT_TEXT:
+		g_string_append (dst, "@");
+		break;
+	case GO_FORMAT_GENERAL:
+		g_string_append (dst, "General");
+		break;
+	case GO_FORMAT_NUMBER:
+		go_format_generate_number_str
+			(dst,
+			 details->num_decimals,
+			 details->thousands_sep,
+			 details->negative_red,
+			 details->negative_paren,
+			 NULL, NULL);
+		break;
+	case GO_FORMAT_CURRENCY:
+		go_format_generate_currency_str
+			(dst,
+			 details->num_decimals,
+			 details->thousands_sep,
+			 details->negative_red,
+			 details->negative_paren,
+			 details->currency,
+			 details->force_quoted);
+		break;
+	case GO_FORMAT_ACCOUNTING:
+		go_format_generate_accounting_str
+			(dst, details->num_decimals, details->currency);
+		break;
+	case GO_FORMAT_PERCENTAGE:
+		go_format_generate_number_str
+			(dst, details->num_decimals,
+			 FALSE, FALSE, FALSE, NULL, "%");
+		break;
+	case GO_FORMAT_SCIENTIFIC:
+		go_format_generate_scientific_str
+			(dst,
+			 details->num_decimals,
+			 details->exponent_step,
+			 details->use_markup,
+			 details->simplify_mantissa);
+		break;
+	default:
+		break;
+	}
+}
+#endif
+
+#ifdef DEFINE_COMMON
+void
+go_format_get_details (GOFormat const *fmt,
+		       GOFormatDetails *dst,
+		       gboolean *exact)
+{
+	const char *str;
+	GString *newstr = NULL;
+	static GOFormatCurrency currency;
+
+	if (dst) memset (dst, 0, sizeof (*dst));
+	if (exact) *exact = FALSE;
+	g_return_if_fail (fmt != NULL);
+	g_return_if_fail (dst != NULL);
+
+	dst->family = go_format_get_family (fmt);
+	dst->magic = go_format_get_magic (fmt);
+	/* Assign reasonable defaults.  For most, the memset is just fine. */
+	dst->exponent_step = 1;
+
+	str = go_format_as_XL (fmt);
+
+	switch (dst->family) {
+	case GO_FORMAT_NUMBER:
+	case GO_FORMAT_CURRENCY:
+	case GO_FORMAT_ACCOUNTING:
+	case GO_FORMAT_PERCENTAGE:
+	case GO_FORMAT_SCIENTIFIC: {
+		/*
+		 * These guesses only have to be good enough to work on
+		 * the formats we generate ourselves.
+		 */
+
+		const char *dot = strchr (str, '.');
+
+		if (dot) {
+			while (dot[dst->num_decimals + 1] == '0')
+				dst->num_decimals++;
+		}
+
+		dst->negative_red = (strstr (str, ";[Red]") != NULL);
+		dst->negative_paren = (strstr (str, "_);") != NULL);
+
+		if (str[0] == '_' && str[1] == '(') {
+			const char *start = str + 2;
+			gboolean precedes = start[0] != '#';
+			gsize len = 0;
+			const GOFormatCurrency *pcurr;
+
+			if (precedes) {
+				while (start[len] && start[len] != '*')
+					len++;
+			} else {
+				while (start[0] == '0' || start[0] == '.' ||
+				       start[0] == '#' || start[0] == ',')
+					start++;
+				if (start[0] == '*' && start[1])
+					start += 2;
+				while (start[len] && start[len] != '_')
+					len++;
+			}
+
+			pcurr = find_currency (start, len, precedes);
+			if (pcurr) {
+				dst->currency = &currency;
+				currency = *pcurr;
+			}
+			dst->force_quoted = (start[0] == '"');
+			dst->family = GO_FORMAT_ACCOUNTING;
+		} else {
+			gboolean precedes = str[0] != '0' && str[0] != '#';
+			const char *start;
+			gsize len = 0;
+			const GOFormatCurrency *pcurr;
+
+			if (precedes) {
+				start = str;
+				while (start[len] && start[len] != '0' && start[len] != '#')
+					len++;
+			} else {
+				start = str + strlen (str);
+				if (start > str && start[-1] == ')')
+					start--;
+				while (start > str && start[-1] != '0' && start[-1] != '#')
+					start--, len++;
+			}
+
+			pcurr = find_currency (start, len, precedes);
+			if (pcurr) {
+				dst->currency = &currency;
+				currency = *pcurr;
+				dst->force_quoted = (start[0] == '"');
+				dst->family = GO_FORMAT_CURRENCY;
+			}
+		}
+
+		dst->thousands_sep = (strstr (str, "#,##0") != NULL);
+
+		if (dst->family == GO_FORMAT_SCIENTIFIC) {
+			const char *mend = dot ? dot : strchr (str, 'E');
+			dst->use_markup = (strstr (str, "EE0") != NULL);
+			dst->exponent_step = mend - str;
+			dst->simplify_mantissa = mend != str && mend[-1] == '#';
+		}			
+
+		if (exact) {
+			newstr = g_string_new (NULL);
+			go_format_generate_str (newstr, dst);
+		}
+
+		break;
+	}
+
+	default:
+		break;
+	}
+
+	if (newstr) {
+		*exact = (strcmp (str, newstr->str) == 0);
+		g_string_free (newstr, TRUE);
+	}
+}
+#endif
+
+
+#ifdef DEFINE_COMMON
 GOFormatCurrency const *
 go_format_locale_currency (void)
 {
 	static GOFormatCurrency currency;
-	const char *symbol;
+	const GOFormatCurrency *pcurr;
 	gboolean precedes, has_space;
-	int i;
-
-	symbol = go_locale_get_currency (&precedes, &has_space)->str;
+	const GString *lcurr = go_locale_get_currency (&precedes, &has_space);
 
 #if 0
 	g_printerr ("go_format_locale_currency: looking for [%s] %d %d\n", symbol, precedes, has_space);
 #endif
 
-	for (i = 1; go_format_currencies[i].symbol; i++) {
-		const GOFormatCurrency *c = go_format_currencies + i;
-		size_t clen;
-
-		if (c->precedes != precedes)
-			continue;
-		if (c->has_space != has_space)
-			continue;
-
-		if (strcmp (symbol, c->symbol) == 0)
-			return c;
-
-		clen = strlen (c->symbol);
-		if (clen == 3 + strlen (symbol) &&
-		    c->symbol[0] == '[' && c->symbol[1] == '$' &&
-		    c->symbol[clen - 1] == ']' &&
-		    g_ascii_strncasecmp (c->symbol + 1, symbol, clen - 3) == 0)
-			return c;
-	}
+	pcurr = find_currency (lcurr->str, lcurr->len, precedes);
+	if (pcurr)
+		return pcurr;
 
 	currency.has_space = has_space;
 	currency.precedes = precedes;
-	currency.symbol = symbol;
+	currency.symbol = lcurr->str;
 	currency.description = NULL;
 	return &currency;
 }
-
 #endif
 
 

@@ -5,6 +5,7 @@ Andreas:
 
 Morten:
 	* Add functions to generate number formats.
+	* Make format classification function public.
 
 --------------------------------------------------------------------------
 goffice 0.7.7:

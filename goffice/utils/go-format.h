@@ -76,6 +76,32 @@ typedef struct {
 	gboolean has_space;
 } GOFormatCurrency;
 
+typedef struct {
+	GOFormatFamily family;
+	GOFormatMagic magic;
+
+	/* NUMBER, SCIENTIFIC, CURRENCY, ACCOUNTING, PERCENTAGE: */
+	int num_decimals;
+
+	/* NUMBER, CURRENCY: */
+	gboolean thousands_sep;
+
+	/* NUMBER, CURRENCY, ACCOUNTING: */
+	gboolean negative_red;
+	gboolean negative_paren;
+
+	/* CURRENCY, ACCOUNTING: */
+	GOFormatCurrency const *currency;
+
+	/* CURRENCY: */
+	gboolean force_quoted;
+
+	/* SCIENTIFIC: */
+	int exponent_step;
+	gboolean use_markup;
+	gboolean simplify_mantissa;
+} GOFormatDetails;
+
 /*************************************************************************/
 
 typedef int (*GOFormatMeasure) (const GString *str, PangoLayout *layout);
@@ -135,6 +161,8 @@ void  go_format_generate_currency_str   (GString *dst,
 					 gboolean negative_paren,
 					 GOFormatCurrency const *currency,
 					 gboolean force_quoted);
+void  go_format_generate_str            (GString *dst,
+					 GOFormatDetails const *details);
 
 char     *go_format_str_localize        (char const *str);
 char	 *go_format_str_delocalize	(char const *str);
@@ -168,6 +196,10 @@ const GOFormat *go_format_specializel         (GOFormat const *fmt,
 #endif
 
 GOFormatFamily         go_format_get_family (GOFormat const *fmt);
+
+void      go_format_get_details         (GOFormat const *fmt,
+					 GOFormatDetails *dst,
+					 gboolean *exact);
 
 const PangoAttrList *go_format_get_markup (GOFormat const *fmt);
 

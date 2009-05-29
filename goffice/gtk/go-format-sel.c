@@ -142,15 +142,8 @@ struct  _GOFormatSel {
 		gulong          entry_changed_id;
 		GOFormat const	*spec;
 		gint		current_type;
-		int		num_decimals;
-		gboolean        negative_red;
-		gboolean        negative_paren;
-		int		currency_index;
-		gboolean        force_quoted;
-		gboolean	use_separator;
-		gboolean	use_markup;
-		int		exponent_step;
-		gboolean	simplify_mantissa;
+
+		GOFormatDetails details;
 	} format;
 };
 
@@ -173,60 +166,6 @@ static guint go_format_sel_signals [LAST_SIGNAL] = { 0 };
 static void format_entry_set_text (GOFormatSel *gfs, const gchar *text);
 
 static char *
-generate_format (GOFormatSel *gfs, GOFormatFamily page)
-{
-	GString *fmt = g_string_new (NULL);
-
-	switch (page) {
-	case GO_FORMAT_GENERAL:
-	case GO_FORMAT_TEXT:
-		g_string_append (fmt, go_format_builtins[page][0]);
-		break;
-	case GO_FORMAT_NUMBER:
-		go_format_generate_number_str
-			(fmt,
-			 gfs->format.num_decimals,
-			 gfs->format.use_separator,
-			 gfs->format.negative_red,
-			 gfs->format.negative_paren,
-			 NULL, NULL);
-		break;
-	case GO_FORMAT_CURRENCY:
-		go_format_generate_currency_str
-			(fmt,
-			 gfs->format.num_decimals,
-			 gfs->format.use_separator,
-			 gfs->format.negative_red,
-			 gfs->format.negative_paren,
-			 go_format_currencies + gfs->format.currency_index,
-			 gfs->format.force_quoted);
-		break;
-	case GO_FORMAT_ACCOUNTING:
-		go_format_generate_accounting_str
-			(fmt, gfs->format.num_decimals,
-			 go_format_currencies + gfs->format.currency_index);
-		break;
-	case GO_FORMAT_PERCENTAGE:
-		go_format_generate_number_str
-			(fmt, gfs->format.num_decimals,
-			 FALSE, FALSE, FALSE, NULL, "%");
-		break;
-	case GO_FORMAT_SCIENTIFIC:
-		go_format_generate_scientific_str
-			(fmt,
-			 gfs->format.num_decimals,
-			 gfs->format.exponent_step,
-			 gfs->format.use_markup,
-			 gfs->format.simplify_mantissa);
-		break;
-	default:
-		break;
-	}
-
-	return g_string_free (fmt, fmt->len == 0);
-}
-
-static char *
 generate_preview (GOFormatSel *gfs, GOColor *c)
 {
 	char *res = NULL;
@@ -246,7 +185,11 @@ draw_format_preview (GOFormatSel *gfs, gboolean regen_format)
 	gsize len;
 
 	if (regen_format) {
-		char *fmt = generate_format (gfs, gfs->format.current_type);
+		GString *fmtstr = g_string_new (NULL);
+		char *fmt;
+
+		go_format_generate_str (fmtstr, &gfs->format.details);
+		fmt = g_string_free (fmtstr, fmtstr->len == 0);
 
 		if (fmt) {
 			char *lfmt = go_format_str_localize (fmt);
@@ -285,6 +228,7 @@ fillin_negative_samples (GOFormatSel *gfs)
 	int i;
 	GtkTreeIter iter;
 	gboolean more;
+	GOFormatDetails details = gfs->format.details;
 	SETUP_LOCALE_SWITCH;
 
 	g_return_if_fail (page == GO_FORMAT_NUMBER || page == GO_FORMAT_CURRENCY);
@@ -296,24 +240,11 @@ fillin_negative_samples (GOFormatSel *gfs)
 		GString *fmtstr = g_string_new (NULL);
 		GOFormat *fmt;
 		char *buf;
-		gboolean negative_red = (i & 1) != 0;
-		gboolean negative_paren = (i & 2) != 0;
 
-		if (page == GO_FORMAT_NUMBER)
-			go_format_generate_number_str
-				(fmtstr, gfs->format.num_decimals,
-				 gfs->format.use_separator,
-				 negative_red, negative_paren,
-				 NULL, NULL);
-		else
-			go_format_generate_currency_str
-				(fmtstr,
-				 gfs->format.num_decimals,
-				 gfs->format.use_separator,
-				 negative_red, negative_paren,
-				 go_format_currencies + gfs->format.currency_index,
-				 gfs->format.force_quoted);
+		details.negative_red = (i & 1) != 0;
+		details.negative_paren = (i & 2) != 0;
 
+		go_format_generate_str (fmtstr, &details);
 		fmt = go_format_new_from_XL (fmtstr->str);
 		g_string_free (fmtstr, TRUE);
 		buf = go_format_value (fmt, -3210.123456789);
@@ -322,13 +253,13 @@ fillin_negative_samples (GOFormatSel *gfs)
 		if (!more)
 			gtk_list_store_append (gfs->format.negative_types.model, &iter);
 		gtk_list_store_set (gfs->format.negative_types.model, &iter,
-				    0, negative_red,
-				    1, negative_paren,
+				    0, details.negative_red,
+				    1, details.negative_paren,
 				    2, buf,
-				    3, negative_red ? "red" : NULL,
+				    3, details.negative_red ? "red" : NULL,
 				    -1);
-		if (gfs->format.negative_red == negative_red &&
-		    gfs->format.negative_paren == negative_paren)
+		if (gfs->format.details.negative_red == details.negative_red &&
+		    gfs->format.details.negative_paren == details.negative_paren)
 			gtk_tree_selection_select_iter
 				(gfs->format.negative_types.selection,
 				 &iter);
@@ -348,7 +279,7 @@ cb_decimals_changed (GtkSpinButton *spin, GOFormatSel *gfs)
 {
 	GOFormatFamily const page = gfs->format.current_type;
 
-	gfs->format.num_decimals = gtk_spin_button_get_value_as_int (spin);
+	gfs->format.details.num_decimals = gtk_spin_button_get_value_as_int (spin);
 
 	if (page == GO_FORMAT_NUMBER || page == GO_FORMAT_CURRENCY)
 		fillin_negative_samples (gfs);
@@ -359,7 +290,7 @@ cb_decimals_changed (GtkSpinButton *spin, GOFormatSel *gfs)
 static void
 cb_separator_toggle (GtkObject *obj, GOFormatSel *gfs)
 {
-	gfs->format.use_separator =
+	gfs->format.details.thousands_sep =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
 	fillin_negative_samples (gfs);
 
@@ -370,9 +301,9 @@ static void
 cb_engineering_toggle (GtkObject *obj, GOFormatSel *gfs)
 {
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj)))
-		gfs->format.exponent_step = 3;
+		gfs->format.details.exponent_step = 3;
 	else
-		gfs->format.exponent_step = 1;
+		gfs->format.details.exponent_step = 1;
 
 	draw_format_preview (gfs, TRUE);
 }
@@ -380,10 +311,10 @@ cb_engineering_toggle (GtkObject *obj, GOFormatSel *gfs)
 static void
 cb_superscript_toggle (GtkObject *obj, GOFormatSel *gfs)
 {
-	gfs->format.use_markup =
+	gfs->format.details.use_markup =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
 	gtk_widget_set_sensitive (gfs->format.widget[F_SUPERSCRIPT_HIDE_1_BUTTON],
-				  gfs->format.use_markup);
+				  gfs->format.details.use_markup);
 
 	draw_format_preview (gfs, TRUE);
 }
@@ -391,7 +322,7 @@ cb_superscript_toggle (GtkObject *obj, GOFormatSel *gfs)
 static void
 cb_superscript_hide_1_toggle (GtkObject *obj, GOFormatSel *gfs)
 {
-	gfs->format.simplify_mantissa =
+	gfs->format.details.simplify_mantissa =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
 
 	draw_format_preview (gfs, TRUE);
@@ -593,7 +524,7 @@ stays:
 		g_free (lelem);
 	}
 
-	gfs->format.current_type = page;
+	gfs->format.details.family = gfs->format.current_type = page;
 	for (i = 0; (tmp = contents[page][i]) != F_MAX_WIDGET ; ++i) {
 		gboolean show_widget = TRUE;
 		GtkWidget *w = gfs->format.widget[tmp];
@@ -659,13 +590,13 @@ stays:
 
 		case F_DECIMAL_SPIN:
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (gfs->format.widget[F_DECIMAL_SPIN]),
-						   gfs->format.num_decimals);
+						   gfs->format.details.num_decimals);
 			break;
 
 		case F_SUPERSCRIPT_BUTTON:
 			if (gfs->show_format_with_markup) {
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
-							      gfs->format.use_markup);
+							      gfs->format.details.use_markup);
 			} else 
 				show_widget = FALSE;
 			break;
@@ -674,8 +605,8 @@ stays:
 			if (gfs->show_format_with_markup) {
 				
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
-							      gfs->format.simplify_mantissa);
-				gtk_widget_set_sensitive (w, gfs->format.use_markup);
+							      gfs->format.details.simplify_mantissa);
+				gtk_widget_set_sensitive (w, gfs->format.details.use_markup);
 			} else
 				show_widget = FALSE;
 			break;
@@ -683,12 +614,12 @@ stays:
 		case F_ENGINEERING_BUTTON:
 			gtk_toggle_button_set_active
 				(GTK_TOGGLE_BUTTON (gfs->format.widget[F_ENGINEERING_BUTTON]),
-				 gfs->format.exponent_step == 3);
+				 gfs->format.details.exponent_step == 3);
 			break;
 
 		case F_SEPARATOR:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gfs->format.widget[F_SEPARATOR]),
-						      gfs->format.use_separator);
+						      gfs->format.details.thousands_sep);
 			break;
 
 		default:
@@ -805,15 +736,18 @@ cb_format_currency_select (G_GNUC_UNUSED GtkWidget *ct,
 	if (!gfs->enable_edit || new_text == NULL || *new_text == '\0')
 		return FALSE;
 
-	for (i = 0; go_format_currencies[i].symbol != NULL ; ++i)
-		if (!strcmp (_(go_format_currencies[i].description), new_text)) {
-			gfs->format.currency_index = i;
+	for (i = 0; go_format_currencies[i].symbol != NULL ; ++i) {
+		GOFormatCurrency const *ci = go_format_currencies + i;
+		if (!strcmp (_(ci->description), new_text)) {
+			gfs->format.details.currency = ci;
 			break;
 		}
+	}
 
 	if (gfs->format.current_type == GO_FORMAT_NUMBER ||
 	    gfs->format.current_type == GO_FORMAT_CURRENCY)
 		fillin_negative_samples (gfs);
+
 	draw_format_preview (gfs, TRUE);
 
 	return TRUE;
@@ -833,8 +767,8 @@ cb_format_negative_form_selected (GtkTreeSelection *selection, GOFormatSel *gfs)
 			    0, &negative_red,
 			    1, &negative_paren,
 			    -1);
-	gfs->format.negative_red = negative_red;
-	gfs->format.negative_paren = negative_paren;
+	gfs->format.details.negative_red = negative_red;
+	gfs->format.details.negative_paren = negative_paren;
 	draw_format_preview (gfs, TRUE);
 }
 
@@ -877,170 +811,20 @@ set_format_category (GOFormatSel *gfs, int row)
 	gtk_tree_path_free (path);
 }
 
-/* Returns the index in go_format_currencies of the symbol in ptr */
-static int
-find_symbol (char const *ptr, gsize len, gboolean precedes)
-{
-	int i;
-	gboolean has_space;
-	gboolean quoted;
-
-	if (len <= 0)
-		return 0;
-
-	if (precedes) {
-		has_space = ptr[len - 1] == ' ';
-		if (has_space)
-			len--;
-	} else {
-		has_space = ptr[0] == ' ';
-		if (has_space)
-			len--, ptr++;
-	}
-
-	quoted = len > 2 && ptr[0] == '\"' && ptr[len - 1] == '\"';
-
-	for (i = 1; go_format_currencies[i].symbol; i++) {
-		const GOFormatCurrency *ci = go_format_currencies + i;
-
-		if (ci->precedes != precedes)
-			continue;
-
-		if (strncmp (ci->symbol, ptr, len) == 0) {
-			return i;
-		}
-
-		/* Allow quoting of things that aren't [$FOO] */
-		if (quoted && ci->symbol[0] != '[' &&
-		    strncmp (ci->symbol, ptr + 1, len - 2) == 0) {
-			return i;
-		}
-	}
-
-	return 0;
-}
-
 static GOFormatFamily
 study_format (GOFormatSel *gfs)
 {
 	const GOFormat *fmt = gfs->format.spec;
-	const char *str = go_format_as_XL (fmt);
-	char *newstr;
-	GOFormatFamily typ = go_format_get_family (fmt);
+	gboolean exact;
 
-	gfs->format.num_decimals = 0;	
-	gfs->format.negative_red = FALSE;
-	gfs->format.negative_paren = FALSE;
-	gfs->format.currency_index = 0;
-	gfs->format.force_quoted = FALSE;
-	gfs->format.use_separator = FALSE;
-	gfs->format.use_markup = FALSE;
-	gfs->format.exponent_step = 1;
-	gfs->format.simplify_mantissa = FALSE;
-
-	switch (typ) {
-	case GO_FORMAT_NUMBER:
-	case GO_FORMAT_CURRENCY:
-	case GO_FORMAT_ACCOUNTING:
-	case GO_FORMAT_PERCENTAGE:
-	case GO_FORMAT_SCIENTIFIC: {
-		/*
-		 * These guesses only have to be good enough to work on
-		 * the formats we generate ourselves.
-		 */
-
-		const char *dot = strchr (str, '.');
-
-		if (dot) {
-			while (dot[gfs->format.num_decimals + 1] == '0')
-				gfs->format.num_decimals++;
-		}
-
-		gfs->format.negative_red = (strstr (str, ";[Red]") != NULL);
-		gfs->format.negative_paren = (strstr (str, "_);") != NULL);
-
-		if (str[0] == '_' && str[1] == '(') {
-			const char *start = str + 2;
-			gboolean precedes = start[0] != '#';
-			gsize len = 0;
-
-			if (precedes) {
-				while (start[len] && start[len] != '*')
-					len++;
-			} else {
-				while (start[0] == '0' || start[0] == '.' ||
-				       start[0] == '#' || start[0] == ',')
-					start++;
-				if (start[0] == '*' && start[1])
-					start += 2;
-				while (start[len] && start[len] != '_')
-					len++;
-			}
-
-			gfs->format.currency_index =
-				find_symbol (start, len, precedes);
-			gfs->format.force_quoted = (start[0] == '"');
-			typ = GO_FORMAT_ACCOUNTING;
-		} else {
-			gboolean precedes = str[0] != '0' && str[0] != '#';
-			const char *start;
-			gsize len = 0;
-			int symbol;
-
-			if (precedes) {
-				start = str;
-				while (start[len] && start[len] != '0' && start[len] != '#')
-					len++;
-			} else {
-				start = str + strlen (str);
-				if (start > str && start[-1] == ')')
-					start--;
-				while (start > str && start[-1] != '0' && start[-1] != '#')
-					start--, len++;
-			}
-			symbol = find_symbol (start, len, precedes);
-			if (symbol != 0) {
-				gfs->format.currency_index = symbol;
-				gfs->format.force_quoted = (start[0] == '"');
-				typ = GO_FORMAT_CURRENCY;
-			}
-		}
-
-		gfs->format.use_separator = (strstr (str, "#,##0") != NULL);
-
-		if (typ == GO_FORMAT_SCIENTIFIC) {
-			const char *mend = dot ? dot : strchr (str, 'E');
-			gfs->format.use_markup = (strstr (str, "EE0") != NULL);
-			gfs->format.exponent_step = mend - str;
-			gfs->format.simplify_mantissa = mend != str && mend[-1] == '#';
-		}			
-
-		newstr = generate_format (gfs, typ);
-
-		break;
+	go_format_get_details (fmt, &gfs->format.details, &exact);
+	if (!exact) {
+		const char *str = go_format_as_XL (fmt);
+		if (!find_builtin (str, gfs->format.details.family, FALSE))
+			gfs->format.details.family = FMT_CUSTOM;
 	}
 
-	default:
-		newstr = NULL;
-		break;
-	}
-
-	if (newstr) {
-		/* Test the generated format. */
-		if (strcmp (str, newstr)) {
-#if 0
-			g_print ("[%s] <-> [%s]\n", str, newstr);
-#endif
-			typ = FMT_CUSTOM;
-		}
-		g_free (newstr);
-	} else {
-		const char *elem = find_builtin (str, typ, FALSE);
-		if (!elem)
-			typ = FMT_CUSTOM;
-	}
-
-	return typ;
+	return gfs->format.details.family;
 }
 
 
@@ -1276,18 +1060,24 @@ nfs_init (GOFormatSel *gfs)
 	/* Setup handler Currency & Accounting currency symbols */
 	combo = GO_COMBO_TEXT (gfs->format.widget[F_SYMBOL]);
 	if (combo != NULL) {
-		GList *ptr, *l = NULL;
+		GSList *ptr, *l = NULL;
+		const char *desc;
 
 		for (i = 0; go_format_currencies[i].symbol != NULL ; ++i)
-			l = g_list_append (l, _((gchar *)go_format_currencies[i].description));
-		l = g_list_sort (l, funny_currency_order);
+			l = g_slist_prepend (l, _((gchar *)go_format_currencies[i].description));
+		l = g_slist_sort (l, funny_currency_order);
 
 		for (ptr = l; ptr != NULL ; ptr = ptr->next)
-			go_combo_text_add_item	(combo, ptr->data);
-		g_list_free (l);
-		go_combo_text_set_text (combo,
-			_((char const *)go_format_currencies[gfs->format.currency_index].description),
-			GO_COMBO_TEXT_FROM_TOP);
+			go_combo_text_add_item (combo, ptr->data);
+		g_slist_free (l);
+
+		desc = gfs->format.details.currency
+			? gfs->format.details.currency->description
+			: NULL;
+		if (!desc)
+			desc = N_("None");
+		go_combo_text_set_text (combo, _(desc),
+					GO_COMBO_TEXT_FROM_TOP);
 		g_signal_connect (G_OBJECT (combo), "entry_changed",
 			G_CALLBACK (cb_format_currency_select), gfs);
 		gtk_label_set_mnemonic_widget (
@@ -1444,10 +1234,15 @@ go_format_sel_set_style_format (GOFormatSel *gfs,
 	study_format (gfs);
 
 	combo = GO_COMBO_TEXT (gfs->format.widget[F_SYMBOL]);
-	go_combo_text_set_text
-		(combo,
-		 _(go_format_currencies[gfs->format.currency_index].description),
-		 GO_COMBO_TEXT_FROM_TOP);
+	if (gfs->format.details.currency) {
+		const char *desc = gfs->format.details.currency
+			? gfs->format.details.currency->description
+			: NULL;
+		if (!desc)
+			desc = N_("None");
+		go_combo_text_set_text (combo, _(desc),
+					GO_COMBO_TEXT_FROM_TOP);
+	}
 
 	set_format_category_menu_from_style (gfs);
 	draw_format_preview (gfs, TRUE);
