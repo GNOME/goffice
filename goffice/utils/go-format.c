@@ -470,8 +470,10 @@ go_format_magic_fmt_str (GOFormatMagic m)
 			return g_strdup (fmt);
 		else {
 			char *d = go_format_magic_fmt_str (GO_FORMAT_MAGIC_SHORT_DATE);
-			char *res = g_strconcat (d, " h:mm", NULL);
+			char *t = go_format_magic_fmt_str (GO_FORMAT_MAGIC_SHORT_TIME);
+			char *res = g_strconcat (d, " ", t, NULL);
 			g_free (d);
+			g_free (t);
 			return res;
 		}
 	}
@@ -4854,8 +4856,8 @@ GOFormat *
 go_format_default_date (void)
 {
 	if (!default_date_fmt)
-		default_date_fmt = go_format_new_from_XL (
-			go_format_builtins[GO_FORMAT_DATE][0]);
+		default_date_fmt =
+			go_format_new_magic (GO_FORMAT_MAGIC_SHORT_DATE);
 	return default_date_fmt;
 }
 #endif
@@ -4865,8 +4867,8 @@ GOFormat *
 go_format_default_time (void)
 {
 	if (!default_time_fmt)
-		default_time_fmt = go_format_new_from_XL (
-			go_format_builtins[GO_FORMAT_TIME][0]);
+		default_time_fmt =
+			go_format_new_magic (GO_FORMAT_MAGIC_SHORT_TIME);
 	return default_time_fmt;
 }
 #endif
@@ -4877,7 +4879,7 @@ go_format_default_date_time (void)
 {
 	if (!default_date_time_fmt)
 		default_date_time_fmt =
-			go_format_new_magic (GO_FORMAT_MAGIC_SHORT_TIME);
+			go_format_new_magic (GO_FORMAT_MAGIC_SHORT_DATETIME);
 	return default_date_time_fmt;
 }
 #endif

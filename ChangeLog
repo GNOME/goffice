@@ -1,8 +1,11 @@
 2009-05-29  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_default_date_time): Make
-	this GO_FORMAT_MAGIC_SHORT_TIME instead of just picking the fifth
-	format we happen to generate.
+	this GO_FORMAT_MAGIC_SHORT_DATETIME instead of just picking the
+	fifth time format we happen to generate.
+	(go_format_default_date, go_format_default_time): Similar.
+	(go_format_magic_fmt_str): Fix GO_FORMAT_MAGIC_SHORT_DATETIME to
+	use GO_FORMAT_MAGIC_SHORT_TIME's format.
 
 2009-05-28  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
