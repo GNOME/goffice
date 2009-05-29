@@ -1,3 +1,9 @@
+2009-05-29  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_default_date_time): Make
+	this GO_FORMAT_MAGIC_SHORT_TIME instead of just picking the fifth
+	format we happen to generate.
+
 2009-05-28  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (cb_attrs_as_string): handle "scale"

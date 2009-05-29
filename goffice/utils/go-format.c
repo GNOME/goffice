@@ -4876,8 +4876,8 @@ GOFormat *
 go_format_default_date_time (void)
 {
 	if (!default_date_time_fmt)
-		default_date_time_fmt = go_format_new_from_XL (
-			go_format_builtins[GO_FORMAT_TIME][4]);
+		default_date_time_fmt =
+			go_format_new_magic (GO_FORMAT_MAGIC_SHORT_TIME);
 	return default_date_time_fmt;
 }
 #endif
