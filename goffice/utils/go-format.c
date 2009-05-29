@@ -4124,6 +4124,10 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 		g_string_append_printf (accum, "[rise=%d",
 			((PangoAttrInt *)a)->value);
 		break;
+	case PANGO_ATTR_SCALE:
+		g_string_append_printf (accum, "[scale=%.2f",
+			((PangoAttrFloat *)a)->value);
+		break;
 	case PANGO_ATTR_STYLE :
 		g_string_append_printf (accum, "[italic=%d",
 			(((PangoAttrInt *)a)->value == PANGO_STYLE_ITALIC) ? 1 : 0);
@@ -4218,6 +4222,8 @@ go_format_parse_markup (char *str)
 			if (0 == strncmp (str, "color", 5) &&
 			    3 == sscanf (val, "%02xx%02xx%02x", &r, &g, &b))
 				a = pango_attr_foreground_new ((r << 8) | r, (g << 8) | g, (b << 8) | b);
+			else if (0 == strncmp (str, "scale", 5))
+				a = pango_attr_scale_new (atof (val));
 			break;
 
 		case 6:

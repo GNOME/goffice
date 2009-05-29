@@ -1,7 +1,8 @@
 goffice 0.7.8:
 
 Andreas:
-	* Add some odf GOFormat output utilities.	
+	* Add some odf GOFormat output utilities.
+	* Handle scale attributes in markup.	
 
 Morten:
 	* Add functions to generate number formats.
