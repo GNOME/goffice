@@ -1,3 +1,12 @@
+2009-05-30  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_output_date_to_odf) use
+	  GOFormatDetails
+	(go_format_output_scientific_number_to_odf): ditto
+	(go_format_output_number_to_odf): ditto
+	(go_format_output_currency_to_odf): new
+	(go_format_output_to_odf) use GOFormatDetails
+
 2009-05-29  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_default_date_time): Make
