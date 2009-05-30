@@ -237,8 +237,9 @@ GOFormat *go_format_toggle_1000sep	(GOFormat const *fmt);
 
 /******************* GOFormat ODF Support ********************************/
 
-char *go_format_odf_style_map (GOFormat const *fmt, int i);
-gboolean go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt, int i, 
+char *go_format_odf_style_map (GOFormat const *fmt, int cond_part);
+gboolean go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt, 
+				  int cond_part, 
 				  char const *name);
 
 
