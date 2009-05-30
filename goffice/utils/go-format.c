@@ -5230,8 +5230,12 @@ go_format_generate_str (GString *dst, GOFormatDetails const *details)
 		break;
 	case GO_FORMAT_PERCENTAGE:
 		go_format_generate_number_str
-			(dst, details->num_decimals,
-			 FALSE, FALSE, FALSE, NULL, "%");
+			(dst,
+			 details->num_decimals,
+			 details->thousands_sep,
+			 details->negative_red,
+			 details->negative_paren,
+			 NULL, "%");
 		break;
 	case GO_FORMAT_SCIENTIFIC:
 		go_format_generate_scientific_str

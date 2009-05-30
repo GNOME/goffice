@@ -1,3 +1,15 @@
+2009-05-30  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_generate_str): Handle
+	thousands_sep as well as negative value properties for percentages
+	too.
+
+	* goffice/gtk/go-format-sel.c (fillin_negative_samples): Use
+	smaller sample value for percentages.
+	(cb_decimals_changed, cb_separator_toggle,
+	cb_format_currency_select): Call fillin_negative_samples when we
+	have the F_NEGATIVE widget.
+
 2009-05-30  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.h (go_format_odf_style_map): simplify

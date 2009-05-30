@@ -83,10 +83,10 @@ typedef struct {
 	/* NUMBER, SCIENTIFIC, CURRENCY, ACCOUNTING, PERCENTAGE: */
 	int num_decimals;
 
-	/* NUMBER, CURRENCY: */
+	/* NUMBER, CURRENCY, PERCENTAGE: */
 	gboolean thousands_sep;
 
-	/* NUMBER, CURRENCY, ACCOUNTING: */
+	/* NUMBER, CURRENCY, ACCOUNTING, PERCENTAGE: */
 	gboolean negative_red;
 	gboolean negative_paren;
 

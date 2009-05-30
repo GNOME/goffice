@@ -224,16 +224,26 @@ draw_format_preview (GOFormatSel *gfs, gboolean regen_format)
 static void
 fillin_negative_samples (GOFormatSel *gfs)
 {
-	GOFormatFamily const page = gfs->format.current_type;
 	int i;
 	GtkTreeIter iter;
 	gboolean more;
 	GOFormatDetails details = gfs->format.details;
+	double sample_value;
 	SETUP_LOCALE_SWITCH;
 
-	g_return_if_fail (page == GO_FORMAT_NUMBER || page == GO_FORMAT_CURRENCY);
-
 	START_LOCALE_SWITCH;
+
+	switch (gfs->format.current_type) {
+	case GO_FORMAT_DATE:
+		g_assert_not_reached ();
+		return;
+	case GO_FORMAT_PERCENTAGE:
+		sample_value = -0.123456;
+		break;
+	default:
+		sample_value = -3210.12345678;
+		break;
+	}
 
 	more = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (gfs->format.negative_types.model), &iter);
 	for (i = 0 ; i < 4; i++) {
@@ -247,7 +257,7 @@ fillin_negative_samples (GOFormatSel *gfs)
 		go_format_generate_str (fmtstr, &details);
 		fmt = go_format_new_from_XL (fmtstr->str);
 		g_string_free (fmtstr, TRUE);
-		buf = go_format_value (fmt, -3210.123456789);
+		buf = go_format_value (fmt, sample_value);
 		go_format_unref (fmt);
 
 		if (!more)
@@ -277,11 +287,10 @@ fillin_negative_samples (GOFormatSel *gfs)
 static void
 cb_decimals_changed (GtkSpinButton *spin, GOFormatSel *gfs)
 {
-	GOFormatFamily const page = gfs->format.current_type;
+	gfs->format.details.num_decimals =
+		gtk_spin_button_get_value_as_int (spin);
 
-	gfs->format.details.num_decimals = gtk_spin_button_get_value_as_int (spin);
-
-	if (page == GO_FORMAT_NUMBER || page == GO_FORMAT_CURRENCY)
+	if (GTK_WIDGET_VISIBLE (gfs->format.widget[F_NEGATIVE]))
 		fillin_negative_samples (gfs);
 
 	draw_format_preview (gfs, TRUE);
@@ -292,7 +301,9 @@ cb_separator_toggle (GtkObject *obj, GOFormatSel *gfs)
 {
 	gfs->format.details.thousands_sep =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
-	fillin_negative_samples (gfs);
+
+	if (GTK_WIDGET_VISIBLE (gfs->format.widget[F_NEGATIVE]))
+		fillin_negative_samples (gfs);
 
 	draw_format_preview (gfs, TRUE);
 }
@@ -448,6 +459,10 @@ fmt_dialog_enable_widgets (GOFormatSel *gfs, int page)
 			F_PERCENTAGE_EXPLANATION,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
+			F_SEPARATOR,
+			F_NEGATIVE_LABEL,
+			F_NEGATIVE_SCROLL,
+			F_NEGATIVE,
 			F_MAX_WIDGET
 		},
 		/* Fraction */
@@ -744,8 +759,7 @@ cb_format_currency_select (G_GNUC_UNUSED GtkWidget *ct,
 		}
 	}
 
-	if (gfs->format.current_type == GO_FORMAT_NUMBER ||
-	    gfs->format.current_type == GO_FORMAT_CURRENCY)
+	if (GTK_WIDGET_VISIBLE (gfs->format.widget[F_NEGATIVE]))
 		fillin_negative_samples (gfs);
 
 	draw_format_preview (gfs, TRUE);
