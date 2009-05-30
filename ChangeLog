@@ -1,5 +1,14 @@
 2009-05-30  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.h (go_format_odf_style_map): simplify
+	  calling convention
+	(gboolean go_format_output_to_odf): add argument
+	* goffice/utils/go-format.c (go_format_odf_style_map): simplify
+	  calling convention
+	(gboolean go_format_output_to_odf): add argument
+
+2009-05-30  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (go_format_output_date_to_odf) use
 	  GOFormatDetails
 	(go_format_output_scientific_number_to_odf): ditto

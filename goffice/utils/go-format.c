@@ -5407,7 +5407,7 @@ go_format_locale_currency (void)
 
 #ifdef DEFINE_COMMON
 char *
-go_format_odf_style_map (GOFormat const **conditional_format, GOFormat const *fmt, int i)
+go_format_odf_style_map (GOFormat const *fmt, int i)
 {
 	char const *format_string = NULL;
 
@@ -5416,9 +5416,6 @@ go_format_odf_style_map (GOFormat const **conditional_format, GOFormat const *fm
 
 	if (i >= fmt->u.cond.n)
 		return NULL;
-
-	if (conditional_format != NULL)
-		*conditional_format = fmt->u.cond.conditions[i].fmt;
 
 	switch (fmt->u.cond.conditions[i].op) {
 	case GO_FMT_COND_EQ:
@@ -5772,7 +5769,7 @@ go_format_output_currency_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char con
 
 #ifdef DEFINE_COMMON
 gboolean
-go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name)
+go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt, int i, char const *name)
 {
 	gboolean pp = TRUE, result = TRUE;
 	GOFormatDetails dst;
