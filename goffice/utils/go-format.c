@@ -5407,6 +5407,7 @@ go_format_locale_currency (void)
 #define STYLE	 "style:"
 #define FOSTYLE	 "fo:"
 #define NUMBER   "number:"
+#define GNMSTYLE	 "gnm:"
 
 
 #ifdef DEFINE_COMMON
@@ -5487,8 +5488,12 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 	gsf_xml_out_start_element (xout,  time_only ? 
 				   NUMBER "time-style" : NUMBER "date-style");
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
-	gsf_xml_out_add_cstr (xout, NUMBER "format-source", "fixed");
-	gsf_xml_out_add_cstr (xout, "gnm:format", xl);
+	if (dst->magic == GO_FORMAT_MAGIC_NONE)
+		gsf_xml_out_add_cstr (xout, NUMBER "format-source", "fixed");
+	else {
+		gsf_xml_out_add_cstr (xout, NUMBER "format-source", "language");
+		gsf_xml_out_add_int (xout, GNMSTYLE "format-magic", dst->magic);
+	}
 
 	while (1) {
 		const char *token = xl;
@@ -5593,7 +5598,6 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 
 		case 'm': case 'M': {
 			int n = 1;
-			printf ("see m: %s\n", token);
 			while (*xl == 'm' || *xl == 'M')
 				xl++, n++;
 			m_is_minutes = (n <= 2) && (m_is_minutes || tail_forces_minutes (xl));
@@ -5640,9 +5644,14 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 		}
 
 		case 's': case 'S': {
-			int n = 1;
+			int n = 1, d = 0;
 			while (*xl == 's' || *xl == 'S')
 				xl++, n++;
+			if (*xl == '.' && *(xl + 1) == '0') {
+				xl++;
+				while (*xl == '0')
+					xl++, d++;
+			}
 			if (seconds_trigger_minutes) {
 				seconds_trigger_minutes = FALSE;
 				m_is_minutes = TRUE;
@@ -5653,6 +5662,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 			gsf_xml_out_start_element (xout, NUMBER "seconds");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", 
 					      (n == 1) ? "short" : "long");
+			gsf_xml_out_add_int (xout, NUMBER "decimal-places", d);
 			gsf_xml_out_end_element (xout); /* </number:seconds> */
 			break;
 		}
@@ -5663,29 +5673,6 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 			seen_ampm = TRUE;
 			ODF_CLOSE_STRING;
 			gsf_xml_out_simple_element (xout, NUMBER "am-pm", NULL);
-			break;
-
-		case TOK_DECIMAL:
-/* 			if (*xl == '0') { */
-/* 				int n = 0; */
-/* 				seen_time = TRUE; */
-/* 				ADD_OP (OP_TIME_SECOND_DECIMAL_START); */
-/* 				while (*xl == '0') { */
-/* 					xl++, n++; */
-/* 					ADD_OP (OP_TIME_SECOND_DECIMAL_DIGIT); */
-/* 				} */
-/* 				/\* The actual limit is debatable.  This is what XL does.  *\/ */
-/* 				if (n > 3) */
-/* 					goto error; */
-/* 				date_decimals = MAX (date_decimals, n); */
-/* 			} else { */
-/* 				ADD_OP2 (OP_CHAR, '.'); */
-/* 			} */
-			ODF_OPEN_STRING;
-			g_string_append_c (accum, '.');
-			break;
-
-		case '0':
 			break;
 
 		case TOK_ELAPSED_H:
@@ -5755,6 +5742,11 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 		case TOK_THOUSAND:
 			ODF_OPEN_STRING;
 			g_string_append_c (accum, ',');
+			break;
+
+		case TOK_DECIMAL:
+			ODF_OPEN_STRING;
+			g_string_append_c (accum, '.');
 			break;
 
 		case TOK_GENERAL:
