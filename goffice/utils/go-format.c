@@ -5453,237 +5453,322 @@ go_format_odf_style_map (GOFormat const *fmt, int cond_part)
 
 #ifdef DEFINE_COMMON
 
-static const guchar *
-fill_accumulator (GString *accum, const guchar *prg)
-{
-	g_string_erase (accum, 0, -1);
-
-	while (1) {
-		switch (*prg) {
-		case OP_CHAR: {
-			const guchar *next;
-			prg++;
-			next = g_utf8_next_char (prg);
-			g_string_append_len (accum, prg, next - prg);
-			prg = next;
-			break;
-		}
-		case OP_STRING: {
-			size_t len;
-			prg++;
-			len = strlen (prg);
-			g_string_append (accum, prg);
-			prg += len + 1;
-			break;
-		}
-		default:
-			return prg;
-		}
-	}
-}
+#define ODF_CLOSE_STRING  if (string_is_open) {  \
+                                 gsf_xml_out_add_cstr (xout, NULL, accum->str); \
+                                 gsf_xml_out_end_element (xout); /* </number:text> */  \
+				 string_is_open = FALSE; \
+                          }
+#define ODF_OPEN_STRING   if (!string_is_open) { \
+	                         gsf_xml_out_start_element (xout, NUMBER "text");\
+                                 string_is_open = TRUE; \
+				 g_string_erase (accum, 0, -1); \
+				 }
 
 static void
 go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, GOFormatDetails *dst)
 {
-	const guchar *prg = fmt->u.number.program;
+	char const *xl = go_format_as_XL (fmt);
 	GString *accum = g_string_new (NULL);
 	gboolean time_only = (dst->family == GO_FORMAT_TIME);
+	gboolean seen_year = FALSE;
+	gboolean seen_month = FALSE;
+	gboolean seen_day = FALSE;
+	gboolean seen_weekday = FALSE;
+	gboolean seen_time = FALSE;
+	gboolean seen_hour = FALSE;
+	gboolean seen_ampm = FALSE;
+	gboolean seen_minute = FALSE;
+	gboolean seen_second = FALSE;
+	gboolean seen_elapsed = FALSE;
+	gboolean m_is_minutes = FALSE;
+	gboolean string_is_open = FALSE;
+	gboolean seconds_trigger_minutes = TRUE;
 
 	gsf_xml_out_start_element (xout,  time_only ? 
 				   NUMBER "time-style" : NUMBER "date-style");
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
 	gsf_xml_out_add_cstr (xout, NUMBER "format-source", "fixed");
-	
-	while (1) {
-		GOFormatOp op = *prg++;
+	gsf_xml_out_add_cstr (xout, "gnm:format", xl);
 
-		switch (op) {
-		case OP_END:
+	while (1) {
+		const char *token = xl;
+		GOFormatTokenType tt;
+		int t = go_format_token (&xl, &tt);
+
+		switch (t) {
+		case 0: case ';':
+			ODF_CLOSE_STRING;
 			gsf_xml_out_end_element (xout); /* </number:date-style or time-style> */
 			g_string_free (accum, TRUE);
 			return;
 
-		case OP_STRING:
-		case OP_CHAR:
-			prg = fill_accumulator (accum, prg - 1);
-			gsf_xml_out_simple_element (xout, NUMBER "text", accum->str);
-			break;
-
-		case OP_CHAR_INVISIBLE:
-		case OP_FILL:
-			prg = g_utf8_next_char (prg);
-			break;
-
-		case OP_LOCALE: {
-			prg += sizeof (GOFormatLocale);
-			prg += strlen ((const char *)prg) + 1;
+		case 'd': case 'D': {
+			int n = 1;
+			while (*xl == 'd' || *xl == 'D')
+				xl++, n++;
+			if (time_only) break; 
+			switch (n) {
+			case 1: 
+			case 2: if (seen_day) break;
+				seen_day = TRUE;
+				ODF_CLOSE_STRING;
+				gsf_xml_out_start_element (xout, NUMBER "day");
+				gsf_xml_out_add_cstr (xout, NUMBER "style", 
+						      (n==1) ? "short" : "long");
+				gsf_xml_out_end_element (xout); /* </number:day> */
+				break;
+			case 3: 
+			default: if (seen_weekday) break;
+				seen_weekday = TRUE;
+				ODF_CLOSE_STRING;
+				gsf_xml_out_start_element (xout, NUMBER "day-of-week");
+				gsf_xml_out_add_cstr (xout, NUMBER "style", 
+						      (n==3) ? "short" : "long");
+				gsf_xml_out_end_element (xout); /* </number:day-of-week> */
+				break;
+			}
 			break;
 		}
 
-		case OP_DATE_ROUND:
-			prg += 2;
+		case 'y': case 'Y': {
+			int n = 1;
+			while (*xl == 'y' || *xl == 'Y')
+				xl++, n++;
+			if (time_only || seen_year) break; 
+			seen_year = TRUE;
+			ODF_CLOSE_STRING;
+			gsf_xml_out_start_element (xout, NUMBER "year");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", 
+					      (n <= 2) ? "short" : "long");
+			gsf_xml_out_add_cstr (xout, NUMBER "calendar", "gregorian");
+			gsf_xml_out_end_element (xout); /* </number:year> */
 			break;
+		}
 
-		case OP_DATE_YEAR:
-			if (time_only) break;
+		case 'b': case 'B': {
+			int n = 1;
+			while (*xl == 'b' || *xl == 'B')
+				xl++, n++;
+			if (time_only || seen_year) break; 
+			seen_year = TRUE;
+			ODF_CLOSE_STRING;
+			gsf_xml_out_start_element (xout, NUMBER "year");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", 
+					      (n <= 2) ? "short" : "long");
+			gsf_xml_out_add_cstr (xout, NUMBER "calendar", "buddhist");
+			gsf_xml_out_end_element (xout); /* </number:year> */
+			break;
+		}
+
+		case 'e': {  /* What is 'e' really? */
+			while (*xl == 'e') xl++;
+			if (time_only || seen_year) break; 
+			seen_year = TRUE;
+			ODF_CLOSE_STRING;
 			gsf_xml_out_start_element (xout, NUMBER "year");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
 			gsf_xml_out_add_cstr (xout, NUMBER "calendar", "gregorian");
 			gsf_xml_out_end_element (xout); /* </number:year> */
 			break;
-
-		case OP_DATE_YEAR_2:
-			if (time_only) break;
-			gsf_xml_out_start_element (xout, NUMBER "year");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
-			gsf_xml_out_add_cstr (xout, NUMBER "calendar", "gregorian");
-			gsf_xml_out_end_element (xout); /* </number:year> */
+		}
+			
+		case 'g': case 'G':
+			/* Something with Japanese eras.  Blank for me. */
 			break;
 
-		case OP_DATE_YEAR_THAI:
-			if (time_only) break;
-			gsf_xml_out_start_element (xout, NUMBER "year");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
-			gsf_xml_out_add_cstr (xout, NUMBER "calendar", "buddhist");
-			gsf_xml_out_end_element (xout); /* </number:year> */
-			break;
-
-		case OP_DATE_YEAR_THAI_2:
-			if (time_only) break;
-			gsf_xml_out_start_element (xout, NUMBER "year");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
-			gsf_xml_out_add_cstr (xout, NUMBER "calendar", "buddhist");
-			gsf_xml_out_end_element (xout); /* </number:year> */
-			break;
-
-		case OP_DATE_MONTH:
-			if (time_only) break;
-			gsf_xml_out_start_element (xout, NUMBER "month");
-			gsf_xml_out_add_cstr (xout, NUMBER "possessive-form", "false");
-			gsf_xml_out_add_cstr (xout, NUMBER "textual", "false");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
-			gsf_xml_out_end_element (xout); /* </number:month> */
-			break;
-
-		case OP_DATE_MONTH_2:
-			if (time_only) break;
-			gsf_xml_out_start_element (xout, NUMBER "month");
-			gsf_xml_out_add_cstr (xout, NUMBER "possessive-form", "false");
-			gsf_xml_out_add_cstr (xout, NUMBER "textual", "false");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
-			gsf_xml_out_end_element (xout); /* </number:month> */
-			break;
-
-		case OP_DATE_MONTH_NAME:
-			if (time_only) break;
-			gsf_xml_out_start_element (xout, NUMBER "month");
-			gsf_xml_out_add_cstr (xout, NUMBER "possessive-form", "false");
-			gsf_xml_out_add_cstr (xout, NUMBER "textual", "true");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
-			gsf_xml_out_end_element (xout); /* </number:month> */
-			break;
-
-		case OP_DATE_MONTH_NAME_1:   /* ODF does not support single letter abbreviation */
-		case OP_DATE_MONTH_NAME_3:
-			if (time_only) break;
-			gsf_xml_out_start_element (xout, NUMBER "month");
-			gsf_xml_out_add_cstr (xout, NUMBER "possessive-form", "false");
-			gsf_xml_out_add_cstr (xout, NUMBER "textual", "true");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
-			gsf_xml_out_end_element (xout); /* </number:month> */
-			break;
-
-		case OP_DATE_DAY:
-			if (time_only) break;
-			gsf_xml_out_start_element (xout, NUMBER "day");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
-			gsf_xml_out_end_element (xout); /* </number:day> */
-			break;
-
-		case OP_DATE_DAY_2:
-			if (time_only) break;
-			gsf_xml_out_start_element (xout, NUMBER "day");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
-			gsf_xml_out_end_element (xout); /* </number:day> */
-			break;
-
-		case OP_DATE_WEEKDAY:
-			if (time_only) break;
-			gsf_xml_out_start_element (xout, NUMBER "day-of-week");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
-			gsf_xml_out_end_element (xout); /* </number:day-of-week> */
-			break;
-
-		case OP_DATE_WEEKDAY_3:
-			if (time_only) break;
-			gsf_xml_out_start_element (xout, NUMBER "day-of-week");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
-			gsf_xml_out_end_element (xout); /* </number:day-of-week> */
-			break;
-
-		case OP_TIME_HOUR:
+		case 'h': case 'H': {
+			int n = 1;
+			while (*xl == 'h' || *xl == 'H')
+				xl++, n++;
+			if (seen_hour) break;
+			seen_hour = TRUE;
+			ODF_CLOSE_STRING;
 			gsf_xml_out_start_element (xout, NUMBER "hours");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", 
+					      (n == 1) ? "short" : "long");
 			gsf_xml_out_end_element (xout); /* </number:hours> */
+			m_is_minutes = TRUE;
 			break;
+		}
 
-		case OP_TIME_HOUR_N: 
-			prg++;
-			/* break;  fall through */
-		case OP_TIME_HOUR_2:
-			gsf_xml_out_start_element (xout, NUMBER "hours");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
-			gsf_xml_out_end_element (xout); /* </number:hours> */
+		case 'm': case 'M': {
+			int n = 1;
+			printf ("see m: %s\n", token);
+			while (*xl == 'm' || *xl == 'M')
+				xl++, n++;
+			m_is_minutes = (n <= 2) && (m_is_minutes || tail_forces_minutes (xl));
+
+			if (m_is_minutes) {
+				if (seen_minute) break;
+				seen_minute = TRUE;
+				m_is_minutes = FALSE;
+				seconds_trigger_minutes = FALSE;
+				ODF_CLOSE_STRING;
+				gsf_xml_out_start_element (xout, NUMBER "minutes");
+				gsf_xml_out_add_cstr (xout, NUMBER "style", 
+						      (n == 1) ? "short" : "long");
+				gsf_xml_out_end_element (xout); /* </number:minutes> */
+			} else {
+				if (seen_month || time_only) break;
+				seen_month = TRUE;
+				ODF_CLOSE_STRING;
+				gsf_xml_out_start_element (xout, NUMBER "month");
+				gsf_xml_out_add_cstr (xout, NUMBER "possessive-form", "false");
+				switch (n) {
+				case 1: 
+					gsf_xml_out_add_cstr (xout, NUMBER "textual", "false");
+					gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+					break;
+				case 2: 
+					gsf_xml_out_add_cstr (xout, NUMBER "textual", "false");
+					gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
+					break;
+				case 3: /* ODF does not support single letter abbreviation */
+				case 5: 
+					gsf_xml_out_add_cstr (xout, NUMBER "textual", "true");
+					gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+					break;
+				default: 
+					gsf_xml_out_add_cstr (xout, NUMBER "textual", "true");
+					gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
+					break;
+				}
+
+				gsf_xml_out_end_element (xout); /* </number:month> */
+			}
 			break;
+		}
 
-		case OP_TIME_AP:
-			prg++;
-			prg++;
-			/* break;  fall through */
-		case OP_TIME_AMPM:
+		case 's': case 'S': {
+			int n = 1;
+			while (*xl == 's' || *xl == 'S')
+				xl++, n++;
+			if (seconds_trigger_minutes) {
+				seconds_trigger_minutes = FALSE;
+				m_is_minutes = TRUE;
+			}
+			if (seen_second) break;
+			seen_second = TRUE;
+			ODF_CLOSE_STRING;
+			gsf_xml_out_start_element (xout, NUMBER "seconds");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", 
+					      (n == 1) ? "short" : "long");
+			gsf_xml_out_end_element (xout); /* </number:seconds> */
+			break;
+		}
+
+		case TOK_AMPM3:
+		case TOK_AMPM5:
+			if (seen_elapsed || seen_ampm) break;
+			seen_ampm = TRUE;
+			ODF_CLOSE_STRING;
 			gsf_xml_out_simple_element (xout, NUMBER "am-pm", NULL);
 			break;
 
-		case OP_TIME_MINUTE:
-			gsf_xml_out_start_element (xout, NUMBER "minutes");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
-			gsf_xml_out_end_element (xout); /* </number:minutes> */
+		case TOK_DECIMAL:
+/* 			if (*xl == '0') { */
+/* 				int n = 0; */
+/* 				seen_time = TRUE; */
+/* 				ADD_OP (OP_TIME_SECOND_DECIMAL_START); */
+/* 				while (*xl == '0') { */
+/* 					xl++, n++; */
+/* 					ADD_OP (OP_TIME_SECOND_DECIMAL_DIGIT); */
+/* 				} */
+/* 				/\* The actual limit is debatable.  This is what XL does.  *\/ */
+/* 				if (n > 3) */
+/* 					goto error; */
+/* 				date_decimals = MAX (date_decimals, n); */
+/* 			} else { */
+/* 				ADD_OP2 (OP_CHAR, '.'); */
+/* 			} */
+			ODF_OPEN_STRING;
+			g_string_append_c (accum, '.');
 			break;
 
-		case OP_TIME_MINUTE_N:
-			prg++;
-			/* break;  fall through */
-		case OP_TIME_MINUTE_2:
+		case '0':
+			break;
+
+		case TOK_ELAPSED_H:
+			if (seen_elapsed || seen_ampm || seen_hour) break;
+			seen_hour = TRUE;
+			seen_elapsed  = TRUE;
+			ODF_CLOSE_STRING;
+			gsf_xml_out_start_element (xout, NUMBER "hours");
+			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+			gsf_xml_out_end_element (xout); /* </number:hours> */
+			m_is_minutes = TRUE;
+			break;
+
+		case TOK_ELAPSED_M:
+			if (seen_elapsed || seen_ampm || seen_minute) break;
+			seen_minute = TRUE;
+			seen_elapsed  = TRUE;
+			m_is_minutes = FALSE;
+			seconds_trigger_minutes = FALSE;
+			ODF_CLOSE_STRING;
 			gsf_xml_out_start_element (xout, NUMBER "minutes");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
 			gsf_xml_out_end_element (xout); /* </number:minutes> */
-			break;
 
-		case OP_TIME_SECOND:
+		case TOK_ELAPSED_S:
+			if (seen_elapsed || seen_ampm || seen_second) break;
+			seen_time = TRUE;
+			seen_elapsed = TRUE;
+			seen_second = TRUE;
+			if (seconds_trigger_minutes) {
+				m_is_minutes = TRUE;
+				seconds_trigger_minutes = FALSE;
+			}
+			ODF_CLOSE_STRING;
 			gsf_xml_out_start_element (xout, NUMBER "seconds");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
 			gsf_xml_out_end_element (xout); /* </number:seconds> */
 			break;
 
-		case OP_TIME_SECOND_N:
-			prg++;
-		case OP_TIME_SECOND_2:
-			gsf_xml_out_start_element (xout, NUMBER "seconds");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
-			gsf_xml_out_end_element (xout); /* </number:seconds> */
+		case TOK_STRING: {
+			size_t len = strchr (token + 1, '"') - (token + 1);
+			if (len > 0) {
+				ODF_OPEN_STRING;
+				g_string_append_len (accum, token + 1, len);
+			}
+			break;
+		}
+			
+		case TOK_CHAR: {
+			size_t len = g_utf8_next_char(token) - (token);
+			if (len > 0) {
+				ODF_OPEN_STRING;
+				g_string_append_len (accum, token, len);
+			}
+			break;
+		}
+
+		case TOK_ESCAPED_CHAR: {
+			size_t len = g_utf8_next_char(token + 1) - (token + 1);
+			if (len > 0) {
+				ODF_OPEN_STRING;
+				g_string_append_len (accum, token + 1, len);
+			}
+			break;
+		}
+
+		case TOK_THOUSAND:
+			ODF_OPEN_STRING;
+			g_string_append_c (accum, ',');
 			break;
 
-		case OP_TIME_SECOND_DECIMAL_START:
-			/* Reset to start of decimal string.  */
-/* 			date_dec_ptr = fsecond; */
-/* 			go_string_append_gstring (dst, decimal); */
-			break;
-
-		case OP_TIME_SECOND_DECIMAL_DIGIT:
-/* 			g_string_append_c (dst, *date_dec_ptr++); */
+		case TOK_GENERAL:
+		case TOK_INVISIBLE_CHAR:
+		case TOK_REPEATED_CHAR:
+		case TOK_COLOR:
+		case TOK_CONDITION:
+		case TOK_LOCALE:
+		case TOK_ERROR:
 			break;
 
 		default:
+			ODF_OPEN_STRING;
+			g_string_append_c (accum, t);
 			break;
 		}
 	}
