@@ -5454,6 +5454,12 @@ go_format_odf_style_map (GOFormat const *fmt, int cond_part)
 
 #ifdef DEFINE_COMMON
 
+static void
+odf_add_bool (GsfXMLOut *xout, char const *id, gboolean val)
+{
+	gsf_xml_out_add_cstr_unchecked (xout, id, val ? "true" : "false");
+}
+
 #define ODF_CLOSE_STRING  if (string_is_open) {  \
                                  gsf_xml_out_add_cstr (xout, NULL, accum->str); \
                                  gsf_xml_out_end_element (xout); /* </number:text> */  \
@@ -5766,25 +5772,193 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 	}
 }
 
-static void
-odf_add_bool (GsfXMLOut *xout, char const *id, gboolean val)
-{
-	gsf_xml_out_add_cstr_unchecked (xout, id, val ? "true" : "false");
-}
+#undef ODF_CLOSE_STRING
+#undef ODF_OPEN_STRING
+
+#define ODF_CLOSE_STRING  if (string_is_open) {  \
+                                 gsf_xml_out_add_cstr (xout, NULL, accum->str); \
+                                 gsf_xml_out_end_element (xout); /* </number:text> */  \
+				 string_is_open = FALSE; \
+                          }
+#define ODF_OPEN_STRING   if (fraction_in_progress) break;\
+	                  if (!string_is_open) { \
+	                         gsf_xml_out_start_element (xout, NUMBER "text");\
+                                 string_is_open = TRUE; \
+				 g_string_erase (accum, 0, -1); \
+				 }
 
 static void
 go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name)
 {
+	char const *xl = go_format_as_XL (fmt);
+	GString *accum = g_string_new (NULL);
+
+	int int_digits = -1; /* -1 means no integer part */
+	int min_numerator_digits = 0;
+	int zeroes = 0;
+
+	gboolean fraction_in_progress = FALSE;
+	gboolean fraction_completed = FALSE;
+	gboolean string_is_open = FALSE;
+
+
 	gsf_xml_out_start_element (xout, NUMBER "number-style");
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
-	gsf_xml_out_start_element (xout, NUMBER "fraction");
-	odf_add_bool (xout, NUMBER "grouping", FALSE);
-	gsf_xml_out_add_int (xout, NUMBER "min-denominator-digits", 3);
-	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 0);
-	gsf_xml_out_add_int (xout, NUMBER "min-numerator-digits", 1);
-	gsf_xml_out_end_element (xout); /* </number:fraction> */
-	gsf_xml_out_end_element (xout); /* </number:number-style> */
+
+	while (1) {
+		const char *token = xl;
+		GOFormatTokenType tt;
+		int t = go_format_token (&xl, &tt);
+
+		switch (t) {
+		case 0: case ';':
+			ODF_CLOSE_STRING;
+			if (!fraction_completed) {
+				/* We need a fraction element */
+				gsf_xml_out_start_element (xout, NUMBER "fraction");
+				odf_add_bool (xout, NUMBER "grouping", FALSE);
+				gsf_xml_out_add_int (xout, NUMBER "min-denominator-digits", 3);
+				gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 
+						     int_digits > 0 ? int_digits : 0);
+				gsf_xml_out_add_int (xout, NUMBER "min-numerator-digits", 1);
+				gsf_xml_out_end_element (xout); /* </number:fraction> */
+			}
+			gsf_xml_out_end_element (xout); /* </number:number-style> */
+			g_string_free (accum, TRUE);
+			return;
+			
+		case '0': 
+			zeroes = 1;
+			/* fall through */
+		case '#': case '?': {
+			int i = 1;
+			if (fraction_completed) {
+				zeroes = 0;
+				break;
+			}  
+			ODF_CLOSE_STRING;
+                        /* ODF allows only for a single fraction specification */
+			fraction_in_progress = TRUE;
+			while (*xl == '0' || *xl == '?' ||*xl == '#') {
+				if (*xl == '0') zeroes++;
+				xl++; i++;
+			}
+			if (zeroes > 0 && *(xl - 1) != '0') zeroes++;
+			if (*xl == '/')
+				min_numerator_digits = zeroes;
+			else
+				int_digits = zeroes;
+			zeroes = 0;
+			break;
+		}
+
+		case '/': {
+			int fixed_denominator;
+			int digits = 0;
+			int i = 0;
+
+			if (fraction_completed) break;
+                        /* ODF allows only for a single fraction specification */
+			ODF_CLOSE_STRING;
+			fraction_in_progress = TRUE;
+
+			fixed_denominator = atoi (xl);
+			while (g_ascii_isdigit (*xl) || *xl == '?' ||*xl == '#') {
+				if (*xl == '0') zeroes++;
+				if (g_ascii_isdigit (*xl)) digits ++;
+				xl++; i++;
+			}
+
+			gsf_xml_out_start_element (xout, NUMBER "fraction");
+			odf_add_bool (xout, NUMBER "grouping", FALSE);
+			if ((fixed_denominator > 0) && (digits == i))
+				gsf_xml_out_add_int (xout, NUMBER "denominator-value", 
+						     fixed_denominator);
+			gsf_xml_out_add_int (xout, NUMBER "min-denominator-digits", i);
+			
+			if (int_digits >= 0)
+				gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", int_digits);
+			else {
+				gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 0);
+				gsf_xml_out_add_cstr_unchecked (xout, GNMSTYLE "no-integer-part", 
+								"true");
+			}
+			gsf_xml_out_add_int (xout, NUMBER "min-numerator-digits", 
+					     min_numerator_digits);
+			gsf_xml_out_end_element (xout); /* </number:fraction> */
+			fraction_completed = TRUE;
+			break;
+		}
+
+		case 'd': case 'D':
+		case 'y': case 'Y':
+		case 'b': case 'B':
+		case 'e': 
+		case 'g': case 'G':
+		case 'h': case 'H':
+		case 'm': case 'M':
+		case 's': case 'S':
+		case TOK_AMPM3:
+		case TOK_AMPM5:
+		case TOK_ELAPSED_H:
+		case TOK_ELAPSED_M:
+		case TOK_ELAPSED_S:
+		case TOK_GENERAL:
+		case TOK_INVISIBLE_CHAR:
+		case TOK_REPEATED_CHAR:
+		case TOK_COLOR:
+		case TOK_CONDITION:
+		case TOK_LOCALE:
+		case TOK_ERROR:
+			break;
+
+		case TOK_STRING: {
+			size_t len = strchr (token + 1, '"') - (token + 1);
+			if (len > 0) {
+				ODF_OPEN_STRING;
+				g_string_append_len (accum, token + 1, len);
+			}
+			break;
+		}
+			
+		case TOK_CHAR: {
+			size_t len = g_utf8_next_char(token) - (token);
+			if (len > 0) {
+				ODF_OPEN_STRING;
+				g_string_append_len (accum, token, len);
+			}
+			break;
+		}
+
+		case TOK_ESCAPED_CHAR: {
+			size_t len = g_utf8_next_char(token + 1) - (token + 1);
+			if (len > 0) {
+				ODF_OPEN_STRING;
+				g_string_append_len (accum, token + 1, len);
+			}
+			break;
+		}
+
+		case TOK_THOUSAND:
+			ODF_OPEN_STRING;
+			g_string_append_c (accum, ',');
+			break;
+
+		case TOK_DECIMAL:
+			ODF_OPEN_STRING;
+			g_string_append_c (accum, '.');
+			break;
+
+		default:
+			ODF_OPEN_STRING;
+			g_string_append_c (accum, t);
+			break;
+		}
+	}
 }
+
+#undef ODF_CLOSE_STRING
+#undef ODF_OPEN_STRING
 
 static void
 go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name,  GOFormatDetails *dst)

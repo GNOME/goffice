@@ -1,5 +1,10 @@
 2009-05-31  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_output_fraction_to_odf):
+	  rewrite to export the true format
+	
+2009-05-31  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (go_format_output_date_to_odf): store
 	  magic and handle fractional seconds
 
