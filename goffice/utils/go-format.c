@@ -5923,13 +5923,18 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char con
 				if (g_ascii_isdigit (*xl)) digits ++;
 				xl++; i++;
 			}
+			if (!g_ascii_isdigit (*(xl - 1)))
+				zeroes++;
 
 			gsf_xml_out_start_element (xout, NUMBER "fraction");
 			odf_add_bool (xout, NUMBER "grouping", FALSE);
-			if ((fixed_denominator > 0) && (digits == i))
+			if ((fixed_denominator > 0) && (digits == i)) {
 				gsf_xml_out_add_int (xout, NUMBER "denominator-value", 
 						     fixed_denominator);
-			gsf_xml_out_add_int (xout, NUMBER "min-denominator-digits", i);
+				gsf_xml_out_add_int (xout, NUMBER "min-denominator-digits", digits);
+			} else 
+				gsf_xml_out_add_int (xout, NUMBER "min-denominator-digits", zeroes);
+			gsf_xml_out_add_int (xout, GNMSTYLE "max-denominator-digits", i);
 			
 			if (int_digits >= 0)
 				gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", int_digits);
