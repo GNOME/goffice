@@ -5741,6 +5741,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 			ODF_CLOSE_STRING;
 			gsf_xml_out_start_element (xout, NUMBER "hours");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+			gsf_xml_out_add_cstr (xout, GNMSTYLE "elapsed", "true");
 			gsf_xml_out_end_element (xout); /* </number:hours> */
 			m_is_minutes = TRUE;
 			break;
@@ -5754,6 +5755,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 			ODF_CLOSE_STRING;
 			gsf_xml_out_start_element (xout, NUMBER "minutes");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
+			gsf_xml_out_add_cstr (xout, GNMSTYLE "elapsed", "true");
 			gsf_xml_out_end_element (xout); /* </number:minutes> */
 
 		case TOK_ELAPSED_S:
@@ -5768,6 +5770,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 			ODF_CLOSE_STRING;
 			gsf_xml_out_start_element (xout, NUMBER "seconds");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+			gsf_xml_out_add_cstr (xout, GNMSTYLE "elapsed", "true");
 			gsf_xml_out_end_element (xout); /* </number:seconds> */
 			break;
 

@@ -1,3 +1,8 @@
+2009-06-01  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_output_date_to_odf):
+	  mark elaspsed time with gnm: attribute
+	
 2009-05-31  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_inc_precision,
@@ -5,6 +10,11 @@
 	go_format_generate_str.  That handles accounting formats and is
 	less hacky.
 
+2009-06-01  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_output_date_to_odf):
+	  mark elaspsed time with gnm: attribute
+	
 2009-05-31  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_output_fraction_to_odf):
