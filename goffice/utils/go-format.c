@@ -5916,7 +5916,6 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char con
 			if (fraction_completed) break;
                         /* ODF allows only for a single fraction specification */
 			ODF_CLOSE_STRING;
-			fraction_in_progress = TRUE;
 
 			fixed_denominator = atoi (xl);
 			while (g_ascii_isdigit (*xl) || *xl == '?' ||*xl == '#') {
@@ -5943,6 +5942,7 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char con
 					     min_numerator_digits);
 			gsf_xml_out_end_element (xout); /* </number:fraction> */
 			fraction_completed = TRUE;
+			fraction_in_progress = FALSE;
 			break;
 		}
 

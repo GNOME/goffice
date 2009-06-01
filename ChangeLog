@@ -1,5 +1,10 @@
 2009-06-01  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_output_fraction_to_odf):
+	  indicate when number:text are again possible
+
+2009-06-01  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (go_format_output_date_to_odf):
 	  mark elaspsed time with gnm: attribute
 	
