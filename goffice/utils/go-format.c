@@ -3916,7 +3916,32 @@ go_format_inc_precision (GOFormat const *fmt)
 	GString *res = g_string_new (NULL);
 	const char *str = fmt->format;
 	gssize last_zero = -1;
+	GOFormatDetails details;
+	gboolean exact;
 
+	go_format_get_details (fmt, &details, &exact);
+	if (exact) {
+		switch (details.family) {
+		case GO_FORMAT_NUMBER:
+		case GO_FORMAT_SCIENTIFIC:
+		case GO_FORMAT_CURRENCY:
+		case GO_FORMAT_ACCOUNTING:
+		case GO_FORMAT_PERCENTAGE:
+			if (details.num_decimals >= 30)
+				return NULL;
+			details.num_decimals++;
+			go_format_generate_str (res, &details);
+			return make_frobbed_format (g_string_free (res, FALSE),
+						    fmt);
+		case GO_FORMAT_GENERAL:
+		case GO_FORMAT_TEXT:
+			return NULL;
+		default:
+			break;
+		}
+	}
+
+	/* Fall-back.  */
 	while (1) {
 		const char *tstr = str;
 		GOFormatTokenType tt;
@@ -3998,7 +4023,32 @@ go_format_dec_precision (GOFormat const *fmt)
 {
 	GString *res = g_string_new (NULL);
 	const char *str = fmt->format;
+	GOFormatDetails details;
+	gboolean exact;
 
+	go_format_get_details (fmt, &details, &exact);
+	if (exact) {
+		switch (details.family) {
+		case GO_FORMAT_NUMBER:
+		case GO_FORMAT_SCIENTIFIC:
+		case GO_FORMAT_CURRENCY:
+		case GO_FORMAT_ACCOUNTING:
+		case GO_FORMAT_PERCENTAGE:
+			if (details.num_decimals <= 0)
+				return NULL;
+			details.num_decimals--;
+			go_format_generate_str (res, &details);
+			return make_frobbed_format (g_string_free (res, FALSE),
+						    fmt);
+		case GO_FORMAT_GENERAL:
+		case GO_FORMAT_TEXT:
+			return NULL;
+		default:
+			break;
+		}
+	}
+
+	/* Fall-back.  */
 	while (1) {
 		const char *tstr = str;
 		GOFormatTokenType tt;
@@ -4039,6 +4089,9 @@ go_format_toggle_1000sep (GOFormat const *fmt)
 
 	res = g_string_new (NULL);
 	str = fmt->format;
+
+	/* No need to go via go_format_get_details since we can handle
+	   all the standard formats with the code below.  */
 
 	while (1) {
 		const char *tstr = str;
