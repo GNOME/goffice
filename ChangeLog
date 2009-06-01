@@ -1,5 +1,13 @@
 2009-06-01  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.h (go_format_output_to_odf): add argument
+	* goffice/utils/go-format.c (go_format_output_to_odf): add argument
+	  and pass to go_format_output_*_to_odf
+	(go_format_output_*_to_odf): add argument determining whether to use
+	  foreign elements
+	
+2009-06-01  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
 	* goffice/utils/go-format.c (go_format_output_fraction_to_odf):
 	  fix min-denominator-digits
 	

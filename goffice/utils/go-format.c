@@ -5525,7 +5525,9 @@ odf_add_bool (GsfXMLOut *xout, char const *id, gboolean val)
 				 }
 
 static void
-go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, GOFormatDetails *dst)
+go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, 
+			      GOFormatDetails *dst, 
+			      gboolean with_extension)
 {
 	char const *xl = go_format_as_XL (fmt);
 	GString *accum = g_string_new (NULL);
@@ -5550,8 +5552,10 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 	if (dst->magic == GO_FORMAT_MAGIC_NONE)
 		gsf_xml_out_add_cstr (xout, NUMBER "format-source", "fixed");
 	else {
+		xl = _(xl);
 		gsf_xml_out_add_cstr (xout, NUMBER "format-source", "language");
-		gsf_xml_out_add_int (xout, GNMSTYLE "format-magic", dst->magic);
+		if (with_extension)
+			gsf_xml_out_add_int (xout, GNMSTYLE "format-magic", dst->magic);
 	}
 
 	while (1) {
@@ -5741,7 +5745,8 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 			ODF_CLOSE_STRING;
 			gsf_xml_out_start_element (xout, NUMBER "hours");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
-			gsf_xml_out_add_cstr (xout, GNMSTYLE "elapsed", "true");
+			if (with_extension)
+				gsf_xml_out_add_cstr (xout, GNMSTYLE "elapsed", "true");
 			gsf_xml_out_end_element (xout); /* </number:hours> */
 			m_is_minutes = TRUE;
 			break;
@@ -5755,7 +5760,8 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 			ODF_CLOSE_STRING;
 			gsf_xml_out_start_element (xout, NUMBER "minutes");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
-			gsf_xml_out_add_cstr (xout, GNMSTYLE "elapsed", "true");
+			if (with_extension)
+				gsf_xml_out_add_cstr (xout, GNMSTYLE "elapsed", "true");
 			gsf_xml_out_end_element (xout); /* </number:minutes> */
 
 		case TOK_ELAPSED_S:
@@ -5770,7 +5776,8 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 			ODF_CLOSE_STRING;
 			gsf_xml_out_start_element (xout, NUMBER "seconds");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
-			gsf_xml_out_add_cstr (xout, GNMSTYLE "elapsed", "true");
+			if (with_extension)
+				gsf_xml_out_add_cstr (xout, GNMSTYLE "elapsed", "true");
 			gsf_xml_out_end_element (xout); /* </number:seconds> */
 			break;
 
@@ -5844,7 +5851,8 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 				 }
 
 static void
-go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name)
+go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, 
+				  gboolean with_extension)
 {
 	char const *xl = go_format_as_XL (fmt);
 	GString *accum = g_string_new (NULL);
@@ -5934,14 +5942,16 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char con
 				gsf_xml_out_add_int (xout, NUMBER "min-denominator-digits", digits);
 			} else 
 				gsf_xml_out_add_int (xout, NUMBER "min-denominator-digits", zeroes);
-			gsf_xml_out_add_int (xout, GNMSTYLE "max-denominator-digits", i);
+			if (with_extension)
+				gsf_xml_out_add_int (xout, GNMSTYLE "max-denominator-digits", i);
 			
 			if (int_digits >= 0)
 				gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", int_digits);
 			else {
 				gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 0);
-				gsf_xml_out_add_cstr_unchecked (xout, GNMSTYLE "no-integer-part", 
-								"true");
+				if (with_extension)
+					gsf_xml_out_add_cstr_unchecked 
+						(xout, GNMSTYLE "no-integer-part", "true");
 			}
 			gsf_xml_out_add_int (xout, NUMBER "min-numerator-digits", 
 					     min_numerator_digits);
@@ -6022,7 +6032,9 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char con
 #undef ODF_OPEN_STRING
 
 static void
-go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name,  GOFormatDetails *dst)
+go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, 
+					   char const *name,  GOFormatDetails *dst, 
+					   gboolean with_extension)
 {
 	gsf_xml_out_start_element (xout, NUMBER "number-style");
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
@@ -6036,8 +6048,10 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 }
 
 static void
-go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, GOFormatDetails *dst, 
-				  GOFormatCondition *condition, int cond_part)
+go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, 
+				GOFormatDetails *dst, 
+				GOFormatCondition *condition, int cond_part, 
+				gboolean with_extension)
 {
 	gboolean parentheses = (cond_part == 1) && dst->negative_paren;
 	gboolean no_neg = (condition != NULL) && condition->true_inhibits_minus;
@@ -6064,8 +6078,10 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const
 }
 
 static void
-go_format_output_currency_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, GOFormatDetails *dst, 
-				  GOFormatCondition *condition, int cond_part)
+go_format_output_currency_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, 
+				  GOFormatDetails *dst, 
+				  GOFormatCondition *condition, int cond_part, 
+				  gboolean with_extension)
 {
 	gboolean parentheses = (cond_part == 1) && dst->negative_paren;
 	gboolean no_neg = (condition != NULL) && condition->true_inhibits_minus;
@@ -6101,7 +6117,8 @@ go_format_output_currency_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char con
 
 #ifdef DEFINE_COMMON
 gboolean
-go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt, int cond_part, char const *name)
+go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt, int cond_part, char const *name, 
+			 gboolean with_extension)
 {
 	gboolean pp = TRUE, result = TRUE;
 	GOFormatDetails dst;
@@ -6132,27 +6149,27 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt, int cond_part, ch
 		result = FALSE;
 		break;
 	case GO_FORMAT_DATE:
-		go_format_output_date_to_odf (xout, act_fmt, name, &dst);
+		go_format_output_date_to_odf (xout, act_fmt, name, &dst, with_extension);
 		break;
 	case GO_FORMAT_TIME:
-		go_format_output_date_to_odf (xout, act_fmt, name, &dst);
+		go_format_output_date_to_odf (xout, act_fmt, name, &dst, with_extension);
 		break;
 	case GO_FORMAT_FRACTION:
-		go_format_output_fraction_to_odf (xout, act_fmt, name);
+		go_format_output_fraction_to_odf (xout, act_fmt, name, with_extension);
 		break;
 	case GO_FORMAT_SCIENTIFIC:
 		go_format_output_scientific_number_to_odf (xout, act_fmt, 
-							   name, &dst);
+							   name, &dst, with_extension);
 		break;
 	case GO_FORMAT_CURRENCY:
 	case GO_FORMAT_ACCOUNTING:
 		go_format_output_currency_to_odf (xout, fmt, name, &dst, 
-						  condition, cond_part);
+						  condition, cond_part, with_extension);
 		break;
 	case GO_FORMAT_PERCENTAGE:
 	case GO_FORMAT_NUMBER:
 		go_format_output_number_to_odf (xout, act_fmt, name, &dst, 
-						condition, cond_part);
+						condition, cond_part, with_extension);
 		break;
 	default:
 		result = FALSE;
