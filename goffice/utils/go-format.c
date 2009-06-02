@@ -5544,13 +5544,14 @@ odf_add_bool (GsfXMLOut *xout, char const *id, gboolean val)
 				 }
 
 static void
-go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, 
-			      GOFormatDetails *dst, 
+go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
+			      char const *name, 
+			      GOFormatDetails const *details,
 			      gboolean with_extension)
 {
 	char const *xl = go_format_as_XL (fmt);
 	GString *accum = g_string_new (NULL);
-	gboolean time_only = (dst->family == GO_FORMAT_TIME);
+	gboolean time_only = (details->family == GO_FORMAT_TIME);
 	gboolean seen_year = FALSE;
 	gboolean seen_month = FALSE;
 	gboolean seen_day = FALSE;
@@ -5568,13 +5569,13 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 	gsf_xml_out_start_element (xout,  time_only ? 
 				   NUMBER "time-style" : NUMBER "date-style");
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
-	if (dst->magic == GO_FORMAT_MAGIC_NONE)
+	if (details->magic == GO_FORMAT_MAGIC_NONE)
 		gsf_xml_out_add_cstr (xout, NUMBER "format-source", "fixed");
 	else {
 		xl = _(xl);
 		gsf_xml_out_add_cstr (xout, NUMBER "format-source", "language");
 		if (with_extension)
-			gsf_xml_out_add_int (xout, GNMSTYLE "format-magic", dst->magic);
+			gsf_xml_out_add_int (xout, GNMSTYLE "format-magic", details->magic);
 	}
 
 	while (1) {
@@ -5870,7 +5871,8 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *
 				 }
 
 static void
-go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, 
+go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
+				  char const *name, 
 				  gboolean with_extension)
 {
 	char const *xl = go_format_as_XL (fmt);
@@ -6051,36 +6053,39 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char con
 #undef ODF_OPEN_STRING
 
 static void
-go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, 
-					   char const *name,  GOFormatDetails *dst, 
+go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
+					   char const *name,
+					   GOFormatDetails const *details, 
 					   gboolean with_extension)
 {
 	gsf_xml_out_start_element (xout, NUMBER "number-style");
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
 	gsf_xml_out_start_element (xout, NUMBER "scientific-number");
-	gsf_xml_out_add_int (xout, NUMBER "decimal-places", dst->num_decimals);
-	odf_add_bool (xout, NUMBER "grouping", dst->thousands_sep);
-	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", dst->min_digits);
+	gsf_xml_out_add_int (xout, NUMBER "decimal-places", details->num_decimals);
+	odf_add_bool (xout, NUMBER "grouping", details->thousands_sep);
+	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", details->min_digits);
 	gsf_xml_out_add_int (xout, NUMBER "min-exponent-digits", 2);
 	gsf_xml_out_end_element (xout); /* </number:scientific-number> */
 	gsf_xml_out_end_element (xout); /* </number:number-style> */
 }
 
 static void
-go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, 
-				GOFormatDetails *dst, 
-				GOFormatCondition *condition, int cond_part, 
+go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
+				char const *name, 
+				GOFormatDetails const *details, 
+				GOFormatCondition const *condition,
+				int cond_part, 
 				gboolean with_extension)
 {
-	gboolean parentheses = (cond_part == 1) && dst->negative_paren;
+	gboolean parentheses = (cond_part == 1) && details->negative_paren;
 	gboolean no_neg = (condition != NULL) && condition->true_inhibits_minus;
 
-	if (dst->family == GO_FORMAT_PERCENTAGE)
+	if (details->family == GO_FORMAT_PERCENTAGE)
 		gsf_xml_out_start_element (xout, NUMBER "percentage-style");
 	else 
 		gsf_xml_out_start_element (xout, NUMBER "number-style");
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
-	if ((cond_part == 1) && dst->negative_red) {
+	if (cond_part == 1 && details->negative_red) {
 		gsf_xml_out_start_element (xout, STYLE "text-properties");
 		gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", "#FF0000");
 		gsf_xml_out_end_element (xout); /*<style:text-properties>*/
@@ -6088,12 +6093,12 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const
 	if (parentheses)
 		gsf_xml_out_simple_element(xout, NUMBER "text", "(");
 	gsf_xml_out_start_element (xout, NUMBER "number");
-	gsf_xml_out_add_int (xout, NUMBER "decimal-places", dst->num_decimals);
+	gsf_xml_out_add_int (xout, NUMBER "decimal-places", details->num_decimals);
 	gsf_xml_out_add_int (xout, NUMBER "display-factor",  no_neg ? -1 : 1);
-	odf_add_bool (xout, NUMBER "grouping", dst->thousands_sep);
-	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", dst->min_digits);
+	odf_add_bool (xout, NUMBER "grouping", details->thousands_sep);
+	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", details->min_digits);
 	gsf_xml_out_end_element (xout); /* </number:number> */
-	if (dst->family == GO_FORMAT_PERCENTAGE)
+	if (details->family == GO_FORMAT_PERCENTAGE)
 			gsf_xml_out_simple_element(xout, NUMBER "text", parentheses ? "%)" : "%");
 	else if (parentheses)
 		gsf_xml_out_simple_element(xout, NUMBER "text", ")");
@@ -6102,40 +6107,42 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const
 }
 
 static void
-go_format_output_currency_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const *name, 
-				  GOFormatDetails *dst, 
-				  GOFormatCondition *condition, int cond_part, 
+go_format_output_currency_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
+				  char const *name, 
+				  GOFormatDetails const *details, 
+				  GOFormatCondition const *condition,
+				  int cond_part, 
 				  gboolean with_extension)
 {
-	gboolean parentheses = (cond_part == 1) && dst->negative_paren;
+	gboolean parentheses = (cond_part == 1) && details->negative_paren;
 	gboolean no_neg = (condition != NULL) && condition->true_inhibits_minus;
 
 	gsf_xml_out_start_element (xout, NUMBER "currency-style");
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
-	if ((cond_part == 1) && dst->negative_red) {
+	if ((cond_part == 1) && details->negative_red) {
 		gsf_xml_out_start_element (xout, STYLE "text-properties");
 		gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", "#FF0000");
 		gsf_xml_out_end_element (xout); /*<style:text-properties>*/
 	}
 	if (parentheses)
 		gsf_xml_out_simple_element(xout, NUMBER "text", "(");
-	if (dst->currency->precedes) {
+	if (details->currency->precedes) {
 		gsf_xml_out_simple_element(xout, NUMBER "currency-symbol", 
-					   dst->currency->symbol);
-		if (dst->currency->has_space)
+					   details->currency->symbol);
+		if (details->currency->has_space)
 			gsf_xml_out_simple_element(xout, NUMBER "text", " ");
 	}
 	gsf_xml_out_start_element (xout, NUMBER "number");
-	gsf_xml_out_add_int (xout, NUMBER "decimal-places", dst->num_decimals);
+	gsf_xml_out_add_int (xout, NUMBER "decimal-places", details->num_decimals);
 	gsf_xml_out_add_int (xout, NUMBER "display-factor", no_neg ? -1 : 1);
-	odf_add_bool (xout, NUMBER "grouping", dst->thousands_sep);
-	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", dst->min_digits);
+	odf_add_bool (xout, NUMBER "grouping", details->thousands_sep);
+	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", details->min_digits);
 	gsf_xml_out_end_element (xout); /* </number:number> */
-	if (!dst->currency->precedes) {
-		if (dst->currency->has_space)
+	if (!details->currency->precedes) {
+		if (details->currency->has_space)
 			gsf_xml_out_simple_element(xout, NUMBER "text", " ");
 		gsf_xml_out_simple_element(xout, NUMBER "currency-symbol", 
-					   dst->currency->symbol);
+					   details->currency->symbol);
 	}
 	if (parentheses)
 		gsf_xml_out_simple_element(xout, NUMBER "text", ")");
@@ -6146,11 +6153,12 @@ go_format_output_currency_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char con
 
 #ifdef DEFINE_COMMON
 gboolean
-go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt, int cond_part, char const *name, 
+go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
+			 int cond_part, char const *name, 
 			 gboolean with_extension)
 {
 	gboolean pp = TRUE, result = TRUE;
-	GOFormatDetails dst;
+	GOFormatDetails details;
 	gboolean exact;
 	GOFormat const *act_fmt;
 	GOFormatCondition *condition = NULL;
@@ -6171,33 +6179,33 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt, int cond_part, ch
 	/* We need to switch off pretty printing since number:text preserves whitespace */
 	g_object_set (G_OBJECT (xout), "pretty-print", FALSE, NULL);
 
-	go_format_get_details (fmt, &dst, &exact);
+	go_format_get_details (fmt, &details, &exact);
 
-	switch (dst.family) {
+	switch (details.family) {
 	case GO_FORMAT_GENERAL:
 		result = FALSE;
 		break;
 	case GO_FORMAT_DATE:
-		go_format_output_date_to_odf (xout, act_fmt, name, &dst, with_extension);
+		go_format_output_date_to_odf (xout, act_fmt, name, &details, with_extension);
 		break;
 	case GO_FORMAT_TIME:
-		go_format_output_date_to_odf (xout, act_fmt, name, &dst, with_extension);
+		go_format_output_date_to_odf (xout, act_fmt, name, &details, with_extension);
 		break;
 	case GO_FORMAT_FRACTION:
 		go_format_output_fraction_to_odf (xout, act_fmt, name, with_extension);
 		break;
 	case GO_FORMAT_SCIENTIFIC:
 		go_format_output_scientific_number_to_odf (xout, act_fmt, 
-							   name, &dst, with_extension);
+							   name, &details, with_extension);
 		break;
 	case GO_FORMAT_CURRENCY:
 	case GO_FORMAT_ACCOUNTING:
-		go_format_output_currency_to_odf (xout, fmt, name, &dst, 
+		go_format_output_currency_to_odf (xout, fmt, name, &details, 
 						  condition, cond_part, with_extension);
 		break;
 	case GO_FORMAT_PERCENTAGE:
 	case GO_FORMAT_NUMBER:
-		go_format_output_number_to_odf (xout, act_fmt, name, &dst, 
+		go_format_output_number_to_odf (xout, act_fmt, name, &details, 
 						condition, cond_part, with_extension);
 		break;
 	default:
