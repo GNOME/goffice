@@ -6060,7 +6060,7 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	gsf_xml_out_start_element (xout, NUMBER "scientific-number");
 	gsf_xml_out_add_int (xout, NUMBER "decimal-places", dst->num_decimals);
 	odf_add_bool (xout, NUMBER "grouping", dst->thousands_sep);
-	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 1);
+	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", dst->min_digits);
 	gsf_xml_out_add_int (xout, NUMBER "min-exponent-digits", 2);
 	gsf_xml_out_end_element (xout); /* </number:scientific-number> */
 	gsf_xml_out_end_element (xout); /* </number:number-style> */
@@ -6091,7 +6091,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const
 	gsf_xml_out_add_int (xout, NUMBER "decimal-places", dst->num_decimals);
 	gsf_xml_out_add_int (xout, NUMBER "display-factor",  no_neg ? -1 : 1);
 	odf_add_bool (xout, NUMBER "grouping", dst->thousands_sep);
-	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 1);
+	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", dst->min_digits);
 	gsf_xml_out_end_element (xout); /* </number:number> */
 	if (dst->family == GO_FORMAT_PERCENTAGE)
 			gsf_xml_out_simple_element(xout, NUMBER "text", parentheses ? "%)" : "%");
@@ -6129,7 +6129,7 @@ go_format_output_currency_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char con
 	gsf_xml_out_add_int (xout, NUMBER "decimal-places", dst->num_decimals);
 	gsf_xml_out_add_int (xout, NUMBER "display-factor", no_neg ? -1 : 1);
 	odf_add_bool (xout, NUMBER "grouping", dst->thousands_sep);
-	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 1);
+	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", dst->min_digits);
 	gsf_xml_out_end_element (xout); /* </number:number> */
 	if (!dst->currency->precedes) {
 		if (dst->currency->has_space)

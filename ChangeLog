@@ -1,3 +1,10 @@
+2009-06-02  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c (go_format_output_number_to_odf):
+	  use min_digits from format details
+	(go_format_output_scientific_number_to_odf): ditto
+	(go_format_output_currency_to_odf): ditto
+
 2009-06-02  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (study_format): Deal with issues the
