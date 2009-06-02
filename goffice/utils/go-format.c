@@ -6061,6 +6061,11 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char const
 	else 
 		gsf_xml_out_start_element (xout, NUMBER "number-style");
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
+	if ((cond_part == 1) && dst->negative_red) {
+		gsf_xml_out_start_element (xout, STYLE "text-properties");
+		gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", "#FF0000");
+		gsf_xml_out_end_element (xout); /*<style:text-properties>*/
+	}
 	if (parentheses)
 		gsf_xml_out_simple_element(xout, NUMBER "text", "(");
 	gsf_xml_out_start_element (xout, NUMBER "number");
@@ -6088,6 +6093,11 @@ go_format_output_currency_to_odf (GsfXMLOut *xout, GOFormat const *fmt, char con
 
 	gsf_xml_out_start_element (xout, NUMBER "currency-style");
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
+	if ((cond_part == 1) && dst->negative_red) {
+		gsf_xml_out_start_element (xout, STYLE "text-properties");
+		gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", "#FF0000");
+		gsf_xml_out_end_element (xout); /*<style:text-properties>*/
+	}
 	if (parentheses)
 		gsf_xml_out_simple_element(xout, NUMBER "text", "(");
 	if (dst->currency->precedes) {
