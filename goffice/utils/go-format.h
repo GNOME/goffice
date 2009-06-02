@@ -81,9 +81,10 @@ typedef struct {
 	GOFormatMagic magic;
 
 	/* NUMBER, SCIENTIFIC, CURRENCY, ACCOUNTING, PERCENTAGE: */
+	int min_digits;
 	int num_decimals;
 
-	/* NUMBER, CURRENCY, PERCENTAGE: */
+	/* NUMBER, CURRENCY, ACCOUNTING, PERCENTAGE: */
 	gboolean thousands_sep;
 
 	/* NUMBER, CURRENCY, ACCOUNTING, PERCENTAGE: */
@@ -140,27 +141,15 @@ GOFormat *go_format_default_money	(void);
 GOFormat *go_format_default_accounting  (void);
 
 void      go_format_generate_number_str (GString *dst,
+					 int min_digits,
 					 int num_decimals,
 					 gboolean thousands_sep,
 					 gboolean negative_red,
 					 gboolean negative_paren,
 					 const char *prefix,
 					 const char *postfix);
-void  go_format_generate_scientific_str (GString *dst,
-					 int num_decimals,
-					 int exponent_step,
-					 gboolean use_markup,
-					 gboolean simplify_mantissa);
-void  go_format_generate_accounting_str (GString *dst,
-					 int num_decimals,
-					 GOFormatCurrency const *currency);
-void  go_format_generate_currency_str   (GString *dst,
-					 int num_decimals,
-					 gboolean thousands_sep,
-					 gboolean negative_red,
-					 gboolean negative_paren,
-					 GOFormatCurrency const *currency,
-					 gboolean force_quoted);
+void  go_format_details_init            (GOFormatDetails *details,
+					 GOFormatFamily family);
 void  go_format_generate_str            (GString *dst,
 					 GOFormatDetails const *details);
 

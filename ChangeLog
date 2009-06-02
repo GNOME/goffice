@@ -1,3 +1,17 @@
+2009-06-02  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-format-sel.c (study_format): Deal with issues the
+	GUI does not handle.
+
+	* goffice/utils/go-format.c (go_format_get_details): Figure out
+	min_digit_width too.  Figure out decimals for seconds.  Use
+	go_format_details_init.
+	(go_format_details_init): New function.
+	(go_format_generate_currency_str,
+	go_format_generate_accounting_str,
+	go_format_generate_scientific_str): Make static and just take
+	details.  All callers fixed use to go_format_generate_str.
+
 2009-06-02  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_output_number_to_odf): set

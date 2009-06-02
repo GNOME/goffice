@@ -4974,6 +4974,7 @@ go_format_default_accounting (void)
 /**
  * go_format_generate_number_str:
  * @dst: GString to append format string to.
+ * @min_digits: minimum number of digits before decimal separator.
  * @num_decimals: number of decimals
  * @thousands_sep: if true, use a thousands separator.
  * @negative_red: if true, make negative values red.
@@ -4986,6 +4987,7 @@ go_format_default_accounting (void)
  **/
 void
 go_format_generate_number_str (GString *dst,
+			       int min_digits,
 			       int num_decimals,
 			       gboolean thousands_sep,
 			       gboolean negative_red,
@@ -4995,13 +4997,31 @@ go_format_generate_number_str (GString *dst,
 	size_t init_len = dst->len;
 	size_t plain_len;
 
+	if (min_digits < 0) min_digits = 0;
+	if (num_decimals < 0) num_decimals = 0;
+
 	if (prefix)
 		g_string_append (dst, prefix);
 
-	if (thousands_sep)
-		g_string_append (dst, "#,##0");
-	else
-		g_string_append_c (dst, '0');
+	if (thousands_sep) {
+		switch (min_digits) {
+		case 0: g_string_append (dst, "#,###"); break;
+		case 1: g_string_append (dst, "#,##0"); break;
+		case 2: g_string_append (dst, "#,#00"); break;
+		case 3: g_string_append (dst, "#,000"); break;
+		default: {
+			int r = min_digits % 3;
+			go_string_append_c_n (dst, '0', r ? r : 3);
+			for (r = min_digits; r > 3; r -= 3)
+				g_string_append (dst, ",000");
+		}
+		}
+	} else {
+		if (min_digits > 0)
+			go_string_append_c_n (dst, '0', min_digits);
+		else
+			g_string_append_c (dst, '#');
+	}
 
 	if (num_decimals > 0) {
 		g_string_append_c (dst, '.');
@@ -5029,36 +5049,21 @@ go_format_generate_number_str (GString *dst,
 #endif
 
 #ifdef DEFINE_COMMON
-/**
- * go_format_generate_scientific_str:
- * @dst: GString to append format string to.
- * @num_decimals: number of decimals
- * @exponent_step: pick exponent divisible by them.  Typically 1 or 3.
- * @use_markup: if true, use pango markup for exponent.
- * @simplify_mantissa: if true, avoid pointless "1*" mantissas.
- *
- * Generates a format string for a scientific format with the given
- * parameters and appends it to @dst.
- **/
-void
-go_format_generate_scientific_str (GString *dst,
-				   int num_decimals,
-				   int exponent_step,
-				   gboolean use_markup,
-				   gboolean simplify_mantissa)
+static void
+go_format_generate_scientific_str (GString *dst, GOFormatDetails const *details)
 {
-	go_string_append_c_n (dst, '#', MAX (0, exponent_step - 1));
-	if (simplify_mantissa)
+	go_string_append_c_n (dst, '#', MAX (0, details->exponent_step - 1));
+	if (details->simplify_mantissa)
 		g_string_append_c (dst, '#');
 	else
 		g_string_append_c (dst, '0');
 
-	if (num_decimals > 0) {
+	if (details->num_decimals > 0) {
 		g_string_append_c (dst, '.');
-		go_string_append_c_n (dst, '0', num_decimals);
+		go_string_append_c_n (dst, '0', details->num_decimals);
 	}
 
-	if (use_markup)
+	if (details->use_markup)
 		g_string_append (dst, "EE0");
 	else
 		g_string_append (dst, "E+00");
@@ -5066,25 +5071,16 @@ go_format_generate_scientific_str (GString *dst,
 #endif
 
 #ifdef DEFINE_COMMON
-/**
- * go_format_generate_accounting_str:
- * @dst: GString to append format string to.
- * @num_decimals: number of decimals.
- * @currency: optional currency descriptor.
- *
- * Generates a format string for an accounting format with the given
- * parameters and appends it to @dst.
- **/
-void
+static void
 go_format_generate_accounting_str (GString *dst,
-				   int num_decimals,
-				   GOFormatCurrency const *currency)
+				   GOFormatDetails const *details)
 {
 	GString *num = g_string_new (NULL);
 	GString *sym = g_string_new (NULL);
 	GString *q = g_string_new (NULL);
 	const char *symstr;
 	const char *quote = "\"";
+	GOFormatCurrency const *currency = details->currency;
 
 	if (!currency)
 		currency = &go_format_currencies[0];
@@ -5106,9 +5102,11 @@ go_format_generate_accounting_str (GString *dst,
 		break;
 	}
 
-	go_format_generate_number_str (num, num_decimals, TRUE,
+	go_format_generate_number_str (num, details->min_digits,
+				       details->num_decimals,
+				       details->thousands_sep,
 				       FALSE, FALSE, NULL, NULL);
-	go_string_append_c_n (q, '?', num_decimals);
+	go_string_append_c_n (q, '?', details->num_decimals);
 
 	if (currency->precedes) {
 		g_string_append (sym, quote);
@@ -5145,36 +5143,19 @@ go_format_generate_accounting_str (GString *dst,
 #endif
 
 #ifdef DEFINE_COMMON
-/**
- * go_format_generate_currency_str:
- * @dst: GString to append format string to.
- * @num_decimals: number of decimals.
- * @thousands_sep: if true, use a thousands separator.
- * @negative_red: if true, make negative values red.
- * @negative_paren: if true, enclose negative values in parentheses.
- * @currency: currency descriptor.
- * @force_quoted: if true, make sure the currency symbol is quoted.
- *
- * Generates a format string for a currency format with the given
- * parameters and appends it to @dst.
- **/
-void
+static void
 go_format_generate_currency_str (GString *dst,
-				 int num_decimals,
-				 gboolean thousands_sep,
-				 gboolean negative_red,
-				 gboolean negative_paren,
-				 GOFormatCurrency const *currency,
-				 gboolean force_quoted)
+				 GOFormatDetails const *details)
 {
 	GString *prefix = NULL;
 	GString *postfix = NULL;
 	gboolean extra_quotes;
+	GOFormatCurrency const *currency = details->currency;
 
 	if (!currency)
 		currency = &go_format_currencies[0];
 
-	extra_quotes = (force_quoted &&
+	extra_quotes = (details->force_quoted &&
 			currency->symbol[0] != '"' &&
 			currency->symbol[0] != 0);
 
@@ -5193,8 +5174,12 @@ go_format_generate_currency_str (GString *dst,
 		if (extra_quotes) g_string_append_c (postfix, '"');
 	}
 
-	go_format_generate_number_str (dst, num_decimals, thousands_sep,
-				       negative_red, negative_paren,
+	go_format_generate_number_str (dst,
+				       details->min_digits,
+				       details->num_decimals,
+				       details->thousands_sep,
+				       details->negative_red,
+				       details->negative_paren,
 				       prefix ? prefix->str : NULL,
 				       postfix ? postfix->str : NULL);
 
@@ -5261,6 +5246,7 @@ go_format_generate_str (GString *dst, GOFormatDetails const *details)
 	case GO_FORMAT_NUMBER:
 		go_format_generate_number_str
 			(dst,
+			 details->min_digits,
 			 details->num_decimals,
 			 details->thousands_sep,
 			 details->negative_red,
@@ -5268,22 +5254,15 @@ go_format_generate_str (GString *dst, GOFormatDetails const *details)
 			 NULL, NULL);
 		break;
 	case GO_FORMAT_CURRENCY:
-		go_format_generate_currency_str
-			(dst,
-			 details->num_decimals,
-			 details->thousands_sep,
-			 details->negative_red,
-			 details->negative_paren,
-			 details->currency,
-			 details->force_quoted);
+		go_format_generate_currency_str (dst, details);
 		break;
 	case GO_FORMAT_ACCOUNTING:
-		go_format_generate_accounting_str
-			(dst, details->num_decimals, details->currency);
+		go_format_generate_accounting_str (dst, details);
 		break;
 	case GO_FORMAT_PERCENTAGE:
 		go_format_generate_number_str
 			(dst,
+			 details->min_digits,
 			 details->num_decimals,
 			 details->thousands_sep,
 			 details->negative_red,
@@ -5291,18 +5270,31 @@ go_format_generate_str (GString *dst, GOFormatDetails const *details)
 			 NULL, "%");
 		break;
 	case GO_FORMAT_SCIENTIFIC:
-		go_format_generate_scientific_str
-			(dst,
-			 details->num_decimals,
-			 details->exponent_step,
-			 details->use_markup,
-			 details->simplify_mantissa);
+		go_format_generate_scientific_str (dst, details);
 		break;
 	default:
 		break;
 	}
 }
 #endif
+
+#ifdef DEFINE_COMMON
+void
+go_format_details_init (GOFormatDetails *details, GOFormatFamily family)
+{
+	g_return_if_fail (details != NULL);
+
+	memset (details, 0, sizeof (*details));
+	/* Assign reasonable defaults.  For most, the memset is just fine. */
+	details->family = family;
+	details->thousands_sep = (family == GO_FORMAT_ACCOUNTING ||
+				  family == GO_FORMAT_CURRENCY);
+	details->magic = GO_FORMAT_MAGIC_NONE;
+	details->exponent_step = 1;
+	details->min_digits = 1;
+}
+#endif
+
 
 #ifdef DEFINE_COMMON
 void
@@ -5314,15 +5306,12 @@ go_format_get_details (GOFormat const *fmt,
 	GString *newstr = NULL;
 	static GOFormatCurrency currency;
 
-	if (dst) memset (dst, 0, sizeof (*dst));
-	if (exact) *exact = FALSE;
 	g_return_if_fail (fmt != NULL);
 	g_return_if_fail (dst != NULL);
 
-	dst->family = go_format_get_family (fmt);
+	if (exact) *exact = FALSE;
+	go_format_details_init (dst, go_format_get_family (fmt));
 	dst->magic = go_format_get_magic (fmt);
-	/* Assign reasonable defaults.  For most, the memset is just fine. */
-	dst->exponent_step = 1;
 
 	str = go_format_as_XL (fmt);
 
@@ -5337,11 +5326,23 @@ go_format_get_details (GOFormat const *fmt,
 		 * the formats we generate ourselves.
 		 */
 
-		const char *dot = strchr (str, '.');
+ 		const char *dot = strchr (str, '.');
+ 		const char *zero = strchr (str, '0');
+ 		const char *comma = strchr (str, ',');
 
 		if (dot) {
 			while (dot[dst->num_decimals + 1] == '0')
 				dst->num_decimals++;
+		}
+
+		dst->min_digits = 0;
+		if (zero) {
+			const char *p = zero;
+			while (*p == ',' || *p == '0') {
+				if (*p == '0')
+					dst->min_digits++;
+				p++;
+			}
 		}
 
 		dst->negative_red = (strstr (str, ";[Red]") != NULL);
@@ -5400,18 +5401,36 @@ go_format_get_details (GOFormat const *fmt,
 			}
 		}
 
-		dst->thousands_sep = (strstr (str, "#,##0") != NULL);
+		dst->thousands_sep = (comma > str &&
+				      (comma[-1] == '0' || comma[-1] == '#') &&
+				      (comma[1] == '0' || comma[1] == '#') &&
+				      (comma[2] == '0' || comma[2] == '#') &&
+				      (comma[3] == '0' || comma[3] == '#'));
 
 		if (dst->family == GO_FORMAT_SCIENTIFIC) {
 			const char *mend = dot ? dot : strchr (str, 'E');
 			dst->use_markup = (strstr (str, "EE0") != NULL);
 			dst->exponent_step = mend - str;
 			dst->simplify_mantissa = mend != str && mend[-1] == '#';
+			if (dst->simplify_mantissa)
+				dst->min_digits = 0;
 		}			
 
-		if (exact) {
+		if (exact != NULL) {
 			newstr = g_string_new (NULL);
 			go_format_generate_str (newstr, dst);
+		}
+
+		break;
+	}
+
+	case GO_FORMAT_DATE:
+	case GO_FORMAT_TIME: {
+		const char *sdot = strstr (str, "s.");
+
+		if (sdot) {
+			while (sdot[dst->num_decimals + 2] == '0')
+				dst->num_decimals++;
 		}
 
 		break;

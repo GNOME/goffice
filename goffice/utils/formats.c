@@ -201,24 +201,25 @@ go_currency_date_format_init (void)
 	GOFormat *fmt;
 	guint N;
 	int i;
+	GOFormatDetails details;
 
+	go_format_details_init (&details, GO_FORMAT_CURRENCY);
+	details.currency = currency;
 	for (i = 0; i < 6; i++) {
-		int num_decimals = (i >= 3) ? 2 : 0;
-		gboolean negative_red = (i % 3 == 2);
-		gboolean negative_paren = (i % 3 >= 1);
 		GString *str = g_string_new (NULL);
-		go_format_generate_currency_str (str, num_decimals, TRUE,
-						 negative_red, negative_paren,
-						 currency, FALSE);
+		details.num_decimals = (i >= 3) ? 2 : 0;
+		details.negative_red = (i % 3 == 2);
+		details.negative_paren = (i % 3 >= 1);
+		go_format_generate_str (str, &details);
 		fmts_currency[i] = g_string_free (str, FALSE);
 	}
 
+	go_format_details_init (&details, GO_FORMAT_ACCOUNTING);
 	for (i = 0; i < 4; i++) {
-		int num_decimals = (i >= 2) ? 2 : 0;
-		gboolean no_currency = (i & 1);
 		GString *str = g_string_new (NULL);
-		go_format_generate_accounting_str
-			(str, num_decimals, no_currency ? NULL : currency);
+		details.num_decimals = (i >= 2) ? 2 : 0;
+		details.currency = (i & 1) ? NULL : currency;
+		go_format_generate_str (str, &details);
 		fmts_accounting[i] = g_string_free (str, FALSE);
 	}
 

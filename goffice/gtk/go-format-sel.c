@@ -830,15 +830,27 @@ study_format (GOFormatSel *gfs)
 {
 	const GOFormat *fmt = gfs->format.spec;
 	gboolean exact;
+	GOFormatDetails *details = &gfs->format.details;
 
-	go_format_get_details (fmt, &gfs->format.details, &exact);
-	if (!exact) {
-		const char *str = go_format_as_XL (fmt);
-		if (!find_builtin (str, gfs->format.details.family, FALSE))
-			gfs->format.details.family = FMT_CUSTOM;
+	go_format_get_details (fmt, details, &exact);
+
+	if (exact) {
+		/* Thing we do not have GUI for: */
+		if (details->family == GO_FORMAT_ACCOUNTING &&
+		    !details->thousands_sep)
+			exact = FALSE;
+
+		if (details->min_digits != 1)
+			exact = FALSE;
 	}
 
-	return gfs->format.details.family;
+	if (!exact) {
+		const char *str = go_format_as_XL (fmt);
+		if (!find_builtin (str, details->family, FALSE))
+			details->family = FMT_CUSTOM;
+	}
+
+	return details->family;
 }
 
 
