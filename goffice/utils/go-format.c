@@ -6126,7 +6126,7 @@ go_format_output_currency_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	}
 	if (parentheses)
 		gsf_xml_out_simple_element(xout, NUMBER "text", "(");
-	if (details->currency->precedes) {
+	if ((details->currency != NULL) && details->currency->precedes) {
 		gsf_xml_out_simple_element(xout, NUMBER "currency-symbol", 
 					   details->currency->symbol);
 		if (details->currency->has_space)
@@ -6138,7 +6138,7 @@ go_format_output_currency_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	odf_add_bool (xout, NUMBER "grouping", details->thousands_sep);
 	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", details->min_digits);
 	gsf_xml_out_end_element (xout); /* </number:number> */
-	if (!details->currency->precedes) {
+	if ((details->currency != NULL) && !details->currency->precedes) {
 		if (details->currency->has_space)
 			gsf_xml_out_simple_element(xout, NUMBER "text", " ");
 		gsf_xml_out_simple_element(xout, NUMBER "currency-symbol", 
