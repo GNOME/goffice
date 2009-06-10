@@ -77,5 +77,6 @@ G_END_DECLS
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/app/go-plugin-service-impl.h>
 #include <goffice/app/io-context.h>
+#include <goffice/app/io-context-priv.h>
 
 #endif /* GOFFICE_GRAPH_H */

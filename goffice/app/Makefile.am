@@ -1,8 +1,7 @@
 noinst_LTLIBRARIES = libgoffice-app.la
 
 noinst_HEADERS = \
-	file-priv.h \
-	io-context-priv.h
+	file-priv.h
 
 libgoffice_app_la_SOURCES = \
 	go-doc.c 			\
