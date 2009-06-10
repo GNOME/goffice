@@ -21,15 +21,9 @@
 #ifndef GOG_GRAPH_H
 #define GOG_GRAPH_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/gog-view.h>
-#include <goffice/data/goffice-data.h>
-#include <goffice/utils/go-image.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf.h>
-
-#include <glib-object.h>
-
 #include <cairo.h>
 
 G_BEGIN_DECLS

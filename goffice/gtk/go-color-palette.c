@@ -28,11 +28,9 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "go-color-palette.h"
-#include <goffice/gtk/goffice-gtk.h>
+#include <goffice/goffice.h>
 #include <goffice/utils/go-marshalers.h>
 
-#include <goffice/utils/go-color.h>
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdk.h>
 #include <glib/gi18n-lib.h>

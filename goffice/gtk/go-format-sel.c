@@ -20,15 +20,8 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "go-format-sel.h"
-
-#include "goffice/gtk/goffice-gtk.h"
-#include "goffice/gtk/go-combo-text.h"
-#include "goffice/utils/go-format.h"
-#include "goffice/utils/go-locale.h"
-#include "goffice/utils/go-color.h"
-#include "goffice/utils/go-marshalers.h"
-#include "goffice/utils/go-glib-extras.h"
+#include <goffice/goffice.h>
+#include <goffice/utils/go-marshalers.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>

@@ -27,6 +27,7 @@
 G_BEGIN_DECLS
 
 typedef guint32					GOColor;
+typedef struct _GOEditor                GOEditor;
 typedef struct _GOFont			GOFont;
 typedef struct _GOFontMetrics	GOFontMetrics;
 typedef struct _GOPattern		GOPattern;
@@ -34,6 +35,7 @@ typedef struct _GOMarker		GOMarker;
 typedef struct _GOFormat		GOFormat;
 typedef struct _GODateConventions	GODateConventions;
 typedef struct _GOImage			GOImage;
+typedef struct _GOPath GOPath;
 typedef struct _GOStyle			GOStyle;
 typedef struct _GOStyledObject	GOStyledObject;
 
@@ -42,6 +44,66 @@ typedef struct _GOMemChunk		GOMemChunk;
 
 typedef const char *(*GOTranslateFunc)(char const *path, gpointer func_data);
 
+typedef enum {
+	GO_LINE_NONE,
+	GO_LINE_SOLID,
+	GO_LINE_S_DOT,
+	GO_LINE_S_DASH_DOT,
+	GO_LINE_S_DASH_DOT_DOT,
+	GO_LINE_DASH_DOT_DOT_DOT,
+	GO_LINE_DOT,
+	GO_LINE_S_DASH,
+	GO_LINE_DASH,
+	GO_LINE_LONG_DASH,
+	GO_LINE_DASH_DOT,
+	GO_LINE_DASH_DOT_DOT,
+	GO_LINE_MAX
+} GOLineDashType;
+
+typedef enum {
+	GO_LINE_INTERPOLATION_LINEAR,
+	GO_LINE_INTERPOLATION_SPLINE,
+	GO_LINE_INTERPOLATION_CLOSED_SPLINE,
+	GO_LINE_INTERPOLATION_CUBIC_SPLINE,
+	GO_LINE_INTERPOLATION_PARABOLIC_CUBIC_SPLINE,
+	GO_LINE_INTERPOLATION_CUBIC_CUBIC_SPLINE,
+	GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE,
+	GO_LINE_INTERPOLATION_STEP_START,
+	GO_LINE_INTERPOLATION_STEP_END,
+	GO_LINE_INTERPOLATION_STEP_CENTER_X,
+	GO_LINE_INTERPOLATION_STEP_CENTER_Y,
+	GO_LINE_INTERPOLATION_MAX
+} GOLineInterpolation;
+
+
 G_END_DECLS
+
+#include <goffice/goffice.h>
+
+#include <goffice/utils/datetime.h>
+#include <goffice/utils/go-bezier.h>
+#include <goffice/utils/go-cairo.h>
+#include <goffice/utils/go-color.h>
+#include <goffice/utils/go-editor.h>
+#include <goffice/utils/go-file.h>
+#include <goffice/utils/go-font.h>
+#include <goffice/utils/go-format.h>
+#include <goffice/utils/go-geometry.h>
+#include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-gradient.h>
+#include <goffice/utils/go-image.h>
+#include <goffice/utils/go-libxml-extras.h>
+#include <goffice/utils/go-line.h>
+#include <goffice/utils/go-locale.h>
+#include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-pango-extras.h>
+#include <goffice/utils/go-path.h>
+#include <goffice/utils/go-pattern.h>
+#include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-styled-object.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-undo.h>
+#include <goffice/utils/go-units.h>
+#include <goffice/utils/regutf8.h>
 
 #endif /* GOFFICE_UTILS_H */

@@ -58,8 +58,6 @@ typedef void (GOPathCurveToFunc) 	(void *closure, GOPathPoint const *point0,
 							GOPathPoint const *point2);
 typedef void (GOPathClosePathFunc) 	(void *closure);
 
-typedef struct _GOPath GOPath;
-
 #define GO_IS_PATH(x) ((x) != NULL)
 
 GOPath *go_path_new 	      	(void);

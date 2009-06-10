@@ -22,7 +22,7 @@
 #ifndef GO_SELECTOR_H
 #define GO_SELECTOR_H
 
-#include <goffice/gtk/go-palette.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

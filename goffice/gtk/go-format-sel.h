@@ -20,8 +20,7 @@
 #ifndef _GO_FORMAT_SEL_H_
 #define _GO_FORMAT_SEL_H_
 
-#include <gtk/gtk.h>
-#include <goffice/utils/goffice-utils.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

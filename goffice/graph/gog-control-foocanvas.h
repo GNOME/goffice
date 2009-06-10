@@ -21,9 +21,8 @@
 #ifndef GOG_CONTROL_FOOCANVAS_H
 #define GOG_CONTROL_FOOCANVAS_H
 
-#include <goffice/graph/goffice-graph.h>
+#include <goffice/goffice.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-#include <goffice/graph/gog-renderer.h>
 
 G_BEGIN_DECLS
 

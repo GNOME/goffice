@@ -21,26 +21,10 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-label.h>
-#include <goffice/graph/gog-outlined-object.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/graph/gog-theme.h>
-#include <goffice/graph/gog-view.h>
-#include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-reg-curve.h>
-#include <goffice/graph/gog-data-allocator.h>
-#include <goffice/data/go-data.h>
-#include <goffice/utils/go-persist.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
-
-#ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/goffice-gtk.h>
-#endif
 
 static GType gog_text_view_get_type (void);
 

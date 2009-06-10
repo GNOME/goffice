@@ -22,9 +22,7 @@
 #ifndef GOG_SERIES_LINES_H
 #define GOG_SERIES_LINES_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/gog-styled-object.h>
-#include <goffice/utils/go-path.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

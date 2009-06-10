@@ -22,8 +22,7 @@
 #ifndef GOG_LABEL_H
 #define GOG_LABEL_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

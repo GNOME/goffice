@@ -22,7 +22,7 @@
 #ifndef GOG_TREND_LINE_H
 #define GOG_TREND_LINE_H
 
-#include <goffice/graph/gog-styled-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

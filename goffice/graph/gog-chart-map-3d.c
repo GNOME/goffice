@@ -19,9 +19,8 @@
  * USA
  */
 
-#include <goffice/graph/gog-chart-map-3d.h>
-#include <goffice/graph/gog-3d-box.h>
-#include <goffice/math/go-matrix3x3.h>
+#include <goffice/goffice-config.h>
+#include <goffice/goffice.h>
 
 struct _GogChartMap3D {
 	GogChart 		*chart;

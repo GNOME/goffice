@@ -21,15 +21,8 @@
 #ifndef GO_UTILS_STYLE_H
 #define GO_UTILS_STYLE_H
 
-#include <goffice/utils/goffice-utils.h>
-#include <goffice/app/goffice-app.h>
-#include <goffice/utils/go-font.h>
+#include <goffice/goffice.h>
 #include <goffice/utils/go-editor.h>
-#include <goffice/utils/go-gradient.h>
-#include <goffice/utils/go-line.h>
-#include <goffice/utils/go-pattern.h>
-#include <glib-object.h>
-#include <cairo.h>
 
 G_BEGIN_DECLS
 

@@ -22,9 +22,7 @@
 #ifndef GOG_3D_BOX_H
 #define GOG_3D_BOX_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/math/go-matrix3x3.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

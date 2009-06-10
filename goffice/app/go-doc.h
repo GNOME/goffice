@@ -21,9 +21,7 @@
 #ifndef GO_DOC_H
 #define GO_DOC_H
 
-#include <goffice/app/goffice-app.h>
-#include <goffice/utils/go-image.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf.h>
 
 G_BEGIN_DECLS

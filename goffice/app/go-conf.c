@@ -26,10 +26,8 @@
  */
 
 #include <goffice-config.h>
+#include <goffice/goffice.h>
 #include <go-conf.h>
-#include <goffice/utils/goffice-utils.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/utils/go-locale.h>
 
 #define NO_DEBUG_GCONF
 #ifndef NO_DEBUG_GCONF

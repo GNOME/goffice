@@ -22,10 +22,7 @@
 #ifndef GOG_CHART_IMPL_H
 #define GOG_CHART_IMPL_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-outlined-object.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

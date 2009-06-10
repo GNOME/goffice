@@ -21,18 +21,11 @@
 #ifndef GOG_RENDERER_H
 #define GOG_RENDERER_H
 
-#include <goffice/goffice-features.h>
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/utils/go-geometry.h>
-#include <goffice/utils/go-image.h>
-#include <goffice/utils/go-path.h>
-#include <goffice/utils/go-style.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf.h>
 
 #ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/goffice-gtk.h>
 #include <gdk/gdk.h>
 #else
 typedef struct _GdkPixbuf GdkPixbuf;

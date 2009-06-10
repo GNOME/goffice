@@ -17,17 +17,17 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA.
  */
-#include <goffice/goffice-config.h>
-#include "go-3d-rotation-sel.h"
 
-#include <goffice/gtk/goffice-gtk.h>
-#include <goffice/math/go-math.h>
+#include <goffice/goffice-config.h>
+#include <goffice/goffice.h>
+
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-polygon.h>
+
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>

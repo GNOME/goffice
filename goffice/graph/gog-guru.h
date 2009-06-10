@@ -21,9 +21,7 @@
 #ifndef GOG_GURU_H
 #define GOG_GURU_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/app/goffice-app.h>
-#include <gtk/gtk.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

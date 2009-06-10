@@ -22,8 +22,7 @@
 #ifndef GO_GEOMETRY_H
 #define GO_GEOMETRY_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 
@@ -61,7 +60,7 @@ typedef struct {
         double alpha;   /* Angle from x axis to w edge, in radians */
 } GOGeometryOBR;
 
-#define GOGeometryAABR GogViewAllocation /* x, y: top left corner */
+typedef struct _GogViewAllocation GOGeometryAABR;
 
 void 		go_geometry_cartesian_to_polar 	(double x, double y, double *rho, double *theta);
 double 		go_geometry_point_to_segment	(double xp, double yp, double xs, double ys, double w, double h);

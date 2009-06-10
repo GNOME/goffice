@@ -22,9 +22,7 @@
 #ifndef GOG_CHART_H
 #define GOG_CHART_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/gog-axis.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

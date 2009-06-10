@@ -19,9 +19,7 @@
 #ifndef GO_IMAGE_H
 #define GO_IMAGE_H
 
-#include <glib-object.h>
-#include <goffice/goffice-features.h>
-#include <goffice/utils/goffice-utils.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-libxml.h>
 #include <cairo.h>
 

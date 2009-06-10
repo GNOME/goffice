@@ -22,9 +22,7 @@
 #ifndef GOG_DATA_ALLOCATOR_H
 #define GOG_DATA_ALLOCATOR_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/utils/go-format.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

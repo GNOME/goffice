@@ -21,10 +21,7 @@
 #ifndef GOG_PLOT_H
 #define GOG_PLOT_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/utils/goffice-utils.h>
-#include <goffice/data/goffice-data.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

@@ -9,10 +9,7 @@
  *   Almer S. Tigelaar (almer@gnome.org)
  */
 #include <goffice/goffice-config.h>
-#include "go-font-sel.h"
-#include <goffice/utils/go-font.h>
-#include <goffice/gtk/goffice-gtk.h>
-#include <goffice/utils/go-color.h>
+#include <goffice/goffice.h>
 
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>

@@ -22,11 +22,7 @@
 #define GOFFICE_H
 
 #include <glib.h>
-
-G_BEGIN_DECLS
-
-void libgoffice_init     (void);
-void libgoffice_shutdown (void);
+#include <goffice/goffice-features.h>
 
 #ifndef GO_VAR_DECL
 #  ifdef WIN32
@@ -39,6 +35,26 @@ void libgoffice_shutdown (void);
 #    define GO_VAR_DECL extern
 #  endif
 #endif /* GO_VAR_DECL */
+
+
+#include <glib-object.h>
+#ifdef GOFFICE_WITH_GTK
+#include <gtk/gtk.h>
+#endif
+
+#include <goffice/app/goffice-app.h>
+#include <goffice/utils/goffice-utils.h>
+#include <goffice/data/goffice-data.h>
+#include <goffice/math/goffice-math.h>
+#ifdef GOFFICE_WITH_GTK
+#include <goffice/gtk/goffice-gtk.h>
+#endif
+#include <goffice/graph/goffice-graph.h>
+
+G_BEGIN_DECLS
+
+void libgoffice_init     (void);
+void libgoffice_shutdown (void);
 
 G_END_DECLS
 

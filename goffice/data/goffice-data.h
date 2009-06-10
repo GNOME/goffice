@@ -38,4 +38,8 @@ typedef struct {
 
 G_END_DECLS
 
+#include <goffice/data/go-data.h>
+#include <goffice/data/go-data-impl.h>
+#include <goffice/data/go-data-simple.h>
+
 #endif /* GOFFICE_DATA_H */

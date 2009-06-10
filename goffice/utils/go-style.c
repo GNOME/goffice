@@ -21,32 +21,10 @@
  */
 
 #include <goffice/goffice-config.h>
+#include <goffice/goffice.h>
 #include <goffice/app/go-doc.h>
-#include <goffice/math/go-math.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-font.h>
-#include <goffice/utils/go-file.h>
-#include <goffice/utils/go-image.h>
-#include <goffice/utils/go-libxml-extras.h>
-#include <goffice/utils/go-line.h>
-#include <goffice/utils/go-marker.h>
-#include <goffice/utils/go-persist.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/utils/go-styled-object.h>
 
 #ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/goffice-gtk.h>
-#include <goffice/gtk/go-pixbuf.h>
-#include <goffice/gtk/go-font-sel.h>
-#include <goffice/gtk/go-palette.h>
-#include <goffice/gtk/go-rotation-sel.h>
-#include <goffice/gtk/go-color-selector.h>
-#include <goffice/gtk/go-gradient-selector.h>
-#include <goffice/gtk/go-line-selector.h>
-#include <goffice/gtk/go-marker-selector.h>
-#include <goffice/gtk/go-pattern-selector.h>
-#include <goffice/gtk/go-image-sel.h>
-
 #include <glade/glade-xml.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 #endif

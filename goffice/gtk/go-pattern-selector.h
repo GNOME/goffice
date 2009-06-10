@@ -22,8 +22,7 @@
 #ifndef GO_PATTERN_SELECTOR_H
 #define GO_PATTERN_SELECTOR_H
 
-#include <goffice/utils/go-pattern.h>
-#include <goffice/gtk/go-selector.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

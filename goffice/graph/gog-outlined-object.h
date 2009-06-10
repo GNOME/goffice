@@ -21,9 +21,7 @@
 #ifndef GOG_OUTLINED_OBJECT_H
 #define GOG_OUTLINED_OBJECT_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/gog-styled-object.h>
-#include <goffice/graph/gog-view.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

@@ -19,14 +19,8 @@
  * USA
  */
 
-#include <goffice/graph/gog-chart-map.h>
-#include <goffice/math/go-cspline.h>
-#include <goffice/math/go-math.h>
-#include <goffice/math/go-rangefunc.h>
-#include <goffice/utils/go-bezier.h>
-#include <goffice/utils/go-line.h>
-#include <goffice/utils/go-path.h>
-#include <goffice/utils/go-geometry.h>
+#include <goffice/goffice-config.h>
+#include <goffice/goffice.h>
 
 struct _GogChartMap {
 	GogChart 		*chart;

@@ -21,8 +21,7 @@
 #ifndef GOG_VIEW_H
 #define GOG_VIEW_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

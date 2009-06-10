@@ -20,12 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-graph.h>
-#include <goffice/data/go-data.h>
-#include <goffice/data/go-data-simple.h>
-#include <goffice/math/go-math.h>
+#include <goffice/goffice.h>
 
 GType
 gog_dataset_get_type (void)

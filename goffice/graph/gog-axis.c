@@ -20,34 +20,10 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-axis-line-impl.h>
-#include <goffice/graph/gog-grid-line.h>
-#include <goffice/graph/gog-theme.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-data-allocator.h>
-#include <goffice/graph/gog-view.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-label.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-plot-impl.h>
-#include <goffice/graph/gog-renderer.h>
-#include <goffice/math/go-math.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/utils/datetime.h>
-#include <goffice/utils/go-persist.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/utils/go-styled-object.h>
-#include <goffice/data/go-data-simple.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
-
-#ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/goffice-gtk.h>
-#include <goffice/gtk/go-format-sel.h>
-#endif
 
 #include <string.h>
 

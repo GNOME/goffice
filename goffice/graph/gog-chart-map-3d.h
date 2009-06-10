@@ -22,11 +22,7 @@
 #ifndef GOG_CHART_MAP_3D_H
 #define GOG_CHART_MAP_3D_H
 
-#include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/utils/go-path.h>
-#include <goffice/utils/go-line.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

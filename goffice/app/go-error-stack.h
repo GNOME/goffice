@@ -21,8 +21,7 @@
 #ifndef GO_ERROR_STACK_H
 #define GO_ERROR_STACK_H
 
-#include <glib-object.h>
-#include <goffice/app/goffice-app.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

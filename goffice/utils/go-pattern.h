@@ -21,9 +21,7 @@
 #ifndef GO_PATTERN_H
 #define GO_PATTERN_H
 
-#include <glib.h>
-#include <goffice/goffice-features.h>
-#include <goffice/utils/goffice-utils.h>
+#include <goffice/goffice.h>
 #include <libxml/tree.h>
 #include <cairo.h>
 

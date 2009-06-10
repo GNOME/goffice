@@ -21,10 +21,8 @@
 #ifndef _GO_GRAPH_WIDGET_H_
 #define _GO_GRAPH_WIDGET_H_
 
-#include <glib-object.h>
-#include <gtk/gtk.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-graph.h>
+#include <goffice/goffice.h>
+#include <goffice/graph/goffice-graph.h>
 
 G_BEGIN_DECLS
 

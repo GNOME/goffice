@@ -21,8 +21,7 @@
 #ifndef GO_PERSIST_H
 #define GO_PERSIST_H
 
-#include <goffice/utils/goffice-utils.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 #include <libxml/tree.h>
 #include <gsf/gsf-libxml.h>
 

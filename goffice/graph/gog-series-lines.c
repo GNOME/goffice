@@ -20,15 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-series-impl.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/graph/gog-theme.h>
-#include <goffice/utils/go-marker.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/utils/go-styled-object.h>
-#include "gog-series-lines.h"
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>

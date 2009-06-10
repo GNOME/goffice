@@ -21,10 +21,7 @@
 #ifndef GOG_SERIES_H
 #define GOG_SERIES_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/data/goffice-data.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-styled-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 
@@ -81,8 +78,6 @@ void 		  gog_series_set_fill_type 	(GogSeries *series, GogSeriesFillType fill_ty
 GogDataset   *gog_series_get_interpolation_params (GogSeries const *series);
 
 #ifdef GOFFICE_WITH_GTK
-#include <gtk/gtk.h>
-
 void 		  gog_series_populate_fill_type_combo 	(GogSeries const *series, GtkComboBox *combo);
 GogSeriesFillType gog_series_get_fill_type_from_combo 	(GogSeries const *series, GtkComboBox *combo);
 #endif

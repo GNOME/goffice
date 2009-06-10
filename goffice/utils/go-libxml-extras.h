@@ -21,9 +21,7 @@
 #ifndef GO_LIBXML_EXTRAS_H
 #define GO_LIBXML_EXTRAS_H
 
-#include <glib.h>
-#include <glib-object.h>
-#include <goffice/utils/goffice-utils.h>
+#include <goffice/goffice.h>
 #include <libxml/tree.h>
 #include <gsf/gsf-libxml.h>
 

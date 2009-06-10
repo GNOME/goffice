@@ -22,8 +22,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "go-file.h"
-#include "go-glib-extras.h"
+#include <goffice/goffice.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-output-stdio.h>

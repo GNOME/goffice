@@ -23,8 +23,7 @@
 #ifndef GOG_CHILD_BUTTON_H
 #define GOG_CHILD_BUTTON_H
 
-#include <gtk/gtk.h>
-#include <goffice/graph/gog-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

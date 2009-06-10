@@ -13,6 +13,7 @@ libgoffice_math_la_SOURCES =	\
 
 libgoffice_math_ladir = $(goffice_include_dir)/math
 libgoffice_math_la_HEADERS = 	\
+	goffice-math.h		\
 	go-math.h		\
 	go-rangefunc.h	\
 	go-regression.h	\

@@ -22,9 +22,7 @@
 #ifndef GOG_SMOOTHED_CURVE_H
 #define GOG_SMOOTHED_CURVE_H
 
-#include <goffice/graph/gog-trend-line.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-data-set.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

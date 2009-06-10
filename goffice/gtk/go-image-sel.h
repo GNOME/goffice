@@ -23,9 +23,7 @@
 #ifndef GO_IMAGE_SEL_H
 #define GO_IMAGE_SEL_H
 
-#include <goffice/app/go-app.h>
-#include <goffice/utils/go-image.h>
-#include <gtk/gtk.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

@@ -19,10 +19,8 @@
  * USA
  */
 
-#include "go-pattern-selector.h"
-#include "goffice-gtk.h"
-
-#include <goffice/utils/go-color.h>
+#include <goffice/goffice-config.h>
+#include <goffice/goffice.h>
 
 typedef struct {
 	GOColor foreground;

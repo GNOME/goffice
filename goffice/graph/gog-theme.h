@@ -21,10 +21,7 @@
 #ifndef GOG_THEME_H
 #define GOG_THEME_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/utils/go-style.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

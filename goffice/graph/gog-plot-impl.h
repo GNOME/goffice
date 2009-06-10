@@ -22,12 +22,7 @@
 #ifndef GOG_PLOT_IMPL_H
 #define GOG_PLOT_IMPL_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-series-impl.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-view.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

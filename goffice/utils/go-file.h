@@ -20,7 +20,7 @@
 #ifndef GO_FILE_H
 #define GO_FILE_H
 
-#include <glib.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf.h>
 #include <time.h>
 

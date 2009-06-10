@@ -75,7 +75,7 @@ typedef struct {
 	double w, h;
 } GogViewRequisition;
 
-typedef struct {
+typedef struct _GogViewAllocation {
 	double w, h;
 	double x, y;
 } GogViewAllocation;
@@ -204,5 +204,48 @@ typedef enum {
 extern int goffice_graph_debug_level;
 
 G_END_DECLS
+
+#include <goffice/goffice.h>
+
+#include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-styled-object.h>
+#include <goffice/graph/gog-trend-line.h>
+#include <goffice/graph/gog-view.h>
+#include <goffice/graph/gog-outlined-object.h>
+#include <goffice/graph/gog-data-set.h>
+#include <goffice/graph/gog-series.h>
+#include <goffice/graph/gog-series-impl.h>
+
+#include <goffice/graph/gog-3d-box.h>
+#include <goffice/graph/gog-axis-line.h>
+#include <goffice/graph/gog-axis-line-impl.h>
+#include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-chart-impl.h>
+#include <goffice/graph/gog-chart-map.h>
+#include <goffice/graph/gog-chart-map-3d.h>
+#include <goffice/graph/gog-child-button.h>
+#include <goffice/graph/gog-control-foocanvas.h>
+#include <goffice/graph/gog-data-allocator.h>
+#ifdef GOFFICE_WITH_LASEM
+#include <goffice/graph/gog-equation.h>
+#endif
+#include <goffice/graph/gog-error-bar.h>
+#include <goffice/graph/gog-graph.h>
+#include <goffice/graph/gog-graph-impl.h>
+#include <goffice/graph/gog-grid.h>
+#include <goffice/graph/gog-grid-line.h>
+#include <goffice/graph/gog-guru.h>
+#include <goffice/graph/gog-label.h>
+#include <goffice/graph/gog-legend.h>
+#include <goffice/graph/gog-object-xml.h>
+#include <goffice/graph/gog-plot-engine.h>
+#include <goffice/graph/gog-plot.h>
+#include <goffice/graph/gog-plot-impl.h>
+#include <goffice/graph/gog-reg-curve.h>
+#include <goffice/graph/gog-renderer.h>
+#include <goffice/graph/gog-series-lines.h>
+#include <goffice/graph/gog-smoothed-curve.h>
+#include <goffice/graph/gog-theme.h>
 
 #endif /* GOFFICE_GRAPH_H */

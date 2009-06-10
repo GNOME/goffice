@@ -22,8 +22,7 @@
 #ifndef _GO_ACTION_COMBO_PIXMAPS_H_
 #define _GO_ACTION_COMBO_PIXMAPS_H_
 
-#include <glib-object.h>
-#include <goffice/gtk/go-combo-pixmaps.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

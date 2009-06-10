@@ -22,8 +22,7 @@
 #ifndef _GO_ACTION_COMBO_COLOR_H_
 #define _GO_ACTION_COMBO_COLOR_H_
 
-#include <glib-object.h>
-#include <goffice/utils/go-color.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

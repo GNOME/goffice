@@ -22,10 +22,7 @@
 #ifndef GO_MARKER_H
 #define GO_MARKER_H
 
-#include <glib-object.h>
-#include <goffice/goffice-features.h>
-#include <goffice/utils/goffice-utils.h>
-#include <cairo.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

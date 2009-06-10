@@ -22,12 +22,7 @@
 #ifndef GO_SERIES_IMPL_H
 #define GO_SERIES_IMPL_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/gog-styled-object.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/utils/go-style.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

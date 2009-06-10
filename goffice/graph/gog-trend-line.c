@@ -20,11 +20,8 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "gog-trend-line.h"
-#include <goffice/graph/gog-object-xml.h>
-#include <goffice/graph/gog-plot-engine.h>
-#include <goffice/graph/gog-theme.h>
-#include <goffice/utils/go-style.h>
+#include <goffice/goffice.h>
+
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 

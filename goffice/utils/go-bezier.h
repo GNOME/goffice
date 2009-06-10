@@ -23,9 +23,7 @@
 #ifndef GO_BEZIER_H
 #define GO_BEZIER_H
 
-#include <glib.h>
-#include <cairo.h>
-#include "go-path.h"
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

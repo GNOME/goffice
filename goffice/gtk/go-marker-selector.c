@@ -19,10 +19,9 @@
  * USA
  */
 
-#include "go-marker-selector.h"
-#include "goffice-gtk.h"
+#include <goffice/goffice-config.h>
+#include <goffice/goffice.h>
 
-#include <goffice/utils/go-color.h>
 
 typedef struct {
 	GOColor outline_color;

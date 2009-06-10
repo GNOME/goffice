@@ -20,16 +20,8 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "gog-smoothed-curve.h"
-#include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-plot-impl.h>
-#include <goffice/graph/gog-plot-engine.h>
-#include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-chart-map.h>
-#include <goffice/graph/gog-series-impl.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/graph/gog-theme.h>
-#include <goffice/graph/gog-view.h>
+#include <goffice/goffice.h>
+
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 

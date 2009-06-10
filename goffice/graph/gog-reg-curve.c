@@ -20,27 +20,10 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-reg-curve.h>
-#include <goffice/graph/gog-data-allocator.h>
-#include <goffice/graph/gog-plot-engine.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/graph/gog-theme.h>
-#include <goffice/graph/gog-view.h>
-#include <goffice/graph/gog-series-impl.h>
-#include <goffice/graph/gog-plot-impl.h>
-#include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-chart-map.h>
-#include <goffice/data/go-data.h>
-#include <goffice/math/go-math.h>
-#include <goffice/utils/go-line.h>
-#include <goffice/utils/go-persist.h>
+#include <goffice/goffice.h>
+
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
-
-#ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/goffice-gtk.h>
-#endif
 
 #define GOG_REG_CURVE_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_REG_CURVE, GogRegCurveClass))
 

@@ -1,8 +1,7 @@
 #ifndef _GO_DATETIME_H_
 #define _GO_DATETIME_H_
 
-#include <goffice/utils/goffice-utils.h>
-#include <glib.h>
+#include <goffice/goffice.h>
 #include <time.h>
 
 G_BEGIN_DECLS

@@ -23,8 +23,7 @@
 #ifndef GO_STYLED_OBJECT_H
 #define GO_STYLED_OBJECT_H
 
-#include <glib-object.h>
-#include <goffice/app/go-doc.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

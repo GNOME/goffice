@@ -20,25 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-chart-map.h>
-#include <goffice/graph/gog-chart-map-3d.h>
-#include <goffice/graph/gog-data-allocator.h>
-#include <goffice/graph/gog-grid-line.h>
-#include <goffice/graph/gog-renderer.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/utils/go-styled-object.h>
-#include <goffice/graph/gog-theme.h>
-#include <goffice/graph/gog-view.h>
-#include <goffice/data/go-data.h>
-
-#include <goffice/math/go-math.h>
-#include <goffice/utils/go-format.h>
-
-#ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/goffice-gtk.h>
-#endif
+#include <goffice/goffice.h>
 
 #include <glib/gi18n-lib.h>
 

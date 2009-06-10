@@ -22,8 +22,7 @@
 #ifndef GO_GRADIENT_SELECTOR_H
 #define GO_GRADIENT_SELECTOR_H
 
-#include <goffice/utils/go-gradient.h>
-#include <goffice/gtk/go-selector.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

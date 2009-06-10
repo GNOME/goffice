@@ -20,14 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-styled-object.h>
-#include <goffice/graph/gog-theme.h>
-#include <goffice/graph/gog-graph.h>
-#include <goffice/app/go-doc.h>
-#include <goffice/utils/go-persist.h>
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/utils/go-styled-object.h>
+#include <goffice/goffice.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>

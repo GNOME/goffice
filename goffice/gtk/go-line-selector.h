@@ -22,8 +22,7 @@
 #ifndef GO_LINE_SELECTOR_H
 #define GO_LINE_SELECTOR_H
 
-#include <goffice/utils/go-line.h>
-#include <goffice/gtk/go-selector.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

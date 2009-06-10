@@ -22,11 +22,7 @@
 #ifndef GO_EDITOR_H
 #define GO_EDITOR_H
 
-#ifdef GOFFICE_WITH_GTK
-#   include <gtk/gtk.h>
-#else
-#   include <glib.h>
-#endif
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 
@@ -35,11 +31,11 @@ typedef struct {
 	gpointer 	 widget;	/* GtkWidget* */	
 } GOEditorPage;
 
-typedef struct {
+struct _GOEditor {
 	unsigned	*store_page;		/* pointer to a place for storing last edited page */
 	GSList		*pages;			/* GOEditorPage */
 	GData		*registered_widgets;
-} GOEditor;
+};
 
 GOEditor	*go_editor_new 		  (void);
 void 		 go_editor_free 		  (GOEditor *editor);

@@ -30,10 +30,7 @@
 #ifndef _GO_COMBO_COLOR_H_
 #define _GO_COMBO_COLOR_H_
 
-#include <glib-object.h>
-#include <goffice/gtk/go-color-group.h>
-#include <goffice/utils/go-color.h>
-#include <gtk/gtk.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

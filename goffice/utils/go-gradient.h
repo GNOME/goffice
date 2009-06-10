@@ -22,8 +22,6 @@
 #define GO_GRADIENT_H
 
 #include <glib.h>
-#include <goffice/goffice-features.h>
-#include <goffice/utils/goffice-utils.h>
 
 G_BEGIN_DECLS
 

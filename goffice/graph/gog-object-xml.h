@@ -21,9 +21,7 @@
 #ifndef GOG_OBJECT_XML_H
 #define GOG_OBJECT_XML_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/utils/goffice-utils.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 #include <libxml/tree.h>
 #include <gsf/gsf-libxml.h>
 

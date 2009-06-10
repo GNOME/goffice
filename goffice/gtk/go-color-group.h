@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-color-group.h - Utility to keep a shered memory of custom colors
+ * go-color-group.h - Utility to keep a shared memory of custom colors
  * between arbitrary widgets.
  * Copyright 2000, Michael Levy
  * Copyright 2001, Almer S. Tigelaar
@@ -30,8 +30,7 @@
 #ifndef _GO_COLOR_GROUP_H_
 #define _GO_COLOR_GROUP_H_
 
-#include <glib-object.h>
-#include <goffice/utils/go-color.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

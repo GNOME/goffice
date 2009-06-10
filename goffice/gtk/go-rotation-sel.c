@@ -16,16 +16,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-#include <goffice/goffice-config.h>
-#include "go-rotation-sel.h"
 
-#include <goffice/gtk/goffice-gtk.h>
-#include <goffice/math/go-math.h>
+#include <goffice/goffice-config.h>
+#include <goffice/goffice.h>
+
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
+
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>

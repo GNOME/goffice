@@ -8,6 +8,7 @@ Morten:
 	* Add functions to generate number formats.
 	* Make format classification function public.
 	* Fix inc/dec precision for accounting format.
+	* Introduce master include file.
 
 --------------------------------------------------------------------------
 goffice 0.7.7:

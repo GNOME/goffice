@@ -21,13 +21,7 @@
 #ifndef GOG_OBJECT_H
 #define GOG_OBJECT_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/app/goffice-app.h>
-#include <goffice/utils/go-editor.h>
-#include <glib-object.h>
-#ifdef GOFFICE_WITH_GTK
-#include <gtk/gtk.h>
-#endif
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

@@ -1,7 +1,7 @@
 #ifndef GOFFICE_COMPLEX_H
 #define GOFFICE_COMPLEX_H
 
-#include "go-math.h"
+#include <glib.h>
 
 G_BEGIN_DECLS
 
@@ -12,6 +12,8 @@ typedef struct {
 typedef struct {
 	long double re, im;
 } go_complexl;
+
+#include "go-math.h"
 
 /* ------------------------------------------------------------------------- */
 

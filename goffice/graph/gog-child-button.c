@@ -20,18 +20,8 @@
  * USA
  */
 
-#include "gog-child-button.h"
-
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-graph.h>
-#include <goffice/graph/gog-plot-engine.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-trend-line.h>
-#include <goffice/gtk/goffice-gtk.h>
-#include <goffice/gtk/go-pixbuf.h>
 #include <goffice/goffice-config.h>
-
-#include <gtk/gtk.h>
+#include <goffice/goffice.h>
 
 #include <gdk/gdkpixbuf.h>
 #include <gdk/gdkkeysyms.h>

@@ -22,8 +22,7 @@
 #ifndef GO_MARKER_SELECTOR_H
 #define GO_MARKER_SELECTOR_H
 
-#include <goffice/utils/go-marker.h>
-#include <goffice/gtk/go-selector.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

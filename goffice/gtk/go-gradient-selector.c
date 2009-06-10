@@ -19,9 +19,8 @@
  * USA
  */
 
-#include "go-gradient-selector.h"
-
-#include <goffice/utils/go-color.h>
+#include <goffice/goffice-config.h>
+#include <goffice/goffice.h>
 
 typedef struct {
 	GOColor start_color;

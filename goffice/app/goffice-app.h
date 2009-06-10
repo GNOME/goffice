@@ -59,4 +59,23 @@ typedef enum {
 
 G_END_DECLS
 
+#include <goffice/goffice.h>
+#include <goffice/utils/goffice-utils.h>
+
+#include <goffice/app/error-info.h>
+#include <goffice/app/file.h>
+#include <goffice/app/go-cmd-context.h>
+#include <goffice/app/go-cmd-context-impl.h>
+#include <goffice/app/go-conf.h>
+#include <goffice/app/go-doc-control.h>
+#include <goffice/app/go-doc-control-impl.h>
+#include <goffice/app/go-doc.h>
+#include <goffice/app/go-doc-impl.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/go-plugin-loader.h>
+#include <goffice/app/go-plugin-loader-module.h>
+#include <goffice/app/go-plugin-service.h>
+#include <goffice/app/go-plugin-service-impl.h>
+#include <goffice/app/io-context.h>
+
 #endif /* GOFFICE_GRAPH_H */

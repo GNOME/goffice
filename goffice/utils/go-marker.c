@@ -20,10 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
-#include "go-marker.h"
-#include "go-color.h"
-#include <goffice/math/go-math.h>
-#include <goffice/utils/go-cairo.h>
+#include <goffice/goffice.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>

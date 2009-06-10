@@ -22,8 +22,7 @@
 #ifndef GOG_AXIS_BASE_H
 #define GOG_AXIS_BASE_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

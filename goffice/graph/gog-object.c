@@ -20,20 +20,13 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-graph-impl.h> /* for gog_graph_request_update */
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/data/go-data.h>
-#include <goffice/utils/go-persist.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 #include <stdlib.h>
 
-#ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/goffice-gtk.h>
-#endif
 
 typedef struct {
 	char const *label;

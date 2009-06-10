@@ -20,9 +20,8 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <goffice/utils/go-image.h>
-#include <goffice/gtk/goffice-gtk.h>
-#include "go-palette.h"
+#include <goffice/goffice.h>
+
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 

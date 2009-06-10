@@ -1,3 +1,7 @@
+2009-06-09  Morten Welinder  <terra@gnome.org>
+
+	* */*.[ch]: Introduce <goffice/goffice.h> as master include file.
+
 2009-06-03  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_output_currency_to_odf):

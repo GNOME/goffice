@@ -21,12 +21,7 @@
 #ifndef GO_FONT_H
 #define GO_FONT_H
 
-#include <glib.h>
 #include <goffice/goffice.h>
-#include <goffice/goffice-features.h>
-#include <goffice/utils/goffice-utils.h>
-#include <pango/pango-font.h>
-#include <pango/pango-context.h>
 
 G_BEGIN_DECLS
 

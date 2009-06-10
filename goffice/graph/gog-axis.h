@@ -22,10 +22,7 @@
 #ifndef GOG_AXIS_H
 #define GOG_AXIS_H
 
-#include <goffice/graph/gog-axis-line.h>
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/data/go-data.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

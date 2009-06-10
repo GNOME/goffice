@@ -23,7 +23,6 @@
 #include <goffice/goffice-config.h>
 #include <goffice/app/goffice-app.h>
 #include <goffice/app/go-doc-impl.h>
-#include <goffice/utils/go-glib-extras.h>
 
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-impl-utils.h>

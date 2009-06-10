@@ -21,8 +21,38 @@
 
 #include <gtk/gtk.h>
 #include <glade/glade-xml.h>
-#include <goffice/app/goffice-app.h>
-#include <goffice/utils/go-image.h>
+#include <goffice/goffice.h>
+
+#include <goffice/gtk/go-palette.h>
+#include <goffice/gtk/go-selector.h>
+
+#include <goffice/gtk/go-3d-rotation-sel.h>
+#include <goffice/gtk/go-action-combo-color.h>
+#include <goffice/gtk/go-action-combo-pixmaps.h>
+#include <goffice/gtk/go-action-combo-stack.h>
+#include <goffice/gtk/go-action-combo-text.h>
+#include <goffice/gtk/go-calendar-button.h>
+#include <goffice/gtk/go-charmap-sel.h>
+#include <goffice/gtk/go-color-group.h>
+#include <goffice/gtk/go-color-palette.h>
+#include <goffice/gtk/go-color-selector.h>
+#include <goffice/gtk/go-combo-box.h>
+#include <goffice/gtk/go-combo-color.h>
+#include <goffice/gtk/go-combo-pixmaps.h>
+#include <goffice/gtk/go-combo-text.h>
+#include <goffice/gtk/go-font-sel.h>
+#include <goffice/gtk/go-format-sel.h>
+#include <goffice/gtk/go-gradient-selector.h>
+#include <goffice/gtk/go-graph-widget.h>
+#include <goffice/gtk/go-image-sel.h>
+#include <goffice/gtk/go-line-selector.h>
+#include <goffice/gtk/go-locale-sel.h>
+#include <goffice/gtk/go-marker-selector.h>
+#include <goffice/gtk/go-optionmenu.h>
+#include <goffice/gtk/go-pattern-selector.h>
+#include <goffice/gtk/go-pixbuf.h>
+#include <goffice/gtk/go-rotation-sel.h>
+
 
 G_BEGIN_DECLS
 

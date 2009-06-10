@@ -22,14 +22,7 @@
 #define GO_FORMAT_H
 
 #include <goffice/goffice.h>
-#include <goffice/goffice-features.h>
-#include <goffice/utils/goffice-utils.h>
-#include <pango/pango-attributes.h>
-#include <pango/pango-layout.h>
-#include <glib.h>
 #include <gsf/gsf-libxml.h>
-
-#include <glib-object.h>
 
 G_BEGIN_DECLS
 

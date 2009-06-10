@@ -18,14 +18,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-#include <goffice/goffice-config.h>
-#include "goffice-gtk.h"
 
-#include <goffice/app/go-cmd-context.h>
-#include <goffice/utils/go-file.h>
+#include <goffice/goffice-config.h>
+#include <goffice/goffice.h>
 #include <goffice/goffice-priv.h>
-#include <goffice/gtk/go-pixbuf.h>
-#include <gtk/gtk.h>
+
 #include <gdk/gdkkeysyms.h>
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>

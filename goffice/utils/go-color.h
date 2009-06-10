@@ -26,10 +26,7 @@
 #ifndef GO_COLOR_H
 #define GO_COLOR_H
 
-#include <glib.h>
-#include <goffice/goffice-features.h>
-#include <goffice/utils/goffice-utils.h>
-#include <pango/pango.h>
+#include <goffice/goffice.h>
 
 #ifdef GOFFICE_WITH_GTK
 #include <gdk/gdk.h>

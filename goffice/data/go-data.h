@@ -23,7 +23,7 @@
 #define GO_DATA_H
 
 #include <goffice/data/goffice-data.h>
-#include <goffice/utils/goffice-utils.h>
+#include <goffice/goffice.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
