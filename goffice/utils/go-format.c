@@ -53,7 +53,7 @@
 #define OBSERVE_XL_EXPONENT_1
 #define ALLOW_EE_MARKUP
 #define ALLOW_PI_SLASH
-#undef ALLOW_NEGATIVE_TIMES
+#define ALLOW_NEGATIVE_TIMES
 
 /* ------------------------------------------------------------------------- */
 

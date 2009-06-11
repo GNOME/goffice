@@ -9,6 +9,7 @@ Morten:
 	* Make format classification function public.
 	* Fix inc/dec precision for accounting format.
 	* Introduce master include file.
+	* Activate formatting support for negative elapsed times.
 
 --------------------------------------------------------------------------
 goffice 0.7.7:

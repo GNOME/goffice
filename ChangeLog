@@ -1,3 +1,7 @@
+2009-06-11  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (ALLOW_NEGATIVE_TIMES): Turn on.
+
 2009-06-09  Morten Welinder  <terra@gnome.org>
 
 	* */*.[ch]: Introduce <goffice/goffice.h> as master include file.
