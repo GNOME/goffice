@@ -24,15 +24,7 @@
 #include <lsmmathmlmathelement.h>
 
 #include <goffice/goffice-config.h>
-#include <goffice/graph/gog-outlined-object.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-theme.h>
-#include <goffice/graph/gog-equation.h>
-#include <goffice/utils/go-persist.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/utils/go-styled-object.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>

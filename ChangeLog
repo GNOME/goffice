@@ -1,3 +1,8 @@
+2009-06-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-equation.c: make things compile again after the
+	goffice/goffice.h change.
+
 2009-06-11  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (ALLOW_NEGATIVE_TIMES): Turn on.
