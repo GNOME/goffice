@@ -24,14 +24,10 @@
 #include <lsmmathmlmathelement.h>
 
 #include <goffice/goffice-config.h>
-#include <goffice/goffice.h>
+#include <goffice/graph/gog-equation.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
-
-#ifdef GOFFICE_WITH_GTK
-#include <goffice/gtk/goffice-gtk.h>
-#endif
 
 enum {
 	EQUATION_PROP_0,
