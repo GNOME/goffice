@@ -86,7 +86,7 @@ go_sys_lib_dir (void)
 }
 
 void
-libgoffice_init ()
+libgoffice_init (void)
 {
 	static gboolean initialized = FALSE;
 
@@ -121,6 +121,7 @@ libgoffice_init ()
 	bindtextdomain (GETTEXT_PACKAGE, libgoffice_locale_dir);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	g_type_init ();
+	_go_string_init ();
 	go_conf_init ();
 	go_fonts_init ();
 	go_math_init ();
@@ -171,6 +172,7 @@ libgoffice_shutdown (void)
 	gog_plugin_services_shutdown ();
 	go_currency_date_format_shutdown ();
 	go_number_format_shutdown ();
+	_go_string_shutdown ();
 #ifdef G_OS_WIN32
 	/* const_cast, we created these above */
 	g_free ((char *)libgoffice_data_dir);

@@ -36,6 +36,7 @@ typedef struct _GOFormat		GOFormat;
 typedef struct _GODateConventions	GODateConventions;
 typedef struct _GOImage			GOImage;
 typedef struct _GOPath GOPath;
+typedef struct _GOString GOString;
 typedef struct _GOStyle			GOStyle;
 typedef struct _GOStyledObject	GOStyledObject;
 
@@ -100,6 +101,7 @@ G_END_DECLS
 #include <goffice/utils/go-path.h>
 #include <goffice/utils/go-pattern.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-string.h>
 #include <goffice/utils/go-styled-object.h>
 #include <goffice/utils/go-style.h>
 #include <goffice/utils/go-undo.h>

@@ -18,6 +18,7 @@ libgoffice_utils_la_SOURCES =	\
 	go-path.c		\
 	go-pattern.c		\
 	go-geometry.c		\
+	go-string.c		\
 	go-undo.c		\
 	datetime.c		\
 	formats.c		\
@@ -49,6 +50,7 @@ libgoffice_utils_la_HEADERS = 	\
 	go-pattern.h		\
 	go-units.h		\
 	go-geometry.h		\
+	go-string.h		\
 	go-undo.h		\
 	datetime.h		\
 	go-format.h		\
