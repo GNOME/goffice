@@ -972,6 +972,7 @@ go_url_encode (gchar const *text, int type)
 	return g_string_free (result, FALSE);
 }
 
+/* You probably want go_gtk_url_show instead! */
 GError *
 go_url_show (gchar const *url)
 {
