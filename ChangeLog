@@ -1,3 +1,10 @@
+2009-06-17  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* utils/go-format.c (go_format_output_general_to_odf): we need to 
+	  output something
+	(go_format_output_to_odf): if we don't know what knind of format 
+	  it is, make a guess
+	
 2009-06-14  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-doc.c (go_doc_set_uri): Allow setting a NULL uri.

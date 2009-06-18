@@ -6070,12 +6070,12 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 }
 
 static void
-go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
+go_format_output_number_to_odf (GsfXMLOut *xout, G_GNUC_UNUSED GOFormat const *fmt,
 				char const *name, 
 				GOFormatDetails const *details, 
 				GOFormatCondition const *condition,
 				int cond_part, 
-				gboolean with_extension)
+				G_GNUC_UNUSED gboolean with_extension)
 {
 	gboolean parentheses = (cond_part == 1) && details->negative_paren;
 	gboolean no_neg = (condition != NULL) && condition->true_inhibits_minus;
@@ -6107,7 +6107,27 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 }
 
 static void
-go_format_output_currency_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
+go_format_output_general_to_odf (GsfXMLOut *xout, G_GNUC_UNUSED GOFormat const *fmt,
+				char const *name, 
+				G_GNUC_UNUSED GOFormatDetails const *details, 
+				G_GNUC_UNUSED GOFormatCondition const *condition,
+				int cond_part, 
+				G_GNUC_UNUSED gboolean with_extension)
+{
+	gsf_xml_out_start_element (xout, NUMBER "number-style");
+	gsf_xml_out_add_cstr (xout, STYLE "name", name);
+	if (cond_part == 1)
+		gsf_xml_out_simple_element(xout, NUMBER "text", "\xe2\x88\x92");
+	gsf_xml_out_start_element (xout, NUMBER "number");
+	gsf_xml_out_add_int (xout, NUMBER "decimal-places", 2);
+	if (cond_part == 1)
+		gsf_xml_out_add_int (xout, NUMBER "display-factor",  -1);
+	gsf_xml_out_end_element (xout); /* </number:number> */
+	gsf_xml_out_end_element (xout); /* </number:number-style> */
+}
+
+static void
+go_format_output_currency_to_odf (GsfXMLOut *xout, G_GNUC_UNUSED GOFormat const *fmt,
 				  char const *name, 
 				  GOFormatDetails const *details, 
 				  GOFormatCondition const *condition,
@@ -6183,6 +6203,8 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 	switch (details.family) {
 	case GO_FORMAT_GENERAL:
+		go_format_output_general_to_odf (xout, act_fmt, name, &details, 
+						condition, cond_part, with_extension);
 		result = FALSE;
 		break;
 	case GO_FORMAT_DATE:
@@ -6208,9 +6230,31 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		go_format_output_number_to_odf (xout, act_fmt, name, &details, 
 						condition, cond_part, with_extension);
 		break;
-	default:
+	default: {
+		/* We need to output something and we don't need any details for this */
+		int date = 0, digit = 0;
+		char const *str = go_format_as_XL (fmt);
+		while (*str != '\0') {
+			switch (*str) {
+			case 'd': case 'm': case 'y': case 'h': case 's':
+				date++;
+				break;
+			case '#': case '.': case '0': case 'e':
+				digit++;
+				break;
+			default:
+				break;
+			}
+			str++;
+		}
+		if (digit < date)
+			go_format_output_date_to_odf (xout, act_fmt, name, &details, with_extension);
+		else
+			go_format_output_general_to_odf (xout, act_fmt, name, &details, 
+						condition, cond_part, with_extension);
 		result = FALSE;
 		break;
+	}
 	}
 
 	g_object_set (G_OBJECT (xout), "pretty-print", pp, NULL);
