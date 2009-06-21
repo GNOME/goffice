@@ -1,3 +1,12 @@
+2009-06-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-format-sel.c (fmt_dialog_enable_widgets): Warn if
+	localization fails.
+
+	* goffice/utils/go-format.c (go_format_parse_color): Add
+	is_localized parameter and handle it.  Caller changed.  Fixes
+	#586567.
+
 2009-06-20  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

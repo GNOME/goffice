@@ -561,10 +561,12 @@ static struct {
  **/
 static gboolean
 go_format_parse_color (char const *str, GOColor *color,
-		       int *n, gboolean *named)
+		       int *n, gboolean *named, gboolean is_localized)
 {
 	char const *close;
 	unsigned int ui;
+	const char *color_txt = N_("color");
+	gsize len;
 
 	*color = 0;
 
@@ -577,8 +579,9 @@ go_format_parse_color (char const *str, GOColor *color,
 
 	for (ui = 0; ui < G_N_ELEMENTS (format_colors); ui++) {
 		const char *name = format_colors[ui].name;
-		gsize len = strlen (name);
-		if (g_ascii_strncasecmp (str, format_colors[ui].name, len) == 0) {
+		if (is_localized)
+			name = _(name);
+		if (g_ascii_strncasecmp (str, name, strlen (name)) == 0) {
 			*color = format_colors[ui].go_color;
 			if (n)
 				*n = ui;
@@ -588,9 +591,12 @@ go_format_parse_color (char const *str, GOColor *color,
 		}
 	}
 
-	if (g_ascii_strncasecmp (str, "color", 5) == 0) {
+	if (is_localized)
+		color_txt = _(color_txt);
+	len = strlen (color_txt);
+	if (g_ascii_strncasecmp (str, color_txt, len) == 0) {
 		char *end;
-		guint64 ull = g_ascii_strtoull (str + 5, &end, 10);
+		guint64 ull = g_ascii_strtoull (str + len, &end, 10);
 		if (end == str || errno == ERANGE || ull > 56)
 			return FALSE;
 		if (n)
@@ -1021,7 +1027,8 @@ go_format_preparse (const char *str, GOFormatParseState *pstate,
 			if (pstate->have_color ||
 			    !go_format_parse_color (tstr, &pstate->color,
 						    &pstate->color_n,
-						    &pstate->color_named))
+						    &pstate->color_named,
+						    is_localized))
 				goto error;
 			pstate->have_color = TRUE;
 			if (all_tokens)

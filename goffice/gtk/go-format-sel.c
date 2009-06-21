@@ -569,9 +569,15 @@ stays:
 			*      the std formats and the custom formats in the GOFormat hash.
 			*/
 			if  (page == FMT_CUSTOM && select.stamp == 0) {
-				char *tmp = go_format_str_localize (go_format_as_XL (gfs->format.spec));
-				format_entry_set_text (gfs, tmp);
-				g_free (tmp);
+				const char *fmtstr = go_format_as_XL (gfs->format.spec);
+				char *tmp = go_format_str_localize (fmtstr);
+				if (tmp) {
+					format_entry_set_text (gfs, tmp);
+					g_free (tmp);
+				} else {
+					g_warning ("Localization of %s failed.",
+						   fmtstr);
+				}
 			} else if (select.stamp == 0)
 				if (!gtk_tree_model_get_iter_first (
 					GTK_TREE_MODEL (gfs->format.formats.model),
