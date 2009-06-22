@@ -1,3 +1,11 @@
+2009-06-21  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* utils/go-format.c (go_format_output_number_element_to_odf): new
+	(go_format_output_number_to_odf): check the format string for colors
+	  and string characters.
+	(go_format_output_to_odf): consider the conditional formats if we can't
+	  determine type otherwise.
+
 2009-06-21  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (fmt_dialog_enable_widgets): Warn if

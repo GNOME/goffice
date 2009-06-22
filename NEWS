@@ -1,5 +1,8 @@
 goffice 0.7.9:
 
+Andreas:
+	* Improve number style output to ODF.
+
 Morten:
 	* Fix format localization problem. [#586567]
 

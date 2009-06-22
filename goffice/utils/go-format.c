@@ -6059,6 +6059,157 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 #undef ODF_CLOSE_STRING
 #undef ODF_OPEN_STRING
 
+#define ODF_CLOSE_STRING  if (string_is_open) {  \
+                                 gsf_xml_out_add_cstr (xout, NULL, accum->str); \
+                                 gsf_xml_out_end_element (xout); /* </number:text> */  \
+				 string_is_open = FALSE; \
+                          }
+#define ODF_OPEN_STRING   if (!string_is_open) { \
+	                         gsf_xml_out_start_element (xout, NUMBER "text");\
+                                 string_is_open = TRUE; \
+				 g_string_erase (accum, 0, -1); \
+				 }
+
+static void
+go_format_output_number_element_to_odf (GsfXMLOut *xout,
+					GOFormatDetails const *details, 
+					int cond_part)
+{
+	gsf_xml_out_start_element (xout, NUMBER "number");
+	gsf_xml_out_add_int (xout, NUMBER "decimal-places", details->num_decimals);
+	gsf_xml_out_add_int (xout, NUMBER "display-factor", (cond_part > 0) ? -1 : 1);
+	odf_add_bool (xout, NUMBER "grouping", details->thousands_sep);
+	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", details->min_digits);
+	gsf_xml_out_end_element (xout); /* </number:number> */
+}
+
+static void
+go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
+				char const *name, 
+				GOFormatDetails const *details, 
+				GOFormatCondition const *condition,
+				int cond_part, 
+				G_GNUC_UNUSED gboolean with_extension)
+{
+	char const *xl = go_format_as_XL (fmt);
+	GString *accum = g_string_new (NULL);
+
+	gboolean number_completed = FALSE;
+	gboolean color_completed = FALSE;
+	gboolean string_is_open = FALSE;
+
+	if (details->family == GO_FORMAT_PERCENTAGE)
+		gsf_xml_out_start_element (xout, NUMBER "percentage-style");
+	else 
+		gsf_xml_out_start_element (xout, NUMBER "number-style");
+	gsf_xml_out_add_cstr (xout, STYLE "name", name);
+
+	while (1) {
+		const char *token = xl;
+		GOFormatTokenType tt;
+		int t = go_format_token (&xl, &tt);
+
+		switch (t) {
+		case 0: case ';':
+			ODF_CLOSE_STRING;
+			if (!number_completed)
+				/* We need a number element */
+				go_format_output_number_element_to_odf (xout, details, cond_part);
+			gsf_xml_out_end_element (xout); /* </number:number-style> */
+			g_string_free (accum, TRUE);
+			return;
+			
+		case TOK_DECIMAL:
+		case TOK_THOUSAND:
+		case '0': 
+		case '#': 
+		case '?': {
+			if (number_completed) break;
+                        /* ODF allows only for a single fraction specification */
+			ODF_CLOSE_STRING;
+			
+			go_format_output_number_element_to_odf (xout, details, cond_part);
+			number_completed = TRUE;
+			break;
+		}
+
+		case TOK_COLOR: {
+			GOColor color;
+			char *str;
+			if (color_completed)
+				break;
+			if (go_format_parse_color (token, &color, NULL, NULL)) {
+				ODF_CLOSE_STRING;
+				gsf_xml_out_start_element (xout, STYLE "text-properties");
+				str = g_strdup_printf ("#%.2X%.2X%.2X", 
+						       UINT_RGBA_R (color), UINT_RGBA_G (color), UINT_RGBA_B (color));
+				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
+				g_free (str);
+				gsf_xml_out_end_element (xout); /*<style:text-properties>*/
+				color_completed = TRUE;
+			}
+		} break;
+
+		case '/':
+		case 'd': case 'D':
+		case 'y': case 'Y':
+		case 'b': case 'B':
+		case 'e': 
+		case 'g': case 'G':
+		case 'h': case 'H':
+		case 'm': case 'M':
+		case 's': case 'S':
+		case TOK_AMPM3:
+		case TOK_AMPM5:
+		case TOK_ELAPSED_H:
+		case TOK_ELAPSED_M:
+		case TOK_ELAPSED_S:
+		case TOK_GENERAL:
+		case TOK_INVISIBLE_CHAR:
+		case TOK_REPEATED_CHAR:
+		case TOK_CONDITION:
+		case TOK_LOCALE:
+		case TOK_ERROR:
+			break;
+
+		case TOK_STRING: {
+			size_t len = strchr (token + 1, '"') - (token + 1);
+			if (len > 0) {
+				ODF_OPEN_STRING;
+				g_string_append_len (accum, token + 1, len);
+			}
+			break;
+		}
+			
+		case TOK_CHAR: {
+			size_t len = g_utf8_next_char(token) - (token);
+			if (len > 0) {
+				ODF_OPEN_STRING;
+				g_string_append_len (accum, token, len);
+			}
+			break;
+		}
+
+		case TOK_ESCAPED_CHAR: {
+			size_t len = g_utf8_next_char(token + 1) - (token + 1);
+			if (len > 0) {
+				ODF_OPEN_STRING;
+				g_string_append_len (accum, token + 1, len);
+			}
+			break;
+		}
+
+		default:
+			ODF_OPEN_STRING;
+			g_string_append_c (accum, t);
+			break;
+		}
+	}
+}
+
+#undef ODF_CLOSE_STRING
+#undef ODF_OPEN_STRING
+
 static void
 go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 					   char const *name,
@@ -6074,43 +6225,6 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	gsf_xml_out_add_int (xout, NUMBER "min-exponent-digits", 2);
 	gsf_xml_out_end_element (xout); /* </number:scientific-number> */
 	gsf_xml_out_end_element (xout); /* </number:number-style> */
-}
-
-static void
-go_format_output_number_to_odf (GsfXMLOut *xout, G_GNUC_UNUSED GOFormat const *fmt,
-				char const *name, 
-				GOFormatDetails const *details, 
-				GOFormatCondition const *condition,
-				int cond_part, 
-				G_GNUC_UNUSED gboolean with_extension)
-{
-	gboolean parentheses = (cond_part == 1) && details->negative_paren;
-	gboolean no_neg = (condition != NULL) && condition->true_inhibits_minus;
-
-	if (details->family == GO_FORMAT_PERCENTAGE)
-		gsf_xml_out_start_element (xout, NUMBER "percentage-style");
-	else 
-		gsf_xml_out_start_element (xout, NUMBER "number-style");
-	gsf_xml_out_add_cstr (xout, STYLE "name", name);
-	if (cond_part == 1 && details->negative_red) {
-		gsf_xml_out_start_element (xout, STYLE "text-properties");
-		gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", "#FF0000");
-		gsf_xml_out_end_element (xout); /*<style:text-properties>*/
-	}
-	if (parentheses)
-		gsf_xml_out_simple_element(xout, NUMBER "text", "(");
-	gsf_xml_out_start_element (xout, NUMBER "number");
-	gsf_xml_out_add_int (xout, NUMBER "decimal-places", details->num_decimals);
-	gsf_xml_out_add_int (xout, NUMBER "display-factor",  no_neg ? -1 : 1);
-	odf_add_bool (xout, NUMBER "grouping", details->thousands_sep);
-	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", details->min_digits);
-	gsf_xml_out_end_element (xout); /* </number:number> */
-	if (details->family == GO_FORMAT_PERCENTAGE)
-			gsf_xml_out_simple_element(xout, NUMBER "text", parentheses ? "%)" : "%");
-	else if (parentheses)
-		gsf_xml_out_simple_element(xout, NUMBER "text", ")");
-	gsf_xml_out_end_element (xout); 
-                  /* </number:number-style or percentage-style> */
 }
 
 static void
@@ -6189,7 +6303,8 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	gboolean exact;
 	GOFormat const *act_fmt;
 	GOFormatCondition *condition = NULL;
-	
+	GOFormatFamily family;
+
 	if (fmt == NULL)
 			return FALSE;
 
@@ -6206,7 +6321,12 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	/* We need to switch off pretty printing since number:text preserves whitespace */
 	g_object_set (G_OBJECT (xout), "pretty-print", FALSE, NULL);
 
-	go_format_get_details (fmt, &details, &exact);
+	family = go_format_get_family (fmt);
+	if (family == GO_FORMAT_UNKNOWN) {
+		family = go_format_get_family (act_fmt);
+		go_format_get_details (act_fmt, &details, &exact);
+	} else
+		go_format_get_details (fmt, &details, &exact);
 
 	switch (details.family) {
 	case GO_FORMAT_GENERAL:
