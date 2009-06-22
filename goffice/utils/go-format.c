@@ -5553,12 +5553,12 @@ odf_add_bool (GsfXMLOut *xout, char const *id, gboolean val)
 static void
 go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			      char const *name, 
-			      GOFormatDetails const *details,
+			      GOFormatFamily family,
 			      gboolean with_extension)
 {
 	char const *xl = go_format_as_XL (fmt);
 	GString *accum = g_string_new (NULL);
-	gboolean time_only = (details->family == GO_FORMAT_TIME);
+	gboolean time_only = (family == GO_FORMAT_TIME);
 	gboolean seen_year = FALSE;
 	gboolean seen_month = FALSE;
 	gboolean seen_day = FALSE;
@@ -5573,17 +5573,19 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	gboolean string_is_open = FALSE;
 	gboolean seconds_trigger_minutes = TRUE;
 	gboolean element_written = FALSE;
+	GOFormatMagic magic = go_format_get_magic (fmt);
+	gboolean color_completed = FALSE;
 
 	gsf_xml_out_start_element (xout,  time_only ? 
 				   NUMBER "time-style" : NUMBER "date-style");
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
-	if (details->magic == GO_FORMAT_MAGIC_NONE)
+	if (magic == GO_FORMAT_MAGIC_NONE)
 		gsf_xml_out_add_cstr (xout, NUMBER "format-source", "fixed");
 	else {
 		xl = _(xl);
 		gsf_xml_out_add_cstr (xout, NUMBER "format-source", "language");
 		if (with_extension)
-			gsf_xml_out_add_int (xout, GNMSTYLE "format-magic", details->magic);
+			gsf_xml_out_add_int (xout, GNMSTYLE "format-magic", magic);
 	}
 
 	while (1) {
@@ -5859,10 +5861,27 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			g_string_append_c (accum, '.');
 			break;
 
+		case TOK_COLOR: {
+			GOColor color;
+			char *str;
+			if (color_completed)
+				break;
+			if (go_format_parse_color (token, &color, NULL, NULL, FALSE)) {
+				ODF_CLOSE_STRING;
+				gsf_xml_out_start_element (xout, STYLE "text-properties");
+				str = g_strdup_printf ("#%.2X%.2X%.2X", 
+						       UINT_RGBA_R (color), UINT_RGBA_G (color), 
+						       UINT_RGBA_B (color));
+				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
+				g_free (str);
+				gsf_xml_out_end_element (xout); /*<style:text-properties>*/
+				color_completed = TRUE;
+			}
+		} break;
+
 		case TOK_GENERAL:
 		case TOK_INVISIBLE_CHAR:
 		case TOK_REPEATED_CHAR:
-		case TOK_COLOR:
 		case TOK_CONDITION:
 		case TOK_LOCALE:
 		case TOK_ERROR:
@@ -5906,6 +5925,7 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	gboolean fraction_in_progress = FALSE;
 	gboolean fraction_completed = FALSE;
 	gboolean string_is_open = FALSE;
+	gboolean color_completed = FALSE;
 
 
 	gsf_xml_out_start_element (xout, NUMBER "number-style");
@@ -6003,6 +6023,24 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			break;
 		}
 
+		case TOK_COLOR: {
+			GOColor color;
+			char *str;
+			if (color_completed)
+				break;
+			if (go_format_parse_color (token, &color, NULL, NULL, FALSE)) {
+				ODF_CLOSE_STRING;
+				gsf_xml_out_start_element (xout, STYLE "text-properties");
+				str = g_strdup_printf ("#%.2X%.2X%.2X", 
+						       UINT_RGBA_R (color), UINT_RGBA_G (color), 
+						       UINT_RGBA_B (color));
+				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
+				g_free (str);
+				gsf_xml_out_end_element (xout); /*<style:text-properties>*/
+				color_completed = TRUE;
+			}
+		} break;
+
 		case 'd': case 'D':
 		case 'y': case 'Y':
 		case 'b': case 'B':
@@ -6019,7 +6057,6 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		case TOK_GENERAL:
 		case TOK_INVISIBLE_CHAR:
 		case TOK_REPEATED_CHAR:
-		case TOK_COLOR:
 		case TOK_CONDITION:
 		case TOK_LOCALE:
 		case TOK_ERROR:
@@ -6188,7 +6225,8 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				ODF_WRITE_NUMBER;
 				gsf_xml_out_start_element (xout, STYLE "text-properties");
 				str = g_strdup_printf ("#%.2X%.2X%.2X", 
-						       UINT_RGBA_R (color), UINT_RGBA_G (color), UINT_RGBA_B (color));
+						       UINT_RGBA_R (color), UINT_RGBA_G (color), 
+						       UINT_RGBA_B (color));
 				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
 				g_free (str);
 				gsf_xml_out_end_element (xout); /*<style:text-properties>*/
@@ -6234,7 +6272,10 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			if (len > 0) {
 				ODF_WRITE_NUMBER;
 				ODF_OPEN_STRING;
-				g_string_append_len (accum, token, len);
+				if (*token == '-')
+					g_string_append_unichar (accum, UNICODE_MINUS);
+				else
+					g_string_append_len (accum, token, len);
 			}
 			break;
 		}
@@ -6244,7 +6285,10 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			if (len > 0) {
 				ODF_WRITE_NUMBER;
 				ODF_OPEN_STRING;
-				g_string_append_len (accum, token + 1, len);
+				if (*(token+1) == '-')
+					g_string_append_unichar (accum, UNICODE_MINUS);
+				else
+					g_string_append_len (accum, token + 1, len);
 			}
 			break;
 		}
@@ -6262,21 +6306,208 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 #undef ODF_OPEN_STRING
 #undef ODF_WRITE_NUMBER
 
+#define ODF_CLOSE_STRING  if (string_is_open) {				\
+		gsf_xml_out_add_cstr (xout, NULL, accum->str);		\
+		gsf_xml_out_end_element (xout); /* </number:text> */	\
+		string_is_open = FALSE;					\
+	}
+#define ODF_OPEN_STRING   if (!string_is_open) {			\
+		gsf_xml_out_start_element (xout, NUMBER "text");	\
+		string_is_open = TRUE;					\
+		g_string_erase (accum, 0, -1);				\
+	}
+
 static void
-go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
-					   char const *name,
-					   GOFormatDetails const *details)
+go_format_output_scientific_number_element_to_odf (GsfXMLOut *xout,
+						   int min_integer_digits,
+						   int min_decimal_digits,
+						   int min_exponent_digits,
+						   gboolean comma_seen,
+						   gboolean enineering)
 {
+	gsf_xml_out_start_element (xout, NUMBER "scientific-number");
+	gsf_xml_out_add_int (xout, NUMBER "decimal-places", min_decimal_digits);
+	odf_add_bool (xout, NUMBER "grouping", comma_seen);
+	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", min_integer_digits);
+	gsf_xml_out_add_int (xout, NUMBER "min-exponent-digits", min_exponent_digits);
+	odf_add_bool (xout, GNMSTYLE "engineering", TRUE);
+	gsf_xml_out_end_element (xout); /* </number:number> */
+}
+
+static void
+go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, 
+					   char const *name, 
+					   gboolean with_extension)
+{
+	char const *xl = go_format_as_XL (fmt);
+	GString *accum = g_string_new (NULL);
+
+	int min_integer_digits = 0;
+	int min_decimal_digits = 0;
+	int min_exponent_digits = 0;
+	int hashes = 0;
+	gboolean comma_seen = FALSE;
+	gboolean dot_seen = FALSE;
+
+	gboolean number_completed = FALSE;
+	gboolean number_seen = FALSE;
+	gboolean color_completed = FALSE;
+	gboolean string_is_open = FALSE;
+
 	gsf_xml_out_start_element (xout, NUMBER "number-style");
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
-	gsf_xml_out_start_element (xout, NUMBER "scientific-number");
-	gsf_xml_out_add_int (xout, NUMBER "decimal-places", details->num_decimals);
-	odf_add_bool (xout, NUMBER "grouping", details->thousands_sep);
-	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", details->min_digits);
-	gsf_xml_out_add_int (xout, NUMBER "min-exponent-digits", 2);
-	gsf_xml_out_end_element (xout); /* </number:scientific-number> */
-	gsf_xml_out_end_element (xout); /* </number:number-style> */
+
+	while (1) {
+		const char *token = xl;
+		GOFormatTokenType tt;
+		int t = go_format_token (&xl, &tt);
+
+		switch (t) {
+		case 0: case ';':
+			ODF_CLOSE_STRING;
+			gsf_xml_out_end_element (xout); /* </number:number-style> */
+			g_string_free (accum, TRUE);
+			return;
+			
+		case TOK_DECIMAL:
+			if (number_completed) break;
+                        /* ODF allows only for a single number specification */
+			ODF_CLOSE_STRING;
+			number_seen = TRUE;
+			dot_seen = TRUE;
+			break;
+
+		case TOK_THOUSAND:
+			if (number_completed) break;
+                        /* ODF allows only for a single number specification */
+			ODF_CLOSE_STRING;
+			number_seen = TRUE;
+			comma_seen = TRUE;
+			break;
+
+		case '0':
+			if (number_completed) break;
+                        /* ODF allows only for a single number specification */
+			ODF_CLOSE_STRING;
+			number_seen = TRUE;
+			if (dot_seen)
+				min_decimal_digits++;
+			else
+				min_integer_digits++;
+			break;
+
+		case '?':
+			if (number_completed) break;
+                        /* ODF allows only for a single number specification */
+			ODF_CLOSE_STRING;
+			number_seen = TRUE;
+			break;
+
+		case '#': 
+			if (number_completed) break;
+                        /* ODF allows only for a single number specification */
+			ODF_CLOSE_STRING;
+			number_seen = TRUE;
+			if (!dot_seen)
+				hashes++;
+			break;
+
+		case 'e':
+		case 'E':
+			if (number_completed)
+				break;
+			while (*xl == '0' || *xl == '+' || *xl == '-')
+				if (*xl++ == '0')
+					min_exponent_digits++;
+			go_format_output_scientific_number_element_to_odf
+				(xout, min_integer_digits, min_decimal_digits,
+				 min_exponent_digits, comma_seen, 
+				 with_extension && hashes > 0 && (hashes + min_integer_digits == 3));
+			number_completed = TRUE;
+			break;
+
+		case TOK_COLOR: {
+			GOColor color;
+			char *str;
+			if (color_completed)
+				break;
+			if (go_format_parse_color (token, &color, NULL, NULL, FALSE)) {
+				ODF_CLOSE_STRING;
+				gsf_xml_out_start_element (xout, STYLE "text-properties");
+				str = g_strdup_printf ("#%.2X%.2X%.2X", 
+						       UINT_RGBA_R (color), UINT_RGBA_G (color), 
+						       UINT_RGBA_B (color));
+				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
+				g_free (str);
+				gsf_xml_out_end_element (xout); /*<style:text-properties>*/
+				color_completed = TRUE;
+			}
+		} break;
+
+		case '/':
+		case 'd': case 'D':
+		case 'y': case 'Y':
+		case 'b': case 'B':
+		case 'g': case 'G':
+		case 'h': case 'H':
+		case 'm': case 'M':
+		case 's': case 'S':
+		case TOK_AMPM3:
+		case TOK_AMPM5:
+		case TOK_ELAPSED_H:
+		case TOK_ELAPSED_M:
+		case TOK_ELAPSED_S:
+		case TOK_GENERAL:
+		case TOK_INVISIBLE_CHAR:
+		case TOK_REPEATED_CHAR:
+		case TOK_CONDITION:
+		case TOK_LOCALE:
+		case TOK_ERROR:
+			break;
+
+		case TOK_STRING: {
+			size_t len = strchr (token + 1, '"') - (token + 1);
+			if (len > 0) {
+				ODF_OPEN_STRING;
+				g_string_append_len (accum, token + 1, len);
+			}
+			break;
+		}
+			
+		case TOK_CHAR: {
+			size_t len = g_utf8_next_char(token) - (token);
+			if (len > 0) {
+				ODF_OPEN_STRING;
+				if (*token == '-')
+					g_string_append_unichar (accum, UNICODE_MINUS);
+				else
+					g_string_append_len (accum, token, len);
+			}
+			break;
+		}
+
+		case TOK_ESCAPED_CHAR: {
+			size_t len = g_utf8_next_char(token + 1) - (token + 1);
+			if (len > 0) {
+				ODF_OPEN_STRING;
+				if (*(token+1) == '-')
+					g_string_append_unichar (accum, UNICODE_MINUS);
+				else
+					g_string_append_len (accum, token + 1, len);
+			}
+			break;
+		}
+
+		default:
+			ODF_OPEN_STRING;
+			g_string_append_c (accum, t);
+			break;
+		}
+	}
 }
+
+#undef ODF_CLOSE_STRING
+#undef ODF_OPEN_STRING
 
 static void
 go_format_output_general_to_odf (GsfXMLOut *xout, char const *name, int cond_part)
@@ -6346,7 +6577,7 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	gboolean pp = TRUE, result = TRUE;
 	GOFormatDetails details;
 	gboolean exact;
-	GOFormat const *act_fmt;
+	GOFormat const *act_fmt, *det_fmt = fmt;
 	GOFormatCondition *condition = NULL;
 	GOFormatFamily family;
 
@@ -6369,9 +6600,8 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	family = go_format_get_family (fmt);
 	if (family == GO_FORMAT_UNKNOWN) {
 		family = go_format_get_family (act_fmt);
-		go_format_get_details (act_fmt, &details, &exact);
-	} else
-		go_format_get_details (fmt, &details, &exact);
+		det_fmt = act_fmt;
+	}
 
 	switch (family) {
 	case GO_FORMAT_GENERAL:
@@ -6379,19 +6609,20 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		result = FALSE;
 		break;
 	case GO_FORMAT_DATE:
-		go_format_output_date_to_odf (xout, act_fmt, name, &details, with_extension);
+		go_format_output_date_to_odf (xout, act_fmt, name, family, with_extension);
 		break;
 	case GO_FORMAT_TIME:
-		go_format_output_date_to_odf (xout, act_fmt, name, &details, with_extension);
+		go_format_output_date_to_odf (xout, act_fmt, name, family, with_extension);
 		break;
 	case GO_FORMAT_FRACTION:
 		go_format_output_fraction_to_odf (xout, act_fmt, name, with_extension);
 		break;
 	case GO_FORMAT_SCIENTIFIC:
-		go_format_output_scientific_number_to_odf (xout, act_fmt, name, &details);
+		go_format_output_scientific_number_to_odf (xout, act_fmt, name, with_extension);
 		break;
 	case GO_FORMAT_CURRENCY:
 	case GO_FORMAT_ACCOUNTING:
+		go_format_get_details (det_fmt, &details, &exact);
 		go_format_output_currency_to_odf (xout, fmt, name, &details, 
 						  condition, cond_part);
 		break;
@@ -6417,7 +6648,8 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			str++;
 		}
 		if (digit < date)
-			go_format_output_date_to_odf (xout, act_fmt, name, &details, with_extension);
+			go_format_output_date_to_odf (xout, act_fmt, name, 
+						      GO_FORMAT_DATE, with_extension);
 		else
 			go_format_output_general_to_odf (xout, name, cond_part);
 		result = FALSE;
