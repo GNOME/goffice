@@ -1,5 +1,14 @@
 2009-06-21  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
+	* utils/go-format.c (go_format_output_number_to_odf): Don't use the details
+	  but count the digits yourself. Change arguments.
+	(go_format_output_number_element_to_odf): Change arguments
+	(go_format_output_scientific_number_to_odf): ditto
+	(go_format_output_general_to_odf): ditto
+	(go_format_output_to_odf): adjust the calls to the above functions
+	
+2009-06-21  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
 	* utils/go-format.c (go_format_output_number_to_odf): add missed
 	  argument to go_format_parse_color
 
