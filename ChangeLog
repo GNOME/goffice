@@ -1,5 +1,10 @@
 2009-06-21  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
+	* utils/go-format.c (go_format_output_date_to_odf): time and date styles
+	  must contain a non-text element.
+
+2009-06-21  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
 	* utils/go-format.c (go_format_output_number_to_odf): Don't use the details
 	  but count the digits yourself. Change arguments.
 	(go_format_output_number_element_to_odf): Change arguments

@@ -5572,6 +5572,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	gboolean m_is_minutes = FALSE;
 	gboolean string_is_open = FALSE;
 	gboolean seconds_trigger_minutes = TRUE;
+	gboolean element_written = FALSE;
 
 	gsf_xml_out_start_element (xout,  time_only ? 
 				   NUMBER "time-style" : NUMBER "date-style");
@@ -5593,6 +5594,8 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		switch (t) {
 		case 0: case ';':
 			ODF_CLOSE_STRING;
+			if (!element_written)
+				gsf_xml_out_simple_element (xout, NUMBER "am-pm", NULL);
 			gsf_xml_out_end_element (xout); /* </number:date-style or time-style> */
 			g_string_free (accum, TRUE);
 			return;
@@ -5607,6 +5610,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			case 2: if (seen_day) break;
 				seen_day = TRUE;
 				ODF_CLOSE_STRING;
+				element_written = TRUE;
 				gsf_xml_out_start_element (xout, NUMBER "day");
 				gsf_xml_out_add_cstr (xout, NUMBER "style", 
 						      (n==1) ? "short" : "long");
@@ -5616,6 +5620,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			default: if (seen_weekday) break;
 				seen_weekday = TRUE;
 				ODF_CLOSE_STRING;
+				element_written = TRUE;
 				gsf_xml_out_start_element (xout, NUMBER "day-of-week");
 				gsf_xml_out_add_cstr (xout, NUMBER "style", 
 						      (n==3) ? "short" : "long");
@@ -5632,6 +5637,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			if (time_only || seen_year) break; 
 			seen_year = TRUE;
 			ODF_CLOSE_STRING;
+			element_written = TRUE;
 			gsf_xml_out_start_element (xout, NUMBER "year");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", 
 					      (n <= 2) ? "short" : "long");
@@ -5647,6 +5653,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			if (time_only || seen_year) break; 
 			seen_year = TRUE;
 			ODF_CLOSE_STRING;
+			element_written = TRUE;
 			gsf_xml_out_start_element (xout, NUMBER "year");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", 
 					      (n <= 2) ? "short" : "long");
@@ -5678,6 +5685,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			if (seen_hour) break;
 			seen_hour = TRUE;
 			ODF_CLOSE_STRING;
+			element_written = TRUE;
 			gsf_xml_out_start_element (xout, NUMBER "hours");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", 
 					      (n == 1) ? "short" : "long");
@@ -5692,6 +5700,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				xl++, n++;
 			m_is_minutes = (n <= 2) && (m_is_minutes || tail_forces_minutes (xl));
 
+			element_written = TRUE;
 			if (m_is_minutes) {
 				if (seen_minute) break;
 				seen_minute = TRUE;
@@ -5749,6 +5758,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			if (seen_second) break;
 			seen_second = TRUE;
 			ODF_CLOSE_STRING;
+			element_written = TRUE;
 			gsf_xml_out_start_element (xout, NUMBER "seconds");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", 
 					      (n == 1) ? "short" : "long");
@@ -5762,6 +5772,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			if (seen_elapsed || seen_ampm) break;
 			seen_ampm = TRUE;
 			ODF_CLOSE_STRING;
+			element_written = TRUE;
 			gsf_xml_out_simple_element (xout, NUMBER "am-pm", NULL);
 			break;
 
@@ -5770,6 +5781,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			seen_hour = TRUE;
 			seen_elapsed  = TRUE;
 			ODF_CLOSE_STRING;
+			element_written = TRUE;
 			gsf_xml_out_start_element (xout, NUMBER "hours");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
 			if (with_extension)
@@ -5785,6 +5797,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			m_is_minutes = FALSE;
 			seconds_trigger_minutes = FALSE;
 			ODF_CLOSE_STRING;
+			element_written = TRUE;
 			gsf_xml_out_start_element (xout, NUMBER "minutes");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
 			if (with_extension)
@@ -5801,6 +5814,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				seconds_trigger_minutes = FALSE;
 			}
 			ODF_CLOSE_STRING;
+			element_written = TRUE;
 			gsf_xml_out_start_element (xout, NUMBER "seconds");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
 			if (with_extension)
