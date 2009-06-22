@@ -6138,7 +6138,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			char *str;
 			if (color_completed)
 				break;
-			if (go_format_parse_color (token, &color, NULL, NULL)) {
+			if (go_format_parse_color (token, &color, NULL, NULL, FALSE)) {
 				ODF_CLOSE_STRING;
 				gsf_xml_out_start_element (xout, STYLE "text-properties");
 				str = g_strdup_printf ("#%.2X%.2X%.2X", 
