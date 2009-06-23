@@ -5486,7 +5486,7 @@ go_format_locale_currency (void)
 #define STYLE	 "style:"
 #define FOSTYLE	 "fo:"
 #define NUMBER   "number:"
-#define GNMSTYLE	 "gnm:"
+#define GNMSTYLE "gnm:"
 
 
 #ifdef DEFINE_COMMON
@@ -5825,7 +5825,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			gsf_xml_out_start_element (xout, NUMBER "seconds");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
 			if (with_extension)
-				gsf_xml_out_add_cstr (xout, GNMSTYLE "elapsed", "true");
+				gsf_xml_out_add_cstr (xout, GNMSTYLE "truncate-on-overflow", "false");
 			gsf_xml_out_end_element (xout); /* </number:seconds> */
 			break;
 

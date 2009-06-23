@@ -1,7 +1,12 @@
+2009-06-23  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* utils/go-format.c (go_format_output_date_to_odf): also consider 
+	  elapsed seconds
+
 2009-06-22  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
-	* utils/go-format.c (go_format_output_date_to_odf): handle elapsed times 
-	  better
+	* utils/go-format.c (go_format_output_date_to_odf): handle elapsed 
+	  times better
 	(go_format_output_number_to_odf): also handle currencies and accounting
 	(go_format_output_currency_to_odf): deleted
 	(go_format_output_to_odf): use go_format_output_number_to_odf for 
