@@ -1,5 +1,11 @@
 2009-06-23  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
+	* utils/go-format.c (go_format_output_date_to_odf): be as explicit 
+	  as possible with respect to elapsed time and avoid it when we
+	  are outputting a date-style.
+	
+2009-06-23  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
 	* utils/go-format.c (go_format_output_date_to_odf): also consider 
 	  elapsed seconds
 

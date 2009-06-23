@@ -5693,6 +5693,8 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			gsf_xml_out_start_element (xout, NUMBER "hours");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", 
 					      (n == 1) ? "short" : "long");
+			if (with_extension)
+				gsf_xml_out_add_cstr (xout, GNMSTYLE "truncate-on-overflow", "true");
 			gsf_xml_out_end_element (xout); /* </number:hours> */
 			m_is_minutes = TRUE;
 			break;
@@ -5714,6 +5716,8 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				gsf_xml_out_start_element (xout, NUMBER "minutes");
 				gsf_xml_out_add_cstr (xout, NUMBER "style", 
 						      (n == 1) ? "short" : "long");
+				if (with_extension)
+					gsf_xml_out_add_cstr (xout, GNMSTYLE "truncate-on-overflow", "true");
 				gsf_xml_out_end_element (xout); /* </number:minutes> */
 			} else {
 				if (seen_month || time_only) break;
@@ -5767,6 +5771,8 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			gsf_xml_out_add_cstr (xout, NUMBER "style", 
 					      (n == 1) ? "short" : "long");
 			gsf_xml_out_add_int (xout, NUMBER "decimal-places", d);
+			if (with_extension)
+				gsf_xml_out_add_cstr (xout, GNMSTYLE "truncate-on-overflow", "true");
 			gsf_xml_out_end_element (xout); /* </number:seconds> */
 			break;
 		}
@@ -5785,11 +5791,11 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			seen_hour = TRUE;
 			seen_elapsed  = TRUE;
 			ODF_CLOSE_STRING;
-			if ((!text_written) && !element_written)
+			if ((!text_written) && !element_written && time_only)
 				gsf_xml_out_add_cstr (xout, NUMBER "truncate-on-overflow", "false");
 			gsf_xml_out_start_element (xout, NUMBER "hours");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
-			/* ODF can mark elapsed hours in the time-style only */
+			/* ODF can mark elapsed time in the time-style only and then not clearly */
 			if (with_extension)
 				gsf_xml_out_add_cstr (xout, GNMSTYLE "truncate-on-overflow", "false");
 			gsf_xml_out_end_element (xout); /* </number:hours> */
@@ -5804,12 +5810,14 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			m_is_minutes = FALSE;
 			seconds_trigger_minutes = FALSE;
 			ODF_CLOSE_STRING;
-			element_written = TRUE;
+			if ((!text_written) && !element_written && time_only)
+				gsf_xml_out_add_cstr (xout, NUMBER "truncate-on-overflow", "false");
 			gsf_xml_out_start_element (xout, NUMBER "minutes");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
 			if (with_extension)
 				gsf_xml_out_add_cstr (xout, GNMSTYLE "truncate-on-overflow", "false");
 			gsf_xml_out_end_element (xout); /* </number:minutes> */
+			element_written = TRUE;
 
 		case TOK_ELAPSED_S:
 			if (seen_elapsed || seen_ampm || seen_second) break;
@@ -5821,12 +5829,14 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				seconds_trigger_minutes = FALSE;
 			}
 			ODF_CLOSE_STRING;
-			element_written = TRUE;
+			if ((!text_written) && !element_written && time_only)
+				gsf_xml_out_add_cstr (xout, NUMBER "truncate-on-overflow", "false");
 			gsf_xml_out_start_element (xout, NUMBER "seconds");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
 			if (with_extension)
 				gsf_xml_out_add_cstr (xout, GNMSTYLE "truncate-on-overflow", "false");
 			gsf_xml_out_end_element (xout); /* </number:seconds> */
+			element_written = TRUE;
 			break;
 
 		case TOK_STRING: {
