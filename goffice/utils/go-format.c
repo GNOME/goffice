@@ -5544,11 +5544,12 @@ odf_add_bool (GsfXMLOut *xout, char const *id, gboolean val)
                                  gsf_xml_out_end_element (xout); /* </number:text> */  \
 				 string_is_open = FALSE; \
                           }
-#define ODF_OPEN_STRING   if (!string_is_open) { \
-	                         gsf_xml_out_start_element (xout, NUMBER "text");\
-                                 string_is_open = TRUE; \
-				 g_string_erase (accum, 0, -1); \
-				 }
+#define ODF_OPEN_STRING   if (!string_is_open) {			\
+		gsf_xml_out_start_element (xout, NUMBER "text");	\
+		string_is_open = TRUE;					\
+		text_written = TRUE;					\
+		g_string_erase (accum, 0, -1);				\
+	}
 
 static void
 go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
@@ -5573,6 +5574,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	gboolean string_is_open = FALSE;
 	gboolean seconds_trigger_minutes = TRUE;
 	gboolean element_written = FALSE;
+	gboolean text_written = FALSE;
 	GOFormatMagic magic = go_format_get_magic (fmt);
 	gboolean color_completed = FALSE;
 
@@ -5783,13 +5785,16 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			seen_hour = TRUE;
 			seen_elapsed  = TRUE;
 			ODF_CLOSE_STRING;
-			element_written = TRUE;
+			if ((!text_written) && !element_written)
+				gsf_xml_out_add_cstr (xout, NUMBER "truncate-on-overflow", "false");
 			gsf_xml_out_start_element (xout, NUMBER "hours");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
+			/* ODF can mark elapsed hours in the time-style only */
 			if (with_extension)
-				gsf_xml_out_add_cstr (xout, GNMSTYLE "elapsed", "true");
+				gsf_xml_out_add_cstr (xout, GNMSTYLE "truncate-on-overflow", "false");
 			gsf_xml_out_end_element (xout); /* </number:hours> */
 			m_is_minutes = TRUE;
+			element_written = TRUE;
 			break;
 
 		case TOK_ELAPSED_M:
@@ -5803,7 +5808,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			gsf_xml_out_start_element (xout, NUMBER "minutes");
 			gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
 			if (with_extension)
-				gsf_xml_out_add_cstr (xout, GNMSTYLE "elapsed", "true");
+				gsf_xml_out_add_cstr (xout, GNMSTYLE "truncate-on-overflow", "false");
 			gsf_xml_out_end_element (xout); /* </number:minutes> */
 
 		case TOK_ELAPSED_S:
@@ -6160,10 +6165,19 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	gboolean color_completed = FALSE;
 	gboolean string_is_open = FALSE;
 
-	if (family == GO_FORMAT_PERCENTAGE)
+	switch (family) {
+	case GO_FORMAT_PERCENTAGE:
 		gsf_xml_out_start_element (xout, NUMBER "percentage-style");
-	else 
+		break;
+	case GO_FORMAT_CURRENCY:
+		gsf_xml_out_start_element (xout, NUMBER "currency-style");
+		break;
+	case GO_FORMAT_NUMBER:
+	default:
 		gsf_xml_out_start_element (xout, NUMBER "number-style");
+		break;
+	}
+
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
 
 	while (1) {
@@ -6234,11 +6248,19 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			}
 		} break;
 
+		case '$': 
+			ODF_WRITE_NUMBER;
+			if (family == GO_FORMAT_CURRENCY) {
+				ODF_CLOSE_STRING;
+				gsf_xml_out_simple_element(xout, NUMBER "currency-symbol", "$");
+			}
+			break;
+
 		case '/':
 		case 'd': case 'D':
 		case 'y': case 'Y':
 		case 'b': case 'B':
-		case 'e': 
+		case 'e': case 'E':
 		case 'g': case 'G':
 		case 'h': case 'H':
 		case 'm': case 'M':
@@ -6252,7 +6274,6 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		case TOK_INVISIBLE_CHAR:
 		case TOK_REPEATED_CHAR:
 		case TOK_CONDITION:
-		case TOK_LOCALE:
 		case TOK_ERROR:
 			ODF_WRITE_NUMBER;
 			break;
@@ -6270,15 +6291,43 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		case TOK_CHAR: {
 			size_t len = g_utf8_next_char(token) - (token);
 			if (len > 0) {
+				gunichar uc;
 				ODF_WRITE_NUMBER;
-				ODF_OPEN_STRING;
-				if (*token == '-')
-					g_string_append_unichar (accum, UNICODE_MINUS);
-				else
-					g_string_append_len (accum, token, len);
+				if ((family == GO_FORMAT_CURRENCY) && 
+				    ((uc = g_utf8_get_char (token)) == UNICODE_POUNDS1 
+				     || uc == UNICODE_POUNDS2 || uc == UNICODE_YEN 
+				     || uc == UNICODE_YEN_WIDE || uc == UNICODE_EURO)) {
+					char *str;
+					ODF_CLOSE_STRING;
+					str = g_strndup (token, len); 
+					gsf_xml_out_simple_element(xout, NUMBER "currency-symbol", str);
+					g_free (str);
+				} else {
+					ODF_OPEN_STRING;
+					if (*token == '-')
+						g_string_append_unichar (accum, UNICODE_MINUS);
+					else
+						g_string_append_len (accum, token, len);
+				}
 			}
 			break;
 		}
+
+		case TOK_LOCALE:
+			ODF_WRITE_NUMBER;
+			if ((family == GO_FORMAT_CURRENCY) && (*token == '[') && (*(token + 1) == '$')) {
+				int len;
+				token += 2;
+				len = strcspn (token, "-]");
+				if (len > 0) {
+					char *str;
+					ODF_CLOSE_STRING;
+					str = g_strndup (token, len); 
+					gsf_xml_out_simple_element(xout, NUMBER "currency-symbol", str);
+					g_free (str);
+				}
+			}
+			break;
 
 		case TOK_ESCAPED_CHAR: {
 			size_t len = g_utf8_next_char(token + 1) - (token + 1);
@@ -6305,6 +6354,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 #undef ODF_CLOSE_STRING
 #undef ODF_OPEN_STRING
 #undef ODF_WRITE_NUMBER
+
 
 #define ODF_CLOSE_STRING  if (string_is_open) {				\
 		gsf_xml_out_add_cstr (xout, NULL, accum->str);		\
@@ -6523,49 +6573,6 @@ go_format_output_general_to_odf (GsfXMLOut *xout, char const *name, int cond_par
 	gsf_xml_out_end_element (xout); /* </number:number> */
 	gsf_xml_out_end_element (xout); /* </number:number-style> */
 }
-
-static void
-go_format_output_currency_to_odf (GsfXMLOut *xout, G_GNUC_UNUSED GOFormat const *fmt,
-				  char const *name, 
-				  GOFormatDetails const *details, 
-				  GOFormatCondition const *condition,
-				  int cond_part)
-{
-	gboolean parentheses = (cond_part == 1) && details->negative_paren;
-	gboolean no_neg = (condition != NULL) && condition->true_inhibits_minus;
-
-	gsf_xml_out_start_element (xout, NUMBER "currency-style");
-	gsf_xml_out_add_cstr (xout, STYLE "name", name);
-	if ((cond_part == 1) && details->negative_red) {
-		gsf_xml_out_start_element (xout, STYLE "text-properties");
-		gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", "#FF0000");
-		gsf_xml_out_end_element (xout); /*<style:text-properties>*/
-	}
-	if (parentheses)
-		gsf_xml_out_simple_element(xout, NUMBER "text", "(");
-	if ((details->currency != NULL) && details->currency->precedes) {
-		gsf_xml_out_simple_element(xout, NUMBER "currency-symbol", 
-					   details->currency->symbol);
-		if (details->currency->has_space)
-			gsf_xml_out_simple_element(xout, NUMBER "text", " ");
-	}
-	gsf_xml_out_start_element (xout, NUMBER "number");
-	gsf_xml_out_add_int (xout, NUMBER "decimal-places", details->num_decimals);
-	gsf_xml_out_add_int (xout, NUMBER "display-factor", no_neg ? -1 : 1);
-	odf_add_bool (xout, NUMBER "grouping", details->thousands_sep);
-	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", details->min_digits);
-	gsf_xml_out_end_element (xout); /* </number:number> */
-	if ((details->currency != NULL) && !details->currency->precedes) {
-		if (details->currency->has_space)
-			gsf_xml_out_simple_element(xout, NUMBER "text", " ");
-		gsf_xml_out_simple_element(xout, NUMBER "currency-symbol", 
-					   details->currency->symbol);
-	}
-	if (parentheses)
-		gsf_xml_out_simple_element(xout, NUMBER "text", ")");
-	gsf_xml_out_end_element (xout); 
-                  /* </number:currency-style> */
-}
 #endif
 
 #ifdef DEFINE_COMMON
@@ -6602,6 +6609,8 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		family = go_format_get_family (act_fmt);
 		det_fmt = act_fmt;
 	}
+	go_format_get_details (det_fmt, &details, &exact);
+	family = details.family;
 
 	switch (family) {
 	case GO_FORMAT_GENERAL:
@@ -6620,12 +6629,10 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	case GO_FORMAT_SCIENTIFIC:
 		go_format_output_scientific_number_to_odf (xout, act_fmt, name, with_extension);
 		break;
-	case GO_FORMAT_CURRENCY:
 	case GO_FORMAT_ACCOUNTING:
-		go_format_get_details (det_fmt, &details, &exact);
-		go_format_output_currency_to_odf (xout, fmt, name, &details, 
-						  condition, cond_part);
-		break;
+		family = GO_FORMAT_CURRENCY;
+		/* no break;   fall through */
+	case GO_FORMAT_CURRENCY:
 	case GO_FORMAT_PERCENTAGE:
 	case GO_FORMAT_NUMBER:
 		go_format_output_number_to_odf (xout, act_fmt, family, name, cond_part);
