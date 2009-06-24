@@ -6383,14 +6383,15 @@ go_format_output_scientific_number_element_to_odf (GsfXMLOut *xout,
 						   int min_decimal_digits,
 						   int min_exponent_digits,
 						   gboolean comma_seen,
-						   gboolean enineering)
+						   gboolean engineering)
 {
 	gsf_xml_out_start_element (xout, NUMBER "scientific-number");
 	gsf_xml_out_add_int (xout, NUMBER "decimal-places", min_decimal_digits);
 	odf_add_bool (xout, NUMBER "grouping", comma_seen);
 	gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", min_integer_digits);
 	gsf_xml_out_add_int (xout, NUMBER "min-exponent-digits", min_exponent_digits);
-	odf_add_bool (xout, GNMSTYLE "engineering", TRUE);
+	if (engineering)
+		odf_add_bool (xout, GNMSTYLE "engineering", TRUE);
 	gsf_xml_out_end_element (xout); /* </number:number> */
 }
 

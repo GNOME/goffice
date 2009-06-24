@@ -1,3 +1,9 @@
+2009-06-24  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* goffice/utils/go-format.c 
+	(go_format_output_scientific_number_element_to_odf): oly add
+	  gnm:engineering when asked to do so
+
 2009-06-23  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* utils/go-format.c (go_format_output_date_to_odf): be as explicit 
