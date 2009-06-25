@@ -9,7 +9,7 @@
 2009-06-24  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c 
-	(go_format_output_scientific_number_element_to_odf): oly add
+	(go_format_output_scientific_number_element_to_odf): only add
 	  gnm:engineering when asked to do so
 
 2009-06-23  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
