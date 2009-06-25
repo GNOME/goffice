@@ -1,3 +1,11 @@
+2009-06-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c (axis_line_render), (x_process),
+	(xy_process), (radar_process), (xyz_process): set 3d ticks at the
+	correct position. [#585298]
+	* goffice/graph/gog-chart.c: reversed fix to #152675.
+	* goffice/graph/gog-graph.c (gog_graph_class_init): ditto.
+
 2009-06-24  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c 

@@ -4,6 +4,9 @@ Andreas:
 	* Improve number style output to ODF. [#586564]
 	* Improve currency output to ODF.
 
+Jean:
+	* Align surface ticks with grid. [#585298]
+
 Morten:
 	* Fix format localization problem. [#586567]
 

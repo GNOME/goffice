@@ -1091,7 +1091,8 @@ axis_line_render (GogAxisBase *axis_base,
 		  GOGeometrySide side,
 		  double start_at,
 		  gboolean draw_labels,
-		  gboolean sharp)
+		  gboolean sharp,
+		  double *ticks_pos)
 {
 	GogAxisMap *map = NULL;
 	GogAxisTick *ticks;
@@ -1179,9 +1180,14 @@ axis_line_render (GogAxisBase *axis_base,
 		if (gog_axis_map (map, ticks[i].position) < start_at)
 			continue;
 
-		pos = gog_axis_map_to_view (map, ticks[i].position);
-		pos_x = x + pos * cos (axis_angle);
-		pos_y = y + pos * sin (axis_angle);
+		if (ticks_pos) {
+			pos_x = ticks_pos[2 * i];
+			pos_y = ticks_pos[2 * i + 1];
+		} else {
+			pos = gog_axis_map_to_view (map, ticks[i].position);
+			pos_x = x + pos * cos (axis_angle);
+			pos_y = y + pos * sin (axis_angle);
+		}
 
 		if (is_line_visible) {
 			switch (ticks[i].type) {
@@ -1210,12 +1216,17 @@ axis_line_render (GogAxisBase *axis_base,
 
 		if (ticks[i].label != NULL && draw_labels) {
 			GOGeometryOBR *obr = obrs + i;
-			pos = gog_axis_map_to_view (map, ticks[i].position);
 			obr->w += label_padding;
 			go_geometry_calc_label_position (obr, axis_angle, tick_len,
 							 side, label_anchor);
-			obr->x += x + pos * cos (axis_angle);
-			obr->y += y + pos * sin (axis_angle);
+			if (ticks_pos) {
+				obr->x += ticks_pos[2 * i];
+				obr->y += ticks_pos[2 * i + 1];
+			} else {
+				pos = gog_axis_map_to_view (map, ticks[i].position);
+				obr->x += x + pos * cos (axis_angle);
+				obr->y += y + pos * sin (axis_angle);
+			}
 
 			indexmap[nobr] = i;
 			nobr++;
@@ -1505,7 +1516,7 @@ x_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 			axis_line_render (axis_base, axis_base_view,
 					  view->renderer, ax, ay, bx - ax , by - ay, 
 					  GO_SIDE_RIGHT, -1.,
-					  axis_base->major_tick_labeled, TRUE);
+					  axis_base->major_tick_labeled, TRUE, NULL);
 			break;
 
 		case GOG_AXIS_BASE_PADDING_REQUEST:
@@ -1601,7 +1612,7 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 			axis_line_render (axis_base, axis_base_view,
 					  view->renderer, 
 					  ax, ay, bx - ax , by - ay, side, -1.,
-					  axis_base->major_tick_labeled, TRUE);
+					  axis_base->major_tick_labeled, TRUE, NULL);
 			break;
 
 		case GOG_AXIS_BASE_PADDING_REQUEST:
@@ -1681,7 +1692,7 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 								  parms->cx, parms->cy,
 								  bx - parms->cx, by - parms->cy,
 								  side, 0.1, i == parms->th0 && axis_base->major_tick_labeled,
-								  FALSE);
+								  FALSE, NULL);
 					} else {
 					       	gog_chart_map_2D_to_view (c_map, position, stop, &bx, &by);
 						axis_line_render (axis_base, axis_base_view,
@@ -1689,7 +1700,7 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 								  parms->cx, parms->cy,
 								  bx - parms->cx, by - parms->cy,
 								  side, 0., axis_base->major_tick_labeled,
-								  FALSE);
+								  FALSE, NULL);
 					}
 				break;
 			case GOG_AXIS_BASE_PADDING_REQUEST:
@@ -1782,6 +1793,7 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	double rx[8], ry[8], rz[8];
 	double major_tick_len, minor_tick_len, tick_len;
 	double label_w, label_h;
+	double *ticks_pos = NULL;
 
 	/* Note: Anti-clockwise order in each face,
 	 * important for calculating normals */
@@ -1907,6 +1919,17 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		                          &ax, &ay, NULL);
 		gog_chart_map_3d_to_view (c_map, xposition, yposition, stop,
 		                          &bx, &by, NULL);
+		if (action == GOG_AXIS_BASE_RENDER) {
+			tick_nbr = gog_axis_get_ticks (axis_base->axis, &ticks);
+			ticks_pos = g_new (double, 2 * tick_nbr);
+			for (i = 0; i < tick_nbr; i++)
+				gog_chart_map_3d_to_view (c_map, xposition,
+							  yposition,
+							  ticks[i].position,
+							  ticks_pos + 2 * i, 
+							  ticks_pos + 2 * i + 1,
+							  NULL);
+		}
 	} else if (axis_type == GOG_AXIS_X) {
 		yposition = *py[faces[base + vertex]];
 		zposition = *pz[faces[base + vertex]];
@@ -1917,6 +1940,18 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		                          &ax, &ay, NULL);
 		gog_chart_map_3d_to_view (c_map, stop, yposition, zposition,
 		                          &bx, &by, NULL);
+		if (action == GOG_AXIS_BASE_RENDER) {
+			tick_nbr = gog_axis_get_ticks (axis_base->axis, &ticks);
+			ticks_pos = g_new (double, 2 * tick_nbr);
+			for (i = 0; i < tick_nbr; i++) {
+				gog_chart_map_3d_to_view (c_map,
+							  ticks[i].position,
+							  yposition, zposition,
+							  ticks_pos + 2 * i, 
+							  ticks_pos + 2 * i + 1,
+							  NULL);
+			}
+		}
 	} else {
 		zposition = *pz[faces[base + vertex]];
 		xposition = *px[faces[base + vertex]];
@@ -1927,6 +1962,17 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		                          &ax, &ay, NULL);
 		gog_chart_map_3d_to_view (c_map, xposition, stop, zposition,
 		                          &bx, &by, NULL);
+		if (action == GOG_AXIS_BASE_RENDER) {
+			tick_nbr = gog_axis_get_ticks (axis_base->axis, &ticks);
+			ticks_pos = g_new (double, 2 * tick_nbr);
+			for (i = 0; i < tick_nbr; i++)
+				gog_chart_map_3d_to_view (c_map, xposition,
+							  ticks[i].position,
+							  zposition,
+							  ticks_pos + 2 * i, 
+							  ticks_pos + 2 * i + 1,
+							  NULL);
+		}
 	}
 
 	if (axis_type == perp_axis) {
@@ -1945,14 +1991,13 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	}
 	side = (tmp > 0)? GO_SIDE_LEFT : GO_SIDE_RIGHT;
 
-	gog_chart_map_3d_free (c_map);
-
 	switch (action) {
 		case GOG_AXIS_BASE_RENDER:
 			axis_line_render (axis_base, axis_base_view,
 					  view->renderer, 
 					  ax, ay, bx - ax , by - ay, side, -1.,
-					  axis_base->major_tick_labeled, TRUE);
+					  axis_base->major_tick_labeled, TRUE,
+					  ticks_pos);
 			break;
 		case GOG_AXIS_BASE_PADDING_REQUEST:
 			axis_line_bbox = axis_line_get_bbox (axis_base,
@@ -2025,6 +2070,8 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 		default:
 			break;
 	}
+
+	gog_chart_map_3d_free (c_map);
 
 	return FALSE;
 }
