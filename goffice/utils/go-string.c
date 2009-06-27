@@ -553,3 +553,65 @@ go_string_get_type (void)
 	}
 	return t;
 }
+
+/**
+ * go_string_get_len
+ **/
+guint32		  
+go_string_get_len (GOString const *gstr)
+{
+	return GO_STRING_LEN(gstr);
+}
+
+
+/**
+ * go_string_get_markup
+ **/
+PangoAttrList *
+go_string_get_markup (GOString const *gstr)
+{
+	GOStringImpl *impl = (GOStringImpl *)gstr;
+
+	if ((impl->flags & GO_STRING_IS_RICH) != 0) {
+		GOStringRichImpl *rich = (GOStringRichImpl *) gstr;
+		return rich->markup;
+	} else
+		return NULL;
+}
+
+/**
+ * go_string_get_phonetic
+ **/
+GOStringPhonetic *
+go_string_get_phonetic (GOString const *gstr)
+{
+	GOStringImpl *impl = (GOStringImpl *)gstr;
+
+	if ((impl->flags & GO_STRING_IS_RICH) != 0) {
+		GOStringRichImpl *rich = (GOStringRichImpl *) gstr;
+		return rich->phonetic;
+	} else
+		return NULL;
+}
+
+
+/**
+ * go_string_equal_ignorecase
+ **/
+gboolean  
+go_string_equal_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
+{
+	return (0 == go_string_cmp_ignorecase (gstr_a, gstr_b));
+}
+
+
+/**
+ * go_string_equal_ignorecase
+ **/
+gboolean  
+go_string_equal_rich (gconstpointer gstr_a, gconstpointer gstr_b)
+{
+	/* TODO  */
+
+	return go_string_equal (gstr_a, gstr_b);
+}

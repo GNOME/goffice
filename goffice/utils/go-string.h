@@ -49,7 +49,6 @@ GOString   *go_string_new_rich		(char const *str,
 GOString *go_string_ref		(GOString *gstr);
 void	  go_string_unref	(GOString *gstr);
 
-char const	 *go_string_get_cstr	  (GOString const *gstr);
 guint32		  go_string_get_len	  (GOString const *gstr);
 unsigned int	  go_string_get_ref_count (GOString const *gstr);
 char const	 *go_string_get_collation (GOString const *gstr);
