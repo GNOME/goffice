@@ -3,6 +3,7 @@ goffice 0.7.9:
 Andreas:
 	* Improve number style output to ODF. [#586564]
 	* Improve currency output to ODF.
+	* Fix hang when writing date with invalid format. [#587171]
 
 Jean:
 	* Align surface ticks with grid. [#585298]

@@ -5899,7 +5899,9 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		case TOK_REPEATED_CHAR:
 		case TOK_CONDITION:
 		case TOK_LOCALE:
+			break;
 		case TOK_ERROR:
+			xl++;
 			break;
 
 		default:
