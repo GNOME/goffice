@@ -1,3 +1,10 @@
+2009-06-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix wrong palette swatch sizes, due to bug introduced in gtk 2.16.
+	(see http://bugzilla.gnome.org/show_bug.cgi?id=585421)
+
+	* goffice/gtk/go-palette.c (go_palette_menu_item_new): here.
+
 2009-06-28  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_output_date_to_odf): when we
