@@ -1,5 +1,12 @@
 2009-06-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	More workaround for http://bugzilla.gnome.org/show_bug.cgi?id=585421
+
+	* goffice/gtk/go-color-palette.c (make_colored_menu_item): here.
+	* goffice/gtk/go-combo-pixmaps.c (go_menu_pixmaps_add_element): and here.
+
+2009-06-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Fix wrong palette swatch sizes, due to bug introduced in gtk 2.16.
 	(see http://bugzilla.gnome.org/show_bug.cgi?id=585421)
 

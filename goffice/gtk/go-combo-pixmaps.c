@@ -338,6 +338,12 @@ cb_menu_item_activate (GtkWidget *button, GtkWidget *menu)
 	g_signal_emit (menu, go_menu_pixmaps_signals [CHANGED], 0, id);
 }
 
+static void
+cb_menu_item_toggle_size_request (GtkWidget *item, gint *requitision)
+{
+	*requitision = 1;
+}
+
 void
 go_menu_pixmaps_add_element (GOMenuPixmaps *menu,
 			     GdkPixbuf *pixbuf, int id)
@@ -361,4 +367,7 @@ go_menu_pixmaps_add_element (GOMenuPixmaps *menu,
 	g_signal_connect (G_OBJECT (button),
 		"activate",
 		G_CALLBACK (cb_menu_item_activate), menu);
+
+	/* Workaround for bug http://bugzilla.gnome.org/show_bug.cgi?id=585421 */
+	g_signal_connect (button, "toggle-size-request", G_CALLBACK (cb_menu_item_toggle_size_request), NULL);
 }

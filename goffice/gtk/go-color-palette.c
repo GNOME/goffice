@@ -573,6 +573,12 @@ static GSF_CLASS (GOMenuColor, go_menu_color,
 		  go_menu_color_class_init, NULL,
 		  GTK_TYPE_MENU)
 
+static void
+cb_menu_item_toggle_size_request (GtkWidget *item, gint *requitision)
+{
+	*requitision = 1;
+}
+
 static GtkWidget *
 make_colored_menu_item (char const *label, GOColor c)
 {
@@ -595,6 +601,10 @@ make_colored_menu_item (char const *label, GOColor c)
 	gtk_widget_show_all (button);
 
 	g_object_set_data (G_OBJECT (button), "go_color", GINT_TO_POINTER (c));
+
+	/* Workaround for bug http://bugzilla.gnome.org/show_bug.cgi?id=585421 */
+	g_signal_connect (button, "toggle-size-request", G_CALLBACK (cb_menu_item_toggle_size_request), NULL);
+
 	return button;
 }
 
@@ -698,8 +708,11 @@ custom_colors :
 			G_CALLBACK (cb_menu_color_activate), submenu);
 	}
 	w = gtk_image_menu_item_new_with_label (_("Custom Color..."));
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (w),
-		gtk_image_new_from_stock (GTK_STOCK_SELECT_COLOR, GTK_ICON_SIZE_MENU));
+	/* Workaround for bug http://bugzilla.gnome.org/show_bug.cgi?id=585421 */
+	/* We can't have an image in one of the gtk_menu_item, it would lead to an 
+	   ugly item spacing. */
+	/* gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (w),*/
+	/* 	gtk_image_new_from_stock (GTK_STOCK_SELECT_COLOR, GTK_ICON_SIZE_MENU));*/
 	gtk_widget_show_all (w);
 	gtk_menu_attach (GTK_MENU (submenu), w, 0, cols, row + 2, row + 3);
 	g_signal_connect (G_OBJECT (w),
