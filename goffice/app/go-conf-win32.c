@@ -13,7 +13,7 @@ struct _GOConfNode {
 };
 
 void
-go_conf_init ()
+go_conf_init (void)
 {
 }
 

@@ -2,6 +2,10 @@
 
 	* goffice/app/go-conf-gconf.c (go_conf_add_monitor): Don't use
 	reserved identifier.
+	(get_schema): Use go_conf_get_real_key to avoid problems with
+	NULL.
+	(cb_key_changed): Actually call the monitor with a node as
+	advertised!
 
 2009-06-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 

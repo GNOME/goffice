@@ -28,8 +28,11 @@ go_conf_shutdown (void)
 static gchar *
 go_conf_get_real_key (GOConfNode const *key, gchar const *subkey)
 {
-	return key ? (subkey ? g_strconcat ((key)->path, "/", subkey, NULL): g_strdup (key->path)) :
-		     g_strdup (subkey);
+	return key
+		? (subkey
+		   ? g_strconcat (key->path, "/", subkey, NULL)
+		   : g_strdup (key->path))
+		: g_strdup (subkey);
 }
 
 GOConfNode *
@@ -38,15 +41,13 @@ go_conf_get_node (GOConfNode *parent, gchar const *key)
 	GOConfNode *node;
 
 	node = g_new (GOConfNode, 1);
-	gconf_client = gconf_client;
 	node->root = !parent;
 	if (node->root) {
 		node->path = g_strconcat ("/apps/", key, NULL);
 		gconf_client_add_dir (gconf_client, node->path,
 				      GCONF_CLIENT_PRELOAD_RECURSIVE,
 				      NULL);
-	}
-	else
+	} else
 		node->path = go_conf_get_real_key (parent, key);
 
 	return node;
@@ -241,11 +242,12 @@ go_conf_load_str_list (GOConfNode *node, gchar const *key)
 static GConfSchema *
 get_schema (GOConfNode *node, gchar const *key)
 {
-	gchar *schema_key = g_strconcat (
-		"/schemas", node->path, "/", key, NULL);
-	GConfSchema *schema = gconf_client_get_schema (
-		gconf_client, schema_key, NULL);
+	gchar *real_key = go_conf_get_real_key (node, key);
+	gchar *schema_key = g_strconcat ("/schemas", real_key, NULL);
+	GConfSchema *schema = gconf_client_get_schema
+		(gconf_client, schema_key, NULL);
 	g_free (schema_key);
+	g_free (real_key);
 	return schema;
 }
 
@@ -435,6 +437,7 @@ go_conf_remove_monitor (guint monitor_id)
 
 typedef struct {
 	GOConfMonitorFunc monitor;
+	GOConfNode *node;
 	gpointer data;
 } GOConfClosure;
 
@@ -442,7 +445,7 @@ static void
 cb_key_changed (GConfClient *client, guint cnxn_id,
 		GConfEntry *entry, GOConfClosure *cls)
 {
-	cls->monitor (NULL, gconf_entry_get_key (entry), cls->data);
+	cls->monitor (cls->node, gconf_entry_get_key (entry), cls->data);
 }
 
 guint
@@ -450,10 +453,15 @@ go_conf_add_monitor (GOConfNode *node, gchar const *key,
 		     GOConfMonitorFunc monitor, gpointer data)
 {
 	guint ret;
-	GOConfClosure *cls = g_new0 (GOConfClosure, 1);
+	GOConfClosure *cls;
 	gchar *real_key;
 
+	g_return_val_if_fail (node || key, 0);
+	g_return_val_if_fail (monitor != NULL, 0);
+
+	cls = g_new (GOConfClosure, 1);
 	cls->monitor = monitor;
+	cls->node = node;
 	cls->data = data;
 	real_key = go_conf_get_real_key (node, key);
 	ret = gconf_client_notify_add
