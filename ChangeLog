@@ -1,3 +1,8 @@
+2009-07-01  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-conf-gconf.c (go_conf_add_monitor): Don't use
+	reserved identifier.
+
 2009-06-30  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	More workaround for http://bugzilla.gnome.org/show_bug.cgi?id=585421

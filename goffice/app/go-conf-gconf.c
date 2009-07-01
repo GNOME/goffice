@@ -440,9 +440,9 @@ typedef struct {
 
 static void
 cb_key_changed (GConfClient *client, guint cnxn_id,
-		GConfEntry *entry, GOConfClosure *close)
+		GConfEntry *entry, GOConfClosure *cls)
 {
-	close->monitor (NULL, gconf_entry_get_key (entry), close->data);
+	cls->monitor (NULL, gconf_entry_get_key (entry), cls->data);
 }
 
 guint
@@ -450,14 +450,15 @@ go_conf_add_monitor (GOConfNode *node, gchar const *key,
 		     GOConfMonitorFunc monitor, gpointer data)
 {
 	guint ret;
-	GOConfClosure *close = g_new0 (GOConfClosure, 1);
+	GOConfClosure *cls = g_new0 (GOConfClosure, 1);
 	gchar *real_key;
 
-	close->monitor = monitor;
-	close->data = data;
+	cls->monitor = monitor;
+	cls->data = data;
 	real_key = go_conf_get_real_key (node, key);
-	ret = gconf_client_notify_add (gconf_client, real_key,
-		(GConfClientNotifyFunc) cb_key_changed, close, g_free, NULL);
+	ret = gconf_client_notify_add
+		(gconf_client, real_key, (GConfClientNotifyFunc)cb_key_changed,
+		 cls, g_free, NULL);
 	g_free (real_key);
 
 	return ret;
