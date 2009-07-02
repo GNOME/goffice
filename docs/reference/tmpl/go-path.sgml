@@ -47,9 +47,6 @@ Path handling
 
 </para>
 
-@data_buffer_head: 
-@data_buffer_tail: 
-@sharp: 
 
 <!-- ##### FUNCTION go_path_new ##### -->
 <para>
