@@ -53,16 +53,17 @@ go_conf_win32_set (GOConfNode *node, gchar const *key,
 	HKEY hKey;
 	gboolean ok;
 
-	if ((last_sep = strrchr (key, '/')) != NULL) {
+	last_sep = key ? strrchr (key, '/') : NULL;
+	if (last_sep) {
 		path = g_strndup (key, last_sep - key);
 		ok = go_conf_win32_get_node (node, &hKey, path, NULL);
 		g_free (path);
 		if (!ok)
 			return FALSE;
 		key = last_sep + 1;
-	}
-	else
+	} else
 		hKey = node->hKey;
+
 	RegSetValueEx (hKey, key, 0, type, data, size);
 	if (path)
 		RegCloseKey (hKey);
@@ -73,30 +74,31 @@ go_conf_win32_set (GOConfNode *node, gchar const *key,
 static gboolean
 go_conf_win32_get (GOConfNode *node, gchar const *key,
 		   gulong *type, guchar **data, gulong *size,
-		   gboolean realloc, gint *ret_code)
+		   gboolean do_realloc, gint *ret_code)
 {
 	gchar *last_sep, *path = NULL;
 	HKEY hKey;
 	LONG ret;
 	gboolean ok;
 
-	if ((last_sep = strrchr (key, '/')) != NULL) {
+	last_sep = key ? strrchr (key, '/') : NULL;
+	if (last_sep) {
 		path = g_strndup (key, last_sep - key);
 		ok = go_conf_win32_get_node (node, &hKey, path, NULL);
 		g_free (path);
 		if (!ok)
 			return FALSE;
 		key = last_sep + 1;
-	}
-	else
+	} else
 		hKey = node->hKey;
-	if (!*data && realloc) {
+
+	if (!*data && do_realloc) {
 		RegQueryValueEx (hKey, key, NULL, type, NULL, size);
 		*data = g_new (guchar, *size);
 	}
 	while ((ret = RegQueryValueEx (hKey, key, NULL,
 				       type, *data, size)) == ERROR_MORE_DATA &&
-	       realloc)
+	       d0_realloc)
 		*data = g_realloc (*data, *size);
 	if (path)
 		RegCloseKey (hKey);
