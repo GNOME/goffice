@@ -98,7 +98,7 @@ go_conf_win32_get (GOConfNode *node, gchar const *key,
 	}
 	while ((ret = RegQueryValueEx (hKey, key, NULL,
 				       type, *data, size)) == ERROR_MORE_DATA &&
-	       d0_realloc)
+	       do_realloc)
 		*data = g_realloc (*data, *size);
 	if (path)
 		RegCloseKey (hKey);
