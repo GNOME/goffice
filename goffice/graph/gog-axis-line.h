@@ -42,8 +42,6 @@ typedef enum {
 	GOG_AXIS_AUTO
 } GogAxisPosition;
 
-GogAxisPosition gog_axis_base_get_clamped_position (GogAxisBase *axis_base);
-
 typedef enum {
 	GOG_AXIS_TICK_NONE,
 	GOG_AXIS_TICK_MAJOR,

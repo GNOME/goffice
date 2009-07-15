@@ -1,3 +1,9 @@
+2009-07-15  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Remove duplicated declaration.
+
+	* goffice/graph/gog-axis-line.h: here. Already in gog-axis-line-impl.h.
+
 2009-07-09  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-conf-win32.c (go_conf_win32_get,
@@ -30,7 +36,7 @@
 
 	* goffice/utils/go-format.c (go_format_output_date_to_odf): when we
 	  encounter a error in tokenizing, skip forward
-	
+
 2009-06-25  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-string.h (go_string_get_cstr): deleted
