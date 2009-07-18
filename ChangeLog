@@ -1,3 +1,8 @@
+2009-07-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-marker.c: add a left half bar marker.
+	* goffice/utils/go-marker.h: ditto.
+
 2009-07-15  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Remove duplicated declaration.

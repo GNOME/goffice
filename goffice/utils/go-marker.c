@@ -58,6 +58,7 @@ static char const bar_path[] =			"M-1 -0.2 L 1 -0.2 L 1 0.2 L -1 0.2 z";
 static char const half_bar_path[] = 		"M0,-0.2 L1,-0.2 1,0.2 0,0.2 z";
 static char const butterfly_path[] =		"M-1,-1 L-1,1 0,0 1,1 1,-1 0,0 z";
 static char const hourglass_path[] =		"M-1,-1 L1,-1 0,0 1,1 -1,1 0,0 z";
+static char const left_half_bar_path[] =	"M0,-0.2 L-1,-0.2 -1,0.2 0,0.2 z";
 
 typedef struct
 {
@@ -85,7 +86,8 @@ static MarkerShape const marker_shapes[GO_MARKER_MAX] = {
     MAKE_MARKER_SHAPE   ( N_("bar"), 		"bar",            bar_path),
     MAKE_MARKER_SHAPE   ( N_("half bar"),	"half-bar",       half_bar_path),
     MAKE_MARKER_SHAPE   ( N_("butterfly"),	"butterfly",      butterfly_path),
-    MAKE_MARKER_SHAPE   ( N_("hourglass"),	"hourglass",      hourglass_path)
+    MAKE_MARKER_SHAPE   ( N_("hourglass"),	"hourglass",      hourglass_path),
+    MAKE_MARKER_SHAPE   ( N_("left half bar"),	"lefthalf-bar",	  left_half_bar_path)
 };
 
 static GObjectClass *marker_parent_klass;
