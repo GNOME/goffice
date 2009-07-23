@@ -18,6 +18,11 @@
 				<description>Excel (TM) compatibility contour plotting engine</description>
 			</information>
 		</service>
+		<service type="plot_engine" id="GogXYZContourPlot">
+			<information>
+				<_description>XYZ contour plotting engine</_description>
+			</information>
+		</service>
 		<service type="plot_engine" id="GogSurfacePlot">
 			<information>
 				<_description>Surface plotting engine</_description>
@@ -30,7 +35,7 @@
 		</service>
 		<service type="plot_engine" id="GogXYZSurfacePlot">
 			<information>
-				<_description>XYZ Surface plotting engine</_description>
+				<_description>XYZ surface plotting engine</_description>
 			</information>
 		</service>
 		<service type="plot_type" id="surface">

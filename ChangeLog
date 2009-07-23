@@ -1,3 +1,8 @@
+2009-07-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/plot-types.xml.in: fix #589512.
+	* plugins/plot_surface/plugin.xml.in: ditto.
+
 2009-07-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-marker.c: add a left half bar marker.
