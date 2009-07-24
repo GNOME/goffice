@@ -1005,7 +1005,9 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						}
 					}
 					if (fabs (x0 - x1) < CONTOUR_EPSILON
-						&& fabs (y0 - y1) < CONTOUR_EPSILON)
+						&& fabs (y0 - y1) < CONTOUR_EPSILON
+						&&fabs (x0 - x[0]) > CONTOUR_EPSILON
+						&& fabs (y0 - y[0]) > CONTOUR_EPSILON)
 						continue;
 					while (k < s) {
 						go_path_line_to (path, x[k], y[k]);

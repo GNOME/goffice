@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--*- mode: xml -*-->
+<?xml version="1.0"?>
 <glade-interface>
+  <!-- interface-requires gtk+ 2.16 -->
+  <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkWindow" id="window1">
     <property name="title" translatable="yes">window1</property>
     <child>
@@ -45,7 +45,7 @@
           <widget class="GtkSpinButton" id="rows_spinner">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="tooltip" translatable="yes">Separation between groups as a percentage of bar/col width</property>
+            <property name="tooltip" translatable="yes">Number of rows of the data matrix used to display the data.</property>
             <property name="adjustment">10 2 1000 1 10 0</property>
             <property name="climb_rate">10</property>
             <property name="snap_to_ticks">True</property>
@@ -62,7 +62,7 @@
           <widget class="GtkSpinButton" id="columns_spinner">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="tooltip" translatable="yes">How far the bars/cols overlap as a percentage of the width</property>
+            <property name="tooltip" translatable="yes">Number of columns of the data matrix used to display the data.</property>
             <property name="adjustment">10 2 1000 1 10 0</property>
             <property name="climb_rate">0.10000000000000001</property>
             <property name="snap_to_ticks">True</property>
