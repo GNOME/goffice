@@ -1,3 +1,7 @@
+2009-08-02  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+
+	* plugins/plot_distrib/plugin.xml.in: fix spelling
+	
 2009-07-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/gog-contour.c (gog_contour_view_render): don't

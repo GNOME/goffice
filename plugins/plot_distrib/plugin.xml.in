@@ -2,7 +2,7 @@
 <plugin id="GOffice_plot_boxes">
 	<information>
 		<_name>Charting : distribution related plots</_name>
-		<_description>box-blots, histograms, and other distribution related plots</_description>
+		<_description>box-plots, histograms, and other distribution related plots</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="distrib"/>
