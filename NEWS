@@ -8,6 +8,7 @@ Andreas:
 Jean:
 	* Align surface ticks with grid. [#585298]
 	* Fixed various contour plots related issues. [#589511, #589512]
+	* Comparison line for probability plots. [#590416]
 
 Morten:
 	* Fix format localization problem. [#586567]

@@ -359,9 +359,14 @@ gog_probability_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogProbabilityPlotSeries const *series;
 	unsigned i, nb;
 	GOStyle *style;
+	GSList *ptr;
 
 	if (model->base.series == NULL)
 		return;
+
+	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
+		gog_view_render	(ptr->data, bbox);
+
 	series = GOG_PROBABILITY_PLOT_SERIES (model->base.series->data);
 	nb = series->base.num_elements;
 	style = GOG_STYLED_OBJECT (series)->style;
@@ -393,10 +398,20 @@ gog_probability_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 static GogViewClass *probability_plot_view_parent_klass;
 
 static void
+gog_probability_plot_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
+{
+	GSList *ptr;
+	for (ptr = view->children; ptr != NULL; ptr = ptr->next)
+		gog_view_size_allocate (GOG_VIEW (ptr->data), allocation);
+	(probability_plot_view_parent_klass->size_allocate) (view, allocation);
+}
+
+static void
 gog_probability_plot_view_class_init (GogViewClass *view_klass)
 {
 	probability_plot_view_parent_klass = (GogViewClass*) g_type_class_peek_parent (view_klass);
 	view_klass->render	  = gog_probability_plot_view_render;
+	view_klass->size_allocate = gog_probability_plot_view_size_allocate;
 	view_klass->clip	  = FALSE;
 }
 
@@ -404,6 +419,66 @@ GSF_DYNAMIC_CLASS (GogProbabilityPlotView, gog_probability_plot_view,
 	gog_probability_plot_view_class_init, NULL,
 	GOG_TYPE_PLOT_VIEW)
 
+
+/*****************************************************************************/
+
+static gboolean
+regression_curve_can_add (GogObject const *parent)
+{
+	return (gog_object_get_child_by_name (parent, "Regression line") == NULL);
+}
+
+static void
+regression_curve_post_add (GogObject *parent, GogObject *child)
+{
+	gog_object_request_update (child);
+}
+
+static void
+regression_curve_pre_remove (GogObject *parent, GogObject *child)
+{
+}
+
+/*****************************************************************************/
+
+typedef GogView		GogProbabilityPlotSeriesView;
+typedef GogViewClass	GogProbabilityPlotSeriesViewClass;
+
+#define GOG_TYPE_PROBABILITY_SERIES_VIEW	(gog_probability_plot_series_view_get_type ())
+#define GOG__PROBABILITY_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE__PROBABILITY_SERIES_VIEW, GogProbabilityPlotSeriesView))
+#define GOG_IS__PROBABILITY_SERIES_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE__PROBABILITY_SERIES_VIEW))
+
+GType gog_probability_plot_series_view_get_type (void);
+
+static void
+gog_probability_plot_series_view_render (GogView *view, GogViewAllocation const *bbox)
+{
+	GSList *ptr;
+	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
+		gog_view_render	(ptr->data, bbox);
+}
+
+static void
+gog_probability_plot_series_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
+{
+	GSList *ptr;
+
+	for (ptr = view->children; ptr != NULL; ptr = ptr->next)
+		gog_view_size_allocate (GOG_VIEW (ptr->data), allocation);
+}
+
+static void
+gog_probability_plot_series_view_class_init (GogProbabilityPlotSeriesViewClass *gview_klass)
+{
+	GogViewClass *view_klass = GOG_VIEW_CLASS (gview_klass);
+	view_klass->render = gog_probability_plot_series_view_render;
+	view_klass->size_allocate = gog_probability_plot_series_view_size_allocate;
+	view_klass->build_toolkit = NULL;
+}
+
+GSF_DYNAMIC_CLASS (GogProbabilityPlotSeriesView, gog_probability_plot_series_view,
+	gog_probability_plot_series_view_class_init, NULL,
+	GOG_TYPE_VIEW)
 /****************************************************************************/
 
 static GogObjectClass *gog_probability_plot_series_parent_klass;
@@ -418,6 +493,7 @@ gog_probability_plot_series_update (GogObject *obj)
 	double mn, d;
 	unsigned i;
 	GODistribution *dist = GO_DISTRIBUTION (((GogProbabilityPlot *) series->base.plot)->dist);
+	GSList *ptr;
 
 	g_free (series->x);
 	series->x = NULL;
@@ -442,11 +518,27 @@ gog_probability_plot_series_update (GogObject *obj)
 	} else
 		series->y = NULL;
 
+	/* update children */
+	for (ptr = obj->children; ptr != NULL; ptr = ptr->next)
+		if (!GOG_IS_SERIES_LINES (ptr->data))
+			gog_object_request_update (GOG_OBJECT (ptr->data));
+
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
 
 	if (gog_probability_plot_series_parent_klass->update)
 		gog_probability_plot_series_parent_klass->update (obj);
+}
+
+static unsigned
+gog_probability_plot_series_get_xy_data (GogSeries const  *series,
+			double const 	**x, 
+			double const 	**y)
+{
+	GogProbabilityPlotSeries *ppseries = GOG_PROBABILITY_PLOT_SERIES (series);
+	*x = ppseries->x;
+	*y = ppseries->y;
+	return series->num_elements;
 }
 
 static void
@@ -466,12 +558,28 @@ static void
 gog_probability_plot_series_class_init (GogObjectClass *obj_klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) obj_klass;
+	GogSeriesClass *series_klass = (GogSeriesClass *) obj_klass;
+
+	static GogObjectRole const roles[] = {
+		{ N_("Regression line"), "GogLinRegCurve",	0,
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+		  regression_curve_can_add,
+		  NULL,
+		  NULL,
+		  regression_curve_post_add,
+		  regression_curve_pre_remove,
+		  NULL }
+	};
 
 	series_parent_klass = g_type_class_peek_parent (obj_klass);
 	gobject_klass->finalize		= gog_probability_plot_series_finalize;
 
 	gog_probability_plot_series_parent_klass = g_type_class_peek_parent (obj_klass);
 	obj_klass->update = gog_probability_plot_series_update;
+	obj_klass->view_type	= gog_probability_plot_series_view_get_type ();
+	gog_object_register_roles (obj_klass, roles, G_N_ELEMENTS (roles));
+
+	series_klass->get_xy_data = gog_probability_plot_series_get_xy_data;
 }
 
 GSF_DYNAMIC_CLASS (GogProbabilityPlotSeries, gog_probability_plot_series,

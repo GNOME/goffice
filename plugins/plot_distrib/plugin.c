@@ -35,6 +35,7 @@ void gog_histogram_series_view_register_type (GTypeModule *module);
 void gog_probability_plot_register_type (GTypeModule *module);
 void gog_probability_plot_series_register_type (GTypeModule *module);
 void gog_probability_plot_view_register_type (GTypeModule *module);
+void gog_probability_plot_series_view_register_type (GTypeModule *module);
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
@@ -50,6 +51,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_probability_plot_register_type (module);
 	gog_probability_plot_view_register_type (module);
 	gog_probability_plot_series_register_type (module);
+	gog_probability_plot_series_view_register_type (module);
 }
 
 G_MODULE_EXPORT void

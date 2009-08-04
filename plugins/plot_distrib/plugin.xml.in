@@ -4,6 +4,9 @@
 		<_name>Charting : distribution related plots</_name>
 		<_description>box-plots, histograms, and other distribution related plots</_description>
 	</information>
+	<dependencies>
+		<dep_plugin id="GOffice_reg_linear" force_load="1"/>
+	</dependencies>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="distrib"/>
 	</loader>

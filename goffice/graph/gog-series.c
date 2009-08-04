@@ -1070,22 +1070,21 @@ gog_series_get_xy_data (GogSeries const  *series,
 	GogSeriesClass	*klass = GOG_SERIES_GET_CLASS (series);
 	double *data[2];
 	unsigned int n_points;
+	int first, last;
 
 	g_return_val_if_fail (klass != NULL, 0);
 
 	if (klass->get_xy_data != NULL) {
-		int first, last;
-
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			return 0;
 
-		gog_dataset_dims (GOG_DATASET (series), &first, &last);
-
-		g_return_val_if_fail (first <= 0, 0);
-		g_return_val_if_fail (last >= 1, 0);
-
 		return (klass->get_xy_data) (series, x, y);
 	}
+
+	gog_dataset_dims (GOG_DATASET (series), &first, &last);
+
+	g_return_val_if_fail (first <= 0, 0);
+	g_return_val_if_fail (last >= 1, 0);
 
 	n_points = gog_series_get_data (series, NULL, data, 2);
 

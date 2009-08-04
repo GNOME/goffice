@@ -1,3 +1,11 @@
+2009-08-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-series.c (gog_series_get_xy_data): fix tests.
+	* plugins/plot_distrib/gog-probability-plot.c: implement comparison line
+	for probability plots. [#590416]
+	* plugins/plot_distrib/plugin.c (go_plugin_init): ditto.
+	* plugins/plot_distrib/plugin.xml.in: ditto.
+
 2009-08-02  Andreas J. Guelzow  <aguelzow@pyrshep.ca>
 
 	* plugins/plot_distrib/plugin.xml.in: fix spelling
