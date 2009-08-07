@@ -1,3 +1,9 @@
+2009-08-06  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-axis.c (map_linear_auto_bound): Avoid using an
+	integer number of steps for pull-in-0 threshold.  Fixes #590903, I
+	hope.
+
 2009-08-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-series.c (gog_series_get_xy_data): fix tests.
