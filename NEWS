@@ -14,6 +14,7 @@ Morten:
 	* Fix format localization problem. [#586567]
 	* Fix crash with Win32 configuration.  [#588138]
 	* Fix axis issues near zero.  [#590903]
+	* Improve log-scale axes.  [#590908]
 
 --------------------------------------------------------------------------
 goffice 0.7.8:

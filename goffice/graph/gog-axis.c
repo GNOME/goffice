@@ -1103,7 +1103,7 @@ map_log_auto_bound (GogAxis *axis, double minimum, double maximum, double *bound
 	bound[GOG_AXIS_ELEM_MIN] = pow (10.0, minimum);
 	bound[GOG_AXIS_ELEM_MAX] = pow (10.0, maximum);
 	bound[GOG_AXIS_ELEM_MAJOR_TICK] = step;
-	bound[GOG_AXIS_ELEM_MINOR_TICK] = 8;
+	bound[GOG_AXIS_ELEM_MINOR_TICK] = 9 * step - 1;
 }
 
 static void
@@ -1116,6 +1116,7 @@ map_log_calc_ticks (GogAxis *axis)
 	int t, N;
 	int maj_i, maj_N; /* Ticks for -1,....,maj_N     */
 	int min_i, min_N; /* Ticks for 1,....,(min_N-1) */
+	int base10_unit = 0;
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum) ||
 	    minimum <= 0.0) {
@@ -1151,17 +1152,38 @@ map_log_calc_ticks (GogAxis *axis)
 	if (min_step < 0) {
 		min_N = 1;
 	} else if (base10) {
-		double mf = pow (10, maj_step);
-		if (min_step >= mf - 2 && maj_N * (mf - 1) <= GOG_AXIS_MAX_TICK_NBR)
-			min_N = (int)mf - 1;
-		else
-			min_N = 1;
+		int ims = (int)maj_step;
+		/*
+		 * We basically have three choices:
+		 *   9N-1 : minor ticks at {1,2,...,9}*10^n and at 10^n
+		 *          without major ticks.
+		 *   N-1  : minor ticks at 10^n without major tick
+		 *
+		 *   1    : no minor ticks.
+		 */
+		do {
+			if (min_step >= 9 * ims - 1)
+				min_step = 9 * ims - 1;
+			else if (min_step >= ims - 1)
+				min_step = ims - 1;
+			else
+				min_step = 0;
+
+			if (maj_N * (min_step + 1) > GOG_AXIS_MAX_TICK_NBR) {
+				min_step -= 1;
+				continue;
+			}
+		} while (0);
+
+		min_N = (int)min_step + 1;
+		base10_unit = (min_N == ims ? 1 : 9);
+		min_step = go_nan;
 	} else {
 		while ((min_step + 1) * maj_N > GOG_AXIS_MAX_TICK_NBR)
 			min_step = floor (min_step / 2);
 		min_N = 1 + (int)min_step;
+		min_step = maj_step / min_N;
 	}
-	min_step = maj_step / min_N;
 
 	start_i = go_fake_ceil (lminimum / maj_step);
 	maj_N = (int)(go_fake_floor (lmaximum / maj_step) - start_i);
@@ -1197,7 +1219,9 @@ map_log_calc_ticks (GogAxis *axis)
 			double min_pos;
 
 			if (base10) {
-				min_pos = maj_pos * (1 + min_i);
+				min_pos = maj_pos *
+					go_pow10 (min_i / base10_unit) *
+					(1 + min_i % base10_unit);
 			} else {
 				double min_lpos = maj_lpos + min_i * min_step;
 				min_pos = pow (10, min_lpos);
