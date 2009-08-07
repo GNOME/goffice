@@ -1,5 +1,7 @@
 2009-08-06  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-string.c: Fix docs.
+
 	* goffice/graph/gog-axis.c (map_linear_auto_bound): Avoid using an
 	integer number of steps for pull-in-0 threshold.  Fixes #590903, I
 	hope.

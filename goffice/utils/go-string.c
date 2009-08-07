@@ -200,7 +200,7 @@ go_string_new_nocopy (char *str)
  * @markup : optionally %NULL list, GOString steals the ref
  * @phonetic : optionally %NULL list of phonetic extensions, GOString steals the ref.
  *
- * Returns : a string.
+ * Returns: a string.
  **/
 GOString *
 go_string_new_rich (char const *str,
@@ -409,7 +409,7 @@ static GOString *go_string_ERROR_val = NULL;
  * A convenience for g_return_val to share one error string without adding a
  * reference to functions that do not add references to the result
  *
- * Returns : A string saying 'ERROR' but does not add a ref to it.
+ * Returns: A string saying 'ERROR' but does not add a ref to it.
  **/
 GOString *
 go_string_ERROR (void)
@@ -537,8 +537,10 @@ value_transform_gostring_string (GValue const *src_val,
 
 /**
  * go_string_get_type :
+ *
  * Register #GOString as a type for #GValue
- * Returns : #GType
+ *
+ * Returns: #GType
  **/
 GType
 go_string_get_type (void)
