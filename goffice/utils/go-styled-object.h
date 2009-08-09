@@ -53,6 +53,8 @@ GOStyle	 *go_styled_object_get_auto_style  (GOStyledObject *gso);
 void	  go_styled_object_style_changed   (GOStyledObject *gso);
 void	  go_styled_object_apply_theme	   (GOStyledObject *gso, GOStyle *style);
 GODoc	 *go_styled_object_get_document	   (GOStyledObject *gso);
+gboolean  go_styled_object_set_cairo_line  (GOStyledObject const *so, cairo_t *cr);
+gboolean  go_styled_object_set_cairo_fill  (GOStyledObject const *so, cairo_t *cr);
 G_END_DECLS
 
 #endif

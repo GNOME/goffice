@@ -11,9 +11,6 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
 
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
-
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <errno.h>
@@ -32,8 +29,8 @@ struct _GOFontSel {
 	GtkTreeView	*font_style_list;
 	GtkTreeView	*font_size_list;
 
-	FooCanvas	*font_preview_canvas;
-	FooCanvasItem	*font_preview_text;
+	GocCanvas	*font_preview_canvas;
+	GocItem		*font_preview_text;
 
 	GOFont		*base, *current;
 	PangoAttrList	*modifications;
@@ -74,7 +71,7 @@ go_font_sel_emit_changed (GOFontSel *gfs)
 {
 	g_signal_emit (G_OBJECT (gfs),
 		gfs_signals [FONT_CHANGED], 0, gfs->modifications);
-	foo_canvas_item_set (gfs->font_preview_text,
+	goc_item_set (gfs->font_preview_text,
 		"attributes",  gfs->modifications,
 		NULL);
 }
@@ -326,13 +323,10 @@ canvas_size_changed (G_GNUC_UNUSED GtkWidget *widget,
 	int width  = allocation->width - 1;
 	int height = allocation->height - 1;
 
-	foo_canvas_item_set (gfs->font_preview_text,
+	goc_item_set (gfs->font_preview_text,
 		"x", (double)width/2.,
 		"y", (double)height/2.,
 		NULL);
-
-	foo_canvas_set_scroll_region (gfs->font_preview_canvas, 0, 0,
-				      width, height);
 }
 
 static void
@@ -356,18 +350,16 @@ gfs_init (GOFontSel *gfs)
 	gfs->font_style_list = GTK_TREE_VIEW (glade_xml_get_widget (gfs->gui, "font-style-list"));
 	gfs->font_size_list  = GTK_TREE_VIEW (glade_xml_get_widget (gfs->gui, "font-size-list"));
 
-	w = foo_canvas_new ();
-	gfs->font_preview_canvas = FOO_CANVAS (w);
-	foo_canvas_set_scroll_region (gfs->font_preview_canvas, -1, -1, INT_MAX/2, INT_MAX/2);
-	foo_canvas_scroll_to (gfs->font_preview_canvas, 0, 0);
+	w = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
+	gfs->font_preview_canvas = GOC_CANVAS (w);
 	gtk_widget_show_all (w);
 	w = glade_xml_get_widget (gfs->gui, "font-preview-frame");
 	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (gfs->font_preview_canvas));
 
-	gfs->font_preview_text = FOO_CANVAS_ITEM (foo_canvas_item_new (
-		foo_canvas_root (gfs->font_preview_canvas),
-		FOO_TYPE_CANVAS_TEXT,
-		NULL));
+	gfs->font_preview_text = goc_item_new (
+		goc_canvas_get_root (gfs->font_preview_canvas),
+		GOC_TYPE_TEXT,
+		NULL);
 	go_font_sel_set_sample_text (gfs, NULL); /* init to default */
 
 	g_signal_connect (G_OBJECT (gfs->font_preview_canvas),
@@ -456,7 +448,7 @@ void
 go_font_sel_set_sample_text (GOFontSel *gfs, char const *text)
 {
 	g_return_if_fail (GO_IS_FONT_SEL (gfs));
-	foo_canvas_item_set (gfs->font_preview_text,
+	goc_item_set (gfs->font_preview_text,
 		/* xgettext: This text is used as a sample when selecting a font
 		 * please choose a translation that would produce common
 		 * characters specific to the target alphabet. */

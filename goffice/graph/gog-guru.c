@@ -23,28 +23,11 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice-priv.h>
 
-#include <goffice/app/go-doc-control.h>
-#include <goffice/graph/gog-guru.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-graph.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-trend-line.h>
-#include <goffice/graph/gog-view.h>
-#include <goffice/graph/gog-plot-engine.h>
-#include <goffice/graph/gog-data-allocator.h>
-#include <goffice/graph/gog-control-foocanvas.h>
-#include <goffice/graph/gog-child-button.h>
-#include <goffice/gtk/go-pixbuf.h>
-#include <goffice/gtk/goffice-gtk.h>
+#include <goffice/goffice.h>
 
 #include <glib/gi18n-lib.h>
 
 #include <libxml/parser.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <string.h>
@@ -72,9 +55,9 @@ struct _GraphGuruState {
 	GtkNotebook *steps;
 	GtkWidget   *delete_button;
 
-	FooCanvasItem	  *sample_graph_item;
-	FooCanvasItem	  *sample_graph_frame;
-	FooCanvasItem	  *sample_graph_shadow;
+	GocItem	  *sample_graph_item;
+	GocItem	  *sample_graph_frame;
+	GocItem	  *sample_graph_shadow;
 
 	GtkContainer  	  *prop_container;
 	GtkTreeSelection  *prop_selection;
@@ -109,19 +92,19 @@ struct _GraphGuruTypeSelector {
 	GtkLabel	*label;
 	GtkTreeView	*list_view;
 	GtkListStore	*model;
-	FooCanvasItem *selector;
+	GocItem *selector;
 
-	FooCanvasItem *sample_graph_item;
+	GocItem *sample_graph_item;
 
 	GraphGuruState *state;
 
-	FooCanvasGroup *graph_group;
+	GocGroup *graph_group;
 
 	xmlNode const *plots;
 	GogPlotFamily	*current_family;
 	GogPlotType	*current_type;
-	FooCanvasGroup const *current_family_item;
-	FooCanvasItem const  *current_minor_item;
+	GocGroup const *current_family_item;
+	GocItem const  *current_minor_item;
 
 	int max_priority_so_far;
 };
@@ -165,7 +148,7 @@ get_pos (int col, int row, double *x, double *y)
  * Assumes that the item is visible
  */
 static void
-graph_typeselect_minor (GraphGuruTypeSelector *typesel, FooCanvasItem *item)
+graph_typeselect_minor (GraphGuruTypeSelector *typesel, GocItem *item)
 {
 	GraphGuruState *s = typesel->state;
 	GogPlotType *type;
@@ -182,10 +165,10 @@ graph_typeselect_minor (GraphGuruTypeSelector *typesel, FooCanvasItem *item)
 
 	typesel->current_type = type;
 	typesel->current_minor_item = item;
-	foo_canvas_item_get_bounds (item, &x1, &y1, &x2, &y2);
-	foo_canvas_item_set (FOO_CANVAS_ITEM (typesel->selector),
-		"x1", x1-1., "y1", y1-1.,
-		"x2", x2+1., "y2", y2+1.,
+	goc_item_get_bounds (item, &x1, &y1, &x2, &y2);
+	goc_item_set (GOC_ITEM (typesel->selector),
+		"x", x1-1., "y", y1-1.,
+		"width", x2-x1+2., "height", y2-y1+2.,
 		NULL);
 	gtk_label_set_text (typesel->label, _(type->description));
 	gtk_widget_set_sensitive (typesel->sample_button, TRUE);
@@ -219,13 +202,13 @@ static gboolean
 graph_typeselect_minor_x_y (GraphGuruTypeSelector *typesel,
 			    double x, double y)
 {
-	FooCanvasItem *item = foo_canvas_get_item_at (
-		FOO_CANVAS (typesel->canvas), x, y);
+	GocItem *item = goc_canvas_get_item_at (
+		GOC_CANVAS (typesel->canvas), x, y);
 
 	if (item != NULL) {
 		if(item != typesel->selector)
 			graph_typeselect_minor (typesel, item);
-		foo_canvas_item_grab_focus (item);
+	//	goc_item_grab (item);
 		return TRUE;
 	}
 
@@ -283,14 +266,8 @@ static gint
 cb_button_press_event (GtkWidget *widget, GdkEventButton *event,
 		       GraphGuruTypeSelector *typesel)
 {
-	if (event->button == 1) {
-		FooCanvas *c = FOO_CANVAS (widget);
-		double x, y;
-
-		foo_canvas_window_to_world (c, event->x, event->y, &x, &y);
-
-		graph_typeselect_minor_x_y (typesel, x, y);
-	}
+	if (event->button == 1)
+		graph_typeselect_minor_x_y (typesel, event->x, event->y);
 
 	return FALSE;
 }
@@ -300,35 +277,35 @@ cb_selection_changed (GraphGuruTypeSelector *typesel)
 {
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (typesel->list_view);
 	GtkTreeIter  iter;
-	FooCanvasItem *item;
-	FooCanvasGroup *group;
+	GocItem *item;
+	GocGroup *group;
 
 	if (typesel->current_family_item != NULL)
-		foo_canvas_item_hide (FOO_CANVAS_ITEM (typesel->current_family_item));
+		goc_item_hide (GOC_ITEM (typesel->current_family_item));
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return;
 	gtk_tree_model_get (GTK_TREE_MODEL (typesel->model), &iter,
 		PLOT_FAMILY_TYPE_CANVAS_GROUP, &group,
 		-1);
 
-	foo_canvas_item_show (FOO_CANVAS_ITEM (group));
+	goc_item_show (GOC_ITEM (group));
 	typesel->current_family_item = group;
 
-	foo_canvas_item_hide (FOO_CANVAS_ITEM (typesel->selector));
+	goc_item_hide (GOC_ITEM (typesel->selector));
 	item = g_object_get_data (G_OBJECT (group), FIRST_MINOR_TYPE);
 	if (item != NULL)
 		graph_typeselect_minor (typesel, item);
-	foo_canvas_item_show (FOO_CANVAS_ITEM (typesel->selector));
+	goc_item_show (GOC_ITEM (typesel->selector));
 }
 
 static void
-cb_typesel_sample_plot_resize (FooCanvas *canvas,
+cb_typesel_sample_plot_resize (GocCanvas *canvas,
 			       GtkAllocation *alloc, GraphGuruTypeSelector *typesel)
 {
 	if (typesel->sample_graph_item != NULL)
-		foo_canvas_item_set (typesel->sample_graph_item,
-			"w", (double)alloc->width,
-			"h", (double)alloc->height,
+		goc_item_set (typesel->sample_graph_item,
+			"width", (double)alloc->width,
+			"height", (double)alloc->height,
 			NULL);
 }
 
@@ -340,19 +317,19 @@ cb_sample_pressed (GraphGuruTypeSelector *typesel)
 
 	if (typesel->sample_graph_item == NULL) {
 		GtkAllocation *size = &GTK_WIDGET (typesel->canvas)->allocation;
-		typesel->sample_graph_item = foo_canvas_item_new (typesel->graph_group,
-			GOG_TYPE_CONTROL_FOOCANVAS,
-			"model", typesel->state->graph,
+		typesel->sample_graph_item = goc_item_new (typesel->graph_group,
+			GOC_TYPE_GRAPH,
+			"graph", typesel->state->graph,
 			NULL);
-		cb_typesel_sample_plot_resize (FOO_CANVAS (typesel->canvas),
+		cb_typesel_sample_plot_resize (GOC_CANVAS (typesel->canvas),
 					       size, typesel);
 
 		g_return_if_fail (typesel->sample_graph_item != NULL);
 	}
 
-	foo_canvas_item_hide (FOO_CANVAS_ITEM (typesel->current_family_item));
-	foo_canvas_item_hide (FOO_CANVAS_ITEM (typesel->selector));
-	foo_canvas_item_show (FOO_CANVAS_ITEM (typesel->graph_group));
+	goc_item_hide (GOC_ITEM (typesel->current_family_item));
+	goc_item_hide (GOC_ITEM (typesel->selector));
+	goc_item_show (GOC_ITEM (typesel->graph_group));
 }
 
 static void
@@ -361,15 +338,15 @@ cb_sample_released (GraphGuruTypeSelector *typesel)
 	if (typesel->current_family_item == NULL)
 		return;
 
-	foo_canvas_item_hide (FOO_CANVAS_ITEM (typesel->graph_group));
-	foo_canvas_item_show (FOO_CANVAS_ITEM (typesel->current_family_item));
-	foo_canvas_item_show (FOO_CANVAS_ITEM (typesel->selector));
+	goc_item_hide (GOC_ITEM (typesel->graph_group));
+	goc_item_show (GOC_ITEM (typesel->current_family_item));
+	goc_item_show (GOC_ITEM (typesel->selector));
 }
 
 typedef struct {
 	GraphGuruTypeSelector	*typesel;
-	FooCanvasGroup		*group;
-	FooCanvasItem		*current_item;
+	GocGroup		*group;
+	GocItem		*current_item;
 	GogPlotType 		*current_type;
 	int col, row;
 } type_list_closure;
@@ -379,7 +356,7 @@ cb_plot_types_init (char const *id, GogPlotType *type,
 		    type_list_closure *closure)
 {
 	double x1, y1, w, h;
-	FooCanvasItem *item;
+	GocItem *item;
 	int col, row;
 	GdkPixbuf *image = go_pixbuf_get_from_cache (type->sample_image_file);
 
@@ -395,12 +372,11 @@ cb_plot_types_init (char const *id, GogPlotType *type,
 	if (h > MINOR_PIXMAP_HEIGHT)
 		h = MINOR_PIXMAP_HEIGHT;
 
-	item = foo_canvas_item_new (closure->group,
-		foo_canvas_pixbuf_get_type (),
+	item = goc_item_new (closure->group,
+		goc_pixbuf_get_type (),
 		"x",	 x1,	"y",	  y1,
 		"width", w,	"height", h,
 		"pixbuf",	image,
-		"point_ignores_alpha", TRUE,
 		NULL);
 	g_object_set_data (G_OBJECT (item), PLOT_TYPE_KEY, (gpointer)type);
 
@@ -418,7 +394,7 @@ static void
 cb_plot_families_init (char const *id, GogPlotFamily *family,
 		       GraphGuruTypeSelector *typesel)
 {
-	FooCanvasGroup		*group;
+	GocGroup		*group;
 	GtkTreeIter		 iter;
 	type_list_closure	 closure;
 
@@ -426,13 +402,13 @@ cb_plot_families_init (char const *id, GogPlotFamily *family,
 		return;
 
 	/* Define a canvas group for all the minor types */
-	group = FOO_CANVAS_GROUP (foo_canvas_item_new (
-		foo_canvas_root (FOO_CANVAS (typesel->canvas)),
-		foo_canvas_group_get_type (),
+	group = GOC_GROUP (goc_item_new (
+		goc_canvas_get_root (GOC_CANVAS (typesel->canvas)),
+		goc_group_get_type (),
 		"x", 0.0,
 		"y", 0.0,
 		NULL));
-	foo_canvas_item_hide (FOO_CANVAS_ITEM (group));
+	goc_item_hide (GOC_ITEM (group));
 
 	gtk_list_store_append (typesel->model, &iter);
 	gtk_list_store_set (typesel->model, &iter,
@@ -786,7 +762,7 @@ populate_graph_item_list (GogObject *obj, GogObject *select, GraphGuruState *s,
 }
 
 static gint
-cb_canvas_select_item (FooCanvas *canvas, GdkEvent *event,
+cb_canvas_select_item (GocCanvas *canvas, GdkEvent *event,
 		       GraphGuruState *s)
 {
 	double item_x, item_y;
@@ -797,7 +773,7 @@ cb_canvas_select_item (FooCanvas *canvas, GdkEvent *event,
 		case GDK_MOTION_NOTIFY:
 		case GDK_BUTTON_RELEASE:
 
-			g_return_val_if_fail (FOO_IS_CANVAS (canvas), FALSE);
+			g_return_val_if_fail (GOC_IS_CANVAS (canvas), FALSE);
 
 			g_object_get (G_OBJECT(s->sample_graph_item), "x", &item_x, "y", &item_y, NULL);
 			gog_graph_view_handle_event (s->graph_view, (GdkEvent *) event, 
@@ -813,44 +789,60 @@ cb_canvas_select_item (FooCanvas *canvas, GdkEvent *event,
 }
 
 static void
-cb_sample_plot_resize (FooCanvas *canvas,
+cb_sample_plot_resize (GocCanvas *canvas,
 		       GtkAllocation *alloc, GraphGuruState *state)
 {
 	double aspect_ratio;
 	double width, height, x, y;
 
 	gog_graph_get_size (state->graph, &width, &height);
-       	aspect_ratio = width / height;
+    aspect_ratio = width / height;
 
 	if (alloc->width > alloc->height * aspect_ratio) {
 		height = alloc->height;
-		width = height * aspect_ratio;
-		x = (alloc->width - width) / 2.0;
+		width = floor (height * aspect_ratio + .5);
+		x = floor ((alloc->width - width) / 2.0 + .5);
 		y = 0.0;
 	} else {
 		width = alloc->width;
-		height = width / aspect_ratio;
+		height = floor (width / aspect_ratio + .5);
 		x = 0.0;
-		y = (alloc->height - height) / 2.0;
+		y = floor ((alloc->height - height) / 2.0 + .5);
 	}
-	
-	foo_canvas_item_set (state->sample_graph_item,
-		"w", width > 2 ? width - 2 : 0,
-		"h", height > 2 ? height - 2 : 0,
+
+	if (width > 2)
+		width -= 2;
+	else
+		width = 0;
+	if (height > 2)
+		height -= 2;
+	else
+		height = 0;
+	goc_item_set (state->sample_graph_item,
+		"width", width,
+		"height", height,
 		"x", x,
 		"y", y,
 		NULL);
-	foo_canvas_item_set (state->sample_graph_frame,
-		"x2", x + width - 3,
-		"y2", y + height - 3,
-		"x1", x,
-		"y1", y,
+	if (width > .5)
+		width -= 1.;
+	if (height > .5)
+		height -= 1.;
+	goc_item_set (state->sample_graph_frame,
+		"width", width,
+		"height", height,
+		"x", x,
+		"y", y,
 		NULL);
-	foo_canvas_item_set (state->sample_graph_shadow,
-		"x2", x + width - 1,
-		"y2", y + height - 1,
-		"x1", x + 3,
-		"y1", y + 3,
+	if (width > .5)
+		width -= 1.;
+	if (height > .5)
+		height -= 1.;
+	goc_item_set (state->sample_graph_shadow,
+		"width", width,
+		"height", height,
+		"x", x + 3,
+		"y", y + 3,
 		NULL);
 }
 
@@ -885,6 +877,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 	GtkWidget *w, *canvas;
 	GtkTreeViewColumn *column;
 	GogRenderer *rend;
+	GOStyle *style;
 
 	if (s->fmt_page_initialized)
 		return;
@@ -921,25 +914,27 @@ graph_guru_init_format_page (GraphGuruState *s)
 
 	/* Load up the sample view and make it fill the entire canvas */
 	w = glade_xml_get_widget (s->gui, "sample-alignment");
-	canvas = foo_canvas_new ();
+	canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
 	gtk_container_add (GTK_CONTAINER (w), canvas);
-	s->sample_graph_shadow = foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (canvas)),
-						      FOO_TYPE_CANVAS_RECT,
-						      "width_pixels", 2,
-						      "outline_color_rgba", 0xa0a0a0ff,	/* grey */
+	s->sample_graph_shadow = goc_item_new (goc_canvas_get_root (GOC_CANVAS (canvas)),
+						      GOC_TYPE_RECTANGLE,
 						      NULL);
-	s->sample_graph_frame = foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (canvas)),
-						     FOO_TYPE_CANVAS_RECT,
-						     "width_pixels", 1,
-						     "fill_color_rgba", 0xffffffff,	/* white */
-						     "outline_color_rgba", 0x707070ff,	/* grey */
+	style= go_styled_object_get_style (GO_STYLED_OBJECT (s->sample_graph_shadow));
+	style->outline.width = 2;
+	style->outline.color = 0xa0a0a0ff;	/* grey */
+	s->sample_graph_frame = goc_item_new (goc_canvas_get_root (GOC_CANVAS (canvas)),
+						     GOC_TYPE_RECTANGLE,
 						     NULL);
-	s->sample_graph_item = foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (canvas)),
-						    GOG_TYPE_CONTROL_FOOCANVAS,
-						    "model", s->graph,
+	style= go_styled_object_get_style (GO_STYLED_OBJECT (s->sample_graph_frame));
+	style->outline.width = 1;
+	style->outline.color = 0x707070ff;	/* grey */
+	style->fill.pattern.back = 0xffffffff;	/* white */
+	s->sample_graph_item = goc_item_new (goc_canvas_get_root (GOC_CANVAS (canvas)),
+						    GOC_TYPE_GRAPH,
+						    "graph", s->graph,
 						    NULL);
 	gtk_widget_add_events (canvas, GDK_POINTER_MOTION_HINT_MASK);
-	cb_sample_plot_resize (FOO_CANVAS (canvas), &canvas->allocation, s);
+	cb_sample_plot_resize (GOC_CANVAS (canvas), &canvas->allocation, s);
 	g_signal_connect (G_OBJECT (canvas),
 			  "size_allocate",
 			  G_CALLBACK (cb_sample_plot_resize), s);
@@ -1097,15 +1092,17 @@ typesel_set_selection_color (GraphGuruTypeSelector *typesel)
 	GtkWidget *w = gtk_entry_new ();
 	GdkColor  *color = &w->style->base [GTK_WIDGET_HAS_FOCUS (typesel->canvas)
 		? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
-	guint32    select_color = 0;
+	GOColor    select_color;
+	GOStyle   *style;
 
-	select_color |= ((color->red >> 8) & 0xff)   << 24;
+	select_color = ((color->red >> 8) & 0xff)   << 24;
 	select_color |= ((color->green >> 8) & 0xff) << 16;
 	select_color |= ((color->blue >> 8) & 0xff)  << 8;
 	select_color |= 0x40; /* alpha of 25% */
-	foo_canvas_item_set (typesel->selector,
-		"fill_color_rgba",	select_color,
-		NULL);
+
+	style = go_styled_object_get_style (GO_STYLED_OBJECT (typesel->selector));
+	style->fill.pattern.back = select_color;
+	goc_item_invalidate (typesel->selector);
 	gtk_object_destroy (GTK_OBJECT (w));
 }
 
@@ -1116,6 +1113,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	GraphGuruTypeSelector *typesel;
 	GtkWidget *selector;
 	GladeXML *gui;
+	GOStyle *style;
 
 	gui = go_glade_new ("gog-guru-type-selector.glade", "type_selector", GETTEXT_PACKAGE, s->cc);
 
@@ -1153,12 +1151,10 @@ graph_guru_type_selector_new (GraphGuruState *s)
 
 
 	/* Setup an canvas to display the sample image & the sample plot. */
-	typesel->canvas = foo_canvas_new ();
-	typesel->graph_group = FOO_CANVAS_GROUP (foo_canvas_item_new (
-		foo_canvas_root (FOO_CANVAS (typesel->canvas)),
-		foo_canvas_group_get_type (),
-		"x", 0.0,
-		"y", 0.0,
+	typesel->canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
+	typesel->graph_group = GOC_GROUP (goc_item_new (
+		goc_canvas_get_root (GOC_CANVAS (typesel->canvas)),
+		goc_group_get_type (),
 		NULL));
 	g_object_connect (typesel->canvas,
 		"signal::realize", G_CALLBACK (cb_canvas_realized), typesel,
@@ -1171,7 +1167,6 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	gtk_widget_set_size_request (typesel->canvas,
 		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
 		MINOR_PIXMAP_HEIGHT*3 + BORDER*5);
-	foo_canvas_scroll_to (FOO_CANVAS (typesel->canvas), 0, 0);
 	gtk_container_add (GTK_CONTAINER (glade_xml_get_widget (gui, "canvas_container")), 
 			   typesel->canvas);
 
@@ -1186,12 +1181,13 @@ graph_guru_type_selector_new (GraphGuruState *s)
 		G_CALLBACK (cb_selection_changed), typesel);
 
 	/* The alpha blended selection box */
-	typesel->selector = foo_canvas_item_new (
-		foo_canvas_root (FOO_CANVAS (typesel->canvas)),
-		foo_canvas_rect_get_type (),
-		"outline_color_rgba",	0x000000ff,	/* black */
-		"width_pixels", 1,
+	typesel->selector = goc_item_new (
+		goc_canvas_get_root (GOC_CANVAS (typesel->canvas)),
+		GOC_TYPE_RECTANGLE,
 		NULL);
+	style= go_styled_object_get_style (GO_STYLED_OBJECT (typesel->selector));
+	style->outline.width = 1;
+	style->outline.color = 0x000000ff;	/* black */
 	typesel_set_selection_color (typesel);
 
 	/* Setup the description label */

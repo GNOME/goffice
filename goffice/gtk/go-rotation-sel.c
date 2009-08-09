@@ -20,12 +20,6 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
 
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
-
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -36,11 +30,11 @@ struct _GORotationSel {
 	int		 angle;
 
 	GtkSpinButton	*rotate_spinner;
-	FooCanvas       *rotate_canvas;
-	FooCanvasItem   *rotate_marks[13];
-	FooCanvasItem   *line;
+	GocCanvas       *rotate_canvas;
+	GocItem		*rotate_marks[13];
+	GocItem		*line;
 	GtkWidget       *text_widget;
-	FooCanvasItem   *text;
+	GocItem		*text;
 	int		 rot_width, rot_height;
 	gulong		 motion_handle;
 };
@@ -61,7 +55,7 @@ static GObjectClass *grs_parent_class;
 static void
 cb_rotate_changed (GORotationSel *grs)
 {
-	char const *colour;
+	GOColor colour;
 	int i;
 
 	go_rotation_sel_set_rotation (grs,
@@ -69,67 +63,72 @@ cb_rotate_changed (GORotationSel *grs)
 
 	for (i = 0 ; i <= 12 ; i++)
 		if (grs->rotate_marks[i] != NULL) {
-			colour = (grs->angle == (i-6)*15) ? "green" : "black";
-			foo_canvas_item_set (grs->rotate_marks[i], "fill-color", colour, NULL);
+			GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (grs->rotate_marks[i]));
+			colour = (grs->angle == (i-6)*15) ? RGBA_GREEN : RGBA_BLACK;
+			if (style->fill.pattern.back != colour){
+				style->fill.pattern.back = colour;
+				goc_item_invalidate (grs->rotate_marks[i]);
+			}
 		}
 
 	if (grs->line != NULL) {
-		FooCanvasPoints *points = foo_canvas_points_new (2);
 		double rad = grs->angle * M_PI / 180.;
-		points->coords[0] =  15 + cos (rad) * grs->rot_width;
-		points->coords[1] = 100 - sin (rad) * grs->rot_width;
-		points->coords[2] =  15 + cos (rad) * 72.;
-		points->coords[3] = 100 - sin (rad) * 72.;
-		foo_canvas_item_set (grs->line, "points", points, NULL);
-		foo_canvas_points_free (points);
+		goc_item_set (grs->line, 
+		              "x0", 15 + cos (rad) * grs->rot_width,
+		              "y0", 100 - sin (rad) * grs->rot_width,
+		              "x1", 15 + cos (rad) * 72.,
+		              "y1", 100 - sin (rad) * 72.,
+		              NULL);
 	}
 
 	if (grs->text) {
 		double x = 15.0;
 		double y = 100.0;
 		double rad = grs->angle * M_PI / 180.;
+		double w = grs->rot_width * cos (fabs (rad)) + grs->rot_height * sin (fabs (rad));
+		double h = grs->rot_width * sin (fabs (rad)) + grs->rot_height * cos (fabs (rad));
 		x -= grs->rot_height * sin (fabs (rad)) / 2;
 		y -= grs->rot_height * cos (rad) / 2;
 		if (rad >= 0)
 			y -= grs->rot_width * sin (rad);
-		foo_canvas_item_set (grs->text, "x", x, "y", y, NULL);
+		goc_item_set (grs->text, "x", x, "y", y,
+		              "width", w, "height", h, NULL);
 		gtk_label_set_angle (GTK_LABEL (grs->text_widget),
 			(grs->angle + 360) % 360);
 	}
 }
 
 static void
-cb_rotate_canvas_realize (FooCanvas *canvas, GORotationSel *grs)
+cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 {
-	FooCanvasGroup  *group = FOO_CANVAS_GROUP (foo_canvas_root (canvas));
+	GocGroup  *group = goc_canvas_get_root (canvas);
 	int i;
+	GOStyle *go_style;
 	GtkStyle *style = gtk_style_copy (GTK_WIDGET (canvas)->style);
 	style->bg[GTK_STATE_NORMAL] = style->white;
 	gtk_widget_set_style (GTK_WIDGET (canvas), style);
 	g_object_unref (style);
-
-	foo_canvas_set_scroll_region (canvas, 0, 0, 100, 200);
-	foo_canvas_scroll_to (canvas, 0, 0);
 
 	for (i = 0 ; i <= 12 ; i++) {
 		double rad = (i-6) * M_PI / 12.;
 		double x = 15 + cos (rad) * 80.;
 		double y = 100 - sin (rad) * 80.;
 		double size = (i % 3) ? 3.0 : 4.0;
-		FooCanvasItem *item = foo_canvas_item_new (group,
-			FOO_TYPE_CANVAS_ELLIPSE,
-			"x1", x-size,	"y1", y-size,
-			"x2", x+size,	"y2", y+size,
-			"width-pixels", (int) 1,
-			"outline-color","black",
-			"fill-color",	"black",
+		GocItem *item = goc_item_new (group,
+			GOC_TYPE_CIRCLE,
+			"x", x,	"y", y,
+			"radius", size,
 			NULL);
+		go_style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+		go_style->outline.width = 1.;
+		go_style->outline.color = RGBA_BLACK;
+		go_style->fill.pattern.back = RGBA_BLACK;
 		grs->rotate_marks[i] = item;
 	}
-	grs->line = foo_canvas_item_new (group, FOO_TYPE_CANVAS_LINE,
-		"fill-color",	"black",
-		"width_units",	2.,
-		NULL);
+	grs->line = goc_item_new (group, GOC_TYPE_LINE, NULL);
+	go_style = go_styled_object_get_style (GO_STYLED_OBJECT (grs->line));
+	go_style->outline.width = 2.;
+	go_style->outline.color = RGBA_BLACK;
 
 	{
 		int w, h;
@@ -152,7 +151,7 @@ cb_rotate_canvas_realize (FooCanvas *canvas, GORotationSel *grs)
 		grs->rot_width  = w;
 		grs->rot_height = h;
 
-		grs->text = foo_canvas_item_new (group, FOO_TYPE_CANVAS_WIDGET,
+		grs->text = goc_item_new (group, GOC_TYPE_WIDGET,
 			"widget", tw, NULL);
 		gtk_widget_show (tw);
 	}
@@ -161,10 +160,9 @@ cb_rotate_canvas_realize (FooCanvas *canvas, GORotationSel *grs)
 }
 
 static void
-set_rot_from_point (GORotationSel *grs, FooCanvas *canvas, double x, double y)
+set_rot_from_point (GORotationSel *grs, double x, double y)
 {
 	double degrees;
-	foo_canvas_window_to_world (canvas, x, y, &x, &y);
 	x -= 15.;	if (x < 0.) x = 0.;
 	y -= 100.;
 
@@ -175,20 +173,20 @@ set_rot_from_point (GORotationSel *grs, FooCanvas *canvas, double x, double y)
 }
 
 static gboolean
-cb_rotate_motion_notify_event (FooCanvas *canvas, GdkEventMotion *event,
+cb_rotate_motion_notify_event (G_GNUC_UNUSED GocCanvas *canvas, GdkEventMotion *event,
 			       GORotationSel *grs)
 {
-	set_rot_from_point (grs, canvas, event->x, event->y);
+	set_rot_from_point (grs,  event->x, event->y);
 	return TRUE;
 }
 
 static gboolean
-cb_rotate_canvas_button (FooCanvas *canvas, GdkEventButton *event, GORotationSel *grs)
+cb_rotate_canvas_button (GocCanvas *canvas, GdkEventButton *event, GORotationSel *grs)
 {
 	if (event->type == GDK_BUTTON_PRESS) {
-		set_rot_from_point (grs, canvas, event->x, event->y);
+		set_rot_from_point (grs, event->x, event->y);
 		if (grs->motion_handle == 0) {
-			gdk_pointer_grab (canvas->layout.bin_window, FALSE,
+			gdk_pointer_grab (canvas->base.bin_window, FALSE,
 				GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 				NULL, NULL, event->time);
 
@@ -221,7 +219,7 @@ grs_init (GORotationSel *grs)
 	grs->line  = NULL;
 	grs->text  = NULL;
 	grs->text_widget = NULL;
-	grs->rotate_canvas = FOO_CANVAS (foo_canvas_new ());
+	grs->rotate_canvas = GOC_CANVAS (g_object_new (GOC_TYPE_CANVAS, NULL));
 	gtk_container_add (GTK_CONTAINER (glade_xml_get_widget (grs->gui,
 		"rotate_canvas_container")),
 		GTK_WIDGET (grs->rotate_canvas));

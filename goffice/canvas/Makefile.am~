@@ -1,0 +1,49 @@
+noinst_LTLIBRARIES = libgoffice-canvas.la
+
+libgoffice_canvas_la_SOURCES = \
+	goc-canvas.c		\
+	goc-circle.c		\
+	goc-ellipse.c		\
+	goc-graph.c			\
+	goc-group.c			\
+	goc-item.c			\
+	goc-line.c			\
+	goc-pixbuf.c		\
+	goc-polygon.c		\
+	goc-rectangle.c		\
+	goc-styled-item.c	\
+	goc-text.c			\
+	goc-utils.c			\
+	goc-widget.c
+
+libgoffice_canvas_ladir = $(goffice_include_dir)/canvas
+libgoffice_canvas_la_HEADERS = \
+	goc-canvas.h		\
+	goc-canvas-impl.h	\
+	goc-circle.h		\
+	goc-circle-impl.h	\
+	goc-component.h		\
+	goc-ellipse.h		\
+	goc-graph.h			\
+	goc-group.h			\
+	goc-group-impl.h	\
+	goc-item.h			\
+	goc-item-impl.h		\
+	goc-line.h			\
+	goc-pixbuf.h		\
+	goc-polygon.h		\
+	goc-polygon-impl.h  \
+	goc-polyline.h		\
+	goc-rectangle.h		\
+	goc-rectangle-impl.h\
+	goc-structs.h		\
+	goc-styled-item.h	\
+	goc-text.h			\
+	goc-utils.h			\
+	goc-widget.h		\
+	goc-widget-impl.h	\
+	goffice-canvas.h
+
+include $(top_srcdir)/goffice.mk
+
+LIB_PUBLIC_HDRS = $(libgoffice_canvas_la_HEADERS)

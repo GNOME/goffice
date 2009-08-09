@@ -12,11 +12,12 @@ libgoffice_@GOFFICE_API_VER@_la_LIBADD = 			\
 	$(GOFFICE_LIBS)
 
 if WITH_GTK
-SUBDIRS += gtk drawing component
+SUBDIRS += gtk drawing component canvas
 libgoffice_@GOFFICE_API_VER@_la_LIBADD += 			\
 	gtk/libgoffice-gtk.la			\
 	drawing/libgoffice-drawing.la		\
 	component/libgoffice-component.la	\
+	canvas/libgoffice-canvas.la	\
 	cut-n-paste/foocanvas/libfoocanvas.la
 endif
 

@@ -48,6 +48,7 @@
 #include <goffice/math/goffice-math.h>
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
+#include <goffice/canvas/goffice-canvas.h>
 #endif
 #include <goffice/graph/goffice-graph.h>
 

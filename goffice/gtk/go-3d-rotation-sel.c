@@ -21,12 +21,11 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
 
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-polygon.h>
+#include <goffice/canvas/goc-canvas.h>
+#include <goffice/canvas/goc-item.h>
+#include <goffice/canvas/goc-circle.h>
+#include <goffice/canvas/goc-polygon.h>
+#include <goffice/canvas/goc-structs.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -55,10 +54,10 @@ struct _GO3DRotationSel {
 	double		 bank;
 	g3d_point	*cube_points;
 	int 	 	*cube_faces;
-	FooCanvas       *rotate_canvas;
-	FooCanvasItem   *dial;
-	FooCanvasItem	*bank_dial;
-	FooCanvasItem	*cube_polygons[6];
+	GocCanvas       *rotate_canvas;
+	GocItem		*dial;
+	GocItem		*bank_dial;
+	GocItem		*cube_polygons[6];
 	gulong		 motion_handle;
 };
 
@@ -99,7 +98,6 @@ cb_rotation_changed (GO3DRotationSel *g3d)
 	double mgn = g3d->margin - 2;
 	double r = g3d->radius;
 	double d = 2 * r;
-	double dr = g3d->bank_dial_r;
 	double dx = g3d->bank_dial_x = mgn + r * (1 - sin (g3d->bank));
 	double dy = g3d->bank_dial_y = mgn + r * (1 - cos (g3d->bank));
 
@@ -124,16 +122,9 @@ cb_rotation_changed (GO3DRotationSel *g3d)
 	};
 	int i;
 
-	if (g3d->dial) {
-		foo_canvas_item_set (g3d->dial,
-			"x1", mgn, "y1", mgn,
-			"x2", mgn + d, "y2", mgn + d, NULL);
-	}
-
 	if (g3d->bank_dial) {
-		foo_canvas_item_set (g3d->bank_dial,
-			"x1", dx - dr, "y1", dy - dr,
-			"x2", dx + dr, "y2", dy + dr, NULL);
+		goc_item_set (g3d->bank_dial,
+			"x", dx, "y", dy, NULL);
 	}
 
 	for (i = 0; i < 8; ++i) {
@@ -145,23 +136,22 @@ cb_rotation_changed (GO3DRotationSel *g3d)
 	}
 
 	for (i = 0; i < 6; ++i) {
-		FooCanvasPoints *points;
+		GocPoints *points;
+		GOStyle *style;
 		double cx = mgn + r;
 		double mean_y;
 		if (g3d->cube_polygons[i] == NULL)
 			continue;
 
-		points = foo_canvas_points_new (5);
-		points->coords[0] = cp[cf[4 * i + 0]].x + cx;
-		points->coords[1] = -cp[cf[4 * i + 0]].z + cx;
-		points->coords[2] = cp[cf[4 * i + 1]].x + cx;
-		points->coords[3] = -cp[cf[4 * i + 1]].z + cx;
-		points->coords[4] = cp[cf[4 * i + 2]].x + cx;
-		points->coords[5] = -cp[cf[4 * i + 2]].z + cx;
-		points->coords[6] = cp[cf[4 * i + 3]].x + cx;
-		points->coords[7] = -cp[cf[4 * i + 3]].z + cx;
-		points->coords[8] = cp[cf[4 * i + 0]].x + cx;
-		points->coords[9] = -cp[cf[4 * i + 0]].z + cx;
+		points = goc_points_new (4);
+		points->points[0].x = cp[cf[4 * i + 0]].x + cx;
+		points->points[0].y = -cp[cf[4 * i + 0]].z + cx;
+		points->points[1].x = cp[cf[4 * i + 1]].x + cx;
+		points->points[1].y = -cp[cf[4 * i + 1]].z + cx;
+		points->points[2].x = cp[cf[4 * i + 2]].x + cx;
+		points->points[2].y = -cp[cf[4 * i + 2]].z + cx;
+		points->points[3].x = cp[cf[4 * i + 3]].x + cx;
+		points->points[3].y = -cp[cf[4 * i + 3]].z + cx;
 
 		/* NOTE: This back face culling method works only with
 		 * a cube in parallel projection*/
@@ -169,11 +159,16 @@ cb_rotation_changed (GO3DRotationSel *g3d)
 		mean_y += cp[cf[4 * i + 1]].y;
 		mean_y += cp[cf[4 * i + 2]].y;
 		mean_y += cp[cf[4 * i + 3]].y;
-		foo_canvas_item_set (g3d->cube_polygons[i], "points", points,
-		                     "width_units", (mean_y < 0) ? 4. : 0.5, 
-				     "fill-color", (i == 1)? "light blue" : "none",
-				     NULL);
-		foo_canvas_points_free (points);
+		style = go_styled_object_get_style (GO_STYLED_OBJECT (g3d->cube_polygons[i]));
+		style->fill.auto_type = FALSE;
+		style->fill.type = GO_STYLE_FILL_PATTERN;
+		style->fill.auto_back = FALSE;
+		/* set the background light blue or transparent */
+		style->fill.pattern.back = (i == 1)? RGBA_TO_UINT (0xad, 0xd8, 0xe6, 0xff): 0;
+		style->outline.width = (mean_y < 0) ? 4. : 0.5;
+		goc_item_set (g3d->cube_polygons[i], "points", points,
+		              "style", style, NULL);
+		goc_points_unref (points);
 	}
 	go_matrix3x3_to_euler (&g3d->mat, &g3d->psi, &g3d->theta, &g3d->phi);
 
@@ -199,31 +194,45 @@ cb_fov_changed (GtkRange *range, GdkEventButton *event, GO3DRotationSel *g3d)
 }
 
 static void
-cb_rotate_canvas_realize (FooCanvas *canvas, GO3DRotationSel *g3d)
+cb_rotate_canvas_realize (GocCanvas *canvas, GO3DRotationSel *g3d)
 {
-	FooCanvasGroup  *group = FOO_CANVAS_GROUP (foo_canvas_root (canvas));
+	GocGroup  *group = GOC_GROUP (goc_canvas_get_root (canvas));
 	GtkStyle *style = gtk_style_copy (GTK_WIDGET (canvas)->style);
 	int i;
+	GOStyle *go_style;
+	double mgn = g3d->margin - 2 + g3d->radius;
 	style->bg[GTK_STATE_NORMAL] = style->white;
 	gtk_widget_set_style (GTK_WIDGET (canvas), style);
 	g_object_unref (style);
 
-	foo_canvas_set_scroll_region (canvas, 0, 0, 220, 220);
-	foo_canvas_scroll_to (canvas, 0, 0);
-
 	for (i = 0; i < 6; ++i) {
-		g3d->cube_polygons[i] = foo_canvas_item_new (group,
-			FOO_TYPE_CANVAS_POLYGON, "outline-color", "black",
-			NULL);
+		g3d->cube_polygons[i] = goc_item_new (group,
+		        GOC_TYPE_POLYGON, NULL);
+		go_style = go_styled_object_get_style (GO_STYLED_OBJECT (g3d->cube_polygons[i]));
+		go_style->outline.auto_color = FALSE;
+		go_style->outline.color = RGBA_BLACK;
+		go_style->outline.miter_limit = 1.414;
 	}
 
-	g3d->dial = foo_canvas_item_new (group,
-        	FOO_TYPE_CANVAS_ELLIPSE, "outline_color", "black",
-		"width_units", 2., NULL);
-
-	g3d->bank_dial = foo_canvas_item_new (group,
-		FOO_TYPE_CANVAS_ELLIPSE, "outline_color", "black",
-		"fill_color", "white", "width_units", 3., NULL);
+	g3d->dial = goc_item_new (group, GOC_TYPE_CIRCLE,
+	                          "x", mgn, "y", mgn, "radius", (double) g3d->radius, NULL);
+	go_style = go_styled_object_get_style (GO_STYLED_OBJECT (g3d->dial));
+	go_style->outline.auto_color = FALSE;
+	go_style->outline.color = RGBA_BLACK;
+	go_style->outline.width = 2.;
+	go_style->fill.auto_type = FALSE;
+	go_style->fill.type = GO_STYLE_FILL_NONE;
+		
+	g3d->bank_dial = goc_item_new (group,
+		GOC_TYPE_CIRCLE, "radius", (double) g3d->bank_dial_r, NULL);
+	go_style = go_styled_object_get_style (GO_STYLED_OBJECT (g3d->bank_dial));
+	go_style->outline.auto_color = FALSE;
+	go_style->outline.color = RGBA_BLACK;
+	go_style->outline.width = 3.;
+	go_style->fill.auto_type = FALSE;
+	go_style->fill.type = GO_STYLE_FILL_PATTERN;
+	go_style->fill.auto_back = FALSE;
+	go_style->fill.pattern.back = RGBA_WHITE;
 
 	cb_rotation_changed(g3d);	
 }
@@ -339,7 +348,7 @@ g3d_init (GO3DRotationSel *g3d)
 	g3d->dial = NULL;
 	g3d->bank_dial = NULL;
 	memset (g3d->cube_polygons, 0, sizeof (g3d->cube_polygons));
-	g3d->rotate_canvas = FOO_CANVAS (foo_canvas_new ());
+	g3d->rotate_canvas = GOC_CANVAS (g_object_new (GOC_TYPE_CANVAS, NULL));
 	gtk_container_add (GTK_CONTAINER (glade_xml_get_widget (g3d->gui,
 	                   "rotate_canvas")),
 	                   GTK_WIDGET (g3d->rotate_canvas));

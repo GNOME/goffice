@@ -64,10 +64,15 @@ typedef struct {
 	float	 	 width;
 	GOLineDashType 	 dash_type;
 	gboolean	 auto_dash;
-	GOColor	 	 color;
+	GOColor	 	 color; /* color is used as background for compatibility
+						(pattern == 0 means filled with background color) */
+	GOColor	 	 fore;
 	gboolean 	 auto_color;
-	unsigned	 pattern_unimplemented_yet; /* TODO: implement. Not used
-				and must not be used before implementation */
+	gboolean 	 auto_fore;
+	GOPatternType	 pattern;
+	cairo_line_cap_t cap;
+	cairo_line_join_t join;
+	double		 miter_limit;
 } GOStyleLine;
 
 typedef struct {
@@ -83,7 +88,7 @@ struct _GOStyle {
 	GOStyleFlag	interesting_fields;
 	GOStyleFlag	disable_theming;
 
-	GOStyleLine	outline, line;
+	union {GOStyleLine	outline, line;};
 	struct {
 		GOStyleFill	type;
 		gboolean	auto_type;

@@ -1176,8 +1176,10 @@ go_style_init (GOStyle *style)
 	style->disable_theming = 0;
 	go_style_force_auto (style);
 	style->line.dash_type = GO_LINE_SOLID;
-	style->outline.dash_type = GO_LINE_SOLID;
-	style->outline.width = 0;
+	style->line.width = 0;
+	style->line.cap = CAIRO_LINE_CAP_BUTT;
+	style->line.join = CAIRO_LINE_JOIN_MITER;
+	style->line.miter_limit = 10.;
 	style->fill.type = GO_STYLE_FILL_NONE;
 	style->fill.gradient.brightness = -1.;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_BLACK);

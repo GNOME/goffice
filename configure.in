@@ -613,6 +613,7 @@ goffice/gtk/Makefile
 goffice/graph/Makefile
 goffice/drawing/Makefile
 goffice/math/Makefile
+goffice/canvas/Makefile
 goffice/ms-compat/Makefile
 goffice/component/Makefile
 goffice/cut-n-paste/Makefile

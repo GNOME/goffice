@@ -1,0 +1,370 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * goc-text.c:
+ *
+ * Copyright (C) 2009 Jean Brefort (jean.brefort@normalesup.org)
+ *
+ * This program is free software; you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+
+#include <goffice/goffice-config.h>
+#include <goffice/goffice.h>
+#include <gsf/gsf-impl-utils.h>
+#include <glib/gi18n-lib.h>
+
+enum {
+	TEXT_PROP_0,
+	TEXT_PROP_X,
+	TEXT_PROP_Y,
+	TEXT_PROP_ROTATION,
+	TEXT_PROP_ANCHOR,
+	TEXT_PROP_TEXT,
+	TEXT_PROP_ATTRIBUTES
+};
+
+struct _GocText {
+	GocStyledItem base;
+
+	double rotation; /* rotation around the center in radians */
+	double x, y, w, h;
+	char *text;
+	GtkAnchorType anchor;
+	PangoAttrList *attributes;
+	PangoLayout *layout;
+};
+
+typedef GocStyledItemClass GocTextClass;
+static GocItemClass *parent_class;
+
+static void
+goc_text_set_property (GObject *gobject, guint param_id,
+				    GValue const *value, GParamSpec *pspec)
+{
+	GocText *text = GOC_TEXT (gobject);
+
+	switch (param_id) {
+	case TEXT_PROP_X:
+		text->x = g_value_get_double (value);
+		break;
+
+	case TEXT_PROP_Y:
+		text->y = g_value_get_double (value);
+		break;
+
+	case TEXT_PROP_ROTATION:
+		text->rotation = g_value_get_double (value);
+		break;
+
+	case TEXT_PROP_ANCHOR:
+		text->anchor =  (GtkAnchorType) g_value_get_enum (value);
+		break;
+
+	case TEXT_PROP_TEXT:
+		g_free (text->text);
+		text->text = g_value_dup_string (value);
+		if (text->layout)
+			pango_layout_set_text (text->layout, text->text, -1);
+		break;
+
+	case TEXT_PROP_ATTRIBUTES: {
+		PangoAttrList *attrs = (PangoAttrList *) g_value_get_boxed (value);
+		if (text->attributes)
+			pango_attr_list_unref (text->attributes);
+		text->attributes = (attrs)? pango_attr_list_copy (attrs): pango_attr_list_new ();
+		if (text->layout)
+			pango_layout_set_attributes (text->layout, text->attributes);
+		break;
+	}
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
+		return; /* NOTE : RETURN */
+	}
+	goc_item_bounds_changed (GOC_ITEM (gobject));
+
+}
+
+static void
+goc_text_get_property (GObject *gobject, guint param_id,
+				    GValue *value, GParamSpec *pspec)
+{
+	GocText *text = GOC_TEXT (gobject);
+
+	switch (param_id) {
+	case TEXT_PROP_X:
+		g_value_set_double (value, text->x);
+		break;
+
+	case TEXT_PROP_Y:
+		g_value_set_double (value, text->y);
+		break;
+
+	case TEXT_PROP_ROTATION:
+		g_value_set_double (value, text->rotation);
+		break;
+
+	case TEXT_PROP_ANCHOR:
+		g_value_set_enum (value, text->anchor);
+		break;
+
+	case TEXT_PROP_TEXT:
+		if (text->text)
+			g_value_set_string (value, text->text);
+		break;
+
+	case TEXT_PROP_ATTRIBUTES:
+		if (text->attributes)
+			g_value_set_boxed (value, text->attributes);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
+		return; /* NOTE : RETURN */
+	}
+}
+
+static void
+goc_text_realize (GocItem *item)
+{
+	GocText *text = GOC_TEXT (item);
+
+	if (parent_class->realize)
+		(*parent_class->realize) (item);
+
+	text->layout = pango_layout_new (gtk_widget_get_pango_context (GTK_WIDGET (item->canvas)));
+	pango_layout_set_text (text->layout, text->text, -1);
+	if (text->attributes)
+		pango_layout_set_attributes (text->layout, text->attributes);
+	goc_item_bounds_changed (item);
+}
+
+static void
+goc_text_unrealize (GocItem *item)
+{
+	GocText *text = GOC_TEXT (item);
+
+	if (text->layout)
+		g_object_unref (text->layout);
+	text->layout = NULL;
+
+	if (parent_class->unrealize)
+		(*parent_class->unrealize) (item);
+}
+
+static void
+goc_text_finalize (GObject *gobject)
+{
+	GocText *text = GOC_TEXT (gobject);
+
+	g_free (text->text);
+	if (text->attributes)
+		pango_attr_list_unref (text->attributes);
+	((GObjectClass *) parent_class)->finalize (gobject);
+}
+
+static void
+goc_text_update_bounds (GocItem *item)
+{
+	GocText *text = GOC_TEXT (item);
+	PangoRectangle rect;
+	if (!text->layout)
+		return;
+	pango_layout_get_extents (text->layout, NULL, &rect);
+	text->w = (double) rect.width / PANGO_SCALE;
+	text->h = (double) rect.height / PANGO_SCALE;
+	item->x0 = text->x;
+	item->y0 = text->y;
+	/* adjust horizontally */
+	switch (text->anchor) {
+	case GTK_ANCHOR_CENTER:
+	case GTK_ANCHOR_NORTH:
+	case GTK_ANCHOR_SOUTH:
+		item->x0 -= text->w / 2.;
+		break;
+	case GTK_ANCHOR_NORTH_WEST:
+	case GTK_ANCHOR_SOUTH_WEST:
+	case GTK_ANCHOR_WEST:
+		break;
+	case GTK_ANCHOR_NORTH_EAST:
+	case GTK_ANCHOR_SOUTH_EAST:
+	case GTK_ANCHOR_EAST:
+		item->x0 -= text->w;
+		break;
+	default: /* should not occur */
+		break;
+	}
+	/* adjust vertically */
+	switch (text->anchor) {
+	case GTK_ANCHOR_NORTH:
+	case GTK_ANCHOR_NORTH_WEST:
+	case GTK_ANCHOR_NORTH_EAST:
+		break;
+	case GTK_ANCHOR_CENTER:
+	case GTK_ANCHOR_WEST:
+	case GTK_ANCHOR_EAST:
+		item->y0 -= text->h / 2.;
+		break;
+	case GTK_ANCHOR_SOUTH:
+	case GTK_ANCHOR_SOUTH_WEST:
+	case GTK_ANCHOR_SOUTH_EAST:
+		item->y0 -= text->h;
+		break;
+	default: /* should not occur */
+		break;
+	}
+	item->x1 = item->x0 + text->w;
+	item->y1 = item->y0 + text->h;
+	/* FIXME: take rotation into account */
+}
+
+static double
+goc_text_distance (GocItem *item, double x, double y, GocItem **near_item)
+{
+	/* FIXME: take rotation into account */
+	double dx, dy;
+	if (x < item->x0)
+		dx = item->x0 - x;
+	else if (x > item->x1)
+		dx = item->x1 - x;
+	else
+		dx = 0.;
+	if (y < item->y0)
+		dy = item->y0 - y;
+	else if (y > item->y1)
+		dy = item->y1 - y;
+	else
+		dy = 0.;
+	*near_item = item;
+	return hypot (dx, dy);
+}
+
+static void
+goc_text_draw (GocItem const *item, cairo_t *cr)
+{
+	GocText *text = GOC_TEXT (item);
+	double x = text->x, y = text->y;
+	PangoLayout *pl = pango_cairo_create_layout (cr);
+	pango_layout_set_text (pl, text->text, -1);
+	if (text->attributes)
+		pango_layout_set_attributes (pl, text->attributes);
+	/* FIXME: take rotation into account */
+	/* adjust horizontally */
+	switch (text->anchor) {
+	case GTK_ANCHOR_CENTER:
+	case GTK_ANCHOR_NORTH:
+	case GTK_ANCHOR_SOUTH:
+		x -= text->w / 2.;
+		break;
+	case GTK_ANCHOR_NORTH_WEST:
+	case GTK_ANCHOR_SOUTH_WEST:
+	case GTK_ANCHOR_WEST:
+		break;
+	case GTK_ANCHOR_NORTH_EAST:
+	case GTK_ANCHOR_SOUTH_EAST:
+	case GTK_ANCHOR_EAST:
+		x -= text->w;
+		break;
+	default: /* should not occur */
+		break;
+	}
+	/* adjust vertically */
+	switch (text->anchor) {
+	case GTK_ANCHOR_NORTH:
+	case GTK_ANCHOR_NORTH_WEST:
+	case GTK_ANCHOR_NORTH_EAST:
+		break;
+	case GTK_ANCHOR_CENTER:
+	case GTK_ANCHOR_WEST:
+	case GTK_ANCHOR_EAST:
+		y -= text->h / 2.;
+		break;
+	case GTK_ANCHOR_SOUTH:
+	case GTK_ANCHOR_SOUTH_WEST:
+	case GTK_ANCHOR_SOUTH_EAST:
+		y -= text->h;
+		break;
+	default: /* should not occur */
+		break;
+	}
+	cairo_save (cr);
+	goc_group_cairo_transform (item->parent, cr, x, y);
+	cairo_move_to (cr, 0., 0.);
+	pango_cairo_show_layout (cr, pl);
+	cairo_restore (cr);
+	g_object_unref (pl);
+}
+
+static void
+goc_text_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
+{
+	style->interesting_fields = GO_STYLE_FONT;
+	/* we might add more to display some extra decoration
+	  without using a separate rectangle item */
+}
+
+static void
+goc_text_class_init (GocItemClass *item_klass)
+{
+	GObjectClass *obj_klass = (GObjectClass *) item_klass;
+	GocStyledItemClass *gsi_klass = (GocStyledItemClass *) item_klass;
+	parent_class = g_type_class_peek_parent (item_klass);
+
+	obj_klass->finalize = goc_text_finalize;
+	obj_klass->get_property = goc_text_get_property;
+	obj_klass->set_property = goc_text_set_property;
+	g_object_class_install_property (obj_klass, TEXT_PROP_X,
+		g_param_spec_double ("x",
+			_("x"),
+			_("The text horizontal position"),
+			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (obj_klass, TEXT_PROP_Y,
+		g_param_spec_double ("y",
+			_("y"),
+			_("The text position"),
+			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (obj_klass, TEXT_PROP_ROTATION,
+		g_param_spec_double ("rotation", 
+			_("Rotation"),
+			_("The rotation around the anchor"),
+			0., 2 * M_PI, 0.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (obj_klass, TEXT_PROP_ANCHOR,
+		g_param_spec_enum ("anchor", 
+			_("Anchor"),
+			_("The anchor point for the text"),
+			GTK_TYPE_ANCHOR_TYPE, GTK_ANCHOR_CENTER,
+		        GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (obj_klass, TEXT_PROP_TEXT,
+		g_param_spec_string ("text", 
+			_("Text"),
+			_("The text to display"), NULL,
+ 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+       g_object_class_install_property (obj_klass, TEXT_PROP_ATTRIBUTES,
+                 g_param_spec_boxed ("attributes", _("Attributes"), _("The attributes list as a PangoAttrList"),
+			PANGO_TYPE_ATTR_LIST,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+	gsi_klass->init_style = goc_text_init_style;
+
+	item_klass->update_bounds = goc_text_update_bounds;
+	item_klass->distance = goc_text_distance;
+	item_klass->draw = goc_text_draw;
+	item_klass->realize = goc_text_realize;
+	item_klass->unrealize = goc_text_unrealize;
+}
+
+GSF_CLASS (GocText, goc_text,
+	   goc_text_class_init, NULL,
+	   GOC_TYPE_STYLED_ITEM)
