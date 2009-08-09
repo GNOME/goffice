@@ -97,7 +97,6 @@ cb_rotation_changed (GO3DRotationSel *g3d)
 {
 	double mgn = g3d->margin - 2;
 	double r = g3d->radius;
-	double d = 2 * r;
 	double dx = g3d->bank_dial_x = mgn + r * (1 - sin (g3d->bank));
 	double dy = g3d->bank_dial_y = mgn + r * (1 - cos (g3d->bank));
 
@@ -239,7 +238,7 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GO3DRotationSel *g3d)
 
 
 static gboolean
-cb_bank_dial_motion_notify_event (FooCanvas *canvas, GdkEventMotion *event,
+cb_bank_dial_motion_notify_event (GocCanvas *canvas, GdkEventMotion *event,
 			          GO3DRotationSel *g3d)
 {
 	GOMatrix3x3 m1, m2;
@@ -264,7 +263,7 @@ cb_bank_dial_motion_notify_event (FooCanvas *canvas, GdkEventMotion *event,
 }
 
 static gboolean
-cb_rotate_motion_notify_event (FooCanvas *canvas, GdkEventMotion *event,
+cb_rotate_motion_notify_event (GocCanvas *canvas, GdkEventMotion *event,
 			       GO3DRotationSel *g3d)
 {
 	GOMatrix3x3 m1, m2, m3;
@@ -290,7 +289,7 @@ cb_rotate_motion_notify_event (FooCanvas *canvas, GdkEventMotion *event,
 }
 
 static gboolean
-cb_rotate_canvas_button (FooCanvas *canvas, GdkEventButton *event,
+cb_rotate_canvas_button (GocCanvas *canvas, GdkEventButton *event,
                          GO3DRotationSel *g3d)
 {
 	double x, y, r;
@@ -302,7 +301,7 @@ cb_rotate_canvas_button (FooCanvas *canvas, GdkEventButton *event,
 		x -= g3d->bank_dial_x;
 		y -= g3d->bank_dial_y;
 		r = g3d->bank_dial_r;
-		gdk_pointer_grab (canvas->layout.bin_window, FALSE,
+		gdk_pointer_grab (canvas->base.bin_window, FALSE,
 			GDK_POINTER_MOTION_MASK
 			| GDK_BUTTON_RELEASE_MASK, NULL, NULL,
 			event->time);
