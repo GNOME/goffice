@@ -33,15 +33,6 @@ enum {
 	LINE_PROP_Y1
 };
 
-struct _GocLine {
-	GocStyledItem base;
-
-	/* using these to avoid confusion with x0 and others in GocItem */
-	double startx, starty, endx, endy;
-};
-
-typedef GocStyledItemClass GocLineClass;
-
 static void
 goc_line_set_property (GObject *gobject, guint param_id,
 				    GValue const *value, GParamSpec *pspec)

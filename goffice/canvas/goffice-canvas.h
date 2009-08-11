@@ -47,27 +47,20 @@ G_END_DECLS
 #include <goffice/goffice.h>
 
 #include <goffice/canvas/goc-canvas.h>
-#include <goffice/canvas/goc-canvas-impl.h>
-#include <goffice/canvas/goc-item-impl.h>
 #include <goffice/canvas/goc-item.h>
 #include <goffice/canvas/goc-styled-item.h>
 #include <goffice/canvas/goc-structs.h>
 #include <goffice/canvas/goc-utils.h>
 
 #include <goffice/canvas/goc-circle.h>
-#include <goffice/canvas/goc-circle-impl.h>
 #include <goffice/canvas/goc-ellipse.h>
 #include <goffice/canvas/goc-graph.h>
 #include <goffice/canvas/goc-group.h>
-#include <goffice/canvas/goc-group-impl.h>
 #include <goffice/canvas/goc-line.h>
 #include <goffice/canvas/goc-pixbuf.h>
 #include <goffice/canvas/goc-polygon.h>
-#include <goffice/canvas/goc-polygon-impl.h>
 #include <goffice/canvas/goc-rectangle.h>
-#include <goffice/canvas/goc-rectangle-impl.h>
 #include <goffice/canvas/goc-text.h>
 #include <goffice/canvas/goc-widget.h>
-#include <goffice/canvas/goc-widget-impl.h>
 
 #endif  /* GOFFICE_CANVAS_H */

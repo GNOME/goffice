@@ -27,6 +27,15 @@
 
 G_BEGIN_DECLS
 
+struct _GocEllipse {
+	GocStyledItem base;
+
+	double rotation; /* rotation around the center in radians */
+	double x, y, width, height;
+};
+
+typedef GocStyledItemClass GocEllipseClass;
+
 #define GOC_TYPE_ELLIPSE	(goc_ellipse_get_type ())
 #define GOC_ELLIPSE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_ELLIPSE, GocEllipse))
 #define GOC_IS_ELLIPSE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOC_TYPE_ELLIPSE))

@@ -1,3 +1,13 @@
+2009-08-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/*: removed *-impl.h files
+	* goffice/goffice.h: changed include order.
+	* goffice/gtk/go-3d-rotation-sel.c (cb_rotation_changed): removed unused variable.
+
+2009-08-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* All: add and use a new cairo based canvas.
+
 2009-08-07  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/gog-axis.c (map_log_calc_ticks): Improve minor

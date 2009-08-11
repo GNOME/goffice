@@ -27,15 +27,6 @@
 
 #include <math.h>
 
-struct _GocGraph {
-	GocItem base;
-
-	double x, y, w, h;
-	GogRenderer *renderer;
-};
-
-typedef GocItemClass GocGraphClass;
-
 static GObjectClass *parent_klass;
 
 enum {

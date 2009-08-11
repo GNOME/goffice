@@ -35,18 +35,6 @@ enum {
 	TEXT_PROP_ATTRIBUTES
 };
 
-struct _GocText {
-	GocStyledItem base;
-
-	double rotation; /* rotation around the center in radians */
-	double x, y, w, h;
-	char *text;
-	GtkAnchorType anchor;
-	PangoAttrList *attributes;
-	PangoLayout *layout;
-};
-
-typedef GocStyledItemClass GocTextClass;
 static GocItemClass *parent_class;
 
 static void
@@ -254,6 +242,8 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	GocText *text = GOC_TEXT (item);
 	double x = text->x, y = text->y;
 	PangoLayout *pl = pango_cairo_create_layout (cr);
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+	pango_layout_set_font_description (pl, style->font.font->desc);
 	pango_layout_set_text (pl, text->text, -1);
 	if (text->attributes)
 		pango_layout_set_attributes (pl, text->attributes);
@@ -297,6 +287,7 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 		break;
 	}
 	cairo_save (cr);
+	cairo_set_source_rgb (cr, 0., 0., 0.);
 	goc_group_cairo_transform (item->parent, cr, x, y);
 	cairo_move_to (cr, 0., 0.);
 	pango_cairo_show_layout (cr, pl);

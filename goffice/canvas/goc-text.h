@@ -27,6 +27,19 @@
 
 G_BEGIN_DECLS
 
+struct _GocText {
+	GocStyledItem base;
+
+	double rotation; /* rotation around the center in radians */
+	double x, y, w, h;
+	char *text;
+	GtkAnchorType anchor;
+	PangoAttrList *attributes;
+	PangoLayout *layout;
+};
+
+typedef GocStyledItemClass GocTextClass;
+
 #define GOC_TYPE_TEXT	(goc_text_get_type ())
 #define GOC_TEXT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_TEXT, GocText))
 #define GOC_IS_TEXT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOC_TYPE_TEXT))

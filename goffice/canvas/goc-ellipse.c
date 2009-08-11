@@ -26,15 +26,6 @@
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
-struct _GocEllipse {
-	GocStyledItem base;
-
-	double rotation; /* rotation around the center in radians */
-	double x, y, width, height;
-};
-
-typedef GocStyledItemClass GocEllipseClass;
-
 enum {
 	ELLIPSE_PROP_0,
 	ELLIPSE_PROP_X,

@@ -27,6 +27,15 @@
 
 G_BEGIN_DECLS
 
+struct _GocRectangle {
+	GocStyledItem base;
+
+	double rotation; /* rotation around the center in radians */
+	double x, y, width, height;
+};
+
+typedef GocStyledItemClass GocRectangleClass;
+
 #define GOC_TYPE_RECTANGLE	(goc_rectangle_get_type ())
 #define GOC_RECTANGLE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_RECTANGLE, GocRectangle))
 #define GOC_IS_RECTANGLE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOC_TYPE_RECTANGLE))

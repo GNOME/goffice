@@ -26,6 +26,15 @@
 
 G_BEGIN_DECLS
 
+struct _GocWidget {
+	GocItem base;
+
+	double x, y, w, h;
+	GtkWidget *widget;
+};
+
+typedef GocItemClass GocWidgetClass;
+
 #define GOC_TYPE_WIDGET	(goc_widget_get_type ())
 #define GOC_WIDGET(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_WIDGET, GocWidget))
 #define GOC_IS_WIDGET(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOC_TYPE_WIDGET))

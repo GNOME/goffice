@@ -26,6 +26,15 @@
 
 G_BEGIN_DECLS
 
+struct _GocGraph {
+	GocItem base;
+
+	double x, y, w, h;
+	GogRenderer *renderer;
+};
+
+typedef GocItemClass GocGraphClass;
+
 #define GOC_TYPE_GRAPH	(goc_graph_get_type ())
 #define GOC_GRAPH(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_GRAPH, GocGraph))
 #define GOC_IS_GRAPH(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOC_TYPE_GRAPH))

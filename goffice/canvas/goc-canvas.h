@@ -28,6 +28,21 @@
 
 G_BEGIN_DECLS
 
+struct _GocCanvas {
+	GtkLayout base;
+	double scroll_x1, scroll_y1;
+	double pixels_per_unit;
+	double width, height;
+	int wwidth, wheight;
+	GocGroup *root;
+	GocItem *grabbed_item;
+	GocItem	*last_item;
+	GODoc *document;
+	GdkEvent *cur_event;
+};
+
+typedef GtkLayoutClass GocCanvasClass;
+
 #define GOC_TYPE_CANVAS	(goc_canvas_get_type ())
 #define GOC_CANVAS(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_CANVAS, GocCanvas))
 #define GOC_IS_CANVAS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOC_TYPE_CANVAS))

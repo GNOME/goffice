@@ -27,6 +27,14 @@
 
 G_BEGIN_DECLS
 
+struct _GocCircle {
+	GocStyledItem base;
+
+	double x, y, radius;
+};
+
+typedef GocStyledItemClass GocCircleClass;
+
 #define GOC_TYPE_CIRCLE	(goc_circle_get_type ())
 #define GOC_CIRCLE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_CIRCLE, GocCircle))
 #define GOC_IS_CIRCLE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOC_TYPE_CIRCLE))

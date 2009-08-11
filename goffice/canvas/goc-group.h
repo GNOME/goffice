@@ -27,6 +27,15 @@
 
 G_BEGIN_DECLS
 
+struct _GocGroup {
+	GocItem			 base;
+
+	double			 x, y;  /* group offset */
+	GList			*children;
+};
+
+typedef GocItemClass GocGroupClass;
+
 #define GOC_TYPE_GROUP	(goc_group_get_type ())
 #define GOC_GROUP(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_GROUP, GocGroup))
 #define GOC_IS_GROUP(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOC_TYPE_GROUP))

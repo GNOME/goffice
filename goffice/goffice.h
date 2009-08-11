@@ -46,11 +46,11 @@
 #include <goffice/utils/goffice-utils.h>
 #include <goffice/data/goffice-data.h>
 #include <goffice/math/goffice-math.h>
+#include <goffice/graph/goffice-graph.h>
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/canvas/goffice-canvas.h>
 #endif
-#include <goffice/graph/goffice-graph.h>
 
 G_BEGIN_DECLS
 

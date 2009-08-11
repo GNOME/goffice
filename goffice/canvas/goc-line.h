@@ -27,6 +27,15 @@
 
 G_BEGIN_DECLS
 
+struct _GocLine {
+	GocStyledItem base;
+
+	/* using these to avoid confusion with x0 and others in GocItem */
+	double startx, starty, endx, endy;
+};
+
+typedef GocStyledItemClass GocLineClass;
+
 #define GOC_TYPE_LINE	(goc_line_get_type ())
 #define GOC_LINE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_LINE, GocLine))
 #define GOC_IS_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOC_TYPE_LINE))

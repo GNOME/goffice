@@ -27,6 +27,16 @@
 
 G_BEGIN_DECLS
 
+typedef GocStyledItemClass GocPolygonClass;
+
+struct _GocPolygon {
+	GocStyledItem base;
+
+	GocPoint *points;
+	unsigned nb_points;
+	gboolean use_spline;
+};
+
 #define GOC_TYPE_POLYGON	(goc_polygon_get_type ())
 #define GOC_POLYGON(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_POLYGON, GocPolygon))
 #define GOC_IS_POLYGON(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOC_TYPE_POLYGON))

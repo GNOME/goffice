@@ -26,6 +26,44 @@
 
 G_BEGIN_DECLS
 
+struct _GocItem {
+	GObject			 base;
+
+	GocCanvas		*canvas;
+	GocGroup		*parent;
+	gboolean		 cached_bounds;
+	gboolean		 needs_redraw;
+	gboolean		 visible;
+	double			 x0, y0, x1, y1; /* the bounds */
+};
+
+typedef struct {
+	GObjectClass	 base;
+
+	double			(*distance) (GocItem *item,
+								 double x, double y, GocItem **near_item);
+	void			(*draw) (GocItem const *item, cairo_t *cr);
+	gboolean		(*draw_region) (GocItem const *item, cairo_t *cr,
+									double x0, double y0, double x1, double y1);
+	void			(*move) (GocItem *item, double x, double y);
+	void			(*update_bounds) (GocItem *item);
+	void			(*parent_changed) (GocItem *item);
+	cairo_operator_t
+					(*get_operator) (GocItem *item);
+	// events related functions
+	gboolean		(*button_pressed) (GocItem *item, int button, double x, double y);
+	gboolean		(*button2_pressed) (GocItem *item, int button, double x, double y);
+	gboolean		(*button_released) (GocItem *item, int button, double x, double y);
+	gboolean		(*motion) (GocItem *item, double x, double y);
+	gboolean		(*enter_notify) (GocItem *item, double x, double y);
+	gboolean		(*leave_notify) (GocItem *item, double x, double y);
+	void			(*realize) (GocItem *item);
+	void			(*unrealize) (GocItem *item);
+	gboolean		(*key_pressed) (GocItem *item, GdkEventKey* ev);
+	gboolean		(*key_released) (GocItem *item, GdkEventKey* ev);
+	void			(*notify_scrolled) (GocItem *item);
+} GocItemClass ;
+
 #define GOC_TYPE_ITEM	(goc_item_get_type ())
 #define GOC_ITEM(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_ITEM, GocItem))
 #define GOC_IS_ITEM(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOC_TYPE_ITEM))
