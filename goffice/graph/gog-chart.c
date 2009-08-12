@@ -212,6 +212,13 @@ gog_chart_children_reordered (GogObject *obj)
 	gog_chart_request_cardinality_update (chart);
 }
 
+static gboolean
+role_plot_can_add (GogObject *parent, GogObject *child)
+{
+	GogChart *chart = GOG_CHART (parent);
+	return (chart->axis_set & (1 << GOG_AXIS_Z)) == 0 || g_slist_length (chart->plots) == 0;
+}
+
 static void
 role_plot_post_add (GogObject *parent, GogObject *plot)
 {
@@ -443,7 +450,7 @@ static GogObjectRole const roles[] = {
 	  { GOG_AXIS_COLOR } },
 	{ N_("Plot"), "GogPlot",	6,	/* keep the axis before the plots */
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
-	  NULL, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } },
+	  role_plot_can_add, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } },
 	{ N_("Title"), "GogLabel",	10,
 	  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL, 
 	  GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, 

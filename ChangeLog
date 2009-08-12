@@ -1,3 +1,8 @@
+2009-08-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-chart.c (role_plot_can_add): do not allow several 3D plots an a
+	single chart. (see #591478)
+
 2009-08-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/*: removed *-impl.h files
