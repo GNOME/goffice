@@ -37,6 +37,17 @@ goffice/app/io-context-priv.h
 goffice/app/io-context.c
 goffice/app/io-context.h
 goffice/app/module-plugin-defs.h
+goffice/canvas/goc-circle.c
+goffice/canvas/goc-ellipse.c
+goffice/canvas/goc-graph.c
+goffice/canvas/goc-group.c
+goffice/canvas/goc-line.c
+goffice/canvas/goc-pixbuf.c
+goffice/canvas/goc-polygon.c
+goffice/canvas/goc-rectangle.c
+goffice/canvas/goc-styled-item.c
+goffice/canvas/goc-text.c
+goffice/canvas/goc-widget.c
 goffice/component/go-component-factory.c
 goffice/cut-n-paste/foocanvas/foo-canvas-text.c
 goffice/cut-n-paste/foocanvas/foo-canvas.c
