@@ -197,7 +197,6 @@ endif
 	dh_installinfo
 	dh_installman
 	dh_gconf
-	dh_scrollkeeper
 ifeq ($(DH_OPTIONS),-s)
 	rm -rvf $(CURDIR)/debian/$(pdbg)/usr/share/doc/$(pdbg)
 endif
