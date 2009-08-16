@@ -1,3 +1,7 @@
+2009-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 0.7.9
+
 2009-08-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-chart.c (role_plot_can_add): do not allow several 3D plots an a
