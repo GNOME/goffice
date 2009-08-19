@@ -417,7 +417,7 @@ SAVE_LIBS=$LIBS
 LIBS="$GOFFICE_LIBS $LIBS"
 AC_CHECK_FUNCS(cairo_surface_set_fallback_resolution cairo_ps_surface_set_eps)
 AC_CHECK_FUNCS(g_file_new_for_commandline_arg g_file_new_for_uri g_hash_table_iter_init)
-AC_CHECK_FUNCS(g_content_type_from_mime_type)
+AC_CHECK_FUNCS(g_content_type_from_mime_type gtk_layout_get_bin_window)
 LIBS=$SAVE_LIBS
 
 SAVE_CFLAGS=$CFLAGS

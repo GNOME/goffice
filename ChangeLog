@@ -1,5 +1,12 @@
 2009-08-19  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* configure.in: test for gtk_layout_get_bin_window.
+	* goffice/canvas/goc-canvas.c: define gtk_layout_get_bin_window if needed.
+	* goffice/canvas/goc-line-impl.h: removed obsolete.
+	* goffice/graph/gog-chart.c (role_plot_can_add): fix signature.
+
+2009-08-19  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/Makefile.am: add gog-polyline.[c,h].
 	* goffice/canvas/*.[c,h]: fixed various issues.
 	* goffice/grph/gog-equation.c: make it compile with latest lasem code.

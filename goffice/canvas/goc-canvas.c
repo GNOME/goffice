@@ -25,6 +25,10 @@
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
+#ifndef HAVE_GTK_LAYOUT_GET_BIN_WINDOW
+#       define gtk_layout_get_bin_window(x) (x)->bin_window
+#endif
+
 static GObjectClass *parent_klass;
 
 static gboolean

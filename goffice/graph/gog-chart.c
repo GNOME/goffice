@@ -213,7 +213,7 @@ gog_chart_children_reordered (GogObject *obj)
 }
 
 static gboolean
-role_plot_can_add (GogObject *parent, GogObject *child)
+role_plot_can_add (GogObject const *parent)
 {
 	GogChart *chart = GOG_CHART (parent);
 	return (chart->axis_set & (1 << GOG_AXIS_Z)) == 0 || g_slist_length (chart->plots) == 0;
