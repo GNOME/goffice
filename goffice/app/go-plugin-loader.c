@@ -36,7 +36,7 @@ go_plugin_loader_set_plugin (GOPluginLoader *l, GOPlugin *p)
 
 void
 go_plugin_loader_set_attributes (GOPluginLoader *loader, GHashTable *attrs,
-				 ErrorInfo **err)
+				 GOErrorInfo **err)
 {
 	g_return_if_fail (GO_IS_PLUGIN_LOADER (loader));
 
@@ -44,11 +44,11 @@ go_plugin_loader_set_attributes (GOPluginLoader *loader, GHashTable *attrs,
 	if (PL_GET_CLASS (loader)->set_attributes)
 		PL_GET_CLASS (loader)->set_attributes (loader, attrs, err);
 	else
-		*err = error_info_new_printf (_("Loader has no set_attributes method.\n"));
+		*err = go_error_info_new_printf (_("Loader has no set_attributes method.\n"));
 }
 
 void
-go_plugin_loader_load_base (GOPluginLoader *loader, ErrorInfo **err)
+go_plugin_loader_load_base (GOPluginLoader *loader, GOErrorInfo **err)
 {
 	GOPluginLoaderClass *go_plugin_loader_class;
 
@@ -59,13 +59,13 @@ go_plugin_loader_load_base (GOPluginLoader *loader, ErrorInfo **err)
 	if (go_plugin_loader_class->load_base != NULL)
 		go_plugin_loader_class->load_base (loader, err);
 	else
-		*err = error_info_new_printf (_("Loader has no load_base method.\n"));
+		*err = go_error_info_new_printf (_("Loader has no load_base method.\n"));
 	if (*err == NULL)
 		g_object_set_data (G_OBJECT (loader), "is-base-loaded", GINT_TO_POINTER (1));
 }
 
 void
-go_plugin_loader_unload_base (GOPluginLoader *loader, ErrorInfo **err)
+go_plugin_loader_unload_base (GOPluginLoader *loader, GOErrorInfo **err)
 {
 	GOPluginLoaderClass *go_plugin_loader_class;
 
@@ -80,10 +80,10 @@ go_plugin_loader_unload_base (GOPluginLoader *loader, ErrorInfo **err)
 }
 
 void
-go_plugin_loader_load_service (GOPluginLoader *l, GOPluginService *s, ErrorInfo **err)
+go_plugin_loader_load_service (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
 	GOPluginLoaderClass *klass;
-	void (*load_service_method) (GOPluginLoader *, GOPluginService *, ErrorInfo **) = NULL;
+	void (*load_service_method) (GOPluginLoader *, GOPluginService *, GOErrorInfo **) = NULL;
 
 	g_return_if_fail (GO_IS_PLUGIN_LOADER (l));
 	g_return_if_fail (GO_IS_PLUGIN_SERVICE (s));
@@ -104,7 +104,7 @@ go_plugin_loader_load_service (GOPluginLoader *l, GOPluginService *s, ErrorInfo 
 	} else if (GO_IS_PLUGIN_SERVICE_SIMPLE (s)) {
 		load_service_method = NULL;
 	} else {
-		*err = error_info_new_printf (_("Service '%s' not supported by l."),
+		*err = go_error_info_new_printf (_("Service '%s' not supported by l."),
 			G_OBJECT_TYPE_NAME (s));
 	}
 	if (load_service_method != NULL)
@@ -118,11 +118,11 @@ go_plugin_loader_load_service (GOPluginLoader *l, GOPluginService *s, ErrorInfo 
 }
 
 void
-go_plugin_loader_unload_service (GOPluginLoader *l, GOPluginService *s, ErrorInfo **err)
+go_plugin_loader_unload_service (GOPluginLoader *l, GOPluginService *s, GOErrorInfo **err)
 {
 	GOPluginLoaderClass *klass;
-	void (*unload_service_method) (GOPluginLoader *, GOPluginService *, ErrorInfo **) = NULL;
-	ErrorInfo *error = NULL;
+	void (*unload_service_method) (GOPluginLoader *, GOPluginService *, GOErrorInfo **) = NULL;
+	GOErrorInfo *error = NULL;
 
 	g_return_if_fail (GO_IS_PLUGIN_LOADER (l));
 	g_return_if_fail (GO_IS_PLUGIN_SERVICE (s));
@@ -142,7 +142,7 @@ go_plugin_loader_unload_service (GOPluginLoader *l, GOPluginService *s, ErrorInf
 	} else if (GO_IS_PLUGIN_SERVICE_SIMPLE (s)) {
 		unload_service_method = NULL;
 	} else
-		*err = error_info_new_printf (_("Service '%s' not supported by l."),
+		*err = go_error_info_new_printf (_("Service '%s' not supported by l."),
 			G_OBJECT_TYPE_NAME (s));
 
 	if (unload_service_method != NULL)
@@ -154,7 +154,7 @@ go_plugin_loader_unload_service (GOPluginLoader *l, GOPluginService *s, ErrorInf
 		    GINT_TO_POINTER (GPOINTER_TO_INT (num_services) - 1));;
 		if (GPOINTER_TO_INT (num_services) == 1) {
 			go_plugin_loader_unload_base (l, &error);
-			error_info_free (error);
+			go_error_info_free (error);
 		}
 	} else
 		*err = error;

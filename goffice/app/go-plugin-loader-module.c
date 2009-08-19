@@ -23,13 +23,13 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
-static void go_plugin_loader_module_set_attributes (GOPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error);
-static void go_plugin_loader_module_load_base (GOPluginLoader *loader, ErrorInfo **ret_error);
-static void go_plugin_loader_module_unload_base (GOPluginLoader *loader, ErrorInfo **ret_error);
+static void go_plugin_loader_module_set_attributes (GOPluginLoader *loader, GHashTable *attrs, GOErrorInfo **ret_error);
+static void go_plugin_loader_module_load_base (GOPluginLoader *loader, GOErrorInfo **ret_error);
+static void go_plugin_loader_module_unload_base (GOPluginLoader *loader, GOErrorInfo **ret_error);
 
-static void go_plugin_loader_module_load_service_file_opener (GOPluginLoader *loader, GOPluginService *service, ErrorInfo **ret_error);
-static void go_plugin_loader_module_load_service_file_saver (GOPluginLoader *loader, GOPluginService *service, ErrorInfo **ret_error);
-static void go_plugin_loader_module_load_service_plugin_loader (GOPluginLoader *loader, GOPluginService *service, ErrorInfo **ret_error);
+static void go_plugin_loader_module_load_service_file_opener (GOPluginLoader *loader, GOPluginService *service, GOErrorInfo **ret_error);
+static void go_plugin_loader_module_load_service_file_saver (GOPluginLoader *loader, GOPluginService *service, GOErrorInfo **ret_error);
+static void go_plugin_loader_module_load_service_plugin_loader (GOPluginLoader *loader, GOPluginService *service, GOErrorInfo **ret_error);
 
 static GHashTable *go_plugin_loader_module_known_deps = NULL;
 
@@ -45,7 +45,7 @@ go_plugin_loader_module_register_version (char const *id, char const *version)
 
 static void
 go_plugin_loader_module_set_attributes (GOPluginLoader *loader, GHashTable *attrs,
-					ErrorInfo **err)
+					GOErrorInfo **err)
 {
 	GOPluginLoaderModule *loader_module = GO_PLUGIN_LOADER_MODULE (loader);
 	gchar *module_file_name = g_hash_table_lookup (attrs, "module_file");
@@ -53,17 +53,17 @@ go_plugin_loader_module_set_attributes (GOPluginLoader *loader, GHashTable *attr
 	if (module_file_name != NULL)
 		loader_module->module_file_name = g_strdup (module_file_name);
 	else
-		*err = error_info_new_str ( _("Module file name not given."));
+		*err = go_error_info_new_str ( _("Module file name not given."));
 }
 
-static ErrorInfo *
+static GOErrorInfo *
 check_version (GOPluginModuleDepend const *deps, guint32 num_deps, char const *module_file)
 {
 	unsigned i;
 	char const *ver;
 
 	if (deps == NULL && num_deps != 0)
-		return error_info_new_printf (
+		return go_error_info_new_printf (
 			_("Module \"%s\" has an inconsistent dependency list."),
 			module_file);
 
@@ -71,17 +71,17 @@ check_version (GOPluginModuleDepend const *deps, guint32 num_deps, char const *m
 
 	for (i = 0; i < num_deps ; i++) {
 		if (deps[i].key == NULL)
-			return error_info_new_printf (
+			return go_error_info_new_printf (
 				_("Module \"%s\" depends on an invalid null dependency."),
 				module_file);
 		ver = g_hash_table_lookup (go_plugin_loader_module_known_deps, deps[i].key);
 		if (ver == NULL)
-			return error_info_new_printf (
+			return go_error_info_new_printf (
 				_("Module \"%s\" depends on an unknown dependency '%s'."),
 				module_file, deps[i].key);
 
 		if (strcmp (ver, deps[i].version))
-			return error_info_new_printf (
+			return go_error_info_new_printf (
 				_("Module \"%s\" was built with version %s of %s, but this executable supplied version %s."),
 				module_file, deps[i].version, deps[i].key, ver);
 	}
@@ -89,7 +89,7 @@ check_version (GOPluginModuleDepend const *deps, guint32 num_deps, char const *m
 }
 
 static void
-go_plugin_loader_module_load_base (GOPluginLoader *loader, ErrorInfo **err)
+go_plugin_loader_module_load_base (GOPluginLoader *loader, GOErrorInfo **err)
 {
 	GOPluginLoaderModule *loader_module = GO_PLUGIN_LOADER_MODULE (loader);
 	gchar *full_module_file_name;
@@ -99,7 +99,7 @@ go_plugin_loader_module_load_base (GOPluginLoader *loader, ErrorInfo **err)
 
 	GO_INIT_RET_ERROR_INFO (err);
 	if (!g_module_supported ()) {
-		*err = error_info_new_str (
+		*err = go_error_info_new_str (
 			_("Dynamic module loading is not supported in this system."));
 		return;
 	}
@@ -109,19 +109,19 @@ go_plugin_loader_module_load_base (GOPluginLoader *loader, ErrorInfo **err)
 		loader_module->module_file_name, NULL);
 	handle = g_module_open (full_module_file_name, G_MODULE_BIND_LAZY);
 	if (handle == NULL) {
-		*err = error_info_new_printf (
+		*err = go_error_info_new_printf (
 			_("Unable to open module file \"%s\"."),
 			full_module_file_name);
-		error_info_add_details (*err, error_info_new_str (g_module_error()));
+		go_error_info_add_details (*err, go_error_info_new_str (g_module_error()));
 	} else {
 		g_module_symbol (handle, "go_plugin_header", (gpointer) &go_plugin_header);
 		g_module_symbol (handle, "go_plugin_depends", (gpointer) &go_plugin_depends);
 		if (go_plugin_header == NULL) {
-			*err = error_info_new_printf (
+			*err = go_error_info_new_printf (
 				_("Module \"%s\" doesn't contain (\"go_plugin_header\" symbol)."),
 				full_module_file_name);
 		} else if (go_plugin_header->magic_number != GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER) {
-			*err = error_info_new_printf (
+			*err = go_error_info_new_printf (
 				_("Module \"%s\" has an invalid magic number."),
 				full_module_file_name);
 		} else if (NULL == (*err = check_version (go_plugin_depends,  go_plugin_header->num_depends, full_module_file_name))) {
@@ -139,7 +139,7 @@ go_plugin_loader_module_load_base (GOPluginLoader *loader, ErrorInfo **err)
 }
 
 static void
-go_plugin_loader_module_unload_base (GOPluginLoader *loader, ErrorInfo **ret_error)
+go_plugin_loader_module_unload_base (GOPluginLoader *loader, GOErrorInfo **ret_error)
 {
 	GOPluginLoaderModule *loader_module = GO_PLUGIN_LOADER_MODULE (loader);
 
@@ -148,10 +148,10 @@ go_plugin_loader_module_unload_base (GOPluginLoader *loader, ErrorInfo **ret_err
 		loader_module->plugin_shutdown (go_plugin_loader_get_plugin (loader), NULL);
 	}
 	if (!g_module_close (loader_module->handle)) {
-		*ret_error = error_info_new_printf (
+		*ret_error = go_error_info_new_printf (
 			_("Unable to close module file \"%s\"."),
 			loader_module->module_file_name);
-		error_info_add_details (*ret_error, error_info_new_str (g_module_error()));
+		go_error_info_add_details (*ret_error, go_error_info_new_str (g_module_error()));
 	}
 	loader_module->handle = NULL;
 	loader_module->plugin_init = NULL;
@@ -261,7 +261,7 @@ make_function_name (const GOPluginService *service, const char *suffix)
 static void
 go_plugin_loader_module_load_service_file_opener (GOPluginLoader *loader,
 						  GOPluginService *service,
-						  ErrorInfo **ret_error)
+						  GOErrorInfo **ret_error)
 {
 	GOPluginLoaderModule *loader_module = GO_PLUGIN_LOADER_MODULE (loader);
 	gchar *func_name_file_probe, *func_name_file_open;
@@ -288,10 +288,10 @@ go_plugin_loader_module_load_service_file_opener (GOPluginLoader *loader,
 		g_object_set_data_full (G_OBJECT (service),
 					"loader_data", loader_data, g_free);
 	} else {
-		*ret_error = error_info_new_printf (
+		*ret_error = go_error_info_new_printf (
 			_("Module file \"%s\" has invalid format."),
 			loader_module->module_file_name);
-		error_info_add_details (*ret_error, error_info_new_printf (
+		go_error_info_add_details (*ret_error, go_error_info_new_printf (
 			_("File doesn't contain \"%s\" function."), func_name_file_open));
 	}
 	g_free (func_name_file_probe);
@@ -327,7 +327,7 @@ go_plugin_loader_module_func_file_save (GOFileSaver const *fs, GOPluginService *
 static void
 go_plugin_loader_module_load_service_file_saver (GOPluginLoader *loader,
 						 GOPluginService *service,
-						 ErrorInfo **ret_error)
+						 GOErrorInfo **ret_error)
 {
 	GOPluginLoaderModule *loader_module = GO_PLUGIN_LOADER_MODULE (loader);
 	gchar *func_name_file_save;
@@ -350,10 +350,10 @@ go_plugin_loader_module_load_service_file_saver (GOPluginLoader *loader,
 		g_object_set_data_full (G_OBJECT (service),
 					"loader_data", loader_data, g_free);
 	} else {
-		*ret_error = error_info_new_printf (
+		*ret_error = go_error_info_new_printf (
 			_("Module file \"%s\" has invalid format."),
 			loader_module->module_file_name);
-		error_info_add_details (*ret_error, error_info_new_printf (
+		go_error_info_add_details (*ret_error, go_error_info_new_printf (
 			_("File doesn't contain \"%s\" function."),
 			func_name_file_save));
 	}
@@ -365,15 +365,15 @@ go_plugin_loader_module_load_service_file_saver (GOPluginLoader *loader,
  */
 
 typedef struct {
-	GType (*module_func_get_loader_type) (ErrorInfo **ret_error);
+	GType (*module_func_get_loader_type) (GOErrorInfo **ret_error);
 } ServiceLoaderDataPluginLoader;
 
 static GType
 go_plugin_loader_module_func_get_loader_type (GOPluginService *service,
-					       ErrorInfo **ret_error)
+					       GOErrorInfo **ret_error)
 {
 	ServiceLoaderDataPluginLoader *loader_data;
-	ErrorInfo *error = NULL;
+	GOErrorInfo *error = NULL;
 	GType loader_type;
 
 	g_return_val_if_fail (GO_IS_PLUGIN_SERVICE_PLUGIN_LOADER (service), 0);
@@ -392,7 +392,7 @@ go_plugin_loader_module_func_get_loader_type (GOPluginService *service,
 static void
 go_plugin_loader_module_load_service_plugin_loader (GOPluginLoader *loader,
 						    GOPluginService *service,
-						    ErrorInfo **ret_error)
+						    GOErrorInfo **ret_error)
 {
 	GOPluginLoaderModule *loader_module = GO_PLUGIN_LOADER_MODULE (loader);
 	gchar *func_name_get_loader_type;
@@ -417,7 +417,7 @@ go_plugin_loader_module_load_service_plugin_loader (GOPluginLoader *loader,
 		g_object_set_data_full (G_OBJECT (service),
 					"loader_data", loader_data, g_free);
 	} else
-		*ret_error = error_info_new_printf (
+		*ret_error = go_error_info_new_printf (
 			_("Module doesn't contain \"%s\" function."),
 			func_name_get_loader_type);
 	g_free (func_name_get_loader_type);

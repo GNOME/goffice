@@ -19,12 +19,12 @@ G_BEGIN_DECLS
 
 GType	go_plugin_get_type (void);
 
-void         go_plugin_activate (GOPlugin *plugin, ErrorInfo **ret_error);
-void         go_plugin_deactivate (GOPlugin *plugin, ErrorInfo **ret_error);
+void         go_plugin_activate (GOPlugin *plugin, GOErrorInfo **ret_error);
+void         go_plugin_deactivate (GOPlugin *plugin, GOErrorInfo **ret_error);
 gboolean     go_plugin_is_active (GOPlugin *plugin);
 gboolean     go_plugin_can_deactivate (GOPlugin *plugin);
-void         go_plugin_load_service (GOPlugin *plugin, GOPluginService *service, ErrorInfo **ret_error);
-void         go_plugin_unload_service (GOPlugin *plugin, GOPluginService *service, ErrorInfo **ret_error);
+void         go_plugin_load_service (GOPlugin *plugin, GOPluginService *service, GOErrorInfo **ret_error);
+void         go_plugin_unload_service (GOPlugin *plugin, GOPluginService *service, GOErrorInfo **ret_error);
 gboolean     go_plugin_is_loaded (GOPlugin *plugin);
 void         go_plugin_use_ref (GOPlugin *plugin);
 void         go_plugin_use_unref (GOPlugin *plugin);
@@ -59,13 +59,13 @@ void	  go_plugins_unregister_loader (const gchar *id_str);
 GOPlugin *go_plugins_get_plugin_by_id (const gchar *plugin_id);
 GSList	 *go_plugins_get_available_plugins (void);
 GSList	 *go_plugins_get_active_plugins (void);
-void	  go_plugins_rescan (ErrorInfo **ret_error, GSList **ret_new_plugins);
+void	  go_plugins_rescan (GOErrorInfo **ret_error, GSList **ret_new_plugins);
 char 	 *go_plugins_get_plugin_dir (void);
 
 void	  go_plugin_db_mark_plugin_for_deactivation (GOPlugin *plugin, gboolean mark);
 gboolean  go_plugin_db_is_plugin_marked_for_deactivation (GOPlugin *plugin);
-void	  go_plugin_db_activate_plugin_list   (GSList *plugins, ErrorInfo **ret_error);
-void	  go_plugin_db_deactivate_plugin_list (GSList *plugins, ErrorInfo **ret_error);
+void	  go_plugin_db_activate_plugin_list   (GSList *plugins, GOErrorInfo **ret_error);
+void	  go_plugin_db_deactivate_plugin_list (GSList *plugins, GOErrorInfo **ret_error);
 
 G_END_DECLS
 

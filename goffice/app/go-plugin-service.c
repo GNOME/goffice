@@ -120,15 +120,15 @@ plugin_service_general_init (GObject *obj)
 }
 
 static void
-plugin_service_general_activate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_general_activate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	PluginServiceGeneral *service_general = GO_PLUGIN_SERVICE_GENERAL (service);
-	ErrorInfo *error = NULL;
+	GOErrorInfo *error = NULL;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	plugin_service_load (service, &error);
 	if (error != NULL) {
-		*ret_error = error_info_new_str_with_details (
+		*ret_error = go_error_info_new_str_with_details (
 		             _("Error while loading plugin service."),
 		             error);
 		return;
@@ -136,7 +136,7 @@ plugin_service_general_activate (GOPluginService *service, ErrorInfo **ret_error
 	g_return_if_fail (service_general->cbs.plugin_func_init != NULL);
 	service_general->cbs.plugin_func_init (service, &error);
 	if (error != NULL) {
-		*ret_error = error_info_new_str_with_details (
+		*ret_error = go_error_info_new_str_with_details (
 		             _("Initializing function inside plugin returned error."),
 		             error);
 		return;
@@ -145,16 +145,16 @@ plugin_service_general_activate (GOPluginService *service, ErrorInfo **ret_error
 }
 
 static void
-plugin_service_general_deactivate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_general_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	PluginServiceGeneral *service_general = GO_PLUGIN_SERVICE_GENERAL (service);
-	ErrorInfo *error = NULL;
+	GOErrorInfo *error = NULL;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	g_return_if_fail (service_general->cbs.plugin_func_cleanup != NULL);
 	service_general->cbs.plugin_func_cleanup (service, &error);
 	if (error != NULL) {
-		*ret_error = error_info_new_str_with_details (
+		*ret_error = go_error_info_new_str_with_details (
 		             _("Cleanup function inside plugin returned error."),
 		             error);
 		return;
@@ -253,7 +253,7 @@ plugin_service_file_opener_finalize (GObject *obj)
 }
 
 static void
-plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
 {
 	int priority;
 	gboolean has_probe;
@@ -316,12 +316,12 @@ plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree, Er
 		service_file_opener->suffixes	= suffixes;
 		service_file_opener->mimes	= mimes;
 	} else {
-		*ret_error = error_info_new_str (_("File opener has no description"));
+		*ret_error = go_error_info_new_str (_("File opener has no description"));
 	}
 }
 
 static void
-plugin_service_file_opener_activate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_file_opener_activate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	PluginServiceFileOpener *service_file_opener = GO_PLUGIN_SERVICE_FILE_OPENER (service);
 
@@ -333,7 +333,7 @@ plugin_service_file_opener_activate (GOPluginService *service, ErrorInfo **ret_e
 }
 
 static void
-plugin_service_file_opener_deactivate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_file_opener_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	PluginServiceFileOpener *service_file_opener = GO_PLUGIN_SERVICE_FILE_OPENER (service);
 
@@ -432,12 +432,12 @@ go_plugin_file_opener_probe (GOFileOpener const *fo, GsfInput *input,
 	}
 
 	if (service_file_opener->has_probe) {
-		ErrorInfo *ignored_error = NULL;
+		GOErrorInfo *ignored_error = NULL;
 
 		plugin_service_load (pfo->service, &ignored_error);
 		if (ignored_error != NULL) {
-			error_info_print (ignored_error);
-			error_info_free (ignored_error);
+			go_error_info_print (ignored_error);
+			go_error_info_free (ignored_error);
 			return FALSE;
 		} else if (service_file_opener->cbs.plugin_func_file_probe == NULL) {
 			return FALSE;
@@ -460,14 +460,14 @@ go_plugin_file_opener_open (GOFileOpener const *fo, gchar const *unused_enc,
 {
 	GOPluginFileOpener *pfo = GO_PLUGIN_FILE_OPENER (fo);
 	PluginServiceFileOpener *service_file_opener = GO_PLUGIN_SERVICE_FILE_OPENER (pfo->service);
-	ErrorInfo *error = NULL;
+	GOErrorInfo *error = NULL;
 
 	g_return_if_fail (GSF_IS_INPUT (input));
 
 	plugin_service_load (pfo->service, &error);
 	if (error != NULL) {
-		gnumeric_io_error_info_set (io_context, error);
-		gnumeric_io_error_push (io_context, error_info_new_str (
+		gnumeric_io_go_error_info_set (io_context, error);
+		gnumeric_io_error_push (io_context, go_error_info_new_str (
 		                        _("Error while reading file.")));
 		return;
 	}
@@ -581,7 +581,7 @@ plugin_service_file_saver_finalize (GObject *obj)
 }
 
 static void
-plugin_service_file_saver_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+plugin_service_file_saver_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
 {
 	xmlNode *information_node;
 	gchar *description;
@@ -636,12 +636,12 @@ plugin_service_file_saver_read_xml (GOPluginService *service, xmlNode *tree, Err
 		if (!xml_node_get_bool (tree, "overwrite_files", &(psfs->overwrite_files)))
 			psfs->overwrite_files = TRUE;
 	} else {
-		*ret_error = error_info_new_str (_("File saver has no description"));
+		*ret_error = go_error_info_new_str (_("File saver has no description"));
 	}
 }
 
 static void
-plugin_service_file_saver_activate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_file_saver_activate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	PluginServiceFileSaver *service_file_saver = GO_PLUGIN_SERVICE_FILE_SAVER (service);
 	GHashTable *file_savers_hash;
@@ -661,7 +661,7 @@ plugin_service_file_saver_activate (GOPluginService *service, ErrorInfo **ret_er
 }
 
 static void
-plugin_service_file_saver_deactivate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_file_saver_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	PluginServiceFileSaver *service_file_saver = GO_PLUGIN_SERVICE_FILE_SAVER (service);
 	GHashTable *file_savers_hash;
@@ -731,14 +731,14 @@ go_plugin_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 {
 	GOPluginFileSaver *pfs = GO_PLUGIN_FILE_SAVER (fs);
 	PluginServiceFileSaver *service_file_saver = GO_PLUGIN_SERVICE_FILE_SAVER (pfs->service);
-	ErrorInfo *error = NULL;
+	GOErrorInfo *error = NULL;
 
 	g_return_if_fail (GSF_IS_OUTPUT (output));
 
 	plugin_service_load (pfs->service, &error);
 	if (error != NULL) {
-		gnumeric_io_error_info_set (io_context, error);
-		gnumeric_io_error_push (io_context, error_info_new_str (
+		gnumeric_io_go_error_info_set (io_context, error);
+		gnumeric_io_error_push (io_context, go_error_info_new_str (
 		                        _("Error while loading plugin for saving.")));
 		if (!gsf_output_error (output))
 			gsf_output_set_error (output, 0, _("Failed to load plugin for saving"));
@@ -812,10 +812,10 @@ plugin_service_plugin_loader_init (GObject *obj)
 }
 
 GType
-plugin_service_plugin_loader_generate_type (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_plugin_loader_generate_type (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	PluginServicePluginLoader *service_plugin_loader = GO_PLUGIN_SERVICE_PLUGIN_LOADER (service);
-	ErrorInfo *error = NULL;
+	GOErrorInfo *error = NULL;
 	GType loader_type;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
@@ -827,7 +827,7 @@ plugin_service_plugin_loader_generate_type (GOPluginService *service, ErrorInfo 
 			return loader_type;
 		*ret_error = error;
 	} else {
-		*ret_error = error_info_new_str_with_details (
+		*ret_error = go_error_info_new_str_with_details (
 		             _("Error while loading plugin service."),
 		             error);
 	}
@@ -835,7 +835,7 @@ plugin_service_plugin_loader_generate_type (GOPluginService *service, ErrorInfo 
 }
 
 static void
-plugin_service_plugin_loader_activate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_plugin_loader_activate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	gchar *full_id;
 
@@ -848,7 +848,7 @@ plugin_service_plugin_loader_activate (GOPluginService *service, ErrorInfo **ret
 }
 
 static void
-plugin_service_plugin_loader_deactivate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_plugin_loader_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	gchar *full_id;
 
@@ -893,7 +893,7 @@ plugin_service_gobject_loader_get_description (GOPluginService *service)
 static void
 plugin_service_gobject_loader_read_xml (GOPluginService *service,
 					G_GNUC_UNUSED xmlNode *tree,
-					G_GNUC_UNUSED ErrorInfo **ret_error)
+					G_GNUC_UNUSED GOErrorInfo **ret_error)
 {
 	PluginServiceGObjectLoaderClass *gobj_loader_class = GPS_GOBJECT_LOADER_GET_CLASS (service);
 	g_return_if_fail (gobj_loader_class->pending != NULL);
@@ -919,13 +919,13 @@ GSF_CLASS (PluginServiceGObjectLoader, plugin_service_gobject_loader,
  */
 
 static void
-plugin_service_simple_activate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_simple_activate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	service->is_active = TRUE;
 }
 
 static void
-plugin_service_simple_deactivate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_simple_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	service->is_active = FALSE;
 }
@@ -947,7 +947,7 @@ GSF_CLASS (PluginServiceSimple, plugin_service_simple,
 /* ---------------------------------------------------------------------- */
 
 void
-plugin_service_load (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_load (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	g_return_if_fail (GO_IS_PLUGIN_SERVICE (service));
 
@@ -961,9 +961,9 @@ plugin_service_load (GOPluginService *service, ErrorInfo **ret_error)
 }
 
 void
-plugin_service_unload (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_unload (GOPluginService *service, GOErrorInfo **ret_error)
 {
-	ErrorInfo *error = NULL;
+	GOErrorInfo *error = NULL;
 
 	g_return_if_fail (GO_IS_PLUGIN_SERVICE (service));
 
@@ -980,11 +980,11 @@ plugin_service_unload (GOPluginService *service, ErrorInfo **ret_error)
 }
 
 GOPluginService *
-plugin_service_new (GOPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
+plugin_service_new (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_error)
 {
 	GOPluginService *service = NULL;
 	char *type_str;
-	ErrorInfo *service_error = NULL;
+	GOErrorInfo *service_error = NULL;
 	GOPluginServiceCreate ctor;
 
 	g_return_val_if_fail (GO_IS_PLUGIN (plugin), NULL);
@@ -994,13 +994,13 @@ plugin_service_new (GOPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	type_str = xml_node_get_cstr (tree, "type");
 	if (type_str == NULL) {
-		*ret_error = error_info_new_str (_("No \"type\" attribute on \"service\" element."));
+		*ret_error = go_error_info_new_str (_("No \"type\" attribute on \"service\" element."));
 		return NULL;
 	}
 
 	ctor = g_hash_table_lookup (services, type_str);
 	if (ctor == NULL) {
-		*ret_error = error_info_new_printf (_("Unknown service type: %s."), type_str);
+		*ret_error = go_error_info_new_printf (_("Unknown service type: %s."), type_str);
 		g_free (type_str);
 		return NULL;
 	}
@@ -1015,7 +1015,7 @@ plugin_service_new (GOPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 	if (GPS_GET_CLASS (service)->read_xml != NULL) {
 		GPS_GET_CLASS (service)->read_xml (service, tree, &service_error);
 		if (service_error != NULL) {
-			*ret_error = error_info_new_str_with_details (
+			*ret_error = go_error_info_new_str_with_details (
 				_("Error reading service information."), service_error);
 			g_object_unref (service);
 			service = NULL;
@@ -1063,7 +1063,7 @@ plugin_service_get_cbs (GOPluginService *service)
 }
 
 void
-plugin_service_activate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_activate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	g_return_if_fail (GO_IS_PLUGIN_SERVICE (service));
 
@@ -1073,11 +1073,11 @@ plugin_service_activate (GOPluginService *service, ErrorInfo **ret_error)
 	}
 #ifdef PLUGIN_ALWAYS_LOAD
 	{
-		ErrorInfo *load_error = NULL;
+		GOErrorInfo *load_error = NULL;
 
 		plugin_service_load (service, &load_error);
 		if (load_error != NULL) {
-			*ret_error = error_info_new_str_with_details (
+			*ret_error = go_error_info_new_str_with_details (
 				_("We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) "
 				  "but loading failed."), load_error);
 			return;
@@ -1088,7 +1088,7 @@ plugin_service_activate (GOPluginService *service, ErrorInfo **ret_error)
 }
 
 void
-plugin_service_deactivate (GOPluginService *service, ErrorInfo **ret_error)
+plugin_service_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	g_return_if_fail (GO_IS_PLUGIN_SERVICE (service));
 
@@ -1098,12 +1098,12 @@ plugin_service_deactivate (GOPluginService *service, ErrorInfo **ret_error)
 	}
 	GPS_GET_CLASS (service)->deactivate (service, ret_error);
 	if (*ret_error == NULL) {
-		ErrorInfo *ignored_error = NULL;
+		GOErrorInfo *ignored_error = NULL;
 
 		service->is_active = FALSE;
 		/* FIXME */
 		plugin_service_unload (service, &ignored_error);
-		error_info_free (ignored_error);
+		go_error_info_free (ignored_error);
 	}
 }
 

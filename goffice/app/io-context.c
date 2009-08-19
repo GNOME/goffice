@@ -57,7 +57,7 @@ ioc_finalize (GObject *obj)
 	g_return_if_fail (IS_IO_CONTEXT (obj));
 
 	ioc = IO_CONTEXT (obj);
-	error_info_free (ioc->info);
+	go_error_info_free (ioc->info);
 	if (ioc->impl) {
 		go_cmd_context_progress_set (ioc->impl, 0.0);
 		go_cmd_context_progress_message_set (ioc->impl, NULL);
@@ -117,23 +117,23 @@ ioc_error_error (GOCmdContext *cc, GError *err)
 }
 
 static void
-ioc_error_error_info (G_GNUC_UNUSED GOCmdContext *ctxt,
-		      ErrorInfo *error)
+ioc_error_go_error_info_ (G_GNUC_UNUSED GOCmdContext *ctxt,
+		      GOErrorInfo *error)
 {
 	/* TODO what goes here */
-	error_info_print (error);
+	go_error_info_print (error);
 }
 
 void
 gnumeric_io_error_string (IOContext *context, const gchar *str)
 {
-	ErrorInfo *error;
+	GOErrorInfo *error;
 
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (str != NULL);
 
-	error = error_info_new_str (str);
-	gnumeric_io_error_info_set (context, error);
+	error = go_error_info_new_str (str);
+	gnumeric_io_go_error_info_set (context, error);
 }
 
 static void
@@ -142,7 +142,7 @@ io_context_gnm_cmd_context_init (GOCmdContextClass *cc_class)
 	cc_class->get_password	   = ioc_get_password;
 	cc_class->set_sensitive	   = ioc_set_sensitive;
 	cc_class->error.error      = ioc_error_error;
-	cc_class->error.error_info = ioc_error_error_info;
+	cc_class->error.error_info = ioc_error_go_error_info_;
 }
 
 static void
@@ -186,7 +186,7 @@ gnumeric_io_error_unknown (IOContext *context)
 }
 
 void
-gnumeric_io_error_info_set (IOContext *context, ErrorInfo *error)
+gnumeric_io_go_error_info_set (IOContext *context, GOErrorInfo *error)
 {
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (error != NULL);
@@ -198,12 +198,12 @@ gnumeric_io_error_info_set (IOContext *context, ErrorInfo *error)
 }
 
 void
-gnumeric_io_error_push (IOContext *context, ErrorInfo *error)
+gnumeric_io_error_push (IOContext *context, GOErrorInfo *error)
 {
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (error != NULL);
 
-	error_info_add_details (error, context->info);
+	go_error_info_add_details (error, context->info);
 	context->info = error;
 }
 
@@ -231,7 +231,7 @@ gnumeric_io_error_clear (IOContext *context)
 
 	context->error_occurred = FALSE;
 	context->warning_occurred = FALSE;
-	error_info_free (context->info);
+	go_error_info_free (context->info);
 	context->info = NULL;
 }
 
@@ -470,7 +470,7 @@ gnm_io_warning (G_GNUC_UNUSED IOContext *context,
 void
 gnm_io_warning_varargs (IOContext *context, char const *fmt, va_list args)
 {
-	context->info = error_info_new_vprintf (GO_WARNING, fmt, args);
+	context->info = go_error_info_new_vprintf (GO_WARNING, fmt, args);
 	context->warning_occurred = TRUE;
 }
 

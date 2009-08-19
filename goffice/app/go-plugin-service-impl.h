@@ -47,9 +47,9 @@ struct _GOPluginService {
 typedef struct{
 	GObjectClass g_object_class;
 
-	void (*read_xml) (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error);
-	void (*activate) (GOPluginService *service, ErrorInfo **ret_error);
-	void (*deactivate) (GOPluginService *service, ErrorInfo **ret_error);
+	void (*read_xml) (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error);
+	void (*activate) (GOPluginService *service, GOErrorInfo **ret_error);
+	void (*deactivate) (GOPluginService *service, GOErrorInfo **ret_error);
 	char *(*get_description) (GOPluginService *service);
 } GOPluginServiceClass;
 

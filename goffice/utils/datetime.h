@@ -69,7 +69,7 @@ typedef enum { /* see doc/fn-financial-basis.txt for details */
 	BASIS_MSRB_30_360_SYM = 6         /* Gnumeric extension.  */
 } basis_t;
 
-gint32  days_between_basis (GDate const *from, GDate const *to, basis_t basis);
+gint32  go_datetime_days_between_basis (GDate const *from, GDate const *to, basis_t basis);
 
 typedef struct {
 	int	 freq;
@@ -87,7 +87,7 @@ double go_coupdaybs  (GDate const *settlement, GDate const *maturity,
 double go_coupdaysnc (GDate const *settlement, GDate const *maturity,
 		      GnmCouponConvention const *conv);
 
-int gnm_date_convention_base (GODateConventions const *conv);
+int go_date_convention_base (GODateConventions const *conv);
 
 const GODateConventions *go_date_conv_from_str (const char *s);
 gboolean go_date_conv_equal (const GODateConventions *a, const GODateConventions *b);

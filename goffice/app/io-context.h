@@ -18,9 +18,9 @@ IOContext *gnumeric_io_context_new        (GOCmdContext *cc);
 
 void       gnumeric_io_error_unknown      (IOContext *ioc);
 
-void       gnumeric_io_error_info_set     (IOContext *ioc, ErrorInfo *error);
+void       gnumeric_io_go_error_info_set     (IOContext *ioc, GOErrorInfo *error);
 void       gnumeric_io_error_string       (IOContext *ioc, const gchar *str);
-void       gnumeric_io_error_push         (IOContext *ioc, ErrorInfo *error);
+void       gnumeric_io_error_push         (IOContext *ioc, GOErrorInfo *error);
 void       gnumeric_io_error_clear        (IOContext *ioc);
 void       gnumeric_io_error_display      (IOContext *ioc);
 

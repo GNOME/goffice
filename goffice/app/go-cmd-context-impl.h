@@ -14,7 +14,7 @@ typedef struct {
 					 gboolean sensitive);
 	struct {
 		void (*error)		(GOCmdContext *gcc, GError *err);
-		void (*error_info)  	(GOCmdContext *gcc, ErrorInfo *err);
+		void (*error_info)  	(GOCmdContext *gcc, GOErrorInfo *err);
 	} error;
 
 	void    (*progress_set)		(GOCmdContext *gcc, float val);

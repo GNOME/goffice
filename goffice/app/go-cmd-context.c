@@ -29,7 +29,7 @@ go_cmd_context_error (GOCmdContext *context, GError *err)
 }
 
 void
-go_cmd_context_error_info (GOCmdContext *context, ErrorInfo *stack)
+go_cmd_context_error_info (GOCmdContext *context, GOErrorInfo *stack)
 {
 	g_return_if_fail (GO_IS_CMD_CONTEXT (context));
 	GCC_CLASS (context)->error.error_info (context, stack);

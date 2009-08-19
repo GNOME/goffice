@@ -683,7 +683,7 @@ go_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 		if (!fs->overwrite_files &&
 		    file_name &&
 		    g_file_test (file_name, G_FILE_TEST_EXISTS)) {
-			ErrorInfo *save_error;
+			GOErrorInfo *save_error;
 			const char *msg = _("Saving over old files of this type is disabled for safety.");
 
 			if (!gsf_output_error (output))
@@ -691,11 +691,11 @@ go_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 
 			g_free (file_name);
 
-			save_error = error_info_new_str_with_details (
+			save_error = go_error_info_new_str_with_details (
 				msg,
-				error_info_new_str (
+				go_error_info_new_str (
 					_("You can turn this safety feature off by editing appropriate plugin.xml file.")));
-			gnumeric_io_error_info_set (io_context, save_error);
+			gnumeric_io_go_error_info_set (io_context, save_error);
 			return;
 		}
 

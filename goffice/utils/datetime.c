@@ -321,7 +321,7 @@ days_between_BASIS_30Ep_360 (GDate const *from, GDate const *to)
 }
 
 /*
- * days_between_basis
+ * go_datetime_days_between_basis
  *
  * @from      : GDate *
  * @to        : GDate *
@@ -335,7 +335,7 @@ days_between_BASIS_30Ep_360 (GDate const *from, GDate const *to)
  */
 
 gint32
-days_between_basis (GDate const *from, GDate const *to, basis_t basis)
+go_datetime_days_between_basis (GDate const *from, GDate const *to, basis_t basis)
 {
 	int sign = 1;
 
@@ -450,7 +450,7 @@ go_coupdays (GDate const *settlement, GDate const *maturity,
 	default:
 		go_coup_cd (&next, settlement, maturity, conv->freq, conv->eom, TRUE);
 		go_coup_cd (&prev, settlement, maturity, conv->freq, conv->eom, FALSE);
-		return days_between_basis (&prev, &next, BASIS_ACT_ACT);
+		return go_datetime_days_between_basis (&prev, &next, BASIS_ACT_ACT);
         }
 }
 
@@ -472,7 +472,7 @@ go_coupdaybs (GDate const *settlement, GDate const *maturity,
 {
 	GDate prev_coupon;
 	go_coup_cd (&prev_coupon, settlement, maturity, conv->freq, conv->eom, FALSE);
-	return days_between_basis (&prev_coupon, settlement, conv->basis);
+	return go_datetime_days_between_basis (&prev_coupon, settlement, conv->basis);
 }
 
 /**
@@ -489,11 +489,11 @@ go_coupdaysnc (GDate const *settlement, GDate const *maturity,
 {
 	GDate next_coupon;
 	go_coup_cd (&next_coupon, settlement, maturity, conv->freq, conv->eom, TRUE);
-	return days_between_basis (settlement, &next_coupon, conv->basis);
+	return go_datetime_days_between_basis (settlement, &next_coupon, conv->basis);
 }
 
 int
-gnm_date_convention_base (GODateConventions const *conv)
+go_date_convention_base (GODateConventions const *conv)
 {
 	g_return_val_if_fail (conv != NULL, 1900);
 	return conv->use_1904 ? 1904 : 1900;

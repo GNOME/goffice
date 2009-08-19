@@ -1,5 +1,5 @@
 /*
- * error-info.c: ErrorInfo structure.
+ * error-info.c: GOErrorInfo structure.
  *
  * Author:
  *   Zbigniew Chyla (cyba@gnome.pl)
@@ -11,32 +11,32 @@
 #include <stdio.h>
 #include <errno.h>
 
-struct _ErrorInfo {
+struct _GOErrorInfo {
 	gchar *msg;
 	GOSeverity severity;
-	GSList *details;          /* list of ErrorInfo */
+	GSList *details;          /* list of GOErrorInfo */
 };
 
-ErrorInfo *
-error_info_new_str (char const *msg)
+GOErrorInfo *
+go_error_info_new_str (char const *msg)
 {
-	ErrorInfo *error = g_new (ErrorInfo, 1);
+	GOErrorInfo *error = g_new (GOErrorInfo, 1);
 	error->msg = g_strdup (msg);
 	error->severity = GO_ERROR;
 	error->details  = NULL;
 	return error;
 }
 
-ErrorInfo *
-error_info_new_vprintf (GOSeverity severity, char const *msg_format,
+GOErrorInfo *
+go_error_info_new_vprintf (GOSeverity severity, char const *msg_format,
 			va_list args)
 {
-	ErrorInfo *error;
+	GOErrorInfo *error;
 
 	g_return_val_if_fail (severity >= GO_WARNING, NULL);
 	g_return_val_if_fail (severity <= GO_ERROR, NULL);
 
-	error = g_new (ErrorInfo, 1);
+	error = g_new (GOErrorInfo, 1);
 	error->msg = g_strdup_vprintf (msg_format, args);
 	error->severity = severity;
 	error->details = NULL;
@@ -44,64 +44,64 @@ error_info_new_vprintf (GOSeverity severity, char const *msg_format,
 }
 
 
-ErrorInfo *
-error_info_new_printf (char const *msg_format, ...)
+GOErrorInfo *
+go_error_info_new_printf (char const *msg_format, ...)
 {
-	ErrorInfo *error;
+	GOErrorInfo *error;
 	va_list args;
 
 	va_start (args, msg_format);
-	error = error_info_new_vprintf (GO_ERROR, msg_format, args);
+	error = go_error_info_new_vprintf (GO_ERROR, msg_format, args);
 	va_end (args);
 
 	return error;
 }
 
-ErrorInfo *
-error_info_new_str_with_details (char const *msg, ErrorInfo *details)
+GOErrorInfo *
+go_error_info_new_str_with_details (char const *msg, GOErrorInfo *details)
 {
-	ErrorInfo *error = error_info_new_str (msg);
-	error_info_add_details (error, details);
+	GOErrorInfo *error = go_error_info_new_str (msg);
+	go_error_info_add_details (error, details);
 	return error;
 }
 
-ErrorInfo *
-error_info_new_str_with_details_list (char const *msg, GSList *details)
+GOErrorInfo *
+go_error_info_new_str_with_details_list (char const *msg, GSList *details)
 {
-	ErrorInfo *error = error_info_new_str (msg);
-	error_info_add_details_list (error, details);
+	GOErrorInfo *error = go_error_info_new_str (msg);
+	go_error_info_add_details_list (error, details);
 	return error;
 }
 
-ErrorInfo *
-error_info_new_from_error_list (GSList *errors)
+GOErrorInfo *
+go_error_info_new_from_error_list (GSList *errors)
 {
-	ErrorInfo *error;
+	GOErrorInfo *error;
 
 	switch (g_slist_length (errors)) {
 	case 0:
 		error = NULL;
 		break;
 	case 1:
-		error = (ErrorInfo *) errors->data;
+		error = (GOErrorInfo *) errors->data;
 		g_slist_free (errors);
 		break;
 	default:
-		error = error_info_new_str_with_details_list (NULL, errors);
+		error = go_error_info_new_str_with_details_list (NULL, errors);
 		break;
 	}
 
 	return error;
 }
 
-ErrorInfo *
-error_info_new_from_errno (void)
+GOErrorInfo *
+go_error_info_new_from_errno (void)
 {
-	return error_info_new_str (g_strerror (errno));
+	return go_error_info_new_str (g_strerror (errno));
 }
 
 void
-error_info_add_details (ErrorInfo *error, ErrorInfo *details)
+go_error_info_add_details (GOErrorInfo *error, GOErrorInfo *details)
 {
 	g_return_if_fail (error != NULL);
 
@@ -115,7 +115,7 @@ error_info_add_details (ErrorInfo *error, ErrorInfo *details)
 }
 
 void
-error_info_add_details_list (ErrorInfo *error, GSList *details)
+go_error_info_add_details_list (GOErrorInfo *error, GSList *details)
 {
 	GSList *new_details_list, *l, *ll;
 
@@ -123,7 +123,7 @@ error_info_add_details_list (ErrorInfo *error, GSList *details)
 
 	new_details_list = NULL;
 	for (l = details; l != NULL; l = l->next) {
-		ErrorInfo *details_error = l->data;
+		GOErrorInfo *details_error = l->data;
 		if (details_error->msg == NULL) {
 			for (ll = details_error->details; ll != NULL; ll = ll->next)
 				new_details_list = g_slist_prepend (new_details_list, l->data);
@@ -137,7 +137,7 @@ error_info_add_details_list (ErrorInfo *error, GSList *details)
 }
 
 void
-error_info_free (ErrorInfo *error)
+go_error_info_free (GOErrorInfo *error)
 {
 	GSList *l;
 
@@ -146,14 +146,14 @@ error_info_free (ErrorInfo *error)
 
 	g_free (error->msg);
 	for (l = error->details; l != NULL; l = l->next)
-		error_info_free ((ErrorInfo *) l->data);
+		go_error_info_free ((GOErrorInfo *) l->data);
 
 	g_slist_free (error->details);
 	g_free(error);
 }
 
 static void
-error_info_print_with_offset (ErrorInfo *error, gint offset)
+go_error_info_print_with_offset (GOErrorInfo *error, gint offset)
 {
 	GSList *l;
 
@@ -168,19 +168,19 @@ error_info_print_with_offset (ErrorInfo *error, gint offset)
 		offset += 2;
 	}
 	for (l = error->details; l != NULL; l = l->next)
-		error_info_print_with_offset ((ErrorInfo *) l->data, offset);
+		go_error_info_print_with_offset ((GOErrorInfo *) l->data, offset);
 }
 
 void
-error_info_print (ErrorInfo *error)
+go_error_info_print (GOErrorInfo *error)
 {
 	g_return_if_fail (error != NULL);
 
-	error_info_print_with_offset (error, 0);
+	go_error_info_print_with_offset (error, 0);
 }
 
 char const *
-error_info_peek_message (ErrorInfo *error)
+go_error_info_peek_message (GOErrorInfo *error)
 {
 	g_return_val_if_fail (error != NULL, NULL);
 
@@ -188,7 +188,7 @@ error_info_peek_message (ErrorInfo *error)
 }
 
 GSList *
-error_info_peek_details (ErrorInfo *error)
+go_error_info_peek_details (GOErrorInfo *error)
 {
 	g_return_val_if_fail (error != NULL, NULL);
 
@@ -196,7 +196,7 @@ error_info_peek_details (ErrorInfo *error)
 }
 
 GOSeverity
-error_info_peek_severity (ErrorInfo *error)
+go_error_info_peek_severity (GOErrorInfo *error)
 {
 	g_return_val_if_fail (error != NULL, GO_ERROR);
 

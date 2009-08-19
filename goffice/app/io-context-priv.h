@@ -47,7 +47,7 @@ struct _IOContext {
 	GObject base;
 
 	GOCmdContext	*impl;
-	ErrorInfo	*info;
+	GOErrorInfo	*info;
 	gboolean	 error_occurred;
 	gboolean	 warning_occurred;
 

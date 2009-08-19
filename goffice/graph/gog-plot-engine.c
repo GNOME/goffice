@@ -77,7 +77,7 @@ gog_plot_new_by_name (char const *id)
 	GType type = g_type_from_name (id);
 
 	if (type == 0) {
-		ErrorInfo *err = NULL;
+		GOErrorInfo *err = NULL;
 		GOPluginService *service =
 			pending_engines
 			? g_hash_table_lookup (pending_engines, id)
@@ -93,8 +93,8 @@ gog_plot_new_by_name (char const *id)
 		type = g_type_from_name (id);
 
 		if (err != NULL) {
-			error_info_print (err);
-			error_info_free	(err);
+			go_error_info_print (err);
+			go_error_info_free	(err);
 		}
 
 		g_return_val_if_fail (type != 0, NULL);
@@ -230,7 +230,7 @@ pending_plot_types_load (void)
 }
 
 static void
-gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
 {
 	char    *path;
 	xmlNode *ptr;
@@ -252,7 +252,7 @@ gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorIn
 }
 
 static void
-gog_plot_type_service_activate (GOPluginService *service, ErrorInfo **ret_error)
+gog_plot_type_service_activate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	GSList *l = GOG_PLOT_TYPE_SERVICE (service)->paths;
 	if (l && pending_plot_type_files == NULL)
@@ -267,7 +267,7 @@ gog_plot_type_service_activate (GOPluginService *service, ErrorInfo **ret_error)
 }
 
 static void
-gog_plot_type_service_deactivate (GOPluginService *service, ErrorInfo **ret_error)
+gog_plot_type_service_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	GogPlotTypeService *plot_service = GOG_PLOT_TYPE_SERVICE (service);
 	GSList *l = plot_service->families;
@@ -366,7 +366,7 @@ typedef PluginServiceSimple GogThemeService;
 typedef PluginServiceSimpleClass GogThemeServiceClass;
 
 static void
-gog_theme_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+gog_theme_service_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
 {
 	GogTheme *theme;
 	xmlNode *ptr;
@@ -446,7 +446,7 @@ gog_trend_line_new_by_name (char const *id)
 	GType type = g_type_from_name (id);
 
 	if (type == 0) {
-		ErrorInfo *err = NULL;
+		GOErrorInfo *err = NULL;
 		GOPluginService *service =
 			pending_trend_lines_engines
 			? g_hash_table_lookup (pending_trend_lines_engines, id)
@@ -462,8 +462,8 @@ gog_trend_line_new_by_name (char const *id)
 		type = g_type_from_name (id);
 
 		if (err != NULL) {
-			error_info_print (err);
-			error_info_free	(err);
+			go_error_info_print (err);
+			go_error_info_free	(err);
 		}
 
 		g_return_val_if_fail (type != 0, NULL);
@@ -551,7 +551,7 @@ pending_trend_line_types_load (void)
 }
 
 static void
-gog_trend_line_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+gog_trend_line_service_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
 {
 	char    *path;
 	xmlNode *ptr;
@@ -573,7 +573,7 @@ gog_trend_line_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorI
 }
 
 static void
-gog_trend_line_service_activate (GOPluginService *service, ErrorInfo **ret_error)
+gog_trend_line_service_activate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	GSList *l = GOG_TREND_LINE_SERVICE (service)->paths;
 	if (l && pending_trend_line_type_files == NULL)
@@ -588,7 +588,7 @@ gog_trend_line_service_activate (GOPluginService *service, ErrorInfo **ret_error
 }
 
 static void
-gog_trend_line_service_deactivate (GOPluginService *service, ErrorInfo **ret_error)
+gog_trend_line_service_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 {
 	GogTrendLineService *line_service = GOG_TREND_LINE_SERVICE (service);
 	GSList *l = line_service->types;

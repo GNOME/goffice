@@ -108,7 +108,7 @@ go_mime_type_free (GOMimeType * mime_type)
 
 static void
 go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
-				    ErrorInfo ** ret_error)
+				    GOErrorInfo ** ret_error)
 {
 	xmlNode *ptr;
 
@@ -291,7 +291,7 @@ go_component_new_by_mime_type (char const *mime_type)
 	type = g_type_from_name (mtype->component_type_name);
 	if (type == 0)
 	{
-		ErrorInfo *err = NULL;
+		GOErrorInfo *err = NULL;
 		GOPluginService *service =
 			pending_engines
 			? g_hash_table_lookup (pending_engines,
@@ -308,8 +308,8 @@ go_component_new_by_mime_type (char const *mime_type)
 
 		if (err != NULL)
 		{
-			error_info_print (err);
-			error_info_free (err);
+			go_error_info_print (err);
+			go_error_info_free (err);
 		}
 
 		g_return_val_if_fail (type != 0, NULL);
