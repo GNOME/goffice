@@ -43,6 +43,7 @@ goffice/canvas/goc-graph.c
 goffice/canvas/goc-group.c
 goffice/canvas/goc-line.c
 goffice/canvas/goc-pixbuf.c
+goffice/canvas/goc-polyline.c
 goffice/canvas/goc-polygon.c
 goffice/canvas/goc-rectangle.c
 goffice/canvas/goc-styled-item.c

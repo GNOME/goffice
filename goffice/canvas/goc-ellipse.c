@@ -65,8 +65,7 @@ goc_ellipse_set_property (GObject *gobject, guint param_id,
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
 	}
-	goc_item_invalidate (GOC_ITEM (gobject));
-
+	goc_item_bounds_changed (GOC_ITEM (ellipse));
 }
 
 static void
@@ -99,7 +98,6 @@ goc_ellipse_get_property (GObject *gobject, guint param_id,
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
 	}
-	goc_item_bounds_changed (GOC_ITEM (ellipse));
 }
 
 static void
@@ -129,6 +127,7 @@ goc_ellipse_distance (GocItem *item, double x, double y, GocItem **near_item)
 	double last = G_MAXDOUBLE, df, d2f, t, cs, sn,
 		a = ellipse->width / 2, b = ellipse->height / 2,
 		c = a * a - b * b;
+	int i;
 	*near_item = item;
 	x = fabs (x - ellipse->x - a);
 	y = fabs (y - ellipse->y - b);
@@ -146,7 +145,9 @@ goc_ellipse_distance (GocItem *item, double x, double y, GocItem **near_item)
 	/* initial value: */
 	t = atan2 (y, x);
 	/* iterate using the Newton method */
-	while (1) {
+	/* iterate no more than 10 times which should be largely enough
+	 just a security to avoid an infinite loop if something goes wrong */
+	for (i = 0; i < 10; i++) {
 		cs = cos (t);
 		sn = sin (t);
 		df = a * x * sn - b * y * cs - c * cs * sn;
@@ -163,30 +164,23 @@ goc_ellipse_distance (GocItem *item, double x, double y, GocItem **near_item)
 
 static void
 goc_ellipse_draw (GocItem const *item, cairo_t *cr)
-{
+{      
 	GocEllipse *ellipse = GOC_ELLIPSE (item);
-	cairo_pattern_t *pat = NULL;
-	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-
+	double  scalex = (ellipse->width > 0.)? ellipse->width / 2.: 1.e-10,
+		scaley = (ellipse->height > 0.)? ellipse->height / 2.: 1.e-10;
+	    
 	cairo_save (cr);
 	goc_group_cairo_transform (item->parent, cr, ellipse->x, ellipse->y);
 	cairo_translate (cr, ellipse->width / 2., ellipse->height / 2.);
-	cairo_scale (cr, ellipse->width / 2., ellipse->height / 2.);
+	cairo_scale (cr, scalex, scaley);
 	cairo_rotate (cr, ellipse->rotation);
 	cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
 	cairo_restore (cr);
 	/* Fill the shape */
-	pat = go_style_create_cairo_pattern (style, cr);
-	if (pat) {
-		cairo_set_source (cr, pat);
-		if (style->outline.dash_type != GO_LINE_NONE)
-			cairo_fill_preserve (cr);
-		else
-			cairo_fill (cr);
-		cairo_pattern_destroy (pat);
-	}
+	if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
+		cairo_fill_preserve (cr);
 	/* Draw the line */
-	if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr))
+	if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr))
 		cairo_stroke (cr);
 	else
 		cairo_new_path (cr);

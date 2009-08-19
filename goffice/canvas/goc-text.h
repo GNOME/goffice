@@ -32,6 +32,8 @@ struct _GocText {
 
 	double rotation; /* rotation around the center in radians */
 	double x, y, w, h;
+	gboolean clipped;
+	double clip_width, clip_height, wrap_width;
 	char *text;
 	GtkAnchorType anchor;
 	PangoAttrList *attributes;

@@ -41,8 +41,7 @@ goc_polygon_set_property (GObject *gobject, guint param_id,
 		unsigned i;
 		GocPoints *points = (GocPoints *) g_value_get_boxed (value);
 		polygon->nb_points = points->n;
-		if (polygon->points)
-			g_free (polygon->points);
+		g_free (polygon->points);
 		polygon->points = g_new (GocPoint, points->n);
 		for (i = 0; i < points->n; i++)
 			polygon->points[i] = points->points[i];

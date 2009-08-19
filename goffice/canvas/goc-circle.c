@@ -80,7 +80,7 @@ goc_circle_get_property (GObject *gobject, guint param_id,
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
-	}
+	}	
 }
 
 static double
@@ -102,43 +102,21 @@ static void
 goc_circle_draw (GocItem const *item, cairo_t *cr)
 {
 	GocCircle *circle = GOC_CIRCLE (item);
-	GOLineDashSequence *line_dash;
-	cairo_pattern_t *pat = NULL;
-	double width;
-	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+	double scale = (circle->radius > 0.)? circle->radius: 1.e-10;
 
 	cairo_save (cr);
 	goc_group_cairo_transform (item->parent, cr, circle->x, circle->y);
-	cairo_scale (cr, circle->radius, circle->radius);
+	cairo_scale (cr, scale, scale);
 	cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
 	cairo_restore (cr);
 	/* Fill the shape */
-	pat = go_style_create_cairo_pattern (style, cr);
-	if (pat) {
-		cairo_set_source (cr, pat);
+	if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
 		cairo_fill_preserve (cr);
-		cairo_pattern_destroy (pat);
-	}
 	/* Draw the line */
-	width = (style->outline.width)? style->outline.width: 1.;
-	cairo_set_line_width (cr, width);
-	line_dash = go_line_dash_get_sequence (style->outline.dash_type, width);
-	if (line_dash != NULL)
-		cairo_set_dash (cr,
-				line_dash->dash,
-				line_dash->n_dash,
-				line_dash->offset);
+	if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr))
+		cairo_stroke (cr);
 	else
-		cairo_set_dash (cr, NULL, 0, 0);
-	cairo_set_source_rgba (cr,
-		UINT_RGBA_R (style->outline.color),
-		UINT_RGBA_B (style->outline.color),
-		UINT_RGBA_G (style->outline.color),
-		UINT_RGBA_A (style->outline.color));
-	cairo_stroke (cr);
-
-	if (line_dash != NULL)
-		go_line_dash_sequence_free (line_dash);
+		cairo_new_path (cr);
 }
 
 static void

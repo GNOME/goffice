@@ -53,9 +53,14 @@ expose_cb (GocCanvas *canvas, GdkEventExpose *event, G_GNUC_UNUSED gpointer data
 static gboolean
 button_press_cb (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointer data)
 {
-	double x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
-	double y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
-	GocItem *item = goc_canvas_get_item_at (canvas, x, y);
+	double x, y;
+	GocItem *item;
+
+	if (event->window != gtk_layout_get_bin_window (&canvas->base))
+		return TRUE;
+	x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
+	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
+	item = goc_canvas_get_item_at (canvas, x, y);;	
 	if (item) {
 		canvas->cur_event = (GdkEvent *) event;
 		if (event->type == GDK_2BUTTON_PRESS)
@@ -69,9 +74,14 @@ button_press_cb (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointe
 static gboolean
 button_release_cb (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointer data)
 {
-	double x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
-	double y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
-	GocItem *item = (canvas->grabbed_item != NULL)?
+	double x, y;
+	GocItem *item;
+
+	if (event->window != gtk_layout_get_bin_window (&canvas->base))
+		return TRUE;
+	x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
+	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
+	item = (canvas->grabbed_item != NULL)?
 		canvas->grabbed_item:
 		goc_canvas_get_item_at (canvas, x, y);
 	if (item) {
@@ -85,9 +95,13 @@ button_release_cb (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpoin
 static gboolean
 motion_cb (GocCanvas *canvas, GdkEventMotion *event, G_GNUC_UNUSED gpointer data)
 {
-	double x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
-	double y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
+	double x, y;
 	GocItem *item;
+
+	if (event->window != gtk_layout_get_bin_window (&canvas->base))
+		return TRUE;
+	x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
+	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
 	if (canvas->grabbed_item != NULL) 
 		item = canvas->grabbed_item;
 	else
@@ -129,9 +143,14 @@ key_press_cb (GocCanvas *canvas, GdkEventKey* event, G_GNUC_UNUSED gpointer data
 static gboolean
 enter_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpointer data)
 {
-	double x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
-	double y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
-	GocItem *item = goc_canvas_get_item_at (canvas, x, y);
+	double x, y;
+	GocItem *item;
+
+	if (event->window != gtk_layout_get_bin_window (&canvas->base))
+		return TRUE;
+	x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
+	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
+	item = goc_canvas_get_item_at (canvas, x, y);;	
 	if (item) {
 		canvas->last_item = item;
 		return GOC_ITEM_GET_CLASS (item)->enter_notify (item, x, y);
@@ -142,8 +161,12 @@ enter_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpoin
 static gboolean
 leave_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpointer data)
 {
-	double x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
-	double y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
+	double x, y;
+
+	if (event->window != gtk_layout_get_bin_window (&canvas->base))
+		return TRUE;
+	x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
+	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
 	if (canvas->last_item) {
 		gboolean result = GOC_ITEM_GET_CLASS (canvas->last_item)->leave_notify (canvas->last_item, x, y);
 		canvas->last_item = NULL;

@@ -211,7 +211,7 @@ gog_equation_update (GogObject *obj)
 	else
 		itex = g_string_append (itex, "$$");
 
-	mathml = lsm_mathml_document_new_from_itex (itex->str);
+	mathml = lsm_mathml_document_new_from_itex (itex->str, itex->len, NULL);
 
 	/* Keep the last valid mathml document if the itex -> mathml conversion fails.
 	 * It keep the equation from disappearing when the current equation entry is not a

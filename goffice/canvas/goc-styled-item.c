@@ -29,7 +29,8 @@
 
 enum {
 	STYLED_ITEM_PROP_0,
-	STYLED_ITEM_PROP_STYLE
+	STYLED_ITEM_PROP_STYLE,
+	STYLED_ITEM_SCALE_LINE_WIDTH
 };
 
 enum {
@@ -47,6 +48,7 @@ goc_styled_item_set_property (GObject *obj, guint param_id,
 				GValue const *value, GParamSpec *pspec)
 {
 	GocStyledItem *gsi = GOC_STYLED_ITEM (obj);
+	GocItem *item = GOC_ITEM (obj);
 	gboolean resize = FALSE;
 
 	switch (param_id) {
@@ -59,7 +61,11 @@ goc_styled_item_set_property (GObject *obj, guint param_id,
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
-	goc_item_invalidate (GOC_ITEM (obj));
+	if (resize) {
+		goc_item_invalidate (item);
+		goc_item_bounds_changed (item);
+	}
+	goc_item_invalidate (item);
 }
 
 static void
@@ -133,12 +139,19 @@ goc_styled_item_class_init (GocItemClass *goc_klass)
 			_("A pointer to the GOStyle object"),
 			go_style_get_type (), 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, STYLED_ITEM_SCALE_LINE_WIDTH,
+		g_param_spec_boolean ("scale-line-width",
+			_("Scale line width"),
+			_("Whether to scale the line width or not when zooming"),
+			TRUE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 static void
 goc_styled_item_init (GocStyledItem *gsi)
 {
 	gsi->style = GO_STYLE (g_object_new (go_style_get_type (), NULL)); /* use the defaults */
+	gsi->scale_line_width = TRUE;
 }
 
 static gboolean
@@ -217,3 +230,22 @@ GSF_CLASS_FULL (GocStyledItem, goc_styled_item, NULL, NULL,
 	   goc_styled_item_class_init, NULL, goc_styled_item_init,
 	   GOC_TYPE_ITEM, 0,
 	   GSF_INTERFACE (goc_styled_item_so_init, GO_TYPE_STYLED_OBJECT))
+
+gboolean
+goc_styled_item_set_cairo_line  (GocStyledItem const *gsi, cairo_t *cr)
+{
+	double width = 0.;
+	gboolean result;
+	g_return_val_if_fail (GOC_IS_STYLED_ITEM (gsi), FALSE);
+
+	/* scale the line width */
+	if (gsi->scale_line_width) {
+		width = gsi->style->outline.width;
+		gsi->style->outline.width *= goc_canvas_get_pixels_per_unit (GOC_ITEM (gsi)->canvas);
+	}	
+	result = go_styled_object_set_cairo_line (GO_STYLED_OBJECT (gsi), cr);
+	/* restore the line width */
+	if (gsi->scale_line_width)
+		gsi->style->outline.width = width;
+	return result;
+}

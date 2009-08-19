@@ -33,6 +33,7 @@ typedef struct _GocItem			GocItem;
 typedef struct _GocGroup		GocGroup;
 typedef struct _GocLine			GocLine;
 typedef struct _GocPixbuf		GocPixbuf;
+typedef struct _GocPolyline		GocPolyline;
 typedef struct _GocPolygon		GocPolygon;
 typedef struct _GocRectangle	GocRectangle;
 typedef struct _GocCircle		GocCircle;
@@ -58,6 +59,7 @@ G_END_DECLS
 #include <goffice/canvas/goc-group.h>
 #include <goffice/canvas/goc-line.h>
 #include <goffice/canvas/goc-pixbuf.h>
+#include <goffice/canvas/goc-polyline.h>
 #include <goffice/canvas/goc-polygon.h>
 #include <goffice/canvas/goc-rectangle.h>
 #include <goffice/canvas/goc-text.h>

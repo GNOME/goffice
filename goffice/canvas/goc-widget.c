@@ -27,6 +27,27 @@
 
 #include <math.h>
 
+static gboolean
+enter_notify_cb (G_GNUC_UNUSED GtkWidget *w, GdkEventCrossing *event, GocWidget *item)
+{
+	item->base.canvas->cur_event = (GdkEvent *) event;
+	return GOC_ITEM_GET_CLASS (item->base.parent)->enter_notify (GOC_ITEM (item->base.parent),
+			(event->x + item->x) / item->base.canvas->pixels_per_unit + item->base.canvas->scroll_x1,
+			(event->y + item->y) / item->base.canvas->pixels_per_unit + item->base.canvas->scroll_y1);
+}
+
+static gboolean
+button_press_cb (G_GNUC_UNUSED GtkWidget *w, GdkEventButton *event, GocWidget *item)
+{
+	item->base.canvas->cur_event = (GdkEvent *) event;
+	if (event->button != 3)
+		return FALSE;
+	return GOC_ITEM_GET_CLASS (item->base.parent)->button_pressed (GOC_ITEM (item->base.parent),
+			event->button,
+			(event->x + item->x) / item->base.canvas->pixels_per_unit + item->base.canvas->scroll_x1,
+			(event->y + item->y) / item->base.canvas->pixels_per_unit + item->base.canvas->scroll_y1);
+}
+
 enum {
 	WIDGET_PROP_0,
 	WIDGET_PROP_WIDGET,
@@ -89,6 +110,9 @@ goc_widget_set_property (GObject *obj, guint param_id,
 		gtk_widget_show (widget);
 		gtk_layout_put (GTK_LAYOUT (GOC_ITEM (item)->canvas), widget, item->x, item->y);
 		goc_widget_notify_scrolled (GOC_ITEM (item));
+		/* we need to propagate some signals to the parent item */
+		g_signal_connect (widget, "enter-notify-event", G_CALLBACK (enter_notify_cb), obj);
+		g_signal_connect (widget, "button-press-event", G_CALLBACK (button_press_cb), obj);
 		return;
 	}
 	case WIDGET_PROP_X:

@@ -85,6 +85,7 @@ goc_item_finalize (GObject *object)
 		GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
 		if (klass->unrealize)
 			klass->unrealize (item);
+		item->cached_bounds = TRUE; /* avois a call to update_bounds */
 		goc_item_invalidate (item);
 	}
 	if (item->parent != NULL)
@@ -305,6 +306,8 @@ goc_item_parent_changed (GocItem *item)
 void
 goc_item_grab (GocItem *item)
 {
+	if (item == goc_canvas_get_grabbed_item (item->canvas))
+		return;
 	g_return_if_fail (GOC_IS_ITEM (item));
 	goc_canvas_grab_item (item->canvas, item);
 }	

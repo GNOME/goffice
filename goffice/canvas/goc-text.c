@@ -32,7 +32,11 @@ enum {
 	TEXT_PROP_ROTATION,
 	TEXT_PROP_ANCHOR,
 	TEXT_PROP_TEXT,
-	TEXT_PROP_ATTRIBUTES
+	TEXT_PROP_ATTRIBUTES,
+	TEXT_PROP_CLIP,
+	TEXT_PROP_CLIP_WIDTH,
+	TEXT_PROP_CLIP_HEIGHT,
+	TEXT_PROP_WRAP_WIDTH
 };
 
 static GocItemClass *parent_class;
@@ -76,6 +80,30 @@ goc_text_set_property (GObject *gobject, guint param_id,
 			pango_layout_set_attributes (text->layout, text->attributes);
 		break;
 	}
+
+	case TEXT_PROP_CLIP:
+		text->clipped = g_value_get_boolean (value);
+		break;
+
+	case TEXT_PROP_CLIP_WIDTH:
+		text->clip_width = g_value_get_double (value);
+		break;
+
+	case TEXT_PROP_CLIP_HEIGHT:
+		text->clip_height = g_value_get_double (value);
+		break;
+
+	case TEXT_PROP_WRAP_WIDTH:
+		text->wrap_width = g_value_get_double (value);
+		if (text->layout) {
+			if (text->wrap_width > 0) {
+				pango_layout_set_width (text->layout, text->wrap_width * PANGO_SCALE);
+				pango_layout_set_wrap (text->layout, PANGO_WRAP_WORD);
+			} else
+				pango_layout_set_width (text->layout, -1);
+		}
+		break;
+
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
 	}
@@ -116,6 +144,22 @@ goc_text_get_property (GObject *gobject, guint param_id,
 			g_value_set_boxed (value, text->attributes);
 		break;
 
+	case TEXT_PROP_CLIP:
+		g_value_set_boolean (value, text->clipped);
+		break;
+
+	case TEXT_PROP_CLIP_WIDTH:
+		break;
+		g_value_set_double (value, text->clip_width);
+
+	case TEXT_PROP_CLIP_HEIGHT:
+		g_value_set_double (value, text->clip_height);
+		break;
+
+	case TEXT_PROP_WRAP_WIDTH:
+		g_value_set_double (value, text->wrap_width);
+		break;
+
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
 	}
@@ -125,14 +169,22 @@ static void
 goc_text_realize (GocItem *item)
 {
 	GocText *text = GOC_TEXT (item);
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 
 	if (parent_class->realize)
 		(*parent_class->realize) (item);
 
 	text->layout = pango_layout_new (gtk_widget_get_pango_context (GTK_WIDGET (item->canvas)));
-	pango_layout_set_text (text->layout, text->text, -1);
+	pango_layout_set_font_description (text->layout, style->font.font->desc);
+	if (text->text)
+		pango_layout_set_text (text->layout, text->text, -1);
 	if (text->attributes)
 		pango_layout_set_attributes (text->layout, text->attributes);
+	if (text->wrap_width > 0) {
+		pango_layout_set_width (text->layout, text->wrap_width * PANGO_SCALE);
+		pango_layout_set_wrap (text->layout, PANGO_WRAP_WORD_CHAR);
+	} else
+		pango_layout_set_width (text->layout, -1);
 	goc_item_bounds_changed (item);
 }
 
@@ -241,10 +293,17 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 {
 	GocText *text = GOC_TEXT (item);
 	double x = text->x, y = text->y;
-	PangoLayout *pl = pango_cairo_create_layout (cr);
+	PangoLayout *pl;
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+	if (!text->text)
+		return;
+	pl = pango_cairo_create_layout (cr);
 	pango_layout_set_font_description (pl, style->font.font->desc);
 	pango_layout_set_text (pl, text->text, -1);
+	if (text->wrap_width > 0) {
+		pango_layout_set_width (pl, text->wrap_width * PANGO_SCALE);
+		pango_layout_set_wrap (pl, PANGO_WRAP_WORD_CHAR);
+	}
 	if (text->attributes)
 		pango_layout_set_attributes (pl, text->attributes);
 	/* FIXME: take rotation into account */
@@ -290,6 +349,10 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	cairo_set_source_rgb (cr, 0., 0., 0.);
 	goc_group_cairo_transform (item->parent, cr, x, y);
 	cairo_move_to (cr, 0., 0.);
+	if (text->clip_height > 0. && text->clip_width > 0.) {
+		cairo_rectangle (cr, 0., 0., text->clip_width, text->clip_height);
+		cairo_clip (cr); 
+	}
 	pango_cairo_show_layout (cr, pl);
 	cairo_restore (cr);
 	g_object_unref (pl);
@@ -304,9 +367,20 @@ goc_text_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 }
 
 static void
+goc_text_style_changed (GOStyledObject *obj)
+{
+	GOStyle *style = go_styled_object_get_style (obj);
+	GocText *text = GOC_TEXT (obj);
+	if (text->layout)
+		pango_layout_set_font_description (text->layout, style->font.font->desc);
+	goc_item_bounds_changed (GOC_ITEM (obj));
+}
+
+static void
 goc_text_class_init (GocItemClass *item_klass)
 {
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
+	GOStyledObjectClass *gso_klass = (GOStyledObjectClass *) item_klass;
 	GocStyledItemClass *gsi_klass = (GocStyledItemClass *) item_klass;
 	parent_class = g_type_class_peek_parent (item_klass);
 
@@ -346,8 +420,33 @@ goc_text_class_init (GocItemClass *item_klass)
                  g_param_spec_boxed ("attributes", _("Attributes"), _("The attributes list as a PangoAttrList"),
 			PANGO_TYPE_ATTR_LIST,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (obj_klass, TEXT_PROP_CLIP,
+		g_param_spec_boolean ("clip",
+			_("Clip"),
+			_("Whether to clip or not"),
+			FALSE,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (obj_klass, TEXT_PROP_CLIP_WIDTH,
+		g_param_spec_double ("clip-width",
+			_("Clip width"),
+			_("Clip width for the text"),
+			0., G_MAXDOUBLE, 0.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (obj_klass, TEXT_PROP_CLIP_HEIGHT,
+		g_param_spec_double ("clip-height",
+			_("Clip height"),
+			_("Clip height for the text"),
+			0., G_MAXDOUBLE, 0.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (obj_klass, TEXT_PROP_WRAP_WIDTH,
+		g_param_spec_double ("wrap-width",
+			_("Wrap width"),
+			_("Wrap width for the text"),
+			0., G_MAXDOUBLE, 0.,
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	gsi_klass->init_style = goc_text_init_style;
+	gso_klass->style_changed = goc_text_style_changed;
 
 	item_klass->update_bounds = goc_text_update_bounds;
 	item_klass->distance = goc_text_distance;

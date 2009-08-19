@@ -144,10 +144,18 @@ static void goc_line_draw (GocItem const *item, cairo_t *cr)
 {
 	GocLine *line = GOC_LINE (item);
         if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
+		/* try to avoid horizontal and vertical lines between two pixels */
+		double hoffs, voffs = ceil (go_styled_object_get_style (GO_STYLED_OBJECT (item))->line.width);
+		if (voffs <= 0.)
+			voffs = 1.;
+		hoffs = ((int) voffs & 1)? .5: 0.;
+		voffs = (line->starty == line->endy)? hoffs: 0.;
+		if (line->startx != line->endx)
+		                hoffs = 0.;
 		cairo_save (cr);
-		goc_group_cairo_transform (item->parent, cr, line->startx, line->starty);
+		goc_group_cairo_transform (item->parent, cr, hoffs + (int) line->startx, voffs + (int) line->starty);
 		cairo_move_to (cr, 0., 0.);
-		cairo_line_to (cr, line->endx - line->startx, line->endy - line->starty);
+		cairo_line_to (cr, (int) (line->endx - line->startx), (int) (line->endy - line->starty));
 		cairo_stroke (cr);
 		cairo_restore (cr);
 	}
