@@ -27,18 +27,18 @@ void       go_io_error_display      (GOIOContext *ioc);
 gboolean   go_io_error_occurred     (GOIOContext *ioc);
 gboolean   go_io_warning_occurred   (GOIOContext *ioc);
 
-void       io_progress_message      (GOIOContext *io_context, const gchar *msg);
-void       io_progress_update       (GOIOContext *io_context, gdouble f);
-void       io_progress_range_push   (GOIOContext *io_context, gdouble min, gdouble max);
-void       io_progress_range_pop    (GOIOContext *io_context);
+void       go_io_progress_message      (GOIOContext *io_context, const gchar *msg);
+void       go_io_progress_update       (GOIOContext *io_context, gdouble f);
+void       go_io_progress_range_push   (GOIOContext *io_context, gdouble min, gdouble max);
+void       go_io_progress_range_pop    (GOIOContext *io_context);
 
-void       count_io_progress_set    (GOIOContext *io_context, gint total, gint step);
-void       count_io_progress_update (GOIOContext *io_context, gint inc);
+void       go_io_count_progress_set    (GOIOContext *io_context, gint total, gint step);
+void       go_io_count_progress_update (GOIOContext *io_context, gint inc);
 
-void       value_io_progress_set    (GOIOContext *io_context, gint total, gint step);
-void       value_io_progress_update (GOIOContext *io_context, gint value);
+void       go_io_value_progress_set    (GOIOContext *io_context, gint total, gint step);
+void       go_io_value_progress_update (GOIOContext *io_context, gint value);
 
-void       io_progress_unset      (GOIOContext *io_context);
+void       go_io_progress_unset      (GOIOContext *io_context);
 
 void go_io_context_set_num_files	(GOIOContext *ioc, guint count);
 void go_io_context_processing_file	(GOIOContext *ioc, char const *uri);

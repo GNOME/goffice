@@ -397,25 +397,25 @@ go_plugin_file_opener_init (GOPluginFileOpener *fo)
 }
 
 static gboolean
-go_plugin_file_opener_can_probe (GOFileOpener const *fo, FileProbeLevel pl)
+go_plugin_file_opener_can_probe (GOFileOpener const *fo, GOFileProbeLevel pl)
 {
 	GOPluginFileOpener *pfo = GO_PLUGIN_FILE_OPENER (fo);
 	GOPluginServiceFileOpener *service_file_opener = GO_PLUGIN_SERVICE_FILE_OPENER (pfo->service);
-	if (pl == FILE_PROBE_FILE_NAME)
+	if (pl == GO_FILE_PROBE_FILE_NAME)
 		return service_file_opener->suffixes != NULL;
 	return service_file_opener->has_probe;
 }
 
 static gboolean
 go_plugin_file_opener_probe (GOFileOpener const *fo, GsfInput *input,
-                               FileProbeLevel pl)
+                               GOFileProbeLevel pl)
 {
 	GOPluginFileOpener *pfo = GO_PLUGIN_FILE_OPENER (fo);
 	GOPluginServiceFileOpener *service_file_opener = GO_PLUGIN_SERVICE_FILE_OPENER (pfo->service);
 
 	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
 
-	if (pl == FILE_PROBE_FILE_NAME && service_file_opener->suffixes != NULL) {
+	if (pl == GO_FILE_PROBE_FILE_NAME && service_file_opener->suffixes != NULL) {
 		GSList *ptr;
 		gchar const *extension;
 		gchar *lowercase_extension;

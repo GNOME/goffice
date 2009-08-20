@@ -205,7 +205,7 @@ GSF_CLASS_FULL (GOPluginLoaderModule, go_plugin_loader_module,
 
 typedef struct {
 	gboolean (*module_func_file_probe) (GOFileOpener const *fo, GsfInput *input,
-					    FileProbeLevel pl);
+					    GOFileProbeLevel pl);
 	void (*module_func_file_open) (GOFileOpener const *fo, GOIOContext *io_context,
 				       gpointer FIXME_FIXME_workbook_view,
 				       GsfInput *input);
@@ -213,7 +213,7 @@ typedef struct {
 
 static gboolean
 go_plugin_loader_module_func_file_probe (GOFileOpener const *fo, GOPluginService *service,
-					  GsfInput *input, FileProbeLevel pl)
+					  GsfInput *input, GOFileProbeLevel pl)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 

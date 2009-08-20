@@ -18,10 +18,10 @@ struct _GOFileOpenerClass {
 
 	/* private */
 	gboolean  (*can_probe) (GOFileOpener const *fo,
-				FileProbeLevel pl);
+				GOFileProbeLevel pl);
 	gboolean  (*probe) (GOFileOpener const *fo,
 	                    GsfInput *input,
-	                    FileProbeLevel pl);
+	                    GOFileProbeLevel pl);
 	void      (*open)  (GOFileOpener const *fo,
 			    gchar const *opt_enc,
 	                    GOIOContext *io_context,

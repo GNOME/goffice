@@ -37,7 +37,7 @@ typedef struct {
 	/* plugin_func_file_probe may be NULL */
 	gboolean (*plugin_func_file_probe) (
 	         GOFileOpener const *fo, GOPluginService *service,
-	         GsfInput *input, FileProbeLevel pl);
+	         GsfInput *input, GOFileProbeLevel pl);
 	void     (*plugin_func_file_open) (
 	         GOFileOpener const *fo, GOPluginService *service,
 	         GOIOContext *io_context, gpointer fixme_workbook_view,

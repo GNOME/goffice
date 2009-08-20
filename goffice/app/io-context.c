@@ -248,7 +248,7 @@ go_io_warning_occurred (GOIOContext *context)
 }
 
 void
-io_progress_update (GOIOContext *ioc, gdouble f)
+go_io_progress_update (GOIOContext *ioc, gdouble f)
 {
 	gboolean at_end;
 
@@ -289,7 +289,7 @@ io_progress_update (GOIOContext *ioc, gdouble f)
 }
 
 void
-io_progress_message (GOIOContext *ioc, const gchar *msg)
+go_io_progress_message (GOIOContext *ioc, const gchar *msg)
 {
 	GOCmdContext *cc;
 
@@ -303,7 +303,7 @@ io_progress_message (GOIOContext *ioc, const gchar *msg)
 }
 
 void
-io_progress_range_push (GOIOContext *ioc, gdouble min, gdouble max)
+go_io_progress_range_push (GOIOContext *ioc, gdouble min, gdouble max)
 {
 	ProgressRange *r;
 	gdouble new_min, new_max;
@@ -324,7 +324,7 @@ io_progress_range_push (GOIOContext *ioc, gdouble min, gdouble max)
 }
 
 void
-io_progress_range_pop (GOIOContext *ioc)
+go_io_progress_range_pop (GOIOContext *ioc)
 {
 	GList *l;
 
@@ -352,7 +352,7 @@ io_progress_range_pop (GOIOContext *ioc)
 }
 
 void
-value_io_progress_set (GOIOContext *ioc, gint total, gint step)
+go_io_value_progress_set (GOIOContext *ioc, gint total, gint step)
 {
 	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
 	g_return_if_fail (total >= 0);
@@ -364,7 +364,7 @@ value_io_progress_set (GOIOContext *ioc, gint total, gint step)
 }
 
 void
-value_io_progress_update (GOIOContext *ioc, gint value)
+go_io_value_progress_update (GOIOContext *ioc, gint value)
 {
 	gdouble complete;
 	gint step, total;
@@ -382,11 +382,11 @@ value_io_progress_update (GOIOContext *ioc, gint value)
 	ioc->helper.v.value.last = value;
 
 	complete = (gdouble)value / total;
-	io_progress_update (ioc, complete);
+	go_io_progress_update (ioc, complete);
 }
 
 void
-count_io_progress_set (GOIOContext *ioc, gint total, gint step)
+go_io_count_progress_set (GOIOContext *ioc, gint total, gint step)
 {
 	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
 	g_return_if_fail (total >= 0);
@@ -399,7 +399,7 @@ count_io_progress_set (GOIOContext *ioc, gint total, gint step)
 }
 
 void
-count_io_progress_update (GOIOContext *ioc, gint inc)
+go_io_count_progress_update (GOIOContext *ioc, gint inc)
 {
 	gdouble complete;
 	gint current, step, total;
@@ -417,11 +417,11 @@ count_io_progress_update (GOIOContext *ioc, gint inc)
 	ioc->helper.v.count.last = current;
 
 	complete = (gdouble)current / total;
-	io_progress_update (ioc, complete);
+	go_io_progress_update (ioc, complete);
 }
 
 void
-io_progress_unset (GOIOContext *ioc)
+go_io_progress_unset (GOIOContext *ioc)
 {
 	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
 

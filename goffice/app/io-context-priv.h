@@ -43,7 +43,7 @@ typedef struct {
 	gfloat min, max;
 } ProgressRange;
 
-struct _IOContext {
+struct _GOIOContext {
 	GObject base;
 
 	GOCmdContext	*impl;

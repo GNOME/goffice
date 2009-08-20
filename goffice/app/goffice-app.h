@@ -39,7 +39,7 @@ typedef struct _GOPluginLoader	GOPluginLoader;
 typedef struct _GOErrorInfo		GOErrorInfo;
 typedef struct _GOFileSaver 		GOFileSaver;
 typedef struct _GOFileOpener		GOFileOpener;
-typedef struct _IOContext		GOIOContext;
+typedef struct _GOIOContext		GOIOContext;
 
 /*
  * File probe level tells file opener (its probe method to be exact), how
@@ -48,14 +48,14 @@ typedef struct _IOContext		GOIOContext;
  * "reccomened" behaviour.
  * Before opening any file we detect its type by calling probe for
  * every registered file opener (in order of priority) and passing
- * FILE_PROBE_FILE_NAME as probe level. If none of them recogizes the file,
+ * GO_FILE_PROBE_FILE_NAME as probe level. If none of them recogizes the file,
  * we increase probe level and try again...
  */
 typedef enum {
-	FILE_PROBE_FILE_NAME,	/* Test only file name, don't read file contents */
-	FILE_PROBE_CONTENT,	/* Read the whole file if it's necessary */
-	FILE_PROBE_LAST
-} FileProbeLevel;
+	GO_FILE_PROBE_FILE_NAME,	/* Test only file name, don't read file contents */
+	GO_FILE_PROBE_CONTENT,	/* Read the whole file if it's necessary */
+	GO_FILE_PROBE_LAST
+} GOFileProbeLevel;
 
 G_END_DECLS
 

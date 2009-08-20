@@ -54,14 +54,14 @@ go_file_opener_finalize (GObject *obj)
 }
 
 static gboolean
-go_file_opener_can_probe_real (GOFileOpener const *fo, FileProbeLevel pl)
+go_file_opener_can_probe_real (GOFileOpener const *fo, GOFileProbeLevel pl)
 {
 	return fo->probe_func != NULL;
 }
 
 static gboolean
 go_file_opener_probe_real (GOFileOpener const *fo, GsfInput *input,
-			   FileProbeLevel pl)
+			   GOFileProbeLevel pl)
 {
 	gboolean ret = FALSE;
 
@@ -229,7 +229,7 @@ go_file_opener_is_encoding_dependent (GOFileOpener const *fo)
 }
 
 gboolean
-go_file_opener_can_probe (GOFileOpener const *fo, FileProbeLevel pl)
+go_file_opener_can_probe (GOFileOpener const *fo, GOFileProbeLevel pl)
 {
 	g_return_val_if_fail (GO_IS_FILE_OPENER (fo), FALSE);
 
@@ -254,14 +254,14 @@ go_file_opener_get_mimes (GOFileOpener const *fo)
  * go_file_opener_probe:
  * @fo      : #GOFileOpener
  * @input   : #GsfInput
- * @pl	    : #FileProbeLevel
+ * @pl	    : #GOFileProbeLevel
  *
  * Checks if a given file is supported by the opener.
  *
  * Returns: %TRUE, if the opener can read given file and %FALSE otherwise.
  **/
 gboolean
-go_file_opener_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+go_file_opener_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
 	g_return_val_if_fail (GO_IS_FILE_OPENER (fo), FALSE);
 	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);

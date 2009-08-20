@@ -50,7 +50,7 @@ typedef struct _GOFileOpenerClass GOFileOpenerClass;
 
 typedef gboolean (*GOFileOpenerProbeFunc) (GOFileOpener const *fo,
 					    GsfInput *input,
-					    FileProbeLevel pl);
+					    GOFileProbeLevel pl);
 typedef void     (*GOFileOpenerOpenFunc) (GOFileOpener const *fo,
 					  GOIOContext *io_context,
 					  gpointer FIXME_FIXME_workbook_view,
@@ -79,7 +79,7 @@ GOFileOpener *go_file_opener_new_with_enc (char const *id,
 
 
 gboolean     go_file_opener_probe (GOFileOpener const *fo, GsfInput *input,
-				    FileProbeLevel pl);
+				    GOFileProbeLevel pl);
 void         go_file_opener_open (GOFileOpener const *fo, gchar const *opt_enc,
 				  GOIOContext *io_context,
 				  gpointer FIXME_workbook_view,
@@ -89,7 +89,7 @@ char const *go_file_opener_get_id		  (GOFileOpener const *fo);
 char const *go_file_opener_get_description	  (GOFileOpener const *fo);
 gboolean    go_file_opener_is_encoding_dependent (GOFileOpener const *fo);
 gboolean    go_file_opener_can_probe		  (GOFileOpener const *fo,
-						   FileProbeLevel pl);
+						   GOFileProbeLevel pl);
 GSList const *go_file_opener_get_suffixes	  (GOFileOpener const *fo);
 GSList const *go_file_opener_get_mimes	  	  (GOFileOpener const *fo);
 
