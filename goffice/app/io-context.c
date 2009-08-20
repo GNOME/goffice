@@ -33,7 +33,7 @@ enum {
 };
 
 static void
-io_context_init (IOContext *ioc)
+go_io_context_init (GOIOContext *ioc)
 {
 	ioc->impl = NULL;
 	ioc->info = NULL;
@@ -52,11 +52,11 @@ io_context_init (IOContext *ioc)
 static void
 ioc_finalize (GObject *obj)
 {
-	IOContext *ioc;
+	GOIOContext *ioc;
 
-	g_return_if_fail (IS_IO_CONTEXT (obj));
+	g_return_if_fail (GO_IS_IO_CONTEXT (obj));
 
-	ioc = IO_CONTEXT (obj);
+	ioc = GO_IO_CONTEXT (obj);
 	go_error_info_free (ioc->info);
 	if (ioc->impl) {
 		go_cmd_context_progress_set (ioc->impl, 0.0);
@@ -71,7 +71,7 @@ static void
 io_context_set_property (GObject *obj, guint param_id,
 		       GValue const *value, GParamSpec *pspec)
 {
-	IOContext *ioc = IO_CONTEXT (obj);
+	GOIOContext *ioc = GO_IO_CONTEXT (obj);
 
 	switch (param_id) {
 	case IOC_PROP_EXEC_LOOP:
@@ -86,7 +86,7 @@ static void
 io_context_get_property (GObject *obj, guint param_id,
 		       GValue *value, GParamSpec *pspec)
 {
-	IOContext *ioc = IO_CONTEXT (obj);
+	GOIOContext *ioc = GO_IO_CONTEXT (obj);
 
 	switch (param_id) {
 	case IOC_PROP_EXEC_LOOP:
@@ -100,7 +100,7 @@ io_context_get_property (GObject *obj, guint param_id,
 static char *
 ioc_get_password (GOCmdContext *cc, char const *filename)
 {
-	IOContext *ioc = (IOContext *)cc;
+	GOIOContext *ioc = (GOIOContext *)cc;
 	return go_cmd_context_get_password (ioc->impl, filename);
 }
 
@@ -113,7 +113,7 @@ ioc_set_sensitive (GOCmdContext *cc, gboolean sensitive)
 static void
 ioc_error_error (GOCmdContext *cc, GError *err)
 {
-	gnumeric_io_error_string (IO_CONTEXT (cc), err->message);
+	go_io_error_string (GO_IO_CONTEXT (cc), err->message);
 }
 
 static void
@@ -125,7 +125,7 @@ ioc_error_go_error_info_ (G_GNUC_UNUSED GOCmdContext *ctxt,
 }
 
 void
-gnumeric_io_error_string (IOContext *context, const gchar *str)
+go_io_error_string (GOIOContext *context, const gchar *str)
 {
 	GOErrorInfo *error;
 
@@ -133,11 +133,11 @@ gnumeric_io_error_string (IOContext *context, const gchar *str)
 	g_return_if_fail (str != NULL);
 
 	error = go_error_info_new_str (str);
-	gnumeric_io_go_error_info_set (context, error);
+	go_io_error_info_set (context, error);
 }
 
 static void
-io_context_gnm_cmd_context_init (GOCmdContextClass *cc_class)
+go_io_context_gnm_cmd_context_init (GOCmdContextClass *cc_class)
 {
 	cc_class->get_password	   = ioc_get_password;
 	cc_class->set_sensitive	   = ioc_set_sensitive;
@@ -146,7 +146,7 @@ io_context_gnm_cmd_context_init (GOCmdContextClass *cc_class)
 }
 
 static void
-io_context_class_init (GObjectClass *klass)
+go_io_context_class_init (GObjectClass *klass)
 {
 	klass->finalize = ioc_finalize;
 	klass->set_property = io_context_set_property;
@@ -157,19 +157,19 @@ io_context_class_init (GObjectClass *klass)
 			TRUE, G_PARAM_READWRITE));
 }
 
-GSF_CLASS_FULL (IOContext, io_context,
-		NULL, NULL, io_context_class_init, NULL,
-		io_context_init, G_TYPE_OBJECT, 0,
-		GSF_INTERFACE (io_context_gnm_cmd_context_init, GO_TYPE_CMD_CONTEXT))
+GSF_CLASS_FULL (GOIOContext, go_io_context,
+		NULL, NULL, go_io_context_class_init, NULL,
+		go_io_context_init, G_TYPE_OBJECT, 0,
+		GSF_INTERFACE (go_io_context_gnm_cmd_context_init, GO_TYPE_CMD_CONTEXT))
 
-IOContext *
-gnumeric_io_context_new (GOCmdContext *cc)
+GOIOContext *
+go_io_context_new (GOCmdContext *cc)
 {
-	IOContext *ioc;
+	GOIOContext *ioc;
 
 	g_return_val_if_fail (GO_IS_CMD_CONTEXT (cc), NULL);
 
-	ioc = g_object_new (TYPE_IO_CONTEXT, NULL);
+	ioc = g_object_new (GO_TYPE_IO_CONTEXT, NULL);
 	/* The cc is optional for subclasses, but mandatory in this class. */
 	ioc->impl = cc;
 	g_object_ref (G_OBJECT (ioc->impl));
@@ -178,7 +178,7 @@ gnumeric_io_context_new (GOCmdContext *cc)
 }
 
 void
-gnumeric_io_error_unknown (IOContext *context)
+go_io_error_unknown (GOIOContext *context)
 {
 	g_return_if_fail (context != NULL);
 
@@ -186,7 +186,7 @@ gnumeric_io_error_unknown (IOContext *context)
 }
 
 void
-gnumeric_io_go_error_info_set (IOContext *context, GOErrorInfo *error)
+go_io_error_info_set (GOIOContext *context, GOErrorInfo *error)
 {
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (error != NULL);
@@ -198,7 +198,7 @@ gnumeric_io_go_error_info_set (IOContext *context, GOErrorInfo *error)
 }
 
 void
-gnumeric_io_error_push (IOContext *context, GOErrorInfo *error)
+go_io_error_push (GOIOContext *context, GOErrorInfo *error)
 {
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (error != NULL);
@@ -208,7 +208,7 @@ gnumeric_io_error_push (IOContext *context, GOErrorInfo *error)
 }
 
 void
-gnumeric_io_error_display (IOContext *context)
+go_io_error_display (GOIOContext *context)
 {
 	GOCmdContext *cc;
 
@@ -223,9 +223,9 @@ gnumeric_io_error_display (IOContext *context)
 	}
 }
 
-/* TODO: Rename to gnumeric_io_info_clear */
+/* TODO: Rename to go_io_info_clear */
 void
-gnumeric_io_error_clear (IOContext *context)
+go_io_error_clear (GOIOContext *context)
 {
 	g_return_if_fail (context != NULL);
 
@@ -236,23 +236,23 @@ gnumeric_io_error_clear (IOContext *context)
 }
 
 gboolean
-gnumeric_io_error_occurred (IOContext *context)
+go_io_error_occurred (GOIOContext *context)
 {
 	return context->error_occurred;
 }
 
 gboolean
-gnumeric_io_warning_occurred (IOContext *context)
+go_io_warning_occurred (GOIOContext *context)
 {
 	return context->warning_occurred;
 }
 
 void
-io_progress_update (IOContext *ioc, gdouble f)
+io_progress_update (GOIOContext *ioc, gdouble f)
 {
 	gboolean at_end;
 
-	g_return_if_fail (IS_IO_CONTEXT (ioc));
+	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
 
 	if (ioc->progress_ranges != NULL) {
 		f = f * (ioc->progress_max - ioc->progress_min)
@@ -289,11 +289,11 @@ io_progress_update (IOContext *ioc, gdouble f)
 }
 
 void
-io_progress_message (IOContext *ioc, const gchar *msg)
+io_progress_message (GOIOContext *ioc, const gchar *msg)
 {
 	GOCmdContext *cc;
 
-	g_return_if_fail (IS_IO_CONTEXT (ioc));
+	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
 
 	if (ioc->impl)
 		cc = ioc->impl;
@@ -303,12 +303,12 @@ io_progress_message (IOContext *ioc, const gchar *msg)
 }
 
 void
-io_progress_range_push (IOContext *ioc, gdouble min, gdouble max)
+io_progress_range_push (GOIOContext *ioc, gdouble min, gdouble max)
 {
 	ProgressRange *r;
 	gdouble new_min, new_max;
 
-	g_return_if_fail (IS_IO_CONTEXT (ioc));
+	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
 
 	r = g_new (ProgressRange, 1);
 	r->min = min;
@@ -324,11 +324,11 @@ io_progress_range_push (IOContext *ioc, gdouble min, gdouble max)
 }
 
 void
-io_progress_range_pop (IOContext *ioc)
+io_progress_range_pop (GOIOContext *ioc)
 {
 	GList *l;
 
-	g_return_if_fail (IS_IO_CONTEXT (ioc));
+	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
 	g_return_if_fail (ioc->progress_ranges != NULL);
 
 	l = g_list_last (ioc->progress_ranges);
@@ -352,9 +352,9 @@ io_progress_range_pop (IOContext *ioc)
 }
 
 void
-value_io_progress_set (IOContext *ioc, gint total, gint step)
+value_io_progress_set (GOIOContext *ioc, gint total, gint step)
 {
-	g_return_if_fail (IS_IO_CONTEXT (ioc));
+	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
 	g_return_if_fail (total >= 0);
 
 	ioc->helper.helper_type = GO_PROGRESS_HELPER_VALUE;
@@ -364,12 +364,12 @@ value_io_progress_set (IOContext *ioc, gint total, gint step)
 }
 
 void
-value_io_progress_update (IOContext *ioc, gint value)
+value_io_progress_update (GOIOContext *ioc, gint value)
 {
 	gdouble complete;
 	gint step, total;
 
-	g_return_if_fail (IS_IO_CONTEXT (ioc));
+	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
 	g_return_if_fail (ioc->helper.helper_type == GO_PROGRESS_HELPER_VALUE);
 
 	total = ioc->helper.v.value.total;
@@ -386,9 +386,9 @@ value_io_progress_update (IOContext *ioc, gint value)
 }
 
 void
-count_io_progress_set (IOContext *ioc, gint total, gint step)
+count_io_progress_set (GOIOContext *ioc, gint total, gint step)
 {
-	g_return_if_fail (IS_IO_CONTEXT (ioc));
+	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
 	g_return_if_fail (total >= 0);
 
 	ioc->helper.helper_type = GO_PROGRESS_HELPER_COUNT;
@@ -399,12 +399,12 @@ count_io_progress_set (IOContext *ioc, gint total, gint step)
 }
 
 void
-count_io_progress_update (IOContext *ioc, gint inc)
+count_io_progress_update (GOIOContext *ioc, gint inc)
 {
 	gdouble complete;
 	gint current, step, total;
 
-	g_return_if_fail (IS_IO_CONTEXT (ioc));
+	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
 	g_return_if_fail (ioc->helper.helper_type == GO_PROGRESS_HELPER_COUNT);
 
 	current = (ioc->helper.v.count.current += inc);
@@ -421,32 +421,32 @@ count_io_progress_update (IOContext *ioc, gint inc)
 }
 
 void
-io_progress_unset (IOContext *ioc)
+io_progress_unset (GOIOContext *ioc)
 {
-	g_return_if_fail (IS_IO_CONTEXT (ioc));
+	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
 
 	ioc->helper.helper_type = GO_PROGRESS_HELPER_NONE;
 }
 
 void
-gnm_io_context_set_num_files (IOContext *ioc, guint count)
+go_io_context_set_num_files (GOIOContext *ioc, guint count)
 {
-	IOContextClass *klass = IOC_CLASS(ioc);
+	GOIOContextClass *klass = IOC_CLASS(ioc);
 	g_return_if_fail (klass != NULL);
 	if (klass->set_num_files != NULL)
 		klass->set_num_files (ioc, count);
 }
 
 /**
- * gnm_io_context_processing_file :
- * @ioc : #IOContext
+ * go_io_context_processing_file :
+ * @ioc : #GOIOContext
  * @uri : An escaped uri (eg foo%20bar)
  **/
 void
-gnm_io_context_processing_file (IOContext *ioc, char const *uri)
+go_io_context_processing_file (GOIOContext *ioc, char const *uri)
 {
 	char *basename;
-	IOContextClass *klass = IOC_CLASS(ioc);
+	GOIOContextClass *klass = IOC_CLASS(ioc);
 
 	g_return_if_fail (klass != NULL);
 
@@ -457,40 +457,40 @@ gnm_io_context_processing_file (IOContext *ioc, char const *uri)
 }
 
 void
-gnm_io_warning (G_GNUC_UNUSED IOContext *context,
+go_io_warning (G_GNUC_UNUSED GOIOContext *context,
 		char const *fmt, ...)
 {
 	va_list args;
 
 	va_start (args, fmt);
-	gnm_io_warning_varargs (context, fmt, args);
+	go_io_warning_varargs (context, fmt, args);
 	va_end (args);
 }
 
 void
-gnm_io_warning_varargs (IOContext *context, char const *fmt, va_list args)
+go_io_warning_varargs (GOIOContext *context, char const *fmt, va_list args)
 {
 	context->info = go_error_info_new_vprintf (GO_WARNING, fmt, args);
 	context->warning_occurred = TRUE;
 }
 
 void
-gnm_io_warning_unknown_font (IOContext *context,
+go_io_warning_unknown_font (GOIOContext *context,
 			     G_GNUC_UNUSED char const *font_name)
 {
-	g_return_if_fail (IS_IO_CONTEXT (context));
+	g_return_if_fail (GO_IS_IO_CONTEXT (context));
 }
 
 void
-gnm_io_warning_unknown_function	(IOContext *context,
+go_io_warning_unknown_function	(GOIOContext *context,
 				 G_GNUC_UNUSED char const *funct_name)
 {
-	g_return_if_fail (IS_IO_CONTEXT (context));
+	g_return_if_fail (GO_IS_IO_CONTEXT (context));
 }
 
 void
-gnm_io_warning_unsupported_feature (IOContext *context, char const *feature)
+go_io_warning_unsupported_feature (GOIOContext *context, char const *feature)
 {
-	g_return_if_fail (IS_IO_CONTEXT (context));
+	g_return_if_fail (GO_IS_IO_CONTEXT (context));
 	g_warning ("%s : are not supported yet", feature);
 }

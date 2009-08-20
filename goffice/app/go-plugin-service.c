@@ -453,7 +453,7 @@ go_plugin_file_opener_probe (GOFileOpener const *fo, GsfInput *input,
 
 static void
 go_plugin_file_opener_open (GOFileOpener const *fo, gchar const *unused_enc,
-			     IOContext *io_context,
+			     GOIOContext *io_context,
 			     gpointer FIXME_FIXME_workbook_view,
 			     GsfInput *input)
 
@@ -466,8 +466,8 @@ go_plugin_file_opener_open (GOFileOpener const *fo, gchar const *unused_enc,
 
 	plugin_service_load (pfo->service, &error);
 	if (error != NULL) {
-		gnumeric_io_go_error_info_set (io_context, error);
-		gnumeric_io_error_push (io_context, go_error_info_new_str (
+		go_io_error_info_set (io_context, error);
+		go_io_error_push (io_context, go_error_info_new_str (
 		                        _("Error while reading file.")));
 		return;
 	}
@@ -725,7 +725,7 @@ go_plugin_file_saver_init (GOPluginFileSaver *fs)
 }
 
 static void
-go_plugin_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
+go_plugin_file_saver_save (GOFileSaver const *fs, GOIOContext *io_context,
 			    gconstpointer FIXME_FIXME_workbook_view,
 			    GsfOutput *output)
 {
@@ -737,8 +737,8 @@ go_plugin_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 
 	plugin_service_load (pfs->service, &error);
 	if (error != NULL) {
-		gnumeric_io_go_error_info_set (io_context, error);
-		gnumeric_io_error_push (io_context, go_error_info_new_str (
+		go_io_error_info_set (io_context, error);
+		go_io_error_push (io_context, go_error_info_new_str (
 		                        _("Error while loading plugin for saving.")));
 		if (!gsf_output_error (output))
 			gsf_output_set_error (output, 0, _("Failed to load plugin for saving"));

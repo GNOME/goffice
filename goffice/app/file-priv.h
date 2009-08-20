@@ -24,7 +24,7 @@ struct _GOFileOpenerClass {
 	                    FileProbeLevel pl);
 	void      (*open)  (GOFileOpener const *fo,
 			    gchar const *opt_enc,
-	                    IOContext *io_context,
+	                    GOIOContext *io_context,
 	                    gpointer  fixme_fixme_workbook_view,
 	                    GsfInput *input);
 };
@@ -64,7 +64,7 @@ struct _GOFileSaverClass {
 
 	/* private */
 	void (*save) (GOFileSaver const *fs,
-	              IOContext *io_context,
+	              GOIOContext *io_context,
 	              gconstpointer wbv,
 	              GsfOutput *output);
 

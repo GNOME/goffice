@@ -39,7 +39,7 @@ typedef struct _GOPluginLoader	GOPluginLoader;
 typedef struct _GOErrorInfo		GOErrorInfo;
 typedef struct _GOFileSaver 		GOFileSaver;
 typedef struct _GOFileOpener		GOFileOpener;
-typedef struct _IOContext		IOContext;
+typedef struct _IOContext		GOIOContext;
 
 /*
  * File probe level tells file opener (its probe method to be exact), how

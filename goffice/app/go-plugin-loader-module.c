@@ -206,7 +206,7 @@ GSF_CLASS_FULL (GOPluginLoaderModule, go_plugin_loader_module,
 typedef struct {
 	gboolean (*module_func_file_probe) (GOFileOpener const *fo, GsfInput *input,
 					    FileProbeLevel pl);
-	void (*module_func_file_open) (GOFileOpener const *fo, IOContext *io_context,
+	void (*module_func_file_open) (GOFileOpener const *fo, GOIOContext *io_context,
 				       gpointer FIXME_FIXME_workbook_view,
 				       GsfInput *input);
 } ServiceLoaderDataFileOpener;
@@ -226,7 +226,7 @@ go_plugin_loader_module_func_file_probe (GOFileOpener const *fo, GOPluginService
 
 static void
 go_plugin_loader_module_func_file_open (GOFileOpener const *fo, GOPluginService *service,
-					 IOContext *io_context,
+					 GOIOContext *io_context,
 					 gpointer   FIXME_FIXME_workbook_view,
 					 GsfInput  *input)
 {
@@ -303,14 +303,14 @@ go_plugin_loader_module_load_service_file_opener (GOPluginLoader *loader,
  */
 
 typedef struct {
-	void (*module_func_file_save) (GOFileSaver const *fs, IOContext *io_context,
+	void (*module_func_file_save) (GOFileSaver const *fs, GOIOContext *io_context,
 				       gconstpointer FIXME_FIXME_workbook_view,
 				       GsfOutput *output);
 } ServiceLoaderDataFileSaver;
 
 static void
 go_plugin_loader_module_func_file_save (GOFileSaver const *fs, GOPluginService *service,
-					 IOContext *io_context,
+					 GOIOContext *io_context,
 					 gconstpointer FIXME_FIXME_workbook_view,
 					 GsfOutput *output)
 {

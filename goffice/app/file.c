@@ -74,7 +74,7 @@ go_file_opener_probe_real (GOFileOpener const *fo, GsfInput *input,
 
 static void
 go_file_opener_open_real (GOFileOpener const *fo, gchar const *opt_enc,
-			  IOContext *io_context,
+			  GOIOContext *io_context,
 			  gpointer FIXME_workbook_view,
 			  GsfInput *input)
 {
@@ -87,7 +87,7 @@ go_file_opener_open_real (GOFileOpener const *fo, gchar const *opt_enc,
 			fo->open_func (fo, io_context,
 				       FIXME_workbook_view, input);
 	} else
-		gnumeric_io_error_unknown (io_context);
+		go_io_error_unknown (io_context);
 }
 
 static void
@@ -284,13 +284,13 @@ go_file_opener_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl
  *
  * Reads content of @file_name file into workbook @wbv is attached to.
  * Results are reported using @io_context object, use
- * gnumeric_io_error_occurred to find out if operation was successful.
+ * go_io_error_occurred to find out if operation was successful.
  * The state of @wbv and its workbook is undefined if operation fails, you
  * should destroy them in that case.
  */
 void
 go_file_opener_open (GOFileOpener const *fo, gchar const *opt_enc,
-		     IOContext *io_context,
+		     GOIOContext *io_context,
 		     gpointer FIXME_workbook_view, GsfInput *input)
 {
 	g_return_if_fail (GO_IS_FILE_OPENER (fo));
@@ -432,11 +432,11 @@ go_file_saver_get_property (GObject *object, guint property_id,
 }
 
 static void
-go_file_saver_save_real (GOFileSaver const *fs, IOContext *io_context,
+go_file_saver_save_real (GOFileSaver const *fs, GOIOContext *io_context,
 			 gconstpointer FIXME_workbook_view, GsfOutput *output)
 {
 	if (fs->save_func == NULL) {
-		gnumeric_io_error_unknown (io_context);
+		go_io_error_unknown (io_context);
 		return;
 	}
 
@@ -657,12 +657,12 @@ go_file_saver_set_export_options (GOFileSaver *fs,
  *
  * Saves @wbv and the workbook it is attached to into @output stream.
  * Results are reported using @io_context object, use
- * gnumeric_io_error_occurred to find out if operation was successful.
+ * go_io_error_occurred to find out if operation was successful.
  * It's possible that @file_name is created and contain some data if
  * operation fails, you should remove the file in that case.
  */
 void
-go_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
+go_file_saver_save (GOFileSaver const *fs, GOIOContext *io_context,
 		    gconstpointer FIXME_workbook_view,
 		    GsfOutput *output)
 {
@@ -695,7 +695,7 @@ go_file_saver_save (GOFileSaver const *fs, IOContext *io_context,
 				msg,
 				go_error_info_new_str (
 					_("You can turn this safety feature off by editing appropriate plugin.xml file.")));
-			gnumeric_io_go_error_info_set (io_context, save_error);
+			go_io_error_info_set (io_context, save_error);
 			return;
 		}
 

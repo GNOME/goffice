@@ -7,8 +7,8 @@
 
 G_BEGIN_DECLS
 
-#define IO_CONTEXT_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_IO_CONTEXT, IOContextClass))
-#define IS_IO_CONTEXT_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_IO_CONTEXT))
+#define IO_CONTEXT_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_IO_CONTEXT, GOIOContextClass))
+#define GO_IS_IO_CONTEXT_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), GO_TYPE_IO_CONTEXT))
 
 typedef enum {
 	GO_PROGRESS_HELPER_NONE,
@@ -59,10 +59,10 @@ struct _IOContext {
 	gboolean exec_main_loop;
 };
 
-struct _IOContextClass {
+struct _GOIOContextClass {
 	GObjectClass base;
-	void  (*set_num_files)   (IOContext *ioc, guint count);
-	void  (*processing_file) (IOContext *ioc, char const *name);
+	void  (*set_num_files)   (GOIOContext *ioc, guint count);
+	void  (*processing_file) (GOIOContext *ioc, char const *name);
 };
 
 G_END_DECLS

@@ -47,16 +47,16 @@ void		 go_doc_update_meta_data (GODoc *doc);
 #if 0
 GODoc   *go_doc_new_from_input  (GsfInput *input,
 				 GODocImporter const *fmt,
-				 GOIOContext *context,
+				 XXXGOIOContext *context,
 				 gchar const *encoding);
 GODoc   *go_doc_new_from_uri	(char const *uri,
 				 GnmFileOpener const *fmt,
-				 GOIOContext *context, 
+				 XXXGOIOContext *context, 
 				 gchar const *encoding);
-gboolean go_doc_save		(GODoc *doc, GOIOContext *context);
+gboolean go_doc_save		(GODoc *doc, XXXGOIOContext *context);
 gboolean go_doc_save_as		(GODoc *doc, GODocExporter *fmt, char const *uri,
-				 GOIOContext *cc);
-gboolean go_doc_sendto		(GODoc *doc, GOIOContext *cc);
+				 XXXGOIOContext *cc);
+gboolean go_doc_sendto		(GODoc *doc, XXXGOIOContext *cc);
 #endif
 
 /* put into GODoc (as properties) */
