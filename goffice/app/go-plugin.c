@@ -578,7 +578,7 @@ get_loader_type_by_id (gchar const *id_str, GOErrorInfo **ret_error)
 		             id_str);
 		return G_TYPE_NONE;
 	}
-	loader_type = plugin_service_plugin_loader_generate_type (
+	loader_type = go_plugin_service_plugin_loader_generate_type (
 	              loader_service, &error);
 	if (error != NULL) {
 		*ret_error = go_error_info_new_printf (
@@ -651,7 +651,7 @@ go_plugin_read_service_list (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_
 			GOPluginService *service;
 			GOErrorInfo *service_error;
 
-			service = plugin_service_new (plugin, node, &service_error);
+			service = go_plugin_service_new (plugin, node, &service_error);
 
 			if (service != NULL) {
 				g_assert (service_error == NULL);
@@ -973,7 +973,7 @@ go_plugin_activate (GOPlugin *plugin, GOErrorInfo **ret_error)
 		GOPluginService *service = l->data;
 		GOErrorInfo *service_error;
 
-		plugin_service_activate (service, &service_error);
+		go_plugin_service_activate (service, &service_error);
 		if (service_error != NULL) {
 			GOErrorInfo *error;
 
@@ -1026,7 +1026,7 @@ go_plugin_deactivate (GOPlugin *plugin, GOErrorInfo **ret_error)
 		GOPluginService *service = l->data;
 		GOErrorInfo *service_error;
 
-		plugin_service_deactivate (service, &service_error);
+		go_plugin_service_deactivate (service, &service_error);
 		if (service_error != NULL) {
 			GOErrorInfo *error;
 

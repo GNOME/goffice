@@ -45,8 +45,8 @@ static GSList *refd_plugins;
 
 static GType gog_plot_engine_service_get_type (void);
 
-typedef PluginServiceGObjectLoader	GogPlotEngineService;
-typedef PluginServiceGObjectLoaderClass GogPlotEngineServiceClass;
+typedef GOPluginServiceGObjectLoader	GogPlotEngineService;
+typedef GOPluginServiceGObjectLoaderClass GogPlotEngineServiceClass;
 
 static GHashTable *pending_engines = NULL;
 
@@ -57,7 +57,7 @@ gog_plot_engine_service_get_description (GOPluginService *service)
 }
 
 static void
-gog_plot_engine_service_class_init (PluginServiceGObjectLoaderClass *gobj_loader_class)
+gog_plot_engine_service_class_init (GOPluginServiceGObjectLoaderClass *gobj_loader_class)
 {
 	GOPluginServiceClass *ps_class = GPS_CLASS (gobj_loader_class);
 
@@ -89,7 +89,7 @@ gog_plot_new_by_name (char const *id)
 
 		g_return_val_if_fail (!service->is_loaded, NULL);
 
-		plugin_service_load (service, &err);
+		go_plugin_service_load (service, &err);
 		type = g_type_from_name (id);
 
 		if (err != NULL) {
@@ -102,7 +102,7 @@ gog_plot_new_by_name (char const *id)
 		/*
 		 * The plugin defined a gtype so it must not be unloaded.
 		 */
-		plugin = plugin_service_get_plugin (service);
+		plugin = go_plugin_service_get_plugin (service);
 		refd_plugins = g_slist_prepend (refd_plugins, plugin);
 		g_object_ref (plugin);
 		go_plugin_use_ref (plugin);
@@ -121,13 +121,13 @@ gog_plot_new_by_name (char const *id)
 GType gog_plot_type_service_get_type (void);
 
 typedef struct {
-	PluginServiceSimple	base;
+	GOPluginServiceSimple	base;
 
 	GSList	*families, *types, *paths;
 } GogPlotTypeService;
 
 typedef struct{
-	PluginServiceSimpleClass	base;
+	GOPluginServiceSimpleClass	base;
 } GogPlotTypeServiceClass;
 
 static GHashTable *pending_plot_type_files = NULL;
@@ -241,7 +241,7 @@ gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, GOError
 		    NULL != (path = xmlNodeGetContent (ptr))) {
 			if (!g_path_is_absolute (path)) {
 				char const *dir = go_plugin_get_dir_name (
-					plugin_service_get_plugin (service));
+					go_plugin_service_get_plugin (service));
 				char *tmp = g_build_filename (dir, path, NULL);
 				g_free (path);
 				path = tmp;
@@ -362,8 +362,8 @@ GSF_CLASS (GogPlotTypeService, gog_plot_type_service,
 
 GType gog_theme_service_get_type (void);
 
-typedef PluginServiceSimple GogThemeService;
-typedef PluginServiceSimpleClass GogThemeServiceClass;
+typedef GOPluginServiceSimple GogThemeService;
+typedef GOPluginServiceSimpleClass GogThemeServiceClass;
 
 static void
 gog_theme_service_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
@@ -377,12 +377,12 @@ gog_theme_service_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo
 		    NULL != (path = xmlNodeGetContent (ptr))) {
 			if (!g_path_is_absolute (path)) {
 				char const *dir = go_plugin_get_dir_name (
-					plugin_service_get_plugin (service));
+					go_plugin_service_get_plugin (service));
 				char *tmp = g_build_filename (dir, path, NULL);
 				g_free (path);
 				path = tmp;
 			}
-			theme = gog_theme_new_from_file (plugin_service_get_description (service),
+			theme = gog_theme_new_from_file (go_plugin_service_get_description (service),
 							 path);
 			gog_theme_registry_add (theme, FALSE);	
 		}
@@ -414,8 +414,8 @@ GSF_CLASS (GogThemeService, gog_theme_service,
 
 static GType gog_trend_line_engine_service_get_type (void);
 
-typedef PluginServiceGObjectLoader	GogTrendLineEngineService;
-typedef PluginServiceGObjectLoaderClass GogTrendLineEngineServiceClass;
+typedef GOPluginServiceGObjectLoader	GogTrendLineEngineService;
+typedef GOPluginServiceGObjectLoaderClass GogTrendLineEngineServiceClass;
 
 static GHashTable *pending_trend_lines_engines = NULL;
 
@@ -426,7 +426,7 @@ gog_trend_line_engine_service_get_description (GOPluginService *service)
 }
 
 static void
-gog_trend_line_engine_service_class_init (PluginServiceGObjectLoaderClass *gobj_loader_class)
+gog_trend_line_engine_service_class_init (GOPluginServiceGObjectLoaderClass *gobj_loader_class)
 {
 	GOPluginServiceClass *ps_class = GPS_CLASS (gobj_loader_class);
 
@@ -458,7 +458,7 @@ gog_trend_line_new_by_name (char const *id)
 
 		g_return_val_if_fail (!service->is_loaded, NULL);
 
-		plugin_service_load (service, &err);
+		go_plugin_service_load (service, &err);
 		type = g_type_from_name (id);
 
 		if (err != NULL) {
@@ -471,7 +471,7 @@ gog_trend_line_new_by_name (char const *id)
 		/*
 		 * The plugin defined a gtype so it must not be unloaded.
 		 */
-		plugin = plugin_service_get_plugin (service);
+		plugin = go_plugin_service_get_plugin (service);
 		refd_plugins = g_slist_prepend (refd_plugins, plugin);
 		g_object_ref (plugin);
 		go_plugin_use_ref (plugin);
@@ -489,11 +489,11 @@ gog_trend_line_new_by_name (char const *id)
 GType gog_trend_line_service_get_type (void);
 
 typedef struct {
-	PluginServiceSimple	base;
+	GOPluginServiceSimple	base;
 
 	GSList	*types, *paths;
 } GogTrendLineService;
-typedef PluginServiceSimpleClass GogTrendLineServiceClass;
+typedef GOPluginServiceSimpleClass GogTrendLineServiceClass;
 
 static GHashTable *pending_trend_line_type_files = NULL;
 static GHashTable *trend_line_types = NULL;
@@ -562,7 +562,7 @@ gog_trend_line_service_read_xml (GOPluginService *service, xmlNode *tree, GOErro
 		    NULL != (path = xmlNodeGetContent (ptr))) {
 			if (!g_path_is_absolute (path)) {
 				char const *dir = go_plugin_get_dir_name (
-					plugin_service_get_plugin (service));
+					go_plugin_service_get_plugin (service));
 				char *tmp = g_build_filename (dir, path, NULL);
 				g_free (path);
 				path = tmp;
@@ -663,11 +663,11 @@ GSF_CLASS (GogTrendLineService, gog_trend_line_service,
 void
 gog_plugin_services_init (void)
 {
-	plugin_service_define ("plot_engine", &gog_plot_engine_service_get_type);
-	plugin_service_define ("plot_type",   &gog_plot_type_service_get_type);
-	plugin_service_define ("chart_theme",  &gog_theme_service_get_type);
-	plugin_service_define ("trendline_engine", &gog_trend_line_engine_service_get_type);
-	plugin_service_define ("trendline_type", &gog_trend_line_service_get_type);
+	go_plugin_service_define ("plot_engine", &gog_plot_engine_service_get_type);
+	go_plugin_service_define ("plot_type",   &gog_plot_type_service_get_type);
+	go_plugin_service_define ("chart_theme",  &gog_theme_service_get_type);
+	go_plugin_service_define ("trendline_engine", &gog_trend_line_engine_service_get_type);
+	go_plugin_service_define ("trendline_type", &gog_trend_line_service_get_type);
 }
 
 void

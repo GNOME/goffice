@@ -164,7 +164,7 @@ go_file_opener_new (gchar const *id,
 {
 	GOFileOpener *fo;
 
-	fo = GO_FILE_OPENER (g_object_new (TYPE_GO_FILE_OPENER, NULL));
+	fo = GO_FILE_OPENER (g_object_new (GO_TYPE_FILE_OPENER, NULL));
 	go_file_opener_setup (fo, id, description, suffixes, mimes, FALSE,
 			      probe_func, open_func);
 
@@ -195,7 +195,7 @@ go_file_opener_new_with_enc (gchar const *id,
 {
         GOFileOpener *fo;
 
-        fo = GO_FILE_OPENER (g_object_new (TYPE_GO_FILE_OPENER, NULL));
+        fo = GO_FILE_OPENER (g_object_new (GO_TYPE_FILE_OPENER, NULL));
         go_file_opener_setup (fo, id, description, suffixes, mimes, TRUE,
 			      probe_func, (GOFileOpenerOpenFunc)open_func);
         return fo;
@@ -312,8 +312,8 @@ go_file_saver_init (GOFileSaver *fs)
 	fs->mime_type = NULL;
 	fs->description = NULL;
 	fs->overwrite_files = TRUE;
-	fs->format_level = FILE_FL_NEW;
-	fs->save_scope = FILE_SAVE_WORKBOOK;
+	fs->format_level = GO_FILE_FL_NEW;
+	fs->save_scope = GO_FILE_SAVE_WORKBOOK;
 	fs->save_func = NULL;
 }
 
@@ -511,7 +511,7 @@ go_file_saver_class_init (GOFileSaverClass *klass)
 				    _("Format Level"),
 				    _(""),
 				    GO_TYPE_FILE_SAVER_LEVEL,
-				    FILE_FL_NEW,
+				    GO_FILE_FL_NEW,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
 
@@ -522,7 +522,7 @@ go_file_saver_class_init (GOFileSaverClass *klass)
 				    _("Scope"),
 				    _("How much of a document is saved"),
 				    GO_TYPE_FILE_SAVER_SCOPE,
-				    FILE_SAVE_WORKBOOK,
+				    GO_FILE_SAVE_WORKBOOK,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
 
@@ -562,12 +562,12 @@ GOFileSaver *
 go_file_saver_new (gchar const *id,
 		   gchar const *extension,
 		   gchar const *description,
-		   FileFormatLevel level,
+		   GOFileFormatLevel level,
 		   GOFileSaverSaveFunc save_func)
 {
 	GOFileSaver *fs;
 
-	fs = GO_FILE_SAVER (g_object_new (TYPE_GO_FILE_SAVER,
+	fs = GO_FILE_SAVER (g_object_new (GO_TYPE_FILE_SAVER,
 					  "id", id,
 					  "extension", extension,
 					  "description", description,
@@ -579,18 +579,18 @@ go_file_saver_new (gchar const *id,
 }
 
 void
-go_file_saver_set_save_scope (GOFileSaver *fs, FileSaveScope scope)
+go_file_saver_set_save_scope (GOFileSaver *fs, GOFileSaveScope scope)
 {
 	g_return_if_fail (GO_IS_FILE_SAVER (fs));
-	g_return_if_fail (scope < FILE_SAVE_LAST);
+	g_return_if_fail (scope < GO_FILE_SAVE_LAST);
 
 	fs->save_scope = scope;
 }
 
-FileSaveScope
+GOFileSaveScope
 go_file_saver_get_save_scope (GOFileSaver const *fs)
 {
-	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), FILE_SAVE_WORKBOOK);
+	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), GO_FILE_SAVE_WORKBOOK);
 
 	return fs->save_scope;
 }
@@ -627,10 +627,10 @@ go_file_saver_get_description (GOFileSaver const *fs)
 	return fs->description;
 }
 
-FileFormatLevel
+GOFileFormatLevel
 go_file_saver_get_format_level (GOFileSaver const *fs)
 {
-	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), FILE_FL_NEW);
+	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), GO_FILE_FL_NEW);
 
 	return fs->format_level;
 }
@@ -730,12 +730,12 @@ go_file_saver_level_get_type (void)
 	static GType etype = 0;
 	if (etype == 0) {
 		static GEnumValue values[] = {
-			{ FILE_FL_NONE, (char*)"GO_FILE_SAVER_LEVEL_NONE", (char*)"none" },
-			{ FILE_FL_WRITE_ONLY, (char*)"GO_FILE_SAVER_LEVEL_WRITE_ONLY", (char*)"write_only" },
-			{ FILE_FL_NEW, (char*)"GO_FILE_SAVER_LEVEL_NEW", (char*)"new" },
-			{ FILE_FL_MANUAL, (char*)"GO_FILE_SAVER_LEVEL_MANUAL", (char*)"manual" },
-			{ FILE_FL_MANUAL_REMEMBER, (char*)"GO_FILE_SAVER_LEVEL_MANUAL_REMEMBER", (char*)"manual_remember" },
-			{ FILE_FL_AUTO, (char*)"GO_FILE_SAVER_LEVEL_AUTO", (char*)"auto" },
+			{ GO_FILE_FL_NONE, (char*)"GO_FILE_SAVER_LEVEL_NONE", (char*)"none" },
+			{ GO_FILE_FL_WRITE_ONLY, (char*)"GO_FILE_SAVER_LEVEL_WRITE_ONLY", (char*)"write_only" },
+			{ GO_FILE_FL_NEW, (char*)"GO_FILE_SAVER_LEVEL_NEW", (char*)"new" },
+			{ GO_FILE_FL_MANUAL, (char*)"GO_FILE_SAVER_LEVEL_MANUAL", (char*)"manual" },
+			{ GO_FILE_FL_MANUAL_REMEMBER, (char*)"GO_FILE_SAVER_LEVEL_MANUAL_REMEMBER", (char*)"manual_remember" },
+			{ GO_FILE_FL_AUTO, (char*)"GO_FILE_SAVER_LEVEL_AUTO", (char*)"auto" },
 			{ 0, NULL, NULL }
 		};
 		etype = g_enum_register_static ("GOFileSaverLevel", values);
@@ -749,9 +749,9 @@ go_file_saver_scope_get_type (void)
 	static GType etype = 0;
 	if (etype == 0) {
 		static GEnumValue values[] = {
-			{ FILE_SAVE_WORKBOOK, (char*)"GO_FILE_SAVER_SCOPE_WORKBOOK", (char*)"workbook" },
-			{ FILE_SAVE_SHEET, (char*)"GO_FILE_SAVER_SCOPE_SHEET", (char*)"sheet" },
-			{ FILE_SAVE_RANGE, (char*)"GO_FILE_SAVER_SCOPE_RANGE", (char*)"range" },
+			{ GO_FILE_SAVE_WORKBOOK, (char*)"GO_FILE_SAVER_SCOPE_WORKBOOK", (char*)"workbook" },
+			{ GO_FILE_SAVE_SHEET, (char*)"GO_FILE_SAVER_SCOPE_SHEET", (char*)"sheet" },
+			{ GO_FILE_SAVE_RANGE, (char*)"GO_FILE_SAVER_SCOPE_RANGE", (char*)"range" },
 			{ 0, NULL, NULL }
 		};
 		etype = g_enum_register_static ("GOFileSaverScope", values);

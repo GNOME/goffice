@@ -243,7 +243,7 @@ go_plugin_loader_module_func_file_open (GOFileOpener const *fo, GOPluginService 
 static char *
 make_function_name (const GOPluginService *service, const char *suffix)
 {
-	const char *id = plugin_service_get_id (service);
+	const char *id = go_plugin_service_get_id (service);
 	size_t idlen = strlen (id);
 	size_t slen = strlen (suffix);
 	size_t pad = 4;
@@ -275,10 +275,10 @@ go_plugin_loader_module_load_service_file_opener (GOPluginLoader *loader,
 	func_name_file_open = make_function_name (service, "_file_open");
 	g_module_symbol (loader_module->handle, func_name_file_open, &module_func_file_open);
 	if (module_func_file_open != NULL) {
-		PluginServiceFileOpenerCallbacks *cbs;
+		GOPluginServiceFileOpenerCallbacks *cbs;
 		ServiceLoaderDataFileOpener *loader_data;
 
-		cbs = plugin_service_get_cbs (service);
+		cbs = go_plugin_service_get_cbs (service);
 		cbs->plugin_func_file_probe = go_plugin_loader_module_func_file_probe;
 		cbs->plugin_func_file_open = go_plugin_loader_module_func_file_open;
 
@@ -339,10 +339,10 @@ go_plugin_loader_module_load_service_file_saver (GOPluginLoader *loader,
 	func_name_file_save = make_function_name (service, "_file_save");
 	g_module_symbol (loader_module->handle, func_name_file_save, &module_func_file_save);
 	if (module_func_file_save != NULL) {
-		PluginServiceFileSaverCallbacks *cbs;
+		GOPluginServiceFileSaverCallbacks *cbs;
 		ServiceLoaderDataFileSaver *loader_data;
 
-		cbs = plugin_service_get_cbs (service);
+		cbs = go_plugin_service_get_cbs (service);
 		cbs->plugin_func_file_save = go_plugin_loader_module_func_file_save;
 
 		loader_data = g_new (ServiceLoaderDataFileSaver, 1);
@@ -406,10 +406,10 @@ go_plugin_loader_module_load_service_plugin_loader (GOPluginLoader *loader,
 	g_module_symbol (loader_module->handle, func_name_get_loader_type,
 			 &module_func_get_loader_type);
 	if (module_func_get_loader_type != NULL) {
-		PluginServicePluginLoaderCallbacks *cbs;
+		GOPluginServicePluginLoaderCallbacks *cbs;
 		ServiceLoaderDataPluginLoader *loader_data;
 
-		cbs = plugin_service_get_cbs (service);
+		cbs = go_plugin_service_get_cbs (service);
 		cbs->plugin_func_get_loader_type = go_plugin_loader_module_func_get_loader_type;
 
 		loader_data = g_new (ServiceLoaderDataPluginLoader, 1);

@@ -10,31 +10,31 @@ G_BEGIN_DECLS
 /*
  * File format levels. They are ordered. When we save a file, we
  * remember the name, but not if we already have a name at a higher level.
- * When created, workbooks are assigned a name at level FILE_FL_NEW.
+ * When created, workbooks are assigned a name at level GO_FILE_FL_NEW.
  */
 typedef enum {
-	FILE_FL_NONE,            /* No name assigned, won't happen */
-	FILE_FL_WRITE_ONLY,      /* PostScript etc, won't be remembered */
-	FILE_FL_NEW,             /* Wb just created */
-	FILE_FL_MANUAL,          /* Save gets punted to save as */
-	FILE_FL_MANUAL_REMEMBER, /* Ditto, but remember in history */
-	FILE_FL_AUTO,            /* Save will save to this filename */
-	FILE_FL_LAST
-} FileFormatLevel;
+	GO_FILE_FL_NONE,            /* No name assigned, won't happen */
+	GO_FILE_FL_WRITE_ONLY,      /* PostScript etc, won't be remembered */
+	GO_FILE_FL_NEW,             /* Wb just created */
+	GO_FILE_FL_MANUAL,          /* Save gets punted to save as */
+	GO_FILE_FL_MANUAL_REMEMBER, /* Ditto, but remember in history */
+	GO_FILE_FL_AUTO,            /* Save will save to this filename */
+	GO_FILE_FL_LAST
+} GOFileFormatLevel;
 GType go_file_saver_level_get_type (void);
 #define GO_TYPE_FILE_SAVER_LEVEL (go_file_saver_level_get_type ())
 
 /*
- * FileSaveScope specifies what information file saver can save in a file.
+ * GOFileSaveScope specifies what information file saver can save in a file.
  * Many savers can save the whole workbook (with all sheets), but others
  * save only current sheet, usually because of file format limitations.
  */
 typedef enum {
-	FILE_SAVE_WORKBOOK,
-	FILE_SAVE_SHEET,
-	FILE_SAVE_RANGE,
-	FILE_SAVE_LAST
-} FileSaveScope;
+	GO_FILE_SAVE_WORKBOOK,
+	GO_FILE_SAVE_SHEET,
+	GO_FILE_SAVE_RANGE,
+	GO_FILE_SAVE_LAST
+} GOFileSaveScope;
 GType go_file_saver_scope_get_type (void);
 #define GO_TYPE_FILE_SAVER_SCOPE (go_file_saver_scope_get_type ())
 
@@ -44,9 +44,9 @@ GType go_file_saver_scope_get_type (void);
 
 typedef struct _GOFileOpenerClass GOFileOpenerClass;
 
-#define TYPE_GO_FILE_OPENER             (go_file_opener_get_type ())
-#define GO_FILE_OPENER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GO_FILE_OPENER, GOFileOpener))
-#define GO_IS_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GO_FILE_OPENER))
+#define GO_TYPE_FILE_OPENER             (go_file_opener_get_type ())
+#define GO_FILE_OPENER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), GO_TYPE_FILE_OPENER, GOFileOpener))
+#define GO_IS_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GO_TYPE_FILE_OPENER))
 
 typedef gboolean (*GOFileOpenerProbeFunc) (GOFileOpener const *fo,
 					    GsfInput *input,
@@ -99,9 +99,9 @@ GSList const *go_file_opener_get_mimes	  	  (GOFileOpener const *fo);
 
 typedef struct _GOFileSaverClass GOFileSaverClass;
 
-#define TYPE_GO_FILE_SAVER             (go_file_saver_get_type ())
-#define GO_FILE_SAVER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GO_FILE_SAVER, GOFileSaver))
-#define GO_IS_FILE_SAVER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GO_FILE_SAVER))
+#define GO_TYPE_FILE_SAVER             (go_file_saver_get_type ())
+#define GO_FILE_SAVER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), GO_TYPE_FILE_SAVER, GOFileSaver))
+#define GO_IS_FILE_SAVER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GO_TYPE_FILE_SAVER))
 
 typedef void (*GOFileSaverSaveFunc) (GOFileSaver const *fs,
 				     GOIOContext *io_context,
@@ -113,12 +113,12 @@ GType go_file_saver_get_type (void);
 GOFileSaver *go_file_saver_new (char const *id,
 				char const *extension,
 				char const *description,
-				FileFormatLevel level,
+				GOFileFormatLevel level,
 				GOFileSaverSaveFunc save_func);
 
 
-void          go_file_saver_set_save_scope (GOFileSaver *fs, FileSaveScope scope);
-FileSaveScope go_file_saver_get_save_scope (GOFileSaver const *fs);
+void          go_file_saver_set_save_scope (GOFileSaver *fs, GOFileSaveScope scope);
+GOFileSaveScope go_file_saver_get_save_scope (GOFileSaver const *fs);
 
 gboolean     go_file_saver_set_export_options (GOFileSaver *fs,
 					       GODoc *doc,
@@ -134,7 +134,7 @@ char const *go_file_saver_get_id	  	(GOFileSaver const *fs);
 char const *go_file_saver_get_extension	(GOFileSaver const *fs);
 char const *go_file_saver_get_mime_type	(GOFileSaver const *fs);
 char const *go_file_saver_get_description	(GOFileSaver const *fs);
-FileFormatLevel go_file_saver_get_format_level	(GOFileSaver const *fs);
+GOFileFormatLevel go_file_saver_get_format_level	(GOFileSaver const *fs);
 
 /*
  *

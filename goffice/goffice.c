@@ -128,7 +128,7 @@ libgoffice_init (void)
 	gsf_init ();
 
 	/* keep trigger happy linkers from leaving things out */
-	plugin_services_init ();
+	go_plugin_services_init ();
 	gog_plugin_services_init ();
 #ifdef GOFFICE_WITH_GTK
 	goc_plugin_services_init ();

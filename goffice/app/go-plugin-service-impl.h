@@ -59,20 +59,20 @@ typedef struct{
 typedef struct{
 	GOPluginServiceClass plugin_service_class;
 	GHashTable *pending; /* has service instances by type names */
-} PluginServiceGObjectLoaderClass;
+} GOPluginServiceGObjectLoaderClass;
 
-struct _PluginServiceGObjectLoader {
+struct _GOPluginServiceGObjectLoader {
 	GOPluginService plugin_service;
 };
 
-#define GPS_GOBJECT_LOADER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_PLUGIN_SERVICE, PluginServiceGObjectLoaderClass))
+#define GPS_GOBJECT_LOADER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_PLUGIN_SERVICE, GOPluginServiceGObjectLoaderClass))
 #define GPS_GOBJECT_LOADER_GET_CLASS(o) GPS_GOBJECT_LOADER_CLASS (G_OBJECT_GET_CLASS (o))
 
 typedef struct{
 	GOPluginServiceClass plugin_service_class;
-} PluginServiceSimpleClass;
+} GOPluginServiceSimpleClass;
 
-struct _PluginServiceSimple {
+struct _GOPluginServiceSimple {
 	GOPluginService plugin_service;
 };
 

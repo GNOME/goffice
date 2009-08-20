@@ -9,7 +9,7 @@ G_BEGIN_DECLS
  * GOFileOpener
  */
 
-#define GO_FILE_OPENER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GO_FILE_OPENER, GOFileOpenerClass))
+#define GO_FILE_OPENER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_FILE_OPENER, GOFileOpenerClass))
 #define GO_FILE_OPENER_METHOD(obj,name) \
         ((GO_FILE_OPENER_CLASS (G_OBJECT_GET_CLASS (obj)))->name)
 
@@ -57,7 +57,7 @@ void go_file_opener_setup (GOFileOpener *fo, const gchar *id,
 
 #define GO_FILE_SAVER_METHOD(obj,name) \
         ((GO_FILE_SAVER_CLASS (G_OBJECT_GET_CLASS (obj)))->name)
-#define GO_FILE_SAVER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GO_FILE_SAVER, GOFileSaverClass))
+#define GO_FILE_SAVER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_FILE_SAVER, GOFileSaverClass))
 
 struct _GOFileSaverClass {
 	GObjectClass parent_class;
@@ -83,8 +83,8 @@ struct _GOFileSaver {
 	gchar                *extension;
 	gchar                *description;
 	gboolean              overwrite_files;
-	FileFormatLevel       format_level;
-	FileSaveScope         save_scope;
+	GOFileFormatLevel       format_level;
+	GOFileSaveScope         save_scope;
 	GOFileSaverSaveFunc   save_func;
 };
 

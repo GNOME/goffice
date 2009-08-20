@@ -43,8 +43,8 @@ static GSList *refd_plugins = NULL;
 
 static GType go_component_engine_service_get_type (void);
 
-typedef PluginServiceGObjectLoader GOComponentEngineService;
-typedef PluginServiceGObjectLoaderClass GOComponentEngineServiceClass;
+typedef GOPluginServiceGObjectLoader GOComponentEngineService;
+typedef GOPluginServiceGObjectLoaderClass GOComponentEngineServiceClass;
 
 static GHashTable *pending_engines = NULL;
 static GHashTable *mime_types = NULL;
@@ -59,7 +59,7 @@ go_component_engine_service_get_description (GOPluginService * service)
 }
 
 static void
-go_component_engine_service_class_init (PluginServiceGObjectLoaderClass *
+go_component_engine_service_class_init (GOPluginServiceGObjectLoaderClass *
 					gobj_loader_class)
 {
 	GOPluginServiceClass *ps_class = GPS_CLASS (gobj_loader_class);
@@ -83,12 +83,12 @@ GType go_component_type_service_get_type (void);
 
 typedef struct
 {
-	PluginServiceSimple base;
+	GOPluginServiceSimple base;
 
 	GSList *mime_types;
 } GOComponentTypeService;
 
-typedef PluginServiceSimpleClass GOComponentTypeServiceClass;
+typedef GOPluginServiceSimpleClass GOComponentTypeServiceClass;
 
 static GObjectClass *component_type_parent_klass;
 char const *GOPriorityName[] = {
@@ -207,9 +207,9 @@ GSF_CLASS (GOComponentTypeService, go_component_type_service,
 /***************************************************************************/
      void goc_plugin_services_init (void)
 {
-	plugin_service_define ("component_engine",
+	go_plugin_service_define ("component_engine",
 			       &go_component_engine_service_get_type);
-	plugin_service_define ("component_type",
+	go_plugin_service_define ("component_type",
 			       &go_component_type_service_get_type);
 }
 
@@ -303,7 +303,7 @@ go_component_new_by_mime_type (char const *mime_type)
 
 		g_return_val_if_fail (!service->is_loaded, NULL);
 
-		plugin_service_load (service, &err);
+		go_plugin_service_load (service, &err);
 		type = g_type_from_name (mtype->component_type_name);
 
 		if (err != NULL)
@@ -317,7 +317,7 @@ go_component_new_by_mime_type (char const *mime_type)
 		/*
 		 * The plugin defined a gtype so it must not be unloaded.
 		 */
-		plugin = plugin_service_get_plugin (service);
+		plugin = go_plugin_service_get_plugin (service);
 		refd_plugins = g_slist_prepend (refd_plugins, plugin);
 		g_object_ref (plugin);
 		go_plugin_use_ref (plugin);
