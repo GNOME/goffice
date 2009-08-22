@@ -307,7 +307,7 @@ const GOFontMetrics *go_font_metrics_unit = &go_font_metrics_unit_var;
 
 /* private */
 void
-go_fonts_init (void)
+_go_fonts_init (void)
 {
 	int i;
 
@@ -335,7 +335,7 @@ go_fonts_init (void)
 }
 
 void
-go_fonts_shutdown (void)
+_go_fonts_shutdown (void)
 {
 	go_font_unref (font_default);
 	font_default = NULL;

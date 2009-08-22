@@ -75,8 +75,8 @@ void go_font_cache_register   (GClosure *callback);
 void go_font_cache_unregister (GClosure *callback);
 
 /* private */
-void go_fonts_init     (void);
-void go_fonts_shutdown (void);
+void _go_fonts_init     (void);
+void _go_fonts_shutdown (void);
 
 G_END_DECLS
 

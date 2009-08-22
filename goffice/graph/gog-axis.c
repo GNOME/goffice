@@ -134,7 +134,7 @@ split_date (GogAxis *axis, double val, GDate *date)
 		return TRUE;
 	}
 
-	datetime_serial_to_g (date, (int)val, axis->date_conv);
+	go_date_serial_to_g (date, (int)val, axis->date_conv);
 	return !g_date_valid (date);
 }
 
@@ -535,14 +535,14 @@ map_date_auto_bound (GogAxis *axis, double minimum, double maximum, double *boun
 		minor_step = 1;
 	} else if (years < 2) {
 		g_date_set_day (&min_date, 1);
-		minimum = datetime_g_to_serial (&min_date, axis->date_conv);
+		minimum = go_date_g_to_serial (&min_date, axis->date_conv);
 
 		if (g_date_get_year (&max_date) < 9999 ||
 		    g_date_get_month (&max_date) < 12) {
 			g_date_set_day (&max_date, 1);
 			g_date_add_months (&max_date, 1);
 		}
-		maximum = datetime_g_to_serial (&max_date, axis->date_conv);
+		maximum = go_date_g_to_serial (&max_date, axis->date_conv);
 
 		step = 30;
 		minor_step = (range <= 180 ? 1 : step);
@@ -570,8 +570,8 @@ map_date_auto_bound (GogAxis *axis, double minimum, double maximum, double *boun
 		if (g_date_valid_dmy (1, 1, y))
 			g_date_set_dmy (&max_date, 1, 1, y);
 
-		minimum = datetime_g_to_serial (&min_date, axis->date_conv);
-		maximum = datetime_g_to_serial (&max_date, axis->date_conv);
+		minimum = go_date_g_to_serial (&min_date, axis->date_conv);
+		maximum = go_date_g_to_serial (&max_date, axis->date_conv);
 		range = maximum - minimum;
 		step = DAYS_IN_YEAR * N;
 		minor_step = step / (N == 1 ? 12 : 10);
@@ -842,7 +842,7 @@ map_date_calc_ticks (GogAxis *axis)
 
 		if (!add_months (&maj_d, maj_i * (int)maj_months))
 			break;
-		maj_pos = datetime_g_to_serial (&maj_d, axis->date_conv);
+		maj_pos = go_date_g_to_serial (&maj_d, axis->date_conv);
 		if (maj_pos > maximum)
 			break;
 
@@ -872,7 +872,7 @@ map_date_calc_ticks (GogAxis *axis)
 				if (!add_months (&min_d, min_i * (int)min_months))
 					break;
 			}
-			min_pos = datetime_g_to_serial (&min_d, axis->date_conv);
+			min_pos = go_date_g_to_serial (&min_d, axis->date_conv);
 			if (min_pos > maximum)
 				break;
 

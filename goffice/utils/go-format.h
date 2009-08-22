@@ -26,7 +26,7 @@
 
 G_BEGIN_DECLS
 
-/* Keep these sequential, they are used as the index for go_format_builtins */
+/* Keep these sequential, they are used as the index for _go_format_builtins */
 typedef enum {
 	GO_FORMAT_UNKNOWN	= -1,
 
@@ -228,8 +228,8 @@ gboolean go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 /*************************************************************************/
 
 /* Indexed by GOFormatFamily */
-GO_VAR_DECL char const * const * const go_format_builtins [];
-GO_VAR_DECL GOFormatCurrency     const go_format_currencies [];
+GO_VAR_DECL char const * const * const _go_format_builtins [];
+GO_VAR_DECL GOFormatCurrency     const _go_format_currencies [];
 
 GOFormatCurrency const *go_format_locale_currency (void);
 

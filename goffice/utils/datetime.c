@@ -56,7 +56,7 @@ date_init (void)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_g_to_serial (GDate const *date, GODateConventions const *conv)
+go_date_g_to_serial (GDate const *date, GODateConventions const *conv)
 {
 	int day;
 
@@ -72,7 +72,7 @@ datetime_g_to_serial (GDate const *date, GODateConventions const *conv)
 /* ------------------------------------------------------------------------- */
 
 void
-datetime_serial_to_g (GDate *res, int serial, GODateConventions const *conv)
+go_date_serial_to_g (GDate *res, int serial, GODateConventions const *conv)
 {
 	if (!date_origin_1900)
 		date_init ();
@@ -95,7 +95,7 @@ datetime_serial_to_g (GDate *res, int serial, GODateConventions const *conv)
 /* ------------------------------------------------------------------------- */
 
 double
-datetime_timet_to_serial_raw (time_t t, GODateConventions const *conv)
+go_date_timet_to_serial_raw (time_t t, GODateConventions const *conv)
 {
 	struct tm *tm = localtime (&t);
 	int secs;
@@ -108,14 +108,14 @@ datetime_timet_to_serial_raw (time_t t, GODateConventions const *conv)
 	g_date_set_time (&date, t);
 #endif
 	secs = tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec;
-	return datetime_g_to_serial (&date, conv) +
+	return go_date_g_to_serial (&date, conv) +
 		secs / (double)SECS_PER_DAY;
 }
 
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_serial_raw_to_serial (double raw)
+go_date_serial_raw_to_serial (double raw)
 {
 	return (int) floor (raw + HALF_SEC);
 }
@@ -123,19 +123,19 @@ datetime_serial_raw_to_serial (double raw)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_timet_to_serial (time_t t, GODateConventions const *conv)
+go_date_timet_to_serial (time_t t, GODateConventions const *conv)
 {
-	return datetime_serial_raw_to_serial (datetime_timet_to_serial_raw (t, conv));
+	return go_date_serial_raw_to_serial (go_date_timet_to_serial_raw (t, conv));
 }
 
 /* ------------------------------------------------------------------------- */
 
 time_t
-datetime_serial_to_timet (int serial, GODateConventions const *conv)
+go_date_serial_to_timet (int serial, GODateConventions const *conv)
 {
 	GDate gd;
 
-	datetime_serial_to_g (&gd, serial, conv);
+	go_date_serial_to_g (&gd, serial, conv);
 	if (g_date_valid (&gd)) {
 		struct tm tm;
 		g_date_to_struct_tm (&gd, &tm);
@@ -149,7 +149,7 @@ datetime_serial_to_timet (int serial, GODateConventions const *conv)
 /* days with summer time ("daylight savings") changes.  */
 
 int
-datetime_serial_raw_to_seconds (double raw)
+go_date_serial_raw_to_seconds (double raw)
 {
 	raw += HALF_SEC;
 	return (raw - floor (raw)) * SECS_PER_DAY;
@@ -158,17 +158,17 @@ datetime_serial_raw_to_seconds (double raw)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_timet_to_seconds (time_t t)
+go_date_timet_to_seconds (time_t t)
 {
 	/* we just want the seconds, actual date does not matter. So we can ignore
 	 * the date convention (1900 vs 1904) */
-	return datetime_serial_raw_to_seconds (datetime_timet_to_serial_raw (t, NULL));
+	return go_date_serial_raw_to_seconds (go_date_timet_to_serial_raw (t, NULL));
 }
 
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_g_months_between (GDate const *date1, GDate const *date2)
+go_date_g_months_between (GDate const *date1, GDate const *date2)
 {
 	g_return_val_if_fail (g_date_valid (date1), 0);
 	g_return_val_if_fail (g_date_valid (date2), 0);
@@ -183,21 +183,21 @@ datetime_g_months_between (GDate const *date1, GDate const *date2)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_g_years_between (GDate const *date1, GDate const *date2)
+go_date_g_years_between (GDate const *date1, GDate const *date2)
 {
 	int months;
 
 	g_return_val_if_fail (g_date_valid (date1), 0);
 	g_return_val_if_fail (g_date_valid (date2), 0);
 
-	months = datetime_g_months_between (date1, date2);
+	months = go_date_g_months_between (date1, date2);
 	return months > 0 ? months / 12 : -(-months / 12);
 }
 
 /* ------------------------------------------------------------------------- */
 
 /**
- * datetime_weeknum:
+ * go_date_weeknum:
  * @date:      date
  * @method:    week numbering method
  *
@@ -207,22 +207,22 @@ datetime_g_years_between (GDate const *date1, GDate const *date2)
  * 150: ISO 8601 week number. See datetime_isoweeknum.
  */
 int
-datetime_weeknum (GDate const *date, int method)
+go_date_weeknum (GDate const *date, int method)
 {
 	int res = -1;
 
 	g_return_val_if_fail (g_date_valid (date), -1);
-	g_return_val_if_fail (method == WEEKNUM_METHOD_SUNDAY ||
-			      method == WEEKNUM_METHOD_MONDAY ||
-			      method == WEEKNUM_METHOD_ISO,
+	g_return_val_if_fail (method == GO_WEEKNUM_METHOD_SUNDAY ||
+			      method == GO_WEEKNUM_METHOD_MONDAY ||
+			      method == GO_WEEKNUM_METHOD_ISO,
 			      -1);
 
 	switch (method) {
-	case WEEKNUM_METHOD_SUNDAY:
+	case GO_WEEKNUM_METHOD_SUNDAY:
 		res = g_date_get_sunday_week_of_year (date); break;
-	case WEEKNUM_METHOD_MONDAY:
+	case GO_WEEKNUM_METHOD_MONDAY:
 		res = g_date_get_monday_week_of_year (date); break;
-	case WEEKNUM_METHOD_ISO:
+	case GO_WEEKNUM_METHOD_ISO:
 		res = g_date_get_iso8601_week_of_year (date); break;
 	}
 
@@ -232,7 +232,7 @@ datetime_weeknum (GDate const *date, int method)
 /* ------------------------------------------------------------------------- */
 
 static gint32
-days_between_BASIS_MSRB_30_360 (GDate const *from, GDate const *to)
+days_between_GO_BASIS_MSRB_30_360 (GDate const *from, GDate const *to)
 {
 	int y1, m1, d1, y2, m2, d2;
 
@@ -254,7 +254,7 @@ days_between_BASIS_MSRB_30_360 (GDate const *from, GDate const *to)
 }
 
 static gint32
-days_between_BASIS_MSRB_30_360_SYM (GDate const *from, GDate const *to)
+days_between_GO_BASIS_MSRB_30_360_SYM (GDate const *from, GDate const *to)
 {
 	int y1, m1, d1, y2, m2, d2;
 
@@ -278,7 +278,7 @@ days_between_BASIS_MSRB_30_360_SYM (GDate const *from, GDate const *to)
 }
 
 static gint32
-days_between_BASIS_30E_360 (GDate const *from, GDate const *to)
+days_between_GO_BASIS_30E_360 (GDate const *from, GDate const *to)
 {
 	int y1, m1, d1, y2, m2, d2;
 
@@ -298,7 +298,7 @@ days_between_BASIS_30E_360 (GDate const *from, GDate const *to)
 }
 
 static gint32
-days_between_BASIS_30Ep_360 (GDate const *from, GDate const *to)
+days_between_GO_BASIS_30Ep_360 (GDate const *from, GDate const *to)
 {
 	int y1, m1, d1, y2, m2, d2;
 
@@ -321,11 +321,11 @@ days_between_BASIS_30Ep_360 (GDate const *from, GDate const *to)
 }
 
 /*
- * go_datetime_days_between_basis
+ * go_date_days_between_basis
  *
  * @from      : GDate *
  * @to        : GDate *
- * @basis     : basis_t
+ * @basis     : go_basis_t
  * see datetime.h and doc/fn-financial-basis.txt for details
  *
  * @in_order  : dates are considered in order
@@ -335,7 +335,7 @@ days_between_BASIS_30Ep_360 (GDate const *from, GDate const *to)
  */
 
 gint32
-go_datetime_days_between_basis (GDate const *from, GDate const *to, basis_t basis)
+go_date_days_between_basis (GDate const *from, GDate const *to, go_basis_t basis)
 {
 	int sign = 1;
 
@@ -347,19 +347,19 @@ go_datetime_days_between_basis (GDate const *from, GDate const *to, basis_t basi
 	}
 
 	switch (basis) {
-	case BASIS_ACT_ACT:
-	case BASIS_ACT_360:
-	case BASIS_ACT_365:
+	case GO_BASIS_ACT_ACT:
+	case GO_BASIS_ACT_360:
+	case GO_BASIS_ACT_365:
 		return sign * (g_date_get_julian (to) - g_date_get_julian (from));
-	case BASIS_30E_360:
-		return sign * days_between_BASIS_30E_360 (from, to);
-	case BASIS_30Ep_360:
-		return sign * days_between_BASIS_30Ep_360 (from, to);
-	case BASIS_MSRB_30_360_SYM:
-		return sign * days_between_BASIS_MSRB_30_360_SYM (from, to);
-	case BASIS_MSRB_30_360:
+	case GO_BASIS_30E_360:
+		return sign * days_between_GO_BASIS_30E_360 (from, to);
+	case GO_BASIS_30Ep_360:
+		return sign * days_between_GO_BASIS_30Ep_360 (from, to);
+	case GO_BASIS_MSRB_30_360_SYM:
+		return sign * days_between_GO_BASIS_MSRB_30_360_SYM (from, to);
+	case GO_BASIS_MSRB_30_360:
 	default:
-		return sign * days_between_BASIS_MSRB_30_360 (from, to);
+		return sign * days_between_GO_BASIS_MSRB_30_360 (from, to);
 	}
 }
 
@@ -434,23 +434,23 @@ go_coup_cd (GDate *result, GDate const *settlement, GDate const *maturity,
  **/
 double
 go_coupdays (GDate const *settlement, GDate const *maturity,
-	     GnmCouponConvention const *conv)
+	     GoCouponConvention const *conv)
 {
 	GDate prev, next;
 
         switch (conv->basis) {
-	case BASIS_MSRB_30_360:
-	case BASIS_ACT_360:
-        case BASIS_30E_360:
-        case BASIS_30Ep_360:
+	case GO_BASIS_MSRB_30_360:
+	case GO_BASIS_ACT_360:
+        case GO_BASIS_30E_360:
+        case GO_BASIS_30Ep_360:
 		return 360 / conv->freq;
-	case BASIS_ACT_365:
+	case GO_BASIS_ACT_365:
 		return 365.0 / conv->freq;
-	case BASIS_ACT_ACT:
+	case GO_BASIS_ACT_ACT:
 	default:
 		go_coup_cd (&next, settlement, maturity, conv->freq, conv->eom, TRUE);
 		go_coup_cd (&prev, settlement, maturity, conv->freq, conv->eom, FALSE);
-		return go_datetime_days_between_basis (&prev, &next, BASIS_ACT_ACT);
+		return go_date_days_between_basis (&prev, &next, GO_BASIS_ACT_ACT);
         }
 }
 
@@ -461,18 +461,18 @@ go_coupdays (GDate const *settlement, GDate const *maturity,
  * go_coupdaybs:
  * @settlement : #GDate
  * @maturity : #GDate
- * @conv : #GnmCouponConvention
+ * @conv : #GoCouponConvention
  *
  * Returns: the number of days from the beginning of the coupon period to the
  * 	settlement date.
  **/
 double
 go_coupdaybs (GDate const *settlement, GDate const *maturity,
-	      GnmCouponConvention const *conv)
+	      GoCouponConvention const *conv)
 {
 	GDate prev_coupon;
 	go_coup_cd (&prev_coupon, settlement, maturity, conv->freq, conv->eom, FALSE);
-	return go_datetime_days_between_basis (&prev_coupon, settlement, conv->basis);
+	return go_date_days_between_basis (&prev_coupon, settlement, conv->basis);
 }
 
 /**
@@ -485,11 +485,11 @@ go_coupdaybs (GDate const *settlement, GDate const *maturity,
  **/
 double
 go_coupdaysnc (GDate const *settlement, GDate const *maturity,
-	       GnmCouponConvention const *conv)
+	       GoCouponConvention const *conv)
 {
 	GDate next_coupon;
 	go_coup_cd (&next_coupon, settlement, maturity, conv->freq, conv->eom, TRUE);
-	return go_datetime_days_between_basis (settlement, &next_coupon, conv->basis);
+	return go_date_days_between_basis (settlement, &next_coupon, conv->basis);
 }
 
 int

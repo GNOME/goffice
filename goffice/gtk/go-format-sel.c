@@ -371,7 +371,7 @@ find_builtin (const char *fmtstr, int page, gboolean def)
 	if (page == GO_FORMAT_UNKNOWN)
 		return NULL;
 
-	candidates = go_format_builtins[page];
+	candidates = _go_format_builtins[page];
 	if (!candidates)
 		return NULL;
 
@@ -560,7 +560,7 @@ stays:
 			gtk_list_store_clear (gfs->format.formats.model);
 			for (; start <= end ; ++start)
 				fmt_dialog_init_fmt_list (gfs,
-					go_format_builtins[start], &select);
+					_go_format_builtins[start], &select);
 
 			/* If this is the custom page and the format has
 			* not been found append it */
@@ -750,8 +750,8 @@ cb_format_currency_select (G_GNUC_UNUSED GtkWidget *ct,
 	if (!gfs->enable_edit || new_text == NULL || *new_text == '\0')
 		return FALSE;
 
-	for (i = 0; go_format_currencies[i].symbol != NULL ; ++i) {
-		GOFormatCurrency const *ci = go_format_currencies + i;
+	for (i = 0; _go_format_currencies[i].symbol != NULL ; ++i) {
+		GOFormatCurrency const *ci = _go_format_currencies + i;
 		if (!strcmp (_(ci->description), new_text)) {
 			gfs->format.details.currency = ci;
 			break;
@@ -1088,8 +1088,8 @@ nfs_init (GOFormatSel *gfs)
 		GSList *ptr, *l = NULL;
 		const char *desc;
 
-		for (i = 0; go_format_currencies[i].symbol != NULL ; ++i)
-			l = g_slist_prepend (l, _((gchar *)go_format_currencies[i].description));
+		for (i = 0; _go_format_currencies[i].symbol != NULL ; ++i)
+			l = g_slist_prepend (l, _((gchar *)_go_format_currencies[i].description));
 		l = g_slist_sort (l, funny_currency_order);
 
 		for (ptr = l; ptr != NULL ; ptr = ptr->next)

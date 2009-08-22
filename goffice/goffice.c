@@ -123,7 +123,7 @@ libgoffice_init (void)
 	g_type_init ();
 	_go_string_init ();
 	go_conf_init ();
-	go_fonts_init ();
+	_go_fonts_init ();
 	go_math_init ();
 	gsf_init ();
 
@@ -164,7 +164,7 @@ void
 libgoffice_shutdown (void)
 {
 	gog_themes_shutdown ();
-	go_fonts_shutdown ();
+	_go_fonts_shutdown ();
 	go_conf_shutdown ();
 #ifdef GOFFICE_WITH_GTK
 	goc_plugin_services_shutdown ();

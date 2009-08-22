@@ -2562,7 +2562,7 @@ SUFFIX(go_format_execute) (PangoLayout *layout, GString *dst,
 
 		case OP_DATE_SPLIT: {
 			GDate date;
-			datetime_serial_to_g (&date,
+			go_date_serial_to_g (&date,
 					      (int)SUFFIX(floor)(valsecs / 86400),
 					      date_conv);
 			if (!g_date_valid (&date)) {
@@ -4896,7 +4896,7 @@ go_format_general (void)
 {
 	if (!default_general_fmt)
 		default_general_fmt = go_format_new_from_XL (
-			go_format_builtins[GO_FORMAT_GENERAL][0]);
+			_go_format_builtins[GO_FORMAT_GENERAL][0]);
 	return default_general_fmt;
 }
 #endif
@@ -4950,7 +4950,7 @@ go_format_default_percentage (void)
 {
 	if (!default_percentage_fmt)
 		default_percentage_fmt = go_format_new_from_XL (
-			go_format_builtins[GO_FORMAT_PERCENTAGE][1]);
+			_go_format_builtins[GO_FORMAT_PERCENTAGE][1]);
 	return default_percentage_fmt;
 }
 #endif
@@ -4961,7 +4961,7 @@ go_format_default_money (void)
 {
 	if (!default_money_fmt)
 		default_money_fmt = go_format_new_from_XL (
-			go_format_builtins[GO_FORMAT_CURRENCY][2]);
+			_go_format_builtins[GO_FORMAT_CURRENCY][2]);
 	return default_money_fmt;
 }
 #endif
@@ -4972,7 +4972,7 @@ go_format_default_accounting (void)
 {
 	if (!default_accounting_fmt)
 		default_accounting_fmt = go_format_new_from_XL (
-			go_format_builtins[GO_FORMAT_ACCOUNTING][2]);
+			_go_format_builtins[GO_FORMAT_ACCOUNTING][2]);
 	return default_accounting_fmt;
 }
 #endif
@@ -5090,7 +5090,7 @@ go_format_generate_accounting_str (GString *dst,
 	GOFormatCurrency const *currency = details->currency;
 
 	if (!currency)
-		currency = &go_format_currencies[0];
+		currency = &_go_format_currencies[0];
 
 	symstr = currency->symbol;
 	switch (g_utf8_get_char (symstr)) {
@@ -5160,7 +5160,7 @@ go_format_generate_currency_str (GString *dst,
 	GOFormatCurrency const *currency = details->currency;
 
 	if (!currency)
-		currency = &go_format_currencies[0];
+		currency = &_go_format_currencies[0];
 
 	extra_quotes = (details->force_quoted &&
 			currency->symbol[0] != '"' &&
@@ -5218,8 +5218,8 @@ find_currency (char const *ptr, gsize len, gboolean precedes)
 
 	quoted = len > 2 && ptr[0] == '\"' && ptr[len - 1] == '\"';
 
-	for (i = 1; go_format_currencies[i].symbol; i++) {
-		const GOFormatCurrency *ci = go_format_currencies + i;
+	for (i = 1; _go_format_currencies[i].symbol; i++) {
+		const GOFormatCurrency *ci = _go_format_currencies + i;
 
 		if (ci->precedes != precedes)
 			continue;

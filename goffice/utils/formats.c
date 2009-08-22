@@ -102,7 +102,7 @@ fmts_text [] = {
 
 /* Note: there is no entry for GO_FORMAT_UNKNOWN.  */
 char const * const * const
-go_format_builtins[] = {
+_go_format_builtins[] = {
 	fmts_general,
 	fmts_number,
 	fmts_currency,
@@ -343,7 +343,7 @@ go_currency_date_format_shutdown (void)
 	}
 }
 
-GOFormatCurrency const go_format_currencies[] =
+GOFormatCurrency const _go_format_currencies[] =
 {
  	{ "", N_("None"), TRUE, FALSE },	/* These first six elements */
  	{ "$", "$", TRUE, FALSE },		/* Must stay in this order */
