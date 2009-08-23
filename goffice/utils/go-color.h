@@ -88,26 +88,6 @@ typedef struct {
 		MONO_INTERPOLATE(UINT_RGBA_G(c1), UINT_RGBA_G(c2), t), \
 		MONO_INTERPOLATE(UINT_RGBA_B(c1), UINT_RGBA_B(c2), t), \
 		MONO_INTERPOLATE(UINT_RGBA_A(c1), UINT_RGBA_A(c2), t) )
-#define PIXEL_RGB(p, r, g, b) \
-{((guchar*)(p))[0]=(r); ((guchar*)(p))[1]=(g); ((guchar*)(p))[2]=(b);}
-#define PIXEL_RGBA(p, r, g, b, a) \
-{ if ((a)>=0xff) { PIXEL_RGB(p,r,g,b) } \
-  else if ((a)>0) { \
-    guint pixel_tmp; \
-    pixel_tmp = ((guchar*)(p))[0]; \
-    ((guchar*)(p))[0] = pixel_tmp + ((((r)-pixel_tmp)*(a)+0x80) >> 8); \
-    pixel_tmp = ((guchar*)(p))[1]; \
-    ((guchar*)(p))[1] = pixel_tmp + ((((g)-pixel_tmp)*(a)+0x80) >> 8); \
-    pixel_tmp = ((guchar*)(p))[2]; \
-    ((guchar*)(p))[2] = pixel_tmp + ((((b)-pixel_tmp)*(a)+0x80) >> 8); }}
-#define PIXEL_RGB_UINT(p, i) \
-UINT_TO_RGB((i), ((guchar*)p), ((guchar*)p)+1, ((guchar*)p)+2)
-#define PIXEL_RGBA_UINT(p, i) \
-  PIXEL_RGBA((p), ((i)>>24)&0xff, ((i)>>16)&0xff, ((i)>>8)&0xff, (i)&0xff)
-#define PIXEL_BLACK(p) PIXEL_RGB(p,0,0,0)
-#define PIXEL_WHITE(p) PIXEL_RGB(p,0xff,0xff,0xff)
-#define PIXEL_GREY(p,g) PIXEL_RGB(p,g,g,g)
-#define PIXEL_GREYA(p,g,a) PIXEL_RGBA(p,g,g,g,a)
 
 #define DOUBLE_RGBA_R(x) (double)UINT_RGBA_R(x)/255.0
 #define DOUBLE_RGBA_G(x) (double)UINT_RGBA_G(x)/255.0

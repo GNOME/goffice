@@ -1,3 +1,7 @@
+2009-08-23  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-color.h (PIXEL_*): Kill unused macros.
+
 2009-08-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-canvas.c: add RTL support tothe canvas.
