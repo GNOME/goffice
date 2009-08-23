@@ -112,17 +112,3 @@ Plot and regression curve plugin management
 @Returns: 
 
 
-<!-- ##### FUNCTION gog_plugin_services_init ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### FUNCTION gog_plugin_services_shutdown ##### -->
-<para>
-
-</para>
-
-
-

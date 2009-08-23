@@ -72,7 +72,7 @@ running_under_buggy_valgrind (void)
 #endif
 
 void
-go_math_init (void)
+_go_math_init (void)
 {
 	const char *bug_url = "http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice";
 	char *old_locale;

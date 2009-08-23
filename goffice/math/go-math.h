@@ -14,7 +14,7 @@ G_BEGIN_DECLS
 #define M_PI 3.14159265358979323846
 #endif
 
-void go_math_init (void);
+void _go_math_init (void);
 void go_continued_fraction (double val, int max_denom, int *res_num, int *res_denom);
 void go_stern_brocot	   (double val, int max_denom, int *res_num, int *res_denom);
 

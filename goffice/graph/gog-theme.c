@@ -478,7 +478,7 @@ gog_theme_registry_get_theme_names (void)
 /**************************************************************************/
 
 void
-gog_themes_init	(void)
+_gog_themes_init (void)
 {
 	GogTheme *theme;
 	GOStyle *style;
@@ -758,7 +758,7 @@ gog_themes_init	(void)
 }
 
 void
-gog_themes_shutdown (void)
+_gog_themes_shutdown (void)
 {
 	GSList *ptr;
 

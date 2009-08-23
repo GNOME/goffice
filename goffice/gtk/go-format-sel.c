@@ -36,20 +36,20 @@
 #define START_LOCALE_SWITCH							\
 	do {									\
 		if (gfs->locale) {						\
-			go_currency_date_format_shutdown ();			\
+			_go_currency_date_format_shutdown ();			\
 			oldlocale = g_strdup (setlocale (LC_ALL, NULL));	\
 			go_setlocale (LC_ALL, gfs->locale);			\
-			go_currency_date_format_init ();			\
+			_go_currency_date_format_init ();			\
 		}								\
 	} while (0)
 
 #define END_LOCALE_SWITCH							\
 	do {									\
 		if (oldlocale) {						\
-			go_currency_date_format_shutdown ();			\
+			_go_currency_date_format_shutdown ();			\
 			go_setlocale (LC_ALL, oldlocale);			\
 			g_free (oldlocale);					\
-			go_currency_date_format_init ();			\
+			_go_currency_date_format_init ();			\
 		}								\
 	} while (0)
 

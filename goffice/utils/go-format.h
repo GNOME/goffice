@@ -235,10 +235,10 @@ GOFormatCurrency const *go_format_locale_currency (void);
 
 /*************************************************************************/
 
-void go_number_format_init (void);
-void go_number_format_shutdown (void);
-void go_currency_date_format_init     (void);
-void go_currency_date_format_shutdown (void);
+void _go_number_format_init (void);
+void _go_number_format_shutdown (void);
+void _go_currency_date_format_init     (void);
+void _go_currency_date_format_shutdown (void);
 
 G_END_DECLS
 

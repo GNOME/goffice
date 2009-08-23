@@ -194,7 +194,7 @@ guess_date_sep (void)
 }
 
 void
-go_currency_date_format_init (void)
+_go_currency_date_format_init (void)
 {
 	GOFormatCurrency const *currency = go_format_locale_currency ();
 	GHashTable *dt_hash;
@@ -313,7 +313,7 @@ go_currency_date_format_init (void)
 }
 
 void
-go_currency_date_format_shutdown (void)
+_go_currency_date_format_shutdown (void)
 {
 	/* We need to free allocated strings since */
 	/* currency_date_format_init/shutdown may  */

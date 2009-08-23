@@ -180,10 +180,10 @@ go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height
 			if (name != NULL) {
 				if (strcmp ((char *)name, go_patterns [pattern->pattern].str) == 0) {
 					if (width != NULL && 
-						xml_node_get_double (ptr, "width", &value))
+						go_xml_node_get_double (ptr, "width", &value))
 					    *width = value;
 					if (height != NULL &&
-						xml_node_get_double (ptr, "height", &value))
+						go_xml_node_get_double (ptr, "height", &value))
 					    *height = value;
 					svg_path = xmlGetProp (ptr, CC2XML ("d"));
 					break;

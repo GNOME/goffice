@@ -3561,7 +3561,7 @@ SUFFIX(go_format_value) (GOFormat const *fmt, DOUBLE val)
 
 #ifdef DEFINE_COMMON
 void
-go_number_format_init (void)
+_go_number_format_init (void)
 {
 	style_format_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 		NULL, (GDestroyNotify) go_format_unref);
@@ -3585,7 +3585,7 @@ cb_format_leak (gpointer key, gpointer value, gpointer user_data)
 
 #ifdef DEFINE_COMMON
 void
-go_number_format_shutdown (void)
+_go_number_format_shutdown (void)
 {
 	GHashTable *tmp;
 

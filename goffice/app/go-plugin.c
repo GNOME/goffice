@@ -621,7 +621,7 @@ go_plugin_read_dependency_list (xmlNode *tree)
 				dep = g_new (PluginDependency, 1);
 				dep->plugin_id = plugin_id;
 				dep->plugin = NULL;
-				if (!xml_node_get_bool (node, "force_load", &(dep->force_load)))
+				if (!go_xml_node_get_bool (node, "force_load", &(dep->force_load)))
 					dep->force_load = FALSE;
 				GO_SLIST_PREPEND (dependency_list, dep);
 			}
@@ -642,7 +642,7 @@ go_plugin_read_service_list (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_
 	g_return_val_if_fail (tree != NULL, NULL);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	node = e_xml_get_child_by_name (tree, (xmlChar *)"services");
+	node = go_xml_get_child_by_name (tree, (xmlChar *)"services");
 	if (node == NULL)
 		return NULL;
 	node = node->xmlChildrenNode;
@@ -754,12 +754,12 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 	}
 	tree = doc->xmlRootNode;
 	id = xmlGetProp (tree, (xmlChar *)"id");
-	information_node = e_xml_get_child_by_name (tree, (xmlChar *)"information");
+	information_node = go_xml_get_child_by_name (tree, (xmlChar *)"information");
 	if (information_node != NULL) {
 		xmlNode *node;
 		xmlChar *val;
 
-		node = e_xml_get_child_by_name_by_lang (information_node, "name");
+		node = go_xml_get_child_by_name_by_lang (information_node, "name");
 		if (node != NULL) {
 			val = xmlNodeGetContent (node);
 			name = g_strdup ((gchar *)val);
@@ -767,26 +767,26 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 		} else
 			name = NULL;
 
-		node = e_xml_get_child_by_name_by_lang (information_node, "description");
+		node = go_xml_get_child_by_name_by_lang (information_node, "description");
 		if (node != NULL) {
 			val = xmlNodeGetContent (node);
 			description = g_strdup ((gchar *)val);
 			xmlFree (val);
 		} else
 			description = NULL;
-		if (e_xml_get_child_by_name (information_node, (xmlChar const *)"require_explicit_enabling"))
+		if (go_xml_get_child_by_name (information_node, (xmlChar const *)"require_explicit_enabling"))
 			require_explicit_enabling = TRUE;
 	} else {
 		name = NULL;
 		description = NULL;
 	}
-	dependencies_node = e_xml_get_child_by_name (tree, (xmlChar *)"dependencies");
+	dependencies_node = go_xml_get_child_by_name (tree, (xmlChar *)"dependencies");
 	if (dependencies_node != NULL) {
 		dependency_list = go_plugin_read_dependency_list (dependencies_node);
 	} else {
 		dependency_list = NULL;
 	}
-	loader_node = e_xml_get_child_by_name (tree, (xmlChar *)"loader");
+	loader_node = go_xml_get_child_by_name (tree, (xmlChar *)"loader");
 	if (loader_node != NULL) {
 		char *p;
 

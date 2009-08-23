@@ -72,7 +72,7 @@ long double go_distribution_get_inverse_survivall (GODistribution *dist, long do
 
 void go_distribution_scale (GODistribution *dist, double location, double scale);
 
-void go_distributions_init (void);
+void _go_distributions_init (void);
 
 G_END_DECLS
 

@@ -8,8 +8,8 @@ G_BEGIN_DECLS
 
 typedef struct _GOConfNode GOConfNode;
 
-void go_conf_init (void);
-void go_conf_shutdown (void);
+void _go_conf_init (void);
+void _go_conf_shutdown (void);
 
 GOConfNode * go_conf_get_node       (GOConfNode *parent, gchar const *key);
 void	 go_conf_free_node	    (GOConfNode *node);

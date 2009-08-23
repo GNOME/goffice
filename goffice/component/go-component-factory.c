@@ -205,7 +205,7 @@ GSF_CLASS (GOComponentTypeService, go_component_type_service,
 	   go_component_type_service_class_init,
 	   go_component_type_service_init, GO_TYPE_PLUGIN_SERVICE_SIMPLE)
 /***************************************************************************/
-     void goc_plugin_services_init (void)
+     void _goc_plugin_services_init (void)
 {
 	go_plugin_service_define ("component_engine",
 			       &go_component_engine_service_get_type);
@@ -214,7 +214,7 @@ GSF_CLASS (GOComponentTypeService, go_component_type_service,
 }
 
 void
-goc_plugin_services_shutdown (void)
+_goc_plugin_services_shutdown (void)
 {
 	g_slist_foreach (refd_plugins, (GFunc) go_plugin_use_unref, NULL);
 	g_slist_foreach (refd_plugins, (GFunc) g_object_unref, NULL);

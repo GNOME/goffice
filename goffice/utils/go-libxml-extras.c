@@ -52,7 +52,7 @@ go_xml_parse_file (char const *filename)
  * result must be xmlFree
  */
 xmlChar *
-xml_node_get_cstr (xmlNodePtr node, char const *name)
+go_xml_node_get_cstr (xmlNodePtr node, char const *name)
 {
 	if (name != NULL)
 		return xmlGetProp (node, CC2XML (name));
@@ -64,7 +64,7 @@ xml_node_get_cstr (xmlNodePtr node, char const *name)
 	return NULL;
 }
 void
-xml_node_set_cstr (xmlNodePtr node, char const *name, char const *val)
+go_xml_node_set_cstr (xmlNodePtr node, char const *name, char const *val)
 {
 	if (name)
 		xmlSetProp (node, CC2XML (name), CC2XML (val));
@@ -73,9 +73,9 @@ xml_node_set_cstr (xmlNodePtr node, char const *name, char const *val)
 }
 
 gboolean
-xml_node_get_bool (xmlNodePtr node, char const *name, gboolean *val)
+go_xml_node_get_bool (xmlNodePtr node, char const *name, gboolean *val)
 {
-	xmlChar *buf = xml_node_get_cstr (node, name);
+	xmlChar *buf = go_xml_node_get_cstr (node, name);
 	if (buf == NULL)
 		return FALSE;
 
@@ -86,20 +86,20 @@ xml_node_get_bool (xmlNodePtr node, char const *name, gboolean *val)
 }
 
 void
-xml_node_set_bool (xmlNodePtr node, char const *name, gboolean val)
+go_xml_node_set_bool (xmlNodePtr node, char const *name, gboolean val)
 {
-	xml_node_set_cstr (node, name, val ? "true" : "false");
+	go_xml_node_set_cstr (node, name, val ? "true" : "false");
 }
 
 gboolean
-xml_node_get_int (xmlNodePtr node, char const *name, int *val)
+go_xml_node_get_int (xmlNodePtr node, char const *name, int *val)
 {
 	xmlChar *buf;
 	char *end;
 	gboolean ok;
 	long l;
 
-	buf = xml_node_get_cstr (node, name);
+	buf = go_xml_node_get_cstr (node, name);
 	if (buf == NULL)
 		return FALSE;
 
@@ -112,21 +112,21 @@ xml_node_get_int (xmlNodePtr node, char const *name, int *val)
 }
 
 void
-xml_node_set_int (xmlNodePtr node, char const *name, int val)
+go_xml_node_set_int (xmlNodePtr node, char const *name, int val)
 {
 	char str[4 * sizeof (int)];
 	sprintf (str, "%d", val);
-	xml_node_set_cstr (node, name, str);
+	go_xml_node_set_cstr (node, name, str);
 }
 
 gboolean
-xml_node_get_double (xmlNodePtr node, char const *name, double *val)
+go_xml_node_get_double (xmlNodePtr node, char const *name, double *val)
 {
 	xmlChar *buf;
 	char *end;
 	gboolean ok;
 
-	buf = xml_node_get_cstr (node, name);
+	buf = go_xml_node_get_cstr (node, name);
 	if (buf == NULL)
 		return FALSE;
 
@@ -139,7 +139,7 @@ xml_node_get_double (xmlNodePtr node, char const *name, double *val)
 }
 
 void
-xml_node_set_double (xmlNodePtr node, char const *name, double val,
+go_xml_node_set_double (xmlNodePtr node, char const *name, double val,
 		     int precision)
 {
 	char str[101 + DBL_DIG];
@@ -152,12 +152,12 @@ xml_node_set_double (xmlNodePtr node, char const *name, double val,
 	else
 		g_snprintf (str, 100 + DBL_DIG, "%f", val);
 
-	xml_node_set_cstr (node, name, str);
+	go_xml_node_set_cstr (node, name, str);
 }
 
 
 gboolean
-xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *res)
+go_xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *res)
 {
 	xmlChar *color;
 	int r, g, b;
@@ -178,18 +178,18 @@ xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *res)
 }
 
 void
-xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor val)
+go_xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor val)
 {
 	unsigned r, g, b;
 	char str[4 * sizeof (val)];
 
 	UINT_TO_RGB (val, &r, &g, &b);
 	sprintf (str, "%X:%X:%X", r, g, b);
-	xml_node_set_cstr (node, name, str);
+	go_xml_node_set_cstr (node, name, str);
 }
 
 gboolean
-xml_node_get_enum (xmlNodePtr node, char const *name, GType etype, gint *val)
+go_xml_node_get_enum (xmlNodePtr node, char const *name, GType etype, gint *val)
 {
 	GEnumClass *eclass = G_ENUM_CLASS (g_type_class_peek (etype));
 	GEnumValue *ev;
@@ -202,7 +202,7 @@ xml_node_get_enum (xmlNodePtr node, char const *name, GType etype, gint *val)
 
 	ev = g_enum_get_value_by_name (eclass, CXML2C (s));
 	if (!ev) ev = g_enum_get_value_by_nick (eclass, CXML2C (s));
-	if (!ev && xml_node_get_int (node, name, &i))
+	if (!ev && go_xml_node_get_int (node, name, &i))
 		/* Check that the value is valid.  */
 		ev = g_enum_get_value (eclass, i);
 	xmlFree (s);
@@ -213,13 +213,13 @@ xml_node_get_enum (xmlNodePtr node, char const *name, GType etype, gint *val)
 }
 
 void
-xml_node_set_enum (xmlNodePtr node, char const *name, GType etype, gint val)
+go_xml_node_set_enum (xmlNodePtr node, char const *name, GType etype, gint val)
 {
 	GEnumClass *eclass = G_ENUM_CLASS (g_type_class_peek (etype));
 	GEnumValue *ev = g_enum_get_value (eclass, val);
 
 	if (ev)
-		xml_node_set_cstr (node, name, ev->value_name);
+		go_xml_node_set_cstr (node, name, ev->value_name);
 	else
 		g_warning ("Invalid value %d for type %s",
 			   val, g_type_name (etype));
@@ -228,7 +228,7 @@ xml_node_set_enum (xmlNodePtr node, char const *name, GType etype, gint val)
 /*************************************************************************/
 
 xmlNode *
-e_xml_get_child_by_name (xmlNode const *parent, char const *child_name)
+go_xml_get_child_by_name (xmlNode const *parent, char const *child_name)
 {
 	xmlNode *child;
 
@@ -244,7 +244,7 @@ e_xml_get_child_by_name (xmlNode const *parent, char const *child_name)
 }
 
 xmlNode *
-e_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *name)
+go_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *name)
 {
 	xmlNodePtr node;
 
@@ -269,7 +269,7 @@ e_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *name)
 
 
 xmlNode *
-e_xml_get_child_by_name_by_lang (xmlNode const *parent, gchar const *name)
+go_xml_get_child_by_name_by_lang (xmlNode const *parent, gchar const *name)
 {
 	xmlNodePtr   best_node = NULL, node;
 	gint         best_lang_score = INT_MAX;

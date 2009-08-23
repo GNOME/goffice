@@ -154,7 +154,7 @@ cb_pending_plot_types_load (char const *path,
 		if (!xmlIsBlankNode (ptr) && ptr->name && !strcmp (ptr->name, "Family")) {
 			name	    = xmlGetProp (ptr, "_name");
 			image_file  = xmlGetProp (ptr, "sample_image_file");
-			if (!xml_node_get_int (ptr, "priority", &priority))
+			if (!go_xml_node_get_int (ptr, "priority", &priority))
 				priority = 0;
 			axis_set_str = xmlGetProp (ptr, "axis_set");
 			axis_set = gog_axis_set_from_str (axis_set_str);
@@ -183,8 +183,8 @@ cb_pending_plot_types_load (char const *path,
 			image_file  = xmlGetProp (ptr, "sample_image_file");
 			description = xmlGetProp (ptr, "_description");
 			engine	    = xmlGetProp (ptr, "engine");
-			if (xml_node_get_int (ptr, "col", &col) &&
-			    xml_node_get_int (ptr, "row", &row)) {
+			if (go_xml_node_get_int (ptr, "col", &col) &&
+			    go_xml_node_get_int (ptr, "row", &row)) {
 				type = gog_plot_type_register (family, col, row,
 					name, image_file, description, engine);
 				if (type != NULL) {
@@ -661,7 +661,7 @@ GSF_CLASS (GogTrendLineService, gog_trend_line_service,
 /***************************************************************************/
 
 void
-gog_plugin_services_init (void)
+_gog_plugin_services_init (void)
 {
 	go_plugin_service_define ("plot_engine", &gog_plot_engine_service_get_type);
 	go_plugin_service_define ("plot_type",   &gog_plot_type_service_get_type);
@@ -671,7 +671,7 @@ gog_plugin_services_init (void)
 }
 
 void
-gog_plugin_services_shutdown (void)
+_gog_plugin_services_shutdown (void)
 {
 	g_slist_foreach (refd_plugins, (GFunc)go_plugin_use_unref, NULL);
 	g_slist_foreach (refd_plugins, (GFunc)g_object_unref, NULL);

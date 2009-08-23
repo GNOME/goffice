@@ -860,7 +860,7 @@ go_distribution_get_distribution_name (GODistribution *dist)
 }
 
 void
-go_distributions_init ()
+_go_distributions_init (void)
 {
 	go_dist_normal_get_type ();
 	go_dist_uniform_get_type ();

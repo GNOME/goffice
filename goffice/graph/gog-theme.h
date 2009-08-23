@@ -43,8 +43,8 @@ GogTheme   *gog_theme_registry_lookup 		(char const *name);
 GSList	   *gog_theme_registry_get_theme_names	(void);
 	
 /* private */
-void gog_themes_init	 (void);
-void gog_themes_shutdown (void);
+void _gog_themes_init	 (void);
+void _gog_themes_shutdown (void);
 
 G_END_DECLS
 

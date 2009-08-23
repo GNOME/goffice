@@ -59,13 +59,13 @@ go_conf_get_real_key (GOConfNode const *key, gchar const *subkey)
 }
 
 void
-go_conf_init (void)
+_go_conf_init (void)
 {
 	key_files = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_key_file_free);
 }
 
 void
-go_conf_shutdown (void)
+_go_conf_shutdown (void)
 {
 	if (!key_files)
 		return;

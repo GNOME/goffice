@@ -29,22 +29,22 @@ G_BEGIN_DECLS
 
 xmlDocPtr  go_xml_parse_file    (const char *filename);
 
-xmlChar   *xml_node_get_cstr	(xmlNodePtr node, char const *name);
-void	   xml_node_set_cstr	(xmlNodePtr node, char const *name, char const *val);
-gboolean   xml_node_get_bool	(xmlNodePtr node, char const *name, gboolean *result);
-void       xml_node_set_bool	(xmlNodePtr node, char const *name, gboolean val);
-gboolean   xml_node_get_int	(xmlNodePtr node, char const *name, int *result);
-void       xml_node_set_int	(xmlNodePtr node, char const *name, int  val);
-gboolean   xml_node_get_double	(xmlNodePtr node, char const *name, double *result);
-void       xml_node_set_double	(xmlNodePtr node, char const *name, double  val, int precision);
-gboolean   xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *result);
-void	   xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor  val);
-gboolean   xml_node_get_enum    (xmlNodePtr node, char const *name, GType etype, gint *val);
-void       xml_node_set_enum    (xmlNodePtr node, char const *name, GType etype, gint val);
+xmlChar   *go_xml_node_get_cstr	(xmlNodePtr node, char const *name);
+void	   go_xml_node_set_cstr	(xmlNodePtr node, char const *name, char const *val);
+gboolean   go_xml_node_get_bool	(xmlNodePtr node, char const *name, gboolean *result);
+void       go_xml_node_set_bool	(xmlNodePtr node, char const *name, gboolean val);
+gboolean   go_xml_node_get_int	(xmlNodePtr node, char const *name, int *result);
+void       go_xml_node_set_int	(xmlNodePtr node, char const *name, int  val);
+gboolean   go_xml_node_get_double	(xmlNodePtr node, char const *name, double *result);
+void       go_xml_node_set_double	(xmlNodePtr node, char const *name, double  val, int precision);
+gboolean   go_xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *result);
+void	   go_xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor  val);
+gboolean   go_xml_node_get_enum    (xmlNodePtr node, char const *name, GType etype, gint *val);
+void       go_xml_node_set_enum    (xmlNodePtr node, char const *name, GType etype, gint val);
 
-xmlNode *e_xml_get_child_by_name	 (xmlNode const *tree, char const *name);
-xmlNode *e_xml_get_child_by_name_no_lang (xmlNode const *tree, char const *name);
-xmlNode *e_xml_get_child_by_name_by_lang (xmlNode const *tree, char const *name);
+xmlNode *go_xml_get_child_by_name	 (xmlNode const *tree, char const *name);
+xmlNode *go_xml_get_child_by_name_no_lang (xmlNode const *tree, char const *name);
+xmlNode *go_xml_get_child_by_name_by_lang (xmlNode const *tree, char const *name);
 
 void	   go_xml_out_add_color (GsfXMLOut *out, char const *id, GOColor c);
 

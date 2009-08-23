@@ -121,17 +121,18 @@ libgoffice_init (void)
 	bindtextdomain (GETTEXT_PACKAGE, libgoffice_locale_dir);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	g_type_init ();
-	_go_string_init ();
-	go_conf_init ();
-	_go_fonts_init ();
-	go_math_init ();
 	gsf_init ();
 
+	_go_string_init ();
+	_go_conf_init ();
+	_go_fonts_init ();
+	_go_math_init ();
+
 	/* keep trigger happy linkers from leaving things out */
-	go_plugin_services_init ();
-	gog_plugin_services_init ();
+	_go_plugin_services_init ();
+	_gog_plugin_services_init ();
 #ifdef GOFFICE_WITH_GTK
-	goc_plugin_services_init ();
+	_goc_plugin_services_init ();
 #endif
 	(void) GOG_TYPE_GRAPH;
 	(void) GOG_TYPE_CHART;
@@ -153,25 +154,25 @@ libgoffice_init (void)
 	(void) GO_TYPE_DATA_SCALAR_VAL;
 	(void) GO_TYPE_DATA_SCALAR_STR;
 	(void) GOG_3D_BOX_TYPE;
-	gog_themes_init	();
-	go_number_format_init ();
-	go_currency_date_format_init ();
-	go_distributions_init ();
+	_gog_themes_init ();
+	_go_number_format_init ();
+	_go_currency_date_format_init ();
+	_go_distributions_init ();
 	initialized = TRUE;
 }
 
 void
 libgoffice_shutdown (void)
 {
-	gog_themes_shutdown ();
+	_gog_themes_shutdown ();
 	_go_fonts_shutdown ();
-	go_conf_shutdown ();
+	_go_conf_shutdown ();
 #ifdef GOFFICE_WITH_GTK
-	goc_plugin_services_shutdown ();
+	_goc_plugin_services_shutdown ();
 #endif
-	gog_plugin_services_shutdown ();
-	go_currency_date_format_shutdown ();
-	go_number_format_shutdown ();
+	_gog_plugin_services_shutdown ();
+	_go_currency_date_format_shutdown ();
+	_go_number_format_shutdown ();
 	_go_string_shutdown ();
 #ifdef G_OS_WIN32
 	/* const_cast, we created these above */

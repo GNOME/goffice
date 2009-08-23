@@ -13,12 +13,12 @@ struct _GOConfNode {
 };
 
 void
-go_conf_init (void)
+_go_conf_init (void)
 {
 }
 
 void
-go_conf_shutdown (void)
+_go_conf_shutdown (void)
 {
 }
 

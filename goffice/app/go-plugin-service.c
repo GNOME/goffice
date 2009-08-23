@@ -261,20 +261,20 @@ go_plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree,
 	gchar *description;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	if (xml_node_get_int (tree, "priority", &priority))
+	if (go_xml_node_get_int (tree, "priority", &priority))
 		priority = CLAMP (priority, 0, 100);
 	else
 		priority = 50;
 
-	if (!xml_node_get_bool (tree, "probe", &has_probe))
+	if (!go_xml_node_get_bool (tree, "probe", &has_probe))
 		has_probe = TRUE;
 
-	information_node = e_xml_get_child_by_name (tree, (xmlChar *)"information");
+	information_node = go_xml_get_child_by_name (tree, (xmlChar *)"information");
 	if (information_node != NULL) {
 		xmlNode *node;
 		xmlChar *val;
 
-		node = e_xml_get_child_by_name_by_lang (
+		node = go_xml_get_child_by_name_by_lang (
 		       information_node, "description");
 		if (node != NULL) {
 			val = xmlNodeGetContent (node);
@@ -292,7 +292,7 @@ go_plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree,
 		xmlNode *list, *node;
 		GOPluginServiceFileOpener *service_file_opener = GO_PLUGIN_SERVICE_FILE_OPENER (service);
 
-		list = e_xml_get_child_by_name (tree, (xmlChar *)"suffixes");
+		list = go_xml_get_child_by_name (tree, (xmlChar *)"suffixes");
 		if (list != NULL) {
 			for (node = list->xmlChildrenNode; node != NULL; node = node->next)
 				if (strcmp (node->name, "suffix") == 0 &&
@@ -301,7 +301,7 @@ go_plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree,
 		}
 		GO_SLIST_REVERSE (suffixes);
 
-		list = e_xml_get_child_by_name (tree, (xmlChar *)"mime-types");
+		list = go_xml_get_child_by_name (tree, (xmlChar *)"mime-types");
 		if (list != NULL) {
 			for (node = list->xmlChildrenNode; node != NULL; node = node->next)
 				if (strcmp (node->name, "mime-type") == 0 &&
@@ -590,12 +590,12 @@ go_plugin_service_file_saver_read_xml (GOPluginService *service, xmlNode *tree, 
 	gchar *description;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	information_node = e_xml_get_child_by_name (tree, (xmlChar *)"information");
+	information_node = go_xml_get_child_by_name (tree, (xmlChar *)"information");
 	if (information_node != NULL) {
 		xmlNode *node;
 		xmlChar *val;
 
-		node = e_xml_get_child_by_name_by_lang (
+		node = go_xml_get_child_by_name_by_lang (
 		       information_node, "description");
 		if (node != NULL) {
 			val = xmlNodeGetContent (node);
@@ -615,28 +615,28 @@ go_plugin_service_file_saver_read_xml (GOPluginService *service, xmlNode *tree, 
 		GOPluginServiceFileSaver *psfs =
 			GO_PLUGIN_SERVICE_FILE_SAVER (service);
 
-		s = xml_node_get_cstr (tree, "file_extension");
+		s = go_xml_node_get_cstr (tree, "file_extension");
 		psfs->file_extension = g_strdup (CXML2C (s));
 		xmlFree (s);
 
-		s = xml_node_get_cstr (tree, "mime_type");
+		s = go_xml_node_get_cstr (tree, "mime_type");
 		psfs->mime_type = g_strdup (CXML2C (s));
 		xmlFree (s);
 
 		psfs->description = description;
 
-		(void)xml_node_get_enum (tree, "format_level",
+		(void)go_xml_node_get_enum (tree, "format_level",
 					 GO_TYPE_FILE_SAVER_LEVEL, &level);
 		psfs->format_level = (GOFileFormatLevel)level;
 
-		if (!xml_node_get_int (tree, "default_saver_priority", &(psfs->default_saver_priority)))
+		if (!go_xml_node_get_int (tree, "default_saver_priority", &(psfs->default_saver_priority)))
 			psfs->default_saver_priority = -1;
 
-		(void)xml_node_get_enum (tree, "save_scope",
+		(void)go_xml_node_get_enum (tree, "save_scope",
 					 GO_TYPE_FILE_SAVER_SCOPE, &scope);
 		psfs->save_scope = (GOFileSaveScope)scope;
 
-		if (!xml_node_get_bool (tree, "overwrite_files", &(psfs->overwrite_files)))
+		if (!go_xml_node_get_bool (tree, "overwrite_files", &(psfs->overwrite_files)))
 			psfs->overwrite_files = TRUE;
 	} else {
 		*ret_error = go_error_info_new_str (_("File saver has no description"));
@@ -999,7 +999,7 @@ go_plugin_service_new (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_error)
 	g_return_val_if_fail (strcmp (tree->name, "service") == 0, NULL);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	type_str = xml_node_get_cstr (tree, "type");
+	type_str = go_xml_node_get_cstr (tree, "type");
 	if (type_str == NULL) {
 		*ret_error = go_error_info_new_str (_("No \"type\" attribute on \"service\" element."));
 		return NULL;
@@ -1015,7 +1015,7 @@ go_plugin_service_new (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_error)
 
 	service = g_object_new (ctor(), NULL);
 	service->plugin = plugin;
-	service->id = xml_node_get_cstr (tree, "id");
+	service->id = go_xml_node_get_cstr (tree, "id");
 	if (service->id == NULL)
 		service->id = g_strdup ("default");
 
@@ -1117,7 +1117,7 @@ go_plugin_service_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 /*****************************************************************************/
 
 void
-go_plugin_services_init (void)
+_go_plugin_services_init (void)
 {
 	static struct {
 		char const *type_str;

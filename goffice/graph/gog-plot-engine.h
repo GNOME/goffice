@@ -66,8 +66,8 @@ struct _GogTrendLineType {
 
 GHashTable const *gog_trend_line_types (void);
 
-void gog_plugin_services_init (void);
-void gog_plugin_services_shutdown (void);
+void _gog_plugin_services_init (void);
+void _gog_plugin_services_shutdown (void);
 
 G_END_DECLS
 
