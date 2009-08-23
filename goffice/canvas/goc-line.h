@@ -32,6 +32,8 @@ struct _GocLine {
 
 	/* using these to avoid confusion with x0 and others in GocItem */
 	double startx, starty, endx, endy;
+	gboolean arrowhead;
+	double headA, headB, headC;
 };
 
 typedef GocStyledItemClass GocLineClass;

@@ -175,6 +175,7 @@ goc_polygon_draw (GocItem const *item, cairo_t *cr)
 {
 	GocPolygon *polygon = GOC_POLYGON (item);
 	unsigned i;
+	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
 	if (polygon->nb_points == 0)
 		return;
 	cairo_save (cr);
@@ -183,7 +184,7 @@ goc_polygon_draw (GocItem const *item, cairo_t *cr)
 	/* FIXME: implement the use_spline case */
 
 	for (i = 1; i < polygon->nb_points; i++)
-		cairo_line_to (cr, polygon->points[i].x - polygon->points[0].x,
+		cairo_line_to (cr, (polygon->points[i].x - polygon->points[0].x) * sign,
 		               polygon->points[i].y - polygon->points[0].y);
 	cairo_close_path (cr);
 

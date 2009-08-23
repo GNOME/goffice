@@ -28,6 +28,12 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GOC_DIRECTION_LTR,
+	GOC_DIRECTION_RTL,
+	GOC_DIRECTION_MAX
+} GocDirection;
+
 struct _GocCanvas {
 	GtkLayout base;
 	double scroll_x1, scroll_y1;
@@ -39,6 +45,7 @@ struct _GocCanvas {
 	GocItem	*last_item;
 	GODoc *document;
 	GdkEvent *cur_event;
+	GocDirection direction;
 };
 
 typedef GtkLayoutClass GocCanvasClass;
@@ -65,6 +72,10 @@ GocItem		*goc_canvas_get_grabbed_item (GocCanvas *canvas);
 void		 goc_canvas_set_document (GocCanvas *canvas, GODoc *document);
 GODoc		*goc_canvas_get_document (GocCanvas *canvas);
 GdkEvent	*goc_canvas_get_cur_event (GocCanvas *canvas);
+void		 goc_canvas_set_direction (GocCanvas *canvas, GocDirection direction);
+GocDirection     goc_canvas_get_direction (GocCanvas *canvas);
+void		 goc_canvas_w2c (GocCanvas *canvas, int x, int y, double *x_, double *y_);
+void		 goc_canvas_c2w (GocCanvas *canvas, double x, double y, int *x_, int *y_);
 G_END_DECLS
 
 #endif  /* GOC_CANVAS_H */

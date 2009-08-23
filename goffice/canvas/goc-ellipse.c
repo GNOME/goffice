@@ -168,10 +168,10 @@ goc_ellipse_draw (GocItem const *item, cairo_t *cr)
 	GocEllipse *ellipse = GOC_ELLIPSE (item);
 	double  scalex = (ellipse->width > 0.)? ellipse->width / 2.: 1.e-10,
 		scaley = (ellipse->height > 0.)? ellipse->height / 2.: 1.e-10;
-	    
+	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
 	cairo_save (cr);
 	goc_group_cairo_transform (item->parent, cr, ellipse->x, ellipse->y);
-	cairo_translate (cr, ellipse->width / 2., ellipse->height / 2.);
+	cairo_translate (cr, scalex * sign, scaley);
 	cairo_scale (cr, scalex, scaley);
 	cairo_rotate (cr, ellipse->rotation);
 	cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);

@@ -175,13 +175,20 @@ goc_graph_draw (GocItem const *item, cairo_t *cr)
 	GocGraph *graph = GOC_GRAPH (item);
 	GocCanvas *canvas = item->canvas;
 	cairo_surface_t *surf;
-	double x0 = item->x0, y0 = item->y0;
+	double x0, y0 = item->y0;
 	if (graph->renderer == NULL)
 		return;
-	goc_group_adjust_coords (item->parent, &x0, &y0);
+	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
+		x0 = item->x1;
+		goc_group_adjust_coords (item->parent, &x0, &y0);
+		x0 = canvas->wwidth - (int) (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
+	} else {
+		x0 = item->x0;
+		goc_group_adjust_coords (item->parent, &x0, &y0);
+		x0 = (int) (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
+	}
 	cairo_save (cr);
-	cairo_translate (cr,
-	                 (int) (x0 - canvas->scroll_x1) * canvas->pixels_per_unit,
+	cairo_translate (cr, x0,
 	                 (int) (y0 - canvas->scroll_y1) * canvas->pixels_per_unit);
 	/* scaling only there gives a better rendering, and allows for caching */
 	gog_renderer_update (graph->renderer,

@@ -40,9 +40,14 @@ expose_cb (GocCanvas *canvas, GdkEventExpose *event, G_GNUC_UNUSED gpointer data
        if (event->count)
 		return TRUE;
 	goc_item_get_bounds (GOC_ITEM (canvas->root),&x0, &y0, &x1, &y1);
-	ax0 = (double) event->area.x / canvas->pixels_per_unit + canvas->scroll_x1;
+	if (canvas->direction == GOC_DIRECTION_RTL) {
+		ax1 = (double)  (canvas->wwidth - event->area.x) / canvas->pixels_per_unit + canvas->scroll_x1;
+		ax0 = (double) (canvas->wwidth - event->area.x - event->area.width) / canvas->pixels_per_unit + canvas->scroll_x1;
+	} else {
+		ax0 = (double) event->area.x / canvas->pixels_per_unit + canvas->scroll_x1;
+		ax1 = ((double) event->area.x + event->area.width) / canvas->pixels_per_unit + canvas->scroll_x1;
+	}
 	ay0 = (double) event->area.y / canvas->pixels_per_unit + canvas->scroll_y1;
-	ax1 = ((double) event->area.x + event->area.width) / canvas->pixels_per_unit + canvas->scroll_x1;
 	ay1 = ((double) event->area.y + event->area.height) / canvas->pixels_per_unit + canvas->scroll_y1;
 	if (x0 <= ax1 && x1 >= ax0 && y0 <= ay1 && y1 >= ay0) {
 		cairo_t *cr = gdk_cairo_create (event->window);
@@ -62,7 +67,9 @@ button_press_cb (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointe
 
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
 		return TRUE;
-	x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
+	x = (canvas->direction == GOC_DIRECTION_RTL)?
+		canvas->scroll_x1 +  (canvas->wwidth - event->x) / canvas->pixels_per_unit:
+		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
 	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
 	item = goc_canvas_get_item_at (canvas, x, y);;	
 	if (item) {
@@ -83,7 +90,9 @@ button_release_cb (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpoin
 
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
 		return TRUE;
-	x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
+	x = (canvas->direction == GOC_DIRECTION_RTL)?
+		canvas->scroll_x1 +  (canvas->wwidth - event->x) / canvas->pixels_per_unit:
+		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
 	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
 	item = (canvas->grabbed_item != NULL)?
 		canvas->grabbed_item:
@@ -104,7 +113,10 @@ motion_cb (GocCanvas *canvas, GdkEventMotion *event, G_GNUC_UNUSED gpointer data
 
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
 		return TRUE;
-	x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
+
+	x = (canvas->direction == GOC_DIRECTION_RTL)?
+		canvas->scroll_x1 +  (canvas->wwidth - event->x) / canvas->pixels_per_unit:
+		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
 	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
 	if (canvas->grabbed_item != NULL) 
 		item = canvas->grabbed_item;
@@ -152,7 +164,9 @@ enter_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpoin
 
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
 		return TRUE;
-	x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
+	x = (canvas->direction == GOC_DIRECTION_RTL)?
+		canvas->scroll_x1 +  (canvas->wwidth - event->x) / canvas->pixels_per_unit:
+		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
 	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
 	item = goc_canvas_get_item_at (canvas, x, y);;	
 	if (item) {
@@ -169,7 +183,9 @@ leave_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpoin
 
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
 		return TRUE;
-	x = canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
+	x = (canvas->direction == GOC_DIRECTION_RTL)?
+		canvas->scroll_x1 +  (canvas->wwidth - event->x) / canvas->pixels_per_unit:
+		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
 	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
 	if (canvas->last_item) {
 		gboolean result = GOC_ITEM_GET_CLASS (canvas->last_item)->leave_notify (canvas->last_item, x, y);
@@ -343,6 +359,11 @@ goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, doubl
 		x1 = canvas->wwidth;
 	if (y1 > canvas->wheight)
 		y1 = canvas->wheight;
+	if (canvas->direction == GOC_DIRECTION_RTL) {
+		double tmp = x0;
+		x0 = canvas->wwidth - x1;
+		x1 = canvas->wwidth - tmp;
+	}
 	if (x1 > x0 && y1 > y0)
 		gtk_widget_queue_draw_area (GTK_WIDGET (canvas),
 					    (int) floor (x0), (int) floor (y0),
@@ -397,4 +418,45 @@ goc_canvas_get_cur_event (GocCanvas *canvas)
 {
 	g_return_val_if_fail (GOC_IS_CANVAS (canvas), NULL);
 	return canvas->cur_event;
+}
+
+void
+goc_canvas_set_direction (GocCanvas *canvas, GocDirection direction)
+{
+	g_return_if_fail (GOC_IS_CANVAS (canvas) && direction < GOC_DIRECTION_MAX);
+	canvas->direction = direction;
+	goc_canvas_invalidate (canvas, -G_MAXDOUBLE, -G_MAXDOUBLE, G_MAXDOUBLE, G_MAXDOUBLE);
+}
+
+GocDirection
+goc_canvas_get_direction (GocCanvas *canvas)
+{
+	g_return_val_if_fail (GOC_IS_CANVAS (canvas), GOC_DIRECTION_MAX);
+	return canvas->direction;
+}
+
+void
+goc_canvas_w2c (GocCanvas *canvas, int x, int y, double *x_, double *y_)
+{
+	if (x_) {
+		if (canvas->direction == GOC_DIRECTION_RTL)
+			*x_ = (double)  (canvas->wwidth - x) / canvas->pixels_per_unit + canvas->scroll_x1;
+		else
+			*x_ = (double) x / canvas->pixels_per_unit + canvas->scroll_x1;
+	}
+	if (y_)
+		*y_ = (double) y / canvas->pixels_per_unit + canvas->scroll_y1;
+}
+
+void
+goc_canvas_c2w (GocCanvas *canvas, double x, double y, int *x_, int *y_)
+{
+	if (x_) {
+		if (canvas->direction == GOC_DIRECTION_RTL)
+			*x_ = canvas->wwidth - (x - canvas->scroll_x1) * canvas->pixels_per_unit;
+		else
+			*x_ = (x - canvas->scroll_x1) * canvas->pixels_per_unit;
+	}
+	if (y_)
+		*y_ = (y - canvas->scroll_y1) * canvas->pixels_per_unit;
 }

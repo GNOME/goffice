@@ -1,3 +1,18 @@
+2009-08-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c: add RTL support tothe canvas.
+	* goffice/canvas/goc-canvas.h: ditto.
+	* goffice/canvas/goc-ellipse.c: ditto.
+	* goffice/canvas/goc-graph.c: ditto.
+	* goffice/canvas/goc-group.c: ditto.
+	* goffice/canvas/goc-line.c: ditto.
+	* goffice/canvas/goc-line.h: ditto.
+	* goffice/canvas/goc-pixbuf.c: ditto.
+	* goffice/canvas/goc-polygon.c: ditto.
+	* goffice/canvas/goc-polyline.c: ditto.
+	* goffice/canvas/goc-rectangle.c: ditto.
+	* goffice/canvas/goc-text.c: ditto.
+
 2009-08-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: test for gtk_layout_get_bin_window.

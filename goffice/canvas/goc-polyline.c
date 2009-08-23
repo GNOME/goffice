@@ -160,6 +160,7 @@ goc_polyline_draw (GocItem const *item, cairo_t *cr)
 {
 	GocPolyline *polyline = GOC_POLYLINE (item);
 	unsigned i;
+	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
 	if (polyline->nb_points == 0)
 		return;
 	cairo_save (cr);
@@ -168,7 +169,7 @@ goc_polyline_draw (GocItem const *item, cairo_t *cr)
 	/* FIXME: implement the use_spline case */
 
 	for (i = 1; i < polyline->nb_points; i++)
-		cairo_line_to (cr, polyline->points[i].x - polyline->points[0].x,
+		cairo_line_to (cr, (polyline->points[i].x - polyline->points[0].x) * sign,
 		               polyline->points[i].y - polyline->points[0].y);
 
 	if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr))

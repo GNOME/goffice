@@ -139,10 +139,10 @@ goc_pixbuf_update_bounds (GocItem *item)
 	if (!pixbuf->pixbuf)
 		return;
 	/* FIXME: take rotation into account */
-	item->x0 = pixbuf->x;
-	item->y0 = pixbuf->y;
-	item->x1 = pixbuf->x + ((pixbuf->width > 0.)? pixbuf->width: gdk_pixbuf_get_width (pixbuf->pixbuf));
-	item->y1 = pixbuf->y + ((pixbuf->height > 0.)? pixbuf->height: gdk_pixbuf_get_height (pixbuf->pixbuf));
+	item->x0 = floor (pixbuf->x);
+	item->y0 = floor (pixbuf->y);
+	item->x1 = ceil (pixbuf->x + ((pixbuf->width > 0.)? pixbuf->width: gdk_pixbuf_get_width (pixbuf->pixbuf)));
+	item->y1 = ceil (pixbuf->y + ((pixbuf->height > 0.)? pixbuf->height: gdk_pixbuf_get_height (pixbuf->pixbuf)));
 }
 
 static double
@@ -181,6 +181,7 @@ goc_pixbuf_draw (GocItem const *item, cairo_t *cr)
 	cairo_pattern_t *pat;
 	double height, width;
 	double scalex = 1., scaley = 1.;
+	int x;
 
 	if (pixbuf->pixbuf == NULL)
 		return;
@@ -200,11 +201,13 @@ goc_pixbuf_draw (GocItem const *item, cairo_t *cr)
 		scaley = height / gdk_pixbuf_get_height (pixbuf->pixbuf);
 	}
 	cairo_save (cr);
-	goc_group_cairo_transform (item->parent, cr, pixbuf->x, pixbuf->y);
+	x = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)?
+		pixbuf->x + pixbuf->width: pixbuf->x;
+	goc_group_cairo_transform (item->parent, cr, x, (int) pixbuf->y);
 	cairo_rotate (cr, pixbuf->rotation);
 	if (scalex != 1. || scaley != 1.)
 		cairo_scale (cr, scalex, scaley);
-	cairo_rectangle (cr, 0., 0., width, height);
+	cairo_rectangle (cr, 0., 0., ceil (width), ceil (height));
 	cairo_set_source (cr, pat);
 	cairo_pattern_destroy (pat);
         cairo_fill (cr);

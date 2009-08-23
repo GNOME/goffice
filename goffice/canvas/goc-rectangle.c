@@ -145,11 +145,17 @@ static void
 goc_rectangle_draw (GocItem const *item, cairo_t *cr)
 {
 	GocRectangle *rect = GOC_RECTANGLE (item);
-
+	double hoffs, voffs = ceil (go_styled_object_get_style (GO_STYLED_OBJECT (item))->outline.width);
+	if (voffs <= 0.)
+		voffs = 1.;
+	hoffs = ((int) voffs & 1)? .5: 0.;
+	voffs = hoffs;
+	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)
+		hoffs += (int) rect->width;
 	cairo_save (cr);
-	goc_group_cairo_transform (item->parent, cr, rect->x, rect->y);
+	goc_group_cairo_transform (item->parent, cr, hoffs + (int) rect->x, voffs + (int) rect->y);
 	cairo_rotate (cr, rect->rotation);
-	cairo_rectangle (cr, 0., 0., rect->width, rect->height);
+	cairo_rectangle (cr, 0., 0., (int) rect->width, (int)rect->height);
 	cairo_restore (cr);
 	/* Fill the shape */
 	if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
