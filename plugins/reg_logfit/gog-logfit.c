@@ -64,9 +64,9 @@ gog_log_fit_curve_update (GogObject *obj)
 		used++;
 	}
 	if (used > 4) {
-		RegressionResult res = go_logarithmic_fit (tx_vals, ty_vals,
+		GORegressionResult res = go_logarithmic_fit (tx_vals, ty_vals,
 								used, rc->a);
-		if (res == REG_ok) {
+		if (res == GO_REG_ok) {
 			go_range_devsq (ty_vals, used, &x);
 			rc->R2 = (x - rc->a[4]) / x;
 		} else for (nb = 0; nb < 5; nb++)

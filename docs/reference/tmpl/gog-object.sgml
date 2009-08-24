@@ -54,53 +54,53 @@ Base class for all objects of graph model
 
 </para>
 
-@gogobject: the object which received the signal.
-@arg1: 
+@: 
+@: 
 
 <!-- ##### SIGNAL GogObject::child-added ##### -->
 <para>
 
 </para>
 
-@gogobject: the object which received the signal.
-@arg1: 
+@: 
+@: 
 
 <!-- ##### SIGNAL GogObject::child-name-changed ##### -->
 <para>
 
 </para>
 
-@gogobject: the object which received the signal.
-@arg1: 
+@: 
+@: 
 
 <!-- ##### SIGNAL GogObject::child-removed ##### -->
 <para>
 
 </para>
 
-@gogobject: the object which received the signal.
-@arg1: 
+@: 
+@: 
 
 <!-- ##### SIGNAL GogObject::children-reordered ##### -->
 <para>
 
 </para>
 
-@gogobject: the object which received the signal.
+@: 
 
 <!-- ##### SIGNAL GogObject::name-changed ##### -->
 <para>
 
 </para>
 
-@gogobject: the object which received the signal.
+@: 
 
 <!-- ##### SIGNAL GogObject::update-editor ##### -->
 <para>
 
 </para>
 
-@gogobject: the object which received the signal.
+@: 
 
 <!-- ##### ARG GogObject:alignment ##### -->
 <para>

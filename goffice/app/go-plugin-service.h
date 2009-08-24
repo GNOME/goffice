@@ -1,5 +1,5 @@
-#ifndef PLUGIN_SERVICE_H
-#define PLUGIN_SERVICE_H
+#ifndef GO_PLUGIN_SERVICE_H
+#define GO_PLUGIN_SERVICE_H
 
 #include <goffice/app/goffice-app.h>
 #include <goffice/app/go-plugin.h>
@@ -103,10 +103,10 @@ void		go_plugin_service_unload (GOPluginService *service, GOErrorInfo **ret_erro
 
 typedef GType (*GOPluginServiceCreate) (void);
 void _go_plugin_services_init     (void);
-void go_plugin_services_shutdown (void);
+void _go_plugin_services_shutdown (void);
 void go_plugin_service_define    (char const *type_str,
-			       GOPluginServiceCreate ctor);
+				  GOPluginServiceCreate ctor);
 
 G_END_DECLS
 
-#endif /* PLUGIN_SERVICE_H */
+#endif /* GO_PLUGIN_SERVICE_H */

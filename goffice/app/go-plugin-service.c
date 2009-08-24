@@ -1146,7 +1146,7 @@ _go_plugin_services_init (void)
 }
 
 void
-go_plugin_services_shutdown (void)
+_go_plugin_services_shutdown (void)
 {
 	g_return_if_fail (services != NULL);
 	g_hash_table_destroy (services);

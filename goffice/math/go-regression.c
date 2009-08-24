@@ -142,7 +142,7 @@ SUFFIX(backsolve) (DOUBLE **LU, int *P, DOUBLE *b, int n, DOUBLE *res)
 	}
 }
 
-static RegressionResult
+static GORegressionResult
 SUFFIX(rescale) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *pdet)
 {
 	int i;
@@ -155,7 +155,7 @@ SUFFIX(rescale) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *pdet)
 		(void)SUFFIX(go_range_maxabs) (A[i], n, &max);
 
 		if (max == 0)
-			return REG_singular;
+			return GO_REG_singular;
 
 		/* Use a power of 2 near sqrt (max) as scale.  */
 		(void)SUFFIX(frexp) (SUFFIX(sqrt) (max), &expn);
@@ -170,7 +170,7 @@ SUFFIX(rescale) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *pdet)
 		for (j = 0; j < n; j++)
 			A[i][j] /= scale;
 	}
-	return REG_ok;
+	return GO_REG_ok;
 }
 
 
@@ -185,7 +185,7 @@ SUFFIX(rescale) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *pdet)
  * A rescaling of rows is done and the b_scaled vector is scaled
  * accordingly.
  */
-static RegressionResult
+static GORegressionResult
 SUFFIX(LUPDecomp) (DOUBLE **A, DOUBLE **LU, int *P, int n, DOUBLE *b_scaled,
 	   DOUBLE *pdet)
 {
@@ -207,8 +207,8 @@ SUFFIX(LUPDecomp) (DOUBLE **A, DOUBLE **LU, int *P, int n, DOUBLE *b_scaled,
 	PRINT_MATRIX (LU, n, n);
 #endif
 	{
-		RegressionResult err = SUFFIX(rescale) (LU, b_scaled, n, &det);
-		if (err != REG_ok)
+		GORegressionResult err = SUFFIX(rescale) (LU, b_scaled, n, &det);
+		if (err != GO_REG_ok)
 			return err;
 	}
 
@@ -227,7 +227,7 @@ SUFFIX(LUPDecomp) (DOUBLE **A, DOUBLE **LU, int *P, int n, DOUBLE *b_scaled,
 			i, max, mov);
 #endif
 		if (max == 0)
-			return REG_singular;
+			return GO_REG_singular;
 		if (max > highest)
 			highest = max;
 		if (max < lowest)
@@ -266,44 +266,44 @@ SUFFIX(LUPDecomp) (DOUBLE **A, DOUBLE **LU, int *P, int n, DOUBLE *b_scaled,
 
 	/* FIXME: make some science out of this.  */
 	if (cond > DOUBLE_MANT_DIG * 0.75)
-		return REG_near_singular_bad;
+		return GO_REG_near_singular_bad;
 	else if (cond > DOUBLE_MANT_DIG * 0.50)
-		return REG_near_singular_good;
+		return GO_REG_near_singular_good;
 	else
-		return REG_ok;
+		return GO_REG_ok;
 }
 
 
-static RegressionResult
+static GORegressionResult
 SUFFIX(linear_solve) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *res)
 {
-	RegressionResult err;
+	GORegressionResult err;
 	DOUBLE **LU, *b_scaled;
 	int *P;
 	DOUBLE det;
 
 	if (n < 1)
-		return REG_not_enough_data;
+		return GO_REG_not_enough_data;
 
 	/* Special case.  */
 	if (n == 1) {
 		DOUBLE d = A[0][0];
 		if (d == 0)
-			return REG_singular;
+			return GO_REG_singular;
 
 		res[0] = b[0] / d;
-		return REG_ok;
+		return GO_REG_ok;
 	}
 
 	/* Special case.  */
 	if (n == 2) {
 		DOUBLE d = SUFFIX(go_matrix_determinant) (A, n);
 		if (d == 0)
-			return REG_singular;
+			return GO_REG_singular;
 
 		res[0] = (A[1][1] * b[0] - A[1][0] * b[1]) / d;
 		res[1] = (A[0][0] * b[1] - A[0][1] * b[0]) / d;
-		return REG_ok;
+		return GO_REG_ok;
 	}
 
 	/*
@@ -318,7 +318,7 @@ SUFFIX(linear_solve) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *res)
 
 	err = SUFFIX(LUPDecomp) (A, LU, P, n, b_scaled, &det);
 
-	if (err == REG_ok || err == REG_near_singular_good)
+	if (err == GO_REG_ok || err == GO_REG_near_singular_good)
 		SUFFIX(backsolve) (LU, P, b_scaled, n, res);
 
 	FREE_MATRIX (LU, n, n);
@@ -331,7 +331,7 @@ SUFFIX(linear_solve) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *res)
 gboolean
 SUFFIX(go_matrix_invert) (DOUBLE **A, int n)
 {
-	RegressionResult err;
+	GORegressionResult err;
 	DOUBLE **LU, *b_scaled, det;
 	int *P;
 	int i;
@@ -353,7 +353,7 @@ SUFFIX(go_matrix_invert) (DOUBLE **A, int n)
 
 	err = SUFFIX(LUPDecomp) (A, LU, P, n, b_scaled, &det);
 
-	if (err == REG_ok || err == REG_near_singular_good) {
+	if (err == GO_REG_ok || err == GO_REG_near_singular_good) {
 		int i, j;
 		DOUBLE *b = g_new (DOUBLE, n);
 		DOUBLE *w = g_new (DOUBLE, n);
@@ -381,7 +381,7 @@ SUFFIX(go_matrix_invert) (DOUBLE **A, int n)
 DOUBLE
 SUFFIX(go_matrix_determinant) (DOUBLE **A, int n)
 {
-	RegressionResult err;
+	GORegressionResult err;
 	DOUBLE **LU, *b_scaled, det;
 	int *P;
 
@@ -415,7 +415,7 @@ SUFFIX(go_matrix_determinant) (DOUBLE **A, int n)
 
 /* ------------------------------------------------------------------------- */
 
-static RegressionResult
+static GORegressionResult
 SUFFIX(general_linear_regression) (DOUBLE **xss, int xdim,
 			   const DOUBLE *ys, int n,
 			   DOUBLE *result,
@@ -423,13 +423,13 @@ SUFFIX(general_linear_regression) (DOUBLE **xss, int xdim,
 {
 	DOUBLE *xTy, **xTx;
 	int i,j;
-	RegressionResult regerr;
+	GORegressionResult regerr;
 
 	if (regression_stat)
 		memset (regression_stat, 0, sizeof (SUFFIX(go_regression_stat_t)));
 
 	if (xdim > n)
-		return REG_not_enough_data;
+		return GO_REG_not_enough_data;
 
 	xTy = g_new (DOUBLE, xdim);
 	for (i = 0; i < xdim; i++) {
@@ -475,8 +475,8 @@ SUFFIX(general_linear_regression) (DOUBLE **xss, int xdim,
 	regerr = SUFFIX(linear_solve) (xTx, xTy, xdim, result);
 
 	if (regression_stat &&
-	    (regerr == REG_ok || regerr == REG_near_singular_good)) {
-		RegressionResult err2;
+	    (regerr == GO_REG_ok || regerr == GO_REG_near_singular_good)) {
+		GORegressionResult err2;
 		DOUBLE *residuals = g_new (DOUBLE, n);
 		DOUBLE **LU, *one_scaled, det;
 		int *P;
@@ -535,7 +535,7 @@ SUFFIX(general_linear_regression) (DOUBLE **xss, int xdim,
 
 		err2 = SUFFIX(LUPDecomp) (xTx, LU, P, xdim, one_scaled, &det);
 		regression_stat->se = g_new (DOUBLE, xdim);
-		if (err2 == REG_ok || err2 == REG_near_singular_good) {
+		if (err2 == GO_REG_ok || err2 == GO_REG_near_singular_good) {
 			DOUBLE *e = g_new (DOUBLE, xdim); /* Elementary vector */
 			DOUBLE *inv = g_new (DOUBLE, xdim);
 			for (i = 0; i < xdim; i++)
@@ -549,7 +549,7 @@ SUFFIX(general_linear_regression) (DOUBLE **xss, int xdim,
 					 * If this happens, something is really
 					 * wrong, numerically.
 					 */
-					regerr = REG_near_singular_bad;
+					regerr = GO_REG_near_singular_bad;
 				}
 				regression_stat->se[i] =
 					SUFFIX(sqrt) (regression_stat->var * inv[i]);
@@ -634,7 +634,7 @@ SUFFIX(transform_x_and_linear_regression_log_fitting) (DOUBLE *xs,
 					       *point_cloud)
 {
         int i;
-	int result = REG_ok;
+	int result = GO_REG_ok;
 	DOUBLE mean_transf_x, diff_x, resid_y;
 	DOUBLE sum1 = 0;
 	DOUBLE sum2 = 0;
@@ -662,7 +662,7 @@ static int
 SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
 	     DOUBLE *res, SUFFIX(point_cloud_measure_type) *point_cloud)
 {
-        int result = REG_ok;
+        int result = GO_REG_ok;
 	gboolean sign_plus_ok = 1, sign_minus_ok = 1;
 	DOUBLE x_range, c_step, c_accuracy_int, c_offset, c_accuracy;
 	DOUBLE c_range, c_start, c_end, c_dist;
@@ -682,7 +682,7 @@ SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
 	SUFFIX(modf) (c_accuracy, &c_accuracy_int);
 	c_accuracy = c_accuracy_int;
 	c_accuracy = SUFFIX(pow) (10, c_accuracy);
-	c_accuracy *= LOGFIT_C_ACCURACY;
+	c_accuracy *= GO_LOGFIT_C_ACCURACY;
 
 	/* Determine sign. Take a c which is ``much to small'' since the part
 	 * of the curve cutting the point cloud is almost not bent.
@@ -690,8 +690,8 @@ SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
 	 * assume that we have to change the direction of curve bending
 	 * by changing sign.
 	 */
-	c_step = x_range * LOGFIT_C_STEP_FACTOR;
-	c_range = x_range * LOGFIT_C_RANGE_FACTOR;
+	c_step = x_range * GO_LOGFIT_C_STEP_FACTOR;
+	c_range = x_range * GO_LOGFIT_C_RANGE_FACTOR;
 	res[0] = 1; /* sign */
 	res[3] = point_cloud->min_x - c_range;
 	temp_res[0] = 1;
@@ -721,7 +721,7 @@ SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
 	else if (sign_minus_ok && !sign_plus_ok)
 	        res[0] = -1;
 	else {
-	        result = REG_invalid_data;
+	        result = GO_REG_invalid_data;
 		goto out;
 	}
 
@@ -743,7 +743,7 @@ SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
 	SUFFIX(transform_x_and_linear_regression_log_fitting) (xs, transf_xs, ys, n,
 						       temp_res, point_cloud);
 	if (temp_res[4] >= res[4]) {
-	        result = REG_invalid_data;
+	        result = GO_REG_invalid_data;
 		goto out;
 	}
 	/* After the above check, any minimum reached will be NOT  at
@@ -783,7 +783,7 @@ SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
 	        /* Allowing for some inaccuracy, we are at the end of the
 		 * range, so this is probably no local minimum.
 		 * The start of the range has been checked above. */
-	        result = REG_invalid_data;
+	        result = GO_REG_invalid_data;
 		goto out;
 	}
 
@@ -806,19 +806,19 @@ SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
  * Performs multi-dimensional linear regressions on the input points.
  * Fits to "y = b + a1 * x1 + ... ad * xd".
  *
- * Returns: #RegressionResult as above.
+ * Returns: #GORegressionResult as above.
  **/
-RegressionResult
+GORegressionResult
 SUFFIX(go_linear_regression) (DOUBLE **xss, int dim,
 			      const DOUBLE *ys, int n,
 			      gboolean affine,
 			      DOUBLE *res,
 			      SUFFIX(go_regression_stat_t) *regression_stat)
 {
-	RegressionResult result;
+	GORegressionResult result;
 
-	g_return_val_if_fail (dim >= 1, REG_invalid_dimensions);
-	g_return_val_if_fail (n >= 1, REG_invalid_dimensions);
+	g_return_val_if_fail (dim >= 1, GO_REG_invalid_dimensions);
+	g_return_val_if_fail (n >= 1, GO_REG_invalid_dimensions);
 
 	if (affine) {
 		DOUBLE **xss2;
@@ -851,9 +851,9 @@ SUFFIX(go_linear_regression) (DOUBLE **xss, int dim,
  * Fits to "y = b * m1^x1 * ... * md^xd " or equivalently to
  * "log y = log b + x1 * log m1 + ... + xd * log md".
  *
- * Returns: #RegressionResult as above.
+ * Returns: #GORegressionResult as above.
  **/
-RegressionResult
+GORegressionResult
 SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
 			const DOUBLE *ys, int n,
 			gboolean affine,
@@ -861,18 +861,18 @@ SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
 			SUFFIX(go_regression_stat_t) *regression_stat)
 {
 	DOUBLE *log_ys;
-	RegressionResult result;
+	GORegressionResult result;
 	int i;
 
-	g_return_val_if_fail (dim >= 1, REG_invalid_dimensions);
-	g_return_val_if_fail (n >= 1, REG_invalid_dimensions);
+	g_return_val_if_fail (dim >= 1, GO_REG_invalid_dimensions);
+	g_return_val_if_fail (n >= 1, GO_REG_invalid_dimensions);
 
 	log_ys = g_new (DOUBLE, n);
 	for (i = 0; i < n; i++)
 		if (ys[i] > 0)
 			log_ys[i] = SUFFIX(log) (ys[i]);
 		else {
-			result = REG_invalid_data;
+			result = GO_REG_invalid_data;
 			goto out;
 		}
 
@@ -914,9 +914,9 @@ SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
  * Fits to "y = b * x1^m1 * ... * xd^md " or equivalently to
  * "log y = log b + m1 * log x1 + ... + md * log xd".
  *
- * Returns: #RegressionResult as above.
+ * Returns: #GORegressionResult as above.
  **/
-RegressionResult
+GORegressionResult
 SUFFIX(go_power_regression) (DOUBLE **xss, int dim,
 			const DOUBLE *ys, int n,
 			gboolean affine,
@@ -924,18 +924,18 @@ SUFFIX(go_power_regression) (DOUBLE **xss, int dim,
 			SUFFIX(go_regression_stat_t) *regression_stat)
 {
 	DOUBLE *log_ys, **log_xss = NULL;
-	RegressionResult result;
+	GORegressionResult result;
 	int i, j;
 
-	g_return_val_if_fail (dim >= 1, REG_invalid_dimensions);
-	g_return_val_if_fail (n >= 1, REG_invalid_dimensions);
+	g_return_val_if_fail (dim >= 1, GO_REG_invalid_dimensions);
+	g_return_val_if_fail (n >= 1, GO_REG_invalid_dimensions);
 
 	log_ys = g_new (DOUBLE, n);
 	for (i = 0; i < n; i++)
 		if (ys[i] > 0)
 			log_ys[i] = SUFFIX(log) (ys[i]);
 		else {
-			result = REG_invalid_data;
+			result = GO_REG_invalid_data;
 			goto out;
 		}
 
@@ -945,7 +945,7 @@ SUFFIX(go_power_regression) (DOUBLE **xss, int dim,
 		        if (xss[i][j] > 0)
 		                log_xss[i][j] = SUFFIX(log) (xss[i][j]);
 			else {
-			        result = REG_invalid_data;
+			        result = GO_REG_invalid_data;
 				goto out;
 			}
 
@@ -990,9 +990,9 @@ SUFFIX(go_power_regression) (DOUBLE **xss, int dim,
  *
  * (Errors: less than two points, all points on a vertical line, non-positive x data.)
  * 
- * Returns: #RegressionResult as above.  
+ * Returns: #GORegressionResult as above.  
  **/
-RegressionResult
+GORegressionResult
 SUFFIX(go_logarithmic_regression) (DOUBLE **xss, int dim,
 			const DOUBLE *ys, int n,
 			gboolean affine,
@@ -1000,11 +1000,11 @@ SUFFIX(go_logarithmic_regression) (DOUBLE **xss, int dim,
 			SUFFIX(go_regression_stat_t) *regression_stat)
 {
         DOUBLE **log_xss;
-	RegressionResult result;
+	GORegressionResult result;
 	int i, j;
 
-	g_return_val_if_fail (dim >= 1, REG_invalid_dimensions);
-	g_return_val_if_fail (n >= 1, REG_invalid_dimensions);
+	g_return_val_if_fail (dim >= 1, GO_REG_invalid_dimensions);
+	g_return_val_if_fail (n >= 1, GO_REG_invalid_dimensions);
 
 	ALLOC_MATRIX (log_xss, dim, n);
 	for (i = 0; i < dim; i++)
@@ -1012,7 +1012,7 @@ SUFFIX(go_logarithmic_regression) (DOUBLE **xss, int dim,
 		        if (xss[i][j] > 0)
 		                log_xss[i][j] = SUFFIX(log) (xss[i][j]);
 			else {
-			        result = REG_invalid_data;
+			        result = GO_REG_invalid_data;
 				goto out;
 			}
 
@@ -1065,10 +1065,10 @@ SUFFIX(go_logarithmic_regression) (DOUBLE **xss, int dim,
  * 
  * (Requires: at least 3 different x values, at least 3 different y values.)
  *
- * Returns: #RegressionResult as above.
+ * Returns: #GORegressionResult as above.
  */
 
-RegressionResult
+GORegressionResult
 SUFFIX(go_logarithmic_fit) (DOUBLE *xs, const DOUBLE *ys, int n, DOUBLE *res)
 {
     SUFFIX(point_cloud_measure_type) point_cloud_measures;
@@ -1078,7 +1078,7 @@ SUFFIX(go_logarithmic_fit) (DOUBLE *xs, const DOUBLE *ys, int n, DOUBLE *res)
 	/* Store useful measures for using them here and in subfunctions.
 	 * The checking of n is paranoid -- the calling function should
 	 * have cared for that. */
-	g_return_val_if_fail (n > 2, REG_invalid_dimensions);
+	g_return_val_if_fail (n > 2, GO_REG_invalid_dimensions);
 	result = SUFFIX(go_range_min) (xs, n, &(point_cloud_measures.min_x));
 	result = SUFFIX(go_range_max) (xs, n, &(point_cloud_measures.max_x));
 	result = SUFFIX(go_range_min) (ys, n, &(point_cloud_measures.min_y));
@@ -1090,7 +1090,7 @@ SUFFIX(go_logarithmic_fit) (DOUBLE *xs, const DOUBLE *ys, int n, DOUBLE *res)
 				point_cloud_measures.max_y) &&
 			       (point_cloud_measures.min_x !=
 				point_cloud_measures.max_x)),
-			      REG_invalid_data);
+			      GO_REG_invalid_data);
 	/* less than 3 different ys */
 	for (i=0; i<n; i++) {
 	        if ((ys[i] != point_cloud_measures.min_y) &&
@@ -1099,7 +1099,7 @@ SUFFIX(go_logarithmic_fit) (DOUBLE *xs, const DOUBLE *ys, int n, DOUBLE *res)
 			break;
 		}
 	}
-	g_return_val_if_fail (more_2_y, REG_invalid_data);
+	g_return_val_if_fail (more_2_y, GO_REG_invalid_data);
 	/* less than 3 different xs */
 	for (i=0; i<n; i++) {
 	        if ((xs[i] != point_cloud_measures.min_x) &&
@@ -1108,7 +1108,7 @@ SUFFIX(go_logarithmic_fit) (DOUBLE *xs, const DOUBLE *ys, int n, DOUBLE *res)
 			break;
 		}
 	}
-	g_return_val_if_fail (more_2_x, REG_invalid_data);
+	g_return_val_if_fail (more_2_x, GO_REG_invalid_data);
 
 	/* no errors */
 	result = SUFFIX(log_fitting) (xs, ys, n, res, &point_cloud_measures);
@@ -1162,7 +1162,7 @@ SUFFIX(go_regression_stat_destroy) (SUFFIX(go_regression_stat_t) *regression_sta
  *
  * See the header file for more information.
  */
-static RegressionResult
+static GORegressionResult
 SUFFIX(derivative) (SUFFIX(GORegressionFunction) f,
 	    DOUBLE *df,
 	    DOUBLE *x, /* Only one point, not the whole data set. */
@@ -1170,19 +1170,19 @@ SUFFIX(derivative) (SUFFIX(GORegressionFunction) f,
 	    int index)
 {
 	DOUBLE y1, y2;
-	RegressionResult result;
+	GORegressionResult result;
 	DOUBLE par_save = par[index];
 
 	par[index] = par_save - DELTA;
 	result = (*f) (x, par, &y1);
-	if (result != REG_ok) {
+	if (result != GO_REG_ok) {
 		par[index] = par_save;
 		return result;
 	}
 
 	par[index] = par_save + DELTA;
 	result = (*f) (x, par, &y2);
-	if (result != REG_ok) {
+	if (result != GO_REG_ok) {
 		par[index] = par_save;
 		return result;
 	}
@@ -1195,7 +1195,7 @@ SUFFIX(derivative) (SUFFIX(GORegressionFunction) f,
 
 	*df = (y2 - y1) / (2 * DELTA);
 	par[index] = par_save;
-	return REG_ok;
+	return GO_REG_ok;
 }
 
 /*
@@ -1216,7 +1216,7 @@ SUFFIX(derivative) (SUFFIX(GORegressionFunction) f,
  * This value is not very meaningful without the sigmas.  However, it is
  * still useful for the fit.
  */
-static RegressionResult
+static GORegressionResult
 SUFFIX(chi_squared) (SUFFIX(GORegressionFunction) f,
 	     DOUBLE ** xvals, /* The entire data set. */
 	     DOUBLE *par,
@@ -1226,13 +1226,13 @@ SUFFIX(chi_squared) (SUFFIX(GORegressionFunction) f,
 	     DOUBLE *chisq)   /* Chi Squared */
 {
 	int i;
-	RegressionResult result;
+	GORegressionResult result;
 	DOUBLE tmp, y;
 	*chisq = 0;
 
 	for (i = 0; i < x_dim; i++) {
 		result = f (xvals[i], par, &y);
-		if (result != REG_ok)
+		if (result != GO_REG_ok)
 			return result;
 
 		tmp = (yvals[i] - y ) / (sigmas ? sigmas[i] : 1);
@@ -1240,7 +1240,7 @@ SUFFIX(chi_squared) (SUFFIX(GORegressionFunction) f,
 		*chisq += tmp * tmp;
 	}
 
-	return REG_ok;
+	return GO_REG_ok;
 }
 
 
@@ -1252,7 +1252,7 @@ SUFFIX(chi_squared) (SUFFIX(GORegressionFunction) f,
  * This is a simple adaptation of the derivative() function specific to
  * the Chi Squared.
  */
-static RegressionResult
+static GORegressionResult
 SUFFIX(chi_derivative) (SUFFIX(GORegressionFunction) f,
 		DOUBLE *dchi,
 		DOUBLE **xvals, /* The entire data set. */
@@ -1263,19 +1263,19 @@ SUFFIX(chi_derivative) (SUFFIX(GORegressionFunction) f,
 		int x_dim)
 {
 	DOUBLE y1, y2;
-	RegressionResult result;
+	GORegressionResult result;
 	DOUBLE par_save = par[index];
 
 	par[index] = par_save - DELTA;
 	result = SUFFIX(chi_squared) (f, xvals, par, yvals, sigmas, x_dim, &y1);
-	if (result != REG_ok) {
+	if (result != GO_REG_ok) {
 		par[index] = par_save;
 		return result;
 	}
 
 	par[index] = par_save + DELTA;
 	result = SUFFIX(chi_squared) (f, xvals, par, yvals, sigmas, x_dim, &y2);
-	if (result != REG_ok) {
+	if (result != GO_REG_ok) {
                 par[index] = par_save;
 		return result;
 	}
@@ -1288,7 +1288,7 @@ SUFFIX(chi_derivative) (SUFFIX(GORegressionFunction) f,
 
 	*dchi = (y2 - y1) / (2 * DELTA);
 	par[index] = par_save;
-	return REG_ok;
+	return GO_REG_ok;
 }
 
 /*
@@ -1319,7 +1319,7 @@ SUFFIX(chi_derivative) (SUFFIX(GORegressionFunction) f,
  * r      -> Positive constant.  It's value is altered during the LM procedure.
  */
 
-static RegressionResult
+static GORegressionResult
 SUFFIX(coefficient_matrix) (DOUBLE **A, /* Output matrix. */
 		    SUFFIX(GORegressionFunction) f,
 		    DOUBLE **xvals, /* The entire data set. */
@@ -1331,7 +1331,7 @@ SUFFIX(coefficient_matrix) (DOUBLE **A, /* Output matrix. */
 		    DOUBLE r)
 {
 	int i, j, k;
-	RegressionResult result;
+	GORegressionResult result;
 	DOUBLE df_i, df_j;
 	DOUBLE sum, sigma;
 
@@ -1342,12 +1342,12 @@ SUFFIX(coefficient_matrix) (DOUBLE **A, /* Output matrix. */
 			for (k = 0; k < x_dim; k++) {
 				result = SUFFIX(derivative) (f, &df_i, xvals[k],
 						     par, i);
-				if (result != REG_ok)
+				if (result != GO_REG_ok)
 					return result;
 
 				result = SUFFIX(derivative) (f, &df_j, xvals[k],
 						     par, j);
-				if (result != REG_ok)
+				if (result != GO_REG_ok)
 					return result;
 
 				sigma = (sigmas ? sigmas[k] : 1);
@@ -1359,7 +1359,7 @@ SUFFIX(coefficient_matrix) (DOUBLE **A, /* Output matrix. */
 		}
 	}
 
-	return REG_ok;
+	return GO_REG_ok;
 }
 
 
@@ -1382,7 +1382,7 @@ SUFFIX(coefficient_matrix) (DOUBLE **A, /* Output matrix. */
  */
 
 /* FIXME:  I am not happy with the behaviour with infinite errors.  */
-static RegressionResult
+static GORegressionResult
 SUFFIX(parameter_errors) (SUFFIX(GORegressionFunction) f,
 		  DOUBLE **xvals, /* The entire data set. */
 		  DOUBLE *par,
@@ -1392,7 +1392,7 @@ SUFFIX(parameter_errors) (SUFFIX(GORegressionFunction) f,
 		  int p_dim,          /* Number of parameters.  */
 		  DOUBLE *errors)
 {
-	RegressionResult result;
+	GORegressionResult result;
 	DOUBLE **A;
 	int i;
 
@@ -1400,7 +1400,7 @@ SUFFIX(parameter_errors) (SUFFIX(GORegressionFunction) f,
 
 	result = SUFFIX(coefficient_matrix) (A, f, xvals, par, yvals, sigmas,
 				     x_dim, p_dim, 0);
-	if (result == REG_ok) {
+	if (result == GO_REG_ok) {
 		for (i = 0; i < p_dim; i++)
 			/* FIXME: these were "[i][j]" which makes no sense.  */
 			errors[i] = (A[i][i] != 0
@@ -1437,7 +1437,7 @@ SUFFIX(parameter_errors) (SUFFIX(GORegressionFunction) f,
  * chi     -> Chi Squared of the final result.  This value is not very
  *            meaningful without the sigmas.
  */
-RegressionResult
+GORegressionResult
 SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 		       DOUBLE **xvals, /* The entire data set. */
 		       DOUBLE *par,
@@ -1453,11 +1453,11 @@ SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 	DOUBLE *dpar;
 	DOUBLE *tmp_par;
 	DOUBLE chi_pre, chi_pos, dchi;
-	RegressionResult result;
+	GORegressionResult result;
 	int i, count;
 
 	result = SUFFIX(chi_squared) (f, xvals, par, yvals, sigmas, x_dim, &chi_pre);
-	if (result != REG_ok)
+	if (result != GO_REG_ok)
 		return result;
 
 	ALLOC_MATRIX (A, p_dim, p_dim);
@@ -1478,7 +1478,7 @@ SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 			 */
 			result = SUFFIX(chi_derivative) (f, &dchi, xvals, par, i,
 						 yvals, sigmas, x_dim);
-			if (result != REG_ok)
+			if (result != GO_REG_ok)
 				goto out;
 
 			b[i] = - dchi;
@@ -1486,11 +1486,11 @@ SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 
 		result = SUFFIX(coefficient_matrix) (A, f, xvals, par, yvals,
 					     sigmas, x_dim, p_dim, r);
-		if (result != REG_ok)
+		if (result != GO_REG_ok)
 			goto out;
 
 		result = SUFFIX(linear_solve) (A, b, p_dim, dpar);
-		if (result != REG_ok)
+		if (result != GO_REG_ok)
 			goto out;
 
 		for(i = 0; i < p_dim; i++)
@@ -1498,7 +1498,7 @@ SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 
 		result = SUFFIX(chi_squared) (f, xvals, tmp_par, yvals, sigmas,
 				      x_dim, &chi_pos);
-		if (result != REG_ok)
+		if (result != GO_REG_ok)
 			goto out;
 
 #ifdef DEBUG
@@ -1524,7 +1524,7 @@ SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 
 	result = SUFFIX(parameter_errors) (f, xvals, par, yvals, sigmas,
 				   x_dim, p_dim, errors);
-	if (result != REG_ok)
+	if (result != GO_REG_ok)
 		goto out;
 
 	*chi = chi_pos;

@@ -61,10 +61,10 @@ gog_lin_reg_curve_update (GogObject *obj)
 	used = (GOG_LIN_REG_CURVE_GET_CLASS(rc))->build_values (rc, x_vals, y_vals, nb);
 	if (used > 1) {
 		go_regression_stat_t *stats = go_regression_stat_new ();
-		RegressionResult res =
+		GORegressionResult res =
 			(GOG_LIN_REG_CURVE_GET_CLASS(rc))->lin_reg_func (rc->x_vals, rc->dims,
 						rc->y_vals, used, rc->affine, rc->base.a, stats);
-		if (res == REG_ok) {
+		if (res == GO_REG_ok) {
 			rc->base.R2 = stats->sqr_r;
 		} else for (nb = 0; nb <= rc->dims; nb++)
 			rc->base.a[nb] = go_nan;

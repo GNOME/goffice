@@ -17,19 +17,6 @@ Regressions
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### ENUM RegressionResult ##### -->
-<para>
-
-</para>
-
-@REG_ok: 
-@REG_invalid_dimensions: 
-@REG_invalid_data: 
-@REG_not_enough_data: 
-@REG_near_singular_good: 
-@REG_near_singular_bad: 
-@REG_singular: 
-
 <!-- ##### STRUCT go_regression_stat_t ##### -->
 <para>
 
@@ -127,27 +114,6 @@ Regressions
 @res: 
 @stat: 
 @Returns: 
-
-
-<!-- ##### MACRO LOGFIT_C_ACCURACY ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO LOGFIT_C_STEP_FACTOR ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO LOGFIT_C_RANGE_FACTOR ##### -->
-<para>
-
-</para>
-
 
 
 <!-- ##### FUNCTION go_logarithmic_fit ##### -->

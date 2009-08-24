@@ -37,7 +37,7 @@ typedef  struct {
 typedef struct {
 	GogRegCurveClass base;
 
-	RegressionResult (*lin_reg_func) (double **xss, int dim,
+	GORegressionResult (*lin_reg_func) (double **xss, int dim,
 				    const double *ys, int n,
 				    gboolean affine,
 				    double *res,
