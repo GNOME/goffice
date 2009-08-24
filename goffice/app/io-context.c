@@ -25,7 +25,7 @@
 #define PROGRESS_UPDATE_STEP_END    (1.0 / 400)
 #define PROGRESS_UPDATE_PERIOD_SEC  0.20
 
-#define IOC_CLASS(ioc) IO_CONTEXT_CLASS(G_OBJECT_GET_CLASS(ioc))
+#define IOC_CLASS(ioc) GO_IO_CONTEXT_CLASS(G_OBJECT_GET_CLASS(ioc))
 
 enum {
 	IOC_PROP_0,
@@ -305,12 +305,12 @@ go_io_progress_message (GOIOContext *ioc, const gchar *msg)
 void
 go_io_progress_range_push (GOIOContext *ioc, gdouble min, gdouble max)
 {
-	ProgressRange *r;
+	GOProgressRange *r;
 	gdouble new_min, new_max;
 
 	g_return_if_fail (GO_IS_IO_CONTEXT (ioc));
 
-	r = g_new (ProgressRange, 1);
+	r = g_new (GOProgressRange, 1);
 	r->min = min;
 	r->max = max;
 	ioc->progress_ranges = g_list_append (ioc->progress_ranges, r);
@@ -339,7 +339,7 @@ go_io_progress_range_pop (GOIOContext *ioc)
 	ioc->progress_min = 0.0;
 	ioc->progress_max = 1.0;
 	for (l = ioc->progress_ranges; l != NULL; l = l->next) {
-		ProgressRange *r = l->data;
+		GOProgressRange *r = l->data;
 		gdouble new_min, new_max;
 
 		new_min = r->min / (ioc->progress_max - ioc->progress_min)

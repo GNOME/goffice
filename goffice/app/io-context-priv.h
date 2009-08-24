@@ -7,7 +7,7 @@
 
 G_BEGIN_DECLS
 
-#define IO_CONTEXT_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_IO_CONTEXT, GOIOContextClass))
+#define GO_IO_CONTEXT_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_IO_CONTEXT, GOIOContextClass))
 #define GO_IS_IO_CONTEXT_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), GO_TYPE_IO_CONTEXT))
 
 typedef enum {
@@ -41,7 +41,7 @@ typedef struct {
 
 typedef struct {
 	gfloat min, max;
-} ProgressRange;
+} GOProgressRange;
 
 struct _GOIOContext {
 	GObject base;
