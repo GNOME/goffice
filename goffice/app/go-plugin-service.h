@@ -103,7 +103,7 @@ void		go_plugin_service_unload (GOPluginService *service, GOErrorInfo **ret_erro
 
 typedef GType (*GOPluginServiceCreate) (void);
 void _go_plugin_services_init     (void);
-void _go_plugin_services_shutdown (void);
+void go_plugin_services_shutdown (void);
 void go_plugin_service_define    (char const *type_str,
 				  GOPluginServiceCreate ctor);
 
