@@ -14,43 +14,43 @@ G_BEGIN_DECLS
  * Free Software Foundation, Inc.
  */
 enum {
-  REG_NOERROR = 0,	/* Success.  */
-  REG_NOMATCH,		/* Didn't find a match (for regexec).  */
+  GO_REG_NOERROR = 0,	/* Success.  */
+  GO_REG_NOMATCH,		/* Didn't find a match (for regexec).  */
 
   /* POSIX regcomp return error codes.  (In the order listed in the
      standard.)  */
-  REG_BADPAT,		/* Invalid pattern.  */
-  REG_ECOLLATE,		/* Inalid collating element.  */
-  REG_ECTYPE,		/* Invalid character class name.  */
-  REG_EESCAPE,		/* Trailing backslash.  */
-  REG_ESUBREG,		/* Invalid back reference.  */
-  REG_EBRACK,		/* Unmatched left bracket.  */
-  REG_EPAREN,		/* Parenthesis imbalance.  */
-  REG_EBRACE,		/* Unmatched \{.  */
-  REG_BADBR,		/* Invalid contents of \{\}.  */
-  REG_ERANGE,		/* Invalid range end.  */
-  REG_ESPACE,		/* Ran out of memory.  */
-  REG_BADRPT,		/* No preceding re for repetition op.  */
+  GO_REG_BADPAT,		/* Invalid pattern.  */
+  GO_REG_ECOLLATE,		/* Inalid collating element.  */
+  GO_REG_ECTYPE,		/* Invalid character class name.  */
+  GO_REG_EESCAPE,		/* Trailing backslash.  */
+  GO_REG_ESUBREG,		/* Invalid back reference.  */
+  GO_REG_EBRACK,		/* Unmatched left bracket.  */
+  GO_REG_EPAREN,		/* Parenthesis imbalance.  */
+  GO_REG_EBRACE,		/* Unmatched \{.  */
+  GO_REG_BADBR,		/* Invalid contents of \{\}.  */
+  GO_REG_ERANGE,		/* Invalid range end.  */
+  GO_REG_ESPACE,		/* Ran out of memory.  */
+  GO_REG_BADRPT,		/* No preceding re for repetition op.  */
 
   /* Error codes we've added.  */
-  REG_EEND,		/* Premature end.  */
-  REG_ESIZE,		/* Compiled pattern bigger than 2^16 bytes.  */
-  REG_ERPAREN		/* Unmatched ) or \); not returned from regcomp.  */
+  GO_REG_EEND,		/* Premature end.  */
+  GO_REG_ESIZE,		/* Compiled pattern bigger than 2^16 bytes.  */
+  GO_REG_ERPAREN		/* Unmatched ) or \); not returned from regcomp.  */
 };
-#define REG_OK REG_NOERROR
+#define GO_REG_OK GO_REG_NOERROR
 
 /* eflags bits.  */
 enum {
-  REG_NOTBOL = 1,
-  REG_NOTEOL = 2
+  GO_REG_NOTBOL = 1,
+  GO_REG_NOTEOL = 2
 };
 
 /* cflags bits.  */
 enum {
-  REG_EXTENDED = 1,
-  REG_ICASE = 2,
-  REG_NEWLINE = 4,
-  REG_NOSUB = 8
+  GO_REG_EXTENDED = 1,
+  GO_REG_ICASE = 2,
+  GO_REG_NEWLINE = 4,
+  GO_REG_NOSUB = 8
 };
 
 /* Like POSIX' regex_t.  */

@@ -37,24 +37,24 @@ go_regerror (int errcode, const GORegexp *gor, char *dst, size_t dstsize)
 	size_t errlen;
 
 	switch (errcode) {
-	case REG_NOERROR: err = "?"; break;
-	case REG_NOMATCH: err = _("Pattern not found."); break;
+	case GO_REG_NOERROR: err = "?"; break;
+	case GO_REG_NOMATCH: err = _("Pattern not found."); break;
 	default:
-	case REG_BADPAT: err = _("Invalid pattern."); break;
-	case REG_ECOLLATE: err = _("Invalid collating element."); break;
-	case REG_ECTYPE: err = _("Invalid character class name."); break;
-	case REG_EESCAPE: err = _("Trailing backslash."); break;
-	case REG_ESUBREG: err = _("Invalid back reference."); break;
-	case REG_EBRACK: err = _("Unmatched left bracket."); break;
-	case REG_EPAREN: err = _("Parenthesis imbalance."); break;
-	case REG_EBRACE: err = _("Unmatched \\{."); break;
-	case REG_BADBR: err = _("Invalid contents of \\{\\}."); break;
-	case REG_ERANGE: err = _("Invalid range end."); break;
-	case REG_ESPACE: err = _("Out of memory."); break;
-	case REG_BADRPT: err = _("Invalid repetition operator."); break;
-	case REG_EEND: err = _("Premature end of pattern."); break;
-	case REG_ESIZE: err = _("Pattern is too big."); break;
-	case REG_ERPAREN: err = _("Unmatched ) or \\)"); break;
+	case GO_REG_BADPAT: err = _("Invalid pattern."); break;
+	case GO_REG_ECOLLATE: err = _("Invalid collating element."); break;
+	case GO_REG_ECTYPE: err = _("Invalid character class name."); break;
+	case GO_REG_EESCAPE: err = _("Trailing backslash."); break;
+	case GO_REG_ESUBREG: err = _("Invalid back reference."); break;
+	case GO_REG_EBRACK: err = _("Unmatched left bracket."); break;
+	case GO_REG_EPAREN: err = _("Parenthesis imbalance."); break;
+	case GO_REG_EBRACE: err = _("Unmatched \\{."); break;
+	case GO_REG_BADBR: err = _("Invalid contents of \\{\\}."); break;
+	case GO_REG_ERANGE: err = _("Invalid range end."); break;
+	case GO_REG_ESPACE: err = _("Out of memory."); break;
+	case GO_REG_BADRPT: err = _("Invalid repetition operator."); break;
+	case GO_REG_EEND: err = _("Premature end of pattern."); break;
+	case GO_REG_ESIZE: err = _("Pattern is too big."); break;
+	case GO_REG_ERPAREN: err = _("Unmatched ) or \\)"); break;
 	};
 
 	errlen = strlen (err);
@@ -68,14 +68,14 @@ go_regerror (int errcode, const GORegexp *gor, char *dst, size_t dstsize)
 }
 
 int
-go_regcomp (GORegexp *gor, const char *pat , int cflags)
+go_regcomp (GORegexp *gor, const char *pat, int cflags)
 {
 #ifdef HAVE_G_REGEX_ERROR_STRAY_BACKSLASH
 	GError *error = NULL;
 	GRegex *r;
 	int coptions =
-		((cflags & REG_ICASE) ? G_REGEX_CASELESS : 0) |
-		((cflags & REG_NEWLINE) ? G_REGEX_MULTILINE : 0);
+		((cflags & GO_REG_ICASE) ? G_REGEX_CASELESS : 0) |
+		((cflags & GO_REG_NEWLINE) ? G_REGEX_MULTILINE : 0);
 
 	gor->ppcre = r = g_regex_new (pat, coptions, 0, &error);
 
@@ -86,37 +86,37 @@ go_regcomp (GORegexp *gor, const char *pat , int cflags)
 		case G_REGEX_ERROR_MISSING_CONTROL_CHAR:
 		case G_REGEX_ERROR_UNRECOGNIZED_ESCAPE:
 		/* case 37: */
-			return REG_EESCAPE;
+			return GO_REG_EESCAPE;
 		case G_REGEX_ERROR_QUANTIFIERS_OUT_OF_ORDER:
 		case G_REGEX_ERROR_QUANTIFIER_TOO_BIG:
-			return REG_EBRACE;
+			return GO_REG_EBRACE;
 		case G_REGEX_ERROR_UNTERMINATED_CHARACTER_CLASS:
-			return REG_EBRACK;
+			return GO_REG_EBRACK;
 		case G_REGEX_ERROR_INVALID_ESCAPE_IN_CHARACTER_CLASS:
 		case G_REGEX_ERROR_UNKNOWN_POSIX_CLASS_NAME:
-			return REG_ECTYPE;
+			return GO_REG_ECTYPE;
 		case G_REGEX_ERROR_RANGE_OUT_OF_ORDER:
-			return REG_ERANGE;
+			return GO_REG_ERANGE;
 		case G_REGEX_ERROR_NOTHING_TO_REPEAT:
 		/* case 10: */
-			return REG_BADRPT;
+			return GO_REG_BADRPT;
 		case G_REGEX_ERROR_UNMATCHED_PARENTHESIS:
 		case G_REGEX_ERROR_UNTERMINATED_COMMENT:
 		/* case 22: */
-			return REG_EPAREN;
+			return GO_REG_EPAREN;
 		case G_REGEX_ERROR_INEXISTENT_SUBPATTERN_REFERENCE:
-			return REG_ESUBREG;
+			return GO_REG_ESUBREG;
 		case G_REGEX_ERROR_EXPRESSION_TOO_LARGE:
 		/* case 19: */
-			return REG_ESIZE;
+			return GO_REG_ESIZE;
 		case G_REGEX_ERROR_MEMORY_ERROR:
-			return REG_ESPACE;
+			return GO_REG_ESPACE;
 		default:
-			return REG_BADPAT;
+			return GO_REG_BADPAT;
 		}
 	} else {
 		gor->re_nsub = g_regex_get_capture_count (r);
-		gor->nosub = (cflags & REG_NOSUB) != 0;
+		gor->nosub = (cflags & GO_REG_NOSUB) != 0;
 		return 0;
 	}
 #else
@@ -126,8 +126,8 @@ go_regcomp (GORegexp *gor, const char *pat , int cflags)
 	int coptions =
 		PCRE_UTF8 |
 		PCRE_NO_UTF8_CHECK |
-		((cflags & REG_ICASE) ? PCRE_CASELESS : 0) |
-		((cflags & REG_NEWLINE) ? PCRE_MULTILINE : 0);
+		((cflags & GO_REG_ICASE) ? PCRE_CASELESS : 0) |
+		((cflags & GO_REG_NEWLINE) ? PCRE_MULTILINE : 0);
 
 	if (&pcre_compile2 == NULL) {
 		g_error ("libgoffice has been dynamically linked against a libpcre\n"
@@ -142,21 +142,21 @@ go_regcomp (GORegexp *gor, const char *pat , int cflags)
 
 	if (r == NULL) {
 		switch (errorcode) {
-		case 1: case 2: case 3: case 37: return REG_EESCAPE;
-		case 4: case 5: return REG_EBRACE;
-		case 6: return REG_EBRACK;
-		case 7: case 30: return REG_ECTYPE;
-		case 8: return REG_ERANGE;
-		case 9: case 10: return REG_BADRPT;
-		case 14: case 18: case 22: return REG_EPAREN;
-		case 15: return REG_ESUBREG;
-		case 19: case 20: return REG_ESIZE;
-		case 21: return REG_ESPACE;
-		default: return REG_BADPAT;
+		case 1: case 2: case 3: case 37: return GO_REG_EESCAPE;
+		case 4: case 5: return GO_REG_EBRACE;
+		case 6: return GO_REG_EBRACK;
+		case 7: case 30: return GO_REG_ECTYPE;
+		case 8: return GO_REG_ERANGE;
+		case 9: case 10: return GO_REG_BADRPT;
+		case 14: case 18: case 22: return GO_REG_EPAREN;
+		case 15: return GO_REG_ESUBREG;
+		case 19: case 20: return GO_REG_ESIZE;
+		case 21: return GO_REG_ESPACE;
+		default: return GO_REG_BADPAT;
 		}
 	} else {
 		gor->re_nsub = pcre_info (r, NULL, NULL);
-		gor->nosub = (cflags & REG_NOSUB) != 0;
+		gor->nosub = (cflags & GO_REG_NOSUB) != 0;
 		return 0;
 	}
 #endif
@@ -169,8 +169,8 @@ go_regexec (const GORegexp *gor, const char *txt,
 {
 #ifdef HAVE_G_REGEX_ERROR_STRAY_BACKSLASH
 	int eoptions =
-		((eflags & REG_NOTBOL) ? G_REGEX_MATCH_NOTBOL : 0) |
-		((eflags & REG_NOTEOL) ? G_REGEX_MATCH_NOTEOL : 0);
+		((eflags & GO_REG_NOTBOL) ? G_REGEX_MATCH_NOTBOL : 0) |
+		((eflags & GO_REG_NOTEOL) ? G_REGEX_MATCH_NOTEOL : 0);
 	size_t i = 0;
 	gboolean matched;
 	GMatchInfo *match_info = NULL;
@@ -181,7 +181,7 @@ go_regexec (const GORegexp *gor, const char *txt,
 
 	/* Paranoia.  */
 	if (nmatch >= G_MAXINT / (2 * sizeof (GORegmatch)))
-		return REG_ESPACE;
+		return GO_REG_ESPACE;
 
 	matched = g_regex_match (gor->ppcre, txt, eoptions,
 				 nmatch ? &match_info : NULL);
@@ -195,12 +195,12 @@ go_regexec (const GORegexp *gor, const char *txt,
 	if (match_info)
 		g_match_info_free (match_info);
 
-	return matched ? REG_NOERROR : REG_NOMATCH;
+	return matched ? GO_REG_NOERROR : GO_REG_NOMATCH;
 #else
 	size_t txtlen = strlen (txt);
 	int eoptions =
-		((eflags & REG_NOTBOL) ? PCRE_NOTBOL : 0) |
-		((eflags & REG_NOTEOL) ? PCRE_NOTEOL : 0);
+		((eflags & GO_REG_NOTBOL) ? PCRE_NOTBOL : 0) |
+		((eflags & GO_REG_NOTEOL) ? PCRE_NOTEOL : 0);
 	int res;
 	int *offsets, *allocated;
 	int offsetcount;
@@ -210,12 +210,12 @@ go_regexec (const GORegexp *gor, const char *txt,
 	if (nmatch > 0) {
 		/* Paranoia.  */
 		if (nmatch >= G_MAXINT / sizeof (int) / 3)
-			return REG_ESPACE;
+			return GO_REG_ESPACE;
 
 		offsetcount = nmatch * 3;
 		offsets = allocated = g_try_new (int, offsetcount);
 		if (!offsets)
-			return REG_ESPACE;
+			return GO_REG_ESPACE;
 	} else {
 		offsets = allocated = NULL;
 		offsetcount = 0;
@@ -237,19 +237,19 @@ go_regexec (const GORegexp *gor, const char *txt,
 			pmatch[i].rm_eo = -1;
 		}
 		g_free (allocated);
-		return REG_NOERROR;
+		return GO_REG_NOERROR;
 	}
 
 	g_free (allocated);
 	switch (res) {
 	case PCRE_ERROR_NOMATCH:
-		return REG_NOMATCH;
+		return GO_REG_NOMATCH;
 	case PCRE_ERROR_BADUTF8:
 	case PCRE_ERROR_BADUTF8_OFFSET:
 		/* POSIX doesn't seem to foresee this kind of error.  */
-		return REG_BADPAT;
+		return GO_REG_BADPAT;
 	default:
-		return REG_ESPACE;
+		return GO_REG_ESPACE;
 	}
 #endif
 }
@@ -302,7 +302,7 @@ go_search_replace_compile (GOSearchReplace *sr)
 	int flags = 0;
 	int res;
 
-	g_return_val_if_fail (sr && sr->search_text, REG_EEND);
+	g_return_val_if_fail (sr && sr->search_text, GO_REG_EEND);
 
 	kill_compiled (sr);
 
@@ -326,7 +326,7 @@ go_search_replace_compile (GOSearchReplace *sr)
 		sr->plain_replace = TRUE;
 	}
 
-	if (sr->ignore_case) flags |= REG_ICASE;
+	if (sr->ignore_case) flags |= GO_REG_ICASE;
 
 	sr->comp_search = g_new0 (GORegexp, 1);
 	res = go_regcomp (sr->comp_search, pattern, flags);
@@ -645,18 +645,18 @@ go_search_match_string (GOSearchReplace *sr, const char *src)
 			if (!sr->match_words)
 				return TRUE;
 
-			if (match_is_word (src, &match, (flags & REG_NOTBOL) != 0))
+			if (match_is_word (src, &match, (flags & GO_REG_NOTBOL) != 0))
 				return TRUE;
 
 			/*
 			 * We had a match, but it's not a word.  Pretend we saw
 			 * a one-character match and continue after that.
 			 */
-			flags |= REG_NOTBOL;
+			flags |= GO_REG_NOTBOL;
 			src = g_utf8_next_char (src + match.rm_so);
 			break;
 
-		case REG_NOMATCH:
+		case GO_REG_NOMATCH:
 			return FALSE;
 
 		default:
@@ -704,7 +704,7 @@ go_search_replace_string (GOSearchReplace *sr, const char *src)
 		}
 
 		if (sr->match_words && !match_is_word (src, pmatch,
-						       (flags & REG_NOTBOL) != 0)) {
+						       (flags & GO_REG_NOTBOL) != 0)) {
 			/*  We saw a fake match.  */
 			if (pmatch[0].rm_so < pmatch[0].rm_eo) {
 				const char *p = src + pmatch[0].rm_so;
@@ -737,7 +737,7 @@ go_search_replace_string (GOSearchReplace *sr, const char *src)
 
 		if (pmatch[0].rm_eo > 0) {
 			src += pmatch[0].rm_eo;
-			flags |= REG_NOTBOL;
+			flags |= GO_REG_NOTBOL;
 		}
 
 		if (pmatch[0].rm_so == pmatch[0].rm_eo) {
