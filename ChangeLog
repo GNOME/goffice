@@ -1,5 +1,9 @@
 2009-08-25  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-line.c: fixed arrows bounds.
+
+2009-08-25  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-canvas.c: cleaned things.
 	* goffice/canvas/goc-canvas.h: ditto.
 	* goffice/canvas/goc-graph.c: ditto.

@@ -132,7 +132,6 @@ goc_line_update_bounds (GocItem *item)
 	GocLine *line = GOC_LINE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double extra_width = style->line.width /2.;
-	/* fix me, take arrow head into account */
 	if (extra_width <= 0.)
 		extra_width = .5;
 	if (line->startx < line->endx) {
@@ -150,11 +149,12 @@ goc_line_update_bounds (GocItem *item)
 		item->y1 = line->starty + extra_width;
 	}
 	if (line->arrowhead) {
-		/* do not calculate things precisely, just add headC in all directions */
-		item->x0 -= line->headC;
-		item->x1 += line->headC;
-		item->y0 -= line->headC;
-		item->y1 += line->headC;
+		/* do not calculate things precisely, just add enough room in all directions */
+		double d = hypot (line->headB, line->headC);
+		item->x0 -= d;
+		item->x1 += d;
+		item->y0 -= d;
+		item->y1 += d;
 	}
 }
 
@@ -189,6 +189,8 @@ static void goc_line_draw (GocItem const *item, cairo_t *cr)
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
 	double endx = (line->endx - line->startx) * sign, endy = line->endy - line->starty;
 	double hoffs, voffs = ceil (go_styled_object_get_style (GO_STYLED_OBJECT (item))->line.width);
+	if (line->startx == line->endx && line->starty == line->endy)
+		return;
 	if (voffs <= 0.)
 		voffs = 1.;
 	hoffs = ((int) voffs & 1)? .5: 0.;
