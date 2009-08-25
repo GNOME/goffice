@@ -2,6 +2,7 @@ goffice 0.7.10:
 
 Jean:
 	* Canvas improvements.
+	* Removed FooCanvas.
 
 Morten:
 	* Namespace issues.  [#592283]

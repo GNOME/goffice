@@ -616,8 +616,6 @@ goffice/math/Makefile
 goffice/canvas/Makefile
 goffice/ms-compat/Makefile
 goffice/component/Makefile
-goffice/cut-n-paste/Makefile
-goffice/cut-n-paste/foocanvas/Makefile
 plugins/Makefile
 plugins/plot_barcol/Makefile
 plugins/plot_pie/Makefile

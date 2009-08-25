@@ -1,5 +1,37 @@
 2009-08-25  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* configure.in: remove FooCanvas.
+	* goffice/Makefile.am: ditto.
+	* goffice/cut-n-paste/.gitignore: ditto.
+	* goffice/cut-n-paste/Makefile.am: ditto.
+	* goffice/cut-n-paste/foocanvas/.gitignore: ditto.
+	* goffice/cut-n-paste/foocanvas/Makefile.am: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-i18n.h: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-line.c: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-line.h: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-marshal.list: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.c: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.h: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-polygon.c: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-polygon.h: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.c: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-text.c: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-text.h: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-util.c: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-util.h: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-widget.c: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas-widget.h: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas.c: ditto.
+	* goffice/cut-n-paste/foocanvas/foo-canvas.h: ditto.
+	* goffice/cut-n-paste/foocanvas/libfoocanvas.h: ditto.
+	* goffice/cut-n-paste/foocanvas/libfoocanvastypes.c: ditto.
+	* goffice/graph/Makefile.am: ditto.
+	* goffice/graph/gog-control-foocanvas.c: ditto.
+	* goffice/graph/gog-control-foocanvas.h: ditto.
+
+2009-08-25  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-line.c: fixed arrows bounds.
 
 2009-08-25  Jean Brefort  <jean.brefort@normalesup.org>

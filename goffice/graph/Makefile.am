@@ -74,11 +74,9 @@ libgoffice_graph_la_HEADERS = \
 	gog-renderer.h
 
 if WITH_GTK
-  libgoffice_graph_la_SOURCES += gog-control-foocanvas.c	\
-				 gog-guru.c			\
+  libgoffice_graph_la_SOURCES += gog-guru.c			\
 				 gog-child-button.c
-  libgoffice_graph_la_HEADERS += gog-control-foocanvas.h	\
-				 gog-guru.h			\
+  libgoffice_graph_la_HEADERS += gog-guru.h			\
 				 gog-child-button.h
 endif
 

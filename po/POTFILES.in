@@ -50,8 +50,6 @@ goffice/canvas/goc-styled-item.c
 goffice/canvas/goc-text.c
 goffice/canvas/goc-widget.c
 goffice/component/go-component-factory.c
-goffice/cut-n-paste/foocanvas/foo-canvas-text.c
-goffice/cut-n-paste/foocanvas/foo-canvas.c
 goffice/data/go-data-impl.h
 goffice/data/go-data-simple.c
 goffice/data/go-data-simple.h
@@ -95,8 +93,6 @@ goffice/graph/gog-axis.h
 goffice/graph/gog-chart-impl.h
 goffice/graph/gog-chart.c
 goffice/graph/gog-chart.h
-goffice/graph/gog-control-foocanvas.c
-goffice/graph/gog-control-foocanvas.h
 goffice/graph/gog-data-allocator.c
 goffice/graph/gog-data-allocator.h
 goffice/graph/gog-data-set.c

@@ -225,7 +225,6 @@ G_END_DECLS
 #include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-chart-map-3d.h>
 #include <goffice/graph/gog-child-button.h>
-#include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/graph/gog-data-allocator.h>
 #ifdef GOFFICE_WITH_LASEM
 #include <goffice/graph/gog-equation.h>

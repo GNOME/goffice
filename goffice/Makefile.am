@@ -1,4 +1,4 @@
-SUBDIRS = utils data app graph math ms-compat cut-n-paste
+SUBDIRS = utils data app graph math ms-compat
 
 lib_LTLIBRARIES = libgoffice-@GOFFICE_API_VER@.la
 
@@ -17,8 +17,7 @@ libgoffice_@GOFFICE_API_VER@_la_LIBADD += 			\
 	gtk/libgoffice-gtk.la			\
 	drawing/libgoffice-drawing.la		\
 	component/libgoffice-component.la	\
-	canvas/libgoffice-canvas.la	\
-	cut-n-paste/foocanvas/libfoocanvas.la
+	canvas/libgoffice-canvas.la
 endif
 
 libgoffice_@GOFFICE_API_VER@_la_LDFLAGS = -version-info $(VERSION_INFO)
