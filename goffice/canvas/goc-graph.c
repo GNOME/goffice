@@ -181,7 +181,7 @@ goc_graph_draw (GocItem const *item, cairo_t *cr)
 	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL) {
 		x0 = item->x1;
 		goc_group_adjust_coords (item->parent, &x0, &y0);
-		x0 = canvas->wwidth - (int) (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
+		x0 = canvas->width - (int) (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
 	} else {
 		x0 = item->x0;
 		goc_group_adjust_coords (item->parent, &x0, &y0);

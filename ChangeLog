@@ -1,3 +1,11 @@
+2009-08-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c: cleaned things.
+	* goffice/canvas/goc-canvas.h: ditto.
+	* goffice/canvas/goc-graph.c: ditto.
+	* goffice/canvas/goc-group.c: ditto.
+	* goffice/canvas/goc-line.c: implement arrow head.
+
 2009-08-23  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-color.h (PIXEL_*): Kill unused macros.

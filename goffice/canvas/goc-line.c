@@ -69,11 +69,11 @@ goc_line_set_property (GObject *gobject, guint param_id,
 		break;
 
 	case LINE_PROP_ARROW_SHAPE_B:
-		line->headA = g_value_get_double (value);
+		line->headB = g_value_get_double (value);
 		break;
 
 	case LINE_PROP_ARROW_SHAPE_C:
-		line->headA = g_value_get_double (value);
+		line->headC = g_value_get_double (value);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
@@ -131,9 +131,8 @@ goc_line_update_bounds (GocItem *item)
 {
 	GocLine *line = GOC_LINE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	/* FIXME: take rotation into account */
 	double extra_width = style->line.width /2.;
-	/* fix me, take ends and orientation into account */
+	/* fix me, take arrow head into account */
 	if (extra_width <= 0.)
 		extra_width = .5;
 	if (line->startx < line->endx) {
@@ -149,6 +148,13 @@ goc_line_update_bounds (GocItem *item)
 	} else {
 		item->y0 = line->endy - extra_width;
 		item->y1 = line->starty + extra_width;
+	}
+	if (line->arrowhead) {
+		/* do not calculate things precisely, just add headC in all directions */
+		item->x0 -= line->headC;
+		item->x1 += line->headC;
+		item->y0 -= line->headC;
+		item->y1 += line->headC;
 	}
 }
 
@@ -173,6 +179,7 @@ goc_line_distance (GocItem *item, double x, double y, GocItem **near_item)
 		return hypot (t - l, y);
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	t = y - style->line.width / 2.;
+	/* FIXME: do we need to take the arrow end into account? */
 	return (t > 0.)? t: 0.;
 }
 
@@ -180,22 +187,47 @@ static void goc_line_draw (GocItem const *item, cairo_t *cr)
 {
 	GocLine *line = GOC_LINE (item);
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
-        if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
-		/* try to avoid horizontal and vertical lines between two pixels */
-		double hoffs, voffs = ceil (go_styled_object_get_style (GO_STYLED_OBJECT (item))->line.width);
-		if (voffs <= 0.)
-			voffs = 1.;
-		hoffs = ((int) voffs & 1)? .5: 0.;
-		voffs = (line->starty == line->endy)? hoffs: 0.;
-		if (line->startx != line->endx)
-		                hoffs = 0.;
+	double endx = (line->endx - line->startx) * sign, endy = line->endy - line->starty;
+	double hoffs, voffs = ceil (go_styled_object_get_style (GO_STYLED_OBJECT (item))->line.width);
+	if (voffs <= 0.)
+		voffs = 1.;
+	hoffs = ((int) voffs & 1)? .5: 0.;
+	voffs = (line->starty == line->endy)? hoffs: 0.;
+	if (line->startx != line->endx)
+	                hoffs = 0.;
+	cairo_save (cr);
+	goc_group_cairo_transform (item->parent, cr, hoffs + (int) line->startx, voffs + (int) line->starty);
+	if (line->arrowhead) {
+		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+		double l = hypot (endx, endy), w = (style->line.width)? style->line.width / 2.: .5;
+		/* display the arrow head */
 		cairo_save (cr);
-		goc_group_cairo_transform (item->parent, cr, hoffs + (int) line->startx, voffs + (int) line->starty);
-		cairo_move_to (cr, 0., 0.);
-		cairo_line_to (cr, (int) (line->endx - line->startx) * sign, (int) (line->endy - line->starty));
-		cairo_stroke (cr);
+		cairo_translate (cr, (int) endx, (int) endy);
+		cairo_rotate (cr, atan2 (endy, endx));
+		cairo_move_to (cr, -line->headA, w);
+		cairo_line_to (cr, -line->headB, w + line->headC);
+		cairo_line_to (cr, 0., 0.);
+		cairo_line_to (cr, -line->headB, -w - line->headC);
+		cairo_line_to (cr, -line->headA, -w);
+		cairo_close_path (cr);
+		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
+		cairo_fill (cr);
 		cairo_restore (cr);
+		if (l > 0.) {
+			endx -= line->headA * endx / l;
+			endy -= line->headA * endy / l;
+		} else
+			endx = endy = 0.;
 	}
+        if ((endx != 0. || endy!= 0.) && go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
+		/* try to avoid horizontal and vertical lines between two pixels */
+		cairo_move_to (cr, 0., 0.);
+		endx = (endx > 0.)? ceil (endx): floor (endx);
+		endy = (endy > 0.)? ceil (endy): floor (endy);
+		cairo_line_to (cr, endx, endy);
+		cairo_stroke (cr);
+	}
+	cairo_restore (cr);
 }
 
 static void

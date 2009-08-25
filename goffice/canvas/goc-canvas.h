@@ -38,8 +38,7 @@ struct _GocCanvas {
 	GtkLayout base;
 	double scroll_x1, scroll_y1;
 	double pixels_per_unit;
-	double width, height;
-	int wwidth, wheight;
+	int width, height;
 	GocGroup *root;
 	GocItem *grabbed_item;
 	GocItem	*last_item;
@@ -57,9 +56,8 @@ typedef GtkLayoutClass GocCanvasClass;
 GType goc_canvas_get_type (void);
 
 GocGroup	*goc_canvas_get_root (GocCanvas *canvas);
-void		 goc_canvas_set_scroll_region (GocCanvas *canvas, double width, double height);
-double		 goc_canvas_get_width (GocCanvas *canvas);
-double		 goc_canvas_get_height (GocCanvas *canvas);
+int		 goc_canvas_get_width (GocCanvas *canvas);
+int		 goc_canvas_get_height (GocCanvas *canvas);
 void		 goc_canvas_scroll_to (GocCanvas *canvas, double x, double y);
 void		 goc_canvas_get_scroll_position (GocCanvas *canvas, double *x, double *y);
 void		 goc_canvas_set_pixels_per_unit (GocCanvas *canvas, double pixels_per_unit);
