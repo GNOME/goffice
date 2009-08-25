@@ -29,7 +29,11 @@ go_conf_win32_get_node (GOConfNode *node, HKEY *phKey, gchar const *key, gboolea
 	LONG ret;
 	DWORD disposition;
 
-	path = g_strconcat (node ? "" : "Software\\", key, NULL);
+	if (key)
+		path = g_strconcat (node ? "" : "Software\\", key, NULL);
+	else
+		path = g_strdup (node ? "" : "Software");
+
 	for (c = path; *c; ++c) {
 		if (*c == '/')
 			*c = '\\';
