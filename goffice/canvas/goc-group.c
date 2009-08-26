@@ -221,6 +221,7 @@ goc_group_finalize (GObject *obj)
 		l = g_list_next (l);
 	}
 	g_list_free (group->children);
+	group->children = NULL;
 	(parent_klass->finalize) (obj);
 }
 
