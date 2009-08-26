@@ -99,96 +99,6 @@ go_gtk_dialog_add_button (GtkDialog *dialog, char const* text, char const* stock
 }
 
 /**
- * go_glade_new :
- * @gladefile : the name of the file load
- * @root : Name of the root object
- * @domain : The translation domain
- * @gcc : #GOCmdContext
- *
- * Simple utility to open glade files
- *
- * 0.4.3 : renamed from go_libglade_new
- *
- * Returns: a new #GladeXML or NULL
- **/
-GladeXML *
-go_glade_new (char const *gladefile, char const *root,
-	      char const *domain, GOCmdContext *gcc)
-{
-	GladeXML *gui;
-	char *f;
-
-	g_return_val_if_fail (gladefile != NULL, NULL);
-
-	if (!g_path_is_absolute (gladefile))
-		f = g_build_filename (go_sys_data_dir (), "glade", gladefile, NULL);
-	else
-		f = g_strdup (gladefile);
-
-	gui = glade_xml_new (f, root, domain);
-	if (gui == NULL && gcc != NULL) {
-		char *msg = g_strdup_printf (_("Unable to open file '%s'"), f);
-		go_cmd_context_error_system (gcc, msg);
-		g_free (msg);
-	}
-	g_free (f);
-
-	return gui;
-}
-
-/**
- * go_glade_signal_connect :
- * @gui : #GladeXML
- * @instance_name : widget name
- * @detailed_signal : signal name
- * @c_handler : #GCallback
- * @data : arbitrary
- *
- * Convenience wrapper around g_signal_connect for glade.
- *
- * Returns: The signal id
- **/
-gulong
-go_glade_signal_connect	(GladeXML	*gui,
-			 gchar const	*instance_name,
-			 gchar const	*detailed_signal,
-			 GCallback	 c_handler,
-			 gpointer	 data)
-{
-	GtkWidget *w;
-	g_return_val_if_fail (gui != NULL, 0);
-	w = glade_xml_get_widget (gui, instance_name);
-	g_return_val_if_fail (w != NULL, 0);
-	return g_signal_connect (w, detailed_signal, c_handler, data);
-}
-
-/**
- * go_glade_signal_connect_swapped :
- * @gui : #GladeXML
- * @instance_name : widget name
- * @detailed_signal : signal name
- * @c_handler : #GCallback
- * @data : arbitary
- *
- * Convenience wrapper around g_signal_connect_swapped for glade.
- *
- * Returns: The signal id
- **/
-gulong
-go_glade_signal_connect_swapped (GladeXML	*gui,
-				 gchar const	*instance_name,
-				 gchar const	*detailed_signal,
-				 GCallback	 c_handler,
-				 gpointer	 data)
-{
-	GtkWidget *w;
-	g_return_val_if_fail (gui != NULL, 0);
-	w = glade_xml_get_widget (gui, instance_name);
-	g_return_val_if_fail (w != NULL, 0);
-	return g_signal_connect_swapped (w, detailed_signal, c_handler, data);
-}
-
-/**
  * go_gtk_builder_new :
  * @uifile : the name of the file load
  * @domain : the translation domain
@@ -216,7 +126,10 @@ go_gtk_builder_new (char const *uifile,
 	gui = gtk_builder_new ();
 	if (domain)
 		gtk_builder_set_translation_domain (gui, domain);
-	gtk_builder_add_from_file (gui, f, &error);
+	if (!gtk_builder_add_from_file (gui, f, &error)) {
+		g_object_unref (gui);
+		gui = NULL;
+	}
 	if (gui == NULL && gcc != NULL) {
 		char *msg;
 		if (error) {
@@ -282,6 +195,70 @@ go_gtk_builder_signal_connect_swapped (GtkBuilder	*gui,
 	obj = gtk_builder_get_object (gui, instance_name);
 	g_return_val_if_fail (obj != NULL, 0);
 	return g_signal_connect_swapped (obj, detailed_signal, c_handler, data);
+}
+
+/**
+ * go_gtk_builder_get_widget :
+ * @gui : the #GtkBuilder
+ * @widget_name : the name of the combo box in the ui file.
+ *
+ * Simple wrapper to #gtk_builder_get_object which returns the object
+ * as a GtkWidget.
+ *
+ * Returns: a new #GtkWidget or NULL
+ **/
+GtkWidget *
+go_gtk_builder_get_widget (GtkBuilder *gui, char const *widget_name)
+{
+	return GTK_WIDGET (gtk_builder_get_object (gui, widget_name));
+}
+
+/**
+ * go_gtk_builder_combo_box_init_text :
+ * @gui : the #GtkBuilder
+ * @widget_name : the name of the combo box in the ui file.
+ *
+ * searches the #GtkComboBox in @gui and ensures it has a model and a
+ * renderer appropriate for using with #gtk_combo_box_append_text and friends.
+ *
+ * Returns: the #GtkComboBox or NULL
+ **/
+GtkComboBox *
+go_gtk_builder_combo_box_init_text (GtkBuilder *gui, char const *widget_name)
+{
+	GtkComboBox *box;
+	GList *cells;
+	g_return_val_if_fail (gui != NULL, NULL);
+	box = GTK_COMBO_BOX (gtk_builder_get_object (gui, widget_name));
+	/* search for the model and create one if none exists */
+	g_return_val_if_fail (box != NULL, NULL);
+	if (gtk_combo_box_get_model (box) == NULL) {
+		GtkListStore *store = gtk_list_store_new (1, G_TYPE_STRING);
+		gtk_combo_box_set_model (box, GTK_TREE_MODEL (store));
+		g_object_unref (store);
+	}
+	cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (box));
+	if (g_list_length (cells) == 0) {
+		/* populate the cell layout */
+		GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
+		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (box), cell, TRUE);
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (box), cell,
+						"text", 0, NULL);
+	}
+	g_list_free (cells);
+	return box;
+}
+
+int
+go_gtk_builder_group_value (GtkBuilder *gui, char const * const group[])
+{
+	int i;
+	for (i = 0; group[i]; i++) {
+		GtkWidget *w = go_gtk_builder_get_widget (gui, group[i]);
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
+			return i;
+	}
+	return -1;
 }
 
 /*
@@ -718,7 +695,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 	GtkWidget *expander = NULL;
 	GtkWidget *resolution_spin = NULL;
 	GtkWidget *resolution_table;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	SaveInfoState *state;
 	char const *key = "go_gui_get_image_save_info";
 	char *uri = NULL;
@@ -737,8 +714,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 
 	g_object_set (G_OBJECT (fsel), "title", _("Save as"), NULL);
 
-	gui = go_glade_new ("go-image-save-dialog-extra.glade", 
-			       "image_save_dialog_extra", 
+	gui = go_gtk_builder_new ("go-image-save-dialog-extra.ui", 
 			       GETTEXT_PACKAGE, NULL);
 	if (gui != NULL) {
 		GtkWidget *widget;
@@ -747,7 +723,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 		if (supported_formats != NULL && ret_format != NULL) {
 			int i;
 			GSList *l;
-			format_combo = GTK_COMBO_BOX (glade_xml_get_widget (gui, "format_combo"));
+			format_combo = GTK_COMBO_BOX (gtk_builder_get_object (gui, "format_combo"));
 			for (l = supported_formats, i = 0; l != NULL; l = l->next, i++) {
 				format = GPOINTER_TO_UINT (l->data);
 				format_info = go_image_get_format_info (format);
@@ -758,26 +734,26 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 			if (gtk_combo_box_get_active (format_combo) < 0)
 				gtk_combo_box_set_active (format_combo, 0);
 		} else {
-			widget = glade_xml_get_widget (gui, "file_type_box");
+			widget = go_gtk_builder_get_widget (gui, "file_type_box");
 			gtk_widget_hide (widget);
 		}
 
 		if (supported_formats != NULL && ret_format != NULL) {
-			widget = glade_xml_get_widget (gui, "image_save_dialog_extra");
+			widget = go_gtk_builder_get_widget (gui, "image_save_dialog_extra");
 			gtk_file_chooser_set_extra_widget (fsel, widget);
 		}
 
 		/* Export setting expander */
-		expander = glade_xml_get_widget (gui, "export_expander");
+		expander = go_gtk_builder_get_widget (gui, "export_expander");
 		if (resolution != NULL) {
 			gtk_expander_set_expanded (GTK_EXPANDER (expander), state->is_expanded);
-			resolution_spin = glade_xml_get_widget (gui, "resolution_spin");
+			resolution_spin = go_gtk_builder_get_widget (gui, "resolution_spin");
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (resolution_spin), state->resolution);
 		} else 
 			gtk_widget_hide (expander);
 
 		if (resolution != NULL && supported_formats != NULL && ret_format != NULL) {
-			resolution_table = glade_xml_get_widget (gui, "resolution_table");
+			resolution_table = go_gtk_builder_get_widget (gui, "resolution_table");
 		
 			cb_format_combo_changed (format_combo, resolution_table);	
 			g_signal_connect (GTK_WIDGET (format_combo), "changed", 

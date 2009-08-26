@@ -1,6 +1,6 @@
 goffice_graph_smoothingdir = $(goffice_plugindir)/smoothing
 xmldir	 = $(goffice_graph_smoothingdir)
-gladedir = $(goffice_graph_smoothingdir)
+uidir = $(goffice_graph_smoothingdir)
 
 goffice_graph_smoothing_LTLIBRARIES = smoothing.la
 smoothing_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
@@ -18,9 +18,9 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
-dist_glade_DATA =	\
-			gog-moving-avg.glade	\
-			gog-exp-smooth.glade
+dist_ui_DATA =	\
+			gog-moving-avg.ui	\
+			gog-exp-smooth.ui
 
 # do not use the intl-tool stuff to merge the text back
 # its simpler to just use gettext directly

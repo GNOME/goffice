@@ -64,9 +64,9 @@ libgoffice_utils_la_HEADERS = 	\
 	go-style.h		\
 	go-styled-object.h
 
-gladedir = $(goffice_datadir)/glade
-dist_glade_DATA = \
-	go-style-prefs.glade
+uidir = $(goffice_datadir)/ui
+dist_ui_DATA = \
+	go-style-prefs.ui
 
 CLEANFILES =			\
 	go-marshalers.h		\

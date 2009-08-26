@@ -98,21 +98,20 @@ gog_moving_avg_populate_editor (GogObject *obj,
 	GogMovingAvg *ma = GOG_MOVING_AVG (obj);
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_smoothing"));
-	char	 *path = g_build_filename (dir, "gog-moving-avg.glade", NULL);
-	GladeXML *gui = go_glade_new (path, "mv-avg-prefs", GETTEXT_PACKAGE, cc);
-	GtkWidget *w = glade_xml_get_widget (gui, "span");
+	char	 *path = g_build_filename (dir, "gog-moving-avg.ui", NULL);
+	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
+	GtkWidget *w = go_gtk_builder_get_widget (gui, "span");
 	go_widget_set_tooltip_text (w, _("Number of values from which to calculate an average"));
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (w), 2, G_MAXINT);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), ma->span);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (span_changed_cb), obj);
-	w = glade_xml_get_widget (gui, "xavg");
+	w = go_gtk_builder_get_widget (gui, "xavg");
 	go_widget_set_tooltip_text (w, _("Whether to average x values as well or use the last one"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), ma->xavg);
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (xavg_toggled_cb), obj);
-	w = glade_xml_get_widget (gui, "mv-avg-prefs");
-	g_object_set_data_full (G_OBJECT (w),
-		"state", gui, (GDestroyNotify) g_object_unref);
+	w = go_gtk_builder_get_widget (gui, "mv-avg-prefs");
 	go_editor_add_page (editor, w, _("Properties"));
+	g_object_unref (gui);
 
 	(GOG_OBJECT_CLASS (moving_avg_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }

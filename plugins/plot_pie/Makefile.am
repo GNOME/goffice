@@ -1,6 +1,6 @@
 goffice_graph_piedir = $(goffice_plugindir)/plot_pie
 xmldir	 = $(goffice_graph_piedir)
-gladedir = $(goffice_graph_piedir)
+uidir = $(goffice_graph_piedir)
 
 goffice_graph_pie_LTLIBRARIES = pie.la
 pie_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
@@ -16,7 +16,7 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@
 
 if WITH_GTK
-dist_glade_DATA = gog-pie-prefs.glade gog-ring-prefs.glade gog-pie-series.glade
+dist_ui_DATA = gog-pie-prefs.ui gog-ring-prefs.ui gog-pie-series.ui
 pie_la_SOURCES += gog-pie-prefs.c
 endif
 

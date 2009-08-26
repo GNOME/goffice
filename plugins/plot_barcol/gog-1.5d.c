@@ -578,6 +578,7 @@ gog_series1_5d_populate_editor (GogObject *obj,
 		g_object_get (G_OBJECT (series->plot), "horizontal", &horizontal, NULL);
 	error_page = gog_error_bar_prefs (series, "errors", horizontal, dalloc, cc);
 	go_editor_add_page (editor, error_page, _("Error bars"));
+	g_object_unref (error_page);
 }
 #endif
 

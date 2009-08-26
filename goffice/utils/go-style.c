@@ -22,10 +22,8 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
-#include <goffice/app/go-doc.h>
 
 #ifdef GOFFICE_WITH_GTK
-#include <glade/glade-xml.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 #endif
 
@@ -53,8 +51,8 @@ static GObjectClass *parent_klass;
 
 #ifdef GOFFICE_WITH_GTK
 typedef struct {
-	GladeXML  	*gui;
-	GladeXML  	*font_gui;
+	GtkBuilder  	*gui;
+	GtkBuilder  	*font_gui;
 	GOStyle  	*style;
 	GOStyle  	*default_style;
 	GObject		*object_with_style;
@@ -110,7 +108,7 @@ set_style (StylePrefState const *state)
 static GtkWidget *
 create_go_combo_color (StylePrefState *state,
 		       GOColor initial_color, GOColor automatic_color,
-		       GladeXML *gui,
+		       GtkBuilder *gui,
 		       char const *group, char const *label_name,
 		       GCallback func)
 {
@@ -118,7 +116,7 @@ create_go_combo_color (StylePrefState *state,
 
 	w = go_color_selector_new (initial_color, automatic_color, group);
 	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (glade_xml_get_widget (gui, label_name)), w);
+		GTK_LABEL (gtk_builder_get_object (gui, label_name)), w);
 	g_signal_connect (G_OBJECT (w), "activate", G_CALLBACK (func), state);
 	return w;
 }
@@ -142,13 +140,13 @@ go_style_set_image_preview (GOImage *pix, StylePrefState *state)
 	if (pix == NULL)
 		return;
 
-	w = glade_xml_get_widget (state->gui, "fill_image_sample");
+	w = go_gtk_builder_get_widget (state->gui, "fill_image_sample");
 
 	scaled = go_pixbuf_intelligent_scale (go_image_get_pixbuf (pix), HSCALE, VSCALE);
 	gtk_image_set_from_pixbuf (GTK_IMAGE (w), scaled);
 	g_object_unref (scaled);
 
-	w = glade_xml_get_widget (state->gui, "image-size-label");
+	w = go_gtk_builder_get_widget (state->gui, "image-size-label");
 	g_object_get (pix, "width", &width, "height", &height, NULL);
 
 	size = g_strdup_printf (_("%d x %d"), width, height);
@@ -198,7 +196,7 @@ outline_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 	GOStyle *default_style = state->default_style;
 	GtkWidget *w, *table;
 
-	w = glade_xml_get_widget (state->gui, "outline_box");
+	w = go_gtk_builder_get_widget (state->gui, "outline_box");
 	if (!enable) {
 		gtk_widget_hide (w);
 		return;
@@ -206,7 +204,7 @@ outline_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 
 	go_editor_register_widget (editor, w);
 
-	table = glade_xml_get_widget (state->gui, "outline_table");
+	table = go_gtk_builder_get_widget (state->gui, "outline_table");
 
 	/* DashType */
 	w = go_line_dash_selector_new (style->outline.dash_type,
@@ -215,7 +213,7 @@ outline_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 	g_signal_connect (G_OBJECT (w), "activate", 
 			  G_CALLBACK (cb_outline_dash_type_changed), state);
 	/* Size */
-	w = glade_xml_get_widget (state->gui, "outline_size_spin");
+	w = go_gtk_builder_get_widget (state->gui, "outline_size_spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), style->outline.width);
 	g_signal_connect (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w)),
 		"value_changed",
@@ -272,7 +270,7 @@ line_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 	GOStyle *default_style = state->default_style;
 	GtkWidget *w, *table;
 
-	w = glade_xml_get_widget (state->gui, "line_box");
+	w = go_gtk_builder_get_widget (state->gui, "line_box");
 	if (!enable) {
 		gtk_widget_hide (w);
 		return;
@@ -280,7 +278,7 @@ line_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 
 	go_editor_register_widget (editor, w);
 
-	table = glade_xml_get_widget (state->gui, "line_table");
+	table = go_gtk_builder_get_widget (state->gui, "line_table");
 
 	/* DashType */
 	w = go_line_dash_selector_new (style->line.dash_type,
@@ -290,7 +288,7 @@ line_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 			  G_CALLBACK (cb_line_dash_type_changed), state);
 
 	/* Size */
-	w = glade_xml_get_widget (state->gui, "line_size_spin");
+	w = go_gtk_builder_get_widget (state->gui, "line_size_spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), style->line.width);
 	g_signal_connect (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w)),
 		"value_changed",
@@ -363,10 +361,10 @@ fill_pattern_init (StylePrefState *state)
 	go_pattern_selector_set_colors (GO_SELECTOR (selector), style->fill.pattern.fore,
 					style->fill.pattern.back);
 
-	label = glade_xml_get_widget (state->gui, "fill_pattern_label");
+	label = go_gtk_builder_get_widget (state->gui, "fill_pattern_label");
 	gtk_size_group_add_widget (state->fill.size_group, label);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), selector);
-	state->fill.pattern.box = glade_xml_get_widget (state->gui, "fill_pattern_box");
+	state->fill.pattern.box = go_gtk_builder_get_widget (state->gui, "fill_pattern_box");
 	gtk_box_pack_start (GTK_BOX (state->fill.pattern.box), selector, FALSE, FALSE, 0);
 
 	g_signal_connect (G_OBJECT (selector), "activate",
@@ -408,22 +406,22 @@ fill_gradient_init (StylePrefState *state)
 	go_gradient_selector_set_colors (GO_SELECTOR (selector), 
 					 style->fill.pattern.back,
 					 style->fill.pattern.fore);
-	label = glade_xml_get_widget (state->gui, "fill_gradient_label");
+	label = go_gtk_builder_get_widget (state->gui, "fill_gradient_label");
 	gtk_size_group_add_widget (state->fill.size_group, label);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), selector);
-	state->fill.gradient.box = glade_xml_get_widget (state->gui, "fill_gradient_box");
+	state->fill.gradient.box = go_gtk_builder_get_widget (state->gui, "fill_gradient_box");
 	gtk_box_pack_start (GTK_BOX (state->fill.gradient.box), selector, FALSE, FALSE, 0);
 
 	state->fill.gradient.brightness = brightness =
-		glade_xml_get_widget (state->gui, "fill_brightness_scale");
-	label = glade_xml_get_widget (state->gui, "fill_brightness_label");
+		go_gtk_builder_get_widget (state->gui, "fill_brightness_scale");
+	label = go_gtk_builder_get_widget (state->gui, "fill_brightness_label");
 	gtk_size_group_add_widget (state->fill.size_group, label);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), brightness);
-	state->fill.gradient.brightness_box = glade_xml_get_widget (state->gui, "fill_brightness_box");
+	state->fill.gradient.brightness_box = go_gtk_builder_get_widget (state->gui, "fill_brightness_box");
 	
 	g_signal_connect (selector, "activate",
 			  G_CALLBACK (cb_gradient_type_changed), state);
-	g_signal_connect (brightness, "value_changed", 
+	g_signal_connect (brightness, "value_changed",
 			   G_CALLBACK (cb_brightness_changed), state);
 	gtk_widget_show (selector);
 	gtk_widget_show (brightness);
@@ -466,7 +464,7 @@ fill_color_init (StylePrefState *state)
 		default_style->fill.pattern.back,
 		state->gui, "pattern_background", "fill_background_label",
 		G_CALLBACK (cb_fill_background_color));
-	state->fill.background_box = glade_xml_get_widget (state->gui, "fill_background_box");
+	state->fill.background_box = go_gtk_builder_get_widget (state->gui, "fill_background_box");
 	gtk_box_pack_start (GTK_BOX (state->fill.background_box), w, FALSE, FALSE, 0);
 	gtk_widget_show (w);
 
@@ -475,13 +473,13 @@ fill_color_init (StylePrefState *state)
 		default_style->fill.pattern.fore,
 		state->gui, "pattern_foreground", "fill_foreground_label",
 		G_CALLBACK (cb_fill_foreground_color));
-	state->fill.foreground_box = glade_xml_get_widget (state->gui, "fill_foreground_box");
+	state->fill.foreground_box = go_gtk_builder_get_widget (state->gui, "fill_foreground_box");
 	gtk_box_pack_start (GTK_BOX (state->fill.foreground_box), w, FALSE, FALSE, 0);
 	gtk_widget_show (w);
 
-	state->fill.foreground_label = glade_xml_get_widget (state->gui, "fill_foreground_label");
+	state->fill.foreground_label = go_gtk_builder_get_widget (state->gui, "fill_foreground_label");
 	gtk_size_group_add_widget (state->fill.size_group, state->fill.foreground_label);
-	state->fill.background_label = glade_xml_get_widget (state->gui, "fill_background_label");
+	state->fill.background_label = go_gtk_builder_get_widget (state->gui, "fill_background_label");
 	gtk_size_group_add_widget (state->fill.size_group, state->fill.background_label);
 }
 /************************************************************************/
@@ -519,14 +517,14 @@ fill_image_init (StylePrefState *state)
 	GtkWidget *w, *sample, *type;
 	GOStyle *style = state->style;
 
-	w = glade_xml_get_widget (state->gui, "fill_image_select_picture");
+	w = go_gtk_builder_get_widget (state->gui, "fill_image_select_picture");
 	g_signal_connect (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_image_select), state);
 
-	sample = glade_xml_get_widget (state->gui, "fill_image_sample");
+	sample = go_gtk_builder_get_widget (state->gui, "fill_image_sample");
 	gtk_widget_set_size_request (sample, HSCALE + 10, VSCALE + 10);
-	type   = glade_xml_get_widget (state->gui, "fill_image_fit");
+	type   = go_gtk_builder_get_widget (state->gui, "fill_image_fit");
 
 	state->fill.image.image = NULL;
 
@@ -611,11 +609,11 @@ fill_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 	FillType type;
 
 	if (!enable) {
-		gtk_widget_hide (glade_xml_get_widget (state->gui, "fill_box"));
+		gtk_widget_hide (go_gtk_builder_get_widget (state->gui, "fill_box"));
 		return;
 	}
 
-	state->fill.extension_box = glade_xml_get_widget (state->gui, "fill_extension_box");
+	state->fill.extension_box = go_gtk_builder_get_widget (state->gui, "fill_extension_box");
 	go_editor_register_widget (editor, state->fill.extension_box);
 
 	state->fill.size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
@@ -627,7 +625,7 @@ fill_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 		fill_image_init (state);
 	fill_update_selectors (state);
 
-	state->fill.notebook = glade_xml_get_widget (state->gui, "fill_notebook");
+	state->fill.notebook = go_gtk_builder_get_widget (state->gui, "fill_notebook");
 
 	switch (state->style->fill.type) {
 		case GO_STYLE_FILL_PATTERN:
@@ -652,7 +650,7 @@ fill_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 	}
 	fill_update_visibilies (type, state);
 
-	w = glade_xml_get_widget (state->gui, "fill_type_menu");
+	w = go_gtk_builder_get_widget (state->gui, "fill_type_menu");
 	if (state->doc == NULL)
 		gtk_combo_box_remove_text (GTK_COMBO_BOX (w), FILL_TYPE_IMAGE);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), type);
@@ -660,7 +658,7 @@ fill_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 		"changed",
 		G_CALLBACK (cb_fill_type_changed), state);
 
-	w = glade_xml_get_widget (state->gui, "fill_box");
+	w = go_gtk_builder_get_widget (state->gui, "fill_box");
 	gtk_widget_show (GTK_WIDGET (w));
 }
 
@@ -731,16 +729,16 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 	GOStyle *default_style = state->default_style;
 	GtkWidget *table, *w;
 	GtkWidget *selector;
-	GladeXML *gui;
+	GtkBuilder *gui;
 
 	if (!enable)
 		return;
 
-	gui = go_glade_new ("go-style-prefs.glade", "go_style_marker_prefs", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new ("go-style-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
-	table = glade_xml_get_widget (gui, "marker_table");
+	table = go_gtk_builder_get_widget (gui, "marker_table");
 
 	state->marker.selector = selector = 
 		go_marker_selector_new (go_marker_get_shape (style->marker.mark),
@@ -752,7 +750,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 	else
 		go_marker_selector_set_colors (GO_SELECTOR (selector), 
 					       RGBA_BLUE, RGBA_BLUE);
-	w = glade_xml_get_widget (gui, "marker_shape_label");
+	w = go_gtk_builder_get_widget (gui, "marker_shape_label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), selector);
 	gtk_table_attach (GTK_TABLE (table), selector, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	g_signal_connect (G_OBJECT (selector), "activate", 
@@ -789,7 +787,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 	}
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
 
-	w = glade_xml_get_widget (gui, "marker_size_spin");
+	w = go_gtk_builder_get_widget (gui, "marker_size_spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w),
 		go_marker_get_size (style->marker.mark));
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
@@ -798,13 +796,14 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 
 	gtk_widget_show_all (table);
 
-	w = glade_xml_get_widget (gui, "go_style_marker_prefs");
+	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "go_style_marker_prefs")));
 
 	go_editor_add_page (editor, w, _("Markers"));
 	g_object_unref (gui);
-	if (state->gui == NULL)
-		g_object_set_data_full (G_OBJECT (w),
-			"state", state, (GDestroyNotify) go_style_pref_state_free);
+	if (state->gui == NULL) {
+		g_object_set_data (G_OBJECT (w), "state", state);
+		g_signal_connect_swapped (G_OBJECT (w), "destroy", G_CALLBACK (go_style_pref_state_free), state);
+	}
 }
 
 /************************************************************************/
@@ -842,14 +841,14 @@ font_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmdContext
 {
 	GOStyle *style = state->style;
 	GtkWidget *w, *box;
-	GladeXML *gui;
+	GtkBuilder *gui;
 
 	if (!enable)
 		return;
 
 	g_return_if_fail (style->font.font != NULL);
 
-	gui = go_glade_new ("go-style-prefs.glade", "go_style_font_prefs", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new ("go-style-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
@@ -858,7 +857,7 @@ font_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmdContext
 	w = create_go_combo_color (state, style->font.color, style->font.color,
 				   gui, "pattern_foreground", "font_color_label",
 				   G_CALLBACK (cb_font_color_changed));
-	box = glade_xml_get_widget (gui, "color_box");
+	box = go_gtk_builder_get_widget (gui, "color_box");
 	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
 	gtk_widget_show (w);
 				    
@@ -868,7 +867,7 @@ font_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmdContext
 			  G_CALLBACK (cb_font_changed), state);
 	gtk_widget_show (w);
 
- 	box = glade_xml_get_widget (gui, "go_style_font_prefs");
+ 	box = go_gtk_builder_get_widget (gui, "go_style_font_prefs");
 	gtk_box_pack_end (GTK_BOX (box), w, TRUE, TRUE, 0);
 	
 	go_editor_add_page (editor, box, _("Font"));
@@ -944,7 +943,7 @@ go_style_populate_editor (GOStyle *style,
 {
 	GOStyleFlag enable;
 	GtkWidget *w;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	StylePrefState *state;
 
 	g_return_if_fail (style != NULL);
@@ -967,15 +966,15 @@ go_style_populate_editor (GOStyle *style,
 		go_styled_object_get_document (GO_STYLED_OBJECT (object_with_style)): NULL;
 
 	if ((enable & (GO_STYLE_OUTLINE | GO_STYLE_LINE | GO_STYLE_FILL)) != 0) {
-		gui = go_glade_new ("go-style-prefs.glade", "go_style_prefs", GETTEXT_PACKAGE, cc);
+		gui = go_gtk_builder_new ("go-style-prefs.ui", GETTEXT_PACKAGE, cc);
 		if (gui == NULL) {
 			g_free (state);
 			return;
 		}
 		state->gui = gui;
-		w = glade_xml_get_widget (gui, "go_style_prefs");
-		g_object_set_data_full (G_OBJECT (w),
-			"state", state, (GDestroyNotify) go_style_pref_state_free);
+		w = go_gtk_builder_get_widget (gui, "go_style_prefs");
+		g_object_set_data (G_OBJECT (w), "state", state);
+		g_signal_connect_swapped (G_OBJECT (w), "destroy", G_CALLBACK (go_style_pref_state_free), state);
 		go_editor_add_page (editor, w, _("Style"));
 
 		outline_init 	 (state, enable & GO_STYLE_OUTLINE, editor);

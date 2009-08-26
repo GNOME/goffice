@@ -22,7 +22,6 @@
 #include <glib.h>
 #include <strings.h>
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 
 #include <goffice/goffice.h>
 #include <goffice/app/go-plugin.h>
@@ -35,14 +34,15 @@
 #include <goffice/graph/gog-series.h>
 #include <goffice/utils/go-style.h>
 #include <goffice/utils/go-styled-object.h>
+#include <goffice/gtk/goffice-gtk.h>
 #include <goffice/gtk/go-graph-widget.h>
 
 typedef struct _GoDemoPrivate GODemoPrivate;
 struct _GoDemoPrivate {
 	GtkWidget *toplevel;
-	GladeXML  *xml;
+	GtkBuilder  *xml;
 	
-	GtkWidget *menu_item_quit;
+	GtkAction *menu_item_quit;
 	GtkWidget *btn_regen;
 	GtkWidget *notebook_charts;
 	GtkWidget *notebook_data;
@@ -314,17 +314,16 @@ init_data_widgets (GODemoPrivate *priv)
 	char *wname = NULL;
 	
 	for (i =0; i< 6; i++) {
-		GtkSpinButton *spbutton;
 		/* init legend widgets */
 		g_free (wname);
 		wname = g_strdup_printf ("entry_legend_%d", i+1);
-		priv->entry_legend[i] = GTK_ENTRY (glade_xml_get_widget (
+		priv->entry_legend[i] = GTK_ENTRY (gtk_builder_get_object (
 					priv->xml, wname));
 		gtk_entry_set_text (priv->entry_legend[i], legends[i]);
 		/* init value widgets */
 		g_free (wname);
 		wname = g_strdup_printf ("spb_value_%d", i+1);
-		priv->spb_value[i] = GTK_SPIN_BUTTON (glade_xml_get_widget (
+		priv->spb_value[i] = GTK_SPIN_BUTTON (gtk_builder_get_object (
 					priv->xml, wname));
 		gtk_spin_button_set_value (priv->spb_value[i], values[i]);
 		g_signal_connect(priv->spb_value[i], "value-changed",
@@ -332,7 +331,7 @@ init_data_widgets (GODemoPrivate *priv)
 		/* init index widgets */
 		g_free (wname);
 		wname = g_strdup_printf ("spb_index_%d", i+1);
-		priv->spb_index[i] = GTK_SPIN_BUTTON (glade_xml_get_widget (
+		priv->spb_index[i] = GTK_SPIN_BUTTON (gtk_builder_get_object (
 					priv->xml, wname));
 		gtk_spin_button_set_value (priv->spb_index[i], indexs[i]);
 		g_signal_connect (priv->spb_index[i], "value-changed",
@@ -340,7 +339,7 @@ init_data_widgets (GODemoPrivate *priv)
 		/* init angle widgets */
 		g_free (wname);
 		wname = g_strdup_printf ("spb_angle_%d", i+1);
-		priv->spb_angle[i] = GTK_SPIN_BUTTON (glade_xml_get_widget (
+		priv->spb_angle[i] = GTK_SPIN_BUTTON (gtk_builder_get_object (
 					priv->xml, wname));
 		gtk_spin_button_set_value (priv->spb_angle[i], angles[i]);
 		g_signal_connect (priv->spb_angle[i], "value-changed",
@@ -348,7 +347,7 @@ init_data_widgets (GODemoPrivate *priv)
 		/* init start widgets */
 		g_free (wname);
 		wname = g_strdup_printf ("spb_start_%d", i+1);
-		priv->spb_start[i] = GTK_SPIN_BUTTON (glade_xml_get_widget (
+		priv->spb_start[i] = GTK_SPIN_BUTTON (gtk_builder_get_object (
 					priv->xml, wname));
 		gtk_spin_button_set_value (priv->spb_start[i], starts[i]);
 		g_signal_connect (priv->spb_start[i], "value-changed",
@@ -359,7 +358,7 @@ init_data_widgets (GODemoPrivate *priv)
 		/* init start widgets */
 		g_free (wname);
 		wname = g_strdup_printf ("spb_matrix_%d", i+1);
-		priv->spb_matrix[i] = GTK_SPIN_BUTTON (glade_xml_get_widget (
+		priv->spb_matrix[i] = GTK_SPIN_BUTTON (gtk_builder_get_object (
 					priv->xml, wname));
 		gtk_spin_button_set_value (priv->spb_matrix[i], matrix[i]);
 		g_signal_connect (priv->spb_matrix[i], "value-changed",
@@ -455,7 +454,7 @@ main (int argc, char *argv[])
 {
 	GtkWidget *window;
 	GODemoPrivate *priv;
-	const gchar *glade_file;
+	const gchar *ui_file;
 
 	gtk_init (&argc, &argv);
 	/* Initialize libgoffice */
@@ -470,33 +469,34 @@ main (int argc, char *argv[])
 	g_signal_connect (window, "destroy", gtk_main_quit, NULL);
 
 	priv = g_new0 (GODemoPrivate, 1);
-#define GO_DEMO_GLADE  "go-demo.glade"
-	glade_file = "./" GO_DEMO_GLADE;
-	if (!g_file_test (glade_file, G_FILE_TEST_EXISTS))
-		glade_file = "../" GO_DEMO_GLADE;
-	if (!g_file_test (glade_file, G_FILE_TEST_EXISTS)) {
-		g_warning ("Unable to load file %s", GO_DEMO_GLADE);
+#define GO_DEMO_UI  "go-demo.ui"
+	ui_file = "./" GO_DEMO_UI;
+	if (!g_file_test (ui_file, G_FILE_TEST_EXISTS))
+		ui_file = "../" GO_DEMO_UI;
+	if (!g_file_test (ui_file, G_FILE_TEST_EXISTS)) {
+		g_warning ("Unable to load file %s", GO_DEMO_UI);
 		return 0;
 	}
-	priv->xml = glade_xml_new (glade_file, "toplevel", NULL);
+	priv->xml = gtk_builder_new ();
+	gtk_builder_add_from_file (priv->xml, ui_file, NULL);
 #undef GO_DEMO_GLADE
 
-	priv->toplevel = glade_xml_get_widget (priv->xml, "toplevel");
+	priv->toplevel = go_gtk_builder_get_widget (priv->xml, "toplevel");
 	gtk_container_add (GTK_CONTAINER (window), priv->toplevel);
 
-	priv->menu_item_quit = glade_xml_get_widget (priv->xml, "menu_item_quit");
+	priv->menu_item_quit = GTK_ACTION (gtk_builder_get_object (priv->xml, "menu_item_quit"));
 	g_signal_connect (priv->menu_item_quit, "activate",
 			G_CALLBACK (on_quit), window);
 
-	priv->btn_regen = glade_xml_get_widget (priv->xml, "btn_regen");
+	priv->btn_regen = go_gtk_builder_get_widget (priv->xml, "btn_regen");
 	g_signal_connect (priv->btn_regen, "clicked",
 			G_CALLBACK (btn_regen_clicked), priv);
 
-	priv->notebook_data = glade_xml_get_widget (priv->xml, "notebook_data");
+	priv->notebook_data = go_gtk_builder_get_widget (priv->xml, "notebook_data");
 	init_data_widgets (priv);
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_data), 1);
 
-	priv->notebook_charts = glade_xml_get_widget (priv->xml, "notebook_charts");
+	priv->notebook_charts = go_gtk_builder_get_widget (priv->xml, "notebook_charts");
 	generate_all_charts (GTK_NOTEBOOK (priv->notebook_charts));
 
 	gtk_widget_show_all (GTK_WIDGET (window));

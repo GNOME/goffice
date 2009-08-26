@@ -37,7 +37,7 @@ struct _GOImageSelState {
 	GOImage **result;
 
 	/* GUI accessors */
-	GladeXML    *gui;
+	GtkBuilder    *gui;
 	GtkEntry    *name_entry;
 	GtkIconView *icon_view;
 	GtkListStore *model;
@@ -199,24 +199,24 @@ go_image_sel_new (GODoc *doc, GOCmdContext *cc, GOImage **image)
 	state->doc = doc;
 	state->cc = cc;
 	state->result = image;
-	state->gui = go_glade_new ("go-image-sel.glade", NULL, GETTEXT_PACKAGE, state->cc);
+	state->gui = go_gtk_builder_new ("go-image-sel.ui", GETTEXT_PACKAGE, state->cc);
         if (state->gui == NULL) {
 		g_free (state);
                 return NULL;
 	}
 
-	w = glade_xml_get_widget (state->gui, "file-image-select");
+	w = go_gtk_builder_get_widget (state->gui, "file-image-select");
 	g_signal_connect (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_file_image_select), state);
 
-	w = glade_xml_get_widget (state->gui, "add");
+	w = go_gtk_builder_get_widget (state->gui, "add");
 	g_signal_connect (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_image_add), state);
 
-	state->name_entry = GTK_ENTRY (glade_xml_get_widget (state->gui, "name-entry"));
-	state->icon_view = GTK_ICON_VIEW (glade_xml_get_widget (state->gui, "image-iconview"));
+	state->name_entry = GTK_ENTRY (gtk_builder_get_object (state->gui, "name-entry"));
+	state->icon_view = GTK_ICON_VIEW (gtk_builder_get_object (state->gui, "image-iconview"));
 	state->model = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
 	gtk_icon_view_set_model (state->icon_view , GTK_TREE_MODEL (state->model));
 
@@ -234,12 +234,12 @@ go_image_sel_new (GODoc *doc, GOCmdContext *cc, GOImage **image)
 		g_hash_table_foreach (hash, (GHFunc) add_image_cb, state);
 
 	/* buttons */
-	w = glade_xml_get_widget (state->gui, "ok-button");
+	w = go_gtk_builder_get_widget (state->gui, "ok-button");
 	g_signal_connect (w, "clicked", G_CALLBACK (ok_button_clicked_cb), state);
-	w = glade_xml_get_widget (state->gui, "cancel-button");
+	w = go_gtk_builder_get_widget (state->gui, "cancel-button");
 	g_signal_connect (w, "clicked", G_CALLBACK (cancel_button_clicked_cb), state);
 
-	state->dialog = glade_xml_get_widget (state->gui, "go-image-sel");
+	state->dialog = go_gtk_builder_get_widget (state->gui, "go-image-sel");
 	g_signal_connect (state->dialog, "delete-event", G_CALLBACK (delete_event_cb), state);
 	return state->dialog;
 }

@@ -59,25 +59,25 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 {
 	GtkWidget *w;
 	GtkTable *table;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GogDataset *set = GOG_DATASET (gobj);
 
-	gui = go_glade_new ("gog-reg-curve-prefs.glade", "reg-curve-prefs", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new ("gog-reg-curve-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
 	go_editor_add_page (editor, 
-			     glade_xml_get_widget (gui, "reg-curve-prefs"),
+			     go_gtk_builder_get_widget (gui, "reg-curve-prefs"),
 			     _("Details"));
 
-	table = GTK_TABLE (glade_xml_get_widget (gui, "reg-curve-prefs"));
+	table = GTK_TABLE (gtk_builder_get_object (gui, "reg-curve-prefs"));
 	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 0, GOG_DATA_SCALAR));
 	gtk_widget_show (w);
 	gtk_table_attach (table, w, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 1, GOG_DATA_SCALAR));
 	gtk_widget_show (w);
 	gtk_table_attach (table, w, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	w = glade_xml_get_widget (gui, "skip-invalid");
+	w = go_gtk_builder_get_widget (gui, "skip-invalid");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 					(GOG_REG_CURVE (gobj))->skip_invalid);
 	g_signal_connect (G_OBJECT (w), "toggled",
@@ -85,6 +85,7 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 	if ((GOG_REG_CURVE_GET_CLASS (gobj))->populate_editor != NULL)
 		(GOG_REG_CURVE_GET_CLASS (gobj))->populate_editor (GOG_REG_CURVE (gobj), table);
 
+	g_object_unref (gui);
 
 	(GOG_OBJECT_CLASS (reg_curve_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 }

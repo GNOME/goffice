@@ -20,7 +20,7 @@ typedef enum {		/* begin the search from : */
 
 GType      go_combo_text_get_type	 (void);
 GtkWidget *go_combo_text_new		 (GCompareFunc cmp_func);
-GtkWidget *go_combo_text_glade_new	 (void);
+GtkWidget *go_combo_text_new_default     (void);
 GtkWidget *go_combo_text_get_entry	 (GOComboText *ct);
 
 gboolean   go_combo_text_set_text	 (GOComboText *ct, const gchar *text,

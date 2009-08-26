@@ -1,3 +1,7 @@
+2009-08-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* all files: migrated from Glade to GtkBuilder
+
 2009-08-25  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-conf-win32.c (go_conf_win32_get_node): Guess what

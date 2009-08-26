@@ -460,15 +460,13 @@ gog_color_polar_plot_populate_editor (GogObject *obj,
 	g_free (path);
 
 	if (gui != NULL) {
-		GtkWidget *w = GTK_WIDGET (gtk_builder_get_object (gui, "hide-outliers"));
+		GtkWidget *w = go_gtk_builder_get_widget (gui, "hide-outliers");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 				(GOG_COLOR_POLAR_PLOT (obj))->hide_outliers);
 		g_signal_connect (G_OBJECT (w),
 			"toggled",
 			G_CALLBACK (hide_outliers_toggled_cb), obj);
-		w = GTK_WIDGET (gtk_builder_get_object (gui, "gog-color-polar-prefs"));
-		gtk_widget_unparent (w);
-		g_object_ref (w);
+		w = go_gtk_builder_get_widget (gui, "gog-color-polar-prefs");
 		go_editor_add_page (editor, w, _("Properties"));
 		g_object_unref (gui);
 	}

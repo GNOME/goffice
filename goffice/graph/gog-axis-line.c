@@ -376,7 +376,7 @@ gog_axis_base_get_clamped_position (GogAxisBase *axis_base)
 #ifdef GOFFICE_WITH_GTK
 typedef struct {
 	GogAxisBase 	*axis_base;
-	GladeXML 	*gui;
+	GtkBuilder 	*gui;
 } AxisBasePrefs;
 
 static void
@@ -390,7 +390,7 @@ static void
 cb_cross_location_changed (GtkWidget *editor, AxisBasePrefs *state)
 {
 	gtk_toggle_button_set_active
-		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "axis_cross")),
+		(GTK_TOGGLE_BUTTON (gtk_builder_get_object (state->gui, "axis_cross")),
 		 TRUE);
 }
 
@@ -407,7 +407,7 @@ cb_cross_axis_changed (GtkComboBox *combo, AxisBasePrefs *state)
 	state->axis_base->crossed_axis_id = g_value_get_uint (&value);
 
 	gtk_toggle_button_set_active
-		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "axis_cross")),
+		(GTK_TOGGLE_BUTTON (gtk_builder_get_object (state->gui, "axis_cross")),
 		 TRUE);
 
 	g_value_unset (&value);
@@ -432,7 +432,7 @@ cb_position_toggled (GtkWidget *button, AxisBasePrefs *state)
 		position = GOG_AXIS_AT_LOW;
 
 	if (position != axis_base->position)
-		gtk_widget_set_sensitive (glade_xml_get_widget (state->gui, "padding_spinbutton"),
+		gtk_widget_set_sensitive (go_gtk_builder_get_widget (state->gui, "padding_spinbutton"),
 					  position != GOG_AXIS_CROSS);
 
 	if (position != GOG_AXIS_CROSS) {
@@ -487,7 +487,8 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		"minor-tick-in"
 	};
 	GogAxisBase *axis_base;
-	GladeXML *gui;
+	GtkBuilder *gui;
+	GtkWidget *w;
 	GogAxisType crossed_axis_type, axis_type;
 	static guint axis_base_pref_page = 0;
 	unsigned i;
@@ -506,7 +507,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		return;
 	}
 
-	gui = go_glade_new ("gog-axis-prefs.glade", "axis_base_pref_box", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new ("gog-axis-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL) {
 		(GOG_OBJECT_CLASS(gab_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 		return;
@@ -522,9 +523,9 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		unsigned axis_count;
 		GtkCellRenderer *cell;
 		AxisBasePrefs *state;
-
+		    
 		store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_UINT);
-		combo = glade_xml_get_widget (gui, "cross_axis_combo");
+		combo = go_gtk_builder_get_widget (gui, "cross_axis_combo");
 		gtk_combo_box_set_model (GTK_COMBO_BOX (combo), GTK_TREE_MODEL (store));
 
 		cell = gtk_cell_renderer_text_new ();
@@ -558,32 +559,30 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		deditor = gog_data_allocator_editor
 			(dalloc, GOG_DATASET (axis_base),
 			 GOG_AXIS_ELEM_CROSS_POINT, GOG_DATA_SCALAR);
-		container = glade_xml_get_widget (gui, "cross_location_alignment");
-		gtk_container_add (GTK_CONTAINER (container),
-				   GTK_WIDGET (deditor));
+		container = go_gtk_builder_get_widget (gui, "cross_location_alignment");
+		gtk_container_add (GTK_CONTAINER (container), GTK_WIDGET (deditor));
 		gtk_widget_show_all (container);
 
 		state = g_new (AxisBasePrefs, 1);
 		state->axis_base = axis_base;
-		state->gui = gui;
+		state->gui = g_object_ref (gui);
 		g_signal_connect (G_OBJECT (combo), "changed",
 				  G_CALLBACK (cb_cross_axis_changed), state);
 		g_signal_connect (G_OBJECT (deditor), "changed",
 				  G_CALLBACK (cb_cross_location_changed), state);
-		g_object_set_data_full (G_OBJECT (combo),
-					"state", state, (GDestroyNotify) axis_base_pref_free);
+		g_signal_connect_swapped (G_OBJECT (combo), "destroy", G_CALLBACK (axis_base_pref_free), state);  
 
-		w = glade_xml_get_widget (gui, "axis_low");
+		w = go_gtk_builder_get_widget (gui, "axis_low");
 		if (axis_base->position == GOG_AXIS_AT_LOW)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 		g_signal_connect (G_OBJECT (w), "toggled",
 				  G_CALLBACK (cb_position_toggled), state);
-		w = glade_xml_get_widget (gui, "axis_cross");
+		w = go_gtk_builder_get_widget (gui, "axis_cross");
 		if (axis_base->position == GOG_AXIS_CROSS)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 		g_signal_connect (G_OBJECT (w), "toggled",
 				  G_CALLBACK (cb_position_toggled), state);
-		w = glade_xml_get_widget (gui, "axis_high");
+		w = go_gtk_builder_get_widget (gui, "axis_high");
 		if (axis_base->position == GOG_AXIS_AT_HIGH)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 		g_signal_connect (G_OBJECT (w), "toggled",
@@ -591,7 +590,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 
 		hide_position_box = FALSE;
 	} else {
-		GtkWidget *w = glade_xml_get_widget (gui, "cross_box");
+		w = go_gtk_builder_get_widget (gui, "cross_box");
 		gtk_widget_hide (w);
 	}
 
@@ -599,25 +598,26 @@ gog_axis_base_populate_editor (GogObject *gobj,
 	    axis_type == GOG_AXIS_Y ||
 	    axis_type == GOG_AXIS_Z ||
 	    axis_type == GOG_AXIS_RADIAL) {
-		GtkWidget *w = glade_xml_get_widget (gui, "padding_spinbutton");
+		w = go_gtk_builder_get_widget (gui, "padding_spinbutton");
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), axis_base->padding);
 		g_signal_connect (G_CALLBACK (w), "value-changed",
 				  G_CALLBACK (cb_padding_changed), axis_base);
 		gtk_widget_set_sensitive (w, axis_base->position != GOG_AXIS_CROSS);
 		hide_position_box = FALSE;
 	} else {
-		GtkWidget *w = glade_xml_get_widget (gui, "padding_box");
+		w = go_gtk_builder_get_widget (gui, "padding_box");
 		gtk_widget_hide (w);
 	}
 
 	if (hide_position_box) {
-		GtkWidget *w = glade_xml_get_widget (gui, "position_box");
+		w = go_gtk_builder_get_widget (gui, "position_box");
 		gtk_widget_hide (w);
 	}
 
 	for (i = 0; i < G_N_ELEMENTS (toggle_props) ; i++) {
 		gboolean cur_val;
-		GtkWidget *w = glade_xml_get_widget (gui, toggle_props[i]);
+
+		w = go_gtk_builder_get_widget (gui, toggle_props[i]);
 		g_object_get (G_OBJECT (gobj), toggle_props[i], &cur_val, NULL);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), cur_val);
 		g_signal_connect_object (G_OBJECT (w),
@@ -627,13 +627,14 @@ gog_axis_base_populate_editor (GogObject *gobj,
 
 	if (gog_axis_is_discrete (axis_base->axis)) {
 		/* Hide minor tick properties */
-		GtkWidget *w = glade_xml_get_widget (gui, "minor_tick_box");
+		GtkWidget *w = go_gtk_builder_get_widget (gui, "minor_tick_box");
 		gtk_widget_hide (w);
 	}
 
 	go_editor_add_page (editor,
-			     glade_xml_get_widget (gui, "axis_base_pref_box"),
+			     go_gtk_builder_get_widget (gui, "axis_base_pref_box"),
 			     _("Layout"));
+	g_object_unref (gui);
 
 	(GOG_OBJECT_CLASS(gab_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 }

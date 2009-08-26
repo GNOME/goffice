@@ -26,7 +26,7 @@
 
 struct _GORotationSel {
 	GtkHBox		 box;
-	GladeXML	*gui;
+	GtkBuilder	*gui;
 	int		 angle;
 
 	GtkSpinButton	*rotate_spinner;
@@ -211,7 +211,7 @@ grs_init (GORotationSel *grs)
 {
 	GtkWidget *w;
 
-	grs->gui = go_glade_new ("go-rotation-sel.glade", "toplevel", GETTEXT_PACKAGE, NULL);
+	grs->gui = go_gtk_builder_new ("go-rotation-sel.ui", GETTEXT_PACKAGE, NULL);
 	if (grs->gui == NULL)
 		return;
 
@@ -220,12 +220,12 @@ grs_init (GORotationSel *grs)
 	grs->text  = NULL;
 	grs->text_widget = NULL;
 	grs->rotate_canvas = GOC_CANVAS (g_object_new (GOC_TYPE_CANVAS, NULL));
-	gtk_container_add (GTK_CONTAINER (glade_xml_get_widget (grs->gui,
+	gtk_container_add (GTK_CONTAINER (go_gtk_builder_get_widget (grs->gui,
 		"rotate_canvas_container")),
 		GTK_WIDGET (grs->rotate_canvas));
 	gtk_widget_show (GTK_WIDGET (grs->rotate_canvas));
 	memset (grs->rotate_marks, 0, sizeof (grs->rotate_marks));
-	w = glade_xml_get_widget (grs->gui, "rotate_spinner");
+	w = go_gtk_builder_get_widget (grs->gui, "rotate_spinner");
 	grs->rotate_spinner = GTK_SPIN_BUTTON (w);
 	g_signal_connect_swapped (G_OBJECT (w), "value-changed",
 		G_CALLBACK (cb_rotate_changed), grs);
@@ -238,7 +238,7 @@ grs_init (GORotationSel *grs)
 		NULL);
 	gtk_spin_button_set_value (grs->rotate_spinner, grs->angle);
 
-	w = glade_xml_get_widget (grs->gui, "toplevel");
+	w = go_gtk_builder_get_widget (grs->gui, "toplevel");
 	gtk_box_pack_start (GTK_BOX (grs), w, TRUE, TRUE, 0);
 	gtk_widget_show_all (GTK_WIDGET (grs));
 }

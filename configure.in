@@ -102,8 +102,7 @@ goffice_reqs="
 	cairo			>= 1.2.0
 "
 goffice_gtk_reqs="
-	gtk+-2.0		>= 2.6.0
-	libglade-2.0		>= 2.3.6
+	gtk+-2.0		>= 2.12.0
 "
 
 surfaces_reqs="

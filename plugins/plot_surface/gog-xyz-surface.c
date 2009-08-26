@@ -176,10 +176,10 @@ gog_xyz_surface_plot_populate_editor (GogObject *item,
 	GogObjectClass *klass = (GOG_IS_PLOT_CONTOUR (item))?
 				plot_xyz_contour_parent_klass:
 				plot_xyz_surface_parent_klass;
+	GtkWidget *w = gog_xyz_surface_plot_pref (GOG_XYZ_PLOT (item), cc);
+	go_editor_add_page (editor, w, _("Properties"));
+	g_object_unref (G_OBJECT (w));
 
-	go_editor_add_page (editor,
-			     gog_xyz_surface_plot_pref (GOG_XYZ_PLOT (item), cc),
-			     _("Properties"));
 	(GOG_OBJECT_CLASS (klass)->populate_editor) (item, editor, dalloc, cc);
 }
 #endif

@@ -59,7 +59,9 @@ gog_probability_plot_populate_editor (GogObject *item,
 			      GogDataAllocator *dalloc,
 			      GOCmdContext *cc)
 {
-	go_editor_add_page (editor, go_distribution_pref_new (G_OBJECT (item), dalloc, cc), _("Distribution"));
+	GtkWidget *w = go_distribution_pref_new (G_OBJECT (item), dalloc, cc);
+	go_editor_add_page (editor, w, _("Distribution"));
+	g_object_unref (w);
 	
 	(GOG_OBJECT_CLASS(probability_plot_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }

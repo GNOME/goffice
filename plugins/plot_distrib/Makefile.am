@@ -1,6 +1,6 @@
 goffice_graph_distribdir = $(goffice_plugindir)/plot_distrib
 xmldir	 = $(goffice_graph_distribdir)
-gladedir = $(goffice_graph_distribdir)
+uidir = $(goffice_graph_distribdir)
 
 goffice_graph_distrib_LTLIBRARIES = distrib.la
 distrib_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
@@ -22,7 +22,7 @@ if WITH_GTK
 	go-distribution-prefs.c	\
 	go-distribution-prefs.h
 
-  dist_glade_DATA = gog-boxplot-prefs.glade
+  dist_glade_ui = gog-boxplot-prefs.ui
 endif
 
 @INTLTOOL_XML_RULE@

@@ -1,6 +1,6 @@
 goffice_graph_xydir = $(goffice_plugindir)/plot_xy
 xmldir	 = $(goffice_graph_xydir)
-gladedir = $(goffice_graph_xydir)
+uidir = $(goffice_graph_xydir)
 
 goffice_graph_xy_LTLIBRARIES = xy.la
 xy_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
@@ -17,10 +17,10 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 if WITH_GTK
 xy_la_SOURCES  += gog-bubble-prefs.c
-dist_glade_DATA = \
-	gog-bubble-prefs.glade	\
-	gog-xy-color-prefs.glade	\
-	gog-xy-series-prefs.glade
+dist_ui_DATA = \
+	gog-bubble-prefs.ui	\
+	gog-xy-color-prefs.ui	\
+	gog-xy-series-prefs.ui
 endif
 
 # do not use the intl-tool stuff to merge the text back

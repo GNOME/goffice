@@ -145,9 +145,9 @@ gog_barcol_plot_populate_editor (GogObject *item,
 			G_GNUC_UNUSED GogDataAllocator *dalloc,
 			GOCmdContext *cc)
 {
-	go_editor_add_page (editor,
-			     gog_barcol_plot_pref (GOG_BARCOL_PLOT (item), cc),
-			     _("Properties"));
+	GtkWidget *w = gog_barcol_plot_pref (GOG_BARCOL_PLOT (item), cc);
+	go_editor_add_page (editor, w, _("Properties"));
+	g_object_unref (w);
 	(GOG_OBJECT_CLASS(gog_barcol_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
 

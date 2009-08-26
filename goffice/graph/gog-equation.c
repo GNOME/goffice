@@ -75,27 +75,28 @@ gog_equation_populate_editor (GogObject *obj,
 			      GOCmdContext *cc)
 {
 	GogEquation *equation = GOG_EQUATION (obj);
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GtkWidget *widget;
 	GtkTextBuffer *buffer;
 	static guint equation_pref_page = 0;
 
-	gui = go_glade_new ("gog-equation-prefs.glade", "gog_equation_prefs", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new ("gog-equation-prefs.ui", GETTEXT_PACKAGE, cc);
 	g_return_if_fail (gui != NULL);
 
-	widget = glade_xml_get_widget (gui, "equation_text");
+	widget = go_gtk_builder_get_widget (gui, "equation_text");
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
 	gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), equation->itex != NULL ? equation->itex: "", -1);
 	g_signal_connect (G_OBJECT (buffer), "changed", G_CALLBACK (cb_equation_buffer_changed), obj);
 
-	widget = glade_xml_get_widget (gui, "compact_mode_check");
+	widget = go_gtk_builder_get_widget (gui, "compact_mode_check");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), equation->inline_mode);
 	g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (cb_inline_mode_check_toggled), obj);
 
 
-	widget = glade_xml_get_widget (gui, "gog_equation_prefs");
+	widget = go_gtk_builder_get_widget (gui, "gog_equation_prefs");
 
 	go_editor_add_page (editor, widget, _("Equation"));
+	g_object_unref (gui);
 
 	(GOG_OBJECT_CLASS(equation_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 

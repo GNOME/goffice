@@ -69,32 +69,32 @@ gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc)
 	GtkWidget  *w;
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
-	char	 *path = g_build_filename (dir, "gog-bubble-prefs.glade", NULL);
-	GladeXML *gui = go_glade_new (path, "gog_bubble_prefs", GETTEXT_PACKAGE, cc);
+	char	 *path = g_build_filename (dir, "gog-bubble-prefs.ui", NULL);
+	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
 
 	g_free (path);
         if (gui == NULL)
                 return NULL;
 
-	w = glade_xml_get_widget (gui, "area");
+	w = go_gtk_builder_get_widget (gui, "area");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), bubble->size_as_area);
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_type_changed), bubble);
 		
-	w = glade_xml_get_widget (gui, "diameter");
+	w = go_gtk_builder_get_widget (gui, "diameter");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), !bubble->size_as_area);
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_type_changed), bubble);
 
-	w = glade_xml_get_widget (gui, "vary_style_by_element");
+	w = go_gtk_builder_get_widget (gui, "vary_style_by_element");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), bubble->base.base.vary_style_by_element);
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_style_changed), bubble);
 
-	w = glade_xml_get_widget (gui, "3d");
+	w = go_gtk_builder_get_widget (gui, "3d");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), bubble->in_3d);
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
@@ -103,21 +103,20 @@ gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc)
 	/* TODO Add support for 3D bubbles. Hide the button for now. */
 	gtk_widget_hide (w);
 
-	w = glade_xml_get_widget (gui, "scale");
+	w = go_gtk_builder_get_widget (gui, "scale");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), bubble->bubble_scale * 100.);
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
 		"value_changed",
 		G_CALLBACK (cb_scale_changed), bubble);
 
-	w = glade_xml_get_widget (gui, "show_negative_values");
+	w = go_gtk_builder_get_widget (gui, "show_negative_values");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), bubble->show_negatives);
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_negatives_changed), bubble);
 
-	w = glade_xml_get_widget (gui, "gog_bubble_prefs");
-	g_object_set_data_full (G_OBJECT (w),
-		"state", gui, (GDestroyNotify)g_object_unref);
+	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_bubble_prefs")));
+	g_object_unref (gui);
 
 	return w;
 }

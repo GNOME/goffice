@@ -136,7 +136,7 @@ role_series_pre_remove (GogObject *parent, GogObject *series)
 
 #ifdef GOFFICE_WITH_GTK
 typedef struct {
-	GladeXML	*gui;
+	GtkBuilder	*gui;
 	GtkWidget	*x_spin, *y_spin, *w_spin, *h_spin;
 	gulong		 w_spin_signal, h_spin_signal;
 	GtkWidget	*position_select_combo;
@@ -278,12 +278,12 @@ gog_plot_populate_editor (GogObject *obj,
 	GtkListStore *store;
 	GtkTreeIter iter;
 	GtkCellRenderer *cell;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	PlotPrefState *state;
 	gboolean is_plot_area_manual;
 
 	g_return_if_fail (chart != NULL);
-	gui = go_glade_new ("gog-plot-prefs.glade", "gog_plot_prefs", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new ("gog-plot-prefs.ui", GETTEXT_PACKAGE, cc);
 	g_return_if_fail (gui != NULL);
 
 	state = g_new  (PlotPrefState, 1);
@@ -351,19 +351,19 @@ gog_plot_populate_editor (GogObject *obj,
 	
 	is_plot_area_manual = gog_chart_get_plot_area (chart, &plot_area);
 	
-	state->x_spin = glade_xml_get_widget (gui, "x_spin");
+	state->x_spin = go_gtk_builder_get_widget (gui, "x_spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->x_spin), 
 				   plot_area.x * 100.0); 
 	g_signal_connect (G_OBJECT (state->x_spin), "value-changed", 
 			  G_CALLBACK (cb_plot_area_changed), state);
 
-	state->y_spin = glade_xml_get_widget (gui, "y_spin");
+	state->y_spin = go_gtk_builder_get_widget (gui, "y_spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->y_spin), 
 				   plot_area.y * 100.0); 
 	g_signal_connect (G_OBJECT (state->y_spin), "value-changed", 
 			  G_CALLBACK (cb_plot_area_changed), state);
 
-	state->w_spin = glade_xml_get_widget (gui, "w_spin");
+	state->w_spin = go_gtk_builder_get_widget (gui, "w_spin");
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->w_spin), 
 				   0.0, (1.0 - plot_area.x) * 100.0);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), 
@@ -371,7 +371,7 @@ gog_plot_populate_editor (GogObject *obj,
 	state->w_spin_signal = g_signal_connect (G_OBJECT (state->w_spin), "value-changed", 
 						 G_CALLBACK (cb_plot_area_changed), state);
 
-	state->h_spin = glade_xml_get_widget (gui, "h_spin");
+	state->h_spin = go_gtk_builder_get_widget (gui, "h_spin");
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->h_spin), 
 				   0.0, (1.0 - plot_area.y) * 100.0);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), 
@@ -379,19 +379,18 @@ gog_plot_populate_editor (GogObject *obj,
 	state->h_spin_signal = g_signal_connect (G_OBJECT (state->h_spin), "value-changed", 
 						 G_CALLBACK (cb_plot_area_changed), state);
 
-	state->position_select_combo = glade_xml_get_widget (gui, "position_select_combo");
+	state->position_select_combo = go_gtk_builder_get_widget (gui, "position_select_combo");
 	gtk_combo_box_set_active (GTK_COMBO_BOX (state->position_select_combo), 
 				  is_plot_area_manual ? 1 : 0); 
-	state->manual_setting_table = glade_xml_get_widget (gui, "manual_setting_table");
+	state->manual_setting_table = go_gtk_builder_get_widget (gui, "manual_setting_table");
 	if (!is_plot_area_manual)
 		gtk_widget_hide (state->manual_setting_table);
 	
 	g_signal_connect (G_OBJECT (state->position_select_combo),
 			  "changed", G_CALLBACK (cb_manual_position_changed), state);
 
-	w = glade_xml_get_widget (gui, "gog_plot_prefs");
-	g_object_set_data_full (G_OBJECT (w), "state", state, 
-				(GDestroyNotify) plot_pref_state_free);  
+	w = go_gtk_builder_get_widget (gui, "gog_plot_prefs");
+	g_signal_connect_swapped (G_OBJECT (w), "destroy", G_CALLBACK (plot_pref_state_free), state);  
 	go_editor_add_page (editor, w, _("Plot area"));
 
 	state->update_editor_handler = g_signal_connect (G_OBJECT (plot), 

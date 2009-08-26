@@ -10,4 +10,4 @@ pie_demo_SOURCES = pie-demo.c
 go_demo_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 go_demo_SOURCES = go-demo.c
 
-EXTRA_DIST = go-demo.glade
+EXTRA_DIST = go-demo.ui

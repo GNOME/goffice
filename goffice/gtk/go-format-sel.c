@@ -100,7 +100,7 @@ typedef enum {
 
 struct  _GOFormatSel {
 	GtkHBox   box;
-	GladeXML *gui;
+	GtkBuilder *gui;
 
 	gpointer  value;
 	char	 *locale;
@@ -954,21 +954,17 @@ nfs_init (GOFormatSel *gfs)
 	GOFormatFamily page;
 
 	GtkWidget *toplevel;
-	GtkWidget *old_parent;
 
 	gfs->enable_edit = FALSE;
 	gfs->show_format_with_markup = FALSE;
 	gfs->locale = NULL;
 
-	gfs->gui = go_glade_new ("go-format-sel.glade", NULL, GETTEXT_PACKAGE, NULL);
+	gfs->gui = go_gtk_builder_new ("go-format-sel.ui", GETTEXT_PACKAGE, NULL);
 	if (gfs->gui == NULL)
 		return;
 
-	toplevel = glade_xml_get_widget (gfs->gui, "number_box");
-	old_parent = gtk_widget_get_toplevel (toplevel);
-	gtk_widget_reparent (toplevel, GTK_WIDGET (gfs));
-	gtk_widget_destroy (old_parent);
-	gtk_widget_queue_resize (toplevel);
+	toplevel = go_gtk_builder_get_widget (gfs->gui, "number_box");
+	gtk_box_pack_start (GTK_BOX (gfs), toplevel, TRUE, TRUE, 0);
 
 	gfs->format.spec = go_format_general ();
 	go_format_ref (gfs->format.spec);
@@ -981,8 +977,8 @@ nfs_init (GOFormatSel *gfs)
 
 	study_format (gfs);
 
-	gfs->format.preview_box = glade_xml_get_widget (gfs->gui, "preview_box");
-	gfs->format.preview = GTK_TEXT_VIEW (glade_xml_get_widget (gfs->gui, "preview"));
+	gfs->format.preview_box = go_gtk_builder_get_widget (gfs->gui, "preview_box");
+	gfs->format.preview = GTK_TEXT_VIEW (gtk_builder_get_object (gfs->gui, "preview"));
 	{
 		PangoFontMetrics *metrics;
 		PangoContext *context;
@@ -1000,12 +996,14 @@ nfs_init (GOFormatSel *gfs)
 	}
 	gfs->format.preview_buffer = gtk_text_view_get_buffer (gfs->format.preview);
 
-	gfs->format.menu = glade_xml_get_widget (gfs->gui, "format_menu");
+	gfs->format.menu = go_gtk_builder_get_widget (gfs->gui, "format_menu");
 	populate_menu (gfs);
 
 	/* Collect all the required format widgets and hide them */
 	for (i = 0; (name = widget_names[i]) != NULL; ++i) {
-		tmp = glade_xml_get_widget (gfs->gui, name);
+		if (i == F_SYMBOL)
+			continue;
+		tmp = go_gtk_builder_get_widget (gfs->gui, name);
 
 		if (tmp == NULL) {
 			g_warning ("nfs_init : failed to load widget %s", name);
@@ -1106,8 +1104,11 @@ nfs_init (GOFormatSel *gfs)
 		g_signal_connect (G_OBJECT (combo), "entry_changed",
 			G_CALLBACK (cb_format_currency_select), gfs);
 		gtk_label_set_mnemonic_widget (
-			GTK_LABEL (glade_xml_get_widget (gfs->gui, "format_symbol_label")),
+			GTK_LABEL (gtk_builder_get_object (gfs->gui, "format_symbol_label")),
 			GTK_WIDGET (combo));
+		/* add the combo to its container */
+		gtk_box_pack_start (GTK_BOX (gtk_builder_get_object (gfs->gui, "format_symbol_box")),
+				    GTK_WIDGET (combo), TRUE, TRUE, 0);
 	}
 
 	/* Setup special handler for Custom */

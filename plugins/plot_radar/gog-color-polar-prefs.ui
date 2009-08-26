@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy toplevel-contextual -->
+  <object class="GtkTable" id="gog-color-polar-prefs">
+    <property name="visible">True</property>
+    <property name="border_width">12</property>
+    <property name="column_spacing">12</property>
+    <property name="row_spacing">6</property>
+    <child>
+      <object class="GtkCheckButton" id="hide-outliers">
+        <property name="label" translatable="yes">Hide data outside of color axis bounds</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="draw_indicator">True</property>
+      </object>
+      <packing>
+        <property name="x_options"></property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+  </object>
+</interface>

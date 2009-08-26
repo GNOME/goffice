@@ -1,6 +1,6 @@
 goffice_graph_surfacedir = $(goffice_plugindir)/plot_surface
 xmldir	 = $(goffice_graph_surfacedir)
-gladedir = $(goffice_graph_surfacedir)
+uidir = $(goffice_graph_surfacedir)
 
 goffice_graph_surface_LTLIBRARIES = surface.la
 surface_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
@@ -24,9 +24,9 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@
 
 if WITH_GTK
-dist_glade_DATA = \
-	gog-xyz-prefs.glade	\
-	gog-xyz-surface-prefs.glade
+dist_ui_DATA = \
+	gog-xyz-prefs.ui	\
+	gog-xyz-surface-prefs.ui
 
 surface_la_SOURCES += \
 	gog-xyz-prefs.c		\

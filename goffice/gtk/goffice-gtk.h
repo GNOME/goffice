@@ -20,7 +20,6 @@
 #define _GOFFICE_GTK_H_
 
 #include <gtk/gtk.h>
-#include <glade/glade-xml.h>
 #include <goffice/goffice.h>
 
 #include <goffice/gtk/go-palette.h>
@@ -58,33 +57,23 @@ G_BEGIN_DECLS
 
 void	   go_gtk_editable_enters (GtkWindow *window, GtkWidget *w);
 
-GladeXML  *go_glade_new		   	   (char const *gladefile,
-					    char const *root,
-					    char const *domain,
-					    GOCmdContext *gcc);
-gulong	   go_glade_signal_connect	   (GladeXML *gui,
-					    gchar const *instance_name,
-					    gchar const *detailed_signal,
-					    GCallback	 c_handler,
-					    gpointer	 data);
-gulong	   go_glade_signal_connect_swapped (GladeXML *gui,
-					    gchar const *instance_name,
-					    gchar const *detailed_signal,
-					    GCallback	 c_handler,
-					    gpointer	 data);
-
 GtkBuilder *go_gtk_builder_new (char const *uifile,
 						char const *domain, GOCmdContext *gcc);
-gulong	    go_gtk_builder_signal_connect	(GtkBuilder	*gui,
-						gchar const	*instance_name,
-						gchar const	*detailed_signal,
-						GCallback	 c_handler,
-						gpointer	 data);
-gulong	    go_gtk_builder_signal_connect_swapped (GtkBuilder *gui,
-						gchar const	*instance_name,
-						gchar const	*detailed_signal,
-						GCallback	 c_handler,
-						gpointer	 data);
+gulong	   go_gtk_builder_signal_connect	   (GtkBuilder *gui,
+					    gchar const *instance_name,
+					    gchar const *detailed_signal,
+					    GCallback	 c_handler,
+					    gpointer	 data);
+gulong	   go_gtk_builder_signal_connect_swapped (GtkBuilder *gui,
+					    gchar const *instance_name,
+					    gchar const *detailed_signal,
+					    GCallback	 c_handler,
+					    gpointer	 data);
+GtkWidget *go_gtk_builder_get_widget (GtkBuilder *gui,
+						char const *widget_name);
+GtkComboBox *go_gtk_builder_combo_box_init_text (GtkBuilder	*gui,
+						char const *widget_name);
+int	   go_gtk_builder_group_value (GtkBuilder *gui, char const * const group[]);
 
 int	   go_pango_measure_string	(PangoContext *context,
 					 PangoFontDescription const *font_desc,

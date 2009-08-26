@@ -37,7 +37,7 @@ typedef struct {
 
 struct _GO3DRotationSel {
 	GtkHBox		 box;
-	GladeXML	*gui;
+	GtkBuilder	*gui;
 	GtkRange	*fovscale;
 	double		 psi;
 	double		 theta;
@@ -334,7 +334,7 @@ g3d_init (GO3DRotationSel *g3d)
 {
 	GtkWidget *w;
 
-	g3d->gui = go_glade_new ("go-3d-rotation-sel.glade", "toplevel",
+	g3d->gui = go_gtk_builder_new ("go-3d-rotation-sel.ui",
 		GETTEXT_PACKAGE, NULL);
 	if (g3d->gui == NULL)
 		return;
@@ -348,7 +348,7 @@ g3d_init (GO3DRotationSel *g3d)
 	g3d->bank_dial = NULL;
 	memset (g3d->cube_polygons, 0, sizeof (g3d->cube_polygons));
 	g3d->rotate_canvas = GOC_CANVAS (g_object_new (GOC_TYPE_CANVAS, NULL));
-	gtk_container_add (GTK_CONTAINER (glade_xml_get_widget (g3d->gui,
+	gtk_container_add (GTK_CONTAINER (gtk_builder_get_object (g3d->gui,
 	                   "rotate_canvas")),
 	                   GTK_WIDGET (g3d->rotate_canvas));
 	gtk_widget_show (GTK_WIDGET (g3d->rotate_canvas));
@@ -363,14 +363,14 @@ g3d_init (GO3DRotationSel *g3d)
 			  G_CALLBACK (cb_rotate_canvas_button), g3d,
 	                  NULL);
 
-	g3d->fovscale = GTK_RANGE (glade_xml_get_widget (g3d->gui, "fovscale"));
+	g3d->fovscale = GTK_RANGE (gtk_builder_get_object (g3d->gui, "fovscale"));
 	g_object_connect (G_OBJECT (g3d->fovscale),
 	                  "signal::button-release-event",
 	                  G_CALLBACK (cb_fov_changed), g3d,
 			  "signal::key-release-event",
 			  G_CALLBACK (cb_fov_changed), g3d,
 			  NULL);
-	w = glade_xml_get_widget (g3d->gui, "toplevel");
+	w = go_gtk_builder_get_widget (g3d->gui, "toplevel");
 	gtk_box_pack_start (GTK_BOX (g3d), w, TRUE, TRUE, 0);
 	gtk_widget_show_all (GTK_WIDGET (g3d));
 }

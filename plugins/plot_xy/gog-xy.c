@@ -426,9 +426,9 @@ gog_bubble_plot_populate_editor (GogObject *obj,
 				 G_GNUC_UNUSED GogDataAllocator *dalloc,
 			GOCmdContext *cc)
 {
-	go_editor_add_page (editor,
-			     gog_bubble_plot_pref (GOG_BUBBLE_PLOT (obj), cc),
-			     _("Properties"));
+	GtkWidget *w = gog_bubble_plot_pref (GOG_BUBBLE_PLOT (obj), cc);
+	go_editor_add_page (editor, w, _("Properties"));
+	g_object_unref (G_OBJECT (w));
 
 	(GOG_OBJECT_CLASS(bubble_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }
@@ -686,23 +686,23 @@ gog_xy_color_plot_populate_editor (GogObject *obj,
 				   GOCmdContext *cc)
 {
 #ifdef GOFFICE_WITH_GTK
-	GladeXML *gui;
+	GtkBuilder *gui;
 	char const *dir;
 	char *path;
 
 	dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
-	path = g_build_filename (dir, "gog-xy-color-prefs.glade", NULL);
-	gui = go_glade_new (path, "gog-xy-color-prefs", GETTEXT_PACKAGE, cc);
+	path = g_build_filename (dir, "gog-xy-color-prefs.ui", NULL);
+	gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
 	g_free (path);
 
 	if (gui != NULL) {
-		GtkWidget *w = glade_xml_get_widget (gui, "hide-outliers");
+		GtkWidget *w = go_gtk_builder_get_widget (gui, "hide-outliers");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 				(GOG_XY_COLOR_PLOT (obj))->hide_outliers);
 		g_signal_connect (G_OBJECT (w),
 			"toggled",
 			G_CALLBACK (hide_outliers_toggled_cb), obj);
-		w = glade_xml_get_widget (gui, "gog-xy-color-prefs");
+		w = go_gtk_builder_get_widget (gui, "gog-xy-color-prefs");
 		go_editor_add_page (editor, w, _("Properties"));
 		g_object_unref (gui);
 	}
@@ -1743,15 +1743,15 @@ gog_xy_series_populate_editor (GogObject *obj,
 	GtkWidget *w;
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_plot_xy"));
-	char *path = g_build_filename (dir, "gog-xy-series-prefs.glade", NULL);
-	GladeXML *gui = go_glade_new (path, "gog_xy_series_prefs", GETTEXT_PACKAGE, cc);
+	char *path = g_build_filename (dir, "gog-xy-series-prefs.ui", NULL);
+	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
 
 	g_free (path);
 
 	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 
 	if (gui != NULL) {
-		w = glade_xml_get_widget (gui, "invalid_as_zero");
+		w = go_gtk_builder_get_widget (gui, "invalid_as_zero");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 				(GOG_XY_SERIES (obj))->invalid_as_zero);
 		g_signal_connect (G_OBJECT (w),
@@ -1759,17 +1759,18 @@ gog_xy_series_populate_editor (GogObject *obj,
 			G_CALLBACK (invalid_toggled_cb), obj);
 		series = GOG_XY_SERIES (obj);
 
-		w = glade_xml_get_widget (gui, "gog_xy_series_prefs");
-		g_object_set_data_full (G_OBJECT (w),
-			"state", gui, (GDestroyNotify)g_object_unref);
+		w = go_gtk_builder_get_widget (gui, "gog_xy_series_prefs");
 
 		go_editor_add_page (editor, w, _("Details"));
+		g_object_unref (gui);
 	}
 
 	w = gog_error_bar_prefs (GOG_SERIES (obj), "x-errors", TRUE, dalloc, cc);
 	go_editor_add_page (editor, w, _("X error bars"));
+	g_object_unref (w);
 	w = gog_error_bar_prefs (GOG_SERIES (obj), "y-errors", FALSE, dalloc, cc);
 	go_editor_add_page (editor, w, _("Y error bars"));
+	g_object_unref (w);
 }
 #endif
 

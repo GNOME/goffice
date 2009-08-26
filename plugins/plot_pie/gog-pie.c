@@ -86,6 +86,7 @@ gog_pie_series_element_populate_editor (GogObject *gobj,
 {
 	GtkWidget *widget = gog_pie_series_element_pref (GOG_PIE_SERIES_ELEMENT (gobj), cc);
 	go_editor_add_page (editor, widget, _("Settings"));
+	g_object_unref (G_OBJECT (widget));
 	return widget;
 }
 #endif
@@ -202,9 +203,11 @@ gog_pie_plot_populate_editor (GogObject *item,
 			      G_GNUC_UNUSED GogDataAllocator *dalloc,
 			      GOCmdContext *cc)
 {
+	GtkWidget *widget = gog_pie_plot_pref (GOG_PIE_PLOT (item), cc);
 	go_editor_add_page (editor, 
-			     gog_pie_plot_pref (GOG_PIE_PLOT (item), cc),
+			     widget,
 			     _("Properties"));
+	g_object_unref (G_OBJECT (widget));
 
 	(GOG_OBJECT_CLASS(pie_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
@@ -348,9 +351,11 @@ gog_ring_plot_populate_editor (GogObject *item,
 		      G_GNUC_UNUSED GogDataAllocator *dalloc,
 		      GOCmdContext *cc)
 {
+	GtkWidget *widget = gog_ring_plot_pref (GOG_RING_PLOT (item), cc);
 	go_editor_add_page (editor,
-			     gog_ring_plot_pref (GOG_RING_PLOT (item), cc),
+			     widget,
 			     _("Properties"));
+	g_object_unref (G_OBJECT (widget));
 }
 
 static void

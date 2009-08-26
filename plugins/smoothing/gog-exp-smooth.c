@@ -57,16 +57,16 @@ gog_exp_smooth_populate_editor (GogObject *obj,
 	GogDataset *set = GOG_DATASET (obj);
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_smoothing"));
-	char	 *path = g_build_filename (dir, "gog-exp-smooth.glade", NULL);
-	GladeXML *gui = go_glade_new (path, "exp-smooth-prefs", GETTEXT_PACKAGE, cc);
-	GtkWidget *label, *box, *w = glade_xml_get_widget (gui, "steps");
+	char	 *path = g_build_filename (dir, "gog-exp-smooth.ui", NULL);
+	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
+	GtkWidget *label, *box, *w = go_gtk_builder_get_widget (gui, "steps");
 	GtkTable *table;
 
 	go_widget_set_tooltip_text (w, _("Number of interpolation steps"));
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (w), 10, G_MAXINT);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), es->steps);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (steps_changed_cb), obj);
-	table = GTK_TABLE (glade_xml_get_widget (gui, "exp-smooth-prefs"));
+	table = GTK_TABLE (gtk_builder_get_object (gui, "exp-smooth-prefs"));
 	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 0, GOG_DATA_SCALAR));
 	box = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (box), w);
@@ -75,11 +75,10 @@ gog_exp_smooth_populate_editor (GogObject *obj,
 					"default will be used"));
 	gtk_widget_show_all (box);
 	gtk_table_attach (table, box, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	label = glade_xml_get_widget (gui, "period-lbl");
+	label = go_gtk_builder_get_widget (gui, "period-lbl");
 	g_object_set (G_OBJECT (label), "mnemonic-widget", w, NULL);
-	g_object_set_data_full (G_OBJECT (table),
-		"state", gui, (GDestroyNotify) g_object_unref);
 	go_editor_add_page (editor, table, _("Properties"));
+	g_object_unref (gui);
 
 	(GOG_OBJECT_CLASS (exp_smooth_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }

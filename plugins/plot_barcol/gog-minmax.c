@@ -180,24 +180,23 @@ gog_minmax_plot_populate_editor (GogObject *item,
 	GogMinMaxPlot *minmax = GOG_MINMAX_PLOT (item);
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_plot_barcol"));
-	char	 *path = g_build_filename (dir, "gog-minmax-prefs.glade", NULL);
-	GladeXML *gui = go_glade_new (path, "gog_minmax_prefs", GETTEXT_PACKAGE, cc);
+	char	 *path = g_build_filename (dir, "gog-minmax-prefs.ui", NULL);
+	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
 
 	g_free (path);
 	if (gui == NULL)
 		return;
 
-	w = glade_xml_get_widget (gui, "gap_spinner");
+	w = go_gtk_builder_get_widget (gui, "gap_spinner");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), minmax->gap_percentage);
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
 		"value_changed",
 		G_CALLBACK (cb_gap_changed), minmax);
 
-	w = glade_xml_get_widget (gui, "gog_minmax_prefs");
-	g_object_set_data_full (G_OBJECT (w),
-		"state", gui, (GDestroyNotify)g_object_unref);
-
+	w = go_gtk_builder_get_widget (gui, "gog_minmax_prefs");
 	go_editor_add_page (editor, w, _("Properties"));
+	g_object_unref (gui);
+
 	(GOG_OBJECT_CLASS(gog_minmax_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
 #endif

@@ -1,6 +1,6 @@
 goffice_graph_barcoldir = $(goffice_plugindir)/plot_barcol
 xmldir	 = $(goffice_graph_barcoldir)
-gladedir = $(goffice_graph_barcoldir)
+uidir = $(goffice_graph_barcoldir)
 
 goffice_graph_barcol_LTLIBRARIES = barcol.la
 barcol_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
@@ -23,7 +23,7 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@
 
 if WITH_GTK
-dist_glade_DATA = gog-barcol-prefs.glade gog-minmax-prefs.glade
+dist_ui_DATA = gog-barcol-prefs.ui gog-minmax-prefs.ui
 barcol_la_SOURCES += gog-barcol-prefs.c
 endif
 

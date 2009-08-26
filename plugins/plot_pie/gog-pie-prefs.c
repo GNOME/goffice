@@ -39,22 +39,21 @@ gog_pie_series_element_pref (GogPieSeriesElement *element, GOCmdContext *cc)
 	GtkWidget  *w;
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_plot_pie"));
-	char	 *path = g_build_filename (dir, "gog-pie-series.glade", NULL);
-	GladeXML *gui = go_glade_new (path, "gog_pie_series_element_prefs", GETTEXT_PACKAGE, cc);
+	char	 *path = g_build_filename (dir, "gog-pie-series.ui", NULL);
+	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
 
 	g_free (path);
         if (gui == NULL)
                 return NULL;
 	
-	w = glade_xml_get_widget (gui, "separation_spinner");
+	w = go_gtk_builder_get_widget (gui, "separation_spinner");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), element->separation * 100.);
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
 		"value_changed",
 		G_CALLBACK (cb_element_separation_changed), element);
 
-	w = glade_xml_get_widget (gui, "gog_pie_series_element_prefs");
-	g_object_set_data_full (G_OBJECT (w),
-		"state", gui, (GDestroyNotify)g_object_unref);
+	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_pie_series_element_prefs")));
+	g_object_unref (gui);
 
 	return w;
 }
@@ -65,16 +64,15 @@ GtkWidget *gog_pie_plot_pref   (GogPiePlot *plot, GOCmdContext *cc);
 typedef struct {
 	GtkWidget	*separation_spinner;
 	GogObject	*gobj;
-	GladeXML	*gui;
 	gulong		 update_editor_handler;
 } PiePrefState;
 
 static void
 pie_pref_state_free (PiePrefState *state)
 {
+puts("freeing");
 	g_signal_handler_disconnect (state->gobj, state->update_editor_handler);
 	g_object_unref (state->gobj);
-	g_object_unref (state->gui);
 	g_free (state);
 }
 
@@ -99,23 +97,23 @@ cb_use_style_toggled (GtkToggleButton *button, GObject *series)
 }
 
 static void
-gog_pie_plot_pref_signal_connect (GogPiePlot *pie, GladeXML *gui)
+gog_pie_plot_pref_signal_connect (GogPiePlot *pie, GtkBuilder *gui)
 {
 	GtkWidget *w;
 	
-	w = glade_xml_get_widget (gui, "rotation_spinner");
+	w = go_gtk_builder_get_widget (gui, "rotation_spinner");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), pie->initial_angle);
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
 		"value_changed",
 		G_CALLBACK (cb_rotation_changed), pie);
 
-	w = glade_xml_get_widget (gui, "separation_spinner");
+	w = go_gtk_builder_get_widget (gui, "separation_spinner");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), pie->default_separation * 100.);
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
 		"value_changed",
 		G_CALLBACK (cb_default_separation_changed), pie);
 
-	w = glade_xml_get_widget (gui, "vary_style_by_element");
+	w = go_gtk_builder_get_widget (gui, "vary_style_by_element");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), pie->base.vary_style_by_element);
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
@@ -140,8 +138,8 @@ gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc)
 {
 	GtkWidget  *w;
 	char const *dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_pie"));
-	char	 *path = g_build_filename (dir, "gog-pie-prefs.glade", NULL);
-	GladeXML *gui = go_glade_new (path, "gog_pie_prefs", GETTEXT_PACKAGE, cc);
+	char	 *path = g_build_filename (dir, "gog-pie-prefs.ui", NULL);
+	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
 	PiePrefState *state;
 
 	g_free (path);
@@ -149,9 +147,8 @@ gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc)
                 return NULL;
 
 	state = g_new0 (PiePrefState, 1);
-	state->gui = gui;
 	state->gobj = GOG_OBJECT (pie);
-	state->separation_spinner = glade_xml_get_widget (gui, "separation_spinner");
+	state->separation_spinner = go_gtk_builder_get_widget (gui, "separation_spinner");
 	g_object_ref (G_OBJECT (pie));
 
 	gog_pie_plot_pref_signal_connect (pie, gui);
@@ -160,9 +157,9 @@ gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc)
 							 "update-editor", 
 							 G_CALLBACK (cb_update_editor), state);
 	
-	w = glade_xml_get_widget (gui, "gog_pie_prefs");
-	g_object_set_data_full (G_OBJECT (w),
-		"state", state, (GDestroyNotify) pie_pref_state_free);
+	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_pie_prefs")));
+	g_object_set_data_full (G_OBJECT (w), "state", state, (GDestroyNotify) pie_pref_state_free);
+	g_object_unref (gui);
 	
 	return w;
 }
@@ -184,8 +181,8 @@ gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc)
 	GtkWidget  *w;
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_plot_pie"));
-	char	 *path = g_build_filename (dir, "gog-ring-prefs.glade", NULL);
-	GladeXML *gui = go_glade_new (path, "gog_ring_prefs", GETTEXT_PACKAGE, cc);
+	char	 *path = g_build_filename (dir, "gog-ring-prefs.ui", NULL);
+	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
 	PiePrefState *state;
 
 	g_free (path);
@@ -193,14 +190,13 @@ gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc)
                 return NULL;
 	
 	state = g_new0 (PiePrefState, 1);
-	state->gui = gui;
 	state->gobj = GOG_OBJECT (ring);
-	state->separation_spinner = glade_xml_get_widget (gui, "separation_spinner");
+	state->separation_spinner = go_gtk_builder_get_widget (gui, "separation_spinner");
 	g_object_ref (G_OBJECT (ring));
 
 	gog_pie_plot_pref_signal_connect (GOG_PIE_PLOT (ring), gui);
 
-	w = glade_xml_get_widget (gui, "center_size_spinner");
+	w = go_gtk_builder_get_widget (gui, "center_size_spinner");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), ring->center_size * 100);
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
 		"value_changed",
@@ -210,9 +206,9 @@ gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc)
 							 "update-editor", 
 							 G_CALLBACK (cb_update_editor), state);
 	
-	w = glade_xml_get_widget (gui, "gog_ring_prefs");
-	g_object_set_data_full (G_OBJECT (w),
-		"state", state, (GDestroyNotify) pie_pref_state_free);
+	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_ring_prefs")));
+	g_object_set_data_full (G_OBJECT (w), "state", state, (GDestroyNotify) pie_pref_state_free);
+	g_object_unref (gui);
 
 	return w;
 }

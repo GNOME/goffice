@@ -80,24 +80,24 @@ if WITH_GTK
 				 gog-child-button.h
 endif
 
-gladedir = $(goffice_datadir)/glade
-dist_glade_DATA = \
-	gog-guru.glade			\
-	gog-guru-type-selector.glade	\
-	gog-object-prefs.glade		\
-	gog-graph-prefs.glade		\
-	gog-plot-prefs.glade		\
-	gog-axis-prefs.glade		\
-	gog-error-bar-prefs.glade	\
-	gog-reg-curve-prefs.glade	\
-	gog-reg-eqn-prefs.glade		\
-	gog-series-prefs.glade		\
-	gog-3d-box-prefs.glade
+uidir = $(goffice_datadir)/ui
+dist_ui_DATA = \
+	gog-guru.ui			\
+	gog-guru-type-selector.ui	\
+	gog-object-prefs.ui		\
+	gog-graph-prefs.ui		\
+	gog-plot-prefs.ui		\
+	gog-axis-prefs.ui		\
+	gog-error-bar-prefs.ui	\
+	gog-reg-curve-prefs.ui	\
+	gog-reg-eqn-prefs.ui		\
+	gog-series-prefs.ui		\
+	gog-3d-box-prefs.ui
 
 if GOFFICE_WITH_LASEM
   libgoffice_graph_la_SOURCES += gog-equation.c
   libgoffice_graph_la_HEADERS += gog-equation.h
-  dist_glade_DATA += gog-equation-prefs.glade
+  dist_ui_DATA += gog-equation-prefs.ui
 endif
 
 include $(top_srcdir)/goffice.mk

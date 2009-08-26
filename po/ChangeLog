@@ -1,3 +1,7 @@
+2009-08-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* POTFILES.in: migrated from Glade to GtkBuilder.
+
 2009-08-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* POTFILES.in: updated file list.

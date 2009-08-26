@@ -40,23 +40,22 @@ gog_xyz_plot_pref (GogXYZPlot *plot, GOCmdContext *cc)
 	GtkWidget  *w;
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_plot_surface"));
-	char	 *path = g_build_filename (dir, "gog-xyz-prefs.glade", NULL);
-	GladeXML *gui = go_glade_new (path, "gog_xyz_prefs", GETTEXT_PACKAGE, cc);
+	char	 *path = g_build_filename (dir, "gog-xyz-prefs.ui", NULL);
+	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
 
 	g_free (path);
         if (gui == NULL)
                 return NULL;
 
 
-	w = glade_xml_get_widget (gui, "transpose");
+	w = go_gtk_builder_get_widget (gui, "transpose");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), plot->transposed);
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_transpose), plot);
 
-	w = glade_xml_get_widget (gui, "gog_xyz_prefs");
-	g_object_set_data_full (G_OBJECT (w),
-		"state", gui, (GDestroyNotify)g_object_unref);
+	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_xyz_prefs")));
+	g_object_unref (gui);
 
 	return w;
 }

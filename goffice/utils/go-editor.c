@@ -43,6 +43,13 @@ go_editor_new (void)
 	return editor;
 }
 
+static void page_free (GOEditorPage *page)
+{
+	if (page->widget)
+		g_object_unref (page->widget);
+	g_free (page);
+}
+
 /**
  * go_editor_free:
  * @editor: a #GOEditor
@@ -53,7 +60,7 @@ go_editor_new (void)
 void
 go_editor_free (GOEditor *editor)
 {
-	g_slist_foreach (editor->pages, (GFunc) g_free, NULL);
+	g_slist_foreach (editor->pages, (GFunc) page_free, NULL);
 	g_slist_free (editor->pages);
 	g_datalist_clear (&editor->registered_widgets);
 
@@ -77,7 +84,7 @@ go_editor_add_page (GOEditor *editor, gpointer widget, char const *label)
 	g_return_if_fail (editor != NULL);
 	page = g_new (GOEditorPage, 1);
 
-	page->widget = widget;
+	page->widget = g_object_ref (widget);
 	page->label = label;
 
 	editor->pages = g_slist_prepend (editor->pages, page);

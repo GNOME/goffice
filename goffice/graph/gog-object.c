@@ -264,7 +264,7 @@ typedef struct {
 	GtkWidget	*position_select_combo;
 	GtkWidget	*position_notebook;
 	GogObject	*gobj;
-	GladeXML	*gui;
+	GtkBuilder	*gui;
 	gulong		 update_editor_handler;
 } ObjectPrefState;
 
@@ -364,7 +364,7 @@ gog_object_populate_editor (GogObject *gobj,
 {
 	GtkWidget *w;
 	GtkSizeGroup *widget_size_group, *label_size_group;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GogObjectClass *gog_klass;
 	GogObjectPosition allowable_positions, flags;
 	ObjectPrefState *state;
@@ -379,7 +379,7 @@ gog_object_populate_editor (GogObject *gobj,
 	if (!(allowable_positions & (GOG_POSITION_MANUAL | GOG_POSITION_COMPASS)))
 		return;	
 
-	gui = go_glade_new ("gog-object-prefs.glade", "gog_object_prefs", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new ("gog-object-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
@@ -391,7 +391,7 @@ gog_object_populate_editor (GogObject *gobj,
 	state->y_spin = NULL;
 	state->w_spin = NULL;
 	state->h_spin = NULL;
-	state->position_notebook = glade_xml_get_widget (gui, "position_notebook");
+	state->position_notebook = go_gtk_builder_get_widget (gui, "position_notebook");
 
 	g_object_ref (G_OBJECT (gobj));
 
@@ -399,7 +399,7 @@ gog_object_populate_editor (GogObject *gobj,
 	label_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
 	if (allowable_positions & GOG_POSITION_COMPASS) {
-		w = glade_xml_get_widget (gui, "position_combo");
+		w = go_gtk_builder_get_widget (gui, "position_combo");
 		gtk_size_group_add_widget (widget_size_group, w);
 		flags = gog_object_get_position_flags (gobj, GOG_POSITION_COMPASS);
 		for (i = 0; i < G_N_ELEMENTS (position_compass); i++) { 
@@ -408,28 +408,27 @@ gog_object_populate_editor (GogObject *gobj,
 				gtk_combo_box_set_active (GTK_COMBO_BOX (w), i);
 		}
 		g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_compass_changed), state);
-		w = glade_xml_get_widget (gui, "position_label");
+		w = go_gtk_builder_get_widget (gui, "position_label");
 		gtk_size_group_add_widget (label_size_group, w);
 	} else {
-		w = glade_xml_get_widget (gui, "compass_position");
+		w = go_gtk_builder_get_widget (gui, "compass_position");
 		gtk_widget_hide (w);
 	}
 
-
 	if (allowable_positions & GOG_POSITION_COMPASS) {
-		w = glade_xml_get_widget (gui, "alignment_combo");
+		w = go_gtk_builder_get_widget (gui, "alignment_combo");
 		gtk_size_group_add_widget (widget_size_group, w);
 		flags = gog_object_get_position_flags (gobj, GOG_POSITION_ALIGNMENT);
-		for (i = 0; i < G_N_ELEMENTS (position_alignment); i++) { 
+		for (i = 0; i < G_N_ELEMENTS (position_alignment); i++) {
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _(position_alignment[i].label));
 			if (position_alignment[i].flags == flags)
 				gtk_combo_box_set_active (GTK_COMBO_BOX (w), i);
 		}
 		g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_alignment_changed), state);
-		w = glade_xml_get_widget (gui, "alignment_label");
+		w = go_gtk_builder_get_widget (gui, "alignment_label");
 		gtk_size_group_add_widget (label_size_group, w);
 	} else {
-		w = glade_xml_get_widget (gui, "compass_alignment");
+		w = go_gtk_builder_get_widget (gui, "compass_alignment");
 		gtk_widget_hide (w);
 	}
 
@@ -443,25 +442,25 @@ gog_object_populate_editor (GogObject *gobj,
 	label_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 	
 	if (allowable_positions & GOG_POSITION_MANUAL) {
-		w = glade_xml_get_widget (gui, "x_label");
+		w = go_gtk_builder_get_widget (gui, "x_label");
 		gtk_size_group_add_widget (label_size_group, w);
-		w = glade_xml_get_widget (gui, "x_spin");
+		w = go_gtk_builder_get_widget (gui, "x_spin");
 		gtk_size_group_add_widget (widget_size_group, w);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.x * 100.0);
 		g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (cb_position_changed), state);
 		state->x_spin = w;
 		
-		w = glade_xml_get_widget (gui, "y_label");
+		w = go_gtk_builder_get_widget (gui, "y_label");
 		gtk_size_group_add_widget (label_size_group, w);
-		w = glade_xml_get_widget (gui, "y_spin");
+		w = go_gtk_builder_get_widget (gui, "y_spin");
 		gtk_size_group_add_widget (widget_size_group, w);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.y * 100.0);
 		g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (cb_position_changed), state);
 		state->y_spin = w;
 
-		w = glade_xml_get_widget (gui, "anchor_label");
+		w = go_gtk_builder_get_widget (gui, "anchor_label");
 		gtk_size_group_add_widget (label_size_group, w);
-		w =  glade_xml_get_widget (gui, "anchor_combo");
+		w =  go_gtk_builder_get_widget (gui, "anchor_combo");
 		flags = gog_object_get_position_flags (gobj, GOG_POSITION_ANCHOR);
 		for (i = 0; i < G_N_ELEMENTS (position_anchor); i++) {
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _(position_anchor[i].label));
@@ -472,25 +471,25 @@ gog_object_populate_editor (GogObject *gobj,
 		gtk_combo_box_set_wrap_width (GTK_COMBO_BOX (w), 3);
 		
 		if (gog_klass->can_manual_size) {
-			w = glade_xml_get_widget (gui, "width_label");
+			w = go_gtk_builder_get_widget (gui, "width_label");
 			gtk_size_group_add_widget (label_size_group, w);
-			w = glade_xml_get_widget (gui, "width_spin");
+			w = go_gtk_builder_get_widget (gui, "width_spin");
 			gtk_size_group_add_widget (widget_size_group, w);
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.w * 100.0);
 			g_signal_connect (G_OBJECT (w), "value-changed", 
 					  G_CALLBACK (cb_position_changed), state);
 			state->w_spin = w;
 
-			w = glade_xml_get_widget (gui, "height_label");
+			w = go_gtk_builder_get_widget (gui, "height_label");
 			gtk_size_group_add_widget (label_size_group, w);
-			w = glade_xml_get_widget (gui, "height_spin");
+			w = go_gtk_builder_get_widget (gui, "height_spin");
 			gtk_size_group_add_widget (widget_size_group, w);
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.h * 100.0);
 			g_signal_connect (G_OBJECT (w), "value-changed", 
 					  G_CALLBACK (cb_position_changed), state);
 			state->h_spin = w;
 		} else {
-			w = glade_xml_get_widget (gui, "manual_sizes");
+			w = go_gtk_builder_get_widget (gui, "manual_sizes");
 			gtk_widget_hide (w);
 		}
 	} else 
@@ -502,14 +501,14 @@ gog_object_populate_editor (GogObject *gobj,
 	if ((allowable_positions & GOG_POSITION_MANUAL) &&
 	    ((allowable_positions & (GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT)) ||
 	     (allowable_positions & GOG_POSITION_SPECIAL))) {
-		state->position_select_combo = glade_xml_get_widget (gui, "position_select_combo");
+		state->position_select_combo = go_gtk_builder_get_widget (gui, "position_select_combo");
 
 		update_select_state (state);
 
 		g_signal_connect (G_OBJECT (state->position_select_combo),
 				  "changed", G_CALLBACK (cb_manual_position_changed), state);
 	} else {
-		w = glade_xml_get_widget (gui, "position_select_box");
+		w = go_gtk_builder_get_widget (gui, "position_select_box");
 		gtk_widget_hide (w);
 	}
 
@@ -517,9 +516,8 @@ gog_object_populate_editor (GogObject *gobj,
 							 "update-editor", 
 							 G_CALLBACK (cb_update_editor), state);
 
-	w = glade_xml_get_widget (gui, "gog_object_prefs");
-	g_object_set_data_full (G_OBJECT (w), "state", state, 
-				(GDestroyNotify) object_pref_state_free);  
+	w = go_gtk_builder_get_widget (gui, "gog_object_prefs");
+	g_signal_connect_swapped (G_OBJECT (w), "destroy", G_CALLBACK (object_pref_state_free), state);  
 	go_editor_add_page (editor, w, _("Position"));
 }
 #endif

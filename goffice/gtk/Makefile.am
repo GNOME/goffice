@@ -75,14 +75,14 @@ libgoffice_gtk_la_HEADERS = 		\
 	go-graph-widget.h	\
 	go-image-sel.h
 
-gladedir = $(goffice_datadir)/glade
-dist_glade_DATA = \
-	go-rotation-sel.glade			\
-	go-font-sel.glade 			\
-	go-format-sel.glade 			\
-	go-3d-rotation-sel.glade		\
-	go-image-save-dialog-extra.glade	\
-	go-image-sel.glade
+uidir = $(goffice_datadir)/ui
+dist_ui_DATA = \
+	go-rotation-sel.ui			\
+	go-font-sel.ui 				\
+	go-format-sel.ui 			\
+ 	go-3d-rotation-sel.ui			\
+	go-image-save-dialog-extra.ui	\
+	go-image-sel.ui
 
 EXTRA_DIST = $(UNUSED)
 

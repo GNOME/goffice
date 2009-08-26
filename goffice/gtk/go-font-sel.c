@@ -20,7 +20,7 @@
 
 struct _GOFontSel {
 	GtkHBox		box;
-	GladeXML	*gui;
+	GtkBuilder	*gui;
 
 	GtkWidget	*font_name_entry;
 	GtkWidget	*font_style_entry;
@@ -334,26 +334,26 @@ gfs_init (GOFontSel *gfs)
 {
 	GtkWidget *w;
 
-	gfs->gui = go_glade_new ("go-font-sel.glade", "toplevel-table", GETTEXT_PACKAGE, NULL);
+	gfs->gui = go_gtk_builder_new ("go-font-sel.ui", GETTEXT_PACKAGE, NULL);
 	if (gfs->gui == NULL)
                 return;
 
 	gfs->modifications = pango_attr_list_new ();
 
 	gtk_box_pack_start (GTK_BOX (gfs), 
-		glade_xml_get_widget (gfs->gui, "toplevel-table"), 
-		TRUE, TRUE, 0);
-	gfs->font_name_entry  = glade_xml_get_widget (gfs->gui, "font-name-entry");
-	gfs->font_style_entry = glade_xml_get_widget (gfs->gui, "font-style-entry");
-	gfs->font_size_entry  = glade_xml_get_widget (gfs->gui, "font-size-entry");
-	gfs->font_name_list  = GTK_TREE_VIEW (glade_xml_get_widget (gfs->gui, "font-name-list"));
-	gfs->font_style_list = GTK_TREE_VIEW (glade_xml_get_widget (gfs->gui, "font-style-list"));
-	gfs->font_size_list  = GTK_TREE_VIEW (glade_xml_get_widget (gfs->gui, "font-size-list"));
+		go_gtk_builder_get_widget (gfs->gui, "toplevel-table"), 
+  		TRUE, TRUE, 0);
+	gfs->font_name_entry  = go_gtk_builder_get_widget (gfs->gui, "font-name-entry");
+	gfs->font_style_entry = go_gtk_builder_get_widget (gfs->gui, "font-style-entry");
+	gfs->font_size_entry  = go_gtk_builder_get_widget (gfs->gui, "font-size-entry");
+	gfs->font_name_list  = GTK_TREE_VIEW (gtk_builder_get_object (gfs->gui, "font-name-list"));
+	gfs->font_style_list = GTK_TREE_VIEW (gtk_builder_get_object (gfs->gui, "font-style-list"));
+	gfs->font_size_list  = GTK_TREE_VIEW (gtk_builder_get_object (gfs->gui, "font-size-list"));
 
 	w = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
 	gfs->font_preview_canvas = GOC_CANVAS (w);
 	gtk_widget_show_all (w);
-	w = glade_xml_get_widget (gfs->gui, "font-preview-frame");
+	w = go_gtk_builder_get_widget (gfs->gui, "font-preview-frame");
 	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (gfs->font_preview_canvas));
 
 	gfs->font_preview_text = goc_item_new (

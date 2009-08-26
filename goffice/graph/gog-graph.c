@@ -195,11 +195,11 @@ gog_graph_populate_editor (GogObject *gobj,
 			   GOCmdContext *cc)
 {
 	GogGraph *graph = GOG_GRAPH (gobj);
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GSList *theme_names;
 	static guint graph_pref_page = 0;
 
-	gui = go_glade_new ("gog-graph-prefs.glade", "gog_graph_prefs", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new ("gog-graph-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
@@ -215,7 +215,7 @@ gog_graph_populate_editor (GogObject *gobj,
 		int count, index = 0;
 		
 		graph_theme_name = gog_theme_get_name (graph->theme);
-		combo = glade_xml_get_widget (gui, "theme_combo");
+		combo = go_gtk_builder_get_widget (gui, "theme_combo");
 		gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (combo))));	
 		
 		count = 0;
@@ -228,13 +228,12 @@ gog_graph_populate_editor (GogObject *gobj,
 		gtk_combo_box_set_active (GTK_COMBO_BOX (combo), index);
 		
 		g_signal_connect (G_OBJECT (combo), "changed", G_CALLBACK (cb_theme_changed), graph);
-		g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "force_theme_button")), "clicked",
+		g_signal_connect (gtk_builder_get_object (gui, "force_theme_button"), "clicked",
 				  G_CALLBACK (cb_force_theme), graph);
 
-		box = glade_xml_get_widget (gui, "gog_graph_prefs");
-		g_object_set_data_full (G_OBJECT (box), "gui", gui,
-					(GDestroyNotify)g_object_unref);
+		box = go_gtk_builder_get_widget (gui, "gog_graph_prefs");
 		go_editor_add_page (editor, box, _("Theme"));
+		g_object_unref (gui);
 
 		g_slist_free (theme_names);	
 	}	     

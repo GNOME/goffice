@@ -13,7 +13,7 @@ radar_la_SOURCES = \
 xml_in_files = plugin.xml.in plot-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
-ui_DATA = gog-color-polar-prefs.xml
+ui_DATA = gog-color-polar-prefs.ui
 
 @INTLTOOL_XML_RULE@
 
@@ -22,8 +22,7 @@ ui_DATA = gog-color-polar-prefs.xml
 plot-types.xml : plot-types.xml.in
 	cp $< $@
 
-EXTRA_DIST = $(xml_in_files) $(ui_DATA) \
-	gog-color-polar-prefs.glade
+EXTRA_DIST = $(xml_in_files) $(ui_DATA)
 DISTCLEANFILES = $(xml_in_files:.xml.in=.xml)
 
 include $(top_srcdir)/goffice-plugins.mk

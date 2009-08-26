@@ -46,7 +46,7 @@ struct _GraphGuruState {
 	GClosure         *register_closure;
 
 	/* GUI accessors */
-	GladeXML    *gui;
+	GtkBuilder    *gui;
 	GtkWidget   *dialog;
 	GtkWidget   *button_cancel;
 	GtkWidget   *button_navigate;
@@ -86,7 +86,7 @@ struct _GraphGuruState {
 };
 
 struct _GraphGuruTypeSelector {
-	GladeXML    	*gui;
+	GtkBuilder    	*gui;
 	GtkWidget	*canvas;
 	GtkWidget	*sample_button;
 	GtkLabel	*label;
@@ -883,18 +883,18 @@ graph_guru_init_format_page (GraphGuruState *s)
 		return;
 	s->fmt_page_initialized = TRUE;
 
-	w = glade_xml_get_widget (s->gui, "menu_hbox");
+	w = go_gtk_builder_get_widget (s->gui, "menu_hbox");
 
 	s->child_button = gog_child_button_new ();
 	gtk_box_pack_start (GTK_BOX (w), s->child_button, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (w), s->child_button, 0);
 	gtk_widget_show (s->child_button);
 
-	s->delete_button     = glade_xml_get_widget (s->gui, "delete");
-	s->prec.inc_button   = glade_xml_get_widget (s->gui, "inc_precedence");
-	s->prec.dec_button   = glade_xml_get_widget (s->gui, "dec_precedence");
-	s->prec.first_button = glade_xml_get_widget (s->gui, "first_precedence");
-	s->prec.last_button  = glade_xml_get_widget (s->gui, "last_precedence");
+	s->delete_button     = go_gtk_builder_get_widget (s->gui, "delete");
+	s->prec.inc_button   = go_gtk_builder_get_widget (s->gui, "inc_precedence");
+	s->prec.dec_button   = go_gtk_builder_get_widget (s->gui, "dec_precedence");
+	s->prec.first_button = go_gtk_builder_get_widget (s->gui, "first_precedence");
+	s->prec.last_button  = go_gtk_builder_get_widget (s->gui, "last_precedence");
 
 	g_signal_connect_swapped (G_OBJECT (s->delete_button),
 		"clicked",
@@ -913,7 +913,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 		G_CALLBACK (cb_prec_last), s);
 
 	/* Load up the sample view and make it fill the entire canvas */
-	w = glade_xml_get_widget (s->gui, "sample-alignment");
+	w = go_gtk_builder_get_widget (s->gui, "sample-alignment");
 	canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
 	gtk_container_add (GTK_CONTAINER (w), canvas);
 	s->sample_graph_shadow = goc_item_new (goc_canvas_get_root (GOC_CANVAS (canvas)),
@@ -950,7 +950,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 							 G_CALLBACK (cb_graph_selection_changed), s);
 	g_object_unref (G_OBJECT (rend));
 
-	w = glade_xml_get_widget (s->gui, "prop_alignment");
+	w = go_gtk_builder_get_widget (s->gui, "prop_alignment");
 	s->prop_container = GTK_CONTAINER (w);
 	s->prop_model = gtk_tree_store_new (PLOT_ATTR_NUM_COLUMNS,
 				    G_TYPE_STRING, G_TYPE_POINTER);
@@ -974,7 +974,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 				  s, NULL, FALSE);
 	gtk_tree_view_expand_all (s->prop_view);
 
-	w = glade_xml_get_widget (s->gui, "attr_window");
+	w = go_gtk_builder_get_widget (s->gui, "attr_window");
 	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (s->prop_view));
 	gtk_widget_show_all (w);
 	
@@ -1052,14 +1052,13 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *s)
 				  NULL);
 		g_value_unset (instance_and_params + 0);
 	}
-
 	gtk_widget_destroy (GTK_WIDGET (s->dialog));
 }
 
 static GtkWidget *
 graph_guru_init_button (GraphGuruState *s, char const *widget_name)
 {
-	GtkWidget *button = glade_xml_get_widget (s->gui, widget_name);
+	GtkWidget *button = go_gtk_builder_get_widget (s->gui, widget_name);
 	g_signal_connect (G_OBJECT (button),
 		"clicked",
 		G_CALLBACK (cb_graph_guru_clicked), s);
@@ -1069,7 +1068,7 @@ graph_guru_init_button (GraphGuruState *s, char const *widget_name)
 static GtkWidget *
 graph_guru_init_ok_button (GraphGuruState *s)
 {
-	GtkButton *button = GTK_BUTTON (glade_xml_get_widget 
+	GtkButton *button = GTK_BUTTON (gtk_builder_get_object 
 				       (s->gui, "button_ok"));
 	
 	if (s->editing) {
@@ -1112,10 +1111,10 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	GtkTreeSelection *selection;
 	GraphGuruTypeSelector *typesel;
 	GtkWidget *selector;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GOStyle *style;
 
-	gui = go_glade_new ("gog-guru-type-selector.glade", "type_selector", GETTEXT_PACKAGE, s->cc);
+	gui = go_gtk_builder_new ("gog-guru-type-selector.ui", GETTEXT_PACKAGE, s->cc);
 
 	typesel = g_new0 (GraphGuruTypeSelector, 1);
 	typesel->state = s;
@@ -1126,7 +1125,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	typesel->max_priority_so_far = -1;
 	s->type_selector = typesel;
 
-	selector = glade_xml_get_widget (gui, "type_selector");
+	selector = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "type_selector")));
 
 	/* List of family types */
 	typesel->model = gtk_list_store_new (PLOT_FAMILY_NUM_COLUMNS,
@@ -1136,7 +1135,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (typesel->model),
 		PLOT_FAMILY_TYPE_NAME, GTK_SORT_ASCENDING);
 
-	typesel->list_view = GTK_TREE_VIEW (glade_xml_get_widget (gui, "type_treeview"));
+	typesel->list_view = GTK_TREE_VIEW (gtk_builder_get_object (gui, "type_treeview"));
 	gtk_tree_view_set_model (typesel->list_view, GTK_TREE_MODEL (typesel->model));
 	gtk_tree_view_append_column (typesel->list_view,
 		gtk_tree_view_column_new_with_attributes ("",
@@ -1167,7 +1166,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	gtk_widget_set_size_request (typesel->canvas,
 		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
 		MINOR_PIXMAP_HEIGHT*3 + BORDER*5);
-	gtk_container_add (GTK_CONTAINER (glade_xml_get_widget (gui, "canvas_container")), 
+	gtk_container_add (GTK_CONTAINER (gtk_builder_get_object (gui, "canvas_container")), 
 			   typesel->canvas);
 
 	/* Init the list and the canvas group for each family */
@@ -1191,10 +1190,10 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	typesel_set_selection_color (typesel);
 
 	/* Setup the description label */
-	typesel->label = GTK_LABEL (glade_xml_get_widget (gui, "description_label"));
+	typesel->label = GTK_LABEL (gtk_builder_get_object (gui, "description_label"));
 
 	/* Set up sample button */
-	typesel->sample_button = glade_xml_get_widget (gui, "sample_button");
+	typesel->sample_button = go_gtk_builder_get_widget (gui, "sample_button");
 	g_signal_connect_swapped (G_OBJECT (typesel->sample_button),
 		"pressed",
 		G_CALLBACK (cb_sample_pressed), typesel);
@@ -1213,12 +1212,12 @@ graph_guru_type_selector_new (GraphGuruState *s)
 static gboolean
 graph_guru_init (GraphGuruState *s)
 {
-	s->gui = go_glade_new ("gog-guru.glade", NULL, GETTEXT_PACKAGE, s->cc);
+	s->gui = go_gtk_builder_new ("gog-guru.ui", GETTEXT_PACKAGE, s->cc);
         if (s->gui == NULL)
                 return TRUE;
 
-	s->dialog = glade_xml_get_widget (s->gui, "GraphGuru");
-	s->steps  = GTK_NOTEBOOK (glade_xml_get_widget (s->gui, "notebook"));
+	s->dialog = go_gtk_builder_get_widget (s->gui, "GraphGuru");
+	s->steps  = GTK_NOTEBOOK (gtk_builder_get_object (s->gui, "notebook"));
 
 	/* Buttons */
 	s->button_cancel   = graph_guru_init_button (s, "button_cancel");
@@ -1242,7 +1241,7 @@ GtkWidget *
 gog_guru_get_help_button (GtkWidget *guru)
 {
 	GraphGuruState *state = g_object_get_data (G_OBJECT (guru), "state");
-	return state ? glade_xml_get_widget (state->gui, "help_button") : NULL;
+	return state ? go_gtk_builder_get_widget (state->gui, "help_button") : NULL;
 }
 
 /**
@@ -1317,8 +1316,10 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	graph_guru_set_page (state, page);
 
 	/* a candidate for merging into attach guru */
-	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) graph_guru_state_destroy);
+	g_signal_connect_swapped (G_OBJECT (state->dialog), "destroy", G_CALLBACK (graph_guru_state_destroy), state);
+
+	g_object_set_data (G_OBJECT (state->dialog),
+		"state", state);
 
 	return state->dialog;
 }

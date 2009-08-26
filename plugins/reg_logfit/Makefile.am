@@ -1,6 +1,6 @@
 goffice_graph_logfitdir = $(goffice_plugindir)/reg_logfit
 xmldir	 = $(goffice_graph_logfitdir)
-gladedir = $(goffice_graph_logfitdir)
+uidir = $(goffice_graph_logfitdir)
 
 goffice_graph_logfit_LTLIBRARIES = logfit.la
 logfit_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)

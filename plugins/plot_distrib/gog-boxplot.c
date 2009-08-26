@@ -57,7 +57,6 @@ static GType gog_box_plot_view_get_type (void);
 
 #ifdef GOFFICE_WITH_GTK
 #include <goffice/gtk/goffice-gtk.h>
-#include <glade/glade-xml.h>
 
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *boxplot)
@@ -74,22 +73,22 @@ cb_layout_changed (GtkComboBox *box, GObject *boxplot)
 static void
 cb_outliers_changed (GtkToggleButton *btn, GObject *boxplot)
 {
-	GladeXML *gui = GLADE_XML (g_object_get_data (G_OBJECT (btn), "state"));
+	GtkBuilder *gui = GTK_BUILDER (g_object_get_data (G_OBJECT (btn), "state"));
 	GtkWidget *w;
 	gboolean outliers = gtk_toggle_button_get_active (btn);
 	if (outliers) {
-		w = glade_xml_get_widget (gui, "diameter-label");
+		w = go_gtk_builder_get_widget (gui, "diameter-label");
 		gtk_widget_show (w);
-		w = glade_xml_get_widget (gui, "diameter");
+		w = go_gtk_builder_get_widget (gui, "diameter");
 		gtk_widget_show (w);
-		w = glade_xml_get_widget (gui, "diam-pc-label");
+		w = go_gtk_builder_get_widget (gui, "diam-pc-label");
 		gtk_widget_show (w);
 	} else {
-		w = glade_xml_get_widget (gui, "diameter-label");
+		w = go_gtk_builder_get_widget (gui, "diameter-label");
 		gtk_widget_hide (w);
-		w = glade_xml_get_widget (gui, "diameter");
+		w = go_gtk_builder_get_widget (gui, "diameter");
 		gtk_widget_hide (w);
-		w = glade_xml_get_widget (gui, "diam-pc-label");
+		w = go_gtk_builder_get_widget (gui, "diam-pc-label");
 		gtk_widget_hide (w);
 	}
 	g_object_set (boxplot, "outliers", outliers, NULL);
@@ -109,29 +108,29 @@ gog_box_plot_pref (GogObject *obj,
 	GogBoxPlot *boxplot = GOG_BOX_PLOT (obj);
 	char const *dir = go_plugin_get_dir_name (
 		go_plugins_get_plugin_by_id ("GOffice_plot_boxes"));
-	char	 *path = g_build_filename (dir, "gog-boxplot-prefs.glade", NULL);
-	GladeXML *gui = go_glade_new (path, "gog_box_plot_prefs", GETTEXT_PACKAGE, cc);
+	char	 *path = g_build_filename (dir, "gog-boxplot-prefs.ui", NULL);
+	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
 
 	g_free (path);
         if (gui == NULL)
                 return NULL;
 
-	w = glade_xml_get_widget (gui, "gap_spinner");
+	w = go_gtk_builder_get_widget (gui, "gap_spinner");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), boxplot->gap_percentage);
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
 		"value_changed",
 		G_CALLBACK (cb_gap_changed), boxplot);
 
-	w = glade_xml_get_widget (gui, "layout");
+	w = go_gtk_builder_get_widget (gui, "layout");
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), boxplot->vertical);
 	g_signal_connect (w, "changed", G_CALLBACK (cb_layout_changed), boxplot);
 
-	w = glade_xml_get_widget (gui, "show-outliers");
+	w = go_gtk_builder_get_widget (gui, "show-outliers");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), boxplot->outliers);
 	g_object_set_data (G_OBJECT (w), "state", gui);
 	g_signal_connect (w, "toggled", G_CALLBACK (cb_outliers_changed), boxplot);
 
-	w = glade_xml_get_widget (gui, "diameter");
+	w = go_gtk_builder_get_widget (gui, "diameter");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), boxplot->radius_ratio * 200.);
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
 		"value_changed",
@@ -139,15 +138,15 @@ gog_box_plot_pref (GogObject *obj,
 
 	if (!boxplot->outliers) {
 		gtk_widget_hide (w);
-		w = glade_xml_get_widget (gui, "diameter-label");
+		w = go_gtk_builder_get_widget (gui, "diameter-label");
 		gtk_widget_hide (w);
-		w = glade_xml_get_widget (gui, "diam-pc-label");
+		w = go_gtk_builder_get_widget (gui, "diam-pc-label");
 		gtk_widget_hide (w);
 	}
 
-	w = glade_xml_get_widget (gui, "gog_box_plot_prefs");
-	g_object_set_data_full (G_OBJECT (w),
-		"state", gui, (GDestroyNotify)g_object_unref);
+	w = go_gtk_builder_get_widget (gui, "gog_box_plot_prefs");
+	g_object_set_data (G_OBJECT (w), "state", gui);
+	g_signal_connect (G_OBJECT (w), "destroy", G_CALLBACK (g_object_unref), gui);
 
 	return w;
 }
@@ -158,7 +157,9 @@ gog_box_plot_populate_editor (GogObject *item,
 			      G_GNUC_UNUSED GogDataAllocator *dalloc,
 			      GOCmdContext *cc)
 {
-	go_editor_add_page (editor, gog_box_plot_pref (item, dalloc, cc), _("Properties"));
+	GtkWidget *w =  gog_box_plot_pref (item, dalloc, cc);
+	go_editor_add_page (editor,w, _("Properties"));
+	g_object_unref (w);
 	
 	(GOG_OBJECT_CLASS(gog_box_plot_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }

@@ -336,26 +336,28 @@ gog_reg_eqn_populate_editor (GogObject *gobj,
 			     GOCmdContext *cc)
 {
 	GtkWidget *w;
-	GladeXML *gui;
+	GtkBuilder *gui;
 	GogRegEqn *reg_eqn = GOG_REG_EQN (gobj);
 
-	gui = go_glade_new ("gog-reg-eqn-prefs.glade", "reg-eqn-prefs", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new ("gog-reg-eqn-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
 	go_editor_add_page (editor, 
-			     glade_xml_get_widget (gui, "reg-eqn-prefs"),
+			     go_gtk_builder_get_widget (gui, "reg-eqn-prefs"),
 			     _("Details"));
 
-	w = glade_xml_get_widget (gui, "show_eq");
+	w = go_gtk_builder_get_widget (gui, "show_eq");
 	g_object_set_data (G_OBJECT (w), "prop", (void*) "show-eq");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), reg_eqn->show_eq);
 	g_signal_connect (w, "toggled", G_CALLBACK (cb_text_visibility_changed), gobj);
 
-	w = glade_xml_get_widget (gui, "show_r2");
+	w = go_gtk_builder_get_widget (gui, "show_r2");
 	g_object_set_data (G_OBJECT (w), "prop", (void*) "show-r2");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), reg_eqn->show_r2);
 	g_signal_connect (w, "toggled", G_CALLBACK (cb_text_visibility_changed), gobj);
+
+	g_object_unref (gui);
 
 	(GOG_OBJECT_CLASS(reg_eqn_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 }

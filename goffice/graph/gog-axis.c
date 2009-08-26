@@ -2070,7 +2070,6 @@ gog_axis_update (GogObject *obj)
 #ifdef GOFFICE_WITH_GTK
 
 typedef struct {
-	GladeXML 	*gui;
 	GogAxis		*axis;
 	GtkWidget 	*format_selector;
 } GogAxisPrefState;
@@ -2080,8 +2079,6 @@ gog_axis_pref_state_free (GogAxisPrefState *state)
 {
 	if (state->axis != NULL)
 		g_object_unref (state->axis);
-	if (state->gui != NULL)
-		g_object_unref (state->gui);
 	g_free (state);
 }
 
@@ -2268,19 +2265,18 @@ gog_axis_populate_editor (GogObject *gobj,
 	GogAxis *axis = GOG_AXIS (gobj);
 	GogAxisPrefState *state;
 	GogDataset *set = GOG_DATASET (gobj);
-	GladeXML *gui;
+	GtkBuilder *gui;
 
-	gui = go_glade_new ("gog-axis-prefs.glade", "axis_pref_box", GETTEXT_PACKAGE, cc);
+	gui = go_gtk_builder_new ("gog-axis-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
 		return;
 
 	state = g_new0 (GogAxisPrefState, 1);
-	state->gui = gui;
 	state->axis = axis;
 	g_object_ref (G_OBJECT (axis));
 
 	/* Bounds Page */
-	table = GTK_TABLE (glade_xml_get_widget (gui, "bound_table"));
+	table = GTK_TABLE (gtk_builder_get_object (gui, "bound_table"));
 	if (axis->is_discrete) {
 		static char const * const dim_names[] = {
 			N_("M_inimum"),
@@ -2307,38 +2303,39 @@ gog_axis_populate_editor (GogObject *gobj,
 
 	/* Details page */
 	if (!axis->is_discrete && gog_axis_get_atype (axis) != GOG_AXIS_CIRCULAR) {
-		GtkWidget *w = glade_xml_get_widget (gui, "map_type_combo");
-		gog_axis_map_populate_combo (axis, GTK_COMBO_BOX (w));
-		g_signal_connect_object (G_OBJECT (w),
+		GtkComboBox *box = go_gtk_builder_combo_box_init_text (gui, "map_type_combo");
+		gog_axis_map_populate_combo (axis, box);
+		g_signal_connect_object (G_OBJECT (box),
 					 "changed",
 					 G_CALLBACK (cb_map_combo_changed),
 					 axis, 0);
 	} else {
-		GtkWidget *w = glade_xml_get_widget (gui, "map_type_box");
+		GtkWidget *w = go_gtk_builder_get_widget (gui, "map_type_box");
 		gtk_widget_hide (w);
 	}
 
 	if (!axis->is_discrete && gog_axis_get_atype (axis) == GOG_AXIS_CIRCULAR) {
-		GtkWidget *w = glade_xml_get_widget (gui, "polar_unit_combo");
-		gog_axis_populate_polar_unit_combo (axis, GTK_COMBO_BOX (w));
-		g_signal_connect (G_OBJECT (w),
+		GtkWidget *w;
+		GtkComboBox *box = go_gtk_builder_combo_box_init_text (gui, "polar_unit_combo");
+		gog_axis_populate_polar_unit_combo (axis, box);
+		g_signal_connect (G_OBJECT (box),
 				  "changed",
 				  G_CALLBACK (cb_polar_unit_changed),
 				  state);
 
-		w = glade_xml_get_widget (gui, "circular_rotation_spinbutton");
+		w = go_gtk_builder_get_widget (gui, "circular_rotation_spinbutton");
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), axis->circular_rotation);
 		g_signal_connect_object (G_OBJECT (w), "value-changed",
 					 G_CALLBACK (cb_rotation_changed),
 					 axis, 0);
 	} else {
-		GtkWidget *w = glade_xml_get_widget (gui, "circular_table");
+		GtkWidget *w = go_gtk_builder_get_widget (gui, "circular_table");
 		gtk_widget_hide (w);
 	}
 
 	for (i = 0; i < G_N_ELEMENTS (toggle_props) ; i++) {
 		gboolean cur_val;
-		GtkWidget *w = glade_xml_get_widget (gui, toggle_props[i]);
+		GtkWidget *w = go_gtk_builder_get_widget (gui, toggle_props[i]);
 
 		g_object_get (G_OBJECT (gobj), toggle_props[i], &cur_val, NULL);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), cur_val);
@@ -2348,7 +2345,7 @@ gog_axis_populate_editor (GogObject *gobj,
 	}
 
 	go_editor_add_page (editor,
-			     glade_xml_get_widget (gui, "axis_pref_box"),
+			     go_gtk_builder_get_widget (gui, "axis_pref_box"),
 			     _("Scale"));
 
 	if (gog_object_is_visible (axis) && gog_axis_get_atype (axis) < GOG_AXIS_VIRTUAL) {
@@ -2367,14 +2364,14 @@ gog_axis_populate_editor (GogObject *gobj,
 
 		    go_editor_add_page (editor, w, _("Format"));
 
-		    gtk_widget_show (w);
 		    g_signal_connect (G_OBJECT (w),
 			    "format_changed", G_CALLBACK (cb_axis_fmt_changed), axis);
 	    }
 	}
-	w = glade_xml_get_widget (gui, "axis_pref_box");
-	g_object_set_data_full (G_OBJECT (w), "state", state,
-				(GDestroyNotify)gog_axis_pref_state_free);
+
+	g_object_set_data_full (gtk_builder_get_object (gui, "axis_pref_box"),
+				"state", state, (GDestroyNotify) gog_axis_pref_state_free);  
+	g_object_unref (gui);
 
 	go_editor_set_store_page (editor, &axis_pref_page);
 }

@@ -283,7 +283,7 @@ go_combo_text_new (GCompareFunc cmp_func)
 }
 
 GtkWidget *
-go_combo_text_glade_new (void)
+go_combo_text_new_default (void)
 {
 	return go_combo_text_new (NULL);
 }
