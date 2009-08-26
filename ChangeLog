@@ -1,5 +1,11 @@
 2009-08-26  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/gtk/go-combo-box.c (go_combo_box_set_display): expand the
+	 display widget.
+	* goffice/gtk/go-format-sel.c (nfs_init): create missing combo box.
+
+2009-08-26  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* all files: migrated from Glade to GtkBuilder
 
 2009-08-25  Morten Welinder  <terra@gnome.org>

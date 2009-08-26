@@ -616,7 +616,7 @@ go_combo_box_set_display (GOComboBox *combo_box, GtkWidget *display_widget)
 
 	if (display_widget)
 		gtk_box_pack_start (GTK_BOX (combo_box), display_widget,
-				    FALSE, TRUE, 0);
+				    TRUE, TRUE, 0);
 }
 
 static gboolean

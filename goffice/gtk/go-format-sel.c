@@ -1015,6 +1015,9 @@ nfs_init (GOFormatSel *gfs)
 		gfs->format.widget[i] = tmp;
 	}
 
+	gfs->format.widget[F_SYMBOL] = go_combo_text_new (NULL);
+	gtk_widget_hide (gfs->format.widget[F_SYMBOL]);
+
 	/* set minimum heights */
 	gtk_widget_set_size_request (gfs->format.widget[F_LIST], -1, 100);
 	gtk_widget_set_size_request (gfs->format.widget[F_NEGATIVE], -1, 100);
