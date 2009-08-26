@@ -655,8 +655,6 @@ GOG_CONTROL_FOOCANVAS
 GOG_IS_CONTROL_FOOCANVAS
 GogControlFooCanvas
 GogControlFooCanvasClass
-<SUBSECTION Private>
-gog_control_foocanvas_get_type
 </SECTION>
 
 <SECTION>
