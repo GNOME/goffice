@@ -34,6 +34,7 @@ struct _GocItem {
 	gboolean		 cached_bounds;
 	gboolean		 needs_redraw;
 	gboolean		 visible;
+	gboolean		 realized;
 	double			 x0, y0, x1, y1; /* the bounds */
 };
 

@@ -1,3 +1,10 @@
+2009-08-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-group.c (goc_group_realize),
+	(goc_group_unrealize): don't unrealize an item several times.
+	* goffice/canvas/goc-item.c (goc_item_finalize): ditto.
+	* goffice/canvas/goc-item.h: ditto.
+
 2009-08-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/graph/Makefile.am: The ui file needs to be distributed

@@ -82,9 +82,12 @@ goc_item_finalize (GObject *object)
 	if (item->canvas->last_item == item)
 		item->canvas->last_item = NULL;
 	if (GTK_WIDGET_REALIZED (item->canvas)) {
-		GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
-		if (klass->unrealize)
-			klass->unrealize (item);
+		if (item->realized) {
+			GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
+			if (klass->unrealize)
+				klass->unrealize (item);
+			item->realized = FALSE;
+		}
 		item->cached_bounds = TRUE; /* avois a call to update_bounds */
 		goc_item_invalidate (item);
 	}
