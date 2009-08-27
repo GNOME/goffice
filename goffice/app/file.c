@@ -509,7 +509,7 @@ go_file_saver_class_init (GOFileSaverClass *klass)
 		 FS_PROP_FORMAT_LEVEL,
 		 g_param_spec_enum ("format-level",
 				    _("Format Level"),
-				    _(""),
+				    "?",
 				    GO_TYPE_FILE_SAVER_LEVEL,
 				    GO_FILE_FL_NEW,
 				    GSF_PARAM_STATIC |
