@@ -97,6 +97,7 @@ goffice/graph/gog-data-allocator.c
 goffice/graph/gog-data-allocator.h
 goffice/graph/gog-data-set.c
 goffice/graph/gog-data-set.h
+[type: gettext/glade]goffice/graph/gog-equation-prefs.ui
 [type: gettext/glade]goffice/graph/gog-error-bar-prefs.ui
 goffice/graph/gog-error-bar.c
 goffice/graph/gog-error-bar.h
