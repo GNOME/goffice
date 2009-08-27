@@ -21,9 +21,8 @@ if WITH_GTK
   distrib_la_SOURCES +=	\
 	go-distribution-prefs.c	\
 	go-distribution-prefs.h
-
-  dist_glade_ui = gog-boxplot-prefs.ui
 endif
+ui_DATA = gog-boxplot-prefs.ui
 
 @INTLTOOL_XML_RULE@
 
@@ -32,7 +31,7 @@ endif
 plot-types.xml : plot-types.xml.in
 	cp $< $@
 
-EXTRA_DIST = $(xml_in_files)
+EXTRA_DIST = $(xml_in_files) $(ui_DATA)
 DISTCLEANFILES = $(xml_in_files:.xml.in=.xml)
 
 include $(top_srcdir)/goffice-plugins.mk

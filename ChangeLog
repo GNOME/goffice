@@ -1,3 +1,9 @@
+2009-08-26  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/Makefile.am: The ui file needs to be distributed
+	regardless of configuration.
+	* plugins/plot_distrib/Makefile.am (ui_DATA): Ditto.
+
 2009-08-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-group.c (goc_group_finalize): don't crash when

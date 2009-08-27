@@ -97,8 +97,9 @@ dist_ui_DATA = \
 if GOFFICE_WITH_LASEM
   libgoffice_graph_la_SOURCES += gog-equation.c
   libgoffice_graph_la_HEADERS += gog-equation.h
-  dist_ui_DATA += gog-equation-prefs.ui
 endif
+# Always distribute the ui file.
+dist_ui_DATA += gog-equation-prefs.ui
 
 include $(top_srcdir)/goffice.mk
 
