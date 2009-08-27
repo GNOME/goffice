@@ -14,7 +14,6 @@
   </object>
   <object class="GtkVBox" id="interpolation_prefs">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
     <child>
       <object class="GtkLabel" id="interpolation-label">
         <property name="visible">True</property>
@@ -124,7 +123,6 @@
   </object>
   <object class="GtkVBox" id="fill_type_prefs">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
     <child>
       <object class="GtkHBox" id="hbox1">
         <property name="visible">True</property>

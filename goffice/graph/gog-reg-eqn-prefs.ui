@@ -4,7 +4,6 @@
   <object class="GtkVBox" id="reg-eqn-prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">6</property>
     <child>
       <object class="GtkCheckButton" id="show_eq">

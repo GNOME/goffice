@@ -36,7 +36,6 @@
   <object class="GtkVBox" id="gog_error_bar_prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">12</property>
     <child>
       <object class="GtkHBox" id="hbox1">
@@ -45,7 +44,6 @@
         <child>
           <object class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="category_label">
                 <property name="visible">True</property>
@@ -97,7 +95,6 @@
         <child>
           <object class="GtkVBox" id="style_box">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="style_label">
                 <property name="visible">True</property>
@@ -312,7 +309,6 @@
     <child>
       <object class="GtkVBox" id="values_box">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <object class="GtkLabel" id="values_label">
             <property name="visible">True</property>

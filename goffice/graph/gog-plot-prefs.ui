@@ -38,11 +38,9 @@
   <object class="GtkVBox" id="gog_plot_prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="orientation">vertical</property>
     <child>
       <object class="GtkVBox" id="plot_area_box">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkHBox" id="hbox1">

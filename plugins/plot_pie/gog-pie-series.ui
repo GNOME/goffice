@@ -9,7 +9,6 @@
   <object class="GtkVBox" id="gog_pie_series_element_prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">6</property>
     <child>
       <object class="GtkTable" id="separation_table">

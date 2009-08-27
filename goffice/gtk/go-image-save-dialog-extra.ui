@@ -10,7 +10,6 @@
   </object>
   <object class="GtkVBox" id="image_save_dialog_extra">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">12</property>
     <child>
       <object class="GtkHBox" id="file_type_box">

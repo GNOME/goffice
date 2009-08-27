@@ -20,12 +20,10 @@
     <child>
       <object class="GtkVBox" id="vbox7">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkVBox" id="bound_box">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
@@ -86,7 +84,6 @@
         <child>
           <object class="GtkVBox" id="mapping_box">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
@@ -108,7 +105,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox18">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkCheckButton" id="invert-axis">
@@ -275,7 +271,6 @@
   <object class="GtkVBox" id="axis_base_pref_box">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">12</property>
     <child>
       <object class="GtkHBox" id="hbox3">
@@ -284,7 +279,6 @@
         <child>
           <object class="GtkVBox" id="major_tick_box">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="label3">
                 <property name="visible">True</property>
@@ -306,7 +300,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox13">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkCheckButton" id="major-tick-out">
@@ -371,7 +364,6 @@
         <child>
           <object class="GtkVBox" id="minor_tick_box">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="label4">
                 <property name="visible">True</property>
@@ -393,7 +385,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox15">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkCheckButton" id="minor-tick-out">
@@ -450,7 +441,6 @@
     <child>
       <object class="GtkVBox" id="position_box">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <object class="GtkLabel" id="label5">
             <property name="visible">True</property>
@@ -472,12 +462,10 @@
             <child>
               <object class="GtkVBox" id="vbox19">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkVBox" id="cross_box">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkRadioButton" id="axis_low">

@@ -10,7 +10,6 @@
   <object class="GtkVBox" id="mv-avg-prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">6</property>
     <child>
       <object class="GtkHBox" id="hbox1">
