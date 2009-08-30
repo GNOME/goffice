@@ -1,3 +1,11 @@
+2009-08-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-line.c (goc_line_update_bounds): take line cap
+	into account when needed.
+	* goffice/canvas/goc-pixbuf.c (goc_pixbuf_draw): fixed scaling.
+	* goffice/utils/go-styled-object.c
+	(go_styled_object_set_cairo_line): make dashes work.
+
 2009-08-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-group.c (goc_group_realize),

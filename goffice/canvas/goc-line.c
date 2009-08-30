@@ -134,6 +134,8 @@ goc_line_update_bounds (GocItem *item)
 	double extra_width = style->line.width /2.;
 	if (extra_width <= 0.)
 		extra_width = .5;
+	if (style->line.cap == CAIRO_LINE_CAP_SQUARE)
+		extra_width *= 1.5; /* 1.4142 should be enough */
 	if (line->startx < line->endx) {
 		item->x0 = line->startx - extra_width;
 		item->x1 = line->endx + extra_width;

@@ -182,6 +182,7 @@ goc_pixbuf_draw (GocItem const *item, cairo_t *cr)
 	double height, width;
 	double scalex = 1., scaley = 1.;
 	int x;
+	cairo_matrix_t mat;
 
 	if (pixbuf->pixbuf == NULL)
 		return;
@@ -205,8 +206,10 @@ goc_pixbuf_draw (GocItem const *item, cairo_t *cr)
 		pixbuf->x + pixbuf->width: pixbuf->x;
 	goc_group_cairo_transform (item->parent, cr, x, (int) pixbuf->y);
 	cairo_rotate (cr, pixbuf->rotation);
-	if (scalex != 1. || scaley != 1.)
-		cairo_scale (cr, scalex, scaley);
+	if (scalex != 1. || scaley != 1.) {
+		cairo_matrix_init_scale (&mat, 1. / scalex, 1. /scaley);
+		cairo_pattern_set_matrix (pat, &mat);
+	} 
 	cairo_rectangle (cr, 0., 0., ceil (width), ceil (height));
 	cairo_set_source (cr, pat);
 	cairo_pattern_destroy (pat);

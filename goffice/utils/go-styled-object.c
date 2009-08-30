@@ -157,6 +157,12 @@ go_styled_object_set_cairo_line (GOStyledObject const *so, cairo_t *cr)
 	cairo_set_line_join (cr, style->line.join);
 	cairo_set_miter_limit (cr, style->line.miter_limit);
 	line_dash = go_line_dash_get_sequence (style->line.dash_type, width);
+	if (style->line.cap == CAIRO_LINE_CAP_BUTT && style->line.dash_type != GO_LINE_SOLID) {
+		unsigned i;
+		for (i = 0; i < line_dash->n_dash; i++)
+			if (line_dash->dash[i] == 0.)
+				line_dash->dash[i] = width;
+	}
 	if (line_dash != NULL)
 		cairo_set_dash (cr,
 				line_dash->dash,
