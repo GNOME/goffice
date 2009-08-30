@@ -1,5 +1,8 @@
 goffice 0.7.11:
 
+Morten:
+	* Fix canvas item realize/unrealize problems.  [#593593]
+
 --------------------------------------------------------------------------
 goffice 0.7.10:
 

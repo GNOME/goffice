@@ -1,3 +1,10 @@
+2009-08-30  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-item.c (goc_item_new): Keep track of realize.
+
+	* goffice/canvas/goc-group.c (goc_group_realize,
+	goc_group_unrealize): Set the right ->realized.
+
 2009-08-30  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

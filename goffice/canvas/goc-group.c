@@ -180,10 +180,10 @@ goc_group_realize (GocItem *item)
 	for (l = g_list_first (group->children); l; l = g_list_next (l)) {
 		GocItem *child = GOC_ITEM (l->data);
 		if (!child->realized) {
-			klass = GOC_ITEM_GET_CLASS (l->data);
+			klass = GOC_ITEM_GET_CLASS (child);
 			if (klass->realize)
-				klass->realize (GOC_ITEM (l->data));
-			item->realized = TRUE;
+				klass->realize (child);
+			child->realized = TRUE;
 		}
 	}
 }
@@ -200,7 +200,7 @@ goc_group_unrealize (GocItem *item)
 			klass = GOC_ITEM_GET_CLASS (child);
 			if (klass->unrealize)
 				klass->unrealize (child);
-			item->realized = FALSE;
+			child->realized = FALSE;
 		}
 	}
 }

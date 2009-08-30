@@ -143,6 +143,7 @@ goc_item_new (GocGroup *group, GType type, const gchar *first_arg_name, ...)
 		GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
 		if (klass->realize)
 			klass->realize (item);
+		item->realized = TRUE;
 	}
 
 	return item;
