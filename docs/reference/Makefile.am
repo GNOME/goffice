@@ -78,5 +78,7 @@ include $(top_srcdir)/gtk-doc.make
 # To work around bug #314105, we have to distribute the generated file, too.
 EXTRA_DIST += version.xml.in version.xml
 
+CLEANFILES += goffice-@GOFFICE_API_VER@-*.txt
+
 $(top_srcdir)/docs/reference/version.xml:
 	cp $(top_builddir)/docs/reference/version.xml $@
