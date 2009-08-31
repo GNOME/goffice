@@ -474,7 +474,6 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (model->outliers) {
 			double l1, l2, m1, m2, d, r = 2. * hrect * model->radius_ratio;
 			int i = 0;
-			style->outline = style->line;
 			d = series->vals[3] - series->vals[1];
 			l1 = series->vals[1] - d * 1.5;
 			l2 = series->vals[1] - d * 3.;
@@ -630,7 +629,7 @@ gog_box_plot_series_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	((GogStyledObjectClass*) gog_box_plot_series_parent_klass)->init_style (gso, style);
 
-	style->outline.dash_type = GO_LINE_NONE;
+	style->line.dash_type = GO_LINE_NONE;
 }
 
 static void

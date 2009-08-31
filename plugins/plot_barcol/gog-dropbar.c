@@ -218,7 +218,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 			continue;
 		prec_valid = FALSE;
 		neg_style = go_style_dup ((GOG_STYLED_OBJECT (series))->style);
-		neg_style->outline.color ^= 0xffffff00;
+		neg_style->line.color ^= 0xffffff00;
 		neg_style->fill.pattern.back ^= 0xffffff00;
 		neg_style->fill.pattern.fore ^= 0xffffff00;
 		x = offset;

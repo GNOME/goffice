@@ -164,7 +164,7 @@ cb_rotation_changed (GO3DRotationSel *g3d)
 		style->fill.auto_back = FALSE;
 		/* set the background light blue or transparent */
 		style->fill.pattern.back = (i == 1)? RGBA_TO_UINT (0xad, 0xd8, 0xe6, 0xff): 0;
-		style->outline.width = (mean_y < 0) ? 4. : 0.5;
+		style->line.width = (mean_y < 0) ? 4. : 0.5;
 		goc_item_set (g3d->cube_polygons[i], "points", points,
 		              "style", style, NULL);
 		goc_points_unref (points);
@@ -208,26 +208,26 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GO3DRotationSel *g3d)
 		g3d->cube_polygons[i] = goc_item_new (group,
 		        GOC_TYPE_POLYGON, NULL);
 		go_style = go_styled_object_get_style (GO_STYLED_OBJECT (g3d->cube_polygons[i]));
-		go_style->outline.auto_color = FALSE;
-		go_style->outline.color = RGBA_BLACK;
-		go_style->outline.miter_limit = 1.414;
+		go_style->line.auto_color = FALSE;
+		go_style->line.color = RGBA_BLACK;
+		go_style->line.miter_limit = 1.414;
 	}
 
 	g3d->dial = goc_item_new (group, GOC_TYPE_CIRCLE,
 	                          "x", mgn, "y", mgn, "radius", (double) g3d->radius, NULL);
 	go_style = go_styled_object_get_style (GO_STYLED_OBJECT (g3d->dial));
-	go_style->outline.auto_color = FALSE;
-	go_style->outline.color = RGBA_BLACK;
-	go_style->outline.width = 2.;
+	go_style->line.auto_color = FALSE;
+	go_style->line.color = RGBA_BLACK;
+	go_style->line.width = 2.;
 	go_style->fill.auto_type = FALSE;
 	go_style->fill.type = GO_STYLE_FILL_NONE;
 		
 	g3d->bank_dial = goc_item_new (group,
 		GOC_TYPE_CIRCLE, "radius", (double) g3d->bank_dial_r, NULL);
 	go_style = go_styled_object_get_style (GO_STYLED_OBJECT (g3d->bank_dial));
-	go_style->outline.auto_color = FALSE;
-	go_style->outline.color = RGBA_BLACK;
-	go_style->outline.width = 3.;
+	go_style->line.auto_color = FALSE;
+	go_style->line.color = RGBA_BLACK;
+	go_style->line.width = 3.;
 	go_style->fill.auto_type = FALSE;
 	go_style->fill.type = GO_STYLE_FILL_PATTERN;
 	go_style->fill.auto_back = FALSE;

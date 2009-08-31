@@ -120,15 +120,15 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 			"radius", size,
 			NULL);
 		go_style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-		go_style->outline.width = 1.;
-		go_style->outline.color = RGBA_BLACK;
+		go_style->line.width = 1.;
+		go_style->line.color = RGBA_BLACK;
 		go_style->fill.pattern.back = RGBA_BLACK;
 		grs->rotate_marks[i] = item;
 	}
 	grs->line = goc_item_new (group, GOC_TYPE_LINE, NULL);
 	go_style = go_styled_object_get_style (GO_STYLED_OBJECT (grs->line));
-	go_style->outline.width = 2.;
-	go_style->outline.color = RGBA_BLACK;
+	go_style->line.width = 2.;
+	go_style->line.color = RGBA_BLACK;
 
 	{
 		int w, h;

@@ -496,27 +496,27 @@ _gog_themes_init (void)
 
 	/* graph */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_NONE;
-	style->outline.width = 0;
-	style->outline.color = RGBA_BLACK;
+	style->line.dash_type = GO_LINE_NONE;
+	style->line.width = 0;
+	style->line.color = RGBA_BLACK;
 	style->fill.type = GO_STYLE_FILL_NONE;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogGraph", NULL);
 
 	/* chart */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_SOLID;
-	style->outline.width = 0; /* hairline */
-	style->outline.color = RGBA_BLACK;
+	style->line.dash_type = GO_LINE_SOLID;
+	style->line.width = 0; /* hairline */
+	style->line.color = RGBA_BLACK;
 	style->fill.type = GO_STYLE_FILL_PATTERN;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogChart", NULL);
 
 	/* Legend */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_SOLID;
-	style->outline.width = 0; /* hairline */
-	style->outline.color = RGBA_BLACK;
+	style->line.dash_type = GO_LINE_SOLID;
+	style->line.width = 0; /* hairline */
+	style->line.color = RGBA_BLACK;
 	style->fill.type = GO_STYLE_FILL_PATTERN;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogLegend", NULL);
@@ -536,22 +536,22 @@ _gog_themes_init (void)
 	/* Grid */
 	style = go_style_new ();
 	style->fill.type  = GO_STYLE_FILL_PATTERN;
-	style->outline.dash_type = GO_LINE_SOLID;
-	style->outline.width = 1.;
-	style->outline.color = 0X848284ff;
+	style->line.dash_type = GO_LINE_SOLID;
+	style->line.width = 1.;
+	style->line.color = 0X848284ff;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_GREY (0xd0));
 	gog_theme_add_element (theme, style, NULL, "GogGrid", NULL);
 
 	/* GridLine */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_SOLID;
+	style->line.dash_type = GO_LINE_SOLID;
 	style->line.width = 0.4; 
 	style->line.color = RGBA_BLACK;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_TO_UINT (0xE0, 0xE0, 0xE0, 0xE0));
 	style->fill.type = GO_STYLE_FILL_NONE;
 	gog_theme_add_element (theme, style, NULL, NULL, "MajorGrid");
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_SOLID;
+	style->line.dash_type = GO_LINE_SOLID;
 	style->line.width = 0.2; 
 	style->line.color = RGBA_BLACK; 
 	go_pattern_set_solid (&style->fill.pattern, RGBA_TO_UINT (0xE0, 0xE0, 0xE0, 0xE0));
@@ -560,9 +560,9 @@ _gog_themes_init (void)
 	
 	/* Series */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_SOLID;
-	style->outline.width = 0; /* hairline */
-	style->outline.color = RGBA_BLACK;
+	style->line.dash_type = GO_LINE_SOLID;
+	style->line.width = 0; /* hairline */
+	style->line.color = RGBA_BLACK;
 	style->fill.type = GO_STYLE_FILL_PATTERN;
 	/* FIXME : not really true, will want to split area from line */
 	gog_theme_add_element (theme, style,
@@ -570,9 +570,9 @@ _gog_themes_init (void)
 
 	/* Chart titles */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_NONE;
-	style->outline.width = 0.;
-	style->outline.color = RGBA_BLACK;
+	style->line.dash_type = GO_LINE_NONE;
+	style->line.width = 0.;
+	style->line.color = RGBA_BLACK;
 	style->fill.type = GO_STYLE_FILL_NONE;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	go_style_set_font_desc (style, pango_font_description_from_string ("Sans Bold 12"));
@@ -580,9 +580,9 @@ _gog_themes_init (void)
 
 	/* labels */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_NONE;
-	style->outline.width = 0.;
-	style->outline.color = RGBA_BLACK;
+	style->line.dash_type = GO_LINE_NONE;
+	style->line.width = 0.;
+	style->line.color = RGBA_BLACK;
 	style->fill.type = GO_STYLE_FILL_NONE;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	go_style_set_font_desc (style, pango_font_description_from_string ("Sans 10"));
@@ -600,9 +600,9 @@ _gog_themes_init (void)
 
 	/* regression equations */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_SOLID;
-	style->outline.width = 0; /* hairline */
-	style->outline.color = RGBA_BLACK;
+	style->line.dash_type = GO_LINE_SOLID;
+	style->line.width = 0; /* hairline */
+	style->line.color = RGBA_BLACK;
 	style->fill.type = GO_STYLE_FILL_PATTERN;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style,
@@ -611,9 +611,9 @@ _gog_themes_init (void)
 #ifdef GOFFICE_WITH_LASEM
 	/* Equations */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_NONE;
-	style->outline.width = 0; /* hairline */
-	style->outline.color = RGBA_BLACK;
+	style->line.dash_type = GO_LINE_NONE;
+	style->line.width = 0; /* hairline */
+	style->line.color = RGBA_BLACK;
 	style->fill.type = GO_STYLE_FILL_NONE;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	go_style_set_font_desc (style, pango_font_description_from_string ("Sans 10"));
@@ -632,9 +632,9 @@ _gog_themes_init (void)
 
 	/* graph */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_NONE;
-	style->outline.width = 0; 
-	style->outline.color = RGBA_BLACK; 
+	style->line.dash_type = GO_LINE_NONE;
+	style->line.width = 0; 
+	style->line.color = RGBA_BLACK; 
 	style->fill.type = GO_STYLE_FILL_GRADIENT;
 	style->fill.gradient.dir   = GO_GRADIENT_N_TO_S;
 	style->fill.pattern.fore = RGBA_BLUE;
@@ -643,18 +643,18 @@ _gog_themes_init (void)
 
 	/* chart */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_SOLID;
-	style->outline.width = 0; /* hairline */
-	style->outline.color = RGBA_BLACK;
+	style->line.dash_type = GO_LINE_SOLID;
+	style->line.width = 0; /* hairline */
+	style->line.color = RGBA_BLACK;
 	style->fill.type = GO_STYLE_FILL_PATTERN;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogChart", NULL);
 
 	/* legend */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_SOLID;
-	style->outline.width = 0; /* hairline */
-	style->outline.color = RGBA_BLACK;
+	style->line.dash_type = GO_LINE_SOLID;
+	style->line.width = 0; /* hairline */
+	style->line.color = RGBA_BLACK;
 	style->fill.type = GO_STYLE_FILL_PATTERN;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogLegend", NULL);
@@ -676,9 +676,9 @@ _gog_themes_init (void)
 	/* Grid */
 	style = go_style_new ();
 	style->fill.type  = GO_STYLE_FILL_PATTERN;
-	style->outline.dash_type = GO_LINE_NONE;
-	style->outline.color = RGBA_BLACK;
-	style->outline.width = 0;
+	style->line.dash_type = GO_LINE_NONE;
+	style->line.color = RGBA_BLACK;
+	style->line.width = 0;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_GREY (0xd0));
 	gog_theme_add_element (theme, style, NULL, "GogGrid", NULL);
 
@@ -700,9 +700,9 @@ _gog_themes_init (void)
 	
 	/* series */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_SOLID;
-	style->outline.width = 0.; /* hairline */
-	style->outline.color = RGBA_BLACK;
+	style->line.dash_type = GO_LINE_SOLID;
+	style->line.width = 0.; /* hairline */
+	style->line.color = RGBA_BLACK;
 	style->fill.type = GO_STYLE_FILL_PATTERN;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_GREY (0x20));
 	/* FIXME : not really true, will want to split area from line */
@@ -711,9 +711,9 @@ _gog_themes_init (void)
 
 	/* labels */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_NONE;
-	style->outline.width = 0; /* none */
-	style->outline.color = RGBA_BLACK;
+	style->line.dash_type = GO_LINE_NONE;
+	style->line.width = 0; /* none */
+	style->line.color = RGBA_BLACK;
 	style->fill.type = GO_STYLE_FILL_NONE;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogLabel", NULL);
@@ -730,9 +730,9 @@ _gog_themes_init (void)
 
 	/* regression equations */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_SOLID;
-	style->outline.width = 0; /* hairline */
-	style->outline.color = RGBA_BLACK;
+	style->line.dash_type = GO_LINE_SOLID;
+	style->line.width = 0; /* hairline */
+	style->line.color = RGBA_BLACK;
 	style->fill.type = GO_STYLE_FILL_PATTERN;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style,
@@ -741,9 +741,9 @@ _gog_themes_init (void)
 #ifdef GOFFICE_WITH_LASEM
 	/* Equations */
 	style = go_style_new ();
-	style->outline.dash_type = GO_LINE_NONE;
-	style->outline.width = 0; /* hairline */
-	style->outline.color = RGBA_BLACK;
+	style->line.dash_type = GO_LINE_NONE;
+	style->line.width = 0; /* hairline */
+	style->line.color = RGBA_BLACK;
 	style->fill.type = GO_STYLE_FILL_NONE;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	go_style_set_font_desc (style, pango_font_description_from_string ("Sans 10"));

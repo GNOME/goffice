@@ -184,7 +184,7 @@ goc_pixbuf_draw (GocItem const *item, cairo_t *cr)
 	int x;
 	cairo_matrix_t mat;
 
-	if (pixbuf->pixbuf == NULL)
+	if (pixbuf->pixbuf == NULL || pixbuf->width == 0. || pixbuf->height == 0.)
 		return;
 
 	image = go_image_new_from_pixbuf (pixbuf->pixbuf);

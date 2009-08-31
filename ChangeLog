@@ -1,3 +1,9 @@
+2009-08-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* all files: deprecate GOStyle::outline. [#593608]
+	* goffice/canvas/goc-pixbuf.c (goc_pixbuf_draw): don't display a null sized
+	pixbuf item.
+
 2009-08-30  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-item.c (goc_item_new): Keep track of realize.

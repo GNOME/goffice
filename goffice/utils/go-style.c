@@ -159,7 +159,7 @@ go_style_set_image_preview (GOImage *pix, StylePrefState *state)
 static void
 cb_outline_dash_type_changed (GOSelector *selector, StylePrefState const *state)
 {
-	GOStyleLine *line = &state->style->outline;
+	GOStyleLine *line = &state->style->line;
 
 	line->dash_type = go_selector_get_active (selector, &line->auto_dash);
 	set_style (state);
@@ -172,7 +172,7 @@ cb_outline_size_changed (GtkAdjustment *adj, StylePrefState *state)
 
 	g_return_if_fail (style != NULL);
 
-	style->outline.width = go_rint (adj->value * 100.) / 100.;
+	style->line.width = go_rint (adj->value * 100.) / 100.;
 	set_style (state);
 }
 
@@ -184,8 +184,8 @@ cb_outline_color_changed (GOSelector *selector,
 
 	g_return_if_fail (style != NULL);
 
-	style->outline.color = go_color_selector_get_color (selector, 
-							    &style->outline.auto_color);
+	style->line.color = go_color_selector_get_color (selector, 
+							    &style->line.auto_color);
 	set_style (state);
 }
 
@@ -207,20 +207,20 @@ outline_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 	table = go_gtk_builder_get_widget (state->gui, "outline_table");
 
 	/* DashType */
-	w = go_line_dash_selector_new (style->outline.dash_type,
-				       default_style->outline.dash_type);
+	w = go_line_dash_selector_new (style->line.dash_type,
+				       default_style->line.dash_type);
 	gtk_table_attach (GTK_TABLE (table), w, 1, 3, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	g_signal_connect (G_OBJECT (w), "activate", 
 			  G_CALLBACK (cb_outline_dash_type_changed), state);
 	/* Size */
 	w = go_gtk_builder_get_widget (state->gui, "outline_size_spin");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), style->outline.width);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), style->line.width);
 	g_signal_connect (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w)),
 		"value_changed",
 		G_CALLBACK (cb_outline_size_changed), state);
 	/* Color */
 	w = create_go_combo_color (state,
-		style->outline.color, default_style->outline.color,
+		style->line.color, default_style->line.color,
 		state->gui,
 		"outline_color", "outline_color_label",
 		G_CALLBACK (cb_outline_color_changed));
@@ -1066,7 +1066,6 @@ go_style_assign (GOStyle *dst, GOStyle const *src)
 	if (dst->font.font != NULL)
 		go_font_unref (dst->font.font);
 
-	dst->outline = src->outline;
 	dst->fill    = src->fill;
 	dst->line    = src->line;
 	if (dst->marker.mark)
@@ -1101,10 +1100,6 @@ go_style_apply_theme (GOStyle *dst, GOStyle const *src)
 	g_return_if_fail (GO_IS_STYLE (src));
 	g_return_if_fail (GO_IS_STYLE (dst));
 
-	if (dst->outline.auto_dash)
-		dst->outline.dash_type = src->outline.dash_type;
-	if (dst->outline.auto_color)
-		dst->outline.color = src->outline.color;
 	if (dst->fill.auto_type)
 		dst->fill.type = src->fill.type;
 	if (dst->fill.auto_fore)
@@ -1621,7 +1616,7 @@ go_style_persist_dom_load (GOPersist *gp, xmlNode *node)
 		if (xmlIsBlankNode (ptr) || ptr->name == NULL)
 			continue;
 		if (strcmp (ptr->name, "outline") == 0)
-			go_style_line_load (ptr, &style->outline);
+			go_style_line_load (ptr, &style->line);
 		else if (strcmp (ptr->name, "line") == 0)
 			go_style_line_load (ptr, &style->line);
 		else if (strcmp (ptr->name, "fill") == 0)
@@ -1640,7 +1635,7 @@ static void
 go_style_sax_load_line (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GOStyle *style = GO_STYLE (xin->user_state);
-	GOStyleLine *line = xin->node->user_data.v_int ? &style->outline : &style->line;
+	GOStyleLine *line = &style->line;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "dash"))
@@ -1784,7 +1779,7 @@ go_style_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
 		G_OBJECT_TYPE_NAME (style));
 
 	if (style->interesting_fields & GO_STYLE_OUTLINE)
-		go_style_line_sax_save (output, "outline", &style->outline);
+		go_style_line_sax_save (output, "outline", &style->line);
 	if (style->interesting_fields & GO_STYLE_LINE)
 		go_style_line_sax_save (output, "line", &style->line);
 	if (style->interesting_fields & GO_STYLE_FILL)
@@ -1867,8 +1862,7 @@ go_style_is_different_size (GOStyle const *a, GOStyle const *b)
 {
 	if (a == NULL || b == NULL)
 		return TRUE;
-	return	a->outline.dash_type != b->outline.dash_type ||
-		a->outline.width != b->outline.width ||
+	return	a->line.dash_type != b->line.dash_type ||
 		a->line.width != b->line.width ||
 		a->fill.type != b->fill.type ||
 		a->text_layout.angle != b->text_layout.angle ||
@@ -1891,8 +1885,8 @@ go_style_is_outline_visible (GOStyle const *style)
 	g_return_val_if_fail (GO_IS_STYLE (style), FALSE);
 
 	/* FIXME FIXME FIXME make this smarter */
-	return UINT_RGBA_A (style->outline.color) > 0 && 
-		style->outline.dash_type != GO_LINE_NONE;
+	return UINT_RGBA_A (style->line.color) > 0 && 
+		style->line.dash_type != GO_LINE_NONE;
 }
 
 gboolean
@@ -1924,8 +1918,6 @@ go_style_force_auto (GOStyle *style)
 	style->marker.auto_shape =
 	style->marker.auto_outline_color =
 	style->marker.auto_fill_color =
-	style->outline.auto_dash =
-	style->outline.auto_color =
 	style->line.auto_dash =
 	style->line.auto_color =
 	style->fill.auto_type =

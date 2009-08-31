@@ -920,14 +920,14 @@ graph_guru_init_format_page (GraphGuruState *s)
 						      GOC_TYPE_RECTANGLE,
 						      NULL);
 	style= go_styled_object_get_style (GO_STYLED_OBJECT (s->sample_graph_shadow));
-	style->outline.width = 2;
-	style->outline.color = 0xa0a0a0ff;	/* grey */
+	style->line.width = 2;
+	style->line.color = 0xa0a0a0ff;	/* grey */
 	s->sample_graph_frame = goc_item_new (goc_canvas_get_root (GOC_CANVAS (canvas)),
 						     GOC_TYPE_RECTANGLE,
 						     NULL);
 	style= go_styled_object_get_style (GO_STYLED_OBJECT (s->sample_graph_frame));
-	style->outline.width = 1;
-	style->outline.color = 0x707070ff;	/* grey */
+	style->line.width = 1;
+	style->line.color = 0x707070ff;	/* grey */
 	style->fill.pattern.back = 0xffffffff;	/* white */
 	s->sample_graph_item = goc_item_new (goc_canvas_get_root (GOC_CANVAS (canvas)),
 						    GOC_TYPE_GRAPH,
@@ -1185,8 +1185,8 @@ graph_guru_type_selector_new (GraphGuruState *s)
 		GOC_TYPE_RECTANGLE,
 		NULL);
 	style= go_styled_object_get_style (GO_STYLED_OBJECT (typesel->selector));
-	style->outline.width = 1;
-	style->outline.color = 0x000000ff;	/* black */
+	style->line.width = 1;
+	style->line.color = 0x000000ff;	/* black */
 	typesel_set_selection_color (typesel);
 
 	/* Setup the description label */

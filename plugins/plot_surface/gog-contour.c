@@ -469,7 +469,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 			} while (k != r);
 			if (zmin == zmax) {
 				/* paint everything with one color*/
-				style->outline.color = color[zmin];
+				style->line.color = color[zmin];
 				style->fill.pattern.back = color[zmin];
 				gog_renderer_push_style (rend, style);
 				go_path_move_to (path, x[0], y[0]);
@@ -516,7 +516,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 					/* low values slices */
 					if (z[0] < zn) {
 						k = z[0];
-						style->outline.color = color[k];
+						style->line.color = color[k];
 						style->fill.pattern.back = color[k];
 						k++;
 						go_path_move_to (path, x[0], y[0]);
@@ -536,7 +536,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						gog_renderer_pop_style (rend);
 						while (k < zn) {
 
-							style->outline.color = color[k];
+							style->line.color = color[k];
 							style->fill.pattern.back = color[k];
 							k++;
 							go_path_move_to (path, xl[7], yl[7]);
@@ -562,7 +562,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						xl[0] = xl[7] = -1.;
 					if (z[2] < zn) {
 						k = z[2];
-						style->outline.color = color[k];
+						style->line.color = color[k];
 						style->fill.pattern.back = color[k];
 						k++;
 						go_path_move_to (path, x[2], y[2]);
@@ -581,7 +581,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						go_path_clear (path);
 						gog_renderer_pop_style (rend);
 						while (k < zn) {
-							style->outline.color = color[k];
+							style->line.color = color[k];
 							style->fill.pattern.back = color[k];
 							k++;
 							go_path_move_to (path, xl[3], yl[3]);
@@ -621,7 +621,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						yl[2] = y[1] + t * (y[2] - y[1]);
 						go_path_line_to (path, xl[2], yl[2]);
 						go_path_line_to (lines, xl[2], yl[2]);
-						style->outline.color = color[k];
+						style->line.color = color[k];
 						style->fill.pattern.back = color[k];
 						gog_renderer_push_style (rend, style);
 						gog_renderer_fill_shape (rend, path);
@@ -643,7 +643,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							go_path_line_to (path, xl[2], yl[2]);
 							go_path_line_to (lines, xl[2], yl[2]);
 							go_path_line_to (path, xc, yc);
-							style->outline.color = color[k];
+							style->line.color = color[k];
 							style->fill.pattern.back = color[k];
 							gog_renderer_push_style (rend, style);
 							gog_renderer_fill_shape (rend, path);
@@ -668,7 +668,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						yl[6] = y[3] + t * (y[0] - y[3]);
 						go_path_line_to (path, xl[6], yl[6]);
 						go_path_line_to (lines, xl[6], yl[6]);
-						style->outline.color = color[k];
+						style->line.color = color[k];
 						style->fill.pattern.back = color[k];
 						gog_renderer_push_style (rend, style);
 						gog_renderer_fill_shape (rend, path);
@@ -690,7 +690,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							go_path_line_to (path, xl[6], yl[6]);
 							go_path_line_to (lines, xl[6], yl[6]);
 							go_path_line_to (path, xc, yc);
-							style->outline.color = color[k];
+							style->line.color = color[k];
 							style->fill.pattern.back = color[k];
 							gog_renderer_push_style (rend, style);
 							gog_renderer_fill_shape (rend, path);
@@ -731,7 +731,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							go_path_line_to (path, xb[0], yb[0]);
 							if (xl[0] >= 0.)
 								go_path_line_to (path, xl[0], yl[0]);
-							style->outline.color = color[zn];
+							style->line.color = color[zn];
 							style->fill.pattern.back = color[zn];
 							gog_renderer_push_style (rend, style);
 							gog_renderer_fill_shape (rend, path);
@@ -757,7 +757,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							go_path_line_to (path, xb[1], yb[1]);
 							if (xl[2] >= 0.)
 								go_path_line_to (path, xl[2], yl[2]);
-							style->outline.color = color[zx];
+							style->line.color = color[zx];
 							style->fill.pattern.back = color[zx];
 							gog_renderer_push_style (rend, style);
 							gog_renderer_fill_shape (rend, path);
@@ -798,7 +798,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 								go_path_line_to (path, xl[2], yl[2]);
 								if (xc >= 0.)
 									go_path_line_to (path, xc, yc);
-								style->outline.color = color[zx];
+								style->line.color = color[zx];
 								style->fill.pattern.back = color[zx];
 								gog_renderer_push_style (rend, style);
 								gog_renderer_fill_shape (rend, path);
@@ -848,7 +848,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 								go_path_line_to (path, xl[0], yl[0]);
 								if (xc >= 0.)
 									go_path_line_to (path, xc, yc);
-								style->outline.color = color[zn];
+								style->line.color = color[zn];
 								style->fill.pattern.back = color[zn];
 								gog_renderer_push_style (rend, style);
 								gog_renderer_fill_shape (rend, path);
@@ -891,7 +891,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 								} else
 									go_path_line_to (path, xl[s], yl[s]);
 							}
-							style->outline.color = color[zn];
+							style->line.color = color[zn];
 							style->fill.pattern.back = color[zn];
 							gog_renderer_push_style (rend, style);
 							gog_renderer_fill_shape (rend, path);
@@ -911,7 +911,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 							} else
 								go_path_line_to (path, xl[s], yl[s]);
 						}
-						style->outline.color = color[zx];
+						style->line.color = color[zx];
 						style->fill.pattern.back = color[zx];
 						gog_renderer_push_style (rend, style);
 						gog_renderer_fill_shape (rend, path);
@@ -929,7 +929,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 					s = 0;
 					r = kmax;
 					while (zmin < zmax) {
-						style->outline.color = color[zmin];
+						style->line.color = color[zmin];
 						style->fill.pattern.back = color[zmin];
 						gog_renderer_push_style (rend, style);
 						while (z[k] <= zmin && k < kmax) {
@@ -1013,7 +1013,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 						go_path_line_to (path, x[k], y[k]);
 						k++;
 					}
-					style->outline.color = color[zmin];
+					style->line.color = color[zmin];
 					style->fill.pattern.back = color[zmin];
 					gog_renderer_push_style (rend, style);
 					gog_renderer_fill_shape (rend, path);

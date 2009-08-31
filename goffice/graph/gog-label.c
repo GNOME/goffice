@@ -471,7 +471,7 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_renderer_push_style (view->renderer, style);
 	if (str != NULL) {
 		double outline = gog_renderer_line_size (view->renderer, 
-							 goo->base.style->outline.width);
+							 goo->base.style->line.width);
 		if (style->fill.type != GO_STYLE_FILL_NONE || outline > 0.) {
 			GogViewAllocation rect;
 			GOGeometryAABR aabr;

@@ -88,7 +88,7 @@ struct _GOStyle {
 	GOStyleFlag	interesting_fields;
 	GOStyleFlag	disable_theming;
 
-	union {GOStyleLine	outline, line;};
+	GOStyleLine	line;
 	struct {
 		GOStyleFill	type;
 		gboolean	auto_type;

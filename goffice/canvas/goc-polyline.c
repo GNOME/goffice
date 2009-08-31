@@ -120,7 +120,7 @@ goc_polyline_distance (GocItem *item, double x, double y, GocItem **near_item)
 	GocPolyline *polyline = GOC_POLYLINE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	/* FIXME: implement the use_spline case */
-	double extra_width = (style->outline.width)? style->outline.width /2.: .5;
+	double extra_width = (style->line.width)? style->line.width /2.: .5;
 	double dx, dy, l, startx, starty, x_, y_, t, res;
 	unsigned i;
 

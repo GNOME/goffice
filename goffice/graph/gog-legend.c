@@ -386,10 +386,8 @@ cb_swatch_scale (unsigned i, GOStyle const *style, char const *name,
 	if (data->size_min > size)
 		data->size_min = size;
 
-	if (style->interesting_fields & GO_STYLE_LINE)
+	if (style->interesting_fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE))
 		line = &style->line;
-	else if (style->interesting_fields & GO_STYLE_OUTLINE)
-		line = &style->outline;
 
 	if (line == NULL ||
 	    line->width <= data->hairline_width)
@@ -474,9 +472,9 @@ cb_render_elements (unsigned index, GOStyle const *base_style, char const *name,
 		gog_renderer_draw_marker (renderer, data->x + data->swatch.w  * GLV_LINE_LENGTH_EM * 0.5, y);
 	} else {					/* area swatch */
 		style = go_style_dup (base_style);
-		if (style->outline.width > data->hairline_width)
-			style->outline.width =
-				0.5 * (data->hairline_width + style->outline.width) * data->line_scale_a +
+		if (style->line.width > data->hairline_width)
+			style->line.width =
+				0.5 * (data->hairline_width + style->line.width) * data->line_scale_a +
 				data->line_scale_b;
 
 		rectangle = data->swatch;

@@ -590,7 +590,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	separation_max = .0;
 	outline_width_max = .0;
 	if ((style = go_styled_object_get_style (GO_STYLED_OBJECT (series))))
-		outline_width_max = gog_renderer_line_size (view->renderer, style->outline.width);
+		outline_width_max = gog_renderer_line_size (view->renderer, style->line.width);
 	for (overrides = gog_series_get_overrides (GOG_SERIES (series));
 	     overrides != NULL;
 	     overrides = overrides->next) {
@@ -598,8 +598,8 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (separation_max < separation)
 			separation_max = separation;
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (overrides->data));
-		if (outline_width_max < style->outline.width)
-			outline_width_max = style->outline.width;
+		if (outline_width_max < style->line.width)
+			outline_width_max = style->line.width;
 	}
 	if (separation_max < -model->default_separation)
 		separation_max = -model->default_separation;

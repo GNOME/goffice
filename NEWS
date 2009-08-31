@@ -1,5 +1,8 @@
 goffice 0.7.11:
 
+Jean:
+	* Deprecated GOStyle::outline. [#593608]
+
 Morten:
 	* Fix canvas item realize/unrealize problems.  [#593593]
 

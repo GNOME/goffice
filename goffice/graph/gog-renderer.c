@@ -79,7 +79,6 @@ struct _GogRenderer {
 	GSList   *style_stack;
 
 	GOLineDashSequence 	*line_dash;
-	GOLineDashSequence 	*outline_dash;
 
 	GOStyle 	*grip_style;
 	GOStyle 	*selection_style;
@@ -144,16 +143,12 @@ _update_dash (GogRenderer *rend)
 
 	go_line_dash_sequence_free (rend->line_dash);
 	rend->line_dash = NULL;
-	go_line_dash_sequence_free (rend->outline_dash);
-	rend->outline_dash = NULL;
 
 	if (rend->cur_style == NULL)
 		return;
 
 	size = _line_size (rend, rend->cur_style->line.width, FALSE);
 	rend->line_dash = go_line_dash_get_sequence (rend->cur_style->line.dash_type, size);
-	size = _line_size (rend, rend->cur_style->outline.width, FALSE);
-	rend->outline_dash = go_line_dash_get_sequence (rend->cur_style->outline.dash_type, size);
 }
 
 double
@@ -206,39 +201,6 @@ emit_line (GogRenderer *rend, gboolean preserve, GOPathOptions options)
 		cairo_set_dash (cr, NULL, 0, 0);
 
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
-	cairo_set_line_cap (cr, (width <= 2.0 && !rend->is_vector) ?
-			    CAIRO_LINE_CAP_SQUARE : CAIRO_LINE_CAP_ROUND);
-
-	if (preserve)
-		cairo_stroke_preserve (cr);
-	else
-		cairo_stroke (cr);
-}
-
-static void
-emit_outline (GogRenderer *rend, gboolean preserve, GOPathOptions options)
-{
-	GOStyle const *style = rend->cur_style;
-	cairo_t *cr = rend->cairo;
-	double width;
-
-	if (!go_style_is_outline_visible (style)) {
-		if (!preserve)
-			cairo_new_path (cr);
-		return;
-	}
-
-	width = _grc_line_size (rend, style->outline.width, options & GO_PATH_OPTIONS_SNAP_WIDTH);
-	cairo_set_line_width (cr, width);
-	if (rend->outline_dash != NULL)
-		cairo_set_dash (cr,
-				rend->outline_dash->dash,
-				rend->outline_dash->n_dash,
-				rend->outline_dash->offset);
-	else
-		cairo_set_dash (cr, NULL, 0, 0);
-
-	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->outline.color));
 	cairo_set_line_cap (cr, (width <= 2.0 && !rend->is_vector) ?
 			    CAIRO_LINE_CAP_SQUARE : CAIRO_LINE_CAP_ROUND);
 
@@ -435,7 +397,6 @@ gog_renderer_stroke_serie (GogRenderer *renderer,
 {
 	GOStyle const *style;
 	GOPathOptions line_options;
-	gboolean is_outline;
 	double width;
 
 	g_return_if_fail (GOG_IS_RENDERER (renderer));
@@ -443,18 +404,14 @@ gog_renderer_stroke_serie (GogRenderer *renderer,
 	g_return_if_fail (GO_IS_PATH (path));
 
         style = renderer->cur_style;
-	is_outline = style->interesting_fields & GO_STYLE_OUTLINE;
 	line_options = go_path_get_options (path);
 	width = _grc_line_size (renderer,
-				is_outline ?  style->outline.width : style->line.width,
+				style->line.width,
 				line_options & GO_PATH_OPTIONS_SNAP_WIDTH);
 
 	if (go_style_is_line_visible (style)) {
 		path_interpret (renderer, path, width);
-		if (is_outline)
-			emit_outline (renderer, FALSE, go_path_get_options (path));
-		else
-			emit_line (renderer, FALSE, go_path_get_options (path));
+		emit_line (renderer, FALSE, go_path_get_options (path));
 	}
 }
 
@@ -483,17 +440,15 @@ _draw_shape (GogRenderer *renderer, GOPath const *path, gboolean fill, gboolean 
 	GOStyle const *style;
 	GOPathOptions line_options;
 	double width;
-	gboolean use_outline;
 
 	g_return_if_fail (GOG_IS_RENDERER (renderer));
 	g_return_if_fail (renderer->cur_style != NULL);
 	g_return_if_fail (GO_IS_PATH (path));
 
         style = renderer->cur_style;
-	use_outline = style->interesting_fields & GO_STYLE_OUTLINE;
 
 	line_options = go_path_get_options (path);
-	width = stroke ? _grc_line_size (renderer, use_outline ? style->outline.width : style->line.width,
+	width = stroke ? _grc_line_size (renderer, style->line.width,
 					 line_options & GO_PATH_OPTIONS_SNAP_WIDTH) : 0;
 
 	path_interpret (renderer, path, width);
@@ -501,12 +456,8 @@ _draw_shape (GogRenderer *renderer, GOPath const *path, gboolean fill, gboolean 
 	if (fill)
 		emit_fill (renderer, stroke);
 
-	if (stroke) {
-		if (use_outline)
-			emit_outline (renderer, FALSE, go_path_get_options (path));
-		else
-			emit_line (renderer, FALSE, go_path_get_options (path));
-	}
+	if (stroke)
+		emit_line (renderer, FALSE, go_path_get_options (path));
 }
 
 void
@@ -615,7 +566,7 @@ _draw_circle (GogRenderer *rend, double x, double y, double r, gboolean fill, gb
 	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 
 	if (!narrow) {
-		o = gog_renderer_line_size (rend, style->outline.width);
+		o = gog_renderer_line_size (rend, style->line.width);
 		o_2 = o / 2.;
 	} else
 		o = o_2 = 0.;
@@ -672,7 +623,7 @@ _draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect, gboolean fill
 	go_path_set_options (path, GO_PATH_OPTIONS_SHARP);
 
 	if (!narrow) {
-		o = gog_renderer_line_size (rend, style->outline.width);
+		o = gog_renderer_line_size (rend, style->line.width);
 		o_2 = o / 2.;
 	} else
 		o = o_2 = 0.;
@@ -720,9 +671,9 @@ gog_renderer_draw_grip (GogRenderer *renderer, double x, double y)
 		GOStyle *style;
 
 		style = go_style_new ();
-		style->outline.dash_type = GO_LINE_SOLID;
-		style->outline.width = 0.0;
-		style->outline.color =
+		style->line.dash_type = GO_LINE_SOLID;
+		style->line.width = 0.0;
+		style->line.color =
 		style->fill.pattern.back = 0xff000080;
 		style->fill.pattern.pattern = GO_PATTERN_SOLID;
 		style->fill.type = GO_STYLE_FILL_PATTERN;
@@ -749,9 +700,9 @@ gog_renderer_draw_selection_rectangle (GogRenderer *renderer, GogViewAllocation 
 		GOStyle *style;
 
 		style = go_style_new ();
-		style->outline.dash_type = GO_LINE_DOT;
-		style->outline.width = 0.0;
-		style->outline.color = 0x0000ffB0;
+		style->line.dash_type = GO_LINE_DOT;
+		style->line.width = 0.0;
+		style->line.color = 0x0000ffB0;
 		style->fill.type = GO_STYLE_FILL_NONE;
 		style->interesting_fields = GO_STYLE_OUTLINE;
 
@@ -1449,7 +1400,6 @@ gog_renderer_init (GogRenderer *rend)
 	rend->is_vector = FALSE;
 
 	rend->line_dash = NULL;
-	rend->outline_dash = NULL;
 
 	rend->needs_update = FALSE;
 	rend->cur_style    = NULL;
@@ -1483,8 +1433,6 @@ gog_renderer_finalize (GObject *obj)
 
 	go_line_dash_sequence_free (rend->line_dash);
 	rend->line_dash = NULL;
-	go_line_dash_sequence_free (rend->outline_dash);
-	rend->outline_dash = NULL;
 
 	if (rend->grip_style != NULL) {
 		g_object_unref (rend->grip_style);

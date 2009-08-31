@@ -88,7 +88,7 @@ goc_polygon_update_bounds (GocItem *item)
 {
 	GocPolygon *polygon = GOC_POLYGON (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	double extra_width = style->outline.width;
+	double extra_width = style->line.width;
 	unsigned i;
 	if (extra_width <= 0.)
 		extra_width = 1.;
@@ -119,7 +119,7 @@ goc_polygon_distance (GocItem *item, double x, double y, GocItem **near_item)
 	GocPolygon *polygon = GOC_POLYGON (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	/* FIXME: implement the use_spline case */
-	double extra_width = (style->outline.width)? style->outline.width /2.: .5;
+	double extra_width = (style->line.width)? style->line.width /2.: .5;
 	double dx, dy, l, startx, starty, x_, y_, t, res = 0.;
 	int i, n;
 
@@ -202,10 +202,10 @@ static void
 goc_polygon_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 {
 	style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
-	if (style->outline.auto_dash)
-		style->outline.dash_type = GO_LINE_SOLID;
-	if (style->outline.auto_color)
-		style->outline.color = RGBA_BLACK;
+	if (style->line.auto_dash)
+		style->line.dash_type = GO_LINE_SOLID;
+	if (style->line.auto_color)
+		style->line.color = RGBA_BLACK;
 	if (style->fill.auto_type)
 		style->fill.type  = GO_STYLE_FILL_PATTERN;
 	if (style->fill.auto_fore)

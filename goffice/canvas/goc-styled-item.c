@@ -240,12 +240,12 @@ goc_styled_item_set_cairo_line  (GocStyledItem const *gsi, cairo_t *cr)
 
 	/* scale the line width */
 	if (gsi->scale_line_width) {
-		width = gsi->style->outline.width;
-		gsi->style->outline.width *= goc_canvas_get_pixels_per_unit (GOC_ITEM (gsi)->canvas);
+		width = gsi->style->line.width;
+		gsi->style->line.width *= goc_canvas_get_pixels_per_unit (GOC_ITEM (gsi)->canvas);
 	}	
 	result = go_styled_object_set_cairo_line (GO_STYLED_OBJECT (gsi), cr);
 	/* restore the line width */
 	if (gsi->scale_line_width)
-		gsi->style->outline.width = width;
+		gsi->style->line.width = width;
 	return result;
 }

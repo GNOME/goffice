@@ -89,8 +89,8 @@ goc_circle_distance (GocItem *item, double x, double y, GocItem **near_item)
 	GocCircle *circle = GOC_CIRCLE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double d, extra_dist = 0.;
-	if (style->outline.dash_type != GO_LINE_NONE)
-		extra_dist = (style->outline.width)? style->outline.width / 2.: .5;
+	if (style->line.dash_type != GO_LINE_NONE)
+		extra_dist = (style->line.width)? style->line.width / 2.: .5;
 	*near_item = item;
 	x -= circle->x;
 	y -= circle->y;
@@ -125,8 +125,8 @@ goc_circle_update_bounds (GocItem *item)
 	GocCircle *circle = GOC_CIRCLE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double r = circle->radius;
-	if (style->outline.dash_type != GO_LINE_NONE)
-		r += (style->outline.width)? style->outline.width / 2.: .5;
+	if (style->line.dash_type != GO_LINE_NONE)
+		r += (style->line.width)? style->line.width / 2.: .5;
 	item->x0 = circle->x - r;
 	item->y0 = circle->y - r;
 	item->x1 = circle->x + r;
@@ -137,10 +137,10 @@ static void
 goc_circle_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 {
 	style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
-	if (style->outline.auto_dash)
-		style->outline.dash_type = GO_LINE_SOLID;
-	if (style->outline.auto_color)
-		style->outline.color = RGBA_BLACK;
+	if (style->line.auto_dash)
+		style->line.dash_type = GO_LINE_SOLID;
+	if (style->line.auto_color)
+		style->line.color = RGBA_BLACK;
 	if (style->fill.auto_type)
 		style->fill.type  = GO_STYLE_FILL_PATTERN;
 	if (style->fill.auto_fore)

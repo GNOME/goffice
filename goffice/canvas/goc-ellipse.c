@@ -106,7 +106,7 @@ goc_ellipse_update_bounds (GocItem *item)
 	GocEllipse *ellipse = GOC_ELLIPSE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	/* FIXME: take rotation into account */
-	double extra_width = style->outline.width /2.;
+	double extra_width = style->line.width /2.;
 	if (extra_width <= 0.)
 		extra_width = .5;
 	item->x0 = ellipse->x - extra_width;
@@ -123,7 +123,7 @@ goc_ellipse_distance (GocItem *item, double x, double y, GocItem **near_item)
 	/* FIXME: take rotation into account */
 	/* FIXME: we just consider that a point inside the ellipse is at distance 0
 	 even if the ellipse is not filled */
-	double extra_width = (style->outline.width)? style->outline.width /2.: .5;
+	double extra_width = (style->line.width)? style->line.width /2.: .5;
 	double last = G_MAXDOUBLE, df, d2f, t, cs, sn,
 		a = ellipse->width / 2, b = ellipse->height / 2,
 		c = a * a - b * b;
@@ -190,10 +190,10 @@ static void
 goc_ellipse_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 {
 	style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
-	if (style->outline.auto_dash)
-		style->outline.dash_type = GO_LINE_SOLID;
-	if (style->outline.auto_color)
-		style->outline.color = RGBA_BLACK;
+	if (style->line.auto_dash)
+		style->line.dash_type = GO_LINE_SOLID;
+	if (style->line.auto_color)
+		style->line.color = RGBA_BLACK;
 	if (style->fill.auto_type)
 		style->fill.type  = GO_STYLE_FILL_PATTERN;
 	if (style->fill.auto_fore)

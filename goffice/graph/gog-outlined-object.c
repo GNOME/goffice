@@ -105,7 +105,7 @@ gog_outlined_view_size_request (GogView *v,
 {
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (v->model);
 	double outline = gog_renderer_line_size (v->renderer, 
-						 goo->base.style->outline.width);
+						 goo->base.style->line.width);
 	double is_outline_visible = go_style_is_outline_visible (goo->base.style);
 
 	if (goo->base.style->fill.type != GO_STYLE_FILL_NONE || is_outline_visible) {
@@ -122,7 +122,7 @@ gog_outlined_view_size_allocate (GogView *v, GogViewAllocation const *a)
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (v->model);
 	GogViewAllocation res = *a;
 	double outline = gog_renderer_line_size (v->renderer, 
-						 goo->base.style->outline.width);
+						 goo->base.style->line.width);
 	double is_outline_visible = go_style_is_outline_visible (goo->base.style);
 
 	/* We only need internal padding if there is an outline or a pattern */

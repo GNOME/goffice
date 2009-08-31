@@ -106,7 +106,7 @@ goc_rectangle_update_bounds (GocItem *item)
 	GocRectangle *rect = GOC_RECTANGLE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	/* FIXME: take rotation into account */
-	double extra_width = style->outline.width /2.;
+	double extra_width = style->line.width /2.;
 	if (extra_width <= 0.)
 		extra_width = .5;
 	item->x0 = rect->x - extra_width;
@@ -121,7 +121,7 @@ goc_rectangle_distance (GocItem *item, double x, double y, GocItem **near_item)
 	GocRectangle *rect = GOC_RECTANGLE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	/* FIXME: take rotation into account */
-	double extra_width = (style->outline.width)? style->outline.width /2.: .5;
+	double extra_width = (style->line.width)? style->line.width /2.: .5;
 	double dx, dy;
 	if (x < rect->x - extra_width) {
 		dx = rect->x - extra_width - x;
@@ -145,7 +145,7 @@ static void
 goc_rectangle_draw (GocItem const *item, cairo_t *cr)
 {
 	GocRectangle *rect = GOC_RECTANGLE (item);
-	double hoffs, voffs = ceil (go_styled_object_get_style (GO_STYLED_OBJECT (item))->outline.width);
+	double hoffs, voffs = ceil (go_styled_object_get_style (GO_STYLED_OBJECT (item))->line.width);
 	if (voffs <= 0.)
 		voffs = 1.;
 	hoffs = ((int) voffs & 1)? .5: 0.;
@@ -171,10 +171,10 @@ static void
 goc_rectangle_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 {
 	style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
-	if (style->outline.auto_dash)
-		style->outline.dash_type = GO_LINE_SOLID;
-	if (style->outline.auto_color)
-		style->outline.color = RGBA_BLACK;
+	if (style->line.auto_dash)
+		style->line.dash_type = GO_LINE_SOLID;
+	if (style->line.auto_color)
+		style->line.color = RGBA_BLACK;
 	if (style->fill.auto_type)
 		style->fill.type  = GO_STYLE_FILL_PATTERN;
 	if (style->fill.auto_fore)
