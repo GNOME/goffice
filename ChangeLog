@@ -4,6 +4,10 @@
 	* goffice/canvas/goc-pixbuf.c (goc_pixbuf_draw): don't display a null sized
 	pixbuf item.
 
+2009-08-31  Morten Welinder <terra@gnome.org>
+
+	* Release 0.7.11
+
 2009-08-30  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-item.c (goc_item_new): Keep track of realize.
