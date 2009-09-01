@@ -1,3 +1,8 @@
+2009-09-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-color.h: prefixed all macros with GO_
+	* all files: use renamed go-color.h macros.
+
 2009-08-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* all files: deprecate GOStyle::outline. [#593608]

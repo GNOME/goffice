@@ -93,8 +93,8 @@ go_gradient_selector_new (GOGradientDirection initial_direction,
 	GOGradientSelectorState *state;
 
 	state = g_new (GOGradientSelectorState, 1);
-	state->start_color = RGBA_BLACK;
-	state->stop_color = RGBA_WHITE;
+	state->start_color = GO_RGBA_BLACK;
+	state->stop_color = GO_RGBA_WHITE;
 
 	palette = go_palette_new (GO_GRADIENT_MAX, 1.0, 4, 
 				  go_gradient_swatch_render_func, NULL,

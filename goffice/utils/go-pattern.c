@@ -126,7 +126,7 @@ go_pattern_set_solid (GOPattern *pat, GOColor fore)
 {
 	g_return_if_fail (pat != NULL);
 	pat->pattern = GO_PATTERN_SOLID;
-	pat->fore = RGBA_BLACK;
+	pat->fore = GO_RGBA_BLACK;
 	pat->back = fore;
 }
 
@@ -270,10 +270,10 @@ go_pattern_create_cairo_pattern (GOPattern const *pattern, cairo_t *cr)
 			for (i = 0; i < 8; i++) {
 				for (j = 0; j < 8; j++) {
 					color = pattern_data[i] & (1 << j) ? pattern->fore : pattern->back;
-					iter[3] = UINT_RGBA_A (color);
-					MULT (iter[0], UINT_RGBA_B (color), iter[3], t);
-					MULT (iter[1], UINT_RGBA_G (color), iter[3], t);
-					MULT (iter[2], UINT_RGBA_R (color), iter[3], t);
+					iter[3] = GO_UINT_RGBA_A (color);
+					MULT (iter[0], GO_UINT_RGBA_B (color), iter[3], t);
+					MULT (iter[1], GO_UINT_RGBA_G (color), iter[3], t);
+					MULT (iter[2], GO_UINT_RGBA_R (color), iter[3], t);
 					iter += 4;
 				}
 				iter += stride - 32;
