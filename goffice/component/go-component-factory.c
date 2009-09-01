@@ -62,7 +62,7 @@ static void
 go_component_engine_service_class_init (GOPluginServiceGObjectLoaderClass *
 					gobj_loader_class)
 {
-	GOPluginServiceClass *ps_class = GPS_CLASS (gobj_loader_class);
+	GOPluginServiceClass *ps_class = GO_PLUGIN_SERVICE_CLASS (gobj_loader_class);
 
 	ps_class->get_description =
 		go_component_engine_service_get_description;
@@ -192,7 +192,7 @@ go_component_type_service_init (GObject * obj)
 static void
 go_component_type_service_class_init (GObjectClass * gobject_klass)
 {
-	GOPluginServiceClass *ps_class = GPS_CLASS (gobject_klass);
+	GOPluginServiceClass *ps_class = GO_PLUGIN_SERVICE_CLASS (gobject_klass);
 
 	component_type_parent_klass =
 		g_type_class_peek_parent (gobject_klass);

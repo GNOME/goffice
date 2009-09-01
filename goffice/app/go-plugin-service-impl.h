@@ -53,8 +53,8 @@ typedef struct{
 	char *(*get_description) (GOPluginService *service);
 } GOPluginServiceClass;
 
-#define GPS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_PLUGIN_SERVICE, GOPluginServiceClass))
-#define GPS_GET_CLASS(o) GPS_CLASS (G_OBJECT_GET_CLASS (o))
+#define GO_PLUGIN_SERVICE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_PLUGIN_SERVICE, GOPluginServiceClass))
+#define GO_PLUGIN_SERVICE_GET_CLASS(o) GO_PLUGIN_SERVICE_CLASS (G_OBJECT_GET_CLASS (o))
 
 typedef struct{
 	GOPluginServiceClass plugin_service_class;
@@ -65,8 +65,8 @@ struct _GOPluginServiceGObjectLoader {
 	GOPluginService plugin_service;
 };
 
-#define GPS_GOBJECT_LOADER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_PLUGIN_SERVICE, GOPluginServiceGObjectLoaderClass))
-#define GPS_GOBJECT_LOADER_GET_CLASS(o) GPS_GOBJECT_LOADER_CLASS (G_OBJECT_GET_CLASS (o))
+#define GO_PLUGIN_SERVICE_GOBJECT_LOADER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_PLUGIN_SERVICE, GOPluginServiceGObjectLoaderClass))
+#define GO_PLUGIN_SERVICE_GOBJECT_LOADER_GET_CLASS(o) GO_PLUGIN_SERVICE_GOBJECT_LOADER_CLASS (G_OBJECT_GET_CLASS (o))
 
 typedef struct{
 	GOPluginServiceClass plugin_service_class;

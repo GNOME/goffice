@@ -79,7 +79,7 @@ go_plugin_service_finalize (GObject *obj)
 static void
 go_plugin_service_class_init (GObjectClass *gobject_class)
 {
-	GOPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
 
 	gobject_class->finalize = go_plugin_service_finalize;
 	plugin_service_class->read_xml = NULL;
@@ -171,7 +171,7 @@ go_plugin_service_general_get_description (GOPluginService *service)
 static void
 go_plugin_service_general_class_init (GObjectClass *gobject_class)
 {
-	GOPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
 
 	plugin_service_class->activate = go_plugin_service_general_activate;
 	plugin_service_class->deactivate = go_plugin_service_general_deactivate;
@@ -356,7 +356,7 @@ go_plugin_service_file_opener_get_description (GOPluginService *service)
 static void
 go_plugin_service_file_opener_class_init (GObjectClass *gobject_class)
 {
-	GOPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
 
 	gobject_class->finalize = go_plugin_service_file_opener_finalize;
 	plugin_service_class->read_xml = go_plugin_service_file_opener_read_xml;
@@ -688,7 +688,7 @@ go_plugin_service_file_saver_get_description (GOPluginService *service)
 static void
 go_plugin_service_file_saver_class_init (GObjectClass *gobject_class)
 {
-	GOPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
 
 	gobject_class->finalize = go_plugin_service_file_saver_finalize;
 	plugin_service_class->read_xml = go_plugin_service_file_saver_read_xml;
@@ -875,7 +875,7 @@ go_plugin_service_plugin_loader_get_description (GOPluginService *service)
 static void
 go_plugin_service_plugin_loader_class_init (GObjectClass *gobject_class)
 {
-	GOPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
 
 	plugin_service_class->activate = go_plugin_service_plugin_loader_activate;
 	plugin_service_class->deactivate = go_plugin_service_plugin_loader_deactivate;
@@ -902,7 +902,7 @@ go_plugin_service_gobject_loader_read_xml (GOPluginService *service,
 					G_GNUC_UNUSED xmlNode *tree,
 					G_GNUC_UNUSED GOErrorInfo **ret_error)
 {
-	GOPluginServiceGObjectLoaderClass *gobj_loader_class = GPS_GOBJECT_LOADER_GET_CLASS (service);
+	GOPluginServiceGObjectLoaderClass *gobj_loader_class = GO_PLUGIN_SERVICE_GOBJECT_LOADER_GET_CLASS (service);
 	g_return_if_fail (gobj_loader_class->pending != NULL);
 	g_hash_table_replace (gobj_loader_class->pending, service->id, service);
 }
@@ -910,7 +910,7 @@ go_plugin_service_gobject_loader_read_xml (GOPluginService *service,
 static void
 go_plugin_service_gobject_loader_class_init (GOPluginServiceGObjectLoaderClass *gobj_loader_class)
 {
-	GOPluginServiceClass *psc = GPS_CLASS (gobj_loader_class);
+	GOPluginServiceClass *psc = GO_PLUGIN_SERVICE_CLASS (gobj_loader_class);
 
 	psc->get_description	= go_plugin_service_gobject_loader_get_description;
 	psc->read_xml		= go_plugin_service_gobject_loader_read_xml;
@@ -940,7 +940,7 @@ go_plugin_service_simple_deactivate (GOPluginService *service, GOErrorInfo **ret
 static void
 go_plugin_service_simple_class_init (GObjectClass *gobject_class)
 {
-	GOPluginServiceClass *psc = GPS_CLASS (gobject_class);
+	GOPluginServiceClass *psc = GO_PLUGIN_SERVICE_CLASS (gobject_class);
 
 	psc->activate		= go_plugin_service_simple_activate;
 	psc->deactivate		= go_plugin_service_simple_deactivate;
@@ -1019,8 +1019,8 @@ go_plugin_service_new (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_error)
 	if (service->id == NULL)
 		service->id = g_strdup ("default");
 
-	if (GPS_GET_CLASS (service)->read_xml != NULL) {
-		GPS_GET_CLASS (service)->read_xml (service, tree, &service_error);
+	if (GO_PLUGIN_SERVICE_GET_CLASS (service)->read_xml != NULL) {
+		GO_PLUGIN_SERVICE_GET_CLASS (service)->read_xml (service, tree, &service_error);
 		if (service_error != NULL) {
 			*ret_error = go_error_info_new_str_with_details (
 				_("Error reading service information."), service_error);
@@ -1046,7 +1046,7 @@ go_plugin_service_get_description (GOPluginService *service)
 	g_return_val_if_fail (GO_IS_PLUGIN_SERVICE (service), NULL);
 
 	if (service->saved_description == NULL) {
-		service->saved_description = GPS_GET_CLASS (service)->get_description (service);
+		service->saved_description = GO_PLUGIN_SERVICE_GET_CLASS (service)->get_description (service);
 	}
 
 	return service->saved_description;
@@ -1091,7 +1091,7 @@ go_plugin_service_activate (GOPluginService *service, GOErrorInfo **ret_error)
 		}
 	}
 #endif
-	GPS_GET_CLASS (service)->activate (service, ret_error);
+	GO_PLUGIN_SERVICE_GET_CLASS (service)->activate (service, ret_error);
 }
 
 void
@@ -1103,7 +1103,7 @@ go_plugin_service_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
 	if (!service->is_active) {
 		return;
 	}
-	GPS_GET_CLASS (service)->deactivate (service, ret_error);
+	GO_PLUGIN_SERVICE_GET_CLASS (service)->deactivate (service, ret_error);
 	if (*ret_error == NULL) {
 		GOErrorInfo *ignored_error = NULL;
 

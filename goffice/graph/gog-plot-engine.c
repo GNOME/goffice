@@ -59,7 +59,7 @@ gog_plot_engine_service_get_description (GOPluginService *service)
 static void
 gog_plot_engine_service_class_init (GOPluginServiceGObjectLoaderClass *gobj_loader_class)
 {
-	GOPluginServiceClass *ps_class = GPS_CLASS (gobj_loader_class);
+	GOPluginServiceClass *ps_class = GO_PLUGIN_SERVICE_CLASS (gobj_loader_class);
 
 	ps_class->get_description = gog_plot_engine_service_get_description;
 
@@ -339,7 +339,7 @@ gog_plot_type_service_init (GObject *obj)
 static void
 gog_plot_type_service_class_init (GObjectClass *gobject_klass)
 {
-	GOPluginServiceClass *ps_class = GPS_CLASS (gobject_klass);
+	GOPluginServiceClass *ps_class = GO_PLUGIN_SERVICE_CLASS (gobject_klass);
 
 	plot_type_parent_klass = g_type_class_peek_parent (gobject_klass);
 	gobject_klass->finalize		= gog_plot_type_service_finalize;
@@ -428,7 +428,7 @@ gog_trend_line_engine_service_get_description (GOPluginService *service)
 static void
 gog_trend_line_engine_service_class_init (GOPluginServiceGObjectLoaderClass *gobj_loader_class)
 {
-	GOPluginServiceClass *ps_class = GPS_CLASS (gobj_loader_class);
+	GOPluginServiceClass *ps_class = GO_PLUGIN_SERVICE_CLASS (gobj_loader_class);
 
 	ps_class->get_description = gog_trend_line_engine_service_get_description;
 
@@ -645,7 +645,7 @@ gog_trend_line_service_init (GObject *obj)
 static void
 gog_trend_line_service_class_init (GObjectClass *gobject_klass)
 {
-	GOPluginServiceClass *ps_class = GPS_CLASS (gobject_klass);
+	GOPluginServiceClass *ps_class = GO_PLUGIN_SERVICE_CLASS (gobject_klass);
 
 	gobject_klass->finalize	  = gog_trend_line_service_finalize;
 	ps_class->read_xml	  = gog_trend_line_service_read_xml;
