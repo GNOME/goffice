@@ -749,7 +749,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 					       go_marker_get_fill_color (style->marker.mark));
 	else
 		go_marker_selector_set_colors (GO_SELECTOR (selector), 
-					       RGBA_BLUE, RGBA_BLUE);
+					       GO_RGBA_BLUE, GO_RGBA_BLUE);
 	w = go_gtk_builder_get_widget (gui, "marker_shape_label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), selector);
 	gtk_table_attach (GTK_TABLE (table), selector, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
@@ -765,7 +765,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 			G_CALLBACK (cb_marker_fill_color_changed));
 	else {
 		w = create_go_combo_color (state,
-			RGBA_BLUE, RGBA_BLUE,
+			GO_RGBA_BLUE, GO_RGBA_BLUE,
 			gui, "pattern_background", "marker_fill_label",
 			G_CALLBACK (cb_marker_fill_color_changed));
 		gtk_widget_set_sensitive (w, FALSE);
@@ -780,7 +780,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 			G_CALLBACK (cb_marker_outline_color_changed));
 	else {
 		w = create_go_combo_color (state,
-			RGBA_BLUE, RGBA_BLUE,
+			GO_RGBA_BLUE, GO_RGBA_BLUE,
 			gui, "pattern_background", "marker_fill_label",
 			G_CALLBACK (cb_marker_outline_color_changed));
 		gtk_widget_set_sensitive (w, FALSE);
@@ -1176,9 +1176,9 @@ go_style_init (GOStyle *style)
 	style->line.miter_limit = 10.;
 	style->fill.type = GO_STYLE_FILL_NONE;
 	style->fill.gradient.brightness = -1.;
-	go_pattern_set_solid (&style->fill.pattern, RGBA_BLACK);
+	go_pattern_set_solid (&style->fill.pattern, GO_RGBA_BLACK);
 	style->font.font = go_font_new_by_index (0);
-	style->font.color = RGBA_BLACK;
+	style->font.color = GO_RGBA_BLACK;
 	style->text_layout.angle = 0.0;
 }
 
@@ -1885,7 +1885,7 @@ go_style_is_outline_visible (GOStyle const *style)
 	g_return_val_if_fail (GO_IS_STYLE (style), FALSE);
 
 	/* FIXME FIXME FIXME make this smarter */
-	return UINT_RGBA_A (style->line.color) > 0 && 
+	return GO_UINT_RGBA_A (style->line.color) > 0 && 
 		style->line.dash_type != GO_LINE_NONE;
 }
 
@@ -1895,7 +1895,7 @@ go_style_is_line_visible (GOStyle const *style)
 	g_return_val_if_fail (GO_IS_STYLE (style), FALSE);
 
 	/* FIXME FIXME FIXME TODO : make this smarter */
-	return UINT_RGBA_A (style->line.color) > 0 && 
+	return GO_UINT_RGBA_A (style->line.color) > 0 && 
 		style->line.dash_type != GO_LINE_NONE;
 }
 
@@ -1998,8 +1998,8 @@ go_style_set_fill_brightness (GOStyle *style, float brightness)
 
 	style->fill.gradient.brightness = brightness;
 	style->fill.pattern.fore = (brightness < 50.)
-		? UINT_INTERPOLATE(style->fill.pattern.back, RGBA_WHITE, 1. - brightness / 50.)
-		: UINT_INTERPOLATE(style->fill.pattern.back, RGBA_BLACK, brightness / 50. - 1.);
+		? GO_UINT_INTERPOLATE(style->fill.pattern.back, GO_RGBA_WHITE, 1. - brightness / 50.)
+		: GO_UINT_INTERPOLATE(style->fill.pattern.back, GO_RGBA_BLACK, brightness / 50. - 1.);
 }
 
 /**

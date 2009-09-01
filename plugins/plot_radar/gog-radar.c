@@ -643,16 +643,16 @@ get_map_color (double z, gboolean hide_outliers)
 	if (hide_outliers && (z < 0. || z > 6.))
 		return 0;
 	if (z <= 0.)
-		return RGBA_BLUE;
+		return GO_RGBA_BLUE;
 	if (z <= 1.)
-		return RGBA_BLUE + ((int) (z * 255.) << 16);
+		return GO_RGBA_BLUE + ((int) (z * 255.) << 16);
 	if (z <= 2.)
-		return RGBA_GREEN + ((int) ((2. - z) * 255) << 8);
+		return GO_RGBA_GREEN + ((int) ((2. - z) * 255) << 8);
 	if (z <= 4.)
-		return RGBA_GREEN + ((int) ((z / 2. - 1.) * 255) << 24);
+		return GO_RGBA_GREEN + ((int) ((z / 2. - 1.) * 255) << 24);
 	if (z <= 6.)
-		return RGBA_RED + ((int) ((3. - z / 2.) * 255) << 16);
-	return RGBA_RED;
+		return GO_RGBA_RED + ((int) ((3. - z / 2.) * 255) << 16);
+	return GO_RGBA_RED;
 }
 
 static void

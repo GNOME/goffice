@@ -139,10 +139,10 @@ go_color_palette_render_func (cairo_t *cr,
 
 	cairo_set_line_width (cr, 1);
 	cairo_set_source_rgba (cr, 
-			       DOUBLE_RGBA_R(color), 
-			       DOUBLE_RGBA_G(color),
-			       DOUBLE_RGBA_B(color),
-			       DOUBLE_RGBA_A(color));
+			       GO_DOUBLE_RGBA_R(color), 
+			       GO_DOUBLE_RGBA_G(color),
+			       GO_DOUBLE_RGBA_B(color),
+			       GO_DOUBLE_RGBA_A(color));
 	cairo_rectangle (cr, area->x + .5 , area->y + .5 , area->width - 1, area->height - 1);
 	cairo_fill_preserve (cr);
 	cairo_set_source_rgb (cr, .75, .75, .75);
@@ -169,9 +169,9 @@ cb_color_dialog_response (GtkColorSelectionDialog *color_dialog,
 		alpha = gtk_color_selection_get_current_alpha (GTK_COLOR_SELECTION (color_selection));
 		state = go_selector_get_user_data (selector);
 		
-		color = GDK_TO_UINT (gdk_color);
+		color = GO_GDK_TO_UINT (gdk_color);
 		alpha >>= 8;
-		color = UINT_RGBA_CHANGE_A (color, alpha);
+		color = GO_UINT_RGBA_CHANGE_A (color, alpha);
 		if (!go_color_selector_set_color (selector, color))
 			/* Index is not necessarly changed, but swatch may change */
 			go_selector_activate (selector);
@@ -197,7 +197,7 @@ cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
 						       go_color_to_gdk (color, &gdk_color));
 		if (state->allow_alpha)
 			gtk_color_selection_set_current_alpha (GTK_COLOR_SELECTION (color_selection), 
-						       UINT_RGBA_A (color) * 257);
+						       GO_UINT_RGBA_A (color) * 257);
 		gtk_window_present (GTK_WINDOW (color_dialog));
 		return;
 	}
@@ -212,7 +212,7 @@ cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
 					       go_color_to_gdk (color, &gdk_color));
 	if (state->allow_alpha)
 		gtk_color_selection_set_current_alpha (GTK_COLOR_SELECTION (color_selection), 
-					       UINT_RGBA_A (color) * 257);
+					       GO_UINT_RGBA_A (color) * 257);
 	g_signal_connect (color_dialog, "response", G_CALLBACK (cb_color_dialog_response), selector);
        	gtk_widget_show (color_dialog);
 }
@@ -220,13 +220,13 @@ cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
 static void
 go_color_selector_drag_data_received (GOSelector *selector, gpointer data)
 {
-	GOColor color = RGBA_WHITE;
+	GOColor color = GO_RGBA_WHITE;
 	guint16 *color_data = data;
 
-	color = UINT_RGBA_CHANGE_R (color, color_data[0] >> 8);
-	color = UINT_RGBA_CHANGE_G (color, color_data[1] >> 8);
-	color = UINT_RGBA_CHANGE_B (color, color_data[2] >> 8);
-	color = UINT_RGBA_CHANGE_A (color, color_data[3] >> 8);
+	color = GO_UINT_RGBA_CHANGE_R (color, color_data[0] >> 8);
+	color = GO_UINT_RGBA_CHANGE_G (color, color_data[1] >> 8);
+	color = GO_UINT_RGBA_CHANGE_B (color, color_data[2] >> 8);
+	color = GO_UINT_RGBA_CHANGE_A (color, color_data[3] >> 8);
 
 	go_color_selector_set_color (selector, color);
 }
@@ -245,10 +245,10 @@ go_color_selector_drag_data_get (GOSelector *selector)
 	index = go_selector_get_active (selector, NULL);
 	color = get_color (state->n_swatches, state->color_group, index);
 
-	data[0] = UINT_RGBA_R (color) << 8;
-	data[1] = UINT_RGBA_G (color) << 8;
-	data[2] = UINT_RGBA_B (color) << 8;
-	data[3] = UINT_RGBA_A (color) << 8; 
+	data[0] = GO_UINT_RGBA_R (color) << 8;
+	data[1] = GO_UINT_RGBA_G (color) << 8;
+	data[2] = GO_UINT_RGBA_B (color) << 8;
+	data[3] = GO_UINT_RGBA_A (color) << 8; 
 
 	return data;
 }
@@ -366,7 +366,7 @@ go_color_selector_get_color (GOSelector *selector, gboolean *is_auto)
 	int index;
 	gboolean flag;
 
-	g_return_val_if_fail (GO_IS_SELECTOR (selector), RGB_WHITE);
+	g_return_val_if_fail (GO_IS_SELECTOR (selector), GO_RGB_WHITE);
 	
 	index = go_selector_get_active (selector, &flag);
 	state = go_selector_get_user_data (selector);

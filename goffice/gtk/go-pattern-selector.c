@@ -41,8 +41,8 @@ go_pattern_palette_render_func (cairo_t *cr,
 		pattern.fore = state->foreground;
 		pattern.back = state->background;
 	} else {
-		pattern.fore = RGBA_BLACK;
-		pattern.back = RGBA_WHITE;
+		pattern.fore = GO_RGBA_BLACK;
+		pattern.back = GO_RGBA_WHITE;
 	}
 	pattern.pattern = index;
 
@@ -76,8 +76,8 @@ go_pattern_selector_new (GOPatternType initial_type,
 	GOPatternSelectorState *state;
 
 	state = g_new (GOPatternSelectorState, 1);
-	state->foreground = RGBA_WHITE;
-	state->background = RGBA_BLACK;
+	state->foreground = GO_RGBA_WHITE;
+	state->background = GO_RGBA_BLACK;
 
 	palette = go_palette_new (GO_PATTERN_MAX, 1.0, 5,
 				  go_pattern_palette_render_func, NULL,

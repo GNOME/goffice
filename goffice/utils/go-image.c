@@ -635,8 +635,8 @@ go_image_fill (GOImage *image, GOColor color)
 
 	dst = image->data;
 	if (image->target_cairo)
-		val = (UINT_RGBA_R (color) << 8) + (UINT_RGBA_G (color) << 16)
-			+ (UINT_RGBA_B (color) << 24) + UINT_RGBA_A (color);
+		val = (GO_UINT_RGBA_R (color) << 8) + (GO_UINT_RGBA_G (color) << 16)
+			+ (GO_UINT_RGBA_B (color) << 24) + GO_UINT_RGBA_A (color);
 	else
 		val = color;
 	for (i = 0; i < image->height; i++) {

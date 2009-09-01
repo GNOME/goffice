@@ -97,8 +97,8 @@ go_combo_color_set_color_internal (GOComboColor *cc, GOColor color, gboolean is_
 				       width, color_height);
 
 	/* mostly transparent things should have an outline */
-	add_an_outline = (UINT_RGBA_A (color) < 0x80);
-	gdk_pixbuf_fill (color_pixbuf, add_an_outline ? RGBA_GREY (0x33) : color);
+	add_an_outline = (GO_UINT_RGBA_A (color) < 0x80);
+	gdk_pixbuf_fill (color_pixbuf, add_an_outline ? GO_RGBA_GREY (0x33) : color);
 	gdk_pixbuf_copy_area (color_pixbuf, 0, 0, width, color_height,
 		pixbuf, 0, color_y);
 	if (add_an_outline) {
@@ -244,7 +244,7 @@ color_table_setup (GOComboColor *cc,
 GOColor
 go_combo_color_get_color (GOComboColor *cc, gboolean *is_default)
 {
-	g_return_val_if_fail (GO_IS_COMBO_COLOR (cc), RGBA_BLACK);
+	g_return_val_if_fail (GO_IS_COMBO_COLOR (cc), GO_RGBA_BLACK);
 	return go_color_palette_get_current_color (cc->palette, is_default, NULL);
 }
 
@@ -263,7 +263,7 @@ go_combo_color_set_color_gdk (GOComboColor *cc, GdkColor *color)
 	g_return_if_fail (GO_IS_COMBO_COLOR (cc));
 
 	if (color != NULL)
-		go_color_palette_set_current_color (cc->palette, GDK_TO_UINT (*color));
+		go_color_palette_set_current_color (cc->palette, GO_GDK_TO_UINT (*color));
 	else
 		go_color_palette_set_color_to_default (cc->palette);
 }

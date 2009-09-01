@@ -38,7 +38,7 @@ go_color_from_str (gchar const *str, GOColor *res)
 	unsigned r, g, b, a;
 
 	if (sscanf (str, "%X:%X:%X:%X", &r, &g, &b, &a) == 4) {
-		*res = RGBA_TO_UINT (r, g, b, a);
+		*res = GO_RGBA_TO_UINT (r, g, b, a);
 		return TRUE;
 	}
 	return FALSE;
@@ -49,7 +49,7 @@ go_color_as_str (GOColor color)
 {
 	unsigned r, g, b, a;
 
-	UINT_TO_RGBA (color, &r, &g, &b, &a);
+	GO_UINT_TO_RGBA (color, &r, &g, &b, &a);
 	return g_strdup_printf ("%X:%X:%X:%X", r, g, b, a);
 }
 
@@ -57,11 +57,11 @@ PangoAttribute *
 go_color_to_pango (GOColor color, gboolean is_fore)
 {
 	guint16 r, g, b;
-	r  = UINT_RGBA_R (color);
+	r  = GO_UINT_RGBA_R (color);
 	r |= (r << 8);
-	g  = UINT_RGBA_G (color);
+	g  = GO_UINT_RGBA_G (color);
 	g |= (g << 8);
-	b  = UINT_RGBA_B (color);
+	b  = GO_UINT_RGBA_B (color);
 	b |= (b << 8);
 
 	if (is_fore)
@@ -76,11 +76,11 @@ go_color_to_pango (GOColor color, gboolean is_fore)
 GdkColor *
 go_color_to_gdk	(GOColor color, GdkColor *res)
 {
-	res->red    = UINT_RGBA_R (color);
+	res->red    = GO_UINT_RGBA_R (color);
 	res->red   |= (res->red << 8);
-	res->green  = UINT_RGBA_G (color);
+	res->green  = GO_UINT_RGBA_G (color);
 	res->green |= (res->green << 8);
-	res->blue   = UINT_RGBA_B (color);
+	res->blue   = GO_UINT_RGBA_B (color);
 	res->blue  |= (res->blue << 8);
 
 	return res;
