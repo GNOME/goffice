@@ -19,6 +19,7 @@ nextupstreamversion=$(shell echo $(versionh).$$(expr $(versiont) + 1))
 baselibname=$(shell grep -i '^GOFFICE_API_VER=[0-9]' configure | sed -e 's/^.*=/libgoffice-/' -e s/\\./-/g)
 
 pruntime=$(baselibname)
+pcommon=$(baselibname)-common
 pdevel=$(baselibname)-dev
 pdbg=libgoffice-dbg
 
@@ -153,7 +154,6 @@ install: build
 
 	rm -f $(CURDIR)/debian/tmp/usr/lib/libgoffice-*.la
 
-
 # This single target is used to build all the packages, all at once, or
 # one at a time. So keep in mind: any options passed to commands here will
 # affect _all_ packages. Anything that should only affect one package
@@ -170,6 +170,16 @@ endif
 ifeq ($(DH_OPTIONS),-s)
 	dh_install -p$(pdbg) --sourcedir=debian/tmp
 endif
+	# Remove files from the main package that belong to a more
+	# specialist package
+	# (dh_install doesn't do the right thing here IMO; perhaps it
+	# doesn't like multiple globs in one line)
+	while read l ; do \
+		rm -rvf debian/$(pruntime)/$$l ; \
+	done < debian/$(pcommon).install
+
+	# Remove dirs that are now empty
+	-find debian/tmp -depth -type d | xargs rmdir >/dev/null 2>&1
 
 #	dh_installdebconf -s
 	dh_installdocs -s

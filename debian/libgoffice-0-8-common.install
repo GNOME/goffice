@@ -1,4 +1,5 @@
-/usr/share/goffice/*/glade/*.glade
+/usr/lib/goffice/*/plugins/*/*.ui
+/usr/share/goffice/*/ui/*.ui
 /usr/share/goffice/*/patterns/*
 /usr/share/locale/*/LC_MESSAGES/*.mo
 /usr/share/pixmaps/*
