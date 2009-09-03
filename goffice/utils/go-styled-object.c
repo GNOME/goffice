@@ -204,6 +204,8 @@ go_styled_object_set_cairo_fill (GOStyledObject const *so, cairo_t *cr)
 
 	g_return_val_if_fail (GO_IS_STYLED_OBJECT (so), FALSE);
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (so));
+	if (style->fill.type == GO_STYLE_FILL_NONE)
+		return FALSE;
 	pat = go_style_create_cairo_pattern (style, cr);
 	if (pat) {
 		cairo_set_source (cr, pat);

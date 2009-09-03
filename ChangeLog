@@ -1,5 +1,10 @@
 2009-09-03  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-styled-object.c
+	(go_styled_object_set_cairo_fill): return FALSE when type is FILL_NONE.
+
+2009-09-03  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-axis-line.c (gog_axis_base_init_style): fixed some
 	issues with auto styles.
 	* goffice/graph/gog-axis.c (gog_axis_init_style): ditto.
