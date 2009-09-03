@@ -301,6 +301,7 @@ gog_error_bar_prefs (GogSeries *series,
 
 	/* Value properties */
 	bar_prefs = go_gtk_builder_get_widget (gui, "gog_error_bar_prefs");
+	g_object_ref (bar_prefs);
 	g_signal_connect (bar_prefs, "destroy", G_CALLBACK (cb_destroy), editor);
 	gtk_widget_show_all (bar_prefs);
 

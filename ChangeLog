@@ -1,5 +1,10 @@
 2009-09-03  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-error-bar.c (gog_error_bar_prefs): fix a widget
+	life cycle issue.
+
+2009-09-03  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_surface/gog-surface.c (gog_surface_view_render): missing
 	space.
 	* plugins/plot_surface/xl-surface.c (xl_surface_plot_class_init): X values
