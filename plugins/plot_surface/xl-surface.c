@@ -390,7 +390,7 @@ xl_surface_plot_class_init (GogSurfacePlotClass *klass)
 
 	{
 		static GogSeriesDimDesc dimensions[] = {
-			{ N_("X"), GOG_SERIES_REQUIRED, FALSE,
+			{ N_("X"), GOG_SERIES_SUGGESTED, FALSE,
 			  GOG_DIM_LABEL, GOG_MS_DIM_CATEGORIES },
 			{ N_("Z"), GOG_SERIES_REQUIRED, FALSE,
 			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },

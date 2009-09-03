@@ -1,5 +1,12 @@
 2009-09-03  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/plot_surface/gog-surface.c (gog_surface_view_render): missing
+	space.
+	* plugins/plot_surface/xl-surface.c (xl_surface_plot_class_init): X values
+	are not required, just suggested. [#593937]
+
+2009-09-03  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/utils/go-styled-object.c
 	(go_styled_object_set_cairo_fill): return FALSE when type is FILL_NONE.
 

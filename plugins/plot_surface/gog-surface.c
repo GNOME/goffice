@@ -148,7 +148,7 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 		imax = plot->columns;
 		jmax = plot->rows;
 	}
-	if (imax ==0 || jmax == 0)
+	if (imax == 0 || jmax == 0)
 		return;
 	area = gog_chart_view_get_plot_area (view->parent);
 
