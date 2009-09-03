@@ -204,31 +204,37 @@ gog_theme_find_element (GogTheme const *theme, GogObject const *obj)
  * @style: #GOStyle to initialize
  * @obj: #GogObject The object associated with @style
  * @ind: an optional index
- * @complete_overwrite: boolean
+ * @relevant_fields: GOStyleFlag
  *
  * Fill in the auto aspects of @style based on @theme 's element for objects of
- * type/role similar to @obj with index @ind.  If @complete_overwrite is used,
- * fillin the entire style, not just the auto portions.
+ * type/role similar to @obj with index @ind.  If @relevant_fields is GO_STYLE_ALL,
+ * fillin the entire style, not just the auto portions included in @relevant_fields.
  **/
 void
 gog_theme_fillin_style (GogTheme const *theme, 
 			GOStyle *style,
 			GogObject const *obj, 
 			int ind, 
-			gboolean complete_overwrite)
+			GOStyleFlag relevant_fields)
 {
 	GogThemeElement *elem = gog_theme_find_element (theme, obj);
 
 	g_return_if_fail (elem != NULL);
 
-	if (complete_overwrite)
+	if (relevant_fields == GO_STYLE_ALL)
 		go_style_assign (style, elem->style);
 	else
-		go_style_apply_theme (style, elem->style);
+		go_style_apply_theme (style, elem->style, relevant_fields);
 
 /* FIXME FIXME FIXME we should handle the applicability here not in the map */
-	if (ind >= 0 && elem->map)
+	/* ensure only relevant fields are changed */
+	if (ind >= 0 && elem->map) {
+		/* ensure only relevant fields are changed */
+		GOStyleFlag flags = style->disable_theming;
+		style->disable_theming = GO_STYLE_ALL ^ relevant_fields;
 		(elem->map) (style, ind);
+		style->disable_theming = flags;
+	}
 }
 
 GogTheme *

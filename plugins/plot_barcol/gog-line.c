@@ -70,7 +70,7 @@ gog_line_series_element_init_style (GogStyledObject *gso, GOStyle *style)
 
 	style->interesting_fields = GO_STYLE_MARKER;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
-		style, GOG_OBJECT (gso), GOG_SERIES_ELEMENT (gso)->index, FALSE);
+		style, GOG_OBJECT (gso), GOG_SERIES_ELEMENT (gso)->index, GO_STYLE_MARKER);
 }
 
 static void

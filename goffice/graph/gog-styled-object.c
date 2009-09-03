@@ -151,7 +151,7 @@ gog_styled_object_parent_changed (GogObject *obj, gboolean was_set)
 	if (was_set) {
 		GogStyledObject *gso = GOG_STYLED_OBJECT (obj);
 		gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
-			gso->style, GOG_OBJECT (gso), 0, TRUE);
+			gso->style, GOG_OBJECT (gso), 0, GO_STYLE_ALL);
 		go_styled_object_apply_theme (GO_STYLED_OBJECT (gso), gso->style);
 	}
 	gog_object_klass->parent_changed (obj, was_set);

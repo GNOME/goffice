@@ -1092,7 +1092,7 @@ go_style_assign (GOStyle *dst, GOStyle const *src)
  * assigned (is_auto)
  **/
 void
-go_style_apply_theme (GOStyle *dst, GOStyle const *src)
+go_style_apply_theme (GOStyle *dst, GOStyle const *src, GOStyleFlag fields)
 {
 	if (src == dst)
 		return;
@@ -1100,26 +1100,34 @@ go_style_apply_theme (GOStyle *dst, GOStyle const *src)
 	g_return_if_fail (GO_IS_STYLE (src));
 	g_return_if_fail (GO_IS_STYLE (dst));
 
-	if (dst->fill.auto_type)
-		dst->fill.type = src->fill.type;
-	if (dst->fill.auto_fore)
-		dst->fill.pattern.fore = src->fill.pattern.fore;
-	if (dst->fill.auto_back)
-		dst->fill.pattern.back = src->fill.pattern.back;
-	if (dst->line.auto_dash)
-		dst->line.dash_type = src->line.dash_type;
-	if (dst->line.auto_color)
-		dst->line.color = src->line.color;
-	if (dst->marker.auto_shape)
-		go_marker_set_shape (dst->marker.mark,
-			go_marker_get_shape (src->marker.mark));
-	if (dst->marker.auto_outline_color)
-		go_marker_set_outline_color (dst->marker.mark,
-			go_marker_get_outline_color (src->marker.mark));
-	if (dst->marker.auto_fill_color)
-		go_marker_set_fill_color (dst->marker.mark,
-			go_marker_get_fill_color (src->marker.mark));
-	if (dst->text_layout.auto_angle)
+	if (fields & GO_STYLE_FILL) {
+		if (dst->fill.auto_type)
+			dst->fill.type = src->fill.type;
+		if (dst->fill.auto_fore)
+			dst->fill.pattern.fore = src->fill.pattern.fore;
+		if (dst->fill.auto_back)
+			dst->fill.pattern.back = src->fill.pattern.back;
+	}
+
+	if (fields & (GO_STYLE_LINE | GO_STYLE_OUTLINE)) {
+		if (dst->line.auto_dash)
+			dst->line.dash_type = src->line.dash_type;
+		if (dst->line.auto_color)
+			dst->line.color = src->line.color;
+	}
+	if (fields & GO_STYLE_MARKER) {
+		if (dst->marker.auto_shape)
+			go_marker_set_shape (dst->marker.mark,
+				go_marker_get_shape (src->marker.mark));
+		if (dst->marker.auto_outline_color)
+			go_marker_set_outline_color (dst->marker.mark,
+				go_marker_get_outline_color (src->marker.mark));
+		if (dst->marker.auto_fill_color)
+			go_marker_set_fill_color (dst->marker.mark,
+			                          go_marker_get_fill_color (src->marker.mark));
+	}
+
+	if ((fields & GO_STYLE_TEXT_LAYOUT) && dst->text_layout.auto_angle)
 		dst->text_layout.angle = src->text_layout.angle;
 
 #if 0

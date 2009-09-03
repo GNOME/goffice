@@ -121,7 +121,7 @@ struct _GOStyle {
 GOStyle  *go_style_new		(void);
 GOStyle  *go_style_dup		(GOStyle const *style);
 void	   go_style_assign		(GOStyle *dst, GOStyle const *src);
-void	   go_style_apply_theme	(GOStyle *dst, GOStyle const *src);
+void	   go_style_apply_theme	(GOStyle *dst, GOStyle const *src, GOStyleFlag fields);
 
 GOMarker const *go_style_get_marker 	(GOStyle *style);
 void            go_style_set_marker 	(GOStyle *style, GOMarker *marker);

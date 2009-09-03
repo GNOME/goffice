@@ -184,7 +184,8 @@ gog_series_element_init_style (GogStyledObject *gso, GOStyle *style)
 	parent_style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
 	style->interesting_fields = parent_style->interesting_fields;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
-		style, GOG_OBJECT (gso), GOG_SERIES_ELEMENT (gso)->index, FALSE);
+		style, GOG_OBJECT (gso), GOG_SERIES_ELEMENT (gso)->index,
+	        style->interesting_fields);
 }
 
 static void
@@ -607,7 +608,8 @@ gog_series_init_style (GogStyledObject *gso, GOStyle *style)
 	GogSeries const *series = (GogSeries const *)gso;
 	style->interesting_fields = series->plot->desc.series.style_fields;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
-		style, GOG_OBJECT (gso), series->index, FALSE);
+		style, GOG_OBJECT (gso), series->index,
+	        style->interesting_fields);
 }
 
 static void

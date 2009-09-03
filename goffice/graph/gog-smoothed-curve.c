@@ -34,7 +34,7 @@ gog_smoothed_curve_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	style->interesting_fields = GO_STYLE_LINE;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
-		style, GOG_OBJECT (gso), 0, FALSE);
+		style, GOG_OBJECT (gso), 0, GO_STYLE_LINE);
 }
 
 static void

@@ -625,14 +625,6 @@ gog_box_plot_series_update (GogObject *obj)
 }
 
 static void
-gog_box_plot_series_init_style (GogStyledObject *gso, GOStyle *style)
-{
-	((GogStyledObjectClass*) gog_box_plot_series_parent_klass)->init_style (gso, style);
-
-	style->line.dash_type = GO_LINE_NONE;
-}
-
-static void
 gog_box_plot_series_finalize (GObject *obj)
 {
 	g_free (GOG_BOX_PLOT_SERIES (obj)->svals);
@@ -643,12 +635,10 @@ static void
 gog_box_plot_series_class_init (GogObjectClass *obj_klass)
 {
 	GObjectClass *object_class = (GObjectClass *) obj_klass;
-	GogStyledObjectClass *gso_klass = (GogStyledObjectClass*) obj_klass;
 
 	gog_box_plot_series_parent_klass = g_type_class_peek_parent (obj_klass);
 	object_class->finalize = gog_box_plot_series_finalize;
 	obj_klass->update = gog_box_plot_series_update;
-	gso_klass->init_style = gog_box_plot_series_init_style;
 }
 
 GSF_DYNAMIC_CLASS (GogBoxPlotSeries, gog_box_plot_series,

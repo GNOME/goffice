@@ -1178,7 +1178,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 									GO_STYLED_OBJECT (gse)));
 					} else if (model->base.vary_style_by_element)
 						gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
-									model->base.index_num + i - 1, FALSE);
+									model->base.index_num + i - 1, style->interesting_fields);
 					gog_renderer_draw_circle (view->renderer, x_canvas, y_canvas, 
 							    ((size_as_area) ?
 							    sqrt (z / zmax) :
@@ -1420,7 +1420,7 @@ gog_xy_series_element_init_style (GogStyledObject *gso, GOStyle *style)
 	else
 		style->interesting_fields = parent_style->interesting_fields;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
-		style, GOG_OBJECT (gso), GOG_SERIES_ELEMENT (gso)->index, FALSE);
+		style, GOG_OBJECT (gso), GOG_SERIES_ELEMENT (gso)->index, style->interesting_fields);
 }
 
 static void

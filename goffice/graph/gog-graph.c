@@ -384,7 +384,7 @@ gog_graph_init (GogGraph *graph)
 	 * support graphs in graphs */
 	GOG_OBJECT (graph)->user_name = g_strdup (_("Graph"));
 	gog_theme_fillin_style (graph->theme,
-		gso->style, GOG_OBJECT (graph), 0, TRUE);
+		gso->style, GOG_OBJECT (graph), 0, GO_STYLE_FILL | GO_STYLE_OUTLINE);
 	go_styled_object_apply_theme (GO_STYLED_OBJECT (gso), gso->style);
 
 	graph->data_refs = g_hash_table_new (g_direct_hash, g_direct_equal);

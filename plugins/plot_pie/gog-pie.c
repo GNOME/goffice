@@ -750,7 +750,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 						GO_STYLED_OBJECT (gpse)));
 			} else if (model->base.vary_style_by_element)
 				gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
-							model->base.index_num + k, FALSE);
+							model->base.index_num + k, GO_STYLE_FILL);
 
 			/* only separate the outer ring */
 			separated_cx = cx;

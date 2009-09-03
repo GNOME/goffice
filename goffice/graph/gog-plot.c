@@ -769,7 +769,7 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 			tmp_style = style;
 
 		gog_theme_fillin_style (theme, tmp_style, GOG_OBJECT (series),
-			plot->index_num + i, FALSE);
+			plot->index_num + i, tmp_style->interesting_fields);
 		if (labels != NULL)
 			label = (i < num_labels) ? go_data_get_vector_string (labels, i) : g_strdup ("");
 		else

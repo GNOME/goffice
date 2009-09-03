@@ -158,7 +158,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 	if (j < 2)
 		color[0] = GO_RGBA_WHITE;
 	else for (i = 0; i < j; i++) {
-		gog_theme_fillin_style (theme, style, GOG_OBJECT (plot->series->data), i, FALSE);
+		gog_theme_fillin_style (theme, style, GOG_OBJECT (plot->series->data), i, style->interesting_fields);
 		color[i] = style->fill.pattern.back;
 	}
 	g_object_unref (style);
@@ -178,7 +178,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 			g_free (label);
 		}
 		if (limits[i - j] > minimum) {
-			gog_theme_fillin_style (theme, style, GOG_OBJECT (plot->series->data), i, FALSE);
+			gog_theme_fillin_style (theme, style, GOG_OBJECT (plot->series->data), i, style->interesting_fields);
 			label = g_strdup_printf ("[%g%s %g]", minimum, separator,
 						limits[i - j]);
 			(func) (i, style, label, data);
@@ -334,7 +334,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (max < 2)
 		color[0] = GO_RGBA_WHITE;
 	else for (i = 0; i < (unsigned) max; i++) {
-		gog_theme_fillin_style (theme, style, GOG_OBJECT (series), i, FALSE);
+		gog_theme_fillin_style (theme, style, GOG_OBJECT (series), i, style->interesting_fields);
 		color[i] = style->fill.pattern.back;
 	}
 	g_object_unref (style);

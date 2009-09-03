@@ -92,10 +92,11 @@ gog_text_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	GogObject *parent;
 
-	style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL | 
+	style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL |
 		GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
-		style, GOG_OBJECT (gso), 0, FALSE);
+		style, GOG_OBJECT (gso), 0, GO_STYLE_OUTLINE | GO_STYLE_FILL |
+	        GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT);
 	
 	/* Kludge for default Y axis title orientation. This should have be done
 	 * in GogTheme, but it's not possible without breaking graph persistence

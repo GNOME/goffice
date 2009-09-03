@@ -1,3 +1,36 @@
+2009-09-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c (gog_axis_base_init_style): fixed some
+	issues with auto styles.
+	* goffice/graph/gog-axis.c (gog_axis_init_style): ditto.
+	* goffice/graph/gog-equation.c (gog_equation_init_style): ditto.
+	* goffice/graph/gog-graph.c (gog_graph_init): ditto.
+	* goffice/graph/gog-grid.c (gog_grid_init_style): ditto.
+	* goffice/graph/gog-label.c (gog_text_init_style): ditto.
+	* goffice/graph/gog-legend.c (gog_legend_init_style): ditto.
+	* goffice/graph/gog-plot.c (gog_plot_foreach_elem): ditto.
+	* goffice/graph/gog-reg-curve.c (gog_reg_curve_init_style): ditto.
+	* goffice/graph/gog-series-lines.c (gog_series_lines_init_style): ditto.
+	* goffice/graph/gog-series.c (gog_series_element_init_style),
+	(gog_series_init_style): ditto.
+	* goffice/graph/gog-smoothed-curve.c
+	(gog_smoothed_curve_init_style): ditto.
+	* goffice/graph/gog-styled-object.c
+	(gog_styled_object_parent_changed): ditto.
+	* goffice/graph/gog-theme.c (gog_theme_fillin_style): ditto.
+	* goffice/graph/gog-theme.h: ditto.
+	* goffice/utils/go-style.c (go_style_apply_theme): ditto.
+	* goffice/utils/go-style.h: ditto.
+	* plugins/plot_barcol/gog-line.c
+	(gog_line_series_element_init_style): ditto.
+	* plugins/plot_distrib/gog-boxplot.c
+	(gog_box_plot_series_class_init): ditto.
+	* plugins/plot_pie/gog-pie.c (gog_pie_view_render): ditto.
+	* plugins/plot_surface/gog-contour.c
+	(gog_contour_plot_foreach_elem), (gog_contour_view_render): ditto.
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render),
+	(gog_xy_series_element_init_style): ditto.
+
 2009-09-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-plugin-service-impl.h: renamed GPS to GO_PLUGIN_SERVICE
