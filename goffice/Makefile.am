@@ -61,7 +61,7 @@ if WITH_WIN32
 LIB_PUBLIC_HDRS = $(libgoffice_@GOFFICE_API_VER@_la_HEADERS)
 
 goffice.def: local.def app/local.def \
-	cut-n-paste/foocanvas/local.def \
+	canvas/local.def \
 	component/local.def \
 	data/local.def drawing/local.def graph/local.def \
 	gtk/local.def  math/local.def \

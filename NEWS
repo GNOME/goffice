@@ -4,6 +4,9 @@ Jean:
 	* Deprecated GOStyle::outline. [#593608]
 	* Fixed import of surface plots from excel. [#593937]
 
+Jody:
+	* [win32] build fixes.
+
 --------------------------------------------------------------------------
 goffice 0.7.11:
 

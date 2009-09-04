@@ -1,3 +1,7 @@
+2009-09-03  Jody Goldberg <jody@gnome.org>
+
+	* goffice/Makefile.am : move win32 .def file from foocanvas to goc
+
 2009-09-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-error-bar.c (gog_error_bar_prefs): fix a widget
