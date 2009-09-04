@@ -1,3 +1,9 @@
+2009-09-04  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Conditional use of Use AM_SILENT_RULES (if automake-1.11 is present).
+	Verbose compilation is still available using make V=1.
+	Feel free to revert if it's not convenient.
+
 2009-09-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_surface/xl-surface.c
