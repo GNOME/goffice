@@ -1,3 +1,10 @@
+2009-09-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/xl-surface.c
+	(xl_xyz_series_init_style): avoid edition of unused styles,
+	(xl_contour_plot_class_init), (xl_surface_plot_class_init):
+	allow series insertion, and fix surface series style. [#594070, #594077]
+
 2009-09-03  Jody Goldberg <jody@gnome.org>
 
 	* goffice/Makefile.am : move win32 .def file from foocanvas to goc

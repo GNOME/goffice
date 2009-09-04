@@ -66,6 +66,7 @@ static void
 xl_xyz_series_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	series_parent_klass->init_style (gso, style);
+	style->interesting_fields = 0;  /* a quick hack to hide the style in the guru */
 }
 
 static void
@@ -308,6 +309,7 @@ xl_contour_plot_class_init (GogContourPlotClass *klass)
 		gog_plot_klass->desc.series.style_fields = 0;
 	}
 	/* Fill in GogPlotClass methods */
+	gog_plot_klass->desc.num_series_max = G_MAXINT;
 	gog_plot_klass->axis_get_bounds	= xl_xyz_plot_axis_get_bounds;
 	gog_plot_klass->series_type = xl_xyz_series_get_type();
 
@@ -397,9 +399,10 @@ xl_surface_plot_class_init (GogSurfacePlotClass *klass)
 		};
 		gog_plot_klass->desc.series.dim = dimensions;
 		gog_plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		gog_plot_klass->desc.series.style_fields = 0;
+		gog_plot_klass->desc.series.style_fields = GO_STYLE_LINE | GO_STYLE_FILL;
 	}
 	/* Fill in GogPlotClass methods */
+	gog_plot_klass->desc.num_series_max = G_MAXINT;
 	gog_plot_klass->axis_get_bounds	= xl_xyz_plot_axis_get_bounds;
 	gog_plot_klass->series_type = xl_xyz_series_get_type();
 

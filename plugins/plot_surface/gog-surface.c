@@ -168,7 +168,6 @@ gog_surface_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 	}
 
-
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
 
 	/* Build the tiles list */
