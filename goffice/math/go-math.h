@@ -40,7 +40,7 @@ double go_strtod (const char *s, char **end);
 double go_ascii_strtod (const char *s, char **end);
 /*
  * We provide working versions of these functions for doubles.
- */ 
+ */
 #ifdef GOFFICE_SUPPLIED_ASINH
 double asinh (double x);
 #endif
@@ -81,7 +81,7 @@ long double go_ascii_strtold (const char *s, char **end);
 
 /*
  * We provide working versions of these functions for long doubles.
- */ 
+ */
 #ifdef GOFFICE_SUPPLIED_LDEXPL
 long double ldexpl (long double x, int exp);
 #endif

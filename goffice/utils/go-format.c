@@ -3979,7 +3979,7 @@ go_format_inc_precision (GOFormat const *fmt)
 			break;
 		}
 
-		case 'E': 
+		case 'E':
 			if (last_zero != -2) {
 				if (last_zero>=0)
 					g_string_insert_len (res, last_zero + 1, ".0",2);
@@ -3989,7 +3989,7 @@ go_format_inc_precision (GOFormat const *fmt)
 			}
 			g_string_append_c (res, t);
 			break;
-			
+
 		case '0':
 			if (last_zero != -2)
 				last_zero = res->len;
@@ -5405,7 +5405,7 @@ go_format_get_details (GOFormat const *fmt,
 			dst->simplify_mantissa = mend != str && mend[-1] == '#';
 			if (dst->simplify_mantissa)
 				dst->min_digits = 0;
-		}			
+		}
 
 		if (exact != NULL) {
 			newstr = g_string_new (NULL);
@@ -5509,9 +5509,9 @@ go_format_odf_style_map (GOFormat const *fmt, int cond_part)
 	default:
 		return NULL;
 	}
-	return g_strdup_printf (format_string, 
+	return g_strdup_printf (format_string,
 				fmt->u.cond.conditions[cond_part].val);
-	
+
 }
 #endif
 
@@ -5537,7 +5537,7 @@ odf_add_bool (GsfXMLOut *xout, char const *id, gboolean val)
 
 static void
 go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
-			      char const *name, 
+			      char const *name,
 			      GOFormatFamily family,
 			      gboolean with_extension)
 {
@@ -5562,7 +5562,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 	GOFormatMagic magic = go_format_get_magic (fmt);
 	gboolean color_completed = FALSE;
 
-	gsf_xml_out_start_element (xout,  time_only ? 
+	gsf_xml_out_start_element (xout,  time_only ?
 				   NUMBER "time-style" : NUMBER "date-style");
 	gsf_xml_out_add_cstr (xout, STYLE "name", name);
 	if (magic == GO_FORMAT_MAGIC_NONE)
@@ -5592,25 +5592,25 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			int n = 1;
 			while (*xl == 'd' || *xl == 'D')
 				xl++, n++;
-			if (time_only) break; 
+			if (time_only) break;
 			switch (n) {
-			case 1: 
+			case 1:
 			case 2: if (seen_day) break;
 				seen_day = TRUE;
 				ODF_CLOSE_STRING;
 				element_written = TRUE;
 				gsf_xml_out_start_element (xout, NUMBER "day");
-				gsf_xml_out_add_cstr (xout, NUMBER "style", 
+				gsf_xml_out_add_cstr (xout, NUMBER "style",
 						      (n==1) ? "short" : "long");
 				gsf_xml_out_end_element (xout); /* </number:day> */
 				break;
-			case 3: 
+			case 3:
 			default: if (seen_weekday) break;
 				seen_weekday = TRUE;
 				ODF_CLOSE_STRING;
 				element_written = TRUE;
 				gsf_xml_out_start_element (xout, NUMBER "day-of-week");
-				gsf_xml_out_add_cstr (xout, NUMBER "style", 
+				gsf_xml_out_add_cstr (xout, NUMBER "style",
 						      (n==3) ? "short" : "long");
 				gsf_xml_out_end_element (xout); /* </number:day-of-week> */
 				break;
@@ -5622,12 +5622,12 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			int n = 1;
 			while (*xl == 'y' || *xl == 'Y')
 				xl++, n++;
-			if (time_only || seen_year) break; 
+			if (time_only || seen_year) break;
 			seen_year = TRUE;
 			ODF_CLOSE_STRING;
 			element_written = TRUE;
 			gsf_xml_out_start_element (xout, NUMBER "year");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", 
+			gsf_xml_out_add_cstr (xout, NUMBER "style",
 					      (n <= 2) ? "short" : "long");
 			gsf_xml_out_add_cstr (xout, NUMBER "calendar", "gregorian");
 			gsf_xml_out_end_element (xout); /* </number:year> */
@@ -5638,12 +5638,12 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			int n = 1;
 			while (*xl == 'b' || *xl == 'B')
 				xl++, n++;
-			if (time_only || seen_year) break; 
+			if (time_only || seen_year) break;
 			seen_year = TRUE;
 			ODF_CLOSE_STRING;
 			element_written = TRUE;
 			gsf_xml_out_start_element (xout, NUMBER "year");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", 
+			gsf_xml_out_add_cstr (xout, NUMBER "style",
 					      (n <= 2) ? "short" : "long");
 			gsf_xml_out_add_cstr (xout, NUMBER "calendar", "buddhist");
 			gsf_xml_out_end_element (xout); /* </number:year> */
@@ -5652,7 +5652,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 		case 'e': {  /* What is 'e' really? */
 			while (*xl == 'e') xl++;
-			if (time_only || seen_year) break; 
+			if (time_only || seen_year) break;
 			seen_year = TRUE;
 			ODF_CLOSE_STRING;
 			gsf_xml_out_start_element (xout, NUMBER "year");
@@ -5661,7 +5661,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			gsf_xml_out_end_element (xout); /* </number:year> */
 			break;
 		}
-			
+
 		case 'g': case 'G':
 			/* Something with Japanese eras.  Blank for me. */
 			break;
@@ -5675,7 +5675,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			ODF_CLOSE_STRING;
 			element_written = TRUE;
 			gsf_xml_out_start_element (xout, NUMBER "hours");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", 
+			gsf_xml_out_add_cstr (xout, NUMBER "style",
 					      (n == 1) ? "short" : "long");
 			if (with_extension)
 				gsf_xml_out_add_cstr (xout, GNMSTYLE "truncate-on-overflow", "true");
@@ -5698,7 +5698,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				seconds_trigger_minutes = FALSE;
 				ODF_CLOSE_STRING;
 				gsf_xml_out_start_element (xout, NUMBER "minutes");
-				gsf_xml_out_add_cstr (xout, NUMBER "style", 
+				gsf_xml_out_add_cstr (xout, NUMBER "style",
 						      (n == 1) ? "short" : "long");
 				if (with_extension)
 					gsf_xml_out_add_cstr (xout, GNMSTYLE "truncate-on-overflow", "true");
@@ -5710,20 +5710,20 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				gsf_xml_out_start_element (xout, NUMBER "month");
 				gsf_xml_out_add_cstr (xout, NUMBER "possessive-form", "false");
 				switch (n) {
-				case 1: 
+				case 1:
 					gsf_xml_out_add_cstr (xout, NUMBER "textual", "false");
 					gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
 					break;
-				case 2: 
+				case 2:
 					gsf_xml_out_add_cstr (xout, NUMBER "textual", "false");
 					gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
 					break;
 				case 3: /* ODF does not support single letter abbreviation */
-				case 5: 
+				case 5:
 					gsf_xml_out_add_cstr (xout, NUMBER "textual", "true");
 					gsf_xml_out_add_cstr (xout, NUMBER "style", "short");
 					break;
-				default: 
+				default:
 					gsf_xml_out_add_cstr (xout, NUMBER "textual", "true");
 					gsf_xml_out_add_cstr (xout, NUMBER "style", "long");
 					break;
@@ -5752,7 +5752,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			ODF_CLOSE_STRING;
 			element_written = TRUE;
 			gsf_xml_out_start_element (xout, NUMBER "seconds");
-			gsf_xml_out_add_cstr (xout, NUMBER "style", 
+			gsf_xml_out_add_cstr (xout, NUMBER "style",
 					      (n == 1) ? "short" : "long");
 			gsf_xml_out_add_int (xout, NUMBER "decimal-places", d);
 			if (with_extension)
@@ -5831,7 +5831,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			}
 			break;
 		}
-			
+
 		case TOK_CHAR: {
 			size_t len = g_utf8_next_char(token) - (token);
 			if (len > 0) {
@@ -5868,8 +5868,8 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			if (go_format_parse_color (token, &color, NULL, NULL, FALSE)) {
 				ODF_CLOSE_STRING;
 				gsf_xml_out_start_element (xout, STYLE "text-properties");
-				str = g_strdup_printf ("#%.2X%.2X%.2X", 
-						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color), 
+				str = g_strdup_printf ("#%.2X%.2X%.2X",
+						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color),
 						       GO_COLOR_UINT_B (color));
 				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
 				g_free (str);
@@ -5913,7 +5913,7 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 
 static void
 go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
-				  char const *name, 
+				  char const *name,
 				  gboolean with_extension)
 {
 	char const *xl = go_format_as_XL (fmt);
@@ -5945,7 +5945,7 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				gsf_xml_out_start_element (xout, NUMBER "fraction");
 				odf_add_bool (xout, NUMBER "grouping", FALSE);
 				gsf_xml_out_add_int (xout, NUMBER "min-denominator-digits", 3);
-				gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 
+				gsf_xml_out_add_int (xout, NUMBER "min-integer-digits",
 						     int_digits > 0 ? int_digits : 0);
 				gsf_xml_out_add_int (xout, NUMBER "min-numerator-digits", 1);
 				gsf_xml_out_end_element (xout); /* </number:fraction> */
@@ -5953,8 +5953,8 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			gsf_xml_out_end_element (xout); /* </number:number-style> */
 			g_string_free (accum, TRUE);
 			return;
-			
-		case '0': 
+
+		case '0':
 			zeroes = 1;
 			/* fall through */
 		case '#': case '?': {
@@ -5962,7 +5962,7 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			if (fraction_completed) {
 				zeroes = 0;
 				break;
-			}  
+			}
 			ODF_CLOSE_STRING;
                         /* ODF allows only for a single fraction specification */
 			fraction_in_progress = TRUE;
@@ -6000,23 +6000,23 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			gsf_xml_out_start_element (xout, NUMBER "fraction");
 			odf_add_bool (xout, NUMBER "grouping", FALSE);
 			if ((fixed_denominator > 0) && (digits == i)) {
-				gsf_xml_out_add_int (xout, NUMBER "denominator-value", 
+				gsf_xml_out_add_int (xout, NUMBER "denominator-value",
 						     fixed_denominator);
 				gsf_xml_out_add_int (xout, NUMBER "min-denominator-digits", digits);
-			} else 
+			} else
 				gsf_xml_out_add_int (xout, NUMBER "min-denominator-digits", zeroes);
 			if (with_extension)
 				gsf_xml_out_add_int (xout, GNMSTYLE "max-denominator-digits", i);
-			
+
 			if (int_digits >= 0)
 				gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", int_digits);
 			else {
 				gsf_xml_out_add_int (xout, NUMBER "min-integer-digits", 0);
 				if (with_extension)
-					gsf_xml_out_add_cstr_unchecked 
+					gsf_xml_out_add_cstr_unchecked
 						(xout, GNMSTYLE "no-integer-part", "true");
 			}
-			gsf_xml_out_add_int (xout, NUMBER "min-numerator-digits", 
+			gsf_xml_out_add_int (xout, NUMBER "min-numerator-digits",
 					     min_numerator_digits);
 			gsf_xml_out_end_element (xout); /* </number:fraction> */
 			fraction_completed = TRUE;
@@ -6032,8 +6032,8 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			if (go_format_parse_color (token, &color, NULL, NULL, FALSE)) {
 				ODF_CLOSE_STRING;
 				gsf_xml_out_start_element (xout, STYLE "text-properties");
-				str = g_strdup_printf ("#%.2X%.2X%.2X", 
-						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color), 
+				str = g_strdup_printf ("#%.2X%.2X%.2X",
+						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color),
 						       GO_COLOR_UINT_B (color));
 				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
 				g_free (str);
@@ -6045,7 +6045,7 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 		case 'd': case 'D':
 		case 'y': case 'Y':
 		case 'b': case 'B':
-		case 'e': 
+		case 'e':
 		case 'g': case 'G':
 		case 'h': case 'H':
 		case 'm': case 'M':
@@ -6071,7 +6071,7 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			}
 			break;
 		}
-			
+
 		case TOK_CHAR: {
 			size_t len = g_utf8_next_char(token) - (token);
 			if (len > 0) {
@@ -6144,7 +6144,7 @@ go_format_output_number_element_to_odf (GsfXMLOut *xout,
 }
 
 static void
-go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, 
+go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				GOFormatFamily family,
 				char const *name, int cond_part)
 {
@@ -6189,7 +6189,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			gsf_xml_out_end_element (xout); /* </number:number-style> */
 			g_string_free (accum, TRUE);
 			return;
-			
+
 		case TOK_DECIMAL:
 			if (number_completed) break;
                         /* ODF allows only for a single number specification */
@@ -6217,7 +6217,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				min_integer_digits++;
 			break;
 
-		case '#': 
+		case '#':
 		case '?':
 			if (number_completed) break;
                         /* ODF allows only for a single number specification */
@@ -6234,8 +6234,8 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				ODF_CLOSE_STRING;
 				ODF_WRITE_NUMBER;
 				gsf_xml_out_start_element (xout, STYLE "text-properties");
-				str = g_strdup_printf ("#%.2X%.2X%.2X", 
-						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color), 
+				str = g_strdup_printf ("#%.2X%.2X%.2X",
+						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color),
 						       GO_COLOR_UINT_B (color));
 				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
 				g_free (str);
@@ -6244,7 +6244,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			}
 		} break;
 
-		case '$': 
+		case '$':
 			ODF_WRITE_NUMBER;
 			if (family == GO_FORMAT_CURRENCY) {
 				ODF_CLOSE_STRING;
@@ -6283,19 +6283,19 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			}
 			break;
 		}
-			
+
 		case TOK_CHAR: {
 			size_t len = g_utf8_next_char(token) - (token);
 			if (len > 0) {
 				gunichar uc;
 				ODF_WRITE_NUMBER;
-				if ((family == GO_FORMAT_CURRENCY) && 
-				    ((uc = g_utf8_get_char (token)) == UNICODE_POUNDS1 
-				     || uc == UNICODE_POUNDS2 || uc == UNICODE_YEN 
+				if ((family == GO_FORMAT_CURRENCY) &&
+				    ((uc = g_utf8_get_char (token)) == UNICODE_POUNDS1
+				     || uc == UNICODE_POUNDS2 || uc == UNICODE_YEN
 				     || uc == UNICODE_YEN_WIDE || uc == UNICODE_EURO)) {
 					char *str;
 					ODF_CLOSE_STRING;
-					str = g_strndup (token, len); 
+					str = g_strndup (token, len);
 					gsf_xml_out_simple_element(xout, NUMBER "currency-symbol", str);
 					g_free (str);
 				} else {
@@ -6318,7 +6318,7 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				if (len > 0) {
 					char *str;
 					ODF_CLOSE_STRING;
-					str = g_strndup (token, len); 
+					str = g_strndup (token, len);
 					gsf_xml_out_simple_element(xout, NUMBER "currency-symbol", str);
 					g_free (str);
 				}
@@ -6382,8 +6382,8 @@ go_format_output_scientific_number_element_to_odf (GsfXMLOut *xout,
 }
 
 static void
-go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt, 
-					   char const *name, 
+go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
+					   char const *name,
 					   gboolean with_extension)
 {
 	char const *xl = go_format_as_XL (fmt);
@@ -6415,7 +6415,7 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			gsf_xml_out_end_element (xout); /* </number:number-style> */
 			g_string_free (accum, TRUE);
 			return;
-			
+
 		case TOK_DECIMAL:
 			if (number_completed) break;
                         /* ODF allows only for a single number specification */
@@ -6450,7 +6450,7 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			number_seen = TRUE;
 			break;
 
-		case '#': 
+		case '#':
 			if (number_completed) break;
                         /* ODF allows only for a single number specification */
 			ODF_CLOSE_STRING;
@@ -6468,7 +6468,7 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 					min_exponent_digits++;
 			go_format_output_scientific_number_element_to_odf
 				(xout, min_integer_digits, min_decimal_digits,
-				 min_exponent_digits, comma_seen, 
+				 min_exponent_digits, comma_seen,
 				 with_extension && hashes > 0 && (hashes + min_integer_digits == 3));
 			number_completed = TRUE;
 			break;
@@ -6481,8 +6481,8 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			if (go_format_parse_color (token, &color, NULL, NULL, FALSE)) {
 				ODF_CLOSE_STRING;
 				gsf_xml_out_start_element (xout, STYLE "text-properties");
-				str = g_strdup_printf ("#%.2X%.2X%.2X", 
-						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color), 
+				str = g_strdup_printf ("#%.2X%.2X%.2X",
+						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color),
 						       GO_COLOR_UINT_B (color));
 				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
 				g_free (str);
@@ -6520,7 +6520,7 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			}
 			break;
 		}
-			
+
 		case TOK_CHAR: {
 			size_t len = g_utf8_next_char(token) - (token);
 			if (len > 0) {
@@ -6575,7 +6575,7 @@ go_format_output_general_to_odf (GsfXMLOut *xout, char const *name, int cond_par
 #ifdef DEFINE_COMMON
 gboolean
 go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
-			 int cond_part, char const *name, 
+			 int cond_part, char const *name,
 			 gboolean with_extension)
 {
 	gboolean pp = TRUE, result = TRUE;
@@ -6652,7 +6652,7 @@ go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 			str++;
 		}
 		if (digit < date)
-			go_format_output_date_to_odf (xout, act_fmt, name, 
+			go_format_output_date_to_odf (xout, act_fmt, name,
 						      GO_FORMAT_DATE, with_extension);
 		else
 			go_format_output_general_to_odf (xout, name, cond_part);

@@ -95,7 +95,7 @@ GSF_CLASS_ABSTRACT (GOData, go_data,
 		    G_TYPE_OBJECT)
 
 /**
- * go_data_dup : 
+ * go_data_dup :
  * @src : #GOData
  *
  * Returns: A deep copy of @src.

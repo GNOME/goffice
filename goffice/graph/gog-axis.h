@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-axis.h : 
+ * gog-axis.h :
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -86,7 +86,7 @@ unsigned      gog_axis_get_ticks 	  (GogAxis *axis, GogAxisTick **ticks);
 GOData	     *gog_axis_get_labels	  (GogAxis const *axis,
 					   GogPlot **plot_that_labeled_axis);
 
-double 	      gog_axis_get_entry 	  (GogAxis const *axis, GogAxisElemType i, 
+double 	      gog_axis_get_entry 	  (GogAxis const *axis, GogAxisElemType i,
 					   gboolean *user_defined);
 
 void 	      gog_axis_add_contributor	  (GogAxis *axis, GogObject *contrib);

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-demo.c : 
+ * go-demo.c :
  *
  * Copyright (C) 2003-2005 Jean Brefort (jean.brefort@normalesup.org)
  * Copyright (C) 2008 Sun Microsystems, Inc.  All rights reserved.
@@ -41,7 +41,7 @@ typedef struct _GoDemoPrivate GODemoPrivate;
 struct _GoDemoPrivate {
 	GtkWidget *toplevel;
 	GtkBuilder  *xml;
-	
+
 	GtkAction *menu_item_quit;
 	GtkWidget *btn_regen;
 	GtkWidget *notebook_charts;
@@ -312,7 +312,7 @@ init_data_widgets (GODemoPrivate *priv)
 {
 	int i;
 	char *wname = NULL;
-	
+
 	for (i =0; i< 6; i++) {
 		/* init legend widgets */
 		g_free (wname);

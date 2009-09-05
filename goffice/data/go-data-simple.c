@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-data-simple.c : 
+ * go-data-simple.c :
  *
  * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
  *
@@ -477,11 +477,11 @@ struct _GODataVectorStr {
 	GODataVector	 base;
 	char const * const *str;
 	int n;
-	GDestroyNotify notify;   
+	GDestroyNotify notify;
 
 	GOTranslateFunc translate_func;
 	gpointer        translate_data;
-	GDestroyNotify  translate_notify;   
+	GDestroyNotify  translate_notify;
 };
 typedef GODataVectorClass GODataVectorStrClass;
 
@@ -617,7 +617,7 @@ go_data_vector_str_unserialize (GOData *dat, char const *str, gpointer user)
 				/* string containg quotes are not allowed */
 				g_array_free (values, TRUE);
 				return FALSE;
-			}					
+			}
 			cur = end + 1;
 		}
 	}
@@ -739,9 +739,9 @@ go_data_vector_str_new (char const * const *str, unsigned n, GDestroyNotify noti
  * @vector: a #GODataVectorStr
  * @func: a #GOTranslateFunc
  * @data: data to be passed to @func and @notify
- * @notify: a #GODestroyNotify function to be called when @vec is 
+ * @notify: a #GODestroyNotify function to be called when @vec is
  *   destroyed or when the translation function is changed
- * 
+ *
  * Sets a function to be used for translating elements of @vec
  **/
 void
@@ -761,7 +761,7 @@ go_data_vector_str_set_translate_func (GODataVectorStr	*vec,
 }
 
 static char const *
-dgettext_swapped (char const *msgid, 
+dgettext_swapped (char const *msgid,
 		  char const *domainname)
 {
 	return dgettext (domainname, msgid);
@@ -771,23 +771,23 @@ dgettext_swapped (char const *msgid,
  * go_data_vector_str_set_translation_domain:
  * @vector: a #GODataVectorStr
  * @domain: the translation domain to use for dgettext() calls
- * 
- * Sets the translation domain and uses dgettext() for translating the 
+ *
+ * Sets the translation domain and uses dgettext() for translating the
  * elements of @vec.
  * Note that libgoffice expects all strings to be encoded in UTF-8, therefore
  * the translation domain must have its codeset set to UTF-8, see
- * bind_textdomain_codeset() in the gettext() documentation. 
+ * bind_textdomain_codeset() in the gettext() documentation.
  *
- * If you're not using gettext() for localization, see 
+ * If you're not using gettext() for localization, see
  * go_data_vector_str_set_translate_func().
  **/
-void 
+void
 go_data_vector_str_set_translation_domain (GODataVectorStr *vec,
 					   char const      *domain)
 {
 	g_return_if_fail (GO_DATA_VECTOR_STR (vec) != NULL);
 
-	go_data_vector_str_set_translate_func (vec, 
+	go_data_vector_str_set_translate_func (vec,
 		(GOTranslateFunc)dgettext_swapped, g_strdup (domain), g_free);
 }
 /*****************************************************************************/

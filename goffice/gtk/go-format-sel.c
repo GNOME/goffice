@@ -91,7 +91,7 @@ typedef enum {
 	F_SYMBOL_LABEL,		F_SYMBOL,
 	F_ENTRY,
 	F_LIST_LABEL,		F_LIST_SCROLL,		F_LIST,
-	F_DECIMAL_SPIN,		F_ENGINEERING_BUTTON,	
+	F_DECIMAL_SPIN,		F_ENGINEERING_BUTTON,
 	F_SUPERSCRIPT_BUTTON,	F_SUPERSCRIPT_HIDE_1_BUTTON,
 	F_NEGATIVE_LABEL,	F_NEGATIVE_SCROLL,	F_NEGATIVE,
 	F_DECIMAL_LABEL,	F_CODE_LABEL,
@@ -209,7 +209,7 @@ draw_format_preview (GOFormatSel *gfs, gboolean regen_format)
 	else
 		gdk_color_parse ("black", &gdk_color);
 
-	gtk_widget_modify_text (GTK_WIDGET (gfs->format.preview), 
+	gtk_widget_modify_text (GTK_WIDGET (gfs->format.preview),
 				GTK_STATE_NORMAL, &gdk_color);
 	g_free (preview);
 }
@@ -611,13 +611,13 @@ stays:
 			if (gfs->show_format_with_markup) {
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 							      gfs->format.details.use_markup);
-			} else 
+			} else
 				show_widget = FALSE;
 			break;
 
 		case F_SUPERSCRIPT_HIDE_1_BUTTON:
 			if (gfs->show_format_with_markup) {
-				
+
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 							      gfs->format.details.simplify_mantissa);
 				gtk_widget_set_sensitive (w, gfs->format.details.use_markup);
@@ -659,15 +659,15 @@ stays:
  */
 
 static void
-cb_format_class_changed (G_GNUC_UNUSED GtkTreeSelection *ignored, 
+cb_format_class_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 			 GOFormatSel *gfs)
 {
 	int selected_item = 0;
 	GList *list;
-	GtkTreeSelection *selection = gtk_tree_view_get_selection 
+	GtkTreeSelection *selection = gtk_tree_view_get_selection
 		(GTK_TREE_VIEW(gfs->format.menu));
 
-	list = gtk_tree_selection_get_selected_rows 
+	list = gtk_tree_selection_get_selected_rows
 		(selection, &gfs->format.menu_model);
 	if (list) {
 		GtkTreePath *path;
@@ -816,7 +816,7 @@ static void
 set_format_category (GOFormatSel *gfs, int row)
 {
 	GtkTreePath *path;
-	GtkTreeSelection *selection = gtk_tree_view_get_selection 
+	GtkTreeSelection *selection = gtk_tree_view_get_selection
 		((GTK_TREE_VIEW(gfs->format.menu)));
 
 	path = gtk_tree_path_new_from_indices (row, -1);
@@ -878,16 +878,16 @@ populate_menu (GOFormatSel *gfs)
 	GtkCellRenderer *renderer;
 	char const * const *categories = format_category_names;
 
-	gfs->format.menu_model = GTK_TREE_MODEL (gtk_list_store_new 
+	gfs->format.menu_model = GTK_TREE_MODEL (gtk_list_store_new
 						 (1, G_TYPE_STRING));
-	gtk_tree_view_set_model (GTK_TREE_VIEW (gfs->format.menu), 
+	gtk_tree_view_set_model (GTK_TREE_VIEW (gfs->format.menu),
 				 gfs->format.menu_model);
-	selection = gtk_tree_view_get_selection 
+	selection = gtk_tree_view_get_selection
 		(GTK_TREE_VIEW(gfs->format.menu));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 
 	while (*categories) {
-		gtk_list_store_append 
+		gtk_list_store_append
 			(GTK_LIST_STORE (gfs->format.menu_model), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (gfs->format.menu_model),
 				    &iter, 0, _(*categories), -1);
@@ -1195,15 +1195,15 @@ nfs_class_init (GObjectClass *klass)
 GSF_CLASS (GOFormatSel, go_format_sel,
 	   nfs_class_init, nfs_init, GTK_TYPE_HBOX)
 
-/** 
+/**
  * go_format_sel_new_full:
  * @use_markup: enable formats using pango markup
  *
  * Creates a format selector widget, with general format selected
  * by default. When @use_markup is set to %TRUE, it shows additional
- * widgets for editing properties of formats using pango markup 
+ * widgets for editing properties of formats using pango markup
  * (e.g. scientific format with superscripted exponent).
- * 
+ *
  * returns: a format selector widget.
  **/
 
@@ -1226,7 +1226,7 @@ go_format_sel_new_full (gboolean use_markup)
  * Creates a format selector widget, with general format selected
  * by default, and formats using pango markup disabled. See
  * @go_format_sel_new_full.
- * 
+ *
  * returns: a format selector widget.
  **/
 
@@ -1327,8 +1327,8 @@ go_format_sel_editable_enters (GOFormatSel *gfs,
 	go_gtk_editable_enters (window, gfs->format.widget[F_ENTRY]);
 }
 
-void		
-go_format_sel_set_locale (GOFormatSel *gfs, 
+void
+go_format_sel_set_locale (GOFormatSel *gfs,
 			  char const *locale)
 {
 	g_free (gfs->locale);
@@ -1339,7 +1339,7 @@ go_format_sel_set_locale (GOFormatSel *gfs,
 
 /* The following utility function should possibly be in format.h but we */
 /* access to the array of category names which are better located here. */
-char const *    
+char const *
 go_format_sel_format_classification (GOFormat const *style_format)
 {
 	GOFormatFamily page = go_format_get_family (style_format);

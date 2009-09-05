@@ -43,11 +43,11 @@ GogAxisMap	*gog_chart_map_get_axis_map 	(GogChartMap *map, unsigned int index);
 gboolean	 gog_chart_map_is_valid 	(GogChartMap *map);
 void		 gog_chart_map_free 		(GogChartMap *map);
 
-GOPath 		*gog_chart_map_make_path 	(GogChartMap *map, double const *x, double const *y, 
+GOPath 		*gog_chart_map_make_path 	(GogChartMap *map, double const *x, double const *y,
 						 int n_points, GOLineInterpolation interpolation,
 						 gboolean skip_invalid, gpointer data);
-GOPath 		*gog_chart_map_make_close_path 	(GogChartMap *map, double const *x, double const *y, 
-						 int n_points, 
+GOPath 		*gog_chart_map_make_close_path 	(GogChartMap *map, double const *x, double const *y,
+						 int n_points,
 						 GogSeriesFillType fill_type);
 
 GogChartMapPolarData *gog_chart_map_get_polar_parms (GogChartMap *map);

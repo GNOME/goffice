@@ -180,7 +180,7 @@ add_image_cb (char const *key, GOImage *image, GOImageSelState *state)
  * go_image_sel_new
  * @doc		: The #GODoc owning the image collection
  * @image	:  #GOImage
- * 
+ *
  * Returns: and shows new image selector.
  **/
 GtkWidget *
@@ -220,7 +220,7 @@ go_image_sel_new (GODoc *doc, GOCmdContext *cc, GOImage **image)
 	state->model = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
 	gtk_icon_view_set_model (state->icon_view , GTK_TREE_MODEL (state->model));
 
-	/* Set sort column and function */ 
+	/* Set sort column and function */
 	gtk_tree_sortable_set_default_sort_func (GTK_TREE_SORTABLE (state->model),
 					       sort_func,
 					       NULL, NULL);

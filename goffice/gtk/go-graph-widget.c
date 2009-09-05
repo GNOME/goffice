@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-graph-widget.c : 
+ * go-graph-widget.c :
  *
  * Copyright (C) 2003-2005 Jean Brefort (jean.brefort@normalesup.org)
  *  This program is free software; you can redistribute it and/or modify
@@ -336,7 +336,7 @@ go_graph_widget_class_init (GOGraphWidgetClass *klass)
 		GRAPH_WIDGET_PROP_GRAPH,
 		g_param_spec_object ("graph", "graph",
 			"The graph to render.",
-			gog_graph_get_type (), 
+			gog_graph_get_type (),
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property (object_class,
 		GRAPH_WIDGET_PROP_HRES,
@@ -373,7 +373,7 @@ go_graph_widget_init (GOGraphWidget *w)
  * GO_GRAPH_WIDGET_SIZE_MODE_FIT, aspect ratio set.
  * The aspect ratio is guaranteed to be maintained,
  * i.e. the graph is never squeezed, and will
- * always fit into the visible area.  
+ * always fit into the visible area.
  *
  * GO_GRAPH_WIDGET_SIZE_MODE_FIT, no aspect ratio set.
  * The aspect ratio is adapted to make the graph
@@ -417,7 +417,7 @@ go_graph_widget_set_size_mode (GOGraphWidget         *widget,
 /**
  * go_graph_widget_new :
  * @graph : #GogGraph
- * 
+ *
  * Creates a new #GOGraphWidget with an embedded #GogGraph.
  * If graph is NULL, the graph will be auto-created, and a
  * #GogChart will be added graph.
@@ -453,7 +453,7 @@ GSF_CLASS (GOGraphWidget, go_graph_widget,
 /**
  * go_graph_widget_get_graph :
  * @widget : #GOGraphWidget
- * 
+ *
  * Returns: the #GogGraph embedded in the widget.
  **/
 GogGraph *
@@ -466,7 +466,7 @@ go_graph_widget_get_graph (GOGraphWidget *widget)
 /**
  * go_graph_widget_get_chart :
  * @widget : #GOGraphWidget
- * 
+ *
  * Returns: the #GogChart created by go_graph_widget_new().
  **/
 GogChart *
@@ -480,7 +480,7 @@ go_graph_widget_get_chart (GOGraphWidget *widget)
 /**
  * go_graph_widget_get_renderer :
  * @widget : #GOGraphWidget
- * 
+ *
  * Returns: the #GogRenderer used by the widget.
  **/
 GogRenderer *go_graph_widget_get_renderer (GOGraphWidget *widget)

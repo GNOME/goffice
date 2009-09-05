@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-equation.h : 
+ * gog-equation.h :
  *
  * Copyright (C) 2008 Emmanuel Pacaud <emmanuel@gnome.org>
  *

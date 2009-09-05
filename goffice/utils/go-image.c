@@ -98,7 +98,7 @@ go_image_format_to_mime (char const *format)
 		"eps", "image/x-eps",
 #endif
 	};
-	
+
 	if (format == NULL)
 		return NULL;
 
@@ -129,25 +129,25 @@ go_image_format_to_mime (char const *format)
 }
 
 static GOImageFormatInfo const image_format_infos[GO_IMAGE_FORMAT_UNKNOWN] = {
-	{GO_IMAGE_FORMAT_SVG, (char *) "svg",  (char *) N_("SVG (vector graphics)"), 	 
+	{GO_IMAGE_FORMAT_SVG, (char *) "svg",  (char *) N_("SVG (vector graphics)"),
 		(char *) "svg", FALSE, FALSE, TRUE},
-	{GO_IMAGE_FORMAT_PNG, (char *) "png",  (char *) N_("PNG (raster graphics)"), 	 
+	{GO_IMAGE_FORMAT_PNG, (char *) "png",  (char *) N_("PNG (raster graphics)"),
 		(char *) "png", TRUE,  TRUE, TRUE},
-	{GO_IMAGE_FORMAT_JPG, (char *) "jpeg", (char *) N_("JPEG (photograph)"),     	 
+	{GO_IMAGE_FORMAT_JPG, (char *) "jpeg", (char *) N_("JPEG (photograph)"),
 		(char *) "jpg", TRUE,  TRUE, FALSE},
-	{GO_IMAGE_FORMAT_PDF, (char *) "pdf",  (char *) N_("PDF (portable document format)"), 
+	{GO_IMAGE_FORMAT_PDF, (char *) "pdf",  (char *) N_("PDF (portable document format)"),
 		(char *) "pdf", FALSE, FALSE, TRUE},
-	{GO_IMAGE_FORMAT_PS,  (char *) "ps",   (char *) N_("PS (postscript)"), 		 
+	{GO_IMAGE_FORMAT_PS,  (char *) "ps",   (char *) N_("PS (postscript)"),
 		(char *) "ps",  FALSE, TRUE, TRUE},
 	{GO_IMAGE_FORMAT_EMF, (char *) "emf",  (char *) N_("EMF (extended metafile)"),
 		(char *) "emf", FALSE, FALSE, TRUE},
-	{GO_IMAGE_FORMAT_WMF, (char *) "wmf",  (char *) N_("WMF (windows metafile)"), 
+	{GO_IMAGE_FORMAT_WMF, (char *) "wmf",  (char *) N_("WMF (windows metafile)"),
 		(char *) "wmf", FALSE, FALSE, TRUE},
 #ifdef HAVE_CAIRO_PS_SURFACE_SET_EPS
-	{GO_IMAGE_FORMAT_EPS,  (char *) "eps",   (char *) N_("EPS (encapsulated postscript)"), 		 
+	{GO_IMAGE_FORMAT_EPS,  (char *) "eps",   (char *) N_("EPS (encapsulated postscript)"),
 		(char *) "eps",  FALSE, TRUE, TRUE},
 #else
-	{GO_IMAGE_FORMAT_EPS,  (char *) "",   (char *) "", 		 
+	{GO_IMAGE_FORMAT_EPS,  (char *) "",   (char *) "",
 		(char *) "",  FALSE, FALSE, FALSE},
 #endif
 };
@@ -164,17 +164,17 @@ go_image_build_pixbuf_format_infos (void)
 
 	if (pixbuf_format_done)
 		return;
-	
+
 	pixbuf_fmts = gdk_pixbuf_get_formats ();
 	pixbuf_format_nbr = g_slist_length (pixbuf_fmts);
-	
+
 	if (pixbuf_format_nbr > 0) {
 		pixbuf_image_format_infos = g_new (GOImageFormatInfo, pixbuf_format_nbr);
-		pixbuf_mimes = g_hash_table_new_full 
+		pixbuf_mimes = g_hash_table_new_full
 			(g_str_hash, g_str_equal, g_free, g_free);
 
-		for (l = pixbuf_fmts, i = 1, format_info = pixbuf_image_format_infos; 
-		     l != NULL; 
+		for (l = pixbuf_fmts, i = 1, format_info = pixbuf_image_format_infos;
+		     l != NULL;
 		     l = l->next, i++, format_info++) {
 			fmt = (GdkPixbufFormat *)l->data;
 
@@ -193,7 +193,7 @@ go_image_build_pixbuf_format_infos (void)
 			mimes = gdk_pixbuf_format_get_mime_types (fmt);
 			for (j = 0; mimes[j]; j++) {
 				g_hash_table_insert
-					(pixbuf_mimes, 
+					(pixbuf_mimes,
 					 g_strdup((gpointer) mimes[j]),
 					 g_strdup((gpointer) format_info->name));
 			}
@@ -211,7 +211,7 @@ go_image_build_pixbuf_format_infos (void)
  * @format: a #GOImageFormat
  *
  * Retrieves infromation associated to @format.
- * 
+ *
  * returns: a #GOImageFormatInfo struct.
  **/
 
@@ -220,11 +220,11 @@ go_image_get_format_info (GOImageFormat format)
 {
 	if (format > GO_IMAGE_FORMAT_UNKNOWN)
 		go_image_build_pixbuf_format_infos ();
-		
-	g_return_val_if_fail (format >= 0 && 
+
+	g_return_val_if_fail (format >= 0 &&
 			      format != GO_IMAGE_FORMAT_UNKNOWN &&
 			      format <= GO_IMAGE_FORMAT_UNKNOWN + pixbuf_format_nbr, NULL);
-	if (format < GO_IMAGE_FORMAT_UNKNOWN)	
+	if (format < GO_IMAGE_FORMAT_UNKNOWN)
 		return &image_format_infos[format];
 
 	return &pixbuf_image_format_infos[format - PIXBUF_IMAGE_FORMAT_OFFSET];
@@ -237,13 +237,13 @@ go_image_get_format_info (GOImageFormat format)
  * returns: corresponding #GOImageFormat.
  **/
 
-GOImageFormat	 
+GOImageFormat
 go_image_get_format_from_name (char const *name)
 {
 	unsigned i;
 
 	go_image_build_pixbuf_format_infos ();
-	
+
 	for (i = 0; i < GO_IMAGE_FORMAT_UNKNOWN; i++) {
 		if (strcmp (name, image_format_infos[i].name) == 0)
 			return image_format_infos[i].format;
@@ -270,12 +270,12 @@ go_image_get_formats_with_pixbuf_saver (void)
 	GSList *list = NULL;
 	unsigned i;
 
-	for (i = 0; i < GO_IMAGE_FORMAT_UNKNOWN; i++) 
+	for (i = 0; i < GO_IMAGE_FORMAT_UNKNOWN; i++)
 		if (image_format_infos[i].has_pixbuf_saver)
 			list = g_slist_prepend (list, GUINT_TO_POINTER (i));
 
 	/* TODO: before enabling this code, we must remove duplicate in pixbuf_image_format_infos */
-#if 0	
+#if 0
 	go_image_build_pixbuf_format_infos ();
 
 	for (i = 0; i < pixbuf_format_nbr; i++) {
@@ -508,7 +508,7 @@ go_image_get_cairo (GOImage *image)
 	surface = cairo_image_surface_create_for_data (
               				image->data,
 							CAIRO_FORMAT_ARGB32,
-							image->width, image->height, 
+							image->width, image->height,
                				image->rowstride);
 	cairo = cairo_create (surface);
 	cairo_surface_destroy (surface);
@@ -535,7 +535,7 @@ cairo_pattern_t *go_image_create_cairo_pattern (GOImage *image)
 	surface = cairo_image_surface_create_for_data (
               				image->data,
 							CAIRO_FORMAT_ARGB32,
-							image->width, image->height, 
+							image->width, image->height,
                				image->rowstride);
 	pat = cairo_pattern_create_for_surface (surface);
 	cairo_surface_destroy (surface);

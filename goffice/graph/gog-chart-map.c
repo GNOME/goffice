@@ -422,19 +422,19 @@ xy_make_path_step (GogChartMap *map, double const *x, double const *y, int n_poi
 
 	n_valid_points = 0;
 	for (i = 0; i < n_points; i++) {
-		gog_chart_map_2D_to_view (map, 
-					  x != NULL ? x[i] : i + 1, 
+		gog_chart_map_2D_to_view (map,
+					  x != NULL ? x[i] : i + 1,
 					  y != NULL ? y[i] : i + 1, &xx, &yy);
-		if (go_finite (xx) 
+		if (go_finite (xx)
 		    && go_finite (yy)
 		    && fabs (xx) != DBL_MAX
 		    && fabs (yy) != DBL_MAX) {
 			n_valid_points++;
 
-			if (n_valid_points == 1) 
+			if (n_valid_points == 1)
 				go_path_move_to (path, xx, yy);
 			else
-				switch (interpolation) {	       
+				switch (interpolation) {
 					case GO_LINE_INTERPOLATION_STEP_START:
 						go_path_line_to (path, xx, last_yy);
 						break;
@@ -466,7 +466,7 @@ xy_make_path_step (GogChartMap *map, double const *x, double const *y, int n_poi
 }
 
 static GOPath *
-xy_make_path (GogChartMap *map, double const *x, double const *y, 
+xy_make_path (GogChartMap *map, double const *x, double const *y,
 	      int n_points, GOLineInterpolation interpolation, gboolean skip_invalid, gpointer data)
 {
 	GOPath *path = NULL;
@@ -507,7 +507,7 @@ xy_make_path (GogChartMap *map, double const *x, double const *y,
 }
 
 static GOPath *
-xy_make_close_path (GogChartMap *map, double const *x, double const *y, 
+xy_make_close_path (GogChartMap *map, double const *x, double const *y,
 		    int n_points, GogSeriesFillType fill_type)
 {
 	GogAxisMap *x_map, *y_map;
@@ -772,10 +772,10 @@ gog_chart_map_get_polar_parms (GogChartMap *map)
  * @axis2: 3rd dimension axis
  * @fill_area: does chart fill allocated area
  *
- * Creates a new #GogChartMap, used for conversion from data space 
+ * Creates a new #GogChartMap, used for conversion from data space
  * to canvas space.
  *
- * returns: a new #GogChart object. 
+ * returns: a new #GogChart object.
  **/
 
 GogChartMap *
@@ -952,8 +952,8 @@ gog_chart_map_get_axis_map (GogChartMap *map, unsigned int i)
  * Tests if @map was correctly initializied, i.e. if all associated axis_map
  * are valid (see gog_axis_map_is_valid() ).
  *
- * given 
- * to gog_chart_map_new. 
+ * given
+ * to gog_chart_map_new.
  * returns: %TRUE if @map is valid.
  **/
 

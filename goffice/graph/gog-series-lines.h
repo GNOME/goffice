@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-series-lines.h :  
+ * gog-series-lines.h :
  *
  * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -31,7 +31,7 @@ G_BEGIN_DECLS
 #define GOG_IS_SERIES_LINES(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_SERIES_LINES))
 
 GType 	gog_series_lines_get_type 	(void);
-void 	gog_series_lines_stroke 	(GogSeriesLines *lines, GogRenderer *rend, 
+void 	gog_series_lines_stroke 	(GogSeriesLines *lines, GogRenderer *rend,
 					 GogViewAllocation const *bbox, GOPath *path, gboolean invert);
 void	gog_series_lines_use_markers (GogSeriesLines *lines, gboolean use_markers);
 

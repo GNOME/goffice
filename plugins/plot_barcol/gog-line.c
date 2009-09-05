@@ -322,10 +322,10 @@ gog_line_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	gobject_klass->get_property = gog_line_get_property;
 
 	g_object_class_install_property (gobject_klass, GOG_LINE_PROP_DEFAULT_STYLE_HAS_MARKERS,
-		g_param_spec_boolean ("default-style-has-markers", 
+		g_param_spec_boolean ("default-style-has-markers",
 			_("Default markers"),
 			_("Should the default style of a series include markers"),
-			TRUE, 
+			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_klass->type_name	= gog_line_plot_type_name;
@@ -443,28 +443,28 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 
 	area = gog_chart_view_get_plot_area (view->parent);
-	chart_map = gog_chart_map_new (chart, area, 
-				       GOG_PLOT (model)->axis[GOG_AXIS_X], 
+	chart_map = gog_chart_map_new (chart, area,
+				       GOG_PLOT (model)->axis[GOG_AXIS_X],
 				       GOG_PLOT (model)->axis[GOG_AXIS_Y],
 				       NULL, FALSE);
 	if (!gog_chart_map_is_valid (chart_map)) {
 		gog_chart_map_free (chart_map);
 		return;
 	}
-	
+
 	x_map = gog_chart_map_get_axis_map (chart_map, 0);
 	y_map = gog_chart_map_get_axis_map (chart_map, 1);
-	
+
 	/* Draw drop lines from point to axis start. See comment in
 	 * GogXYPlotView::render */
 
-	gog_axis_map_get_extents (y_map, &drop_lines_y_min, &drop_lines_y_max); 
+	gog_axis_map_get_extents (y_map, &drop_lines_y_min, &drop_lines_y_max);
 	drop_lines_y_min = gog_axis_map_to_view (y_map, drop_lines_y_min);
 	drop_lines_y_max = gog_axis_map_to_view (y_map, drop_lines_y_max);
 	gog_axis_map_get_extents (y_map, &y_bottom, &y_top);
 	y_bottom = gog_axis_map_to_view (y_map, y_bottom);
 	y_top = gog_axis_map_to_view (y_map, y_top);
-	y_zero = gog_axis_map_get_baseline (y_map); 
+	y_zero = gog_axis_map_get_baseline (y_map);
 
 	vals    = g_alloca (num_series * sizeof (double *));
 	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
@@ -496,7 +496,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			points[i] = g_malloc (sizeof (Point) * (lengths[i]));
 
 		errors[i] = series->errors;
-		if (gog_error_bar_is_visible (series->errors)) 
+		if (gog_error_bar_is_visible (series->errors))
 			error_data[i] = g_malloc (sizeof (ErrorBarData) * lengths[i]);
 		else
 			error_data[i] = NULL;
@@ -544,7 +544,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			x = gog_axis_map_to_view (x_map, j + 1);
 			sum += value;
 
-			if (gog_error_bar_is_visible (errors[i])) 
+			if (gog_error_bar_is_visible (errors[i]))
 				error_data[i][j].x = j + 1;
 
 			switch (type) {
@@ -581,7 +581,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 					break;
 
 				case GOG_1_5D_AS_PERCENTAGE :
-					y = is_null ? 
+					y = is_null ?
 						y_zero :
 						(gog_axis_map_finite (y_map, sum) ?
 						 gog_axis_map_to_view (y_map, sum  / abs_sum) :
@@ -597,7 +597,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 						go_path_line_to (paths[i], x, y);
 					break;
 			}
-			if (!is_area_plot){ 
+			if (!is_area_plot){
 				points[i][j].x = x;
 				points[i][j].y = y;
 			}
@@ -679,13 +679,13 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			for (j = 0; j < lengths[i]; j++)
 				gog_error_bar_render (errors[i], view->renderer, x_map, y_map,
 						      error_data[i][j].x, error_data[i][j].y,
-						      error_data[i][j].minus, error_data[i][j].plus, 
+						      error_data[i][j].minus, error_data[i][j].plus,
 						      FALSE);
 
 	gog_renderer_pop_clip (view->renderer);
 
 	/*Now draw markers*/
-	if (!is_area_plot) { 
+	if (!is_area_plot) {
 		double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
 
 		margin = gog_renderer_line_size (view->renderer, 1.0);
@@ -717,7 +717,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 								GO_STYLED_OBJECT (gse)));
 				}
 				if (x_margin_min <= x && x <= x_margin_max &&
-				    y_margin_min <= y && y <= y_margin_max) 
+				    y_margin_min <= y && y <= y_margin_max)
 					gog_renderer_draw_marker (view->renderer, x, y);
 				if (gse)
 					gog_renderer_pop_style (view->renderer);

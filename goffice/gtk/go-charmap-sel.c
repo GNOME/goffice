@@ -601,7 +601,7 @@ cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
 		gtk_container_foreach (GTK_CONTAINER (sub), (GtkCallback)cb_find_entry, cl);
 		if (cl->found)
 			return;
-		
+
 		cl->i = GPOINTER_TO_INT (cl->path->data);
 		cl->path = cl->path->next;
 		g_slist_free_1 (tmp);

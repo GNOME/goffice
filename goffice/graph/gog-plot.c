@@ -59,7 +59,7 @@ static GObjectClass *plot_parent_klass;
 
 static gboolean gog_plot_set_axis_by_id (GogPlot *plot, GogAxisType type, unsigned id);
 static unsigned gog_plot_get_axis_id (GogPlot const *plot, GogAxisType type);
-	
+
 static void
 gog_plot_finalize (GObject *obj)
 {
@@ -105,7 +105,7 @@ role_series_post_add (GogObject *parent, GogObject *child)
 	series->plot = plot;
 	series->interpolation = plot->interpolation;
 
-	/* if there are other series associated with the plot, and there are 
+	/* if there are other series associated with the plot, and there are
 	 * shared dimensions, clone them over.  */
 	if (series->plot->series != NULL) {
 		GogGraph *graph = gog_object_get_graph (GOG_OBJECT (plot));
@@ -147,7 +147,7 @@ typedef struct {
 } PlotPrefState;
 
 static void
-plot_pref_state_free (PlotPrefState *state) 
+plot_pref_state_free (PlotPrefState *state)
 {
 	g_signal_handler_disconnect (G_OBJECT (state->plot), state->update_editor_handler);
 	g_object_unref (state->plot);
@@ -219,7 +219,7 @@ cb_axis_changed (GtkComboBox *combo, PlotPrefState *state)
 	memset (&value, 0, sizeof (GValue));
 	gtk_combo_box_get_active_iter (combo, &iter);
 	gtk_tree_model_get_value (model, &iter, 1, &value);
-	gog_plot_set_axis_by_id (state->plot, 
+	gog_plot_set_axis_by_id (state->plot,
 				 GPOINTER_TO_UINT (g_object_get_data (G_OBJECT(combo), "axis-type")),
 				 g_value_get_uint (&value));
 }
@@ -231,7 +231,7 @@ cb_update_editor (GogObject *gobj, PlotPrefState *state)
 	gboolean is_plot_area_manual;
 
 	is_plot_area_manual = gog_chart_get_plot_area (state->chart, &plot_area);
-	
+
 	if (state->x_spin != NULL)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->x_spin), plot_area.x * 100.0);
 	if (state->y_spin != NULL)
@@ -241,7 +241,7 @@ cb_update_editor (GogObject *gobj, PlotPrefState *state)
 	if (state->h_spin != NULL)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), plot_area.h * 100.0);
 	if (state->position_select_combo != NULL) {
-		gtk_combo_box_set_active (GTK_COMBO_BOX (state->position_select_combo), 
+		gtk_combo_box_set_active (GTK_COMBO_BOX (state->position_select_combo),
 					  is_plot_area_manual ? 1 : 0);
 		if (is_plot_area_manual)
 			gtk_widget_show (state->manual_setting_table);
@@ -256,17 +256,17 @@ gog_plot_populate_editor (GogObject *obj,
 			  G_GNUC_UNUSED GogDataAllocator *dalloc,
 			  GOCmdContext *cc)
 {
-	static const char *axis_labels[GOG_AXIS_TYPES] = { 
-		N_("X axis:"), 
-		N_("Y axis:"), 
-		N_("Z axis:"), 
-		N_("Circular axis:"), 
-		N_("Radial axis:"), 
-		N_("Pseudo 3D axis:"), 
-		N_("Color axis:"), 
+	static const char *axis_labels[GOG_AXIS_TYPES] = {
+		N_("X axis:"),
+		N_("Y axis:"),
+		N_("Z axis:"),
+		N_("Circular axis:"),
+		N_("Radial axis:"),
+		N_("Pseudo 3D axis:"),
+		N_("Color axis:"),
 		N_("Bubble axis:")
 	};
-	
+
 	GtkWidget *w;
 	GogAxisType type;
 	GogPlot *plot = GOG_PLOT (obj);
@@ -319,12 +319,12 @@ gog_plot_populate_editor (GogObject *obj,
 				for (ptr = axes; ptr != NULL; ptr = ptr->next) {
 					axis = GOG_AXIS (ptr->data);
 					gtk_list_store_prepend (store, &iter);
-					gtk_list_store_set (store, &iter, 
-							    0, gog_object_get_name (GOG_OBJECT (axis)), 
+					gtk_list_store_set (store, &iter,
+							    0, gog_object_get_name (GOG_OBJECT (axis)),
 							    1, gog_object_get_id (GOG_OBJECT (axis)),
 							    -1);
 					if (axis == plot->axis[type])
-						gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter); 
+						gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo), &iter);
 					axis_count++;
 				}
 				if (axis_count < 2)
@@ -348,53 +348,53 @@ gog_plot_populate_editor (GogObject *obj,
 		else
 			g_object_unref (G_OBJECT (table));
 	}
-	
+
 	is_plot_area_manual = gog_chart_get_plot_area (chart, &plot_area);
-	
+
 	state->x_spin = go_gtk_builder_get_widget (gui, "x_spin");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->x_spin), 
-				   plot_area.x * 100.0); 
-	g_signal_connect (G_OBJECT (state->x_spin), "value-changed", 
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->x_spin),
+				   plot_area.x * 100.0);
+	g_signal_connect (G_OBJECT (state->x_spin), "value-changed",
 			  G_CALLBACK (cb_plot_area_changed), state);
 
 	state->y_spin = go_gtk_builder_get_widget (gui, "y_spin");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->y_spin), 
-				   plot_area.y * 100.0); 
-	g_signal_connect (G_OBJECT (state->y_spin), "value-changed", 
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->y_spin),
+				   plot_area.y * 100.0);
+	g_signal_connect (G_OBJECT (state->y_spin), "value-changed",
 			  G_CALLBACK (cb_plot_area_changed), state);
 
 	state->w_spin = go_gtk_builder_get_widget (gui, "w_spin");
-	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->w_spin), 
+	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->w_spin),
 				   0.0, (1.0 - plot_area.x) * 100.0);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), 
-				   100.0 * plot_area.w); 
-	state->w_spin_signal = g_signal_connect (G_OBJECT (state->w_spin), "value-changed", 
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin),
+				   100.0 * plot_area.w);
+	state->w_spin_signal = g_signal_connect (G_OBJECT (state->w_spin), "value-changed",
 						 G_CALLBACK (cb_plot_area_changed), state);
 
 	state->h_spin = go_gtk_builder_get_widget (gui, "h_spin");
-	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->h_spin), 
+	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->h_spin),
 				   0.0, (1.0 - plot_area.y) * 100.0);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), 
-				   100.0 * plot_area.h); 
-	state->h_spin_signal = g_signal_connect (G_OBJECT (state->h_spin), "value-changed", 
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin),
+				   100.0 * plot_area.h);
+	state->h_spin_signal = g_signal_connect (G_OBJECT (state->h_spin), "value-changed",
 						 G_CALLBACK (cb_plot_area_changed), state);
 
 	state->position_select_combo = go_gtk_builder_get_widget (gui, "position_select_combo");
-	gtk_combo_box_set_active (GTK_COMBO_BOX (state->position_select_combo), 
-				  is_plot_area_manual ? 1 : 0); 
+	gtk_combo_box_set_active (GTK_COMBO_BOX (state->position_select_combo),
+				  is_plot_area_manual ? 1 : 0);
 	state->manual_setting_table = go_gtk_builder_get_widget (gui, "manual_setting_table");
 	if (!is_plot_area_manual)
 		gtk_widget_hide (state->manual_setting_table);
-	
+
 	g_signal_connect (G_OBJECT (state->position_select_combo),
 			  "changed", G_CALLBACK (cb_manual_position_changed), state);
 
 	w = go_gtk_builder_get_widget (gui, "gog_plot_prefs");
-	g_signal_connect_swapped (G_OBJECT (w), "destroy", G_CALLBACK (plot_pref_state_free), state);  
+	g_signal_connect_swapped (G_OBJECT (w), "destroy", G_CALLBACK (plot_pref_state_free), state);
 	go_editor_add_page (editor, w, _("Plot area"));
 
-	state->update_editor_handler = g_signal_connect (G_OBJECT (plot), 
-							 "update-editor", 
+	state->update_editor_handler = g_signal_connect (G_OBJECT (plot),
+							 "update-editor",
 							 G_CALLBACK (cb_update_editor), state);
 
 	(GOG_OBJECT_CLASS(plot_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
@@ -513,35 +513,35 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 	plot_klass->guru_helper		= NULL;
 
 	g_object_class_install_property (gobject_klass, PLOT_PROP_VARY_STYLE_BY_ELEMENT,
-		g_param_spec_boolean ("vary-style-by-element", 
+		g_param_spec_boolean ("vary-style-by-element",
 			_("Vary style by element"),
 			_("Use a different style for each segments"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_X,
-		g_param_spec_uint ("x-axis", 
-			_("X axis"), 
+		g_param_spec_uint ("x-axis",
+			_("X axis"),
 			_("Reference to X axis"),
 			0, G_MAXINT, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_AXIS_Y,
-		g_param_spec_uint ("y-axis", 
-			_("Y axis"), 
+		g_param_spec_uint ("y-axis",
+			_("Y axis"),
 			_("Reference to Y axis"),
 			0, G_MAXINT, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_GROUP,
-		g_param_spec_string ("plot-group", 
-			_("Plot group"), 
+		g_param_spec_string ("plot-group",
+			_("Plot group"),
 			_("Name of plot group if any"),
-			NULL, 
+			NULL,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_GURU_HINTS,
-		g_param_spec_string ("guru-hints", 
-			_("Guru hints"), 
+		g_param_spec_string ("guru-hints",
+			_("Guru hints"),
 			_("Semicolon separated list of hints for automatic addition of objects in "
 			  "guru dialog"),
-			NULL, 
+			NULL,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_klass, PLOT_PROP_DEFAULT_INTERPOLATION,
 		 g_param_spec_string ("interpolation",
@@ -665,7 +665,7 @@ gog_plot_update_cardinality (GogPlot *plot, int index_num)
 			gog_series_set_index (series, i++, FALSE);
 			if (!gog_series_has_legend (series))
 				no_legend++;
-		}			
+		}
 	}
 
 	plot->full_cardinality =
@@ -915,7 +915,7 @@ gog_plot_set_axis_by_id (GogPlot *plot, GogAxisType type, unsigned id)
 			gog_plot_set_axis (plot, axis);
 			found = TRUE;
 		}
-	}		
+	}
 	g_slist_free (axes);
 	return found;
 }
@@ -950,10 +950,10 @@ gog_plot_axis_set_assign (GogPlot *plot, GogAxisSet axis_set)
 }
 
 /**
- * gog_plot_axis_clear : 
+ * gog_plot_axis_clear :
  * @plot : #GogPlot
  * @filter : #GogAxisSet
- * 
+ *
  * A utility method to clear all existing axis associations flagged by @filter
  **/
 void
@@ -974,7 +974,7 @@ static unsigned
 gog_plot_get_axis_id (GogPlot const *plot, GogAxisType type)
 {
 	GogAxis *axis = gog_plot_get_axis (plot, type);
-	
+
 	return axis != NULL ? gog_object_get_id (GOG_OBJECT (axis)) : 0;
 }
 
@@ -998,19 +998,19 @@ gog_plot_update_3d (GogPlot *plot)
 }
 
 static void
-gog_plot_guru_helper_add_grid_line (GogPlot *plot, gboolean major) 
+gog_plot_guru_helper_add_grid_line (GogPlot *plot, gboolean major)
 {
 	GogAxisType type;
 
 	for (type = 0; type < GOG_AXIS_TYPES; type++) {
-		if ((((type == GOG_AXIS_X) | 
-		      (type == GOG_AXIS_Y) | 
-		      (type == GOG_AXIS_CIRCULAR) | 
+		if ((((type == GOG_AXIS_X) |
+		      (type == GOG_AXIS_Y) |
+		      (type == GOG_AXIS_CIRCULAR) |
 		      (type == GOG_AXIS_RADIAL))) &&
 		    plot->axis[type] != NULL &&
 		    gog_axis_get_grid_line (plot->axis[type], major) == NULL)
 		{
-			gog_object_add_by_name (GOG_OBJECT (plot->axis[type]), 
+			gog_object_add_by_name (GOG_OBJECT (plot->axis[type]),
 						major ? "MajorGrid": "MinorGrid", NULL);
 		}
 	}
@@ -1093,21 +1093,21 @@ gog_tool_move_plot_area_init (GogToolAction *action)
 
 	data->chart = GOG_CHART (action->view->parent->model);
 	data->chart_allocation = action->view->parent->allocation;
-	data->start_position = *gog_chart_view_get_plot_area (action->view->parent); 
-	data->start_position.x = (data->start_position.x - data->chart_allocation.x) / data->chart_allocation.w; 
-	data->start_position.w = data->start_position.w / data->chart_allocation.w; 
-	data->start_position.y = (data->start_position.y - data->chart_allocation.y) / data->chart_allocation.h; 
-	data->start_position.h = data->start_position.h / data->chart_allocation.h; 
+	data->start_position = *gog_chart_view_get_plot_area (action->view->parent);
+	data->start_position.x = (data->start_position.x - data->chart_allocation.x) / data->chart_allocation.w;
+	data->start_position.w = data->start_position.w / data->chart_allocation.w;
+	data->start_position.y = (data->start_position.y - data->chart_allocation.y) / data->chart_allocation.h;
+	data->start_position.h = data->start_position.h / data->chart_allocation.h;
 
 	action->data = data;
 }
 
 static void
 gog_tool_move_plot_area_move (GogToolAction *action, double x, double y)
-{	
+{
 	GogViewAllocation plot_area;
 	MovePlotAreaData *data = action->data;
-	
+
 	plot_area.w = data->start_position.w;
 	plot_area.h = data->start_position.h;
 	plot_area.x = data->start_position.x + (x - action->start_x) / data->chart_allocation.w;
@@ -1127,17 +1127,17 @@ static void
 gog_tool_move_plot_area_double_click (GogToolAction *action)
 {
 	MovePlotAreaData *data = action->data;
-	
+
 	gog_chart_set_plot_area (data->chart, NULL);
 }
 
 static GogTool gog_tool_move_plot_area = {
-	N_("Move plot area"), 
+	N_("Move plot area"),
 	GDK_FLEUR,
-	gog_tool_move_plot_area_point, 
+	gog_tool_move_plot_area_point,
 	gog_tool_move_plot_area_render,
-	gog_tool_move_plot_area_init, 
-	gog_tool_move_plot_area_move, 
+	gog_tool_move_plot_area_init,
+	gog_tool_move_plot_area_move,
 	gog_tool_move_plot_area_double_click,
 	NULL /*destroy*/
 };
@@ -1157,17 +1157,17 @@ gog_tool_resize_plot_area_render (GogView *view)
 {
 	GogViewAllocation const *plot_area = gog_chart_view_get_plot_area (view->parent);
 
-	gog_renderer_draw_grip (view->renderer, 
+	gog_renderer_draw_grip (view->renderer,
 				plot_area->x + plot_area->w,
 				plot_area->y + plot_area->h);
 }
 
 static void
 gog_tool_resize_plot_area_move (GogToolAction *action, double x, double y)
-{	
+{
 	GogViewAllocation plot_area;
 	MovePlotAreaData *data = action->data;
-	
+
 	plot_area.x = data->start_position.x;
 	plot_area.y = data->start_position.y;
 	plot_area.w = data->start_position.w + (x - action->start_x) / data->chart_allocation.w;
@@ -1186,10 +1186,10 @@ gog_tool_resize_plot_area_move (GogToolAction *action, double x, double y)
 static GogTool gog_tool_resize_plot_area = {
 	N_("Resize plot area"),
 	GDK_BOTTOM_RIGHT_CORNER,
-	gog_tool_resize_plot_area_point, 
+	gog_tool_resize_plot_area_point,
 	gog_tool_resize_plot_area_render,
-	gog_tool_move_plot_area_init, 
-	gog_tool_resize_plot_area_move, 
+	gog_tool_move_plot_area_init,
+	gog_tool_resize_plot_area_move,
 	NULL /* double-click */,
 	NULL /*destroy*/
 };

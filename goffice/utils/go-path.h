@@ -5,7 +5,7 @@
  * Copyright © 2002 University of Southern California
  * Copyright © 2005 Red Hat, Inc.
  * Copyright © 2006 Emmanuel Pacaud (emmanuel.pacaud@lapp.in2p3.fr)
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
@@ -21,7 +21,7 @@
  * USA
  *
  * This code is an adaptation of the path code which can be found in
- * the cairo library (http://cairographics.org). 
+ * the cairo library (http://cairographics.org).
  *
  * Contributor(s):
  *	Carl D. Worth <cworth@cworth.org>
@@ -69,12 +69,12 @@ GOPathOptions   go_path_get_options  	(GOPath const *path);
 
 void 	go_path_move_to 	(GOPath *path, double x, double y);
 void 	go_path_line_to 	(GOPath *path, double x, double y);
-void 	go_path_curve_to 	(GOPath *path, double x0, double y0, 
-				 	       double x1, double y1, 
+void 	go_path_curve_to 	(GOPath *path, double x0, double y0,
+				 	       double x1, double y1,
 				 	       double x2, double y2);
 void 	go_path_close 		(GOPath *path);
 
-void 	go_path_ring_wedge 	(GOPath *path, double cx, double cy, 
+void 	go_path_ring_wedge 	(GOPath *path, double cx, double cy,
 				 	       double rx_out, double ry_out,
 					       double rx_in, double ry_in,
 					       double th0, double th1);
@@ -102,4 +102,4 @@ void	go_path_interpret	(GOPath const *path,
 
 G_END_DECLS
 
-#endif 
+#endif

@@ -348,12 +348,12 @@ go_combo_color_new (GdkPixbuf *icon, char const *no_color_label,
 
         cc->default_color = default_color;
 	if (icon != NULL &&
-	    gdk_pixbuf_get_width (icon) > 4 && 
+	    gdk_pixbuf_get_width (icon) > 4 &&
 	    gdk_pixbuf_get_height (icon) > 4) {
 		cc->preview_is_icon = TRUE;
 		pixbuf = gdk_pixbuf_copy (icon);
 	} else
-		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 
+		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
 					 PREVIEW_SIZE, PREVIEW_SIZE);
 
 	cc->preview_image = gtk_image_new_from_pixbuf (pixbuf);

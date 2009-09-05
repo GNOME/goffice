@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * goc-structs.h :  
+ * goc-structs.h :
  *
  * Copyright (C) 2008-2009 Jean Brefort (jean.brefort@normalesup.org)
  *

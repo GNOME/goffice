@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-plot-engine.h : 
+ * gog-plot-engine.h :
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -34,7 +34,7 @@ struct _GogPlotType {
 	int 		 col, row;
 
 	GHashTable 	*properties;
-}; 
+};
 
 struct _GogPlotFamily {
 	char *name, *sample_image_file;
@@ -43,7 +43,7 @@ struct _GogPlotFamily {
 	GogAxisSet	 axis_set;
 
 	GHashTable *types;
-}; 
+};
 
 /* GogPlotFamily hashed by name */
 GHashTable const *gog_plot_families (void);

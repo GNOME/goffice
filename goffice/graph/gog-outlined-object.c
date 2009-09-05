@@ -70,10 +70,10 @@ gog_outlined_object_class_init (GObjectClass *gobject_klass)
 	gobject_klass->get_property = gog_outlined_object_get_property;
 
 	g_object_class_install_property (gobject_klass, OUTLINED_OBJECT_PROP_PADDING_PTS,
-		g_param_spec_double ("padding-pts", 
+		g_param_spec_double ("padding-pts",
 			_("Padding Pts"),
 			_("Number of pts separating charts in the grid"),
-			0, G_MAXDOUBLE, 0, 
+			0, G_MAXDOUBLE, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
@@ -99,19 +99,19 @@ gog_outlined_object_get_pad (GogOutlinedObject const *goo)
 static GogViewClass *oview_parent_klass;
 
 static void
-gog_outlined_view_size_request (GogView *v, 
+gog_outlined_view_size_request (GogView *v,
 				GogViewRequisition const *available,
 				GogViewRequisition *req)
 {
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (v->model);
-	double outline = gog_renderer_line_size (v->renderer, 
+	double outline = gog_renderer_line_size (v->renderer,
 						 goo->base.style->line.width);
 	double is_outline_visible = go_style_is_outline_visible (goo->base.style);
 
 	if (goo->base.style->fill.type != GO_STYLE_FILL_NONE || is_outline_visible) {
-		req->w += outline * 2 + 
+		req->w += outline * 2 +
 			gog_renderer_pt2r_y (v->renderer, goo->padding_pts);
-		req->h += outline * 2 + 
+		req->h += outline * 2 +
 			gog_renderer_pt2r_y (v->renderer, goo->padding_pts);
 	}
 }
@@ -121,7 +121,7 @@ gog_outlined_view_size_allocate (GogView *v, GogViewAllocation const *a)
 {
 	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (v->model);
 	GogViewAllocation res = *a;
-	double outline = gog_renderer_line_size (v->renderer, 
+	double outline = gog_renderer_line_size (v->renderer,
 						 goo->base.style->line.width);
 	double is_outline_visible = go_style_is_outline_visible (goo->base.style);
 

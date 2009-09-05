@@ -62,7 +62,7 @@ static const struct {
 	{ "pseudo-3d",	GOG_AXIS_SET_XY_pseudo_3d},
 	{ "xy-color",	GOG_AXIS_SET_XY_COLOR}
 };
-	
+
 GogAxisSet
 gog_axis_set_from_str (char const *str)
 {
@@ -73,13 +73,13 @@ gog_axis_set_from_str (char const *str)
 	if (str == NULL)
 		return GOG_AXIS_SET_NONE;
 
-	for (i = 0; i < G_N_ELEMENTS (axis_set_desc); i++) 
+	for (i = 0; i < G_N_ELEMENTS (axis_set_desc); i++)
 		if (strcmp (axis_set_desc[i].name, str) == 0) {
 			axis_set = axis_set_desc[i].axis_set;
 			found = TRUE;
 			break;
 		}
-	if (!found) 
+	if (!found)
 		g_warning ("[GogAxisSet::from_str] unknown axis set (%s)", str);
 	return axis_set;
 }
@@ -185,9 +185,9 @@ gog_chart_get_property (GObject *obj, guint param_id,
 }
 
 static void
-gog_chart_populate_editor (GogObject *gobj, 
-			   GOEditor *editor, 
-			   G_GNUC_UNUSED GogDataAllocator *dalloc, 
+gog_chart_populate_editor (GogObject *gobj,
+			   GOEditor *editor,
+			   G_GNUC_UNUSED GogDataAllocator *dalloc,
 			   GOCmdContext *cc)
 {
 	static guint chart_pref_page = 0;
@@ -251,7 +251,7 @@ role_plot_post_add (GogObject *parent, GogObject *plot)
 	/* APPEND to keep order, there won't be that many */
 	chart->plots = g_slist_append (chart->plots, plot);
 	gog_chart_request_cardinality_update (chart);
-	
+
 	if (chart->plots->next == NULL)
 		ok = gog_chart_axis_set_assign (chart,
 			gog_plot_axis_set_pref (GOG_PLOT (plot)));
@@ -269,13 +269,13 @@ role_plot_pre_remove (GogObject *parent, GogObject *plot)
 	gog_plot_axis_clear (GOG_PLOT (plot), GOG_AXIS_SET_ALL);
 	chart->plots = g_slist_remove (chart->plots, plot);
 	gog_chart_request_cardinality_update (chart);
-	
+
 	if (chart->plots == NULL)
 		gog_chart_axis_set_assign (chart, GOG_AXIS_SET_UNKNOWN);
 
-	if (chart->grid != NULL && 
+	if (chart->grid != NULL &&
 	    chart->axis_set != GOG_AXIS_SET_XY &&
-	    chart->axis_set != GOG_AXIS_SET_X && 
+	    chart->axis_set != GOG_AXIS_SET_X &&
 	    chart->axis_set != GOG_AXIS_SET_XY_pseudo_3d &&
 	    chart->axis_set != GOG_AXIS_SET_XY_COLOR &&
 	    chart->axis_set != GOG_AXIS_SET_RADAR) {
@@ -452,13 +452,13 @@ static GogObjectRole const roles[] = {
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
 	  role_plot_can_add, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } },
 	{ N_("Title"), "GogLabel",	10,
-	  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL, 
-	  GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, 
+	  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL,
+	  GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER,
 	  GOG_OBJECT_NAME_BY_ROLE,
 	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
 	{ N_("Legend"), "GogLegend",	11,
-	  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL, 
-	  GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER, 
+	  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL,
+	  GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER,
 	  GOG_OBJECT_NAME_BY_ROLE,
 	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
 #ifdef GOFFICE_WITH_LASEM
@@ -488,22 +488,22 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 	gog_klass->can_manual_size = TRUE;
 
 	g_object_class_install_property (gobject_klass, CHART_PROP_CARDINALITY_VALID,
-		g_param_spec_boolean ("cardinality-valid", 
+		g_param_spec_boolean ("cardinality-valid",
 				      _("Valid cardinality"),
 				      _("Is the charts cardinality currently valid"),
-				      FALSE, 
+				      FALSE,
 				      GSF_PARAM_STATIC | G_PARAM_READABLE));
 	g_object_class_install_property (gobject_klass, CHART_PROP_PLOT_AREA,
-		g_param_spec_string ("plot-area", 
+		g_param_spec_string ("plot-area",
 				     _("Plot area"),
 				     _("Position and size of plot area, in percentage of chart size"),
-				     "0 0 1 1", 
+				     "0 0 1 1",
 				     GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, CHART_PROP_PLOT_AREA_IS_MANUAL,
-		g_param_spec_boolean ("is-plot-area-manual", 
-				      _("Manual plot area"), 
+		g_param_spec_boolean ("is-plot-area-manual",
+				      _("Manual plot area"),
 				      _("Is plot area manual"),
-				      FALSE, 
+				      FALSE,
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_klass->view_type = gog_chart_view_get_type ();
@@ -527,7 +527,7 @@ gog_chart_init (GogChart *chart)
 	chart->is_plot_area_manual = FALSE;
 	chart->plot_area.x =
 	chart->plot_area.y = 0.0;
-	chart->plot_area.w = 
+	chart->plot_area.w =
 	chart->plot_area.h = 1.0;
 }
 
@@ -604,7 +604,7 @@ gog_chart_get_plot_area (GogChart *chart, GogViewAllocation *plot_area)
 {
 	if (plot_area != NULL)
 		*plot_area = chart->plot_area;
-	
+
 	return chart->is_plot_area_manual;
 }
 
@@ -636,12 +636,12 @@ gog_chart_set_plot_area (GogChart *chart, GogViewAllocation const *plot_area)
  * @visible: placeholder for visible cardinality
  *
  * Update and cache cardinality values if required, and returns
- * full and visible cardinality. Full cardinality is the number of 
+ * full and visible cardinality. Full cardinality is the number of
  * chart elements that require a different style. Visible cardinality is
  * the number of chart elements shown in chart legend.
  *
  * @full and @visible may be NULL.
- **/ 
+ **/
 void
 gog_chart_get_cardinality (GogChart *chart, unsigned *full, unsigned *visible)
 {
@@ -671,7 +671,7 @@ void
 gog_chart_request_cardinality_update (GogChart *chart)
 {
 	g_return_if_fail (GOG_IS_CHART (chart));
-	
+
 	if (chart->cardinality_valid) {
 		chart->cardinality_valid = FALSE;
 		gog_object_request_update (GOG_OBJECT (chart));
@@ -975,7 +975,7 @@ gog_chart_view_3d_process (GogView *view, GogViewAllocation *bbox)
 	box->ratio = (d > tg)? d: tg;
 
 	gog_view_padding_request (view, bbox, &padding);
-	
+
 	if (!chart->is_plot_area_manual) {
 		bbox->x += padding.wl;
 		bbox->w -= padding.wl + padding.wr;
@@ -1049,7 +1049,7 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 
 	tmp = *plot_area;
 	gog_view_padding_request (view, plot_area, &padding);
-	
+
 	if (!chart->is_plot_area_manual) {
 		plot_area->x += padding.wl;
 		plot_area->w -= padding.wl + padding.wr;
@@ -1083,7 +1083,7 @@ gog_chart_view_init (GogChartView *cview)
 }
 
 static void
-grid_line_render (GSList *start_ptr, GogViewAllocation const *bbox) 
+grid_line_render (GSList *start_ptr, GogViewAllocation const *bbox)
 {
 	GSList *ptr, *child_ptr;
 	GSList *minor_grid_lines = NULL;
@@ -1097,16 +1097,16 @@ grid_line_render (GSList *start_ptr, GogViewAllocation const *bbox)
 				axis_child_view = child_ptr->data;
 				if (GOG_IS_GRID_LINE (axis_child_view->model)) {
 					if (gog_grid_line_is_minor (GOG_GRID_LINE (axis_child_view->model)))
-						minor_grid_lines = g_slist_prepend (minor_grid_lines, 
+						minor_grid_lines = g_slist_prepend (minor_grid_lines,
 										    axis_child_view);
 					else
-						major_grid_lines = g_slist_prepend (major_grid_lines, 
+						major_grid_lines = g_slist_prepend (major_grid_lines,
 										    axis_child_view);
-				}	
+				}
 			}
 		}
-	}	    
-	
+	}
+
 	/* Render stripes, minor first then major */
 	for (ptr = minor_grid_lines; ptr != NULL; ptr = ptr->next) {
 		gog_grid_line_view_render_stripes (ptr->data);
@@ -1114,7 +1114,7 @@ grid_line_render (GSList *start_ptr, GogViewAllocation const *bbox)
 	for (ptr = major_grid_lines; ptr != NULL; ptr = ptr->next) {
 		gog_grid_line_view_render_stripes (ptr->data);
 	}
-	
+
 	/* Render lines, minor first then major */
 	for (ptr = minor_grid_lines; ptr != NULL; ptr = ptr->next) {
 		gog_grid_line_view_render_lines (ptr->data);
@@ -1122,13 +1122,13 @@ grid_line_render (GSList *start_ptr, GogViewAllocation const *bbox)
 	for (ptr = major_grid_lines; ptr != NULL; ptr = ptr->next) {
 		gog_grid_line_view_render_lines (ptr->data);
 	}
-	
+
 	g_slist_free (minor_grid_lines);
 	g_slist_free (major_grid_lines);
 }
 
 static void
-plot_render (GogView *view, GogViewAllocation const *bbox) 
+plot_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GSList *ptr;
 	GogView *child_view;
@@ -1136,7 +1136,7 @@ plot_render (GogView *view, GogViewAllocation const *bbox)
 	/* Render some plots before axes */
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 		child_view = ptr->data;
-		if (GOG_IS_PLOT (child_view->model) && 
+		if (GOG_IS_PLOT (child_view->model) &&
 		    GOG_PLOT (child_view->model)->render_before_axes)
 			gog_view_render	(ptr->data, bbox);
 	}
@@ -1155,7 +1155,7 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (gog_chart_is_3d (chart)) {
 		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 			child_view = ptr->data;
-			if (!GOG_IS_AXIS (child_view->model) && !GOG_IS_PLOT (child_view->model)) 
+			if (!GOG_IS_AXIS (child_view->model) && !GOG_IS_PLOT (child_view->model))
 				gog_view_render	(ptr->data, bbox);
 		}
 		/* now render plot and axes */
@@ -1170,7 +1170,7 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 			child_view = ptr->data;
 			if (GOG_IS_AXIS (child_view->model))
 				continue;
-			if (GOG_IS_PLOT (child_view->model)) 
+			if (GOG_IS_PLOT (child_view->model))
 				gog_view_render	(ptr->data, bbox);
 		}
 	} else {

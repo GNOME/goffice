@@ -124,7 +124,7 @@ gog_plot1_5d_get_property (GObject *obj, guint param_id,
 	case GOG_1_5D_PROP_IN_3D :
 		g_value_set_boolean (value, gog_1_5d->in_3d);
 		break;
-		
+
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
@@ -214,8 +214,8 @@ gog_plot1_5d_update (GogObject *obj)
 		model->num_elements = num_elements;
 		model->implicit_index = (index_dim == NULL);
 		gog_axis_bound_changed (axis, GOG_OBJECT (model));
-	} else { 
-		if (index_changed)  
+	} else {
+		if (index_changed)
 			gog_axis_bound_changed (axis, GOG_OBJECT (model));
 	}
 
@@ -328,16 +328,16 @@ gog_plot1_5d_class_init (GogPlotClass *plot_klass)
 	gobject_klass->finalize = gog_plot1_5d_finalize;
 
 	g_object_class_install_property (gobject_klass, GOG_1_5D_PROP_TYPE,
-		g_param_spec_string ("type", 
+		g_param_spec_string ("type",
 			_("Type"),
 			_("How to group multiple series, normal, stacked, as_percentage"),
-			"normal", 
+			"normal",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_1_5D_PROP_IN_3D,
-		g_param_spec_boolean ("in-3d", 
+		g_param_spec_boolean ("in-3d",
 			_("In 3d"),
 			_("Placeholder to allow us to round trip pseudo 3d state"),
-			FALSE, 
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_klass->update	= gog_plot1_5d_update;
@@ -555,7 +555,7 @@ gog_series1_5d_get_property (GObject *obj, guint param_id,
 
 #ifdef GOFFICE_WITH_GTK
 #include <gtk/gtk.h>
-static void 
+static void
 gog_series1_5d_populate_editor (GogObject *obj,
 				GOEditor *editor,
 				GogDataAllocator *dalloc,
@@ -637,10 +637,10 @@ gog_series1_5d_class_init (GogObjectClass *obj_klass)
 	gog_object_register_roles (obj_klass, roles, G_N_ELEMENTS (roles));
 
 	g_object_class_install_property (gobject_klass, SERIES_PROP_ERRORS,
-		g_param_spec_object ("errors", 
+		g_param_spec_object ("errors",
 			_("Error bars"),
 			_("GogErrorBar *"),
-			GOG_TYPE_ERROR_BAR, 
+			GOG_TYPE_ERROR_BAR,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 

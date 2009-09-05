@@ -81,7 +81,7 @@ gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc)
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_type_changed), bubble);
-		
+
 	w = go_gtk_builder_get_widget (gui, "diameter");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), !bubble->size_as_area);
 	g_signal_connect (G_OBJECT (w),

@@ -798,7 +798,7 @@ map_date_calc_ticks (GogAxis *axis)
 
 	if (major_tick <= 1) {
 		map_linear_calc_ticks (axis);
-		return;		
+		return;
 	}
 
 	maj_months = go_fake_round (major_tick / (DAYS_IN_YEAR / 12));
@@ -1244,7 +1244,7 @@ map_log_calc_ticks (GogAxis *axis)
 		g_critical ("[GogAxisMap::log_calc_ticks] wrong allocation size");
 	gog_axis_set_ticks (axis, t, ticks);
 }
- 
+
 /*****************************************************************************/
 
 static const GogAxisMapDesc map_desc_discrete =
@@ -2370,7 +2370,7 @@ gog_axis_populate_editor (GogObject *gobj,
 	}
 
 	g_object_set_data_full (gtk_builder_get_object (gui, "axis_pref_box"),
-				"state", state, (GDestroyNotify) gog_axis_pref_state_free);  
+				"state", state, (GDestroyNotify) gog_axis_pref_state_free);
 	g_object_unref (gui);
 
 	go_editor_set_store_page (editor, &axis_pref_page);

@@ -134,7 +134,7 @@ go_pango_attr_list_erase (PangoAttrList *attrs, guint pos, guint len)
 	data.end_pos = pos + len;
 	data.len = len;
 
-	gunk = pango_attr_list_filter (attrs, 
+	gunk = pango_attr_list_filter (attrs,
 				       (PangoAttrFilterFunc)cb_delete_filter,
 				       &data);
 	if (gunk != NULL)

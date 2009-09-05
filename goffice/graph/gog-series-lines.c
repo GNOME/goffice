@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-series-lines.c :  
+ * gog-series-lines.c :
  *
  * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -88,7 +88,7 @@ path_close_path (void *closure)
 {
 }
 
-void gog_series_lines_stroke (GogSeriesLines *lines, GogRenderer *rend, 
+void gog_series_lines_stroke (GogSeriesLines *lines, GogRenderer *rend,
 		GogViewAllocation const *bbox, GOPath *path, gboolean invert)
 {
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (lines));
@@ -96,7 +96,7 @@ void gog_series_lines_stroke (GogSeriesLines *lines, GogRenderer *rend,
 	if (invert) {
 		GOMarker *marker;
 		GOColor color;
-		
+
 		style = go_style_dup (style);
 		style->line.color ^= 0xffffff00;
 		marker = style->marker.mark;

@@ -115,16 +115,16 @@ gog_theme_class_init (GogThemeClass *klass)
 static void
 gog_theme_init (GogTheme *theme)
 {
-	theme->elem_hash_by_role = 
+	theme->elem_hash_by_role =
 		g_hash_table_new_full ((GHashFunc) gog_theme_element_hash,
 				       (GCompareFunc) gog_theme_element_eq,
 					NULL, (GDestroyNotify) gog_theme_element_free);
-	
-	theme->elem_hash_by_class = 
+
+	theme->elem_hash_by_class =
 		g_hash_table_new_full (g_str_hash, g_str_equal,
 				       NULL, (GDestroyNotify) gog_theme_element_free);
-	
-	theme->class_aliases = 
+
+	theme->class_aliases =
 		g_hash_table_new (g_str_hash, g_str_equal);
 }
 
@@ -149,7 +149,7 @@ gog_theme_find_element (GogTheme const *theme, GogObject const *obj)
 	}
 
 	/* FIXME: Restore hash search caching. */
-	
+
 	/* Search by role */
 	if (elem == NULL && obj->role != NULL && obj->parent != NULL) {
 		GogThemeElement key;
@@ -211,10 +211,10 @@ gog_theme_find_element (GogTheme const *theme, GogObject const *obj)
  * fillin the entire style, not just the auto portions included in @relevant_fields.
  **/
 void
-gog_theme_fillin_style (GogTheme const *theme, 
+gog_theme_fillin_style (GogTheme const *theme,
 			GOStyle *style,
-			GogObject const *obj, 
-			int ind, 
+			GogObject const *obj,
+			int ind,
 			GOStyleFlag relevant_fields)
 {
 	GogThemeElement *elem = gog_theme_find_element (theme, obj);
@@ -417,9 +417,9 @@ map_area_series_solid_guppi (GOStyle *style, unsigned ind)
  * @theme: a #GogTheme
  * @is_default : bool
  *
- * Keep a pointer to @theme in graph theme registry. 
+ * Keep a pointer to @theme in graph theme registry.
  * This function does not add a reference to @theme.
- **/ 
+ **/
 void
 gog_theme_registry_add (GogTheme *theme, gboolean is_default)
 {
@@ -427,7 +427,7 @@ gog_theme_registry_add (GogTheme *theme, gboolean is_default)
 
 	/* TODO: Check for duplicated names and for already
 	 * registered themes */
-	
+
 	if (is_default) {
 		g_object_ref (theme);
 		if (default_theme != NULL)
@@ -442,8 +442,8 @@ gog_theme_registry_add (GogTheme *theme, gboolean is_default)
  * gog_theme_registry_lookup:
  * @name: a theme name
  *
- * Returns: a #GogTheme from theme registry. 
- **/ 
+ * Returns: a #GogTheme from theme registry.
+ **/
 GogTheme *
 gog_theme_registry_lookup (char const *name)
 {
@@ -463,7 +463,7 @@ gog_theme_registry_lookup (char const *name)
 
 /**
  * gog_theme_registry_get_theme_names:
- * 
+ *
  * Returns: a newly allocated theme name list from theme registry.
  **/
 GSList *
@@ -472,7 +472,7 @@ gog_theme_registry_get_theme_names (void)
 	GogTheme *theme;
 	GSList *names = NULL;
 	GSList *ptr;
-	
+
 	for (ptr = themes; ptr != NULL; ptr = ptr->next) {
 		theme = ptr->data;
 		names = g_slist_append (names, theme->name);
@@ -551,19 +551,19 @@ _gog_themes_init (void)
 	/* GridLine */
 	style = go_style_new ();
 	style->line.dash_type = GO_LINE_SOLID;
-	style->line.width = 0.4; 
+	style->line.width = 0.4;
 	style->line.color = GO_COLOR_BLACK;
 	go_pattern_set_solid (&style->fill.pattern, GO_COLOR_FROM_RGBA (0xE0, 0xE0, 0xE0, 0xE0));
 	style->fill.type = GO_STYLE_FILL_NONE;
 	gog_theme_add_element (theme, style, NULL, NULL, "MajorGrid");
 	style = go_style_new ();
 	style->line.dash_type = GO_LINE_SOLID;
-	style->line.width = 0.2; 
-	style->line.color = GO_COLOR_BLACK; 
+	style->line.width = 0.2;
+	style->line.color = GO_COLOR_BLACK;
 	go_pattern_set_solid (&style->fill.pattern, GO_COLOR_FROM_RGBA (0xE0, 0xE0, 0xE0, 0xE0));
 	style->fill.type = GO_STYLE_FILL_NONE;
 	gog_theme_add_element (theme, style, NULL, NULL, "MinorGrid");
-	
+
 	/* Series */
 	style = go_style_new ();
 	style->line.dash_type = GO_LINE_SOLID;
@@ -639,8 +639,8 @@ _gog_themes_init (void)
 	/* graph */
 	style = go_style_new ();
 	style->line.dash_type = GO_LINE_NONE;
-	style->line.width = 0; 
-	style->line.color = GO_COLOR_BLACK; 
+	style->line.width = 0;
+	style->line.color = GO_COLOR_BLACK;
 	style->fill.type = GO_STYLE_FILL_GRADIENT;
 	style->fill.gradient.dir   = GO_GRADIENT_N_TO_S;
 	style->fill.pattern.fore = GO_COLOR_BLUE;
@@ -671,7 +671,7 @@ _gog_themes_init (void)
 	style->line.width = 0.; /* hairline */
 	style->line.color = GO_COLOR_GREY (0x20);
 	gog_theme_add_element (theme, style, NULL, "GogAxis", NULL);
-	
+
 	/* AxisLine */
 	style = go_style_new ();
 	style->line.dash_type = GO_LINE_SOLID;
@@ -703,7 +703,7 @@ _gog_themes_init (void)
 	go_pattern_set_solid (&style->fill.pattern, GO_COLOR_FROM_RGBA (0xE0, 0xE0, 0xE0, 0xE0));
 	style->fill.type = GO_STYLE_FILL_NONE;
 	gog_theme_add_element (theme, style, NULL, NULL, "MinorGrid");
-	
+
 	/* series */
 	style = go_style_new ();
 	style->line.dash_type = GO_LINE_SOLID;

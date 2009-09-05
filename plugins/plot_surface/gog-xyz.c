@@ -242,14 +242,14 @@ gog_xyz_plot_update (GogObject *obj)
 			GOG_OBJECT (model));
 	} else
 		gog_xyz_plot_update_3d (GOG_PLOT (model));
-	
+
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 	if (plot_xyz_parent_klass->update)
 		plot_xyz_parent_klass->update (obj);
 }
 
 static GOData *
-gog_xyz_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis, 
+gog_xyz_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 				  GogPlotBoundInfo * bounds)
 {
 	GogXYZSeries *series;
@@ -377,10 +377,10 @@ gog_xyz_plot_class_init (GogXYZPlotClass *klass)
 	gobject_klass->set_property = gog_xyz_plot_set_property;
 	gobject_klass->get_property = gog_xyz_plot_get_property;
 	g_object_class_install_property (gobject_klass, XYZ_PROP_TRANSPOSED,
-		g_param_spec_boolean ("transposed", 
+		g_param_spec_boolean ("transposed",
 			_("Transposed"),
 			_("Transpose the plot"),
-			FALSE, 
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE|GO_PARAM_PERSISTENT));
 
 	/* Fill in GOGObject superclass values */

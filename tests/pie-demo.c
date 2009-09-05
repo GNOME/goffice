@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * pie-demo.c : 
+ * pie-demo.c :
  *
  * Copyright (C) 2003-2005 Jean Brefort (jean.brefort@normalesup.org)
  *  This program is free software; you can redistribute it and/or modify

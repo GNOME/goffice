@@ -67,8 +67,8 @@ typedef enum
 #endif
 
 G_BEGIN_DECLS
-/* We need to define an hair line width for the svg and gnome_print renderer. 
- * 0.5 pt is approx. the dot size of a 150 dpi printer, if the plot is 
+/* We need to define an hair line width for the svg and gnome_print renderer.
+ * 0.5 pt is approx. the dot size of a 150 dpi printer, if the plot is
  * printed at scale 1:1 */
 #define GOG_RENDERER_HAIRLINE_WIDTH_PTS	0.5
 

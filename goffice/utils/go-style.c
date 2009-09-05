@@ -184,7 +184,7 @@ cb_outline_color_changed (GOSelector *selector,
 
 	g_return_if_fail (style != NULL);
 
-	style->line.color = go_color_selector_get_color (selector, 
+	style->line.color = go_color_selector_get_color (selector,
 							    &style->line.auto_color);
 	set_style (state);
 }
@@ -210,7 +210,7 @@ outline_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 	w = go_line_dash_selector_new (style->line.dash_type,
 				       default_style->line.dash_type);
 	gtk_table_attach (GTK_TABLE (table), w, 1, 3, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
-	g_signal_connect (G_OBJECT (w), "activate", 
+	g_signal_connect (G_OBJECT (w), "activate",
 			  G_CALLBACK (cb_outline_dash_type_changed), state);
 	/* Size */
 	w = go_gtk_builder_get_widget (state->gui, "outline_size_spin");
@@ -315,23 +315,23 @@ fill_update_selectors (StylePrefState const *state)
 	go_pattern_selector_set_colors (GO_SELECTOR (state->fill.pattern.selector),
 				        style->fill.pattern.fore,
 					style->fill.pattern.back);
-	go_gradient_selector_set_colors (GO_SELECTOR (state->fill.gradient.selector), 
+	go_gradient_selector_set_colors (GO_SELECTOR (state->fill.gradient.selector),
 					 style->fill.pattern.back,
 					 style->fill.pattern.fore);
 
-	g_signal_handlers_block_by_func (state->fill.background, cb_fill_background_color, 
+	g_signal_handlers_block_by_func (state->fill.background, cb_fill_background_color,
 					 (gpointer) state);
-	g_signal_handlers_block_by_func (state->fill.foreground, cb_fill_background_color, 
+	g_signal_handlers_block_by_func (state->fill.foreground, cb_fill_background_color,
 					 (gpointer) state);
-	
+
 	go_color_selector_set_color (GO_SELECTOR (state->fill.background),
 				     style->fill.pattern.back);
 	go_color_selector_set_color (GO_SELECTOR (state->fill.foreground),
 				     style->fill.pattern.fore);
-	
-	g_signal_handlers_unblock_by_func (state->fill.background, cb_fill_background_color, 
+
+	g_signal_handlers_unblock_by_func (state->fill.background, cb_fill_background_color,
 					   (gpointer) state);
-	g_signal_handlers_unblock_by_func (state->fill.foreground, cb_fill_background_color, 
+	g_signal_handlers_unblock_by_func (state->fill.foreground, cb_fill_background_color,
 					   (gpointer) state);
 }
 
@@ -354,8 +354,8 @@ fill_pattern_init (StylePrefState *state)
 	GOStyle *default_style = state->default_style;
 	GtkWidget *selector;
 	GtkWidget *label;
-       
-	state->fill.pattern.selector = selector = 
+
+	state->fill.pattern.selector = selector =
 		go_pattern_selector_new (style->fill.pattern.pattern,
 					 default_style->fill.pattern.pattern);
 	go_pattern_selector_set_colors (GO_SELECTOR (selector), style->fill.pattern.fore,
@@ -400,10 +400,10 @@ fill_gradient_init (StylePrefState *state)
 	GtkWidget *brightness;
 	GtkWidget *label;
 
-	state->fill.gradient.selector = selector = 
+	state->fill.gradient.selector = selector =
 		go_gradient_selector_new (style->fill.gradient.dir,
 					  style->fill.gradient.dir);
-	go_gradient_selector_set_colors (GO_SELECTOR (selector), 
+	go_gradient_selector_set_colors (GO_SELECTOR (selector),
 					 style->fill.pattern.back,
 					 style->fill.pattern.fore);
 	label = go_gtk_builder_get_widget (state->gui, "fill_gradient_label");
@@ -418,7 +418,7 @@ fill_gradient_init (StylePrefState *state)
 	gtk_size_group_add_widget (state->fill.size_group, label);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), brightness);
 	state->fill.gradient.brightness_box = go_gtk_builder_get_widget (state->gui, "fill_brightness_box");
-	
+
 	g_signal_connect (selector, "activate",
 			  G_CALLBACK (cb_gradient_type_changed), state);
 	g_signal_connect (brightness, "value_changed",
@@ -434,7 +434,7 @@ cb_fill_background_color (GOSelector *selector, StylePrefState *state)
 {
 	GOStyle *style = state->style;
 
-	style->fill.pattern.back = go_color_selector_get_color (selector, 
+	style->fill.pattern.back = go_color_selector_get_color (selector,
 								&style->fill.auto_back);
 	set_style (state);
 	fill_update_selectors (state);
@@ -689,8 +689,8 @@ cb_marker_outline_color_changed (GOSelector *selector,
 	go_marker_set_outline_color (style->marker.mark, color);
 	style->marker.auto_outline_color = is_auto;
 	set_style (state);
-	
-	go_marker_selector_set_colors (GO_SELECTOR (state->marker.selector), 
+
+	go_marker_selector_set_colors (GO_SELECTOR (state->marker.selector),
 				       color,
 				       go_marker_get_fill_color (style->marker.mark));
 }
@@ -708,7 +708,7 @@ cb_marker_fill_color_changed (GOSelector *selector,
 	style->marker.auto_fill_color = is_auto;
 	set_style (state);
 
-	go_marker_selector_set_colors (GO_SELECTOR (state->marker.selector), 
+	go_marker_selector_set_colors (GO_SELECTOR (state->marker.selector),
 				       go_marker_get_outline_color (style->marker.mark),
 				       color);
 }
@@ -740,20 +740,20 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 
 	table = go_gtk_builder_get_widget (gui, "marker_table");
 
-	state->marker.selector = selector = 
+	state->marker.selector = selector =
 		go_marker_selector_new (go_marker_get_shape (style->marker.mark),
 					go_marker_get_shape (state->default_style->marker.mark));
 	if ((style->interesting_fields & GO_STYLE_MARKER_NO_COLOR )== 0)
-		go_marker_selector_set_colors (GO_SELECTOR (selector), 
+		go_marker_selector_set_colors (GO_SELECTOR (selector),
 					       go_marker_get_outline_color (style->marker.mark),
 					       go_marker_get_fill_color (style->marker.mark));
 	else
-		go_marker_selector_set_colors (GO_SELECTOR (selector), 
+		go_marker_selector_set_colors (GO_SELECTOR (selector),
 					       GO_COLOR_BLUE, GO_COLOR_BLUE);
 	w = go_gtk_builder_get_widget (gui, "marker_shape_label");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), selector);
 	gtk_table_attach (GTK_TABLE (table), selector, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
-	g_signal_connect (G_OBJECT (selector), "activate", 
+	g_signal_connect (G_OBJECT (selector), "activate",
 			  G_CALLBACK (cb_marker_shape_changed), state);
 	gtk_widget_show (selector);
 
@@ -771,7 +771,7 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 		gtk_widget_set_sensitive (w, FALSE);
 	}
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
-	
+
 	if ((style->interesting_fields & GO_STYLE_MARKER_NO_COLOR ) == 0)
 		w = create_go_combo_color (state,
 			go_marker_get_outline_color (style->marker.mark),
@@ -831,7 +831,7 @@ cb_font_color_changed (GOSelector *selector,
 		       StylePrefState *state)
 {
 	GOStyle *style = state->style;
-	
+
 	style->font.color = go_color_selector_get_color (selector, NULL);
 	set_style (state);
 }
@@ -860,16 +860,16 @@ font_init (StylePrefState *state, guint32 enable, GOEditor *editor, GOCmdContext
 	box = go_gtk_builder_get_widget (gui, "color_box");
 	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
 	gtk_widget_show (w);
-				    
+
 	w = go_font_sel_new ();
 	go_font_sel_set_font (GO_FONT_SEL (w), style->font.font);
-	g_signal_connect (G_OBJECT (w), "font_changed", 
+	g_signal_connect (G_OBJECT (w), "font_changed",
 			  G_CALLBACK (cb_font_changed), state);
 	gtk_widget_show (w);
 
  	box = go_gtk_builder_get_widget (gui, "go_style_font_prefs");
 	gtk_box_pack_end (GTK_BOX (box), w, TRUE, TRUE, 0);
-	
+
 	go_editor_add_page (editor, box, _("Font"));
 }
 
@@ -1005,7 +1005,7 @@ go_style_get_editor (GOStyle *style,
 	GtkWidget *notebook;
 	GOEditor *editor = go_editor_new ();
 
-	go_style_populate_editor (style, editor, default_style, cc, 
+	go_style_populate_editor (style, editor, default_style, cc,
 				   object_with_style, FALSE);
 
 	notebook = go_editor_get_notebook (editor);
@@ -1334,7 +1334,7 @@ go_style_gradient_sax_save (GsfXMLOut *output, GOStyle const *style)
 	if (style->fill.gradient.brightness >= 0.)
 		gsf_xml_out_add_float (output, "brightness",
 			style->fill.gradient.brightness, 6);
-	else 
+	else
 		go_xml_out_add_color (output, "end-color",
 			style->fill.pattern.fore);
 	gsf_xml_out_end_element (output);
@@ -1543,7 +1543,7 @@ go_style_marker_sax_save (GsfXMLOut *output, GOStyle const *style)
 	gsf_xml_out_add_bool (output, "auto-shape", style->marker.auto_shape);
 	gsf_xml_out_add_cstr (output, "shape",
 		go_marker_shape_as_str (go_marker_get_shape (style->marker.mark)));
-	gsf_xml_out_add_bool (output, "auto-outline", 
+	gsf_xml_out_add_bool (output, "auto-outline",
 		style->marker.auto_outline_color);
 	go_xml_out_add_color (output, "outline-color",
 		go_marker_get_outline_color (style->marker.mark));
@@ -1804,49 +1804,49 @@ static void
 go_style_persist_prep_sax (GOPersist *gp, GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static GsfXMLInNode const dtd[] = {
-		GSF_XML_IN_NODE 	(STYLE, STYLE, 
-					 -1, "GogObject", 
+		GSF_XML_IN_NODE 	(STYLE, STYLE,
+					 -1, "GogObject",
 					 FALSE, NULL, NULL),
-		GSF_XML_IN_NODE_FULL 	(STYLE, STYLE_LINE, 
-					 -1, "line", 
-					 GSF_XML_NO_CONTENT, FALSE, FALSE, 
+		GSF_XML_IN_NODE_FULL 	(STYLE, STYLE_LINE,
+					 -1, "line",
+					 GSF_XML_NO_CONTENT, FALSE, FALSE,
 					 &go_style_sax_load_line, NULL, 0),
-		GSF_XML_IN_NODE_FULL 	(STYLE, STYLE_OUTLINE,	
-					 -1, "outline", 
-					 GSF_XML_NO_CONTENT, FALSE, FALSE, 
+		GSF_XML_IN_NODE_FULL 	(STYLE, STYLE_OUTLINE,
+					 -1, "outline",
+					 GSF_XML_NO_CONTENT, FALSE, FALSE,
 					 &go_style_sax_load_line, NULL, 1),
-		GSF_XML_IN_NODE 	(STYLE, STYLE_FILL, 
-					 -1, "fill", 
-					 GSF_XML_NO_CONTENT, 
+		GSF_XML_IN_NODE 	(STYLE, STYLE_FILL,
+					 -1, "fill",
+					 GSF_XML_NO_CONTENT,
 					 &go_style_sax_load_fill, NULL),
-		GSF_XML_IN_NODE 	(STYLE_FILL, FILL_PATTERN,  
-					 -1, "pattern", 
-					 GSF_XML_NO_CONTENT, 
+		GSF_XML_IN_NODE 	(STYLE_FILL, FILL_PATTERN,
+					 -1, "pattern",
+					 GSF_XML_NO_CONTENT,
 					 &go_style_sax_load_fill_pattern, NULL),
-		GSF_XML_IN_NODE 	(STYLE_FILL, FILL_GRADIENT, 
-					 -1, "gradient", 
-					 GSF_XML_NO_CONTENT, 
+		GSF_XML_IN_NODE 	(STYLE_FILL, FILL_GRADIENT,
+					 -1, "gradient",
+					 GSF_XML_NO_CONTENT,
 					 &go_style_sax_load_fill_gradient, NULL),
-		GSF_XML_IN_NODE 	(STYLE_FILL, FILL_IMAGE, 
-					 -1, "image", 
-					 GSF_XML_NO_CONTENT, 
+		GSF_XML_IN_NODE 	(STYLE_FILL, FILL_IMAGE,
+					 -1, "image",
+					 GSF_XML_NO_CONTENT,
 					 &go_style_sax_load_fill_image, NULL),
-		GSF_XML_IN_NODE 	(STYLE, STYLE_MARKER,	
-					 -1, "marker", 
-					 GSF_XML_NO_CONTENT, 
+		GSF_XML_IN_NODE 	(STYLE, STYLE_MARKER,
+					 -1, "marker",
+					 GSF_XML_NO_CONTENT,
 					 &go_style_sax_load_marker, NULL),
 		GSF_XML_IN_NODE 	(STYLE, STYLE_FONT,
-			 		 -1, "font", 
-					 GSF_XML_NO_CONTENT, 
+			 		 -1, "font",
+					 GSF_XML_NO_CONTENT,
 					 &go_style_sax_load_font, NULL),
-		GSF_XML_IN_NODE 	(STYLE, STYLE_ALIGNMENT,	
-					 -1, "text_layout", 
-					 GSF_XML_NO_CONTENT, 
+		GSF_XML_IN_NODE 	(STYLE, STYLE_ALIGNMENT,
+					 -1, "text_layout",
+					 GSF_XML_NO_CONTENT,
 					 &go_style_sax_load_text_layout, NULL),
 		GSF_XML_IN_NODE_END
 	};
 	static GsfXMLInDoc *doc = NULL;
-	
+
 	if (NULL == doc)
 		doc = gsf_xml_in_doc_new (dtd, NULL);
 	gsf_xml_in_push_state (xin, doc, gp, NULL, attrs);
@@ -1893,7 +1893,7 @@ go_style_is_outline_visible (GOStyle const *style)
 	g_return_val_if_fail (GO_IS_STYLE (style), FALSE);
 
 	/* FIXME FIXME FIXME make this smarter */
-	return GO_COLOR_UINT_A (style->line.color) > 0 && 
+	return GO_COLOR_UINT_A (style->line.color) > 0 &&
 		style->line.dash_type != GO_LINE_NONE;
 }
 
@@ -1903,11 +1903,11 @@ go_style_is_line_visible (GOStyle const *style)
 	g_return_val_if_fail (GO_IS_STYLE (style), FALSE);
 
 	/* FIXME FIXME FIXME TODO : make this smarter */
-	return GO_COLOR_UINT_A (style->line.color) > 0 && 
+	return GO_COLOR_UINT_A (style->line.color) > 0 &&
 		style->line.dash_type != GO_LINE_NONE;
 }
 
-gboolean 
+gboolean
 go_style_is_fill_visible (const GOStyle *style)
 {
 	g_return_val_if_fail (GO_IS_STYLE (style), FALSE);
@@ -1959,12 +1959,12 @@ go_style_set_marker (GOStyle *style, GOMarker *marker)
  * go_style_get_marker :
  * @style : #GOStyle
  *
- * Accessor for @style::marker, without referencing it. 
+ * Accessor for @style::marker, without referencing it.
  *
  * return value: the style #GOMarker.
  **/
 GOMarker const *
-go_style_get_marker (GOStyle *style) 
+go_style_get_marker (GOStyle *style)
 {
 	g_return_val_if_fail (GO_IS_STYLE (style), NULL);
 

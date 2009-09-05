@@ -1,11 +1,11 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * goc-ellipse.c :  
+ * goc-ellipse.c :
  *
  * Copyright (C) 2009 Jean Brefort (jean.brefort@normalesup.org)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -164,7 +164,7 @@ goc_ellipse_distance (GocItem *item, double x, double y, GocItem **near_item)
 
 static void
 goc_ellipse_draw (GocItem const *item, cairo_t *cr)
-{      
+{
 	GocEllipse *ellipse = GOC_ELLIPSE (item);
 	double  scalex = (ellipse->width > 0.)? ellipse->width / 2.: 1.e-10,
 		scaley = (ellipse->height > 0.)? ellipse->height / 2.: 1.e-10;
@@ -221,19 +221,19 @@ goc_ellipse_class_init (GocItemClass *item_klass)
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, ELLIPSE_PROP_W,
-		g_param_spec_double ("width", 
+		g_param_spec_double ("width",
 			_("Width"),
 			_("The rectangle width"),
 			0., G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, ELLIPSE_PROP_H,
-		g_param_spec_double ("height", 
+		g_param_spec_double ("height",
 			_("Height"),
 			_("The rectangle height"),
 			0., G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 /*	g_object_class_install_property (obj_klass, ELLIPSE_PROP_ROTATION,
-		g_param_spec_double ("rotation", 
+		g_param_spec_double ("rotation",
 			_("Rotation"),
 			_("The rotation around top left position"),
 			0., 2 * M_PI, 0.,

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-style.h : 
+ * go-style.h :
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -115,7 +115,7 @@ struct _GOStyle {
 	struct {
 		double		 angle;
 		gboolean	 auto_angle;
-	} text_layout;	
+	} text_layout;
 };
 
 GOStyle  *go_style_new		(void);

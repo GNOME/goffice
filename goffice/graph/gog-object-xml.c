@@ -69,7 +69,7 @@ gog_object_set_arg_full (char const *name, char const *val, GogObject *obj, xmlN
 			GObject *val_obj;
 
 			success = FALSE;
-			type_name = xmlGetProp (xml_node, 
+			type_name = xmlGetProp (xml_node,
 						(xmlChar const *) "type");
 			if (type_name != NULL) {
 				type = g_type_from_name (type_name);
@@ -116,7 +116,7 @@ gog_object_write_property_sax (GogObject const *obj, GParamSpec *pspec, GsfXMLOu
 	if (((pspec->flags & GOG_PARAM_POSITION) &&
 	     gog_object_is_default_position_flags (obj, pspec->name)) ||
 	    (!(pspec->flags & GOG_PARAM_FORCE_SAVE) &&
-	     !(pspec->flags & GOG_PARAM_POSITION) && 
+	     !(pspec->flags & GOG_PARAM_POSITION) &&
 	     g_param_value_defaults (pspec, &value))) {
 		g_value_unset (&value);
 		return;
@@ -227,7 +227,7 @@ gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output, gpointer user)
 
 		gsf_xml_out_start_element (output, "dimension");
 		gsf_xml_out_add_int (output, "id", i);
-		gsf_xml_out_add_cstr (output, "type", 
+		gsf_xml_out_add_cstr (output, "type",
 			G_OBJECT_TYPE_NAME (dat));
 		tmp = go_data_serialize (dat, user);
 		gsf_xml_out_add_cstr (output, NULL, tmp);

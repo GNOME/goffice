@@ -523,7 +523,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 		unsigned axis_count;
 		GtkCellRenderer *cell;
 		AxisBasePrefs *state;
-		    
+
 		store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_UINT);
 		combo = go_gtk_builder_get_widget (gui, "cross_axis_combo");
 		gtk_combo_box_set_model (GTK_COMBO_BOX (combo), GTK_TREE_MODEL (store));
@@ -570,7 +570,7 @@ gog_axis_base_populate_editor (GogObject *gobj,
 				  G_CALLBACK (cb_cross_axis_changed), state);
 		g_signal_connect (G_OBJECT (deditor), "changed",
 				  G_CALLBACK (cb_cross_location_changed), state);
-		g_signal_connect_swapped (G_OBJECT (combo), "destroy", G_CALLBACK (axis_base_pref_free), state);  
+		g_signal_connect_swapped (G_OBJECT (combo), "destroy", G_CALLBACK (axis_base_pref_free), state);
 
 		w = go_gtk_builder_get_widget (gui, "axis_low");
 		if (axis_base->position == GOG_AXIS_AT_LOW)
@@ -667,67 +667,67 @@ gog_axis_base_class_init (GObjectClass *gobject_klass)
 			GOG_AXIS_AT_LOW, GOG_AXIS_AT_HIGH, GOG_AXIS_AT_LOW,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_POSITION_STR,
-		g_param_spec_string ("pos-str", 
+		g_param_spec_string ("pos-str",
 			_("Axis position (as a string)"),
 			_("Where to position an axis low, high, or crossing"),
-			"low", 
+			"low",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MAJOR_TICK_LABELED,
-		g_param_spec_boolean ("major-tick-labeled", 
+		g_param_spec_boolean ("major-tick-labeled",
 			_("Major labels"),
 			_("Show labels for major ticks"),
-			TRUE, 
+			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MAJOR_TICK_IN,
-		g_param_spec_boolean ("major-tick-in", 
+		g_param_spec_boolean ("major-tick-in",
 			_("Inside major ticks"),
 			_("Major tick marks inside the chart area"),
-			FALSE, 
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MAJOR_TICK_OUT,
-		g_param_spec_boolean ("major-tick-out", 
+		g_param_spec_boolean ("major-tick-out",
 			_("Outside major ticks"),
 			_("Major tick marks outside the chart area"),
-			TRUE, 
+			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MAJOR_TICK_SIZE_PTS,
-		g_param_spec_int ("major-tick-size-pts", 
+		g_param_spec_int ("major-tick-size-pts",
 			_("Major tick size"),
 			_("Size of the major tick marks, in points"),
-			0, 20, 4, 
+			0, 20, 4,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MINOR_TICK_IN,
-		g_param_spec_boolean ("minor-tick-in", 
+		g_param_spec_boolean ("minor-tick-in",
 			_("Inside minor ticks"),
 			_("Minor tick marks inside the chart area"),
-			FALSE, 
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MINOR_TICK_OUT,
-		g_param_spec_boolean ("minor-tick-out", 
+		g_param_spec_boolean ("minor-tick-out",
 			_("Outside minor ticks"),
 			_("Minor tick marks outside the axis"),
-			FALSE, 
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_MINOR_TICK_SIZE_PTS,
-		g_param_spec_int ("minor-tick-size-pts", 
+		g_param_spec_int ("minor-tick-size-pts",
 			_("Minor tick size"),
 			_("Size of the minor tick marks, in points"),
-			0, 15, 2, 
+			0, 15, 2,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_CROSS_AXIS_ID,
-		g_param_spec_uint ("cross-axis-id", 
+		g_param_spec_uint ("cross-axis-id",
 			_("Cross axis id"),
 			_("Which axis to cross"),
-			0, G_MAXUINT, 0, 
+			0, G_MAXUINT, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	g_object_class_install_property (gobject_klass, AXIS_BASE_PROP_PADDING_PTS,
-		g_param_spec_int ("padding-pts", 
+		g_param_spec_int ("padding-pts",
 			_("Axis padding"),
 			_("Distance from axis line to plot area, in points"),
-			-G_MAXINT, G_MAXINT, 0, 
+			-G_MAXINT, G_MAXINT, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 #ifdef GOFFICE_WITH_GTK
@@ -790,7 +790,7 @@ GSF_CLASS_ABSTRACT (GogAxisBase, gog_axis_base,
 static gboolean gog_axis_base_view_point (GogView *view, double x, double y);
 
 static gboolean
-gog_tool_bound_is_valid_axis (GogView *view) 
+gog_tool_bound_is_valid_axis (GogView *view)
 {
 	GogAxisBase *axis_base = GOG_AXIS_BASE (view->model);
 	GogAxisType type = gog_axis_get_atype (axis_base->axis);
@@ -806,7 +806,7 @@ gog_tool_bound_is_valid_axis (GogView *view)
 static gboolean
 gog_tool_select_axis_point (GogView *view, double x, double y, GogObject **gobj)
 {
-	return (gog_tool_bound_is_valid_axis (view) && 
+	return (gog_tool_bound_is_valid_axis (view) &&
 		gog_axis_base_view_point (view, x, y));
 }
 
@@ -820,10 +820,10 @@ gog_tool_select_axis_render (GogView *view)
 static GogTool gog_axis_tool_select_axis = {
 	N_("Select axis"),
 	GDK_LEFT_PTR,
-	gog_tool_select_axis_point, 
+	gog_tool_select_axis_point,
 	gog_tool_select_axis_render,
 	NULL /* init */,
-        NULL /* move */,	
+        NULL /* move */,
 	NULL /* double-click */,
 	NULL /* destroy */
 };
@@ -835,40 +835,40 @@ typedef struct {
 	double length;
 	double start, stop;
 } MoveBoundData;
-	
+
 static gboolean
 gog_tool_move_start_bound_point (GogView *view, double x, double y, GogObject **gobj)
 {
 	return gog_tool_bound_is_valid_axis (view) &&
-		gog_renderer_in_grip (x, y, 
-				      GOG_AXIS_BASE_VIEW (view)->x_start, 
+		gog_renderer_in_grip (x, y,
+				      GOG_AXIS_BASE_VIEW (view)->x_start,
 				      GOG_AXIS_BASE_VIEW (view)->y_start);
 }
 
 static void
 gog_tool_move_start_bound_render (GogView *view)
 {
-	if (gog_tool_bound_is_valid_axis (view)) 
-		gog_renderer_draw_grip (view->renderer, 
-					GOG_AXIS_BASE_VIEW (view)->x_start, 
+	if (gog_tool_bound_is_valid_axis (view))
+		gog_renderer_draw_grip (view->renderer,
+					GOG_AXIS_BASE_VIEW (view)->x_start,
 					GOG_AXIS_BASE_VIEW (view)->y_start);
 }
 
 static gboolean
 gog_tool_move_stop_bound_point (GogView *view, double x, double y, GogObject **gobj)
 {
-	return (gog_tool_bound_is_valid_axis (view) && 
-		gog_renderer_in_grip (x, y, 
-				     GOG_AXIS_BASE_VIEW (view)->x_stop, 
+	return (gog_tool_bound_is_valid_axis (view) &&
+		gog_renderer_in_grip (x, y,
+				     GOG_AXIS_BASE_VIEW (view)->x_stop,
 				     GOG_AXIS_BASE_VIEW (view)->y_stop));
 }
 
 static void
 gog_tool_move_stop_bound_render (GogView *view)
 {
-	if (gog_tool_bound_is_valid_axis (view)) 
-		gog_renderer_draw_grip (view->renderer, 
-					GOG_AXIS_BASE_VIEW (view)->x_stop, 
+	if (gog_tool_bound_is_valid_axis (view))
+		gog_renderer_draw_grip (view->renderer,
+					GOG_AXIS_BASE_VIEW (view)->x_stop,
 					GOG_AXIS_BASE_VIEW (view)->y_stop);
 }
 
@@ -889,34 +889,34 @@ gog_tool_move_bound_init (GogToolAction *action)
 
 static void
 gog_tool_move_start_bound_move (GogToolAction *action, double x, double y)
-{	
+{
 	GogAxisBaseView *view = GOG_AXIS_BASE_VIEW (action->view);
 	MoveBoundData *data = action->data;
 	double a = 1.0 - MIN (((x - view->x_start) * (view->x_stop - view->x_start) +
-			       (y - view->y_start) * (view->y_stop - view->y_start)) / 
+			       (y - view->y_start) * (view->y_stop - view->y_start)) /
 			      (data->length * data->length), 0.9);
 
-	gog_axis_set_extents (data->axis, 
+	gog_axis_set_extents (data->axis,
 			      data->stop + ((data->start - data->stop) / a),
 			      go_nan);
 }
 
 static void
 gog_tool_move_stop_bound_move (GogToolAction *action, double x, double y)
-{	
+{
 	GogAxisBaseView *view = GOG_AXIS_BASE_VIEW (action->view);
 	MoveBoundData *data = action->data;
 	double a = 1.0 - MIN (((x - view->x_stop) * (view->x_start - view->x_stop) +
-			       (y - view->y_stop) * (view->y_start - view->y_stop)) / 
+			       (y - view->y_stop) * (view->y_start - view->y_stop)) /
 			      (data->length * data->length), 0.9);
 
-	gog_axis_set_extents (data->axis, 
-			      go_nan, 
+	gog_axis_set_extents (data->axis,
+			      go_nan,
 			      data->start + ((data->stop - data->start) / a));
 }
 
 static void
-gog_tool_move_bound_destroy (GogToolAction *action) 
+gog_tool_move_bound_destroy (GogToolAction *action)
 {
 	MoveBoundData *data = action->data;
 
@@ -924,23 +924,23 @@ gog_tool_move_bound_destroy (GogToolAction *action)
 }
 
 static GogTool gog_axis_tool_start_bound = {
-	N_("Set start bound"), 
+	N_("Set start bound"),
 	GDK_CROSS,
-	gog_tool_move_start_bound_point, 
+	gog_tool_move_start_bound_point,
 	gog_tool_move_start_bound_render,
-	gog_tool_move_bound_init, 
-	gog_tool_move_start_bound_move, 
+	gog_tool_move_bound_init,
+	gog_tool_move_start_bound_move,
 	NULL /* double-click */,
 	gog_tool_move_bound_destroy
 };
 
 static GogTool gog_axis_tool_stop_bound = {
-	N_("Set stop bound"), 
+	N_("Set stop bound"),
 	GDK_CROSS,
-	gog_tool_move_stop_bound_point, 
+	gog_tool_move_stop_bound_point,
 	gog_tool_move_stop_bound_render,
-	gog_tool_move_bound_init, 
-	gog_tool_move_stop_bound_move, 
+	gog_tool_move_bound_init,
+	gog_tool_move_stop_bound_move,
 	NULL /* double-click */,
 	gog_tool_move_bound_destroy
 };
@@ -1340,7 +1340,7 @@ axis_circle_get_bbox (GogAxisBase *axis_base, GogRenderer *renderer,
 		if (ticks[i].label != NULL && draw_labels) {
 			gog_renderer_get_text_OBR (renderer, ticks[i].label, TRUE, &txt_obr);
 			txt_obr.w += label_padding;
-			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len, 
+			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len,
 							 GO_SIDE_LEFT, GO_SIDE_AUTO);
 			txt_obr.x += x;
 			txt_obr.y += y;
@@ -1464,7 +1464,7 @@ axis_circle_render (GogAxisBase *axis_base, GogRenderer *renderer,
 						  &label_pos.x, &label_pos.y);
 			gog_renderer_get_text_OBR (renderer, ticks[i].label, TRUE, &txt_obr);
 			txt_obr.w += label_padding;
-			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len, 
+			go_geometry_calc_label_position (&txt_obr, angle + M_PI / 2.0, tick_len,
 							 GO_SIDE_LEFT, GO_SIDE_AUTO);
 			label_pos.x += txt_obr.x;
 			label_pos.y += txt_obr.y;
@@ -1515,14 +1515,14 @@ x_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	switch (action) {
 		case GOG_AXIS_BASE_RENDER:
 			axis_line_render (axis_base, axis_base_view,
-					  view->renderer, ax, ay, bx - ax , by - ay, 
+					  view->renderer, ax, ay, bx - ax , by - ay,
 					  GO_SIDE_RIGHT, -1.,
 					  axis_base->major_tick_labeled, TRUE, NULL);
 			break;
 
 		case GOG_AXIS_BASE_PADDING_REQUEST:
 			axis_line_bbox = axis_line_get_bbox (GOG_AXIS_BASE (view->model),
-							     view->renderer, ax, ay, bx - ax, by - ay, 
+							     view->renderer, ax, ay, bx - ax, by - ay,
 							     GO_SIDE_RIGHT, -1.,
 							     axis_base->major_tick_labeled);
 			padding->wl = MAX (0., plot_area->x - axis_line_bbox.x);
@@ -1611,7 +1611,7 @@ xy_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	switch (action) {
 		case GOG_AXIS_BASE_RENDER:
 			axis_line_render (axis_base, axis_base_view,
-					  view->renderer, 
+					  view->renderer,
 					  ax, ay, bx - ax , by - ay, side, -1.,
 					  axis_base->major_tick_labeled, TRUE, NULL);
 			break;
@@ -1730,7 +1730,7 @@ radar_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 					}
 				else {
 					gog_chart_map_2D_to_view (c_map, position, stop, &bx, &by);
-					point = axis_line_point (axis_base, view->renderer, 
+					point = axis_line_point (axis_base, view->renderer,
 								 x, y, parms->cx, parms->cy,
 								 bx - parms->cx, by - parms->cy,
 								 side);
@@ -1927,7 +1927,7 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 				gog_chart_map_3d_to_view (c_map, xposition,
 							  yposition,
 							  ticks[i].position,
-							  ticks_pos + 2 * i, 
+							  ticks_pos + 2 * i,
 							  ticks_pos + 2 * i + 1,
 							  NULL);
 		}
@@ -1948,7 +1948,7 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 				gog_chart_map_3d_to_view (c_map,
 							  ticks[i].position,
 							  yposition, zposition,
-							  ticks_pos + 2 * i, 
+							  ticks_pos + 2 * i,
 							  ticks_pos + 2 * i + 1,
 							  NULL);
 			}
@@ -1970,7 +1970,7 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 				gog_chart_map_3d_to_view (c_map, xposition,
 							  ticks[i].position,
 							  zposition,
-							  ticks_pos + 2 * i, 
+							  ticks_pos + 2 * i,
 							  ticks_pos + 2 * i + 1,
 							  NULL);
 		}
@@ -1995,7 +1995,7 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	switch (action) {
 		case GOG_AXIS_BASE_RENDER:
 			axis_line_render (axis_base, axis_base_view,
-					  view->renderer, 
+					  view->renderer,
 					  ax, ay, bx - ax , by - ay, side, -1.,
 					  axis_base->major_tick_labeled, TRUE,
 					  ticks_pos);
@@ -2067,7 +2067,7 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 			}
 			padding->wr = tick_len * ox;
 			padding->hb = tick_len * oy;
-			break;	
+			break;
 		default:
 			break;
 	}

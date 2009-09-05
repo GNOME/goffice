@@ -121,9 +121,9 @@ go_font_unref (GOFont const *font)
 
 		for (ptr = font_watchers; ptr != NULL ; ptr = ptr->next) {
 			GClosure *watcher = ptr->data;
-			gpointer data = watcher->is_invalid ? 
+			gpointer data = watcher->is_invalid ?
 				NULL : watcher->data;
-			
+
 			instance_and_params[0].g_type = 0;
 			g_value_init (&instance_and_params[0], G_TYPE_POINTER);
 			g_value_set_pointer (&instance_and_params[0], (gpointer)font);

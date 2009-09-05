@@ -138,7 +138,7 @@ goc_widget_set_property (GObject *obj, guint param_id,
 		goc_item_bounds_changed (GOC_ITEM (item));
 		goc_widget_notify_scrolled (GOC_ITEM (item));
 	}
-	
+
 }
 
 static void
@@ -222,34 +222,34 @@ goc_widget_class_init (GocItemClass *item_klass)
 
 	obj_klass->get_property = goc_widget_get_property;
 	obj_klass->set_property = goc_widget_set_property;
-	
+
 	g_object_class_install_property (obj_klass, WIDGET_PROP_WIDGET,
-		g_param_spec_object ("widget", 
+		g_param_spec_object ("widget",
 			_("Widget"),
 			_("A pointer to the embedded widget"),
-			GTK_TYPE_WIDGET, 
+			GTK_TYPE_WIDGET,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, WIDGET_PROP_X,
-		g_param_spec_double ("x", 
+		g_param_spec_double ("x",
 			_("x"),
 			_("The widget left position"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, WIDGET_PROP_Y,
-		g_param_spec_double ("y", 
+		g_param_spec_double ("y",
 			_("y"),
 			_("The widget top position"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	/* Setting max size to 2048 which should be enough for all uses */
 	g_object_class_install_property (obj_klass, WIDGET_PROP_W,
-		g_param_spec_double ("width", 
+		g_param_spec_double ("width",
 			_("Width"),
 			_("The widget width"),
 			0., 2048., 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, WIDGET_PROP_H,
-		g_param_spec_double ("height", 
+		g_param_spec_double ("height",
 			_("Height"),
 			_("The widget height"),
 			0., 2048., 0.,

@@ -51,7 +51,7 @@ GODoc   *go_doc_new_from_input  (GsfInput *input,
 				 gchar const *encoding);
 GODoc   *go_doc_new_from_uri	(char const *uri,
 				 GnmFileOpener const *fmt,
-				 XXXGOIOContext *context, 
+				 XXXGOIOContext *context,
 				 gchar const *encoding);
 gboolean go_doc_save		(GODoc *doc, XXXGOIOContext *context);
 gboolean go_doc_save_as		(GODoc *doc, GODocExporter *fmt, char const *uri,

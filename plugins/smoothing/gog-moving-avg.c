@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * smoothing/gog-moving-avg.c :  
+ * smoothing/gog-moving-avg.c :
  *
  * Copyright (C) 2006 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -90,7 +90,7 @@ xavg_toggled_cb (GtkToggleButton *button, GObject *ma)
 }
 
 static void
-gog_moving_avg_populate_editor (GogObject *obj, 
+gog_moving_avg_populate_editor (GogObject *obj,
 				GOEditor *editor,
 				GogDataAllocator *dalloc,
 				GOCmdContext *cc)
@@ -192,13 +192,13 @@ gog_moving_avg_class_init (GogSmoothedCurveClass *curve_klass)
 	gog_object_klass->type_name	= gog_moving_avg_type_name;
 
 	g_object_class_install_property (gobject_klass, MOVING_AVG_PROP_SPAN,
-		g_param_spec_int ("span", 
+		g_param_spec_int ("span",
 			_("Span"),
-			_("Number of averaged values"), 
+			_("Number of averaged values"),
 			2, G_MAXINT, 3,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, MOVING_AVG_PROP_XAVG,
-		g_param_spec_boolean ("xavg", 
+		g_param_spec_boolean ("xavg",
 			_("Average X"),
 			_("Use averaged x values"),
 		       	TRUE,

@@ -221,7 +221,7 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GO3DRotationSel *g3d)
 	go_style->line.width = 2.;
 	go_style->fill.auto_type = FALSE;
 	go_style->fill.type = GO_STYLE_FILL_NONE;
-		
+
 	g3d->bank_dial = goc_item_new (group,
 		GOC_TYPE_CIRCLE, "radius", (double) g3d->bank_dial_r, NULL);
 	go_style = go_styled_object_get_style (GO_STYLED_OBJECT (g3d->bank_dial));
@@ -233,7 +233,7 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GO3DRotationSel *g3d)
 	go_style->fill.auto_back = FALSE;
 	go_style->fill.pattern.back = GO_COLOR_WHITE;
 
-	cb_rotation_changed(g3d);	
+	cb_rotation_changed(g3d);
 }
 
 
@@ -284,7 +284,7 @@ cb_rotate_motion_notify_event (GocCanvas *canvas, GdkEventMotion *event,
 	go_matrix3x3_from_euler (&m3, 0, 0, -M_PI * 0.5);
 	go_matrix3x3_multiply (&m1, &m1, &m3);
 	go_matrix3x3_multiply (&g3d->mat, &m1, &g3d->mat);
-	cb_rotation_changed (g3d);	
+	cb_rotation_changed (g3d);
 	return TRUE;
 }
 
@@ -352,7 +352,7 @@ g3d_init (GO3DRotationSel *g3d)
 	                   "rotate_canvas")),
 	                   GTK_WIDGET (g3d->rotate_canvas));
 	gtk_widget_show (GTK_WIDGET (g3d->rotate_canvas));
-	
+
 	g3d->motion_handle = 0;
 	g_object_connect (G_OBJECT (g3d->rotate_canvas),
 	                  "signal::realize",
@@ -481,15 +481,15 @@ go_3d_rotation_sel_get_fov (GO3DRotationSel const *g3d)
 void
 go_3d_rotation_sel_set_matrix (GO3DRotationSel *g3d, GOMatrix3x3 *mat)
 {
-	g3d->mat.a11 = mat->a11; 
-	g3d->mat.a12 = mat->a12; 
-	g3d->mat.a13 = mat->a13; 
-	g3d->mat.a21 = mat->a21; 
-	g3d->mat.a22 = mat->a22; 
-	g3d->mat.a23 = mat->a23; 
-	g3d->mat.a31 = mat->a31; 
-	g3d->mat.a32 = mat->a32; 
-	g3d->mat.a33 = mat->a33; 
+	g3d->mat.a11 = mat->a11;
+	g3d->mat.a12 = mat->a12;
+	g3d->mat.a13 = mat->a13;
+	g3d->mat.a21 = mat->a21;
+	g3d->mat.a22 = mat->a22;
+	g3d->mat.a23 = mat->a23;
+	g3d->mat.a31 = mat->a31;
+	g3d->mat.a32 = mat->a32;
+	g3d->mat.a33 = mat->a33;
 
 	cb_rotation_changed (g3d);
 }

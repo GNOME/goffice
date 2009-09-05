@@ -73,7 +73,7 @@ cb_rotate_changed (GORotationSel *grs)
 
 	if (grs->line != NULL) {
 		double rad = grs->angle * M_PI / 180.;
-		goc_item_set (grs->line, 
+		goc_item_set (grs->line,
 		              "x0", 15 + cos (rad) * grs->rot_width,
 		              "y0", 100 - sin (rad) * grs->rot_width,
 		              "x1", 15 + cos (rad) * 72.,

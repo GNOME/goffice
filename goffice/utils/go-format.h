@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-format.h : 
+ * go-format.h :
  *
  * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
  *
@@ -220,7 +220,7 @@ GOFormat *go_format_toggle_1000sep	(GOFormat const *fmt);
 /******************* GOFormat ODF Support ********************************/
 
 char *go_format_odf_style_map (GOFormat const *fmt, int cond_part);
-gboolean go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt, 
+gboolean go_format_output_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				  int cond_part, char const *name,
 				  gboolean with_extension);
 

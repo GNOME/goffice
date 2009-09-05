@@ -135,7 +135,7 @@ cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
 			/* Make room for a whole number of items which don't
 			 * overflow the screen, but no more than 20. */
 			int avail_height, nitems;
-			
+
 			avail_height = mon_height - 20
 				- GTK_CONTAINER (widget)->border_width * 2 + 4;
 			nitems = MIN (20, avail_height * ct->rows / w->requisition.height);
@@ -151,8 +151,8 @@ cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
 			GTK_CONTAINER (widget)->border_width * 2 + 4;
 	}
 
-	requisition->width  = MAX (requisition->width, 
-				   ct->entry->allocation.width + 
+	requisition->width  = MAX (requisition->width,
+				   ct->entry->allocation.width +
 				   GTK_CONTAINER (widget)->border_width * 2);
 	requisition->width  = MIN (requisition->width, mon_width - 20);
 	requisition->height = MIN (requisition->height, mon_height - 20);
@@ -169,7 +169,7 @@ cb_screen_changed (GOComboText *ct, GdkScreen *previous_screen)
 	if (screen) {
 		GtkWidget *toplevel = gtk_widget_get_toplevel (ct->scroll);
 		gtk_window_set_screen (GTK_WINDOW (toplevel), screen);
-	}	
+	}
 }
 
 static void

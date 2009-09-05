@@ -28,8 +28,8 @@ G_BEGIN_DECLS
 
 GtkWidget	*go_gradient_selector_new		(GOGradientDirection initial_direction,
 							 GOGradientDirection default_direction);
-void 		 go_gradient_selector_set_colors  	(GOSelector *selector, 
-							 GOColor start, 
+void 		 go_gradient_selector_set_colors  	(GOSelector *selector,
+							 GOColor start,
 							 GOColor stop);
 
 G_END_DECLS

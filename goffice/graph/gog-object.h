@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-object.h : 
+ * gog-object.h :
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -60,7 +60,7 @@ struct _GogObject {
 	unsigned	 id;
 	char		*user_name;	/* user assigned, NULL will fall back to system generated */
 	char		*auto_name;	/* system generated, in current locale */
-	
+
 	GogObjectRole const *role;
 
 	GogObject	*parent;
@@ -82,16 +82,16 @@ typedef struct {
 	GType	    view_type;
 
 	unsigned use_parent_as_proxy : 1; /* when we change, pretend it was our parent */
-	unsigned can_manual_size : 1; 
+	unsigned can_manual_size : 1;
 	unsigned roles_allocated : 1;
 
 	/* Virtuals */
 	void	     (*update)		(GogObject *obj);
 	void	     (*parent_changed)	(GogObject *obj, gboolean was_set);
 	char const  *(*type_name)	(GogObject const *obj);
-	void	     (*populate_editor)	(GogObject *obj, 
+	void	     (*populate_editor)	(GogObject *obj,
 					 GOEditor *editor,
-					 GogDataAllocator *dalloc, 
+					 GogDataAllocator *dalloc,
 					 GOCmdContext *cc);
 	void	     (*document_changed)(GogObject *obj, GODoc *doc);
 
@@ -148,14 +148,14 @@ GogObject	 *gog_object_reorder	 (GogObject const *obj,
 #define	  gog_object_is_visible(obj) (!((GogObject*)obj)->invisible)
 void		  gog_object_set_invisible	       (GogObject *obj, gboolean invisible);
 GogObjectPosition gog_object_get_position_flags	       (GogObject const *obj, GogObjectPosition mask);
-gboolean          gog_object_set_position_flags        (GogObject *obj, GogObjectPosition flags, 
+gboolean          gog_object_set_position_flags        (GogObject *obj, GogObjectPosition flags,
 							GogObjectPosition mask);
 gboolean 	  gog_object_is_default_position_flags (GogObject const *obj, char const *name);
 void	          gog_object_get_manual_position       (GogObject *obj, GogViewAllocation *pos);
 void 		  gog_object_set_manual_position       (GogObject *obj, GogViewAllocation const *pos);
 
-GogViewAllocation gog_object_get_manual_allocation (GogObject *gobj, 
-						    GogViewAllocation const *parent_allocation, 
+GogViewAllocation gog_object_get_manual_allocation (GogObject *gobj,
+						    GogViewAllocation const *parent_allocation,
 						    GogViewRequisition const *requisition);
 
 GogObjectRole const *gog_object_find_role_by_name (GogObject const *obj,

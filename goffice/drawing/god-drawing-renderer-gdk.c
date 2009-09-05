@@ -338,7 +338,7 @@ draw_text (GodTextModel *text,
 		pango_layout_set_text (layout, utf8, length);
 		pango_layout_set_auto_dir (layout, FALSE);
 #if 0
-		pango_font_description_set_absolute_size (bullet_desc, 
+		pango_font_description_set_absolute_size (bullet_desc,
 							  GO_PT_TO_UN ((GODistance) bullet_size * PANGO_SCALE) /
 							  draw_context->renderer->priv->y_units_per_pixel);
 #endif
@@ -430,7 +430,7 @@ god_drawing_renderer_gdk_render_shape (GodDrawingRendererGdk *renderer,
 						  scale_x,
 						  scale_y,
 						  GDK_INTERP_HYPER);
-			
+
 
 				gdk_draw_pixbuf (renderer->priv->drawable,
 						 renderer->priv->gc,

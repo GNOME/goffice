@@ -46,7 +46,7 @@ GSF_CLASS (GogStyle, gog_style,
 	   GO_TYPE_STYLE);
 
 static void gog_styled_object_style_changed (GOStyledObject *obj);
-	
+
 static gulong gog_styled_object_signals [LAST_SIGNAL] = { 0, };
 static GObjectClass *parent_klass;
 
@@ -86,7 +86,7 @@ gog_styled_object_set_property (GObject *obj, guint param_id,
 	switch (param_id) {
 
 	case STYLED_OBJECT_PROP_STYLE :
-		resize = go_styled_object_set_style (GO_STYLED_OBJECT (gso), 
+		resize = go_styled_object_set_style (GO_STYLED_OBJECT (gso),
 	      			g_value_get_object (value));
 		break;
 
@@ -126,7 +126,7 @@ gog_styled_object_finalize (GObject *obj)
 }
 
 static void
-styled_object_populate_editor (GogObject *gobj, 
+styled_object_populate_editor (GogObject *gobj,
 			       GOEditor *editor,
 			       GogDataAllocator *dalloc,
 		      GOCmdContext *cc)
@@ -140,7 +140,7 @@ styled_object_populate_editor (GogObject *gobj,
 		g_object_unref (default_style);
 	}
 	g_object_unref (style);
-	
+
 	(GOG_OBJECT_CLASS(parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 }
 
@@ -191,10 +191,10 @@ gog_styled_object_class_init (GogObjectClass *gog_klass)
 	style_klass->init_style	    = gog_styled_object_init_style;
 
 	g_object_class_install_property (gobject_klass, STYLED_OBJECT_PROP_STYLE,
-		g_param_spec_object ("style", 
+		g_param_spec_object ("style",
 			_("Style"),
 			_("A pointer to the GOStyle object"),
-			gog_style_get_type (), 
+			gog_style_get_type (),
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 

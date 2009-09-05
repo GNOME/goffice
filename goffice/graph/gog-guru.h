@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-guru.h : 
+ * gog-guru.h :
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *

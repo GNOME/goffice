@@ -223,13 +223,13 @@ goc_graph_class_init (GocItemClass *item_klass)
 	obj_klass->finalize	    = goc_graph_finalize;
 
 	g_object_class_install_property (obj_klass, GRAPH_PROP_X,
-		g_param_spec_double ("x", 
+		g_param_spec_double ("x",
 			_("x"),
 			_("The graph left position"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, GRAPH_PROP_Y,
-		g_param_spec_double ("y", 
+		g_param_spec_double ("y",
 			_("y"),
 			_("The graph top position"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,

@@ -62,7 +62,7 @@ gog_probability_plot_populate_editor (GogObject *item,
 	GtkWidget *w = go_distribution_pref_new (G_OBJECT (item), dalloc, cc);
 	go_editor_add_page (editor, w, _("Distribution"));
 	g_object_unref (w);
-	
+
 	(GOG_OBJECT_CLASS(probability_plot_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
 #endif
@@ -236,22 +236,22 @@ gog_probability_plot_class_init (GogPlotClass *gog_plot_klass)
 	gobject_klass->finalize = gog_probability_plot_finalize;
 
 	g_object_class_install_property (gobject_klass, PROBABILITY_PLOT_PROP_DISTRIBUTION,
-		g_param_spec_object ("distribution", 
+		g_param_spec_object ("distribution",
 			_("Distribution"),
 			_("A pointer to the GODistribution used by this plot"),
-			GO_TYPE_DISTRIBUTION, 
+			GO_TYPE_DISTRIBUTION,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PROBABILITY_PLOT_PROP_SHAPE_PARAM1,
-		g_param_spec_string ("param1", 
+		g_param_spec_string ("param1",
 			_("Shape parameter"),
 			_("Name of the first shape parameter if any"),
-			"none", 
+			"none",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PROBABILITY_PLOT_PROP_SHAPE_PARAM2,
-		g_param_spec_string ("param2", 
+		g_param_spec_string ("param2",
 			_("Second shape parameter"),
 			_("Name of the second shape parameter if any"),
-			"none", 
+			"none",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_probability_plot_type_name;
@@ -375,8 +375,8 @@ gog_probability_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (nb == 0 || series->x == NULL || series->y == NULL)
 		return;
 	area = gog_chart_view_get_plot_area (view->parent);
-	chart_map = gog_chart_map_new (chart, area, 
-				       GOG_PLOT (model)->axis[GOG_AXIS_X], 
+	chart_map = gog_chart_map_new (chart, area,
+				       GOG_PLOT (model)->axis[GOG_AXIS_X],
 				       GOG_PLOT (model)->axis[GOG_AXIS_Y],
 				       NULL, FALSE);
 	if (!gog_chart_map_is_valid (chart_map)) {
@@ -534,7 +534,7 @@ gog_probability_plot_series_update (GogObject *obj)
 
 static unsigned
 gog_probability_plot_series_get_xy_data (GogSeries const  *series,
-			double const 	**x, 
+			double const 	**x,
 			double const 	**y)
 {
 	GogProbabilityPlotSeries *ppseries = GOG_PROBABILITY_PLOT_SERIES (series);

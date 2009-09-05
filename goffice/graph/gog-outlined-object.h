@@ -30,7 +30,7 @@ typedef struct {
 	double	 padding_pts;
 } GogOutlinedObject;
 
-typedef	GogStyledObjectClass GogOutlinedObjectClass; 
+typedef	GogStyledObjectClass GogOutlinedObjectClass;
 
 #define GOG_TYPE_OUTLINED_OBJECT  (gog_outlined_object_get_type ())
 #define GOG_OUTLINED_OBJECT(o)	  (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_OUTLINED_OBJECT, GogOutlinedObject))

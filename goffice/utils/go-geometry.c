@@ -34,7 +34,7 @@
  * @theta: polar coordinate
  *
  * Converts cartesion coordinates to polar coordinates.
- * 
+ *
  **/
 void
 go_geometry_cartesian_to_polar (double x, double y, double *rho, double *theta)
@@ -49,7 +49,7 @@ go_geometry_cartesian_to_polar (double x, double y, double *rho, double *theta)
  * @yp: point coordinate
  * @xs: segment start coordinate
  * @ys: segment start coordinate
- * @w: extent of segment 
+ * @w: extent of segment
  * @h: extent of segment
  *
  * Returns: the distance between a point and a segment.
@@ -78,7 +78,7 @@ go_geometry_point_to_segment (double xp, double yp, double xs, double ys, double
  *
  * Computes the Axis Aligned Bounding Rectangle of aabr0 and aabr1,
  * and stores result in aabr0.
- * 
+ *
  **/
 void
 go_geometry_AABR_add (GOGeometryAABR *aabr0, GOGeometryAABR const *aabr1)
@@ -89,7 +89,7 @@ go_geometry_AABR_add (GOGeometryAABR *aabr0, GOGeometryAABR const *aabr1)
 	max = MAX (aabr0->x + aabr0->w, aabr1->x + aabr1->w);
 	aabr0->x = min;
 	aabr0->w = max - min;
-	
+
 	min = MIN (aabr0->y, aabr1->y);
 	max = MAX (aabr0->y + aabr0->h, aabr1->y + aabr1->h);
 	aabr0->y = min;
@@ -100,9 +100,9 @@ go_geometry_AABR_add (GOGeometryAABR *aabr0, GOGeometryAABR const *aabr1)
  * go_geometry_OBR_to_AABR:
  * @obr: a #GOGeometryOBR
  * @aabr: a #GOGeometryAABR
- * 
+ *
  * Stores Axis Aligned Bouding Rectangle of @obr in @aabr.
- * 
+ *
  **/
 void
 go_geometry_OBR_to_AABR (GOGeometryOBR const *obr, GOGeometryAABR *aabr)
@@ -116,13 +116,13 @@ go_geometry_OBR_to_AABR (GOGeometryOBR const *obr, GOGeometryAABR *aabr)
 	aabr->y = obr->y - aabr->h / 2.0 ;
 }
 
-/** 
+/**
  * go_geometry_test_OBR_overlap:
  * @obr0: a #GOGeometryOBR
  * @obr1: a #GOGeometryOBR
- * 
+ *
  * Overlap test of Oriented Bounding Rectangles by the separating axis method.
- * 
+ *
  * return value: %TRUE if OOBRs overlap
  **/
 gboolean
@@ -136,7 +136,7 @@ go_geometry_test_OBR_overlap (GOGeometryOBR const *obr0, GOGeometryOBR const *ob
         cos_delta = fabs (cos (obr1->alpha - obr0->alpha));
         sin_delta = fabs (sin (obr1->alpha - obr0->alpha));
 
-	go_geometry_cartesian_to_polar (obr1->x - obr0->x, 
+	go_geometry_cartesian_to_polar (obr1->x - obr0->x,
 					obr1->y - obr0->y,
 					&delta, &alpha);
 
@@ -150,7 +150,7 @@ go_geometry_test_OBR_overlap (GOGeometryOBR const *obr0, GOGeometryOBR const *ob
         pa = a00;
         pb = a10 * cos_delta + a11 * sin_delta;
         if (TL > pa + pb) return FALSE;
-        
+
         /* Separating axis parallel to obr->h */
         TL = fabs (delta * sin (alpha - obr0->alpha));
         pa = a01;
@@ -168,11 +168,11 @@ go_geometry_test_OBR_overlap (GOGeometryOBR const *obr0, GOGeometryOBR const *ob
         pa = a00 * sin_delta + a01 * cos_delta;
         pb = a11;
         if (TL > pa + pb) return FALSE;
-	
+
         return TRUE;
 }
 
-/** 
+/**
  * go_geometry_get_rotation_type:
  * @alpha: angle in radians
  *
@@ -180,14 +180,14 @@ go_geometry_test_OBR_overlap (GOGeometryOBR const *obr0, GOGeometryOBR const *ob
  *
  * Returns: a #GOGeometryRotationType
  **/
-GOGeometryRotationType 
-go_geometry_get_rotation_type (double alpha) 
+GOGeometryRotationType
+go_geometry_get_rotation_type (double alpha)
 {
 	unsigned index;
 
 	if (alpha < 0 || alpha > 2 * M_PI)
 		alpha = alpha - 2 * M_PI * floor (alpha / (2 * M_PI));
-	
+
 	if (fmod(alpha + GO_GEOMETRY_ANGLE_TOLERANCE, M_PI / 2.0) > 2 * GO_GEOMETRY_ANGLE_TOLERANCE)
 		return GO_ROTATE_FREE;
 	index = go_rint (2.0 * alpha / M_PI);
@@ -220,12 +220,12 @@ go_geometry_calc_label_anchor (GOGeometryOBR *obr, double alpha)
  * @side: side of label with respect to axis
  * @anchor: where to anchor the label
  *
- * Convenience routine that computes position of a label relative to an axis. 
+ * Convenience routine that computes position of a label relative to an axis.
  *
- * Returns: the computed anchor if @anchor == GO_SIDE_AUTO, or @anchor value. 
+ * Returns: the computed anchor if @anchor == GO_SIDE_AUTO, or @anchor value.
  **/
 GOGeometrySide
-go_geometry_calc_label_position (GOGeometryOBR *obr, double alpha, double offset, 
+go_geometry_calc_label_position (GOGeometryOBR *obr, double alpha, double offset,
 				 GOGeometrySide side, GOGeometrySide anchor)
 {
 	double dt, ds;
@@ -261,10 +261,10 @@ go_geometry_calc_label_position (GOGeometryOBR *obr, double alpha, double offset
 		}
 	}
 	obr->x += offset *  sin (alpha);
-	obr->y += offset * -cos (alpha);	
+	obr->y += offset * -cos (alpha);
 
 	return anchor;
-}	
+}
 
 /**
  * go_direction_is_horizontal :

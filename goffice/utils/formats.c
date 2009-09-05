@@ -133,7 +133,7 @@ add_dt_format (GHashTable *dt_hash, gboolean timep, guint *N, const char *fmt)
 	(timep ? fmts_time : fmts_date)[*N] = fmt2;
 	g_hash_table_insert (dt_hash, fmt2, fmt2);
 	(*N)++;
-	(timep ? fmts_time : fmts_date)[*N] = NULL;	
+	(timep ? fmts_time : fmts_date)[*N] = NULL;
 }
 
 static void

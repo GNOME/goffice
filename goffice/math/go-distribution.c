@@ -89,7 +89,7 @@ GODistributionType go_distribution_type_from_string (char const *name)
 
 struct _GODistribution {
 	GObject	base;
-	
+
 	double location, scale;
 };
 
@@ -151,20 +151,20 @@ go_distribution_class_init (GObjectClass *klass)
 	klass->set_property = go_distribution_set_property;
 	klass->get_property = go_distribution_get_property;
 	g_object_class_install_property (klass, DIST_PROP_LOCATION,
-		g_param_spec_double ("location", 
-			_("Location"), 
+		g_param_spec_double ("location",
 			_("Location"),
-			-G_MAXDOUBLE, 
+			_("Location"),
+			-G_MAXDOUBLE,
 			G_MAXDOUBLE,
-			0.0, 
+			0.0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (klass, DIST_PROP_SCALE,
-		g_param_spec_double ("scale", 
-			_("Scale"), 
+		g_param_spec_double ("scale",
 			_("Scale"),
-			G_MINDOUBLE, 
+			_("Scale"),
+			G_MINDOUBLE,
 			G_MAXDOUBLE,
-			1.0, 
+			1.0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
@@ -400,7 +400,7 @@ SUFFIX (go_distribution_get_inverse_survival) (GODistribution *dist, DOUBLE x)
 
 typedef struct {
 	GODistribution base;
-	
+
 } GODistNormal;
 
 #define GO_TYPE_DIST_NORMAL	  	(go_dist_normal_get_type ())
@@ -466,7 +466,7 @@ GSF_CLASS (GODistNormal, go_dist_normal,
 
 typedef struct {
 	GODistribution base;
-	
+
 } GODistUniform;
 
 #define GO_TYPE_DIST_UNIFORM	  	(go_dist_uniform_get_type ())
@@ -539,7 +539,7 @@ GSF_CLASS (GODistUniform, go_dist_uniform,
 
 typedef struct {
 	GODistribution base;
-	
+
 } GODistCauchy;
 
 #define GO_TYPE_DIST_CAUCHY	  	(go_dist_cauchy_get_type ())
@@ -689,12 +689,12 @@ go_dist_weibull_class_init (GObjectClass *klass)
 	klass->set_property = go_dist_weibull_set_property;
 	klass->get_property = go_dist_weibull_get_property;
 	g_object_class_install_property (klass, WEIBULL_PROP_SHAPE,
-		g_param_spec_double ("shape", 
-			_("Shape"), 
+		g_param_spec_double ("shape",
+			_("Shape"),
 			_("Shape factor"),
-			G_MINDOUBLE, 
+			G_MINDOUBLE,
 			G_MAXDOUBLE,
-			1.0, 
+			1.0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
@@ -801,12 +801,12 @@ go_dist_log_normal_class_init (GObjectClass *klass)
 	klass->set_property = go_dist_log_normal_set_property;
 	klass->get_property = go_dist_log_normal_get_property;
 	g_object_class_install_property (klass, LNORM_PROP_SHAPE,
-		g_param_spec_double ("shape", 
-			_("Shape"), 
+		g_param_spec_double ("shape",
+			_("Shape"),
 			_("Shape factor"),
-			G_MINDOUBLE, 
+			G_MINDOUBLE,
 			G_MAXDOUBLE,
-			1.0, 
+			1.0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 

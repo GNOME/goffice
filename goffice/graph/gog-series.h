@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-series.h : 
+ * gog-series.h :
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -65,11 +65,11 @@ unsigned      	  gog_series_num_elements  	(GogSeries const *series);
 GList const  	 *gog_series_get_overrides 	(GogSeries const *series);
 
 unsigned	  gog_series_get_xy_data   	(GogSeries const *series,
-						 double const **x, 
+						 double const **x,
 						 double const **y);
 unsigned	  gog_series_get_xyz_data  	(GogSeries const *series,
-						 double const **x, 
-						 double const **y, 
+						 double const **x,
+						 double const **y,
 						 double const **z);
 
 GogSeriesFillType gog_series_get_fill_type 	(GogSeries const *series);

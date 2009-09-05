@@ -1,11 +1,11 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-styled-object.c :  
+ * go-styled-object.c :
  *
  * Copyright (C) 2009 JJean Brefort (jean.brefort@normalesup.org)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -51,7 +51,7 @@ go_styled_object_get_type (void)
  * does not take ownership of @style.
  *
  * return value: %TRUE if new style may lead to change of object size, which
- * happens when changing font size for example. 
+ * happens when changing font size for example.
  **/
 gboolean
 go_styled_object_set_style (GOStyledObject *gso, GOStyle *style)
@@ -67,7 +67,7 @@ go_styled_object_set_style (GOStyledObject *gso, GOStyle *style)
  * @gso: a #GOStyledObject
  *
  * Simply an accessor function that returns @gso->style, without referencing it.
- * 
+ *
  * return value: the styled object's #GOStyle
  **/
 GOStyle*
@@ -118,7 +118,7 @@ go_styled_object_style_changed (GOStyledObject *gso)
  * @gso: a #GOStyledObject
  * @style: a #GOStyle that will be themed
  *
- * Apply appropriate theme @style if meaningful, i.e. properties with 
+ * Apply appropriate theme @style if meaningful, i.e. properties with
  * auto flag set to %TRUE should be changed to default theme value.
  *
  **/

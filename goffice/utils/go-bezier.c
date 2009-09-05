@@ -4,8 +4,8 @@
  *
  * Copyright (C) 2008 Jean Brefort (jean.brefort@normalesup.org)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -327,7 +327,7 @@ go_bezier_spline_to_path (struct GOBezierSpline *sp)
 	int i, j;
 	GOPath *path = go_path_new ();
 	go_path_move_to (path, sp->x[0], sp->y[0]);
-	for (i = j = 1; i < sp->n; i++, j += 3) 
+	for (i = j = 1; i < sp->n; i++, j += 3)
 		go_path_curve_to (path, sp->x[j], sp->y[j], sp->x[j+1], sp->y[j+1], sp->x[j+2], sp->y[j+2]);
 	if (sp->closed) {
 		go_path_curve_to (path, sp->x[j], sp->y[j], sp->x[j+1], sp->y[j+1], sp->x[0], sp->y[0]);

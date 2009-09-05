@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 
 typedef GogXYZPlot GogSurfacePlot;
 typedef GogXYZPlotClass GogSurfacePlotClass;
- 
+
 #define GOG_TYPE_SURFACE_PLOT	(gog_surface_plot_get_type ())
 #define GOG_SURFACE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_SURFACE_PLOT, GogSurfacePlot))
 #define GOG_IS_SURFACE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_SURFACE_PLOT))

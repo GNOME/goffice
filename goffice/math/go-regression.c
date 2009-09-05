@@ -989,8 +989,8 @@ SUFFIX(go_power_regression) (DOUBLE **xss, int dim,
  * gnumeric_linest, which is also valid for gnumeric_logreg.
  *
  * (Errors: less than two points, all points on a vertical line, non-positive x data.)
- * 
- * Returns: #GORegressionResult as above.  
+ *
+ * Returns: #GORegressionResult as above.
  **/
 GORegressionResult
 SUFFIX(go_logarithmic_regression) (DOUBLE **xss, int dim,
@@ -1062,7 +1062,7 @@ SUFFIX(go_logarithmic_regression) (DOUBLE **xss, int dim,
  * best possible). If the shape of the point cloud is to different from
  * ``logarithmic'', either sign can not be determined (error returned) or no
  * local minimum will be found.
- * 
+ *
  * (Requires: at least 3 different x values, at least 3 different y values.)
  *
  * Returns: #GORegressionResult as above.

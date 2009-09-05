@@ -559,7 +559,7 @@ go_string_get_type (void)
 /**
  * go_string_get_len
  **/
-guint32		  
+guint32
 go_string_get_len (GOString const *gstr)
 {
 	return GO_STRING_LEN(gstr);
@@ -600,7 +600,7 @@ go_string_get_phonetic (GOString const *gstr)
 /**
  * go_string_equal_ignorecase
  **/
-gboolean  
+gboolean
 go_string_equal_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
 {
 	return (0 == go_string_cmp_ignorecase (gstr_a, gstr_b));
@@ -610,7 +610,7 @@ go_string_equal_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
 /**
  * go_string_equal_ignorecase
  **/
-gboolean  
+gboolean
 go_string_equal_rich (gconstpointer gstr_a, gconstpointer gstr_b)
 {
 	/* TODO  */

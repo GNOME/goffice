@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * goffice-data.h: 
+ * goffice-data.h:
  *
  * Copyright (C) 2005 Jody Goldberg (jody@gnome.org)
  *

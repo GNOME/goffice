@@ -1,11 +1,11 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * goc-group.c :  
+ * goc-group.c :
  *
  * Copyright (C) 2008-2009 Jean Brefort (jean.brefort@normalesup.org)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -157,7 +157,7 @@ goc_group_distance (GocItem *item, double x, double y, GocItem **near_item)
 	y -= group->y;
 	for (l = g_list_last (group->children); l; l = g_list_previous (l)) {
 		GocItem *it = GOC_ITEM (l->data);
-		if (!it->visible || it->x0 > x + th || it->x1 < x - th 
+		if (!it->visible || it->x0 > x + th || it->x1 < x - th
 		    || it->y0 > y + th || it->y1 < y - th)
 			continue;
 		dist = goc_item_distance (GOC_ITEM (l->data), x, y, &cur_item);
@@ -243,13 +243,13 @@ goc_group_class_init (GocItemClass *item_klass)
 	obj_klass->set_property = goc_group_set_property;
 	obj_klass->finalize = goc_group_finalize;
 	g_object_class_install_property (obj_klass, GROUP_PROP_X,
-		g_param_spec_double ("x", 
+		g_param_spec_double ("x",
 			_("x"),
 			_("The group horizontal offset"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, GROUP_PROP_Y,
-		g_param_spec_double ("y", 
+		g_param_spec_double ("y",
 			_("y"),
 			_("The group vertical offset"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,

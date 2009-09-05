@@ -2,13 +2,13 @@
 /*
  * go-cspline.c
  *
- * The code in this file has been adapted from public domain code by 
+ * The code in this file has been adapted from public domain code by
  * Sylvain BARTHELEMY (http://www.sylbarth.com/interp.php).
  *
  * Copyright (C) 2007-2008 Jean Brefort (jean.brefort@normalesup.org)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -96,20 +96,20 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 	d4 = g_new0 (DOUBLE, n);
 
   /* --- COMPUTE FOR N-2 ROWS --- */
-	nm2 = n - 2; 
-	dx1 = x[1] - x[0]; 
+	nm2 = n - 2;
+	dx1 = x[1] - x[0];
 	dy1 = (y[1] - y[0]) / dx1 * 3.0;
-	for ( i = 1; i <= nm2; ++i ) { 
+	for ( i = 1; i <= nm2; ++i ) {
 		dx2 = x[i + 1] - x[i];
 		dy2 = (y[i + 1] - y[i]) / dx2 * 3.0;
 		d1[i] = dx1;
 		d2[i] = 2.0 * (dx1 + dx2);
 		d3[i] = dx2;
 		d4[i] = dy2 - dy1;
-		dx1 = dx2; 
+		dx1 = dx2;
 		dy1 = dy2;
 	}     /* end of for i loop */
-	first = 2; 
+	first = 2;
 	last  = nm2;
 
 	/* --- ADJUST FIRST AND LAST ROWS ACCORDING TO IEND CONDITIONS --- */
@@ -121,29 +121,29 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 		d2[nm2] = d2[nm2] + x[nm1] - x[nm2];
 		break;
 	case GO_CSPLINE_CUBIC : /* cubic ends--s[1], s[n] are extrapolated */
-		dx1 = x[1] - x[0]; 
+		dx1 = x[1] - x[0];
 		dx2 = x[2] - x[1];
 		d2[1] = (dx1 + dx2) * (dx1 + 2.0 * dx2) / dx2;
 		d3[1] = (dx2 * dx2 - dx1 * dx1) / dx2;
-		dxn2 = x[nm2] - x[nm2 - 1]; 
+		dxn2 = x[nm2] - x[nm2 - 1];
 		dxn1 = x[nm1] - x[nm2];
 		d1[nm2] = (dxn2 * dxn2 - dxn1 * dxn1) / dxn2;
 		d2[nm2] = (dxn1 + dxn2) * (dxn1 + 2.0 * dxn2) / dxn2;
 		break;
 	case GO_CSPLINE_CLAMPED : /* Derivative end conditions */
-		dx1 = x[1] - x[0]; 
+		dx1 = x[1] - x[0];
 		dy1 = (y[1] - y[0]) / dx1;
 		d1[0] = 0.0;
-		d2[0] = 2.0 * dx1; 
+		d2[0] = 2.0 * dx1;
 		d3[0] = dx1;
 		d4[0] = (dy1 - c0) * 3.0;
-		dx1 = x[nm1] - x[nm2]; 
+		dx1 = x[nm1] - x[nm2];
 		dy1 = (y[nm1] - y[nm2]) / dx1;
-		d1[nm1] = dx1; 
+		d1[nm1] = dx1;
 		d2[nm1] = 2.0 * dx1;
 		d3[nm1] = 0.0;
 		d4[nm1] = (cn - dy1) * 3.0;
-		first = 1; last = n-1;  
+		first = 1; last = n-1;
 		break;
 }
 
@@ -161,15 +161,15 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 
 	/* --- TAKE CARE OF SPECIAL END CONDITIONS  FOR S VECTOR --- */
 	switch (limits) {
-	case GO_CSPLINE_NATURAL :  
-		d4[0] = 0.0; 
+	case GO_CSPLINE_NATURAL :
+		d4[0] = 0.0;
 		d4[nm1] = 0.0;
 		break;
-	case GO_CSPLINE_PARABOLIC :  
-		d4[0] = d4[1]; 
+	case GO_CSPLINE_PARABOLIC :
+		d4[0] = d4[1];
 		d4[nm1] = d4[nm2];
 		break;
-	case GO_CSPLINE_CUBIC :  
+	case GO_CSPLINE_CUBIC :
 		d4[0] = ((dx1 + dx2) * d4[1] - dx1 * d4[2]) / dx2;
 		d4[nm1] = ((dxn2 + dxn1) * d4[nm2] - dxn1 * d4[nm2 - 1]) / dxn2;
 		break;
@@ -196,7 +196,7 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 /**
  * go_cspline_destroy:
  * @sp: a spline structure returned by go_cspline_init.
- *	
+ *
  * Frees the spline structure when done.
  */
 void SUFFIX(go_cspline_destroy) (struct SUFFIX(GOCSpline) *sp)

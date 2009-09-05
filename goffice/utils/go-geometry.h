@@ -39,7 +39,7 @@ typedef enum {
 } GOGeometrySide;
 
 typedef enum {
-	GO_DIRECTION_UP    = 0,	
+	GO_DIRECTION_UP    = 0,
 	GO_DIRECTION_DOWN  = 1,
 	GO_DIRECTION_LEFT  = 2,
 	GO_DIRECTION_RIGHT = 3,
@@ -50,7 +50,7 @@ typedef enum {
 	GO_ROTATE_NONE = 0,
 	GO_ROTATE_COUNTERCLOCKWISE = 1,
 	GO_ROTATE_UPSIDEDOWN = 2,
-	GO_ROTATE_CLOCKWISE = 3,	
+	GO_ROTATE_CLOCKWISE = 3,
 	GO_ROTATE_FREE = 4
 } GOGeometryRotationType;
 

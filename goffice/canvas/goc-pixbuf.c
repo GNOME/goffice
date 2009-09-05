@@ -209,7 +209,7 @@ goc_pixbuf_draw (GocItem const *item, cairo_t *cr)
 	if (scalex != 1. || scaley != 1.) {
 		cairo_matrix_init_scale (&mat, 1. / scalex, 1. /scaley);
 		cairo_pattern_set_matrix (pat, &mat);
-	} 
+	}
 	cairo_rectangle (cr, 0., 0., ceil (width), ceil (height));
 	cairo_set_source (cr, pat);
 	cairo_pattern_destroy (pat);
@@ -240,19 +240,19 @@ goc_pixbuf_class_init (GocItemClass *item_klass)
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, PIXBUF_PROP_W,
-		g_param_spec_double ("width", 
+		g_param_spec_double ("width",
 			_("Width"),
 			_("The image width or -1 to use the image width"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, PIXBUF_PROP_H,
-		g_param_spec_double ("height", 
+		g_param_spec_double ("height",
 			_("Height"),
 			_("The image height or -1 to use the image height"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 /*	g_object_class_install_property (obj_klass, PIXBUF_PROP_ROTATION,
-		g_param_spec_double ("rotation", 
+		g_param_spec_double ("rotation",
 			_("Rotation"),
 			_("The rotation around top left position"),
 			0., 2 * M_PI, 0.,

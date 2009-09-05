@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-reg-curve.c :  
+ * gog-reg-curve.c :
  *
  * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -52,9 +52,9 @@ skip_invalid_toggled_cb (GtkToggleButton* btn, GObject *obj)
 }
 
 static void
-gog_reg_curve_populate_editor (GogObject	*gobj, 
-			       GOEditor	*editor, 
-			       GogDataAllocator	*dalloc, 
+gog_reg_curve_populate_editor (GogObject	*gobj,
+			       GOEditor	*editor,
+			       GogDataAllocator	*dalloc,
 			       GOCmdContext	*cc)
 {
 	GtkWidget *w;
@@ -66,7 +66,7 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 	if (gui == NULL)
 		return;
 
-	go_editor_add_page (editor, 
+	go_editor_add_page (editor,
 			     go_gtk_builder_get_widget (gui, "reg-curve-prefs"),
 			     _("Details"));
 
@@ -175,10 +175,10 @@ gog_reg_curve_class_init (GogObjectClass *gog_klass)
 #endif
 
 	g_object_class_install_property (gobject_klass, REG_CURVE_PROP_SKIP_INVALID,
-		g_param_spec_boolean ("skip-invalid", 
+		g_param_spec_boolean ("skip-invalid",
 			_("Skip invalid"),
-			_("Skip invalid data"), 
-			FALSE, 
+			_("Skip invalid data"),
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 

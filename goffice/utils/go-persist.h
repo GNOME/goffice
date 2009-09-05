@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-persist.h : 
+ * go-persist.h :
  *
  * Copyright (C) 2003-2008 Jody Goldberg (jody@gnome.org)
  *
@@ -48,7 +48,7 @@ GType go_persist_get_type (void);
 
 gboolean go_persist_dom_load (GOPersist *gp, xmlNode *node);
 void     go_persist_sax_save (GOPersist const *gp, GsfXMLOut *output);
-void	 go_persist_prep_sax (GOPersist *gp, 
+void	 go_persist_prep_sax (GOPersist *gp,
 			       GsfXMLIn *xin, xmlChar const **attrs);
 
 #define GO_PARAM_PERSISTENT	(1 << (G_PARAM_USER_SHIFT+0))

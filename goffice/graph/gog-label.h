@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-label.h : 
+ * gog-label.h :
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 2005      Jean Brefort (jean.brefort@normalesup.org)

@@ -135,7 +135,7 @@ go_line_dash_from_str (char const *name)
  * go_line_dash_as_str:
  * @type: a #GOLineDashType
  *
- * Returns: a pointer to the nickname of the dash type, or "none" if 
+ * Returns: a pointer to the nickname of the dash type, or "none" if
  * 	type is invalid. The returning string should not be freed.
  **/
 char const *
@@ -244,7 +244,7 @@ go_line_dash_sequence_free (GOLineDashSequence *sequence)
  * go_line_interpolation_from_str:
  * @name: an interpolation type nickname
  *
- * Returns: a #GOLineInterpolation corresponding to @name, or 
+ * Returns: a #GOLineInterpolation corresponding to @name, or
  * 	%GO_LINE_INTERPOLATION_LINEAR if not found.
  **/
 GOLineInterpolation

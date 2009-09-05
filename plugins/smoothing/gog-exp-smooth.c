@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * smoothing/gog-exp-smooth.c :  
+ * smoothing/gog-exp-smooth.c :
  *
  * Copyright (C) 2006 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -48,7 +48,7 @@ steps_changed_cb (GtkSpinButton *button, GObject *es)
 }
 
 static void
-gog_exp_smooth_populate_editor (GogObject *obj, 
+gog_exp_smooth_populate_editor (GogObject *obj,
 				GOEditor *editor,
 				GogDataAllocator *dalloc,
 				GOCmdContext *cc)
@@ -227,9 +227,9 @@ gog_exp_smooth_class_init (GogSmoothedCurveClass *curve_klass)
 	gog_object_klass->type_name	= gog_exp_smooth_type_name;
 
 	g_object_class_install_property (gobject_klass, EXP_SMOOTH_PROP_STEPS,
-		g_param_spec_int ("steps", 
+		g_param_spec_int ("steps",
 			_("Steps"),
-			_("Number of interpolation steps"), 
+			_("Number of interpolation steps"),
 			10, G_MAXINT, 100,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }

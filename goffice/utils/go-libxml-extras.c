@@ -298,7 +298,7 @@ go_xml_get_child_by_name_by_lang (xmlNode const *parent, gchar const *name)
 		} else if (best_node == NULL)
 			best_node = node;
 
-		if (best_lang_score == 0) 
+		if (best_lang_score == 0)
 			return best_node;
 	}
 

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * goffice-graph.h: 
+ * goffice-graph.h:
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -186,9 +186,9 @@ typedef enum {
 	GOG_POSITION_ANCHOR_W        = 7 << 12,
 	GOG_POSITION_ANCHOR_CENTER   = 8 << 12,
 	GOG_POSITION_ANCHOR          = 0xf000,
-	
+
 	GOG_POSITION_ANY_MANUAL      = 0xff80,
-       	
+
 	GOG_POSITION_PADDING	     = 1 << 16
 } GogObjectPosition;
 

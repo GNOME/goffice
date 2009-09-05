@@ -340,22 +340,22 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 	gobject_klass->get_property = gog_xy_get_property;
 
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS,
-		g_param_spec_boolean ("default-style-has-markers", 
+		g_param_spec_boolean ("default-style-has-markers",
 			_("Has markers by default"),
 			_("Should the default style of a series include markers"),
-			TRUE, 
+			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES,
-		g_param_spec_boolean ("default-style-has-lines", 
+		g_param_spec_boolean ("default-style-has-lines",
 			_("Has lines by default"),
 			_("Should the default style of a series include lines"),
-			TRUE, 
+			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DEFAULT_STYLE_HAS_FILL,
-		g_param_spec_boolean ("default-style-has-fill", 
+		g_param_spec_boolean ("default-style-has-fill",
 			_("Has fill by default"),
 			_("Should the default style of a series include fill"),
-			TRUE, 
+			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_USE_SPLINES,
 		g_param_spec_boolean ("use-splines",
@@ -383,9 +383,9 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 		};
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		plot_klass->desc.series.style_fields = GO_STYLE_LINE 
-			| GO_STYLE_FILL 
-			| GO_STYLE_MARKER 
+		plot_klass->desc.series.style_fields = GO_STYLE_LINE
+			| GO_STYLE_FILL
+			| GO_STYLE_MARKER
 			| GO_STYLE_INTERPOLATION;
 	}
 }
@@ -418,7 +418,7 @@ gog_bubble_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 
 extern gpointer gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc);
 static void
-gog_bubble_plot_populate_editor (GogObject *obj, 
+gog_bubble_plot_populate_editor (GogObject *obj,
 				 GOEditor *editor,
 				 G_GNUC_UNUSED GogDataAllocator *dalloc,
 			GOCmdContext *cc)
@@ -509,25 +509,25 @@ gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 	gog_2d_plot_klass->adjust_bounds = gog_bubble_plot_adjust_bounds;
 
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_AS_AREA,
-		g_param_spec_boolean ("size-as-area", 
+		g_param_spec_boolean ("size-as-area",
 			_("Size as area"),
 			_("Display size as area instead of diameter"),
 			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_SHOW_NEGATIVES,
-		g_param_spec_boolean ("show-negatives", 
+		g_param_spec_boolean ("show-negatives",
 			_("Show negatives"),
 			_("Draw bubbles for negative values"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_IN_3D,
-		g_param_spec_boolean ("in-3d", 
+		g_param_spec_boolean ("in-3d",
 			_("In 3d"),
 			_("Draw 3d bubbles"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_SCALE,
-		g_param_spec_float ("bubble-scale", 
+		g_param_spec_float ("bubble-scale",
 			_("Bubble scale"),
 			_("Fraction of default radius used for display"),
 			0., 3., 1.,
@@ -674,7 +674,7 @@ hide_outliers_toggled_cb (GtkToggleButton *btn, GObject *obj)
 }
 #endif
 
-static void 
+static void
 gog_xy_color_plot_populate_editor (GogObject *obj,
 				   GOEditor *editor,
 				   GogDataAllocator *dalloc,
@@ -770,22 +770,22 @@ gog_xy_color_plot_class_init (GogPlotClass *plot_klass)
 	gobject_klass->finalize     = gog_xy_color_plot_finalize;
 
 	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_LINES,
-		g_param_spec_boolean ("default-style-has-lines", 
+		g_param_spec_boolean ("default-style-has-lines",
 			_("Has lines by default"),
 			_("Should the default style of a series include lines"),
-			TRUE, 
+			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_DEFAULT_STYLE_HAS_FILL,
-		g_param_spec_boolean ("default-style-has-fill", 
+		g_param_spec_boolean ("default-style-has-fill",
 			_("Has fill by default"),
 			_("Should the default style of a series include fill"),
-			TRUE, 
+			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_XY_COLOR_PROP_HIDE_OUTLIERS,
-		g_param_spec_boolean  ("hide-outliers", 
+		g_param_spec_boolean  ("hide-outliers",
 			_("hide-outliers"),
 			_("Hide data outside of the color axis bounds"),
-			TRUE, 
+			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	gog_klass->type_name		= gog_xy_color_plot_type_name;
 	gog_klass->update		= gog_xy_color_plot_update;
@@ -1156,8 +1156,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				if (z < 0) {
 					if (GOG_BUBBLE_PLOT(model)->show_negatives) {
 						gog_renderer_push_style (view->renderer, neg_style);
-						gog_renderer_draw_circle (view->renderer, x_canvas, y_canvas, 
-								    ((size_as_area) ? 
+						gog_renderer_draw_circle (view->renderer, x_canvas, y_canvas,
+								    ((size_as_area) ?
 								     sqrt (- z / zmax) :
 								    - z / zmax) * rmax);
 						gog_renderer_pop_style (view->renderer);
@@ -1174,7 +1174,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					} else if (model->base.vary_style_by_element)
 						gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
 									model->base.index_num + i - 1, style->interesting_fields);
-					gog_renderer_draw_circle (view->renderer, x_canvas, y_canvas, 
+					gog_renderer_draw_circle (view->renderer, x_canvas, y_canvas,
 							    ((size_as_area) ?
 							    sqrt (z / zmax) :
 							    z / zmax) * rmax);
@@ -1187,9 +1187,9 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (gog_error_bar_is_visible (series->x_errors)) {
 					GogErrorBar const *bar = series->x_errors;
 				 if (gog_error_bar_get_bounds (bar, i - 1, &xerrmin, &xerrmax)) {
-					 gog_error_bar_render (bar, view->renderer, 
-								   x_map, y_map, 
-								   x, y, 
+					 gog_error_bar_render (bar, view->renderer,
+								   x_map, y_map,
+								   x, y,
 								   xerrmin, xerrmax, TRUE);
 				 }
 			}
@@ -1197,8 +1197,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (gog_error_bar_is_visible (series->y_errors)) {
 				GogErrorBar const *bar = series->y_errors;
 				 if (gog_error_bar_get_bounds (bar, i - 1, &yerrmin, &yerrmax)) {
-					 gog_error_bar_render (bar, view->renderer, 
-								   x_map, y_map, x, y, 
+					 gog_error_bar_render (bar, view->renderer,
+								   x_map, y_map, x, y,
 								   yerrmin, yerrmax, FALSE);
 				 }
 			}
@@ -1257,7 +1257,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 								(style->marker.mark,markers[j][k].color);
 							gog_renderer_push_style (view->renderer, style);
 						}
-						gog_renderer_draw_marker (view->renderer, 
+						gog_renderer_draw_marker (view->renderer,
 									  markers[j][k].x,
 									  markers[j][k].y);
 						if (is_map)
@@ -1540,11 +1540,11 @@ gog_xy_series_update (GogObject *obj)
 	unsigned old_num = series->base.num_elements;
 	GSList *ptr;
 
-	if (GOG_IS_BUBBLE_PLOT (series->base.plot) || GOG_IS_XY_COLOR_PLOT (series->base.plot)) 
-		series->base.num_elements = gog_series_get_xyz_data (GOG_SERIES (series), 
+	if (GOG_IS_BUBBLE_PLOT (series->base.plot) || GOG_IS_XY_COLOR_PLOT (series->base.plot))
+		series->base.num_elements = gog_series_get_xyz_data (GOG_SERIES (series),
 								     &x_vals, &y_vals, &z_vals);
 	else
-		series->base.num_elements = gog_series_get_xy_data (GOG_SERIES (series), 
+		series->base.num_elements = gog_series_get_xy_data (GOG_SERIES (series),
 								    &x_vals, &y_vals);
 
 	/* update children */
@@ -1582,12 +1582,12 @@ gog_xy_series_finalize (GObject *obj)
 	GogXYSeries *series = GOG_XY_SERIES (obj);
 
 	if (series->x_errors != NULL) {
-		g_object_unref (series->x_errors); 
+		g_object_unref (series->x_errors);
 		series->x_errors = NULL;
 	}
 
 	if (series->y_errors != NULL) {
-		g_object_unref (series->y_errors); 
+		g_object_unref (series->y_errors);
 		series->y_errors = NULL;
 	}
 
@@ -1827,31 +1827,31 @@ gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 	g_object_class_install_property (gobject_klass, SERIES_PROP_XERRORS,
-		g_param_spec_object ("x-errors", 
+		g_param_spec_object ("x-errors",
 			_("X error bars"),
 			_("GogErrorBar *"),
-			GOG_TYPE_ERROR_BAR, 
+			GOG_TYPE_ERROR_BAR,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_YERRORS,
-		g_param_spec_object ("y-errors", 
+		g_param_spec_object ("y-errors",
 			_("Y error bars"),
 			_("GogErrorBar *"),
-			GOG_TYPE_ERROR_BAR, 
+			GOG_TYPE_ERROR_BAR,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_INVALID_AS_ZERO,
-		g_param_spec_boolean ("invalid-as-zero", 
+		g_param_spec_boolean ("invalid-as-zero",
 			_("Invalid as zero"),
 			_("Replace invalid values by 0 when drawing markers or bubbles"),
-			FALSE, 
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_CLAMP0,
-		g_param_spec_double ("clamp0", 
+		g_param_spec_double ("clamp0",
 			_("Clamp at start"),
 			_("Slope at start of the interpolated curve when using clamped spline interpolation"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_CLAMP1,
-		g_param_spec_double ("clamp1", 
+		g_param_spec_double ("clamp1",
 			_("Clamp at end"),
 			_("Slope at end of the interpolated curve when using clamped spline interpolation"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,

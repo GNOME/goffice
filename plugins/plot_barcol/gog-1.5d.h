@@ -76,7 +76,7 @@ GogAxis * gog_plot1_5d_get_index_axis (GogPlot1_5d *model);
 typedef struct {
 	GogSeries base;
 	GogErrorBar *errors;
-	gboolean index_changed; 
+	gboolean index_changed;
 	unsigned int has_series_lines : 1;
 	unsigned int has_drop_lines : 1;
 	unsigned int has_lines : 1;

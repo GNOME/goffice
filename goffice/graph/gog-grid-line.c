@@ -69,7 +69,7 @@ gog_grid_line_set_property (GObject *obj, guint param_id,
 			grid_line->is_minor = g_value_get_boolean (value);
 			break;
 
-		default: 
+		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 			return; /* NOTE : RETURN */
 	}
@@ -88,7 +88,7 @@ gog_grid_line_get_property (GObject *obj, guint param_id,
 			g_value_set_boolean (value, grid_line->is_minor);
 			break;
 
-		default: 
+		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 			 break;
 	}
@@ -105,12 +105,12 @@ gog_grid_line_class_init (GogGridLineClass *klass)
 	gobject_klass->get_property = gog_grid_line_get_property;
 	gog_klass->view_type	= gog_grid_line_view_get_type ();
 	style_klass->init_style = gog_grid_line_init_style;
-	
+
 	g_object_class_install_property (gobject_klass, GRID_LINE_PROP_IS_MINOR,
-		g_param_spec_boolean ("is-minor", 
+		g_param_spec_boolean ("is-minor",
 			_("Is-minor"),
-			_("Are these minor grid lines"), 
-			FALSE, 
+			_("Are these minor grid lines"),
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
@@ -375,7 +375,7 @@ gog_grid_line_xyz_render (GogGridLine *grid_line, GogView *view,
 				}
 			} else {
 				for (i = 0; i < tick_nbr; ++i) {
-					if (!((ticks[i].type == GOG_AXIS_TICK_MAJOR 
+					if (!((ticks[i].type == GOG_AXIS_TICK_MAJOR
 					       && !grid_line->is_minor) ||
 					      (ticks[i].type == GOG_AXIS_TICK_MINOR
 					       && grid_line->is_minor)))
@@ -458,7 +458,7 @@ gog_grid_line_xyz_render (GogGridLine *grid_line, GogView *view,
 				}
 			} else {
 				for (i = 0; i < tick_nbr; ++i) {
-					if (!((ticks[i].type == GOG_AXIS_TICK_MAJOR 
+					if (!((ticks[i].type == GOG_AXIS_TICK_MAJOR
 					       && !grid_line->is_minor) ||
 					      (ticks[i].type == GOG_AXIS_TICK_MINOR
 					       && grid_line->is_minor)))
@@ -541,7 +541,7 @@ gog_grid_line_xyz_render (GogGridLine *grid_line, GogView *view,
 				}
 			} else {
 				for (i = 0; i < tick_nbr; ++i) {
-					if (!((ticks[i].type == GOG_AXIS_TICK_MAJOR 
+					if (!((ticks[i].type == GOG_AXIS_TICK_MAJOR
 					       && !grid_line->is_minor) ||
 					      (ticks[i].type == GOG_AXIS_TICK_MINOR
 					       && grid_line->is_minor)))
@@ -863,14 +863,14 @@ gog_grid_line_view_render (GogView *view, gboolean stripes)
 								 plot_area, stripes);
 					break;
 
-				case GOG_AXIS_RADIAL: 
-					gog_grid_line_radial_render (grid_line, view, 
+				case GOG_AXIS_RADIAL:
+					gog_grid_line_radial_render (grid_line, view,
 								     axis, ticks, tick_nbr,
 								     chart, plot_area, stripes);
 					break;
-					      
-				case GOG_AXIS_CIRCULAR: 
-					gog_grid_line_circular_render (grid_line, view, 
+
+				case GOG_AXIS_CIRCULAR:
+					gog_grid_line_circular_render (grid_line, view,
 								       axis, ticks, tick_nbr,
 								       chart, plot_area, stripes);
 					break;

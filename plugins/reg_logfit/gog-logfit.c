@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-logfit.c :  
+ * gog-logfit.c :
  *
  * Copyright (C) 2005-2006 Jean Brefort (jean.brefort@normalesup.org)
  *

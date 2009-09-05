@@ -187,11 +187,11 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (num_elements <= 0 || num_series <= 0)
 		return;
 
-	x_map = gog_axis_map_new (GOG_PLOT (model)->axis[0], 
+	x_map = gog_axis_map_new (GOG_PLOT (model)->axis[0],
 				  view->allocation.x, view->allocation.w);
-	y_map = gog_axis_map_new (GOG_PLOT (model)->axis[1], view->allocation.y + view->allocation.h, 
+	y_map = gog_axis_map_new (GOG_PLOT (model)->axis[1], view->allocation.y + view->allocation.h,
 				  -view->allocation.h);
-	
+
 	if (!(gog_axis_map_is_valid (x_map) &&
 	      gog_axis_map_is_valid (y_map))) {
 		gog_axis_map_free (x_map);
@@ -209,7 +209,7 @@ gog_dropbar_view_render (GogView *view, GogViewAllocation const *bbox)
 	group_step = model->gap_percentage / 100.;
 	work.w = 1.0 / (1. + ((num_series - 1.0) * step) + group_step);
 	step *= work.w;
-	offset = - (step * (num_series - 1.0) + work.w) / 2.0; 
+	offset = - (step * (num_series - 1.0) + work.w) / 2.0;
 
 
 	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {

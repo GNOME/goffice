@@ -93,7 +93,7 @@ go_pattern_as_str (GOPatternType pattern)
  * go_pattern_is_solid :
  * @pat : #GOPattern
  * @color : #GOColor
- * 
+ *
  * Returns: if @pat is solid, and stores the color in @color.
  * 	If @pat is not solid @color is not touched.
  **/
@@ -179,7 +179,7 @@ go_pattern_get_svg_path (GOPattern const *pattern, double *width, double *height
 			name = xmlGetProp (ptr, CC2XML ("name"));
 			if (name != NULL) {
 				if (strcmp ((char *)name, go_patterns [pattern->pattern].str) == 0) {
-					if (width != NULL && 
+					if (width != NULL &&
 						go_xml_node_get_double (ptr, "width", &value))
 					    *width = value;
 					if (height != NULL &&

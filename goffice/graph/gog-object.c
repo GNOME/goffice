@@ -31,7 +31,7 @@
 typedef struct {
 	char const *label;
 	char const *value;
-	unsigned const flags; 
+	unsigned const flags;
 } GogPositionFlagDesc;
 
 static GogPositionFlagDesc const position_compass[] = {
@@ -151,11 +151,11 @@ gog_object_set_property (GObject *obj, guint param_id,
 		if (str == NULL)
 			break;
 		for (id = 0; id < G_N_ELEMENTS (position_compass); id++)
-			if (strcmp (str, position_compass[id].value) == 0) 
+			if (strcmp (str, position_compass[id].value) == 0)
 				break;
 		if (id < G_N_ELEMENTS (position_compass))
-			gog_object_set_position_flags (gobj, 
-						       position_compass[id].flags, 
+			gog_object_set_position_flags (gobj,
+						       position_compass[id].flags,
 						       GOG_POSITION_COMPASS);
 		break;
 	case OBJECT_PROP_POSITION_ALIGNMENT:
@@ -163,11 +163,11 @@ gog_object_set_property (GObject *obj, guint param_id,
 		if (str == NULL)
 			break;
 		for (id = 0; id < G_N_ELEMENTS (position_alignment); id++)
-			if (strcmp (str, position_alignment[id].value) == 0) 
+			if (strcmp (str, position_alignment[id].value) == 0)
 				break;
 		if (id < G_N_ELEMENTS (position_alignment))
-			gog_object_set_position_flags (gobj, 
-						       position_alignment[id].flags, 
+			gog_object_set_position_flags (gobj,
+						       position_alignment[id].flags,
 						       GOG_POSITION_ALIGNMENT);
 		break;
 	case OBJECT_PROP_POSITION_IS_MANUAL:
@@ -177,14 +177,14 @@ gog_object_set_property (GObject *obj, guint param_id,
 		break;
 	case OBJECT_PROP_POSITION_ANCHOR:
 		str = g_value_get_string (value);
-		if (str == NULL) 
+		if (str == NULL)
 			break;
 		for (id = 0; id < G_N_ELEMENTS (position_anchor); id++)
-			if (strcmp (str, position_anchor[id].value) == 0) 
+			if (strcmp (str, position_anchor[id].value) == 0)
 				break;
 		if (id < G_N_ELEMENTS (position_anchor))
-			gog_object_set_position_flags (gobj, 
-						       position_anchor[id].flags, 
+			gog_object_set_position_flags (gobj,
+						       position_anchor[id].flags,
 						       GOG_POSITION_ANCHOR);
 		break;
 	case OBJECT_PROP_INVISIBLE :
@@ -229,7 +229,7 @@ gog_object_get_property (GObject *obj, guint param_id,
 				g_value_set_string (value, position_compass[i].value);
 				break;
 			}
-		break;	
+		break;
 	case OBJECT_PROP_POSITION_ALIGNMENT:
 		flags = gog_object_get_position_flags (GOG_OBJECT (obj), GOG_POSITION_ALIGNMENT);
 		for (i = 0; i < G_N_ELEMENTS (position_alignment); i++)
@@ -237,7 +237,7 @@ gog_object_get_property (GObject *obj, guint param_id,
 				g_value_set_string (value, position_alignment[i].value);
 				break;
 			}
-		break;	
+		break;
 	case OBJECT_PROP_POSITION_IS_MANUAL:
 		g_value_set_boolean (value, (gobj->position & GOG_POSITION_MANUAL) != 0);
 		break;
@@ -269,7 +269,7 @@ typedef struct {
 } ObjectPrefState;
 
 static void
-object_pref_state_free (ObjectPrefState *state) 
+object_pref_state_free (ObjectPrefState *state)
 {
 	g_signal_handler_disconnect (state->gobj, state->update_editor_handler);
 	g_object_unref (state->gobj);
@@ -316,8 +316,8 @@ update_select_state (ObjectPrefState *state)
 {
 	if (state->position_select_combo) {
 		int index = gog_object_get_position_flags (state->gobj, GOG_POSITION_MANUAL) == 0 ? 0 : 1;
-		
-		gtk_combo_box_set_active (GTK_COMBO_BOX (state->position_select_combo), index); 
+
+		gtk_combo_box_set_active (GTK_COMBO_BOX (state->position_select_combo), index);
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (state->position_notebook), index);
 	}
 }
@@ -327,8 +327,8 @@ cb_manual_position_changed (GtkComboBox *combo, ObjectPrefState *state)
 {
 	int index = gtk_combo_box_get_active (combo);
 
-	gog_object_set_position_flags (state->gobj, 
-		index != 0 ? GOG_POSITION_MANUAL : 0, 
+	gog_object_set_position_flags (state->gobj,
+		index != 0 ? GOG_POSITION_MANUAL : 0,
 		GOG_POSITION_MANUAL);
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (state->position_notebook), index);
 }
@@ -352,14 +352,14 @@ cb_update_editor (GogObject *gobj, ObjectPrefState *state)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->w_spin), gobj->manual_position.w * 100.0);
 	if (state->h_spin != NULL)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), gobj->manual_position.h * 100.0);
-	
+
 	update_select_state (state);
 }
 
 static void
-gog_object_populate_editor (GogObject *gobj, 
-			    GOEditor *editor, 
-			    G_GNUC_UNUSED GogDataAllocator *dalloc, 
+gog_object_populate_editor (GogObject *gobj,
+			    GOEditor *editor,
+			    G_GNUC_UNUSED GogDataAllocator *dalloc,
 			    GOCmdContext *cc)
 {
 	GtkWidget *w;
@@ -369,15 +369,15 @@ gog_object_populate_editor (GogObject *gobj,
 	GogObjectPosition allowable_positions, flags;
 	ObjectPrefState *state;
 	unsigned i;
-	
-	if (gobj->role == NULL) 
+
+	if (gobj->role == NULL)
 		return;
 
 	gog_klass = GOG_OBJECT_GET_CLASS (gobj);
-	
+
        	allowable_positions = gobj->role->allowable_positions;
 	if (!(allowable_positions & (GOG_POSITION_MANUAL | GOG_POSITION_COMPASS)))
-		return;	
+		return;
 
 	gui = go_gtk_builder_new ("gog-object-prefs.ui", GETTEXT_PACKAGE, cc);
 	if (gui == NULL)
@@ -402,7 +402,7 @@ gog_object_populate_editor (GogObject *gobj,
 		w = go_gtk_builder_get_widget (gui, "position_combo");
 		gtk_size_group_add_widget (widget_size_group, w);
 		flags = gog_object_get_position_flags (gobj, GOG_POSITION_COMPASS);
-		for (i = 0; i < G_N_ELEMENTS (position_compass); i++) { 
+		for (i = 0; i < G_N_ELEMENTS (position_compass); i++) {
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _(position_compass[i].label));
 			if (position_compass[i].flags == flags)
 				gtk_combo_box_set_active (GTK_COMBO_BOX (w), i);
@@ -432,15 +432,15 @@ gog_object_populate_editor (GogObject *gobj,
 		gtk_widget_hide (w);
 	}
 
-	if (!(allowable_positions & GOG_POSITION_COMPASS)) 
+	if (!(allowable_positions & GOG_POSITION_COMPASS))
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (state->position_notebook), 1);
-	
+
 	g_object_unref (G_OBJECT (widget_size_group));
 	g_object_unref (G_OBJECT (label_size_group));
 
 	widget_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 	label_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
-	
+
 	if (allowable_positions & GOG_POSITION_MANUAL) {
 		w = go_gtk_builder_get_widget (gui, "x_label");
 		gtk_size_group_add_widget (label_size_group, w);
@@ -449,7 +449,7 @@ gog_object_populate_editor (GogObject *gobj,
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.x * 100.0);
 		g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (cb_position_changed), state);
 		state->x_spin = w;
-		
+
 		w = go_gtk_builder_get_widget (gui, "y_label");
 		gtk_size_group_add_widget (label_size_group, w);
 		w = go_gtk_builder_get_widget (gui, "y_spin");
@@ -469,14 +469,14 @@ gog_object_populate_editor (GogObject *gobj,
 		}
 		g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_anchor_changed), state);
 		gtk_combo_box_set_wrap_width (GTK_COMBO_BOX (w), 3);
-		
+
 		if (gog_klass->can_manual_size) {
 			w = go_gtk_builder_get_widget (gui, "width_label");
 			gtk_size_group_add_widget (label_size_group, w);
 			w = go_gtk_builder_get_widget (gui, "width_spin");
 			gtk_size_group_add_widget (widget_size_group, w);
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.w * 100.0);
-			g_signal_connect (G_OBJECT (w), "value-changed", 
+			g_signal_connect (G_OBJECT (w), "value-changed",
 					  G_CALLBACK (cb_position_changed), state);
 			state->w_spin = w;
 
@@ -485,14 +485,14 @@ gog_object_populate_editor (GogObject *gobj,
 			w = go_gtk_builder_get_widget (gui, "height_spin");
 			gtk_size_group_add_widget (widget_size_group, w);
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), gobj->manual_position.h * 100.0);
-			g_signal_connect (G_OBJECT (w), "value-changed", 
+			g_signal_connect (G_OBJECT (w), "value-changed",
 					  G_CALLBACK (cb_position_changed), state);
 			state->h_spin = w;
 		} else {
 			w = go_gtk_builder_get_widget (gui, "manual_sizes");
 			gtk_widget_hide (w);
 		}
-	} else 
+	} else
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (state->position_notebook), 0);
 
 	g_object_unref (G_OBJECT (widget_size_group));
@@ -512,12 +512,12 @@ gog_object_populate_editor (GogObject *gobj,
 		gtk_widget_hide (w);
 	}
 
-	state->update_editor_handler = g_signal_connect (G_OBJECT (gobj), 
-							 "update-editor", 
+	state->update_editor_handler = g_signal_connect (G_OBJECT (gobj),
+							 "update-editor",
 							 G_CALLBACK (cb_update_editor), state);
 
 	w = go_gtk_builder_get_widget (gui, "gog_object_prefs");
-	g_signal_connect_swapped (G_OBJECT (w), "destroy", G_CALLBACK (object_pref_state_free), state);  
+	g_signal_connect_swapped (G_OBJECT (w), "destroy", G_CALLBACK (object_pref_state_free), state);
 	go_editor_add_page (editor, w, _("Position"));
 }
 #endif
@@ -556,46 +556,46 @@ gog_object_class_init (GObjectClass *klass)
 	gog_klass->use_parent_as_proxy = FALSE;
 
 	g_object_class_install_property (klass, OBJECT_PROP_ID,
-		g_param_spec_uint ("id", 
-			_("Object ID"), 
+		g_param_spec_uint ("id",
+			_("Object ID"),
 			_("Object numerical ID"),
 			0, G_MAXINT, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION,
-		g_param_spec_string ("position", 
-			_("Position"), 
+		g_param_spec_string ("position",
+			_("Position"),
 			_("Position and size of object, in percentage of parent size"),
-			"0 0 1 1", 
+			"0 0 1 1",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE|GO_PARAM_PERSISTENT));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_COMPASS,
-		g_param_spec_string ("compass", 
+		g_param_spec_string ("compass",
 			_("Compass"),
 			_("Compass auto position flags"),
-			"top", 
+			"top",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_POSITION));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_ALIGNMENT,
-		g_param_spec_string ("alignment", 
+		g_param_spec_string ("alignment",
 			_("Alignment"),
 			_("Alignment flag"),
 			"fill",
 		       	GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_POSITION));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_IS_MANUAL,
-		g_param_spec_boolean ("is-position-manual", 
-			_("Is position manual"), 
+		g_param_spec_boolean ("is-position-manual",
 			_("Is position manual"),
-			FALSE, 
+			_("Is position manual"),
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (klass, OBJECT_PROP_POSITION_ANCHOR,
-		g_param_spec_string ("anchor", 
+		g_param_spec_string ("anchor",
 			_("Anchor"),
 			_("Anchor for manual position"),
-			"top-left", 
+			"top-left",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_POSITION));
 	g_object_class_install_property (klass, OBJECT_PROP_INVISIBLE,
-		g_param_spec_boolean ("invisible", 
-			_("Should the object be hidden"), 
+		g_param_spec_boolean ("invisible",
 			_("Should the object be hidden"),
-			FALSE, 
+			_("Should the object be hidden"),
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	/**
@@ -817,7 +817,7 @@ dataset_dup (GogDataset const *src, GogDataset *dst)
  * gog_object_dup :
  * @src: #GogObject
  * @new_parent: #GogObject the parent tree for the object (can be NULL)
- * @datadup: a function to duplicate the data (a default one is used if NULL) 
+ * @datadup: a function to duplicate the data (a default one is used if NULL)
  *
  * Create a deep copy of @obj using @new_parent as its parent.
  *
@@ -1242,10 +1242,10 @@ gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
  * @obj: a #GogObject
  * @dalloc: a #GogDataAllocator
  * @cc: a #GOCmdContext
- * 
+ *
  * Builds an object property editor, by calling GogObject::populate_editor
  * virtual functions.
- * 
+ *
  * Returns: a #GtkNotebook widget
  **/
 gpointer
@@ -1614,7 +1614,7 @@ gog_object_get_manual_position (GogObject *gobj, GogViewAllocation *pos)
  * @obj : #GogObject
  * @pos : #GogViewAllocation
  *
- * set manual position of given object, in points. 
+ * set manual position of given object, in points.
  **/
 void
 gog_object_set_manual_position (GogObject *gobj, GogViewAllocation const *pos)
@@ -1658,9 +1658,9 @@ gog_object_get_manual_allocation (GogObject *gobj,
 		pos.w = requisition->w;
 		pos.h = requisition->h;
 	}
-	
+
 	anchor = gog_object_get_position_flags (gobj, GOG_POSITION_ANCHOR);
-			   
+
 	switch (anchor) {
 		case GOG_POSITION_ANCHOR_N:
 		case GOG_POSITION_ANCHOR_CENTER:
@@ -1717,7 +1717,7 @@ gog_object_is_default_position_flags (GogObject const *obj, char const *name)
 		mask = GOG_POSITION_ALIGNMENT;
 	else if (strcmp (name, "anchor") == 0)
 		mask = GOG_POSITION_ANCHOR;
-	else 
+	else
 		return FALSE;
 
 	return (obj->position & mask) == (obj->role->default_position & mask);

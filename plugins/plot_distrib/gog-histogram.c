@@ -80,7 +80,7 @@ gog_histogram_plot_update (GogObject *obj)
 
 	if (!gog_series_is_valid (GOG_SERIES (series)) || series->base.num_elements == 0)
 			return;
-	
+
 	g_free (series->x);
 	series->x = g_new (double, series->base.num_elements);
 	if (series->base.values[0].data != NULL) {
@@ -174,7 +174,7 @@ gog_histogram_plot_class_init (GogPlotClass *gog_plot_klass)
 	GObjectClass *gobject_klass = (GObjectClass *) gog_plot_klass;
 	GogObjectClass *gog_object_klass = (GogObjectClass *) gog_plot_klass;
 	GogPlotClass   *plot_klass = (GogPlotClass *) gog_plot_klass;
-	
+
 	histogram_plot_parent_klass = g_type_class_peek_parent (gog_plot_klass);
 
 	gobject_klass->finalize = gog_histogram_plot_finalize;
@@ -239,8 +239,8 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (series->base.num_elements < 1)
 		return;
 	area = gog_chart_view_get_plot_area (view->parent);
-	chart_map = gog_chart_map_new (chart, area, 
-				       GOG_PLOT (model)->axis[GOG_AXIS_X], 
+	chart_map = gog_chart_map_new (chart, area,
+				       GOG_PLOT (model)->axis[GOG_AXIS_X],
 				       GOG_PLOT (model)->axis[GOG_AXIS_Y],
 				       NULL, FALSE);
 	if (!gog_chart_map_is_valid (chart_map)) {
@@ -285,7 +285,7 @@ gog_histogram_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 				else
 					cury = gog_axis_map_to_view (y_map,
 						MAX (y_vals[i-1], y_vals[i]));
-				
+
 			} else {
 				go_path_move_to (drop_path, curx, cury);
 				cury = gog_axis_map_to_view (y_map, y_vals[i]);

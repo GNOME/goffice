@@ -160,7 +160,7 @@ gog_series_element_populate_editor (GogObject *gobj,
 	if (gse_vbox == NULL) {
 		vbox = gtk_vbox_new (FALSE, 6);
 		gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
-	} else 
+	} else
 		vbox = gse_vbox;
 	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (vbox), w, 0);
@@ -207,7 +207,7 @@ gog_series_element_class_init (GogSeriesElementClass *klass)
 	gog_klass->use_parent_as_proxy  = TRUE;
 
 	g_object_class_install_property (gobject_klass, ELEMENT_INDEX,
-		g_param_spec_int ("index", 
+		g_param_spec_int ("index",
 			_("Index"),
 			_("Index of the corresponding data element"),
 			0, G_MAXINT, 0,
@@ -547,7 +547,7 @@ gog_series_populate_editor (GogObject *gobj,
 					  (GtkAttachOptions) (GTK_FILL | GTK_EXPAND), 0, 0);
 			gtk_widget_show_all (widget);
 			widget = go_gtk_builder_get_widget (gui, "interpolation-skip-invalid");
-			g_object_set_data (G_OBJECT (combo), "skip-button", widget); 
+			g_object_set_data (G_OBJECT (combo), "skip-button", widget);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), series->interpolation_skip_invalid);
 			if (go_line_interpolation_auto_skip (series->interpolation))
 				gtk_widget_set_sensitive (widget, FALSE);
@@ -662,7 +662,7 @@ gog_series_class_init (GogSeriesClass *klass)
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 	g_object_class_install_property (gobject_klass, SERIES_PROP_HAS_LEGEND,
-		g_param_spec_boolean ("has-legend", 
+		g_param_spec_boolean ("has-legend",
 			_("Has-legend"),
 			_("Should the series show up in legends"),
 			TRUE,
@@ -674,13 +674,13 @@ gog_series_class_init (GogSeriesClass *klass)
 			"linear",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_INTERPOLATION_SKIP_INVALID,
-		g_param_spec_boolean ("interpolation-skip-invalid", 
+		g_param_spec_boolean ("interpolation-skip-invalid",
 			_("Interpolation skip invalid"),
 			_("Should the series interpolation ignore the invalid data"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_FILL_TYPE,
-		g_param_spec_string ("fill-type", 
+		g_param_spec_string ("fill-type",
 			_("Fill type"),
 			_("How to fill the area"),
 			"invalid",
@@ -1027,7 +1027,7 @@ gog_series_get_element (GogSeries const *series, int index)
 		if ((int) element->index == index)
 			return element;
 	}
-	
+
 	return NULL;
 }
 
@@ -1058,14 +1058,14 @@ gog_series_get_data (GogSeries const *series, int *indices, double **data, int n
 				n_points = MIN (vector_n_points, n_points);
 		} else
 			data[i] = NULL;
-	}	
+	}
 
 	return n_points;
 }
 
 unsigned
 gog_series_get_xy_data (GogSeries const  *series,
-			double const 	**x, 
+			double const 	**x,
 			double const 	**y)
 {
 	GogSeriesClass	*klass = GOG_SERIES_GET_CLASS (series);
@@ -1097,8 +1097,8 @@ gog_series_get_xy_data (GogSeries const  *series,
 
 unsigned
 gog_series_get_xyz_data (GogSeries const  *series,
-			 double const 	 **x, 
-			 double const 	 **y, 
+			 double const 	 **x,
+			 double const 	 **y,
 			 double const 	 **z)
 {
 	double *data[3];

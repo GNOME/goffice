@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-reg-curve.h :  
+ * gog-reg-curve.h :
  *
  * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 struct  _GogRegCurve {
 	GogTrendLine	base;
-	
+
 	GogSeries 	  *series;
 	gboolean  	   weighted;
 	GODataVector 	  *weights;

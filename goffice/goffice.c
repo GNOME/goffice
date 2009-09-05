@@ -98,7 +98,7 @@ libgoffice_init (void)
 	gchar *dir;
 
 #define S(s)	#s
-	char const *module_name = 
+	char const *module_name =
 		"libgoffice-" S(GO_VERSION_EPOCH) "-" S(GO_VERSION_MAJOR) ".dll";
 #undef S
 	wchar_t *wc_module_name = g_utf8_to_utf16 (module_name, -1, NULL, NULL, NULL);

@@ -33,13 +33,13 @@ struct _GogChartMap3D {
 	void 	 (*map_3D_to_view) 	(GogChartMap3D *map, double x, double y, double z, double *u, double *v, double *w);
 };
 
-static void 
+static void
 null_map_3D (GogChartMap3D *map, double x, double y, double z, double *u, double *v, double *w)
 {
 	g_warning ("[GogChartMap::map_3D] not implemented");
 }
 
-static void 
+static void
 xyz_map_3D_to_view (GogChartMap3D *map, double x, double y, double z, double *u, double *v, double *w)
 {
 	Gog3DBox *box = GOG_3D_BOX (gog_object_get_child_by_name (GOG_OBJECT (map->chart), "3D-Box"));
@@ -71,10 +71,10 @@ xyz_map_3D_to_view (GogChartMap3D *map, double x, double y, double z, double *u,
  * @axis2: 3rd dimension axis
  * @fill_area: does chart fill allocated area
  *
- * Creates a new #GogChartMap3D, used for conversion from data space 
+ * Creates a new #GogChartMap3D, used for conversion from data space
  * to canvas space.
  *
- * returns: a new #GogChartMap3D object. 
+ * returns: a new #GogChartMap3D object.
  **/
 
 GogChartMap3D*
@@ -88,7 +88,7 @@ gog_chart_map_3d_new (GogChart *chart, GogViewAllocation const *area,
 	g_return_val_if_fail (GOG_IS_CHART (chart), NULL);
 
 	map = g_new (GogChartMap3D, 1);
-	
+
 	g_object_ref (chart);
 	map->chart = chart;
 	map->area = *area;
@@ -109,7 +109,7 @@ gog_chart_map_3d_new (GogChart *chart, GogViewAllocation const *area,
 		map->is_valid = gog_axis_map_is_valid (map->axis_map[0]) &&
 			gog_axis_map_is_valid (map->axis_map[1]) &&
 			gog_axis_map_is_valid (map->axis_map[2]);
-		
+
 		break;
 	}
 	default:

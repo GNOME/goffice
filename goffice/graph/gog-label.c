@@ -41,7 +41,7 @@ typedef struct {
 
 typedef struct {
 	GogOutlinedObjectClass base;
-	
+
 	char *(*get_str)    (GogText *text);
 } GogTextClass;
 
@@ -97,7 +97,7 @@ gog_text_init_style (GogStyledObject *gso, GOStyle *style)
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, GO_STYLE_OUTLINE | GO_STYLE_FILL |
 	        GO_STYLE_FONT | GO_STYLE_TEXT_LAYOUT);
-	
+
 	/* Kludge for default Y axis title orientation. This should have be done
 	 * in GogTheme, but it's not possible without breaking graph persistence
 	 * compatibility */
@@ -123,10 +123,10 @@ gog_text_class_init (GogTextClass *klass)
 	gobject_klass->get_property = gog_text_get_property;
 
 	g_object_class_install_property (gobject_klass, TEXT_PROP_ALLOW_MARKUP,
-		g_param_spec_boolean ("allow-markup", 
+		g_param_spec_boolean ("allow-markup",
 			_("Allow markup"),
 			_("Support basic html-ish markup"),
-			TRUE, 
+			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_klass->view_type		= gog_text_view_get_type ();
@@ -143,9 +143,9 @@ static char *
 gog_text_get_str (GogText *text)
 {
 	GogTextClass *klass;
-	
+
 	g_return_val_if_fail (GOG_IS_TEXT (text), NULL);
-	
+
        	klass = GOG_TEXT_GET_CLASS (text);
 
 	if (klass->get_str != NULL)
@@ -172,9 +172,9 @@ static GObjectClass *label_parent_klass;
 
 #ifdef GOFFICE_WITH_GTK
 static void
-gog_label_populate_editor (GogObject *gobj, 
-			   GOEditor *editor, 
-			   GogDataAllocator *dalloc, 
+gog_label_populate_editor (GogObject *gobj,
+			   GOEditor *editor,
+			   GogDataAllocator *dalloc,
 			   GOCmdContext *cc)
 {
 	static guint label_pref_page = 0;
@@ -186,14 +186,14 @@ gog_label_populate_editor (GogObject *gobj,
 					    0, GOG_DATA_SCALAR));
 
 	gtk_container_set_border_width (GTK_CONTAINER (alignment), 12);
-	gtk_box_pack_start (GTK_BOX (hbox), 
+	gtk_box_pack_start (GTK_BOX (hbox),
 		gtk_label_new_with_mnemonic (_("_Text:")), FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), editor_widget, TRUE, TRUE, 0);
 	gtk_container_add (GTK_CONTAINER (alignment), hbox);
 	gtk_widget_show_all (alignment);
 
 	go_editor_add_page (editor, alignment, _("Data"));
-	
+
 	(GOG_OBJECT_CLASS(label_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 	go_editor_set_store_page (editor, &label_pref_page);
 }
@@ -203,12 +203,12 @@ static char *
 gog_label_get_str (GogText *text)
 {
 	GogLabel *label = GOG_LABEL (text);
-	
+
 	g_return_val_if_fail (GOG_IS_LABEL (label), NULL);
 
 	if (label->text.data != NULL)
 		return go_data_get_scalar_string (label->text.data);
-	
+
 	return NULL;
 }
 
@@ -223,7 +223,7 @@ static void
 gog_label_class_init (GogLabelClass *klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) klass;
-	GogTextClass *got_klass = (GogTextClass *) klass; 
+	GogTextClass *got_klass = (GogTextClass *) klass;
 #ifdef GOFFICE_WITH_GTK
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
 	gog_klass->populate_editor = gog_label_populate_editor;
@@ -267,7 +267,7 @@ GSF_CLASS_FULL (GogLabel, gog_label,
 		GSF_INTERFACE (gog_label_dataset_init, GOG_TYPE_DATASET))
 
 /************************************************************************/
-	
+
 enum {
 	REG_EQN_PROP_0,
 	REG_EQN_SHOW_EQ,
@@ -331,9 +331,9 @@ cb_text_visibility_changed (GtkToggleButton *button, GogObject *gobj)
 }
 
 static void
-gog_reg_eqn_populate_editor (GogObject *gobj, 
-			     GOEditor *editor, 
-			     GogDataAllocator *dalloc, 
+gog_reg_eqn_populate_editor (GogObject *gobj,
+			     GOEditor *editor,
+			     GogDataAllocator *dalloc,
 			     GOCmdContext *cc)
 {
 	GtkWidget *w;
@@ -344,7 +344,7 @@ gog_reg_eqn_populate_editor (GogObject *gobj,
 	if (gui == NULL)
 		return;
 
-	go_editor_add_page (editor, 
+	go_editor_add_page (editor,
 			     go_gtk_builder_get_widget (gui, "reg-eqn-prefs"),
 			     _("Details"));
 
@@ -375,13 +375,13 @@ gog_reg_eqn_get_str (GogText *text)
 {
 	GogRegCurve *reg_curve = GOG_REG_CURVE ((GOG_OBJECT (text))->parent);
 	GogRegEqn *reg_eqn = GOG_REG_EQN (text);
-	
-	if (!reg_eqn->show_r2) 
-		return reg_eqn->show_eq ? 
+
+	if (!reg_eqn->show_r2)
+		return reg_eqn->show_eq ?
 			g_strdup (gog_reg_curve_get_equation (reg_curve)) :
 			NULL;
-	else 
-		return reg_eqn->show_eq ? 
+	else
+		return reg_eqn->show_eq ?
 			g_strdup_printf ("%s\r\nR² = %g",
 					 gog_reg_curve_get_equation (reg_curve),
 					 gog_reg_curve_get_R2 (reg_curve)) :
@@ -392,7 +392,7 @@ static void
 gog_reg_eqn_class_init (GogObjectClass *gog_klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *)gog_klass;
-	GogTextClass *got_klass = (GogTextClass *) gog_klass; 
+	GogTextClass *got_klass = (GogTextClass *) gog_klass;
 
 	reg_eqn_parent_klass = g_type_class_peek_parent (gog_klass);
 
@@ -405,16 +405,16 @@ gog_reg_eqn_class_init (GogObjectClass *gog_klass)
 	got_klass->get_str	   	= gog_reg_eqn_get_str;
 
 	g_object_class_install_property (gobject_klass, REG_EQN_SHOW_EQ,
-		g_param_spec_boolean ("show-eq", 
+		g_param_spec_boolean ("show-eq",
 			_("Show equation"),
 			_("Show the equation on the graph"),
-			TRUE, 
+			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, REG_EQN_SHOW_R2,
-		g_param_spec_boolean ("show-r2", 
+		g_param_spec_boolean ("show-r2",
 			_("Show coefficient"),
 			_("Show the correlation coefficient on the graph"),
-			TRUE, 
+			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
@@ -441,7 +441,7 @@ typedef GogOutlinedViewClass	GogTextViewClass;
 static GogViewClass *text_view_parent_klass;
 
 static void
-gog_text_view_size_request (GogView *v, 
+gog_text_view_size_request (GogView *v,
 			    GogViewRequisition const *available,
 			    GogViewRequisition *req)
 {
@@ -471,7 +471,7 @@ gog_text_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	gog_renderer_push_style (view->renderer, style);
 	if (str != NULL) {
-		double outline = gog_renderer_line_size (view->renderer, 
+		double outline = gog_renderer_line_size (view->renderer,
 							 goo->base.style->line.width);
 		if (style->fill.type != GO_STYLE_FILL_NONE || outline > 0.) {
 			GogViewAllocation rect;

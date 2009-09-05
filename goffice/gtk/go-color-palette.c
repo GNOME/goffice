@@ -379,7 +379,7 @@ cb_combo_custom_clicked (GtkWidget *button, GOColorPalette *pal)
 void
 go_color_palette_set_title (GOColorPalette *pal, char const *title)
 {
-	g_object_set_data_full (G_OBJECT (pal), "title", 
+	g_object_set_data_full (G_OBJECT (pal), "title",
 		g_strdup (title), g_free);
 }
 
@@ -590,7 +590,7 @@ make_colored_menu_item (char const *label, GOColor c)
 	if (label && 0 == strcmp (label, " ")) {
 		/* color buttons are created with a label of " " */
 		button = gtk_menu_item_new ();
-		gtk_container_add (GTK_CONTAINER (button), 
+		gtk_container_add (GTK_CONTAINER (button),
 			gtk_image_new_from_pixbuf (pixbuf));
 	} else {
 		button = gtk_image_menu_item_new_with_label (label);
@@ -709,7 +709,7 @@ custom_colors :
 	}
 	w = gtk_image_menu_item_new_with_label (_("Custom Color..."));
 	/* Workaround for bug http://bugzilla.gnome.org/show_bug.cgi?id=585421 */
-	/* We can't have an image in one of the gtk_menu_item, it would lead to an 
+	/* We can't have an image in one of the gtk_menu_item, it would lead to an
 	   ugly item spacing. */
 	/* gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (w),*/
 	/* 	gtk_image_new_from_stock (GTK_STOCK_SELECT_COLOR, GTK_ICON_SIZE_MENU));*/
@@ -721,7 +721,7 @@ custom_colors :
 
 	((GOMenuColor *)submenu)->selection = current_color;
 	((GOMenuColor *)submenu)->default_color = default_color;
-	g_object_set_data_full (G_OBJECT (submenu), "title", 
+	g_object_set_data_full (G_OBJECT (submenu), "title",
 		g_strdup (custom_dialog_title), g_free);
 
 	gtk_widget_show (submenu);

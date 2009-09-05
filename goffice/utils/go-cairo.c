@@ -173,7 +173,7 @@ emit_function_6 (char **path, cairo_t *cr,
  * @cr: a cairo context
  * @path: a SVG path
  *
- * Emits a path described as a SVG path string (d property of path elements) to 
+ * Emits a path described as a SVG path string (d property of path elements) to
  * a cairo context.
  **/
 
@@ -236,7 +236,7 @@ go_cairo_surface_is_vector (cairo_surface_t const *surface)
  * @height: image height
  * @rowstride: data rowstride
  *
- * Converts the pixel data stored in @src in GDK_COLORSPACE_RGB pixbuf 
+ * Converts the pixel data stored in @src in GDK_COLORSPACE_RGB pixbuf
  * format to CAIRO_FORMAT_ARGB32 cairo format and move them
  * to @dst. If @src == @dst, pixel are converted in place.
  **/
@@ -310,7 +310,7 @@ go_cairo_convert_data_from_pixbuf (unsigned char *dst, unsigned char const *src,
  * @height: image height
  * @rowstride: data rowstride
  *
- * Converts the pixel data stored in @src in CAIRO_FORMAT_ARGB32 cairo format 
+ * Converts the pixel data stored in @src in CAIRO_FORMAT_ARGB32 cairo format
  * to GDK_COLORSPACE_RGB pixbuf format and move them
  * to @dst. If @src == @dst, pixel are converted in place.
  **/

@@ -202,19 +202,19 @@ goc_rectangle_class_init (GocItemClass *item_klass)
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, RECT_PROP_W,
-		g_param_spec_double ("width", 
+		g_param_spec_double ("width",
 			_("Width"),
 			_("The rectangle width"),
 			0., G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, RECT_PROP_H,
-		g_param_spec_double ("height", 
+		g_param_spec_double ("height",
 			_("Height"),
 			_("The rectangle height"),
 			0., G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 /*	g_object_class_install_property (obj_klass, RECT_PROP_ROTATION,
-		g_param_spec_double ("rotation", 
+		g_param_spec_double ("rotation",
 			_("Rotation"),
 			_("The rotation around top left position"),
 			0., 2 * M_PI, 0.,

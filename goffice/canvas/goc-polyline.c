@@ -1,11 +1,11 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * goc-polyline.c :  
+ * goc-polyline.c :
  *
  * Copyright (C) 2009 Jean Brefort (jean.brefort@normalesup.org)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -204,10 +204,10 @@ goc_polyline_class_init (GocItemClass *item_klass)
 				     GOC_TYPE_POINTS,
 				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, POLYLINE_PROP_SPLINE,
-		g_param_spec_boolean ("use-spline", 
+		g_param_spec_boolean ("use-spline",
 				      _("Use spline"),
 				      _("Use a Bezier cubic spline as line"),
-				      FALSE, 
+				      FALSE,
 				      GSF_PARAM_STATIC | G_PARAM_READABLE));
 
 	item_klass->update_bounds = goc_polyline_update_bounds;

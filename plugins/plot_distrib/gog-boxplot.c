@@ -160,7 +160,7 @@ gog_box_plot_populate_editor (GogObject *item,
 	GtkWidget *w =  gog_box_plot_pref (item, dalloc, cc);
 	go_editor_add_page (editor,w, _("Properties"));
 	g_object_unref (w);
-	
+
 	(GOG_OBJECT_CLASS(gog_box_plot_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
 #endif
@@ -356,28 +356,28 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 	gobject_klass->get_property = gog_box_plot_get_property;
 	gobject_klass->finalize = gog_box_plot_finalize;
 	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_GAP_PERCENTAGE,
-		g_param_spec_int ("gap-percentage", 
+		g_param_spec_int ("gap-percentage",
 			_("Gap percentage"),
 			_("The padding around each group as a percentage of their width"),
-			0, 500, 150, 
+			0, 500, 150,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_VERTICAL,
-		g_param_spec_boolean ("vertical", 
+		g_param_spec_boolean ("vertical",
 			_("Vertical"),
 			_("Whether the box-plot should be vertical instead of horizontal"),
-			FALSE, 
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_OUTLIERS,
-		g_param_spec_boolean ("outliers", 
+		g_param_spec_boolean ("outliers",
 			_("Outliers"),
 			_("Whether outliers should be taken into account and displayed"),
-			FALSE, 
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX_PLOT_PROP_RADIUS_RATIO,
-		g_param_spec_double ("radius-ratio", 
+		g_param_spec_double ("radius-ratio",
 			_("Radius ratio"),
 			_("The ratio between the radius of the circles representing outliers and the rectangle width"),
-			0., 0.5, 0.125, 
+			0., 0.5, 0.125,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_box_plot_type_name;
@@ -434,15 +434,15 @@ gog_box_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	int num_ser = 1;
 
 	area = gog_chart_view_get_plot_area (view->parent);
-	chart_map = gog_chart_map_new (chart, area, 
-				       GOG_PLOT (model)->axis[GOG_AXIS_X], 
+	chart_map = gog_chart_map_new (chart, area,
+				       GOG_PLOT (model)->axis[GOG_AXIS_X],
 				       GOG_PLOT (model)->axis[GOG_AXIS_Y],
 				       NULL, FALSE);
 	if (!gog_chart_map_is_valid (chart_map)) {
 		gog_chart_map_free (chart_map);
 		return;
 	}
-	
+
 	if (model->vertical) {
 		map = gog_chart_map_get_axis_map (chart_map, 1);
 		ser_map = gog_chart_map_get_axis_map (chart_map, 0);

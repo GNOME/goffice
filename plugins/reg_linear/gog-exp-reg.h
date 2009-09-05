@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-exp-reg.h :  
+ * gog-exp-reg.h :
  *
  * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
  *

@@ -115,7 +115,7 @@ gog_grid_class_init (GObjectClass *gobject_klass)
 	g_object_class_install_property (gobject_klass, GRID_PROP_TYPE,
 		g_param_spec_int ("type", _("Type"),
 			_("Numerical type of this backplane"),
-			GOG_GRID_UNKNOWN, GOG_GRID_TYPES, GOG_GRID_UNKNOWN, 
+			GOG_GRID_UNKNOWN, GOG_GRID_TYPES, GOG_GRID_UNKNOWN,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE
 			| GO_PARAM_PERSISTENT));
 

@@ -37,7 +37,7 @@ struct GodImageStorePrivate_ {
 static GPtrArray*
 g_ptr_array_insert_val (GPtrArray        *array,
 			guint             index,
-			gpointer          data) 
+			gpointer          data)
 {
 	g_ptr_array_add (array, data);
 	memmove (array->pdata + index + 1,

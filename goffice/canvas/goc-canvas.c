@@ -1,11 +1,11 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * goc-canvas.c :  
+ * goc-canvas.c :
  *
  * Copyright (C) 2008-2009 Jean Brefort (jean.brefort@normalesup.org)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -71,7 +71,7 @@ button_press_cb (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointe
 		canvas->scroll_x1 +  (canvas->width - event->x) / canvas->pixels_per_unit:
 		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
 	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
-	item = goc_canvas_get_item_at (canvas, x, y);;	
+	item = goc_canvas_get_item_at (canvas, x, y);;
 	if (item) {
 		canvas->cur_event = (GdkEvent *) event;
 		if (event->type == GDK_2BUTTON_PRESS)
@@ -118,7 +118,7 @@ motion_cb (GocCanvas *canvas, GdkEventMotion *event, G_GNUC_UNUSED gpointer data
 		canvas->scroll_x1 +  (canvas->width - event->x) / canvas->pixels_per_unit:
 		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
 	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
-	if (canvas->grabbed_item != NULL) 
+	if (canvas->grabbed_item != NULL)
 		item = canvas->grabbed_item;
 	else
 		item = goc_canvas_get_item_at (canvas, x, y);
@@ -133,7 +133,7 @@ motion_cb (GocCanvas *canvas, GdkEventMotion *event, G_GNUC_UNUSED gpointer data
 			canvas->last_item = item;
 			klass->enter_notify (item, x, y);
 		}
-		return klass->motion (item, x, y); 
+		return klass->motion (item, x, y);
 	}
 	canvas->cur_event = NULL;
 	return FALSE;
@@ -168,7 +168,7 @@ enter_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpoin
 		canvas->scroll_x1 +  (canvas->width - event->x) / canvas->pixels_per_unit:
 		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
 	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
-	item = goc_canvas_get_item_at (canvas, x, y);;	
+	item = goc_canvas_get_item_at (canvas, x, y);;
 	if (item) {
 		canvas->last_item = item;
 		return GOC_ITEM_GET_CLASS (item)->enter_notify (item, x, y);
@@ -247,7 +247,7 @@ goc_canvas_init (GocCanvas *canvas)
 			   GDK_BUTTON_RELEASE_MASK |
 			   GDK_KEY_PRESS_MASK |
 			   GDK_KEY_RELEASE_MASK |
-			   GDK_ENTER_NOTIFY_MASK	
+			   GDK_ENTER_NOTIFY_MASK
 			   );
 	g_signal_connect (G_OBJECT (w), "button-press-event", G_CALLBACK (button_press_cb), NULL);
 	g_signal_connect (G_OBJECT (w), "button-release-event", G_CALLBACK (button_release_cb), NULL);

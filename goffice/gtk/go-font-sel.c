@@ -340,8 +340,8 @@ gfs_init (GOFontSel *gfs)
 
 	gfs->modifications = pango_attr_list_new ();
 
-	gtk_box_pack_start (GTK_BOX (gfs), 
-		go_gtk_builder_get_widget (gfs->gui, "toplevel-table"), 
+	gtk_box_pack_start (GTK_BOX (gfs),
+		go_gtk_builder_get_widget (gfs->gui, "toplevel-table"),
   		TRUE, TRUE, 0);
 	gfs->font_name_entry  = go_gtk_builder_get_widget (gfs->gui, "font-name-entry");
 	gfs->font_style_entry = go_gtk_builder_get_widget (gfs->gui, "font-style-entry");
@@ -493,7 +493,7 @@ go_font_sel_set_style (GOFontSel *gfs, gboolean is_bold, gboolean is_italic)
 	}
 	select_row (gfs->font_style_list, n);
 
-	go_font_sel_add_attr (gfs, 
+	go_font_sel_add_attr (gfs,
 		pango_attr_weight_new (is_bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL),
 		pango_attr_style_new (is_italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
 /* FIXME FIXME FIXME Do we really need the following line? */

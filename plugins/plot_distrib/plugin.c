@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * plot_distrib/plugin.c :  
+ * plot_distrib/plugin.c :
  *
  * Copyright (C) 2005-2008 Jean Brefort (jean.brefort@normalesup.org)
  *

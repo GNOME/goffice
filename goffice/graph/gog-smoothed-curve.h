@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-smoothed-curve.h :  
+ * gog-smoothed-curve.h :
  *
  * Copyright (C) 2006 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 struct  _GogSmoothedCurve {
 	GogTrendLine	base;
-	
+
 	GogSeries 	  *series;
 	double *x, *y;
 	unsigned nb;

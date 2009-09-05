@@ -197,8 +197,8 @@ xl_xyz_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	bounds->logical.maxima = go_nan;
 	bounds->is_discrete    = TRUE;
 	bounds->center_on_ticks = TRUE;
-	bounds->val.maxima = (axis == GOG_AXIS_X)? 
-		xyz->columns: 
+	bounds->val.maxima = (axis == GOG_AXIS_X)?
+		xyz->columns:
 		xyz->rows;
 	return (GOData*) vec;
 }

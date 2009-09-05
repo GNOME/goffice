@@ -214,8 +214,8 @@ gog_barcol_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	GogPlot1_5dClass *plot1_5d_klass = GOG_PLOT1_5D_CLASS (gog_barcol_parent_klass);
 	GOData *data;
 
-	data = (plot1_5d_klass->base.axis_get_bounds) (plot, axis, bounds); 
-	
+	data = (plot1_5d_klass->base.axis_get_bounds) (plot, axis, bounds);
+
 	if (axis == gog_axis_get_atype (gog_plot1_5d_get_index_axis (model))) {
 		bounds->val.minima -= .5;
 		bounds->val.maxima += .5;
@@ -238,19 +238,19 @@ gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	gobject_klass->get_property = gog_barcol_plot_get_property;
 
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_GAP_PERCENTAGE,
-		g_param_spec_int ("gap-percentage", 
+		g_param_spec_int ("gap-percentage",
 			_("Gap percentage"),
 			_("The padding around each group as a percentage of their width"),
-			0, 500, 150, 
+			0, 500, 150,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_OVERLAP_PERCENTAGE,
-		g_param_spec_int ("overlap-percentage", 
+		g_param_spec_int ("overlap-percentage",
 			_("Overlap percentage"),
 			_("The distance between series as a percentage of their width"),
-			-100, 100, 0, 
+			-100, 100, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_HORIZONTAL,
-		g_param_spec_boolean ("horizontal", 
+		g_param_spec_boolean ("horizontal",
 			_("horizontal"),
 			_("horizontal bars or vertical columns"),
 			FALSE,
@@ -385,15 +385,15 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 
 	area = gog_chart_view_get_plot_area (view->parent);
-	chart_map = gog_chart_map_new (chart, area, 
-				       GOG_PLOT (model)->axis[GOG_AXIS_X], 
+	chart_map = gog_chart_map_new (chart, area,
+				       GOG_PLOT (model)->axis[GOG_AXIS_X],
 				       GOG_PLOT (model)->axis[GOG_AXIS_Y],
 				       NULL, FALSE);
 	if (!gog_chart_map_is_valid (chart_map)) {
 		gog_chart_map_free (chart_map);
 		return;
 	}
-	
+
 	x_map = gog_chart_map_get_axis_map (chart_map, 0);
 	y_map = gog_chart_map_get_axis_map (chart_map, 1);
 
@@ -439,7 +439,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	group_step = model->gap_percentage / 100.;
 	work.h = 1.0 / (1. + ((num_series - 1.0) * col_step) + group_step);
 	col_step *= work.h;
-	offset = (col_step * (num_series - 1.0) + work.h) / 2.0; 
+	offset = (col_step * (num_series - 1.0) + work.h) / 2.0;
 	data_scale = 1.0;
 
 	for (i = 0 ; i < num_elements ; i++) {
@@ -464,7 +464,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		ptr = gog_1_5d_model->base.series;
 		for (j = 0 ; j < num_series ; j++) {
 			work.y = (double) j * col_step + (double) i - offset + 1.0;
-			
+
 			if (i >= lengths[j])
 				continue;
 			tmp = vals[j][i];
@@ -500,7 +500,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 				gog_renderer_push_style (view->renderer, styles[j]);
 			barcol_draw_rect (rend, is_vertical, x_map, y_map, &work);
 			gog_renderer_pop_style (view->renderer);
-			
+
 			if (valid && gog_error_bar_is_visible (errors[j])) {
 				x = tmp > 0 ? work.x + work.w: work.x;
 				error_data[j][i].plus = plus * data_scale;

@@ -216,7 +216,7 @@ draw_text (GodTextModel *text,
 		pango_layout_set_auto_dir (layout, FALSE);
 		g_print ("bullet_size = %f\n", bullet_size);
 #if 0
-		pango_font_description_set_size (bullet_desc, 
+		pango_font_description_set_size (bullet_desc,
 						 bullet_size * 100.0 * PANGO_SCALE * 72.0 / 96.0);
 #endif
 		pango_font_description_set_size (bullet_desc, pango_font_description_get_size (bullet_desc) * sqrt (bullet_size));
@@ -229,7 +229,7 @@ draw_text (GodTextModel *text,
 				 GO_UN_TO_PT ((double)draw_context->y_ofs));
 		pango_cairo_show_layout (context, layout);
 		cairo_restore (context);
-		
+
 		pango_font_description_free (bullet_desc);
 		g_object_unref (layout);
 		layout = NULL;

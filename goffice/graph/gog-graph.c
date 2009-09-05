@@ -64,7 +64,7 @@ static GObjectClass *graph_parent_klass;
 static GogViewClass *gview_parent_klass;
 
 static void apply_theme (GogObject *object, GogTheme const *theme, gboolean force_auto);
-	
+
 static void
 gog_graph_set_property (GObject *obj, guint param_id,
 			GValue const *value, GParamSpec *pspec)
@@ -84,7 +84,7 @@ gog_graph_set_property (GObject *obj, guint param_id,
 				    graph->height);
 		break;
 	case GRAPH_PROP_HEIGHT:
-		gog_graph_set_size (graph, graph->width, 
+		gog_graph_set_size (graph, graph->width,
 				    g_value_get_double (value));
 		break;
 	case GRAPH_PROP_DOCUMENT: {
@@ -169,7 +169,7 @@ cb_theme_changed (GtkComboBox *combo, GogGraph *graph)
 	GSList *theme_names;
 	char const *name;
 	int index = gtk_combo_box_get_active (combo);
-	
+
 	theme_names = gog_theme_registry_get_theme_names ();
 	if (theme_names == NULL)
 		return;
@@ -178,7 +178,7 @@ cb_theme_changed (GtkComboBox *combo, GogGraph *graph)
 	g_slist_free (theme_names);
 	if (name == NULL)
 		return;
-	
+
 	gog_graph_set_theme (graph, gog_theme_registry_lookup (name));
 }
 
@@ -189,9 +189,9 @@ cb_force_theme (GtkButton *button, GogGraph *graph)
 }
 
 static void
-gog_graph_populate_editor (GogObject *gobj, 
-			   GOEditor *editor, 
-			   G_GNUC_UNUSED GogDataAllocator *dalloc, 
+gog_graph_populate_editor (GogObject *gobj,
+			   GOEditor *editor,
+			   G_GNUC_UNUSED GogDataAllocator *dalloc,
 			   GOCmdContext *cc)
 {
 	GogGraph *graph = GOG_GRAPH (gobj);
@@ -206,27 +206,27 @@ gog_graph_populate_editor (GogObject *gobj,
 	(GOG_OBJECT_CLASS(graph_parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 
 	theme_names = gog_theme_registry_get_theme_names ();
-	
+
 	if (theme_names != NULL) {
 		GtkWidget *box;
 		GtkWidget *combo;
 		GSList *ptr;
 		char const *graph_theme_name;
 		int count, index = 0;
-		
+
 		graph_theme_name = gog_theme_get_name (graph->theme);
 		combo = go_gtk_builder_get_widget (gui, "theme_combo");
-		gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (combo))));	
-		
+		gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (combo))));
+
 		count = 0;
 		for (ptr = theme_names; ptr != NULL; ptr = ptr->next) {
 			gtk_combo_box_append_text (GTK_COMBO_BOX (combo), _(ptr->data));
-			if (strcmp (ptr->data, graph_theme_name) == 0) 
+			if (strcmp (ptr->data, graph_theme_name) == 0)
 				index = count;
 			count++;
 		}
 		gtk_combo_box_set_active (GTK_COMBO_BOX (combo), index);
-		
+
 		g_signal_connect (G_OBJECT (combo), "changed", G_CALLBACK (cb_theme_changed), graph);
 		g_signal_connect (gtk_builder_get_object (gui, "force_theme_button"), "clicked",
 				  G_CALLBACK (cb_force_theme), graph);
@@ -235,8 +235,8 @@ gog_graph_populate_editor (GogObject *gobj,
 		go_editor_add_page (editor, box, _("Theme"));
 		g_object_unref (gui);
 
-		g_slist_free (theme_names);	
-	}	     
+		g_slist_free (theme_names);
+	}
 
 	go_editor_set_store_page (editor, &graph_pref_page);
 }
@@ -279,13 +279,13 @@ gog_graph_class_init (GogGraphClass *klass)
 
 	static GogObjectRole const roles[] = {
 		{ N_("Chart"), "GogChart",	0,
-		  GOG_POSITION_SPECIAL|GOG_POSITION_ANY_MANUAL, 
-		  GOG_POSITION_SPECIAL, 
+		  GOG_POSITION_SPECIAL|GOG_POSITION_ANY_MANUAL,
+		  GOG_POSITION_SPECIAL,
 		  GOG_OBJECT_NAME_BY_ROLE,
 		  NULL, NULL, NULL, role_chart_post_add, role_chart_pre_remove, NULL },
 		{ N_("Title"), "GogLabel",	1,
-		  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL, 
-		  GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, 
+		  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL,
+		  GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER,
 		  GOG_OBJECT_NAME_BY_ROLE,
 		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};
@@ -301,7 +301,7 @@ gog_graph_class_init (GogGraphClass *klass)
 #ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor  = gog_graph_populate_editor;
 #endif
-	
+
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 	/**
@@ -337,34 +337,34 @@ gog_graph_class_init (GogGraphClass *klass)
 		1, G_TYPE_OBJECT);
 
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_THEME,
-		g_param_spec_object ("theme", 
+		g_param_spec_object ("theme",
 			_("Theme"),
 			_("The theme for elements of the graph"),
-			GOG_TYPE_THEME, 
+			GOG_TYPE_THEME,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_THEME_NAME,
-		g_param_spec_string ("theme-name", 
+		g_param_spec_string ("theme-name",
 			_("Theme name"),
 			_("The name of the theme for elements of the graph"),
-			"default", 
+			"default",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_WIDTH,
-		g_param_spec_double ("width-pts", 
+		g_param_spec_double ("width-pts",
 			_("Width"),
 			_("Logical graph width, in points"),
 			0.0, G_MAXDOUBLE, GOG_GRAPH_DEFAULT_WIDTH,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_HEIGHT,
-		g_param_spec_double ("height-pts", 
+		g_param_spec_double ("height-pts",
 			_("Height"),
 			_("Logical graph heigth, in points"),
 			0.0, G_MAXDOUBLE, GOG_GRAPH_DEFAULT_HEIGHT,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_DOCUMENT,
-		g_param_spec_object ("document", 
+		g_param_spec_object ("document",
 			_("Document"),
 			_("the document for this graph"),
-			GO_TYPE_DOC, 
+			GO_TYPE_DOC,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
@@ -513,14 +513,14 @@ apply_theme (GogObject *object, GogTheme const *theme, gboolean force_auto)
 	GSList *ptr;
 
 	for (ptr = object->children; ptr !=  NULL; ptr = ptr->next)
-		apply_theme (ptr->data, theme, force_auto);		
+		apply_theme (ptr->data, theme, force_auto);
 
 	if (GO_IS_STYLED_OBJECT (object)) {
 		GOStyledObject *styled_object = (GOStyledObject *) object;
 		GOStyle *style;
 
 		style = go_styled_object_get_style (styled_object);
-		if (force_auto) 
+		if (force_auto)
 			/* FIXME: Some style settings are not themed yet,
 			 * such as font or fill type. */
 			go_style_force_auto (style);
@@ -538,7 +538,7 @@ gog_graph_set_theme (GogGraph *graph, GogTheme *theme)
 
 	graph->theme = theme;
 
-	apply_theme (GOG_OBJECT (graph), graph->theme, FALSE);	
+	apply_theme (GOG_OBJECT (graph), graph->theme, FALSE);
 }
 
 /**
@@ -581,7 +581,7 @@ gog_graph_ref_data (GogGraph *graph, GOData *dat)
 	if (res == NULL) {
 
 		/* is there something like it already */
-		GSList *existing = graph->data; 
+		GSList *existing = graph->data;
 		for (; existing != NULL ; existing = existing->next)
 			if (go_data_eq (dat, existing->data))
 				break;
@@ -845,7 +845,7 @@ gog_graph_view_finalize (GObject *obj)
 		gog_tool_action_free (gview->action);
 		gview->action = NULL;
 	}
-	
+
 	(G_OBJECT_CLASS (gview_parent_klass)->finalize) (obj);
 }
 
@@ -864,12 +864,12 @@ gog_graph_view_class_init (GogGraphViewClass *gview_klass)
 	view_klass->clip	    = TRUE;
 
 	g_object_class_install_property (gobject_klass, GRAPH_VIEW_PROP_RENDERER,
-		g_param_spec_object ("renderer", 
+		g_param_spec_object ("renderer",
 			_("Renderer"),
 			_("the renderer for this view"),
-			GOG_TYPE_RENDERER, 
+			GOG_TYPE_RENDERER,
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
-	
+
 	gog_graph_view_signals [GRAPH_VIEW_SELECTION_CHANGED] = g_signal_new ("selection-changed",
 		G_TYPE_FROM_CLASS (gview_klass),
 		G_SIGNAL_RUN_LAST,
@@ -901,7 +901,7 @@ update_cursor (GogGraphView *view, GogTool *tool, GdkWindow *window)
 {
 	GdkCursor *cursor;
 	GdkCursorType cursor_type;
-	
+
 	cursor_type = tool != NULL ? tool->cursor_type : GDK_LEFT_PTR;
 	if (cursor_type != view->cursor_type) {
 		view->cursor_type = cursor_type;
@@ -916,11 +916,11 @@ update_cursor (GogGraphView *view, GogTool *tool, GdkWindow *window)
 static void
 update_action (GogGraphView *view, GogTool *tool, double x, double y)
 {
-	if (view->action != NULL) { 
+	if (view->action != NULL) {
 		gog_tool_action_free (view->action);
 		view->action = NULL;
 	}
-	
+
 	if (tool != NULL)
 		view->action = gog_tool_action_new (view->selected_view, tool, x, y);
 }
@@ -938,7 +938,7 @@ update_action (GogGraphView *view, GogTool *tool, double x, double y)
  * Handle events.
  **/
 void
-gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event, 
+gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 			     double x_offset, double y_offset)
 {
 	GogObject *old_object = view->selected_object;
@@ -946,25 +946,25 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 	GdkWindow *window = event->any.window;
 	double x, y;
 	int x_int, y_int;
-	
+
 	x = event->button.x - x_offset;
 	y = event->button.y - y_offset;
 
 	switch (event->type) {
 		case GDK_2BUTTON_PRESS:
-			if (view->action != NULL) 
+			if (view->action != NULL)
 				gog_tool_action_double_click (view->action);
 			break;
-		case GDK_BUTTON_PRESS: 
+		case GDK_BUTTON_PRESS:
 			if (view->selected_view != NULL)
 				tool = gog_view_get_tool_at_point (view->selected_view, x, y,
 								   &view->selected_object);
-			if (tool == NULL) 
-				view->selected_view = gog_view_get_view_at_point (GOG_VIEW (view), x, y, 
-										  &view->selected_object, 
+			if (tool == NULL)
+				view->selected_view = gog_view_get_view_at_point (GOG_VIEW (view), x, y,
+										  &view->selected_object,
 										  &tool);
 			if (old_object != view->selected_object) {
-				g_signal_emit (G_OBJECT (view), 
+				g_signal_emit (G_OBJECT (view),
 					       gog_graph_view_signals [GRAPH_VIEW_SELECTION_CHANGED],
 					       0, view->selected_object);
 				gog_view_queue_redraw (GOG_VIEW (view));
@@ -972,7 +972,7 @@ gog_graph_view_handle_event (GogGraphView *view, GdkEvent *event,
 			update_action (view, tool, x, y);
 			update_cursor (view, tool, window);
 			break;
-		case GDK_MOTION_NOTIFY: 
+		case GDK_MOTION_NOTIFY:
 			if (event->motion.is_hint) {
 				gdk_window_get_pointer (window, &x_int, &y_int, NULL);
 				x = x_int - x_offset;
@@ -1019,8 +1019,8 @@ gog_graph_view_get_selection (GogGraphView *gview)
  * gog_graph_view_set_selection
  * @gview : #GogGraphView
  * @gobj : new selected object
- * 
- * Sets @gobj as current selection. If @gobj is different from previously 
+ *
+ * Sets @gobj as current selection. If @gobj is different from previously
  * selected object, a selection-changed signal is emitted.
  **/
 void
@@ -1043,8 +1043,8 @@ gog_graph_view_set_selection (GogGraphView *gview, GogObject *gobj)
 	}
 
 	gog_view_queue_redraw (GOG_VIEW (gview));
-	g_signal_emit (G_OBJECT (gview), 
-		       gog_graph_view_signals [GRAPH_VIEW_SELECTION_CHANGED], 
+	g_signal_emit (G_OBJECT (gview),
+		       gog_graph_view_signals [GRAPH_VIEW_SELECTION_CHANGED],
 		       0, gobj);
 }
 
@@ -1091,7 +1091,7 @@ gog_graph_get_supported_image_formats (void)
  * @y_dpi: y resolution of exported graph
  *
  * Exports an image of @graph in given @format, writing results in a #GsfOutput stream.
- * If export format type is a bitmap one, it computes image size with x_dpi, y_dpi and 
+ * If export format type is a bitmap one, it computes image size with x_dpi, y_dpi and
  * @graph size (see @gog_graph_get_size()).
  *
  * returns: %TRUE if export succeed.

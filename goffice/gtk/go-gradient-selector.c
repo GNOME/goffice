@@ -30,7 +30,7 @@ typedef struct {
 static void
 go_gradient_swatch_render_func (cairo_t *cr,
 				GdkRectangle const *area,
-				int index, 
+				int index,
 				gpointer data)
 {
 	struct { unsigned x0i, y0i, x1i, y1i; } const grad_i[GO_GRADIENT_MAX] = {
@@ -65,7 +65,7 @@ go_gradient_swatch_render_func (cairo_t *cr,
 	y[1] = area->y + area->height;
 	x[2] = (x[1] - x[0]) / 2.0 + x[0];
 	y[2] = (y[1] - y[0]) / 2.0 + y[0];
-	cr_pattern = cairo_pattern_create_linear (x[grad_i[index].x0i], 
+	cr_pattern = cairo_pattern_create_linear (x[grad_i[index].x0i],
 						  y[grad_i[index].y0i],
 						  x[grad_i[index].x1i],
 						  y[grad_i[index].y1i]);
@@ -80,7 +80,7 @@ go_gradient_swatch_render_func (cairo_t *cr,
 	cairo_set_line_width (cr, 1);
 	cairo_set_source_rgb (cr, .75, .75, .75);
 	cairo_stroke (cr);
-	
+
 	cairo_pattern_destroy (cr_pattern);
 }
 
@@ -96,21 +96,21 @@ go_gradient_selector_new (GOGradientDirection initial_direction,
 	state->start_color = GO_COLOR_BLACK;
 	state->stop_color = GO_COLOR_WHITE;
 
-	palette = go_palette_new (GO_GRADIENT_MAX, 1.0, 4, 
+	palette = go_palette_new (GO_GRADIENT_MAX, 1.0, 4,
 				  go_gradient_swatch_render_func, NULL,
 				  state, g_free);
-	go_palette_show_automatic (GO_PALETTE (palette), 
+	go_palette_show_automatic (GO_PALETTE (palette),
 				   CLAMP (default_direction, 0, GO_GRADIENT_MAX -1),
-				   NULL); 	
+				   NULL);
 	selector = go_selector_new (GO_PALETTE (palette));
-	go_selector_set_active (GO_SELECTOR (selector), 
+	go_selector_set_active (GO_SELECTOR (selector),
 				CLAMP (initial_direction, 0, GO_GRADIENT_MAX - 1));
 	return selector;
 }
 
 void
-go_gradient_selector_set_colors (GOSelector *selector, 
-				 GOColor start_color, 
+go_gradient_selector_set_colors (GOSelector *selector,
+				 GOColor start_color,
 				 GOColor stop_color)
 {
 	GOGradientSelectorState *state;

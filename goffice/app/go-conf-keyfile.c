@@ -299,7 +299,7 @@ go_conf_load_bool (GOConfNode *node, gchar const *key, gboolean default_val)
 
 	if (!node)
 		return default_val;
-	
+
 	real_key = go_conf_get_real_key (node, key);
 	val = g_key_file_get_boolean (node->key_file, BOOL_GROUP, real_key, &err);
 	if (err) {
@@ -325,7 +325,7 @@ go_conf_load_int (GOConfNode *node, gchar const *key,
 
 	if (!node)
 		return default_val;
-	
+
 	real_key = go_conf_get_real_key (node, key);
 	val = g_key_file_get_integer (node->key_file, INT_GROUP, real_key, &err);
 
@@ -355,7 +355,7 @@ go_conf_load_double (GOConfNode *node, gchar const *key,
 
 	if (!node)
 		return default_val;
-	
+
 	real_key = go_conf_get_real_key (node, key);
 	ptr = g_key_file_get_value (node->key_file, DOUBLE_GROUP, real_key, &err);
 
@@ -383,7 +383,7 @@ go_conf_load_string (GOConfNode *node, gchar const *key)
 
 	if (!node)
 		return NULL;
-	
+
 	real_key = go_conf_get_real_key (node, key);
 	val = g_key_file_get_string (node->key_file, STRING_GROUP, real_key, &err);
 

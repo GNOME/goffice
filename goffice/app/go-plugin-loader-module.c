@@ -130,7 +130,7 @@ go_plugin_loader_module_load_base (GOPluginLoader *loader, GOErrorInfo **err)
 			g_module_symbol (handle, "go_plugin_shutdown", (gpointer)&loader_module->plugin_shutdown);
 			if (loader_module->plugin_init != NULL)
 				(loader_module->plugin_init) (go_plugin_loader_get_plugin (loader), NULL);
-		} 
+		}
 
 		if (*err != NULL)
 			g_module_close (handle);

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-editor.c : 
+ * go-editor.c :
  *
  * Copyright (C) 2003-2009 Jody Goldberg (jody@gnome.org)
  *
@@ -112,9 +112,9 @@ go_editor_set_store_page (GOEditor *editor, unsigned *store_page)
  * go_editor_register_widget:
  * @editor: a #GOEditor
  * @widget: a #GtkWidget
- * 
- * Registers a widget that then can be retrieved later using 
- * @go_editor_get_registered_widget. The main use of this function is to 
+ *
+ * Registers a widget that then can be retrieved later using
+ * @go_editor_get_registered_widget. The main use of this function is to
  * provide the ability to extend a page.
  **/
 void

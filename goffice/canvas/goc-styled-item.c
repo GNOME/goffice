@@ -1,11 +1,11 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * goc-styled-item.c :  
+ * goc-styled-item.c :
  *
  * Copyright (C) 2009 Jean Brefort (jean.brefort@normalesup.org)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -39,7 +39,7 @@ enum {
 };
 
 static void goc_styled_item_style_changed (GOStyledObject *obj);
-	
+
 static gulong goc_styled_item_signals [LAST_SIGNAL] = { 0, };
 static GObjectClass *parent_klass;
 
@@ -54,7 +54,7 @@ goc_styled_item_set_property (GObject *obj, guint param_id,
 	switch (param_id) {
 
 	case STYLED_ITEM_PROP_STYLE :
-		resize = go_styled_object_set_style (GO_STYLED_OBJECT (gsi), 
+		resize = go_styled_object_set_style (GO_STYLED_OBJECT (gsi),
 	      			g_value_get_object (value));
 		break;
 
@@ -134,10 +134,10 @@ goc_styled_item_class_init (GocItemClass *goc_klass)
 	style_klass->init_style	    = goc_styled_item_init_style;
 
 	g_object_class_install_property (gobject_klass, STYLED_ITEM_PROP_STYLE,
-		g_param_spec_object ("style", 
+		g_param_spec_object ("style",
 			_("Style"),
 			_("A pointer to the GOStyle object"),
-			go_style_get_type (), 
+			go_style_get_type (),
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, STYLED_ITEM_SCALE_LINE_WIDTH,
 		g_param_spec_boolean ("scale-line-width",
@@ -242,7 +242,7 @@ goc_styled_item_set_cairo_line  (GocStyledItem const *gsi, cairo_t *cr)
 	if (gsi->scale_line_width) {
 		width = gsi->style->line.width;
 		gsi->style->line.width *= goc_canvas_get_pixels_per_unit (GOC_ITEM (gsi)->canvas);
-	}	
+	}
 	result = go_styled_object_set_cairo_line (GO_STYLED_OBJECT (gsi), cr);
 	/* restore the line width */
 	if (gsi->scale_line_width)

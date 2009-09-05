@@ -130,7 +130,7 @@ go_action_combo_color_connect_proxy (GtkAction *a, GtkWidget *proxy)
 		if (icon) {
 			GtkWidget *image = gtk_image_new_from_pixbuf (icon);
 			g_object_unref (icon);
-	
+
 			gtk_widget_show (image);
 			gtk_image_menu_item_set_image (
 				GTK_IMAGE_MENU_ITEM (proxy), image);

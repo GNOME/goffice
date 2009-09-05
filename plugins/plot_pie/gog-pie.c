@@ -98,14 +98,14 @@ gog_pie_series_element_class_init (GogPieSeriesElementClass *klass)
 
 	gobject_klass->set_property = gog_pie_series_element_set_property;
 	gobject_klass->get_property = gog_pie_series_element_get_property;
-	
+
 	ppe_parent_klass 	= g_type_class_peek_parent (klass);
 #ifdef GOFFICE_WITH_GTK
 	klass->gse_populate_editor	= gog_pie_series_element_populate_editor;
 #endif
 
 	g_object_class_install_property (gobject_klass, ELEMENT_SEPARATION,
-		g_param_spec_float ("separation", 
+		g_param_spec_float ("separation",
 			_("Separation"),
 			_("Amount a slice is extended as a percentage of the radius"),
 			0, 1000, 0.,
@@ -198,13 +198,13 @@ gog_pie_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 
 extern gpointer gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc);
 static void
-gog_pie_plot_populate_editor (GogObject *item, 
+gog_pie_plot_populate_editor (GogObject *item,
 			      GOEditor *editor,
 			      G_GNUC_UNUSED GogDataAllocator *dalloc,
 			      GOCmdContext *cc)
 {
 	GtkWidget *widget = gog_pie_plot_pref (GOG_PIE_PLOT (item), cc);
-	go_editor_add_page (editor, 
+	go_editor_add_page (editor,
 			     widget,
 			     _("Properties"));
 	g_object_unref (G_OBJECT (widget));
@@ -234,25 +234,25 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 	gog_klass->view_type	= gog_pie_view_get_type ();
 
 	g_object_class_install_property (gobject_klass, PLOT_PROP_INITIAL_ANGLE,
-		g_param_spec_float ("initial-angle", 
+		g_param_spec_float ("initial-angle",
 			_("Initial angle"),
 			_("Degrees clockwise from 12 O'Clock."),
 			0, G_MAXFLOAT, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_DEFAULT_SEPARATION,
-		g_param_spec_float ("default-separation", 
+		g_param_spec_float ("default-separation",
 			_("Default separation"),
 			_("Default amount a slice is extended as a percentage of the radius"),
 			0, G_MAXFLOAT, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_IN_3D,
-		g_param_spec_boolean ("in-3d", 
+		g_param_spec_boolean ("in-3d",
 			_("In 3d"),
 			_("Draw 3d wedges"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_SPAN,
-		g_param_spec_float ("span", 
+		g_param_spec_float ("span",
 			_("Span"),
 			_("Total angle used as a percentage of the full circle"),
 			10., 100., 100.,
@@ -289,7 +289,7 @@ gog_pie_plot_set_default_separation (GogPiePlot *pie, double separation)
 {
 	g_return_if_fail (GOG_PIE_PLOT (pie) != NULL);
 
-	pie->default_separation = CLAMP (separation, 0.0, 5.0); 
+	pie->default_separation = CLAMP (separation, 0.0, 5.0);
 	gog_object_emit_changed (GOG_OBJECT (pie), FALSE);
 }
 
@@ -373,7 +373,7 @@ gog_ring_plot_class_init (GogPiePlotClass *pie_plot_klass)
 	gog_klass->populate_editor = gog_ring_plot_populate_editor;
 
 	g_object_class_install_property (gobject_klass, RING_PLOT_PROP_CENTER_SIZE,
-		g_param_spec_float ("center-size", 
+		g_param_spec_float ("center-size",
 			_("Center-size"),
 			_("Size of the center hole as a percentage of the radius"),
 			0, 100., 0.,
@@ -403,7 +403,7 @@ typedef struct {
 } MovePieData;
 
 static gboolean
-find_element (GogView *view, double cx, double cy, double x, double y, 
+find_element (GogView *view, double cx, double cy, double x, double y,
 	      unsigned int *index, GogPieSeries **series)
 {
 	GogPiePlot *pie = GOG_PIE_PLOT (view->model);
@@ -419,7 +419,7 @@ find_element (GogView *view, double cx, double cy, double x, double y,
 	if (ptr == NULL)
 		return FALSE;
 
-	theta = (atan2 (y - cy, x - cx) 
+	theta = (atan2 (y - cy, x - cx)
 		 * 180 / M_PI - pie->initial_angle + 90.) / pie->span / 3.6;
 	if (theta < 0)
 		theta += 1.;
@@ -443,7 +443,7 @@ gog_tool_move_pie_point (GogView *view, double x, double y, GogObject **gobj)
 	GogPieSeries *series;
 	double r = view->allocation.h, cx, cy;
 	unsigned int index;
-	
+
 	if (r > view->allocation.w)
 		r = view->allocation.w;
 	r /= 2.;
@@ -452,8 +452,8 @@ gog_tool_move_pie_point (GogView *view, double x, double y, GogObject **gobj)
 
 	if (hypot (x - cx, y - cy) > fabs (r))
 		return FALSE;
-	
-	if (find_element (view, cx, cy, x, y, &index, &series)) 
+
+	if (find_element (view, cx, cy, x, y, &index, &series))
 		*gobj = GOG_OBJECT (gog_series_get_element (GOG_SERIES (series), index));
 
 	return TRUE;
@@ -502,12 +502,12 @@ gog_tool_move_pie_move (GogToolAction *action, double x, double y)
 	MovePieData *data = action->data;
 	double pos, separation;
 
-	pos = data->start_pos - 
+	pos = data->start_pos -
 		((x - action->start_x) * (data->x - action->start_x) +
-		 (y - action->start_y) * (data->y - action->start_y)) / 
-		data->start_distance; 
+		 (y - action->start_y) * (data->y - action->start_y)) /
+		data->start_distance;
 	separation = (pos - 0.5 * data->r) / (data->r - pos);
-					     
+
 	gog_pie_plot_set_default_separation (pie, separation);
 }
 
@@ -519,11 +519,11 @@ gog_tool_move_pie_double_click (GogToolAction *action)
 	GogObject *obj;
 	unsigned int index;
 
-	if (!find_element (action->view, data->x, data->y, 
+	if (!find_element (action->view, data->x, data->y,
 			   action->start_x, action->start_y,
 			   &index, &series))
 		return;
-	
+
 	obj = GOG_OBJECT (gog_series_get_element (GOG_SERIES (series), index));
 	if (obj == NULL) {
 		obj = g_object_new (gog_pie_series_element_get_type (),
@@ -535,10 +535,10 @@ gog_tool_move_pie_double_click (GogToolAction *action)
 static GogTool gog_tool_move_pie = {
 	N_("Move pie"),
 	GDK_FLEUR,
-	gog_tool_move_pie_point, 
+	gog_tool_move_pie_point,
 	gog_tool_move_pie_render,
-	gog_tool_move_pie_init, 
-	gog_tool_move_pie_move, 
+	gog_tool_move_pie_init,
+	gog_tool_move_pie_move,
 	gog_tool_move_pie_double_click,
 	NULL /*destroy*/
 };
@@ -690,7 +690,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		/* centre things */
 		cx = view->allocation.x + view->allocation.w/2.;
 		cy = view->allocation.y + view->allocation.h/2.;
-	
+
 		r_tot = view->allocation.h;
 		if (r_tot > view->allocation.w)
 			r_tot = view->allocation.w;
@@ -712,10 +712,10 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			continue;
 		if (index > num_series) /* people snuck extra series into a pie */
 			break;
-		
-		if (num_series == index) 
+
+		if (num_series == index)
 			r -= outline_width_max / 2.0;
-		
+
 		has_hole = center_radius > 0. || index > 1;
 		r_int = center_radius + r * ((double)index - 1.0) / (double)num_series;
 		r_ext = center_radius + r * (double)index / (double)num_series;
@@ -793,7 +793,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 static void
 gog_pie_view_build_toolkit (GogView *view)
 {
-	(GOG_VIEW_CLASS (pie_view_parent_klass)->build_toolkit) (view);	
+	(GOG_VIEW_CLASS (pie_view_parent_klass)->build_toolkit) (view);
 #ifdef GOFFICE_WITH_GTK
 	view->toolkit = g_slist_prepend (view->toolkit, &gog_tool_move_pie);
 #endif
@@ -903,13 +903,13 @@ gog_pie_series_class_init (GObjectClass *gobject_klass)
 	gobject_klass->get_property = gog_pie_series_get_property;
 
 	g_object_class_install_property (gobject_klass, SERIES_PROP_INITIAL_ANGLE,
-		g_param_spec_float ("initial-angle", 
+		g_param_spec_float ("initial-angle",
 			_("Initial-angle"),
 			_("Degrees clockwise from 12 O'Clock"),
 			0, G_MAXFLOAT, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_SEPARATION,
-		g_param_spec_float ("separation", 
+		g_param_spec_float ("separation",
 			_("Separation"),
 			_("Default amount a slice is extended as a percentage of the radius"),
 			0, G_MAXFLOAT, 0.,

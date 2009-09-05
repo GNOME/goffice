@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-component.c :  
+ * go-component.c :
  *
  * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -83,7 +83,7 @@ go_component_get_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case COMPONENT_PROP_MIME_TYPE:
 		g_value_set_string (value, component->mime_type);
-		break;	
+		break;
 	case COMPONENT_PROP_WIDTH:
 		g_value_set_double (value, component->width);
 		break;

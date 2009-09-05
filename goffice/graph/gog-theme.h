@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-theme.h : 
+ * gog-theme.h :
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -41,7 +41,7 @@ void 	    gog_theme_fillin_style    	(GogTheme const *theme, GOStyle *style,
 void	    gog_theme_registry_add		(GogTheme *theme, gboolean is_default);
 GogTheme   *gog_theme_registry_lookup 		(char const *name);
 GSList	   *gog_theme_registry_get_theme_names	(void);
-	
+
 /* private */
 void _gog_themes_init	 (void);
 void _gog_themes_shutdown (void);

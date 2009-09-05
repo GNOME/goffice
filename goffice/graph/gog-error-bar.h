@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-error-bar.h :  
+ * gog-error-bar.h :
  *
  * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
@@ -60,18 +60,18 @@ GType gog_error_bar_get_type (void);
 GogErrorBar  	*gog_error_bar_dup		(GogErrorBar const *bar);
 
 #ifdef GOFFICE_WITH_GTK
-gpointer 	 gog_error_bar_prefs (GogSeries *series, char const *property, 
-				      gboolean horizontal, GogDataAllocator *dalloc, 
+gpointer 	 gog_error_bar_prefs (GogSeries *series, char const *property,
+				      gboolean horizontal, GogDataAllocator *dalloc,
 				      GOCmdContext *cc);
 #endif
 
-gboolean 	 gog_error_bar_get_bounds (const GogErrorBar *bar, int index, 
+gboolean 	 gog_error_bar_get_bounds (const GogErrorBar *bar, int index,
 					   double *min, double *max);
-void 		 gog_error_bar_get_minmax (const GogErrorBar *bar, 
+void 		 gog_error_bar_get_minmax (const GogErrorBar *bar,
 					   double *min, double *max);
-void 		 gog_error_bar_render (const GogErrorBar *bar, GogRenderer *rend, 
+void 		 gog_error_bar_render (const GogErrorBar *bar, GogRenderer *rend,
 				       GogAxisMap *x_map, GogAxisMap *y_map,
-				       double x, double y, 
+				       double x, double y,
 				       double minus,
 				       double plus,
 				       gboolean horizontal);

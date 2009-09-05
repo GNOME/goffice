@@ -994,7 +994,7 @@ go_parse_key_value (const char *options,
 			       g_unichar_isalnum (g_utf8_get_char (options)))
 				options = g_utf8_next_char (options);
 			g_string_append_len (sname, p, options - p);
-			if (p == options) 
+			if (p == options)
 				goto syntax;
 		}
 

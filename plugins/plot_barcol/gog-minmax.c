@@ -151,8 +151,8 @@ gog_minmax_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	GogPlot1_5dClass *plot1_5d_klass = GOG_PLOT1_5D_CLASS (gog_minmax_parent_klass);
 	GOData *data;
 
-	data = (plot1_5d_klass->base.axis_get_bounds) (plot, axis, bounds); 
-	
+	data = (plot1_5d_klass->base.axis_get_bounds) (plot, axis, bounds);
+
 	if (axis == gog_axis_get_atype (gog_plot1_5d_get_index_axis (model))) {
 		bounds->val.minima -= .5;
 		bounds->val.maxima += .5;
@@ -219,22 +219,22 @@ gog_minmax_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	gobject_klass->get_property = gog_minmax_plot_get_property;
 
 	g_object_class_install_property (gobject_klass, MINMAX_PROP_GAP_PERCENTAGE,
-		g_param_spec_int ("gap-percentage", 
+		g_param_spec_int ("gap-percentage",
 			_("Gap percentage"),
 			_("The padding around each group as a percentage of their width"),
-			0, 500, 150, 
+			0, 500, 150,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, MINMAX_PROP_HORIZONTAL,
-		g_param_spec_boolean ("horizontal", 
+		g_param_spec_boolean ("horizontal",
 			_("Horizontal"),
 			_("Horizontal or vertical lines"),
 			FALSE,
 			G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, MINMAX_PROP_DEFAULT_STYLE_HAS_MARKERS,
-		g_param_spec_boolean ("default-style-has-markers", 
+		g_param_spec_boolean ("default-style-has-markers",
 			_("Default markers"),
 			_("Should the default style of a series include markers"),
-			FALSE, 
+			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_klass->type_name	= gog_minmax_plot_type_name;
@@ -325,11 +325,11 @@ gog_minmax_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (num_elements <= 0 || num_series <= 0)
 		return;
 
-	x_map = gog_axis_map_new (GOG_PLOT (model)->axis[0], 
+	x_map = gog_axis_map_new (GOG_PLOT (model)->axis[0],
 				  view->allocation.x, view->allocation.w);
-	y_map = gog_axis_map_new (GOG_PLOT (model)->axis[1], view->allocation.y + view->allocation.h, 
+	y_map = gog_axis_map_new (GOG_PLOT (model)->axis[1], view->allocation.y + view->allocation.h,
 				  -view->allocation.h);
-	
+
 	if (!(gog_axis_map_is_valid (x_map) &&
 	      gog_axis_map_is_valid (y_map))) {
 		gog_axis_map_free (x_map);

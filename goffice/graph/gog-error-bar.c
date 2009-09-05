@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-error-bar.c :  
+ * gog-error-bar.c :
  *
  * Copyright (C) 2004 Jean Brefort (jean.brefort@ac-dijon.fr)
  *
@@ -174,16 +174,16 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 		set = GOG_DATASET (editor->bar->series);
 		data = g_object_get_data (G_OBJECT (w), "plus");
 		if (!data) {
-			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 
-									       editor->bar->error_i, 
+			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set,
+									       editor->bar->error_i,
 									       GOG_DATA_VECTOR));
 			gtk_table_attach (GTK_TABLE (table), al, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 			g_object_set_data (G_OBJECT (w), "plus", al);
 		}
 		data = g_object_get_data (G_OBJECT (w), "minus");
 		if (!data) {
-			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 
-									       editor->bar->error_i + 1, 
+			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set,
+									       editor->bar->error_i + 1,
 									       GOG_DATA_VECTOR));
 			gtk_table_attach (GTK_TABLE (table), al, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 			g_object_set_data (G_OBJECT (w), "minus", al);
@@ -242,7 +242,7 @@ gog_error_bar_prefs (GogSeries *series,
 	g_signal_connect (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w)),
 		"value_changed",
 		G_CALLBACK (cb_width_changed), editor);
-	
+
 	/* Line width */
 	w = go_gtk_builder_get_widget (gui, "line_width");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), editor->line_width);
@@ -260,7 +260,7 @@ gog_error_bar_prefs (GogSeries *series,
 		"activate",
 		G_CALLBACK (cb_color_changed), editor);
 	gtk_table_attach (GTK_TABLE (style_table), w, 1, 2, 3, 4, GTK_FILL, GTK_FILL, 0, 0);
-	
+
 	/* Display style */
 	list = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_UINT);
 	combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list));
@@ -275,11 +275,11 @@ gog_error_bar_prefs (GogSeries *series,
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell, "text", 1, NULL);
 
 	for (i = 0; i < G_N_ELEMENTS (display_combo_desc); i++) {
-		pixbuf = go_pixbuf_new_from_file (horizontal ? 
+		pixbuf = go_pixbuf_new_from_file (horizontal ?
 						  display_combo_desc[i].h_pixbuf :
 						  display_combo_desc[i].v_pixbuf);
 		gtk_list_store_append (list, &iter);
-		gtk_list_store_set (list, &iter, 
+		gtk_list_store_set (list, &iter,
 				    0, pixbuf,
 				    1, display_combo_desc[i].label,
 				    2, display_combo_desc[i].display,
@@ -291,7 +291,7 @@ gog_error_bar_prefs (GogSeries *series,
 
 	gtk_table_attach (GTK_TABLE (style_table), GTK_WIDGET(combo), 1, 4, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	g_signal_connect (G_OBJECT (combo), "changed", G_CALLBACK (cb_display_changed), editor);
-	
+
 	/* Category property*/
 	w = go_gtk_builder_get_widget (gui, "category_combo");
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), (editor->bar)? (int) editor->bar->type: 0);
@@ -484,8 +484,8 @@ GSF_CLASS_FULL (GogErrorBar, gog_error_bar,
 /**
  * gog_error_bar_get_bounds :
  * @bar : A GogErrorBar
- * @index : the index corresponding to the value which error limits are 
- * @min : where the minimum value will be stored 
+ * @index : the index corresponding to the value which error limits are
+ * @min : where the minimum value will be stored
  * @max : where the maximum value will be stored
  *
  * If the value correponding to @index is valid, fills min and max with the error values:
@@ -564,7 +564,7 @@ gog_error_bar_get_minmax (const GogErrorBar *bar, double *min, double *max)
 	double *values;
 	int i, imax;
 	double tmp_min, tmp_max, plus, minus;
-	
+
 	g_return_if_fail (GOG_IS_ERROR_BAR (bar));
 
 	if (!gog_series_is_valid (bar->series)) {
@@ -613,13 +613,13 @@ gog_error_bar_dup		(GogErrorBar const *bar)
 /**
  * gog_error_bar_render :
  * @bar : A GogErrorBar
- * @rend : A GogRenderer 
+ * @rend : A GogRenderer
  * @x_map :  A GogAxisMap for the x axis
  * @y_map :  A GogAxisMap for the y axis
- * @x : x coordinate of the origin of the bar 
+ * @x : x coordinate of the origin of the bar
  * @y : y coordinate of the origin of the bar
- * @plus : distance from the origin to the positive end of the bar 
- * @minus : distance from the origin to the negative end of the bar 
+ * @plus : distance from the origin to the positive end of the bar
+ * @minus : distance from the origin to the negative end of the bar
  * @horizontal : whether the bar is horizontal or not.
  *
  * Displays the error bar. If @plus is negative, the positive side of the bar is not displayed,
@@ -649,11 +649,11 @@ void gog_error_bar_render (const GogErrorBar *bar,
 		    (start && !gog_axis_map_finite (x_map, x + plus)) ||
 		    (end   && !gog_axis_map_finite (x_map, x - minus)))
 			return;
-			
-		x_start = start ? 
-			gog_axis_map_to_view (x_map, x + plus) : 
+
+		x_start = start ?
+			gog_axis_map_to_view (x_map, x + plus) :
 			gog_axis_map_to_view (x_map, x);
-		x_end =  end ? 
+		x_end =  end ?
 			gog_axis_map_to_view (x_map , x - minus) :
 			gog_axis_map_to_view (x_map , x);
 		y_start = y_end = gog_axis_map_to_view (y_map, y);
@@ -665,10 +665,10 @@ void gog_error_bar_render (const GogErrorBar *bar,
 			return;
 
 		x_start = x_end = gog_axis_map_to_view (x_map ,x);
-		y_start = start ? 
+		y_start = start ?
 			gog_axis_map_to_view (y_map, y + plus) :
 			gog_axis_map_to_view (y_map, y);
-		y_end =  end ? 
+		y_end =  end ?
 			gog_axis_map_to_view (y_map, y - minus) :
 			gog_axis_map_to_view (y_map, y);
 	}

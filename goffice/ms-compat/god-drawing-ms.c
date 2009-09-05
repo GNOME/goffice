@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
- * god-drawing-ms.h - 
+/*
+ * god-drawing-ms.h -
  * Copyright (C) 2003-2004, Christopher James Lahey
  *
  * Authors:
@@ -299,11 +299,11 @@ typedef enum
 					/*
 typedef enum
    {
-   msoanchorTop, 
-   msoanchorMiddle, 
-   msoanchorBottom, 
-   msoanchorTopCentered, 
-   msoanchorMiddleCentered, 
+   msoanchorTop,
+   msoanchorMiddle,
+   msoanchorBottom,
+   msoanchorTopCentered,
+   msoanchorMiddleCentered,
    msoanchorBottomCentered,
    msoanchorTopBaseline,
    msoanchorBottomBaseline,
@@ -312,7 +312,7 @@ typedef enum
    } MSOANCHOR;
 					*/
 					break;
- 
+
 				case 260:
 					god_property_table_set_int
 						(parse_state->prop_table,
@@ -575,7 +575,7 @@ end_container (GSList *stack, GsfInput *input, GError **err, gpointer user_data)
 			ERROR (parse_state->main_shape != NULL, "Children Error");
 			parse_state->shapes = g_list_reverse (parse_state->shapes);
 			for (list = parse_state->shapes; list; list = list->next) {
-				god_shape_append_child (parse_state->main_shape, 
+				god_shape_append_child (parse_state->main_shape,
 							       list->data);
 				g_object_unref (list->data);
 			}

@@ -61,7 +61,7 @@ cb_matrix_changed (GO3DRotationSel *g3d, GObject *gobj)
 	box->psi = go_3d_rotation_sel_get_psi (g3d);
 	box->theta = go_3d_rotation_sel_get_theta (g3d);
 	box->phi = go_3d_rotation_sel_get_phi (g3d);
-	
+
 	gog_object_emit_changed (gog_object_get_parent (GOG_OBJECT (gobj)),
 	                         TRUE);
 }
@@ -72,7 +72,7 @@ cb_fov_changed (GO3DRotationSel *g3d, int angle, GObject *gobj)
 	Gog3DBox *box = GOG_3D_BOX (gobj);
 
 	box->fov = angle * M_PI / 180;
-	
+
 	gog_object_emit_changed (gog_object_get_parent (GOG_OBJECT (gobj)),
 	                         TRUE);
 }
@@ -150,9 +150,9 @@ cb_g3d_change_phi (GO3DRotationSel *g3d, int angle, GObject *gobj)
 }
 
 static void
-gog_3d_box_populate_editor (GogObject *gobj, 
-			  GOEditor *editor, 
-			  GogDataAllocator *dalloc, 
+gog_3d_box_populate_editor (GogObject *gobj,
+			  GOEditor *editor,
+			  GogDataAllocator *dalloc,
 			  GOCmdContext *cc)
 {
 	GtkWidget *w;
@@ -211,7 +211,7 @@ gog_3d_box_populate_editor (GogObject *gobj,
 	w = go_gtk_builder_get_widget (gui, "gog_3d_box_prefs");
 	g_object_set_data_full (G_OBJECT (w),
 		"state", gui, (GDestroyNotify) g_object_unref);
-	
+
 	go_editor_add_page (editor, w, _("Advanced"));
 }
 
@@ -253,7 +253,7 @@ gog_3d_box_get_property (GObject *obj, guint param_id,
 	case BOX3D_PROP_PSI:
 		g_value_set_int (value, (int) (box->psi * 180. / M_PI));
 		break;
-	case BOX3D_PROP_THETA: 
+	case BOX3D_PROP_THETA:
 		g_value_set_int (value, (int) (box->theta * 180. / M_PI));
 		break;
 	case BOX3D_PROP_PHI:
@@ -276,31 +276,31 @@ gog_3d_box_class_init (Gog3DBoxClass *klass)
 
 	gobject_klass->set_property = gog_3d_box_set_property;
 	gobject_klass->get_property = gog_3d_box_get_property;
-	
+
 	/* Using 3.141593 instead of M_PI to avoid rounding errors */
 	g_object_class_install_property (gobject_klass, BOX3D_PROP_PSI,
-		g_param_spec_int ("psi", 
+		g_param_spec_int ("psi",
 			"Psi",
 			_("Euler angle psi"),
-			0, 360, 70, 
+			0, 360, 70,
 			G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE
 			| GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX3D_PROP_THETA,
-		g_param_spec_int ("theta", 
+		g_param_spec_int ("theta",
 			"Theta",
 			_("Euler angle theta"),
-			0, 360, 10, 
+			0, 360, 10,
 			G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE
 			| GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX3D_PROP_PHI,
-		g_param_spec_int ("phi", 
+		g_param_spec_int ("phi",
 			"Phi",
 			_("Euler angle phi"),
-			0, 360, 270, 
+			0, 360, 270,
 			G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE
 			| GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BOX3D_PROP_FOV,
-		g_param_spec_int ("fov", 
+		g_param_spec_int ("fov",
 			"FoV",
 			_("Field of view"),
 			0, 90, 10,

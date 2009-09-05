@@ -45,7 +45,7 @@ gog_pie_series_element_pref (GogPieSeriesElement *element, GOCmdContext *cc)
 	g_free (path);
         if (gui == NULL)
                 return NULL;
-	
+
 	w = go_gtk_builder_get_widget (gui, "separation_spinner");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), element->separation * 100.);
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
@@ -100,7 +100,7 @@ static void
 gog_pie_plot_pref_signal_connect (GogPiePlot *pie, GtkBuilder *gui)
 {
 	GtkWidget *w;
-	
+
 	w = go_gtk_builder_get_widget (gui, "rotation_spinner");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), pie->initial_angle);
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
@@ -124,7 +124,7 @@ static void
 cb_update_editor (GogPiePlot *pie, PiePrefState *state)
 {
 	gfloat value;
-	
+
 	if (state->separation_spinner != NULL) {
 		g_object_get (G_OBJECT (pie), "default-separation", &value, NULL);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->separation_spinner), value * 100.0);
@@ -153,14 +153,14 @@ gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc)
 
 	gog_pie_plot_pref_signal_connect (pie, gui);
 
-	state->update_editor_handler = g_signal_connect (G_OBJECT (pie), 
-							 "update-editor", 
+	state->update_editor_handler = g_signal_connect (G_OBJECT (pie),
+							 "update-editor",
 							 G_CALLBACK (cb_update_editor), state);
-	
+
 	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_pie_prefs")));
 	g_object_set_data_full (G_OBJECT (w), "state", state, (GDestroyNotify) pie_pref_state_free);
 	g_object_unref (gui);
-	
+
 	return w;
 }
 
@@ -188,7 +188,7 @@ gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc)
 	g_free (path);
         if (gui == NULL)
                 return NULL;
-	
+
 	state = g_new0 (PiePrefState, 1);
 	state->gobj = GOG_OBJECT (ring);
 	state->separation_spinner = go_gtk_builder_get_widget (gui, "separation_spinner");
@@ -202,10 +202,10 @@ gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc)
 		"value_changed",
 		G_CALLBACK (cb_center_size_changed), ring);
 
-	state->update_editor_handler = g_signal_connect (G_OBJECT (ring), 
-							 "update-editor", 
+	state->update_editor_handler = g_signal_connect (G_OBJECT (ring),
+							 "update-editor",
 							 G_CALLBACK (cb_update_editor), state);
-	
+
 	w = GTK_WIDGET (g_object_ref (gtk_builder_get_object (gui, "gog_ring_prefs")));
 	g_object_set_data_full (G_OBJECT (w), "state", state, (GDestroyNotify) pie_pref_state_free);
 	g_object_unref (gui);

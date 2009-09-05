@@ -128,7 +128,7 @@ gog_contour_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotContour");
 }
 
-static void 
+static void
 gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 				    GogEnumFunc func, gpointer data)
 {
@@ -290,10 +290,10 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (data == NULL)
 		return;
 
-	x_map = gog_axis_map_new (plot->base.axis[0], 
+	x_map = gog_axis_map_new (plot->base.axis[0],
 				  view->residual.x , view->residual.w);
-	y_map = gog_axis_map_new (plot->base.axis[1], 
-				  view->residual.y + view->residual.h, 
+	y_map = gog_axis_map_new (plot->base.axis[1],
+				  view->residual.y + view->residual.h,
 				  -view->residual.h);
 
 	if (!(gog_axis_map_is_valid (x_map) &&
@@ -939,7 +939,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 								lasty = y[k];
 								go_path_line_to (path, lastx, lasty);
 							} else
-								k++;	
+								k++;
 						}
 						while (z[r] <= zmin && r > 0)
 							r--;

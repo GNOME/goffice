@@ -572,7 +572,7 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 	if (s->prop_object != NULL) {
 		gog_child_button_set_object (GOG_CHILD_BUTTON (s->child_button), s->prop_object);
 
-		/* if we ever go back to the typeselector be sure to 
+		/* if we ever go back to the typeselector be sure to
 		 * add the plot to the last selected chart */
 		s->chart = (GogChart *)
 			gog_object_get_parent_typed (obj, GOG_TYPE_CHART);
@@ -776,7 +776,7 @@ cb_canvas_select_item (GocCanvas *canvas, GdkEvent *event,
 			g_return_val_if_fail (GOC_IS_CANVAS (canvas), FALSE);
 
 			g_object_get (G_OBJECT(s->sample_graph_item), "x", &item_x, "y", &item_y, NULL);
-			gog_graph_view_handle_event (s->graph_view, (GdkEvent *) event, 
+			gog_graph_view_handle_event (s->graph_view, (GdkEvent *) event,
 						     item_x * canvas->pixels_per_unit,
 						     item_y * canvas->pixels_per_unit);
 			return TRUE;
@@ -946,7 +946,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 	/* Connect to selection-changed signal of graph view */
 	g_object_get (G_OBJECT (s->sample_graph_item), "renderer", &rend, NULL);
 	g_object_get (G_OBJECT (rend), "view", &(s->graph_view), NULL);
-	s->selection_changed_handler = g_signal_connect (G_OBJECT (s->graph_view), "selection-changed", 
+	s->selection_changed_handler = g_signal_connect (G_OBJECT (s->graph_view), "selection-changed",
 							 G_CALLBACK (cb_graph_selection_changed), s);
 	g_object_unref (G_OBJECT (rend));
 
@@ -977,7 +977,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 	w = go_gtk_builder_get_widget (s->gui, "attr_window");
 	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (s->prop_view));
 	gtk_widget_show_all (w);
-	
+
 }
 
 static void
@@ -1031,9 +1031,9 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *s)
 		   s->register_closure != NULL && s->graph != NULL) {
 		/* Invoking closure */
 		GValue instance_and_params[2];
-		gpointer data = s->register_closure->is_invalid ? 
+		gpointer data = s->register_closure->is_invalid ?
 			NULL : s->register_closure->data;
-		
+
 		instance_and_params[0].g_type = 0;
 		g_value_init (&instance_and_params[0], GOG_TYPE_GRAPH);
 		g_value_set_instance (&instance_and_params[0], s->graph);
@@ -1068,9 +1068,9 @@ graph_guru_init_button (GraphGuruState *s, char const *widget_name)
 static GtkWidget *
 graph_guru_init_ok_button (GraphGuruState *s)
 {
-	GtkButton *button = GTK_BUTTON (gtk_builder_get_object 
+	GtkButton *button = GTK_BUTTON (gtk_builder_get_object
 				       (s->gui, "button_ok"));
-	
+
 	if (s->editing) {
 		gtk_button_set_label (button, GTK_STOCK_APPLY);
 		gtk_button_set_use_stock (button, TRUE);
@@ -1166,7 +1166,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	gtk_widget_set_size_request (typesel->canvas,
 		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
 		MINOR_PIXMAP_HEIGHT*3 + BORDER*5);
-	gtk_container_add (GTK_CONTAINER (gtk_builder_get_object (gui, "canvas_container")), 
+	gtk_container_add (GTK_CONTAINER (gtk_builder_get_object (gui, "canvas_container")),
 			   typesel->canvas);
 
 	/* Init the list and the canvas group for each family */

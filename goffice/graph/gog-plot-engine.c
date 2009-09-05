@@ -200,7 +200,7 @@ cb_pending_plot_types_load (char const *path,
 							}
 
 							if (type->properties == NULL)
-								type->properties = 
+								type->properties =
 									g_hash_table_new_full (g_str_hash, g_str_equal,
 											       xmlFree, xmlFree);
 							g_hash_table_replace (type->properties,
@@ -384,7 +384,7 @@ gog_theme_service_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo
 			}
 			theme = gog_theme_new_from_file (go_plugin_service_get_description (service),
 							 path);
-			gog_theme_registry_add (theme, FALSE);	
+			gog_theme_registry_add (theme, FALSE);
 		}
 }
 
@@ -770,9 +770,9 @@ gog_plot_type_register (GogPlotFamily *family, int col, int row,
 		       char const *description, char const *engine)
 {
 	GogPlotType *res;
-	
+
 	g_return_val_if_fail (family != NULL, NULL);
-	
+
 	res = g_new0 (GogPlotType, 1);
 	res->name = g_strdup (name);
 	res->sample_image_file = g_strdup (sample_image_file);

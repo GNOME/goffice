@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-polynom-reg.c :  
+ * gog-polynom-reg.c :
  *
  * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -160,7 +160,7 @@ gog_polynom_reg_curve_get_equation (GogRegCurve *curve)
 				else {
 					g_string_append_len (str, minus_utf8, minus_utf8_len);
 					c_i = -c_i;
-				}				
+				}
 				g_string_append_c (str, ' ');
 			}
 

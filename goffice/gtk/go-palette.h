@@ -54,7 +54,7 @@ struct _GOPalette
 
 struct _GOPaletteClass
 {
-	GtkMenuClass parent_class;	
+	GtkMenuClass parent_class;
 
 	/* signals */
 	void (*activate)		(GtkWidget *palette, int index);

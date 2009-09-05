@@ -1,11 +1,11 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * goc-circle.c :  
+ * goc-circle.c :
  *
  * Copyright (C) 2009 Jean Brefort (jean.brefort@normalesup.org)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -80,7 +80,7 @@ goc_circle_get_property (GObject *gobject, guint param_id,
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
-	}	
+	}
 }
 
 static double
@@ -156,19 +156,19 @@ goc_circle_class_init (GocItemClass *item_klass)
 	obj_klass->get_property = goc_circle_get_property;
 	obj_klass->set_property = goc_circle_set_property;
 	g_object_class_install_property (obj_klass, CIRCLE_PROP_X,
-		g_param_spec_double ("x", 
+		g_param_spec_double ("x",
 			_("x"),
 			_("The circle center horizontal position"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, CIRCLE_PROP_Y,
-		g_param_spec_double ("y", 
+		g_param_spec_double ("y",
 			_("y"),
 			_("The circle center vertical position"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, CIRCLE_PROP_R,
-		g_param_spec_double ("radius", 
+		g_param_spec_double ("radius",
 			_("Radius"),
 			_("The circle radius"),
 			0., G_MAXDOUBLE, 0.,

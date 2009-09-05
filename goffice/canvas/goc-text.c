@@ -4,8 +4,8 @@
  *
  * Copyright (C) 2009 Jean Brefort (jean.brefort@normalesup.org)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -351,7 +351,7 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	cairo_move_to (cr, 0., 0.);
 	if (text->clip_height > 0. && text->clip_width > 0.) {
 		cairo_rectangle (cr, 0., 0., text->clip_width, text->clip_height);
-		cairo_clip (cr); 
+		cairo_clip (cr);
 	}
 	pango_cairo_show_layout (cr, pl);
 	cairo_restore (cr);
@@ -400,19 +400,19 @@ goc_text_class_init (GocItemClass *item_klass)
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, TEXT_PROP_ROTATION,
-		g_param_spec_double ("rotation", 
+		g_param_spec_double ("rotation",
 			_("Rotation"),
 			_("The rotation around the anchor"),
 			0., 2 * M_PI, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, TEXT_PROP_ANCHOR,
-		g_param_spec_enum ("anchor", 
+		g_param_spec_enum ("anchor",
 			_("Anchor"),
 			_("The anchor point for the text"),
 			GTK_TYPE_ANCHOR_TYPE, GTK_ANCHOR_CENTER,
 		        GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, TEXT_PROP_TEXT,
-		g_param_spec_string ("text", 
+		g_param_spec_string ("text",
 			_("Text"),
 			_("The text to display"), NULL,
  			GSF_PARAM_STATIC | G_PARAM_READWRITE));

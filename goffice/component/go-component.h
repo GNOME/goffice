@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-component.h :  
+ * go-component.h :
  *
  * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
  *

@@ -55,7 +55,7 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality
 	double *data;
 	unsigned *grid;
 	unsigned n = plot->rows * plot->columns;
-	unsigned kmax = gog_series_get_xyz_data (GOG_SERIES (series), 
+	unsigned kmax = gog_series_get_xyz_data (GOG_SERIES (series),
 						 &x_vals, &y_vals, &z_vals);
 	unsigned imax = plot->rows;
 	unsigned jmax = plot->columns;
@@ -66,7 +66,7 @@ gog_xyz_surface_plot_build_matrix (GogXYZPlot const *plot, gboolean *cardinality
 
 	data = g_new0 (double, n);
 	grid = g_new0 (unsigned, n);
-	
+
 	for (k = 0; k < kmax; ++k) {
 		j = (int) floor ((x_vals[k] - xmin) / xinc + 0.5);
 		i = (int) floor ((y_vals[k] - ymin) / yinc + 0.5);
@@ -200,7 +200,7 @@ gog_xyz_surface_plot_update (GogObject *obj)
 	series = GOG_XYZ_SERIES (model->base.series->data);
 	if (!gog_series_is_valid (GOG_SERIES (series)))
 		return;
-	
+
 	go_data_get_bounds (series->base.values[0].data, &tmp_min, &tmp_max);
 	if (!go_finite (tmp_min) || !go_finite (tmp_max) ||
 	    tmp_min > tmp_max) {
@@ -307,16 +307,16 @@ common_init_class (GogXYZPlotClass *klass)
 	gobject_klass->set_property = gog_xyz_surface_plot_set_property;
 	gobject_klass->get_property = gog_xyz_surface_plot_get_property;
 	g_object_class_install_property (gobject_klass, XYZ_SURFACE_PROP_ROWS,
-		g_param_spec_uint ("rows", 
+		g_param_spec_uint ("rows",
 			_("Rows"),
 			_("Number of rows"),
-			2, 1000, 10, 
+			2, 1000, 10,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, XYZ_SURFACE_PROP_COLUMNS,
-		g_param_spec_uint ("columns", 
+		g_param_spec_uint ("columns",
 			_("Columns"),
 			_("Number of columns"),
-			2, 1000, 10, 
+			2, 1000, 10,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_object_klass->update	= gog_xyz_surface_plot_update;

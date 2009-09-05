@@ -177,7 +177,7 @@ real_god_text_model_set_text (GodTextModel *text,
 
 	g_free (text->priv->text_cache);
 	text->priv->text_cache = NULL;
-	
+
 	if (text->priv->paragraphs) {
 		for (i = 0; i < text->priv->paragraphs->len; i++) {
 			g_free (PARAGRAPH(i)->text);
@@ -190,7 +190,7 @@ real_god_text_model_set_text (GodTextModel *text,
 	}
 
 	text->priv->paragraphs = g_array_new (TRUE, TRUE, sizeof (GodTextModelParagraph));
-	
+
 	paras = g_strsplit (text_value, "\r", 0);
 	for (i = 0; paras[i]; i++) {
 		GodTextModelParagraph paragraph;

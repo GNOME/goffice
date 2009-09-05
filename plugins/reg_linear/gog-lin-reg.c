@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-lin-reg.c :  
+ * gog-lin-reg.c :
  *
  * Copyright (C) 2005-2006 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -261,16 +261,16 @@ gog_lin_reg_curve_class_init (GogRegCurveClass *reg_curve_klass)
 	lin_klass->build_values = gog_lin_reg_curve_build_values;
 
 	g_object_class_install_property (gobject_klass, REG_LIN_REG_CURVE_PROP_AFFINE,
-		g_param_spec_boolean ("affine", 
+		g_param_spec_boolean ("affine",
 			_("Affine"),
 			_("If true, a non-zero constant is allowed"),
-			TRUE, 
+			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, REG_LIN_REG_CURVE_PROP_DIMS,
-		g_param_spec_uint ("dims", 
+		g_param_spec_uint ("dims",
 			_("Dims"),
 			_("Number of x-vectors"),
-		       	1, 10, 1, 
+		       	1, 10, 1,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE|GO_PARAM_PERSISTENT));
 }
 

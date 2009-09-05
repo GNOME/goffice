@@ -486,7 +486,7 @@ gog_renderer_fill_shape (GogRenderer *renderer, GOPath const *path)
  * @rend: #GogRenderer
  * @path: a #GOPath
  *
- * Defines the current clipping region. 
+ * Defines the current clipping region.
  **/
 
 void
@@ -510,7 +510,7 @@ gog_renderer_push_clip (GogRenderer *rend, GOPath const *path)
  * @w: width of clipping rectangle
  * @h: height of clipping rectangle
  *
- * Defines a rectangular clipping region. For efficient screen rendering, 
+ * Defines a rectangular clipping region. For efficient screen rendering,
  * this function takes care to round the coordinates.
  **/
 
@@ -1075,7 +1075,7 @@ gog_renderer_update (GogRenderer *rend, double w, double h)
 	return redraw;
 }
 
-/** 
+/**
  * gog_renderer_get_pixbuf:
  * @renderer : #GogRenderer
  *
@@ -1192,7 +1192,7 @@ gog_renderer_render_to_cairo (GogRenderer *renderer, cairo_t *cairo, double widt
  * @y_dpi: y resolution of exported graph
  *
  * Exports an image of @graph in given @format, writing results in a #GsfOutput stream.
- * If export format type is a bitmap one, it computes image size with x_dpi, y_dpi and 
+ * If export format type is a bitmap one, it computes image size with x_dpi, y_dpi and
  * @graph size (see gog_graph_get_size()).
  *
  * returns: %TRUE if export succeed.

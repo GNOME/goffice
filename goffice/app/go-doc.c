@@ -352,7 +352,7 @@ go_doc_add_image (GODoc *doc, char const *id, GOImage *image)
 	int i = 0;
 	char *new_id;
 #ifdef HAVE_G_HASH_TABLE_ITER_INIT
-	GHashTableIter iter; 	 
+	GHashTableIter iter;
 	char const *key;
 #else
 	struct check_for_pixbuf cl;
@@ -494,12 +494,12 @@ void
 go_doc_read (GODoc *doc, GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static GsfXMLInNode const dtd[] = {
-		GSF_XML_IN_NODE 	(DOC, DOC, 
-					 -1, "GODoc", 
+		GSF_XML_IN_NODE 	(DOC, DOC,
+					 -1, "GODoc",
 					 FALSE, NULL, NULL),
 		GSF_XML_IN_NODE 	(DOC, IMAGE,
-					 -1, "GOImage", 
-					 GSF_XML_CONTENT, 
+					 -1, "GOImage",
+					 GSF_XML_CONTENT,
 					 &load_image, &load_image_data),
 		GSF_XML_IN_NODE_END
 	};

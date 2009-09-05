@@ -28,7 +28,7 @@
 static void
 go_line_dash_palette_render_func (cairo_t *cr,
 				  GdkRectangle const *area,
-				  int index, 
+				  int index,
 				  gpointer data)
 {
 	GOLineDashSequence *sequence;
@@ -83,13 +83,13 @@ go_line_dash_selector_new (GOLineDashType initial_type,
 	GtkWidget *palette;
 	GtkWidget *selector;
 
-	palette = go_palette_new (GO_LINE_MAX, 3.0, 3, 
-				  go_line_dash_palette_render_func, 
+	palette = go_palette_new (GO_LINE_MAX, 3.0, 3,
+				  go_line_dash_palette_render_func,
 				  go_line_dash_palette_get_tooltip_func,
 				  NULL, NULL);
-	go_palette_show_automatic (GO_PALETTE (palette), 
+	go_palette_show_automatic (GO_PALETTE (palette),
 				   CLAMP (default_type, 0, GO_LINE_MAX -1),
-				   NULL); 	
+				   NULL);
 	selector = go_selector_new (GO_PALETTE (palette));
 	go_selector_set_active (GO_SELECTOR (selector),
 				CLAMP (initial_type, 0, GO_LINE_MAX - 1));

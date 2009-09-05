@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * goc-polygon.c :  
+ * goc-polygon.c :
  *
  * Copyright (C) 2008 Jean Brefort (jean.brefort@normalesup.org)
  *
@@ -227,10 +227,10 @@ goc_polygon_class_init (GocItemClass *item_klass)
 				     GOC_TYPE_POINTS,
 				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, POLYGON_PROP_SPLINE,
-		g_param_spec_boolean ("use-spline", 
+		g_param_spec_boolean ("use-spline",
 				      _("Use spline"),
 				      _("Use a Bezier closed cubic spline as contour"),
-				      FALSE, 
+				      FALSE,
 				      GSF_PARAM_STATIC | G_PARAM_READABLE));
 
 	item_klass->update_bounds = goc_polygon_update_bounds;

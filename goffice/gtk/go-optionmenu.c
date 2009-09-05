@@ -12,7 +12,7 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the GTK AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  *
  *
  * This library is free software; you can redistribute it and/or
@@ -158,7 +158,7 @@ go_option_menu_position (GtkMenu  *menu,
 	}
 
 	screen_width = gdk_screen_get_width (gtk_widget_get_screen (widget));
-  
+
 	if (menu_xpos + menu_width > screen_width)
 		menu_xpos -= (menu_xpos + menu_width) - screen_width;
 	if (menu_xpos < 0)
@@ -206,7 +206,7 @@ go_option_menu_key_press (GtkWidget   *widget,
 				0, event->time);
 		return TRUE;
 	}
-  
+
 	return FALSE;
 }
 
@@ -233,13 +233,13 @@ handle_menu_signals (GOOptionMenu *option_menu, gboolean connect)
 				gtk_menu_item_get_submenu (GTK_MENU_ITEM (child));
 
 			if (sub)
-				children = g_list_concat (children, 
+				children = g_list_concat (children,
 							  gtk_container_get_children (GTK_CONTAINER (sub)));
 			else if (connect)
 				g_signal_connect (child, "activate",
 						  G_CALLBACK (cb_select),
 						  option_menu);
-			
+
 			else
 				g_signal_handlers_disconnect_by_func
 					(child, G_CALLBACK (cb_select), option_menu);
@@ -315,9 +315,9 @@ go_option_menu_set_history (GOOptionMenu *option_menu, GSList *selection)
 /**
  * go_option_menu_get_history:
  * @option_menu: a #GOOptionMenu
- * 
+ *
  * Retrieves the currently selected menu item.
- * 
+ *
  * Return value: the selected menu_item
  **/
 
@@ -340,7 +340,7 @@ go_option_menu_set_property (GObject            *object,
 	case PROP_MENU:
 		go_option_menu_set_menu (option_menu, g_value_get_object (value));
 		break;
-      
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
@@ -359,7 +359,7 @@ go_option_menu_get_property (GObject            *object,
 	case PROP_MENU:
 		g_value_set_object (value, option_menu->menu);
 		break;
-      
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;

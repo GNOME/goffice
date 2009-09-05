@@ -356,7 +356,7 @@ go_menu_pixmaps_add_element (GOMenuPixmaps *menu,
 	col = col % menu->cols;
 
 	button = gtk_menu_item_new ();
-	gtk_container_add (GTK_CONTAINER (button), 
+	gtk_container_add (GTK_CONTAINER (button),
 		gtk_image_new_from_pixbuf (pixbuf));
 	g_object_unref ((GdkPixbuf *)pixbuf);
 	g_object_set_data (G_OBJECT (button),

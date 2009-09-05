@@ -82,12 +82,12 @@ go_pattern_selector_new (GOPatternType initial_type,
 	palette = go_palette_new (GO_PATTERN_MAX, 1.0, 5,
 				  go_pattern_palette_render_func, NULL,
 				  state, g_free);
-	go_palette_show_automatic (GO_PALETTE (palette), 
+	go_palette_show_automatic (GO_PALETTE (palette),
 				   CLAMP (default_type, 0, GO_PATTERN_MAX - 1),
 				   NULL);
 
 	selector = go_selector_new (GO_PALETTE (palette));
-	go_selector_set_active (GO_SELECTOR (selector), 
+	go_selector_set_active (GO_SELECTOR (selector),
 				     CLAMP (initial_type, 0, GO_PATTERN_MAX -1));
 
 	return selector;
@@ -102,8 +102,8 @@ go_pattern_selector_new (GOPatternType initial_type,
  * Updates swatch colors of @selector.
  **/
 void
-go_pattern_selector_set_colors (GOSelector *selector, 
-				GOColor foreground, 
+go_pattern_selector_set_colors (GOSelector *selector,
+				GOColor foreground,
 				GOColor background)
 {
 	GOPatternSelectorState *state;

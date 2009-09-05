@@ -759,7 +759,7 @@ modfl (long double x, long double *iptr)
 		if (x >= 0)
 			return x - (*iptr = floorl (x));
 		else
-			return x - (*iptr = -floorl (-x));			
+			return x - (*iptr = -floorl (-x));
 	} else {
 		*iptr = x;
 		return 0;

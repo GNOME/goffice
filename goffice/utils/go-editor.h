@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-editor.h : 
+ * go-editor.h :
  *
  * Copyright (C) 2003-2009 Jody Goldberg (jody@gnome.org)
  *
@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
- 
+
 #ifndef GO_EDITOR_H
 #define GO_EDITOR_H
 
@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 typedef struct {
 	char const	*label;		/* label for notebook page */
-	gpointer 	 widget;	/* GtkWidget* */	
+	gpointer 	 widget;	/* GtkWidget* */
 } GOEditorPage;
 
 struct _GOEditor {

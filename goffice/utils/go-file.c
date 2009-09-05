@@ -749,7 +749,7 @@ go_get_file_permissions (char const *uri)
 		file_permissions->others_execute = FALSE;
 #endif /* G_OS_WIN32 */
 	}
-		
+
 	if (info)
 		g_object_unref (info);
 	g_object_unref (file);
@@ -864,7 +864,7 @@ go_file_get_date (char const *uri, GOFileDateType type)
 		tm = (time_t) g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_CHANGED);
 		break;
 	}
-		
+
 	if (info)
 		g_object_unref (info);
 	g_object_unref (file);
@@ -1211,8 +1211,8 @@ go_file_access (char const *uri, gint mode)
 #else
 	ret = access (filename, mode);
 #endif
-	
+
 	g_free (filename);
-	
+
 	return ret;
 }
