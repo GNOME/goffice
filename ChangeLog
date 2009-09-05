@@ -1,3 +1,8 @@
+2009-09-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-equation.c (gog_equation_finalize),
+	(gog_equation_view_finalize): call parent class finalize methods. [#594189]
+
 2009-09-04  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Conditional use of Use AM_SILENT_RULES (if automake-1.11 is present).

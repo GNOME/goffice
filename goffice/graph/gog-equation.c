@@ -305,6 +305,7 @@ gog_equation_finalize (GObject *object)
 	if (equation->mathml)
 		g_object_unref (equation->mathml);
 	g_free (equation->itex);
+	((GObjectClass *) equation_parent_klass)->finalize (object);
 }
 
 static void
@@ -424,6 +425,7 @@ gog_equation_view_finalize (GObject *object)
 
 	if (view->mathml_view != NULL)
 		g_object_unref (view->mathml_view);
+	((GObjectClass *) equation_view_parent_klass)->finalize (object);
 }
 
 static void
