@@ -55,10 +55,8 @@ static GogObjectClass *plot1_5d_parent_klass;
 static void
 gog_plot_1_5d_clear_formats (GogPlot1_5d *plot)
 {
-	if (plot->fmt != NULL) {
-		go_format_unref (plot->fmt);
-		plot->fmt = NULL;
-	}
+	go_format_unref (plot->fmt);
+	plot->fmt = NULL;
 }
 
 static void

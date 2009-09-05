@@ -3589,45 +3589,29 @@ _go_number_format_shutdown (void)
 {
 	GHashTable *tmp;
 
-	if (default_percentage_fmt) {
-		go_format_unref (default_percentage_fmt);
-		default_percentage_fmt = NULL;
-	}
+	go_format_unref (default_percentage_fmt);
+	default_percentage_fmt = NULL;
 
-	if (default_money_fmt) {
-		go_format_unref (default_money_fmt);
-		default_money_fmt = NULL;
-	}
+	go_format_unref (default_money_fmt);
+	default_money_fmt = NULL;
 
-	if (default_accounting_fmt) {
-		go_format_unref (default_accounting_fmt);
-		default_accounting_fmt = NULL;
-	}
+	go_format_unref (default_accounting_fmt);
+	default_accounting_fmt = NULL;
 
-	if (default_date_fmt) {
-		go_format_unref (default_date_fmt);
-		default_date_fmt = NULL;
-	}
+	go_format_unref (default_date_fmt);
+	default_date_fmt = NULL;
 
-	if (default_time_fmt) {
-		go_format_unref (default_time_fmt);
-		default_time_fmt = NULL;
-	}
+	go_format_unref (default_time_fmt);
+	default_time_fmt = NULL;
 
-	if (default_date_time_fmt) {
-		go_format_unref (default_date_time_fmt);
-		default_date_time_fmt = NULL;
-	}
+	go_format_unref (default_date_time_fmt);
+	default_date_time_fmt = NULL;
 
-	if (default_general_fmt) {
-		go_format_unref (default_general_fmt);
-		default_general_fmt = NULL;
-	}
+	go_format_unref (default_general_fmt);
+	default_general_fmt = NULL;
 
-	if (default_empty_fmt) {
-		go_format_unref (default_empty_fmt);
-		default_empty_fmt = NULL;
-	}
+	go_format_unref (default_empty_fmt);
+	default_empty_fmt = NULL;
 
 	tmp = style_format_hash;
 	style_format_hash = NULL;

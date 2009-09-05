@@ -1138,10 +1138,8 @@ go_format_sel_finalize (GObject *obj)
 	g_free (gfs->locale);
 	gfs->locale = NULL;
 
-	if (gfs->format.spec) {
-		go_format_unref (gfs->format.spec);
-		gfs->format.spec = NULL;
-	}
+	go_format_unref (gfs->format.spec);
+	gfs->format.spec = NULL;
 
 	if (gfs->format.size_group) {
 		g_object_unref (gfs->format.size_group);

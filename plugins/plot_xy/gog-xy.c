@@ -73,14 +73,11 @@ static void gog_2d_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *
 static void
 gog_2d_plot_clear_formats (Gog2DPlot *plot2d)
 {
-	if (plot2d->x.fmt != NULL) {
-		go_format_unref (plot2d->x.fmt);
-		plot2d->x.fmt = NULL;
-	}
-	if (plot2d->y.fmt != NULL) {
-		go_format_unref (plot2d->y.fmt);
-		plot2d->y.fmt = NULL;
-	}
+	go_format_unref (plot2d->x.fmt);
+	plot2d->x.fmt = NULL;
+
+	go_format_unref (plot2d->y.fmt);
+	plot2d->y.fmt = NULL;
 }
 
 static void
@@ -604,10 +601,8 @@ static GogObjectClass *map_parent_klass;
 static void
 gog_xy_color_plot_clear_formats (GogXYColorPlot *map)
 {
-	if (map->z.fmt != NULL) {
-		go_format_unref (map->z.fmt);
-		map->z.fmt = NULL;
-	}
+	go_format_unref (map->z.fmt);
+	map->z.fmt = NULL;
 }
 
 static void

@@ -53,14 +53,11 @@ static GogObjectClass *histogram_plot_parent_klass;
 static void
 gog_histogram_plot_clear_formats (GogHistogramPlot *model)
 {
-	if (model->x.fmt != NULL) {
-		go_format_unref (model->x.fmt);
-		model->x.fmt = NULL;
-	}
-	if (model->y.fmt != NULL) {
-		go_format_unref (model->y.fmt);
-		model->y.fmt = NULL;
-	}
+	go_format_unref (model->x.fmt);
+	model->x.fmt = NULL;
+
+	go_format_unref (model->y.fmt);
+	model->y.fmt = NULL;
 }
 
 static char const *

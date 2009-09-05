@@ -151,18 +151,14 @@ gog_xyz_plot_get_y_vals (GogXYZPlot *plot)
 static void
 gog_xyz_plot_clear_formats (GogXYZPlot *plot)
 {
-	if (plot->x.fmt != NULL) {
-		go_format_unref (plot->x.fmt);
-		plot->x.fmt = NULL;
-	}
-	if (plot->y.fmt != NULL) {
-		go_format_unref (plot->y.fmt);
-		plot->y.fmt = NULL;
-	}
-	if (plot->z.fmt != NULL) {
-		go_format_unref (plot->z.fmt);
-		plot->z.fmt = NULL;
-	}
+	go_format_unref (plot->x.fmt);
+	plot->x.fmt = NULL;
+
+	go_format_unref (plot->y.fmt);
+	plot->y.fmt = NULL;
+
+	go_format_unref (plot->z.fmt);
+	plot->z.fmt = NULL;
 }
 
 static void
