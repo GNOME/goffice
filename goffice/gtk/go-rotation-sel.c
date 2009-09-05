@@ -64,7 +64,7 @@ cb_rotate_changed (GORotationSel *grs)
 	for (i = 0 ; i <= 12 ; i++)
 		if (grs->rotate_marks[i] != NULL) {
 			GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (grs->rotate_marks[i]));
-			colour = (grs->angle == (i-6)*15) ? GO_RGBA_GREEN : GO_RGBA_BLACK;
+			colour = (grs->angle == (i-6)*15) ? GO_COLOR_GREEN : GO_COLOR_BLACK;
 			if (style->fill.pattern.back != colour){
 				style->fill.pattern.back = colour;
 				goc_item_invalidate (grs->rotate_marks[i]);
@@ -121,14 +121,14 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 			NULL);
 		go_style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 		go_style->line.width = 1.;
-		go_style->line.color = GO_RGBA_BLACK;
-		go_style->fill.pattern.back = GO_RGBA_BLACK;
+		go_style->line.color = GO_COLOR_BLACK;
+		go_style->fill.pattern.back = GO_COLOR_BLACK;
 		grs->rotate_marks[i] = item;
 	}
 	grs->line = goc_item_new (group, GOC_TYPE_LINE, NULL);
 	go_style = go_styled_object_get_style (GO_STYLED_OBJECT (grs->line));
 	go_style->line.width = 2.;
-	go_style->line.color = GO_RGBA_BLACK;
+	go_style->line.color = GO_COLOR_BLACK;
 
 	{
 		int w, h;

@@ -840,16 +840,16 @@ get_map_color (double z, gboolean hide_outliers)
 	if (hide_outliers && (z < 0. || z > 6.))
 		return 0;
 	if (z <= 0.)
-		return GO_RGBA_BLUE;
+		return GO_COLOR_BLUE;
 	if (z <= 1.)
-		return GO_RGBA_BLUE + ((int) (z * 255.) << 16);
+		return GO_COLOR_BLUE + ((int) (z * 255.) << 16);
 	if (z <= 2.)
-		return GO_RGBA_GREEN + ((int) ((2. - z) * 255) << 8);
+		return GO_COLOR_GREEN + ((int) ((2. - z) * 255) << 8);
 	if (z <= 4.)
-		return GO_RGBA_GREEN + ((int) ((z / 2. - 1.) * 255) << 24);
+		return GO_COLOR_GREEN + ((int) ((z / 2. - 1.) * 255) << 24);
 	if (z <= 6.)
-		return GO_RGBA_RED + ((int) ((3. - z / 2.) * 255) << 16);
-	return GO_RGBA_RED;
+		return GO_COLOR_RED + ((int) ((3. - z / 2.) * 255) << 16);
+	return GO_COLOR_RED;
 }
 
 typedef struct {
@@ -1118,7 +1118,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				neg_style = go_style_dup (GOG_STYLED_OBJECT (series)->style);
 				neg_style->fill.type = GO_STYLE_FILL_PATTERN;
 				neg_style->fill.pattern.pattern = GO_PATTERN_SOLID;
-				neg_style->fill.pattern.back = GO_RGBA_WHITE;
+				neg_style->fill.pattern.back = GO_COLOR_WHITE;
 			}
 		}
 

@@ -156,7 +156,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 	/* build the colors table */
 	color = g_new0 (GOColor, (j > 0)? j: 1);
 	if (j < 2)
-		color[0] = GO_RGBA_WHITE;
+		color[0] = GO_COLOR_WHITE;
 	else for (i = 0; i < j; i++) {
 		gog_theme_fillin_style (theme, style, GOG_OBJECT (plot->series->data), i, style->interesting_fields);
 		color[i] = style->fill.pattern.back;
@@ -332,7 +332,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	/* build the colors table */
 	color = g_new0 (GOColor, max);
 	if (max < 2)
-		color[0] = GO_RGBA_WHITE;
+		color[0] = GO_COLOR_WHITE;
 	else for (i = 0; i < (unsigned) max; i++) {
 		gog_theme_fillin_style (theme, style, GOG_OBJECT (series), i, style->interesting_fields);
 		color[i] = style->fill.pattern.back;

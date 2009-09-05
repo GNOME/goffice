@@ -140,11 +140,11 @@ goc_circle_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 	if (style->line.auto_dash)
 		style->line.dash_type = GO_LINE_SOLID;
 	if (style->line.auto_color)
-		style->line.color = GO_RGBA_BLACK;
+		style->line.color = GO_COLOR_BLACK;
 	if (style->fill.auto_type)
 		style->fill.type  = GO_STYLE_FILL_PATTERN;
 	if (style->fill.auto_fore)
-		go_pattern_set_solid (&style->fill.pattern, GO_RGBA_WHITE);
+		go_pattern_set_solid (&style->fill.pattern, GO_COLOR_WHITE);
 }
 
 static void

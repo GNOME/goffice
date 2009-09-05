@@ -538,14 +538,14 @@ static struct {
 	char const *name;
 	GOColor	go_color;
 } const format_colors[] = {
-	{ N_("Black"),	 GO_RGBA_BLACK },
-	{ N_("Blue"),	 GO_RGBA_BLUE },
-	{ N_("Cyan"),	 GO_RGBA_CYAN },
-	{ N_("Green"),	 GO_RGBA_GREEN },
-	{ N_("Magenta"), GO_RGBA_VIOLET },
-	{ N_("Red"),	 GO_RGBA_RED },
-	{ N_("White"),	 GO_RGBA_WHITE },
-	{ N_("Yellow"),	 GO_RGBA_YELLOW }
+	{ N_("Black"),	 GO_COLOR_BLACK },
+	{ N_("Blue"),	 GO_COLOR_BLUE },
+	{ N_("Cyan"),	 GO_COLOR_CYAN },
+	{ N_("Green"),	 GO_COLOR_GREEN },
+	{ N_("Magenta"), GO_COLOR_VIOLET },
+	{ N_("Red"),	 GO_COLOR_RED },
+	{ N_("White"),	 GO_COLOR_WHITE },
+	{ N_("Yellow"),	 GO_COLOR_YELLOW }
 };
 
 /*
@@ -5869,8 +5869,8 @@ go_format_output_date_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				ODF_CLOSE_STRING;
 				gsf_xml_out_start_element (xout, STYLE "text-properties");
 				str = g_strdup_printf ("#%.2X%.2X%.2X", 
-						       GO_UINT_RGBA_R (color), GO_UINT_RGBA_G (color), 
-						       GO_UINT_RGBA_B (color));
+						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color), 
+						       GO_COLOR_UINT_B (color));
 				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
 				g_free (str);
 				gsf_xml_out_end_element (xout); /*<style:text-properties>*/
@@ -6033,8 +6033,8 @@ go_format_output_fraction_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				ODF_CLOSE_STRING;
 				gsf_xml_out_start_element (xout, STYLE "text-properties");
 				str = g_strdup_printf ("#%.2X%.2X%.2X", 
-						       GO_UINT_RGBA_R (color), GO_UINT_RGBA_G (color), 
-						       GO_UINT_RGBA_B (color));
+						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color), 
+						       GO_COLOR_UINT_B (color));
 				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
 				g_free (str);
 				gsf_xml_out_end_element (xout); /*<style:text-properties>*/
@@ -6235,8 +6235,8 @@ go_format_output_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				ODF_WRITE_NUMBER;
 				gsf_xml_out_start_element (xout, STYLE "text-properties");
 				str = g_strdup_printf ("#%.2X%.2X%.2X", 
-						       GO_UINT_RGBA_R (color), GO_UINT_RGBA_G (color), 
-						       GO_UINT_RGBA_B (color));
+						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color), 
+						       GO_COLOR_UINT_B (color));
 				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
 				g_free (str);
 				gsf_xml_out_end_element (xout); /*<style:text-properties>*/
@@ -6482,8 +6482,8 @@ go_format_output_scientific_number_to_odf (GsfXMLOut *xout, GOFormat const *fmt,
 				ODF_CLOSE_STRING;
 				gsf_xml_out_start_element (xout, STYLE "text-properties");
 				str = g_strdup_printf ("#%.2X%.2X%.2X", 
-						       GO_UINT_RGBA_R (color), GO_UINT_RGBA_G (color), 
-						       GO_UINT_RGBA_B (color));
+						       GO_COLOR_UINT_R (color), GO_COLOR_UINT_G (color), 
+						       GO_COLOR_UINT_B (color));
 				gsf_xml_out_add_cstr_unchecked (xout, FOSTYLE "color", str);
 				g_free (str);
 				gsf_xml_out_end_element (xout); /*<style:text-properties>*/

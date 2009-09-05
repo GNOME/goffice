@@ -241,7 +241,7 @@ goc_line_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 	if (style->line.auto_dash)
 		style->line.dash_type = GO_LINE_SOLID;
 	if (style->line.auto_color)
-		style->line.color = GO_RGBA_BLACK;
+		style->line.color = GO_COLOR_BLACK;
 	if (style->line.auto_fore)
 		style->line.fore  = 0;
 }

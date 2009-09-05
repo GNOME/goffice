@@ -1,5 +1,9 @@
 2009-09-05  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* all files: renamed go-color.h macros.
+
+2009-09-05  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-equation.c (gog_equation_finalize),
 	(gog_equation_view_finalize): call parent class finalize methods. [#594189]
 

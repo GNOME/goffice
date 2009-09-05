@@ -225,7 +225,7 @@ gog_error_bar_prefs (GogSeries *series,
 		editor->width = editor->bar->width;
 		editor->display = editor->bar->display;
 	} else {
-		editor->color = GO_RGBA_BLACK;
+		editor->color = GO_COLOR_BLACK;
 		editor->line_width = 1.;
 		editor->width = 5.;
 		editor->display = GOG_ERROR_BAR_DISPLAY_BOTH;
@@ -253,7 +253,7 @@ gog_error_bar_prefs (GogSeries *series,
 	style_table = GTK_TABLE (gtk_builder_get_object (gui, "style_table"));
 
 	/* Color */
-	w = go_color_selector_new (editor->color, GO_RGBA_BLACK, "error-bar");
+	w = go_color_selector_new (editor->color, GO_COLOR_BLACK, "error-bar");
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (gtk_builder_get_object (gui, "color_label")), w);
 	g_signal_connect (G_OBJECT (w),
@@ -333,7 +333,7 @@ gog_error_bar_init (GogErrorBar* bar)
 	bar->width = 5.;
 	bar->style = go_style_new ();
 	bar->style->interesting_fields = GO_STYLE_LINE;
-	bar->style->line.color = GO_RGBA_BLACK;
+	bar->style->line.color = GO_COLOR_BLACK;
 	bar->style->line.width = 1.;
 }
 
@@ -430,7 +430,7 @@ gog_error_bar_persist_sax_save (GOPersist const *gp, GsfXMLOut *output)
 		gsf_xml_out_add_float (output, "width", bar->width, 6);
 	if (bar->style->line.width != 1.)
 		gsf_xml_out_add_float (output, "line_width", bar->style->line.width, 6);
-	if (bar->style->line.color != GO_RGBA_BLACK)
+	if (bar->style->line.color != GO_COLOR_BLACK)
 		go_xml_out_add_color (output, "color", bar->style->line.color);
 }
 

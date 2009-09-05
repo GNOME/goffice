@@ -75,8 +75,8 @@ go_marker_selector_new (GOMarkerShape initial_shape,
 	GOMarkerSelectorState *state;
 
 	state = g_new (GOMarkerSelectorState, 1);
-	state->outline_color = GO_RGBA_BLACK;
-	state->fill_color = GO_RGBA_WHITE;
+	state->outline_color = GO_COLOR_BLACK;
+	state->fill_color = GO_COLOR_WHITE;
 
 	palette = go_palette_new (GO_MARKER_MAX, 1.0, 4,
 				  go_marker_palette_render_func, NULL,

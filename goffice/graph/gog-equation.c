@@ -124,10 +124,10 @@ _update_equation_style (GogEquation *equation, const GOStyle *style)
 		return;
 
 	lsm_mathml_style_set_math_color (math_style,
-				      GO_DOUBLE_RGBA_R (style->font.color),
-				      GO_DOUBLE_RGBA_G (style->font.color),
-				      GO_DOUBLE_RGBA_B (style->font.color),
-				      GO_DOUBLE_RGBA_A (style->font.color));
+				      GO_COLOR_DOUBLE_R (style->font.color),
+				      GO_COLOR_DOUBLE_G (style->font.color),
+				      GO_COLOR_DOUBLE_B (style->font.color),
+				      GO_COLOR_DOUBLE_A (style->font.color));
 
 	font_description = style->font.font->desc;
 	if (font_description != NULL) {

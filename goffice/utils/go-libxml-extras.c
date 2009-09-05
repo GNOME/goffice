@@ -169,7 +169,7 @@ go_xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *res)
 		r >>= 8;
 		g >>= 8;
 		b >>= 8;
-		*res = GO_RGBA_TO_UINT (r,g,b,0xff);
+		*res = GO_COLOR_FROM_RGBA (r,g,b,0xff);
 		xmlFree (color);
 		return TRUE;
 	}
@@ -183,7 +183,7 @@ go_xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor val)
 	unsigned r, g, b;
 	char str[4 * sizeof (val)];
 
-	GO_UINT_TO_RGB (val, &r, &g, &b);
+	GO_COLOR_TO_RGB (val, &r, &g, &b);
 	sprintf (str, "%X:%X:%X", r, g, b);
 	go_xml_node_set_cstr (node, name, str);
 }
