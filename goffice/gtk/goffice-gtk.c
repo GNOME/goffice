@@ -723,7 +723,7 @@ go_gui_get_image_save_info (GtkWindow *toplevel, GSList *supported_formats,
 		if (supported_formats != NULL && ret_format != NULL) {
 			int i;
 			GSList *l;
-			format_combo = GTK_COMBO_BOX (gtk_builder_get_object (gui, "format_combo"));
+			format_combo = go_gtk_builder_combo_box_init_text (gui, "format_combo");
 			for (l = supported_formats, i = 0; l != NULL; l = l->next, i++) {
 				format = GPOINTER_TO_UINT (l->data);
 				format_info = go_image_get_format_info (format);

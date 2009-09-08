@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <interface>
+  <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
     <property name="value">150</property>
@@ -30,6 +31,7 @@
         <child>
           <object class="GtkComboBox" id="format_combo">
             <property name="visible">True</property>
+            <property name="model">liststore1</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -114,5 +116,11 @@
         <property name="position">1</property>
       </packing>
     </child>
+  </object>
+  <object class="GtkListStore" id="liststore1">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
   </object>
 </interface>

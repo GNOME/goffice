@@ -1,3 +1,9 @@
+2009-09-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-image-save-dialog-extra.ui: fixed a combo box
+	 initialization.
+	* goffice/gtk/goffice-gtk.c (go_gui_get_image_save_info): ditto.
+
 2009-09-05  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
