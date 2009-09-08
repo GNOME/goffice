@@ -1,3 +1,9 @@
+2009-09-08  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fixed empty combos after the libglade to gtkbuilder transition.
+
+	* goffice/graph/gog-object.c (gog_object_populate_editor): here.
+
 2009-09-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-image-save-dialog-extra.ui: fixed a combo box

@@ -399,7 +399,7 @@ gog_object_populate_editor (GogObject *gobj,
 	label_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
 	if (allowable_positions & GOG_POSITION_COMPASS) {
-		w = go_gtk_builder_get_widget (gui, "position_combo");
+		w = GTK_WIDGET (go_gtk_builder_combo_box_init_text (gui, "position_combo"));
 		gtk_size_group_add_widget (widget_size_group, w);
 		flags = gog_object_get_position_flags (gobj, GOG_POSITION_COMPASS);
 		for (i = 0; i < G_N_ELEMENTS (position_compass); i++) {
@@ -416,7 +416,7 @@ gog_object_populate_editor (GogObject *gobj,
 	}
 
 	if (allowable_positions & GOG_POSITION_COMPASS) {
-		w = go_gtk_builder_get_widget (gui, "alignment_combo");
+		w = GTK_WIDGET (go_gtk_builder_combo_box_init_text (gui, "alignment_combo"));
 		gtk_size_group_add_widget (widget_size_group, w);
 		flags = gog_object_get_position_flags (gobj, GOG_POSITION_ALIGNMENT);
 		for (i = 0; i < G_N_ELEMENTS (position_alignment); i++) {
@@ -460,7 +460,7 @@ gog_object_populate_editor (GogObject *gobj,
 
 		w = go_gtk_builder_get_widget (gui, "anchor_label");
 		gtk_size_group_add_widget (label_size_group, w);
-		w =  go_gtk_builder_get_widget (gui, "anchor_combo");
+		w =  GTK_WIDGET (go_gtk_builder_combo_box_init_text (gui, "anchor_combo"));
 		flags = gog_object_get_position_flags (gobj, GOG_POSITION_ANCHOR);
 		for (i = 0; i < G_N_ELEMENTS (position_anchor); i++) {
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _(position_anchor[i].label));
