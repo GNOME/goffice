@@ -1,3 +1,8 @@
+2009-09-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/goffice-sections.txt: make things work again after
+	go-plugin-service names changes.
+
 2009-09-08  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fixed empty combos after the libglade to gtkbuilder transition.
