@@ -43,13 +43,40 @@
 		<chapter>
 			<title>Utilities</title>
 			<xi:include href="xml/gog-renderer.xml"/>
-			<xi:include href="xml/gog-control-foocanvas.xml"/>
 			<xi:include href="xml/gog-guru.xml"/>
 			<xi:include href="xml/gog-tool.xml"/>
 			<xi:include href="xml/gog-plot-engine.xml"/>
 			<xi:include href="xml/gog-theme.xml"/>
 			<xi:include href="xml/gog-chart-map.xml"/>
 			<xi:include href="xml/gog-axis-map.xml"/>
+		</chapter>
+	</part>
+	<part>
+		<title>Canvas</title>
+		<chapter>
+			<title>Base objects</title>
+			<xi:include href="xml/goc-canvas.xml"/>
+			<xi:include href="xml/goc-item.xml"/>
+			<xi:include href="xml/goc-group.xml"/>
+			<xi:include href="xml/goc-styled-item.xml"/>
+		</chapter>
+		<chapter>
+			<title>Items</title>
+			<xi:include href="xml/goc-circle.xml"/>
+			<xi:include href="xml/goc-ellipse.xml"/>
+			<xi:include href="xml/goc-graph.xml"/>
+			<xi:include href="xml/goc-line.xml"/>
+			<xi:include href="xml/goc-pixbuf.xml"/>
+			<xi:include href="xml/goc-polygon.xml"/>
+			<xi:include href="xml/goc-polyline.xml"/>
+			<xi:include href="xml/goc-rectangle.xml"/>
+			<xi:include href="xml/goc-text.xml"/>
+			<xi:include href="xml/goc-widget.xml"/>
+		</chapter>
+		<chapter>
+			<title>Utilities</title>
+			<xi:include href="xml/goc-structs.xml"/>
+			<xi:include href="xml/goc-utils.xml"/>
 		</chapter>
 	</part>
 	<part>

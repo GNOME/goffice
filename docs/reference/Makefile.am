@@ -8,7 +8,7 @@ DOC_SOURCE_DIR=../../goffice
 
 SCANGOBJ_OPTIONS= --nogtkinit --type-init-func="g_type_init ()"
 
-SCAN_OPTIONS= 
+SCAN_OPTIONS=
 
 MKDB_OPTIONS=--sgml-mode --output-format=xml
 
@@ -44,19 +44,7 @@ IGNORE_HFILES=	\
 		god-text-model.h			\
 		god-image-ms.h				\
 		god-drawing-ms.h			\
-		god-drawing-ms-client-handler.h 	\
-		foo-canvas-line.h			\
-		foo-canvas-pixbuf.h			\
-		foo-canvas-polygon.h			\
-		foo-canvas-rect-ellipse.h		\
-		foo-canvas-text.h			\
-		foo-canvas-util.h			\
-		foo-canvas-widget.h			\
-		foo-canvas.h				\
-		libfoocanvas.h				\
-		foo-canvas-i18n.h			\
-		foo-canvas-marshal.h			\
-		ucp.h
+		god-drawing-ms-client-handler.h
 
 if GOFFICE_WITH_LASEM
 else

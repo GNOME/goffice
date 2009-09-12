@@ -27,6 +27,14 @@
 
 G_BEGIN_DECLS
 
+struct _GocPixbuf {
+	GocItem base;
+
+	double x, y, width, height, rotation;
+	GdkPixbuf *pixbuf;
+};
+typedef GocItemClass GocPixbufClass;
+
 #define GOC_TYPE_PIXBUF	(goc_pixbuf_get_type ())
 #define GOC_PIXBUF(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_PIXBUF, GocPixbuf))
 #define GOC_IS_PIXBUF(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOC_TYPE_PIXBUF))

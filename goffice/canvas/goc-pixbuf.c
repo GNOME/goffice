@@ -35,14 +35,6 @@ enum {
 	PIXBUF_PROP_PIXBUF
 };
 
-struct _GocPixbuf {
-	GocItem base;
-
-	double x, y, width, height, rotation;
-	GdkPixbuf *pixbuf;
-};
-
-typedef GocItemClass GocPixbufClass;
 static GocItemClass *parent_class;
 
 static void

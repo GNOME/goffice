@@ -38,20 +38,20 @@ struct _GocItem {
 	double			 x0, y0, x1, y1; /* the bounds */
 };
 
-typedef struct {
+typedef struct _GocItemClass GocItemClass;
+struct _GocItemClass {
 	GObjectClass	 base;
 
 	double			(*distance) (GocItem *item,
-								 double x, double y, GocItem **near_item);
+					     double x, double y, GocItem **near_item);
 	void			(*draw) (GocItem const *item, cairo_t *cr);
 	gboolean		(*draw_region) (GocItem const *item, cairo_t *cr,
-									double x0, double y0, double x1, double y1);
+						double x0, double y0, double x1, double y1);
 	void			(*move) (GocItem *item, double x, double y);
 	void			(*update_bounds) (GocItem *item);
 	void			(*parent_changed) (GocItem *item);
-	cairo_operator_t
-					(*get_operator) (GocItem *item);
-	// events related functions
+	cairo_operator_t	(*get_operator) (GocItem *item);
+	/* events related functions */
 	gboolean		(*button_pressed) (GocItem *item, int button, double x, double y);
 	gboolean		(*button2_pressed) (GocItem *item, int button, double x, double y);
 	gboolean		(*button_released) (GocItem *item, int button, double x, double y);
@@ -63,7 +63,7 @@ typedef struct {
 	gboolean		(*key_pressed) (GocItem *item, GdkEventKey* ev);
 	gboolean		(*key_released) (GocItem *item, GdkEventKey* ev);
 	void			(*notify_scrolled) (GocItem *item);
-} GocItemClass ;
+};
 
 #define GOC_TYPE_ITEM	(goc_item_get_type ())
 #define GOC_ITEM(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_ITEM, GocItem))
@@ -73,28 +73,22 @@ typedef struct {
 
 GType goc_item_get_type (void);
 
-typedef struct {
-	GTypeInterface		   base;
-
-} GocItemClientClass;
-
 GocItem		*goc_item_new		(GocGroup *parent, GType type, const gchar *first_arg_name, ...);
 void		 goc_item_set		(GocItem *item, const gchar *first_arg_name, ...);
 double		 goc_item_distance	(GocItem *item, double x, double y, GocItem **near_item);
 void		 goc_item_draw		(GocItem const *item, cairo_t *cr);
 gboolean	 goc_item_draw_region	(GocItem const *item, cairo_t *cr,
-									 double x0, double y0, double x1, double y1);
-cairo_operator_t
-			 goc_item_get_operator  (GocItem *item);
-void		 goc_item_move			(GocItem *item, double x, double y);
+					 double x0, double y0, double x1, double y1);
+cairo_operator_t goc_item_get_operator  (GocItem *item);
+void		 goc_item_move		(GocItem *item, double x, double y);
 
 void		 goc_item_invalidate	(GocItem *item);
-void		 goc_item_show			(GocItem *item);
-void		 goc_item_hide			(GocItem *item);
+void		 goc_item_show		(GocItem *item);
+void		 goc_item_hide		(GocItem *item);
 gboolean	 goc_item_is_visible	(GocItem *item);
 void		 goc_item_get_bounds	(GocItem const *item,
-									 double *x0, double *y0,
-									 double *x1, double *y1);
+					 double *x0, double *y0,
+					 double *x1, double *y1);
 void		 goc_item_update_bounds	(GocItem *item);
 void		 goc_item_bounds_changed (GocItem *item);
 void		 goc_item_parent_changed (GocItem *item);

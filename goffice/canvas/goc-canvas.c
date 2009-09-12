@@ -267,6 +267,12 @@ GSF_CLASS (GocCanvas, goc_canvas,
 	   goc_canvas_class_init, goc_canvas_init,
 	   GTK_TYPE_LAYOUT)
 
+/**
+ * goc_canvas_get_root :
+ * @canvas : #GocCanvas
+ *
+ * Returns: the top level item of @canvas, always a #GocGroup.
+ **/
 GocGroup*
 goc_canvas_get_root (GocCanvas *canvas)
 {

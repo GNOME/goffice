@@ -34,7 +34,8 @@ struct _GocStyledItem {
 	gboolean scale_line_width;
 };
 
-typedef struct {
+typedef struct _GocStyledItemClass GocStyledItemClass;
+struct _GocStyledItemClass {
 	GocItemClass base;
 
 	/* virtual */
@@ -42,7 +43,7 @@ typedef struct {
 
 	/* signal */
 	void (*style_changed) (GocStyledItem *item, GOStyle const *new_style);
-} GocStyledItemClass;
+};
 
 #define GOC_TYPE_STYLED_ITEM	(goc_styled_item_get_type ())
 #define GOC_STYLED_ITEM(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_STYLED_ITEM, GocStyledItem))

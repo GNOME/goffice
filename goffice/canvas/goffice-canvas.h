@@ -28,20 +28,20 @@
 
 G_BEGIN_DECLS
 
-typedef struct _GocCanvas		GocCanvas;
-typedef struct _GocItem			GocItem;
-typedef struct _GocGroup		GocGroup;
-typedef struct _GocLine			GocLine;
-typedef struct _GocPixbuf		GocPixbuf;
-typedef struct _GocPolyline		GocPolyline;
-typedef struct _GocPolygon		GocPolygon;
+typedef struct _GocCanvas	GocCanvas;
+typedef struct _GocItem		GocItem;
+typedef struct _GocGroup	GocGroup;
+typedef struct _GocLine		GocLine;
+typedef struct _GocPixbuf	GocPixbuf;
+typedef struct _GocPolyline	GocPolyline;
+typedef struct _GocPolygon	GocPolygon;
 typedef struct _GocRectangle	GocRectangle;
-typedef struct _GocCircle		GocCircle;
-typedef struct _GocEllipse		GocEllipse;
+typedef struct _GocCircle	GocCircle;
+typedef struct _GocEllipse	GocEllipse;
 typedef struct _GocStyledItem	GocStyledItem;
-typedef struct _GocText			GocText;
-typedef struct _GocWidget		GocWidget;
-typedef struct _GocGraph		GocGraph;
+typedef struct _GocText		GocText;
+typedef struct _GocWidget	GocWidget;
+typedef struct _GocGraph	GocGraph;
 
 G_END_DECLS
 

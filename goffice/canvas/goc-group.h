@@ -34,7 +34,11 @@ struct _GocGroup {
 	GList			*children;
 };
 
-typedef GocItemClass GocGroupClass;
+typedef struct _GocGroupClass GocGroupClass;
+struct _GocGroupClass
+{
+	GocItemClass base;
+};
 
 #define GOC_TYPE_GROUP	(goc_group_get_type ())
 #define GOC_GROUP(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_GROUP, GocGroup))
