@@ -1,3 +1,8 @@
+2009-09-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-widget.c (goc_widget_set_property): don't destroy
+	the old widget, just remove it from the canvas.
+
 2009-09-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* docs/reference/goffice-sections.txt: make things work again after

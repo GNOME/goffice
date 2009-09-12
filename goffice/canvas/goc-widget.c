@@ -103,9 +103,8 @@ goc_widget_set_property (GObject *obj, guint param_id,
 		GtkWidget *widget = GTK_WIDGET (g_value_get_object (value));
 		if (widget == item->widget)
 			return;
-		if (item->widget) {
-			gtk_widget_destroy (item->widget);
-		}
+		if (item->widget)
+			gtk_container_remove (GTK_CONTAINER (item->base.canvas), item->widget);
 		item->widget = widget;
 		gtk_widget_show (widget);
 		gtk_layout_put (GTK_LAYOUT (GOC_ITEM (item)->canvas), widget, item->x, item->y);
