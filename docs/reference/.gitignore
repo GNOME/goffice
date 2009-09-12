@@ -1,5 +1,6 @@
 *.bak
 html
+tmpl
 xml
 Makefile
 Makefile.in
