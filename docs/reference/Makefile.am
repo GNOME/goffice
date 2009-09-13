@@ -8,7 +8,7 @@ DOC_SOURCE_DIR=../../goffice
 
 SCANGOBJ_OPTIONS= --nogtkinit --type-init-func="g_type_init ()"
 
-SCAN_OPTIONS=
+SCAN_OPTIONS=--rebuild-types
 
 MKDB_OPTIONS=--sgml-mode --output-format=xml
 
@@ -66,7 +66,15 @@ include $(top_srcdir)/gtk-doc.make
 # To work around bug #314105, we have to distribute the generated file, too.
 EXTRA_DIST += version.xml.in version.xml
 
-CLEANFILES += goffice-@GOFFICE_API_VER@-*.txt
+CLEANFILES += \
+	goffice-@GOFFICE_API_VER@-decl-list.txt	\
+	goffice-@GOFFICE_API_VER@-unused.txt	\
+	goffice-@GOFFICE_API_VER@-decl.txt   	\
+	goffice-@GOFFICE_API_VER@-undeclared.txt	\
+	goffice-@GOFFICE_API_VER@-overrides.txt	\
+	goffice-@GOFFICE_API_VER@-undocumented.txt	\
+	goffice-@GOFFICE_API_VER@.types	\
+	html/* tmpl/* xml/*
 
 $(top_srcdir)/docs/reference/version.xml:
 	cp $(top_builddir)/docs/reference/version.xml $@

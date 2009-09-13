@@ -119,6 +119,7 @@
 			<xi:include href="xml/go-cairo.xml"/>
 			<xi:include href="xml/go-path.xml"/>
 			<xi:include href="xml/go-geometry.xml"/>
+			<xi:include href="xml/go-bezier.xml"/>
 		</chapter>
 		<chapter>
 			<title>Data</title>
@@ -145,7 +146,7 @@
 		</chapter>
 		<chapter>
 			<title>Application</title>
-			<xi:include href="xml/go-app.xml"/>
+<!--		<xi:include href="xml/go-app.xml"/>	-->
 			<xi:include href="xml/go-cmd-context.xml"/>
 			<xi:include href="xml/go-doc-control.xml"/>
 			<xi:include href="xml/go-doc.xml"/>
@@ -153,7 +154,7 @@
 			<xi:include href="xml/go-plugin-loader.xml"/>
 			<xi:include href="xml/go-plugin-loader-module.xml"/>
 			<xi:include href="xml/go-plugin-service.xml"/>
-			<xi:include href="xml/go-service.xml"/>
+<!--		<xi:include href="xml/go-service.xml"/>	-->
 		</chapter>
 		<chapter>
 			<title>Components</title>

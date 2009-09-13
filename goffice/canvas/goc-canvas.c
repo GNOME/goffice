@@ -25,6 +25,13 @@
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
+/**
+ * SECTION:goc-canvas
+ * @short_description: The canvas widget
+ *
+ * The canvas widget used in gnumeric.
+ **/
+
 #ifndef HAVE_GTK_LAYOUT_GET_BIN_WINDOW
 #       define gtk_layout_get_bin_window(x) (x)->bin_window
 #endif

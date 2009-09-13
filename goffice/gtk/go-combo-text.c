@@ -10,7 +10,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 
-struct _GoComboText {
+struct _GOComboText {
 	GOComboBox parent;
 
 	GCompareFunc cmp_func;

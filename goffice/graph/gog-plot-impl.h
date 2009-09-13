@@ -91,7 +91,10 @@ typedef struct {
 #define GOG_PLOT_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_PLOT_VIEW, GogPlotView))
 #define GOG_IS_PLOT_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_PLOT_VIEW))
 
-typedef GogView		GogPlotView;
+typedef struct _GogPlotView GogPlotView;
+struct _GogPlotView {
+	GogView base;
+};
 typedef GogViewClass	GogPlotViewClass;
 GType gog_plot_view_get_type (void);
 

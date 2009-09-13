@@ -25,6 +25,31 @@
 #include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 
+/**
+ * GocItemClass:
+ * @base: the parent class
+ * @distance:
+ * @draw:
+ * @draw_region:
+ * @move:
+ * @update_bounds:
+ * @parent_changed:
+ * @get_operator:
+ * @button_pressed:
+ * @button2_pressed:
+ * @button_released:
+ * @motion:
+ * @enter_notify:
+ * @leave_notify:
+ * @realize:
+ * @unrealize:
+ * @key_pressed:
+ * @key_released:
+ * @notify_scrolled:
+ *
+ * The base class for all canvas items.
+ **/
+
 static GObjectClass *item_parent_class;
 
 static gboolean
@@ -79,17 +104,13 @@ static void
 goc_item_finalize (GObject *object)
 {
 	GocItem *item = GOC_ITEM (object);
-	if (item->canvas->last_item == item)
-		item->canvas->last_item = NULL;
-	if (GTK_WIDGET_REALIZED (item->canvas)) {
-		if (item->realized) {
-			GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
-			if (klass->unrealize)
-				klass->unrealize (item);
-			item->realized = FALSE;
+	if (item->canvas) {
+		if (item->canvas->last_item == item)
+			item->canvas->last_item = NULL;
+		if (GTK_WIDGET_REALIZED (item->canvas)) {
+			item->cached_bounds = TRUE; /* avoids a call to update_bounds */
+			goc_item_invalidate (item);
 		}
-		item->cached_bounds = TRUE; /* avois a call to update_bounds */
-		goc_item_invalidate (item);
 	}
 	if (item->parent != NULL)
 		goc_group_remove_child (item->parent, item);
@@ -361,4 +382,26 @@ goc_item_raise_to_top (GocItem *item)
 	g_return_if_fail (item->parent != NULL);
 	item->parent->children = g_list_remove (item->parent->children, item);
 	item->parent->children = g_list_append (item->parent->children, item);
+}
+
+void
+_goc_item_realize (GocItem *item)
+{
+	if (!item->realized) {
+		GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
+		if (klass->realize)
+			klass->realize (item);
+		item->realized = TRUE;
+	}
+}
+
+void
+_goc_item_unrealize (GocItem *item)
+{
+	if (item->realized) {
+		GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
+		if (klass->unrealize)
+			klass->unrealize (item);
+		item->realized = FALSE;
+	}
 }

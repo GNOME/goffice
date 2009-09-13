@@ -294,6 +294,8 @@ goc_group_add_child (GocGroup *group, GocItem *item)
 	group->children = g_list_append (group->children, item);
 	item->parent = group;
 	item->canvas = group->base.canvas;
+	if (GOC_ITEM (group)->realized)
+		_goc_item_realize (item);
 	goc_item_parent_changed (item);
 	goc_item_bounds_changed (GOC_ITEM (group));
 }
@@ -304,9 +306,13 @@ goc_group_remove_child (GocGroup *group, GocItem *item)
 	g_return_if_fail (GOC_IS_GROUP (group));
 	g_return_if_fail (GOC_IS_ITEM (item));
 	g_return_if_fail (item->parent == group);
+	if (item->canvas && item->canvas->last_item == item)
+		item->canvas->last_item = NULL;
 	group->children = g_list_remove (group->children, item);
 	item->parent = NULL;
 	item->canvas = NULL;
+	if (GOC_ITEM (group)->realized)
+		_goc_item_unrealize (item);
 	goc_item_bounds_changed (GOC_ITEM (group));
 }
 

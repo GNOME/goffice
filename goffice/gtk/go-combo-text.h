@@ -10,7 +10,7 @@ G_BEGIN_DECLS
 #define GO_COMBO_TEXT(obj)	(G_TYPE_CHECK_INSTANCE_CAST (obj, GO_TYPE_COMBO_TEXT, GOComboText))
 #define GO_IS_COMBO_TEXT(obj)	(G_TYPE_CHECK_INSTANCE_TYPE (obj, GO_TYPE_COMBO_TEXT))
 
-typedef struct _GoComboText	   GOComboText;
+typedef struct _GOComboText	   GOComboText;
 
 typedef enum {		/* begin the search from : */
 	GO_COMBO_TEXT_FROM_TOP,	/* the top of the list */

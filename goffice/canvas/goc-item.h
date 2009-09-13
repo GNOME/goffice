@@ -98,6 +98,8 @@ void		 goc_item_raise		(GocItem *item, int n);
 void		 goc_item_lower		(GocItem *item, int n);
 void		 goc_item_lower_to_bottom (GocItem *item);
 void		 goc_item_raise_to_top	(GocItem *item);
+void		 _goc_item_realize      (GocItem *item);
+void		 _goc_item_unrealize    (GocItem *item);
 
 G_END_DECLS
 
