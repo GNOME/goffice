@@ -39,11 +39,11 @@
  * Returns: a newly created struct GOBezierSpline instance which should be
  * destroyed by a call to go_bezier_spline_destroy.
  **/
-struct GOBezierSpline *
+GOBezierSpline *
 go_bezier_spline_init (double const *x, double const *y, int n, gboolean closed)
 {
 	int i, j, m = n - 1; /* having n-1 in a variable is a little optimization */
-	struct GOBezierSpline *sp;
+	GOBezierSpline *sp;
 	double *a, *b, *c, *d, t;
 
 	/* The equation to solve in the open case is
@@ -70,7 +70,7 @@ go_bezier_spline_init (double const *x, double const *y, int n, gboolean closed)
 	*/
 
 	/* Create and initialize the structure */
-	sp = g_new0 (struct GOBezierSpline, 1);
+	sp = g_new0 (GOBezierSpline, 1);
 	i = (closed)? 3 * n: 3 * n - 2;
 	sp->x = g_new (double, i);
 	sp->y = g_new (double, i);
@@ -304,7 +304,7 @@ go_bezier_spline_init (double const *x, double const *y, int n, gboolean closed)
  * Destroys the given structures after cleaning all allocated fields.
  **/
 void
-go_bezier_spline_destroy (struct GOBezierSpline *sp)
+go_bezier_spline_destroy (GOBezierSpline *sp)
 {
 	g_return_if_fail (sp);
 	g_free (sp->x);
@@ -322,7 +322,7 @@ go_bezier_spline_destroy (struct GOBezierSpline *sp)
  * go_path_free.
  **/
 GOPath *
-go_bezier_spline_to_path (struct GOBezierSpline *sp)
+go_bezier_spline_to_path (GOBezierSpline *sp)
 {
 	int i, j;
 	GOPath *path = go_path_new ();

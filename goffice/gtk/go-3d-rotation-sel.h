@@ -23,11 +23,11 @@
 
 G_BEGIN_DECLS
 
-#define GO_3D_ROTATION_SEL_TYPE	(go_3d_rotation_sel_get_type ())
+#define GO_TYPE_3D_ROTATION_SEL	(go_3d_rotation_sel_get_type ())
 #define GO_3D_ROTATION_SEL(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), \
-                                 GO_3D_ROTATION_SEL_TYPE, GO3DRotationSel))
+                                 GO_TYPE_3D_ROTATION_SEL, GO3DRotationSel))
 #define GO_IS_3D_ROTATION_SEL(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), \
-                                    GO_3D_ROTATION_SEL_TYPE))
+                                    GO_TYPE_3D_ROTATION_SEL))
 
 typedef struct _GO3DRotationSel GO3DRotationSel;
 

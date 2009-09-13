@@ -170,6 +170,7 @@
 			<xi:include href="xml/go-libxml-extras.xml"/>
 			<xi:include href="xml/go-persist.xml"/>
 			<xi:include href="xml/go-undo.xml"/>
+			<xi:include href="xml/go-string.xml"/>
 		</chapter>
 	</part>
 </book>

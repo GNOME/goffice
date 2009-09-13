@@ -1,3 +1,10 @@
+<SECTION>
+<FILE>goffice</FILE>
+GO_VAR_DECL
+libgoffice_init
+libgoffice_shutdown
+</SECTION>
+
 ### Goffice Graph
 
 ### Objects
@@ -832,6 +839,7 @@ go_charmap_sel_get_encoding_name
 
 <SECTION>
 <FILE>go-action-combo-pixmaps</FILE>
+<TITLE>GOActionComboPixmaps</TITLE>
 GO_TYPE_ACTION_COMBO_PIXMAPS
 GO_ACTION_COMBO_PIXMAPS
 GO_IS_ACTION_COMBO_PIXMAPS
@@ -844,7 +852,39 @@ go_action_combo_pixmaps_select_id
 </SECTION>
 
 <SECTION>
+<FILE>go-action-combo-stack</FILE>
+<TITLE>GOActionStack</TITLE>
+GOActionComboStack
+go_action_combo_stack_push
+go_action_combo_stack_pop
+go_action_combo_stack_truncate
+go_action_combo_stack_selection
+<SUBSECTION Standard>
+GO_ACTION_COMBO_STACK
+GO_IS_ACTION_COMBO_STACK
+GO_TYPE_ACTION_COMBO_STACK
+go_action_combo_stack_get_type
+</SECTION>
+
+<SECTION>
+<FILE>go-action-combo-text</FILE>
+<TITLE>GOActionText</TITLE>
+GOActionComboText
+GOActionComboTextSearchDir
+go_action_combo_text_add_item
+go_action_combo_text_set_width
+go_action_combo_text_get_entry
+go_action_combo_text_set_entry
+<SUBSECTION Standard>
+GO_ACTION_COMBO_TEXT
+GO_IS_ACTION_COMBO_TEXT
+GO_TYPE_ACTION_COMBO_TEXT
+go_action_combo_text_get_type
+</SECTION>
+
+<SECTION>
 <FILE>go-action-combo-color</FILE>
+<TITLE>GOActionCOLOR</TITLE>
 GO_TYPE_ACTION_COMBO_COLOR
 GO_ACTION_COMBO_COLOR
 GO_IS_ACTION_COMBO_COLOR
@@ -930,6 +970,24 @@ go_rotation_sel_get_type
 go_rotation_sel_new
 go_rotation_sel_set_rotation
 go_rotation_sel_get_rotation
+</SECTION>
+
+<SECTION>
+<FILE>go-3d-rotation-sel</FILE>
+GO_TYPE_3D_ROTATION_SEL
+GO3DRotationSel
+go_3d_rotation_sel_new
+go_3d_rotation_sel_set_matrix
+go_3d_rotation_sel_set_fov
+go_3d_rotation_sel_get_matrix
+go_3d_rotation_sel_get_psi
+go_3d_rotation_sel_get_theta
+go_3d_rotation_sel_get_phi
+go_3d_rotation_sel_get_fov
+<SUBSECTION Standard>
+GO_3D_ROTATION_SEL
+GO_IS_3D_ROTATION_SEL
+go_3d_rotation_sel_get_type
 </SECTION>
 
 <SECTION>
@@ -1292,6 +1350,7 @@ GORect
 <SECTION>
 <FILE>go-color</FILE>
 <TITLE>GOColor</TITLE>
+GOColor
 GONamedColor
 GO_COLOR_FROM_GDK
 GO_COLOR_FROM_RGB

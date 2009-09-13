@@ -433,7 +433,7 @@ GSF_CLASS (GO3DRotationSel, go_3d_rotation_sel,
 GtkWidget *
 go_3d_rotation_sel_new (void)
 {
-	return g_object_new (GO_3D_ROTATION_SEL_TYPE, NULL);
+	return g_object_new (GO_TYPE_3D_ROTATION_SEL, NULL);
 }
 
 void

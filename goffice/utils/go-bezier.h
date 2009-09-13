@@ -27,17 +27,17 @@
 
 G_BEGIN_DECLS
 
-struct GOBezierSpline {
+typedef struct {
 	double *x, *y;
 	int n;
 	gboolean closed;
-};
+} GOBezierSpline;
 
-struct GOBezierSpline *go_bezier_spline_init (double const *x, double const *y, int n,
+GOBezierSpline *go_bezier_spline_init (double const *x, double const *y, int n,
 				   gboolean closed);
-void go_bezier_spline_destroy (struct GOBezierSpline *sp);
+void go_bezier_spline_destroy (GOBezierSpline *sp);
 
-GOPath *go_bezier_spline_to_path (struct GOBezierSpline *sp);
+GOPath *go_bezier_spline_to_path (GOBezierSpline *sp);
 
 G_END_DECLS
 

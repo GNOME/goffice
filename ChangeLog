@@ -1,5 +1,17 @@
 2009-09-13  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* docs/reference/goffice-0.8-sections.txt: more API doc work.
+	* docs/reference/goffice-docs.sgml: ditto.
+	* goffice/graph/gog-chart-map.c (make_path_spline): make gtk-doc happy.
+	* goffice/gtk/go-3d-rotation-sel.c (go_3d_rotation_sel_new): renamed
+	GO_3D_ROTATION_SEL_TYPE to GO_TYPE_3D_ROTATION_SEL.
+	* goffice/gtk/go-3d-rotation-sel.h: ditto.
+	* goffice/utils/go-bezier.c (go_bezier_spline_init),
+	(go_bezier_spline_destroy), (go_bezier_spline_to_path): make gtk-doc happy.
+	* goffice/utils/go-bezier.h: ditto.
+
+2009-09-13  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* docs/reference/.gitignore: removed goffice-*-sections.txt.
 	* docs/reference/Makefile.am: do not clean goffice-*-sections.txt.
 	* docs/reference/goffice-0.8-sections.txt: added and cleaned a lot.
