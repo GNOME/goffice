@@ -228,7 +228,15 @@ goc_canvas_finalize (GObject *obj)
 {
 	GocCanvas *canvas = GOC_CANVAS (obj);
 	g_object_unref (G_OBJECT (canvas->root));
-	(parent_klass->finalize) (obj);
+	parent_klass->finalize (obj);
+}
+
+static void
+goc_canvas_dispose (GObject *obj)
+{
+	GocCanvas *canvas = GOC_CANVAS (obj);
+	goc_group_clear (canvas->root);
+	parent_klass->dispose (obj);
 }
 
 static void
@@ -236,6 +244,7 @@ goc_canvas_class_init (GObjectClass *klass)
 {
 	parent_klass = g_type_class_peek_parent (klass);
 	klass->finalize = goc_canvas_finalize;
+	klass->dispose = goc_canvas_dispose;
 }
 
 static void

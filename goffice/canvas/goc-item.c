@@ -101,7 +101,7 @@ goc_item_leave_notify (GocItem *item, double x, double y)
 }
 
 static void
-goc_item_finalize (GObject *object)
+goc_item_dispose (GObject *object)
 {
 	GocItem *item = GOC_ITEM (object);
 	if (item->canvas) {
@@ -112,9 +112,11 @@ goc_item_finalize (GObject *object)
 			goc_item_invalidate (item);
 		}
 	}
+
 	if (item->parent != NULL)
 		goc_group_remove_child (item->parent, item);
-	item_parent_class->finalize (object);
+
+	item_parent_class->dispose (object);
 }
 
 static void
@@ -130,7 +132,7 @@ goc_item_class_init (GocItemClass *item_klass)
 	item_klass->enter_notify = goc_item_enter_notify;
 	item_klass->leave_notify = goc_item_leave_notify;
 
-	obj_klass->finalize = goc_item_finalize;
+	obj_klass->dispose = goc_item_dispose;
 }
 
 static void
@@ -168,6 +170,13 @@ goc_item_new (GocGroup *group, GType type, const gchar *first_arg_name, ...)
 	}
 
 	return item;
+}
+
+void
+goc_item_destroy (GocItem *item)
+{
+	g_object_run_dispose (G_OBJECT (item));
+	g_object_unref (item);
 }
 
 void
@@ -239,7 +248,8 @@ goc_item_move (GocItem *item, double x, double y)
 		klass->move (item, x, y);
 }
 
-void goc_item_invalidate (GocItem *item)
+void
+goc_item_invalidate (GocItem *item)
 {
 	GocGroup const *parent;
 	double x0, y0, x1, y1;

@@ -47,6 +47,7 @@ struct _GocGroupClass
 GType goc_group_get_type (void);
 
 GocGroup *goc_group_new (GocGroup *parent);
+void goc_group_clear (GocGroup *group);
 void goc_group_add_child (GocGroup *parent, GocItem *item);
 void goc_group_remove_child (GocGroup *parent, GocItem *item);
 void goc_group_adjust_bounds (GocGroup const *group, double *x0, double *y0, double *x1, double *y1);

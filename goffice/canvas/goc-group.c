@@ -219,18 +219,11 @@ goc_group_notify_scrolled (GocItem *item)
 }
 
 static void
-goc_group_finalize (GObject *obj)
+goc_group_dispose (GObject *obj)
 {
 	GocGroup *group = GOC_GROUP (obj);
-	GList *l = g_list_first (group->children);
-	while (l) {
-		GOC_ITEM (l->data)->parent = NULL;
-		g_object_unref (G_OBJECT (l->data));
-		l = g_list_next (l);
-	}
-	g_list_free (group->children);
-	group->children = NULL;
-	(parent_klass->finalize) (obj);
+	goc_group_clear (group);
+	parent_klass->dispose (obj);
 }
 
 static void
@@ -241,7 +234,7 @@ goc_group_class_init (GocItemClass *item_klass)
 
 	obj_klass->get_property = goc_group_get_property;
 	obj_klass->set_property = goc_group_set_property;
-	obj_klass->finalize = goc_group_finalize;
+	obj_klass->dispose = goc_group_dispose;
 	g_object_class_install_property (obj_klass, GROUP_PROP_X,
 		g_param_spec_double ("x",
 			_("x"),
@@ -280,6 +273,16 @@ goc_group_new (GocGroup *parent)
 	goc_group_add_child (parent, GOC_ITEM (group));
 
 	return group;
+}
+
+void
+goc_group_clear (GocGroup *group)
+{
+	g_return_if_fail (GOC_IS_GROUP (group));
+	while (group->children != NULL) {
+		GocItem *child = group->children->data;
+		goc_item_destroy (child);
+	}
 }
 
 void

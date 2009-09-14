@@ -149,6 +149,8 @@ goc_widget_get_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case WIDGET_PROP_WIDGET:
 		g_value_set_object (value, item->widget);
+		break;
+
 	case WIDGET_PROP_X:
 		g_value_set_double (value, item->x);
 		break;

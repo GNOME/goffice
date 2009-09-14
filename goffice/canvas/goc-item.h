@@ -74,6 +74,7 @@ struct _GocItemClass {
 GType goc_item_get_type (void);
 
 GocItem		*goc_item_new		(GocGroup *parent, GType type, const gchar *first_arg_name, ...);
+void		 goc_item_destroy	(GocItem *item);
 void		 goc_item_set		(GocItem *item, const gchar *first_arg_name, ...);
 double		 goc_item_distance	(GocItem *item, double x, double y, GocItem **near_item);
 void		 goc_item_draw		(GocItem const *item, cairo_t *cr);

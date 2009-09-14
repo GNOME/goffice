@@ -1,3 +1,20 @@
+2009-09-13  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-widget.c (goc_widget_get_property): Add
+	missing "break".
+
+	* goffice/canvas/goc-item.c (goc_item_dispose): Rename from
+	goc_item_finalize.
+	(goc_item_destroy): New function.
+
+	* goffice/canvas/goc-group.c (goc_group_clear): New function.
+	(goc_group_dispose): Renamed from goc_group_finalize and changed
+	to simply call goc_group_clear.
+	(goc_group_class_init): Hook-up ::dispose instead of finalize.
+
+	* goffice/canvas/goc-canvas.c (goc_canvas_dispose): New handler to
+	get rid of items.
+
 2009-09-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* docs/reference/goffice-0.8-sections.txt: more API doc work.
