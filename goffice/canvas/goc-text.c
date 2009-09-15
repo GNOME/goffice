@@ -380,7 +380,6 @@ static void
 goc_text_class_init (GocItemClass *item_klass)
 {
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
-	GOStyledObjectClass *gso_klass = (GOStyledObjectClass *) item_klass;
 	GocStyledItemClass *gsi_klass = (GocStyledItemClass *) item_klass;
 	parent_class = g_type_class_peek_parent (item_klass);
 
@@ -446,7 +445,6 @@ goc_text_class_init (GocItemClass *item_klass)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	gsi_klass->init_style = goc_text_init_style;
-	gso_klass->style_changed = goc_text_style_changed;
 
 	item_klass->update_bounds = goc_text_update_bounds;
 	item_klass->distance = goc_text_distance;
@@ -455,6 +453,14 @@ goc_text_class_init (GocItemClass *item_klass)
 	item_klass->unrealize = goc_text_unrealize;
 }
 
-GSF_CLASS (GocText, goc_text,
-	   goc_text_class_init, NULL,
-	   GOC_TYPE_STYLED_ITEM)
+static void
+goc_text_item_so_init (GOStyledObjectClass *iface)
+{
+	iface->style_changed = goc_text_style_changed;
+	/* Rest of interface is defined by parent class.  */
+}
+
+GSF_CLASS_FULL (GocText, goc_text, NULL, NULL,
+		goc_text_class_init, NULL, NULL,
+		GOC_TYPE_STYLED_ITEM, 0,
+		GSF_INTERFACE (goc_text_item_so_init, GO_TYPE_STYLED_OBJECT))
