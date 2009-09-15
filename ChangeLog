@@ -1,5 +1,11 @@
 2009-09-14  Morten Welinder  <terra@gnome.org>
 
+	* goffice/canvas/goc-widget.c (goc_widget_set_widget): Split from
+	goc_widget_set_property.  Disconnect signals when changing widget.
+	Keep ref to widget.  Handle setting NULL widget.
+	(goc_widget_dispose): Set NULL widget.
+	(goc_widget_class_init): Hook up dispose method.
+
 	* goffice/canvas/goc-text.c (goc_text_class_init): Don't cast
 	klass pointer to parent's interface type and expect to get the
 	right thing!  Instead, make this implement the interface here and

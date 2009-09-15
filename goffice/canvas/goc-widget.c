@@ -27,6 +27,8 @@
 
 #include <math.h>
 
+static GObjectClass *widget_parent_class;
+
 static gboolean
 enter_notify_cb (G_GNUC_UNUSED GtkWidget *w, GdkEventCrossing *event, GocWidget *item)
 {
@@ -93,6 +95,43 @@ goc_widget_notify_scrolled (GocItem *item)
 }
 
 static void
+goc_widget_set_widget (GocWidget *item, GtkWidget *widget)
+{
+	if (widget == item->widget)
+		return;
+
+	if (item->widget) {
+		GtkWidget *parent = gtk_widget_get_parent (item->widget);
+
+		g_signal_handlers_disconnect_by_func
+			(item->widget, G_CALLBACK (enter_notify_cb), item);
+		g_signal_handlers_disconnect_by_func
+			(item->widget, G_CALLBACK (button_press_cb), item);
+
+		if (parent)
+			gtk_container_remove (GTK_CONTAINER (parent),
+					      item->widget);
+
+		g_object_unref (item->widget);
+	}
+
+	item->widget = widget;
+
+	if (widget) {
+		g_object_ref (item->widget);
+		gtk_widget_show (widget);
+		gtk_layout_put (GTK_LAYOUT (GOC_ITEM (item)->canvas),
+				widget, item->x, item->y);
+		goc_widget_notify_scrolled (GOC_ITEM (item));
+		/* we need to propagate some signals to the parent item */
+		g_signal_connect (widget, "enter-notify-event",
+				  G_CALLBACK (enter_notify_cb), item);
+		g_signal_connect (widget, "button-press-event",
+				  G_CALLBACK (button_press_cb), item);
+	}
+}
+
+static void
 goc_widget_set_property (GObject *obj, guint param_id,
 				    GValue const *value, GParamSpec *pspec)
 {
@@ -101,17 +140,7 @@ goc_widget_set_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case WIDGET_PROP_WIDGET: {
 		GtkWidget *widget = GTK_WIDGET (g_value_get_object (value));
-		if (widget == item->widget)
-			return;
-		if (item->widget)
-			gtk_container_remove (GTK_CONTAINER (item->base.canvas), item->widget);
-		item->widget = widget;
-		gtk_widget_show (widget);
-		gtk_layout_put (GTK_LAYOUT (GOC_ITEM (item)->canvas), widget, item->x, item->y);
-		goc_widget_notify_scrolled (GOC_ITEM (item));
-		/* we need to propagate some signals to the parent item */
-		g_signal_connect (widget, "enter-notify-event", G_CALLBACK (enter_notify_cb), obj);
-		g_signal_connect (widget, "button-press-event", G_CALLBACK (button_press_cb), obj);
+		goc_widget_set_widget (item, widget);
 		return;
 	}
 	case WIDGET_PROP_X:
@@ -217,12 +246,23 @@ goc_widget_update_bounds (GocItem *item)
 }
 
 static void
+goc_widget_dispose (GObject *object)
+{
+	GocWidget *item = GOC_WIDGET (object);
+	goc_widget_set_widget (item, NULL);
+	widget_parent_class->dispose (object);
+}
+
+static void
 goc_widget_class_init (GocItemClass *item_klass)
 {
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
 
+	widget_parent_class = g_type_class_peek_parent (item_klass);
+
 	obj_klass->get_property = goc_widget_get_property;
 	obj_klass->set_property = goc_widget_set_property;
+	obj_klass->dispose = goc_widget_dispose;
 
 	g_object_class_install_property (obj_klass, WIDGET_PROP_WIDGET,
 		g_param_spec_object ("widget",
