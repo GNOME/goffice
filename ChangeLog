@@ -1,5 +1,13 @@
 2009-09-16  Morten Welinder  <terra@gnome.org>
 
+	* goffice/canvas/goc-item.c (goc_item_realize,
+	goc_item_unrealize): New handlers.
+	(_goc_item_realize, _goc_item_unrealize): Simplify.
+	(goc_item_new): Simplify and avoid double-realize.
+
+	* goffice/canvas/goc-group.c (goc_group_realize,
+	goc_group_unrealize): Simplify.
+
 	* goffice/canvas/goc-polygon.c (goc_polygon_finalize): New
 	function to plug leak.
 

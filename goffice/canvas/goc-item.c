@@ -101,6 +101,28 @@ goc_item_leave_notify (GocItem *item, double x, double y)
 }
 
 static void
+goc_item_realize (GocItem *item)
+{
+	if (item->realized)
+		g_warning ("Duplicate realize for %p %s\n",
+			   item,
+			   g_type_name_from_instance ((GTypeInstance*)item));
+	else
+		item->realized = TRUE;
+}
+
+static void
+goc_item_unrealize (GocItem *item)
+{
+	if (item->realized)
+		item->realized = FALSE;
+	else
+		g_warning ("Duplicate unrealize for %p %s\n",
+			   item,
+			   g_type_name_from_instance ((GTypeInstance*)item));
+}
+
+static void
 goc_item_dispose (GObject *object)
 {
 	GocItem *item = GOC_ITEM (object);
@@ -125,6 +147,8 @@ goc_item_class_init (GocItemClass *item_klass)
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
 	item_parent_class = g_type_class_peek_parent (item_klass);
 
+	item_klass->realize = goc_item_realize;
+	item_klass->unrealize = goc_item_unrealize;
 	item_klass->button_pressed = goc_item_button_pressed;
 	item_klass->button2_pressed = goc_item_button2_pressed;
 	item_klass->button_released = goc_item_button_released;
@@ -158,16 +182,16 @@ goc_item_new (GocGroup *group, GType type, const gchar *first_arg_name, ...)
 
 	goc_group_add_child (group, item);
 
+	/* FIXME: Due to contruction-only arguments, this needs to be
+	   merged with the g_object_new above.  We cannot do this
+	   right now due to problems in GocWidget.  */
 	va_start (args, first_arg_name);
 	g_object_set_valist (G_OBJECT (item), first_arg_name, args);
 	va_end (args);
 
-	if (GTK_WIDGET_REALIZED (item->canvas)) {
-		GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
-		if (klass->realize)
-			klass->realize (item);
-		item->realized = TRUE;
-	}
+	/* This is probably a no-op.  goc_group_add_child did it.  */
+	if (GOC_ITEM (group)->realized)
+		_goc_item_realize (item);
 
 	return item;
 }
@@ -399,9 +423,7 @@ _goc_item_realize (GocItem *item)
 {
 	if (!item->realized) {
 		GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
-		if (klass->realize)
-			klass->realize (item);
-		item->realized = TRUE;
+		klass->realize (item);
 	}
 }
 
@@ -410,8 +432,6 @@ _goc_item_unrealize (GocItem *item)
 {
 	if (item->realized) {
 		GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
-		if (klass->unrealize)
-			klass->unrealize (item);
-		item->realized = FALSE;
+		klass->unrealize (item);
 	}
 }
