@@ -208,7 +208,9 @@ graph_typeselect_minor_x_y (GraphGuruTypeSelector *typesel,
 	if (item != NULL) {
 		if(item != typesel->selector)
 			graph_typeselect_minor (typesel, item);
-	//	goc_item_grab (item);
+#if 0
+		goc_item_grab (item);
+#endif
 		return TRUE;
 	}
 

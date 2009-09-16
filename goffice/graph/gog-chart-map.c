@@ -249,7 +249,6 @@ make_path_spline (GogChartMap *map,
 	double u, v;
 	double yy, yy_min, yy_max;
 	gboolean is_inverted;
-	//struct GOCSpline *splinex, *spliney;
 	GOBezierSpline *spline;
 
 	path = go_path_new ();

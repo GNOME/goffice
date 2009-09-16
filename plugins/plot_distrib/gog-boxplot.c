@@ -177,7 +177,7 @@ typedef struct {
 	GogSeries base;
 	int	 gap_percentage;
 	double vals[5];
-	double *svals; //sorted data
+	double *svals; /* sorted data */
 	int nb_valid;
 } GogBoxPlotSeries;
 typedef GogSeriesClass GogBoxPlotSeriesClass;
