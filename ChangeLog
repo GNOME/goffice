@@ -1,3 +1,8 @@
+2009-09-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-polygon.c (goc_polygon_finalize): New
+	function to plug leak.
+
 2009-09-15  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-group.c (goc_group_clear): Add sanity check.

@@ -30,9 +30,19 @@ enum {
 	POLYGON_PROP_SPLINE
 };
 
+static GocStyledItemClass *parent_class;
+
+static void
+goc_polygon_finalize (GObject *obj)
+{
+	GocPolygon *polygon = GOC_POLYGON (obj);
+	g_free (polygon->points);
+	((GObjectClass *) parent_class)->finalize (obj);
+}
+
 static void
 goc_polygon_set_property (GObject *gobject, guint param_id,
-				    GValue const *value, GParamSpec *pspec)
+			  GValue const *value, GParamSpec *pspec)
 {
 	GocPolygon *polygon = GOC_POLYGON (gobject);
 
@@ -218,10 +228,14 @@ goc_polygon_class_init (GocItemClass *item_klass)
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
 	GocStyledItemClass *gsi_klass = (GocStyledItemClass *) item_klass;
 
+	parent_class = g_type_class_peek_parent (item_klass);
+
 	gsi_klass->init_style = goc_polygon_init_style;
 
 	obj_klass->get_property = goc_polygon_get_property;
 	obj_klass->set_property = goc_polygon_set_property;
+	obj_klass->finalize = goc_polygon_finalize;
+
         g_object_class_install_property (obj_klass, POLYGON_PROP_POINTS,
                  g_param_spec_boxed ("points", _("points"), _("The polygon vertices"),
 				     GOC_TYPE_POINTS,
