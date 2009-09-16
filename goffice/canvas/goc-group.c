@@ -280,8 +280,20 @@ goc_group_clear (GocGroup *group)
 {
 	g_return_if_fail (GOC_IS_GROUP (group));
 	while (group->children != NULL) {
-		GocItem *child = group->children->data;
+		GList *this = group->children;
+		GList *next = this->next;
+		GocItem *child = this->data;
 		goc_item_destroy (child);
+		if (group->children != next) {
+			/* The most likely trigger of this is a dispose
+			   method that doesn't chain up to the parent
+			   class' dispose.  */
+			g_warning ("Trouble clearing child %p from group %p\n",
+				   child,
+				   group);
+			if (group->children == this)
+				group->children = next;
+		}
 	}
 }
 

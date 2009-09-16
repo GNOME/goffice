@@ -1,3 +1,7 @@
+2009-09-15  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-group.c (goc_group_clear): Add sanity check.
+
 2009-09-14  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-widget.c (goc_widget_set_widget): Split from
