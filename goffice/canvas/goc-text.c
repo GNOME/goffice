@@ -43,7 +43,7 @@ static GocItemClass *parent_class;
 
 static void
 goc_text_set_property (GObject *gobject, guint param_id,
-				    GValue const *value, GParamSpec *pspec)
+		       GValue const *value, GParamSpec *pspec)
 {
 	GocText *text = GOC_TEXT (gobject);
 
@@ -113,7 +113,7 @@ goc_text_set_property (GObject *gobject, guint param_id,
 
 static void
 goc_text_get_property (GObject *gobject, guint param_id,
-				    GValue *value, GParamSpec *pspec)
+		       GValue *value, GParamSpec *pspec)
 {
 	GocText *text = GOC_TEXT (gobject);
 

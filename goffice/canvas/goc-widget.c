@@ -27,7 +27,17 @@
 
 #include <math.h>
 
-static GObjectClass *widget_parent_class;
+static GocItemClass *widget_parent_class;
+
+enum {
+	WIDGET_PROP_0,
+	WIDGET_PROP_WIDGET,
+	WIDGET_PROP_X,
+	WIDGET_PROP_Y,
+	WIDGET_PROP_W,
+	WIDGET_PROP_H
+};
+
 
 static gboolean
 enter_notify_cb (G_GNUC_UNUSED GtkWidget *w, GdkEventCrossing *event, GocWidget *item)
@@ -50,14 +60,28 @@ button_press_cb (G_GNUC_UNUSED GtkWidget *w, GdkEventButton *event, GocWidget *i
 			(event->y + item->y) / item->base.canvas->pixels_per_unit + item->base.canvas->scroll_y1);
 }
 
-enum {
-	WIDGET_PROP_0,
-	WIDGET_PROP_WIDGET,
-	WIDGET_PROP_X,
-	WIDGET_PROP_Y,
-	WIDGET_PROP_W,
-	WIDGET_PROP_H
-};
+static void
+cb_canvas_changed (GocWidget *item, G_GNUC_UNUSED GParamSpec *pspec,
+		   G_GNUC_UNUSED gpointer user)
+{
+	GtkWidget *parent, *w = item->widget;
+	GocItem *gitem = (GocItem *)item;
+
+	if (!w)
+		return;
+
+	parent = gtk_widget_get_parent (w);
+	if (parent == (GtkWidget *)gitem->canvas)
+		return;
+
+	g_object_ref (w);
+	if (parent)
+		gtk_container_remove (GTK_CONTAINER (parent), w);
+	if (gitem->canvas)
+		gtk_layout_put (GTK_LAYOUT (gitem->canvas), w,
+				item->x, item->y);
+	g_object_unref (w);
+}
 
 static void
 goc_widget_notify_scrolled (GocItem *item)
@@ -67,6 +91,9 @@ goc_widget_notify_scrolled (GocItem *item)
 	GocWidget *widget = GOC_WIDGET (item);
 
 	parent = item->parent;
+	if (!parent)
+		return;
+
 	if (!item->cached_bounds)
 		goc_item_update_bounds (GOC_ITEM (item)); /* don't care about const */
 	x0 = item->x0;
@@ -120,8 +147,9 @@ goc_widget_set_widget (GocWidget *item, GtkWidget *widget)
 	if (widget) {
 		g_object_ref (item->widget);
 		gtk_widget_show (widget);
-		gtk_layout_put (GTK_LAYOUT (GOC_ITEM (item)->canvas),
-				widget, item->x, item->y);
+		if (GOC_ITEM (item)->canvas)
+			gtk_layout_put (GTK_LAYOUT (GOC_ITEM (item)->canvas),
+					widget, item->x, item->y);
 		goc_widget_notify_scrolled (GOC_ITEM (item));
 		/* we need to propagate some signals to the parent item */
 		g_signal_connect (widget, "enter-notify-event",
@@ -133,7 +161,7 @@ goc_widget_set_widget (GocWidget *item, GtkWidget *widget)
 
 static void
 goc_widget_set_property (GObject *obj, guint param_id,
-				    GValue const *value, GParamSpec *pspec)
+			 GValue const *value, GParamSpec *pspec)
 {
 	GocWidget *item = GOC_WIDGET (obj);
 
@@ -171,7 +199,7 @@ goc_widget_set_property (GObject *obj, guint param_id,
 
 static void
 goc_widget_get_property (GObject *obj, guint param_id,
-				    GValue *value, GParamSpec *pspec)
+			 GValue *value, GParamSpec *pspec)
 {
 	GocWidget *item = GOC_WIDGET (obj);
 
@@ -250,7 +278,15 @@ goc_widget_dispose (GObject *object)
 {
 	GocWidget *item = GOC_WIDGET (object);
 	goc_widget_set_widget (item, NULL);
-	widget_parent_class->dispose (object);
+	((GObjectClass *)widget_parent_class)->dispose (object);
+}
+
+static void
+goc_widget_init (GocWidget *item)
+{
+	g_signal_connect (item, "notify::canvas",
+			  G_CALLBACK (cb_canvas_changed),
+			  NULL);
 }
 
 static void
@@ -303,7 +339,7 @@ goc_widget_class_init (GocItemClass *item_klass)
 }
 
 GSF_CLASS (GocWidget, goc_widget,
-	   goc_widget_class_init, NULL,
+	   goc_widget_class_init, goc_widget_init,
 	   GOC_TYPE_ITEM)
 
 void

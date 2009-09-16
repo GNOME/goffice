@@ -24,6 +24,13 @@
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
+#include <glib/gi18n-lib.h>
+
+enum {
+	ITEM_PROP_0,
+	ITEM_PROP_CANVAS,
+	ITEM_PROP_PARENT
+};
 
 /**
  * GocItemClass:
@@ -142,10 +149,46 @@ goc_item_dispose (GObject *object)
 }
 
 static void
+goc_item_get_property (GObject *gobject, guint param_id,
+		       GValue *value, GParamSpec *pspec)
+{
+	GocItem *item = GOC_ITEM (gobject);
+
+	switch (param_id) {
+	case ITEM_PROP_CANVAS:
+		g_value_set_object (value, item->canvas);
+		break;
+
+	case ITEM_PROP_PARENT:
+		g_value_set_object (value, item->parent);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
+		return; /* NOTE : RETURN */
+	}
+}
+
+static void
 goc_item_class_init (GocItemClass *item_klass)
 {
 	GObjectClass *obj_klass = (GObjectClass *) item_klass;
 	item_parent_class = g_type_class_peek_parent (item_klass);
+
+	obj_klass->dispose = goc_item_dispose;
+	obj_klass->get_property = goc_item_get_property;
+
+	g_object_class_install_property (obj_klass, ITEM_PROP_CANVAS,
+		g_param_spec_object ("canvas",
+			_("Canvas"),
+			_("The canvas object on which the item resides"),
+			GOC_TYPE_CANVAS,
+			GSF_PARAM_STATIC | G_PARAM_READABLE));
+	g_object_class_install_property (obj_klass, ITEM_PROP_PARENT,
+		g_param_spec_object ("parent",
+			_("Parent"),
+			_("The group in which the item resides"),
+			GOC_TYPE_GROUP,
+			GSF_PARAM_STATIC | G_PARAM_READABLE));
 
 	item_klass->realize = goc_item_realize;
 	item_klass->unrealize = goc_item_unrealize;
@@ -155,8 +198,6 @@ goc_item_class_init (GocItemClass *item_klass)
 	item_klass->motion = goc_item_motion;
 	item_klass->enter_notify = goc_item_enter_notify;
 	item_klass->leave_notify = goc_item_leave_notify;
-
-	obj_klass->dispose = goc_item_dispose;
 }
 
 static void
@@ -177,21 +218,12 @@ goc_item_new (GocGroup *group, GType type, const gchar *first_arg_name, ...)
 
 	g_return_val_if_fail (GOC_IS_GROUP (group), NULL);
 
-	item = GOC_ITEM (g_object_new (type, NULL));
+	va_start (args, first_arg_name);
+	item = GOC_ITEM (g_object_new_valist (type, first_arg_name, args));
+	va_end (args);
 	g_return_val_if_fail ((item != NULL), NULL);
 
 	goc_group_add_child (group, item);
-
-	/* FIXME: Due to contruction-only arguments, this needs to be
-	   merged with the g_object_new above.  We cannot do this
-	   right now due to problems in GocWidget.  */
-	va_start (args, first_arg_name);
-	g_object_set_valist (G_OBJECT (item), first_arg_name, args);
-	va_end (args);
-
-	/* This is probably a no-op.  goc_group_add_child did it.  */
-	if (GOC_ITEM (group)->realized)
-		_goc_item_realize (item);
 
 	return item;
 }

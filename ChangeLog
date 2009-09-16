@@ -1,5 +1,19 @@
 2009-09-16  Morten Welinder  <terra@gnome.org>
 
+	* goffice/canvas/goc-widget.c (goc_widget_init,
+	cb_canvas_changed): New functions.
+	(goc_widget_notify_scrolled): Do nothing if we have no parent.
+	(goc_widget_set_widget): Handle the no-canvas-yet case.
+
+	* goffice/canvas/goc-item.c (goc_item_class_init): Add canvas and
+	parent properties.
+	(goc_item_new): Construct the new item with all its properties.
+
+	* goffice/canvas/goc-group.c (goc_group_unrealize,
+	goc_group_realize): Chain.
+	(goc_group_add_child, goc_group_remove_child): Notify item::parent
+	and item::canvas.
+
 	* goffice/canvas/goc-item.c (goc_item_realize,
 	goc_item_unrealize): New handlers.
 	(_goc_item_realize, _goc_item_unrealize): Simplify.
