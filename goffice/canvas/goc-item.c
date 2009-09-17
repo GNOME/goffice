@@ -311,10 +311,14 @@ goc_item_invalidate (GocItem *item)
 	double x0, y0, x1, y1;
 
 	g_return_if_fail (GOC_IS_ITEM (item));
+
+	parent = item->parent;
+	if (!parent)
+		return;
+
 	if (!GTK_WIDGET_REALIZED (item->canvas))
 		return;
 
-	parent = item->parent;
 	if (!item->cached_bounds)
 		goc_item_update_bounds (GOC_ITEM (item)); /* don't care about const */
 	x0 = item->x0;
