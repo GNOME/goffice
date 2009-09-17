@@ -35,9 +35,14 @@ enum {
 /**
  * GocItemClass:
  * @base: the parent class
- * @distance:
- * @draw:
- * @draw_region:
+ * @distance: returns the distance between the item and the point defined by
+ * @x and @y. When the distance is larger than a few pixels, the result is not
+ * relevant, so an approximate value or even G_MAXDOUBLE might be returned.
+ * @draw: draws the item to the cairo context.
+ * @draw_region: draws the item in the region defined by @x0, @y0, @x1 and @y1.
+ * Should return TRUE when successfull. If FALSE is returned, @draw will be
+ * called. There is no need to implement both methods for an item. Large items
+ * should implement @draw_region.
  * @move:
  * @update_bounds:
  * @parent_changed:

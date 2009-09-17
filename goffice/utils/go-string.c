@@ -194,17 +194,17 @@ go_string_new_nocopy (char *str)
 
 /**
  * go_string_new_rich :
- * @str :
- * @len : < 0 will call strlen
+ * @str : string.
+ * @byte_len : < 0 will call strlen.
  * @copy : %TRUE @str should be copied when adding to the string table.
- * @markup : optionally %NULL list, GOString steals the ref
+ * @markup : optionally %NULL list, GOString steals the ref.
  * @phonetic : optionally %NULL list of phonetic extensions, GOString steals the ref.
  *
  * Returns: a string.
  **/
 GOString *
 go_string_new_rich (char const *str,
-		    int len,
+		    int byte_len,
 		    gboolean copy,
 		    PangoAttrList *markup,
 		    GOStringPhonetic *phonetic)
@@ -224,13 +224,13 @@ go_string_new_rich (char const *str,
 	rich = g_slice_new (GOStringRichImpl);
 	rich->base.base.str	= str;
 	rich->base.hash		= g_str_hash (str);
-	rich->base.flags		= ((len > 0) ? (guint32) len : strlen (str)) | GO_STRING_IS_RICH;
+	rich->base.flags	= ((byte_len > 0) ? (guint32) byte_len : strlen (str)) | GO_STRING_IS_RICH;
 	rich->base.ref_count	= 1;
 	rich->markup		= markup;
 	rich->phonetic		= phonetic;
 	base = g_hash_table_lookup (go_strings_base, rich);
 	if (NULL == base) {
-		if (copy) rich->base.base.str = g_strndup (str, len);
+		if (copy) rich->base.base.str = g_strndup (str, byte_len);
 		g_hash_table_insert (go_strings_base, rich, rich);
 	} else {
 		go_string_ref (&base->base);

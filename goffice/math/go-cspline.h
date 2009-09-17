@@ -25,7 +25,8 @@
 
 G_BEGIN_DECLS
 
-struct GOCSpline {
+typedef struct _GOCSpline GOCSpline;
+struct _GOCSpline {
 	double const *x, *y;
 	double *a, *b, *c;
 	int n;
@@ -39,30 +40,31 @@ typedef enum {
 	GO_CSPLINE_MAX
 } GOCSplineType;
 
-struct GOCSpline *go_cspline_init (double const *x, double const *y, int n,
+GOCSpline *go_cspline_init (double const *x, double const *y, int n,
 				   unsigned limits, double c0, double cn);
-void go_cspline_destroy (struct GOCSpline *sp);
-double go_cspline_get_value (struct GOCSpline *sp, double x);
-double go_cspline_get_deriv (struct GOCSpline *sp, double x);
-double *go_cspline_get_values (struct GOCSpline *sp, double const *x, int n);
-double *go_cspline_get_derivs (struct GOCSpline *sp, double const *x, int n);
-double *go_cspline_get_integrals (struct GOCSpline *sp, double const *x, int n);
+void go_cspline_destroy (GOCSpline *sp);
+double go_cspline_get_value (GOCSpline const *sp, double x);
+double go_cspline_get_deriv (GOCSpline const *sp, double x);
+double *go_cspline_get_values (GOCSpline const *sp, double const *x, int n);
+double *go_cspline_get_derivs (GOCSpline const *sp, double const *x, int n);
+double *go_cspline_get_integrals (GOCSpline const *sp, double const *x, int n);
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
-struct GOCSplinel {
+typedef struct _GOCSplinel GOCSplinel;
+struct _GOCSplinel {
 	long double const *x, *y;
 	long double *a, *b, *c;
 	int n;
 };
 
-struct GOCSplinel *go_cspline_initl (long double const *x, long double const *y, int n,
+GOCSplinel *go_cspline_initl (long double const *x, long double const *y, int n,
 				     unsigned limits, long double a0, long double a1);
-void go_cspline_destroyl (struct GOCSplinel *sp);
-long double go_cspline_get_valuel (struct GOCSplinel *sp, long double x);
-long double go_cspline_get_derivl (struct GOCSplinel *sp, long double x);
-long double *go_cspline_get_valuesl (struct GOCSplinel *sp, long double const *x, int n);
-long double *go_cspline_get_derivsl (struct GOCSplinel *sp, long double const *x, int n);
-long double *go_cspline_get_integralsl (struct GOCSplinel *sp, long double const *x, int n);
+void go_cspline_destroyl (GOCSplinel *sp);
+long double go_cspline_get_valuel (GOCSplinel const *sp, long double x);
+long double go_cspline_get_derivl (GOCSplinel const *sp, long double x);
+long double *go_cspline_get_valuesl (GOCSplinel const *sp, long double const *x, int n);
+long double *go_cspline_get_derivsl (GOCSplinel const *sp, long double const *x, int n);
+long double *go_cspline_get_integralsl (GOCSplinel const *sp, long double const *x, int n);
 #endif
 
 G_END_DECLS

@@ -132,6 +132,8 @@
 			<title>Mathematical functions</title>
 			<xi:include href="xml/go-math.xml"/>
 			<xi:include href="xml/go-complex.xml"/>
+			<xi:include href="xml/go-cspline.xml"/>
+			<xi:include href="xml/go-distribution.xml"/>
 			<xi:include href="xml/go-fft.xml"/>
 			<xi:include href="xml/go-range.xml"/>
 			<xi:include href="xml/go-regression.xml"/>
@@ -209,4 +211,5 @@
 <xi:include href="xml/goffice-utils.xml"/>
 <xi:include href="xml/go-marshalers.xml"/>
 <xi:include href="xml/win32-stub.xml"/>
+<xi:include href="go-calendar-button.xml"/>
 -->

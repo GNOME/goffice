@@ -322,7 +322,7 @@ make_path_cspline (GogChartMap *map,
 	int i, n_valid_points = 0;
 	double *uu, *vv, u, v;
 	double p0 = 0., p1 = 0.; /* clamped derivatives */
-	struct GOCSpline *spline;
+	GOCSpline *spline;
 
 	path = go_path_new ();
 	if (n_points < 1 || !go_range_increasing (x, n_points))

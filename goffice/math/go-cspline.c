@@ -67,15 +67,15 @@
  * where a[i-1], b[i-1], c[i-1], x[i-1] and y[i-1] are the corresponding
  * members of the new structure.
  *
- * Returns: a newly created struct GOCSpline instance which should be
+ * Returns: a newly created GOCSpline instance which should be
  * destroyed by a call to go_bezier_spline_destroy.
  */
-struct SUFFIX(GOCSpline) *
+SUFFIX(GOCSpline) *
 SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 			 unsigned limits, DOUBLE c0, DOUBLE cn)
 {
 	DOUBLE *d1, *d2, *d3, *d4, h;
-	struct SUFFIX(GOCSpline) *sp;
+	SUFFIX(GOCSpline) *sp;
 	double dx1 = 0., dy1 = 0., dx2 = 0., dy2 = 0., dxn1 = 0., dxn2 = 0.;
 	int nm1, nm2, i, j, first, last;
 
@@ -83,7 +83,7 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
 	if (limits >= GO_CSPLINE_MAX || !SUFFIX(go_range_increasing) (x, n) || n < 3)
 		return NULL;
 	nm1 = n - 1;
-	sp = g_new0 (struct SUFFIX(GOCSpline), 1);
+	sp = g_new0 (SUFFIX(GOCSpline), 1);
 	sp->n = n;
 	sp->x = x;
 	sp->y = y;
@@ -199,7 +199,7 @@ SUFFIX(go_cspline_init) (DOUBLE const *x, DOUBLE const *y, int n,
  *
  * Frees the spline structure when done.
  */
-void SUFFIX(go_cspline_destroy) (struct SUFFIX(GOCSpline) *sp)
+void SUFFIX(go_cspline_destroy) (SUFFIX(GOCSpline) *sp)
 {
 	g_return_if_fail (sp);
 	g_free (sp->a);
@@ -217,7 +217,7 @@ void SUFFIX(go_cspline_destroy) (struct SUFFIX(GOCSpline) *sp)
  *
  * Returns: the interpolated value for x, or 0 if an error occurred.
  */
-DOUBLE SUFFIX(go_cspline_get_value) (struct SUFFIX(GOCSpline) *sp, DOUBLE x)
+DOUBLE SUFFIX(go_cspline_get_value) (SUFFIX(GOCSpline) const *sp, DOUBLE x)
 {
 	DOUBLE dx;
 	int n, j, k;
@@ -255,7 +255,7 @@ DOUBLE SUFFIX(go_cspline_get_value) (struct SUFFIX(GOCSpline) *sp, DOUBLE x)
  *
  * Returns: the interpolated derivative at x, or 0 if an error occurred.
  */
-DOUBLE SUFFIX(go_cspline_get_deriv) (struct SUFFIX(GOCSpline) *sp, DOUBLE x)
+DOUBLE SUFFIX(go_cspline_get_deriv) (SUFFIX(GOCSpline) const *sp, DOUBLE x)
 {
 	DOUBLE dx;
 	int n, j, k;
@@ -297,7 +297,7 @@ DOUBLE SUFFIX(go_cspline_get_deriv) (struct SUFFIX(GOCSpline) *sp, DOUBLE x)
  * be destroyed by a call to g_free when not anymore needed, or NULL if
  * an error occurred.
  */
-DOUBLE *SUFFIX(go_cspline_get_values) (struct SUFFIX(GOCSpline) *sp, DOUBLE const *x, int n)
+DOUBLE *SUFFIX(go_cspline_get_values) (SUFFIX(GOCSpline) const *sp, DOUBLE const *x, int n)
 {
 	DOUBLE *res, dx;
 	int i, j, k, jmax;
@@ -331,7 +331,7 @@ DOUBLE *SUFFIX(go_cspline_get_values) (struct SUFFIX(GOCSpline) *sp, DOUBLE cons
  * should be destroyed by a call to g_free when not anymore needed, or NULL if
  * an error occurred.
  */
-DOUBLE *SUFFIX(go_cspline_get_derivs) (struct SUFFIX(GOCSpline) *sp, DOUBLE const *x, int n)
+DOUBLE *SUFFIX(go_cspline_get_derivs) (SUFFIX(GOCSpline) const *sp, DOUBLE const *x, int n)
 {
 	DOUBLE *res, dx;
 	int i, j, k, jmax;
@@ -365,7 +365,7 @@ DOUBLE *SUFFIX(go_cspline_get_derivs) (struct SUFFIX(GOCSpline) *sp, DOUBLE cons
  * between two consecutive values stored in x. which should be destroyed by
  * a call to g_free when not anymore needed, or NULL if  an error occurred.
  */
-DOUBLE *SUFFIX(go_cspline_get_integrals) (struct SUFFIX(GOCSpline) *sp, DOUBLE const *x, int n)
+DOUBLE *SUFFIX(go_cspline_get_integrals) (SUFFIX(GOCSpline) const *sp, DOUBLE const *x, int n)
 {
 	DOUBLE *res, start, end, sum;
 	int i, j, k, jmax;
