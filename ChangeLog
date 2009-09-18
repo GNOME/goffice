@@ -1,5 +1,13 @@
 2009-09-18  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* docs/reference/goffice-0.8-sections.txt: more symbols included.
+	* goffice/component/go-component.c (go_component_get_data): make
+	gtk-doc happy.
+	* goffice/component/go-component.h: ditto.
+	* goffice/data/go-data-impl.h: ditto.
+
+2009-09-18  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* docs/reference/goffice-0.8-sections.txt: removed duplicates
 	* goffice/canvas/goc-group.c (goc_group_draw_region): remove unuseful
 	call.

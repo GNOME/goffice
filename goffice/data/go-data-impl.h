@@ -45,7 +45,7 @@ typedef struct {
 	GOData *	(*dup)	    		(GOData const *src);
 	gboolean 	(*eq)	    		(GOData const *a, GOData const *b);
 	GOFormat *	(*preferred_fmt) 	(GOData const *dat);
-	GODateConventions const*(*date_conv) 	(GOData const *dat);
+	GODateConventions const *(*date_conv) 	(GOData const *dat);
 
 	char *		(*serialize)	    	(GOData const *dat, gpointer user);
 	gboolean   	(*unserialize)	    	(GOData *dat, char const *str, gpointer user);

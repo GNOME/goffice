@@ -50,7 +50,7 @@ struct _GOComponentClass {
 
 	GtkWindow* (*edit) (GOComponent *component);
 	gboolean (*get_data) (GOComponent *component, gpointer *data, int *length,
-			      void (**clearfunc) (gpointer), gpointer *user_data);
+			      GDestroyNotify *clearfunc, gpointer *user_data);
 	void (*mime_type_set) (GOComponent* component);
 	void (*set_data) (GOComponent *component);
 	void (*set_default_size) (GOComponent* component);
@@ -81,7 +81,7 @@ void go_component_set_window (GOComponent *component, GdkWindow *window);
 void go_component_set_data (GOComponent *component,
 			    char const *data, int length);
 gboolean go_component_get_data (GOComponent *component, gpointer *data, int *length,
-				void (**clearfunc) (gpointer data), gpointer *user_data);
+				GDestroyNotify *clearfunc, gpointer *user_data);
 void go_component_set_size (GOComponent *component, double width, double height);
 gboolean go_component_is_resizable (GOComponent *component);
 gboolean go_component_is_editable (GOComponent *component);

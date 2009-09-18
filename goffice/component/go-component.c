@@ -25,6 +25,23 @@
 
 #include <gsf/gsf-impl-utils.h>
 
+/**
+ * GOComponentClass:
+ * @parent_class: the parent object class.
+ * @edit: callback for component edition.
+ * @get_data: returns the data embedded in the component.
+ * @mime_type_set:sets the mime type.
+ * @set_data: sets the data embedded in the component.
+ * @set_default_size: sets the default size for the component.
+ * @set_size: sets the requested size.
+ * @set_window: sets the window if the component uses a #GdkWindow. The new
+ * window is stored in the @window field of #GOComponent.
+ * @render: displays the contents.
+ * @changed: callback called when the component contents changed.
+ *
+ * The component base object class.
+ **/
+
 #define GO_COMPONENT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_TYPE_COMPONENT, GOComponentClass))
 
 enum {
@@ -228,7 +245,7 @@ go_component_set_data (GOComponent *component, char const *data, int length)
 
 gboolean
 go_component_get_data (GOComponent *component, gpointer *data, int *length,
-							void (**clearfunc) (gpointer), gpointer *user_data)
+		       GDestroyNotify *clearfunc, gpointer *user_data)
 {
 	GOComponentClass *klass;
 

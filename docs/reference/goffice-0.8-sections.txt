@@ -51,6 +51,13 @@ gog_object_emit_changed
 gog_object_clear_parent
 gog_object_set_parent
 gog_object_request_editor_update
+gog_object_document_changed
+gog_object_is_visible
+gog_object_set_invisible
+<SUBSECTION>
+GogObjectPosition
+GOG_POSITION_IS_PADDING
+GOG_POSITION_IS_SPECIAL
 <SUBSECTION Standard>
 GOG_TYPE_OBJECT
 GOG_OBJECT
@@ -60,6 +67,8 @@ GOG_IS_OBJECT_CLASS
 GOG_OBJECT_GET_CLASS
 <SUBSECTION Private>
 gog_object_get_type
+gog_debug
+goffice_graph_debug_level
 </SECTION>
 
 <SECTION>
@@ -72,6 +81,7 @@ GOG_TYPE_STYLED_OBJECT
 GOG_STYLED_OBJECT
 GOG_IS_STYLED_OBJECT
 GOG_STYLED_OBJECT_GET_CLASS
+gog_style_new
 <SUBSECTION Private>
 gog_styled_object_get_type
 </SECTION>
@@ -201,6 +211,8 @@ gog_chart_get_axes
 gog_chart_get_grid
 <SUBSECTION>
 gog_chart_view_get_plot_area
+<SUBSECTION>
+gog_chart_is_3d
 <SUBSECTION Standard>
 GOG_TYPE_CHART
 GOG_CHART
@@ -228,6 +240,8 @@ gog_legend_get_type
 <FILE>gog-grid</FILE>
 <TITLE>GogGrid</TITLE>
 GogGrid
+gog_grid_get_gtype
+gog_grid_set_gtype
 <SUBSECTION Standard>
 GOG_TYPE_GRID
 GOG_GRID
@@ -292,6 +306,10 @@ GOG_IS_AXIS_BASE
 gog_axis_base_get_type
 gog_axis_base_get_position
 gog_axis_base_set_position
+gog_axis_base_get_clamped_position
+gog_axis_base_get_cross_location
+gog_axis_base_get_crossed_axis
+gog_axis_base_view_label_position_request
 GogAxisBaseView
 GogAxisBaseViewClass
 GOG_TYPE_AXIS_BASE_VIEW
@@ -339,6 +357,7 @@ gog_plot_set_axis
 gog_plot_get_axis
 gog_plot_update_3d
 gog_plot_guru_helper
+gog_plot_clear_series
 <SUBSECTION>
 GogPlotView
 <SUBSECTION Standard>
@@ -379,6 +398,8 @@ gog_series_get_xyz_data
 gog_series_lines_use_markers
 gog_series_populate_fill_type_combo
 gog_series_set_fill_type
+gog_series_get_interpolation_params
+gog_series_lines_stroke
 <SUBSECTION Standard>
 GOG_TYPE_SERIES
 GOG_SERIES
@@ -489,7 +510,7 @@ gog_label_get_type
 <SECTION>
 <FILE>gog-reg-eqn</FILE>
 <TITLE>GogRegEqn</TITLE>
-<INCLUDE>goffice/graph/gog-label.h</INCLUDE>
+<INCLUDE>goffice/goffice.h</INCLUDE>
 GogRegEqn
 <SUBSECTION Standard>
 GOG_TYPE_REG_EQN
@@ -547,6 +568,7 @@ GOG_RENDERER
 GOG_IS_RENDERER
 <SUBSECTION Private>
 gog_renderer_get_type
+gog_renderer_draw_equation
 </SECTION>
 
 <SECTION>
@@ -638,6 +660,22 @@ gog_data_allocator_get_type
 </SECTION>
 
 <SECTION>
+<FILE>gog-data-editor</FILE>
+<TITLE>GogDataEditor</TITLE>
+GogDataEditor
+gog_data_editor_set_format
+gog_data_editor_set_value_double
+<SUBSECTION Standard>
+GOG_DATA_EDITOR
+GOG_IS_DATA_EDITOR
+GOG_TYPE_DATA_EDITOR
+gog_data_editor_get_type
+GOG_DATA_EDITOR_CLASS
+GOG_IS_DATA_EDITOR_CLASS
+GOG_DATA_EDITOR_GET_CLASS
+</SECTION>
+
+<SECTION>
 <FILE>gog-data-set</FILE>
 <TITLE>GogDataset</TITLE>
 GogDataset
@@ -668,6 +706,23 @@ gog_dataset_get_type
 <TITLE>GogGuru</TITLE>
 gog_guru
 gog_guru_get_help_button
+gog_guru_add_custom_widget
+</SECTION>
+
+<SECTION>
+<FILE>gog-child-button</FILE>
+GogChildButton
+GogChildButtonClass
+gog_child_button_new
+gog_child_button_set_object
+<SUBSECTION Standard>
+GOG_CHILD_BUTTON
+GOG_IS_CHILD_BUTTON
+GOG_TYPE_CHILD_BUTTON
+gog_child_button_get_type
+GOG_CHILD_BUTTON_CLASS
+GOG_IS_CHILD_BUTTON_CLASS
+GOG_CHILD_BUTTON_GET_CLASS
 </SECTION>
 
 <SECTION>
@@ -703,6 +758,7 @@ GogPlotType
 gog_plot_families
 gog_plot_family_by_name
 gog_plot_family_register
+gog_plot_family_unregister
 gog_plot_type_register
 </SECTION>
 
@@ -732,10 +788,33 @@ gog_chart_map_new
 gog_chart_map_free
 gog_chart_map_is_valid
 gog_chart_map_2D_to_view
+gog_chart_map_2D_derivative_to_view
 gog_chart_map_get_axis_map
 gog_chart_map_make_path
 gog_chart_map_make_close_path
 gog_chart_map_get_polar_parms
+</SECTION>
+
+<SECTION>
+<FILE>gog-chart-map-3d</FILE>
+<TITLE>GogChartMap3D</TITLE>
+GogChartMap3D
+gog_chart_map_3d_new
+gog_chart_map_3d_to_view
+gog_chart_map_3d_get_axis_map
+gog_chart_map_3d_is_valid
+gog_chart_map_3d_free
+</SECTION>
+
+<SECTION>
+<FILE>gog-3d-box</FILE>
+<TITLE>Gog3DBox</TITLE>
+Gog3DBox
+GOG_3D_BOX_TYPE
+<SUBSECTION Standard>
+GOG_3D_BOX
+GOG_IS_3D_BOX
+gog_3d_box_get_type
 </SECTION>
 
 <SECTION>
@@ -746,6 +825,7 @@ GogAxisMap
 gog_axis_map_new
 gog_axis_map
 gog_axis_map_to_view
+gog_axis_map_derivative_to_view
 gog_axis_map_from_view
 gog_axis_map_finite
 gog_axis_map_get_baseline
@@ -1294,6 +1374,26 @@ go_regression_stat_destroyl
 go_regression_stat_tl
 </SECTION>
 
+<SECTION>
+<FILE>go-R</FILE>
+<TITLE>Statistics</TITLE>
+go_trunc
+go_dnorm
+go_pnorm
+go_pnorm_both
+go_qnorm
+go_dlnorm
+go_plnorm
+go_qlnorm
+go_dweibull
+go_pweibull
+go_qweibull
+go_dcauchy
+go_pcauchy
+go_qcauchy
+go_pnorm_bothl
+</SECTION>
+
 ###############################################################################
 
 ### Utilities
@@ -1645,6 +1745,37 @@ go_format_locale_currency
 
 
 <SECTION>
+<FILE>datetime</FILE>
+<TITLE>Time related functions</TITLE>
+GODateConventions
+go_date_timet_to_serial_raw
+go_date_timet_to_serial
+go_date_g_to_serial
+go_date_serial_to_g
+go_date_serial_to_timet
+go_date_serial_raw_to_serial
+go_date_timet_to_seconds
+go_date_serial_raw_to_seconds
+go_date_g_months_between
+go_date_g_years_between
+go_date_weeknum
+go_basis_t
+go_date_days_between_basis
+GoCouponConvention
+go_coup_cd
+go_coupdays
+go_coupdaybs
+go_coupdaysnc
+go_date_convention_base
+go_date_conv_from_str
+go_date_conv_equal
+go_date_conv_translate
+go_date_weekday_name
+go_date_month_name
+</SECTION>
+
+
+<SECTION>
 <FILE>go-glib-extras</FILE>
 <TITLE>GOGlibExtras</TITLE>
 GOMapFunc
@@ -1814,11 +1945,14 @@ GOApp
 <FILE>go-doc-control</FILE>
 <TITLE>GODocControl</TITLE>
 GODocControl
+GODocControlClass
 GO_TYPE_DOC_CONTROL
 GO_DOC_CONTROL
 GO_IS_DOC_CONTROL
 GODocControlState
 go_doc_control_get_type
+go_doc_control_get_doc
+go_doc_control_set_doc
 <SUBSECTION Private>
 GO_DOC_CONTROL_CLASS
 GO_IS_DOC_CONTROL_CLASS
@@ -1832,6 +1966,7 @@ GO_TYPE_DOC
 GO_DOC
 GO_IS_DOC
 GODoc
+GODocClass
 go_doc_get_type
 go_doc_new_from_input
 go_doc_new_from_uri
@@ -1924,6 +2059,8 @@ go_error_export
 go_error_invalid
 <SUBSECTION Private>
 error
+progress_set
+progress_message_set
 GO_CMD_CONTEXT_CLASS
 GO_IS_CMD_CONTEXT_CLASS
 go_cmd_context_progress_set
