@@ -44,7 +44,7 @@
 
 
 /**
- * go_gtk_button_new_with_stock
+ * go_gtk_button_new_with_stock:
  * @text : button label
  * @stock_id : id for stock icon
  *
@@ -1029,7 +1029,7 @@ go_gtk_url_is_writeable (GtkWindow *parent, char const *uri,
 }
 
 /**
- * go_gtk_dialog_run
+ * go_gtk_dialog_run:
  * @dialog : #GtkDialog
  * @parent : #GtkWindow
  *

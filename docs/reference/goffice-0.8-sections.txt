@@ -553,20 +553,34 @@ gog_renderer_get_type
 <FILE>go-gtk</FILE>
 <TITLE>Gtk+</TITLE>
 <SUBSECTION Utilities>
-go_gtk_button_new_with_stock
-go_gtk_dialog_add_button
+go_gtk_editable_enters
+go_gtk_builder_new
+go_gtk_builder_signal_connect
+go_gtk_builder_signal_connect_swapped
+go_gtk_builder_get_widget
+go_gtk_builder_combo_box_init_text
+go_gtk_builder_group_value
+go_pango_measure_string
 go_gtk_dialog_run
-go_gtk_file_sel_dialog
-go_gtk_help_button_init
-go_gtk_nonmodal_dialog
+go_gtk_dialog_add_button
 go_gtk_notice_dialog
 go_gtk_notice_nonmodal_dialog
 go_gtk_query_yes_no
-go_gtk_select_image
-go_gtk_url_is_writeable
+go_gtk_button_new_with_stock
 go_gtk_widget_disable_focus
 go_gtk_window_set_transient
-go_gtk_editable_enters
+go_gtk_help_button_init
+go_gtk_nonmodal_dialog
+go_gtk_file_sel_dialog
+go_gtk_select_image
+go_gui_get_image_save_info
+go_gtk_url_is_writeable
+go_atk_setup_label
+go_dialog_guess_alternative_button_order
+go_widget_set_tooltip_text
+go_tool_item_set_tooltip_text
+go_menu_position_below
+go_gtk_url_show
 </SECTION>
 
 <SECTION>
@@ -745,39 +759,6 @@ gog_axis_map_is_inverted
 ###############################################################################
 
 ### GUI utilities
-
-<SECTION>
-<FILE>goffice-gtk</FILE>
-<TITLE>Goffice GTK related utilities</TITLE>
-go_gtk_editable_enters
-go_gtk_builder_new
-go_gtk_builder_signal_connect
-go_gtk_builder_signal_connect_swapped
-go_gtk_builder_get_widget
-go_gtk_builder_combo_box_init_text
-go_gtk_builder_group_value
-go_pango_measure_string
-go_gtk_dialog_run
-go_gtk_dialog_add_button
-go_gtk_notice_dialog
-go_gtk_notice_nonmodal_dialog
-go_gtk_query_yes_no
-go_gtk_button_new_with_stock
-go_gtk_widget_disable_focus
-go_gtk_window_set_transient
-go_gtk_help_button_init
-go_gtk_nonmodal_dialog
-go_gtk_file_sel_dialog
-go_gtk_select_image
-go_gui_get_image_save_info
-go_gtk_url_is_writeable
-go_atk_setup_label
-go_dialog_guess_alternative_button_order
-go_widget_set_tooltip_text
-go_tool_item_set_tooltip_text
-go_menu_position_below
-go_gtk_url_show
-</SECTION>
 
 <SECTION>
 <FILE>go-combo-box</FILE>
@@ -2346,11 +2327,8 @@ GOFilePermissions
 GOFileProbeLevel
 GODotDot
 go_filename_simplify
-go_url_simplify
 go_filename_from_uri
 go_filename_to_uri
-go_url_resolve_relative
-go_url_make_relative
 go_shell_arg_to_uri
 go_basename_from_uri
 go_dirname_from_uri
@@ -2367,10 +2345,6 @@ go_file_get_date_accessed
 go_file_get_date_modified
 go_file_get_date_changed
 go_file_access
-go_url_decode
-go_url_encode
-go_url_show
-go_url_check_extension
 go_get_mime_type
 go_get_mime_type_for_data
 go_mime_type_get_description
@@ -2529,8 +2503,6 @@ goc_item_set
 goc_item_distance
 goc_item_draw
 goc_item_draw_region
-goc_item_get_operator
-goc_item_move
 goc_item_invalidate
 goc_item_show
 goc_item_hide

@@ -128,7 +128,6 @@ goc_group_draw_region (GocItem const *item, cairo_t *cr,
 		}
 		goc_item_get_bounds (item, &x, &y, &x_, &y_);
 		if (x <= x1 && x_ >= x0 && y <= y1 && y_ >= y0) {
-			cairo_set_operator (cr, goc_item_get_operator (item));
 			if (!goc_item_draw_region (item, cr, x0, y0, x1, y1))
 				goc_item_draw (item, cr);
 		}

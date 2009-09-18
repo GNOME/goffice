@@ -26,6 +26,23 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+/**
+ * GocItem:
+ * @base: the parent object.
+ * @canvas: the canvas in which the item is displayed.
+ * @parent: the parent item.
+ * @cached_bounds: whether bounds have been cached in @x0, @y0, @x1 and @y1or not.
+ * @visible: whether the item is visible or hidden. A visible item needs to lie
+ * in the visible region of the canvas to be really visible.
+ * @realized: whether the item is realized or not.
+ * @x0: the lowest horizontal bound of the item.
+ * @y0: the lowest vertical bound of the item.
+ * @x1: the highest horizontal bound of the item.
+ * @y1: the highest vertical bound of the item.
+ *
+ * The virtual base object for canvas items.
+ **/
+
 enum {
 	ITEM_PROP_0,
 	ITEM_PROP_CANVAS,
@@ -43,21 +60,22 @@ enum {
  * Should return TRUE when successfull. If FALSE is returned, @draw will be
  * called. There is no need to implement both methods for an item. Large items
  * should implement @draw_region.
- * @move:
- * @update_bounds:
- * @parent_changed:
- * @get_operator:
- * @button_pressed:
- * @button2_pressed:
- * @button_released:
- * @motion:
- * @enter_notify:
- * @leave_notify:
- * @realize:
- * @unrealize:
- * @key_pressed:
- * @key_released:
- * @notify_scrolled:
+ * @update_bounds: updates the bounds stored in #GocItem as fields #x0, #y0,
+ * #x1,and #y1.
+ * @parent_changed: callback for a parent changed event.
+ * @button_pressed: callback for a button press event.
+ * @button2_pressed: callback for a double click event.
+ * @button_released: callback for a button release event.
+ * @motion: callback for a motion event.
+ * @enter_notify: callback for an enter notify event.
+ * @leave_notify: callback for a leave notify event.
+ * @realize: callback for a realizes event.
+ * @unrealize: callback for an unrealize event.
+ * @key_pressed: callback for a key press event.
+ * @key_released: callback for a key release event.
+ * @notify_scrolled: callback for a notify scrolled event. This is useful to
+ * reposition children of the GtkLayout parent of the canvas to their new
+ * position.
  *
  * The base class for all canvas items.
  **/
@@ -284,29 +302,6 @@ goc_item_draw_region (GocItem const *item, cairo_t *cr,
 
 	return (klass->draw_region)?
 		klass->draw_region (item, cr, x0, y0, x1, y1): FALSE;
-}
-
-cairo_operator_t
-goc_item_get_operator (GocItem *item)
-{
-	GocItemClass *klass;
-
-	g_return_val_if_fail (GOC_IS_ITEM (item), CAIRO_OPERATOR_OVER);
-	klass = GOC_ITEM_GET_CLASS (item);
-	g_return_val_if_fail (klass != NULL, CAIRO_OPERATOR_OVER);
-
-	return (klass->get_operator)?
-		klass->get_operator (item): CAIRO_OPERATOR_OVER;
-}
-
-void
-goc_item_move (GocItem *item, double x, double y)
-{
-	GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
-	g_return_if_fail (klass != NULL);
-
-	if (klass->move)
-		klass->move (item, x, y);
 }
 
 void

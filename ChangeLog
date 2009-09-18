@@ -1,3 +1,12 @@
+2009-09-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/goffice-0.8-sections.txt: removed duplicates
+	* goffice/canvas/goc-group.c (goc_group_draw_region): remove unuseful call.
+	* goffice/canvas/goc-item.c: update documentation and remove unused code.
+	* goffice/canvas/goc-item.h: remove unused fields.
+	* goffice/gtk/goffice-gtk.c: add missing colons.
+	* goffice/utils/go-style.c: fixed a documentation warning.
+
 2009-09-16  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-widget.c (goc_widget_init,

@@ -32,7 +32,6 @@ struct _GocItem {
 	GocCanvas		*canvas;
 	GocGroup		*parent;
 	gboolean		 cached_bounds;
-	gboolean		 needs_redraw;
 	gboolean		 visible;
 	gboolean		 realized;
 	double			 x0, y0, x1, y1; /* the bounds */
@@ -47,10 +46,8 @@ struct _GocItemClass {
 	void			(*draw) (GocItem const *item, cairo_t *cr);
 	gboolean		(*draw_region) (GocItem const *item, cairo_t *cr,
 						double x0, double y0, double x1, double y1);
-	void			(*move) (GocItem *item, double x, double y);
 	void			(*update_bounds) (GocItem *item);
 	void			(*parent_changed) (GocItem *item);
-	cairo_operator_t	(*get_operator) (GocItem *item);
 	/* events related functions */
 	gboolean		(*button_pressed) (GocItem *item, int button, double x, double y);
 	gboolean		(*button2_pressed) (GocItem *item, int button, double x, double y);
@@ -80,8 +77,6 @@ double		 goc_item_distance	(GocItem *item, double x, double y, GocItem **near_it
 void		 goc_item_draw		(GocItem const *item, cairo_t *cr);
 gboolean	 goc_item_draw_region	(GocItem const *item, cairo_t *cr,
 					 double x0, double y0, double x1, double y1);
-cairo_operator_t goc_item_get_operator  (GocItem *item);
-void		 goc_item_move		(GocItem *item, double x, double y);
 
 void		 goc_item_invalidate	(GocItem *item);
 void		 goc_item_show		(GocItem *item);

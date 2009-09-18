@@ -1087,6 +1087,7 @@ go_style_assign (GOStyle *dst, GOStyle const *src)
  * go_style_apply_theme :
  * @dst : #GOStyle
  * @src :  #GOStyle
+ * @fields: the fields to which the copy should be limited
  *
  * Merge the attributes from @src onto the elements of @dst that were not user
  * assigned (is_auto)
