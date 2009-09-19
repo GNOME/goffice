@@ -190,6 +190,7 @@ go_styled_object_set_cairo_line (GOStyledObject const *so, cairo_t *cr)
 		cairo_matrix_init_scale (&mat, scalex, scaley);
 		cairo_pattern_set_matrix (cp, &mat);
 		cairo_set_source (cr, cp);
+		cairo_pattern_destroy (cp);
 		break;
 	}
 	}
