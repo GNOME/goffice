@@ -1,3 +1,9 @@
+goffice (0.7.13-1) unstable; urgency=medium
+
+  * New upstream release. Urgency medium to keep up with gnumeric.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 20 Sep 2009 21:30:01 +0200
+
 goffice (0.7.12-1) unstable; urgency=low
 
   * New upstream release.
