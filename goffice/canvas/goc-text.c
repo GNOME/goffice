@@ -354,6 +354,7 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 		cairo_clip (cr);
 	}
 	pango_cairo_show_layout (cr, pl);
+	cairo_new_path (cr);
 	cairo_restore (cr);
 	g_object_unref (pl);
 }
