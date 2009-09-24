@@ -197,7 +197,9 @@ goc_ellipse_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 	if (style->fill.auto_type)
 		style->fill.type  = GO_STYLE_FILL_PATTERN;
 	if (style->fill.auto_fore)
-		go_pattern_set_solid (&style->fill.pattern, GO_COLOR_WHITE);
+		style->fill.pattern.fore = GO_COLOR_BLACK;
+	if (style->fill.auto_back)
+		style->fill.pattern.back = GO_COLOR_WHITE;
 }
 
 static void

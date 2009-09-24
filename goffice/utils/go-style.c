@@ -1052,10 +1052,6 @@ go_style_assign (GOStyle *dst, GOStyle const *src)
 
 	g_return_if_fail (GO_IS_STYLE (src));
 	g_return_if_fail (GO_IS_STYLE (dst));
-
-	if (GO_STYLE_FILL_IMAGE == src->fill.type &&
-	    src->fill.image.image != NULL)
-		g_object_ref (src->fill.image.image);
 	if (GO_STYLE_FILL_IMAGE == dst->fill.type) {
 		if (dst->fill.image.image != NULL)
 			g_object_unref (dst->fill.image.image);

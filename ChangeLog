@@ -1,3 +1,12 @@
+2009-09-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-circle.c (goc_circle_init_style): crrectly set
+	background and forground.
+	* goffice/canvas/goc-ellipse.c (goc_ellipse_init_style): ditto.
+	* goffice/canvas/goc-polygon.c (goc_polygon_init_style): ditto.
+	* goffice/canvas/goc-rectangle.c (goc_rectangle_init_style): ditto.
+	* goffice/utils/go-style.c (go_style_assign): don't ref an image twice.
+
 2009-09-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-text.c (goc_text_draw): purge cairo path.
