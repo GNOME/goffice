@@ -1,3 +1,11 @@
+2009-09-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/goffice-0.8-sections.txt: added a few more entries.
+	* goffice/utils/go-style.c (go_style_set_cairo_line): new function.
+	* goffice/utils/go-style.h: ditto.
+	* goffice/utils/go-styled-object.c
+	(go_styled_object_set_cairo_line): use go_style_set_cairo_line.
+
 2009-09-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-circle.c (goc_circle_init_style): crrectly set

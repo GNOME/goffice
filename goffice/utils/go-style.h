@@ -151,6 +151,7 @@ gpointer   go_style_get_editor	     	(GOStyle *style,
 					 GObject *object_with_style);
 
 cairo_pattern_t *go_style_create_cairo_pattern (GOStyle const *style, cairo_t *cr);
+gboolean go_style_set_cairo_line (GOStyle const *style, cairo_t *cr);
 
 G_END_DECLS
 

@@ -144,57 +144,10 @@ gboolean
 go_styled_object_set_cairo_line (GOStyledObject const *so, cairo_t *cr)
 {
 	GOStyle const *style;
-	double width;
-	GOLineDashSequence *line_dash;
 
 	g_return_val_if_fail (GO_IS_STYLED_OBJECT (so), FALSE);
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (so));
-	if (style->line.dash_type == GO_LINE_NONE)
-		return FALSE;
-	width = (style->line.width)? style->line.width: 1.;
-	cairo_set_line_width (cr, width);
-	cairo_set_line_cap (cr, style->line.cap);
-	cairo_set_line_join (cr, style->line.join);
-	cairo_set_miter_limit (cr, style->line.miter_limit);
-	line_dash = go_line_dash_get_sequence (style->line.dash_type, width);
-	if (style->line.cap == CAIRO_LINE_CAP_BUTT && style->line.dash_type != GO_LINE_SOLID) {
-		unsigned i;
-		for (i = 0; i < line_dash->n_dash; i++)
-			if (line_dash->dash[i] == 0.)
-				line_dash->dash[i] = width;
-	}
-	if (line_dash != NULL)
-		cairo_set_dash (cr,
-				line_dash->dash,
-				line_dash->n_dash,
-				line_dash->offset);
-	else
-		cairo_set_dash (cr, NULL, 0, 0);
-	switch (style->line.pattern) {
-	case GO_PATTERN_SOLID:
-		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
-		break;
-	case GO_PATTERN_FOREGROUND_SOLID:
-		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.fore));
-		break;
-	default: {
-		GOPattern pat;
-		double scalex = 1., scaley = 1.;
-		cairo_pattern_t *cp;
-		cairo_matrix_t mat;
-		pat.fore = style->line.fore;
-		pat.back = style->line.color;
-		pat.pattern = style->line.pattern;
-		cp = go_pattern_create_cairo_pattern (&pat, cr);
-		cairo_user_to_device_distance (cr, &scalex, &scaley);
-		cairo_matrix_init_scale (&mat, scalex, scaley);
-		cairo_pattern_set_matrix (cp, &mat);
-		cairo_set_source (cr, cp);
-		cairo_pattern_destroy (cp);
-		break;
-	}
-	}
-	return TRUE;
+	return go_style_set_cairo_line (style, cr);
 }
 
 gboolean

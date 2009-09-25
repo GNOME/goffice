@@ -1904,6 +1904,7 @@ go_style_force_auto
 go_style_get_editor
 go_style_populate_editor
 go_style_create_cairo_pattern
+go_style_set_cairo_line
 go_style_get_marker
 <SUBSECTION Standard>
 GO_TYPE_STYLE
@@ -1924,6 +1925,8 @@ go_styled_object_set_style
 go_styled_object_apply_theme
 go_styled_object_style_changed
 go_styled_object_get_document
+go_styled_object_set_cairo_fill
+go_styled_object_set_cairo_line
 <SUBSECTION Standard>
 GO_TYPE_STYLED_OBJECT
 GO_STYLED_OBJECT
