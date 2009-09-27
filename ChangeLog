@@ -1,3 +1,9 @@
+2009-09-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-style-prefs.ui: fixed unicolor gradients brightness.
+	* goffice/utils/go-style.c (fill_gradient_init),
+	(cb_fill_type_changed), (go_style_set_fill_brightness): ditto.
+
 2009-09-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* docs/reference/goffice-0.8-sections.txt: added a few more entries.

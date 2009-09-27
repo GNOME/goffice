@@ -414,6 +414,7 @@ fill_gradient_init (StylePrefState *state)
 
 	state->fill.gradient.brightness = brightness =
 		go_gtk_builder_get_widget (state->gui, "fill_brightness_scale");
+	gtk_range_set_value (GTK_RANGE (brightness), state->style->fill.gradient.brightness);
 	label = go_gtk_builder_get_widget (state->gui, "fill_brightness_label");
 	gtk_size_group_add_widget (state->fill.size_group, label);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), brightness);
@@ -595,6 +596,9 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 
 	index = CLAMP (gtk_combo_box_get_active (GTK_COMBO_BOX (menu)), 0, (int) G_N_ELEMENTS (fill_infos) - 1);
 
+	if (state->style->fill.type == GO_STYLE_FILL_GRADIENT)
+	/* we need to set brightness to 0 because of unicolor gradients recognition */
+		gtk_range_set_value (GTK_RANGE (state->fill.gradient.brightness), 0.);
 	state->style->fill.type = fill_infos[index].type;
 	state->style->fill.auto_type = FALSE;
 	set_style (state);
@@ -1996,15 +2000,17 @@ go_style_set_font (GOStyle *style, GOFont const *font)
 void
 go_style_set_fill_brightness (GOStyle *style, float brightness)
 {
+	double limit;
 	g_return_if_fail (GO_IS_STYLE (style));
 	g_return_if_fail (style->fill.type == GO_STYLE_FILL_GRADIENT);
 
 	brightness = CLAMP (brightness, 0, 100.0);
+	limit = (GO_COLOR_UINT_R (style->fill.pattern.back) + GO_COLOR_UINT_G (style->fill.pattern.back) + GO_COLOR_UINT_B (style->fill.pattern.back)) / 7.65;
 
 	style->fill.gradient.brightness = brightness;
-	style->fill.pattern.fore = (brightness < 50.)
-		? GO_COLOR_INTERPOLATE(style->fill.pattern.back, GO_COLOR_WHITE, 1. - brightness / 50.)
-		: GO_COLOR_INTERPOLATE(style->fill.pattern.back, GO_COLOR_BLACK, brightness / 50. - 1.);
+	style->fill.pattern.fore = (brightness <= limit && limit > 0.)
+		? GO_COLOR_INTERPOLATE(style->fill.pattern.back, GO_COLOR_BLACK, 1. - brightness / limit)
+		: GO_COLOR_INTERPOLATE(style->fill.pattern.back, GO_COLOR_WHITE, (brightness - limit) / (100. - limit));
 }
 
 /**
