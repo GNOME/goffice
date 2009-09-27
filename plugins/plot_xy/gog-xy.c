@@ -416,6 +416,7 @@ gog_bubble_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotBubble");
 }
 
+#ifdef GOFFICE_WITH_GTK
 extern gpointer gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc);
 static void
 gog_bubble_plot_populate_editor (GogObject *obj,
@@ -429,6 +430,7 @@ gog_bubble_plot_populate_editor (GogObject *obj,
 
 	(GOG_OBJECT_CLASS(bubble_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
 }
+#endif
 
 enum {
 	GOG_BUBBLE_PROP_0,
@@ -504,8 +506,9 @@ gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 	gobject_klass->get_property = gog_bubble_plot_get_property;
 
 	gog_klass->type_name	= gog_bubble_plot_type_name;
+#ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor	= gog_bubble_plot_populate_editor;
-
+#endif
 	gog_2d_plot_klass->adjust_bounds = gog_bubble_plot_adjust_bounds;
 
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_AS_AREA,

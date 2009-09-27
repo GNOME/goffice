@@ -196,6 +196,7 @@ gog_pie_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotPie");
 }
 
+#ifdef GOFFICE_WITH_GTK
 extern gpointer gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc);
 static void
 gog_pie_plot_populate_editor (GogObject *item,
@@ -211,6 +212,7 @@ gog_pie_plot_populate_editor (GogObject *item,
 
 	(GOG_OBJECT_CLASS(pie_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
+#endif
 
 static void
 gog_pie_plot_update (GogObject *obj)
@@ -230,7 +232,9 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 
 	gog_klass->update	= gog_pie_plot_update;
 	gog_klass->type_name	= gog_pie_plot_type_name;
+#ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor = gog_pie_plot_populate_editor;
+#endif
 	gog_klass->view_type	= gog_pie_view_get_type ();
 
 	g_object_class_install_property (gobject_klass, PLOT_PROP_INITIAL_ANGLE,
@@ -344,6 +348,7 @@ gog_ring_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotRing");
 }
 
+#ifdef GOFFICE_WITH_GTK
 extern gpointer gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc);
 static void
 gog_ring_plot_populate_editor (GogObject *item,
@@ -357,6 +362,7 @@ gog_ring_plot_populate_editor (GogObject *item,
 			     _("Properties"));
 	g_object_unref (G_OBJECT (widget));
 }
+#endif
 
 static void
 gog_ring_plot_class_init (GogPiePlotClass *pie_plot_klass)
@@ -370,7 +376,9 @@ gog_ring_plot_class_init (GogPiePlotClass *pie_plot_klass)
 	gobject_klass->get_property = gog_ring_plot_get_property;
 
 	gog_klass->type_name	= gog_ring_plot_type_name;
+#ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor = gog_ring_plot_populate_editor;
+#endif
 
 	g_object_class_install_property (gobject_klass, RING_PLOT_PROP_CENTER_SIZE,
 		g_param_spec_float ("center-size",

@@ -1,4 +1,6 @@
+if WITH_GTK
 check_PROGRAMS = pie-demo go-demo 
+endif
 
 include $(top_srcdir)/goffice.mk
 
@@ -11,3 +13,4 @@ go_demo_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 go_demo_SOURCES = go-demo.c
 
 EXTRA_DIST = go-demo.ui
+

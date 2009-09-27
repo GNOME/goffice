@@ -224,8 +224,10 @@ G_END_DECLS
 #include <goffice/graph/gog-chart-impl.h>
 #include <goffice/graph/gog-chart-map.h>
 #include <goffice/graph/gog-chart-map-3d.h>
+#ifdef GOFFICE_WITH_GTK
 #include <goffice/graph/gog-child-button.h>
 #include <goffice/graph/gog-data-allocator.h>
+#endif
 #ifdef GOFFICE_WITH_LASEM
 #include <goffice/graph/gog-equation.h>
 #endif
@@ -234,7 +236,9 @@ G_END_DECLS
 #include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-grid.h>
 #include <goffice/graph/gog-grid-line.h>
+#ifdef GOFFICE_WITH_GTK
 #include <goffice/graph/gog-guru.h>
+#endif
 #include <goffice/graph/gog-label.h>
 #include <goffice/graph/gog-legend.h>
 #include <goffice/graph/gog-object-xml.h>

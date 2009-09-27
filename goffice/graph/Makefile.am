@@ -31,7 +31,6 @@ libgoffice_graph_la_SOURCES = \
 	gog-reg-curve.c			\
 	gog-smoothed-curve.c	\
 	gog-series-lines.c		\
-	gog-data-allocator.c		\
 	gog-data-set.c			\
 	\
 	gog-renderer.c
@@ -69,14 +68,15 @@ libgoffice_graph_la_HEADERS = \
 	gog-reg-curve.h			\
 	gog-smoothed-curve.h		\
 	gog-series-lines.h		\
-	gog-data-allocator.h		\
 	gog-data-set.h			\
 	gog-renderer.h
 
 if WITH_GTK
   libgoffice_graph_la_SOURCES += gog-guru.c			\
+				 gog-data-allocator.c		\
 				 gog-child-button.c
   libgoffice_graph_la_HEADERS += gog-guru.h			\
+				 gog-data-allocator.h		\
 				 gog-child-button.h
 endif
 

@@ -28,10 +28,6 @@
 
 #include <goffice/goffice.h>
 
-#ifdef GOFFICE_WITH_GTK
-#include <gdk/gdk.h>
-#endif
-
 G_BEGIN_DECLS
 
 typedef struct {

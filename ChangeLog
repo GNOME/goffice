@@ -1,5 +1,20 @@
 2009-09-27  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/component/go-component.h: cleaned includes.
+	* goffice/goffice.h: make without-gtk build work again.
+	* goffice/graph/Makefile.am: ditto.
+	* goffice/graph/goffice-graph.h: ditto.
+	* goffice/utils/go-color.h: ditto.
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_plot_class_init):
+	* plugins/plot_pie/gog-pie.c (gog_pie_plot_class_init),
+	(gog_ring_plot_class_init): ditto.
+	* plugins/plot_radar/gog-color-polar-prefs.xml: removed unused file.
+	* plugins/plot_xy/gog-xy.c (gog_bubble_plot_class_init): make without-gtk
+	build work again.
+	* tests/Makefile.am: make check works without gtk.
+
+2009-09-27  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/utils/go-style-prefs.ui: fixed unicolor gradients brightness.
 	* goffice/utils/go-style.c (fill_gradient_init),
 	(cb_fill_type_changed), (go_style_set_fill_brightness): ditto.

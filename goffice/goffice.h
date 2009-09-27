@@ -24,6 +24,12 @@
 #include <glib.h>
 #include <goffice/goffice-features.h>
 
+#ifdef GOFFICE_WITH_GTK
+#include <gtk/gtk.h>
+#else
+#include <pango/pango.h>
+#endif
+
 #ifndef GO_VAR_DECL
 #  ifdef WIN32
 #    ifdef GOFFICE_COMPILATION
