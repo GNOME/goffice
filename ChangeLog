@@ -1,5 +1,9 @@
 2009-09-27  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* configure.in: don't allow gtk-doc if without-gtk.
+
+2009-09-27  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/component/go-component.h: cleaned includes.
 	* goffice/goffice.h: make without-gtk build work again.
 	* goffice/graph/Makefile.am: ditto.
