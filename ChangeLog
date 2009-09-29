@@ -1,5 +1,10 @@
 2009-09-29  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-widget.c (goc_widget_init): create widget far away
+	from visible area.
+
+2009-09-29  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-line.c (goc_line_class_init): fixed translatable
 	strings using a patch from Bruce Cowan. [#596003]
 	* goffice/graph/gog-series-prefs.ui: add translators comments. [#596003]

@@ -1,7 +1,7 @@
 goffice 0.7.14:
 
 Bruce Cowan:
-	* Fix some trnaslatable strings. [#596003]
+	* Fix some translatable strings. [#596003]
 
 Jean:
 	* Fix unicolor gradient brightness.

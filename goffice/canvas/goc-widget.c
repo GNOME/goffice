@@ -284,6 +284,7 @@ goc_widget_dispose (GObject *object)
 static void
 goc_widget_init (GocWidget *item)
 {
+	item->x = item->y = -G_MAXINT; /* so that it is not visible until the position is set */
 	g_signal_connect (item, "notify::canvas",
 			  G_CALLBACK (cb_canvas_changed),
 			  NULL);
