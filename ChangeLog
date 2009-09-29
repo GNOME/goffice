@@ -1,5 +1,24 @@
 2009-09-29  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-line.c (goc_line_class_init): fixed translatable
+	strings using a patch from Bruce Cowan. [#596003]
+	* goffice/graph/gog-series-prefs.ui: add translators comments. [#596003]
+	* goffice/graph/gog-series.c (gog_series_populate_editor): add tooltips
+	to the clamped spline derivatives data selectors.
+	* goffice/gtk/go-color-palette.c (go_color_palette_setup),
+	(go_color_palette_make_menu): fixed translatable
+	strings
+	* goffice/gtk/go-color-selector.c (cb_combo_custom_activate),
+	(go_color_selector_new): ditto.
+	* goffice/gtk/go-image-sel.ui: ditto.
+	* goffice/gtk/go-palette.c (go_palette_show_custom): ditto.
+	* goffice/gtk/go-rotation-sel.ui: ditto.
+	* goffice/utils/go-style-prefs.ui: ditto.
+	* plugins/plot_radar/plugin.xml.in: ditto.
+	* tests/go-demo.ui: ditto.
+
+2009-09-29  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): fix point custom 
 	marker rendering. [#596585]
 

@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <interface>
+  <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkListStore" id="model1">
     <columns>
@@ -49,7 +50,7 @@
                   <object class="GtkLabel" id="deriv-last-btn">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">&lt;i&gt;y'&lt;/i&gt;(&lt;i&gt;x&lt;/i&gt;&lt;sub&gt;last&lt;/sub&gt;):</property>
+                    <property name="label" translatable="yes" comments="derivative (curve slope) at last point for the clamped cubic spline">&lt;i&gt;y'&lt;/i&gt;(&lt;i&gt;x&lt;/i&gt;&lt;sub&gt;last&lt;/sub&gt;):</property>
                     <property name="use_markup">True</property>
                   </object>
                   <packing>
@@ -62,7 +63,7 @@
                   <object class="GtkLabel" id="deriv-first-btn">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">&lt;i&gt;y'&lt;/i&gt;(&lt;i&gt;x&lt;/i&gt;&lt;sub&gt;first&lt;/sub&gt;):</property>
+                    <property name="label" translatable="yes" comments="derivative (curve slope) at first point for the clamped cubic spline">&lt;i&gt;y'&lt;/i&gt;(&lt;i&gt;x&lt;/i&gt;&lt;sub&gt;first&lt;/sub&gt;):</property>
                     <property name="use_markup">True</property>
                   </object>
                   <packing>

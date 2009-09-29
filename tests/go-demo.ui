@@ -364,7 +364,7 @@
         </child>
         <child>
           <object class="GtkAction" id="menu_item_quit">
-            <property name="stock_id" translatable="yes">gtk-quit</property>
+            <property name="stock_id">gtk-quit</property>
             <property name="name">menu_item_quit</property>
           </object>
         </child>

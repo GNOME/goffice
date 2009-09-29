@@ -557,14 +557,17 @@ gog_series_populate_editor (GogObject *gobj,
 				GtkWidget *w;
 				widget = go_gtk_builder_get_widget (gui, "clamps-table");
 				w = GTK_WIDGET (gog_data_allocator_editor (dalloc, clamp_set, 0, GOG_DATA_SCALAR));
+				gtk_widget_set_tooltip_text (w, _("Derivative at first point of the clamped cubic spline."));
 				gtk_widget_show (w);
 				gtk_table_attach (GTK_TABLE (widget), w, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 				w = GTK_WIDGET (gog_data_allocator_editor (dalloc, clamp_set, 1, GOG_DATA_SCALAR));
+				gtk_widget_set_tooltip_text (w, _("Derivative at last point of the clamped cubic spline."));
 				gtk_widget_show (w);
 				gtk_table_attach (GTK_TABLE (widget), w, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 				if (series->interpolation != GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE)
 					gtk_widget_hide (widget);
 			}
+			g_object_set_data (G_OBJECT (combo), "gui", gui);
 			g_signal_connect_swapped (G_OBJECT (combo), "destroy", G_CALLBACK (g_object_unref), gui);
 		}
 	}
