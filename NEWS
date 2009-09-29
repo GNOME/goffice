@@ -2,6 +2,7 @@ goffice 0.7.14:
 
 Jean:
 	* Fix unicolor gradient brightness.
+	* Fix custom point marker in scatter plots. [#596585]
 
 --------------------------------------------------------------------------
 goffice 0.7.13:

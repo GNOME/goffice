@@ -1,3 +1,8 @@
+2009-09-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): fix point custom 
+	marker rendering. [#596585]
+
 2009-09-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: don't allow gtk-doc if without-gtk.

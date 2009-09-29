@@ -858,6 +858,7 @@ get_map_color (double z, gboolean hide_outliers)
 typedef struct {
 	double x, y;
 	GOColor color;
+	int index;
 } MarkerData;
 
 static void
@@ -1212,6 +1213,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			    y_margin_min <= y_canvas && y_canvas <= y_margin_max) {
 				markers[j][k].x = x_canvas;
 				markers[j][k].y = y_canvas;
+				markers[j][k].index = i;
 				if (is_map)
 					markers[j][k].color = (gog_axis_map_finite (z_map, z))?
 							get_map_color (gog_axis_map_to_view (z_map, z), hide_outliers):
@@ -1238,42 +1240,62 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	if (!GOG_IS_BUBBLE_PLOT (model))
 		for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
+			series = ptr->data;
 			overrides = gog_series_get_overrides (GOG_SERIES (series));
-				if (markers[j] != NULL) {
-					series = ptr->data;
-					overrides = gog_series_get_overrides (GOG_SERIES (series));
-					style = GOG_STYLED_OBJECT (series)->style;
-					gog_renderer_push_style (view->renderer, style);
-					for (k = 0; k < num_markers[j]; k++) {
-						gse = NULL;
-						if ((overrides != NULL) &&
-							(GOG_SERIES_ELEMENT (overrides->data)->index == k)) {
-								gse = GOG_SERIES_ELEMENT (overrides->data);
-								overrides = overrides->next;
-								style = go_styled_object_get_style (GO_STYLED_OBJECT (gse));
-								gog_renderer_push_style (view->renderer, style);
-						}
-						if (is_map) {
-							go_marker_set_outline_color
-								(style->marker.mark,markers[j][k].color);
-							go_marker_set_fill_color
-								(style->marker.mark,markers[j][k].color);
+			if (markers[j] != NULL) {
+				style = GOG_STYLED_OBJECT (series)->style;
+				gog_renderer_push_style (view->renderer, style);
+				for (k = 0; k < num_markers[j]; k++) {
+					gse = NULL;
+					if (overrides != NULL) {
+						while (GOG_SERIES_ELEMENT (overrides->data)->index < markers[j][k].index)
+							overrides = overrides->next;
+						if (GOG_SERIES_ELEMENT (overrides->data)->index == markers[j][k].index) {
+							gse = GOG_SERIES_ELEMENT (overrides->data);
+							overrides = overrides->next;
+							style = go_styled_object_get_style (GO_STYLED_OBJECT (gse));
 							gog_renderer_push_style (view->renderer, style);
 						}
-						gog_renderer_draw_marker (view->renderer,
-									  markers[j][k].x,
-									  markers[j][k].y);
-						if (is_map)
-							gog_renderer_pop_style (view->renderer);
-						if (gse) {
-							gog_renderer_pop_style (view->renderer);
-							style = GOG_STYLED_OBJECT (series)->style;
-						}
 					}
-					gog_renderer_pop_style (view->renderer);
-					g_free (markers[j]);
+					if (is_map) {
+						go_marker_set_outline_color
+							(style->marker.mark,markers[j][k].color);
+						go_marker_set_fill_color
+							(style->marker.mark,markers[j][k].color);
+						gog_renderer_push_style (view->renderer, style);
+					}
+					gog_renderer_draw_marker (view->renderer,
+								  markers[j][k].x,
+								  markers[j][k].y);
+					if (is_map)
+						gog_renderer_pop_style (view->renderer);
+					if (gse) {
+						gog_renderer_pop_style (view->renderer);
+						style = GOG_STYLED_OBJECT (series)->style;
+					}
+				}
+				gog_renderer_pop_style (view->renderer);
+				g_free (markers[j]);
+			} else if (overrides != NULL) {
+				gog_series_get_xy_data (GOG_SERIES (series), &x_vals, &y_vals);
+				while (overrides != NULL) {
+					gse = GOG_SERIES_ELEMENT (overrides->data);
+					x = x_vals ? x_vals[gse->index] : gse->index;
+					y = y_vals[gse->index];
+					if (gog_axis_map_finite (y_map, y) && gog_axis_map_finite (x_map, x)) {
+						style = go_styled_object_get_style (GO_STYLED_OBJECT (gse));
+						gog_renderer_push_style (view->renderer, style);
+						x_canvas = gog_axis_map_to_view (x_map, x);
+						y_canvas = gog_axis_map_to_view (y_map, y);
+						gog_renderer_draw_marker (view->renderer,
+									  x_canvas,
+									  y_canvas);
+						gog_renderer_pop_style (view->renderer);
+					}
+					overrides = overrides->next;
 				}
 			}
+		}
 
 	/* Now render children, may be should come before markers? */
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
