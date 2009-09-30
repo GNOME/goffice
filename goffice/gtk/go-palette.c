@@ -402,7 +402,7 @@ go_palette_show_custom (GOPalette *palette,
 	priv = palette->priv;
 	g_return_if_fail (!priv->show_custom);
 
-	priv->custom_label = g_strdup (label == NULL ?  _("Custom…") : _(label));
+	priv->custom_label = g_strdup (label == NULL ?  _("Custom...") : _(label));
 	priv->show_custom = TRUE;
 }
 

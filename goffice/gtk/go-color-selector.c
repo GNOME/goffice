@@ -202,7 +202,7 @@ cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
 		return;
 	}
 
-	color_dialog = gtk_color_selection_dialog_new (_("Custom color…"));
+	color_dialog = gtk_color_selection_dialog_new (_("Custom color..."));
 	color_selection = GTK_COLOR_SELECTION_DIALOG (color_dialog)->colorsel;
 	gtk_color_selection_set_has_opacity_control (GTK_COLOR_SELECTION (color_selection), state->allow_alpha);
 	g_object_set_data_full (G_OBJECT (selector), "color-dialog", color_dialog,
@@ -308,7 +308,7 @@ go_color_selector_new (GOColor initial_color,
 				  go_color_palette_render_func, NULL,
 				  state, go_color_selector_state_free);
 	go_palette_show_automatic (GO_PALETTE (palette), default_index, NULL);
-	go_palette_show_custom (GO_PALETTE (palette), "Custom color…");
+	go_palette_show_custom (GO_PALETTE (palette), "Custom color...");
 	selector = go_selector_new (GO_PALETTE (palette));
 	go_selector_set_active (GO_SELECTOR (selector), initial_index);
 	g_signal_connect (palette, "custom-activate", G_CALLBACK (cb_combo_custom_activate), selector);
