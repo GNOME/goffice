@@ -283,7 +283,7 @@ goc_line_class_init (GocItemClass *item_klass)
 	g_object_class_install_property (obj_klass, LINE_PROP_ARROWHEAD,
 		g_param_spec_boolean ("arrowhead",
 			_("Arrow head"),
-			_("Whether to add an arrow head at the end of the line or not"),
+			_("Whether to add an arrow head at the end of the line"),
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, LINE_PROP_ARROW_SHAPE_A,
