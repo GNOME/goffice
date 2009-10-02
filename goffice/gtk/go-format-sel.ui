@@ -433,7 +433,7 @@
                     <property name="left_padding">24</property>
                     <child>
                       <object class="GtkCheckButton" id="format_superscript_hide_1_button">
-                        <property name="label" translatable="yes">_Don't show 1x's</property>
+                        <property name="label" translatable="yes">_Don't show 1xs</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>

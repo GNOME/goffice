@@ -1,3 +1,9 @@
+2009-10-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-plugin.c (go_plugin_read_for_dir): fixed the two last
+	strings from #596003.
+	* goffice/gtk/go-format-sel.ui: ditto.
+
 2009-09-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-widget.c (goc_widget_init): create widget far away

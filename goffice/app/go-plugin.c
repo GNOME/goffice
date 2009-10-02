@@ -1316,7 +1316,7 @@ go_plugin_read_for_dir (gchar const *dir_name, GOErrorInfo **ret_error)
 		plugin_file_state_hash_changed = TRUE;
 	} else {
 		*ret_error = go_error_info_new_printf (
-		             _("Errors occurred while reading plugin informations from file \"%s\"."),
+		             _("Errors occurred while reading plugin information from file \"%s\"."),
 		             file_name);
 		go_error_info_add_details (*ret_error, plugin_error);
 	}
