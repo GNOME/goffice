@@ -32,6 +32,14 @@
  * The canvas widget used in gnumeric.
  **/
 
+
+/**
+ * GocDirection :
+ * @GOC_DIRECTION_LTR : Left to rigth direction
+ * @GOC_DIRECTION_RTL : Right to left direction
+ * @GOC_DIRECTION_MAX : First invalid value
+ **/
+
 #ifndef HAVE_GTK_LAYOUT_GET_BIN_WINDOW
 #       define gtk_layout_get_bin_window(x) (x)->bin_window
 #endif
@@ -296,6 +304,12 @@ goc_canvas_get_root (GocCanvas *canvas)
 	return canvas->root;
 }
 
+/**
+ * goc_canvas_get_width :
+ * @canvas : #GocCanvas
+ *
+ * Returns: the width of the widget visible region.
+ **/
 int
 goc_canvas_get_width (GocCanvas *canvas)
 {
@@ -303,6 +317,12 @@ goc_canvas_get_width (GocCanvas *canvas)
 	return canvas->width;
 }
 
+/**
+ * goc_canvas_get_height :
+ * @canvas : #GocCanvas
+ *
+ * Returns: the height of the widget visible region.
+ **/
 int
 goc_canvas_get_height (GocCanvas *canvas)
 {
@@ -310,6 +330,15 @@ goc_canvas_get_height (GocCanvas *canvas)
 	return canvas->height;
 }
 
+/**
+ * goc_canvas_scroll_to :
+ * @canvas : #GocCanvas
+ * @x : the horizontal position
+ * @y : the vertical position
+ *
+ * Scrolls the canvas so that the origin of the visible region is at (@x,@y).
+ * The origin position depends on the canvas direction (see #GocDirection).
+ **/
 void
 goc_canvas_scroll_to (GocCanvas *canvas, double x, double y)
 {
@@ -325,6 +354,14 @@ goc_canvas_scroll_to (GocCanvas *canvas, double x, double y)
 					    0, 0, G_MAXINT, G_MAXINT);
 }
 
+/**
+ * goc_canvas_get_scroll_position :
+ * @canvas : #GocCanvas
+ * @x : where to store the horizontal position
+ * @y : where to store the vertical position
+ *
+ * Retrieves the origin of the visible region of the canvas.
+ **/
 void
 goc_canvas_get_scroll_position (GocCanvas *canvas, double *x, double *y)
 {
@@ -335,6 +372,14 @@ goc_canvas_get_scroll_position (GocCanvas *canvas, double *x, double *y)
 		*y = canvas->scroll_y1;
 }
 
+/**
+ * goc_canvas_set_pixels_per_unit :
+ * @canvas : #GocCanvas
+ * @pixels_per_unit: the new scale
+ *
+ * Sets the scale as the number of pixels used for each unit when
+ * displaying the canvas.
+ **/
 void
 goc_canvas_set_pixels_per_unit (GocCanvas *canvas, double pixels_per_unit)
 {
@@ -349,6 +394,12 @@ goc_canvas_set_pixels_per_unit (GocCanvas *canvas, double pixels_per_unit)
 					    0, 0, G_MAXINT, G_MAXINT);
 }
 
+/**
+ * goc_canvas_get_pixels_per_unit :
+ * @canvas : #GocCanvas
+ *
+ * Returns: how many pixels are used for each unit when displaying the canvas.
+ **/
 double
 goc_canvas_get_pixels_per_unit (GocCanvas *canvas)
 {
@@ -356,6 +407,17 @@ goc_canvas_get_pixels_per_unit (GocCanvas *canvas)
 	return canvas->pixels_per_unit;
 }
 
+/**
+ * goc_canvas_invalidate :
+ * @canvas : #GocCanvas
+ * @x0: minimum x coordinate of the invalidated region in canvas coordinates
+ * @y0: minimum y coordinate of the invalidated region in canvas coordinates
+ * @x1: maximum x coordinate of the invalidated region in canvas coordinates
+ * @y1: maximum y coordinate of the invalidated region in canvas coordinates
+ *
+ * Invalidates a region of the canvas. The canvas will be redrawn only if
+ * the invalidated region intersects the visible area.
+ **/
 void
 goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, double y1)
 {
@@ -384,6 +446,14 @@ goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, doubl
 					    (int) ceil (x1), (int) ceil (y1));
 }
 
+/**
+ * goc_canvas_get_item_at :
+ * @canvas : #GocCanvas
+ * @x: horizontal position
+ * @y: vertical position
+ *
+ * Returns: the #GocItem displayed at (@x,@y) if any.
+ **/
 GocItem*
 goc_canvas_get_item_at (GocCanvas *canvas, double x, double y)
 {
@@ -392,6 +462,14 @@ goc_canvas_get_item_at (GocCanvas *canvas, double x, double y)
 	return (d == 0.)? result: NULL;
 }
 
+/**
+ * goc_canvas_grab_item :
+ * @canvas : #GocCanvas
+ * @item: #GocItem
+ *
+ * Grabs #GocItem. All subsequent events will be passed to #GocItem. This
+ * function fails if an item is already grabbed.
+ **/
 void
 goc_canvas_grab_item (GocCanvas *canvas, GocItem *item)
 {
@@ -399,6 +477,13 @@ goc_canvas_grab_item (GocCanvas *canvas, GocItem *item)
 	canvas->grabbed_item = item;
 }
 
+/**
+ * goc_canvas_ungrab_item :
+ * @canvas : #GocCanvas
+ *
+ * Ungrabs the currently grabbed #GocItem. This function fails
+ * if no item is grabbed.
+ **/
 void
 goc_canvas_ungrab_item (GocCanvas *canvas)
 {
@@ -406,6 +491,12 @@ goc_canvas_ungrab_item (GocCanvas *canvas)
 	canvas->grabbed_item = NULL;
 }
 
+/**
+ * goc_canvas_get_grabbed_item :
+ * @canvas : #GocCanvas
+ *
+ * Returns: The currently grabbed #GocItem.
+ **/
 GocItem *
 goc_canvas_get_grabbed_item (GocCanvas *canvas)
 {
@@ -413,6 +504,14 @@ goc_canvas_get_grabbed_item (GocCanvas *canvas)
 	return canvas->grabbed_item;
 }
 
+/**
+ * goc_canvas_set_document :
+ * @canvas : #GocCanvas
+ * @document: #GODoc
+ *
+ * Associates the #GODoc with the #GocCanvas. This is needed to use images
+ * when filling styled items (see #GocStyledItem).
+ **/
 void
 goc_canvas_set_document (GocCanvas *canvas, GODoc *document)
 {
@@ -420,6 +519,12 @@ goc_canvas_set_document (GocCanvas *canvas, GODoc *document)
 	canvas->document = document;
 }
 
+/**
+ * goc_canvas_get_document :
+ * @canvas : #GocCanvas
+ *
+ * Returns: The #GODoc associated with the #GocCanvas.
+ **/
 GODoc*
 goc_canvas_get_document (GocCanvas *canvas)
 {
@@ -427,6 +532,12 @@ goc_canvas_get_document (GocCanvas *canvas)
 	return canvas->document;
 }
 
+/**
+ * goc_canvas_get_cur_event :
+ * @canvas : #GocCanvas
+ *
+ * Returns: The #GdkEvent being processed.
+ **/
 GdkEvent*
 goc_canvas_get_cur_event (GocCanvas *canvas)
 {
@@ -434,6 +545,13 @@ goc_canvas_get_cur_event (GocCanvas *canvas)
 	return canvas->cur_event;
 }
 
+/**
+ * goc_canvas_ :
+ * @canvas : #GocCanvas
+ * direction: #GocDirection
+ *
+ * Sets the direction used by the canvas.
+ **/
 void
 goc_canvas_set_direction (GocCanvas *canvas, GocDirection direction)
 {
@@ -442,6 +560,12 @@ goc_canvas_set_direction (GocCanvas *canvas, GocDirection direction)
 	goc_canvas_invalidate (canvas, -G_MAXDOUBLE, -G_MAXDOUBLE, G_MAXDOUBLE, G_MAXDOUBLE);
 }
 
+/**
+ * goc_canvas_get_direction :
+ * @canvas : #GocCanvas
+ *
+ * Returns: the current canvas direction.
+ **/
 GocDirection
 goc_canvas_get_direction (GocCanvas *canvas)
 {
@@ -449,6 +573,16 @@ goc_canvas_get_direction (GocCanvas *canvas)
 	return canvas->direction;
 }
 
+/**
+ * goc_canvas_w2c :
+ * @canvas : #GocCanvas
+ * @x: the horizontal position as a widget coordinate.
+ * @y: the vertical position as a widget coordinate.
+ * @x_: where to store the horizontal position as a canvas coordinate.
+ * @y_: where to store the vertical position as a canvas coordinate.
+ * 
+ * Retrieves the canvas coordinates given the position in the widget.
+ **/
 void
 goc_canvas_w2c (GocCanvas *canvas, int x, int y, double *x_, double *y_)
 {
@@ -462,6 +596,16 @@ goc_canvas_w2c (GocCanvas *canvas, int x, int y, double *x_, double *y_)
 		*y_ = (double) y / canvas->pixels_per_unit + canvas->scroll_y1;
 }
 
+/**
+ * goc_canvas_c2w :
+ * @canvas : #GocCanvas
+ * @x: the horizontal position as a canvas coordinate.
+ * @y: the vertical position as a canvas coordinate.
+ * @x_: where to store the horizontal position as a widget coordinate.
+ * @y_: where to store the vertical position as a widget coordinate.
+ *
+ * Retrieves the position in the widget given the canvas coordinates.
+ **/
 void
 goc_canvas_c2w (GocCanvas *canvas, double x, double y, int *x_, int *y_)
 {

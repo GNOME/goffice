@@ -445,6 +445,9 @@ gog_trend_line_new_by_type
 gog_trend_line_types
 <SUBSECTION Standard>
 GogTrendLineClass
+GOG_TREND_LINE
+GOG_IS_TREND_LINE
+GOG_TYPE_TREND_LINE
 <SUBSECTION Private>
 gog_trend_line_get_type
 </SECTION>
@@ -569,6 +572,11 @@ GOG_IS_RENDERER
 <SUBSECTION Private>
 gog_renderer_get_type
 gog_renderer_draw_equation
+GOG_RENDERER_CAIRO_WITH_PDF
+GOG_RENDERER_CAIRO_WITH_PS
+GOG_RENDERER_CAIRO_WITH_SVG
+GOG_RENDERER_GET_CLASS
+GOG_RENDERER_HAIRLINE_WIDTH_PTS
 </SECTION>
 
 <SECTION>
@@ -1321,6 +1329,17 @@ go_range_min
 go_range_max
 go_range_maxabs
 go_range_devsq
+go_range_fractile_inter
+go_range_fractile_inter_nonconst
+go_range_fractile_inter_sorted
+go_range_increasing
+go_range_median_inter
+go_range_median_inter_nonconst
+go_range_decreasing
+go_range_median_inter_sorted
+go_range_sort
+go_range_vary_uniformly
+<SUBSECTION Private>
 go_range_suml
 go_range_sumsql
 go_range_averagel
@@ -1328,18 +1347,15 @@ go_range_minl
 go_range_maxl
 go_range_maxabsl
 go_range_devsql
-go_range_fractile_inter
-go_range_fractile_inter_nonconst
-go_range_fractile_inter_nonconstl
-go_range_fractile_inter_sorted
-go_range_fractile_inter_sortedl
 go_range_fractile_interl
-go_range_increasing
+go_range_fractile_inter_nonconstl
+go_range_fractile_inter_sortedl
 go_range_increasingl
-go_range_median_inter
-go_range_median_inter_nonconst
-go_range_median_inter_nonconstl
 go_range_median_interl
+go_range_median_inter_nonconstl
+go_range_decreasingl
+go_range_median_inter_sortedl
+go_range_vary_uniformlyl
 </SECTION>
 
 <SECTION>
@@ -1349,6 +1365,7 @@ GO_LOGFIT_C_ACCURACY
 GO_LOGFIT_C_STEP_FACTOR
 GO_LOGFIT_C_RANGE_FACTOR
 GORegressionResult
+GORegressionFunction
 go_linear_regression
 go_exponential_regression
 go_logarithmic_regression
@@ -1362,6 +1379,7 @@ go_regression_stat_t
 go_regression_stat_new
 go_regression_stat_destroy
 <SUBSECTION Private>
+GORegressionFunctionl
 go_linear_regressionl
 go_exponential_regressionl
 go_logarithmic_regressionl
@@ -1391,7 +1409,19 @@ go_qweibull
 go_dcauchy
 go_pcauchy
 go_qcauchy
+<SUBSECTION Private>
 go_pnorm_bothl
+</SECTION>
+
+<SECTION>
+<FILE>go-matrix3x3</FILE>
+<TITLE>GOMatrix3x3</TITLE>
+GOMatrix3x3
+go_matrix3x3_transform
+go_matrix3x3_from_euler
+go_matrix3x3_from_euler_transposed
+go_matrix3x3_to_euler
+go_matrix3x3_multiply
 </SECTION>
 
 ###############################################################################
@@ -1445,6 +1475,7 @@ go_bezier_spline_to_path
 
 <SECTION>
 <FILE>go-image</FILE>
+GOImage
 GOImageFormat
 GOImageFormatInfo
 go_mime_to_image_format
@@ -1464,6 +1495,14 @@ go_image_new_from_file
 go_image_get_pixels
 go_image_get_rowstride
 go_image_fill
+go_image_get_name
+go_image_get_thumbnail
+go_image_load_attrs
+go_image_load_data
+go_image_same_pixbuf
+go_image_save
+go_image_sel_new
+go_image_set_name
 </SECTION>
 
 <SECTION>
@@ -1683,6 +1722,7 @@ go_search_replace_get_type
 <SECTION>
 <FILE>go-format</FILE>
 <TITLE>GOFormat</TITLE>
+GOFormat
 GOFormatFamily
 GOFormatMagic
 GOFormatNumberError
@@ -2266,6 +2306,19 @@ GO_PLUGIN_SERVICE_GET_CLASS
 GO_PLUGIN_SERVICE_GOBJECT_LOADER_CLASS
 GO_PLUGIN_SERVICE_GOBJECT_LOADER_GET_CLASS
 </SECTION>
+
+<SECTION>
+<FILE>module-plugin-defs</FILE>
+<TITLE>Plugins related utilities</TITLE>
+GOPluginModuleDepend
+GOPluginModuleHeader
+GOFFICE_API_VERSION
+GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER
+GOFFICE_PLUGIN_MODULE_HEADER
+go_plugin_init
+go_plugin_shutdown
+</SECTION>
+
 <SECTION>
 <FILE>go-conf</FILE>
 GOConfNode
@@ -2458,6 +2511,17 @@ go_undo_unary_get_type
 go_undo_unary_new
 go_undo_undo
 go_undo_undo_with_data
+<SUBSECTION Standard>
+GOUndo
+GOUndoBinary
+GOUndoBinaryClass
+GOUndoBinaryFunc
+GOUndoClass
+GOUndoGroup
+GOUndoGroupClass
+GOUndoUnary
+GOUndoUnaryClass
+GOUndoUnaryFunc
 </SECTION>
 
 <SECTION>
@@ -2499,6 +2563,10 @@ R_OK
 <FILE>go-file-opener</FILE>
 <TITLE>GOFileOpener</TITLE>
 GOFileOpener
+GOFileOpenerClass
+GOFileOpenerProbeFunc
+GOFileOpenerOpenFunc
+GOFileOpenerOpenFuncWithEnc
 go_file_opener_can_probe
 go_file_opener_for_id
 go_file_opener_get_description
@@ -2514,12 +2582,21 @@ go_file_opener_probe
 go_file_opener_register
 go_file_opener_setup
 go_file_opener_unregister
+go_get_file_openers
+<SUBSECTION Standard>
+GO_FILE_OPENER
+GO_IS_FILE_OPENER
+GO_TYPE_FILE_OPENER
 </SECTION>
 
 <SECTION>
 <FILE>go-file-saver</FILE>
 <TITLE>GOFileSaver</TITLE>
 GOFileSaver
+GOFileSaverClass
+GOFileSaverSaveFunc
+GOFileSaveScope
+GOFileFormatLevel
 go_file_saver_for_file_name
 go_file_saver_for_id
 go_file_saver_for_mime_type
@@ -2530,8 +2607,6 @@ go_file_saver_get_format_level
 go_file_saver_get_id
 go_file_saver_get_mime_type
 go_file_saver_get_save_scope
-go_file_saver_get_type
-go_file_saver_level_get_type
 go_file_saver_new
 go_file_saver_register
 go_file_saver_register_as_default
@@ -2539,7 +2614,17 @@ go_file_saver_save
 go_file_saver_scope_get_type
 go_file_saver_set_overwrite_files
 go_file_saver_set_save_scope
+go_file_saver_set_export_options
 go_file_saver_unregister
+go_get_file_savers
+<SUBSECTION Standard>
+GO_TYPE_FILE_SAVER_LEVEL
+GO_TYPE_FILE_SAVER_SCOPE
+GO_FILE_SAVER
+GO_IS_FILE_SAVER
+GO_TYPE_FILE_SAVER
+go_file_saver_get_type
+go_file_saver_level_get_type
 </SECTION>
 
 ###############################################################################

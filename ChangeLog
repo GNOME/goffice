@@ -1,3 +1,9 @@
+2009-10-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/goffice-0.8-sections.txt: more documentation work.
+	* goffice/canvas/goc-canvas.c: ditto.
+	* goffice/component/go-component.c: ditto.
+
 2009-10-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-plugin.c (go_plugin_read_for_dir): fixed the two last

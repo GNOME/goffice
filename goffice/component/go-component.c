@@ -30,7 +30,7 @@
  * @parent_class: the parent object class.
  * @edit: callback for component edition.
  * @get_data: returns the data embedded in the component.
- * @mime_type_set:sets the mime type.
+ * @mime_type_set: sets the mime type.
  * @set_data: sets the data embedded in the component.
  * @set_default_size: sets the default size for the component.
  * @set_size: sets the requested size.
@@ -207,6 +207,13 @@ go_component_set_default_size (GOComponent *component, double width, double asce
 	if (klass->set_default_size)
 		klass->set_default_size (component);
 }
+
+/**
+ * go_component_needs_window:
+ * @component: #GOComponent
+ *
+ * Returns: TRUE  if the component uses its own #GtkWindow.
+ **/
 
 gboolean
 go_component_needs_window (GOComponent *component)
