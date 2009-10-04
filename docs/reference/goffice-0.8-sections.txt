@@ -1644,6 +1644,9 @@ go_line_dash_selector_new
 GOLineInterpolation
 go_line_interpolation_from_str
 go_line_interpolation_as_str
+go_line_interpolation_as_label
+go_line_interpolation_supports_radial
+go_line_interpolation_auto_skip
 </SECTION>
 
 <SECTION>
@@ -1864,6 +1867,15 @@ go_object_toggle
 go_object_properties_collect
 go_object_properties_apply
 go_object_properties_free
+</SECTION>
+
+<SECTION>
+<FILE>go-pango-extras</FILE>
+<TITLE>GOPangoExtras</TITLE>
+go_pango_attr_list_open_hole
+go_pango_attr_list_erase
+go_pango_attr_list_unset
+go_pango_attr_list_is_empty
 </SECTION>
 
 <SECTION>
@@ -2130,6 +2142,16 @@ go_error_info_peek_message
 go_error_info_peek_details
 go_error_info_peek_severity
 GO_INIT_RET_ERROR_INFO
+</SECTION>
+
+<SECTION>
+<FILE>go-error-stack</FILE>
+<TITLE>GOErrorStack</TITLE>
+<SUBSECTION Private>
+go_error_stack_new
+go_error_stack_add_child
+go_error_stack_dump
+go_error_stack_free
 </SECTION>
 
 <SECTION>
@@ -2733,9 +2755,7 @@ goc_item_show
 goc_item_hide
 goc_item_is_visible
 goc_item_get_bounds
-goc_item_update_bounds
 goc_item_bounds_changed
-goc_item_parent_changed
 goc_item_grab
 goc_item_ungrab
 goc_item_raise
@@ -2867,4 +2887,3 @@ goc_points_new
 goc_points_ref
 goc_points_unref
 </SECTION>
-

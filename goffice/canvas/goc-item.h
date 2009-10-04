@@ -47,7 +47,6 @@ struct _GocItemClass {
 	gboolean		(*draw_region) (GocItem const *item, cairo_t *cr,
 						double x0, double y0, double x1, double y1);
 	void			(*update_bounds) (GocItem *item);
-	void			(*parent_changed) (GocItem *item);
 	/* events related functions */
 	gboolean		(*button_pressed) (GocItem *item, int button, double x, double y);
 	gboolean		(*button2_pressed) (GocItem *item, int button, double x, double y);
@@ -85,9 +84,7 @@ gboolean	 goc_item_is_visible	(GocItem *item);
 void		 goc_item_get_bounds	(GocItem const *item,
 					 double *x0, double *y0,
 					 double *x1, double *y1);
-void		 goc_item_update_bounds	(GocItem *item);
 void		 goc_item_bounds_changed (GocItem *item);
-void		 goc_item_parent_changed (GocItem *item);
 void		 goc_item_grab		(GocItem *item);
 void		 goc_item_ungrab	(GocItem *item);
 void		 goc_item_raise		(GocItem *item, int n);

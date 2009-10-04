@@ -130,7 +130,6 @@ goc_styled_item_class_init (GocItemClass *goc_klass)
 	gobject_klass->set_property = goc_styled_item_set_property;
 	gobject_klass->get_property = goc_styled_item_get_property;
 	gobject_klass->finalize	    = goc_styled_item_finalize;
-	goc_klass->parent_changed   = goc_styled_item_parent_changed;
 	style_klass->init_style	    = goc_styled_item_init_style;
 
 	g_object_class_install_property (gobject_klass, STYLED_ITEM_PROP_STYLE,
@@ -152,6 +151,7 @@ goc_styled_item_init (GocStyledItem *gsi)
 {
 	gsi->style = GO_STYLE (g_object_new (go_style_get_type (), NULL)); /* use the defaults */
 	gsi->scale_line_width = TRUE;
+	g_signal_connect (G_OBJECT (gsi), "notify::parent", G_CALLBACK (goc_styled_item_parent_changed), NULL);
 }
 
 static gboolean

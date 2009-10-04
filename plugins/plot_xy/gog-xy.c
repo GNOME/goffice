@@ -858,7 +858,7 @@ get_map_color (double z, gboolean hide_outliers)
 typedef struct {
 	double x, y;
 	GOColor color;
-	int index;
+	unsigned index;
 } MarkerData;
 
 static void

@@ -61,6 +61,16 @@ button_press_cb (G_GNUC_UNUSED GtkWidget *w, GdkEventButton *event, GocWidget *i
 }
 
 static void
+goc_widget_update_bounds (GocItem *item)
+{
+	GocWidget *widget = GOC_WIDGET (item);
+	item->x0 = widget->x;
+	item->y0 = widget->y;
+	item->x1 = widget->x + widget->w;
+	item->y1 = widget->y + widget->h;
+}
+
+static void
 cb_canvas_changed (GocWidget *item, G_GNUC_UNUSED GParamSpec *pspec,
 		   G_GNUC_UNUSED gpointer user)
 {
@@ -94,8 +104,10 @@ goc_widget_notify_scrolled (GocItem *item)
 	if (!parent)
 		return;
 
-	if (!item->cached_bounds)
-		goc_item_update_bounds (GOC_ITEM (item)); /* don't care about const */
+	if (!item->cached_bounds) {
+		goc_widget_update_bounds (GOC_ITEM (item)); /* don't care about const */
+		item->cached_bounds = TRUE;
+	}
 	x0 = item->x0;
 	y0 = item->y0;
 	x1 = item->x1;
@@ -261,16 +273,6 @@ goc_widget_draw (GocItem const *item, cairo_t *cr)
 	 gtk_container_propagate_expose (GTK_CONTAINER (item->canvas),
 					widget->widget,
 					(GdkEventExpose *) goc_canvas_get_cur_event (item->canvas));
-}
-
-static void
-goc_widget_update_bounds (GocItem *item)
-{
-	GocWidget *widget = GOC_WIDGET (item);
-	item->x0 = widget->x;
-	item->y0 = widget->y;
-	item->x1 = widget->x + widget->w;
-	item->y1 = widget->y + widget->h;
 }
 
 static void

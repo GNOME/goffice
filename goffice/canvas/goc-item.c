@@ -27,20 +27,22 @@
 #include <glib/gi18n-lib.h>
 
 /**
- * GocItem:
+ * GocItem :
  * @base: the parent object.
  * @canvas: the canvas in which the item is displayed.
  * @parent: the parent item.
- * @cached_bounds: whether bounds have been cached in @x0, @y0, @x1 and @y1or not.
+ * @cached_bounds: whether bounds have been cached in @x0, @y0, @x1 and @y1.
  * @visible: whether the item is visible or hidden. A visible item needs to lie
  * in the visible region of the canvas to be really visible.
- * @realized: whether the item is realized or not.
+ * @realized: whether the item is realized.
  * @x0: the lowest horizontal bound of the item.
  * @y0: the lowest vertical bound of the item.
  * @x1: the highest horizontal bound of the item.
  * @y1: the highest vertical bound of the item.
  *
- * The virtual base object for canvas items.
+ * The virtual base object for canvas items. The various fields should not be
+ * accessed directly except from children objects which must update @x0, @y0,
+ * @x1, and @y1. All other fields are read-only.
  **/
 
 enum {
@@ -50,7 +52,7 @@ enum {
 };
 
 /**
- * GocItemClass:
+ * GocItemClass :
  * @base: the parent class
  * @distance: returns the distance between the item and the point defined by
  * @x and @y. When the distance is larger than a few pixels, the result is not
@@ -62,7 +64,6 @@ enum {
  * should implement @draw_region.
  * @update_bounds: updates the bounds stored in #GocItem as fields #x0, #y0,
  * #x1,and #y1.
- * @parent_changed: callback for a parent changed event.
  * @button_pressed: callback for a button press event.
  * @button2_pressed: callback for a double click event.
  * @button_released: callback for a button release event.
@@ -233,24 +234,54 @@ GSF_CLASS (GocItem, goc_item,
 	   goc_item_class_init, goc_item_init,
 	   G_TYPE_OBJECT)
 
+static void
+_goc_item_update_bounds (GocItem *item)
+{
+	GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
+	g_return_if_fail (klass != NULL);
+
+	if (klass->update_bounds)
+		klass->update_bounds (item);
+	item->cached_bounds = TRUE;
+}
+
+/**
+ * goc_item_new :
+ * @parent: parent #GocGroup for the new item
+ * @type: #GType of the new item
+ * @first_arg_name: property name or %NULL
+ * @...: value for the first property, followed optionally by more
+ *  name/value pairs, followed by %NULL
+ *
+ * Creates a new item of type @type in group @group. Properties can be
+ * set just the same way they are in #g_object_new.
+ * Returns: the newly created #GocItem.
+ **/
 GocItem*
-goc_item_new (GocGroup *group, GType type, const gchar *first_arg_name, ...)
+goc_item_new (GocGroup *parent, GType type, const gchar *first_arg_name, ...)
 {
 	GocItem *item;
 	va_list args;
 
-	g_return_val_if_fail (GOC_IS_GROUP (group), NULL);
+	g_return_val_if_fail (GOC_IS_GROUP (parent), NULL);
 
 	va_start (args, first_arg_name);
 	item = GOC_ITEM (g_object_new_valist (type, first_arg_name, args));
 	va_end (args);
 	g_return_val_if_fail ((item != NULL), NULL);
 
-	goc_group_add_child (group, item);
+	goc_group_add_child (parent, item);
 
 	return item;
 }
 
+/**
+ * goc_item_destroy :
+ * @item: #GocItem
+ *
+ * Destroys @item, removes it from its parent group and updates the canvas
+ * accordingly.
+ **/
 void
 goc_item_destroy (GocItem *item)
 {
@@ -258,6 +289,16 @@ goc_item_destroy (GocItem *item)
 	g_object_unref (item);
 }
 
+/**
+ * goc_item_set :
+ * @item: #GocItem
+ * @first_arg_name: property name or %NULL
+ * @...: value for the first property, followed optionally by more
+ *  name/value pairs, followed by %NULL
+ *
+ * Set properties and updates the canvas. Using #g_object_set instead would
+ * set the properties, but not update the canvas.
+ **/
 void
 goc_item_set (GocItem *item, const gchar *first_arg_name, ...)
 {
@@ -272,6 +313,18 @@ goc_item_set (GocItem *item, const gchar *first_arg_name, ...)
 	goc_item_invalidate (item);
 }
 
+/**
+ * goc_item_distance :
+ * @item: #GocItem
+ * @x: horizontal position
+ * @y: vertical position
+ * @near_item: where to store the nearest item
+ *
+ * Evaluates the distance between the point with canvas coordinates @x,@y
+ * and the nearest point of @item. @near_item is set with either @item or
+ * its appropriate child.
+ * Returns: the evaluated distance.
+ **/
 double
 goc_item_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
@@ -282,6 +335,14 @@ goc_item_distance (GocItem *item, double x, double y, GocItem **near_item)
 		klass->distance (item, x, y, near_item): G_MAXDOUBLE;
 }
 
+/**
+ * goc_item_draw :
+ * @item: #GocItem
+ * @cr: #cairo_t
+ *
+ * Renders @item using @cr. There is no need to call this function directly.
+ * Invalidating the item is the way to go.
+ **/
 void
 goc_item_draw (GocItem const *item, cairo_t *cr)
 {
@@ -292,6 +353,21 @@ goc_item_draw (GocItem const *item, cairo_t *cr)
 		klass->draw (item, cr);
 }
 
+/**
+ * goc_item_draw_region :
+ * @item: #GocItem
+ * @cr: #cairo_t
+ * @x0: the lowest horizontal bound of the region to draw
+ * @y0: the lowest vertical bound of the region to draw
+ * @x1: the highest horizontal bound of the region to draw
+ * @y1: the highest vertical bound of the region to draw
+ * 
+ * Renders @item using @cr, limiting all drawings to the region limited by
+ * @x0, @y0, @x1, and @y1. If this function returns %FALSE, #goc_item_draw
+ * should be called. There is no need to call this function directly.
+ * Invalidating the item is the way to go.
+ * Returns: %TRUE if successful.
+ **/
 gboolean
 goc_item_draw_region (GocItem const *item, cairo_t *cr,
 		      double x0, double y0,
@@ -304,6 +380,12 @@ goc_item_draw_region (GocItem const *item, cairo_t *cr,
 		klass->draw_region (item, cr, x0, y0, x1, y1): FALSE;
 }
 
+/**
+ * goc_item_invalidate :
+ * @item: #GocItem
+ *
+ * Force a redraw of @item bounding region.
+ **/
 void
 goc_item_invalidate (GocItem *item)
 {
@@ -320,7 +402,7 @@ goc_item_invalidate (GocItem *item)
 		return;
 
 	if (!item->cached_bounds)
-		goc_item_update_bounds (GOC_ITEM (item)); /* don't care about const */
+		_goc_item_update_bounds (GOC_ITEM (item)); /* don't care about const */
 	x0 = item->x0;
 	y0 = item->y0;
 	x1 = item->x1;
@@ -332,6 +414,12 @@ goc_item_invalidate (GocItem *item)
 	goc_canvas_invalidate (item->canvas, x0, y0, x1, y1);
 }
 
+/**
+ * goc_item_show :
+ * @item: #GocItem
+ *
+ * Makes @item visible.
+ **/
 void
 goc_item_show (GocItem *item)
 {
@@ -340,6 +428,12 @@ goc_item_show (GocItem *item)
 	goc_item_invalidate (item);
 }
 
+/**
+ * goc_item_hide :
+ * @item: #GocItem
+ *
+ * Hides @item.
+ **/
 void
 goc_item_hide (GocItem *item)
 {
@@ -348,6 +442,12 @@ goc_item_hide (GocItem *item)
 	goc_item_invalidate (item);
 }
 
+/**
+ * goc_item_is_visible :
+ * @item: #GocItem
+ *
+ * Returns: %TRUE if @item is visible.
+ **/
 gboolean
 goc_item_is_visible (GocItem *item)
 {
@@ -355,12 +455,22 @@ goc_item_is_visible (GocItem *item)
 	return item->visible;
 }
 
+/**
+ * goc_item_get_bounds :
+ * @item: #GocItem
+ * @x0: where to store the lowest horizontal bound
+ * @y0: where to store the lowest vertical bound
+ * @x1: where to store the highest horizontal bound
+ * @y1: where to store the highest vertical bound
+ *
+ * Retrieves the bounds of @item in canvas coordinates.
+ **/
 void
 goc_item_get_bounds (GocItem const *item, double *x0, double *y0, double *x1, double *y1)
 {
 	g_return_if_fail (GOC_IS_ITEM (item));
 	if (!item->cached_bounds) {
-		goc_item_update_bounds (GOC_ITEM (item)); /* don't care about const */
+		_goc_item_update_bounds (GOC_ITEM (item)); /* don't care about const */
 	}
 	*x0 = item->x0;
 	*y0 = item->y0;
@@ -368,17 +478,13 @@ goc_item_get_bounds (GocItem const *item, double *x0, double *y0, double *x1, do
 	*y1 = item->y1;
 }
 
-void
-goc_item_update_bounds (GocItem *item)
-{
-	GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
-	g_return_if_fail (klass != NULL);
-
-	if (klass->update_bounds)
-		klass->update_bounds (item);
-	item->cached_bounds = TRUE;
-}
-
+/**
+ * goc_item_bounds_changed :
+ * @item: #GocItem
+ *
+ * This function needs to be called each time the bounds of @item change. It
+ * is normally called from inside the implementation of items derived classes.
+ **/
 void
 goc_item_bounds_changed (GocItem *item)
 {
@@ -388,16 +494,12 @@ goc_item_bounds_changed (GocItem *item)
 		goc_item_bounds_changed (GOC_ITEM (item->parent));
 }
 
-void
-goc_item_parent_changed (GocItem *item)
-{
-	GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
-	g_return_if_fail (klass != NULL);
-
-	if (klass->parent_changed)
-		klass->parent_changed (item);
-}
-
+/**
+ * goc_item_grab :
+ * @item: #GocItem
+ *
+ * Grabs the item. This function will fail if another item is grabbed.
+ **/
 void
 goc_item_grab (GocItem *item)
 {
@@ -407,6 +509,12 @@ goc_item_grab (GocItem *item)
 	goc_canvas_grab_item (item->canvas, item);
 }
 
+/**
+ * goc_item_ungrab :
+ * @item: #GocItem
+ *
+ * Ungrabs the item. This function will fail if @item is not grabbed.
+ **/
 void
 goc_item_ungrab	(GocItem *item)
 {
@@ -414,6 +522,14 @@ goc_item_ungrab	(GocItem *item)
 	goc_canvas_ungrab_item (item->canvas);
 }
 
+/**
+ * goc_item_raise :
+ * @item: #GocItem
+ * @n: the rank change
+ *
+ * Raises @item by @n steps (or less if the list is too short) in the item list
+ * so that it is displayed nrearer the top of the items stack.
+ **/
 void
 goc_item_raise (GocItem *item, int n)
 {
@@ -426,6 +542,14 @@ goc_item_raise (GocItem *item, int n)
 	item->parent->children = g_list_remove_link (item->parent->children, orig);
 }
 
+/**
+ * goc_item_lower :
+ * @item: #GocItem
+ * @n: the rank change
+ *
+ * Lowers @item by @n steps (or less if the list is too short) in the item list
+ * so that it is displayed more deeply in the items stack.
+ **/
 void
 goc_item_lower (GocItem *item, int n)
 {
@@ -438,6 +562,13 @@ goc_item_lower (GocItem *item, int n)
 	item->parent->children = g_list_remove_link (item->parent->children, orig);
 }
 
+/**
+ * goc_item_lower_to_bottom :
+ * @item: #GocItem
+ *
+ * Lowers @item to bottom so that it will be at least partly hidden by any
+ * overlapping item.
+ **/
 void
 goc_item_lower_to_bottom (GocItem *item)
 {
@@ -446,6 +577,12 @@ goc_item_lower_to_bottom (GocItem *item)
 	item->parent->children = g_list_prepend (item->parent->children, item);
 }
 
+/**
+ * goc_item_raise_to_top :
+ * @item: #GocItem
+ *
+ * Raises @item to front so that it becomes the toplevel item.
+ **/
 void
 goc_item_raise_to_top (GocItem *item)
 {

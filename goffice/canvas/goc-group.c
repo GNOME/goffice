@@ -306,7 +306,6 @@ goc_group_add_child (GocGroup *group, GocItem *item)
 	g_object_notify (G_OBJECT (item), "canvas");
 	if (GOC_ITEM (group)->realized)
 		_goc_item_realize (item);
-	goc_item_parent_changed (item);
 	goc_item_bounds_changed (GOC_ITEM (group));
 }
 
