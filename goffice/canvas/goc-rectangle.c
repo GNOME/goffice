@@ -194,7 +194,7 @@ goc_rectangle_class_init (GocItemClass *item_klass)
 	g_object_class_install_property (obj_klass, RECT_PROP_X,
 		g_param_spec_double ("x",
 			_("x"),
-			_("The rectangle left position"),
+			_("The rectangle left position (or right position in RTL mode)"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (obj_klass, RECT_PROP_Y,

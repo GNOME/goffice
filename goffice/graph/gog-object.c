@@ -685,7 +685,7 @@ gog_object_init (GogObject *obj)
 GSF_CLASS_FULL (GogObject, gog_object,
 		gog_object_base_init, gog_object_base_finalize,
 		gog_object_class_init, NULL, gog_object_init,
-		G_TYPE_OBJECT, 0, {})
+		G_TYPE_OBJECT, G_TYPE_FLAG_ABSTRACT, {})
 
 static gboolean
 gog_object_is_same_type (GogObject *obj_a, GogObject *obj_b)

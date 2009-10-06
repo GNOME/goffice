@@ -214,7 +214,7 @@ gog_series_element_class_init (GogSeriesElementClass *klass)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
 }
 
-GSF_CLASS (GogSeriesElement, gog_series_element,
+GSF_CLASS_ABSTRACT (GogSeriesElement, gog_series_element,
 	   gog_series_element_class_init, NULL /*gog_series_element_init*/,
 	   GOG_TYPE_STYLED_OBJECT)
 
@@ -813,7 +813,7 @@ gog_series_dataset_init (GogDatasetClass *iface)
 
 GSF_CLASS_FULL (GogSeries, gog_series,
 		NULL, NULL, gog_series_class_init, NULL,
-		gog_series_init, GOG_TYPE_STYLED_OBJECT, 0,
+		gog_series_init, GOG_TYPE_STYLED_OBJECT, G_TYPE_FLAG_ABSTRACT,
 		GSF_INTERFACE (gog_series_dataset_init, GOG_TYPE_DATASET))
 
 /**

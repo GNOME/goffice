@@ -70,7 +70,6 @@ typedef struct {
 static void
 pie_pref_state_free (PiePrefState *state)
 {
-puts("freeing");
 	g_signal_handler_disconnect (state->gobj, state->update_editor_handler);
 	g_object_unref (state->gobj);
 	g_free (state);

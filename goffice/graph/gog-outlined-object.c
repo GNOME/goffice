@@ -164,6 +164,6 @@ gog_outlined_view_class_init (GogOutlinedViewClass *oview_klass)
 	oview_klass->call_parent_render = TRUE;
 }
 
-GSF_CLASS (GogOutlinedView, gog_outlined_view,
+GSF_CLASS_ABSTRACT (GogOutlinedView, gog_outlined_view,
 	   gog_outlined_view_class_init, NULL,
 	   GOG_TYPE_VIEW)

@@ -27,6 +27,13 @@
 #include <glib/gi18n-lib.h>
 
 /**
+ * SECTION:goc-item
+ * @short_description: Base canvas item.
+ *
+ * #GocItem is the virtual base object for canvas items.
+**/
+
+/**
  * GocItem :
  * @base: the parent object.
  * @canvas: the canvas in which the item is displayed.
@@ -40,9 +47,9 @@
  * @x1: the highest horizontal bound of the item.
  * @y1: the highest vertical bound of the item.
  *
- * The virtual base object for canvas items. The various fields should not be
- * accessed directly except from children objects which must update @x0, @y0,
- * @x1, and @y1. All other fields are read-only.
+ * The various fields should not be accessed directly except from children
+ * objects which must update @x0, @y0, @x1, and @y1. All other fields are
+ * read-only.
  **/
 
 enum {
@@ -230,9 +237,9 @@ goc_item_init (GocItem *item)
 	item->visible = TRUE;
 }
 
-GSF_CLASS (GocItem, goc_item,
-	   goc_item_class_init, goc_item_init,
-	   G_TYPE_OBJECT)
+GSF_CLASS_FULL (GocItem, goc_item, NULL, NULL,
+	   goc_item_class_init, NULL, goc_item_init,
+	   G_TYPE_OBJECT, G_TYPE_FLAG_ABSTRACT, {})
 
 static void
 _goc_item_update_bounds (GocItem *item)
@@ -407,10 +414,7 @@ goc_item_invalidate (GocItem *item)
 	y0 = item->y0;
 	x1 = item->x1;
 	y1 = item->y1;
-	while (parent) {
-		goc_group_adjust_bounds (parent, &x0, &y0, &x1, &y1);
-		parent = parent->base.parent;
-	}
+	goc_group_adjust_bounds (parent, &x0, &y0, &x1, &y1);
 	goc_canvas_invalidate (item->canvas, x0, y0, x1, y1);
 }
 
@@ -527,8 +531,9 @@ goc_item_ungrab	(GocItem *item)
  * @item: #GocItem
  * @n: the rank change
  *
- * Raises @item by @n steps (or less if the list is too short) in the item list
- * so that it is displayed nrearer the top of the items stack.
+ * Raises @item by @n steps inside its parent #GocGroup (or less if the list
+ * is too short) in the item list so that it is displayed nrearer the top of
+ * the items stack.
  **/
 void
 goc_item_raise (GocItem *item, int n)
@@ -547,8 +552,9 @@ goc_item_raise (GocItem *item, int n)
  * @item: #GocItem
  * @n: the rank change
  *
- * Lowers @item by @n steps (or less if the list is too short) in the item list
- * so that it is displayed more deeply in the items stack.
+ * Lowers @item by @n steps inside its parent #GocGroup (or less if the list
+ * is too short) in the item list so that it is displayed more deeply in the
+ * items stack.
  **/
 void
 goc_item_lower (GocItem *item, int n)
@@ -566,8 +572,8 @@ goc_item_lower (GocItem *item, int n)
  * goc_item_lower_to_bottom :
  * @item: #GocItem
  *
- * Lowers @item to bottom so that it will be at least partly hidden by any
- * overlapping item.
+ * Lowers @item to bottom inside its parent #GocGroup so that it will be at
+ * least partly hidden by any overlapping item.
  **/
 void
 goc_item_lower_to_bottom (GocItem *item)
@@ -581,7 +587,8 @@ goc_item_lower_to_bottom (GocItem *item)
  * goc_item_raise_to_top :
  * @item: #GocItem
  *
- * Raises @item to front so that it becomes the toplevel item.
+ * Raises @item to front so that it becomes the toplevel item inside
+ * its parent #GocGroup.
  **/
 void
 goc_item_raise_to_top (GocItem *item)

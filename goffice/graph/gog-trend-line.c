@@ -48,7 +48,7 @@ gog_trend_line_class_init (GogObjectClass *gog_klass)
 	gog_klass->type_name	= gog_trend_line_type_name;
 }
 
-GSF_CLASS (GogTrendLine, gog_trend_line,
+GSF_CLASS_ABSTRACT (GogTrendLine, gog_trend_line,
 	   gog_trend_line_class_init, NULL,
 	   GOG_TYPE_STYLED_OBJECT)
 

@@ -33,7 +33,16 @@ enum {
 	GROUP_PROP_X,
 	GROUP_PROP_Y,
 };
-
+/**
+ * SECTION:goc-group
+ * @short_description: Group item
+ *
+ * A #GocGroup is a #GocItem which just contains other items.
+ *
+ * The contents
+ * of the canvas are stored as a tree where #GocGroup items are branches and
+ * other items are leafs.
+ **/
 static void
 goc_group_set_property (GObject *gobject, guint param_id,
 				    GValue const *value, GParamSpec *pspec)
@@ -253,6 +262,13 @@ GSF_CLASS (GocGroup, goc_group,
 	   goc_group_class_init, NULL,
 	   GOC_TYPE_ITEM)
 
+/**
+ * goc_group_new :
+ * @parent: #GocGroup
+ *
+ * Creates a new #GocGroup as a child of @parent.
+ * Returns: the newly created #GocGroup.
+ **/
 GocGroup*
 goc_group_new (GocGroup *parent)
 {
@@ -268,6 +284,12 @@ goc_group_new (GocGroup *parent)
 	return group;
 }
 
+/**
+ * goc_group_clear
+ * @group: #GocGroup
+ *
+ * Destroys all @group children.
+ **/
 void
 goc_group_clear (GocGroup *group)
 {
@@ -290,66 +312,122 @@ goc_group_clear (GocGroup *group)
 	}
 }
 
+/**
+ * goc_group_add_child :
+ * @parent: #GocGroup
+ * @item: #GocItem
+ *
+ * Adds @item as a new child to @parent.
+ **/
 void
-goc_group_add_child (GocGroup *group, GocItem *item)
+goc_group_add_child (GocGroup *parent, GocItem *item)
 {
-	g_return_if_fail (GOC_IS_GROUP (group));
+	g_return_if_fail (GOC_IS_GROUP (parent));
 	g_return_if_fail (GOC_IS_ITEM (item));
-	if (item->parent == group)
+	if (item->parent == parent)
 		return;
 	if (item->parent != NULL)
 		goc_group_remove_child (item->parent, item);
-	group->children = g_list_append (group->children, item);
-	item->parent = group;
-	item->canvas = group->base.canvas;
+	parent->children = g_list_append (parent->children, item);
+	item->parent = parent;
+	item->canvas = parent->base.canvas;
 	g_object_notify (G_OBJECT (item), "parent");
 	g_object_notify (G_OBJECT (item), "canvas");
-	if (GOC_ITEM (group)->realized)
+	if (GOC_ITEM (parent)->realized)
 		_goc_item_realize (item);
-	goc_item_bounds_changed (GOC_ITEM (group));
+	goc_item_bounds_changed (GOC_ITEM (parent));
 }
 
+/**
+ * goc_group_remove_child :
+ * @parent: #GocGroup
+ * @item: #GocItem
+ *
+ * Removes @item from @parent. This function will fail if @item is not a
+ * child of @parent.
+ **/
 void
-goc_group_remove_child (GocGroup *group, GocItem *item)
+goc_group_remove_child (GocGroup *parent, GocItem *item)
 {
-	g_return_if_fail (GOC_IS_GROUP (group));
+	g_return_if_fail (GOC_IS_GROUP (parent));
 	g_return_if_fail (GOC_IS_ITEM (item));
-	g_return_if_fail (item->parent == group);
+	g_return_if_fail (item->parent == parent);
 	if (item->canvas && item->canvas->last_item == item)
 		item->canvas->last_item = NULL;
-	if (GOC_ITEM (group)->realized)
+	if (GOC_ITEM (parent)->realized)
 		_goc_item_unrealize (item);
-	group->children = g_list_remove (group->children, item);
+	parent->children = g_list_remove (parent->children, item);
 	item->parent = NULL;
 	item->canvas = NULL;
 	g_object_notify (G_OBJECT (item), "parent");
 	g_object_notify (G_OBJECT (item), "canvas");
-	goc_item_bounds_changed (GOC_ITEM (group));
+	goc_item_bounds_changed (GOC_ITEM (parent));
 }
 
+/**
+ * goc_group_adjust_bounds
+ * @group: #GocGroup
+ * @x0: first horizontal coordinate
+ * @y0: first vertical coordinate
+ * @x1: last horizontal coordinate
+ * @y1: last vertical coordinate
+ *
+ * Adds @group horizontal offset to @x0 and @x1, and vertical offset to @y0
+ * and @y1. This function is called recursively so that when returning @x0,
+ * @y0, @x1, and @y1 are absolute coordinates in canvas space, 
+ **/
 void
 goc_group_adjust_bounds (GocGroup const *group, double *x0, double *y0, double *x1, double *y1)
-{
-	g_return_if_fail (GOC_IS_GROUP (group));
-	*x0 += group->x;
-	*y0 += group->y;
-	*x1 += group->x;
-	*y1 += group->y;
-}
-
-void
-goc_group_adjust_coords (GocGroup const *group, double *x0, double *y0)
 {
 	GocGroup *parent;
 	g_return_if_fail (GOC_IS_GROUP (group));
 	*x0 += group->x;
 	*y0 += group->y;
+	*x1 += group->x;
+	*y1 += group->y;
 	parent = GOC_ITEM (group)->parent;
 	if (parent)
-		goc_group_adjust_coords (parent, x0, y0);
+		goc_group_adjust_bounds (parent, x0, y0, x1, y1);
 }
 
-void goc_group_cairo_transform (GocGroup const *group, cairo_t *cr, double x, double y)
+/**
+ * goc_group_adjust_coords
+ * @group: #GocGroup
+ * @x: horizontal coordinate
+ * @y: vertical coordinate
+ *
+ * Adds @group horizontal offset to @x0, and vertical offset to @y0.
+ * This function is called recursively so that when returning @x0 and
+ * @y0 are absolute coordinates in canvas space, 
+ **/
+void
+goc_group_adjust_coords (GocGroup const *group, double *x, double *y)
+{
+	GocGroup *parent;
+	g_return_if_fail (GOC_IS_GROUP (group));
+	*x += group->x;
+	*y += group->y;
+	parent = GOC_ITEM (group)->parent;
+	if (parent)
+		goc_group_adjust_coords (parent, x, y);
+}
+
+/**
+ * goc_group_cairo_transform :
+ * @group: #GocGroup
+ * @cr: #cairo_t
+ * @x: horizontal coordinate
+ * @y: vertical coordinate
+ *
+ * Translates @cr current context so that operations start at (@x,@y), which
+ * are @group relative coordinates, and is scaled according to the containing
+ * #GocCanvas current scale (see goc_canvas_get_pixels_per_unit()). The
+ * translation takes all @group ancestors into account.
+ *
+ * This function does not call cairo_save().
+ **/
+void
+goc_group_cairo_transform (GocGroup const *group, cairo_t *cr, double x, double y)
 {
 	GocGroup *parent;
 	g_return_if_fail (GOC_IS_GROUP (group));

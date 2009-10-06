@@ -919,6 +919,7 @@ GOComboText
 GOComboTextSearch
 go_combo_text_get_type
 go_combo_text_new
+go_combo_text_new_default
 go_combo_text_get_entry
 go_combo_text_set_text
 go_combo_text_add_item
@@ -1035,10 +1036,12 @@ GO_IS_FORMAT_SEL
 GOFormatSel
 go_format_sel_get_type
 go_format_sel_new
+go_format_sel_new_full
 go_format_sel_set_focus
 go_format_sel_set_style_format
 go_format_sel_set_locale
 go_format_sel_get_fmt
+go_format_sel_get_dateconv
 go_format_sel_set_dateconv
 go_format_sel_show_preview
 go_format_sel_hide_preview
@@ -1117,6 +1120,7 @@ GOGraphWidgetSizeMode
 go_graph_widget_new
 go_graph_widget_get_chart
 go_graph_widget_get_graph
+go_graph_widget_get_renderer
 go_graph_widget_get_type
 go_graph_widget_set_size_mode
 <SUBSECTION Private>
@@ -1434,7 +1438,6 @@ go_matrix3x3_multiply
 <INCLUDE>goffice/graph/go-geometry.h</INCLUDE>
 GO_GEOMETRY_ANGLE_TOLERANCE
 GOGeometrySide
-GODirection
 GOGeometryRotationType
 GOGeometryOBR
 GOGeometryAABR
@@ -1446,6 +1449,11 @@ go_geometry_test_OBR_overlap
 go_geometry_get_rotation_type
 go_geometry_calc_label_position
 go_geometry_calc_label_anchor
+<SUBSECTION>
+GODirection
+go_direction_get_type
+go_direction_is_forward
+go_direction_is_horizontal
 </SECTION>
 
 <SECTION>
@@ -1898,6 +1906,15 @@ go_xml_get_child_by_name
 go_xml_get_child_by_name_no_lang
 go_xml_get_child_by_name_by_lang
 go_xml_out_add_color
+</SECTION>
+
+<SECTION>
+<FILE>go-pixbuf</FILE>
+<TITLE>GdkPixbufExtras</TITLE>
+go_pixbuf_get_from_cache
+go_pixbuf_intelligent_scale
+go_pixbuf_new_from_file
+go_pixbuf_tile
 </SECTION>
 
 <SECTION>

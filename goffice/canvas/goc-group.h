@@ -51,7 +51,7 @@ void goc_group_clear (GocGroup *group);
 void goc_group_add_child (GocGroup *parent, GocItem *item);
 void goc_group_remove_child (GocGroup *parent, GocItem *item);
 void goc_group_adjust_bounds (GocGroup const *group, double *x0, double *y0, double *x1, double *y1);
-void goc_group_adjust_coords (GocGroup const *group, double *x0, double *y0);
+void goc_group_adjust_coords (GocGroup const *group, double *x, double *y);
 void goc_group_cairo_transform (GocGroup const *group, cairo_t *cr, double x, double y);
 
 G_END_DECLS

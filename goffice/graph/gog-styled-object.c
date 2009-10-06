@@ -283,7 +283,7 @@ gog_styled_object_so_init (GOStyledObjectClass *iface)
 
 GSF_CLASS_FULL (GogStyledObject, gog_styled_object, NULL, NULL,
 	   gog_styled_object_class_init, NULL, gog_styled_object_init,
-	   GOG_TYPE_OBJECT, 0,
+	   GOG_TYPE_OBJECT, G_TYPE_FLAG_ABSTRACT,
 	   GSF_INTERFACE (gog_styled_object_so_init, GO_TYPE_STYLED_OBJECT))
 
 

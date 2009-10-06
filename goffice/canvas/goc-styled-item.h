@@ -36,11 +36,14 @@ struct _GocStyledItem {
 
 typedef struct _GocStyledItemClass GocStyledItemClass;
 struct _GocStyledItemClass {
+	/*< private >*/
 	GocItemClass base;
 
+	/*< public >*/
 	/* virtual */
 	void	  (*init_style)     	(GocStyledItem *item, GOStyle *style);
 
+	/*< private >*/
 	/* signal */
 	void (*style_changed) (GocStyledItem *item, GOStyle const *new_style);
 };

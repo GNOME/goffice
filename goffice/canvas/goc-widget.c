@@ -112,10 +112,7 @@ goc_widget_notify_scrolled (GocItem *item)
 	y0 = item->y0;
 	x1 = item->x1;
 	y1 = item->y1;
-	while (parent) {
-		goc_group_adjust_bounds (parent, &x0, &y0, &x1, &y1);
-		parent = parent->base.parent;
-	}
+	goc_group_adjust_bounds (parent, &x0, &y0, &x1, &y1);
 	x0 = (x0 - item->canvas->scroll_x1) * item->canvas->pixels_per_unit;
 	y0 = (y0 - item->canvas->scroll_y1) * item->canvas->pixels_per_unit;
 	x1 = (x1 - item->canvas->scroll_x1) * item->canvas->pixels_per_unit;

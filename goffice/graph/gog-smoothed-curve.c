@@ -73,7 +73,7 @@ gog_smoothed_curve_init (GogSmoothedCurve *curve)
 	curve->x = curve->y = NULL;
 }
 
-GSF_CLASS (GogSmoothedCurve, gog_smoothed_curve,
+GSF_CLASS_ABSTRACT (GogSmoothedCurve, gog_smoothed_curve,
 	   gog_smoothed_curve_class_init, gog_smoothed_curve_init,
 	   GOG_TYPE_TREND_LINE)
 

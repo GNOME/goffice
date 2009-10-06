@@ -27,6 +27,17 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
+/**
+ * SECTION:goc-styled-item
+ * @short_description: Styled items
+ *
+ * The virtual base object for canvas items with style.
+ **/
+
+/**
+ * GocStyledItemClass :
+ * @init_style: style initialization handler.
+ **/
 enum {
 	STYLED_ITEM_PROP_0,
 	STYLED_ITEM_PROP_STYLE,
@@ -116,6 +127,14 @@ goc_styled_item_class_init (GocItemClass *goc_klass)
 	GObjectClass *gobject_klass = (GObjectClass *) goc_klass;
 	GocStyledItemClass *style_klass = (GocStyledItemClass *) goc_klass;
 
+/**
+ * GocStyledItem::style-changed:
+ * @gsi: the object on which the signal is emitted
+ * @style: the new #GOStyle.
+ *
+ * The ::style-changed signal is emitted when a new style 
+ * has been set on a styled item. 
+ **/
 	goc_styled_item_signals [STYLE_CHANGED] = g_signal_new ("style-changed",
 		G_TYPE_FROM_CLASS (goc_klass),
 		G_SIGNAL_RUN_LAST,
@@ -141,7 +160,7 @@ goc_styled_item_class_init (GocItemClass *goc_klass)
 	g_object_class_install_property (gobject_klass, STYLED_ITEM_SCALE_LINE_WIDTH,
 		g_param_spec_boolean ("scale-line-width",
 			_("Scale line width"),
-			_("Whether to scale the line width or not when zooming"),
+			_("Whether to scale the line width when zooming"),
 			TRUE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
@@ -228,9 +247,24 @@ goc_styled_item_so_init (GOStyledObjectClass *iface)
 
 GSF_CLASS_FULL (GocStyledItem, goc_styled_item, NULL, NULL,
 	   goc_styled_item_class_init, NULL, goc_styled_item_init,
-	   GOC_TYPE_ITEM, 0,
+	   GOC_TYPE_ITEM, G_TYPE_FLAG_ABSTRACT,
 	   GSF_INTERFACE (goc_styled_item_so_init, GO_TYPE_STYLED_OBJECT))
 
+/**
+ * goc_styled_item_set_cairo_line :
+ * @gsi: #GocStyledItem
+ * @cr: #cairo_t
+ *
+ * Prepares the cairo context @cr to draw a line according to the
+ * item style and canvas scale. The line width is scaled only if
+ * the scale-line-width property is set to %TRUE. This function calls
+ * go_styled_object_set_cairo_line().
+ *
+ * If the item drawing used goc_group_cairo_transform(),
+ * scale-line-width should be %FALSE to avoid scaling twice, or 
+ * go_styled_object_set_cairo_line() should be called directly instead.
+ * Returns: %TRUE if the line is not invisible
+ **/
 gboolean
 goc_styled_item_set_cairo_line  (GocStyledItem const *gsi, cairo_t *cr)
 {
