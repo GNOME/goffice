@@ -203,12 +203,12 @@ goc_polyline_class_init (GocItemClass *item_klass)
                  g_param_spec_boxed ("points", _("points"), _("The polyline vertices"),
 				     GOC_TYPE_POINTS,
 				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
-	g_object_class_install_property (obj_klass, POLYLINE_PROP_SPLINE,
+/*	g_object_class_install_property (obj_klass, POLYLINE_PROP_SPLINE,
 		g_param_spec_boolean ("use-spline",
 				      _("Use spline"),
 				      _("Use a Bezier cubic spline as line"),
 				      FALSE,
-				      GSF_PARAM_STATIC | G_PARAM_READABLE));
+				      GSF_PARAM_STATIC | G_PARAM_READABLE));*/
 
 	item_klass->update_bounds = goc_polyline_update_bounds;
 	item_klass->distance = goc_polyline_distance;
