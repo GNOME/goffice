@@ -132,6 +132,8 @@ static void
 ok_button_clicked_cb (GtkWidget *cc, GOImageSelState *state)
 {
 	GList *l = gtk_icon_view_get_selected_items (state->icon_view);
+	if (*(state->result))
+		g_object_unref (*(state->result));
 	if (l) {
 		GtkTreePath *path = l->data;
 		GtkTreeIter iter;
@@ -139,7 +141,7 @@ ok_button_clicked_cb (GtkWidget *cc, GOImageSelState *state)
 		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), &iter, path)) {
 			gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter, 1, &name, -1);
 			if (name) {
-				*(state->result) = go_doc_get_image (state->doc, name);
+				*(state->result) = g_object_ref (go_doc_get_image (state->doc, name));
 				g_free (name);
 			}
 		}

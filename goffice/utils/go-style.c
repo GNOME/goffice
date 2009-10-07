@@ -496,7 +496,8 @@ cb_image_select (GtkWidget *cc, StylePrefState *state)
 
 	w = go_image_sel_new (state->doc, NULL, &style->fill.image.image);
 	gtk_window_set_transient_for (GTK_WINDOW (w), GTK_WINDOW (gtk_widget_get_toplevel (cc)));
-	gtk_dialog_run (GTK_DIALOG (w));
+	/* we need to call gtk_run_dialog until it returns a non NULL response */
+	while (! gtk_dialog_run (GTK_DIALOG (w)));
 
 	go_style_set_image_preview (style->fill.image.image, state);
 	set_style (state);
@@ -966,8 +967,15 @@ go_style_populate_editor (GOStyle *style,
 	state->object_with_style = object_with_style;
 	state->enable_edit = FALSE;
 
-	state->doc = (GO_IS_STYLED_OBJECT (object_with_style))?
-		go_styled_object_get_document (GO_STYLED_OBJECT (object_with_style)): NULL;
+	if (GO_IS_STYLED_OBJECT (object_with_style))
+		state->doc = go_styled_object_get_document (GO_STYLED_OBJECT (object_with_style));
+	else {
+		GObjectClass *klass = G_OBJECT_GET_CLASS (object_with_style);
+		if (g_object_class_find_property (klass, "document") != NULL)
+			g_object_get (object_with_style, "document", &(state->doc), NULL);
+	}
+	if (state->doc && !GO_IS_DOC (state->doc))
+		state->doc = NULL;
 
 	if ((enable & (GO_STYLE_OUTLINE | GO_STYLE_LINE | GO_STYLE_FILL)) != 0) {
 		gui = go_gtk_builder_new ("go-style-prefs.ui", GETTEXT_PACKAGE, cc);
@@ -2124,6 +2132,8 @@ go_style_create_cairo_pattern (GOStyle const *style, cairo_t *cr)
 					cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
 					break;
 				case GO_IMAGE_WALLPAPER:
+					cairo_matrix_init_translate (&cr_matrix, -x[0], -y[0]);
+					cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
 					break;
 			}
 			return cr_pattern;

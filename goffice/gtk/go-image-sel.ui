@@ -227,8 +227,8 @@
     <action-widgets>
       <action-widget response="0">add</action-widget>
       <action-widget response="0">file-image-select</action-widget>
-      <action-widget response="0">cancel-button</action-widget>
-      <action-widget response="0">ok-button</action-widget>
+      <action-widget response="-6">cancel-button</action-widget>
+      <action-widget response="-5">ok-button</action-widget>
     </action-widgets>
   </object>
 </interface>

@@ -6,6 +6,7 @@ Bruce Cowan:
 Jean:
 	* Fix unicolor gradient brightness.
 	* Fix custom point marker in scatter plots. [#596585]
+	* Fixed various issues related to image filling.
 
 --------------------------------------------------------------------------
 goffice 0.7.13:

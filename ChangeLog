@@ -1,3 +1,13 @@
+2009-10-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-image-sel.c (ok_button_clicked_cb): fix image life cycle.
+	* goffice/gtk/go-image-sel.ui: set correct response buttons.
+	* goffice/utils/go-style.c (cb_image_select): don't proceed until
+	gtk_dialog_run returns non 0,
+	(go_style_populate_editor): accept passing the document as a property
+	(allows images in gnumeric sheet objects),
+	(go_style_create_cairo_pattern): fixed wallpaper origin.
+
 2009-10-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-polygon.c (goc_polygon_class_init): removed not
