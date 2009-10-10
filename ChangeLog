@@ -1,3 +1,26 @@
+2009-10-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/goffice-0.8-sections.txt: now includes all relevant
+	symbols.
+	* goffice/app/go-plugin-service-impl.h: make gtk-doc happy.
+	* goffice/canvas/goc-circle.c: canvas documentation minimally completed.
+	* goffice/canvas/goc-ellipse.c: ditto.
+	* goffice/canvas/goc-graph.c: ditto.
+	* goffice/canvas/goc-item.c: ditto.
+	* goffice/canvas/goc-line.c: ditto.
+	* goffice/canvas/goc-pixbuf.c: ditto.
+	* goffice/canvas/goc-polygon.c: ditto.
+	* goffice/canvas/goc-polyline.c: ditto.
+	* goffice/canvas/goc-rectangle.c: ditto.
+	* goffice/canvas/goc-structs.h: ditto.
+	* goffice/canvas/goc-text.c: ditto.
+	* goffice/canvas/goc-utils.c: ditto.
+	* goffice/canvas/goc-utils.h: ditto.
+	* goffice/canvas/goc-widget.c: ditto.
+	* goffice/graph/gog-object.h: make gtk-doc happy.
+	* goffice/graph/gog-reg-curve.h: ditto.
+	* goffice/graph/gog-trend-line.h: ditto.
+
 2009-10-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/go-image-sel.c (ok_button_clicked_cb): fix image life cycle.

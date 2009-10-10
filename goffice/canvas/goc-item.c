@@ -47,9 +47,33 @@
  * @x1: the highest horizontal bound of the item.
  * @y1: the highest vertical bound of the item.
  *
+ * <para>
+ * #GocItem contains the following fields:
+ * <informaltable pgwide="1" frame="none" role="struct">
+ * <tgroup cols="2"><colspec colwidth="2*"/><colspec colwidth="8*"/>
+ * <tbody>
+ * <row>
+ * <entry>double x0;</entry>
+ * <entry>The lowest horizontal bound of the item.</entry>
+ * </row>
+ * <row>
+ * <entry>double y0;</entry>
+ * <entry>The lowest vertical bound of the item.</entry>
+ * </row>
+ * <row>
+ * <entry>double x1;</entry>
+ * <entry>The highest horizontal bound of the item.</entry>
+ * </row>
+ * <row>
+ * <entry>double y1;</entry>
+ * <entry>The highest vertical bound of the item.</entry>
+ * </row>
+ * </tbody></tgroup></informaltable>
+ * </para>
+ *
  * The various fields should not be accessed directly except from children
- * objects which must update @x0, @y0, @x1, and @y1. All other fields are
- * read-only.
+ * objects which must update @x0, @y0, @x1, and @y1 from their #update_bounds
+ * method. All other fields are read-only and not documented.
  **/
 
 enum {

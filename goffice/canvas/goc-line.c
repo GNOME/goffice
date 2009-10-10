@@ -25,6 +25,14 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+/**
+ * SECTION:goc-line
+ * @short_description: Simple line.
+ *
+ * #GocLine implements simple line drawing in the canvas. The line can have
+ * an arrowhead at its end.
+**/
+
 enum {
 	LINE_PROP_0,
 	LINE_PROP_X0,

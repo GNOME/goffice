@@ -26,6 +26,13 @@
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
+/**
+ * SECTION:goc-ellipse
+ * @short_description: Ellipse.
+ *
+ * #GocEllipse implements ellipse drawing in the canvas.
+**/
+
 enum {
 	ELLIPSE_PROP_0,
 	ELLIPSE_PROP_X,

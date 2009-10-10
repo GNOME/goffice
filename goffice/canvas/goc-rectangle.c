@@ -25,6 +25,13 @@
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
+/**
+ * SECTION:goc-rectangle
+ * @short_description: Rectangle.
+ *
+ * #GocPolygon implements rectangle drawing in the canvas.
+**/
+
 enum {
 	RECT_PROP_0,
 	RECT_PROP_X,

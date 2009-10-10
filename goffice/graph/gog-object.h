@@ -81,9 +81,10 @@ typedef struct {
 	GHashTable *roles;
 	GType	    view_type;
 
-	unsigned use_parent_as_proxy : 1; /* when we change, pretend it was our parent */
-	unsigned can_manual_size : 1;
-	unsigned roles_allocated : 1;
+	/* using some Private/Public statements to make gtk-doc happy since it does not like the ":1"*/
+	unsigned use_parent_as_proxy /*< private >*/:1/*< public >*/; /* when we change, pretend it was our parent */
+	unsigned can_manual_size /*< private >*/:1/*< public >*/;
+	unsigned roles_allocated /*< private >*/:1/*< public >*/;
 
 	/* Virtuals */
 	void	     (*update)		(GogObject *obj);

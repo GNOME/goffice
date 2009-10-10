@@ -22,10 +22,33 @@
 #ifndef GOC_STRUCTS_H
 #define GOC_STRUCTS_H
 
+/**
+ * SECTION:goc-structs
+ *
+ * Simple structures used in the canvas code.
+ **/
+
+/**
+ * GocPoint:
+ * @x: horizontal position of the point.
+ * @y: vertical position of the point.
+ *
+ * A simple point.
+ **/
 typedef struct {
 	double x, y;
 } GocPoint;
 
+
+/**
+ * GocRect:
+ * @x: lowest horizontal bound of the rectangle.
+ * @y: lowest vertical bound of the rectangle.
+ * @width: rectangle width.
+ * @height: rectangle height.
+ *
+ * A simple rectangle.
+ **/
 typedef struct {
 	double x, y;
 	double width, height;

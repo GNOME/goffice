@@ -27,6 +27,13 @@
 
 #include <math.h>
 
+/**
+ * SECTION:goc-graph
+ * @short_description: Graph.
+ *
+ * #GocLine implements #GogGraph embedding in the canvas.
+**/
+
 static GObjectClass *parent_klass;
 
 enum {

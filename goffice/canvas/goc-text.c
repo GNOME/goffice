@@ -25,6 +25,13 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+/**
+ * SECTION:goc-text
+ * @short_description: Text.
+ *
+ * #GocText implements rich text drawing in the canvas.
+**/
+
 enum {
 	TEXT_PROP_0,
 	TEXT_PROP_X,

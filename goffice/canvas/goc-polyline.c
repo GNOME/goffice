@@ -25,6 +25,13 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+/**
+ * SECTION:goc-polyline
+ * @short_description: Multi-segment line.
+ *
+ * #GocPolyline implements muti-segment line drawing in the canvas.
+**/
+
 enum {
 	POLYLINE_PROP_0,
 	POLYLINE_PROP_POINTS,

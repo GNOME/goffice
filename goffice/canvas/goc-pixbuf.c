@@ -25,6 +25,13 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+/**
+ * SECTION:goc-pixbuf
+ * @short_description: Pixbuf.
+ *
+ * #GocPixbuf implements image drawing in the canvas.
+**/
+
 enum {
 	PIXBUF_PROP_0,
 	PIXBUF_PROP_X,

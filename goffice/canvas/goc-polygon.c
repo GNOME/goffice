@@ -24,6 +24,13 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+/**
+ * SECTION:goc-polygon
+ * @short_description: Polygon.
+ *
+ * #GocPolygon implements polygon drawing in the canvas.
+**/
+
 enum {
 	POLYGON_PROP_0,
 	POLYGON_PROP_POINTS,

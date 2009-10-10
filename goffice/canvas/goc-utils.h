@@ -25,8 +25,10 @@
 #include <goffice/goffice.h>
 
 typedef struct {
+	/*< private >*/
 	unsigned n;
 	unsigned refs;
+	/*< public >*/
 	GocPoint *points;
 } GocPoints;
 

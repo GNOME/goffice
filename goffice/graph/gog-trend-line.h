@@ -26,7 +26,10 @@
 
 G_BEGIN_DECLS
 
-typedef GogStyledObject  GogTrendLine;
+struct _GogTrendLine {
+	GogStyledObject  base;
+};
+typedef struct _GogTrendLine GogTrendLine;
 
 typedef GogStyledObjectClass GogTrendLineClass;
 

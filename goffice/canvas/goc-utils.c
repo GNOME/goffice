@@ -22,6 +22,35 @@
 #include <goffice/goffice-config.h>
 #include <goffice/canvas/goc-utils.h>
 
+/**
+ * SECTION:goc-utils
+ *
+ * Only one structure is currently available: #GocPoints.
+ **/
+
+/**
+ * GocPoints:
+ * @points: The embedded points.
+ *
+ * A boxed type used to hold a list of #GocPoint instances.
+ **/
+
+/**
+ * goc_points_new:
+ * @n: the number of #GocPoint instances.
+ *
+ * Creates a new #GocPoints instances with @n points with nul initial
+ * coordinates. The coordinates can be changed using direct access:
+ *
+ * <programlisting>
+ *      GocPoints points = goc_points_new (1);
+ *      points->points[0].x = my_x;
+ *      points->points[0].y = my_y;
+ * </programlisting>
+ *
+ * Returns: the newly created #GocPoints with an initial references count of 1.
+ **/
+
 GocPoints *
 goc_points_new (unsigned n)
 {
@@ -32,6 +61,13 @@ goc_points_new (unsigned n)
 	return points;
 }
 
+/**
+ * goc_points_ref :
+ * @points: #GocPoints
+ *
+ * Increases the references count of @points by 1.
+ * Returns: the referenced #GocPoints.
+ **/
 GocPoints *
 goc_points_ref (GocPoints *points)
 {
@@ -39,6 +75,13 @@ goc_points_ref (GocPoints *points)
 	return points;
 }
 
+/**
+ * goc_points_unref:
+ * @points: #GocPoints
+ *
+ * Decreases the references count of @points by 1, and destroys it if the
+ * references count becomes 0.
+ **/
 void
 goc_points_unref (GocPoints *points)
 {

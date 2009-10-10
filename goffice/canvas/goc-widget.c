@@ -27,6 +27,13 @@
 
 #include <math.h>
 
+/**
+ * SECTION:goc-widget
+ * @short_description: Widgets.
+ *
+ * #GocWidget implements widgets embedding in the canvas.
+**/
+
 static GocItemClass *widget_parent_class;
 
 enum {

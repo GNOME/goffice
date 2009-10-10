@@ -14,7 +14,9 @@ libgoffice_shutdown
 <TITLE>GogObject</TITLE>
 <INCLUDE>goffice/graph/gog-object.h</INCLUDE>
 GogObject
+GogObjectClass
 GOG_PARAM_FORCE_SAVE
+GOG_PARAM_POSITION
 GogDataDuplicator
 GogObjectNamingConv
 GogObjectRole
@@ -58,6 +60,11 @@ gog_object_set_invisible
 GogObjectPosition
 GOG_POSITION_IS_PADDING
 GOG_POSITION_IS_SPECIAL
+<SUBSECTION>
+GogDataType
+GogDimType
+GogMSDimType
+GogEnumFunc
 <SUBSECTION Standard>
 GOG_TYPE_OBJECT
 GOG_OBJECT
@@ -76,6 +83,7 @@ goffice_graph_debug_level
 <TITLE>GogStyledObject</TITLE>
 <INCLUDE>goffice/graph/gog-styled-object.h</INCLUDE>
 GogStyledObject
+GogStyledObjectClass
 <SUBSECTION Standard>
 GOG_TYPE_STYLED_OBJECT
 GOG_STYLED_OBJECT
@@ -102,6 +110,8 @@ GOG_IS_OUTLINED_VIEW
 GOG_OUTLINED_VIEW_GET_CLASS
 <SUBSECTION Private>
 gog_outlined_object_get_type
+GogOutlinedView
+GogOutlinedViewClass
 gog_outlined_view_get_type
 </SECTION>
 
@@ -156,6 +166,7 @@ gog_view_get_type
 <FILE>gog-graph</FILE>
 <TITLE>GogGraph</TITLE>
 GogGraph
+GogGraphClass
 gog_graph_validate_chart_layout
 gog_graph_num_cols
 gog_graph_num_rows
@@ -240,6 +251,7 @@ gog_legend_get_type
 <FILE>gog-grid</FILE>
 <TITLE>GogGrid</TITLE>
 GogGrid
+GogGridType
 gog_grid_get_gtype
 gog_grid_set_gtype
 <SUBSECTION Standard>
@@ -254,7 +266,8 @@ gog_grid_get_type
 <FILE>gog-axis</FILE>
 <TITLE>GogAxis</TITLE>
 GogAxis
-GogAxisTick
+GogAxisSet
+GogAxisType
 GogAxisElemType
 gog_axis_get_atype
 gog_axis_is_center_on_ticks
@@ -275,6 +288,8 @@ gog_axis_clear_contributors
 gog_axis_bound_changed
 gog_axis_get_grid_line
 gog_axis_get_circular_rotation
+<SUBSECTION>
+GogAxisPolarUnit
 gog_axis_get_polar_perimeter
 gog_axis_set_polar_unit
 gog_axis_get_polar_unit
@@ -292,7 +307,9 @@ gog_axis_get_type
 GogAxisLine
 GogAxisBase
 GogAxisPosition
+GogAxisTick
 GogAxisTickTypes
+GogAxisTickProperties
 <SUBSECTION Standard>
 GOG_TYPE_AXIS_LINE
 GOG_AXIS_LINE
@@ -329,6 +346,7 @@ GOG_GRID_LINE
 GOG_IS_GRID_LINE
 <SUBSECTION Private>
 gog_grid_line_get_type
+GogGridLineView
 gog_grid_line_view_render_lines
 gog_grid_line_view_render_stripes
 </SECTION>
@@ -337,6 +355,7 @@ gog_grid_line_view_render_stripes
 <FILE>gog-plot</FILE>
 <TITLE>GogPlot</TITLE>
 GogPlot
+GogPlotClass
 GogPlotBoundInfo
 gog_plot_new_by_type
 gog_plot_new_by_name
@@ -381,7 +400,7 @@ gog_plot_get_type
 <FILE>gog-series</FILE>
 <TITLE>GogSeries</TITLE>
 GogSeries
-GogSeriesElement
+GogSeriesFillType
 gog_series_is_valid
 gog_series_has_legend
 gog_series_get_name
@@ -400,6 +419,7 @@ gog_series_populate_fill_type_combo
 gog_series_set_fill_type
 gog_series_get_interpolation_params
 gog_series_lines_stroke
+GOG_SERIES_ACCEPT_TREND_LINE
 <SUBSECTION Standard>
 GOG_TYPE_SERIES
 GOG_SERIES
@@ -412,7 +432,9 @@ GOG_SERIES_GET_CLASS
 GOG_TYPE_SERIES_ELEMENT
 GOG_SERIES_ELEMENT
 GOG_IS_SERIES_ELEMENT
+GogSeriesElement
 GogSeriesElementClass
+GogSeriesElementStyleList
 GOG_SERIES_ELEMENT_GET_CLASS
 <SUBSECTION Private>
 gog_series_get_type
@@ -439,6 +461,7 @@ gog_series_lines_get_type
 <SECTION>
 <FILE>gog-trend-line</FILE>
 <TITLE>GogTrendLine</TITLE>
+GogTrendLine
 GogTrendLineType
 gog_trend_line_new_by_name
 gog_trend_line_new_by_type
@@ -457,7 +480,9 @@ gog_trend_line_get_type
 <TITLE>GogSmoothedCurve</TITLE>
 GogSmoothedCurve
 <SUBSECTION Standard>
+GOG_SMOOTHED_CURVE
 GOG_IS_SMOOTHED_CURVE
+GOG_TYPE_SMOOTHED_CURVE
 GogSmoothedCurveClass
 <SUBSECTION Private>
 gog_smoothed_curve_get_type
@@ -487,6 +512,7 @@ gog_error_bar_get_type
 <FILE>gog-reg-curve</FILE>
 <TITLE>GogRegCurve</TITLE>
 GogRegCurve
+GogRegCurveClass
 gog_reg_curve_get_equation
 gog_reg_curve_get_R2
 gog_reg_curve_get_bounds
@@ -620,6 +646,8 @@ go_cairo_emit_svg_path
 go_cairo_surface_is_vector
 go_cairo_convert_data_to_pixbuf
 go_cairo_convert_data_from_pixbuf
+GO_CAIRO_CLAMP
+GO_CAIRO_CLAMP_SNAP
 </SECTION>
 
 <SECTION>
@@ -654,6 +682,7 @@ GO_IS_PATH
 <FILE>gog-data-allocator</FILE>
 <TITLE>GogDataAllocator</TITLE>
 GogDataAllocator
+GogDataAllocatorClass
 gog_data_allocator_allocate
 gog_data_allocator_editor
 <SUBSECTION Standard>
@@ -671,6 +700,7 @@ gog_data_allocator_get_type
 <FILE>gog-data-editor</FILE>
 <TITLE>GogDataEditor</TITLE>
 GogDataEditor
+GogDataEditorClass
 gog_data_editor_set_format
 gog_data_editor_set_value_double
 <SUBSECTION Standard>
@@ -687,6 +717,7 @@ GOG_DATA_EDITOR_GET_CLASS
 <FILE>gog-data-set</FILE>
 <TITLE>GogDataset</TITLE>
 GogDataset
+GogDatasetClass
 GogDatasetElement
 gog_dataset_dims
 gog_dataset_get_dim
@@ -1098,6 +1129,8 @@ go_3d_rotation_sel_get_type
 <SECTION>
 <FILE>go-optionmenu</FILE>
 <TITLE>GOOptionMenu</TITLE>
+GOOptionMenu
+GOOptionMenuClass
 go_option_menu_new
 go_option_menu_set_menu
 go_option_menu_set_history
@@ -1121,8 +1154,12 @@ go_graph_widget_new
 go_graph_widget_get_chart
 go_graph_widget_get_graph
 go_graph_widget_get_renderer
-go_graph_widget_get_type
 go_graph_widget_set_size_mode
+<SUBSECTION Standard>
+GO_GRAPH_WIDGET
+GO_IS_GRAPH_WIDGET
+GO_TYPE_GRAPH_WIDGET
+go_graph_widget_get_type
 <SUBSECTION Private>
 GOGraphWidgetClass
 </SECTION>
@@ -1134,11 +1171,18 @@ GOPaletteSwatchRenderCallback
 GOPaletteSwatchTooltipCallback
 go_palette_new
 go_palette_get_n_swatches
-go_palette_get_type
 go_palette_get_user_data
 go_palette_show_automatic
 go_palette_show_custom
 go_palette_swatch_new
+<SUBSECTION Standard>
+GO_IS_PALETTE
+GO_IS_PALETTE_CLASS
+GO_PALETTE
+GO_TYPE_PALETTE
+go_palette_get_type
+GO_PALETTE_CLASS
+GO_PALETTE_GET_CLASS
 <SUBSECTION Private>
 GOPalette
 GOPaletteClass
@@ -1148,9 +1192,14 @@ GOPalettePrivate
 <SECTION>
 <FILE>go-selector</FILE>
 <TITLE>GOSelector</TITLE>
+GOSelector
+GOSelectorClass
+GOSelectorDndDataGet
+GOSelectorDndDataReceived
+GOSelectorDndFillIcon
+GOSelectorPrivate
 go_selector_activate
 go_selector_get_active
-go_selector_get_type
 go_selector_get_user_data
 go_selector_new
 go_selector_set_active
@@ -1158,6 +1207,14 @@ go_selector_setup_dnd
 go_selector_update_swatch
 go_gradient_selector_new
 go_gradient_selector_set_colors
+<SUBSECTION Standard>
+GO_SELECTOR
+GO_IS_SELECTOR
+GO_IS_SELECTOR_CLASS
+GO_TYPE_SELECTOR
+GO_SELECTOR_CLASS
+GO_SELECTOR_GET_CLASS
+go_selector_get_type
 </SECTION>
 
 <SECTION>
@@ -1165,7 +1222,6 @@ go_gradient_selector_set_colors
 <TITLE>GOColorSelector</TITLE>
 GOColorPalette
 go_color_palette_get_current_color
-go_color_palette_get_type
 go_color_palette_make_menu
 go_color_palette_new
 go_color_palette_set_allow_alpha
@@ -1177,6 +1233,12 @@ go_color_selector_get_color
 go_color_selector_new
 go_color_selector_set_allow_alpha
 go_color_selector_set_color
+<SUBSECTION Standard>
+GO_COLOR_PALETTE
+GO_IS_COLOR_PALETTE
+GO_COLOR_PALETTE_CLASS
+GO_TYPE_COLOR_PALETTE
+go_color_palette_get_type
 </SECTION>
 
 <SECTION>
@@ -1214,12 +1276,8 @@ go_finite
 go_finitel
 go_pow2
 go_pow10
-asinh
-acosh
-atanh
-log1p
-expm1
-isnan
+go_ascii_strtod
+go_strtod
 </SECTION>
 
 <SECTION>
@@ -1454,6 +1512,8 @@ GODirection
 go_direction_get_type
 go_direction_is_forward
 go_direction_is_horizontal
+<SUBSECTION Standard>
+GO_TYPE_DIRECTION
 </SECTION>
 
 <SECTION>
@@ -1470,6 +1530,17 @@ go_locale_get_decimal
 go_locale_month_before_day
 go_locale_get_date_format
 go_locale_get_time_format
+go_locale_24h
+</SECTION>
+
+<SECTION>
+<FILE>go-marshalers</FILE>
+<SUBSECTION Private>
+go__BOOLEAN__OBJECT
+go__BOOLEAN__POINTER
+go__STRING__POINTER
+go__VOID__INT_BOOLEAN_BOOLEAN_BOOLEAN
+go__BOOLEAN__OBJECT_STRING_POINTER
 </SECTION>
 
 <SECTION>
@@ -1517,6 +1588,7 @@ go_image_set_name
 <FILE>go-persist</FILE>
 <TITLE>GOPersist</TITLE>
 GOPersist
+GOPersistClass
 go_persist_dom_load
 go_persist_sax_save
 go_persist_prep_sax
@@ -1660,6 +1732,7 @@ go_line_interpolation_auto_skip
 <SECTION>
 <FILE>go-marker</FILE>
 <TITLE>GOMarker</TITLE>
+GOMarker
 GO_TYPE_MARKER
 GO_MARKER
 GO_IS_MARKER
@@ -1719,6 +1792,8 @@ go_regexp_quote
 <SECTION>
 <FILE>go-search-replace</FILE>
 <TITLE>GOSearchReplace</TITLE>
+GOSearchReplace
+GOSearchReplaceClass
 go_search_replace_error_quark
 go_search_replace_verify
 go_search_match_string
@@ -1862,19 +1937,27 @@ go_utf8_strcapital
 go_strescape
 go_strunescape
 go_string_append_gstring
+go_string_append_c_n
 go_guess_encoding
 go_get_real_name
 go_destroy_password
+<SUBSECTION>
+GOMemChunk
 go_mem_chunk_new
 go_mem_chunk_destroy
 go_mem_chunk_alloc
 go_mem_chunk_alloc0
 go_mem_chunk_free
 go_mem_chunk_foreach_leak
+<SUBSECTION>
 go_object_toggle
 go_object_properties_collect
 go_object_properties_apply
 go_object_properties_free
+go_object_set_property
+<SUBSECTION>
+GOParseKeyValueFunc
+go_parse_key_value
 </SECTION>
 
 <SECTION>
@@ -1946,6 +2029,12 @@ go_string_foreach_base
 </SECTION>
 
 <SECTION>
+<FILE>go-utils</FILE>
+<TITLE>Other</TITLE>
+GOTranslateFunc
+</SECTION>
+
+<SECTION>
 <FILE>go-style</FILE>
 <TITLE>GOStyle</TITLE>
 <INCLUDE>goffice/utils/go-style.h</INCLUDE>
@@ -1988,6 +2077,7 @@ go_style_get_type
 <TITLE>GOStyledObject</TITLE>
 <INCLUDE>goffice/utils/go-styled-object.h</INCLUDE>
 GOStyledObject
+GOStyledObjectClass
 go_styled_object_get_style
 go_styled_object_get_auto_style
 go_styled_object_set_style
@@ -2259,6 +2349,7 @@ GO_IS_PLUGIN_LOADER
 GO_PLUGIN_LOADER_CLASS
 GO_IS_PLUGIN_LOADER_CLASS
 GOPluginLoader
+GOPluginLoaderClass
 go_plugin_loader_get_type
 go_plugin_loader_set_attributes
 go_plugin_loader_get_plugin
@@ -2291,6 +2382,7 @@ GO_TYPE_PLUGIN_SERVICE
 GO_PLUGIN_SERVICE
 GO_IS_PLUGIN_SERVICE
 GOPluginService
+GOPluginServiceClass
 go_plugin_service_get_type
 GO_TYPE_PLUGIN_SERVICE_GENERAL
 GO_PLUGIN_SERVICE_GENERAL
@@ -2322,11 +2414,13 @@ GO_PLUGIN_SERVICE_GOBJECT_LOADER
 GO_IS_PLUGIN_SERVICE_GOBJECT_LOADER
 go_plugin_service_gobject_loader_get_type
 GOPluginServiceGObjectLoader
+GOPluginServiceGObjectLoaderClass
 GO_TYPE_PLUGIN_SERVICE_SIMPLE
 GO_PLUGIN_SERVICE_SIMPLE
 GO_IS_PLUGIN_SERVICE_SIMPLE
 go_plugin_service_simple_get_type
 GOPluginServiceSimple
+GOPluginServiceSimpleClass
 go_plugin_service_new
 go_plugin_service_get_id
 go_plugin_service_get_description
@@ -2339,7 +2433,7 @@ go_plugin_service_unload
 GOPluginServiceCreate
 go_plugin_services_shutdown
 go_plugin_service_define
-<SUBSECTION Private>
+<SUBSECTION Standard>
 GO_PLUGIN_SERVICE_CLASS
 GO_PLUGIN_SERVICE_GET_CLASS
 GO_PLUGIN_SERVICE_GOBJECT_LOADER_CLASS
@@ -2458,6 +2552,7 @@ go_data_vector_get_minmax
 go_data_vector_increasing
 go_data_vector_decreasing
 go_data_vector_vary_uniformly
+GO_DATA_VECTOR_LEN_CACHED
 <SUBSECTION Standard>
 GO_TYPE_DATA_VECTOR
 GO_DATA_VECTOR
@@ -2477,6 +2572,7 @@ go_data_matrix_get_values
 go_data_matrix_get_value
 go_data_matrix_get_str
 go_data_matrix_get_minmax
+GO_DATA_MATRIX_SIZE_CACHED
 <SUBSECTION Standard>
 GO_TYPE_DATA_MATRIX
 GO_DATA_MATRIX
@@ -2561,6 +2657,18 @@ GOUndoGroupClass
 GOUndoUnary
 GOUndoUnaryClass
 GOUndoUnaryFunc
+GO_UNDO
+GO_UNDO_BINARY
+GO_UNDO_GROUP
+GO_UNDO_UNARY
+GO_IS_UNDO
+GO_IS_UNDO_BINARY
+GO_IS_UNDO_GROUP
+GO_IS_UNDO_UNARY
+GO_TYPE_UNDO
+GO_TYPE_UNDO_BINARY
+GO_TYPE_UNDO_GROUP
+GO_TYPE_UNDO_UNARY
 </SECTION>
 
 <SECTION>
@@ -2622,10 +2730,12 @@ go_file_opener_register
 go_file_opener_setup
 go_file_opener_unregister
 go_get_file_openers
+GO_FILE_OPENER_METHOD
 <SUBSECTION Standard>
 GO_FILE_OPENER
 GO_IS_FILE_OPENER
 GO_TYPE_FILE_OPENER
+GO_FILE_OPENER_CLASS
 </SECTION>
 
 <SECTION>
@@ -2656,6 +2766,7 @@ go_file_saver_set_save_scope
 go_file_saver_set_export_options
 go_file_saver_unregister
 go_get_file_savers
+GO_FILE_SAVER_METHOD
 <SUBSECTION Standard>
 GO_TYPE_FILE_SAVER_LEVEL
 GO_TYPE_FILE_SAVER_SCOPE
@@ -2664,6 +2775,7 @@ GO_IS_FILE_SAVER
 GO_TYPE_FILE_SAVER
 go_file_saver_get_type
 go_file_saver_level_get_type
+GO_FILE_SAVER_CLASS
 </SECTION>
 
 ###############################################################################
@@ -2742,6 +2854,7 @@ goc_graph_get_type
 <FILE>goc-group</FILE>
 <TITLE>GocGroup</TITLE>
 GocGroup
+GocGroupClass
 goc_group_new
 goc_group_add_child
 goc_group_remove_child
@@ -2898,9 +3011,29 @@ GocRect
 <FILE>goc-utils</FILE>
 <TITLE>Other utilities</TITLE>
 GocPoints
-goc_points_get_type
-GOC_TYPE_POINTS
 goc_points_new
 goc_points_ref
 goc_points_unref
+<SUBSECTION Standard>
+goc_points_get_type
+GOC_TYPE_POINTS
 </SECTION>
+
+###############################################################################
+
+### ms-compat
+
+<SECTION>
+<FILE>go-ms-parser</FILE>
+GO_MS_PARSER_STACK_TOP
+GO_MS_PARSER_STACK_SECOND
+GOMSParserRecord
+GOMSParserHandleAtom
+GOMSParserStartContainer
+GOMSParserEndContainer
+GOMSParserCallbacks
+go_ms_parser_read
+go_ms_parser_write
+</SECTION>
+
+

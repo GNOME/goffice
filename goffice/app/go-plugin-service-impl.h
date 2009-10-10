@@ -44,7 +44,7 @@ struct _GOPluginService {
 	char *saved_description;
 };
 
-typedef struct{
+typedef struct {
 	GObjectClass g_object_class;
 
 	void (*read_xml) (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error);
@@ -56,7 +56,7 @@ typedef struct{
 #define GO_PLUGIN_SERVICE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_PLUGIN_SERVICE, GOPluginServiceClass))
 #define GO_PLUGIN_SERVICE_GET_CLASS(o) GO_PLUGIN_SERVICE_CLASS (G_OBJECT_GET_CLASS (o))
 
-typedef struct{
+typedef struct {
 	GOPluginServiceClass plugin_service_class;
 	GHashTable *pending; /* has service instances by type names */
 } GOPluginServiceGObjectLoaderClass;
@@ -68,7 +68,7 @@ struct _GOPluginServiceGObjectLoader {
 #define GO_PLUGIN_SERVICE_GOBJECT_LOADER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GO_TYPE_PLUGIN_SERVICE, GOPluginServiceGObjectLoaderClass))
 #define GO_PLUGIN_SERVICE_GOBJECT_LOADER_GET_CLASS(o) GO_PLUGIN_SERVICE_GOBJECT_LOADER_CLASS (G_OBJECT_GET_CLASS (o))
 
-typedef struct{
+typedef struct {
 	GOPluginServiceClass plugin_service_class;
 } GOPluginServiceSimpleClass;
 

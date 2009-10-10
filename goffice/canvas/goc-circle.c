@@ -27,6 +27,13 @@
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 
+/**
+ * SECTION:goc-circle
+ * @short_description: Circle.
+ *
+ * #GocCirle implements circle drawing in the canvas.
+**/
+
 enum {
 	CIRCLE_PROP_0,
 	CIRCLE_PROP_X,

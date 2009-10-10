@@ -44,7 +44,7 @@ typedef struct {
 	GogTrendLineClass base;
 
 	double 		(*get_value_at) (GogRegCurve *reg_curve, double x);
-	gchar const* 	(*get_equation) (GogRegCurve *reg_curve);
+	char const * 	(*get_equation) (GogRegCurve *reg_curve);
 	void 		(*populate_editor) (GogRegCurve *reg_curve, gpointer table);
 } GogRegCurveClass;
 
