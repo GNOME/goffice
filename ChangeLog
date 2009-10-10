@@ -1,3 +1,8 @@
+2009-10-10  Jody Goldberg <jody@gnome.org>
+
+	From peter.jaeckel@gmail.com:
+	* goffice/app/go-plugin.c (go_plugin_get_loader) : new accessor. [#597849]
+
 2009-10-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* docs/reference/goffice-0.8-sections.txt: now includes all relevant

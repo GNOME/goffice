@@ -1158,7 +1158,7 @@ go_plugin_load_base (GOPlugin *plugin, GOErrorInfo **ret_error)
  * @service     : Plugin service
  * @ret_error   : Pointer used to report errors
  *
- * Loads base part of the plugin if is not loaded and then loads given
+ * Loads base part of the plugin if it is not loaded and then loads given
  * plugin service (prepares necessary part of the plugin for direct use).
  * This function is intended for use by GOPluginService objects.
  */
@@ -1268,8 +1268,21 @@ go_plugin_get_services (GOPlugin *plugin)
 	return plugin->services;
 }
 
+/**
+ * go_plugin_get_loader:
+ * @plugin : #GOPlugin
+ *
+ * Returns: The loader.
+ **/
+GOPluginLoader *
+go_plugin_get_loader (GOPlugin *plugin)
+{
+	g_return_val_if_fail (GO_IS_PLUGIN (plugin), NULL);
+	return plugin->loader;
+}
+
 /*
- * May return NULL without errors (is XML file doesn't exist)
+ * May return NULL without errors (if XML file doesn't exist)
  */
 static GOPlugin *
 go_plugin_read_for_dir (gchar const *dir_name, GOErrorInfo **ret_error)

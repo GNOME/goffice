@@ -8,6 +8,9 @@ Jean:
 	* Fix custom point marker in scatter plots. [#596585]
 	* Fixed various issues related to image filling.
 
+Peter Jaeckel:
+	* Extensions for XLL support in Gnumeric.  [#597849]
+
 --------------------------------------------------------------------------
 goffice 0.7.13:
 
