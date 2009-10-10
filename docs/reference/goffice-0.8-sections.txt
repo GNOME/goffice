@@ -2300,17 +2300,14 @@ go_io_context_get_type
 
 <SECTION>
 <FILE>go-plugin</FILE>
-GO_TYPE_PLUGIN
-GO_PLUGIN
-GO_IS_PLUGIN
 GOPlugin
 go_plugin_init
 go_plugin_shutdown
-go_plugin_get_type
 go_plugin_activate
 go_plugin_deactivate
 go_plugin_is_active
 go_plugin_can_deactivate
+go_plugin_get_loader
 go_plugin_load_service
 go_plugin_unload_service
 go_plugin_is_loaded
@@ -2338,6 +2335,11 @@ go_plugin_db_mark_plugin_for_deactivation
 go_plugin_db_is_plugin_marked_for_deactivation
 go_plugin_db_activate_plugin_list
 go_plugin_db_deactivate_plugin_list
+<SUBSECTION Standard>
+GO_TYPE_PLUGIN
+GO_PLUGIN
+GO_IS_PLUGIN
+go_plugin_get_type
 </SECTION>
 
 <SECTION>

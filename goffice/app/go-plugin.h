@@ -37,6 +37,7 @@ char const  *go_plugin_get_description	(GOPlugin *plugin);
 char const  *go_plugin_get_textdomain	(GOPlugin *plugin);
 GSList      *go_plugin_get_services	(GOPlugin *plugin);
 GSList      *go_plugin_get_dependencies_ids (GOPlugin *plugin);
+GOPluginLoader *go_plugin_get_loader (GOPlugin *plugin);
 
 /*
  *
