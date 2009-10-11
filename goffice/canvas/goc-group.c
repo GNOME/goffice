@@ -61,6 +61,7 @@ goc_group_set_property (GObject *gobject, guint param_id,
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
 	}
+	goc_item_bounds_changed (GOC_ITEM (gobject));
 }
 
 static void
