@@ -24,13 +24,14 @@
 
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 GtkWidget *gog_pie_series_element_pref   (GogPieSeriesElement *element, GOCmdContext *cc);
 
 static void
 cb_element_separation_changed (GtkAdjustment *adj, GObject *element)
 {
-	g_object_set (element, "separation", adj->value / 100., NULL);
+	g_object_set (element, "separation", gtk_adjustment_get_value (adj) / 100., NULL);
 }
 
 GtkWidget *
@@ -78,13 +79,13 @@ pie_pref_state_free (PiePrefState *state)
 static void
 cb_default_separation_changed (GtkAdjustment *adj, GObject *pie)
 {
-	g_object_set (pie, "default-separation", adj->value / 100., NULL);
+	g_object_set (pie, "default-separation", gtk_adjustment_get_value (adj) / 100., NULL);
 }
 
 static void
 cb_rotation_changed (GtkAdjustment *adj, GObject *pie)
 {
-	g_object_set (pie, "initial-angle", adj->value, NULL);
+	g_object_set (pie, "initial-angle", gtk_adjustment_get_value (adj), NULL);
 }
 
 
@@ -170,7 +171,7 @@ GtkWidget *gog_ring_plot_pref   (GogRingPlot *ring, GOCmdContext *cc);
 static void
 cb_center_size_changed (GtkAdjustment *adj, GObject *ring)
 {
-	g_object_set (ring, "center-size", adj->value/100., NULL);
+	g_object_set (ring, "center-size", gtk_adjustment_get_value (adj) / 100., NULL);
 }
 
 

@@ -24,6 +24,7 @@
 #include <goffice/goffice-priv.h>
 
 #include <goffice/goffice.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include <glib/gi18n-lib.h>
 
@@ -318,13 +319,14 @@ cb_sample_pressed (GraphGuruTypeSelector *typesel)
 		return;
 
 	if (typesel->sample_graph_item == NULL) {
-		GtkAllocation *size = &GTK_WIDGET (typesel->canvas)->allocation;
+		GtkAllocation size;
+		gtk_widget_get_allocation (GTK_WIDGET (typesel->canvas), &size);
 		typesel->sample_graph_item = goc_item_new (typesel->graph_group,
 			GOC_TYPE_GRAPH,
 			"graph", typesel->state->graph,
 			NULL);
 		cb_typesel_sample_plot_resize (GOC_CANVAS (typesel->canvas),
-					       size, typesel);
+					       &size, typesel);
 
 		g_return_if_fail (typesel->sample_graph_item != NULL);
 	}
@@ -440,7 +442,7 @@ cb_plot_families_init (char const *id, GogPlotFamily *family,
 static void
 cb_canvas_realized (GtkLayout *widget)
 {
-	gdk_window_set_back_pixmap (widget->bin_window, NULL, FALSE);
+	gdk_window_set_back_pixmap (gtk_layout_get_bin_window (widget), NULL, FALSE);
 }
 
 static void
@@ -880,6 +882,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 	GtkTreeViewColumn *column;
 	GogRenderer *rend;
 	GOStyle *style;
+	GtkAllocation size;
 
 	if (s->fmt_page_initialized)
 		return;
@@ -936,7 +939,8 @@ graph_guru_init_format_page (GraphGuruState *s)
 						    "graph", s->graph,
 						    NULL);
 	gtk_widget_add_events (canvas, GDK_POINTER_MOTION_HINT_MASK);
-	cb_sample_plot_resize (GOC_CANVAS (canvas), &canvas->allocation, s);
+	gtk_widget_get_allocation (canvas, &size);
+	cb_sample_plot_resize (GOC_CANVAS (canvas), &size, s);
 	g_signal_connect (G_OBJECT (canvas),
 			  "size_allocate",
 			  G_CALLBACK (cb_sample_plot_resize), s);
@@ -1091,7 +1095,8 @@ static void
 typesel_set_selection_color (GraphGuruTypeSelector *typesel)
 {
 	GtkWidget *w = gtk_entry_new ();
-	GdkColor  *color = &w->style->base [GTK_WIDGET_HAS_FOCUS (typesel->canvas)
+	GtkStyle *gstyle = gtk_widget_get_style (w);
+	GdkColor  *color = &gstyle->base [gtk_widget_has_focus (typesel->canvas)
 		? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
 	GOColor    select_color;
 	GOStyle   *style;

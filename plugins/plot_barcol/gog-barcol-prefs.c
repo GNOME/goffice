@@ -23,19 +23,20 @@
 #include "gog-barcol.h"
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 GtkWidget *gog_barcol_plot_pref (GogBarColPlot *plot, GOCmdContext *cc);
 
 static void
-cb_gap_changed (GtkAdjustment *adj, GObject *barcal)
+cb_gap_changed (GtkAdjustment *adj, GObject *barcol)
 {
-	g_object_set (barcal, "gap-percentage", (int)adj->value, NULL);
+	g_object_set (barcol, "gap-percentage", (int) gtk_adjustment_get_value (adj), NULL);
 }
 
 static void
 cb_overlap_changed (GtkAdjustment *adj, GObject *barcol)
 {
-	g_object_set (barcol, "overlap-percentage", (int)adj->value, NULL);
+	g_object_set (barcol, "overlap-percentage", (int) gtk_adjustment_get_value (adj), NULL);
 }
 
 GtkWidget *

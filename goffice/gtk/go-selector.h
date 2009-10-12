@@ -64,7 +64,7 @@ void 		 go_selector_activate 		(GOSelector *selector);
 
 gpointer 	 go_selector_get_user_data 	(GOSelector *selector);
 
-typedef void		(*GOSelectorDndDataReceived)	(GOSelector *selector, gpointer data);
+typedef void		(*GOSelectorDndDataReceived)	(GOSelector *selector, guchar const *data);
 typedef gpointer	(*GOSelectorDndDataGet)		(GOSelector *selector);
 typedef void		(*GOSelectorDndFillIcon)	(GOSelector *selector, GdkPixbuf *pixbuf);
 

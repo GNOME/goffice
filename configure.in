@@ -270,7 +270,6 @@ if test `expr goffice_version_major % 2` -eq 1; then
 		CFLAGS="$CFLAGS -DGDK_MULTIHEAD_SAFE"
 	# gtk+ handled later
 		gtk_disable_deprecated=maybe
-		CFLAGS="$CFLAGS -DLIBGLADE_DISABLE_DEPRECATED"
 	fi
 	if test "x$goffice_with_gnome" = "xtrue"; then
 		CFLAGS="$CFLAGS -DGNOME_DISABLE_DEPRECATED"
@@ -418,7 +417,16 @@ SAVE_LIBS=$LIBS
 LIBS="$GOFFICE_LIBS $LIBS"
 AC_CHECK_FUNCS(cairo_surface_set_fallback_resolution cairo_ps_surface_set_eps)
 AC_CHECK_FUNCS(g_file_new_for_commandline_arg g_file_new_for_uri g_hash_table_iter_init)
-AC_CHECK_FUNCS(g_content_type_from_mime_type gtk_layout_get_bin_window)
+AC_CHECK_FUNCS(g_content_type_from_mime_type)
+AC_CHECK_FUNCS(gtk_adjustment_get_page_size gtk_adjustment_get_upper \
+	gtk_color_selection_dialog_get_color_selection gtk_dialog_get_action_area \
+	gtk_layout_get_bin_window gtk_menu_shell_get_active gtk_selection_data_get_data \
+	gtk_selection_data_get_length gtk_selection_data_get_target gtk_tearoff_menu_item_get_torn_off \
+	gtk_tearoff_menu_item_set_torn_off gtk_widget_get_allocation gtk_widget_get_has_window \
+	gtk_widget_get_state gtk_widget_get_style gtk_widget_get_visible gtk_widget_get_window \
+	gtk_widget_has_focus gtk_widget_is_mapped gtk_widget_is_realized gtk_widget_set_can_default \
+	gtk_widget_is_sensitive gtk_widget_set_can_focus gtk_widget_set_has_focus \
+	gtk_widget_set_receives_default gtk_window_get_default_widget)
 LIBS=$SAVE_LIBS
 
 SAVE_CFLAGS=$CFLAGS

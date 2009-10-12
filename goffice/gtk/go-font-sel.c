@@ -10,6 +10,7 @@
  */
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -88,10 +89,14 @@ cb_list_adjust (GtkTreeView* view)
 	int pos, height, child_height;
 
 	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (view), &model, &iter)) {
+		GtkAllocation allocation;
+		GtkRequisition requisition;
+		gtk_widget_get_allocation (GTK_WIDGET (view), &allocation);
+		gtk_widget_get_child_requisition (GTK_WIDGET (view), &requisition);
 		path = gtk_tree_model_get_path (model, &iter);
 		scroll = GTK_SCROLLED_WINDOW (gtk_widget_get_parent (GTK_WIDGET (view)));
-		height = GTK_WIDGET (view)->allocation.height;
-		child_height = GTK_WIDGET (view)->requisition.height;
+		height = allocation.height;
+		child_height = requisition.height;
 		if (height < child_height) {
 			gtk_tree_view_get_cell_area (view, path, NULL, &rect);
 			adj = gtk_scrolled_window_get_vadjustment (scroll);
@@ -225,7 +230,7 @@ select_row (GtkTreeView *list, int row)
 		path = gtk_tree_path_new_from_indices (row, -1);
 
 		gtk_tree_selection_select_path (gtk_tree_view_get_selection (list), path);
-		if (GTK_WIDGET_REALIZED (list))
+		if (gtk_widget_is_realized (list))
 			cb_list_adjust (list);
 		gtk_tree_path_free (path);
 	}

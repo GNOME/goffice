@@ -22,6 +22,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
+#include <goffice/gtk/go-gtk-compat.h>
 #include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -191,7 +192,7 @@ goc_item_dispose (GObject *object)
 	if (item->canvas) {
 		if (item->canvas->last_item == item)
 			item->canvas->last_item = NULL;
-		if (GTK_WIDGET_REALIZED (item->canvas)) {
+		if (gtk_widget_is_realized (item->canvas)) {
 			item->cached_bounds = TRUE; /* avoids a call to update_bounds */
 			goc_item_invalidate (item);
 		}
@@ -429,7 +430,7 @@ goc_item_invalidate (GocItem *item)
 	if (!parent)
 		return;
 
-	if (!GTK_WIDGET_REALIZED (item->canvas))
+	if (!gtk_widget_is_realized (item->canvas))
 		return;
 
 	if (!item->cached_bounds)

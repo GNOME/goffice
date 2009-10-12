@@ -24,6 +24,7 @@
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/math/go-math.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -118,8 +119,7 @@ go_graph_widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 
 	update_image_rect (GO_GRAPH_WIDGET (widget), *allocation);
 
-	GTK_LAYOUT (widget)->width = w->width + w->xoffset;
-	GTK_LAYOUT (widget)->height = w->height + w->yoffset;
+	gtk_layout_set_size (GTK_LAYOUT (widget), w->width + w->xoffset, w->height + w->yoffset);
 
 	GTK_WIDGET_CLASS (graph_parent_klass)->size_allocate (widget, allocation);
 }
@@ -129,11 +129,11 @@ static gboolean
 go_graph_widget_expose_event (GtkWidget *widget, GdkEventExpose *event)
 {
 	GOGraphWidget *w = GO_GRAPH_WIDGET (widget);
-	GdkDrawable *drawable = GTK_LAYOUT (widget)->bin_window;
+	GdkDrawable *drawable = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
 	cairo_t *cairo;
 	cairo_surface_t *surface;
 
-	if (event->window != GTK_LAYOUT (widget)->bin_window)
+	if (event->window != drawable)
 		return FALSE;
 
 	surface = gog_renderer_get_cairo_surface (w->renderer);
@@ -158,7 +158,7 @@ go_graph_widget_button_press_event (GtkWidget *widget,
 	if (event->type == GDK_BUTTON_PRESS) {
 		gw->button_pressed = TRUE;
 
-		gdk_window_get_pointer (widget->window,
+		gdk_window_get_pointer (gtk_widget_get_window (widget),
 					&gw->button_press_x,
 					&gw->button_press_y,
 					NULL);
@@ -197,19 +197,26 @@ go_graph_widget_motion_notify_event (GtkWidget *widget,
 	double newval;
 
 	if (gw->button_pressed) {
-		gdk_window_get_pointer (widget->window,
+		GtkAdjustment *hadjustment, *vadjustment;
+		hadjustment = gtk_layout_get_hadjustment (GTK_LAYOUT (gw));
+		vadjustment = gtk_layout_get_vadjustment (GTK_LAYOUT (gw));
+		gdk_window_get_pointer (gtk_widget_get_window (widget),
 					&x, &y, NULL);
 
-		if (GTK_LAYOUT (gw)->hadjustment != NULL) {
-			newval = gtk_adjustment_get_value (GTK_LAYOUT (gw)->hadjustment) - (x - gw->button_press_x);
-			newval = CLAMP (newval, 0, GTK_LAYOUT (gw)->hadjustment->upper - GTK_LAYOUT (gw)->hadjustment->page_size);
-			gtk_adjustment_set_value (GTK_LAYOUT (gw)->hadjustment, newval);
+		if (hadjustment != NULL) {
+			newval = gtk_adjustment_get_value (hadjustment) - (x - gw->button_press_x);
+			newval = CLAMP (newval, 0,
+			                gtk_adjustment_get_upper (hadjustment) -
+			                gtk_adjustment_get_page_size (hadjustment));
+			gtk_adjustment_set_value (hadjustment, newval);
 		}
 
-		if (GTK_LAYOUT (gw)->vadjustment != NULL) {
-			newval = gtk_adjustment_get_value (GTK_LAYOUT (gw)->vadjustment) - (y - gw->button_press_y);
-			newval = CLAMP (newval, 0, GTK_LAYOUT (gw)->vadjustment->upper - GTK_LAYOUT (gw)->vadjustment->page_size);
-			gtk_adjustment_set_value (GTK_LAYOUT (gw)->vadjustment, newval);
+		if (vadjustment != NULL) {
+			newval = gtk_adjustment_get_value (vadjustment) - (y - gw->button_press_y);
+			newval = CLAMP (newval, 0,
+			                gtk_adjustment_get_upper (vadjustment) -
+			                gtk_adjustment_get_page_size (vadjustment));
+			gtk_adjustment_set_value (vadjustment, newval);
 		}
 
 		gw->button_press_x = x;
@@ -237,11 +244,13 @@ go_graph_widget_finalize (GObject *object)
 static gint
 idle_handler (GOGraphWidget *w)
 {
+	GtkAllocation allocation;
 	GDK_THREADS_ENTER ();
 
 	/* Reset idle id */
 	w->idle_id = 0;
-	update_image_rect (w, GTK_WIDGET (w)->allocation);
+	gtk_widget_get_allocation (GTK_WIDGET (w), &allocation);
+	update_image_rect (w, allocation);
 	gtk_widget_queue_draw (GTK_WIDGET (w));
 
 	GDK_THREADS_LEAVE ();
@@ -399,6 +408,8 @@ go_graph_widget_set_size_mode (GOGraphWidget         *widget,
 			       int                    width,
 			       int                    height)
 {
+	GtkAllocation allocation;
+
 	g_return_if_fail (GO_IS_GRAPH_WIDGET (widget));
 	g_return_if_fail (size_mode >= GO_GRAPH_WIDGET_SIZE_MODE_FIT &&
 			  size_mode <= GO_GRAPH_WIDGET_SIZE_MODE_FIXED_SIZE);
@@ -411,7 +422,8 @@ go_graph_widget_set_size_mode (GOGraphWidget         *widget,
 	widget->requested_width = width;
 	widget->requested_height = height;
 
-	update_image_rect (widget, GTK_WIDGET (widget)->allocation);
+	gtk_widget_get_allocation (GTK_WIDGET (widget), &allocation);
+	update_image_rect (widget, allocation);
 }
 
 /**

@@ -20,6 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
+#include <goffice/gtk/go-gtk-compat.h>
 #include "gog-error-bar.h"
 #include "gog-series-impl.h"
 #include "gog-plot-impl.h"
@@ -80,9 +81,9 @@ cb_destroy (G_GNUC_UNUSED GtkWidget *w, GogErrorBarEditor *editor)
 static void
 cb_width_changed (GtkAdjustment *adj, GogErrorBarEditor *editor)
 {
-	editor->width = adj->value;
+	editor->width = gtk_adjustment_get_value (adj);
 	if (editor->bar) {
-		editor->bar->width = adj->value;
+		editor->bar->width = gtk_adjustment_get_value (adj);
 		gog_object_request_update (GOG_OBJECT (editor->series));
 	}
 }
@@ -90,9 +91,9 @@ cb_width_changed (GtkAdjustment *adj, GogErrorBarEditor *editor)
 static void
 cb_line_width_changed (GtkAdjustment *adj, GogErrorBarEditor *editor)
 {
-	editor->line_width = adj->value;
+	editor->line_width = gtk_adjustment_get_value (adj);
 	if (editor->bar) {
-		editor->bar->style->line.width = adj->value;
+		editor->bar->style->line.width = gtk_adjustment_get_value (adj);
 		gog_object_request_update (GOG_OBJECT (editor->series));
 	}
 }

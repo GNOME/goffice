@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/gtk/goffice-gtk.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include "go-selector.h"
 
@@ -228,10 +229,10 @@ go_selector_popup (GOSelector *selector)
 
 	priv = selector->priv;
 
-	if (!GTK_WIDGET_REALIZED (selector))
+	if (!gtk_widget_is_realized (selector))
 		return;
 
-	if (GTK_WIDGET_MAPPED (priv->palette))
+	if (gtk_widget_is_mapped (priv->palette))
 		return;
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button), TRUE);
@@ -461,11 +462,11 @@ go_selector_drag_data_received (GtkWidget        *button,
 {
 	GOSelectorPrivate *priv = selector->priv;
 
-	if (selection_data->length != priv->dnd_length ||
+	if (gtk_selection_data_get_length (selection_data) != priv->dnd_length ||
 	    priv->dnd_data_received == NULL)
 		return;
 
-	(priv->dnd_data_received) (selector, selection_data->data);
+	(priv->dnd_data_received) (selector, gtk_selection_data_get_data (selection_data));
 }
 
 static void
@@ -505,7 +506,8 @@ go_selector_drag_data_get (GtkWidget        *button,
 	data = (priv->dnd_data_get) (selector);
 
 	if (data != NULL) {
-		gtk_selection_data_set (selection_data, selection_data->target,
+		gtk_selection_data_set (selection_data,
+		                        gtk_selection_data_get_target (selection_data),
 					8, data, priv->dnd_length);
 		g_free (data);
 	}

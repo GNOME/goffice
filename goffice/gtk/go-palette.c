@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
@@ -208,54 +209,21 @@ cb_swatch_expose (GtkWidget *swatch, GdkEventExpose *event, GOPalette *palette)
 		cairo_t *cr;
 		GdkRectangle area;
 		int index;
+		GtkAllocation allocation;
 
-#if GTK_CHECK_VERSION(2,8,0)
+		cr = gdk_cairo_create (gtk_widget_get_window (swatch));
 
-		cr = gdk_cairo_create (swatch->window);
-
+		gtk_widget_get_allocation (swatch, &allocation);
 		area.x = 0;
 		area.y = 0;
-		area.width = swatch->allocation.width;
-		area.height = swatch->allocation.height;
+		area.width = allocation.width;
+		area.height = allocation.height;
 
 		index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (swatch), "index"));
 
 		(palette->priv->swatch_render) (cr, &area, index, palette->priv->data);
 
 		cairo_destroy (cr);
-
-#else /* if GTK < 2.8.0 */
-
-#warning [GOPalette:cb_swatch_expose] Use of old version of gtk (<2.8.0)
-
-		GdkPixbuf *pixbuf;
-		GOImage *image;
-
-		area.x = 0;
-		area.y = 0;
-		area.width = swatch->allocation.width;
-		area.height = swatch->allocation.height;
-
-		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
-					 area.width, area.height);
-		image = go_image_new_from_pixbuf (pixbuf);
-		g_object_unref (pixbuf);
-
-		cr = go_image_get_cairo (image);
-
-		index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (swatch), "index"));
-
-		(palette->priv->swatch_render) (cr, &area, index, palette->priv->data);
-
-		cairo_destroy (cr);
-		pixbuf = go_image_get_pixbuf (image);
-
-		gdk_draw_pixbuf (GDK_DRAWABLE (swatch->window), NULL, pixbuf,
-				 0, 0, 0, 0, area.width, area.height,
-				 GDK_RGB_DITHER_NONE, 0, 0);
-
-		g_object_unref (image);
-#endif
 	}
 	return TRUE;
 }
@@ -265,7 +233,7 @@ cb_menu_item_activate (GtkWidget *item, GOPalette *palette)
 {
 	int index;
 
-	index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (GTK_BIN (item)->child), "index"));
+	index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (gtk_bin_get_child (GTK_BIN (item))), "index"));
 	g_signal_emit (palette, go_palette_signals[GO_PALETTE_ACTIVATE], 0, index);
 }
 

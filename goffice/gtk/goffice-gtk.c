@@ -22,6 +22,7 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
 #include <goffice/goffice-priv.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <atk/atkrelation.h>
@@ -89,7 +90,7 @@ go_gtk_dialog_add_button (GtkDialog *dialog, char const* text, char const* stock
 	button = go_gtk_button_new_with_stock (text, stock_id);
 	g_return_val_if_fail (button != NULL, NULL);
 
-	GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default (button, TRUE);
 
 	gtk_widget_show (button);
 
@@ -268,8 +269,9 @@ go_gtk_builder_group_value (GtkBuilder *gui, char const * const group[])
 static void
 cb_activate_default (GtkWindow *window)
 {
-	if (window->default_widget && GTK_WIDGET_IS_SENSITIVE (window->default_widget))
-		gtk_widget_activate (window->default_widget);
+	GtkWidget *w = gtk_window_get_default_widget (window);
+	if (w && gtk_widget_is_sensitive (w))
+		gtk_widget_activate (w);
 }
 
 /**
@@ -304,7 +306,7 @@ go_gtk_widget_disable_focus (GtkWidget *w)
 	if (GTK_IS_CONTAINER (w))
 		gtk_container_foreach (GTK_CONTAINER (w),
 			(GtkCallback) go_gtk_widget_disable_focus, NULL);
-	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (w, FALSE);
 }
 
 /**
@@ -335,7 +337,7 @@ go_pango_measure_string (PangoContext *context, PangoFontDescription const *font
 static void
 cb_parent_mapped (GtkWidget *parent, GtkWindow *window)
 {
-	if (GTK_WIDGET_MAPPED (window)) {
+	if (gtk_widget_is_mapped (window)) {
 		gtk_window_present (window);
 		g_signal_handlers_disconnect_by_func (G_OBJECT (parent),
 			G_CALLBACK (cb_parent_mapped), window);
@@ -370,7 +372,7 @@ go_gtk_window_set_transient (GtkWindow *toplevel, GtkWindow *window)
 
 	gtk_window_set_position (window, position);
 
-	if (!GTK_WIDGET_MAPPED (toplevel))
+	if (!gtk_widget_is_mapped (toplevel))
 		g_signal_connect_after (G_OBJECT (toplevel),
 			"map",
 			G_CALLBACK (cb_parent_mapped), window);
@@ -1080,10 +1082,9 @@ go_gtk_notice_dialog (GtkWindow *parent, GtkMessageType type,
 	GtkWidget *dialog;
 
 	VPRINTF_MESSAGE (format, args, msg);
-	dialog = gtk_message_dialog_new (parent,
+	dialog = gtk_message_dialog_new_with_markup (parent,
 		GTK_DIALOG_DESTROY_WITH_PARENT, type, GTK_BUTTONS_OK, "%s", msg);
 	g_free (msg);
-	gtk_label_set_use_markup (GTK_LABEL (GTK_MESSAGE_DIALOG (dialog)->label), TRUE);
 	go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
 }
 
@@ -1216,7 +1217,7 @@ go_dialog_guess_alternative_button_order (GtkDialog *dialog)
 	gboolean any = FALSE;
 	int loops = 0;
 
-	children = gtk_container_get_children (GTK_CONTAINER (dialog->action_area));
+	children = gtk_container_get_children (GTK_CONTAINER (gtk_dialog_get_action_area (dialog)));
 	if (!children)
 		return;
 
@@ -1294,13 +1295,20 @@ go_menu_position_below (GtkMenu  *menu,
 	GdkScreen *screen;
 	gint monitor_num;
 	GdkRectangle monitor;
+	GdkWindow *window = gtk_widget_get_window (widget);
+	GtkAllocation size;
 
-	gdk_window_get_origin (widget->window, &sx, &sy);
+	gtk_widget_get_allocation (widget, &size);
 
-	if (GTK_WIDGET_NO_WINDOW (widget))
+	if (window)
+		gdk_window_get_origin (window, &sx, &sy);
+	else
+		sx = sy = 0;
+
+	if (!gtk_widget_get_has_window (widget))
 	{
-		sx += widget->allocation.x;
-		sy += widget->allocation.y;
+		sx += size.x;
+		sy += size.y;
 	}
 
 	gtk_widget_size_request (GTK_WIDGET (menu), &req);
@@ -1308,11 +1316,11 @@ go_menu_position_below (GtkMenu  *menu,
 	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_LTR)
 		*x = sx;
 	else
-		*x = sx + widget->allocation.width - req.width;
+		*x = sx + size.width - req.width;
 	*y = sy;
 
 	screen = gtk_widget_get_screen (widget);
-	monitor_num = gdk_screen_get_monitor_at_window (screen, widget->window);
+	monitor_num = gdk_screen_get_monitor_at_window (screen, window);
 	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
 
 	if (*x < monitor.x)
@@ -1320,12 +1328,12 @@ go_menu_position_below (GtkMenu  *menu,
 	else if (*x + req.width > monitor.x + monitor.width)
 		*x = monitor.x + monitor.width - req.width;
 
-	if (monitor.y + monitor.height - *y - widget->allocation.height >= req.height)
-		*y += widget->allocation.height;
+	if (monitor.y + monitor.height - *y - size.height >= req.height)
+		*y +=size.height;
 	else if (*y - monitor.y >= req.height)
 		*y -= req.height;
-	else if (monitor.y + monitor.height - *y - widget->allocation.height > *y - monitor.y)
-		*y += widget->allocation.height;
+	else if (monitor.y + monitor.height - *y - size.height > *y - monitor.y)
+		*y += size.height;
 	else
 		*y -= req.height;
 

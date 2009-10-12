@@ -104,7 +104,7 @@ cb_rotate_canvas_realize (GocCanvas *canvas, GORotationSel *grs)
 	GocGroup  *group = goc_canvas_get_root (canvas);
 	int i;
 	GOStyle *go_style;
-	GtkStyle *style = gtk_style_copy (GTK_WIDGET (canvas)->style);
+	GtkStyle *style = gtk_style_copy (gtk_widget_get_style (GTK_WIDGET (canvas)));
 	style->bg[GTK_STATE_NORMAL] = style->white;
 	gtk_widget_set_style (GTK_WIDGET (canvas), style);
 	g_object_unref (style);
@@ -186,7 +186,7 @@ cb_rotate_canvas_button (GocCanvas *canvas, GdkEventButton *event, GORotationSel
 	if (event->type == GDK_BUTTON_PRESS) {
 		set_rot_from_point (grs, event->x, event->y);
 		if (grs->motion_handle == 0) {
-			gdk_pointer_grab (canvas->base.bin_window, FALSE,
+			gdk_pointer_grab (gtk_layout_get_bin_window (&canvas->base), FALSE,
 				GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 				NULL, NULL, event->time);
 

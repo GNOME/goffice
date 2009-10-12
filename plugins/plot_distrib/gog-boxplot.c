@@ -35,6 +35,7 @@
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-path.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
@@ -61,7 +62,7 @@ static GType gog_box_plot_view_get_type (void);
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *boxplot)
 {
-	g_object_set (boxplot, "gap-percentage", (int)adj->value, NULL);
+	g_object_set (boxplot, "gap-percentage", (int) gtk_adjustment_get_value (adj), NULL);
 }
 
 static void
@@ -97,7 +98,7 @@ cb_outliers_changed (GtkToggleButton *btn, GObject *boxplot)
 static void
 cb_ratio_changed (GtkAdjustment *adj, GObject *boxplot)
 {
-	g_object_set (boxplot, "radius-ratio", adj->value / 200., NULL);
+	g_object_set (boxplot, "radius-ratio", gtk_adjustment_get_value (adj) / 200., NULL);
 }
 
 static gpointer

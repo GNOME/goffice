@@ -19,6 +19,7 @@
  * USA
  */
 #include <goffice/goffice-config.h>
+#include <goffice/gtk/go-gtk-compat.h>
 #include "go-action-combo-pixmaps.h"
 #include "go-combo-pixmaps.h"
 #include "go-combo-box.h"
@@ -84,8 +85,9 @@ make_icon (GtkAction *a, const char *stock_id, GtkWidget *tool)
 	if (stock_id == NULL)
 		return NULL;
 	if (GO_IS_TOOL_COMBO_PIXMAPS (tool)) {
-		if (tool->parent)
-			size = gtk_toolbar_get_icon_size (GTK_TOOLBAR (tool->parent));
+		GtkWidget *parent = gtk_widget_get_parent (tool);
+		if (parent)
+			size = gtk_toolbar_get_icon_size (GTK_TOOLBAR (parent));
 		else {
 			GtkSettings *settings = gtk_widget_get_settings (tool);
 			g_object_get (settings, "gtk-toolbar-icon-size", &size, NULL);

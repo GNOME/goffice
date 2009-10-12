@@ -22,6 +22,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
+#include <goffice/gtk/go-gtk-compat.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
@@ -39,10 +40,6 @@
  * @GOC_DIRECTION_RTL : Right to left direction
  * @GOC_DIRECTION_MAX : First invalid value
  **/
-
-#ifndef HAVE_GTK_LAYOUT_GET_BIN_WINDOW
-#       define gtk_layout_get_bin_window(x) (x)->bin_window
-#endif
 
 static GObjectClass *parent_klass;
 
@@ -421,7 +418,7 @@ goc_canvas_get_pixels_per_unit (GocCanvas *canvas)
 void
 goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, double y1)
 {
-	if (!GTK_WIDGET_REALIZED (canvas))
+	if (!gtk_widget_is_realized (canvas))
 		return;
 	x0 = (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
 	y0 = (y0 - canvas->scroll_y1) * canvas->pixels_per_unit;

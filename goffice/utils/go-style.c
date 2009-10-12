@@ -172,7 +172,7 @@ cb_outline_size_changed (GtkAdjustment *adj, StylePrefState *state)
 
 	g_return_if_fail (style != NULL);
 
-	style->line.width = go_rint (adj->value * 100.) / 100.;
+	style->line.width = go_rint (gtk_adjustment_get_value (adj) * 100.) / 100.;
 	set_style (state);
 }
 
@@ -247,7 +247,7 @@ cb_line_size_changed (GtkAdjustment *adj, StylePrefState const *state)
 
 	g_return_if_fail (style != NULL);
 
-	style->line.width = go_rint (adj->value * 100.) / 100.;
+	style->line.width = go_rint (gtk_adjustment_get_value (adj) * 100.) / 100.;
 	set_style (state);
 }
 
@@ -721,7 +721,7 @@ cb_marker_fill_color_changed (GOSelector *selector,
 static void
 cb_marker_size_changed (GtkAdjustment *adj, StylePrefState *state)
 {
-	go_marker_set_size (state->style->marker.mark, adj->value);
+	go_marker_set_size (state->style->marker.mark, gtk_adjustment_get_value (adj));
 	set_style (state);
 }
 

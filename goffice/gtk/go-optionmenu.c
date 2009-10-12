@@ -33,6 +33,7 @@
 
 #include <goffice/goffice-config.h>
 #include "go-optionmenu.h"
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
@@ -74,7 +75,7 @@ go_option_menu_update_contents (GOOptionMenu *option_menu)
 	GtkWidget *w;
 	g_return_if_fail (GO_IS_OPTION_MENU (option_menu));
 
-	w = GTK_BIN (option_menu->selected)->child;
+	w = gtk_bin_get_child (GTK_BIN (option_menu->selected));
 	text = g_object_get_data (G_OBJECT (w), "option-menu-text");
 
 	if (!text && GTK_IS_LABEL (w))
@@ -127,18 +128,20 @@ go_option_menu_position (GtkMenu  *menu,
 	gint menu_xpos;
 	gint menu_ypos;
 	gint menu_width;
+	GtkAllocation allocation;
 
 	widget = GTK_WIDGET (option_menu);
 
 	gtk_widget_get_child_requisition (GTK_WIDGET (menu), &requisition);
 	menu_width = requisition.width;
 
-	gdk_window_get_origin (widget->window, &menu_xpos, &menu_ypos);
+	gdk_window_get_origin (gtk_widget_get_window (widget), &menu_xpos, &menu_ypos);
 
-	menu_xpos += widget->allocation.x;
-	menu_ypos += widget->allocation.y + widget->allocation.height / 2 - 2;
+	gtk_widget_get_allocation (widget, &allocation);
+	menu_xpos += allocation.x;
+	menu_ypos += allocation.y + allocation.height / 2 - 2;
 
-	children = option_menu->menu->children;
+	children = gtk_container_get_children (GTK_CONTAINER (option_menu->menu));
 	while (children) {
 		GtkWidget *child = children->data;
 
@@ -149,7 +152,7 @@ go_option_menu_position (GtkMenu  *menu,
 			break;
 		}
 
-		if (GTK_WIDGET_VISIBLE (child)) {
+		if (gtk_widget_get_visible (child)) {
 			gtk_widget_get_child_requisition (child, &requisition);
 			menu_ypos -= requisition.height;
 		}
@@ -262,7 +265,7 @@ go_option_menu_set_menu (GOOptionMenu *option_menu,
 		return;
 
 	if (option_menu->menu) {
-		if (option_menu->menu->active)
+		if (gtk_menu_shell_get_active (option_menu->menu))
 			gtk_menu_shell_cancel (option_menu->menu);
 
 		handle_menu_signals (option_menu, FALSE);
@@ -300,7 +303,7 @@ go_option_menu_set_history (GOOptionMenu *option_menu, GSList *selection)
 
 		while (1) {
 			int n = GPOINTER_TO_INT (selection->data);
-			GtkMenuItem *item = g_list_nth_data (menu->children, n);
+			GtkMenuItem *item = g_list_nth_data (gtk_container_get_children (GTK_CONTAINER (menu)), n);
 			selection = selection->next;
 			if (selection)
 				menu = GTK_MENU_SHELL (gtk_menu_item_get_submenu (item));
@@ -424,8 +427,9 @@ go_option_menu_init (GOOptionMenu *option_menu)
 	GtkBox *box;
 	GtkWidget *arrow, *sep;
 
-	GTK_WIDGET_SET_FLAGS (option_menu, GTK_CAN_FOCUS);
-	GTK_WIDGET_UNSET_FLAGS (option_menu, GTK_CAN_DEFAULT | GTK_RECEIVES_DEFAULT);
+	gtk_widget_set_can_focus (GTK_WIDGET (option_menu), TRUE);
+	gtk_widget_set_can_default (GTK_WIDGET (option_menu), FALSE);
+	gtk_widget_set_receives_default (GTK_WIDGET (option_menu), FALSE);
 
 	box = GTK_BOX (gtk_hbox_new (FALSE, FALSE));
 

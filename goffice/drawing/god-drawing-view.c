@@ -25,6 +25,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/drawing/god-drawing-view.h>
+#include <goffice/gtk/go-gtk-compat.h>
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/drawing/god-drawing-renderer-gdk.h>
 
@@ -89,9 +90,9 @@ god_drawing_view_realize (GtkWidget *widget)
 	GTK_WIDGET_CLASS(parent_class)->realize (widget);
 
 	god_drawing_renderer_gdk_set_drawable (view->priv->renderer,
-					       widget->window);
+					       gtk_widget_get_window (widget));
 	god_drawing_renderer_gdk_set_gc (view->priv->renderer,
-					 widget->style->fg_gc[0]);
+					 gtk_widget_get_style (widget)->fg_gc[0]);
 }
 
 static gboolean

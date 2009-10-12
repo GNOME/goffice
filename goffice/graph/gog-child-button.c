@@ -22,6 +22,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gdk/gdkpixbuf.h>
 #include <gdk/gdkkeysyms.h>
@@ -283,10 +284,10 @@ gog_child_button_set_object (GogChildButton *child_button, GogObject *gog_object
 static void
 gog_child_button_popup (GogChildButton *child_button, guint button, guint32 event_time)
 {
-	if (!GTK_WIDGET_REALIZED (child_button))
+	if (!gtk_widget_is_realized (child_button))
 		return;
 
-	if (GTK_WIDGET_MAPPED (child_button->menu))
+	if (gtk_widget_is_mapped (child_button->menu))
 		return;
 
 	child_button->button_handling_in_progress = TRUE;

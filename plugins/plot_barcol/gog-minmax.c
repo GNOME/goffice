@@ -30,6 +30,7 @@
 #include <goffice/utils/go-persist.h>
 #include <goffice/utils/go-styled-object.h>
 #include <goffice/app/go-plugin.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
@@ -167,7 +168,7 @@ gog_minmax_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *minmax)
 {
-	g_object_set (minmax, "gap-percentage", (int)adj->value, NULL);
+	g_object_set (minmax, "gap-percentage", (int) gtk_adjustment_get_value (adj), NULL);
 }
 
 static void

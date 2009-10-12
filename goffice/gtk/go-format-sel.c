@@ -22,6 +22,7 @@
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
 #include <goffice/utils/go-marshalers.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -283,7 +284,7 @@ cb_decimals_changed (GtkSpinButton *spin, GOFormatSel *gfs)
 	gfs->format.details.num_decimals =
 		gtk_spin_button_get_value_as_int (spin);
 
-	if (GTK_WIDGET_VISIBLE (gfs->format.widget[F_NEGATIVE]))
+	if (gtk_widget_get_visible (gfs->format.widget[F_NEGATIVE]))
 		fillin_negative_samples (gfs);
 
 	draw_format_preview (gfs, TRUE);
@@ -295,7 +296,7 @@ cb_separator_toggle (GtkObject *obj, GOFormatSel *gfs)
 	gfs->format.details.thousands_sep =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
 
-	if (GTK_WIDGET_VISIBLE (gfs->format.widget[F_NEGATIVE]))
+	if (gtk_widget_get_visible (gfs->format.widget[F_NEGATIVE]))
 		fillin_negative_samples (gfs);
 
 	draw_format_preview (gfs, TRUE);
@@ -641,9 +642,9 @@ stays:
 		}
 
 		if (show_widget) {
-			while (!GTK_WIDGET_VISIBLE (w)) {
+			while (!gtk_widget_get_visible (w)) {
 				gtk_widget_show (w);
-				w = w->parent;
+				w = gtk_widget_get_parent (w);
 			}
 		}
 	}
@@ -758,7 +759,7 @@ cb_format_currency_select (G_GNUC_UNUSED GtkWidget *ct,
 		}
 	}
 
-	if (GTK_WIDGET_VISIBLE (gfs->format.widget[F_NEGATIVE]))
+	if (gtk_widget_get_visible (gfs->format.widget[F_NEGATIVE]))
 		fillin_negative_samples (gfs);
 
 	draw_format_preview (gfs, TRUE);

@@ -23,6 +23,7 @@
 #include "gog-xy.h"
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include <string.h>
 
@@ -60,7 +61,7 @@ cb_negatives_changed (GtkToggleButton* button, GObject *bubble)
 static void
 cb_scale_changed (GtkAdjustment *adj, GObject *bubble)
 {
-	g_object_set (bubble, "bubble-scale", adj->value / 100., NULL);
+	g_object_set (bubble, "bubble-scale", gtk_adjustment_get_value (adj) / 100., NULL);
 }
 
 GtkWidget *

@@ -19,6 +19,7 @@
  * USA
  */
 #include <goffice/goffice-config.h>
+#include <goffice/gtk/go-gtk-compat.h>
 #include "go-action-combo-stack.h"
 #include "go-combo-box.h"
 #include "goffice-gtk.h"
@@ -162,7 +163,7 @@ go_combo_stack_init (GOComboStack *stack)
 
 	stack->button = gtk_toggle_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (stack->button), GTK_RELIEF_NONE);
-	GTK_WIDGET_UNSET_FLAGS (stack->button, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus (stack->button, FALSE);
 
 	stack->list = (GtkTreeView *)gtk_tree_view_new ();
 	selection = gtk_tree_view_get_selection (stack->list);

@@ -20,12 +20,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
-
-#include <goffice/canvas/goc-canvas.h>
-#include <goffice/canvas/goc-item.h>
-#include <goffice/canvas/goc-circle.h>
-#include <goffice/canvas/goc-polygon.h>
-#include <goffice/canvas/goc-structs.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -196,7 +191,7 @@ static void
 cb_rotate_canvas_realize (GocCanvas *canvas, GO3DRotationSel *g3d)
 {
 	GocGroup  *group = GOC_GROUP (goc_canvas_get_root (canvas));
-	GtkStyle *style = gtk_style_copy (GTK_WIDGET (canvas)->style);
+	GtkStyle *style = gtk_style_copy (gtk_widget_get_style (GTK_WIDGET (canvas)));
 	int i;
 	GOStyle *go_style;
 	double mgn = g3d->margin - 2 + g3d->radius;
@@ -301,7 +296,7 @@ cb_rotate_canvas_button (GocCanvas *canvas, GdkEventButton *event,
 		x -= g3d->bank_dial_x;
 		y -= g3d->bank_dial_y;
 		r = g3d->bank_dial_r;
-		gdk_pointer_grab (canvas->base.bin_window, FALSE,
+		gdk_pointer_grab (gtk_layout_get_bin_window (&canvas->base), FALSE,
 			GDK_POINTER_MOTION_MASK
 			| GDK_BUTTON_RELEASE_MASK, NULL, NULL,
 			event->time);

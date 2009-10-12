@@ -75,6 +75,9 @@ libgoffice_gtk_la_HEADERS = 		\
 	go-graph-widget.h	\
 	go-image-sel.h
 
+noinst_HEADERS = \
+	go-gtk-compat.h
+
 uidir = $(goffice_datadir)/ui
 dist_ui_DATA = \
 	go-rotation-sel.ui			\

@@ -20,6 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include "go-color-selector.h"
 
@@ -156,7 +157,7 @@ cb_color_dialog_response (GtkColorSelectionDialog *color_dialog,
 {
 	GtkWidget *color_selection;
 
-	color_selection = GTK_COLOR_SELECTION_DIALOG (color_dialog)->colorsel;
+	color_selection = gtk_color_selection_dialog_get_color_selection (GTK_COLOR_SELECTION_DIALOG (color_dialog));
 
 	if (response == GTK_RESPONSE_OK) {
 		GOColorSelectorState *state;
@@ -191,7 +192,7 @@ cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
 
 	color_dialog = g_object_get_data (G_OBJECT (selector), "color-dialog");
 	if (color_dialog != NULL) {
-		color_selection = GTK_COLOR_SELECTION_DIALOG (color_dialog)->colorsel;
+		color_selection = gtk_color_selection_dialog_get_color_selection (GTK_COLOR_SELECTION_DIALOG (color_dialog));
 		color = go_color_selector_get_color (selector, NULL);
 		gtk_color_selection_set_current_color (GTK_COLOR_SELECTION (color_selection),
 						       go_color_to_gdk (color, &gdk_color));
@@ -203,7 +204,7 @@ cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
 	}
 
 	color_dialog = gtk_color_selection_dialog_new (_("Custom color..."));
-	color_selection = GTK_COLOR_SELECTION_DIALOG (color_dialog)->colorsel;
+	color_selection = gtk_color_selection_dialog_get_color_selection (GTK_COLOR_SELECTION_DIALOG (color_dialog));
 	gtk_color_selection_set_has_opacity_control (GTK_COLOR_SELECTION (color_selection), state->allow_alpha);
 	g_object_set_data_full (G_OBJECT (selector), "color-dialog", color_dialog,
 				(GDestroyNotify) gtk_widget_destroy);
@@ -218,10 +219,10 @@ cb_combo_custom_activate (GOPalette *palette, GOSelector *selector)
 }
 
 static void
-go_color_selector_drag_data_received (GOSelector *selector, gpointer data)
+go_color_selector_drag_data_received (GOSelector *selector, guchar const *data)
 {
 	GOColor color = GO_COLOR_WHITE;
-	guint16 *color_data = data;
+	guint16 const *color_data = (guint16 const *) data;
 
 	color = GO_COLOR_CHANGE_R (color, color_data[0] >> 8);
 	color = GO_COLOR_CHANGE_G (color, color_data[1] >> 8);

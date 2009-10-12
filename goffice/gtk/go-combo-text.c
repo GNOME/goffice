@@ -110,8 +110,9 @@ static void
 cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
 			GOComboText *ct)
 {
-	GtkRequisition list_req;
-	int mon_width, mon_height;
+	GtkRequisition list_req, w_req;
+	GtkAllocation allocation;
+	int mon_width, mon_height, border_width;
 	GdkRectangle rect;
 	GdkScreen    *screen;
 
@@ -125,6 +126,7 @@ cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
 	gdk_screen_get_monitor_geometry (screen, 0, &rect);
 	mon_width  = rect.width;
 	mon_height = rect.height;
+	border_width = gtk_container_get_border_width (GTK_CONTAINER (widget));
 
 	gtk_widget_size_request	(ct->list, &list_req);
 	if (requisition->height < list_req.height) {
@@ -136,10 +138,11 @@ cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
 			 * overflow the screen, but no more than 20. */
 			int avail_height, nitems;
 
+			gtk_widget_get_child_requisition (GTK_WIDGET (w), &w_req);
 			avail_height = mon_height - 20
-				- GTK_CONTAINER (widget)->border_width * 2 + 4;
-			nitems = MIN (20, avail_height * ct->rows / w->requisition.height);
-			height = nitems *  w->requisition.height / ct->rows;
+				- border_width * 2 + 4;
+			nitems = MIN (20, avail_height * ct->rows / w_req.height);
+			height = nitems *  w_req.height / ct->rows;
 			if (height > list_req.height)
 				height = list_req.height;
 		}
@@ -148,12 +151,12 @@ cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
 		 * without it things end up scrolling.
 		 */
 		requisition->height = height +
-			GTK_CONTAINER (widget)->border_width * 2 + 4;
+			border_width * 2 + 4;
 	}
 
+	gtk_widget_get_allocation (ct->entry, &allocation);
 	requisition->width  = MAX (requisition->width,
-				   ct->entry->allocation.width +
-				   GTK_CONTAINER (widget)->border_width * 2);
+				   allocation.width + border_width * 2);
 	requisition->width  = MIN (requisition->width, mon_width - 20);
 	requisition->height = MIN (requisition->height, mon_height - 20);
 }

@@ -23,6 +23,7 @@
 #include "gog-xyz-surface.h"
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/app/go-plugin.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include <string.h>
 
@@ -31,13 +32,13 @@ GtkWidget *gog_xyz_surface_plot_pref   (GogXYZSurfacePlot *plot, GOCmdContext *c
 static void
 cb_rows_changed (GtkAdjustment *adj, GObject *plot)
 {
-	g_object_set (plot, "rows", (int) adj->value, NULL);
+	g_object_set (plot, "rows", (int) gtk_adjustment_get_value (adj), NULL);
 }
 
 static void
 cb_columns_changed (GtkAdjustment *adj, GObject *plot)
 {
-	g_object_set (plot, "columns", (int) adj->value, NULL);
+	g_object_set (plot, "columns", (int) gtk_adjustment_get_value (adj), NULL);
 }
 
 GtkWidget *

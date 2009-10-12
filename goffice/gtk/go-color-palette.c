@@ -29,6 +29,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
+#include <goffice/gtk/go-gtk-compat.h>
 #include <goffice/utils/go-marshalers.h>
 
 #include <gdk/gdkkeysyms.h>
@@ -150,12 +151,13 @@ static GtkWidget *
 create_color_sel (GObject *action_proxy, GOColor c, GCallback handler, gboolean allow_alpha)
 {
 	char *title = g_object_get_data (G_OBJECT (action_proxy), "title");
-	GtkWidget *w = gtk_color_selection_dialog_new (title);
+	GtkWidget *w = gtk_color_selection_dialog_new (title), *hb;
 	GtkColorSelectionDialog *dialog = GTK_COLOR_SELECTION_DIALOG (w);
-	GtkColorSelection *colorsel = GTK_COLOR_SELECTION (dialog->colorsel);
+	GtkColorSelection *colorsel = GTK_COLOR_SELECTION (gtk_color_selection_dialog_get_color_selection (dialog));
 	GdkColor gdk;
 
-	gtk_widget_hide (dialog->help_button);
+	g_object_get (G_OBJECT (w), "help-button", &hb, NULL);
+	gtk_widget_hide (hb);
 	gtk_color_selection_set_current_color (colorsel,
 		go_color_to_gdk (c, &gdk));
 	gtk_color_selection_set_has_opacity_control (colorsel, allow_alpha);
@@ -175,7 +177,7 @@ handle_color_sel (GtkColorSelectionDialog *dialog,
 {
 	if (response_id == GTK_RESPONSE_OK) {
 		GdkColor gdk;
-		GtkColorSelection *colorsel = GTK_COLOR_SELECTION (dialog->colorsel);
+		GtkColorSelection *colorsel = GTK_COLOR_SELECTION (gtk_color_selection_dialog_get_color_selection (dialog));
 		guint16 alpha = gtk_color_selection_get_current_alpha (colorsel);
 
 		gtk_color_selection_get_current_color (colorsel, &gdk);
@@ -290,12 +292,14 @@ swatch_activated (GOColorPalette *pal, GtkBin *button)
 {
 	GList *tmp = gtk_container_get_children (GTK_CONTAINER (gtk_bin_get_child (button)));
 	GtkWidget *swatch = (tmp != NULL) ? tmp->data : NULL;
+	GtkStyle *style;
 
 	g_list_free (tmp);
 
 	g_return_if_fail (swatch != NULL);
 
-	set_color (pal, GO_COLOR_FROM_GDK (swatch->style->bg[GTK_STATE_NORMAL]),
+	style = gtk_widget_get_style (swatch);
+	set_color (pal, GO_COLOR_FROM_GDK (style->bg[GTK_STATE_NORMAL]),
 		   FALSE, TRUE, FALSE);
 }
 

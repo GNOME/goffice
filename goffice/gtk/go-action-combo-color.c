@@ -19,6 +19,7 @@
  * USA
  */
 #include <goffice/goffice-config.h>
+#include <goffice/gtk/go-gtk-compat.h>
 #include "go-action-combo-color.h"
 #include "go-combo-color.h"
 #include "go-combo-box.h"
@@ -76,8 +77,9 @@ make_icon (GtkAction *a, GtkWidget *tool)
 	if (stock_id == NULL)
 		return NULL;
 	if (GO_IS_TOOL_COMBO_COLOR (tool)) {
-		if (tool->parent)
-			size = gtk_toolbar_get_icon_size (GTK_TOOLBAR (tool->parent));
+		GtkWidget *parent = gtk_widget_get_parent (tool);
+		if (parent)
+			size = gtk_toolbar_get_icon_size (GTK_TOOLBAR (parent));
 		else
 			g_object_get (settings,
 					  "gtk-toolbar-icon-size", &size,
