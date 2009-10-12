@@ -90,8 +90,8 @@
 #       define gtk_widget_get_window(w) (w)->window
 #endif
 
-#ifndef HAVE_GTK_WIDGET_HAVE_FOCUS
-#       define gtk_widget_have_focus(w) GTK_WIDGET_HAVE_FOCUS (w)
+#ifndef HAVE_GTK_WIDGET_HAS_FOCUS
+#       define gtk_widget_has_focus(w) GTK_WIDGET_HAS_FOCUS (w)
 #endif
 
 #ifndef HAVE_GTK_WIDGET_IS_MAPPED
@@ -111,27 +111,35 @@
 #endif
 
 #ifndef HAVE_GTK_WIDGET_SET_CAN_DEFAULT
-#       define gtk_widget_set_can_default(w,t) \
-		if (t) GTK_WIDGET_SET_FLAGS ((w), GTK_CAN_DEFAULT); \
-		else GTK_WIDGET_UNSET_FLAGS ((w), GTK_CAN_DEFAULT)
+#define gtk_widget_set_can_default(w,t)					\
+	do {								\
+		if (t) GTK_WIDGET_SET_FLAGS ((w), GTK_CAN_DEFAULT);	\
+		else GTK_WIDGET_UNSET_FLAGS ((w), GTK_CAN_DEFAULT);	\
+	} while (0)
 #endif
 
 #ifndef HAVE_GTK_WIDGET_SET_CAN_FOCUS
-#       define gtk_widget_set_can_focus(w,t) \
-		if (t) GTK_WIDGET_SET_FLAGS ((w), GTK_CAN_FOCUS); \
-		else GTK_WIDGET_UNSET_FLAGS ((w), GTK_CAN_FOCUS)
+#define gtk_widget_set_can_focus(w,t)					\
+	do {								\
+		if (t) GTK_WIDGET_SET_FLAGS ((w), GTK_CAN_FOCUS);	\
+		else GTK_WIDGET_UNSET_FLAGS ((w), GTK_CAN_FOCUS);	\
+	} while (0)		     
 #endif
 
 #ifndef HAVE_GTK_WIDGET_SET_HAS_FOCUS
-#       define gtk_widget_set_has_focus(w,t) \
-		if (t) GTK_WIDGET_SET_FLAGS ((w), GTK_HAS_FOCUS); \
-		else GTK_WIDGET_UNSET_FLAGS ((w), GTK_HAS_FOCUS)
+#define gtk_widget_set_has_focus(w,t)					\
+	do {								\
+		if (t) GTK_WIDGET_SET_FLAGS ((w), GTK_HAS_FOCUS);	\
+		else GTK_WIDGET_UNSET_FLAGS ((w), GTK_HAS_FOCUS);	\
+	} while (0)		     
 #endif
 
 #ifndef HAVE_GTK_WIDGET_SET_RECEIVES_DEFAULT
-#       define gtk_widget_set_receives_default (w,t) \
+#define gtk_widget_set_receives_default(w,t)				\
+	do {								\
 		if (t) GTK_WIDGET_SET_FLAGS ((w), GTK_RECEIVES_DEFAULT); \
-		else GTK_WIDGET_UNSET_FLAGS ((w), GTK_RECEIVES_DEFAULT)
+		else GTK_WIDGET_UNSET_FLAGS ((w), GTK_RECEIVES_DEFAULT); \
+	} while (0)
 #endif
 
 #ifndef HAVE_GTK_WINDOW_GET_DEFAULT_WIDGET

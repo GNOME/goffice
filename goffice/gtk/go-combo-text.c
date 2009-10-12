@@ -7,6 +7,7 @@
 #include "go-combo-text.h"
 #include "go-combo-box.h"
 #include <goffice/utils/go-marshalers.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 #include <gsf/gsf-impl-utils.h>
 
