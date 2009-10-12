@@ -1,3 +1,74 @@
+2009-10-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: prepare for GSEAL_ENABLE.
+	* goffice/canvas/goc-canvas.c (goc_canvas_invalidate): ditto.
+	* goffice/canvas/goc-item.c (goc_item_dispose),
+	(goc_item_invalidate): ditto.
+	* goffice/drawing/god-drawing-view.c (god_drawing_view_realize): ditto.
+	* goffice/graph/gog-child-button.c (gog_child_button_popup): ditto.
+	* goffice/graph/gog-error-bar.c (cb_width_changed),
+	(cb_line_width_changed): ditto.
+	* goffice/graph/gog-guru.c (cb_sample_pressed),
+	(cb_canvas_realized), (graph_guru_init_format_page),
+	(typesel_set_selection_color): ditto.
+	* goffice/gtk/Makefile.am: ditto.
+	* goffice/gtk/go-3d-rotation-sel.c (cb_rotate_canvas_realize),
+	(cb_rotate_canvas_button): ditto.
+	* goffice/gtk/go-action-combo-color.c (make_icon): ditto.
+	* goffice/gtk/go-action-combo-pixmaps.c (make_icon): ditto.
+	* goffice/gtk/go-action-combo-stack.c (go_combo_stack_init): ditto.
+	* goffice/gtk/go-color-palette.c (create_color_sel),
+	(handle_color_sel), (swatch_activated): ditto.
+	* goffice/gtk/go-color-selector.c (cb_color_dialog_response),
+	(cb_combo_custom_activate), (go_color_selector_drag_data_received): ditto.
+	* goffice/gtk/go-combo-box.c (go_combo_popup_reparent),
+	(do_focus_change), (go_combo_box_popup_hide_unconditional),
+	(cb_arrow_pressed), (go_combo_box_realize),
+	(go_combo_popup_tear_off), (go_combo_box_popup_hide),
+	(go_combo_box_get_pos), (go_combo_tearoff_bg_copy),
+	(go_combo_box_popup_display), (go_combo_box_button_press),
+	(cb_state_change), (go_combo_box_init),
+	(cb_tearable_button_release), (go_combo_box_construct): ditto.
+	* goffice/gtk/go-combo-text.c (cb_scroll_size_request): ditto.
+	* goffice/gtk/go-font-sel.c (cb_list_adjust), (select_row): ditto.
+	* goffice/gtk/go-format-sel.c (cb_decimals_changed),
+	(cb_separator_toggle), (fmt_dialog_enable_widgets),
+	(cb_format_currency_select): ditto.
+	* goffice/gtk/go-graph-widget.c (go_graph_widget_size_allocate),
+	(go_graph_widget_expose_event),
+	(go_graph_widget_button_press_event),
+	(go_graph_widget_motion_notify_event), (idle_handler),
+	(go_graph_widget_set_size_mode): ditto.
+	* goffice/gtk/go-gtk-compat.h: ditto.
+	* goffice/gtk/go-optionmenu.c (go_option_menu_update_contents),
+	(go_option_menu_position), (go_option_menu_set_menu),
+	(go_option_menu_set_history), (go_option_menu_init):
+	* goffice/gtk/go-palette.c (cb_swatch_expose),
+	(cb_menu_item_activate): ditto.
+	* goffice/gtk/go-rotation-sel.c (cb_rotate_canvas_realize),
+	(cb_rotate_canvas_button): ditto.
+	* goffice/gtk/go-selector.c (go_selector_popup),
+	(go_selector_drag_data_received), (go_selector_drag_data_get):
+	* goffice/gtk/go-selector.h: ditto.
+	* goffice/gtk/goffice-gtk.c (go_gtk_dialog_add_button),
+	(cb_activate_default), (go_gtk_widget_disable_focus),
+	(cb_parent_mapped), (go_gtk_window_set_transient),
+	(go_gtk_notice_dialog), (go_dialog_guess_alternative_button_order),
+	(go_menu_position_below): ditto.
+	* goffice/utils/go-style.c (cb_outline_size_changed),
+	(cb_line_size_changed), (cb_marker_size_changed):
+	* plugins/plot_barcol/gog-barcol-prefs.c (cb_gap_changed),
+	(cb_overlap_changed): ditto.
+	* plugins/plot_barcol/gog-minmax.c (cb_gap_changed):
+	* plugins/plot_distrib/gog-boxplot.c (cb_gap_changed),
+	(cb_ratio_changed): ditto.
+	* plugins/plot_pie/gog-pie-prefs.c (cb_element_separation_changed),
+	(cb_default_separation_changed), (cb_rotation_changed),
+	(cb_center_size_changed): ditto.
+	* plugins/plot_surface/gog-xyz-surface-prefs.c (cb_rows_changed),
+	(cb_columns_changed): ditto.
+	* plugins/plot_xy/gog-bubble-prefs.c (cb_scale_changed): ditto.
+
 2009-10-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-group.c (goc_group_set_property): call

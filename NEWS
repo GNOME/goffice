@@ -2,6 +2,7 @@ goffice 0.7.15:
 
 Jean:
 	* Fix bounds update of GocItem. [#598091]
+	* Prepare for GSEAL_ENABLE.
 
 --------------------------------------------------------------------------
 goffice 0.7.14:
