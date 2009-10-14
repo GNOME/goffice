@@ -1,3 +1,7 @@
+2009-10-14  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-line.c (go_arrow_init): New function.
+
 2009-10-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: prepare for GSEAL_ENABLE.

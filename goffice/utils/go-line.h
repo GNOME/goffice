@@ -45,6 +45,26 @@ char const 		*go_line_interpolation_as_label		(GOLineInterpolation type);
 gboolean		 go_line_interpolation_supports_radial  (GOLineInterpolation type);
 gboolean		 go_line_interpolation_auto_skip	(GOLineInterpolation type);
 
+
+typedef enum {
+	GO_ARROW_NONE,
+	GO_ARROW_TRIANGLE
+	/* GO_ARROW_STEALTH */
+	/* GO_ARROW_DIAMOND */
+	/* GO_ARROW_OVAL */
+	/* GO_ARROW_OPEN */
+} GOArrowType;
+
+typedef struct {
+	GOArrowType typ;
+	GOColor	color;
+	double a, b, c;
+} GOArrow;
+
+void go_arrow_init (GOArrow *res,
+		    GOArrowType typ, GOColor color,
+		    double a, double b, double c);
+
 G_END_DECLS
 
 #endif /* GO_LINE_H */

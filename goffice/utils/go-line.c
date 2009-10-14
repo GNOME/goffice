@@ -346,3 +346,16 @@ go_line_interpolation_auto_skip	(GOLineInterpolation type)
 	}
 	return FALSE;
 }
+
+
+void
+go_arrow_init (GOArrow *res,
+	       GOArrowType typ, GOColor color,
+	       double a, double b, double c)
+{
+	res->typ = typ;
+	res->color = color;
+	res->a = a;
+	res->b = b;
+	res->c = c;
+}
