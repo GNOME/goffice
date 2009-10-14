@@ -30,7 +30,7 @@
  * @short_description: Simple line.
  *
  * #GocLine implements simple line drawing in the canvas. The line can have
- * an arrowhead at its end.
+ * arrows at the start and/or at the end.
 **/
 
 enum {
@@ -39,10 +39,8 @@ enum {
 	LINE_PROP_Y0,
 	LINE_PROP_X1,
 	LINE_PROP_Y1,
-	LINE_PROP_ARROWHEAD,
-	LINE_PROP_ARROW_SHAPE_A,
-	LINE_PROP_ARROW_SHAPE_B,
-	LINE_PROP_ARROW_SHAPE_C
+	LINE_PROP_START_ARROW,
+	LINE_PROP_END_ARROW
 };
 
 static void
@@ -68,20 +66,12 @@ goc_line_set_property (GObject *gobject, guint param_id,
 		line->endy = g_value_get_double (value);
 		break;
 
-	case LINE_PROP_ARROWHEAD:
-		line->arrowhead = g_value_get_boolean (value);
+	case LINE_PROP_START_ARROW:
+		line->start_arrow = *((GOArrow *)g_value_peek_pointer (value));
 		break;
 
-	case LINE_PROP_ARROW_SHAPE_A:
-		line->headA = g_value_get_double (value);
-		break;
-
-	case LINE_PROP_ARROW_SHAPE_B:
-		line->headB = g_value_get_double (value);
-		break;
-
-	case LINE_PROP_ARROW_SHAPE_C:
-		line->headC = g_value_get_double (value);
+	case LINE_PROP_END_ARROW:
+		line->end_arrow = *((GOArrow *)g_value_peek_pointer (value));
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
@@ -113,20 +103,12 @@ goc_line_get_property (GObject *gobject, guint param_id,
 		g_value_set_double (value, line->endy);
 		break;
 
-	case LINE_PROP_ARROWHEAD:
-		g_value_set_boolean (value, line->arrowhead);
+	case LINE_PROP_START_ARROW:
+		g_value_set_boxed (value, &line->start_arrow);
 		break;
 
-	case LINE_PROP_ARROW_SHAPE_A:
-		g_value_set_double (value, line->headA);
-		break;
-
-	case LINE_PROP_ARROW_SHAPE_B:
-		g_value_set_double (value, line->headB);
-		break;
-
-	case LINE_PROP_ARROW_SHAPE_C:
-		g_value_set_double (value, line->headC);
+	case LINE_PROP_END_ARROW:
+		g_value_set_boxed (value, &line->end_arrow);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
@@ -158,9 +140,20 @@ goc_line_update_bounds (GocItem *item)
 		item->y0 = line->endy - extra_width;
 		item->y1 = line->starty + extra_width;
 	}
-	if (line->arrowhead) {
-		/* do not calculate things precisely, just add enough room in all directions */
-		double d = hypot (line->headB, line->headC);
+	if (line->start_arrow.typ) {
+		/*
+		 * Do not calculate things precisely, just add enough room
+		 * in all directions.
+		 */
+		double d = hypot (line->start_arrow.b, line->start_arrow.c);
+		item->x0 -= d;
+		item->x1 += d;
+		item->y0 -= d;
+		item->y1 += d;
+	}
+	if (line->end_arrow.typ) {
+		/* See above.  */
+		double d = hypot (line->end_arrow.b, line->end_arrow.c);
 		item->x0 -= d;
 		item->x1 += d;
 		item->y0 -= d;
@@ -193,44 +186,77 @@ goc_line_distance (GocItem *item, double x, double y, GocItem **near_item)
 	return (t > 0.)? t: 0.;
 }
 
-static void goc_line_draw (GocItem const *item, cairo_t *cr)
+static void
+draw_arrow (GOArrow const *arrow, cairo_t *cr, GOStyle *style,
+	    double *endx, double *endy, double phi)
 {
-	GocLine *line = GOC_LINE (item);
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
-	double endx = (line->endx - line->startx) * sign, endy = line->endy - line->starty;
-	double hoffs, voffs = ceil (go_styled_object_get_style (GO_STYLED_OBJECT (item))->line.width);
-	if (line->startx == line->endx && line->starty == line->endy)
+	double l, w;
+
+	if (arrow->typ == GO_ARROW_NONE)
 		return;
-	if (voffs <= 0.)
-		voffs = 1.;
-	hoffs = ((int) voffs & 1)? .5: 0.;
-	voffs = (line->starty == line->endy)? hoffs: 0.;
-	if (line->startx != line->endx)
-	                hoffs = 0.;
-	cairo_save (cr);
-	goc_group_cairo_transform (item->parent, cr, hoffs + (int) line->startx, voffs + (int) line->starty);
-	if (line->arrowhead) {
-		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-		double l = hypot (endx, endy), w = (style->line.width)? style->line.width / 2.: .5;
-		/* display the arrow head */
+
+	l = hypot (*endx, *endy);
+	w = style->line.width ? style->line.width / 2.0 : 0.5;
+
+	switch (arrow->typ) {
+	case GO_ARROW_TRIANGLE:
 		cairo_save (cr);
-		cairo_translate (cr, (int) endx, (int) endy);
-		cairo_rotate (cr, atan2 (endy, endx));
-		cairo_move_to (cr, -line->headA, w);
-		cairo_line_to (cr, -line->headB, w + line->headC);
+		cairo_translate (cr, (int) *endx, (int) *endy);
+		cairo_rotate (cr, phi);
+		cairo_move_to (cr, -arrow->a, w);
+		cairo_line_to (cr, -arrow->b, w + arrow->c);
 		cairo_line_to (cr, 0., 0.);
-		cairo_line_to (cr, -line->headB, -w - line->headC);
-		cairo_line_to (cr, -line->headA, -w);
+		cairo_line_to (cr, -arrow->b, -w - arrow->c);
+		cairo_line_to (cr, -arrow->a, -w);
 		cairo_close_path (cr);
 		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
 		cairo_fill (cr);
 		cairo_restore (cr);
 		if (l > 0.) {
-			endx -= line->headA * endx / l;
-			endy -= line->headA * endy / l;
+			(*endx) -= arrow->a * *endx / l;
+			(*endy) -= arrow->a * *endy / l;
 		} else
-			endx = endy = 0.;
+			*endx = *endy = 0.;
+		break;
+
+	default:
+		g_assert_not_reached ();
 	}
+}
+
+static void
+goc_line_draw (GocItem const *item, cairo_t *cr)
+{
+	GocLine *line = GOC_LINE (item);
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
+	double endx = (line->endx - line->startx) * sign, endy = line->endy - line->starty;
+	double hoffs, voffs = ceil (style->line.width);
+	double startx = 0, starty = 0;
+	double phi;
+
+	if (line->startx == line->endx && line->starty == line->endy)
+		return;
+
+	if (voffs <= 0.)
+		voffs = 1.;
+
+	hoffs = ((int) voffs & 1)? .5: 0.;
+	voffs = (line->starty == line->endy)? hoffs: 0.;
+	if (line->startx != line->endx)
+	                hoffs = 0.;
+
+	cairo_save (cr);
+	goc_group_cairo_transform (item->parent, cr,
+				   hoffs + (int) line->startx,
+				   voffs + (int) line->starty);
+
+	phi = atan2 (endy, endx);
+	draw_arrow (&line->start_arrow, cr, style,
+		    &startx, &starty, phi + M_PI);
+	draw_arrow (&line->end_arrow, cr, style,
+		    &endx, &endy, phi);
+
         if ((endx != 0. || endy!= 0.) && go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
 		/* try to avoid horizontal and vertical lines between two pixels */
 		cairo_move_to (cr, 0., 0.);
@@ -288,30 +314,18 @@ goc_line_class_init (GocItemClass *item_klass)
 			_("The line end y coordinate"),
 			-G_MAXDOUBLE, G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-	g_object_class_install_property (obj_klass, LINE_PROP_ARROWHEAD,
-		g_param_spec_boolean ("arrowhead",
-			_("Arrow head"),
-			_("Whether to add an arrow head at the end of the line"),
-			FALSE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-	g_object_class_install_property (obj_klass, LINE_PROP_ARROW_SHAPE_A,
-		g_param_spec_double ("arrow-shape-a",
-			_("Arrow head shape A"),
-			_("The distance from tip of arrow head to center"),
-			0, G_MAXDOUBLE, 0.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-	g_object_class_install_property (obj_klass, LINE_PROP_ARROW_SHAPE_B,
-		g_param_spec_double ("arrow-shape-b",
-			_("Arrow head shape B"),
-			_("The distance from tip of arrow head to trailing point, measured along shaft"),
-			0, G_MAXDOUBLE, 0.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-	g_object_class_install_property (obj_klass, LINE_PROP_ARROW_SHAPE_C,
-		g_param_spec_double ("arrow-shape-c",
-			_("Arrow head shape C"),
-			_("The distance of trailing points from outside edge of shaft"),
-			0, G_MAXDOUBLE, 0.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+        g_object_class_install_property (obj_klass, LINE_PROP_START_ARROW,
+                 g_param_spec_boxed ("start-arrow",
+				     _("Start Arrow"),
+				     _("Arrow for line's start"),
+				     GO_ARROW_TYPE,
+				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
+        g_object_class_install_property (obj_klass, LINE_PROP_END_ARROW,
+                 g_param_spec_boxed ("end-arrow",
+				     _("End Arrow"),
+				     _("Arrow for line's end"),
+				     GO_ARROW_TYPE,
+				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	item_klass->update_bounds = goc_line_update_bounds;
 	item_klass->distance = goc_line_distance;

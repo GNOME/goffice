@@ -4,6 +4,9 @@ Jean:
 	* Fix bounds update of GocItem. [#598091]
 	* Prepare for GSEAL_ENABLE.
 
+Morten:
+	* Canvas improvements for arrows.
+
 --------------------------------------------------------------------------
 goffice 0.7.14:
 

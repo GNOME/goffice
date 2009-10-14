@@ -1,5 +1,13 @@
 2009-10-14  Morten Welinder  <terra@gnome.org>
 
+	* goffice/canvas/goc-line.c (goc_line_class_init): Change to
+	GOArrow for arrow properties.
+
+	* goffice/canvas/goc-line.h (struct _GocLine): Have an arrow at
+	both ends.
+
+	* goffice/canvas/goc-line.c (goc_line_draw): Draw point arrows.
+
 	* goffice/utils/go-line.c (go_arrow_init, go_arrow_get_type,
 	go_arrow_clear, go_arrow_dup): New functions.
 
