@@ -61,6 +61,11 @@ typedef struct {
 	double a, b, c;
 } GOArrow;
 
+GType go_arrow_get_type (void);
+#define GO_ARROW_TYPE (go_arrow_get_type())
+
+GOArrow *go_arrow_dup (GOArrow *src);
+void go_arrow_clear (GOArrow *dst);
 void go_arrow_init (GOArrow *res,
 		    GOArrowType typ, GOColor color,
 		    double a, double b, double c);

@@ -347,6 +347,20 @@ go_line_interpolation_auto_skip	(GOLineInterpolation type)
 	return FALSE;
 }
 
+/* ------------------------------------------------------------------------- */
+
+GType
+go_arrow_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0) {
+		t = g_boxed_type_register_static ("GOArrow",
+			 (GBoxedCopyFunc)go_arrow_dup,
+			 (GBoxedFreeFunc)g_free);
+	}
+	return t;
+}
 
 void
 go_arrow_init (GOArrow *res,
@@ -358,4 +372,16 @@ go_arrow_init (GOArrow *res,
 	res->a = a;
 	res->b = b;
 	res->c = c;
+}
+
+void
+go_arrow_clear (GOArrow *dst)
+{
+	go_arrow_init (dst, GO_ARROW_NONE, GO_COLOR_BLACK, 0, 0, 0);
+}
+
+GOArrow *
+go_arrow_dup (GOArrow *src)
+{
+	return g_memdup (src, sizeof (*src));
 }

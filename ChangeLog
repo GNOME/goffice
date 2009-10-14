@@ -1,6 +1,7 @@
 2009-10-14  Morten Welinder  <terra@gnome.org>
 
-	* goffice/utils/go-line.c (go_arrow_init): New function.
+	* goffice/utils/go-line.c (go_arrow_init, go_arrow_get_type,
+	go_arrow_clear, go_arrow_dup): New functions.
 
 2009-10-12  Jean Brefort  <jean.brefort@normalesup.org>
 
