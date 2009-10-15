@@ -20,10 +20,7 @@
  */
 
 #include <goffice/goffice-config.h>
-
-#include "go-color.h"
-#include "go-line.h"
-#include <goffice/math/go-math.h>
+#include <goffice/goffice.h>
 
 #include <string.h>
 #include <glib/gi18n-lib.h>
@@ -173,7 +170,7 @@ go_line_dash_as_label (GOLineDashType type)
 			break;
 		}
 	}
-	return ret;
+	return _(ret);
 }
 
 /**
@@ -354,7 +351,7 @@ static struct {
 	char const *name;
 } arrow_types[] = {
 	{ GO_LINE_NONE, "none" },
-	{ GO_ARROW_TRIANGLE, "triangle" },
+	{ GO_ARROW_KITE, "kite" },
 	{ GO_ARROW_OVAL, "oval" }
 };
 
@@ -400,12 +397,10 @@ go_arrow_get_type (void)
 }
 
 void
-go_arrow_init (GOArrow *res,
-	       GOArrowType typ, GOColor color,
+go_arrow_init (GOArrow *res, GOArrowType typ,
 	       double a, double b, double c)
 {
 	res->typ = typ;
-	res->color = color;
 	res->a = a;
 	res->b = b;
 	res->c = c;
@@ -414,7 +409,19 @@ go_arrow_init (GOArrow *res,
 void
 go_arrow_clear (GOArrow *dst)
 {
-	go_arrow_init (dst, GO_ARROW_NONE, GO_COLOR_BLACK, 0, 0, 0);
+	go_arrow_init (dst, GO_ARROW_NONE, 0, 0, 0);
+}
+
+void
+go_arrow_init_kite (GOArrow *dst, double a, double b, double c)
+{
+	go_arrow_init (dst, GO_ARROW_KITE, a, b, c);
+}
+
+void
+go_arrow_init_oval (GOArrow *dst, double ra, double rb)
+{
+	go_arrow_init (dst, GO_ARROW_OVAL, ra, rb, 0);
 }
 
 GOArrow *

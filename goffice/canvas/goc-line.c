@@ -127,7 +127,7 @@ handle_arrow_bounds (GOArrow const *arrow, GocItem *item)
 	switch (arrow->typ) {
 	case GO_ARROW_NONE:
 		break;
-	case GO_ARROW_TRIANGLE: {
+	case GO_ARROW_KITE: {
 		double d = hypot (arrow->b, arrow->c);
 		item->x0 -= d;
 		item->x1 += d;
@@ -215,7 +215,7 @@ draw_arrow (GOArrow const *arrow, cairo_t *cr, GOStyle *style,
 	w = style->line.width ? style->line.width / 2.0 : 0.5;
 
 	switch (arrow->typ) {
-	case GO_ARROW_TRIANGLE:
+	case GO_ARROW_KITE:
 		cairo_save (cr);
 		cairo_translate (cr, (int) *endx, (int) *endy);
 		cairo_rotate (cr, phi);

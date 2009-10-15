@@ -1,3 +1,9 @@
+2009-10-15  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-line.c (go_line_dash_as_label): Translate here.
+	* goffice/gtk/go-line-selector.c (go_line_dash_palette_get_tooltip_func):
+	Don't translate here.
+
 2009-10-14  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-line.c (goc_line_class_init): Change to

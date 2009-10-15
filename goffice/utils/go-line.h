@@ -48,7 +48,7 @@ gboolean		 go_line_interpolation_auto_skip	(GOLineInterpolation type);
 
 typedef enum {
 	GO_ARROW_NONE,
-	GO_ARROW_TRIANGLE,
+	GO_ARROW_KITE,
 	GO_ARROW_OVAL
 	/* GO_ARROW_STEALTH */
 	/* GO_ARROW_DIAMOND */
@@ -57,7 +57,6 @@ typedef enum {
 
 typedef struct {
 	GOArrowType typ;
-	GOColor	color;
 	double a, b, c;
 } GOArrow;
 
@@ -68,10 +67,11 @@ char const *go_arrow_type_as_str (GOArrowType typ);
 GOArrowType go_arrow_type_from_str (const char *name);
 
 GOArrow *go_arrow_dup (GOArrow *src);
-void go_arrow_clear (GOArrow *dst);
-void go_arrow_init (GOArrow *res,
-		    GOArrowType typ, GOColor color,
+void go_arrow_init (GOArrow *res, GOArrowType typ,
 		    double a, double b, double c);
+void go_arrow_clear (GOArrow *dst);
+void go_arrow_init_kite (GOArrow *dst, double a, double b, double c);
+void go_arrow_init_oval (GOArrow *dst, double ra, double rb);
 
 G_END_DECLS
 

@@ -64,7 +64,7 @@ go_line_dash_palette_render_func (cairo_t *cr,
 static char const *
 go_line_dash_palette_get_tooltip_func (int index, void *data)
 {
-	return _(go_line_dash_as_label (index));
+	return go_line_dash_as_label (index);
 }
 
 /**
