@@ -349,6 +349,43 @@ go_line_interpolation_auto_skip	(GOLineInterpolation type)
 
 /* ------------------------------------------------------------------------- */
 
+static struct {
+	GOArrowType typ;
+	char const *name;
+} arrow_types[] = {
+	{ GO_LINE_NONE, "none" },
+	{ GO_ARROW_TRIANGLE, "triangle" },
+	{ GO_ARROW_OVAL, "oval" }
+};
+
+char const *
+go_arrow_type_as_str (GOArrowType typ)
+{
+	unsigned ui;
+
+	for (ui = 0; ui < G_N_ELEMENTS (arrow_types); ui++)
+		if (typ == arrow_types[ui].typ)
+			return arrow_types[ui].name;
+
+	return NULL;
+}
+
+GOArrowType
+go_arrow_type_from_str (const char *name)
+{
+	unsigned ui;
+	GOArrowType ret = GO_ARROW_NONE;
+
+	for (ui = 0; ui < G_N_ELEMENTS (arrow_types); ui++) {
+		if (strcmp (arrow_types[ui].name, name) == 0) {
+			ret = arrow_types[ui].typ;
+			break;
+		}
+	}
+
+	return ret;
+}
+
 GType
 go_arrow_get_type (void)
 {

@@ -117,6 +117,38 @@ goc_line_get_property (GObject *gobject, guint param_id,
 }
 
 static void
+handle_arrow_bounds (GOArrow const *arrow, GocItem *item)
+{
+	/*
+	 * Do not calculate things precisely, just add enough room
+	 * in all directions.
+	 */
+
+	switch (arrow->typ) {
+	case GO_ARROW_NONE:
+		break;
+	case GO_ARROW_TRIANGLE: {
+		double d = hypot (arrow->b, arrow->c);
+		item->x0 -= d;
+		item->x1 += d;
+		item->y0 -= d;
+		item->y1 += d;
+		break;
+	}
+	case GO_ARROW_OVAL: {
+		double d = MAX (arrow->a, arrow->b);
+		item->x0 -= d;
+		item->x1 += d;
+		item->y0 -= d;
+		item->y1 += d;
+		break;
+	}
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+static void
 goc_line_update_bounds (GocItem *item)
 {
 	GocLine *line = GOC_LINE (item);
@@ -140,25 +172,9 @@ goc_line_update_bounds (GocItem *item)
 		item->y0 = line->endy - extra_width;
 		item->y1 = line->starty + extra_width;
 	}
-	if (line->start_arrow.typ) {
-		/*
-		 * Do not calculate things precisely, just add enough room
-		 * in all directions.
-		 */
-		double d = hypot (line->start_arrow.b, line->start_arrow.c);
-		item->x0 -= d;
-		item->x1 += d;
-		item->y0 -= d;
-		item->y1 += d;
-	}
-	if (line->end_arrow.typ) {
-		/* See above.  */
-		double d = hypot (line->end_arrow.b, line->end_arrow.c);
-		item->x0 -= d;
-		item->x1 += d;
-		item->y0 -= d;
-		item->y1 += d;
-	}
+
+	handle_arrow_bounds (&line->start_arrow, item);
+	handle_arrow_bounds (&line->end_arrow, item);
 }
 
 static double
@@ -217,6 +233,17 @@ draw_arrow (GOArrow const *arrow, cairo_t *cr, GOStyle *style,
 			(*endy) -= arrow->a * *endy / l;
 		} else
 			*endx = *endy = 0.;
+		break;
+
+	case GO_ARROW_OVAL:
+		cairo_save (cr);
+		cairo_translate (cr, *endx, *endy);
+		cairo_rotate (cr, phi);
+		cairo_scale (cr, arrow->a, arrow->b);
+		cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
+		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (style->line.color));
+		cairo_fill (cr);
+		cairo_restore (cr);
 		break;
 
 	default:
