@@ -257,7 +257,8 @@ goc_line_draw (GocItem const *item, cairo_t *cr)
 	draw_arrow (&line->end_arrow, cr, style,
 		    &endx, &endy, phi);
 
-        if ((endx != 0. || endy!= 0.) && go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
+        if ((endx != 0. || endy!= 0.) &&
+	    go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
 		/* try to avoid horizontal and vertical lines between two pixels */
 		cairo_move_to (cr, 0., 0.);
 		endx = (endx > 0.)? ceil (endx): floor (endx);

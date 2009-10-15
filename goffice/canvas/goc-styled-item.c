@@ -105,7 +105,7 @@ goc_styled_item_finalize (GObject *obj)
 		gsi->style = NULL;
 	}
 
-	(*parent_klass->finalize) (obj);
+	parent_klass->finalize (obj);
 }
 
 static void
@@ -174,8 +174,7 @@ goc_styled_item_init (GocStyledItem *gsi)
 }
 
 static gboolean
-goc_styled_item_set_style (GOStyledObject *gsi,
-			     GOStyle *style)
+goc_styled_item_set_style (GOStyledObject *gsi, GOStyle *style)
 {
 	gboolean resize;
 	GocStyledItem *ggsi;
