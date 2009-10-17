@@ -1,7 +1,16 @@
+goffice (0.7.14-2) unstable; urgency=low
+
+  * Upload to unstable now that gnumeric 1.9.13 has migrated into testing.
+  * [debian/control] For all build dependencies that have separate -doc
+    packages, added the -doc packages as build dependencies as well in order
+    to generate cross-references.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 17 Oct 2009 21:15:52 +0200
+
 goffice (0.7.14-1) experimental; urgency=low
 
   * New upstream release. Uploading to experimental so as not to interfere
-    with gnumeric 0.7.13's migration to testing.
+    with gnumeric 1.9.13's migration to testing.
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 11 Oct 2009 18:24:29 +0200
 
