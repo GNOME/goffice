@@ -222,8 +222,8 @@ static char *
 format_coordinate (GogAxis *axis, GOFormat *fmt, double x)
 {
 	GString *res = g_string_sized_new (20);
-	int width = fmt ? -1 : 8; /* FIXME? */
-	const GODateConventions *date_conv = NULL;  /* FIXME: get from axis */
+	int width = (fmt && !go_format_is_general (fmt)) ? -1 : 8; /* FIXME? */
+	const GODateConventions *date_conv = gog_axis_get_date_conv (axis);
 	GOFormatNumberError err = go_format_value_gstring
 		(NULL, res,
 		 go_format_measure_strlen,
@@ -314,7 +314,7 @@ goc_graph_do_tooltip (GocGraph *graph, double x, double y)
 				s1 = format_coordinate (x_axis, NULL, x);
 			}
 		} else {
-			format = gog_axis_get_format (x_axis);
+			format = gog_axis_get_effective_format (x_axis);
 			s1 = format_coordinate (x_axis, format, x);
 		}
 		if (gog_axis_is_discrete (y_axis)) {
@@ -326,7 +326,7 @@ goc_graph_do_tooltip (GocGraph *graph, double x, double y)
 				s2 = format_coordinate (y_axis, NULL, y);
 			}
 		} else {
-			format = gog_axis_get_format (y_axis);
+			format = gog_axis_get_effective_format (y_axis);
 			s2 = format_coordinate (y_axis, format, y);
 		}
 		buf = g_strdup_printf ("(%s,%s)", s1, s2);

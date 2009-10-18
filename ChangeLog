@@ -1,5 +1,9 @@
 2009-10-18  Morten Welinder  <terra@gnome.org>
 
+	* goffice/graph/gog-axis.c (gog_axis_get_effective_format): Rename
+	from get_axis_format and make public.
+	(axis_format_value): Use unicode minuses and proper date_conv.
+
 	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): Extract from
 	goc_graph_motion for clarity.  Free the right string!  Use
 	format_coordinate, not g_strdup_printf.

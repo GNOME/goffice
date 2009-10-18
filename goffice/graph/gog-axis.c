@@ -110,9 +110,19 @@ create_invalid_axis_ticks (double min, double max)
 	return ticks;
 }
 
-static GOFormat *
-get_axis_format (GogAxis const *axis)
+const GODateConventions *
+gog_axis_get_date_conv (GogAxis const *axis)
 {
+	g_return_val_if_fail (GOG_IS_AXIS (axis), NULL);
+
+	return axis->date_conv;
+}
+
+GOFormat *
+gog_axis_get_effective_format (GogAxis const *axis)
+{
+	g_return_val_if_fail (GOG_IS_AXIS (axis), NULL);
+
 	if (axis->assigned_format &&
 	    !go_format_is_general (axis->assigned_format))
 		return axis->assigned_format;
@@ -122,8 +132,23 @@ get_axis_format (GogAxis const *axis)
 static char *
 axis_format_value (GogAxis *axis, double val)
 {
-	/* FIXME: Date convention.  */
-	return go_format_value (get_axis_format (axis), val);
+	GOFormat *fmt = gog_axis_get_effective_format (axis);
+	GString *res = g_string_sized_new (20);
+	const GODateConventions *date_conv = axis->date_conv;
+	GOFormatNumberError err = go_format_value_gstring
+		(NULL, res,
+		 go_format_measure_strlen,
+		 go_font_metrics_unit,
+		 fmt,
+		 val, 'F', NULL,
+		 NULL,
+		 -1, date_conv, TRUE);
+	if (err) {
+		/* Invalid number for format.  */
+		g_string_assign (res, "#####");
+	}
+
+	return g_string_free (res, FALSE);
 }
 
 static gboolean
@@ -429,7 +454,7 @@ map_time_auto_bound (GogAxis *axis, double minimum, double maximum, double *boun
 {
 	enum { U_Second, U_Minute, U_Hour, U_Day } u;
 	static const double invunits[4] = { 24* 60 * 60, 24 * 60, 24, 1 };
-	GOFormat *fmt = get_axis_format (axis);
+	GOFormat *fmt = gog_axis_get_effective_format (axis);
 	int is_time = go_format_is_time (fmt);
 	double range = fabs (maximum - minimum);
 	double iu, step;
@@ -934,7 +959,7 @@ map_linear_subclass (GogAxis *axis, const GogAxisMapDesc *desc)
 		return &map_desc_polar;
 	}
 
-	fmt = get_axis_format (axis);
+	fmt = gog_axis_get_effective_format (axis);
 	if (fmt && go_format_is_time (fmt) > 0) {
 		static GogAxisMapDesc map_desc_time;
 
@@ -2368,7 +2393,7 @@ gog_axis_populate_editor (GogObject *gobj,
 
 	    /* Format page */
 	    if (!axis->is_discrete) {
-		    GOFormat *fmt = get_axis_format (axis);
+		    GOFormat *fmt = gog_axis_get_effective_format (axis);
 		    w = go_format_sel_new_full (TRUE);
 		    state->format_selector = w;
 
