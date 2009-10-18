@@ -62,6 +62,7 @@ void	      gog_axis_map_get_bounds 	  (GogAxisMap *map, double *minimum, double 
 void 	      gog_axis_map_free		  (GogAxisMap *map);
 gboolean      gog_axis_map_is_valid 	  (GogAxisMap *map);
 gboolean      gog_axis_map_is_inverted 	  (GogAxisMap *map);
+gboolean      gog_axis_map_is_discrete 	  (GogAxisMap *map);
 
 /*****************************************************************************/
 

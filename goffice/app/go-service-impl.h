@@ -48,5 +48,5 @@ typedef GOServiceClass GOServiceSimpleClass;
 
 G_END_DECLS
 
-#endif /* GO_GRAPH_ITEM_IMPL_H */
+#endif /* GO_SERVICE_IMPL_H */
 

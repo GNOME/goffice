@@ -30,6 +30,7 @@ struct _GogChartMap {
 	gboolean		 is_valid;
 
 	void 	 (*map_2D_to_view) 	(GogChartMap *map, double x, double y, double *u, double *v);
+	void 	 (*map_view_to_2D) 	(GogChartMap *map, double x, double y, double *u, double *v);
 	double 	 (*map_2D_derivative_to_view) (GogChartMap *map, double deriv, double x, double y);
 	GOPath  *(*make_path)	   	(GogChartMap *map, double const *x, double const *y, int n_points,
 					 GOLineInterpolation interpolation, gboolean skip_invalid, gpointer data);
@@ -167,6 +168,15 @@ x_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v)
 	*v = data->a * y + data->b;
 }
 
+static void
+x_map_view_to_2D (GogChartMap *map, double x, double y, double *u, double *v)
+{
+	XMapData *data = map->data;
+
+	*u = gog_axis_map_from_view (map->axis_map[0], x);
+	*v =  (y - data->b) / data->a;
+}
+
 typedef struct {
 	double		a[2][2];
 	double		b[2];
@@ -189,6 +199,13 @@ xy_map_2D_derivative_to_view (GogChartMap *map, double deriv, double x, double y
 	deriv /= d;
 	d = gog_axis_map_derivative_to_view (map->axis_map[1], y);
 	return (isnan (d))? go_nan: deriv * d;
+}
+
+static void
+xy_map_view_to_2D (GogChartMap *map, double x, double y, double *u, double *v)
+{
+	*u = gog_axis_map_from_view (map->axis_map[0], x);
+	*v = gog_axis_map_from_view (map->axis_map[1], y);
 }
 
 static GOPath *
@@ -582,6 +599,29 @@ polar_map_2D_to_view (GogChartMap *map, double x, double y, double *u, double *v
 	*v = data->cy + r * data->ry * sin (t);
 }
 
+static void
+polar_map_view_to_2D (GogChartMap *map, double x, double y, double *u, double *v)
+{
+	GogChartMapPolarData *data = (GogChartMapPolarData *) map->data;
+	double r, t;
+
+	x = (x - data->cx) / data->rx;
+	y = (y - data->cy) / data->ry;
+	r = hypot (x, y);
+	t = atan2 (y, x);
+	/* FIXME: following code looks like a kludge */
+	if (gog_axis_map_is_discrete (map->axis_map[0])) {
+		*u = gog_axis_map_from_view (map->axis_map[0], t);
+		if (*u < 1)
+			*u = data->th1;
+	} else {
+		if (t > 0)
+			t -= 2 * M_PI; /* Hmm, why? */
+		*u = gog_axis_map_from_view (map->axis_map[0], t);
+	}
+	*v = gog_axis_map_from_view (map->axis_map[1], r);
+}
+
 static GOPath *
 polar_make_path_step (GogChartMap *map, double const *x, double const *y, int n_points,
 		      GOLineInterpolation interpolation, gboolean skip_invalid)
@@ -774,7 +814,7 @@ gog_chart_map_get_polar_parms (GogChartMap *map)
  * Creates a new #GogChartMap, used for conversion from data space
  * to canvas space.
  *
- * returns: a new #GogChart object.
+ * returns: a new #GogChartMap object.
  **/
 
 GogChartMap *
@@ -810,6 +850,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 				data->a = - area->h;
 
 				map->map_2D_to_view = x_map_2D_to_view;
+				map->map_view_to_2D = x_map_view_to_2D;
 				map->map_2D_derivative_to_view = NULL;
 				map->make_path = NULL;
 				map->make_close_path = NULL;
@@ -829,6 +870,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 				map->data = NULL;
 				map->map_2D_to_view = xy_map_2D_to_view;
 				map->map_2D_derivative_to_view = xy_map_2D_derivative_to_view;
+				map->map_view_to_2D = xy_map_view_to_2D;
 				map->make_path = xy_make_path;
 				map->make_close_path = xy_make_close_path;
 
@@ -869,6 +911,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 				map->data = data;
 				map->map_2D_to_view = polar_map_2D_to_view;
 				map->map_2D_derivative_to_view = NULL;
+				map->map_view_to_2D = polar_map_view_to_2D;
 				map->make_path = polar_make_path;
 				map->make_close_path = polar_make_close_path;
 
@@ -880,6 +923,7 @@ gog_chart_map_new (GogChart *chart, GogViewAllocation const *area,
 			g_warning ("[GogChartMap::new] unimplemented for axis set %d", axis_set);
 			map->map_2D_to_view = null_map_2D;
 			map->map_2D_derivative_to_view = NULL;
+			map->map_view_to_2D = null_map_2D;
 			break;
 	}
 
@@ -903,7 +947,6 @@ gog_chart_map_2D_to_view (GogChartMap *map, double x, double y, double *u, doubl
 	(map->map_2D_to_view) (map, x, y, u, v);
 }
 
-
 /**
  * gog_chart_map_2D_derivative_to_view:
  * @map: a #GogChartMap
@@ -921,6 +964,23 @@ gog_chart_map_2D_derivative_to_view (GogChartMap *map, double deriv, double x, d
 {
 	return (map->map_2D_derivative_to_view)?
 		map->map_2D_derivative_to_view (map, deriv, x, y): go_nan;
+}
+
+/**
+ * gog_chart_map_view_to_2D:
+ * @map: a #GogChartMap
+ * @x: data x value
+ * @y: data y value
+ * @u: placeholder for x converted value
+ * @v: placeholder for y converted value
+ *
+ * Converts a 2D coordinate from canvas space to data space.
+ **/
+
+void
+gog_chart_map_view_to_2D (GogChartMap *map, double x, double y, double *u, double *v)
+{
+	(map->map_view_to_2D) (map, x, y, u, v);
 }
 
 /**

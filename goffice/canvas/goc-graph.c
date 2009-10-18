@@ -218,6 +218,120 @@ goc_graph_update_bounds (GocItem *item)
 	gog_renderer_update (graph->renderer, graph->w, graph->h);
 }
 
+static gboolean
+goc_graph_motion (GocItem *item, double x, double y)
+{
+	GdkEventMotion *event = (GdkEventMotion*) goc_canvas_get_cur_event (item->canvas);
+	GocGraph *graph = GOC_GRAPH (item);
+	GogView *view;
+	char *buf = NULL, *s1 = NULL, *s2 = NULL;
+	GogObject *obj;
+	GogTool *tool;
+	GogChart *chart;
+	GogViewAllocation alloc;
+	double xpos, ypos;
+	GogChartMap *map;
+	GogAxis *x_axis, *y_axis;
+	GogAxisSet set;
+	GSList *l;
+	GOFormat *format;
+
+	/* do not allow more than 20 updates per second */
+	if (event->time - graph->last_time < 50)
+		goto out;
+
+	graph->last_time = event->time;
+	/* translate x and y tovalues relative to the graph */
+	xpos = graph->x;
+	ypos = graph->y;
+	goc_group_adjust_coords (item->parent, &xpos, &ypos);
+	x -= xpos;
+	y -= ypos;
+	/* get the GogView at the cursor position */
+	g_object_get (G_OBJECT (graph->renderer), "view", &view, NULL);
+	gog_view_get_view_at_point (view, x, y, &obj, &tool);
+	if (!obj)
+		goto tooltip;
+	chart = GOG_CHART (gog_object_get_parent_typed (obj, GOG_TYPE_CHART));
+	if (!chart || gog_chart_is_3d (chart))
+		goto tooltip;
+	set = gog_chart_get_axis_set (chart) & GOG_AXIS_SET_FUNDAMENTAL;
+	/* get the plot allocation */
+	l = gog_object_get_children (GOG_OBJECT (chart), gog_object_find_role_by_name (GOG_OBJECT (chart), "Plot"));
+	view = gog_view_find_child_view (view, GOG_OBJECT (l->data));
+	g_slist_free (l);
+	alloc = view->allocation;
+	switch (set) {
+	case GOG_AXIS_SET_XY:
+		/* get the axis */
+		l = gog_chart_get_axes (chart, GOG_AXIS_X);
+		x_axis = GOG_AXIS (l->data);
+		g_slist_free (l);
+		l = gog_chart_get_axes (chart, GOG_AXIS_Y);
+		y_axis = GOG_AXIS (l->data);
+		g_slist_free (l);
+		break;
+	case GOG_AXIS_SET_RADAR:
+		/* get the axis */
+		l = gog_chart_get_axes (chart, GOG_AXIS_CIRCULAR);
+		x_axis = GOG_AXIS (l->data);
+		g_slist_free (l);
+		l = gog_chart_get_axes (chart, GOG_AXIS_RADIAL);
+		y_axis = GOG_AXIS (l->data);
+		g_slist_free (l);
+		break;
+	default:
+		goto tooltip;
+	}
+	map = gog_chart_map_new (chart, &alloc, x_axis, y_axis, NULL, FALSE);
+	if (gog_chart_map_is_valid (map) &&
+				x >= alloc.x && x < alloc.x + alloc.w &&
+				y >= alloc.y && y < alloc.y + alloc.h) {
+		gog_chart_map_view_to_2D (map, x, y, &x, &y);
+		if (gog_axis_is_discrete (x_axis)) {
+			GOData *labels = gog_axis_get_labels (x_axis, NULL);
+			if (labels)
+				s1 = go_data_vector_get_str (GO_DATA_VECTOR (labels), x - 1);
+			if (!s1 || *s1 == 0) {
+				g_free (s1);
+				s1 = g_strdup_printf ("%g", x);
+			}
+		} else {
+			format = gog_axis_get_format (x_axis);
+			s1 = (format == NULL)? g_strdup_printf ("%g", x): go_format_value (format, x);
+		}
+		if (gog_axis_is_discrete (y_axis)) {
+			GOData *labels = gog_axis_get_labels (y_axis, NULL);
+			if (labels)
+				s2 = go_data_vector_get_str (GO_DATA_VECTOR (labels), y - 1);
+			if (!s2 || *s2 == 0) {
+				g_free (s1);
+				s2 = g_strdup_printf ("%g", y);
+			}
+		} else {
+			format = gog_axis_get_format (y_axis);
+			s2 =  (format == NULL)? g_strdup_printf ("%g", y): go_format_value (format, y);
+		}
+		buf = g_strdup_printf ("(%s,%s)", s1, s2);
+		g_free (s1);
+		g_free (s2);
+	}
+	gog_chart_map_free (map);
+tooltip:
+	gtk_widget_set_tooltip_text (GTK_WIDGET (item->canvas), buf);
+	g_free (buf);
+out:
+	return ((GocItemClass*) parent_klass)->motion (item, x, y);
+}
+
+static gboolean
+goc_graph_leave_notify (GocItem *item, double x, double y)
+{
+	GOC_GRAPH (item)->last_time = 0;
+	gtk_widget_set_tooltip_text (GTK_WIDGET (item->canvas), NULL);
+	return ((GocItemClass*) parent_klass)->leave_notify (item, x, y);
+}
+
 static void
 goc_graph_class_init (GocItemClass *item_klass)
 {
@@ -269,6 +383,8 @@ goc_graph_class_init (GocItemClass *item_klass)
 	item_klass->draw = goc_graph_draw;
 	item_klass->update_bounds = goc_graph_update_bounds;
 	item_klass->distance = goc_graph_distance;
+	item_klass->leave_notify = goc_graph_leave_notify;
+	item_klass->motion = goc_graph_motion;
 }
 
 GSF_CLASS (GocGraph, goc_graph,

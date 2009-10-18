@@ -3,6 +3,7 @@ goffice 0.7.15:
 Jean:
 	* Fix bounds update of GocItem. [#598091]
 	* Prepare for GSEAL_ENABLE.
+	* Display coordinates when moving the mouseover a graph. [#382666]
 
 Morten:
 	* Canvas improvements for arrows.

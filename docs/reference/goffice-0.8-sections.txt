@@ -828,6 +828,7 @@ gog_chart_map_free
 gog_chart_map_is_valid
 gog_chart_map_2D_to_view
 gog_chart_map_2D_derivative_to_view
+gog_chart_map_view_to_2D
 gog_chart_map_get_axis_map
 gog_chart_map_make_path
 gog_chart_map_make_close_path
@@ -873,6 +874,7 @@ gog_axis_map_get_bounds
 gog_axis_map_free
 gog_axis_map_is_valid
 gog_axis_map_is_inverted
+gog_axis_map_is_discrete
 </SECTION>
 
 ###############################################################################
@@ -1759,6 +1761,21 @@ go_marker_selector_set_colors
 </SECTION>
 
 <SECTION>
+GOArrow
+GOArrowType
+go_arrow_clear
+go_arrow_dup
+go_arrow_init
+go_arrow_init_kite
+go_arrow_init_oval
+go_arrow_type_as_str
+go_arrow_type_from_str
+<SUBSECTION Standard>
+GO_ARROW_TYPE
+go_arrow_get_type
+</SECTION>
+
+<SECTION>
 <FILE>go-pattern</FILE>
 <TITLE>GOPattern</TITLE>
 GOPattern
@@ -2154,7 +2171,7 @@ go_doc_init_read
 go_doc_read
 go_doc_end_read
 go_doc_image_fetch
-<SUBSECTION Private>
+<SUBSECTION Standard>
 GO_DOC_CLASS
 GO_IS_DOC_CLASS
 GO_DOC_GET_CLASS
@@ -2165,11 +2182,6 @@ GO_DOC_GET_CLASS
 <TITLE>GOComponent</TITLE>
 GOComponent
 GOComponentClass
-GO_TYPE_COMPONENT
-GO_COMPONENT
-GO_IS_COMPONENT
-GOC_PARAM_PERSISTENT
-go_component_get_type
 go_component_new_by_mime_type
 go_component_set_default_size
 go_component_needs_window
@@ -2184,6 +2196,12 @@ go_component_emit_changed
 go_component_set_command_context
 go_component_get_command_context
 go_component_render
+<SUBSECTION Standard>
+GO_TYPE_COMPONENT
+GO_COMPONENT
+GO_IS_COMPONENT
+GOC_PARAM_PERSISTENT
+go_component_get_type
 </SECTION>
 
 <SECTION>

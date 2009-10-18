@@ -39,6 +39,7 @@ GogChartMap 	*gog_chart_map_new 		(GogChart *chart, GogViewAllocation const *are
 						 gboolean fill_area);
 void 		 gog_chart_map_2D_to_view	(GogChartMap *map, double x, double y, double *u, double *v);
 double		 gog_chart_map_2D_derivative_to_view (GogChartMap *map, double deriv, double x, double y) ;
+void		 gog_chart_map_view_to_2D       (GogChartMap *map, double x, double y, double *u, double *v);
 GogAxisMap	*gog_chart_map_get_axis_map 	(GogChartMap *map, unsigned int index);
 gboolean	 gog_chart_map_is_valid 	(GogChartMap *map);
 void		 gog_chart_map_free 		(GogChartMap *map);

@@ -1,3 +1,18 @@
+2009-10-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-service-impl.h: typo.
+	* goffice/canvas/goc-graph.c (goc_graph_motion),
+	(goc_graph_leave_notify), (goc_graph_class_init): display coordinates when
+	moving the mouse. [#382666]
+	* goffice/canvas/goc-graph.h: ditto/
+	* goffice/graph/gog-axis.c (map_discrete_from_view):return discrete values,
+	(gog_axis_map_is_discrete): new function.
+	* goffice/graph/gog-axis.h: ditto.
+	* goffice/graph/gog-chart-map.c (x_map_view_to_2D),
+	(xy_map_view_to_2D), (polar_map_view_to_2D), (gog_chart_map_new),
+	(gog_chart_map_view_to_2D): ditto.
+	* goffice/graph/gog-chart-map.h: ditto.
+
 2009-10-15  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-line.c (go_line_dash_as_label): Translate here.

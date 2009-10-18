@@ -246,8 +246,8 @@ map_discrete_from_view (GogAxisMap *map, double value)
 	const MapData *data = map->data;
 
 	return map->axis->inverted ?
-		data->min + data->max - (value - data->b) / data->a :
-		(value - data->b) / data->a;
+		go_rint (data->min + data->max - (value - data->b) / data->a) :
+		go_rint ((value - data->b) / data->a);
 }
 
 static void
@@ -1567,6 +1567,20 @@ gog_axis_map_is_inverted (GogAxisMap *map)
 	g_return_val_if_fail (map != NULL, FALSE);
 
 	return map->axis->inverted;
+}
+
+/**
+ * gog_axis_map_is_discrete:
+ * @map: a #GogAxisMap
+ *
+ * Returns: %TRUE is the axis is discrete;
+ **/
+gboolean
+gog_axis_map_is_discrete (GogAxisMap *map)
+{
+	g_return_val_if_fail (map != NULL, FALSE);
+
+	return map->axis->is_discrete;
 }
 
 /**

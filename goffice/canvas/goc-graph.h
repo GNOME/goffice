@@ -31,6 +31,7 @@ struct _GocGraph {
 
 	double x, y, w, h;
 	GogRenderer *renderer;
+	guint32 last_time;
 };
 
 typedef GocItemClass GocGraphClass;
