@@ -218,11 +218,31 @@ goc_graph_update_bounds (GocItem *item)
 	gog_renderer_update (graph->renderer, graph->w, graph->h);
 }
 
-static gboolean
-goc_graph_motion (GocItem *item, double x, double y)
+static char *
+format_coordinate (GogAxis *axis, GOFormat *fmt, double x)
 {
-	GdkEventMotion *event = (GdkEventMotion*) goc_canvas_get_cur_event (item->canvas);
-	GocGraph *graph = GOC_GRAPH (item);
+	GString *res = g_string_sized_new (20);
+	int width = fmt ? -1 : 8; /* FIXME? */
+	const GODateConventions *date_conv = NULL;  /* FIXME: get from axis */
+	GOFormatNumberError err = go_format_value_gstring
+		(NULL, res,
+		 go_format_measure_strlen,
+		 go_font_metrics_unit,
+		 fmt,
+		 x, 'F', NULL,
+		 NULL,
+		 width, date_conv, TRUE);
+	if (err) {
+		/* Invalid number for format.  */
+		g_string_assign (res, "#####");
+	}
+
+	return g_string_free (res, FALSE);
+}
+
+static void
+goc_graph_do_tooltip (GocGraph *graph, double x, double y)
+{
 	GogView *view;
 	char *buf = NULL, *s1 = NULL, *s2 = NULL;
 	GogObject *obj;
@@ -235,18 +255,15 @@ goc_graph_motion (GocItem *item, double x, double y)
 	GogAxisSet set;
 	GSList *l;
 	GOFormat *format;
+	GocItem *item = (GocItem *)graph;
 
-	/* do not allow more than 20 updates per second */
-	if (event->time - graph->last_time < 50)
-		goto out;
-
-	graph->last_time = event->time;
 	/* translate x and y tovalues relative to the graph */
 	xpos = graph->x;
 	ypos = graph->y;
 	goc_group_adjust_coords (item->parent, &xpos, &ypos);
 	x -= xpos;
 	y -= ypos;
+
 	/* get the GogView at the cursor position */
 	g_object_get (G_OBJECT (graph->renderer), "view", &view, NULL);
 	gog_view_get_view_at_point (view, x, y, &obj, &tool);
@@ -294,23 +311,23 @@ goc_graph_motion (GocItem *item, double x, double y)
 				s1 = go_data_vector_get_str (GO_DATA_VECTOR (labels), x - 1);
 			if (!s1 || *s1 == 0) {
 				g_free (s1);
-				s1 = g_strdup_printf ("%g", x);
+				s1 = format_coordinate (x_axis, NULL, x);
 			}
 		} else {
 			format = gog_axis_get_format (x_axis);
-			s1 = (format == NULL)? g_strdup_printf ("%g", x): go_format_value (format, x);
+			s1 = format_coordinate (x_axis, format, x);
 		}
 		if (gog_axis_is_discrete (y_axis)) {
 			GOData *labels = gog_axis_get_labels (y_axis, NULL);
 			if (labels)
 				s2 = go_data_vector_get_str (GO_DATA_VECTOR (labels), y - 1);
 			if (!s2 || *s2 == 0) {
-				g_free (s1);
-				s2 = g_strdup_printf ("%g", y);
+				g_free (s2);
+				s2 = format_coordinate (y_axis, NULL, y);
 			}
 		} else {
 			format = gog_axis_get_format (y_axis);
-			s2 =  (format == NULL)? g_strdup_printf ("%g", y): go_format_value (format, y);
+			s2 = format_coordinate (y_axis, format, y);
 		}
 		buf = g_strdup_printf ("(%s,%s)", s1, s2);
 		g_free (s1);
@@ -320,7 +337,20 @@ goc_graph_motion (GocItem *item, double x, double y)
 tooltip:
 	gtk_widget_set_tooltip_text (GTK_WIDGET (item->canvas), buf);
 	g_free (buf);
-out:
+}
+
+static gboolean
+goc_graph_motion (GocItem *item, double x, double y)
+{
+	GdkEventMotion *event = (GdkEventMotion*) goc_canvas_get_cur_event (item->canvas);
+	GocGraph *graph = GOC_GRAPH (item);
+
+	/* do not allow more than 20 updates per second */
+	if (event->time - graph->last_time >= 50) {
+		graph->last_time = event->time;
+		goc_graph_do_tooltip (graph, x, y);
+	}
+
 	return ((GocItemClass*) parent_klass)->motion (item, x, y);
 }
 

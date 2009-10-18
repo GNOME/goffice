@@ -1,11 +1,19 @@
+2009-10-18  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): Extract from
+	goc_graph_motion for clarity.  Free the right string!  Use
+	format_coordinate, not g_strdup_printf.
+	(format_coordinate): New function to ensure unicode minuses.
+
 2009-10-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-service-impl.h: typo.
 	* goffice/canvas/goc-graph.c (goc_graph_motion),
-	(goc_graph_leave_notify), (goc_graph_class_init): display coordinates when
-	moving the mouse. [#382666]
+	(goc_graph_leave_notify), (goc_graph_class_init): display coordinates
+	when moving the mouse. [#382666]
 	* goffice/canvas/goc-graph.h: ditto/
-	* goffice/graph/gog-axis.c (map_discrete_from_view):return discrete values,
+	* goffice/graph/gog-axis.c (map_discrete_from_view): return discrete
+	values,
 	(gog_axis_map_is_discrete): new function.
 	* goffice/graph/gog-axis.h: ditto.
 	* goffice/graph/gog-chart-map.c (x_map_view_to_2D),
