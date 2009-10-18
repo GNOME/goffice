@@ -148,6 +148,10 @@ goc_graph_finalize (GObject *obj)
 		g_object_unref (graph->renderer);
 		graph->renderer = NULL;
 	}
+	if (graph->coords.timer_id) {
+		g_source_remove (graph->coords.timer_id);
+		graph->coords.timer_id = 0;
+	}
 	(*parent_klass->finalize) (obj);
 }
 
@@ -241,7 +245,7 @@ format_coordinate (GogAxis *axis, GOFormat *fmt, double x)
 }
 
 static void
-goc_graph_do_tooltip (GocGraph *graph, double x, double y)
+goc_graph_do_tooltip (GocGraph *graph)
 {
 	GogView *view;
 	char *buf = NULL, *s1 = NULL, *s2 = NULL;
@@ -256,6 +260,8 @@ goc_graph_do_tooltip (GocGraph *graph, double x, double y)
 	GSList *l;
 	GOFormat *format;
 	GocItem *item = (GocItem *)graph;
+	double x = graph->coords.x;
+	double y = graph->coords.y;
 
 	/* translate x and y tovalues relative to the graph */
 	xpos = graph->x;
@@ -340,16 +346,32 @@ tooltip:
 }
 
 static gboolean
+goc_graph_timer (GocGraph *graph)
+{
+	goc_graph_do_tooltip (graph);
+	graph->coords.timer_id = 0;
+	return FALSE;
+}
+
+static gboolean
 goc_graph_motion (GocItem *item, double x, double y)
 {
-	GdkEventMotion *event = (GdkEventMotion*) goc_canvas_get_cur_event (item->canvas);
 	GocGraph *graph = GOC_GRAPH (item);
 
-	/* do not allow more than 20 updates per second */
-	if (event->time - graph->last_time >= 50) {
-		graph->last_time = event->time;
-		goc_graph_do_tooltip (graph, x, y);
+	/*
+	 * Do not allow more than 20 updates per second.  We do this by
+	 * scheduling the actual update in a timeout.
+	 */
+	if (graph->coords.timer_id == 0) {
+		graph->coords.timer_id =
+			g_timeout_add (50,
+				       (GSourceFunc)goc_graph_timer,
+				       graph);
 	}
+
+	/* When the timer first, use the last (x,y) we have.  */
+	graph->coords.x = x;
+	graph->coords.y = y;
 
 	return ((GocItemClass*) parent_klass)->motion (item, x, y);
 }
@@ -357,7 +379,12 @@ goc_graph_motion (GocItem *item, double x, double y)
 static gboolean
 goc_graph_leave_notify (GocItem *item, double x, double y)
 {
-	GOC_GRAPH (item)->last_time = 0;
+	GocGraph *graph = GOC_GRAPH (item);
+
+	if (graph->coords.timer_id) {
+		g_source_remove (graph->coords.timer_id);
+		graph->coords.timer_id = 0;
+	}
 	gtk_widget_set_tooltip_text (GTK_WIDGET (item->canvas), NULL);
 	return ((GocItemClass*) parent_klass)->leave_notify (item, x, y);
 }

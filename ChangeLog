@@ -1,5 +1,8 @@
 2009-10-18  Morten Welinder  <terra@gnome.org>
 
+	* goffice/canvas/goc-graph.c (goc_graph_motion): Hook up a timer
+	to handle the rate-limiting.
+
 	* goffice/graph/gog-axis.c (gog_axis_get_effective_format): Rename
 	from get_axis_format and make public.
 	(axis_format_value): Use unicode minuses and proper date_conv.
