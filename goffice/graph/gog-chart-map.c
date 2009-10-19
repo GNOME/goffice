@@ -612,8 +612,10 @@ polar_map_view_to_2D (GogChartMap *map, double x, double y, double *u, double *v
 	/* FIXME: following code looks like a kludge */
 	if (gog_axis_map_is_discrete (map->axis_map[0])) {
 		*u = gog_axis_map_from_view (map->axis_map[0], t);
-		if (*u < 1)
+		if (*u < data->th0)
 			*u = data->th1;
+		else if (*u > data->th1)
+			*u = data->th0;
 	} else {
 		if (t > 0)
 			t -= 2 * M_PI; /* Hmm, why? */

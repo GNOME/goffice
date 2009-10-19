@@ -1,3 +1,8 @@
+2009-10-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-chart-map.c (polar_map_view_to_2D): take radar plot
+	maximum into consideration.
+
 2009-10-18  Morten Welinder  <terra@gnome.org>
 
 	* goffice/canvas/goc-graph.c (goc_graph_motion): Hook up a timer
