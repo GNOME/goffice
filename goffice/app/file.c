@@ -998,15 +998,22 @@ go_file_saver_for_mime_type (gchar const *mime_type)
 
 	g_return_val_if_fail (mime_type != NULL, NULL);
 
-	for (l = default_file_saver_list ; l != NULL; l = l->next)
-		if (!strcmp (go_file_saver_get_mime_type (((DefaultFileSaver *)(l->data))->saver), mime_type))
-			return ((DefaultFileSaver *)(l->data))->saver;
+	for (l = default_file_saver_list ; l != NULL; l = l->next) {
+		DefaultFileSaver *dfs = l->data;
+		GOFileSaver *fs = dfs->saver;
+		const char *this_type = go_file_saver_get_mime_type (fs);
+		if (this_type && !strcmp (this_type, mime_type))
+			return fs;
+	}
 
-	for (l = file_saver_list; l != NULL; l = l->next)
-		if (!strcmp (go_file_saver_get_mime_type (l->data), mime_type))
-			return l->data;
+	for (l = file_saver_list; l != NULL; l = l->next) {
+		GOFileSaver *fs = l->data;
+		const char *this_type = go_file_saver_get_mime_type (fs);
+		if (this_type && !strcmp (this_type, mime_type))
+			return fs;
+	}
 
-	return (NULL);
+	return NULL;
 }
 
 /**

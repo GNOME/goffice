@@ -1,3 +1,8 @@
+2009-10-27  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/file.c (go_file_saver_for_mime_type): Ignore file
+	savers with no mime type instead of crashing.
+
 2009-10-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-chart-map.c (polar_map_view_to_2D): take radar plot
