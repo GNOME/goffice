@@ -401,42 +401,42 @@ static gboolean role_3d_box_can_add	(GogObject const *parent) {return FALSE;}
 static gboolean role_3d_box_can_remove	(GogObject const *parent) {return FALSE;}
 
 static GogObjectRole const roles[] = {
-	{ N_("Backplane"), "GogGrid",	0,
+	{ N_("Backplane"), "GogGrid",	1,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  role_grid_can_add, NULL, NULL, role_grid_post_add, role_grid_pre_remove, NULL, { -1 } },
-	{ N_("XY-Backplane"), "GogGrid",	0,
+	{ N_("XY-Backplane"), "GogGrid",	1,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  xy_grid_3d_can_add, NULL, NULL, xy_grid_3d_post_add, NULL, NULL,
 	  { GOG_GRID_XY } },
-	{ N_("YZ-Backplane"), "GogGrid",	0,
+	{ N_("YZ-Backplane"), "GogGrid",	1,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  yz_grid_3d_can_add, NULL, NULL, yz_grid_3d_post_add, NULL, NULL,
 	  { GOG_GRID_YZ } },
-	{ N_("ZX-Backplane"), "GogGrid",	0,
+	{ N_("ZX-Backplane"), "GogGrid",	1,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  zx_grid_3d_can_add, NULL, NULL, zx_grid_3d_post_add, NULL, NULL,
 	  { GOG_GRID_ZX } },
-	{ N_("X-Axis"), "GogAxis",	1,
+	{ N_("X-Axis"), "GogAxis",	2,
 	  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
 	  x_axis_can_add, axis_can_remove, NULL, x_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_X } },
-	{ N_("Y-Axis"), "GogAxis",	2,
+	{ N_("Y-Axis"), "GogAxis",	3,
 	  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
 	  y_axis_can_add, axis_can_remove, NULL, y_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_Y } },
-	{ N_("Z-Axis"), "GogAxis",	3,
+	{ N_("Z-Axis"), "GogAxis",	4,
 	  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
 	  z_axis_can_add, axis_can_remove, NULL, z_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_Z } },
-	{ N_("Circular-Axis"), "GogAxis", 1,
+	{ N_("Circular-Axis"), "GogAxis", 2,
 	  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
 	  circular_axis_can_add, axis_can_remove, NULL, circular_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_CIRCULAR } },
-	{ N_("Radial-Axis"), "GogAxis",	2,
+	{ N_("Radial-Axis"), "GogAxis",	3,
 	  GOG_POSITION_PADDING, GOG_POSITION_PADDING, GOG_OBJECT_NAME_BY_ROLE,
 	  radial_axis_can_add, axis_can_remove, NULL, radial_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_RADIAL } },
-	{ N_("Pseudo-3D-Axis"), "GogAxis", 3,
+	{ N_("Pseudo-3D-Axis"), "GogAxis", 4,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  pseudo_3d_axis_can_add, axis_can_remove, NULL, pseudo_3d_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_PSEUDO_3D } },
@@ -444,14 +444,14 @@ static GogObjectRole const roles[] = {
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  bubble_axis_can_add, axis_can_remove, NULL, bubble_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_BUBBLE } },
-	{ N_("Color-Axis"), "GogAxis", 5,
+	{ N_("Color-Axis"), "GogAxis", 4,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  color_axis_can_add, axis_can_remove, NULL, color_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_COLOR } },
 	{ N_("Plot"), "GogPlot",	6,	/* keep the axis before the plots */
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
 	  role_plot_can_add, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } },
-	{ N_("Title"), "GogLabel",	10,
+	{ N_("Title"), "GogLabel",	0,
 	  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL,
 	  GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER,
 	  GOG_OBJECT_NAME_BY_ROLE,
@@ -468,7 +468,7 @@ static GogObjectRole const roles[] = {
 	  GOG_OBJECT_NAME_BY_ROLE,
 	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
 #endif
-	{ N_("3D-Box"), "Gog3DBox",	0,
+	{ N_("3D-Box"), "Gog3DBox",	1,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  role_3d_box_can_add, role_3d_box_can_remove, NULL, NULL, NULL, NULL, { -1 } }
 };
@@ -1155,7 +1155,7 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (gog_chart_is_3d (chart)) {
 		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 			child_view = ptr->data;
-			if (!GOG_IS_AXIS (child_view->model) && !GOG_IS_PLOT (child_view->model))
+			if (!GOG_IS_AXIS (child_view->model) && !GOG_IS_PLOT (child_view->model) && !GOG_IS_LABEL (child_view->model))
 				gog_view_render	(ptr->data, bbox);
 		}
 		/* now render plot and axes */
@@ -1168,10 +1168,9 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 		for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
 			child_view = ptr->data;
-			if (GOG_IS_AXIS (child_view->model))
+			if (!GOG_IS_PLOT (child_view->model))
 				continue;
-			if (GOG_IS_PLOT (child_view->model))
-				gog_view_render	(ptr->data, bbox);
+			gog_view_render	(ptr->data, bbox);
 		}
 	} else {
 		/* KLUDGE: render grid lines before axis */
@@ -1185,9 +1184,15 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (GOG_IS_PLOT (child_view->model)) {
 			    if (!GOG_PLOT (child_view->model)->render_before_axes)
 				gog_view_render	(ptr->data, bbox);
-			} else
+			} else if (!GOG_IS_LABEL (child_view->model))
 				gog_view_render	(ptr->data, bbox);
 		}
+	}
+	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
+		child_view = ptr->data;
+		if (!GOG_IS_LABEL (child_view->model))
+			continue;
+		gog_view_render	(ptr->data, bbox);
 	}
 }
 

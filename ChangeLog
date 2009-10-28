@@ -1,3 +1,10 @@
+2009-10-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-chart.c (gog_chart_view_render): reapply patch for
+	#152675 and ensure titles are rendered last.
+	* goffice/graph/gog-graph.c (gog_graph_class_init),
+	(gog_graph_view_render), (gog_graph_view_class_init): ditto.
+
 2009-10-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/file.c (go_file_saver_for_mime_type): Ignore file

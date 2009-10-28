@@ -278,12 +278,12 @@ gog_graph_class_init (GogGraphClass *klass)
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
 
 	static GogObjectRole const roles[] = {
-		{ N_("Chart"), "GogChart",	0,
+		{ N_("Chart"), "GogChart",	1,
 		  GOG_POSITION_SPECIAL|GOG_POSITION_ANY_MANUAL,
 		  GOG_POSITION_SPECIAL,
 		  GOG_OBJECT_NAME_BY_ROLE,
 		  NULL, NULL, NULL, role_chart_post_add, role_chart_pre_remove, NULL },
-		{ N_("Title"), "GogLabel",	1,
+		{ N_("Title"), "GogLabel",	0,
 		  GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL,
 		  GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER,
 		  GOG_OBJECT_NAME_BY_ROLE,
@@ -829,8 +829,25 @@ static void
 gog_graph_view_render  (GogView *view, GogViewAllocation const *bbox)
 {
 	GogGraphView *gview = GOG_GRAPH_VIEW (view);
+	GSList *ptr;
+	GogView *child_view;
 
 	gview_parent_klass->render (view, bbox);
+
+	/* render everything except labels */
+	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
+		child_view = ptr->data;
+		if (GOG_IS_LABEL (child_view->model))
+			continue;
+		gog_view_render	(ptr->data, bbox);
+	}
+	/* render labels */
+	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
+		child_view = ptr->data;
+		if (!GOG_IS_LABEL (child_view->model))
+			continue;
+		gog_view_render	(ptr->data, bbox);
+	}
 
 	if (gview->selected_view != NULL)
 		gog_view_render_toolkit (gview->selected_view);
@@ -854,6 +871,7 @@ gog_graph_view_class_init (GogGraphViewClass *gview_klass)
 {
 	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
 	GObjectClass *gobject_klass = (GObjectClass *) view_klass;
+	GogOutlinedViewClass *oview_klass = (GogOutlinedViewClass *) gview_klass;
 
 	gview_parent_klass = g_type_class_peek_parent (gview_klass);
 	gobject_klass->set_property = gog_graph_view_set_property;
@@ -862,6 +880,7 @@ gog_graph_view_class_init (GogGraphViewClass *gview_klass)
 	view_klass->render	    = gog_graph_view_render;
 	view_klass->size_allocate   = gog_graph_view_size_allocate;
 	view_klass->clip	    = TRUE;
+	oview_klass->call_parent_render = FALSE;
 
 	g_object_class_install_property (gobject_klass, GRAPH_VIEW_PROP_RENDERER,
 		g_param_spec_object ("renderer",
