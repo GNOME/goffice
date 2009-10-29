@@ -1,3 +1,9 @@
+2009-10-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-graph.c (goc_graph_update_bounds): set the right size.
+	* goffice/graph/gog-renderer.c (gog_renderer_update): fixed resizing a
+	graph. [#599887]
+
 2009-10-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-chart.c (gog_chart_view_render): reapply patch for

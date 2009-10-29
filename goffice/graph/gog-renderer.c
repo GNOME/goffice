@@ -1029,11 +1029,12 @@ gog_renderer_update (GogRenderer *rend, double w, double h)
 
 	rend->cairo = cairo_create (rend->cairo_surface);
 
-	if (size_changed) {
-		rend->scale_x = (graph->width >= 1.) ? (rend->w / graph->width) : 1.;
-		rend->scale_y = (graph->height >= 1.) ? (rend->h / graph->height) : 1.;
-		rend->scale = MIN (rend->scale_x, rend->scale_y);
+	/* we need to update scale even if size did not change since graph size might have changed (#599887) */
+	rend->scale_x = (graph->width >= 1.) ? (rend->w / graph->width) : 1.;
+	rend->scale_y = (graph->height >= 1.) ? (rend->h / graph->height) : 1.;
+	rend->scale = MIN (rend->scale_x, rend->scale_y);
 
+	if (size_changed) {
 		/* make sure we dont try to queue an update while updating */
 		rend->needs_update = TRUE;
 
