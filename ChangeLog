@@ -1,5 +1,20 @@
 2009-10-29  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-chart-impl.h: add persistent position for auto mode.
+	Fixes #152674.
+	* goffice/graph/gog-chart.c (gog_chart_set_property),
+	(gog_chart_get_property), (gog_chart_class_init), (gog_chart_init),
+	(gog_chart_get_position), (gog_chart_set_position): ditto.
+	* goffice/graph/gog-graph.c (role_chart_post_add),
+	(gog_graph_validate_chart_layout), (gog_graph_view_size_allocate):
+	* goffice/graph/gog-object-prefs.ui: add a user interface to set column
+	and row position of a chart in the graph.
+	* goffice/graph/gog-object.c (update_select_state),
+	(cb_manual_position_changed), (cb_chart_position_changed),
+	(gog_object_populate_editor): ditto.
+
+2009-10-29  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-graph.c (goc_graph_update_bounds): set the right size.
 	* goffice/graph/gog-renderer.c (gog_renderer_update): fixed resizing a
 	graph. [#599887]

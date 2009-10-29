@@ -246,9 +246,24 @@ static void
 role_chart_post_add (GogObject *parent, GogObject *chart)
 {
 	GogGraph *graph = GOG_GRAPH (parent);
+	unsigned ypos = 0;
+	if (graph->charts != NULL) {
+		/* find the first row with an unoccupied first column */
+		gboolean *occ = g_alloca (graph->num_rows * sizeof (gboolean));
+		GSList *ptr;
+		int col, row;
+		memset (occ, 0, graph->num_rows * sizeof (gboolean));
+		for (ptr = graph->charts; ptr != NULL; ptr = ptr->next)
+			if (gog_chart_get_position (GOG_CHART (ptr->data), &col, &row, NULL, NULL) && col == 0 && row < (int) graph->num_rows)
+				occ[row] = TRUE;
+		while (ypos < graph->num_rows && occ[ypos])
+			ypos++;
+	}
 	graph->charts = g_slist_prepend (graph->charts, chart);
-	gog_chart_set_position (GOG_CHART (chart),
-		0, GOG_GRAPH (graph)->num_rows, 1, 1);
+	if (!gog_chart_get_position (GOG_CHART (chart), NULL, NULL, NULL, NULL))
+		/* search the first row with column 0 unocupied */
+		gog_chart_set_position (GOG_CHART (chart),
+			0, ypos, 1, 1);
 }
 
 static void
@@ -419,17 +434,19 @@ gog_graph_validate_chart_layout (GogGraph *graph)
 	max_col = max_row = 0;
 	for (ptr = graph->charts ; ptr != NULL ; ptr = ptr->next) {
 		chart = ptr->data;
-		if (max_col < (chart->x + chart->cols))
-			max_col = (chart->x + chart->cols);
-		if (max_row < (chart->y + chart->rows))
-			max_row = (chart->y + chart->rows);
+		chart->x_pos_actual = chart->x_pos;
+		chart->y_pos_actual = chart->y_pos;
+		if (max_col < (chart->x_pos_actual + chart->cols))
+			max_col = (chart->x_pos_actual + chart->cols);
+		if (max_row < (chart->y_pos_actual + chart->rows))
+			max_row = (chart->y_pos_actual + chart->rows);
 	}
 
 	/* 2) see if we need to contract any cols */
 	for (i = 0 ; i < max_col ; ) {
 		for (ptr = graph->charts ; ptr != NULL ; ptr = ptr->next) {
 			chart = ptr->data;
-			if (chart->x <= i && i < (chart->x + chart->cols))
+			if (chart->x_pos_actual <= i && i < (chart->x_pos_actual + chart->cols))
 				break;
 		}
 		if (ptr == NULL) {
@@ -437,18 +454,18 @@ gog_graph_validate_chart_layout (GogGraph *graph)
 			max_col--;
 			for (ptr = graph->charts ; ptr != NULL ; ptr = ptr->next) {
 				chart = ptr->data;
-				if (chart->x > i)
-					(chart->x)--;
+				if (chart->x_pos_actual > i)
+					(chart->x_pos_actual)--;
 			}
 		} else
-			i = chart->x + chart->cols;
+			i = chart->x_pos_actual + chart->cols;
 	}
 
 	/* 3) see if we need to contract any rows */
 	for (i = 0 ; i < max_row ; ) {
 		for (ptr = graph->charts ; ptr != NULL ; ptr = ptr->next) {
 			chart = ptr->data;
-			if (chart->y <= i && i < (chart->y + chart->rows))
+			if (chart->y_pos_actual <= i && i < (chart->y_pos_actual + chart->rows))
 				break;
 		}
 		if (ptr == NULL) {
@@ -456,11 +473,11 @@ gog_graph_validate_chart_layout (GogGraph *graph)
 			max_row--;
 			for (ptr = graph->charts ; ptr != NULL ; ptr = ptr->next) {
 				chart = ptr->data;
-				if (chart->y > i)
-					(chart->y)--;
+				if (chart->y_pos_actual > i)
+					(chart->y_pos_actual)--;
 			}
 		} else
-			i = chart->y + chart->rows;
+			i = chart->y_pos_actual + chart->rows;
 	}
 	changed |= (graph->num_cols != max_col || graph->num_rows != max_row);
 
@@ -797,7 +814,6 @@ gog_graph_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 {
 	GSList *ptr;
 	double h, w;
-	unsigned x, y, rows, cols;
 	GogView *child;
 	GogGraph *graph = GOG_GRAPH (view->model);
 	GogViewAllocation tmp, res = *bbox;
@@ -814,12 +830,11 @@ gog_graph_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
 		if (GOG_POSITION_IS_SPECIAL (child->model->position)) {
-			gog_chart_get_position (GOG_CHART (child->model),
-				&x, &y, &cols, &rows);
-			tmp.x = x * w + res.x;
-			tmp.y = y * h + res.y;
-			tmp.w = cols * w;
-			tmp.h = rows * h;
+			GogChart *chart = GOG_CHART (child->model);
+			tmp.x = chart->x_pos_actual * w + res.x;
+			tmp.y = chart->y_pos_actual * h + res.y;
+			tmp.w = chart->cols * w;
+			tmp.h = chart->rows * h;
 			gog_view_size_allocate (child, &tmp);
 		}
 	}

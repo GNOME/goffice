@@ -7,6 +7,7 @@ Jean:
 	* Make titles the first logical child and ensure they are rendered last.
 	Really fixes #152675.
 	* Fix graph scale after a size change. [#599887]
+	* Make chart position persistent in auto mode. [#152674]
 
 Morten:
 	* Canvas improvements for arrows.

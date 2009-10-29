@@ -318,6 +318,8 @@ update_select_state (ObjectPrefState *state)
 		int index = gog_object_get_position_flags (state->gobj, GOG_POSITION_MANUAL) == 0 ? 0 : 1;
 
 		gtk_combo_box_set_active (GTK_COMBO_BOX (state->position_select_combo), index);
+		if (index == 0 && GOG_IS_CHART (state->gobj))
+			index = 2;
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (state->position_notebook), index);
 	}
 }
@@ -330,6 +332,8 @@ cb_manual_position_changed (GtkComboBox *combo, ObjectPrefState *state)
 	gog_object_set_position_flags (state->gobj,
 		index != 0 ? GOG_POSITION_MANUAL : 0,
 		GOG_POSITION_MANUAL);
+	if (index == 0 && GOG_IS_CHART (state->gobj))
+		index = 2;
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (state->position_notebook), index);
 }
 
@@ -354,6 +358,13 @@ cb_update_editor (GogObject *gobj, ObjectPrefState *state)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->h_spin), gobj->manual_position.h * 100.0);
 
 	update_select_state (state);
+}
+
+static void
+cb_chart_position_changed (GtkWidget *spin, ObjectPrefState *state)
+{
+	g_object_set (G_OBJECT (state->gobj), gtk_widget_get_name (spin),
+		      (int) gtk_spin_button_get_value (GTK_SPIN_BUTTON (spin)), NULL);
 }
 
 static void
@@ -492,8 +503,28 @@ gog_object_populate_editor (GogObject *gobj,
 			w = go_gtk_builder_get_widget (gui, "manual_sizes");
 			gtk_widget_hide (w);
 		}
-	} else
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (state->position_notebook), 0);
+	}
+	if (GOG_IS_CHART (gobj)) {
+		/* setting special notebook page */
+		int col, row, cols, rows;
+		g_object_get (G_OBJECT (gobj), "xpos", &col, "ypos", &row, "columns", &cols, "rows", &rows, NULL);
+		w = go_gtk_builder_get_widget (gui, "xpos");
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), col);
+		g_signal_connect (G_OBJECT (w), "value-changed",
+				  G_CALLBACK (cb_chart_position_changed), state);
+		w = go_gtk_builder_get_widget (gui, "columns");
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), cols);
+		g_signal_connect (G_OBJECT (w), "value-changed",
+				  G_CALLBACK (cb_chart_position_changed), state);
+		w = go_gtk_builder_get_widget (gui, "ypos");
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), row);
+		g_signal_connect (G_OBJECT (w), "value-changed",
+				  G_CALLBACK (cb_chart_position_changed), state);
+		w = go_gtk_builder_get_widget (gui, "rows");
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), rows);
+		g_signal_connect (G_OBJECT (w), "value-changed",
+				  G_CALLBACK (cb_chart_position_changed), state);
+	}
 
 	g_object_unref (G_OBJECT (widget_size_group));
 	g_object_unref (G_OBJECT (label_size_group));

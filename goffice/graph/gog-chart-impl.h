@@ -34,7 +34,10 @@ struct _GogChart {
 	gboolean cardinality_valid;
 
 	/* use a simple grid layout to position charts within graph */
-	unsigned x, y, cols, rows;
+	unsigned x_pos, y_pos;
+	unsigned cols, rows; 		/* if == 0, chart is not positionned */
+	/* actual chart position in graph grid after layout validation */
+	unsigned x_pos_actual, y_pos_actual;
 
 	GogObject *grid;
 	GSList  *axes;

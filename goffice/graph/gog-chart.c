@@ -90,6 +90,10 @@ enum {
 	CHART_PROP_CARDINALITY_VALID,
 	CHART_PROP_PLOT_AREA,
 	CHART_PROP_PLOT_AREA_IS_MANUAL,
+	CHART_PROP_X_POS,
+	CHART_PROP_Y_POS,
+	CHART_PROP_ROWS,
+	CHART_PROP_COLUMNS
 };
 
 static GType gog_chart_view_get_type (void);
@@ -128,6 +132,7 @@ gog_chart_set_property (GObject *obj, guint param_id,
 	GogChart *chart = GOG_CHART (obj);
 	char **str_doubles;
 	char const *str;
+	gboolean changed = FALSE;
 
 	switch (param_id) {
 	case CHART_PROP_PLOT_AREA:
@@ -146,8 +151,29 @@ gog_chart_set_property (GObject *obj, guint param_id,
 	case CHART_PROP_PLOT_AREA_IS_MANUAL:
 		chart->is_plot_area_manual = g_value_get_boolean (value);
 		break;
+	case CHART_PROP_X_POS:
+		chart->x_pos = g_value_get_int (value);
+		changed = TRUE;
+		break;
+	case CHART_PROP_Y_POS:
+		chart->y_pos = g_value_get_int (value);
+		changed = TRUE;
+		break;
+	case CHART_PROP_COLUMNS:
+		chart->cols = g_value_get_int (value);
+		changed = TRUE;
+		break;
+	case CHART_PROP_ROWS:
+		chart->rows = g_value_get_int (value);
+		changed = TRUE;
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
+	}
+
+	if (changed) {
+		gog_graph_validate_chart_layout (GOG_GRAPH (GOG_OBJECT (chart)->parent));
+		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
 	}
 }
 
@@ -177,6 +203,18 @@ gog_chart_get_property (GObject *obj, guint param_id,
 		break;
 	case CHART_PROP_PLOT_AREA_IS_MANUAL:
 		g_value_set_boolean (value, chart->is_plot_area_manual);
+		break;
+	case CHART_PROP_X_POS:
+		g_value_set_int (value, chart->x_pos);
+		break;
+	case CHART_PROP_Y_POS:
+		g_value_set_int (value, chart->y_pos);
+		break;
+	case CHART_PROP_COLUMNS:
+		g_value_set_int (value, chart->cols);
+		break;
+	case CHART_PROP_ROWS:
+		g_value_set_int (value, chart->rows);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -505,6 +543,23 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 				      _("Is plot area manual"),
 				      FALSE,
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, CHART_PROP_X_POS,
+		g_param_spec_int ("xpos", _("xpos"),
+			_("Horizontal chart position in graph grid"),
+			0, G_MAXINT, 0, G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	/* we need to force saving of ypos since the default is not constant */
+	g_object_class_install_property (gobject_klass, CHART_PROP_Y_POS,
+		g_param_spec_int ("ypos", _("ypos"),
+			_("Vertical chart position in graph grid"),
+			0, G_MAXINT, 0, G_PARAM_READWRITE | GO_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
+	g_object_class_install_property (gobject_klass, CHART_PROP_COLUMNS,
+		g_param_spec_int ("columns", _("columns"),
+			_("Number of columns in graph grid"),
+			1, G_MAXINT, 1, G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, CHART_PROP_ROWS,
+		g_param_spec_int ("rows", _("rows"),
+			_("Number of rows in graph grid"),
+			1, G_MAXINT, 1, G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	gog_klass->view_type = gog_chart_view_get_type ();
 	gog_klass->update    = gog_chart_update;
@@ -515,10 +570,12 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 static void
 gog_chart_init (GogChart *chart)
 {
-	chart->x     = 0;
-	chart->y     = 0;
-	chart->cols  = 0;
-	chart->rows  = 0;
+	chart->x_pos =
+	chart->y_pos = 
+	chart->cols  = 		
+	chart->rows  =
+	chart->x_pos_actual = 
+	chart->y_pos_actual = 0;
 
 	/* start as true so that we can queue an update when it changes */
 	chart->cardinality_valid = TRUE;
@@ -554,8 +611,8 @@ gog_chart_get_position (GogChart const *chart,
 	if (chart->cols <= 0 || chart->rows <= 0)
 		return FALSE;
 
-	if (x != NULL)	  *x	= chart->x;
-	if (y != NULL)	  *y	= chart->y;
+	if (x != NULL)	  *x	= chart->x_pos;
+	if (y != NULL)	  *y	= chart->y_pos;
 	if (cols != NULL) *cols	= chart->cols;
 	if (rows != NULL) *rows	= chart->rows;
 
@@ -577,12 +634,12 @@ gog_chart_set_position (GogChart *chart,
 {
 	g_return_if_fail (GOG_IS_CHART (chart));
 
-	if (chart->x == x && chart->y == y &&
+	if (chart->x_pos == x && chart->y_pos == y &&
 	    chart->cols == cols && chart->rows == rows)
 		return;
 
-	chart->x = x;
-	chart->y = y;
+	chart->x_pos = x;
+	chart->y_pos = y;
 	chart->cols = cols;
 	chart->rows = rows;
 
