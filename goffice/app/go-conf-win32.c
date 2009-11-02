@@ -533,8 +533,7 @@ go_conf_set_value_from_str (GOConfNode *node, gchar const *key,
 			gint the_int = value_get_as_int (value);
 			go_conf_set_int (node, key, the_int);
 		}
-		if (value)
-			value_release (value);
+		value_release (value);
 		break;
 	}
 	case G_TYPE_BOOLEAN: {
@@ -546,8 +545,7 @@ go_conf_set_value_from_str (GOConfNode *node, gchar const *key,
 			the_bool =  value_get_as_bool (value, &err);
 			go_conf_set_bool (node, key, the_bool);
 		}
-		if (value)
-			value_release (value);
+		value_release (value);
 		break;
 	}
 	default:
