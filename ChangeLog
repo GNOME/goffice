@@ -1,5 +1,9 @@
 2009-11-01  Morten Welinder <terra@gnome.org>
 
+	* configure.in: Post-release bump.
+
+2009-11-01  Morten Welinder <terra@gnome.org>
+
 	* Release 0.7.15
 
 2009-10-29  Jean Brefort  <jean.brefort@normalesup.org>
@@ -165,7 +169,7 @@
 	* goffice/canvas/goc-group.c (goc_group_set_property): call
 	goc_item_bounds_changed after moving to a new position. [#598091]
 
-2009-00-11  Morten Welinder <terra@gnome.org>
+2009-10-11  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
 
