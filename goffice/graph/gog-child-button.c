@@ -497,6 +497,7 @@ ensure_menu (GogChildButton *child_button)
 		for (iter = child_button->additions ; iter != NULL ; iter = iter->next) {
 			addition = iter->data;
 			g_free (label);
+			/* Note for translators: first string represent the new child object and second string is the parent object */
 			label = g_strdup_printf(_("%s to %s"), _(addition->role->id), gog_object_get_name (addition->parent));
 			if (!strcmp (addition->role->id, "Trend line")) {
 				GtkWidget *submenu = trend_line_type_menu_create (child_button, addition);
