@@ -489,28 +489,31 @@ ensure_menu (GogChildButton *child_button)
 		GtkWidget *widget;
 		Addition *addition;
 		GSList *iter;
+		char *label = NULL;
 
 		child_button->menu = GTK_MENU (gtk_menu_new ());
 		g_object_ref_sink (child_button->menu);
 
 		for (iter = child_button->additions ; iter != NULL ; iter = iter->next) {
 			addition = iter->data;
+			g_free (label);
+			label = g_strdup_printf(_("%s to %s"), _(addition->role->id), gog_object_get_name (addition->parent));
 			if (!strcmp (addition->role->id, "Trend line")) {
 				GtkWidget *submenu = trend_line_type_menu_create (child_button, addition);
 				if (submenu != NULL) {
-					widget = gtk_menu_item_new_with_label (_(addition->role->id));
+					widget = gtk_menu_item_new_with_label (label);
 					gtk_menu_item_set_submenu (GTK_MENU_ITEM (widget), submenu);
 				} else
 					continue;
 			} else if (!strcmp (addition->role->id, "Plot")) {
 				GtkWidget *submenu = plot_type_menu_create (child_button, addition);
 				if (submenu != NULL) {
-					widget = gtk_menu_item_new_with_label (_(addition->role->id));
+					widget = gtk_menu_item_new_with_label (label);
 					gtk_menu_item_set_submenu (GTK_MENU_ITEM (widget), submenu);
 				} else
 					continue;
 			} else if (addition->role->naming_conv == GOG_OBJECT_NAME_BY_ROLE) {
-				widget = gtk_menu_item_new_with_label (_(addition->role->id));
+				widget = gtk_menu_item_new_with_label (label);
 				g_object_set_data (G_OBJECT (widget), ADDITION_KEY,
 						   (gpointer)addition);
 				g_signal_connect (G_OBJECT (widget), "activate",
@@ -521,6 +524,7 @@ ensure_menu (GogChildButton *child_button)
 
 			gtk_menu_shell_append (GTK_MENU_SHELL (child_button->menu), widget);
 		}
+		g_free (label);
 		g_signal_connect (child_button->menu, "deactivate",
 				  G_CALLBACK(cb_menu_deactivate), child_button);
 		gtk_widget_show_all (GTK_WIDGET (child_button->menu));
