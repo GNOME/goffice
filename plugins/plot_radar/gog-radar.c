@@ -25,6 +25,7 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-chart-map.h>
+#include <goffice/graph/gog-error-bar.h>
 #include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
@@ -63,10 +64,14 @@ GOFFICE_PLUGIN_MODULE_HEADER;
 typedef struct {
 	GogSeries 	   base;
 	GogObject 	  *radial_drop_lines;
+	GogErrorBar 	  *r_errors;
 } GogRTSeries;
 
-typedef GogRTSeries GogPolarSeries;
-typedef GogRTSeries GogColorPolarSeries;
+typedef struct {
+	GogRTSeries        base;
+	GogErrorBar 	  *a_errors;
+} GogPolarSeries;
+typedef GogPolarSeries GogColorPolarSeries;
 
 typedef GogSeriesClass GogRTSeriesClass;
 typedef GogRTSeriesClass GogPolarSeriesClass;
@@ -82,6 +87,11 @@ enum {
 #define GOG_IS_RT_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_RT_SERIES))
 
 static GType gog_rt_series_get_type (void);
+
+#define GOG_TYPE_POLAR_SERIES	(gog_polar_series_get_type ())
+#define GOG_POLAR_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_POLAR_SERIES, GogPolarSeries))
+#define GOG_IS_POLAR_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_POLAR_SERIES))
+
 static GType gog_polar_series_get_type (void);
 static GType gog_color_polar_series_get_type (void);
 static GType gog_rt_view_get_type (void);
@@ -146,6 +156,7 @@ gog_rt_plot_update (GogObject *obj)
 	unsigned num_elements = 0;
 	double val_min, val_max, tmp_min, tmp_max;
 	GSList *ptr;
+	GogErrorBar *errors;
 
 	val_min =  DBL_MAX;
 	val_max = -DBL_MAX;
@@ -159,6 +170,15 @@ gog_rt_plot_update (GogObject *obj)
 		go_data_get_bounds (series->base.values[1].data, &tmp_min, &tmp_max);
 		if (val_min > tmp_min) val_min = tmp_min;
 		if (val_max < tmp_max) val_max = tmp_max;
+
+		errors = series->r_errors;
+		if (gog_error_bar_is_visible (errors)) {
+			gog_error_bar_get_minmax (errors, &tmp_min, &tmp_max);
+			if (val_min > tmp_min)
+				val_min = tmp_min;
+			if (val_max < tmp_max)
+				val_max = tmp_max;
+		}
 	}
 	model->num_elements = num_elements;
 
@@ -299,7 +319,11 @@ gog_radar_plot_class_init (GogPlotClass *gog_plot_klass)
 			{ N_("Labels"), GOG_SERIES_SUGGESTED, TRUE,
 			  GOG_DIM_LABEL, GOG_MS_DIM_CATEGORIES },
 			{ N_("Values"), GOG_SERIES_REQUIRED, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES }
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			{ "Magnitude+err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_plus1 },
+			{ "Magnitude-err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_minus1 }
 		};
 		gog_plot_klass->desc.series.dim = dimensions;
 		gog_plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
@@ -406,7 +430,16 @@ gog_polar_plot_class_init (GogPlotClass *gog_plot_klass)
 			{ N_("Angle"), GOG_SERIES_SUGGESTED, FALSE,
 			  GOG_DIM_INDEX, GOG_MS_DIM_CATEGORIES },
 			{ N_("Magnitude"), GOG_SERIES_REQUIRED, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES }
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+/* Names of the error data are not translated since they are not used */
+			{ "Angle+err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_plus2 },
+			{ "Angle-err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_minus2 },
+			{ "Magnitude+err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_plus1 },
+			{ "Magnitude-err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_minus1 }
 		};
 		gog_plot_klass->desc.series.dim = dimensions;
 		gog_plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
@@ -607,7 +640,15 @@ gog_color_polar_plot_class_init (GogPlotClass *gog_plot_klass)
 			{ N_("Magnitude"), GOG_SERIES_REQUIRED, FALSE,
 			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
 			{ N_("Z"), GOG_SERIES_REQUIRED, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_EXTRA1 }
+			  GOG_DIM_VALUE, GOG_MS_DIM_EXTRA1 },
+			{ "Angle+err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_plus2 },
+			{ "Angle-err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_minus2 },
+			{ "Magnitude+err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_plus1 },
+			{ "Magnitude-err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_ERR_minus1 }
 		};
 		gog_plot_klass->desc.series.dim = dimensions;
 		gog_plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
@@ -671,6 +712,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	double rho_min, rho_max, rho;
 	gboolean const is_polar = GOG_IS_PLOT_POLAR (model);
 	gboolean is_map = GOG_IS_PLOT_COLOR_POLAR (model), hide_outliers = TRUE;
+	double errmin, errmax;
 
 	r_axis = GOG_PLOT (model)->axis[GOG_AXIS_RADIAL];
 	c_axis = GOG_PLOT (model)->axis[GOG_AXIS_CIRCULAR];
@@ -803,7 +845,8 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 							  r_vals[i], &theta, &rho);
 				if (   go_finite (theta)
 				    && go_finite (rho)
-				    && rho > rho_min) {
+				    && r_vals[i] > rho_min
+				    && r_vals[i] <= rho_max) {
 					go_path_move_to (drop_path, parms->cx, parms->cy);
 					go_path_line_to (drop_path, theta, rho);
 				}
@@ -816,6 +859,33 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (path) {
 			gog_renderer_stroke_serie (view->renderer, path);
 			go_path_free (path);
+		}
+
+		/* draw error bars before markers and after anything else */
+		for (count = 0; count < series->base.num_elements; count++)
+			if (gog_error_bar_is_visible (series->r_errors)) {
+				GogErrorBar const *bar = series->r_errors;
+				if (gog_error_bar_get_bounds (bar, count, &errmin, &errmax)) {
+					gog_error_bar_render (bar, view->renderer,
+							      chart_map,
+							      ((c_vals != NULL) ? c_vals[count] : count + 1), r_vals[count],
+							      errmin, errmax,
+							      GOG_ERROR_BAR_DIRECTION_RADIAL);
+					 }
+				}
+		if (GOG_IS_POLAR_SERIES (series)) {
+			GogPolarSeries *polar_series = GOG_POLAR_SERIES (series);
+			for (count = 0; count < series->base.num_elements; count++)
+				if (gog_error_bar_is_visible (polar_series->a_errors)) {
+					GogErrorBar const *bar = polar_series->a_errors;
+					if (gog_error_bar_get_bounds (bar, count, &errmin, &errmax)) {
+						gog_error_bar_render (bar, view->renderer, 
+								      chart_map,
+								      c_vals[count], r_vals[count],
+								      errmin, errmax,
+								      GOG_ERROR_BAR_DIRECTION_ANGULAR);
+					 }
+				}
 		}
 
 		if (is_polar)
@@ -910,6 +980,11 @@ radial_drop_lines_pre_remove (GogObject *parent, GogObject *child)
 
 static GogStyledObjectClass *series_parent_klass;
 
+enum {
+	RT_SERIES_PROP_0,
+	RT_SERIES_PROP_RERRORS,
+};
+
 static void
 gog_rt_series_update (GogObject *obj)
 {
@@ -966,6 +1041,81 @@ gog_rt_series_init_style (GogStyledObject *gso, GOStyle *style)
 }
 
 static void
+gog_rt_series_set_property (GObject *obj, guint param_id,
+			    GValue const *value, GParamSpec *pspec)
+{
+	GogRTSeries *series=  GOG_RT_SERIES (obj);
+	GogErrorBar* bar;
+
+	switch (param_id) {
+	case RT_SERIES_PROP_RERRORS :
+		bar = g_value_get_object (value);
+		if (series->r_errors == bar)
+			return;
+		if (bar) {
+			bar = gog_error_bar_dup (bar);
+			bar->series = GOG_SERIES (series);
+			bar->dim_i = 1;
+			bar->error_i = series->base.plot->desc.series.num_dim - 2;
+		}
+		if (!series->base.needs_recalc) {
+			series->base.needs_recalc = TRUE;
+			gog_object_emit_changed (GOG_OBJECT (series), FALSE);
+		}
+		if (series->r_errors != NULL)
+			g_object_unref (series->r_errors);
+		series->r_errors = bar;
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
+gog_rt_series_get_property (GObject *obj, guint param_id,
+			  GValue *value, GParamSpec *pspec)
+{
+	GogRTSeries *series=  GOG_RT_SERIES (obj);
+
+	switch (param_id) {
+	case RT_SERIES_PROP_RERRORS :
+		g_value_set_object (value, series->r_errors);
+		break;
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
+gog_rt_series_finalize (GObject *obj)
+{
+	GogRTSeries *series = GOG_RT_SERIES (obj);
+
+	if (series->r_errors != NULL) {
+		g_object_unref (series->r_errors); 
+		series->r_errors = NULL;
+	}
+
+	G_OBJECT_CLASS (series_parent_klass)->finalize (obj);
+}
+
+#ifdef GOFFICE_WITH_GTK
+static void
+gog_rt_series_populate_editor (GogObject *obj,
+			       GOEditor *editor,
+			       GogDataAllocator *dalloc,
+			       GOCmdContext *cc)
+{
+	GtkWidget *w;
+	(GOG_OBJECT_CLASS(series_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
+
+	w = gog_error_bar_prefs (GOG_SERIES (obj), "r-errors", GOG_ERROR_BAR_DIRECTION_RADIAL, dalloc, cc);
+	go_editor_add_page (editor, w, _("Radial error bars"));
+}
+#endif
+
+static void
 gog_rt_series_class_init (GogStyledObjectClass *gso_klass)
 {
 	static GogObjectRole const roles[] = {
@@ -979,12 +1129,25 @@ gog_rt_series_class_init (GogStyledObjectClass *gso_klass)
 			NULL }
 	};
 
+	GObjectClass *gobject_klass = G_OBJECT_CLASS (gso_klass);
 	GogObjectClass *obj_klass = GOG_OBJECT_CLASS (gso_klass);
 	GogSeriesClass *series_klass = GOG_SERIES_CLASS (gso_klass);
 
 	series_parent_klass = 	g_type_class_peek_parent (gso_klass);
 	gso_klass->init_style =	gog_rt_series_init_style;
+	gobject_klass->finalize		= gog_rt_series_finalize;
+	gobject_klass->set_property = gog_rt_series_set_property;
+	gobject_klass->get_property = gog_rt_series_get_property;
 	obj_klass->update = gog_rt_series_update;
+#ifdef GOFFICE_WITH_GTK
+	obj_klass->populate_editor = gog_rt_series_populate_editor;
+#endif
+	g_object_class_install_property (gobject_klass, RT_SERIES_PROP_RERRORS,
+		g_param_spec_object ("r-errors", 
+			_("Radial error bars"),
+			_("GogErrorBar *"),
+			GOG_TYPE_ERROR_BAR, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	series_klass->has_interpolation = 	TRUE;
 
@@ -996,6 +1159,89 @@ GSF_DYNAMIC_CLASS (GogRTSeries, gog_rt_series,
 	GOG_TYPE_SERIES)
 
 /*****************************************************************************/
+
+static GObjectClass *polar_series_parent_klass;
+
+enum {
+	POLAR_SERIES_PROP_0,
+	POLAR_SERIES_PROP_AERRORS,
+};
+
+/*****************************************************************************/
+
+static void
+gog_polar_series_set_property (GObject *obj, guint param_id,
+			    GValue const *value, GParamSpec *pspec)
+{
+	GogPolarSeries *series=  GOG_POLAR_SERIES (obj);
+	GogErrorBar* bar;
+
+	switch (param_id) {
+	case POLAR_SERIES_PROP_AERRORS :
+		bar = g_value_get_object (value);
+		if (series->a_errors == bar)
+			return;
+		if (bar) {
+			bar = gog_error_bar_dup (bar);
+			bar->series = GOG_SERIES (series);
+			bar->dim_i = 0;
+			bar->error_i = series->base.base.plot->desc.series.num_dim - 4;
+		}
+		if (!series->base.base.needs_recalc) {
+			series->base.base.needs_recalc = TRUE;
+			gog_object_emit_changed (GOG_OBJECT (series), FALSE);
+		}
+		if (series->a_errors != NULL)
+			g_object_unref (series->a_errors);
+		series->a_errors = bar;
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
+gog_polar_series_get_property (GObject *obj, guint param_id,
+			  GValue *value, GParamSpec *pspec)
+{
+	GogPolarSeries *series=  GOG_POLAR_SERIES (obj);
+
+	switch (param_id) {
+	case POLAR_SERIES_PROP_AERRORS :
+		g_value_set_object (value, series->a_errors);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+#ifdef GOFFICE_WITH_GTK
+static void
+gog_polar_series_populate_editor (GogObject *obj,
+			       GOEditor *editor,
+			       GogDataAllocator *dalloc,
+			       GOCmdContext *cc)
+{
+	GtkWidget *w;
+	(GOG_OBJECT_CLASS(polar_series_parent_klass)->populate_editor) (obj, editor, dalloc, cc);
+
+	w = gog_error_bar_prefs (GOG_SERIES (obj), "a-errors", GOG_ERROR_BAR_DIRECTION_ANGULAR, dalloc, cc);
+	go_editor_add_page (editor, w, _("Angular error bars"));
+}
+#endif
+
+static void
+gog_polar_series_finalize (GObject *obj)
+{
+	GogPolarSeries *series = GOG_POLAR_SERIES (obj);
+
+	if (series->a_errors != NULL) {
+		g_object_unref (series->a_errors); 
+		series->a_errors = NULL;
+	}
+
+	G_OBJECT_CLASS (polar_series_parent_klass)->finalize (obj);
+}
 
 static void
 gog_polar_series_class_init (GogObjectClass *gog_klass)
@@ -1009,10 +1255,24 @@ gog_polar_series_class_init (GogObjectClass *gog_klass)
 		GOG_SERIES_FILL_TYPE_INVALID
 	};
 
+	GObjectClass *gobject_klass = G_OBJECT_CLASS (gog_klass);
 	GogSeriesClass *series_klass = GOG_SERIES_CLASS (gog_klass);
 
+	polar_series_parent_klass = 	g_type_class_peek_parent (gog_klass);
 	series_klass->has_fill_type =		TRUE;
 	series_klass->valid_fill_type_list = 	valid_fill_type_list;
+	gobject_klass->finalize		= gog_polar_series_finalize;
+	gobject_klass->set_property = gog_polar_series_set_property;
+	gobject_klass->get_property = gog_polar_series_get_property;
+#ifdef GOFFICE_WITH_GTK
+	gog_klass->populate_editor = gog_polar_series_populate_editor;
+#endif
+	g_object_class_install_property (gobject_klass, POLAR_SERIES_PROP_AERRORS,
+		g_param_spec_object ("a-errors", 
+			_("Angular error bars"),
+			_("GogErrorBar *"),
+			GOG_TYPE_ERROR_BAR, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 }
 
 GSF_DYNAMIC_CLASS (GogPolarSeries, gog_polar_series,
@@ -1060,7 +1320,7 @@ gog_color_polar_series_class_init (GogObjectClass *gog_klass)
 
 GSF_DYNAMIC_CLASS (GogColorPolarSeries, gog_color_polar_series,
 	gog_color_polar_series_class_init, NULL,
-	GOG_TYPE_RT_SERIES)
+	GOG_TYPE_POLAR_SERIES)
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)

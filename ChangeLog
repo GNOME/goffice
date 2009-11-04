@@ -1,5 +1,28 @@
 2009-11-04  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-error-bar-prefs.ui: implement error bars in
+	radar and polar plots. [#572720]
+	* goffice/graph/gog-error-bar.c (gog_error_bar_prefs),
+	(gog_error_bar_render): ditto.
+	* goffice/graph/gog-error-bar.h: ditto.
+	* plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render): fixed after
+	error bars API changes.
+	* plugins/plot_barcol/gog-line.c (gog_line_view_render): ditto.
+	* plugins/plot_radar/gog-radar.c (gog_rt_plot_update),
+	(gog_radar_plot_class_init), (gog_polar_plot_class_init),
+	(gog_color_polar_plot_class_init), (gog_rt_view_render),
+	(gog_rt_series_set_property), (gog_rt_series_get_property),
+	(gog_rt_series_finalize), (gog_rt_series_populate_editor),
+	(gog_rt_series_class_init), (gog_polar_series_set_property),
+	(gog_polar_series_get_property),
+	(gog_polar_series_populate_editor), (gog_polar_series_finalize),
+	(gog_polar_series_class_init):  implement error bars in
+	radar and polar plots. [#572720]
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): fixed after
+	error bars API changes.
+
+2009-11-04  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/app/go-conf-keyfile.c (go_conf_get_real_key): do not add a '/'
 	when subkey is NULL. [#600654]
 

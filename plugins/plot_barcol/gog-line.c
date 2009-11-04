@@ -677,10 +677,10 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	for (i = 0; i < num_series; i++)
 		if (gog_error_bar_is_visible (errors[i]))
 			for (j = 0; j < lengths[i]; j++)
-				gog_error_bar_render (errors[i], view->renderer, x_map, y_map,
+				gog_error_bar_render (errors[i], view->renderer, chart_map,
 						      error_data[i][j].x, error_data[i][j].y,
 						      error_data[i][j].minus, error_data[i][j].plus,
-						      FALSE);
+						      GOG_ERROR_BAR_DIRECTION_VERTICAL);
 
 	gog_renderer_pop_clip (view->renderer);
 

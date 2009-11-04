@@ -1192,9 +1192,10 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					GogErrorBar const *bar = series->x_errors;
 				 if (gog_error_bar_get_bounds (bar, i - 1, &xerrmin, &xerrmax)) {
 					 gog_error_bar_render (bar, view->renderer,
-								   x_map, y_map,
+								   chart_map,
 								   x, y,
-								   xerrmin, xerrmax, TRUE);
+								   xerrmin, xerrmax,
+								   GOG_ERROR_BAR_DIRECTION_HORIZONTAL);
 				 }
 			}
 
@@ -1202,8 +1203,9 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				GogErrorBar const *bar = series->y_errors;
 				 if (gog_error_bar_get_bounds (bar, i - 1, &yerrmin, &yerrmax)) {
 					 gog_error_bar_render (bar, view->renderer,
-								   x_map, y_map, x, y,
-								   yerrmin, yerrmax, FALSE);
+								   chart_map, x, y,
+								   yerrmin, yerrmax,
+								   GOG_ERROR_BAR_DIRECTION_VERTICAL);
 				 }
 			}
 

@@ -34,6 +34,13 @@ typedef enum {
 } GogErrorBarType;
 
 typedef enum {
+	GOG_ERROR_BAR_DIRECTION_HORIZONTAL,
+	GOG_ERROR_BAR_DIRECTION_VERTICAL,
+	GOG_ERROR_BAR_DIRECTION_ANGULAR,
+	GOG_ERROR_BAR_DIRECTION_RADIAL
+} GogErrorBarDirection;
+
+typedef enum {
 	GOG_ERROR_BAR_DISPLAY_NONE,
 	GOG_ERROR_BAR_DISPLAY_POSITIVE,
 	GOG_ERROR_BAR_DISPLAY_NEGATIVE,
@@ -61,7 +68,7 @@ GogErrorBar  	*gog_error_bar_dup		(GogErrorBar const *bar);
 
 #ifdef GOFFICE_WITH_GTK
 gpointer 	 gog_error_bar_prefs (GogSeries *series, char const *property,
-				      gboolean horizontal, GogDataAllocator *dalloc,
+				      GogErrorBarDirection direction, GogDataAllocator *dalloc,
 				      GOCmdContext *cc);
 #endif
 
@@ -70,11 +77,11 @@ gboolean 	 gog_error_bar_get_bounds (const GogErrorBar *bar, int index,
 void 		 gog_error_bar_get_minmax (const GogErrorBar *bar,
 					   double *min, double *max);
 void 		 gog_error_bar_render (const GogErrorBar *bar, GogRenderer *rend,
-				       GogAxisMap *x_map, GogAxisMap *y_map,
+				       GogChartMap *map,
 				       double x, double y,
 				       double minus,
 				       double plus,
-				       gboolean horizontal);
+				       GogErrorBarDirection direction);
 gboolean 	 gog_error_bar_is_visible (GogErrorBar *bar);
 
 G_END_DECLS

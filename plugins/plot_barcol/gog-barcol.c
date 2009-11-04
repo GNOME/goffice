@@ -547,10 +547,10 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (gog_error_bar_is_visible (errors[i])) {
 			for (j = 0; j < lengths[i]; j++)
 				gog_error_bar_render (errors[i], view->renderer,
-						      x_map, y_map,
+						      chart_map,
 						      error_data[i][j].x , error_data[i][j].y,
 						      error_data[i][j].minus, error_data[i][j].plus,
-						      model->horizontal);
+						      model->horizontal? GOG_ERROR_BAR_DIRECTION_HORIZONTAL: GOG_ERROR_BAR_DIRECTION_VERTICAL);
 			g_free (error_data[i]);
 		}
 

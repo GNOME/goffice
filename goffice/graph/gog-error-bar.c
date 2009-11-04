@@ -198,7 +198,7 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 gpointer
 gog_error_bar_prefs (GogSeries *series,
 		     char const *property,
-		     gboolean horizontal,
+		     GogErrorBarDirection direction,
 		     GogDataAllocator *dalloc,
 		     GOCmdContext *cc)
 {
@@ -276,7 +276,7 @@ gog_error_bar_prefs (GogSeries *series,
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell, "text", 1, NULL);
 
 	for (i = 0; i < G_N_ELEMENTS (display_combo_desc); i++) {
-		pixbuf = go_pixbuf_new_from_file (horizontal ?
+		pixbuf = go_pixbuf_new_from_file (direction == GOG_ERROR_BAR_DIRECTION_HORIZONTAL ?
 						  display_combo_desc[i].h_pixbuf :
 						  display_combo_desc[i].v_pixbuf);
 		gtk_list_store_append (list, &iter);
@@ -292,6 +292,13 @@ gog_error_bar_prefs (GogSeries *series,
 
 	gtk_table_attach (GTK_TABLE (style_table), GTK_WIDGET(combo), 1, 4, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	g_signal_connect (G_OBJECT (combo), "changed", G_CALLBACK (cb_display_changed), editor);
+
+	/* if radial, change the width unit */
+	if (direction == GOG_ERROR_BAR_DIRECTION_RADIAL) {
+		w = go_gtk_builder_get_widget (gui, "width-label");
+		/* Note for translator: the angle unit */
+		gtk_label_set_text (GTK_LABEL (w), _("°"));
+	}
 
 	/* Category property*/
 	w = go_gtk_builder_get_widget (gui, "category_combo");
@@ -615,13 +622,12 @@ gog_error_bar_dup		(GogErrorBar const *bar)
  * gog_error_bar_render :
  * @bar : A GogErrorBar
  * @rend : A GogRenderer
- * @x_map :  A GogAxisMap for the x axis
- * @y_map :  A GogAxisMap for the y axis
+ * @map :  A GogChartMap for the chart
  * @x : x coordinate of the origin of the bar
  * @y : y coordinate of the origin of the bar
  * @plus : distance from the origin to the positive end of the bar
  * @minus : distance from the origin to the negative end of the bar
- * @horizontal : whether the bar is horizontal or not.
+ * @direction : the #GogErrorBarDirection for the bar.
  *
  * Displays the error bar. If @plus is negative, the positive side of the bar is not displayed,
  * and if @minus is negative, the negative side of the bar is not displayed.
@@ -630,21 +636,25 @@ gog_error_bar_dup		(GogErrorBar const *bar)
  **/
 void gog_error_bar_render (const GogErrorBar *bar,
 			   GogRenderer *rend,
-			   GogAxisMap *x_map, GogAxisMap *y_map,
+			   GogChartMap *map,
 			   double x, double y,
 			   double minus,
 			   double plus,
-			   gboolean horizontal)
+			   GogErrorBarDirection direction)
 {
 	GOPath *path;
 	double x_start, y_start, x_end, y_end;
 	double line_width, width;
-	gboolean start = plus > .0 && bar ->display & GOG_ERROR_BAR_DISPLAY_POSITIVE,
-		 end = minus > 0. && bar ->display & GOG_ERROR_BAR_DISPLAY_NEGATIVE;
+	gboolean start = plus > .0 && bar->display & GOG_ERROR_BAR_DISPLAY_POSITIVE,
+		 end = minus > 0. && bar->display & GOG_ERROR_BAR_DISPLAY_NEGATIVE;
+	GogAxisMap *x_map = gog_chart_map_get_axis_map (map, 0),
+		   *y_map = gog_chart_map_get_axis_map (map, 1);
 
-	if (!start && !end) return;
+	if (!start && !end)
+		return;
 
-	if (horizontal) {
+	switch (direction) {
+	case GOG_ERROR_BAR_DIRECTION_HORIZONTAL:
 		if (!gog_axis_map_finite (x_map, x) ||
 		    !gog_axis_map_finite (y_map, y) ||
 		    (start && !gog_axis_map_finite (x_map, x + plus)) ||
@@ -658,7 +668,8 @@ void gog_error_bar_render (const GogErrorBar *bar,
 			gog_axis_map_to_view (x_map , x - minus) :
 			gog_axis_map_to_view (x_map , x);
 		y_start = y_end = gog_axis_map_to_view (y_map, y);
-	} else {
+		break;
+	case GOG_ERROR_BAR_DIRECTION_VERTICAL:
 		if (!gog_axis_map_finite (x_map, x) ||
 		    !gog_axis_map_finite (y_map, y) ||
 		    (start && !gog_axis_map_finite (y_map, y + plus)) ||
@@ -672,6 +683,93 @@ void gog_error_bar_render (const GogErrorBar *bar,
 		y_end =  end ?
 			gog_axis_map_to_view (y_map, y - minus) :
 			gog_axis_map_to_view (y_map, y);
+		break;
+	case GOG_ERROR_BAR_DIRECTION_RADIAL: {
+		GogChartMapPolarData *polar_parms;
+		double cx, cy;
+		double a, rr, xx, yy, y_min, y_max;
+		gboolean cap_min, cap_max;
+		/* x = angle, y = radius */
+		polar_parms = gog_chart_map_get_polar_parms (map);
+		cx = polar_parms->cx;
+		cy = polar_parms->cy;
+		gog_axis_map_get_bounds (y_map, &y_min, &y_max);
+		width = gog_renderer_pt2r (rend, bar->width) / 2.;
+		if (start && y + plus > y_max) {
+			plus = y_max - y;
+			cap_max = FALSE;
+		} else
+			cap_max = TRUE;
+		if (end && y - minus < y_min) {
+			minus = y -y_min;
+			cap_min = FALSE;
+		} else
+			cap_min = TRUE;
+			
+		gog_chart_map_2D_to_view (map, x, (start ? y + plus : y),
+							  &xx, &yy);
+		path = go_path_new ();
+		if (start && cap_max) {
+			rr = hypot (xx - cx, yy - cy);
+			a = atan2 (yy - cy, xx - cx);
+			go_path_arc (path, cx, cy, rr, rr, a - width * M_PI / 180., a + width * M_PI / 180.);
+		}
+		go_path_move_to (path, xx, yy);
+		gog_chart_map_2D_to_view (map, x, (end ? y - minus : y),
+							  &xx, &yy);
+		go_path_line_to (path, xx, yy);
+		if (end && cap_min) {
+			rr = hypot (xx - cx, yy - cy);
+			a = atan2 (yy - cy, xx - cx);
+			go_path_arc (path, cx, cy, rr, rr, a - width * M_PI / 180., a + width * M_PI / 180.);
+		}
+		gog_renderer_push_style (rend, bar->style);
+		gog_renderer_stroke_serie (rend, path);
+		gog_renderer_pop_style (rend);
+		go_path_free (path);
+		return;
+	}
+	case GOG_ERROR_BAR_DIRECTION_ANGULAR: {
+		GogChartMapPolarData *polar_parms;
+		double cx, cy, a0, x0, y0, a1, x1, y1, rr, y_min, y_max;
+		polar_parms = gog_chart_map_get_polar_parms (map);
+		cx = polar_parms->cx;
+		cy = polar_parms->cy;
+		gog_axis_map_get_bounds (y_map, &y_min, &y_max);
+		if (y < y_min || y > y_max)
+			return;
+		width = gog_renderer_pt2r (rend, bar->width) / 2.;
+		line_width = gog_renderer_pt2r (rend, bar->style->line.width);
+		gog_chart_map_2D_to_view (map, (start ? x + plus : x), y,
+							  &x0, &y0);
+		rr = hypot (x0 - cx, y0 - cy);
+		if (rr == 0.)
+			return;
+		a0 = atan2 (y0 - cy, x0 - cx);
+		path = go_path_new ();
+		gog_chart_map_2D_to_view (map, (end ? x - minus : x), y,
+							  &x1, &y1);
+		a1 = atan2 (y1 - cy, x1 - cx);
+		go_path_arc (path, cx, cy, rr, rr, a1, a0);
+		if ((2. * width) > line_width) {
+			double dx, dy;
+			dx = width * cos (a0);
+			dy = width * sin (a0);
+			go_path_move_to (path, x0 - dx, y0 - dy);
+			go_path_line_to (path, x0 + dx, y0 + dy);
+			dx = width * cos (a1);
+			dy = width * sin (a1);
+			go_path_move_to (path, x1 - dx, y1 - dy);
+			go_path_line_to (path, x1 + dx, y1 + dy);
+		}
+		gog_renderer_push_style (rend, bar->style);
+		gog_renderer_stroke_serie (rend, path);
+		gog_renderer_pop_style (rend);
+		go_path_free (path);
+		return;
+	}
+	default:
+		return; /* should not occur */
 	}
 	x = gog_axis_map_to_view (x_map, x);
 	y = gog_axis_map_to_view (y_map, y);
@@ -680,7 +778,7 @@ void gog_error_bar_render (const GogErrorBar *bar,
 	go_path_move_to (path, x_start, y_start);
 	go_path_line_to (path, x_end, y_end);
 
-	if (horizontal) {
+	if (direction == GOG_ERROR_BAR_DIRECTION_HORIZONTAL) {
 		width = gog_renderer_pt2r_y (rend, bar->width) / 2.;
 		line_width = gog_renderer_pt2r_x (rend, bar->style->line.width);
 	} else {
@@ -689,7 +787,7 @@ void gog_error_bar_render (const GogErrorBar *bar,
 	}
 
 	if ((2. * width) > line_width) {
-		if (horizontal) {
+		if (direction == GOG_ERROR_BAR_DIRECTION_HORIZONTAL) {
 			if (start) {
 				go_path_move_to (path, x_start, y - width);
 				go_path_line_to (path, x_start, y + width);
