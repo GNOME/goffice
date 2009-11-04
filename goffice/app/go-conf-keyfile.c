@@ -54,7 +54,7 @@ static void dump_key_data_to_file_cb (char const *rcfile, GKeyFile *key_file)
 static gchar *
 go_conf_get_real_key (GOConfNode const *key, gchar const *subkey)
 {
-	return key ? g_strconcat ((key)->path, "/", subkey, NULL) :
+	return key ? g_strconcat ((key)->path, subkey? "/": NULL , subkey, NULL) :
 		     g_strdup (subkey);
 }
 

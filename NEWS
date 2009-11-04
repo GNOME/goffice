@@ -2,6 +2,7 @@ goffice 0.7.16:
 
 Jean:
 	* Add parent name for new objects in the graph guru "Add" menu.
+	* Fix configuratioin loading when using .gnumericrc. [#600654]
 
 --------------------------------------------------------------------------
 goffice 0.7.15:
