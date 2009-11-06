@@ -1,4 +1,11 @@
 2009-11-06  Jean Brefort  <jean.brefort@normalesup.org>
+	* goffice/graph/gog-plot.c (gog_plot_update_cardinality),
+	(gog_plot_foreach_elem): add trend lines to legend. [#383518]
+	* goffice/graph/gog-series.c (gog_series_child_added),
+	(gog_series_class_init): update plot cardinality when a trend line
+	is added or removed.
+
+2009-11-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_pie/gog-pie-prefs.c (cb_show_negs_changed),
 	(gog_pie_plot_pref_signal_connect): add an option for negative values
