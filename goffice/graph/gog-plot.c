@@ -645,14 +645,14 @@ void
 gog_plot_update_cardinality (GogPlot *plot, int index_num)
 {
 	GogSeries *series;
-	GSList	  *ptr;
+	GSList	  *ptr, *children;
 	gboolean   is_valid;
-	unsigned   size = 0, no_legend = 0, i;
+	unsigned   size = 0, no_legend = 0, i, j;
 
 	g_return_if_fail (GOG_IS_PLOT (plot));
 
 	plot->cardinality_valid = TRUE;
-	plot->index_num = i = index_num;
+	plot->index_num = i = j = index_num;
 
 	for (ptr = plot->series; ptr != NULL ; ptr = ptr->next) {
 		series = GOG_SERIES (ptr->data);
@@ -665,11 +665,19 @@ gog_plot_update_cardinality (GogPlot *plot, int index_num)
 			gog_series_set_index (series, i++, FALSE);
 			if (!gog_series_has_legend (series))
 				no_legend++;
+			j++;
+		}
+		/* now add the trend lines if any */
+		children = GOG_OBJECT (series)->children;
+		while (children) {
+			if (GOG_IS_TREND_LINE (children->data))
+				j++;
+			children = children->next;
 		}
 	}
 
 	plot->full_cardinality =
-		plot->vary_style_by_element ? size : (i - plot->index_num);
+		plot->vary_style_by_element ? size : (j - plot->index_num);
 	plot->visible_cardinality = plot->full_cardinality - no_legend;
 }
 
@@ -709,7 +717,7 @@ void
 gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 		       GogEnumFunc func, gpointer data)
 {
-	GSList *ptr;
+	GSList *ptr, *children;
 	GogSeries const *series;
 	GOStyle *style, *tmp_style;
 	GOData *labels;
@@ -740,12 +748,23 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 		if (gog_plot_enum_in_reverse (plot))
 			ptr = tmp = g_slist_reverse (g_slist_copy (ptr));
 
-		for (; ptr != NULL ; ptr = ptr->next)
+		for (; ptr != NULL ; ptr = ptr->next) {
 			if (!only_visible || gog_series_has_legend (ptr->data)) {
 				func (i, go_styled_object_get_style (ptr->data),
 				      gog_object_get_name (ptr->data), data);
 				i++;
 			}
+			/* now add the trend lines if any */
+			children = GOG_OBJECT (ptr->data)->children;
+			while (children) {
+				if (GOG_IS_TREND_LINE (children->data)) {
+					func (i, go_styled_object_get_style (children->data),
+					      gog_object_get_name (children->data), data);
+					i++;
+				}
+				children = children->next;
+			}
+		}
 
 		g_slist_free (tmp);
 

@@ -606,6 +606,13 @@ gog_series_update (GogObject *obj)
 }
 
 static void
+gog_series_child_added (GogObject *parent, GogObject *child)
+{
+	if (GOG_IS_TREND_LINE (child))
+		gog_plot_request_cardinality_update (GOG_SERIES (parent)->plot);
+}
+
+static void
 gog_series_init_style (GogStyledObject *gso, GOStyle *style)
 {
 	GogSeries const *series = (GogSeries const *)gso;
@@ -658,6 +665,8 @@ gog_series_class_init (GogSeriesClass *klass)
 	gog_klass->populate_editor	= gog_series_populate_editor;
 #endif
 	gog_klass->update		= gog_series_update;
+	gog_klass->child_added		= gog_series_child_added;
+	gog_klass->child_removed	= gog_series_child_added;
 	style_klass->init_style 	= gog_series_init_style;
 	/* series do not have views, so just forward signals from the plot */
 	gog_klass->use_parent_as_proxy  = TRUE;
