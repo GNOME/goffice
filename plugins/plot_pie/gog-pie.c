@@ -118,6 +118,54 @@ GSF_DYNAMIC_CLASS (GogPieSeriesElement, gog_pie_series_element,
 
 /*****************************************************************************/
 
+typedef enum {
+	GOG_SHOW_NEGS_SKIP,
+	GOG_SHOW_NEGS_ABSOLUTE,
+	GOG_SHOW_NEGS_WHITE,
+	GOG_SHOW_NEGS_INVERTED, /* not used for now */
+	GOG_SHOW_NEGS_MAX
+} GogShowNegsMode;
+
+static struct {
+	GogShowNegsMode mode;
+	char const *name;
+} neg_modes [GOG_SHOW_NEGS_MAX] = {
+	{GOG_SHOW_NEGS_SKIP, "skip"},
+	{GOG_SHOW_NEGS_ABSOLUTE, "absolute"},
+	{GOG_SHOW_NEGS_WHITE, "white"},
+	{GOG_SHOW_NEGS_INVERTED, "inverted"}
+};
+
+static GogShowNegsMode
+gog_show_neg_mode_from_str (char const *name)
+{
+	unsigned i;
+	GogShowNegsMode ret = GOG_SHOW_NEGS_ABSOLUTE;
+
+	for (i = 0; i < GO_LINE_MAX; i++) {
+		if (strcmp (neg_modes[i].name, name) == 0) {
+			ret = neg_modes[i].mode;
+			break;
+		}
+	}
+	return ret;
+}
+
+static char const *
+gog_show_neg_mode_as_str (GogShowNegsMode mode)
+{
+	unsigned i;
+	char const *ret = "absolute";
+
+	for (i = 0; i < GOG_SHOW_NEGS_MAX; i++) {
+		if (neg_modes[i].mode == mode) {
+			ret = neg_modes[i].name;
+			break;
+		}
+	}
+	return ret;
+}
+
 typedef struct {
 	GogPlotClass	base;
 } GogPiePlotClass;
@@ -127,7 +175,8 @@ enum {
 	PLOT_PROP_INITIAL_ANGLE,
 	PLOT_PROP_DEFAULT_SEPARATION,
 	PLOT_PROP_IN_3D,
-	PLOT_PROP_SPAN
+	PLOT_PROP_SPAN,
+	PLOT_PROP_SHOW_NEGS
 };
 
 GOFFICE_PLUGIN_MODULE_HEADER;
@@ -156,6 +205,16 @@ gog_pie_plot_set_property (GObject *obj, guint param_id,
 	case PLOT_PROP_SPAN :
 		pie->span = g_value_get_float (value);
 		break;
+	case PLOT_PROP_SHOW_NEGS : {
+		GSList *ptr = GOG_PLOT (obj)->series;
+		pie->show_negatives = gog_show_neg_mode_from_str (g_value_get_string (value));
+		/* we need to update all the series */
+		while (ptr) {
+			gog_object_request_update (GOG_OBJECT (ptr->data));
+			ptr = ptr->next;
+		}
+		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -184,6 +243,9 @@ gog_pie_plot_get_property (GObject *obj, guint param_id,
 		break;
 	case PLOT_PROP_SPAN :
 		g_value_set_float (value, pie->span);
+		break;
+	case PLOT_PROP_SHOW_NEGS :
+		g_value_set_string (value, gog_show_neg_mode_as_str (pie->show_negatives));
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -261,6 +323,12 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 			_("Total angle used as a percentage of the full circle"),
 			10., 100., 100.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, PLOT_PROP_SHOW_NEGS,
+		g_param_spec_string ("show-negs",
+			_("Show negative values"),
+			_("How negative values are displayed"),
+			"absolute",
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
 	{
 		static GogSeriesDimDesc dimensions[] = {
@@ -282,6 +350,7 @@ gog_pie_plot_init (GogPiePlot *pie)
 {
 	pie->base.vary_style_by_element = TRUE;
 	pie->span = 100.;
+	pie->show_negatives = GOG_SHOW_NEGS_ABSOLUTE;
 }
 
 GSF_DYNAMIC_CLASS (GogPiePlot, gog_pie_plot,
@@ -571,7 +640,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	unsigned elem, k;
 	GOPath *path;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
-	GOStyle *style;
+	GOStyle *style, *white_style = NULL, *elt_style = NULL;
 	GSList *ptr;
 	unsigned num_series = 0;
 	unsigned index;
@@ -583,6 +652,8 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	double separation_max, separation;
 	GogPieSeriesElement *gpse;
 	GList const *overrides;
+	GogShowNegsMode mode = model->show_negatives;
+	gboolean negative;
 
 	/* compute number of valid series */
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
@@ -599,6 +670,11 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	outline_width_max = .0;
 	if ((style = go_styled_object_get_style (GO_STYLED_OBJECT (series))))
 		outline_width_max = gog_renderer_line_size (view->renderer, style->line.width);
+	if (mode == GOG_SHOW_NEGS_WHITE) {
+		white_style = go_style_dup (style);
+		white_style->fill.type = GO_STYLE_FILL_PATTERN;
+		go_pattern_set_solid (&white_style->fill.pattern, GO_COLOR_WHITE);
+	}
 	for (overrides = gog_series_get_overrides (GOG_SERIES (series));
 	     overrides != NULL;
 	     overrides = overrides->next) {
@@ -734,13 +810,19 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		vals = go_data_get_values (series->base.values[1].data);
 
 		style = GOG_STYLED_OBJECT (series)->style;
-		if (model->base.vary_style_by_element)
+		if (model->base.vary_style_by_element || mode == GOG_SHOW_NEGS_WHITE)
 			style = go_style_dup (style);
 		gog_renderer_push_style (view->renderer, style);
 
 		overrides = gog_series_get_overrides (GOG_SERIES (series));
 		for (k = 0 ; k < series->base.num_elements; k++) {
-			len = fabs (vals[k]) * scale;
+			len = vals[k] * scale;
+			negative = len < 0;
+			if (negative) {
+				if (mode == GOG_SHOW_NEGS_SKIP)
+					continue;
+				len = -len;
+			}
 			if (!go_finite (len) || len < 1e-3) {
 				if ((overrides != NULL) &&
 				    (GOG_SERIES_ELEMENT (overrides->data)->index == k))
@@ -753,12 +835,23 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			    (GOG_SERIES_ELEMENT (overrides->data)->index == k)) {
 				gpse = GOG_PIE_SERIES_ELEMENT (overrides->data);
 				overrides = overrides->next;
-				gog_renderer_push_style (view->renderer,
-					go_styled_object_get_style (
-						GO_STYLED_OBJECT (gpse)));
-			} else if (model->base.vary_style_by_element)
-				gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
-							model->base.index_num + k, GO_STYLE_FILL);
+				if (negative && mode == GOG_SHOW_NEGS_WHITE) {
+					elt_style = go_style_dup (go_styled_object_get_style (
+							GO_STYLED_OBJECT (gpse)));
+					elt_style->fill.type = GO_STYLE_FILL_PATTERN;
+					go_pattern_set_solid (&elt_style->fill.pattern, GO_COLOR_WHITE);
+					gog_renderer_push_style (view->renderer, elt_style);
+				} else
+					gog_renderer_push_style (view->renderer,
+						go_styled_object_get_style (
+							GO_STYLED_OBJECT (gpse)));
+			} else {
+				if (negative && mode == GOG_SHOW_NEGS_WHITE) {printf("white style %p line mode=%u\n",white_style,white_style->line.dash_type);
+					gog_renderer_push_style (view->renderer, white_style);
+				} else if (model->base.vary_style_by_element)
+					gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
+								model->base.index_num + k, GO_STYLE_FILL);
+			}
 
 			/* only separate the outer ring */
 			separated_cx = cx;
@@ -784,13 +877,20 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			gog_renderer_draw_shape (view->renderer, path);
 			go_path_clear (path);
 
-			if (gpse != NULL)
+			if (gpse != NULL || (negative && mode == GOG_SHOW_NEGS_WHITE)) {
 				gog_renderer_pop_style (view->renderer);
+				if (elt_style) {
+					g_object_unref (elt_style);
+					elt_style = NULL;
+				}
+			}
 		}
 
 		gog_renderer_pop_style (view->renderer);
 		if (model->base.vary_style_by_element)
 			g_object_unref (style);
+		if (white_style)
+			g_object_unref (white_style);
 
 		index ++;
 	}
@@ -876,6 +976,7 @@ gog_pie_series_update (GogObject *obj)
 	int len = 0;
 	GogPieSeries *series = GOG_PIE_SERIES (obj);
 	unsigned old_num = series->base.num_elements;
+	GogShowNegsMode mode = GOG_PIE_PLOT (series->base.plot)->show_negatives;
 
 	if (series->base.values[1].data != NULL) {
 		vals = go_data_get_values (series->base.values[1].data);
@@ -883,9 +984,14 @@ gog_pie_series_update (GogObject *obj)
 	}
 	series->base.num_elements = len;
 
-	for (total = 0. ; len-- > 0 ;)
-		if (go_finite (vals[len]))
-			total += fabs (vals[len]);
+	for (total = 0. ; len-- > 0 ;) {
+		double val = vals[len];
+		if (go_finite (val)) {
+			if (val < 0)
+				val = (mode == GOG_SHOW_NEGS_SKIP)? 0.: -val;
+			total += val;
+		}
+	}
 	series->total = total;
 
 	/* queue plot for redraw */

@@ -4,6 +4,7 @@ Jean:
 	* Add parent name for new objects in the graph guru "Add" menu.
 	* Fix configuratioin loading when using .gnumericrc. [#600654]
 	* Implement error bars in radar and polar plots. [#572720]
+	* Add an option for negative values display in pies and rings. [#152614]
 
 --------------------------------------------------------------------------
 goffice 0.7.15:

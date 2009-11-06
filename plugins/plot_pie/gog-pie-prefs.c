@@ -97,6 +97,18 @@ cb_use_style_toggled (GtkToggleButton *button, GObject *series)
 }
 
 static void
+cb_show_negs_changed (GtkComboBox *box, GogPiePlot *pie)
+{
+	GSList *ptr = GOG_PLOT (pie)->series;
+	pie->show_negatives = gtk_combo_box_get_active (box);
+	while (ptr) {
+		gog_object_request_update (GOG_OBJECT (ptr->data));
+		ptr = ptr->next;
+	}
+	gog_object_emit_changed (GOG_OBJECT (pie), FALSE);
+}
+
+static void
 gog_pie_plot_pref_signal_connect (GogPiePlot *pie, GtkBuilder *gui)
 {
 	GtkWidget *w;
@@ -118,6 +130,12 @@ gog_pie_plot_pref_signal_connect (GogPiePlot *pie, GtkBuilder *gui)
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_use_style_toggled), pie);
+
+	w = go_gtk_builder_get_widget (gui, "neg-box");
+	gtk_combo_box_set_active (GTK_COMBO_BOX (w), pie->show_negatives);
+	g_signal_connect (G_OBJECT (w),
+		"changed",
+		G_CALLBACK (cb_show_negs_changed), pie);
 }
 
 static void

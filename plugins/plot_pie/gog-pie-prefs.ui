@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <interface>
+  <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
     <property name="upper">360</property>
@@ -14,7 +15,7 @@
   <object class="GtkTable" id="gog_pie_prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="n_rows">3</property>
+    <property name="n_rows">4</property>
     <property name="n_columns">3</property>
     <property name="column_spacing">12</property>
     <property name="row_spacing">6</property>
@@ -129,5 +130,55 @@
         <property name="y_options"></property>
       </packing>
     </child>
+    <child>
+      <object class="GtkLabel" id="neg-label">
+        <property name="visible">True</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">Negative data:</property>
+      </object>
+      <packing>
+        <property name="top_attach">3</property>
+        <property name="bottom_attach">4</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBox" id="neg-box">
+        <property name="visible">True</property>
+        <property name="model">neg-list</property>
+        <child>
+          <object class="GtkCellRendererText" id="renderer1"/>
+          <attributes>
+            <attribute name="text">0</attribute>
+          </attributes>
+        </child>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">3</property>
+        <property name="bottom_attach">4</property>
+        <property name="x_options">GTK_FILL</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkListStore" id="neg-list">
+    <columns>
+      <!-- column-name gchararray -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Skip</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Absolute value</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Absolute value with white background</col>
+      </row>
+    </data>
   </object>
 </interface>

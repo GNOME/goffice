@@ -1,3 +1,17 @@
+2009-11-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_pie/gog-pie-prefs.c (cb_show_negs_changed),
+	(gog_pie_plot_pref_signal_connect): add an option for negative values
+	display. [#152614]
+	* plugins/plot_pie/gog-pie-prefs.ui:
+	* plugins/plot_pie/gog-pie.c (gog_show_neg_mode_from_str),
+	(gog_show_neg_mode_as_str), (gog_pie_plot_set_property),
+	(gog_pie_plot_get_property), (gog_pie_plot_class_init),
+	(gog_pie_plot_init), (gog_pie_view_render),
+	(gog_pie_series_update):
+	* plugins/plot_pie/gog-pie.h:
+	* plugins/plot_pie/gog-ring-prefs.ui:
+
 2009-11-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-error-bar-prefs.ui: implement error bars in

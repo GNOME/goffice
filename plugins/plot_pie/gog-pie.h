@@ -46,6 +46,7 @@ typedef struct {
 	float  span;
 	float	 default_separation;	/* as a percentage of the radius */
 	gboolean in_3d;
+	unsigned show_negatives;
 } GogPiePlot;
 
 #define GOG_TYPE_PIE_PLOT	(gog_pie_plot_get_type ())
