@@ -35,6 +35,7 @@
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
+#include <string.h>
 
 static GObjectClass *ppe_parent_klass;
 
