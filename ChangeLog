@@ -1,3 +1,8 @@
+2009-11-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_pie/gog-pie.c (find_element), (gog_pie_view_render): make
+	points work when negative values are skipped.
+
 2009-11-06  Jean Brefort  <jean.brefort@normalesup.org>
 	* goffice/graph/gog-plot.c (gog_plot_update_cardinality),
 	(gog_plot_foreach_elem): add trend lines to legend. [#383518]

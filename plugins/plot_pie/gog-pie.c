@@ -505,7 +505,9 @@ find_element (GogView *view, double cx, double cy, double x, double y,
 	vals = go_data_get_values ((*series)->base.values[1].data);
 	scale = 1 / (*series)->total;
 	for (*index = 0 ; *index < (*series)->base.num_elements; (*index)++) {
-		len = fabs (vals[*index]) * scale;
+		len = vals[*index] * scale;
+		if (len < 0.)
+			len = pie->show_negatives? -len: 0.;
 		if (go_finite (len) && len > 1e-3) {
 			theta -= len;
 			if (theta < 0)
@@ -820,8 +822,12 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			len = vals[k] * scale;
 			negative = len < 0;
 			if (negative) {
-				if (mode == GOG_SHOW_NEGS_SKIP)
+				if (mode == GOG_SHOW_NEGS_SKIP) {
+					if ((overrides != NULL) &&
+					    (GOG_SERIES_ELEMENT (overrides->data)->index == k))
+						overrides = overrides->next;
 					continue;
+				}
 				len = -len;
 			}
 			if (!go_finite (len) || len < 1e-3) {
@@ -847,9 +853,9 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 						go_styled_object_get_style (
 							GO_STYLED_OBJECT (gpse)));
 			} else {
-				if (negative && mode == GOG_SHOW_NEGS_WHITE) {printf("white style %p line mode=%u\n",white_style,white_style->line.dash_type);
+				if (negative && mode == GOG_SHOW_NEGS_WHITE)
 					gog_renderer_push_style (view->renderer, white_style);
-				} else if (model->base.vary_style_by_element)
+				else if (model->base.vary_style_by_element)
 					gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
 								model->base.index_num + k, GO_STYLE_FILL);
 			}
