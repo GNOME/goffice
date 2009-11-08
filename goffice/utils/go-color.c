@@ -41,6 +41,15 @@ go_color_from_str (gchar const *str, GOColor *res)
 		*res = GO_COLOR_FROM_RGBA (r, g, b, a);
 		return TRUE;
 	}
+#ifdef GOFFICE_WITH_GTK
+	 else {
+		GdkColor color;
+		if (gdk_color_parse (str, &color)) {
+			*res = GO_COLOR_FROM_GDK (color);
+			return TRUE;
+		}
+	}
+#endif
 	return FALSE;
 }
 

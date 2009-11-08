@@ -1,5 +1,10 @@
 2009-11-08  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-color.c (go_color_from_str): call gdk_parse_color when
+	needed. [#601114]
+
+2009-11-08  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_pie/gog-pie.c (find_element), (gog_pie_view_render): make
 	points work when negative values are skipped.
 
