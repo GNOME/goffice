@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
-"POT-Creation-Date: 2009-10-29 16:38+0000\n"
-"PO-Revision-Date: 2009-11-03 20:40+0100\n"
+"POT-Creation-Date: 2009-11-06 14:39+0000\n"
+"PO-Revision-Date: 2009-11-08 13:33+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -410,7 +410,6 @@ msgstr "Error al intentar cargar las dependencias del complemento."
 
 #: ../goffice/app/go-plugin.c:1332
 #, c-format
-#| msgid "Errors occurred while reading plugin informations from file \"%s\"."
 msgid "Errors occurred while reading plugin information from file \"%s\"."
 msgstr ""
 "Han ocurrido errores al leer la información del complemento desde el archivo "
@@ -503,7 +502,6 @@ msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "La posición izquierda de la elipse (o posición derecha en modo I-->D)"
 
 #: ../goffice/canvas/goc-ellipse.c:229
-#| msgid "The image top position"
 msgid "The ellipse top position"
 msgstr "La posición superior de la elipse"
 
@@ -515,7 +513,6 @@ msgid "Width"
 msgstr "Anchura"
 
 #: ../goffice/canvas/goc-ellipse.c:235
-#| msgid "The widget width"
 msgid "The ellipse width"
 msgstr "La anchura de la elipse"
 
@@ -527,7 +524,6 @@ msgid "Height"
 msgstr "Altura"
 
 #: ../goffice/canvas/goc-ellipse.c:241
-#| msgid "The widget height"
 msgid "The ellipse height"
 msgstr "La altura de la elipse"
 
@@ -616,7 +612,6 @@ msgid "The line end y coordinate"
 msgstr "La coordenada y de final de la línea"
 
 #: ../goffice/canvas/goc-line.c:347
-#| msgid "Start"
 msgid "Start Arrow"
 msgstr "Inicio de la flecha"
 
@@ -669,7 +664,6 @@ msgid "The polygon vertices"
 msgstr "Los vértices del polígono"
 
 #: ../goffice/canvas/goc-rectangle.c:204
-#| msgid "The rectangle left position"
 msgid "The rectangle left position (or right position in RTL mode)"
 msgstr ""
 "La posición izquierda del rectángulo (o posición derecha en modo D-->I)"
@@ -701,7 +695,6 @@ msgid "Scale line width"
 msgstr "Escalar la anchura de línea"
 
 #: ../goffice/canvas/goc-styled-item.c:163
-#| msgid "Whether to scale the line width or not when zooming"
 msgid "Whether to scale the line width when zooming"
 msgstr "Indica si se debe escalar la anchura de la línea al ampliar"
 
@@ -1085,8 +1078,8 @@ msgstr "en"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:21
 #: ../goffice/gtk/go-rotation-sel.ui.h:3
-#: ../plugins/plot_pie/gog-pie-prefs.ui.h:6
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:7
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:10
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:11
 msgid "degrees"
 msgstr "grados"
 
@@ -1321,7 +1314,6 @@ msgid "Is plot area manual"
 msgstr "Si el área de dibujado es manual"
 
 #: ../goffice/graph/gog-chart.c:547
-#| msgid "points"
 msgid "xpos"
 msgstr "posx"
 
@@ -1330,7 +1322,6 @@ msgid "Horizontal chart position in graph grid"
 msgstr "Posición horizontal del gráfico en la rejilla de gráfico"
 
 #: ../goffice/graph/gog-chart.c:552
-#| msgid "points"
 msgid "ypos"
 msgstr "posy"
 
@@ -1339,22 +1330,18 @@ msgid "Vertical chart position in graph grid"
 msgstr "Posición vertical del gráfico en la rejilla de gráfico"
 
 #: ../goffice/graph/gog-chart.c:556
-#| msgid "Columns"
 msgid "columns"
 msgstr "columnas"
 
 #: ../goffice/graph/gog-chart.c:557
-#| msgid "Number of columns"
 msgid "Number of columns in graph grid"
 msgstr "Número de columnas en la rejilla de gráfico"
 
 #: ../goffice/graph/gog-chart.c:560
-#| msgid "Rows"
 msgid "rows"
 msgstr "filas"
 
 #: ../goffice/graph/gog-chart.c:561
-#| msgid "Number of rows"
 msgid "Number of rows in graph grid"
 msgstr "Número de filas en la rejilla de gráfico"
 
@@ -1431,6 +1418,11 @@ msgstr "Negativo"
 #: ../goffice/graph/gog-error-bar.c:70
 msgid "Both"
 msgstr "Ambos"
+
+#. Note for translator: the angle unit
+#: ../goffice/graph/gog-error-bar.c:300
+msgid "°"
+msgstr "°"
 
 #. An MS Excel-ish theme
 #: ../goffice/graph/gog-graph-prefs.ui.h:1 ../goffice/graph/gog-theme.c:500
@@ -1554,7 +1546,7 @@ msgid "Data"
 msgstr "Datos"
 
 #: ../goffice/graph/gog-label.c:349 ../goffice/graph/gog-reg-curve.c:71
-#: ../plugins/plot_xy/gog-xy.c:1784
+#: ../plugins/plot_xy/gog-xy.c:1786
 msgid "Details"
 msgstr "Detalles"
 
@@ -1611,12 +1603,10 @@ msgid "Anchor:"
 msgstr "Anclaje:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:5
-#| msgid "Column"
 msgid "Column:"
 msgstr "Columna:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:6
-#| msgid "light brown"
 msgid "Height in rows:"
 msgstr "Altura en las filas:"
 
@@ -1626,7 +1616,6 @@ msgid "Manual"
 msgstr "Manual"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:8
-#| msgid "_Rows:"
 msgid "Row:"
 msgstr "Filas:"
 
@@ -2862,7 +2851,6 @@ msgstr ""
 "10&#xB2;)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:22
-#| msgid "_Don't show 1x's"
 msgid "_Don't show 1xs"
 msgstr "_No mostrar los 1x"
 
@@ -4968,7 +4956,7 @@ msgstr "Coincidir sólo con la palabra completa."
 msgid "How to group multiple series, normal, stacked, as_percentage"
 msgstr "Cómo agrupar series múltiples, normal, apilados, como porcentaje"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:338 ../plugins/plot_pie/gog-pie.c:254
+#: ../plugins/plot_barcol/gog-1.5d.c:338 ../plugins/plot_pie/gog-pie.c:316
 #: ../plugins/plot_xy/gog-xy.c:528
 msgid "In 3d"
 msgstr "En 3D"
@@ -4979,8 +4967,8 @@ msgstr "Ubicación para permitir la vuelta del pseudoestado 3D"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 #: ../plugins/plot_barcol/gog-dropbar.c:59
-#: ../plugins/plot_barcol/gog-minmax.c:249 ../plugins/plot_pie/gog-pie.c:267
-#: ../plugins/plot_radar/gog-radar.c:299
+#: ../plugins/plot_barcol/gog-minmax.c:249 ../plugins/plot_pie/gog-pie.c:335
+#: ../plugins/plot_radar/gog-radar.c:319
 msgid "Labels"
 msgstr "Etiquetas"
 
@@ -4988,7 +4976,7 @@ msgstr "Etiquetas"
 #: ../plugins/plot_distrib/gog-boxplot.c:393
 #: ../plugins/plot_distrib/gog-histogram.c:190
 #: ../plugins/plot_distrib/gog-probability-plot.c:263
-#: ../plugins/plot_pie/gog-pie.c:269 ../plugins/plot_radar/gog-radar.c:301
+#: ../plugins/plot_pie/gog-pie.c:337 ../plugins/plot_radar/gog-radar.c:321
 #: ../tests/go-demo.ui.h:35
 msgid "Values"
 msgstr "Valores"
@@ -5011,8 +4999,10 @@ msgstr "Líneas deslizantes"
 msgid "Lines"
 msgstr "Líneas"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:642 ../plugins/plot_xy/gog-xy.c:1857
-#: ../plugins/plot_xy/gog-xy.c:1863
+#: ../plugins/plot_barcol/gog-1.5d.c:642
+#: ../plugins/plot_radar/gog-radar.c:1148
+#: ../plugins/plot_radar/gog-radar.c:1273 ../plugins/plot_xy/gog-xy.c:1859
+#: ../plugins/plot_xy/gog-xy.c:1865
 msgid "GogErrorBar *"
 msgstr "Barra de error Gog *"
 
@@ -5035,8 +5025,8 @@ msgstr "GráficoBarCol"
 
 #: ../plugins/plot_barcol/gog-barcol.c:150
 #: ../plugins/plot_barcol/gog-minmax.c:198
-#: ../plugins/plot_distrib/gog-boxplot.c:162 ../plugins/plot_pie/gog-pie.c:210
-#: ../plugins/plot_pie/gog-pie.c:362 ../plugins/plot_radar/gog-radar.c:470
+#: ../plugins/plot_distrib/gog-boxplot.c:162 ../plugins/plot_pie/gog-pie.c:272
+#: ../plugins/plot_pie/gog-pie.c:431 ../plugins/plot_radar/gog-radar.c:503
 #: ../plugins/plot_surface/gog-xyz.c:99
 #: ../plugins/plot_surface/gog-xyz-surface.c:180
 #: ../plugins/plot_xy/gog-xy.c:428 ../plugins/plot_xy/gog-xy.c:704
@@ -5090,13 +5080,13 @@ msgstr "GráficoLínea"
 
 #: ../plugins/plot_barcol/gog-line.c:326
 #: ../plugins/plot_barcol/gog-minmax.c:236
-#: ../plugins/plot_radar/gog-radar.c:209
+#: ../plugins/plot_radar/gog-radar.c:229
 msgid "Default markers"
 msgstr "Marcadores predeterminados"
 
 #: ../plugins/plot_barcol/gog-line.c:327
 #: ../plugins/plot_barcol/gog-minmax.c:237
-#: ../plugins/plot_radar/gog-radar.c:210 ../plugins/plot_xy/gog-xy.c:345
+#: ../plugins/plot_radar/gog-radar.c:230 ../plugins/plot_xy/gog-xy.c:345
 msgid "Should the default style of a series include markers"
 msgstr "Si el estilo predeterminado de unas series incluye marcadores"
 
@@ -5592,17 +5582,39 @@ msgstr ""
 "diagrama de cajas, histogramas y otras gráficas de distribución relacionadas"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:4
-msgid "Slices start _at:"
-msgstr "Las rodajas _empiezan en:"
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
+#| msgid "Absolute"
+msgid "Absolute value"
+msgstr "Valor absoluto"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:5
-msgid "_Slice Separation:"
-msgstr "_Separación de rodajas:"
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:4
+msgid "Absolute value with white background"
+msgstr "Valor absoluto con el fondo blanco"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:5
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:6
+#| msgid "Negative"
+msgid "Negative data:"
+msgstr "Datos negativos:"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:6
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:7
+msgid "Skip"
+msgstr "Saltar"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
+msgid "Slices start _at:"
+msgstr "Las rodajas _empiezan en:"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:8
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:9
+msgid "_Slice Separation:"
+msgstr "_Separación de rodajas:"
+
+#: ../plugins/plot_pie/gog-pie-prefs.ui.h:9
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:10
 msgid "_Vary colors by slice"
 msgstr "_Variar colores por rodaja"
 
@@ -5610,7 +5622,7 @@ msgstr "_Variar colores por rodaja"
 msgid "_Separation:"
 msgstr "_Separación:"
 
-#: ../plugins/plot_pie/gog-pie.c:109 ../plugins/plot_pie/gog-pie.c:921
+#: ../plugins/plot_pie/gog-pie.c:109 ../plugins/plot_pie/gog-pie.c:1027
 msgid "Separation"
 msgstr "Separación"
 
@@ -5618,64 +5630,74 @@ msgstr "Separación"
 msgid "Amount a slice is extended as a percentage of the radius"
 msgstr "Cantidad que una rodaja se extiende como porcentaje del radio"
 
-#: ../plugins/plot_pie/gog-pie.c:196
+#: ../plugins/plot_pie/gog-pie.c:258
 msgid "PlotPie"
 msgstr "GráficoTarta"
 
-#: ../plugins/plot_pie/gog-pie.c:242
+#: ../plugins/plot_pie/gog-pie.c:304
 msgid "Initial angle"
 msgstr "Ángulo inicial"
 
-#: ../plugins/plot_pie/gog-pie.c:243
+#: ../plugins/plot_pie/gog-pie.c:305
 msgid "Degrees clockwise from 12 O'Clock."
 msgstr "Grados en el sentido de las agujas del reloj desde las 12 en punto"
 
-#: ../plugins/plot_pie/gog-pie.c:248
+#: ../plugins/plot_pie/gog-pie.c:310
 msgid "Default separation"
 msgstr "Separación predeterminada"
 
-#: ../plugins/plot_pie/gog-pie.c:249 ../plugins/plot_pie/gog-pie.c:922
+#: ../plugins/plot_pie/gog-pie.c:311 ../plugins/plot_pie/gog-pie.c:1028
 msgid "Default amount a slice is extended as a percentage of the radius"
 msgstr ""
 "Cantidad predeterminada que una rodaja se extiende como porcentaje del radio"
 
-#: ../plugins/plot_pie/gog-pie.c:255
+#: ../plugins/plot_pie/gog-pie.c:317
 msgid "Draw 3d wedges"
 msgstr "Dibujar cuñas 3D"
 
-#: ../plugins/plot_pie/gog-pie.c:260 ../plugins/smoothing/gog-moving-avg.c:196
+#: ../plugins/plot_pie/gog-pie.c:322 ../plugins/smoothing/gog-moving-avg.c:196
 msgid "Span"
 msgstr "Expandir"
 
-#: ../plugins/plot_pie/gog-pie.c:261
+#: ../plugins/plot_pie/gog-pie.c:323
 msgid "Total angle used as a percentage of the full circle"
 msgstr "Ángulo total usado como porcentaje del círculo completo"
 
-#: ../plugins/plot_pie/gog-pie.c:348
+#: ../plugins/plot_pie/gog-pie.c:328
+#| msgid "Show _negative values"
+msgid "Show negative values"
+msgstr "Mostrar valores negativos"
+
+#: ../plugins/plot_pie/gog-pie.c:329
+#| msgid "Show _negative values"
+msgid "How negative values are displayed"
+msgstr "Cómo se muestran los valores negativos"
+
+#: ../plugins/plot_pie/gog-pie.c:417
 msgid "PlotRing"
 msgstr "GráficoAnillo"
 
-#: ../plugins/plot_pie/gog-pie.c:385
+#: ../plugins/plot_pie/gog-pie.c:454
 msgid "Center-size"
 msgstr "Tamaño central"
 
-#: ../plugins/plot_pie/gog-pie.c:386
+#: ../plugins/plot_pie/gog-pie.c:455
 msgid "Size of the center hole as a percentage of the radius"
 msgstr "Tamaño del agujero central como porcentaje del radio"
 
-#: ../plugins/plot_pie/gog-pie.c:544
+#: ../plugins/plot_pie/gog-pie.c:613
 msgid "Move pie"
 msgstr "Mover tarta"
 
-#: ../plugins/plot_pie/gog-pie.c:915
+#: ../plugins/plot_pie/gog-pie.c:1021
 msgid "Initial-angle"
 msgstr "Ángulo inicial"
 
-#: ../plugins/plot_pie/gog-pie.c:916
+#: ../plugins/plot_pie/gog-pie.c:1022
 msgid "Degrees clockwise from 12 O'Clock"
 msgstr "Grados en el sentido de las agujas del reloj desde las 12 en punto"
 
-#: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
+#: ../plugins/plot_pie/gog-ring-prefs.ui.h:5
 msgid "Cen_ter size:"
 msgstr "Tamaño cen_tral:"
 
@@ -5755,11 +5777,11 @@ msgstr "Motor de dibujo de tartas"
 msgid "Ring plotting engine"
 msgstr "Motor de dibujo de anillos"
 
-#: ../plugins/plot_radar/gog-radar.c:216
+#: ../plugins/plot_radar/gog-radar.c:236
 msgid "Default fill"
 msgstr "Rellenado predeterminado"
 
-#: ../plugins/plot_radar/gog-radar.c:217 ../plugins/plot_xy/gog-xy.c:357
+#: ../plugins/plot_radar/gog-radar.c:237 ../plugins/plot_xy/gog-xy.c:357
 #: ../plugins/plot_xy/gog-xy.c:784
 msgid "Should the default style of a series include fill"
 msgstr "Si el estilo predeterminado de unas series incluye relleno"
@@ -5767,7 +5789,7 @@ msgstr "Si el estilo predeterminado de unas series incluye relleno"
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
 #. * 	PlotRT2
-#: ../plugins/plot_radar/gog-radar.c:252
+#: ../plugins/plot_radar/gog-radar.c:272
 msgid "PlotRadar"
 msgstr "GráficoRadar"
 
@@ -5775,50 +5797,62 @@ msgstr "GráficoRadar"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotRadarArea2
 #.
-#: ../plugins/plot_radar/gog-radar.c:334
+#: ../plugins/plot_radar/gog-radar.c:358
 msgid "PlotRadarArea"
 msgstr "GráficoÁreaRadar"
 
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
 #. * 	PlotPolar2
-#: ../plugins/plot_radar/gog-radar.c:367
+#: ../plugins/plot_radar/gog-radar.c:391
 msgid "PlotPolar"
 msgstr "DibujarPolar"
 
-#: ../plugins/plot_radar/gog-radar.c:406 ../plugins/plot_radar/gog-radar.c:605
+#: ../plugins/plot_radar/gog-radar.c:430 ../plugins/plot_radar/gog-radar.c:638
 msgid "Angle"
 msgstr "Ángulo"
 
-#: ../plugins/plot_radar/gog-radar.c:408 ../plugins/plot_radar/gog-radar.c:607
+#: ../plugins/plot_radar/gog-radar.c:432 ../plugins/plot_radar/gog-radar.c:640
 msgid "Magnitude"
 msgstr "Magnitud"
 
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
 #. * 	PlotColoredPolar2
-#: ../plugins/plot_radar/gog-radar.c:516
+#: ../plugins/plot_radar/gog-radar.c:549
 msgid "PlotColorPolar"
 msgstr "DibujarColorPolar"
 
-#: ../plugins/plot_radar/gog-radar.c:596 ../plugins/plot_xy/gog-xy.c:789
+#: ../plugins/plot_radar/gog-radar.c:629 ../plugins/plot_xy/gog-xy.c:789
 msgid "hide-outliers"
 msgstr "ocultar-valores-atípicos"
 
-#: ../plugins/plot_radar/gog-radar.c:597 ../plugins/plot_xy/gog-xy.c:790
+#: ../plugins/plot_radar/gog-radar.c:630 ../plugins/plot_xy/gog-xy.c:790
 msgid "Hide data outside of the color axis bounds"
 msgstr "Ocultar datos fuera de los límites de los ejes de color"
 
-#: ../plugins/plot_radar/gog-radar.c:609 ../plugins/plot_surface/gog-xyz.c:398
+#: ../plugins/plot_radar/gog-radar.c:642 ../plugins/plot_surface/gog-xyz.c:398
 #: ../plugins/plot_surface/gog-xyz-surface.c:334
 #: ../plugins/plot_surface/xl-surface.c:304
 #: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:802
 msgid "Z"
 msgstr "Z"
 
-#: ../plugins/plot_radar/gog-radar.c:972
+#: ../plugins/plot_radar/gog-radar.c:1114
+#: ../plugins/plot_radar/gog-radar.c:1147
+#| msgid "X error bars"
+msgid "Radial error bars"
+msgstr "Barras de error de radiales"
+
+#: ../plugins/plot_radar/gog-radar.c:1122
 msgid "Radial drop lines"
 msgstr "Líneas deslizantes radiales"
+
+#: ../plugins/plot_radar/gog-radar.c:1229
+#: ../plugins/plot_radar/gog-radar.c:1272
+#| msgid "X error bars"
+msgid "Angular error bars"
+msgstr "Barras de error angulares"
 
 #: ../plugins/plot_radar/gog-color-polar-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-color-prefs.ui.h:1
@@ -6139,36 +6173,36 @@ msgstr "Burbuja"
 msgid "XYColor"
 msgstr "Color XY"
 
-#: ../plugins/plot_xy/gog-xy.c:1789 ../plugins/plot_xy/gog-xy.c:1856
+#: ../plugins/plot_xy/gog-xy.c:1791 ../plugins/plot_xy/gog-xy.c:1858
 msgid "X error bars"
 msgstr "Barras de error de X"
 
-#: ../plugins/plot_xy/gog-xy.c:1792 ../plugins/plot_xy/gog-xy.c:1862
+#: ../plugins/plot_xy/gog-xy.c:1794 ../plugins/plot_xy/gog-xy.c:1864
 msgid "Y error bars"
 msgstr "Barras de error de Y"
 
-#: ../plugins/plot_xy/gog-xy.c:1801
+#: ../plugins/plot_xy/gog-xy.c:1803
 msgid "Horizontal drop lines"
 msgstr "Líneas deslizantes horizontales"
 
-#: ../plugins/plot_xy/gog-xy.c:1809
+#: ../plugins/plot_xy/gog-xy.c:1811
 msgid "Vertical drop lines"
 msgstr "Líneas deslizantes verticales"
 
-#: ../plugins/plot_xy/gog-xy.c:1868
+#: ../plugins/plot_xy/gog-xy.c:1870
 msgid "Invalid as zero"
 msgstr "No válido como cero"
 
-#: ../plugins/plot_xy/gog-xy.c:1869
+#: ../plugins/plot_xy/gog-xy.c:1871
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 "Reemplazar los valores no válidos por 0 al dibujar marcadores o burbujas"
 
-#: ../plugins/plot_xy/gog-xy.c:1874
+#: ../plugins/plot_xy/gog-xy.c:1876
 msgid "Clamp at start"
 msgstr "Fijar al comienzo"
 
-#: ../plugins/plot_xy/gog-xy.c:1875
+#: ../plugins/plot_xy/gog-xy.c:1877
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
@@ -6176,11 +6210,11 @@ msgstr ""
 "Pendiente al inicio de la curva interpolada al usar interpolación de splin "
 "sujeto"
 
-#: ../plugins/plot_xy/gog-xy.c:1880
+#: ../plugins/plot_xy/gog-xy.c:1882
 msgid "Clamp at end"
 msgstr "Fijar al final"
 
-#: ../plugins/plot_xy/gog-xy.c:1881
+#: ../plugins/plot_xy/gog-xy.c:1883
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
