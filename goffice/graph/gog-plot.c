@@ -1240,3 +1240,23 @@ gog_plot_view_class_init (GogPlotViewClass *pview_klass)
 GSF_CLASS_ABSTRACT (GogPlotView, gog_plot_view,
 		    gog_plot_view_class_init, NULL,
 		    GOG_TYPE_VIEW)
+
+
+/**
+ * gog_plot_view_get_data_at_point:
+ * @view : #GogPlotView
+ * @x : x position
+ * @y : y position
+ * @series: where to store the series
+ *
+ * Search a data represented at (@x,@y) in @view and set @series on success.
+ *
+ * return value: index of the found data in @series or -1.
+ **/
+int
+gog_plot_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries **series)
+{
+	GogPlotViewClass *klass = GOG_PLOT_VIEW_GET_CLASS (view);
+	g_return_val_if_fail (klass != NULL, -1);
+	return (klass->get_data_at_point)? klass->get_data_at_point (view, x, y, series): -1;
+}

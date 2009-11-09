@@ -37,6 +37,7 @@ typedef struct _GogPlot		 GogPlot;	/* abstract base for plots */
 typedef struct _GogPlotType	 GogPlotType;	/* visible characterization */
 typedef struct _GogPlotFamily	 GogPlotFamily; /* a group of plot types */
 typedef struct _GogPlotDesc	 GogPlotDesc;	/* data/axis requirements */
+typedef struct _GogPlotView      GogPlotView;
 typedef struct _GogSeries	 GogSeries;	/* single plotable entity */
 typedef struct _GogSeriesDesc	 GogSeriesDesc; /* data requirements */
 typedef struct _GogSeriesDimDesc GogSeriesDimDesc; /* dimension of a series */

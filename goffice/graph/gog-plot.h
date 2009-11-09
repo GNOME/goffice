@@ -71,6 +71,9 @@ void 	   gog_plot_update_3d 		(GogPlot *plot);
 void	   gog_plot_guru_helper		(GogPlot *plot);
 void	   gog_plot_clear_series	(GogPlot *plot);
 
+int        gog_plot_view_get_data_at_point (GogPlotView *view,
+					    double x, double y, GogSeries **series);
+
 G_END_DECLS
 
 #endif /* GOG_PLOT_H */

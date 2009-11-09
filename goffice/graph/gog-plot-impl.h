@@ -90,12 +90,15 @@ typedef struct {
 #define GOG_TYPE_PLOT_VIEW	(gog_plot_view_get_type ())
 #define GOG_PLOT_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_PLOT_VIEW, GogPlotView))
 #define GOG_IS_PLOT_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_PLOT_VIEW))
+#define GOG_PLOT_VIEW_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_PLOT_VIEW, GogPlotViewClass))
 
-typedef struct _GogPlotView GogPlotView;
 struct _GogPlotView {
 	GogView base;
 };
-typedef GogViewClass	GogPlotViewClass;
+typedef struct {
+	GogViewClass base;
+	int     (*get_data_at_point)    (GogPlotView *view, double x, double y, GogSeries **series);
+} GogPlotViewClass;
 GType gog_plot_view_get_type (void);
 
 G_END_DECLS

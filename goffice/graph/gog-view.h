@@ -91,6 +91,7 @@ typedef struct {
 	void	 (*render)        		(GogView *view, GogViewAllocation const *bbox);
 
 	void	 (*build_toolkit)		(GogView *view);
+	char    *(*get_tip_at_point)		(GogView *view, double x, double y);
 } GogViewClass;
 
 #define GOG_TYPE_VIEW		(gog_view_get_type ())
@@ -120,8 +121,9 @@ GogTool		*gog_view_get_tool_at_point 	(GogView *view, double x, double y,
 						 GogObject **gobj);
 GogView 	*gog_view_get_view_at_point	(GogView *view, double x, double y,
 						 GogObject **obj, GogTool **tool);
-
-/* protected */
+char		*gog_view_get_tip_at_point      (GogView *view, double x, double y);
+    
+    /* protected */
 void gog_view_size_child_request (GogView *view,
 				  GogViewRequisition const *available,
 				  GogViewRequisition *req,

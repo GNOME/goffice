@@ -1,3 +1,21 @@
+2009-11-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): use
+	gog_view_get_tip_at_point when no XY map is available (pies and rings).
+	* goffice/data/go-data.c (go_data_vector_get_str),
+	(go_data_matrix_get_str): load data before returning a string.
+	* goffice/graph/goffice-graph.h: move GogPlotView there.
+	* goffice/graph/gog-plot-impl.h: new gog_plot_view_get_data_at_point.
+	* goffice/graph/gog-plot.c (gog_plot_view_get_data_at_point): new function
+	introduced to fix #580545.
+	* goffice/graph/gog-plot.h: ditto.
+	* goffice/graph/gog-view.c (gog_view_get_tip_at_point): new function.
+	* goffice/graph/gog-view.h: ditto.
+	* plugins/plot_pie/gog-pie.c (gog_pie_view_get_data_at_point),
+	(gog_pie_view_get_tip_at_point), (gog_pie_view_class_init): implement the
+	two new view methods (only partially for now, does not work properly for
+	split rings).
+
 2009-11-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-color.c (go_color_from_str): call gdk_parse_color when

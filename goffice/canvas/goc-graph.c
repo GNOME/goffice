@@ -306,6 +306,7 @@ goc_graph_do_tooltip (GocGraph *graph)
 		g_slist_free (l);
 		break;
 	default:
+		buf = gog_view_get_tip_at_point (view, x, y);
 		goto tooltip;
 	}
 	map = gog_chart_map_new (chart, &alloc, x_axis, y_axis, NULL, FALSE);

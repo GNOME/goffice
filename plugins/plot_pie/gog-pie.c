@@ -631,6 +631,78 @@ typedef GogPlotViewClass	GogPieViewClass;
 
 static GogViewClass *pie_view_parent_klass;
 
+static int
+gog_pie_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries **series)
+{
+	GogPiePlot const *model = GOG_PIE_PLOT (view->base.model);
+	double r_max = view->base.allocation.h, cx, cy, r, h, theta, scale, *vals;
+	unsigned int index;
+	double center_size = 0.0;
+	unsigned num_series = 0;
+	double default_sep;
+	int ret = -1;
+	GSList *ptr;
+
+	/* compute number of valid series */
+	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
+		*series = ptr->data;
+		if (!gog_series_is_valid (GOG_SERIES (ptr->data)))
+			continue;
+		num_series++;
+	}
+
+	if (num_series <= 0)
+		return -1;
+
+	if (r_max > view->base.allocation.w)
+		r_max = view->base.allocation.w;
+	r_max /= 2.;
+	cx = view->base.allocation.x + view->base.allocation.w/2.;
+	cy = view->base.allocation.y + view->base.allocation.h/2.;
+	r = hypot (x - cx, y - cy);
+
+	if (r > r_max)
+		return -1;
+
+	if (GOG_IS_RING_PLOT (model))
+		center_size = GOG_RING_PLOT(model)->center_size;
+	/* FIXME: this is somewhat approximative, must be enhanced for ring plots with a slice separation */
+	center_size *= r_max;
+	if (r < center_size)
+		return -1;
+
+	default_sep = r_max * model->default_separation;
+	h = (r_max + default_sep - center_size) / num_series;
+	index = floor ((r - center_size) / h);
+	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
+		*series = ptr->data;
+		if (!gog_series_is_valid (GOG_SERIES (ptr->data)))
+			continue;
+		if (index-- == 0)
+			break;
+	}
+	theta = (atan2 (y - cy, x - cx)
+		 * 180 / M_PI - model->initial_angle + 90.) / model->span / 3.6;
+	if (theta < 0)
+		theta += 1.;
+
+	vals = go_data_get_values ((*series)->values[1].data);
+	scale = 1 / GOG_PIE_SERIES (*series)->total;
+	for (index = 0 ; index < (*series)->num_elements; index++) {
+		r = vals[index] * scale;
+		if (r < 0.)
+			r = model->show_negatives? -r: 0.;
+		if (go_finite (r) && r > 1e-3) {
+			theta -= r;
+			if (theta < 0)
+				break;
+		}
+	}
+	/* using r to store the value */
+	return (int) index;
+	return ret;
+}
+
 #define MAX_ARC_SEGMENTS 64
 
 static void
@@ -914,13 +986,37 @@ gog_pie_view_build_toolkit (GogView *view)
 #endif
 }
 
+static char*
+gog_pie_view_get_tip_at_point (GogView *view, double x, double y)
+{
+	GogPieSeries *series = NULL;
+	int index = gog_pie_view_get_data_at_point (GOG_PLOT_VIEW (view), x, y, (GogSeries** )&series);
+	char *label, *ret;
+	double *vals, value;
+
+	if (index < 0)
+		return NULL;
+	vals = go_data_get_values (series->base.values[1].data);
+	value = fabs (vals[index]);
+	label = series->base.values[0].data? go_data_get_vector_string (series->base.values[0].data, index): NULL;
+	if (label && *label)
+		ret = g_strdup_printf (_("%s: %g (%.2f%%)"), label, value, value * 100 / series->total);
+	else
+		ret = g_strdup_printf (_("%g (%.2f%%)"), value, value * 100 / series->total);
+	g_free (label);
+	return ret;
+}
+
 static void
 gog_pie_view_class_init (GogViewClass *view_klass)
 {
+	GogPlotViewClass *pv_klass = (GogPlotViewClass *) view_klass;
 	pie_view_parent_klass = g_type_class_peek_parent (view_klass);
 
 	view_klass->render 		= gog_pie_view_render;
 	view_klass->build_toolkit 	= gog_pie_view_build_toolkit;
+	view_klass->get_tip_at_point    = gog_pie_view_get_tip_at_point;
+	pv_klass->get_data_at_point     = gog_pie_view_get_data_at_point;
 }
 
 GSF_DYNAMIC_CLASS (GogPieView, gog_pie_view,

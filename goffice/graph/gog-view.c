@@ -1002,3 +1002,21 @@ gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, 
 	*obj = NULL;
 	return NULL;
 }
+
+/**
+ * gog_view_get_tip_at_point:
+ * @view : #GogView
+ * @x : x position
+ * @y : y position
+ *
+ * Gets a tip string related to the position as defined by (@x,@y) in @view.
+ *
+ * return value: the newly allocated tip string if the view class supports
+ * that or NULL.
+ **/
+char*
+gog_view_get_tip_at_point (GogView *view, double x, double y)
+{
+	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
+	return (klass->get_tip_at_point != NULL)? (klass->get_tip_at_point) (view, x, y): NULL;
+}
