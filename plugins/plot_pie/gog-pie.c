@@ -640,7 +640,6 @@ gog_pie_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries
 	double center_size = 0.0;
 	unsigned num_series = 0;
 	double default_sep;
-	int ret = -1;
 	GSList *ptr;
 
 	/* compute number of valid series */
@@ -687,6 +686,8 @@ gog_pie_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries
 		theta += 1.;
 
 	vals = go_data_get_values ((*series)->values[1].data);
+	if (!vals)
+		return -1;
 	scale = 1 / GOG_PIE_SERIES (*series)->total;
 	for (index = 0 ; index < (*series)->num_elements; index++) {
 		r = vals[index] * scale;
@@ -698,9 +699,7 @@ gog_pie_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries
 				break;
 		}
 	}
-	/* using r to store the value */
 	return (int) index;
-	return ret;
 }
 
 #define MAX_ARC_SEGMENTS 64
@@ -740,7 +739,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	if (num_series <= 0)
 		return;
-
+	
 	separation_max = .0;
 	outline_width_max = .0;
 	if ((style = go_styled_object_get_style (GO_STYLED_OBJECT (series))))

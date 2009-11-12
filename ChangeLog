@@ -1,3 +1,8 @@
+2009-11-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_pie/gog-pie.c (gog_pie_view_get_data_at_point): do not
+	access NULL data. [#601618]
+
 2009-11-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): use
