@@ -518,7 +518,10 @@ void
 goc_item_bounds_changed (GocItem *item)
 {
 	g_return_if_fail (GOC_IS_ITEM (item));
-	item->cached_bounds = FALSE;
+	if (item->cached_bounds) {
+		goc_item_invalidate (item);
+		item->cached_bounds = FALSE;
+	}
 	if (item->parent)
 		goc_item_bounds_changed (GOC_ITEM (item->parent));
 }

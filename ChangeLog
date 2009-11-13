@@ -1,3 +1,8 @@
+2009-11-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-item.c (goc_item_bounds_changed): make sure that the
+	previously occupied region is invalidated.
+
 2009-11-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_pie/gog-pie.c (gog_pie_view_get_data_at_point): do not
