@@ -58,36 +58,39 @@ G_BEGIN_DECLS
 void	   go_gtk_editable_enters (GtkWindow *window, GtkWidget *w);
 
 GtkBuilder *go_gtk_builder_new (char const *uifile,
-						char const *domain, GOCmdContext *gcc);
-gulong	   go_gtk_builder_signal_connect	   (GtkBuilder *gui,
-					    gchar const *instance_name,
-					    gchar const *detailed_signal,
-					    GCallback	 c_handler,
-					    gpointer	 data);
+				char const *domain, GOCmdContext *gcc);
+gulong	   go_gtk_builder_signal_connect (GtkBuilder *gui,
+					  gchar const *instance_name,
+					  gchar const *detailed_signal,
+					  GCallback c_handler,
+					  gpointer data);
 gulong	   go_gtk_builder_signal_connect_swapped (GtkBuilder *gui,
 					    gchar const *instance_name,
 					    gchar const *detailed_signal,
-					    GCallback	 c_handler,
-					    gpointer	 data);
+					    GCallback c_handler,
+					    gpointer data);
 GtkWidget *go_gtk_builder_get_widget (GtkBuilder *gui,
-						char const *widget_name);
-GtkComboBox *go_gtk_builder_combo_box_init_text (GtkBuilder	*gui,
-						char const *widget_name);
-int	   go_gtk_builder_group_value (GtkBuilder *gui, char const * const group[]);
+				      char const *widget_name);
+GtkComboBox *go_gtk_builder_combo_box_init_text (GtkBuilder *gui,
+						 char const *widget_name);
+int	   go_gtk_builder_group_value (GtkBuilder *gui,
+				       char const * const group[]);
 
 int	   go_pango_measure_string	(PangoContext *context,
 					 PangoFontDescription const *font_desc,
 					 char const *str);
 
 gint       go_gtk_dialog_run		(GtkDialog *dialog, GtkWindow *parent);
-GtkWidget *go_gtk_dialog_add_button	(GtkDialog *dialog, char const *text, char const *stock_id,
+GtkWidget *go_gtk_dialog_add_button	(GtkDialog *dialog, char const *text,
+					 char const *stock_id,
 					 gint response_id);
 void       go_gtk_notice_dialog		(GtkWindow *parent, GtkMessageType type,
-					 const gchar *format, ...);
+					 const gchar *format, ...) G_GNUC_PRINTF (3, 4);
 void       go_gtk_notice_nonmodal_dialog (GtkWindow *parent, GtkWidget **ref,
-					  GtkMessageType type, const gchar *format, ...);
+					  GtkMessageType type,
+					  const gchar *format, ...) G_GNUC_PRINTF (4, 5);
 gboolean   go_gtk_query_yes_no		(GtkWindow *toplevel, gboolean default_answer,
-					 const gchar *format, ...);
+					 const gchar *format, ...) G_GNUC_PRINTF (3, 4);
 
 GtkWidget *go_gtk_button_new_with_stock (char const *text,
 					 char const *stock_id);
@@ -113,8 +116,8 @@ void       go_dialog_guess_alternative_button_order (GtkDialog *dialog);
 void       go_widget_set_tooltip_text (GtkWidget *widget, const gchar *tip);
 void       go_tool_item_set_tooltip_text (GtkToolItem *item, const gchar *tip);
 
-void 	   go_menu_position_below 		(GtkMenu *menu, gint *x, gint *y,
-						 gint *push_in, gpointer user_data);
+void 	   go_menu_position_below (GtkMenu *menu, gint *x, gint *y,
+				   gint *push_in, gpointer user_data);
 
 GError	  *go_gtk_url_show (gchar const *url, GdkScreen *screen);
 
