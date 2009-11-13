@@ -269,7 +269,7 @@ go_plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree,
 	if (!go_xml_node_get_bool (tree, "probe", &has_probe))
 		has_probe = TRUE;
 
-	information_node = go_xml_get_child_by_name (tree, (xmlChar *)"information");
+	information_node = go_xml_get_child_by_name (tree, "information");
 	if (information_node != NULL) {
 		xmlNode *node;
 		xmlChar *val;
@@ -292,7 +292,7 @@ go_plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree,
 		xmlNode *list, *node;
 		GOPluginServiceFileOpener *service_file_opener = GO_PLUGIN_SERVICE_FILE_OPENER (service);
 
-		list = go_xml_get_child_by_name (tree, (xmlChar *)"suffixes");
+		list = go_xml_get_child_by_name (tree, "suffixes");
 		if (list != NULL) {
 			for (node = list->xmlChildrenNode; node != NULL; node = node->next)
 				if (strcmp (node->name, "suffix") == 0 &&
@@ -301,7 +301,7 @@ go_plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree,
 		}
 		GO_SLIST_REVERSE (suffixes);
 
-		list = go_xml_get_child_by_name (tree, (xmlChar *)"mime-types");
+		list = go_xml_get_child_by_name (tree, "mime-types");
 		if (list != NULL) {
 			for (node = list->xmlChildrenNode; node != NULL; node = node->next)
 				if (strcmp (node->name, "mime-type") == 0 &&
@@ -590,7 +590,7 @@ go_plugin_service_file_saver_read_xml (GOPluginService *service, xmlNode *tree, 
 	gchar *description;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	information_node = go_xml_get_child_by_name (tree, (xmlChar *)"information");
+	information_node = go_xml_get_child_by_name (tree, "information");
 	if (information_node != NULL) {
 		xmlNode *node;
 		xmlChar *val;

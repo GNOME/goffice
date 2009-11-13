@@ -104,7 +104,7 @@ go_plugin_loader_load_service (GOPluginLoader *l, GOPluginService *s, GOErrorInf
 	} else if (GO_IS_PLUGIN_SERVICE_SIMPLE (s)) {
 		load_service_method = NULL;
 	} else {
-		*err = go_error_info_new_printf (_("Service '%s' not supported by l."),
+		*err = go_error_info_new_printf (_("Service '%s' not supported by loader."),
 			G_OBJECT_TYPE_NAME (s));
 	}
 	if (load_service_method != NULL)
@@ -142,7 +142,7 @@ go_plugin_loader_unload_service (GOPluginLoader *l, GOPluginService *s, GOErrorI
 	} else if (GO_IS_PLUGIN_SERVICE_SIMPLE (s)) {
 		unload_service_method = NULL;
 	} else
-		*err = go_error_info_new_printf (_("Service '%s' not supported by l."),
+		*err = go_error_info_new_printf (_("Service '%s' not supported by loader."),
 			G_OBJECT_TYPE_NAME (s));
 
 	if (unload_service_method != NULL)
