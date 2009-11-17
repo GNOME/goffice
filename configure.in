@@ -501,8 +501,8 @@ if test "x$with_long_double" = "xyes"; then
     have_mandatory_funcs=yes
     need_sunmath=0
     ss_cc=`which $CC`
-    ss_dir=`dirname $ss_cc`"/.."
-    if test ! -f $ss_dir/lib/libsunmath.so; then
+    ss_dir=`dirname "$ss_cc"`"/.."
+    if test ! -f "$ss_dir/lib/libsunmath.so"; then
         ss_dir="/opt/SUNWspro"
     fi
     sunmathlinkstuff="-L$ss_dir/lib -R$ss_dir/lib -lsunmath"
