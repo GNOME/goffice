@@ -40,7 +40,7 @@ typedef struct {
 } GOProgressHelper;
 
 typedef struct {
-	gfloat min, max;
+	double min, max;
 } GOProgressRange;
 
 struct _GOIOContext {
@@ -52,7 +52,7 @@ struct _GOIOContext {
 	gboolean	 warning_occurred;
 
 	GList	*progress_ranges;
-	gfloat	 progress_min, progress_max;
+	double	 progress_min, progress_max;
 	gdouble  last_progress;
 	gdouble  last_time;
 	GOProgressHelper helper;

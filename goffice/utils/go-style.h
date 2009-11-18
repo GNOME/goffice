@@ -61,7 +61,7 @@ typedef struct {
 	/* <0 == no outline,
 	 * =0 == hairline : unscaled, minimum useful (can be bigger than visible) size.
 	 * >0 in pts */
-	float	 	 width;
+	double	 	 width;
 	GOLineDashType 	 dash_type;
 	gboolean	 auto_dash;
 	GOColor	 	 color; /* color is used as background for compatibility
@@ -99,7 +99,7 @@ struct _GOStyle {
 		GOPattern pattern;
 		struct {
 			GOGradientDirection dir;
-			float   brightness; /* < 0 => 2 color */
+			double brightness; /* < 0 => 2 color */
 		} gradient;
 		struct {
 			GOImageType	 type;
@@ -118,18 +118,19 @@ struct _GOStyle {
 	} text_layout;
 };
 
-GOStyle  *go_style_new		(void);
-GOStyle  *go_style_dup		(GOStyle const *style);
+GOStyle  *go_style_new			(void);
+GOStyle  *go_style_dup			(GOStyle const *style);
 void	   go_style_assign		(GOStyle *dst, GOStyle const *src);
-void	   go_style_apply_theme	(GOStyle *dst, GOStyle const *src, GOStyleFlag fields);
+void	   go_style_apply_theme		(GOStyle *dst, GOStyle const *src,
+					 GOStyleFlag fields);
 
 GOMarker const *go_style_get_marker 	(GOStyle *style);
 void            go_style_set_marker 	(GOStyle *style, GOMarker *marker);
 
-void	   go_style_set_font_desc		(GOStyle *style,
-						 PangoFontDescription *desc);
-void	   go_style_set_font			(GOStyle *style, GOFont const *font);
-void	   go_style_set_fill_brightness	(GOStyle *style, float brightness);
+void	   go_style_set_font_desc	(GOStyle *style,
+					 PangoFontDescription *desc);
+void	   go_style_set_font		(GOStyle *style, GOFont const *font);
+void	   go_style_set_fill_brightness	(GOStyle *style, double brightness);
 void	   go_style_set_text_angle     	(GOStyle *style, double angle);
 
 gboolean   go_style_is_different_size	(GOStyle const *a, GOStyle const *b);
@@ -150,7 +151,8 @@ gpointer   go_style_get_editor	     	(GOStyle *style,
 					 GOCmdContext *cc,
 					 GObject *object_with_style);
 
-cairo_pattern_t *go_style_create_cairo_pattern (GOStyle const *style, cairo_t *cr);
+cairo_pattern_t *go_style_create_cairo_pattern (GOStyle const *style,
+						cairo_t *cr);
 gboolean go_style_set_cairo_line (GOStyle const *style, cairo_t *cr);
 
 G_END_DECLS

@@ -101,7 +101,7 @@ go_error_invalid (void)
 }
 
 void
-go_cmd_context_progress_set (GOCmdContext *context, gfloat f)
+go_cmd_context_progress_set (GOCmdContext *context, double f)
 {
 	g_return_if_fail (GO_IS_CMD_CONTEXT (context));
 

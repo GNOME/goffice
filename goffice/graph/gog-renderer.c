@@ -70,7 +70,7 @@ struct _GogRenderer {
 
 	GogGraph *model;
 	GogView	 *view;
-	float	  scale, scale_x, scale_y;
+	double	  scale, scale_x, scale_y;
 
 	GClosure *font_watcher;
 	gboolean  needs_update;

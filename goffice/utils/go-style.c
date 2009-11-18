@@ -2006,7 +2006,7 @@ go_style_set_font (GOStyle *style, GOFont const *font)
 }
 
 void
-go_style_set_fill_brightness (GOStyle *style, float brightness)
+go_style_set_fill_brightness (GOStyle *style, double brightness)
 {
 	double limit;
 	g_return_if_fail (GO_IS_STYLE (style));

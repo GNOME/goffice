@@ -17,7 +17,7 @@ typedef struct {
 		void (*error_info)  	(GOCmdContext *gcc, GOErrorInfo *err);
 	} error;
 
-	void    (*progress_set)		(GOCmdContext *gcc, float val);
+	void    (*progress_set)		(GOCmdContext *gcc, double val);
 	void    (*progress_message_set)	(GOCmdContext *gcc, gchar const *msg);
 } GOCmdContextClass;
 
@@ -25,7 +25,7 @@ typedef struct {
 #define GO_IS_CMD_CONTEXT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE((k), GO_TYPE_CMD_CONTEXT))
 
 /* protected, these do not really belong here, they are associated with io-context */
-void  go_cmd_context_progress_set	  (GOCmdContext *gcc, float f);
+void  go_cmd_context_progress_set	  (GOCmdContext *gcc, double f);
 void  go_cmd_context_progress_message_set (GOCmdContext *gcc, char const *msg);
 
 G_END_DECLS
