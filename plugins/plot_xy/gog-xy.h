@@ -50,7 +50,7 @@ typedef struct {
 	gboolean size_as_area;
 	gboolean in_3d;
 	gboolean show_negatives;
-	float bubble_scale;
+	double bubble_scale;
 } GogBubblePlot;
 
 typedef struct {

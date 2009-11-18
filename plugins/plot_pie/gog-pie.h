@@ -42,9 +42,9 @@ GType gog_pie_series_element_get_type (void);
 typedef struct {
 	GogPlot	base;
 
-	float	 initial_angle;	 	/* degrees counterclockwise from 3 o'clock */
-	float  span;
-	float	 default_separation;	/* as a percentage of the radius */
+	double	 initial_angle;	 	/* degrees counter-clockwise from 3 o'clock */
+	double   span;
+	double	 default_separation;	/* as a percentage of the radius */
 	gboolean in_3d;
 	unsigned show_negatives;
 } GogPiePlot;
@@ -58,7 +58,7 @@ GType gog_pie_plot_get_type (void);
 typedef struct {
 	GogPiePlot	base;
 
-	float	 center_size;
+	double	 center_size;
 } GogRingPlot;
 
 #define GOG_TYPE_RING_PLOT	(gog_ring_plot_get_type ())
@@ -70,11 +70,11 @@ GType gog_ring_plot_get_type (void);
 typedef struct {
 	GogSeries base;
 
-	float	 initial_angle;	/* degrees counterclockwise from 3 o'clock */
-	float	 separation;	/* as a percentage of the radius */
+	double	 initial_angle;	/* degrees counterclockwise from 3 o'clock */
+	double	 separation;	/* as a percentage of the radius */
 
 	double   total;
-	float	*extensions;
+	double	*extensions;
 } GogPieSeries;
 
 #define GOG_TYPE_PIE_SERIES	(gog_pie_series_get_type ())

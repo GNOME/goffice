@@ -52,7 +52,7 @@ gog_pie_series_element_set_property (GObject *obj, guint param_id,
 	GogPieSeriesElement *pse = GOG_PIE_SERIES_ELEMENT (obj);
 
 	switch (param_id) {
-	case ELEMENT_SEPARATION :
+	case ELEMENT_SEPARATION:
 		pse->separation = g_value_get_float (value);
 		break;
 
@@ -70,7 +70,7 @@ gog_pie_series_element_get_property (GObject *obj, guint param_id,
 	GogPieSeriesElement *pse = GOG_PIE_SERIES_ELEMENT (obj);
 
 	switch (param_id) {
-	case ELEMENT_SEPARATION :
+	case ELEMENT_SEPARATION:
 		g_value_set_float (value, pse->separation);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -190,20 +190,20 @@ gog_pie_plot_set_property (GObject *obj, guint param_id,
 			   GValue const *value, GParamSpec *pspec)
 {
 	GogPiePlot *pie = GOG_PIE_PLOT (obj);
-	float f;
 
 	switch (param_id) {
-	case PLOT_PROP_INITIAL_ANGLE :
+	case PLOT_PROP_INITIAL_ANGLE:
 		pie->initial_angle = g_value_get_float (value);
 		break;
-	case PLOT_PROP_DEFAULT_SEPARATION :
-		f = g_value_get_float (value);
+	case PLOT_PROP_DEFAULT_SEPARATION: {
+		double f = g_value_get_float (value);
 		pie->default_separation = CLAMP (f, 0., 5.);
 		break;
-	case PLOT_PROP_IN_3D :
+	}
+	case PLOT_PROP_IN_3D:
 		pie->in_3d = g_value_get_boolean (value);
 		break;
-	case PLOT_PROP_SPAN :
+	case PLOT_PROP_SPAN:
 		pie->span = g_value_get_float (value);
 		break;
 	case PLOT_PROP_SHOW_NEGS : {
@@ -233,19 +233,19 @@ gog_pie_plot_get_property (GObject *obj, guint param_id,
 	GogPiePlot *pie = GOG_PIE_PLOT (obj);
 
 	switch (param_id) {
-	case PLOT_PROP_INITIAL_ANGLE :
+	case PLOT_PROP_INITIAL_ANGLE:
 		g_value_set_float (value, pie->initial_angle);
 		break;
-	case PLOT_PROP_DEFAULT_SEPARATION :
+	case PLOT_PROP_DEFAULT_SEPARATION:
 		g_value_set_float (value, pie->default_separation);
 		break;
-	case PLOT_PROP_IN_3D :
+	case PLOT_PROP_IN_3D:
 		g_value_set_boolean (value, pie->in_3d);
 		break;
-	case PLOT_PROP_SPAN :
+	case PLOT_PROP_SPAN:
 		g_value_set_float (value, pie->span);
 		break;
-	case PLOT_PROP_SHOW_NEGS :
+	case PLOT_PROP_SHOW_NEGS:
 		g_value_set_string (value, gog_show_neg_mode_as_str (pie->show_negatives));
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -384,7 +384,7 @@ gog_ring_plot_set_property (GObject *obj, guint param_id,
 	GogRingPlot *ring = GOG_RING_PLOT (obj);
 
 	switch (param_id) {
-	case RING_PLOT_PROP_CENTER_SIZE :
+	case RING_PLOT_PROP_CENTER_SIZE:
 		ring->center_size = g_value_get_float (value);
 		break;
 
@@ -404,7 +404,7 @@ gog_ring_plot_get_property (GObject *obj, guint param_id,
 	GogRingPlot *ring = GOG_RING_PLOT (obj);
 
 	switch (param_id) {
-	case RING_PLOT_PROP_CENTER_SIZE :
+	case RING_PLOT_PROP_CENTER_SIZE:
 		g_value_set_float (value, ring->center_size);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -1039,10 +1039,10 @@ gog_pie_series_set_property (GObject *obj, guint param_id,
 	GogPieSeries *pie = GOG_PIE_SERIES (obj);
 
 	switch (param_id) {
-	case SERIES_PROP_INITIAL_ANGLE :
+	case SERIES_PROP_INITIAL_ANGLE:
 		pie->initial_angle = g_value_get_float (value);
 		break;
-	case SERIES_PROP_SEPARATION :
+	case SERIES_PROP_SEPARATION:
 		pie->separation = g_value_get_float (value);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -1060,10 +1060,10 @@ gog_pie_series_get_property (GObject *obj, guint param_id,
 	GogPieSeries *pie = GOG_PIE_SERIES (obj);
 
 	switch (param_id) {
-	case SERIES_PROP_INITIAL_ANGLE :
+	case SERIES_PROP_INITIAL_ANGLE:
 		g_value_set_float (value, pie->initial_angle);
 		break;
-	case SERIES_PROP_SEPARATION :
+	case SERIES_PROP_SEPARATION:
 		g_value_set_float (value, pie->separation);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);

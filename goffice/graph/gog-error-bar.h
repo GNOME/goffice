@@ -47,14 +47,14 @@ typedef enum {
 	GOG_ERROR_BAR_DISPLAY_BOTH
 } GogErrorBarDisplay;
 
-struct  _GogErrorBar{
+struct  _GogErrorBar {
 	GObject	base;
 	GogErrorBarType type;
 	GogSeries *series;
 	int dim_i;
 	int error_i;
 	GogErrorBarDisplay display;
-	float width;
+	double width;
 	GOStyle* style;
 };
 
