@@ -1,5 +1,9 @@
 2009-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/utils/go-format.c (go_format_odf_style_map): use %g rather than %f
+
+2009-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* autogen.sh: allow dirs on PATH to have spaces withou causing warning
 
 2009-11-13  Jean Brefort  <jean.brefort@normalesup.org>
