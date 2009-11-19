@@ -1,15 +1,18 @@
 2009-11-19  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/data/go-data.c (go_data_vector_get_str),
-	(go_data_matrix_get_str): no need to load values, just length or size.
+	* goffice/data/go-data.c (go_data_vector_get_str,
+	go_data_matrix_get_str): no need to load values, just length or
+	size.
 
 2009-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* goffice/utils/go-format.c (go_format_odf_style_map): use %g rather than %f
+	* goffice/utils/go-format.c (go_format_odf_style_map): use %g
+	rather than %f
 
 2009-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* autogen.sh: allow dirs on PATH to have spaces withou causing warning
+	* autogen.sh: allow dirs on PATH to have spaces without causing
+	warnings.
 
 2009-11-13  Jean Brefort  <jean.brefort@normalesup.org>
 
@@ -29,20 +32,20 @@
 	(go_data_matrix_get_str): load data before returning a string.
 	* goffice/graph/goffice-graph.h: move GogPlotView there.
 	* goffice/graph/gog-plot-impl.h: new gog_plot_view_get_data_at_point.
-	* goffice/graph/gog-plot.c (gog_plot_view_get_data_at_point): new function
-	introduced to fix #580545.
+	* goffice/graph/gog-plot.c (gog_plot_view_get_data_at_point): new
+	function introduced to fix #580545.
 	* goffice/graph/gog-plot.h: ditto.
 	* goffice/graph/gog-view.c (gog_view_get_tip_at_point): new function.
 	* goffice/graph/gog-view.h: ditto.
 	* plugins/plot_pie/gog-pie.c (gog_pie_view_get_data_at_point),
-	(gog_pie_view_get_tip_at_point), (gog_pie_view_class_init): implement the
-	two new view methods (only partially for now, does not work properly for
-	split rings).
+	(gog_pie_view_get_tip_at_point), (gog_pie_view_class_init): implement
+	the two new view methods (only partially for now, does not work
+	properly for split rings).
 
 2009-11-08  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/utils/go-color.c (go_color_from_str): call gdk_parse_color when
-	needed. [#601114]
+	* goffice/utils/go-color.c (go_color_from_str): call gdk_parse_color
+	when needed. [#601114]
 
 2009-11-08  Jean Brefort  <jean.brefort@normalesup.org>
 
