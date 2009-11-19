@@ -1,3 +1,8 @@
+2009-11-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data.c (go_data_vector_get_str),
+	(go_data_matrix_get_str): no need to load values, just length or size.
+
 2009-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* goffice/utils/go-format.c (go_format_odf_style_map): use %g rather than %f

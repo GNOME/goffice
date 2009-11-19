@@ -707,9 +707,9 @@ go_data_vector_get_str (GODataVector *vec, unsigned i)
 	char *res;
 
 	g_return_val_if_fail (klass != NULL, g_strdup (""));
-	if (! (vec->base.flags & GO_DATA_CACHE_IS_VALID)) {
-		(*klass->load_values) (vec);
-		g_return_val_if_fail (vec->base.flags & GO_DATA_CACHE_IS_VALID, g_strdup (""));
+	if (! (vec->base.flags & GO_DATA_VECTOR_LEN_CACHED)) {
+		(*klass->load_len) (vec);
+		g_return_val_if_fail (vec->base.flags & GO_DATA_VECTOR_LEN_CACHED, g_strdup (""));
 	}
 	g_return_val_if_fail ((int)i < vec->len, g_strdup (""));
 
@@ -887,9 +887,9 @@ go_data_matrix_get_str (GODataMatrix *mat, unsigned i, unsigned j)
 	char *res;
 
 	g_return_val_if_fail (klass != NULL, NULL);
-	if (! (mat->base.flags & GO_DATA_CACHE_IS_VALID)) {
-		(*klass->load_values) (mat);
-		g_return_val_if_fail (mat->base.flags & GO_DATA_CACHE_IS_VALID, g_strdup (""));
+	if (! (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED)) {
+		(*klass->load_size) (mat);
+		g_return_val_if_fail (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED, g_strdup (""));
 	}
 	g_return_val_if_fail (((int)i < mat->size.rows) && ((int)j < mat->size.columns), g_strdup (""));
 
