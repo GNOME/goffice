@@ -267,7 +267,7 @@ role_series_element_allocate (GogObject *series)
 	GogObject *gse;
 
 	if (type == 0)
-		type = GOG_TYPE_SERIES_ELEMENT;
+		return NULL;
 
 	gse = g_object_new (type, NULL);
 	if (gse != NULL)

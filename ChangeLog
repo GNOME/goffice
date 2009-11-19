@@ -1,5 +1,10 @@
 2009-11-19  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-series.c (role_series_element_allocate): don't attempt
+	to allocate a virtual class instance.
+
+2009-11-19  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/data/go-data.c (go_data_vector_get_str,
 	go_data_matrix_get_str): no need to load values, just length or
 	size.
