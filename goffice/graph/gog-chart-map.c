@@ -421,6 +421,9 @@ make_path_cspline (GogChartMap *map,
 		}
 	}
 
+	g_free (uu);
+	g_free (vv);
+
 	return path;
 }
 

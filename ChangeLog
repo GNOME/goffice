@@ -1,3 +1,7 @@
+2009-11-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-chart-map.c (make_path_cspline): fixed leaks.
+
 2009-11-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-series.c (role_series_element_allocate): don't attempt
