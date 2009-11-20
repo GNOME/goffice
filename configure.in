@@ -230,7 +230,7 @@ with_native_win32=no
 case $host_os in
   mingw* | pw32* | cygwin*)
     with_win32=yes
-    GOFFICE_PLUGIN_LDFLAGS="-Wl,--enable-runtime-pseudo-relo,--export-all-symbols $GOFFICE_PLUGIN_LDFLAGS"
+    GOFFICE_PLUGIN_LDFLAGS="-Wl,--enable-runtime-pseudo-reloc,--export-all-symbols $GOFFICE_PLUGIN_LDFLAGS"
     ;;
 esac
 AC_MSG_RESULT($with_win32)
