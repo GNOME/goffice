@@ -488,7 +488,7 @@ gog_color_polar_plot_populate_editor (GogObject *obj,
 	char *path;
 
 	dir = go_plugin_get_dir_name (go_plugins_get_plugin_by_id ("GOffice_plot_radar"));
-	path = g_build_filename (dir, "gog-color-polar-prefs.xml", NULL);
+	path = g_build_filename (dir, "gog-color-polar-prefs.ui", NULL);
 	gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
 	g_free (path);
 

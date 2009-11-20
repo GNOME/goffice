@@ -1,5 +1,10 @@
 2009-11-20  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/plot_radar/gog-radar.c
+	(gog_color_polar_plot_populate_editor): fixed ui file name.
+
+2009-11-20  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_radar/gog-radar.c (gog_rt_view_render),
 	(gog_rt_series_element_init_style),
 	(gog_rt_series_element_class_init), (gog_rt_series_class_init),
