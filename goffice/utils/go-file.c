@@ -51,7 +51,7 @@
 #include <time.h>
 
 #ifdef G_OS_WIN32
-typedef HRESULT (* STDCALL FindMimeFromData_t) (LPBC pBC,
+typedef HRESULT (WINAPI *FindMimeFromData_t) (LPBC pBC,
 						LPCWSTR pwzUrl,
 						LPVOID pBuffer,
 						DWORD cbSize,
