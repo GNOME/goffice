@@ -714,6 +714,9 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	gboolean is_map = GOG_IS_PLOT_COLOR_POLAR (model), hide_outliers = TRUE;
 	double errmin, errmax;
 
+	GogSeriesElement *gse;
+	GList const *overrides;
+
 	r_axis = GOG_PLOT (model)->axis[GOG_AXIS_RADIAL];
 	c_axis = GOG_PLOT (model)->axis[GOG_AXIS_CIRCULAR];
 	g_return_if_fail (r_axis != NULL && c_axis != NULL);
@@ -749,7 +752,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 	for (ptr = model->base.series; ptr != NULL; ptr = ptr->next) {
 
 		GogRTSeries *series = GOG_RT_SERIES (ptr->data);
-		GOStyle *style, *color_style = NULL;
+		GOStyle *style, *color_style = NULL, *estyle = NULL;
 		GOPath *path;
 		unsigned count;
 		double *r_vals, *c_vals, *z_vals = NULL;
@@ -891,6 +894,7 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (is_polar)
 			gog_renderer_pop_clip (view->renderer);
 
+		overrides = gog_series_get_overrides (GOG_SERIES (series));
 		if (go_style_is_marker_visible (style)) {
 			for (count = 0; count < series->base.num_elements; count++) {
 				rho = (!is_polar || (go_add_epsilon (r_vals[count] - rho_min) >= 0.0)) ?
@@ -904,7 +908,8 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 							  is_polar ? c_vals[count] : count + 1, rho,
 							  &x, &y);
 
-				if (is_polar) theta = gog_axis_map_to_view (c_map, c_vals[count]);
+				if (is_polar)
+					theta = gog_axis_map_to_view (c_map, c_vals[count]);
 
 				if ( !is_polar ||
 				     (go_add_epsilon (r_vals[count] - rho_min) >= 0.0 &&
@@ -913,19 +918,82 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 						      - fmod (theta_max - theta, 2 * M_PI)) >= 0.0 &&
 				      go_add_epsilon ((theta_max - theta_min)
 						      - fmod (theta - theta_min, 2 * M_PI)) >= 0.0)) {
+					gse = NULL;
+					if (overrides != NULL) {
+						while (GOG_SERIES_ELEMENT (overrides->data)->index < count)
+							overrides = overrides->next;
+						if (GOG_SERIES_ELEMENT (overrides->data)->index == count) {
+							gse = GOG_SERIES_ELEMENT (overrides->data);
+							overrides = overrides->next;
+							if (!is_map) {
+								style = go_styled_object_get_style (GO_STYLED_OBJECT (gse));
+								gog_renderer_push_style (view->renderer, style);
+							}
+						}
+					}
 					if (is_map) {
 						GOColor color = (gog_axis_map_finite (z_map, z))?
 							get_map_color (gog_axis_map_to_view (z_map, z), hide_outliers):
 							0;
-						go_marker_set_fill_color (color_style->marker.mark, color);
-						go_marker_set_outline_color (color_style->marker.mark, color);
-						gog_renderer_push_style (view->renderer, color_style);
-						gog_renderer_draw_marker (view->renderer, x, y);
-						gog_renderer_pop_style (view->renderer);
+						if (gse) {
+							estyle = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (gse)));
+							go_marker_set_fill_color (estyle->marker.mark, color);
+							gog_renderer_push_style (view->renderer, estyle);							go_marker_set_outline_color (estyle->marker.mark, color);
+							gog_renderer_draw_marker (view->renderer, x, y);
+						} else {
+							go_marker_set_fill_color (color_style->marker.mark, color);
+							go_marker_set_outline_color (color_style->marker.mark, color);
+							gog_renderer_push_style (view->renderer, color_style);
+							gog_renderer_draw_marker (view->renderer, x, y);
+							gog_renderer_pop_style (view->renderer);
+						}
 					} else
 						gog_renderer_draw_marker (view->renderer, x, y);
+					if (gse)
+						gog_renderer_pop_style (view->renderer);
+					if (estyle) {
+						g_object_unref (estyle);
+						estyle = NULL;
+					}
 				}
 			}
+		} else if (overrides) {
+			while (overrides) {
+				count = GOG_SERIES_ELEMENT (overrides->data)->index;
+				gse = GOG_SERIES_ELEMENT (overrides->data);
+				rho = (!is_polar || (go_add_epsilon (r_vals[count] - rho_min) >= 0.0)) ?
+					r_vals[count] : rho_min;
+				gog_chart_map_2D_to_view (chart_map,
+							  is_polar ? c_vals[count] : count + 1, rho,
+							  &x, &y);
+				if ( !is_polar ||
+				     (go_add_epsilon (r_vals[count] - rho_min) >= 0.0 &&
+				      go_add_epsilon (rho_max - r_vals[count]) >= 0.0 &&
+				      go_add_epsilon ((theta_max - theta_min)
+						      - fmod (theta_max - theta, 2 * M_PI)) >= 0.0 &&
+				      go_add_epsilon ((theta_max - theta_min)
+						      - fmod (theta - theta_min, 2 * M_PI)) >= 0.0)) {
+					if (is_map) {
+						GOColor color = (gog_axis_map_finite (z_map, z_vals[count]))?
+							get_map_color (gog_axis_map_to_view (z_map, z_vals[count]), hide_outliers):
+							0;
+						estyle = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (gse)));
+						go_marker_set_fill_color (estyle->marker.mark, color);
+						go_marker_set_outline_color (estyle->marker.mark, color);
+						gog_renderer_push_style (view->renderer, estyle);
+						gog_renderer_draw_marker (view->renderer, x, y);
+						gog_renderer_pop_style (view->renderer);
+						g_object_unref (estyle);
+					} else {
+						style = go_styled_object_get_style (GO_STYLED_OBJECT (gse));
+						gog_renderer_push_style (view->renderer, style);
+						gog_renderer_draw_marker (view->renderer, x, y);
+						gog_renderer_pop_style (view->renderer);
+					}
+				}
+				overrides = overrides->next;
+			}
+			estyle = NULL;
 		}
 
 		gog_renderer_pop_style (view->renderer);
@@ -975,6 +1043,43 @@ radial_drop_lines_pre_remove (GogObject *parent, GogObject *child)
 	GogRTSeries *series = GOG_RT_SERIES (parent);
 	series->radial_drop_lines = NULL;
 }
+/****************************************************************************/
+
+typedef GogSeriesElement GogRTSeriesElement;
+typedef GogSeriesElementClass GogRTSeriesElementClass;
+#define GOG_TYPE_RT_SERIES_ELEMENT	(gog_rt_series_element_get_type ())
+#define GOG_RT_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPERT_SERIES_ELEMENT, GogRTSeriesElement))
+#define GOG_IS_RT_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_RT_SERIES_ELEMENT))
+GType gog_rt_series_element_get_type (void);
+
+static void
+gog_rt_series_element_init_style (GogStyledObject *gso, GOStyle *style)
+{
+	GogSeries const *series = GOG_SERIES (GOG_OBJECT (gso)->parent);
+	GOStyle *parent_style;
+
+	g_return_if_fail (series != NULL);
+
+	parent_style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
+	if (parent_style->interesting_fields & GO_STYLE_MARKER)
+		style->interesting_fields = parent_style->interesting_fields & (GO_STYLE_MARKER | GO_STYLE_MARKER_NO_COLOR);
+	else
+		style->interesting_fields = parent_style->interesting_fields;
+	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
+		style, GOG_OBJECT (gso), GOG_SERIES_ELEMENT (gso)->index, style->interesting_fields);
+}
+
+static void
+gog_rt_series_element_class_init (GogRTSeriesElementClass *klass)
+{
+	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
+	style_klass->init_style	    	= gog_rt_series_element_init_style;
+}
+
+GSF_DYNAMIC_CLASS (GogRTSeriesElement, gog_rt_series_element,
+	gog_rt_series_element_class_init, NULL,
+	GOG_TYPE_SERIES_ELEMENT)
+
 
 /*****************************************************************************/
 
@@ -1149,7 +1254,8 @@ gog_rt_series_class_init (GogStyledObjectClass *gso_klass)
 			GOG_TYPE_ERROR_BAR, 
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 
-	series_klass->has_interpolation = 	TRUE;
+	series_klass->has_interpolation = TRUE;
+	series_klass->series_element_type = GOG_TYPE_RT_SERIES_ELEMENT;
 
 	gog_object_register_roles (obj_klass, roles, G_N_ELEMENTS (roles));
 }
@@ -1333,6 +1439,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gog_color_polar_plot_register_type (module);
 	gog_rt_view_register_type (module);
 	gog_rt_series_register_type (module);
+	gog_rt_series_element_register_type (module);
 	gog_polar_series_register_type (module);
 	gog_color_polar_series_register_type (module);
 }

@@ -1,5 +1,12 @@
 2009-11-20  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* plugins/plot_radar/gog-radar.c (gog_rt_view_render),
+	(gog_rt_series_element_init_style),
+	(gog_rt_series_element_class_init), (gog_rt_series_class_init),
+	(go_plugin_init): implement singletons in radar/polar plots.
+
+2009-11-20  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-chart-map.c (make_path_cspline): fixed leaks.
 
 2009-11-19  Jean Brefort  <jean.brefort@normalesup.org>
