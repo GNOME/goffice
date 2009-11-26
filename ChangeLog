@@ -1,3 +1,12 @@
+2009-11-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_distrib/gog-probability-plot.c
+	(gog_probability_plot_populate_editor) don't unref the new widget [#603015],
+	(gog_probability_plot_update): check if there is a series before using it.
+	[#603016]
+	* plugins/plot_xy/gog-xy.c (gog_2d_plot_update): do not check error bars
+	for a NULL series.
+
 2009-11-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-view.c (gog_view_get_view_at_point): allow obj to

@@ -61,7 +61,6 @@ gog_probability_plot_populate_editor (GogObject *item,
 {
 	GtkWidget *w = go_distribution_pref_new (G_OBJECT (item), dalloc, cc);
 	go_editor_add_page (editor, w, _("Distribution"));
-	g_object_unref (w);
 
 	(GOG_OBJECT_CLASS(probability_plot_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
@@ -71,7 +70,12 @@ static void
 gog_probability_plot_update (GogObject *obj)
 {
 	GogProbabilityPlot *plot = GOG_PROBABILITY_PLOT (obj);
-	GogProbabilityPlotSeries *series = GOG_PROBABILITY_PLOT_SERIES (
+	GogProbabilityPlotSeries *series;
+
+	if (plot->base.series == NULL)
+		return;
+
+	series = GOG_PROBABILITY_PLOT_SERIES (
 		plot->base.series->data);
 
 

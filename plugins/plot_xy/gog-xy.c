@@ -125,25 +125,25 @@ gog_2d_plot_update (GogObject *obj)
 
 		if (x_min > tmp_min) x_min = tmp_min;
 		if (x_max < tmp_max) x_max = tmp_max;
+		/* add room for error bars */
+		if (gog_error_bar_is_visible (series->x_errors)) {
+			gog_error_bar_get_minmax (series->x_errors, &tmp_min, &tmp_max);
+			if (x_min > tmp_min)
+				x_min = tmp_min;
+			if (x_max < tmp_max)
+				x_max = tmp_max;
+		}
+		if (gog_error_bar_is_visible (series->y_errors)) {
+			gog_error_bar_get_minmax (series->y_errors, &tmp_min, &tmp_max);
+			if (y_min > tmp_min)
+				y_min = tmp_min;
+			if (y_max < tmp_max)
+				y_max = tmp_max;
+		}
 	}
 
 	/*adjust bounds to allow large markers or bubbles*/
 	gog_2d_plot_adjust_bounds (model, &x_min, &x_max, &y_min, &y_max);
-	/* add room for error bars */
-	if (gog_error_bar_is_visible (series->x_errors)) {
-		gog_error_bar_get_minmax (series->x_errors, &tmp_min, &tmp_max);
-		if (x_min > tmp_min)
-			x_min = tmp_min;
-		if (x_max < tmp_max)
-			x_max = tmp_max;
-	}
-	if (gog_error_bar_is_visible (series->y_errors)) {
-		gog_error_bar_get_minmax (series->y_errors, &tmp_min, &tmp_max);
-		if (y_min > tmp_min)
-			y_min = tmp_min;
-		if (y_max < tmp_max)
-			y_max = tmp_max;
-	}
 
 	if (model->x.minima != x_min || model->x.maxima != x_max) {
 		model->x.minima = x_min;
