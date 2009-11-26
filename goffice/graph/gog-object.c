@@ -1524,6 +1524,10 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
 
 	g_return_val_if_fail (is_a != 0, NULL);
 
+	/* do not perform a not allowed addition */
+	if (role->can_add != NULL && !(role->can_add) (parent))
+		return NULL;
+
 	if (child == NULL) {
 		child = (role->allocate)
 			? (role->allocate) (parent)

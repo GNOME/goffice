@@ -1,5 +1,11 @@
 2009-11-26  Jean Brefort  <jean.brefort@normalesup.org>
 
+	reviewed by: <delete if not using a buddy>
+
+	* goffice/graph/gog-object.c (gog_object_add_by_role):
+
+2009-11-26  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_distrib/gog-probability-plot.c
 	(gog_probability_plot_populate_editor) don't unref the new widget [#603015],
 	(gog_probability_plot_update): check if there is a series before using it.
