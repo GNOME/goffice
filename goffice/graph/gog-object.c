@@ -893,6 +893,8 @@ gog_object_dup (GogObject const *src, GogObject *new_parent, GogDataDuplicator d
 		else
 			dataset_dup (GOG_DATASET (src), GOG_DATASET (dst));
 	}
+	if (GOG_IS_CHART (src))
+		GOG_CHART (dst)->axis_set = GOG_CHART (src)->axis_set;
 
 	for (ptr = src->children; ptr != NULL ; ptr = ptr->next)
 		/* children added directly to new parent, no need to use the
@@ -1525,8 +1527,11 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
 	g_return_val_if_fail (is_a != 0, NULL);
 
 	/* do not perform a not allowed addition */
-	if (role->can_add != NULL && !(role->can_add) (parent))
+	if (role->can_add != NULL && !(role->can_add) (parent)) {
+		if (child)
+			g_object_unref (child);
 		return NULL;
+	}
 
 	if (child == NULL) {
 		child = (role->allocate)

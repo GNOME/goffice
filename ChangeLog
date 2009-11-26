@@ -1,8 +1,8 @@
 2009-11-26  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* goffice/graph/gog-object.c (gog_object_add_by_role):
+	* goffice/graph/gog-object.c (gog_object_dup): duplicate chart axis set
+	(needed because of the change in gog_object_add_by_role),
+	(gog_object_add_by_role): fail when addition is not allowed.
 
 2009-11-26  Jean Brefort  <jean.brefort@normalesup.org>
 
