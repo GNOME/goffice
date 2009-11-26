@@ -1,5 +1,11 @@
 2009-11-26  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-object-xml.c (gogo_start): revert previous change,
+	needs more work.
+	* goffice/graph/gog-object.c (gog_object_add_by_role): ditto.
+
+2009-11-26  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-object-xml.c (gogo_start): set axis set to all to
 	allow axis loading.
 	* plugins/plot_distrib/gog-probability-plot.c
