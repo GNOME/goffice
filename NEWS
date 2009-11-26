@@ -8,6 +8,7 @@ Jean:
 	* Add trend lines to legend. [#383518]
 	* Build color from color names usung gdk_parse_color. [#601114]
 	* Fix crashes in probablility plots [#603015, #603016] and scatter plots.
+	* Support multiple series in probability plots. [#603013]
 
 --------------------------------------------------------------------------
 goffice 0.7.15:

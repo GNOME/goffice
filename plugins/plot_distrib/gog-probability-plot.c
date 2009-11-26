@@ -71,24 +71,33 @@ gog_probability_plot_update (GogObject *obj)
 {
 	GogProbabilityPlot *plot = GOG_PROBABILITY_PLOT (obj);
 	GogProbabilityPlotSeries *series;
+	double x_min, x_max, y_min, y_max;
+	GSList *ptr;
 
-	if (plot->base.series == NULL)
-		return;
+	x_min = y_min =  DBL_MAX;
+	x_max = y_max = -DBL_MAX;
+	for (ptr = plot->base.series ; ptr != NULL ; ptr = ptr->next) {
+		series = GOG_PROBABILITY_PLOT_SERIES (ptr->data);
+		if (!gog_series_is_valid (GOG_SERIES (series)) || series->base.num_elements == 0)
+			continue;
 
-	series = GOG_PROBABILITY_PLOT_SERIES (
-		plot->base.series->data);
-
-
-	if (!gog_series_is_valid (GOG_SERIES (series)) || series->base.num_elements == 0)
-			return;
-	if (plot->x.minima != series->x[0] || plot->x.maxima != series->x[series->base.num_elements - 1]) {
-		plot->x.minima = series->x[0];
-		plot->x.maxima = series->x[series->base.num_elements - 1];
+		if (x_min > series->x[0])
+			x_min = series->x[0];
+		if (x_max < series->x[series->base.num_elements - 1])
+			x_max = series->x[series->base.num_elements - 1];
+		if (y_min > series->y[0])
+			y_min = series->y[0];
+		if (y_max < series->y[series->base.num_elements - 1])
+			y_max = series->y[series->base.num_elements - 1];
+	}
+	if (plot->x.minima != x_min || plot->x.maxima != x_max) {
+		plot->x.minima = x_min;
+		plot->x.maxima = x_max;
 		gog_axis_bound_changed (plot->base.axis[0], GOG_OBJECT (plot));
 	}
-	if (plot->y.minima != series->y[0] || plot->y.maxima != series->y[series->base.num_elements - 1]) {
-		plot->y.minima = series->y[0];
-		plot->y.maxima = series->y[series->base.num_elements - 1];
+	if (plot->y.minima != y_min || plot->y.maxima != y_max) {
+		plot->y.minima = y_min;
+		plot->y.maxima = y_max;
 		gog_axis_bound_changed (plot->base.axis[1], GOG_OBJECT (plot));
 	}
 }
@@ -270,7 +279,7 @@ gog_probability_plot_class_init (GogPlotClass *gog_plot_klass)
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
 	}
-	plot_klass->desc.num_series_max = 1;
+	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->series_type = gog_probability_plot_series_get_type ();
 	plot_klass->axis_set = GOG_AXIS_SET_XY;
 	plot_klass->desc.series.style_fields	= GO_STYLE_MARKER;
@@ -372,12 +381,7 @@ gog_probability_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next)
 		gog_view_render	(ptr->data, bbox);
-
-	series = GOG_PROBABILITY_PLOT_SERIES (model->base.series->data);
-	nb = series->base.num_elements;
-	style = GOG_STYLED_OBJECT (series)->style;
-	if (nb == 0 || series->x == NULL || series->y == NULL)
-		return;
+	
 	area = gog_chart_view_get_plot_area (view->parent);
 	chart_map = gog_chart_map_new (chart, area,
 				       GOG_PLOT (model)->axis[GOG_AXIS_X],
@@ -391,13 +395,22 @@ gog_probability_plot_view_render (GogView *view, GogViewAllocation const *bbox)
 	x_map = gog_chart_map_get_axis_map (chart_map, 0);
 	y_map = gog_chart_map_get_axis_map (chart_map, 1);
 
-	gog_renderer_push_style (view->renderer, style);
-	for (i = 0; i < nb; i++) {
-		gog_renderer_draw_marker (view->renderer,
-					  gog_axis_map_to_view (x_map, series->x[i]),
-					  gog_axis_map_to_view (y_map, series->y[i]));
+	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
+		series = GOG_PROBABILITY_PLOT_SERIES (ptr->data);
+		if (!gog_series_is_valid (GOG_SERIES (series))
+		    || series->base.num_elements == 0
+		    || series->x == NULL || series->y == NULL)
+			continue;
+		nb = series->base.num_elements;
+		style = GOG_STYLED_OBJECT (series)->style;
+		gog_renderer_push_style (view->renderer, style);
+		for (i = 0; i < nb; i++) {
+			gog_renderer_draw_marker (view->renderer,
+						  gog_axis_map_to_view (x_map, series->x[i]),
+						  gog_axis_map_to_view (y_map, series->y[i]));
+		}
+		gog_renderer_pop_style (view->renderer);
 	}
-	gog_renderer_pop_style (view->renderer);
 	gog_chart_map_free (chart_map);
 }
 

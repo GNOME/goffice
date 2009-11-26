@@ -1,5 +1,14 @@
 2009-11-26  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-object-xml.c (gogo_start): set axis set to all to
+	allow axis loading.
+	* plugins/plot_distrib/gog-probability-plot.c
+	(gog_probability_plot_update), (gog_probability_plot_class_init),
+	(gog_probability_plot_view_render): implement multiple series in
+	probablility plots.
+
+2009-11-26  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-object.c (gog_object_dup): duplicate chart axis set
 	(needed because of the change in gog_object_add_by_role),
 	(gog_object_add_by_role): fail when addition is not allowed.

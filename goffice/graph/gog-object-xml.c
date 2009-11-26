@@ -567,6 +567,8 @@ gogo_start (GsfXMLIn *xin, xmlChar const **attrs)
 			res = gog_object_add_by_name (state->obj, role, res);
 	}
 	if (res != NULL) {
+		if (GOG_IS_CHART (res))
+			GOG_CHART (res)->axis_set = GOG_AXIS_SET_ALL;
 		res->explicitly_typed_role = (type != NULL);
 		if (GO_IS_PERSIST (res))
 			go_persist_prep_sax (GO_PERSIST (res), xin, attrs);
