@@ -10,6 +10,9 @@ Jean:
 	* Fix crashes in probablility and scatter plots.  [#603015, #603016]
 	* Support multiple series in probability plots. [#603013]
 
+Morten:
+	* Eliminate most uses of "float".
+
 --------------------------------------------------------------------------
 goffice 0.7.15:
 
