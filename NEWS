@@ -2,12 +2,12 @@ goffice 0.7.16:
 
 Jean:
 	* Add parent name for new objects in the graph guru "Add" menu.
-	* Fix configuratioin loading when using .gnumericrc. [#600654]
+	* Fix configuration loading when using .gnumericrc. [#600654]
 	* Implement error bars in radar and polar plots. [#572720]
 	* Add an option for negative values display in pies and rings. [#152614]
 	* Add trend lines to legend. [#383518]
 	* Build color from color names usung gdk_parse_color. [#601114]
-	* Fix crashes in probablility plots [#603015, #603016] and scatter plots.
+	* Fix crashes in probablility and scatter plots.  [#603015, #603016]
 	* Support multiple series in probability plots. [#603013]
 
 --------------------------------------------------------------------------
