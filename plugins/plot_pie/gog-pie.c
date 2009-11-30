@@ -635,71 +635,238 @@ static int
 gog_pie_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries **series)
 {
 	GogPiePlot const *model = GOG_PIE_PLOT (view->base.model);
-	double r_max = view->base.allocation.h, cx, cy, r, h, theta, scale, *vals;
-	unsigned int index;
+	GogPieSeries const *pseries = NULL;
+	double r_tot, r_cur, r_int, r_ext, cx, cy, r, th, th0, theta, scale, *vals;
+	double separated_cx, separated_cy;
+	unsigned int index, elem, k;
+	double center_radius;
 	double center_size = 0.0;
 	unsigned num_series = 0;
-	double default_sep;
+	double default_sep, len;
+	double separation_max = 0., separation;
 	GSList *ptr;
+	double outline_width_max = 0.;
+	gboolean has_hole;
+	GogPieSeriesElement *gpse;
+	GList const *overrides;
+	GogShowNegsMode mode = model->show_negatives;
+	gboolean negative;
+	GOStyle *style;
 
+	*series = NULL;
 	/* compute number of valid series */
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
-		*series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (ptr->data)))
 			continue;
+		pseries = ptr->data;
+		if ((style = go_styled_object_get_style (GO_STYLED_OBJECT (pseries))))
+			outline_width_max = MAX (outline_width_max, gog_renderer_line_size (view->base.renderer, style->line.width));
+		for (overrides = gog_series_get_overrides (GOG_SERIES (pseries));
+		     overrides != NULL;
+		     overrides = overrides->next) {
+			separation = GOG_PIE_SERIES_ELEMENT (overrides->data)->separation;
+			if (separation_max < separation)
+				separation_max = separation;
+			style = go_styled_object_get_style (GO_STYLED_OBJECT (overrides->data));
+			if (outline_width_max < style->line.width)
+				outline_width_max = style->line.width;
+		}
 		num_series++;
 	}
+	if (separation_max < -model->default_separation)
+		separation_max = -model->default_separation;
 
 	if (num_series <= 0)
 		return -1;
 
-	if (r_max > view->base.allocation.w)
-		r_max = view->base.allocation.w;
-	r_max /= 2.;
-	cx = view->base.allocation.x + view->base.allocation.w/2.;
-	cy = view->base.allocation.y + view->base.allocation.h/2.;
-	r = hypot (x - cx, y - cy);
-
-	if (r > r_max)
-		return -1;
-
 	if (GOG_IS_RING_PLOT (model))
 		center_size = GOG_RING_PLOT(model)->center_size;
-	/* FIXME: this is somewhat approximative, must be enhanced for ring plots with a slice separation */
-	center_size *= r_max;
-	if (r < center_size)
-		return -1;
-
-	default_sep = r_max * model->default_separation;
-	h = (r_max + default_sep - center_size) / num_series;
-	index = floor ((r - center_size) / h);
-	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
-		*series = ptr->data;
-		if (!gog_series_is_valid (GOG_SERIES (ptr->data)))
-			continue;
-		if (index-- == 0)
-			break;
-	}
-	theta = (atan2 (y - cy, x - cx)
-		 * 180 / M_PI - model->initial_angle + 90.) / model->span / 3.6;
-	if (theta < 0)
-		theta += 1.;
-
-	vals = go_data_get_values ((*series)->values[1].data);
-	if (!vals)
-		return -1;
-	scale = 1 / GOG_PIE_SERIES (*series)->total;
-	for (index = 0 ; index < (*series)->num_elements; index++) {
-		r = vals[index] * scale;
-		if (r < 0.)
-			r = model->show_negatives? -r: 0.;
-		if (go_finite (r) && r > 1e-3) {
-			theta -= r;
-			if (theta < 0)
-				break;
+	else if (num_series > 1)
+		num_series = 1;
+	/* calculate things when span < 100. */
+	if (model->span < 100.) {
+		double xmin, xmax, ymin, ymax, ratio;
+		double begin, cur, end;
+		if (num_series == 1) {
+			pseries = model->base.series->data;
+			begin = (model->initial_angle + pseries->initial_angle) * M_PI / 180. - M_PI / 2.;
+			end = begin + model->span * M_PI / 50.;
+		} else {
+			/* WARNING: this code has not been checked */
+			ptr = model->base.series;
+			while (!gog_series_is_valid (GOG_SERIES (ptr->data)))
+				ptr = ptr->next;
+			pseries = ptr->data;
+			begin = end = pseries->initial_angle;
+			for (ptr = ptr->next; ptr != NULL; ptr = ptr->next) {
+				if (!gog_series_is_valid (GOG_SERIES (ptr->data)))
+					continue;
+				pseries = ptr->data;
+				cur = pseries->initial_angle;
+				if (cur < begin)
+					begin = cur;
+				if (cur > end)
+					end = cur;
+			}
+			begin = (model->initial_angle + begin) * M_PI / 180. - M_PI / 2.;
+			end = ((model->initial_angle + end) / 180. + model->span / 50.) * M_PI - M_PI / 2.;
 		}
+		cur = ceil (begin / M_PI * 2 - 1e-10) * M_PI / 2;
+		xmin = xmax = cos (begin);
+		ymin = ymax = sin (begin);
+		while (cur < end) {
+			cx = cos (cur);
+			cy = sin (cur);
+			if (cx > xmax)
+				xmax = cx;
+			if (cx < xmin)
+				xmin = cx;
+			if (cy > ymax)
+				ymax = cy;
+			if (cy < ymin)
+				ymin = cy;
+			cur += M_PI / 2;
+		}
+		cx = cos (end);
+		cy = sin (end);
+		if (cx > xmax)
+			xmax = cx;
+		if (cx < xmin)
+			xmin = cx;
+		if (cy > ymax)
+			ymax = cy;
+		if (cy < ymin)
+			ymin = cy;
+		/* we ensure that the center will be visible */
+		if (xmin > 0.)
+			xmin = 0.;
+		if (xmax < 0.)
+			xmax = 0.;
+		if (ymin > 0.)
+			ymin = 0.;
+		if (ymax < 0.)
+			ymax = 0.;
+		ratio = (ymax - ymin) / (xmax - xmin);
+		if (view->base.allocation.h > view->base.allocation.w * ratio) {
+			r_tot = view->base.allocation.w * MAX (xmax, -xmin) / (xmax - xmin);
+			cx = view->base.allocation.x - view->base.allocation.w * xmin / (xmax - xmin);
+			cy = view->base.allocation.y +
+				(view->base.allocation.h + view->base.allocation.w * ratio) / 2.
+				- view->base.allocation.w * ratio * ymax / (ymax - ymin);
+		} else {
+			r_tot = view->base.allocation.h * MAX (ymax, -ymin) / (ymax - ymin);
+			cx = view->base.allocation.x +
+				(view->base.allocation.w - view->base.allocation.h / ratio) / 2.
+				- view->base.allocation.h / ratio * xmin / (xmax - xmin);
+			cy = view->base.allocation.y - view->base.allocation.h * ymin / (ymax - ymin);
+		}
+		r_tot /= 1. + model->default_separation + separation_max;
+	} else {
+		/* centre things */
+		cx = view->base.allocation.x + view->base.allocation.w/2.;
+		cy = view->base.allocation.y + view->base.allocation.h/2.;
+
+		r_tot = view->base.allocation.h;
+		if (r_tot > view->base.allocation.w)
+			r_tot = view->base.allocation.w;
+		r_tot /= 2. * (1. + model->default_separation + separation_max);
 	}
-	return (int) index;
+
+	r = hypot (x - cx, y - cy);
+
+	default_sep = r_tot * model->default_separation;
+	center_radius = r_tot * center_size;
+	r_cur = r_tot * (1. - center_size);
+
+	if (r < center_radius)
+		return -1;
+
+	elem = model->base.index_num;
+	index = 1;
+	th0 = (model->initial_angle + pseries->initial_angle) * M_PI / 180. - M_PI / 2.;
+	th = atan2 (y - cy, x - cx);
+	if (th < th0)
+		th += 2 * M_PI;
+
+	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
+		pseries = ptr->data;
+
+		if (!gog_series_is_valid (GOG_SERIES (pseries)))
+			continue;
+		if (index > num_series) /* people snuck extra series into a pie */
+			break;
+
+		if (num_series == index)
+			r_cur -= outline_width_max / 2.0;
+		has_hole = center_radius > 0. || index > 1;
+		r_int = (has_hole)? (center_radius + r_cur * ((double) index - 1.0) / (double) num_series): 0.;
+		r_ext = center_radius + r_cur * (double) index / (double) num_series;
+
+		theta = th0;
+
+		scale = 2 * M_PI / 100 * model->span / pseries->total;
+		vals = go_data_get_values (pseries->base.values[1].data);
+
+		overrides = gog_series_get_overrides (GOG_SERIES (pseries));
+
+		for (k = 0 ; k < pseries->base.num_elements; k++) {
+			len = vals[k] * scale;
+			negative = len < 0;
+			if (negative) {
+				if (mode == GOG_SHOW_NEGS_SKIP) {
+					if ((overrides != NULL) &&
+					    (GOG_SERIES_ELEMENT (overrides->data)->index == k))
+						overrides = overrides->next;
+					continue;
+				}
+				len = -len;
+			}
+			if (!go_finite (len) || len < 1e-3) {
+				if ((overrides != NULL) &&
+				    (GOG_SERIES_ELEMENT (overrides->data)->index == k))
+					overrides = overrides->next;
+				continue;
+			}
+
+			gpse = NULL;
+			if ((overrides != NULL) &&
+			    (GOG_SERIES_ELEMENT (overrides->data)->index == k)) {
+				gpse = GOG_PIE_SERIES_ELEMENT (overrides->data);
+				overrides = overrides->next;
+			    }
+
+			/* only separate the outer ring */
+			separated_cx = cx;
+			separated_cy = cy;
+			if (num_series == index && (default_sep > 0. || gpse != NULL)) {
+
+				separation = default_sep;
+
+				if (gpse != NULL)
+					separation += gpse->separation * r_tot;
+
+				separated_cx += separation * cos (theta + len/2.);
+				separated_cy += separation * sin (theta + len/2.);
+				r = hypot (x - separated_cx, y - separated_cy);
+				th = atan2 (y - separated_cy, x - separated_cx);
+				if (th < th0)
+					th += 2 * M_PI;
+			}
+			theta += len;
+			if (r > r_int && r <= r_ext && th > theta - len && th <= theta) {
+				*series = GOG_SERIES (pseries);
+				return k;
+			}
+			if (gpse) {
+				r = hypot (x - cx, y - cy);
+				th = atan2 (y - cy, x - cx);
+				if (th < th0)
+					th += 2 * M_PI;
+			}
+		}
+		index ++;
+	}
+	return -1;
 }
 
 #define MAX_ARC_SEGMENTS 64

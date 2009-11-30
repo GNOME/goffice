@@ -1,3 +1,8 @@
+2009-11-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_pie/gog-pie.c (gog_pie_view_get_data_at_point): make
+	it work in all case, including split rings.
+
 2009-11-29  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
