@@ -457,7 +457,7 @@ gog_bubble_plot_set_property (GObject *obj, guint param_id,
 		bubble->in_3d = g_value_get_boolean (value);
 		break;
 	case GOG_BUBBLE_PROP_SCALE :
-		bubble->bubble_scale = g_value_get_float (value);
+		bubble->bubble_scale = g_value_get_double (value);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -486,7 +486,7 @@ gog_bubble_plot_get_property (GObject *obj, guint param_id,
 		g_value_set_boolean (value, bubble->in_3d);
 		break;
 	case GOG_BUBBLE_PROP_SCALE :
-		g_value_set_float (value, bubble->bubble_scale);
+		g_value_set_double (value, bubble->bubble_scale);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -530,7 +530,7 @@ gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_SCALE,
-		g_param_spec_float ("bubble-scale",
+		g_param_spec_double ("bubble-scale",
 			_("Bubble scale"),
 			_("Fraction of default radius used for display"),
 			0., 3., 1.,

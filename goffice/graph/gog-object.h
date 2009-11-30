@@ -49,7 +49,6 @@ struct _GogObjectRole {
 
 	union { /* allow people to tack some useful tidbits on the end */
 		int		i;
-		float		f;
 		gpointer	p;
 	} user;
 };

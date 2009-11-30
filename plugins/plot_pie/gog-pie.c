@@ -53,7 +53,7 @@ gog_pie_series_element_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case ELEMENT_SEPARATION:
-		pse->separation = g_value_get_float (value);
+		pse->separation = g_value_get_double (value);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -71,7 +71,7 @@ gog_pie_series_element_get_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case ELEMENT_SEPARATION:
-		g_value_set_float (value, pse->separation);
+		g_value_set_double (value, pse->separation);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -106,7 +106,7 @@ gog_pie_series_element_class_init (GogPieSeriesElementClass *klass)
 #endif
 
 	g_object_class_install_property (gobject_klass, ELEMENT_SEPARATION,
-		g_param_spec_float ("separation",
+		g_param_spec_double ("separation",
 			_("Separation"),
 			_("Amount a slice is extended as a percentage of the radius"),
 			0, 1000, 0.,
@@ -193,10 +193,10 @@ gog_pie_plot_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case PLOT_PROP_INITIAL_ANGLE:
-		pie->initial_angle = g_value_get_float (value);
+		pie->initial_angle = g_value_get_double (value);
 		break;
 	case PLOT_PROP_DEFAULT_SEPARATION: {
-		double f = g_value_get_float (value);
+		double f = g_value_get_double (value);
 		pie->default_separation = CLAMP (f, 0., 5.);
 		break;
 	}
@@ -204,7 +204,7 @@ gog_pie_plot_set_property (GObject *obj, guint param_id,
 		pie->in_3d = g_value_get_boolean (value);
 		break;
 	case PLOT_PROP_SPAN:
-		pie->span = g_value_get_float (value);
+		pie->span = g_value_get_double (value);
 		break;
 	case PLOT_PROP_SHOW_NEGS : {
 		GSList *ptr = GOG_PLOT (obj)->series;
@@ -234,16 +234,16 @@ gog_pie_plot_get_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case PLOT_PROP_INITIAL_ANGLE:
-		g_value_set_float (value, pie->initial_angle);
+		g_value_set_double (value, pie->initial_angle);
 		break;
 	case PLOT_PROP_DEFAULT_SEPARATION:
-		g_value_set_float (value, pie->default_separation);
+		g_value_set_double (value, pie->default_separation);
 		break;
 	case PLOT_PROP_IN_3D:
 		g_value_set_boolean (value, pie->in_3d);
 		break;
 	case PLOT_PROP_SPAN:
-		g_value_set_float (value, pie->span);
+		g_value_set_double (value, pie->span);
 		break;
 	case PLOT_PROP_SHOW_NEGS:
 		g_value_set_string (value, gog_show_neg_mode_as_str (pie->show_negatives));
@@ -301,13 +301,13 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 	gog_klass->view_type	= gog_pie_view_get_type ();
 
 	g_object_class_install_property (gobject_klass, PLOT_PROP_INITIAL_ANGLE,
-		g_param_spec_float ("initial-angle",
+		g_param_spec_double ("initial-angle",
 			_("Initial angle"),
 			_("Degrees clockwise from 12 O'Clock."),
 			0, G_MAXFLOAT, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_DEFAULT_SEPARATION,
-		g_param_spec_float ("default-separation",
+		g_param_spec_double ("default-separation",
 			_("Default separation"),
 			_("Default amount a slice is extended as a percentage of the radius"),
 			0, G_MAXFLOAT, 0.,
@@ -319,7 +319,7 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 			FALSE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_SPAN,
-		g_param_spec_float ("span",
+		g_param_spec_double ("span",
 			_("Span"),
 			_("Total angle used as a percentage of the full circle"),
 			10., 100., 100.,
@@ -385,7 +385,7 @@ gog_ring_plot_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case RING_PLOT_PROP_CENTER_SIZE:
-		ring->center_size = g_value_get_float (value);
+		ring->center_size = g_value_get_double (value);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -405,7 +405,7 @@ gog_ring_plot_get_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case RING_PLOT_PROP_CENTER_SIZE:
-		g_value_set_float (value, ring->center_size);
+		g_value_set_double (value, ring->center_size);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -451,7 +451,7 @@ gog_ring_plot_class_init (GogPiePlotClass *pie_plot_klass)
 #endif
 
 	g_object_class_install_property (gobject_klass, RING_PLOT_PROP_CENTER_SIZE,
-		g_param_spec_float ("center-size",
+		g_param_spec_double ("center-size",
 			_("Center-size"),
 			_("Size of the center hole as a percentage of the radius"),
 			0, 100., 0.,
@@ -1040,10 +1040,10 @@ gog_pie_series_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case SERIES_PROP_INITIAL_ANGLE:
-		pie->initial_angle = g_value_get_float (value);
+		pie->initial_angle = g_value_get_double (value);
 		break;
 	case SERIES_PROP_SEPARATION:
-		pie->separation = g_value_get_float (value);
+		pie->separation = g_value_get_double (value);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -1061,10 +1061,10 @@ gog_pie_series_get_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case SERIES_PROP_INITIAL_ANGLE:
-		g_value_set_float (value, pie->initial_angle);
+		g_value_set_double (value, pie->initial_angle);
 		break;
 	case SERIES_PROP_SEPARATION:
-		g_value_set_float (value, pie->separation);
+		g_value_set_double (value, pie->separation);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -1119,13 +1119,13 @@ gog_pie_series_class_init (GObjectClass *gobject_klass)
 	gobject_klass->get_property = gog_pie_series_get_property;
 
 	g_object_class_install_property (gobject_klass, SERIES_PROP_INITIAL_ANGLE,
-		g_param_spec_float ("initial-angle",
+		g_param_spec_double ("initial-angle",
 			_("Initial-angle"),
 			_("Degrees clockwise from 12 O'Clock"),
 			0, G_MAXFLOAT, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_SEPARATION,
-		g_param_spec_float ("separation",
+		g_param_spec_double ("separation",
 			_("Separation"),
 			_("Default amount a slice is extended as a percentage of the radius"),
 			0, G_MAXFLOAT, 0.,

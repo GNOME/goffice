@@ -141,9 +141,8 @@ gog_pie_plot_pref_signal_connect (GogPiePlot *pie, GtkBuilder *gui)
 static void
 cb_update_editor (GogPiePlot *pie, PiePrefState *state)
 {
-	gfloat value;
-
 	if (state->separation_spinner != NULL) {
+		double value;
 		g_object_get (G_OBJECT (pie), "default-separation", &value, NULL);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->separation_spinner), value * 100.0);
 	}
