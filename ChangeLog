@@ -1,3 +1,9 @@
+2009-12-02  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-cmd-context.c (go_cmd_context_progress_set,
+	go_cmd_context_progress_message_set, go_cmd_context_get_password,
+	go_cmd_context_set_sensitive): Make implementation optional.
+
 2009-11-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_pie/gog-pie.c (gog_pie_view_get_data_at_point): make

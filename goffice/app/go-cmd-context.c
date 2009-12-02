@@ -105,7 +105,8 @@ go_cmd_context_progress_set (GOCmdContext *context, double f)
 {
 	g_return_if_fail (GO_IS_CMD_CONTEXT (context));
 
-	GCC_CLASS (context)->progress_set (context, f);
+	if (GCC_CLASS (context)->progress_set)
+		GCC_CLASS (context)->progress_set (context, f);
 }
 
 void
@@ -115,7 +116,9 @@ go_cmd_context_progress_message_set (GOCmdContext *context, gchar const *msg)
 
 	if (msg == NULL)
 		msg = " ";
-	GCC_CLASS (context)->progress_message_set (context, msg);
+
+	if (GCC_CLASS (context)->progress_message_set)
+		GCC_CLASS (context)->progress_message_set (context, msg);
 }
 
 char *
@@ -123,7 +126,9 @@ go_cmd_context_get_password (GOCmdContext *cc, char const *filename)
 {
 	g_return_val_if_fail (GO_IS_CMD_CONTEXT (cc), NULL);
 
-	return GCC_CLASS (cc)->get_password (cc, filename);
+	return GCC_CLASS (cc)->get_password
+		? GCC_CLASS (cc)->get_password (cc, filename)
+		: NULL;
 }
 
 void
@@ -131,7 +136,8 @@ go_cmd_context_set_sensitive (GOCmdContext *cc, gboolean sensitive)
 {
 	g_return_if_fail (GO_IS_CMD_CONTEXT (cc));
 
-	GCC_CLASS (cc)->set_sensitive (cc, sensitive);
+	if (GCC_CLASS (cc)->set_sensitive)
+		GCC_CLASS (cc)->set_sensitive (cc, sensitive);
 }
 
 GType
