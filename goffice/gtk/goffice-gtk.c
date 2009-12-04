@@ -912,7 +912,7 @@ go_help_display (CBHelpPaths const *paths)
 							      i, path, line);
 					continue;
 				}
-				for (; *topic == ' '; ++topic);
+				for (; *topic == ' ' || *topic == '\t'; ++topic);
 				g_hash_table_insert (context_help_map, g_strdup (topic),
 					(gpointer)id);
 			}
