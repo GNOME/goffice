@@ -1,3 +1,8 @@
+2009-12-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-item.c (goc_item_bounds_changed): do not invalidate
+	the whole canvas when an item bounds change. [#603813]
+
 2009-12-04  Jody Goldberg <jody@gnome.org>
 
 	* goffice/gtk/goffice-gtk.c (go_help_display) : support tab as a

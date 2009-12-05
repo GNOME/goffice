@@ -521,9 +521,11 @@ goc_item_bounds_changed (GocItem *item)
 	if (item->cached_bounds) {
 		goc_item_invalidate (item);
 		item->cached_bounds = FALSE;
+		while (item->parent) {
+			item = item->parent;
+			item->cached_bounds = FALSE;
+		}
 	}
-	if (item->parent)
-		goc_item_bounds_changed (GOC_ITEM (item->parent));
 }
 
 /**
