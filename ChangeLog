@@ -1,3 +1,8 @@
+2009-12-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c (goc_canvas_invalidate): really pass width
+	and height to gtk_widget_queue_draw_area.
+
 2009-12-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-item.c (goc_item_bounds_changed): do not invalidate

@@ -440,7 +440,8 @@ goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, doubl
 	if (x1 > x0 && y1 > y0)
 		gtk_widget_queue_draw_area (GTK_WIDGET (canvas),
 					    (int) floor (x0), (int) floor (y0),
-					    (int) ceil (x1), (int) ceil (y1));
+					    (int) ceil (x1) - (int) floor (x0),
+		                            (int) ceil (y1) - (int) floor (y0));
 }
 
 /**
