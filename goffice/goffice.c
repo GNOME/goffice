@@ -86,12 +86,11 @@ go_sys_lib_dir (void)
 	return libgoffice_lib_dir;
 }
 
+static int initialized = 0;
 void
 libgoffice_init (void)
 {
-	static gboolean initialized = FALSE;
-
-	if (initialized)
+	if (initialized++)
 		return;
 
 #ifdef G_OS_WIN32
@@ -165,6 +164,8 @@ libgoffice_init (void)
 void
 libgoffice_shutdown (void)
 {
+	if (--initialized)
+		return;
 	_gog_themes_shutdown ();
 	_go_fonts_shutdown ();
 	_go_conf_shutdown ();

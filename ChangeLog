@@ -1,3 +1,8 @@
+2009-12-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/goffice.c (libgoffice_init), (libgoffice_shutdown): allow
+	multiple calls to libgoffice_shutdown.
+
 2009-12-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-canvas.c (goc_canvas_invalidate): really pass width
