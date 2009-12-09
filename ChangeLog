@@ -1,5 +1,9 @@
 2009-12-09  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-grid.c (gog_grid_view_xyz_render): still others.
+
+2009-12-09  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-grid-line.c (gog_grid_line_xyz_render): fixed
 	some more leaks.
 
