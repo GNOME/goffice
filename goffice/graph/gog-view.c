@@ -981,6 +981,7 @@ gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, 
 	GogView *pointed_view;
 	GSList const *ptr;
 	GSList *list;
+	GogTool *current_tool;
 
 	g_return_val_if_fail (GOG_IS_VIEW (view), NULL);
 
@@ -995,11 +996,13 @@ gog_view_get_view_at_point (GogView *view, double x, double y, GogObject **obj, 
 	}
 	g_slist_free (list);
 
-	*tool = gog_view_get_tool_at_point (view, x, y, obj);
-	if (*tool != NULL)
+	if ((current_tool = gog_view_get_tool_at_point (view, x, y, obj))) {
+		if (tool != NULL)
+			*tool = current_tool;
 		return view;
+	}
 
-	if (*obj)
+	if (obj && *obj)
 		*obj = NULL;
 	return NULL;
 }

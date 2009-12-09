@@ -252,7 +252,6 @@ goc_graph_do_tooltip (GocGraph *graph)
 	GogView *view;
 	char *buf = NULL, *s1 = NULL, *s2 = NULL;
 	GogObject *obj;
-	GogTool *tool;
 	GogChart *chart;
 	GogViewAllocation alloc;
 	double xpos, ypos;
@@ -274,7 +273,7 @@ goc_graph_do_tooltip (GocGraph *graph)
 
 	/* get the GogView at the cursor position */
 	g_object_get (G_OBJECT (graph->renderer), "view", &view, NULL);
-	gog_view_get_view_at_point (view, x, y, &obj, &tool);
+	gog_view_get_view_at_point (view, x, y, &obj, NULL);
 	if (!obj)
 		goto tooltip;
 	chart = GOG_CHART (gog_object_get_parent_typed (obj, GOG_TYPE_CHART));

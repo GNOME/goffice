@@ -1,5 +1,12 @@
 2009-12-09  Jean Brefort  <jean.brefort@normalesup.org>
 
+	reviewed by: <delete if not using a buddy>
+
+	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip):
+	* goffice/graph/gog-view.c (gog_view_get_view_at_point):
+
+2009-12-09  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-grid.c (gog_grid_view_xyz_render): still others.
 
 2009-12-09  Jean Brefort  <jean.brefort@normalesup.org>
