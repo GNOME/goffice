@@ -1698,13 +1698,21 @@ ghf_collect_new_plugins (gpointer ignored,
 }
 
 static void
+append_dir (gpointer data, G_GNUC_UNUSED gpointer user_data)
+{
+	if (g_slist_find_custom (go_plugin_dirs, data, (GCompareFunc) strcmp))
+		g_free (data);
+	else
+		go_plugin_dirs = g_slist_append (go_plugin_dirs, data);
+}
+
+static void
 go_plugins_set_dirs (GSList *plugin_dirs)
 {
-	if (go_plugin_dirs != plugin_dirs) {
-		g_slist_foreach (go_plugin_dirs, (GFunc) g_free, NULL);
-		g_slist_free (go_plugin_dirs);
-		go_plugin_dirs = plugin_dirs;
-	}
+	if (!go_plugin_dirs)
+		go_plugin_dirs = g_slist_prepend (NULL, go_plugins_get_plugin_dir ());
+	g_slist_foreach (plugin_dirs, append_dir, NULL);
+	g_slist_free (plugin_dirs);
 }
 
 /**
@@ -1730,8 +1738,6 @@ go_plugins_init (GOCmdContext *context,
 	GSList *error_list = NULL;
 	GOErrorInfo *error;
 	GSList *plugin_list;
-
-	plugin_dirs = g_slist_append (plugin_dirs, go_plugins_get_plugin_dir ());
 
 	go_default_loader_type = default_loader_type;
 	go_plugins_set_dirs (plugin_dirs);
@@ -1817,8 +1823,6 @@ go_plugins_add (GOCmdContext *context,
 	GSList *error_list = NULL;
 	GOErrorInfo *error;
 	GSList *plugin_list;
-
-	plugin_dirs = g_slist_append (plugin_dirs, go_plugins_get_plugin_dir ());
 
 	go_default_loader_type = default_loader_type;
 	go_plugins_set_dirs (plugin_dirs);
@@ -1927,6 +1931,12 @@ go_plugins_shutdown (void)
 	g_hash_table_destroy (loader_services);
 	g_hash_table_destroy (available_plugins_id_hash);
 	go_slist_free_custom (available_plugins, g_object_unref);
+
+	if (go_plugin_dirs) {
+		g_slist_foreach (go_plugin_dirs, (GFunc) g_free, NULL);
+		g_slist_free (go_plugin_dirs);
+		go_plugin_dirs = NULL;
+	}
 
 	return used_plugin_state_strings;
 }
