@@ -83,15 +83,15 @@ typedef struct {
 		} image;
 	} fill;
 	struct {
+		GtkWidget *color;
+	} line;
+	struct {
 		GtkWidget *selector;
+		GtkWidget *fill;
+		GtkWidget *outline;
 	} marker;
 	GODoc *doc;
 } StylePrefState;
-
-static void
-cb_style_changed (GOStyledObject *obj, GOStyle *style, StylePrefState *state)
-{
-}
 
 static void
 set_style (StylePrefState const *state)
@@ -219,7 +219,7 @@ outline_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 		"value_changed",
 		G_CALLBACK (cb_outline_size_changed), state);
 	/* Color */
-	w = create_go_combo_color (state,
+	state->line.color = w = create_go_combo_color (state,
 		style->line.color, default_style->line.color,
 		state->gui,
 		"outline_color", "outline_color_label",
@@ -295,7 +295,7 @@ line_init (StylePrefState *state, gboolean enable, GOEditor *editor)
 		G_CALLBACK (cb_line_size_changed), state);
 
 	/* Colour */
-	w = create_go_combo_color (state,
+	state->line.color = w = create_go_combo_color (state,
 		style->line.color, default_style->line.color,
 		state->gui,
 		"line_color", "line_color_label",
@@ -763,13 +763,13 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 	gtk_widget_show (selector);
 
 	if ((style->interesting_fields & GO_STYLE_MARKER_NO_COLOR ) == 0)
-		w = create_go_combo_color (state,
+		state->marker.fill = w = create_go_combo_color (state,
 			go_marker_get_fill_color (style->marker.mark),
 			go_marker_get_fill_color (default_style->marker.mark),
 			gui, "pattern_background", "marker_fill_label",
 			G_CALLBACK (cb_marker_fill_color_changed));
 	else {
-		w = create_go_combo_color (state,
+		state->marker.fill = w = create_go_combo_color (state,
 			GO_COLOR_BLUE, GO_COLOR_BLUE,
 			gui, "pattern_background", "marker_fill_label",
 			G_CALLBACK (cb_marker_fill_color_changed));
@@ -778,13 +778,13 @@ marker_init (StylePrefState *state, gboolean enable, GOEditor *editor, GOCmdCont
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
 
 	if ((style->interesting_fields & GO_STYLE_MARKER_NO_COLOR ) == 0)
-		w = create_go_combo_color (state,
+		state->marker.outline = w = create_go_combo_color (state,
 			go_marker_get_outline_color (style->marker.mark),
 			go_marker_get_outline_color (default_style->marker.mark),
 			gui, "pattern_foreground", "marker_outline_label",
 			G_CALLBACK (cb_marker_outline_color_changed));
 	else {
-		w = create_go_combo_color (state,
+		state->marker.outline = w = create_go_combo_color (state,
 			GO_COLOR_BLUE, GO_COLOR_BLUE,
 			gui, "pattern_background", "marker_fill_label",
 			G_CALLBACK (cb_marker_outline_color_changed));
@@ -936,6 +936,57 @@ go_style_pref_state_free (StylePrefState *state)
 	if (state->fill.image.image != NULL)
 		g_object_unref (state->fill.image.image);
 	g_free (state);
+}
+
+static void
+cb_style_changed (GOStyledObject *obj, GOStyle *style, StylePrefState *state)
+{
+	if (style->interesting_fields & GO_STYLE_FILL)
+		fill_update_selectors (state);
+	if (style->interesting_fields & GO_STYLE_LINE) {
+		g_signal_handlers_block_by_func (state->line.color, cb_line_color_changed,
+						 (gpointer) state);
+		go_color_selector_set_color (GO_SELECTOR (state->line.color),
+					     style->line.color);
+		g_signal_handlers_unblock_by_func (state->line.color, cb_line_color_changed,
+						 (gpointer) state);
+	}
+	if (style->interesting_fields & GO_STYLE_OUTLINE) {
+		g_signal_handlers_block_by_func (state->line.color, cb_outline_color_changed,
+						 (gpointer) state);
+		go_color_selector_set_color (GO_SELECTOR (state->line.color),
+					     style->line.color);
+		g_signal_handlers_unblock_by_func (state->line.color, cb_outline_color_changed,
+						 (gpointer) state);
+	}
+	if (style->interesting_fields & GO_STYLE_MARKER) {
+		g_signal_handlers_block_by_func (state->marker.selector, cb_marker_shape_changed,
+						 (gpointer) state);
+		go_marker_selector_set_shape (GO_SELECTOR (state->marker.selector),
+					       go_marker_get_shape (style->marker.mark));
+		if ((style->interesting_fields & GO_STYLE_MARKER_NO_COLOR )== 0)
+			go_marker_selector_set_colors (GO_SELECTOR (state->marker.selector),
+						       go_marker_get_outline_color (style->marker.mark),
+						       go_marker_get_fill_color (style->marker.mark));
+		else
+			go_marker_selector_set_colors (GO_SELECTOR (state->marker.selector),
+						       GO_COLOR_BLUE, GO_COLOR_BLUE);
+		g_signal_handlers_unblock_by_func (state->marker.selector, cb_marker_shape_changed,
+						 (gpointer) state);
+		g_signal_handlers_block_by_func (state->marker.fill, cb_marker_fill_color_changed,
+						 (gpointer) state);
+		go_color_selector_set_color (GO_SELECTOR (state->marker.fill),
+					     go_marker_get_fill_color (style->marker.mark));
+		g_signal_handlers_unblock_by_func (state->marker.fill, cb_marker_fill_color_changed,
+						 (gpointer) state);
+		g_signal_handlers_block_by_func (state->marker.outline, cb_marker_outline_color_changed,
+						 (gpointer) state);
+		go_color_selector_set_color (GO_SELECTOR (state->marker.outline),
+					     go_marker_get_outline_color (style->marker.mark));
+		g_signal_handlers_unblock_by_func (state->marker.outline, cb_marker_outline_color_changed,
+						 (gpointer) state);
+	}
+
 }
 
 void

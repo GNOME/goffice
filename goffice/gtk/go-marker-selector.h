@@ -31,6 +31,8 @@ GtkWidget	*go_marker_selector_new		(GOMarkerShape initial_shape,
 void 		 go_marker_selector_set_colors  (GOSelector *selector,
 						 GOColor outline,
 						 GOColor fill);
+void		 go_marker_selector_set_shape   (GOSelector *selector,
+						 GOMarkerShape shape);
 
 G_END_DECLS
 

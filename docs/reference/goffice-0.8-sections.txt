@@ -1758,6 +1758,7 @@ go_marker_create_cairo_surface
 go_marker_render
 go_marker_selector_new
 go_marker_selector_set_colors
+go_marker_selector_set_shape
 </SECTION>
 
 <SECTION>

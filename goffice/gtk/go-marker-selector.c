@@ -111,3 +111,20 @@ go_marker_selector_set_colors (GOSelector *selector, GOColor outline, GOColor fi
 	state->fill_color = fill;
 	go_selector_update_swatch (selector);
 }
+
+/**
+ * go_marker_selector_set_shape:
+ * @selector: a #GOSelector
+ * @shape: new marker shape
+ *
+ * Updates marker shape of @selector.
+ **/
+void
+go_marker_selector_set_shape (GOSelector *selector, GOMarkerShape shape)
+{
+	g_return_if_fail (GO_IS_SELECTOR (selector));
+
+	go_selector_set_active (GO_SELECTOR (selector),
+				CLAMP (shape, 0, GO_MARKER_MAX - 1));
+	go_selector_update_swatch (selector);
+}

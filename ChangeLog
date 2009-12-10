@@ -1,9 +1,11 @@
-2009-12-09  Jean Brefort  <jean.brefort@normalesup.org>
+2009-12-10  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip):
-	* goffice/graph/gog-view.c (gog_view_get_view_at_point):
+	* docs/reference/goffice-0.8-sections.txt: add new function.
+	* goffice/gtk/go-marker-selector.c (go_marker_selector_set_shape): ditto.
+	* goffice/gtk/go-marker-selector.h: ditto.
+	* goffice/utils/go-style.c (outline_init), (line_init),
+	(marker_init), (cb_style_changed): update property page after style changes
+	when reordering. [#604229]
 
 2009-12-09  Jean Brefort  <jean.brefort@normalesup.org>
 

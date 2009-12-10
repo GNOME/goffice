@@ -2,6 +2,7 @@ goffice 0.7.17:
 
 Jean:
 	* Fixed a canvas perfomrance issue. [#603813]
+	+ Update property page when style changes after reordering. [#604229]
 
 Jody:
 	* Fix context sensitive help support on win32.
