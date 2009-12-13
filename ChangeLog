@@ -1,3 +1,8 @@
+2009-12-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-graph.c (goc_graph_set_property): invalidate bounds
+	after setting horizontal position.
+
 2009-12-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* docs/reference/goffice-0.8-sections.txt: add new function.

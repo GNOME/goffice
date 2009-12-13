@@ -59,7 +59,7 @@ goc_graph_set_property (GObject *obj, guint param_id,
 		if (x == graph->x)
 			return;
 		graph->x = x;
-		return;
+		break;
 	}
 	case GRAPH_PROP_Y: {
 		double y = g_value_get_double (value);
