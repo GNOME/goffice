@@ -1,3 +1,7 @@
+2009-12-15  Morten Welinder <terra@gnome.org>
+
+	* Release 0.7.17
+
 2009-12-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-graph.c (goc_graph_set_property): invalidate bounds
