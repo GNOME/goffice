@@ -1,3 +1,7 @@
+2009-12-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c (goc_canvas_c2w): fixed rounding to int.
+
 2009-12-05  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

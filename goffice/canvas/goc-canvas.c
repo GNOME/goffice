@@ -609,10 +609,10 @@ goc_canvas_c2w (GocCanvas *canvas, double x, double y, int *x_, int *y_)
 {
 	if (x_) {
 		if (canvas->direction == GOC_DIRECTION_RTL)
-			*x_ = canvas->width - (x - canvas->scroll_x1) * canvas->pixels_per_unit;
+			*x_ = go_fake_round (canvas->width - (x - canvas->scroll_x1) * canvas->pixels_per_unit);
 		else
-			*x_ = (x - canvas->scroll_x1) * canvas->pixels_per_unit;
+			*x_ = go_fake_round ((x - canvas->scroll_x1) * canvas->pixels_per_unit);
 	}
 	if (y_)
-		*y_ = (y - canvas->scroll_y1) * canvas->pixels_per_unit;
+		*y_ = go_fake_round ((y - canvas->scroll_y1) * canvas->pixels_per_unit);
 }
