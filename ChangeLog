@@ -1,3 +1,9 @@
+2009-12-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_barcol/gog-barcol.c
+	(gog_barcol_view_get_data_at_point), (gog_barcol_view_render),
+	(gog_barcol_view_class_init): implement get_data_at_point for bar/columns.
+
 2009-12-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-canvas.c (goc_canvas_c2w): fixed rounding to int.

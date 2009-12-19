@@ -353,6 +353,165 @@ typedef struct {
 	double		y;
 } ErrorBarData;
 
+static int
+gog_barcol_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries **series)
+{
+	GogBarColPlot const *model = GOG_BARCOL_PLOT (view->base.model);
+	GogPlot1_5d const *gog_1_5d_model = GOG_PLOT1_5D (model);
+	GogSeries1_5d const *pseries;
+	GogChart *chart = GOG_CHART (view->base.model->parent);
+	GogChartMap *chart_map;
+	GogAxisMap *x_map, *y_map, *map;
+	GogViewAllocation work;
+	GogViewAllocation const *area;
+	unsigned num_elements = gog_1_5d_model->num_elements;
+	unsigned num_series = gog_1_5d_model->num_series;
+	gboolean is_vertical = ! (model->horizontal), valid;
+	double **vals, sum, neg_base, pos_base, tmp;
+	double col_step, group_step, offset, data_scale;
+	unsigned i, j, jinit, jend, jstep;
+	GogPlot1_5dType const type = gog_1_5d_model->type;
+	GSList *ptr;
+	unsigned *lengths;
+
+	if (num_elements <= 0 || num_series <= 0)
+		return -1;
+
+	area = gog_chart_view_get_plot_area (view->base.parent);
+	chart_map = gog_chart_map_new (chart, area,
+				       GOG_PLOT (model)->axis[GOG_AXIS_X],
+				       GOG_PLOT (model)->axis[GOG_AXIS_Y],
+				       NULL, FALSE);
+	if (!gog_chart_map_is_valid (chart_map)) {
+		gog_chart_map_free (chart_map);
+		return -1;
+	}
+
+	x_map = gog_chart_map_get_axis_map (chart_map, 0);
+	y_map = gog_chart_map_get_axis_map (chart_map, 1);
+
+	map = is_vertical ? y_map : x_map;
+
+	vals = g_alloca (num_series * sizeof (double *));
+	lengths = g_alloca (num_series * sizeof (unsigned));
+
+	i = 0;
+	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
+		pseries = ptr->data;
+		if (!gog_series_is_valid (GOG_SERIES (pseries)))
+			continue;
+		vals[i] = go_data_get_values (pseries->base.values[1].data);
+		lengths[i] = go_data_get_vector_size (pseries->base.values[1].data);
+		i++;
+	}
+
+	/* work in coordinates drawing bars from the top */
+	col_step = 1. - model->overlap_percentage / 100.;
+	group_step = model->gap_percentage / 100.;
+	work.h = 1.0 / (1. + ((num_series - 1.0) * col_step) + group_step);
+	col_step *= work.h;
+	offset = (col_step * (num_series - 1.0) + work.h) / 2.0;
+	data_scale = 1.0;
+	if (type == GOG_1_5D_NORMAL) {
+		/* we need to start from last series because they may overlap */
+		jinit = num_series - 1;
+		jstep = jend = -1;
+	} else {
+		jinit = 0;
+		jend = num_series;
+		jstep = 1;
+	}
+
+	for (i = 0 ; i < num_elements ; i++) {
+		if (type == GOG_1_5D_AS_PERCENTAGE) {
+			sum = 0.;
+			for (j = num_series ; j-- > 0 ; ) {
+				if (i >= lengths[j])
+					continue;
+				tmp = vals[j][i];
+				if (!gog_axis_map_finite (map, tmp))
+					continue;
+				if (tmp > 0.)
+					sum += tmp;
+				else
+					sum -= tmp;
+			}
+
+			data_scale = (fabs (go_sub_epsilon (sum)) > 0.0) ? 1.0 / sum : 1.0;
+		}
+
+		pos_base = neg_base = 0.0;
+		for (j = jinit; j != jend; j += jstep) {
+			double x0, y0, x1, y1;
+			work.y = (double) j * col_step + (double) i - offset + 1.0;
+
+			if (i >= lengths[j])
+				continue;
+			
+			tmp = vals[j][i];
+			valid = TRUE;
+			if (!gog_axis_map_finite (map, tmp)) {
+				tmp = 0;
+				valid = FALSE;
+			}
+			tmp *= data_scale;
+			if (tmp >= 0.) {
+				work.x = pos_base;
+				work.w = tmp;
+				if (GOG_1_5D_NORMAL != type)
+					pos_base += tmp;
+			} else {
+				work.x = neg_base + tmp;
+				work.w = -tmp;
+				if (GOG_1_5D_NORMAL != type)
+					neg_base += tmp;
+			}
+
+			if (is_vertical) {
+				x0 = gog_axis_map_to_view (x_map, work.y);
+				x1 = gog_axis_map_to_view (x_map, work.y + work.h);
+				if (gog_axis_map_finite (y_map, work.x))
+					y0 = gog_axis_map_to_view (y_map, work.x);
+				else
+					y0 = gog_axis_map_get_baseline (y_map);
+				if (gog_axis_map_finite (y_map, work.x + work.w))
+					y1 = gog_axis_map_to_view (y_map, work.x + work.w);
+				else
+					y1 = gog_axis_map_get_baseline (y_map);
+			} else {
+				if (gog_axis_map_finite (x_map, work.x))
+					x0 = gog_axis_map_to_view (x_map, work.x);
+				else
+					x0 = gog_axis_map_get_baseline (x_map);
+				if (gog_axis_map_finite (x_map, work.x + work.w))
+					x1 = gog_axis_map_to_view (x_map, work.x + work.w);
+				else
+					x1 = gog_axis_map_get_baseline (x_map);
+				y0 = gog_axis_map_to_view (y_map, work.y);
+				y1 = gog_axis_map_to_view (y_map, work.y + work.h);
+			}
+			if (x0 > x1) {
+				tmp = x0;
+				x0 = x1;
+				x1 = tmp;
+			}
+			if (y0 > y1) {
+				tmp = y0;
+				y0 = y1;
+				y1 = tmp;
+			}
+			if (x >= x0 && x <= x1 && y >= y0 && y <= y1) {
+				*series = GOG_SERIES (g_slist_nth_data (gog_1_5d_model->base.series, j));
+				gog_chart_map_free (chart_map);
+				return i;
+			}
+		}
+	}
+
+	gog_chart_map_free (chart_map);
+	return -1;
+}
+
 static void
 gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 {
@@ -465,7 +624,6 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 
 		pos_base = neg_base = 0.0;
-		ptr = gog_1_5d_model->base.series;
 		for (j = 0 ; j < num_series ; j++) {
 			work.y = (double) j * col_step + (double) i - offset + 1.0;
 
@@ -539,7 +697,6 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 							 gog_axis_map_to_view (y_map, work.y + work.h));
 				}
 			}
-			ptr = ptr->next;
 		}
 	}
 	/*Now draw error bars and clean*/
@@ -567,8 +724,11 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 static void
 gog_barcol_view_class_init (GogViewClass *view_klass)
 {
+	GogPlotViewClass *pv_klass = (GogPlotViewClass *) view_klass;
+
 	view_klass->render	  = gog_barcol_view_render;
 	view_klass->clip	  = TRUE;
+	pv_klass->get_data_at_point = gog_barcol_view_get_data_at_point;
 }
 
 GSF_DYNAMIC_CLASS (GogBarColView, gog_barcol_view,
