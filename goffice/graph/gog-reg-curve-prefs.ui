@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <interface>
+  <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkTable" id="reg-curve-prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="n_rows">3</property>
+    <property name="n_rows">4</property>
     <property name="n_columns">2</property>
     <property name="column_spacing">12</property>
     <property name="row_spacing">6</property>
@@ -16,6 +17,8 @@
         <property name="label" translatable="yes">Low bound:</property>
       </object>
       <packing>
+        <property name="top_attach">1</property>
+        <property name="bottom_attach">2</property>
         <property name="x_options">GTK_FILL</property>
         <property name="y_options"></property>
       </packing>
@@ -28,8 +31,8 @@
         <property name="label" translatable="yes">High bound:</property>
       </object>
       <packing>
-        <property name="top_attach">1</property>
-        <property name="bottom_attach">2</property>
+        <property name="top_attach">2</property>
+        <property name="bottom_attach">3</property>
         <property name="x_options">GTK_FILL</property>
         <property name="y_options"></property>
       </packing>
@@ -45,11 +48,25 @@
       </object>
       <packing>
         <property name="right_attach">2</property>
-        <property name="top_attach">2</property>
-        <property name="bottom_attach">3</property>
+        <property name="top_attach">3</property>
+        <property name="bottom_attach">4</property>
         <property name="x_options">GTK_FILL</property>
         <property name="y_options"></property>
       </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="name-label">
+        <property name="visible">True</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">(_Name):</property>
+        <property name="use_underline">True</property>
+      </object>
+      <packing>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <placeholder/>
     </child>
     <child>
       <placeholder/>

@@ -1,3 +1,13 @@
+2009-12-21  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-reg-curve-prefs.ui: add a name to regression curves
+	for display in legends. [#605040]
+	* goffice/graph/gog-reg-curve.c (gog_reg_curve_populate_editor),
+	(gog_reg_curve_finalize), (gog_reg_curve_init),
+	(gog_reg_curve_dataset_dims), (gog_reg_curve_dataset_get_elem),
+	(gog_reg_curve_dataset_dim_changed):
+	* goffice/graph/gog-reg-curve.h: ditto.
+
 2009-12-19  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-barcol.c

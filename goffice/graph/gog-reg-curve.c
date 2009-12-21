@@ -71,12 +71,15 @@ gog_reg_curve_populate_editor (GogObject	*gobj,
 			     _("Details"));
 
 	table = GTK_TABLE (gtk_builder_get_object (gui, "reg-curve-prefs"));
-	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 0, GOG_DATA_SCALAR));
+	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, -1, GOG_DATA_SCALAR));
 	gtk_widget_show (w);
 	gtk_table_attach (table, w, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 1, GOG_DATA_SCALAR));
+	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 0, GOG_DATA_SCALAR));
 	gtk_widget_show (w);
 	gtk_table_attach (table, w, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	w = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, 1, GOG_DATA_SCALAR));
+	gtk_widget_show (w);
+	gtk_table_attach (table, w, 1, 2, 2, 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	w = go_gtk_builder_get_widget (gui, "skip-invalid");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 					(GOG_REG_CURVE (gobj))->skip_invalid);
@@ -128,7 +131,7 @@ gog_reg_curve_finalize (GObject *obj)
 	GogRegCurve *rc = GOG_REG_CURVE (obj);
 	if (rc->bounds != NULL) {
 		gog_dataset_finalize (GOG_DATASET (obj));
-		g_free (rc->bounds);
+		g_free (rc->bounds - 1); /* aliased pointer */
 		rc->bounds = NULL;
 	}
 	g_free (rc->a);
@@ -186,13 +189,13 @@ static void
 gog_reg_curve_init (GogRegCurve *reg_curve)
 {
 	reg_curve->ninterp = 100;
-	reg_curve->bounds = g_new0 (GogDatasetElement, 2);
+	reg_curve->bounds = g_new0 (GogDatasetElement,3) + 1;
 }
 
 static void
 gog_reg_curve_dataset_dims (GogDataset const *set, int *first, int *last)
 {
-	*first = 0;
+	*first = -1;
 	*last = 1;
 }
 
@@ -201,14 +204,21 @@ gog_reg_curve_dataset_get_elem (GogDataset const *set, int dim_i)
 {
 	GogRegCurve const *rc = GOG_REG_CURVE (set);
 	g_return_val_if_fail (2 > dim_i, NULL);
-	g_return_val_if_fail (dim_i >= 0, NULL);
+	g_return_val_if_fail (dim_i >= -1, NULL);
 	return rc->bounds + dim_i;
 }
 
 static void
 gog_reg_curve_dataset_dim_changed (GogDataset *set, int dim_i)
 {
-	gog_object_request_update (GOG_OBJECT (set));
+	if (dim_i == -1) {
+		GogRegCurve const *rc = GOG_REG_CURVE (set);
+		GOData *name_src = rc->bounds[-1].data;
+		char *name = (name_src != NULL)
+			? go_data_get_scalar_string (name_src) : NULL;
+		gog_object_set_name (GOG_OBJECT (set), name, NULL);
+	} else
+		gog_object_request_update (GOG_OBJECT (set));
 }
 
 static void
