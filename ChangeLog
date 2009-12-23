@@ -1,3 +1,8 @@
+2009-12-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_get_data_at_point),
+	(gog_xy_view_class_init): new implementation of get_data_at_point.
+
 2009-12-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-reg-curve-prefs.ui: add a name to regression curves

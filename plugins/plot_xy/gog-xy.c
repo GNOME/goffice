@@ -861,6 +861,143 @@ typedef struct {
 	unsigned index;
 } MarkerData;
 
+static int
+gog_xy_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries **series)
+{
+	Gog2DPlot const *model = GOG_2D_PLOT (view->base.model);
+	unsigned num_series;
+	GogChart *chart = GOG_CHART (view->base.model->parent);
+	GogChartMap *chart_map;
+	GogAxisMap *x_map, *y_map;
+	GogXYSeries const *pseries = NULL;
+	int i = -1, dist, n, max_dist = 0, line_dist = 0;
+	GOStyle *style;
+	GogViewAllocation const *area;
+	double const *y_vals, *x_vals, *z_vals;
+	double zmax, rmax = 0., xc, yc, zc;
+	gboolean show_negatives, size_as_area = TRUE, is_bubble = GOG_IS_BUBBLE_PLOT (model);
+	GSList *ptr, *ser;
+	GogSeriesElement *gse;
+	GList *overrides; /* not const because we call g_list_* which have no const equivalent */
+
+	for (num_series = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, num_series++);
+	if (num_series < 1)
+		return -1;
+
+	area = gog_chart_view_get_plot_area (view->base.parent);
+	chart_map = gog_chart_map_new (chart, area,
+				       GOG_PLOT (model)->axis[GOG_AXIS_X],
+				       GOG_PLOT (model)->axis[GOG_AXIS_Y],
+				       NULL, FALSE);
+	if (!gog_chart_map_is_valid (chart_map)) {
+		gog_chart_map_free (chart_map);
+		return -1;
+	}
+
+	x_map = gog_chart_map_get_axis_map (chart_map, 0);
+	y_map = gog_chart_map_get_axis_map (chart_map, 1);
+
+	/* because series and overrides are GSLists, we have to copy the lists and to 
+	 reverse them to get the right point (in case of overlap) */
+	ser = g_slist_reverse (g_slist_copy (model->base.series));
+	for (ptr = ser ; ptr != NULL ; ptr = ptr->next) {
+		pseries = ptr->data;
+
+		if (!gog_series_is_valid (GOG_SERIES (pseries)))
+			continue;
+
+		if (is_bubble)
+			n = gog_series_get_xyz_data (GOG_SERIES (pseries), &x_vals, &y_vals, &z_vals);
+		else
+			n = gog_series_get_xy_data (GOG_SERIES (pseries), &x_vals, &y_vals);
+		if (n < 1)
+			continue;
+
+		if (!is_bubble) {
+			style = go_styled_object_get_style (GO_STYLED_OBJECT (pseries));
+			if (go_style_is_line_visible (style))
+				line_dist = ceil (style->line.width / 2);
+			if (go_style_is_marker_visible (style))
+				max_dist = (go_marker_get_size (style->marker.mark) + 1) / 2;
+			else if (go_style_is_line_visible (style))
+				max_dist = line_dist;
+			else
+				max_dist = 0;
+		} else {
+			double zmin;
+			go_data_get_bounds (pseries->base.values[2].data, &zmin, &zmax);
+			show_negatives = GOG_BUBBLE_PLOT (view->base.model)->show_negatives;
+			if ((! go_finite (zmax)) || (!show_negatives && (zmax <= 0)))
+				continue;
+			rmax = MIN (view->base.residual.w, view->base.residual.h) / BUBBLE_MAX_RADIUS_RATIO
+						* GOG_BUBBLE_PLOT (view->base.model)->bubble_scale;
+			size_as_area = GOG_BUBBLE_PLOT (view->base.model)->size_as_area;
+			if (show_negatives) {
+				zmin = fabs (zmin);
+				if (zmin > zmax)
+					zmax = zmin;
+			}
+		}
+		overrides = g_list_last ((GList *) gog_series_get_overrides (GOG_SERIES (pseries)));
+
+		for (i = n - 1; i >= 0; i--) {
+			yc = y_vals[i];
+			if (!gog_axis_map_finite (y_map, yc))
+				continue;
+			xc= x_vals ? x_vals[i] : i + 1;
+			if (!gog_axis_map_finite (x_map, xc))
+				continue;
+			xc = fabs (gog_axis_map_to_view (x_map, xc) - x);
+			yc = fabs (gog_axis_map_to_view (y_map, yc) - y);
+			if (is_bubble) {
+				zc = z_vals[i];
+				if (zc < 0) {
+					if (GOG_BUBBLE_PLOT(model)->show_negatives)
+						dist = ((size_as_area)? sqrt (-zc / zmax): -zc / zmax) * rmax;
+					else
+						continue;
+				} else
+					dist = ((size_as_area)? sqrt (zc / zmax): zc / zmax) * rmax;
+				/* should we add half bubble outline width to dist? */
+				if (hypot (xc, yc) <= dist) {
+					*series = GOG_SERIES (pseries);
+					goto clean_exit;
+				}
+			} else {
+				dist = MAX (xc, yc);
+				gse = NULL;
+				if (overrides != NULL) {
+					while (GOG_SERIES_ELEMENT (overrides->data)->index > (unsigned) i)
+						overrides = g_list_previous (overrides);
+					if (GOG_SERIES_ELEMENT (overrides->data)->index == (unsigned) i) {
+						gse = GOG_SERIES_ELEMENT (overrides->data);
+						overrides = g_list_previous (overrides);
+						style = go_styled_object_get_style (GO_STYLED_OBJECT (gse));
+						if (go_style_is_marker_visible (style)) {
+							if (dist <= (go_marker_get_size (style->marker.mark) + 1) / 2) {
+								*series = GOG_SERIES (pseries);
+								goto clean_exit;
+							}
+						} else if (dist <= line_dist) {
+							*series = GOG_SERIES (pseries);
+							goto clean_exit;
+						}
+					}
+				}
+				if (gse == NULL && dist <= max_dist) {
+					*series = GOG_SERIES (pseries);
+					goto clean_exit;
+				}
+			}
+		}
+	}
+
+clean_exit:
+	g_slist_free (ser);
+	gog_chart_map_free (chart_map);
+	return i;
+}
+
 static void
 gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 {
@@ -1322,10 +1459,12 @@ gog_xy_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
 static void
 gog_xy_view_class_init (GogViewClass *view_klass)
 {
+	GogPlotViewClass *pv_klass = (GogPlotViewClass *) view_klass;
 	xy_view_parent_klass = (GogViewClass*) g_type_class_peek_parent (view_klass);
 	view_klass->render	  = gog_xy_view_render;
 	view_klass->size_allocate = gog_xy_view_size_allocate;
 	view_klass->clip	  = FALSE;
+	pv_klass->get_data_at_point = gog_xy_view_get_data_at_point;
 }
 
 GSF_DYNAMIC_CLASS (GogXYView, gog_xy_view,
