@@ -1,3 +1,8 @@
+2009-12-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-polygon.c (goc_polygon_update_bounds): fixed bounds.
+	[#605496]
+
 2009-12-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_xy/gog-xy.c (gog_xy_view_get_data_at_point),

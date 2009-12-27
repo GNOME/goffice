@@ -105,6 +105,7 @@ goc_polygon_update_bounds (GocItem *item)
 {
 	GocPolygon *polygon = GOC_POLYGON (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+	/* FIXME: extra_width might be not large enough if angles are small */
 	double extra_width = style->line.width;
 	unsigned i;
 	if (extra_width <= 0.)
@@ -126,8 +127,8 @@ goc_polygon_update_bounds (GocItem *item)
 	}
 	item->x0 -= extra_width;
 	item->y0 -= extra_width;
-	item->x1 -= extra_width;
-	item->y1 -= extra_width;
+	item->x1 += extra_width;
+	item->y1 += extra_width;
 }
 
 static double

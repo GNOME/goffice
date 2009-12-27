@@ -2,6 +2,7 @@ goffice 0.7.18:
 
 Jean:
 	* Add a name to regression curves for display in legends. [#605040]
+	* Fixed GocPolygon bounds. [#605496]
 
 --------------------------------------------------------------------------
 goffice 0.7.17:
