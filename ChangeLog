@@ -1,3 +1,11 @@
+2010-01-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-chart.c (plot_area_pref_state_free),
+	(cb_plot_area_changed), (cb_manual_position_changed),
+	(gog_chart_populate_editor): moved plot area page there. [#605771]
+	* goffice/graph/gog-plot.c (cb_axis_changed),
+	(gog_plot_populate_editor): and remove it from here.
+
 2010-01-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugins/plot_pie/plot-types.xml.in: fix description
