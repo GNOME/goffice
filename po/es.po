@@ -14,14 +14,14 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2009.
 # Chihau Chau <chihau@gmail.com>, 2009.
 #
-# Jorge González <jorgegonz@svn.gnome.org>, 2009.
+# Jorge González <jorgegonz@svn.gnome.org>, 200, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
-"POT-Creation-Date: 2009-11-29 16:40+0000\n"
-"PO-Revision-Date: 2009-12-12 12:28+0100\n"
+"POT-Creation-Date: 2009-12-21 09:28+0000\n"
+"PO-Revision-Date: 2010-01-06 14:31+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -425,8 +425,8 @@ msgstr "No se puede activar el complemento «%s» (ID: %s)."
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr "No se puede desactivar el complemento «%s» (ID: %s)."
 
-#: ../goffice/app/go-plugin.c:1611 ../goffice/app/go-plugin.c:1762
-#: ../goffice/app/go-plugin.c:1845
+#: ../goffice/app/go-plugin.c:1611 ../goffice/app/go-plugin.c:1768
+#: ../goffice/app/go-plugin.c:1849
 msgid "Errors while reading info about available plugins."
 msgstr ""
 "Ha ocurrido un error al leer la información sobre los complementos "
@@ -450,11 +450,11 @@ msgstr ""
 "%s\n"
 "Debería reiniciar este programa ahora."
 
-#: ../goffice/app/go-plugin.c:1785 ../goffice/app/go-plugin.c:1867
+#: ../goffice/app/go-plugin.c:1791 ../goffice/app/go-plugin.c:1871
 msgid "Errors while activating plugins."
 msgstr "Han ocurrido errores al activar los complementos."
 
-#: ../goffice/app/go-plugin.c:1792 ../goffice/app/go-plugin.c:1874
+#: ../goffice/app/go-plugin.c:1798 ../goffice/app/go-plugin.c:1878
 msgid "Errors while initializing plugin system."
 msgstr "Han ocurrido errores al inicializar el sistema de complementos."
 
@@ -467,7 +467,7 @@ msgid "Execute main loop iteration"
 msgstr "Ejecutar la iteración del lazo principal"
 
 #: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:222
-#: ../goffice/canvas/goc-graph.c:408 ../goffice/canvas/goc-group.c:243
+#: ../goffice/canvas/goc-graph.c:407 ../goffice/canvas/goc-group.c:243
 #: ../goffice/canvas/goc-pixbuf.c:231 ../goffice/canvas/goc-rectangle.c:203
 #: ../goffice/canvas/goc-text.c:399 ../goffice/canvas/goc-widget.c:318
 #: ../goffice/utils/go-marker.c:83
@@ -479,7 +479,7 @@ msgid "The circle center horizontal position"
 msgstr "La posición horizontal del centro del círculo"
 
 #: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:228
-#: ../goffice/canvas/goc-graph.c:414 ../goffice/canvas/goc-group.c:249
+#: ../goffice/canvas/goc-graph.c:413 ../goffice/canvas/goc-group.c:249
 #: ../goffice/canvas/goc-pixbuf.c:237 ../goffice/canvas/goc-rectangle.c:209
 #: ../goffice/canvas/goc-text.c:405 ../goffice/canvas/goc-widget.c:324
 msgid "y"
@@ -505,8 +505,8 @@ msgstr "La posición izquierda de la elipse (o posición derecha en modo I-->D)"
 msgid "The ellipse top position"
 msgstr "La posición superior de la elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:234 ../goffice/canvas/goc-graph.c:426
-#: ../goffice/canvas/goc-graph.c:427 ../goffice/canvas/goc-pixbuf.c:243
+#: ../goffice/canvas/goc-ellipse.c:234 ../goffice/canvas/goc-graph.c:425
+#: ../goffice/canvas/goc-graph.c:426 ../goffice/canvas/goc-pixbuf.c:243
 #: ../goffice/canvas/goc-rectangle.c:215 ../goffice/canvas/goc-widget.c:331
 #: ../goffice/graph/gog-graph.c:368 ../goffice/utils/go-image.c:472
 msgid "Width"
@@ -516,8 +516,8 @@ msgstr "Anchura"
 msgid "The ellipse width"
 msgstr "La anchura de la elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:240 ../goffice/canvas/goc-graph.c:420
-#: ../goffice/canvas/goc-graph.c:421 ../goffice/canvas/goc-pixbuf.c:249
+#: ../goffice/canvas/goc-ellipse.c:240 ../goffice/canvas/goc-graph.c:419
+#: ../goffice/canvas/goc-graph.c:420 ../goffice/canvas/goc-pixbuf.c:249
 #: ../goffice/canvas/goc-rectangle.c:221 ../goffice/canvas/goc-widget.c:337
 #: ../goffice/graph/gog-graph.c:374 ../goffice/utils/go-image.c:476
 msgid "Height"
@@ -527,31 +527,31 @@ msgstr "Altura"
 msgid "The ellipse height"
 msgstr "La altura de la elipse"
 
-#: ../goffice/canvas/goc-graph.c:409
+#: ../goffice/canvas/goc-graph.c:408
 msgid "The graph left position"
 msgstr "La posición izquierda del gráfico"
 
-#: ../goffice/canvas/goc-graph.c:415
+#: ../goffice/canvas/goc-graph.c:414
 msgid "The graph top position"
 msgstr "La posición superior del gráfico"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/canvas/goc-graph.c:432 ../goffice/graph/gog-graph.c:161
+#: ../goffice/canvas/goc-graph.c:431 ../goffice/graph/gog-graph.c:161
 #: ../goffice/graph/gog-graph.c:400
 msgid "Graph"
 msgstr "Gráfico"
 
-#: ../goffice/canvas/goc-graph.c:433
+#: ../goffice/canvas/goc-graph.c:432
 msgid "The GogGraph this object displays"
 msgstr "El GogGraph que muestra este objeto"
 
-#: ../goffice/canvas/goc-graph.c:438 ../goffice/graph/gog-graph.c:902
+#: ../goffice/canvas/goc-graph.c:437 ../goffice/graph/gog-graph.c:902
 msgid "Renderer"
 msgstr "Renderizador"
 
-#: ../goffice/canvas/goc-graph.c:439
+#: ../goffice/canvas/goc-graph.c:438
 msgid "The GogRenderer being displayed"
 msgstr "El GogRenderer que se está mostrando"
 
@@ -681,7 +681,7 @@ msgid "The rectangle height"
 msgstr "La altura del rectángulo"
 
 #: ../goffice/canvas/goc-styled-item.c:156
-#: ../goffice/graph/gog-styled-object.c:195 ../goffice/utils/go-style.c:990
+#: ../goffice/graph/gog-styled-object.c:195 ../goffice/utils/go-style.c:1041
 msgid "Style"
 msgstr "Estilo"
 
@@ -1280,7 +1280,7 @@ msgstr "Título"
 msgid "Legend"
 msgstr "Leyenda"
 
-#: ../goffice/graph/gog-chart.c:503 ../goffice/graph/gog-reg-curve.c:151
+#: ../goffice/graph/gog-chart.c:503 ../goffice/graph/gog-reg-curve.c:154
 msgid "Equation"
 msgstr "Ecuación"
 
@@ -1883,23 +1883,28 @@ msgid "Resize plot area"
 msgstr "Redimensionar el área del gráfico"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
+#| msgid "Name:"
+msgid "(_Name):"
+msgstr "(_Nombre):"
+
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:2
 msgid "High bound:"
 msgstr "Vínculo superior:"
 
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:2
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:3
 msgid "Low bound:"
 msgstr "Vínculo inferior:"
 
-#: ../goffice/graph/gog-reg-curve-prefs.ui.h:3
-#: ../goffice/graph/gog-reg-curve.c:180
+#: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
+#: ../goffice/graph/gog-reg-curve.c:183
 msgid "Skip invalid data"
 msgstr "Saltar datos no válidos"
 
-#: ../goffice/graph/gog-reg-curve.c:144
+#: ../goffice/graph/gog-reg-curve.c:147
 msgid "Regression Curve"
 msgstr "Curva de regresión"
 
-#: ../goffice/graph/gog-reg-curve.c:179
+#: ../goffice/graph/gog-reg-curve.c:182
 msgid "Skip invalid"
 msgstr "Saltar no válidos"
 
@@ -5626,7 +5631,7 @@ msgstr "_Variar colores por rodaja"
 msgid "_Separation:"
 msgstr "_Separación:"
 
-#: ../plugins/plot_pie/gog-pie.c:110 ../plugins/plot_pie/gog-pie.c:1129
+#: ../plugins/plot_pie/gog-pie.c:110 ../plugins/plot_pie/gog-pie.c:1296
 msgid "Separation"
 msgstr "Separación"
 
@@ -5650,7 +5655,7 @@ msgstr "Grados en el sentido de las agujas del reloj desde las 12 en punto"
 msgid "Default separation"
 msgstr "Separación predeterminada"
 
-#: ../plugins/plot_pie/gog-pie.c:312 ../plugins/plot_pie/gog-pie.c:1130
+#: ../plugins/plot_pie/gog-pie.c:312 ../plugins/plot_pie/gog-pie.c:1297
 msgid "Default amount a slice is extended as a percentage of the radius"
 msgstr ""
 "Cantidad predeterminada que una rodaja se extiende como porcentaje del radio"
@@ -5691,21 +5696,21 @@ msgstr "Tamaño del agujero central como porcentaje del radio"
 msgid "Move pie"
 msgstr "Mover tarta"
 
-#: ../plugins/plot_pie/gog-pie.c:1002
+#: ../plugins/plot_pie/gog-pie.c:1169
 #, c-format
 msgid "%s: %g (%.2f%%)"
 msgstr "%s: %g (%.2f%%)"
 
-#: ../plugins/plot_pie/gog-pie.c:1004
+#: ../plugins/plot_pie/gog-pie.c:1171
 #, c-format
 msgid "%g (%.2f%%)"
 msgstr "%g (%.2f%%)"
 
-#: ../plugins/plot_pie/gog-pie.c:1123
+#: ../plugins/plot_pie/gog-pie.c:1290
 msgid "Initial-angle"
 msgstr "Ángulo inicial"
 
-#: ../plugins/plot_pie/gog-pie.c:1124
+#: ../plugins/plot_pie/gog-pie.c:1291
 msgid "Degrees clockwise from 12 O'Clock"
 msgstr "Grados en el sentido de las agujas del reloj desde las 12 en punto"
 
