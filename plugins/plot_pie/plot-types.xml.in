@@ -31,12 +31,12 @@
    </Type>
     <Type _name="Ring" row="1" col="1"
 	  engine="GogRingPlot" family="Ring"
-	  _description="Percentage of each contributor displayed in ring for each serie."
+	  _description="Percentage of each contributor displayed as a segment of a ring with one ring for each series."
 	  sample_image_file="chart_ring_1_1.png">
     </Type>
     <Type _name="Split Ring" row="1" col="2"
 	  engine="GogRingPlot" family="Ring"
-	  _description="Percentage of each contributor displayed in ring for each serie with wedges of the last ring split apart."
+	  _description="Percentage of each contributor displayed as a segment of a ring with one ring for each series; the wedges of the outside ring (corresponding to the last series) are split apart."
 	  sample_image_file="chart_ring_1_2.png">
 	  <property name="default_separation">.20</property>
     </Type>

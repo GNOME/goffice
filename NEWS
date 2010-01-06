@@ -1,5 +1,8 @@
 goffice 0.7.18:
 
+Andreas:
+	* Fix description of ring plots. [#606162]
+
 Jean:
 	* Add a name to regression curves for display in legends. [#605040]
 	* Fixed GocPolygon bounds. [#605496]
