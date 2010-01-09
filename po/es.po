@@ -10,18 +10,15 @@
 # Germán Poo Caamaño <gpoo@ubiobio.cl>, 2001.
 # Juan Manuel García Molina <juanma_gm@wanadoo.es>, 2002.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2004, 2005.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008.
-# Jorge González <jorgegonz@svn.gnome.org>, 2009.
 # Chihau Chau <chihau@gmail.com>, 2009.
-#
-# Jorge González <jorgegonz@svn.gnome.org>, 200, 2010.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
-"POT-Creation-Date: 2009-12-21 09:28+0000\n"
-"PO-Revision-Date: 2010-01-06 14:31+0100\n"
+"POT-Creation-Date: 2010-01-06 15:45+0000\n"
+"PO-Revision-Date: 2010-01-09 09:13+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -651,7 +648,7 @@ msgstr "Pixbuf"
 msgid "The GdkPixbuf to display"
 msgstr "El GdkPixbuf que mostrar"
 
-#: ../goffice/canvas/goc-polyline.c:210 ../goffice/canvas/goc-polygon.c:249
+#: ../goffice/canvas/goc-polyline.c:210 ../goffice/canvas/goc-polygon.c:250
 msgid "points"
 msgstr "puntos"
 
@@ -659,7 +656,7 @@ msgstr "puntos"
 msgid "The polyline vertices"
 msgstr "Los vértices de la polilínea"
 
-#: ../goffice/canvas/goc-polygon.c:249
+#: ../goffice/canvas/goc-polygon.c:250
 msgid "The polygon vertices"
 msgstr "Los vértices del polígono"
 
@@ -1552,7 +1549,7 @@ msgid "Data"
 msgstr "Datos"
 
 #: ../goffice/graph/gog-label.c:349 ../goffice/graph/gog-reg-curve.c:71
-#: ../plugins/plot_xy/gog-xy.c:1786
+#: ../plugins/plot_xy/gog-xy.c:1925
 msgid "Details"
 msgstr "Detalles"
 
@@ -1883,7 +1880,6 @@ msgid "Resize plot area"
 msgstr "Redimensionar el área del gráfico"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
-#| msgid "Name:"
 msgid "(_Name):"
 msgstr "(_Nombre):"
 
@@ -5012,8 +5008,8 @@ msgstr "Líneas"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:642
 #: ../plugins/plot_radar/gog-radar.c:1253
-#: ../plugins/plot_radar/gog-radar.c:1379 ../plugins/plot_xy/gog-xy.c:1859
-#: ../plugins/plot_xy/gog-xy.c:1865
+#: ../plugins/plot_radar/gog-radar.c:1379 ../plugins/plot_xy/gog-xy.c:1998
+#: ../plugins/plot_xy/gog-xy.c:2004
 msgid "GogErrorBar *"
 msgstr "Barra de error Gog *"
 
@@ -5723,17 +5719,26 @@ msgid "Half Pie"
 msgstr "Media tarta"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:2
+#| msgid "Percentage of each contributor displayed in ring for each serie."
 msgid ""
-"Percentage of each contributor displayed in ring for each serie with wedges "
-"of the last ring split apart."
+"Percentage of each contributor displayed as a segment of a ring with one "
+"ring for each series."
 msgstr ""
-"Porcentaje de cada contribuyente mostrado en anillo para cada serie con "
-"cuñas del último anillo a parte."
+"Porcentaje de cada contribuyente mostrado en como un segmento de un anillo "
+"con un anillo para cada serie."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:3
-msgid "Percentage of each contributor displayed in ring for each serie."
+#| msgid ""
+#| "Percentage of each contributor displayed in ring for each serie with "
+#| "wedges of the last ring split apart."
+msgid ""
+"Percentage of each contributor displayed as a segment of a ring with one "
+"ring for each series; the wedges of the outside ring (corresponding to the "
+"last series) are split apart."
 msgstr ""
-"Porcentaje de cada contribuyente mostrado en un anillo para cada serie."
+"Porcentaje de cada contribuyente mostrado en como un segmento de un anillo "
+"con un anillo para cada serie; los trozos del anillo exterior "
+"(correspondiente con la última serie) se separan aparte."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:4
 msgid ""
@@ -6188,36 +6193,36 @@ msgstr "Burbuja"
 msgid "XYColor"
 msgstr "Color XY"
 
-#: ../plugins/plot_xy/gog-xy.c:1791 ../plugins/plot_xy/gog-xy.c:1858
+#: ../plugins/plot_xy/gog-xy.c:1930 ../plugins/plot_xy/gog-xy.c:1997
 msgid "X error bars"
 msgstr "Barras de error de X"
 
-#: ../plugins/plot_xy/gog-xy.c:1794 ../plugins/plot_xy/gog-xy.c:1864
+#: ../plugins/plot_xy/gog-xy.c:1933 ../plugins/plot_xy/gog-xy.c:2003
 msgid "Y error bars"
 msgstr "Barras de error de Y"
 
-#: ../plugins/plot_xy/gog-xy.c:1803
+#: ../plugins/plot_xy/gog-xy.c:1942
 msgid "Horizontal drop lines"
 msgstr "Líneas deslizantes horizontales"
 
-#: ../plugins/plot_xy/gog-xy.c:1811
+#: ../plugins/plot_xy/gog-xy.c:1950
 msgid "Vertical drop lines"
 msgstr "Líneas deslizantes verticales"
 
-#: ../plugins/plot_xy/gog-xy.c:1870
+#: ../plugins/plot_xy/gog-xy.c:2009
 msgid "Invalid as zero"
 msgstr "No válido como cero"
 
-#: ../plugins/plot_xy/gog-xy.c:1871
+#: ../plugins/plot_xy/gog-xy.c:2010
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 "Reemplazar los valores no válidos por 0 al dibujar marcadores o burbujas"
 
-#: ../plugins/plot_xy/gog-xy.c:1876
+#: ../plugins/plot_xy/gog-xy.c:2015
 msgid "Clamp at start"
 msgstr "Fijar al comienzo"
 
-#: ../plugins/plot_xy/gog-xy.c:1877
+#: ../plugins/plot_xy/gog-xy.c:2016
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
@@ -6225,11 +6230,11 @@ msgstr ""
 "Pendiente al inicio de la curva interpolada al usar interpolación de splin "
 "sujeto"
 
-#: ../plugins/plot_xy/gog-xy.c:1882
+#: ../plugins/plot_xy/gog-xy.c:2021
 msgid "Clamp at end"
 msgstr "Fijar al final"
 
-#: ../plugins/plot_xy/gog-xy.c:1883
+#: ../plugins/plot_xy/gog-xy.c:2022
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
