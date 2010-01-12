@@ -26,6 +26,7 @@
 #include <goffice/goffice.h>
 #include <goffice/gtk/go-gtk-compat.h>
 
+#include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
 #include <libxml/parser.h>
@@ -197,6 +198,8 @@ graph_typeselect_minor (GraphGuruTypeSelector *typesel, GocItem *item)
 
 	if (s->current_page == 0 && enable_next_button)
 		gtk_widget_set_sensitive (s->button_navigate, TRUE);
+
+	g_object_set_data (G_OBJECT (typesel->selector), PLOT_TYPE_KEY, (gpointer)type);
 }
 
 static gboolean
@@ -355,6 +358,47 @@ typedef struct {
 	int col, row;
 } type_list_closure;
 
+typedef GocPixbuf GogGuruPixbuf;
+typedef GocPixbufClass GogGuruPixbufClass;
+
+static GType gog_guru_pixbuf_get_type (void);
+
+static gboolean
+gog_guru_item_enter_notify (GocItem *item, double x, double y)
+{
+	GogPlotType *type = (GogPlotType *) g_object_get_data (G_OBJECT (item), PLOT_TYPE_KEY);
+	if (type && type->description)
+		gtk_widget_set_tooltip_text (GTK_WIDGET (item->canvas), _(type->description));
+	return TRUE;
+}
+
+static gboolean
+gog_guru_item_leave_notify (GocItem *item, double x, double y)
+{
+	gtk_widget_set_tooltip_text (GTK_WIDGET (item->canvas), NULL);
+	return TRUE;
+}
+
+static void
+gog_guru_item_class_init (GocItemClass *klass)
+{
+	klass->enter_notify = gog_guru_item_enter_notify;
+	klass->leave_notify = gog_guru_item_leave_notify;
+}
+
+GSF_CLASS (GogGuruPixbuf, gog_guru_pixbuf,
+		  gog_guru_item_class_init, NULL,
+		  GOC_TYPE_PIXBUF)
+
+typedef GocRectangle GogGuruSelector;
+typedef GocRectangleClass GogGuruSelectorClass;
+
+static GType gog_guru_selector_get_type (void);
+
+GSF_CLASS (GogGuruSelector, gog_guru_selector,
+		  gog_guru_item_class_init, NULL,
+		  GOC_TYPE_RECTANGLE)
+
 static void
 cb_plot_types_init (char const *id, GogPlotType *type,
 		    type_list_closure *closure)
@@ -377,7 +421,7 @@ cb_plot_types_init (char const *id, GogPlotType *type,
 		h = MINOR_PIXMAP_HEIGHT;
 
 	item = goc_item_new (closure->group,
-		goc_pixbuf_get_type (),
+		gog_guru_pixbuf_get_type (),
 		"x",	 x1,	"y",	  y1,
 		"width", w,	"height", h,
 		"pixbuf",	image,
@@ -1189,7 +1233,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	/* The alpha blended selection box */
 	typesel->selector = goc_item_new (
 		goc_canvas_get_root (GOC_CANVAS (typesel->canvas)),
-		GOC_TYPE_RECTANGLE,
+		gog_guru_selector_get_type (),
 		NULL);
 	style= go_styled_object_get_style (GO_STYLED_OBJECT (typesel->selector));
 	style->line.width = 1;

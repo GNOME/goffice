@@ -1,3 +1,10 @@
+2010-01-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-guru.c (graph_typeselect_minor),
+	(gog_guru_item_enter_notify), (gog_guru_item_leave_notify),
+	(gog_guru_item_class_init), (cb_plot_types_init),
+	(graph_guru_type_selector_new): show tooltips for plot types.
+
 2010-01-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-chart.c (plot_area_pref_state_free),
