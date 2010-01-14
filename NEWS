@@ -7,6 +7,8 @@ Jean:
 	* Add a name to regression curves for display in legends. [#605040]
 	* Fixed GocPolygon bounds. [#605496]
 	* Moved plot area position page from plot to chart. [#605771]
+	* Add sample to the plot type selector. [#495781]
+	* Don't use multiline GtkLabel. [#606162]
 
 --------------------------------------------------------------------------
 goffice 0.7.17:

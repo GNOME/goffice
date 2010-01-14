@@ -1,3 +1,12 @@
+2010-01-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-guru-type-selector.ui: add a sample and remove obsolete
+	widgets. [#495781 and #606162].
+	* goffice/graph/gog-guru.c (cb_typesel_sample_plot_resize),
+	(graph_typeselect_minor), (cb_selection_changed),
+	(cb_plot_types_init), (cb_plot_families_init),
+	(graph_guru_type_selector_new), (gog_guru_add_custom_widget):
+
 2010-01-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-guru.c (graph_typeselect_minor),

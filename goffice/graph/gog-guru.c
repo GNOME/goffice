@@ -90,8 +90,7 @@ struct _GraphGuruState {
 struct _GraphGuruTypeSelector {
 	GtkBuilder    	*gui;
 	GtkWidget	*canvas;
-	GtkWidget	*sample_button;
-	GtkLabel	*label;
+	GtkWidget	*sample_canvas;
 	GtkTreeView	*list_view;
 	GtkListStore	*model;
 	GocItem *selector;
@@ -132,12 +131,24 @@ enum {
 #define FIRST_MINOR_TYPE	"first_minor_type"
 #define ROLE_KEY		"role"
 #define STATE_KEY		"plot_type"
+#define ROWS_KEY		"rows-key"
 
 static void
 get_pos (int col, int row, double *x, double *y)
 {
 	*x = (col-1) * (MINOR_PIXMAP_WIDTH + BORDER) + BORDER;
 	*y = (row-1) * (MINOR_PIXMAP_HEIGHT + BORDER) + BORDER;
+}
+
+static void
+cb_typesel_sample_plot_resize (GocCanvas *canvas,
+			       GtkAllocation *alloc, GraphGuruTypeSelector *typesel)
+{
+	if (typesel->sample_graph_item != NULL)
+		goc_item_set (typesel->sample_graph_item,
+			"width", (double)alloc->width,
+			"height", (double)alloc->height,
+			NULL);
 }
 
 /*
@@ -172,8 +183,6 @@ graph_typeselect_minor (GraphGuruTypeSelector *typesel, GocItem *item)
 		"x", x1-1., "y", y1-1.,
 		"width", x2-x1+2., "height", y2-y1+2.,
 		NULL);
-	gtk_label_set_text (typesel->label, _(type->description));
-	gtk_widget_set_sensitive (typesel->sample_button, TRUE);
 
 	enable_next_button = (s->plot == NULL);
 
@@ -200,6 +209,16 @@ graph_typeselect_minor (GraphGuruTypeSelector *typesel, GocItem *item)
 		gtk_widget_set_sensitive (s->button_navigate, TRUE);
 
 	g_object_set_data (G_OBJECT (typesel->selector), PLOT_TYPE_KEY, (gpointer)type);
+	if (typesel->sample_graph_item == NULL) {
+		GtkAllocation size;
+		typesel->sample_graph_item = goc_item_new (typesel->graph_group,
+			GOC_TYPE_GRAPH,
+			"graph", typesel->state->graph,
+			NULL);
+		gtk_widget_get_allocation (GTK_WIDGET (typesel->sample_canvas), &size);
+		cb_typesel_sample_plot_resize (GOC_CANVAS (typesel->sample_canvas),
+					       &size, typesel);
+	}
 }
 
 static gboolean
@@ -285,6 +304,7 @@ cb_selection_changed (GraphGuruTypeSelector *typesel)
 	GtkTreeIter  iter;
 	GocItem *item;
 	GocGroup *group;
+	int rows;
 
 	if (typesel->current_family_item != NULL)
 		goc_item_hide (GOC_ITEM (typesel->current_family_item));
@@ -299,55 +319,13 @@ cb_selection_changed (GraphGuruTypeSelector *typesel)
 
 	goc_item_hide (GOC_ITEM (typesel->selector));
 	item = g_object_get_data (G_OBJECT (group), FIRST_MINOR_TYPE);
+	rows = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (group), ROWS_KEY));
 	if (item != NULL)
 		graph_typeselect_minor (typesel, item);
 	goc_item_show (GOC_ITEM (typesel->selector));
-}
-
-static void
-cb_typesel_sample_plot_resize (GocCanvas *canvas,
-			       GtkAllocation *alloc, GraphGuruTypeSelector *typesel)
-{
-	if (typesel->sample_graph_item != NULL)
-		goc_item_set (typesel->sample_graph_item,
-			"width", (double)alloc->width,
-			"height", (double)alloc->height,
-			NULL);
-}
-
-static void
-cb_sample_pressed (GraphGuruTypeSelector *typesel)
-{
-	if (typesel->current_family_item == NULL)
-		return;
-
-	if (typesel->sample_graph_item == NULL) {
-		GtkAllocation size;
-		gtk_widget_get_allocation (GTK_WIDGET (typesel->canvas), &size);
-		typesel->sample_graph_item = goc_item_new (typesel->graph_group,
-			GOC_TYPE_GRAPH,
-			"graph", typesel->state->graph,
-			NULL);
-		cb_typesel_sample_plot_resize (GOC_CANVAS (typesel->canvas),
-					       &size, typesel);
-
-		g_return_if_fail (typesel->sample_graph_item != NULL);
-	}
-
-	goc_item_hide (GOC_ITEM (typesel->current_family_item));
-	goc_item_hide (GOC_ITEM (typesel->selector));
-	goc_item_show (GOC_ITEM (typesel->graph_group));
-}
-
-static void
-cb_sample_released (GraphGuruTypeSelector *typesel)
-{
-	if (typesel->current_family_item == NULL)
-		return;
-
-	goc_item_hide (GOC_ITEM (typesel->graph_group));
-	goc_item_show (GOC_ITEM (typesel->current_family_item));
-	goc_item_show (GOC_ITEM (typesel->selector));
+	gtk_widget_set_size_request (typesel->canvas,
+		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
+		(MINOR_PIXMAP_HEIGHT + BORDER) * rows + BORDER);
 }
 
 typedef struct {
@@ -356,6 +334,7 @@ typedef struct {
 	GocItem		*current_item;
 	GogPlotType 		*current_type;
 	int col, row;
+	int max_row;
 } type_list_closure;
 
 typedef GocPixbuf GogGuruPixbuf;
@@ -436,6 +415,8 @@ cb_plot_types_init (char const *id, GogPlotType *type,
 		closure->col = col;
 		closure->row = row;
 	}
+	if (row > closure->max_row)
+		closure->max_row = row;
 }
 
 static void
@@ -475,12 +456,15 @@ cb_plot_families_init (char const *id, GogPlotFamily *family,
 	closure.group	= group;
 	closure.current_type = NULL;
 	closure.current_item = NULL;
+	closure.max_row = 2;
 
 	/* Init the list and the canvas group for each family */
 	g_hash_table_foreach (family->types,
 		(GHFunc) cb_plot_types_init, &closure);
 	g_object_set_data (G_OBJECT (group), FIRST_MINOR_TYPE,
 		closure.current_item);
+	g_object_set_data (G_OBJECT (group), ROWS_KEY,
+		GUINT_TO_POINTER (closure.max_row));
 }
 
 static void
@@ -1202,13 +1186,8 @@ graph_guru_type_selector_new (GraphGuruState *s)
 
 	/* Setup an canvas to display the sample image & the sample plot. */
 	typesel->canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
-	typesel->graph_group = GOC_GROUP (goc_item_new (
-		goc_canvas_get_root (GOC_CANVAS (typesel->canvas)),
-		goc_group_get_type (),
-		NULL));
 	g_object_connect (typesel->canvas,
 		"signal::realize", G_CALLBACK (cb_canvas_realized), typesel,
-		"signal::size_allocate", G_CALLBACK (cb_typesel_sample_plot_resize), typesel,
 		"signal_after::key_press_event", G_CALLBACK (cb_key_press_event), typesel,
 		"signal::button_press_event", G_CALLBACK (cb_button_press_event), typesel,
 		"swapped_signal::focus_in_event", G_CALLBACK (typesel_set_selection_color), typesel,
@@ -1216,9 +1195,15 @@ graph_guru_type_selector_new (GraphGuruState *s)
 		NULL);
 	gtk_widget_set_size_request (typesel->canvas,
 		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
-		MINOR_PIXMAP_HEIGHT*3 + BORDER*5);
-	gtk_container_add (GTK_CONTAINER (gtk_builder_get_object (gui, "canvas_container")),
+		MINOR_PIXMAP_HEIGHT*3 + BORDER*4);
+	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (gtk_builder_get_object (gui, "canvas-container")),
 			   typesel->canvas);
+	typesel->sample_canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
+	g_object_connect (typesel->sample_canvas,
+		"signal::size_allocate", G_CALLBACK (cb_typesel_sample_plot_resize), typesel,
+		NULL);
+	typesel->graph_group = goc_canvas_get_root (GOC_CANVAS (typesel->sample_canvas));
+	gtk_container_add (GTK_CONTAINER (gtk_builder_get_object (gui, "sample-container")), typesel->sample_canvas);
 
 	/* Init the list and the canvas group for each family */
 	g_hash_table_foreach ((GHashTable *)gog_plot_families (),
@@ -1239,18 +1224,6 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	style->line.width = 1;
 	style->line.color = 0x000000ff;	/* black */
 	typesel_set_selection_color (typesel);
-
-	/* Setup the description label */
-	typesel->label = GTK_LABEL (gtk_builder_get_object (gui, "description_label"));
-
-	/* Set up sample button */
-	typesel->sample_button = go_gtk_builder_get_widget (gui, "sample_button");
-	g_signal_connect_swapped (G_OBJECT (typesel->sample_button),
-		"pressed",
-		G_CALLBACK (cb_sample_pressed), typesel);
-	g_signal_connect_swapped (G_OBJECT (typesel->sample_button),
-		"released",
-		G_CALLBACK (cb_sample_released), typesel);
 
 	g_object_set_data_full (G_OBJECT (selector),
 		"state", typesel, (GDestroyNotify) g_free);
@@ -1379,7 +1352,9 @@ void
 gog_guru_add_custom_widget (GtkWidget *guru, GtkWidget *custom)
 {
 	GraphGuruState *state = g_object_get_data (G_OBJECT (guru), "state");
-	GtkBox *box = GTK_BOX (gtk_widget_get_parent (gtk_widget_get_parent (state->type_selector->canvas)));
+	GtkBox *box = GTK_BOX (gtk_widget_get_parent (
+	    					gtk_widget_get_parent (
+							 gtk_widget_get_parent (state->type_selector->canvas))));
 	if (custom) {
 		gtk_box_pack_start (GTK_BOX (box), custom, FALSE, TRUE, 0);
 		g_object_set_data (G_OBJECT (custom), "graph", state->graph);
