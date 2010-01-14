@@ -9,7 +9,8 @@
 	* goffice/graph/gog-guru.c (cb_typesel_sample_plot_resize),
 	(graph_typeselect_minor), (cb_selection_changed),
 	(cb_plot_types_init), (cb_plot_families_init),
-	(graph_guru_type_selector_new), (gog_guru_add_custom_widget):
+	(graph_guru_type_selector_new), (gog_guru_add_custom_widget): ditto.
+	* plugins/plot_barcol/plot-types.xml.in: update line plots descriptions.
 
 2010-01-12  Jean Brefort  <jean.brefort@normalesup.org>
 
