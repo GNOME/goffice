@@ -1,5 +1,9 @@
 2010-01-14  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-guru-type-selector.ui: a better plot type selector.
+
+2010-01-14  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-guru-type-selector.ui: add a sample and remove obsolete
 	widgets. [#495781 and #606162].
 	* goffice/graph/gog-guru.c (cb_typesel_sample_plot_resize),
