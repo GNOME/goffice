@@ -1193,6 +1193,9 @@ graph_guru_type_selector_new (GraphGuruState *s)
 		"swapped_signal::focus_in_event", G_CALLBACK (typesel_set_selection_color), typesel,
 		"swapped_signal::focus_out_event", G_CALLBACK (typesel_set_selection_color), typesel,
 		NULL);
+	gtk_widget_set_can_focus (typesel->canvas, TRUE);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (gtk_builder_get_object (gui, "subtype_label")),
+			   typesel->canvas);
 	gtk_widget_set_size_request (typesel->canvas,
 		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
 		MINOR_PIXMAP_HEIGHT*3 + BORDER*4);

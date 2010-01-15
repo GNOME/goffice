@@ -1,3 +1,8 @@
+2010-01-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-guru.c (graph_guru_type_selector_new): make keyboard
+	navigation work again in plot subtypes.
+
 2010-01-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-guru-type-selector.ui: a better plot type selector.
