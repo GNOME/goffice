@@ -1512,7 +1512,7 @@ msgstr "<b>Ty_pe de tracé</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:3
 msgid "<b>_Subtype</b>"
-msgstr "<b>Variante_s</b>"
+msgstr "<b>_Variante</b>"
 
 #: ../goffice/graph/gog-guru.c:999 ../goffice/graph/gog-series.c:474
 msgid "Name"
