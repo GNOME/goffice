@@ -440,7 +440,7 @@ go_io_context_set_num_files (GOIOContext *ioc, guint count)
 /**
  * go_io_context_processing_file :
  * @ioc : #GOIOContext
- * @uri : An escaped uri (eg foo%20bar)
+ * @uri : An escaped uri (eg "foo\%20bar")
  **/
 void
 go_io_context_processing_file (GOIOContext *ioc, char const *uri)

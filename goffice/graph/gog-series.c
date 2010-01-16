@@ -946,7 +946,7 @@ gog_series_get_name (GogSeries const *series)
  * gog_series_set_name :
  * @series : a #GogSeries
  * @name_src : a #GODataScalar
- * @err : a #Gerror
+ * @err : a #GError
  *
  * Absorbs a ref to @name_src.
  *

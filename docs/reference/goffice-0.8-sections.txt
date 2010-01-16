@@ -2555,6 +2555,10 @@ go_data_scalar_get_str
 GO_TYPE_DATA_SCALAR
 GO_DATA_SCALAR
 GO_IS_DATA_SCALAR
+GODataMatrix
+GODataMatrixClass
+GODataMatrixSize
+GODataMatrixVal
 <SUBSECTION Private>
 go_data_scalar_get_type
 </SECTION>
@@ -2578,6 +2582,8 @@ GO_DATA_VECTOR_LEN_CACHED
 GO_TYPE_DATA_VECTOR
 GO_DATA_VECTOR
 GO_IS_DATA_VECTOR
+GODataVectorStr
+GODataVectorVal
 <SUBSECTION Private>
 go_data_vector_get_type
 </SECTION>
@@ -2588,6 +2594,7 @@ go_data_vector_get_type
 GODataMatrix
 GODataMatrixClass
 GODataMatrixSize
+<SUBSECTION>
 go_data_matrix_get_size
 go_data_matrix_get_values
 go_data_matrix_get_value
@@ -2639,6 +2646,8 @@ GO_DATA_SCALAR_VAL
 GO_IS_DATA_SCALAR_VAL
 GO_TYPE_DATA_SCALAR_VAL
 go_data_scalar_val_get_type
+GODataScalar
+GODataScalarClass
 </SECTION>
 
 <SECTION>
@@ -2697,6 +2706,7 @@ GO_TYPE_UNDO_UNARY
 <TITLE>GOFile</TITLE>
 GOFilePermissions
 GOFileProbeLevel
+GOFileFormatLevel
 GODotDot
 go_filename_simplify
 go_filename_from_uri
@@ -2766,7 +2776,6 @@ GOFileSaver
 GOFileSaverClass
 GOFileSaverSaveFunc
 GOFileSaveScope
-GOFileFormatLevel
 go_file_saver_for_file_name
 go_file_saver_for_id
 go_file_saver_for_mime_type

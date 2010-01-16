@@ -739,7 +739,7 @@ go_data_vector_str_new (char const * const *str, unsigned n, GDestroyNotify noti
  * @vector: a #GODataVectorStr
  * @func: a #GOTranslateFunc
  * @data: data to be passed to @func and @notify
- * @notify: a #GODestroyNotify function to be called when @vec is
+ * @notify: a #GDestroyNotify function to be called when @vec is
  *   destroyed or when the translation function is changed
  *
  * Sets a function to be used for translating elements of @vec

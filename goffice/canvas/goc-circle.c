@@ -31,7 +31,7 @@
  * SECTION:goc-circle
  * @short_description: Circle.
  *
- * #GocCirle implements circle drawing in the canvas.
+ * #GocCircle implements circle drawing in the canvas.
 **/
 
 enum {
