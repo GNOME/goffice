@@ -33,6 +33,13 @@
 #include <goffice/utils/go-cairo.h>
 #include <string.h>
 
+/**
+ * GOPathOptions
+ * @GO_PATH_OPTIONS_SNAP_COORDINATES: round coordinates to avoid aliasing in pixbufs.
+ * @GO_PATH_OPTIONS_SNAP_WIDTH: round width so that it correpond to a round pixels number.
+ * @GO_PATH_OPTIONS_SHARP: use raw coordinates.
+ **/
+
 #define GO_PATH_DEFAULT_BUFFER_SIZE 64
 
 typedef struct _GOPathData	 GOPathData;

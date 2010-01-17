@@ -494,6 +494,7 @@ gog_smoothed_curve_get_type
 GogErrorBar
 GogErrorBarType
 GogErrorBarDisplay
+GogErrorBarDirection
 gog_error_bar_dup
 gog_error_bar_prefs
 gog_error_bar_get_bounds
@@ -534,6 +535,15 @@ GOG_LABEL
 GOG_IS_LABEL
 <SUBSECTION Private>
 gog_label_get_type
+</SECTION>
+
+<SECTION>
+<FILE>gog-text</FILE>
+<TITLE>GogText</TITLE>
+GogText
+gog_text_get_str
+<SUBSECTION Private>
+gog_text_get_type
 </SECTION>
 
 <SECTION>
@@ -1762,6 +1772,8 @@ go_marker_selector_set_shape
 </SECTION>
 
 <SECTION>
+<FILE>go-arrow</FILE>
+<TITLE>GOArrow</TITLE>
 GOArrow
 GOArrowType
 go_arrow_clear

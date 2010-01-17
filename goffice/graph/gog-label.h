@@ -26,6 +26,26 @@
 
 G_BEGIN_DECLS
 
+typedef struct {
+	GogOutlinedObject base;
+
+	gboolean	  allow_markup;
+} GogText;
+
+typedef struct {
+	GogOutlinedObjectClass base;
+
+	char *(*get_str)    (GogText *text);
+} GogTextClass;
+
+#define GOG_TYPE_TEXT		(gog_text_get_type ())
+#define GOG_TEXT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_TEXT, GogText))
+#define GOG_IS_TEXT(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_TEXT))
+#define GOG_TEXT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_TEXT, GogTextClass))
+
+GType gog_text_get_type (void);
+char *gog_text_get_str (GogText *text);
+
 #define GOG_TYPE_LABEL	(gog_label_get_type ())
 #define GOG_LABEL(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_LABEL, GogLabel))
 #define GOG_IS_LABEL(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_LABEL))

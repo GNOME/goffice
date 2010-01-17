@@ -25,6 +25,39 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
+/**
+ * GOLineDashType
+ * @GO_LINE_NONE: No line displayed.
+ * @GO_LINE_SOLID: Solid line.
+ * @GO_LINE_S_DOT:
+ * @GO_LINE_S_DASH_DOT:
+ * @GO_LINE_S_DASH_DOT_DOT:
+ * @GO_LINE_DASH_DOT_DOT_DOT:
+ * @GO_LINE_DOT:
+ * @GO_LINE_S_DASH:
+ * @GO_LINE_DASH:
+ * @GO_LINE_LONG_DASH:
+ * @GO_LINE_DASH_DOT:
+ * @GO_LINE_DASH_DOT_DOT:
+ * @GO_LINE_MAX:
+ **/
+
+/**
+ * GOLineInterpolation
+ * @GO_LINE_INTERPOLATION_LINEAR: Linear interpolation.
+ * @GO_LINE_INTERPOLATION_SPLINE: Bezier cubic spline interpolation.
+ * @GO_LINE_INTERPOLATION_CLOSED_SPLINE: Closed Bezier cubic spline interpolation.
+ * @GO_LINE_INTERPOLATION_CUBIC_SPLINE: Cubic spline interpolation with natural limits.
+ * @GO_LINE_INTERPOLATION_PARABOLIC_CUBIC_SPLINE: Cubic spline interpolation with parabolic limits.
+ * @GO_LINE_INTERPOLATION_CUBIC_CUBIC_SPLINE: Cubic spline interpolation with cubic limits.
+ * @GO_LINE_INTERPOLATION_CLAMPED_CUBIC_SPLINE: Cubic spline interpolation with fixed derivatives at both ends.
+ * @GO_LINE_INTERPOLATION_STEP_START: Steps using first y value.
+ * @GO_LINE_INTERPOLATION_STEP_END: Steps using last y value.
+ * @GO_LINE_INTERPOLATION_STEP_CENTER_X: Steps centered around each point.
+ * @GO_LINE_INTERPOLATION_STEP_CENTER_Y: Steps using mean y value.
+ * @GO_LINE_INTERPOLATION_MAX: First invalid value.
+ **/
+
 typedef struct {
 	int 		 n_dash;
 	double		 length;

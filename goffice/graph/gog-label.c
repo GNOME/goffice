@@ -33,25 +33,6 @@ enum {
 	TEXT_PROP_ALLOW_MARKUP
 };
 
-typedef struct {
-	GogOutlinedObject base;
-
-	gboolean	  allow_markup;
-} GogText;
-
-typedef struct {
-	GogOutlinedObjectClass base;
-
-	char *(*get_str)    (GogText *text);
-} GogTextClass;
-
-#define GOG_TYPE_TEXT		(gog_text_get_type ())
-#define GOG_TEXT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_TEXT, GogText))
-#define GOG_IS_TEXT(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_TEXT))
-#define GOG_TEXT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_TYPE_TEXT, GogTextClass))
-
-static GType gog_text_get_type (void);
-
 static GObjectClass *text_parent_klass;
 
 static void
@@ -139,7 +120,7 @@ gog_text_init (GogText *text)
 	text->allow_markup = FALSE;
 }
 
-static char *
+char *
 gog_text_get_str (GogText *text)
 {
 	GogTextClass *klass;

@@ -41,6 +41,14 @@
 
 #define CC2XML(s) ((const xmlChar *)(s))
 
+/**
+ * GogErrorBarType :
+ * @GOG_ERROR_BAR_TYPE_NONE: No error bars.
+ * @GOG_ERROR_BAR_TYPE_ABSOLUTE: Absolute errors.
+ * @GOG_ERROR_BAR_TYPE_RELATIVE: Relative errors.
+ * @GOG_ERROR_BAR_TYPE_PERCENT: Relative errors as percent.
+ **/
+
 typedef GObjectClass GogErrorBarClass;
 static GObjectClass *error_bar_parent_klass;
 

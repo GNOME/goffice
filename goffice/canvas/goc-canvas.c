@@ -36,7 +36,7 @@
 
 /**
  * GocDirection :
- * @GOC_DIRECTION_LTR : Left to rigth direction
+ * @GOC_DIRECTION_LTR : Left to right direction
  * @GOC_DIRECTION_RTL : Right to left direction
  * @GOC_DIRECTION_MAX : First invalid value
  **/
