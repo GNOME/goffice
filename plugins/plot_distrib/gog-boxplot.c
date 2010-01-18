@@ -325,7 +325,6 @@ gog_box_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		bounds->is_discrete = TRUE;
 		bounds->center_on_ticks = FALSE;
 		return has_names? GO_DATA (go_data_vector_str_new (model->names, n, g_free)): NULL;
-
 	} else {
 		bounds->val.minima = model->min;
 		bounds->val.maxima = model->max;
@@ -333,6 +332,17 @@ gog_box_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	}
 
 	return NULL;
+}
+
+static void
+gog_box_plot_child_name_changed (GogObject const *obj, GogObject const *child)
+{
+	if (GOG_IS_SERIES (child)) {
+		GogBoxPlot *model = GOG_BOX_PLOT (obj);
+		GogAxis *axis = model->base.axis[(model->vertical)? 0: 1];
+		gog_axis_bound_changed (axis, GOG_OBJECT (obj));
+		gog_object_emit_changed (GOG_OBJECT (axis), TRUE);
+	}
 }
 
 static void
@@ -384,6 +394,7 @@ gog_box_plot_class_init (GogPlotClass *gog_plot_klass)
 	gog_object_klass->type_name	= gog_box_plot_type_name;
 	gog_object_klass->view_type	= gog_box_plot_view_get_type ();
 	gog_object_klass->update	= gog_box_plot_update;
+	gog_object_klass->child_name_changed	= gog_box_plot_child_name_changed;
 #ifdef GOFFICE_WITH_GTK
 	gog_object_klass->populate_editor = gog_box_plot_populate_editor;
 #endif

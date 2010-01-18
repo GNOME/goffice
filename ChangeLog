@@ -2,6 +2,9 @@
 
 	* plugins/plot_distrib/gog-probability-plot.c
 	(gog_probability_plot_set_property): apply type change to all series.
+	* plugins/plot_distrib/gog-boxplot.c
+	(gog_box_plot_axis_get_bounds), (gog_box_plot_child_name_changed),
+	(gog_box_plot_class_init): fixed category axis update.
 
 2010-01-15  Jean Brefort  <jean.brefort@normalesup.org>
 
