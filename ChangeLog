@@ -1,3 +1,8 @@
+2010-01-18  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_distrib/gog-probability-plot.c
+	(gog_probability_plot_set_property): apply type change to all series.
+
 2010-01-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-guru.c (graph_guru_type_selector_new): make keyboard

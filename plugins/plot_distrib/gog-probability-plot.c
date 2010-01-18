@@ -150,6 +150,7 @@ gog_probability_plot_set_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case PROBABILITY_PLOT_PROP_DISTRIBUTION: {
 		GODistribution *dist = GO_DISTRIBUTION (g_value_get_object (value));
+		GSList *series;
 		if (dist) {
 			GParamSpec **props;
 			int i, j, n;
@@ -171,8 +172,8 @@ gog_probability_plot_set_property (GObject *obj, guint param_id,
 				i++;
 			}
 			g_free (props);
-			if (plot->base.series)
-				gog_object_request_update (GOG_OBJECT (plot->base.series->data));
+			for (series = plot->base.series; series; series = series->next)
+				gog_object_request_update (GOG_OBJECT (series->data));
 			gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 		}
 		break;
