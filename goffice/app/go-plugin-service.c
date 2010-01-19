@@ -626,14 +626,14 @@ go_plugin_service_file_saver_read_xml (GOPluginService *service, xmlNode *tree, 
 		psfs->description = description;
 
 		(void)go_xml_node_get_enum (tree, "format_level",
-					 GO_TYPE_FILE_SAVER_LEVEL, &level);
+					 GO_TYPE_FILE_FORMAT_LEVEL, &level);
 		psfs->format_level = (GOFileFormatLevel)level;
 
 		if (!go_xml_node_get_int (tree, "default_saver_priority", &(psfs->default_saver_priority)))
 			psfs->default_saver_priority = -1;
 
 		(void)go_xml_node_get_enum (tree, "save_scope",
-					 GO_TYPE_FILE_SAVER_SCOPE, &scope);
+					 GO_TYPE_FILE_SAVE_SCOPE, &scope);
 		psfs->save_scope = (GOFileSaveScope)scope;
 
 		if (!go_xml_node_get_bool (tree, "overwrite_files", &(psfs->overwrite_files)))

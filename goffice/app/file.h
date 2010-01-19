@@ -21,8 +21,8 @@ typedef enum {
 	GO_FILE_FL_AUTO,            /* Save will save to this filename */
 	GO_FILE_FL_LAST
 } GOFileFormatLevel;
-GType go_file_saver_level_get_type (void);
-#define GO_TYPE_FILE_SAVER_LEVEL (go_file_saver_level_get_type ())
+GType go_file_format_level_get_type (void);
+#define GO_TYPE_FILE_FORMAT_LEVEL (go_file_format_level_get_type ())
 
 /*
  * GOFileSaveScope specifies what information file saver can save in a file.
@@ -35,8 +35,8 @@ typedef enum {
 	GO_FILE_SAVE_RANGE,
 	GO_FILE_SAVE_LAST
 } GOFileSaveScope;
-GType go_file_saver_scope_get_type (void);
-#define GO_TYPE_FILE_SAVER_SCOPE (go_file_saver_scope_get_type ())
+GType go_file_save_scope_get_type (void);
+#define GO_TYPE_FILE_SAVE_SCOPE (go_file_save_scope_get_type ())
 
 /*
  * GOFileOpener

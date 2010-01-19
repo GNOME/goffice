@@ -510,7 +510,7 @@ go_file_saver_class_init (GOFileSaverClass *klass)
 		 g_param_spec_enum ("format-level",
 				    _("Format Level"),
 				    "?",
-				    GO_TYPE_FILE_SAVER_LEVEL,
+				    GO_TYPE_FILE_FORMAT_LEVEL,
 				    GO_FILE_FL_NEW,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
@@ -521,7 +521,7 @@ go_file_saver_class_init (GOFileSaverClass *klass)
 		 g_param_spec_enum ("scope",
 				    _("Scope"),
 				    _("How much of a document is saved"),
-				    GO_TYPE_FILE_SAVER_SCOPE,
+				    GO_TYPE_FILE_SAVE_SCOPE,
 				    GO_FILE_SAVE_WORKBOOK,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
@@ -725,36 +725,36 @@ go_file_saver_set_overwrite_files (GOFileSaver *fs, gboolean overwrite)
 }
 
 GType
-go_file_saver_level_get_type (void)
+go_file_format_level_get_type (void)
 {
 	static GType etype = 0;
 	if (etype == 0) {
 		static GEnumValue values[] = {
-			{ GO_FILE_FL_NONE, (char*)"GO_FILE_SAVER_LEVEL_NONE", (char*)"none" },
-			{ GO_FILE_FL_WRITE_ONLY, (char*)"GO_FILE_SAVER_LEVEL_WRITE_ONLY", (char*)"write_only" },
-			{ GO_FILE_FL_NEW, (char*)"GO_FILE_SAVER_LEVEL_NEW", (char*)"new" },
-			{ GO_FILE_FL_MANUAL, (char*)"GO_FILE_SAVER_LEVEL_MANUAL", (char*)"manual" },
-			{ GO_FILE_FL_MANUAL_REMEMBER, (char*)"GO_FILE_SAVER_LEVEL_MANUAL_REMEMBER", (char*)"manual_remember" },
-			{ GO_FILE_FL_AUTO, (char*)"GO_FILE_SAVER_LEVEL_AUTO", (char*)"auto" },
+			{ GO_FILE_FL_NONE, (char*)"GO_FILE_FL_NONE", (char*)"none" },
+			{ GO_FILE_FL_WRITE_ONLY, (char*)"GO_FILE_FL_WRITE_ONLY", (char*)"write_only" },
+			{ GO_FILE_FL_NEW, (char*)"GO_FILE_FL_NEW", (char*)"new" },
+			{ GO_FILE_FL_MANUAL, (char*)"GO_FILE_FL_MANUAL", (char*)"manual" },
+			{ GO_FILE_FL_MANUAL_REMEMBER, (char*)"GO_FL_MANUAL_REMEMBER", (char*)"manual_remember" },
+			{ GO_FILE_FL_AUTO, (char*)"GO_FILE_FL_AUTO", (char*)"auto" },
 			{ 0, NULL, NULL }
 		};
-		etype = g_enum_register_static ("GOFileSaverLevel", values);
+		etype = g_enum_register_static ("GOFileFormatLevel", values);
 	}
 	return etype;
 }
 
 GType
-go_file_saver_scope_get_type (void)
+go_file_save_scope_get_type (void)
 {
 	static GType etype = 0;
 	if (etype == 0) {
 		static GEnumValue values[] = {
-			{ GO_FILE_SAVE_WORKBOOK, (char*)"GO_FILE_SAVER_SCOPE_WORKBOOK", (char*)"workbook" },
-			{ GO_FILE_SAVE_SHEET, (char*)"GO_FILE_SAVER_SCOPE_SHEET", (char*)"sheet" },
-			{ GO_FILE_SAVE_RANGE, (char*)"GO_FILE_SAVER_SCOPE_RANGE", (char*)"range" },
+			{ GO_FILE_SAVE_WORKBOOK, (char*)"GO_FILE_SAVE_WORKBOOK", (char*)"workbook" },
+			{ GO_FILE_SAVE_SHEET, (char*)"GO_FILE_SAVE_SHEET", (char*)"sheet" },
+			{ GO_FILE_SAVE_RANGE, (char*)"GO_FILE_SAVE_RANGE", (char*)"range" },
 			{ 0, NULL, NULL }
 		};
-		etype = g_enum_register_static ("GOFileSaverScope", values);
+		etype = g_enum_register_static ("GOFileSaveScope", values);
 	}
 	return etype;
 }

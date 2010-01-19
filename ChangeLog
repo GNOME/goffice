@@ -1,3 +1,12 @@
+2010-01-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/goffice-0.8-sections.txt: fixed more gtk-doc warnings.
+	* goffice/app/file.c (go_file_saver_class_init),
+	(go_file_format_level_get_type), (go_file_save_scope_get_type): ditto.
+	* goffice/app/file.h: ditto.
+	* goffice/app/go-plugin-service.c
+	(go_plugin_service_file_saver_read_xml): ditto.
+
 2010-01-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_distrib/gog-probability-plot.c

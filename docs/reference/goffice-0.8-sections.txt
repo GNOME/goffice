@@ -150,6 +150,7 @@ gog_view_render_toolkit
 gog_view_get_tool_at_point
 gog_view_get_view_at_point
 gog_view_size_child_request
+gog_view_get_tip_at_point
 <SUBSECTION Standard>
 GOG_TYPE_VIEW
 GOG_VIEW
@@ -288,6 +289,8 @@ gog_axis_clear_contributors
 gog_axis_bound_changed
 gog_axis_get_grid_line
 gog_axis_get_circular_rotation
+gog_axis_get_date_conv
+gog_axis_get_effective_format
 <SUBSECTION>
 GogAxisPolarUnit
 gog_axis_get_polar_perimeter
@@ -379,6 +382,7 @@ gog_plot_guru_helper
 gog_plot_clear_series
 <SUBSECTION>
 GogPlotView
+gog_plot_view_get_data_at_point
 <SUBSECTION Standard>
 GOG_TYPE_PLOT
 GOG_PLOT
@@ -391,6 +395,7 @@ GOG_PLOT_ITEM_GET_CLASS
 GOG_TYPE_PLOT_VIEW
 GOG_PLOT_VIEW
 GOG_IS_PLOT_VIEW
+GOG_PLOT_VIEW_GET_CLASS
 GogPlotViewClass
 gog_plot_view_get_type
 gog_plot_get_type
@@ -544,6 +549,10 @@ GogText
 gog_text_get_str
 <SUBSECTION Private>
 gog_text_get_type
+GOG_IS_TEXT
+GOG_TEXT
+GOG_TEXT_GET_CLASS
+GOG_TYPE_TEXT
 </SECTION>
 
 <SECTION>
@@ -1290,6 +1299,17 @@ go_pow2
 go_pow10
 go_ascii_strtod
 go_strtod
+<SUBSECTION Private>
+go_add_epsilonl
+go_ascii_strtold
+go_fake_ceill
+go_fake_floorl
+go_fake_roundl
+go_fake_truncl
+go_pow10l
+go_pow2l
+go_strtold
+go_sub_epsilonl
 </SECTION>
 
 <SECTION>
@@ -1349,6 +1369,8 @@ go_complex_to_stringl
 go_complex_zero_p
 go_complex_zero_pl
 <SUBSECTION Private>
+go_complex_anglel
+go_complex_modl
 </SECTION>
 
 <SECTION>
@@ -1362,11 +1384,16 @@ go_cspline_get_value
 go_cspline_get_deriv
 go_cspline_get_values
 go_cspline_get_derivs
-go_cspline_get_integrals
 <SUBSECTION Private>
 GOCSplinel
 go_cspline_initl
 go_cspline_destroyl
+go_cspline_get_integrals
+go_cspline_get_derivl
+go_cspline_get_derivsl
+go_cspline_get_integralsl
+go_cspline_get_valuel
+go_cspline_get_valuesl
 </SECTION>
 
 <SECTION>
@@ -1391,6 +1418,14 @@ GO_DISTRIBUTION
 GO_IS_DISTRIBUTION
 GO_TYPE_DISTRIBUTION
 go_distribution_get_type
+<SUBSECTION Private>
+go_distribution_get_cumulative_hazardl
+go_distribution_get_cumulativel
+go_distribution_get_densityl
+go_distribution_get_hazardl
+go_distribution_get_inverse_survivall
+go_distribution_get_ppfl
+go_distribution_get_survivall
 </SECTION>
 
 <SECTION>
@@ -1430,6 +1465,7 @@ go_range_median_inter_nonconstl
 go_range_decreasingl
 go_range_median_inter_sortedl
 go_range_vary_uniformlyl
+go_range_sortl
 </SECTION>
 
 <SECTION>
@@ -1459,6 +1495,7 @@ go_exponential_regressionl
 go_logarithmic_regressionl
 go_logarithmic_fitl
 go_matrix_invertl
+go_matrix_determinantl
 go_non_linear_regressionl
 go_power_regressionl
 go_regression_stat_newl
@@ -1484,7 +1521,20 @@ go_dcauchy
 go_pcauchy
 go_qcauchy
 <SUBSECTION Private>
+go_truncl
+go_dnorml
+go_pnorml
 go_pnorm_bothl
+go_qnorml
+go_dlnorml
+go_plnorml
+go_qlnorml
+go_dweibulll
+go_pweibulll
+go_qweibulll
+go_dcauchyl
+go_pcauchyl
+go_qcauchyl
 </SECTION>
 
 <SECTION>
@@ -2802,7 +2852,6 @@ go_file_saver_new
 go_file_saver_register
 go_file_saver_register_as_default
 go_file_saver_save
-go_file_saver_scope_get_type
 go_file_saver_set_overwrite_files
 go_file_saver_set_save_scope
 go_file_saver_set_export_options
@@ -2810,13 +2859,14 @@ go_file_saver_unregister
 go_get_file_savers
 GO_FILE_SAVER_METHOD
 <SUBSECTION Standard>
-GO_TYPE_FILE_SAVER_LEVEL
-GO_TYPE_FILE_SAVER_SCOPE
+GO_TYPE_FILE_FORMAT_LEVEL
+GO_TYPE_FILE_SAVE_SCOPE
 GO_FILE_SAVER
 GO_IS_FILE_SAVER
 GO_TYPE_FILE_SAVER
 go_file_saver_get_type
-go_file_saver_level_get_type
+go_file_save_scope_get_type
+go_file_format_level_get_type
 GO_FILE_SAVER_CLASS
 </SECTION>
 
@@ -3078,4 +3128,49 @@ go_ms_parser_read
 go_ms_parser_write
 </SECTION>
 
-
+###############################################################################
+### externl symbols included there to make gtk-doc happy
+<SECTION>
+<FILE>external-symbols</FILE>
+<SUBSECTION Private>
+GdkPixbuf
+GtkAnchorType
+M_PI
+acosh
+asinh
+atanh
+expm1
+finite
+frexpl
+gtk_adjustment_get_page_size
+gtk_adjustment_get_upper
+gtk_color_selection_dialog_get_color_selection
+gtk_dialog_get_action_area
+gtk_layout_get_bin_window
+gtk_menu_shell_get_active
+gtk_selection_data_get_data
+gtk_selection_data_get_length
+gtk_selection_data_get_target
+gtk_tearoff_menu_item_get_torn_off
+gtk_tearoff_menu_item_set_torn_off
+gtk_widget_get_allocation
+gtk_widget_get_has_window
+gtk_widget_get_state
+gtk_widget_get_style
+gtk_widget_get_visible
+gtk_widget_get_window
+gtk_widget_has_focus
+gtk_widget_is_mapped
+gtk_widget_is_realized
+gtk_widget_is_sensitive
+gtk_widget_set_can_default
+gtk_widget_set_can_focus
+gtk_widget_set_has_focus
+gtk_widget_set_receives_default
+gtk_window_get_default_widget
+isnan
+ldexpl
+log1p
+modfl
+strtold
+</SECTION>
