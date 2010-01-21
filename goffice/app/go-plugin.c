@@ -91,6 +91,7 @@ struct _GOPlugin {
 	GHashTable *loader_attrs;
 	GOPluginLoader *loader;
 	GSList *services;
+	gboolean autoload;
 
 	char *saved_textdomain;
 };
@@ -729,6 +730,7 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 	gchar *loader_id;
 	GHashTable *loader_attrs;
 	gboolean require_explicit_enabling = FALSE;
+	gboolean autoload = FALSE;
 
 	g_return_if_fail (GO_IS_PLUGIN (plugin));
 	g_return_if_fail (dir_name != NULL);
@@ -776,6 +778,9 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 			description = NULL;
 		if (go_xml_get_child_by_name (information_node, (xmlChar const *)"require_explicit_enabling"))
 			require_explicit_enabling = TRUE;
+
+		if (go_xml_get_child_by_name (information_node, (xmlChar const *)"autoload"))
+			autoload = TRUE;
 	} else {
 		name = NULL;
 		description = NULL;
@@ -819,6 +824,7 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 		plugin->name = name;
 		plugin->description = description;
 		plugin->require_explicit_enabling = require_explicit_enabling;
+		plugin->autoload = autoload;
 		plugin->is_active = FALSE;
 		plugin->use_refcount = 0;
 		plugin->type_module  = NULL;
@@ -835,6 +841,7 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 			go_error_info_add_details (*ret_error, services_error);
 		} else
 			go_plugin_message (4, "Read plugin.xml file for %s.\n", plugin->id);
+
 	} else {
 		if (id != NULL) {
 			GSList *error_list = NULL;
@@ -993,6 +1000,9 @@ go_plugin_activate (GOPlugin *plugin, GOErrorInfo **ret_error)
 	);
 	plugin->is_active = TRUE;
 	g_signal_emit (G_OBJECT (plugin), go_plugin_signals[STATE_CHANGED], 0);
+
+	if (plugin->autoload)
+		go_plugin_load_base (plugin, ret_error);
 }
 
 /**

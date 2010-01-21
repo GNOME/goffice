@@ -1,3 +1,9 @@
+2010-01-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-plugin.c (go_plugin_read): Add new "autoload"
+	flag
+	(go_plugin_activate): Autoload if requested.
+
 2010-01-19  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
