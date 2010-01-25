@@ -1,3 +1,8 @@
+2010-01-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): do not crash when
+	the chart contains no plot. [#607960]
+
 2010-01-21  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-plugin.c (go_plugin_read): Add new "autoload"

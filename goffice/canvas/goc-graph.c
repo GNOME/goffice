@@ -282,8 +282,12 @@ goc_graph_do_tooltip (GocGraph *graph)
 	set = gog_chart_get_axis_set (chart) & GOG_AXIS_SET_FUNDAMENTAL;
 	/* get the plot allocation */
 	l = gog_object_get_children (GOG_OBJECT (chart), gog_object_find_role_by_name (GOG_OBJECT (chart), "Plot"));
+	if (l == NULL)
+		return;
 	view = gog_view_find_child_view (view, GOG_OBJECT (l->data));
 	g_slist_free (l);
+	if (!view)
+		return;
 	alloc = view->allocation;
 	switch (set) {
 	case GOG_AXIS_SET_XY:
