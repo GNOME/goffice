@@ -273,6 +273,7 @@ goc_graph_do_tooltip (GocGraph *graph)
 
 	/* get the GogView at the cursor position */
 	g_object_get (G_OBJECT (graph->renderer), "view", &view, NULL);
+	g_object_unref (view); /* we don't need a reference */
 	gog_view_get_view_at_point (view, x, y, &obj, NULL);
 	if (!obj)
 		goto tooltip;
