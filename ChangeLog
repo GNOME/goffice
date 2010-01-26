@@ -1,3 +1,8 @@
+2010-01-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-format.c (cb_attrs_as_string),
+	(go_format_parse_markup): use locale independent markup. [#608047]
+
 2010-01-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): do not crash when

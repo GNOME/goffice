@@ -25,6 +25,7 @@ goffice 0.7.17:
 Jean:
 	* Fixed a canvas performance issue. [#603813]
 	* Update property page when style changes after reordering. [#604229]
+	* Use locale independent markup. [#608047]
 
 Jody:
 	* Fix context sensitive help support on win32.

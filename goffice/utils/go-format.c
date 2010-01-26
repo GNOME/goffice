@@ -4153,6 +4153,7 @@ static gboolean
 cb_attrs_as_string (PangoAttribute *a, GString *accum)
 {
 	PangoColor const *c;
+	char buf[16];
 
 	if (a->start_index >= a->end_index)
 		return FALSE;
@@ -4171,8 +4172,10 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 			((PangoAttrInt *)a)->value);
 		break;
 	case PANGO_ATTR_SCALE:
-		g_string_append_printf (accum, "[scale=%.2f",
-			((PangoAttrFloat *)a)->value);
+		g_string_append (accum, "[scale=");
+		g_ascii_formatd (buf, sizeof (buf), "%.2f",
+				((PangoAttrFloat *)a)->value);
+		g_string_append (accum, buf);
 		break;
 	case PANGO_ATTR_STYLE :
 		g_string_append_printf (accum, "[italic=%d",
@@ -4181,8 +4184,10 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 	case PANGO_ATTR_WEIGHT :
 		/* We are scaling the weight so that earlier versions that used only 0/1 */
 		/* can still read the new formats and we can read the old ones. */
-		g_string_append_printf (accum, "[bold=%.3f",
-					(((PangoAttrInt *)a)->value - 399.)/300.);
+		g_string_append (accum, "[bold=");
+		g_ascii_formatd (buf, sizeof (buf), "%.3f",
+				(((PangoAttrInt *)a)->value - 399.)/300.);
+		g_string_append (accum, buf);
 		break;
 	case PANGO_ATTR_STRIKETHROUGH :
 		g_string_append_printf (accum, "[strikethrough=%d",
@@ -4259,7 +4264,7 @@ go_format_parse_markup (char *str)
 			if (0 == strncmp (str, "size", 4))
 				a = pango_attr_size_new (atoi (val));
 			else if (0 == strncmp (str, "bold", 4))
-				a = pango_attr_weight_new ((int)(atof (val) * 300. + 399.));
+				a = pango_attr_weight_new ((int)(g_ascii_strtod (val, NULL) * 300. + 399.));
 			else if (0 == strncmp (str, "rise", 4))
 				a = pango_attr_rise_new (atoi (val));
 			break;
@@ -4269,7 +4274,7 @@ go_format_parse_markup (char *str)
 			    3 == sscanf (val, "%02xx%02xx%02x", &r, &g, &b))
 				a = pango_attr_foreground_new ((r << 8) | r, (g << 8) | g, (b << 8) | b);
 			else if (0 == strncmp (str, "scale", 5))
-				a = pango_attr_scale_new (atof (val));
+				a = pango_attr_scale_new (g_ascii_strtod (val, NULL));
 			break;
 
 		case 6:
