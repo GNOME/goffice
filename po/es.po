@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
-"POT-Creation-Date: 2010-01-06 15:45+0000\n"
-"PO-Revision-Date: 2010-01-09 09:13+0100\n"
+"POT-Creation-Date: 2010-01-14 10:11+0000\n"
+"PO-Revision-Date: 2010-01-26 20:03+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1216,129 +1216,129 @@ msgstr "Rotación del eje circular"
 msgid "Polar axis set unit"
 msgstr "Unidad del eje polar"
 
-#: ../goffice/graph/gog-chart.c:442
+#: ../goffice/graph/gog-chart.c:367 ../goffice/graph/gog-chart.c:670
+msgid "Plot area"
+msgstr "Área de dibujado"
+
+#: ../goffice/graph/gog-chart.c:576
 msgid "Backplane"
 msgstr "Panel de fondo"
 
-#: ../goffice/graph/gog-chart.c:445
+#: ../goffice/graph/gog-chart.c:579
 msgid "XY-Backplane"
 msgstr "Panel de fondo XY"
 
-#: ../goffice/graph/gog-chart.c:449
+#: ../goffice/graph/gog-chart.c:583
 msgid "YZ-Backplane"
 msgstr "Panel de fondo YZ"
 
-#: ../goffice/graph/gog-chart.c:453
+#: ../goffice/graph/gog-chart.c:587
 msgid "ZX-Backplane"
 msgstr "Panel de fondo ZX"
 
-#: ../goffice/graph/gog-chart.c:457
+#: ../goffice/graph/gog-chart.c:591
 msgid "X-Axis"
 msgstr "Eje-X"
 
-#: ../goffice/graph/gog-chart.c:461
+#: ../goffice/graph/gog-chart.c:595
 msgid "Y-Axis"
 msgstr "Eje-Y"
 
-#: ../goffice/graph/gog-chart.c:465
+#: ../goffice/graph/gog-chart.c:599
 msgid "Z-Axis"
 msgstr "Eje-Z"
 
-#: ../goffice/graph/gog-chart.c:469
+#: ../goffice/graph/gog-chart.c:603
 msgid "Circular-Axis"
 msgstr "Eje circular"
 
-#: ../goffice/graph/gog-chart.c:473
+#: ../goffice/graph/gog-chart.c:607
 msgid "Radial-Axis"
 msgstr "Eje radial"
 
-#: ../goffice/graph/gog-chart.c:477
+#: ../goffice/graph/gog-chart.c:611
 msgid "Pseudo-3D-Axis"
 msgstr "Pseudo eje 3D"
 
-#: ../goffice/graph/gog-chart.c:481
+#: ../goffice/graph/gog-chart.c:615
 msgid "Bubble-Axis"
 msgstr "Burbuja-Eje"
 
-#: ../goffice/graph/gog-chart.c:485
+#: ../goffice/graph/gog-chart.c:619
 msgid "Color-Axis"
 msgstr "Color-del-eje"
 
-#: ../goffice/graph/gog-chart.c:489
+#: ../goffice/graph/gog-chart.c:623
 msgid "Plot"
 msgstr "Gráfico"
 
-#: ../goffice/graph/gog-chart.c:492 ../goffice/graph/gog-graph.c:301
+#: ../goffice/graph/gog-chart.c:626 ../goffice/graph/gog-graph.c:301
 #: ../goffice/graph/gog-legend.c:187
 msgid "Title"
 msgstr "Título"
 
-#: ../goffice/graph/gog-chart.c:497
+#: ../goffice/graph/gog-chart.c:631
 msgid "Legend"
 msgstr "Leyenda"
 
-#: ../goffice/graph/gog-chart.c:503 ../goffice/graph/gog-reg-curve.c:154
+#: ../goffice/graph/gog-chart.c:637 ../goffice/graph/gog-reg-curve.c:154
 msgid "Equation"
 msgstr "Ecuación"
 
-#: ../goffice/graph/gog-chart.c:509
+#: ../goffice/graph/gog-chart.c:643
 msgid "3D-Box"
 msgstr "Caja-3D"
 
-#: ../goffice/graph/gog-chart.c:530
+#: ../goffice/graph/gog-chart.c:664
 msgid "Valid cardinality"
 msgstr "Cardinalidad válida"
 
-#: ../goffice/graph/gog-chart.c:531
+#: ../goffice/graph/gog-chart.c:665
 msgid "Is the charts cardinality currently valid"
 msgstr "Si la cardinalidad de los gráficos es válida actualmente"
 
-#: ../goffice/graph/gog-chart.c:536 ../goffice/graph/gog-plot.c:394
-msgid "Plot area"
-msgstr "Área de dibujado"
-
-#: ../goffice/graph/gog-chart.c:537
+#: ../goffice/graph/gog-chart.c:671
 msgid "Position and size of plot area, in percentage of chart size"
 msgstr ""
 "Posición y tamaño del área de dibujado, en porcentaje del tamaño del gráfico"
 
-#: ../goffice/graph/gog-chart.c:542
+#: ../goffice/graph/gog-chart.c:676
 msgid "Manual plot area"
 msgstr "Área de dibujado manual"
 
-#: ../goffice/graph/gog-chart.c:543
+#: ../goffice/graph/gog-chart.c:677
 msgid "Is plot area manual"
 msgstr "Si el área de dibujado es manual"
 
-#: ../goffice/graph/gog-chart.c:547
+#: ../goffice/graph/gog-chart.c:681
 msgid "xpos"
 msgstr "posx"
 
-#: ../goffice/graph/gog-chart.c:548
+#: ../goffice/graph/gog-chart.c:682
 msgid "Horizontal chart position in graph grid"
 msgstr "Posición horizontal del gráfico en la rejilla de gráfico"
 
-#: ../goffice/graph/gog-chart.c:552
+#: ../goffice/graph/gog-chart.c:686
 msgid "ypos"
 msgstr "posy"
 
-#: ../goffice/graph/gog-chart.c:553
+#: ../goffice/graph/gog-chart.c:687
 msgid "Vertical chart position in graph grid"
 msgstr "Posición vertical del gráfico en la rejilla de gráfico"
 
-#: ../goffice/graph/gog-chart.c:556
+#: ../goffice/graph/gog-chart.c:690
 msgid "columns"
 msgstr "columnas"
 
-#: ../goffice/graph/gog-chart.c:557
+#: ../goffice/graph/gog-chart.c:691
 msgid "Number of columns in graph grid"
 msgstr "Número de columnas en la rejilla de gráfico"
 
-#: ../goffice/graph/gog-chart.c:560
+#: ../goffice/graph/gog-chart.c:694
 msgid "rows"
 msgstr "filas"
 
-#: ../goffice/graph/gog-chart.c:561
+#: ../goffice/graph/gog-chart.c:695
 msgid "Number of rows in graph grid"
 msgstr "Número de filas en la rejilla de gráfico"
 
@@ -1493,8 +1493,9 @@ msgid "Numerical type of this backplane"
 msgstr "Tipo numérico de este panel de fondo"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:1
-msgid "<b>Description</b>"
-msgstr "<b>Descripción</b>"
+#| msgid "<b>Style</b>"
+msgid "<b>Sample</b>"
+msgstr "<b>Muestra</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:2
 msgid "<b>_Plot type</b>"
@@ -1504,31 +1505,27 @@ msgstr "<b>Tipo de _gráfico</b>"
 msgid "<b>_Subtype</b>"
 msgstr "<b>_Subtipo</b>"
 
-#: ../goffice/graph/gog-guru-type-selector.ui.h:4
-msgid "Show sample"
-msgstr "Mostrar ejemplo"
-
-#: ../goffice/graph/gog-guru.c:971 ../goffice/graph/gog-series.c:474
+#: ../goffice/graph/gog-guru.c:999 ../goffice/graph/gog-series.c:474
 msgid "Name"
 msgstr "Nombre"
 
-#: ../goffice/graph/gog-guru.c:998
+#: ../goffice/graph/gog-guru.c:1026
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Paso 1 de 2: Seleccione el tipo de diagrama"
 
-#: ../goffice/graph/gog-guru.c:1006
+#: ../goffice/graph/gog-guru.c:1034
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Paso 2 de 2: Personalice su diagrama"
 
-#: ../goffice/graph/gog-guru.c:1011
+#: ../goffice/graph/gog-guru.c:1039
 msgid "Customize Chart"
 msgstr "Personalizar diagrama"
 
-#: ../goffice/graph/gog-guru.c:1086
+#: ../goffice/graph/gog-guru.c:1114
 msgid "_Insert"
 msgstr "_Insertar"
 
-#: ../goffice/graph/gog-guru.c:1153
+#: ../goffice/graph/gog-guru.c:1181
 msgid "_Plot Type"
 msgstr "Tipo de _gráfico"
 
@@ -1779,83 +1776,83 @@ msgstr "Motor de curvas de regresión "
 msgid "Regression Curve Type"
 msgstr "Tipo de curvas de regresión"
 
-#: ../goffice/graph/gog-plot.c:260
+#: ../goffice/graph/gog-plot.c:161
 msgid "X axis:"
 msgstr "Eje X:"
 
-#: ../goffice/graph/gog-plot.c:261
+#: ../goffice/graph/gog-plot.c:162
 msgid "Y axis:"
 msgstr "Eje Y:"
 
-#: ../goffice/graph/gog-plot.c:262
+#: ../goffice/graph/gog-plot.c:163
 msgid "Z axis:"
 msgstr "Eje Z:"
 
-#: ../goffice/graph/gog-plot.c:263
+#: ../goffice/graph/gog-plot.c:164
 msgid "Circular axis:"
 msgstr "Eje circular"
 
-#: ../goffice/graph/gog-plot.c:264
+#: ../goffice/graph/gog-plot.c:165
 msgid "Radial axis:"
 msgstr "Eje radial:"
 
-#: ../goffice/graph/gog-plot.c:265
+#: ../goffice/graph/gog-plot.c:166
 msgid "Pseudo 3D axis:"
 msgstr "Eje pseudo 3D:"
 
-#: ../goffice/graph/gog-plot.c:266
+#: ../goffice/graph/gog-plot.c:167
 msgid "Color axis:"
 msgstr "Color de los ejes:"
 
-#: ../goffice/graph/gog-plot.c:267
+#: ../goffice/graph/gog-plot.c:168
 msgid "Bubble axis:"
 msgstr "Eje de burbuja:"
 
-#: ../goffice/graph/gog-plot.c:346
+#: ../goffice/graph/gog-plot.c:232
 msgid "Axes"
 msgstr "Ejes"
 
-#: ../goffice/graph/gog-plot.c:496
+#: ../goffice/graph/gog-plot.c:334
 msgid "Series"
 msgstr "Series"
 
-#: ../goffice/graph/gog-plot.c:517
+#: ../goffice/graph/gog-plot.c:355
 msgid "Vary style by element"
 msgstr "Variar el estilo por elemento"
 
-#: ../goffice/graph/gog-plot.c:518
+#: ../goffice/graph/gog-plot.c:356
 msgid "Use a different style for each segments"
 msgstr "Usar un estilo diferente para cada segmento"
 
-#: ../goffice/graph/gog-plot.c:523
+#: ../goffice/graph/gog-plot.c:361
 msgid "X axis"
 msgstr "Eje X"
 
-#: ../goffice/graph/gog-plot.c:524
+#: ../goffice/graph/gog-plot.c:362
 msgid "Reference to X axis"
 msgstr "Referencia al eje X"
 
-#: ../goffice/graph/gog-plot.c:529
+#: ../goffice/graph/gog-plot.c:367
 msgid "Y axis"
 msgstr "Eje Y"
 
-#: ../goffice/graph/gog-plot.c:530
+#: ../goffice/graph/gog-plot.c:368
 msgid "Reference to Y axis"
 msgstr "Referencia al eje Y"
 
-#: ../goffice/graph/gog-plot.c:535
+#: ../goffice/graph/gog-plot.c:373
 msgid "Plot group"
 msgstr "Grupo de dibujo"
 
-#: ../goffice/graph/gog-plot.c:536
+#: ../goffice/graph/gog-plot.c:374
 msgid "Name of plot group if any"
 msgstr "Nombre del grupo de dibujo si lo hay"
 
-#: ../goffice/graph/gog-plot.c:541
+#: ../goffice/graph/gog-plot.c:379
 msgid "Guru hints"
 msgstr "Consejos de gurú"
 
-#: ../goffice/graph/gog-plot.c:542
+#: ../goffice/graph/gog-plot.c:380
 msgid ""
 "Semicolon separated list of hints for automatic addition of objects in guru "
 "dialog"
@@ -1863,19 +1860,19 @@ msgstr ""
 "Lista de los consejos de gurú separados por punto y coma para la adición "
 "automática de objetos en el diálogo de gurú"
 
-#: ../goffice/graph/gog-plot.c:548
+#: ../goffice/graph/gog-plot.c:386
 msgid "Default interpolation"
 msgstr "Interpolación predeterminada"
 
-#: ../goffice/graph/gog-plot.c:549
+#: ../goffice/graph/gog-plot.c:387
 msgid "Default type of series line interpolation"
 msgstr "Tipo predeterminado de series de líneas de interpolación"
 
-#: ../goffice/graph/gog-plot.c:1154
+#: ../goffice/graph/gog-plot.c:992
 msgid "Move plot area"
 msgstr "Mover el área del gráfico"
 
-#: ../goffice/graph/gog-plot.c:1206
+#: ../goffice/graph/gog-plot.c:1044
 msgid "Resize plot area"
 msgstr "Redimensionar el área del gráfico"
 
@@ -5256,8 +5253,9 @@ msgid "Line"
 msgstr "Línea"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:77
-msgid "Line plot."
-msgstr "Gráfico de líneas."
+#| msgid "Polar plot with colored marks."
+msgid "Line plot with markers."
+msgstr "Gráfico de líneas con marcadores."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:79
 msgid "Marked Horizontal Min Max Lines"
@@ -5321,8 +5319,9 @@ msgid "Percentage area plot."
 msgstr "Gráfico de área de porcentual."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:91
-msgid "Percentage line plot."
-msgstr "Gráfica de líneas porcentuales."
+#| msgid "Percentage line plot."
+msgid "Percentage line plot with markers."
+msgstr "Gráfica de líneas porcentuales con marcadores."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:92
 msgid "Stacked Areas"
@@ -5345,38 +5344,54 @@ msgid "Stacked area plot."
 msgstr "Gráfico de áreas apiladas."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:97
-msgid "Stacked line plot."
-msgstr "Gráfica de líneas apiladas."
+#| msgid "Stacked line plot."
+msgid "Stacked line plot with markers."
+msgstr "Gráfica de líneas apiladas con marcadores."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:98
 msgid "Unmarked Lines"
-msgstr "Líneas no marcadas"
+msgstr "Líneas sin marcadores"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:99
 msgid "Unmarked Percentage Lines"
-msgstr "Líneas de porcentajes no marcadas"
+msgstr "Líneas de porcentajes sin marcadores"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:100
 msgid "Unmarked Stacked Lines"
-msgstr "Líneas apiladas no marcadas"
+msgstr "Líneas apiladas sin marcadores"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:101
+#| msgid "Stacked line plot."
+msgid "Unmarked line plot."
+msgstr "Gráfica de líneas sin marcadores."
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:102
+#| msgid "Unmarked Percentage Lines"
+msgid "Unmarked percentage line plot."
+msgstr "Gráfica de líneas porcentuales sin marcadores."
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:103
+#| msgid "Unmarked Stacked Lines"
+msgid "Unmarked stacked line plot."
+msgstr "Gráfica de líneas apiladas sin marcadores."
+
+#: ../plugins/plot_barcol/plot-types.xml.in.h:104
 msgid "Vertical Drop Bars"
 msgstr "Barras deslizantes verticales"
 
-#: ../plugins/plot_barcol/plot-types.xml.in.h:102
+#: ../plugins/plot_barcol/plot-types.xml.in.h:105
 msgid "Vertical Min Max Lines"
 msgstr "Líneas mín. máx. verticales"
 
-#: ../plugins/plot_barcol/plot-types.xml.in.h:103
+#: ../plugins/plot_barcol/plot-types.xml.in.h:106
 msgid "Vertical drop bars."
 msgstr "Barras deslizantes verticales."
 
-#: ../plugins/plot_barcol/plot-types.xml.in.h:104
+#: ../plugins/plot_barcol/plot-types.xml.in.h:107
 msgid "Vertical min max lines with markers."
 msgstr "Líneas mín. máx. verticales con marcadores."
 
-#: ../plugins/plot_barcol/plot-types.xml.in.h:105
+#: ../plugins/plot_barcol/plot-types.xml.in.h:108
 msgid "Vertical min max lines."
 msgstr "Líneas verticales mín. máx."
 
@@ -5719,7 +5734,6 @@ msgid "Half Pie"
 msgstr "Media tarta"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:2
-#| msgid "Percentage of each contributor displayed in ring for each serie."
 msgid ""
 "Percentage of each contributor displayed as a segment of a ring with one "
 "ring for each series."
@@ -5728,9 +5742,6 @@ msgstr ""
 "con un anillo para cada serie."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:3
-#| msgid ""
-#| "Percentage of each contributor displayed in ring for each serie with "
-#| "wedges of the last ring split apart."
 msgid ""
 "Percentage of each contributor displayed as a segment of a ring with one "
 "ring for each series; the wedges of the outside ring (corresponding to the "
@@ -6770,6 +6781,15 @@ msgstr "sexto"
 #: ../tests/go-demo.ui.h:42
 msgid "third"
 msgstr "tercero"
+
+#~ msgid "<b>Description</b>"
+#~ msgstr "<b>Descripción</b>"
+
+#~ msgid "Show sample"
+#~ msgstr "Mostrar ejemplo"
+
+#~ msgid "Line plot."
+#~ msgstr "Gráfico de líneas."
 
 #~ msgid "Arrow head"
 #~ msgstr "Cabeza de la flecha"
