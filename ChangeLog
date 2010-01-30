@@ -1,3 +1,8 @@
+2010-01-30  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_file_access): Assume g_access is
+	available.
+
 2010-01-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-format.c (cb_attrs_as_string),

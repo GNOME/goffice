@@ -1202,15 +1202,10 @@ go_file_access (char const *uri, gint mode)
 		return -1;
 
 #ifdef G_OS_WIN32
-#  ifndef HAVE_G_ACCESS
-#    error "A glib with g_access is required for Win32"
-#  else
 	/* FIXME FIXME FIXME Use Security API instead of checking file attributes only on NT-based environment */
-	ret = g_access (filename, mode);
-#  endif
-#else
-	ret = access (filename, mode);
 #endif
+
+	ret = g_access (filename, mode);
 
 	g_free (filename);
 
