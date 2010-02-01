@@ -4775,7 +4775,7 @@ msgstr "Conto_ur :"
 
 #: ../goffice/utils/go-style-prefs.ui.h:11
 msgid "Pattern"
-msgstr "_Motif :"
+msgstr "Motif"
 
 #: ../goffice/utils/go-style-prefs.ui.h:12
 msgid "Sha_pe:"
