@@ -1,3 +1,7 @@
+2010-02-11  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: Bump version number in preparation for release.
+
 2010-01-30  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-file.c (go_file_access): Assume g_access is

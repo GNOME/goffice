@@ -1,4 +1,4 @@
-goffice 0.7.19:
+goffice 0.8.0:
 
 Jean:
 	* Do not crash when a chart contains no plot. [#607960]
