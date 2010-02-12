@@ -1,3 +1,8 @@
+2010-02-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-item.c (goc_item_dispose): ungrab item on dispose
+	when needed. [#609747]
+
 2010-02-11  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Bump version number in preparation for release.

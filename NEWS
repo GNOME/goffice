@@ -2,6 +2,7 @@ goffice 0.8.0:
 
 Jean:
 	* Do not crash when a chart contains no plot. [#607960]
+	* Do not crash when deleting a grabbed item. [#609747]
 
 Morten:
 	* Add "autoload" flag for plugins.
