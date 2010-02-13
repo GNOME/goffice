@@ -1,15 +1,14 @@
 # translation of ru.po to 
 # Copyright (C) 1999-2002, 2004 Free Software Foundation, Inc.
-# Valek Filippov <frob@df.ru>, 1999-2002,2003.
 # Dmitry G. Mastrukov <dmitry@taurussoft.org>, 2001-2002, 2004.
-#
+# Valek Filippov <frob@df.ru>, 1999-2002,2003, 2010.
 #: ../goffice/app/file.c:512
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-15 16:43-0400\n"
-"PO-Revision-Date: 2006-09-25 11:33-0400\n"
+"PO-Revision-Date: 2010-02-13 00:26-0500\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -34,16 +33,15 @@ msgstr ""
 
 #: ../goffice/app/file.c:480
 msgid "Extension"
-msgstr ""
+msgstr "Расширение"
 
 #: ../goffice/app/file.c:481
 msgid "The standard file name extension of the saver."
 msgstr ""
 
 #: ../goffice/app/file.c:490
-#, fuzzy
 msgid "Description"
-msgstr "<b>Описание</b>"
+msgstr "Описание"
 
 #: ../goffice/app/file.c:491
 msgid "The description of the saver."
@@ -51,21 +49,19 @@ msgstr ""
 
 #: ../goffice/app/file.c:500
 msgid "Overwrite"
-msgstr ""
+msgstr "Переписать"
 
 #: ../goffice/app/file.c:501
 msgid "Whether the saver will overwrite files."
 msgstr ""
 
 #: ../goffice/app/file.c:511
-#, fuzzy
 msgid "Format Level"
-msgstr "Формат"
+msgstr ""
 
 #: ../goffice/app/file.c:522
-#, fuzzy
 msgid "Scope"
-msgstr "Масштаб"
+msgstr ""
 
 #: ../goffice/app/file.c:523
 msgid "How much of a document is saved"
@@ -105,18 +101,16 @@ msgid "Whether the document has been changed."
 msgstr ""
 
 #: ../goffice/app/go-doc.c:146
-#, fuzzy
 msgid "Pristine"
-msgstr "Расположение"
+msgstr ""
 
 #: ../goffice/app/go-doc.c:147
 msgid "Whether the document is unchanged since it was created."
 msgstr ""
 
 #: ../goffice/app/go-doc.c:380
-#, fuzzy
 msgid "Image"
-msgstr "Изображения"
+msgstr "Изображение"
 
 #: ../goffice/app/go-object.c:51
 msgid "Objects"
@@ -473,23 +467,20 @@ msgid "The circle center vertical position"
 msgstr ""
 
 #: ../goffice/canvas/goc-circle.c:194
-#, fuzzy
 msgid "Radius"
-msgstr "Радиан"
+msgstr "Радиус"
 
 #: ../goffice/canvas/goc-circle.c:195
 msgid "The circle radius"
-msgstr ""
+msgstr "Радиус окружности"
 
 #: ../goffice/canvas/goc-ellipse.c:220 ../goffice/canvas/goc-rectangle.c:198
-#, fuzzy
 msgid "The rectangle left position"
-msgstr "Параметры меню"
+msgstr "Левая граница прямоугольника"
 
 #: ../goffice/canvas/goc-ellipse.c:226 ../goffice/canvas/goc-rectangle.c:204
-#, fuzzy
 msgid "The rectangle top position"
-msgstr "Параметры меню"
+msgstr "Верхняя граница прямоугольника"
 
 #: ../goffice/canvas/goc-ellipse.c:231 ../goffice/canvas/goc-graph.c:238
 #: ../goffice/canvas/goc-graph.c:239 ../goffice/canvas/goc-pixbuf.c:238
@@ -500,9 +491,8 @@ msgid "Width"
 msgstr "Ширина"
 
 #: ../goffice/canvas/goc-ellipse.c:232 ../goffice/canvas/goc-rectangle.c:210
-#, fuzzy
 msgid "The rectangle width"
-msgstr "Ширина текста"
+msgstr "Ширина прямоугольника"
 
 #: ../goffice/canvas/goc-ellipse.c:237 ../goffice/canvas/goc-graph.c:232
 #: ../goffice/canvas/goc-graph.c:233 ../goffice/canvas/goc-pixbuf.c:244
@@ -513,17 +503,16 @@ msgid "Height"
 msgstr "Высота..."
 
 #: ../goffice/canvas/goc-ellipse.c:238 ../goffice/canvas/goc-rectangle.c:216
-#, fuzzy
 msgid "The rectangle height"
-msgstr "треугольник направо"
+msgstr "Высота прямоугольника"
 
 #: ../goffice/canvas/goc-graph.c:221
 msgid "The graph left position"
-msgstr ""
+msgstr "Левая граница графика"
 
 #: ../goffice/canvas/goc-graph.c:227
 msgid "The graph top position"
-msgstr ""
+msgstr "Верхняя граница графика"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
@@ -545,62 +534,56 @@ msgstr ""
 
 #: ../goffice/canvas/goc-graph.c:251
 #: ../goffice/graph/gog-control-foocanvas.c:256
-#, fuzzy
 msgid "The GogRenderer being displayed"
-msgstr "Строка отрицательных ошибок не отображается"
+msgstr ""
 
 #: ../goffice/canvas/goc-group.c:239
-#, fuzzy
 msgid "The group horizontal offset"
-msgstr "Тонкие горизонтальные крестики"
+msgstr "Горизонтальное смещение группы"
 
 #: ../goffice/canvas/goc-group.c:245
 msgid "The group vertical offset"
-msgstr ""
+msgstr "Вертикальное смещение группы"
 
 #: ../goffice/canvas/goc-line.c:180
-#, fuzzy
 msgid "x0"
-msgstr "x"
+msgstr "x0"
 
 #: ../goffice/canvas/goc-line.c:181
 msgid "The line start x coordinate"
-msgstr ""
+msgstr "Координата X для начала линии"
 
 #: ../goffice/canvas/goc-line.c:186
 msgid "y0"
-msgstr ""
+msgstr "y0"
 
 #: ../goffice/canvas/goc-line.c:187
 msgid "The line start y coordinate"
-msgstr ""
+msgstr "Координата Y для начала линии"
 
 #: ../goffice/canvas/goc-line.c:192
-#, fuzzy
 msgid "x1"
-msgstr "x"
+msgstr "x1"
 
 #: ../goffice/canvas/goc-line.c:193
 msgid "The line end x coordinate"
-msgstr ""
+msgstr "Координата X конца линии"
 
 #: ../goffice/canvas/goc-line.c:198
 msgid "y1"
-msgstr ""
+msgstr "y1"
 
 #: ../goffice/canvas/goc-line.c:199
 msgid "The line end y coordinate"
-msgstr ""
+msgstr "Координата Y конца линии"
 
 #: ../goffice/canvas/goc-pixbuf.c:227
-#, fuzzy
 msgid "The image left position"
-msgstr "Параметры меню"
+msgstr "Левая граница изображения"
 
 #: ../goffice/canvas/goc-pixbuf.c:233
-#, fuzzy
 msgid "The image top position"
-msgstr "Параметры меню"
+msgstr "Верхняя граница изображения"
 
 #: ../goffice/canvas/goc-pixbuf.c:239
 msgid "The image width or -1 to use the image width"
@@ -619,18 +602,16 @@ msgid "The GdkPixbuf to display"
 msgstr ""
 
 #: ../goffice/canvas/goc-polygon.c:226
-#, fuzzy
 msgid "points"
-msgstr "Точки"
+msgstr "пункты"
 
 #: ../goffice/canvas/goc-polygon.c:226
 msgid "The polygon vertices"
 msgstr ""
 
 #: ../goffice/canvas/goc-polygon.c:231
-#, fuzzy
 msgid "Use spline"
-msgstr "Сплайны XY"
+msgstr "Использовать сплайны"
 
 #: ../goffice/canvas/goc-polygon.c:232
 msgid "Use a Bezier closed cubic spline as contour"
@@ -647,28 +628,24 @@ msgid "A pointer to the GOStyle object"
 msgstr ""
 
 #: ../goffice/canvas/goc-text.c:319
-#, fuzzy
 msgid "The text horizontal position"
-msgstr "Тонкие горизонтальные штрихи"
+msgstr "Горизонтальное расположение текста"
 
 #: ../goffice/canvas/goc-text.c:325
-#, fuzzy
 msgid "The text position"
-msgstr "Расположение"
+msgstr "Расположение текста"
 
 #: ../goffice/canvas/goc-text.c:330 ../goffice/graph/gog-3d-box.c:166
-#, fuzzy
 msgid "Rotation"
-msgstr "Вращение:"
+msgstr "Вращение"
 
 #: ../goffice/canvas/goc-text.c:331
 msgid "The rotation around the anchor"
 msgstr ""
 
 #: ../goffice/canvas/goc-text.c:336 ../goffice/graph/gog-object.c:592
-#, fuzzy
 msgid "Anchor"
-msgstr "Якорь:"
+msgstr "Якорь"
 
 #: ../goffice/canvas/goc-text.c:337
 msgid "The anchor point for the text"
@@ -682,56 +659,48 @@ msgid "Text"
 msgstr "Текст"
 
 #: ../goffice/canvas/goc-text.c:343
-#, fuzzy
 msgid "The text to display"
-msgstr "Текст для замены"
+msgstr ""
 
 #: ../goffice/canvas/goc-text.c:346
 msgid "Attributes"
-msgstr ""
+msgstr "Аттрибуты"
 
 #: ../goffice/canvas/goc-text.c:346
 msgid "The attributes list as a PangoAttrList"
 msgstr ""
 
 #: ../goffice/canvas/goc-widget.c:204
-#, fuzzy
 msgid "Widget"
-msgstr "Ширина"
+msgstr "Виджет"
 
 #: ../goffice/canvas/goc-widget.c:205
 msgid "A pointer to the embedded widget"
-msgstr ""
+msgstr "Указатель на встроенный виджет"
 
 #: ../goffice/canvas/goc-widget.c:211
-#, fuzzy
 msgid "The widget left position"
-msgstr "Параметры меню"
+msgstr "Левая граница виджета"
 
 #: ../goffice/canvas/goc-widget.c:217
-#, fuzzy
 msgid "The widget top position"
-msgstr "Параметры меню"
+msgstr "Верхняя граница виджета"
 
 #: ../goffice/canvas/goc-widget.c:224
-#, fuzzy
 msgid "The widget width"
-msgstr "Ширина текста"
+msgstr "Ширина виджета"
 
 #: ../goffice/canvas/goc-widget.c:230
-#, fuzzy
 msgid "The widget height"
-msgstr "Высота текста"
+msgstr "Высота виджета"
 
 #: ../goffice/component/go-component-factory.c:58
-#, fuzzy
 msgid "Component Engine"
-msgstr "Модуль построения графиков"
+msgstr ""
 
 #: ../goffice/component/go-component-factory.c:165
-#, fuzzy
 msgid "Component Type"
-msgstr "Тип графика"
+msgstr "Тип компонента"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:183
 msgid "Text to render"
@@ -856,7 +825,7 @@ msgstr "Цвет текста заданный GdkColor"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:424
 msgid "Text color, as an R/G/B/A combined integer"
-msgstr ""
+msgstr "Цвет текста заданный целым R/G/B/A"
 
 #: ../goffice/cut-n-paste/foocanvas/foo-canvas-text.c:437
 msgid "Text width"
@@ -1025,41 +994,36 @@ msgid "Bullet On"
 msgstr ""
 
 #: ../goffice/graph/gog-3d-box-prefs.glade.h:1
-#, fuzzy
 msgid "<b>Euler angles</b>"
-msgstr "<b>Значения</b>"
+msgstr "<b>Эйлеровы углы</b>"
 
 #: ../goffice/graph/gog-3d-box-prefs.glade.h:2
 msgid "Phi:"
-msgstr ""
+msgstr "Фи:"
 
 #: ../goffice/graph/gog-3d-box-prefs.glade.h:3
 msgid "Psi:"
-msgstr ""
+msgstr "Пси:"
 
 #: ../goffice/graph/gog-3d-box-prefs.glade.h:4
-#, fuzzy
 msgid "Theta:"
-msgstr "Текст:"
+msgstr "Тета:"
 
 #: ../goffice/graph/gog-3d-box.c:215
 msgid "Advanced"
 msgstr ""
 
 #: ../goffice/graph/gog-3d-box.c:284
-#, fuzzy
 msgid "Euler angle psi"
-msgstr "треугольник вверх"
+msgstr ""
 
 #: ../goffice/graph/gog-3d-box.c:291
-#, fuzzy
 msgid "Euler angle theta"
-msgstr "треугольник налево"
+msgstr ""
 
 #: ../goffice/graph/gog-3d-box.c:298
-#, fuzzy
 msgid "Euler angle phi"
-msgstr "треугольник вверх"
+msgstr ""
 
 #: ../goffice/graph/gog-3d-box.c:305
 msgid "Field of view"
@@ -1067,79 +1031,71 @@ msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:636
 msgid "Layout"
-msgstr ""
+msgstr "Размещение"
 
 #: ../goffice/graph/gog-axis-line.c:664
-#, fuzzy
 msgid "Axis position"
-msgstr "Расположение"
+msgstr "Расположение осей"
 
 #: ../goffice/graph/gog-axis-line.c:665 ../goffice/graph/gog-axis-line.c:671
 msgid "Where to position an axis low, high, or crossing"
 msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:670
-#, fuzzy
 msgid "Axis position (as a string)"
-msgstr "Описание шрифта в виде строки"
+msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:676
 msgid "Major labels"
-msgstr ""
+msgstr "Главные метки"
 
 #: ../goffice/graph/gog-axis-line.c:677
 msgid "Show labels for major ticks"
-msgstr ""
+msgstr "Показывать метки для главных делений"
 
 #: ../goffice/graph/gog-axis-line.c:682
-#, fuzzy
 msgid "Inside major ticks"
-msgstr "Основные деления"
+msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:683
 msgid "Major tick marks inside the chart area"
 msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:688
-#, fuzzy
 msgid "Outside major ticks"
-msgstr "Основные деления"
+msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:689
 msgid "Major tick marks outside the chart area"
 msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:694
-#, fuzzy
 msgid "Major tick size"
-msgstr "Основные деления"
+msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:695
 msgid "Size of the major tick marks, in points"
 msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:701
-#, fuzzy
 msgid "Inside minor ticks"
-msgstr "Вспомогательные деления"
+msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:702
 msgid "Minor tick marks inside the chart area"
 msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:707
-#, fuzzy
 msgid "Outside minor ticks"
-msgstr "Вспомогательные деления"
+msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:708
 msgid "Minor tick marks outside the axis"
 msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:713
-#, fuzzy
 msgid "Minor tick size"
-msgstr "Вспомогательные деления"
+msgstr ""
 
 #: ../goffice/graph/gog-axis-line.c:714
 msgid "Size of the minor tick marks, in points"
@@ -1351,16 +1307,14 @@ msgstr "Метка"
 
 #: ../goffice/graph/gog-axis.c:2423 ../goffice/graph/gog-grid.c:116
 #: ../plugins/plot_barcol/gog-1.5d.c:334
-#, fuzzy
 msgid "Type"
-msgstr "Тип:"
+msgstr "Тип"
 
 #: ../goffice/graph/gog-axis.c:2424
 msgid "Numerical type of this axis"
 msgstr ""
 
 #: ../goffice/graph/gog-axis.c:2428
-#, fuzzy
 msgid "Invert axis"
 msgstr "Инвертировать оси"
 
@@ -1369,9 +1323,8 @@ msgid "Scale from high to low rather than low to high"
 msgstr ""
 
 #: ../goffice/graph/gog-axis.c:2433
-#, fuzzy
 msgid "MapName"
-msgstr "Название"
+msgstr ""
 
 #: ../goffice/graph/gog-axis.c:2434
 msgid "The name of the map for scaling"
@@ -1387,9 +1340,8 @@ msgid ""
 msgstr ""
 
 #: ../goffice/graph/gog-axis.c:2445 ../goffice/graph/gog-axis.c:2446
-#, fuzzy
 msgid "Rotation of circular axis"
-msgstr "Круговые оси:"
+msgstr ""
 
 #: ../goffice/graph/gog-axis.c:2453 ../goffice/graph/gog-axis.c:2454
 msgid "Polar axis set unit"
@@ -1436,14 +1388,12 @@ msgid "Pseudo-3D-Axis"
 msgstr "Псевдо-3D оси"
 
 #: ../goffice/graph/gog-chart.c:443
-#, fuzzy
 msgid "Bubble-Axis"
-msgstr "Пузырь"
+msgstr ""
 
 #: ../goffice/graph/gog-chart.c:447
-#, fuzzy
 msgid "Color-Axis"
-msgstr "Круговые оси"
+msgstr ""
 
 #: ../goffice/graph/gog-chart.c:451
 msgid "Plot"
@@ -1483,14 +1433,12 @@ msgid "Position and size of plot area, in percentage of chart size"
 msgstr ""
 
 #: ../goffice/graph/gog-chart.c:504
-#, fuzzy
 msgid "Manual plot area"
-msgstr "Сдвинуть область графика"
+msgstr ""
 
 #: ../goffice/graph/gog-chart.c:505
-#, fuzzy
 msgid "Is plot area manual"
-msgstr "Изменить размер области графика"
+msgstr ""
 
 #: ../goffice/graph/gog-control-foocanvas.c:237
 msgid "H"
@@ -1502,9 +1450,8 @@ msgstr "Ш"
 
 #: ../goffice/graph/gog-control-foocanvas.c:249
 #: ../goffice/graph/gog-renderer.c:1576 ../goffice/graph/gog-view.c:590
-#, fuzzy
 msgid "Model"
-msgstr "Передвинуть"
+msgstr "Модель"
 
 #: ../goffice/graph/gog-control-foocanvas.c:250
 msgid "The GogObject this object displays"
@@ -1563,18 +1510,16 @@ msgid "None"
 msgstr "Нет"
 
 #: ../goffice/graph/gog-error-bar.c:68
-#, fuzzy
 msgid "Positive"
-msgstr "Расположение"
+msgstr "Положительное"
 
 #: ../goffice/graph/gog-error-bar.c:69
 msgid "Negative"
-msgstr ""
+msgstr "Отрицательное"
 
 #: ../goffice/graph/gog-error-bar.c:70
-#, fuzzy
 msgid "Both"
-msgstr "Снизу"
+msgstr "Оба"
 
 #. An MS Excel-ish theme
 #: ../goffice/graph/gog-graph-prefs.glade.h:1 ../goffice/graph/gog-theme.c:494
@@ -1582,9 +1527,8 @@ msgid "Default"
 msgstr "По умолчанию"
 
 #: ../goffice/graph/gog-graph-prefs.glade.h:2
-#, fuzzy
 msgid "Forget user styles"
-msgstr "Стиль шрифта"
+msgstr ""
 
 #: ../goffice/graph/gog-graph-prefs.glade.h:3
 #: ../goffice/graph/gog-plot-prefs.glade.h:5
@@ -1592,9 +1536,8 @@ msgid "GogChartPrefs"
 msgstr "GogChartPrefs"
 
 #: ../goffice/graph/gog-graph-prefs.glade.h:4
-#, fuzzy
 msgid "Theme:"
-msgstr "Тема"
+msgstr "Тема:"
 
 #: ../goffice/graph/gog-graph.c:237 ../goffice/graph/gog-graph.c:342
 msgid "Theme"
@@ -1606,12 +1549,11 @@ msgstr "Диаграмма"
 
 #: ../goffice/graph/gog-graph.c:343
 msgid "The theme for elements of the graph"
-msgstr ""
+msgstr "Тема элементов графика"
 
 #: ../goffice/graph/gog-graph.c:348
-#, fuzzy
 msgid "Theme name"
-msgstr "Тема"
+msgstr "Название темы"
 
 #: ../goffice/graph/gog-graph.c:349
 msgid "The name of the theme for elements of the graph"
@@ -1619,25 +1561,23 @@ msgstr ""
 
 #: ../goffice/graph/gog-graph.c:355
 msgid "Logical graph width, in points"
-msgstr ""
+msgstr "Логическая ширина графика в точках растра"
 
 #: ../goffice/graph/gog-graph.c:361
 msgid "Logical graph heigth, in points"
-msgstr ""
+msgstr "Логическая высота графика в точках растра"
 
 #: ../goffice/graph/gog-graph.c:366
 msgid "Document"
-msgstr ""
+msgstr "Документ"
 
 #: ../goffice/graph/gog-graph.c:367
-#, fuzzy
 msgid "the document for this graph"
-msgstr "Стиль подчёркивания для этого текста"
+msgstr ""
 
 #: ../goffice/graph/gog-graph.c:870
-#, fuzzy
 msgid "the renderer for this view"
-msgstr "Стиль подчёркивания для этого текста"
+msgstr ""
 
 #: ../goffice/graph/gog-grid-line.c:111
 msgid "Is-minor"
@@ -1661,7 +1601,7 @@ msgstr "<b>Тип графика</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:3
 msgid "<b>_Subtype</b>"
-msgstr ""
+msgstr "<b>Подтип</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.glade.h:4
 msgid "Show sample"
@@ -1693,11 +1633,11 @@ msgstr "Тип графика"
 
 #: ../goffice/graph/gog-label.c:126
 msgid "Allow markup"
-msgstr ""
+msgstr "Разрешить разметку"
 
 #: ../goffice/graph/gog-label.c:127
 msgid "Support basic html-ish markup"
-msgstr ""
+msgstr "Поддержка основной HTML-подобной разметки"
 
 #: ../goffice/graph/gog-label.c:189
 msgid "_Text:"
@@ -1714,24 +1654,23 @@ msgstr "Подробности"
 
 #: ../goffice/graph/gog-label.c:367
 msgid "Regression Equation"
-msgstr ""
+msgstr "Уравнение регрессии"
 
 #: ../goffice/graph/gog-label.c:406
-#, fuzzy
 msgid "Show equation"
-msgstr "Уравнение"
+msgstr "Показать уравнение"
 
 #: ../goffice/graph/gog-label.c:407
 msgid "Show the equation on the graph"
-msgstr ""
+msgstr "Показать уравнение на графике"
 
 #: ../goffice/graph/gog-label.c:412
 msgid "Show coefficient"
-msgstr ""
+msgstr "Показать коэффициент"
 
 #: ../goffice/graph/gog-label.c:413
 msgid "Show the correlation coefficient on the graph"
-msgstr ""
+msgstr "Показать коэффициент корреляции на графике"
 
 #: ../goffice/graph/gog-legend.c:209
 msgid "Swatch Size pts"
@@ -1861,12 +1800,11 @@ msgstr "По центру"
 
 #: ../goffice/graph/gog-object.c:523 ../goffice/graph/gog-object.c:568
 msgid "Position"
-msgstr "Расположение"
+msgstr "Позиция"
 
 #: ../goffice/graph/gog-object.c:562
-#, fuzzy
 msgid "Object ID"
-msgstr "Объекты"
+msgstr ""
 
 #: ../goffice/graph/gog-object.c:563
 msgid "Object numerical ID"
@@ -1885,9 +1823,8 @@ msgid "Compass auto position flags"
 msgstr ""
 
 #: ../goffice/graph/gog-object.c:581
-#, fuzzy
 msgid "Alignment flag"
-msgstr "Выравнивание"
+msgstr ""
 
 #: ../goffice/graph/gog-object.c:586 ../goffice/graph/gog-object.c:587
 msgid "Is position manual"
@@ -1899,7 +1836,7 @@ msgstr ""
 
 #: ../goffice/graph/gog-object.c:598 ../goffice/graph/gog-object.c:599
 msgid "Should the object be hidden"
-msgstr ""
+msgstr "Скрыть объект?"
 
 #: ../goffice/graph/gog-outlined-object.c:74
 msgid "Padding Pts"
@@ -1954,14 +1891,12 @@ msgid "Pseudo 3D axis:"
 msgstr "Псевдо-3D оси:"
 
 #: ../goffice/graph/gog-plot.c:266
-#, fuzzy
 msgid "Color axis:"
-msgstr "Круговые оси"
+msgstr ""
 
 #: ../goffice/graph/gog-plot.c:267
-#, fuzzy
 msgid "Bubble axis:"
-msgstr "Пузырь"
+msgstr ""
 
 #: ../goffice/graph/gog-plot.c:346
 msgid "Axes"
@@ -1977,27 +1912,23 @@ msgstr ""
 
 #: ../goffice/graph/gog-plot.c:519
 msgid "Use a different style for each segments"
-msgstr ""
+msgstr "Использовать другой стиль для каждого сегмента"
 
 #: ../goffice/graph/gog-plot.c:524
-#, fuzzy
 msgid "X axis"
-msgstr "Оси X:"
+msgstr "Оси X"
 
 #: ../goffice/graph/gog-plot.c:525
-#, fuzzy
 msgid "Reference to X axis"
-msgstr "Выбрать оси"
+msgstr ""
 
 #: ../goffice/graph/gog-plot.c:530
-#, fuzzy
 msgid "Y axis"
-msgstr "Оси Y:"
+msgstr "Оси Y"
 
 #: ../goffice/graph/gog-plot.c:531
-#, fuzzy
 msgid "Reference to Y axis"
-msgstr "Выбрать оси"
+msgstr ""
 
 #: ../goffice/graph/gog-plot.c:536
 msgid "Plot group"
@@ -2018,9 +1949,8 @@ msgid ""
 msgstr ""
 
 #: ../goffice/graph/gog-plot.c:549
-#, fuzzy
 msgid "Default interpolation"
-msgstr "Разделение долей:"
+msgstr "Интерполяция по умолчанию"
 
 #: ../goffice/graph/gog-plot.c:550
 msgid "Default type of series line interpolation"
@@ -2049,10 +1979,9 @@ msgstr "Пропустить недопустимые данные"
 
 #: ../goffice/graph/gog-reg-curve.c:143
 msgid "Regression Curve"
-msgstr ""
+msgstr "Кривая регрессии"
 
 #: ../goffice/graph/gog-reg-curve.c:178
-#, fuzzy
 msgid "Skip invalid"
 msgstr "Пропустить недопустимые данные"
 
@@ -2070,16 +1999,15 @@ msgstr ""
 
 #: ../goffice/graph/gog-renderer.c:1582
 msgid "View"
-msgstr ""
+msgstr "Вид"
 
 #: ../goffice/graph/gog-renderer.c:1583
 msgid "the GogView this renderer is displaying"
 msgstr ""
 
 #: ../goffice/graph/gog-series-prefs.glade.h:1
-#, fuzzy
 msgid "<b>Interpolation</b>"
-msgstr "<b>Описание</b>"
+msgstr "<b>Интерполяция</b>"
 
 #: ../goffice/graph/gog-series-prefs.glade.h:2
 msgid "<i>y'</i>(<i>x</i><sub>first</sub>):"
@@ -2090,19 +2018,16 @@ msgid "<i>y'</i>(<i>x</i><sub>last</sub>):"
 msgstr ""
 
 #: ../goffice/graph/gog-series-prefs.glade.h:4
-#, fuzzy
 msgid "Fill _to:"
-msgstr "Заливка:"
+msgstr ""
 
 #: ../goffice/graph/gog-series-prefs.glade.h:5
-#, fuzzy
 msgid "S_kip invalid data"
 msgstr "Пропустить недопустимые данные"
 
 #: ../goffice/graph/gog-series-prefs.glade.h:7
-#, fuzzy
 msgid "content"
-msgstr "Отступ"
+msgstr ""
 
 #: ../goffice/graph/gog-series.c:36
 msgid "Y origin"
@@ -2137,9 +2062,8 @@ msgid "Settings"
 msgstr "Настройки"
 
 #: ../goffice/graph/gog-series.c:210
-#, fuzzy
 msgid "Index"
-msgstr "Индекс:"
+msgstr "Индекс"
 
 #: ../goffice/graph/gog-series.c:211
 msgid "Index of the corresponding data element"
@@ -2151,52 +2075,47 @@ msgstr "Точки"
 
 #: ../goffice/graph/gog-series.c:624
 msgid "Regression curve"
-msgstr ""
+msgstr "Кривая регрессии"
 
 #: ../goffice/graph/gog-series.c:632
 msgid "Trend line"
 msgstr ""
 
 #: ../goffice/graph/gog-series.c:665
-#, fuzzy
 msgid "Has-legend"
-msgstr "Подпись"
+msgstr ""
 
 #: ../goffice/graph/gog-series.c:666
 msgid "Should the series show up in legends"
 msgstr ""
 
 #: ../goffice/graph/gog-series.c:671
-#, fuzzy
 msgid "Interpolation"
-msgstr "Описание шрифта"
+msgstr "Интерполяция"
 
 #: ../goffice/graph/gog-series.c:672
-#, fuzzy
 msgid "Type of line interpolation"
-msgstr "Описание шрифта"
+msgstr ""
 
 #: ../goffice/graph/gog-series.c:677
-#, fuzzy
 msgid "Interpolation skip invalid"
-msgstr "Описание шрифта"
+msgstr ""
 
 #: ../goffice/graph/gog-series.c:678
 msgid "Should the series interpolation ignore the invalid data"
 msgstr ""
 
 #: ../goffice/graph/gog-series.c:683
-#, fuzzy
 msgid "Fill type"
-msgstr "Заполнить"
+msgstr "Тип заполнения"
 
 #: ../goffice/graph/gog-series.c:684
 msgid "How to fill the area"
-msgstr ""
+msgstr "Как заполнять область"
 
 #: ../goffice/graph/gog-smoothed-curve.c:52
 msgid "Smoothed Curve"
-msgstr ""
+msgstr "Сглаженная кривая"
 
 #. Guppi
 #: ../goffice/graph/gog-theme.c:630
@@ -2204,9 +2123,8 @@ msgid "Guppi"
 msgstr "Guppi"
 
 #: ../goffice/graph/gog-trend-line.c:39
-#, fuzzy
 msgid "Trend Line"
-msgstr "Процентные линии"
+msgstr ""
 
 #: ../goffice/graph/gog-view.c:56
 msgid "Select object"
@@ -2221,9 +2139,8 @@ msgid "Resize object"
 msgstr "Изменить размер объекта"
 
 #: ../goffice/graph/gog-view.c:584
-#, fuzzy
 msgid "Parent"
-msgstr "Проценты"
+msgstr ""
 
 #: ../goffice/graph/gog-view.c:585
 msgid "the GogView parent"
@@ -2234,9 +2151,8 @@ msgid "The GogObject this view displays"
 msgstr ""
 
 #: ../goffice/gtk/go-3d-rotation-sel.glade.h:1
-#, fuzzy
 msgid "<b>Rotation</b>"
-msgstr "<b>Расположение</b>"
+msgstr "<b>Вращение</b>"
 
 #: ../goffice/gtk/go-action-combo-text.c:253
 msgid "Case Sensitive"
@@ -2828,7 +2744,6 @@ msgid "Custom Color..."
 msgstr "Другой цвет..."
 
 #: ../goffice/gtk/go-color-selector.c:205
-#, fuzzy
 msgid "Custom color..."
 msgstr "Другой цвет..."
 
@@ -3009,11 +2924,11 @@ msgstr "Использовать верхний индекс"
 
 #: ../goffice/gtk/go-format-sel.glade.h:20
 msgid "Use superscript for exponent (e.g. 4×10²)"
-msgstr ""
+msgstr "Использовать верхний индекс для степеней (например, 4×10²)"
 
 #: ../goffice/gtk/go-format-sel.glade.h:21
 msgid "When mantissa is equal to 1, only show exponent part (e.g. 10²)"
-msgstr ""
+msgstr "Если мантисса равна 1, показывать только экспоненту (например, 10²)"
 
 #: ../goffice/gtk/go-format-sel.glade.h:22
 msgid "_Don't show 1x's"
@@ -3028,38 +2943,32 @@ msgid "_Format:"
 msgstr "Формат:"
 
 #: ../goffice/gtk/go-format-sel.glade.h:25
-#, fuzzy
 msgid "_Use separator for 1000s"
 msgstr "Использовать разделитель для тысяч"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.glade.h:1
-#, fuzzy
 msgid "Export settings"
-msgstr "Настройки"
+msgstr ""
 
 #: ../goffice/gtk/go-image-save-dialog-extra.glade.h:2
-#, fuzzy
 msgid "Resolution:"
-msgstr "Вращение:"
+msgstr "Разрешение:"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.glade.h:3
-#, fuzzy
 msgid "_File type:"
-msgstr "Заполнение:"
+msgstr "Тип файла:"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.glade.h:4
 msgid "pixels/in"
 msgstr ""
 
 #: ../goffice/gtk/go-image-sel.glade.h:1
-#, fuzzy
 msgid "<b>Add an image</b>"
-msgstr "<b>Отображение</b>"
+msgstr "<b>Добавить изображение</b>"
 
 #: ../goffice/gtk/go-image-sel.glade.h:2
-#, fuzzy
 msgid "Name:"
-msgstr "Название"
+msgstr "Название:"
 
 #: ../goffice/gtk/go-image-sel.glade.h:3
 #: ../goffice/utils/go-style-prefs.glade.h:22
@@ -3707,9 +3616,8 @@ msgid "The menu of options"
 msgstr "Параметры меню"
 
 #: ../goffice/gtk/go-palette.c:405
-#, fuzzy
 msgid "Custom..."
-msgstr "Другой"
+msgstr "Другой..."
 
 #: ../goffice/gtk/go-rotation-sel.glade.h:1
 msgid "    "
@@ -3788,35 +3696,31 @@ msgstr ""
 
 #: ../goffice/math/go-distribution.c:68
 msgid "Uniform"
-msgstr ""
+msgstr "Равномерное"
 
 #: ../goffice/math/go-distribution.c:69
 msgid "Cauchy"
-msgstr ""
+msgstr "Коши"
 
 #: ../goffice/math/go-distribution.c:70
 msgid "Weibull"
-msgstr ""
+msgstr "Вейбуля"
 
 #: ../goffice/math/go-distribution.c:71
-#, fuzzy
 msgid "Lognormal"
-msgstr "Нормальное"
+msgstr "Логнормальное"
 
 #: ../goffice/math/go-distribution.c:155 ../goffice/math/go-distribution.c:156
-#, fuzzy
 msgid "Location"
-msgstr "Вращение:"
+msgstr ""
 
 #: ../goffice/math/go-distribution.c:693 ../goffice/math/go-distribution.c:805
-#, fuzzy
 msgid "Shape"
-msgstr "Форма:"
+msgstr "Форма"
 
 #: ../goffice/math/go-distribution.c:694 ../goffice/math/go-distribution.c:806
-#, fuzzy
 msgid "Shape factor"
-msgstr "Пробел после"
+msgstr ""
 
 #. The first column has three letter acronyms
 #. * for each currency.  They MUST start with '[$'
@@ -4514,39 +4418,37 @@ msgstr "Зимбабвийский доллар"
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:439
 msgid "*Long Date Format"
-msgstr ""
+msgstr "*Длинный формат даты"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:447
-#, fuzzy
 msgid "*Medium Date Format"
-msgstr "Числовые форматы"
+msgstr "*Средний формат даты"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:455
 msgid "*Short Date Format"
-msgstr ""
+msgstr "*Короткиф формат даты"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:468
 msgid "*Short Date/Time Format"
-msgstr ""
+msgstr "*Короткий формат даты/времени"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:483
 msgid "*Long Time Format"
-msgstr ""
+msgstr "*Длинный формат времени"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:495
-#, fuzzy
 msgid "*Medium Time Format"
-msgstr "Числовые форматы"
+msgstr "*Средний формат времени"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:507
 msgid "*Short Time Format"
-msgstr ""
+msgstr "*Короткий формат времени"
 
 #: ../goffice/utils/go-format.c:541
 msgid "Black"
@@ -4581,16 +4483,14 @@ msgid "Yellow"
 msgstr "Жёлтый"
 
 #: ../goffice/utils/go-format.c:568
-#, fuzzy
 msgid "color"
-msgstr "Цвет"
+msgstr "цвет"
 
 #: ../goffice/utils/go-glib-extras.c:836
 msgid "yes"
-msgstr ""
+msgstr "да"
 
 #: ../goffice/utils/go-glib-extras.c:842
-#, fuzzy
 msgid "no"
 msgstr "нет"
 
@@ -4602,7 +4502,7 @@ msgstr ""
 #: ../goffice/utils/go-glib-extras.c:1043
 #, c-format
 msgid "Syntax error"
-msgstr ""
+msgstr "Синтаксическая ошибка"
 
 #: ../goffice/utils/go-image.c:132
 msgid "SVG (vector graphics)"
@@ -4633,9 +4533,8 @@ msgid "WMF (windows metafile)"
 msgstr "WMF (windows metafile)"
 
 #: ../goffice/utils/go-image.c:147
-#, fuzzy
 msgid "EPS (encapsulated postscript)"
-msgstr "PS (postscript)"
+msgstr "EPS (инкапсулированный postscript)"
 
 #: ../goffice/utils/go-image.c:473
 msgid "Image width in pixels"
@@ -4666,72 +4565,68 @@ msgid "Dash dot dot"
 msgstr "Штрих точка точка"
 
 #: ../goffice/utils/go-line.c:64
-#, fuzzy
 msgid "Dash dot dot dot"
-msgstr "Штрих точка точка"
+msgstr "Штрих точка точка точка"
 
 #: ../goffice/utils/go-line.c:66
 msgid "Short dash"
-msgstr ""
+msgstr "Короткий штрих"
 
 #: ../goffice/utils/go-line.c:68
 msgid "Dash"
-msgstr "Штрихи"
+msgstr "Штрих"
 
 #: ../goffice/utils/go-line.c:70
 msgid "Long dash"
-msgstr ""
+msgstr "Длинный штрих"
 
 #: ../goffice/utils/go-line.c:72
 msgid "Very long dash"
-msgstr ""
+msgstr "Очень длинный штрих"
 
 #: ../goffice/utils/go-line.c:74
 msgid "Long dash dash"
-msgstr ""
+msgstr "Длинный штрих штрих"
 
 #: ../goffice/utils/go-line.c:76
 msgid "Long dash dash dash"
-msgstr ""
+msgstr "Длинный штрих штрих штрих"
 
 #: ../goffice/utils/go-line.c:90
 msgid "Bezier cubic spline"
-msgstr ""
+msgstr "Кубическая кривая Безье"
 
 #: ../goffice/utils/go-line.c:92
 msgid "Closed Bezier cubic spline"
-msgstr ""
+msgstr "Замкнутая кубическая кривая Безье"
 
 #: ../goffice/utils/go-line.c:94
 msgid "Natural cubic spline"
-msgstr ""
+msgstr "Натуральная кубическая кривая"
 
 #: ../goffice/utils/go-line.c:96
 msgid "Cubic spline with parabolic extrapolation"
-msgstr ""
+msgstr "Кубическая кривая с параболической экстраполяцией"
 
 #: ../goffice/utils/go-line.c:98
 msgid "Cubic spline with cubic extrapolation"
-msgstr ""
+msgstr "Кубическая кривая с кубической экстраполяцией"
 
 #: ../goffice/utils/go-line.c:100
 msgid "Clamped cubic spline"
 msgstr ""
 
 #: ../goffice/utils/go-line.c:102
-#, fuzzy
 msgid "Step at start"
-msgstr "Установить начальный предел"
+msgstr ""
 
 #: ../goffice/utils/go-line.c:104
-#, fuzzy
 msgid "Step at end"
-msgstr "Установить начальный предел"
+msgstr ""
 
 #: ../goffice/utils/go-line.c:106
-#, fuzzy
 msgid "Step at center"
-msgstr "Пробел после"
+msgstr ""
 
 #: ../goffice/utils/go-line.c:108
 msgid "Step to mean"
@@ -4791,11 +4686,11 @@ msgstr "прямоугольник"
 
 #: ../goffice/utils/go-marker.c:87
 msgid "half bar"
-msgstr ""
+msgstr "полупрямоугольник"
 
 #: ../goffice/utils/go-marker.c:88
 msgid "butterfly"
-msgstr ""
+msgstr "бабочка"
 
 #: ../goffice/utils/go-marker.c:89
 msgid "hourglass"
@@ -4803,7 +4698,7 @@ msgstr ""
 
 #: ../goffice/utils/go-marker.c:90
 msgid "left half bar"
-msgstr ""
+msgstr "левый полупрямоугольник"
 
 #: ../goffice/utils/go-pattern.c:43
 #, no-c-format
@@ -4922,9 +4817,8 @@ msgid "Background:"
 msgstr "Фон"
 
 #: ../goffice/utils/go-style.c:803
-#, fuzzy
 msgid "Markers"
-msgstr "Разметка"
+msgstr "Маркеры"
 
 #: ../goffice/utils/go-style-prefs.glade.h:1
 msgid "<b>Fill</b>"
@@ -5084,9 +4978,9 @@ msgid "Search string must not be empty."
 msgstr "Строка поиска должна быть не пустой."
 
 #: ../goffice/utils/regutf8.c:369
-#, fuzzy, c-format
+#, c-format
 msgid "Replacement string must be set."
-msgstr "Строка поиска должна быть не пустой."
+msgstr "Строка замены должна быть не пустой."
 
 #: ../goffice/utils/regutf8.c:381
 #, c-format
@@ -5121,7 +5015,7 @@ msgstr "Текст для замены"
 
 #: ../goffice/utils/regutf8.c:911
 msgid "Is Regular Expression"
-msgstr ""
+msgstr "Регулярное выражение?"
 
 #: ../goffice/utils/regutf8.c:912
 msgid "Is the search text a regular expression."
@@ -5200,9 +5094,8 @@ msgstr "Линии"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:643 ../plugins/plot_xy/gog-xy.c:1836
 #: ../plugins/plot_xy/gog-xy.c:1842
-#, fuzzy
 msgid "GogErrorBar *"
-msgstr "Строки ошибок"
+msgstr ""
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.glade.h:3
 msgid "How far the bars/cols overlap as a percentage of the width"
@@ -5246,35 +5139,30 @@ msgstr "Свойства"
 #: ../plugins/plot_barcol/gog-barcol.c:242
 #: ../plugins/plot_barcol/gog-minmax.c:224
 #: ../plugins/plot_distrib/gog-boxplot.c:359
-#, fuzzy
 msgid "Gap percentage"
-msgstr "Проценты"
+msgstr ""
 
 #: ../plugins/plot_barcol/gog-barcol.c:243
 #: ../plugins/plot_barcol/gog-minmax.c:225
 #: ../plugins/plot_distrib/gog-boxplot.c:360
-#, fuzzy
 msgid "The padding around each group as a percentage of their width"
-msgstr "Разделение между группами в процентах ширины столбца/полосы"
+msgstr "Разделение между группами в процентах их ширины"
 
 #: ../plugins/plot_barcol/gog-barcol.c:248
-#, fuzzy
 msgid "Overlap percentage"
-msgstr "Проценты"
+msgstr "Процент пересечения"
 
 #: ../plugins/plot_barcol/gog-barcol.c:249
-#, fuzzy
 msgid "The distance between series as a percentage of their width"
-msgstr "Разделение между группами в процентах ширины столбца/полосы"
+msgstr "Разделение между сериями в процентах их ширины"
 
 #: ../plugins/plot_barcol/gog-barcol.c:254
-#, fuzzy
 msgid "horizontal"
-msgstr "Горизонтальные штрихи"
+msgstr "горизонтальные"
 
 #: ../plugins/plot_barcol/gog-barcol.c:255
 msgid "horizontal bars or vertical columns"
-msgstr ""
+msgstr "горизонтальные полосы или вертикальные столбцы"
 
 #. xgettext : the base for how to name drop bar/col plot objects
 #. * eg The 2nd drop bar/col plot in a chart will be called
@@ -5294,9 +5182,8 @@ msgstr ""
 #: ../plugins/plot_barcol/gog-line.c:326
 #: ../plugins/plot_barcol/gog-minmax.c:236
 #: ../plugins/plot_radar/gog-radar.c:209
-#, fuzzy
 msgid "Default markers"
-msgstr "По умолчанию"
+msgstr ""
 
 #: ../plugins/plot_barcol/gog-line.c:327
 #: ../plugins/plot_barcol/gog-minmax.c:237
@@ -5320,14 +5207,12 @@ msgid "PlotMinMax"
 msgstr ""
 
 #: ../plugins/plot_barcol/gog-minmax.c:230
-#, fuzzy
 msgid "Horizontal"
-msgstr "Горизонтальные штрихи"
+msgstr "Горизонтальные"
 
 #: ../plugins/plot_barcol/gog-minmax.c:231
-#, fuzzy
 msgid "Horizontal or vertical lines"
-msgstr "Горизонтальные штрихи"
+msgstr "Горизонтальные или вертикальные линии"
 
 #: ../plugins/plot_barcol/gog-minmax.c:251
 msgid "Min"
@@ -5612,24 +5497,23 @@ msgstr ""
 #: ../plugins/plot_distrib/go-distribution-prefs.c:62
 #: ../plugins/plot_distrib/go-distribution-prefs.c:139
 msgid ":"
-msgstr ""
+msgstr ":"
 
 #: ../plugins/plot_distrib/go-distribution-prefs.c:101
-#, fuzzy
 msgid "Distribution:"
-msgstr "<b>Описание</b>"
+msgstr "Распределение:"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.glade.h:3
-#, fuzzy
 msgid ""
 "Horizontal\n"
 "Vertical"
-msgstr "Горизонтальные штрихи"
+msgstr ""
+"Горизонтальные\n"
+"Вертикальные"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.glade.h:6
-#, fuzzy
 msgid "_Diameter/width:"
-msgstr "Ширина линии:"
+msgstr "Диаметр/Ширина:"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.glade.h:7
 msgid "_Exclude and show outliers"
@@ -5647,18 +5531,16 @@ msgid "Box-Plot"
 msgstr ""
 
 #: ../plugins/plot_distrib/gog-boxplot.c:365
-#, fuzzy
 msgid "Vertical"
-msgstr "Вертикальные штрихи"
+msgstr "Вертикальные"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:366
 msgid "Whether the box-plot should be vertical instead of horizontal"
 msgstr ""
 
 #: ../plugins/plot_distrib/gog-boxplot.c:371
-#, fuzzy
 msgid "Outliers"
-msgstr "Контур:"
+msgstr ""
 
 #: ../plugins/plot_distrib/gog-boxplot.c:372
 msgid "Whether outliers should be taken into account and displayed"
@@ -5684,13 +5566,12 @@ msgstr "Гистограмма"
 
 #: ../plugins/plot_distrib/gog-histogram.c:191
 msgid "Limits"
-msgstr ""
+msgstr "Пределы"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:62
 #: ../plugins/plot_distrib/gog-probability-plot.c:238
-#, fuzzy
 msgid "Distribution"
-msgstr "<b>Описание</b>"
+msgstr "Распределение"
 
 #. xgettext : the base for how to name probability-plot objects
 #. * eg The 2nd probability-plot in a chart will be called
@@ -5725,28 +5606,24 @@ msgid "Regression line"
 msgstr ""
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:1
-#, fuzzy
 msgid "HBoxPlotOutliers"
-msgstr "Начертить"
+msgstr ""
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:2
-#, fuzzy
 msgid "HBoxPlots"
-msgstr "Начертить"
+msgstr ""
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:4
 msgid "Histogram."
 msgstr "Гистограмма."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:5
-#, fuzzy
 msgid "Horizontal Box-Plot showing outliers."
-msgstr "Горизонтальные штрихи"
+msgstr ""
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:6
-#, fuzzy
 msgid "Horizontal Box-Plot."
-msgstr "Горизонтальные штрихи"
+msgstr ""
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:7
 msgid "Probability plot."
@@ -5757,24 +5634,20 @@ msgid "Statistics"
 msgstr ""
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:10
-#, fuzzy
 msgid "VBoxPlotOutliers"
-msgstr "Начертить"
+msgstr ""
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:11
-#, fuzzy
 msgid "VBoxPlots"
-msgstr "Начертить"
+msgstr ""
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:12
-#, fuzzy
 msgid "Vertical Box-Plot showing outliers."
-msgstr "Вертикальные штрихи"
+msgstr ""
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:13
-#, fuzzy
 msgid "Vertical Box-Plot."
-msgstr "Вертикальные штрихи"
+msgstr ""
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:1
 msgid "Box-plot plotting engine"
@@ -5789,9 +5662,8 @@ msgid "Histograms plotting engine"
 msgstr "Модуль отображения гистограмм"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:4
-#, fuzzy
 msgid "Probability plots engine"
-msgstr "Модуль отображения круговой диаграммы"
+msgstr ""
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:5
 msgid "Statistics plot types"
@@ -5839,9 +5711,8 @@ msgid "_Separation:"
 msgstr "Разделитель:"
 
 #: ../plugins/plot_pie/gog-pie.c:108 ../plugins/plot_pie/gog-pie.c:908
-#, fuzzy
 msgid "Separation"
-msgstr "Разделитель:"
+msgstr "Разделитель"
 
 #: ../plugins/plot_pie/gog-pie.c:109
 msgid "Amount a slice is extended as a percentage of the radius"
@@ -5860,9 +5731,8 @@ msgid "Degrees clockwise from 12 O'Clock."
 msgstr ""
 
 #: ../plugins/plot_pie/gog-pie.c:241
-#, fuzzy
 msgid "Default separation"
-msgstr "Разделение долей:"
+msgstr "Разделение по умолчанию"
 
 #: ../plugins/plot_pie/gog-pie.c:242 ../plugins/plot_pie/gog-pie.c:909
 msgid "Default amount a slice is extended as a percentage of the radius"
@@ -5885,14 +5755,12 @@ msgid "PlotRing"
 msgstr ""
 
 #: ../plugins/plot_pie/gog-pie.c:372
-#, fuzzy
 msgid "Center-size"
-msgstr "По центру"
+msgstr ""
 
 #: ../plugins/plot_pie/gog-pie.c:373
-#, fuzzy
 msgid "Size of the center hole as a percentage of the radius"
-msgstr "Как сильно перекрываются столбцы/полосы в процентах от ширины"
+msgstr ""
 
 #: ../plugins/plot_pie/gog-pie.c:531
 msgid "Move pie"
@@ -5982,9 +5850,8 @@ msgid "Ring plotting engine"
 msgstr "Модуль отображения кольцевой диаграммы"
 
 #: ../plugins/plot_radar/gog-radar.c:216
-#, fuzzy
 msgid "Default fill"
-msgstr "По умолчанию"
+msgstr "Заливка по умолчанию"
 
 #: ../plugins/plot_radar/gog-radar.c:217 ../plugins/plot_xy/gog-xy.c:360
 #: ../plugins/plot_xy/gog-xy.c:786
@@ -6015,7 +5882,7 @@ msgstr ""
 
 #: ../plugins/plot_radar/gog-radar.c:406 ../plugins/plot_radar/gog-radar.c:607
 msgid "Angle"
-msgstr ""
+msgstr "Угол"
 
 #: ../plugins/plot_radar/gog-radar.c:408 ../plugins/plot_radar/gog-radar.c:609
 msgid "Magnitude"
@@ -6044,9 +5911,8 @@ msgid "Z"
 msgstr "Z"
 
 #: ../plugins/plot_radar/gog-radar.c:974
-#, fuzzy
 msgid "Radial drop lines"
-msgstr "Радиальные оси:"
+msgstr ""
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:1
 msgid "Area Radar"
@@ -6057,9 +5923,8 @@ msgid "Area radar plot."
 msgstr ""
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:3
-#, fuzzy
 msgid "Colored Polar"
-msgstr "Цвет"
+msgstr ""
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:4
 msgid "Dotted Radar"
@@ -6126,9 +5991,8 @@ msgstr ""
 #. xgettext : the base for how to name surface plot objects
 #.
 #: ../plugins/plot_surface/gog-surface.c:68
-#, fuzzy
 msgid "PlotSurface"
-msgstr "Поверхность"
+msgstr ""
 
 #: ../plugins/plot_surface/gog-xyz.c:384
 msgid "Transposed"
@@ -6145,53 +6009,46 @@ msgstr ""
 #. xgettext : the base for how to name surface plot objects
 #.
 #: ../plugins/plot_surface/gog-xyz-surface.c:157
-#, fuzzy
 msgid "PlotXYZContour"
-msgstr "Контур"
+msgstr ""
 
 #. xgettext : the base for how to name surface plot objects
 #.
 #: ../plugins/plot_surface/gog-xyz-surface.c:165
-#, fuzzy
 msgid "PlotXYZSurface"
-msgstr "Поверхность"
+msgstr ""
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:311
 msgid "Rows"
-msgstr ""
+msgstr "Строки"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:312
-#, fuzzy
 msgid "Number of rows"
-msgstr "Числовые форматы"
+msgstr "Число строк"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:317
-#, fuzzy
 msgid "Columns"
-msgstr "Столбец"
+msgstr "Столбцы"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:318
-#, fuzzy
 msgid "Number of columns"
-msgstr "Числовые форматы"
+msgstr "Число столбцов"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.glade.h:1
 msgid "Number of columns of the data matrix used to display the data."
-msgstr ""
+msgstr "Число столбцов в матрице данных используемой для отображения"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.glade.h:2
 msgid "Number of rows of the data matrix used to display the data."
-msgstr ""
+msgstr "Число строк в матрице данных используемой для отображения"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.glade.h:3
-#, fuzzy
 msgid "_Columns:"
-msgstr "Столбец"
+msgstr "Столбцы:"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.glade.h:4
-#, fuzzy
 msgid "_Rows:"
-msgstr "Низкий"
+msgstr "Строки:"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:1
 msgid "Builds a contour from a set of points with three coordinates"
@@ -6214,19 +6071,16 @@ msgid "Surface"
 msgstr "Поверхность"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:6
-#, fuzzy
 msgid "Surface plot."
-msgstr "Поверхность"
+msgstr ""
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:7
-#, fuzzy
 msgid "XYZContour"
-msgstr "Контур"
+msgstr ""
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:8
-#, fuzzy
 msgid "XYZSurface"
-msgstr "Поверхность"
+msgstr ""
 
 #: ../plugins/plot_surface/plugin.xml.in.h:1
 msgid "Charting : Surfaces"
@@ -6245,19 +6099,16 @@ msgid "Surface charts"
 msgstr "Диаграммы поверхностей"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:5
-#, fuzzy
 msgid "Surface plotting engine"
-msgstr "Модуль отображения круговой диаграммы"
+msgstr ""
 
 #: ../plugins/plot_surface/plugin.xml.in.h:6
-#, fuzzy
 msgid "XYZ contour plotting engine"
-msgstr "Модуль отображения кольцевой диаграммы"
+msgstr ""
 
 #: ../plugins/plot_surface/plugin.xml.in.h:7
-#, fuzzy
 msgid "XYZ surface plotting engine"
-msgstr "Модуль отображения круговой диаграммы"
+msgstr ""
 
 #: ../plugins/plot_xy/gog-bubble-prefs.glade.h:2
 #, no-c-format
@@ -6328,9 +6179,8 @@ msgid "Has fill by default"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:365
-#, fuzzy
 msgid "Use splines"
-msgstr "Сплайны XY"
+msgstr "Использовать сплайны"
 
 #: ../plugins/plot_xy/gog-xy.c:366
 msgid "Should the plot use splines instead of linear interpolation"
@@ -6341,32 +6191,28 @@ msgid "PlotBubble"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:516
-#, fuzzy
 msgid "Size as area"
-msgstr "Изменить размер области графика"
+msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:517
 msgid "Display size as area instead of diameter"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:522
-#, fuzzy
 msgid "Show negatives"
-msgstr "Показывать отрицательные значения"
+msgstr "Показывать отрицательные"
 
 #: ../plugins/plot_xy/gog-xy.c:523
-#, fuzzy
 msgid "Draw bubbles for negative values"
-msgstr "Показывать отрицательные значения"
+msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:529
 msgid "Draw 3d bubbles"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:534
-#, fuzzy
 msgid "Bubble scale"
-msgstr "Пузырь"
+msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:535
 msgid "Fraction of default radius used for display"
@@ -6380,9 +6226,8 @@ msgstr "Пузырь"
 #. * eg The 2nd plot in a chart will be called
 #. * 	Map2
 #: ../plugins/plot_xy/gog-xy.c:671
-#, fuzzy
 msgid "XYColor"
-msgstr "Цвет"
+msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:1770 ../plugins/plot_xy/gog-xy.c:1835
 msgid "X error bars"
@@ -6401,18 +6246,16 @@ msgid "Vertical drop lines"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:1847
-#, fuzzy
 msgid "Invalid as zero"
-msgstr "Неверный шаблон."
+msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:1848
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:1853
-#, fuzzy
 msgid "Clamp at start"
-msgstr "Установить начальный предел"
+msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:1854
 msgid ""
@@ -6421,9 +6264,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:1859
-#, fuzzy
 msgid "Clamp at end"
-msgstr "Установить начальный предел"
+msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:1860
 msgid ""
@@ -6432,9 +6274,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
-#, fuzzy
 msgid "ColoredXY"
-msgstr "Цвет"
+msgstr ""
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:3
 msgid "Interpolate between multi-dimensional points with Bezier splines."
@@ -6452,9 +6293,8 @@ msgid "Linearly interpolate between multi-dimensional points."
 msgstr ""
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:7
-#, fuzzy
 msgid "Map"
-msgstr "Разметка"
+msgstr ""
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:8
 msgid "Markers at each point."
@@ -6519,9 +6359,8 @@ msgid "XY Steps Start"
 msgstr ""
 
 #: ../plugins/plot_xy/plugin.xml.in.h:1
-#, fuzzy
 msgid "2D colored scatter plotting engine"
-msgstr "Модуль отображения круговой диаграммы"
+msgstr ""
 
 #: ../plugins/plot_xy/plugin.xml.in.h:2
 msgid "2D plots"
@@ -6575,9 +6414,8 @@ msgid "Dims"
 msgstr ""
 
 #: ../plugins/reg_linear/gog-lin-reg.c:272
-#, fuzzy
 msgid "Number of x-vectors"
-msgstr "Числовые форматы"
+msgstr ""
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -6601,9 +6439,8 @@ msgstr "Полиномиальная регрессия"
 #. * eg The 2nd plot in a chart will be called
 #. * 	Power regression2
 #: ../plugins/reg_linear/gog-power-reg.c:63
-#, fuzzy
 msgid "Power regression"
-msgstr "Полиномиальная регрессия"
+msgstr ""
 
 #: ../plugins/reg_linear/plugin.xml.in.h:1
 msgid "Exponential regression curve engine"
@@ -6761,9 +6598,8 @@ msgid "Exponentially smoothed curve"
 msgstr ""
 
 #: ../plugins/smoothing/gog-exp-smooth.c:232
-#, fuzzy
 msgid "Steps"
-msgstr "Стиль"
+msgstr ""
 
 #: ../plugins/smoothing/gog-exp-smooth.glade.h:1
 msgid "_Period:"
@@ -6778,9 +6614,8 @@ msgid "Charting : Trends and Curves"
 msgstr ""
 
 #: ../plugins/smoothing/plugin.xml.in.h:2
-#, fuzzy
 msgid "Moving average smoothing engine"
-msgstr "Модуль отображения кольцевой диаграммы"
+msgstr ""
 
 #: ../plugins/smoothing/plugin.xml.in.h:3
 msgid "Smoothed curves"
@@ -6791,9 +6626,8 @@ msgid "Smoothed curves types"
 msgstr ""
 
 #: ../plugins/smoothing/plugin.xml.in.h:5
-#, fuzzy
 msgid "exponential smoothing engine"
-msgstr "Модуль отображения круговой диаграммы"
+msgstr ""
 
 #: ../plugins/smoothing/types.xml.in.h:3
 msgid "Moving average smoothed curve"
@@ -6801,111 +6635,107 @@ msgstr ""
 
 #: ../tests/go-demo.glade.h:1
 msgid "10:"
-msgstr ""
+msgstr "10:"
 
 #: ../tests/go-demo.glade.h:2
 msgid "11:"
-msgstr ""
+msgstr "11:"
 
 #: ../tests/go-demo.glade.h:3
 msgid "12:"
-msgstr ""
+msgstr "12:"
 
 #: ../tests/go-demo.glade.h:4
 msgid "13:"
-msgstr ""
+msgstr "13:"
 
 #: ../tests/go-demo.glade.h:5
 msgid "14:"
-msgstr ""
+msgstr "14:"
 
 #: ../tests/go-demo.glade.h:6
 msgid "15:"
-msgstr ""
+msgstr "15:"
 
 #: ../tests/go-demo.glade.h:7
 msgid "16:"
-msgstr ""
+msgstr "16:"
 
 #: ../tests/go-demo.glade.h:8
 msgid "17:"
-msgstr ""
+msgstr "17:"
 
 #: ../tests/go-demo.glade.h:9
 msgid "18:"
-msgstr ""
+msgstr "18:"
 
 #: ../tests/go-demo.glade.h:10
 msgid "19:"
-msgstr ""
+msgstr "19:"
 
 #: ../tests/go-demo.glade.h:11
 msgid "1:"
-msgstr ""
+msgstr "1:"
 
 #: ../tests/go-demo.glade.h:12
 msgid "20:"
-msgstr ""
+msgstr "20:"
 
 #: ../tests/go-demo.glade.h:13
 msgid "2:"
-msgstr ""
+msgstr "2:"
 
 #: ../tests/go-demo.glade.h:14
 msgid "3:"
-msgstr ""
+msgstr "3:"
 
 #: ../tests/go-demo.glade.h:15
 msgid "4:"
-msgstr ""
+msgstr "4:"
 
 #: ../tests/go-demo.glade.h:16
 msgid "5:"
-msgstr ""
+msgstr "5:"
 
 #: ../tests/go-demo.glade.h:17
 msgid "6:"
-msgstr ""
+msgstr "6:"
 
 #: ../tests/go-demo.glade.h:18
 msgid "7:"
-msgstr ""
+msgstr "7:"
 
 #: ../tests/go-demo.glade.h:19
 msgid "8:"
-msgstr ""
+msgstr "8:"
 
 #: ../tests/go-demo.glade.h:20
 msgid "9:"
-msgstr ""
+msgstr "9:"
 
 #: ../tests/go-demo.glade.h:21
-#, fuzzy
 msgid "Angles"
-msgstr "Угол:"
+msgstr "Углы"
 
 #: ../tests/go-demo.glade.h:22
 msgid "Click \"Regenreate Charts\" if you change the data."
 msgstr ""
 
 #: ../tests/go-demo.glade.h:23
-#, fuzzy
 msgid "Indexs"
-msgstr "Индекс:"
+msgstr "Индексы"
 
 #: ../tests/go-demo.glade.h:24
-#, fuzzy
 msgid "Legends"
-msgstr "Подпись"
+msgstr "Подписи"
 
 #: ../tests/go-demo.glade.h:25
 msgid "Legends can not be changed"
 msgstr ""
 
 #: ../tests/go-demo.glade.h:26
-#, fuzzy
 msgid "Matrix"
-msgstr "Макс"
+msgstr "Матрица"
 
 #: ../tests/go-demo.glade.h:27
 msgid ""
@@ -6927,33 +6757,28 @@ msgid "Only used for: GogPolarPlot"
 msgstr ""
 
 #: ../tests/go-demo.glade.h:33
-#, fuzzy
 msgid "Regenerate Charts"
-msgstr "Диаграммы поверхностей"
+msgstr "Перегенерировать графики"
 
 #: ../tests/go-demo.glade.h:34
-#, fuzzy
 msgid "Starts"
-msgstr "Начало"
+msgstr ""
 
 #: ../tests/go-demo.glade.h:36
-#, fuzzy
 msgid "_File"
-msgstr "Заливка:"
+msgstr "Файл"
 
 #: ../tests/go-demo.glade.h:37
-#, fuzzy
 msgid "fifth"
-msgstr "Ширина"
+msgstr "пятый"
 
 #: ../tests/go-demo.glade.h:38
 msgid "first"
-msgstr ""
+msgstr "первый"
 
 #: ../tests/go-demo.glade.h:39
-#, fuzzy
 msgid "fourth"
-msgstr "Снизу"
+msgstr "четвёртый"
 
 #: ../tests/go-demo.glade.h:40
 msgid "gtk-quit"
@@ -6961,17 +6786,15 @@ msgstr ""
 
 #: ../tests/go-demo.glade.h:41
 msgid "second"
-msgstr ""
+msgstr "второй"
 
 #: ../tests/go-demo.glade.h:42
-#, fuzzy
 msgid "sixth"
-msgstr "Ширина"
+msgstr "шестой"
 
 #: ../tests/go-demo.glade.h:43
-#, fuzzy
 msgid "third"
-msgstr "Другая"
+msgstr "третий"
 
 #~ msgid "Grid"
 #~ msgstr "Сетка"
