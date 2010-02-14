@@ -1,3 +1,9 @@
+2010-02-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c (button_press_cb),
+	(button_release_cb), (motion_cb): don't return before cleaning.
+	* libgoffice.pc.in: remove libglade dependency. [#609833]
+
 2010-02-13  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

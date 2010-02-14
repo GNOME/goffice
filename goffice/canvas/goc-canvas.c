@@ -85,11 +85,13 @@ button_press_cb (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointe
 	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
 	item = goc_canvas_get_item_at (canvas, x, y);;
 	if (item) {
+		gboolean result;
 		canvas->cur_event = (GdkEvent *) event;
 		if (event->type == GDK_2BUTTON_PRESS)
 			return GOC_ITEM_GET_CLASS (item)->button2_pressed (item, event->button, x, y);
-		return GOC_ITEM_GET_CLASS (item)->button_pressed (item, event->button, x, y);
+		result = GOC_ITEM_GET_CLASS (item)->button_pressed (item, event->button, x, y);
 		canvas->cur_event = NULL;
+		return result;
 	}
 	return FALSE;
 }
@@ -110,9 +112,11 @@ button_release_cb (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpoin
 		canvas->grabbed_item:
 		goc_canvas_get_item_at (canvas, x, y);
 	if (item) {
+		gboolean result;
 		canvas->cur_event = (GdkEvent *) event;
-		return GOC_ITEM_GET_CLASS (item)->button_released (item, event->button, x, y);
+		result = GOC_ITEM_GET_CLASS (item)->button_released (item, event->button, x, y);
 		canvas->cur_event = NULL;
+		return result;
 	}
 	return FALSE;
 }
@@ -122,6 +126,7 @@ motion_cb (GocCanvas *canvas, GdkEventMotion *event, G_GNUC_UNUSED gpointer data
 {
 	double x, y;
 	GocItem *item;
+	gboolean result = FALSE;
 
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
 		return TRUE;
@@ -145,10 +150,10 @@ motion_cb (GocCanvas *canvas, GdkEventMotion *event, G_GNUC_UNUSED gpointer data
 			canvas->last_item = item;
 			klass->enter_notify (item, x, y);
 		}
-		return klass->motion (item, x, y);
+		result = klass->motion (item, x, y);
 	}
 	canvas->cur_event = NULL;
-	return FALSE;
+	return result;
 }
 
 static void
