@@ -372,7 +372,7 @@ gog_graph_class_init (GogGraphClass *klass)
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_HEIGHT,
 		g_param_spec_double ("height-pts",
 			_("Height"),
-			_("Logical graph heigth, in points"),
+			_("Logical graph height, in points"),
 			0.0, G_MAXDOUBLE, GOG_GRAPH_DEFAULT_HEIGHT,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_DOCUMENT,
