@@ -321,4 +321,3 @@ plugins/smoothing/gog-exp-smooth.c
 [type: gettext/glade]plugins/smoothing/gog-exp-smooth.ui
 plugins/smoothing/plugin.xml.in
 plugins/smoothing/types.xml.in
-[type: gettext/glade]tests/go-demo.ui

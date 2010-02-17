@@ -10,3 +10,4 @@ plugins/reg_logfit/reg-types.xml
 plugins/smoothing/types.xml
 goffice/graph/gog-equation-prefs.glade
 goffice/graph/gog-equation.c
+tests/go-demo.ui
