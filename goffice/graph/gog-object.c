@@ -946,9 +946,7 @@ gog_object_get_parent_typed (GogObject const *obj, GType t)
 GogGraph *
 gog_object_get_graph (GogObject const *obj)
 {
-	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
-
-	for (; obj != NULL ; obj = obj->parent)
+	for (; GOG_IS_OBJECT (obj) ; obj = obj->parent)
 		if (GOG_IS_GRAPH (obj))
 			return GOG_GRAPH (obj);
 	return NULL;

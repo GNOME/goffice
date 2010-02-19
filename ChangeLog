@@ -1,5 +1,10 @@
 2010-02-19  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-object.c (gog_object_get_graph): avoid a crash if a
+	parent has been finalized. [#610435]
+
+2010-02-19  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-axis-line.c (cb_position_toggled),
 	(cb_tick_toggle_changed): use gtk_buildable_get_name instead of
 	gtk_widget_get_name where appropriate.
