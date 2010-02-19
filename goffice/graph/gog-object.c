@@ -92,6 +92,13 @@ static GObjectClass *parent_klass;
 static void gog_object_set_id (GogObject *obj, unsigned id);
 
 static void
+gog_object_parent_finalized (GogObject *obj)
+{
+	obj->parent = NULL;
+	g_object_unref (obj);
+}
+
+static void
 gog_object_finalize (GObject *gobj)
 {
 	GogObject *obj = GOG_OBJECT (gobj);
@@ -99,7 +106,7 @@ gog_object_finalize (GObject *gobj)
 	g_free (obj->user_name); obj->user_name = NULL;
 	g_free (obj->auto_name); obj->auto_name = NULL;
 
-	g_slist_foreach (obj->children, (GFunc) g_object_unref, NULL);
+	g_slist_foreach (obj->children, (GFunc) gog_object_parent_finalized, NULL);
 	g_slist_free (obj->children);
 	obj->children = NULL;
 
@@ -946,7 +953,9 @@ gog_object_get_parent_typed (GogObject const *obj, GType t)
 GogGraph *
 gog_object_get_graph (GogObject const *obj)
 {
-	for (; GOG_IS_OBJECT (obj) ; obj = obj->parent)
+	g_return_val_if_fail (GOG_IS_OBJECT (obj), NULL);
+
+	for (; obj != NULL ; obj = obj->parent)
 		if (GOG_IS_GRAPH (obj))
 			return GOG_GRAPH (obj);
 	return NULL;

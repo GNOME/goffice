@@ -1,5 +1,13 @@
 2010-02-19  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/graph/gog-object.c (gog_object_parent_finalized),
+	(gog_object_finalize): ensure that children parent is set to NULL.
+	(gog_object_get_graph): restore previous version
+	* goffice/graph/gog-guru-type-selector.ui: remove orientation property
+	to avoid warnings with old gtk+.
+
+2010-02-19  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-object.c (gog_object_get_graph): avoid a crash if a
 	parent has been finalized. [#610435]
 

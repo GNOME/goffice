@@ -67,12 +67,10 @@
               <object class="GtkVPaned" id="vpaned1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="orientation">vertical</property>
                 <property name="position">250</property>
                 <child>
                   <object class="GtkVBox" id="sample-box">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkLabel" id="sample-label">
                         <property name="visible">True</property>
@@ -111,7 +109,6 @@
                 <child>
                   <object class="GtkVBox" id="rbox">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkLabel" id="subtype_label">
