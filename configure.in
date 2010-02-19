@@ -604,7 +604,6 @@ AC_SUBST(goffice_icondir, '${datadir}/pixmaps/goffice/${VERSION}')
 AC_SUBST(goffice_localedir, '${prefix}/${DATADIRNAME}/locale')
 dnl
 AC_SUBST(goffice_plugindir, '${goffice_libdir}/plugins')
-AC_SUBST(goffice_gladedir, '${goffice_datadir}/glade')
 
 dnl Export to goffice-config.h and goffice-features.h
 AC_DEFINE(GOFFICE_VERSION, "goffice_full_version",
