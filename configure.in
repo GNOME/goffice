@@ -259,9 +259,16 @@ GOFFICE_PLUGIN_LIBADD="\$(top_builddir)/goffice/libgoffice-\$(GOFFICE_API_VER).l
 AC_SUBST(GOFFICE_PLUGIN_LDFLAGS)
 AC_SUBST(GOFFICE_PLUGIN_LIBADD)
 
+if test `expr goffice_version_major % 2` -eq 1; then
+    AC_MSG_NOTICE([NOTE: This is a development release])
+    goffice_devel=yes
+else
+    goffice_devel=no
+fi
+
 dnl disable for in stable release, re-enable for development series
 gtk_disable_deprecated=no
-if test `expr goffice_version_major % 2` -eq 1; then
+if test $goffice_devel = yes; then
 	CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED"
 	CFLAGS="$CFLAGS -DPANGO_DISABLE_DEPRECATED"
 	if test "x$goffice_with_gtk" = "xtrue"; then
@@ -295,9 +302,21 @@ ifdef([GNOME_COMPILE_WARNINGS],
 )
 set_more_warnings=yes
 if test "$GCC" = "yes" -a "x$set_more_warnings" != "xno"; then
-	for option in -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings -Wdeclaration-after-statement -Wmissing-noreturn -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wformat -Wmissing-format-attribute -Wno-pointer-sign -Wformat-security; do
-		# Note: we cannot use -Werror=format-security until the fix
-		# for bug 536980 gets deployed.
+	warning_options="-Wsign-compare -Wpointer-arith -Wnested-externs \
+			 -Wchar-subscripts -Wwrite-strings \
+			 -Wdeclaration-after-statement -Wnested-externs \
+			 -Wmissing-noreturn -Wmissing-prototypes \
+			 -Wmissing-declarations -Wno-pointer-sign \
+			 -Wbitwise -Wcast-to-as \
+			 -Wdefault-bitfield-sign -Wdo-while -Wparen-string \
+			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign"
+	# Note: we cannot use -Werror=format-security until the fix
+	# for bug 536980 gets deployed.
+	if test goffice_devel = yes; then
+		dnl Avoid triggering a warning in gtk+ headers for stable.
+		warning_options="$warning_options -Wstrict-prototypes"
+	fi
+	for option in $warning_options ; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])
