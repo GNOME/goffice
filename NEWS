@@ -2,6 +2,8 @@ goffice 0.8.1:
 
 Jean:
 	* Remove libglade dependency from pc file. [#609833]
+	* Use gtk_buildable_get_name instead of gtk_widget_get_name where
+	appropriate. Make things work with gtk+ >= 2.19.2.
 
 --------------------------------------------------------------------------
 goffice 0.8.0:

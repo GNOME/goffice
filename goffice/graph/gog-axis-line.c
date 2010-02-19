@@ -418,7 +418,7 @@ cb_position_toggled (GtkWidget *button, AxisBasePrefs *state)
 {
 	GogAxisBase *axis_base = state->axis_base;
 	GogAxisPosition position;
-	char const *widget_name = gtk_widget_get_name (button);
+	char const *widget_name = gtk_buildable_get_name (GTK_BUILDABLE (button));
 	GSList *lines, *axes, *aptr, *lptr;
 
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
@@ -461,7 +461,7 @@ static void
 cb_tick_toggle_changed (GtkToggleButton *toggle_button, GObject *axis_base)
 {
 	g_object_set (axis_base,
-		gtk_widget_get_name (GTK_WIDGET (toggle_button)),
+		gtk_buildable_get_name (GTK_BUILDABLE (toggle_button)),
 		gtk_toggle_button_get_active (toggle_button),
 		NULL);
 }

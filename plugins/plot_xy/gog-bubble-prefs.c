@@ -34,7 +34,7 @@ cb_type_changed (GtkToggleButton* button, GObject *bubble)
 {
 	if (gtk_toggle_button_get_active (button))
 		g_object_set (bubble, "size-as-area",
-			strcmp (gtk_widget_get_name ((GtkWidget*) button), "area")? FALSE: TRUE, NULL);
+			strcmp (gtk_buildable_get_name (GTK_BUILDABLE (button)), "area")? FALSE: TRUE, NULL);
 }
 
 static void

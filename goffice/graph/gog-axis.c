@@ -2125,7 +2125,7 @@ static void
 cb_axis_toggle_changed (GtkToggleButton *toggle_button, GObject *axis)
 {
 	g_object_set (axis,
-		gtk_widget_get_name (GTK_WIDGET (toggle_button)),
+		gtk_buildable_get_name (GTK_BUILDABLE (toggle_button)),
 		gtk_toggle_button_get_active (toggle_button),
 		NULL);
 }

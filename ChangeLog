@@ -1,3 +1,13 @@
+2010-02-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c (cb_position_toggled),
+	(cb_tick_toggle_changed): use gtk_buildable_get_name instead of
+	gtk_widget_get_name where appropriate.
+	* goffice/graph/gog-axis.c (cb_axis_toggle_changed):
+	* goffice/graph/gog-object.c (cb_chart_position_changed):
+	* goffice/utils/go-editor.c (go_editor_register_widget):
+	* plugins/plot_xy/gog-bubble-prefs.c (cb_type_changed):
+
 2010-02-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-canvas.c (button_press_cb),

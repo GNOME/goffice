@@ -363,7 +363,7 @@ cb_update_editor (GogObject *gobj, ObjectPrefState *state)
 static void
 cb_chart_position_changed (GtkWidget *spin, ObjectPrefState *state)
 {
-	g_object_set (G_OBJECT (state->gobj), gtk_widget_get_name (spin),
+	g_object_set (G_OBJECT (state->gobj), gtk_buildable_get_name (GTK_BUILDABLE (spin)),
 		      (int) gtk_spin_button_get_value (GTK_SPIN_BUTTON (spin)), NULL);
 }
 

@@ -123,7 +123,7 @@ go_editor_register_widget (GOEditor *editor, GtkWidget *widget)
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (GTK_IS_WIDGET (widget));
 
-	g_datalist_set_data (&editor->registered_widgets, gtk_widget_get_name (widget), widget);
+	g_datalist_set_data (&editor->registered_widgets, gtk_buildable_get_name (GTK_BUILDABLE (widget)), widget);
 }
 
 /**
