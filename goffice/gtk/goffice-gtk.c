@@ -140,7 +140,8 @@ go_gtk_builder_new (char const *uifile,
 			msg = g_strdup_printf (_("Unable to open file '%s'"), f);
 		go_cmd_context_error_system (gcc, msg);
 		g_free (msg);
-	}
+	} else if (error)
+		g_error_free (error);
 	g_free (f);
 
 	return gui;
