@@ -38,6 +38,7 @@ GOBezierSpline *go_bezier_spline_init (double const *x, double const *y, int n,
 void go_bezier_spline_destroy (GOBezierSpline *sp);
 
 GOPath *go_bezier_spline_to_path (GOBezierSpline *sp);
+void go_bezier_spline_to_cairo (GOBezierSpline *sp, cairo_t *cr);
 
 G_END_DECLS
 

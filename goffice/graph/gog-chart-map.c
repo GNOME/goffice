@@ -363,9 +363,10 @@ make_path_cspline (GogChartMap *map,
 		} else {
 			if (skip_invalid || type == GO_CSPLINE_CLAMPED)
 				continue;
-			if (n_valid_points == 2)
+			if (n_valid_points == 2) {
+				go_path_move_to (path, uu[0], vv[0]);
 				go_path_line_to (path, uu[1], vv[1]);
-			else if (n_valid_points > 2) {
+			} else if (n_valid_points > 2) {
 				/* evaluate the spline */
 				spline = go_cspline_init (uu, vv, n_valid_points, type, p0, p1);
 				if (spline) {
@@ -388,6 +389,7 @@ make_path_cspline (GogChartMap *map,
 					go_cspline_destroy (spline);
 				}
 			}
+			n_valid_points = 0;
 		}
 	}
 	if (n_valid_points == 2) {

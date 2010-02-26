@@ -5,6 +5,7 @@ Jean:
 	* Use gtk_buildable_get_name instead of gtk_widget_get_name where
 	appropriate. [#610434]
 	* Fix crash in GogGuru. [#610435]
+	* Fix cubic splines with invalid data. [#611163]
 
 --------------------------------------------------------------------------
 goffice 0.8.0:

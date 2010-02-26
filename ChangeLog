@@ -1,3 +1,10 @@
+2010-02-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-chart-map.c (make_path_cspline): correctly manage
+	invalid data. [#611163]
+	* goffice/utils/go-bezier.c (go_bezier_spline_to_cairo): new utility.
+	* goffice/utils/go-bezier.h: ditto.
+
 2010-02-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/gtk/goffice-gtk.c (go_gtk_builder_new): fixed a memory leak.

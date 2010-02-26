@@ -335,3 +335,24 @@ go_bezier_spline_to_path (GOBezierSpline *sp)
 	}
 	return path;
 }
+
+/**
+ * go_bezier_spline_to_path:
+ * @sp: a struct GOBezierSpline instance returned by go_bezier_spline_init
+ * @cr: a cairo context
+ *
+ * Renders the spline in \a cr
+ **/
+void
+go_bezier_spline_to_cairo (GOBezierSpline *sp, cairo_t *cr)
+{
+	int i, j;
+	cairo_new_path (cr);
+	cairo_move_to (cr, sp->x[0], sp->y[0]);
+	for (i = j = 1; i < sp->n; i++, j += 3)
+		cairo_curve_to (cr, sp->x[j], sp->y[j], sp->x[j+1], sp->y[j+1], sp->x[j+2], sp->y[j+2]);
+	if (sp->closed) {
+		cairo_curve_to (cr, sp->x[j], sp->y[j], sp->x[j+1], sp->y[j+1], sp->x[0], sp->y[0]);
+		cairo_close_path (cr);
+	}
+}
