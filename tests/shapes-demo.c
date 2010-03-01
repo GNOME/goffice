@@ -131,7 +131,7 @@ main (int argc, char *argv[])
 	canvas =g_object_new (GOC_TYPE_CANVAS, NULL);
 	g_signal_connect_swapped (canvas, "button-press-event", G_CALLBACK (my_test), canvas);
 
-	goi = goc_item_new(goc_canvas_get_root (canvas), GOC_TYPE_POLYLINE, NULL);
+	goi = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_POLYLINE, NULL);
 	goc_item_set (goi, "points", points, NULL);
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (goi));
 	style->line.width = 1;

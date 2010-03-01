@@ -1,3 +1,10 @@
+2010-03-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-polyline.c (goc_polyline_set_property),
+	(goc_polyline_prepare_draw), (goc_polyline_distance),
+	(goc_polyline_class_init): implement spline support.
+	* tests/shapes-demo.c (main): add missing white spaces.
+
 2010-03-01  Valek Filippov  <frob@gnome.org>
 
 	* goffice/canvas/Makefile.am: add arc support.

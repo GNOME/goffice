@@ -50,9 +50,12 @@ goc_polyline_set_property (GObject *gobject, guint param_id,
 		GocPoints *points = (GocPoints *) g_value_get_boxed (value);
 		polyline->nb_points = points->n;
 		g_free (polyline->points);
-		polyline->points = g_new (GocPoint, points->n);
-		for (i = 0; i < points->n; i++)
-			polyline->points[i] = points->points[i];
+		if (points->n > 0) {
+			polyline->points = g_new (GocPoint, points->n);
+			for (i = 0; i < points->n; i++)
+				polyline->points[i] = points->points[i];
+		} else
+			polyline->points = NULL;
 		break;
 	}
 	case POLYLINE_PROP_SPLINE:
@@ -62,8 +65,18 @@ goc_polyline_set_property (GObject *gobject, guint param_id,
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
 	}
+	if (polyline->use_spline && polyline->nb_points) {
+		double *x, *y;
+		unsigned i;
+		x = g_alloca (polyline->nb_points * sizeof (double));
+		y = g_alloca (polyline->nb_points * sizeof (double));
+		for (i = 0; i < polyline->nb_points; i++) {
+			x[i] = polyline->points[i].x - polyline->points[0].x;
+			y[i] = polyline->points[i].y - polyline->points[0].y;
+		}
+		g_object_set_data_full (G_OBJECT (polyline), "spline", go_bezier_spline_init (x, y, polyline->nb_points, FALSE), (GDestroyNotify) go_bezier_spline_destroy);
+	}
 	goc_item_bounds_changed (GOC_ITEM (gobject));
-
 }
 
 static void
@@ -96,7 +109,6 @@ goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 {
 	GocPolyline *polyline = GOC_POLYLINE (item);
 	unsigned i;
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
 
 	if (polyline->nb_points == 0)
 		return FALSE;
@@ -108,10 +120,19 @@ goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 		} else {
 			cairo_move_to (cr, polyline->points[0].x, polyline->points[0].y);
 		}
-		/* FIXME: implement the use_spline case */
-		for (i = 1; i < polyline->nb_points; i++)
-			cairo_line_to (cr, (polyline->points[i].x - polyline->points[0].x * flag) * sign,
-				polyline->points[i].y - polyline->points[0].y * flag);
+		if (polyline->use_spline) {
+			GOBezierSpline *spline = (GOBezierSpline *) g_object_get_data (G_OBJECT (polyline), "spline");
+			cairo_save (cr);
+			if (flag == 0)
+				cairo_translate (cr, polyline->points[0].x, polyline->points[0].y);
+			go_bezier_spline_to_cairo (spline, cr, goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL);
+			cairo_restore (cr);
+		} else {
+			double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
+			for (i = 1; i < polyline->nb_points; i++)
+				cairo_line_to (cr, (polyline->points[i].x - polyline->points[0].x * flag) * sign,
+					polyline->points[i].y - polyline->points[0].y * flag);
+		}
 		
 		return TRUE;
 	}
@@ -158,7 +179,7 @@ goc_polyline_distance (GocItem *item, double x, double y, GocItem **near_item)
 	cr = cairo_create (surface);
 
 	if (goc_polyline_prepare_draw (item,cr,0)) {
-		if (cairo_in_stroke (cr,x,y))
+		if (cairo_in_stroke (cr, x, y))
 			res = 0;
 	}
 
@@ -202,12 +223,12 @@ goc_polyline_class_init (GocItemClass *item_klass)
                  g_param_spec_boxed ("points", _("points"), _("The polyline vertices"),
 				     GOC_TYPE_POINTS,
 				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
-/*	g_object_class_install_property (obj_klass, POLYLINE_PROP_SPLINE,
+	g_object_class_install_property (obj_klass, POLYLINE_PROP_SPLINE,
 		g_param_spec_boolean ("use-spline",
 				      _("Use spline"),
 				      _("Use a Bezier cubic spline as line"),
 				      FALSE,
-				      GSF_PARAM_STATIC | G_PARAM_READABLE));*/
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	item_klass->update_bounds = goc_polyline_update_bounds;
 	item_klass->distance = goc_polyline_distance;
