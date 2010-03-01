@@ -7,6 +7,9 @@ Jean:
 	* Fix crash in GogGuru. [#610435]
 	* Fix cubic splines with invalid data. [#611163]
 
+Valek:
+	* Canvas improvements.
+
 --------------------------------------------------------------------------
 goffice 0.8.0:
 

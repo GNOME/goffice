@@ -1,3 +1,20 @@
+2010-03-01  Valek Filippov  <frob@gnome.org>
+
+	* goffice/canvas/Makefile.am: add arc support.
+	* goffice/canvas/goc-arc.c: ditto
+	* goffice/canvas/goc-arc.h: ditto
+	* goffice/canvas/goc-polyline.c (goc_polyline_prepare_draw),
+	(goc_polyline_update_bounds), (goc_polyline_distance),
+	(goc_polyline_draw): enhance polyline implementation.
+	* goffice/canvas/goffice-canvas.h: add arc support.
+	* tests/Makefile.am: new demo.
+	* tests/shapes-demo.c: ditto.
+
+2010-03-01  Jean Brefort  <jean.brefort@normalesup.org>
+	* goffice/utils/go-bezier.c (go_bezier_spline_to_cairo): add a flag to
+	support rendering in an RTL canvas.
+	* goffice/utils/go-bezier.h: ditto.
+
 2010-02-26  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-chart-map.c (make_path_cspline): correctly manage

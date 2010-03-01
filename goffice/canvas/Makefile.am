@@ -1,6 +1,7 @@
 noinst_LTLIBRARIES = libgoffice-canvas.la
 
 libgoffice_canvas_la_SOURCES =	\
+	goc-arc.c		\
 	goc-canvas.c		\
 	goc-circle.c		\
 	goc-ellipse.c		\
@@ -19,6 +20,7 @@ libgoffice_canvas_la_SOURCES =	\
 
 libgoffice_canvas_ladir = $(goffice_include_dir)/canvas
 libgoffice_canvas_la_HEADERS =	\
+	goc-arc.h		\
 	goc-canvas.h		\
 	goc-circle.h		\
 	goc-ellipse.h		\

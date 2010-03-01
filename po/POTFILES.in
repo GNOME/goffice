@@ -37,6 +37,7 @@ goffice/app/io-context-priv.h
 goffice/app/io-context.c
 goffice/app/io-context.h
 goffice/app/module-plugin-defs.h
+goffice/canvas/goc-arc.c
 goffice/canvas/goc-circle.c
 goffice/canvas/goc-ellipse.c
 goffice/canvas/goc-graph.c

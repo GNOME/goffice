@@ -91,34 +91,49 @@ goc_polyline_get_property (GObject *gobject, guint param_id,
 	}
 }
 
+static gboolean
+goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
+{
+	GocPolyline *polyline = GOC_POLYLINE (item);
+	unsigned i;
+	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
+
+	if (polyline->nb_points == 0)
+		return FALSE;
+
+	if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
+		if (1 == flag) {
+			goc_group_cairo_transform (item->parent, cr, polyline->points[0].x, polyline->points[0].y);
+			cairo_move_to (cr, 0., 0.);
+		} else {
+			cairo_move_to (cr, polyline->points[0].x, polyline->points[0].y);
+		}
+		/* FIXME: implement the use_spline case */
+		for (i = 1; i < polyline->nb_points; i++)
+			cairo_line_to (cr, (polyline->points[i].x - polyline->points[0].x * flag) * sign,
+				polyline->points[i].y - polyline->points[0].y * flag);
+		
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 goc_polyline_update_bounds (GocItem *item)
 {
-	GocPolyline *polyline = GOC_POLYLINE (item);
-	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	double extra_width = style->line.width;
-	unsigned i;
-	if (extra_width <= 0.)
-		extra_width = 1.;
-	if (polyline->nb_points == 0)
-		return;
-	/* FIXME: implement the use_spline case */
-	item->x0 = item->x1 = polyline->points[0].x;
-	item->y0 = item->y1 = polyline->points[0].y;
-	for (i = 1; i < polyline->nb_points; i++) {
-		if (polyline->points[i].x < item->x0)
-			item->x0 = polyline->points[i].x;
-		else if (polyline->points[i].x > item->x1)
-			item->x1 = polyline->points[i].x;
-		if (polyline->points[i].y < item->y0)
-			item->y0 = polyline->points[i].y;
-		else if (polyline->points[i].y > item->y1)
-			item->y1 = polyline->points[i].y;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, goc_canvas_get_width(item->canvas),goc_canvas_get_height(item->canvas));
+	cr = cairo_create (surface);
+
+	if (goc_polyline_prepare_draw (item, cr, 0)) {
+		cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
 	}
-	item->x0 -= extra_width;
-	item->y0 -= extra_width;
-	item->x1 -= extra_width;
-	item->y1 -= extra_width;
+
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
 }
 
 static double
@@ -126,63 +141,40 @@ goc_polyline_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocPolyline *polyline = GOC_POLYLINE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	/* FIXME: implement the use_spline case */
-	double extra_width = (style->line.width)? style->line.width /2.: .5;
-	double dx, dy, l, startx, starty, x_, y_, t, res;
-	unsigned i;
+	double tmp_width = 0;
+	double res = 20;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+
+	if (polyline->nb_points == 0)
+		return res;
 
 	*near_item = item;
-	/* FIXME: not tested!!! */
-	/* first test if the point is inside the polygon */
-	startx = polyline->points[0].x;
-	starty = polyline->points[0].y;
-	res = hypot (polyline->points[polyline->nb_points - 1].x - x, polyline->points[polyline->nb_points - 1].y - y);
-	for (i = 0; i < polyline->nb_points; i++) {
-		dx = polyline->points[i].x - startx;
-		dy = polyline->points[i].y - starty;
-		l = hypot (dx, dy);
-		x_ = x - startx;
-		y_ = y - starty;
-		t = (x_ * dx + y_ * dy) / l;
-		y = (-x_ * dy + y_ * dx) / l;
-		x_ = t;
-		*near_item = item;
-		if (x < 0. ) {
-			t = hypot (x_, y_);
-			if (t < res)
-				res = t;
-		} else if (t <= l) {
-			if (y_ < res)
-				res = y_;
-		}
-		startx = polyline->points[i].x;
-		starty = polyline->points[i].y;
+	tmp_width = style->line.width;
+	if (style->line.width < 5) {
+		style->line.width = 5;
 	}
-	res -= extra_width; /* no need to be more precise */
-	return (res > 0.)? res: 0.;
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, goc_canvas_get_width (item->canvas), goc_canvas_get_height (item->canvas));
+	cr = cairo_create (surface);
+
+	if (goc_polyline_prepare_draw (item,cr,0)) {
+		if (cairo_in_stroke (cr,x,y))
+			res = 0;
+	}
+
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+	style->line.width = tmp_width;
+	return res;
 }
 
 static void
 goc_polyline_draw (GocItem const *item, cairo_t *cr)
 {
-	GocPolyline *polyline = GOC_POLYLINE (item);
-	unsigned i;
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
-	if (polyline->nb_points == 0)
-		return;
 	cairo_save (cr);
-	goc_group_cairo_transform (item->parent, cr, polyline->points[0].x, polyline->points[0].y);
-        cairo_move_to (cr, 0., 0.);
-	/* FIXME: implement the use_spline case */
-
-	for (i = 1; i < polyline->nb_points; i++)
-		cairo_line_to (cr, (polyline->points[i].x - polyline->points[0].x) * sign,
-		               polyline->points[i].y - polyline->points[0].y);
-
-	if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr))
+	if (goc_polyline_prepare_draw (item,cr,1)) {
 		cairo_stroke (cr);
-	else
-		cairo_new_path (cr);
+	}
 	cairo_restore (cr);
 }
 

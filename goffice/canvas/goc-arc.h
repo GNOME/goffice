@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-bezier.h
+ * goc-arc.h :
  *
- * Copyright (C) 2008 Jean Brefort (jean.brefort@normalesup.org)
+ * Copyright (C) 2009 Jean Brefort (jean.brefort@normalesup.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -20,26 +20,32 @@
  * USA
  */
 
-#ifndef GO_BEZIER_H
-#define GO_BEZIER_H
+#ifndef GOC_ARC_H
+#define GOC_ARC_H
 
 #include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 
-typedef struct {
-	double *x, *y;
-	int n;
-	gboolean closed;
-} GOBezierSpline;
+struct _GocArc {
+	GocStyledItem base;
 
-GOBezierSpline *go_bezier_spline_init (double const *x, double const *y, int n,
-				   gboolean closed);
-void go_bezier_spline_destroy (GOBezierSpline *sp);
+	double rotation;
+	/* part of the ellipse: center, radiuses, angles */
+	double xc, yc, xr, yr, ang1, ang2;
+	int type;
 
-GOPath *go_bezier_spline_to_path (GOBezierSpline *sp);
-void go_bezier_spline_to_cairo (GOBezierSpline *sp, cairo_t *cr, gboolean horiz_flip);
+	GOArrow start_arrow, end_arrow;
+};
+
+typedef GocStyledItemClass GocArcClass;
+
+#define GOC_TYPE_ARC	(goc_arc_get_type ())
+#define GOC_ARC(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOC_TYPE_ARC, GocArc))
+#define GOC_IS_ARC(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOC_TYPE_ARC))
+
+GType goc_arc_get_type (void);
 
 G_END_DECLS
 
-#endif  /* GO_BEZIER_H */
+#endif  /* GOC_ARC_H */

@@ -1,5 +1,5 @@
 if WITH_GTK
-check_PROGRAMS = pie-demo go-demo 
+check_PROGRAMS = pie-demo go-demo shapes-demo
 endif
 
 include $(top_srcdir)/goffice.mk
@@ -11,6 +11,9 @@ pie_demo_SOURCES = pie-demo.c
 
 go_demo_LDADD = $(GOFFICE_PLUGIN_LIBADD)
 go_demo_SOURCES = go-demo.c
+
+shapes_demo_LDADD = $(GOFFICE_PLUGIN_LIBADD)
+shapes_demo_SOURCES = shapes-demo.c
 
 EXTRA_DIST = go-demo.ui
 

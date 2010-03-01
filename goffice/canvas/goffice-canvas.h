@@ -31,6 +31,7 @@ G_BEGIN_DECLS
 typedef struct _GocCanvas	GocCanvas;
 typedef struct _GocItem		GocItem;
 typedef struct _GocGroup	GocGroup;
+typedef struct _GocArc		GocArc;
 typedef struct _GocLine		GocLine;
 typedef struct _GocPixbuf	GocPixbuf;
 typedef struct _GocPolyline	GocPolyline;
@@ -57,6 +58,7 @@ G_END_DECLS
 #include <goffice/canvas/goc-ellipse.h>
 #include <goffice/canvas/goc-graph.h>
 #include <goffice/canvas/goc-group.h>
+#include <goffice/canvas/goc-arc.h>
 #include <goffice/canvas/goc-line.h>
 #include <goffice/canvas/goc-pixbuf.h>
 #include <goffice/canvas/goc-polyline.h>
