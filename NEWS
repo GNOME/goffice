@@ -7,6 +7,9 @@ Jean:
 	* Fix crash in GogGuru. [#610435]
 	* Fix cubic splines with invalid data. [#611163]
 
+Morten:
+	* Fix locale selector issue.  [#611415]
+
 Valek:
 	* Canvas improvements.
 

@@ -84,9 +84,10 @@ lgroups_order (const void *_a, const void *_b)
 
 typedef struct {
 	gchar const *locale_title;
-	gchar const *locale;
+	gchar const *base_locale;  /* "xx_XX" */
 	LocaleGroup const lgroup;
 	gboolean available;
+	gchar *actual_locale;      /* "xx_XX" or "xx_XX.utf8" */
 } LocaleInfo;
 
 static LocaleInfo locale_trans_array[] = {
@@ -310,7 +311,7 @@ static void ls_get_property      (GObject          *object,
 
 const char *
 go_locale_sel_get_locale_name (G_GNUC_UNUSED GOLocaleSel *ls,
-				 const char *locale)
+			       const char *locale)
 {
 	LocaleInfo const *ci;
 
@@ -320,42 +321,61 @@ go_locale_sel_get_locale_name (G_GNUC_UNUSED GOLocaleSel *ls,
 	return ci ? _(ci->locale_title) : NULL;
 }
 
-static char*
+static char *
 get_locale_name (GOLocaleSel *ls)
 {
 	char const *cur_locale, *name;
 	char *locale, *p;
+	const char *ellipsis = "...";
 
 	/*
 	 * We cannot use LC_ALL here because a composite locale may have
 	 * a string that is a mile wide (and not be intented for humans
-	 * anyway).  Why use LC_MESSAGES?  Good question, but it actuality
+	 * anyway).  Why use LC_MESSAGES?  Good question, but in actuality
 	 * I doubt it will matter.  It's an arbitrary choice.
 	 */
 	cur_locale = setlocale (LC_MESSAGES, NULL);
 	if (!cur_locale) cur_locale = "C";  /* Just in case.  */
 	locale = g_strdup (cur_locale);
 
-	/* Get rid of charsets.  */
+	name = go_locale_sel_get_locale_name (ls, locale);
+	if (name)
+		goto gotit;
+
 	p = strchr (locale, '.');
-	if (p)
+	if (p) {
+		strcpy (p, ".utf8");
+		name = go_locale_sel_get_locale_name (ls, locale);
+		if (name)
+			goto gotit;
 		*p = 0;
+	} else {
+		p = g_strconcat (locale, ".utf8", NULL);
+		name = go_locale_sel_get_locale_name (ls, p);
+		if (name) {
+			g_free (locale);
+			locale = p;
+			goto gotit;
+		}
+		g_free (p);
+	}
+
 	p = strchr (locale, '@');
 	if (p)
 		*p = 0;
 
 	name = go_locale_sel_get_locale_name (ls, locale);
-	if (name) {
-		g_free (locale);
-		return g_strdup (name);
-	} else {
-		/* Just in case we get something really wide.  */
-		const char *ellipsis = "...";
-		if ((size_t)g_utf8_strlen (locale, -1) > 50 + strlen (ellipsis))
-			strcpy (g_utf8_offset_to_pointer (locale, 50), ellipsis);
+	if (name)
+		goto gotit;
 
-		return locale;
-	}
+	/* Just in case we get something really wide.  */
+	if ((size_t)g_utf8_strlen (locale, -1) > 50 + strlen (ellipsis))
+		strcpy (g_utf8_offset_to_pointer (locale, 50), ellipsis);
+	return locale;
+
+ gotit:
+	g_free (locale);
+	return g_strdup (name);
 }
 
 static void
@@ -421,7 +441,7 @@ ls_build_menu (GOLocaleSel *ls)
 					gtk_widget_show (subitem);
 					gtk_menu_shell_append (GTK_MENU_SHELL (submenu),  subitem);
 					g_object_set_data (G_OBJECT (subitem), LOCALE_NAME_KEY,
-							   (gpointer)(locale_trans->locale));
+							   (locale_trans->actual_locale));
 					cnt++;
 			}
 			locale_trans++;
@@ -499,21 +519,28 @@ ls_class_init (GtkWidgetClass *widget_klass)
 	locale_hash =
 		g_hash_table_new_full (go_ascii_strcase_hash,
 				       go_ascii_strcase_equal,
-				       (GDestroyNotify)g_free,
+				       NULL,
 				       NULL);
 
 	oldlocale = g_strdup (setlocale (LC_ALL, NULL));
 	for (ci = locale_trans_array; ci->locale_title; ci++) {
-		ci->available = (setlocale (LC_ALL, ci->locale) != NULL);
-		g_hash_table_insert (locale_hash, (char *)ci->locale, ci);
+		const char *locale = ci->base_locale;
+		char *localeutf8 = g_strconcat (locale, ".utf8", NULL);
+		ci->available = (setlocale (LC_ALL, localeutf8) != NULL);
+		if (ci->available) {
+			ci->actual_locale = localeutf8;
+		} else {
+			ci->available = (setlocale (LC_ALL, locale) != NULL);
+			ci->actual_locale = g_strdup (locale);
+			g_free (localeutf8);
+		}
+		g_hash_table_insert (locale_hash, ci->actual_locale, ci);
 	}
 
 	/* Handle the POSIX/C alias.  */
-	{
-		LocaleInfo *ci = g_hash_table_lookup (locale_hash, "C");
-		g_assert (ci != NULL);
+	ci = g_hash_table_lookup (locale_hash, "C");
+	if (ci)
 		g_hash_table_insert (locale_hash, (char *)"POSIX", ci);
-	}
 
 	setlocale (LC_ALL, oldlocale);
 	g_free (oldlocale);
@@ -540,7 +567,7 @@ go_locale_sel_get_locale (GOLocaleSel *ls)
 
 	cur_locale = setlocale (LC_ALL, NULL);
 	if (cur_locale) {
-		parts = g_strsplit (cur_locale,".",2);
+		parts = g_strsplit (cur_locale, ".", 2);
 		cur_locale_cp = g_strdup (parts[0]);
 		g_strfreev (parts);
 	}
@@ -548,10 +575,15 @@ go_locale_sel_get_locale (GOLocaleSel *ls)
  	g_return_val_if_fail (GO_IS_LOCALE_SEL (ls), cur_locale_cp);
 
  	selection = GTK_MENU_ITEM (go_option_menu_get_history (ls->locales));
-	locale = (char const *) g_object_get_data (G_OBJECT (selection),
-						     LOCALE_NAME_KEY);
-	return locale ? g_strdup (locale) : cur_locale_cp;
+	locale = g_object_get_data (G_OBJECT (selection), LOCALE_NAME_KEY);
+	if (locale) {
+		g_free (cur_locale_cp);
+		return g_strdup (locale);
+	} else {
+		return cur_locale_cp;
+	}
 }
+
 
 struct cb_find_entry {
 	const char *locale;
@@ -606,7 +638,7 @@ go_locale_sel_set_locale (GOLocaleSel *ls, const char *locale)
 	if (!ci)
 		return FALSE;
 
-	locale = ci->locale;
+	locale = ci->actual_locale;
 	if (!locale)
 		return FALSE;
 

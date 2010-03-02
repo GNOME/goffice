@@ -1,3 +1,10 @@
+2010-03-02  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-locale-sel.c (go_locale_sel_get_locale): Plug
+	leak.
+	(ls_class_init): Try adding ".utf8" to the locale name.  Fixes
+	#611415 in some sense.
+
 2010-03-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-item.c (_goc_item_update_bounds): always set
