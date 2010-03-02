@@ -59,9 +59,12 @@ goc_polygon_set_property (GObject *gobject, guint param_id,
 		GocPoints *points = (GocPoints *) g_value_get_boxed (value);
 		polygon->nb_points = points->n;
 		g_free (polygon->points);
-		polygon->points = g_new (GocPoint, points->n);
-		for (i = 0; i < points->n; i++)
-			polygon->points[i] = points->points[i];
+		if (points->n > 0) {
+			polygon->points = g_new (GocPoint, points->n);
+			for (i = 0; i < points->n; i++)
+				polygon->points[i] = points->points[i];
+		} else
+			polygon->points = NULL;
 		break;
 	}
 	case POLYGON_PROP_SPLINE:
@@ -71,8 +74,18 @@ goc_polygon_set_property (GObject *gobject, guint param_id,
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
 	}
+	if (polygon->use_spline && polygon->nb_points) {
+		double *x, *y;
+		unsigned i;
+		x = g_alloca (polygon->nb_points * sizeof (double));
+		y = g_alloca (polygon->nb_points * sizeof (double));
+		for (i = 0; i < polygon->nb_points; i++) {
+			x[i] = polygon->points[i].x - polygon->points[0].x;
+			y[i] = polygon->points[i].y - polygon->points[0].y;
+		}
+		g_object_set_data_full (G_OBJECT (polygon), "spline", go_bezier_spline_init (x, y, polygon->nb_points, TRUE), (GDestroyNotify) go_bezier_spline_destroy);
+	}
 	goc_item_bounds_changed (GOC_ITEM (gobject));
-
 }
 
 static void
@@ -100,119 +113,116 @@ goc_polygon_get_property (GObject *gobject, guint param_id,
 	}
 }
 
+static gboolean
+goc_polygon_prepare_path (GocItem const *item, cairo_t *cr, gboolean flag)
+{
+	GocPolygon *polygon = GOC_POLYGON (item);
+	unsigned i;
+
+	if (polygon->nb_points == 0)
+		return FALSE;
+
+	if (1 == flag) {
+		goc_group_cairo_transform (item->parent, cr, polygon->points[0].x, polygon->points[0].y);
+		cairo_move_to (cr, 0., 0.);
+	} else {
+		cairo_move_to (cr, polygon->points[0].x, polygon->points[0].y);
+	}
+	if (polygon->use_spline) {
+		GOBezierSpline *spline = (GOBezierSpline *) g_object_get_data (G_OBJECT (polygon), "spline");
+		cairo_save (cr);
+		if (flag == 0)
+			cairo_translate (cr, polygon->points[0].x, polygon->points[0].y);
+		go_bezier_spline_to_cairo (spline, cr, goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL);
+		cairo_restore (cr);
+	} else {
+		double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
+		for (i = 1; i < polygon->nb_points; i++)
+			cairo_line_to (cr, (polygon->points[i].x - polygon->points[0].x * flag) * sign,
+				polygon->points[i].y - polygon->points[0].y * flag);
+		cairo_close_path (cr);
+	}
+	
+	return TRUE;
+}
+
 static void
 goc_polygon_update_bounds (GocItem *item)
 {
-	GocPolygon *polygon = GOC_POLYGON (item);
-	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	/* FIXME: extra_width might be not large enough if angles are small */
-	double extra_width = style->line.width;
-	unsigned i;
-	if (extra_width <= 0.)
-		extra_width = 1.;
-	if (polygon->nb_points == 0)
-		return;
-	/* FIXME: implement the use_spline case */
-	item->x0 = item->x1 = polygon->points[0].x;
-	item->y0 = item->y1 = polygon->points[0].y;
-	for (i = 1; i < polygon->nb_points; i++) {
-		if (polygon->points[i].x < item->x0)
-			item->x0 = polygon->points[i].x;
-		else if (polygon->points[i].x > item->x1)
-			item->x1 = polygon->points[i].x;
-		if (polygon->points[i].y < item->y0)
-			item->y0 = polygon->points[i].y;
-		else if (polygon->points[i].y > item->y1)
-			item->y1 = polygon->points[i].y;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+	int mode = 0;
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+	if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr))
+		mode =1;
+	else if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
+		mode = 2;
+	if (mode && goc_polygon_prepare_path (item, cr, 0)) {
+		if (mode == 1)
+			cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+		else
+			cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
 	}
-	item->x0 -= extra_width;
-	item->y0 -= extra_width;
-	item->x1 += extra_width;
-	item->y1 += extra_width;
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
 }
 
 static double
 goc_polygon_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocPolygon *polygon = GOC_POLYGON (item);
-	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	/* FIXME: implement the use_spline case */
-	double extra_width = (style->line.width)? style->line.width /2.: .5;
-	double dx, dy, l, startx, starty, x_, y_, t, res = 0.;
-	int i, n;
+	GOStyle *style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
+	double res = G_MAXDOUBLE;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+
+	if (polygon->nb_points == 0)
+		return res;
 
 	*near_item = item;
-	/* FIXME: not tested!!! */
-	/* first test if the point is inside the polygon */
-	startx = atan2 (polygon->points[0].y - y, polygon->points[0].x - x);
-	for (i = polygon->nb_points - 1; i >= 0; i--) {
-		starty = atan2 (polygon->points[i].y - y, polygon->points[i].x - x);
-		startx -= starty;
-		if (startx > M_PI)
-			startx -= 2 * M_PI;
-		else if (startx < -M_PI)
-			startx += 2 * M_PI;
-		else if (startx == M_PI)
-			return 0.; /* the point is on the edge */
-		res += startx;
-		startx = starty;
-	}
-	n = res / 2. / M_PI;
-	if (n % 1)
-		return 0.; /* only odd-even fillinig supported for now */
-	startx = polygon->points[0].x;
-	starty = polygon->points[0].y;
-	res = G_MAXDOUBLE;
-	for (i = polygon->nb_points - 1; i >= 0; i--) {
-		dx = polygon->points[i].x - startx;
-		dy = polygon->points[i].y - starty;
-		l = hypot (dx, dy);
-		x_ = x - startx;
-		y_ = y - starty;
-		t = (x_ * dx + y_ * dy) / l;
-		y = (-x_ * dy + y_ * dx) / l;
-		x_ = t;
-		*near_item = item;
-		if (x < 0. ) {
-			t = hypot (x_, y_);
-			if (t < res)
-				res = t;
-		} else if (t <= l) {
-			if (y_ < res)
-				res = y_;
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+	goc_polygon_prepare_path (item, cr, 0);
+	if (style->fill.type != GO_STYLE_FILL_NONE) {
+		go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr);
+		if (cairo_in_fill (cr, x, y))
+			res = 0;
+		else if ((item->x1 - item->x0 < 5 || item->y1 - item->y0 < 5) && style->line.dash_type == GO_LINE_NONE) {
+			style->line.dash_type = GO_LINE_SOLID;
+			style->line.auto_dash = FALSE;
+			style->line.width = 5;
 		}
-		startx = polygon->points[i].x;
-		starty = polygon->points[i].y;
 	}
-	res -= extra_width; /* no need to be more precise */
-	return (res > 0.)? res: 0.;
+	if (res > 0 && style->line.dash_type != GO_LINE_NONE) {
+		if (style->line.width < 5) {
+			style->line.width = 5;
+		}
+		go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr);
+		if (cairo_in_stroke (cr, x, y))
+			res = 0;
+	}
+
+	g_object_unref (style);
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+	return res;
 }
 
 static void
 goc_polygon_draw (GocItem const *item, cairo_t *cr)
 {
-	GocPolygon *polygon = GOC_POLYGON (item);
-	unsigned i;
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
-	if (polygon->nb_points == 0)
-		return;
 	cairo_save (cr);
-	goc_group_cairo_transform (item->parent, cr, polygon->points[0].x, polygon->points[0].y);
-        cairo_move_to (cr, 0., 0.);
-	/* FIXME: implement the use_spline case */
+	if (goc_polygon_prepare_path (item, cr, 1)) {
+		if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
+			cairo_fill_preserve (cr);
 
-	for (i = 1; i < polygon->nb_points; i++)
-		cairo_line_to (cr, (polygon->points[i].x - polygon->points[0].x) * sign,
-		               polygon->points[i].y - polygon->points[0].y);
-	cairo_close_path (cr);
-
-	if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
-		cairo_fill_preserve (cr);
-
-	if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr))
-		cairo_stroke (cr);
-	else
-		cairo_new_path (cr);
+		if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr))
+			cairo_stroke (cr);
+		else
+			cairo_new_path (cr);
+	}
 	cairo_restore (cr);
 }
 
@@ -250,12 +260,12 @@ goc_polygon_class_init (GocItemClass *item_klass)
                  g_param_spec_boxed ("points", _("points"), _("The polygon vertices"),
 				     GOC_TYPE_POINTS,
 				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
-/*	g_object_class_install_property (obj_klass, POLYGON_PROP_SPLINE,
+	g_object_class_install_property (obj_klass, POLYGON_PROP_SPLINE,
 		g_param_spec_boolean ("use-spline",
 				      _("Use spline"),
 				      _("Use a Bezier closed cubic spline as contour"),
 				      FALSE,
-				      GSF_PARAM_STATIC | G_PARAM_READABLE));*/
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	item_klass->update_bounds = goc_polygon_update_bounds;
 	item_klass->distance = goc_polygon_distance;

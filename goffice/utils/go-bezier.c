@@ -337,7 +337,7 @@ go_bezier_spline_to_path (GOBezierSpline *sp)
 }
 
 /**
- * go_bezier_spline_to_path:
+ * go_bezier_spline_to_cairo:
  * @sp: a struct GOBezierSpline instance returned by go_bezier_spline_init
  * @cr: a cairo context
  *

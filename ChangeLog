@@ -1,3 +1,13 @@
+2010-03-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-item.c (_goc_item_update_bounds): always set
+	bounds, even for transparent items or empty items.
+	* goffice/canvas/goc-polygon.c (goc_polygon_set_property),
+	(goc_polygon_prepare_path), (goc_polygon_update_bounds),
+	(goc_polygon_distance), (goc_polygon_draw),
+	(goc_polygon_class_init): implement spline support.
+	* goffice/utils/go-bezier.c: fix comment.
+
 2010-03-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-polyline.c (goc_polyline_set_property),
