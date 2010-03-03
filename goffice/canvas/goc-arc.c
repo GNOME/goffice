@@ -159,6 +159,7 @@ goc_arc_get_property (GObject *gobject, guint param_id,
 	}
 }
 
+#if 0
 static void
 handle_arrow_bounds (GOArrow const *arrow, GocItem *item)
 {
@@ -218,6 +219,7 @@ goc_arc_end (GocItem const *item, double x, double y)
 	x = arc->xc + s * cos (arc->ang2 - arc->rotation);
 	y = arc->yc - s * sin (arc->ang2 - arc->rotation);
 }
+#endif
 
 static gboolean
 goc_arc_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
@@ -307,6 +309,7 @@ goc_arc_distance (GocItem *item, double x, double y, GocItem **near_item)
 	return res;
 }
 
+#if 0
 static void
 draw_arrow (GOArrow const *arrow, cairo_t *cr, GOStyle *style,
 	    double *endx, double *endy, double phi)
@@ -355,6 +358,7 @@ draw_arrow (GOArrow const *arrow, cairo_t *cr, GOStyle *style,
 		g_assert_not_reached ();
 	}
 }
+#endif
 
 static void
 goc_arc_draw (GocItem const *item, cairo_t *cr)
