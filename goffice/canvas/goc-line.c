@@ -197,7 +197,7 @@ goc_line_distance (GocItem *item, double x, double y, GocItem **near_item)
 	if (t > l)
 		return hypot (t - l, y);
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	t = y - style->line.width / 2.;
+	t = fabs (y) - ((style->line.width > 5)?  style->line.width/ 2.: 2.5);
 	/* FIXME: do we need to take the arrow end into account? */
 	return (t > 0.)? t: 0.;
 }

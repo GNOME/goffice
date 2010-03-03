@@ -1,3 +1,7 @@
+2010-03-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-line.c (goc_line_distance): fix distance evaluation.
+
 2010-03-03  Valek Filippov  <frob@gnome.org>
 
 	* goffice/canvas/goc-arc.c (goc_arc_update_bounds),
