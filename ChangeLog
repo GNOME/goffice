@@ -1,3 +1,18 @@
+2010-03-03  Valek Filippov  <frob@gnome.org>
+
+	* goffice/canvas/goc-arc.c (goc_arc_update_bounds),
+	(goc_arc_distance): fixed for filled items.
+	* goffice/canvas/goc-polygon.c (goc_polygon_update_bounds),
+	(goc_polygon_distance): little optimization.
+	* goffice/canvas/goc-polyline.c (goc_polyline_update_bounds),
+	(goc_polyline_distance): ditto.
+
+2010-03-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-polygon.c (goc_polygon_update_bounds): always
+	set bounds even if fully transparent.
+	* goffice/canvas/goc-polyline.c (goc_polyline_update_bounds): ditto.
+
 2010-03-02  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-locale-sel.c (go_locale_sel_get_locale): Plug

@@ -164,6 +164,9 @@ goc_polygon_update_bounds (GocItem *item)
 			cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
 		else
 			cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+	} else {
+		item->x0 = item->y0 = G_MAXDOUBLE;
+		item->x1 = item->y1 = -G_MAXDOUBLE;
 	}
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);

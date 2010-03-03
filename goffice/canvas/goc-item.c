@@ -274,9 +274,6 @@ _goc_item_update_bounds (GocItem *item)
 	GocItemClass *klass = GOC_ITEM_GET_CLASS (item);
 	g_return_if_fail (klass != NULL);
 
-/* removed because it breakd item-edit
-	 item->x0 = item->y0 = G_MAXDOUBLE;
-	item->x1 = item->y1 = -G_MAXDOUBLE;*/
 	if (klass->update_bounds)
 		klass->update_bounds (item);
 	item->cached_bounds = TRUE;

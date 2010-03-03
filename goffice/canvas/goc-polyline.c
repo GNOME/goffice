@@ -146,11 +146,14 @@ goc_polyline_update_bounds (GocItem *item)
 	cairo_surface_t *surface;
 	cairo_t *cr;
 
-	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, goc_canvas_get_width(item->canvas),goc_canvas_get_height(item->canvas));
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 
 	if (goc_polyline_prepare_draw (item, cr, 0)) {
 		cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+	} else {
+		item->x0 = item->y0 = G_MAXDOUBLE;
+		item->x1 = item->y1 = -G_MAXDOUBLE;
 	}
 
 	cairo_destroy (cr);
@@ -175,10 +178,10 @@ goc_polyline_distance (GocItem *item, double x, double y, GocItem **near_item)
 	if (style->line.width < 5) {
 		style->line.width = 5;
 	}
-	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, goc_canvas_get_width (item->canvas), goc_canvas_get_height (item->canvas));
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 
-	if (goc_polyline_prepare_draw (item,cr,0)) {
+	if (goc_polyline_prepare_draw (item, cr, 0)) {
 		if (cairo_in_stroke (cr, x, y))
 			res = 0;
 	}
