@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
-"POT-Creation-Date: 2010-02-17 19:54+0000\n"
-"PO-Revision-Date: 2010-02-18 13:09+0100\n"
+"POT-Creation-Date: 2010-03-01 15:42+0000\n"
+"PO-Revision-Date: 2010-03-03 18:39+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -463,6 +463,101 @@ msgstr "ejec-lazo-principal"
 msgid "Execute main loop iteration"
 msgstr "Ejecutar la iteración del lazo principal"
 
+#: ../goffice/canvas/goc-arc.c:401
+#| msgid "x"
+msgid "xc"
+msgstr "xc"
+
+#: ../goffice/canvas/goc-arc.c:402
+#| msgid "The line end x coordinate"
+msgid "The arc center x coordinate"
+msgstr "La coordenada x del centro del arco"
+
+#: ../goffice/canvas/goc-arc.c:407
+#| msgid "y"
+msgid "yc"
+msgstr "yc"
+
+#: ../goffice/canvas/goc-arc.c:408
+#| msgid "The line end y coordinate"
+msgid "The arc center y coordinate"
+msgstr "La coordenada y del centro del arco"
+
+#: ../goffice/canvas/goc-arc.c:413
+#| msgid "x"
+msgid "xr"
+msgstr "xr"
+
+#: ../goffice/canvas/goc-arc.c:414
+#| msgid "The circle radius"
+msgid "The arc x radius"
+msgstr "El radio x del arco"
+
+#: ../goffice/canvas/goc-arc.c:419
+#| msgid "y"
+msgid "yr"
+msgstr "yr"
+
+#: ../goffice/canvas/goc-arc.c:420
+#| msgid "The circle radius"
+msgid "The arc y radius"
+msgstr "El radio y del arco"
+
+#: ../goffice/canvas/goc-arc.c:425
+#| msgid "orange"
+msgid "ang1"
+msgstr "ang1"
+
+#: ../goffice/canvas/goc-arc.c:426
+#| msgid "The rectangle width"
+msgid "The arc start angle"
+msgstr "El ángulo de inicio del arco"
+
+#: ../goffice/canvas/goc-arc.c:431
+#| msgid "orange"
+msgid "ang2"
+msgstr "ang2"
+
+#: ../goffice/canvas/goc-arc.c:432
+#| msgid "The rectangle width"
+msgid "The arc end angle"
+msgstr "El ángulo de final del arco"
+
+#: ../goffice/canvas/goc-arc.c:437 ../goffice/canvas/goc-text.c:411
+#: ../goffice/graph/gog-3d-box.c:166
+msgid "Rotation"
+msgstr "Rotación"
+
+#: ../goffice/canvas/goc-arc.c:438
+#| msgid "The rotation around the anchor"
+msgid "The rotation around center position"
+msgstr "La rotación alrededor de la posición del centro"
+
+#: ../goffice/canvas/goc-arc.c:443 ../goffice/graph/gog-axis.c:2460
+#: ../goffice/graph/gog-grid.c:116 ../plugins/plot_barcol/gog-1.5d.c:332
+msgid "Type"
+msgstr "Tipo"
+
+#: ../goffice/canvas/goc-arc.c:444
+msgid "The type of arc: arc, chord or pie"
+msgstr "El tipo de arco: arco, cuerda o tarta"
+
+#: ../goffice/canvas/goc-arc.c:450 ../goffice/canvas/goc-line.c:347
+msgid "Start Arrow"
+msgstr "Inicio de la flecha"
+
+#: ../goffice/canvas/goc-arc.c:451 ../goffice/canvas/goc-line.c:348
+msgid "Arrow for line's start"
+msgstr "Flecha para el inicio de la línea"
+
+#: ../goffice/canvas/goc-arc.c:456 ../goffice/canvas/goc-line.c:353
+msgid "End Arrow"
+msgstr "Final de la flecha"
+
+#: ../goffice/canvas/goc-arc.c:457 ../goffice/canvas/goc-line.c:354
+msgid "Arrow for line's end"
+msgstr "Flecha para el final de la línea"
+
 #: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:222
 #: ../goffice/canvas/goc-graph.c:412 ../goffice/canvas/goc-group.c:243
 #: ../goffice/canvas/goc-pixbuf.c:231 ../goffice/canvas/goc-rectangle.c:203
@@ -608,22 +703,6 @@ msgstr "y1"
 msgid "The line end y coordinate"
 msgstr "La coordenada y de final de la línea"
 
-#: ../goffice/canvas/goc-line.c:347
-msgid "Start Arrow"
-msgstr "Inicio de la flecha"
-
-#: ../goffice/canvas/goc-line.c:348
-msgid "Arrow for line's start"
-msgstr "Flecha para el inicio de la línea"
-
-#: ../goffice/canvas/goc-line.c:353
-msgid "End Arrow"
-msgstr "Final de la flecha"
-
-#: ../goffice/canvas/goc-line.c:354
-msgid "Arrow for line's end"
-msgstr "Flecha para el final de la línea"
-
 #: ../goffice/canvas/goc-pixbuf.c:232
 msgid "The image left position"
 msgstr "La posición izquierda de la imagen"
@@ -648,11 +727,11 @@ msgstr "Pixbuf"
 msgid "The GdkPixbuf to display"
 msgstr "El GdkPixbuf que mostrar"
 
-#: ../goffice/canvas/goc-polyline.c:210 ../goffice/canvas/goc-polygon.c:250
+#: ../goffice/canvas/goc-polyline.c:202 ../goffice/canvas/goc-polygon.c:250
 msgid "points"
 msgstr "puntos"
 
-#: ../goffice/canvas/goc-polyline.c:210
+#: ../goffice/canvas/goc-polyline.c:202
 msgid "The polyline vertices"
 msgstr "Los vértices de la polilínea"
 
@@ -703,15 +782,11 @@ msgstr "La posición horizontal del texto"
 msgid "The text position"
 msgstr "La posición del texto"
 
-#: ../goffice/canvas/goc-text.c:411 ../goffice/graph/gog-3d-box.c:166
-msgid "Rotation"
-msgstr "Rotación"
-
 #: ../goffice/canvas/goc-text.c:412
 msgid "The rotation around the anchor"
 msgstr "La rotación acerca del anclaje"
 
-#: ../goffice/canvas/goc-text.c:417 ../goffice/graph/gog-object.c:621
+#: ../goffice/canvas/goc-text.c:417 ../goffice/graph/gog-object.c:628
 msgid "Anchor"
 msgstr "Anclaje"
 
@@ -822,7 +897,7 @@ msgstr "Espacio después"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:227
 #: ../goffice/drawing/god-paragraph-attributes.c:228
-#: ../goffice/graph/gog-object.c:609
+#: ../goffice/graph/gog-object.c:616
 msgid "Alignment"
 msgstr "Alineación"
 
@@ -1172,11 +1247,6 @@ msgstr "LíneaDelEje"
 msgid "Label"
 msgstr "Etiqueta"
 
-#: ../goffice/graph/gog-axis.c:2460 ../goffice/graph/gog-grid.c:116
-#: ../plugins/plot_barcol/gog-1.5d.c:332
-msgid "Type"
-msgstr "Tipo"
-
 #: ../goffice/graph/gog-axis.c:2461
 msgid "Numerical type of this axis"
 msgstr "Tipo numérico de este eje"
@@ -1465,7 +1535,6 @@ msgid "Logical graph width, in points"
 msgstr "Anchura del gráfico lógico, en puntos"
 
 #: ../goffice/graph/gog-graph.c:375
-#| msgid "Logical graph heigth, in points"
 msgid "Logical graph height, in points"
 msgstr "Altura del gráfico lógico, en puntos"
 
@@ -1708,43 +1777,43 @@ msgstr "Final"
 msgid "Center"
 msgstr "Centro"
 
-#: ../goffice/graph/gog-object.c:552 ../goffice/graph/gog-object.c:597
+#: ../goffice/graph/gog-object.c:559 ../goffice/graph/gog-object.c:604
 msgid "Position"
 msgstr "Posición"
 
-#: ../goffice/graph/gog-object.c:591
+#: ../goffice/graph/gog-object.c:598
 msgid "Object ID"
 msgstr "ID del objeto"
 
-#: ../goffice/graph/gog-object.c:592
+#: ../goffice/graph/gog-object.c:599
 msgid "Object numerical ID"
 msgstr "ID numérico del objeto"
 
-#: ../goffice/graph/gog-object.c:598
+#: ../goffice/graph/gog-object.c:605
 msgid "Position and size of object, in percentage of parent size"
 msgstr "Posición y tamaño del objeto, en porcentaje del tamaño del padre"
 
-#: ../goffice/graph/gog-object.c:603
+#: ../goffice/graph/gog-object.c:610
 msgid "Compass"
 msgstr "Brújula"
 
-#: ../goffice/graph/gog-object.c:604
+#: ../goffice/graph/gog-object.c:611
 msgid "Compass auto position flags"
 msgstr "Autoposicionar los señaladores de la brújula"
 
-#: ../goffice/graph/gog-object.c:610
+#: ../goffice/graph/gog-object.c:617
 msgid "Alignment flag"
 msgstr "Alineación de las banderas"
 
-#: ../goffice/graph/gog-object.c:615 ../goffice/graph/gog-object.c:616
+#: ../goffice/graph/gog-object.c:622 ../goffice/graph/gog-object.c:623
 msgid "Is position manual"
 msgstr "La posición es manual"
 
-#: ../goffice/graph/gog-object.c:622
+#: ../goffice/graph/gog-object.c:629
 msgid "Anchor for manual position"
 msgstr "Anclaje para la posición manual"
 
-#: ../goffice/graph/gog-object.c:627 ../goffice/graph/gog-object.c:628
+#: ../goffice/graph/gog-object.c:634 ../goffice/graph/gog-object.c:635
 msgid "Should the object be hidden"
 msgstr "Si el objeto debería estar oculto"
 
@@ -3543,28 +3612,28 @@ msgstr "Á_ngulo:"
 msgid "Unable to open file '%s'"
 msgstr "Es imposible abrir el archivo «%s»"
 
-#: ../goffice/gtk/goffice-gtk.c:554 ../goffice/utils/go-style.c:152
+#: ../goffice/gtk/goffice-gtk.c:555 ../goffice/utils/go-style.c:152
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: ../goffice/gtk/goffice-gtk.c:589
+#: ../goffice/gtk/goffice-gtk.c:590
 msgid "All Files"
 msgstr "Todos los archivos"
 
-#: ../goffice/gtk/goffice-gtk.c:594
+#: ../goffice/gtk/goffice-gtk.c:595
 msgid "Images"
 msgstr "Imágenes"
 
-#: ../goffice/gtk/goffice-gtk.c:638
+#: ../goffice/gtk/goffice-gtk.c:639
 msgid "Select an Image"
 msgstr "Seleccione una imagen"
 
-#: ../goffice/gtk/goffice-gtk.c:717
+#: ../goffice/gtk/goffice-gtk.c:718
 msgid "Save as"
 msgstr "Guardar como"
 
-#: ../goffice/gtk/goffice-gtk.c:787
+#: ../goffice/gtk/goffice-gtk.c:788
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -3572,7 +3641,7 @@ msgstr ""
 "La extensión de archivo dada no coincide con el tipo de archivo elegido. "
 "¿Quiere usar este nombre de todas formas?"
 
-#: ../goffice/gtk/goffice-gtk.c:1004
+#: ../goffice/gtk/goffice-gtk.c:1005
 #, c-format
 msgid ""
 "%s\n"
@@ -3581,7 +3650,7 @@ msgstr ""
 "%s\n"
 "es un nombre de directorio"
 
-#: ../goffice/gtk/goffice-gtk.c:1008
+#: ../goffice/gtk/goffice-gtk.c:1009
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3590,7 +3659,7 @@ msgstr ""
 "No tiene permisos para guardar a\n"
 "%s"
 
-#: ../goffice/gtk/goffice-gtk.c:1018
+#: ../goffice/gtk/goffice-gtk.c:1019
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
