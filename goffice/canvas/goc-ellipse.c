@@ -107,19 +107,43 @@ goc_ellipse_get_property (GObject *gobject, guint param_id,
 	}
 }
 
+static gboolean
+goc_ellipse_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
+{
+	GocEllipse *ellipse = GOC_ELLIPSE (item);
+	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
+	
+	if (0 == ellipse->width && 0 == ellipse->height)
+		return FALSE;
+		
+	cairo_save(cr);
+	if (1 == flag) {
+		goc_group_cairo_transform (item->parent, cr, ellipse->x + ellipse->width/2., ellipse->y + ellipse->height/2.);
+	} else {
+		cairo_translate (cr, ellipse->x + ellipse->width/2., ellipse->y + ellipse->height/2.);
+	}
+	cairo_rotate (cr, ellipse->rotation);
+	cairo_scale (cr, ellipse->width/2. * sign, ellipse->height/2.);
+	cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
+	cairo_restore (cr);
+	return TRUE;
+}
+
 static void
 goc_ellipse_update_bounds (GocItem *item)
 {
-	GocEllipse *ellipse = GOC_ELLIPSE (item);
-	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	/* FIXME: take rotation into account */
-	double extra_width = style->line.width /2.;
-	if (extra_width <= 0.)
-		extra_width = .5;
-	item->x0 = ellipse->x - extra_width;
-	item->y0 = ellipse->y - extra_width;
-	item->x1 = ellipse->x + ellipse->width + extra_width;
-	item->y1 = ellipse->y + ellipse->height + extra_width;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1 , 1);
+	cr = cairo_create (surface);
+
+	if (goc_ellipse_prepare_draw (item, cr, 0)) {
+		cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+	}
+
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
 }
 
 static double
@@ -127,70 +151,54 @@ goc_ellipse_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocEllipse *ellipse = GOC_ELLIPSE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	/* FIXME: take rotation into account */
-	/* FIXME: we just consider that a point inside the ellipse is at distance 0
-	 even if the ellipse is not filled */
-	double extra_width = (style->line.width)? style->line.width /2.: .5;
-	double last = G_MAXDOUBLE, df, d2f, t, cs, sn,
-		a = ellipse->width / 2, b = ellipse->height / 2,
-		c = a * a - b * b;
-	int i;
-	*near_item = item;
-	x = fabs (x - ellipse->x - a);
-	y = fabs (y - ellipse->y - b);
-	if (y < DBL_EPSILON) {
-		x -= a + extra_width;
-		return (x > 0.)? x: 0.;
-	}
-	if (x < DBL_EPSILON) {
-		y -= b + extra_width;
-		return (y > 0.)? y: 0.;
-	}
-	if (hypot (x / a, y / b) < 1.)
-		return 0.;
+	double tmp_width = 0;
+	double res = 20;
+	cairo_surface_t *surface;
+	cairo_t *cr;
 
-	/* initial value: */
-	t = atan2 (y, x);
-	/* iterate using the Newton method */
-	/* iterate no more than 10 times which should be largely enough
-	 just a security to avoid an infinite loop if something goes wrong */
-	for (i = 0; i < 10; i++) {
-		cs = cos (t);
-		sn = sin (t);
-		df = a * x * sn - b * y * cs - c * cs * sn;
-		d2f = a * x * cs + b * y * sn - c * (cs * cs - sn * sn);
-		t -= df / d2f;
-		if ( last == df || fabs (df) < DBL_EPSILON || fabs (df) >= fabs (last))
-			break;
-		last = df;
+	if (0 == ellipse->width && 0 == ellipse->height)
+		return res;
+
+	*near_item = item;
+	tmp_width = style->line.width;
+	if (style->line.width < 5){
+		style->line.width = 5;
 	}
-	/* evaluate the distance and store in df */
-	df = hypot (x - a * cos (t), y - b * sin (t)) - extra_width;
-	return (df > 0.)? df: 0.;
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+
+	if (goc_ellipse_prepare_draw (item, cr, 0)) {
+		// Filled OR both fill and stroke are none
+		if (style->fill.type != GO_STYLE_FILL_NONE ||
+			(style->fill.type == GO_STYLE_FILL_NONE && !goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr))) {
+			if (cairo_in_fill (cr, x, y))
+				res = 0;
+		}
+		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr) && cairo_in_stroke (cr, x, y)) {
+			res = 0;
+		}
+	}
+
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+	style->line.width = tmp_width;
+	return res;
 }
 
 static void
 goc_ellipse_draw (GocItem const *item, cairo_t *cr)
 {
-	GocEllipse *ellipse = GOC_ELLIPSE (item);
-	double  scalex = (ellipse->width > 0.)? ellipse->width / 2.: 1.e-10,
-		scaley = (ellipse->height > 0.)? ellipse->height / 2.: 1.e-10;
-	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
-	cairo_save (cr);
-	goc_group_cairo_transform (item->parent, cr, ellipse->x, ellipse->y);
-	cairo_translate (cr, scalex * sign, scaley);
-	cairo_scale (cr, scalex, scaley);
-	cairo_rotate (cr, ellipse->rotation);
-	cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
-	cairo_restore (cr);
-	/* Fill the shape */
-	if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
-		cairo_fill_preserve (cr);
-	/* Draw the line */
-	if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr))
-		cairo_stroke (cr);
-	else
-		cairo_new_path (cr);
+	cairo_save(cr);
+	if (goc_ellipse_prepare_draw (item, cr, 1)) {
+		if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
+			cairo_fill_preserve (cr);
+		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
+			cairo_stroke (cr);
+		} else {
+			cairo_new_path (cr);
+		}
+	}
+	cairo_restore(cr);
 }
 
 static void
@@ -241,12 +249,12 @@ goc_ellipse_class_init (GocItemClass *item_klass)
 			_("The ellipse height"),
 			0., G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-/*	g_object_class_install_property (obj_klass, ELLIPSE_PROP_ROTATION,
+	g_object_class_install_property (obj_klass, ELLIPSE_PROP_ROTATION,
 		g_param_spec_double ("rotation",
 			_("Rotation"),
 			_("The rotation around top left position"),
 			0., 2 * M_PI, 0.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));*/
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	gsi_klass->init_style = goc_ellipse_init_style;
 

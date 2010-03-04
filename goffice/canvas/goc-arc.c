@@ -231,30 +231,23 @@ goc_arc_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	if (0 == arc->xr || 0 == arc->yr || arc->ang1 == arc->ang2)
 		return FALSE;
 
-	if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr) ||
-		(arc->type > 0 && go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))) { // anything with stroke or Chord/Pie with fill only
-		cairo_save (cr);
-		if (1 == flag) {
-			goc_group_cairo_transform (item->parent, cr, arc->xc, arc->yc);
-		} else {
-			cairo_translate (cr, arc->xc, arc->yc);
-		}
-		cairo_rotate (cr, arc->rotation);
-		ecc = arc->xr / arc->yr;
-		cairo_scale (cr, arc->xr * sign, arc->yr);
-		cairo_arc_negative (cr, 0., 0., 1., -atan2 (ecc * sin (arc->ang1), cos (arc->ang1)), -atan2 (ecc * sin (arc->ang2), cos (arc->ang2)));
-		if (ARC_TYPE_PIE == arc->type)
-			cairo_line_to (cr, 0., 0.);//arc->xc,arc->yc); // together with next one gives Pie
-		if (arc->type > 0)
-			cairo_close_path (cr); // <-- gives "Chord"
-		cairo_restore (cr);
-		return TRUE;
+	cairo_save (cr);
+	if (1 == flag) {
+		goc_group_cairo_transform (item->parent, cr, arc->xc, arc->yc);
+	} else {
+		cairo_translate (cr, arc->xc, arc->yc);
 	}
-	
-	return FALSE;
-
+	cairo_rotate (cr, arc->rotation);
+	ecc = arc->xr / arc->yr;
+	cairo_scale (cr, arc->xr * sign, arc->yr);
+	cairo_arc_negative (cr, 0., 0., 1., -atan2 (ecc * sin (arc->ang1), cos (arc->ang1)), -atan2 (ecc * sin (arc->ang2), cos (arc->ang2)));
+	if (ARC_TYPE_PIE == arc->type)
+		cairo_line_to (cr, 0., 0.); // together with next one gives Pie
+	if (arc->type > 0)
+		cairo_close_path (cr); 		// gives "Chord"
+	cairo_restore (cr);
+	return TRUE;
 }
-
 
 static void
 goc_arc_update_bounds (GocItem *item)
@@ -295,12 +288,15 @@ goc_arc_distance (GocItem *item, double x, double y, GocItem **near_item)
 	cr = cairo_create (surface);
 
 	if (goc_arc_prepare_draw (item, cr, 0)){
-		if (arc->type > 0 && style->fill.type != GO_STYLE_FILL_NONE){
+		// Filled OR both fill and stroke are none
+		if ((arc->type > 0 && style->fill.type != GO_STYLE_FILL_NONE) ||
+			(style->fill.type == GO_STYLE_FILL_NONE && !goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr))){
 			if (cairo_in_fill (cr, x, y))
 				res = 0;
 		}
-		if (cairo_in_stroke (cr, x, y))
+		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr) && cairo_in_stroke (cr, x, y)){
 			res = 0;
+		}
 	}
 
 	cairo_destroy (cr);
@@ -369,7 +365,7 @@ goc_arc_draw (GocItem const *item, cairo_t *cr)
 	if (goc_arc_prepare_draw (item, cr, 1)) {
 		if (arc->type > 0 && go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
 			cairo_fill_preserve (cr);
-		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)){
+		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
 			cairo_stroke (cr);
 		} else {
 			cairo_new_path (cr);
@@ -381,13 +377,23 @@ goc_arc_draw (GocItem const *item, cairo_t *cr)
 static void
 goc_arc_init_style (G_GNUC_UNUSED GocStyledItem *item, GOStyle *style)
 {
-	style->interesting_fields = GO_STYLE_LINE;
+	GocArc *arc = GOC_ARC(item);
+
+	style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
 	if (style->line.auto_dash)
 		style->line.dash_type = GO_LINE_SOLID;
 	if (style->line.auto_color)
 		style->line.color = GO_COLOR_BLACK;
 	if (style->line.auto_fore)
 		style->line.fore  = 0;
+	if (arc->type > 0) {
+		if (style->fill.auto_type)
+			style->fill.type  = GO_STYLE_FILL_PATTERN;
+		if (style->fill.auto_fore)
+			style->fill.pattern.fore = GO_COLOR_BLACK;
+		if (style->fill.auto_back)
+			style->fill.pattern.back = GO_COLOR_WHITE;
+	}
 }
 
 static void

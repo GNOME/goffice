@@ -107,19 +107,41 @@ goc_rectangle_get_property (GObject *gobject, guint param_id,
 	}
 }
 
+static gboolean
+goc_rectangle_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
+{
+	GocRectangle *rect = GOC_RECTANGLE (item);
+	
+	if (0 == rect->width && 0 == rect->height)
+		return FALSE;
+		
+	cairo_save(cr);
+	if (1 == flag) {
+		goc_group_cairo_transform (item->parent, cr, rect->x, rect->y);
+	} else {
+		cairo_translate (cr, rect->x, rect->y);
+	}
+	cairo_rotate (cr, rect->rotation);
+	cairo_rectangle (cr, 0., 0., (int) rect->width, (int)rect->height);
+	cairo_restore (cr);
+	return TRUE;
+}
+
 static void
 goc_rectangle_update_bounds (GocItem *item)
 {
-	GocRectangle *rect = GOC_RECTANGLE (item);
-	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	/* FIXME: take rotation into account */
-	double extra_width = style->line.width /2.;
-	if (extra_width <= 0.)
-		extra_width = .5;
-	item->x0 = rect->x - extra_width;
-	item->y0 = rect->y - extra_width;
-	item->x1 = rect->x + rect->width + extra_width;
-	item->y1 = rect->y + rect->height + extra_width;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1 , 1);
+	cr = cairo_create (surface);
+
+	if (goc_rectangle_prepare_draw (item, cr, 0)) {
+		cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+	}
+
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
 }
 
 static double
@@ -127,51 +149,55 @@ goc_rectangle_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocRectangle *rect = GOC_RECTANGLE (item);
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	/* FIXME: take rotation into account */
-	double extra_width = (style->line.width)? style->line.width /2.: .5;
-	double dx, dy;
-	if (x < rect->x - extra_width) {
-		dx = rect->x - extra_width - x;
-	} else if (x < rect->x + rect->width + extra_width) {
-		dx = 0;
-	} else {
-		dx = x - extra_width - rect->x - rect->width;
-	}
-	if (y < rect->y - extra_width) {
-		dy = rect->y - extra_width - y;
-	} else if (y < rect->y + rect->height + extra_width) {
-		dy = 0;
-	} else {
-		dy = y - extra_width - rect->y - rect->height;
-	}
+
+	double tmp_width = 0;
+	double res = 20;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+
+	if (0 == rect->width && 0 == rect->height)
+		return res;
+
 	*near_item = item;
-	return hypot (dx, dy);
+	tmp_width = style->line.width;
+	if (style->line.width < 5){
+		style->line.width = 5;
+	}
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+
+	if (goc_rectangle_prepare_draw (item, cr, 0)) {
+		// Filled OR both fill and stroke are none
+		if (style->fill.type != GO_STYLE_FILL_NONE ||
+			(style->fill.type == GO_STYLE_FILL_NONE && !goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr))) {
+			if (cairo_in_fill (cr, x, y))
+				res = 0;
+		}
+		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr) && cairo_in_stroke (cr, x, y)) {
+			res = 0;
+		}
+	}
+
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+	style->line.width = tmp_width;
+	return res;
 }
 
 static void
 goc_rectangle_draw (GocItem const *item, cairo_t *cr)
 {
-	GocRectangle *rect = GOC_RECTANGLE (item);
-	double hoffs, voffs = ceil (go_styled_object_get_style (GO_STYLED_OBJECT (item))->line.width);
-	if (voffs <= 0.)
-		voffs = 1.;
-	hoffs = ((int) voffs & 1)? .5: 0.;
-	voffs = hoffs;
-	if (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)
-		hoffs += (int) rect->width;
-	cairo_save (cr);
-	goc_group_cairo_transform (item->parent, cr, hoffs + (int) rect->x, voffs + (int) rect->y);
-	cairo_rotate (cr, rect->rotation);
-	cairo_rectangle (cr, 0., 0., (int) rect->width, (int)rect->height);
-	cairo_restore (cr);
-	/* Fill the shape */
-	if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
-		cairo_fill_preserve (cr);
-	/* Draw the line */
-	if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr))
-		cairo_stroke (cr);
-	else
-		cairo_new_path (cr);
+	cairo_save(cr);
+	if (goc_rectangle_prepare_draw (item, cr, 1)) {
+		if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
+			cairo_fill_preserve (cr);
+		if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
+			cairo_stroke (cr);
+		} else {
+			cairo_new_path (cr);
+		}
+	}
+	cairo_restore(cr);
 }
 
 static void
@@ -222,12 +248,12 @@ goc_rectangle_class_init (GocItemClass *item_klass)
 			_("The rectangle height"),
 			0., G_MAXDOUBLE, 0.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-/*	g_object_class_install_property (obj_klass, RECT_PROP_ROTATION,
+	g_object_class_install_property (obj_klass, RECT_PROP_ROTATION,
 		g_param_spec_double ("rotation",
 			_("Rotation"),
 			_("The rotation around top left position"),
 			0., 2 * M_PI, 0.,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));*/
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	gsi_klass->init_style = goc_rectangle_init_style;
 

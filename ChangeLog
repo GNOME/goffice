@@ -1,3 +1,15 @@
+2010-03-04  Valek Filippov  <frob@gnome.org>
+
+	* goffice/canvas/goc-arc.c (goc_arc_prepare_draw),
+	(goc_arc_distance), (goc_arc_draw), (goc_arc_init_style): more
+	canvas improvements.
+	* goffice/canvas/goc-ellipse.c (goc_ellipse_prepare_draw),
+	(goc_ellipse_update_bounds), (goc_ellipse_distance),
+	(goc_ellipse_draw), (goc_ellipse_class_init): ditto.
+	* goffice/canvas/goc-rectangle.c (goc_rectangle_prepare_draw),
+	(goc_rectangle_update_bounds), (goc_rectangle_distance),
+	(goc_rectangle_draw), (goc_rectangle_class_init): ditto.
+
 2010-03-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-line.c (goc_line_distance): fix distance evaluation.
