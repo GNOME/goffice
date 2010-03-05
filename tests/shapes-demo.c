@@ -20,8 +20,7 @@
 
 #include <gtk/gtk.h>
 #include <goffice/goffice.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/utils/go-styled-object.h>
+#include <goffice/gtk/go-gtk-compat.h>
 
 
 
