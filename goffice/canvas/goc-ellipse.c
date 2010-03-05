@@ -122,7 +122,7 @@ goc_ellipse_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	} else {
 		cairo_translate (cr, ellipse->x + ellipse->width/2., ellipse->y + ellipse->height/2.);
 	}
-	cairo_rotate (cr, ellipse->rotation);
+	cairo_rotate (cr, ellipse->rotation * sign);
 	cairo_scale (cr, ellipse->width/2. * sign, ellipse->height/2.);
 	cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
 	cairo_restore (cr);

@@ -111,7 +111,8 @@ static gboolean
 goc_rectangle_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 {
 	GocRectangle *rect = GOC_RECTANGLE (item);
-	
+	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
+
 	if (0 == rect->width && 0 == rect->height)
 		return FALSE;
 		
@@ -121,8 +122,8 @@ goc_rectangle_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	} else {
 		cairo_translate (cr, rect->x, rect->y);
 	}
-	cairo_rotate (cr, rect->rotation);
-	cairo_rectangle (cr, 0., 0., (int) rect->width, (int)rect->height);
+	cairo_rotate (cr, rect->rotation * sign);
+	cairo_rectangle (cr, 0., 0., (int) rect->width * sign, (int) rect->height);
 	cairo_restore (cr);
 	return TRUE;
 }
