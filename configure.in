@@ -309,9 +309,8 @@ if test "$GCC" = "yes" -a "x$set_more_warnings" != "xno"; then
 			 -Wmissing-declarations -Wno-pointer-sign \
 			 -Wbitwise -Wcast-to-as \
 			 -Wdefault-bitfield-sign -Wdo-while -Wparen-string \
-			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign"
-	# Note: we cannot use -Werror=format-security until the fix
-	# for bug 536980 gets deployed.
+			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign \
+			 -Werror=format-security"
 	if test goffice_devel = yes; then
 		dnl Avoid triggering a warning in gtk+ headers for stable.
 		warning_options="$warning_options -Wstrict-prototypes"
@@ -617,7 +616,7 @@ AC_DEFINE(GO_VERSION_MINOR, goffice_version_minor,
 AC_DEFINE(GO_VERSION_EXTRA, "goffice_version_extra",
 	[Extra, possibly empty tag for this release])
 
-GTK_DOC_CHECK([1.4])
+GTK_DOC_CHECK([1.11])
 if test "x$with_gtk" = "xno" -a "x$enable_gtk_doc" = "xyes"; then
 	AC_ERROR([Building documentation is not allowed for a without Gtk+ build])
 fi
