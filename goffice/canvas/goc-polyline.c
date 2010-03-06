@@ -196,7 +196,7 @@ static void
 goc_polyline_draw (GocItem const *item, cairo_t *cr)
 {
 	cairo_save (cr);
-	if (goc_polyline_prepare_draw (item,cr,1)) {
+	if (goc_polyline_prepare_draw (item, cr, 1)) {
 		cairo_stroke (cr);
 	}
 	cairo_restore (cr);

@@ -1,3 +1,10 @@
+2010-03-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-polyline.c (goc_polyline_draw): missing white spaces.
+	* tests/shapes-demo.c (my_test), (parse_line), (enter_callback): add
+	missing calls to goc_item_bounds_changed and fix white spaces and other
+	presentation issues.
+
 2010-03-06  Valek Filippov  <frob@gnome.org>
 
 	* goffice/canvas/goc-arc.c (prepare_draw_arrow),
