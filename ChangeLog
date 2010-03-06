@@ -1,3 +1,10 @@
+2010-03-06  Valek Filippov  <frob@gnome.org>
+
+	* goffice/canvas/goc-rectangle.c (goc_rectangle_set_property),
+	(goc_rectangle_get_property), (goc_rectangle_prepare_draw),
+	(goc_rectangle_class_init), (goc_rectangle_init): implement round
+	rectangles.
+
 2010-03-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-arc.c (goc_arc_update_bounds): set the line style.
