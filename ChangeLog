@@ -1,5 +1,12 @@
 2010-03-06  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-arc.c (goc_arc_update_bounds): set the line style.
+	* goffice/canvas/goc-styled-item.c (goc_styled_item_style_changed):
+	enforce invalidation of the item when done.
+	* tests/shapes-demo.c (parse_line): more fixes.
+
+2010-03-06  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-polyline.c (goc_polyline_draw): missing white spaces.
 	* tests/shapes-demo.c (my_test), (parse_line), (enter_callback): add
 	missing calls to goc_item_bounds_changed and fix white spaces and other

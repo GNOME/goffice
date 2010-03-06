@@ -174,14 +174,12 @@ parse_line (GocCanvas *canvas, gchar *entry)
 			if (g_strv_length (v) > 7) {
 				goc_item_set (item, "rotation", (double) atoi (v[7]) * M_PI/ 180., NULL);
 			}
-			goc_item_invalidate (item);
 		}
 		break;
 	case 3: /* LINE */
 		if (g_strv_length (v) > 4) {
 			item = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_LINE,
 				"x0", (double) atoi (v[1]), "y0", (double) atoi (v[2]), "x1", (double) atoi (v[3]), "y1", (double) atoi (v[4]), NULL);
-			goc_item_invalidate (item);
 		}
 		break;
 	case 4: /* RECTANGLE */
@@ -191,22 +189,20 @@ parse_line (GocCanvas *canvas, gchar *entry)
 			if( g_strv_length (v) > 5) {
 				goc_item_set (item, "rotation", (double) atoi (v[5]) * M_PI / 180., NULL);
 			}
-			goc_item_invalidate (item);
 		}
 		break;
 	case 5: /* ELLIPSE */
-		if(g_strv_length(v) > 4) {
+		if (g_strv_length(v) > 4) {
 			item = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_ELLIPSE,
 				"x", (double) atoi (v[1]), "y", (double) atoi (v[2]), "width", (double) atoi (v[3]), "height", (double) atoi (v[4]), NULL);
 			if(g_strv_length (v) > 5) {
 				goc_item_set (item,"rotation",(double) atoi (v[5]) * M_PI / 180., NULL);
 			}
-			goc_item_invalidate (item);
 		}
 		break;
 	case 6: /* POLY */
 	case 7:
-		if(g_strv_length(v) > 2) {
+		if (g_strv_length(v) > 2) {
 			GocPoints *points = goc_points_new ((g_strv_length(v) - 1) / 2);
 			for (i=0; i < g_strv_length (v) / 2; i++) {
 				points->points[i].x = atoi (v[i * 2 + 1]);
@@ -216,7 +212,6 @@ parse_line (GocCanvas *canvas, gchar *entry)
 				item = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_POLYLINE, "points", points, NULL);
 			else
 				item = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_POLYGON, "points", points, NULL);
-			goc_item_invalidate (item);
 		}
 		break;
 	case 20: /* STROKE */
@@ -270,15 +265,10 @@ parse_line (GocCanvas *canvas, gchar *entry)
 				}
 			}
 		}
-		goc_item_bounds_changed (item);
 		break;
 	case 100: /* RTL */
-		if (g_strv_length (v) > 1) {
-			canvas->direction = atoi (v[1]);
-			goc_canvas_get_scroll_position (canvas, &x, &y);
-			goc_canvas_scroll_to (canvas, x+1, y+1);
-			goc_canvas_scroll_to (canvas, x, y);
-		}
+		if (g_strv_length (v) > 1)
+			goc_canvas_set_direction (canvas, atoi (v[1]));
 		break;
 	case 101: /* SCROLL */
 		if (g_strv_length (v) > 2)

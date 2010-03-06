@@ -223,9 +223,11 @@ goc_styled_item_apply_theme (GOStyledObject *gsi, GOStyle *style)
 static void
 goc_styled_item_style_changed (GOStyledObject *gsi)
 {
-	goc_item_bounds_changed (GOC_ITEM (gsi));
+	GocItem *item = GOC_ITEM (gsi);
+	goc_item_bounds_changed (item);
 	g_signal_emit (G_OBJECT (gsi),
 		goc_styled_item_signals [STYLE_CHANGED], 0, GOC_STYLED_ITEM (gsi)->style);
+	goc_item_invalidate (item);
 }
 
 static GODoc*

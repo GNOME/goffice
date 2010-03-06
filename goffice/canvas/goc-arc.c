@@ -311,6 +311,7 @@ goc_arc_update_bounds (GocItem *item)
 			prepare_draw_arrow (item, cr, 0, 0);
 		if (arc->end_arrow.typ != GO_ARROW_NONE)
 			prepare_draw_arrow (item, cr, 1, 0);
+		goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr);
 		cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
 	}
 
