@@ -1,3 +1,10 @@
+2010-03-06  Valek Filippov  <frob@gnome.org>
+
+	* goffice/canvas/goc-arc.c (prepare_draw_arrow),
+	(goc_arc_prepare_draw), (goc_arc_distance): fix rtl.
+	* tests/shapes-demo.c (open_file), (on_open), (my_test),
+	(parse_line), (enter_callback), (main): new version.
+
 2010-03-05  Valek Filippov  <frob@gnome.org>
 
 	* goffice/canvas/goc-arc.c (goc_arc_start), (goc_arc_end),

@@ -205,6 +205,7 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 	GOArrow arrow;
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
+	double rsign = sign;
 
 	w = style->line.width? style->line.width / 2.0: 0.5;
 	
@@ -219,35 +220,37 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 	cairo_save (cr);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, arc->xc, arc->yc);
+		sign = 1;
 	} else {
 		cairo_translate (cr, arc->xc, arc->yc);
+		rsign = 1;
 	}
 	
 	switch (arrow.typ) {
 	case GO_ARROW_KITE:
 		cairo_save (cr);
-		cairo_translate (cr, x - arc->xc, y - arc->yc);
-		cairo_rotate (cr, phi * sign);
-		cairo_move_to (cr, -arrow.a,  w);
-		cairo_line_to (cr, -arrow.b, w + arrow.c);
+		cairo_translate (cr, (x - arc->xc) * sign, y - arc->yc);
+		cairo_rotate (cr, phi * rsign);
+		cairo_move_to (cr, -arrow.a * sign,  w);
+		cairo_line_to (cr, -arrow.b * sign, w + arrow.c);
 		if (w > 0.5) {
 			cairo_line_to (cr, 0., w);
 			cairo_line_to (cr, 0., -w);
 		} else {
 			cairo_line_to (cr, 0., 0.);
 		}
-		cairo_line_to (cr, -arrow.b, -w - arrow.c);
-		cairo_line_to (cr, -arrow.a, -w);
+		cairo_line_to (cr, -arrow.b * sign, -w - arrow.c);
+		cairo_line_to (cr, -arrow.a * sign, -w);
 		cairo_close_path (cr);
 		cairo_restore (cr);
 		break;
-
+		
 	case GO_ARROW_OVAL:
 		cairo_save (cr);
-		cairo_translate (cr, x - arc->xc, y - arc->yc);
-		cairo_rotate (cr, phi * sign);
+		cairo_translate (cr, (x - arc->xc) * sign, y - arc->yc);
+		cairo_rotate (cr, phi * rsign);
 		cairo_scale (cr, arrow.a * sign, arrow.b);
-		cairo_move_to (cr, sign, 0.);
+		cairo_move_to (cr, 0., 0.);
 		cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
 		cairo_close_path (cr);
 		cairo_restore (cr);
@@ -256,7 +259,9 @@ prepare_draw_arrow (GocItem const *item, cairo_t *cr, gboolean end, gboolean fla
 	default:
 		g_assert_not_reached ();
 	}
+	
 	cairo_restore (cr);
+	
 }
 
 static gboolean
@@ -265,6 +270,7 @@ goc_arc_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	GocArc *arc = GOC_ARC (item);
 	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
 	double ecc = 1;
+	double rsign = sign;
 
 	if (0 == arc->xr || 0 == arc->yr || arc->ang1 == arc->ang2)
 		return FALSE;
@@ -272,10 +278,12 @@ goc_arc_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	cairo_save (cr);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, arc->xc, arc->yc);
+		sign = 1;
 	} else {
 		cairo_translate (cr, arc->xc, arc->yc);
+		rsign = 1;
 	}
-	cairo_rotate (cr, arc->rotation * sign);
+	cairo_rotate (cr, arc->rotation * rsign);
 	ecc = arc->xr / arc->yr;
 	cairo_scale (cr, arc->xr * sign, arc->yr);
 	cairo_arc_negative (cr, 0., 0., 1., -atan2 (ecc * sin (arc->ang1), cos (arc->ang1)), -atan2 (ecc * sin (arc->ang2), cos (arc->ang2)));
@@ -325,7 +333,7 @@ goc_arc_distance (GocItem *item, double x, double y, GocItem **near_item)
 
 	*near_item = item;
 	tmp_width = style->line.width;
-	if (style->line.width < 5){
+	if (style->line.width < 5) {
 		style->line.width = 5;
 	}
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
@@ -340,7 +348,7 @@ goc_arc_distance (GocItem *item, double x, double y, GocItem **near_item)
 			if (cairo_in_fill (cr, x, y)) {
 				res = 0;
 			}
-		}
+	}
 
 	if (goc_arc_prepare_draw (item, cr, 0)) {
 		// Filled OR both fill and stroke are none
