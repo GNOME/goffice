@@ -23,7 +23,7 @@
 #include <goffice/goffice.h>
 
 
-static void parse_line (GocCanvas *canvas, const gchar *entry);
+static void parse_line (GocCanvas *canvas, gchar *entry);
 static void open_file (GocCanvas* canvas, char* filename);
 
 static void
@@ -31,7 +31,7 @@ open_file (GocCanvas* canvas, char* filename)
 {
 	FILE	*fd;
 	char	*s;
-	guint	n = 64;
+	size_t	n = 64;
 	
 	s = (char *) malloc (n + 1);
 	
@@ -109,7 +109,7 @@ my_test (GocCanvas *canvas, GdkEventButton *event, G_GNUC_UNUSED gpointer data)
 }
 
 static void
-parse_line (GocCanvas *canvas, const gchar *entry)
+parse_line (GocCanvas *canvas, gchar *entry)
 {
 	gchar		**v = NULL;
 	GocItem		*item;
@@ -289,12 +289,7 @@ parse_line (GocCanvas *canvas, const gchar *entry)
 			group = (GocGroup*) goc_canvas_get_root (canvas);
 			item = g_list_nth_data (group->children, atoi (v[1]));
 			if (item != NULL)
-				g_list_remove (group->children, item);
-
-			goc_canvas_get_scroll_position (canvas, &x, &y);
-			goc_canvas_scroll_to (canvas, x + 1, y + 1);
-			goc_canvas_scroll_to (canvas, x, y);
-
+				g_object_unref (item);
 		}
 		break;
 	case 1000: /* FILE */
@@ -317,15 +312,16 @@ parse_line (GocCanvas *canvas, const gchar *entry)
 static void
 enter_callback (GocCanvas* canvas, GtkWidget *entry, G_GNUC_UNUSED gpointer data)
 {
-	const gchar *entry_text;
+	char *entry_text;
 	const gchar *clean = "";
 			
-	entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
+	entry_text = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 	if (0 != gtk_entry_get_text_length (GTK_ENTRY (entry))) {
 		g_print ("%s\n", entry_text);
 		parse_line (canvas, entry_text);
 		gtk_entry_set_text (GTK_ENTRY (entry), clean);
 	}
+	g_free (entry_text);
 }
 
 int
