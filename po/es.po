@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
-"POT-Creation-Date: 2010-03-01 15:42+0000\n"
-"PO-Revision-Date: 2010-03-03 18:39+0100\n"
+"POT-Creation-Date: 2010-03-06 20:30+0000\n"
+"PO-Revision-Date: 2010-03-07 16:07+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -463,104 +463,93 @@ msgstr "ejec-lazo-principal"
 msgid "Execute main loop iteration"
 msgstr "Ejecutar la iteración del lazo principal"
 
-#: ../goffice/canvas/goc-arc.c:401
-#| msgid "x"
+#: ../goffice/canvas/goc-arc.c:435
 msgid "xc"
 msgstr "xc"
 
-#: ../goffice/canvas/goc-arc.c:402
-#| msgid "The line end x coordinate"
+#: ../goffice/canvas/goc-arc.c:436
 msgid "The arc center x coordinate"
 msgstr "La coordenada x del centro del arco"
 
-#: ../goffice/canvas/goc-arc.c:407
-#| msgid "y"
+#: ../goffice/canvas/goc-arc.c:441
 msgid "yc"
 msgstr "yc"
 
-#: ../goffice/canvas/goc-arc.c:408
-#| msgid "The line end y coordinate"
+#: ../goffice/canvas/goc-arc.c:442
 msgid "The arc center y coordinate"
 msgstr "La coordenada y del centro del arco"
 
-#: ../goffice/canvas/goc-arc.c:413
-#| msgid "x"
+#: ../goffice/canvas/goc-arc.c:447
 msgid "xr"
 msgstr "xr"
 
-#: ../goffice/canvas/goc-arc.c:414
-#| msgid "The circle radius"
+#: ../goffice/canvas/goc-arc.c:448
 msgid "The arc x radius"
 msgstr "El radio x del arco"
 
-#: ../goffice/canvas/goc-arc.c:419
-#| msgid "y"
+#: ../goffice/canvas/goc-arc.c:453
 msgid "yr"
 msgstr "yr"
 
-#: ../goffice/canvas/goc-arc.c:420
-#| msgid "The circle radius"
+#: ../goffice/canvas/goc-arc.c:454
 msgid "The arc y radius"
 msgstr "El radio y del arco"
 
-#: ../goffice/canvas/goc-arc.c:425
-#| msgid "orange"
+#: ../goffice/canvas/goc-arc.c:459
 msgid "ang1"
 msgstr "ang1"
 
-#: ../goffice/canvas/goc-arc.c:426
-#| msgid "The rectangle width"
+#: ../goffice/canvas/goc-arc.c:460
 msgid "The arc start angle"
 msgstr "El ángulo de inicio del arco"
 
-#: ../goffice/canvas/goc-arc.c:431
-#| msgid "orange"
+#: ../goffice/canvas/goc-arc.c:465
 msgid "ang2"
 msgstr "ang2"
 
-#: ../goffice/canvas/goc-arc.c:432
-#| msgid "The rectangle width"
+#: ../goffice/canvas/goc-arc.c:466
 msgid "The arc end angle"
 msgstr "El ángulo de final del arco"
 
-#: ../goffice/canvas/goc-arc.c:437 ../goffice/canvas/goc-text.c:411
+#: ../goffice/canvas/goc-arc.c:471 ../goffice/canvas/goc-ellipse.c:254
+#: ../goffice/canvas/goc-rectangle.c:330 ../goffice/canvas/goc-text.c:411
 #: ../goffice/graph/gog-3d-box.c:166
 msgid "Rotation"
 msgstr "Rotación"
 
-#: ../goffice/canvas/goc-arc.c:438
-#| msgid "The rotation around the anchor"
+#: ../goffice/canvas/goc-arc.c:472
 msgid "The rotation around center position"
 msgstr "La rotación alrededor de la posición del centro"
 
-#: ../goffice/canvas/goc-arc.c:443 ../goffice/graph/gog-axis.c:2460
-#: ../goffice/graph/gog-grid.c:116 ../plugins/plot_barcol/gog-1.5d.c:332
+#: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-rectangle.c:336
+#: ../goffice/graph/gog-axis.c:2460 ../goffice/graph/gog-grid.c:116
+#: ../plugins/plot_barcol/gog-1.5d.c:332
 msgid "Type"
 msgstr "Tipo"
 
-#: ../goffice/canvas/goc-arc.c:444
+#: ../goffice/canvas/goc-arc.c:478
 msgid "The type of arc: arc, chord or pie"
 msgstr "El tipo de arco: arco, cuerda o tarta"
 
-#: ../goffice/canvas/goc-arc.c:450 ../goffice/canvas/goc-line.c:347
+#: ../goffice/canvas/goc-arc.c:484 ../goffice/canvas/goc-line.c:347
 msgid "Start Arrow"
 msgstr "Inicio de la flecha"
 
-#: ../goffice/canvas/goc-arc.c:451 ../goffice/canvas/goc-line.c:348
+#: ../goffice/canvas/goc-arc.c:485 ../goffice/canvas/goc-line.c:348
 msgid "Arrow for line's start"
 msgstr "Flecha para el inicio de la línea"
 
-#: ../goffice/canvas/goc-arc.c:456 ../goffice/canvas/goc-line.c:353
+#: ../goffice/canvas/goc-arc.c:490 ../goffice/canvas/goc-line.c:353
 msgid "End Arrow"
 msgstr "Final de la flecha"
 
-#: ../goffice/canvas/goc-arc.c:457 ../goffice/canvas/goc-line.c:354
+#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:354
 msgid "Arrow for line's end"
 msgstr "Flecha para el final de la línea"
 
-#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:222
+#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:230
 #: ../goffice/canvas/goc-graph.c:412 ../goffice/canvas/goc-group.c:243
-#: ../goffice/canvas/goc-pixbuf.c:231 ../goffice/canvas/goc-rectangle.c:203
+#: ../goffice/canvas/goc-pixbuf.c:231 ../goffice/canvas/goc-rectangle.c:306
 #: ../goffice/canvas/goc-text.c:399 ../goffice/canvas/goc-widget.c:318
 #: ../goffice/utils/go-marker.c:83
 msgid "x"
@@ -570,9 +559,9 @@ msgstr "x"
 msgid "The circle center horizontal position"
 msgstr "La posición horizontal del centro del círculo"
 
-#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:228
+#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:236
 #: ../goffice/canvas/goc-graph.c:418 ../goffice/canvas/goc-group.c:249
-#: ../goffice/canvas/goc-pixbuf.c:237 ../goffice/canvas/goc-rectangle.c:209
+#: ../goffice/canvas/goc-pixbuf.c:237 ../goffice/canvas/goc-rectangle.c:312
 #: ../goffice/canvas/goc-text.c:405 ../goffice/canvas/goc-widget.c:324
 msgid "y"
 msgstr "y"
@@ -589,35 +578,40 @@ msgstr "Radio"
 msgid "The circle radius"
 msgstr "El radio del círculo"
 
-#: ../goffice/canvas/goc-ellipse.c:223
+#: ../goffice/canvas/goc-ellipse.c:231
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "La posición izquierda de la elipse (o posición derecha en modo I-->D)"
 
-#: ../goffice/canvas/goc-ellipse.c:229
+#: ../goffice/canvas/goc-ellipse.c:237
 msgid "The ellipse top position"
 msgstr "La posición superior de la elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:234 ../goffice/canvas/goc-graph.c:430
+#: ../goffice/canvas/goc-ellipse.c:242 ../goffice/canvas/goc-graph.c:430
 #: ../goffice/canvas/goc-graph.c:431 ../goffice/canvas/goc-pixbuf.c:243
-#: ../goffice/canvas/goc-rectangle.c:215 ../goffice/canvas/goc-widget.c:331
+#: ../goffice/canvas/goc-rectangle.c:318 ../goffice/canvas/goc-widget.c:331
 #: ../goffice/graph/gog-graph.c:368 ../goffice/utils/go-image.c:472
 msgid "Width"
 msgstr "Anchura"
 
-#: ../goffice/canvas/goc-ellipse.c:235
+#: ../goffice/canvas/goc-ellipse.c:243
 msgid "The ellipse width"
 msgstr "La anchura de la elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:240 ../goffice/canvas/goc-graph.c:424
+#: ../goffice/canvas/goc-ellipse.c:248 ../goffice/canvas/goc-graph.c:424
 #: ../goffice/canvas/goc-graph.c:425 ../goffice/canvas/goc-pixbuf.c:249
-#: ../goffice/canvas/goc-rectangle.c:221 ../goffice/canvas/goc-widget.c:337
+#: ../goffice/canvas/goc-rectangle.c:324 ../goffice/canvas/goc-widget.c:337
 #: ../goffice/graph/gog-graph.c:374 ../goffice/utils/go-image.c:476
 msgid "Height"
 msgstr "Altura"
 
-#: ../goffice/canvas/goc-ellipse.c:241
+#: ../goffice/canvas/goc-ellipse.c:249
 msgid "The ellipse height"
 msgstr "La altura de la elipse"
+
+#: ../goffice/canvas/goc-ellipse.c:255 ../goffice/canvas/goc-rectangle.c:331
+#| msgid "The rotation around center position"
+msgid "The rotation around top left position"
+msgstr "La rotación alrededor de la posición superior izquierda"
 
 #: ../goffice/canvas/goc-graph.c:413
 msgid "The graph left position"
@@ -727,34 +721,71 @@ msgstr "Pixbuf"
 msgid "The GdkPixbuf to display"
 msgstr "El GdkPixbuf que mostrar"
 
-#: ../goffice/canvas/goc-polyline.c:202 ../goffice/canvas/goc-polygon.c:250
+#: ../goffice/canvas/goc-polyline.c:226 ../goffice/canvas/goc-polygon.c:263
 msgid "points"
 msgstr "puntos"
 
-#: ../goffice/canvas/goc-polyline.c:202
+#: ../goffice/canvas/goc-polyline.c:226
 msgid "The polyline vertices"
 msgstr "Los vértices de la polilínea"
 
-#: ../goffice/canvas/goc-polygon.c:250
+#: ../goffice/canvas/goc-polyline.c:231 ../goffice/canvas/goc-polygon.c:268
+msgid "Use spline"
+msgstr "Usar splines"
+
+#: ../goffice/canvas/goc-polyline.c:232
+msgid "Use a Bezier cubic spline as line"
+msgstr "Usar el splin cúbico de Beizer como línea"
+
+#: ../goffice/canvas/goc-polygon.c:263
 msgid "The polygon vertices"
 msgstr "Los vértices del polígono"
 
-#: ../goffice/canvas/goc-rectangle.c:204
+#: ../goffice/canvas/goc-polygon.c:269
+msgid "Use a Bezier closed cubic spline as contour"
+msgstr "Usar un splin cúbica cerrada de Beizer como contorno"
+
+#: ../goffice/canvas/goc-rectangle.c:307
 msgid "The rectangle left position (or right position in RTL mode)"
 msgstr ""
 "La posición izquierda del rectángulo (o posición derecha en modo D-->I)"
 
-#: ../goffice/canvas/goc-rectangle.c:210
+#: ../goffice/canvas/goc-rectangle.c:313
 msgid "The rectangle top position"
 msgstr "La posición superior del rectángulo"
 
-#: ../goffice/canvas/goc-rectangle.c:216
+#: ../goffice/canvas/goc-rectangle.c:319
 msgid "The rectangle width"
 msgstr "La anchura del rectángulo"
 
-#: ../goffice/canvas/goc-rectangle.c:222
+#: ../goffice/canvas/goc-rectangle.c:325
 msgid "The rectangle height"
 msgstr "La altura del rectángulo"
+
+#: ../goffice/canvas/goc-rectangle.c:337
+#| msgid "The rectangle width"
+msgid "The rectangle type"
+msgstr "El tipo de rectángulo"
+
+#: ../goffice/canvas/goc-rectangle.c:342
+#| msgid "x"
+msgid "rx"
+msgstr "rx"
+
+#: ../goffice/canvas/goc-rectangle.c:343
+#| msgid "The rectangle width"
+msgid "The round rectangle rx"
+msgstr "La redondez rx del rectángulo"
+
+#: ../goffice/canvas/goc-rectangle.c:348
+#| msgid "y"
+msgid "ry"
+msgstr "ry"
+
+#: ../goffice/canvas/goc-rectangle.c:349
+#| msgid "The rectangle width"
+msgid "The round rectangle ry"
+msgstr "La redondez ry del rectángulo"
 
 #: ../goffice/canvas/goc-styled-item.c:156
 #: ../goffice/graph/gog-styled-object.c:195 ../goffice/utils/go-style.c:1041
@@ -3003,587 +3034,587 @@ msgstr "Australia"
 #. * Note: lots of people get very emotional over this.  Please
 #. * err on the safe side, if any.
 #.
-#: ../goffice/gtk/go-locale-sel.c:101
+#: ../goffice/gtk/go-locale-sel.c:102
 msgid "United States/English (C)"
 msgstr "Estados Unidos/Inglés (C)"
 
-#: ../goffice/gtk/go-locale-sel.c:102
+#: ../goffice/gtk/go-locale-sel.c:103
 msgid "South Africa Afrikaans (af_ZA)"
 msgstr "Sudáfrica/Afrikaans (af_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:103
+#: ../goffice/gtk/go-locale-sel.c:104
 msgid "Ethiopia/Amharic (am_ET)"
 msgstr "Etiopía/Amharico (am_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:104
+#: ../goffice/gtk/go-locale-sel.c:105
 msgid "United Arab Emirates (ar_AE)"
 msgstr "Emiratos Árabes Unidos/Árabe (ar_AE)"
 
-#: ../goffice/gtk/go-locale-sel.c:105
+#: ../goffice/gtk/go-locale-sel.c:106
 msgid "Bahrain (ar_BH)"
 msgstr "Baharein/Árabe (ar_BH)"
 
-#: ../goffice/gtk/go-locale-sel.c:106
+#: ../goffice/gtk/go-locale-sel.c:107
 msgid "Algeria (ar_DZ)"
 msgstr "Argelia/Árabe (ar_DZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:107
+#: ../goffice/gtk/go-locale-sel.c:108
 msgid "Egypt (ar_EG)"
 msgstr "Egipto/Árabe (ar_EG)"
 
-#: ../goffice/gtk/go-locale-sel.c:108
+#: ../goffice/gtk/go-locale-sel.c:109
 msgid "India/Arabic (ar_IN)"
 msgstr "India/Árabe (ar_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:109
+#: ../goffice/gtk/go-locale-sel.c:110
 msgid "Iraq (ar_IQ)"
 msgstr "Iraq/Árabe (ar_IQ)"
 
-#: ../goffice/gtk/go-locale-sel.c:110
+#: ../goffice/gtk/go-locale-sel.c:111
 msgid "Jordan (ar_JO)"
 msgstr "Jordania/Árabe (ar_JO)"
 
-#: ../goffice/gtk/go-locale-sel.c:111
+#: ../goffice/gtk/go-locale-sel.c:112
 msgid "Kuwait (ar_KW)"
 msgstr "Kuwait/Árabe (ar_KW)"
 
-#: ../goffice/gtk/go-locale-sel.c:112
+#: ../goffice/gtk/go-locale-sel.c:113
 msgid "Lebanon (ar_LB)"
 msgstr "Líbano/Árabe (ar_LB)"
 
-#: ../goffice/gtk/go-locale-sel.c:113
+#: ../goffice/gtk/go-locale-sel.c:114
 msgid "Libya (ar_LY)"
 msgstr "Libia/Árabe (ar_LY)"
 
-#: ../goffice/gtk/go-locale-sel.c:114
+#: ../goffice/gtk/go-locale-sel.c:115
 msgid "Morocco (ar_MA)"
 msgstr "Marruecos/Árabe (ar_MA)"
 
-#: ../goffice/gtk/go-locale-sel.c:115
+#: ../goffice/gtk/go-locale-sel.c:116
 msgid "Oman (ar_OM)"
 msgstr "Omán/Árabe (ar_OM)"
 
-#: ../goffice/gtk/go-locale-sel.c:116
+#: ../goffice/gtk/go-locale-sel.c:117
 msgid "Qatar (ar_QA)"
 msgstr "Qatar/Árabe (ar_QA)"
 
-#: ../goffice/gtk/go-locale-sel.c:117
+#: ../goffice/gtk/go-locale-sel.c:118
 msgid "Saudi Arabia (ar_SA)"
 msgstr "Arabia Saudí/Árabe (ar_SA) "
 
-#: ../goffice/gtk/go-locale-sel.c:118
+#: ../goffice/gtk/go-locale-sel.c:119
 msgid "Sudan (ar_SD)"
 msgstr "Sudán/Árabe (ar_SD)"
 
-#: ../goffice/gtk/go-locale-sel.c:119
+#: ../goffice/gtk/go-locale-sel.c:120
 msgid "Syria (ar_SY)"
 msgstr "Siria/Árabe (ar_SY)"
 
-#: ../goffice/gtk/go-locale-sel.c:120
+#: ../goffice/gtk/go-locale-sel.c:121
 msgid "Tunisia (ar_TN)"
 msgstr "Túnez/Árabe (ar_TN)"
 
-#: ../goffice/gtk/go-locale-sel.c:121
+#: ../goffice/gtk/go-locale-sel.c:122
 msgid "Yemen (ar_YE)"
 msgstr "Yemen/Árabe (ar_YE)"
 
-#: ../goffice/gtk/go-locale-sel.c:122
+#: ../goffice/gtk/go-locale-sel.c:123
 msgid "Azerbaijan (az_AZ)"
 msgstr "Azerbaiján/Árabe (ar_AZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:123
+#: ../goffice/gtk/go-locale-sel.c:124
 msgid "Belarus (be_BY)"
 msgstr "Bielorrusia/Bielorruso (be_BY)"
 
-#: ../goffice/gtk/go-locale-sel.c:124
+#: ../goffice/gtk/go-locale-sel.c:125
 msgid "Bulgaria (bg_BG)"
 msgstr "Bulgaria/Búlgaro (bg_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:125
+#: ../goffice/gtk/go-locale-sel.c:126
 msgid "Bangladesh (bn_BD)"
 msgstr "Bangladesh/Bangladesí (bn_BN)"
 
-#: ../goffice/gtk/go-locale-sel.c:126
+#: ../goffice/gtk/go-locale-sel.c:127
 msgid "India/Bengali (bn_IN)"
 msgstr "India/Bengalí (bn_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:127
+#: ../goffice/gtk/go-locale-sel.c:128
 msgid "France/Breton (br_FR)"
 msgstr "Francia/Bretón (br_FR)"
 
-#: ../goffice/gtk/go-locale-sel.c:128
+#: ../goffice/gtk/go-locale-sel.c:129
 msgid "Bosnia and Herzegowina (bs_BA)"
 msgstr "Bosnia y Herzegovina/Bosnio (bs_BA)"
 
-#: ../goffice/gtk/go-locale-sel.c:129
+#: ../goffice/gtk/go-locale-sel.c:130
 msgid "Spain/Catalan (ca_ES)"
 msgstr "España/Catalán (ca_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:130
+#: ../goffice/gtk/go-locale-sel.c:131
 msgid "Czech Republic (cs_CZ)"
 msgstr "República Checa/Checo (cs_CZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:131
+#: ../goffice/gtk/go-locale-sel.c:132
 msgid "Great Britain/Welsh (cy_GB)"
 msgstr "Gran Bretaña/Galés (cy_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:132
+#: ../goffice/gtk/go-locale-sel.c:133
 msgid "Denmark (da_DK)"
 msgstr "Dinamarca/Danés (da_DK)"
 
-#: ../goffice/gtk/go-locale-sel.c:133
+#: ../goffice/gtk/go-locale-sel.c:134
 msgid "Austria (de_AT)"
 msgstr "Austria/Alemán (de_AT)"
 
-#: ../goffice/gtk/go-locale-sel.c:134
+#: ../goffice/gtk/go-locale-sel.c:135
 msgid "Belgium/German (de_BE)"
 msgstr "Bélgica/Alemán (de_BE)"
 
-#: ../goffice/gtk/go-locale-sel.c:135
+#: ../goffice/gtk/go-locale-sel.c:136
 msgid "Switzerland/German (de_CH)"
 msgstr "Suiza/Alemán (de_CH)"
 
-#: ../goffice/gtk/go-locale-sel.c:136
+#: ../goffice/gtk/go-locale-sel.c:137
 msgid "Germany (de_DE)"
 msgstr "Alemania/Alemán (de_DE)"
 
-#: ../goffice/gtk/go-locale-sel.c:137
+#: ../goffice/gtk/go-locale-sel.c:138
 msgid "Luxembourg/German (de_LU)"
 msgstr "Luxemburgo/Alemán (de_LU)"
 
-#: ../goffice/gtk/go-locale-sel.c:138
+#: ../goffice/gtk/go-locale-sel.c:139
 msgid "Greece (el_GR)"
 msgstr "Grecia/Griego (el_GR)"
 
-#: ../goffice/gtk/go-locale-sel.c:139
+#: ../goffice/gtk/go-locale-sel.c:140
 msgid "Australia (en_AU)"
 msgstr "Australia/Inglés (en_AU)"
 
-#: ../goffice/gtk/go-locale-sel.c:140
+#: ../goffice/gtk/go-locale-sel.c:141
 msgid "Botswana (en_BW)"
 msgstr "Botswana/Inglés (en_BW)"
 
-#: ../goffice/gtk/go-locale-sel.c:141
+#: ../goffice/gtk/go-locale-sel.c:142
 msgid "Canada/English (en_CA)"
 msgstr "Canadá/Inglés (en_CA)"
 
-#: ../goffice/gtk/go-locale-sel.c:142
+#: ../goffice/gtk/go-locale-sel.c:143
 msgid "Great Britain (en_GB)"
 msgstr "Gran Bretaña/Inglés (en_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:143
+#: ../goffice/gtk/go-locale-sel.c:144
 msgid "Hong Kong/English (en_HK)"
 msgstr "Hong Kong/Inglés (en_HK)"
 
-#: ../goffice/gtk/go-locale-sel.c:144
+#: ../goffice/gtk/go-locale-sel.c:145
 msgid "Ireland (en_IE)"
 msgstr "Irlanda/Ingles (en_IE)"
 
-#: ../goffice/gtk/go-locale-sel.c:145
+#: ../goffice/gtk/go-locale-sel.c:146
 msgid "India/English (en_IN)"
 msgstr "India/Inglés /en_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:146
+#: ../goffice/gtk/go-locale-sel.c:147
 msgid "New Zealand (en_NZ)"
 msgstr "Nueva Zelanda/Inglés (en_NZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:147
+#: ../goffice/gtk/go-locale-sel.c:148
 msgid "Philippines (en_PH)"
 msgstr "Filipinas/Inglés (en_PH)"
 
-#: ../goffice/gtk/go-locale-sel.c:148
+#: ../goffice/gtk/go-locale-sel.c:149
 msgid "Singapore/English (en_SG)"
 msgstr "Singapur/Inglés (en_SG)"
 
-#: ../goffice/gtk/go-locale-sel.c:149
+#: ../goffice/gtk/go-locale-sel.c:150
 msgid "United States/English (en_US)"
 msgstr "Estados Unidos/Inglés (en_US)"
 
-#: ../goffice/gtk/go-locale-sel.c:150
+#: ../goffice/gtk/go-locale-sel.c:151
 msgid "South Africa/English (en_ZA)"
 msgstr "Sudáfrica/Inglés (en_ZA)"
 
-#: ../goffice/gtk/go-locale-sel.c:151
+#: ../goffice/gtk/go-locale-sel.c:152
 msgid "Zimbabwe (en_ZW)"
 msgstr "Zimbabwe/Inglés (en_ZW)"
 
-#: ../goffice/gtk/go-locale-sel.c:152
+#: ../goffice/gtk/go-locale-sel.c:153
 msgid "Esperanto (eo_EO)"
 msgstr "Esperanto (eo_EO)"
 
-#: ../goffice/gtk/go-locale-sel.c:153
+#: ../goffice/gtk/go-locale-sel.c:154
 msgid "Argentina (es_AR)"
 msgstr "Argentina/Español (es_AR)"
 
-#: ../goffice/gtk/go-locale-sel.c:154
+#: ../goffice/gtk/go-locale-sel.c:155
 msgid "Bolivia (es_BO)"
 msgstr "Bolivia/Español (es_BO)"
 
-#: ../goffice/gtk/go-locale-sel.c:155
+#: ../goffice/gtk/go-locale-sel.c:156
 msgid "Chile (es_CL)"
 msgstr "Chile/Español (es_CL)"
 
-#: ../goffice/gtk/go-locale-sel.c:156
+#: ../goffice/gtk/go-locale-sel.c:157
 msgid "Colombia (es_CO)"
 msgstr "Colombia/Español (es_CO)"
 
-#: ../goffice/gtk/go-locale-sel.c:157
+#: ../goffice/gtk/go-locale-sel.c:158
 msgid "Costa Rica (es_CR)"
 msgstr "Costa Rica/Español (es_CR)"
 
-#: ../goffice/gtk/go-locale-sel.c:158
+#: ../goffice/gtk/go-locale-sel.c:159
 msgid "Dominican Republic (es_DO)"
 msgstr "República Dominicana/Español (es_DO)"
 
-#: ../goffice/gtk/go-locale-sel.c:159
+#: ../goffice/gtk/go-locale-sel.c:160
 msgid "Ecuador (es_EC)"
 msgstr "Ecuador/Español (es_EC)"
 
-#: ../goffice/gtk/go-locale-sel.c:160
+#: ../goffice/gtk/go-locale-sel.c:161
 msgid "Spain (es_ES)"
 msgstr "España/Español (es_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:161
+#: ../goffice/gtk/go-locale-sel.c:162
 msgid "Guatemala (es_GT)"
 msgstr "Guatemala/Español (es_GT)"
 
-#: ../goffice/gtk/go-locale-sel.c:162
+#: ../goffice/gtk/go-locale-sel.c:163
 msgid "Honduras (es_HN)"
 msgstr "Honduras/Español (es_HN)"
 
-#: ../goffice/gtk/go-locale-sel.c:163
+#: ../goffice/gtk/go-locale-sel.c:164
 msgid "Mexico (es_MX)"
 msgstr "México/Español (es_MX)"
 
-#: ../goffice/gtk/go-locale-sel.c:164
+#: ../goffice/gtk/go-locale-sel.c:165
 msgid "Nicaragua (es_NI)"
 msgstr "Nicaragua/Español (es_NI)"
 
-#: ../goffice/gtk/go-locale-sel.c:165
+#: ../goffice/gtk/go-locale-sel.c:166
 msgid "Panama (es_PA)"
 msgstr "Panamá/Español (es_PA)"
 
-#: ../goffice/gtk/go-locale-sel.c:166
+#: ../goffice/gtk/go-locale-sel.c:167
 msgid "Peru (es_PE)"
 msgstr "Perú/Español (es_PE)"
 
-#: ../goffice/gtk/go-locale-sel.c:167
+#: ../goffice/gtk/go-locale-sel.c:168
 msgid "Puerto Rico (es_PR)"
 msgstr "Puerto Rico/Español (es_PR)"
 
-#: ../goffice/gtk/go-locale-sel.c:168
+#: ../goffice/gtk/go-locale-sel.c:169
 msgid "Paraguay (es_PY)"
 msgstr "Paraguay/Español (es_PY)"
 
-#: ../goffice/gtk/go-locale-sel.c:169
+#: ../goffice/gtk/go-locale-sel.c:170
 msgid "El Salvador (es_SV)"
 msgstr "El Salvador/Español (es_PY)"
 
-#: ../goffice/gtk/go-locale-sel.c:170
+#: ../goffice/gtk/go-locale-sel.c:171
 msgid "United States/Spanish (es_US)"
 msgstr "Estados Unidos/Español (es_US)"
 
-#: ../goffice/gtk/go-locale-sel.c:171
+#: ../goffice/gtk/go-locale-sel.c:172
 msgid "Uruguay (es_UY)"
 msgstr "Uruguay/Español (es_UY)"
 
-#: ../goffice/gtk/go-locale-sel.c:172
+#: ../goffice/gtk/go-locale-sel.c:173
 msgid "Venezuela (es_VE)"
 msgstr "Venezuela/Español (es_VE)"
 
-#: ../goffice/gtk/go-locale-sel.c:173
+#: ../goffice/gtk/go-locale-sel.c:174
 msgid "Estonia (et_EE)"
 msgstr "Estonia/Estonio (et_EE)"
 
-#: ../goffice/gtk/go-locale-sel.c:174
+#: ../goffice/gtk/go-locale-sel.c:175
 msgid "Spain/Basque (eu_ES)"
 msgstr "España/Vasco (eu_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:175
+#: ../goffice/gtk/go-locale-sel.c:176
 msgid "Iran (fa_IR)"
 msgstr "Irán (fa_IR)"
 
-#: ../goffice/gtk/go-locale-sel.c:176
+#: ../goffice/gtk/go-locale-sel.c:177
 msgid "Finland/Finnish (fi_FI)"
 msgstr "Finlandia/Finlandés (fi_FI)"
 
-#: ../goffice/gtk/go-locale-sel.c:177
+#: ../goffice/gtk/go-locale-sel.c:178
 msgid "Faroe Islands (fo_FO)"
 msgstr "Islas Faroe (fo_FO)"
 
-#: ../goffice/gtk/go-locale-sel.c:178
+#: ../goffice/gtk/go-locale-sel.c:179
 msgid "Belgium/French (fr_BE)"
 msgstr "Bélgica/Francés (fr_BE)"
 
-#: ../goffice/gtk/go-locale-sel.c:179
+#: ../goffice/gtk/go-locale-sel.c:180
 msgid "Canada/French (fr_CA)"
 msgstr "Canadá/Francés (fr_CA)"
 
-#: ../goffice/gtk/go-locale-sel.c:180
+#: ../goffice/gtk/go-locale-sel.c:181
 msgid "Switzerland/French (fr_CH)"
 msgstr "Suiza/Francés (fr_CH)"
 
-#: ../goffice/gtk/go-locale-sel.c:181
+#: ../goffice/gtk/go-locale-sel.c:182
 msgid "France (fr_FR)"
 msgstr "Francia/Francés (fr_FR)"
 
-#: ../goffice/gtk/go-locale-sel.c:182
+#: ../goffice/gtk/go-locale-sel.c:183
 msgid "Ireland/Gaelic (ga_IE)"
 msgstr "Irlanda/Gaélico (ga_IE)"
 
-#: ../goffice/gtk/go-locale-sel.c:183
+#: ../goffice/gtk/go-locale-sel.c:184
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
 msgstr "Gran Bretaña/Escocés gaélico (gd_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:184
+#: ../goffice/gtk/go-locale-sel.c:185
 msgid "Spain/Galician (gl_ES)"
 msgstr "España/Gallego (gl_ES)"
 
-#: ../goffice/gtk/go-locale-sel.c:185
+#: ../goffice/gtk/go-locale-sel.c:186
 msgid "Great Britain/Manx Gaelic (gv_GB)"
 msgstr "Gran Bretaña/Gaélico Manx (gv_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:186
+#: ../goffice/gtk/go-locale-sel.c:187
 msgid "India/Hindu (hi_IN)"
 msgstr "India/Hindú (hi_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:187
+#: ../goffice/gtk/go-locale-sel.c:188
 msgid "Croatia (hr_HR)"
 msgstr "Croacia/Croata (hr_HR)"
 
-#: ../goffice/gtk/go-locale-sel.c:188
+#: ../goffice/gtk/go-locale-sel.c:189
 msgid "Hungary (hu_HU)"
 msgstr "Hungría/Húngaro (hu_HU)"
 
-#: ../goffice/gtk/go-locale-sel.c:189
+#: ../goffice/gtk/go-locale-sel.c:190
 msgid "Armenia (hy_AM)"
 msgstr "Armenia (hy_AM)"
 
-#: ../goffice/gtk/go-locale-sel.c:190
+#: ../goffice/gtk/go-locale-sel.c:191
 msgid "(i18n)"
 msgstr "(i18n)"
 
-#: ../goffice/gtk/go-locale-sel.c:191
+#: ../goffice/gtk/go-locale-sel.c:192
 msgid "Indonesia (id_ID)"
 msgstr "Indonesia/Indonesio (id_ID)"
 
-#: ../goffice/gtk/go-locale-sel.c:192
+#: ../goffice/gtk/go-locale-sel.c:193
 msgid "Iceland (is_IS)"
 msgstr "Islandia/Islandés (is_IS)"
 
-#: ../goffice/gtk/go-locale-sel.c:193
+#: ../goffice/gtk/go-locale-sel.c:194
 msgid "(iso14651_t1)"
 msgstr "(iso14651_t1)"
 
-#: ../goffice/gtk/go-locale-sel.c:194
+#: ../goffice/gtk/go-locale-sel.c:195
 msgid "Switzerland/Italian (it_CH)"
 msgstr "Suiza/Italiano (it_CH)"
 
-#: ../goffice/gtk/go-locale-sel.c:195
+#: ../goffice/gtk/go-locale-sel.c:196
 msgid "Italy (it_IT)"
 msgstr "Italia/Italiano (it_IT)"
 
-#: ../goffice/gtk/go-locale-sel.c:196
+#: ../goffice/gtk/go-locale-sel.c:197
 msgid "Israel/Hebrew (iw_IL)"
 msgstr "Israel/Hebreo (iw_IL)"
 
-#: ../goffice/gtk/go-locale-sel.c:197
+#: ../goffice/gtk/go-locale-sel.c:198
 msgid "Japan (ja_JP)"
 msgstr "Japón/Japonés (ja_JP)"
 
-#: ../goffice/gtk/go-locale-sel.c:198
+#: ../goffice/gtk/go-locale-sel.c:199
 msgid "Georgia (ka_GE)"
 msgstr "Georgia/Georgiano (ka_GE)"
 
-#: ../goffice/gtk/go-locale-sel.c:199
+#: ../goffice/gtk/go-locale-sel.c:200
 msgid "Greenland (kl_GL)"
 msgstr "Groenlandia (kl_GL)"
 
-#: ../goffice/gtk/go-locale-sel.c:200
+#: ../goffice/gtk/go-locale-sel.c:201
 msgid "Korea (ko_KR)"
 msgstr "Corea/Coreano (ko_KR)"
 
-#: ../goffice/gtk/go-locale-sel.c:201
+#: ../goffice/gtk/go-locale-sel.c:202
 msgid "Great Britain/Cornish (kw_GB)"
 msgstr "Gran Bretaña/Cornish (kw_GB)"
 
-#: ../goffice/gtk/go-locale-sel.c:202
+#: ../goffice/gtk/go-locale-sel.c:203
 msgid "Lithuania (lt_LT)"
 msgstr "Lithuania/Lituano (lt_LT)"
 
-#: ../goffice/gtk/go-locale-sel.c:203
+#: ../goffice/gtk/go-locale-sel.c:204
 msgid "Latvia (lv_LV)"
 msgstr "Latvia (lv_LV)"
 
-#: ../goffice/gtk/go-locale-sel.c:204
+#: ../goffice/gtk/go-locale-sel.c:205
 msgid "New Zealand/Maori (mi_NZ)"
 msgstr "Nueva Zelanda/Maorí (mi_NZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:205
+#: ../goffice/gtk/go-locale-sel.c:206
 msgid "Macedonia (mk_MK)"
 msgstr "Macedonia (mk_MK)"
 
-#: ../goffice/gtk/go-locale-sel.c:206
+#: ../goffice/gtk/go-locale-sel.c:207
 msgid "India/Marathi (mr_IN)"
 msgstr "India/Marathi (mr_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:207
+#: ../goffice/gtk/go-locale-sel.c:208
 msgid "Malaysia (ms_MY)"
 msgstr "Malasia (ms_MY)"
 
-#: ../goffice/gtk/go-locale-sel.c:208
+#: ../goffice/gtk/go-locale-sel.c:209
 msgid "Malta (mt_MT)"
 msgstr "Malta (mt_MT)"
 
-#: ../goffice/gtk/go-locale-sel.c:209
+#: ../goffice/gtk/go-locale-sel.c:210
 msgid "Belgium/Flemish (nl_BE)"
 msgstr "Bélgica/Flamenco (nl_BE)"
 
-#: ../goffice/gtk/go-locale-sel.c:210
+#: ../goffice/gtk/go-locale-sel.c:211
 msgid "The Netherlands (nl_NL)"
 msgstr "Holanda/Holandés (nl_NL)"
 
-#: ../goffice/gtk/go-locale-sel.c:211
+#: ../goffice/gtk/go-locale-sel.c:212
 msgid "Norway/Nynorsk (nn_NO)"
 msgstr "Noruega/Nynorsk (nn_NO)"
 
-#: ../goffice/gtk/go-locale-sel.c:212
+#: ../goffice/gtk/go-locale-sel.c:213
 msgid "Norway/Bokmal (no_NO)"
 msgstr "Noruega/Bokmaal (no_NO)"
 
-#: ../goffice/gtk/go-locale-sel.c:213
+#: ../goffice/gtk/go-locale-sel.c:214
 msgid "France/Occitan (oc_FR)"
 msgstr "Francia/Occitano (oc_FR)"
 
-#: ../goffice/gtk/go-locale-sel.c:214
+#: ../goffice/gtk/go-locale-sel.c:215
 msgid "Poland (pl_PL)"
 msgstr "Polonia/Polaco (pl_PL)"
 
-#: ../goffice/gtk/go-locale-sel.c:215
+#: ../goffice/gtk/go-locale-sel.c:216
 msgid "Brazil (pt_BR)"
 msgstr "Brasil/Portugués (pt_BR)"
 
-#: ../goffice/gtk/go-locale-sel.c:216
+#: ../goffice/gtk/go-locale-sel.c:217
 msgid "Portugal (pt_PT)"
 msgstr "Portugal/Portugués (pt_PT)"
 
-#: ../goffice/gtk/go-locale-sel.c:217
+#: ../goffice/gtk/go-locale-sel.c:218
 msgid "Romania (ro_RO)"
 msgstr "Rumanía (ro_RO)"
 
-#: ../goffice/gtk/go-locale-sel.c:218
+#: ../goffice/gtk/go-locale-sel.c:219
 msgid "Russia (ru_RU)"
 msgstr "Rusia/Ruso (ru_RU)"
 
-#: ../goffice/gtk/go-locale-sel.c:219
+#: ../goffice/gtk/go-locale-sel.c:220
 msgid "Ukraine/Russian (ru_UA)"
 msgstr "Ucraniano/Ruso (ru_UA)"
 
-#: ../goffice/gtk/go-locale-sel.c:220
+#: ../goffice/gtk/go-locale-sel.c:221
 msgid "Norway/Saami (se_NO)"
 msgstr "Noruega/Saami (se_NO)"
 
-#: ../goffice/gtk/go-locale-sel.c:221
+#: ../goffice/gtk/go-locale-sel.c:222
 msgid "Slovakia (sk_SK)"
 msgstr "Eslovaquia/Eslovaco (sk_SK)"
 
-#: ../goffice/gtk/go-locale-sel.c:222
+#: ../goffice/gtk/go-locale-sel.c:223
 msgid "Slovenia (sl_SI)"
 msgstr "Eslovenia/Esloveno (sl_SL)"
 
-#: ../goffice/gtk/go-locale-sel.c:223
+#: ../goffice/gtk/go-locale-sel.c:224
 msgid "Albania (sq_AL)"
 msgstr "Albania (sq_AL)"
 
-#: ../goffice/gtk/go-locale-sel.c:224
+#: ../goffice/gtk/go-locale-sel.c:225
 msgid "Yugoslavia (sr_YU)"
 msgstr "Yugoslavia (sr_YU)"
 
-#: ../goffice/gtk/go-locale-sel.c:225
+#: ../goffice/gtk/go-locale-sel.c:226
 msgid "Finland/Swedish (sv_FI)"
 msgstr "Finlandia/Sueco (sv_FI)"
 
-#: ../goffice/gtk/go-locale-sel.c:226
+#: ../goffice/gtk/go-locale-sel.c:227
 msgid "Sweden (sv_SE)"
 msgstr "Suecia/Sueco (sv_SE)"
 
-#: ../goffice/gtk/go-locale-sel.c:227
+#: ../goffice/gtk/go-locale-sel.c:228
 msgid "India/Tamil (ta_IN)"
 msgstr "India/Tamil (ta_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:228
+#: ../goffice/gtk/go-locale-sel.c:229
 msgid "India/Telugu (te_IN)"
 msgstr "India/Telugu (te_IN)"
 
-#: ../goffice/gtk/go-locale-sel.c:229
+#: ../goffice/gtk/go-locale-sel.c:230
 msgid "Tajikistan (tg_TJ)"
 msgstr "Tajikistán (tg_TJ)"
 
-#: ../goffice/gtk/go-locale-sel.c:230
+#: ../goffice/gtk/go-locale-sel.c:231
 msgid "Thailand (th_TH)"
 msgstr "Tailandia (th_TH)"
 
-#: ../goffice/gtk/go-locale-sel.c:231
+#: ../goffice/gtk/go-locale-sel.c:232
 msgid "Eritrea (ti_ER)"
 msgstr "Eritrea (ti_ER)"
 
-#: ../goffice/gtk/go-locale-sel.c:232
+#: ../goffice/gtk/go-locale-sel.c:233
 msgid "Ethiopia/Tigrinya (ti_ET)"
 msgstr "Etiopía/Tigrinya (ti_ET)"
 
-#: ../goffice/gtk/go-locale-sel.c:233
+#: ../goffice/gtk/go-locale-sel.c:234
 msgid "Philippines/Tagalog (tl_PH)"
 msgstr "Filipinas/Tagalo (tl_PH)"
 
-#: ../goffice/gtk/go-locale-sel.c:234
+#: ../goffice/gtk/go-locale-sel.c:235
 msgid "Turkey (tr_TR)"
 msgstr "Turquía (tr_TR)"
 
-#: ../goffice/gtk/go-locale-sel.c:235
+#: ../goffice/gtk/go-locale-sel.c:236
 msgid "Russia/Tatar (tt_RU)"
 msgstr "Rusia/Tatar (tt_RU)"
 
-#: ../goffice/gtk/go-locale-sel.c:236
+#: ../goffice/gtk/go-locale-sel.c:237
 msgid "Ukraine (uk_UA)"
 msgstr "Ucrania (uk_UA)"
 
-#: ../goffice/gtk/go-locale-sel.c:237
+#: ../goffice/gtk/go-locale-sel.c:238
 msgid "Pakistan (ur_PK)"
 msgstr "Pakistán (ur_PK)"
 
-#: ../goffice/gtk/go-locale-sel.c:238
+#: ../goffice/gtk/go-locale-sel.c:239
 msgid "Uzbekistan (uz_UZ)"
 msgstr "Uzbekistán (uz_UZ)"
 
-#: ../goffice/gtk/go-locale-sel.c:239
+#: ../goffice/gtk/go-locale-sel.c:240
 msgid "Vietnam (vi_VN)"
 msgstr "Vietnam (vi_VN)"
 
-#: ../goffice/gtk/go-locale-sel.c:240
+#: ../goffice/gtk/go-locale-sel.c:241
 msgid "Belgium/Walloon (wa_BE)"
 msgstr "Bélgica/Balón (wa_BE)"
 
-#: ../goffice/gtk/go-locale-sel.c:241
+#: ../goffice/gtk/go-locale-sel.c:242
 msgid "United States/Yiddish (yi_US)"
 msgstr "Estados Unidos/Yiddish (yi_US)"
 
-#: ../goffice/gtk/go-locale-sel.c:242
+#: ../goffice/gtk/go-locale-sel.c:243
 msgid "China (zh_CN)"
 msgstr "China (zh_CN)"
 
-#: ../goffice/gtk/go-locale-sel.c:243
+#: ../goffice/gtk/go-locale-sel.c:244
 msgid "Hong Kong/Chinese (zh_HK)"
 msgstr "Hong Kong/Chino (zh_HK)"
 
-#: ../goffice/gtk/go-locale-sel.c:244
+#: ../goffice/gtk/go-locale-sel.c:245
 msgid "Singapore/Chinese (zh_SG)"
 msgstr "Singapur/Chino (zh_SG)"
 
-#: ../goffice/gtk/go-locale-sel.c:245
+#: ../goffice/gtk/go-locale-sel.c:246
 msgid "Taiwan (zh_TW)"
 msgstr "Taiwán (zh_TW)"
 
-#: ../goffice/gtk/go-locale-sel.c:446
+#: ../goffice/gtk/go-locale-sel.c:466
 msgid "Current Locale: "
 msgstr "Localización actual (i18n): "
 
@@ -6843,15 +6874,6 @@ msgstr "Moviendo la media de la curva suavizada"
 
 #~ msgid "The distance of trailing points from outside edge of shaft"
 #~ msgstr "La distancia entre los puntos desde el final del borde del cuerpo"
-
-#~ msgid "Use spline"
-#~ msgstr "Usar splines"
-
-#~ msgid "Use a Bezier cubic spline as line"
-#~ msgstr "Usar el splin cúbico de Beizer como línea"
-
-#~ msgid "Use a Bezier closed cubic spline as contour"
-#~ msgstr "Usar un splin cúbica cerrada de Beizer como contorno"
 
 #~ msgid "gtk-add"
 #~ msgstr "gtk-add"
