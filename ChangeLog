@@ -1,8 +1,6 @@
 2010-03-07  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* tests/shapes-demo.c (parse_line):
+	* tests/shapes-demo.c (parse_line): use go_style_object_style_changed().
 
 2010-03-06  Valek Filippov  <frob@gnome.org>
 
