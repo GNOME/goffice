@@ -228,8 +228,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 			} else if (g_strv_length(v) > 6) {
 				style->line.color = GO_COLOR_FROM_RGBA (atoi (v[3]), atoi (v[4]), atoi (v[5]), atoi (v[6]));
 			}
-			goc_item_bounds_changed (item);
-			goc_item_invalidate (item);
+			go_styled_object_style_changed (GO_STYLED_OBJECT (item));
 		}
 		break;
 	case 21: /* FILL */
@@ -243,8 +242,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 				style->fill.type = GO_STYLE_FILL_PATTERN;
 				style-> fill.pattern.back = GO_COLOR_FROM_RGBA (atoi (v[2]), atoi (v[3]), atoi (v[4]), atoi (v[5]));
 			}
-			goc_item_bounds_changed (item);
-			goc_item_invalidate (item);
+			go_styled_object_style_changed (GO_STYLED_OBJECT (item));
 		}
 		break;
 	case 22: /* ARROW */
