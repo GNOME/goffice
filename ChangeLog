@@ -1,5 +1,9 @@
 2010-03-07  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-style.c (go_style_set_cairo_line): fix hairline.
+
+2010-03-07  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* tests/shapes-demo.c (parse_line): use go_style_object_style_changed().
 
 2010-03-06  Valek Filippov  <frob@gnome.org>

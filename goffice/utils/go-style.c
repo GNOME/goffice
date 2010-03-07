@@ -2205,7 +2205,14 @@ go_style_set_cairo_line (GOStyle const *style, cairo_t *cr)
 	g_return_val_if_fail (GO_IS_STYLE (style) && cr != NULL, FALSE);
 	if (style->line.dash_type == GO_LINE_NONE)
 		return FALSE;
-	width = (style->line.width)? style->line.width: 1.;
+	if (style->line.width > 0.)
+		width = style->line.width;
+	else {
+		cairo_matrix_t m;
+		cairo_get_matrix (cr, &m);
+		width = m.xx * m.yy - m.xy * m.yx;
+		width = (width > 0.)? 1. / sqrt (m.xx * m.yy - m.xy * m.yx): 1.;
+	}
 	cairo_set_line_width (cr, width);
 	cairo_set_line_cap (cr, style->line.cap);
 	cairo_set_line_join (cr, style->line.join);
