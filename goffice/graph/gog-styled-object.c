@@ -40,7 +40,9 @@ enum {
  * This is a mere copy of GOStyle but is needed for file
  * format compatibility
  **/
-typedef struct _GogStyle GogStyle;
+struct _GogStyle {
+	GOStyle base;
+};
 typedef GObjectClass GogStyleClass;
 GType gog_style_get_type (void);
 GSF_CLASS (GogStyle, gog_style,
