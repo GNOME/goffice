@@ -74,18 +74,18 @@ go_styled_object_get_type (void)
  * In that case, the function will always return false:
  * <informalexample>
  *  <programlisting>
- *      style = go_styled_object_go_styled_object_set_styleget_style (gso);
+ *      style = go_styled_object_get_style (gso);
  *      style->line.width = 2;
  *      size_changed = go_styled_object_set_style (gso, style);
  *  </programlisting>
  * </informalexample>
- * In this sample, the call to #go_styled_object_set_style() is just useless. You
+ * In this sample, the call to go_styled_object_set_style() is just useless. You
  * need to check yourself if you really change the size, call
- * #go_styled_object_style_changed() to trigger the "style-changed" event.
+ * go_styled_object_style_changed() to trigger the "style-changed" event.
  * So the following code is much better:
  * <informalexample>
  *  <programlisting>
- *      style = go_styled_object_go_styled_object_set_styleget_style (gso);
+ *      style = go_styled_object_get_style (gso);
  *      if (style->line.width != 2.) {
  *	      style->line.width = 2;
  *	      go_styled_object_style_changed (gso);
@@ -97,7 +97,7 @@ go_styled_object_get_type (void)
  * or even better:
  * <informalexample>
  *  <programlisting>
- *      style = go_style_dup (go_styled_object_go_styled_object_set_styleget_style (gso));
+ *      style = go_style_dup (go_styled_object_get_style (gso));
  *      style->line.width = 2;
  *      size_changed = go_styled_object_set_style (gso, style);
  *      g_object_unref (style);
