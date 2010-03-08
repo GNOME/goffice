@@ -23,6 +23,24 @@
 #include <goffice/goffice-config.h>
 #include <goffice/utils/go-styled-object.h>
 
+/**
+ * SECTION:go-styled-object
+ * @short_description: Objects with style
+ *
+ * The common GInterface for all objects owning a GOStyle.
+ **/
+
+
+/**
+ * GOStyledObjectClass :
+ * @set_style: sets the object style.
+ * @get_style: returns the object current style.
+ * @get_auto_style: returns the default style for the object.
+ * @style_changed: called when the style changed.
+ * @apply_theme: apply the current theme if any to the object style.
+ * @get_document: returns the #GODoc associated to the object if any.
+ **/
+
 GType
 go_styled_object_get_type (void)
 {
@@ -50,6 +68,41 @@ go_styled_object_get_type (void)
  * Sets a new style for @gso, and emits "style-changed" signal. This function
  * does not take ownership of @style.
  *
+ * The best way to change the style is to set the "style" property.
+ *
+ * This function will fail if the new style and the previous style are the same.
+ * In that case, the function will always return false:
+ * <informalexample>
+ *  <programlisting>
+ *      style = go_styled_object_go_styled_object_set_styleget_style (gso);
+ *      style->line.width = 2;
+ *      size_changed = go_styled_object_set_style (gso, style);
+ *  </programlisting>
+ * </informalexample>
+ * In this sample, the call to #go_styled_object_set_style() is just useless. You
+ * need to check yourself if you really change the size, call
+ * #go_styled_object_style_changed() to trigger the "style-changed" event.
+ * So the following code is much better:
+ * <informalexample>
+ *  <programlisting>
+ *      style = go_styled_object_go_styled_object_set_styleget_style (gso);
+ *      if (style->line.width != 2.) {
+ *	      style->line.width = 2;
+ *	      go_styled_object_style_changed (gso);
+ *	      size_changed = true;
+ *      } else
+ *	      size_changed = FALSE;
+ *  </programlisting>
+ * </informalexample>
+ * or even better:
+ * <informalexample>
+ *  <programlisting>
+ *      style = go_style_dup (go_styled_object_go_styled_object_set_styleget_style (gso));
+ *      style->line.width = 2;
+ *      size_changed = go_styled_object_set_style (gso, style);
+ *      g_object_unref (style);
+ *  </programlisting>
+ * </informalexample>
  * return value: %TRUE if new style may lead to change of object size, which
  * happens when changing font size for example.
  **/
@@ -130,6 +183,14 @@ go_styled_object_apply_theme (GOStyledObject *gso, GOStyle *style)
 	if (klass->apply_theme)
 		klass->apply_theme (gso, style);
 }
+/**
+ * go_styled_object_get_document:
+ * @gso: a #GOStyledObject
+ *
+ * A #GODoc is necessary to store images. If no GODoc is associated with the
+ * object, image filling will not be supported.
+ * return value: the #GODoc associated with the object if any.
+ **/
 
 GODoc*
 go_styled_object_get_document (GOStyledObject *gso)
@@ -140,6 +201,16 @@ go_styled_object_get_document (GOStyledObject *gso)
 		klass->get_document (gso): NULL;
 }
 
+/**
+ * go_styled_object_set_cairo_line :
+ * @so: #GOStyledItem
+ * @cr: #cairo_t
+ *
+ * Prepares the cairo context @cr to draw a line according to the
+ * item style and canvas scale.
+ *
+ * Returns: %TRUE if the line is not invisible
+ **/
 gboolean
 go_styled_object_set_cairo_line (GOStyledObject const *so, cairo_t *cr)
 {
@@ -150,6 +221,16 @@ go_styled_object_set_cairo_line (GOStyledObject const *so, cairo_t *cr)
 	return go_style_set_cairo_line (style, cr);
 }
 
+/**
+ * go_styled_object_set_cairo_fill :
+ * @so: #GOStyledItem
+ * @cr: #cairo_t
+ *
+ * Prepares the cairo context @cr to fill a shape according to the
+ * item style and canvas scale.
+ *
+ * Returns: %TRUE if the filling is not invisible
+ **/
 gboolean
 go_styled_object_set_cairo_fill (GOStyledObject const *so, cairo_t *cr)
 {

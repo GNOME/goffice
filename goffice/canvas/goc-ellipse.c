@@ -139,7 +139,14 @@ goc_ellipse_update_bounds (GocItem *item)
 	cr = cairo_create (surface);
 
 	if (goc_ellipse_prepare_draw (item, cr, 0)) {
-		cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+		if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr))
+			cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+		else if (go_styled_object_set_cairo_fill (GO_STYLED_OBJECT (item), cr))
+			cairo_fill_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+		else {
+			item->x0 = item->y0 = G_MAXDOUBLE;
+			item->x1 = item->y1 = -G_MAXDOUBLE;
+		}
 	}
 
 	cairo_destroy (cr);

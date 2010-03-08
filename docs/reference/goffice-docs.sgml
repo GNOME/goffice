@@ -64,6 +64,7 @@
 		</chapter>
 		<chapter>
 			<title>Items</title>
+			<xi:include href="xml/goc-arc.xml"/>
 			<xi:include href="xml/goc-circle.xml"/>
 			<xi:include href="xml/goc-ellipse.xml"/>
 			<xi:include href="xml/goc-graph.xml"/>

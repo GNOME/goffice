@@ -72,10 +72,8 @@ goc_styled_item_set_property (GObject *obj, guint param_id,
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
-	if (resize) {
-		goc_item_invalidate (item);
+	if (resize)
 		goc_item_bounds_changed (item);
-	}
 	goc_item_invalidate (item);
 }
 
@@ -224,7 +222,7 @@ static void
 goc_styled_item_style_changed (GOStyledObject *gsi)
 {
 	GocItem *item = GOC_ITEM (gsi);
-	goc_item_bounds_changed (item);
+	goc_item_bounds_changed (item); /* FIXME: should not be ther, remove when we branch */
 	g_signal_emit (G_OBJECT (gsi),
 		goc_styled_item_signals [STYLE_CHANGED], 0, GOC_STYLED_ITEM (gsi)->style);
 	goc_item_invalidate (item);

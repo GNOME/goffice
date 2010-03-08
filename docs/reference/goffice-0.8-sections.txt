@@ -546,6 +546,7 @@ gog_label_get_type
 <FILE>gog-text</FILE>
 <TITLE>GogText</TITLE>
 GogText
+GogTextClass
 gog_text_get_str
 <SUBSECTION Private>
 gog_text_get_type
@@ -1612,6 +1613,7 @@ GOBezierSpline
 go_bezier_spline_init
 go_bezier_spline_destroy
 go_bezier_spline_to_path
+go_bezier_spline_to_cairo
 </SECTION>
 
 <SECTION>
@@ -2991,6 +2993,18 @@ GOC_TYPE_ITEM
 goc_item_get_type
 GOC_IS_ITEM_CLASS
 GOC_ITEM_GET_CLASS
+</SECTION>
+
+<SECTION>
+<FILE>goc-arc</FILE>
+<TITLE>GocArc</TITLE>
+GocArc
+GocArcClass
+<SUBSECTION Standard>
+GOC_ARC
+GOC_IS_ARC
+GOC_TYPE_ARC
+goc_arc_get_type
 </SECTION>
 
 <SECTION>

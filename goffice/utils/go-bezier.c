@@ -340,6 +340,7 @@ go_bezier_spline_to_path (GOBezierSpline *sp)
  * go_bezier_spline_to_cairo:
  * @sp: a struct GOBezierSpline instance returned by go_bezier_spline_init
  * @cr: a cairo context
+ * @horiz_flip: whether to flip horizontally (for a RTL canvas).
  *
  * Renders the spline in \a cr
  **/

@@ -116,9 +116,8 @@ parse_line (GocCanvas *canvas, gchar *entry)
 	GocGroup	*group;
 	GOStyle		*style;
 	GOArrow		*arr;
-	double		x=0,y=0;
-	guint			i;
-	int			cmd = -1;
+	guint		i;
+	int		cmd = -1;
 	
 	/* check for "comment" */
 	if (g_str_has_prefix (entry, "#"))
@@ -218,7 +217,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 		group = (GocGroup*) goc_canvas_get_root (canvas);
 		item = g_list_nth_data (group->children, atoi (v[1]));
 		if (item != NULL && g_strv_length (v) > 2) {
-			style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+			style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
 			style->line.width = atoi (v[2]);
 			if (g_ascii_strcasecmp (v[2], "DASH") == 0) {
 				if(g_strv_length (v) > 3)
@@ -228,21 +227,23 @@ parse_line (GocCanvas *canvas, gchar *entry)
 			} else if (g_strv_length(v) > 6) {
 				style->line.color = GO_COLOR_FROM_RGBA (atoi (v[3]), atoi (v[4]), atoi (v[5]), atoi (v[6]));
 			}
-			go_styled_object_style_changed (GO_STYLED_OBJECT (item));
+			goc_item_set (item, "style", style, NULL);
+			g_object_unref (style);
 		}
 		break;
 	case 21: /* FILL */
 		group = (GocGroup*) goc_canvas_get_root (canvas);
 		item = g_list_nth_data (group->children, atoi (v[1]));
 		if (item != NULL && g_strv_length (v) > 2) {
-			style = go_styled_object_get_style (GO_STYLED_OBJECT (item)); 
+			style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
 			if (g_ascii_strcasecmp (v[2], "NONE") == 0) {
 				style->fill.type = GO_STYLE_FILL_NONE;
 			} else if (g_strv_length (v) > 5) {
 				style->fill.type = GO_STYLE_FILL_PATTERN;
 				style-> fill.pattern.back = GO_COLOR_FROM_RGBA (atoi (v[2]), atoi (v[3]), atoi (v[4]), atoi (v[5]));
 			}
-			go_styled_object_style_changed (GO_STYLED_OBJECT (item));
+			goc_item_set (item, "style", style, NULL);
+			g_object_unref (style);
 		}
 		break;
 	case 22: /* ARROW */

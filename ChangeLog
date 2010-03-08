@@ -1,3 +1,15 @@
+2010-03-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/goffice-0.8-sections.txt: added GocArc.
+	* docs/reference/goffice-docs.sgml: ditto.
+	* goffice/canvas/goc-ellipse.c (goc_ellipse_update_bounds): fixed bounds.
+	* goffice/canvas/goc-rectangle.c (goc_rectangle_update_bounds): ditto.
+	* goffice/canvas/goc-styled-item.c (goc_styled_item_set_property),
+	(goc_styled_item_style_changed): minor changes.
+	* goffice/utils/go-bezier.c: fix docs.
+	* goffice/utils/go-styled-object.c: add docs.
+	* tests/shapes-demo.c (parse_line): enhance style changes.
+
 2010-03-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-style.c (go_style_set_cairo_line): fix hairline.
