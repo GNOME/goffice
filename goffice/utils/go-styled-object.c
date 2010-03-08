@@ -203,7 +203,7 @@ go_styled_object_get_document (GOStyledObject *gso)
 
 /**
  * go_styled_object_set_cairo_line :
- * @so: #GOStyledItem
+ * @so: #GOStyledObject
  * @cr: #cairo_t
  *
  * Prepares the cairo context @cr to draw a line according to the
@@ -223,7 +223,7 @@ go_styled_object_set_cairo_line (GOStyledObject const *so, cairo_t *cr)
 
 /**
  * go_styled_object_set_cairo_fill :
- * @so: #GOStyledItem
+ * @so: #GOStyledObject
  * @cr: #cairo_t
  *
  * Prepares the cairo context @cr to fill a shape according to the

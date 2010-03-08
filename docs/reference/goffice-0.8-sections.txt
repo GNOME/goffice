@@ -82,6 +82,7 @@ goffice_graph_debug_level
 <FILE>gog-styled-object</FILE>
 <TITLE>GogStyledObject</TITLE>
 <INCLUDE>goffice/graph/gog-styled-object.h</INCLUDE>
+GogStyle
 GogStyledObject
 GogStyledObjectClass
 <SUBSECTION Standard>

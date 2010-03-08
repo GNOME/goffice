@@ -25,6 +25,9 @@
 
 G_BEGIN_DECLS
 
+/* deprecated, just there for file compatibility and to make gtk-doc happy */
+typedef struct _GogStyle GogStyle;
+
 struct _GogStyledObject {
 	GogObject	base;
 

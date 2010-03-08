@@ -36,9 +36,11 @@ enum {
 	LAST_SIGNAL
 };
 
-/* GogStyle object: this is a mere copy of GOStyle but is needed for file
- format compatibility */
-typedef GOStyle GogStyle;
+/**GogStyle:
+ * This is a mere copy of GOStyle but is needed for file
+ * format compatibility
+ **/
+typedef struct _GogStyle GogStyle;
 typedef GObjectClass GogStyleClass;
 GType gog_style_get_type (void);
 GSF_CLASS (GogStyle, gog_style,
