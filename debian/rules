@@ -14,13 +14,15 @@ versionh=$(shell echo $(upstreamversion) | sed -e 's/\.[^.]*$$//')
 versiont=$(shell echo $(upstreamversion) | sed -e 's/^.*\.//')
 nextupstreamversion=$(shell echo $(versionh).$$(expr $(versiont) + 1))
 
-# The library file name. This goes into the package names (which is why we
-# need to change the periods in it). The debian/* files must match.
-baselibname=$(shell grep -i '^GOFFICE_API_VER=[0-9]' configure | sed -e 's/^.*=/libgoffice-/' -e s/\\./-/g)
-
+# API version
+apiver=$(shell grep -i '^GOFFICE_API_VER=[0-9]' configure | sed -e 's/^.*=//')
+# ABI major version
+somajor=$(shell grep -i '^VERSION_INFO=[0-9]' configure | sed -e 's/^.*=//' -e 's/:.*//')
+# The base library name
+baselibname=libgoffice-$(apiver)-$(somajor)
 pruntime=$(baselibname)
 pcommon=$(baselibname)-common
-pdevel=$(baselibname)-dev
+pdevel=libgoffice-$(apiver)-dev
 pdbg=libgoffice-dbg
 
 # These are used for cross-compiling and for saving the configure script

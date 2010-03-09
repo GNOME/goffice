@@ -15,12 +15,12 @@ Vcs-git: git://git.gnome.org/goffice
 Vcs-Browser: http://git.gnome.org/cgit/goffice/
 Standards-Version: 3.8.4
 
-Package: libgoffice-0-8-dev
+Package: libgoffice-0.8-dev
 Section: libdevel
 Architecture: any
-Conflicts: libgoffice-0-dev (<< 0.4.2-2), libgoffice-0-5-dev
-Replaces: libgoffice-0-5-dev
-Depends: libgoffice-0-8 (= ${binary:Version}), libglib2.0-dev (>= 2.16.0), libxml2-dev (>= 2.6.10-2), libgtk2.0-dev (>= 2.8.17), libglade2-dev (>= 1:2.4.0), libcairo2-dev (>= 1.2.0), libgconf2-dev, libgsf-1-dev (>= 1.14.9), ${misc:Depends}
+Conflicts: libgoffice-0-dev (<< 0.4.2-2), libgoffice-0-5-dev, libgoffice-0-8-dev
+Replaces: libgoffice-0-5-dev, libgoffice-0-8-dev
+Depends: libgoffice-0.8-8 (= ${binary:Version}), libglib2.0-dev (>= 2.16.0), libxml2-dev (>= 2.6.10-2), libgtk2.0-dev (>= 2.8.17), libglade2-dev (>= 1:2.4.0), libcairo2-dev (>= 1.2.0), libgconf2-dev, libgsf-1-dev (>= 1.14.9), ${misc:Depends}
 Description: Document centric objects library - runtime files
  GOffice is a library of document centric objects and utilities building on
  top of GLib and Gtk+.
@@ -31,7 +31,7 @@ Package: libgoffice-dbg
 Section: debug
 Priority: extra
 Architecture: any
-Depends: libgoffice-0-8 (= ${binary:Version}), ${misc:Depends}
+Depends: libgoffice-0.8-8 (= ${binary:Version}), ${misc:Depends}
 Conflicts: libgoffice-0-6-dbg
 Replaces: libgoffice-0-6-dbg
 Description: Document centric objects library - debugging files
@@ -41,17 +41,19 @@ Description: Document centric objects library - debugging files
  These are the files used to debug (applications that use) the GOffice
  library.
 
-Package: libgoffice-0-8
+Package: libgoffice-0.8-8
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}, libgoffice-0-8-common (>= ${binary:Version}), ${misc:Depends}
+Conflicts: libgoffice-0-8
+Replaces: libgoffice-0-8
+Depends: ${shlibs:Depends}, libgoffice-0.8-8-common (>= ${binary:Version}), ${misc:Depends}
 Description: Document centric objects library - runtime files
  GOffice is a library of document centric objects and utilities building on
  top of GLib and Gtk+.
  .
  These are the files needed to run applications that use GOffice.
 
-Package: libgoffice-0-8-common
+Package: libgoffice-0.8-8-common
 Section: libs
 Architecture: all
 Depends: ${misc:Depends}
