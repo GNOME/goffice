@@ -451,10 +451,17 @@ is_fd_uri (char const *uri, int *fd)
 char *
 go_shell_arg_to_uri (char const *arg)
 {
-	GFile *file = g_file_new_for_commandline_arg (arg);
-	gchar *tmp = g_file_get_uri (file);
-	g_object_unref (file);
-	return tmp;
+#ifdef G_OS_WIN32
+	int fd;
+	if (is_fd_uri (arg, &fd))
+		return g_strdup (arg);
+#endif
+	{
+		GFile *file = g_file_new_for_commandline_arg (arg);
+		gchar *tmp = g_file_get_uri (file);
+		g_object_unref (file);
+		return tmp;
+	}
 }
 
 /**

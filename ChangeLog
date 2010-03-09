@@ -1,5 +1,10 @@
 2010-03-09  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-file.c (go_shell_arg_to_uri): check for fd:// type
+	URIs on win32. [#608422]
+
+2010-03-09  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/canvas/goc-item.c (goc_item_new): invalidate the new item.
 	* goffice/canvas/goc-styled-item.c (goc_styled_item_set_property),
 	(goc_styled_item_get_property), (goc_styled_item_class_init): really
