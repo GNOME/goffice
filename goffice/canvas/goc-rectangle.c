@@ -171,33 +171,49 @@ goc_rectangle_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 		cairo_rectangle (cr, 0., 0., (int) rect->width * sign, (int) rect->height);
 	} else {
 
-		cairo_move_to (cr, priv->rx, 0.);
-		cairo_save (cr);
-		cairo_translate (cr, priv->rx, priv->ry);
-		cairo_scale (cr, priv->rx, priv->ry);
-		cairo_arc_negative (cr, 0. , 0. ,1. , -M_PI/2. , M_PI);
-		cairo_restore (cr);
+		if (priv->type&1) {
+			cairo_move_to (cr, priv->rx, 0.);
+			cairo_save (cr);
+			cairo_translate (cr, priv->rx, priv->ry);
+			cairo_scale (cr, priv->rx, priv->ry);
+			cairo_arc_negative (cr, 0. , 0. ,1. , -M_PI/2. , M_PI);
+			cairo_restore (cr);
+		} else {
+			cairo_move_to (cr, 0., 0.);
+		}
 
-		cairo_line_to (cr, 0, rect->height - priv->ry);
-		cairo_save (cr);
-		cairo_translate (cr, priv->rx, rect->height - priv->ry);
-		cairo_scale (cr, priv->rx, priv->ry);
-		cairo_arc_negative (cr, 0., 0. ,1. , M_PI, M_PI/2.);
-		cairo_restore (cr);
+		if (priv->type&8) {
+			cairo_line_to (cr, 0., rect->height - priv->ry);
+			cairo_save (cr);
+			cairo_translate (cr, priv->rx, rect->height - priv->ry);
+			cairo_scale (cr, priv->rx, priv->ry);
+			cairo_arc_negative (cr, 0., 0. ,1. , M_PI, M_PI/2.);
+			cairo_restore (cr);
+		} else {
+			cairo_line_to (cr, 0., rect->height);
+		}
 
-		cairo_line_to (cr, rect->width - priv->rx, rect->height);
-		cairo_save (cr);
-		cairo_translate (cr, rect->width - priv->rx, rect->height - priv->ry);
-		cairo_scale (cr, priv->rx, priv->ry);
-		cairo_arc_negative (cr, 0., 0. ,1. , M_PI/2., 0.);
-		cairo_restore (cr);
+		if (priv->type&4) {
+			cairo_line_to (cr, rect->width - priv->rx, rect->height);
+			cairo_save (cr);
+			cairo_translate (cr, rect->width - priv->rx, rect->height - priv->ry);
+			cairo_scale (cr, priv->rx, priv->ry);
+			cairo_arc_negative (cr, 0., 0. ,1. , M_PI/2., 0.);
+			cairo_restore (cr);
+		} else {
+			cairo_line_to (cr, rect->width, rect->height);
+		}
 
-		cairo_line_to (cr, rect->width, priv->ry);
-		cairo_save (cr);
-		cairo_translate (cr, rect->width - priv->rx, priv->ry);
-		cairo_scale (cr, priv->rx, priv->ry);
-		cairo_arc_negative (cr, 0., 0. ,1. , 0., -M_PI/2.);
-		cairo_restore (cr);
+		if (priv->type&2) {
+			cairo_line_to (cr, rect->width, priv->ry);
+			cairo_save (cr);
+			cairo_translate (cr, rect->width - priv->rx, priv->ry);
+			cairo_scale (cr, priv->rx, priv->ry);
+			cairo_arc_negative (cr, 0., 0. ,1. , 0., -M_PI/2.);
+			cairo_restore (cr);
+		} else {
+			cairo_line_to (cr, rect->width, 0.);
+		}
 		cairo_close_path (cr);
 	}
 	cairo_restore (cr);

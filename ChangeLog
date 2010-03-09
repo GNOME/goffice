@@ -1,3 +1,9 @@
+2010-03-09  Valek Filippov  <frob@gnome.org>
+
+	* goffice/canvas/goc-rectangle.c (goc_rectangle_prepare_draw): enhance
+	round corners support.
+	* tests/shapes-demo.c (parse_line): ditto.
+
 2010-03-08  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

@@ -143,6 +143,8 @@ parse_line (GocCanvas *canvas, gchar *entry)
 			cmd = 6;
 		} else if (g_ascii_strcasecmp (v[0], "POLYG") == 0) {
 			cmd = 7;
+		} else if (g_ascii_strcasecmp (v[0], "RRECT") == 0) {
+			cmd = 8;
 		} else if (g_ascii_strcasecmp (v[0], "STROKE") == 0) {
 			cmd = 20;
 		} else if (g_ascii_strcasecmp (v[0], "FILL") == 0) {
@@ -213,6 +215,13 @@ parse_line (GocCanvas *canvas, gchar *entry)
 				item = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_POLYGON, "points", points, NULL);
 		}
 		break;
+	case 8: /* RRECT */
+			if (g_strv_length (v) > 8) {
+				item = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_RECTANGLE,
+					"x", (double) atoi (v[1]), "y", (double) atoi (v[2]), "width", (double) atoi (v[3]), "height", (double) atoi (v[4]),
+					"rx", (double) atoi (v[5]), "ry", (double) atoi (v[6]), "rotation", (double) atoi (v[7]) * M_PI / 180., "type", atoi (v[8]), NULL);
+			}
+			break;
 	case 20: /* STROKE */
 		group = (GocGroup*) goc_canvas_get_root (canvas);
 		item = g_list_nth_data (group->children, atoi (v[1]));
@@ -226,6 +235,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 					style->line.dash_type = 0;
 			} else if (g_strv_length(v) > 6) {
 				style->line.color = GO_COLOR_FROM_RGBA (atoi (v[3]), atoi (v[4]), atoi (v[5]), atoi (v[6]));
+				style->line.auto_color = FALSE;
 			}
 			goc_item_set (item, "style", style, NULL);
 			g_object_unref (style);
@@ -241,6 +251,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 			} else if (g_strv_length (v) > 5) {
 				style->fill.type = GO_STYLE_FILL_PATTERN;
 				style-> fill.pattern.back = GO_COLOR_FROM_RGBA (atoi (v[2]), atoi (v[3]), atoi (v[4]), atoi (v[5]));
+				style->fill.auto_back = FALSE;
 			}
 			goc_item_set (item, "style", style, NULL);
 			g_object_unref (style);
