@@ -41,7 +41,7 @@
 enum {
 	STYLED_ITEM_PROP_0,
 	STYLED_ITEM_PROP_STYLE,
-	STYLED_ITEM_SCALE_LINE_WIDTH
+	STYLED_ITEM_PROP_SCALE_LINE_WIDTH
 };
 
 enum {
@@ -69,6 +69,10 @@ goc_styled_item_set_property (GObject *obj, guint param_id,
 	      			g_value_get_object (value));
 		break;
 
+	case STYLED_ITEM_PROP_SCALE_LINE_WIDTH :
+		gsi->scale_line_width =  g_value_get_boolean (value);
+		break;
+
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
@@ -87,6 +91,9 @@ goc_styled_item_get_property (GObject *obj, guint param_id,
 	case STYLED_ITEM_PROP_STYLE :
 		g_value_set_object (value, gsi->style);
 		break;
+
+	case STYLED_ITEM_PROP_SCALE_LINE_WIDTH :
+		g_value_set_boolean (value, gsi->scale_line_width);
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -155,7 +162,7 @@ goc_styled_item_class_init (GocItemClass *goc_klass)
 			_("A pointer to the GOStyle object"),
 			go_style_get_type (),
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
-	g_object_class_install_property (gobject_klass, STYLED_ITEM_SCALE_LINE_WIDTH,
+	g_object_class_install_property (gobject_klass, STYLED_ITEM_PROP_SCALE_LINE_WIDTH,
 		g_param_spec_boolean ("scale-line-width",
 			_("Scale line width"),
 			_("Whether to scale the line width when zooming"),

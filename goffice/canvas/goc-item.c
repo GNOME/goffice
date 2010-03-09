@@ -305,6 +305,7 @@ goc_item_new (GocGroup *parent, GType type, const gchar *first_arg_name, ...)
 	g_return_val_if_fail ((item != NULL), NULL);
 
 	goc_group_add_child (parent, item);
+	goc_item_invalidate (item);
 
 	return item;
 }

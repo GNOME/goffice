@@ -1,3 +1,10 @@
+2010-03-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-item.c (goc_item_new): invalidate the new item.
+	* goffice/canvas/goc-styled-item.c (goc_styled_item_set_property),
+	(goc_styled_item_get_property), (goc_styled_item_class_init): really
+	implement the "scale-line-width" property.
+
 2010-03-09  Valek Filippov  <frob@gnome.org>
 
 	* goffice/canvas/goc-rectangle.c (goc_rectangle_prepare_draw): enhance
