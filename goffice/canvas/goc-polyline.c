@@ -113,13 +113,13 @@ goc_polyline_prepare_draw (GocItem const *item, cairo_t *cr, gboolean flag)
 	if (polyline->nb_points == 0)
 		return FALSE;
 
-	if (go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr)) {
-		if (1 == flag) {
-			goc_group_cairo_transform (item->parent, cr, polyline->points[0].x, polyline->points[0].y);
-			cairo_move_to (cr, 0., 0.);
-		} else {
-			cairo_move_to (cr, polyline->points[0].x, polyline->points[0].y);
-		}
+	if (1 == flag) {
+		goc_group_cairo_transform (item->parent, cr, polyline->points[0].x, polyline->points[0].y);
+		cairo_move_to (cr, 0., 0.);
+	} else {
+		cairo_move_to (cr, polyline->points[0].x, polyline->points[0].y);
+	}
+	if (goc_styled_item_set_cairo_line (GOC_STYLED_ITEM (item), cr)) {
 		if (polyline->use_spline) {
 			GOBezierSpline *spline = (GOBezierSpline *) g_object_get_data (G_OBJECT (polyline), "spline");
 			cairo_save (cr);

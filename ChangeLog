@@ -1,3 +1,8 @@
+2010-03-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-polyline.c (goc_polyline_prepare_draw): don't zoom
+	hairline.
+
 2010-03-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-file.c (go_shell_arg_to_uri): check for fd:// type
