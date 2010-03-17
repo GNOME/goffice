@@ -156,21 +156,18 @@ motion_cb (GocCanvas *canvas, GdkEventMotion *event, G_GNUC_UNUSED gpointer data
 	return result;
 }
 
-static void
-destroy_cb (GocCanvas *canvas, G_GNUC_UNUSED gpointer data)
-{
-}
-
 static gboolean
 key_release_cb (GocCanvas *canvas, GdkEventKey* event, G_GNUC_UNUSED gpointer data)
 {
-	return FALSE;
+	return (canvas->grabbed_item != NULL)?
+		GOC_ITEM_GET_CLASS (canvas->grabbed_item)->key_released (canvas->grabbed_item, event): FALSE;
 }
 
 static gboolean
 key_press_cb (GocCanvas *canvas, GdkEventKey* event, G_GNUC_UNUSED gpointer data)
 {
-	return FALSE;
+	return (canvas->grabbed_item != NULL)?
+		GOC_ITEM_GET_CLASS (canvas->grabbed_item)->key_pressed (canvas->grabbed_item, event): FALSE;
 }
 
 static gboolean
@@ -178,6 +175,7 @@ enter_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpoin
 {
 	double x, y;
 	GocItem *item;
+	gboolean result = FALSE;
 
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
 		return TRUE;
@@ -187,16 +185,19 @@ enter_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpoin
 	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
 	item = goc_canvas_get_item_at (canvas, x, y);;
 	if (item) {
+		canvas->cur_event = (GdkEvent *) event;
 		canvas->last_item = item;
-		return GOC_ITEM_GET_CLASS (item)->enter_notify (item, x, y);
+		result = GOC_ITEM_GET_CLASS (item)->enter_notify (item, x, y);
 	}
-	return FALSE;
+	canvas->cur_event = NULL;
+	return result;
 }
 
 static gboolean
 leave_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpointer data)
 {
 	double x, y;
+	gboolean result = FALSE;
 
 	if (event->window != gtk_layout_get_bin_window (&canvas->base))
 		return TRUE;
@@ -205,11 +206,13 @@ leave_notify_cb (GocCanvas *canvas, GdkEventCrossing* event, G_GNUC_UNUSED gpoin
 		canvas->scroll_x1 +  event->x / canvas->pixels_per_unit;
 	y = canvas->scroll_y1 + event->y / canvas->pixels_per_unit;
 	if (canvas->last_item) {
-		gboolean result = GOC_ITEM_GET_CLASS (canvas->last_item)->leave_notify (canvas->last_item, x, y);
+		canvas->cur_event = (GdkEvent *) event;
+		result = GOC_ITEM_GET_CLASS (canvas->last_item)->leave_notify (canvas->last_item, x, y);
 		canvas->last_item = NULL;
 		return result;
 	}
-	return FALSE;
+	canvas->cur_event = NULL;
+	return result;
 }
 
 static void
@@ -278,7 +281,6 @@ goc_canvas_init (GocCanvas *canvas)
 	g_signal_connect (G_OBJECT (w), "button-press-event", G_CALLBACK (button_press_cb), NULL);
 	g_signal_connect (G_OBJECT (w), "button-release-event", G_CALLBACK (button_release_cb), NULL);
 	g_signal_connect (G_OBJECT (w), "motion-notify-event", G_CALLBACK (motion_cb), NULL);
-	g_signal_connect (G_OBJECT (w), "destroy", G_CALLBACK (destroy_cb), NULL);
 	g_signal_connect (G_OBJECT (w), "expose-event", G_CALLBACK (expose_cb), NULL);
 	g_signal_connect (G_OBJECT (w), "key_press_event", (GCallback) key_press_cb, NULL);
 	g_signal_connect (G_OBJECT (w), "key_release_event", (GCallback) key_release_cb, NULL);

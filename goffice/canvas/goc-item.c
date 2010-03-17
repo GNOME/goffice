@@ -163,6 +163,22 @@ goc_item_leave_notify (GocItem *item, double x, double y)
 		FALSE;
 }
 
+static gboolean
+goc_item_key_pressed (GocItem *item, GdkEventKey* ev)
+{
+	return (item->parent)?
+		GOC_ITEM_GET_CLASS (item->parent)->key_pressed (GOC_ITEM (item->parent), ev):
+		FALSE;
+}
+
+static gboolean
+goc_item_key_released (GocItem *item, GdkEventKey* ev)
+{
+	return (item->parent)?
+		GOC_ITEM_GET_CLASS (item->parent)->key_released (GOC_ITEM (item->parent), ev):
+		FALSE;
+}
+
 static void
 goc_item_realize (GocItem *item)
 {
@@ -256,6 +272,8 @@ goc_item_class_init (GocItemClass *item_klass)
 	item_klass->motion = goc_item_motion;
 	item_klass->enter_notify = goc_item_enter_notify;
 	item_klass->leave_notify = goc_item_leave_notify;
+	item_klass->key_pressed = goc_item_key_pressed;
+	item_klass->key_released = goc_item_key_released;
 }
 
 static void

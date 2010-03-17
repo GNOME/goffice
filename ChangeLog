@@ -1,3 +1,11 @@
+2010-03-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c (key_release_cb), (key_press_cb),
+	(enter_notify_cb), (leave_notify_cb), (goc_canvas_init): ensure that the
+	GdkEvent can always be accessed if needed.
+	* goffice/canvas/goc-item.c (goc_item_key_pressed),
+	(goc_item_key_released), (goc_item_class_init): ditto.
+
 2010-03-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-polyline.c (goc_polyline_prepare_draw): don't zoom
