@@ -178,6 +178,8 @@ goc_polygon_distance (GocItem *item, double x, double y, GocItem **near_item)
 	GocPolygon *polygon = GOC_POLYGON (item);
 	GOStyle *style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
 	double res = G_MAXDOUBLE;
+	double ppu = goc_canvas_get_pixels_per_unit (item->canvas);
+	double tmp_width = 0;
 	cairo_surface_t *surface;
 	cairo_t *cr;
 
@@ -185,6 +187,11 @@ goc_polygon_distance (GocItem *item, double x, double y, GocItem **near_item)
 		return res;
 
 	*near_item = item;
+	tmp_width = style->line.width;
+	if (style->line.width * ppu < 5)
+		style->line.width = 5. / (ppu * ppu);
+	else
+		style->line.width /= ppu;
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 	goc_polygon_prepare_path (item, cr, 0);
@@ -195,13 +202,9 @@ goc_polygon_distance (GocItem *item, double x, double y, GocItem **near_item)
 		else if ((item->x1 - item->x0 < 5 || item->y1 - item->y0 < 5) && style->line.dash_type == GO_LINE_NONE) {
 			style->line.dash_type = GO_LINE_SOLID;
 			style->line.auto_dash = FALSE;
-			style->line.width = 5;
 		}
 	}
 	if (res > 0 && style->line.dash_type != GO_LINE_NONE) {
-		if (style->line.width < 5) {
-			style->line.width = 5;
-		}
 		go_styled_object_set_cairo_line (GO_STYLED_OBJECT (item), cr);
 		if (cairo_in_stroke (cr, x, y))
 			res = 0;
@@ -210,6 +213,7 @@ goc_polygon_distance (GocItem *item, double x, double y, GocItem **near_item)
 	g_object_unref (style);
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);
+	style->line.width = tmp_width;
 	return res;
 }
 

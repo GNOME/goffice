@@ -164,9 +164,10 @@ static double
 goc_polyline_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
 	GocPolyline *polyline = GOC_POLYLINE (item);
-	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+	GOStyle *style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
 	double tmp_width = 0;
 	double res = 20;
+	double ppu = goc_canvas_get_pixels_per_unit (item->canvas);
 	cairo_surface_t *surface;
 	cairo_t *cr;
 
@@ -175,9 +176,10 @@ goc_polyline_distance (GocItem *item, double x, double y, GocItem **near_item)
 
 	*near_item = item;
 	tmp_width = style->line.width;
-	if (style->line.width < 5) {
-		style->line.width = 5;
-	}
+	if (style->line.width * ppu < 5)
+		style->line.width = 5. / (ppu * ppu);
+	else
+		style->line.width /= ppu;
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cr = cairo_create (surface);
 
@@ -186,6 +188,7 @@ goc_polyline_distance (GocItem *item, double x, double y, GocItem **near_item)
 			res = 0;
 	}
 
+	g_object_unref (style);
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);
 	style->line.width = tmp_width;
