@@ -1,3 +1,11 @@
+2010-03-17  Valek Filippov  <frob@gnome.org>
+
+	* goffice/canvas/goc-arc.c (goc_arc_distance): take ppu into account
+	* goffice/canvas/goc-ellipse.c (goc_ellipse_distance): ditto
+	* goffice/canvas/goc-polygon.c (goc_polygon_distance): ditto
+	* goffice/canvas/goc-polyline.c (goc_polyline_distance): ditto
+	* goffice/canvas/goc-rectangle.c (goc_rectangle_distance): ditto
+	
 2010-03-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-canvas.c (key_release_cb), (key_press_cb),
