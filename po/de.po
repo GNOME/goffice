@@ -1,19 +1,12 @@
 # German goffice translation.
 # Copyright (C) 1998-2000 Miguel de Icaza, 2001-2005 Jody Goldberg.
 # This file is distributed under the same license as the goffice package.
-# Ralf Baechle <ralf@gnu.org>, 1999.
-# Karsten Weiss <karsten@addx.au.s.shuttle.de>, 1999.
-# Matthias Warkus <mawa@iname.com>, 1999-2000.
-# Karl Eichwalder <ke@suse.de>, 1999-2001.
-# Andreas J. Guelzow <aguelzow@taliesin.ca>, 2001.
-# Christian Meyer <chrisime@gnome.org>, 2001.
-# Christian Neumair <chris@gnome-de.org>, 2002, 2003, 2004.
-# Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
-# Hendrik Richter <hendi@gnome-de.org>, 2005.
-# Mario Blättermann <mariobl@gnome.org>, 2009, 2010.
-# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009.
 #
-# Thanks for improvements to "Andreas J. Guelzow" <aguelzow@taliesin.ca>, 2001.
+#
+# Quellen für dt. Übersetzungen:
+# http://de.openoffice.org/doc/index.html
+# http://office.microsoft.com/de-de/default.aspx
+#
 #
 # Future translators, please take care to translate error messages correctly:
 # #3D MULT? == #3D-MULT?
@@ -28,24 +21,42 @@
 # #UNKNOWN! == #UNBEKANNT!
 # #VALUE! == #WERT!
 #
+# plot area     - Darstellungsbereich
+# error bar      -  Fehlerbalken
+# series lines  - Verbindungslinien
+# drop lines    - Bezugslinien
+#
 # TODO:
 #
 # - translate all functions (the untranslated ones are translated with LATER)
+#
+# Ralf Baechle <ralf@gnu.org>, 1999.
+# Karsten Weiss <karsten@addx.au.s.shuttle.de>, 1999.
+# Matthias Warkus <mawa@iname.com>, 1999-2000.
+# Karl Eichwalder <ke@suse.de>, 1999-2001.
+# Andreas J. Guelzow <aguelzow@taliesin.ca>, 2001.
+# Christian Meyer <chrisime@gnome.org>, 2001.
+# Christian Neumair <chris@gnome-de.org>, 2002, 2003, 2004.
+# Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
+# Hendrik Richter <hendi@gnome-de.org>, 2005.
+# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010.
+# Mario Blättermann <mariobl@gnome.org>, 2009, 2010.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
-"POT-Creation-Date: 2010-03-06 20:30+0000\n"
-"PO-Revision-Date: 2010-03-08 15:12+0100\n"
+"POT-Creation-Date: 2010-03-20 22:58+0000\n"
+"PO-Revision-Date: 2010-03-23 11:51+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
-"Language-Team: German <gnome-de@gnome.org>\n"
+"Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ../goffice/app/file.c:459
 msgid "ID"
@@ -89,7 +100,7 @@ msgstr "Legt fest, ob beim Abspeichern Dateien überschrieben werden."
 
 #: ../goffice/app/file.c:511
 msgid "Format Level"
-msgstr ""
+msgstr "Formatebene"
 
 #: ../goffice/app/file.c:522
 msgid "Scope"
@@ -109,8 +120,8 @@ msgstr ""
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
-"Sie können dieses Sicherheitsmerkmal ausschalten, indem Sie die entsprechende "
-"Datei »plugin.xml« bearbeiten."
+"Sie können dieses Sicherheitsmerkmal ausschalten, indem Sie die "
+"entsprechende Datei »plugin.xml« bearbeiten."
 
 #: ../goffice/app/go-cmd-context.c:65
 #, c-format
@@ -179,8 +190,8 @@ msgid ""
 "Module \"%s\" was built with version %s of %s, but this executable supplied "
 "version %s."
 msgstr ""
-"Modul »%s« wurde mit Version %s von »%s« erstellt, aber diese ausführbare Datei "
-"gehört zu Version %s."
+"Modul »%s« wurde mit Version %s von »%s« erstellt, aber diese ausführbare "
+"Datei gehört zu Version %s."
 
 #: ../goffice/app/go-plugin-loader-module.c:103
 msgid "Dynamic module loading is not supported in this system."
@@ -311,8 +322,8 @@ msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
 msgstr ""
-"Ein Dienst muss vor seiner Aktivierung geladen werden (PLUGIN_ALWAYS_LOAD ist "
-"gesetzt), aber das Laden ist fehlgeschlagen."
+"Ein Dienst muss vor seiner Aktivierung geladen werden (PLUGIN_ALWAYS_LOAD "
+"ist gesetzt), aber das Laden ist fehlgeschlagen."
 
 #: ../goffice/app/go-plugin.c:334
 #, c-format
@@ -347,7 +358,8 @@ msgstr "Fehler beim Lesen der Info des Dienstes #%d."
 #: ../goffice/app/go-plugin.c:745
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
-msgstr "Die Datei mit den Plugin-Informationen kann nicht gelesen werden (»%s«)."
+msgstr ""
+"Die Datei mit den Plugin-Informationen kann nicht gelesen werden (»%s«)."
 
 #: ../goffice/app/go-plugin.c:749
 #, c-format
@@ -477,106 +489,93 @@ msgstr "exec-main-loop"
 msgid "Execute main loop iteration"
 msgstr "Iteration der Hauptschleife ausführen"
 
-#: ../goffice/canvas/goc-arc.c:435
-#| msgid "x"
+#: ../goffice/canvas/goc-arc.c:437
 msgid "xc"
 msgstr "xc"
 
-#: ../goffice/canvas/goc-arc.c:436
-#| msgid "The line end x coordinate"
+#: ../goffice/canvas/goc-arc.c:438
 msgid "The arc center x coordinate"
 msgstr "Die x-Koordinate des Mittelpunkts des Kreisbogens"
 
-#: ../goffice/canvas/goc-arc.c:441
-#| msgid "y"
+#: ../goffice/canvas/goc-arc.c:443
 msgid "yc"
 msgstr "yc"
 
-#: ../goffice/canvas/goc-arc.c:442
-#| msgid "The line end y coordinate"
+#: ../goffice/canvas/goc-arc.c:444
 msgid "The arc center y coordinate"
 msgstr "Die y-Koordinate des Mittelpunkts des Kreisbogens"
 
-#: ../goffice/canvas/goc-arc.c:447
-#| msgid "x"
+#: ../goffice/canvas/goc-arc.c:449
 msgid "xr"
 msgstr "xr"
 
-#: ../goffice/canvas/goc-arc.c:448
-#| msgid "The circle radius"
+#: ../goffice/canvas/goc-arc.c:450
 msgid "The arc x radius"
 msgstr "Der x-Radius des Kreisbogens"
 
-#: ../goffice/canvas/goc-arc.c:453
-#| msgid "y"
+#: ../goffice/canvas/goc-arc.c:455
 msgid "yr"
 msgstr "yr"
 
-#: ../goffice/canvas/goc-arc.c:454
-#| msgid "The circle radius"
+#: ../goffice/canvas/goc-arc.c:456
 msgid "The arc y radius"
 msgstr "Der y-Radius des Kreisbogens"
 
-#: ../goffice/canvas/goc-arc.c:459
-#| msgid "orange"
+#: ../goffice/canvas/goc-arc.c:461
 msgid "ang1"
 msgstr "ang1"
 
-#: ../goffice/canvas/goc-arc.c:460
-#| msgid "The rectangle width"
+#: ../goffice/canvas/goc-arc.c:462
 msgid "The arc start angle"
 msgstr "Der Startwinkel des Kreisbogens"
 
-#: ../goffice/canvas/goc-arc.c:465
-#| msgid "orange"
+#: ../goffice/canvas/goc-arc.c:467
 msgid "ang2"
 msgstr "ang2"
 
-#: ../goffice/canvas/goc-arc.c:466
-#| msgid "The rectangle width"
+#: ../goffice/canvas/goc-arc.c:468
 msgid "The arc end angle"
 msgstr "Der Endwinkel des Kreisbogens"
 
-#: ../goffice/canvas/goc-arc.c:471 ../goffice/canvas/goc-ellipse.c:254
-#: ../goffice/canvas/goc-rectangle.c:330 ../goffice/canvas/goc-text.c:411
+#: ../goffice/canvas/goc-arc.c:473 ../goffice/canvas/goc-ellipse.c:263
+#: ../goffice/canvas/goc-rectangle.c:354 ../goffice/canvas/goc-text.c:411
 #: ../goffice/graph/gog-3d-box.c:166
 msgid "Rotation"
 msgstr "Drehung"
 
-#: ../goffice/canvas/goc-arc.c:472
-#| msgid "The rotation around the anchor"
+#: ../goffice/canvas/goc-arc.c:474
 msgid "The rotation around center position"
 msgstr "Die Drehung um die Mittelposition"
 
-#: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-rectangle.c:336
+#: ../goffice/canvas/goc-arc.c:479 ../goffice/canvas/goc-rectangle.c:360
 #: ../goffice/graph/gog-axis.c:2460 ../goffice/graph/gog-grid.c:116
 #: ../plugins/plot_barcol/gog-1.5d.c:332
 msgid "Type"
 msgstr "Typ"
 
-#: ../goffice/canvas/goc-arc.c:478
+#: ../goffice/canvas/goc-arc.c:480
 msgid "The type of arc: arc, chord or pie"
 msgstr "Typ des Kreisbogens: arc, chord oder pie"
 
-#: ../goffice/canvas/goc-arc.c:484 ../goffice/canvas/goc-line.c:347
+#: ../goffice/canvas/goc-arc.c:486 ../goffice/canvas/goc-line.c:347
 msgid "Start Arrow"
 msgstr "Startpfeil"
 
-#: ../goffice/canvas/goc-arc.c:485 ../goffice/canvas/goc-line.c:348
+#: ../goffice/canvas/goc-arc.c:487 ../goffice/canvas/goc-line.c:348
 msgid "Arrow for line's start"
 msgstr "Pfeil für Linienanfang"
 
-#: ../goffice/canvas/goc-arc.c:490 ../goffice/canvas/goc-line.c:353
+#: ../goffice/canvas/goc-arc.c:492 ../goffice/canvas/goc-line.c:353
 msgid "End Arrow"
 msgstr "Endpfeil"
 
-#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:354
+#: ../goffice/canvas/goc-arc.c:493 ../goffice/canvas/goc-line.c:354
 msgid "Arrow for line's end"
 msgstr "Pfeil für Linienende"
 
-#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:230
+#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:239
 #: ../goffice/canvas/goc-graph.c:412 ../goffice/canvas/goc-group.c:243
-#: ../goffice/canvas/goc-pixbuf.c:231 ../goffice/canvas/goc-rectangle.c:306
+#: ../goffice/canvas/goc-pixbuf.c:231 ../goffice/canvas/goc-rectangle.c:330
 #: ../goffice/canvas/goc-text.c:399 ../goffice/canvas/goc-widget.c:318
 #: ../goffice/utils/go-marker.c:83
 msgid "x"
@@ -586,9 +585,9 @@ msgstr "x"
 msgid "The circle center horizontal position"
 msgstr "Die horizontale Position des Kreismittelpunkts"
 
-#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:236
+#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:245
 #: ../goffice/canvas/goc-graph.c:418 ../goffice/canvas/goc-group.c:249
-#: ../goffice/canvas/goc-pixbuf.c:237 ../goffice/canvas/goc-rectangle.c:312
+#: ../goffice/canvas/goc-pixbuf.c:237 ../goffice/canvas/goc-rectangle.c:336
 #: ../goffice/canvas/goc-text.c:405 ../goffice/canvas/goc-widget.c:324
 msgid "y"
 msgstr "y"
@@ -605,39 +604,38 @@ msgstr "Radius"
 msgid "The circle radius"
 msgstr "Der Kreisradius"
 
-#: ../goffice/canvas/goc-ellipse.c:231
+#: ../goffice/canvas/goc-ellipse.c:240
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr ""
 "Die linke Position der Ellipse (oder rechte Position im linksläufigen Modus)"
 
-#: ../goffice/canvas/goc-ellipse.c:237
+#: ../goffice/canvas/goc-ellipse.c:246
 msgid "The ellipse top position"
 msgstr "Die obere Position der Ellipse"
 
-#: ../goffice/canvas/goc-ellipse.c:242 ../goffice/canvas/goc-graph.c:430
+#: ../goffice/canvas/goc-ellipse.c:251 ../goffice/canvas/goc-graph.c:430
 #: ../goffice/canvas/goc-graph.c:431 ../goffice/canvas/goc-pixbuf.c:243
-#: ../goffice/canvas/goc-rectangle.c:318 ../goffice/canvas/goc-widget.c:331
+#: ../goffice/canvas/goc-rectangle.c:342 ../goffice/canvas/goc-widget.c:331
 #: ../goffice/graph/gog-graph.c:368 ../goffice/utils/go-image.c:472
 msgid "Width"
 msgstr "Breite"
 
-#: ../goffice/canvas/goc-ellipse.c:243
+#: ../goffice/canvas/goc-ellipse.c:252
 msgid "The ellipse width"
 msgstr "Die Breite der Ellipse"
 
-#: ../goffice/canvas/goc-ellipse.c:248 ../goffice/canvas/goc-graph.c:424
+#: ../goffice/canvas/goc-ellipse.c:257 ../goffice/canvas/goc-graph.c:424
 #: ../goffice/canvas/goc-graph.c:425 ../goffice/canvas/goc-pixbuf.c:249
-#: ../goffice/canvas/goc-rectangle.c:324 ../goffice/canvas/goc-widget.c:337
+#: ../goffice/canvas/goc-rectangle.c:348 ../goffice/canvas/goc-widget.c:337
 #: ../goffice/graph/gog-graph.c:374 ../goffice/utils/go-image.c:476
 msgid "Height"
 msgstr "Höhe"
 
-#: ../goffice/canvas/goc-ellipse.c:249
+#: ../goffice/canvas/goc-ellipse.c:258
 msgid "The ellipse height"
 msgstr "Die Höhe der Ellipse"
 
-#: ../goffice/canvas/goc-ellipse.c:255 ../goffice/canvas/goc-rectangle.c:331
-#| msgid "The rotation around the anchor"
+#: ../goffice/canvas/goc-ellipse.c:264 ../goffice/canvas/goc-rectangle.c:355
 msgid "The rotation around top left position"
 msgstr "Die Drehung um die linke obere Position"
 
@@ -677,19 +675,19 @@ msgstr "Der horizontale Versatz der Gruppe"
 msgid "The group vertical offset"
 msgstr "Der vertikale Versatz der Gruppe"
 
-#: ../goffice/canvas/goc-item.c:240
+#: ../goffice/canvas/goc-item.c:256
 msgid "Canvas"
 msgstr "Zeichenfläche"
 
-#: ../goffice/canvas/goc-item.c:241
+#: ../goffice/canvas/goc-item.c:257
 msgid "The canvas object on which the item resides"
 msgstr "Das Objekt der Zeichenfläche, in welchem sich das Element befindet"
 
-#: ../goffice/canvas/goc-item.c:246 ../goffice/graph/gog-view.c:584
+#: ../goffice/canvas/goc-item.c:262 ../goffice/graph/gog-view.c:584
 msgid "Parent"
 msgstr "Vorgänger"
 
-#: ../goffice/canvas/goc-item.c:247
+#: ../goffice/canvas/goc-item.c:263
 msgid "The group in which the item resides"
 msgstr "Die Gruppe, in welcher sich das Objekt befindet"
 
@@ -749,91 +747,83 @@ msgstr "Pixbuf"
 msgid "The GdkPixbuf to display"
 msgstr "Anzuzeigendes GdkPixbuf"
 
-#: ../goffice/canvas/goc-polyline.c:226 ../goffice/canvas/goc-polygon.c:263
+#: ../goffice/canvas/goc-polyline.c:229 ../goffice/canvas/goc-polygon.c:267
 msgid "points"
 msgstr "Punkte"
 
-#: ../goffice/canvas/goc-polyline.c:226
+#: ../goffice/canvas/goc-polyline.c:229
 msgid "The polyline vertices"
 msgstr "Die Eckpunkte der Hilfskontur"
 
-#: ../goffice/canvas/goc-polyline.c:231 ../goffice/canvas/goc-polygon.c:268
+#: ../goffice/canvas/goc-polyline.c:234 ../goffice/canvas/goc-polygon.c:272
 msgid "Use spline"
 msgstr "Spline-Interpolation verwenden"
 
-#: ../goffice/canvas/goc-polyline.c:232
-#| msgid "Closed Bezier cubic spline"
+#: ../goffice/canvas/goc-polyline.c:235
 msgid "Use a Bezier cubic spline as line"
 msgstr "Kubische Spline-Bezierkurve als Linie verwenden"
 
-#: ../goffice/canvas/goc-polygon.c:263
+#: ../goffice/canvas/goc-polygon.c:267
 msgid "The polygon vertices"
 msgstr "Die Eckpunkte des Polygons"
 
-#: ../goffice/canvas/goc-polygon.c:269
-#| msgid "Closed Bezier cubic spline"
+#: ../goffice/canvas/goc-polygon.c:273
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr "Gesachlossene kubische Spline-Bezierkurve als Linie verwenden"
 
-#: ../goffice/canvas/goc-rectangle.c:307
+#: ../goffice/canvas/goc-rectangle.c:331
 msgid "The rectangle left position (or right position in RTL mode)"
 msgstr ""
-"Die linke Position des Rechtecks (oder rechte Position im linksläufigen Modus)"
+"Die linke Position des Rechtecks (oder rechte Position im linksläufigen "
+"Modus)"
 
-#: ../goffice/canvas/goc-rectangle.c:313
+#: ../goffice/canvas/goc-rectangle.c:337
 msgid "The rectangle top position"
 msgstr "Die obere Position des Rechtecks"
 
-#: ../goffice/canvas/goc-rectangle.c:319
+#: ../goffice/canvas/goc-rectangle.c:343
 msgid "The rectangle width"
 msgstr "Die Breite des Rechtecks"
 
-#: ../goffice/canvas/goc-rectangle.c:325
+#: ../goffice/canvas/goc-rectangle.c:349
 msgid "The rectangle height"
 msgstr "Die Höhe des Rechtecks"
 
-#: ../goffice/canvas/goc-rectangle.c:337
-#| msgid "The rectangle width"
+#: ../goffice/canvas/goc-rectangle.c:361
 msgid "The rectangle type"
 msgstr "Der Typ des Rechtecks"
 
-#: ../goffice/canvas/goc-rectangle.c:342
-#| msgid "x"
+#: ../goffice/canvas/goc-rectangle.c:366
 msgid "rx"
 msgstr "rx"
 
-#: ../goffice/canvas/goc-rectangle.c:343
-#, fuzzy
-#| msgid "The rectangle width"
+#: ../goffice/canvas/goc-rectangle.c:367
 msgid "The round rectangle rx"
-msgstr "Die Breite des Rechtecks"
+msgstr "rx des abgerundeten Rechtecks"
 
-#: ../goffice/canvas/goc-rectangle.c:348
-#| msgid "y"
+#: ../goffice/canvas/goc-rectangle.c:372
 msgid "ry"
 msgstr "ry"
 
-#: ../goffice/canvas/goc-rectangle.c:349
-#, fuzzy
-#| msgid "The rectangle width"
+#: ../goffice/canvas/goc-rectangle.c:373
 msgid "The round rectangle ry"
-msgstr "Die Breite des Rechtecks"
+msgstr "ry des abgerundeten Rechtecks"
 
-#: ../goffice/canvas/goc-styled-item.c:156
-#: ../goffice/graph/gog-styled-object.c:195 ../goffice/utils/go-style.c:1041
+#: ../goffice/canvas/goc-styled-item.c:161
+#: ../goffice/graph/gog-styled-object.c:199 ../goffice/utils/go-style.c:1041
 msgid "Style"
 msgstr "Stil"
 
-#: ../goffice/canvas/goc-styled-item.c:157
-#: ../goffice/graph/gog-styled-object.c:196
+#: ../goffice/canvas/goc-styled-item.c:162
+#: ../goffice/graph/gog-styled-object.c:200
 msgid "A pointer to the GOStyle object"
 msgstr "Ein Zeiger auf das GOStyle-Objekt"
 
-#: ../goffice/canvas/goc-styled-item.c:162
+#: ../goffice/canvas/goc-styled-item.c:167
 msgid "Scale line width"
 msgstr "Linienbreite skalieren"
 
-#: ../goffice/canvas/goc-styled-item.c:163
+#: ../goffice/canvas/goc-styled-item.c:168
 msgid "Whether to scale the line width when zooming"
 msgstr ""
 "Legt fest, ob bei Größenänderungen die Linienbreite skaliert werden soll"
@@ -1302,9 +1292,8 @@ msgid "MinorGrid"
 msgstr "Nebengitter"
 
 #: ../goffice/graph/gog-axis.c:2442
-#, fuzzy
 msgid "AxisLine"
-msgstr "Linie"
+msgstr "Achsenlinie"
 
 #: ../goffice/graph/gog-axis.c:2445
 msgid "Label"
@@ -1320,34 +1309,35 @@ msgstr "Achse invertieren"
 
 #: ../goffice/graph/gog-axis.c:2466
 msgid "Scale from high to low rather than low to high"
-msgstr ""
+msgstr "Lieber von fein nach grob als von grob nach fein skalieren"
 
 #: ../goffice/graph/gog-axis.c:2470
-#, fuzzy
 msgid "MapName"
-msgstr "Name"
+msgstr "KartenName"
 
 #: ../goffice/graph/gog-axis.c:2471
 msgid "The name of the map for scaling"
-msgstr ""
+msgstr "Der Name der Karte zum Skalieren"
 
 #: ../goffice/graph/gog-axis.c:2476
 msgid "Assigned XL format"
 msgstr "Zugeordnetes XL-Format"
 
 #: ../goffice/graph/gog-axis.c:2477
-msgid "The user assigned format to use for non-discrete axis labels (XL format)"
+msgid ""
+"The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
-"Das vom Benutzer zugewiesene Format zur Verwendung für die Beschriftung nicht-"
-"diskreter Achsen (XL-Format)"
+"Das vom Benutzer zugewiesene Format zur Verwendung für die Beschriftung "
+"nicht-diskreter Achsen (XL-Format)"
 
 #: ../goffice/graph/gog-axis.c:2482 ../goffice/graph/gog-axis.c:2483
 msgid "Rotation of circular axis"
 msgstr "Drehung der Kreis-Achse"
 
 #: ../goffice/graph/gog-axis.c:2490 ../goffice/graph/gog-axis.c:2491
+#, fuzzy
 msgid "Polar axis set unit"
-msgstr ""
+msgstr "Stellgröße (?) der Polarachse"
 
 #: ../goffice/graph/gog-chart.c:367 ../goffice/graph/gog-chart.c:670
 msgid "Plot area"
@@ -1394,14 +1384,12 @@ msgid "Pseudo-3D-Axis"
 msgstr "Pseudo-3D-Achse"
 
 #: ../goffice/graph/gog-chart.c:615
-#, fuzzy
 msgid "Bubble-Axis"
-msgstr "Blase"
+msgstr "Blasen-Achse"
 
 #: ../goffice/graph/gog-chart.c:619
-#, fuzzy
 msgid "Color-Axis"
-msgstr "Kreis-Achse"
+msgstr "Farb-Achse"
 
 #: ../goffice/graph/gog-chart.c:623
 msgid "Plot"
@@ -1435,7 +1423,8 @@ msgstr "Gibt an, ob die Kardinalität des Diagramms derzeit gültig ist"
 #: ../goffice/graph/gog-chart.c:671
 msgid "Position and size of plot area, in percentage of chart size"
 msgstr ""
-"Position und Größe des Darstellungsbereiches als Prozentsatz der Diagrammgröße"
+"Position und Größe des Darstellungsbereiches als Prozentsatz der "
+"Diagrammgröße"
 
 #: ../goffice/graph/gog-chart.c:676
 msgid "Manual plot area"
@@ -1481,7 +1470,7 @@ msgstr "Zeilenanzahl im Diagrammgitter"
 #: ../goffice/graph/gog-child-button.c:501
 #, c-format
 msgid "%s to %s"
-msgstr ""
+msgstr "%s nach %s"
 
 #: ../goffice/graph/gog-equation-prefs.ui.h:1
 msgid "_Compact mode"
@@ -1599,7 +1588,6 @@ msgid "Logical graph width, in points"
 msgstr "Logische Breite des Diagramms, in Punkt"
 
 #: ../goffice/graph/gog-graph.c:375
-#| msgid "Logical graph heigth, in points"
 msgid "Logical graph height, in points"
 msgstr "Logische Höhe des Diagramms, in Punkt"
 
@@ -1617,7 +1605,7 @@ msgstr "Der Darsteller für diese Ansicht"
 
 #: ../goffice/graph/gog-grid-line.c:111
 msgid "Is-minor"
-msgstr ""
+msgstr "Sind Nebengitterlinien"
 
 #: ../goffice/graph/gog-grid-line.c:112
 msgid "Are these minor grid lines"
@@ -1628,7 +1616,6 @@ msgid "Numerical type of this backplane"
 msgstr "Numerischer Typ dieser Hintergrundebene"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:1
-#| msgid "<b>Style</b>"
 msgid "<b>Sample</b>"
 msgstr "<b>Beispiel</b>"
 
@@ -1865,7 +1852,7 @@ msgstr "Kompass"
 
 #: ../goffice/graph/gog-object.c:611
 msgid "Compass auto position flags"
-msgstr ""
+msgstr "Automatische Positionierungsangaben für den Kompass"
 
 #: ../goffice/graph/gog-object.c:617
 msgid "Alignment flag"
@@ -1941,7 +1928,7 @@ msgstr "Farb-Achse:"
 
 #: ../goffice/graph/gog-plot.c:168
 msgid "Bubble axis:"
-msgstr ""
+msgstr "Blasen-Achse:"
 
 #: ../goffice/graph/gog-plot.c:232
 msgid "Axes"
@@ -1978,11 +1965,11 @@ msgstr "Bezug zur Y-Achse"
 
 #: ../goffice/graph/gog-plot.c:373
 msgid "Plot group"
-msgstr ""
+msgstr "Gruppe darstellen"
 
 #: ../goffice/graph/gog-plot.c:374
 msgid "Name of plot group if any"
-msgstr ""
+msgstr "Name der Gruppe zur Darstellung, falls vorhanden"
 
 #: ../goffice/graph/gog-plot.c:379
 msgid "Guru hints"
@@ -2013,18 +2000,16 @@ msgid "Resize plot area"
 msgstr "Größe des Zeichenbereichs ändern"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
-#| msgid "Name:"
 msgid "(_Name):"
 msgstr "(_Name):"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:2
-#, fuzzy
 msgid "High bound:"
-msgstr "Hellbraun"
+msgstr "Obere Grenze:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:3
 msgid "Low bound:"
-msgstr ""
+msgstr "Untere Grenze:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
 #: ../goffice/graph/gog-reg-curve.c:183
@@ -2053,7 +2038,7 @@ msgstr "Modell"
 
 #: ../goffice/graph/gog-renderer.c:1526
 msgid "The GogGraph this renderer displays"
-msgstr ""
+msgstr "Der GogGraph für die Darstellung"
 
 #: ../goffice/graph/gog-renderer.c:1531
 msgid "View"
@@ -2061,7 +2046,7 @@ msgstr "Ansicht"
 
 #: ../goffice/graph/gog-renderer.c:1532
 msgid "the GogView this renderer is displaying"
-msgstr ""
+msgstr "Das GogView für die Darstellung"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:1
 msgid "<b>Interpolation</b>"
@@ -2103,11 +2088,11 @@ msgstr "Ursprung"
 
 #: ../goffice/graph/gog-series.c:44
 msgid "Edge"
-msgstr ""
+msgstr "Kante"
 
 #: ../goffice/graph/gog-series.c:45
 msgid "Self"
-msgstr ""
+msgstr "Selbst"
 
 #: ../goffice/graph/gog-series.c:46
 msgid "Next series"
@@ -2131,11 +2116,11 @@ msgstr "Index des korrespondierenden Datenelements"
 
 #: ../goffice/graph/gog-series.c:560
 msgid "Derivative at first point of the clamped cubic spline."
-msgstr ""
+msgstr "Ableitung im ersten Punkt der abgeschnittenen kubischen Spline."
 
 #: ../goffice/graph/gog-series.c:564
 msgid "Derivative at last point of the clamped cubic spline."
-msgstr ""
+msgstr "Ableitung im letzten Punkt der abgeschnittenen kubischen Spline."
 
 #: ../goffice/graph/gog-series.c:629
 msgid "Point"
@@ -2151,9 +2136,8 @@ msgid "Trend line"
 msgstr "Trendkurve"
 
 #: ../goffice/graph/gog-series.c:678
-#, fuzzy
 msgid "Has-legend"
-msgstr "Legende"
+msgstr "besitzt eine Legende"
 
 #: ../goffice/graph/gog-series.c:679
 msgid "Should the series show up in legends"
@@ -4668,23 +4652,23 @@ msgstr "Kubische Spline-Interpolation mit kubischer Extrapolation"
 
 #: ../goffice/utils/go-line.c:130
 msgid "Clamped cubic spline"
-msgstr ""
+msgstr "Abgeschnittener kubischer Spline"
 
 #: ../goffice/utils/go-line.c:132
 msgid "Step at start"
-msgstr ""
+msgstr "Schritt am Start"
 
 #: ../goffice/utils/go-line.c:134
 msgid "Step at end"
-msgstr ""
+msgstr "Schritt zum Ende"
 
 #: ../goffice/utils/go-line.c:136
 msgid "Step at center"
-msgstr ""
+msgstr "Schritt in der Mitte"
 
 #: ../goffice/utils/go-line.c:138
 msgid "Step to mean"
-msgstr ""
+msgstr "Schritt zum Mittel"
 
 #: ../goffice/utils/go-locale.c:496
 msgid "TRUE"
@@ -5114,8 +5098,9 @@ msgid "In 3d"
 msgstr "In 3D"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:339
+#, fuzzy
 msgid "Placeholder to allow us to round trip pseudo 3d state"
-msgstr ""
+msgstr "Platzhalter, der … erlaubt"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 #: ../plugins/plot_barcol/gog-dropbar.c:59
@@ -5139,19 +5124,20 @@ msgstr "Fehlerbalken"
 # CHECK
 #: ../plugins/plot_barcol/gog-1.5d.c:598
 msgid "Series lines"
-msgstr "Linien der Datenreihe"
+msgstr "Verbindungslinien"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:605
 #: ../plugins/plot_distrib/gog-histogram.c:475
 msgid "Drop lines"
-msgstr ""
+msgstr "Bezugslinien"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:613
 #: ../plugins/plot_barcol/plot-types.xml.in.h:78
 msgid "Lines"
 msgstr "Linien"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:642 ../plugins/plot_radar/gog-radar.c:1253
+#: ../plugins/plot_barcol/gog-1.5d.c:642
+#: ../plugins/plot_radar/gog-radar.c:1253
 #: ../plugins/plot_radar/gog-radar.c:1379 ../plugins/plot_xy/gog-xy.c:1998
 #: ../plugins/plot_xy/gog-xy.c:2004
 msgid "GogErrorBar *"
@@ -5240,7 +5226,7 @@ msgstr "Vorgabemarkierungen"
 #: ../plugins/plot_barcol/gog-minmax.c:237
 #: ../plugins/plot_radar/gog-radar.c:230 ../plugins/plot_xy/gog-xy.c:345
 msgid "Should the default style of a series include markers"
-msgstr ""
+msgstr "Ob der Vorgabestil einer Datenreihe Markierungen enthält"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -5372,21 +5358,19 @@ msgstr "Spalte"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:70
 msgid "DropBar"
-msgstr ""
+msgstr "DropBar"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:71
-#, fuzzy
 msgid "Horizontal Drop Bars"
-msgstr "Horizontale Streifen"
+msgstr "Horizontale Bezugsbalken"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:72
 msgid "Horizontal Min Max Lines"
 msgstr "Horizontale Minimum-Maximum-Linien"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:73
-#, fuzzy
 msgid "Horizontal drop bars."
-msgstr "Horizontale Streifen"
+msgstr "Horizontale Bezugsbalken."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:74
 msgid "Horizontal min max lines with markers."
@@ -5401,10 +5385,8 @@ msgid "Line"
 msgstr "Linie"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:77
-#, fuzzy
-#| msgid "Polar plot with colored marks."
 msgid "Line plot with markers."
-msgstr "Polargraph mit farbigen Markierungen."
+msgstr "Liniendarstellung mit Markierungen."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:79
 msgid "Marked Horizontal Min Max Lines"
@@ -5412,7 +5394,7 @@ msgstr "Horizontale Minimum-Maximum-Linien mit Markierungen"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:80
 msgid "Marked Vertical Min Max Lines"
-msgstr "Markierte vertikale Minimum-Maximum-Linien"
+msgstr "Vertikale Minimum-Maximum-Linien mit Markierungen"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:81
 msgid "MinMax"
@@ -5423,16 +5405,16 @@ msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
 msgstr ""
-"In Balken angeordnete Unterkategorien als Prozentsätze der Gesamtsumme dieser "
-"Unterkategorien, gruppiert nach Hauptkategorien."
+"In Balken angeordnete Unterkategorien als Prozentsätze der Gesamtsumme "
+"dieser Unterkategorien, gruppiert nach Hauptkategorien."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:83
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
 msgstr ""
-"In Säulen angeordnete Unterkategorien als Prozentsätze der Gesamtsumme dieser "
-"Unterkategorien, gruppiert nach Hauptkategorien."
+"In Säulen angeordnete Unterkategorien als Prozentsätze der Gesamtsumme "
+"dieser Unterkategorien, gruppiert nach Hauptkategorien."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:84
 msgid "Minor categories stacked in horizontal bars grouped by major category."
@@ -5463,10 +5445,8 @@ msgid "Percentage area plot."
 msgstr "Prozentsatz-Flächengraph."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:91
-#, fuzzy
-#| msgid "Percentage line plot."
 msgid "Percentage line plot with markers."
-msgstr "Prozentsatz-Liniengraph."
+msgstr "Prozentsatz-Liniendarstellung mit Markierungen."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:92
 msgid "Stacked Areas"
@@ -5489,10 +5469,8 @@ msgid "Stacked area plot."
 msgstr "Gestapelter Flächengraph."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:97
-#, fuzzy
-#| msgid "Stacked line plot."
 msgid "Stacked line plot with markers."
-msgstr "Gestapelter Liniengraph."
+msgstr "Gestapelte Liniendarstellung mit Markierungen."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:98
 msgid "Unmarked Lines"
@@ -5507,33 +5485,28 @@ msgid "Unmarked Stacked Lines"
 msgstr "Unmarkierte, gestapelte Linien"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:101
-#| msgid "Stacked line plot."
 msgid "Unmarked line plot."
 msgstr "Unmarkierter Liniengraph."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:102
-#| msgid "Unmarked Percentage Lines"
 msgid "Unmarked percentage line plot."
 msgstr "Unmarkierter Prozentsatz-Liniengraph."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:103
-#| msgid "Unmarked Stacked Lines"
 msgid "Unmarked stacked line plot."
 msgstr "Unmarkierter gestapelter Liniengraph."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:104
-#, fuzzy
 msgid "Vertical Drop Bars"
-msgstr "Vertikale Streifen"
+msgstr "Vertikale Bezugsbalken"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:105
 msgid "Vertical Min Max Lines"
 msgstr "Vertikale Minimum-Maximum-Linien mit Markierungen"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:106
-#, fuzzy
 msgid "Vertical drop bars."
-msgstr "Vertikale Streifen"
+msgstr "Vertikale Bezugsbalken."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:107
 msgid "Vertical min max lines with markers."
@@ -5560,9 +5533,8 @@ msgid "Default 1.5d plot types"
 msgstr "1.5d-Vorgabediagrammtypen"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:5
-#, fuzzy
 msgid "Drop Bar/Col plotting engine"
-msgstr "Balken-/Säulengraph-Engine"
+msgstr "Bezugsbalken-/Säulengraph-Engine"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:6
 msgid "Line plotting engine"
@@ -5596,7 +5568,7 @@ msgstr "_Durchmesser/Breite:"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:6
 msgid "_Exclude and show outliers"
-msgstr ""
+msgstr "_Ausschließen und Ausreißer zeigen"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
 msgid "_Layout"
@@ -5611,15 +5583,15 @@ msgstr "Kasten-Graph"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:378
 msgid "Whether the box-plot should be vertical instead of horizontal"
-msgstr ""
+msgstr "Legt fest, ob der Kasten-Graph vertikal statt horizontal sein soll"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:383
 msgid "Outliers"
-msgstr "Umrandungen"
+msgstr "Ausreißer"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:384
 msgid "Whether outliers should be taken into account and displayed"
-msgstr "Legt fest, ob Umrandungen berücksichtigt und angezeigt werden sollen"
+msgstr "Legt fest, ob Ausreißer berücksichtigt und angezeigt werden sollen"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:389
 msgid "Radius ratio"
@@ -5630,8 +5602,8 @@ msgid ""
 "The ratio between the radius of the circles representing outliers and the "
 "rectangle width"
 msgstr ""
-"Das Verhältnis zwischen dem Radius der die Umrandung darstellenden Kreise und "
-"der Rechteckbreite"
+"Das Verhältnis zwischen dem Radius, dessen Kreis durch die Ausreißer "
+"festgelegt wird, und der Rechteckbreite"
 
 #. xgettext : the base for how to name histogram-plot objects
 #. * eg The 2nd histogram-plot in a chart will be called
@@ -5695,14 +5667,12 @@ msgid "Histogram."
 msgstr "Histogramm."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:5
-#, fuzzy
 msgid "Horizontal Box-Plot showing outliers."
-msgstr "Horizontale Streifen"
+msgstr "Horizontaler Kasten-Graph, der Ausreißer zeigt."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:6
-#, fuzzy
 msgid "Horizontal Box-Plot."
-msgstr "Horizontale Streifen"
+msgstr "Horizontaler Kasten-Graph."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:7
 msgid "Probability plot."
@@ -5721,14 +5691,12 @@ msgid "VBoxPlots"
 msgstr "VBoxPlots"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:12
-#, fuzzy
 msgid "Vertical Box-Plot showing outliers."
-msgstr "Kasten-Graph"
+msgstr "Vertikaler Kasten-Graph, der Ausreißer zeigt."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:13
-#, fuzzy
 msgid "Vertical Box-Plot."
-msgstr "Kasten-Graph"
+msgstr "Vertikaler Kasten-Graph."
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:1
 msgid "Box-plot plotting engine"
@@ -5751,9 +5719,9 @@ msgid "Statistics plot types"
 msgstr "Statistische Graphtypen"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:6
-#, fuzzy
 msgid "box-plots, histograms, and other distribution related plots"
-msgstr "Diagrammdarstellung : Radiale Graphen"
+msgstr ""
+"Kasten-Graphen, Histogramme und andere verteilungsbezogene Darstellungen"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
@@ -5799,11 +5767,9 @@ msgid "Separation"
 msgstr "Abtrennung"
 
 #: ../plugins/plot_pie/gog-pie.c:111
-#, fuzzy
 msgid "Amount a slice is extended as a percentage of the radius"
 msgstr ""
-"Der Vorgabeabstand, den dieses Segment zum Zentrum hat, als Prozentsatz vom "
-"Radius des Kreises."
+"Der Betrag, um den ein Segment erweitert wird, als Prozentsatz vom Radius"
 
 #: ../plugins/plot_pie/gog-pie.c:259
 msgid "PlotPie"
@@ -5822,11 +5788,10 @@ msgid "Default separation"
 msgstr "Vorgegebene Trennung"
 
 #: ../plugins/plot_pie/gog-pie.c:312 ../plugins/plot_pie/gog-pie.c:1297
-#, fuzzy
 msgid "Default amount a slice is extended as a percentage of the radius"
 msgstr ""
-"Der Vorgabeabstand, den die Segmente vom Zentrum haben, als Prozentsatz des "
-"Kreisradius."
+"Vorgegebener Betrag, um den ein Segment erweitert wird, als Prozentsatz vom "
+"Radius"
 
 #: ../plugins/plot_pie/gog-pie.c:318
 msgid "Draw 3d wedges"
@@ -5891,29 +5856,26 @@ msgid "Half Pie"
 msgstr "Halber Kreis"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:2
-#| msgid "Percentage of each contributor displayed in ring for each serie."
 msgid ""
-"Percentage of each contributor displayed as a segment of a ring with one ring "
-"for each series."
+"Percentage of each contributor displayed as a segment of a ring with one "
+"ring for each series."
 msgstr ""
 "Prozentsatz jedes einfließenden Wertes in jeweils in einem Ring pro "
 "Datenreihe angezeigt."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:3
-#| msgid ""
-#| "Percentage of each contributor displayed in ring for each serie with "
-#| "wedges of the last ring split apart."
 msgid ""
-"Percentage of each contributor displayed as a segment of a ring with one ring "
-"for each series; the wedges of the outside ring (corresponding to the last "
-"series) are split apart."
+"Percentage of each contributor displayed as a segment of a ring with one "
+"ring for each series; the wedges of the outside ring (corresponding to the "
+"last series) are split apart."
 msgstr ""
 "Prozentsatz jedes einfließenden Wertes in jeweils in einem Ring pro "
 "Datenreihe angezeigt, wobei der letzte äußere Ring (korrespondierend zur "
 "letzten Datenreihe) abgetrennt ist."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:4
-msgid "Percentage of each contributor in a half circle with wedges split apart."
+msgid ""
+"Percentage of each contributor in a half circle with wedges split apart."
 msgstr ""
 "Prozentsatz jedes einfließenden Wertes in einem Halbkreis mit abgetrennten "
 "Keilen."
@@ -5977,7 +5939,7 @@ msgstr "Vorgabefüllung"
 #: ../plugins/plot_radar/gog-radar.c:237 ../plugins/plot_xy/gog-xy.c:357
 #: ../plugins/plot_xy/gog-xy.c:784
 msgid "Should the default style of a series include fill"
-msgstr ""
+msgstr "Ob der vorgegebene Stil einer Datenreihe eine Füllung enthält"
 
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
@@ -6018,7 +5980,7 @@ msgstr "PlotColorPolar"
 
 #: ../plugins/plot_radar/gog-radar.c:629 ../plugins/plot_xy/gog-xy.c:789
 msgid "hide-outliers"
-msgstr "Umriss verbergen"
+msgstr "Ausreißer verbergen"
 
 #: ../plugins/plot_radar/gog-radar.c:630 ../plugins/plot_xy/gog-xy.c:790
 msgid "Hide data outside of the color axis bounds"
@@ -6037,15 +5999,13 @@ msgid "Radial error bars"
 msgstr "Radiale Fehlerbalken"
 
 #: ../plugins/plot_radar/gog-radar.c:1227
-#, fuzzy
 msgid "Radial drop lines"
-msgstr "Vertikale Streifen"
+msgstr "Radiale Bezugslinien"
 
 #: ../plugins/plot_radar/gog-radar.c:1335
 #: ../plugins/plot_radar/gog-radar.c:1378
-#, fuzzy
 msgid "Angular error bars"
-msgstr "X-Fehlerbalken"
+msgstr "Abgewinkelte Fehlerbalken"
 
 #: ../plugins/plot_radar/gog-color-polar-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-color-prefs.ui.h:1
@@ -6062,23 +6022,23 @@ msgstr "Flächenradar-Graph."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:3
 msgid "Colored Polar"
-msgstr ""
+msgstr "Farbiges Polardiagramm"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:4
 msgid "Dotted Radar"
-msgstr "Gepunktetes Radar"
+msgstr "Gepunktetes Radardiagramm"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:5
 msgid "Polar"
-msgstr "Polar"
+msgstr "Polardiagramm"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:6
 msgid "Polar plot with colored marks."
-msgstr "Polargraph mit farbigen Markierungen."
+msgstr "Polardiagramm mit farbigen Markierungen."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:7
 msgid "Polar plot."
-msgstr "Polar-Graph."
+msgstr "Polardiagramm."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:8
 msgid "Radar"
@@ -6086,11 +6046,11 @@ msgstr "Radar"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:9
 msgid "Radar plot with dots."
-msgstr "Radargraph mit Punkten."
+msgstr "Radardiagramm mit Punkten."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:10
 msgid "Radar plot."
-msgstr "Radargraph."
+msgstr "Radardiagramm."
 
 #: ../plugins/plot_radar/plugin.xml.in.h:1
 msgid "Charting : Polar/Radar"
@@ -6102,7 +6062,7 @@ msgstr "Vorgabe-Radargraphtypen"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:3
 msgid "Polar and Radar plots"
-msgstr "Polar- und Radargraphen"
+msgstr "Polar- und Radardiagramm"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:4
 msgid "Polar plotting engine"
@@ -6249,14 +6209,12 @@ msgid "Surface plotting engine"
 msgstr "Oberflächengraph-Engine"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:6
-#, fuzzy
 msgid "XYZ contour plotting engine"
-msgstr "Konturgraph-Engine"
+msgstr "XYZ Konturdarstellungs-Engine"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:7
-#, fuzzy
 msgid "XYZ surface plotting engine"
-msgstr "Flächengraph-Engine"
+msgstr "XYZ Oberflächendarstellungs-Engine"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:2
 #, no-c-format
@@ -6312,7 +6270,7 @@ msgstr "Linien per Vorgabe"
 
 #: ../plugins/plot_xy/gog-xy.c:351 ../plugins/plot_xy/gog-xy.c:778
 msgid "Should the default style of a series include lines"
-msgstr ""
+msgstr "Ob der vorgegebene Stil einer Datenreihe Linien einschließt"
 
 #: ../plugins/plot_xy/gog-xy.c:356 ../plugins/plot_xy/gog-xy.c:783
 msgid "Has fill by default"
@@ -6379,19 +6337,16 @@ msgid "Y error bars"
 msgstr "Y-Fehlerbalken"
 
 #: ../plugins/plot_xy/gog-xy.c:1942
-#, fuzzy
 msgid "Horizontal drop lines"
-msgstr "Horizontale Streifen"
+msgstr "Horizontale Bezugslinien"
 
 #: ../plugins/plot_xy/gog-xy.c:1950
-#, fuzzy
 msgid "Vertical drop lines"
-msgstr "Vertikale Streifen"
+msgstr "Vertikale Bezugslinien"
 
 #: ../plugins/plot_xy/gog-xy.c:2009
-#, fuzzy
 msgid "Invalid as zero"
-msgstr "Ungültige Daten."
+msgstr "Als Null ungültig"
 
 #: ../plugins/plot_xy/gog-xy.c:2010
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
@@ -6400,22 +6355,27 @@ msgstr ""
 
 #: ../plugins/plot_xy/gog-xy.c:2015
 msgid "Clamp at start"
-msgstr ""
+msgstr "Am Anfang abschneiden"
 
 #: ../plugins/plot_xy/gog-xy.c:2016
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
+"Steigung am Anfang der interpolierten Kurve bei Verwendung von Interpolation "
+"mit abgeschnittenen Splines"
 
 #: ../plugins/plot_xy/gog-xy.c:2021
 msgid "Clamp at end"
-msgstr ""
+msgstr "Am Ende abschneiden"
 
 #: ../plugins/plot_xy/gog-xy.c:2022
 msgid ""
-"Slope at end of the interpolated curve when using clamped spline interpolation"
+"Slope at end of the interpolated curve when using clamped spline "
+"interpolation"
 msgstr ""
+"Steigung am Ende der interpolierten Kurve bei Verwendung von Interpolation "
+"mit abgeschnittenen Splines"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
 msgid "ColoredXY"
@@ -6439,9 +6399,8 @@ msgid "Linearly interpolate between multi-dimensional points."
 msgstr "Linear zwischen mehrdimensionalen Punkten interpolieren."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:7
-#, fuzzy
 msgid "Map"
-msgstr "Mai"
+msgstr "Karte"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:8
 msgid "Markers at each point."
@@ -6452,26 +6411,27 @@ msgid "Multi-dimensional points with circle at each point."
 msgstr "Mehrdimensionale Punkte mit einem Kreis an jedem Punkt."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:10
-msgid "Multi-dimensional points with data dependent color marker at each point."
+msgid ""
+"Multi-dimensional points with data dependent color marker at each point."
 msgstr ""
 "Mehrdimensionale Punkte mit einer datenabhängigen Farbmarkierung an jedem "
 "Punkt."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:11
 msgid "Stepped curve using the first y value."
-msgstr ""
+msgstr "Stufenkurve, die den ersten y-Wert verwendet."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:12
 msgid "Stepped curve using the last y value."
-msgstr ""
+msgstr "Stufenkurve, die den letzten y-Wert verwendet."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:13
 msgid "Stepped curve using the mean y value."
-msgstr ""
+msgstr "Stufenkurve, die den mittleren y-Wert verwendet."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:14
 msgid "Stepped curve using the nearest y value."
-msgstr ""
+msgstr "Stufenkurve, die den nächsten y-Wert verwendet."
 
 #. really 3_1
 #: ../plugins/plot_xy/plot-types.xml.in.h:16
@@ -6492,24 +6452,23 @@ msgstr "XY-Kurven"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:20
 msgid "XY Steps Center"
-msgstr ""
+msgstr "XY Stufe Mitte"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:21
 msgid "XY Steps End"
-msgstr ""
+msgstr "XY Stufe Ende"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:22
 msgid "XY Steps Mean"
-msgstr ""
+msgstr "XY Stufe Durchschnitt"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:23
 msgid "XY Steps Start"
-msgstr ""
+msgstr "XY Stufe Start"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:1
-#, fuzzy
 msgid "2D colored scatter plotting engine"
-msgstr "2D-Streugraph-Engine"
+msgstr "2D-Farbstreugraph-Engine"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:2
 msgid "2D plots"
@@ -6659,27 +6618,25 @@ msgstr "Potenziell"
 msgid "Power regression curve"
 msgstr "Potenzielle Regressionskurve"
 
+# Als Kürzel für »Logarithmische nichtlineare Regressionskurve«, siehe http://de.wikipedia.org/wiki/Methode_der_kleinsten_Quadrate
 #. xgettext : the base for how to name logarithmic fits
 #. * eg The 2nd fit for a series will be called
 #. * 	Log fit2
 #: ../plugins/reg_logfit/gog-logfit.c:140
 msgid "Log fit"
-msgstr ""
+msgstr "LogReg"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:1
-#, fuzzy
 msgid "Logarithmic fitting curve engine"
-msgstr "Logarithmische Regressionskurven-Engine"
+msgstr "Logarithmische nichtlineare Regressionskurven-Engine"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:2
-#, fuzzy
 msgid "Logarithmic fitting curves"
-msgstr "Logarithmische Abbildung"
+msgstr "Logarithmische nichtlineare Regressionskurven"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:3
-#, fuzzy
 msgid "Logarithmic fitting curves types"
-msgstr "Logarithmische Regressionskurven-Typen"
+msgstr "Logarithmische nichtlineare Regressionskurven-Typen"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:4
 msgid "Regression curve : logfit"
@@ -6690,9 +6647,8 @@ msgid "Log Fit (y=a+b*ln(sign*(x-c)))"
 msgstr "Log Fit (y=a+b*ln(sign*(x-c)))"
 
 #: ../plugins/reg_logfit/reg-types.xml.in.h:2
-#, fuzzy
 msgid "Logarithmic fitting curve"
-msgstr "Logarithmische Abbildung"
+msgstr "Logarithmische nichtlineare Regressionskurve"
 
 #: ../plugins/smoothing/gog-moving-avg.c:104
 msgid "Number of values from which to calculate an average"
@@ -6740,8 +6696,12 @@ msgstr "Anzahl der Interpolationsschritte"
 #: ../plugins/smoothing/gog-exp-smooth.c:73
 msgid ""
 "Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
-"If no value or a negative (or nul) value is provided, the default will be used"
+"If no value or a negative (or nul) value is provided, the default will be "
+"used"
 msgstr ""
+"Vorgegebene Periode ist 10 * (xmax - xmin)/(nvalues - 1)\n"
+"Wenn kein Wert oder ein negativer Wert (oder Null) angegeben wird, so wird "
+"die Vorgabe verwendet"
 
 #. xgettext : the base for how to name exponentially smoothed curves objects
 #. * eg The 2nd one for a series will be called
@@ -6860,7 +6820,8 @@ msgstr "Geglättete Kurve des gleitenden Mittelwerts"
 #~ msgstr "Winkel"
 
 #~ msgid "Click \"Regenerate Charts\" if you change the data."
-#~ msgstr "Klicken Sie auf »Diagramme erneuern«, falls Sie Daten geändert haben."
+#~ msgstr ""
+#~ "Klicken Sie auf »Diagramme erneuern«, falls Sie Daten geändert haben."
 
 #, fuzzy
 #~ msgid "Indexs"
@@ -7345,8 +7306,8 @@ msgstr "Geglättete Kurve des gleitenden Mittelwerts"
 #~ "dieser Unterkategorien, gruppiert nach Hauptkategorien."
 
 #~ msgid ""
-#~ "Minor categories stacked as percentages of the minor total, in 3D vertical "
-#~ "bars, grouped by major category."
+#~ "Minor categories stacked as percentages of the minor total, in 3D "
+#~ "vertical bars, grouped by major category."
 #~ msgstr ""
 #~ "In 3D-Balken angeordnete Unterkategorien als Prozentsätze der Gesamtsumme "
 #~ "dieser Unterkategorien, gruppiert nach Hauptkategorien."
@@ -7357,7 +7318,8 @@ msgstr "Geglättete Kurve des gleitenden Mittelwerts"
 #~ "In 3D-Balken angeordnete Unterkategorien, gruppiert nach Hauptkategorien."
 
 #~ msgid ""
-#~ "Minor categories stacked in vertical 3D columns, grouped by major category."
+#~ "Minor categories stacked in vertical 3D columns, grouped by major "
+#~ "category."
 #~ msgstr ""
 #~ "In Säulen angeordnete Unterkategorien, gruppiert nach Hauptkategorien."
 
@@ -7377,7 +7339,8 @@ msgstr "Geglättete Kurve des gleitenden Mittelwerts"
 #~ msgstr "Geteilte 3D-Torte"
 
 #~ msgid ""
-#~ "Major totals as percentages with each wedge subdivided into secondary pies."
+#~ "Major totals as percentages with each wedge subdivided into secondary "
+#~ "pies."
 #~ msgstr ""
 #~ "Hauptkategorien als Prozentsätze der Gesamtsumme, wobei jeder Keil in "
 #~ "untergeordnete Kreise unterteilt ist."
