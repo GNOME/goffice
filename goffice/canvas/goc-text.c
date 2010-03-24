@@ -220,16 +220,16 @@ goc_text_finalize (GObject *gobject)
 }
 
 static void
-goc_text_update_bounds (GocItem *item)
+goc_text_prepare_draw (GocItem *item, cairo_t *cr)
 {
 	GocText *text = GOC_TEXT (item);
 	PangoRectangle rect;
-	if (!text->layout)
-		return;
+	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
+	
 	pango_layout_get_extents (text->layout, NULL, &rect);
 	text->w = (double) rect.width / PANGO_SCALE;
 	text->h = (double) rect.height / PANGO_SCALE;
-	item->x0 = text->x;
+	item->x0 = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? text->x + text->w: text->x;
 	item->y0 = text->y;
 	/* adjust horizontally */
 	switch (text->anchor) {
@@ -269,30 +269,57 @@ goc_text_update_bounds (GocItem *item)
 	default: /* should not occur */
 		break;
 	}
-	item->x1 = item->x0 + text->w;
-	item->y1 = item->y0 + text->h;
-	/* FIXME: take rotation into account */
+	cairo_save (cr);
+	cairo_translate (cr, item->x0, item->y0);
+	cairo_rotate (cr, text->rotation * sign);
+	if (text->clip_height > 0. && text->clip_width > 0.) {
+		cairo_rectangle (cr, 0., 0., text->clip_width, text->clip_height);
+	} else {
+		cairo_rectangle (cr, 0., 0., text->w, text->h);
+	}
+	cairo_restore (cr);
+}
+
+static void
+goc_text_update_bounds (GocItem *item)
+{
+	GocText *text = GOC_TEXT (item);
+	cairo_surface_t *surface;
+	cairo_t *cr;
+
+	if (!text->layout)
+		return;
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+	goc_text_prepare_draw (item, cr);
+	cairo_stroke_extents (cr, &item->x0, &item->y0, &item->x1, &item->y1);
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
 }
 
 static double
 goc_text_distance (GocItem *item, double x, double y, GocItem **near_item)
 {
-	/* FIXME: take rotation into account */
-	double dx, dy;
-	if (x < item->x0)
-		dx = item->x0 - x;
-	else if (x > item->x1)
-		dx = item->x1 - x;
-	else
-		dx = 0.;
-	if (y < item->y0)
-		dy = item->y0 - y;
-	else if (y > item->y1)
-		dy = item->y1 - y;
-	else
-		dy = 0.;
+	GocText *text = GOC_TEXT (item);
+	cairo_surface_t *surface;
+	cairo_t *cr;
+	double res = 20;
+	
 	*near_item = item;
-	return hypot (dx, dy);
+	
+	if (!text->layout)
+		return res;
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cr = cairo_create (surface);
+	goc_text_prepare_draw (item, cr);
+	if (cairo_in_fill (cr, x, y) || cairo_in_stroke (cr, x, y))
+		res = 0;
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+
+	return res;
 }
 
 static void
@@ -300,6 +327,8 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 {
 	GocText *text = GOC_TEXT (item);
 	double x = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? text->x + text->w: text->x, y = text->y;
+	double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1.: 1.;
+	
 	PangoLayout *pl;
 	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 	if (!text->text)
@@ -313,7 +342,6 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	}
 	if (text->attributes)
 		pango_layout_set_attributes (pl, text->attributes);
-	/* FIXME: take rotation into account */
 	/* adjust horizontally */
 	switch (text->anchor) {
 	case GTK_ANCHOR_CENTER:
@@ -355,6 +383,7 @@ goc_text_draw (GocItem const *item, cairo_t *cr)
 	cairo_save (cr);
 	cairo_set_source_rgb (cr, 0., 0., 0.);
 	goc_group_cairo_transform (item->parent, cr, x, y);
+	cairo_rotate (cr, text->rotation * sign);
 	cairo_move_to (cr, 0., 0.);
 	if (text->clip_height > 0. && text->clip_width > 0.) {
 		cairo_rectangle (cr, 0., 0., text->clip_width, text->clip_height);

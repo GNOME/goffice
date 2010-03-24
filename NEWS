@@ -6,6 +6,7 @@ Jean:
 Valek:
 	* Fix distance calculation for arc, ellipse, polygon, polyline and
 	rectangle
+	* Support rotation for text
 
 --------------------------------------------------------------------------
 goffice 0.8.1:
