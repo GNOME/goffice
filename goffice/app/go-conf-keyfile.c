@@ -17,6 +17,28 @@ struct _GOConfNode {
 
 static GHashTable *key_files = NULL;
 
+static GHashTable *key_monitor_by_id = NULL;
+static GHashTable *key_monitors_by_path = NULL;
+static guint key_monitors_id = 0;
+
+static void
+signal_monitors (const char *real_key)
+{
+	GSList *cls;
+
+	for (cls = g_hash_table_lookup (key_monitors_by_path, real_key);
+	     cls;
+	     cls = cls->next) {
+		GOConfClosure *cl = cls->data;
+#if 0
+		g_printerr ("Signal for %s to %p\n",
+			    cl->real_key, cl->monitor);
+#endif
+		cl->monitor (cl->node, cl->real_key, cl->data);
+	}
+}
+
+
 static gchar *get_rc_filename (char const *root_name)
 {
 	const gchar *home = g_get_home_dir ();
@@ -116,10 +138,8 @@ go_conf_set_bool (GOConfNode *node, gchar const *key, gboolean val)
 {
 	gchar *real_key = go_conf_get_real_key (node, key);
 
-	if (node == NULL)
-		return;
-
 	g_key_file_set_boolean (node->key_file, BOOL_GROUP, real_key, val);
+	signal_monitors (real_key);
 	g_free (real_key);
 }
 
@@ -128,10 +148,8 @@ go_conf_set_int (GOConfNode *node, gchar const *key, gint val)
 {
 	gchar *real_key = go_conf_get_real_key (node, key);
 
-	if (node == NULL)
-		return;
-
 	g_key_file_set_integer (node->key_file, INT_GROUP, real_key, val);
+	signal_monitors (real_key);
 	g_free (real_key);
 }
 
@@ -141,11 +159,9 @@ go_conf_set_double (GOConfNode *node, gchar const *key, gdouble val)
 	gchar *real_key = go_conf_get_real_key (node, key);
 	gchar str[G_ASCII_DTOSTR_BUF_SIZE];
 
-	if (node == NULL)
-		return;
-
 	g_ascii_dtostr (str, sizeof (str), val);
 	g_key_file_set_value (node->key_file, DOUBLE_GROUP, real_key, str);
+	signal_monitors (real_key);
 	g_free (real_key);
 }
 
@@ -154,10 +170,8 @@ go_conf_set_string (GOConfNode *node, gchar const *key, char const *str)
 {
 	gchar *real_key = go_conf_get_real_key (node, key);
 
-	if (node == NULL)
-		return;
-
 	g_key_file_set_string (node->key_file, STRING_GROUP, real_key, str);
+	signal_monitors (real_key);
 	g_free (real_key);
 }
 
@@ -168,7 +182,8 @@ go_conf_set_str_list (GOConfNode *node, gchar const *key, GSList *list)
 	gchar **strs = NULL;
 	int i, ns;
 
-	if (node == NULL || list == NULL)
+	/* eh? */
+	if (list == NULL)
 		return;
 
 	real_key = go_conf_get_real_key (node, key);
@@ -183,6 +198,7 @@ go_conf_set_str_list (GOConfNode *node, gchar const *key, GSList *list)
 
 	g_key_file_set_string_list (node->key_file, STRLIST_GROUP, real_key,
 				    (gchar const **const) strs, ns);
+	signal_monitors (real_key);
 	g_free (real_key);
 
 	for (i = 0; i < ns; i++)
@@ -492,11 +508,74 @@ go_conf_sync (GOConfNode *node)
 void
 go_conf_remove_monitor (guint monitor_id)
 {
+	GOConfClosure *cl = key_monitor_by_id
+		? g_hash_table_lookup (key_monitor_by_id,
+				       GUINT_TO_POINTER (monitor_id))
+		: NULL;
+	GSList *cls;
+
+	g_return_if_fail (cl != NULL);
+
+	g_hash_table_remove (key_monitor_by_id,
+			     GUINT_TO_POINTER (monitor_id));
+	if (g_hash_table_size (key_monitor_by_id) == 0) {
+		g_hash_table_destroy (key_monitor_by_id);
+		key_monitor_by_id = NULL;
+	}
+
+	cls = g_hash_table_lookup (key_monitors_by_path, cl->real_key);
+	cls = g_slist_remove (cls, cl);
+	if (cls)
+		g_hash_table_replace (key_monitors_by_path,
+				      g_strdup (cl->real_key),
+				      cls);
+	else
+		g_hash_table_remove (key_monitors_by_path, cl->real_key);
+	go_conf_closure_free (cl);
+
+	if (g_hash_table_size (key_monitors_by_path) == 0) {
+		g_hash_table_destroy (key_monitors_by_path);
+		key_monitors_by_path = NULL;
+	}
 }
 
 guint
 go_conf_add_monitor (GOConfNode *node, gchar const *key,
 		     GOConfMonitorFunc monitor, gpointer data)
 {
-	return 1;
+	GOConfClosure *cl;
+	GSList *cls;
+	guint res;
+
+	g_return_val_if_fail (node || key, 0);
+	g_return_val_if_fail (monitor != NULL, 0);
+
+	res = ++key_monitors_id;
+
+	cl = g_new (GOConfClosure, 1);
+	cl->monitor = monitor;
+	cl->node = node;
+	cl->data = data;
+	cl->key = g_strdup (key);
+	cl->real_key = go_conf_get_real_key (node, key);
+
+	if (!key_monitor_by_id)
+		key_monitor_by_id =
+			g_hash_table_new (g_direct_hash, g_direct_equal);
+	g_hash_table_insert (key_monitor_by_id,
+			     GUINT_TO_POINTER (res),
+			     cl);
+
+	if (!key_monitors_by_path)
+		key_monitors_by_path =
+			g_hash_table_new_full
+			(g_str_hash, g_str_equal, g_free, NULL);
+
+	cls = g_hash_table_lookup (key_monitors_by_path, cl->real_key);
+	cls = g_slist_prepend (cls, cl);
+	g_hash_table_replace (key_monitors_by_path,
+			      g_strdup (cl->real_key),
+			      cls);
+
+	return res;
 }

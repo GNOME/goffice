@@ -3,10 +3,13 @@ goffice 0.8.2:
 Jean:
 	* Support fd:// URIs on win32. [#608422]
 
+Morten:
+	* Implement conf notification in keyfile case.  [#613523]
+
 Valek:
-	* Fix distance calculation for arc, ellipse, polygon, polyline and
-	rectangle
-	* Support rotation for text
+	* Fix distance calculation for arc, ellipse, polygon, polyline,
+	  and rectangle.
+	* Support rotation for text on canvas.
 
 --------------------------------------------------------------------------
 goffice 0.8.1:

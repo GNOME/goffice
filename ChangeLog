@@ -1,3 +1,8 @@
+2010-03-25  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-conf-keyfile.c (go_conf_add_monitor,
+	go_conf_remove_monitor): Implement for intra-process changes.
+
 2010-03-25  Valek Filippov  <frob@gnome.org>
 
 	* goffice/canvas/goc-polygon.c: support for fill rule.

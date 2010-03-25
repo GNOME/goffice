@@ -36,6 +36,22 @@
 #define d(code)
 #endif
 
+typedef struct {
+	GOConfMonitorFunc monitor;
+	GOConfNode *node;
+	gpointer data;
+	char *key;
+	char *real_key;
+} GOConfClosure;
+
+static void
+go_conf_closure_free (GOConfClosure *cls)
+{
+	g_free (cls->key);
+	g_free (cls->real_key);
+	g_free (cls);
+}
+
 #ifdef GOFFICE_WITH_GCONF
 #include "go-conf-gconf.c"
 #elif defined G_OS_WIN32

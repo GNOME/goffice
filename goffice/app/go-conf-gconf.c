@@ -432,17 +432,13 @@ go_conf_remove_monitor (guint monitor_id)
 		GPOINTER_TO_INT (monitor_id));
 }
 
-typedef struct {
-	GOConfMonitorFunc monitor;
-	GOConfNode *node;
-	gpointer data;
-} GOConfClosure;
-
 static void
-cb_key_changed (GConfClient *client, guint cnxn_id,
-		GConfEntry *entry, GOConfClosure *cls)
+cb_key_changed (GConfClient *client,
+		G_GNUC_UNUSED guint cnxn_id,
+		G_GNUC_UNUSED GConfEntry *entry,
+		GOConfClosure *cls)
 {
-	cls->monitor (cls->node, gconf_entry_get_key (entry), cls->data);
+	cls->monitor (cls->node, cls->real_key, cls->data);
 }
 
 guint
@@ -451,7 +447,6 @@ go_conf_add_monitor (GOConfNode *node, gchar const *key,
 {
 	guint ret;
 	GOConfClosure *cls;
-	gchar *real_key;
 
 	g_return_val_if_fail (node || key, 0);
 	g_return_val_if_fail (monitor != NULL, 0);
@@ -460,11 +455,12 @@ go_conf_add_monitor (GOConfNode *node, gchar const *key,
 	cls->monitor = monitor;
 	cls->node = node;
 	cls->data = data;
-	real_key = go_conf_get_real_key (node, key);
+	cls->key = g_strdup (key);
+	cls->real_key = go_conf_get_real_key (node, key);
 	ret = gconf_client_notify_add
-		(gconf_client, real_key, (GConfClientNotifyFunc)cb_key_changed,
-		 cls, g_free, NULL);
-	g_free (real_key);
+		(gconf_client,
+		 cls->real_key, (GConfClientNotifyFunc)cb_key_changed,
+		 cls, (GDestroyNotify)go_conf_closure_free, NULL);
 
 	return ret;
 }
