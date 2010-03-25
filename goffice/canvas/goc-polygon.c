@@ -34,8 +34,13 @@
 enum {
 	POLYGON_PROP_0,
 	POLYGON_PROP_POINTS,
-	POLYGON_PROP_SPLINE
+	POLYGON_PROP_SPLINE,
+	POLYGON_PROP_FILL_RULE,
 };
+
+typedef struct {
+	gboolean fill_rule;
+} GocPolygonPriv;
 
 static GocStyledItemClass *parent_class;
 
@@ -52,6 +57,7 @@ goc_polygon_set_property (GObject *gobject, guint param_id,
 			  GValue const *value, GParamSpec *pspec)
 {
 	GocPolygon *polygon = GOC_POLYGON (gobject);
+	GocPolygonPriv *priv = g_object_get_data (gobject, "polygon-private");
 
 	switch (param_id) {
 	case POLYGON_PROP_POINTS: {
@@ -69,6 +75,9 @@ goc_polygon_set_property (GObject *gobject, guint param_id,
 	}
 	case POLYGON_PROP_SPLINE:
 		polygon->use_spline = g_value_get_boolean (value);
+		break;
+	case POLYGON_PROP_FILL_RULE:
+		priv->fill_rule = g_value_get_boolean (value);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
@@ -93,6 +102,7 @@ goc_polygon_get_property (GObject *gobject, guint param_id,
 				    GValue *value, GParamSpec *pspec)
 {
 	GocPolygon *polygon = GOC_POLYGON (gobject);
+	GocPolygonPriv *priv = g_object_get_data (gobject, "polygon-private");
 
 	switch (param_id) {
 	case POLYGON_PROP_POINTS: {
@@ -107,6 +117,9 @@ goc_polygon_get_property (GObject *gobject, guint param_id,
 	case POLYGON_PROP_SPLINE:
 		g_value_set_boolean (value, polygon->use_spline);
 		break;
+	case POLYGON_PROP_FILL_RULE:
+		g_value_set_boolean (value, priv->fill_rule);
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
@@ -117,11 +130,13 @@ static gboolean
 goc_polygon_prepare_path (GocItem const *item, cairo_t *cr, gboolean flag)
 {
 	GocPolygon *polygon = GOC_POLYGON (item);
+	GocPolygonPriv *priv = g_object_get_data (G_OBJECT (polygon), "polygon-private");
 	unsigned i;
 
 	if (polygon->nb_points == 0)
 		return FALSE;
-
+		
+	cairo_set_fill_rule (cr, priv->fill_rule);
 	if (1 == flag) {
 		goc_group_cairo_transform (item->parent, cr, polygon->points[0].x, polygon->points[0].y);
 		cairo_move_to (cr, 0., 0.);
@@ -273,12 +288,25 @@ goc_polygon_class_init (GocItemClass *item_klass)
 				      _("Use a Bezier closed cubic spline as contour"),
 				      FALSE,
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (obj_klass, POLYGON_PROP_FILL_RULE,
+		g_param_spec_boolean ("fill-rule",
+				      _("Fill rule"),
+				      _("Set fill rule to winding or even/odd"),
+				      FALSE,
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	item_klass->update_bounds = goc_polygon_update_bounds;
 	item_klass->distance = goc_polygon_distance;
 	item_klass->draw = goc_polygon_draw;
 }
 
+static void
+goc_polygon_init (GocPolygon *polygon)
+{
+	GocPolygonPriv *priv = g_new0 (GocPolygonPriv, 1);
+	g_object_set_data_full (G_OBJECT (polygon), "polygon-private", priv, g_free);
+}
+
 GSF_CLASS (GocPolygon, goc_polygon,
-	   goc_polygon_class_init, NULL,
+	   goc_polygon_class_init, goc_polygon_init,
 	   GOC_TYPE_STYLED_ITEM)
