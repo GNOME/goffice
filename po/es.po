@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
-"POT-Creation-Date: 2010-03-06 20:30+0000\n"
-"PO-Revision-Date: 2010-03-07 16:07+0100\n"
+"POT-Creation-Date: 2010-03-26 11:42+0000\n"
+"PO-Revision-Date: 2010-03-26 19:51+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -463,94 +463,94 @@ msgstr "ejec-lazo-principal"
 msgid "Execute main loop iteration"
 msgstr "Ejecutar la iteración del lazo principal"
 
-#: ../goffice/canvas/goc-arc.c:435
+#: ../goffice/canvas/goc-arc.c:437
 msgid "xc"
 msgstr "xc"
 
-#: ../goffice/canvas/goc-arc.c:436
+#: ../goffice/canvas/goc-arc.c:438
 msgid "The arc center x coordinate"
 msgstr "La coordenada x del centro del arco"
 
-#: ../goffice/canvas/goc-arc.c:441
+#: ../goffice/canvas/goc-arc.c:443
 msgid "yc"
 msgstr "yc"
 
-#: ../goffice/canvas/goc-arc.c:442
+#: ../goffice/canvas/goc-arc.c:444
 msgid "The arc center y coordinate"
 msgstr "La coordenada y del centro del arco"
 
-#: ../goffice/canvas/goc-arc.c:447
+#: ../goffice/canvas/goc-arc.c:449
 msgid "xr"
 msgstr "xr"
 
-#: ../goffice/canvas/goc-arc.c:448
+#: ../goffice/canvas/goc-arc.c:450
 msgid "The arc x radius"
 msgstr "El radio x del arco"
 
-#: ../goffice/canvas/goc-arc.c:453
+#: ../goffice/canvas/goc-arc.c:455
 msgid "yr"
 msgstr "yr"
 
-#: ../goffice/canvas/goc-arc.c:454
+#: ../goffice/canvas/goc-arc.c:456
 msgid "The arc y radius"
 msgstr "El radio y del arco"
 
-#: ../goffice/canvas/goc-arc.c:459
+#: ../goffice/canvas/goc-arc.c:461
 msgid "ang1"
 msgstr "ang1"
 
-#: ../goffice/canvas/goc-arc.c:460
+#: ../goffice/canvas/goc-arc.c:462
 msgid "The arc start angle"
 msgstr "El ángulo de inicio del arco"
 
-#: ../goffice/canvas/goc-arc.c:465
+#: ../goffice/canvas/goc-arc.c:467
 msgid "ang2"
 msgstr "ang2"
 
-#: ../goffice/canvas/goc-arc.c:466
+#: ../goffice/canvas/goc-arc.c:468
 msgid "The arc end angle"
 msgstr "El ángulo de final del arco"
 
-#: ../goffice/canvas/goc-arc.c:471 ../goffice/canvas/goc-ellipse.c:254
-#: ../goffice/canvas/goc-rectangle.c:330 ../goffice/canvas/goc-text.c:411
+#: ../goffice/canvas/goc-arc.c:473 ../goffice/canvas/goc-ellipse.c:263
+#: ../goffice/canvas/goc-rectangle.c:354 ../goffice/canvas/goc-text.c:440
 #: ../goffice/graph/gog-3d-box.c:166
 msgid "Rotation"
 msgstr "Rotación"
 
-#: ../goffice/canvas/goc-arc.c:472
+#: ../goffice/canvas/goc-arc.c:474
 msgid "The rotation around center position"
 msgstr "La rotación alrededor de la posición del centro"
 
-#: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-rectangle.c:336
+#: ../goffice/canvas/goc-arc.c:479 ../goffice/canvas/goc-rectangle.c:360
 #: ../goffice/graph/gog-axis.c:2460 ../goffice/graph/gog-grid.c:116
 #: ../plugins/plot_barcol/gog-1.5d.c:332
 msgid "Type"
 msgstr "Tipo"
 
-#: ../goffice/canvas/goc-arc.c:478
+#: ../goffice/canvas/goc-arc.c:480
 msgid "The type of arc: arc, chord or pie"
 msgstr "El tipo de arco: arco, cuerda o tarta"
 
-#: ../goffice/canvas/goc-arc.c:484 ../goffice/canvas/goc-line.c:347
+#: ../goffice/canvas/goc-arc.c:486 ../goffice/canvas/goc-line.c:347
 msgid "Start Arrow"
 msgstr "Inicio de la flecha"
 
-#: ../goffice/canvas/goc-arc.c:485 ../goffice/canvas/goc-line.c:348
+#: ../goffice/canvas/goc-arc.c:487 ../goffice/canvas/goc-line.c:348
 msgid "Arrow for line's start"
 msgstr "Flecha para el inicio de la línea"
 
-#: ../goffice/canvas/goc-arc.c:490 ../goffice/canvas/goc-line.c:353
+#: ../goffice/canvas/goc-arc.c:492 ../goffice/canvas/goc-line.c:353
 msgid "End Arrow"
 msgstr "Final de la flecha"
 
-#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:354
+#: ../goffice/canvas/goc-arc.c:493 ../goffice/canvas/goc-line.c:354
 msgid "Arrow for line's end"
 msgstr "Flecha para el final de la línea"
 
-#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:230
+#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:239
 #: ../goffice/canvas/goc-graph.c:412 ../goffice/canvas/goc-group.c:243
-#: ../goffice/canvas/goc-pixbuf.c:231 ../goffice/canvas/goc-rectangle.c:306
-#: ../goffice/canvas/goc-text.c:399 ../goffice/canvas/goc-widget.c:318
+#: ../goffice/canvas/goc-pixbuf.c:231 ../goffice/canvas/goc-rectangle.c:330
+#: ../goffice/canvas/goc-text.c:428 ../goffice/canvas/goc-widget.c:318
 #: ../goffice/utils/go-marker.c:83
 msgid "x"
 msgstr "x"
@@ -559,10 +559,10 @@ msgstr "x"
 msgid "The circle center horizontal position"
 msgstr "La posición horizontal del centro del círculo"
 
-#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:236
+#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:245
 #: ../goffice/canvas/goc-graph.c:418 ../goffice/canvas/goc-group.c:249
-#: ../goffice/canvas/goc-pixbuf.c:237 ../goffice/canvas/goc-rectangle.c:312
-#: ../goffice/canvas/goc-text.c:405 ../goffice/canvas/goc-widget.c:324
+#: ../goffice/canvas/goc-pixbuf.c:237 ../goffice/canvas/goc-rectangle.c:336
+#: ../goffice/canvas/goc-text.c:434 ../goffice/canvas/goc-widget.c:324
 msgid "y"
 msgstr "y"
 
@@ -578,38 +578,37 @@ msgstr "Radio"
 msgid "The circle radius"
 msgstr "El radio del círculo"
 
-#: ../goffice/canvas/goc-ellipse.c:231
+#: ../goffice/canvas/goc-ellipse.c:240
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "La posición izquierda de la elipse (o posición derecha en modo I-->D)"
 
-#: ../goffice/canvas/goc-ellipse.c:237
+#: ../goffice/canvas/goc-ellipse.c:246
 msgid "The ellipse top position"
 msgstr "La posición superior de la elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:242 ../goffice/canvas/goc-graph.c:430
+#: ../goffice/canvas/goc-ellipse.c:251 ../goffice/canvas/goc-graph.c:430
 #: ../goffice/canvas/goc-graph.c:431 ../goffice/canvas/goc-pixbuf.c:243
-#: ../goffice/canvas/goc-rectangle.c:318 ../goffice/canvas/goc-widget.c:331
+#: ../goffice/canvas/goc-rectangle.c:342 ../goffice/canvas/goc-widget.c:331
 #: ../goffice/graph/gog-graph.c:368 ../goffice/utils/go-image.c:472
 msgid "Width"
 msgstr "Anchura"
 
-#: ../goffice/canvas/goc-ellipse.c:243
+#: ../goffice/canvas/goc-ellipse.c:252
 msgid "The ellipse width"
 msgstr "La anchura de la elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:248 ../goffice/canvas/goc-graph.c:424
+#: ../goffice/canvas/goc-ellipse.c:257 ../goffice/canvas/goc-graph.c:424
 #: ../goffice/canvas/goc-graph.c:425 ../goffice/canvas/goc-pixbuf.c:249
-#: ../goffice/canvas/goc-rectangle.c:324 ../goffice/canvas/goc-widget.c:337
+#: ../goffice/canvas/goc-rectangle.c:348 ../goffice/canvas/goc-widget.c:337
 #: ../goffice/graph/gog-graph.c:374 ../goffice/utils/go-image.c:476
 msgid "Height"
 msgstr "Altura"
 
-#: ../goffice/canvas/goc-ellipse.c:249
+#: ../goffice/canvas/goc-ellipse.c:258
 msgid "The ellipse height"
 msgstr "La altura de la elipse"
 
-#: ../goffice/canvas/goc-ellipse.c:255 ../goffice/canvas/goc-rectangle.c:331
-#| msgid "The rotation around center position"
+#: ../goffice/canvas/goc-ellipse.c:264 ../goffice/canvas/goc-rectangle.c:355
 msgid "The rotation around top left position"
 msgstr "La rotación alrededor de la posición superior izquierda"
 
@@ -649,19 +648,19 @@ msgstr "El desplazamiento horizontal del grupo"
 msgid "The group vertical offset"
 msgstr "El desplazamiento vertical del grupo"
 
-#: ../goffice/canvas/goc-item.c:240
+#: ../goffice/canvas/goc-item.c:256
 msgid "Canvas"
 msgstr "Lienzo"
 
-#: ../goffice/canvas/goc-item.c:241
+#: ../goffice/canvas/goc-item.c:257
 msgid "The canvas object on which the item resides"
 msgstr "El objeto del lienzo en el que reside el elemento"
 
-#: ../goffice/canvas/goc-item.c:246 ../goffice/graph/gog-view.c:584
+#: ../goffice/canvas/goc-item.c:262 ../goffice/graph/gog-view.c:584
 msgid "Parent"
 msgstr "Padre"
 
-#: ../goffice/canvas/goc-item.c:247
+#: ../goffice/canvas/goc-item.c:263
 msgid "The group in which the item resides"
 msgstr "El grupo en el que reside el elemento"
 
@@ -721,156 +720,176 @@ msgstr "Pixbuf"
 msgid "The GdkPixbuf to display"
 msgstr "El GdkPixbuf que mostrar"
 
-#: ../goffice/canvas/goc-polyline.c:226 ../goffice/canvas/goc-polygon.c:263
+#: ../goffice/canvas/goc-polyline.c:229 ../goffice/canvas/goc-polygon.c:345
 msgid "points"
 msgstr "puntos"
 
-#: ../goffice/canvas/goc-polyline.c:226
+#: ../goffice/canvas/goc-polyline.c:229
 msgid "The polyline vertices"
 msgstr "Los vértices de la polilínea"
 
-#: ../goffice/canvas/goc-polyline.c:231 ../goffice/canvas/goc-polygon.c:268
+#: ../goffice/canvas/goc-polyline.c:234 ../goffice/canvas/goc-polygon.c:350
 msgid "Use spline"
 msgstr "Usar splines"
 
-#: ../goffice/canvas/goc-polyline.c:232
+#: ../goffice/canvas/goc-polyline.c:235
 msgid "Use a Bezier cubic spline as line"
 msgstr "Usar el splin cúbico de Beizer como línea"
 
-#: ../goffice/canvas/goc-polygon.c:263
+#: ../goffice/canvas/goc-polygon.c:345
 msgid "The polygon vertices"
 msgstr "Los vértices del polígono"
 
-#: ../goffice/canvas/goc-polygon.c:269
+#: ../goffice/canvas/goc-polygon.c:351
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr "Usar un splin cúbica cerrada de Beizer como contorno"
 
-#: ../goffice/canvas/goc-rectangle.c:307
+#: ../goffice/canvas/goc-polygon.c:356
+#| msgid "Fill type"
+msgid "Fill rule"
+msgstr "Regla de rellenado"
+
+#: ../goffice/canvas/goc-polygon.c:357
+msgid "Set fill rule to winding or even/odd"
+msgstr "Establecer la regla de rellenado a índice o par/impar"
+
+#: ../goffice/canvas/goc-polygon.c:361
+#| msgid "Size:"
+msgid "sizes"
+msgstr "tamaños"
+
+#: ../goffice/canvas/goc-polygon.c:362
+msgid ""
+"If set, the polygon will be split as several polygons according to the given "
+"sizes. Each size must be at least 3. Values following an invalid value will "
+"be discarded. Setting the \"point\" property will reset the sizes."
+msgstr ""
+"Si está activado, el polígono se partirá como en varios polígonos de acuerdo "
+"con los tamaños dados. Cada tamaño debe ser de al menos 3. Se descartarán "
+"los valores que sigan un valor no válido. Configurar la propiedad «punto» "
+"reiniciará los tamaños."
+
+#: ../goffice/canvas/goc-rectangle.c:331
 msgid "The rectangle left position (or right position in RTL mode)"
 msgstr ""
 "La posición izquierda del rectángulo (o posición derecha en modo D-->I)"
 
-#: ../goffice/canvas/goc-rectangle.c:313
+#: ../goffice/canvas/goc-rectangle.c:337
 msgid "The rectangle top position"
 msgstr "La posición superior del rectángulo"
 
-#: ../goffice/canvas/goc-rectangle.c:319
+#: ../goffice/canvas/goc-rectangle.c:343
 msgid "The rectangle width"
 msgstr "La anchura del rectángulo"
 
-#: ../goffice/canvas/goc-rectangle.c:325
+#: ../goffice/canvas/goc-rectangle.c:349
 msgid "The rectangle height"
 msgstr "La altura del rectángulo"
 
-#: ../goffice/canvas/goc-rectangle.c:337
-#| msgid "The rectangle width"
+#: ../goffice/canvas/goc-rectangle.c:361
 msgid "The rectangle type"
 msgstr "El tipo de rectángulo"
 
-#: ../goffice/canvas/goc-rectangle.c:342
-#| msgid "x"
+#: ../goffice/canvas/goc-rectangle.c:366
 msgid "rx"
 msgstr "rx"
 
-#: ../goffice/canvas/goc-rectangle.c:343
-#| msgid "The rectangle width"
+#: ../goffice/canvas/goc-rectangle.c:367
 msgid "The round rectangle rx"
 msgstr "La redondez rx del rectángulo"
 
-#: ../goffice/canvas/goc-rectangle.c:348
-#| msgid "y"
+#: ../goffice/canvas/goc-rectangle.c:372
 msgid "ry"
 msgstr "ry"
 
-#: ../goffice/canvas/goc-rectangle.c:349
-#| msgid "The rectangle width"
+#: ../goffice/canvas/goc-rectangle.c:373
 msgid "The round rectangle ry"
 msgstr "La redondez ry del rectángulo"
 
-#: ../goffice/canvas/goc-styled-item.c:156
-#: ../goffice/graph/gog-styled-object.c:195 ../goffice/utils/go-style.c:1041
+#: ../goffice/canvas/goc-styled-item.c:161
+#: ../goffice/graph/gog-styled-object.c:199 ../goffice/utils/go-style.c:1041
 msgid "Style"
 msgstr "Estilo"
 
-#: ../goffice/canvas/goc-styled-item.c:157
-#: ../goffice/graph/gog-styled-object.c:196
+#: ../goffice/canvas/goc-styled-item.c:162
+#: ../goffice/graph/gog-styled-object.c:200
 msgid "A pointer to the GOStyle object"
 msgstr "Un puntero al objeto GOStyle"
 
-#: ../goffice/canvas/goc-styled-item.c:162
+#: ../goffice/canvas/goc-styled-item.c:167
 msgid "Scale line width"
 msgstr "Escalar la anchura de línea"
 
-#: ../goffice/canvas/goc-styled-item.c:163
+#: ../goffice/canvas/goc-styled-item.c:168
 msgid "Whether to scale the line width when zooming"
 msgstr "Indica si se debe escalar la anchura de la línea al ampliar"
 
-#: ../goffice/canvas/goc-text.c:400
+#: ../goffice/canvas/goc-text.c:429
 msgid "The text horizontal position"
 msgstr "La posición horizontal del texto"
 
-#: ../goffice/canvas/goc-text.c:406
+#: ../goffice/canvas/goc-text.c:435
 msgid "The text position"
 msgstr "La posición del texto"
 
-#: ../goffice/canvas/goc-text.c:412
+#: ../goffice/canvas/goc-text.c:441
 msgid "The rotation around the anchor"
 msgstr "La rotación acerca del anclaje"
 
-#: ../goffice/canvas/goc-text.c:417 ../goffice/graph/gog-object.c:628
+#: ../goffice/canvas/goc-text.c:446 ../goffice/graph/gog-object.c:628
 msgid "Anchor"
 msgstr "Anclaje"
 
-#: ../goffice/canvas/goc-text.c:418
+#: ../goffice/canvas/goc-text.c:447
 msgid "The anchor point for the text"
 msgstr "El punto de anclaje para el texto"
 
-#: ../goffice/canvas/goc-text.c:423 ../goffice/gtk/go-format-sel.c:70
+#: ../goffice/canvas/goc-text.c:452 ../goffice/gtk/go-format-sel.c:70
 #: ../goffice/gtk/go-rotation-sel.c:136 ../goffice/utils/go-style.c:907
 msgid "Text"
 msgstr "Texto"
 
-#: ../goffice/canvas/goc-text.c:424
+#: ../goffice/canvas/goc-text.c:453
 msgid "The text to display"
 msgstr "El texto para mostrar"
 
-#: ../goffice/canvas/goc-text.c:427
+#: ../goffice/canvas/goc-text.c:456
 msgid "Attributes"
 msgstr "Atributos"
 
-#: ../goffice/canvas/goc-text.c:427
+#: ../goffice/canvas/goc-text.c:456
 msgid "The attributes list as a PangoAttrList"
 msgstr "La lista de atributos como una PangoAttrList"
 
-#: ../goffice/canvas/goc-text.c:432
+#: ../goffice/canvas/goc-text.c:461
 msgid "Clip"
 msgstr "Recorte"
 
-#: ../goffice/canvas/goc-text.c:433
+#: ../goffice/canvas/goc-text.c:462
 msgid "Whether to clip or not"
 msgstr "Indica si se debe recortar o no"
 
-#: ../goffice/canvas/goc-text.c:438
+#: ../goffice/canvas/goc-text.c:467
 msgid "Clip width"
 msgstr "Anchura del recorte"
 
-#: ../goffice/canvas/goc-text.c:439
+#: ../goffice/canvas/goc-text.c:468
 msgid "Clip width for the text"
 msgstr "Anchura del recorte para el texto"
 
-#: ../goffice/canvas/goc-text.c:444
+#: ../goffice/canvas/goc-text.c:473
 msgid "Clip height"
 msgstr "Altura del recorte"
 
-#: ../goffice/canvas/goc-text.c:445
+#: ../goffice/canvas/goc-text.c:474
 msgid "Clip height for the text"
 msgstr "Altura del recorte para el texto"
 
-#: ../goffice/canvas/goc-text.c:450
+#: ../goffice/canvas/goc-text.c:479
 msgid "Wrap width"
 msgstr "Ajustar anchura"
 
-#: ../goffice/canvas/goc-text.c:451
+#: ../goffice/canvas/goc-text.c:480
 msgid "Wrap width for the text"
 msgstr "Ajustar anchura para el texto"
 
