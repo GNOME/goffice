@@ -1,3 +1,8 @@
+2010-03-26  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-conf-keyfile.c (go_conf_set_str_list): Handle
+	empty list.
+
 2010-03-26  Valek Filippov  <frob@gnome.org>
 
 	* goffice/canvas/goc-polygon.c (goc_polygon_prepare_draw): use polygon

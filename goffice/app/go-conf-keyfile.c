@@ -182,13 +182,11 @@ go_conf_set_str_list (GOConfNode *node, gchar const *key, GSList *list)
 	gchar **strs = NULL;
 	int i, ns;
 
-	/* eh? */
-	if (list == NULL)
-		return;
-
 	real_key = go_conf_get_real_key (node, key);
 	ns = g_slist_length (list);
-	strs = g_new (gchar *, ns);
+
+	/* +1 to ensure we don't get a NULL */
+	strs = g_new (gchar *, ns + 1);
 
 	for (i = 0; i < ns; i++) {
 		const gchar *lstr = list->data;
