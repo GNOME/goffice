@@ -173,7 +173,8 @@ goc_polygon_prepare_path (GocItem const *item, cairo_t *cr, gboolean flag)
 {
 	GocPolygon *polygon = GOC_POLYGON (item);
 	GocPolygonPriv *priv = g_object_get_data (G_OBJECT (polygon), "polygon-private");
-	unsigned i;
+	unsigned snum;
+	int i, j;
 
 	if (polygon->nb_points == 0)
 		return FALSE;
@@ -194,10 +195,30 @@ goc_polygon_prepare_path (GocItem const *item, cairo_t *cr, gboolean flag)
 		cairo_restore (cr);
 	} else {
 		double sign = (goc_canvas_get_direction (item->canvas) == GOC_DIRECTION_RTL)? -1: 1;
-		for (i = 1; i < polygon->nb_points; i++)
+		if (priv->nb_sizes > 0) {
+			snum = 0;
+			for (j = 0; j < (int) priv->nb_sizes; j++) {
+				cairo_move_to (cr, (polygon->points[snum].x - polygon->points[0].x * flag) * sign,
+					polygon->points[snum].y - polygon->points[0].y * flag);
+				for (i = 1; i < priv->sizes[j]; i++)
+					cairo_line_to (cr, (polygon->points[snum + i].x - polygon->points[0].x * flag) * sign,
+						polygon->points[snum + i].y - polygon->points[0].y * flag);
+				cairo_close_path (cr);
+				snum += priv->sizes[j];
+			}
+			cairo_move_to (cr, (polygon->points[snum].x - polygon->points[0].x * flag) * sign,
+						polygon->points[snum].y - polygon->points[0].y * flag);
+			for (i = snum + 1; i < (int) polygon->nb_points; i++)
+				cairo_line_to (cr, (polygon->points[i].x - polygon->points[0].x * flag) * sign,
+						polygon->points[i].y - polygon->points[0].y * flag);
+			cairo_close_path (cr);
+			
+		} else {
+		    for (i = 1; i < (int) polygon->nb_points; i++)
 			cairo_line_to (cr, (polygon->points[i].x - polygon->points[0].x * flag) * sign,
 				polygon->points[i].y - polygon->points[0].y * flag);
-		cairo_close_path (cr);
+		    cairo_close_path (cr);
+		}
 	}
 	
 	return TRUE;
@@ -340,7 +361,7 @@ goc_polygon_class_init (GocItemClass *item_klass)
                  g_param_spec_boxed ("sizes", _("sizes"),
 				     _("If set, the polygon will be split as several polygons according to the given sizes. "
 				         "Each size must be at least 3. Values following an invalid value will be discarded. "
-				         "Setting the \"points\" property will reset the sizes."),
+				         "Setting the \"point\" property will reset the sizes."),
 				     GOC_TYPE_INT_ARRAY,
 				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
 

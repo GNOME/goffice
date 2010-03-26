@@ -116,7 +116,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 	GocGroup	*group;
 	GOStyle		*style;
 	GOArrow		*arr;
-	guint		i;
+	guint		i,j;
 	int		cmd = -1;
 	
 	/* check for "comment" */
@@ -143,8 +143,10 @@ parse_line (GocCanvas *canvas, gchar *entry)
 			cmd = 6;
 		} else if (g_ascii_strcasecmp (v[0], "POLYG") == 0) {
 			cmd = 7;
-		} else if (g_ascii_strcasecmp (v[0], "RRECT") == 0) {
+		} else if (g_ascii_strcasecmp (v[0], "PPOLYG") == 0) {
 			cmd = 8;
+		} else if (g_ascii_strcasecmp (v[0], "RRECT") == 0) {
+			cmd = 9;
 		} else if (g_ascii_strcasecmp (v[0], "STROKE") == 0) {
 			cmd = 20;
 		} else if (g_ascii_strcasecmp (v[0], "FILL") == 0) {
@@ -212,10 +214,25 @@ parse_line (GocCanvas *canvas, gchar *entry)
 			if (cmd == 6)
 				item = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_POLYLINE, "points", points, NULL);
 			else
-				item = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_POLYGON, "points", points, NULL);
+				item = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_POLYGON, "points", points, "fill-rule", 0, NULL);
 		}
 		break;
-	case 8: /* RRECT */
+	case 8: /* PPOLYG num_of_poly num_size1 num_size2 ... num_sizeN-1 points  */
+		if (g_strv_length(v) > 2)
+			if (atoi(v[1]) < 2)
+				break;
+			GocIntArray *array = goc_int_array_new (atoi(v[1]));
+			for (j = 0; j < (guint) atoi(v[1]); j++)
+				array->vals[j] = atoi(v[j + 2]);
+			j = atoi(v[1]);
+			GocPoints *points = goc_points_new ((g_strv_length(v) - j - 2) / 2);
+			for (i=0; i < (g_strv_length (v) - j - 2) / 2; i++) {
+				points->points[i].x = atoi (v[i * 2 + 1 + j + 1]);
+				points->points[i].y = atoi (v[i * 2 + 2 + j + 1]);
+			}
+			item = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_POLYGON, "points", points, "sizes", array, NULL);
+		break;
+	case 9: /* RRECT */
 			if (g_strv_length (v) > 8) {
 				item = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_RECTANGLE,
 					"x", (double) atoi (v[1]), "y", (double) atoi (v[2]), "width", (double) atoi (v[3]), "height", (double) atoi (v[4]),
@@ -248,6 +265,8 @@ parse_line (GocCanvas *canvas, gchar *entry)
 			style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (item)));
 			if (g_ascii_strcasecmp (v[2], "NONE") == 0) {
 				style->fill.type = GO_STYLE_FILL_NONE;
+			} else if (g_ascii_strcasecmp (v[2], "WIND") == 0) {
+				goc_item_set ( item, "fill-rule", atoi(v[3]), NULL);
 			} else if (g_strv_length (v) > 5) {
 				style->fill.type = GO_STYLE_FILL_PATTERN;
 				style-> fill.pattern.back = GO_COLOR_FROM_RGBA (atoi (v[2]), atoi (v[3]), atoi (v[4]), atoi (v[5]));
@@ -352,7 +371,7 @@ main (int argc, char *argv[])
 
 
 	widget = gtk_entry_new ();
-	gtk_entry_set_max_length (GTK_ENTRY (widget), 50);
+	gtk_entry_set_max_length (GTK_ENTRY (widget), 80);
 	g_signal_connect_swapped (G_OBJECT (widget), "activate", G_CALLBACK (enter_callback), canvas);
 
 	gtk_box_pack_end (GTK_BOX (box), widget, FALSE, FALSE, 0);
