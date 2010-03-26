@@ -106,3 +106,88 @@ goc_points_get_type (void)
 
     return type_points;
 }
+
+
+/**
+ * GocIntArray:
+ * @n: the size of the array.
+ * @vals: The embedded values.
+ *
+ * A boxed type used to hold an array of integers.
+ * Since: 0.8.2
+ **/
+
+/**
+ * goc_int_array_new:
+ * @n: the number of integers in the array.
+ *
+ * Creates a new #GocIntArray instances with @n values initialized to 0.
+ * The values can be changed using direct access:
+ *
+ * <programlisting>
+ *      GocIntArray array = goc_int_array_new (2);
+ *      array->vals[0] = my_first_int;
+ *      array->vals[1] = my_second_int;
+ * </programlisting>
+ *
+ * Returns: the newly created #GocIntArray with an initial references count of 1.
+ * Since: 0.8.2
+ **/
+
+GocIntArray *
+goc_int_array_new (unsigned n)
+{
+	GocIntArray *array = g_new (GocIntArray, 1);
+	array->n = n;
+	array->refs = 1;
+	array->vals = g_new0 (int, n);
+	return array;
+}
+
+/**
+ * goc_int_array_ref :
+ * @array: #GocIntArray
+ *
+ * Increases the references count of @array by 1.
+ * Returns: the referenced #GocIntArray.
+ * Since: 0.8.2
+ **/
+GocIntArray *
+goc_int_array_ref (GocIntArray *array)
+{
+	array->refs++;
+	return array;
+}
+
+/**
+ * goc_int_array_unref:
+ * @array: #GocIntArray
+ *
+ * Decreases the references count of @array by 1, and destroys it if the
+ * references count becomes 0.
+ * Since: 0.8.2
+ **/
+void
+goc_int_array_unref (GocIntArray *array)
+{
+	array->refs--;
+	if (array->refs == 0) {
+		g_free (array->vals);
+		array->vals = NULL;
+		g_free (array);
+	}
+}
+
+GType
+goc_int_array_get_type (void)
+{
+    static GType type_int_array = 0;
+
+    if (!type_int_array)
+	type_int_array = g_boxed_type_register_static
+	    ("GocIntArray",
+	     (GBoxedCopyFunc) goc_int_array_ref,
+	     (GBoxedFreeFunc) goc_int_array_unref);
+
+    return type_int_array;
+}

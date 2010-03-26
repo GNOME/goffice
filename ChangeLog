@@ -1,3 +1,14 @@
+2010-03-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/goffice-0.8-sections.txt: new entries.
+	* goffice/canvas/goc-polygon.c (goc_polygon_priv_free),
+	(goc_polygon_set_property), (goc_polygon_get_property),
+	(goc_polygon_class_init), (goc_polygon_init): implement polygon splitting.
+	* goffice/canvas/goc-utils.c (goc_int_array_new),
+	(goc_int_array_ref), (goc_int_array_unref),
+	(goc_int_array_get_type): ditto.
+	* goffice/canvas/goc-utils.h: ditto.
+
 2010-03-25  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-conf-keyfile.c (go_conf_add_monitor,

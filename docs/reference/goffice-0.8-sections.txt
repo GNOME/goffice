@@ -3121,9 +3121,16 @@ GocPoints
 goc_points_new
 goc_points_ref
 goc_points_unref
+GocIntArray
+goc_int_array_new
+goc_int_array_ref
+goc_int_array_unref
+
 <SUBSECTION Standard>
 goc_points_get_type
 GOC_TYPE_POINTS
+goc_int_array_get_type
+GOC_TYPE_INT_ARRAY
 </SECTION>
 
 ###############################################################################

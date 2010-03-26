@@ -36,11 +36,21 @@ enum {
 	POLYGON_PROP_POINTS,
 	POLYGON_PROP_SPLINE,
 	POLYGON_PROP_FILL_RULE,
+	POLYGON_PROP_SIZES
 };
 
 typedef struct {
 	gboolean fill_rule;
+	unsigned nb_sizes;
+	int *sizes;
 } GocPolygonPriv;
+
+static void goc_polygon_priv_free (gpointer data)
+{
+	GocPolygonPriv *priv = (GocPolygonPriv *) data;
+	g_free (priv->sizes);
+	g_free (priv);
+}
 
 static GocStyledItemClass *parent_class;
 
@@ -71,6 +81,10 @@ goc_polygon_set_property (GObject *gobject, guint param_id,
 				polygon->points[i] = points->points[i];
 		} else
 			polygon->points = NULL;
+		/* reset sizes */
+		g_free (priv->sizes);
+		priv->sizes = NULL;
+		priv->nb_sizes = 0;
 		break;
 	}
 	case POLYGON_PROP_SPLINE:
@@ -79,6 +93,25 @@ goc_polygon_set_property (GObject *gobject, guint param_id,
 	case POLYGON_PROP_FILL_RULE:
 		priv->fill_rule = g_value_get_boolean (value);
 		break;
+	case POLYGON_PROP_SIZES: {
+		unsigned i, avail = polygon->nb_points - 3;
+		GocIntArray *array = (GocIntArray *) g_value_get_boxed (value);
+		g_free (priv->sizes);
+		priv->sizes = NULL;
+		priv->nb_sizes = 0;
+		for (i = 0; i < array->n; i++) {
+			if (array->vals[i] < 3 || array->vals[i] > (int) avail)
+				break;
+			avail -= array->vals[i];
+			priv->nb_sizes++;
+		}
+		if (priv->nb_sizes > 0) {
+			priv->sizes = g_new (int, priv->nb_sizes);
+			for (i = 0; i < priv->nb_sizes; i++)
+				priv->sizes[i] = array->vals[i];
+		}
+		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
@@ -120,6 +153,15 @@ goc_polygon_get_property (GObject *gobject, guint param_id,
 	case POLYGON_PROP_FILL_RULE:
 		g_value_set_boolean (value, priv->fill_rule);
 		break;
+	case POLYGON_PROP_SIZES: {
+		unsigned i;
+		GocIntArray *array = goc_int_array_new (priv->nb_sizes);
+		for (i = 0; i < array->n; i++)
+			array->vals[i] = priv->sizes[i];
+		g_value_set_boxed (value, array);
+		goc_int_array_unref (array);
+		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
 		return; /* NOTE : RETURN */
@@ -294,6 +336,13 @@ goc_polygon_class_init (GocItemClass *item_klass)
 				      _("Set fill rule to winding or even/odd"),
 				      FALSE,
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
+        g_object_class_install_property (obj_klass, POLYGON_PROP_SIZES,
+                 g_param_spec_boxed ("sizes", _("sizes"),
+				     _("If set, the polygon will be split as several polygons according to the given sizes. "
+				         "Each size must be at least 3. Values following an invalid value will be discarded. "
+				         "Setting the \"points\" property will reset the sizes."),
+				     GOC_TYPE_INT_ARRAY,
+				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	item_klass->update_bounds = goc_polygon_update_bounds;
 	item_klass->distance = goc_polygon_distance;
@@ -304,7 +353,7 @@ static void
 goc_polygon_init (GocPolygon *polygon)
 {
 	GocPolygonPriv *priv = g_new0 (GocPolygonPriv, 1);
-	g_object_set_data_full (G_OBJECT (polygon), "polygon-private", priv, g_free);
+	g_object_set_data_full (G_OBJECT (polygon), "polygon-private", priv, goc_polygon_priv_free);
 }
 
 GSF_CLASS (GocPolygon, goc_polygon,

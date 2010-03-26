@@ -39,4 +39,19 @@ GocPoints       *goc_points_new (unsigned n);
 GocPoints	*goc_points_ref (GocPoints *points);
 void		 goc_points_unref (GocPoints *points);
 
+typedef struct {
+	/*< private >*/
+	unsigned refs;
+	/*< public >*/
+	unsigned n;
+	int *vals;
+} GocIntArray;
+
+GType goc_int_array_get_type (void);
+#define GOC_TYPE_INT_ARRAY goc_int_array_get_type ()
+
+GocIntArray     *goc_int_array_new (unsigned n);
+GocIntArray     *goc_int_array_ref (GocIntArray *array);
+void		 goc_int_array_unref (GocIntArray *array);
+
 #endif  /* GOC_UTILS_H */
