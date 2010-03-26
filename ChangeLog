@@ -6,7 +6,7 @@
 2010-03-26  Valek Filippov  <frob@gnome.org>
 
 	* goffice/canvas/goc-polygon.c (goc_polygon_prepare_draw): use polygon
-	splitting to draw polypolygones.
+	splitting to draw polypolygons.
 
 2010-03-26  Jean Brefort  <jean.brefort@normalesup.org>
 
