@@ -10,6 +10,7 @@ Valek:
 	* Fix distance calculation for arc, ellipse, polygon, polyline,
 	  and rectangle.
 	* Support rotation for text on canvas.
+	* Add PolyPolygon
 
 --------------------------------------------------------------------------
 goffice 0.8.1:
