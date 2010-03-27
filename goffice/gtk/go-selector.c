@@ -229,10 +229,10 @@ go_selector_popup (GOSelector *selector)
 
 	priv = selector->priv;
 
-	if (!gtk_widget_is_realized (selector))
+	if (!gtk_widget_get_realized (GTK_WIDGET (selector)))
 		return;
 
-	if (gtk_widget_is_mapped (priv->palette))
+	if (gtk_widget_get_mapped (GTK_WIDGET (priv->palette)))
 		return;
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button), TRUE);

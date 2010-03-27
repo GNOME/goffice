@@ -210,7 +210,7 @@ goc_item_dispose (GObject *object)
 			item->canvas->last_item = NULL;
 		if (item->canvas->grabbed_item == item)
 			item->canvas->grabbed_item = NULL;
-		if (gtk_widget_is_realized (item->canvas)) {
+		if (gtk_widget_get_realized (GTK_WIDGET (item->canvas))) {
 			item->cached_bounds = TRUE; /* avoids a call to update_bounds */
 			goc_item_invalidate (item);
 		}
@@ -451,7 +451,7 @@ goc_item_invalidate (GocItem *item)
 	if (!parent)
 		return;
 
-	if (!gtk_widget_is_realized (item->canvas))
+	if (!gtk_widget_get_realized (GTK_WIDGET (item->canvas)))
 		return;
 
 	if (!item->cached_bounds)

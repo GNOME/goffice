@@ -94,12 +94,12 @@
 #       define gtk_widget_has_focus(w) GTK_WIDGET_HAS_FOCUS (w)
 #endif
 
-#ifndef HAVE_GTK_WIDGET_IS_MAPPED
-#       define gtk_widget_is_mapped(w) GTK_WIDGET_MAPPED (w)
+#ifndef HAVE_GTK_WIDGET_GET_MAPPED
+#       define gtk_widget_get_mapped(w) GTK_WIDGET_MAPPED (w)
 #endif
 
-#ifndef HAVE_GTK_WIDGET_IS_REALIZED
-#       define gtk_widget_is_realized(w) GTK_WIDGET_REALIZED (w)
+#ifndef HAVE_GTK_WIDGET_GET_REALIZED
+#       define gtk_widget_get_realized(w) GTK_WIDGET_REALIZED (w)
 #endif
 
 #ifndef HAVE_GTK_WIDGET_GET_VISIBLE

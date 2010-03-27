@@ -1,3 +1,16 @@
+2010-03-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: fixed gtk compatibility macro names.
+	* goffice/canvas/goc-canvas.c (goc_canvas_invalidate): ditto.
+	* goffice/canvas/goc-item.c (goc_item_dispose),
+	(goc_item_invalidate): ditto.
+	* goffice/graph/gog-child-button.c (gog_child_button_popup): ditto.
+	* goffice/gtk/go-font-sel.c (select_row): ditto.
+	* goffice/gtk/go-gtk-compat.h: ditto.
+	* goffice/gtk/go-selector.c (go_selector_popup): ditto.
+	* goffice/gtk/goffice-gtk.c (cb_activate_default),
+	(cb_parent_mapped), (go_gtk_window_set_transient): ditto.
+
 2010-03-26  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-conf-keyfile.c (go_conf_set_str_list): Handle

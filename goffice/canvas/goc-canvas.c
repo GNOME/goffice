@@ -425,7 +425,7 @@ goc_canvas_get_pixels_per_unit (GocCanvas *canvas)
 void
 goc_canvas_invalidate (GocCanvas *canvas, double x0, double y0, double x1, double y1)
 {
-	if (!gtk_widget_is_realized (canvas))
+	if (!gtk_widget_get_realized (GTK_WIDGET (canvas)))
 		return;
 	x0 = (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
 	y0 = (y0 - canvas->scroll_y1) * canvas->pixels_per_unit;

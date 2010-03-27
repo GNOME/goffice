@@ -271,7 +271,7 @@ static void
 cb_activate_default (GtkWindow *window)
 {
 	GtkWidget *w = gtk_window_get_default_widget (window);
-	if (w && gtk_widget_is_sensitive (w))
+	if (w && gtk_widget_get_sensitive (w))
 		gtk_widget_activate (w);
 }
 
@@ -338,7 +338,7 @@ go_pango_measure_string (PangoContext *context, PangoFontDescription const *font
 static void
 cb_parent_mapped (GtkWidget *parent, GtkWindow *window)
 {
-	if (gtk_widget_is_mapped (window)) {
+	if (gtk_widget_get_mapped (GTK_WIDGET (window))) {
 		gtk_window_present (window);
 		g_signal_handlers_disconnect_by_func (G_OBJECT (parent),
 			G_CALLBACK (cb_parent_mapped), window);
@@ -373,7 +373,7 @@ go_gtk_window_set_transient (GtkWindow *toplevel, GtkWindow *window)
 
 	gtk_window_set_position (window, position);
 
-	if (!gtk_widget_is_mapped (toplevel))
+	if (!gtk_widget_get_mapped (GTK_WIDGET (toplevel)))
 		g_signal_connect_after (G_OBJECT (toplevel),
 			"map",
 			G_CALLBACK (cb_parent_mapped), window);
