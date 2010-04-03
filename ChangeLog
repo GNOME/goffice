@@ -1,3 +1,8 @@
+2010-04-03  Valek Filippov  <frob@gnome.org>
+
+	* tests/mf-demo.c: new demo.
+	* tests/Makefile.am: ditto.
+
 2010-03-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: fixed gtk compatibility macro names.
