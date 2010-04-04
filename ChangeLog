@@ -1,3 +1,7 @@
+2010-04-04  Valek Filippov  <frob@gnome.org>
+
+	* tests/mf-demo.c: reuse common parsing routines between MR commands.
+
 2010-04-03  Valek Filippov  <frob@gnome.org>
 
 	* tests/mf-demo.c: new demo.
