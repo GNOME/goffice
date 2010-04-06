@@ -22,26 +22,46 @@ _go_conf_shutdown (void)
 {
 }
 
-static gboolean
-go_conf_win32_get_node (GOConfNode *node, HKEY *phKey, gchar const *key, gboolean *is_new)
+static gchar *
+go_conf_get_real_key (GOConfNode const *key, gchar const *subkey)
 {
-	gchar *path, *c;
+	return key
+		? (subkey
+		   ? g_strconcat (key->path, "/", subkey, NULL)
+		   : g_strdup (key->path))
+		: g_strdup (subkey);
+}
+
+static gchar *
+go_conf_get_win32_key (GOConfNode const *key, gchar const *subkey)
+{
+	gchar *real_key = go_conf_get_real_key (key, subkey);
+	gchar *p;
+
+	for (p = real_key; *p; p++)
+		if (*p == '/')
+			*p = '\\';
+
+	return real_key;
+}
+
+
+static gboolean
+go_conf_win32_get_node (HKEY *phKey, gchar const *win32_key, gboolean *is_new)
+{
+	gchar *full_key;
 	LONG ret;
 	DWORD disposition;
 
-	if (key)
-		path = g_strconcat (node ? "" : "Software\\", key, NULL);
-	else
-		path = g_strdup (node ? "" : "Software");
+	*phKey = (HKEY)0;
 
-	for (c = path; *c; ++c) {
-		if (*c == '/')
-			*c = '\\';
-	}
-	ret = RegCreateKeyEx (node ? node->hKey : HKEY_CURRENT_USER, path,
+	full_key = g_strconcat ("Software\\", win32_key, NULL);
+	ret = RegCreateKeyEx (HKEY_CURRENT_USER, full_key,
 			      0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS,
 			      NULL, phKey, &disposition);
-	g_free (path);
+	if (ret != ERROR_SUCCESS)
+		g_printerr ("Failed to create [%s]\n", full_key);
+	g_free (full_key);
 
 	if (is_new)
 		*is_new = disposition == REG_CREATED_NEW_KEY;
@@ -51,26 +71,32 @@ go_conf_win32_get_node (GOConfNode *node, HKEY *phKey, gchar const *key, gboolea
 
 static gboolean
 go_conf_win32_set (GOConfNode *node, gchar const *key,
-		   gint type, guchar *data, gint size)
+		   gint type, gconstpointer data, gint size)
 {
-	gchar *last_sep, *path = NULL;
+	gchar *win32_key = go_conf_get_win32_key (node, key);
+	gchar *last_sep = strrchr (win32_key, '\\');
 	HKEY hKey;
 	gboolean ok;
+	LONG ret;
 
-	last_sep = key ? strrchr (key, '/') : NULL;
-	if (last_sep) {
-		path = g_strndup (key, last_sep - key);
-		ok = go_conf_win32_get_node (node, &hKey, path, NULL);
-		g_free (path);
-		if (!ok)
-			return FALSE;
-		key = last_sep + 1;
-	} else
-		hKey = node->hKey;
+	if (!last_sep)
+		return FALSE; /* Shouldn't happen.  */
 
-	RegSetValueEx (hKey, key, 0, type, data, size);
-	if (path)
-		RegCloseKey (hKey);
+	*last_sep = 0;
+	key = last_sep + 1;
+	ok = go_conf_win32_get_node (&hKey, win32_key, NULL);
+	if (!ok) {
+		g_free (win32_key);
+		return FALSE;
+	}
+
+	ret = RegSetValueEx (hKey, key, 0, type, data, size);
+	RegCloseKey (hKey);
+
+	if (ret != ERROR_SUCCESS)
+		g_printerr ("Failed to write registry key %s\n", win32_key);
+
+	g_free (win32_key);
 
 	return TRUE;
 }
@@ -78,88 +104,101 @@ go_conf_win32_set (GOConfNode *node, gchar const *key,
 static gboolean
 go_conf_win32_get (GOConfNode *node, gchar const *key,
 		   gulong *type, guchar **data, gulong *size,
-		   gboolean do_realloc, gint *ret_code)
+		   gboolean do_realloc, gboolean complain)
 {
-	gchar *last_sep, *path = NULL;
+	gchar *win32_key = go_conf_get_win32_key (node, key);
+	gchar *last_sep = strrchr (win32_key, '\\');
 	HKEY hKey;
-	LONG ret;
 	gboolean ok;
+	LONG ret;
 
-	last_sep = key ? strrchr (key, '/') : NULL;
-	if (last_sep) {
-		path = g_strndup (key, last_sep - key);
-		ok = go_conf_win32_get_node (node, &hKey, path, NULL);
-		g_free (path);
-		if (!ok)
-			return FALSE;
-		key = last_sep + 1;
-	} else
-		hKey = node->hKey;
+	if (!last_sep)
+		return FALSE; /* Shouldn't happen.  */
+
+	*last_sep = 0;
+	key = last_sep + 1;
+	ok = go_conf_win32_get_node (&hKey, win32_key, NULL);
+	if (!ok) {
+		g_free (win32_key);
+		return FALSE;
+	}
 
 	if (!*data && do_realloc) {
-		RegQueryValueEx (hKey, key, NULL, type, NULL, size);
+		ret = RegQueryValueEx (hKey, key, NULL, type, NULL, size);
+		if (ret != ERROR_SUCCESS)
+			goto out;
 		*data = g_new (guchar, *size);
 	}
-	while ((ret = RegQueryValueEx (hKey, key, NULL,
-				       type, *data, size)) == ERROR_MORE_DATA &&
+
+	while ((ret = RegQueryValueEx (hKey, key, NULL, type, *data, size)) ==
+	       ERROR_MORE_DATA &&
 	       do_realloc)
 		*data = g_realloc (*data, *size);
-	if (path)
-		RegCloseKey (hKey);
-	if (ret_code)
-		*ret_code = ret;
 
+	RegCloseKey (hKey);
+
+out:
+	if (ret != ERROR_SUCCESS && complain) {
+		LPTSTR msg_buf;
+
+		FormatMessage (FORMAT_MESSAGE_ALLOCATE_BUFFER |
+			       FORMAT_MESSAGE_FROM_SYSTEM |
+			       FORMAT_MESSAGE_IGNORE_INSERTS,
+			       NULL,
+			       ret,
+			       MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT),
+			       (LPTSTR) &msg_buf,
+			       0,
+			       NULL);
+		g_warning ("Unable to get registry key %s because %s",
+			   win32_key, msg_buf);
+		LocalFree (msg_buf);
+	}
+
+	g_free (win32_key);
 	return ret == ERROR_SUCCESS;
 }
 
+static const size_t WIN32_MAX_REG_KEYNAME_LEN = 256;
+static const size_t WIN32_MAX_REG_VALUENAME_LEN = 32767;
+static const size_t WIN32_INIT_VALUE_DATA_LEN = 2048;
+
 static void
-go_conf_win32_clone (HKEY hSrcKey, gchar *key, HKEY hDstKey, gchar *buf1, gchar *buf2, gchar *buf3)
+go_conf_win32_clone_full (HKEY hSrcKey, const gchar *key, HKEY hDstKey,
+			  gchar *subkey, gchar *value_name, gchar *data)
 {
-#define WIN32_MAX_REG_KEYNAME_LEN 256
-#define WIN32_MAX_REG_VALUENAME_LEN 32767
-#define WIN32_INIT_VALUE_DATA_LEN 2048
 	gint i;
-	gchar *subkey, *value_name, *data;
-	DWORD name_size, type, data_size;
 	HKEY hSrcSK, hDstSK;
-	FILETIME ft;
 	LONG ret;
 
 	if (RegOpenKeyEx (hSrcKey, key, 0, KEY_READ, &hSrcSK) != ERROR_SUCCESS)
 		return;
 
-	if (!buf1) {
-		subkey = g_malloc (WIN32_MAX_REG_KEYNAME_LEN);
-		value_name = g_malloc (WIN32_MAX_REG_VALUENAME_LEN);
-		data = g_malloc (WIN32_INIT_VALUE_DATA_LEN);
-	}
-	else {
-		subkey = buf1;
-		value_name = buf2;
-		data = buf3;
-	}
-
 	ret = ERROR_SUCCESS;
 	for (i = 0; ret == ERROR_SUCCESS; ++i) {
-		name_size = WIN32_MAX_REG_KEYNAME_LEN;
+		DWORD name_size = WIN32_MAX_REG_KEYNAME_LEN;
+		FILETIME ft;
 		ret = RegEnumKeyEx (hSrcSK, i, subkey, &name_size, NULL, NULL, NULL, &ft);
 		if (ret != ERROR_SUCCESS)
 			continue;
 
 		if (RegCreateKeyEx (hDstKey, subkey, 0, NULL, 0, KEY_WRITE,
 				    NULL, &hDstSK, NULL) == ERROR_SUCCESS) {
-			go_conf_win32_clone (hSrcSK, subkey, hDstSK, subkey, value_name, data);
+			go_conf_win32_clone_full (hSrcSK, subkey, hDstSK,
+						  subkey, value_name, data);
 			RegCloseKey (hDstSK);
 		}
 	}
 
 	ret = ERROR_SUCCESS;
 	for (i = 0; ret == ERROR_SUCCESS; ++i) {
-		name_size = WIN32_MAX_REG_KEYNAME_LEN;
-		data_size = WIN32_MAX_REG_VALUENAME_LEN;
+		DWORD name_size = WIN32_MAX_REG_KEYNAME_LEN;
+		DWORD data_size = WIN32_MAX_REG_VALUENAME_LEN;
+		DWORD type;
 		while ((ret = RegEnumValue (hSrcSK, i, value_name, &name_size,
 					    NULL, &type, data, &data_size)) ==
 		       ERROR_MORE_DATA)
+			/* FIXME: surely this doesn't work -- MW */
 			data = g_realloc (data, data_size);
 		if (ret != ERROR_SUCCESS)
 			continue;
@@ -168,31 +207,42 @@ go_conf_win32_clone (HKEY hSrcKey, gchar *key, HKEY hDstKey, gchar *buf1, gchar 
 	}
 
 	RegCloseKey (hSrcSK);
-	if (!buf1) {
-		g_free (subkey);
-		g_free (value_name);
-		g_free (data);
-	}
+}
+
+static void
+go_conf_win32_clone (HKEY hSrcKey, const gchar *key, HKEY hDstKey)
+{
+	char *subkey = g_malloc (WIN32_MAX_REG_KEYNAME_LEN);
+	char *value_name = g_malloc (WIN32_MAX_REG_VALUENAME_LEN);
+	char *data = g_malloc (WIN32_INIT_VALUE_DATA_LEN);
+	go_conf_win32_clone_full (hSrcKey, key, hDstKey,
+				  subkey, value_name, data);
+	g_free (data);
+	g_free (value_name);
+	g_free (subkey);
 }
 
 GOConfNode *
 go_conf_get_node (GOConfNode *parent, const gchar *key)
 {
+	gchar *win32_key = go_conf_get_win32_key (parent, key);
 	HKEY hKey;
-	GOConfNode *node = NULL;
 	gboolean is_new;
+	GOConfNode *node = NULL;
 
-	if (go_conf_win32_get_node (parent, &hKey, key, &is_new)) {
+	if (go_conf_win32_get_node (&hKey, win32_key, &is_new)) {
 		if (!parent && is_new) {
 			gchar *path;
 
-			path = g_strconcat (".DEFAULT\\Software\\", key, NULL);
-			go_conf_win32_clone (HKEY_USERS, path, hKey, NULL, NULL, NULL);
+			path = g_strconcat (".DEFAULT\\Software\\", win32_key, NULL);
+			go_conf_win32_clone (HKEY_USERS, path, hKey);
 			g_free (path);
 		}
-		node = g_malloc (sizeof (GOConfNode));
+		node = g_new (GOConfNode, 1);
 		node->hKey = hKey;
-		node->path = g_strdup (key);
+		node->path = win32_key;
+	} else {
+		g_free (win32_key);
 	}
 
 	return node;
@@ -209,19 +259,18 @@ go_conf_free_node (GOConfNode *node)
 }
 
 void
-go_conf_set_bool (GOConfNode *node, gchar const *key, gboolean val)
+go_conf_set_bool (GOConfNode *node, gchar const *key, gboolean val_)
 {
-	guchar bool = val ? 1 : 0;
+	guchar val = val ? 1 : 0;
 
-	go_conf_win32_set (node, key, REG_BINARY, (guchar *) &bool,
-			   sizeof (bool));
+	go_conf_win32_set (node, key, REG_BINARY, &val, sizeof (val));
 }
 
 void
-go_conf_set_int (GOConfNode *node, gchar const *key, gint val)
+go_conf_set_int (GOConfNode *node, gchar const *key, gint val_)
 {
-	go_conf_win32_set (node, key, REG_DWORD, (guchar *) &val,
-			   sizeof (DWORD));
+	DWORD val = val_;
+	go_conf_win32_set (node, key, REG_DWORD, &val, sizeof (val));
 }
 
 void
@@ -230,33 +279,29 @@ go_conf_set_double (GOConfNode *node, gchar const *key, gdouble val)
 	gchar str[G_ASCII_DTOSTR_BUF_SIZE];
 
 	g_ascii_dtostr (str, sizeof (str), val);
-	go_conf_win32_set (node, key, REG_SZ, (guchar *) str,
-			   strlen (str) + 1);
+	go_conf_win32_set (node, key, REG_SZ, str, strlen (str) + 1);
 }
 
 void
 go_conf_set_string (GOConfNode *node, gchar const *key, gchar const *str)
 {
-	go_conf_win32_set (node, key, REG_SZ, (guchar *) str,
-			   strlen (str) + 1);
+	go_conf_win32_set (node, key, REG_SZ, str, strlen (str) + 1);
 }
 
 void
 go_conf_set_str_list (GOConfNode *node, gchar const *key, GSList *list)
 {
 	GString *str_list;
-	GSList *list_node = list;
+	GSList *l;
 
-	str_list = g_string_new ("");
-	while (list_node) {
-		g_string_append (str_list, g_strescape (list_node->data, NULL));
-		g_string_append_c (str_list, '\n');
-		list_node = list_node->next;
+	str_list = g_string_new (NULL);
+	for (l = list; l; l = l->next) {
+		const char *s = l->data;
+		if (str_list->len)
+			g_string_append_c (str_list, '\n');
+		g_string_append (str_list, g_strescape (s, NULL));
 	}
-	if (list)
-		g_string_truncate (str_list, str_list->len - 1);
-	go_conf_win32_set (node, key, REG_SZ, (guchar *) str_list->str,
-			   str_list->len + 1);
+	go_conf_win32_set (node, key, REG_SZ, str_list->str, str_list->len + 1);
 	g_string_free (str_list, TRUE);
 }
 
@@ -266,7 +311,7 @@ go_conf_get_bool (GOConfNode *node, gchar const *key)
 	guchar val, *ptr = &val;
 	gulong type, size = sizeof (val);
 
-	if (go_conf_win32_get (node, key, &type, &ptr, &size, FALSE, NULL) &&
+	if (go_conf_win32_get (node, key, &type, &ptr, &size, FALSE, FALSE) &&
 	    type == REG_BINARY)
 		return val;
 
@@ -276,11 +321,11 @@ go_conf_get_bool (GOConfNode *node, gchar const *key)
 gint
 go_conf_get_int	(GOConfNode *node, gchar const *key)
 {
-	gint val;
+	DWORD val;
 	gulong type, size = sizeof (DWORD);
 	guchar *ptr = (guchar *) &val;
 
-	if (go_conf_win32_get (node, key, &type, &ptr, &size, FALSE, NULL) &&
+	if (go_conf_win32_get (node, key, &type, &ptr, &size, FALSE, FALSE) &&
 	    type == REG_DWORD)
 		return val;
 
@@ -294,7 +339,7 @@ go_conf_get_double (GOConfNode *node, gchar const *key)
 	gdouble val;
 
 	if (ptr) {
-		val = g_ascii_strtod (ptr, NULL);
+		val = go_ascii_strtod (ptr, NULL);
 		g_free (ptr);
 		if (errno != ERANGE)
 			return val;
@@ -316,7 +361,7 @@ go_conf_get_string (GOConfNode *node, gchar const *key)
 	DWORD type, size = 0;
 	guchar *ptr = NULL;
 
-	if (go_conf_win32_get (node, key, &type, &ptr, &size, TRUE, NULL) &&
+	if (go_conf_win32_get (node, key, &type, &ptr, &size, TRUE, FALSE) &&
 	    type == REG_SZ)
 		return ptr;
 
@@ -336,23 +381,8 @@ go_conf_get (GOConfNode *node, gchar const *key, gulong expected)
 {
 	gulong type, size = 0;
 	guchar *ptr = NULL;
-	gint ret_code;
 
-	if (!go_conf_win32_get (node, key, &type, &ptr, &size, TRUE, &ret_code)) {
-		LPTSTR msg_buf;
-
-		FormatMessage (FORMAT_MESSAGE_ALLOCATE_BUFFER |
-			       FORMAT_MESSAGE_FROM_SYSTEM |
-			       FORMAT_MESSAGE_IGNORE_INSERTS,
-			       NULL,
-			       ret_code,
-			       MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT),
-			       (LPTSTR) &msg_buf,
-			       0,
-			       NULL);
-		d (g_warning ("Unable to load key '%s' : because %s",
-			      key, msg_buf));
-		LocalFree (msg_buf);
+	if (!go_conf_win32_get (node, key, &type, &ptr, &size, TRUE, TRUE)) {
 		g_free (ptr);
 		return NULL;
 	}
@@ -476,20 +506,20 @@ go_conf_node_get_key_type (GOConfNode *node, gchar const *key)
 {
 	gulong type, size;
 	guchar *ptr = NULL;
-	GType t = G_TYPE_NONE;
 
-	if (go_conf_win32_get (node, key, &type, &ptr, &size, FALSE, NULL)) {
+	if (go_conf_win32_get (node, key, &type, &ptr, &size, FALSE, FALSE)) {
 		switch (type) {
 		case REG_BINARY:
-			t = G_TYPE_BOOLEAN; break;
+			return G_TYPE_BOOLEAN;
 		case REG_DWORD:
-			t = G_TYPE_INT; break;
+			return G_TYPE_INT;
 		case REG_SZ:
-			t = G_TYPE_STRING; break;
+			g_free (ptr);
+			return G_TYPE_STRING;
 		}
 	}
 
-	return t;
+	return G_TYPE_NONE;
 }
 
 gchar *
@@ -566,6 +596,7 @@ go_conf_sync (GOConfNode *node)
 void
 go_conf_remove_monitor (guint monitor_id)
 {
+	(void)&go_conf_closure_free;
 }
 
 guint
