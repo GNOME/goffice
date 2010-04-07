@@ -195,9 +195,10 @@ void mr69 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* 
 
 void fill (Page* pg, GocItem* item);
 void stroke (Page* pg, GocItem* item);
-void initpage (Page* pg);
-void setfont (Page* pg, GocItem* item);
-GHashTable* initrecs (void);
+void init_page (Page* pg);
+void set_font (Page* pg, GocItem* item);
+GHashTable* init_recs (void);
+GHashTable* init_esc (void);
 void mr_convcoord (double* x, double* y, Page* pg);
 void mr_arc (GsfInput* input, Page* pg, GocCanvas* canvas, int type);
 void mr_rect (GsfInput* input, Page* pg, GocCanvas* canvas, int type);
@@ -208,9 +209,11 @@ void read_point (GsfInput* input, double* y, double* x);
 void set_anchor (Page* pg, GtkAnchorType* anchor);
 void set_align (GsfInput* input, Page* pg, double* x, double* y);
 void set_text (Page* pg, GocCanvas* canvas, char* txt, int len, GtkAnchorType* anchor, double* x, double* y);
+char* symbol_to_utf (char* txt);
+char* mtextra_to_utf (char* txt);
 
 void
-initpage (Page* pg)
+init_page (Page* pg)
 {
 	DC mydc = {1., 1., 0., 0., 1., 1., 0., 0.};
 	pg->maxobj = 0;
@@ -324,13 +327,21 @@ set_text (Page* pg, GocCanvas* canvas, char* txt, int len, GtkAnchorType* anchor
 	if (-1 != pg->curfnt) {
 		mfo = g_hash_table_lookup (pg->mfobjs, (gpointer) pg->curfnt);
 		font = mfo->values;
-		utxt = g_convert (txt, len, "utf8", font->charset, NULL, NULL, NULL);
+
+		if (!g_ascii_strcasecmp ("MT Extra",font->name)) {
+			utxt = mtextra_to_utf (txt);
+		} else if (!g_ascii_strcasecmp ("SYMBOL",font->name)) {
+			utxt = symbol_to_utf (txt);
+		} else {
+			utxt = g_convert (txt, len, "utf8", font->charset, NULL, NULL, NULL);
+		}
+		
 	} else {
 		utxt = g_convert (txt, len, "utf8", "ASCII", NULL, NULL, NULL);
 	}
 	gocitem = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_TEXT,
 					"x", *x, "y", *y, "text", utxt, "anchor", *anchor, NULL);
-	setfont (pg, gocitem);
+	set_font (pg, gocitem);
 }
 
 void
@@ -390,11 +401,11 @@ Handler mfrec_dump[70] =
 static void
 parse (GsfInput* input, GocCanvas* canvas)
 {
-	GHashTable	*mrecords;
+	GHashTable	*mrecords, *escrecords;
 	GHashTable	*objs;
 	Page *mypg;
 	guint32 rsize = 3;
-	int rid = 0;
+	int rid = 0, escfunc;
 	gint mr=0;
 	const guint8  *data = {0};
 	guint32 type = 0; /* wmf, apm or emf */
@@ -431,8 +442,9 @@ parse (GsfInput* input, GocCanvas* canvas)
 	}
 
 	if (1 == type || 2 == type) {
-		mrecords = initrecs ();
-		initpage (mypg);
+		mrecords = init_recs ();
+		escrecords = init_esc ();
+		init_page (mypg);
 		objs = g_hash_table_new (g_direct_hash, g_direct_equal);
 		if (1 == type) {
 			gsf_input_seek (input, 6, G_SEEK_SET);
@@ -463,9 +475,18 @@ parse (GsfInput* input, GocCanvas* canvas)
 			rid = GSF_LE_GET_GINT16 (data);
 			if (0 == rid || offset + rsize * 2 > fsize)
 				break;
-			mr = GPOINTER_TO_INT (g_hash_table_lookup (mrecords, GINT_TO_POINTER (rid)));
-			g_print ("Offset: %d, Rid: %x, MR: %d, RSize: %d\n", offset, rid, mr, rsize);
-			mfrec_dump[mr] (input, rsize, mypg, objs, canvas);
+			if (0x626 != rid) {
+				mr = GPOINTER_TO_INT (g_hash_table_lookup (mrecords, GINT_TO_POINTER (rid)));
+				g_print ("Offset: %d, Rid: %x, MR: %d, RSize: %d\n", offset, rid, mr, rsize);
+				mfrec_dump[mr] (input, rsize, mypg, objs, canvas);
+			} else {
+				data = gsf_input_read (input, 2, NULL);
+				escfunc = GSF_LE_GET_GINT16 (data);
+				g_print ("ESCAPE! Function is %04x -- %s. Size: %d bytes.\n", escfunc, (char*) g_hash_table_lookup (escrecords, GINT_TO_POINTER (escfunc)), rsize * 2 - 6);
+				if (0xf == escfunc)
+					mr58 (input, rsize, mypg, objs, canvas);
+				gsf_input_seek (input, -2, G_SEEK_CUR);
+			}
 			gsf_input_seek (input, rsize * 2 - 6, G_SEEK_CUR);
 			offset += rsize * 2;
 		}
@@ -473,7 +494,7 @@ parse (GsfInput* input, GocCanvas* canvas)
 }
 
 void
-setfont (Page *pg, GocItem *item)
+set_font (Page *pg, GocItem *item)
 {
 	MFobj *mfo;
 	Font *font;
@@ -1077,13 +1098,15 @@ mr39 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	font->strike = GSF_LE_GET_GUINT8 (data);
 	data = gsf_input_read (input, 1, NULL);
 /*
-1:'DEFAULT_CHARSET',
-2:'SYMBOL_CHARSET',
 77:'MAC_CHARSET',
 */
 	switch (GSF_LE_GET_GUINT8(data)) {
 	case 0:
+	case 1:
 		font->charset = g_strdup ("iso8859-1");
+		break;
+	case 2:
+		font->charset = g_strdup ("Symbol");
 		break;
 	case 128:
 		font->charset = g_strdup ("Shift_JIS");
@@ -1141,6 +1164,10 @@ mr39 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	font->name = malloc (i + 1);
 	gsf_input_read (input, i + 1, font->name);
 	gsf_input_seek (input, -19 - i, G_SEEK_CUR);
+/*	if (!g_ascii_strcasecmp ((char*) font->name, "Symbol")) {
+		free (font->charset);
+		font->charset = g_strdup ("Symbol");
+	}*/
 	mf = malloc (sizeof (MFobj));
 	mf->type = 3;
 	mf->values = font;
@@ -1392,10 +1419,11 @@ mr57 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
   //g_print("PatBLT ");
 }
 
+// ------------------ Escape ------------------------
 void
 mr58 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-  //g_print("Escape ");
+
 }
 
 //------------------ CreateRegion ------------------
@@ -1593,7 +1621,7 @@ mr69 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 }
 
 GHashTable*
-initrecs(void)
+init_recs (void)
 {
 	GHashTable	*mrecords;
 	gint i =0;
@@ -1612,6 +1640,117 @@ initrecs(void)
 	return mrecords;
 }
 
+char*
+mtextra_to_utf (char* txt)
+{
+	const guint16 mte[256] = {
+	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b,
+	0x0c, 0x0d, 0x0e, 0x0f, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+	0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x300,
+	0x302, 0x303, 0x2d9, 0x27, 0x2322, 0x2323, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f,
+	0x30, 0xe13d, 0xe141, 0xe13e, 0x23af, 0x35, 0xe13b, 0xe140, 0xe13c, 0x39, 0x3a, 0x3b,
+	0x25c3, 0x3d, 0x25b9, 0x3f, 0x40, 0x41, 0x42, 0x2210, 0x19b, 0x45, 0x46,
+	0x47, 0x48, 0x2229, 0x4a, 0x2026, 0x22ef, 0x22ee, 0x22f0, 0x22f1, 0x50,
+	0x2235, 0x52, 0x53, 0x54, 0x222a, 0x56, 0x57, 0x58, 0x59, 0x5a, 0x5b, 0x5c,
+	0x5d, 0x5e, 0x5f, 0x2035, 0x21a6, 0x2195, 0x21d5, 0x64, 0x65, 0x227b, 0x67,
+	0x210f, 0x69, 0x6a, 0x6b, 0x2113, 0x2213, 0x6e, 0x2218, 0x227a, 0x71, 0x20d7,
+	0x20d6, 0x20e1, 0x20d6, 0x20d1, 0x20d0, 0x78, 0x79, 0x7a, 0x23de, 0x7c,
+	0x23df, 0x7e,0x7f, 0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88,
+	0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94,
+	0x95, 0x96, 0x97, 0x98, 0x99, 0x9a, 0x9b, 0x9c, 0x9d, 0x9e, 0x9f, 0xa0,
+	0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac,
+	0xad, 0xae, 0xaf, 0xb0, 0xa1, 0xb2, 0xb3, 0xb4, 0xb5, 0xb6, 0xb7, 0xb8,
+	0xb9, 0xba, 0xbb, 0xbc, 0xbd, 0xbe, 0xbf, 0xc0, 0xc1, 0xc2, 0xc3, 0xc4,
+	0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0,
+	0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda, 0xdb, 0xdc,
+	0xdd, 0xde, 0xdf, 0xe0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8,
+	0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, 0xef, 0xf0, 0xf1, 0xf2, 0xf3, 0xf4,
+	0xf5, 0xf6, 0xf7, 0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff};
+	guint16  *data = {0};
+	char* utxt;
+	guint i;
+
+	data = malloc (strlen (txt) * 2);
+	for (i = 0; i < strlen(txt); i++)
+		data[i] = mte[(guint8) txt[i]];
+	utxt =  g_utf16_to_utf8 (data, strlen (txt), NULL, NULL, NULL);
+	return utxt;
+}
+
+char*
+symbol_to_utf (char* txt)
+{
+	const guint16 utf[256] = {
+	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b,
+	0x0c, 0x0d, 0x0e, 0x0f, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+	0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x2200, 0x23,
+	0x2203, 0x25, 0x26, 0x220d, 0x28, 0x29, 0x2217, 0x2b, 0x2c, 0x2212, 0x2e,
+	0x2f, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3a,
+	0x3b, 0x3c, 0x3d, 0x3e, 0x3f, 0x2245, 0x391, 0x392, 0x3a7, 0x394, 0x395,
+	0x3a6, 0x393, 0x397, 0x399, 0x3d1, 0x39a, 0x39b, 0x39c, 0x39d, 0x39f,
+	0x3a0, 0x398, 0x3a1, 0x3a3, 0x3a4, 0x3a5, 0x3c2, 0x3a9, 0x39e, 0x3a8,
+	0x396, 0x5b, 0x2234, 0x5d, 0x22a5, 0x5f, 0xf8e5, 0x3b1, 0x3b2, 0x3c7,
+	0x3b4, 0x3b5, 0x3c6, 0x3b3, 0x3b7, 0x3b9, 0x3d5, 0x3ba, 0x3bb, 0x3bc,
+	0x3bd, 0x3bf, 0x3c0, 0x3b8, 0x3c1, 0x3c3, 0x3c4, 0x3c5, 0x3d6, 0x3c9,
+	0x3be, 0x3c8, 0x3b6, 0x7b, 0x7c, 0x7d, 0x223c, 0x7f, 0x80, 0x81, 0x82,
+	0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e,
+	0x8f, 0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98, 0x99, 0x9a,
+	0x9b, 0x9c, 0x9d, 0x9e, 0x9f, 0xa0, 0x3d2, 0x2032, 0x2264, 0x2044, 0x201e,
+	0x192, 0x2663, 0x2666, 0x2665, 0x2660, 0x2194, 0x2190, 0x2191, 0x2192,
+	0x2193, 0xb0, 0xb1, 0x2033, 0x2265, 0xd7, 0x221d, 0x2202, 0x2022, 0xf7,
+	0x2260, 0x2261, 0x2248, 0x2026, 0xf8e6, 0xf8e7, 0x21b5, 0x2135, 0x2111,
+	0x211c, 0x2118, 0x2297, 0x2295, 0x2205, 0x2229, 0x222a, 0x2283, 0x2287,
+	0x2284, 0x2282, 0x2286, 0x2208, 0x2209, 0x2220, 0x2207, 0xae, 0xa9, 0x2122,
+	0x220f, 0x221a, 0x22c5, 0xac, 0x2227, 0x2228, 0x21d4, 0x21d0, 0x21d1,
+	0x21d2, 0x21d3, 0x22c4, 0x2329, 0xf8e8, 0xf8e9, 0xf8ea, 0x2211, 0xf8eb,
+	0xf8ec, 0xf8ed, 0xf8ee, 0xf8ef, 0xf8f0, 0xf8f1, 0xf8f2, 0xf8f3, 0xf8f4,
+	0xf8ff, 0x232a, 0x222b, 0x2320, 0xf8f5, 0x2321, 0xf8f6, 0xf8f7, 0xf8f8,
+	0xf8f9, 0xf8fa, 0xf8fb, 0xf8fc, 0xf8fd, 0xf8fe, 0x2c7};
+	guint16  *data = {0};
+	char* utxt;
+	guint i;
+
+	data = malloc (strlen (txt) * 2);
+	for (i = 0; i < strlen(txt); i++)
+		data[i] = utf[(guint8) txt[i]];
+	utxt =  g_utf16_to_utf8 (data, strlen (txt), NULL, NULL, NULL);
+	return utxt;
+}
+
+GHashTable*
+init_esc (void)
+{
+	GHashTable	*escrecords;
+	gint i =0;
+	const char* escarray[60] = {
+		"NEWFRAME", "ABORTDOC", "NEXTBAND", "SETCOLORTABLE", "GETCOLORTABLE",
+		"FLUSHOUT", "DRAFTMODE", "QUERYESCSUPPORT", "SETABORTPROC", "STARTDOC",
+		"ENDDOC", "GETPHYSPAGESIZE", "GETPRINTINGOFFSET", "GETSCALINGFACTOR",
+		"META_ESCAPE_ENHANCED_METAFILE", "SETPENWIDTH", "SETCOPYCOUNT",
+		"SETPAPERSOURCE", "PASSTHROUGH", "GETTECHNOLOGY", "SETLINECAP", "SETLINEJOIN",
+		"SETMITERLIMIT", "BANDINFO", "DRAWPATTERNRECT","GETVECTORPENSIZE",
+		"GETVECTORBRUSHSIZE", "ENABLEDUPLEX", "GETSETPAPERBINS", "GETSETPRINTORIENT",
+		"ENUMPAPERBINS", "SETDIBSCALING", "EPSPRINTING", "ENUMPAPERMETRICS",
+		"GETSETPAPERMETRICS", "POSTSCRIPT_DATA", "POSTSCRIPT_IGNORE", "GETDEVICEUNITS",
+		"GETEXTENDEDTEXTMETRICS", "GETPAIRKERNTABLE", "EXTTEXTOUT", "GETFACENAME",
+		"DOWNLOADFACE", "METAFILE_DRIVER", "QUERYDIBSUPPORT", "BEGIN_PATH",
+		"CLIP_TO_PATH", "END_PATH", "OPEN_CHANNEL", "DOWNLOADHEADER", "CLOSE_CHANNEL",
+		"POSTSCRIPT_PASSTHROUGH", "ENCAPSULATED_POSTSCRIPT", "POSTSCRIPT_IDENTIFY",
+		"POSTSCRIPT_INJECTION", "CHECKJPEGFORMAT", "CHECKPNGFORMAT",
+		"GET_PS_FEATURESETTING", "MXDC_ESCAPE", "SPCLPASSTHROUGH2"};
+	const int escid[60] = {
+		0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A,
+		0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 0x0010, 0x0011, 0x0012, 0x0013, 0x0014,
+		0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A, 0x001B, 0x001C, 0x001D, 0x001E,
+		0x001F, 0x0020, 0x0021, 0x0022, 0x0023, 0x0025, 0x0026, 0x002A, 0x0100, 0x0102,
+		0x0200, 0x0201, 0x0202, 0x0801, 0x0C01, 0x1000, 0x1001, 0x1002, 0x100E, 0x100F,
+		0x1010, 0x1013, 0x1014, 0x1015, 0x1016, 0x1017, 0x1018, 0x1019, 0x101A, 0x11D8};
+		
+	escrecords = g_hash_table_new (g_direct_hash, g_direct_equal);
+	for (i = 0; i < 60; i++)
+		g_hash_table_insert (escrecords, GINT_TO_POINTER (escid[i]), GINT_TO_POINTER (escarray[i]));
+	return escrecords;
+}
 
 static void
 on_quit (GtkMenuItem *menuitem, gpointer user_data)
