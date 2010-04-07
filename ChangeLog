@@ -1,11 +1,15 @@
-2010-04-04  Valek Filippov  <frob@gnome.org>
+2010-04-07  Valek Filippov  <frob@gnome.org>
 
-	* tests/mf-demo.c: reuse common parsing routines between MR commands.
+	* tests/mf-demo.c: add 'Symbol' and 'MT Extra' support.
 
 2010-04-05  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-conf-win32.c: Catch up with changes to other
 	backend.  Might even work now.
+
+2010-04-04  Valek Filippov  <frob@gnome.org>
+
+	* tests/mf-demo.c: reuse common parsing routines between MR commands.
 
 2010-04-03  Valek Filippov  <frob@gnome.org>
 
