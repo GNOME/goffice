@@ -1,3 +1,9 @@
+2010-04-09  Valek Filippov  <frob@gnome.org>
+
+	* goffice/canvas/goc-path.c: add Path support
+	* goffice/canvas/goc-path.h: ditto
+	* goffice/canvas/Makefile.am: ditto
+
 2010-04-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-path.c (go_path_new), (go_path_free),
