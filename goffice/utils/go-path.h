@@ -58,10 +58,14 @@ typedef void (GOPathCurveToFunc) 	(void *closure, GOPathPoint const *point0,
 							GOPathPoint const *point2);
 typedef void (GOPathClosePathFunc) 	(void *closure);
 
+GType   go_path_get_type (void);
+
+#define GO_TYPE_PATH go_path_get_type ()
 #define GO_IS_PATH(x) ((x) != NULL)
 
 GOPath *go_path_new 	      	(void);
 void 	go_path_clear	      	(GOPath *path);
+void    go_path_ref          	(GOPath *path);
 void    go_path_free          	(GOPath *path);
 
 void    	go_path_set_options  	(GOPath *path, GOPathOptions options);
@@ -99,6 +103,10 @@ void	go_path_interpret	(GOPath const *path,
 				 GOPathCurveToFunc *curve_to,
 				 GOPathClosePathFunc *close_path,
 				 void *closure);
+
+void    go_path_to_cairo	(GOPath const *path,
+				 GOPathDirection direction,
+				 cairo_t *cr);
 
 G_END_DECLS
 

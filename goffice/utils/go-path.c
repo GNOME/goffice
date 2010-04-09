@@ -70,6 +70,7 @@ struct _GOPath {
 	GOPathDataBuffer *data_buffer_tail;
 
 	GOPathOptions 	  options;
+	unsigned	  refs; 
 };
 
 static void
@@ -161,6 +162,8 @@ go_path_new (void)
 		return NULL;
 	}
 
+	path->refs = 1;
+
 	return path;
 }
 
@@ -187,7 +190,8 @@ go_path_clear (GOPath *path)
  * go_path_free:
  * @path: a #GOPath
  *
- * Frees all memory allocated for @path.
+ * Decrements references count and frees all memory allocated for @path if
+ * references count reaches 0.
  **/
 
 void
@@ -197,12 +201,45 @@ go_path_free (GOPath *path)
 
 	g_return_if_fail (path != NULL);
 
+	path->refs--;
+	if (path->refs > 0)
+		return;
+
 	while (path->data_buffer_head != NULL) {
 		buffer = path->data_buffer_head->next;
 		go_path_data_buffer_free (path->data_buffer_head);
 		path->data_buffer_head = buffer;
 	}
 	g_free (path);
+}
+
+/**
+ * go_path_ref:
+ * @path: a #GOPath
+ *
+ * Increments references count to @path.
+ **/
+
+void
+go_path_ref (GOPath *path)
+{
+	g_return_if_fail (path != NULL);
+
+	path->refs++;
+}
+
+GType
+go_path_get_type (void)
+{
+    static GType type_path = 0;
+
+    if (!type_path)
+	type_path = g_boxed_type_register_static
+	    ("GOPath",
+	     (GBoxedCopyFunc) go_path_ref,
+	     (GBoxedFreeFunc) go_path_free);
+
+    return type_path;
 }
 
 /**
@@ -533,3 +570,31 @@ go_path_interpret (GOPath const		*path,
 	}
 }
 
+static void
+go_path_cairo_move_to (cairo_t *cr, GOPathPoint const *point)
+{
+	cairo_move_to (cr, point->x, point->y);
+}
+
+static void
+go_path_cairo_line_to (cairo_t *cr, GOPathPoint const *point)
+{
+	cairo_line_to (cr, point->x, point->y);
+}
+
+static void
+go_path_cairo_curve_to (cairo_t *cr, GOPathPoint const *point0,
+			GOPathPoint const *point1, GOPathPoint const *point2)
+{
+	cairo_curve_to (cr, point0->x, point0->y, point1->x, point1->y, point2->x, point2->y);
+}
+
+void
+go_path_to_cairo (GOPath const *path, GOPathDirection direction, cairo_t *cr)
+{
+	go_path_interpret (path, direction,
+			   (GOPathMoveToFunc *) go_path_cairo_move_to,
+			   (GOPathLineToFunc *) go_path_cairo_line_to,
+			   (GOPathCurveToFunc *) go_path_cairo_curve_to,
+			   (GOPathClosePathFunc *) cairo_close_path, cr);
+}

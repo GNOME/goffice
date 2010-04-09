@@ -1,5 +1,11 @@
 2010-04-09  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-path.c (go_path_new), (go_path_free),
+	(go_path_ref), (go_path_get_type), (go_path_to_cairo): new GOPath functions.
+	* goffice/utils/go-path.h: ditto.
+
+2010-04-09  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/app/go-plugin.c (go_plugins_init), (go_plugins_add): fixed issues
 	related to components intialization.
 	* goffice/component/go-component-factory.c
