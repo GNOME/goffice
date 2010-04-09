@@ -1,3 +1,8 @@
+2010-04-08  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-conf-win32.c (go_conf_win32_clone_full): Handle
+	buffer expansion right.
+
 2010-04-07  Valek Filippov  <frob@gnome.org>
 
 	* tests/mf-demo.c: add 'Symbol' and 'MT Extra' support.

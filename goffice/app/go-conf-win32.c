@@ -165,7 +165,8 @@ static const size_t WIN32_INIT_VALUE_DATA_LEN = 2048;
 
 static void
 go_conf_win32_clone_full (HKEY hSrcKey, const gchar *key, HKEY hDstKey,
-			  gchar *subkey, gchar *value_name, gchar *data)
+			  gchar *subkey, gchar *value_name,
+			  GString *data)
 {
 	gint i;
 	HKEY hSrcSK, hDstSK;
@@ -193,17 +194,18 @@ go_conf_win32_clone_full (HKEY hSrcKey, const gchar *key, HKEY hDstKey,
 	ret = ERROR_SUCCESS;
 	for (i = 0; ret == ERROR_SUCCESS; ++i) {
 		DWORD name_size = WIN32_MAX_REG_KEYNAME_LEN;
-		DWORD data_size = WIN32_MAX_REG_VALUENAME_LEN;
+		DWORD data_size = data->len;
 		DWORD type;
 		while ((ret = RegEnumValue (hSrcSK, i, value_name, &name_size,
-					    NULL, &type, data, &data_size)) ==
+					    NULL, &type,
+					    data->str, &data_size)) ==
 		       ERROR_MORE_DATA)
-			/* FIXME: surely this doesn't work -- MW */
-			data = g_realloc (data, data_size);
+			g_string_set_size (data, data_size);
 		if (ret != ERROR_SUCCESS)
 			continue;
 
-		RegSetValueEx (hDstKey, value_name, 0, type, data, data_size);
+		RegSetValueEx (hDstKey, value_name, 0, type,
+			       data->str, data_size);
 	}
 
 	RegCloseKey (hSrcSK);
@@ -214,10 +216,10 @@ go_conf_win32_clone (HKEY hSrcKey, const gchar *key, HKEY hDstKey)
 {
 	char *subkey = g_malloc (WIN32_MAX_REG_KEYNAME_LEN);
 	char *value_name = g_malloc (WIN32_MAX_REG_VALUENAME_LEN);
-	char *data = g_malloc (WIN32_INIT_VALUE_DATA_LEN);
+	GString *data = g_string_sized_new (WIN32_INIT_VALUE_DATA_LEN);
 	go_conf_win32_clone_full (hSrcKey, key, hDstKey,
 				  subkey, value_name, data);
-	g_free (data);
+	g_string_free (data, TRUE);
 	g_free (value_name);
 	g_free (subkey);
 }

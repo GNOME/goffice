@@ -5,6 +5,7 @@ Jean:
 
 Morten:
 	* Implement conf notification in keyfile case.  [#613523]
+	* Fix win32 configuration.
 
 Valek:
 	* Fix distance calculation for arc, ellipse, polygon, polyline,
