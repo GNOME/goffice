@@ -29,6 +29,8 @@ G_BEGIN_DECLS
 typedef struct _GOComponent GOComponent;
 typedef struct _GOComponentType GOComponentType;
 
+#include <goffice/component/go-component.h>
+#include <goffice/component/go-component-factory.h>
 G_END_DECLS
 
 #endif	/* GOFFICE_COMPONENT_H */

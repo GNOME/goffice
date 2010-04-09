@@ -1751,11 +1751,19 @@ go_plugins_init (GOCmdContext *context,
 
 	go_default_loader_type = default_loader_type;
 	go_plugins_set_dirs (plugin_dirs);
+	if (loader_services == NULL) {
+		loader_services = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
-	loader_services = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+		/* initialize hash table with information about known plugin.xml files */
+		plugin_file_state_dir_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, plugin_file_state_free);
+	} else {
+		go_plugins_rescan (&error, NULL);
+		if (error != NULL) {
+			GO_SLIST_PREPEND (error_list, go_error_info_new_str_with_details (
+				_("Errors while reading info about new plugins."), error));
+		}
+	}
 
-	/* initialize hash table with information about known plugin.xml files */
-	plugin_file_state_dir_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, plugin_file_state_free);
 	GO_SLIST_FOREACH (known_states, char, state_str,
 		PluginFileState *state;
 
@@ -1765,24 +1773,26 @@ go_plugins_init (GOCmdContext *context,
 	);
 	plugin_file_state_hash_changed = FALSE;
 
-	/* collect information about the available plugins */
-	available_plugins = go_plugin_list_read_for_all_dirs (&error);
-	available_plugins_id_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	GO_SLIST_FOREACH (available_plugins, GOPlugin, plugin,
-		g_hash_table_insert (
-			available_plugins_id_hash,
-			(gpointer) go_plugin_get_id (plugin), plugin);
-	);
-	if (error != NULL) {
-		GO_SLIST_PREPEND (error_list, go_error_info_new_str_with_details (
-			_("Errors while reading info about available plugins."), error));
+	if (available_plugins_id_hash == NULL) {
+		/* collect information about the available plugins */
+		available_plugins = go_plugin_list_read_for_all_dirs (&error);
+		available_plugins_id_hash = g_hash_table_new (g_str_hash, g_str_equal);
+		GO_SLIST_FOREACH (available_plugins, GOPlugin, plugin,
+			g_hash_table_insert (
+				available_plugins_id_hash,
+				(gpointer) go_plugin_get_id (plugin), plugin);
+		);
+		if (error != NULL) {
+			GO_SLIST_PREPEND (error_list, go_error_info_new_str_with_details (
+				_("Errors while reading info about available plugins."), error));
+		}
 	}
 
 	/* get descriptors for all previously active plugins */
 	plugin_list = NULL;
 	GO_SLIST_FOREACH (active_plugins, char, plugin_id,
 		GOPlugin *plugin = go_plugins_get_plugin_by_id (plugin_id);
-		if (plugin != NULL)
+		if (plugin != NULL && !go_plugin_is_active (plugin))
 			GO_SLIST_PREPEND (plugin_list, plugin);
 	);
 
@@ -1822,6 +1832,8 @@ go_plugins_init (GOCmdContext *context,
  * @default_loader_type : importer to use by default.
  *
  * Adds new plugins to currently used plugins.
+ * Deprecated: this function is deprecated and should not be used at all. It will be removed
+ * during next development cycle. Use go_plugins_init() instead.
  **/
 void
 go_plugins_add (GOCmdContext *context,
@@ -1836,6 +1848,11 @@ go_plugins_add (GOCmdContext *context,
 
 	go_default_loader_type = default_loader_type;
 	go_plugins_set_dirs (plugin_dirs);
+	go_plugins_rescan (&error, NULL);
+	if (error != NULL) {
+		GO_SLIST_PREPEND (error_list, go_error_info_new_str_with_details (
+			_("Errors while reading info about new plugins."), error));
+	}
 
 	GO_SLIST_FOREACH (known_states, char, state_str,
 		PluginFileState *state;
@@ -1846,32 +1863,12 @@ go_plugins_add (GOCmdContext *context,
 	);
 	plugin_file_state_hash_changed = FALSE;
 
-	/* collect information about the available plugins */
-	g_slist_free (available_plugins);
-	available_plugins = go_plugin_list_read_for_all_dirs (&error);
-	GO_SLIST_FOREACH (available_plugins, GOPlugin, plugin,
-		g_hash_table_insert (
-			available_plugins_id_hash,
-			(gpointer) go_plugin_get_id (plugin), plugin);
-	);
-	if (error != NULL) {
-		GO_SLIST_PREPEND (error_list, go_error_info_new_str_with_details (
-			_("Errors while reading info about available plugins."), error));
-	}
-
-	/* get descriptors for all previously active plugins */
 	plugin_list = NULL;
 	GO_SLIST_FOREACH (active_plugins, char, plugin_id,
 		GOPlugin *plugin = go_plugins_get_plugin_by_id (plugin_id);
-		if (plugin != NULL)
+		if (plugin != NULL && !go_plugin_is_active (plugin))
 			GO_SLIST_PREPEND (plugin_list, plugin);
 	);
-
-	/* get descriptors for new plugins */
-	g_hash_table_foreach (
-		plugin_file_state_dir_hash,
-		(GHFunc) ghf_collect_new_plugins,
-		&plugin_list);
 
 	plugin_list = g_slist_reverse (plugin_list);
 	go_plugin_db_activate_plugin_list (plugin_list, &error);

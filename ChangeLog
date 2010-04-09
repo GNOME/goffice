@@ -1,3 +1,15 @@
+2010-04-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-plugin.c (go_plugins_init), (go_plugins_add): fixed issues
+	related to components intialization.
+	* goffice/component/go-component-factory.c
+	(go_component_type_service_read_xml),
+	(go_component_type_service_activate),
+	(go_component_type_service_deactivate),
+	(go_component_type_service_class_init): implement components plugins 
+	activation/deactivation.
+	* goffice/component/goffice-component.h: add missing headers.
+
 2010-04-08  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-conf-win32.c (go_conf_win32_clone_full): Handle

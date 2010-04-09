@@ -110,6 +110,7 @@ static void
 go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 				    GOErrorInfo ** ret_error)
 {
+	GOComponentTypeService *comp_service = GO_COMPONENT_TYPE_SERVICE (service);
 	xmlNode *ptr;
 
 	g_return_if_fail (service->id != NULL);
@@ -142,21 +143,52 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 					g_strdup (service->id);
 				mime_type->support_clipboard = (support_clipboard &&
 					!strcmp (support_clipboard, "yes"))? TRUE: FALSE;
-				mime_types_names =
-					g_slist_append (mime_types_names,
-							name);
 				g_hash_table_replace (mime_types, name,
 						      mime_type);
+				comp_service->mime_types = g_slist_append (comp_service->mime_types, g_strdup (name));
 			} else if (i > mime_type->priority) {
-				xmlFree (name);
+				/* removing the mime type from the previous service */
+				GOComponentTypeService *old_service = g_hash_table_lookup (pending_engines,
+										mime_type->component_type_name);
+				GSList *old_mime = g_slist_find_custom (old_service->mime_types, name, (GCompareFunc) strcmp);
+				g_free (old_mime->data);
+				old_service->mime_types = g_slist_remove_link (old_service->mime_types, old_mime);
 				g_free (mime_type->component_type_name);
-				mime_type->component_type_name =
-					g_strdup (service->id);
+				mime_type->component_type_name = g_strdup (service->id);
 				mime_type->priority = i;
-			}
+				comp_service->mime_types = g_slist_append (comp_service->mime_types, g_strdup (name));
+				xmlFree (name);
+			} else
+				xmlFree (name);
 			if (support_clipboard)
 				xmlFree (support_clipboard);
 		}
+}
+
+static void
+go_component_type_service_activate (GOPluginService *service, GOErrorInfo **ret_error)
+{
+	GOComponentTypeService *comp_service = GO_COMPONENT_TYPE_SERVICE (service);
+	GSList *l = comp_service->mime_types;
+	while (l) {
+		mime_types_names = g_slist_append (mime_types_names, g_strdup (l->data));
+		l = l->next;
+	}
+	service->is_active = TRUE;
+}
+
+static void
+go_component_type_service_deactivate (GOPluginService *service, GOErrorInfo **ret_error)
+{
+	GOComponentTypeService *comp_service = GO_COMPONENT_TYPE_SERVICE (service);
+	GSList *l = comp_service->mime_types;
+	while (l) {
+		GSList *mime_type = g_slist_find_custom (mime_types_names, l->data, (GCompareFunc) strcmp);
+		g_free (mime_type->data);
+		mime_types_names = g_slist_remove_link (mime_types_names, mime_type);
+		l = l->next;
+	}
+	service->is_active = FALSE;
 }
 
 static char *
@@ -199,6 +231,8 @@ go_component_type_service_class_init (GObjectClass * gobject_klass)
 	gobject_klass->finalize = go_component_type_service_finalize;
 	ps_class->read_xml = go_component_type_service_read_xml;
 	ps_class->get_description = go_component_type_service_get_description;
+	ps_class->activate = go_component_type_service_activate;
+	ps_class->deactivate = go_component_type_service_deactivate;
 }
 
 GSF_CLASS (GOComponentTypeService, go_component_type_service,
