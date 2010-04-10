@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
-"POT-Creation-Date: 2010-03-26 11:42+0000\n"
-"PO-Revision-Date: 2010-03-26 19:51+0100\n"
+"POT-Creation-Date: 2010-04-09 06:38+0000\n"
+"PO-Revision-Date: 2010-04-10 19:55+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -422,8 +422,7 @@ msgstr "No se puede activar el complemento «%s» (ID: %s)."
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr "No se puede desactivar el complemento «%s» (ID: %s)."
 
-#: ../goffice/app/go-plugin.c:1621 ../goffice/app/go-plugin.c:1778
-#: ../goffice/app/go-plugin.c:1859
+#: ../goffice/app/go-plugin.c:1621 ../goffice/app/go-plugin.c:1787
 msgid "Errors while reading info about available plugins."
 msgstr ""
 "Ha ocurrido un error al leer la información sobre los complementos "
@@ -447,11 +446,17 @@ msgstr ""
 "%s\n"
 "Debería reiniciar este programa ahora."
 
-#: ../goffice/app/go-plugin.c:1801 ../goffice/app/go-plugin.c:1881
+#: ../goffice/app/go-plugin.c:1763 ../goffice/app/go-plugin.c:1854
+#| msgid "Errors while reading info about available plugins."
+msgid "Errors while reading info about new plugins."
+msgstr ""
+"Ocurrieron errores al leer la información sobre los complementos nuevos."
+
+#: ../goffice/app/go-plugin.c:1811 ../goffice/app/go-plugin.c:1878
 msgid "Errors while activating plugins."
 msgstr "Han ocurrido errores al activar los complementos."
 
-#: ../goffice/app/go-plugin.c:1808 ../goffice/app/go-plugin.c:1888
+#: ../goffice/app/go-plugin.c:1818 ../goffice/app/go-plugin.c:1885
 msgid "Errors while initializing plugin system."
 msgstr "Han ocurrido errores al inicializar el sistema de complementos."
 
@@ -745,7 +750,6 @@ msgid "Use a Bezier closed cubic spline as contour"
 msgstr "Usar un splin cúbica cerrada de Beizer como contorno"
 
 #: ../goffice/canvas/goc-polygon.c:356
-#| msgid "Fill type"
 msgid "Fill rule"
 msgstr "Regla de rellenado"
 
@@ -754,7 +758,6 @@ msgid "Set fill rule to winding or even/odd"
 msgstr "Establecer la regla de rellenado a índice o par/impar"
 
 #: ../goffice/canvas/goc-polygon.c:361
-#| msgid "Size:"
 msgid "sizes"
 msgstr "tamaños"
 
@@ -921,7 +924,7 @@ msgstr "La altura del widget"
 msgid "Component Engine"
 msgstr "Motor de componentes"
 
-#: ../goffice/component/go-component-factory.c:165
+#: ../goffice/component/go-component-factory.c:197
 msgid "Component Type"
 msgstr "Tipo de componente"
 
