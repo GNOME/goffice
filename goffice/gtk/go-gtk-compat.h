@@ -106,8 +106,8 @@
 #       define gtk_widget_get_visible(w) GTK_WIDGET_VISIBLE (w)
 #endif
 
-#ifndef HAVE_GTK_WIDGET_GET_SENSITIVE
-#       define gtk_widget_get_sensitive(w) GTK_WIDGET_IS_SENSITIVE (w)
+#ifndef HAVE_GTK_WIDGET_IS_SENSITIVE
+#       define gtk_widget_is_sensitive(w) GTK_WIDGET_IS_SENSITIVE (w)
 #endif
 
 #ifndef HAVE_GTK_WIDGET_SET_CAN_DEFAULT

@@ -271,7 +271,7 @@ static void
 cb_activate_default (GtkWindow *window)
 {
 	GtkWidget *w = gtk_window_get_default_widget (window);
-	if (w && gtk_widget_get_sensitive (w))
+	if (w && gtk_widget_is_sensitive (w))
 		gtk_widget_activate (w);
 }
 

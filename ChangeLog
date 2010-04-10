@@ -1,3 +1,9 @@
+2010-04-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/gtk/go-gtk-compat.h: make things build with gtk-2.20.
+	* goffice/gtk/goffice-gtk.c (cb_activate_default): use
+	gtk_widget_is_sensitive() instead of gtk_widget_get_sensitive().
+
 2010-04-09  Valek Filippov  <frob@gnome.org>
 
 	* goffice/canvas/goc-path.c: add Path support
