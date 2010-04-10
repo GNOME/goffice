@@ -27,6 +27,13 @@
 #include <gsf/gsf-input-stdio.h>
 
 typedef struct {
+	guint8 b;
+	guint8 g;
+	guint8 r;
+	guint8 a;
+} Color;
+
+typedef struct {
 	double VPx;
 	double VPy;
 	double VPOx;
@@ -35,14 +42,19 @@ typedef struct {
 	double Wy;
 	double x;
 	double y;
+	double curx;
+	double cury;
+	gint curfg; 
+	gint curbg; 
+	gint curfnt;
+	gint curpal;
+	gint curreg;
+	guint txtalign;
+	guint bkmode;
+	guint pfm;
+	Color bkclr;
+	Color txtclr;
 } DC; 
-
-typedef struct {
-	guint8 b;
-	guint8 g;
-	guint8 r;
-	guint8 a;
-} Color;
 
 typedef struct {
 	guint type; /* 1 pen, 2 brush, 3 font, 4 region, 5 palette */
@@ -97,29 +109,13 @@ typedef struct {
 typedef struct {
 	int maxobj;
 	guint curobj;
-	gint curbg; 
-	gint curfg; 
-	gint curpal;
-	gint curreg;
 	guint curdc;
-	gint curfnt;
 	GHashTable *mfobjs;
 	GArray *dcs;
-	Color txtclr;
-	guint txtalign;
-	guint bkmode;
-	Color bkclr;
-	guint pfm;
-	double VPx;
-	double VPy;
-	double VPOx;
-	double VPOy;
 	double zoom;
 	double w;
 	double h;
 	int type;
-	double curx;
-	double cury;
 } Page;
 
 void mr0 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas);
@@ -195,6 +191,7 @@ void mr69 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* 
 
 void fill (Page* pg, GocItem* item);
 void stroke (Page* pg, GocItem* item);
+void init_dc (DC* dc);
 void init_page (Page* pg);
 void set_font (Page* pg, GocItem* item);
 GHashTable* init_recs (void);
@@ -213,33 +210,43 @@ char* symbol_to_utf (char* txt);
 char* mtextra_to_utf (char* txt);
 
 void
+init_dc (DC *dc)
+{
+	dc->VPx = 1;
+	dc->VPy = 1;
+	dc-> VPOx = 0;
+	dc->VPOy = 0;
+	dc->Wx = 1.;
+	dc->Wy = 1.;
+	dc->x = 0;
+	dc->y = 0;
+	dc->curx = 0;
+	dc->cury = 0;
+	dc->curfg = -1; 
+	dc->curbg = -1; 
+	dc->curfnt = -1;
+	dc->curpal = -1;
+	dc->curreg = -1;
+	dc->txtalign = 0;
+	dc->bkmode = 0;
+	dc->pfm = 1;
+	dc->bkclr = (Color) {255, 255, 255};
+	dc->txtclr = (Color) {0, 0, 0};
+}
+
+void
 init_page (Page* pg)
 {
-	DC mydc = {1., 1., 0., 0., 1., 1., 0., 0.};
+	DC mydc;
+
+	init_dc (&mydc);
 	pg->maxobj = 0;
 	pg->curobj = 0;
-	pg->curbg = -1;
-	pg->curfg = -1;
-	pg->curpal = -1;
-	pg->curfnt = -1;
-	pg->curreg = -1;
 	pg->curdc = 0;
-	pg->txtclr = (Color) {0, 0, 0};
-	pg->txtalign = 0;
-	pg->bkmode = 0;
-	pg->bkclr = (Color) {255, 255, 255};
-	pg->VPx = 1;
-	pg->VPy = 1;
-	pg->VPOx = 0;
-	pg->VPOy = 0;
 	pg->w = 320;
 	pg->h = 200;
 	pg->zoom = 1.;
 	pg->type = 0;
-	pg->curx = 0;
-	pg->cury = 0;
-	pg->pfm = 1;
-
 	pg->mfobjs = g_hash_table_new (g_direct_hash, g_direct_equal);
 	pg->dcs = g_array_new (FALSE, FALSE, sizeof (DC));
 	g_array_append_vals (pg->dcs, &mydc, 1);
@@ -250,17 +257,21 @@ mr_convcoord (double* x, double* y, Page* pg)
 {
 	DC *dc;
 
-	dc = &g_array_index (pg->dcs, DC,pg->curdc);
-	*x = (*x - dc->x) * pg->VPx / dc->Wx + pg->VPOx;
-	*y = (*y - dc->y) * pg->VPy / dc->Wy + pg->VPOy;
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
+	*x = (*x - dc->x) * dc->VPx / dc->Wx + dc->VPOx;
+	*y = (*y - dc->y) * dc->VPy / dc->Wy + dc->VPOy;
 }
 
 void
 set_anchor (Page* pg, GtkAnchorType* anchor)
 {
-	switch(pg->txtalign & 6) {
+	DC *dc;
+
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
+
+	switch(dc->txtalign & 6) {
 	case 0: /* right */
-		switch(pg->txtalign & 24) {
+		switch(dc->txtalign & 24) {
 			case 0: /* top */
 				*anchor = GTK_ANCHOR_SOUTH_WEST;
 				break;
@@ -273,7 +284,7 @@ set_anchor (Page* pg, GtkAnchorType* anchor)
 		}
 		break;
 	case 2: /* left */
-		switch(pg->txtalign & 24) {
+		switch(dc->txtalign & 24) {
 			case 0: /* top */
 				*anchor = GTK_ANCHOR_SOUTH_EAST;
 				break;
@@ -286,7 +297,7 @@ set_anchor (Page* pg, GtkAnchorType* anchor)
 		}
 		break;
 	case 6: /* center */
-		switch(pg->txtalign & 24) {
+		switch(dc->txtalign & 24) {
 			case 0: /* top */
 				*anchor = GTK_ANCHOR_SOUTH;
 				break;
@@ -303,11 +314,14 @@ set_anchor (Page* pg, GtkAnchorType* anchor)
 void
 set_align (GsfInput* input, Page* pg, double* x, double* y)
 {
-	if (pg->txtalign % 2) {
+	DC *dc;
+
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
+	if (dc->txtalign % 2) {
 		/* cpupdate */
 		/* FIXME: have to update pg->curx, pg->cury with layout size*/
-		*x = pg->curx;
-		*y = pg->cury;
+		*x = dc->curx;
+		*y = dc->cury;
 		gsf_input_seek (input, 4, G_SEEK_CUR);
 	} else {
 		read_point (input, y, x);
@@ -322,15 +336,17 @@ set_text (Page* pg, GocCanvas* canvas, char* txt, int len, GtkAnchorType* anchor
 	char *utxt;
 	MFobj *mfo;
 	Font *font;
-	
+	DC *dc;
+
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
 	txt[len] = 0;
-	if (-1 != pg->curfnt) {
-		mfo = g_hash_table_lookup (pg->mfobjs, (gpointer) pg->curfnt);
+	if (-1 != dc->curfnt) {
+		mfo = g_hash_table_lookup (pg->mfobjs, (gpointer) dc->curfnt);
 		font = mfo->values;
 
-		if (!g_ascii_strcasecmp ("MT Extra",font->name)) {
+		if (!g_ascii_strcasecmp ("MT Extra", font->name)) {
 			utxt = mtextra_to_utf (txt);
-		} else if (!g_ascii_strcasecmp ("SYMBOL",font->name)) {
+		} else if (!g_ascii_strcasecmp ("SYMBOL", font->name)) {
 			utxt = symbol_to_utf (txt);
 		} else {
 			utxt = g_convert (txt, len, "utf8", font->charset, NULL, NULL, NULL);
@@ -406,12 +422,13 @@ parse (GsfInput* input, GocCanvas* canvas)
 	Page *mypg;
 	guint32 rsize = 3;
 	int rid = 0, escfunc;
-	gint mr=0;
+	gint mr = 0;
 	const guint8  *data = {0};
 	guint32 type = 0; /* wmf, apm or emf */
 	guint32 offset = 0;
 	guint64 fsize = 0;
 	double x1, y1, x2, y2, w, h;
+	DC *dc;
 
 	mypg = malloc (sizeof (Page));  
 	fsize = gsf_input_size (input);
@@ -446,23 +463,23 @@ parse (GsfInput* input, GocCanvas* canvas)
 		escrecords = init_esc ();
 		init_page (mypg);
 		objs = g_hash_table_new (g_direct_hash, g_direct_equal);
+		dc = &g_array_index (mypg->dcs, DC, mypg->curdc);
 		if (1 == type) {
 			gsf_input_seek (input, 6, G_SEEK_SET);
-			
 			read_point (input, &x1, &y1);
 			read_point (input, &x2, &y2);
 			w = abs (x2 - x1);
 			h = abs (y2 - y1);
-			mypg->VPx = mypg->w;
-			mypg->VPy = mypg->w * h / w;
-
+			dc->VPx = mypg->w;
+			dc->VPy = mypg->w * h / w;
 			if (mypg->w * h / w > mypg->h) {
-				mypg->VPy = mypg->h;
-				mypg->VPx = mypg->h * w / h;
+				dc->VPy = mypg->h;
+				dc->VPx = mypg->h * w / h;
 			}
-
-			mypg->zoom = mypg->VPx / w;
-			mypg->type = 1;
+			mypg->zoom = dc->VPx / w;
+			mypg->type = 1; 
+			dc->Wx = w;
+			dc->Wy = h;
 		} else {
 			mypg->type = 2;
 		}
@@ -500,11 +517,13 @@ set_font (Page *pg, GocItem *item)
 	Font *font;
 	double rot;
 	PangoAttrList *pattl = pango_attr_list_new ();
+	DC *dc;
 
-	if (-1 == pg->curfnt)
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
+	if (-1 == dc->curfnt)
 		return;
 
-	mfo = g_hash_table_lookup (pg->mfobjs, (gpointer) pg->curfnt);
+	mfo = g_hash_table_lookup (pg->mfobjs, (gpointer) dc->curfnt);
 	font = mfo->values;
 	// convert font values to PangoAttrList
 	if (font->escape > 0) {
@@ -516,10 +535,10 @@ set_font (Page *pg, GocItem *item)
 	if (font->size == 0)
 		font->size = 12;
 	pango_attr_list_insert (pattl, pango_attr_size_new (font->size * 1024. * pg->zoom / 1.5));
-	pango_attr_list_insert (pattl, pango_attr_foreground_new (pg->txtclr.r * 256, pg->txtclr.g * 256, pg->txtclr.b * 256));
+	pango_attr_list_insert (pattl, pango_attr_foreground_new (dc->txtclr.r * 256, dc->txtclr.g * 256, dc->txtclr.b * 256));
 
-	if (2 == pg->bkmode)
-		pango_attr_list_insert (pattl, pango_attr_background_new (pg->bkclr.r * 256, pg->bkclr.g * 256, pg->bkclr.b * 256));
+	if (2 == dc->bkmode)
+		pango_attr_list_insert (pattl, pango_attr_background_new (dc->bkclr.r * 256, dc->bkclr.g * 256, dc->bkclr.b * 256));
 	pango_attr_list_insert (pattl, pango_attr_weight_new (font->weight));
 	pango_attr_list_insert (pattl, pango_attr_family_new (font->name));
 	if (0 != font->italic)
@@ -551,13 +570,15 @@ stroke (Page *pg, GocItem *item)
 	int dashes[5] = {1, 8, 6, 10, 11};
 	int capjoin[3] = {1, 2, 0};
 	int pstyle = 0;
+	DC *dc;
 
-	if (-1 == pg->curfg)
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
+	if (-1 == dc->curfg)
 		return;
 
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 
-	mfo = g_hash_table_lookup (pg->mfobjs, (gpointer) pg->curfg);
+	mfo = g_hash_table_lookup (pg->mfobjs, (gpointer) dc->curfg);
 	p = mfo->values;
 	pstyle = p->style;
 	if (p->style == 5) {
@@ -581,7 +602,7 @@ stroke (Page *pg, GocItem *item)
 		if (pstyle > 5)
 			pstyle = 0;
 		style->line.dash_type = dashes[pstyle];
-		if (1 == pg->bkmode) {
+		if (1 == dc->bkmode) {
 			style->line.fore = GO_COLOR_FROM_RGBA (0, 0, 0, 0);
 		} else {
 			style->line.color = GO_COLOR_FROM_RGB (p->clr.r, p->clr.g, p->clr.b);
@@ -599,12 +620,14 @@ fill (Page *pg, GocItem *item)
 	Brush *b;
 	MFobj *mfo;
 	GOStyle *style;
+	DC *dc;
 
-	if (-1 == pg->curbg)
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
+	if (-1 == dc->curbg)
 		return;
 
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	mfo = g_hash_table_lookup (pg->mfobjs, (gpointer) pg->curbg);
+	mfo = g_hash_table_lookup (pg->mfobjs, (gpointer) dc->curbg);
 	b = mfo->values;
 	switch (b->style) {
 	case 1:
@@ -612,10 +635,10 @@ fill (Page *pg, GocItem *item)
 		break;
 	case 2:
 		style->fill.pattern.pattern = b->hatch + 12;
-		if (1 == pg->bkmode) {
+		if (1 == dc->bkmode) {
 			style->fill.pattern.back = GO_COLOR_FROM_RGBA (0, 0, 0, 0);
 		} else {
-			style->fill.pattern.back = GO_COLOR_FROM_RGB (pg->bkclr.r, pg->bkclr.g, pg->bkclr.b);
+			style->fill.pattern.back = GO_COLOR_FROM_RGB (dc->bkclr.r, dc->bkclr.g, dc->bkclr.b);
 		}
 		style->fill.type = GO_STYLE_FILL_PATTERN;
 		style->fill.pattern.fore = GO_COLOR_FROM_RGB (b->clr.r, b->clr.g, b->clr.b);
@@ -638,10 +661,15 @@ mr0 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas
 //g_print("!EOF ");
 }
 
+// -------------- SaveDC ----------------
 void
 mr1 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
-  //g_print("SaveDC ");
+	DC mydc;
+
+	mydc = g_array_index (pg->dcs, DC, pg->curdc);
+	g_array_append_vals (pg->dcs, &mydc, 1);
+	pg->curdc = pg->dcs->len - 1;
 }
 
 void
@@ -673,9 +701,11 @@ void
 mr5 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
 	const guint8  *data = {0};
+	DC *dc;
 
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
 	data = gsf_input_read (input, 2, NULL);
-	pg->bkmode = GSF_LE_GET_GUINT16 (data);
+	dc->bkmode = GSF_LE_GET_GUINT16 (data);
 	gsf_input_seek (input, -2, G_SEEK_CUR);
 }
 
@@ -703,12 +733,14 @@ void
 mr9 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
 	const guint8  *data = {0};
+	DC *dc;
 
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
 	data = gsf_input_read (input, 2, NULL);
 	if (GSF_LE_GET_GUINT16 (data) > 1)
-		pg->pfm = 0;
+		dc->pfm = 0;
 	else
-		pg->pfm = 1;
+		dc->pfm = 1;
 	gsf_input_seek (input, -2, G_SEEK_CUR);
 }
 
@@ -724,10 +756,20 @@ mr11 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canva
   //g_print("SetTextCharExtra ");
 }
 
+// ---------------- RestoreDC -----------------------
 void
 mr12 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas *canvas)
 {
-  //g_print("RestoreDC ");
+	const guint8  *data = {0};
+	gint16 idx;
+
+	data = gsf_input_read (input, 2, NULL);
+	idx = GSF_LE_GET_GINT16 (data);
+	if (idx > 0)
+		pg->curdc = idx;
+	else
+		pg->curdc -= idx;
+	gsf_input_seek (input, -2, G_SEEK_CUR);
 }
 
 void
@@ -755,24 +797,25 @@ mr16 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	const guint8  *data = {0};
 	int idx;
 	MFobj *mf;
+	DC *dc;
 
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
 	data = gsf_input_read (input, 2, NULL);
 	idx = GSF_LE_GET_GUINT16 (data);
  
 	mf = g_hash_table_lookup (pg->mfobjs, GINT_TO_POINTER (idx));
-
 	switch (mf->type) {
 	case 1:
-		pg->curfg = idx; /* pen */
+		dc->curfg = idx; /* pen */
 		break;
 	case 2:
-		pg->curbg = idx; /* brush */
+		dc->curbg = idx; /* brush */
 		break;
 	case 3:
-		pg->curfnt = idx; /* font */
+		dc->curfnt = idx; /* font */
 		break;
 	case 4:
-		pg->curreg = idx; /* region */
+		dc->curreg = idx; /* region */
 		break;
 	case 5:
 		/* palette, shouldn't happen "SelectPalette" have to be used to select palette */
@@ -788,9 +831,11 @@ void
 mr17 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
 	const guint8  *data = {0};
+	DC *dc;
 
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
 	data = gsf_input_read (input, 2, NULL);
-	pg->txtalign = GSF_LE_GET_GUINT16 (data);
+	dc->txtalign = GSF_LE_GET_GUINT16 (data);
 	gsf_input_seek(input, -2, G_SEEK_CUR);
 }
 
@@ -907,7 +952,10 @@ mr22 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 void
 mr23 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-	read_color(input, &pg->bkclr);
+	DC *dc;
+
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
+	read_color(input, &dc->bkclr);
 	gsf_input_seek (input, -3, G_SEEK_CUR);
 }
 
@@ -915,7 +963,10 @@ mr23 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 void
 mr24 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-	read_color (input, &pg->txtclr);
+	DC *dc;
+
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
+	read_color (input, &dc->txtclr);
 	gsf_input_seek (input, -3, G_SEEK_CUR);
 }
 
@@ -947,13 +998,13 @@ mr27 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	gsf_input_seek (input, -4, G_SEEK_CUR);
 	if (2 == pg->type) {
 		if(pg->w*dc->Wy / dc->Wx > pg->h) {
-			pg->VPy = pg->h;
-			pg->VPx = pg->h * dc->Wx / dc->Wy;
+			dc->VPy = pg->h;
+			dc->VPx = pg->h * dc->Wx / dc->Wy;
 		} else {
-			pg->VPx = pg->w;
-			pg->VPy = pg->w * dc->Wy / dc->Wx;
+			dc->VPx = pg->w;
+			dc->VPy = pg->w * dc->Wy / dc->Wx;
 		}
-		pg->zoom = pg->VPx / dc->Wx;
+		pg->zoom = dc->VPx / dc->Wx;
 	}
 }
 
@@ -979,16 +1030,32 @@ mr29 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	gsf_input_seek (input, -4, G_SEEK_CUR);
 }
 
+// ------------------- OffsetWindowOrg ------------------
 void
 mr30 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-//  g_print("!OffsetWindowOrg ");
+	DC *dc;
+	double x,y;
+
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
+	read_point (input, &x, &y);
+	dc->x += x;
+	dc->y += y;
+	gsf_input_seek (input, -4, G_SEEK_CUR);
 }
-  
+
+// ------------------- OffsetViewportOrg ----------------
 void
 mr31 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
-//  g_print("!OffsetViewportOrg ");
+	DC *dc;
+	double x,y;
+
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
+	read_point (input, &x, &y);
+	dc->VPx += x;
+	dc->VPy += y;
+	gsf_input_seek (input, -4, G_SEEK_CUR);
 }
 
 //  ------------------ LineTo --------------------
@@ -997,14 +1064,16 @@ mr32 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 {
 	double x,y;
 	GocItem *gocitem;
+	DC *dc;
 
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
 	read_point (input, &y, &x);
 	gsf_input_seek (input, -4, G_SEEK_CUR);
 	mr_convcoord (&x, &y, pg);
 	gocitem = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_LINE,
-		"x0", pg->curx, "y0", pg->cury, "x1", x, "y1", y, NULL);
-	pg->curx = x;
-	pg->cury = y;
+		"x0", dc->curx, "y0", dc->cury, "x1", x, "y1", y, NULL);
+	dc->curx = x;
+	dc->cury = y;
 	stroke (pg, gocitem);
 }
 
@@ -1013,12 +1082,14 @@ void
 mr33 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canvas)
 {
 	double x,y;
+	DC *dc;
 
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
 	read_point (input, &y, &x);
 	gsf_input_seek (input, -4, G_SEEK_CUR);
 	mr_convcoord (&x, &y, pg);
-	pg->curx = x;
-	pg->cury = y;
+	dc->curx = x;
+	dc->cury = y;
 }
 
 void
@@ -1067,7 +1138,7 @@ mr38 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	mf = malloc (sizeof (MFobj));
 	mf->type = 1;
 	mf->values = pen;
-	g_hash_table_insert ((*pg).mfobjs, GINT_TO_POINTER(find_obj (pg)), mf);
+	g_hash_table_insert ((*pg).mfobjs, GINT_TO_POINTER (find_obj (pg)), mf);
 }
 
 
@@ -1164,10 +1235,6 @@ mr39 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	font->name = malloc (i + 1);
 	gsf_input_read (input, i + 1, font->name);
 	gsf_input_seek (input, -19 - i, G_SEEK_CUR);
-/*	if (!g_ascii_strcasecmp ((char*) font->name, "Symbol")) {
-		free (font->charset);
-		font->charset = g_strdup ("Symbol");
-	}*/
 	mf = malloc (sizeof (MFobj));
 	mf->type = 3;
 	mf->values = font;
@@ -1204,7 +1271,9 @@ mr_poly (GsfInput* input, Page* pg, GocCanvas* canvas, int type)
 	guint i;
 	GocItem *gocitem;
 	GocPoints *points;
+	DC *dc;
 
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
 	data = gsf_input_read (input, 2, NULL);
 	len = GSF_LE_GET_GINT16 (data);
 	points = goc_points_new (len);
@@ -1214,7 +1283,7 @@ mr_poly (GsfInput* input, Page* pg, GocCanvas* canvas, int type)
 	}
 
 	if (0 == type)
-		gocitem = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_POLYGON, "points", points, "fill-rule", pg->pfm, NULL);
+		gocitem = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_POLYGON, "points", points, "fill-rule", dc->pfm, NULL);
 	else
 		gocitem = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_POLYLINE, "points", points, NULL);
 	fill (pg,gocitem);
@@ -1285,6 +1354,7 @@ mr_rect (GsfInput* input, Page* pg, GocCanvas* canvas, int type)
 	if (y1 > y2 ) {
 		ty = y1; y1 = y2; ty -= y1;
 	}
+
 	if (1 == type)
 		gocitem = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_ELLIPSE,
 			"height", (double) ty, "x", (double) x1, "y", (double) y1, "width", (double) tx, NULL);
@@ -1370,7 +1440,9 @@ mr54 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	GocItem *gocitem;
 	GocIntArray *array;
 	GocPoints *points;
+	DC *dc;
 
+	dc = &g_array_index (pg->dcs, DC, pg->curdc);
 	data = gsf_input_read (input, 2, NULL);
 	npoly = GSF_LE_GET_GINT16 (data);
 	curpos = gsf_input_tell (input);
@@ -1393,7 +1465,7 @@ mr54 (GsfInput* input, guint rsize, Page* pg, GHashTable* objs, GocCanvas* canva
 	}
 
 	gocitem = goc_item_new (goc_canvas_get_root (canvas), GOC_TYPE_POLYGON,
-		"points", points, "sizes", array, "fill-rule", pg->pfm, NULL);
+		"points", points, "sizes", array, "fill-rule", dc->pfm, NULL);
 	fill (pg, gocitem);
 	stroke (pg, gocitem);
 	gsf_input_seek (input, curpos - 2, G_SEEK_SET);
@@ -1671,7 +1743,7 @@ mtextra_to_utf (char* txt)
 	guint i;
 
 	data = malloc (strlen (txt) * 2);
-	for (i = 0; i < strlen(txt); i++)
+	for (i = 0; i < strlen (txt); i++)
 		data[i] = mte[(guint8) txt[i]];
 	utxt =  g_utf16_to_utf8 (data, strlen (txt), NULL, NULL, NULL);
 	return utxt;
@@ -1711,7 +1783,7 @@ symbol_to_utf (char* txt)
 	guint i;
 
 	data = malloc (strlen (txt) * 2);
-	for (i = 0; i < strlen(txt); i++)
+	for (i = 0; i < strlen (txt); i++)
 		data[i] = utf[(guint8) txt[i]];
 	utxt =  g_utf16_to_utf8 (data, strlen (txt), NULL, NULL, NULL);
 	return utxt;
@@ -1808,8 +1880,8 @@ open_file (char const *filename, GtkWidget *nbook)
 	g_signal_connect_swapped (canvas, "button-press-event", G_CALLBACK (my_test), canvas);
 
 	window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (window), GTK_WIDGET (canvas));
-
 	if (g_strrstr (filename, "/") != NULL)
 		label = gtk_label_new (g_strrstr (filename, "/") + 1);
 	else
@@ -1856,7 +1928,7 @@ main (int argc, char *argv[])
 	GtkWidget *window, *file_menu, *menu_bar, *file_item, *open_item, *close_item, *quit_item, *box, *nbook;
 
 	gtk_init (&argc, &argv);
-	gsf_init();
+	gsf_init ();
 	libgoffice_init ();
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1883,7 +1955,7 @@ main (int argc, char *argv[])
 
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (file_item), file_menu);
 
-	gtk_menu_bar_append(GTK_MENU_BAR(menu_bar), file_item );
+	gtk_menu_bar_append(GTK_MENU_BAR (menu_bar), file_item );
 
 	gtk_box_pack_start (GTK_BOX (box), menu_bar, FALSE, FALSE, 2);
 	gtk_box_pack_start (GTK_BOX (box), nbook, TRUE, TRUE, 2);
