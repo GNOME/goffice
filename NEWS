@@ -2,7 +2,6 @@ goffice 0.8.2:
 
 Jean:
 	* Support fd:// URIs on win32. [#608422]
-	* Fixed a style leak. [#615491]
 
 Morten:
 	* Implement conf notification in keyfile case.  [#613523]
