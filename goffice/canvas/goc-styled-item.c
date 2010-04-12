@@ -64,10 +64,13 @@ goc_styled_item_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 
-	case STYLED_ITEM_PROP_STYLE :
+	case STYLED_ITEM_PROP_STYLE : {
+		GOStyle *style = GO_STYLE (g_value_get_object (value));
 		resize = go_styled_object_set_style (GO_STYLED_OBJECT (gsi),
-	      			g_value_get_object (value));
+	      			style);
+		g_object_unref (style);
 		break;
+	}
 
 	case STYLED_ITEM_PROP_SCALE_LINE_WIDTH :
 		gsi->scale_line_width =  g_value_get_boolean (value);

@@ -1,3 +1,10 @@
+2010-04-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-styled-item.c (goc_styled_item_set_property): unref
+	the style after setting it. [#615491]
+	* goffice/graph/gog-styled-object.c
+	(gog_styled_object_set_property): ditto.
+
 2010-04-10  Valek Filippov  <frob@gnome.org>
 
 	* goffice/tests/mf-demo.c: move objects to drawing context,

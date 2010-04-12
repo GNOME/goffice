@@ -89,10 +89,13 @@ gog_styled_object_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 
-	case STYLED_OBJECT_PROP_STYLE :
+	case STYLED_OBJECT_PROP_STYLE : {
+		GOStyle *style = GO_STYLE (g_value_get_object (value));
 		resize = go_styled_object_set_style (GO_STYLED_OBJECT (gso),
-	      			g_value_get_object (value));
+	      			style);
+		g_object_unref (style);
 		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
