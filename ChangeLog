@@ -1,3 +1,10 @@
+2010-04-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* docs/reference/goffice-0.8-sections.txt: add new go_path entries.
+	* goffice/utils/go-path.c (go_path_copy),
+	(go_path_append): new functions.
+	* goffice/utils/go-path.h: ditto.
+
 2010-04-10  Valek Filippov  <frob@gnome.org>
 
 	* goffice/tests/mf-demo.c: move objects to drawing context,

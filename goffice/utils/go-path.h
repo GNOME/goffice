@@ -108,6 +108,9 @@ void    go_path_to_cairo	(GOPath const *path,
 				 GOPathDirection direction,
 				 cairo_t *cr);
 
+GOPath *go_path_copy		(GOPath const *path);
+GOPath *go_path_append		(GOPath *path1, GOPath const *path2);
+
 G_END_DECLS
 
 #endif

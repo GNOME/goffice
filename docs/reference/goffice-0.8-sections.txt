@@ -693,8 +693,13 @@ go_path_pie_wedge
 go_path_rectangle
 go_path_ring_wedge
 go_path_interpret
+go_path_to_cairo
+go_path_copy
+go_path_append
 <SUBSECTION Standard>
 GO_IS_PATH
+GO_TYPE_PATH
+go_path_get_type
 </SECTION>
 
 ### Data

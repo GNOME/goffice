@@ -589,6 +589,14 @@ go_path_cairo_curve_to (cairo_t *cr, GOPathPoint const *point0,
 	cairo_curve_to (cr, point0->x, point0->y, point1->x, point1->y, point2->x, point2->y);
 }
 
+/** go_path_to_cairo:
+ * @path: #GOPath
+ * @direction: #GOPathDirection
+ * @cr: #cairo_t
+ *
+ * Renders the path to the cairo context using its current settings.
+ */
+
 void
 go_path_to_cairo (GOPath const *path, GOPathDirection direction, cairo_t *cr)
 {
@@ -597,4 +605,64 @@ go_path_to_cairo (GOPath const *path, GOPathDirection direction, cairo_t *cr)
 			   (GOPathLineToFunc *) go_path_cairo_line_to,
 			   (GOPathCurveToFunc *) go_path_cairo_curve_to,
 			   (GOPathClosePathFunc *) cairo_close_path, cr);
+}
+
+static void
+go_path_append_move_to (GOPath *path, GOPathPoint const *point)
+{
+	go_path_move_to (path, point->x, point->y);
+}
+
+static void
+go_path_append_line_to (GOPath *path, GOPathPoint const *point)
+{
+	go_path_line_to (path, point->x, point->y);
+}
+
+static void
+go_path_append_curve_to (GOPath *path, GOPathPoint const *point0,
+			GOPathPoint const *point1, GOPathPoint const *point2)
+{
+	go_path_curve_to (path, point0->x, point0->y, point1->x, point1->y, point2->x, point2->y);
+}
+
+static void
+go_path_append_close (GOPath *path)
+{
+	go_path_close (path);
+}
+
+/** go_path_copy:
+ * @path: #GOPath
+ *
+ * Returns: a new #GOPath identical to @path.
+ */
+
+GOPath *go_path_copy (GOPath const *path)
+{
+	GOPath *new_path = go_path_new ();
+	new_path->options = path->options;
+	go_path_interpret (path, GO_PATH_DIRECTION_FORWARD,
+			   (GOPathMoveToFunc *) go_path_append_move_to,
+			   (GOPathLineToFunc *) go_path_append_line_to,
+			   (GOPathCurveToFunc *) go_path_append_curve_to,
+			   (GOPathClosePathFunc *) go_path_append_close, new_path);
+	return new_path;
+}
+
+/** go_path_append:
+ * @path1: #GOPath
+ * @path2: #GOPath
+ *
+ * Appends @path2 at the end of @path1.
+ * Returns: @path1
+ */
+GOPath *go_path_append (GOPath *path1, GOPath const *path2)
+{
+	go_path_interpret (path2, GO_PATH_DIRECTION_FORWARD,
+			   (GOPathMoveToFunc *) go_path_append_move_to,
+			   (GOPathLineToFunc *) go_path_append_line_to,
+			   (GOPathCurveToFunc *) go_path_append_curve_to,
+			   (GOPathClosePathFunc *) go_path_append_close, path1);
+	return path1;
 }
