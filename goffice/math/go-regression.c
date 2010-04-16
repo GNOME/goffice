@@ -26,15 +26,6 @@
 #define SUFFIX(_n) _n
 #define FORMAT_g "g"
 
-#define ALLOC_MATRIX(var,dim1,dim2)			\
-  do { int _i, _d1, _d2;				\
-       _d1 = (dim1);					\
-       _d2 = (dim2);					\
-       (var) = g_new (double *, _d1);		\
-       for (_i = 0; _i < _d1; _i++)			\
-	       (var)[_i] = g_new (double, _d2);	\
-  } while (0)
-
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 #include "go-regression.c"
 #undef DEFINE_COMMON
@@ -43,7 +34,6 @@
 #undef DOUBLE_MANT_DIG
 #undef SUFFIX
 #undef FORMAT_g
-#undef ALLOC_MATRIX
 #ifdef HAVE_SUNMATH_H
 #include <sunmath.h>
 #endif
@@ -52,15 +42,6 @@
 #define DOUBLE_MANT_DIG LDBL_MANT_DIG
 #define SUFFIX(_n) _n ## l
 #define FORMAT_g "Lg"
-
-#define ALLOC_MATRIX(var,dim1,dim2)			\
-  do { int _i, _d1, _d2;				\
-       _d1 = (dim1);					\
-       _d2 = (dim2);					\
-       (var) = g_new (long double *, _d1);		\
-       for (_i = 0; _i < _d1; _i++)			\
-	       (var)[_i] = g_new (long double, _d2);	\
-  } while (0)
 #endif
 
 #endif
@@ -68,6 +49,15 @@
 #ifdef DEFINE_COMMON
 
 #undef DEBUG_NEAR_SINGULAR
+
+#define ALLOC_MATRIX(var,dim1,dim2)			\
+  do { int _i, _d1, _d2;				\
+       _d1 = (dim1);					\
+       _d2 = (dim2);					\
+       (var) = g_new (DOUBLE *, _d1);			\
+       for (_i = 0; _i < _d1; _i++)			\
+	       (var)[_i] = g_new (DOUBLE, _d2);		\
+  } while (0)
 
 #define FREE_MATRIX(var,dim1,dim2)			\
   do { int _i, _d1;					\
@@ -89,17 +79,17 @@
 #endif
 
 #undef PRINT_MATRIX
-#define PRINT_MATRIX(var,dim1,dim2)					\
-  do {									\
-	int _i, _j, _d1, _d2;						\
-	_d1 = (dim1);							\
-	_d2 = (dim2);							\
-	for (_i = 0; _i < _d1; _i++)					\
-	  {								\
-	    for (_j = 0; _j < _d2; _j++)				\
-	      fprintf (stderr, " %19.10" FORMAT_g, (var)[_i][_j]);	\
-	    fprintf (stderr, "\n");					\
-	  }								\
+#define PRINT_MATRIX(var,dim1,dim2)				\
+  do {								\
+	int _i, _j, _d1, _d2;					\
+	_d1 = (dim1);						\
+	_d2 = (dim2);						\
+	for (_i = 0; _i < _d1; _i++)				\
+	  {							\
+	    for (_j = 0; _j < _d2; _j++)			\
+	      g_printerr (" %19.10" FORMAT_g, (var)[_i][_j]);	\
+	    g_printerr ("\n");					\
+	  }							\
   } while (0)
 
 /*
@@ -129,6 +119,10 @@ SUFFIX(backsolve) (DOUBLE **LU, int *P, DOUBLE *b, int n, DOUBLE *res)
 {
 	int i, j;
 
+#if 0
+	PRINT_MATRIX(LU,n,n);
+#endif
+
 	for (i = 0; i < n; i++) {
 		res[i] = b[P[i]];
 		for (j = 0; j < i; j++)
@@ -142,7 +136,7 @@ SUFFIX(backsolve) (DOUBLE **LU, int *P, DOUBLE *b, int n, DOUBLE *res)
 	}
 }
 
-static GORegressionResult
+static void
 SUFFIX(rescale) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *pdet)
 {
 	int i;
@@ -154,15 +148,16 @@ SUFFIX(rescale) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *pdet)
 
 		(void)SUFFIX(go_range_maxabs) (A[i], n, &max);
 
-		if (max == 0)
-			return GO_REG_singular;
+		if (max == 0) {
+			*pdet = 0;
+			continue;
+		}
 
 		/* Use a power of 2 near sqrt (max) as scale.  */
 		(void)SUFFIX(frexp) (SUFFIX(sqrt) (max), &expn);
 		scale = SUFFIX(ldexp) (1, expn);
 #ifdef DEBUG_NEAR_SINGULAR
-		printf ("scale[%d]=%" FORMAT_g "\n",
-			i, scale);
+		g_printerr ("scale[%d]=%" FORMAT_g "\n", i, scale);
 #endif
 
 		*pdet *= scale;
@@ -170,7 +165,6 @@ SUFFIX(rescale) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *pdet)
 		for (j = 0; j < n; j++)
 			A[i][j] /= scale;
 	}
-	return GO_REG_ok;
 }
 
 
@@ -187,33 +181,28 @@ SUFFIX(rescale) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *pdet)
  */
 static GORegressionResult
 SUFFIX(LUPDecomp) (DOUBLE **A, DOUBLE **LU, int *P, int n, DOUBLE *b_scaled,
-	   DOUBLE *pdet)
+		   DOUBLE *pdet)
 {
 	int i, j, k, tempint;
 	DOUBLE highest = 0;
 	DOUBLE lowest = DOUBLE_MAX;
 	DOUBLE cond;
-	gboolean odd_parity = FALSE;
 	DOUBLE det = 1;
 
 	COPY_MATRIX (LU, A, n, n);
 	for (j = 0; j < n; j++)
 		P[j] = j;
 
-
 	*pdet = 0;
 
 #ifdef DEBUG_NEAR_SINGULAR
 	PRINT_MATRIX (LU, n, n);
 #endif
-	{
-		GORegressionResult err = SUFFIX(rescale) (LU, b_scaled, n, &det);
-		if (err != GO_REG_ok)
-			return err;
-	}
+
+	SUFFIX(rescale) (LU, b_scaled, n, &det);
 
 	for (i = 0; i < n; i++) {
-		DOUBLE max = 0;
+		DOUBLE max = -42;
 		int mov = -1;
 
 		for (j = i; j < n; j++)
@@ -223,19 +212,17 @@ SUFFIX(LUPDecomp) (DOUBLE **A, DOUBLE **LU, int *P, int n, DOUBLE *b_scaled,
 			}
 #ifdef DEBUG_NEAR_SINGULAR
 		PRINT_MATRIX (LU, n, n);
-		printf ("max[%d]=%" FORMAT_g " at %d\n",
-			i, max, mov);
+		g_printerr ("max[%d]=%" FORMAT_g " at %d\n", i, max, mov);
 #endif
-		if (max == 0)
-			return GO_REG_singular;
 		if (max > highest)
 			highest = max;
 		if (max < lowest)
 			lowest = max;
+
 		if (i != mov) {
 			/*swap the two rows */
 
-			odd_parity = !odd_parity;
+			det = 0 - det;
 			tempint = P[i];
 			P[i] = P[mov];
 			P[mov] = tempint;
@@ -254,14 +241,19 @@ SUFFIX(LUPDecomp) (DOUBLE **A, DOUBLE **LU, int *P, int n, DOUBLE *b_scaled,
 	}
 
 	/* Calculate the determinant.  */
-	if (odd_parity) det = -det;
 	for (i = 0; i < n; i++)
 		det *= LU[i][i];
 	*pdet = det;
 
-	cond = (SUFFIX(log) (highest) - SUFFIX(log) (lowest)) / SUFFIX(log) (2);
+	if (det == 0)
+		return GO_REG_singular;
+
+	cond = lowest > 0
+		? SUFFIX(log) (highest / lowest) / SUFFIX(log) (2)
+		: go_pinf;
+
 #ifdef DEBUG_NEAR_SINGULAR
-	printf ("cond=%.20" FORMAT_g "\n", cond);
+	g_printerr ("cond=%.20" FORMAT_g "\n", cond);
 #endif
 
 	/* FIXME: make some science out of this.  */
@@ -549,7 +541,8 @@ SUFFIX(general_linear_regression) (DOUBLE **xss, int xdim,
 					 * If this happens, something is really
 					 * wrong, numerically.
 					 */
-					regerr = GO_REG_near_singular_bad;
+					g_printerr ("inv[i]=%" FORMAT_g "\n", inv[i]);
+					//regerr = GO_REG_near_singular_bad;
 				}
 				regression_stat->se[i] =
 					SUFFIX(sqrt) (regression_stat->var * inv[i]);
@@ -1188,9 +1181,9 @@ SUFFIX(derivative) (SUFFIX(GORegressionFunction) f,
 	}
 
 #ifdef DEBUG
-	printf ("y1 = %lf\n", y1);
-	printf ("y2 = %lf\n", y2);
-	printf ("DELTA = %lf\n",DELTA);
+	g_printerr ("y1 = %lf\n", y1);
+	g_printerr ("y2 = %lf\n", y2);
+	g_printerr ("DELTA = %lf\n",DELTA);
 #endif
 
 	*df = (y2 - y1) / (2 * DELTA);
@@ -1281,9 +1274,9 @@ SUFFIX(chi_derivative) (SUFFIX(GORegressionFunction) f,
 	}
 
 #ifdef DEBUG
-	printf ("y1 = %lf\n", y1);
-	printf ("y2 = %lf\n", y2);
-	printf ("DELTA = %lf\n", DELTA);
+	g_printerr ("y1 = %lf\n", y1);
+	g_printerr ("y2 = %lf\n", y2);
+	g_printerr ("DELTA = %lf\n", DELTA);
 #endif
 
 	*dchi = (y2 - y1) / (2 * DELTA);
@@ -1465,7 +1458,7 @@ SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 	tmp_par = g_new (DOUBLE, p_dim);
 	b       = g_new (DOUBLE, p_dim);
 #ifdef DEBUG
-	printf ("Chi Squared : %lf", chi_pre);
+	g_printerr ("Chi Squared : %lf", chi_pre);
 #endif
 
 	for (count = 0; count < MAX_STEPS; count++) {
@@ -1502,9 +1495,9 @@ SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 			goto out;
 
 #ifdef DEBUG
-		printf ("Chi Squared : %lf", chi_pre);
-		printf ("Chi Squared : %lf", chi_pos);
-		printf ("r  :  %lf", r);
+		g_printerr ("Chi Squared : %lf", chi_pre);
+		g_printerr ("Chi Squared : %lf", chi_pos);
+		g_printerr ("r  :  %lf", r);
 #endif
 
 		if (chi_pos <= chi_pre + DELTA / 2) {

@@ -1,3 +1,9 @@
+2010-04-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-regression.c (rescale): Don't return a value.
+	Determinant will be zero on return when singular.
+	(LUPDecomp): Moderate cleanup.
+
 2010-04-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* docs/reference/goffice-0.8-sections.txt: add new go_path entries.
