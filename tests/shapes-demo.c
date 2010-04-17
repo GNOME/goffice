@@ -118,6 +118,8 @@ parse_line (GocCanvas *canvas, gchar *entry)
 	GOArrow		*arr;
 	guint		i,j;
 	int		cmd = -1;
+	GocPoints *points;
+	GocIntArray *array;
 	
 	/* check for "comment" */
 	if (g_str_has_prefix (entry, "#"))
@@ -206,7 +208,7 @@ parse_line (GocCanvas *canvas, gchar *entry)
 	case 6: /* POLY */
 	case 7:
 		if (g_strv_length(v) > 2) {
-			GocPoints *points = goc_points_new ((g_strv_length(v) - 1) / 2);
+			points = goc_points_new ((g_strv_length(v) - 1) / 2);
 			for (i=0; i < g_strv_length (v) / 2; i++) {
 				points->points[i].x = atoi (v[i * 2 + 1]);
 				points->points[i].y = atoi (v[i * 2 + 2]);
@@ -221,11 +223,11 @@ parse_line (GocCanvas *canvas, gchar *entry)
 		if (g_strv_length(v) > 2)
 			if (atoi(v[1]) < 2)
 				break;
-			GocIntArray *array = goc_int_array_new (atoi(v[1]));
+			array = goc_int_array_new (atoi(v[1]));
 			for (j = 0; j < (guint) atoi(v[1]); j++)
 				array->vals[j] = atoi(v[j + 2]);
 			j = atoi(v[1]);
-			GocPoints *points = goc_points_new ((g_strv_length(v) - j - 2) / 2);
+			points = goc_points_new ((g_strv_length(v) - j - 2) / 2);
 			for (i=0; i < (g_strv_length (v) - j - 2) / 2; i++) {
 				points->points[i].x = atoi (v[i * 2 + 1 + j + 1]);
 				points->points[i].y = atoi (v[i * 2 + 2 + j + 1]);
