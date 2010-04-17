@@ -1,3 +1,7 @@
+2010-04-16  Morten Welinder <terra@gnome.org>
+
+	* Release 0.8.2
+
 2010-04-16  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-regression.c (rescale): Don't return a value.
