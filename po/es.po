@@ -12,13 +12,14 @@
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2004, 2005.
 # Chihau Chau <chihau@gmail.com>, 2009.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
-"POT-Creation-Date: 2010-04-09 06:38+0000\n"
-"PO-Revision-Date: 2010-04-10 19:55+0200\n"
+"POT-Creation-Date: 2010-04-17 01:27+0000\n"
+"PO-Revision-Date: 2010-04-21 18:22+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -447,7 +448,6 @@ msgstr ""
 "Debería reiniciar este programa ahora."
 
 #: ../goffice/app/go-plugin.c:1763 ../goffice/app/go-plugin.c:1854
-#| msgid "Errors while reading info about available plugins."
 msgid "Errors while reading info about new plugins."
 msgstr ""
 "Ocurrieron errores al leer la información sobre los complementos nuevos."
@@ -517,8 +517,8 @@ msgid "The arc end angle"
 msgstr "El ángulo de final del arco"
 
 #: ../goffice/canvas/goc-arc.c:473 ../goffice/canvas/goc-ellipse.c:263
-#: ../goffice/canvas/goc-rectangle.c:354 ../goffice/canvas/goc-text.c:440
-#: ../goffice/graph/gog-3d-box.c:166
+#: ../goffice/canvas/goc-path.c:251 ../goffice/canvas/goc-rectangle.c:354
+#: ../goffice/canvas/goc-text.c:440 ../goffice/graph/gog-3d-box.c:166
 msgid "Rotation"
 msgstr "Rotación"
 
@@ -554,9 +554,9 @@ msgstr "Flecha para el final de la línea"
 
 #: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:239
 #: ../goffice/canvas/goc-graph.c:412 ../goffice/canvas/goc-group.c:243
-#: ../goffice/canvas/goc-pixbuf.c:231 ../goffice/canvas/goc-rectangle.c:330
-#: ../goffice/canvas/goc-text.c:428 ../goffice/canvas/goc-widget.c:318
-#: ../goffice/utils/go-marker.c:83
+#: ../goffice/canvas/goc-path.c:239 ../goffice/canvas/goc-pixbuf.c:231
+#: ../goffice/canvas/goc-rectangle.c:330 ../goffice/canvas/goc-text.c:428
+#: ../goffice/canvas/goc-widget.c:318 ../goffice/utils/go-marker.c:83
 msgid "x"
 msgstr "x"
 
@@ -566,8 +566,9 @@ msgstr "La posición horizontal del centro del círculo"
 
 #: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:245
 #: ../goffice/canvas/goc-graph.c:418 ../goffice/canvas/goc-group.c:249
-#: ../goffice/canvas/goc-pixbuf.c:237 ../goffice/canvas/goc-rectangle.c:336
-#: ../goffice/canvas/goc-text.c:434 ../goffice/canvas/goc-widget.c:324
+#: ../goffice/canvas/goc-path.c:245 ../goffice/canvas/goc-pixbuf.c:237
+#: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:434
+#: ../goffice/canvas/goc-widget.c:324
 msgid "y"
 msgstr "y"
 
@@ -700,6 +701,40 @@ msgstr "y1"
 #: ../goffice/canvas/goc-line.c:342
 msgid "The line end y coordinate"
 msgstr "La coordenada y de final de la línea"
+
+#: ../goffice/canvas/goc-path.c:240
+#| msgid "The arc center x coordinate"
+msgid "The path first point x coordinate"
+msgstr "La coordenada x del primer punto de la ruta"
+
+#: ../goffice/canvas/goc-path.c:246
+#| msgid "The arc center y coordinate"
+msgid "The path first point y coordinate"
+msgstr "La coordenada y del primer punto de la ruta"
+
+#: ../goffice/canvas/goc-path.c:252
+#| msgid "The rotation around top left position"
+msgid "The rotation around first point position"
+msgstr "La rotación alrededor de la posición del primer punto"
+
+#: ../goffice/canvas/goc-path.c:257
+#| msgid "ColoredXY"
+msgid "Closed"
+msgstr "Cerrada"
+
+#: ../goffice/canvas/goc-path.c:258
+msgid "The flag for closed path"
+msgstr "La opción para la ruta cerrada"
+
+#: ../goffice/canvas/goc-path.c:263
+#| msgid "at"
+msgid "Path"
+msgstr "Ruta"
+
+#: ../goffice/canvas/goc-path.c:264
+#| msgid "The text position"
+msgid "The path points"
+msgstr "Los puntos de la ruta"
 
 #: ../goffice/canvas/goc-pixbuf.c:232
 msgid "The image left position"
