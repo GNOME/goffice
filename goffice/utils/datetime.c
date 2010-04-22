@@ -202,15 +202,13 @@ go_date_g_years_between (GDate const *date1, GDate const *date2)
  * @method:    week numbering method
  *
  * Returns: week number according to the given method.
- * 1:   Week starts on Sunday. Days before first Sunday are in week 0.
- * 2:   Week starts on Monday. Days before first Monday are in week 0.
- * 150: ISO 8601 week number. See datetime_isoweeknum.
+ * 1:   Week starts on Sunday.  January 1 is in week 1.
+ * 2:   Week starts on Monday.  January 1 is in week 1.
+ * 150: ISO 8601 week number.
  */
 int
 go_date_weeknum (GDate const *date, int method)
 {
-	int res = -1;
-
 	g_return_val_if_fail (g_date_valid (date), -1);
 	g_return_val_if_fail (method == GO_WEEKNUM_METHOD_SUNDAY ||
 			      method == GO_WEEKNUM_METHOD_MONDAY ||
@@ -218,15 +216,35 @@ go_date_weeknum (GDate const *date, int method)
 			      -1);
 
 	switch (method) {
-	case GO_WEEKNUM_METHOD_SUNDAY:
-		res = g_date_get_sunday_week_of_year (date); break;
-	case GO_WEEKNUM_METHOD_MONDAY:
-		res = g_date_get_monday_week_of_year (date); break;
-	case GO_WEEKNUM_METHOD_ISO:
-		res = g_date_get_iso8601_week_of_year (date); break;
-	}
+	case GO_WEEKNUM_METHOD_SUNDAY: {
+		GDate jan1;
+		GDateWeekday wd;
+		int doy;
 
-	return res;
+		g_date_clear (&jan1, 1);
+		g_date_set_dmy (&jan1, 1, 1, g_date_get_year (date));
+		wd = g_date_get_weekday (&jan1);
+		doy = g_date_get_day_of_year (date);
+
+		return (doy + (int)wd + 6 - (wd == G_DATE_SUNDAY ? 7 : 0)) / 7;
+	}
+	case GO_WEEKNUM_METHOD_MONDAY: {
+		GDate jan1;
+		GDateWeekday wd;
+		int doy;
+
+		g_date_clear (&jan1, 1);
+		g_date_set_dmy (&jan1, 1, 1, g_date_get_year (date));
+		wd = g_date_get_weekday (&jan1);
+		doy = g_date_get_day_of_year (date);
+
+		return (doy + (int)wd + 5) / 7;
+	}
+	case GO_WEEKNUM_METHOD_ISO:
+		return g_date_get_iso8601_week_of_year (date);
+	default:
+		return -1;
+	}
 }
 
 /* ------------------------------------------------------------------------- */

@@ -1,3 +1,8 @@
+2010-04-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/datetime.c (go_date_weeknum): Return the Excel
+	compatible week numbers as intended, not the glib ones.
+
 2010-04-16  Valek Filippov  <frob@gnome.org>
 
 	* tests/shapes-demo.c: fix warnings.
