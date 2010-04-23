@@ -518,10 +518,20 @@ gog_probability_plot_series_update (GogObject *obj)
 	g_free (series->x);
 	series->x = NULL;
 	if (series->base.values[0].data != NULL) {
+		double *x;
+		unsigned i, max = 0;
 		x_vals = go_data_get_values (series->base.values[0].data);
 		series->base.num_elements = go_data_get_vector_size (series->base.values[0].data);
-		if (x_vals)
-			series->x = go_range_sort (x_vals, series->base.num_elements);
+		if (x_vals) {
+		x = g_new (double, series->base.num_elements);
+			for (i = 0; i < series->base.num_elements; i++) {
+				if (go_finite (x_vals[i]))
+				    x[max++] = x_vals[i];
+			}
+			series->base.num_elements = max;
+			series->x = go_range_sort (x, series->base.num_elements);
+			g_free (x);
+		}
 	}
 	mn = pow (0.5, 1. / series->base.num_elements);
 	d = series->base.num_elements + .365;

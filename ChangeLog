@@ -1,3 +1,8 @@
+2010-04-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_distrib/gog-probability-plot.c
+	(gog_probability_plot_series_update): skip invalid data.
+
 2010-04-21  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/datetime.c (go_date_weeknum): Return the Excel
