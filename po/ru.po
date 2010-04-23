@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-11 20:19-0500\n"
+"POT-Creation-Date: 2010-04-22 20:44-0400\n"
 "PO-Revision-Date: 2010-03-11 21:05-0500\n"
 "Last-Translator: Konstantin Tokarev <annulen@yandex.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
@@ -406,8 +406,7 @@ msgstr "Не удалось включить дополнение \"%s\" (иде
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr "Не удалось отключить дополнение \"%s\" (идент. %s)."
 
-#: ../goffice/app/go-plugin.c:1621 ../goffice/app/go-plugin.c:1778
-#: ../goffice/app/go-plugin.c:1859
+#: ../goffice/app/go-plugin.c:1621 ../goffice/app/go-plugin.c:1787
 msgid "Errors while reading info about available plugins."
 msgstr "Ошибки при считывании информации о доступных дополнениях."
 
@@ -426,11 +425,16 @@ msgstr ""
 "%s.\n"
 "Вы должны перезапустить Gnumeric сейчас."
 
-#: ../goffice/app/go-plugin.c:1801 ../goffice/app/go-plugin.c:1881
+#: ../goffice/app/go-plugin.c:1763 ../goffice/app/go-plugin.c:1854
+#, fuzzy
+msgid "Errors while reading info about new plugins."
+msgstr "Ошибки при считывании информации о доступных дополнениях."
+
+#: ../goffice/app/go-plugin.c:1811 ../goffice/app/go-plugin.c:1878
 msgid "Errors while activating plugins."
 msgstr "Ошибки при включении дополнений."
 
-#: ../goffice/app/go-plugin.c:1808 ../goffice/app/go-plugin.c:1888
+#: ../goffice/app/go-plugin.c:1818 ../goffice/app/go-plugin.c:1885
 msgid "Errors while initializing plugin system."
 msgstr "Ошибки при инициализации системы дополнений."
 
@@ -442,95 +446,95 @@ msgstr ""
 msgid "Execute main loop iteration"
 msgstr "Выполнить итерацию основного цикла"
 
-#: ../goffice/canvas/goc-arc.c:435
+#: ../goffice/canvas/goc-arc.c:437
 msgid "xc"
 msgstr "xc"
 
-#: ../goffice/canvas/goc-arc.c:436
+#: ../goffice/canvas/goc-arc.c:438
 msgid "The arc center x coordinate"
 msgstr "Координата X центра дуги"
 
-#: ../goffice/canvas/goc-arc.c:441
+#: ../goffice/canvas/goc-arc.c:443
 msgid "yc"
 msgstr "yс"
 
-#: ../goffice/canvas/goc-arc.c:442
+#: ../goffice/canvas/goc-arc.c:444
 msgid "The arc center y coordinate"
 msgstr "Координата Y центра дуги"
 
-#: ../goffice/canvas/goc-arc.c:447
+#: ../goffice/canvas/goc-arc.c:449
 msgid "xr"
 msgstr "xr"
 
-#: ../goffice/canvas/goc-arc.c:448
+#: ../goffice/canvas/goc-arc.c:450
 msgid "The arc x radius"
 msgstr "Горизонтальный радиус дуги"
 
-#: ../goffice/canvas/goc-arc.c:453
+#: ../goffice/canvas/goc-arc.c:455
 msgid "yr"
 msgstr "yr"
 
-#: ../goffice/canvas/goc-arc.c:454
+#: ../goffice/canvas/goc-arc.c:456
 msgid "The arc y radius"
 msgstr "Вертикальный радиус дуги"
 
-#: ../goffice/canvas/goc-arc.c:459
+#: ../goffice/canvas/goc-arc.c:461
 msgid "ang1"
 msgstr "ang1"
 
-#: ../goffice/canvas/goc-arc.c:460
+#: ../goffice/canvas/goc-arc.c:462
 msgid "The arc start angle"
 msgstr "Начальный угол дуги"
 
-#: ../goffice/canvas/goc-arc.c:465
+#: ../goffice/canvas/goc-arc.c:467
 msgid "ang2"
 msgstr "ang2"
 
-#: ../goffice/canvas/goc-arc.c:466
+#: ../goffice/canvas/goc-arc.c:468
 msgid "The arc end angle"
 msgstr "Конечный угол дуги"
 
-#: ../goffice/canvas/goc-arc.c:471 ../goffice/canvas/goc-ellipse.c:261
-#: ../goffice/canvas/goc-rectangle.c:353 ../goffice/canvas/goc-text.c:411
-#: ../goffice/graph/gog-3d-box.c:166
+#: ../goffice/canvas/goc-arc.c:473 ../goffice/canvas/goc-ellipse.c:263
+#: ../goffice/canvas/goc-path.c:251 ../goffice/canvas/goc-rectangle.c:354
+#: ../goffice/canvas/goc-text.c:440 ../goffice/graph/gog-3d-box.c:166
 msgid "Rotation"
 msgstr "Вращение"
 
-#: ../goffice/canvas/goc-arc.c:472
+#: ../goffice/canvas/goc-arc.c:474
 msgid "The rotation around center position"
 msgstr "Вращение вокруг центральной точки"
 
-#: ../goffice/canvas/goc-arc.c:477 ../goffice/canvas/goc-rectangle.c:359
+#: ../goffice/canvas/goc-arc.c:479 ../goffice/canvas/goc-rectangle.c:360
 #: ../goffice/graph/gog-axis.c:2460 ../goffice/graph/gog-grid.c:116
 #: ../plugins/plot_barcol/gog-1.5d.c:332
 msgid "Type"
 msgstr "Тип"
 
-#: ../goffice/canvas/goc-arc.c:478
+#: ../goffice/canvas/goc-arc.c:480
 msgid "The type of arc: arc, chord or pie"
 msgstr "Тип дуги: дуга, хорда или сектор"
 
-#: ../goffice/canvas/goc-arc.c:484 ../goffice/canvas/goc-line.c:347
+#: ../goffice/canvas/goc-arc.c:486 ../goffice/canvas/goc-line.c:347
 msgid "Start Arrow"
 msgstr "Начальная стрелка"
 
-#: ../goffice/canvas/goc-arc.c:485 ../goffice/canvas/goc-line.c:348
+#: ../goffice/canvas/goc-arc.c:487 ../goffice/canvas/goc-line.c:348
 msgid "Arrow for line's start"
 msgstr "Стрелка для начала линии"
 
-#: ../goffice/canvas/goc-arc.c:490 ../goffice/canvas/goc-line.c:353
+#: ../goffice/canvas/goc-arc.c:492 ../goffice/canvas/goc-line.c:353
 msgid "End Arrow"
 msgstr "Конечная стрелка"
 
-#: ../goffice/canvas/goc-arc.c:491 ../goffice/canvas/goc-line.c:354
+#: ../goffice/canvas/goc-arc.c:493 ../goffice/canvas/goc-line.c:354
 msgid "Arrow for line's end"
 msgstr "Стрелка для конца линии"
 
-#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:237
+#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:239
 #: ../goffice/canvas/goc-graph.c:412 ../goffice/canvas/goc-group.c:243
-#: ../goffice/canvas/goc-pixbuf.c:231 ../goffice/canvas/goc-rectangle.c:329
-#: ../goffice/canvas/goc-text.c:399 ../goffice/canvas/goc-widget.c:318
-#: ../goffice/utils/go-marker.c:83
+#: ../goffice/canvas/goc-path.c:239 ../goffice/canvas/goc-pixbuf.c:231
+#: ../goffice/canvas/goc-rectangle.c:330 ../goffice/canvas/goc-text.c:428
+#: ../goffice/canvas/goc-widget.c:318 ../goffice/utils/go-marker.c:83
 msgid "x"
 msgstr "x"
 
@@ -538,10 +542,11 @@ msgstr "x"
 msgid "The circle center horizontal position"
 msgstr "Горизонтальная позиция центра окружности"
 
-#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:243
+#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:245
 #: ../goffice/canvas/goc-graph.c:418 ../goffice/canvas/goc-group.c:249
-#: ../goffice/canvas/goc-pixbuf.c:237 ../goffice/canvas/goc-rectangle.c:335
-#: ../goffice/canvas/goc-text.c:405 ../goffice/canvas/goc-widget.c:324
+#: ../goffice/canvas/goc-path.c:245 ../goffice/canvas/goc-pixbuf.c:237
+#: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:434
+#: ../goffice/canvas/goc-widget.c:324
 msgid "y"
 msgstr "y"
 
@@ -557,37 +562,37 @@ msgstr "Радиус"
 msgid "The circle radius"
 msgstr "Радиус окружности"
 
-#: ../goffice/canvas/goc-ellipse.c:238
+#: ../goffice/canvas/goc-ellipse.c:240
 msgid "The ellipse left position (or right position in RTL mode)"
 msgstr "Левая граница эллипса (или правая позиция в режиме ПНЛ)"
 
-#: ../goffice/canvas/goc-ellipse.c:244
+#: ../goffice/canvas/goc-ellipse.c:246
 msgid "The ellipse top position"
 msgstr "Верхняя граница эллипса"
 
-#: ../goffice/canvas/goc-ellipse.c:249 ../goffice/canvas/goc-graph.c:430
+#: ../goffice/canvas/goc-ellipse.c:251 ../goffice/canvas/goc-graph.c:430
 #: ../goffice/canvas/goc-graph.c:431 ../goffice/canvas/goc-pixbuf.c:243
-#: ../goffice/canvas/goc-rectangle.c:341 ../goffice/canvas/goc-widget.c:331
+#: ../goffice/canvas/goc-rectangle.c:342 ../goffice/canvas/goc-widget.c:331
 #: ../goffice/graph/gog-graph.c:368 ../goffice/utils/go-image.c:472
 msgid "Width"
 msgstr "Ширина"
 
-#: ../goffice/canvas/goc-ellipse.c:250
+#: ../goffice/canvas/goc-ellipse.c:252
 msgid "The ellipse width"
 msgstr "Ширина эллипса"
 
-#: ../goffice/canvas/goc-ellipse.c:255 ../goffice/canvas/goc-graph.c:424
+#: ../goffice/canvas/goc-ellipse.c:257 ../goffice/canvas/goc-graph.c:424
 #: ../goffice/canvas/goc-graph.c:425 ../goffice/canvas/goc-pixbuf.c:249
-#: ../goffice/canvas/goc-rectangle.c:347 ../goffice/canvas/goc-widget.c:337
+#: ../goffice/canvas/goc-rectangle.c:348 ../goffice/canvas/goc-widget.c:337
 #: ../goffice/graph/gog-graph.c:374 ../goffice/utils/go-image.c:476
 msgid "Height"
 msgstr "Высота"
 
-#: ../goffice/canvas/goc-ellipse.c:256
+#: ../goffice/canvas/goc-ellipse.c:258
 msgid "The ellipse height"
 msgstr "Высота эллипса"
 
-#: ../goffice/canvas/goc-ellipse.c:262 ../goffice/canvas/goc-rectangle.c:354
+#: ../goffice/canvas/goc-ellipse.c:264 ../goffice/canvas/goc-rectangle.c:355
 msgid "The rotation around top left position"
 msgstr "Вращение вокруг верхней левой точки"
 
@@ -627,19 +632,19 @@ msgstr "Горизонтальное смещение группы"
 msgid "The group vertical offset"
 msgstr "Вертикальное смещение группы"
 
-#: ../goffice/canvas/goc-item.c:240
+#: ../goffice/canvas/goc-item.c:256
 msgid "Canvas"
 msgstr "Холст"
 
-#: ../goffice/canvas/goc-item.c:241
+#: ../goffice/canvas/goc-item.c:257
 msgid "The canvas object on which the item resides"
 msgstr "Объект холста, на котором располагаются элементы"
 
-#: ../goffice/canvas/goc-item.c:246 ../goffice/graph/gog-view.c:584
+#: ../goffice/canvas/goc-item.c:262 ../goffice/graph/gog-view.c:584
 msgid "Parent"
 msgstr "Родитель"
 
-#: ../goffice/canvas/goc-item.c:247
+#: ../goffice/canvas/goc-item.c:263
 msgid "The group in which the item resides"
 msgstr "Группа, в которой находится элемент"
 
@@ -675,6 +680,40 @@ msgstr "y1"
 msgid "The line end y coordinate"
 msgstr "Координата Y конца линии"
 
+#: ../goffice/canvas/goc-path.c:240
+#, fuzzy
+msgid "The path first point x coordinate"
+msgstr "Координата X центра дуги"
+
+#: ../goffice/canvas/goc-path.c:246
+#, fuzzy
+msgid "The path first point y coordinate"
+msgstr "Координата Y центра дуги"
+
+#: ../goffice/canvas/goc-path.c:252
+#, fuzzy
+msgid "The rotation around first point position"
+msgstr "Вращение вокруг верхней левой точки"
+
+#: ../goffice/canvas/goc-path.c:257
+#, fuzzy
+msgid "Closed"
+msgstr "Цветной XY"
+
+#: ../goffice/canvas/goc-path.c:258
+msgid "The flag for closed path"
+msgstr ""
+
+#: ../goffice/canvas/goc-path.c:263
+#, fuzzy
+msgid "Path"
+msgstr "в"
+
+#: ../goffice/canvas/goc-path.c:264
+#, fuzzy
+msgid "The path points"
+msgstr "Расположение текста"
+
 #: ../goffice/canvas/goc-pixbuf.c:232
 msgid "The image left position"
 msgstr "Левая граница изображения"
@@ -701,63 +740,84 @@ msgstr "Pixbuf"
 msgid "The GdkPixbuf to display"
 msgstr ""
 
-#: ../goffice/canvas/goc-polyline.c:225 ../goffice/canvas/goc-polygon.c:263
+#: ../goffice/canvas/goc-polyline.c:229 ../goffice/canvas/goc-polygon.c:345
 msgid "points"
 msgstr "пункты"
 
-#: ../goffice/canvas/goc-polyline.c:225
+#: ../goffice/canvas/goc-polyline.c:229
 msgid "The polyline vertices"
 msgstr ""
 
-#: ../goffice/canvas/goc-polyline.c:230 ../goffice/canvas/goc-polygon.c:268
+#: ../goffice/canvas/goc-polyline.c:234 ../goffice/canvas/goc-polygon.c:350
 msgid "Use spline"
 msgstr "Использовать сплайны"
 
-#: ../goffice/canvas/goc-polyline.c:231
+#: ../goffice/canvas/goc-polyline.c:235
 msgid "Use a Bezier cubic spline as line"
 msgstr "Использовать кубический сплайн Безье для линии"
 
-#: ../goffice/canvas/goc-polygon.c:263
+#: ../goffice/canvas/goc-polygon.c:345
 msgid "The polygon vertices"
 msgstr ""
 
-#: ../goffice/canvas/goc-polygon.c:269
+#: ../goffice/canvas/goc-polygon.c:351
 msgid "Use a Bezier closed cubic spline as contour"
 msgstr "Использовать замкнутый кубический сплайн Безье для контура"
 
-#: ../goffice/canvas/goc-rectangle.c:330
+#: ../goffice/canvas/goc-polygon.c:356
+#, fuzzy
+msgid "Fill rule"
+msgstr "Тип заполнения"
+
+#: ../goffice/canvas/goc-polygon.c:357
+msgid "Set fill rule to winding or even/odd"
+msgstr ""
+
+#: ../goffice/canvas/goc-polygon.c:361
+#, fuzzy
+msgid "sizes"
+msgstr "Размер:"
+
+#: ../goffice/canvas/goc-polygon.c:362
+msgid ""
+"If set, the polygon will be split as several polygons according to the given "
+"sizes. Each size must be at least 3. Values following an invalid value will "
+"be discarded. Setting the \"point\" property will reset the sizes."
+msgstr ""
+
+#: ../goffice/canvas/goc-rectangle.c:331
 msgid "The rectangle left position (or right position in RTL mode)"
 msgstr "Левая граница прямоугольника (или правая граница в режиме ПНЛ)"
 
-#: ../goffice/canvas/goc-rectangle.c:336
+#: ../goffice/canvas/goc-rectangle.c:337
 msgid "The rectangle top position"
 msgstr "Верхняя граница прямоугольника"
 
-#: ../goffice/canvas/goc-rectangle.c:342
+#: ../goffice/canvas/goc-rectangle.c:343
 msgid "The rectangle width"
 msgstr "Ширина прямоугольника"
 
-#: ../goffice/canvas/goc-rectangle.c:348
+#: ../goffice/canvas/goc-rectangle.c:349
 msgid "The rectangle height"
 msgstr "Высота прямоугольника"
 
-#: ../goffice/canvas/goc-rectangle.c:360
+#: ../goffice/canvas/goc-rectangle.c:361
 msgid "The rectangle type"
 msgstr "Тип прямоугольника"
 
-#: ../goffice/canvas/goc-rectangle.c:365
+#: ../goffice/canvas/goc-rectangle.c:366
 msgid "rx"
 msgstr "rx"
 
-#: ../goffice/canvas/goc-rectangle.c:366
+#: ../goffice/canvas/goc-rectangle.c:367
 msgid "The round rectangle rx"
 msgstr "Горизонтальный радиус закругления для скруглённого прямоугольника"
 
-#: ../goffice/canvas/goc-rectangle.c:371
+#: ../goffice/canvas/goc-rectangle.c:372
 msgid "ry"
 msgstr "ry"
 
-#: ../goffice/canvas/goc-rectangle.c:372
+#: ../goffice/canvas/goc-rectangle.c:373
 msgid "The round rectangle ry"
 msgstr "Вертикальный радиус закругления для скруглённого прямоугольника"
 
@@ -779,72 +839,72 @@ msgstr "Масштабировать ширину линии"
 msgid "Whether to scale the line width when zooming"
 msgstr "Масштабировать ли ширину линии при изменении масштаба"
 
-#: ../goffice/canvas/goc-text.c:400
+#: ../goffice/canvas/goc-text.c:429
 msgid "The text horizontal position"
 msgstr "Горизонтальное расположение текста"
 
-#: ../goffice/canvas/goc-text.c:406
+#: ../goffice/canvas/goc-text.c:435
 msgid "The text position"
 msgstr "Расположение текста"
 
-#: ../goffice/canvas/goc-text.c:412
+#: ../goffice/canvas/goc-text.c:441
 msgid "The rotation around the anchor"
 msgstr "Вращение вокруг якорной точки"
 
-#: ../goffice/canvas/goc-text.c:417 ../goffice/graph/gog-object.c:628
+#: ../goffice/canvas/goc-text.c:446 ../goffice/graph/gog-object.c:628
 msgid "Anchor"
 msgstr "Якорь"
 
-#: ../goffice/canvas/goc-text.c:418
+#: ../goffice/canvas/goc-text.c:447
 msgid "The anchor point for the text"
 msgstr "Якорная точка для текста"
 
-#: ../goffice/canvas/goc-text.c:423 ../goffice/gtk/go-format-sel.c:70
+#: ../goffice/canvas/goc-text.c:452 ../goffice/gtk/go-format-sel.c:70
 #: ../goffice/gtk/go-rotation-sel.c:136 ../goffice/utils/go-style.c:907
 msgid "Text"
 msgstr "Текст"
 
-#: ../goffice/canvas/goc-text.c:424
+#: ../goffice/canvas/goc-text.c:453
 msgid "The text to display"
 msgstr "Текст для отображения"
 
-#: ../goffice/canvas/goc-text.c:427
+#: ../goffice/canvas/goc-text.c:456
 msgid "Attributes"
 msgstr "Аттрибуты"
 
-#: ../goffice/canvas/goc-text.c:427
+#: ../goffice/canvas/goc-text.c:456
 msgid "The attributes list as a PangoAttrList"
 msgstr "Список аттрибутов PangoAttrList"
 
-#: ../goffice/canvas/goc-text.c:432
+#: ../goffice/canvas/goc-text.c:461
 msgid "Clip"
 msgstr "Кадрирование"
 
-#: ../goffice/canvas/goc-text.c:433
+#: ../goffice/canvas/goc-text.c:462
 msgid "Whether to clip or not"
 msgstr "Кадрировать или нет"
 
-#: ../goffice/canvas/goc-text.c:438
+#: ../goffice/canvas/goc-text.c:467
 msgid "Clip width"
 msgstr "Ширина кадрирования"
 
-#: ../goffice/canvas/goc-text.c:439
+#: ../goffice/canvas/goc-text.c:468
 msgid "Clip width for the text"
 msgstr "Ширина кадрирования для текста"
 
-#: ../goffice/canvas/goc-text.c:444
+#: ../goffice/canvas/goc-text.c:473
 msgid "Clip height"
 msgstr "Высота кадрирования"
 
-#: ../goffice/canvas/goc-text.c:445
+#: ../goffice/canvas/goc-text.c:474
 msgid "Clip height for the text"
 msgstr "Высотка кадрирования для текста"
 
-#: ../goffice/canvas/goc-text.c:450
+#: ../goffice/canvas/goc-text.c:479
 msgid "Wrap width"
 msgstr "Ширина переноса"
 
-#: ../goffice/canvas/goc-text.c:451
+#: ../goffice/canvas/goc-text.c:480
 msgid "Wrap width for the text"
 msgstr "Ширина переноса для текста"
 
@@ -876,7 +936,7 @@ msgstr "Высота виджета"
 msgid "Component Engine"
 msgstr "Модуль компонентов"
 
-#: ../goffice/component/go-component-factory.c:165
+#: ../goffice/component/go-component-factory.c:197
 msgid "Component Type"
 msgstr "Тип компонента"
 

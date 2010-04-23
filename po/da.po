@@ -72,7 +72,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-07 23:55+0200\n"
+"POT-Creation-Date: 2010-04-22 20:44-0400\n"
 "PO-Revision-Date: 2010-02-28 16:45+0200\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -473,8 +473,7 @@ msgstr "Kunne ikke aktivere udvidelsesmodul \"%s\" (id: %s)."
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr "Kunne ikke deaktivere udvidelsesmodul \"%s\" (id: %s)."
 
-#: ../goffice/app/go-plugin.c:1621 ../goffice/app/go-plugin.c:1778
-#: ../goffice/app/go-plugin.c:1859
+#: ../goffice/app/go-plugin.c:1621 ../goffice/app/go-plugin.c:1787
 msgid "Errors while reading info about available plugins."
 msgstr "Fejl ved læsning af oplysninger om tilgængelige udvidelsesmoduler."
 
@@ -495,11 +494,16 @@ msgstr ""
 "%s.\n"
 "Du bør genstarte programmet nu."
 
-#: ../goffice/app/go-plugin.c:1801 ../goffice/app/go-plugin.c:1881
+#: ../goffice/app/go-plugin.c:1763 ../goffice/app/go-plugin.c:1854
+#, fuzzy
+msgid "Errors while reading info about new plugins."
+msgstr "Fejl ved læsning af oplysninger om tilgængelige udvidelsesmoduler."
+
+#: ../goffice/app/go-plugin.c:1811 ../goffice/app/go-plugin.c:1878
 msgid "Errors while activating plugins."
 msgstr "Fejl ved aktivering af udvidelsesmoduler."
 
-#: ../goffice/app/go-plugin.c:1808 ../goffice/app/go-plugin.c:1888
+#: ../goffice/app/go-plugin.c:1818 ../goffice/app/go-plugin.c:1885
 msgid "Errors while initializing plugin system."
 msgstr "Fejl ved klargøring af udvidelsesmodulsystemet."
 
@@ -572,8 +576,8 @@ msgid "The arc end angle"
 msgstr "Rektanglets bredde"
 
 #: ../goffice/canvas/goc-arc.c:473 ../goffice/canvas/goc-ellipse.c:263
-#: ../goffice/canvas/goc-rectangle.c:354 ../goffice/canvas/goc-text.c:440
-#: ../goffice/graph/gog-3d-box.c:166
+#: ../goffice/canvas/goc-path.c:251 ../goffice/canvas/goc-rectangle.c:354
+#: ../goffice/canvas/goc-text.c:440 ../goffice/graph/gog-3d-box.c:166
 msgid "Rotation"
 msgstr "Rotation"
 
@@ -610,9 +614,9 @@ msgstr "Pil for linjens afslutning"
 
 #: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:239
 #: ../goffice/canvas/goc-graph.c:412 ../goffice/canvas/goc-group.c:243
-#: ../goffice/canvas/goc-pixbuf.c:231 ../goffice/canvas/goc-rectangle.c:330
-#: ../goffice/canvas/goc-text.c:428 ../goffice/canvas/goc-widget.c:318
-#: ../goffice/utils/go-marker.c:83
+#: ../goffice/canvas/goc-path.c:239 ../goffice/canvas/goc-pixbuf.c:231
+#: ../goffice/canvas/goc-rectangle.c:330 ../goffice/canvas/goc-text.c:428
+#: ../goffice/canvas/goc-widget.c:318 ../goffice/utils/go-marker.c:83
 msgid "x"
 msgstr "x"
 
@@ -622,8 +626,9 @@ msgstr "Cirklens vandrette centrumplacering"
 
 #: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:245
 #: ../goffice/canvas/goc-graph.c:418 ../goffice/canvas/goc-group.c:249
-#: ../goffice/canvas/goc-pixbuf.c:237 ../goffice/canvas/goc-rectangle.c:336
-#: ../goffice/canvas/goc-text.c:434 ../goffice/canvas/goc-widget.c:324
+#: ../goffice/canvas/goc-path.c:245 ../goffice/canvas/goc-pixbuf.c:237
+#: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:434
+#: ../goffice/canvas/goc-widget.c:324
 msgid "y"
 msgstr "y"
 
@@ -765,6 +770,41 @@ msgstr "y1"
 #: ../goffice/canvas/goc-line.c:342
 msgid "The line end y coordinate"
 msgstr "Linjeafslutningens y-koordinat"
+
+#: ../goffice/canvas/goc-path.c:240
+#, fuzzy
+msgid "The path first point x coordinate"
+msgstr "Linjeafslutningens x-koordinat"
+
+#: ../goffice/canvas/goc-path.c:246
+#, fuzzy
+msgid "The path first point y coordinate"
+msgstr "Linjeafslutningens y-koordinat"
+
+#: ../goffice/canvas/goc-path.c:252
+#, fuzzy
+msgid "The rotation around first point position"
+msgstr "Rotationen omkring ankeret"
+
+#: ../goffice/canvas/goc-path.c:257
+#, fuzzy
+msgid "Closed"
+msgstr "Farvede XY"
+
+#: ../goffice/canvas/goc-path.c:258
+msgid "The flag for closed path"
+msgstr ""
+
+# arrgh kan vist være mange muligheder
+#: ../goffice/canvas/goc-path.c:263
+#, fuzzy
+msgid "Path"
+msgstr "ved"
+
+#: ../goffice/canvas/goc-path.c:264
+#, fuzzy
+msgid "The path points"
+msgstr "Tekstens placering"
 
 #: ../goffice/canvas/goc-pixbuf.c:232
 msgid "The image left position"
@@ -995,7 +1035,7 @@ msgstr "Kontrollens højde"
 msgid "Component Engine"
 msgstr "Komponentmotor"
 
-#: ../goffice/component/go-component-factory.c:165
+#: ../goffice/component/go-component-factory.c:197
 msgid "Component Type"
 msgstr "Komponenttype"
 

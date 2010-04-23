@@ -13,9 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.3.1\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=libgoffice&component=general\n"
-"POT-Creation-Date: 2010-03-29 20:35+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-04-22 20:44-0400\n"
 "PO-Revision-Date: 2010-03-30 10:23+0200\n"
 "Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -422,8 +421,7 @@ msgstr "Impossible d'activer le greffon « %s » (ID : %s)."
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr "Impossible de désactiver le greffon « %s » (ID : %s)."
 
-#: ../goffice/app/go-plugin.c:1621 ../goffice/app/go-plugin.c:1778
-#: ../goffice/app/go-plugin.c:1859
+#: ../goffice/app/go-plugin.c:1621 ../goffice/app/go-plugin.c:1787
 msgid "Errors while reading info about available plugins."
 msgstr ""
 "Erreurs lors de la lecture des informations sur les greffons disponibles."
@@ -444,11 +442,17 @@ msgstr ""
 "%s\n"
 "Vous devez redémarrer ce programme maintenant."
 
-#: ../goffice/app/go-plugin.c:1801 ../goffice/app/go-plugin.c:1881
+#: ../goffice/app/go-plugin.c:1763 ../goffice/app/go-plugin.c:1854
+#, fuzzy
+msgid "Errors while reading info about new plugins."
+msgstr ""
+"Erreurs lors de la lecture des informations sur les greffons disponibles."
+
+#: ../goffice/app/go-plugin.c:1811 ../goffice/app/go-plugin.c:1878
 msgid "Errors while activating plugins."
 msgstr "Erreurs lors de l'activation des greffons."
 
-#: ../goffice/app/go-plugin.c:1808 ../goffice/app/go-plugin.c:1888
+#: ../goffice/app/go-plugin.c:1818 ../goffice/app/go-plugin.c:1885
 msgid "Errors while initializing plugin system."
 msgstr "Erreurs lors de l'initialisation du système de greffons."
 
@@ -509,8 +513,8 @@ msgid "The arc end angle"
 msgstr "L'angle d'arrivée de l'arc"
 
 #: ../goffice/canvas/goc-arc.c:473 ../goffice/canvas/goc-ellipse.c:263
-#: ../goffice/canvas/goc-rectangle.c:354 ../goffice/canvas/goc-text.c:440
-#: ../goffice/graph/gog-3d-box.c:166
+#: ../goffice/canvas/goc-path.c:251 ../goffice/canvas/goc-rectangle.c:354
+#: ../goffice/canvas/goc-text.c:440 ../goffice/graph/gog-3d-box.c:166
 msgid "Rotation"
 msgstr "Rotation"
 
@@ -546,9 +550,9 @@ msgstr "Flèche à l'extrémité du trait"
 
 #: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:239
 #: ../goffice/canvas/goc-graph.c:412 ../goffice/canvas/goc-group.c:243
-#: ../goffice/canvas/goc-pixbuf.c:231 ../goffice/canvas/goc-rectangle.c:330
-#: ../goffice/canvas/goc-text.c:428 ../goffice/canvas/goc-widget.c:318
-#: ../goffice/utils/go-marker.c:83
+#: ../goffice/canvas/goc-path.c:239 ../goffice/canvas/goc-pixbuf.c:231
+#: ../goffice/canvas/goc-rectangle.c:330 ../goffice/canvas/goc-text.c:428
+#: ../goffice/canvas/goc-widget.c:318 ../goffice/utils/go-marker.c:83
 msgid "x"
 msgstr "x"
 
@@ -558,8 +562,9 @@ msgstr "L'abscisse horizontale du centre du cercle"
 
 #: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:245
 #: ../goffice/canvas/goc-graph.c:418 ../goffice/canvas/goc-group.c:249
-#: ../goffice/canvas/goc-pixbuf.c:237 ../goffice/canvas/goc-rectangle.c:336
-#: ../goffice/canvas/goc-text.c:434 ../goffice/canvas/goc-widget.c:324
+#: ../goffice/canvas/goc-path.c:245 ../goffice/canvas/goc-pixbuf.c:237
+#: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:434
+#: ../goffice/canvas/goc-widget.c:324
 msgid "y"
 msgstr "y"
 
@@ -694,6 +699,40 @@ msgstr "y1"
 #: ../goffice/canvas/goc-line.c:342
 msgid "The line end y coordinate"
 msgstr "L'ordonnée y de l'extrémité du trait"
+
+#: ../goffice/canvas/goc-path.c:240
+#, fuzzy
+msgid "The path first point x coordinate"
+msgstr "L'abscisse x du centre de l'arc"
+
+#: ../goffice/canvas/goc-path.c:246
+#, fuzzy
+msgid "The path first point y coordinate"
+msgstr "L'ordonnée y du centre de l'arc"
+
+#: ../goffice/canvas/goc-path.c:252
+#, fuzzy
+msgid "The rotation around first point position"
+msgstr "La rotation autour du point supérieur gauche"
+
+#: ../goffice/canvas/goc-path.c:257
+#, fuzzy
+msgid "Closed"
+msgstr "XY coloré"
+
+#: ../goffice/canvas/goc-path.c:258
+msgid "The flag for closed path"
+msgstr ""
+
+#: ../goffice/canvas/goc-path.c:263
+#, fuzzy
+msgid "Path"
+msgstr "à"
+
+#: ../goffice/canvas/goc-path.c:264
+#, fuzzy
+msgid "The path points"
+msgstr "La position du texte"
 
 #: ../goffice/canvas/goc-pixbuf.c:232
 msgid "The image left position"
@@ -920,7 +959,7 @@ msgstr "La hauteur du widget"
 msgid "Component Engine"
 msgstr "Moteur du composant"
 
-#: ../goffice/component/go-component-factory.c:165
+#: ../goffice/component/go-component-factory.c:197
 msgid "Component Type"
 msgstr "Type de composant"
 

@@ -16,9 +16,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=libgoffice&component=general\n"
-"POT-Creation-Date: 2010-04-17 01:27+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-04-22 20:44-0400\n"
 "PO-Revision-Date: 2010-04-21 18:22+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -703,22 +702,18 @@ msgid "The line end y coordinate"
 msgstr "La coordenada y de final de la línea"
 
 #: ../goffice/canvas/goc-path.c:240
-#| msgid "The arc center x coordinate"
 msgid "The path first point x coordinate"
 msgstr "La coordenada x del primer punto de la ruta"
 
 #: ../goffice/canvas/goc-path.c:246
-#| msgid "The arc center y coordinate"
 msgid "The path first point y coordinate"
 msgstr "La coordenada y del primer punto de la ruta"
 
 #: ../goffice/canvas/goc-path.c:252
-#| msgid "The rotation around top left position"
 msgid "The rotation around first point position"
 msgstr "La rotación alrededor de la posición del primer punto"
 
 #: ../goffice/canvas/goc-path.c:257
-#| msgid "ColoredXY"
 msgid "Closed"
 msgstr "Cerrada"
 
@@ -727,12 +722,10 @@ msgid "The flag for closed path"
 msgstr "La opción para la ruta cerrada"
 
 #: ../goffice/canvas/goc-path.c:263
-#| msgid "at"
 msgid "Path"
 msgstr "Ruta"
 
 #: ../goffice/canvas/goc-path.c:264
-#| msgid "The text position"
 msgid "The path points"
 msgstr "Los puntos de la ruta"
 
