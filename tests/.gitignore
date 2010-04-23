@@ -9,3 +9,4 @@ Makefile
 pie-demo
 go-demo
 *.def
+shapes-demo
