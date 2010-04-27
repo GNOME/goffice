@@ -112,10 +112,12 @@ struct _GOActionComboColor {
 typedef struct {
 	GtkActionClass base;
 	void (*display_custom_dialog) (GOActionComboColor *caction, GtkWidget *dialog);
+	void (*combo_activate) (GOActionComboColor *caction);
 } GOActionComboColorClass;
 
 enum {
 	DISPLAY_CUSTOM_DIALOG,
+	COMBO_ACTIVATE,
 	LAST_SIGNAL
 };
 
@@ -148,6 +150,8 @@ cb_color_changed (GtkWidget *cc, GOColor color,
 	if (!by_user)
 		return;
 	caction->current_color = is_default ? caction->default_val : color;
+
+	g_signal_emit_by_name (G_OBJECT (caction), "combo-activate");
 	gtk_action_activate (GTK_ACTION (caction));
 }
 
@@ -255,6 +259,14 @@ go_action_combo_color_class_init (GtkActionClass *gtk_act_class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1, G_TYPE_OBJECT);
+	go_action_combo_color_signals [COMBO_ACTIVATE] =
+		g_signal_new ("combo-activate",
+			      G_OBJECT_CLASS_TYPE (gobject_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GOActionComboColorClass, combo_activate),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 }
 
 GSF_CLASS (GOActionComboColor, go_action_combo_color,

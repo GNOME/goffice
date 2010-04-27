@@ -75,7 +75,17 @@ struct _GOActionComboPixmaps {
 	gboolean updating_proxies;
 	int selected_id;
 };
-typedef GtkActionClass GOActionComboPixmapsClass;
+typedef struct {
+	GtkActionClass base;
+	void (*combo_activate) (GOActionComboPixmaps *paction);
+} GOActionComboPixmapsClass;
+
+enum {
+	COMBO_ACTIVATE,
+	LAST_SIGNAL
+};
+
+static guint go_action_combo_pixmaps_signals [LAST_SIGNAL] = { 0, };
 
 static GdkPixbuf *
 make_icon (GtkAction *a, const char *stock_id, GtkWidget *tool)
@@ -136,6 +146,7 @@ cb_selection_changed (GOComboPixmaps *combo, int id, GOActionComboPixmaps *pacti
 			go_combo_pixmaps_select_id (ptr->data, id);
 	paction->updating_proxies = FALSE;
 
+	g_signal_emit_by_name (G_OBJECT (paction), "combo-activate");
 	gtk_action_activate (GTK_ACTION (paction));
 }
 
@@ -211,6 +222,14 @@ go_action_combo_pixmaps_class_init (GtkActionClass *gtk_act_klass)
 	gtk_act_klass->create_tool_item = go_action_combo_pixmaps_create_tool_item;
 	gtk_act_klass->create_menu_item = go_action_combo_pixmaps_create_menu_item;
 	gtk_act_klass->connect_proxy	= go_action_combo_pixmaps_connect_proxy;
+	go_action_combo_pixmaps_signals [COMBO_ACTIVATE] =
+		g_signal_new ("combo-activate",
+			      G_OBJECT_CLASS_TYPE (gobject_klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GOActionComboPixmapsClass, combo_activate),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 }
 
 GSF_CLASS (GOActionComboPixmaps, go_action_combo_pixmaps,

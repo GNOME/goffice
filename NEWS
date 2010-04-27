@@ -2,6 +2,7 @@ goffice 0.8.3:
 
 Jean:
 	* Improve probability plots.
+	* Implement the "combo-activate" signal in GOCombo. [#583175]
 
 Morten:
 	* Fix week numbers issue.

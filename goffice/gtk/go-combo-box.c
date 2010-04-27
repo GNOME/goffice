@@ -145,19 +145,10 @@ do_focus_change (GtkWidget *widget, gboolean in)
 {
 	GdkEventFocus fevent;
 
-	g_object_ref (widget);
-
-	gtk_widget_set_has_focus (widget, in);
-
 	fevent.type = GDK_FOCUS_CHANGE;
 	fevent.window = gtk_widget_get_window (widget);
 	fevent.in = in;
-
-	gtk_widget_event (widget, (GdkEvent *)&fevent);
-
-	g_object_notify (G_OBJECT (widget), "has-focus");
-
-	g_object_unref (widget);
+	gtk_widget_send_focus_change (widget, &fevent);
 }
 
 static void
