@@ -114,7 +114,7 @@
 #define gtk_widget_send_focus_change(w,ev)			\
 	do {							\
 	g_object_ref (widget);					\
-	if (t) GTK_WIDGET_SET_FLAGS ((w), GTK_HAS_FOCUS);       \
+	if (((GdkEventFocus*)ev)->in) GTK_WIDGET_SET_FLAGS ((w), GTK_HAS_FOCUS);       \
 	else GTK_WIDGET_UNSET_FLAGS ((w), GTK_HAS_FOCUS);       \
 	gtk_widget_event (widget, &fevent);			\
 	g_object_notify (G_OBJECT (widget), "has-focus");       \
