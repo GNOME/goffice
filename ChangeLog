@@ -1,13 +1,13 @@
 2010-04-27  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* configure.in: check for gtk_widget_send_focus_changed().
+	* configure.in: check for gtk_widget_send_focus_change().
 	* goffice/gtk/go-action-combo-color.c (cb_color_changed),
 	(go_action_combo_color_class_init): implement the "combo-activate" signal.
 	[#583175]
 	* goffice/gtk/go-action-combo-pixmaps.c (cb_selection_changed),
 	(go_action_combo_pixmaps_class_init): ditto.
 	* goffice/gtk/go-combo-box.c (do_focus_change): use
-	gtk_widget_send_focus_changed() when available.
+	gtk_widget_send_focus_change() when available.
 	* goffice/gtk/go-gtk-compat.h: ditto.
 
 2010-04-23  Jean Brefort  <jean.brefort@normalesup.org>

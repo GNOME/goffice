@@ -110,8 +110,8 @@
 #       define gtk_widget_is_sensitive(w) GTK_WIDGET_IS_SENSITIVE (w)
 #endif
 
-#ifndef HAVE_GTK_WIDGET_SEND_FOCUS_CHANGED
-#define gtk_widget_send_focus_changed(w,ev)			\
+#ifndef HAVE_GTK_WIDGET_SEND_FOCUS_CHANGE
+#define gtk_widget_send_focus_change(w,ev)			\
 	g_object_ref (widget);					\
 	gtk_widget_set_has_focus (widget, in);			\
 	gtk_widget_event (widget, &fevent);			\
