@@ -112,17 +112,20 @@
 
 #ifndef HAVE_GTK_WIDGET_SEND_FOCUS_CHANGE
 #define gtk_widget_send_focus_change(w,ev)			\
+	do {							\
 	g_object_ref (widget);					\
-	gtk_widget_set_has_focus (widget, in);			\
+	if (t) GTK_WIDGET_SET_FLAGS ((w), GTK_HAS_FOCUS);       \
+	else GTK_WIDGET_UNSET_FLAGS ((w), GTK_HAS_FOCUS);       \
 	gtk_widget_event (widget, &fevent);			\
 	g_object_notify (G_OBJECT (widget), "has-focus");       \
-	g_object_unref (widget);
+	g_object_unref (widget);				\
+	} while (0)
 #endif
 
 #ifndef HAVE_GTK_WIDGET_SET_CAN_DEFAULT
 #define gtk_widget_set_can_default(w,t)					\
 	do {								\
-		if (t) GTK_WIDGET_SET_FLAGS ((w), GTK_CAN_DEFAULT);	\
+	if (t) GTK_WIDGET_SET_FLAGS ((w), GTK_CAN_DEFAULT);	\
 		else GTK_WIDGET_UNSET_FLAGS ((w), GTK_CAN_DEFAULT);	\
 	} while (0)
 #endif
