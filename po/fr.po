@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-22 20:44-0400\n"
+"POT-Creation-Date: 2010-05-01 16:30+0200\n"
 "PO-Revision-Date: 2010-03-30 10:23+0200\n"
 "Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -443,10 +443,8 @@ msgstr ""
 "Vous devez redémarrer ce programme maintenant."
 
 #: ../goffice/app/go-plugin.c:1763 ../goffice/app/go-plugin.c:1854
-#, fuzzy
 msgid "Errors while reading info about new plugins."
-msgstr ""
-"Erreurs lors de la lecture des informations sur les greffons disponibles."
+msgstr "Erreurs lors de la lecture des informations sur les nouveaux greffons."
 
 #: ../goffice/app/go-plugin.c:1811 ../goffice/app/go-plugin.c:1878
 msgid "Errors while activating plugins."
@@ -549,7 +547,7 @@ msgid "Arrow for line's end"
 msgstr "Flèche à l'extrémité du trait"
 
 #: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:239
-#: ../goffice/canvas/goc-graph.c:412 ../goffice/canvas/goc-group.c:243
+#: ../goffice/canvas/goc-graph.c:413 ../goffice/canvas/goc-group.c:243
 #: ../goffice/canvas/goc-path.c:239 ../goffice/canvas/goc-pixbuf.c:231
 #: ../goffice/canvas/goc-rectangle.c:330 ../goffice/canvas/goc-text.c:428
 #: ../goffice/canvas/goc-widget.c:318 ../goffice/utils/go-marker.c:83
@@ -561,7 +559,7 @@ msgid "The circle center horizontal position"
 msgstr "L'abscisse horizontale du centre du cercle"
 
 #: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:245
-#: ../goffice/canvas/goc-graph.c:418 ../goffice/canvas/goc-group.c:249
+#: ../goffice/canvas/goc-graph.c:419 ../goffice/canvas/goc-group.c:249
 #: ../goffice/canvas/goc-path.c:245 ../goffice/canvas/goc-pixbuf.c:237
 #: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:434
 #: ../goffice/canvas/goc-widget.c:324
@@ -590,8 +588,8 @@ msgstr ""
 msgid "The ellipse top position"
 msgstr "L'ordonnée du sommet supérieur de l'ellipse "
 
-#: ../goffice/canvas/goc-ellipse.c:251 ../goffice/canvas/goc-graph.c:430
-#: ../goffice/canvas/goc-graph.c:431 ../goffice/canvas/goc-pixbuf.c:243
+#: ../goffice/canvas/goc-ellipse.c:251 ../goffice/canvas/goc-graph.c:431
+#: ../goffice/canvas/goc-graph.c:432 ../goffice/canvas/goc-pixbuf.c:243
 #: ../goffice/canvas/goc-rectangle.c:342 ../goffice/canvas/goc-widget.c:331
 #: ../goffice/graph/gog-graph.c:368 ../goffice/utils/go-image.c:472
 msgid "Width"
@@ -601,8 +599,8 @@ msgstr "Largeur"
 msgid "The ellipse width"
 msgstr "La largeur de l'ellipse"
 
-#: ../goffice/canvas/goc-ellipse.c:257 ../goffice/canvas/goc-graph.c:424
-#: ../goffice/canvas/goc-graph.c:425 ../goffice/canvas/goc-pixbuf.c:249
+#: ../goffice/canvas/goc-ellipse.c:257 ../goffice/canvas/goc-graph.c:425
+#: ../goffice/canvas/goc-graph.c:426 ../goffice/canvas/goc-pixbuf.c:249
 #: ../goffice/canvas/goc-rectangle.c:348 ../goffice/canvas/goc-widget.c:337
 #: ../goffice/graph/gog-graph.c:374 ../goffice/utils/go-image.c:476
 msgid "Height"
@@ -616,31 +614,37 @@ msgstr "La hauteur de l'ellipse"
 msgid "The rotation around top left position"
 msgstr "La rotation autour du point supérieur gauche"
 
-#: ../goffice/canvas/goc-graph.c:413
+#. Note to translators: the following is a format string for a pair of coordinates
+#: ../goffice/canvas/goc-graph.c:346
+#, c-format
+msgid "(%s,%s)"
+msgstr "(%s;%s)"
+
+#: ../goffice/canvas/goc-graph.c:414
 msgid "The graph left position"
 msgstr "L'abscisse du côté gauche du graphique"
 
-#: ../goffice/canvas/goc-graph.c:419
+#: ../goffice/canvas/goc-graph.c:420
 msgid "The graph top position"
 msgstr "L'ordonnée du côté haut du graphique"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/canvas/goc-graph.c:436 ../goffice/graph/gog-graph.c:161
+#: ../goffice/canvas/goc-graph.c:437 ../goffice/graph/gog-graph.c:161
 #: ../goffice/graph/gog-graph.c:400
 msgid "Graph"
 msgstr "Graphique"
 
-#: ../goffice/canvas/goc-graph.c:437
+#: ../goffice/canvas/goc-graph.c:438
 msgid "The GogGraph this object displays"
 msgstr "Le « GogGraph » que cet objet affiche"
 
-#: ../goffice/canvas/goc-graph.c:442 ../goffice/graph/gog-graph.c:902
+#: ../goffice/canvas/goc-graph.c:443 ../goffice/graph/gog-graph.c:902
 msgid "Renderer"
 msgstr "Générateur de rendu"
 
-#: ../goffice/canvas/goc-graph.c:443
+#: ../goffice/canvas/goc-graph.c:444
 msgid "The GogRenderer being displayed"
 msgstr "Le « GogRenderer » affiché"
 
@@ -701,38 +705,32 @@ msgid "The line end y coordinate"
 msgstr "L'ordonnée y de l'extrémité du trait"
 
 #: ../goffice/canvas/goc-path.c:240
-#, fuzzy
 msgid "The path first point x coordinate"
-msgstr "L'abscisse x du centre de l'arc"
+msgstr "L'abscisse x du premier point du chemin"
 
 #: ../goffice/canvas/goc-path.c:246
-#, fuzzy
 msgid "The path first point y coordinate"
-msgstr "L'ordonnée y du centre de l'arc"
+msgstr "L'ordonnée y du premier point du chemin"
 
 #: ../goffice/canvas/goc-path.c:252
-#, fuzzy
 msgid "The rotation around first point position"
-msgstr "La rotation autour du point supérieur gauche"
+msgstr "La rotation autour du premier point"
 
 #: ../goffice/canvas/goc-path.c:257
-#, fuzzy
 msgid "Closed"
-msgstr "XY coloré"
+msgstr "Fermé"
 
 #: ../goffice/canvas/goc-path.c:258
 msgid "The flag for closed path"
-msgstr ""
+msgstr "L'indicateur de chemin fermé"
 
 #: ../goffice/canvas/goc-path.c:263
-#, fuzzy
 msgid "Path"
-msgstr "à"
+msgstr "Chemin"
 
 #: ../goffice/canvas/goc-path.c:264
-#, fuzzy
 msgid "The path points"
-msgstr "La position du texte"
+msgstr "Les points du chemin"
 
 #: ../goffice/canvas/goc-pixbuf.c:232
 msgid "The image left position"
@@ -2841,11 +2839,11 @@ msgstr "Couleur personnalisée..."
 msgid "Custom color..."
 msgstr "Couleur personnalisée..."
 
-#: ../goffice/gtk/go-combo-box.c:274
+#: ../goffice/gtk/go-combo-box.c:265
 msgid "Add tearoffs to menus"
 msgstr "Ajouter des poignées aux menus"
 
-#: ../goffice/gtk/go-combo-box.c:275
+#: ../goffice/gtk/go-combo-box.c:266
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr ""
 "Définit si les menus déroulants doivent avoir une poignée de détachement"
@@ -5700,7 +5698,7 @@ msgstr "Second paramètre de forme"
 msgid "Name of the second shape parameter if any"
 msgstr "Nom du deuxième paramètre de forme s'il existe"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:584
+#: ../plugins/plot_distrib/gog-probability-plot.c:594
 msgid "Regression line"
 msgstr "Courbe de régression"
 

@@ -342,7 +342,8 @@ goc_graph_do_tooltip (GocGraph *graph)
 			format = gog_axis_get_effective_format (y_axis);
 			s2 = format_coordinate (y_axis, format, y);
 		}
-		buf = g_strdup_printf ("(%s,%s)", s1, s2);
+		/* Note to translators: the following is a format string for a pair of coordinates */
+		buf = g_strdup_printf (_("(%s,%s)"), s1, s2);
 		g_free (s1);
 		g_free (s2);
 	}
