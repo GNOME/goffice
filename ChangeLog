@@ -1,3 +1,7 @@
+2010-05-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): use markup for tips.
+
 2010-04-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: check for gtk_widget_send_focus_change().
