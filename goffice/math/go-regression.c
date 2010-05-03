@@ -219,6 +219,9 @@ SUFFIX(LUPDecomp) (DOUBLE **A, DOUBLE **LU, int *P, int n, DOUBLE *b_scaled,
 		if (max < lowest)
 			lowest = max;
 
+		if (mov == -1)
+			return GO_REG_invalid_data;
+
 		if (i != mov) {
 			/*swap the two rows */
 

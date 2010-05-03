@@ -1,3 +1,7 @@
+2010-05-03  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-regression.c (LUPDecomp): Handle nan entries.
+
 2010-05-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): use markup for tips.
