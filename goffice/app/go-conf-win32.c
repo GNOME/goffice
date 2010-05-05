@@ -138,6 +138,8 @@ go_conf_win32_get (GOConfNode *node, gchar const *key,
 	RegCloseKey (hKey);
 
 out:
+	*last_sep = '\\';
+
 	if (ret != ERROR_SUCCESS && complain) {
 		LPTSTR msg_buf;
 
@@ -263,7 +265,7 @@ go_conf_free_node (GOConfNode *node)
 void
 go_conf_set_bool (GOConfNode *node, gchar const *key, gboolean val_)
 {
-	guchar val = val ? 1 : 0;
+	guchar val = val_ ? 1 : 0;
 
 	go_conf_win32_set (node, key, REG_BINARY, &val, sizeof (val));
 }

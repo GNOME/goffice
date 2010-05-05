@@ -8,6 +8,7 @@ Jean:
 Morten:
 	* Fix week numbers issue.
 	* Fix matrix inversion crash.  [Part of #617469]
+	* Fix win32 configuration problem.  [#617672]
 
 --------------------------------------------------------------------------
 goffice 0.8.2:

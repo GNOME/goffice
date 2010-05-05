@@ -1,17 +1,24 @@
+2010-05-04  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-conf-win32.c (go_conf_win32_get): Restore last
+	backslash for error messages.
+	(go_conf_set_bool): Set the right value.  Fixes #617672.
+
 2010-05-03  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-regression.c (LUPDecomp): Handle nan entries.
 
 2010-05-01  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): use markup for tips.
+	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): use markup
+	for tips.
 
 2010-04-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: check for gtk_widget_send_focus_change().
 	* goffice/gtk/go-action-combo-color.c (cb_color_changed),
-	(go_action_combo_color_class_init): implement the "combo-activate" signal.
-	[#583175]
+	(go_action_combo_color_class_init): implement the "combo-activate"
+	signal.	[#583175]
 	* goffice/gtk/go-action-combo-pixmaps.c (cb_selection_changed),
 	(go_action_combo_pixmaps_class_init): ditto.
 	* goffice/gtk/go-combo-box.c (do_focus_change): use
