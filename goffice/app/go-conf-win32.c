@@ -230,11 +230,27 @@ GOConfNode *
 go_conf_get_node (GOConfNode *parent, const gchar *key)
 {
 	gchar *win32_key = go_conf_get_win32_key (parent, key);
+	gchar *last_sep = strrchr (win32_key, '\\');
 	HKEY hKey;
 	gboolean is_new;
 	GOConfNode *node = NULL;
+	gboolean err;
 
-	if (go_conf_win32_get_node (&hKey, win32_key, &is_new)) {
+	if (last_sep) {
+		*last_sep = 0;
+		/*
+		 * This probably produces the wrong hKey because it refers
+		 * to the directory, not the node.  We need to cut the last
+		 * component, or else we get a new, empty, directory.
+		 */
+		err = go_conf_win32_get_node (&hKey, win32_key, &is_new);
+		*last_sep = '\\';
+	} else {
+		err = TRUE;
+		is_new = TRUE;
+	}
+
+	if (err) {
 		if (!parent && is_new) {
 			gchar *path;
 

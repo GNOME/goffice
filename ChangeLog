@@ -3,6 +3,7 @@
 	* goffice/app/go-conf-win32.c (go_conf_win32_get): Restore last
 	backslash for error messages.
 	(go_conf_set_bool): Set the right value.  Fixes #617672.
+	(go_conf_get_node): Don't create too-deep directory structure.
 
 2010-05-03  Morten Welinder  <terra@gnome.org>
 
