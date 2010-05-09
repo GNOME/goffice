@@ -21,7 +21,6 @@
 
 #define DEFINE_COMMON
 #define DOUBLE double
-#define DOUBLE_MAX DBL_MAX
 #define DOUBLE_MANT_DIG DBL_MANT_DIG
 #define SUFFIX(_n) _n
 #define FORMAT_g "g"
@@ -30,7 +29,6 @@
 #include "go-regression.c"
 #undef DEFINE_COMMON
 #undef DOUBLE
-#undef DOUBLE_MAX
 #undef DOUBLE_MANT_DIG
 #undef SUFFIX
 #undef FORMAT_g
@@ -38,7 +36,6 @@
 #include <sunmath.h>
 #endif
 #define DOUBLE long double
-#define DOUBLE_MAX LDBL_MAX
 #define DOUBLE_MANT_DIG LDBL_MANT_DIG
 #define SUFFIX(_n) _n ## l
 #define FORMAT_g "Lg"
@@ -185,7 +182,7 @@ SUFFIX(LUPDecomp) (DOUBLE **A, DOUBLE **LU, int *P, int n, DOUBLE *b_scaled,
 {
 	int i, j, k, tempint;
 	DOUBLE highest = 0;
-	DOUBLE lowest = DOUBLE_MAX;
+	DOUBLE lowest = SUFFIX(go_pinf);
 	DOUBLE cond;
 	DOUBLE det = 1;
 
@@ -253,7 +250,7 @@ SUFFIX(LUPDecomp) (DOUBLE **A, DOUBLE **LU, int *P, int n, DOUBLE *b_scaled,
 
 	cond = lowest > 0
 		? SUFFIX(log) (highest / lowest) / SUFFIX(log) (2)
-		: go_pinf;
+		: SUFFIX(go_pinf);
 
 #ifdef DEBUG_NEAR_SINGULAR
 	g_printerr ("cond=%.20" FORMAT_g "\n", cond);
