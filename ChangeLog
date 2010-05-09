@@ -2,6 +2,10 @@
 
 	* goffice/math/go-regression.c (DOUBLE_MAX): Eliminate in favour
 	of SUFFIX(go_pinf).
+	(general_linear_regression): Allocate stats->xbar correctly.
+	Always set the result vector to something.
+	(go_exponential_regression): map the result also if it is
+	near-singular.
 
 2010-05-07  Morten Welinder <terra@gnome.org>
 

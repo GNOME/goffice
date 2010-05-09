@@ -73,9 +73,13 @@
 	   (dst)[_i][_j] = (src)[_i][_j];	\
   } while (0)
 
-#endif
+#define ZERO_VECTOR(dst,dim)			\
+  do { int _i, _d;				\
+       _d = (dim);				\
+       for (_i = 0; _i < _d; _i++)		\
+	       (dst)[_i] = 0;			\
+  } while (0)
 
-#undef PRINT_MATRIX
 #define PRINT_MATRIX(var,dim1,dim2)				\
   do {								\
 	int _i, _j, _d1, _d2;					\
@@ -88,6 +92,8 @@
 	    g_printerr ("\n");					\
 	  }							\
   } while (0)
+
+#endif
 
 /*
  *       ---> j
@@ -351,7 +357,7 @@ SUFFIX(go_matrix_invert) (DOUBLE **A, int n)
 		DOUBLE *w = g_new (DOUBLE, n);
 
 		for (i = 0; i < n; i++) {
-			memset (b, 0, sizeof (DOUBLE) * n);
+			ZERO_VECTOR (b, n);
 			b[i] = b_scaled[i];
 			SUFFIX(backsolve) (LU, P, b, n, w);
 			for (j = 0; j < n; j++)
@@ -409,13 +415,15 @@ SUFFIX(go_matrix_determinant) (DOUBLE **A, int n)
 
 static GORegressionResult
 SUFFIX(general_linear_regression) (DOUBLE **xss, int xdim,
-			   const DOUBLE *ys, int n,
-			   DOUBLE *result,
-			   SUFFIX(go_regression_stat_t) *regression_stat, gboolean affine)
+				   const DOUBLE *ys, int n,
+				   DOUBLE *result,
+				   SUFFIX(go_regression_stat_t) *regression_stat, gboolean affine)
 {
 	DOUBLE *xTy, **xTx;
 	int i,j;
 	GORegressionResult regerr;
+
+	ZERO_VECTOR (result, xdim);
 
 	if (regression_stat)
 		memset (regression_stat, 0, sizeof (SUFFIX(go_regression_stat_t)));
@@ -486,7 +494,7 @@ SUFFIX(general_linear_regression) (DOUBLE **xss, int xdim,
 			err = SUFFIX(go_range_sumsq) (ys, n, &regression_stat->ss_total);
 		g_assert (err == 0);
 
-		regression_stat->xbar = g_new (DOUBLE, n);
+		regression_stat->xbar = g_new (DOUBLE, xdim);
 		for (i = 0; i < xdim; i++) {
 			if (xss[i]) {
 				int err = SUFFIX(go_range_average) (xss[i], n, &regression_stat->xbar[i]);
@@ -884,7 +892,7 @@ SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
 						    res + 1, regression_stat, affine);
 	}
 
-	if (result == 0)
+	if (result == GO_REG_ok || result == GO_REG_near_singular_good)
 		for (i = 0; i < dim + 1; i++)
 			res[i] = SUFFIX(exp) (res[i]);
 
@@ -1064,7 +1072,7 @@ SUFFIX(go_logarithmic_regression) (DOUBLE **xss, int dim,
 GORegressionResult
 SUFFIX(go_logarithmic_fit) (DOUBLE *xs, const DOUBLE *ys, int n, DOUBLE *res)
 {
-    SUFFIX(point_cloud_measure_type) point_cloud_measures;
+	SUFFIX(point_cloud_measure_type) point_cloud_measures;
 	int i, result;
 	gboolean more_2_y = 0, more_2_x = 0;
 
