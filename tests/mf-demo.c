@@ -341,7 +341,7 @@ set_text (Page* pg, GocCanvas* canvas, char* txt, int len, GtkAnchorType* anchor
 	dc = &g_array_index (pg->dcs, DC, pg->curdc);
 	txt[len] = 0;
 	if (-1 != dc->curfnt) {
-		mfo = g_hash_table_lookup (pg->mfobjs, (gpointer) dc->curfnt);
+		mfo = g_hash_table_lookup (pg->mfobjs, GINT_TO_POINTER (dc->curfnt));
 		font = mfo->values;
 
 		if (!g_ascii_strcasecmp ("MT Extra", font->name)) {
@@ -523,7 +523,7 @@ set_font (Page *pg, GocItem *item)
 	if (-1 == dc->curfnt)
 		return;
 
-	mfo = g_hash_table_lookup (pg->mfobjs, (gpointer) dc->curfnt);
+	mfo = g_hash_table_lookup (pg->mfobjs, GINT_TO_POINTER (dc->curfnt));
 	font = mfo->values;
 	// convert font values to PangoAttrList
 	if (font->escape > 0) {
@@ -578,7 +578,7 @@ stroke (Page *pg, GocItem *item)
 
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
 
-	mfo = g_hash_table_lookup (pg->mfobjs, (gpointer) dc->curfg);
+	mfo = g_hash_table_lookup (pg->mfobjs, GINT_TO_POINTER (dc->curfg));
 	p = mfo->values;
 	pstyle = p->style;
 	if (p->style == 5) {
@@ -627,7 +627,7 @@ fill (Page *pg, GocItem *item)
 		return;
 
 	style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
-	mfo = g_hash_table_lookup (pg->mfobjs, (gpointer) dc->curbg);
+	mfo = g_hash_table_lookup (pg->mfobjs, GINT_TO_POINTER (dc->curbg));
 	b = mfo->values;
 	switch (b->style) {
 	case 1:
