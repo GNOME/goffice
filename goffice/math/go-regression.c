@@ -436,13 +436,8 @@ SUFFIX(general_linear_regression) (DOUBLE **xss, int xdim,
 		const DOUBLE *xs = xss[i];
 		register DOUBLE res = 0;
 		int j;
-		if (xs == NULL)
-			/* NULL represents a 1-vector.  */
-			for (j = 0; j < n; j++)
-				res += ys[j];
-		else
-			for (j = 0; j < n; j++)
-				res += xs[j] * ys[j];
+		for (j = 0; j < n; j++)
+			res += xs[j] * ys[j];
 		xTy[i] = res;
 	}
 
@@ -456,17 +451,8 @@ SUFFIX(general_linear_regression) (DOUBLE **xss, int xdim,
 			DOUBLE res = 0;
 			int k;
 
-			if (xs1 == NULL && xs2 == NULL)
-				res = n;
-			else if (xs1 == NULL)
-				for (k = 0; k < n; k++)
-					res += xs2[k];
-			else if (xs2 == NULL)
-				for (k = 0; k < n; k++)
-					res += xs1[k];
-			else
-				for (k = 0; k < n; k++)
-					res += xs1[k] * xs2[k];
+			for (k = 0; k < n; k++)
+				res += xs1[k] * xs2[k];
 
 			xTx[i][j] = xTx[j][i] = res;
 		}
@@ -506,12 +492,8 @@ SUFFIX(general_linear_regression) (DOUBLE **xss, int xdim,
 
 		for (i = 0; i < n; i++) {
 			residuals[i] = 0;
-			for (j = 0; j < xdim; j++) {
-				if (xss[j])
-					residuals[i] += xss[j][i] * result[j];
-				else
-					residuals[i] += result[j]; /* If NULL, constant factor */
-			}
+			for (j = 0; j < xdim; j++)
+				residuals[i] += xss[j][i] * result[j];
 			residuals[i] = ys[i] - residuals[i];
 		}
 
@@ -627,12 +609,13 @@ typedef struct {
  */
 
 static int
-SUFFIX(transform_x_and_linear_regression_log_fitting) (DOUBLE *xs,
-					       DOUBLE *transf_xs,
-					       const DOUBLE *ys, int n,
-					       DOUBLE *res,
-					       SUFFIX(point_cloud_measure_type)
-					       *point_cloud)
+SUFFIX(transform_x_and_linear_regression_log_fitting)
+	(DOUBLE *xs,
+	 DOUBLE *transf_xs,
+	 const DOUBLE *ys, int n,
+	 DOUBLE *res,
+	 SUFFIX(point_cloud_measure_type)
+	 *point_cloud)
 {
         int i;
 	int result = GO_REG_ok;
@@ -661,7 +644,7 @@ SUFFIX(transform_x_and_linear_regression_log_fitting) (DOUBLE *xs,
 
 static int
 SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
-	     DOUBLE *res, SUFFIX(point_cloud_measure_type) *point_cloud)
+		     DOUBLE *res, SUFFIX(point_cloud_measure_type) *point_cloud)
 {
         int result = GO_REG_ok;
 	gboolean sign_plus_ok = 1, sign_minus_ok = 1;
@@ -822,18 +805,24 @@ SUFFIX(go_linear_regression) (DOUBLE **xss, int dim,
 	g_return_val_if_fail (n >= 1, GO_REG_invalid_dimensions);
 
 	if (affine) {
-		DOUBLE **xss2;
-		xss2 = g_new (DOUBLE *, dim + 1);
-		xss2[0] = NULL;  /* Substitute for 1-vector.  */
+		int i;
+		DOUBLE **xss2 = g_new (DOUBLE *, dim + 1);
+
+		xss2[0] = g_new (DOUBLE, n);
+		for (i = 0; i < n; i++)
+			xss2[0][i] = 1;
 		memcpy (xss2 + 1, xss, dim * sizeof (DOUBLE *));
 
-		result = SUFFIX(general_linear_regression) (xss2, dim + 1, ys, n,
-						    res, regression_stat, affine);
+		result = SUFFIX(general_linear_regression)
+			(xss2, dim + 1, ys, n,
+			 res, regression_stat, affine);
+		g_free (xss2[0]);
 		g_free (xss2);
 	} else {
 		res[0] = 0;
-		result = SUFFIX(general_linear_regression) (xss, dim, ys, n,
-						    res + 1, regression_stat, affine);
+		result = SUFFIX(general_linear_regression)
+			(xss, dim, ys, n,
+			 res + 1, regression_stat, affine);
 	}
 	return result;
 }
@@ -856,10 +845,10 @@ SUFFIX(go_linear_regression) (DOUBLE **xss, int dim,
  **/
 GORegressionResult
 SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
-			const DOUBLE *ys, int n,
-			gboolean affine,
-			DOUBLE *res,
-			SUFFIX(go_regression_stat_t) *regression_stat)
+				   const DOUBLE *ys, int n,
+				   gboolean affine,
+				   DOUBLE *res,
+				   SUFFIX(go_regression_stat_t) *regression_stat)
 {
 	DOUBLE *log_ys;
 	GORegressionResult result;
@@ -878,18 +867,24 @@ SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
 		}
 
 	if (affine) {
-		DOUBLE **xss2;
-		xss2 = g_new (DOUBLE *, dim + 1);
-		xss2[0] = NULL;  /* Substitute for 1-vector.  */
+		int i;
+		DOUBLE **xss2 = g_new (DOUBLE *, dim + 1);
+
+		xss2[0] = g_new (DOUBLE, n);
+		for (i = 0; i < n; i++)
+			xss2[0][i] = 1;
 		memcpy (xss2 + 1, xss, dim * sizeof (DOUBLE *));
 
-		result = SUFFIX(general_linear_regression) (xss2, dim + 1, log_ys,
-						    n, res, regression_stat, affine);
+		result = SUFFIX(general_linear_regression)
+			(xss2, dim + 1, log_ys,
+			 n, res, regression_stat, affine);
+		g_free (xss2[0]);
 		g_free (xss2);
 	} else {
 		res[0] = 0;
-		result = SUFFIX(general_linear_regression) (xss, dim, log_ys, n,
-						    res + 1, regression_stat, affine);
+		result = SUFFIX(general_linear_regression)
+			(xss, dim, log_ys, n,
+			 res + 1, regression_stat, affine);
 	}
 
 	if (result == GO_REG_ok || result == GO_REG_near_singular_good)
@@ -919,10 +914,10 @@ SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
  **/
 GORegressionResult
 SUFFIX(go_power_regression) (DOUBLE **xss, int dim,
-			const DOUBLE *ys, int n,
-			gboolean affine,
-			DOUBLE *res,
-			SUFFIX(go_regression_stat_t) *regression_stat)
+			     const DOUBLE *ys, int n,
+			     gboolean affine,
+			     DOUBLE *res,
+			     SUFFIX(go_regression_stat_t) *regression_stat)
 {
 	DOUBLE *log_ys, **log_xss = NULL;
 	GORegressionResult result;
@@ -951,18 +946,24 @@ SUFFIX(go_power_regression) (DOUBLE **xss, int dim,
 			}
 
 	if (affine) {
-		DOUBLE **log_xss2;
-		log_xss2 = g_new (DOUBLE *, dim + 1);
-		log_xss2[0] = NULL;  /* Substitute for 1-vector.  */
+		int i;
+		DOUBLE **log_xss2 = g_new (DOUBLE *, dim + 1);
+
+		log_xss2[0] = g_new (DOUBLE, n);
+		for (i = 0; i < n; i++)
+			log_xss2[0][i] = 1;
 		memcpy (log_xss2 + 1, log_xss, dim * sizeof (DOUBLE *));
 
-		result = SUFFIX(general_linear_regression) (log_xss2, dim + 1, log_ys,
-						    n, res, regression_stat, affine);
+		result = SUFFIX(general_linear_regression)
+			(log_xss2, dim + 1, log_ys,
+			 n, res, regression_stat, affine);
+		g_free (log_xss2[0]);
 		g_free (log_xss2);
 	} else {
 		res[0] = 0;
-		result = SUFFIX(general_linear_regression) (log_xss, dim, log_ys, n,
-						    res + 1, regression_stat, affine);
+		result = SUFFIX(general_linear_regression)
+			(log_xss, dim, log_ys, n,
+			 res + 1, regression_stat, affine);
 	}
 
  out:
@@ -995,10 +996,10 @@ SUFFIX(go_power_regression) (DOUBLE **xss, int dim,
  **/
 GORegressionResult
 SUFFIX(go_logarithmic_regression) (DOUBLE **xss, int dim,
-			const DOUBLE *ys, int n,
-			gboolean affine,
-			DOUBLE *res,
-			SUFFIX(go_regression_stat_t) *regression_stat)
+				   const DOUBLE *ys, int n,
+				   gboolean affine,
+				   DOUBLE *res,
+				   SUFFIX(go_regression_stat_t) *regression_stat)
 {
         DOUBLE **log_xss;
 	GORegressionResult result;
@@ -1019,20 +1020,24 @@ SUFFIX(go_logarithmic_regression) (DOUBLE **xss, int dim,
 
 
 	if (affine) {
-		DOUBLE **log_xss2;
-		log_xss2 = g_new (DOUBLE *, dim + 1);
-		log_xss2[0] = NULL;  /* Substitute for 1-vector.  */
+		int i;
+		DOUBLE **log_xss2 = g_new (DOUBLE *, dim + 1);
+
+		log_xss2[0] = g_new (DOUBLE, n);
+		for (i = 0; i < n; i++)
+			log_xss2[0][i] = 1;
 		memcpy (log_xss2 + 1, log_xss, dim * sizeof (DOUBLE *));
 
-		result = SUFFIX(general_linear_regression) (log_xss2, dim + 1, ys, n,
-						    res, regression_stat,
-						    affine);
+		result = SUFFIX(general_linear_regression)
+			(log_xss2, dim + 1, ys, n,
+			 res, regression_stat, affine);
+		g_free (log_xss2[0]);
 		g_free (log_xss2);
 	} else {
 		res[0] = 0;
-		result = SUFFIX(general_linear_regression) (log_xss, dim, ys, n,
-						    res + 1, regression_stat,
-						    affine);
+		result = SUFFIX(general_linear_regression)
+			(log_xss, dim, ys, n,
+			 res + 1, regression_stat, affine);
 	}
 
  out:
@@ -1255,13 +1260,13 @@ SUFFIX(chi_squared) (SUFFIX(GORegressionFunction) f,
  */
 static GORegressionResult
 SUFFIX(chi_derivative) (SUFFIX(GORegressionFunction) f,
-		DOUBLE *dchi,
-		DOUBLE **xvals, /* The entire data set. */
-		DOUBLE *par,
-		int index,
-		DOUBLE *yvals,  /* Ditto. */
-		DOUBLE *sigmas, /* Ditto. */
-		int x_dim)
+			DOUBLE *dchi,
+			DOUBLE **xvals, /* The entire data set. */
+			DOUBLE *par,
+			int index,
+			DOUBLE *yvals,  /* Ditto. */
+			DOUBLE *sigmas, /* Ditto. */
+			int x_dim)
 {
 	DOUBLE y1, y2;
 	GORegressionResult result;
@@ -1322,14 +1327,14 @@ SUFFIX(chi_derivative) (SUFFIX(GORegressionFunction) f,
 
 static GORegressionResult
 SUFFIX(coefficient_matrix) (DOUBLE **A, /* Output matrix. */
-		    SUFFIX(GORegressionFunction) f,
-		    DOUBLE **xvals, /* The entire data set. */
-		    DOUBLE *par,
-		    DOUBLE *yvals,  /* Ditto. */
-		    DOUBLE *sigmas, /* Ditto. */
-		    int x_dim,          /* Number of data points. */
-		    int p_dim,          /* Number of parameters.  */
-		    DOUBLE r)
+			    SUFFIX(GORegressionFunction) f,
+			    DOUBLE **xvals, /* The entire data set. */
+			    DOUBLE *par,
+			    DOUBLE *yvals,  /* Ditto. */
+			    DOUBLE *sigmas, /* Ditto. */
+			    int x_dim,      /* Number of data points. */
+			    int p_dim,      /* Number of parameters.  */
+			    DOUBLE r)
 {
 	int i, j, k;
 	GORegressionResult result;
@@ -1385,13 +1390,13 @@ SUFFIX(coefficient_matrix) (DOUBLE **A, /* Output matrix. */
 /* FIXME:  I am not happy with the behaviour with infinite errors.  */
 static GORegressionResult
 SUFFIX(parameter_errors) (SUFFIX(GORegressionFunction) f,
-		  DOUBLE **xvals, /* The entire data set. */
-		  DOUBLE *par,
-		  DOUBLE *yvals,  /* Ditto. */
-		  DOUBLE *sigmas, /* Ditto. */
-		  int x_dim,          /* Number of data points. */
-		  int p_dim,          /* Number of parameters.  */
-		  DOUBLE *errors)
+			  DOUBLE **xvals, /* The entire data set. */
+			  DOUBLE *par,
+			  DOUBLE *yvals,  /* Ditto. */
+			  DOUBLE *sigmas, /* Ditto. */
+			  int x_dim,      /* Number of data points. */
+			  int p_dim,      /* Number of parameters.  */
+			  DOUBLE *errors)
 {
 	GORegressionResult result;
 	DOUBLE **A;
@@ -1440,14 +1445,14 @@ SUFFIX(parameter_errors) (SUFFIX(GORegressionFunction) f,
  */
 GORegressionResult
 SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
-		       DOUBLE **xvals, /* The entire data set. */
-		       DOUBLE *par,
-		       DOUBLE *yvals,  /* Ditto. */
-		       DOUBLE *sigmas, /* Ditto. */
-		       int x_dim,          /* Number of data points. */
-		       int p_dim,          /* Number of parameters.  */
-		       DOUBLE *chi,
-		       DOUBLE *errors)
+				  DOUBLE **xvals, /* The entire data set. */
+				  DOUBLE *par,
+				  DOUBLE *yvals,  /* Ditto. */
+				  DOUBLE *sigmas, /* Ditto. */
+				  int x_dim,      /* Number of data points. */
+				  int p_dim,      /* Number of parameters.  */
+				  DOUBLE *chi,
+				  DOUBLE *errors)
 {
 	DOUBLE r = 0.001; /* Pick a conservative initial value. */
 	DOUBLE *b, **A;
