@@ -152,7 +152,7 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 										mime_type->component_type_name);
 				GSList *old_mime = g_slist_find_custom (old_service->mime_types, name, (GCompareFunc) strcmp);
 				g_free (old_mime->data);
-				old_service->mime_types = g_slist_remove_link (old_service->mime_types, old_mime);
+				old_service->mime_types = g_slist_delete_link (old_service->mime_types, old_mime);
 				g_free (mime_type->component_type_name);
 				mime_type->component_type_name = g_strdup (service->id);
 				mime_type->priority = i;
@@ -185,7 +185,7 @@ go_component_type_service_deactivate (GOPluginService *service, GOErrorInfo **re
 	while (l) {
 		GSList *mime_type = g_slist_find_custom (mime_types_names, l->data, (GCompareFunc) strcmp);
 		g_free (mime_type->data);
-		mime_types_names = g_slist_remove_link (mime_types_names, mime_type);
+		mime_types_names = g_slist_delete_link (mime_types_names, mime_type);
 		l = l->next;
 	}
 	service->is_active = FALSE;

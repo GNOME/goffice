@@ -1,5 +1,9 @@
 2010-05-13  Morten Welinder  <terra@gnome.org>
 
+	* goffice/component/go-component-factory.c (go_component_type_service_read_xml):
+	Plug leak.
+	(go_component_type_service_deactivate): Plug leak.
+
 	* goffice/math/go-regression.c (general_linear_regression): Use QR
 	factorization with refinement.
 
