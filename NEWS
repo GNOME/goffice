@@ -2,6 +2,7 @@ goffice 0.8.4:
 
 Morten:
 	* Regression fixes.
+	* Improve linear regression accuracy.
 
 --------------------------------------------------------------------------
 goffice 0.8.3:

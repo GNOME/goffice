@@ -25,8 +25,26 @@
 #define SUFFIX(_n) _n
 #define FORMAT_g "g"
 
+#define MATRIX DOUBLE **
+#define CONSTMATRIX DOUBLE *const *const
+
+#if 0
 #ifdef GOFFICE_WITH_LONG_DOUBLE
+
+/* We define this to cause certain "double" functions to be implemented in
+   terms of their "long double" counterparts.  */
+#define BOUNCE
+static GORegressionResult
+general_linear_regressionl (long double *const *const xss, int xdim,
+			    const long double *ys, int n,
+			    long double *result,
+			    go_regression_stat_tl *stat_,
+			    gboolean affine);
+#endif
+
+
 #include "go-regression.c"
+#undef BOUNCE
 #undef DEFINE_COMMON
 #undef DOUBLE
 #undef DOUBLE_MANT_DIG
@@ -46,15 +64,17 @@
 #ifdef DEFINE_COMMON
 
 #undef DEBUG_NEAR_SINGULAR
+#undef DEBUG_REFINEMENT
 
-#define ALLOC_MATRIX(var,dim1,dim2)			\
+#define ALLOC_MATRIX2(var,dim1,dim2,TYPE)		\
   do { int _i, _d1, _d2;				\
        _d1 = (dim1);					\
        _d2 = (dim2);					\
-       (var) = g_new (DOUBLE *, _d1);			\
+       (var) = g_new (TYPE *, _d1);			\
        for (_i = 0; _i < _d1; _i++)			\
-	       (var)[_i] = g_new (DOUBLE, _d2);		\
+	       (var)[_i] = g_new (TYPE, _d2);		\
   } while (0)
+#define ALLOC_MATRIX(var,dim1,dim2) ALLOC_MATRIX2(var,dim1,dim2,DOUBLE)
 
 #define FREE_MATRIX(var,dim1,dim2)			\
   do { int _i, _d1;					\
@@ -78,6 +98,13 @@
        _d = (dim);				\
        for (_i = 0; _i < _d; _i++)		\
 	       (dst)[_i] = 0;			\
+  } while (0)
+
+#define COPY_VECTOR(dst,src,dim)		\
+  do { int _i, _d;				\
+       _d = (dim);				\
+       for (_i = 0; _i < _d; _i++)		\
+	       (dst)[_i] = (src)[_i];		\
   } while (0)
 
 #define PRINT_MATRIX(var,dim1,dim2)				\
@@ -110,6 +137,174 @@
  */
 
 /* ------------------------------------------------------------------------- */
+#ifdef BOUNCE
+/* Suppport routines for bouncing double to long double.  */
+
+static double *
+shrink_vector (const long double *V, int d)
+{
+	if (V) {
+		double *V2 = g_new (double, d);
+		COPY_VECTOR (V2, V, d);
+		return V2;
+	} else
+		return NULL;
+}
+
+static void
+copy_stats (go_regression_stat_t *s1,
+	    const go_regression_stat_tl *s2, int xdim)
+{
+	if (!s2)
+		return;
+
+	g_free (s1->se);
+	g_free (s1->t);
+	g_free (s1->xbar);
+
+	s1->se = shrink_vector (s2->se, xdim);
+	s1->t = shrink_vector (s2->t, xdim);
+	s1->sqr_r = s2->sqr_r;
+	s1->adj_sqr_r = s2->adj_sqr_r;
+	s1->se_y = s2->se_y;
+	s1->F = s2->F;
+	s1->df_reg = s2->df_reg;
+	s1->df_resid = s2->df_resid;
+	s1->df_total = s2->df_total;
+	s1->ss_reg = s2->ss_reg;
+	s1->ss_resid = s2->ss_resid;
+	s1->ss_total = s2->ss_total;
+	s1->ms_reg = s2->ms_reg;
+	s1->ms_resid = s2->ms_resid;
+	s1->ybar = s2->ybar;
+	s1->xbar = shrink_vector (s2->xbar, xdim);
+	s1->var = s2->var;
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+static DOUBLE
+SUFFIX(dot_product) (const DOUBLE *x, const DOUBLE *y, int n)
+{
+	DOUBLE d = 0;
+	int i;
+	for (i = 0; i < n; i++)
+		d += x[i] * y[i];
+	return d;
+}
+
+static GORegressionResult
+SUFFIX(QR) (CONSTMATRIX A, MATRIX Q, MATRIX R, int m, int n)
+{
+	int k;
+
+	COPY_MATRIX (Q, A, m, n);
+
+	for (k = 0; k < m; k++) {
+		DOUBLE L;
+		int i;
+
+		(void)SUFFIX(go_range_sumsq) (Q[k], n, &L);
+		L = SUFFIX(sqrt) (L);
+		if (L == 0)
+			return GO_REG_singular;
+
+		for (i = 0; i < n; i++)
+			Q[k][i] /= L;
+
+		R[k][k] = L;
+		for (i = k + 1; i < m; i++) {
+			DOUBLE d = SUFFIX(dot_product) (Q[k], Q[i], n);
+			int j;
+
+			R[k][i] = 0;
+			R[i][k] = d;
+
+			for (j = 0; j < n; j++)
+				Q[i][j] -= d * Q[k][j];
+		}
+	}
+
+	return GO_REG_ok;
+}
+
+#ifndef BOUNCE
+
+static void
+SUFFIX(calc_residual) (CONSTMATRIX A, const DOUBLE *b, int dim, int n,
+		       const DOUBLE *res, DOUBLE *residual, DOUBLE *N2)
+{
+	int i, j;
+
+	*N2 = 0;
+
+	for (i = 0; i < n; i++) {
+		DOUBLE d = 0;
+		for (j = 0; j < dim; j++)
+			d += A[j][i] * res[j];
+		d = b[i] - d;
+		(*N2) += d * d;
+		if (residual)
+			residual[i] = d;
+	}
+}
+
+static void
+SUFFIX(refine) (CONSTMATRIX A, const DOUBLE *b, int dim, int n,
+		CONSTMATRIX Q, CONSTMATRIX R, DOUBLE *result)
+{
+	DOUBLE *residual = g_new (DOUBLE, n);
+	DOUBLE *delta = g_new (DOUBLE, dim);
+	DOUBLE *newresult = g_new (DOUBLE, dim);
+	int pass;
+	DOUBLE best_N2;
+
+	SUFFIX(calc_residual) (A, b, dim, n, result, residual, &best_N2);
+#ifdef DEBUG_REFINEMENT
+	g_printerr ("-: Residual norm = %20.15" FORMAT_g "\n", best_N2);
+#endif
+
+	for (pass = 1; pass < 5; pass++) {
+		int i, j;
+		DOUBLE N2;
+
+		/* newresult = R^-1 Q^T residual */
+		for (i = dim - 1; i >= 0; i--) {
+			DOUBLE acc = SUFFIX(dot_product) (Q[i], residual, n);
+			for (j = i + 1; j < dim; j++)
+				acc -= R[j][i] * delta[j];
+			delta[i] = acc / R[i][i];
+#ifdef DEBUG_REFINEMENT
+			g_printerr ("d[%2d] = %20" FORMAT_g
+				    "  %20" FORMAT_g "\n",
+				    i, delta[i], result[i]);
+#endif
+		}
+
+		for (i = 0; i < dim; i++)
+			newresult[i] = delta[i] + result[i];
+
+		SUFFIX(calc_residual) (A, b, dim, n, newresult, residual, &N2);
+
+#ifdef DEBUG_REFINEMENT
+		g_printerr ("%d: Residual norm = %20.15" FORMAT_g "\n", pass, N2);
+#endif
+		if (N2 >= best_N2)
+			break;
+
+		best_N2 = N2;
+		COPY_VECTOR (result, newresult, dim);
+	}
+
+	g_free (residual);
+	g_free (newresult);
+	g_free (delta);
+}
+
+#endif
+
+/* ------------------------------------------------------------------------- */
 
 /* Returns in res the solution to the equation L * U * res = P * b.
 
@@ -118,7 +313,7 @@
 	p. 753. MIT Press, 1990.
 */
 static void
-SUFFIX(backsolve) (DOUBLE **LU, int *P, DOUBLE *b, int n, DOUBLE *res)
+SUFFIX(backsolve) (MATRIX LU, int *P, DOUBLE *b, int n, DOUBLE *res)
 {
 	int i, j;
 
@@ -140,7 +335,7 @@ SUFFIX(backsolve) (DOUBLE **LU, int *P, DOUBLE *b, int n, DOUBLE *res)
 }
 
 static void
-SUFFIX(rescale) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *pdet)
+SUFFIX(rescale) (MATRIX A, DOUBLE *b, int n, DOUBLE *pdet)
 {
 	int i;
 
@@ -183,7 +378,7 @@ SUFFIX(rescale) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *pdet)
  * accordingly.
  */
 static GORegressionResult
-SUFFIX(LUPDecomp) (DOUBLE **A, DOUBLE **LU, int *P, int n, DOUBLE *b_scaled,
+SUFFIX(LUPDecomp) (CONSTMATRIX A, MATRIX LU, int *P, int n, DOUBLE *b_scaled,
 		   DOUBLE *pdet)
 {
 	int i, j, k, tempint;
@@ -273,10 +468,11 @@ SUFFIX(LUPDecomp) (DOUBLE **A, DOUBLE **LU, int *P, int n, DOUBLE *b_scaled,
 
 
 static GORegressionResult
-SUFFIX(linear_solve) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *res)
+SUFFIX(linear_solve) (CONSTMATRIX A, const DOUBLE *b, int n, DOUBLE *res)
 {
 	GORegressionResult err;
-	DOUBLE **LU, *b_scaled;
+	MATRIX LU;
+	DOUBLE *b_scaled;
 	int *P;
 	DOUBLE det;
 
@@ -312,7 +508,7 @@ SUFFIX(linear_solve) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *res)
 	P = g_new (int, n);
 
 	b_scaled = g_new (DOUBLE, n);
-	memcpy (b_scaled, b, n * sizeof (DOUBLE));
+	COPY_VECTOR (b_scaled, b, n);
 
 	err = SUFFIX(LUPDecomp) (A, LU, P, n, b_scaled, &det);
 
@@ -327,60 +523,44 @@ SUFFIX(linear_solve) (DOUBLE **A, DOUBLE *b, int n, DOUBLE *res)
 
 
 gboolean
-SUFFIX(go_matrix_invert) (DOUBLE **A, int n)
+SUFFIX(go_matrix_invert) (MATRIX A, int n)
 {
+	MATRIX Q;
+	MATRIX R;
 	GORegressionResult err;
-	DOUBLE **LU, *b_scaled, det;
-	int *P;
-	int i;
-	gboolean res;
+	gboolean has_result;
 
-	if (n < 1)
-		return FALSE;
+	ALLOC_MATRIX (Q, n, n);
+	ALLOC_MATRIX (R, n, n);
 
-	/*
-	 * Otherwise, use LUP-decomposition to find res such that
-	 * A res = b
-	 */
-	ALLOC_MATRIX (LU, n, n);
-	P = g_new (int, n);
+	err = SUFFIX(QR) (A, Q, R, n, n);
+	has_result = (err == GO_REG_ok || err == GO_REG_near_singular_good);
 
-	b_scaled = g_new (DOUBLE, n);
-	for (i = 0; i < n; i++)
-		b_scaled[i] = 1;
-
-	err = SUFFIX(LUPDecomp) (A, LU, P, n, b_scaled, &det);
-
-	if (err == GO_REG_ok || err == GO_REG_near_singular_good) {
-		int i, j;
-		DOUBLE *b = g_new (DOUBLE, n);
-		DOUBLE *w = g_new (DOUBLE, n);
-
-		for (i = 0; i < n; i++) {
-			ZERO_VECTOR (b, n);
-			b[i] = b_scaled[i];
-			SUFFIX(backsolve) (LU, P, b, n, w);
-			for (j = 0; j < n; j++)
-				A[j][i] = w[j];
+	if (has_result) {
+		int i, j, k;
+		for (k = 0; k < n; k++) {
+			/* Solve R x = Q^T e_k */
+			for (i = n - 1; i >= 0; i--) {
+				DOUBLE d = Q[i][k];
+				for (j = i + 1; j < n; j++)
+					d -= R[j][i] * A[k][j];
+				A[k][i] = d / R[i][i];
+			}
 		}
-		g_free (w);
-		g_free (b);
-		res = TRUE;
-	} else
-		res = FALSE;
+	}
 
-	FREE_MATRIX (LU, n, n);
-	g_free (P);
-	g_free (b_scaled);
+	FREE_MATRIX (Q, n, n);
+	FREE_MATRIX (R, n, n);
 
-	return res;
+	return has_result;
 }
 
 DOUBLE
-SUFFIX(go_matrix_determinant) (DOUBLE **A, int n)
+SUFFIX(go_matrix_determinant) (CONSTMATRIX A, int n)
 {
 	GORegressionResult err;
-	DOUBLE **LU, *b_scaled, det;
+	MATRIX LU;
+	DOUBLE *b_scaled, det;
 	int *P;
 
 	if (n < 1)
@@ -414,175 +594,166 @@ SUFFIX(go_matrix_determinant) (DOUBLE **A, int n)
 /* ------------------------------------------------------------------------- */
 
 static GORegressionResult
-SUFFIX(general_linear_regression) (DOUBLE **xss, int xdim,
+SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 				   const DOUBLE *ys, int n,
 				   DOUBLE *result,
-				   SUFFIX(go_regression_stat_t) *regression_stat, gboolean affine)
+				   SUFFIX(go_regression_stat_t) *stat_,
+				   gboolean affine)
 {
-	DOUBLE *xTy, **xTx;
-	int i,j;
 	GORegressionResult regerr;
+#ifdef BOUNCE
+	long double **xss2, *ys2, *result2;
+	go_regression_stat_tl *stat2;
+
+	ALLOC_MATRIX2 (xss2, xdim, n, long double);
+	COPY_MATRIX (xss2, xss, xdim, n);
+
+	ys2 = g_new (long double, n);
+	COPY_VECTOR (ys2, ys, n);
+
+	result2 = g_new (long double, xdim);
+	stat2 = stat_ ? go_regression_stat_newl () : NULL;
+
+	regerr = general_linear_regressionl (xss2, xdim, ys2, n,
+					     result2, stat2, affine);
+	COPY_VECTOR (result, result2, xdim);
+	copy_stats (stat_, stat2, xdim);
+
+	go_regression_stat_destroyl (stat2);
+	g_free (result2);
+	g_free (ys2);
+	FREE_MATRIX (xss2, xdim, n);
+#else
+	MATRIX Q;
+	MATRIX R;
+	int i,j;
+	gboolean has_result;
 
 	ZERO_VECTOR (result, xdim);
 
-	if (regression_stat)
-		memset (regression_stat, 0, sizeof (SUFFIX(go_regression_stat_t)));
+	if (stat_)
+		memset (stat_, 0, sizeof (stat_));
 
 	if (xdim > n)
 		return GO_REG_not_enough_data;
 
-	xTy = g_new (DOUBLE, xdim);
-	for (i = 0; i < xdim; i++) {
-		const DOUBLE *xs = xss[i];
-		register DOUBLE res = 0;
-		int j;
-		for (j = 0; j < n; j++)
-			res += xs[j] * ys[j];
-		xTy[i] = res;
-	}
+	ALLOC_MATRIX (Q, xdim, n);
+	ALLOC_MATRIX (R, xdim, xdim);
 
-	ALLOC_MATRIX (xTx, xdim, xdim);
+	regerr = SUFFIX(QR) (xss, Q, R, xdim, n);
+	has_result = regerr == GO_REG_ok || regerr == GO_REG_near_singular_good;
 
-	for (i = 0; i < xdim; i++) {
-		const DOUBLE *xs1 = xss[i];
-		int j;
-		for (j = 0; j <= i; j++) {
-			const DOUBLE *xs2 = xss[j];
-			DOUBLE res = 0;
-			int k;
-
-			for (k = 0; k < n; k++)
-				res += xs1[k] * xs2[k];
-
-			xTx[i][j] = xTx[j][i] = res;
+	if (has_result) {
+		/* Solve R res = Q^T ys */
+		for (i = xdim - 1; i >= 0; i--) {
+			DOUBLE d = SUFFIX(dot_product) (Q[i], ys, n);
+			for (j = i + 1; j < xdim; j++)
+				d -= R[j][i] * result[j];
+			result[i] = d / R[i][i];
 		}
+
+		if (xdim > 2)
+			SUFFIX(refine) (xss, ys, xdim, n, Q, R, result);
 	}
 
-	regerr = SUFFIX(linear_solve) (xTx, xTy, xdim, result);
-
-	if (regression_stat &&
-	    (regerr == GO_REG_ok || regerr == GO_REG_near_singular_good)) {
+	if (stat_ && has_result) {
 		GORegressionResult err2;
-		DOUBLE *residuals = g_new (DOUBLE, n);
-		DOUBLE **LU, *one_scaled, det;
-		int *P;
+		DOUBLE *inv = g_new (DOUBLE, xdim);
 		int err;
+		int k;
 
 		/* This should not fail since n >= 1.  */
-		err = SUFFIX(go_range_average) (ys, n, &regression_stat->ybar);
+		err = SUFFIX(go_range_average) (ys, n, &stat_->ybar);
 		g_assert (err == 0);
 
 		/* FIXME: we ought to have a devsq variant that does not
 		   recompute the mean.  */
 		if (affine)
-			err = SUFFIX(go_range_devsq) (ys, n, &regression_stat->ss_total);
+			err = SUFFIX(go_range_devsq) (ys, n, &stat_->ss_total);
 		else
-			err = SUFFIX(go_range_sumsq) (ys, n, &regression_stat->ss_total);
+			err = SUFFIX(go_range_sumsq) (ys, n, &stat_->ss_total);
 		g_assert (err == 0);
 
-		regression_stat->xbar = g_new (DOUBLE, xdim);
+		stat_->xbar = g_new (DOUBLE, xdim);
 		for (i = 0; i < xdim; i++) {
-			if (xss[i]) {
-				int err = SUFFIX(go_range_average) (xss[i], n, &regression_stat->xbar[i]);
-				g_assert (err == 0);
-			} else {
-				regression_stat->xbar[i] = 1;
-			}
+			int err = SUFFIX(go_range_average) (xss[i], n, &stat_->xbar[i]);
+			g_assert (err == 0);
 		}
 
-		for (i = 0; i < n; i++) {
-			residuals[i] = 0;
-			for (j = 0; j < xdim; j++)
-				residuals[i] += xss[j][i] * result[j];
-			residuals[i] = ys[i] - residuals[i];
-		}
+		SUFFIX(calc_residual) (xss, ys, xdim, n, result, NULL,
+				       &stat_->ss_resid);
 
-		err = SUFFIX(go_range_sumsq) (residuals, n, &regression_stat->ss_resid);
-		g_assert (err == 0);
-
-		regression_stat->sqr_r = (regression_stat->ss_total == 0)
+		stat_->sqr_r = (stat_->ss_total == 0)
 			? 1
-			: 1 - regression_stat->ss_resid / regression_stat->ss_total;
+			: 1 - stat_->ss_resid / stat_->ss_total;
 		/* FIXME: we want to guard against division by zero.  */
-		regression_stat->adj_sqr_r = 1 - regression_stat->ss_resid * (n - 1) /
-			((n - xdim) * regression_stat->ss_total);
-		regression_stat->var = (n == xdim)
+		stat_->adj_sqr_r = 1 - stat_->ss_resid * (n - 1) /
+			((n - xdim) * stat_->ss_total);
+		stat_->var = (n == xdim)
 			? 0
-			: regression_stat->ss_resid / (n - xdim);
+			: stat_->ss_resid / (n - xdim);
 
-		ALLOC_MATRIX (LU, xdim, xdim);
-		one_scaled = g_new (DOUBLE, xdim);
-		for (i = 0; i < xdim; i++) one_scaled[i] = 1;
-		P = g_new (int, xdim);
-
-		err2 = SUFFIX(LUPDecomp) (xTx, LU, P, xdim, one_scaled, &det);
-		regression_stat->se = g_new (DOUBLE, xdim);
-		if (err2 == GO_REG_ok || err2 == GO_REG_near_singular_good) {
-			DOUBLE *e = g_new (DOUBLE, xdim); /* Elementary vector */
-			DOUBLE *inv = g_new (DOUBLE, xdim);
-			for (i = 0; i < xdim; i++)
-				e[i] = 0;
+		err2 = GO_REG_ok;
+		stat_->se = g_new (DOUBLE, xdim);
+		for (k = 0; k < xdim; k++) {
+			/* Solve R^T z = e_k */
 			for (i = 0; i < xdim; i++) {
-				e[i] = one_scaled[i];
-				SUFFIX(backsolve) (LU, P, e, xdim, inv);
-
-				if (inv[i] < 0) {
-					/*
-					 * If this happens, something is really
-					 * wrong, numerically.
-					 */
-					g_printerr ("inv[i]=%" FORMAT_g "\n", inv[i]);
-					//regerr = GO_REG_near_singular_bad;
-				}
-				regression_stat->se[i] =
-					SUFFIX(sqrt) (regression_stat->var * inv[i]);
-				e[i] = 0;
+				DOUBLE d = (i == k ? 1 : 0);
+				for (j = 0; j < i; j++)
+					d -= R[i][j] * inv[j];
+				inv[i] = d / R[i][i];
 			}
-			g_free (e);
-			g_free (inv);
-		} else {
-			/*
-			 * This can happen for xdim == 2 as linear_solve does
-			 * not use LUPDecomp in that case.
-			 */
-			regerr = err2;
-			for (i = 0; i < xdim; i++)
-				regression_stat->se[i] = 0;
-		}
-		FREE_MATRIX (LU, xdim, xdim);
-		g_free (P);
-		g_free (one_scaled);
 
-		regression_stat->t = g_new (DOUBLE, xdim);
+			/* Solve R inv = z */
+			for (i = xdim - 1; i >= 0; i--) {
+				DOUBLE d = inv[i];
+				for (j = i + 1; j < xdim; j++)
+					d -= R[j][i] * inv[j];
+				inv[i] = d / R[i][i];
+			}
+
+			if (inv[k] < 0) {
+				/*
+				 * If this happens, something is really
+				 * wrong, numerically.
+				 */
+				g_printerr ("inv[%d]=%" FORMAT_g "\n",
+					    k, inv[k]);
+				regerr = GO_REG_near_singular_bad;
+			}
+			stat_->se[k] = SUFFIX(sqrt) (stat_->var * inv[k]);
+		}
+		g_free (inv);
+
+		stat_->t = g_new (DOUBLE, xdim);
 
 		for (i = 0; i < xdim; i++)
-			regression_stat->t[i] = (regression_stat->se[i] == 0)
+			stat_->t[i] = (stat_->se[i] == 0)
 				? SUFFIX(go_pinf)
-				: result[i] / regression_stat->se[i];
+				: result[i] / stat_->se[i];
 
-		regression_stat->df_resid = n - xdim;
-		regression_stat->df_reg = xdim - (affine ? 1 : 0);
-		regression_stat->df_total = regression_stat->df_resid + regression_stat->df_reg;
+		stat_->df_resid = n - xdim;
+		stat_->df_reg = xdim - (affine ? 1 : 0);
+		stat_->df_total = stat_->df_resid + stat_->df_reg;
 
-		regression_stat->F = (regression_stat->sqr_r == 1)
+		stat_->F = (stat_->sqr_r == 1)
 			? SUFFIX(go_pinf)
-			: ((regression_stat->sqr_r / regression_stat->df_reg) /
-			   (1 - regression_stat->sqr_r) * regression_stat->df_resid);
+			: ((stat_->sqr_r / stat_->df_reg) /
+			   (1 - stat_->sqr_r) * stat_->df_resid);
 
-		regression_stat->ss_reg =  regression_stat->ss_total - regression_stat->ss_resid;
-		regression_stat->se_y = SUFFIX(sqrt) (regression_stat->ss_total / n);
-		regression_stat->ms_reg = (regression_stat->df_reg == 0)
+		stat_->ss_reg =  stat_->ss_total - stat_->ss_resid;
+		stat_->se_y = SUFFIX(sqrt) (stat_->ss_total / n);
+		stat_->ms_reg = (stat_->df_reg == 0)
 			? 0
-			: regression_stat->ss_reg / regression_stat->df_reg;
-		regression_stat->ms_resid = (regression_stat->df_resid == 0)
+			: stat_->ss_reg / stat_->df_reg;
+		stat_->ms_resid = (stat_->df_resid == 0)
 			? 0
-			: regression_stat->ss_resid / regression_stat->df_resid;
-
-		g_free (residuals);
+			: stat_->ss_resid / stat_->df_resid;
 	}
 
-	FREE_MATRIX (xTx, xdim, xdim);
-	g_free (xTy);
+	FREE_MATRIX (Q, xdim, n);
+	FREE_MATRIX (R, xdim, xdim);
+#endif
 
 	return regerr;
 }
@@ -746,7 +917,7 @@ SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
 							       ys, n, temp_res,
 							       point_cloud);
 		if (temp_res[4] <= res[4])
-		        memcpy (res, temp_res, 5 * sizeof (DOUBLE));
+			COPY_VECTOR (res, temp_res, 5);
 		else {
 		        temp_res[3] = res[3] - res[0] * c_dist;
 			SUFFIX(transform_x_and_linear_regression_log_fitting) (xs,
@@ -755,7 +926,7 @@ SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
 								  temp_res,
 							          point_cloud);
 			if (temp_res[4] <= res[4])
-			        memcpy (res, temp_res, 5*sizeof (DOUBLE));
+			        COPY_VECTOR (res, temp_res, 5);
 		}
 	} while (c_dist > c_accuracy);
 
@@ -785,7 +956,7 @@ SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
  * @n: number of data points.
  * @affine: if true, a non-zero constant is allowed.
  * @res: output place for constant[0] and slope1[1], slope2[2],... There will be dim+1 results.
- * @stat : non-NULL storage for additional results.
+ * @stat_ : non-NULL storage for additional results.
  *
  * Performs multi-dimensional linear regressions on the input points.
  * Fits to "y = b + a1 * x1 + ... ad * xd".
@@ -793,11 +964,11 @@ SUFFIX(log_fitting) (DOUBLE *xs, const DOUBLE *ys, int n,
  * Returns: #GORegressionResult as above.
  **/
 GORegressionResult
-SUFFIX(go_linear_regression) (DOUBLE **xss, int dim,
+SUFFIX(go_linear_regression) (MATRIX xss, int dim,
 			      const DOUBLE *ys, int n,
 			      gboolean affine,
 			      DOUBLE *res,
-			      SUFFIX(go_regression_stat_t) *regression_stat)
+			      SUFFIX(go_regression_stat_t) *stat_)
 {
 	GORegressionResult result;
 
@@ -815,14 +986,14 @@ SUFFIX(go_linear_regression) (DOUBLE **xss, int dim,
 
 		result = SUFFIX(general_linear_regression)
 			(xss2, dim + 1, ys, n,
-			 res, regression_stat, affine);
+			 res, stat_, affine);
 		g_free (xss2[0]);
 		g_free (xss2);
 	} else {
 		res[0] = 0;
 		result = SUFFIX(general_linear_regression)
 			(xss, dim, ys, n,
-			 res + 1, regression_stat, affine);
+			 res + 1, stat_, affine);
 	}
 	return result;
 }
@@ -835,7 +1006,7 @@ SUFFIX(go_linear_regression) (DOUBLE **xss, int dim,
  * @n: number of data points
  * @affine: if %TRUE, a non-one multiplier is allowed
  * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
- * @stat : non-NULL storage for additional results.
+ * @stat_ : non-NULL storage for additional results.
  *
  * Performs one-dimensional linear regressions on the input points.
  * Fits to "y = b * m1^x1 * ... * md^xd " or equivalently to
@@ -844,11 +1015,11 @@ SUFFIX(go_linear_regression) (DOUBLE **xss, int dim,
  * Returns: #GORegressionResult as above.
  **/
 GORegressionResult
-SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
+SUFFIX(go_exponential_regression) (MATRIX xss, int dim,
 				   const DOUBLE *ys, int n,
 				   gboolean affine,
 				   DOUBLE *res,
-				   SUFFIX(go_regression_stat_t) *regression_stat)
+				   SUFFIX(go_regression_stat_t) *stat_)
 {
 	DOUBLE *log_ys;
 	GORegressionResult result;
@@ -877,14 +1048,14 @@ SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
 
 		result = SUFFIX(general_linear_regression)
 			(xss2, dim + 1, log_ys,
-			 n, res, regression_stat, affine);
+			 n, res, stat_, affine);
 		g_free (xss2[0]);
 		g_free (xss2);
 	} else {
 		res[0] = 0;
 		result = SUFFIX(general_linear_regression)
 			(xss, dim, log_ys, n,
-			 res + 1, regression_stat, affine);
+			 res + 1, stat_, affine);
 	}
 
 	if (result == GO_REG_ok || result == GO_REG_near_singular_good)
@@ -904,7 +1075,7 @@ SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
  * @n: number of data points
  * @affine: if %TRUE, a non-one multiplier is allowed
  * @res: output place for constant[0] and root1[1], root2[2],... There will be dim+1 results.
- * @stat : non-NULL storage for additional results.
+ * @stat_ : non-NULL storage for additional results.
  *
  * Performs one-dimensional linear regressions on the input points.
  * Fits to "y = b * x1^m1 * ... * xd^md " or equivalently to
@@ -913,11 +1084,11 @@ SUFFIX(go_exponential_regression) (DOUBLE **xss, int dim,
  * Returns: #GORegressionResult as above.
  **/
 GORegressionResult
-SUFFIX(go_power_regression) (DOUBLE **xss, int dim,
+SUFFIX(go_power_regression) (MATRIX xss, int dim,
 			     const DOUBLE *ys, int n,
 			     gboolean affine,
 			     DOUBLE *res,
-			     SUFFIX(go_regression_stat_t) *regression_stat)
+			     SUFFIX(go_regression_stat_t) *stat_)
 {
 	DOUBLE *log_ys, **log_xss = NULL;
 	GORegressionResult result;
@@ -956,14 +1127,14 @@ SUFFIX(go_power_regression) (DOUBLE **xss, int dim,
 
 		result = SUFFIX(general_linear_regression)
 			(log_xss2, dim + 1, log_ys,
-			 n, res, regression_stat, affine);
+			 n, res, stat_, affine);
 		g_free (log_xss2[0]);
 		g_free (log_xss2);
 	} else {
 		res[0] = 0;
 		result = SUFFIX(general_linear_regression)
 			(log_xss, dim, log_ys, n,
-			 res + 1, regression_stat, affine);
+			 res + 1, stat_, affine);
 	}
 
  out:
@@ -982,7 +1153,7 @@ SUFFIX(go_power_regression) (DOUBLE **xss, int dim,
  * @n: number of data points
  * @affine: if %TRUE, a non-zero constant is allowed
  * @res: output place for constant[0] and factor1[1], factor2[2],... There will be dim+1 results.
- * @stat : non-NULL storage for additional results.
+ * @stat_ : non-NULL storage for additional results.
  *
  * This is almost a copy of linear_regression and produces multi-dimensional
  * linear regressions on the input points after transforming xss to ln(xss).
@@ -995,13 +1166,13 @@ SUFFIX(go_power_regression) (DOUBLE **xss, int dim,
  * Returns: #GORegressionResult as above.
  **/
 GORegressionResult
-SUFFIX(go_logarithmic_regression) (DOUBLE **xss, int dim,
+SUFFIX(go_logarithmic_regression) (MATRIX xss, int dim,
 				   const DOUBLE *ys, int n,
 				   gboolean affine,
 				   DOUBLE *res,
-				   SUFFIX(go_regression_stat_t) *regression_stat)
+				   SUFFIX(go_regression_stat_t) *stat_)
 {
-        DOUBLE **log_xss;
+        MATRIX log_xss;
 	GORegressionResult result;
 	int i, j;
 
@@ -1030,14 +1201,14 @@ SUFFIX(go_logarithmic_regression) (DOUBLE **xss, int dim,
 
 		result = SUFFIX(general_linear_regression)
 			(log_xss2, dim + 1, ys, n,
-			 res, regression_stat, affine);
+			 res, stat_, affine);
 		g_free (log_xss2[0]);
 		g_free (log_xss2);
 	} else {
 		res[0] = 0;
 		result = SUFFIX(general_linear_regression)
 			(log_xss, dim, ys, n,
-			 res + 1, regression_stat, affine);
+			 res + 1, stat_, affine);
 	}
 
  out:
@@ -1126,26 +1297,27 @@ SUFFIX(go_logarithmic_fit) (DOUBLE *xs, const DOUBLE *ys, int n, DOUBLE *res)
 SUFFIX(go_regression_stat_t) *
 SUFFIX(go_regression_stat_new) (void)
 {
-	SUFFIX(go_regression_stat_t) * regression_stat = g_new0 (SUFFIX(go_regression_stat_t), 1);
+	SUFFIX(go_regression_stat_t) * stat_ =
+		g_new0 (SUFFIX(go_regression_stat_t), 1);
 
-	regression_stat->se = NULL;
-	regression_stat->t = NULL;
-	regression_stat->xbar = NULL;
+	stat_->se = NULL;
+	stat_->t = NULL;
+	stat_->xbar = NULL;
 
-	return regression_stat;
+	return stat_;
 }
 
 /* ------------------------------------------------------------------------- */
 
 void
-SUFFIX(go_regression_stat_destroy) (SUFFIX(go_regression_stat_t) *regression_stat)
+SUFFIX(go_regression_stat_destroy) (SUFFIX(go_regression_stat_t) *stat_)
 {
-	g_return_if_fail (regression_stat != NULL);
-
-	g_free(regression_stat->se);
-	g_free(regression_stat->t);
-	g_free(regression_stat->xbar);
-	g_free (regression_stat);
+	if (stat_) {
+		g_free(stat_->se);
+		g_free(stat_->t);
+		g_free(stat_->xbar);
+		g_free (stat_);
+	}
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1224,12 +1396,12 @@ SUFFIX(derivative) (SUFFIX(GORegressionFunction) f,
  */
 static GORegressionResult
 SUFFIX(chi_squared) (SUFFIX(GORegressionFunction) f,
-	     DOUBLE ** xvals, /* The entire data set. */
-	     DOUBLE *par,
-	     DOUBLE *yvals,   /* Ditto. */
-	     DOUBLE *sigmas,  /* Ditto. */
-	     int x_dim,          /* Number of data points. */
-	     DOUBLE *chisq)   /* Chi Squared */
+		     CONSTMATRIX xvals,    /* The entire data set. */
+		     DOUBLE *par,
+		     DOUBLE *yvals,   /* Ditto. */
+		     DOUBLE *sigmas,  /* Ditto. */
+		     int x_dim,       /* Number of data points. */
+		     DOUBLE *chisq)   /* Chi Squared */
 {
 	int i;
 	GORegressionResult result;
@@ -1261,7 +1433,7 @@ SUFFIX(chi_squared) (SUFFIX(GORegressionFunction) f,
 static GORegressionResult
 SUFFIX(chi_derivative) (SUFFIX(GORegressionFunction) f,
 			DOUBLE *dchi,
-			DOUBLE **xvals, /* The entire data set. */
+			MATRIX xvals, /* The entire data set. */
 			DOUBLE *par,
 			int index,
 			DOUBLE *yvals,  /* Ditto. */
@@ -1322,13 +1494,13 @@ SUFFIX(chi_derivative) (SUFFIX(GORegressionFunction) f,
  *
  * p_dim  -> Number of parameters.
  *
- * r      -> Positive constant.  It's value is altered during the LM procedure.
+ * r      -> Positive constant.  Its value is altered during the LM procedure.
  */
 
 static GORegressionResult
-SUFFIX(coefficient_matrix) (DOUBLE **A, /* Output matrix. */
+SUFFIX(coefficient_matrix) (MATRIX A, /* Output matrix. */
 			    SUFFIX(GORegressionFunction) f,
-			    DOUBLE **xvals, /* The entire data set. */
+			    MATRIX xvals, /* The entire data set. */
 			    DOUBLE *par,
 			    DOUBLE *yvals,  /* Ditto. */
 			    DOUBLE *sigmas, /* Ditto. */
@@ -1341,7 +1513,7 @@ SUFFIX(coefficient_matrix) (DOUBLE **A, /* Output matrix. */
 	DOUBLE df_i, df_j;
 	DOUBLE sum, sigma;
 
-	/* Notice that the matrix is symetric.  */
+	/* Notice that the matrix is symmetric.  */
 	for (i = 0; i < p_dim; i++) {
 		for (j = 0; j <= i; j++) {
 			sum = 0;
@@ -1390,7 +1562,7 @@ SUFFIX(coefficient_matrix) (DOUBLE **A, /* Output matrix. */
 /* FIXME:  I am not happy with the behaviour with infinite errors.  */
 static GORegressionResult
 SUFFIX(parameter_errors) (SUFFIX(GORegressionFunction) f,
-			  DOUBLE **xvals, /* The entire data set. */
+			  MATRIX xvals, /* The entire data set. */
 			  DOUBLE *par,
 			  DOUBLE *yvals,  /* Ditto. */
 			  DOUBLE *sigmas, /* Ditto. */
@@ -1399,7 +1571,7 @@ SUFFIX(parameter_errors) (SUFFIX(GORegressionFunction) f,
 			  DOUBLE *errors)
 {
 	GORegressionResult result;
-	DOUBLE **A;
+	MATRIX A;
 	int i;
 
 	ALLOC_MATRIX (A, p_dim, p_dim);
@@ -1445,7 +1617,7 @@ SUFFIX(parameter_errors) (SUFFIX(GORegressionFunction) f,
  */
 GORegressionResult
 SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
-				  DOUBLE **xvals, /* The entire data set. */
+				  MATRIX xvals, /* The entire data set. */
 				  DOUBLE *par,
 				  DOUBLE *yvals,  /* Ditto. */
 				  DOUBLE *sigmas, /* Ditto. */
