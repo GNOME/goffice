@@ -650,7 +650,8 @@ GOPath *go_path_copy (GOPath const *path)
 	return new_path;
 }
 
-/** go_path_append:
+/**
+ * go_path_append:
  * @path1: #GOPath
  * @path2: #GOPath
  *
