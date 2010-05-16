@@ -9,6 +9,7 @@
 #include <goffice/math/go-matrix3x3.h>
 #include <goffice/math/go-rangefunc.h>
 #include <goffice/math/go-regression.h>
+#include <goffice/math/go-quad.h>
 #include <goffice/math/go-R.h>
 
 #endif

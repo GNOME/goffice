@@ -17,20 +17,21 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/* ------------------------------------------------------------------------- */
+/* Self-inclusion magic.  */
+
 #ifndef DOUBLE
 
 #define DEFINE_COMMON
 #define DOUBLE double
 #define DOUBLE_MANT_DIG DBL_MANT_DIG
 #define SUFFIX(_n) _n
+#define FORMAT_f "f"
 #define FORMAT_g "g"
 
-#define MATRIX DOUBLE **
-#define CONSTMATRIX DOUBLE *const *const
-
-#if 0
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 
+#if 0
 /* We define this to cause certain "double" functions to be implemented in
    terms of their "long double" counterparts.  */
 #define BOUNCE
@@ -49,6 +50,7 @@ general_linear_regressionl (long double *const *const xss, int xdim,
 #undef DOUBLE
 #undef DOUBLE_MANT_DIG
 #undef SUFFIX
+#undef FORMAT_f
 #undef FORMAT_g
 #ifdef HAVE_SUNMATH_H
 #include <sunmath.h>
@@ -56,12 +58,19 @@ general_linear_regressionl (long double *const *const xss, int xdim,
 #define DOUBLE long double
 #define DOUBLE_MANT_DIG LDBL_MANT_DIG
 #define SUFFIX(_n) _n ## l
+#define FORMAT_f "Lf"
 #define FORMAT_g "Lg"
 #endif
 
 #endif
 
+/* ------------------------------------------------------------------------- */
+
 #ifdef DEFINE_COMMON
+
+#define MATRIX DOUBLE **
+#define CONSTMATRIX DOUBLE *const *const
+#define QUAD SUFFIX(GOQuad)
 
 #undef DEBUG_NEAR_SINGULAR
 #undef DEBUG_REFINEMENT
@@ -112,25 +121,25 @@ general_linear_regressionl (long double *const *const xss, int xdim,
 	int _i, _j, _d1, _d2;					\
 	_d1 = (dim1);						\
 	_d2 = (dim2);						\
-	for (_i = 0; _i < _d1; _i++)				\
-	  {							\
-	    for (_j = 0; _j < _d2; _j++)			\
-	      g_printerr (" %19.10" FORMAT_g, (var)[_i][_j]);	\
-	    g_printerr ("\n");					\
+	for (_j = 0; _j < _d2; _j++) {				\
+	  for (_i = 0; _i < _d1; _i++) {			\
+	    g_printerr (" %12.8" FORMAT_g, (var)[_i][_j]);	\
 	  }							\
+	  g_printerr ("\n");					\
+	}							\
   } while (0)
 
 #endif
 
 /*
- *       ---> j
+ *       ---> i
  *
  *  |    ********
  *  |    ********
  *  |    ********        A[i][j]
  *  v    ********
  *       ********
- *  i    ********
+ *  j    ********
  *       ********
  *       ********
  *
@@ -207,6 +216,10 @@ SUFFIX(QR) (CONSTMATRIX A, MATRIX Q, MATRIX R, int m, int n)
 
 		(void)SUFFIX(go_range_sumsq) (Q[k], n, &L);
 		L = SUFFIX(sqrt) (L);
+#if 0
+		PRINT_MATRIX (Q, m, n);
+		g_printerr ("L[%d] = %20.15" FORMAT_g "\n", k, L);
+#endif
 		if (L == 0)
 			return GO_REG_singular;
 
@@ -233,20 +246,28 @@ SUFFIX(QR) (CONSTMATRIX A, MATRIX Q, MATRIX R, int m, int n)
 
 static void
 SUFFIX(calc_residual) (CONSTMATRIX A, const DOUBLE *b, int dim, int n,
-		       const DOUBLE *res, DOUBLE *residual, DOUBLE *N2)
+		       const DOUBLE *res, QUAD *residual, QUAD *N2)
 {
 	int i, j;
 
-	*N2 = 0;
+	SUFFIX(go_quad_init) (N2, 0, 0);
 
 	for (i = 0; i < n; i++) {
-		DOUBLE d = 0;
-		for (j = 0; j < dim; j++)
-			d += A[j][i] * res[j];
-		d = b[i] - d;
-		(*N2) += d * d;
+		QUAD d;
+
+		SUFFIX(go_quad_init) (&d, b[i], 0);
+
+		for (j = 0; j < dim; j++) {
+			QUAD e;
+			SUFFIX(go_quad_mul12) (&e, A[j][i], res[j]);
+			SUFFIX(go_quad_sub) (&d, &d, &e);
+		}
+
 		if (residual)
 			residual[i] = d;
+
+		SUFFIX(go_quad_mul) (&d, &d, &d);
+		SUFFIX(go_quad_add) (N2, N2, &d);
 	}
 }
 
@@ -254,50 +275,79 @@ static void
 SUFFIX(refine) (CONSTMATRIX A, const DOUBLE *b, int dim, int n,
 		CONSTMATRIX Q, CONSTMATRIX R, DOUBLE *result)
 {
-	DOUBLE *residual = g_new (DOUBLE, n);
+	QUAD *residual = g_new (QUAD, n);
+	QUAD *newresidual = g_new (QUAD, n);
 	DOUBLE *delta = g_new (DOUBLE, dim);
 	DOUBLE *newresult = g_new (DOUBLE, dim);
 	int pass;
-	DOUBLE best_N2;
+	QUAD best_N2;
+	void *state;
+
+	state = SUFFIX(go_quad_start) ();
 
 	SUFFIX(calc_residual) (A, b, dim, n, result, residual, &best_N2);
 #ifdef DEBUG_REFINEMENT
-	g_printerr ("-: Residual norm = %20.15" FORMAT_g "\n", best_N2);
+	g_printerr ("-: Residual norm = %20.15" FORMAT_g "\n",
+		    SUFFIX(go_quad_value) (&best_N2));
 #endif
 
-	for (pass = 1; pass < 5; pass++) {
+	for (pass = 1; pass < 10; pass++) {
 		int i, j;
-		DOUBLE N2;
+		QUAD dres, N2;
 
 		/* newresult = R^-1 Q^T residual */
 		for (i = dim - 1; i >= 0; i--) {
-			DOUBLE acc = SUFFIX(dot_product) (Q[i], residual, n);
-			for (j = i + 1; j < dim; j++)
-				acc -= R[j][i] * delta[j];
-			delta[i] = acc / R[i][i];
+			QUAD acc, d, Rii;
+
+			SUFFIX(go_quad_init) (&acc, 0, 0);
+
+			for (j = 0; j < n; j++) {
+				QUAD q, qr;
+				SUFFIX(go_quad_init) (&q, Q[i][j], 0);
+				SUFFIX(go_quad_mul) (&qr, &q, residual + j);
+				SUFFIX(go_quad_add) (&acc, &acc, &qr);
+			}
+			for (j = i + 1; j < dim; j++) {
+				QUAD Rd;
+				SUFFIX(go_quad_mul12) (&Rd, R[j][i], delta[j]);
+				SUFFIX(go_quad_sub) (&acc, &acc, &Rd);
+			}
+
+			SUFFIX(go_quad_init) (&Rii, R[i][i], 0);
+			SUFFIX(go_quad_div) (&d, &acc, &Rii);
+
+			delta[i] = SUFFIX(go_quad_value) (&d);
+			newresult[i] = delta[i] + result[i];
 #ifdef DEBUG_REFINEMENT
-			g_printerr ("d[%2d] = %20" FORMAT_g
-				    "  %20" FORMAT_g "\n",
-				    i, delta[i], result[i]);
+			g_printerr ("d[%2d] = %20.15" FORMAT_f
+				    "  %20.15" FORMAT_f
+				    "  %20.15" FORMAT_f "\n",
+				    i, delta[i], result[i], newresult[i]);
 #endif
 		}
 
-		for (i = 0; i < dim; i++)
-			newresult[i] = delta[i] + result[i];
-
-		SUFFIX(calc_residual) (A, b, dim, n, newresult, residual, &N2);
+		SUFFIX(calc_residual) (A, b, dim, n, newresult, newresidual, &N2);
+		SUFFIX (go_quad_sub) (&dres, &N2, &best_N2);
 
 #ifdef DEBUG_REFINEMENT
-		g_printerr ("%d: Residual norm = %20.15" FORMAT_g "\n", pass, N2);
+		g_printerr ("%d: Residual norm = %20.15" FORMAT_g
+			    " (%.5" FORMAT_g ")\n",
+			    pass,
+			    SUFFIX(go_quad_value) (&N2),
+			    SUFFIX(go_quad_value) (&dres));
 #endif
-		if (N2 >= best_N2)
+		if (SUFFIX(go_quad_sgn) (&dres) >= 0)
 			break;
 
 		best_N2 = N2;
 		COPY_VECTOR (result, newresult, dim);
+		COPY_VECTOR (residual, newresidual, n);
 	}
 
+	SUFFIX(go_quad_end) (state);
+
 	g_free (residual);
+	g_free (newresidual);
 	g_free (newresult);
 	g_free (delta);
 }
@@ -661,6 +711,7 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 		DOUBLE *inv = g_new (DOUBLE, xdim);
 		int err;
 		int k;
+		QUAD N2;
 
 		/* This should not fail since n >= 1.  */
 		err = SUFFIX(go_range_average) (ys, n, &stat_->ybar);
@@ -680,8 +731,8 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 			g_assert (err == 0);
 		}
 
-		SUFFIX(calc_residual) (xss, ys, xdim, n, result, NULL,
-				       &stat_->ss_resid);
+		SUFFIX(calc_residual) (xss, ys, xdim, n, result, NULL, &N2);
+		stat_->ss_resid = SUFFIX(go_quad_value) (&N2);
 
 		stat_->sqr_r = (stat_->ss_total == 0)
 			? 1

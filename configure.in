@@ -394,6 +394,8 @@ AC_CHECK_HEADERS(ieeefp.h ieee754.h)
 dnl Check for implementations of passwd/group file entry functions
 AC_CHECK_HEADERS(pwd.h grp.h)
 
+AC_CHECK_HEADERS(fpu_control.h)
+
 dnl Check for some functions
 AC_CHECK_FUNCS(random drand48 finite memmove mkdtemp uname times sysconf)
 
