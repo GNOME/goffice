@@ -486,6 +486,16 @@ long double go_nanl;
 long double go_pinfl;
 long double go_ninfl;
 
+int
+go_finitel (long double x)
+{
+#ifdef HAVE_FINITEL
+	return finitel (x);
+#else
+	return fabs (x) < go_pinfl;
+#endif
+}
+
 long double
 go_pow2l (int n)
 {

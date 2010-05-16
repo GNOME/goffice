@@ -72,7 +72,7 @@ long double go_fake_ceill (long double x);
 long double go_fake_roundl (long double x);
 long double go_fake_truncl (long double x);
 
-#define go_finitel finitel
+int go_finitel (long double x);
 long double go_pow2l (int n);
 long double go_pow10l (int n);
 
@@ -99,7 +99,6 @@ long double modfl (long double x, long double *iptr);
 
 #ifdef _MSC_VER
 #define isnan _isnan
-#define finite _finite
 #endif
 
 /* ------------------------------------------------------------------------- */

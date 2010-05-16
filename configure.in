@@ -516,7 +516,7 @@ if test "x$with_long_double" = "xyes"; then
         ss_dir="/opt/SUNWspro"
     fi
     sunmathlinkstuff="-L$ss_dir/lib -R$ss_dir/lib -lsunmath"
-    for ldfunc in fabsl logl log10l ceill floorl powl isnanl finitel; do
+    for ldfunc in fabsl logl log10l ceill floorl powl isnanl; do
 	    AC_CHECK_FUNC($ldfunc,
 		  ,
 		  [AC_CHECK_LIB(m,
@@ -551,6 +551,7 @@ if test "x$with_long_double" = "xyes"; then
     GOFFICE_CHECK_FUNC(modfl)
     GOFFICE_CHECK_FUNC(ldexpl)
     GOFFICE_CHECK_FUNC(frexpl)
+    AC_CHECK_FUNCS(finitel)
 
     AC_CHECK_FUNCS(strtold)
     if test "$ac_cv_func_strtold" = yes; then
@@ -561,8 +562,7 @@ if test "x$with_long_double" = "xyes"; then
 			const char *s = "+3.1415e+0";
 			char *theend;
 			long double res = strtold (s, &theend);
-			return !(*theend == 0 && finitel (res) &&
-				 res >= 3.14 && res <= 3.15);
+			return !(*theend == 0 && res >= 3.14 && res <= 3.15);
 		}],
 		[AC_MSG_RESULT(no)],
 		[AC_MSG_RESULT(yes)
