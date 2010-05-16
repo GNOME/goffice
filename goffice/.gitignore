@@ -13,3 +13,4 @@ stamp-h*
 *.def
 *.lo
 *.la
+*~
