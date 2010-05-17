@@ -189,15 +189,16 @@ SUFFIX(go_quad_div) (QUAD *res, const QUAD *a, const QUAD *b)
 	res->l = c.h - res->h + c.l;
 }
 
-int
-SUFFIX(go_quad_sgn) (const QUAD *a)
+void
+SUFFIX(go_quad_sqrt) (QUAD *res, const QUAD *a)
 {
-	DOUBLE d = (a->h == 0 ? a->l : a->h);
-
-	if (d == 0)
-		return 0;
-	else if (d > 0)
-		return +1;
-	else
-		return -1;
+	if (a->h > 0) {
+		QUAD c, u;
+		c.h = SUFFIX(sqrt) (a->h);
+		SUFFIX(go_quad_mul12) (&u, c.h, c.h);
+		c.l = (a->h - u.h - u.l + a->l) * 0.5 / c.h;
+		res->h = c.h + c.l;
+		res->l = c.h - res->h + c.l;
+	} else
+		res->h = res->l = 0;
 }
