@@ -382,6 +382,11 @@ find_builtin (const char *fmtstr, int page, gboolean def)
 		list_elem++;
 	}
 
+	if (candidates[list_elem] == NULL &&
+	    page == GO_FORMAT_GENERAL &&
+	    g_ascii_strcasecmp (candidates[0], fmtstr) == 0)
+		list_elem = 0; /* "GENERAL" */
+
 	if (candidates[list_elem] == NULL && def)
 		list_elem = 0;
 

@@ -1,3 +1,8 @@
+2010-05-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-format-sel.c (find_builtin): Special-case
+	case-challenged variants of "General".
+
 2010-05-17  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/goffice.h: applied patch from Bobby Powers: fix without-gtk
