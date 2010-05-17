@@ -27,6 +27,7 @@
 #ifdef GOFFICE_WITH_GTK
 #include <gtk/gtk.h>
 #else
+#include <cairo/cairo.h>
 #include <pango/pango.h>
 #endif
 

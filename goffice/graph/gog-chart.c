@@ -293,8 +293,6 @@ cb_manual_position_changed (GtkComboBox *combo, PlotAreaPrefState *state)
 	}
 }
 
-#endif
-
 static void
 gog_chart_populate_editor (GogObject *gobj,
 			   GOEditor *editor,
@@ -368,6 +366,7 @@ gog_chart_populate_editor (GogObject *gobj,
 
 	go_editor_set_store_page (editor, &chart_pref_page);
 }
+#endif
 
 static void
 gog_chart_children_reordered (GogObject *obj)
@@ -655,7 +654,11 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 	gobject_klass->set_property = gog_chart_set_property;
 	gobject_klass->get_property = gog_chart_get_property;
 
+#ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor = gog_chart_populate_editor;
+#else
+	gog_klass->populate_editor = NULL;
+#endif
 
 	gog_klass->can_manual_size = TRUE;
 

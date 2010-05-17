@@ -1,5 +1,8 @@
 goffice 0.8.4:
 
+Bobby Powers:
+	* Fix the --without-gtk build. [#618592]
+
 Morten:
 	* Regression fixes.
 	* Improve linear regression accuracy.
