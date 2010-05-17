@@ -1,5 +1,8 @@
 2010-05-17  Morten Welinder  <terra@gnome.org>
 
+	* goffice/math/go-rangefunc.c (go_range_devsq): Do the long-double
+	trick here too.
+
 	* goffice/gtk/go-format-sel.c (find_builtin): Special-case
 	case-challenged variants of "General".
 

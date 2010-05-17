@@ -16,11 +16,15 @@
 #ifndef DOUBLE
 
 #define DOUBLE double
+#ifdef HAVE_LONG_DOUBLE
+#define LDOUBLE long double
+#endif
 #define SUFFIX(_n) _n
 
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 #include "go-rangefunc.c"
 #undef DOUBLE
+#undef LDOUBLE
 #undef SUFFIX
 
 #ifdef HAVE_SUNMATH_H
@@ -32,22 +36,31 @@
 
 #endif
 
-/* Arithmetic sum.  */
-int
-SUFFIX(go_range_sum) (DOUBLE const *xs, int n, DOUBLE *res)
-{
-	/* http://bugzilla.gnome.org/show_bug.cgi?id=131588 */
-#ifdef HAVE_LONG_DOUBLE
-	long double sum = 0;
-#else
-	DOUBLE sum = 0;
+#ifndef LDOUBLE
+#define LDOUBLE DOUBLE
 #endif
+
+/* ------------------------------------------------------------------------- */
+
+static LDOUBLE
+SUFFIX(sum_helper) (DOUBLE const *xs, int n)
+{
+	LDOUBLE sum = 0;
 	int i;
 
 	for (i = 0; i < n; i++)
 		sum += xs[i];
 
-	*res = sum;
+	return sum;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* Arithmetic sum.  */
+int
+SUFFIX(go_range_sum) (DOUBLE const *xs, int n, DOUBLE *res)
+{
+	*res = SUFFIX(sum_helper) (xs, n);
 	return 0;
 }
 
@@ -74,10 +87,10 @@ SUFFIX(go_range_sumsq) (DOUBLE const *xs, int n, DOUBLE *res)
 int
 SUFFIX(go_range_average) (DOUBLE const *xs, int n, DOUBLE *res)
 {
-	if (n <= 0 || SUFFIX(go_range_sum) (xs, n, res))
+	if (n <= 0)
 		return 1;
 
-	*res /= n;
+	*res = SUFFIX(sum_helper) (xs, n) / n;
 	return 0;
 }
 
@@ -136,13 +149,14 @@ SUFFIX(go_range_maxabs) (DOUBLE const *xs, int n, DOUBLE *res)
 int
 SUFFIX(go_range_devsq) (DOUBLE const *xs, int n, DOUBLE *res)
 {
-	DOUBLE m, dx, q = 0;
+	LDOUBLE q = 0;
+
 	if (n > 0) {
 		int i;
+		LDOUBLE m = SUFFIX(sum_helper) (xs, n) / n;
 
-		SUFFIX(go_range_average) (xs, n, &m);
 		for (i = 0; i < n; i++) {
-			dx = xs[i] - m;
+			LDOUBLE dx = xs[i] - m;
 			q += dx * dx;
 		}
 	}
