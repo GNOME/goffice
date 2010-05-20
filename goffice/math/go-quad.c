@@ -90,7 +90,7 @@ SUFFIX(go_quad_start) (void)
 {
 	void *res = NULL;
 
-	if (!go_quad_functional ())
+	if (!SUFFIX(go_quad_functional) ())
 		g_warning ("quad precision math may not be completely accurate.");
 
 #ifdef i386
