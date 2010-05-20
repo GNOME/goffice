@@ -194,18 +194,6 @@ copy_stats (go_regression_stat_t *s1,
 
 /* ------------------------------------------------------------------------- */
 
-static void
-SUFFIX(dot_product) (const QUAD *x, const QUAD *y, int n, QUAD *dp)
-{
-	int i;
-	SUFFIX(go_quad_init) (dp, 0, 0);
-	for (i = 0; i < n; i++) {
-		QUAD d;
-		SUFFIX(go_quad_mul) (&d, &x[i], &y[i]);
-		SUFFIX(go_quad_add) (dp, dp, &d);
-	}
-}
-
 static GORegressionResult
 SUFFIX(QR) (CONSTMATRIX A, QMATRIX Q, QMATRIX R, int m, int n)
 {
@@ -213,13 +201,13 @@ SUFFIX(QR) (CONSTMATRIX A, QMATRIX Q, QMATRIX R, int m, int n)
 
 	for (i = 0; i < m; i++)
 		for (j = 0; j < n; j++)
-			SUFFIX(go_quad_init) (&Q[i][j], A[i][j], 0);
+			SUFFIX(go_quad_init) (&Q[i][j], A[i][j]);
 
 	for (k = 0; k < m; k++) {
 		QUAD L;
 		int i;
 
-		SUFFIX(dot_product) (Q[k], Q[k], n, &L);
+		SUFFIX(go_quad_dot_product) (&L, Q[k], Q[k], n);
 		SUFFIX(go_quad_sqrt) (&L, &L);
 #if 0
 		PRINT_MATRIX (Q, m, n);
@@ -236,9 +224,9 @@ SUFFIX(QR) (CONSTMATRIX A, QMATRIX Q, QMATRIX R, int m, int n)
 			QUAD ip;
 			int j;
 
-			SUFFIX(go_quad_init) (&R[k][i], 0, 0);
+			SUFFIX(go_quad_init) (&R[k][i], 0);
 
-			SUFFIX(dot_product) (Q[k], Q[i], n, &ip);
+			SUFFIX(go_quad_dot_product) (&ip, Q[k], Q[i], n);
 			R[i][k] = ip;
 
 			for (j = 0; j < n; j++) {
@@ -260,16 +248,16 @@ SUFFIX(calc_residual) (CONSTMATRIX A, const DOUBLE *b, int dim, int n,
 {
 	int i, j;
 
-	SUFFIX(go_quad_init) (N2, 0, 0);
+	SUFFIX(go_quad_init) (N2, 0);
 
 	for (i = 0; i < n; i++) {
 		QUAD d;
 
-		SUFFIX(go_quad_init) (&d, b[i], 0);
+		SUFFIX(go_quad_init) (&d, b[i]);
 
 		for (j = 0; j < dim; j++) {
 			QUAD Aji, e;
-			SUFFIX(go_quad_init) (&Aji, A[j][i], 0);
+			SUFFIX(go_quad_init) (&Aji, A[j][i]);
 			SUFFIX(go_quad_mul) (&e, &Aji, &y[j]);
 			SUFFIX(go_quad_sub) (&d, &d, &e);
 		}
@@ -307,13 +295,8 @@ SUFFIX(refine) (CONSTMATRIX A, const DOUBLE *b, int dim, int n,
 		for (i = dim - 1; i >= 0; i--) {
 			QUAD acc;
 
-			SUFFIX(go_quad_init) (&acc, 0, 0);
+			SUFFIX(go_quad_dot_product) (&acc, Q[i], residual, n);
 
-			for (j = 0; j < n; j++) {
-				QUAD qr;
-				SUFFIX(go_quad_mul) (&qr, &Q[i][j], &residual[j]);
-				SUFFIX(go_quad_add) (&acc, &acc, &qr);
-			}
 			for (j = i + 1; j < dim; j++) {
 				QUAD Rd;
 				SUFFIX(go_quad_mul) (&Rd, &R[j][i], &delta[j]);
@@ -602,7 +585,7 @@ SUFFIX(go_matrix_invert) (MATRIX A, int n)
 				QUAD d = Q[i][k];
 				for (j = i + 1; j < n; j++) {
 					QUAD p;
-					SUFFIX(go_quad_init) (&p, A[k][j], 0);
+					SUFFIX(go_quad_init) (&p, A[k][j]);
 					SUFFIX(go_quad_mul) (&p, &R[j][i], &p);
 					SUFFIX(go_quad_sub) (&d, &d, &p);
 				}
@@ -716,10 +699,10 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 		for (i = xdim - 1; i >= 0; i--) {
 			QUAD acc;
 
-			SUFFIX(go_quad_init) (&acc, 0, 0);
+			SUFFIX(go_quad_init) (&acc, 0);
 			for (j = 0; j < n; j++) {
 				QUAD p;
-				SUFFIX(go_quad_init) (&p, ys[j], 0);
+				SUFFIX(go_quad_init) (&p, ys[j]);
 				SUFFIX(go_quad_mul) (&p, &p, &Q[i][j]);
 				SUFFIX(go_quad_add) (&acc, &acc, &p);
 			}
@@ -739,7 +722,7 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 		/* Round to plain precision.  */
 		for (i = 0; i < xdim; i++) {
 			result[i] = SUFFIX(go_quad_value) (&qresult[i]);
-			SUFFIX(go_quad_init) (&qresult[i], result[i], 0);
+			SUFFIX(go_quad_init) (&qresult[i], result[i]);
 		}
 	}
 
@@ -778,10 +761,10 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 		stat_->adj_sqr_r = 1 - stat_->ss_resid * (n - 1) /
 			((n - xdim) * stat_->ss_total);
 		if (n == xdim)
-			SUFFIX(go_quad_init) (&N2, 0, 0);
+			SUFFIX(go_quad_init) (&N2, 0);
 		else {
 			QUAD d;
-			SUFFIX(go_quad_init) (&d, n - xdim, 0);
+			SUFFIX(go_quad_init) (&d, n - xdim);
 			SUFFIX(go_quad_div) (&N2, &N2, &d);
 		}
 		stat_->var = SUFFIX(go_quad_value) (&N2);
@@ -792,7 +775,7 @@ SUFFIX(general_linear_regression) (CONSTMATRIX xss, int xdim,
 			/* Solve R^T z = e_k */
 			for (i = 0; i < xdim; i++) {
 				QUAD d;
-				SUFFIX(go_quad_init) (&d, i == k ? 1 : 0, 0);
+				SUFFIX(go_quad_init) (&d, i == k ? 1 : 0);
 				for (j = 0; j < i; j++) {
 					QUAD p;
 					SUFFIX(go_quad_mul) (&p, &R[i][j], &inv[j]);

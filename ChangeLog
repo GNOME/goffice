@@ -1,3 +1,8 @@
+2010-05-20  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-quad.c (go_quad_dot_product): New function.
+	(go_quad_init): Drop third argument.  All callers changed.
+
 2010-05-17  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-rangefunc.c (go_range_devsq): Do the long-double

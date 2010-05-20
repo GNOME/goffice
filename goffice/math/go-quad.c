@@ -131,10 +131,10 @@ SUFFIX(go_quad_end) (void *state)
 }
 
 void
-SUFFIX(go_quad_init) (QUAD *res, DOUBLE h, DOUBLE l)
+SUFFIX(go_quad_init) (QUAD *res, DOUBLE h)
 {
 	res->h = h;
-	res->l = l;
+	res->l = 0;
 }
 
 DOUBLE
@@ -215,4 +215,16 @@ SUFFIX(go_quad_sqrt) (QUAD *res, const QUAD *a)
 		res->l = c.h - res->h + c.l;
 	} else
 		res->h = res->l = 0;
+}
+
+void
+SUFFIX(go_quad_dot_product) (QUAD *res, const QUAD *a, const QUAD *b, int n)
+{
+	int i;
+	SUFFIX(go_quad_init) (res, 0);
+	for (i = 0; i < n; i++) {
+		QUAD d;
+		SUFFIX(go_quad_mul) (&d, &a[i], &b[i]);
+		SUFFIX(go_quad_add) (res, res, &d);
+	}
 }
