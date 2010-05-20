@@ -25,11 +25,25 @@
 #define i386 1
 #endif
 
-#if defined(i386) && defined(HAVE_FPU_CONTROL_H)
-#include <fpu_control.h>
-#endif
-
 #ifndef DOUBLE
+
+#ifdef i386
+#ifdef HAVE_FPU_CONTROL_H
+#include <fpu_control.h>
+#define USE_FPU_CONTROL
+#elif defined(__GNUC__)
+/* The next few lines from glibc licensed under lpgl 2.1 */
+/* FPU control word bits.  i387 version.
+   Copyright (C) 1993,1995-1998,2000,2001,2003 Free Software Foundation, Inc. */
+#define _FPU_EXTENDED 0x300	/* libm requires double extended precision.  */
+#define _FPU_DOUBLE   0x200
+#define _FPU_SINGLE   0x0
+typedef unsigned int fpu_control_t __attribute__ ((__mode__ (__HI__)));
+#define _FPU_GETCW(cw) __asm__ __volatile__ ("fnstcw %0" : "=m" (*&cw))
+#define _FPU_SETCW(cw) __asm__ __volatile__ ("fldcw %0" : : "m" (*&cw))
+#define USE_FPU_CONTROL
+#endif
+#endif
 
 #define QUAD SUFFIX(GOQuad)
 
@@ -59,7 +73,7 @@ SUFFIX(go_quad_functional) (void)
 	if (sizeof (DOUBLE) != sizeof (double))
 		return TRUE;
 
-#ifdef HAVE_FPU_CONTROL_H
+#ifdef USE_FPU_CONTROL
 	return TRUE;
 #else
 	return FALSE;
@@ -81,7 +95,7 @@ SUFFIX(go_quad_start) (void)
 
 #ifdef i386
 	if (sizeof (DOUBLE) == sizeof (double)) {
-#ifdef HAVE_FPU_CONTROL_H
+#ifdef USE_FPU_CONTROL
 		fpu_control_t state, newstate;
 		fpu_control_t mask =
 			_FPU_EXTENDED | _FPU_DOUBLE | _FPU_SINGLE;
@@ -108,7 +122,7 @@ SUFFIX(go_quad_end) (void *state)
 		return;
 
 #ifdef i386
-#ifdef HAVE_FPU_CONTROL_H
+#ifdef USE_FPU_CONTROL
 	_FPU_SETCW (*(fpu_control_t*)state);
 #endif
 #endif
