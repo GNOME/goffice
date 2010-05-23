@@ -1,3 +1,8 @@
+2010-05-23  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-rangefunc.c (go_range_sumsq): Do square in
+	extended precision if we are summing in extended precision.
+
 2010-05-20  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

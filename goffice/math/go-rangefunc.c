@@ -70,14 +70,16 @@ SUFFIX(go_range_sumsq) (DOUBLE const *xs, int n, DOUBLE *res)
 {
 	/* http://bugzilla.gnome.org/show_bug.cgi?id=131588 */
 #ifdef HAVE_LONG_DOUBLE
-	long double sum = 0;
+	long double x, sum = 0;
 #else
-	DOUBLE sum = 0;
+	DOUBLE x, sum = 0;
 #endif
 	int i;
 
-	for (i = 0; i < n; i++)
-		sum += xs[i] * xs[i];
+	for (i = 0; i < n; i++) {
+		x = xs[i];
+		sum += x * x;
+	}
 
 	*res = sum;
 	return 0;
