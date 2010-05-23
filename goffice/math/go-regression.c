@@ -508,8 +508,8 @@ SUFFIX(LUPDecomp) (CONSTMATRIX A, MATRIX LU, int *P, int n, DOUBLE *b_scaled,
 }
 
 
-static GORegressionResult
-SUFFIX(linear_solve) (CONSTMATRIX A, const DOUBLE *b, int n, DOUBLE *res)
+GORegressionResult
+SUFFIX(go_linear_solve) (CONSTMATRIX A, const DOUBLE *b, int n, DOUBLE *res)
 {
 	GORegressionResult err;
 	MATRIX LU;
@@ -1759,7 +1759,7 @@ SUFFIX(go_non_linear_regression) (SUFFIX(GORegressionFunction) f,
 		if (result != GO_REG_ok)
 			goto out;
 
-		result = SUFFIX(linear_solve) (A, b, p_dim, dpar);
+		result = SUFFIX(go_linear_solve) (A, b, p_dim, dpar);
 		if (result != GO_REG_ok)
 			goto out;
 

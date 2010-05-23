@@ -94,6 +94,11 @@ GORegressionResult go_non_linear_regression (GORegressionFunction f,
 gboolean go_matrix_invert 	(double **A, int n);
 double   go_matrix_determinant 	(double *const *const A, int n);
 
+GORegressionResult go_linear_solve (double *const *const A,
+				    const double *b,
+				    int n,
+				    double *res);
+
 #ifdef GOFFICE_WITH_LONG_DOUBLE
 typedef struct {
         long double *se; /*SE for each parameter estimator*/
@@ -157,6 +162,12 @@ GORegressionResult    go_non_linear_regressionl	(GORegressionFunctionl f,
 
 gboolean    go_matrix_invertl 		(long double **A, int n);
 long double go_matrix_determinantl 	(long double *const * const A, int n);
+
+GORegressionResult go_linear_solvel (long double *const *const A,
+				     const long double *b,
+				     int n,
+				     long double *res);
+
 #endif
 
 G_END_DECLS
