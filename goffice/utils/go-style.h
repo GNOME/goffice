@@ -140,6 +140,7 @@ gboolean   go_style_is_outline_visible	(GOStyle const *style);
 gboolean   go_style_is_fill_visible	(GOStyle const *style);
 void	   go_style_force_auto		(GOStyle *style);
 
+#ifdef GOFFICE_WITH_GTK
 void 	   go_style_populate_editor 	(GOStyle *style,
 					 GOEditor *editor,
 					 GOStyle *default_style,
@@ -150,6 +151,7 @@ gpointer   go_style_get_editor	     	(GOStyle *style,
 					 GOStyle *default_style,
 					 GOCmdContext *cc,
 					 GObject *object_with_style);
+#endif
 
 cairo_pattern_t *go_style_create_cairo_pattern (GOStyle const *style,
 						cairo_t *cr);

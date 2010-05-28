@@ -1,5 +1,8 @@
 goffice 0.8.5:
 
+Bobby Powers:
+	* Fix the --without-gtk winbuild. [#619312]
+
 --------------------------------------------------------------------------
 goffice 0.8.4:
 
@@ -28,7 +31,7 @@ Morten:
 goffice 0.8.2:
 
 Jean:
-	* Support fd:// URIs on win32. [#608422]
+	* Support fd:// URIs on win 32. [#608422]
 	* Add more GOPath API.
 
 Morten:

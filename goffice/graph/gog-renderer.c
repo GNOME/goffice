@@ -1207,9 +1207,12 @@ gog_renderer_export_image (GogRenderer *rend, GOImageFormat format,
 	cairo_t *cairo;
 	cairo_surface_t *surface = NULL;
 	gboolean status;
-	GdkPixbuf *pixbuf, *output_pixbuf;
-	double width_in_pts, height_in_pts;
+	GdkPixbuf *pixbuf;
+#ifdef GOFFICE_WITH_GTK
+	GdkPixbuf *output_pixbuf;
 	gboolean result;
+#endif
+	double width_in_pts, height_in_pts;
 
 	g_return_val_if_fail (GOG_IS_RENDERER (rend), FALSE);
 

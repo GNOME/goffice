@@ -1690,6 +1690,7 @@ gog_axis_calc_ticks (GogAxis *axis)
 	}
 }
 
+#ifdef GOFFICE_WITH_GTK
 static GOFormat *
 gog_axis_get_dim_format (GogAxis *axis, unsigned dim)
 {
@@ -1700,6 +1701,7 @@ gog_axis_get_dim_format (GogAxis *axis, unsigned dim)
 
 	return axis->actual_map_desc->get_dim_format (axis, dim);
 }
+#endif
 
 /************************************************************************/
 

@@ -60,12 +60,19 @@ include $(top_srcdir)/goffice.mk
 if WITH_WIN32
 LIB_PUBLIC_HDRS = $(libgoffice_@GOFFICE_API_VER@_la_HEADERS)
 
+
+if WITH_GTK
+GTK_DEFS = gtk/local.def drawing/local.def component/local.def \
+	canvas/local.def
+else
+GTK_DEFS =
+endif
+
 goffice.def: local.def app/local.def \
-	canvas/local.def \
-	component/local.def \
-	data/local.def drawing/local.def graph/local.def \
-	gtk/local.def  math/local.def \
-	ms-compat/local.def utils/local.def
+	data/local.def graph/local.def \
+	math/local.def \
+	ms-compat/local.def utils/local.def \
+	$(GTK_DEFS)
 	echo EXPORTS > $@ && \
 	cat $^ | sort >> $@
 

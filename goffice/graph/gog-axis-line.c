@@ -787,6 +787,8 @@ GSF_CLASS_ABSTRACT (GogAxisBase, gog_axis_base,
 		    GOG_TYPE_STYLED_OBJECT);
 
 /************************************************************************/
+#ifdef GOFFICE_WITH_GTK
+
 static gboolean gog_axis_base_view_point (GogView *view, double x, double y);
 
 static gboolean
@@ -800,8 +802,6 @@ gog_tool_bound_is_valid_axis (GogView *view)
 		type == GOG_AXIS_Z);
 
 }
-
-#ifdef GOFFICE_WITH_GTK
 
 static gboolean
 gog_tool_select_axis_point (GogView *view, double x, double y, GogObject **gobj)
@@ -2083,6 +2083,8 @@ xyz_process (GogAxisBaseAction action, GogView *view, GogViewPadding *padding,
 	return FALSE;
 }
 
+#ifdef GOFFICE_WITH_GTK
+
 static gboolean
 gog_axis_base_view_point (GogView *view, double x, double y)
 {
@@ -2129,6 +2131,8 @@ gog_axis_base_view_point (GogView *view, double x, double y)
 
 	return pointed;
 }
+
+#endif
 
 static void
 gog_axis_base_view_padding_request (GogView *view, GogViewAllocation const *bbox, GogViewPadding *padding)

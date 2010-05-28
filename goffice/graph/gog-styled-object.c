@@ -129,6 +129,7 @@ gog_styled_object_finalize (GObject *obj)
 	(*parent_klass->finalize) (obj);
 }
 
+#ifdef GOFFICE_WITH_GTK
 static void
 styled_object_populate_editor (GogObject *gobj,
 			       GOEditor *editor,
@@ -147,6 +148,7 @@ styled_object_populate_editor (GogObject *gobj,
 
 	(GOG_OBJECT_CLASS(parent_klass)->populate_editor) (gobj, editor, dalloc, cc);
 }
+#endif
 
 static void
 gog_styled_object_parent_changed (GogObject *obj, gboolean was_set)
@@ -189,7 +191,9 @@ gog_styled_object_class_init (GogObjectClass *gog_klass)
 	gobject_klass->set_property = gog_styled_object_set_property;
 	gobject_klass->get_property = gog_styled_object_get_property;
 	gobject_klass->finalize	    = gog_styled_object_finalize;
+#ifdef GOFFICE_WITH_GTK
 	gog_klass->populate_editor  = styled_object_populate_editor;
+#endif
 	gog_klass->parent_changed   = gog_styled_object_parent_changed;
 	gog_klass->document_changed = gog_styled_object_document_changed;
 	style_klass->init_style	    = gog_styled_object_init_style;

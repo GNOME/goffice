@@ -28,7 +28,7 @@ libgoffice_utils_la_SOURCES =	\
 	go-glib-extras.c	\
 	go-libxml-extras.c	\
 	go-pango-extras.c	\
-	go-persist.c	\
+	go-persist.c		\
 	go-bezier.c		\
 	go-editor.c		\
 	go-style.c		\
@@ -58,7 +58,7 @@ libgoffice_utils_la_HEADERS = 	\
 	go-glib-extras.h	\
 	go-libxml-extras.h	\
 	go-pango-extras.h	\
-	go-persist.h	\
+	go-persist.h		\
 	go-bezier.h		\
 	go-editor.h		\
 	go-style.h		\

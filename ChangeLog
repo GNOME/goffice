@@ -1,3 +1,17 @@
+2010-05-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/Makefile.am: appiled patch from Bobby Powers: fix --without-gtk
+	win32 build.
+	* goffice/graph/gog-styled-object.c (gog_styled_object_class_init): ditto.
+	* goffice/ms-compat/Makefile.am: ditto.
+	* goffice/utils/go-style.h: ditto.
+	* goffice/graph/gog-3d-box.c (gog_3d_box_class_init): fixed all warnings
+	for the without-gtk build.
+	* goffice/graph/gog-axis-line.c: ditto.
+	* goffice/graph/gog-axis.c: ditto.
+	* goffice/graph/gog-renderer.c (gog_renderer_export_image): ditto.
+	* plugins/plot_pie/gog-pie.c: ditto.
+
 2010-05-23  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-rangefunc.c (go_range_sumsq): Do square in

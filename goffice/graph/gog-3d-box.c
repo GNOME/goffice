@@ -272,7 +272,9 @@ static void
 gog_3d_box_class_init (Gog3DBoxClass *klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) klass;
+#ifdef GOFFICE_WITH_GTK
 	GogObjectClass *gog_klass   = (GogObjectClass *) klass;
+#endif
 
 	gobject_klass->set_property = gog_3d_box_set_property;
 	gobject_klass->get_property = gog_3d_box_get_property;
