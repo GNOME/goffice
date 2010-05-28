@@ -342,7 +342,7 @@ make_path_cspline (GogChartMap *map,
 	GOCSpline *spline;
 
 	path = go_path_new ();
-	if (n_points < 1 || !go_range_increasing (x, n_points))
+	if (n_points < 1 || !go_range_vary_uniformly (x, n_points))
 		return path;
 
 	uu = g_new (double, n_points);

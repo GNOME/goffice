@@ -12,6 +12,12 @@
 	* goffice/graph/gog-renderer.c (gog_renderer_export_image): ditto.
 	* plugins/plot_pie/gog-pie.c: ditto.
 
+2010-05-28  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-chart-map.c (make_path_cspline): Both
+	increasing and decreasing coordinates are ok.  Fixes #619958.
+	(Tracked down by Jean.)
+
 2010-05-23  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-rangefunc.c (go_range_sumsq): Do square in

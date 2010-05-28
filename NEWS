@@ -3,6 +3,9 @@ goffice 0.8.5:
 Bobby Powers:
 	* Fix the --without-gtk winbuild. [#619312]
 
+Morten:
+	* Fix trend-line problem with inverted x-axis.  [#619958]
+
 --------------------------------------------------------------------------
 goffice 0.8.4:
 
