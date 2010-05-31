@@ -1,3 +1,8 @@
+2010-05-31  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-file.c (go_url_show, go_shell_arg_to_uri)
+	(go_mime_type_get_description): Remove special case for Win32.
+
 2010-05-30  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

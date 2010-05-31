@@ -2,7 +2,7 @@
 /*
  * go-file.c :
  *
- * Copyright (C) 2004 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2004,2009-2010 Morten Welinder (terra@gnome.org)
  * Copyright (C) 2004 Yukihiro Nakai  <nakai@gnome.gr.jp>
  * Copyright (C) 2003, Red Hat, Inc.
  *
@@ -52,13 +52,13 @@
 
 #ifdef G_OS_WIN32
 typedef HRESULT (WINAPI *FindMimeFromData_t) (LPBC pBC,
-						LPCWSTR pwzUrl,
-						LPVOID pBuffer,
-						DWORD cbSize,
-						LPCWSTR pwzMimeProposed,
-						DWORD dwMimeFlags,
-						LPWSTR *ppwzMimeOut,
-						DWORD dwReserved);
+					      LPCWSTR pwzUrl,
+					      LPVOID pBuffer,
+					      DWORD cbSize,
+					      LPCWSTR pwzMimeProposed,
+					      DWORD dwMimeFlags,
+					      LPWSTR *ppwzMimeOut,
+					      DWORD dwReserved);
 #define FMFD_ENABLEMIMESNIFFING 2
 
 static FindMimeFromData_t
@@ -451,17 +451,21 @@ is_fd_uri (char const *uri, int *fd)
 char *
 go_shell_arg_to_uri (char const *arg)
 {
-#ifdef G_OS_WIN32
+	GFile *file;
+	gchar *tmp;
 	int fd;
+
+	/*
+	 * We do this explicitly because gio under Win32 likes to map
+	 * things to file://  It does not hurt anywhere.
+	 */
 	if (is_fd_uri (arg, &fd))
 		return g_strdup (arg);
-#endif
-	{
-		GFile *file = g_file_new_for_commandline_arg (arg);
-		gchar *tmp = g_file_get_uri (file);
-		g_object_unref (file);
-		return tmp;
-	}
+
+	file = g_file_new_for_commandline_arg (arg);
+	tmp = g_file_get_uri (file);
+	g_object_unref (file);
+	return tmp;
 }
 
 /**
@@ -983,11 +987,7 @@ go_url_encode (gchar const *text, int type)
 GError *
 go_url_show (gchar const *url)
 {
-#ifdef G_OS_WIN32
-	ShellExecute (NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
-
-	return NULL;
-#elif defined(HAVE_GTK_SHOW_URI)
+#ifdef HAVE_GTK_SHOW_URI
 	GError *error = NULL;
 	gtk_show_uri (NULL, url, GDK_CURRENT_TIME, &error);
 	return error;
@@ -1134,13 +1134,9 @@ go_mime_type_get_description (gchar const *mime_type)
 		description = g_content_type_get_description (content_type);
 		g_free (content_type);
 	}
-	return (description)? description: g_strdup (mime_type);
-#else
-#if defined(G_OS_WIN32)
-	return g_strdup (mime_type);
+	return description ? description : g_strdup (mime_type);
 #else
 	return g_content_type_get_description (mime_type);
-#endif
 #endif
 }
 
