@@ -919,16 +919,14 @@ gog_rt_view_render (GogView *view, GogViewAllocation const *bbox)
 				      go_add_epsilon ((theta_max - theta_min)
 						      - fmod (theta - theta_min, 2 * M_PI)) >= 0.0)) {
 					gse = NULL;
-					if (overrides != NULL) {
-						while (GOG_SERIES_ELEMENT (overrides->data)->index < count)
-							overrides = overrides->next;
-						if (GOG_SERIES_ELEMENT (overrides->data)->index == count) {
-							gse = GOG_SERIES_ELEMENT (overrides->data);
-							overrides = overrides->next;
-							if (!is_map) {
-								style = go_styled_object_get_style (GO_STYLED_OBJECT (gse));
-								gog_renderer_push_style (view->renderer, style);
-							}
+					while (overrides && GOG_SERIES_ELEMENT (overrides->data)->index < count)
+						overrides = overrides->next;
+					if (overrides && GOG_SERIES_ELEMENT (overrides->data)->index == count) {
+						gse = GOG_SERIES_ELEMENT (overrides->data);
+						overrides = overrides->next;
+						if (!is_map) {
+							style = go_styled_object_get_style (GO_STYLED_OBJECT (gse));
+							gog_renderer_push_style (view->renderer, style);
 						}
 					}
 					if (is_map) {

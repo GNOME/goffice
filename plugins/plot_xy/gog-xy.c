@@ -1305,6 +1305,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					} else continue;
 				} else {
 					gse = NULL;
+					while (overrides && GOG_SERIES_ELEMENT (overrides->data)->index < i - 1)
+						overrides = overrides->next;
 					if ((overrides != NULL) &&
 					   	(GOG_SERIES_ELEMENT (overrides->data)->index == i - 1)) {
 							gse = GOG_SERIES_ELEMENT (overrides->data);
@@ -1352,7 +1354,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			    y_margin_min <= y_canvas && y_canvas <= y_margin_max) {
 				markers[j][k].x = x_canvas;
 				markers[j][k].y = y_canvas;
-				markers[j][k].index = i;
+				markers[j][k].index = i - 1;
 				if (is_map)
 					markers[j][k].color = (gog_axis_map_finite (z_map, z))?
 							get_map_color (gog_axis_map_to_view (z_map, z), hide_outliers):
@@ -1419,7 +1421,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				gog_series_get_xy_data (GOG_SERIES (series), &x_vals, &y_vals);
 				while (overrides != NULL) {
 					gse = GOG_SERIES_ELEMENT (overrides->data);
-					x = x_vals ? x_vals[gse->index] : gse->index;
+					x = x_vals ? x_vals[gse->index] : gse->index + 1;
 					y = y_vals[gse->index];
 					if (gog_axis_map_finite (y_map, y) && gog_axis_map_finite (x_map, x)) {
 						style = go_styled_object_get_style (GO_STYLED_OBJECT (gse));

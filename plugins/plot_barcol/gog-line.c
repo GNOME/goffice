@@ -705,8 +705,12 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			for (j = 0; j < lengths[i]; j++) {
 				x = points[i][j].x;
 				y = points[i][j].y;
-				if (isnan (y))
+				if (isnan (y)) {
+					if ((overrides != NULL) &&
+						(GOG_SERIES_ELEMENT (overrides->data)->index == j))
+						overrides = overrides->next;
 					continue;
+				}
 				gse = NULL;
 				if ((overrides != NULL) &&
 					(GOG_SERIES_ELEMENT (overrides->data)->index == j)) {
