@@ -2,6 +2,7 @@ goffice 0.8.6:
 
 Morten:
 	* Clean-up some win32 code.
+	* Fix point-on-graph crash.  [#620198]
 
 --------------------------------------------------------------------------
 goffice 0.8.5:

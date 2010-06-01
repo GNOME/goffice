@@ -966,22 +966,22 @@ gog_xy_view_get_data_at_point (GogPlotView *view, double x, double y, GogSeries 
 			} else {
 				dist = MAX (xc, yc);
 				gse = NULL;
-				if (overrides != NULL) {
-					while (GOG_SERIES_ELEMENT (overrides->data)->index > (unsigned) i)
-						overrides = g_list_previous (overrides);
-					if (GOG_SERIES_ELEMENT (overrides->data)->index == (unsigned) i) {
-						gse = GOG_SERIES_ELEMENT (overrides->data);
-						overrides = g_list_previous (overrides);
-						style = go_styled_object_get_style (GO_STYLED_OBJECT (gse));
-						if (go_style_is_marker_visible (style)) {
-							if (dist <= (go_marker_get_size (style->marker.mark) + 1) / 2) {
-								*series = GOG_SERIES (pseries);
-								goto clean_exit;
-							}
-						} else if (dist <= line_dist) {
+				while (overrides &&
+				       GOG_SERIES_ELEMENT (overrides->data)->index > (unsigned) i)
+					overrides = g_list_previous (overrides);
+				if (overrides &&
+				    GOG_SERIES_ELEMENT (overrides->data)->index == (unsigned) i) {
+					gse = GOG_SERIES_ELEMENT (overrides->data);
+					overrides = g_list_previous (overrides);
+					style = go_styled_object_get_style (GO_STYLED_OBJECT (gse));
+					if (go_style_is_marker_visible (style)) {
+						if (dist <= (go_marker_get_size (style->marker.mark) + 1) / 2) {
 							*series = GOG_SERIES (pseries);
 							goto clean_exit;
 						}
+					} else if (dist <= line_dist) {
+						*series = GOG_SERIES (pseries);
+						goto clean_exit;
 					}
 				}
 				if (gse == NULL && dist <= max_dist) {
@@ -1386,15 +1386,15 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				gog_renderer_push_style (view->renderer, style);
 				for (k = 0; k < num_markers[j]; k++) {
 					gse = NULL;
-					if (overrides != NULL) {
-						while (GOG_SERIES_ELEMENT (overrides->data)->index < markers[j][k].index)
-							overrides = overrides->next;
-						if (GOG_SERIES_ELEMENT (overrides->data)->index == markers[j][k].index) {
-							gse = GOG_SERIES_ELEMENT (overrides->data);
-							overrides = overrides->next;
-							style = go_styled_object_get_style (GO_STYLED_OBJECT (gse));
-							gog_renderer_push_style (view->renderer, style);
-						}
+					while (overrides &&
+					       GOG_SERIES_ELEMENT (overrides->data)->index < markers[j][k].index)
+						overrides = overrides->next;
+					if (overrides &&
+					    GOG_SERIES_ELEMENT (overrides->data)->index == markers[j][k].index) {
+						gse = GOG_SERIES_ELEMENT (overrides->data);
+						overrides = overrides->next;
+						style = go_styled_object_get_style (GO_STYLED_OBJECT (gse));
+						gog_renderer_push_style (view->renderer, style);
 					}
 					if (is_map) {
 						go_marker_set_outline_color
