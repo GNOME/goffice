@@ -1,3 +1,10 @@
+2010-06-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_barcol/gog-line.c (gog_line_view_render): Fix various
+	series point related issues.
+	* plugins/plot_radar/gog-radar (gog_rt_view_render): ditto.
+	* plugins/plot_xy/gog-xy.c (gog_xy_view_render): ditto.
+
 2010-06-01  Morten Welinder  <terra@gnome.org>
 
 	* plugins/plot_xy/gog-xy.c (gog_xy_view_render,
