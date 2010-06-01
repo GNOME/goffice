@@ -1,6 +1,6 @@
-diff -ru goffice-0.8.4.orig/config.guess goffice-0.8.4/config.guess
---- goffice-0.8.4.orig/config.guess	2010-05-20 04:49:19.000000000 +0200
-+++ goffice-0.8.4/config.guess	2010-05-21 19:28:49.000000000 +0200
+diff -ru goffice-0.8.5.orig/config.guess goffice-0.8.5/config.guess
+--- goffice-0.8.5.orig/config.guess	2010-05-28 23:28:31.000000000 +0200
++++ goffice-0.8.5/config.guess	2010-05-30 21:53:40.000000000 +0200
 @@ -1,10 +1,10 @@
  #! /bin/sh
  # Attempt to guess a canonical system name.
@@ -502,9 +502,9 @@ diff -ru goffice-0.8.4.orig/config.guess goffice-0.8.4/config.guess
  	exit ;;
      *:*VMS:*:*)
      	UNAME_MACHINE=`(uname -p) 2>/dev/null`
-diff -ru goffice-0.8.4.orig/config.sub goffice-0.8.4/config.sub
---- goffice-0.8.4.orig/config.sub	2010-05-20 04:49:19.000000000 +0200
-+++ goffice-0.8.4/config.sub	2010-05-21 19:28:49.000000000 +0200
+diff -ru goffice-0.8.5.orig/config.sub goffice-0.8.5/config.sub
+--- goffice-0.8.5.orig/config.sub	2010-05-28 23:28:31.000000000 +0200
++++ goffice-0.8.5/config.sub	2010-05-30 21:53:39.000000000 +0200
 @@ -1,10 +1,10 @@
  #! /bin/sh
  # Configuration validation subroutine script.
