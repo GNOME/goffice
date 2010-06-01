@@ -265,12 +265,14 @@ _go_currency_date_format_init (void)
 	add_dt_format (dt_hash, FALSE, &N, "dd/mm/yyyy");
 	add_dt_format (dt_hash, FALSE, &N, "dd/mm/yy");
 	add_dt_format (dt_hash, FALSE, &N, "d-mmm-yyyy");
+	add_dt_format (dt_hash, FALSE, &N, "yyyy-mm-dd");
 
 	fmt = go_format_new_magic (GO_FORMAT_MAGIC_SHORT_DATETIME);
 	if (fmt) {
 		add_dt_format (dt_hash, FALSE, &N, go_format_as_XL (fmt));
 		go_format_unref (fmt);
 	}
+	add_dt_format (dt_hash, FALSE, &N, "yyyy-mm-dd hh:mm:ss");
 
 	g_hash_table_destroy (dt_hash);
 

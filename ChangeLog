@@ -1,3 +1,9 @@
+2010-06-01  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/formats.c (_go_currency_date_format_init):
+	Unconditionally add formats "yyyy-mm-dd" and "yyyy-mm-dd
+	hh:mm:ss".
+
 2010-06-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/plot_barcol/gog-line.c (gog_line_view_render): Fix various
