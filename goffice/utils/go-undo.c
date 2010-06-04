@@ -13,9 +13,13 @@
 
 GSF_CLASS (GOUndo, go_undo, NULL, NULL, G_TYPE_OBJECT)
 
-/*
- * Execute the stored undo operation.  Note: the supplied data item is
- * supplied to the undo operation.  It is meant not to affect the undo
+/**
+ * go_undo_undo_with_data
+ * @u: undo object
+ * @data: user data
+ *
+ * Execute the stored undo operation.  @data is supplied to the undo
+ * operation as an extra argument.  It is meant not to affect the undo
  * operation in any way, but rather supply a context through which
  * progress and errors can be reported.
  */
@@ -30,6 +34,12 @@ go_undo_undo_with_data (GOUndo *u, gpointer data)
 	uc->undo (u, data);
 }
 
+/**
+ * go_undo_undo
+ * @u: undo object
+ *
+ * Execute the stored undo operation.
+ */
 void
 go_undo_undo (GOUndo *u)
 {
@@ -120,19 +130,32 @@ go_undo_group_class_init (GObjectClass *gobject_class)
 GSF_CLASS (GOUndoGroup, go_undo_group,
 	   go_undo_group_class_init, go_undo_group_init, GO_TYPE_UNDO)
 
+/**
+ * go_undo_group_new:
+ *
+ * This function creates a new undo group for compounding undo objects.
+ *
+ * Returns: a new, empty undo group.
+ **/
 GOUndoGroup *
 go_undo_group_new (void)
 {
 	return g_object_new (GO_TYPE_UNDO_GROUP, NULL);
 }
 
-/* Takes ownership of u. */
+/**
+ * go_undo_group_add:
+ * @g: undo group
+ * @u: undo object
+ *
+ * This function adds @u to @g.
+ **/
 void
-go_undo_group_add (GOUndoGroup *ug, GOUndo *u)
+go_undo_group_add (GOUndoGroup *g, GOUndo *u)
 {
-	g_return_if_fail (GO_IS_UNDO_GROUP (ug));
+	g_return_if_fail (GO_IS_UNDO_GROUP (g));
 	g_return_if_fail (GO_IS_UNDO (u));
-	g_ptr_array_add (ug->undos, u);
+	g_ptr_array_add (g->undos, u);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -173,6 +196,19 @@ go_undo_binary_class_init (GObjectClass *gobject_class)
 GSF_CLASS (GOUndoBinary, go_undo_binary,
 	   go_undo_binary_class_init, NULL, GO_TYPE_UNDO)
 
+/**
+ * go_undo_binary_new:
+ * @a: first argument for undo operation
+ * @b: second argument for undo operation
+ * @undo: function to call with arguments @a and @b for undo.
+ * @fa: optional function to free @a.
+ * @fb: optional function to free @b.
+ *
+ * This function creates a new undo object for undo operations of two
+ * arguments.  (In addition, an undo-time argument is added for context.)
+ *
+ * Returns: a new undo object.
+ **/
 GOUndo *
 go_undo_binary_new (gpointer a, gpointer b, GOUndoBinaryFunc undo,
 		    GFreeFunc fa, GFreeFunc fb)
@@ -222,6 +258,17 @@ go_undo_unary_class_init (GObjectClass *gobject_class)
 GSF_CLASS (GOUndoUnary, go_undo_unary,
 	   go_undo_unary_class_init, NULL, GO_TYPE_UNDO)
 
+/**
+ * go_undo_unary_new:
+ * @a: argument for undo operation
+ * @undo: function to call with argument @a for undo.
+ * @fa: optional function to free @a.
+ *
+ * This function creates a new undo object for undo operations of one
+ * argument.  (In addition, an undo-time argument is added for context.)
+ *
+ * Returns: a new undo object.
+ **/
 GOUndo *
 go_undo_unary_new (gpointer a, GOUndoUnaryFunc undo, GFreeFunc fa)
 {
