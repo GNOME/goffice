@@ -5,6 +5,7 @@ Morten:
 	* Fix point-on-graph crash.  [#620198]
 	* Ensure format menu has yyyy-mm-dd.
 	* Improve docs.
+	* Fix currency ordering.  [#621336]
 
 --------------------------------------------------------------------------
 goffice 0.8.5:

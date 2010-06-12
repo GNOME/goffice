@@ -1,3 +1,8 @@
+2010-06-11  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-format-sel.c (funny_currency_order): Fix order.
+	#621336.
+
 2010-06-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-undo.c: Docoment all apis.

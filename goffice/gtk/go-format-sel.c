@@ -805,7 +805,7 @@ funny_currency_order (gconstpointer _a, gconstpointer _b)
 
 	if (a1) {
 		if (b1) {
-			return strcmp (a, b);
+			return g_utf8_collate (a, b);
 		} else {
 			return -1;
 		}
@@ -813,7 +813,7 @@ funny_currency_order (gconstpointer _a, gconstpointer _b)
 		if (b1) {
 			return +1;
 		} else {
-			return strcmp (a, b);
+			return g_utf8_collate (a, b);
 		}
 	}
 }
