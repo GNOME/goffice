@@ -220,9 +220,22 @@ go_sub_epsilon (double x)
 	}
 }
 
+static double
+go_d2d (double x)
+{
+	/* Kill excess precision by forcing a memory read.  */
+	const volatile double *px = &x;
+	return *px;
+}
+
 double
 go_fake_floor (double x)
 {
+	x = go_d2d (x);
+
+	if (x == floor (x))
+		return x;
+
 	return (x >= 0)
 		? floor (go_add_epsilon (x))
 		: floor (go_sub_epsilon (x));
@@ -231,6 +244,11 @@ go_fake_floor (double x)
 double
 go_fake_ceil (double x)
 {
+	x = go_d2d (x);
+
+	if (x == floor (x))
+		return x;
+
 	return (x >= 0)
 		? ceil (go_sub_epsilon (x))
 		: ceil (go_add_epsilon (x));
@@ -246,6 +264,11 @@ go_fake_round (double x)
 double
 go_fake_trunc (double x)
 {
+	x = go_d2d (x);
+
+	if (x == floor (x))
+		return x;
+
 	return (x >= 0)
 		? floor (go_add_epsilon (x))
 		: -floor (go_add_epsilon (-x));
@@ -636,6 +659,9 @@ go_sub_epsilonl (long double x)
 long double
 go_fake_floorl (long double x)
 {
+	if (x == floorl (x))
+		return x;
+
 	return (x >= 0)
 		? floorl (go_add_epsilonl (x))
 		: floorl (go_sub_epsilonl (x));
@@ -644,6 +670,9 @@ go_fake_floorl (long double x)
 long double
 go_fake_ceill (long double x)
 {
+	if (x == floorl (x))
+		return x;
+
 	return (x >= 0)
 		? ceill (go_sub_epsilonl (x))
 		: ceill (go_add_epsilonl (x));
@@ -659,6 +688,9 @@ go_fake_roundl (long double x)
 long double
 go_fake_truncl (long double x)
 {
+	if (x == floorl (x))
+		return x;
+
 	return (x >= 0)
 		? floorl (go_add_epsilonl (x))
 		: -floorl (go_add_epsilonl (-x));

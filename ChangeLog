@@ -1,3 +1,10 @@
+2010-06-15  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-math.c (go_fake_floor, go_fake_ceil,
+	go_fake_trunc, go_fake_floorl, go_fake_ceill, go_fake_truncl):
+	Handle very large numbers right.  Handle ix86 excess precision for
+	"double" versions.
+
 2010-06-11  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/go-format-sel.c (funny_currency_order): Fix order.

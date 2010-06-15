@@ -6,6 +6,7 @@ Morten:
 	* Ensure format menu has yyyy-mm-dd.
 	* Improve docs.
 	* Fix currency ordering.  [#621336]
+	* Fix rounding problems for very large numbers.
 
 --------------------------------------------------------------------------
 goffice 0.8.5:
