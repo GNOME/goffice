@@ -1,3 +1,7 @@
+2010-06-16  Morten Welinder <terra@gnome.org>
+
+	* Release 0.8.6
+
 2010-06-15  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-math.c (go_fake_floor, go_fake_ceil,
