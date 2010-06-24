@@ -108,7 +108,7 @@ gog_box_plot_pref (GogObject *obj,
 	GtkWidget  *w;
 	GogBoxPlot *boxplot = GOG_BOX_PLOT (obj);
 	char const *dir = go_plugin_get_dir_name (
-		go_plugins_get_plugin_by_id ("GOffice_plot_boxes"));
+		go_plugins_get_plugin_by_id ("GOffice_plot_distrib"));
 	char	 *path = g_build_filename (dir, "gog-boxplot-prefs.ui", NULL);
 	GtkBuilder *gui = go_gtk_builder_new (path, GETTEXT_PACKAGE, cc);
 

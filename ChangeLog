@@ -1,3 +1,30 @@
+2010-06-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* pixmaps/Makefile.am: add new icons.
+	* plugins/plot_distrib/Makefile.am: enhance histograms.
+	* plugins/plot_distrib/gog-boxplot.c (gog_box_plot_pref):
+	* plugins/plot_distrib/gog-histogram.c (gog_histogram_plot_update),
+	(gog_histogram_plot_axis_get_bounds),
+	(gog_histogram_plot_get_property),
+	(gog_histogram_plot_set_property), (vertical_changed_cb),
+	(cumulative_changed_cb), (gog_histogram_plot_populate_editor),
+	(gog_histogram_plot_class_init), (gog_histogram_plot_init),
+	(gog_double_histogram_plot_populate_editor),
+	(gog_double_histogram_plot_finalize),
+	(gog_double_histogram_plot_class_init),
+	(gog_double_histogram_plot_init),
+	(gog_double_histogram_plot_dataset_dims),
+	(gog_double_histogram_plot_dataset_get_elem),
+	(gog_double_histogram_plot_dataset_dim_changed),
+	(gog_double_histogram_plot_dataset_init),
+	(gog_histogram_plot_view_render),
+	(gog_histogram_plot_series_update),
+	(gog_histogram_plot_series_finalize): ditto.
+	* plugins/plot_distrib/gog-histogram.h: ditto.
+	* plugins/plot_distrib/plot-types.xml.in: ditto.
+	* plugins/plot_distrib/plugin.c (go_plugin_init): ditto.
+	* plugins/plot_distrib/plugin.xml.in: ditto.
+
 2010-06-16  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

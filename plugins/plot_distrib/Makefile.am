@@ -22,7 +22,10 @@ if WITH_GTK
 	go-distribution-prefs.c	\
 	go-distribution-prefs.h
 endif
-ui_DATA = gog-boxplot-prefs.ui
+ui_DATA = \
+	gog-boxplot-prefs.ui \
+	gog-histogram-prefs.ui \
+	gog-double-histogram-prefs.ui
 
 @INTLTOOL_XML_RULE@
 

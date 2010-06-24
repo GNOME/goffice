@@ -30,13 +30,32 @@
 		<property name="vertical">true</property>
 		<property name="guru-hints">backplane</property>
 	</Type>
-	<Family _name="Histogram"	sample_image_file="hist.xpm" axis_set="xy"/>
 	<Type _name="Histogram" row="3" col="1"
 		engine="GogHistogramPlot" family="Statistics"
 		_description="Histogram."
 		sample_image_file="chart_histogram_1_1.png">
 		<property name="guru-hints">backplane</property>
 	</Type>
+	<Type _name="CumulativeHistogram" row="3" col="2"
+		engine="GogHistogramPlot" family="Statistics"
+		_description="Cumulative histogram."
+		sample_image_file="chart_histogram_2_1.png">
+		<property name="guru-hints">backplane</property>
+		<property name="cumulative">true</property>
+	</Type>
+<!--	<Type _name="DoubleHistogram" row="3" col="3"
+		engine="GogDoubleHistogramPlot" family="Statistics"
+		_description="Double histogram."
+		sample_image_file="chart_histogram_1_3.png">
+		<property name="guru-hints">backplane</property>
+	</Type>
+	<Type _name="PopulationPyramid" row="3" col="4"
+		engine="GogDoubleHistogramPlot" family="Statistics"
+		_description="Population pyramid."
+		sample_image_file="chart_histogram_1_4.png">
+		<property name="guru-hints">backplane</property>
+		<property name="vertical">false</property>
+	</Type> -->
 	<Type _name="ProbabilityPlot" row="4" col="1"
 		engine="GogProbabilityPlot" family="Statistics"
 		_description="Probability plot."

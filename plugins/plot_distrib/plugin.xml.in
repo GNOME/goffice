@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin id="GOffice_plot_boxes">
+<plugin id="GOffice_plot_distrib">
 	<information>
 		<_name>Charting : distribution related plots</_name>
 		<_description>box-plots, histograms, and other distribution related plots</_description>
@@ -21,6 +21,11 @@
 				<_description>Histograms plotting engine</_description>
 			</information>
 		</service>
+<!--		<service type="plot_engine" id="GogDoubleHistogramPlot">
+			<information>
+				<_description>Double histograms plotting engine</_description>
+			</information>
+		</service> -->
 		<service type="plot_engine" id="GogProbabilityPlot">
 			<information>
 				<_description>Probability plots engine</_description>

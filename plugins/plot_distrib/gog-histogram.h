@@ -2,7 +2,7 @@
 /*
  * gog-histogram.h
  *
- * Copyright (C) 2005 Jean Brefort (jean.brefort@normalesup.org)
+ * Copyright (C) 2005-2010 Jean Brefort (jean.brefort@normalesup.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -34,6 +34,8 @@ typedef struct {
 		GOFormat *fmt;
 		GODateConventions const *date_conv;
 	} x, y;
+	gboolean vertical;
+	gboolean cumulative;
 } GogHistogramPlot;
 typedef GogPlotClass GogHistogramPlotClass;
 
@@ -42,6 +44,18 @@ typedef GogPlotClass GogHistogramPlotClass;
 #define GOG_IS_HISTOGRAM_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_HISTOGRAM_PLOT))
 
 GType gog_histogram_plot_get_type (void);
+
+typedef struct {
+	GogHistogramPlot base;
+	GogDatasetElement *labels; /* labels for the two y categories */
+} GogDoubleHistogramPlot;
+typedef GogHistogramPlotClass GogDoubleHistogramPlotClass;
+
+#define GOG_DOUBLE_HISTOGRAM_PLOT_TYPE	(gog_double_histogram_plot_get_type ())
+#define GOG_DOUBLE_HISTOGRAM_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_DOUBLE_HISTOGRAM_PLOT_TYPE, GogDoubleHistogramPlot))
+#define GOG_IS_DOUBLE_HISTOGRAM_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_DOUBLE_HISTOGRAM_PLOT_TYPE))
+
+GType gog_double_histogram_plot_get_type (void);
 
 G_END_DECLS
 

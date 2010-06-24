@@ -40,7 +40,8 @@ dist_icon_DATA = \
 	chart_dropbar_1_1.png	chart_dropbar_1_2.png \
 	chart_minmax_1_1.png	chart_minmax_1_2.png \
 	chart_minmax_2_1.png	chart_minmax_2_2.png \
-	chart_histogram_1_1.png \
+	chart_histogram_1_1.png chart_histogram_2_1.png \
+	chart_histogram_1_3.png chart_histogram_1_4.png \
 	chart_surface_2_1.png	chart_surface_2_2.png \
 	chart_prob_1_1.png \
 	\
