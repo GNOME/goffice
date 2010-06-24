@@ -1,5 +1,9 @@
 goffice 0.8.7:
 
+Jean:
+	* Implement cumulative histograms.
+	* Make histogram able to use raw data.
+
 --------------------------------------------------------------------------
 goffice 0.8.6:
 
