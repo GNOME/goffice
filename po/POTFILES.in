@@ -263,6 +263,8 @@ plugins/plot_barcol/plot-types.xml.in
 plugins/plot_barcol/plugin.xml.in
 plugins/plot_distrib/go-distribution-prefs.c
 [type: gettext/glade]plugins/plot_distrib/gog-boxplot-prefs.ui
+[type: gettext/glade]plugins/plot_distrib/gog-double-histogram-prefs.ui
+[type: gettext/glade]plugins/plot_distrib/gog-histogram-prefs.ui
 plugins/plot_distrib/gog-boxplot.c
 plugins/plot_distrib/gog-boxplot.h
 plugins/plot_distrib/gog-histogram.c
