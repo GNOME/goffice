@@ -290,6 +290,7 @@ gog_equation_init_style (GogStyledObject *gso, GOStyle *style)
 	style->interesting_fields =
 		GO_STYLE_OUTLINE |
 		GO_STYLE_FILL |
+		GO_STYLE_TEXT_LAYOUT |
 		GO_STYLE_FONT;
 
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
@@ -377,6 +378,8 @@ gog_equation_view_size_request (GogView *view,
 	double height, width;
 	GogEquation *equation;
 	GogEquationView *equation_view;
+	GOGeometryAABR aabr;
+	GOGeometryOBR obr;
 
 	equation = GOG_EQUATION (view->model);
 	equation_view = GOG_EQUATION_VIEW (view);
@@ -391,8 +394,13 @@ gog_equation_view_size_request (GogView *view,
 				   LSM_DOM_DOCUMENT (equation->mathml));
 	lsm_dom_view_get_size (LSM_DOM_VIEW (equation_view->mathml_view), &width, &height);
 
-	requisition->w = gog_renderer_pt2r_x (view->renderer, width);
-	requisition->h = gog_renderer_pt2r_y (view->renderer, height);
+	obr.w = gog_renderer_pt2r_x (view->renderer, width);
+	obr.h = gog_renderer_pt2r_y (view->renderer, height);
+	obr.alpha = -go_styled_object_get_style (GO_STYLED_OBJECT(equation))->text_layout.angle * M_PI / 180.0;
+
+	go_geometry_OBR_to_AABR (&obr, &aabr);
+	requisition->w = aabr.w;
+	requisition->h = aabr.h;
 
 	equation_view_parent_klass->size_request (view, available, requisition);
 }
@@ -414,8 +422,10 @@ gog_equation_view_render (GogView *view,
 
 	lsm_dom_view_set_document (LSM_DOM_VIEW (equation_view->mathml_view),
 				   LSM_DOM_DOCUMENT (equation->mathml));
+	gog_renderer_push_style (view->renderer, go_styled_object_get_style (GO_STYLED_OBJECT(equation)));
 	gog_renderer_draw_equation (view->renderer, equation_view->mathml_view,
-				    view->residual.x, view->residual.y);
+				    view->residual.x + view->residual.w / 2., view->residual.y + view->residual.h / 2.);
+	gog_renderer_pop_style (view->renderer);
 }
 
 static void

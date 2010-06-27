@@ -3,6 +3,7 @@ goffice 0.8.7:
 Jean:
 	* Implement cumulative histograms.
 	* Make histogram able to use raw data.
+	* Implement equations rotation. [#622782]
 
 --------------------------------------------------------------------------
 goffice 0.8.6:

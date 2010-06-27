@@ -1,3 +1,10 @@
+2010-06-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-equation.c (gog_equation_init_style),
+	(gog_equation_view_size_request), (gog_equation_view_render): implement
+	equations rotation. [#622782]
+	* goffice/graph/gog-renderer.c (gog_renderer_draw_equation):
+
 2010-06-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* pixmaps/Makefile.am: add new icons.
