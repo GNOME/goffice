@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: goffice.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
-"POT-Creation-Date: 2010-06-24 12:56+0000\n"
-"PO-Revision-Date: 2010-06-27 11:42+0200\n"
+"POT-Creation-Date: 2010-06-27 18:26+0000\n"
+"PO-Revision-Date: 2010-06-28 23:25+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2066,19 +2066,19 @@ msgstr "Mostrar _ecuación"
 msgid "Display _regression coefficient R&#xB2;"
 msgstr "Mostrar el coeficiente de _regresión R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1528 ../goffice/graph/gog-view.c:590
+#: ../goffice/graph/gog-renderer.c:1539 ../goffice/graph/gog-view.c:590
 msgid "Model"
 msgstr "Modelo"
 
-#: ../goffice/graph/gog-renderer.c:1529
+#: ../goffice/graph/gog-renderer.c:1540
 msgid "The GogGraph this renderer displays"
 msgstr "la GogGraph que este renderizador muestra"
 
-#: ../goffice/graph/gog-renderer.c:1534
+#: ../goffice/graph/gog-renderer.c:1545
 msgid "View"
 msgstr "Ver"
 
-#: ../goffice/graph/gog-renderer.c:1535
+#: ../goffice/graph/gog-renderer.c:1546
 msgid "the GogView this renderer is displaying"
 msgstr "la GogView que está mostrando este renderizador"
 
@@ -5605,6 +5605,25 @@ msgstr "_Excluir y mostrar valores atípicos"
 msgid "_Layout"
 msgstr "_Distribución"
 
+#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:1
+#| msgid "Categories labels"
+msgid "First Y category label:"
+msgstr "Primera etiqueta de categoría Y:"
+
+#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:2
+msgid "Second Y category label:"
+msgstr "Segunda etiqueta de categoría Y:"
+
+#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:1
+#| msgid "Cumulative"
+msgid "_Cumulative"
+msgstr "_Acumulativo"
+
+#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:2
+#| msgid "Vertical"
+msgid "_Vertical"
+msgstr "_Vertical"
+
 #. xgettext : the base for how to name box-plot objects
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
@@ -5650,7 +5669,6 @@ msgid "Draw the histogram vertically or horizontally"
 msgstr "Dibujar el histograma vertical u horizontalmente"
 
 #: ../plugins/plot_distrib/gog-histogram.c:348
-#| msgid "Relative"
 msgid "Cumulative"
 msgstr "Acumulativo"
 
@@ -5680,13 +5698,11 @@ msgstr ""
 "establece o se deja vacía."
 
 #: ../plugins/plot_distrib/gog-histogram.c:424
-#| msgid "Categories between _labels"
 msgid "Categories labels"
 msgstr "Etiquetas de categorías"
 
 #: ../plugins/plot_distrib/gog-histogram.c:456
 #: ../plugins/plot_distrib/gog-histogram.c:728
-#| msgid "Absolute value"
 msgid "First values"
 msgstr "Primeros valores"
 
@@ -5694,7 +5710,6 @@ msgstr "Primeros valores"
 #: ../plugins/plot_distrib/gog-histogram.c:735
 #: ../plugins/plot_distrib/gog-histogram.c:744
 #: ../plugins/plot_distrib/gog-histogram.c:754
-#| msgid "Show negative values"
 msgid "Second values"
 msgstr "Segundos valores"
 
@@ -5753,7 +5768,6 @@ msgid "Cumulative histogram."
 msgstr "Histograma acumulativo."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:2
-#| msgid "Histogram"
 msgid "CumulativeHistogram"
 msgstr "HistogramaAcumulativo"
 
