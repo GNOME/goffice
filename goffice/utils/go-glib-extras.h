@@ -74,6 +74,10 @@ void	    go_strescape		(GString *target, char const *str);
 char const *go_strunescape		(GString *target, char const *str);
 void	    go_string_append_gstring	(GString *target, const GString *src);
 void        go_string_append_c_n        (GString *target, char c, gsize n);
+void        go_string_replace           (GString *target,
+					 gsize pos, gssize oldlen,
+					 const char *txt, gssize newlen);
+
 char const *go_guess_encoding		(char const *raw, gsize len,
 					 char const *user_guess,
 					 char **utf8_str);

@@ -330,6 +330,34 @@ go_string_append_c_n (GString *target, char c, gsize n)
 	memset (target->str + len, c, n);
 }
 
+void
+go_string_replace (GString *target,
+		   gsize pos, gssize oldlen,
+		   const char *txt, gssize newlen)
+{
+	gsize cplen;
+
+	g_return_if_fail (target != NULL);
+	g_return_if_fail (pos >= 0);
+	g_return_if_fail (pos < target->len);
+
+	if (oldlen < 0)
+		oldlen = target->len - pos;
+	if (newlen < 0)
+		newlen = strlen (txt);
+
+	cplen = MIN (oldlen, newlen);
+	memcpy (target->str + pos, txt, cplen);
+
+	pos += cplen;
+	oldlen -= cplen;
+	txt += cplen;
+	newlen -= cplen;
+
+	g_string_erase (target, pos, oldlen);
+	g_string_insert_len (target, pos, txt, newlen);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /**
