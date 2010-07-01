@@ -1639,6 +1639,8 @@ gog_object_set_position_flags (GogObject *obj, GogObjectPosition flags, GogObjec
 		return FALSE;
 	}
 	obj->position = (obj->position & ~mask) | (flags & mask);
+	if (GOG_IS_CHART (obj))
+		gog_graph_validate_chart_layout (GOG_GRAPH (obj->parent));
 	gog_object_emit_changed (obj, TRUE);
 	return TRUE;
 }

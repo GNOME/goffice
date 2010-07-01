@@ -1,3 +1,10 @@
+2010-07-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-graph.c (gog_graph_validate_chart_layout): do not
+	take manually placed charts into account when evaluating rows and
+	columns in GogGraph.
+	* goffice/graph/gog-object.c (gog_object_set_position_flags): ditto.
+
 2010-07-01  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-glib-extras.c (go_string_replace): New

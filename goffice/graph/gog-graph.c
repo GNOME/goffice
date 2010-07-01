@@ -433,6 +433,8 @@ gog_graph_validate_chart_layout (GogGraph *graph)
 	/* 1) find the max */
 	max_col = max_row = 0;
 	for (ptr = graph->charts ; ptr != NULL ; ptr = ptr->next) {
+		if (gog_object_get_position_flags (ptr->data, GOG_POSITION_MANUAL))
+			continue;
 		chart = ptr->data;
 		chart->x_pos_actual = chart->x_pos;
 		chart->y_pos_actual = chart->y_pos;
@@ -445,6 +447,8 @@ gog_graph_validate_chart_layout (GogGraph *graph)
 	/* 2) see if we need to contract any cols */
 	for (i = 0 ; i < max_col ; ) {
 		for (ptr = graph->charts ; ptr != NULL ; ptr = ptr->next) {
+			if (gog_object_get_position_flags (ptr->data, GOG_POSITION_MANUAL))
+				continue;
 			chart = ptr->data;
 			if (chart->x_pos_actual <= i && i < (chart->x_pos_actual + chart->cols))
 				break;
@@ -464,6 +468,8 @@ gog_graph_validate_chart_layout (GogGraph *graph)
 	/* 3) see if we need to contract any rows */
 	for (i = 0 ; i < max_row ; ) {
 		for (ptr = graph->charts ; ptr != NULL ; ptr = ptr->next) {
+			if (gog_object_get_position_flags (ptr->data, GOG_POSITION_MANUAL))
+				continue;
 			chart = ptr->data;
 			if (chart->y_pos_actual <= i && i < (chart->y_pos_actual + chart->rows))
 				break;

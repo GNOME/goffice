@@ -1,5 +1,9 @@
 goffice 0.8.8:
 
+Jean:
+	* Do not take manually placed charts into account when evaluating rows and
+	columns in GogGraph.
+
 Morten:
 	* Add go_string_replace function.
 
