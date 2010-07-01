@@ -1,3 +1,8 @@
+2010-07-01  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-glib-extras.c (go_string_replace): New
+	function.
+
 2010-06-28  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

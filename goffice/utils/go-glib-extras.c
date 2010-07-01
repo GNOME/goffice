@@ -354,8 +354,16 @@ go_string_replace (GString *target,
 	txt += cplen;
 	newlen -= cplen;
 
-	g_string_erase (target, pos, oldlen);
-	g_string_insert_len (target, pos, txt, newlen);
+	/*
+	 * At least one of oldlen and newlen is zero now.  We could call
+	 * both erase and insert unconditionally, but erase does not appear
+	 * to handle zero length efficiently.
+	 */
+
+	if (oldlen > 0)
+		g_string_erase (target, pos, oldlen);
+	else if (newlen > 0)
+		g_string_insert_len (target, pos, txt, newlen);
 }
 
 /* ------------------------------------------------------------------------- */

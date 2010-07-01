@@ -1,5 +1,8 @@
 goffice 0.8.8:
 
+Morten:
+	* Add go_string_replace function.
+
 --------------------------------------------------------------------------
 goffice 0.8.7:
 
