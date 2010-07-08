@@ -5275,6 +5275,27 @@ go_format_generate_str (GString *dst, GOFormatDetails const *details)
 #endif
 
 #ifdef DEFINE_COMMON
+GOFormatDetails *
+go_format_details_new (GOFormatFamily family)
+{
+	GOFormatDetails *res = g_new (GOFormatDetails, 1);
+	go_format_details_init (res, family);
+	return res;
+}
+#endif
+
+
+#ifdef DEFINE_COMMON
+void
+go_format_details_free (GOFormatDetails *details)
+{
+	/* We do not own ->currency.  */
+	g_free (details);
+}
+#endif
+
+
+#ifdef DEFINE_COMMON
 void
 go_format_details_init (GOFormatDetails *details, GOFormatFamily family)
 {

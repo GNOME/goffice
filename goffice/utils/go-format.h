@@ -141,6 +141,8 @@ void      go_format_generate_number_str (GString *dst,
 					 gboolean negative_paren,
 					 const char *prefix,
 					 const char *postfix);
+GOFormatDetails *go_format_details_new  (GOFormatFamily family);
+void  go_format_details_free            (GOFormatDetails *details);
 void  go_format_details_init            (GOFormatDetails *details,
 					 GOFormatFamily family);
 void  go_format_generate_str            (GString *dst,
