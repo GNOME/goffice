@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: goffice\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-22 20:44-0400\n"
-"PO-Revision-Date: 2008-05-01 23:30+0100\n"
+"POT-Creation-Date: 2010-07-11 18:42+0200\n"
+"PO-Revision-Date: 2010-05-08 17:57+0200\n"
 "Last-Translator: Petr Kovar <pknbe@volny.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +76,7 @@ msgstr "Speciální"
 
 #: ../goffice/app/file.c:523
 msgid "How much of a document is saved"
-msgstr ""
+msgstr "Jak velká část dokumentu je uložena"
 
 #: ../goffice/app/file.c:687
 msgid "Saving over old files of this type is disabled for safety."
@@ -100,7 +100,7 @@ msgstr "URI"
 
 #: ../goffice/app/go-doc.c:137
 msgid "The URI associated with this document."
-msgstr ""
+msgstr "URI asociované s tímto dokumentem"
 
 #: ../goffice/app/go-doc.c:141
 #, fuzzy
@@ -132,7 +132,7 @@ msgstr "Objekty"
 #: ../goffice/app/go-object.c:109
 #, c-format
 msgid "Loading plugin '%s' that contains the object '%s'"
-msgstr ""
+msgstr "Nahrávání zásuvného modulu '%s', který obsahuje objekt '%s'"
 
 #: ../goffice/app/go-plugin-loader-module.c:56
 msgid "Module file name not given."
@@ -141,7 +141,7 @@ msgstr "Nezadaný název souboru s modulem."
 #: ../goffice/app/go-plugin-loader-module.c:67
 #, c-format
 msgid "Module \"%s\" has an inconsistent dependency list."
-msgstr ""
+msgstr "Modul \"%s\" obsahuje nekonzistentní seznam závislostí."
 
 #: ../goffice/app/go-plugin-loader-module.c:75
 #, c-format
@@ -151,7 +151,7 @@ msgstr ""
 #: ../goffice/app/go-plugin-loader-module.c:80
 #, c-format
 msgid "Module \"%s\" depends on an unknown dependency '%s'."
-msgstr ""
+msgstr "Modul \"%s\" závisí na neznámé závislosti '%s'."
 
 #: ../goffice/app/go-plugin-loader-module.c:85
 #, c-format
@@ -525,7 +525,7 @@ msgid "The rotation around center position"
 msgstr "Zobrazit v grafu rovnici"
 
 #: ../goffice/canvas/goc-arc.c:479 ../goffice/canvas/goc-rectangle.c:360
-#: ../goffice/graph/gog-axis.c:2460 ../goffice/graph/gog-grid.c:116
+#: ../goffice/graph/gog-axis.c:2462 ../goffice/graph/gog-grid.c:116
 #: ../plugins/plot_barcol/gog-1.5d.c:332
 msgid "Type"
 msgstr "Typ"
@@ -552,7 +552,7 @@ msgid "Arrow for line's end"
 msgstr ""
 
 #: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:239
-#: ../goffice/canvas/goc-graph.c:412 ../goffice/canvas/goc-group.c:243
+#: ../goffice/canvas/goc-graph.c:413 ../goffice/canvas/goc-group.c:243
 #: ../goffice/canvas/goc-path.c:239 ../goffice/canvas/goc-pixbuf.c:231
 #: ../goffice/canvas/goc-rectangle.c:330 ../goffice/canvas/goc-text.c:428
 #: ../goffice/canvas/goc-widget.c:318 ../goffice/utils/go-marker.c:83
@@ -564,7 +564,7 @@ msgid "The circle center horizontal position"
 msgstr ""
 
 #: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:245
-#: ../goffice/canvas/goc-graph.c:418 ../goffice/canvas/goc-group.c:249
+#: ../goffice/canvas/goc-graph.c:419 ../goffice/canvas/goc-group.c:249
 #: ../goffice/canvas/goc-path.c:245 ../goffice/canvas/goc-pixbuf.c:237
 #: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:434
 #: ../goffice/canvas/goc-widget.c:324
@@ -593,8 +593,8 @@ msgstr ""
 msgid "The ellipse top position"
 msgstr "Menu možností"
 
-#: ../goffice/canvas/goc-ellipse.c:251 ../goffice/canvas/goc-graph.c:430
-#: ../goffice/canvas/goc-graph.c:431 ../goffice/canvas/goc-pixbuf.c:243
+#: ../goffice/canvas/goc-ellipse.c:251 ../goffice/canvas/goc-graph.c:431
+#: ../goffice/canvas/goc-graph.c:432 ../goffice/canvas/goc-pixbuf.c:243
 #: ../goffice/canvas/goc-rectangle.c:342 ../goffice/canvas/goc-widget.c:331
 #: ../goffice/graph/gog-graph.c:368 ../goffice/utils/go-image.c:472
 msgid "Width"
@@ -605,8 +605,8 @@ msgstr "Šířka"
 msgid "The ellipse width"
 msgstr "Šířka textu"
 
-#: ../goffice/canvas/goc-ellipse.c:257 ../goffice/canvas/goc-graph.c:424
-#: ../goffice/canvas/goc-graph.c:425 ../goffice/canvas/goc-pixbuf.c:249
+#: ../goffice/canvas/goc-ellipse.c:257 ../goffice/canvas/goc-graph.c:425
+#: ../goffice/canvas/goc-graph.c:426 ../goffice/canvas/goc-pixbuf.c:249
 #: ../goffice/canvas/goc-rectangle.c:348 ../goffice/canvas/goc-widget.c:337
 #: ../goffice/graph/gog-graph.c:374 ../goffice/utils/go-image.c:476
 msgid "Height"
@@ -622,31 +622,37 @@ msgstr "Výška textu"
 msgid "The rotation around top left position"
 msgstr "Zobrazit v grafu rovnici"
 
-#: ../goffice/canvas/goc-graph.c:413
+#. Note to translators: the following is a format string for a pair of coordinates
+#: ../goffice/canvas/goc-graph.c:346
+#, c-format
+msgid "(%s,%s)"
+msgstr ""
+
+#: ../goffice/canvas/goc-graph.c:414
 msgid "The graph left position"
 msgstr ""
 
-#: ../goffice/canvas/goc-graph.c:419
+#: ../goffice/canvas/goc-graph.c:420
 msgid "The graph top position"
 msgstr ""
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/canvas/goc-graph.c:436 ../goffice/graph/gog-graph.c:161
+#: ../goffice/canvas/goc-graph.c:437 ../goffice/graph/gog-graph.c:161
 #: ../goffice/graph/gog-graph.c:400
 msgid "Graph"
 msgstr "Graf"
 
-#: ../goffice/canvas/goc-graph.c:437
+#: ../goffice/canvas/goc-graph.c:438
 msgid "The GogGraph this object displays"
 msgstr ""
 
-#: ../goffice/canvas/goc-graph.c:442 ../goffice/graph/gog-graph.c:902
+#: ../goffice/canvas/goc-graph.c:443 ../goffice/graph/gog-graph.c:908
 msgid "Renderer"
 msgstr ""
 
-#: ../goffice/canvas/goc-graph.c:443
+#: ../goffice/canvas/goc-graph.c:444
 #, fuzzy
 msgid "The GogRenderer being displayed"
 msgstr "Zobrazován záporný sloupec chyby"
@@ -863,12 +869,12 @@ msgid "The round rectangle ry"
 msgstr "Šířka textu"
 
 #: ../goffice/canvas/goc-styled-item.c:161
-#: ../goffice/graph/gog-styled-object.c:199 ../goffice/utils/go-style.c:1041
+#: ../goffice/graph/gog-styled-object.c:203 ../goffice/utils/go-style.c:1041
 msgid "Style"
 msgstr "Styl"
 
 #: ../goffice/canvas/goc-styled-item.c:162
-#: ../goffice/graph/gog-styled-object.c:200
+#: ../goffice/graph/gog-styled-object.c:204
 #, fuzzy
 msgid "A pointer to the GOStyle object"
 msgstr "Ukazatel na objekt GogStyle"
@@ -1078,22 +1084,22 @@ msgstr "Motiv"
 msgid "Advanced"
 msgstr ""
 
-#: ../goffice/graph/gog-3d-box.c:284
+#: ../goffice/graph/gog-3d-box.c:286
 #, fuzzy
 msgid "Euler angle psi"
 msgstr "trojúhelník nahoru"
 
-#: ../goffice/graph/gog-3d-box.c:291
+#: ../goffice/graph/gog-3d-box.c:293
 #, fuzzy
 msgid "Euler angle theta"
 msgstr "trojúhelník doleva"
 
-#: ../goffice/graph/gog-3d-box.c:298
+#: ../goffice/graph/gog-3d-box.c:300
 #, fuzzy
 msgid "Euler angle phi"
 msgstr "trojúhelník nahoru"
 
-#: ../goffice/graph/gog-3d-box.c:305
+#: ../goffice/graph/gog-3d-box.c:307
 msgid "Field of view"
 msgstr ""
 
@@ -1346,231 +1352,231 @@ msgstr "Log"
 msgid "Logarithm mapping"
 msgstr "Logaritmické mapování"
 
-#: ../goffice/graph/gog-axis.c:2321 ../goffice/graph/gog-axis.c:2331
+#: ../goffice/graph/gog-axis.c:2323 ../goffice/graph/gog-axis.c:2333
 #, fuzzy
 msgid "M_inimum"
 msgstr "M_in"
 
-#: ../goffice/graph/gog-axis.c:2322 ../goffice/graph/gog-axis.c:2332
+#: ../goffice/graph/gog-axis.c:2324 ../goffice/graph/gog-axis.c:2334
 #, fuzzy
 msgid "M_aximum"
 msgstr "M_ax"
 
-#: ../goffice/graph/gog-axis.c:2323
+#: ../goffice/graph/gog-axis.c:2325
 msgid "Categories between _ticks"
 msgstr "Kategorie mezi _značkami"
 
-#: ../goffice/graph/gog-axis.c:2324
+#: ../goffice/graph/gog-axis.c:2326
 msgid "Categories between _labels"
 msgstr "Kategorie mezi _titulky"
 
-#: ../goffice/graph/gog-axis.c:2333
+#: ../goffice/graph/gog-axis.c:2335
 #, fuzzy
 msgid "Ma_jor ticks"
 msgstr "H_lavní značky"
 
-#: ../goffice/graph/gog-axis.c:2334
+#: ../goffice/graph/gog-axis.c:2336
 #, fuzzy
 msgid "Mi_nor ticks"
 msgstr "Ve_dlejší značky"
 
-#: ../goffice/graph/gog-axis.c:2388 ../goffice/math/go-distribution.c:163
+#: ../goffice/graph/gog-axis.c:2390 ../goffice/math/go-distribution.c:163
 #: ../goffice/math/go-distribution.c:164
 #, fuzzy
 msgid "Scale"
 msgstr "Speciální"
 
-#: ../goffice/graph/gog-axis.c:2404
+#: ../goffice/graph/gog-axis.c:2406
 msgid "Format"
 msgstr "Formát"
 
-#: ../goffice/graph/gog-axis.c:2436
+#: ../goffice/graph/gog-axis.c:2438
 msgid "MajorGrid"
 msgstr "HlavníMřížka"
 
-#: ../goffice/graph/gog-axis.c:2439
+#: ../goffice/graph/gog-axis.c:2441
 msgid "MinorGrid"
 msgstr "VedlejšíMřížka"
 
-#: ../goffice/graph/gog-axis.c:2442
+#: ../goffice/graph/gog-axis.c:2444
 #, fuzzy
 msgid "AxisLine"
 msgstr "Čára"
 
-#: ../goffice/graph/gog-axis.c:2445
+#: ../goffice/graph/gog-axis.c:2447
 msgid "Label"
 msgstr "Titulek"
 
-#: ../goffice/graph/gog-axis.c:2461
+#: ../goffice/graph/gog-axis.c:2463
 msgid "Numerical type of this axis"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:2465
+#: ../goffice/graph/gog-axis.c:2467
 msgid "Invert axis"
 msgstr "Invertovat osu"
 
-#: ../goffice/graph/gog-axis.c:2466
+#: ../goffice/graph/gog-axis.c:2468
 msgid "Scale from high to low rather than low to high"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:2470
+#: ../goffice/graph/gog-axis.c:2472
 #, fuzzy
 msgid "MapName"
 msgstr "Název"
 
-#: ../goffice/graph/gog-axis.c:2471
+#: ../goffice/graph/gog-axis.c:2473
 msgid "The name of the map for scaling"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:2476
+#: ../goffice/graph/gog-axis.c:2478
 msgid "Assigned XL format"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:2477
+#: ../goffice/graph/gog-axis.c:2479
 msgid ""
 "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:2482 ../goffice/graph/gog-axis.c:2483
+#: ../goffice/graph/gog-axis.c:2484 ../goffice/graph/gog-axis.c:2485
 msgid "Rotation of circular axis"
 msgstr "Rotace kruhové osy"
 
-#: ../goffice/graph/gog-axis.c:2490 ../goffice/graph/gog-axis.c:2491
+#: ../goffice/graph/gog-axis.c:2492 ../goffice/graph/gog-axis.c:2493
 msgid "Polar axis set unit"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:367 ../goffice/graph/gog-chart.c:670
+#: ../goffice/graph/gog-chart.c:365 ../goffice/graph/gog-chart.c:673
 #, fuzzy
 msgid "Plot area"
 msgstr "PlošnýGraf"
 
-#: ../goffice/graph/gog-chart.c:576
+#: ../goffice/graph/gog-chart.c:575
 msgid "Backplane"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:579
+#: ../goffice/graph/gog-chart.c:578
 msgid "XY-Backplane"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:583
+#: ../goffice/graph/gog-chart.c:582
 msgid "YZ-Backplane"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:587
+#: ../goffice/graph/gog-chart.c:586
 msgid "ZX-Backplane"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:591
+#: ../goffice/graph/gog-chart.c:590
 msgid "X-Axis"
 msgstr "Osa X"
 
-#: ../goffice/graph/gog-chart.c:595
+#: ../goffice/graph/gog-chart.c:594
 msgid "Y-Axis"
 msgstr "Osa Y"
 
-#: ../goffice/graph/gog-chart.c:599
+#: ../goffice/graph/gog-chart.c:598
 msgid "Z-Axis"
 msgstr "Osa Z"
 
-#: ../goffice/graph/gog-chart.c:603
+#: ../goffice/graph/gog-chart.c:602
 msgid "Circular-Axis"
 msgstr "Kruhová osa"
 
-#: ../goffice/graph/gog-chart.c:607
+#: ../goffice/graph/gog-chart.c:606
 msgid "Radial-Axis"
 msgstr "Radiální osa"
 
-#: ../goffice/graph/gog-chart.c:611
+#: ../goffice/graph/gog-chart.c:610
 msgid "Pseudo-3D-Axis"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:615
+#: ../goffice/graph/gog-chart.c:614
 #, fuzzy
 msgid "Bubble-Axis"
 msgstr "Bublina"
 
-#: ../goffice/graph/gog-chart.c:619
+#: ../goffice/graph/gog-chart.c:618
 #, fuzzy
 msgid "Color-Axis"
 msgstr "Kruhová osa"
 
-#: ../goffice/graph/gog-chart.c:623
+#: ../goffice/graph/gog-chart.c:622
 msgid "Plot"
 msgstr "Graf"
 
-#: ../goffice/graph/gog-chart.c:626 ../goffice/graph/gog-graph.c:301
+#: ../goffice/graph/gog-chart.c:625 ../goffice/graph/gog-graph.c:301
 #: ../goffice/graph/gog-legend.c:187
 msgid "Title"
 msgstr "Titulek"
 
-#: ../goffice/graph/gog-chart.c:631
+#: ../goffice/graph/gog-chart.c:630
 msgid "Legend"
 msgstr "Legenda"
 
-#: ../goffice/graph/gog-chart.c:637 ../goffice/graph/gog-reg-curve.c:154
+#: ../goffice/graph/gog-chart.c:636 ../goffice/graph/gog-reg-curve.c:154
 #, fuzzy
 msgid "Equation"
 msgstr "Zlomek"
 
-#: ../goffice/graph/gog-chart.c:643
+#: ../goffice/graph/gog-chart.c:642
 msgid "3D-Box"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:664
+#: ../goffice/graph/gog-chart.c:667
 msgid "Valid cardinality"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:665
+#: ../goffice/graph/gog-chart.c:668
 msgid "Is the charts cardinality currently valid"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:671
+#: ../goffice/graph/gog-chart.c:674
 msgid "Position and size of plot area, in percentage of chart size"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:676
+#: ../goffice/graph/gog-chart.c:679
 #, fuzzy
 msgid "Manual plot area"
 msgstr "PlošnýGraf"
 
-#: ../goffice/graph/gog-chart.c:677
+#: ../goffice/graph/gog-chart.c:680
 msgid "Is plot area manual"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:681
+#: ../goffice/graph/gog-chart.c:684
 #, fuzzy
 msgid "xpos"
 msgstr "Hodnota"
 
-#: ../goffice/graph/gog-chart.c:682
+#: ../goffice/graph/gog-chart.c:685
 msgid "Horizontal chart position in graph grid"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:686
+#: ../goffice/graph/gog-chart.c:689
 #, fuzzy
 msgid "ypos"
 msgstr "Hodnota"
 
-#: ../goffice/graph/gog-chart.c:687
+#: ../goffice/graph/gog-chart.c:690
 msgid "Vertical chart position in graph grid"
 msgstr ""
 
-#: ../goffice/graph/gog-chart.c:690
+#: ../goffice/graph/gog-chart.c:693
 #, fuzzy
 msgid "columns"
 msgstr "Sloupec"
 
-#: ../goffice/graph/gog-chart.c:691
+#: ../goffice/graph/gog-chart.c:694
 #, fuzzy
 msgid "Number of columns in graph grid"
 msgstr "Formáty čísla"
 
-#: ../goffice/graph/gog-chart.c:694
+#: ../goffice/graph/gog-chart.c:697
 #, fuzzy
 msgid "rows"
 msgstr "křížek"
 
-#: ../goffice/graph/gog-chart.c:695
+#: ../goffice/graph/gog-chart.c:698
 #, fuzzy
 msgid "Number of rows in graph grid"
 msgstr "Formáty čísla"
@@ -1620,8 +1626,8 @@ msgid "Dis_play:"
 msgstr "Z_obrazovat:"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:9
-#: ../goffice/graph/gog-error-bar.c:75 ../goffice/gtk/go-format-sel.c:1105
-#: ../goffice/gtk/go-format-sel.c:1270 ../goffice/utils/formats.c:348
+#: ../goffice/graph/gog-error-bar.c:75 ../goffice/gtk/go-format-sel.c:1110
+#: ../goffice/gtk/go-format-sel.c:1275 ../goffice/utils/formats.c:350
 #: ../goffice/utils/go-line.c:84 ../goffice/utils/go-style-prefs.ui.h:9
 msgid "None"
 msgstr "Nic"
@@ -1661,7 +1667,7 @@ msgstr "Obojí"
 #. Note for translator: the angle unit
 #: ../goffice/graph/gog-error-bar.c:308
 msgid "°"
-msgstr ""
+msgstr "°"
 
 #. An MS Excel-ish theme
 #: ../goffice/graph/gog-graph-prefs.ui.h:1 ../goffice/graph/gog-theme.c:500
@@ -1716,7 +1722,7 @@ msgstr ""
 msgid "the document for this graph"
 msgstr "Motiv prvků grafu"
 
-#: ../goffice/graph/gog-graph.c:903
+#: ../goffice/graph/gog-graph.c:909
 msgid "the renderer for this view"
 msgstr ""
 
@@ -1786,7 +1792,7 @@ msgid "Data"
 msgstr "Data"
 
 #: ../goffice/graph/gog-label.c:330 ../goffice/graph/gog-reg-curve.c:71
-#: ../plugins/plot_xy/gog-xy.c:1925
+#: ../plugins/plot_xy/gog-xy.c:1927
 msgid "Details"
 msgstr "Podrobnosti"
 
@@ -2173,19 +2179,19 @@ msgstr ""
 msgid "Display _regression coefficient R&#xB2;"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1525 ../goffice/graph/gog-view.c:590
+#: ../goffice/graph/gog-renderer.c:1539 ../goffice/graph/gog-view.c:590
 msgid "Model"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1526
+#: ../goffice/graph/gog-renderer.c:1540
 msgid "The GogGraph this renderer displays"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1531
+#: ../goffice/graph/gog-renderer.c:1545
 msgid "View"
 msgstr ""
 
-#: ../goffice/graph/gog-renderer.c:1532
+#: ../goffice/graph/gog-renderer.c:1546
 msgid "the GogView this renderer is displaying"
 msgstr ""
 
@@ -2948,11 +2954,11 @@ msgstr "Vlastní barva..."
 msgid "Custom color..."
 msgstr "Vlastní barva..."
 
-#: ../goffice/gtk/go-combo-box.c:274
+#: ../goffice/gtk/go-combo-box.c:265
 msgid "Add tearoffs to menus"
 msgstr ""
 
-#: ../goffice/gtk/go-combo-box.c:275
+#: ../goffice/gtk/go-combo-box.c:266
 msgid "Whether dropdowns should have a tearoff menu item"
 msgstr ""
 
@@ -3035,11 +3041,11 @@ msgstr "Speciální"
 msgid "Custom"
 msgstr "Vlastní"
 
-#: ../goffice/gtk/go-format-sel.c:1047
+#: ../goffice/gtk/go-format-sel.c:1052
 msgid "Negative Number Format"
 msgstr "Formát záporného čísla"
 
-#: ../goffice/gtk/go-format-sel.c:1075
+#: ../goffice/gtk/go-format-sel.c:1080
 msgid "Number Formats"
 msgstr "Formáty čísla"
 
@@ -3918,691 +3924,691 @@ msgstr "Mezera za"
 #. * The second column has the long names of the currencies.
 #.
 #. 2002/08/04 Updated to match iso 4217
-#: ../goffice/utils/formats.c:363
+#: ../goffice/utils/formats.c:365
 msgid "United Arab Emirates, Dirhams"
 msgstr "Spojené Arabské Emiráty, Dirhamy"
 
-#: ../goffice/utils/formats.c:364
+#: ../goffice/utils/formats.c:366
 msgid "Afghanistan, Afghanis"
 msgstr "Afghánistán, Afghanis"
 
-#: ../goffice/utils/formats.c:365
+#: ../goffice/utils/formats.c:367
 msgid "Albania, Leke"
 msgstr "Albánie, Lek"
 
-#: ../goffice/utils/formats.c:366
+#: ../goffice/utils/formats.c:368
 msgid "Armenia, Drams"
 msgstr "Arménie, Dramy"
 
-#: ../goffice/utils/formats.c:367
+#: ../goffice/utils/formats.c:369
 msgid "Netherlands Antilles, Guilders"
 msgstr "Nizozemské Antily, Guldeny"
 
-#: ../goffice/utils/formats.c:368
+#: ../goffice/utils/formats.c:370
 msgid "Angola, Kwanza"
 msgstr "Angola, Kwanza"
 
-#: ../goffice/utils/formats.c:369
+#: ../goffice/utils/formats.c:371
 msgid "Argentina, Pesos"
 msgstr "Argentina, Peseta"
 
-#: ../goffice/utils/formats.c:370
+#: ../goffice/utils/formats.c:372
 msgid "Australia, Dollars"
 msgstr "Austrálie, Dolary"
 
-#: ../goffice/utils/formats.c:371
+#: ../goffice/utils/formats.c:373
 msgid "Aruba, Guilders"
 msgstr "Aruba, Guldeny"
 
-#: ../goffice/utils/formats.c:372
+#: ../goffice/utils/formats.c:374
 msgid "Azerbaijan, Manats"
 msgstr "Ázerbájdžán, Manaty"
 
-#: ../goffice/utils/formats.c:373
+#: ../goffice/utils/formats.c:375
 msgid "Bosnia and Herzegovina, Convertible Marka"
 msgstr "Bosna a Hercegovina, Směnitelná marka"
 
-#: ../goffice/utils/formats.c:374
+#: ../goffice/utils/formats.c:376
 msgid "Barbados, Dollars"
 msgstr "Barbados, Dolary"
 
-#: ../goffice/utils/formats.c:375
+#: ../goffice/utils/formats.c:377
 msgid "Bangladesh, Taka"
 msgstr "Bangladéš, Taka"
 
-#: ../goffice/utils/formats.c:376
+#: ../goffice/utils/formats.c:378
 msgid "Bulgaria, Leva"
 msgstr "Bulharsko, Leva"
 
-#: ../goffice/utils/formats.c:377
+#: ../goffice/utils/formats.c:379
 msgid "Bahrain, Dinars"
 msgstr "Bahrajn, Dináry"
 
-#: ../goffice/utils/formats.c:378
+#: ../goffice/utils/formats.c:380
 msgid "Burundi, Francs"
 msgstr "Burundi, Franky"
 
-#: ../goffice/utils/formats.c:379
+#: ../goffice/utils/formats.c:381
 msgid "Bermuda, Dollars"
 msgstr "Bermudy, Dolary"
 
-#: ../goffice/utils/formats.c:380
+#: ../goffice/utils/formats.c:382
 msgid "Brunei Darussalam, Dollars"
 msgstr "Brunej Darussalam, Dolary"
 
-#: ../goffice/utils/formats.c:381
+#: ../goffice/utils/formats.c:383
 msgid "Bolivia, Bolivianos"
 msgstr "Bolívie, Bolivianos"
 
-#: ../goffice/utils/formats.c:382
+#: ../goffice/utils/formats.c:384
 msgid "Brazil, Brazil Real"
 msgstr "Brazílie, Brazilský real"
 
-#: ../goffice/utils/formats.c:383
+#: ../goffice/utils/formats.c:385
 msgid "Bahamas, Dollars"
 msgstr "Bahamy, Dolary"
 
-#: ../goffice/utils/formats.c:384
+#: ../goffice/utils/formats.c:386
 msgid "Bhutan, Ngultrum"
 msgstr "Bhútán, Ngultrum"
 
-#: ../goffice/utils/formats.c:385
+#: ../goffice/utils/formats.c:387
 msgid "Botswana, Pulas"
 msgstr "Botswana, Pula"
 
-#: ../goffice/utils/formats.c:386
+#: ../goffice/utils/formats.c:388
 msgid "Belarus, Rubles"
 msgstr "Bělorusko, Rubly"
 
-#: ../goffice/utils/formats.c:387
+#: ../goffice/utils/formats.c:389
 msgid "Belize, Dollars"
 msgstr "Belize, Dolary"
 
-#: ../goffice/utils/formats.c:388
+#: ../goffice/utils/formats.c:390
 msgid "Canada, Dollars"
 msgstr "Kanada, Dolary"
 
-#: ../goffice/utils/formats.c:389
+#: ../goffice/utils/formats.c:391
 msgid "Congo/Kinshasa, Congolese Francs"
 msgstr "Kongo/Kinshasa, Konžské franky"
 
-#: ../goffice/utils/formats.c:390
+#: ../goffice/utils/formats.c:392
 msgid "Switzerland, Francs"
 msgstr "Švýcarsko, Franky"
 
-#: ../goffice/utils/formats.c:391
+#: ../goffice/utils/formats.c:393
 msgid "Chile, Pesos"
 msgstr "Čile, Peseta"
 
-#: ../goffice/utils/formats.c:392
+#: ../goffice/utils/formats.c:394
 msgid "China, Yuan Renminbi"
 msgstr "Čína, Juan renminbi"
 
-#: ../goffice/utils/formats.c:393
+#: ../goffice/utils/formats.c:395
 msgid "Colombia, Pesos"
 msgstr "Kolumbie, Peseta"
 
-#: ../goffice/utils/formats.c:394
+#: ../goffice/utils/formats.c:396
 msgid "Costa Rica, Colones"
 msgstr "Kostarika, Kolony"
 
-#: ../goffice/utils/formats.c:395
+#: ../goffice/utils/formats.c:397
 msgid "Cuba, Pesos"
 msgstr "Kuba, Peseta"
 
-#: ../goffice/utils/formats.c:396
+#: ../goffice/utils/formats.c:398
 msgid "Cape Verde, Escudos"
 msgstr "Cape Verde, Escudo"
 
-#: ../goffice/utils/formats.c:397
+#: ../goffice/utils/formats.c:399
 msgid "Cyprus, Pounds"
 msgstr "Kypr, Libra"
 
-#: ../goffice/utils/formats.c:398
+#: ../goffice/utils/formats.c:400
 msgid "Czech Republic, Koruny"
 msgstr "Česká republika, Koruny"
 
-#: ../goffice/utils/formats.c:399
+#: ../goffice/utils/formats.c:401
 msgid "Djibouti, Francs"
 msgstr "Džibuti, Franky"
 
-#: ../goffice/utils/formats.c:400
+#: ../goffice/utils/formats.c:402
 msgid "Denmark, Kroner"
 msgstr "Dánsko, Koruny"
 
-#: ../goffice/utils/formats.c:401
+#: ../goffice/utils/formats.c:403
 msgid "Dominican Republic, Pesos"
 msgstr "Dominikánská republika, Peseta"
 
-#: ../goffice/utils/formats.c:402
+#: ../goffice/utils/formats.c:404
 msgid "Algeria, Algeria Dinars"
 msgstr "Alžírsko, Alžírské dináry"
 
-#: ../goffice/utils/formats.c:403
+#: ../goffice/utils/formats.c:405
 msgid "Estonia, Krooni"
 msgstr "Estonsko, Koruny"
 
-#: ../goffice/utils/formats.c:404
+#: ../goffice/utils/formats.c:406
 msgid "Egypt, Pounds"
 msgstr "Egypt, Libry"
 
-#: ../goffice/utils/formats.c:405
+#: ../goffice/utils/formats.c:407
 msgid "Eritrea, Nakfa"
 msgstr "Eritrea, Nakfa"
 
-#: ../goffice/utils/formats.c:406
+#: ../goffice/utils/formats.c:408
 msgid "Ethiopia, Birr"
 msgstr "Etiopie, Birr"
 
-#: ../goffice/utils/formats.c:407
+#: ../goffice/utils/formats.c:409
 msgid "Euro Member Countries, Euro"
 msgstr "Evropské členské země, Euro"
 
-#: ../goffice/utils/formats.c:408
+#: ../goffice/utils/formats.c:410
 msgid "Fiji, Dollars"
 msgstr "Fidži, Dolary"
 
-#: ../goffice/utils/formats.c:409
+#: ../goffice/utils/formats.c:411
 msgid "Falkland Islands (Malvinas), Pounds"
 msgstr "Falklandské ostrovy, Libry"
 
-#: ../goffice/utils/formats.c:410
+#: ../goffice/utils/formats.c:412
 msgid "United Kingdom, Pounds"
 msgstr "Spojené království, Libry"
 
-#: ../goffice/utils/formats.c:411
+#: ../goffice/utils/formats.c:413
 msgid "Georgia, Lari"
 msgstr "Georgie, Lari"
 
-#: ../goffice/utils/formats.c:412
+#: ../goffice/utils/formats.c:414
 msgid "Guernsey, Pounds"
 msgstr "Guernsey, Libry"
 
-#: ../goffice/utils/formats.c:413
+#: ../goffice/utils/formats.c:415
 msgid "Ghana, Cedis"
 msgstr "Ghana, Cedi"
 
-#: ../goffice/utils/formats.c:414
+#: ../goffice/utils/formats.c:416
 msgid "Gibraltar, Pounds"
 msgstr "Gibraltar, Libry"
 
-#: ../goffice/utils/formats.c:415
+#: ../goffice/utils/formats.c:417
 msgid "Gambia, Dalasi"
 msgstr "Gambie, Dalasi"
 
-#: ../goffice/utils/formats.c:416
+#: ../goffice/utils/formats.c:418
 msgid "Guinea, Francs"
 msgstr "Guinea, Franky"
 
-#: ../goffice/utils/formats.c:417
+#: ../goffice/utils/formats.c:419
 msgid "Guatemala, Quetzales"
 msgstr "Guatemala, Quetzaly"
 
-#: ../goffice/utils/formats.c:418
+#: ../goffice/utils/formats.c:420
 msgid "Guyana, Dollars"
 msgstr "Guajana, Dolary"
 
-#: ../goffice/utils/formats.c:419
+#: ../goffice/utils/formats.c:421
 msgid "Hong Kong, Dollars"
 msgstr "Hong Kong, Dolary"
 
-#: ../goffice/utils/formats.c:420
+#: ../goffice/utils/formats.c:422
 msgid "Honduras, Lempiras"
 msgstr "Honduras, Lempira"
 
-#: ../goffice/utils/formats.c:421
+#: ../goffice/utils/formats.c:423
 msgid "Croatia, Kuna"
 msgstr "Chorvatsko, Kuna"
 
-#: ../goffice/utils/formats.c:422
+#: ../goffice/utils/formats.c:424
 msgid "Haiti, Gourdes"
 msgstr "Haiti, Gourdy"
 
-#: ../goffice/utils/formats.c:423
+#: ../goffice/utils/formats.c:425
 msgid "Hungary, Forint"
 msgstr "Maďarsko, Forint"
 
-#: ../goffice/utils/formats.c:424
+#: ../goffice/utils/formats.c:426
 msgid "Indonesia, Rupiahs"
 msgstr "Indonésie, Rupie"
 
-#: ../goffice/utils/formats.c:425
+#: ../goffice/utils/formats.c:427
 msgid "Israel, New Shekels"
 msgstr "Izrael, Nový šekel"
 
-#: ../goffice/utils/formats.c:426
+#: ../goffice/utils/formats.c:428
 msgid "Isle of Man, Pounds"
 msgstr "Isle of Man, Libry"
 
-#: ../goffice/utils/formats.c:427
+#: ../goffice/utils/formats.c:429
 msgid "India, Rupees"
 msgstr "Indie, Rupie"
 
-#: ../goffice/utils/formats.c:428
+#: ../goffice/utils/formats.c:430
 msgid "Iraq, Dinars"
 msgstr "Irák, Dináry"
 
-#: ../goffice/utils/formats.c:429
+#: ../goffice/utils/formats.c:431
 msgid "Iran, Rials"
 msgstr "Írán, Rialy"
 
-#: ../goffice/utils/formats.c:430
+#: ../goffice/utils/formats.c:432
 msgid "Iceland, Kronur"
 msgstr "Island, Koruny"
 
-#: ../goffice/utils/formats.c:431
+#: ../goffice/utils/formats.c:433
 msgid "Jersey, Pounds"
 msgstr "Jersey, Libry"
 
-#: ../goffice/utils/formats.c:432
+#: ../goffice/utils/formats.c:434
 msgid "Jamaica, Dollars"
 msgstr "Jamajka, Dolary"
 
-#: ../goffice/utils/formats.c:433
+#: ../goffice/utils/formats.c:435
 msgid "Jordan, Dinars"
 msgstr "Jordánsko, Dináry"
 
-#: ../goffice/utils/formats.c:434
+#: ../goffice/utils/formats.c:436
 msgid "Japan, Yen"
 msgstr "Japonsko, Jeny"
 
-#: ../goffice/utils/formats.c:435
+#: ../goffice/utils/formats.c:437
 msgid "Kenya, Shillings"
 msgstr "Keňa, Šilinky"
 
-#: ../goffice/utils/formats.c:436
+#: ../goffice/utils/formats.c:438
 msgid "Kyrgyzstan, Soms"
 msgstr "Kyrgyzstán, Somy"
 
-#: ../goffice/utils/formats.c:437
+#: ../goffice/utils/formats.c:439
 msgid "Cambodia, Riels"
 msgstr "Kambodža, Riely"
 
-#: ../goffice/utils/formats.c:438
+#: ../goffice/utils/formats.c:440
 msgid "Comoros, Francs"
 msgstr "Komory, Franky"
 
-#: ../goffice/utils/formats.c:439
+#: ../goffice/utils/formats.c:441
 msgid "Korea (North), Won"
 msgstr "Korea (severní), Won"
 
-#: ../goffice/utils/formats.c:440
+#: ../goffice/utils/formats.c:442
 msgid "Korea (South), Won"
 msgstr "Korea (jižní), Wony"
 
-#: ../goffice/utils/formats.c:441
+#: ../goffice/utils/formats.c:443
 msgid "Kuwait, Dinars"
 msgstr "Kuvajt, Dináry"
 
-#: ../goffice/utils/formats.c:442
+#: ../goffice/utils/formats.c:444
 msgid "Cayman Islands, Dollars"
 msgstr "Kajmanské ostrovy, Dolary"
 
-#: ../goffice/utils/formats.c:443
+#: ../goffice/utils/formats.c:445
 msgid "Kazakstan, Tenge"
 msgstr "Kazachstán, Tenge"
 
-#: ../goffice/utils/formats.c:444
+#: ../goffice/utils/formats.c:446
 msgid "Laos, Kips"
 msgstr "Laos, Kipy"
 
-#: ../goffice/utils/formats.c:445
+#: ../goffice/utils/formats.c:447
 msgid "Lebanon, Pounds"
 msgstr "Libanon, Libry"
 
-#: ../goffice/utils/formats.c:446
+#: ../goffice/utils/formats.c:448
 msgid "Sri Lanka, Rupees"
 msgstr "Srí Lanka, Rupie"
 
-#: ../goffice/utils/formats.c:447
+#: ../goffice/utils/formats.c:449
 msgid "Liberia, Dollars"
 msgstr "Libérie, Dolary"
 
-#: ../goffice/utils/formats.c:448
+#: ../goffice/utils/formats.c:450
 msgid "Lesotho, Maloti"
 msgstr "Lesotho, Maloti"
 
-#: ../goffice/utils/formats.c:449
+#: ../goffice/utils/formats.c:451
 msgid "Lithuania, Litai"
 msgstr "Litva, Litai"
 
-#: ../goffice/utils/formats.c:450
+#: ../goffice/utils/formats.c:452
 msgid "Latvia, Lati"
 msgstr "Lotyšsko, Lati"
 
-#: ../goffice/utils/formats.c:451
+#: ../goffice/utils/formats.c:453
 msgid "Libya, Dinars"
 msgstr "Libye, Dináry"
 
-#: ../goffice/utils/formats.c:452
+#: ../goffice/utils/formats.c:454
 msgid "Morocco, Dirhams"
 msgstr "Maroko, Dirhamy"
 
-#: ../goffice/utils/formats.c:453
+#: ../goffice/utils/formats.c:455
 msgid "Moldova, Lei"
 msgstr "Moldávie, Lei"
 
-#: ../goffice/utils/formats.c:454
+#: ../goffice/utils/formats.c:456
 msgid "Madagascar, Malagasy Francs"
 msgstr "Madagaskar, Franky"
 
-#: ../goffice/utils/formats.c:455
+#: ../goffice/utils/formats.c:457
 msgid "Macedonia, Denars"
 msgstr "Makedonie, Denáry"
 
-#: ../goffice/utils/formats.c:456
+#: ../goffice/utils/formats.c:458
 msgid "Myanmar (Burma), Kyats"
 msgstr "Myanmar (Burma), Kyaty"
 
-#: ../goffice/utils/formats.c:457
+#: ../goffice/utils/formats.c:459
 msgid "Mongolia, Tugriks"
 msgstr "Mongolsko, Tugriky"
 
-#: ../goffice/utils/formats.c:458
+#: ../goffice/utils/formats.c:460
 msgid "Macau, Patacas"
 msgstr "Macau, Patacas"
 
-#: ../goffice/utils/formats.c:459
+#: ../goffice/utils/formats.c:461
 msgid "Mauritania, Ouguiyas"
 msgstr "Mauretánie, Ouguiya"
 
-#: ../goffice/utils/formats.c:460
+#: ../goffice/utils/formats.c:462
 msgid "Malta, Liri"
 msgstr "Malta, Liry"
 
-#: ../goffice/utils/formats.c:461
+#: ../goffice/utils/formats.c:463
 msgid "Mauritius, Rupees"
 msgstr "Mauritius, Rupie"
 
-#: ../goffice/utils/formats.c:462
+#: ../goffice/utils/formats.c:464
 msgid "Maldives (Maldive Islands), Rufiyaa"
 msgstr "Maledivy (Maledivské ostrovy), Rufiyaa"
 
-#: ../goffice/utils/formats.c:463
+#: ../goffice/utils/formats.c:465
 msgid "Malawi, Kwachas"
 msgstr "Malawi, Kwachas"
 
-#: ../goffice/utils/formats.c:464
+#: ../goffice/utils/formats.c:466
 msgid "Mexico, Pesos"
 msgstr "Mexiko, Peseta"
 
-#: ../goffice/utils/formats.c:465
+#: ../goffice/utils/formats.c:467
 msgid "Malaysia, Ringgits"
 msgstr "Malajsie, Ringgity"
 
-#: ../goffice/utils/formats.c:466
+#: ../goffice/utils/formats.c:468
 msgid "Mozambique, Meticais"
 msgstr "Mozambik, Meticaly"
 
-#: ../goffice/utils/formats.c:467
+#: ../goffice/utils/formats.c:469
 msgid "Namibia, Dollars"
 msgstr "Namibie, Dolary"
 
-#: ../goffice/utils/formats.c:468
+#: ../goffice/utils/formats.c:470
 msgid "Nigeria, Nairas"
 msgstr "Nigérie, Nairas"
 
-#: ../goffice/utils/formats.c:469
+#: ../goffice/utils/formats.c:471
 msgid "Nicaragua, Gold Cordobas"
 msgstr "Nikaragua, Zlaté cordoby"
 
-#: ../goffice/utils/formats.c:470
+#: ../goffice/utils/formats.c:472
 msgid "Norway, Krone"
 msgstr "Norsko, Koruny"
 
-#: ../goffice/utils/formats.c:471
+#: ../goffice/utils/formats.c:473
 msgid "Nepal, Nepal Rupees"
 msgstr "Nepál, Nepálské rupie"
 
-#: ../goffice/utils/formats.c:472
+#: ../goffice/utils/formats.c:474
 msgid "New Zealand, Dollars"
 msgstr "Nový Zéland, Dolary"
 
-#: ../goffice/utils/formats.c:473
+#: ../goffice/utils/formats.c:475
 msgid "Oman, Rials"
 msgstr "Omán, Rialy"
 
-#: ../goffice/utils/formats.c:474
+#: ../goffice/utils/formats.c:476
 msgid "Panama, Balboa"
 msgstr "Panama, Balboa"
 
-#: ../goffice/utils/formats.c:475
+#: ../goffice/utils/formats.c:477
 msgid "Peru, Nuevos Soles"
 msgstr "Peru, Nuevos Soles"
 
-#: ../goffice/utils/formats.c:476
+#: ../goffice/utils/formats.c:478
 msgid "Papua New Guinea, Kina"
 msgstr "Papua Nová Guinea, Kina"
 
-#: ../goffice/utils/formats.c:477
+#: ../goffice/utils/formats.c:479
 msgid "Philippines, Pesos"
 msgstr "Filipíny, Peseta"
 
-#: ../goffice/utils/formats.c:478
+#: ../goffice/utils/formats.c:480
 msgid "Pakistan, Rupees"
 msgstr "Pákistán, Rupie"
 
-#: ../goffice/utils/formats.c:479
+#: ../goffice/utils/formats.c:481
 msgid "Poland, Zlotys"
 msgstr "Polsko, Zloté"
 
-#: ../goffice/utils/formats.c:480
+#: ../goffice/utils/formats.c:482
 msgid "Paraguay, Guarani"
 msgstr "Paraguay, Guarani"
 
-#: ../goffice/utils/formats.c:481
+#: ../goffice/utils/formats.c:483
 msgid "Qatar, Rials"
 msgstr "Katar, Rialy"
 
-#: ../goffice/utils/formats.c:482
+#: ../goffice/utils/formats.c:484
 msgid "Romania, Lei"
 msgstr "Rumunsko, Lei"
 
-#: ../goffice/utils/formats.c:483
+#: ../goffice/utils/formats.c:485
 msgid "Russia, Rubles"
 msgstr "Rusko, Rubly"
 
-#: ../goffice/utils/formats.c:484
+#: ../goffice/utils/formats.c:486
 msgid "Rwanda, Rwanda Francs"
 msgstr "Rwanda, Rwandské franky"
 
-#: ../goffice/utils/formats.c:485
+#: ../goffice/utils/formats.c:487
 msgid "Saudi Arabia, Riyals"
 msgstr "Saúdská Arábie, Riyaly"
 
-#: ../goffice/utils/formats.c:486
+#: ../goffice/utils/formats.c:488
 msgid "Solomon Islands, Dollars"
 msgstr "Solomonské ostrovy, Dolary"
 
-#: ../goffice/utils/formats.c:487
+#: ../goffice/utils/formats.c:489
 msgid "Seychelles, Rupees"
 msgstr "Seyšely, Rupie"
 
-#: ../goffice/utils/formats.c:488
+#: ../goffice/utils/formats.c:490
 msgid "Sudan, Dinars"
 msgstr "Súdán, Dináry"
 
-#: ../goffice/utils/formats.c:489
+#: ../goffice/utils/formats.c:491
 msgid "Sweden, Kronor"
 msgstr "Švédsko, Kronor"
 
-#: ../goffice/utils/formats.c:490
+#: ../goffice/utils/formats.c:492
 msgid "Singapore, Dollars"
 msgstr "Singapur, Dolary"
 
-#: ../goffice/utils/formats.c:491
+#: ../goffice/utils/formats.c:493
 msgid "Saint Helena, Pounds"
 msgstr "Ostrov sv. Heleny, Libry"
 
-#: ../goffice/utils/formats.c:492
+#: ../goffice/utils/formats.c:494
 msgid "Slovenia, Tolars"
 msgstr "Slovinsko, Tolary"
 
-#: ../goffice/utils/formats.c:493
+#: ../goffice/utils/formats.c:495
 msgid "Slovakia, Koruny"
 msgstr "Slovensko, Koruny"
 
-#: ../goffice/utils/formats.c:494
+#: ../goffice/utils/formats.c:496
 msgid "Sierra Leone, Leones"
 msgstr "Sierra Leone, Leones"
 
-#: ../goffice/utils/formats.c:495
+#: ../goffice/utils/formats.c:497
 msgid "Somalia, Shillings"
 msgstr "Somálsko, Šilink"
 
-#: ../goffice/utils/formats.c:496
+#: ../goffice/utils/formats.c:498
 msgid "Seborga, Luigini"
 msgstr "Seborga, Luigini"
 
-#: ../goffice/utils/formats.c:497
+#: ../goffice/utils/formats.c:499
 msgid "Suriname, Guilders"
 msgstr "Surinam, Guldeny"
 
-#: ../goffice/utils/formats.c:498
+#: ../goffice/utils/formats.c:500
 msgid "Sao Tome and Principe, Dobras"
 msgstr "Sao Tome a Principe, Dobra"
 
-#: ../goffice/utils/formats.c:499
+#: ../goffice/utils/formats.c:501
 msgid "El Salvador, Colones"
 msgstr "El Salvador, Kolony"
 
-#: ../goffice/utils/formats.c:500
+#: ../goffice/utils/formats.c:502
 msgid "Syria, Pounds"
 msgstr "Sýrie, Libry"
 
-#: ../goffice/utils/formats.c:501
+#: ../goffice/utils/formats.c:503
 msgid "Swaziland, Emalangeni"
 msgstr "Svahilsko, Emalangeni"
 
-#: ../goffice/utils/formats.c:502
+#: ../goffice/utils/formats.c:504
 msgid "Thailand, Baht"
 msgstr "Thajsko, Bahty"
 
-#: ../goffice/utils/formats.c:503
+#: ../goffice/utils/formats.c:505
 msgid "Tajikistan, Rubles"
 msgstr "Tadžikistán, Rubly"
 
-#: ../goffice/utils/formats.c:504
+#: ../goffice/utils/formats.c:506
 msgid "Turkmenistan, Manats"
 msgstr "Turkmenistán, Manaty"
 
-#: ../goffice/utils/formats.c:505
+#: ../goffice/utils/formats.c:507
 msgid "Tunisia, Dinars"
 msgstr "Tunisko, Dináry"
 
-#: ../goffice/utils/formats.c:506
+#: ../goffice/utils/formats.c:508
 msgid "Tonga, Pa'anga"
 msgstr "Tonga, Pa'anga"
 
-#: ../goffice/utils/formats.c:507
+#: ../goffice/utils/formats.c:509
 msgid "Turkey, Liras"
 msgstr "Turecko, Liry"
 
-#: ../goffice/utils/formats.c:508
+#: ../goffice/utils/formats.c:510
 msgid "Trinidad and Tobago, Dollars"
 msgstr "Trinidad a Tobago, Dolary"
 
-#: ../goffice/utils/formats.c:509
+#: ../goffice/utils/formats.c:511
 msgid "Tuvalu, Tuvalu Dollars"
 msgstr "Tuvalu, Tuvalské dolary"
 
-#: ../goffice/utils/formats.c:510
+#: ../goffice/utils/formats.c:512
 msgid "Taiwan, New Dollars"
 msgstr "Taiwan, Nové dolary"
 
-#: ../goffice/utils/formats.c:511
+#: ../goffice/utils/formats.c:513
 msgid "Tanzania, Shillings"
 msgstr "Tanzanie, Šilinky"
 
-#: ../goffice/utils/formats.c:512
+#: ../goffice/utils/formats.c:514
 msgid "Ukraine, Hryvnia"
 msgstr "Ukrajina, Hřivna"
 
-#: ../goffice/utils/formats.c:513
+#: ../goffice/utils/formats.c:515
 msgid "Uganda, Shillings"
 msgstr "Uganda, Šilinky"
 
-#: ../goffice/utils/formats.c:514
+#: ../goffice/utils/formats.c:516
 msgid "United States of America, Dollars"
 msgstr "Spojené státy americké, Dolary"
 
-#: ../goffice/utils/formats.c:515
+#: ../goffice/utils/formats.c:517
 msgid "Uruguay, Pesos"
 msgstr "Uruguay, Peseta"
 
-#: ../goffice/utils/formats.c:516
+#: ../goffice/utils/formats.c:518
 msgid "Uzbekistan, Sums"
 msgstr "Uzbekistán, Sumy"
 
-#: ../goffice/utils/formats.c:517
+#: ../goffice/utils/formats.c:519
 msgid "Venezuela, Bolivares"
 msgstr "Venezuela, Bolivares"
 
-#: ../goffice/utils/formats.c:518
+#: ../goffice/utils/formats.c:520
 msgid "Viet Nam, Dong"
 msgstr "Vietnam, Dong"
 
-#: ../goffice/utils/formats.c:519
+#: ../goffice/utils/formats.c:521
 msgid "Vanuatu, Vatu"
 msgstr "Vanuatu, Vatu"
 
-#: ../goffice/utils/formats.c:520
+#: ../goffice/utils/formats.c:522
 msgid "Samoa, Tala"
 msgstr "Samoa, Tala"
 
-#: ../goffice/utils/formats.c:521
+#: ../goffice/utils/formats.c:523
 msgid "Communaute Financiere Africaine BEAC, Francs"
 msgstr "Communaute Financiere Africaine BEAC, Franky"
 
-#: ../goffice/utils/formats.c:522
+#: ../goffice/utils/formats.c:524
 msgid "Silver, Ounces"
 msgstr "Stříbro, Unce"
 
-#: ../goffice/utils/formats.c:523
+#: ../goffice/utils/formats.c:525
 msgid "Gold, Ounces"
 msgstr "Zlato, Unce"
 
-#: ../goffice/utils/formats.c:524
+#: ../goffice/utils/formats.c:526
 msgid "East Caribbean Dollars"
 msgstr "Východokaribské dolary"
 
-#: ../goffice/utils/formats.c:525
+#: ../goffice/utils/formats.c:527
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
 msgstr "Zvláštní čerpací práva Mezinárodního měnového fondu (MMF)"
 
-#: ../goffice/utils/formats.c:526
+#: ../goffice/utils/formats.c:528
 msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr "Communaute Financiere Africaine BCEAO, Franky"
 
-#: ../goffice/utils/formats.c:527
+#: ../goffice/utils/formats.c:529
 msgid "Palladium, Ounces"
 msgstr "Paladium, Unce"
 
-#: ../goffice/utils/formats.c:528
+#: ../goffice/utils/formats.c:530
 msgid "Comptoirs Francais du Pacifique Francs"
 msgstr "Comptoirs Francais du Pacifique, Franky"
 
-#: ../goffice/utils/formats.c:529
+#: ../goffice/utils/formats.c:531
 msgid "Platinum, Ounces"
 msgstr "Platina, Unce"
 
-#: ../goffice/utils/formats.c:530
+#: ../goffice/utils/formats.c:532
 msgid "Yemen, Rials"
 msgstr "Jemen, Rialy"
 
-#: ../goffice/utils/formats.c:531
+#: ../goffice/utils/formats.c:533
 msgid "Yugoslavia, New Dinars"
 msgstr "Jugoslávie, Nové dináry"
 
-#: ../goffice/utils/formats.c:532
+#: ../goffice/utils/formats.c:534
 msgid "South Africa, Rand"
 msgstr "Jižní Afrika, Rand"
 
-#: ../goffice/utils/formats.c:533
+#: ../goffice/utils/formats.c:535
 msgid "Zambia, Kwacha"
 msgstr "Zambie, Kwacha"
 
-#: ../goffice/utils/formats.c:534
+#: ../goffice/utils/formats.c:536
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabwe, Zimbabwské dolary"
 
@@ -4680,21 +4686,21 @@ msgstr "Žlutá"
 msgid "color"
 msgstr "Barva"
 
-#: ../goffice/utils/go-glib-extras.c:836
+#: ../goffice/utils/go-glib-extras.c:872
 msgid "yes"
 msgstr ""
 
-#: ../goffice/utils/go-glib-extras.c:842
+#: ../goffice/utils/go-glib-extras.c:878
 #, fuzzy
 msgid "no"
 msgstr "nic"
 
-#: ../goffice/utils/go-glib-extras.c:1036
+#: ../goffice/utils/go-glib-extras.c:1072
 #, c-format
 msgid "Quoted string not terminated"
 msgstr ""
 
-#: ../goffice/utils/go-glib-extras.c:1043
+#: ../goffice/utils/go-glib-extras.c:1079
 #, c-format
 msgid "Syntax error"
 msgstr ""
@@ -5279,7 +5285,7 @@ msgstr "Titulky"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:349
 #: ../plugins/plot_distrib/gog-boxplot.c:404
-#: ../plugins/plot_distrib/gog-histogram.c:190
+#: ../plugins/plot_distrib/gog-histogram.c:364
 #: ../plugins/plot_distrib/gog-probability-plot.c:277
 #: ../plugins/plot_pie/gog-pie.c:338 ../plugins/plot_radar/gog-radar.c:321
 msgid "Values"
@@ -5295,7 +5301,7 @@ msgid "Series lines"
 msgstr "Řady"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:605
-#: ../plugins/plot_distrib/gog-histogram.c:475
+#: ../plugins/plot_distrib/gog-histogram.c:1059
 msgid "Drop lines"
 msgstr ""
 
@@ -5305,9 +5311,9 @@ msgid "Lines"
 msgstr "Čáry"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:642
-#: ../plugins/plot_radar/gog-radar.c:1253
-#: ../plugins/plot_radar/gog-radar.c:1379 ../plugins/plot_xy/gog-xy.c:1998
-#: ../plugins/plot_xy/gog-xy.c:2004
+#: ../plugins/plot_radar/gog-radar.c:1251
+#: ../plugins/plot_radar/gog-radar.c:1377 ../plugins/plot_xy/gog-xy.c:2000
+#: ../plugins/plot_xy/gog-xy.c:2006
 msgid "GogErrorBar *"
 msgstr "GogErrorBar *"
 
@@ -5330,9 +5336,10 @@ msgstr "SloupecSloucovéhoGrafu"
 
 #: ../plugins/plot_barcol/gog-barcol.c:150
 #: ../plugins/plot_barcol/gog-minmax.c:198
-#: ../plugins/plot_distrib/gog-boxplot.c:162 ../plugins/plot_pie/gog-pie.c:273
-#: ../plugins/plot_pie/gog-pie.c:432 ../plugins/plot_radar/gog-radar.c:503
-#: ../plugins/plot_surface/gog-xyz.c:99
+#: ../plugins/plot_distrib/gog-boxplot.c:162
+#: ../plugins/plot_distrib/gog-histogram.c:313
+#: ../plugins/plot_pie/gog-pie.c:273 ../plugins/plot_pie/gog-pie.c:436
+#: ../plugins/plot_radar/gog-radar.c:503 ../plugins/plot_surface/gog-xyz.c:99
 #: ../plugins/plot_surface/gog-xyz-surface.c:180
 #: ../plugins/plot_xy/gog-xy.c:428 ../plugins/plot_xy/gog-xy.c:704
 #: ../plugins/smoothing/gog-moving-avg.c:113
@@ -5752,7 +5759,7 @@ msgstr "Engine kreslení čar"
 #: ../plugins/plot_distrib/go-distribution-prefs.c:62
 #: ../plugins/plot_distrib/go-distribution-prefs.c:139
 msgid ":"
-msgstr ""
+msgstr ":"
 
 #: ../plugins/plot_distrib/go-distribution-prefs.c:101
 #, fuzzy
@@ -5761,6 +5768,7 @@ msgstr "Popis"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:4
 #: ../plugins/plot_distrib/gog-boxplot.c:377
+#: ../plugins/plot_distrib/gog-histogram.c:342
 #, fuzzy
 msgid "Vertical"
 msgstr "Vertikální pruhy"
@@ -5777,6 +5785,24 @@ msgstr ""
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
 msgid "_Layout"
 msgstr ""
+
+#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:1
+msgid "First Y category label:"
+msgstr ""
+
+#: ../plugins/plot_distrib/gog-double-histogram-prefs.ui.h:2
+msgid "Second Y category label:"
+msgstr ""
+
+#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:1
+#, fuzzy
+msgid "_Cumulative"
+msgstr "Negativní"
+
+#: ../plugins/plot_distrib/gog-histogram-prefs.ui.h:2
+#, fuzzy
+msgid "_Vertical"
+msgstr "Vertikální pruhy"
 
 #. xgettext : the base for how to name box-plot objects
 #. * eg The 2nd box-plot in a chart will be called
@@ -5812,14 +5838,58 @@ msgstr ""
 #. xgettext : the base for how to name histogram-plot objects
 #. * eg The 2nd histogram-plot in a chart will be called
 #. * 	Histogram2
-#: ../plugins/plot_distrib/gog-histogram.c:69
-#: ../plugins/plot_distrib/plot-types.xml.in.h:3
+#: ../plugins/plot_distrib/gog-histogram.c:71
+#: ../plugins/plot_distrib/plot-types.xml.in.h:5
 msgid "Histogram"
 msgstr "Histogram"
 
-#: ../plugins/plot_distrib/gog-histogram.c:188
+#: ../plugins/plot_distrib/gog-histogram.c:343
+msgid "Draw the histogram vertically or horizontally"
+msgstr ""
+
+#: ../plugins/plot_distrib/gog-histogram.c:348
+#, fuzzy
+msgid "Cumulative"
+msgstr "Negativní"
+
+#: ../plugins/plot_distrib/gog-histogram.c:349
+msgid "Use cumulated data"
+msgstr ""
+
+#: ../plugins/plot_distrib/gog-histogram.c:362
+#: ../plugins/plot_distrib/gog-histogram.c:454
 msgid "Limits"
 msgstr ""
+
+#: ../plugins/plot_distrib/gog-histogram.c:415
+msgid ""
+"Label for the first Y category. If not set or empty, \"First values\" will "
+"be used."
+msgstr ""
+
+#: ../plugins/plot_distrib/gog-histogram.c:419
+msgid ""
+"Label for the second Y category. If not set or empty, \"Second values\" will "
+"be used."
+msgstr ""
+
+#: ../plugins/plot_distrib/gog-histogram.c:424
+#, fuzzy
+msgid "Categories labels"
+msgstr "Kategorie mezi _titulky"
+
+#: ../plugins/plot_distrib/gog-histogram.c:456
+#: ../plugins/plot_distrib/gog-histogram.c:728
+msgid "First values"
+msgstr ""
+
+#: ../plugins/plot_distrib/gog-histogram.c:458
+#: ../plugins/plot_distrib/gog-histogram.c:735
+#: ../plugins/plot_distrib/gog-histogram.c:744
+#: ../plugins/plot_distrib/gog-histogram.c:754
+#, fuzzy
+msgid "Second values"
+msgstr "Zobrazovat _záporné hodnoty"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:63
 #: ../plugins/plot_distrib/gog-probability-plot.c:254
@@ -5830,8 +5900,21 @@ msgstr "Popis"
 #. xgettext : the base for how to name probability-plot objects
 #. * eg The 2nd probability-plot in a chart will be called
 #. * 	ProbabilityPlot2
+#. <Type _name="DoubleHistogram" row="3" col="3"
+#. engine="GogDoubleHistogramPlot" family="Statistics"
+#. _description="Double histogram."
+#. sample_image_file="chart_histogram_1_3.png">
+#. <property name="guru-hints">backplane</property>
+#. </Type>
+#. <Type _name="PopulationPyramid" row="3" col="4"
+#. engine="GogDoubleHistogramPlot" family="Statistics"
+#. _description="Population pyramid."
+#. sample_image_file="chart_histogram_1_4.png">
+#. <property name="guru-hints">backplane</property>
+#. <property name="vertical">false</property>
+#. </Type>
 #: ../plugins/plot_distrib/gog-probability-plot.c:133
-#: ../plugins/plot_distrib/plot-types.xml.in.h:8
+#: ../plugins/plot_distrib/plot-types.xml.in.h:36
 msgid "ProbabilityPlot"
 msgstr ""
 
@@ -5855,59 +5938,81 @@ msgstr ""
 msgid "Name of the second shape parameter if any"
 msgstr ""
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:584
+#: ../plugins/plot_distrib/gog-probability-plot.c:594
 #, fuzzy
 msgid "Regression line"
 msgstr "Řady"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:1
+msgid "Cumulative histogram."
+msgstr ""
+
+#: ../plugins/plot_distrib/plot-types.xml.in.h:2
+#, fuzzy
+msgid "CumulativeHistogram"
+msgstr "Histogram"
+
+#: ../plugins/plot_distrib/plot-types.xml.in.h:3
 #, fuzzy
 msgid "HBoxPlotOutliers"
 msgstr "HBoxPlots"
 
-#: ../plugins/plot_distrib/plot-types.xml.in.h:2
+#: ../plugins/plot_distrib/plot-types.xml.in.h:4
 msgid "HBoxPlots"
 msgstr "HBoxPlots"
 
-#: ../plugins/plot_distrib/plot-types.xml.in.h:4
+#: ../plugins/plot_distrib/plot-types.xml.in.h:6
 msgid "Histogram."
 msgstr "Histogram."
 
-#: ../plugins/plot_distrib/plot-types.xml.in.h:5
+#: ../plugins/plot_distrib/plot-types.xml.in.h:7
 #, fuzzy
 msgid "Horizontal Box-Plot showing outliers."
 msgstr "Horizontální pruhy"
 
-#: ../plugins/plot_distrib/plot-types.xml.in.h:6
+#: ../plugins/plot_distrib/plot-types.xml.in.h:8
 #, fuzzy
 msgid "Horizontal Box-Plot."
 msgstr "Horizontální pruhy"
 
-#: ../plugins/plot_distrib/plot-types.xml.in.h:7
+#. <Type _name="DoubleHistogram" row="3" col="3"
+#. engine="GogDoubleHistogramPlot" family="Statistics"
+#. _description="Double histogram."
+#. sample_image_file="chart_histogram_1_3.png">
+#. <property name="guru-hints">backplane</property>
+#. </Type>
+#. <Type _name="PopulationPyramid" row="3" col="4"
+#. engine="GogDoubleHistogramPlot" family="Statistics"
+#. _description="Population pyramid."
+#. sample_image_file="chart_histogram_1_4.png">
+#. <property name="guru-hints">backplane</property>
+#. <property name="vertical">false</property>
+#. </Type>
+#: ../plugins/plot_distrib/plot-types.xml.in.h:22
 #, fuzzy
 msgid "Probability plot."
 msgstr "Radarový graf."
 
-#: ../plugins/plot_distrib/plot-types.xml.in.h:9
+#: ../plugins/plot_distrib/plot-types.xml.in.h:37
 #, fuzzy
 msgid "Statistics"
 msgstr "Implicitní typy radarových grafů"
 
-#: ../plugins/plot_distrib/plot-types.xml.in.h:10
+#: ../plugins/plot_distrib/plot-types.xml.in.h:38
 #, fuzzy
 msgid "VBoxPlotOutliers"
 msgstr "VBoxPlots"
 
-#: ../plugins/plot_distrib/plot-types.xml.in.h:11
+#: ../plugins/plot_distrib/plot-types.xml.in.h:39
 msgid "VBoxPlots"
 msgstr "VBoxPlots"
 
-#: ../plugins/plot_distrib/plot-types.xml.in.h:12
+#: ../plugins/plot_distrib/plot-types.xml.in.h:40
 #, fuzzy
 msgid "Vertical Box-Plot showing outliers."
 msgstr "Graf"
 
-#: ../plugins/plot_distrib/plot-types.xml.in.h:13
+#: ../plugins/plot_distrib/plot-types.xml.in.h:41
 #, fuzzy
 msgid "Vertical Box-Plot."
 msgstr "Graf"
@@ -5980,7 +6085,7 @@ msgstr "_Měnit barvy podle dílu"
 msgid "_Separation:"
 msgstr "_Oddělení:"
 
-#: ../plugins/plot_pie/gog-pie.c:110 ../plugins/plot_pie/gog-pie.c:1296
+#: ../plugins/plot_pie/gog-pie.c:110 ../plugins/plot_pie/gog-pie.c:1300
 #, fuzzy
 msgid "Separation"
 msgstr "_Oddělení:"
@@ -6010,7 +6115,7 @@ msgstr "Čítač stupňů po směru hodinových ručiček od 3 hodin"
 msgid "Default separation"
 msgstr "_Oddělení dílů:"
 
-#: ../plugins/plot_pie/gog-pie.c:312 ../plugins/plot_pie/gog-pie.c:1297
+#: ../plugins/plot_pie/gog-pie.c:312 ../plugins/plot_pie/gog-pie.c:1301
 #, fuzzy
 msgid "Default amount a slice is extended as a percentage of the radius"
 msgstr ""
@@ -6039,39 +6144,39 @@ msgstr "Zobrazovat _záporné hodnoty"
 msgid "How negative values are displayed"
 msgstr "Zobrazovat _záporné hodnoty"
 
-#: ../plugins/plot_pie/gog-pie.c:418
+#: ../plugins/plot_pie/gog-pie.c:422
 msgid "PlotRing"
 msgstr "PlotRing"
 
-#: ../plugins/plot_pie/gog-pie.c:455
+#: ../plugins/plot_pie/gog-pie.c:459
 #, fuzzy
 msgid "Center-size"
 msgstr "Velikost _středu:"
 
-#: ../plugins/plot_pie/gog-pie.c:456
+#: ../plugins/plot_pie/gog-pie.c:460
 #, fuzzy
 msgid "Size of the center hole as a percentage of the radius"
 msgstr "Jak moc se pruhy/sloupce překrývají jako procenta šířky"
 
-#: ../plugins/plot_pie/gog-pie.c:616
+#: ../plugins/plot_pie/gog-pie.c:620
 msgid "Move pie"
 msgstr ""
 
-#: ../plugins/plot_pie/gog-pie.c:1169
+#: ../plugins/plot_pie/gog-pie.c:1173
 #, c-format
 msgid "%s: %g (%.2f%%)"
 msgstr ""
 
-#: ../plugins/plot_pie/gog-pie.c:1171
+#: ../plugins/plot_pie/gog-pie.c:1175
 #, c-format
 msgid "%g (%.2f%%)"
 msgstr ""
 
-#: ../plugins/plot_pie/gog-pie.c:1290
+#: ../plugins/plot_pie/gog-pie.c:1294
 msgid "Initial-angle"
 msgstr "Počáteční úhel"
 
-#: ../plugins/plot_pie/gog-pie.c:1291
+#: ../plugins/plot_pie/gog-pie.c:1295
 #, fuzzy
 msgid "Degrees clockwise from 12 O'Clock"
 msgstr "Čítač stupňů po směru hodinových ručiček od 3 hodin"
@@ -6226,19 +6331,19 @@ msgstr ""
 msgid "Z"
 msgstr "Z"
 
-#: ../plugins/plot_radar/gog-radar.c:1219
-#: ../plugins/plot_radar/gog-radar.c:1252
+#: ../plugins/plot_radar/gog-radar.c:1217
+#: ../plugins/plot_radar/gog-radar.c:1250
 #, fuzzy
 msgid "Radial error bars"
 msgstr "Sloupce chyby X"
 
-#: ../plugins/plot_radar/gog-radar.c:1227
+#: ../plugins/plot_radar/gog-radar.c:1225
 #, fuzzy
 msgid "Radial drop lines"
 msgstr "Vertikální pruhy"
 
-#: ../plugins/plot_radar/gog-radar.c:1335
-#: ../plugins/plot_radar/gog-radar.c:1378
+#: ../plugins/plot_radar/gog-radar.c:1333
+#: ../plugins/plot_radar/gog-radar.c:1376
 #, fuzzy
 msgid "Angular error bars"
 msgstr "Sloupce chyby X"
@@ -6593,50 +6698,50 @@ msgstr "Bublina"
 msgid "XYColor"
 msgstr "_Barva:"
 
-#: ../plugins/plot_xy/gog-xy.c:1930 ../plugins/plot_xy/gog-xy.c:1997
+#: ../plugins/plot_xy/gog-xy.c:1932 ../plugins/plot_xy/gog-xy.c:1999
 #, fuzzy
 msgid "X error bars"
 msgstr "Sloupce chyby X"
 
-#: ../plugins/plot_xy/gog-xy.c:1933 ../plugins/plot_xy/gog-xy.c:2003
+#: ../plugins/plot_xy/gog-xy.c:1935 ../plugins/plot_xy/gog-xy.c:2005
 #, fuzzy
 msgid "Y error bars"
 msgstr "Sloupce chyby Y"
 
-#: ../plugins/plot_xy/gog-xy.c:1942
+#: ../plugins/plot_xy/gog-xy.c:1944
 #, fuzzy
 msgid "Horizontal drop lines"
 msgstr "Horizontální pruhy"
 
-#: ../plugins/plot_xy/gog-xy.c:1950
+#: ../plugins/plot_xy/gog-xy.c:1952
 #, fuzzy
 msgid "Vertical drop lines"
 msgstr "Vertikální pruhy"
 
-#: ../plugins/plot_xy/gog-xy.c:2009
+#: ../plugins/plot_xy/gog-xy.c:2011
 #, fuzzy
 msgid "Invalid as zero"
 msgstr "Neplatná data."
 
-#: ../plugins/plot_xy/gog-xy.c:2010
+#: ../plugins/plot_xy/gog-xy.c:2012
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:2015
+#: ../plugins/plot_xy/gog-xy.c:2017
 msgid "Clamp at start"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:2016
+#: ../plugins/plot_xy/gog-xy.c:2018
 msgid ""
 "Slope at start of the interpolated curve when using clamped spline "
 "interpolation"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:2021
+#: ../plugins/plot_xy/gog-xy.c:2023
 msgid "Clamp at end"
 msgstr ""
 
-#: ../plugins/plot_xy/gog-xy.c:2022
+#: ../plugins/plot_xy/gog-xy.c:2024
 msgid ""
 "Slope at end of the interpolated curve when using clamped spline "
 "interpolation"
