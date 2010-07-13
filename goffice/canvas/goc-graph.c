@@ -319,9 +319,9 @@ goc_graph_do_tooltip (GocGraph *graph)
 				y >= alloc.y && y < alloc.y + alloc.h) {
 		gog_chart_map_view_to_2D (map, x, y, &x, &y);
 		if (gog_axis_is_discrete (x_axis)) {
-			GOData *labels = gog_axis_get_labels (x_axis, NULL);
-			if (labels)
-				s1 = go_data_vector_get_str (GO_DATA_VECTOR (labels), x - 1);
+			GODataVector *labels = GO_DATA_VECTOR (gog_axis_get_labels (x_axis, NULL));
+			if (labels && x <= go_data_vector_get_len (labels))
+				s1 = go_data_vector_get_str (labels, x - 1);
 			if (!s1 || *s1 == 0) {
 				g_free (s1);
 				s1 = format_coordinate (x_axis, NULL, x);

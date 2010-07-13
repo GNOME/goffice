@@ -1,5 +1,10 @@
 2010-07-13  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): don't access a
+	GODataVector with an index larger than its length.
+
+2010-07-13  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* plugins/plot_surface/gog-contour.c
 	(gog_contour_plot_foreach_elem): Fixed legend when the pseudo-3D axis
 	has a manually set minimum. [#623887]
