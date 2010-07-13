@@ -3,6 +3,7 @@ goffice 0.8.8:
 Jean:
 	* Do not take manually placed charts into account when evaluating
 	  rows and columns in GogGraph.
+	* Fixed contour plots legend. [#623887]
 
 Morten:
 	* Add go_string_replace function.

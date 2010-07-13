@@ -146,13 +146,21 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 	gog_axis_get_bounds (axis, &minimum, &maximum);
 
 	nticks = gog_axis_get_ticks (axis, &zticks);
-	limits = g_new (double, nticks + 1);
-	for (i = j = 0; i < nticks; i++)
+	i = j = 0;
+	while (zticks[i].type != GOG_AXIS_TICK_MAJOR)
+		i++;
+	if (minimum < zticks[i].position) {
+		limits = g_new (double, nticks + 2);
+		limits[j++] = minimum;
+	} else
+		limits = g_new (double, nticks + 1);
+	for (; i < nticks; i++)
 		if (zticks[i].type == GOG_AXIS_TICK_MAJOR)
 			limits[j++] = zticks[i].position;
-	j--;
 	if (maximum > limits[j])
-		limits[++j] = maximum;
+		limits[j] = maximum;
+	else
+		j--;
 	/* build the colors table */
 	color = g_new0 (GOColor, (j > 0)? j: 1);
 	if (j < 2)

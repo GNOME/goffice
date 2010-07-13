@@ -1,3 +1,10 @@
+2010-07-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* plugins/plot_surface/gog-contour.c
+	(gog_contour_plot_foreach_elem):
+
 2010-07-08  Morten Welinder  <terra@gnome.org>
 
 	* goffice/utils/go-format.c (go_format_details_new,
