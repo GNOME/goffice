@@ -48,7 +48,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
 "POT-Creation-Date: 2010-06-27 18:26+0000\n"
-"PO-Revision-Date: 2010-07-06 10:18+0100\n"
+"PO-Revision-Date: 2010-07-13 11:46+0200\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3283,7 +3283,7 @@ msgstr "Botswana (en_BW)"
 
 #: ../goffice/gtk/go-locale-sel.c:142
 msgid "Canada/English (en_CA)"
-msgstr "Kannada/Englisch (en_CA)"
+msgstr "Kanada/Englisch (en_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:143
 msgid "Great Britain (en_GB)"
@@ -3435,7 +3435,7 @@ msgstr "Belgien/Französisch (fr_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:180
 msgid "Canada/French (fr_CA)"
-msgstr "Kannada/Französisch (fr_CA)"
+msgstr "Kanada/Französisch (fr_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:181
 msgid "Switzerland/French (fr_CH)"
