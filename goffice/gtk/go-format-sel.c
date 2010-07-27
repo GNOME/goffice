@@ -840,7 +840,7 @@ study_format (GOFormatSel *gfs)
 	go_format_get_details (fmt, details, &exact);
 
 	if (exact) {
-		/* Thing we do not have GUI for: */
+		/* Things we do not have GUI for: */
 		if (details->family == GO_FORMAT_ACCOUNTING &&
 		    !details->thousands_sep)
 			exact = FALSE;
