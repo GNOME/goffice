@@ -201,27 +201,29 @@ _go_currency_date_format_init (void)
 	GOFormat *fmt;
 	guint N;
 	int i;
-	GOFormatDetails details;
+	GOFormatDetails *details;
 
-	go_format_details_init (&details, GO_FORMAT_CURRENCY);
-	details.currency = currency;
+	details = go_format_details_new (GO_FORMAT_CURRENCY);
+	details->currency = currency;
 	for (i = 0; i < 6; i++) {
 		GString *str = g_string_new (NULL);
-		details.num_decimals = (i >= 3) ? 2 : 0;
-		details.negative_red = (i % 3 == 2);
-		details.negative_paren = (i % 3 >= 1);
-		go_format_generate_str (str, &details);
+		details->num_decimals = (i >= 3) ? 2 : 0;
+		details->negative_red = (i % 3 == 2);
+		details->negative_paren = (i % 3 >= 1);
+		go_format_generate_str (str, details);
 		fmts_currency[i] = g_string_free (str, FALSE);
 	}
+	go_format_details_free (details);
 
-	go_format_details_init (&details, GO_FORMAT_ACCOUNTING);
+	details = go_format_details_new (GO_FORMAT_ACCOUNTING);
 	for (i = 0; i < 4; i++) {
 		GString *str = g_string_new (NULL);
-		details.num_decimals = (i >= 2) ? 2 : 0;
-		details.currency = (i & 1) ? NULL : currency;
-		go_format_generate_str (str, &details);
+		details->num_decimals = (i >= 2) ? 2 : 0;
+		details->currency = (i & 1) ? NULL : currency;
+		go_format_generate_str (str, details);
 		fmts_accounting[i] = g_string_free (str, FALSE);
 	}
+	go_format_details_free (details);
 
 	/* ---------------------------------------- */
 

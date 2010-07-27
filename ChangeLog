@@ -2,6 +2,9 @@
 
 	* goffice/math/go-math.c: Use go_finitel as appropriate.
 
+	* goffice/utils/formats.c (_go_currency_date_format_init): Make
+	GOFormatDetails usage a bit more opaque.
+
 2010-07-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): don't access a
