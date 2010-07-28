@@ -165,8 +165,8 @@ _go_math_init (void)
 	go_pinfl = go_pinf;
 	go_ninfl = go_ninf;
 	if (!(isnanl (go_nanl) &&
-	      go_pinfl > 0 && !finitel (go_pinfl) &&
-	      go_ninfl < 0 && !finitel (go_ninfl))) {
+	      go_pinfl > 0 && !go_finitel (go_pinfl) &&
+	      go_ninfl < 0 && !go_finitel (go_ninfl))) {
 		if (running_under_buggy_valgrind ()) {
 			g_warning ("Running under buggy valgrind, see http://bugs.kde.org/show_bug.cgi?id=164298");
 		} else {
@@ -700,11 +700,11 @@ go_fake_truncl (long double x)
 long double
 ldexpl (long double x, int exp)
 {
-	if (!finitel (x) || x == 0)
+	if (!go_finitel (x) || x == 0)
 		return x;
 	else {
 		long double res = x * go_pow2l (exp);
-		if (finitel (res))
+		if (go_finitel (res))
 			return res;
 		else {
 			errno = ERANGE;
@@ -720,7 +720,7 @@ frexpl (long double x, int *exp)
 {
 	long double l2x;
 
-	if (!finitel (x) || x == 0) {
+	if (!go_finitel (x) || x == 0) {
 		*exp = 0;
 		return x;
 	}
@@ -797,7 +797,7 @@ modfl (long double x, long double *iptr)
 {
 	if (isnanl (x))
 		return *iptr = x;
-	else if (finitel (x)) {
+	else if (go_finitel (x)) {
 		if (x >= 0)
 			return x - (*iptr = floorl (x));
 		else

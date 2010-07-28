@@ -1,3 +1,7 @@
+2010-07-27  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-math.c: Use go_finitel as appropriate.
+
 2010-07-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-graph.c (goc_graph_do_tooltip): don't access a
