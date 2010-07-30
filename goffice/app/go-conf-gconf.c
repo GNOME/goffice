@@ -435,10 +435,18 @@ go_conf_remove_monitor (guint monitor_id)
 static void
 cb_key_changed (GConfClient *client,
 		G_GNUC_UNUSED guint cnxn_id,
-		G_GNUC_UNUSED GConfEntry *entry,
+		GConfEntry *entry,
 		GOConfClosure *cls)
 {
-	cls->monitor (cls->node, cls->real_key, cls->data);
+	/*
+	 * We get the key from the entry in case we are monitoring a
+	 * directory.  I am not sure such monitoring was intended, but
+	 * it has been used.  It is unlikely to work with the other
+	 * backends.
+	 */
+	const char *entry_key = entry ? gconf_entry_get_key (entry) : NULL;
+        const char *key = entry_key ? entry_key : cls->real_key;
+	cls->monitor (cls->node, key, cls->data);
 }
 
 guint

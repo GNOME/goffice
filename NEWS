@@ -8,6 +8,7 @@ Jean:
 Morten:
 	* Add go_string_replace function.
 	* Add functions to manage GOFormatDetails.
+	* Fix go_conf notification problem.  [#625549]
 
 --------------------------------------------------------------------------
 goffice 0.8.7:

@@ -1,3 +1,8 @@
+2010-07-30  Morten Welinder  <terra@gnome.org>
+
+	* goffice/app/go-conf-gconf.c (cb_key_changed): Send the full key
+	to callback.
+
 2010-07-27  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-math.c: Use go_finitel as appropriate.
