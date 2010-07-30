@@ -801,18 +801,104 @@ add_months (GDate *d, int n)
 }
 
 static void
+map_week_calc_ticks (GogAxis *axis)
+{
+	GogAxisTick *ticks;
+	double major_tick, minor_tick;
+	double minimum, maximum, range;
+	GDate min_date;
+	int t, N, maj_i, min_i, maj_N, min_N;
+	int min_days, maj_days;
+
+	if (!gog_axis_get_bounds (axis, &minimum, &maximum) ||
+	    split_date (axis, minimum, &min_date))
+		return; /* Shouldn't happen.  */
+	range = maximum - minimum;
+
+	major_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
+	minor_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL);
+
+	maj_days = (int)major_tick / 7 * 7;
+	maj_N = (int)(range / 7);
+
+	minor_tick = MIN (minor_tick, major_tick);
+	min_days = minor_tick < major_tick ? 1 : (int)minor_tick / 7 * 7;
+	min_N = maj_days / min_days;
+
+	while (1) {
+		double Nd = (maj_N + 1.0) * min_N + 1;
+		if (Nd <= GOG_AXIS_MAX_TICK_NBR) {
+			N = (int)Nd;
+			break;
+		}
+
+		/* Too many.  Now what?  */
+		if (min_N > 1) {
+			/*  Drop minor ticks.  */
+			min_N = 1;
+		} else {
+			/* Brutal.  */
+			maj_days *= maj_N;
+			maj_N = 1;
+		}
+	}
+
+	ticks = g_new0 (GogAxisTick, N);
+
+	t = 0;
+	for (maj_i = 0; t < N; maj_i++) {
+		GDate maj_d = min_date;
+		double maj_pos;
+
+		if (!add_days (&maj_d, maj_i * maj_days))
+			break;
+
+		maj_pos = go_date_g_to_serial (&maj_d, axis->date_conv);
+		if (maj_pos > maximum)
+			break;
+
+		ticks[t].position = maj_pos;
+		ticks[t].type = GOG_AXIS_TICK_MAJOR;
+		ticks[t].label = axis_format_value (axis, maj_pos);
+		t++;
+
+		for (min_i = 1; min_i < min_N; min_i++) {
+			GDate min_d = maj_d;
+			double min_pos;
+
+			if (!add_days (&min_d, min_i * min_days))
+				break;
+
+			min_pos = go_date_g_to_serial (&min_d, axis->date_conv);
+			if (min_pos > maximum)
+				break;
+
+			g_assert (t < N);
+			ticks[t].position = min_pos;
+			ticks[t].type = GOG_AXIS_TICK_MINOR;
+			ticks[t].label = NULL;
+			t++;
+		}
+	}
+
+	gog_axis_set_ticks (axis, t, ticks);
+}
+
+static void
 map_date_calc_ticks (GogAxis *axis)
 {
 	GogAxisTick *ticks;
 	double major_tick, minor_tick;
 	double minimum, maximum, range, maj_months, min_months;
 	int t, N, maj_i, min_i, maj_N, min_N;
-	GDate min_date;
+	GDate min_date, max_date;
 	gboolean minor_is_days;
 	int min_days = 0;
+	gboolean major_is_weeks;
 
 	if (!gog_axis_get_bounds (axis, &minimum, &maximum) ||
-	    split_date (axis, minimum, &min_date)) {
+	    split_date (axis, minimum, &min_date) ||
+	    split_date (axis, maximum, &max_date)) {
 		gog_axis_set_ticks (axis, 2, create_invalid_axis_ticks (0.0, 1.0));
 		return;
 	}
@@ -821,8 +907,10 @@ map_date_calc_ticks (GogAxis *axis)
 	major_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MAJOR_TICK, NULL);
 	minor_tick = gog_axis_get_entry (axis, GOG_AXIS_ELEM_MINOR_TICK, NULL);
 
-	if (major_tick <= 1) {
-		map_linear_calc_ticks (axis);
+	major_is_weeks = (major_tick > 0 && major_tick <= 28 &&
+			  (int)major_tick % 7 == 0);
+	if (major_is_weeks) {
+		map_week_calc_ticks (axis);
 		return;
 	}
 
