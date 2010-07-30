@@ -1,5 +1,9 @@
 goffice 0.8.8:
 
+Andreas:
+	* Make sure that go_format_sel_format_classification returns the 
+	  value used by the format selector. [#625454]
+
 Jean:
 	* Do not take manually placed charts into account when evaluating
 	  rows and columns in GogGraph.

@@ -1,3 +1,9 @@
+2010-07-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* goffice/gtk/go-format-sel.c (study_format): change arguments and
+	  change all callers
+	(go_format_sel_format_classification): use study_format
+
 2010-07-30  Morten Welinder  <terra@gnome.org>
 
 	* goffice/app/go-conf-gconf.c (cb_key_changed): Send the full key

@@ -831,11 +831,9 @@ set_format_category (GOFormatSel *gfs, int row)
 }
 
 static GOFormatFamily
-study_format (GOFormatSel *gfs)
+study_format (GOFormat const *fmt, GOFormatDetails *details)
 {
-	const GOFormat *fmt = gfs->format.spec;
 	gboolean exact;
-	GOFormatDetails *details = &gfs->format.details;
 
 	go_format_get_details (fmt, details, &exact);
 
@@ -853,11 +851,10 @@ study_format (GOFormatSel *gfs)
 		const char *str = go_format_as_XL (fmt);
 		if (!find_builtin (str, details->family, FALSE))
 			details->family = FMT_CUSTOM;
-	}
-
+	}	
+	
 	return details->family;
 }
-
 
 static void
 set_format_category_menu_from_style (GOFormatSel *gfs)
@@ -867,7 +864,7 @@ set_format_category_menu_from_style (GOFormatSel *gfs)
 	g_return_if_fail (GO_IS_FORMAT_SEL (gfs));
 
 	/* Attempt to extract general parameters from the current format */
-	page = study_format (gfs);
+	page = study_format (gfs->format.spec, &gfs->format.details);
 	if (page < 0)
 		page = FMT_CUSTOM; /* Default to custom */
 
@@ -981,7 +978,7 @@ nfs_init (GOFormatSel *gfs)
 	 * all widgets are already hidden. */
 	gfs->format.current_type = -1;
 
-	study_format (gfs);
+	study_format (gfs->format.spec, &gfs->format.details);
 
 	gfs->format.preview_box = go_gtk_builder_get_widget (gfs->gui, "preview_box");
 	gfs->format.preview = GTK_TEXT_VIEW (gtk_builder_get_object (gfs->gui, "preview"));
@@ -1264,7 +1261,7 @@ go_format_sel_set_style_format (GOFormatSel *gfs,
 	go_format_unref (gfs->format.spec);
 	gfs->format.spec = style_format;
 
-	study_format (gfs);
+	study_format (gfs->format.spec, &gfs->format.details);
 
 	combo = GO_COMBO_TEXT (gfs->format.widget[F_SYMBOL]);
 	if (gfs->format.details.currency) {
@@ -1348,7 +1345,10 @@ go_format_sel_set_locale (GOFormatSel *gfs,
 char const *
 go_format_sel_format_classification (GOFormat const *style_format)
 {
-	GOFormatFamily page = go_format_get_family (style_format);
+	GOFormatFamily page;
+	GOFormatDetails details;
+
+	page = study_format (style_format, &details);
 
 	if (page < 0 || page > FMT_CUSTOM)
 		page = FMT_CUSTOM; /* Default to custom */
