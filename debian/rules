@@ -98,6 +98,9 @@ config-stamp:
 		echo "Packaging files are not set up for base library name $(pruntime). Aborting." ; \
 		exit 1 ; \
 	fi
+
+	# Generate a .pot file
+	cd po && intltool-update -p
 	
 	# Add here commands to configure the package.
 
