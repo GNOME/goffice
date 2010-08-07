@@ -1546,7 +1546,7 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
 	if (child == NULL) {
 		child = (role->allocate)
 			? (role->allocate) (parent)
-			: g_object_new (is_a, NULL);
+			: (G_TYPE_IS_ABSTRACT (is_a)? NULL: g_object_new (is_a, NULL));
 
 		/* g_object_new or the allocator have already generated an
 		 * error message, just exit */
