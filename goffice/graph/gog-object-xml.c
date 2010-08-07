@@ -348,7 +348,7 @@ typedef struct {
 	GParamSpec	*prop_spec;
 	gboolean	 prop_pushed_obj;
 	GOData		*dimension;
-	unsigned	 dimension_id;
+	int		 dimension_id;
 
 	GogObjectSaxHandler handler;
 	gpointer user_data;
@@ -367,6 +367,7 @@ gogo_dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 	GogXMLReadState *state = (GogXMLReadState *)xin->user_state;
 	xmlChar const *dim_str = NULL, *type_str = NULL;
 	GType type;
+	int first, last;
 
 	if (NULL == state->obj)
 		return;
@@ -384,7 +385,13 @@ gogo_dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 			   G_OBJECT_TYPE_NAME (state->obj));
 		return;
 	}
-	state->dimension_id = strtoul (dim_str, NULL, 10);
+	state->dimension_id = strtol (dim_str, NULL, 10);
+	gog_dataset_dims (GOG_DATASET (state->obj), &first, &last);
+	if (state->dimension_id < first || state->dimension_id > last) {
+		g_warning ("invalid dimension id %d for class `%s'",
+			   state->dimension_id, G_OBJECT_TYPE_NAME (state->obj));
+		return;
+	}
 
 	if (NULL == type_str) {
 		g_warning ("missing type for dimension `%s' of class `%s'",
@@ -395,6 +402,10 @@ gogo_dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 	type = g_type_from_name (type_str);
 	if (0 == type) {
 		g_warning ("unknown type '%s' for dimension `%s' of class `%s'",
+			   type_str, dim_str, G_OBJECT_TYPE_NAME (state->obj));
+		return;
+	} else if (!g_type_is_a (type, GO_TYPE_DATA)) {
+		g_warning ("type '%s' is invalid as dimension `%s' of class `%s'",
 			   type_str, dim_str, G_OBJECT_TYPE_NAME (state->obj));
 		return;
 	}
@@ -471,6 +482,10 @@ gogo_prop_start (GsfXMLIn *xin, xmlChar const **attrs)
 		type = g_type_from_name (type_str);
 		if (0 == type) {
 			g_warning ("unknown type '%s' for property `%s' of class `%s'",
+				   type_str, prop_str, G_OBJECT_TYPE_NAME (state->obj));
+			return;
+		} else if (!g_type_is_a (type, prop_type)) {
+			g_warning ("invalid type '%s' for property `%s' of class `%s'",
 				   type_str, prop_str, G_OBJECT_TYPE_NAME (state->obj));
 			return;
 		}

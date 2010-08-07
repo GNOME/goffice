@@ -111,6 +111,7 @@ go_styled_object_set_style (GOStyledObject *gso, GOStyle *style)
 {
 	GOStyledObjectClass *klass = GO_STYLED_OBJECT_GET_CLASS (gso);
 	g_return_val_if_fail (klass != NULL, FALSE);
+	g_return_val_if_fail (style != NULL, FALSE);
 	return (klass->set_style)?
 		klass->set_style (gso, style): FALSE;
 }

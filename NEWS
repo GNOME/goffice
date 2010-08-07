@@ -1,5 +1,8 @@
 goffice 0.8.9:
 
+Jean:
+	* Don't crash when loading a corrupted chart. [#626206, #626263]
+
 --------------------------------------------------------------------------
 goffice 0.8.8:
 

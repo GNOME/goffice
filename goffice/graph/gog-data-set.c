@@ -91,6 +91,7 @@ void
 gog_dataset_set_dim (GogDataset *set, int dim_i, GOData *val, GError **err)
 {
 	GogDatasetClass *klass;
+	int first, last;
 
 	g_return_if_fail (val == NULL || GO_IS_DATA (val));
 
@@ -99,6 +100,11 @@ gog_dataset_set_dim (GogDataset *set, int dim_i, GOData *val, GError **err)
 		goto done;
 	}
 
+	gog_dataset_dims (set, &first, &last);
+	if (dim_i < first || dim_i > last) {
+		g_warning ("gog_dataset_set_dim called with invalid index (%d)", dim_i);
+		goto done;
+	}
 	klass = GOG_DATASET_GET_CLASS (set);
 
 	/* short circuit */

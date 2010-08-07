@@ -1,3 +1,12 @@
+2010-08-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-data-set.c (gog_dataset_set_dim): check dimension.
+	* goffice/graph/gog-object-xml.c (gogo_dim_start):  check dimension and
+	object type [#626263],
+	(gogo_prop_start): check dimension [#626206].
+	* goffice/utils/go-styled-object.c (go_styled_object_set_style): don't set
+	a NULL style.
+
 2010-07-30  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
