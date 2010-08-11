@@ -1,7 +1,12 @@
+2010-08-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-graph.c (goc_graph_draw): fix blur in zoomed charts.
+	[see #626404]
+
 2010-08-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-object.c (gog_object_add_by_role): do not try to
-	instantiate an object uising an abstract class. [#626305]
+	instantiate an object using an abstract class. [#626305]
 
 2010-08-07  Jean Brefort  <jean.brefort@normalesup.org>
 

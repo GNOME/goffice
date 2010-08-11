@@ -196,15 +196,15 @@ goc_graph_draw (GocItem const *item, cairo_t *cr)
 	} else {
 		x0 = item->x0;
 		goc_group_adjust_coords (item->parent, &x0, &y0);
-		x0 = (int) (x0 - canvas->scroll_x1) * canvas->pixels_per_unit;
+		x0 = go_fake_round ((x0 - canvas->scroll_x1) * canvas->pixels_per_unit);
 	}
 	cairo_save (cr);
 	cairo_translate (cr, x0,
 	                 (int) (y0 - canvas->scroll_y1) * canvas->pixels_per_unit);
 	/* scaling only there gives a better rendering, and allows for caching */
 	gog_renderer_update (graph->renderer,
-				      (int) (graph->w * canvas->pixels_per_unit),
-				      (int) (graph->h * canvas->pixels_per_unit));
+				      go_fake_round (graph->w * canvas->pixels_per_unit),
+				      go_fake_round (graph->h * canvas->pixels_per_unit));
 	surf = gog_renderer_get_cairo_surface (graph->renderer);
 	cairo_set_source_surface (cr, surf, 0., 0.);
 	cairo_paint (cr);
