@@ -1,17 +1,7 @@
 <?xml version="1.0"?>
 <interface>
+  <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
-  <object class="GtkListStore" id="model1">
-    <columns>
-      <!-- column-name gchararray -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Default</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkTable" id="gog_graph_prefs">
     <property name="visible">True</property>
     <property name="border_width">12</property>
@@ -98,5 +88,13 @@
         <property name="y_options"></property>
       </packing>
     </child>
+  </object>
+  <object class="GtkListStore" id="model1">
+    <columns>
+      <!-- column-name gchararray -->
+      <column type="gchararray"/>
+      <!-- column-name theme -->
+      <column type="GObject"/>
+    </columns>
   </object>
 </interface>

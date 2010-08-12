@@ -4,6 +4,7 @@ Jean:
 	* Don't crash when loading a corrupted chart. [#626206, #626263, #626305]
 	* Fix blur in zoomed charts.
 	* Fix memory leak and criticals in graph editor. [#626665]
+	* Allow themes defined as xml files. [#531070]
 
 --------------------------------------------------------------------------
 goffice 0.8.8:

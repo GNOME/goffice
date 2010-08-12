@@ -835,11 +835,10 @@ GOG_THEME
 GOG_IS_THEME
 GogTheme
 gog_theme_get_type
-gog_theme_new
-gog_theme_new_from_file
 gog_theme_get_name
+gog_theme_get_local_name
+gog_theme_get_description
 gog_theme_fillin_style
-gog_theme_registry_add
 gog_theme_registry_lookup
 gog_theme_registry_get_theme_names
 </SECTION>
@@ -3023,6 +3022,18 @@ GOC_LINE
 GOC_IS_LINE
 GOC_TYPE_LINE
 goc_line_get_type
+</SECTION>
+
+<SECTION>
+<FILE>goc-path</FILE>
+<TITLE>GocPath</TITLE>
+GocPath
+GocPathClass
+<SUBSECTION Standard>
+GOC_PATH
+GOC_IS_PATH
+GOC_TYPE_PATH
+goc_path_get_type
 </SECTION>
 
 <SECTION>

@@ -1,5 +1,24 @@
 2010-08-12  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* docs/reference/goffice-0.8-sections.txt: update.
+	* goffice/graph/gog-graph-prefs.ui: allow for themes defined in xml files.
+	[#531070]
+	* goffice/graph/gog-graph.c (cb_theme_changed),
+	(gog_graph_populate_editor): ditto.
+	* goffice/graph/gog-plot-engine.c (_gog_plugin_services_init): ditto.
+	* goffice/graph/gog-styled-object.c (gog_styled_object_init_style): ditto.
+	* goffice/graph/gog-theme.c (gog_theme_finalize),
+	(gog_theme_find_element), (gog_theme_fillin_style),
+	(gog_theme_add_element), (gog_theme_get_local_name),
+	(gog_theme_get_description), (map_area_series_solid_default),
+	(map_area_series_solid_guppi), (map_area_series_solid_palette),
+	(build_predefined_themes), (name_start), (name_end), (desc_end),
+	(elem_start), (theme_load_from_uri), (themes_load_from_dir),
+	(_gog_themes_init): ditto.
+	* goffice/graph/gog-theme.h: ditto.
+
+2010-08-12  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-error-bar.c (gog_error_bar_prefs): fix memory leak.
 	* plugins/plot_distrib/gog-boxplot.c (gog_box_plot_pref),
 	(gog_box_plot_populate_editor): fix memory leak and criticals. [#626665]

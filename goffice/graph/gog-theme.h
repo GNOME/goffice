@@ -31,14 +31,13 @@ G_BEGIN_DECLS
 
 GType gog_theme_get_type (void);
 
-GogTheme   *gog_theme_new        	(char const *name);
-GogTheme   *gog_theme_new_from_file     (char const *name, char const *file);
 char const *gog_theme_get_name 		(GogTheme const *theme);
+char const *gog_theme_get_local_name 	(GogTheme const *theme);
+char const *gog_theme_get_description	(GogTheme const *theme);
 void 	    gog_theme_fillin_style    	(GogTheme const *theme, GOStyle *style,
 				         GogObject const *obj, int ind,
 				         GOStyleFlag relevant_fields);
 
-void	    gog_theme_registry_add		(GogTheme *theme, gboolean is_default);
 GogTheme   *gog_theme_registry_lookup 		(char const *name);
 GSList	   *gog_theme_registry_get_theme_names	(void);
 

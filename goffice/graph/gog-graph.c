@@ -166,20 +166,17 @@ gog_graph_type_name (GogObject const *gobj)
 static void
 cb_theme_changed (GtkComboBox *combo, GogGraph *graph)
 {
-	GSList *theme_names;
-	char const *name;
-	int index = gtk_combo_box_get_active (combo);
+	GtkTreeIter iter;
 
-	theme_names = gog_theme_registry_get_theme_names ();
-	if (theme_names == NULL)
-		return;
-
-	name = g_slist_nth_data (theme_names, index);
-	g_slist_free (theme_names);
-	if (name == NULL)
-		return;
-
-	gog_graph_set_theme (graph, gog_theme_registry_lookup (name));
+	if (gtk_combo_box_get_active_iter (combo, &iter)) {
+		GtkTreeModel *model = GTK_TREE_MODEL (gtk_combo_box_get_model (GTK_COMBO_BOX (combo)));
+		GogTheme *theme = NULL;
+		gtk_tree_model_get (model, &iter, 1, &theme, -1);
+		if (theme != NULL) {
+			gog_graph_set_theme (graph, theme);
+			g_object_unref (theme);
+		}
+	}
 }
 
 static void
@@ -211,16 +208,24 @@ gog_graph_populate_editor (GogObject *gobj,
 		GtkWidget *box;
 		GtkWidget *combo;
 		GSList *ptr;
+		GtkListStore *model;
+		GtkTreeIter iter;
+		GogTheme *theme;
 		char const *graph_theme_name;
 		int count, index = 0;
 
 		graph_theme_name = gog_theme_get_name (graph->theme);
 		combo = go_gtk_builder_get_widget (gui, "theme_combo");
-		gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (combo))));
+		model = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (combo)));
 
 		count = 0;
 		for (ptr = theme_names; ptr != NULL; ptr = ptr->next) {
-			gtk_combo_box_append_text (GTK_COMBO_BOX (combo), _(ptr->data));
+			theme = gog_theme_registry_lookup (ptr->data);
+			gtk_list_store_append (model, &iter);
+			gtk_list_store_set (model, &iter,
+			                    0, gog_theme_get_local_name (theme),
+			                    1, theme,
+			                    -1);
 			if (strcmp (ptr->data, graph_theme_name) == 0)
 				index = count;
 			count++;

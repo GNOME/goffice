@@ -354,58 +354,6 @@ GSF_CLASS (GogPlotTypeService, gog_plot_type_service,
            GO_TYPE_PLUGIN_SERVICE_SIMPLE)
 
 /***************************************************************************/
-/* Use a plugin service to define themes */
-
-#define GOG_TYPE_THEME_SERVICE  (gog_theme_service_get_type ())
-#define GOG_THEME_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_THEME_SERVICE, GogThemeService))
-#define GOG_IS_THEME_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_THEME_SERVICE))
-
-GType gog_theme_service_get_type (void);
-
-typedef GOPluginServiceSimple GogThemeService;
-typedef GOPluginServiceSimpleClass GogThemeServiceClass;
-
-static void
-gog_theme_service_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
-{
-	GogTheme *theme;
-	xmlNode *ptr;
-	char    *path;
-
-	for (ptr = tree->xmlChildrenNode; ptr != NULL; ptr = ptr->next)
-		if (0 == xmlStrcmp (ptr->name, "file") &&
-		    NULL != (path = xmlNodeGetContent (ptr))) {
-			if (!g_path_is_absolute (path)) {
-				char const *dir = go_plugin_get_dir_name (
-					go_plugin_service_get_plugin (service));
-				char *tmp = g_build_filename (dir, path, NULL);
-				g_free (path);
-				path = tmp;
-			}
-			theme = gog_theme_new_from_file (go_plugin_service_get_description (service),
-							 path);
-			gog_theme_registry_add (theme, FALSE);
-		}
-}
-
-static char *
-gog_theme_service_get_description (GOPluginService *service)
-{
-	return g_strdup (_("Chart Theme"));
-}
-
-static void
-gog_theme_service_class_init (GOPluginServiceClass *ps_class)
-{
-	ps_class->read_xml	  = gog_theme_service_read_xml;
-	ps_class->get_description = gog_theme_service_get_description;
-}
-
-GSF_CLASS (GogThemeService, gog_theme_service,
-           gog_theme_service_class_init, NULL,
-           GO_TYPE_PLUGIN_SERVICE_SIMPLE)
-
-/***************************************************************************/
 /* Support regression curves engines in plugins */
 
 #define GOG_TYPE_TREND_LINE_ENGINE_SERVICE  (gog_trend_line_engine_service_get_type ())
@@ -665,7 +613,6 @@ _gog_plugin_services_init (void)
 {
 	go_plugin_service_define ("plot_engine", &gog_plot_engine_service_get_type);
 	go_plugin_service_define ("plot_type",   &gog_plot_type_service_get_type);
-	go_plugin_service_define ("chart_theme",  &gog_theme_service_get_type);
 	go_plugin_service_define ("trendline_engine", &gog_trend_line_engine_service_get_type);
 	go_plugin_service_define ("trendline_type", &gog_trend_line_service_get_type);
 }
