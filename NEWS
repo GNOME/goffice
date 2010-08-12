@@ -5,6 +5,7 @@ Jean:
 	* Fix blur in zoomed charts.
 	* Fix memory leak and criticals in graph editor. [#626665]
 	* Allow themes defined as xml files. [#531070]
+	* Update currencies. [#626461]
 
 --------------------------------------------------------------------------
 goffice 0.8.8:

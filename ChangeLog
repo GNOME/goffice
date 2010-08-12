@@ -1,5 +1,9 @@
 2010-08-12  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/formats.c: update currencies. [#626461]
+
+2010-08-12  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* docs/reference/goffice-0.8-sections.txt: update.
 	* goffice/graph/gog-graph-prefs.ui: allow for themes defined in xml files.
 	[#531070]
