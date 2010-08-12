@@ -335,7 +335,7 @@ gog_error_bar_prefs (GogSeries *series,
 		gtk_widget_hide (go_gtk_builder_get_widget (gui, "values_box"));
 		gtk_widget_hide (go_gtk_builder_get_widget (gui, "style_box"));
 	}
-	g_signal_connect (G_OBJECT (bar_prefs), "destroy", G_CALLBACK (g_object_unref), gui);
+	g_signal_connect_swapped (G_OBJECT (bar_prefs), "destroy", G_CALLBACK (g_object_unref), gui);
 
 	return GTK_WIDGET(bar_prefs);
 }

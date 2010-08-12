@@ -1,3 +1,9 @@
+2010-08-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-error-bar.c (gog_error_bar_prefs): fix memory leak.
+	* plugins/plot_distrib/gog-boxplot.c (gog_box_plot_pref),
+	(gog_box_plot_populate_editor): fix memory leak and criticals. [#626665]
+
 2010-08-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/canvas/goc-graph.c (goc_graph_draw): fix blur in zoomed charts.

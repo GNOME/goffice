@@ -147,7 +147,7 @@ gog_box_plot_pref (GogObject *obj,
 
 	w = go_gtk_builder_get_widget (gui, "gog_box_plot_prefs");
 	g_object_set_data (G_OBJECT (w), "state", gui);
-	g_signal_connect (G_OBJECT (w), "destroy", G_CALLBACK (g_object_unref), gui);
+	g_signal_connect_swapped (G_OBJECT (w), "destroy", G_CALLBACK (g_object_unref), gui);
 
 	return w;
 }
@@ -160,7 +160,6 @@ gog_box_plot_populate_editor (GogObject *item,
 {
 	GtkWidget *w =  gog_box_plot_pref (item, dalloc, cc);
 	go_editor_add_page (editor,w, _("Properties"));
-	g_object_unref (w);
 
 	(GOG_OBJECT_CLASS(gog_box_plot_parent_klass)->populate_editor) (item, editor, dalloc, cc);
 }
