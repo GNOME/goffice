@@ -688,7 +688,7 @@ static void build_predefined_themes (void)
 		g_hash_table_insert (global_class_aliases,
 			(gpointer)"GogSeriesElement", (gpointer)"GogSeries");
 		g_hash_table_insert (global_class_aliases,
-			(gpointer)"GogSeriesLine", (gpointer)"GogSeries");
+			(gpointer)"GogSeriesLines", (gpointer)"GogSeries");
 	}
 
 	/* An MS Excel-ish theme */

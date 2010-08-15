@@ -1,3 +1,8 @@
+2010-08-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-theme.c (build_predefined_themes): fixed typo (no
+	more critical in gog_theme_fillin_style. [#626960]
+
 2010-08-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/formats.c: update currencies. [#626461]
