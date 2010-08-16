@@ -184,7 +184,7 @@ struct _GogTheme {
 	GHashTable	*elem_hash_by_class;
 	GHashTable	*class_aliases;
 	GOStyle	*default_style;
-	GArray		*palette;
+	GPtrArray	*palette;
 };
 
 typedef GObjectClass GogThemeClass;
@@ -237,8 +237,8 @@ gog_theme_finalize (GObject *obj)
 		g_hash_table_destroy (theme->class_aliases);
 	if (theme->palette) {
 		for (i = 0; i < theme->palette->len; i++)
-			g_object_unref (g_array_index (theme->palette, GObject*, i));
-		g_array_unref (theme->palette);
+			g_object_unref (g_ptr_array_index (theme->palette, i));
+		g_ptr_array_free (theme->palette, TRUE);
 	}
 
 	(parent_klass->finalize) (obj);
@@ -598,7 +598,7 @@ map_area_series_solid_palette (GOStyle *style, unsigned ind, GogTheme const *the
 		src = theme->default_style;
 	else {
 		ind %= theme->palette->len;
-		src = g_array_index (theme->palette, GOStyle*, ind);
+		src = g_ptr_array_index (theme->palette, ind);
 	}
 	if (src)
 		go_style_apply_theme (style, src, style->interesting_fields);
@@ -977,7 +977,7 @@ name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->lang == NULL) {
 		GOStyle *style;
 		state->theme = gog_theme_new (name);
-		state->theme->palette = g_array_new (FALSE, FALSE, sizeof (GOStyle*));
+		state->theme->palette = g_ptr_array_new ();
 		/* initialize a dummy GogSeries style */
 		style = go_style_new ();
 		style->line.dash_type = GO_LINE_SOLID;
@@ -1040,7 +1040,7 @@ elem_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	go_persist_prep_sax (GO_PERSIST (style), xin, attrs);
 
 	if (class_name && !strcmp (class_name, "GogSeries"))
-		state->theme->palette = g_array_append_val (state->theme->palette, style);
+		g_ptr_array_add (state->theme->palette, style);
 	else
 		gog_theme_add_element (state->theme, style, NULL, class_name, role);
 }

@@ -1,3 +1,9 @@
+2010-08-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-theme.c (gog_theme_finalize),
+	(map_area_series_solid_palette), (name_end), (elem_start): use g_ptr_array
+	instead of g_array and don't use recent glib additions. [#627056]
+
 2010-08-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/graph/gog-theme.c (build_predefined_themes): fixed typo (no
