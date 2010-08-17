@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
 "POT-Creation-Date: 2010-08-12 13:43+0000\n"
-"PO-Revision-Date: 2010-08-16 21:46+0200\n"
+"PO-Revision-Date: 2010-08-17 08:36+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4478,19 +4478,19 @@ msgstr "Oro, onzas"
 
 #: ../goffice/utils/formats.c:530
 msgid "Bond Markets Units, European Coposite Units (EURCO)"
-msgstr ""
+msgstr "Unidades del mecado de bonos, unidades compuestas europeas (EURCO)"
 
 #: ../goffice/utils/formats.c:531
 msgid "European Monetary Units (E.M.U.-6)"
-msgstr ""
+msgstr "Unidades monetarias europeas (E.M.U.-6)"
 
 #: ../goffice/utils/formats.c:532
 msgid "European Units of Account 9 (E.U.A.-9)"
-msgstr ""
+msgstr "Unidad de cuenta europea 9 (E.U.A.-9)"
 
 #: ../goffice/utils/formats.c:533
 msgid "European Units of Account 17 (E.U.A.-17)"
-msgstr ""
+msgstr "Unidad de cuenta europea 17 (E.U.A.-17)"
 
 #: ../goffice/utils/formats.c:534
 msgid "East Caribbean Dollars"
@@ -4498,7 +4498,7 @@ msgstr "Dólares del Caribe oriental"
 
 #: ../goffice/utils/formats.c:535
 msgid "UIC-Francs"
-msgstr ""
+msgstr "Franco UIC"
 
 #: ../goffice/utils/formats.c:536
 msgid "Communaute Financiere Africaine BCEAO, Francs"
@@ -4520,7 +4520,7 @@ msgstr "Yemen, rial"
 #: ../goffice/utils/formats.c:540
 #| msgid "South Africa, Rand"
 msgid "South Africa, Rands"
-msgstr "Sudáfrica, Rands"
+msgstr "Sudáfrica, rands"
 
 #: ../goffice/utils/formats.c:541
 msgid "Lesotho, Maloti"
