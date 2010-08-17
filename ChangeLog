@@ -1,3 +1,9 @@
+2010-08-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-format.c (go_format_generate_number_str,
+	go_format_generate_scientific_str,
+	go_format_generate_accounting_str): Limit number of decimals.
+
 2010-08-16  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

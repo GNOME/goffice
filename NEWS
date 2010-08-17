@@ -1,5 +1,8 @@
 goffice 0.8.10:
 
+Morten:
+	* Limit formats to sane number of decimals.  [#627066]
+
 --------------------------------------------------------------------------
 goffice 0.8.9:
 

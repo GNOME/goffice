@@ -54,6 +54,7 @@
 #define ALLOW_EE_MARKUP
 #define ALLOW_PI_SLASH
 #define ALLOW_NEGATIVE_TIMES
+#define MAX_DECIMALS 100
 
 /* ------------------------------------------------------------------------- */
 
@@ -3918,7 +3919,7 @@ go_format_inc_precision (GOFormat const *fmt)
 		case GO_FORMAT_CURRENCY:
 		case GO_FORMAT_ACCOUNTING:
 		case GO_FORMAT_PERCENTAGE:
-			if (details.num_decimals >= 30)
+			if (details.num_decimals >= MAX_DECIMALS)
 				return NULL;
 			details.num_decimals++;
 			go_format_generate_str (res, &details);
@@ -4993,8 +4994,8 @@ go_format_generate_number_str (GString *dst,
 	size_t init_len = dst->len;
 	size_t plain_len;
 
-	if (min_digits < 0) min_digits = 0;
-	if (num_decimals < 0) num_decimals = 0;
+	min_digits = CLAMP (min_digits, 0, MAX_DECIMALS);
+	num_decimals = CLAMP (num_decimals, 0, MAX_DECIMALS);
 
 	if (prefix)
 		g_string_append (dst, prefix);
@@ -5048,15 +5049,19 @@ go_format_generate_number_str (GString *dst,
 static void
 go_format_generate_scientific_str (GString *dst, GOFormatDetails const *details)
 {
-	go_string_append_c_n (dst, '#', MAX (0, details->exponent_step - 1));
+	/* Maximum not terribly important. */
+	int step = CLAMP (details->exponent_step, 1, 10);
+	int num_decimals = CLAMP (details->num_decimals, 0, MAX_DECIMALS);
+
+	go_string_append_c_n (dst, '#', step - 1);
 	if (details->simplify_mantissa)
 		g_string_append_c (dst, '#');
 	else
 		g_string_append_c (dst, '0');
 
-	if (details->num_decimals > 0) {
+	if (num_decimals > 0) {
 		g_string_append_c (dst, '.');
-		go_string_append_c_n (dst, '0', details->num_decimals);
+		go_string_append_c_n (dst, '0', num_decimals);
 	}
 
 	if (details->use_markup)
@@ -5071,6 +5076,7 @@ static void
 go_format_generate_accounting_str (GString *dst,
 				   GOFormatDetails const *details)
 {
+	int num_decimals = CLAMP (details->num_decimals, 0, MAX_DECIMALS);
 	GString *num = g_string_new (NULL);
 	GString *sym = g_string_new (NULL);
 	GString *q = g_string_new (NULL);
@@ -5099,10 +5105,10 @@ go_format_generate_accounting_str (GString *dst,
 	}
 
 	go_format_generate_number_str (num, details->min_digits,
-				       details->num_decimals,
+				       num_decimals,
 				       details->thousands_sep,
 				       FALSE, FALSE, NULL, NULL);
-	go_string_append_c_n (q, '?', details->num_decimals);
+	go_string_append_c_n (q, '?', num_decimals);
 
 	if (currency->precedes) {
 		g_string_append (sym, quote);
