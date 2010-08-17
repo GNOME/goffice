@@ -5,6 +5,7 @@
 # Jarkko Ranta <jjranta@cc.joensuu.fi>, 2001.
 # Pauli Virtanen <pauli.virtanen@hut.fi>, 2003.
 # Tommi Vainikainen <Tommi.Vainikainen@iki.fi>, 2003-2004.
+# Risto Jääskeläinen <risto.i.j@jippii.fi>, 2010.
 #
 #
 # workbook = työkirja
@@ -13,10 +14,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric gnumeric-1-2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-22 20:44-0400\n"
-"PO-Revision-Date: 2004-09-08 15:04+0300\n"
-"Last-Translator: Tommi Vainikainen <Tommi.Vainikainen@iki.fi>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=libgoffice&component=general\n"
+"POT-Creation-Date: 2010-05-01 14:31+0000\n"
+"PO-Revision-Date: 2010-07-20 22:48+0200\n"
+"Last-Translator: Risto I. Jääskeläinen <risto.i.j@jippii.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,280 +26,269 @@ msgstr ""
 
 #: ../goffice/app/file.c:459
 msgid "ID"
-msgstr ""
+msgstr "Tunnus"
 
 #: ../goffice/app/file.c:460
 msgid "The identifier of the saver."
-msgstr ""
+msgstr "Tallentimen tunniste."
 
 #: ../goffice/app/file.c:470
 msgid "MIME type"
-msgstr ""
+msgstr "MIME-tyyppi"
 
 #: ../goffice/app/file.c:471
 msgid "The MIME type of the saver."
-msgstr ""
+msgstr "Tallentimen MIME-tyyppi."
 
 #: ../goffice/app/file.c:480
 msgid "Extension"
-msgstr ""
+msgstr "Pääte"
 
 #: ../goffice/app/file.c:481
 msgid "The standard file name extension of the saver."
-msgstr ""
+msgstr "Tallentimen vakiotiedostopääte."
 
 #: ../goffice/app/file.c:490
-#, fuzzy
 msgid "Description"
-msgstr "<b>Suunta</b>"
+msgstr "Kuvaus"
 
 #: ../goffice/app/file.c:491
 msgid "The description of the saver."
-msgstr ""
+msgstr "Tallentimen kuvaus."
 
 #: ../goffice/app/file.c:500
 msgid "Overwrite"
-msgstr ""
+msgstr "Korvaa"
 
 #: ../goffice/app/file.c:501
 msgid "Whether the saver will overwrite files."
-msgstr ""
+msgstr "Korvaako tallennin tiedostot."
 
 #: ../goffice/app/file.c:511
-#, fuzzy
 msgid "Format Level"
-msgstr "Muotoile"
+msgstr "Muotoilutaso"
 
 #: ../goffice/app/file.c:522
-#, fuzzy
 msgid "Scope"
-msgstr "Erityinen"
+msgstr "Kattavuus"
 
 #: ../goffice/app/file.c:523
 msgid "How much of a document is saved"
-msgstr ""
+msgstr "Paljonko asiakirjasta tallennetaan"
 
 #: ../goffice/app/file.c:687
 msgid "Saving over old files of this type is disabled for safety."
-msgstr ""
-"Tämän tyyppisten vanhojen tiedostojen päälle tallentaminen kielletty "
-"turvallisuuden takia."
+msgstr "Tämän tyyppisten vanhojen tiedostojen päälle tallentaminen on estetty turvallisuuden takia."
 
 #: ../goffice/app/file.c:697
-msgid ""
-"You can turn this safety feature off by editing appropriate plugin.xml file."
-msgstr ""
+msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
+msgstr "Voit poistaa käytöstä tämän suojaominaisuuden muokkaamalla sopivaa plugin.xml-tiedostoa."
 
 #: ../goffice/app/go-cmd-context.c:65
 #, c-format
 msgid "Invalid %s: '%s'"
-msgstr ""
+msgstr "Virheellinen %s: '%s'"
 
 #: ../goffice/app/go-doc.c:136
 msgid "URI"
-msgstr ""
+msgstr "URI"
 
 #: ../goffice/app/go-doc.c:137
 msgid "The URI associated with this document."
-msgstr ""
+msgstr "Asiakirjaan liittyvä URI."
 
 #: ../goffice/app/go-doc.c:141
-#, fuzzy
 msgid "Dirty"
-msgstr "Diskreetti"
+msgstr "Epäpuhdas"
 
 #: ../goffice/app/go-doc.c:142
 msgid "Whether the document has been changed."
-msgstr ""
+msgstr "Onko asiakirjaa muutettu."
 
 #: ../goffice/app/go-doc.c:146
-#, fuzzy
 msgid "Pristine"
-msgstr "Viiva"
+msgstr "Virheetön"
 
 #: ../goffice/app/go-doc.c:147
 msgid "Whether the document is unchanged since it was created."
-msgstr ""
+msgstr "Onko asiakirja muuttamaton luomisestaan lähtien."
 
-#: ../goffice/app/go-doc.c:380 ../goffice/utils/go-style-prefs.ui.h:8
-#, fuzzy
+#: ../goffice/app/go-doc.c:380
+#: ../goffice/utils/go-style-prefs.ui.h:8
 msgid "Image"
-msgstr "Kuva"
+msgstr "kuva"
 
 #: ../goffice/app/go-object.c:51
-#, fuzzy
 msgid "Objects"
-msgstr "Tavoite"
+msgstr "Objektit"
 
 #: ../goffice/app/go-object.c:109
 #, c-format
 msgid "Loading plugin '%s' that contains the object '%s'"
-msgstr ""
+msgstr "Ladataan liitännäistä %s, jossa objekti %s on"
 
 #: ../goffice/app/go-plugin-loader-module.c:56
 msgid "Module file name not given."
-msgstr ""
+msgstr "Moduulinimeä ei annettu."
 
 #: ../goffice/app/go-plugin-loader-module.c:67
 #, c-format
 msgid "Module \"%s\" has an inconsistent dependency list."
-msgstr ""
+msgstr "Moduulilla %s on epäyhtenäinen riippuvuuslista."
 
 #: ../goffice/app/go-plugin-loader-module.c:75
 #, c-format
 msgid "Module \"%s\" depends on an invalid null dependency."
-msgstr ""
+msgstr "Moduuli %s riippuu virheellisestä null-riippuvuudesta."
 
 #: ../goffice/app/go-plugin-loader-module.c:80
 #, c-format
 msgid "Module \"%s\" depends on an unknown dependency '%s'."
-msgstr ""
+msgstr "Moduuli %s riippuu tuntemattomasta riippuvuudesta %s."
 
 #: ../goffice/app/go-plugin-loader-module.c:85
 #, c-format
-msgid ""
-"Module \"%s\" was built with version %s of %s, but this executable supplied "
-"version %s."
-msgstr ""
+msgid "Module \"%s\" was built with version %s of %s, but this executable supplied version %s."
+msgstr "Moduuli %s käännettiin %s/%s -versiolla, mutta tämä ohjelma käyttää versiota %s."
 
 #: ../goffice/app/go-plugin-loader-module.c:103
 msgid "Dynamic module loading is not supported in this system."
-msgstr ""
+msgstr "Tämä järjestelmä ei tue moduulien dynaamista lataamista."
 
 #: ../goffice/app/go-plugin-loader-module.c:113
 #, c-format
 msgid "Unable to open module file \"%s\"."
-msgstr ""
+msgstr "Moduulitiedostoa %s ei voi avata."
 
 #: ../goffice/app/go-plugin-loader-module.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Module \"%s\" doesn't contain (\"go_plugin_header\" symbol)."
-msgstr "Lisiössä pitää olla init_plugin-funktio."
+msgstr "Moduulissa %s ei ole (go_plugin_header-symbolia)."
 
 #: ../goffice/app/go-plugin-loader-module.c:125
 #, c-format
 msgid "Module \"%s\" has an invalid magic number."
-msgstr ""
+msgstr "Moduulilla %s on virheellinen maaginen numero."
 
 #: ../goffice/app/go-plugin-loader-module.c:152
 #, c-format
 msgid "Unable to close module file \"%s\"."
-msgstr ""
+msgstr "Moduulitiedostoa %s ei voi sulkea."
 
 #: ../goffice/app/go-plugin-loader-module.c:292
 #: ../goffice/app/go-plugin-loader-module.c:354
 #, c-format
 msgid "Module file \"%s\" has invalid format."
-msgstr ""
+msgstr "Moduulitiedostolla %s on virheellinen tiedostomuoto."
 
 #: ../goffice/app/go-plugin-loader-module.c:295
 #: ../goffice/app/go-plugin-loader-module.c:357
 #, c-format
 msgid "File doesn't contain \"%s\" function."
-msgstr "Tiedosto ei sisällä funktiota \"%s\"."
+msgstr "Tiedostossa ei ole %s-funktiota."
 
 #: ../goffice/app/go-plugin-loader-module.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "Module doesn't contain \"%s\" function."
-msgstr "Lisiössä pitää olla init_plugin-funktio."
+msgstr "Moduulissa ei ole %s-funktiota."
 
 #: ../goffice/app/go-plugin-loader.c:47
 msgid "Loader has no set_attributes method.\n"
-msgstr ""
+msgstr "Lataimessa ei ole set_attributes-metodia.\n"
 
 #: ../goffice/app/go-plugin-loader.c:62
 msgid "Loader has no load_base method.\n"
-msgstr ""
+msgstr "Lataimessa ei ole load_base-metodia.\n"
 
-#: ../goffice/app/go-plugin-loader.c:107 ../goffice/app/go-plugin-loader.c:145
+#: ../goffice/app/go-plugin-loader.c:107
+#: ../goffice/app/go-plugin-loader.c:145
 #, c-format
 msgid "Service '%s' not supported by loader."
-msgstr ""
+msgstr "Latain ei tue palvelua %s."
 
 #: ../goffice/app/go-plugin-service.c:132
 #: ../goffice/app/go-plugin-service.c:835
 msgid "Error while loading plugin service."
-msgstr ""
+msgstr "Liitännäispalvelun lataaminen epäonnistui."
 
 #: ../goffice/app/go-plugin-service.c:140
 msgid "Initializing function inside plugin returned error."
-msgstr ""
+msgstr "Liitännäisen alustusfunktio palautti virheen."
 
 #: ../goffice/app/go-plugin-service.c:158
 msgid "Cleanup function inside plugin returned error."
-msgstr ""
+msgstr "Liitännäisen sisäinen siivousfunktio palautti virheen."
 
-#: ../goffice/app/go-plugin-service.c:168 ../goffice/gtk/go-format-sel.c:61
-#: ../goffice/utils/go-format.c:733 ../goffice/utils/go-format.c:3679
+#: ../goffice/app/go-plugin-service.c:168
+#: ../goffice/gtk/go-format-sel.c:61
+#: ../goffice/utils/go-format.c:733
+#: ../goffice/utils/go-format.c:3679
 msgid "General"
-msgstr "Yleistä"
+msgstr "Yleinen"
 
 #: ../goffice/app/go-plugin-service.c:319
 msgid "File opener has no description"
-msgstr ""
+msgstr "Avausrutiinilla ei ole kuvausta"
 
 #: ../goffice/app/go-plugin-service.c:353
 #, c-format
 msgid "File opener - %s"
-msgstr ""
+msgstr "Tiedostonavausrutiini - %s"
 
 #: ../goffice/app/go-plugin-service.c:474
 msgid "Error while reading file."
-msgstr ""
+msgstr "Tiedoston lukeminen epäonnistui."
 
 #: ../goffice/app/go-plugin-service.c:642
 msgid "File saver has no description"
-msgstr ""
+msgstr "Tallentimella ei ole kuvausta"
 
 #: ../goffice/app/go-plugin-service.c:685
 #, c-format
 msgid "File saver - %s"
-msgstr ""
+msgstr "Tiedostotallennin - %s"
 
 #: ../goffice/app/go-plugin-service.c:745
-#, fuzzy
 msgid "Error while loading plugin for saving."
-msgstr "Virhe tallennettaessa tiedostoa."
+msgstr "Tallentamisen liitännäisen lataaminen epäonnistui."
 
 #: ../goffice/app/go-plugin-service.c:747
 msgid "Failed to load plugin for saving"
-msgstr ""
+msgstr "Tallennusliitännäisen lataaminen epäonnistui"
 
 #: ../goffice/app/go-plugin-service.c:872
 msgid "Plugin loader"
-msgstr "Liitännäislaturi"
+msgstr "Liitännäislatain"
 
 #: ../goffice/app/go-plugin-service.c:897
 msgid "GObject loader"
-msgstr "GObject-laturi"
+msgstr "GObject-latain"
 
 #: ../goffice/app/go-plugin-service.c:1004
 msgid "No \"type\" attribute on \"service\" element."
-msgstr ""
+msgstr "Ei type-määrettä service-elementissä."
 
 #: ../goffice/app/go-plugin-service.c:1010
 #, c-format
 msgid "Unknown service type: %s."
-msgstr ""
+msgstr "Tuntematon palvelutyyppi: %s."
 
 #: ../goffice/app/go-plugin-service.c:1026
 msgid "Error reading service information."
-msgstr ""
+msgstr "Palvelutietojen lukeminen epäonnistui."
 
 #: ../goffice/app/go-plugin-service.c:1088
-msgid ""
-"We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
-"loading failed."
-msgstr ""
+msgid "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but loading failed."
+msgstr "Palvelu pitää ladata ennen sen käyttöönottoa (PLUGIN_ALWAYS_LOAD on asetettuna), mutta lataaminen epäonnistui."
 
 #: ../goffice/app/go-plugin.c:334
 #, c-format
 msgid "File contains plugin info with invalid id (%s), expected %s."
-msgstr ""
+msgstr "Tiedoston liitännäistiedon tunnus (%s) on virheellinen. Odotettiin tunnusta %s."
 
 #: ../goffice/app/go-plugin.c:338
 msgid "Couldn't read plugin info from file."
-msgstr ""
+msgstr "Tiedostosta ei voi lukea liitännäistietoja."
 
 #: ../goffice/app/go-plugin.c:483
 msgid "Unknown name"
@@ -307,37 +297,37 @@ msgstr "Tuntematon nimi"
 #: ../goffice/app/go-plugin.c:578
 #, c-format
 msgid "Unsupported loader type \"%s\"."
-msgstr ""
+msgstr "Lataintyyppi %s, jota ei tueta."
 
 #: ../goffice/app/go-plugin.c:586
 #, c-format
 msgid "Error while preparing loader \"%s\"."
-msgstr ""
+msgstr "Lataimen %s valmistelu epäonnistui."
 
 #: ../goffice/app/go-plugin.c:664
 #, c-format
 msgid "Error while reading service #%d info."
-msgstr ""
+msgstr "Palvelun nro: %d tietojen lukeminen epäonnistui."
 
 #: ../goffice/app/go-plugin.c:745
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
-msgstr ""
+msgstr "Liitännäistiedostoa (%s) ei voi lukea."
 
 #: ../goffice/app/go-plugin.c:749
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
-msgstr ""
+msgstr "Tiedosto %s ei ole kelvollinen liitännäistietojen tiedosto."
 
 #: ../goffice/app/go-plugin.c:839
 #, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
-msgstr ""
+msgstr "Liitännäisen, tunnus=%s, palvelujen lukeminen epäonnistui."
 
 #: ../goffice/app/go-plugin.c:851
 #, c-format
 msgid "Plugin id contains invalid characters (%s)."
-msgstr ""
+msgstr "Liitännäisen tunnuksessa on virheellisiä merkkejä (%s)."
 
 #: ../goffice/app/go-plugin.c:855
 msgid "Unknown plugin name."
@@ -346,81 +336,84 @@ msgstr "Tuntematon liitännäisen nimi."
 #: ../goffice/app/go-plugin.c:859
 #, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
-msgstr ""
+msgstr "Liitännäisessä tunnus=%s latainta ei ole määritelty tai lataimen tunnus on virheellinen."
 
 #: ../goffice/app/go-plugin.c:865
 msgid "Plugin has no id."
-msgstr ""
+msgstr "Liitännäisellä ei ole tunnusta."
 
 #: ../goffice/app/go-plugin.c:906
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
-msgstr ""
+msgstr "Liitännäislataimen (%s) alustaminen epäonnistui."
 
-#: ../goffice/app/go-plugin.c:937 ../goffice/app/go-plugin.c:1099
+#: ../goffice/app/go-plugin.c:937
+#: ../goffice/app/go-plugin.c:1099
 msgid "Detected cyclic plugin dependencies."
-msgstr ""
+msgstr "Liitännäisillä on kehäriippuvuuksia."
 
 #: ../goffice/app/go-plugin.c:961
 #, c-format
 msgid "Couldn't activate plugin with id=\"%s\"."
-msgstr ""
+msgstr "Liitännäistä, tunnus=%s, ei voi ottaa käyttöön."
 
-#: ../goffice/app/go-plugin.c:967 ../goffice/app/go-plugin.c:1145
+#: ../goffice/app/go-plugin.c:967
+#: ../goffice/app/go-plugin.c:1145
 #, c-format
 msgid "Couldn't find plugin with id=\"%s\"."
-msgstr ""
+msgstr "Liitännäistä, tunnus=%s, ei löydy."
 
 #: ../goffice/app/go-plugin.c:974
 msgid "Error while activating plugin dependencies."
-msgstr ""
+msgstr "Liitännäisriippuvuuksien käyttöönotto epäonnistui."
 
 #: ../goffice/app/go-plugin.c:988
 #, c-format
 msgid "Error while activating plugin service #%d."
-msgstr ""
+msgstr "Liitännäispalvelun nro: %d käyttöönotto epäonnistui."
 
 #: ../goffice/app/go-plugin.c:1044
 #, c-format
 msgid "Error while deactivating plugin service #%d."
-msgstr ""
+msgstr "Liitännäispalvelun nro: %d käytöstä poisto epäonnistui."
 
-#: ../goffice/app/go-plugin.c:1111 ../goffice/app/go-plugin.c:1132
-#, fuzzy
+#: ../goffice/app/go-plugin.c:1111
+#: ../goffice/app/go-plugin.c:1132
 msgid "Cannot load plugin loader."
-msgstr "Tuntematon laskentavirhe"
+msgstr "Liitännäislatainta ei voi ladata."
 
 #: ../goffice/app/go-plugin.c:1139
 #, c-format
 msgid "Couldn't load plugin with id=\"%s\"."
-msgstr ""
+msgstr "Liitännäistä, tunnus=%s, ei voi ladata."
 
 #: ../goffice/app/go-plugin.c:1152
 msgid "Error while loading plugin dependencies."
-msgstr ""
+msgstr "Liitännäisriippuvuuksien lataaminen epäonnistui."
 
 #: ../goffice/app/go-plugin.c:1342
-#, fuzzy, c-format
+#, c-format
 msgid "Errors occurred while reading plugin information from file \"%s\"."
-msgstr "Virhe tallennettaessa tiedostoa."
+msgstr "Tapahtui virheitä luettaessa liitännäistietoja tiedostosta %s."
 
 #: ../goffice/app/go-plugin.c:1461
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
-msgstr ""
+msgstr "Liitännäistä %s ei voi ottaa käyttöön (tunnus=%s)."
 
 #: ../goffice/app/go-plugin.c:1496
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
-msgstr ""
+msgstr "Liitännäistä %s ei voida poistaa käytöstä (tunnus=%s)."
 
-#: ../goffice/app/go-plugin.c:1621 ../goffice/app/go-plugin.c:1787
+#: ../goffice/app/go-plugin.c:1621
+#: ../goffice/app/go-plugin.c:1787
 msgid "Errors while reading info about available plugins."
-msgstr ""
+msgstr "Tapahtui virheitä luettaessa tietoja saatavilla olevista liitännäisistä."
 
 #: ../goffice/app/go-plugin.c:1645
 msgid "Errors while deactivating plugins that are no longer on disk."
-msgstr ""
+msgstr "Tapahtui virheitä poistettaessa käytöstä liitännäisiä, jotka eivät ole enää levyllä."
 
 #: ../goffice/app/go-plugin.c:1666
 #, c-format
@@ -429,583 +422,580 @@ msgid ""
 "%s.\n"
 "You should restart this program now."
 msgstr ""
+"Seuraavat liitännäiset eivät ole enää levyllä, mutta ovat yhä käytössä:\n"
+"%s.\n"
+"Ohjelma pitää käynnistää nyt uudelleen."
 
-#: ../goffice/app/go-plugin.c:1763 ../goffice/app/go-plugin.c:1854
-#, fuzzy
+#: ../goffice/app/go-plugin.c:1763
+#: ../goffice/app/go-plugin.c:1854
 msgid "Errors while reading info about new plugins."
-msgstr "Virhe tallennettaessa tiedostoa."
+msgstr "Tapahtui virheitä luettaessa tietoja uusista liitännäisistä."
 
-#: ../goffice/app/go-plugin.c:1811 ../goffice/app/go-plugin.c:1878
+#: ../goffice/app/go-plugin.c:1811
+#: ../goffice/app/go-plugin.c:1878
 msgid "Errors while activating plugins."
-msgstr ""
+msgstr "Tapahtui virheitä liitännäisiä käyttöön otettaessa."
 
-#: ../goffice/app/go-plugin.c:1818 ../goffice/app/go-plugin.c:1885
+#: ../goffice/app/go-plugin.c:1818
+#: ../goffice/app/go-plugin.c:1885
 msgid "Errors while initializing plugin system."
-msgstr ""
+msgstr "Tapahtui virheitä alustettaessa liitännäisjärjestelmää."
 
 #: ../goffice/app/io-context.c:155
 msgid "exec-main-loop"
-msgstr ""
+msgstr "exec-pääsilmukka"
 
 #: ../goffice/app/io-context.c:156
 msgid "Execute main loop iteration"
-msgstr ""
+msgstr "Suorita iteraation pääsilmukka"
 
 #: ../goffice/canvas/goc-arc.c:437
-#, fuzzy
 msgid "xc"
-msgstr "x"
+msgstr "xc"
 
 #: ../goffice/canvas/goc-arc.c:438
 msgid "The arc center x coordinate"
-msgstr ""
+msgstr "Kaaren keskipisteen x-koordinaatti"
 
 #: ../goffice/canvas/goc-arc.c:443
 msgid "yc"
-msgstr ""
+msgstr "yc"
 
 #: ../goffice/canvas/goc-arc.c:444
 msgid "The arc center y coordinate"
-msgstr ""
+msgstr "Kaaren keskipisteen y-koordinaatti"
 
 #: ../goffice/canvas/goc-arc.c:449
-#, fuzzy
 msgid "xr"
-msgstr "x"
+msgstr "xr"
 
 #: ../goffice/canvas/goc-arc.c:450
 msgid "The arc x radius"
-msgstr ""
+msgstr "Kaaren x-säde"
 
 #: ../goffice/canvas/goc-arc.c:455
 msgid "yr"
-msgstr ""
+msgstr "yr"
 
 #: ../goffice/canvas/goc-arc.c:456
 msgid "The arc y radius"
-msgstr ""
+msgstr "Kaaren y-säde"
 
 #: ../goffice/canvas/goc-arc.c:461
-#, fuzzy
 msgid "ang1"
-msgstr "oranssi"
+msgstr "kulma1"
 
 #: ../goffice/canvas/goc-arc.c:462
-#, fuzzy
 msgid "The arc start angle"
-msgstr "Viivanleveys:"
+msgstr "Kaaren alkukulma"
 
 #: ../goffice/canvas/goc-arc.c:467
-#, fuzzy
 msgid "ang2"
-msgstr "oranssi"
+msgstr "kulma2"
 
 #: ../goffice/canvas/goc-arc.c:468
-#, fuzzy
 msgid "The arc end angle"
-msgstr "Viivanleveys:"
+msgstr "Kaaren päättökulma"
 
-#: ../goffice/canvas/goc-arc.c:473 ../goffice/canvas/goc-ellipse.c:263
-#: ../goffice/canvas/goc-path.c:251 ../goffice/canvas/goc-rectangle.c:354
-#: ../goffice/canvas/goc-text.c:440 ../goffice/graph/gog-3d-box.c:166
-#, fuzzy
+#: ../goffice/canvas/goc-arc.c:473
+#: ../goffice/canvas/goc-ellipse.c:263
+#: ../goffice/canvas/goc-path.c:251
+#: ../goffice/canvas/goc-rectangle.c:354
+#: ../goffice/canvas/goc-text.c:440
+#: ../goffice/graph/gog-3d-box.c:166
 msgid "Rotation"
-msgstr "_Suunta:"
+msgstr "Kierto"
 
 #: ../goffice/canvas/goc-arc.c:474
-#, fuzzy
 msgid "The rotation around center position"
-msgstr "Vaihtoehtojen valikko"
+msgstr "Kierto keskipisteen suhteen"
 
-#: ../goffice/canvas/goc-arc.c:479 ../goffice/canvas/goc-rectangle.c:360
-#: ../goffice/graph/gog-axis.c:2460 ../goffice/graph/gog-grid.c:116
+#: ../goffice/canvas/goc-arc.c:479
+#: ../goffice/canvas/goc-rectangle.c:360
+#: ../goffice/graph/gog-axis.c:2460
+#: ../goffice/graph/gog-grid.c:116
 #: ../plugins/plot_barcol/gog-1.5d.c:332
-#, fuzzy
 msgid "Type"
-msgstr "_Tyyppi:"
+msgstr "Tyyppi"
 
 #: ../goffice/canvas/goc-arc.c:480
 msgid "The type of arc: arc, chord or pie"
-msgstr ""
+msgstr "Kaaren tyyppi: kaari, jänne tai sektori"
 
-#: ../goffice/canvas/goc-arc.c:486 ../goffice/canvas/goc-line.c:347
-#, fuzzy
+#: ../goffice/canvas/goc-arc.c:486
+#: ../goffice/canvas/goc-line.c:347
 msgid "Start Arrow"
-msgstr "*La"
+msgstr "Lähtönuoli"
 
-#: ../goffice/canvas/goc-arc.c:487 ../goffice/canvas/goc-line.c:348
+#: ../goffice/canvas/goc-arc.c:487
+#: ../goffice/canvas/goc-line.c:348
 msgid "Arrow for line's start"
-msgstr ""
+msgstr "Viivan alkunuoli"
 
-#: ../goffice/canvas/goc-arc.c:492 ../goffice/canvas/goc-line.c:353
+#: ../goffice/canvas/goc-arc.c:492
+#: ../goffice/canvas/goc-line.c:353
 msgid "End Arrow"
-msgstr ""
+msgstr "Päättönuoli"
 
-#: ../goffice/canvas/goc-arc.c:493 ../goffice/canvas/goc-line.c:354
+#: ../goffice/canvas/goc-arc.c:493
+#: ../goffice/canvas/goc-line.c:354
 msgid "Arrow for line's end"
-msgstr ""
+msgstr "Viivan päättönuoli"
 
-#: ../goffice/canvas/goc-circle.c:169 ../goffice/canvas/goc-ellipse.c:239
-#: ../goffice/canvas/goc-graph.c:412 ../goffice/canvas/goc-group.c:243
-#: ../goffice/canvas/goc-path.c:239 ../goffice/canvas/goc-pixbuf.c:231
-#: ../goffice/canvas/goc-rectangle.c:330 ../goffice/canvas/goc-text.c:428
-#: ../goffice/canvas/goc-widget.c:318 ../goffice/utils/go-marker.c:83
+#: ../goffice/canvas/goc-circle.c:169
+#: ../goffice/canvas/goc-ellipse.c:239
+#: ../goffice/canvas/goc-graph.c:413
+#: ../goffice/canvas/goc-group.c:243
+#: ../goffice/canvas/goc-path.c:239
+#: ../goffice/canvas/goc-pixbuf.c:231
+#: ../goffice/canvas/goc-rectangle.c:330
+#: ../goffice/canvas/goc-text.c:428
+#: ../goffice/canvas/goc-widget.c:318
+#: ../goffice/utils/go-marker.c:83
 msgid "x"
 msgstr "x"
 
 #: ../goffice/canvas/goc-circle.c:170
 msgid "The circle center horizontal position"
-msgstr ""
+msgstr "Ympyrän keskipisteen vaakasijainti"
 
-#: ../goffice/canvas/goc-circle.c:175 ../goffice/canvas/goc-ellipse.c:245
-#: ../goffice/canvas/goc-graph.c:418 ../goffice/canvas/goc-group.c:249
-#: ../goffice/canvas/goc-path.c:245 ../goffice/canvas/goc-pixbuf.c:237
-#: ../goffice/canvas/goc-rectangle.c:336 ../goffice/canvas/goc-text.c:434
+#: ../goffice/canvas/goc-circle.c:175
+#: ../goffice/canvas/goc-ellipse.c:245
+#: ../goffice/canvas/goc-graph.c:419
+#: ../goffice/canvas/goc-group.c:249
+#: ../goffice/canvas/goc-path.c:245
+#: ../goffice/canvas/goc-pixbuf.c:237
+#: ../goffice/canvas/goc-rectangle.c:336
+#: ../goffice/canvas/goc-text.c:434
 #: ../goffice/canvas/goc-widget.c:324
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: ../goffice/canvas/goc-circle.c:176
 msgid "The circle center vertical position"
-msgstr ""
+msgstr "Ympyrän keskipisteen pystysijainti"
 
 #: ../goffice/canvas/goc-circle.c:181
-#, fuzzy
 msgid "Radius"
-msgstr "intialainen"
+msgstr "Säde"
 
 #: ../goffice/canvas/goc-circle.c:182
 msgid "The circle radius"
-msgstr ""
+msgstr "Ympyrän säde"
 
 #: ../goffice/canvas/goc-ellipse.c:240
 msgid "The ellipse left position (or right position in RTL mode)"
-msgstr ""
+msgstr "Soikion vasen piste (tai oikea RTL-tilassa)"
 
 #: ../goffice/canvas/goc-ellipse.c:246
-#, fuzzy
 msgid "The ellipse top position"
-msgstr "Vaihtoehtojen valikko"
+msgstr "Soikion yläpiste"
 
-#: ../goffice/canvas/goc-ellipse.c:251 ../goffice/canvas/goc-graph.c:430
-#: ../goffice/canvas/goc-graph.c:431 ../goffice/canvas/goc-pixbuf.c:243
-#: ../goffice/canvas/goc-rectangle.c:342 ../goffice/canvas/goc-widget.c:331
-#: ../goffice/graph/gog-graph.c:368 ../goffice/utils/go-image.c:472
+#: ../goffice/canvas/goc-ellipse.c:251
+#: ../goffice/canvas/goc-graph.c:431
+#: ../goffice/canvas/goc-graph.c:432
+#: ../goffice/canvas/goc-pixbuf.c:243
+#: ../goffice/canvas/goc-rectangle.c:342
+#: ../goffice/canvas/goc-widget.c:331
+#: ../goffice/graph/gog-graph.c:368
+#: ../goffice/utils/go-image.c:472
 msgid "Width"
 msgstr "Leveys"
 
 #: ../goffice/canvas/goc-ellipse.c:252
-#, fuzzy
 msgid "The ellipse width"
-msgstr "Viivanleveys:"
+msgstr "Soikion leveys"
 
-#: ../goffice/canvas/goc-ellipse.c:257 ../goffice/canvas/goc-graph.c:424
-#: ../goffice/canvas/goc-graph.c:425 ../goffice/canvas/goc-pixbuf.c:249
-#: ../goffice/canvas/goc-rectangle.c:348 ../goffice/canvas/goc-widget.c:337
-#: ../goffice/graph/gog-graph.c:374 ../goffice/utils/go-image.c:476
+#: ../goffice/canvas/goc-ellipse.c:257
+#: ../goffice/canvas/goc-graph.c:425
+#: ../goffice/canvas/goc-graph.c:426
+#: ../goffice/canvas/goc-pixbuf.c:249
+#: ../goffice/canvas/goc-rectangle.c:348
+#: ../goffice/canvas/goc-widget.c:337
+#: ../goffice/graph/gog-graph.c:374
+#: ../goffice/utils/go-image.c:476
 msgid "Height"
 msgstr "Korkeus"
 
 #: ../goffice/canvas/goc-ellipse.c:258
 msgid "The ellipse height"
-msgstr ""
+msgstr "Soikion korkeus"
 
-#: ../goffice/canvas/goc-ellipse.c:264 ../goffice/canvas/goc-rectangle.c:355
-#, fuzzy
+#: ../goffice/canvas/goc-ellipse.c:264
+#: ../goffice/canvas/goc-rectangle.c:355
 msgid "The rotation around top left position"
-msgstr "Vaihtoehtojen valikko"
+msgstr "Kierto ylävasemman pisteen suhteen"
 
-#: ../goffice/canvas/goc-graph.c:413
+#. Note to translators: the following is a format string for a pair of coordinates
+#: ../goffice/canvas/goc-graph.c:346
+#, c-format
+msgid "(%s,%s)"
+msgstr "(%s,%s)"
+
+#: ../goffice/canvas/goc-graph.c:414
 msgid "The graph left position"
-msgstr ""
+msgstr "Graafin vasen piste"
 
-#: ../goffice/canvas/goc-graph.c:419
+#: ../goffice/canvas/goc-graph.c:420
 msgid "The graph top position"
-msgstr ""
+msgstr "Graafin yläpiste"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
-#: ../goffice/canvas/goc-graph.c:436 ../goffice/graph/gog-graph.c:161
+#: ../goffice/canvas/goc-graph.c:437
+#: ../goffice/graph/gog-graph.c:161
 #: ../goffice/graph/gog-graph.c:400
 msgid "Graph"
-msgstr ""
+msgstr "Graafi"
 
-#: ../goffice/canvas/goc-graph.c:437
+#: ../goffice/canvas/goc-graph.c:438
 msgid "The GogGraph this object displays"
-msgstr ""
-
-#: ../goffice/canvas/goc-graph.c:442 ../goffice/graph/gog-graph.c:902
-msgid "Renderer"
-msgstr ""
+msgstr "Tämän objektin esittämä GogGraph"
 
 #: ../goffice/canvas/goc-graph.c:443
+#: ../goffice/graph/gog-graph.c:902
+msgid "Renderer"
+msgstr "Hahmonnin"
+
+#: ../goffice/canvas/goc-graph.c:444
+#, fuzzy
 msgid "The GogRenderer being displayed"
-msgstr ""
+msgstr "Suorituksessa oleva toiminto"
 
 #: ../goffice/canvas/goc-group.c:244
-#, fuzzy
 msgid "The group horizontal offset"
-msgstr "Ohuet vaakasuuntaiset ristiviivat"
+msgstr "Ryhmän pystypoikkeama"
 
 #: ../goffice/canvas/goc-group.c:250
 msgid "The group vertical offset"
-msgstr ""
+msgstr "Ryhmän vaakapoikkeama"
 
 #: ../goffice/canvas/goc-item.c:256
 #, fuzzy
 msgid "Canvas"
-msgstr "Tallenna kaikki"
+msgstr "Perusta"
 
 #: ../goffice/canvas/goc-item.c:257
-msgid "The canvas object on which the item resides"
-msgstr ""
-
-#: ../goffice/canvas/goc-item.c:262 ../goffice/graph/gog-view.c:584
 #, fuzzy
+msgid "The canvas object on which the item resides"
+msgstr "Perusta, jolla kohde sijaitsee"
+
+#: ../goffice/canvas/goc-item.c:262
+#: ../goffice/graph/gog-view.c:584
 msgid "Parent"
-msgstr "Prosentti"
+msgstr "Lähde"
 
 #: ../goffice/canvas/goc-item.c:263
 msgid "The group in which the item resides"
-msgstr ""
+msgstr "Ryhmä, jossa kohde sijaitsee"
 
 #: ../goffice/canvas/goc-line.c:323
-#, fuzzy
 msgid "x0"
-msgstr "x"
+msgstr "x0"
 
 #: ../goffice/canvas/goc-line.c:324
 msgid "The line start x coordinate"
-msgstr ""
+msgstr "Viivan alun x-koordinaatti"
 
 #: ../goffice/canvas/goc-line.c:329
 msgid "y0"
-msgstr ""
+msgstr "y0"
 
 #: ../goffice/canvas/goc-line.c:330
 msgid "The line start y coordinate"
-msgstr ""
+msgstr "Viivan alun y-koordinaatti"
 
 #: ../goffice/canvas/goc-line.c:335
-#, fuzzy
 msgid "x1"
-msgstr "x"
+msgstr "x1"
 
 #: ../goffice/canvas/goc-line.c:336
 msgid "The line end x coordinate"
-msgstr ""
+msgstr "Viivan lopun x-koordinaatti"
 
 #: ../goffice/canvas/goc-line.c:341
 msgid "y1"
-msgstr ""
+msgstr "y1"
 
 #: ../goffice/canvas/goc-line.c:342
 msgid "The line end y coordinate"
-msgstr ""
+msgstr "Viivan lopun y-koordinaatti"
 
 #: ../goffice/canvas/goc-path.c:240
 msgid "The path first point x coordinate"
-msgstr ""
+msgstr "Polun ensimmäisen pisteen x-koordinaatti"
 
 #: ../goffice/canvas/goc-path.c:246
 msgid "The path first point y coordinate"
-msgstr ""
+msgstr "Polun ensimmäisen pisteen y-koordinaatti"
 
 #: ../goffice/canvas/goc-path.c:252
-#, fuzzy
 msgid "The rotation around first point position"
-msgstr "Ohut vaakaraita"
+msgstr "Kierto ensimmäisen pisteen suhteen"
 
 #: ../goffice/canvas/goc-path.c:257
-#, fuzzy
 msgid "Closed"
-msgstr "Väri:"
+msgstr "Suljettu"
 
 #: ../goffice/canvas/goc-path.c:258
 msgid "The flag for closed path"
-msgstr ""
+msgstr "Suljetun polun lippu"
 
 #: ../goffice/canvas/goc-path.c:263
-#, fuzzy
 msgid "Path"
-msgstr "Tieto"
+msgstr "Polku"
 
 #: ../goffice/canvas/goc-path.c:264
-#, fuzzy
 msgid "The path points"
-msgstr "<b>Suunta</b>"
+msgstr "Polkupisteet"
 
 #: ../goffice/canvas/goc-pixbuf.c:232
-#, fuzzy
 msgid "The image left position"
-msgstr "Vaihtoehtojen valikko"
+msgstr "Kuvan vasen piste"
 
 #: ../goffice/canvas/goc-pixbuf.c:238
-#, fuzzy
 msgid "The image top position"
-msgstr "Vaihtoehtojen valikko"
+msgstr "Kuvan yläpiste"
 
 #: ../goffice/canvas/goc-pixbuf.c:244
 msgid "The image width or -1 to use the image width"
-msgstr ""
+msgstr "Kuvan uusi leveys tai -1, jos käytetään vanhaa leveyttä"
 
 #: ../goffice/canvas/goc-pixbuf.c:250
 msgid "The image height or -1 to use the image height"
-msgstr ""
+msgstr "Kuvan uusi korkeus tai -1, jos käytetään vanhaa korkeutta"
 
-#: ../goffice/canvas/goc-pixbuf.c:260 ../goffice/utils/go-image.c:481
+#: ../goffice/canvas/goc-pixbuf.c:260
+#: ../goffice/utils/go-image.c:481
 msgid "Pixbuf"
-msgstr ""
+msgstr "Pixbuf"
 
 #: ../goffice/canvas/goc-pixbuf.c:261
 msgid "The GdkPixbuf to display"
-msgstr ""
+msgstr "Näytettävä GdkPixbuf"
 
-#: ../goffice/canvas/goc-polyline.c:229 ../goffice/canvas/goc-polygon.c:345
-#, fuzzy
+#: ../goffice/canvas/goc-polyline.c:229
+#: ../goffice/canvas/goc-polygon.c:345
 msgid "points"
-msgstr "Piste"
+msgstr "pistettä"
 
 #: ../goffice/canvas/goc-polyline.c:229
 msgid "The polyline vertices"
-msgstr ""
+msgstr "Murtoviivan kulmapisteet"
 
-#: ../goffice/canvas/goc-polyline.c:234 ../goffice/canvas/goc-polygon.c:350
-#, fuzzy
+#: ../goffice/canvas/goc-polyline.c:234
+#: ../goffice/canvas/goc-polygon.c:350
 msgid "Use spline"
-msgstr "XY-viivat"
+msgstr "Käytä spliniä"
 
 #: ../goffice/canvas/goc-polyline.c:235
 msgid "Use a Bezier cubic spline as line"
-msgstr ""
+msgstr "Käytä Bezierin kuutiospliniä viivana"
 
 #: ../goffice/canvas/goc-polygon.c:345
 msgid "The polygon vertices"
-msgstr ""
+msgstr "Monikulmion kulmapisteet"
 
 #: ../goffice/canvas/goc-polygon.c:351
 msgid "Use a Bezier closed cubic spline as contour"
-msgstr ""
+msgstr "Käytä Bezierin suljettua kuutiospliniä korkeuskäyränä"
 
 #: ../goffice/canvas/goc-polygon.c:356
-#, fuzzy
 msgid "Fill rule"
-msgstr "Tiedoston _tyyppi:"
+msgstr "Täyttösääntö"
 
 #: ../goffice/canvas/goc-polygon.c:357
 msgid "Set fill rule to winding or even/odd"
-msgstr ""
+msgstr "Aseta täyttösäännöksi kierto tai parillinen/pariton"
 
 #: ../goffice/canvas/goc-polygon.c:361
-#, fuzzy
 msgid "sizes"
-msgstr "Koko:"
+msgstr "koot"
 
 #: ../goffice/canvas/goc-polygon.c:362
-msgid ""
-"If set, the polygon will be split as several polygons according to the given "
-"sizes. Each size must be at least 3. Values following an invalid value will "
-"be discarded. Setting the \"point\" property will reset the sizes."
-msgstr ""
+msgid "If set, the polygon will be split as several polygons according to the given sizes. Each size must be at least 3. Values following an invalid value will be discarded. Setting the \"point\" property will reset the sizes."
+msgstr "Jos asetettu, monikulmio jaetaan useisiin monikulmioihin annettujen kokojen mukaan. Kunkin koon pitää olla vähintään 3. Virheellistä arvoa seuraavat arvot hylätään. Piste-ominaisuuden asettaminen palauttaa oletuskoot."
 
 #: ../goffice/canvas/goc-rectangle.c:331
-#, fuzzy
 msgid "The rectangle left position (or right position in RTL mode)"
-msgstr "Vaihtoehtojen valikko"
+msgstr "Suorakulmion vasen piste (tai oikea RTL-tilassa)"
 
 #: ../goffice/canvas/goc-rectangle.c:337
-#, fuzzy
 msgid "The rectangle top position"
-msgstr "Vaihtoehtojen valikko"
+msgstr "Suorakulmion yläpiste"
 
 #: ../goffice/canvas/goc-rectangle.c:343
-#, fuzzy
 msgid "The rectangle width"
-msgstr "Viivanleveys:"
+msgstr "Suorakulmion leveys"
 
 #: ../goffice/canvas/goc-rectangle.c:349
 msgid "The rectangle height"
-msgstr ""
+msgstr "Suorakulmion korkeus"
 
 #: ../goffice/canvas/goc-rectangle.c:361
-#, fuzzy
 msgid "The rectangle type"
-msgstr "Viivanleveys:"
+msgstr "Suorakulmion tyyppi"
 
 #: ../goffice/canvas/goc-rectangle.c:366
-#, fuzzy
 msgid "rx"
-msgstr "x"
+msgstr "rx"
 
 #: ../goffice/canvas/goc-rectangle.c:367
-#, fuzzy
 msgid "The round rectangle rx"
-msgstr "Viivanleveys:"
+msgstr "Pyöristetty suorakulmio rx"
 
 #: ../goffice/canvas/goc-rectangle.c:372
-#, fuzzy
 msgid "ry"
-msgstr "harmaa"
+msgstr "ry"
 
 #: ../goffice/canvas/goc-rectangle.c:373
-#, fuzzy
 msgid "The round rectangle ry"
-msgstr "Viivanleveys:"
+msgstr "Pyöristetty suorakulmio ry"
 
 #: ../goffice/canvas/goc-styled-item.c:161
-#: ../goffice/graph/gog-styled-object.c:199 ../goffice/utils/go-style.c:1041
+#: ../goffice/graph/gog-styled-object.c:199
+#: ../goffice/utils/go-style.c:1041
 msgid "Style"
 msgstr "Tyyli"
 
 #: ../goffice/canvas/goc-styled-item.c:162
 #: ../goffice/graph/gog-styled-object.c:200
 msgid "A pointer to the GOStyle object"
-msgstr ""
+msgstr "Osoitin GOStyle-objektiin"
 
 #: ../goffice/canvas/goc-styled-item.c:167
-#, fuzzy
 msgid "Scale line width"
-msgstr "Viivanleveys:"
+msgstr "Asteikkoviivan paksuus"
 
 #: ../goffice/canvas/goc-styled-item.c:168
 msgid "Whether to scale the line width when zooming"
-msgstr ""
+msgstr "Skaalataanko viivan paksuutta suurennettaessa"
 
 #: ../goffice/canvas/goc-text.c:429
-#, fuzzy
 msgid "The text horizontal position"
-msgstr "Ohut vaakaraita"
+msgstr "Tekstin vaakasijainti"
 
 #: ../goffice/canvas/goc-text.c:435
-#, fuzzy
 msgid "The text position"
-msgstr "<b>Suunta</b>"
+msgstr "Tekstin sijainti"
 
 #: ../goffice/canvas/goc-text.c:441
 msgid "The rotation around the anchor"
-msgstr ""
+msgstr "Kierto ankkurin suhteen"
 
-#: ../goffice/canvas/goc-text.c:446 ../goffice/graph/gog-object.c:628
+#: ../goffice/canvas/goc-text.c:446
+#: ../goffice/graph/gog-object.c:628
 msgid "Anchor"
-msgstr ""
+msgstr "Ankkuri"
 
 #: ../goffice/canvas/goc-text.c:447
 msgid "The anchor point for the text"
-msgstr ""
+msgstr "Tekstin ankkuripiste"
 
-#: ../goffice/canvas/goc-text.c:452 ../goffice/gtk/go-format-sel.c:70
-#: ../goffice/gtk/go-rotation-sel.c:136 ../goffice/utils/go-style.c:907
+#: ../goffice/canvas/goc-text.c:452
+#: ../goffice/gtk/go-format-sel.c:70
+#: ../goffice/gtk/go-rotation-sel.c:136
+#: ../goffice/utils/go-style.c:907
 msgid "Text"
 msgstr "Teksti"
 
 #: ../goffice/canvas/goc-text.c:453
 msgid "The text to display"
-msgstr ""
+msgstr "Näytettävä teksti"
 
 #: ../goffice/canvas/goc-text.c:456
 msgid "Attributes"
-msgstr ""
+msgstr "Määritteet"
 
 #: ../goffice/canvas/goc-text.c:456
 msgid "The attributes list as a PangoAttrList"
-msgstr ""
+msgstr "Määriteluettelo muodossa PangoAttrList"
 
 #: ../goffice/canvas/goc-text.c:461
+#, fuzzy
 msgid "Clip"
-msgstr ""
+msgstr "Leike"
 
 #: ../goffice/canvas/goc-text.c:462
 msgid "Whether to clip or not"
-msgstr ""
+msgstr "Leikatako vaiko ei"
 
 #: ../goffice/canvas/goc-text.c:467
-#, fuzzy
 msgid "Clip width"
-msgstr "Viivanleveys:"
+msgstr "Leikkeen leveys"
 
 #: ../goffice/canvas/goc-text.c:468
 msgid "Clip width for the text"
-msgstr ""
+msgstr "Leikkeen leveys tekstille"
 
 #: ../goffice/canvas/goc-text.c:473
 msgid "Clip height"
-msgstr ""
+msgstr "Leikkeen korkeus"
 
 #: ../goffice/canvas/goc-text.c:474
 msgid "Clip height for the text"
-msgstr ""
+msgstr "Leikkeen korkeus tekstille"
 
 #: ../goffice/canvas/goc-text.c:479
-#, fuzzy
 msgid "Wrap width"
-msgstr "Leveys"
+msgstr "Rivitysleveys"
 
 #: ../goffice/canvas/goc-text.c:480
 msgid "Wrap width for the text"
-msgstr ""
+msgstr "Tekstin rivitysleveys"
 
 #: ../goffice/canvas/goc-widget.c:312
-#, fuzzy
 msgid "Widget"
-msgstr "Leveys"
+msgstr "Ikkunaelementti"
 
 #: ../goffice/canvas/goc-widget.c:313
 msgid "A pointer to the embedded widget"
-msgstr ""
+msgstr "Osoitin upotettuun ikkunaelementtiin"
 
 #: ../goffice/canvas/goc-widget.c:319
-#, fuzzy
 msgid "The widget left position"
-msgstr "Vaihtoehtojen valikko"
+msgstr "Ikkunaelementin vasen piste"
 
 #: ../goffice/canvas/goc-widget.c:325
-#, fuzzy
 msgid "The widget top position"
-msgstr "Vaihtoehtojen valikko"
+msgstr "Ikkunaelementin yläpiste"
 
 #: ../goffice/canvas/goc-widget.c:332
-#, fuzzy
 msgid "The widget width"
-msgstr "Viivanleveys:"
+msgstr "Ikkunaelementin leveys"
 
 #: ../goffice/canvas/goc-widget.c:338
 msgid "The widget height"
-msgstr ""
+msgstr "Ikkunaelementin korkeus"
 
 #: ../goffice/component/go-component-factory.c:58
-#, fuzzy
 msgid "Component Engine"
-msgstr "_Taulu"
+msgstr "Komponenttiohjelma"
 
 #: ../goffice/component/go-component-factory.c:197
-#, fuzzy
 msgid "Component Type"
-msgstr "_Taulu"
+msgstr "Komponenttityyppi"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:203
 #: ../goffice/drawing/god-paragraph-attributes.c:204
-#, fuzzy
 msgid "Flags"
-msgstr "Kaavat"
+msgstr "Tunnisteet"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:209
 #: ../goffice/drawing/god-paragraph-attributes.c:210
-#, fuzzy
 msgid "Indent"
-msgstr "_Sisennä:"
+msgstr "Sisennä"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:215
 #: ../goffice/drawing/god-paragraph-attributes.c:216
-#, fuzzy
 msgid "Space Before"
-msgstr "Aseta reunukset"
+msgstr "Väli ennen"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:221
 #: ../goffice/drawing/god-paragraph-attributes.c:222
-#, fuzzy
 msgid "Space After"
-msgstr "Välilyönti"
+msgstr "Väli jälkeen"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:227
 #: ../goffice/drawing/god-paragraph-attributes.c:228
@@ -1015,259 +1005,233 @@ msgstr "Tasaus"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:233
 #: ../goffice/drawing/god-paragraph-attributes.c:234
-#, fuzzy
 msgid "Bullet Character"
-msgstr "Lainausmerkki:"
+msgstr "Luetelmamerkki"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:239
 #: ../goffice/drawing/god-paragraph-attributes.c:240
 msgid "Bullet Indent"
-msgstr ""
+msgstr "Luetelmasisennys"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:245
 #: ../goffice/drawing/god-paragraph-attributes.c:246
-#, fuzzy
 msgid "Bullet Size"
-msgstr "Ongelman koko"
+msgstr "Pistemerkin koko"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:251
 #: ../goffice/drawing/god-paragraph-attributes.c:252
 msgid "Bullet Family"
-msgstr ""
+msgstr "Pistemerkkiryhmä"
 
 #: ../goffice/drawing/god-paragraph-attributes.c:257
 #: ../goffice/drawing/god-paragraph-attributes.c:258
-#, fuzzy
 msgid "Bullet On"
-msgstr "Ongelman koko"
+msgstr "Pistemerkki käytössä"
 
 #: ../goffice/graph/gog-3d-box-prefs.ui.h:1
-#, fuzzy
 msgid "<b>Euler angles</b>"
-msgstr "<b>Otos</b>"
+msgstr "<b>Eulerin kulmat</b>"
 
 #: ../goffice/graph/gog-3d-box-prefs.ui.h:2
 msgid "Phi:"
-msgstr ""
+msgstr "Fii:"
 
 #: ../goffice/graph/gog-3d-box-prefs.ui.h:3
 msgid "Psi:"
-msgstr ""
+msgstr "Psii:"
 
 #: ../goffice/graph/gog-3d-box-prefs.ui.h:4
-#, fuzzy
 msgid "Theta:"
-msgstr "_Teksti:"
+msgstr "Theeta:"
 
 #: ../goffice/graph/gog-3d-box.c:215
 msgid "Advanced"
-msgstr ""
+msgstr "Edistynyt"
 
 #: ../goffice/graph/gog-3d-box.c:284
 msgid "Euler angle psi"
-msgstr ""
+msgstr "Eulerin kulma fii"
 
 #: ../goffice/graph/gog-3d-box.c:291
 msgid "Euler angle theta"
-msgstr ""
+msgstr "Eulerin kulma theeta"
 
 #: ../goffice/graph/gog-3d-box.c:298
 msgid "Euler angle phi"
-msgstr ""
+msgstr "Eulerin kulma fii"
 
 #: ../goffice/graph/gog-3d-box.c:305
 msgid "Field of view"
-msgstr ""
+msgstr "Näkökenttä"
 
 #: ../goffice/graph/gog-axis-line.c:636
 msgid "Layout"
-msgstr ""
+msgstr "Asettelu"
 
 #: ../goffice/graph/gog-axis-line.c:665
-#, fuzzy
 msgid "Axis position"
-msgstr "<b>Suunta</b>"
+msgstr "Akselin sijainti"
 
-#: ../goffice/graph/gog-axis-line.c:666 ../goffice/graph/gog-axis-line.c:672
+#: ../goffice/graph/gog-axis-line.c:666
+#: ../goffice/graph/gog-axis-line.c:672
 msgid "Where to position an axis low, high, or crossing"
-msgstr ""
+msgstr "Onko akselin sijainti alhaalla, ylhäällä vaiko leikkaamassa"
 
 #: ../goffice/graph/gog-axis-line.c:671
-#, fuzzy
 msgid "Axis position (as a string)"
-msgstr "<b>Suunta</b>"
+msgstr "Akselin sijainti (merkkijonona)"
 
 #: ../goffice/graph/gog-axis-line.c:677
 msgid "Major labels"
-msgstr ""
+msgstr "Päänimiöt"
 
 #: ../goffice/graph/gog-axis-line.c:678
 msgid "Show labels for major ticks"
-msgstr ""
+msgstr "Esitä nimiöt pääjakoviivoille"
 
 #: ../goffice/graph/gog-axis-line.c:683
-#, fuzzy
 msgid "Inside major ticks"
-msgstr "<b>Virheilmoitukset</b>"
+msgstr "Sisäpuoliset pääjakoviivat"
 
 #: ../goffice/graph/gog-axis-line.c:684
 msgid "Major tick marks inside the chart area"
-msgstr ""
+msgstr "Pääjakoviivat kaavioalueen sisällä"
 
 #: ../goffice/graph/gog-axis-line.c:689
-#, fuzzy
 msgid "Outside major ticks"
-msgstr "<b>Virheilmoitukset</b>"
+msgstr "Ulkopuoliset pääjakoviivat"
 
 #: ../goffice/graph/gog-axis-line.c:690
 msgid "Major tick marks outside the chart area"
-msgstr ""
+msgstr "Pääjakoviivat kaavioalueen ulkopuolella"
 
 #: ../goffice/graph/gog-axis-line.c:695
-#, fuzzy
 msgid "Major tick size"
-msgstr "<b>Virheilmoitukset</b>"
+msgstr "Pääjakoviiva koko"
 
 #: ../goffice/graph/gog-axis-line.c:696
 msgid "Size of the major tick marks, in points"
-msgstr ""
+msgstr "Pääjakoviivojen koko pisteinä."
 
 #: ../goffice/graph/gog-axis-line.c:702
-#, fuzzy
 msgid "Inside minor ticks"
-msgstr "<b>Virheilmoitukset</b>"
+msgstr "Sisäpuoliset apujakoviivat"
 
 #: ../goffice/graph/gog-axis-line.c:703
 msgid "Minor tick marks inside the chart area"
-msgstr ""
+msgstr "Apujakoviivat kaavioalueen sisällä"
 
 #: ../goffice/graph/gog-axis-line.c:708
-#, fuzzy
 msgid "Outside minor ticks"
-msgstr "<b>Virheilmoitukset</b>"
+msgstr "Ulkopuoliset apujakoviivat"
 
 #: ../goffice/graph/gog-axis-line.c:709
 msgid "Minor tick marks outside the axis"
-msgstr ""
+msgstr "Apujakoviivat akselin ulkopuolella"
 
 #: ../goffice/graph/gog-axis-line.c:714
-#, fuzzy
 msgid "Minor tick size"
-msgstr "<b>Virheilmoitukset</b>"
+msgstr "Apujakoviiva koko"
 
 #: ../goffice/graph/gog-axis-line.c:715
 msgid "Size of the minor tick marks, in points"
-msgstr ""
+msgstr "Apujakoviivojen koko pisteinä."
 
 #: ../goffice/graph/gog-axis-line.c:721
+#, fuzzy
 msgid "Cross axis id"
-msgstr ""
+msgstr "Leikkaa toinen akseli"
 
 #: ../goffice/graph/gog-axis-line.c:722
 msgid "Which axis to cross"
-msgstr ""
+msgstr "Mikä akseli leikataan"
 
 #: ../goffice/graph/gog-axis-line.c:728
-#, fuzzy
 msgid "Axis padding"
-msgstr "Viiva"
+msgstr "Akselin siirros"
 
 #: ../goffice/graph/gog-axis-line.c:729
 msgid "Distance from axis line to plot area, in points"
-msgstr ""
+msgstr "Etäisyys akselista kuvaaja-alueelle pisteinä"
 
 #: ../goffice/graph/gog-axis-line.c:821
-#, fuzzy
 msgid "Select axis"
-msgstr "_Käännä"
+msgstr "Valitse akseli"
 
 #: ../goffice/graph/gog-axis-line.c:927
 msgid "Set start bound"
-msgstr ""
+msgstr "Aseta alkuraja"
 
 #: ../goffice/graph/gog-axis-line.c:938
 msgid "Set stop bound"
-msgstr ""
+msgstr "Aseta loppuraja"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:1
-#, fuzzy
 msgid "<b>Bounds</b>"
-msgstr "<b>Otos</b>"
+msgstr "<b>Rajat</b>"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:2
-#, fuzzy
 msgid "<b>Major ticks</b>"
-msgstr "<b>Virheilmoitukset</b>"
+msgstr "<b>Pääjakoviivat</b>"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:3
-#, fuzzy
 msgid "<b>Mapping</b>"
-msgstr "<b>Viiva</b>"
+msgstr "<b>Kuvaus</b>"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:4
-#, fuzzy
 msgid "<b>Minor ticks</b>"
-msgstr "<b>Virheilmoitukset</b>"
+msgstr "<b>Apujakoviivat</b>"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:5
-#, fuzzy
 msgid "<b>Position</b>"
-msgstr "<b>Suunta</b>"
+msgstr "<b>Sijainti</b>"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:6
 #: ../goffice/graph/gog-object-prefs.ui.h:4
-#: ../goffice/graph/gog-plot-prefs.ui.h:3 ../goffice/gtk/go-palette.c:349
+#: ../goffice/graph/gog-plot-prefs.ui.h:3
+#: ../goffice/gtk/go-palette.c:349
 msgid "Automatic"
 msgstr "Automaattinen"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:7
-#, fuzzy
 msgid "I_nside"
-msgstr "Sisällä"
+msgstr "_Sisäpuoliset"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:8
-#, fuzzy
 msgid "O_utside"
-msgstr "Ulkoviiva"
+msgstr "_Ulkopuoliset"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:9
 msgid "Padding:"
-msgstr ""
+msgstr "Siirros:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:10
-#, fuzzy
 msgid "_Cross"
-msgstr "_Sulje"
+msgstr "_Leikkaa"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:11
-#, fuzzy
 msgid "_High"
-msgstr "_Korkeus..."
+msgstr "Yl_häällä"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:12
-#, fuzzy
 msgid "_Inside"
-msgstr "Sisällä"
+msgstr "S_isäpuoliset"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:13
-#, fuzzy
 msgid "_Invert axis"
-msgstr "_Käännä"
+msgstr "Käännä aksel_i"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:14
-#, fuzzy
 msgid "_Low"
-msgstr "_Rivi"
+msgstr "A_lhaalla"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:15
-#, fuzzy
 msgid "_Outside"
-msgstr "Ulkoviiva"
+msgstr "Ulk_opuoliset"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:16
-#, fuzzy
 msgid "_Rotation:"
-msgstr "_Suunta:"
+msgstr "Kie_rto:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:17
 msgid "_Show Labels"
@@ -1280,14 +1244,12 @@ msgid "_Type:"
 msgstr "_Tyyppi:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:19
-#, fuzzy
 msgid "_Unit:"
-msgstr "_Sovita:"
+msgstr "_Yksikkö:"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:20
-#, fuzzy
 msgid "at"
-msgstr "Tieto"
+msgstr "pisteessä"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:21
 #: ../goffice/gtk/go-rotation-sel.ui.h:3
@@ -1303,101 +1265,91 @@ msgid "pts"
 msgstr "pist"
 
 #: ../goffice/graph/gog-axis.c:46
-#, fuzzy
 msgid "Degrees"
-msgstr "astetta"
+msgstr "aste"
 
 #: ../goffice/graph/gog-axis.c:47
-#, fuzzy
 msgid "Radians"
-msgstr "intialainen"
+msgstr "radiaani"
 
 #: ../goffice/graph/gog-axis.c:48
-#, fuzzy
 msgid "Grads"
-msgstr "Ruudukko"
+msgstr "graadi"
 
 #: ../goffice/graph/gog-axis.c:1284
 msgid "Discrete"
 msgstr "Diskreetti"
 
 #: ../goffice/graph/gog-axis.c:1284
-#, fuzzy
 msgid "Discrete mapping"
-msgstr "Diskreetti"
+msgstr "Diskreetti kuvaus"
 
-#: ../goffice/graph/gog-axis.c:1296 ../goffice/utils/go-line.c:118
-#: ../goffice/utils/go-line.c:329 ../plugins/reg_linear/reg-types.xml.in.h:3
-#, fuzzy
+#: ../goffice/graph/gog-axis.c:1296
+#: ../goffice/utils/go-line.c:118
+#: ../goffice/utils/go-line.c:329
+#: ../plugins/reg_linear/reg-types.xml.in.h:3
 msgid "Linear"
-msgstr "_Lineaarinen"
+msgstr "lineaarinen"
 
 #: ../goffice/graph/gog-axis.c:1296
 msgid "Linear mapping"
-msgstr ""
+msgstr "Lineaarinen kuvaus"
 
 #: ../goffice/graph/gog-axis.c:1308
-#, fuzzy
 msgid "Log"
-msgstr "Logiikka"
-
-#: ../goffice/graph/gog-axis.c:1308
-#, fuzzy
-msgid "Logarithm mapping"
 msgstr "logaritminen"
 
-#: ../goffice/graph/gog-axis.c:2321 ../goffice/graph/gog-axis.c:2331
-#, fuzzy
-msgid "M_inimum"
-msgstr "Minimi"
+#: ../goffice/graph/gog-axis.c:1308
+msgid "Logarithm mapping"
+msgstr "Logaritminen kuvaus"
 
-#: ../goffice/graph/gog-axis.c:2322 ../goffice/graph/gog-axis.c:2332
-#, fuzzy
+#: ../goffice/graph/gog-axis.c:2321
+#: ../goffice/graph/gog-axis.c:2331
+msgid "M_inimum"
+msgstr "Alemp_i"
+
+#: ../goffice/graph/gog-axis.c:2322
+#: ../goffice/graph/gog-axis.c:2332
 msgid "M_aximum"
-msgstr "Maksimi"
+msgstr "Yle_mpi"
 
 #: ../goffice/graph/gog-axis.c:2323
 msgid "Categories between _ticks"
-msgstr ""
+msgstr "_Luokkia jakoviivojen välillä"
 
 #: ../goffice/graph/gog-axis.c:2324
 msgid "Categories between _labels"
-msgstr ""
+msgstr "Nimiöiden välisiä _luokkia"
 
 #: ../goffice/graph/gog-axis.c:2333
-#, fuzzy
 msgid "Ma_jor ticks"
-msgstr "<b>Virheilmoitukset</b>"
+msgstr "Pää_jakoviivat"
 
 #: ../goffice/graph/gog-axis.c:2334
-#, fuzzy
 msgid "Mi_nor ticks"
-msgstr "<b>Virheilmoitukset</b>"
+msgstr "_Apujakoviivat"
 
-#: ../goffice/graph/gog-axis.c:2388 ../goffice/math/go-distribution.c:163
+#: ../goffice/graph/gog-axis.c:2388
+#: ../goffice/math/go-distribution.c:163
 #: ../goffice/math/go-distribution.c:164
-#, fuzzy
 msgid "Scale"
-msgstr "Erityinen"
+msgstr "Asteikko"
 
 #: ../goffice/graph/gog-axis.c:2404
 msgid "Format"
-msgstr "Muotoile"
+msgstr "Muoto"
 
 #: ../goffice/graph/gog-axis.c:2436
-#, fuzzy
 msgid "MajorGrid"
-msgstr "Ruudukko"
+msgstr "Pääviivasto"
 
 #: ../goffice/graph/gog-axis.c:2439
-#, fuzzy
 msgid "MinorGrid"
-msgstr "Ruudukko"
+msgstr "Apuviivasto"
 
 #: ../goffice/graph/gog-axis.c:2442
-#, fuzzy
 msgid "AxisLine"
-msgstr "Viiva"
+msgstr "Akseliviiva"
 
 #: ../goffice/graph/gog-axis.c:2445
 msgid "Label"
@@ -1405,63 +1357,63 @@ msgstr "Nimiö"
 
 #: ../goffice/graph/gog-axis.c:2461
 msgid "Numerical type of this axis"
-msgstr ""
+msgstr "Tämän akselin numeerinen tyyppi"
 
 #: ../goffice/graph/gog-axis.c:2465
-#, fuzzy
 msgid "Invert axis"
-msgstr "_Käännä"
+msgstr "Käännä akseli"
 
 #: ../goffice/graph/gog-axis.c:2466
 msgid "Scale from high to low rather than low to high"
-msgstr ""
+msgstr "Asteikko ylhäältä alas, eikä alhaalta ylös"
 
 #: ../goffice/graph/gog-axis.c:2470
 #, fuzzy
 msgid "MapName"
-msgstr "Nimi"
+msgstr "KuvausNimi"
 
 #: ../goffice/graph/gog-axis.c:2471
 msgid "The name of the map for scaling"
-msgstr ""
+msgstr "Skaalauskuvauksen nimi"
 
 #: ../goffice/graph/gog-axis.c:2476
 msgid "Assigned XL format"
-msgstr ""
+msgstr "Määritä XL-tyylin muotoilu "
 
 #: ../goffice/graph/gog-axis.c:2477
-msgid ""
-"The user assigned format to use for non-discrete axis labels (XL format)"
+msgid "The user assigned format to use for non-discrete axis labels (XL format)"
 msgstr ""
 
-#: ../goffice/graph/gog-axis.c:2482 ../goffice/graph/gog-axis.c:2483
+#: ../goffice/graph/gog-axis.c:2482
+#: ../goffice/graph/gog-axis.c:2483
 msgid "Rotation of circular axis"
-msgstr ""
+msgstr "Ympyräakselin kierto"
 
-#: ../goffice/graph/gog-axis.c:2490 ../goffice/graph/gog-axis.c:2491
+#: ../goffice/graph/gog-axis.c:2490
+#: ../goffice/graph/gog-axis.c:2491
 msgid "Polar axis set unit"
-msgstr ""
+msgstr "Napa-akselin asetettu yksikkö"
 
-#: ../goffice/graph/gog-chart.c:367 ../goffice/graph/gog-chart.c:670
-#, fuzzy
+#: ../goffice/graph/gog-chart.c:367
+#: ../goffice/graph/gog-chart.c:670
 msgid "Plot area"
-msgstr "_Taulu"
+msgstr "Kuvaaja-alue"
 
 #: ../goffice/graph/gog-chart.c:576
 msgid "Backplane"
-msgstr ""
+msgstr "Tausta"
 
 #: ../goffice/graph/gog-chart.c:579
 msgid "XY-Backplane"
-msgstr ""
+msgstr "XY-tausta"
 
 #: ../goffice/graph/gog-chart.c:583
 msgid "YZ-Backplane"
-msgstr ""
+msgstr "YZ-tausta"
 
 #: ../goffice/graph/gog-chart.c:587
 msgid "ZX-Backplane"
-msgstr ""
+msgstr "ZX-tausta"
 
 #: ../goffice/graph/gog-chart.c:591
 msgid "X-Axis"
@@ -1477,219 +1429,204 @@ msgstr "Z-akseli"
 
 #: ../goffice/graph/gog-chart.c:603
 msgid "Circular-Axis"
-msgstr ""
+msgstr "Ympyräakseli"
 
 #: ../goffice/graph/gog-chart.c:607
 msgid "Radial-Axis"
-msgstr ""
+msgstr "Sädeakseli"
 
 #: ../goffice/graph/gog-chart.c:611
 msgid "Pseudo-3D-Axis"
-msgstr ""
+msgstr "Näennäis-3D-akseli"
 
 #: ../goffice/graph/gog-chart.c:615
-#, fuzzy
 msgid "Bubble-Axis"
-msgstr "kupla"
+msgstr "Kupla-akseli"
 
 #: ../goffice/graph/gog-chart.c:619
-#, fuzzy
 msgid "Color-Axis"
-msgstr "Väri:"
+msgstr "Väriakseli"
 
 #: ../goffice/graph/gog-chart.c:623
 msgid "Plot"
-msgstr ""
+msgstr "Kuvaaja"
 
-#: ../goffice/graph/gog-chart.c:626 ../goffice/graph/gog-graph.c:301
+#: ../goffice/graph/gog-chart.c:626
+#: ../goffice/graph/gog-graph.c:301
 #: ../goffice/graph/gog-legend.c:187
 msgid "Title"
 msgstr "Nimi"
 
 #: ../goffice/graph/gog-chart.c:631
 msgid "Legend"
-msgstr ""
+msgstr "Selite"
 
-#: ../goffice/graph/gog-chart.c:637 ../goffice/graph/gog-reg-curve.c:154
-#, fuzzy
+#: ../goffice/graph/gog-chart.c:637
+#: ../goffice/graph/gog-reg-curve.c:154
 msgid "Equation"
-msgstr "Murtoluku"
+msgstr "Yhtälö"
 
 #: ../goffice/graph/gog-chart.c:643
 msgid "3D-Box"
-msgstr ""
+msgstr "3D-laatikko"
 
 #: ../goffice/graph/gog-chart.c:664
 msgid "Valid cardinality"
-msgstr ""
+msgstr "Kelpo mahtavuus"
 
 #: ../goffice/graph/gog-chart.c:665
 msgid "Is the charts cardinality currently valid"
-msgstr ""
+msgstr "Onko kaavioiden mahtavuus nyt kelvollinen"
 
 #: ../goffice/graph/gog-chart.c:671
 msgid "Position and size of plot area, in percentage of chart size"
-msgstr ""
+msgstr "Kuvaaja-alueen sijainti ja koko, prosentteina kaavion koosta"
 
 #: ../goffice/graph/gog-chart.c:676
-#, fuzzy
 msgid "Manual plot area"
-msgstr "_Taulu"
+msgstr "Manuaalinen piirrosalue"
 
 #: ../goffice/graph/gog-chart.c:677
 msgid "Is plot area manual"
-msgstr ""
+msgstr "Onko piirrosalue manuaalinen"
 
 #: ../goffice/graph/gog-chart.c:681
-#, fuzzy
 msgid "xpos"
-msgstr "Piste"
+msgstr "x-koord."
 
 #: ../goffice/graph/gog-chart.c:682
 msgid "Horizontal chart position in graph grid"
-msgstr ""
+msgstr "Kaavion vaakasijainti graafin viivastossa"
 
 #: ../goffice/graph/gog-chart.c:686
-#, fuzzy
 msgid "ypos"
-msgstr "Piste"
+msgstr "y-koord."
 
 #: ../goffice/graph/gog-chart.c:687
 msgid "Vertical chart position in graph grid"
-msgstr ""
+msgstr "Kaavion pystysijainti graafin viivastossa"
 
 #: ../goffice/graph/gog-chart.c:690
-#, fuzzy
 msgid "columns"
-msgstr "Sarake"
+msgstr "pystyviivat"
 
 #: ../goffice/graph/gog-chart.c:691
-#, fuzzy
 msgid "Number of columns in graph grid"
-msgstr "Lukumuodot"
+msgstr "Graafin viivaston pystyviivojen määrä"
 
 #: ../goffice/graph/gog-chart.c:694
-#, fuzzy
 msgid "rows"
-msgstr "_Sulje"
+msgstr "rivit"
 
 #: ../goffice/graph/gog-chart.c:695
-#, fuzzy
 msgid "Number of rows in graph grid"
-msgstr "Lukumuodot"
+msgstr "Graafin viivaston vaakaviivojen määrä"
 
 #. Note for translators: first string represent the new child object and second string is the parent object
 #: ../goffice/graph/gog-child-button.c:501
 #, c-format
 msgid "%s to %s"
-msgstr ""
+msgstr "%s per %s"
 
 #: ../goffice/graph/gog-equation-prefs.ui.h:1
 msgid "_Compact mode"
-msgstr ""
+msgstr "Tii_vis tapa"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:1
 msgid "(+)"
-msgstr ""
+msgstr "(+)"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:2
 msgid "(-)"
-msgstr ""
+msgstr "(-)"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:3
-#, fuzzy
 msgid "<b>Error category</b>"
-msgstr "<b>Virheilmoitukset</b>"
+msgstr "<b>Virheluokka</b>"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:4
 msgid "<b>Style</b>"
 msgstr "<b>Tyyli</b>"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:5
-#, fuzzy
 msgid "<b>Values</b>"
-msgstr "<b>Otos</b>"
+msgstr "<b>Arvot</b>"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:6
-#, fuzzy
 msgid "Absolute"
-msgstr "sininen"
+msgstr "absoluuttinen"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:7
-#, fuzzy
 msgid "Colo_r:"
-msgstr "Väri:"
+msgstr "Vä_ri:"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:8
-#, fuzzy
 msgid "Dis_play:"
-msgstr "_Päivä"
+msgstr "N_äyttö:"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:9
-#: ../goffice/graph/gog-error-bar.c:75 ../goffice/gtk/go-format-sel.c:1105
-#: ../goffice/gtk/go-format-sel.c:1270 ../goffice/utils/formats.c:348
-#: ../goffice/utils/go-line.c:84 ../goffice/utils/go-style-prefs.ui.h:9
+#: ../goffice/graph/gog-error-bar.c:75
+#: ../goffice/gtk/go-format-sel.c:1105
+#: ../goffice/gtk/go-format-sel.c:1270
+#: ../goffice/utils/formats.c:348
+#: ../goffice/utils/go-line.c:84
+#: ../goffice/utils/go-style-prefs.ui.h:9
 msgid "None"
-msgstr "Ei mikään"
+msgstr "ei mikään"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:10
-#, fuzzy
 msgid "Percent"
-msgstr "Prosentti"
+msgstr "prosentti"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:11
 msgid "Relative"
-msgstr ""
+msgstr "suhteellinen"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:12
-#, fuzzy
 msgid "_Line width:"
-msgstr "Viivanleveys:"
+msgstr "_Viivan paksuus:"
 
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:13
 #: ../goffice/graph/gog-object-prefs.ui.h:14
 #: ../goffice/graph/gog-plot-prefs.ui.h:7
-#, fuzzy
 msgid "_Width:"
-msgstr "_tekstillä:"
+msgstr "_Leveys"
 
 #: ../goffice/graph/gog-error-bar.c:76
-#, fuzzy
 msgid "Positive"
-msgstr "<b>Suunta</b>"
+msgstr "Positiivinen"
 
 #: ../goffice/graph/gog-error-bar.c:77
 msgid "Negative"
-msgstr ""
+msgstr "Negatiivinen"
 
 #: ../goffice/graph/gog-error-bar.c:78
 msgid "Both"
-msgstr ""
+msgstr "Molemmat"
 
 #. Note for translator: the angle unit
 #: ../goffice/graph/gog-error-bar.c:308
 msgid "°"
-msgstr ""
+msgstr "°"
 
 #. An MS Excel-ish theme
-#: ../goffice/graph/gog-graph-prefs.ui.h:1 ../goffice/graph/gog-theme.c:500
+#: ../goffice/graph/gog-graph-prefs.ui.h:1
+#: ../goffice/graph/gog-theme.c:500
 msgid "Default"
 msgstr "Oletus"
 
 #: ../goffice/graph/gog-graph-prefs.ui.h:2
-#, fuzzy
 msgid "Forget user styles"
-msgstr "Kirjasintyyli:"
+msgstr "Unohda käyttäjän tyylit"
 
 #: ../goffice/graph/gog-graph-prefs.ui.h:3
-#, fuzzy
 msgid "Theme:"
-msgstr "Aika"
+msgstr "Teema:"
 
-#: ../goffice/graph/gog-graph.c:235 ../goffice/graph/gog-graph.c:356
-#, fuzzy
+#: ../goffice/graph/gog-graph.c:235
+#: ../goffice/graph/gog-graph.c:356
 msgid "Theme"
-msgstr "Aika"
+msgstr "Teema"
 
 #: ../goffice/graph/gog-graph.c:296
 msgid "Chart"
@@ -1697,64 +1634,63 @@ msgstr "Kaavio"
 
 #: ../goffice/graph/gog-graph.c:357
 msgid "The theme for elements of the graph"
-msgstr ""
+msgstr "Graafin elementtien teema"
 
 #: ../goffice/graph/gog-graph.c:362
 msgid "Theme name"
-msgstr ""
+msgstr "Teeman nimi"
 
 #: ../goffice/graph/gog-graph.c:363
 msgid "The name of the theme for elements of the graph"
-msgstr ""
+msgstr "Graafin osatekijöiden teemanimi"
 
 #: ../goffice/graph/gog-graph.c:369
 msgid "Logical graph width, in points"
-msgstr ""
+msgstr "Looginen graafin leveys pisteinä"
 
 #: ../goffice/graph/gog-graph.c:375
 msgid "Logical graph height, in points"
-msgstr ""
+msgstr "Looginen graafin korkeus pisteinä"
 
 #: ../goffice/graph/gog-graph.c:380
 msgid "Document"
-msgstr ""
+msgstr "Asiakirja"
 
 #: ../goffice/graph/gog-graph.c:381
 msgid "the document for this graph"
-msgstr ""
+msgstr "tämän graafin asiakirja"
 
 #: ../goffice/graph/gog-graph.c:903
 msgid "the renderer for this view"
-msgstr ""
+msgstr "tämän näkymän hahmonnin"
 
 #: ../goffice/graph/gog-grid-line.c:111
+#, fuzzy
 msgid "Is-minor"
-msgstr ""
+msgstr "On-apu"
 
 #: ../goffice/graph/gog-grid-line.c:112
 msgid "Are these minor grid lines"
-msgstr ""
+msgstr "Onko nämä viivaston apuviivoja"
 
 #: ../goffice/graph/gog-grid.c:117
 msgid "Numerical type of this backplane"
-msgstr ""
+msgstr "Tämän taustan numeerinen tyyppi"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:1
-#, fuzzy
 msgid "<b>Sample</b>"
-msgstr "<b>Tyyli</b>"
+msgstr "<b>Malli</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:2
-#, fuzzy
 msgid "<b>_Plot type</b>"
-msgstr "<b>Tyyli</b>"
+msgstr "<b>Kuvaajatyy_ppi</b>"
 
 #: ../goffice/graph/gog-guru-type-selector.ui.h:3
-#, fuzzy
 msgid "<b>_Subtype</b>"
-msgstr "<b>Tyyli</b>"
+msgstr "<b>_Alatyyppi</b>"
 
-#: ../goffice/graph/gog-guru.c:999 ../goffice/graph/gog-series.c:474
+#: ../goffice/graph/gog-guru.c:999
+#: ../goffice/graph/gog-series.c:474
 msgid "Name"
 msgstr "Nimi"
 
@@ -1764,11 +1700,11 @@ msgstr "Vaihe 1/2: Valitse kaavion tyyppi"
 
 #: ../goffice/graph/gog-guru.c:1034
 msgid "Step 2 of 2: Customize Chart"
-msgstr "Vaihe 2/2: Muokkaa kaaviota"
+msgstr "Vaihe 2/2: Mukauta kaaviota"
 
 #: ../goffice/graph/gog-guru.c:1039
 msgid "Customize Chart"
-msgstr "Muokkaa kaaviota"
+msgstr "Mukauta kaaviota"
 
 #: ../goffice/graph/gog-guru.c:1114
 msgid "_Insert"
@@ -1776,65 +1712,66 @@ msgstr "_Lisää"
 
 #: ../goffice/graph/gog-guru.c:1181
 msgid "_Plot Type"
-msgstr ""
+msgstr "Kuvaajatyy_ppi"
 
 #: ../goffice/graph/gog-label.c:108
 msgid "Allow markup"
-msgstr ""
+msgstr "Salli merkintä"
 
 #: ../goffice/graph/gog-label.c:109
 msgid "Support basic html-ish markup"
-msgstr ""
+msgstr "Tue html-tyylistä perusmerkintää"
 
 #: ../goffice/graph/gog-label.c:171
 msgid "_Text:"
 msgstr "_Teksti:"
 
-#: ../goffice/graph/gog-label.c:176 ../goffice/graph/gog-series.c:515
+#: ../goffice/graph/gog-label.c:176
+#: ../goffice/graph/gog-series.c:515
 msgid "Data"
 msgstr "Tieto"
 
-#: ../goffice/graph/gog-label.c:330 ../goffice/graph/gog-reg-curve.c:71
+#: ../goffice/graph/gog-label.c:330
+#: ../goffice/graph/gog-reg-curve.c:71
 #: ../plugins/plot_xy/gog-xy.c:1925
 msgid "Details"
 msgstr "Yksityiskohdat"
 
 #: ../goffice/graph/gog-label.c:351
 msgid "Regression Equation"
-msgstr ""
+msgstr "Regressioyhtälö"
 
 #: ../goffice/graph/gog-label.c:390
-#, fuzzy
 msgid "Show equation"
-msgstr "Murtoluku"
+msgstr "Näytä yhtälö"
 
 #: ../goffice/graph/gog-label.c:391
 msgid "Show the equation on the graph"
-msgstr ""
+msgstr "Näytä yhtälö graafilla"
 
 #: ../goffice/graph/gog-label.c:396
 msgid "Show coefficient"
-msgstr ""
+msgstr "Näytä kerroin"
 
 #: ../goffice/graph/gog-label.c:397
 msgid "Show the correlation coefficient on the graph"
-msgstr ""
+msgstr "Näytä korrelaatiokerroin graafilla"
 
 #: ../goffice/graph/gog-legend.c:210
 msgid "Swatch Size pts"
-msgstr ""
+msgstr "Tilkkukoko pisteinä"
 
 #: ../goffice/graph/gog-legend.c:211
 msgid "size of the swatches in pts."
-msgstr ""
+msgstr "tilkkujen koko pisteinä"
 
 #: ../goffice/graph/gog-legend.c:216
 msgid "Swatch Padding pts"
-msgstr ""
+msgstr "Tilkkutäyte pisteinä"
 
 #: ../goffice/graph/gog-legend.c:217
 msgid "padding between the swatches in pts."
-msgstr ""
+msgstr "täyte tilkkujen välissä pisteinä"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:2
 #: ../goffice/graph/gog-plot-prefs.ui.h:2
@@ -1850,442 +1787,416 @@ msgstr " %"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:3
 msgid "Anchor:"
-msgstr ""
+msgstr "Ankkuri:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:5
-#, fuzzy
 msgid "Column:"
-msgstr "Sarake"
+msgstr "Palsta:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:6
-#, fuzzy
 msgid "Height in rows:"
-msgstr "vaalean ruskea"
+msgstr "Korkeus osina:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:7
 #: ../goffice/graph/gog-plot-prefs.ui.h:4
-#, fuzzy
 msgid "Manual"
-msgstr "magenta"
+msgstr "Manuaalinen"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:8
-#, fuzzy
 msgid "Row:"
-msgstr "_Rivi"
+msgstr "Osa:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:9
 msgid "Width in columns:"
-msgstr ""
+msgstr "Leveys palstoina:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:10
-#, fuzzy
 msgid "_Alignment:"
-msgstr "Tasaus"
+msgstr "T_asaus:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:11
 #: ../goffice/graph/gog-plot-prefs.ui.h:5
-#, fuzzy
 msgid "_Height:"
-msgstr "Korkeus"
+msgstr "_Korkeus"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:12
 #: ../goffice/graph/gog-plot-prefs.ui.h:6
-#, fuzzy
 msgid "_Object position:"
-msgstr "_Suunta:"
+msgstr "K_ohteen sijoittelu:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:13
-#, fuzzy
 msgid "_Position:"
-msgstr "_Suunta:"
+msgstr "_Sijainti:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:15
 #: ../goffice/graph/gog-plot-prefs.ui.h:8
 msgid "_X:"
-msgstr ""
+msgstr "_X:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:16
 #: ../goffice/graph/gog-plot-prefs.ui.h:9
 msgid "_Y:"
-msgstr ""
+msgstr "_Y:"
 
 #: ../goffice/graph/gog-object-prefs.ui.h:17
 msgid "page 3"
-msgstr ""
+msgstr "3. sivu"
 
-#: ../goffice/graph/gog-object.c:38 ../goffice/graph/gog-object.c:57
+#: ../goffice/graph/gog-object.c:38
+#: ../goffice/graph/gog-object.c:57
 #: ../goffice/graph/gog-series.c:40
 msgid "Top"
-msgstr ""
+msgstr "ylhäällä"
 
-#: ../goffice/graph/gog-object.c:39 ../goffice/graph/gog-object.c:58
+#: ../goffice/graph/gog-object.c:39
+#: ../goffice/graph/gog-object.c:58
 msgid "Top right"
-msgstr ""
+msgstr "yläoikealla"
 
-#: ../goffice/graph/gog-object.c:40 ../goffice/graph/gog-object.c:61
+#: ../goffice/graph/gog-object.c:40
+#: ../goffice/graph/gog-object.c:61
 #: ../goffice/graph/gog-series.c:41
-#, fuzzy
 msgid "Right"
-msgstr "Korkeus"
+msgstr "oikealla"
 
-#: ../goffice/graph/gog-object.c:41 ../goffice/graph/gog-object.c:64
+#: ../goffice/graph/gog-object.c:41
+#: ../goffice/graph/gog-object.c:64
 msgid "Bottom right"
-msgstr ""
+msgstr "alaoikealla"
 
-#: ../goffice/graph/gog-object.c:42 ../goffice/graph/gog-object.c:63
+#: ../goffice/graph/gog-object.c:42
+#: ../goffice/graph/gog-object.c:63
 #: ../goffice/graph/gog-series.c:38
 msgid "Bottom"
-msgstr ""
+msgstr "alhaalla"
 
-#: ../goffice/graph/gog-object.c:43 ../goffice/graph/gog-object.c:62
+#: ../goffice/graph/gog-object.c:43
+#: ../goffice/graph/gog-object.c:62
 msgid "Bottom left"
-msgstr ""
+msgstr "alavasemmalla"
 
-#: ../goffice/graph/gog-object.c:44 ../goffice/graph/gog-object.c:59
+#: ../goffice/graph/gog-object.c:44
+#: ../goffice/graph/gog-object.c:59
 #: ../goffice/graph/gog-series.c:39
 msgid "Left"
-msgstr ""
+msgstr "vasemmalla"
 
-#: ../goffice/graph/gog-object.c:45 ../goffice/graph/gog-object.c:56
+#: ../goffice/graph/gog-object.c:45
+#: ../goffice/graph/gog-object.c:56
 msgid "Top left"
-msgstr ""
+msgstr "ylävasemmalla"
 
 #: ../goffice/graph/gog-object.c:49
 msgid "Fill"
-msgstr ""
+msgstr "täyttö"
 
-#: ../goffice/graph/gog-object.c:50 ../plugins/plot_barcol/gog-dropbar.c:61
-#, fuzzy
+#: ../goffice/graph/gog-object.c:50
+#: ../plugins/plot_barcol/gog-dropbar.c:61
 msgid "Start"
-msgstr "*La"
+msgstr "alku"
 
-#: ../goffice/graph/gog-object.c:51 ../plugins/plot_barcol/gog-dropbar.c:63
+#: ../goffice/graph/gog-object.c:51
+#: ../plugins/plot_barcol/gog-dropbar.c:63
 msgid "End"
-msgstr ""
+msgstr "loppu"
 
-#: ../goffice/graph/gog-object.c:52 ../goffice/graph/gog-object.c:60
+#: ../goffice/graph/gog-object.c:52
+#: ../goffice/graph/gog-object.c:60
 #: ../goffice/graph/gog-series.c:43
-#, fuzzy
 msgid "Center"
-msgstr "Yleistä"
+msgstr "keskitys"
 
-#: ../goffice/graph/gog-object.c:559 ../goffice/graph/gog-object.c:604
-#, fuzzy
+#: ../goffice/graph/gog-object.c:559
+#: ../goffice/graph/gog-object.c:604
 msgid "Position"
-msgstr "<b>Suunta</b>"
+msgstr "Sijainti"
 
 #: ../goffice/graph/gog-object.c:598
-#, fuzzy
 msgid "Object ID"
-msgstr "Tavoite"
+msgstr "Objektitunnus"
 
 #: ../goffice/graph/gog-object.c:599
 msgid "Object numerical ID"
-msgstr ""
+msgstr "Numeerinen objektitunnus"
 
 #: ../goffice/graph/gog-object.c:605
 msgid "Position and size of object, in percentage of parent size"
-msgstr ""
+msgstr "Objektin sijainti ja koko prosentteina lähteen koosta"
 
 #: ../goffice/graph/gog-object.c:610
-#, fuzzy
 msgid "Compass"
-msgstr "_Sulje"
+msgstr "Kompassi"
 
 #: ../goffice/graph/gog-object.c:611
 msgid "Compass auto position flags"
 msgstr ""
 
 #: ../goffice/graph/gog-object.c:617
-#, fuzzy
 msgid "Alignment flag"
-msgstr "Tasaus"
+msgstr "Tasauslippu"
 
-#: ../goffice/graph/gog-object.c:622 ../goffice/graph/gog-object.c:623
+#: ../goffice/graph/gog-object.c:622
+#: ../goffice/graph/gog-object.c:623
 msgid "Is position manual"
-msgstr ""
+msgstr "Onko sijainti manuaalinen"
 
 #: ../goffice/graph/gog-object.c:629
 msgid "Anchor for manual position"
-msgstr ""
+msgstr "Manuaalisen sijainnin ankkuri"
 
-#: ../goffice/graph/gog-object.c:634 ../goffice/graph/gog-object.c:635
+#: ../goffice/graph/gog-object.c:634
+#: ../goffice/graph/gog-object.c:635
 msgid "Should the object be hidden"
-msgstr ""
+msgstr "Pitäisikö objektin olla piilotettu"
 
 #: ../goffice/graph/gog-outlined-object.c:74
 msgid "Padding Pts"
-msgstr ""
+msgstr "Siirros, pist."
 
 #: ../goffice/graph/gog-outlined-object.c:75
 msgid "Number of pts separating charts in the grid"
-msgstr ""
+msgstr "Kaavioita viivastossa erottava pistemäärä"
 
 #: ../goffice/graph/gog-plot-engine.c:56
-#, fuzzy
 msgid "Plot Engine"
-msgstr "_Taulu"
+msgstr "Piirto-ohjelma"
 
 #: ../goffice/graph/gog-plot-engine.c:297
-#, fuzzy
 msgid "Plot Type"
-msgstr "_Taulu"
+msgstr "Kuvaajatyyppi"
 
 #: ../goffice/graph/gog-plot-engine.c:394
 msgid "Chart Theme"
-msgstr ""
+msgstr "Kaavioteema"
 
 #: ../goffice/graph/gog-plot-engine.c:425
 msgid "Regression Curve Engine"
-msgstr ""
+msgstr "Regressiokäyräohjelma"
 
 #: ../goffice/graph/gog-plot-engine.c:615
 msgid "Regression Curve Type"
-msgstr ""
+msgstr "Regressiokäyrätyyppi"
 
 #: ../goffice/graph/gog-plot.c:161
-#, fuzzy
 msgid "X axis:"
-msgstr "X-akseli"
+msgstr "X-akseli:"
 
 #: ../goffice/graph/gog-plot.c:162
-#, fuzzy
 msgid "Y axis:"
-msgstr "Y-akseli"
+msgstr "Y-akseli:"
 
 #: ../goffice/graph/gog-plot.c:163
-#, fuzzy
 msgid "Z axis:"
-msgstr "Z-akseli"
+msgstr "Z-akseli:"
 
 #: ../goffice/graph/gog-plot.c:164
 msgid "Circular axis:"
-msgstr ""
+msgstr "Ympyräakseli:"
 
 #: ../goffice/graph/gog-plot.c:165
 msgid "Radial axis:"
-msgstr ""
+msgstr "Sädeakseli:"
 
 #: ../goffice/graph/gog-plot.c:166
 msgid "Pseudo 3D axis:"
-msgstr ""
+msgstr "Näennäis-3D-akseli:"
 
 #: ../goffice/graph/gog-plot.c:167
-#, fuzzy
 msgid "Color axis:"
-msgstr "Väri:"
+msgstr "Väriakseli:"
 
 #: ../goffice/graph/gog-plot.c:168
-#, fuzzy
 msgid "Bubble axis:"
-msgstr "kupla"
+msgstr "Kupla-akseli:"
 
 #: ../goffice/graph/gog-plot.c:232
-#, fuzzy
 msgid "Axes"
-msgstr "Alueet"
+msgstr "Akselit"
 
 #: ../goffice/graph/gog-plot.c:334
 msgid "Series"
-msgstr ""
+msgstr "Sarjat"
 
 #: ../goffice/graph/gog-plot.c:355
 msgid "Vary style by element"
-msgstr ""
+msgstr "Vaihtele tyyliä osatekijöittäin"
 
 #: ../goffice/graph/gog-plot.c:356
 msgid "Use a different style for each segments"
-msgstr ""
+msgstr "Käytä eri tyyliä kullekin segmentille"
 
 #: ../goffice/graph/gog-plot.c:361
-#, fuzzy
 msgid "X axis"
 msgstr "X-akseli"
 
 #: ../goffice/graph/gog-plot.c:362
 msgid "Reference to X axis"
-msgstr ""
+msgstr "Suhteessa x-akseliin"
 
 #: ../goffice/graph/gog-plot.c:367
-#, fuzzy
 msgid "Y axis"
 msgstr "Y-akseli"
 
 #: ../goffice/graph/gog-plot.c:368
 msgid "Reference to Y axis"
-msgstr ""
+msgstr "Suhteessa y-akseliin"
 
 #: ../goffice/graph/gog-plot.c:373
-#, fuzzy
 msgid "Plot group"
-msgstr "_Taulu"
+msgstr "Kuvaajaryhmä"
 
 #: ../goffice/graph/gog-plot.c:374
 msgid "Name of plot group if any"
-msgstr ""
+msgstr "Kuvaajaryhmän nimi, jos on"
 
 #: ../goffice/graph/gog-plot.c:379
 msgid "Guru hints"
-msgstr ""
+msgstr "Gurun vihjeet"
 
 #: ../goffice/graph/gog-plot.c:380
-msgid ""
-"Semicolon separated list of hints for automatic addition of objects in guru "
-"dialog"
-msgstr ""
+msgid "Semicolon separated list of hints for automatic addition of objects in guru dialog"
+msgstr "Puolipistein eroteltujen vihjeiden lista objektien ohjelmalliseksi lisäämiseksi guruikkunassa"
 
 #: ../goffice/graph/gog-plot.c:386
-#, fuzzy
 msgid "Default interpolation"
-msgstr "Erotin:"
+msgstr "Oletusinterpolointi"
 
 #: ../goffice/graph/gog-plot.c:387
 msgid "Default type of series line interpolation"
 msgstr ""
 
 #: ../goffice/graph/gog-plot.c:992
-#, fuzzy
 msgid "Move plot area"
-msgstr "_Taulu"
+msgstr "Siirrä kuvaaja-aluetta"
 
 #: ../goffice/graph/gog-plot.c:1044
-#, fuzzy
 msgid "Resize plot area"
-msgstr "_Taulu"
+msgstr "Muuta kuvaaja-alueen kokoa"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:1
-#, fuzzy
 msgid "(_Name):"
-msgstr "Nimi"
+msgstr "(_Nimi):"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:2
-#, fuzzy
 msgid "High bound:"
-msgstr "vaalean ruskea"
+msgstr "Yläraja:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:3
 msgid "Low bound:"
-msgstr ""
+msgstr "Alaraja:"
 
 #: ../goffice/graph/gog-reg-curve-prefs.ui.h:4
 #: ../goffice/graph/gog-reg-curve.c:183
-#, fuzzy
 msgid "Skip invalid data"
-msgstr "Virheelliset parametrit"
+msgstr "Ohita virheellinen data"
 
 #: ../goffice/graph/gog-reg-curve.c:147
 msgid "Regression Curve"
-msgstr ""
+msgstr "Regressiokäyrä"
 
 #: ../goffice/graph/gog-reg-curve.c:182
-#, fuzzy
 msgid "Skip invalid"
-msgstr "Virheelliset parametrit"
+msgstr "Ohita virheelliset"
 
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:1
 msgid "Display _equation"
-msgstr ""
+msgstr "Näytä _yhtälö"
 
 #: ../goffice/graph/gog-reg-eqn-prefs.ui.h:2
 msgid "Display _regression coefficient R&#xB2;"
-msgstr ""
+msgstr "Esitä _regressiokerroin R&#xB2;"
 
-#: ../goffice/graph/gog-renderer.c:1525 ../goffice/graph/gog-view.c:590
+#: ../goffice/graph/gog-renderer.c:1525
+#: ../goffice/graph/gog-view.c:590
 msgid "Model"
-msgstr ""
+msgstr "Malli"
 
 #: ../goffice/graph/gog-renderer.c:1526
 msgid "The GogGraph this renderer displays"
-msgstr ""
+msgstr "Tämän hahmontimen esittämä GogGraph"
 
 #: ../goffice/graph/gog-renderer.c:1531
 msgid "View"
-msgstr ""
+msgstr "Näytä"
 
 #: ../goffice/graph/gog-renderer.c:1532
 msgid "the GogView this renderer is displaying"
-msgstr ""
+msgstr "Tämän hahmontimen esittämä GogView"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:1
-#, fuzzy
 msgid "<b>Interpolation</b>"
-msgstr "<b>Suunta</b>"
+msgstr "<b>Interpolointi</b>"
 
 #. derivative (curve slope) at first point for the clamped cubic spline
 #: ../goffice/graph/gog-series-prefs.ui.h:3
 msgid "<i>y'</i>(<i>x</i><sub>first</sub>):"
-msgstr ""
+msgstr "<i>y'</i>(<i>x</i><sub>alku</sub>):"
 
 #. derivative (curve slope) at last point for the clamped cubic spline
 #: ../goffice/graph/gog-series-prefs.ui.h:5
 msgid "<i>y'</i>(<i>x</i><sub>last</sub>):"
-msgstr ""
+msgstr "<i>y'</i>(<i>x</i><sub>päätös</sub>):"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:6
-#, fuzzy
 msgid "Fill _to:"
-msgstr "Tiedoston _tyyppi:"
+msgstr "_Alue:"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:7
-#, fuzzy
 msgid "S_kip invalid data"
-msgstr "Virheelliset parametrit"
+msgstr "_Ohita virheellinen data"
 
 #: ../goffice/graph/gog-series-prefs.ui.h:9
-#, fuzzy
 msgid "content"
-msgstr "_Sisennä:"
+msgstr "sisältö"
 
 #: ../goffice/graph/gog-series.c:36
 msgid "Y origin"
-msgstr ""
+msgstr "y-origoon"
 
 #: ../goffice/graph/gog-series.c:37
 msgid "X origin"
-msgstr ""
+msgstr "x-origoon"
 
 #: ../goffice/graph/gog-series.c:42
 msgid "Origin"
-msgstr ""
+msgstr "origoon"
 
 #: ../goffice/graph/gog-series.c:44
 msgid "Edge"
-msgstr ""
+msgstr "reunaan"
 
 #: ../goffice/graph/gog-series.c:45
 msgid "Self"
-msgstr ""
+msgstr "itse"
 
 #: ../goffice/graph/gog-series.c:46
 msgid "Next series"
-msgstr ""
+msgstr "seuraavaan sarjaan"
 
 #: ../goffice/graph/gog-series.c:151
-#, fuzzy
 msgid "Index:"
-msgstr "_Sisennä:"
+msgstr "Indeksi:"
 
-#: ../goffice/graph/gog-series.c:170 ../plugins/plot_pie/gog-pie.c:89
-#, fuzzy
+#: ../goffice/graph/gog-series.c:170
+#: ../plugins/plot_pie/gog-pie.c:89
 msgid "Settings"
-msgstr "Varoitus"
+msgstr "Asetukset"
 
 #: ../goffice/graph/gog-series.c:211
-#, fuzzy
 msgid "Index"
-msgstr "_Sisennä:"
+msgstr "Indeksi"
 
 #: ../goffice/graph/gog-series.c:212
 msgid "Index of the corresponding data element"
-msgstr ""
+msgstr "Vastaavan data-alkion järjestysnumero"
 
 #: ../goffice/graph/gog-series.c:560
 msgid "Derivative at first point of the clamped cubic spline."
-msgstr ""
+msgstr "Derivaatta kiinnitetyn kuutiosplinin ensimmäisessä pisteessä."
 
 #: ../goffice/graph/gog-series.c:564
 msgid "Derivative at last point of the clamped cubic spline."
-msgstr ""
+msgstr "Derivaatta kiinnitetyn kuutiosplinin viimeisessä pisteessä."
 
 #: ../goffice/graph/gog-series.c:629
 msgid "Point"
@@ -2293,99 +2204,93 @@ msgstr "Piste"
 
 #: ../goffice/graph/gog-series.c:635
 msgid "Regression curve"
-msgstr ""
+msgstr "Regressiokäyrä"
 
 #: ../goffice/graph/gog-series.c:643
-#, fuzzy
 msgid "Trend line"
-msgstr "punapurppurainen"
+msgstr "Trendiviiva"
 
 #: ../goffice/graph/gog-series.c:678
+#, fuzzy
 msgid "Has-legend"
-msgstr ""
+msgstr "On-selite"
 
 #: ../goffice/graph/gog-series.c:679
 msgid "Should the series show up in legends"
-msgstr ""
+msgstr "Pitäisikö sarjojen näkyä selitteessä"
 
 #: ../goffice/graph/gog-series.c:684
-#, fuzzy
 msgid "Interpolation"
-msgstr "Kuvaus"
+msgstr "Interpolointi"
 
 #: ../goffice/graph/gog-series.c:685
-#, fuzzy
 msgid "Type of line interpolation"
-msgstr "Kuvaus"
+msgstr "Lineaarisen Interpoloinnin tyyppi"
 
 #: ../goffice/graph/gog-series.c:690
-#, fuzzy
 msgid "Interpolation skip invalid"
-msgstr "Kuvaus"
+msgstr "Interpolointi ohittaa virheelliset"
 
 #: ../goffice/graph/gog-series.c:691
 msgid "Should the series interpolation ignore the invalid data"
-msgstr ""
+msgstr "Pitäisikö interpolaatiosarjan ohittaa virheellinen data"
 
 #: ../goffice/graph/gog-series.c:696
-#, fuzzy
 msgid "Fill type"
-msgstr "Tiedoston _tyyppi:"
+msgstr "Täyttötyyppi"
 
 #: ../goffice/graph/gog-series.c:697
 msgid "How to fill the area"
-msgstr ""
+msgstr "Kuinka alue täytetään"
 
 #: ../goffice/graph/gog-smoothed-curve.c:52
 msgid "Smoothed Curve"
-msgstr ""
+msgstr "Tasoitettu käyrä"
 
 #. Guppi
 #: ../goffice/graph/gog-theme.c:636
 msgid "Guppi"
-msgstr ""
+msgstr "Guppi"
 
 #: ../goffice/graph/gog-trend-line.c:39
-#, fuzzy
 msgid "Trend Line"
-msgstr "punapurppurainen"
+msgstr "Trendiviiva"
 
 #: ../goffice/graph/gog-view.c:56
 msgid "Select object"
-msgstr ""
+msgstr "Valitse objekti"
 
 #: ../goffice/graph/gog-view.c:127
 msgid "Move"
-msgstr ""
+msgstr "Siirrä"
 
 #: ../goffice/graph/gog-view.c:179
 msgid "Resize object"
-msgstr ""
+msgstr "Muuta objektin kokoa"
 
 #: ../goffice/graph/gog-view.c:585
 msgid "the GogView parent"
-msgstr ""
+msgstr "GogViewin lähde"
 
 #: ../goffice/graph/gog-view.c:591
 msgid "The GogObject this view displays"
-msgstr ""
+msgstr "Tämän näkymän esittämä GogObject"
 
 #: ../goffice/gtk/go-3d-rotation-sel.ui.h:1
-#, fuzzy
 msgid "<b>Rotation</b>"
-msgstr "<b>Suunta</b>"
+msgstr "<b>Kierto</b>"
 
 #: ../goffice/gtk/go-action-combo-text.c:253
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Sama kirjainkoko"
 
 #: ../goffice/gtk/go-action-combo-text.c:254
 msgid "Should the text comparison be case sensitive"
-msgstr ""
+msgstr "Pitäisikö tekstivertailun olla sama kirjainkoko"
 
 #: ../goffice/gtk/go-charmap-sel.c:68
 msgid "Arabic"
-msgstr "arabia"
+msgstr "arabialainen"
 
 #: ../goffice/gtk/go-charmap-sel.c:69
 msgid "Baltic"
@@ -2397,7 +2302,7 @@ msgstr "keskieurooppalainen"
 
 #: ../goffice/gtk/go-charmap-sel.c:71
 msgid "Chinese"
-msgstr "kiina"
+msgstr "kiinalainen"
 
 #: ../goffice/gtk/go-charmap-sel.c:72
 msgid "Cyrillic"
@@ -2405,11 +2310,11 @@ msgstr "kyrillinen"
 
 #: ../goffice/gtk/go-charmap-sel.c:73
 msgid "Greek"
-msgstr "kreikka"
+msgstr "kreikkalainen"
 
 #: ../goffice/gtk/go-charmap-sel.c:74
 msgid "Hebrew"
-msgstr "heprea"
+msgstr "heprealainen"
 
 #: ../goffice/gtk/go-charmap-sel.c:75
 msgid "Indian"
@@ -2417,15 +2322,15 @@ msgstr "intialainen"
 
 #: ../goffice/gtk/go-charmap-sel.c:76
 msgid "Japanese"
-msgstr "japani"
+msgstr "japanilainen"
 
 #: ../goffice/gtk/go-charmap-sel.c:77
 msgid "Korean"
-msgstr "korea"
+msgstr "korealainen"
 
 #: ../goffice/gtk/go-charmap-sel.c:78
 msgid "Turkish"
-msgstr "turkki"
+msgstr "turkkilainen"
 
 #: ../goffice/gtk/go-charmap-sel.c:79
 msgid "Unicode"
@@ -2433,15 +2338,16 @@ msgstr "Unicode"
 
 #: ../goffice/gtk/go-charmap-sel.c:80
 msgid "Vietnamese"
-msgstr "vietnam"
+msgstr "vietnamilainen"
 
 #: ../goffice/gtk/go-charmap-sel.c:81
 msgid "Western"
 msgstr "läntinen"
 
-#: ../goffice/gtk/go-charmap-sel.c:82 ../goffice/gtk/go-locale-sel.c:70
+#: ../goffice/gtk/go-charmap-sel.c:82
+#: ../goffice/gtk/go-locale-sel.c:70
 msgid "Other"
-msgstr "Muu"
+msgstr "muu"
 
 #: ../goffice/gtk/go-charmap-sel.c:113
 msgid "Arabic (IBM-864)"
@@ -2803,7 +2709,8 @@ msgstr "tumman vihreä #2"
 msgid "navy"
 msgstr "laivasto"
 
-#: ../goffice/gtk/go-color-palette.c:82 ../goffice/gtk/go-color-palette.c:134
+#: ../goffice/gtk/go-color-palette.c:82
+#: ../goffice/gtk/go-color-palette.c:134
 msgid "dark blue"
 msgstr "tumman sininen"
 
@@ -2815,7 +2722,8 @@ msgstr "purppurainen #2"
 msgid "very dark gray"
 msgstr "erittäin tumman harmaa"
 
-#: ../goffice/gtk/go-color-palette.c:86 ../goffice/gtk/go-color-palette.c:139
+#: ../goffice/gtk/go-color-palette.c:86
+#: ../goffice/gtk/go-color-palette.c:139
 msgid "dark red"
 msgstr "tumman punainen"
 
@@ -2831,11 +2739,13 @@ msgstr "kulta"
 msgid "dark green"
 msgstr "tumman vihreä"
 
-#: ../goffice/gtk/go-color-palette.c:90 ../goffice/gtk/go-color-palette.c:140
+#: ../goffice/gtk/go-color-palette.c:90
+#: ../goffice/gtk/go-color-palette.c:140
 msgid "dull blue"
 msgstr "mattasininen"
 
-#: ../goffice/gtk/go-color-palette.c:91 ../goffice/gtk/go-color-palette.c:141
+#: ../goffice/gtk/go-color-palette.c:91
+#: ../goffice/gtk/go-color-palette.c:141
 msgid "blue"
 msgstr "sininen"
 
@@ -2871,7 +2781,8 @@ msgstr "mattasininen #2"
 msgid "sky blue #2"
 msgstr "taivaan sininen #2"
 
-#: ../goffice/gtk/go-color-palette.c:101 ../goffice/gtk/go-color-palette.c:138
+#: ../goffice/gtk/go-color-palette.c:101
+#: ../goffice/gtk/go-color-palette.c:138
 msgid "purple"
 msgstr "purppura"
 
@@ -2879,7 +2790,8 @@ msgstr "purppura"
 msgid "gray"
 msgstr "harmaa"
 
-#: ../goffice/gtk/go-color-palette.c:104 ../goffice/gtk/go-color-palette.c:135
+#: ../goffice/gtk/go-color-palette.c:104
+#: ../goffice/gtk/go-color-palette.c:135
 msgid "magenta"
 msgstr "magenta"
 
@@ -2887,7 +2799,8 @@ msgstr "magenta"
 msgid "bright orange"
 msgstr "kirkkaan oranssi"
 
-#: ../goffice/gtk/go-color-palette.c:106 ../goffice/gtk/go-color-palette.c:136
+#: ../goffice/gtk/go-color-palette.c:106
+#: ../goffice/gtk/go-color-palette.c:136
 msgid "yellow"
 msgstr "keltainen"
 
@@ -2895,7 +2808,8 @@ msgstr "keltainen"
 msgid "green"
 msgstr "vihreä"
 
-#: ../goffice/gtk/go-color-palette.c:108 ../goffice/gtk/go-color-palette.c:137
+#: ../goffice/gtk/go-color-palette.c:108
+#: ../goffice/gtk/go-color-palette.c:137
 msgid "cyan"
 msgstr "sinivihreä"
 
@@ -2903,7 +2817,8 @@ msgstr "sinivihreä"
 msgid "bright blue"
 msgstr "kirkkaan sininen"
 
-#: ../goffice/gtk/go-color-palette.c:110 ../goffice/gtk/go-color-palette.c:126
+#: ../goffice/gtk/go-color-palette.c:110
+#: ../goffice/gtk/go-color-palette.c:126
 msgid "red purple"
 msgstr "punapurppurainen"
 
@@ -2911,7 +2826,8 @@ msgstr "punapurppurainen"
 msgid "light gray"
 msgstr "vaalean harmaa"
 
-#: ../goffice/gtk/go-color-palette.c:113 ../goffice/gtk/go-color-palette.c:130
+#: ../goffice/gtk/go-color-palette.c:113
+#: ../goffice/gtk/go-color-palette.c:130
 msgid "pink"
 msgstr "pinkki"
 
@@ -2919,7 +2835,8 @@ msgstr "pinkki"
 msgid "light orange"
 msgstr "vaalean oranssi"
 
-#: ../goffice/gtk/go-color-palette.c:115 ../goffice/gtk/go-color-palette.c:127
+#: ../goffice/gtk/go-color-palette.c:115
+#: ../goffice/gtk/go-color-palette.c:127
 msgid "light yellow"
 msgstr "vaalean keltainen"
 
@@ -2931,11 +2848,13 @@ msgstr "vaalean vihreä"
 msgid "light cyan"
 msgstr "vaalean sinivihreä"
 
-#: ../goffice/gtk/go-color-palette.c:118 ../goffice/gtk/go-color-palette.c:128
+#: ../goffice/gtk/go-color-palette.c:118
+#: ../goffice/gtk/go-color-palette.c:128
 msgid "light blue"
 msgstr "vaalean sininen"
 
-#: ../goffice/gtk/go-color-palette.c:119 ../goffice/gtk/go-color-palette.c:132
+#: ../goffice/gtk/go-color-palette.c:119
+#: ../goffice/gtk/go-color-palette.c:132
 msgid "light purple"
 msgstr "vaalean purppurainen"
 
@@ -2960,45 +2879,48 @@ msgstr "taivaan sininen"
 msgid "custom"
 msgstr "muu"
 
-#: ../goffice/gtk/go-color-palette.c:460 ../goffice/gtk/go-color-palette.c:714
+#: ../goffice/gtk/go-color-palette.c:460
+#: ../goffice/gtk/go-color-palette.c:714
 msgid "Custom Color..."
 msgstr "Mukautettu väri..."
 
 #: ../goffice/gtk/go-color-selector.c:206
-#, fuzzy
 msgid "Custom color..."
 msgstr "Mukautettu väri..."
 
-#: ../goffice/gtk/go-combo-box.c:274
+#: ../goffice/gtk/go-combo-box.c:265
+#, fuzzy
 msgid "Add tearoffs to menus"
-msgstr ""
+msgstr "Lisää irtovalikot valikoihin"
 
-#: ../goffice/gtk/go-combo-box.c:275
+#: ../goffice/gtk/go-combo-box.c:266
+#, fuzzy
 msgid "Whether dropdowns should have a tearoff menu item"
-msgstr ""
+msgstr "Olisiko pudotusvalikoissa oltava irtovalikkorivejä"
 
-#: ../goffice/gtk/go-font-sel.c:174 ../goffice/math/go-distribution.c:67
+#: ../goffice/gtk/go-font-sel.c:174
+#: ../goffice/math/go-distribution.c:67
 msgid "Normal"
-msgstr "Normaali"
+msgstr "normaali"
 
 #: ../goffice/gtk/go-font-sel.c:175
 msgid "Bold"
-msgstr "Lihavointi"
+msgstr "lihavoitu"
 
 #: ../goffice/gtk/go-font-sel.c:176
 msgid "Bold italic"
-msgstr "Lihava kursiivi"
+msgstr "lihavoitu kursiivi"
 
 #: ../goffice/gtk/go-font-sel.c:177
 msgid "Italic"
-msgstr "Kursivointi"
+msgstr "kursiivi"
 
 #. xgettext: This text is used as a sample when selecting a font
 #. * please choose a translation that would produce common
 #. * characters specific to the target alphabet.
 #: ../goffice/gtk/go-font-sel.c:460
 msgid "AaBbCcDdEe12345"
-msgstr ""
+msgstr "AaBbCcÄäÖö12345"
 
 #: ../goffice/gtk/go-font-sel.ui.h:1
 msgid "Font style:"
@@ -3058,7 +2980,7 @@ msgstr "Muu"
 
 #: ../goffice/gtk/go-format-sel.c:1047
 msgid "Negative Number Format"
-msgstr "Negatiivisen luvun muoto"
+msgstr "negatiivisen luvun muoto"
 
 #: ../goffice/gtk/go-format-sel.c:1075
 msgid "Number Formats"
@@ -3066,7 +2988,7 @@ msgstr "Lukumuodot"
 
 #: ../goffice/gtk/go-format-sel.ui.h:1
 msgid "Ca_tegories:"
-msgstr "_Luokat:"
+msgstr "L_uokka:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:2
 msgid "Deci_mal places:"
@@ -3074,47 +2996,47 @@ msgstr "_Desimaaleja:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:3
 msgid "Display amounts in traditional accounting styles."
-msgstr ""
+msgstr "Esitä määrät perinteiseen kirjanpitotyyliin."
 
 #: ../goffice/gtk/go-format-sel.ui.h:4
 msgid "Display and input values as strings with no interpretation."
-msgstr ""
+msgstr "Näytä ja syötä arvot merkkijonoina ilman tulkintaa."
 
 #: ../goffice/gtk/go-format-sel.ui.h:5
 msgid "Display currency amounts."
-msgstr ""
+msgstr "Esitä valuuttamäärät."
 
 #: ../goffice/gtk/go-format-sel.ui.h:6
 msgid "Display dates and optionally times of day."
-msgstr ""
+msgstr "Esitä päiväykset ja valinnaisesti kellonajat."
 
 #: ../goffice/gtk/go-format-sel.ui.h:7
 msgid "Display numeric values with a fixed number of decimals."
-msgstr ""
+msgstr "Esitä numeeriset arvot kiintein desimaalein."
 
 #: ../goffice/gtk/go-format-sel.ui.h:8
 msgid "Display times of day."
-msgstr ""
+msgstr "Esitä kellonajat."
 
 #: ../goffice/gtk/go-format-sel.ui.h:9
 msgid "Display values as closest fractional approximation."
-msgstr ""
+msgstr "Esitä arvot murtolukuapproksimaatioina."
 
 #: ../goffice/gtk/go-format-sel.ui.h:10
 msgid "Display values as percentages."
-msgstr ""
+msgstr "Esitä arvot prosentteina."
 
 #: ../goffice/gtk/go-format-sel.ui.h:11
 msgid "Display values with power-of-ten scaling."
-msgstr ""
+msgstr "Esitä arvot kymmenpotenssien kertoimina."
 
 #: ../goffice/gtk/go-format-sel.ui.h:12
 msgid "Format c_ode:"
-msgstr ""
+msgstr "Mu_otoilukoodi:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:13
 msgid "Negative number _format:"
-msgstr ""
+msgstr "Ne_gatiivisen luvun muoto:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:14
 msgid "Preview:"
@@ -3122,7 +3044,7 @@ msgstr "Esikatselu:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:15
 msgid "Restrict exponent to multiples of 3"
-msgstr ""
+msgstr "Rajoita eksponentti kolmen kerrannaisiksi"
 
 #: ../goffice/gtk/go-format-sel.ui.h:16
 msgid "S_ymbol:"
@@ -3130,71 +3052,66 @@ msgstr "S_ymboli:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:17
 msgid "Select an appropriate format automatically."
-msgstr ""
+msgstr "Ohjelma valitsee sopivan lukumuodon."
 
 #: ../goffice/gtk/go-format-sel.ui.h:18
 msgid "Specify an XL-style format directly"
-msgstr ""
+msgstr "Määritä suoraan XL-tyylin muotoilu "
 
 #: ../goffice/gtk/go-format-sel.ui.h:19
 msgid "Use _superscript"
-msgstr ""
+msgstr "Käytä yläindek_siä"
 
 #: ../goffice/gtk/go-format-sel.ui.h:20
 msgid "Use superscript for exponent (e.g. 4&#xD7;10&#xB2;)"
-msgstr ""
+msgstr "Käytä yläindeksiä eksponenteille (esim. 4&#xD7;10&#xB2;)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:21
 msgid "When mantissa is equal to 1, only show exponent part (e.g. 10&#xB2;)"
-msgstr ""
+msgstr "Kun mantissa on 1, esitä vain eksponenttiosa (esim. 10&#xB2;)"
 
 #: ../goffice/gtk/go-format-sel.ui.h:22
 msgid "_Don't show 1xs"
-msgstr ""
+msgstr "Älä näytä 1x:ää "
 
 #: ../goffice/gtk/go-format-sel.ui.h:23
 msgid "_Engineering notation"
-msgstr ""
+msgstr "T_ekninen notaatio"
 
 #: ../goffice/gtk/go-format-sel.ui.h:24
 msgid "_Format:"
 msgstr "_Muotoilut:"
 
 #: ../goffice/gtk/go-format-sel.ui.h:25
-#, fuzzy
 msgid "_Use separator for 1000s"
-msgstr "_Käytä tuhaterotinta"
+msgstr "Käytä t_uhaterottimia"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.ui.h:1
-#, fuzzy
 msgid "Export settings"
-msgstr "Varoitus"
+msgstr "Vientiasetukset"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.ui.h:2
-#, fuzzy
 msgid "Resolution:"
-msgstr "_Suunta:"
+msgstr "Tarkkuus:"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.ui.h:3
-#, fuzzy
 msgid "_File type:"
-msgstr "Tiedoston _tyyppi:"
+msgstr "Tiedoston t_yyppi:"
 
 #: ../goffice/gtk/go-image-save-dialog-extra.ui.h:4
 msgid "pixels/in"
-msgstr ""
+msgstr "kuvapistettä/tuuma"
 
 #: ../goffice/gtk/go-image-sel.ui.h:1
-#, fuzzy
 msgid "<b>Add an image</b>"
-msgstr "<b>Viiva</b>"
+msgstr "<b>Lisää kuva</b>"
 
 #: ../goffice/gtk/go-image-sel.ui.h:2
-#, fuzzy
 msgid "Name:"
-msgstr "Nimi"
+msgstr "Nimi:"
 
-#: ../goffice/gtk/go-image-sel.ui.h:3 ../goffice/utils/go-style-prefs.ui.h:22
+#: ../goffice/gtk/go-image-sel.ui.h:3
+#: ../goffice/utils/go-style-prefs.ui.h:22
 msgid "_Select..."
 msgstr "_Valitse..."
 
@@ -3208,7 +3125,7 @@ msgstr "Itä-Eurooppa"
 
 #: ../goffice/gtk/go-locale-sel.c:65
 msgid "North America"
-msgstr "Pohjoisamerikka"
+msgstr "Pohjois-Amerikka"
 
 #: ../goffice/gtk/go-locale-sel.c:66
 msgid "South & Central America"
@@ -3248,7 +3165,7 @@ msgstr "Etiopia/Amhara (am_ET)"
 
 #: ../goffice/gtk/go-locale-sel.c:105
 msgid "United Arab Emirates (ar_AE)"
-msgstr "Arabiemiirikuntien liitto (ar_AE)"
+msgstr "Arabiemiirikunnat (ar_AE)"
 
 #: ../goffice/gtk/go-locale-sel.c:106
 msgid "Bahrain (ar_BH)"
@@ -3352,11 +3269,11 @@ msgstr "Espanja/katalaani (ca_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:131
 msgid "Czech Republic (cs_CZ)"
-msgstr "Tšekin tasavalta (cs_CZ)"
+msgstr "Tšekki (cs_CZ)"
 
 #: ../goffice/gtk/go-locale-sel.c:132
 msgid "Great Britain/Welsh (cy_GB)"
-msgstr "Iso-Britannia/wales (cy_GB)"
+msgstr "Britannia/kymri (cy_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:133
 msgid "Denmark (da_DK)"
@@ -3400,11 +3317,11 @@ msgstr "Kanada/englanti (en_CA)"
 
 #: ../goffice/gtk/go-locale-sel.c:143
 msgid "Great Britain (en_GB)"
-msgstr "Iso-Britannia (en_GB)"
+msgstr "Britannia (en_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:144
 msgid "Hong Kong/English (en_HK)"
-msgstr "Hong Kong/englanti (en_HK)"
+msgstr "Hongkong/englanti (en_HK)"
 
 #: ../goffice/gtk/go-locale-sel.c:145
 msgid "Ireland (en_IE)"
@@ -3560,11 +3477,11 @@ msgstr "Ranska (fr_FR)"
 
 #: ../goffice/gtk/go-locale-sel.c:183
 msgid "Ireland/Gaelic (ga_IE)"
-msgstr "Irlanti/gaeli (ga_IE)"
+msgstr "Irlanti/iiri (ga_IE)"
 
 #: ../goffice/gtk/go-locale-sel.c:184
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
-msgstr "Iso-Britannia/skotti (gd_GB)"
+msgstr "Britannia/gaeli (gd_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:185
 msgid "Spain/Galician (gl_ES)"
@@ -3572,7 +3489,7 @@ msgstr "Espanja/galicia (gl_ES)"
 
 #: ../goffice/gtk/go-locale-sel.c:186
 msgid "Great Britain/Manx Gaelic (gv_GB)"
-msgstr "Iso-Britannia/manx (gv_GB)"
+msgstr "Britannia/manksi (gv_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:187
 msgid "India/Hindu (hi_IN)"
@@ -3636,7 +3553,7 @@ msgstr "Korea (ko_KR)"
 
 #: ../goffice/gtk/go-locale-sel.c:202
 msgid "Great Britain/Cornish (kw_GB)"
-msgstr "Iso-Britannia/korni (kw_GB)"
+msgstr "Britannia/korni (kw_GB)"
 
 #: ../goffice/gtk/go-locale-sel.c:203
 msgid "Lithuania (lt_LT)"
@@ -3676,11 +3593,11 @@ msgstr "Alankomaat (nl_NL)"
 
 #: ../goffice/gtk/go-locale-sel.c:212
 msgid "Norway/Nynorsk (nn_NO)"
-msgstr "Norja/uusnorja (nn_NO)"
+msgstr "Norja/norjan nynorsk (nn_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:213
 msgid "Norway/Bokmal (no_NO)"
-msgstr "Norja/kirjanorja (no_NO)"
+msgstr "Norja/norja (no_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:214
 msgid "France/Occitan (oc_FR)"
@@ -3712,7 +3629,7 @@ msgstr "Ukraina/venäjä (ru_UA)"
 
 #: ../goffice/gtk/go-locale-sel.c:221
 msgid "Norway/Saami (se_NO)"
-msgstr "Norja/saame (se_NO)"
+msgstr "Norja/pohjoissaame (se_NO)"
 
 #: ../goffice/gtk/go-locale-sel.c:222
 msgid "Slovakia (sk_SK)"
@@ -3772,7 +3689,7 @@ msgstr "Turkki (tr_TR)"
 
 #: ../goffice/gtk/go-locale-sel.c:236
 msgid "Russia/Tatar (tt_RU)"
-msgstr "Venäjä/tatar (tt_RU)"
+msgstr "Venäjä/tataari (tt_RU)"
 
 #: ../goffice/gtk/go-locale-sel.c:237
 msgid "Ukraine (uk_UA)"
@@ -3792,7 +3709,7 @@ msgstr "Vietnam (vi_VN)"
 
 #: ../goffice/gtk/go-locale-sel.c:241
 msgid "Belgium/Walloon (wa_BE)"
-msgstr "Belgia/wallon (wa_BE)"
+msgstr "Belgia/valloni (wa_BE)"
 
 #: ../goffice/gtk/go-locale-sel.c:242
 msgid "United States/Yiddish (yi_US)"
@@ -3804,7 +3721,7 @@ msgstr "Kiina (zh_CN)"
 
 #: ../goffice/gtk/go-locale-sel.c:244
 msgid "Hong Kong/Chinese (zh_HK)"
-msgstr "Hong Kong/kiina (zh_HK)"
+msgstr "Hongkong/kiina (zh_HK)"
 
 #: ../goffice/gtk/go-locale-sel.c:245
 msgid "Singapore/Chinese (zh_SG)"
@@ -3827,52 +3744,47 @@ msgid "The menu of options"
 msgstr "Vaihtoehtojen valikko"
 
 #: ../goffice/gtk/go-palette.c:373
-#, fuzzy
 msgid "Custom..."
-msgstr "Muu"
+msgstr "Mukauta..."
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:1
-#, fuzzy
 msgid "<b>Orientation</b>"
-msgstr "Asento"
+msgstr "<b>Suunta</b>"
 
 #: ../goffice/gtk/go-rotation-sel.ui.h:2
 msgid "A_ngle:"
-msgstr ""
+msgstr "K_ulma:"
 
 #: ../goffice/gtk/goffice-gtk.c:140
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Tiedoston avaaminen epäonnistui: '%s'"
 
-#: ../goffice/gtk/goffice-gtk.c:555 ../goffice/utils/go-style.c:152
+#: ../goffice/gtk/goffice-gtk.c:555
+#: ../goffice/utils/go-style.c:152
 #, c-format
 msgid "%d x %d"
 msgstr "%d × %d"
 
 #: ../goffice/gtk/goffice-gtk.c:590
 msgid "All Files"
-msgstr ""
+msgstr "Kaikki tiedostot"
 
 #: ../goffice/gtk/goffice-gtk.c:595
-#, fuzzy
 msgid "Images"
-msgstr "Kuva"
+msgstr "Kuvat"
 
 #: ../goffice/gtk/goffice-gtk.c:639
 msgid "Select an Image"
-msgstr ""
+msgstr "Valitse kuva"
 
 #: ../goffice/gtk/goffice-gtk.c:718
-#, fuzzy
 msgid "Save as"
-msgstr "Tallenna kaikki"
+msgstr "Tallenna nimellä"
 
 #: ../goffice/gtk/goffice-gtk.c:788
-msgid ""
-"The given file extension does not match the chosen file type. Do you want to "
-"use this name anyway?"
-msgstr ""
+msgid "The given file extension does not match the chosen file type. Do you want to use this name anyway?"
+msgstr "Annettu tiedostopääte ei sovi valitulle tiedostotyypille. Haluatko käyttää tätä nimeä joka tapauksessa?"
 
 #: ../goffice/gtk/goffice-gtk.c:1005
 #, c-format
@@ -3889,50 +3801,50 @@ msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
+"Sinulla ei ole oikeutta tallentaa kohteeseen\n"
+"%s"
 
 #: ../goffice/gtk/goffice-gtk.c:1019
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
 "\n"
 "Do you want to save over it?"
 msgstr ""
-"Työkirja %s on jo olemassa.\n"
+"Tiedosto <i>%s</i> on jo olemassa kohteessa %s.\n"
+"\n"
 "Haluatko tallentaa sen päälle?"
 
 #: ../goffice/math/go-distribution.c:68
 msgid "Uniform"
-msgstr ""
+msgstr "yhtenäinen"
 
 #: ../goffice/math/go-distribution.c:69
 msgid "Cauchy"
-msgstr ""
+msgstr "Cauchy"
 
 #: ../goffice/math/go-distribution.c:70
 msgid "Weibull"
-msgstr ""
+msgstr "Weibull"
 
 #: ../goffice/math/go-distribution.c:71
-#, fuzzy
 msgid "Lognormal"
-msgstr "Normaali"
+msgstr "lognormaali"
 
-#: ../goffice/math/go-distribution.c:155 ../goffice/math/go-distribution.c:156
-#, fuzzy
+#: ../goffice/math/go-distribution.c:155
+#: ../goffice/math/go-distribution.c:156
 msgid "Location"
-msgstr "_Suunta:"
+msgstr "Sijainti"
 
-#: ../goffice/math/go-distribution.c:693 ../goffice/math/go-distribution.c:805
-#, fuzzy
+#: ../goffice/math/go-distribution.c:693
+#: ../goffice/math/go-distribution.c:805
 msgid "Shape"
-msgstr ""
-"Näytä\n"
-"otos"
+msgstr "Muoto"
 
-#: ../goffice/math/go-distribution.c:694 ../goffice/math/go-distribution.c:806
-#, fuzzy
+#: ../goffice/math/go-distribution.c:694
+#: ../goffice/math/go-distribution.c:806
 msgid "Shape factor"
-msgstr "Välilyönti"
+msgstr "Muotokerroin"
 
 #. The first column has three letter acronyms
 #. * for each currency.  They MUST start with '[$'
@@ -3941,27 +3853,27 @@ msgstr "Välilyönti"
 #. 2002/08/04 Updated to match iso 4217
 #: ../goffice/utils/formats.c:363
 msgid "United Arab Emirates, Dirhams"
-msgstr ""
+msgstr "Arabiemiirikunnat, dirhami"
 
 #: ../goffice/utils/formats.c:364
 msgid "Afghanistan, Afghanis"
-msgstr ""
+msgstr "Afganistan, afgaani (AFA)"
 
 #: ../goffice/utils/formats.c:365
 msgid "Albania, Leke"
-msgstr ""
+msgstr "Albania, lek"
 
 #: ../goffice/utils/formats.c:366
 msgid "Armenia, Drams"
-msgstr ""
+msgstr "Armenia, dram"
 
 #: ../goffice/utils/formats.c:367
 msgid "Netherlands Antilles, Guilders"
-msgstr ""
+msgstr "Alankomaiden Antillit, guldeni"
 
 #: ../goffice/utils/formats.c:368
 msgid "Angola, Kwanza"
-msgstr ""
+msgstr "Angola, kwanza"
 
 #: ../goffice/utils/formats.c:369
 msgid "Argentina, Pesos"
@@ -3973,35 +3885,35 @@ msgstr "Australia, dollari"
 
 #: ../goffice/utils/formats.c:371
 msgid "Aruba, Guilders"
-msgstr ""
+msgstr "Aruba, guldeni"
 
 #: ../goffice/utils/formats.c:372
 msgid "Azerbaijan, Manats"
-msgstr ""
+msgstr "Azerbaidžan, manat"
 
 #: ../goffice/utils/formats.c:373
 msgid "Bosnia and Herzegovina, Convertible Marka"
-msgstr ""
+msgstr "Bosnia ja Hertsegovina, vaihdettava markka"
 
 #: ../goffice/utils/formats.c:374
 msgid "Barbados, Dollars"
-msgstr ""
+msgstr "Barbados, dollari"
 
 #: ../goffice/utils/formats.c:375
 msgid "Bangladesh, Taka"
-msgstr ""
+msgstr "Bangladesh, taka"
 
 #: ../goffice/utils/formats.c:376
 msgid "Bulgaria, Leva"
-msgstr ""
+msgstr "Bulgaria, kova lev"
 
 #: ../goffice/utils/formats.c:377
 msgid "Bahrain, Dinars"
-msgstr "Bahrain, dinari"
+msgstr "Bahrain, dinaari"
 
 #: ../goffice/utils/formats.c:378
 msgid "Burundi, Francs"
-msgstr ""
+msgstr "Burundi, frangi"
 
 #: ../goffice/utils/formats.c:379
 msgid "Bermuda, Dollars"
@@ -4009,15 +3921,15 @@ msgstr "Bermuda, dollari"
 
 #: ../goffice/utils/formats.c:380
 msgid "Brunei Darussalam, Dollars"
-msgstr ""
+msgstr "Brunei, dollari"
 
 #: ../goffice/utils/formats.c:381
 msgid "Bolivia, Bolivianos"
-msgstr ""
+msgstr "Bolivia, boliviano"
 
 #: ../goffice/utils/formats.c:382
 msgid "Brazil, Brazil Real"
-msgstr ""
+msgstr "Brasilia, real"
 
 #: ../goffice/utils/formats.c:383
 msgid "Bahamas, Dollars"
@@ -4025,11 +3937,11 @@ msgstr "Bahama, dollari"
 
 #: ../goffice/utils/formats.c:384
 msgid "Bhutan, Ngultrum"
-msgstr ""
+msgstr "Bhutan, ngultrum"
 
 #: ../goffice/utils/formats.c:385
 msgid "Botswana, Pulas"
-msgstr ""
+msgstr "Botswana, pula"
 
 #: ../goffice/utils/formats.c:386
 msgid "Belarus, Rubles"
@@ -4037,7 +3949,7 @@ msgstr "Valko-Venäjä, rupla"
 
 #: ../goffice/utils/formats.c:387
 msgid "Belize, Dollars"
-msgstr ""
+msgstr "Belize, dollari"
 
 #: ../goffice/utils/formats.c:388
 msgid "Canada, Dollars"
@@ -4045,11 +3957,11 @@ msgstr "Kanada, dollari"
 
 #: ../goffice/utils/formats.c:389
 msgid "Congo/Kinshasa, Congolese Francs"
-msgstr ""
+msgstr "Kongo (Kinshasa), frangi"
 
 #: ../goffice/utils/formats.c:390
 msgid "Switzerland, Francs"
-msgstr ""
+msgstr "Sveitsi, frangi"
 
 #: ../goffice/utils/formats.c:391
 msgid "Chile, Pesos"
@@ -4057,7 +3969,7 @@ msgstr "Chile, peso"
 
 #: ../goffice/utils/formats.c:392
 msgid "China, Yuan Renminbi"
-msgstr ""
+msgstr "Kiina, yuan"
 
 #: ../goffice/utils/formats.c:393
 msgid "Colombia, Pesos"
@@ -4065,7 +3977,7 @@ msgstr "Kolumbia, peso"
 
 #: ../goffice/utils/formats.c:394
 msgid "Costa Rica, Colones"
-msgstr ""
+msgstr "Costa Rica, colón"
 
 #: ../goffice/utils/formats.c:395
 msgid "Cuba, Pesos"
@@ -4073,7 +3985,7 @@ msgstr "Kuuba, peso"
 
 #: ../goffice/utils/formats.c:396
 msgid "Cape Verde, Escudos"
-msgstr ""
+msgstr "Kap Verde, escudo"
 
 #: ../goffice/utils/formats.c:397
 msgid "Cyprus, Pounds"
@@ -4081,11 +3993,11 @@ msgstr "Kypros, punta"
 
 #: ../goffice/utils/formats.c:398
 msgid "Czech Republic, Koruny"
-msgstr ""
+msgstr "Tšekki, koruna"
 
 #: ../goffice/utils/formats.c:399
 msgid "Djibouti, Francs"
-msgstr ""
+msgstr "Djibouti, frangi"
 
 #: ../goffice/utils/formats.c:400
 msgid "Denmark, Kroner"
@@ -4097,7 +4009,7 @@ msgstr "Dominikaaninen tasavalta, peso"
 
 #: ../goffice/utils/formats.c:402
 msgid "Algeria, Algeria Dinars"
-msgstr ""
+msgstr "Algeria, dinaari"
 
 #: ../goffice/utils/formats.c:403
 msgid "Estonia, Krooni"
@@ -4109,11 +4021,11 @@ msgstr "Egypti, punta"
 
 #: ../goffice/utils/formats.c:405
 msgid "Eritrea, Nakfa"
-msgstr ""
+msgstr "Eritrea, nakfa"
 
 #: ../goffice/utils/formats.c:406
 msgid "Ethiopia, Birr"
-msgstr ""
+msgstr "Etiopia, birr"
 
 #: ../goffice/utils/formats.c:407
 msgid "Euro Member Countries, Euro"
@@ -4121,27 +4033,27 @@ msgstr "Euro-jäsenmaat, euro"
 
 #: ../goffice/utils/formats.c:408
 msgid "Fiji, Dollars"
-msgstr "Fiji, dollari"
+msgstr "Fidži, dollari"
 
 #: ../goffice/utils/formats.c:409
 msgid "Falkland Islands (Malvinas), Pounds"
-msgstr ""
+msgstr "Falklandinsaaret, punta"
 
 #: ../goffice/utils/formats.c:410
 msgid "United Kingdom, Pounds"
-msgstr "Yhdistynyt kuningaskunta, punta"
+msgstr "Britannia, punta"
 
 #: ../goffice/utils/formats.c:411
 msgid "Georgia, Lari"
-msgstr ""
+msgstr "Georgia, lari"
 
 #: ../goffice/utils/formats.c:412
 msgid "Guernsey, Pounds"
-msgstr ""
+msgstr "Guernsey, punta"
 
 #: ../goffice/utils/formats.c:413
 msgid "Ghana, Cedis"
-msgstr ""
+msgstr "Ghana, cedi"
 
 #: ../goffice/utils/formats.c:414
 msgid "Gibraltar, Pounds"
@@ -4149,64 +4061,63 @@ msgstr "Gibraltar, punta"
 
 #: ../goffice/utils/formats.c:415
 msgid "Gambia, Dalasi"
-msgstr ""
+msgstr "Gambia, dalasi"
 
 #: ../goffice/utils/formats.c:416
 msgid "Guinea, Francs"
-msgstr ""
+msgstr "Guinea, frangi"
 
 #: ../goffice/utils/formats.c:417
 msgid "Guatemala, Quetzales"
-msgstr ""
+msgstr "Guatemala, quetzal"
 
 #: ../goffice/utils/formats.c:418
 msgid "Guyana, Dollars"
-msgstr ""
+msgstr "Guyana, dollari"
 
 #: ../goffice/utils/formats.c:419
 msgid "Hong Kong, Dollars"
-msgstr "Hong Kong, dollari"
+msgstr "Hongkong, dollari"
 
 #: ../goffice/utils/formats.c:420
 msgid "Honduras, Lempiras"
-msgstr ""
+msgstr "Honduras, lempira"
 
 #: ../goffice/utils/formats.c:421
 msgid "Croatia, Kuna"
-msgstr ""
+msgstr "Kroatia, kuna"
 
 #: ../goffice/utils/formats.c:422
 msgid "Haiti, Gourdes"
-msgstr ""
+msgstr "Haiti, gourde"
 
 #: ../goffice/utils/formats.c:423
 msgid "Hungary, Forint"
-msgstr "Unkari, florintti"
+msgstr "Unkari, forintti"
 
 #: ../goffice/utils/formats.c:424
 msgid "Indonesia, Rupiahs"
-msgstr ""
+msgstr "Indonesia, rupia"
 
 #: ../goffice/utils/formats.c:425
 msgid "Israel, New Shekels"
-msgstr ""
+msgstr "Israel, uusi sekeli"
 
 #: ../goffice/utils/formats.c:426
 msgid "Isle of Man, Pounds"
-msgstr ""
+msgstr "Mansaari, punta"
 
 #: ../goffice/utils/formats.c:427
 msgid "India, Rupees"
-msgstr ""
+msgstr "Intia, rupia"
 
 #: ../goffice/utils/formats.c:428
 msgid "Iraq, Dinars"
-msgstr "Irak, dinari"
+msgstr "Irak, dinaari"
 
 #: ../goffice/utils/formats.c:429
-#, fuzzy
 msgid "Iran, Rials"
-msgstr "Liitännäisluettelo"
+msgstr "Iran, rial"
 
 #: ../goffice/utils/formats.c:430
 msgid "Iceland, Kronur"
@@ -4218,11 +4129,11 @@ msgstr "Jersey, punta"
 
 #: ../goffice/utils/formats.c:432
 msgid "Jamaica, Dollars"
-msgstr "Jamaica, dollari"
+msgstr "Jamaika, dollari"
 
 #: ../goffice/utils/formats.c:433
 msgid "Jordan, Dinars"
-msgstr "Jordania, dinari"
+msgstr "Jordania, dinaari"
 
 #: ../goffice/utils/formats.c:434
 msgid "Japan, Yen"
@@ -4234,39 +4145,39 @@ msgstr "Kenia, šillinki"
 
 #: ../goffice/utils/formats.c:436
 msgid "Kyrgyzstan, Soms"
-msgstr ""
+msgstr "Kirkisia, som"
 
 #: ../goffice/utils/formats.c:437
 msgid "Cambodia, Riels"
-msgstr ""
+msgstr "Kambodža, riel"
 
 #: ../goffice/utils/formats.c:438
 msgid "Comoros, Francs"
-msgstr ""
+msgstr "Komorit, frangi"
 
 #: ../goffice/utils/formats.c:439
 msgid "Korea (North), Won"
-msgstr ""
+msgstr "Pohjois-Korea, won"
 
 #: ../goffice/utils/formats.c:440
 msgid "Korea (South), Won"
-msgstr ""
+msgstr "Etelä-Korea, won"
 
 #: ../goffice/utils/formats.c:441
 msgid "Kuwait, Dinars"
-msgstr "Kuwait, dinari"
+msgstr "Kuwait, dinaari"
 
 #: ../goffice/utils/formats.c:442
 msgid "Cayman Islands, Dollars"
-msgstr ""
+msgstr "Caymansaaret, dollari"
 
 #: ../goffice/utils/formats.c:443
 msgid "Kazakstan, Tenge"
-msgstr ""
+msgstr "Kazakstan, tenge"
 
 #: ../goffice/utils/formats.c:444
 msgid "Laos, Kips"
-msgstr ""
+msgstr "Laos, kip"
 
 #: ../goffice/utils/formats.c:445
 msgid "Lebanon, Pounds"
@@ -4274,19 +4185,19 @@ msgstr "Libanon, punta"
 
 #: ../goffice/utils/formats.c:446
 msgid "Sri Lanka, Rupees"
-msgstr ""
+msgstr "Sri Lanka, rupia"
 
 #: ../goffice/utils/formats.c:447
 msgid "Liberia, Dollars"
-msgstr ""
+msgstr "Liberia, dollari"
 
 #: ../goffice/utils/formats.c:448
 msgid "Lesotho, Maloti"
-msgstr ""
+msgstr "Lesotho, loti"
 
 #: ../goffice/utils/formats.c:449
 msgid "Lithuania, Litai"
-msgstr ""
+msgstr "Liettua, liti"
 
 #: ../goffice/utils/formats.c:450
 msgid "Latvia, Lati"
@@ -4294,55 +4205,55 @@ msgstr "Latvia, lati"
 
 #: ../goffice/utils/formats.c:451
 msgid "Libya, Dinars"
-msgstr "Libya, dinari"
+msgstr "Libya, dinaari"
 
 #: ../goffice/utils/formats.c:452
 msgid "Morocco, Dirhams"
-msgstr ""
+msgstr "Marokko, dirhami"
 
 #: ../goffice/utils/formats.c:453
 msgid "Moldova, Lei"
-msgstr ""
+msgstr "Moldova, leu"
 
 #: ../goffice/utils/formats.c:454
 msgid "Madagascar, Malagasy Francs"
-msgstr ""
+msgstr "Madagaskar, Malagassian frangi"
 
 #: ../goffice/utils/formats.c:455
 msgid "Macedonia, Denars"
-msgstr ""
+msgstr "Makedonia, dinaari"
 
 #: ../goffice/utils/formats.c:456
 msgid "Myanmar (Burma), Kyats"
-msgstr ""
+msgstr "Myanmar, kyat"
 
 #: ../goffice/utils/formats.c:457
 msgid "Mongolia, Tugriks"
-msgstr ""
+msgstr "Mongolia, tugrik"
 
 #: ../goffice/utils/formats.c:458
 msgid "Macau, Patacas"
-msgstr ""
+msgstr "Macau, pataca"
 
 #: ../goffice/utils/formats.c:459
 msgid "Mauritania, Ouguiyas"
-msgstr ""
+msgstr "Mauritania, ouguiya"
 
 #: ../goffice/utils/formats.c:460
 msgid "Malta, Liri"
-msgstr ""
+msgstr "Malta, liira"
 
 #: ../goffice/utils/formats.c:461
 msgid "Mauritius, Rupees"
-msgstr ""
+msgstr "Mauritius, rupia"
 
 #: ../goffice/utils/formats.c:462
 msgid "Maldives (Maldive Islands), Rufiyaa"
-msgstr ""
+msgstr "Malediivit, rufiyaa"
 
 #: ../goffice/utils/formats.c:463
 msgid "Malawi, Kwachas"
-msgstr ""
+msgstr "Malawi, kwacha"
 
 #: ../goffice/utils/formats.c:464
 msgid "Mexico, Pesos"
@@ -4350,11 +4261,11 @@ msgstr "Meksiko, peso"
 
 #: ../goffice/utils/formats.c:465
 msgid "Malaysia, Ringgits"
-msgstr ""
+msgstr "Malesia, ringgit"
 
 #: ../goffice/utils/formats.c:466
 msgid "Mozambique, Meticais"
-msgstr ""
+msgstr "Mosambik, metical"
 
 #: ../goffice/utils/formats.c:467
 msgid "Namibia, Dollars"
@@ -4362,11 +4273,11 @@ msgstr "Namibia, dollari"
 
 #: ../goffice/utils/formats.c:468
 msgid "Nigeria, Nairas"
-msgstr ""
+msgstr "Nigeria, naira"
 
 #: ../goffice/utils/formats.c:469
 msgid "Nicaragua, Gold Cordobas"
-msgstr ""
+msgstr "Nicaragua, kultacordoba"
 
 #: ../goffice/utils/formats.c:470
 msgid "Norway, Krone"
@@ -4374,7 +4285,7 @@ msgstr "Norja, kruunu"
 
 #: ../goffice/utils/formats.c:471
 msgid "Nepal, Nepal Rupees"
-msgstr ""
+msgstr "Nepal, rupia"
 
 #: ../goffice/utils/formats.c:472
 msgid "New Zealand, Dollars"
@@ -4382,19 +4293,19 @@ msgstr "Uusi-Seelanti, dollari"
 
 #: ../goffice/utils/formats.c:473
 msgid "Oman, Rials"
-msgstr ""
+msgstr "Oman, rial"
 
 #: ../goffice/utils/formats.c:474
 msgid "Panama, Balboa"
-msgstr ""
+msgstr "Panama, balboa"
 
 #: ../goffice/utils/formats.c:475
 msgid "Peru, Nuevos Soles"
-msgstr ""
+msgstr "Peru, uusi sol"
 
 #: ../goffice/utils/formats.c:476
 msgid "Papua New Guinea, Kina"
-msgstr ""
+msgstr "Papua-Uusi-Guinea, kina"
 
 #: ../goffice/utils/formats.c:477
 msgid "Philippines, Pesos"
@@ -4402,49 +4313,47 @@ msgstr "Filippiinit, peso"
 
 #: ../goffice/utils/formats.c:478
 msgid "Pakistan, Rupees"
-msgstr ""
+msgstr "Pakistan, rupia"
 
 #: ../goffice/utils/formats.c:479
 msgid "Poland, Zlotys"
-msgstr "Puola, sloti"
+msgstr "Puola, zloty"
 
 #: ../goffice/utils/formats.c:480
 msgid "Paraguay, Guarani"
-msgstr ""
+msgstr "Paraguay, guarani"
 
 #: ../goffice/utils/formats.c:481
-#, fuzzy
 msgid "Qatar, Rials"
-msgstr "Huhtikuu"
+msgstr "Qatar, rial"
 
 #: ../goffice/utils/formats.c:482
 msgid "Romania, Lei"
-msgstr ""
+msgstr "Romania, leu"
 
 #: ../goffice/utils/formats.c:483
 msgid "Russia, Rubles"
-msgstr "Venäjä, rupla"
+msgstr "Venäjä, rupla (RUR)"
 
 #: ../goffice/utils/formats.c:484
 msgid "Rwanda, Rwanda Francs"
-msgstr ""
+msgstr "Ruanda, frangi"
 
 #: ../goffice/utils/formats.c:485
 msgid "Saudi Arabia, Riyals"
-msgstr ""
+msgstr "Saudi-Arabia, rial"
 
 #: ../goffice/utils/formats.c:486
 msgid "Solomon Islands, Dollars"
-msgstr ""
+msgstr "Salomonsaaret, dollari"
 
 #: ../goffice/utils/formats.c:487
-#, fuzzy
 msgid "Seychelles, Rupees"
-msgstr "Siirrä soluja ylöspäin"
+msgstr "Seychellit, rupia"
 
 #: ../goffice/utils/formats.c:488
 msgid "Sudan, Dinars"
-msgstr ""
+msgstr "Sudan, dinaari"
 
 #: ../goffice/utils/formats.c:489
 msgid "Sweden, Kronor"
@@ -4456,67 +4365,70 @@ msgstr "Singapore, dollari"
 
 #: ../goffice/utils/formats.c:491
 msgid "Saint Helena, Pounds"
-msgstr ""
+msgstr "Saint Helena, punta"
 
 #: ../goffice/utils/formats.c:492
 msgid "Slovenia, Tolars"
-msgstr ""
+msgstr "Slovenia, tolar"
 
 #: ../goffice/utils/formats.c:493
 msgid "Slovakia, Koruny"
-msgstr ""
+msgstr "Slovakia, koruna"
 
 #: ../goffice/utils/formats.c:494
 msgid "Sierra Leone, Leones"
-msgstr ""
+msgstr "Sierra Leone, leone"
 
 #: ../goffice/utils/formats.c:495
 msgid "Somalia, Shillings"
 msgstr "Somalia, šillinki"
 
+# Hiukka tuntemattomampi valuutta Välimeren rannalta.
 #: ../goffice/utils/formats.c:496
 msgid "Seborga, Luigini"
-msgstr ""
+msgstr "Seborga, Luigini"
 
+# Tämä, niinkuin muutama muunkin maan valuutta on nykyään vaihtunut, mutta käännös vastaa ohjelman käyttämää valuuttakoodia.
 #: ../goffice/utils/formats.c:497
 msgid "Suriname, Guilders"
-msgstr ""
+msgstr "Suriname, guldeni"
 
 #: ../goffice/utils/formats.c:498
 msgid "Sao Tome and Principe, Dobras"
-msgstr ""
+msgstr "São Tomé ja Príncipe, dobra"
 
 #: ../goffice/utils/formats.c:499
 msgid "El Salvador, Colones"
-msgstr ""
+msgstr "El Salvador, colon"
 
 #: ../goffice/utils/formats.c:500
 msgid "Syria, Pounds"
-msgstr ""
+msgstr "Syyria, punta"
 
 #: ../goffice/utils/formats.c:501
 msgid "Swaziland, Emalangeni"
-msgstr ""
+msgstr "Swazimaa, lilangeni"
 
 #: ../goffice/utils/formats.c:502
 msgid "Thailand, Baht"
-msgstr ""
+msgstr "Thaimaa, baht"
 
+# Tämä, niinkuin muutama muunkin maan valuutta on nykyään vaihtunut, mutta käännös vastaa ohjelman käyttämää valuuttakoodia
 #: ../goffice/utils/formats.c:503
 msgid "Tajikistan, Rubles"
-msgstr ""
+msgstr "Tadžikistan, rupla"
 
 #: ../goffice/utils/formats.c:504
 msgid "Turkmenistan, Manats"
-msgstr ""
+msgstr "Turkmenistan, manat"
 
 #: ../goffice/utils/formats.c:505
 msgid "Tunisia, Dinars"
-msgstr "Tunisia, dinari"
+msgstr "Tunisia, dinaari"
 
 #: ../goffice/utils/formats.c:506
 msgid "Tonga, Pa'anga"
-msgstr ""
+msgstr "Tonga, pa'anga"
 
 #: ../goffice/utils/formats.c:507
 msgid "Turkey, Liras"
@@ -4524,15 +4436,15 @@ msgstr "Turkki, liira"
 
 #: ../goffice/utils/formats.c:508
 msgid "Trinidad and Tobago, Dollars"
-msgstr ""
+msgstr "Trinidad ja Tobago, dollari"
 
 #: ../goffice/utils/formats.c:509
 msgid "Tuvalu, Tuvalu Dollars"
-msgstr ""
+msgstr "Tuvalu, dollari"
 
 #: ../goffice/utils/formats.c:510
 msgid "Taiwan, New Dollars"
-msgstr ""
+msgstr "Taiwan, uusi dollari"
 
 #: ../goffice/utils/formats.c:511
 msgid "Tanzania, Shillings"
@@ -4540,7 +4452,7 @@ msgstr "Tansania, šillinki"
 
 #: ../goffice/utils/formats.c:512
 msgid "Ukraine, Hryvnia"
-msgstr ""
+msgstr "Ukraina, hryvnia"
 
 #: ../goffice/utils/formats.c:513
 msgid "Uganda, Shillings"
@@ -4556,116 +4468,114 @@ msgstr "Uruguay, peso"
 
 #: ../goffice/utils/formats.c:516
 msgid "Uzbekistan, Sums"
-msgstr ""
+msgstr "Uzbekistan, sum"
 
 #: ../goffice/utils/formats.c:517
 msgid "Venezuela, Bolivares"
-msgstr ""
+msgstr "Venezuela, bolivar"
 
 #: ../goffice/utils/formats.c:518
 msgid "Viet Nam, Dong"
-msgstr ""
+msgstr "Vietnam, dong"
 
 #: ../goffice/utils/formats.c:519
 msgid "Vanuatu, Vatu"
-msgstr ""
+msgstr "Vanuatu, vatu"
 
 #: ../goffice/utils/formats.c:520
 msgid "Samoa, Tala"
-msgstr ""
+msgstr "Samoa, tala"
 
 #: ../goffice/utils/formats.c:521
 msgid "Communaute Financiere Africaine BEAC, Francs"
-msgstr ""
+msgstr "CFA-frangi (BEAC)"
 
 #: ../goffice/utils/formats.c:522
 msgid "Silver, Ounces"
-msgstr "Hopea, unssi"
+msgstr "hopeaunssi"
 
 #: ../goffice/utils/formats.c:523
 msgid "Gold, Ounces"
-msgstr "Kulta, unssi"
+msgstr "kultaunssi"
 
 #: ../goffice/utils/formats.c:524
 msgid "East Caribbean Dollars"
-msgstr ""
+msgstr "Itä-Karibian dollari"
 
 #: ../goffice/utils/formats.c:525
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
-msgstr ""
+msgstr "erityisnosto-oikeus (SDR)"
 
 #: ../goffice/utils/formats.c:526
 msgid "Communaute Financiere Africaine BCEAO, Francs"
-msgstr ""
+msgstr "CFA-frangi (BCEAO)"
 
 #: ../goffice/utils/formats.c:527
 msgid "Palladium, Ounces"
-msgstr ""
+msgstr "palladiumunssi"
 
 #: ../goffice/utils/formats.c:528
 msgid "Comptoirs Francais du Pacifique Francs"
-msgstr ""
+msgstr "CFP-frangi"
 
 #: ../goffice/utils/formats.c:529
 msgid "Platinum, Ounces"
-msgstr ""
+msgstr "platinaunssi"
 
 #: ../goffice/utils/formats.c:530
 msgid "Yemen, Rials"
-msgstr ""
+msgstr "Jemen, rial"
 
 #: ../goffice/utils/formats.c:531
 msgid "Yugoslavia, New Dinars"
-msgstr ""
+msgstr "Jugoslavia, uusi dinaari"
 
 #: ../goffice/utils/formats.c:532
 msgid "South Africa, Rand"
-msgstr ""
+msgstr "Etelä-Afrikka, randi"
 
 #: ../goffice/utils/formats.c:533
 msgid "Zambia, Kwacha"
-msgstr ""
+msgstr "Sambia, kwacha"
 
 #: ../goffice/utils/formats.c:534
 msgid "Zimbabwe, Zimbabwe Dollars"
-msgstr ""
+msgstr "Zimbabwe, dollari (ZWD)"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:439
 msgid "*Long Date Format"
-msgstr ""
+msgstr "*Pitkä päiväysmuoto"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:447
-#, fuzzy
 msgid "*Medium Date Format"
-msgstr "Lukumuodot"
+msgstr "*Keskipitkä päiväysmuoto"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:455
 msgid "*Short Date Format"
-msgstr ""
+msgstr "*Lyhyt päiväysmuoto"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:468
 msgid "*Short Date/Time Format"
-msgstr ""
+msgstr "*Lyhyt aikaleima"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:483
 msgid "*Long Time Format"
-msgstr ""
+msgstr "*Pitkä kellonaikamuoto"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:495
-#, fuzzy
 msgid "*Medium Time Format"
-msgstr "Lukumuodot"
+msgstr "*Keskipitkä kellonaikamuoto"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
 #: ../goffice/utils/go-format.c:507
 msgid "*Short Time Format"
-msgstr ""
+msgstr "*Lyhyt kellonaikamuoto"
 
 #: ../goffice/utils/go-format.c:541
 msgid "Black"
@@ -4700,157 +4610,155 @@ msgid "Yellow"
 msgstr "keltainen"
 
 #: ../goffice/utils/go-format.c:568
-#, fuzzy
 msgid "color"
-msgstr "Väri:"
+msgstr "väri"
 
 #: ../goffice/utils/go-glib-extras.c:836
 msgid "yes"
-msgstr ""
+msgstr "kyllä"
 
 #: ../goffice/utils/go-glib-extras.c:842
-#, fuzzy
 msgid "no"
-msgstr "ei mikään"
+msgstr "ei"
 
 #: ../goffice/utils/go-glib-extras.c:1036
 #, c-format
 msgid "Quoted string not terminated"
-msgstr ""
+msgstr "Merkkijonon lainaus ei pääty"
 
 #: ../goffice/utils/go-glib-extras.c:1043
 #, c-format
 msgid "Syntax error"
-msgstr ""
+msgstr "Syntaksivirhe"
 
 #: ../goffice/utils/go-image.c:132
 msgid "SVG (vector graphics)"
-msgstr ""
+msgstr "SVG (vektorigrafiikka)"
 
 #: ../goffice/utils/go-image.c:134
 msgid "PNG (raster graphics)"
-msgstr ""
+msgstr "PNG (bittikarttagrafiikka)"
 
 #: ../goffice/utils/go-image.c:136
 msgid "JPEG (photograph)"
-msgstr ""
+msgstr "JPEG (valokuva)"
 
 #: ../goffice/utils/go-image.c:138
 msgid "PDF (portable document format)"
-msgstr ""
+msgstr "PDF (siirrettävä asiakirjamuoto)"
 
 #: ../goffice/utils/go-image.c:140
 msgid "PS (postscript)"
-msgstr ""
+msgstr "PS (postscript)"
 
 #: ../goffice/utils/go-image.c:142
 msgid "EMF (extended metafile)"
-msgstr ""
+msgstr "EMF (laajennettu sisällönkuvaustiedosto)"
 
 #: ../goffice/utils/go-image.c:144
 msgid "WMF (windows metafile)"
-msgstr ""
+msgstr "WMF ( Windows-metatiedosto)"
 
 #: ../goffice/utils/go-image.c:147
 msgid "EPS (encapsulated postscript)"
-msgstr ""
+msgstr "EPS (kapseloitu postscript)"
 
 #: ../goffice/utils/go-image.c:473
 msgid "Image width in pixels"
-msgstr ""
+msgstr "Kuvan leveys pikseleinä"
 
 #: ../goffice/utils/go-image.c:477
 msgid "Image height in pixels"
-msgstr ""
+msgstr "Kuvan korkeus pikseleinä"
 
 #: ../goffice/utils/go-image.c:482
 msgid "GdkPixbuf object from which the GOImage is built"
-msgstr ""
+msgstr "GdkPixbuf-objekti, josta GOImage rakennetaan"
 
-#: ../goffice/utils/go-line.c:86 ../goffice/utils/go-pattern.c:41
+#: ../goffice/utils/go-line.c:86
+#: ../goffice/utils/go-pattern.c:41
 msgid "Solid"
-msgstr "Yhtenäinen"
+msgstr "Yhtenäinen viiva"
 
 #: ../goffice/utils/go-line.c:88
 msgid "Dot"
-msgstr ""
+msgstr "Pisteviiva"
 
 #: ../goffice/utils/go-line.c:90
 msgid "Dash dot"
-msgstr ""
+msgstr "Viiva piste -katkoviiva"
 
 #: ../goffice/utils/go-line.c:92
 msgid "Dash dot dot"
-msgstr ""
+msgstr "Viiva piste piste -katkoviiva"
 
 #: ../goffice/utils/go-line.c:94
 msgid "Dash dot dot dot"
-msgstr ""
+msgstr "Viiva piste piste piste -katkoviiva"
 
 #: ../goffice/utils/go-line.c:96
 msgid "Short dash"
-msgstr ""
+msgstr "Lyhytviivainen katkoviiva"
 
 #: ../goffice/utils/go-line.c:98
 msgid "Dash"
-msgstr ""
+msgstr "Katkoviiva"
 
 #: ../goffice/utils/go-line.c:100
 msgid "Long dash"
-msgstr ""
+msgstr "Pitkäviivainen katkoviiva"
 
 #: ../goffice/utils/go-line.c:102
 msgid "Very long dash"
-msgstr ""
+msgstr "Erittäin pitkäviivainen katkoviiva"
 
 #: ../goffice/utils/go-line.c:104
 msgid "Long dash dash"
-msgstr ""
+msgstr "Pitkä viiva viiva -katkoviiva"
 
 #: ../goffice/utils/go-line.c:106
 msgid "Long dash dash dash"
-msgstr ""
+msgstr "Pitkä viiva viiva viiva -katkoviiva"
 
 #: ../goffice/utils/go-line.c:120
 msgid "Bezier cubic spline"
-msgstr ""
+msgstr "Bezier-kuutiosplini"
 
 #: ../goffice/utils/go-line.c:122
 msgid "Closed Bezier cubic spline"
-msgstr ""
+msgstr "suljettu Bezier-kuutiosplini"
 
 #: ../goffice/utils/go-line.c:124
 msgid "Natural cubic spline"
-msgstr ""
+msgstr "luonnollinen kuutiosplini"
 
 #: ../goffice/utils/go-line.c:126
 msgid "Cubic spline with parabolic extrapolation"
-msgstr ""
+msgstr "kuutiosplini parabolisin ekstrapolaatioin"
 
 #: ../goffice/utils/go-line.c:128
 msgid "Cubic spline with cubic extrapolation"
-msgstr ""
+msgstr "kuutiosplini kuutiollisin ekstrapolaatioin"
 
 #: ../goffice/utils/go-line.c:130
 msgid "Clamped cubic spline"
-msgstr ""
+msgstr "kiinnitetty kuutiosplini"
 
 #: ../goffice/utils/go-line.c:132
 msgid "Step at start"
-msgstr ""
+msgstr "porras alussa"
 
 #: ../goffice/utils/go-line.c:134
 msgid "Step at end"
-msgstr ""
+msgstr "porras lopussa"
 
 #: ../goffice/utils/go-line.c:136
-#, fuzzy
 msgid "Step at center"
-msgstr "Välilyönti"
+msgstr "porras keskellä"
 
 #: ../goffice/utils/go-line.c:138
 msgid "Step to mean"
-msgstr ""
+msgstr "porras keskiarvoon"
 
 #: ../goffice/utils/go-locale.c:496
 msgid "TRUE"
@@ -4870,55 +4778,55 @@ msgstr "neliö"
 
 #: ../goffice/utils/go-marker.c:77
 msgid "diamond"
-msgstr ""
+msgstr "vinoneliö"
 
 #: ../goffice/utils/go-marker.c:78
 msgid "triangle down"
-msgstr ""
+msgstr "kolmio alaspäin"
 
 #: ../goffice/utils/go-marker.c:79
 msgid "triangle up"
-msgstr ""
+msgstr "kolmio ylöspäin"
 
 #: ../goffice/utils/go-marker.c:80
 msgid "triangle right"
-msgstr ""
+msgstr "kolmio oikealle"
 
 #: ../goffice/utils/go-marker.c:81
 msgid "triangle left"
-msgstr ""
+msgstr "kolmio vasemmalle"
 
 #: ../goffice/utils/go-marker.c:82
 msgid "circle"
-msgstr ""
+msgstr "ympyrä"
 
 #: ../goffice/utils/go-marker.c:84
 msgid "cross"
-msgstr ""
+msgstr "risti"
 
 #: ../goffice/utils/go-marker.c:85
 msgid "asterisk"
-msgstr ""
+msgstr "asteriski"
 
 #: ../goffice/utils/go-marker.c:86
 msgid "bar"
-msgstr ""
+msgstr "palkki"
 
 #: ../goffice/utils/go-marker.c:87
 msgid "half bar"
-msgstr ""
+msgstr "puolijana"
 
 #: ../goffice/utils/go-marker.c:88
 msgid "butterfly"
-msgstr ""
+msgstr "perhonen"
 
 #: ../goffice/utils/go-marker.c:89
 msgid "hourglass"
-msgstr ""
+msgstr "tiimalasi"
 
 #: ../goffice/utils/go-marker.c:90
 msgid "left half bar"
-msgstr ""
+msgstr "vasen puolijana"
 
 #: ../goffice/utils/go-pattern.c:43
 #, no-c-format
@@ -4951,7 +4859,7 @@ msgstr "Vaakaraita"
 
 #: ../goffice/utils/go-pattern.c:53
 msgid "Vertical Stripe"
-msgstr "Pystyviiva"
+msgstr "Pystyraita"
 
 #: ../goffice/utils/go-pattern.c:54
 msgid "Reverse Diagonal Stripe"
@@ -4975,7 +4883,7 @@ msgstr "Ohut vaakaraita"
 
 #: ../goffice/utils/go-pattern.c:59
 msgid "Thin Vertical Stripe"
-msgstr "Ohut vaakaraita"
+msgstr "Ohut pystyraita"
 
 #: ../goffice/utils/go-pattern.c:60
 msgid "Thin Reverse Diagonal Stripe"
@@ -5009,7 +4917,7 @@ msgstr "Puoliympyrät"
 #. Applix
 #: ../goffice/utils/go-pattern.c:67
 msgid "Thatch"
-msgstr ""
+msgstr "Vinopunos"
 
 #. Applix small thatch
 #: ../goffice/utils/go-pattern.c:68
@@ -5021,28 +4929,24 @@ msgid "Bricks"
 msgstr "Tiilet"
 
 #: ../goffice/utils/go-style.c:583
-#, fuzzy
 msgid "Start:"
-msgstr "*La"
+msgstr "Alku:"
 
 #: ../goffice/utils/go-style.c:584
-#, fuzzy
 msgid "End:"
-msgstr "_Sisennä:"
+msgstr "Loppu:"
 
 #: ../goffice/utils/go-style.c:586
-#, fuzzy
 msgid "Foreground:"
-msgstr "_Edustaväri:"
+msgstr "Edusta:"
 
 #: ../goffice/utils/go-style.c:587
-#, fuzzy
 msgid "Background:"
-msgstr "_Tausta:"
+msgstr "Tausta:"
 
 #: ../goffice/utils/go-style.c:806
 msgid "Markers"
-msgstr ""
+msgstr "Merkkipisteet"
 
 #: ../goffice/utils/go-style.c:878
 msgid "Font"
@@ -5058,51 +4962,47 @@ msgstr "<b>Viiva</b>"
 
 #: ../goffice/utils/go-style-prefs.ui.h:3
 msgid "<b>Marker</b>"
-msgstr ""
+msgstr "<b>Pistemerkki</b>"
 
 #: ../goffice/utils/go-style-prefs.ui.h:4
 msgid "<b>Outline</b>"
-msgstr ""
+msgstr "<b>Reunat</b>"
 
 #: ../goffice/utils/go-style-prefs.ui.h:5
-#, fuzzy
 msgid "B_rightness:"
-msgstr "Korkeus"
+msgstr "Ki_rkkaus:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:6
 msgid "Bicolor gradient"
-msgstr ""
+msgstr "kaksivärinen liukuvärjäys"
 
 #: ../goffice/utils/go-style-prefs.ui.h:7
 msgid "Co_lor:"
 msgstr "_Väri:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:10
-#, fuzzy
 msgid "O_utline:"
-msgstr "Oikea"
+msgstr "Re_unat:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:11
-#, fuzzy
 msgid "Pattern"
-msgstr "_Kuvio:"
+msgstr "kuviointi"
 
 #: ../goffice/utils/go-style-prefs.ui.h:12
 msgid "Sha_pe:"
-msgstr ""
+msgstr "Ku_vio:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:13
 msgid "Si_ze:"
 msgstr "K_oko:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:14
-#, fuzzy
 msgid "St_yle:"
-msgstr "Tyyli:"
+msgstr "T_yyli"
 
 #: ../goffice/utils/go-style-prefs.ui.h:15
 msgid "Unicolor gradient"
-msgstr ""
+msgstr "yksivärinen liukuvärjäys"
 
 #: ../goffice/utils/go-style-prefs.ui.h:16
 msgid "_Background:"
@@ -5113,13 +5013,12 @@ msgid "_Direction:"
 msgstr "_Suunta:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:18
-#, fuzzy
 msgid "_Fill:"
-msgstr "_Sovita:"
+msgstr "T_äyttö:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:19
 msgid "_Fit:"
-msgstr "_Sovita:"
+msgstr "_Sovitus:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:20
 msgid "_Foreground:"
@@ -5134,169 +5033,168 @@ msgid "_Size:"
 msgstr "_Koko:"
 
 #: ../goffice/utils/go-style-prefs.ui.h:26
-#, fuzzy
 msgid "stretched"
-msgstr "Kirjasintyyli:"
+msgstr "venytetty"
 
 #: ../goffice/utils/go-style-prefs.ui.h:27
 msgid "wallpaper"
-msgstr ""
+msgstr "tapetti"
 
 #: ../goffice/utils/regutf8.c:41
 msgid "Pattern not found."
-msgstr ""
+msgstr "Kuviota ei löydy"
 
 #: ../goffice/utils/regutf8.c:43
-#, fuzzy
 msgid "Invalid pattern."
-msgstr "Virheelliset parametrit"
+msgstr "Virheellinen kuvio."
 
 #: ../goffice/utils/regutf8.c:44
 msgid "Invalid collating element."
-msgstr ""
+msgstr "Virheellinen yhdistelmämerkki"
 
 #: ../goffice/utils/regutf8.c:45
 msgid "Invalid character class name."
-msgstr ""
+msgstr "Virheellinen merkkiluokan nimi."
 
 #: ../goffice/utils/regutf8.c:46
 msgid "Trailing backslash."
-msgstr ""
+msgstr "Päättävä kenoviiva"
 
 #: ../goffice/utils/regutf8.c:47
 msgid "Invalid back reference."
-msgstr ""
+msgstr "Virheellinen paluuviite."
 
 #: ../goffice/utils/regutf8.c:48
 msgid "Unmatched left bracket."
-msgstr ""
+msgstr "Pariton vasen sulje."
 
 #: ../goffice/utils/regutf8.c:49
 msgid "Parenthesis imbalance."
-msgstr ""
+msgstr "Sulkeiden parittomuus."
 
 #: ../goffice/utils/regutf8.c:50
 msgid "Unmatched \\{."
-msgstr ""
+msgstr "Täsmäämätön \\{."
 
 #: ../goffice/utils/regutf8.c:51
 msgid "Invalid contents of \\{\\}."
-msgstr ""
+msgstr "Virheellinen sisältö kohteessa \\{\\}."
 
 #: ../goffice/utils/regutf8.c:52
-#, fuzzy
 msgid "Invalid range end."
-msgstr "Virheelliset parametrit"
+msgstr "Virheellinen alueen loppu."
 
 #: ../goffice/utils/regutf8.c:53
 msgid "Out of memory."
-msgstr ""
+msgstr "Muisti ei riitä."
 
 #: ../goffice/utils/regutf8.c:54
 msgid "Invalid repetition operator."
-msgstr ""
+msgstr "Virheellinen toisto-operaattori."
 
 #: ../goffice/utils/regutf8.c:55
 msgid "Premature end of pattern."
-msgstr ""
+msgstr "Kuvio päättyi ennenaikaisesti."
 
 #: ../goffice/utils/regutf8.c:56
 msgid "Pattern is too big."
-msgstr ""
+msgstr "Kuvio on liian suuri."
 
 #: ../goffice/utils/regutf8.c:57
 msgid "Unmatched ) or \\)"
-msgstr ""
+msgstr "Täsmäämätön ) tai \\)"
 
 #: ../goffice/utils/regutf8.c:359
 #, c-format
 msgid "Search string must not be empty."
-msgstr ""
+msgstr "Hakumerkkijono ei saa olla tyhjä."
 
 #: ../goffice/utils/regutf8.c:369
 #, c-format
 msgid "Replacement string must be set."
-msgstr ""
+msgstr "Korvausmerkkijono pitää olla asetettu."
 
 #: ../goffice/utils/regutf8.c:381
 #, c-format
 msgid "Invalid search pattern (%s)"
-msgstr ""
+msgstr "Virheellinen etsintäkuvio (%s)"
 
 #: ../goffice/utils/regutf8.c:405
 #, c-format
 msgid "Invalid $-specification in replacement."
-msgstr ""
+msgstr "Virheellinen $-määritys korvauksessa."
 
 #: ../goffice/utils/regutf8.c:415
 #, c-format
 msgid "Invalid trailing backslash in replacement."
-msgstr ""
+msgstr "Virheellinen päättävä kenoviiva korvauksessa."
 
 #: ../goffice/utils/regutf8.c:892
 msgid "Search Text"
-msgstr ""
+msgstr "Hakuteksti"
 
 #: ../goffice/utils/regutf8.c:893
 msgid "The text to search for"
-msgstr ""
+msgstr "Haettava teksti"
 
 #: ../goffice/utils/regutf8.c:902
 msgid "Replacement Text"
-msgstr ""
+msgstr "Korvaava teksti"
 
 #: ../goffice/utils/regutf8.c:903
 msgid "The text to replace with"
-msgstr ""
+msgstr "Korvaava teksti"
 
 #: ../goffice/utils/regutf8.c:911
 msgid "Is Regular Expression"
-msgstr ""
+msgstr "On säännöllinen lauseke"
 
 #: ../goffice/utils/regutf8.c:912
 msgid "Is the search text a regular expression."
-msgstr ""
+msgstr "Onko etsittävä teksti säännöllinen lauseke."
 
 #: ../goffice/utils/regutf8.c:920
 msgid "Ignore Case"
-msgstr ""
+msgstr "Ohita aakkoskoko"
 
 #: ../goffice/utils/regutf8.c:921
 msgid "Ignore the case of letters."
-msgstr ""
+msgstr "Ohita kirjainten aakkoskoko."
 
 #: ../goffice/utils/regutf8.c:929
 msgid "Preserve Case"
-msgstr ""
+msgstr "Säilytä aakkoskoko"
 
 #: ../goffice/utils/regutf8.c:930
 msgid "Preserve the case of letters."
-msgstr ""
+msgstr "Säilytä kirjainten aakkoskoko."
 
 #: ../goffice/utils/regutf8.c:938
 msgid "Match Words"
-msgstr ""
+msgstr "Täsmää sanoja"
 
 #: ../goffice/utils/regutf8.c:939
 msgid "Match whole words only."
-msgstr ""
+msgstr "Täsmää vain kokonaisia sanoja."
 
 #: ../plugins/plot_barcol/gog-1.5d.c:333
 msgid "How to group multiple series, normal, stacked, as_percentage"
-msgstr ""
+msgstr "Useiden sarjojen ryhmittely: normaali, pinottu, prosentteina"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:338 ../plugins/plot_pie/gog-pie.c:317
+#: ../plugins/plot_barcol/gog-1.5d.c:338
+#: ../plugins/plot_pie/gog-pie.c:317
 #: ../plugins/plot_xy/gog-xy.c:528
 msgid "In 3d"
-msgstr ""
+msgstr "Kolmiulotteisena"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:339
 msgid "Placeholder to allow us to round trip pseudo 3d state"
-msgstr ""
+msgstr "Paikkamerkki, joka sallii meille kiertotien näennäis-3D-tilaan"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:347
 #: ../plugins/plot_barcol/gog-dropbar.c:59
-#: ../plugins/plot_barcol/gog-minmax.c:249 ../plugins/plot_pie/gog-pie.c:336
+#: ../plugins/plot_barcol/gog-minmax.c:249
+#: ../plugins/plot_pie/gog-pie.c:336
 #: ../plugins/plot_radar/gog-radar.c:319
 msgid "Labels"
 msgstr "Nimiöt"
@@ -5305,32 +5203,34 @@ msgstr "Nimiöt"
 #: ../plugins/plot_distrib/gog-boxplot.c:404
 #: ../plugins/plot_distrib/gog-histogram.c:190
 #: ../plugins/plot_distrib/gog-probability-plot.c:277
-#: ../plugins/plot_pie/gog-pie.c:338 ../plugins/plot_radar/gog-radar.c:321
+#: ../plugins/plot_pie/gog-pie.c:338
+#: ../plugins/plot_radar/gog-radar.c:321
 msgid "Values"
 msgstr "Arvot"
 
-#: ../plugins/plot_barcol/gog-1.5d.c:578 ../plugins/plot_barcol/gog-1.5d.c:641
-#, fuzzy
+#: ../plugins/plot_barcol/gog-1.5d.c:578
+#: ../plugins/plot_barcol/gog-1.5d.c:641
 msgid "Error bars"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Virhejanat"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:598
 msgid "Series lines"
-msgstr ""
+msgstr "Sarjojen viivat"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:605
 #: ../plugins/plot_distrib/gog-histogram.c:475
 msgid "Drop lines"
-msgstr ""
+msgstr "Kelluvat viivat"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:613
 #: ../plugins/plot_barcol/plot-types.xml.in.h:78
 msgid "Lines"
-msgstr "Viivoja"
+msgstr "Viivat"
 
 #: ../plugins/plot_barcol/gog-1.5d.c:642
 #: ../plugins/plot_radar/gog-radar.c:1253
-#: ../plugins/plot_radar/gog-radar.c:1379 ../plugins/plot_xy/gog-xy.c:1998
+#: ../plugins/plot_radar/gog-radar.c:1379
+#: ../plugins/plot_xy/gog-xy.c:1998
 #: ../plugins/plot_xy/gog-xy.c:2004
 #, fuzzy
 msgid "GogErrorBar *"
@@ -5338,70 +5238,70 @@ msgstr "Virhe jäsennettäessä riviä"
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:3
 msgid "O_verlap:"
-msgstr ""
+msgstr "Limitys:"
 
 #: ../plugins/plot_barcol/gog-barcol-prefs.ui.h:4
 #: ../plugins/plot_barcol/gog-minmax-prefs.ui.h:3
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:7
 msgid "_Gap:"
-msgstr ""
+msgstr "_Väli:"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
 #: ../plugins/plot_barcol/gog-barcol.c:138
 msgid "PlotBarCol"
-msgstr ""
+msgstr "Pylväskuvaaja"
 
 #: ../plugins/plot_barcol/gog-barcol.c:150
 #: ../plugins/plot_barcol/gog-minmax.c:198
-#: ../plugins/plot_distrib/gog-boxplot.c:162 ../plugins/plot_pie/gog-pie.c:273
-#: ../plugins/plot_pie/gog-pie.c:432 ../plugins/plot_radar/gog-radar.c:503
+#: ../plugins/plot_distrib/gog-boxplot.c:162
+#: ../plugins/plot_pie/gog-pie.c:273
+#: ../plugins/plot_pie/gog-pie.c:432
+#: ../plugins/plot_radar/gog-radar.c:503
 #: ../plugins/plot_surface/gog-xyz.c:99
 #: ../plugins/plot_surface/gog-xyz-surface.c:180
-#: ../plugins/plot_xy/gog-xy.c:428 ../plugins/plot_xy/gog-xy.c:704
+#: ../plugins/plot_xy/gog-xy.c:428
+#: ../plugins/plot_xy/gog-xy.c:704
 #: ../plugins/smoothing/gog-moving-avg.c:113
 #: ../plugins/smoothing/gog-exp-smooth.c:80
 msgid "Properties"
-msgstr ""
+msgstr "Ominaisuudet"
 
 #: ../plugins/plot_barcol/gog-barcol.c:244
 #: ../plugins/plot_barcol/gog-minmax.c:224
 #: ../plugins/plot_distrib/gog-boxplot.c:371
-#, fuzzy
 msgid "Gap percentage"
-msgstr "Prosentti"
+msgstr "Aukollinen prosenttiosuus"
 
 #: ../plugins/plot_barcol/gog-barcol.c:245
 #: ../plugins/plot_barcol/gog-minmax.c:225
 #: ../plugins/plot_distrib/gog-boxplot.c:372
 msgid "The padding around each group as a percentage of their width"
-msgstr ""
+msgstr "Täyte kunkin ryhmän ohella prosentteina niiden leveydestä"
 
 #: ../plugins/plot_barcol/gog-barcol.c:250
-#, fuzzy
 msgid "Overlap percentage"
-msgstr "Prosentti"
+msgstr "Limittyvä prosenttiosuus"
 
 #: ../plugins/plot_barcol/gog-barcol.c:251
 msgid "The distance between series as a percentage of their width"
-msgstr ""
+msgstr "Sarjojen välinen etäisyys prosentteina niiden leveydestä"
 
 #: ../plugins/plot_barcol/gog-barcol.c:256
-#, fuzzy
 msgid "horizontal"
-msgstr "Vaakaraita"
+msgstr "vaakataso"
 
 #: ../plugins/plot_barcol/gog-barcol.c:257
 msgid "horizontal bars or vertical columns"
-msgstr ""
+msgstr "vaakapalkkeja tai pystysuuntaisia pylväitä"
 
 #. xgettext : the base for how to name drop bar/col plot objects
 #. * eg The 2nd drop bar/col plot in a chart will be called
 #. * 	PlotDropBar2
 #: ../plugins/plot_barcol/gog-dropbar.c:44
 msgid "PlotDropBar"
-msgstr ""
+msgstr "Kelluva palkki -kuvaaja"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -5409,20 +5309,20 @@ msgstr ""
 #.
 #: ../plugins/plot_barcol/gog-line.c:239
 msgid "PlotLine"
-msgstr ""
+msgstr "Viivakuvaaja"
 
 #: ../plugins/plot_barcol/gog-line.c:326
 #: ../plugins/plot_barcol/gog-minmax.c:236
 #: ../plugins/plot_radar/gog-radar.c:229
-#, fuzzy
 msgid "Default markers"
-msgstr "Oletus"
+msgstr "Oletusmerkkipisteet"
 
 #: ../plugins/plot_barcol/gog-line.c:327
 #: ../plugins/plot_barcol/gog-minmax.c:237
-#: ../plugins/plot_radar/gog-radar.c:230 ../plugins/plot_xy/gog-xy.c:345
+#: ../plugins/plot_radar/gog-radar.c:230
+#: ../plugins/plot_xy/gog-xy.c:345
 msgid "Should the default style of a series include markers"
-msgstr ""
+msgstr "Pitäisikö sarjojen oletustyylissä olla merkkipisteet"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -5430,39 +5330,35 @@ msgstr ""
 #.
 #: ../plugins/plot_barcol/gog-line.c:363
 msgid "PlotArea"
-msgstr ""
+msgstr "Aluekuvaaja"
 
 #. xgettext : the base for how to name min/max line plot objects
 #. * eg The 2nd min/max line plot in a chart will be called
 #. * 	PlotMinMax2
 #: ../plugins/plot_barcol/gog-minmax.c:144
 msgid "PlotMinMax"
-msgstr ""
+msgstr "Janakuvaaja"
 
 #: ../plugins/plot_barcol/gog-minmax.c:230
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:3
-#, fuzzy
 msgid "Horizontal"
-msgstr "Vaakaraita"
+msgstr "Vaakataso"
 
 #: ../plugins/plot_barcol/gog-minmax.c:231
-#, fuzzy
 msgid "Horizontal or vertical lines"
-msgstr "Vaakaraita"
+msgstr "Vaaka- ja pystyviivat"
 
 #: ../plugins/plot_barcol/gog-minmax.c:251
-#, fuzzy
 msgid "Min"
-msgstr "Minimi"
+msgstr "Vähin"
 
 #: ../plugins/plot_barcol/gog-minmax.c:253
-#, fuzzy
 msgid "Max"
-msgstr "Maksimi"
+msgstr "Enin"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "Adjacent Bars"
-msgstr ""
+msgstr "Palkit vierekkäin"
 
 #. No 3d yet
 #. <Type _name="3D Adjacent Bars" row="2" col="1"
@@ -5496,11 +5392,11 @@ msgstr ""
 #.
 #: ../plugins/plot_barcol/plot-types.xml.in.h:32
 msgid "Adjacent Columns"
-msgstr ""
+msgstr "Pylväät vierekkäin"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:33
 msgid "Adjacent horizontal bars grouped by major and minor categories."
-msgstr ""
+msgstr "Vierekkäisiä vaakapalkkeja ryhmiteltynä pää- ja alaluokkiin."
 
 #. No 3d yet
 #. <Type _name="3D Adjacent Bars" row="2" col="1"
@@ -5534,15 +5430,15 @@ msgstr ""
 #.
 #: ../plugins/plot_barcol/plot-types.xml.in.h:64
 msgid "Adjacent vertical columns grouped by major and minor categories."
-msgstr ""
+msgstr "Vierekkäisiä pylväitä ryhmiteltynä pää- ja alaluokkiin."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:65
 msgid "Area"
-msgstr ""
+msgstr "Alue"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:66
 msgid "Area plot."
-msgstr ""
+msgstr "Aluekuvaaja."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:67
 msgid "Areas"
@@ -5550,39 +5446,35 @@ msgstr "Alueet"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:68
 msgid "Bar"
-msgstr ""
+msgstr "Palkki"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:69
 msgid "Column"
-msgstr "Sarake"
+msgstr "Pylväs"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:70
 msgid "DropBar"
-msgstr ""
+msgstr "Kelluva palkki"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:71
-#, fuzzy
 msgid "Horizontal Drop Bars"
-msgstr "Vaakaraita"
+msgstr "Kelluvat vaakapalkit"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:72
-#, fuzzy
 msgid "Horizontal Min Max Lines"
-msgstr "Vaakaraita"
+msgstr "Vaakajanakuvaajat"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:73
-#, fuzzy
 msgid "Horizontal drop bars."
-msgstr "Vaakaraita"
+msgstr "Kelluvat vaakapalkit."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:74
 msgid "Horizontal min max lines with markers."
-msgstr ""
+msgstr "Vaakajanakuvaajat merkkipistein. "
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:75
-#, fuzzy
 msgid "Horizontal min max lines."
-msgstr "Vaakaraita"
+msgstr "Vaakajanakuvaajat."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:76
 msgid "Line"
@@ -5590,39 +5482,35 @@ msgstr "Viiva"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:77
 msgid "Line plot with markers."
-msgstr ""
+msgstr "Viivakuvaaja merkkipistein."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:79
 msgid "Marked Horizontal Min Max Lines"
-msgstr ""
+msgstr "Vaakajanakuvaajat merkkipistein"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:80
 msgid "Marked Vertical Min Max Lines"
-msgstr ""
+msgstr "Pystyjanakuvaajat merkkipistein"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:81
 msgid "MinMax"
-msgstr ""
+msgstr "Jana"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:82
-msgid ""
-"Minor categories stacked as percentages of the minor total, in horizontal "
-"bars, grouped by major category."
-msgstr ""
+msgid "Minor categories stacked as percentages of the minor total, in horizontal bars, grouped by major category."
+msgstr "Alaluokat pinottuina prosentteina alaluokkasummastaan vaakapalkeissa ja ryhmiteltynä pääluokittain."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:83
-msgid ""
-"Minor categories stacked as percentages of the minor total, in vertical "
-"columns, grouped by major category."
-msgstr ""
+msgid "Minor categories stacked as percentages of the minor total, in vertical columns, grouped by major category."
+msgstr "Alaluokat pinottuina prosentteina alaluokkasummastaan pylväissä ja ryhmiteltynä pääluokittain."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:84
 msgid "Minor categories stacked in horizontal bars grouped by major category."
-msgstr ""
+msgstr "Alaluokat pinottuina vaakapalkeissa ja ryhmiteltynä pääluokittain."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:85
 msgid "Minor categories stacked in vertical columns grouped by major category."
-msgstr ""
+msgstr "Alaluokat pinottuina pylväissä ja ryhmiteltynä pääluokittain."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:86
 msgid "Percentage Areas"
@@ -5630,186 +5518,176 @@ msgstr "Prosenttialueet"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:87
 msgid "Percentage Bars"
-msgstr ""
+msgstr "Prosentuaaliset palkit"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:88
 msgid "Percentage Columns"
-msgstr ""
+msgstr "Prosentuaaliset pylväät"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:89
 msgid "Percentage Lines"
-msgstr ""
+msgstr "Prosentuaaliset viivat"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:90
 msgid "Percentage area plot."
-msgstr ""
+msgstr "Prosentuaalinen aluekuvaaja."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:91
 msgid "Percentage line plot with markers."
-msgstr ""
+msgstr "Prosentuaalinen viivakuvaaja merkkipistein."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:92
 msgid "Stacked Areas"
-msgstr ""
+msgstr "Pinotut alueet"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:93
 msgid "Stacked Bars"
-msgstr ""
+msgstr "Pinotut palkit"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:94
 msgid "Stacked Columns"
-msgstr ""
+msgstr "Pinotut pylväät"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:95
 msgid "Stacked Lines"
-msgstr ""
+msgstr "Pinotut viivat"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:96
 msgid "Stacked area plot."
-msgstr ""
+msgstr "Pinottu aluekuvaaja."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:97
 msgid "Stacked line plot with markers."
-msgstr ""
+msgstr "Pinottu viivakuvaaja merkkipistein."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:98
 msgid "Unmarked Lines"
-msgstr ""
+msgstr "Vain viivat"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:99
 msgid "Unmarked Percentage Lines"
-msgstr ""
+msgstr "Merkkipisteettömät prosentuaaliset viivat"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:100
 msgid "Unmarked Stacked Lines"
-msgstr ""
+msgstr "Merkkipisteettömät pinotut viivat"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:101
 msgid "Unmarked line plot."
-msgstr ""
+msgstr "Merkkipisteetön viivakuvaaja."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:102
 msgid "Unmarked percentage line plot."
-msgstr ""
+msgstr "Merkkipisteetön prosentuaalinen viivakuvaaja."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:103
 msgid "Unmarked stacked line plot."
-msgstr ""
+msgstr "Merkkipisteetön pinottu viivakuvaaja."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:104
-#, fuzzy
 msgid "Vertical Drop Bars"
-msgstr "Pystyviiva"
+msgstr "Kelluvat pylväät"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:105
 msgid "Vertical Min Max Lines"
-msgstr ""
+msgstr "Pystyjanakuvaajat"
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:106
-#, fuzzy
 msgid "Vertical drop bars."
-msgstr "Pystyviiva"
+msgstr "Kelluvat pylväät."
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:107
 msgid "Vertical min max lines with markers."
-msgstr ""
+msgstr "Pystyjanakuvaajat merkkipistein. "
 
 #: ../plugins/plot_barcol/plot-types.xml.in.h:108
 msgid "Vertical min max lines."
-msgstr ""
+msgstr "Pystyjanakuvaajat."
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:1
 msgid "Area plotting engine"
-msgstr ""
+msgstr "Aluepiirto-ohjelma"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:2
 msgid "Bar/Col plotting engine"
-msgstr ""
+msgstr "Palkki/pylväs-piirto-ohjelma"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:3
 msgid "Charting : Bar/Col/Line/Area"
-msgstr ""
+msgstr "Piirto: palkki/pylväs/viiva/alue"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:4
 msgid "Default 1.5d plot types"
-msgstr ""
+msgstr "Puolitoistaulotteisten kuvaajien oletustyypit"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:5
-#, fuzzy
 msgid "Drop Bar/Col plotting engine"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Kelluvien palkkien/pylväiden piirto-ohjelma"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:6
 msgid "Line plotting engine"
-msgstr ""
+msgstr "Viivakuvaajan piirto-ohjelma"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:7
 msgid "Line, Area, Bar and Column plots"
-msgstr ""
+msgstr "Viiva-, alue-, palkki- ja pylväskuvaajat"
 
 #: ../plugins/plot_barcol/plugin.xml.in.h:8
-#, fuzzy
 msgid "Min Max plotting engine"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Janakuvaajan piirto-ohjelma"
 
 #: ../plugins/plot_distrib/go-distribution-prefs.c:62
 #: ../plugins/plot_distrib/go-distribution-prefs.c:139
 msgid ":"
-msgstr ""
+msgstr ":"
 
 #: ../plugins/plot_distrib/go-distribution-prefs.c:101
-#, fuzzy
 msgid "Distribution:"
-msgstr "<b>Suunta</b>"
+msgstr "Välien tasaus:"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:4
 #: ../plugins/plot_distrib/gog-boxplot.c:377
-#, fuzzy
 msgid "Vertical"
-msgstr "Pystyviiva"
+msgstr "Pystytaso"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:5
-#, fuzzy
 msgid "_Diameter/width:"
-msgstr "Viivanleveys:"
+msgstr "_Halkaisija/leveys:"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:6
 msgid "_Exclude and show outliers"
-msgstr ""
+msgstr "_Erottele ja esitä poikkeukset"
 
 #: ../plugins/plot_distrib/gog-boxplot-prefs.ui.h:8
 msgid "_Layout"
-msgstr ""
+msgstr "Asette_lu"
 
 #. xgettext : the base for how to name box-plot objects
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
 #: ../plugins/plot_distrib/gog-boxplot.c:198
 msgid "Box-Plot"
-msgstr ""
+msgstr "Laatikkokuvaaja"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:378
 msgid "Whether the box-plot should be vertical instead of horizontal"
-msgstr ""
+msgstr "Olisiko laatikkokuvaajan oltava pystysuuntainen vaakasuunnan asemesta"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:383
-#, fuzzy
 msgid "Outliers"
-msgstr "Oikea"
+msgstr "Poikkeukset"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:384
 msgid "Whether outliers should be taken into account and displayed"
-msgstr ""
+msgstr "Pitäisikö poikkeukset laskea mukaan ja näyttää"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:389
 msgid "Radius ratio"
-msgstr ""
+msgstr "Sädesuhde"
 
 #: ../plugins/plot_distrib/gog-boxplot.c:390
-msgid ""
-"The ratio between the radius of the circles representing outliers and the "
-"rectangle width"
-msgstr ""
+msgid "The ratio between the radius of the circles representing outliers and the rectangle width"
+msgstr "Poikkeamia edustavien ympyröiden säteen ja suorakulmion leveyden suhde"
 
 #. xgettext : the base for how to name histogram-plot objects
 #. * eg The 2nd histogram-plot in a chart will be called
@@ -5817,17 +5695,16 @@ msgstr ""
 #: ../plugins/plot_distrib/gog-histogram.c:69
 #: ../plugins/plot_distrib/plot-types.xml.in.h:3
 msgid "Histogram"
-msgstr ""
+msgstr "Histogrammi"
 
 #: ../plugins/plot_distrib/gog-histogram.c:188
 msgid "Limits"
-msgstr ""
+msgstr "Rajat"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:63
 #: ../plugins/plot_distrib/gog-probability-plot.c:254
-#, fuzzy
 msgid "Distribution"
-msgstr "<b>Suunta</b>"
+msgstr "Välien tasaus"
 
 #. xgettext : the base for how to name probability-plot objects
 #. * eg The 2nd probability-plot in a chart will be called
@@ -5835,7 +5712,7 @@ msgstr "<b>Suunta</b>"
 #: ../plugins/plot_distrib/gog-probability-plot.c:133
 #: ../plugins/plot_distrib/plot-types.xml.in.h:8
 msgid "ProbabilityPlot"
-msgstr ""
+msgstr "Todennäköisyyskuvaaja"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:255
 msgid "A pointer to the GODistribution used by this plot"
@@ -5843,268 +5720,247 @@ msgstr ""
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:260
 msgid "Shape parameter"
-msgstr ""
+msgstr "Muotoparametri"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:261
 msgid "Name of the first shape parameter if any"
-msgstr ""
+msgstr "Ensimmäisen muotoparametrin nimi, jos on"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:266
 msgid "Second shape parameter"
-msgstr ""
+msgstr "Toinen muotoparametri"
 
 #: ../plugins/plot_distrib/gog-probability-plot.c:267
 msgid "Name of the second shape parameter if any"
-msgstr ""
+msgstr "Toisen muotoparametrin nimi, jos on"
 
-#: ../plugins/plot_distrib/gog-probability-plot.c:584
-#, fuzzy
+#: ../plugins/plot_distrib/gog-probability-plot.c:594
 msgid "Regression line"
-msgstr "punapurppurainen"
+msgstr "Regressiosuora"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:1
 msgid "HBoxPlotOutliers"
-msgstr ""
+msgstr "Vaakalaatikot poikkeuksin"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:2
 msgid "HBoxPlots"
-msgstr ""
+msgstr "Vaakalaatikot"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:4
 msgid "Histogram."
-msgstr ""
+msgstr "Histogrammi."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:5
-#, fuzzy
 msgid "Horizontal Box-Plot showing outliers."
-msgstr "Vaakaraita"
+msgstr "Vaakasuuntainen laatikkokuvaaja näkyvin poikkeuksin."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:6
-#, fuzzy
 msgid "Horizontal Box-Plot."
-msgstr "Vaakaraita"
+msgstr "Vaakasuuntainen laatikkokuvaaja."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:7
-#, fuzzy
 msgid "Probability plot."
-msgstr "Puola, sloti"
+msgstr "Todennäköisyyskuvaaja."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:9
-#, fuzzy
 msgid "Statistics"
-msgstr "Oletuskirjasimen nimi"
+msgstr "Tilasto"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:10
 msgid "VBoxPlotOutliers"
-msgstr ""
+msgstr "Pystylaatikot poikkeuksin"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:11
 msgid "VBoxPlots"
-msgstr ""
+msgstr "Pystylaatikot"
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:12
-#, fuzzy
 msgid "Vertical Box-Plot showing outliers."
-msgstr "Muutetaan välilehtien värejä"
+msgstr "Pystylaatikkokuvaaja näkyvin poikkeuksin."
 
 #: ../plugins/plot_distrib/plot-types.xml.in.h:13
-#, fuzzy
 msgid "Vertical Box-Plot."
-msgstr "Muutetaan välilehtien värejä"
+msgstr "Pystylaatikkokuvaaja."
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:1
-#, fuzzy
 msgid "Box-plot plotting engine"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Laatikkokuvaajan piirto-ohjelma"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:2
 msgid "Charting : distribution related plots"
-msgstr ""
+msgstr "Piirto: jakautumakuvaajat"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:3
-#, fuzzy
 msgid "Histograms plotting engine"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Histogrammin piirto-ohjelma"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:4
-#, fuzzy
 msgid "Probability plots engine"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Todennäköisyyskuvaajan piirto-ohjelma"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:5
-#, fuzzy
 msgid "Statistics plot types"
-msgstr "Oletuskirjasimen nimi"
+msgstr "Tilastokuvaajatyypit"
 
 #: ../plugins/plot_distrib/plugin.xml.in.h:6
 msgid "box-plots, histograms, and other distribution related plots"
-msgstr ""
+msgstr "laatikkokuvaajat, histogrammit ja muut jakautumien kuvaajat"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:3
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:3
 msgid "Absolute value"
-msgstr ""
+msgstr "itseisarvona"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:4
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:4
 msgid "Absolute value with white background"
-msgstr ""
+msgstr "itseisarvona valkoisin taustoin"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:5
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:6
-#, fuzzy
 msgid "Negative data:"
-msgstr "Negatiivisen luvun muoto"
+msgstr "Negatiivinen data:"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:6
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:7
 msgid "Skip"
-msgstr ""
+msgstr "ohitetaan"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:7
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:8
 msgid "Slices start _at:"
-msgstr ""
+msgstr "Lohkojen _alku:"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:8
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:9
 msgid "_Slice Separation:"
-msgstr ""
+msgstr "Lo_hkoväli:"
 
 #: ../plugins/plot_pie/gog-pie-prefs.ui.h:9
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:10
 msgid "_Vary colors by slice"
-msgstr ""
+msgstr "Eri_väriset lohkot"
 
 #: ../plugins/plot_pie/gog-pie-series.ui.h:3
-#, fuzzy
 msgid "_Separation:"
-msgstr "Erotin:"
+msgstr "Erotu_s:"
 
-#: ../plugins/plot_pie/gog-pie.c:110 ../plugins/plot_pie/gog-pie.c:1296
-#, fuzzy
+#: ../plugins/plot_pie/gog-pie.c:110
+#: ../plugins/plot_pie/gog-pie.c:1296
 msgid "Separation"
-msgstr "Erotin:"
+msgstr "Erotus"
 
 #: ../plugins/plot_pie/gog-pie.c:111
 msgid "Amount a slice is extended as a percentage of the radius"
-msgstr ""
+msgstr "Määrä, jolla lohkoja on loitonnettu säteen prosentteina"
 
 #: ../plugins/plot_pie/gog-pie.c:259
 msgid "PlotPie"
-msgstr ""
+msgstr "Piirakkakuvaaja"
 
 #: ../plugins/plot_pie/gog-pie.c:305
 msgid "Initial angle"
-msgstr ""
+msgstr "Aloituskulma"
 
 #: ../plugins/plot_pie/gog-pie.c:306
 msgid "Degrees clockwise from 12 O'Clock."
-msgstr ""
+msgstr "Asteita myötäpäivään klo 12:sta."
 
 #: ../plugins/plot_pie/gog-pie.c:311
-#, fuzzy
 msgid "Default separation"
-msgstr "Erotin:"
+msgstr "Oletuserotus"
 
-#: ../plugins/plot_pie/gog-pie.c:312 ../plugins/plot_pie/gog-pie.c:1297
+#: ../plugins/plot_pie/gog-pie.c:312
+#: ../plugins/plot_pie/gog-pie.c:1297
 msgid "Default amount a slice is extended as a percentage of the radius"
-msgstr ""
+msgstr "Lohkojen oletusloitonnus säteen prosentteina"
 
 #: ../plugins/plot_pie/gog-pie.c:318
 msgid "Draw 3d wedges"
-msgstr ""
+msgstr "Piirrä 3D-paloja"
 
-#: ../plugins/plot_pie/gog-pie.c:323 ../plugins/smoothing/gog-moving-avg.c:196
+#: ../plugins/plot_pie/gog-pie.c:323
+#: ../plugins/smoothing/gog-moving-avg.c:196
 msgid "Span"
-msgstr ""
+msgstr "Etäisyys"
 
 #: ../plugins/plot_pie/gog-pie.c:324
 msgid "Total angle used as a percentage of the full circle"
-msgstr ""
+msgstr "Käytetty kokonaiskulma täyden ympyrän prosentteina"
 
 #: ../plugins/plot_pie/gog-pie.c:329
-#, fuzzy
 msgid "Show negative values"
-msgstr "Näytä _negatiiviset arvot"
+msgstr "Näytä negatiiviset arvot"
 
 #: ../plugins/plot_pie/gog-pie.c:330
-#, fuzzy
 msgid "How negative values are displayed"
-msgstr "Näytä _negatiiviset arvot"
+msgstr "Kuinka negatiiviset arvot esitetään"
 
 #: ../plugins/plot_pie/gog-pie.c:418
 msgid "PlotRing"
-msgstr ""
+msgstr "Rengaskuvaaja"
 
 #: ../plugins/plot_pie/gog-pie.c:455
-#, fuzzy
 msgid "Center-size"
-msgstr "Yleistä"
+msgstr "Keskiön koko"
 
 #: ../plugins/plot_pie/gog-pie.c:456
 msgid "Size of the center hole as a percentage of the radius"
-msgstr ""
+msgstr "Keskusaukon koko säteen prosentteina"
 
 #: ../plugins/plot_pie/gog-pie.c:616
 msgid "Move pie"
-msgstr ""
+msgstr "Siirrä piirakkaa"
 
 #: ../plugins/plot_pie/gog-pie.c:1169
-#, c-format
+#, fuzzy, c-format
 msgid "%s: %g (%.2f%%)"
-msgstr ""
+msgstr "Leveys: %.2f pistettä (%d pikseliä)"
 
 #: ../plugins/plot_pie/gog-pie.c:1171
-#, c-format
+#, fuzzy, c-format
 msgid "%g (%.2f%%)"
-msgstr ""
+msgstr "Leveys: %.2f pistettä (%d pikseliä)"
 
 #: ../plugins/plot_pie/gog-pie.c:1290
 msgid "Initial-angle"
-msgstr ""
+msgstr "Aloituskulma"
 
 #: ../plugins/plot_pie/gog-pie.c:1291
 msgid "Degrees clockwise from 12 O'Clock"
-msgstr ""
+msgstr "Asteita myötäpäivään klo 12:sta"
 
 #: ../plugins/plot_pie/gog-ring-prefs.ui.h:5
 msgid "Cen_ter size:"
-msgstr ""
+msgstr "Keski_ön koko:"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:1
 msgid "Half Pie"
-msgstr ""
+msgstr "Puolipiirakka"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:2
-msgid ""
-"Percentage of each contributor displayed as a segment of a ring with one "
-"ring for each series."
-msgstr ""
+msgid "Percentage of each contributor displayed as a segment of a ring with one ring for each series."
+msgstr "Kunkin jäsenen prosenttiosuus esitettynä renkaan segmenttinä, yksi rengas sarjaa kohti."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:3
-msgid ""
-"Percentage of each contributor displayed as a segment of a ring with one "
-"ring for each series; the wedges of the outside ring (corresponding to the "
-"last series) are split apart."
-msgstr ""
+msgid "Percentage of each contributor displayed as a segment of a ring with one ring for each series; the wedges of the outside ring (corresponding to the last series) are split apart."
+msgstr "Kunkin jäsenen prosenttiosuus esitetään renkaan segmenttinä, yksi rengas sarjaa kohti; uloimman renkaan (viimeisen sarjan) palat eroteltu."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:4
-msgid ""
-"Percentage of each contributor in a half circle with wedges split apart."
-msgstr ""
+msgid "Percentage of each contributor in a half circle with wedges split apart."
+msgstr "Kunkin jäsenen prosenttiosuus puoliympyrästä, palat eroteltuna."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:5
 msgid "Percentage of each contributor in a half circle."
-msgstr ""
+msgstr "Kunkin jäsenen prosenttiosuus puoliympyrässä."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:6
 msgid "Percentage of each contributor with wedges split apart."
-msgstr ""
+msgstr "Kunkin jäsenen prosenttiosuus, palat eroteltuina."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:7
 msgid "Percentage of each contributor."
-msgstr ""
+msgstr "Kunkin jäsenen prosenttiosuus."
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:8
 msgid "Pie"
@@ -6112,56 +5968,56 @@ msgstr "Piirakka"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:9
 msgid "Ring"
-msgstr ""
+msgstr "Rengas"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:10
 msgid "Split Half Pie"
-msgstr ""
+msgstr "Hajotettu puolipiirakka"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:11
 msgid "Split Pie"
-msgstr ""
+msgstr "Hajotettu piirakka"
 
 #: ../plugins/plot_pie/plot-types.xml.in.h:12
 msgid "Split Ring"
-msgstr ""
+msgstr "Hajotettu rengas"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:1
 msgid "Charting : Pie/Ring"
-msgstr ""
+msgstr "Piirto: piirakka/rengas"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:2
 msgid "Default pie types"
-msgstr ""
+msgstr "Piirakoiden oletustyypit"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:3
 msgid "Pie and Ring plots"
-msgstr ""
+msgstr "Piirakka- ja rengaskuvaajat"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:4
 msgid "Pie plotting engine"
-msgstr ""
+msgstr "Piirakkapiirto-ohjelma"
 
 #: ../plugins/plot_pie/plugin.xml.in.h:5
 msgid "Ring plotting engine"
-msgstr ""
+msgstr "Rengaspiirto-ohjelma"
 
 #: ../plugins/plot_radar/gog-radar.c:236
-#, fuzzy
 msgid "Default fill"
-msgstr "Oletus"
+msgstr "Oletustäyttö"
 
-#: ../plugins/plot_radar/gog-radar.c:237 ../plugins/plot_xy/gog-xy.c:357
+#: ../plugins/plot_radar/gog-radar.c:237
+#: ../plugins/plot_xy/gog-xy.c:357
 #: ../plugins/plot_xy/gog-xy.c:784
 msgid "Should the default style of a series include fill"
-msgstr ""
+msgstr "Pitäisikö sarjojen oletustyylissä olla täyttö"
 
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
 #. * 	PlotRT2
 #: ../plugins/plot_radar/gog-radar.c:272
 msgid "PlotRadar"
-msgstr ""
+msgstr "Verkkokuvaaja"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -6169,297 +6025,275 @@ msgstr ""
 #.
 #: ../plugins/plot_radar/gog-radar.c:358
 msgid "PlotRadarArea"
-msgstr ""
+msgstr "Verkkoaluekuvaaja"
 
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
 #. * 	PlotPolar2
 #: ../plugins/plot_radar/gog-radar.c:391
 msgid "PlotPolar"
-msgstr ""
+msgstr "Napakuvaaja"
 
-#: ../plugins/plot_radar/gog-radar.c:430 ../plugins/plot_radar/gog-radar.c:638
+#: ../plugins/plot_radar/gog-radar.c:430
+#: ../plugins/plot_radar/gog-radar.c:638
 msgid "Angle"
-msgstr ""
+msgstr "Kulma"
 
-#: ../plugins/plot_radar/gog-radar.c:432 ../plugins/plot_radar/gog-radar.c:640
-#, fuzzy
+#: ../plugins/plot_radar/gog-radar.c:432
+#: ../plugins/plot_radar/gog-radar.c:640
 msgid "Magnitude"
-msgstr "magenta"
+msgstr "Suuruus"
 
 #. xgettext : the base for how to name rt plot objects
 #. * eg The 2nd rt plot in a chart will be called
 #. * 	PlotColoredPolar2
 #: ../plugins/plot_radar/gog-radar.c:549
 msgid "PlotColorPolar"
-msgstr ""
+msgstr "Värinapakuvaaja"
 
-#: ../plugins/plot_radar/gog-radar.c:629 ../plugins/plot_xy/gog-xy.c:789
+#: ../plugins/plot_radar/gog-radar.c:629
+#: ../plugins/plot_xy/gog-xy.c:789
 msgid "hide-outliers"
-msgstr ""
+msgstr "piilopoikkeukset"
 
-#: ../plugins/plot_radar/gog-radar.c:630 ../plugins/plot_xy/gog-xy.c:790
+#: ../plugins/plot_radar/gog-radar.c:630
+#: ../plugins/plot_xy/gog-xy.c:790
 msgid "Hide data outside of the color axis bounds"
-msgstr ""
+msgstr "Piilota väriakselin rajojen ulkopuolinen data"
 
-#: ../plugins/plot_radar/gog-radar.c:642 ../plugins/plot_surface/gog-xyz.c:398
+#: ../plugins/plot_radar/gog-radar.c:642
+#: ../plugins/plot_surface/gog-xyz.c:398
 #: ../plugins/plot_surface/gog-xyz-surface.c:334
 #: ../plugins/plot_surface/xl-surface.c:304
-#: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:802
+#: ../plugins/plot_surface/xl-surface.c:397
+#: ../plugins/plot_xy/gog-xy.c:802
 msgid "Z"
-msgstr ""
+msgstr "Z"
 
 #: ../plugins/plot_radar/gog-radar.c:1219
 #: ../plugins/plot_radar/gog-radar.c:1252
-#, fuzzy
 msgid "Radial error bars"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Säteettäiset virhejanat"
 
 #: ../plugins/plot_radar/gog-radar.c:1227
-#, fuzzy
 msgid "Radial drop lines"
-msgstr "Pystyviiva"
+msgstr "Kelluvat sädeviivat"
 
 #: ../plugins/plot_radar/gog-radar.c:1335
 #: ../plugins/plot_radar/gog-radar.c:1378
-#, fuzzy
 msgid "Angular error bars"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Kaarevat virhejanat"
 
 #: ../plugins/plot_radar/gog-color-polar-prefs.ui.h:1
 #: ../plugins/plot_xy/gog-xy-color-prefs.ui.h:1
 msgid "Hide data outside of color axis bounds"
-msgstr ""
+msgstr "Piilota väriakselin rajojen ulkopuolinen data"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:1
 msgid "Area Radar"
-msgstr ""
+msgstr "Alueverkko"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:2
 msgid "Area radar plot."
-msgstr ""
+msgstr "Alueverkkokuvaaja."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:3
-#, fuzzy
 msgid "Colored Polar"
-msgstr "Väri:"
+msgstr "Värinapa"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:4
 msgid "Dotted Radar"
-msgstr ""
+msgstr "Pisteverkko"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:5
 msgid "Polar"
-msgstr ""
+msgstr "Napa"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:6
 msgid "Polar plot with colored marks."
-msgstr ""
+msgstr "Napakuvaaja värimerkein."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:7
-#, fuzzy
 msgid "Polar plot."
-msgstr "Puola, sloti"
+msgstr "Napakuvaaja."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:8
 msgid "Radar"
-msgstr ""
+msgstr "Verkko"
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:9
 msgid "Radar plot with dots."
-msgstr ""
+msgstr "Verkkokuvaaja pistein."
 
 #: ../plugins/plot_radar/plot-types.xml.in.h:10
 msgid "Radar plot."
-msgstr ""
+msgstr "Verkkokuvaaja."
 
 #: ../plugins/plot_radar/plugin.xml.in.h:1
-#, fuzzy
 msgid "Charting : Polar/Radar"
-msgstr "Muutetaan välilehtien värejä"
+msgstr "Piirto: napa/verkko"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:2
 msgid "Default radar plot types"
-msgstr ""
+msgstr "Verkkokuvaajien oletustyypit"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:3
-#, fuzzy
 msgid "Polar and Radar plots"
-msgstr "Puola, sloti"
+msgstr "Napa- ja verkkokuvaajat"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:4
-#, fuzzy
 msgid "Polar plotting engine"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Napakuvaajan piirto-ohjelma"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:5
-#, fuzzy
 msgid "Polar plotting engine with colored marks"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Napakuvaajan piirto-ohjelma värimerkein"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:6
 msgid "Radar Area plotting engine"
-msgstr ""
+msgstr "Verkkoaluepiirto-ohjelma"
 
 #: ../plugins/plot_radar/plugin.xml.in.h:7
-#, fuzzy
 msgid "Radar plotting engine"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Verkkopiirto-ohjelma"
 
 #. xgettext : the base for how to name contour plot objects
 #.
 #: ../plugins/plot_surface/gog-contour.c:128
 msgid "PlotContour"
-msgstr ""
+msgstr "Korkeuskäyräkuvaaja"
 
 #. xgettext : the base for how to name surface plot objects
 #.
 #: ../plugins/plot_surface/gog-surface.c:68
-#, fuzzy
 msgid "PlotSurface"
-msgstr "Lähde"
+msgstr "Pintakuvaaja"
 
 #: ../plugins/plot_surface/gog-xyz.c:381
 msgid "Transposed"
-msgstr ""
+msgstr "Paikka vaihdettu"
 
 #: ../plugins/plot_surface/gog-xyz.c:382
 msgid "Transpose the plot"
-msgstr ""
+msgstr "Transponoi kuvaaja"
 
 #: ../plugins/plot_surface/gog-xyz.c:394
 #: ../plugins/plot_surface/gog-xyz-surface.c:330
 #: ../plugins/plot_surface/xl-surface.c:302
-#: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:370
-#: ../plugins/plot_xy/gog-xy.c:540 ../plugins/plot_xy/gog-xy.c:798
+#: ../plugins/plot_surface/xl-surface.c:395
+#: ../plugins/plot_xy/gog-xy.c:370
+#: ../plugins/plot_xy/gog-xy.c:540
+#: ../plugins/plot_xy/gog-xy.c:798
 msgid "X"
 msgstr "X"
 
 #: ../plugins/plot_surface/gog-xyz.c:396
 #: ../plugins/plot_surface/gog-xyz-surface.c:332
-#: ../plugins/plot_xy/gog-xy.c:372 ../plugins/plot_xy/gog-xy.c:542
+#: ../plugins/plot_xy/gog-xy.c:372
+#: ../plugins/plot_xy/gog-xy.c:542
 #: ../plugins/plot_xy/gog-xy.c:800
 msgid "Y"
 msgstr "Y"
 
 #: ../plugins/plot_surface/gog-xyz-prefs.ui.h:1
 msgid "Transpose"
-msgstr ""
+msgstr "Vaihda paikkaa"
 
 #. xgettext : the base for how to name surface plot objects
 #.
 #: ../plugins/plot_surface/gog-xyz-surface.c:157
-#, fuzzy
 msgid "PlotXYZContour"
-msgstr "Määrä"
+msgstr "XYZ-korkeuskäyräkuvaaja"
 
 #. xgettext : the base for how to name surface plot objects
 #.
 #: ../plugins/plot_surface/gog-xyz-surface.c:165
-#, fuzzy
 msgid "PlotXYZSurface"
-msgstr "Lähde"
+msgstr "XYZ-pintakuvaaja"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:311
 msgid "Rows"
-msgstr ""
+msgstr "Rivejä"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:312
-#, fuzzy
 msgid "Number of rows"
-msgstr "Lukumuodot"
+msgstr "Rivien määrä"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:317
-#, fuzzy
 msgid "Columns"
-msgstr "Sarake"
+msgstr "Sarakkeita"
 
 #: ../plugins/plot_surface/gog-xyz-surface.c:318
-#, fuzzy
 msgid "Number of columns"
-msgstr "Lukumuodot"
+msgstr "Sarakkeiden määrä"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:1
-#, fuzzy
 msgid "_Columns:"
-msgstr "Sarake"
+msgstr "_Sarakkeet:"
 
 #: ../plugins/plot_surface/gog-xyz-surface-prefs.ui.h:2
-#, fuzzy
 msgid "_Rows:"
-msgstr "_Rivi"
+msgstr "_Rivit:"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:1
 msgid "Builds a contour from a set of points with three coordinates"
-msgstr ""
+msgstr "Koostetaan korkeuskäyrä kolmikoordinaattisesta pistejoukosta"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:2
 msgid "Builds a surface from a set of points with three coordinates"
-msgstr ""
+msgstr "Koostetaan pinta kolmikoordinaattisesta pistejoukosta"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:3
-#, fuzzy
 msgid "Contour"
-msgstr "Määrä"
+msgstr "Korkeuskäyrä"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:4
 msgid "Contour plot."
-msgstr ""
+msgstr "Korkeuskäyräkuvaaja."
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:5
-#, fuzzy
 msgid "Surface"
-msgstr "Lähde"
+msgstr "Pinta"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:6
-#, fuzzy
 msgid "Surface plot."
-msgstr "Lähde"
+msgstr "Pintakuvaaja."
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:7
-#, fuzzy
 msgid "XYZContour"
-msgstr "Määrä"
+msgstr "XYZ-korkeuskäyrä"
 
 #: ../plugins/plot_surface/plot-types.xml.in.h:8
-#, fuzzy
 msgid "XYZSurface"
-msgstr "Lähde"
+msgstr "XYZ-pinta"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:1
-#, fuzzy
 msgid "Charting : Surfaces"
-msgstr "Muutetaan välilehtien värejä"
+msgstr "Piirto: pinnat"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:2
-#, fuzzy
 msgid "Contour plotting engine"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Korkeuskäyrän piirto-ohjelma"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:3
-#, fuzzy
 msgid "Default surface plot types"
-msgstr "Oletuskirjasimen nimi"
+msgstr "Pintakuvaajien oletustyypit"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:4
-#, fuzzy
 msgid "Surface charts"
-msgstr "_Lähdealueet:"
+msgstr "Pintakuvaajat"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:5
-#, fuzzy
 msgid "Surface plotting engine"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Pintakuvaajan piirto-ohjelma"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:6
-#, fuzzy
 msgid "XYZ contour plotting engine"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "XYZ-korkeuskäyrän piirto-ohjelma"
 
 #: ../plugins/plot_surface/plugin.xml.in.h:7
-#, fuzzy
 msgid "XYZ surface plotting engine"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "XYZ-pintakuvaajan piirto-ohjelma"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:2
 #, no-c-format
@@ -6480,205 +6314,192 @@ msgstr "Näytä _negatiiviset arvot"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:6
 msgid "Sur_face"
-msgstr ""
+msgstr "_Pinta"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:7
 msgid "_Bubbles scaled to"
-msgstr ""
+msgstr "Kupla_t skaalattuna"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:8
 msgid "_Size represented by:"
-msgstr ""
+msgstr "Koon e_sitystapa:"
 
 #: ../plugins/plot_xy/gog-bubble-prefs.ui.h:9
 msgid "_Vary colors by bubble"
-msgstr ""
+msgstr "_Vaihtele väriä kuplittain"
 
 #: ../plugins/plot_xy/gog-xy-series-prefs.ui.h:1
 msgid "_Use nul value instead of invalid"
-msgstr ""
+msgstr "_Käytä tyhjä-arvoa virheellisen asemesta"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
 #: ../plugins/plot_xy/gog-xy.c:272
 msgid "PlotXY"
-msgstr ""
+msgstr "XY-kuvaaja"
 
 #: ../plugins/plot_xy/gog-xy.c:344
 msgid "Has markers by default"
-msgstr ""
+msgstr "Merkkipisteet on oletuksena"
 
-#: ../plugins/plot_xy/gog-xy.c:350 ../plugins/plot_xy/gog-xy.c:777
+#: ../plugins/plot_xy/gog-xy.c:350
+#: ../plugins/plot_xy/gog-xy.c:777
 msgid "Has lines by default"
-msgstr ""
+msgstr "Viivat on oletuksena"
 
-#: ../plugins/plot_xy/gog-xy.c:351 ../plugins/plot_xy/gog-xy.c:778
+#: ../plugins/plot_xy/gog-xy.c:351
+#: ../plugins/plot_xy/gog-xy.c:778
 msgid "Should the default style of a series include lines"
-msgstr ""
+msgstr "Pitäisikö sarjojen oletustyylissä olla viivat"
 
-#: ../plugins/plot_xy/gog-xy.c:356 ../plugins/plot_xy/gog-xy.c:783
+#: ../plugins/plot_xy/gog-xy.c:356
+#: ../plugins/plot_xy/gog-xy.c:783
 msgid "Has fill by default"
-msgstr ""
+msgstr "Täyttö on oletuksena"
 
 #: ../plugins/plot_xy/gog-xy.c:362
-#, fuzzy
 msgid "Use splines"
-msgstr "XY-viivat"
+msgstr "Käytä splinikäyrää"
 
 #: ../plugins/plot_xy/gog-xy.c:363
 msgid "Should the plot use splines instead of linear interpolation"
-msgstr ""
+msgstr "Pitäisikö kuvaajassa käyttää splinejä suoraviivaisen interpolaation asemesta"
 
 #: ../plugins/plot_xy/gog-xy.c:416
 msgid "PlotBubble"
-msgstr ""
+msgstr "Kuplakuvaaja"
 
 #: ../plugins/plot_xy/gog-xy.c:516
 msgid "Size as area"
-msgstr ""
+msgstr "Koko alueena"
 
 #: ../plugins/plot_xy/gog-xy.c:517
 msgid "Display size as area instead of diameter"
-msgstr ""
+msgstr "Esitä koko pinta-alana halkaisijan asemesta"
 
 #: ../plugins/plot_xy/gog-xy.c:522
-#, fuzzy
 msgid "Show negatives"
-msgstr "Näytä _negatiiviset arvot"
+msgstr "Näytä vastaluvut"
 
 #: ../plugins/plot_xy/gog-xy.c:523
-#, fuzzy
 msgid "Draw bubbles for negative values"
-msgstr "Näytä _negatiiviset arvot"
+msgstr "Piirrä kuplat negatiivisille arvoille"
 
 #: ../plugins/plot_xy/gog-xy.c:529
 msgid "Draw 3d bubbles"
-msgstr ""
+msgstr "Piirrä 3D-kuplia"
 
 #: ../plugins/plot_xy/gog-xy.c:534
-#, fuzzy
 msgid "Bubble scale"
-msgstr "kupla"
+msgstr "Kupla-asteikko"
 
 #: ../plugins/plot_xy/gog-xy.c:535
 msgid "Fraction of default radius used for display"
-msgstr ""
+msgstr "Esittämiseen käytettävä oletussäteen osa"
 
-#: ../plugins/plot_xy/gog-xy.c:544 ../plugins/plot_xy/plot-types.xml.in.h:1
+#: ../plugins/plot_xy/gog-xy.c:544
+#: ../plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
-msgstr "kupla"
+msgstr "Kupla"
 
 #. xgettext : the base for how to name map like plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Map2
 #: ../plugins/plot_xy/gog-xy.c:669
-#, fuzzy
 msgid "XYColor"
-msgstr "Väri:"
+msgstr "XY-värikuvaaja"
 
-#: ../plugins/plot_xy/gog-xy.c:1930 ../plugins/plot_xy/gog-xy.c:1997
-#, fuzzy
+#: ../plugins/plot_xy/gog-xy.c:1930
+#: ../plugins/plot_xy/gog-xy.c:1997
 msgid "X error bars"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "X-virhejanat"
 
-#: ../plugins/plot_xy/gog-xy.c:1933 ../plugins/plot_xy/gog-xy.c:2003
-#, fuzzy
+#: ../plugins/plot_xy/gog-xy.c:1933
+#: ../plugins/plot_xy/gog-xy.c:2003
 msgid "Y error bars"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Y-virhejanat"
 
 #: ../plugins/plot_xy/gog-xy.c:1942
-#, fuzzy
 msgid "Horizontal drop lines"
-msgstr "Vaakaraita"
+msgstr "Kelluvat vaakaviivat"
 
 #: ../plugins/plot_xy/gog-xy.c:1950
-#, fuzzy
 msgid "Vertical drop lines"
-msgstr "Pystyviiva"
+msgstr "Kelluvat pystyviivat"
 
 #: ../plugins/plot_xy/gog-xy.c:2009
-#, fuzzy
 msgid "Invalid as zero"
-msgstr "Virheelliset parametrit"
+msgstr "Virheellinen nollana"
 
 #: ../plugins/plot_xy/gog-xy.c:2010
 msgid "Replace invalid values by 0 when drawing markers or bubbles"
-msgstr ""
+msgstr "Korvaa virheelliset arvot nollalla kun piirretään merkkipisteitä tai kuplia"
 
 #: ../plugins/plot_xy/gog-xy.c:2015
 msgid "Clamp at start"
-msgstr ""
+msgstr "Kiinnitys alussa"
 
 #: ../plugins/plot_xy/gog-xy.c:2016
-msgid ""
-"Slope at start of the interpolated curve when using clamped spline "
-"interpolation"
-msgstr ""
+msgid "Slope at start of the interpolated curve when using clamped spline interpolation"
+msgstr "Interpoloidun käyrän alkukulmakerroin käytettäessä kiinnitettyä splini-interpolaatiota"
 
 #: ../plugins/plot_xy/gog-xy.c:2021
 msgid "Clamp at end"
-msgstr ""
+msgstr "Kiinnitys lopussa"
 
 #: ../plugins/plot_xy/gog-xy.c:2022
-msgid ""
-"Slope at end of the interpolated curve when using clamped spline "
-"interpolation"
-msgstr ""
+msgid "Slope at end of the interpolated curve when using clamped spline interpolation"
+msgstr "Interpoloidun käyrän loppukulmakerroin käytettäessä kiinnitettyä splini-interpolaatiota"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:2
-#, fuzzy
 msgid "ColoredXY"
-msgstr "Väri:"
+msgstr "Väri-XY"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:3
 msgid "Interpolate between multi-dimensional points with Bezier splines."
-msgstr ""
+msgstr "Interpoloi moniulotteisten pisteiden välillä Bezier-splinein."
 
 #. really 3_1
 #: ../plugins/plot_xy/plot-types.xml.in.h:5
-msgid ""
-"Linearly interpolate between multi-dimensional points,with markers at each "
-"point."
-msgstr ""
+msgid "Linearly interpolate between multi-dimensional points,with markers at each point."
+msgstr "Interpoloi lineaarisesti moniulotteisten pisteiden välillä merkkein joka pisteessä."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Linearly interpolate between multi-dimensional points."
-msgstr ""
+msgstr "Interpoloi lineaarisesti moniulotteisten pisteiden välillä."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:7
-#, fuzzy
 msgid "Map"
-msgstr "Toukokuu"
+msgstr "Kartta"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:8
 msgid "Markers at each point."
-msgstr ""
+msgstr "Merkit joka pisteessä."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:9
 msgid "Multi-dimensional points with circle at each point."
-msgstr ""
+msgstr "Moniulotteiset pisteet ympyrä kussakin pisteessä."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:10
-msgid ""
-"Multi-dimensional points with data dependent color marker at each point."
-msgstr ""
+msgid "Multi-dimensional points with data dependent color marker at each point."
+msgstr "Moniulotteiset pisteet, joissa datasta riippuvat väri merkkipisteillä kussakin kohdassa."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:11
 msgid "Stepped curve using the first y value."
-msgstr ""
+msgstr "Porraskäyrä, jossa käytetään ensimmäistä y-arvoa."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:12
 msgid "Stepped curve using the last y value."
-msgstr ""
+msgstr "Porraskäyrä, jossa käytetään viimeistä y-arvoa."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:13
 msgid "Stepped curve using the mean y value."
-msgstr ""
+msgstr "Porraskäyrä, jossa käytetään y-keskiarvoa."
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:14
 msgid "Stepped curve using the nearest y value."
-msgstr ""
+msgstr "Porraskäyrä, jossa käytetään lähintä y-arvoa."
 
 #. really 3_1
 #: ../plugins/plot_xy/plot-types.xml.in.h:16
@@ -6694,224 +6515,215 @@ msgid "XY Points"
 msgstr "XY-pisteet"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:19
-#, fuzzy
 msgid "XY Splines"
-msgstr "XY-viivat"
+msgstr "XY-splinit"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:20
 msgid "XY Steps Center"
-msgstr ""
+msgstr "XY-portaat, keskus-"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:21
 msgid "XY Steps End"
-msgstr ""
+msgstr "XY-portaat, loppu-"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:22
 msgid "XY Steps Mean"
-msgstr ""
+msgstr "XY-portaat, keskiarvo-"
 
 #: ../plugins/plot_xy/plot-types.xml.in.h:23
 msgid "XY Steps Start"
-msgstr ""
+msgstr "XY-portaat, alku-"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:1
-#, fuzzy
 msgid "2D colored scatter plotting engine"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "2D-värihajontakuvaajan piirto-ohjelma"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:2
 msgid "2D plots"
-msgstr ""
+msgstr "2D-kuvaajat"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:3
 msgid "2D scatter plotting engine"
-msgstr ""
+msgstr "2D-hajontakuvaajan piirto-ohjelma"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:4
 msgid "Bubble plotting engine"
-msgstr ""
+msgstr "Kuplapiirto-ohjelma"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:5
 msgid "Charting : XY/Scatter/Bubble"
-msgstr ""
+msgstr "Piirto: xy/hajonta/kupla"
 
 #: ../plugins/plot_xy/plugin.xml.in.h:6
 msgid "Stock Scatter plot types"
-msgstr ""
+msgstr "Pörssihajontakuvaajien oletustyypit"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Exponential regression2
 #: ../plugins/reg_linear/gog-exp-reg.c:63
 msgid "Exponential regression"
-msgstr ""
+msgstr "Eksponentiaalinen regressio"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:159
 #: ../plugins/reg_linear/gog-lin-reg.c:265
 msgid "Affine"
-msgstr ""
+msgstr "Affiini"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:160
 msgid "Uncheck to force zero intercept"
-msgstr ""
+msgstr "Poistamalla valinta pakotetaan leikkauspisteen nollaksi"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Linear regression2
 #: ../plugins/reg_linear/gog-lin-reg.c:174
 msgid "Linear regression"
-msgstr ""
+msgstr "Lineaarinen regressio"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:266
 msgid "If true, a non-zero constant is allowed"
-msgstr ""
+msgstr "Jos TOSI, nollasta poikkeava vakio sallitaan"
 
 #: ../plugins/reg_linear/gog-lin-reg.c:271
 msgid "Dims"
-msgstr ""
+msgstr "Ulott."
 
 #: ../plugins/reg_linear/gog-lin-reg.c:272
-#, fuzzy
 msgid "Number of x-vectors"
-msgstr "Lukumuodot"
+msgstr "X-vektoreiden lukumäärä"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Logarithmic regression2
 #: ../plugins/reg_linear/gog-log-reg.c:94
-#, fuzzy
 msgid "Logarithmic regression"
-msgstr "logaritminen"
+msgstr "Logaritminen regressio"
 
 #: ../plugins/reg_linear/gog-polynom-reg.c:203
-#, fuzzy
 msgid "Order:"
-msgstr "Reunaviiva"
+msgstr "Kertaluku:"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Polynomial regression2
 #: ../plugins/reg_linear/gog-polynom-reg.c:222
 msgid "Polynomial regression"
-msgstr ""
+msgstr "Polynomiregressio"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	Power regression2
 #: ../plugins/reg_linear/gog-power-reg.c:63
-#, fuzzy
 msgid "Power regression"
-msgstr "logaritminen"
+msgstr "Potenssiregressio"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:1
 msgid "Exponential regression curve engine"
-msgstr ""
+msgstr "Eksponentiaalisen regressiokäyrän ohjelma"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:2
 msgid "Linear regression curve engine"
-msgstr ""
+msgstr "Lineaarisen regressiokäyrän ohjelma"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:3
 msgid "Linear regression curves"
-msgstr ""
+msgstr "Lineaariset regressiokäyrät"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:4
 msgid "Linear regression curves types"
-msgstr ""
+msgstr "Lineaariset regressiokäyrätyypit"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:5
 msgid "Logarithmic regression curve engine"
-msgstr ""
+msgstr "Logaritmiregressiokäyrän ohjelma"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:6
 msgid "Polynomial regression curve engine"
-msgstr ""
+msgstr "Polynomiregressiokäyrän ohjelma"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:7
 msgid "Power regression curve engine"
-msgstr ""
+msgstr "Potenssiregressiokäyrän ohjelma"
 
 #: ../plugins/reg_linear/plugin.xml.in.h:8
 msgid "Regression curve : linear"
-msgstr ""
+msgstr "Regressiokäyrä : lineaarinen"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:1
 msgid "Exponential"
-msgstr ""
+msgstr "eksponentiaalinen"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:2
 msgid "Exponential regression curve"
-msgstr ""
+msgstr "Eksponentiaalinen regressiokäyrä"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:4
 msgid "Linear regression curve"
-msgstr ""
+msgstr "Lineaarinen regressiokäyrä"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:5
-#, fuzzy
 msgid "Logarithmic"
 msgstr "logaritminen"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:6
 msgid "Logarithmic regression curve"
-msgstr ""
+msgstr "Logaritminen regressiokäyrä"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:7
 msgid "Polynomial"
-msgstr ""
+msgstr "polynomi"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:8
 msgid "Polynomial regression curve"
-msgstr ""
+msgstr "Polynomiregressiokäyrä"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:9
 msgid "Power"
-msgstr ""
+msgstr "potenssi"
 
 #: ../plugins/reg_linear/reg-types.xml.in.h:10
 msgid "Power regression curve"
-msgstr ""
+msgstr "Potenssiregressiokäyrä"
 
 #. xgettext : the base for how to name logarithmic fits
 #. * eg The 2nd fit for a series will be called
 #. * 	Log fit2
 #: ../plugins/reg_logfit/gog-logfit.c:140
 msgid "Log fit"
-msgstr ""
+msgstr "Log-sovitus"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:1
 msgid "Logarithmic fitting curve engine"
-msgstr ""
+msgstr "Logaritmisesti sovitetun käyrän ohjelma"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:2
-#, fuzzy
 msgid "Logarithmic fitting curves"
-msgstr "logaritminen"
+msgstr "Logaritmisesti sovitetut käyrät"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:3
 msgid "Logarithmic fitting curves types"
-msgstr ""
+msgstr "Logaritmisesti sovitetut käyrätyypit"
 
 #: ../plugins/reg_logfit/plugin.xml.in.h:4
 msgid "Regression curve : logfit"
-msgstr ""
+msgstr "Regressiokäyrä : logaritminen sovitus"
 
 #: ../plugins/reg_logfit/reg-types.xml.in.h:1
 msgid "Log Fit (y=a+b*ln(sign*(x-c)))"
-msgstr ""
+msgstr "log-sovitus (y=a+b*ln(sign*(x-c)))"
 
 #: ../plugins/reg_logfit/reg-types.xml.in.h:2
-#, fuzzy
 msgid "Logarithmic fitting curve"
-msgstr "logaritminen"
+msgstr "Logaritmisesti sovitettu käyrä"
 
 #: ../plugins/smoothing/gog-moving-avg.c:104
 msgid "Number of values from which to calculate an average"
-msgstr ""
+msgstr "Keskiarvon laskentaan käytettävien arvojen lukumäärä"
 
 #: ../plugins/smoothing/gog-moving-avg.c:109
 msgid "Whether to average x values as well or use the last one"
-msgstr ""
+msgstr "Keskiarvoistetaanko myös x-arvot vai käytetäänkö viimeistä"
 
 #. xgettext : the base for how to name moving averge smoothed curves objects
 #. * eg The 2nd one for a series will be called
@@ -6919,40 +6731,40 @@ msgstr ""
 #: ../plugins/smoothing/gog-moving-avg.c:176
 #: ../plugins/smoothing/types.xml.in.h:2
 msgid "Moving average"
-msgstr ""
+msgstr "liukuva keskiarvo"
 
 #: ../plugins/smoothing/gog-moving-avg.c:197
 msgid "Number of averaged values"
-msgstr ""
+msgstr "Keskiarvoistettujen arvojen määrä"
 
 #: ../plugins/smoothing/gog-moving-avg.c:202
 msgid "Average X"
-msgstr ""
+msgstr "Keskiarvoista x"
 
 #: ../plugins/smoothing/gog-moving-avg.c:203
 msgid "Use averaged x values"
-msgstr ""
+msgstr "Käytä keskiarvoistettuja x-arvoja"
 
 #: ../plugins/smoothing/gog-moving-avg.ui.h:1
-#, fuzzy
 msgid "_Span:"
-msgstr "Erotin:"
+msgstr "Etäisyy_s:"
 
 #: ../plugins/smoothing/gog-moving-avg.ui.h:2
 msgid "_Use averaged abscissa"
-msgstr ""
+msgstr "Käytä keskiarvoistett_ua abskissaa"
 
 #: ../plugins/smoothing/gog-exp-smooth.c:65
 #: ../plugins/smoothing/gog-exp-smooth.c:232
 msgid "Number of interpolation steps"
-msgstr ""
+msgstr "Interpolointivaiheiden määrä"
 
 #: ../plugins/smoothing/gog-exp-smooth.c:73
 msgid ""
 "Default period is 10 * (xmax - xmin)/(nvalues - 1)\n"
-"If no value or a negative (or nul) value is provided, the default will be "
-"used"
+"If no value or a negative (or nul) value is provided, the default will be used"
 msgstr ""
+"Oletusjakso on 10 * (xmax - xmin)/(nvalues - 1)\n"
+"Oletusarvoa käytetään, jos arvoja ei ole tai jokin arvo on negatiivinen (tai tyhjä)"
 
 #. xgettext : the base for how to name exponentially smoothed curves objects
 #. * eg The 2nd one for a series will be called
@@ -6960,49 +6772,43 @@ msgstr ""
 #: ../plugins/smoothing/gog-exp-smooth.c:166
 #: ../plugins/smoothing/types.xml.in.h:1
 msgid "Exponentially smoothed curve"
-msgstr ""
+msgstr "eksponentiaalisesti tasoitettu käyrä"
 
 #: ../plugins/smoothing/gog-exp-smooth.c:231
-#, fuzzy
 msgid "Steps"
-msgstr "*Syys"
+msgstr "Vaiheet"
 
 #: ../plugins/smoothing/gog-exp-smooth.ui.h:1
-#, fuzzy
 msgid "_Period:"
-msgstr "_Edustaväri:"
+msgstr "_Kausi:"
 
 #: ../plugins/smoothing/gog-exp-smooth.ui.h:2
-#, fuzzy
 msgid "_Steps:"
-msgstr "_Koko:"
+msgstr "_Vaiheet:"
 
 #: ../plugins/smoothing/plugin.xml.in.h:1
-#, fuzzy
 msgid "Charting : Trends and Curves"
-msgstr "Muutetaan välilehtien värejä"
+msgstr "Piirto: trendiviivat ja käyrät"
 
 #: ../plugins/smoothing/plugin.xml.in.h:2
-#, fuzzy
 msgid "Moving average smoothing engine"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Liukuvin keskiarvoin tasoittamisen ohjelma"
 
 #: ../plugins/smoothing/plugin.xml.in.h:3
 msgid "Smoothed curves"
-msgstr ""
+msgstr "Tasoitetut käyrät"
 
 #: ../plugins/smoothing/plugin.xml.in.h:4
 msgid "Smoothed curves types"
-msgstr ""
+msgstr "Tasoitettujen käyrien tyypit"
 
 #: ../plugins/smoothing/plugin.xml.in.h:5
-#, fuzzy
 msgid "exponential smoothing engine"
-msgstr "Virhe jäsennettäessä riviä"
+msgstr "Eksponentiaalisen tasoituksen ohjelma"
 
 #: ../plugins/smoothing/types.xml.in.h:3
 msgid "Moving average smoothed curve"
-msgstr ""
+msgstr "Liukuvin keskiarvoin tasoitettu käyrä"
 
 #, fuzzy
 #~ msgid "Font description"
@@ -7031,10 +6837,8 @@ msgstr ""
 #, fuzzy
 #~ msgid "Scale set"
 #~ msgstr "Tallenna kaikki"
-
 #~ msgid "H"
 #~ msgstr "K"
-
 #~ msgid "W"
 #~ msgstr "L"
 
@@ -7057,7 +6861,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "GogObjectPrefs"
 #~ msgstr "Tavoite"
-
 #~ msgid "*"
 #~ msgstr "×"
 
@@ -7106,17 +6909,14 @@ msgstr ""
 #, fuzzy
 #~ msgid "third"
 #~ msgstr "Muu"
-
 #~ msgid "Grid"
 #~ msgstr "Ruudukko"
 
 #, fuzzy
 #~ msgid "Type axis:"
 #~ msgstr "_Tyyppi:"
-
 #~ msgid "Shadow type"
 #~ msgstr "Varjotyyppi"
-
 #~ msgid "Orientation"
 #~ msgstr "Asento"
 
@@ -7151,121 +6951,82 @@ msgstr ""
 #, fuzzy
 #~ msgid "<b>Manual position</b>"
 #~ msgstr "<b>Suunta</b>"
-
 #~ msgid "Ty_pe:"
 #~ msgstr "_Tyyppi:"
-
 #~ msgid "_Fill color:"
 #~ msgstr "_Väri:"
-
 #~ msgid "*Sun"
 #~ msgstr "*Su"
-
 #~ msgid "*Mon"
 #~ msgstr "*Ma"
-
 #~ msgid "*Tue"
 #~ msgstr "*Ti"
-
 #~ msgid "*Wed"
 #~ msgstr "*Ke"
-
 #~ msgid "*Thu"
 #~ msgstr "*To"
-
 #~ msgid "*Fri"
 #~ msgstr "*Pe"
-
 #~ msgid "*Sat"
 #~ msgstr "*La"
-
 #~ msgid "Sunday"
 #~ msgstr "Sunnuntai"
-
 #~ msgid "Monday"
 #~ msgstr "Maanantai"
-
 #~ msgid "Tuesday"
 #~ msgstr "Tiistai"
-
 #~ msgid "Wednesday"
 #~ msgstr "Keskiviikko"
-
 #~ msgid "Thursday"
 #~ msgstr "Torstai"
-
 #~ msgid "Friday"
 #~ msgstr "Perjantai"
-
 #~ msgid "Saturday"
 #~ msgstr "Lauantai"
-
 #~ msgid "*Jan"
 #~ msgstr "*Tammi"
-
 #~ msgid "*Feb"
 #~ msgstr "*Helmi"
-
 #~ msgid "*Mar"
 #~ msgstr "*Maalis"
-
 #~ msgid "*Apr"
 #~ msgstr "*Huhti"
-
 #~ msgid "*May"
 #~ msgstr "*Touko"
-
 #~ msgid "*Jun"
 #~ msgstr "*Kesä"
-
 #~ msgid "*Jul"
 #~ msgstr "*Heinä"
-
 #~ msgid "*Aug"
 #~ msgstr "*Elo"
-
 #~ msgid "*Oct"
 #~ msgstr "*Loka"
-
 #~ msgid "*Nov"
 #~ msgstr "*Marras"
-
 #~ msgid "*Dec"
 #~ msgstr "*Joulu"
-
 #~ msgid "January"
 #~ msgstr "Tammikuu"
-
 #~ msgid "February"
 #~ msgstr "Helmikuu"
-
 #~ msgid "March"
 #~ msgstr "Maaliskuu"
-
 #~ msgid "April"
 #~ msgstr "Huhtikuu"
-
 #~ msgid "June"
 #~ msgstr "Kesäkuu"
-
 #~ msgid "July"
 #~ msgstr "Heinäkuu"
-
 #~ msgid "August"
 #~ msgstr "Elokuu"
-
 #~ msgid "September"
 #~ msgstr "Syyskuu"
-
 #~ msgid "October"
 #~ msgstr "Lokakuu"
-
 #~ msgid "November"
 #~ msgstr "Marraskuu"
-
 #~ msgid "December"
 #~ msgstr "Joulukuu"
-
 #~ msgid "Automatic (%s)"
 #~ msgstr "Automaattinen (%s)"
 
@@ -7276,16 +7037,14 @@ msgstr ""
 #, fuzzy
 #~ msgid "_Cross at category #"
 #~ msgstr "_Kategoria"
-
 #~ msgid "Bounds"
 #~ msgstr "Raja-arvot"
-
 #~ msgid "T_ype:"
 #~ msgstr "T_yyppi:"
-
 #~ msgid "3D Pie"
 #~ msgstr "3D-piirakka"
 
 #, fuzzy
 #~ msgid "_Slices number:"
 #~ msgstr "Koko luvut"
+
