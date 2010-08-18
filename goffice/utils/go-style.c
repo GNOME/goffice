@@ -1431,7 +1431,7 @@ go_style_fill_sax_save (GsfXMLOut *output, GOStyle const *style)
 		break;
 	case GO_STYLE_FILL_IMAGE:
 		if (NULL == style->fill.image.image) {
-			g_warning ("droping fill with missing image");
+			g_warning ("dropping fill with missing image");
 			break;
 		}
 

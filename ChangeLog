@@ -1,5 +1,9 @@
 2010-08-18  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* goffice/utils/go-style.c (go_style_fill_sax_save): fixed typo.
+
+2010-08-18  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* goffice/graph/gog-renderer.c (_line_size): Always use real line width
 	when evaluating dashes. [#442546]
 
