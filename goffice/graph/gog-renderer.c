@@ -130,7 +130,7 @@ _line_size (GogRenderer const *rend, double width, gboolean sharp)
 {
 	double size = _grc_line_size (rend, width, sharp);
 
-	if (!rend->is_vector && size < 1.0)
+	if (!rend->is_vector && sharp && size < 1.0)
 		return ceil (size);
 
 	return size;

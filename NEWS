@@ -1,5 +1,8 @@
 goffice 0.8.10:
 
+Jean:
+	* Always use real line width when evaluating dashes. [#442546]
+
 Morten:
 	* Limit formats to sane number of decimals.  [#627066]
 
