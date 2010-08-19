@@ -212,6 +212,10 @@ gog_xyz_surface_plot_update (GogObject *obj)
 	model->x.minima = tmp_min;
 	model->x.maxima = tmp_max;
 	gog_axis_bound_changed (model->base.axis[GOG_AXIS_X], GOG_OBJECT (model));
+	if (model->x_vals != NULL) {
+		g_object_unref (model->x_vals);
+		model->x_vals = NULL;
+	}
 
 	go_data_get_bounds (series->base.values[1].data, &tmp_min, &tmp_max);
 	if (!go_finite (tmp_min) || !go_finite (tmp_max) ||
@@ -224,6 +228,10 @@ gog_xyz_surface_plot_update (GogObject *obj)
 	model->y.minima = tmp_min;
 	model->y.maxima = tmp_max;
 	gog_axis_bound_changed (model->base.axis[GOG_AXIS_Y], GOG_OBJECT (model));
+	if (model->y_vals != NULL) {
+		g_object_unref (model->y_vals);
+		model->y_vals = NULL;
+	}
 
 	go_data_get_bounds (series->base.values[2].data, &tmp_min, &tmp_max);
 	if (!go_finite (tmp_min) || !go_finite (tmp_max) ||

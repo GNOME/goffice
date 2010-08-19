@@ -1,3 +1,9 @@
+2010-08-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_surface/gog-xyz-surface.c
+	(gog_xyz_surface_plot_update): force update of x and y limits when data
+	change. [#627388]
+
 2010-08-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-style.c (go_style_fill_sax_save): fixed typo.
