@@ -1,3 +1,8 @@
+2010-08-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-chart-map.c (make_path_cspline): do not check order
+	for NULL abscissa. [#627507]
+
 2010-08-20  Morten Welinder  <terra@gnome.org>
 
 	* goffice/math/go-rangefunc.c (go_range_increasing)
