@@ -249,6 +249,7 @@ int
 SUFFIX(go_range_increasing) (DOUBLE const *xs, int n)
 {
 	int i;
+	g_return_val_if_fail (n == 0 || xs != NULL, 0);
 	for (i = 1; i < n; i++)
 		if (xs[i - 1] >= xs[i])
 			return 0;
@@ -259,6 +260,7 @@ int
 SUFFIX(go_range_decreasing) (DOUBLE const *xs, int n)
 {
 	int i;
+	g_return_val_if_fail (n == 0 || xs != NULL, 0);
 	for (i = 1; i < n; i++)
 		if (xs[i - 1] <= xs[i])
 			return 0;
