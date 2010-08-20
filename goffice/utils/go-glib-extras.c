@@ -339,7 +339,7 @@ go_string_replace (GString *target,
 
 	g_return_if_fail (target != NULL);
 	g_return_if_fail (pos >= 0);
-	g_return_if_fail (pos < target->len);
+	g_return_if_fail (pos <= target->len);
 
 	if (oldlen < 0)
 		oldlen = target->len - pos;

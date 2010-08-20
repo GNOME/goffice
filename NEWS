@@ -7,6 +7,7 @@ Jean:
 
 Morten:
 	* Limit formats to sane number of decimals.  [#627066]
+	* Fix minor go_string_replace issue.
 
 --------------------------------------------------------------------------
 goffice 0.8.9:
