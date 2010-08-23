@@ -1,5 +1,8 @@
 2010-08-23  Morten Welinder  <terra@gnome.org>
 
+	* goffice/utils/go-format.c (go_format_parse_sequential): Plug
+	leak.
+
 	* goffice/goffice.c (libgoffice_shutdown): Free locale vars too.
 	* goffice/utils/go-locale.c (_go_locale_shutdown): New function.
 

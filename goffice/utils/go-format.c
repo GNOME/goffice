@@ -1238,6 +1238,7 @@ go_format_parse_sequential (const char *str, GString *prg,
 	gboolean date_ybm = FALSE;
 	gboolean date_mbd = FALSE;
 	gboolean date_dbm = FALSE;
+	gboolean prg_was_null = (prg == NULL);
 
 	if (!prg)
 		prg = g_string_new (NULL);
@@ -1495,6 +1496,9 @@ go_format_parse_sequential (const char *str, GString *prg,
 	}
 
  error:
+	if (prg_was_null)
+		g_string_free (prg, TRUE);
+
 	return NULL;
 }
 
