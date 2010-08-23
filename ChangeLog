@@ -2,7 +2,7 @@
 
 	* goffice/utils/go-style-prefs.ui: restore centered image filling.
 	* goffice/utils/go-style.c (go_style_fill_sax_save),
-	(go_style_sax_load_fill_image), (go_style_sax_load_fill): cosider image
+	(go_style_sax_load_fill_image), (go_style_sax_load_fill): consider image
 	filling with no imge as no filling when serializing. [#627690],
 	(go_style_create_cairo_pattern): restore centered image filling.
 
