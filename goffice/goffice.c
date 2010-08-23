@@ -176,6 +176,7 @@ libgoffice_shutdown (void)
 	_go_currency_date_format_shutdown ();
 	_go_number_format_shutdown ();
 	_go_string_shutdown ();
+	_go_locale_shutdown ();
 #ifdef G_OS_WIN32
 	/* const_cast, we created these above */
 	g_free ((char *)libgoffice_data_dir);

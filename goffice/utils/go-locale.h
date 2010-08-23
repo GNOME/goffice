@@ -43,6 +43,8 @@ gboolean       go_locale_24h              (void);
 GString const *go_locale_get_date_format  (void);
 GString const *go_locale_get_time_format  (void);
 
+void           _go_locale_shutdown        (void);
+
 G_END_DECLS
 
 #endif /* GO_LOCALE_H */

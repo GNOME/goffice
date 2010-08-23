@@ -68,6 +68,23 @@ go_setlocale (int category, char const *val)
 	return setlocale (category, val);
 }
 
+void
+_go_locale_shutdown (void)
+{
+	if (locale_info_cached) {
+		/* Mark everything as uncached.  */
+		(void)go_setlocale (LC_ALL, NULL);
+	}
+#define FREE1(var) if (var) { g_string_free (var, TRUE); var = NULL; }
+	FREE1 (lc_decimal);
+	FREE1 (lc_thousand);
+	FREE1 (lc_currency);
+	FREE1 (lc_date_format);
+	FREE1 (lc_time_format);
+#undef FREE1
+}
+
+
 static void
 convert1 (GString *res, char const *lstr, char const *name, char const *def)
 {
