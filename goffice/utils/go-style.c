@@ -1405,7 +1405,9 @@ go_style_fill_sax_save (GsfXMLOut *output, GOStyle const *style)
 {
 	gsf_xml_out_start_element (output, "fill");
 	gsf_xml_out_add_cstr_unchecked (output, "type",
-		    fill_style_as_str (style->fill.type));
+		    fill_style_as_str (
+			(style->fill.type != GO_STYLE_FILL_IMAGE || style->fill.image.image != NULL)?
+		                       style->fill.type: GO_STYLE_FILL_NONE));
 	gsf_xml_out_add_bool (output, "auto-type",
 		style->fill.auto_type);
 	gsf_xml_out_add_bool (output, "is-auto",
@@ -1759,7 +1761,7 @@ go_style_sax_load_fill_image (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GOStyle *style = GO_STYLE (xin->user_state);
 	GODoc *doc = (GODoc *) g_object_get_data (G_OBJECT (gsf_xml_in_get_input (xin)), "document");
-	g_return_if_fail (style->fill.type == GO_STYLE_FILL_IMAGE);
+	g_return_if_fail (style->fill.type == GO_STYLE_FILL_NONE);
 	g_return_if_fail (GO_IS_DOC (doc));
 	/* TODO: load the pixels */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -1767,6 +1769,8 @@ go_style_sax_load_fill_image (GsfXMLIn *xin, xmlChar const **attrs)
 			style->fill.image.type = str_as_image_tiling (attrs[1]);
 		} else if (0 == strcmp (attrs[0], "name"))
 			style->fill.image.image = g_object_ref (go_doc_image_fetch (doc, attrs[1]));
+	if (style->fill.image.image != NULL)
+		style->fill.type = GO_STYLE_FILL_IMAGE;
 }
 
 static void
@@ -1775,9 +1779,12 @@ go_style_sax_load_fill (GsfXMLIn *xin, xmlChar const **attrs)
 	GOStyle *style = GO_STYLE (xin->user_state);
 	style->fill.auto_type = FALSE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "type"))
+		if (0 == strcmp (attrs[0], "type")) {
 			style->fill.type = str_as_fill_style (attrs[1]);
-		else if (bool_sax_prop ("auto-type", attrs[0], attrs[1], &style->fill.auto_type))
+			/* image fill can't be accepted until we have an image */
+			if (style->fill.type == GO_STYLE_FILL_IMAGE)
+				style->fill.type = GO_STYLE_FILL_NONE;
+		} else if (bool_sax_prop ("auto-type", attrs[0], attrs[1], &style->fill.auto_type))
 			;
 		else if (bool_sax_prop ("is-auto", attrs[0], attrs[1], &style->fill.auto_back))
 			;
@@ -2167,15 +2174,16 @@ go_style_create_cairo_pattern (GOStyle const *style, cairo_t *cr)
 				return cairo_pattern_create_rgba (1, 1, 1, 1);
 			}
 			g_object_get (style->fill.image.image, "width", &w, "height", &h, NULL);
-			cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
 			switch (style->fill.image.type) {
 				case GO_IMAGE_CENTERED:
+					cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_NONE);
 					cairo_matrix_init_translate (&cr_matrix,
 								     -(x[1] - x[0] - w) / 2 - x[0],
 								     -(y[1] - y[0] - h) / 2 - y[0]);
 					cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
 					break;
 				case GO_IMAGE_STRETCHED:
+					cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_NONE);
 					cairo_matrix_init_scale (&cr_matrix,
 								 w / (x[1] - x[0]),
 								 h / (y[1] - y[0]));
@@ -2183,6 +2191,7 @@ go_style_create_cairo_pattern (GOStyle const *style, cairo_t *cr)
 					cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
 					break;
 				case GO_IMAGE_WALLPAPER:
+					cairo_pattern_set_extend (cr_pattern, CAIRO_EXTEND_REPEAT);
 					cairo_matrix_init_translate (&cr_matrix, -x[0], -y[0]);
 					cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
 					break;

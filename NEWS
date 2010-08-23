@@ -4,6 +4,7 @@ Jean:
 	* Always use real line width when evaluating dashes. [#442546]
 	* Update x and y limits when data change for xyz plots. [#627288]
 	* Do not crash when displaying cubic spline with no abscissa. [#627507]
+	* Do not save image filling with no image. [#627690]
 
 Morten:
 	* Limit formats to sane number of decimals.  [#627066]

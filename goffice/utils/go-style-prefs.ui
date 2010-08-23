@@ -58,6 +58,9 @@
       <row>
         <col id="0" translatable="yes">wallpaper</col>
       </row>
+      <row>
+        <col id="0" translatable="yes">centered</col>
+      </row>
     </data>
   </object>
   <object class="GtkHBox" id="go_style_prefs">
