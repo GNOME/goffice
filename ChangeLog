@@ -1,5 +1,14 @@
 2010-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* goffice/app/go-cmd-context-impl.h (error_info_list): new method
+	* goffice/app/go-cmd-context.c (go_cmd_context_error_info_list):
+	  call error_info_list
+	(go_cmd_context_error_info_list_default): new
+	(go_cmd_context_class_init): new
+	(go_cmd_context_get_type): connect go_cmd_context_class_init
+
+2010-08-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* goffice/app/go-cmd-context.c (go_cmd_context_error_info_list): new
 	* goffice/app/go-cmd-context.h (go_cmd_context_error_info_list): new
 	* goffice/app/io-context-priv.h (_GOIOContext): change info field into

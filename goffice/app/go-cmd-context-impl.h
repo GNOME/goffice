@@ -19,6 +19,9 @@ typedef struct {
 
 	void    (*progress_set)		(GOCmdContext *gcc, double val);
 	void    (*progress_message_set)	(GOCmdContext *gcc, gchar const *msg);
+
+  /* This should really go into the error struct! */
+        void    (*error_info_list)  	(GOCmdContext *gcc, GSList *errs);
 } GOCmdContextClass;
 
 #define GO_CMD_CONTEXT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), GO_TYPE_CMD_CONTEXT, GOCmdContextClass))

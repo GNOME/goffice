@@ -3,6 +3,7 @@ goffice 0.8.10:
 Andreas:
 	* Make sure the first rather than the last error is shown.
 	* Plug leak.
+	* Provide the opportunity of all errors to be shown.
 
 Jean:
 	* Always use real line width when evaluating dashes. [#442546]

@@ -40,10 +40,7 @@ void
 go_cmd_context_error_info_list (GOCmdContext *cc, GSList *stack)
 {
 	g_return_if_fail (GO_IS_CMD_CONTEXT (cc));
-	if (stack == NULL)
-		go_cmd_context_error_info (cc, NULL);
-	else
-		go_cmd_context_error_info (cc, g_slist_last (stack)->data);
+	GCC_CLASS (cc)->error_info_list (cc, stack);
 }
 
 void
@@ -151,6 +148,24 @@ go_cmd_context_set_sensitive (GOCmdContext *cc, gboolean sensitive)
 		GCC_CLASS (cc)->set_sensitive (cc, sensitive);
 }
 
+
+static void    
+go_cmd_context_error_info_list_default 	(GOCmdContext *gcc, GSList *errs)
+{
+	if (errs == NULL)
+		go_cmd_context_error_info (gcc, NULL);
+	else
+		go_cmd_context_error_info (gcc, g_slist_last (errs)->data);
+
+}
+
+static void
+go_cmd_context_class_init (GOCmdContextClass *class, gpointer class_data)
+{
+#warning class->error_info_list should really be class->error.error_info_list
+	class->error_info_list = go_cmd_context_error_info_list_default;
+}
+
 GType
 go_cmd_context_get_type (void)
 {
@@ -159,7 +174,7 @@ go_cmd_context_get_type (void)
 	if (!go_cmd_context_type) {
 		static GTypeInfo const go_cmd_context_info = {
 			sizeof (GOCmdContextClass),	/* class_size */
-			NULL,				/* base_init */
+			(GClassInitFunc) go_cmd_context_class_init, /* base_init */
 			NULL,				/* base_finalize */
 		};
 
