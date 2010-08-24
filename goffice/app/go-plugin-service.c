@@ -28,6 +28,15 @@
 #include <string.h>
 
 #define CXML2C(s) ((char const *)(s))
+#define CC2XML(s) ((xmlChar const *)(s))
+
+static char *
+xml2c (xmlChar *src)
+{
+	char *dst = g_strdup (CXML2C (src));
+	xmlFree (src);
+	return dst;
+}
 
 static GHashTable *services = NULL;
 
@@ -67,7 +76,7 @@ go_plugin_service_finalize (GObject *obj)
 	GOPluginService *service = GO_PLUGIN_SERVICE (obj);
 	GObjectClass *parent_class;
 
-	xmlFree (service->id);
+	g_free (service->id);
 	service->id = NULL;
 	g_free (service->saved_description);
 	service->saved_description = NULL;
@@ -271,42 +280,48 @@ go_plugin_service_file_opener_read_xml (GOPluginService *service, xmlNode *tree,
 
 	information_node = go_xml_get_child_by_name (tree, "information");
 	if (information_node != NULL) {
-		xmlNode *node;
-		xmlChar *val;
-
-		node = go_xml_get_child_by_name_by_lang (
-		       information_node, "description");
-		if (node != NULL) {
-			val = xmlNodeGetContent (node);
-			description = g_strdup ((gchar *)val);
-			xmlFree (val);
-		} else {
-			description = NULL;
-		}
+		xmlNode *node = go_xml_get_child_by_name_by_lang
+			(information_node, "description");
+		description = node ? xml2c (xmlNodeGetContent (node)) : NULL;
 	} else {
 		description = NULL;
 	}
 	if (description != NULL) {
 		GSList *suffixes = NULL, *mimes = NULL;
-		char *tmp;
 		xmlNode *list, *node;
 		GOPluginServiceFileOpener *service_file_opener = GO_PLUGIN_SERVICE_FILE_OPENER (service);
 
 		list = go_xml_get_child_by_name (tree, "suffixes");
 		if (list != NULL) {
-			for (node = list->xmlChildrenNode; node != NULL; node = node->next)
-				if (strcmp (node->name, "suffix") == 0 &&
-				    (tmp = xmlNodeGetContent (node)) != NULL)
-					GO_SLIST_PREPEND (suffixes, tmp);
+			for (node = list->xmlChildrenNode; node != NULL; node = node->next) {
+				char *tmp;
+
+				if (strcmp (node->name, "suffix"))
+					continue;
+
+				tmp = xml2c (xmlNodeGetContent (node));
+				if (!tmp)
+					continue;
+
+				GO_SLIST_PREPEND (suffixes, tmp);
+			}
 		}
 		GO_SLIST_REVERSE (suffixes);
 
 		list = go_xml_get_child_by_name (tree, "mime-types");
 		if (list != NULL) {
-			for (node = list->xmlChildrenNode; node != NULL; node = node->next)
-				if (strcmp (node->name, "mime-type") == 0 &&
-				    (tmp = xmlNodeGetContent (node)) != NULL)
-					GO_SLIST_PREPEND (mimes, tmp);
+			for (node = list->xmlChildrenNode; node != NULL; node = node->next) {
+				char *tmp;
+
+				if (strcmp (node->name, "mime-type"))
+					continue;
+
+				tmp = xml2c (xmlNodeGetContent (node));
+				if (!tmp)
+					continue;
+
+				GO_SLIST_PREPEND (mimes, tmp);
+			}
 		}
 		GO_SLIST_REVERSE (mimes);
 
@@ -592,48 +607,38 @@ go_plugin_service_file_saver_read_xml (GOPluginService *service, xmlNode *tree, 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	information_node = go_xml_get_child_by_name (tree, "information");
 	if (information_node != NULL) {
-		xmlNode *node;
-		xmlChar *val;
-
-		node = go_xml_get_child_by_name_by_lang (
-		       information_node, "description");
-		if (node != NULL) {
-			val = xmlNodeGetContent (node);
-			description = g_strdup ((gchar *)val);
-			xmlFree (val);
-		} else {
-			description = NULL;
-		}
+		xmlNode *node = go_xml_get_child_by_name_by_lang
+			(information_node, "description");
+		description = node ? xml2c (xmlNodeGetContent (node)) : NULL;
 	} else {
 		description = NULL;
 	}
 
 	if (description != NULL) {
-		xmlChar *s;
 		int scope = GO_FILE_SAVE_WORKBOOK;
 		int level = GO_FILE_FL_WRITE_ONLY;
 		GOPluginServiceFileSaver *psfs =
 			GO_PLUGIN_SERVICE_FILE_SAVER (service);
 
-		s = go_xml_node_get_cstr (tree, "file_extension");
-		psfs->file_extension = g_strdup (CXML2C (s));
-		xmlFree (s);
+		psfs->file_extension =
+			xml2c (go_xml_node_get_cstr (tree, "file_extension"));
 
-		s = go_xml_node_get_cstr (tree, "mime_type");
-		psfs->mime_type = g_strdup (CXML2C (s));
-		xmlFree (s);
+		psfs->mime_type =
+			xml2c (go_xml_node_get_cstr (tree, "mime_type"));
 
 		psfs->description = description;
 
-		(void)go_xml_node_get_enum (tree, "format_level",
-					 GO_TYPE_FILE_FORMAT_LEVEL, &level);
+		(void)go_xml_node_get_enum
+			(tree, "format_level",
+			 GO_TYPE_FILE_FORMAT_LEVEL, &level);
 		psfs->format_level = (GOFileFormatLevel)level;
 
 		if (!go_xml_node_get_int (tree, "default_saver_priority", &(psfs->default_saver_priority)))
 			psfs->default_saver_priority = -1;
 
-		(void)go_xml_node_get_enum (tree, "save_scope",
-					 GO_TYPE_FILE_SAVE_SCOPE, &scope);
+		(void)go_xml_node_get_enum
+			(tree, "save_scope",
+			 GO_TYPE_FILE_SAVE_SCOPE, &scope);
 		psfs->save_scope = (GOFileSaveScope)scope;
 
 		if (!go_xml_node_get_bool (tree, "overwrite_files", &(psfs->overwrite_files)))
@@ -1008,14 +1013,14 @@ go_plugin_service_new (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_error)
 	ctor = g_hash_table_lookup (services, type_str);
 	if (ctor == NULL) {
 		*ret_error = go_error_info_new_printf (_("Unknown service type: %s."), type_str);
-		g_free (type_str);
+		xmlFree (type_str);
 		return NULL;
 	}
 	xmlFree (type_str);
 
 	service = g_object_new (ctor(), NULL);
 	service->plugin = plugin;
-	service->id = go_xml_node_get_cstr (tree, "id");
+	service->id = xml2c (go_xml_node_get_cstr (tree, "id"));
 	if (service->id == NULL)
 		service->id = xmlStrdup ("default");
 

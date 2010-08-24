@@ -61,6 +61,18 @@ static void plugin_get_loader_if_needed (GOPlugin *plugin, GOErrorInfo **ret_err
 static void go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error);
 static void go_plugin_load_base (GOPlugin *plugin, GOErrorInfo **ret_error);
 
+#define CXML2C(s) ((char const *)(s))
+#define CC2XML(s) ((xmlChar const *)(s))
+
+static char *
+xml2c (xmlChar *src)
+{
+	char *dst = g_strdup (CXML2C (src));
+	xmlFree (src);
+	return dst;
+}
+
+
 /*
  * GOPlugin
  */
@@ -615,7 +627,7 @@ go_plugin_read_dependency_list (xmlNode *tree)
 		if (strcmp (node->name, "dep_plugin") == 0) {
 			gchar *plugin_id;
 
-			plugin_id = xmlGetProp (node, (xmlChar *)"id");
+			plugin_id = xml2c (xmlGetProp (node, CC2XML ("id")));
 			if (plugin_id != NULL) {
 				PluginDependency *dep;
 
@@ -643,7 +655,7 @@ go_plugin_read_service_list (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_
 	g_return_val_if_fail (tree != NULL, NULL);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	node = go_xml_get_child_by_name (tree, (xmlChar *)"services");
+	node = go_xml_get_child_by_name (tree, CC2XML ("services"));
 	if (node == NULL)
 		return NULL;
 	node = node->xmlChildrenNode;
@@ -692,10 +704,10 @@ go_plugin_read_loader_attrs (xmlNode *tree)
 		if (strcmp (node->name, "attribute") == 0) {
 			gchar *name, *value;
 
-			name = xmlGetProp (node, (xmlChar *)"name");
+			name = xml2c (xmlGetProp (node, CC2XML ("name")));
 			if (name != NULL) {
 				if (g_hash_table_lookup (hash, name) == NULL) {
-					value = xmlGetProp (node, (xmlChar *)"value");
+					value = xml2c (xmlGetProp (node, CC2XML ("value")));
 					g_hash_table_insert (hash, name, value);
 				} else {
 					g_warning ("Duplicated \"%s\" attribute in plugin.xml file.", name);
@@ -755,47 +767,40 @@ go_plugin_read (GOPlugin *plugin, gchar const *dir_name, GOErrorInfo **ret_error
 		return;
 	}
 	tree = doc->xmlRootNode;
-	id = xmlGetProp (tree, (xmlChar *)"id");
-	information_node = go_xml_get_child_by_name (tree, (xmlChar *)"information");
+	id = xml2c (xmlGetProp (tree, CC2XML ("id")));
+
+	information_node = go_xml_get_child_by_name (tree, CC2XML ("information"));
 	if (information_node != NULL) {
 		xmlNode *node;
-		xmlChar *val;
 
 		node = go_xml_get_child_by_name_by_lang (information_node, "name");
-		if (node != NULL) {
-			val = xmlNodeGetContent (node);
-			name = g_strdup ((gchar *)val);
-			xmlFree (val);
-		} else
-			name = NULL;
+		name = node ? xml2c (xmlNodeGetContent (node)) : NULL;
 
 		node = go_xml_get_child_by_name_by_lang (information_node, "description");
-		if (node != NULL) {
-			val = xmlNodeGetContent (node);
-			description = g_strdup ((gchar *)val);
-			xmlFree (val);
-		} else
-			description = NULL;
-		if (go_xml_get_child_by_name (information_node, (xmlChar const *)"require_explicit_enabling"))
+		description = node ? xml2c (xmlNodeGetContent (node)) : NULL;
+
+		if (go_xml_get_child_by_name (information_node, CC2XML ("require_explicit_enabling")))
 			require_explicit_enabling = TRUE;
 
-		if (go_xml_get_child_by_name (information_node, (xmlChar const *)"autoload"))
+		if (go_xml_get_child_by_name (information_node, CC2XML ("autoload")))
 			autoload = TRUE;
 	} else {
 		name = NULL;
 		description = NULL;
 	}
-	dependencies_node = go_xml_get_child_by_name (tree, (xmlChar *)"dependencies");
+
+	dependencies_node = go_xml_get_child_by_name (tree, CC2XML ("dependencies"));
 	if (dependencies_node != NULL) {
 		dependency_list = go_plugin_read_dependency_list (dependencies_node);
 	} else {
 		dependency_list = NULL;
 	}
-	loader_node = go_xml_get_child_by_name (tree, (xmlChar *)"loader");
+
+	loader_node = go_xml_get_child_by_name (tree, CC2XML ("loader"));
 	if (loader_node != NULL) {
 		char *p;
 
-		loader_id = xmlGetProp (loader_node, (xmlChar *)"type");
+		loader_id = xml2c (xmlGetProp (loader_node, CC2XML ("type")));
 		if (loader_id != NULL && (p = strchr (loader_id, ':')) != NULL) {
 			loader_attrs = go_plugin_read_loader_attrs (loader_node);
 			if (strcmp (loader_id, BUILTIN_LOADER_MODULE_ID) != 0) {

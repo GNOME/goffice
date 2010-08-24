@@ -34,6 +34,17 @@
 
 static GSList *refd_plugins = NULL;
 
+#define CXML2C(s) ((char const *)(s))
+#define CC2XML(s) ((xmlChar const *)(s))
+
+static char *
+xml2c (xmlChar *src)
+{
+	char *dst = g_strdup (CXML2C (src));
+	xmlFree (src);
+	return dst;
+}
+
 /***************************************************************************/
 /* Support component engines in plugins */
 
@@ -123,9 +134,9 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 					       go_mime_type_free);
 	for (ptr = tree->xmlChildrenNode; ptr != NULL; ptr = ptr->next)
 		if (0 == xmlStrcmp (ptr->name, "mime_type")) {
-			char *name = xmlGetProp (ptr, "name");
-			char *priority = xmlGetProp (ptr, "priority");
-			char *support_clipboard = xmlGetProp (ptr, "clipboard");
+			char *name = xml2c (xmlGetProp (ptr, "name"));
+			xmlChar *priority = xmlGetProp (ptr, "priority");
+			xmlChar *support_clipboard = xmlGetProp (ptr, "clipboard");
 			GOMimeType *mime_type =
 				g_hash_table_lookup (mime_types, name);
 			int i;
@@ -157,9 +168,9 @@ go_component_type_service_read_xml (GOPluginService * service, xmlNode * tree,
 				mime_type->component_type_name = g_strdup (service->id);
 				mime_type->priority = i;
 				comp_service->mime_types = g_slist_append (comp_service->mime_types, g_strdup (name));
-				xmlFree (name);
+				g_free (name);
 			} else
-				xmlFree (name);
+				g_free (name);
 			if (support_clipboard)
 				xmlFree (support_clipboard);
 		}

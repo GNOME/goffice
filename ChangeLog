@@ -1,3 +1,10 @@
+2010-08-24  Morten Welinder  <terra@gnome.org>
+
+	* goffice/component/go-component-factory.c: Fix char-xmlChar
+	confusion.
+	* goffice/app/go-plugin-service.c: Ditto.
+	* goffice/app/go-plugin.c: Ditto.
+
 2010-08-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/app/go-plugin-service.c (go_plugin_service_finalize),
