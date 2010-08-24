@@ -1,4 +1,4 @@
-# translation of goffice.HEAD.po to Español
+# translation of goffice.master.po to Español
 # Spanish translation of gnumeric
 # Copyright © 1998,2003, 2007, 2008 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnumeric package.
@@ -15,11 +15,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: goffice.HEAD\n"
+"Project-Id-Version: goffice.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=libgoffice&component=general\n"
-"POT-Creation-Date: 2010-08-12 13:43+0000\n"
-"PO-Revision-Date: 2010-08-17 08:36+0200\n"
+"POT-Creation-Date: 2010-08-23 20:46+0000\n"
+"PO-Revision-Date: 2010-08-24 08:37+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -230,7 +230,7 @@ msgid "Cleanup function inside plugin returned error."
 msgstr "La función de limpieza interna del complemento ha devuelto un error."
 
 #: ../goffice/app/go-plugin-service.c:168 ../goffice/gtk/go-format-sel.c:61
-#: ../goffice/utils/go-format.c:733 ../goffice/utils/go-format.c:3679
+#: ../goffice/utils/go-format.c:734 ../goffice/utils/go-format.c:3684
 msgid "General"
 msgstr "General"
 
@@ -1245,7 +1245,7 @@ msgstr "grados"
 
 #: ../goffice/graph/gog-axis-prefs.ui.h:22
 #: ../goffice/graph/gog-error-bar-prefs.ui.h:14
-#: ../goffice/utils/go-style-prefs.ui.h:25
+#: ../goffice/utils/go-style-prefs.ui.h:26
 msgid "pts"
 msgstr "puntos"
 
@@ -3804,7 +3804,6 @@ msgid "Armenia, Drams"
 msgstr "Armenia, dram"
 
 #: ../goffice/utils/formats.c:372
-#| msgid "Netherlands Antilles, Guilders"
 msgid "Netherlands antilles, Guilders"
 msgstr "Antillas holandesas, guilder"
 
@@ -3829,7 +3828,6 @@ msgid "Azerbaijan, Manats"
 msgstr "Azerbaiyán, manats"
 
 #: ../goffice/utils/formats.c:378
-#| msgid "Bosnia and Herzegovina, Convertible Marka"
 msgid "Bosnia and herzegovina, Convertible Marka"
 msgstr "Bosnia y Herzegovina, marco convertible"
 
@@ -3866,12 +3864,10 @@ msgid "Bolivia, Bolivianos"
 msgstr "Bolivia, boliviano"
 
 #: ../goffice/utils/formats.c:387
-#| msgid "Bolivia, Bolivianos"
 msgid "Bolivia, Mvdol"
 msgstr "Bolivia, mvdol"
 
 #: ../goffice/utils/formats.c:388
-#| msgid "Brazil, Brazil Real"
 msgid "Brazil, Brazilian Real"
 msgstr "Brasil, real brasileño"
 
@@ -3900,12 +3896,10 @@ msgid "Canada, Dollars"
 msgstr "Canadá, dólares"
 
 #: ../goffice/utils/formats.c:395
-#| msgid "Congo/Kinshasa, Congolese Francs"
 msgid "Congo, the democratic republic of, Congolese Francs"
 msgstr "Congo, la república democrática de el, francos congoleses"
 
 #: ../goffice/utils/formats.c:396
-#| msgid "Switzerland, Francs"
 msgid "Switzerland, WIR Euros"
 msgstr "Suiza, euro WIR"
 
@@ -3914,7 +3908,6 @@ msgid "Switzerland, Francs"
 msgstr "Suiza, francos"
 
 #: ../goffice/utils/formats.c:398
-#| msgid "Switzerland, Francs"
 msgid "Switzerland, WIR Francs"
 msgstr "Suiza, franco WIR"
 
@@ -3939,12 +3932,10 @@ msgid "Colombia, Unidades de Valor Real"
 msgstr "Colombia, Unidades de valor real"
 
 #: ../goffice/utils/formats.c:404
-#| msgid "Costa Rica, Colones"
 msgid "Costa rica, Colones"
 msgstr "Costa rica, colones"
 
 #: ../goffice/utils/formats.c:405
-#| msgid "Cuba, Pesos"
 msgid "Cuba, Pesos Convertibles"
 msgstr "Cuba, pesos convertibles"
 
@@ -3953,12 +3944,10 @@ msgid "Cuba, Pesos"
 msgstr "Cuba, pesos"
 
 #: ../goffice/utils/formats.c:407
-#| msgid "Cape Verde, Escudos"
 msgid "Cape verde, Escudos"
 msgstr "Cape verde, escudos"
 
 #: ../goffice/utils/formats.c:408
-#| msgid "Czech Republic, Koruny"
 msgid "Czech republic, Koruny"
 msgstr "República Checa, coronas"
 
@@ -3971,17 +3960,14 @@ msgid "Denmark, Kroner"
 msgstr "Dinamarca, coronas"
 
 #: ../goffice/utils/formats.c:411
-#| msgid "Dominican Republic, Pesos"
 msgid "Dominican republic, Pesos"
 msgstr "República Dominicana, pesos"
 
 #: ../goffice/utils/formats.c:412
-#| msgid "Algeria, Algeria Dinars"
 msgid "Algeria, Algerian Dinars"
 msgstr "Argelia, dinares argelinos"
 
 #: ../goffice/utils/formats.c:413
-#| msgid "Estonia, Krooni"
 msgid "Estonia, Kroons"
 msgstr "Estonia, coronas"
 
@@ -3998,7 +3984,6 @@ msgid "Ethiopia, Birr"
 msgstr "Etiopía, birr"
 
 #: ../goffice/utils/formats.c:417
-#| msgid "Euro Member Countries, Euro"
 msgid "Euro Members Countries, Euros"
 msgstr "Países zona Euro, euros"
 
@@ -4011,7 +3996,6 @@ msgid "Falkland Islands (Malvinas), Pounds"
 msgstr "Islas Malvinas, libras"
 
 #: ../goffice/utils/formats.c:420
-#| msgid "United Kingdom, Pounds"
 msgid "United kingdom, Pounds"
 msgstr "Reino Unido, libras"
 
@@ -4068,7 +4052,6 @@ msgid "Indonesia, Rupiahs"
 msgstr "Indonesia, rupias"
 
 #: ../goffice/utils/formats.c:434
-#| msgid "Israel, New Shekels"
 msgid "Israel, New Sheqels"
 msgstr "Israel, nuevo sheqel"
 
@@ -4085,7 +4068,6 @@ msgid "Iran, Rials"
 msgstr "Irán, rial"
 
 #: ../goffice/utils/formats.c:438
-#| msgid "Iceland, Kronur"
 msgid "Iceland, Krohur"
 msgstr "Islandia, coronas"
 
@@ -4122,7 +4104,6 @@ msgid "Korea (North), Won"
 msgstr "Corea (del Norte), won"
 
 #: ../goffice/utils/formats.c:447
-#| msgid "Korea (South), Won"
 msgid "Korea (South) Wons"
 msgstr "Corea (del Sur), won"
 
@@ -4131,12 +4112,10 @@ msgid "Kuwait, Dinars"
 msgstr "Kuwait, dinares"
 
 #: ../goffice/utils/formats.c:449
-#| msgid "Cayman Islands, Dollars"
 msgid "Cayman islands, Dollars"
 msgstr "Islas Caimán, dólares"
 
 #: ../goffice/utils/formats.c:450
-#| msgid "Kazakstan, Tenge"
 msgid "Kazakhstan, Tenge"
 msgstr "Kazajistán, tenge"
 
@@ -4177,7 +4156,6 @@ msgid "Moldova, Lei"
 msgstr "Moldavia, leu"
 
 #: ../goffice/utils/formats.c:460
-#| msgid "Madagascar, Malagasy Francs"
 msgid "Madagascar, Malagasy Ariary"
 msgstr "Madagascar, Ariary malgache"
 
@@ -4194,7 +4172,6 @@ msgid "Mongolia, Tugriks"
 msgstr "Mongolia, tugriks"
 
 #: ../goffice/utils/formats.c:464
-#| msgid "Macau, Patacas"
 msgid "Macao, Patacas"
 msgstr "Macao, patacas"
 
@@ -4207,7 +4184,6 @@ msgid "Mauritius, Rupees"
 msgstr "Mauricio, rupia mauriciana"
 
 #: ../goffice/utils/formats.c:467
-#| msgid "Maldives (Maldive Islands), Rufiyaa"
 msgid "Maldives (Maldive Islands), Rufiyaas"
 msgstr "Maldivas (Islas Maldivas), rufiyaa"
 
@@ -4240,17 +4216,14 @@ msgid "Nicaragua, Gold Cordobas"
 msgstr "Nicaragua, córdoba de oro"
 
 #: ../goffice/utils/formats.c:475
-#| msgid "Norway, Krone"
 msgid "Norway, Norwegian Krone"
 msgstr "Noruega, corona noruega"
 
 #: ../goffice/utils/formats.c:476
-#| msgid "Nepal, Nepal Rupees"
 msgid "Nepal, Nepalese Rupees"
 msgstr "Nepal, rupia nepalesa"
 
 #: ../goffice/utils/formats.c:477
-#| msgid "New Zealand, Dollars"
 msgid "New zealand, Dollars"
 msgstr "Nueva Zelanda, dólares"
 
@@ -4263,7 +4236,6 @@ msgid "Panama, Balboa"
 msgstr "Panamá, balboa"
 
 #: ../goffice/utils/formats.c:480
-#| msgid "Peru, Nuevos Soles"
 msgid "Peru, Nuevo Soles"
 msgstr "Perú, nuevos soles"
 
@@ -4292,12 +4264,10 @@ msgid "Qatar, Rials"
 msgstr "Qatar, riels"
 
 #: ../goffice/utils/formats.c:487
-#| msgid "Romania, Lei"
 msgid "Romania, New Lei"
 msgstr "Rumanía, leu"
 
 #: ../goffice/utils/formats.c:488
-#| msgid "Iraq, Dinars"
 msgid "Serbia, Dinars"
 msgstr "Serbia, dinares"
 
@@ -4310,7 +4280,6 @@ msgid "Rwanda, Rwanda Francs"
 msgstr "Ruanda, franco ruandés"
 
 #: ../goffice/utils/formats.c:491
-#| msgid "Saudi Arabia, Riyals"
 msgid "Saudi arabia, Riyals"
 msgstr "Arabia Saudí, rials"
 
@@ -4323,12 +4292,10 @@ msgid "Seychelles, Rupees"
 msgstr "Seychelles, rupias"
 
 #: ../goffice/utils/formats.c:494
-#| msgid "Syria, Pounds"
 msgid "Sudan, Pounds"
 msgstr "Sudán, libras"
 
 #: ../goffice/utils/formats.c:495
-#| msgid "International Monetary Fund (IMF) Special Drawing Rights"
 msgid "International Monetary Fund (I.M.F), SDR"
 msgstr "Fondo Monetario Internacional (FMI), DEG"
 
@@ -4345,7 +4312,6 @@ msgid "Saint Helena, Ascension and Tristan da Cunha, Pounds"
 msgstr "Santa Helena, Ascensión y Tristán de Acuña, libras"
 
 #: ../goffice/utils/formats.c:499
-#| msgid "Sierra Leone, Leones"
 msgid "Sierra leone, Leones"
 msgstr "Sierra Leona, leones"
 
@@ -4354,12 +4320,10 @@ msgid "Somalia, Shillings"
 msgstr "Somalia, chelines"
 
 #: ../goffice/utils/formats.c:501
-#| msgid "Singapore, Dollars"
 msgid "Suriname, Dollars"
 msgstr "Surinam, dólares"
 
 #: ../goffice/utils/formats.c:502
-#| msgid "Sao Tome and Principe, Dobras"
 msgid "São Tome and Principe, Dobras"
 msgstr "Santo Tomé y Príncipe, dobras"
 
@@ -4380,7 +4344,6 @@ msgid "Thailand, Baht"
 msgstr "Tailandia, baht"
 
 #: ../goffice/utils/formats.c:507
-#| msgid "Tajikistan, Rubles"
 msgid "Tajikistan, Somoni"
 msgstr "Tayikistán, somoni"
 
@@ -4393,7 +4356,6 @@ msgid "Tunisia, Dinars"
 msgstr "Túnez, dinares"
 
 #: ../goffice/utils/formats.c:510
-#| msgid "Tonga, Pa'anga"
 msgid "Tonga, Pa'angas"
 msgstr "Tonga, pa'anga"
 
@@ -4426,12 +4388,10 @@ msgid "United States of America, Dollars"
 msgstr "Estados Unidos de América, dólares"
 
 #: ../goffice/utils/formats.c:518
-#| msgid "United States of America, Dollars"
 msgid "United States of America, Dollars (Next day)"
 msgstr "Estados Unidos de América, dólares (del día siguiente)"
 
 #: ../goffice/utils/formats.c:519
-#| msgid "United States of America, Dollars"
 msgid "United States of America, Dollars (Same day)"
 msgstr "Estados Unidos de América, dólares (del mismo día)"
 
@@ -4448,7 +4408,6 @@ msgid "Uzbekistan, Sums"
 msgstr "Uzbequistán, Sums"
 
 #: ../goffice/utils/formats.c:523
-#| msgid "Venezuela, Bolivares"
 msgid "Venezuela, Bolivares Fuertes"
 msgstr "Venezuela, bolívares fuertes"
 
@@ -4505,7 +4464,6 @@ msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr "Comunidad Financiera Africana (BCEAO), francos"
 
 #: ../goffice/utils/formats.c:537
-#| msgid "Comptoirs Francais du Pacifique Francs"
 msgid "Comptoirs Francais du Pacifique, Francs"
 msgstr "Comores francesas del Pacífico, francos"
 
@@ -4518,7 +4476,6 @@ msgid "Yemen, Rials"
 msgstr "Yemen, rial"
 
 #: ../goffice/utils/formats.c:540
-#| msgid "South Africa, Rand"
 msgid "South Africa, Rands"
 msgstr "Sudáfrica, rands"
 
@@ -4531,7 +4488,6 @@ msgid "Namibia, Dollars"
 msgstr "Namibia, dólares"
 
 #: ../goffice/utils/formats.c:543
-#| msgid "Zambia, Kwacha"
 msgid "Zambia, Zambian Kwacha"
 msgstr "Zambia, kwacha zambiano"
 
@@ -4540,73 +4496,73 @@ msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabwe, dólar de Zimbabwe"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:439
+#: ../goffice/utils/go-format.c:440
 msgid "*Long Date Format"
 msgstr "*Formato de fecha largo"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:447
+#: ../goffice/utils/go-format.c:448
 msgid "*Medium Date Format"
 msgstr "*Formato de fecha medio"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:455
+#: ../goffice/utils/go-format.c:456
 msgid "*Short Date Format"
 msgstr "*Formato de fecha corto"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:468
+#: ../goffice/utils/go-format.c:469
 msgid "*Short Date/Time Format"
 msgstr "*Formato de fecha/hora corto"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:483
+#: ../goffice/utils/go-format.c:484
 msgid "*Long Time Format"
 msgstr "*Formato de hora largo"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:495
+#: ../goffice/utils/go-format.c:496
 msgid "*Medium Time Format"
 msgstr "*Formato de hora medio"
 
 #. xgettext: See http://projects.gnome.org/gnumeric/date-time-formats.shtml
-#: ../goffice/utils/go-format.c:507
+#: ../goffice/utils/go-format.c:508
 msgid "*Short Time Format"
 msgstr "*Formato de hora corto"
 
-#: ../goffice/utils/go-format.c:541
+#: ../goffice/utils/go-format.c:542
 msgid "Black"
 msgstr "Negro"
 
-#: ../goffice/utils/go-format.c:542
+#: ../goffice/utils/go-format.c:543
 msgid "Blue"
 msgstr "Azul"
 
-#: ../goffice/utils/go-format.c:543
+#: ../goffice/utils/go-format.c:544
 msgid "Cyan"
 msgstr "Océano"
 
-#: ../goffice/utils/go-format.c:544
+#: ../goffice/utils/go-format.c:545
 msgid "Green"
 msgstr "Verde"
 
-#: ../goffice/utils/go-format.c:545
+#: ../goffice/utils/go-format.c:546
 msgid "Magenta"
 msgstr "Rosa"
 
-#: ../goffice/utils/go-format.c:546
+#: ../goffice/utils/go-format.c:547
 msgid "Red"
 msgstr "Rojo"
 
-#: ../goffice/utils/go-format.c:547
+#: ../goffice/utils/go-format.c:548
 msgid "White"
 msgstr "Blanco"
 
-#: ../goffice/utils/go-format.c:548
+#: ../goffice/utils/go-format.c:549
 msgid "Yellow"
 msgstr "Amarillo"
 
-#: ../goffice/utils/go-format.c:568
+#: ../goffice/utils/go-format.c:569
 msgid "color"
 msgstr "color"
 
@@ -4756,11 +4712,11 @@ msgstr "Paso al centro"
 msgid "Step to mean"
 msgstr "Paso a la media"
 
-#: ../goffice/utils/go-locale.c:496
+#: ../goffice/utils/go-locale.c:513
 msgid "TRUE"
 msgstr "VERDADERO"
 
-#: ../goffice/utils/go-locale.c:497
+#: ../goffice/utils/go-locale.c:514
 msgid "FALSE"
 msgstr "FALSO"
 
@@ -5028,11 +4984,16 @@ msgstr "_Patrón:"
 msgid "_Size:"
 msgstr "_Tamaño:"
 
-#: ../goffice/utils/go-style-prefs.ui.h:26
+#: ../goffice/utils/go-style-prefs.ui.h:25
+#| msgid "Center"
+msgid "centered"
+msgstr "centrado"
+
+#: ../goffice/utils/go-style-prefs.ui.h:27
 msgid "stretched"
 msgstr "estirado"
 
-#: ../goffice/utils/go-style-prefs.ui.h:27
+#: ../goffice/utils/go-style-prefs.ui.h:28
 msgid "wallpaper"
 msgstr "tapiz"
 
@@ -6172,7 +6133,7 @@ msgid "Hide data outside of the color axis bounds"
 msgstr "Ocultar datos fuera de los límites de los ejes de color"
 
 #: ../plugins/plot_radar/gog-radar.c:642 ../plugins/plot_surface/gog-xyz.c:398
-#: ../plugins/plot_surface/gog-xyz-surface.c:334
+#: ../plugins/plot_surface/gog-xyz-surface.c:342
 #: ../plugins/plot_surface/xl-surface.c:304
 #: ../plugins/plot_surface/xl-surface.c:397 ../plugins/plot_xy/gog-xy.c:802
 msgid "Z"
@@ -6286,7 +6247,7 @@ msgid "Transpose the plot"
 msgstr "Transponer el gráfico"
 
 #: ../plugins/plot_surface/gog-xyz.c:394
-#: ../plugins/plot_surface/gog-xyz-surface.c:330
+#: ../plugins/plot_surface/gog-xyz-surface.c:338
 #: ../plugins/plot_surface/xl-surface.c:302
 #: ../plugins/plot_surface/xl-surface.c:395 ../plugins/plot_xy/gog-xy.c:370
 #: ../plugins/plot_xy/gog-xy.c:540 ../plugins/plot_xy/gog-xy.c:798
@@ -6294,7 +6255,7 @@ msgid "X"
 msgstr "X"
 
 #: ../plugins/plot_surface/gog-xyz.c:396
-#: ../plugins/plot_surface/gog-xyz-surface.c:332
+#: ../plugins/plot_surface/gog-xyz-surface.c:340
 #: ../plugins/plot_xy/gog-xy.c:372 ../plugins/plot_xy/gog-xy.c:542
 #: ../plugins/plot_xy/gog-xy.c:800
 msgid "Y"
@@ -6316,19 +6277,19 @@ msgstr "DibujarContornoXYZ"
 msgid "PlotXYZSurface"
 msgstr "DibujarSuperficieXYZ"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:311
+#: ../plugins/plot_surface/gog-xyz-surface.c:319
 msgid "Rows"
 msgstr "Filas"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:312
+#: ../plugins/plot_surface/gog-xyz-surface.c:320
 msgid "Number of rows"
 msgstr "Número de filas"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:317
+#: ../plugins/plot_surface/gog-xyz-surface.c:325
 msgid "Columns"
 msgstr "Columnas"
 
-#: ../plugins/plot_surface/gog-xyz-surface.c:318
+#: ../plugins/plot_surface/gog-xyz-surface.c:326
 msgid "Number of columns"
 msgstr "Número de columnas"
 
