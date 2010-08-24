@@ -1,3 +1,11 @@
+2010-08-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/app/go-plugin-service.c (go_plugin_service_finalize),
+	(go_plugin_service_new): don't use g_free instead of xmlFree. [#627700]
+	* goffice/graph/gog-plot-engine.c (gog_plot_type_service_read_xml),
+	(gog_trend_line_service_read_xml): ditto.
+	* goffice/utils/go-libxml-extras.c (go_xml_node_get_bool): ditto.
+
 2010-08-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* goffice/utils/go-style-prefs.ui: restore centered image filling.

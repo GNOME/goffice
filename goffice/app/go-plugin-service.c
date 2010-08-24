@@ -67,7 +67,7 @@ go_plugin_service_finalize (GObject *obj)
 	GOPluginService *service = GO_PLUGIN_SERVICE (obj);
 	GObjectClass *parent_class;
 
-	g_free (service->id);
+	xmlFree (service->id);
 	service->id = NULL;
 	g_free (service->saved_description);
 	service->saved_description = NULL;
@@ -1011,13 +1011,13 @@ go_plugin_service_new (GOPlugin *plugin, xmlNode *tree, GOErrorInfo **ret_error)
 		g_free (type_str);
 		return NULL;
 	}
-	g_free (type_str);
+	xmlFree (type_str);
 
 	service = g_object_new (ctor(), NULL);
 	service->plugin = plugin;
 	service->id = go_xml_node_get_cstr (tree, "id");
 	if (service->id == NULL)
-		service->id = g_strdup ("default");
+		service->id = xmlStrdup ("default");
 
 	if (GO_PLUGIN_SERVICE_GET_CLASS (service)->read_xml != NULL) {
 		GO_PLUGIN_SERVICE_GET_CLASS (service)->read_xml (service, tree, &service_error);

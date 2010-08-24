@@ -81,7 +81,7 @@ go_xml_node_get_bool (xmlNodePtr node, char const *name, gboolean *val)
 
 	*val = (!strcmp (CXML2C (buf), "1")
 		|| 0 == g_ascii_strcasecmp (CXML2C (buf), "true"));
-	g_free (buf);
+	xmlFree (buf);
 	return TRUE;
 }
 

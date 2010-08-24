@@ -232,7 +232,7 @@ pending_plot_types_load (void)
 static void
 gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
 {
-	char    *path;
+	char    *path, *tmp;
 	xmlNode *ptr;
 	GSList *paths = NULL;
 
@@ -242,10 +242,11 @@ gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, GOError
 			if (!g_path_is_absolute (path)) {
 				char const *dir = go_plugin_get_dir_name (
 					go_plugin_service_get_plugin (service));
-				char *tmp = g_build_filename (dir, path, NULL);
-				g_free (path);
-				path = tmp;
-			}
+				tmp = g_build_filename (dir, path, NULL);
+			} else
+				tmp = g_strdup (path);
+			xmlFree (path);
+			path = tmp;
 			paths = g_slist_append (paths, path);
 		}
 	GOG_PLOT_TYPE_SERVICE (service)->paths = paths;
@@ -501,7 +502,7 @@ pending_trend_line_types_load (void)
 static void
 gog_trend_line_service_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
 {
-	char    *path;
+	char    *path, *tmp;
 	xmlNode *ptr;
 	GSList *paths = NULL;
 
@@ -511,10 +512,11 @@ gog_trend_line_service_read_xml (GOPluginService *service, xmlNode *tree, GOErro
 			if (!g_path_is_absolute (path)) {
 				char const *dir = go_plugin_get_dir_name (
 					go_plugin_service_get_plugin (service));
-				char *tmp = g_build_filename (dir, path, NULL);
-				g_free (path);
-				path = tmp;
-			}
+				tmp = g_build_filename (dir, path, NULL);
+			} else
+				tmp = g_strdup (path);
+			xmlFree (path);
+			path = tmp;
 			paths = g_slist_append (paths, path);
 		}
 	GOG_TREND_LINE_SERVICE (service)->paths = paths;
